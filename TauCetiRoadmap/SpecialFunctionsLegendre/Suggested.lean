@@ -2,6 +2,13 @@ module
 
 public import Mathlib
 public import TauCeti.Analysis.SpecialFunctions.EllipticIntegral.Legendre
+public import TauCeti.Analysis.SpecialFunctions.EllipticIntegral.Hypergeometric
+public import TauCeti.Analysis.MvPolynomial.Sphere
+public import TauCeti.Analysis.MvPolynomial.Laplacian
+public import TauCeti.RingTheory.MvPolynomial.Harmonic
+public import TauCeti.Analysis.Contour.Residue.Theorem
+public import TauCeti.Geometry.Manifold.Riemannian.Sphere.Basic
+public import TauCeti.Geometry.Manifold.Riemannian.VolumeDensity.Volume
 
 /-!
 # Legendre and related functions: target signatures
@@ -20,7 +27,7 @@ order, then argument; principal powers, with `(z² − 1)^{μ/2}` written as
 `(z − 1)^{μ/2} (z + 1)^{μ/2}`; reciprocal Gamma factors; the doubly cut plane
 `D = {1 − z ∈ slitPlane ∧ 1 + z ∈ slitPlane}` for the Ferrers functions and
 `U = {z − 1 ∈ slitPlane}` for the associated Legendre functions; and `𝖰^μ_ν` by the even–odd form
-14.3.12 rather than by 14.3.2. The continued fraction of 6.2 is a `GenContFract` (`contFrac`,
+14.3.12 rather than by 14.3.2. The continued fraction of 7.4 is a `GenContFract` (`contFrac`,
 copying SpecialFunctionsEiLiErfIncompleteGamma), whose convergents are ratios of continuants, frozen
 at the first zero partial numerator (`cfIndex`). Theorems are stated with `sorry`.
 -/
@@ -133,7 +140,7 @@ some `N ≥ 1`, the fraction ends before its `N`-th partial quotient, and every 
 def cfIndex (a : ℕ → ℂ) (n : ℕ) : ℕ :=
   if h : ∃ N, 1 ≤ N ∧ a N = 0 then min n (Nat.find h - 1) else n
 
-/-! ### Layer 1: definitions, the equations and analytic properties -/
+/-! ### Layer 1: principal solutions of the associated Legendre equation -/
 
 /-- **1.2** At each point of `D`, `𝖯^μ_ν(z)` is entire in the degree. -/
 theorem differentiable_ferrersP_degree (μ : ℂ) {z : ℂ} (hz₁ : 1 - z ∈ slitPlane)
@@ -159,35 +166,106 @@ theorem olverLegendreQ_legendreEquation (ν μ : ℂ) {z : ℂ} (hz : z - 1 ∈ 
     (1 - z ^ 2) * deriv^[2] (olverLegendreQ ν μ) z - 2 * z * deriv (olverLegendreQ ν μ) z +
       (ν * (ν + 1) - μ ^ 2 / (1 - z ^ 2)) * olverLegendreQ ν μ z = 0 := sorry
 
-/-- **1.4** DLMF 14.9.3 with `Γ(ν + m + 1)/Γ(ν − m + 1)` written as `(ν − m + 1)_{2m}`, for
-every `ν`: `(ν − m + 1)_{2m} 𝖯^{−m}_ν = (−1)^m 𝖯^m_ν` on `D`. -/
-theorem ferrersP_neg_nat_order (ν : ℂ) (m : ℕ) {z : ℂ} (hz₁ : 1 - z ∈ slitPlane)
-    (hz₂ : 1 + z ∈ slitPlane) :
-    poch(ν - m + 1, 2 * m) * ferrersP ν (-m) z = (-1) ^ m * ferrersP ν m z := sorry
-
-/-! ### Layer 2: recurrence relations and derivatives -/
-
-/-- **2.1** DLMF 14.10.3 on `D`, for all `ν, μ`. -/
+/-- **1.4** DLMF 14.10.3 on `D`, for all `ν, μ`. -/
 theorem ferrersP_recurrence_14_10_3 (ν μ : ℂ) {z : ℂ} (hz₁ : 1 - z ∈ slitPlane)
     (hz₂ : 1 + z ∈ slitPlane) :
     (ν - μ + 2) * ferrersP (ν + 2) μ z - (2 * ν + 3) * z * ferrersP (ν + 1) μ z +
       (ν + μ + 1) * ferrersP ν μ z = 0 := sorry
 
-/-- **2.2** DLMF 14.10.4 on `D`. -/
+/-- **1.4** DLMF 14.10.4 on `D`. -/
 theorem hasDerivAt_ferrersP (ν μ : ℂ) {z : ℂ} (hz₁ : 1 - z ∈ slitPlane)
     (hz₂ : 1 + z ∈ slitPlane) :
     HasDerivAt (ferrersP ν μ)
       (((μ - ν - 1) * ferrersP (ν + 1) μ z + (ν + 1) * z * ferrersP ν μ z) / (1 - z ^ 2)) z :=
   sorry
 
-/-! ### Layer 3: values at `x = 0`, alternative representations -/
+/-- **1.5** DLMF 14.9.3 with `Γ(ν + m + 1)/Γ(ν − m + 1)` written as `(ν − m + 1)_{2m}`, for
+every `ν`: `(ν − m + 1)_{2m} 𝖯^{−m}_ν = (−1)^m 𝖯^m_ν` on `D`. -/
+theorem ferrersP_neg_nat_order (ν : ℂ) (m : ℕ) {z : ℂ} (hz₁ : 1 - z ∈ slitPlane)
+    (hz₂ : 1 + z ∈ slitPlane) :
+    poch(ν - m + 1, 2 * m) * ferrersP ν (-m) z = (-1) ^ m * ferrersP ν m z := sorry
 
-/-- **3.1** DLMF 14.5.1, for all `ν, μ`. -/
+/-- **1.6** A solution of the generalized associated Legendre equation DLMF 14.29.1 on `D`. -/
+theorem generalizedLegendre_solution (ν μ₁ μ₂ : ℂ) {z : ℂ} (hz₁ : 1 - z ∈ slitPlane)
+    (hz₂ : 1 + z ∈ slitPlane) :
+    let w : ℂ → ℂ := fun z => (1 - z) ^ (-μ₁ / 2) * (1 + z) ^ (-μ₂ / 2) *
+      𝐅 (ν + 1 - (μ₁ + μ₂) / 2) (-ν - (μ₁ + μ₂) / 2) (1 - μ₁) ((1 - z) / 2)
+    (1 - z ^ 2) * deriv^[2] w z - 2 * z * deriv w z +
+      (ν * (ν + 1) - μ₁ ^ 2 / (2 * (1 - z)) - μ₂ ^ 2 / (2 * (1 + z))) * w z = 0 := sorry
+
+/-! ### Layer 2: Legendre polynomials and Ferrers functions of integer degree -/
+
+/-- **2.1** DLMF 14.7.1: `𝖯_n = Pₙ` on `D`. -/
+theorem ferrersP_nat_eq_shiftedLegendre (n : ℕ) {z : ℂ} (hz₁ : 1 - z ∈ slitPlane)
+    (hz₂ : 1 + z ∈ slitPlane) : ferrersP n 0 z = legP n z := sorry
+
+/-- **2.2** Schläfli's integral for `Pₙ` over a circle about `z`: `∮ (t² − 1)ⁿ/(2ⁿ (t − z)ⁿ⁺¹) dt
+= 2πi Pₙ(z)`. -/
+theorem legP_eq_circleIntegral (n : ℕ) (z : ℂ) {r : ℝ} (hr : 0 < r) :
+    (∮ t in C(z, r), (t ^ 2 - 1) ^ n / (2 ^ n * (t - z) ^ (n + 1))) = 2 * π * I * legP n z :=
+  sorry
+
+/-- **2.3** DLMF 14.7.19 for `−1 < x < 1`, `|h| < 1`. -/
+theorem hasSum_ferrersP_nat_mul_pow {x : ℝ} (hx₀ : -1 < x) (hx₁ : x < 1) {h : ℂ}
+    (hh : ‖h‖ < 1) :
+    HasSum (fun n : ℕ => ferrersP n 0 x * h ^ n) ((1 - 2 * x * h + h ^ 2) ^ (-1 / 2 : ℂ)) :=
+  sorry
+
+/-- **2.4** Orthogonality, DLMF 14.17.6, for `m ≤ n`. -/
+theorem integral_ferrersP_mul_ferrersP (l m n : ℕ) (hmn : m ≤ n) :
+    ∫ x in (-1 : ℝ)..1, ferrersP l m x * ferrersP n m x =
+      if l = n then ((n + m)! : ℂ) / ((n - m)! * (n + 1 / 2)) else 0 := sorry
+
+/-- **2.5** The addition theorem DLMF 14.18.2, for `0 < θ₁, θ₂ < π`, `θ₁ + θ₂ < π`. -/
+theorem ferrersP_addition (n : ℕ) {θ₁ θ₂ phi : ℝ} (h₁ : 0 < θ₁) (h₂ : 0 < θ₂) (h : θ₁ + θ₂ < π) :
+    ferrersP n 0 (Real.cos θ₁ * Real.cos θ₂ + Real.sin θ₁ * Real.sin θ₂ * Real.cos phi) =
+      ∑ m ∈ Finset.Icc (-(n : ℤ)) n, (-1 : ℂ) ^ m * ferrersP n (-m) (Real.cos θ₁) *
+        ferrersP n m (Real.cos θ₂) * Real.cos (m * phi) := sorry
+
+/-! ### Layer 3: spherical harmonics -/
+
+/-- **3.2** Orthonormality, DLMF 14.30.8, for `|m₁| ≤ l₁`, `|m₂| ≤ l₂`. -/
+theorem integral_sphericalHarmonic_mul {l₁ l₂ : ℕ} {m₁ m₂ : ℤ} (h₁ : m₁.natAbs ≤ l₁)
+    (h₂ : m₂.natAbs ≤ l₂) :
+    ∫ phi in (0 : ℝ)..2 * π, ∫ θ in (0 : ℝ)..π,
+        conj (sphericalHarmonic l₁ m₁ θ phi) * sphericalHarmonic l₂ m₂ θ phi * Real.sin θ =
+      if l₁ = l₂ ∧ m₁ = m₂ then 1 else 0 := sorry
+
+/-- **3.2** The addition theorem DLMF 14.30.9, for `0 < θ₁, θ₂ < π`. -/
+theorem ferrersP_eq_sum_sphericalHarmonic (l : ℕ) {θ₁ θ₂ : ℝ} (phi₁ phi₂ : ℝ) (h₁ : 0 < θ₁)
+    (h₁' : θ₁ < π) (h₂ : 0 < θ₂) (h₂' : θ₂ < π) :
+    legP l (Real.cos θ₁ * Real.cos θ₂ + Real.sin θ₁ * Real.sin θ₂ * Real.cos (phi₁ - phi₂)) =
+      4 * π / (2 * l + 1) * ∑ m ∈ Finset.Icc (-(l : ℤ)) l,
+        conj (sphericalHarmonic l m θ₁ phi₁) * sphericalHarmonic l m θ₂ phi₂ := sorry
+
+/-- The measure `sin θ dθ dφ` on `(0, π) × (0, 2π)`. -/
+def sphereMeasure : Measure (ℝ × ℝ) :=
+  (volume.restrict (Ioo 0 π ×ˢ Ioo 0 (2 * π))).withDensity
+    fun p => ENNReal.ofReal (Real.sin p.1)
+
+/-- **3.3** Completeness: the `Y_{l,m}`, `|m| ≤ l`, form a Hilbert basis of
+`L²((0, π) × (0, 2π), sin θ dθ dφ)`; the index `(l, j)` with `j < 2l + 1` is `m = j − l`. -/
+theorem sphericalHarmonic_hilbertBasis :
+    ∃ b : HilbertBasis (Σ l : ℕ, Fin (2 * l + 1)) ℂ (Lp ℂ 2 sphereMeasure),
+      ∀ i, (b i : ℝ × ℝ → ℂ) =ᵐ[sphereMeasure]
+        fun p => sphericalHarmonic i.1 ((i.2 : ℤ) - i.1) p.1 p.2 := sorry
+
+/-- **3.4** The Funk–Hecke formula on `S²`, for `f` continuous on `[−1, 1]` and `|m| ≤ l`. -/
+theorem integral_funkHecke_sphericalHarmonic {f : ℝ → ℂ} (hf : ContinuousOn f (Icc (-1) 1))
+    (l : ℕ) {m : ℤ} (hm : m.natAbs ≤ l) (θ₀ phi₀ : ℝ) :
+    ∫ phi in (0 : ℝ)..2 * π, ∫ θ in (0 : ℝ)..π,
+        f (Real.cos θ * Real.cos θ₀ + Real.sin θ * Real.sin θ₀ * Real.cos (phi - phi₀)) *
+          sphericalHarmonic l m θ phi * Real.sin θ =
+      2 * π * (∫ t in (-1 : ℝ)..1, f t * legP l t) * sphericalHarmonic l m θ₀ phi₀ := sorry
+
+/-! ### Layer 4: local theory at the origin and at the singular points -/
+
+/-- **4.1** DLMF 14.5.1, for all `ν, μ`. -/
 theorem ferrersP_zero (ν μ : ℂ) :
     ferrersP ν μ 0 = 2 ^ μ * (Real.sqrt π : ℂ) * (Gamma (ν / 2 - μ / 2 + 1))⁻¹ *
       (Gamma (1 / 2 - ν / 2 - μ / 2))⁻¹ := sorry
 
-/-- **3.2** DLMF 14.3.11 on `D`, for `ν + μ ∉ {−1, −2, …}`, where the numerator Gamma factors of
+/-- **4.2** DLMF 14.3.11 on `D`, for `ν + μ ∉ {−1, −2, …}`, where the numerator Gamma factors of
 `w₁` and `w₂` are finite. At `(ν, μ, z) = (−1, 0, 0)` both `w₁` and `w₂` are `0` while
 `𝖯_{−1}(0) = 1`. -/
 theorem ferrersP_eq_ferrersW {ν μ : ℂ} (hνμ : ∀ n : ℕ, ν + μ ≠ -(n + 1)) {z : ℂ}
@@ -195,48 +273,30 @@ theorem ferrersP_eq_ferrersW {ν μ : ℂ} (hνμ : ∀ n : ℕ, ν + μ ≠ -(n
     ferrersP ν μ z = cos ((ν + μ) * π / 2) * ferrersW₁ ν μ z +
       sin ((ν + μ) * π / 2) * ferrersW₂ ν μ z := sorry
 
-/-- **3.2** DLMF 14.3.2 on `D`, for `μ ∉ ℤ` and `ν + μ ∉ {−1, −2, …}`. -/
+/-- **4.2** DLMF 14.3.2 on `D`, for `μ ∉ ℤ` and `ν + μ ∉ {−1, −2, …}`. -/
 theorem ferrersQ_eq_div_sin {ν μ : ℂ} (hμ : ∀ n : ℤ, μ ≠ n) (hνμ : ∀ n : ℕ, ν + μ ≠ -(n + 1))
     {z : ℂ} (hz₁ : 1 - z ∈ slitPlane) (hz₂ : 1 + z ∈ slitPlane) :
     ferrersQ ν μ z = π / (2 * sin (μ * π)) * (cos (μ * π) * ferrersP ν μ z -
       Gamma (ν + μ + 1) * (Gamma (ν - μ + 1))⁻¹ * ferrersP ν (-μ) z) := sorry
 
-/-- **3.3** DLMF 15.9.17 for `|ph z| < π`, `|ph(1 − z)| < π`. -/
+/-- **4.3** DLMF 15.9.17 for `|ph z| < π`, `|ph(1 − z)| < π`. -/
 theorem regularizedGaussHypergeometric_eq_associatedLegendreP (a c : ℂ) {z : ℂ}
     (hz : z ∈ slitPlane) (hz₁ : 1 - z ∈ slitPlane) :
     𝐅 a (a + 1 / 2) c z = 2 ^ (c - 1) * z ^ ((1 - c) / 2) * (1 - z) ^ (-a + (c - 1) / 2) *
       associatedLegendreP (2 * a - c) (1 - c) (1 / (1 - z) ^ (1 / 2 : ℂ)) := sorry
 
-/-! ### Layer 4: special values, integer order and degree, singularities -/
-
-/-- **4.1** DLMF 14.5.21, with `K(k)` Tau Ceti's `legendreK` (modulus `k`). -/
+/-- **4.4** DLMF 14.5.21, with `K(k)` Tau Ceti's `legendreK` (modulus `k`). -/
 theorem ferrersP_neg_half_cos {θ : ℝ} (hθ₀ : 0 < θ) (hθ : θ < π) :
     ferrersP (-1 / 2) 0 (Real.cos θ) =
       (2 / π * TauCeti.Real.legendreK (Real.sin (θ / 2)) : ℝ) := sorry
 
-/-- **4.3** DLMF 14.7.1: `𝖯_n = Pₙ` on `D`. -/
-theorem ferrersP_nat_eq_shiftedLegendre (n : ℕ) {z : ℂ} (hz₁ : 1 - z ∈ slitPlane)
-    (hz₂ : 1 + z ∈ slitPlane) : ferrersP n 0 z = legP n z := sorry
-
-/-- **4.3** DLMF 14.7.2–14.7.3 on `(−1, 1)`. -/
-theorem ferrersQ_nat (n : ℕ) {x : ℝ} (hx₀ : -1 < x) (hx₁ : x < 1) :
-    ferrersQ n 0 x = 1 / 2 * legP n x * Real.log ((1 + x) / (1 - x)) -
-      ∑ s ∈ Finset.range n, ((n + s)! : ℂ) * (digamma (n + 1) - digamma (s + 1)) /
-        (2 ^ s * (n - s)! * (s ! : ℂ) ^ 2) * ((x : ℂ) - 1) ^ s := sorry
-
-/-- **4.3** DLMF 14.7.19 for `−1 < x < 1`, `|h| < 1`. -/
-theorem hasSum_ferrersP_nat_mul_pow {x : ℝ} (hx₀ : -1 < x) (hx₁ : x < 1) {h : ℂ}
-    (hh : ‖h‖ < 1) :
-    HasSum (fun n : ℕ => ferrersP n 0 x * h ^ n) ((1 - 2 * x * h + h ^ 2) ^ (-1 / 2 : ℂ)) :=
-  sorry
-
-/-- **4.4** DLMF 14.8.1: `𝖯^μ_ν(x) ∼ Γ(1 − μ)⁻¹ (2/(1 − x))^{μ/2}` as `x → 1−`, for
+/-- **4.5** DLMF 14.8.1: `𝖯^μ_ν(x) ∼ Γ(1 − μ)⁻¹ (2/(1 − x))^{μ/2}` as `x → 1−`, for
 `μ ∉ {1, 2, 3, …}`. -/
 theorem ferrersP_isEquivalent_one (ν : ℂ) {μ : ℂ} (hμ : ∀ n : ℕ, μ ≠ n + 1) :
     (fun x : ℝ => ferrersP ν μ x) ~[𝓝[<] 1]
       fun x : ℝ => (Gamma (1 - μ))⁻¹ * ((2 / (1 - x) : ℝ) : ℂ) ^ (μ / 2) := sorry
 
-/-! ### Layer 5: Wronskians, connection formulas and values on the cut -/
+/-! ### Layer 5: Wronskians, recessive solutions and connection formulas -/
 
 /-- **5.1** DLMF 14.2.4 on `D`, for `ν + μ ∉ {−1, −2, …}`. -/
 theorem wronskian_ferrersP_ferrersQ {ν μ : ℂ} (hνμ : ∀ n : ℕ, ν + μ ≠ -(n + 1)) {z : ℂ}
@@ -275,16 +335,38 @@ theorem tendsto_olverLegendreQ_cut {ν μ : ℂ} (hνμ : ∀ n : ℕ, ν + μ �
         (𝓝 (exp (-(μ * π * I / 2)) * (Gamma (ν + μ + 1))⁻¹ *
           (ferrersQ ν μ x + π / 2 * I * ferrersP ν μ x))) := sorry
 
-/-! ### Layer 6: derivatives with respect to degree and order, continued fractions -/
+/-! ### Layer 6: zeros -/
 
-/-- **6.1** DLMF 14.11.4 for `ν ∉ ℤ` on `(−1, 1)`: the derivative of `𝖯^μ_ν(x)` in the order at
+/-- **6.2** For real `ν ≥ −½` and `μ ≤ 0`, `𝖯^μ_ν` has `N₀ = max(⌈ν − |μ|⌉, 0)` zeros in
+`(−1, 1)`. -/
+theorem ferrersP_zero_count {ν μ : ℝ} (hν : -1 / 2 ≤ ν) (hμ : μ ≤ 0) :
+    {x : ℝ | x ∈ Ioo (-1) 1 ∧ ferrersP ν μ x = 0}.Finite ∧
+      {x : ℝ | x ∈ Ioo (-1) 1 ∧ ferrersP ν μ x = 0}.ncard = (⌈ν + μ⌉).toNat := sorry
+
+/-- **6.2** The case of `N₀ + 1` zeros that DLMF omits, with its other case `n > m`: for
+`ν, μ ∉ ℤ`, `μ > 0`, `n ≥ m` and `δ_ν ≤ δ_μ` (14.16.1), `𝖯^μ_ν` has `N₀ + 1 = ⌈ν − μ⌉ + 1`
+zeros in `(−1, 1)`. -/
+theorem ferrersP_zero_count_add_one {ν μ : ℝ} (hν : ∀ n : ℤ, ν ≠ n) (hμ : ∀ n : ℤ, μ ≠ n)
+    (hμ₀ : 0 < μ) (hnm : ⌊μ⌋ ≤ ⌊ν⌋) (hδ : Int.fract ν ≤ Int.fract μ) :
+    {x : ℝ | x ∈ Ioo (-1) 1 ∧ ferrersP ν μ x = 0}.Finite ∧
+      {x : ℝ | x ∈ Ioo (-1) 1 ∧ ferrersP ν μ x = 0}.ncard = (⌈ν - μ⌉).toNat + 1 := sorry
+
+/-! ### Layer 7: the second kind, parameter derivatives and continued fractions -/
+
+/-- **7.2** DLMF 14.7.2–14.7.3 on `(−1, 1)`. -/
+theorem ferrersQ_nat (n : ℕ) {x : ℝ} (hx₀ : -1 < x) (hx₁ : x < 1) :
+    ferrersQ n 0 x = 1 / 2 * legP n x * Real.log ((1 + x) / (1 - x)) -
+      ∑ s ∈ Finset.range n, ((n + s)! : ℂ) * (digamma (n + 1) - digamma (s + 1)) /
+        (2 ^ s * (n - s)! * (s ! : ℂ) ^ 2) * ((x : ℂ) - 1) ^ s := sorry
+
+/-- **7.3** DLMF 14.11.4 for `ν ∉ ℤ` on `(−1, 1)`: the derivative of `𝖯^μ_ν(x)` in the order at
 `μ = 0`. -/
 theorem deriv_ferrersP_order_zero {ν : ℂ} (hν : ∀ n : ℤ, ν ≠ n) {x : ℝ} (hx₀ : -1 < x)
     (hx₁ : x < 1) :
     deriv (fun μ => ferrersP ν μ x) 0 =
       (digamma (-ν) - π * Complex.cot (ν * π)) * ferrersP ν 0 x + ferrersQ ν 0 x := sorry
 
-/-- **6.2** DLMF 14.14.1 as corrected, with `x_k`, `y_k` of 14.14.2 as the `k + 1`-st partial
+/-- **7.4** DLMF 14.14.1 as corrected, with `x_k`, `y_k` of 14.14.2 as the `k + 1`-st partial
 numerator and denominator: for `x > 1` and real `ν, μ` with `x_{k+1}`, `y_k` never both zero and
 `P^{1−μ}_ν(x) ≠ 0`, the fraction converges in the sense of SpecialFunctionsEiLiErfIncompleteGamma
 (eventually nonzero denominators), terminating at the first zero `x_k`. -/
@@ -299,9 +381,16 @@ theorem associatedLegendreP_continuedFraction {ν μ x : ℝ} (hx : 1 < x)
         (𝓝 ((1 / 2 * Real.sqrt (x ^ 2 - 1) * (ν + μ) * (ν - μ + 1) : ℝ) *
           associatedLegendreP ν (-μ) x / associatedLegendreP ν (1 - μ) x)) := sorry
 
-/-! ### Layer 7: integral representations and integrals -/
+/-! ### Layer 8: integral representations -/
 
-/-- **7.1** Mehler–Dirichlet, DLMF 14.12.1, for `0 < θ < π` and `Re μ < ½`. -/
+/-- **8.1** Schläfli's integral for `Q_ν` collapsed onto `[−1, 1]`, for `Re ν > −1` on `U`:
+`Q_ν(z) = 2^{−ν−1} ∫₋₁¹ (1 − t²)^ν (z − t)^{−ν−1} dt`. -/
+theorem associatedLegendreQ_zero_eq_integral {ν : ℂ} (hν : -1 < ν.re) {z : ℂ}
+    (hz : z - 1 ∈ slitPlane) :
+    associatedLegendreQ ν 0 z =
+      2 ^ (-ν - 1) * ∫ t in (-1 : ℝ)..1, ((1 - t ^ 2 : ℝ) : ℂ) ^ ν * (z - t) ^ (-ν - 1) := sorry
+
+/-- **8.2** Mehler–Dirichlet, DLMF 14.12.1, for `0 < θ < π` and `Re μ < ½`. -/
 theorem ferrersP_cos_eq_integral (ν : ℂ) {μ : ℂ} (hμ : μ.re < 1 / 2) {θ : ℝ} (hθ₀ : 0 < θ)
     (hθ : θ < π) :
     ferrersP ν μ (Real.cos θ) = (Real.sqrt 2 : ℂ) * ((Real.sin θ : ℝ) : ℂ) ^ μ *
@@ -309,31 +398,28 @@ theorem ferrersP_cos_eq_integral (ν : ℂ) {μ : ℂ} (hμ : μ.re < 1 / 2) {θ
         ∫ t in (0 : ℝ)..θ, cos ((ν + 1 / 2) * t) /
           ((Real.cos t - Real.cos θ : ℝ) : ℂ) ^ (μ + 1 / 2) := sorry
 
-/-- **7.2** Neumann's integral, DLMF 14.12.13, on `U`. -/
+/-- **8.3** Neumann's integral, DLMF 14.12.13, on `U`. -/
 theorem olverLegendreQ_nat_eq_integral (n : ℕ) {z : ℂ} (hz : z - 1 ∈ slitPlane) :
     olverLegendreQ n 0 z = 1 / (2 * n !) * ∫ t in (-1 : ℝ)..1, legP n t / (z - t) := sorry
 
-/-- **7.3** Barnes' integral, DLMF 14.17.5, for `Re σ > −1`, `Re μ > −1`. -/
+/-! ### Layer 9: integrals of products and Mellin transforms -/
+
+/-- **9.1** Barnes' integral, DLMF 14.17.5, for `Re σ > −1`, `Re μ > −1`. -/
 theorem integral_cpow_mul_ferrersP (ν : ℂ) {μ σ : ℂ} (hσ : -1 < σ.re) (hμ : -1 < μ.re) :
     ∫ x in (0 : ℝ)..1, (x : ℂ) ^ σ * ((1 - x ^ 2 : ℝ) : ℂ) ^ (μ / 2) * ferrersP ν (-μ) x =
       Gamma (σ / 2 + 1 / 2) * Gamma (σ / 2 + 1) * (2 ^ (μ + 1))⁻¹ *
         (Gamma (σ / 2 - ν / 2 + μ / 2 + 1))⁻¹ * (Gamma (σ / 2 + ν / 2 + μ / 2 + 3 / 2))⁻¹ :=
   sorry
 
-/-- **7.3** Orthogonality, DLMF 14.17.6, for `m ≤ n`. -/
-theorem integral_ferrersP_mul_ferrersP (l m n : ℕ) (hmn : m ≤ n) :
-    ∫ x in (-1 : ℝ)..1, ferrersP l m x * ferrersP n m x =
-      if l = n then ((n + m)! : ℂ) / ((n - m)! * (n + 1 / 2)) else 0 := sorry
-
-/-- **7.4** DLMF 14.17.17 for `l, m, n ≥ 1` with `|m − n| < l < m + n`. -/
+/-- **9.2** DLMF 14.17.17 for `l, m, n ≥ 1` with `|m − n| < l < m + n`. -/
 theorem integral_ferrersQ_mul_ferrersP_mul {l m n : ℕ} (hl : 1 ≤ l) (hm : 1 ≤ m) (hn : 1 ≤ n)
     (h₁ : |(m : ℤ) - n| < l) (h₂ : l < m + n) :
     ∫ θ in (0 : ℝ)..π, ferrersQ l 0 (Real.cos θ) * ferrersP m 0 (Real.cos θ) *
       ferrersP n 0 (Real.cos θ) * Real.sin θ = 0 := sorry
 
-/-! ### Layer 8: trigonometric expansions and sums -/
+/-! ### Layer 10: Fourier series, addition theorems and expansions -/
 
-/-- **8.1** DLMF 14.13.1 for `0 < θ < π`, `ν + μ ∉ {−1, −2, …}` and `Re μ < ½`, as the limit of
+/-- **10.1** DLMF 14.13.1 for `0 < θ < π`, `ν + μ ∉ {−1, −2, …}` and `Re μ < ½`, as the limit of
 the partial sums (absolutely convergent when `Re μ < 0`). -/
 theorem ferrersP_cos_eq_fourier {ν μ : ℂ} (hνμ : ∀ n : ℕ, ν + μ ≠ -(n + 1)) (hμ : μ.re < 1 / 2)
     {θ : ℝ} (hθ₀ : 0 < θ) (hθ : θ < π) :
@@ -342,44 +428,22 @@ theorem ferrersP_cos_eq_fourier {ν μ : ℂ} (hνμ : ∀ n : ℕ, ν + μ ≠ 
       (𝓝 (ferrersP ν μ (Real.cos θ) * (Real.sqrt π : ℂ) /
         (2 ^ (μ + 1) * ((Real.sin θ : ℝ) : ℂ) ^ μ))) := sorry
 
-/-- **8.2** The addition theorem DLMF 14.18.2, for `0 < θ₁, θ₂ < π`, `θ₁ + θ₂ < π`. -/
-theorem ferrersP_addition (n : ℕ) {θ₁ θ₂ phi : ℝ} (h₁ : 0 < θ₁) (h₂ : 0 < θ₂) (h : θ₁ + θ₂ < π) :
-    ferrersP n 0 (Real.cos θ₁ * Real.cos θ₂ + Real.sin θ₁ * Real.sin θ₂ * Real.cos phi) =
-      ∑ m ∈ Finset.Icc (-(n : ℤ)) n, (-1 : ℂ) ^ m * ferrersP n (-m) (Real.cos θ₁) *
-        ferrersP n m (Real.cos θ₂) * Real.cos (m * phi) := sorry
-
-/-- **8.3** Dougall's expansion DLMF 14.18.9 for `−1 < x < 1`, `μ ≥ 0`, `ν ∉ ℤ`. -/
+/-- **10.3** Dougall's expansion DLMF 14.18.9 for `−1 < x < 1`, `μ ≥ 0`, `ν ∉ ℤ`. -/
 theorem hasSum_ferrersP_dougall {ν : ℂ} (hν : ∀ n : ℤ, ν ≠ n) {μ : ℝ} (hμ : 0 ≤ μ) {x : ℝ}
     (hx₀ : -1 < x) (hx₁ : x < 1) :
     HasSum (fun n : ℕ => (-1) ^ n * (2 * n + 1) / ((ν - n) * (ν + n + 1)) * ferrersP n (-μ) x)
       (π / sin (ν * π) * ferrersP ν (-μ) x) := sorry
 
-/-- **8.3** Heine's formula DLMF 14.28.2, for `z₂` inside the ellipse with foci `±1` through
+/-- **10.4** Heine's formula DLMF 14.28.2, for `z₂` inside the ellipse with foci `±1` through
 `z₁`. -/
 theorem hasSum_heine {z₁ z₂ : ℂ} (hz₁ : z₁ - 1 ∈ slitPlane)
     (h : ‖z₂ - 1‖ + ‖z₂ + 1‖ < ‖z₁ - 1‖ + ‖z₁ + 1‖) :
     HasSum (fun n : ℕ => (2 * n + 1) * associatedLegendreQ n 0 z₁ * legP n z₂) (1 / (z₁ - z₂)) :=
   sorry
 
-/-! ### Layer 9: zeros -/
+/-! ### Layer 11: toroidal, conical, Gegenbauer and Jacobi functions -/
 
-/-- **9.2** For real `ν ≥ −½` and `μ ≤ 0`, `𝖯^μ_ν` has `N₀ = max(⌈ν − |μ|⌉, 0)` zeros in
-`(−1, 1)`. -/
-theorem ferrersP_zero_count {ν μ : ℝ} (hν : -1 / 2 ≤ ν) (hμ : μ ≤ 0) :
-    {x : ℝ | x ∈ Ioo (-1) 1 ∧ ferrersP ν μ x = 0}.Finite ∧
-      {x : ℝ | x ∈ Ioo (-1) 1 ∧ ferrersP ν μ x = 0}.ncard = (⌈ν + μ⌉).toNat := sorry
-
-/-- **9.2** The case of `N₀ + 1` zeros that DLMF omits, with its other case `n > m`: for
-`ν, μ ∉ ℤ`, `μ > 0`, `n ≥ m` and `δ_ν ≤ δ_μ` (14.16.1), `𝖯^μ_ν` has `N₀ + 1 = ⌈ν − μ⌉ + 1`
-zeros in `(−1, 1)`. -/
-theorem ferrersP_zero_count_add_one {ν μ : ℝ} (hν : ∀ n : ℤ, ν ≠ n) (hμ : ∀ n : ℤ, μ ≠ n)
-    (hμ₀ : 0 < μ) (hnm : ⌊μ⌋ ≤ ⌊ν⌋) (hδ : Int.fract ν ≤ Int.fract μ) :
-    {x : ℝ | x ∈ Ioo (-1) 1 ∧ ferrersP ν μ x = 0}.Finite ∧
-      {x : ℝ | x ∈ Ioo (-1) 1 ∧ ferrersP ν μ x = 0}.ncard = (⌈ν - μ⌉).toNat + 1 := sorry
-
-/-! ### Layer 10: toroidal and conical functions, generalizations -/
-
-/-- **10.1** DLMF 14.19.6 for `Re μ > −½`, `ξ > 0` and real `φ`. -/
+/-- **11.1** DLMF 14.19.6 for `Re μ > −½`, `ξ > 0` and real `φ`. -/
 theorem hasSum_olverLegendreQ_toroidal {μ : ℂ} (hμ : -1 / 2 < μ.re) {ξ : ℝ} (hξ : 0 < ξ)
     (phi : ℝ) :
     HasSum (fun n : ℕ => (if n = 0 then 1 else 2) * Gamma (μ + n + 1 / 2) *
@@ -387,7 +451,7 @@ theorem hasSum_olverLegendreQ_toroidal {μ : ℂ} (hμ : -1 / 2 < μ.re) {ξ : �
       ((Real.sqrt (π / 2) : ℂ) * ((Real.sinh ξ : ℝ) : ℂ) ^ μ /
         ((Real.cosh ξ - Real.cos phi : ℝ) : ℂ) ^ (μ + 1 / 2)) := sorry
 
-/-- **10.2** DLMF 14.20.3, wherever `𝖰^{∓μ}_{−½+iτ}` is defined. -/
+/-- **11.2** DLMF 14.20.3, wherever `𝖰^{∓μ}_{−½+iτ}` is defined. -/
 theorem conicalQHat_eq {μ τ : ℝ} (hμτ : τ ≠ 0 ∨ Real.cos (μ * π) ≠ 0) {x : ℝ} (hx₀ : -1 < x)
     (hx₁ : x < 1) :
     Real.conicalQHat (-μ) τ x =
@@ -398,7 +462,7 @@ theorem conicalQHat_eq {μ τ : ℝ} (hμτ : τ ≠ 0 ∨ Real.cos (μ * π) �
           (2 * (Real.cosh (τ * π) ^ 2 - Real.sin (μ * π) ^ 2)) *
           (ferrersP (-1 / 2 + τ * I) (-μ) (-x : ℝ)).re := sorry
 
-/-- **10.2** DLMF 14.23.7 as corrected:
+/-- **11.2** DLMF 14.23.7 as corrected:
 `𝖰̂^{−μ}_{−½+iτ}(x) = ½ e^{3μπi/2} Q^{−μ}_{−½+iτ}(x − i0) + ½ e^{μπi/2} Q^{−μ}_{−½−iτ}(x + i0)`. -/
 theorem conicalQHat_eq_cut {μ τ : ℝ} (hμτ : τ ≠ 0 ∨ Real.cos (μ * π) ≠ 0) {x : ℝ}
     (hx₀ : -1 < x) (hx₁ : x < 1) :
@@ -407,41 +471,59 @@ theorem conicalQHat_eq_cut {μ τ : ℝ} (hμτ : τ ≠ 0 ∨ Real.cos (μ * π
           1 / 2 * exp (μ * π * I / 2) * associatedLegendreQ (-1 / 2 - τ * I) (-μ) (x + ε * I))
       (𝓝[>] 0) (𝓝 (Real.conicalQHat (-μ) τ x)) := sorry
 
-/-- **10.3** A solution of the generalized associated Legendre equation DLMF 14.29.1 on `D`. -/
-theorem generalizedLegendre_solution (ν μ₁ μ₂ : ℂ) {z : ℂ} (hz₁ : 1 - z ∈ slitPlane)
-    (hz₂ : 1 + z ∈ slitPlane) :
-    let w : ℂ → ℂ := fun z => (1 - z) ^ (-μ₁ / 2) * (1 + z) ^ (-μ₂ / 2) *
-      𝐅 (ν + 1 - (μ₁ + μ₂) / 2) (-ν - (μ₁ + μ₂) / 2) (1 - μ₁) ((1 - z) / 2)
-    (1 - z ^ 2) * deriv^[2] w z - 2 * z * deriv w z +
-      (ν * (ν + 1) - μ₁ ^ 2 / (2 * (1 - z)) - μ₂ ^ 2 / (2 * (1 + z))) * w z = 0 := sorry
+/-! ### Names cited in `README.md` -/
 
-/-! ### Layer 11: spherical harmonics -/
-
-/-- **11.2** Orthonormality, DLMF 14.30.8, for `|m₁| ≤ l₁`, `|m₂| ≤ l₂`. -/
-theorem integral_sphericalHarmonic_mul {l₁ l₂ : ℕ} {m₁ m₂ : ℤ} (h₁ : m₁.natAbs ≤ l₁)
-    (h₂ : m₂.natAbs ≤ l₂) :
-    ∫ phi in (0 : ℝ)..2 * π, ∫ θ in (0 : ℝ)..π,
-        conj (sphericalHarmonic l₁ m₁ θ phi) * sphericalHarmonic l₂ m₂ θ phi * Real.sin θ =
-      if l₁ = l₂ ∧ m₁ = m₂ then 1 else 0 := sorry
-
-/-- **11.2** The addition theorem DLMF 14.30.9, for `0 < θ₁, θ₂ < π`. -/
-theorem ferrersP_eq_sum_sphericalHarmonic (l : ℕ) {θ₁ θ₂ : ℝ} (phi₁ phi₂ : ℝ) (h₁ : 0 < θ₁)
-    (h₁' : θ₁ < π) (h₂ : 0 < θ₂) (h₂' : θ₂ < π) :
-    legP l (Real.cos θ₁ * Real.cos θ₂ + Real.sin θ₁ * Real.sin θ₂ * Real.cos (phi₁ - phi₂)) =
-      4 * π / (2 * l + 1) * ∑ m ∈ Finset.Icc (-(l : ℤ)) l,
-        conj (sphericalHarmonic l m θ₁ phi₁) * sphericalHarmonic l m θ₂ phi₂ := sorry
-
-/-- The measure `sin θ dθ dφ` on `(0, π) × (0, 2π)`. -/
-def sphereMeasure : Measure (ℝ × ℝ) :=
-  (volume.restrict (Ioo 0 π ×ˢ Ioo 0 (2 * π))).withDensity
-    fun p => ENNReal.ofReal (Real.sin p.1)
-
-/-- **11.3** Completeness: the `Y_{l,m}`, `|m| ≤ l`, form a Hilbert basis of
-`L²((0, π) × (0, 2π), sin θ dθ dφ)`; the index `(l, j)` with `j < 2l + 1` is `m = j − l`. -/
-theorem sphericalHarmonic_hilbertBasis :
-    ∃ b : HilbertBasis (Σ l : ℕ, Fin (2 * l + 1)) ℂ (Lp ℂ 2 sphereMeasure),
-      ∀ i, (b i : ℝ × ℝ → ℂ) =ᵐ[sphereMeasure]
-        fun p => sphericalHarmonic i.1 ((i.2 : ℤ) - i.1) p.1 p.2 := sorry
+#check @AnalyticOnNhd.eqOn_of_preconnected_of_eventuallyEq
+#check @Asymptotics.IsBigO
+#check @Asymptotics.IsEquivalent
+#check @circleIntegral
+#check @Complex.betaIntegral
+#check @Complex.cpow
+#check @Complex.differentiable_one_div_Gamma
+#check @Complex.digamma
+#check @Complex.Gamma
+#check @Complex.Gamma_add_one
+#check @Complex.Gamma_mul_Gamma_add_half
+#check @Complex.Gamma_mul_Gamma_one_sub
+#check @Complex.Gamma_ne_zero
+#check @Complex.log
+#check @Complex.slitPlane
+#check @DiffContOnCl.circleIntegral_sub_inv_smul
+#check @DifferentiableOn.analyticOnNhd
+#check @fourierBasis
+#check @GenContFract.convs
+#check @GenContFract.dens
+#check @hasDerivAt_integral_of_dominated_loc_of_deriv_le
+#check @InnerProductSpace.instLaplacian
+#check @MeasureTheory.IntegrableOn
+#check @intervalIntegral
+#check @IsOpen.is_const_of_deriv_eq_zero
+#check @Laplacian.laplacian
+#check @MeasureTheory.integral
+#check @MeasureTheory.integral_image_eq_integral_abs_det_fderiv_smul
+#check @Polynomial.coeff_shiftedLegendre
+#check @Polynomial.derivative
+#check @Polynomial.factorial_mul_shiftedLegendre_eq
+#check @Polynomial.iterate_derivative_mul
+#check @Polynomial.shiftedLegendre_eval_symm
+#check @Real.eulerMascheroniConstant
+#check @Set.Ioi
+#check @tendsto_tsum_of_dominated_convergence
+#check @TauCeti.Real.legendreEc
+#check @TauCeti.Real.legendreK_eq_ordinaryHypergeometric
+#check @TauCeti.Real.legendreEc_eq_ordinaryHypergeometric
+#check @MvPolynomial.finrank_harmonicSubmodule_add_two
+#check @MvPolynomial.harmonicOnNhd_eval_euclidean_iff
+#check @MvPolynomial.harmonicSphereRestriction
+#check @MvPolynomial.harmonicSubmodule
+#check @MvPolynomial.homogeneousSubmodule_eq_iSup_map_mulLeft_normSq_pow
+#check @MvPolynomial.laplacian
+#check @MvPolynomial.laplacian_eval_euclidean
+#check @MvPolynomial.sphereEval
+#check @TauCeti.Contour.classicalResidueTheorem_circle
+#check @TauCeti.riemannianVolume
+#check @TauCeti.setIntegral_riemannianVolume_of_subset
+#check @TauCeti.sphereRoundMetric
 
 end TauCetiRoadmap.SpecialFunctionsLegendre
 
