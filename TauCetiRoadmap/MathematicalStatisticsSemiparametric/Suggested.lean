@@ -20,8 +20,10 @@ a Lean name are those whose carrier is missing at the pins:
 The other bullets without a Lean name record facts about a single definition (the membership
 criterion of `meanZeroL2`, the monotonicity and closedness properties of `tangentSpace`, the
 orthogonality of `efficientScore` to the nuisance scores, the form of `aipwScore` on observed
-data, the measurability of `observe` and the mass of `missingLaw`); these are API lemmas, not
-headlines.
+data, the measurability of `observe` and the mass of `missingLaw`), or follow in one step from a
+library lemma (positive definiteness of `efficientInformationMatrix` by Mathlib's Gram-matrix
+criterion, and stationarity in 7.2 by Fermat's rule given Fisher's identity); these are API
+lemmas, not headlines.
 
 The conventions of the README are used throughout: scores and influence functions live in
 Mathlib's `Lp ℝ 2 P`, tangent spaces are closed submodules of it, a differentiable path is
@@ -137,13 +139,6 @@ theorem posSemidef_informationMatrix_sub_efficient {k : ℕ} (N : Set (Lp ℝ 2 
 theorem posSemidef_efficientInformationMatrix_sub_of_subset {k : ℕ} {N N' : Set (Lp ℝ 2 P)}
     (h : N ⊆ N') (ℓ : Fin k → Lp ℝ 2 P) :
     (efficientInformationMatrix P N ℓ - efficientInformationMatrix P N' ℓ).PosSemidef := sorry
-
-/-- **1.3** The efficient information matrix is positive definite iff the efficient scores are
-linearly independent. -/
-theorem posDef_efficientInformationMatrix_iff {k : ℕ} (N : Set (Lp ℝ 2 P))
-    (ℓ : Fin k → Lp ℝ 2 P) :
-    (efficientInformationMatrix P N ℓ).PosDef ↔
-      LinearIndependent ℝ fun i ↦ efficientScore P N (ℓ i) := sorry
 
 variable {Y : Type*} [MeasurableSpace Y]
 
@@ -1225,14 +1220,6 @@ theorem obsLogLikelihood_le_of_isEMStep (Θ : Set E) (f : E → Z → ℝ) (θ' 
       (obsLogLikelihood ρ f θ' = obsLogLikelihood ρ f θ'' →
         missingLaw ρ f θ'' = missingLaw ρ f θ' ∧ emQ ρ f θ'' θ' = emQ ρ f θ' θ') := sorry
 
-/-- **7.2** Stationarity: at an interior maximizer `θ*` of `Q(· | θ*)` where `Q(· | θ*)` has a
-gradient and `L` has the same gradient (Fisher's identity), the gradient of `L` vanishes. -/
-theorem hasGradientAt_obsLogLikelihood_zero_of_isMaxOn (Θ : Set E) (f : E → Z → ℝ) (θs : E)
-    (hΘ : Θ ∈ 𝓝 θs) (hmax : IsMaxOn (fun θ ↦ emQ ρ f θ θs) Θ θs) (gQ : E)
-    (hQ : HasGradientAt (fun θ ↦ emQ ρ f θ θs) gQ θs)
-    (hfisher : HasGradientAt (obsLogLikelihood ρ f) gQ θs) :
-    HasGradientAt (obsLogLikelihood ρ f) 0 θs := sorry
-
 /-- **7.3** Regularity for the information identities on a neighbourhood `U`: positive
 measurable densities, `C²` in `θ`, with the complete-data scores, Hessians and density
 derivatives dominated by one `ρ`-integrable function, uniformly in `θ, θ' ∈ U`, and complete-data
@@ -1452,5 +1439,6 @@ end Layer8
 #check @IsMaxOn
 #check @ProbabilityTheory.Kernel.variance_comp
 #check @ProbabilityTheory.Kernel.covariance_comp
+#check @Matrix.posDef_gram_iff_linearIndependent
 
 end TauCetiRoadmap.MathematicalStatisticsSemiparametric

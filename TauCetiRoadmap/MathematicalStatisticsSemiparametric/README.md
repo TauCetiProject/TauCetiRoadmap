@@ -170,6 +170,7 @@ These are fixed for every target. A statement that departs from them is a differ
 - **Hilbert spaces:** `Lp`, `Lp.const`, `MemLp.toLp`, `eLpNorm`, `ClosedSubmodule`,
   `Submodule.topologicalClosure`, `Submodule.orthogonal` (`ᗮ`), `Submodule.starProjection`,
   `Submodule.norm_sq_eq_add_norm_sq_projection`, `InnerProductSpace.toDual`,
+  `Matrix.posDef_gram_iff_linearIndependent`,
   `ContinuousLinearMap.adjoint`, `ContinuousLinearMap.orthogonal_range`,
   `ContinuousLinearMap.IsPositive`, `Ring.inverse`, and
   `Lp.compMeasurePreservingₗᵢ` (`Mathlib/MeasureTheory/Function/LpSpace/Basic.lean` and its
@@ -211,8 +212,8 @@ These are fixed for every target. A statement that departs from them is a differ
 ### From MathematicalStatisticsFoundations
 
 [MathematicalStatisticsFoundations](../MathematicalStatisticsFoundations/README.md) supplies:
-- 8.2: boundedness in probability, for the `√n`-consistent preliminary estimators of 5.2 and 5.3;
-- 8.3: the algebra of convergence in probability, including `O_P(1) · o_P(1) = o_P(1)`;
+- 8.3: the algebra of convergence in probability on one probability space, including
+  `O_P(1) · o_P(1) = o_P(1)` (5.1, 5.2, 6.5);
 - 8.4: Slutsky's lemma without separability;
 - 8.5: `IsIndependentIdenticallyDistributed`, the law of `(X 0, …, X (n-1))` as `Measure.pi`,
   and the weak law of large numbers;
@@ -224,8 +225,11 @@ These are fixed for every target. A statement that departs from them is a differ
 ### From MathematicalStatisticsAsymptotic
 
 MathematicalStatisticsAsymptotic supplies exactly the following, and nothing else is used:
-- **Conventions** (1.1): `TendstoInProbability` on varying probability spaces along a filter.
-  `Suggested.lean` carries a local copy.
+- **Convergence on varying spaces** (1.1): `TendstoInProbability` and boundedness in
+  probability along a filter, the algebra of convergence in probability on varying spaces
+  (sums, constant multiples, `O_P(1) · o_P(1) = o_P(1)`, transfer under contiguity) and Slutsky's
+  lemma on varying spaces, used wherever the sample space is `Fin n → X` under a product law
+  (2.3, 4.2, 4.4, 5.2, 5.3). `Suggested.lean` carries a local copy of `TendstoInProbability`.
 - **Contiguity** (7.1): Le Cam's first lemma (contiguity from the limit laws of the likelihood
   ratios), applied to log-likelihood ratios converging in law to `N(-σ²/2, σ²)`, whose
   exponential has mean `1`, and mutual contiguity of `Qₙ,ₕ` and `Qₙ,₀` under local asymptotic
@@ -341,11 +345,11 @@ These are the Hilbert-space facts of van der Vaart, §25.2, pp. 360–362.
   the projections `Π_N ℓᵢ`.
 - `posSemidef_efficientInformationMatrix_sub_of_subset`: `N ⊆ N'` gives `Ĩ_N - Ĩ_{N'}` positive
   semidefinite. Route: `ℓ̃_N = ℓ̃_{N'} + (Π_{N'} - Π_N) ℓ` with the two terms orthogonal.
-- `posDef_efficientInformationMatrix_iff`: `Ĩ` is positive definite iff the efficient scores are
-  linearly independent in `L²`.
+- `Ĩ` is positive definite iff the efficient scores are linearly independent in `L²` (Mathlib
+  `Matrix.posDef_gram_iff_linearIndependent`).
 
 *Needs:* 1.2; Mathlib `Submodule.starProjection`, `Submodule.norm_sq_eq_add_norm_sq_projection`,
-`Matrix.PosSemidef`.
+`Matrix.PosSemidef`, `Matrix.posDef_gram_iff_linearIndependent`.
 
 **Checks.** On `X = {0, 1, 2}` with the uniform law, `ℓ₁ = (1, 0, -1)` and `ℓ₂ = (1, -1, 0)`:
 
@@ -547,7 +551,7 @@ Mathlib only.
   central limit theorem with the expansion of the first item, and Le Cam's third lemma
   (MathematicalStatisticsAsymptotic 7.2).
 
-*Needs:* 2.1–2.2; Foundations 8.3–8.6; MathematicalStatisticsAsymptotic 7.1 and 7.2 (Le Cam's
+*Needs:* 2.1–2.2; Foundations 8.5, 8.6; MathematicalStatisticsAsymptotic 1.1, 7.1 and 7.2 (Le Cam's
 first and third lemmas), 7.3 (local asymptotic normality within a set) and 1.2 (multivariate
 central limit theorem).
 
@@ -577,7 +581,7 @@ central limit theorem).
 
 ### Dependencies
 
-Layer 1; Foundations 8.3–8.6; MathematicalStatisticsAsymptotic as listed.
+Layer 1; Foundations 8.5, 8.6; MathematicalStatisticsAsymptotic as listed.
 
 ## Layer 3: pathwise differentiability and efficient influence functions
 
@@ -827,7 +831,7 @@ Layers 1–2; Tau Ceti quantiles.
   the asymptotic covariance `Pφφᵀ` of a regular asymptotically linear estimator dominates
   `Pφ̃φ̃ᵀ` (3.1); this is the form of the bound for asymptotically linear estimators.
 
-*Needs:* 4.1, 3.1, 2.3.
+*Needs:* 4.1, 3.1, 2.3; MathematicalStatisticsAsymptotic 1.1.
 
 ### 4.3 Convolution and local asymptotic minimax
 
@@ -880,7 +884,7 @@ Layers 1–2; Tau Ceti quantiles.
   MathematicalStatisticsAsymptotic 7.4) have equal projections onto the observation, and their
   covariances force `S = T`.
 
-*Needs:* 4.3, 2.3; MathematicalStatisticsAsymptotic 7.2 and 7.4.
+*Needs:* 4.3, 2.3; MathematicalStatisticsAsymptotic 1.1, 7.2 and 7.4.
 
 ### 4.5 The semiparametric convolution bound
 
@@ -908,8 +912,8 @@ estimators along lines.
 
 ### Dependencies
 
-Layers 2–3; MathematicalStatisticsAsymptotic 7.2–7.6 (local asymptotic normality and limit
-experiments).
+Layers 2–3; MathematicalStatisticsAsymptotic 1.1 (varying spaces) and 7.2–7.6 (local asymptotic
+normality and limit experiments).
 
 ## Layer 5: sample splitting and efficient estimation
 
@@ -989,7 +993,7 @@ in `ψ`, hence efficient by 4.4 (Bickel–Klaassen–Ritov–Wellner, §7.8, Cor
 smoothness condition is the local linearity of the score sum; it is a hypothesis here and is
 verified in each application.
 
-*Needs:* 5.1, 4.4; Foundations 8.2, 8.3, 8.6.
+*Needs:* 5.1, 4.4; Foundations 8.3, 8.6; MathematicalStatisticsAsymptotic 1.1.
 
 ### 5.3 Adaptive estimation of a centre of symmetry
 
@@ -1039,8 +1043,8 @@ verified in each application.
   `locationLaw η θ` is at most `δ² ∫ ((√η)')² = δ² I_η/4`, so the products at `hₙ` and at `h` merge
   in total variation, and contiguity transfers.
 
-*Needs:* 5.2, 3.4, 2.1 (absolutely continuous location families), 2.3; Foundations 8.2;
-MathematicalStatisticsAsymptotic 7.1.
+*Needs:* 5.2, 3.4, 2.1 (absolutely continuous location families), 2.3;
+MathematicalStatisticsAsymptotic 1.1, 7.1.
 
 **Checks.**
 
@@ -1051,13 +1055,12 @@ MathematicalStatisticsAsymptotic 7.1.
   `η' = (e^{-x} - 1) η`, score `ℓ̇(x) = 1 - e^{-x}` and `I_η = Var(e^{-X}) = 1`, since `e^{-X}` is
   standard exponential under `η`.
 - Monotone preliminary estimator: its asymptotic variance `Eψ²/(Eψ')²` is `3 = 1/I_η` under the
-  logistic law, where it is the maximum likelihood estimator, and `1.016` under `N(0, 1)`
- , against the bound `1`.
+  logistic law, where it is the maximum likelihood estimator, and `1.016` under `N(0, 1)`, against
+  the bound `1`.
 - `IsSymmetricFiniteInformationDensity`: the Laplace density `e^{-|x|}/2` qualifies, with
   `η' = -sign(x) η` (odd, with `η'(0) = 0`) and `I_η = 1`.
 - `IsSymmetricFiniteInformationDensity`: `η(x) = cos²(πx/2)` on `[-1, 1]`, `0` outside, qualifies:
-  it is absolutely continuous on `ℝ`, and `η'²/η = π² sin²(πx/2)` on `(-1, 1)`, so `I_η = π²`
- .
+  it is absolutely continuous on `ℝ`, and `η'²/η = π² sin²(πx/2)` on `(-1, 1)`, so `I_η = π²`.
 - `IsSymmetricFiniteInformationDensity` (negative control): the uniform density on `[-1, 1]`
   fails, since it is not absolutely continuous on `ℝ`; the density `(3/4)(1 - x²)` on `[-1, 1]`
   is absolutely continuous but fails integrability of `η'²/η = 3x²/(1 - x²)` at `±1`.
@@ -1108,9 +1111,9 @@ The efficient influence function `Q⁻¹ V ε` of β is 3.4.
 
 ### Dependencies
 
-Layers 1–4, including the absolutely continuous location families of 2.1; Foundations
-8.3–8.6; MathematicalStatisticsAsymptotic 7.1 (mutual contiguity under local asymptotic
-normality).
+Layers 1–4, including the absolutely continuous location families of 2.1; Foundations 8.3,
+8.5, 8.6; MathematicalStatisticsAsymptotic 1.1 (varying spaces) and 7.1 (mutual contiguity under
+local asymptotic normality).
 
 ## Layer 6: missing data
 
@@ -1414,8 +1417,8 @@ nothing else observed, and `f θ z = (2π)^{-1/2} e^{-(z - θ)²/2}`.
   Route: in the identity above both the gain in `Q` and the Kullback–Leibler term are
   nonnegative, so equality makes both vanish. The converse half of the source's "if and only if"
   is not claimed: equal `Q` values leave the Kullback–Leibler term, which can be positive.
-- **Stationarity** (`hasGradientAt_obsLogLikelihood_zero_of_isMaxOn`). If `θ*` is an interior point
-  of `Θ` maximizing `Q(· | θ*)` over `Θ`, `Q(· | θ*)` has a gradient at `θ*`, and `L` has the same
+- **Stationarity.** If `θ*` is an interior point of `Θ` maximizing `Q(· | θ*)` over `Θ`,
+  `Q(· | θ*)` has a gradient at `θ*`, and `L` has the same
   gradient there (Fisher's identity `∇L(θ*) = ∇Q(θ* | θ*)`), then `∇L(θ*) = 0`. Little–Rubin,
   Theorem 8.2, p. 195, draw the same conclusion for a limit of EM iterates.
 
@@ -1459,8 +1462,8 @@ nothing else observed, and `f θ z = (2π)^{-1/2} e^{-(z - θ)²/2}`.
 - `completeScore`: at `θ̂ = 0.626821` its mean under `missingLaw θ̂` is `0`, Fisher's
   identity at the maximum likelihood estimate.
 - `completeScore` (negative control): it is the gradient of `log f θ` in `θ`, not of `f θ`; for
-  the normal example the gradient of `f θ z` at `z = θ + 1` is `(2π)^{-1/2} e^{-1/2} = 0.24197`
- , not `1`.
+  the normal example the gradient of `f θ z` at `z = θ + 1` is `(2π)^{-1/2} e^{-1/2} = 0.24197`, not
+  `1`.
 - `EMRegular`: the multinomial example satisfies it on `U = (ε, 1 - ε)` for `0 < ε < 1/2`, with
   `G` a constant on the finite set `Z`.
 - `EMRegular`: the normal example satisfies it on every bounded open `U`, with
@@ -1673,9 +1676,6 @@ Related libraries:
 - [Statlib](https://github.com/stat-lib/statlib) (Apache 2.0) develops contiguity and quadratic-mean
   differentiability on Mathlib's kernel vocabulary; it has no tangent spaces or missing-data
   structures.
-- The Mathlib pull request
-  [#44536](https://github.com/leanprover-community/mathlib4/pull/44536) adds the conditional
-  variance of a Bernoulli variable, adjacent to the `condVar` vocabulary of 8.1.
 
 ## Downstream consumers
 
