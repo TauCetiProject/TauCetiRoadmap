@@ -281,7 +281,7 @@ A proof can proceed as follows. Apply the number-field form of Harari–Stix wit
 
 **Checks.**
 
-- Under (b), Theorem A (finiteness of loc_v(Sec^Sel)) is equivalent to the finiteness of the projection of the finite descent locus to X(K_v): this is Betts–Stix, Theorem B.
+- Under (b), loc_v(Sec^Sel(X/K)) is finite exactly when the projection of the finite descent locus to X(K_v) is finite; this is how §9.5 is deduced from §9.4 (bs, §1, p. 2; bs line 55).
 - For X(K) ≠ ∅ the diagonal image of a rational point corresponds to its own section in (a).
 - For `X=G_{m,K}`, the diagonal unit 1 survives every finite étale torsor via its fibre class and gives its point section. This non-proper X lies in (a): Harari–Stix Theorem 2.1 (i)⇔(iii) applies with U trivial and S=∅. The finite-place localisation equality in (b) still requires the stated proper curve and local-injectivity hypotheses.
 
@@ -686,7 +686,7 @@ v is self-conjugate on K; no condition is put on the places of L. V is a represe
 
 (bs, Corollary 2.21 and proof, pp. 14–15; bs line 680).
 
-A proof can proceed as follows. Induce V to G_K and apply the conjugate-place theorem to its determinant, whose purity weight is n[L:K]dim V. Mackey and induced de Rham periods give its local graded multiplicity as `Σ_{w|v}[L_w:K_v]dim gr^i D_dR,w(V)`. Summing the jumps gives the formula, without dividing by rank when V=0.
+A proof can proceed as follows. Induce V to G_K and apply §3.2 to its determinant, whose purity weight is n[L:K]dim V. Mackey and induced de Rham periods give its local graded multiplicity as `Σ_{w|v}[L_w:K_v]dim gr^i D_dR,w(V)`. Summing the jumps gives the formula, without dividing by rank when V=0.
 
 **Checks.**
 
@@ -1104,7 +1104,7 @@ The API includes the following facts.
 - For A = `H⁰_ét((Spec L)_{K̄_v}, ℚₚ)` with L/K_v of degree 5, Σ_A is one orbit of size 5, so A is not of type (c) for any d.
 - A pair with A = ℚₚ is never of type (a): the unique point has index 1 < 4.
 - For V_ψ = `H¹_ét(E_{K̄}, ℚₚ)` of an elliptic curve with good ordinary reduction at w_ψ (rank two, so every line is isotropic), the unramified line is `G_{w_ψ}`-stable of Hodge–Tate weight 0 and gives nothing; type (b) needs a stable line of weight 1, which exists only when the extension of the weight-1 quotient by the unramified line splits, as for curves with complex multiplication split at w_ψ.
-- Points of type (a) are handled by Faltings' lemma and dimension counts, type (b) by the general-position lemma, and type (c) by choosing the family (Layers 7 and 8).
+- Points of type (a) are handled by Faltings' lemma and dimension counts, type (b) by the four-isotropic-Lagrangian contract (§7.6), and type (c) by choosing the family (Layers 7 and 8).
 - The ordinary elliptic-line check concerns the fibre condition only: an index-one coefficient point still gives neither type (a) nor type (b), whatever its Hodge weights.
 - For a constant elliptic family with Y′=Y, every coefficient point has index 1, so the local loci (a) and (b) are empty and (c) is all of Y(K_v): their membership values at every local point are false, false, true.
 - For the zero algebra A=ℚₚ^∅ and d=1, Σ_A=∅ and the cardinality definition of type (c) reads 0≥0, which is true. size_v(∅) is undefined; assigning it 0 would instead give the false inequality 0≥1/2. Only the cardinality definition applies to this algebra.
@@ -1149,7 +1149,7 @@ The API includes the following facts.
 - If δ = 1 (Y′ = Y), only L = K occurs, and T_i consists of the local classes of GSp-irreducible weight-one representations of G_K unramified outside S with the bound B=2d_i on algebraic-integer Frobenius eigenvalues.
 - For a closed point y′_i of degree one (K_v(y′_i) = K_v), d_i = 1 and an elliptic curve E/K with good reduction outside S and no CM, `D_pH,w(H¹_ét(E_{K̄}, ℚₚ)|G_w)` lies in T_i, with L = K (H¹ of a non-CM elliptic curve is irreducible, hence GSp-irreducible).
 - The class D_pH,w(ℚₚ ⊕ ℚₚ(−1)) is not produced by this pair, which is not GSp-irreducible (and not pure of weight 1): only GSp-irreducible representations contribute.
-- Each class in T_i contributes either no Lagrangians, when its underlying unfiltered symplectic module is not that of the fixed fibre, or exactly one automorphism orbit, by the orbit lemma.
+- Each class in T_i contributes either no Lagrangians, for instance when its underlying unfiltered symplectic module is not that of the fixed fibre, or exactly one automorphism orbit, by the orbit criterion of §2.3.
 - If `[L_{w_i} : K_v]` ≥ 4, `H_{y′_i}(L_{w_i})_(a)` is not Zariski dense in `Res^{L_{w_i}}_{K_v} H_{y′_i}` (§7.3).
 - If δ=1 and the chosen local discrete data disagree with every qualifying global class, the associated Lagrangian set is empty, even though the ambient period variety is nonempty.
 
@@ -1471,7 +1471,7 @@ A proof can proceed as follows. For the chosen family combine section interpolat
 
 Suppose no subfield of the number field K is a CM field, and let Y be a smooth projective geometrically connected K-curve of genus at least 2. However the finite place v of K is chosen, the map loc_v: Sec^Sel(Y/K) → Y(K_v) has finite image, so only finitely many K_v-points of Y arise by localising Selmer sections.
 
-K contains no CM subfield, for instance K totally real or of odd degree; the hypothesis is used only to make every finite place self-conjugate. The section conjecture is not assumed; Theorem A is an unconditional prediction of it.
+K contains no CM subfield, for instance K totally real or of odd degree; the hypothesis is used only to make every finite place self-conjugate. The section conjecture is not assumed; the statement is an unconditional prediction of it.
 
 (bs, Theorem A, p. 1; bs line 4; bs, §1.1, p. 3; bs line 103).
 
@@ -1479,7 +1479,7 @@ A proof can proceed as follows. Without a CM subfield every finite place is self
 
 **Checks.**
 
-- Under the section conjecture (AnabelianGeometryAndNonabelianChabauty §7.1) Sec^Sel(Y/K) = κ_Y(Y(K)), which is finite by §9.2, so Theorem A is a consequence of the section conjecture; here it is proved without it.
+- Under the section conjecture (AnabelianGeometryAndNonabelianChabauty §7.1) Sec^Sel(Y/K) = κ_Y(Y(K)), which is finite by §9.2, so §9.4 is a consequence of the section conjecture; here it is proved without it.
 - For K = Q every finite place is covered, including p = 2, places of bad reduction of Y and ramified places of larger totally real fields.
 
 *Needs:* §9.3; §3.1; §0.3; TauCetiRoadmap.AnabelianGeometryAndNonabelianChabauty §7.1 (NC.6), section classes, rational-point section map, Kummer comparison and the field-general injectivity criterion.
@@ -1488,11 +1488,11 @@ A proof can proceed as follows. Without a CM subfield every finite place is self
 
 Take K and Y as in §9.4: K is a number field none of whose subfields is a CM field, and Y is a smooth projective geometrically connected K-curve of genus at least 2. Projecting the finite descent locus `Y(A_K)_•^{f-cov}` (§0.4) onto Y(K_v), at any finite place v of K, gives a finite set.
 
-As in Theorem A; Stoll's conjecture that the locus is the closure of Y(K) (equivalently Y(K), which is finite) is not assumed.
+As in §9.4; Stoll's conjecture that the locus is the closure of Y(K) (equivalently Y(K), which is finite) is not assumed.
 
 (bs, Theorem B and the paragraph before it, p. 2; bs line 55).
 
-A proof can proceed as follows. The Harari–Stix equality identifies the finite-place projection of modified finite descent with the Selmer-localisation image. Apply Theorem A with the identical field and genus hypotheses.
+A proof can proceed as follows. The Harari–Stix equality identifies the finite-place projection of modified finite descent with the Selmer-localisation image. Apply §9.4 with the identical field and genus hypotheses.
 
 **Checks.**
 
@@ -1502,7 +1502,7 @@ A proof can proceed as follows. The Harari–Stix equality identifies the finite
 
 ### 9.6 The Lawrence–Venkatesh argument as an obstruction
 
-The original argument of Lawrence and Venkatesh proves, in the language of this roadmap: (1°) Y(K) ⊆ `Y(K_v)^LV_{X,S}` for every abelian-by-finite family, suitable S and finite v | p (§6.5); and (2°) for some finite place v and odd prime q, `Y(K_v)^LV_{X_q,S}` is finite for all suitable S, once the residue-disc analysis is extended from K-rational to K_v-rational centres (footnote 1). Since (1) loc_v(Sec^Sel) ⊆ `Y(K_v)^LV_{X,S}` holds for every family (§1.8 with §6.4), (2°) already gives Theorem A at one place, and with bookkeeping at 100% of places when K has no CM subfield (§8.6 (I)); the places ramified over Q, above 2 or of bad reduction need the model-free method of Layer 4, the self-conjugate numerics of Layer 3 and the trichotomy of Layer 6.
+The original argument of Lawrence and Venkatesh proves, in the language of this roadmap: (1°) Y(K) ⊆ `Y(K_v)^LV_{X,S}` for every abelian-by-finite family, suitable S and finite v | p (§6.5); and (2°) for some finite place v and odd prime q, `Y(K_v)^LV_{X_q,S}` is finite for all suitable S, once the residue-disc analysis is extended from K-rational to K_v-rational centres (footnote 1). Since (1) loc_v(Sec^Sel) ⊆ `Y(K_v)^LV_{X,S}` holds for every family (§1.8 with §6.4), (2°) already gives the conclusion of §9.4 at one place, and with bookkeeping at 100% of places when K has no CM subfield (§8.6 (I)); the places ramified over Q, above 2 or of bad reduction need the model-free method of Layer 4, the self-conjugate numerics of Layer 3 and the trichotomy of Layer 6.
 
 (2°) as stated needs the K_v-centred comparison of complex and v-adic period maps in the model-free period-map supplier contract.
 
@@ -1526,7 +1526,7 @@ TauCetiRoadmap.MordellLawrenceVenkatesh Layer LV.10, Kodaira–Parshin full mono
 
 ## Downstream consumers
 
-Theorem A constrains every finite-place localisation of Selmer sections over fields without CM subfields; Theorem B gives the corresponding finite-descent constraint. The general local-system restriction theorem applies to other cohomological obstructions, including the nonabelian Chabauty constructions of AnabelianGeometryAndNonabelianChabauty. The horizontal-transport and symplectic-period results apply to smooth proper families independently of reduction models, and the self-conjugate weight identities apply to induced pure representations over arbitrary finite extensions of number fields (bs, Remark 1.5, Corollary 2.21, Theorems 3.3 and 7.1, pp. 3–4, 14–17, 54; bs lines 144, 721, 852 and 2812).
+Section 9.4 constrains every finite-place localisation of Selmer sections over fields without CM subfields; §9.5 gives the corresponding finite-descent constraint. The general local-system restriction theorem applies to other cohomological obstructions, including the nonabelian Chabauty constructions of AnabelianGeometryAndNonabelianChabauty. The horizontal-transport and symplectic-period results apply to smooth proper families independently of reduction models, and the self-conjugate weight identities apply to induced pure representations over arbitrary finite extensions of number fields (bs, Remark 1.5, Corollary 2.21, Theorems 3.3 and 7.1, pp. 3–4, 14–17, 54; bs lines 144, 721, 852 and 2812).
 
 ## References
 
