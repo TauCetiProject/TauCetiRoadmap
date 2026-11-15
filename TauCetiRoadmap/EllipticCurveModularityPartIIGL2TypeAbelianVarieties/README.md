@@ -134,7 +134,11 @@ Layer 1 develops the endomorphism structure, Layer 2 its compatible Tate compone
 proves modularity using only good-prime comparisons. Layer 4 identifies the conductor,
 least level and all-place local factors. Layer 5 constructs the GL₂-type factor of a
 non-CM ℚ-curve; Layer 6 descends the Galois comparison by a finite character and applies
-solvable base change. [`Suggested.lean`](Suggested.lean) states the centralizer and
+solvable base change. Some numbered headings group several targets that serve one
+purpose: such a heading describes the whole group and carries the number of its first
+target, and the other targets of the group are the numbered bold paragraphs under it. A
+citation `§k.n` always means the single target numbered k.n, never the group.
+[`Suggested.lean`](Suggested.lean) states the centralizer and
 simple-power decomposition theorem, the totally-real-or-CM alternative and Ribet's
 geometric ℚ-curve factor theorem, as `ribetTheorem21`, `totallyRealOrCm` and
 `ribetTheorem61`. Its notation is

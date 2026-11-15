@@ -39,8 +39,14 @@ namespace TauCetiRoadmap.EllipticCurveModularityPartIIGL2TypeAbelianVarieties
 
 /-! ## Layer 1: Abelian varieties of GL₂-type and their endomorphism algebras -/
 
+/-- The algebraic closure `ℚ̄` of `ℚ` fixed by Mathlib's `AlgebraicClosure ℚ`. -/
 abbrev Qbar := AlgebraicClosure ℚ
+
+/-- The absolute Galois group `G_ℚ = Gal(ℚ̄/ℚ)`, with its Krull topology. -/
 abbrev GQ := Field.absoluteGaloisGroup ℚ
+
+/-- Abelian varieties over `ℚ`: Tau Ceti's bundled proper, geometrically integral group
+schemes over `Spec ℚ`. -/
 abbrev AVQ := TauCeti.AlgebraicGeometry.AbelianVariety ℚ
 
 /-- Rationalization of the actual ring of endomorphisms. -/
@@ -86,7 +92,7 @@ theorem totallyRealOrCm (A : AVQ) {E : Type} [Field E] [NumberField E]
     (ι : E →ₐ[ℚ] End0 A) (hd : (Module.finrank ℚ E : WithBot ℕ∞) = A.dim)
     (hs : IsSimpleOverQ A) : NumberField.IsTotallyReal E ∨ NumberField.IsCMField E := sorry
 
-/-! ## Layer 5: ℚ-curves as factors of abelian varieties of GL₂-type -/
+/-! ## Layer 5: ℚ-curves, their cocycles and their GL₂-type factors -/
 
 /-- Ribet's Theorem 6.1 (§5.6): every non-CM geometric ℚ-curve is a factor of a ℚ-simple
 GL₂-type variety over ℚ, whose geometric base change is isogenous to the corresponding power
