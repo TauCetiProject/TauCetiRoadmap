@@ -56,7 +56,7 @@ Use the pinned Mathlib and Tau Ceti interfaces. A CM field already exists as `Nu
 
 The non-Galois quartic example is in CM.0, the dimension-two torsion/polarization example in CM.2, and the complete Gaussian class-field example in CM.3. Applications import the actual declarations from these layers. Examples and exports introduce no additional mathematical layer.
 
-Tau Ceti supplies the Gaussian lattice as `TauCeti.GeometryOfNumbers.gaussianLattice`, its membership description and separation bounds, and `TauCeti.NumberField.complexConj_eq_complexConjugationAt` identifies place conjugation with Mathlib’s CM conjugation. Reuse these results. IntegralLattices B2/B3/B5 already owns the binary-form/class-group dictionary, composition and reduced representatives. ImaginaryQuadraticClassNumber §H3.1 supplies their full-order CM-point comparison.
+Tau Ceti supplies the Gaussian lattice as `TauCeti.GeometryOfNumbers.gaussianLattice`, its membership description and separation bounds, and `TauCeti.NumberField.complexConjugationAt_eq_complexConj` identifies place conjugation with Mathlib’s CM conjugation. Reuse these results. IntegralLattices B2/B3/B5 already owns the binary-form/class-group dictionary, composition and reduced representatives. ImaginaryQuadraticClassNumber §H3.1 supplies their full-order CM-point comparison.
 
 For the unit-obstruction bound, use Tau Ceti's `NumberField.units_sq_index_le` from `TauCeti.NumberTheory.EffectiveBounds.UnitSquares.Basic`, which bounds the unit-square index by `2^[F:ℚ]`. Layer 2 supplies the CM-specific injection into a totally positive unit/norm quotient and the fact that squares are relative norms; the general unit-square bound is already available.
 
@@ -110,7 +110,7 @@ through the equation, uniformization and realization comparisons below.
 `TauCeti.GeometryOfNumbers.gaussianLattice`, `mem_gaussianLattice` and
 `one_le_norm_of_mem_gaussianLattice_of_ne_zero`.
 `TauCeti.NumberTheory.NumberField.ComplexConjugation.CMField` supplies
-`TauCeti.NumberField.complexConj_eq_complexConjugationAt`.
+`TauCeti.NumberField.complexConjugationAt_eq_complexConj`.
 `TauCeti.NumberTheory.EffectiveBounds.UnitSquares.Basic` supplies
 `NumberField.units_sq_index_le`: the index of the squares in `(𝓞 F)ˣ` is at most
 `2 ^ Module.finrank ℚ F` for every number field `F`.
@@ -493,7 +493,9 @@ For `g=1`, use ImaginaryQuadraticClassNumber §H3.1’s arithmetic function fiel
 
 - In genus one at level one, `F_1 = ℚ(j)` and regular evaluation at the Gaussian point sends `j` to `1728`.
 - The function `1/(j − 1728)` has a pole at that point and is outside the evaluation local ring.
-- A constant `ζ_N` evaluates to itself; a similitude of multiplier `a` prime to `N` sends it to `ζ_N^a`. Omitting the coefficient action fails already at `N = 5`, `a = 2`.
+- For `g = 2`, `F_1` has transcendence degree `3 = g(g+1)/2` over `ℚ`, the dimension of the coarse moduli space of principally polarized abelian surfaces whose function field it is. The constant field `ℚ(ζ_N)` in place of `F_N` gives `0`, and the genus-one field `ℚ(j)` gives `1`.
+- For `g = 2`, let `ψ₄`, `ψ₆` be the level-one Siegel Eisenstein series of degree two with constant term `1` and rational Fourier coefficients, and `f = ψ₄³/ψ₆² ∈ F_1`, a quotient of two forms of weight `12`. On diagonal period matrices `ψ_k(diag(τ₁,τ₂)) = E_k(τ₁)E_k(τ₂)` for `k = 4, 6`: the restriction is an elliptic modular form of weight `k` in each variable, these weights have one-dimensional spaces of level-one forms, and the Siegel `Φ`-operator sends `ψ_k` to `E_k`. Since `E₄³/E₆² = j/(j − 1728)`, `f(diag(τ₁,τ₂)) = j(τ₁)j(τ₂)/((j(τ₁) − 1728)(j(τ₂) − 1728))`. At the product CM point `diag(√−2, √−2)`, where `j = 8000`, `f` is regular with value `(125/98)² = 15625/9604`. At `diag(ρ, √−2)` with `ρ = e^(2πi/3)`, `E₄(ρ) = 0` and `E₆(ρ)E₆(√−2) ≠ 0`, so `f` is regular with value `0` and `1/f = ψ₆²/ψ₄³` is outside the evaluation local ring there. A constant model takes one value at both points.
+- A constant `ζ_N` evaluates to itself at every point. For `g = 2` and `N = 5`, `U = diag(2,2,1,1)` lies in `GSp₄(ℤ/5ℤ)` with multiplier `ν(U) = 2`, so it sends `ζ₅` to `ζ₅² ≠ ζ₅`, and `U²` sends it to `ζ₅⁴`, as the multiplication law requires. Omitting the coefficient action leaves `ζ₅` fixed, and using `det U = ν(U)² = 4` in place of the multiplier sends `ζ₅` to `ζ₅⁴`. On `GSp_{2g}` one has `det = ν^g`, so the two characters coincide only in genus one.
 
 **Explicit reciprocity on CM level functions**. Let `(E,Φ)` be primitive, `(I,ξ)` principally polarized in Streng’s Riemann-form convention, `B` a symplectic basis, `τ` its Siegel period matrix, `N≥1`, `O={x∈E:xI⊂I}` and `F O_E⊂O` with `F` least. Let `f∈F_N` have `q`-expansion in `ℚ(ζ_N)` and be finite at `τ`. For an `E*`-ideal `a` prime to `NF`, choose a symplectic basis `C` of `NΦ,O(a)⁻¹I` for the rescaled form `N(a)ξ`. If `C=M B` (row convention), then `τ′=Mτ`, `ν(M)=N(a)⁻¹`, `U=(M mod N)⁻¹` and `f(τ)^{Art(a)}=f^U(τ′)`. Both the coefficient-field action and the inverse matrix are part of the formula.
 
