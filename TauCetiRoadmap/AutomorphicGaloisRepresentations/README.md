@@ -124,7 +124,9 @@ uniformiser. The eigenvalues `t_v` and `s_v` are those of the double cosets
 **geometric** Frobenius. For `v∤ℓ` the cyclotomic character `ε_ℓ` has value `q_v⁻¹`
 there, and corresponds to `|·|_v`. At `v|ℓ` its reciprocity values include
 the algebraic norm factor specified in §4.11; `q_v⁻¹` is not its value
-at a coefficient-prime uniformizer.
+at a coefficient-prime uniformizer. The same character is also written `χ_ℓ`,
+and `ε_p` or `χ_p` when the coefficient prime is called `p`; these names never
+denote the central character `χ_{π,λ}` below or the nebentypus `ψ`.
 
 The single Hilbert object used throughout is `ρ_{π,λ}`, characterized at good
 geometric Frobenius by
@@ -2211,7 +2213,7 @@ and every extraordinary cuspidal `π_v`: its base-change lift corresponds to
 the irreducible restriction of its Weil representation to `W_L`. The comparison
 also holds in the Hecke normalization.
 
-*Needs:* `GL2AutomorphicRepresentationsAndTransfer:R17.4`; `GL2AutomorphicRepresentationsAndTransfer:R17.5`; `GL2AutomorphicRepresentationsAndTransfer:R16.3`; `GL2AutomorphicRepresentationsAndTransfer:§R17.4.17`.
+*Needs:* `GL2AutomorphicRepresentationsAndTransfer:R17.4`; `GL2AutomorphicRepresentationsAndTransfer:R17.5`; `GL2AutomorphicRepresentationsAndTransfer:R16.3`; `GL2AutomorphicRepresentationsAndTransfer:§R17.4.17`; for the global descent, [3.7 Carayol's Theorem B](#37-carayols-theorem-b) and [3.8 Primitive two-dimensional restriction](#38-primitive-two-dimensional-restriction).
 
 See [Henri Carayol](https://www.numdam.org/article/ASENS_1986_4_19_3_409_0.pdf) — 12.2.2, Proposition, p. 457; [Henri Carayol](https://www.numdam.org/article/ASENS_1986_4_19_3_409_0.pdf) — 12.2.3, p. 458.
 
@@ -2957,7 +2959,7 @@ all-unit/uniformizer comparison is obtained by the intervening argument of
 - For the chosen regular Hilbert refinement, identify the rational line and both graded lattices with §4.11's characters; its ordinary specialization requires the quotient to be unramified.
 - The unit root `α` and the specified ordinary filtration proved above of the fixed representation.
 - The unramified quotient character with arithmetic `Frob` eigenvalue `α`.
-- The subcharacter is `εχ_p^{k−1}` times the inverse quotient character.
+- The subcharacter is `ψχ_p^{k−1}` times the inverse quotient character.
 - Intersection with the specified ordinary line gives an invariant `O_λ`-submodule. For a domain `O` with fraction field `K`, `T/T⁺` is torsion-free for every `K`-subspace `V⁺`, where `T⁺=T∩V⁺`.
 - Flat coefficient extension transports the line and lattice intersection with the appropriate saturation comparison.
 - Use the already specified rational period line under the realisation comparison.
@@ -2969,11 +2971,11 @@ all-unit/uniformizer comparison is obtained by the intervening argument of
 - `X²+X+3` has one 3-adic unit root; choose that root for the unramified quotient.
 - `X²+2X+2` at 2 has no unit root; ordinary refinement is not defined.
 - For a DVR `O` with fraction field `K`, the standard lattice `T=O²⊆K²` and `V⁺=Ke₁` have intersection `Oe₁`. The actual quotient `T/T⁺≃ₗ[O]O` is induced by the second coordinate; `ϖ_λOe₁` instead has torsion quotient and fails the contract.
-- The two characters multiply to `εχ_p^{k−1}`, including the unramified unit-root factor.
+- The two characters multiply to `ψχ_p^{k−1}`, including the unramified unit-root factor.
 - For `V⁺=0` the intersection in `V` and its inverse image in `T` are both zero; the quotient is `T`. In particular, `T=O²⊆K²` gives a torsion-free quotient of rank two.
 - For `V⁺=V` the intersection is `T` and its inverse image is the whole module `T`; the quotient is zero.
 - For a finite full `T⊆K²` and `V⁺=Ke₁` the two intersection presentations agree under `T↪V`, and the actual quotient has rank one over `O`.
-- At `k=(2,4)`, the normalization has `v=(1,0)`; on principal units the algebraic factor is `σ₁(u)⁻¹`. For `σ₁(u)=1+p` and trivial `ε₁,p`, its value is `(1+p)⁻¹`, not 1. A formula using only the finite unit character fails this nonparallel control.
+- At `k=(2,4)`, the normalization has `v=(1,0)`; on principal units the algebraic factor is `τ₁(u)⁻¹`. For `τ₁(u)=1+p` and `ν(u)=1`, its value is `(1+p)⁻¹`, not 1. A formula using only the finite unit character fails this nonparallel control.
 
 ### 5.2 Good-prime crystalline and Wach factors
 
@@ -3606,7 +3608,7 @@ embedding. It contains no second polynomial, bad-set or Hodge data. The
 existence of such choices is stronger than `E`-rationality of good polynomials;
 it does not assert descent to the minimal rationality field. The model for
 our fixed Hilbert family is `V_λ=ρ_{π,λ}`. No canonical basis or intertwiner is
-part of the assertion. The Hodge labels use the `D_HT` grading with `ε` of degree
+part of the assertion. The Hodge labels use the `D_HT` grading with `ε_ℓ` of degree
 `−1`, and the member is `ρ`, rather than its arithmetic dual or `σ_Carayol`.
 
 (Source: SmallRamificationAndAbelianVarietyBaseCases §5.0d, shared raw data
