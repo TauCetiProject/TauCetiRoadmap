@@ -557,6 +557,26 @@ uses 2.1 and 2.2, and 2.4 uses 2.3.
 
 None known.
 
+## Provenance: existing formalizations outside Tau Ceti
+
+This section is secondary: it maps existing Lean code to targets and prescribes nothing. The
+Apache-2.0 repository AxiomMath, *The Stacks Project in Lean* (References), formalizes the Stacks
+Project on Mathlib. Its `StacksFrontier` tier is written by AI agents and builds without `sorry`;
+the repository records it as unreviewed by humans, and it is built on Lean and Mathlib v4.35.0,
+earlier than our pin. It is not a dependency: a statement read there is compared with the target
+here before it is used, adaptation is agreed with its maintainers first, and adapted code keeps its
+Apache-2.0 notices.
+
+`StacksFrontier/AlgebraicGeometry/WeilCohomology` follows the Stacks chapter *Weil Cohomology
+Theories*. `ClassicalTheory.lean` defines classical Weil cohomology theories over abstract Chow
+cycle data, with the Künneth map, cycle classes of external products and the projection formula (Tag
+0FGV); `Correspondences/` builds correspondences, their composition, graphs, transposes and the
+graded category of correspondences; `Motives/` builds Chow motives as a Karoubi envelope (Tag 0FGA),
+with duality and Manin's identity principle. These are the objects of 2.1 and 2.2, which this
+roadmap takes from MotivesAndAlgebraicCycles. No file name or tag there treats Lefschetz structures,
+primitive decompositions or the Lefschetz inverse (Layer 0), the conditional theorems of 1.2–1.4 or
+the comparison of 2.4, and weak and hard Lefschetz are not among the axioms of 0FGV.
+
 ## References
 
 All checked on zbMATH.
@@ -577,3 +597,7 @@ All checked on zbMATH.
   Zbl 1109.14012. arXiv:math/0501348 (v3 read; numbering as there).
 - A. Beilinson, « Remarks on Grothendieck's standard conjectures », in *Regulators*, Contemp.
   Math. 571, AMS, 2012, 25–32. Zbl 1268.14007. arXiv:1006.1116 (v2 read; numbering as there).
+- AxiomMath, *The Stacks Project in Lean*. Lean 4 formalization at commit
+  c496df0d9beea9deaeabcea8492605f9a0a2313b, Apache-2.0, built on Lean and Mathlib v4.35.0;
+  directories `StacksFrontier/AlgebraicGeometry/WeilCohomology`.
+  https://github.com/AxiomMath/Stacks/tree/c496df0d9beea9deaeabcea8492605f9a0a2313b/StacksFrontier
