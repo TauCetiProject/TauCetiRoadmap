@@ -7,15 +7,16 @@ end theorems, for knots in the unit sphere `S³` of `ℝ⁴`, are: ribbon concor
 and transitive (1.2); for a ribbon concordance `F` from `K₀` to `K₁`, the inclusion of the
 complement of `K₀` into the complement of `F` in `S³ × [0, 1]` is injective on fundamental
 groups and that of `K₁` surjective (Gordon, 1.3); if `K₀` and `K₁` are each ribbon concordant to
-the other, they are smoothly ambient isotopic (Agol, 1.4). It also states, as targets whose
-carriers are owned elsewhere, the monotonicity of the Seifert genus and of the degree of the
-Alexander polynomial under ribbon concordance (1.5) and Lisca's theorem that a smoothly slice
-two-bridge knot is ribbon (2.1).
+the other, they are smoothly ambient isotopic (Agol, 1.4). A knot is ribbon exactly when the unknot
+is ribbon concordant to it (1.1). It also states, as targets whose carriers are owned elsewhere,
+the monotonicity of the Seifert genus and of the degree of the Alexander polynomial under ribbon
+concordance (1.5) and Lisca's theorem that a smoothly slice two-bridge knot is ribbon (2.1).
 
 ## Scope and ownership
 
 Owned here: the ribbon disc and the ribbon knot (0.1), the ribbon concordance relation and its
-order properties (1.1–1.4), and the statement of Lisca's theorem (2.1).
+order properties (1.1–1.4) with the three inputs of Agol's proof stated in 1.4, Zemke's
+injectivity theorem (1.5), and Lisca's theorem with the branched-cover step of its proof (2.1).
 
 Not owned here:
 
@@ -23,10 +24,16 @@ Not owned here:
   Layer 6.1), on the Tau Ceti carriers `TauCeti.SmoothCircleEmbedding`, `TauCeti.IsSmoothlySlice`
   and `TauCeti.SmoothEmbedding.Concordance`.
 - The Seifert surface and the Seifert genus are GeometricTopology 4.3's; the Alexander polynomial
-  is GeometricTopology 4.4's; the Fox–Milnor condition and the Levine–Tristram signatures of
-  slice knots are GeometricTopology 6.2's; two-bridge knots are GeometricTopology 4.10's.
-- Knot Floer homology, and with it Zemke's injectivity theorem behind 1.5, is HeegaardFloer's
-  (Layer 7.6).
+  and the determinant are GeometricTopology 4.4's; the Levine–Tristram signatures of slice knots
+  are GeometricTopology 6.2's; two-bridge knots are GeometricTopology 4.10's; knot exteriors with
+  their meridians and preferred longitudes are GeometricTopology 5.1's; Waldhausen's relative
+  realization theorem is GeometricTopology 8.3.1's.
+- Knot Floer homology is HeegaardFloer's (Layer 7.6); Zemke's injectivity theorem (Zemke 2019,
+  Theorem 1.1) is a target of 1.5. Its concordance maps and the detection of the Seifert genus
+  are asked of HeegaardFloer below (gap:hfk-concordance-maps, gap:hfk-genus-detection).
+- Donaldson's diagonalization theorem is FourManifolds' (§5.3); the form without a hypothesis on
+  the fundamental group, which 2.1 uses, is asked of FourManifolds below
+  (gap:donaldson-definite-any-pi1). Lens spaces are Tau Ceti's (`TauCeti.LensSpace`).
 
 ## Conventions
 
@@ -40,7 +47,7 @@ Not owned here:
   `RibbonLE K₀ K₁`. This is Zemke's « ribbon concordance from `K₀` to `K₁` » (cobordism
   orientation); Gordon and Agol call the same object a ribbon concordance from `K₁` to `K₀` and
   write `K₁ ≥ K₀`. Witness: a ribbon disc for `K`, with a small disc around a minimum removed,
-  is a ribbon concordance with the unknot at time `0`, so it gives `RibbonLE unknot K`, never
+  is a ribbon concordance with the unknot at time `0`, so it gives `RibbonLE unknot K` (1.1), never
   `RibbonLE K unknot` unless `K` is the unknot.
 - **Reading the circle.** The time function of a concordance is read on the plane through
   `Circle.exp : ℝ → Circle`, of period `2π`. Witness: `timeFunction F (s + 2π, t) =
@@ -53,36 +60,64 @@ Not owned here:
 
 - `Metric.closedBall`, `Metric.ball`, `Metric.sphere`, `EuclideanSpace ℝ (Fin 4)`, `fderiv`,
   `Circle.exp`, `ContinuousMap`, `FundamentalGroup` and `FundamentalGroup.map`.
+- `Subgroup.Normal`, `Subgroup.FiniteIndex`, `Matrix.specialOrthogonalGroup`, `MonoidHom.comp`
+  and `MvPolynomial.eval`.
 
 ### From Tau Ceti
 
 - `TauCeti.Analysis.Calculus.Morse.Basic`: `TauCeti.HasNondegenerateCriticalPointsOn`;
   `TauCeti.Analysis.Calculus.Morse.Index`: `TauCeti.morseIndex`.
-- `TauCeti.KnotTheory.Slice.Basic`: `TauCeti.IsSmoothSliceDisc`, `TauCeti.IsSmoothlySlice`;
-  `TauCeti.KnotTheory.SmoothCircle`: `TauCeti.SmoothCircleEmbedding`.
+- `TauCeti.KnotTheory.Slice.Basic`: `TauCeti.IsSmoothSliceDisc`, `TauCeti.IsSmoothlySlice`,
+  `TauCeti.isSmoothlySlice_rotate_iff`, `TauCeti.isSmoothlySlice_reverse_iff`,
+  `TauCeti.isSmoothlySlice_congr_linearIsometryEquiv`.
+- `TauCeti.KnotTheory.SmoothCircle`: `TauCeti.SmoothCircleEmbedding`,
+  `TauCeti.SmoothCircleEmbedding.rotate`, `TauCeti.unknot`; `TauCeti.KnotTheory.KnotGroup`:
+  `TauCeti.SmoothCircleEmbedding.KnotGroup`.
 - `TauCeti.Geometry.Manifold.SmoothEmbedding.Concordance`: `TauCeti.SmoothEmbedding.Concordance`
-  with `refl`, `symm` and `trans`;
+  with `refl`, `symm`, `trans` and `ofDiffeotopy`;
   `TauCeti.Geometry.Manifold.SmoothEmbedding.SmoothAmbientIsotopy.Basic`:
   `TauCeti.SmoothEmbedding.SmoothAmbientIsotopic`.
+- `TauCeti.Geometry.Manifold.Instances.Sphere`: `TauCeti.finrank_euclideanSpace_fin_succ_fact`;
+  `TauCeti.Geometry.Manifold.Instances.LensSpace`: `TauCeti.LensSpace`.
 
 ### From TauCetiRoadmap.GeometricTopology
 
-- Section 4.3, the Seifert genus of a knot; section 4.4, its Alexander polynomial; section 4.10,
-  the two-bridge knots `K(p, q)`. These are consumed by 1.5 and 2.1 only, which are not statable
-  until those carriers exist.
+- Section 4.3, the Seifert genus of a knot; section 4.4, its Alexander polynomial and its
+  determinant `|Δ(−1)|`; section 4.10, the two-bridge knots `K(p, q)`. These are consumed by 1.5
+  and 2.1, whose statements need them and are not statable at the pins.
+- Section 5.1, knot exteriors with their meridians and preferred longitudes, and section 8.3.1,
+  the relative Waldhausen realization from peripheral group systems to maps of pairs, consumed by
+  the proof of 1.4.
 
 ### From TauCetiRoadmap.HeegaardFloer
 
-- Section 7.6, knot Floer homology and its concordance maps, consumed by the proof of 1.5.
+- Section 7.6, the knot Floer complexes, consumed by 1.5.
+
+What HeegaardFloer must provide (gap:hfk-concordance-maps): for a decorated smooth concordance `C`
+from `K₀` to `K₁` in `[0, 1] × S³`, a graded map `F_C : HFK̂(K₀) → HFK̂(K₁)`, functorial under
+stacking and the identity on the product concordance.
+
+What HeegaardFloer must provide (gap:hfk-genus-detection): `g₃(K) = max{j : HFK̂(K, j) ≠ 0}`
+(Ozsváth–Szabó, Theorem 1.2, as recalled in Zemke 2019, §1).
+
+### From TauCetiRoadmap.FourManifolds
+
+- §5.3, Donaldson's diagonalization theorem, consumed by the proof of 2.1.
+
+What FourManifolds must provide (gap:donaldson-definite-any-pi1): the intersection lattice of a
+closed oriented smooth negative-definite four-manifold, with no hypothesis on its fundamental
+group, is diagonal (the theorem Lisca 2007, §1, cites as [4]).
 
 ## How to read the build
 
 Layer 0 defines ribbon discs and ribbon knots from Tau Ceti's slice discs and Morse indices.
-Layer 1 defines ribbon concordance on Tau Ceti's concordances, proves that it is reflexive and
-transitive, proves Gordon's lemma on fundamental groups and, from it and representation varieties,
-Agol's antisymmetry; its last target, the monotonicity of genus and Alexander degree, needs
-GeometricTopology and HeegaardFloer. Layer 2 states Lisca's theorem for two-bridge knots on
-GeometricTopology's two-bridge knots. Layers 1 and 2 use Layer 0 only through the definitions.
+Layer 1 defines ribbon concordance on Tau Ceti's concordances, compares it with Layer 0's ribbon
+discs, proves that it is reflexive and transitive, proves Gordon's lemma on fundamental groups and,
+from it, residual finiteness, the extension of representations and a lemma of real algebraic
+geometry, Agol's antisymmetry, which also uses GeometricTopology's knot exteriors and Waldhausen's
+theorem; its last target, the monotonicity of genus and Alexander degree, needs GeometricTopology
+and HeegaardFloer. Layer 2 states Lisca's theorem on GeometricTopology's two-bridge knots; its
+proof uses Tau Ceti's lens spaces and FourManifolds' Donaldson theorem.
 
 ## Layer 0: ribbon discs
 
@@ -91,10 +126,12 @@ GeometricTopology's two-bridge knots. Layers 1 and 2 use Layer 0 only through th
 Define the squared radial function `radialFunction Φ` of a map `Φ` from the closed unit disc of
 `ℂ` to the closed unit ball of `E`, and a ribbon disc `IsRibbonDisc K Φ` for a smooth circle
 embedding `K : S¹ → Sⁿ`: a smooth slice disc (`TauCeti.IsSmoothSliceDisc K Φ`) on whose open disc
-`radialFunction Φ` has only nondegenerate critical points, none of index `2`. Define
-`IsRibbon K` as the existence of a ribbon disc. Prove that a ribbon knot is smoothly slice, and
-that being ribbon is invariant under rotation and reversal of the parametrization and under
-linear isometries of `E`, as Tau Ceti proves for sliceness (Livingston 2005, Definition 2.3).
+`radialFunction Φ` has only nondegenerate critical points, none of index `2` (Livingston 2005,
+Definition 2.3). Define `IsRibbon K` as the existence of a ribbon disc. Prove that a ribbon knot
+is smoothly slice, and that being ribbon is invariant under rotation and reversal of the
+parametrization and under linear isometries of `E` (by the arguments of
+`TauCeti.isSmoothlySlice_rotate_iff`, `TauCeti.isSmoothlySlice_reverse_iff` and
+`TauCeti.isSmoothlySlice_congr_linearIsometryEquiv`).
 
 *Needs:* `TauCeti.IsSmoothSliceDisc`, `TauCeti.IsSmoothlySlice`,
 `TauCeti.HasNondegenerateCriticalPointsOn`, `TauCeti.morseIndex`.
@@ -134,8 +171,15 @@ the time function `timeFunction F (s, t) = pr₂ (F (exp (i s), t))` of a concor
 critical points, none of index `2`) and the relation `RibbonLE K₀ K₁`. The notion is Gordon's
 (Gordon 1981, §1; Agol 2022, §1).
 
-*Needs:* `TauCeti.SmoothEmbedding.Concordance`, `TauCeti.HasNondegenerateCriticalPointsOn`,
-`TauCeti.morseIndex`, `Circle.exp`.
+Prove that a knot `K` in `S³` is ribbon iff `RibbonLE unknot K` (`isRibbon_iff_ribbonLE_unknot`):
+remove a small disc around the lowest minimum of the radial function and rescale the shell to
+`S³ × [0, 1]`; conversely, cap the unknot end with a flat disc (Zemke 2019, §1, takes the right
+side as the definition).
+
+*Needs:* 0.1, `TauCeti.SmoothEmbedding.Concordance`, `TauCeti.HasNondegenerateCriticalPointsOn`,
+`TauCeti.morseIndex`, `Circle.exp`, `TauCeti.unknot`,
+`TauCeti.SmoothEmbedding.Concordance.ofDiffeotopy`, `TauCeti.SmoothEmbedding.Concordance.trans`,
+`TauCeti.finrank_euclideanSpace_fin_succ_fact`.
 
 **Checks.**
 
@@ -152,7 +196,7 @@ critical points, none of index `2`) and the relation `RibbonLE K₀ K₁`. The n
 
 ### 1.2 Reflexivity and transitivity
 
-Prove `ribbonLE_refl K : RibbonLE K K`, by the product concordance, and `RibbonLE.trans`, by
+Prove that `RibbonLE` is reflexive, by the product concordance, and `RibbonLE.trans`, by
 stacking two ribbon concordances with `Concordance.trans` (Agol 2022, §1).
 
 *Needs:* 1.1, `TauCeti.SmoothEmbedding.Concordance` with `refl` and `trans`.
@@ -161,8 +205,9 @@ stacking two ribbon concordances with `Concordance.trans` (Agol 2022, §1).
 
 - Tau Ceti's stacked track runs each track at triple speed: below time `1/2` its time function is
   `(s, t) ↦ timeFunction F (s, 3t) / 3`, whose Hessian is `D H D / 3` with `D = diag(1, 3)` and
-  `H` that of `timeFunction F`, so nondegeneracy and indices are preserved. A reparametrization
-  `t ↦ −3t` would send index `k` to `2 − k`.
+  `H` that of `timeFunction F`, so nondegeneracy and indices are preserved. Negating the time
+  function, as `Concordance.symm` does (1.1, second Check), sends index `k` to `2 − k`; a change
+  of the source coordinate alone, even `t ↦ −3t`, leaves every index unchanged.
 - The critical values of the stack are those of the first concordance divided by `3`, in
   `(0, 1/3)`, and those of the second sent by `v ↦ (v + 2)/3`, in `(2/3, 1)`: on
   `1/3 ≤ t ≤ 2/3` both tracks are in their product collars and there is no critical point.
@@ -172,12 +217,13 @@ stacking two ribbon concordances with `Concordance.trans` (Agol 2022, §1).
 
 Define `trackComplement F`, the complement of the track of `F` in `S³ × [0, 1]`. For a ribbon
 concordance `F` from `K₀` to `K₁`, prove that the inclusion `x ↦ (x, 0)` of the complement of
-`K₀` induces an injection on fundamental groups
-(`knotGroup_injective_of_isRibbonConcordance`) and the inclusion `x ↦ (x, 1)` of the complement
-of `K₁` a surjection (`knotGroup_surjective_of_isRibbonConcordance`) (Gordon 1981, Lemma 3.1, in
+`K₀` induces an injection on knot groups (`knotGroup_injective_of_isRibbonConcordance`) and the
+inclusion `x ↦ (x, 1)` of the complement of `K₁` a surjection
+(`knotGroup_surjective_of_isRibbonConcordance`) (Gordon 1981, Lemma 3.1, in
 the direction of Zemke 2019, §1).
 
-*Needs:* 1.1, `FundamentalGroup.map`, `TauCeti.SmoothEmbedding.Concordance`.
+*Needs:* 1.1, `FundamentalGroup.map`, `TauCeti.SmoothEmbedding.Concordance`,
+`TauCeti.SmoothCircleEmbedding.KnotGroup`.
 
 **Checks.**
 
@@ -199,28 +245,51 @@ relative s-cobordism by representation varieties of the knot groups into `SO(N)`
 Theorem 1.2); with Gordon's lemma the inclusions induce isomorphisms preserving the peripheral
 subgroups, and the knots are isotopic (Agol 2022, Theorem 1.1, through Gordon 1981, Lemma 3.2).
 
-*Needs:* 1.2, 1.3, `TauCeti.SmoothEmbedding.SmoothAmbientIsotopic`.
+The proof uses three further results, each a target here:
+
+- knot groups are residually finite (`knotGroup_residuallyFinite`: a nontrivial element survives
+  in a finite quotient; Hempel 1987, as used in Agol 2022, proof of Theorem 1.2);
+- every `SO(N)`-representation of the knot group of the time-`0` end of a ribbon concordance
+  extends over the complement of the concordance (`exists_extension_of_isRibbonConcordance`;
+  Agol 2022, proof of Theorem 1.2, citing Daemi, Lidman, Vela-Vick and Wong 2022,
+  Proposition 2.1, after Gerstenhaber and Rothaus);
+- if `Y ⊆ X` are real algebraic sets and a polynomial map sends `Y` onto `X`, then `Y = X`
+  (`algebraicSet_eq_of_surjOn`; Agol 2022, Lemma A.2).
+
+*Needs:* 1.2, 1.3, `TauCeti.SmoothEmbedding.SmoothAmbientIsotopic`,
+`TauCeti.SmoothCircleEmbedding.KnotGroup`, `Matrix.specialOrthogonalGroup`, `MvPolynomial.eval`;
+GeometricTopology 5.1 (knot exteriors, peripheral markings) and 8.3.1 (relative Waldhausen
+realization).
 
 **Checks.**
 
-- `RibbonLE.antisymm (ribbonLE_refl K) (ribbonLE_refl K)` returns the isotopy class of `K`
-  itself.
+- For `a ≠ 1` in the circle, `K` and `K.rotate a` are ribbon concordant in both directions,
+  through the trace of a rotation of the circle (time function `t`, no critical point), yet differ
+  as maps since `K` is injective: the conclusion must be isotopy, not equality.
 - Concordance alone is symmetric, so the theorem fails for it: the unknot and a nontrivial slice
   knot are concordant both ways but not isotopic. The ribbon condition is what is used.
 - With `K₀ = unknot`: a knot `K` with `RibbonLE unknot K` and `RibbonLE K unknot` is isotopic
   to the unknot. A ribbon knot that is not the unknot, such as `K(9, 2)` of 2.1,
   therefore never satisfies `RibbonLE K unknot`.
+- For the unknot the knot group is `ℤ`, and `g ≠ 0` survives in `ℤ/m` for every `m > |g|`. For
+  `refl K`, `trackComplement (refl K) = (S³ ∖ K) × [0, 1]`, and `ρ` extends as `ρ` composed with
+  the map induced by the projection to `S³ ∖ K`.
+- The inclusion `Y ⊆ X` cannot be dropped in `algebraicSet_eq_of_surjOn`: in `ℝ²`, the map
+  `φ(x, y) = (x − y, 0)` sends `Y = {xy = 1}` onto the line `X = {y = 0}`, since `x − 1/x` takes
+  every real value, yet `Y ≠ X` (after the remark in Agol 2022, proof of Lemma A.2).
 
 ### 1.5 Monotonicity under ribbon concordance
 
 If `RibbonLE K₀ K₁`, then the Seifert genus of `K₀` is at most that of `K₁` (Zemke 2019,
 Theorem 1.3) and the degree of the Alexander polynomial of `K₀` is at most that of `K₁` (Gordon
-1981, Lemma 3.4). Zemke's proof is the injectivity of the map induced on knot Floer homology
-(Zemke 2019, Theorem 1.1) with the detection of the genus by knot Floer homology. Not statable
-at the pins: Tau Ceti has no Seifert genus and no Alexander polynomial of a smooth circle
-embedding.
+1981, Lemma 3.4). Prove first Zemke's injectivity theorem: for a ribbon concordance `C` from
+`K₀` to `K₁`, the map `F_C : HFK̂(K₀) → HFK̂(K₁)` is injective (Zemke 2019, Theorem 1.1); with the
+detection of the genus by knot Floer homology it gives the genus inequality (Zemke 2019,
+Theorem 1.3). Not statable at the pins: Tau Ceti has no Seifert genus, no Alexander polynomial of
+a smooth circle embedding and no knot Floer homology.
 
-*Needs:* 1.1, GeometricTopology 4.3, GeometricTopology 4.4, HeegaardFloer 7.6.
+*Needs:* 1.1, GeometricTopology 4.3, GeometricTopology 4.4, HeegaardFloer 7.6,
+gap:hfk-concordance-maps, gap:hfk-genus-detection.
 
 **Checks.**
 
@@ -237,7 +306,8 @@ embedding.
 
 ### Dependencies
 
-Layer 0 (definitions only), Tau Ceti; 1.5 also GeometricTopology 4.3, 4.4 and HeegaardFloer 7.6.
+Layer 0, Tau Ceti; 1.4 also GeometricTopology 5.1 and 8.3.1; 1.5 also GeometricTopology 4.3,
+4.4 and HeegaardFloer 7.6 (gap:hfk-concordance-maps, gap:hfk-genus-detection).
 
 ## Layer 2: two-bridge knots
 
@@ -246,9 +316,13 @@ Layer 0 (definitions only), Tau Ceti; 1.5 also GeometricTopology 4.3, 4.4 and He
 For coprime `p > q > 0` with `p` odd, the two-bridge knot `K(p, q)` is ribbon if and only if it
 is smoothly slice, if and only if the lens space `L(p, q)` smoothly bounds a rational homology
 ball (Lisca 2007, Corollary 1.3, from Theorem 1.2 through Donaldson's diagonalization theorem).
-Not statable at the pins: Tau Ceti has no two-bridge knot as a smooth circle embedding.
+Prove on the way that the double cover of `B⁴` branched along a slice disc of `K(p, q)`, `p` odd,
+is a smooth rational homology ball bounded by `L(p, q)` (Lisca 2007, §1). Not statable at the
+pins: Tau Ceti has no two-bridge knot as a smooth circle embedding and no branched cover.
 
-*Needs:* 0.1, GeometricTopology 4.10.
+*Needs:* 0.1; GeometricTopology 4.10 and 4.4 (the determinant); the lens spaces of
+`TauCeti/Geometry/Manifold/Instances/LensSpace.lean`; FourManifolds §5.3,
+gap:donaldson-definite-any-pi1.
 
 **Checks.**
 
@@ -256,9 +330,9 @@ Not statable at the pins: Tau Ceti has no two-bridge knot as a smooth circle emb
   as recalled in Lisca 2007, §1), and `L(3, 1)` bounds no rational homology ball.
 - `9/2` belongs to Lisca's set `R` (`p = 9 = 3²`, `q = 2 = 3·1 − 1`, type (1) of Lisca 2007,
   Definition 1.1), so `K(9, 2)` is ribbon and `L(9, 2)` bounds a rational homology ball.
-- `K(5, 2)` is the figure-eight knot: `5` is not a perfect square, so it is neither slice nor
-  ribbon, although its Alexander polynomial `−t + 3 − t⁻¹` has determinant `5` and its signature
-  is `0`; the obstruction used is Casson and Gordon's, not the signature.
+- `K(5, 2)` is the figure-eight knot: its determinant `|Δ(−1)| = 5` is not a perfect square, so
+  it is neither slice nor ribbon (Lisca 2007, §1) and `L(5, 2)` bounds no rational homology ball;
+  its signature `0` does not detect this.
 
 ### Examples
 
@@ -266,7 +340,8 @@ Not statable at the pins: Tau Ceti has no two-bridge knot as a smooth circle emb
 
 ### Dependencies
 
-Layer 0, GeometricTopology 4.10.
+Layer 0, GeometricTopology 4.4 and 4.10, FourManifolds §5.3 (gap:donaldson-definite-any-pi1),
+Tau Ceti's lens spaces.
 
 ## Downstream consumers
 
@@ -279,15 +354,17 @@ form of Livingston 2005, §10, Problem 1). It is open. Lisca's theorem (2.1) set
 two-bridge knots. Gompf, Scharlemann and Thompson (2010) give fibered slice knots that are
 potential counterexamples. Dunfield and Gong (2025) determine smooth sliceness for all but about
 11,400 of the 352.2 million prime knots with at most nineteen crossings, and every smoothly slice
-knot they find is ribbon. Casson observed that for every slice knot `K` there is a ribbon knot
-`J` with `K # J` ribbon (Livingston 2005, §2.1). In the topological category the corresponding
-question is whether every slice knot is homotopy ribbon, and Friedl and Powell (2020) extend
-Gordon's degree bound (1.5) to homotopy ribbon concordance.
+knot they find is ribbon. By an observation of Casson, every slice knot becomes ribbon after
+connected sum with a suitably chosen ribbon knot (Livingston 2005, §2.1). In the topological
+category the corresponding question is whether every slice knot is homotopy ribbon, and Friedl
+and Powell (2020) extend Gordon's degree bound (1.5) to homotopy ribbon concordance.
 
 ## References
 
 - I. Agol, *Ribbon concordance of knots is a partial ordering*, Comm. Amer. Math. Soc. 2 (2022),
   374–379; doi:10.1090/cams/15; arXiv:2201.03626.
+- A. Daemi, T. Lidman, D. S. Vela-Vick, C.-M. M. Wong, *Ribbon homology cobordisms*, Adv. Math.
+  408 (2022), Paper No. 108580; doi:10.1016/j.aim.2022.108580; arXiv:1904.09721.
 - N. M. Dunfield, S. Gong, *Ribbon concordances and slice obstructions: experiments and
   examples*, arXiv:2512.21825 (2025).
 - R. H. Fox, *Some problems in knot theory*, in *Topology of 3-manifolds and related topics*,
@@ -299,6 +376,9 @@ Gordon's degree bound (1.5) to homotopy ribbon concordance.
   arXiv:1103.1601.
 - C. McA. Gordon, *Ribbon concordance of knots in the 3-sphere*, Math. Ann. 257 (1981), 157–170;
   doi:10.1007/BF01458281.
+- J. Hempel, *Residual finiteness for 3-manifolds*, in *Combinatorial group theory and topology
+  (Alta, Utah, 1984)*, Ann. of Math. Stud. 111, Princeton Univ. Press (1987), 379–396;
+  doi:10.1515/9781400882083-018.
 - P. Lisca, *Lens spaces, rational balls and the ribbon conjecture*, Geom. Topol. 11 (2007),
   429–472; doi:10.2140/gt.2007.11.429; arXiv:math/0701610.
 - C. Livingston, *A survey of classical knot concordance*, in *Handbook of Knot Theory*,

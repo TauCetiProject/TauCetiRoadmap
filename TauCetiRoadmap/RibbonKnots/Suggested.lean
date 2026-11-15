@@ -4,6 +4,7 @@ public import Mathlib
 public import TauCeti.Analysis.Calculus.Morse.Index
 public import TauCeti.Geometry.Manifold.SmoothEmbedding.Concordance
 public import TauCeti.Geometry.Manifold.SmoothEmbedding.SmoothAmbientIsotopy.Basic
+public import TauCeti.KnotTheory.KnotGroup
 public import TauCeti.KnotTheory.Slice.Basic
 
 /-!
@@ -16,20 +17,25 @@ conditions on them.
 
 Headlines stated:
 
-* README 1.2, `ribbonLE_refl` and `RibbonLE.trans`: ribbon concordance is reflexive and
-  transitive;
+* README 1.1, `isRibbon_iff_ribbonLE_unknot`: a knot is ribbon iff the unknot is ribbon
+  concordant to it;
+* README 1.2, `RibbonLE.trans`: ribbon concordance is transitive;
 * README 1.3, `knotGroup_injective_of_isRibbonConcordance` and
   `knotGroup_surjective_of_isRibbonConcordance`: Gordon's lemma on the groups of the two ends;
+* README 1.4, `knotGroup_residuallyFinite`, `exists_extension_of_isRibbonConcordance` and
+  `algebraicSet_eq_of_surjOn`: the inputs of Agol's proof;
 * README 1.4, `RibbonLE.antisymm`: Agol's theorem, ribbon concordance is antisymmetric up to
   smooth ambient isotopy.
 
 Not stated:
 
-* README 1.5, monotonicity of the Seifert genus and of the degree of the Alexander polynomial,
-  lacking GeometricTopology 4.3's Seifert genus and GeometricTopology 4.4's Alexander polynomial
-  of a smooth circle embedding;
-* README 2.1, Lisca's theorem, lacking GeometricTopology 4.10's two-bridge knots as smooth
-  circle embeddings.
+* README 1.5, Zemke's injectivity theorem and the monotonicity of the Seifert genus and of the
+  degree of the Alexander polynomial, lacking HeegaardFloer 7.6's knot Floer homology with its
+  concordance maps, GeometricTopology 4.3's Seifert genus and GeometricTopology 4.4's Alexander
+  polynomial of a smooth circle embedding;
+* README 2.1, Lisca's theorem and the branched double cover of a slice disc, lacking
+  GeometricTopology 4.10's two-bridge knots as smooth circle embeddings and a branched cover of
+  the four-ball.
 -/
 
 public section
@@ -50,10 +56,10 @@ section Disc
 variable {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E] {n : ℕ}
   [Fact (finrank ℝ E = n + 1)]
 
+open scoped Classical in
 /-- The squared radial function `z ↦ ‖Φ z‖²` of a map `Φ` from the closed unit disc of `ℂ` to the
 closed unit ball of `E`, read on the plane: it is `0` outside the closed disc, where it is never
 used, since the ribbon condition only looks at the open disc. -/
-open scoped Classical in
 def radialFunction (Φ : closedBall (0 : ℂ) 1 → closedBall (0 : E) 1) : ℂ → ℝ :=
   fun z ↦ if h : z ∈ closedBall (0 : ℂ) 1 then ‖(Φ ⟨z, h⟩ : E)‖ ^ 2 else 0
 
@@ -105,9 +111,10 @@ structure IsRibbonConcordance (F : SmoothEmbedding.Concordance K₀ K₁) : Prop
 def RibbonLE (K₀ K₁ : Knot) : Prop :=
   ∃ F : SmoothEmbedding.Concordance K₀ K₁, IsRibbonConcordance F
 
-/-- The product concordance is a ribbon concordance: ribbon concordance is reflexive
-(README 1.2). -/
-theorem ribbonLE_refl (K : Knot) : RibbonLE K K := by
+attribute [local instance] TauCeti.finrank_euclideanSpace_fin_succ_fact in
+/-- A knot is ribbon iff the unknot is ribbon concordant to it: remove a small disc around the
+lowest minimum of the radial function, or cap the unknot end with a flat disc (README 1.1). -/
+theorem isRibbon_iff_ribbonLE_unknot (K : Knot) : IsRibbon K ↔ RibbonLE unknot K := by
   sorry
 
 /-- Ribbon concordance is transitive: stacking two ribbon concordances gives one (README 1.2). -/
@@ -128,7 +135,8 @@ induces an injection of fundamental groups. -/
 theorem knotGroup_injective_of_isRibbonConcordance {F : SmoothEmbedding.Concordance K₀ K₁}
     (hF : IsRibbonConcordance F) (i : C(((range K₀)ᶜ : Set S3), trackComplement F))
     (hi : ∀ x, (i x : S3 × ℝ) = ((x : S3), 0))
-    (x : ((range K₀)ᶜ : Set S3)) : Function.Injective (FundamentalGroup.map i x) := by
+    (x : ((range K₀)ᶜ : Set S3)) :
+    Function.Injective (FundamentalGroup.map i x : K₀.KnotGroup x →* _) := by
   sorry
 
 /-- **Gordon's lemma, second half** (README 1.3): for a ribbon concordance `F` from `K₀` to `K₁`,
@@ -137,7 +145,38 @@ induces a surjection of fundamental groups. -/
 theorem knotGroup_surjective_of_isRibbonConcordance {F : SmoothEmbedding.Concordance K₀ K₁}
     (hF : IsRibbonConcordance F) (i : C(((range K₁)ᶜ : Set S3), trackComplement F))
     (hi : ∀ x, (i x : S3 × ℝ) = ((x : S3), 1))
-    (x : ((range K₁)ᶜ : Set S3)) : Function.Surjective (FundamentalGroup.map i x) := by
+    (x : ((range K₁)ᶜ : Set S3)) :
+    Function.Surjective (FundamentalGroup.map i x : K₁.KnotGroup x →* _) := by
+  sorry
+
+/-- Knot groups are residually finite: a nontrivial element survives in a finite quotient
+(README 1.4, after Hempel). -/
+theorem knotGroup_residuallyFinite (K : Knot) (x : ((range K)ᶜ : Set S3)) {g : K.KnotGroup x}
+    (hg : g ≠ 1) : ∃ H : Subgroup (K.KnotGroup x), H.Normal ∧ H.FiniteIndex ∧ g ∉ H := by
+  sorry
+
+/-- For a ribbon concordance `F` from `K₀` to `K₁`, every `SO(N)`-representation of the knot
+group of `K₀` extends over the complement of `F` in the slab (README 1.4, after Daemi, Lidman,
+Vela-Vick and Wong, Proposition 2.1). -/
+theorem exists_extension_of_isRibbonConcordance {F : SmoothEmbedding.Concordance K₀ K₁}
+    (hF : IsRibbonConcordance F) (i : C(((range K₀)ᶜ : Set S3), trackComplement F))
+    (hi : ∀ x, (i x : S3 × ℝ) = ((x : S3), 0)) (x : ((range K₀)ᶜ : Set S3)) (N : ℕ)
+    (ρ : K₀.KnotGroup x →* Matrix.specialOrthogonalGroup (Fin N) ℝ) :
+    ∃ ρ' : FundamentalGroup (trackComplement F) (i x) →* Matrix.specialOrthogonalGroup (Fin N) ℝ,
+      ρ'.comp (FundamentalGroup.map i x) = ρ := by
+  sorry
+
+/-- **Agol's Lemma A.2** (README 1.4): if the real algebraic set `Y` cut out by `T` lies in the one
+`X` cut out by `S`, and a polynomial map `φ` sends `Y` onto `X`, then `Y = X`. -/
+theorem algebraicSet_eq_of_surjOn {n : ℕ} (S T : Set (MvPolynomial (Fin n) ℝ))
+    (φ : Fin n → MvPolynomial (Fin n) ℝ)
+    (hYX : {y : Fin n → ℝ | ∀ q ∈ T, MvPolynomial.eval y q = 0} ⊆
+      {x | ∀ p ∈ S, MvPolynomial.eval x p = 0})
+    (hφ : SurjOn (fun y j ↦ MvPolynomial.eval y (φ j))
+      {y : Fin n → ℝ | ∀ q ∈ T, MvPolynomial.eval y q = 0}
+      {x | ∀ p ∈ S, MvPolynomial.eval x p = 0}) :
+    {y : Fin n → ℝ | ∀ q ∈ T, MvPolynomial.eval y q = 0} =
+      {x | ∀ p ∈ S, MvPolynomial.eval x p = 0} := by
   sorry
 
 /-- **Agol's theorem** (README 1.4): ribbon concordance is antisymmetric up to smooth ambient
