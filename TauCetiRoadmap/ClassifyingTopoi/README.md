@@ -267,18 +267,18 @@ a quantifier over Grothendieck topoi), 1.2 (epimorphisms and coproducts in `Shea
 epimorphism being the coequalizer of its kernel pair, and the frame property of its subobject
 lattices, and `IsGrothendieckTopos.wellPowered`, for 2.4), the Examples of Layer 1 (`B G` as `Action
 (Type u) G`, for Convention 5 and 3.3), 1.4 (Giraud's axioms: coequalizers of internal equivalence
-relations are universal, so images are stable under pullback, for 1.4, 2.2 (b) and 2.4), 2.1
-(`GeometricMorphism`: left exact left adjoints between Grothendieck topoi are the inverse images of
-geometric morphisms), 2.2 (`GeometricMorphism.homEquivInverse`: 2-cells and transformations of
-inverse images), 2.4 (`GeometricMorphism.ofContinuous`: inverse images of continuous maps, for the
-Examples of Layer 1), 2.5 (`IsFiltering`, `nonempty_geometricMorphism_equiv_isFiltering`,
-Diaconescu's theorem, also for the site of definable objects of 2.4), 4.1 (`Subtopos`) and 4.2 (the
-subtopoi of `Sheaf J (Type u)` are the `Sheaf J' (Type u)` for `J' ≥ J`), for 2.5; 6.1 (points of a
-topos, `nonempty_point_equivalence`), for the Examples of Layer 2; 6.5 (connected nonempty
-projective objects, Roos's theorem `exists_equiv_presheaf_iff_essential_points`, and the essential
-points of `Cᵒᵖ ⥤ Type u` forming `Idempotents.Karoubi C`), for 3.3 and 3.5; 6.6
-(`IsIrreducibleObject` and `isIrreducibleObject_iff_projective_preservesCoproducts`), for 3.5 and
-3.6.
+relations are universal, so images are stable under pullback, for 1.4 and 2.2 (b); with universal
+coproducts, epimorphic families are stable under pullback, for 2.4), 2.1 (`GeometricMorphism`: left
+exact left adjoints between Grothendieck topoi are the inverse images of geometric morphisms), 2.2
+(`GeometricMorphism.homEquivInverse`: 2-cells and transformations of inverse images), 2.4
+(`GeometricMorphism.ofContinuous`: inverse images of continuous maps, for the Examples of Layer 1),
+2.5 (`IsFiltering`, `nonempty_geometricMorphism_equiv_isFiltering`, Diaconescu's theorem, also for
+the site of definable objects of 2.4), 4.1 (`Subtopos`) and 4.2 (the subtopoi of `Sheaf J (Type u)`
+are the `Sheaf J' (Type u)` for `J' ≥ J`), for 2.5; 6.1 (points of a topos,
+`nonempty_point_equivalence`), for the Examples of Layer 2; 6.5 (connected nonempty projective
+objects, Roos's theorem `exists_equiv_presheaf_iff_essential_points`, and the essential points of
+`Cᵒᵖ ⥤ Type u` forming `Idempotents.Karoubi C`), for 3.3 and 3.5; 6.6 (`IsIrreducibleObject` and
+`isIrreducibleObject_iff_projective_preservesCoproducts`), for 3.5 and 3.6.
 
 **From InfinitaryModelExistence.** 5.1 (the Morleyization `morleyize L Φ` of a language by a family
 of formulas, `lhomMorleyize Φ` and the canonical expansion `morleyExpansion Φ M`), for 1.5.
@@ -795,9 +795,9 @@ API), the join of the images of definable maps, each the interpretation of an `e
 equivalence relation, `CatStructure.map` along the identity and along a composite, the
 interpretation in `M.map F` as the image under `F` of that in `M`); 2.1; GrothendieckTopoi 1.2
 (`IsGrothendieckTopos.wellPowered`, the joins of the frames of subobjects, jointly epimorphic
-families), 1.4 (universal coequalizers: epimorphic families are stable under pullback, so `K` is a
-topology), 2.5; Mathlib `GrothendieckTopology`, `Sheaf`, `Equivalence`, `Subobject`, `WellPowered`,
-`Shrink`, `AsSmall`, `yoneda`, `presheafToSheaf`.
+families), 1.4 (universal coproducts and universal coequalizers: epimorphic families are stable
+under pullback, so `K` is a topology), 2.5; Mathlib `GrothendieckTopology`, `Sheaf`, `Equivalence`,
+`Subobject`, `WellPowered`, `Shrink`, `AsSmall`, `yoneda`, `presheafToSheaf`.
 
 **Checks.**
 
