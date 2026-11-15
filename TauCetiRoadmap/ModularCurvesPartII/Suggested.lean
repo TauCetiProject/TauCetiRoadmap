@@ -151,9 +151,9 @@ congruence (README §15.9; Calegari–Dimitrov–Tang Corollary 4.5.3). The ambi
 factors through `SL₂(ℤ/N)` because inner conjugations fix additive characters. -/
 theorem congruenceClasses_invariant (N q : ℕ) (hN : 3 ≤ N) (hq : q.Prime)
     (ψ : AddMonoidHom (Additive (CongruenceSubgroup.Gamma N)) (ZMod q)) :
-    letI : (CongruenceSubgroup.Gamma N).Normal := CongruenceSubgroup.Gamma_normal N
     (∀ g : Matrix.SpecialLinearGroup (Fin 2) ℤ, IsCongruenceCharacter N q
-      (ψ.comp (MulAut.conjNormal g).toMonoidHom.toAdditive - ψ)) →
+      (ψ.comp (@MulAut.conjNormal _ _ (CongruenceSubgroup.Gamma N)
+        (CongruenceSubgroup.Gamma_normal N) g).toMonoidHom.toAdditive - ψ)) →
         IsCongruenceCharacter N q ψ := by
   sorry
 
