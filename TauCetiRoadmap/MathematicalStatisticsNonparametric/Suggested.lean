@@ -39,8 +39,7 @@ This file is not the roadmap: the roadmap is `README.md`, and this file is not a
 checklist. It states, against the pinned Mathlib and Tau Ceti and each with `sorry`, the
 headlines of the README that carry a Lean name, each with every conclusion the README attaches
 to it, together with the definitions their statements need. The README's other headlines are
-targets of the same standing, stated there in prose with their locators or proof routes, and are
-not stated here.
+targets of the same standing, stated there in prose with their locators or proof routes.
 
 The conventions of the README are used throughout. Estimators are Markov kernels; total
 variation is Mathlib's `tvDist` with values in `[0, 2]`; the squared Hellinger distance is
@@ -203,12 +202,6 @@ theorem sqHellinger_le_tvDist_le (P Q : Measure X) [IsProbabilityMeasure P]
 theorem ofReal_sqHellinger_le_klDiv (P Q : Measure X) [IsProbabilityMeasure P]
     [IsProbabilityMeasure Q] :
     ENNReal.ofReal (sqHellinger P Q) ≤ klDiv P Q := by
-  sorry
-
-/-- **1.4** Pinsker's inequality in the normalization of `tvDist`. -/
-theorem ofReal_tvDist_sq_le_two_mul_klDiv (P Q : Measure X) [IsProbabilityMeasure P]
-    [IsProbabilityMeasure Q] :
-    ENNReal.ofReal (tvDist P Q) ^ 2 ≤ 2 * klDiv P Q := by
   sorry
 
 /-- **1.4** The Bretagnolle–Huber inequality. -/
@@ -549,11 +542,17 @@ theorem kolmogorovDensity_nonneg (x : ℝ) : 0 ≤ kolmogorovDensity x := by
   sorry
 
 /-- **3.6** The Kolmogorov distribution is a probability measure. -/
-instance isProbabilityMeasure_kolmogorovMeasure : IsProbabilityMeasure kolmogorovMeasure := by
+theorem isProbabilityMeasure_kolmogorovMeasure : IsProbabilityMeasure kolmogorovMeasure := by
   sorry
 
+/- The statements below that use `kolmogorovMeasure` or `cvmLimitLaw` as a law take its
+probability-measure instance as a hypothesis, discharged by `isProbabilityMeasure_kolmogorovMeasure`
+or `cvmLimitLaw_mean`, and the `concreteInstances` linter is silenced on them. -/
+
+set_option linter.concreteInstances false in
 /-- **3.6** The distribution function of the Kolmogorov distribution. -/
-theorem cdf_kolmogorovMeasure : cdf kolmogorovMeasure = kolmogorovCdf := by
+theorem cdf_kolmogorovMeasure [IsProbabilityMeasure kolmogorovMeasure] :
+    cdf kolmogorovMeasure = kolmogorovCdf := by
   sorry
 
 /-- **3.6** The Cramér–von Mises limit law: the law of `∑ Z_j² / (jπ)²`. -/
@@ -575,23 +574,26 @@ section Layer4
 
 variable {Ω : Type*} [MeasurableSpace Ω] (μ : Measure Ω) [IsProbabilityMeasure μ]
 
-/-- **4.1** Hájek's projection `N c̄ ā + ∑ i, (c i - c̄) φ (F (x i))` of the linear rank statistic
-with exact scores, `F = cdf P` and `ā` the average of the exact scores. -/
-def hajekProjection (P : Measure ℝ) (φ : ℝ → ℝ) {N : ℕ} (c : Fin N → ℝ) (x : Fin N → ℝ) : ℝ :=
-  (∑ i, c i) * (N : ℝ)⁻¹ * ∑ k ∈ Finset.range N, exactScore φ N (k + 1) +
+/-- **4.1** The approximating sum `N c̄ ā + ∑ i, (c i - c̄) φ (F (x i))` of van der Vaart's
+Theorem 13.5 for the linear rank statistic with exact scores, with `F = cdf P` and `ā` the average
+of the exact scores. It is not the Hájek projection `∑ i, E(T | X i) - (N - 1) E T` of
+MathematicalStatisticsAsymptotic 6.1, from which it differs at fixed `N`. -/
+def rankStatisticProjection (P : Measure ℝ) (φ : ℝ → ℝ) {N : ℕ} (c : Fin N → ℝ)
+    (x : Fin N → ℝ) : ℝ :=
+  (∑ i, c i) * (N : ℝ)⁻¹ * (∑ k ∈ Finset.range N, exactScore φ N (k + 1)) +
     ∑ i, (c i - (N : ℝ)⁻¹ * ∑ j, c j) * φ (cdf P (x i))
 
-/-- **4.1** Hájek's projection has the mean of the rank statistic, and the relative variance of
-the difference tends to `0`. -/
+/-- **4.1** The approximating sum `rankStatisticProjection` has the mean of the rank statistic,
+and the relative variance of the difference tends to `0`. -/
 theorem tendsto_variance_linearRankStatistic_sub_projection (P : Measure ℝ)
     [IsProbabilityMeasure P] [NullSingletonClass P] (φ : ℝ → ℝ)
     (hφ : MemLp φ 2 (volume.restrict (Ioo 0 1)))
     (hφc : ∀ a : ℝ, ¬ φ =ᵐ[volume.restrict (Ioo 0 1)] fun _ ↦ a) (c : (N : ℕ) → Fin N → ℝ) :
     (∀ N, ∫ x, linearRankStatistic (c N) (exactScore φ N) x ∂(Measure.pi fun _ ↦ P) =
-      ∫ x, hajekProjection P φ (c N) x ∂(Measure.pi fun _ ↦ P)) ∧
+      ∫ x, rankStatisticProjection P φ (c N) x ∂(Measure.pi fun _ ↦ P)) ∧
     Tendsto (fun N ↦
-        Var[fun x ↦ linearRankStatistic (c N) (exactScore φ N) x - hajekProjection P φ (c N) x;
-          Measure.pi fun _ ↦ P] /
+        Var[fun x ↦ linearRankStatistic (c N) (exactScore φ N) x -
+            rankStatisticProjection P φ (c N) x; Measure.pi fun _ ↦ P] /
         Var[linearRankStatistic (c N) (exactScore φ N); Measure.pi fun _ ↦ P]) atTop (𝓝 0) := by
   sorry
 
@@ -621,6 +623,94 @@ theorem tendstoInDistribution_kendallTau (P₁ P₂ : Measure ℝ) [IsProbabilit
       (gaussianReal 0 (4 / 9 : ℝ≥0)) := by
   sorry
 
+/-- **4.2** The Wilcoxon signed-rank limit under a symmetric atomless law, standardized by the
+null mean and variance of 3.3, and in van der Vaart's form
+`n^{-3/2} ∑ i, absRank x i · sign (x i) ⇝ N(0, 1/3)`. -/
+theorem tendstoInDistribution_signedRankStatistic (P : Measure ℝ) [IsProbabilityMeasure P]
+    [NullSingletonClass P] (hsymm : P.map Neg.neg = P) :
+    TendstoInDistribution (fun (n : ℕ) (x : Fin n → ℝ) ↦
+        (signedRankStatistic x - n * (n + 1) / 4) / √(n * (n + 1) * (2 * n + 1) / 24))
+      atTop id (fun n ↦ Measure.pi fun _ : Fin n ↦ P) (gaussianReal 0 1) ∧
+    TendstoInDistribution (fun (n : ℕ) (x : Fin n → ℝ) ↦
+        (n : ℝ) ^ (-(3 : ℝ) / 2) * ∑ i, (absRank x i : ℝ) * Real.sign (x i))
+      atTop id (fun n ↦ Measure.pi fun _ : Fin n ↦ P) (gaussianReal 0 (1 / 3 : ℝ≥0)) := by
+  sorry
+
+/-- **4.2** The Mann–Whitney limit as both sample sizes tend to infinity, under a common
+atomless law. -/
+theorem tendstoInDistribution_mannWhitney (P : Measure ℝ) [IsProbabilityMeasure P]
+    [NullSingletonClass P] (m n : ℕ → ℕ) (hm : Tendsto m atTop atTop)
+    (hn : Tendsto n atTop atTop) :
+    TendstoInDistribution (fun (k : ℕ) (z : (Fin (m k) → ℝ) × (Fin (n k) → ℝ)) ↦
+        (mannWhitney z.1 z.2 - m k * n k / 2) / √(m k * n k * (m k + n k + 1) / 12))
+      atTop id
+      (fun k ↦ (Measure.pi fun _ : Fin (m k) ↦ P).prod (Measure.pi fun _ : Fin (n k) ↦ P))
+      (gaussianReal 0 1) := by
+  sorry
+
+set_option linter.concreteInstances false in
+/-- **4.2** The Kruskal–Wallis limit: for `k` groups whose relative sizes tend to `lam j > 0`,
+`H ⇝ χ²_{k-1}` under a common atomless law. For `k = 1` the statistic vanishes on samples with
+distinct entries and `χ²_0` is the Dirac law at `0`. The probability-measure instance of the
+limit law is a hypothesis, discharged by Tau Ceti's `isProbabilityMeasure_chiSquaredMeasure`. -/
+theorem tendstoInDistribution_kruskalWallis {k : ℕ}
+    [IsProbabilityMeasure (TauCeti.Probability.chiSquaredMeasure ((k - 1 : ℕ) : ℝ))]
+    (P : Measure ℝ) [IsProbabilityMeasure P] [NullSingletonClass P]
+    (g : (N : ℕ) → Fin N → Fin k) (lam : Fin k → ℝ) (hlam : ∀ j, 0 < lam j)
+    (hg : ∀ j, Tendsto (fun N ↦ ((Finset.univ.filter fun i ↦ g N i = j).card : ℝ) / N) atTop
+      (𝓝 (lam j))) :
+    TendstoInDistribution (fun (N : ℕ) (x : Fin N → ℝ) ↦ kruskalWallis (g N) x) atTop id
+      (fun N ↦ Measure.pi fun _ : Fin N ↦ P)
+      (TauCeti.Probability.chiSquaredMeasure ((k - 1 : ℕ) : ℝ)) := by
+  sorry
+
+/-- **4.3** The two-sample power envelope: in the shift model `Q μ` of a density `f`, absolutely
+continuous with finite Fisher information `I_f = ∫ f'² / f`, every sequence of tests of level `α`
+for `ν = μ` has power at most `1 - Φ (z_α - h √(lam (1 - lam) I_f))` at the alternatives with the
+first `m N` observations from `Q (μ₀ + g/√N)` and the others from `Q (μ₀ + (g + h)/√N)`. The tests
+take values in `[0, 1]`, so the real `limsup` is the true one. -/
+theorem limsup_power_le_envelope (f f' : ℝ → ℝ) (hf0 : ∀ x, 0 ≤ f x) (hf1 : ∫ x, f x = 1)
+    (hac : ∀ a b, AbsolutelyContinuousOnInterval f a b) (hf' : ∀ᵐ x, HasDerivAt f (f' x) x)
+    (hI : ∫⁻ x, ENNReal.ofReal (f' x ^ 2 / f x) < ∞) (Q : ℝ → Measure ℝ)
+    (hQ : ∀ μ, Q μ = volume.withDensity fun y ↦ ENNReal.ofReal (f (y - μ))) (m : ℕ → ℕ)
+    {lam : ℝ} (hlam : lam ∈ Ioo 0 1) (hm : Tendsto (fun N ↦ (m N : ℝ) / N) atTop (𝓝 lam))
+    (μ₀ g h : ℝ) (hh : 0 < h) {α z : ℝ} (hα : α ∈ Ioo 0 1)
+    (hz : cdf (gaussianReal 0 1) z = 1 - α) (φ : (N : ℕ) → (Fin N → ℝ) → ℝ)
+    (hφ : ∀ N, IsStatisticalTest (φ N))
+    (hlevel : ∀ N (μ : ℝ), ∫ x, φ N x ∂(Measure.pi fun _ : Fin N ↦ Q μ) ≤ α) :
+    limsup (fun N : ℕ ↦ ∫ x, φ N x ∂(Measure.pi fun i : Fin N ↦
+        Q (μ₀ + (if (i : ℕ) < m N then g else g + h) / √(N : ℝ)))) atTop ≤
+      1 - cdf (gaussianReal 0 1) (z - h * √(lam * (1 - lam) * ∫ x, f' x ^ 2 / f x)) := by
+  sorry
+
+/-- **4.3** The asymptotic power of the two-sample rank test with exact scores generated by `φ`
+and coefficients `c N i = 1` on the second sample, which rejects when the statistic standardized
+by its null mean and variance exceeds `z_α`, at the alternatives of `limsup_power_le_envelope`. The
+null moments are computed under `Q 0`; rank statistics are distribution-free. `φf` is the locally
+most powerful score `-(f'/f) ∘ F⁻¹`, with `∫₀¹ φf = 0` and `∫₀¹ φf² = I_f`, so the scores
+`φ = φf` attain the envelope. -/
+theorem tendsto_power_rankTest (f f' : ℝ → ℝ) (hf0 : ∀ x, 0 ≤ f x) (hf1 : ∫ x, f x = 1)
+    (hac : ∀ a b, AbsolutelyContinuousOnInterval f a b) (hf' : ∀ᵐ x, HasDerivAt f (f' x) x)
+    (hI : ∫⁻ x, ENNReal.ofReal (f' x ^ 2 / f x) < ∞) (Q : ℝ → Measure ℝ)
+    (hQ : ∀ μ, Q μ = volume.withDensity fun y ↦ ENNReal.ofReal (f (y - μ))) (φf : ℝ → ℝ)
+    (hφf : ∀ u, φf u = -(f' ((Q 0).quantile u) / f ((Q 0).quantile u)))
+    (φ : ℝ → ℝ) (hφ : MemLp φ 2 (volume.restrict (Ioo 0 1)))
+    (hφc : ∀ a : ℝ, ¬ φ =ᵐ[volume.restrict (Ioo 0 1)] fun _ ↦ a) (m : ℕ → ℕ) {lam : ℝ}
+    (hlam : lam ∈ Ioo 0 1) (hm : Tendsto (fun N ↦ (m N : ℝ) / N) atTop (𝓝 lam))
+    (c : (N : ℕ) → Fin N → ℝ) (hc : ∀ N i, c N i = if (i : ℕ) < m N then 0 else 1)
+    (μ₀ g h : ℝ) (hh : 0 < h) {α z : ℝ} (hα : α ∈ Ioo 0 1)
+    (hz : cdf (gaussianReal 0 1) z = 1 - α) :
+    (∫ u in (0 : ℝ)..1, φf u = 0 ∧ ∫ u in (0 : ℝ)..1, φf u ^ 2 = ∫ x, f' x ^ 2 / f x) ∧
+    Tendsto (fun N : ℕ ↦ (Measure.pi fun i : Fin N ↦
+        Q (μ₀ + (if (i : ℕ) < m N then g else g + h) / √(N : ℝ))).real
+        {x | z < (linearRankStatistic (c N) (exactScore φ N) x -
+            ∫ y, linearRankStatistic (c N) (exactScore φ N) y ∂(Measure.pi fun _ ↦ Q 0)) /
+          √(Var[linearRankStatistic (c N) (exactScore φ N); Measure.pi fun _ ↦ Q 0])}) atTop
+      (𝓝 (1 - cdf (gaussianReal 0 1) (z - h * √(lam * (1 - lam)) *
+        (∫ u in (0 : ℝ)..1, φ u * φf u) /
+          √(∫ u in (0 : ℝ)..1, (φ u - ∫ v in (0 : ℝ)..1, φ v) ^ 2)))) := by
+  sorry
+
 /-- **4.4** The Chernoff–Savage inequality: the efficiency of the normal-scores test relative
 to the `t` test is at least `1`. Here `q x = Φ⁻¹ (F x)`. The efficacy integral is an extended
 integral: it may be infinite, and a Bochner integral would then be the junk value `0`. -/
@@ -628,7 +718,7 @@ theorem chernoffSavage (f : ℝ → ℝ) (hf : Measurable f) (hf0 : ∀ x, 0 ≤
     (hf1 : ∫ x, f x = 1) (hvar : Integrable fun x ↦ x ^ 2 * f x) (q : ℝ → ℝ)
     (hq : ∀ᵐ x, 0 < f x →
       cdf (gaussianReal 0 1) (q x) = cdf (volume.withDensity fun y ↦ ENNReal.ofReal (f y)) x) :
-    1 ≤ ENNReal.ofReal (∫ x, x ^ 2 * f x - (∫ x, x * f x) ^ 2) *
+    1 ≤ ENNReal.ofReal ((∫ x, x ^ 2 * f x) - (∫ x, x * f x) ^ 2) *
       (∫⁻ x, ENNReal.ofReal (f x ^ 2 / gaussianPDFReal 0 1 (q x))) ^ 2 := by
   sorry
 
@@ -642,8 +732,10 @@ theorem tendstoInDistribution_hodgesLehmann (f : ℝ → ℝ) (hf : Measurable f
       (fun _ ↦ μ) (gaussianReal 0 (1 / (12 * (∫ x, f x ^ 2) ^ 2)).toNNReal) := by
   sorry
 
+set_option linter.concreteInstances false in
 /-- **4.6** Kolmogorov's theorem: `√n Dₙ` converges in law to the Kolmogorov distribution. -/
 theorem tendstoInDistribution_sqrt_mul_ksStatistic (P : Measure ℝ) [IsProbabilityMeasure P]
+    [IsProbabilityMeasure kolmogorovMeasure]
     (hP : Continuous (cdf P)) (X : ℕ → Ω → ℝ) (hX : IsIndependentIdenticallyDistributed μ X P) :
     TendstoInDistribution (fun (n : ℕ) ω ↦ √(n : ℝ) * ksStatistic P (firstN X n ω)) atTop id (fun _ ↦ μ)
       kolmogorovMeasure := by
@@ -664,16 +756,19 @@ theorem measure_ksStatistic_ge_le (P : Measure ℝ) [IsProbabilityMeasure P]
       Real.exp (-2 * n * t ^ 2) := by
   sorry
 
+set_option linter.concreteInstances false in
 /-- **4.7** The Cramér–von Mises limit. -/
 theorem tendstoInDistribution_cvmStatistic (P : Measure ℝ) [IsProbabilityMeasure P]
+    [IsProbabilityMeasure cvmLimitLaw]
     (hP : Continuous (cdf P)) (X : ℕ → Ω → ℝ) (hX : IsIndependentIdenticallyDistributed μ X P) :
-    haveI : IsProbabilityMeasure cvmLimitLaw := cvmLimitLaw_mean.1
     TendstoInDistribution (fun (n : ℕ) ω ↦ cvmStatistic P (firstN X n ω)) atTop id (fun _ ↦ μ)
       cvmLimitLaw := by
   sorry
 
+set_option linter.concreteInstances false in
 /-- **4.7** The two-sample Kolmogorov–Smirnov limit under a common continuous law. -/
 theorem tendstoInDistribution_twoSampleKS (P : Measure ℝ) [IsProbabilityMeasure P]
+    [IsProbabilityMeasure kolmogorovMeasure]
     (hP : Continuous (cdf P)) (m n : ℕ → ℕ) (hm : Tendsto m atTop atTop)
     (hn : Tendsto n atTop atTop) (X Y : ℕ → Ω → ℝ) (hX : IsIndependentIdenticallyDistributed μ X P)
     (hY : IsIndependentIdenticallyDistributed μ Y P)
@@ -737,6 +832,66 @@ theorem kde_minimax_lower (β : ℝ) (hβ : 0 < β) (L : ℝ≥0) (hL : 0 < L) (
           ∂(κ ∘ₘ Measure.pi fun _ : Fin n ↦ densityLaw volume p.1) := by
   sorry
 
+set_option linter.concreteInstances false in
+/-- **5.9** The Sobolev density rate over `𝓕_{m,M}`, the densities with `m` continuous
+derivatives and `∫ (f^{(m)})² ≤ M`: for all Markov kernels with values in `L²(ℝ)`, with its
+Borel σ-algebra, the maximal integrated squared risk is at least `D n^{-2m/(2m+1)}`, and some
+estimator attains the rate. The risks are extended integrals. -/
+theorem sobolev_density_minimax_rate (m : ℕ) (hm : 1 ≤ m) {M : ℝ} (hM : 0 < M)
+    [MeasurableSpace (Lp ℝ 2 (volume : Measure ℝ))] [BorelSpace (Lp ℝ 2 (volume : Measure ℝ))] :
+    (∃ D > 0, ∀ n : ℕ, 1 ≤ n → ∀ κ : Kernel (Fin n → ℝ) (Lp ℝ 2 (volume : Measure ℝ)),
+      IsMarkovKernel κ →
+      ENNReal.ofReal (D * (n : ℝ) ^ (-2 * (m : ℝ) / (2 * m + 1))) ≤
+        ⨆ f ∈ {f : ℝ → ℝ | ContDiff ℝ m f ∧ (∀ x, 0 ≤ f x) ∧ ∫ x, f x = 1 ∧
+            ∫⁻ x, ENNReal.ofReal (iteratedDeriv m f x ^ 2) ≤ ENNReal.ofReal M},
+          ∫⁻ q, (∫⁻ t, ENNReal.ofReal ((q t - f t) ^ 2))
+            ∂(κ ∘ₘ Measure.pi fun _ : Fin n ↦ densityLaw volume f)) ∧
+    ∃ C, ∀ n : ℕ, 1 ≤ n → ∃ κ : Kernel (Fin n → ℝ) (Lp ℝ 2 (volume : Measure ℝ)),
+      IsMarkovKernel κ ∧ ∀ f ∈ {f : ℝ → ℝ | ContDiff ℝ m f ∧ (∀ x, 0 ≤ f x) ∧ ∫ x, f x = 1 ∧
+            ∫⁻ x, ENNReal.ofReal (iteratedDeriv m f x ^ 2) ≤ ENNReal.ofReal M},
+        ∫⁻ q, (∫⁻ t, ENNReal.ofReal ((q t - f t) ^ 2))
+            ∂(κ ∘ₘ Measure.pi fun _ : Fin n ↦ densityLaw volume f) ≤
+          ENNReal.ofReal (C * (n : ℝ) ^ (-2 * (m : ℝ) / (2 * m + 1))) := by
+  sorry
+
+set_option linter.concreteInstances false in
+/-- **5.9** The minimax rates of Hölder regression `Y i = f ((i + 1)/n) + ξ i`, `ξ i` i.i.d.
+`N(0, σ²)`, over `holderClass β L`: `n^{-2β/(2β+1)}` for the squared `L²[0, 1]` loss and
+`(n / log n)^{-2β/(2β+1)}` for the squared sup-norm loss, each a lower bound for all Markov
+kernels with values in `L²[0, 1]`, respectively `L^∞[0, 1]`, with their Borel σ-algebras, and an
+upper bound attained by some estimator, for all large `n`. The sup norm is the essential supremum
+on `[0, 1]` (`eLpNorm` with `p = ∞`). The risks are extended integrals. -/
+theorem holder_regression_minimax_rate {β : ℝ} (hβ : 0 < β) {L : ℝ≥0} (hL : 0 < L) {σ : ℝ}
+    (hσ : 0 < σ) [MeasurableSpace (Lp ℝ 2 (volume.restrict (Icc (0 : ℝ) 1)))]
+    [BorelSpace (Lp ℝ 2 (volume.restrict (Icc (0 : ℝ) 1)))]
+    [MeasurableSpace (Lp ℝ ∞ (volume.restrict (Icc (0 : ℝ) 1)))]
+    [BorelSpace (Lp ℝ ∞ (volume.restrict (Icc (0 : ℝ) 1)))] :
+    (∃ c > 0, ∀ᶠ n : ℕ in atTop,
+      ∀ κ : Kernel (Fin n → ℝ) (Lp ℝ 2 (volume.restrict (Icc (0 : ℝ) 1))), IsMarkovKernel κ →
+      ENNReal.ofReal (c * (n : ℝ) ^ (-2 * β / (2 * β + 1))) ≤
+        ⨆ f ∈ holderClass β L, ∫⁻ q, (∫⁻ t in Icc (0 : ℝ) 1, ENNReal.ofReal ((q t - f t) ^ 2))
+          ∂(κ ∘ₘ Measure.pi fun i : Fin n ↦ gaussianReal (f (((i : ℝ) + 1) / n)) (σ ^ 2).toNNReal))
+      ∧
+    (∃ C, ∀ᶠ n : ℕ in atTop,
+      ∃ κ : Kernel (Fin n → ℝ) (Lp ℝ 2 (volume.restrict (Icc (0 : ℝ) 1))), IsMarkovKernel κ ∧
+      ∀ f ∈ holderClass β L, ∫⁻ q, (∫⁻ t in Icc (0 : ℝ) 1, ENNReal.ofReal ((q t - f t) ^ 2))
+          ∂(κ ∘ₘ Measure.pi fun i : Fin n ↦ gaussianReal (f (((i : ℝ) + 1) / n)) (σ ^ 2).toNNReal)
+        ≤ ENNReal.ofReal (C * (n : ℝ) ^ (-2 * β / (2 * β + 1)))) ∧
+    (∃ c > 0, ∀ᶠ n : ℕ in atTop,
+      ∀ κ : Kernel (Fin n → ℝ) (Lp ℝ ∞ (volume.restrict (Icc (0 : ℝ) 1))), IsMarkovKernel κ →
+      ENNReal.ofReal (c * ((n : ℝ) / Real.log n) ^ (-2 * β / (2 * β + 1))) ≤
+        ⨆ f ∈ holderClass β L,
+          ∫⁻ q, eLpNorm (fun t ↦ q t - f t) ∞ (volume.restrict (Icc (0 : ℝ) 1)) ^ 2
+          ∂(κ ∘ₘ Measure.pi fun i : Fin n ↦ gaussianReal (f (((i : ℝ) + 1) / n)) (σ ^ 2).toNNReal))
+      ∧
+    ∃ C, ∀ᶠ n : ℕ in atTop,
+      ∃ κ : Kernel (Fin n → ℝ) (Lp ℝ ∞ (volume.restrict (Icc (0 : ℝ) 1))), IsMarkovKernel κ ∧
+      ∀ f ∈ holderClass β L,
+        ∫⁻ q, eLpNorm (fun t ↦ q t - f t) ∞ (volume.restrict (Icc (0 : ℝ) 1)) ^ 2
+          ∂(κ ∘ₘ Measure.pi fun i : Fin n ↦ gaussianReal (f (((i : ℝ) + 1) / n)) (σ ^ 2).toNNReal)
+        ≤ ENNReal.ofReal (C * ((n : ℝ) / Real.log n) ^ (-2 * β / (2 * β + 1))) := by
+  sorry
+
 /-- **5.2** The exact mean integrated squared error of the kernel density estimator. -/
 theorem integral_mise_eq (K : ℝ → ℝ) (hK : Measurable K) (hK0 : ∀ u, 0 ≤ K u)
     (hK1 : ∫ u, K u = 1) (hK2 : Integrable fun u ↦ K u ^ 2) (f : ℝ → ℝ) (hf : Measurable f)
@@ -744,7 +899,7 @@ theorem integral_mise_eq (K : ℝ → ℝ) (hK : Measurable K) (hK0 : ∀ u, 0 �
     {h : ℝ} (hh : 0 < h) {n : ℕ} (hn : 1 ≤ n) :
     ∫ x, (∫ t, (kernelDensityEstimator K h x t - f t) ^ 2)
         ∂(Measure.pi fun _ : Fin n ↦ densityLaw volume f) =
-      ∫ t, ((∫ y, h⁻¹ * K ((t - y) / h) * f y) - f t) ^ 2 +
+      (∫ t, ((∫ y, h⁻¹ * K ((t - y) / h) * f y) - f t) ^ 2) +
         (∫ u, K u ^ 2) / (n * h) - (n : ℝ)⁻¹ * ∫ t, (∫ y, h⁻¹ * K ((t - y) / h) * f y) ^ 2 := by
   sorry
 
@@ -794,14 +949,54 @@ def localPolynomialCoeff (K : ℝ → ℝ) (h : ℝ) (p : ℕ) {n : ℕ} (x Y : 
   let W : Matrix (Fin n) (Fin n) ℝ := Matrix.diagonal fun i ↦ K ((x i - t) / h)
   (Dᵀ * W * D)⁻¹.mulVec ((Dᵀ * W).mulVec Y)
 
-/-- **5.4** The leave-one-out identity for a linear smoother, coordinatewise and for the sum
-of squares. -/
-theorem sum_sq_loo_eq {n : ℕ} (L : Matrix (Fin n) (Fin n) ℝ) (Y : Fin n → ℝ)
-    (hL : ∀ i, L i i ≠ 1) :
-    (∀ i, Y i - (∑ j ∈ Finset.univ.erase i, L i j * Y j) / (1 - L i i) =
-      (Y i - L.mulVec Y i) / (1 - L i i)) ∧
-    ∑ i, (Y i - (∑ j ∈ Finset.univ.erase i, L i j * Y j) / (1 - L i i)) ^ 2 =
-      ∑ i, ((Y i - L.mulVec Y i) / (1 - L i i)) ^ 2 := by
+/-- **5.6** Stone's theorem for the Nadaraya–Watson estimate on `ℝ^d`,
+`t ↦ ∑ i, K (h⁻¹ • (X i - t)) Y i / ∑ i, K (h⁻¹ • (X i - t))` with `0/0 = 0`, the
+`d`-dimensional form of `nadarayaWatson`: the `L²(μ_X)` error tends to `0` in mean, and hence in
+probability. `m` is a version of the regression function `E[Y | X = ·]`. The errors are extended
+integrals. -/
+theorem tendsto_lintegral_nadarayaWatson_sub_sq {d : ℕ} {Ω : Type*} [MeasurableSpace Ω]
+    (μ : Measure Ω) [IsProbabilityMeasure μ] (P : Measure (EuclideanSpace ℝ (Fin d) × ℝ))
+    [IsProbabilityMeasure P] (hY : MemLp (fun z : EuclideanSpace ℝ (Fin d) × ℝ ↦ z.2) 2 P)
+    (m : EuclideanSpace ℝ (Fin d) → ℝ) (hm : Measurable m)
+    (hmY : (fun z ↦ m z.1) =ᵐ[P] P[fun z ↦ z.2 | MeasurableSpace.comap Prod.fst
+      (inferInstance : MeasurableSpace (EuclideanSpace ℝ (Fin d)))])
+    (K : EuclideanSpace ℝ (Fin d) → ℝ) (hK : Measurable K) (hK0 : ∀ u, 0 ≤ K u)
+    (hKb : ∃ C, ∀ u, K u ≤ C) (hKs : HasCompactSupport K)
+    (hKball : ∃ r > 0, ∃ b > 0, ∀ u ∈ Metric.ball 0 r, b ≤ K u)
+    (h : ℕ → ℝ) (hh : ∀ n, 0 < h n) (hh0 : Tendsto h atTop (𝓝 0))
+    (hnh : Tendsto (fun n ↦ n * h n ^ d) atTop atTop)
+    (Z : ℕ → Ω → EuclideanSpace ℝ (Fin d) × ℝ) (hZ : IsIndependentIdenticallyDistributed μ Z P) :
+    Tendsto (fun n ↦ ∫⁻ ω, ∫⁻ t, ENNReal.ofReal (((∑ i : Fin n,
+        K ((h n)⁻¹ • ((firstN Z n ω i).1 - t)) * (firstN Z n ω i).2) /
+          (∑ i : Fin n, K ((h n)⁻¹ • ((firstN Z n ω i).1 - t))) - m t) ^ 2)
+        ∂(P.map Prod.fst) ∂μ) atTop (𝓝 0) ∧
+    ∀ ε : ℝ≥0∞, 0 < ε → Tendsto (fun n ↦ μ {ω | ε ≤ ∫⁻ t, ENNReal.ofReal (((∑ i : Fin n,
+        K ((h n)⁻¹ • ((firstN Z n ω i).1 - t)) * (firstN Z n ω i).2) /
+          (∑ i : Fin n, K ((h n)⁻¹ • ((firstN Z n ω i).1 - t))) - m t) ^ 2)
+        ∂(P.map Prod.fst)}) atTop (𝓝 0) := by
+  sorry
+
+/-- **5.6** Stone's theorem for the `k`-nearest-neighbour estimate on `ℝ^d`: the average of the
+`Y i` over the `k` indices `i` with fewer than `k` indices ahead of them, `j` being ahead of `i`
+at `t` when `X j` is closer to `t` than `X i`, or as close with `j < i` (ties broken by index).
+The `L²(μ_X)` error tends to `0` in mean, and hence in probability. -/
+theorem tendsto_lintegral_nearestNeighbour_sub_sq {d : ℕ} {Ω : Type*} [MeasurableSpace Ω]
+    (μ : Measure Ω) [IsProbabilityMeasure μ] (P : Measure (EuclideanSpace ℝ (Fin d) × ℝ))
+    [IsProbabilityMeasure P] (hY : MemLp (fun z : EuclideanSpace ℝ (Fin d) × ℝ ↦ z.2) 2 P)
+    (m : EuclideanSpace ℝ (Fin d) → ℝ) (hm : Measurable m)
+    (hmY : (fun z ↦ m z.1) =ᵐ[P] P[fun z ↦ z.2 | MeasurableSpace.comap Prod.fst
+      (inferInstance : MeasurableSpace (EuclideanSpace ℝ (Fin d)))])
+    (k : ℕ → ℕ) (hk : Tendsto k atTop atTop) (hkn : Tendsto (fun n ↦ (k n : ℝ) / n) atTop (𝓝 0))
+    (Z : ℕ → Ω → EuclideanSpace ℝ (Fin d) × ℝ) (hZ : IsIndependentIdenticallyDistributed μ Z P) :
+    Tendsto (fun n ↦ ∫⁻ ω, ∫⁻ t, ENNReal.ofReal (((k n : ℝ)⁻¹ * (∑ i : Fin n,
+        if (Finset.univ.filter fun j ↦ dist (firstN Z n ω j).1 t < dist (firstN Z n ω i).1 t ∨
+          (dist (firstN Z n ω j).1 t = dist (firstN Z n ω i).1 t ∧ j < i)).card < k n
+        then (firstN Z n ω i).2 else 0) - m t) ^ 2) ∂(P.map Prod.fst) ∂μ) atTop (𝓝 0) ∧
+    ∀ ε : ℝ≥0∞, 0 < ε → Tendsto (fun n ↦ μ {ω | ε ≤ ∫⁻ t, ENNReal.ofReal (((k n : ℝ)⁻¹ *
+        (∑ i : Fin n,
+          if (Finset.univ.filter fun j ↦ dist (firstN Z n ω j).1 t < dist (firstN Z n ω i).1 t ∨
+            (dist (firstN Z n ω j).1 t = dist (firstN Z n ω i).1 t ∧ j < i)).card < k n
+          then (firstN Z n ω i).2 else 0) - m t) ^ 2) ∂(P.map Prod.fst)}) atTop (𝓝 0) := by
   sorry
 
 /-- **5.7** The least-squares cross-validation criterion is unbiased for the risk up to
@@ -825,7 +1020,7 @@ the span of the kernel functions at the design points. -/
 theorem mem_span_kerFun_of_isMinOn {𝒳 H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
     [CompleteSpace H] [RKHS ℝ H 𝒳 ℝ] {n : ℕ} (x : Fin n → 𝒳) (Y : Fin n → ℝ)
     (L : ℝ → ℝ → ℝ) {lam : ℝ} (hlam : 0 < lam) (f : H)
-    (hf : IsMinOn (fun g : H ↦ (n : ℝ)⁻¹ * ∑ i, L (Y i) (RKHS.eval H (x i) g) + lam * ‖g‖ ^ 2)
+    (hf : IsMinOn (fun g : H ↦ (n : ℝ)⁻¹ * (∑ i, L (Y i) (RKHS.eval H (x i) g)) + lam * ‖g‖ ^ 2)
       univ f) :
     f ∈ Submodule.span ℝ (range fun i ↦ RKHS.kerFun H (x i) 1) := by
   sorry
@@ -1117,6 +1312,36 @@ theorem existsUnique_logConcaveProjection {d : ℕ} (P : Measure (EuclideanSpace
         {x | 0 < f x} ⊆ ⋂₀ {C | IsClosed C ∧ Convex ℝ C ∧ P Cᶜ = 0} := by
   sorry
 
+/-- **7.5** The Hellinger rate `n^{-4/5}` of the log-concave maximum likelihood estimator in
+dimension one, uniformly over `logConcaveDensities 1`. `fhat x` is any maximizer of the
+log-likelihood of the empirical distribution of `x` over `logConcaveDensities 1`, required for
+samples with distinct entries, for which it exists and is unique by
+`existsUnique_logConcaveProjection`; samples with a repeated entry are null. -/
+theorem logConcaveMLE_sqHellinger_le : ∃ C : ℝ, ∀ n : ℕ, 2 ≤ n →
+    ∀ fhat : (Fin n → EuclideanSpace ℝ (Fin 1)) → EuclideanSpace ℝ (Fin 1) → ℝ≥0∞,
+      (∀ x, Function.Injective x → fhat x ∈ logConcaveDensities 1 ∧
+        ∀ g ∈ logConcaveDensities 1, logLikelihood (uniformMixture fun i ↦ Measure.dirac (x i)) g ≤
+          logLikelihood (uniformMixture fun i ↦ Measure.dirac (x i)) (fhat x)) →
+      ∀ f₀ ∈ logConcaveDensities 1,
+        ∫⁻ x, ENNReal.ofReal (sqHellinger (volume.withDensity (fhat x)) (volume.withDensity f₀))
+            ∂(Measure.pi fun _ : Fin n ↦ volume.withDensity f₀) ≤
+          ENNReal.ofReal (C * (n : ℝ) ^ (-(4 : ℝ) / 5)) := by
+  sorry
+
+/-- **7.5** The minimax lower bounds over `logConcaveDensities d` in squared Hellinger distance,
+with a constant `c` independent of `d` and `n`: `c n^{-4/5}` for `d = 1` and `c n^{-2/(d+1)}` for
+`d ≥ 2`, for all `n ≥ d + 1`. The estimate at `x` is the probability measure `κ x`; a randomized
+estimator, a kernel into such measures, is covered through its mean kernel, since
+`sqHellinger (·, P)` is convex. -/
+theorem logConcave_minimax_lower : ∃ c > 0, ∀ d : ℕ, 1 ≤ d → ∀ n : ℕ, d + 1 ≤ n →
+    ∀ κ : Kernel (Fin n → EuclideanSpace ℝ (Fin d)) (EuclideanSpace ℝ (Fin d)), IsMarkovKernel κ →
+      ENNReal.ofReal (c * if d = 1 then (n : ℝ) ^ (-(4 : ℝ) / 5)
+        else (n : ℝ) ^ (-2 / ((d : ℝ) + 1))) ≤
+        ⨆ f₀ : logConcaveDensities d,
+          ∫⁻ x, ENNReal.ofReal (sqHellinger (κ x) (volume.withDensity f₀.1))
+            ∂(Measure.pi fun _ : Fin n ↦ volume.withDensity f₀.1) := by
+  sorry
+
 end Layer7
 
 /-! ## Layer 8: functional data -/
@@ -1211,10 +1436,11 @@ def gaussianHilbert (lam : ℕ → ℝ) (φ : ℕ → H) : Measure H :=
   (Measure.infinitePi fun _ : ℕ ↦ gaussianReal 0 1).map fun z ↦
     if h : ∃ s, HasSum (fun j ↦ (√(lam j) * z j) • φ j) s then h.choose else 0
 
-/-- **8.4** It is Gaussian with covariance operator `T`. -/
+/-- **8.4** It is a centered Gaussian measure with covariance operator `T`. -/
 theorem isGaussian_gaussianHilbert (T : H →L[ℝ] H) (lam : ℕ → ℝ) (φ : ℕ → H)
     (he : IsEigenExpansion T lam φ) (hsum : Summable lam) :
-    IsGaussian (gaussianHilbert lam φ) ∧ covarianceOperator (gaussianHilbert lam φ) = T := by
+    IsGaussian (gaussianHilbert lam φ) ∧ ∫ x, x ∂(gaussianHilbert lam φ) = 0 ∧
+      covarianceOperator (gaussianHilbert lam φ) = T := by
   sorry
 
 /-- **8.4** The Gaussian measure of a summable eigen-expansion is a probability measure. -/
@@ -1236,9 +1462,7 @@ theorem tendstoInDistribution_hilbert_clt (P : Measure H) [IsProbabilityMeasure 
     (hP : MemLp id 2 P) (X : ℕ → Ω → H) (hX : IsIndependentIdenticallyDistributed μ X P)
     (lam : ℕ → ℝ) (φ : ℕ → H)
     (he : IsEigenExpansion (covarianceOperator (P.map fun x ↦ x - ∫ y, y ∂P)) lam φ)
-    (hsum : Summable lam) :
-    haveI : IsProbabilityMeasure (gaussianHilbert lam φ) :=
-      isProbabilityMeasure_gaussianHilbert he hsum
+    (hsum : Summable lam) [IsProbabilityMeasure (gaussianHilbert lam φ)] :
     TendstoInDistribution
       (fun (n : ℕ) ω ↦ (√(n : ℝ))⁻¹ • ∑ i ∈ Finset.range n, (X i ω - ∫ y, y ∂P)) atTop id (fun _ ↦ μ)
       (gaussianHilbert lam φ) := by
