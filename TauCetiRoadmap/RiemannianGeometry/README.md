@@ -14,8 +14,19 @@ the headlines that are not yet statable there.
 The sub-roadmap [Local geometry of Riemannian surfaces](Surfaces/README.md) owns polar
 coordinates and normal strips on surfaces, integration up to normal cut times on surface
 domains, Gauss–Bonnet for disks with corners and the turning theorem with corners,
-nonpositively curved normal balls without completeness, and conformal invariance of the
-surface Dirichlet energy. It is independently definitive and states its boundaries with the
+nonpositively curved normal balls without completeness, conformal invariance of the
+surface Dirichlet energy, and the logarithmic cutoff at a point.
+It is independently definitive and states its boundaries with the
+milestones below.
+
+The sub-roadmap [Minimal surfaces](MinimalSurfaces/README.md) owns the theory of smooth
+minimal hypersurfaces built on R5a and R5b: minimal graphs, monotonicity for smooth proper
+minimal immersions and the boundary form of the tangency principle (the interior principle
+is GeometricCurrents G6's), the half-space theorem, local compactness and ε-regularity,
+the Morse index, the
+curvature estimate for stable surfaces, removable singularities, compactness under bounded
+total curvature, the Choi–Wang and Yang–Yau eigenvalue estimates, Frankel's theorem and
+Choi–Schoen compactness. It is independently definitive and states its boundaries with the
 milestones below.
 
 ## Scope and ownership
@@ -28,7 +39,10 @@ differentiable germs. GeometricTopology Layer 1 owns normal bundles and tubular
 neighbourhoods, and [GeometricTopology](../GeometricTopology/README.md)'s smooth-triangulation
 theorem (Whitehead: every smooth manifold admits a smooth triangulation) owns smooth
 triangulation; R5a owns the metric orthogonal-to-quotient comparison and R3.2 the finite marked-point
-refinement. ComplexKahlerGeometry K5a owns the bundle analytic and Hodge theory;
+refinement. R7.9 owns the separation of a connected manifold with vanishing first
+de Rham cohomology by a two-sided compact hypersurface, and the two-sidedness of
+closed hypersurfaces in simply connected manifolds, on GeometricTopology Layer
+1's tubes. ComplexKahlerGeometry K5a owns the bundle analytic and Hodge theory;
 PseudodifferentialOperators P1.0 owns the smooth differential-operator, jet,
 symbol, density-transpose, formal-adjoint, Laplace-type and canonical
 Bochner-connection core on finite-rank bundles. R7 consumes that core for
@@ -37,13 +51,26 @@ R7.3's Laplace-type theorem for D*D, differs from P1.0's Dirac-type
 theorem only in allowing D:E→F between bundles of different ranks. R4.7 owns the
 completeness of the quotient of a complete Riemannian manifold by a free properly
 discontinuous group of isometries, built on the library's quotient manifold, quotient
-metric and curvature naturality, and the space-form quotients; PseudodifferentialOperators P7a consumes
+metric and curvature naturality, and the space-form quotients in curvature 0 and 1;
+GeometricTopology §7.1 owns the curvature −1 case in dimensions n ≥ 1, and AlgebraicTopology
+§4.6 owns the homeomorphism from `TauCeti.RealProjectiveSpace` n to `Projectivization` ℝ
+(Fin (n+1) → ℝ) with its affine-chart comparison. PseudodifferentialOperators P7a consumes
+R4.7's quotient construction and none of
 these; R4.7 uses no PseudodifferentialOperators target, so P1.0 → R7 and R4.7 → P7a form
-no cycle. R5b owns the Dirichlet realization of the normal Jacobi operator: its
+no cycle. R5b owns the Dirichlet realization of a symmetric Schrödinger operator
+`∇*∇+K` on a Riemannian vector bundle with a metric connection, the normal
+Jacobi operator being the normal-bundle case: its
 form on W¹,²₀, the self-adjoint operator that form represents, built on Tau Ceti's
 Lax–Milgram solution operator, and its boundary-domain identification. It is
 stated for forms that are coercive after a shift with a compact dense embedding,
 the only case R5b uses; no general closed-form representation is a target here.
+R5c owns, on R5b's realization, the boundary estimates of every Sobolev
+order, the index on smooth sections, the scalar
+first-eigenfunction theory on closed connected manifolds and connected domains
+with strict domain monotonicity, and the scalar Dirichlet problem; on closed
+manifolds it consumes K5a's spectral decomposition,
+and for the ordered eigenvalues and the min–max principle
+[VariationalMethods](../VariationalMethods/README.md) 3.1 and 4.1–4.4.
 
 The following are already in Tau Ceti, and this roadmap cites them rather than
 restating them: the first and second Bianchi identities, the metric skew symmetry
@@ -172,6 +199,15 @@ immersions use trace B=0 and are treated separately from the average formula.
 Use `LipschitzOnWith.extend_real` in `Mathlib/Topology/MetricSpace/Lipschitz.lean`
 for extension of a real K-Lipschitz function from any subset of a pseudometric
 space, with K a nonnegative real and no nonemptiness assumption on the subset.
+For R7.9 use `Manifold.IsSmoothEmbedding` in
+`Mathlib/Geometry/Manifold/SmoothEmbedding.lean`, a C^n immersion that is a
+topological embedding, `IsCoveringMap` in
+`Mathlib/Topology/Covering/Basic.lean`, `SimplyConnectedSpace` in
+`Mathlib/AlgebraicTopology/FundamentalGroupoid/SimplyConnected.lean` and
+`IsCoveringMap.existsUnique_continuousMap_lifts` in
+`Mathlib/Topology/Homotopy/Lifting.lean`: a continuous map from a simply
+connected, locally path-connected space lifts through a covering map, uniquely
+once the lift of one point is prescribed.
 Use the native manifold, finite-dimensional inner-product, smooth bundle and
 covering carriers named below, with their stated hypotheses.
 For the path-space topology use `TopologicalSpace.compactlyGenerated`,
@@ -483,6 +519,36 @@ For R4.1, `TauCeti.curvatureSine` and `TauCeti.curvatureCosine` in
 of y″+κy=0 with initial data (0,1) and (1,0), for every sign of κ, with their
 derivatives and smoothness.
 
+For R4.1's smooth upper distance barriers, in `TauCeti/Geometry/Manifold/`, on a smooth
+boundaryless Hausdorff manifold modelled on a finite-dimensional real normed space with
+a smooth Riemannian metric: `TauCeti.Manifold.exists_isNormalDomain_ball` and
+`TauCeti.Manifold.riemannianLog` (`Riemannian/Geodesic/Normal/Basic.lean`), some ball
+about 0 in the tangent space at each point p is a normal domain at p, and the logarithm
+of a normal domain, smooth on its normal neighbourhood by
+`TauCeti.Manifold.IsNormalDomain.contMDiffOn_riemannianLog`;
+`TauCeti.Manifold.mfderiv_riemannianExp_zero` (`Riemannian/Geodesic/Exponential.lean`),
+`d(exp_p)_0=Id`; `TauCeti.Manifold.hessian` and
+`TauCeti.Manifold.laplaceBeltrami_eq_sum_hessian` (`Riemannian/Laplacian.lean`),
+`Hess f(v,w)=⟨∇_v grad f,w⟩` and Δf its trace in every orthonormal basis;
+`TauCeti.Manifold.hessian_self_nonneg_of_isLocalMin` and
+`TauCeti.Manifold.laplaceBeltrami_nonpos_of_isLocalMax`
+(`Riemannian/MaximumPrinciple.lean`), for f C² at x, `Hess f(v,v)≥0` at a local
+minimum and `Δf≤0` at a local maximum; `CovariantDerivative.ricciTensor_eq_sum_inner`
+(`VectorBundle/CovariantDerivative/Curvature/Ricci.lean`),
+`Ric(u,v)=Σ_i⟨e_i,R(e_i,u)v⟩` in an orthonormal basis (e_i);
+`CovariantDerivative.IsMetricCompatible.inner_eq_of_alongCurveWithin_eq_zero`
+(`VectorBundle/CovariantDerivative/AlongCurve/Metric.lean`), two parallel fields along
+a differentiable curve on a preconnected parameter set with unique derivatives keep
+their inner product; and `TauCeti.Manifold.hasDerivAt_energy`
+(`Riemannian/FirstVariation.lean`), for a family Γ that is C² at every point of
+{0}×[a,b], with central curve γ and variation field V, the energy
+`½∫_a^b|∂_tΓ(s,t)|²dt` has derivative `⟨V(b),γ′(b)⟩−⟨V(a),γ′(a)⟩−∫_a^b⟨V,D_tγ′⟩dt` at
+s=0, with no condition at the endpoints. By `TauCeti.hasDerivAt_curvatureSine`, in the
+file of the preceding paragraph, the model sine has derivative the model cosine, so
+`s_κ′(ℓ)/s_κ(ℓ)` is `TauCeti.curvatureCosine κ ℓ / TauCeti.curvatureSine κ ℓ`. The
+openness in TM of the domain of the exponential map and its smoothness there are in the
+R3.1 contract above.
+
 For R4.3, `Bundle.ContMDiffRiemannianMetric.pullback` and
 `Bundle.ContMDiffRiemannianMetric.pullback_inner` in
 `TauCeti/Geometry/Manifold/Riemannian/Pullback/Basic.lean`: the C^n metric
@@ -556,6 +622,13 @@ or such a similarity followed by an inversion in a sphere centred on the boundar
 hyperplane; and `TauCeti.RiemannianIsometry.ext_of_mfderiv_eq` (`Isometry/Ext.lean`),
 two Riemannian isometries of a preconnected boundaryless Hausdorff smooth Riemannian
 manifold with the same value and differential at one point are equal.
+`TauCeti.ModelGeometry.Space` (`ModelGeometry/Basic.lean`) is the manifold underlying
+each of the eight three-dimensional model geometries `TauCeti.ModelGeometry`: the unit
+sphere of ℝ⁴, Euclidean three-space and the upper half-space of ℝ²×ℝ in the three cases
+of constant curvature. `TauCeti.HyperbolicMetric` (`Hyperbolic.lean`) is a smooth
+Riemannian metric, complete for its Riemannian distance, whose curvature is the
+constant-curvature tensor with parameter −1, on a preconnected T3 smooth manifold
+modelled on a finite-dimensional space.
 
 For the round-sphere connection of R4.7 and the flat-ambient case of R5a,
 `CovariantDerivative.IsLeviCivitaConnection.inner_apply_eq_inner_mvfderiv` in
@@ -624,6 +697,27 @@ symmetric, ‖S‖⁻¹ is the least value of B(v,v)/‖Jv‖² over the v with 
 Mathlib's Lax–Milgram equivalence `IsCoercive.continuousLinearEquivOfBilin` in
 `Mathlib/Analysis/InnerProductSpace/LaxMilgram.lean`.
 
+For R5c: `TauCeti.IsRegularValue` in `TauCeti/Geometry/Manifold/RegularValue.lean`, every
+point of the level a point where the manifold derivative is surjective, for the defining
+functions of item 3; `TauCeti.Manifold.laplaceBeltrami_eq_sum_hessian` in
+`TauCeti/Geometry/Manifold/Riemannian/Laplacian.lean`, Δf(x) is the sum of the values
+Hess f(e_i,e_i) of the scalar Hessian over every orthonormal basis (e_i) of T_xM; in
+`TauCeti/Geometry/Manifold/Riemannian/DivergenceTheorem.lean`, on a boundaryless manifold
+and for f of compact support, Green's first identity
+`TauCeti.Manifold.integral_mul_laplaceBeltrami`, `∫fΔg=−∫⟨grad f,grad g⟩` for f of class C¹
+and g of class C², and Green's second identity
+`TauCeti.Manifold.integral_mul_laplaceBeltrami_right_eq_left`, `∫fΔg=∫(Δf)g` for f and g of
+class C²; in `TauCeti/Analysis/Sobolev/W1p/`, for an open subset Ω of a finite-dimensional
+real inner-product space and 1≤p<∞: `TauCeti.W1p.posPartAbove` (`ChainRule.lean`), the
+truncation (u−k)⁺ of u∈W^(1,p)(Ω) at a level k≥0, again in W^(1,p)(Ω), with weak gradient
+`1_(u>k)∇u`, whose level-0 case is the positive part `TauCeti.W1p.posPart`;
+`TauCeti.W1p.posPart_mem_w1p0Submodule` (`Truncation.lean`), u⁺ lies in W^(1,p)₀(Ω) when u
+does; and `TauCeti.W1p0.extendByZeroL` (`Extension.lean`), extension by zero as a continuous
+linear map W^(1,p)₀(Ω)→W^(1,p)₀(Ω′) for Ω⊂Ω′, preserving the norms of the value and of the
+gradient; and, in `Spectrum.lean` of the R5b paragraph,
+`IsCoercive.finiteDimensional_eigenspace_formSolutionOperator`: for J compact, the
+eigenspaces of S at nonzero eigenvalues are finite-dimensional.
+
 For R6, `TauCeti.ae_forall_isManifoldNondegenerateCriticalPoint_norm_sq_sub_comp` in
 `TauCeti/Geometry/Manifold/Morse/SquaredDistance.lean`: for a C² map i:M→V with
 injective differential from a second-countable boundaryless C² manifold modelled on
@@ -665,6 +759,89 @@ and an orthonormal basis (e_i) of T_xM,
 `TauCeti.Manifold.finrank_mul_le_of_laplaceBeltrami_eq_neg_mul` (`Lichnerowicz.lean`),
 on a compact boundaryless manifold of dimension n≥2 with Ric≥(n−1)k g for a real k,
 every λ>0 with a nonzero smooth f satisfying Δf=−λf has nk≤λ.
+
+For R7.9: `TauCeti.IsBicollar` in
+`TauCeti/Geometry/Manifold/LocallyFlat/Bicollar.lean`, an open embedding
+b:N×ℝ→M of topological spaces with b(x,0)=f(x), with
+`TauCeti.IsBicollar.range_diff_range_eq_union`, the range of b minus the range
+of f is the union of the images of N×(0,∞) and N×(−∞,0), and
+`TauCeti.IsBicollar.apply_mem_closure_image`, f(x) lies in the closure of
+b(N×s) when 0 lies in the closure of s. In
+`TauCeti/Geometry/Manifold/DeRham/Period.lean`, for a 1-form φ with values in a
+real Banach space on a smooth Hausdorff manifold modelled on a
+finite-dimensional real normed space: `TauCeti.pathClassIntegral`, the
+integral of a closed C¹ form φ along a homotopy class of paths, with the value
+0 for every other φ; `TauCeti.pathClassIntegral_trans`, its additivity under
+concatenation; `TauCeti.pathClassIntegral_mk_eq_pathIntegral`, for a closed C¹
+form and a path following a C¹ curve c on [0,1] it is the line integral
+`TauCeti.pathIntegral` of φ along c from 0 to 1
+(`TauCeti/Geometry/Manifold/DifferentialForm/Integration/Path.lean`);
+`TauCeti.periodHom`, the homomorphism it induces on the fundamental group at a
+point; and `TauCeti.mem_exactForms_one_iff_periodHom_eq_zero`, a closed smooth
+real 1-form on a preconnected manifold is exact exactly when its period
+homomorphism at one point is zero.
+`TauCeti.subsingleton_deRhamCohomology_one_of_simplyConnectedSpace` in
+`TauCeti/Geometry/Manifold/DeRham/SimplyConnected.lean`: the first de Rham
+cohomology of a simply connected manifold is trivial. In
+`TauCeti/Geometry/Manifold/RegularValue/Scalar/Sublevel.lean`, for a function
+f:M→ℝ on a boundaryless manifold of dimension n+1 and a regular value a of f
+(`TauCeti.IsRegularValue` in `TauCeti/Geometry/Manifold/RegularValue.lean`):
+`TauCeti.scalarRegularSublevelChartedSpace`, for f of class C¹ the atlas of
+`{f≤a}` modelled on the half-space `EuclideanHalfSpace (n+1)`;
+`TauCeti.isManifold_scalarRegularSublevel`, for f of class C^m, m≥1, on a C^m
+manifold, this atlas makes `{f≤a}` a C^m manifold with boundary; and
+`TauCeti.boundary_scalarRegularSublevel` and
+`TauCeti.interior_scalarRegularSublevel`, its manifold boundary is `{f=a}` and
+its manifold interior is `{f<a}`. `TauCeti.isManifold_boundary` in
+`TauCeti/Geometry/Manifold/Boundary/Charts.lean`: the boundary of a C^k
+manifold modelled on `EuclideanHalfSpace (n+1)`, k≠0, is a C^k manifold
+modelled on ℝⁿ. `TauCeti.IsOutwardPointing` in
+`TauCeti/Geometry/Manifold/Boundary/Orientation.lean`: a tangent vector at a
+boundary point of such a manifold is outward when its component along the
+constrained coordinate, slot 0 of the preferred chart at the point, is
+negative. In `TauCeti/Topology/VectorBundle/Orientation/Cover.lean`, for a real
+vector bundle E→B with finite-dimensional model fibre and an index type ι of
+cardinality the rank: `TauCeti.VectorBundleOrientationCover`, the pairs of a
+point of B and an orientation of the fibre over it, whose projection is a
+covering map (`TauCeti.VectorBundleOrientationCover.isCoveringMap_proj`) and
+whose deck involution `TauCeti.VectorBundleOrientationCover.deck` reverses the
+orientation; `TauCeti.VectorBundleOrientation.nonempty_iff_exists_section`,
+the bundle has an orientation (`TauCeti.VectorBundleOrientation`) exactly when
+the cover has a continuous section; and
+`TauCeti.VectorBundleOrientation.nonempty_iff_not_connectedSpace`, over a
+connected base, exactly when the cover is not connected.
+`TauCeti.SmoothEmbedding.ofIsSmoothEmbedding` in
+`TauCeti/Geometry/Manifold/SmoothEmbedding/Basic.lean` bundles a map satisfying
+Mathlib's `Manifold.IsSmoothEmbedding` as a `TauCeti.SmoothEmbedding`, the
+carrier of the normal bundle and of the normal exponential.
+`TauCeti.SmoothEmbedding.exists_isClosedEmbedding_normalExp_disc` in
+`TauCeti/Geometry/Manifold/TubularNeighborhood/Riemannian/DiscSphere.lean`: for
+a smooth embedding f of a compact boundaryless manifold in a boundaryless,
+Hausdorff, second-countable manifold with a smooth Riemannian metric and an
+open set O containing the image of f, there is a smooth positive radius
+function r on the source such that the normal vectors of norm at most r lie in
+the domain of the normal exponential (the R6 contract) and are mapped into O,
+and the normal exponential restricts to an open embedding of the normal
+vectors of norm less than r and to closed embeddings of those of norm at most
+r and of those of norm r.
+`TauCeti.SmoothEmbedding.exists_diffeomorph_normalBundle_riemannian_subset` in
+`TauCeti/Geometry/Manifold/TubularNeighborhood/Riemannian/Coordinates.lean`:
+for a smooth embedding f of a boundaryless manifold, the source not assumed
+compact and the image not assumed closed, in a boundaryless, Hausdorff,
+second-countable manifold with a smooth Riemannian metric and an open set O
+containing the image of f, there are an open set W inside O and a
+diffeomorphism of the total space of the normal bundle onto W sending the
+zero vector over x to f(x). The Checks of R7.9 use, in
+`TauCeti/Geometry/Manifold/DeRham/`:
+`TauCeti.subsingleton_deRhamCohomology_sphere_one` (`Sphere.lean`), the first
+de Rham cohomology of the unit sphere Sⁿ, n≥2, is trivial;
+`TauCeti.torusTimeForm_notMem_exactForms` (`Torus.lean`), each coordinate form
+dt_i of a product of circles is not exact;
+`TauCeti.deRhamCohomology.mk_circleAngularClosedForm_ne_zero` (`Circle.lean`),
+the class of the angular form dθ of the circle is not zero; and
+`TauCeti.subsingleton_deRhamCohomology_normedSpace` (`NormedSpace.lean`), the
+de Rham cohomology of a real normed space is trivial in every positive
+degree.
 
 For R8.1, in `TauCeti/RingTheory/MvPolynomial/Harmonic.lean`, over a field of
 characteristic zero with a nonempty finite set of variables: `MvPolynomial.laplacian`
@@ -732,21 +909,22 @@ The following contracts specify each supplier and section consumed.
   B6.0 supplies uniform normal and strong-convexity radii on compact sets and
   the variable-base inverse-function theorem for `(x,v)↦(x,exp_x v)`.
 - [GeometricTopology](../GeometricTopology/README.md), Layer 1: the actual normal
-  bundle and tubular neighbourhood theorem; Layer 7: the existing intrinsic
-  curvature construction and `TauCeti.riemannianVolume`. This roadmap extends
-  their geometric identities and comparison theory. General immersions use the
+  bundle and tubular neighbourhood theorem. General immersions use the
   corresponding orthogonal subbundle of f*TN; for embeddings it is canonically
   the Layer 1 normal bundle, with the same induced topology. R5a constructs the smooth orthogonal-complement-to-quotient
   comparison on this supplied normal bundle.
-  Layer 8 owns the eight three-dimensional model geometries; R4.7 compares its
-  constant-curvature models with their native `ModelGeometry.Space` instances.
-  Its smooth-triangulation theorem (Whitehead: every smooth manifold admits a
+  Layer 7 §7.1 supplies R4.7's hyperbolic quotient description and the
+  hyperbolic model-geometry identification.
+  GeometricTopology's smooth-triangulation theorem (Whitehead: every smooth manifold admits a
   smooth triangulation) supplies smooth triangulation.
   R3.2 constructs the finite marked-point refinement and its marked-pair identification.
+  R5c uses the smooth collars of §1.1 and the gluing along the boundary of §1.3.
 - [ComplexKahlerGeometry](../ComplexKahlerGeometry/README.md), K5a: real/complex
   bundle Sobolev/Rellich, distributional regularity and global estimates for
   smooth Laplace-type systems, the formal-adjoint L² comparison, compact resolvent, Green operator,
-  real de Rham Hodge theorem and harmonic representatives. This roadmap owns
+  real de Rham Hodge theorem and harmonic representatives, and, for R5c, the
+  extension of smooth functions across a smooth boundary by a collar and the
+  half-space Seeley extension. This roadmap owns
   curvature identities and their geometric consequences, not another Hodge or
   bundle L² construction. [PDE](../PDE/README.md) supplies scalar weak-derivative,
   extension and elliptic estimates through K5a. The vector-valued
@@ -767,14 +945,22 @@ The following contracts specify each supplier and section consumed.
   Dirac-type theorem only the case D:E→E is assumed; R7.3 derives the
   D:E→F case from the composition and adjoint symbol formulas. R5b's normal
   Jacobi operator and R7's geometric operators are P1.0 differential operators.
-- [PDE A1–A6, D16–D19, E20–E22](../PDE/README.md): Sobolev, trace and
-  energy/interior estimates for R5b's normal-Jacobi Dirichlet specialization.
+- [PDE A1–A6, C13, D16–D19, E20–E22](../PDE/README.md): Sobolev, trace and
+  energy/interior estimates for R5b's Dirichlet specialization to a bundle
+  (E,∇,K), of which the normal Jacobi operator is a case; for R5c the
+  agreement of W¹,² with the Bessel-potential scale (A3), the embeddings (A4),
+  the trace kernel and extension operator (A6), the strong maximum principle
+  for variable symmetric principal coefficients (C13) and the global
+  `H^(k+2)` regularity of scalar operators (E20).
   R5b constructs its boundary H² estimate and exact operator domain; these are
   not supplied by closed-manifold K5a or PDE E's interior regularity theorem.
   The abstract coercive-form solution operator, its compactness, symmetry,
   eigenbasis and Rayleigh principle are Tau Ceti's (Tau Ceti contract, R5b
   paragraph); R5b constructs the self-adjoint operator its shifted form
   represents, its geometric form and its boundary-domain identification.
+- [VariationalMethods](../VariationalMethods/README.md) 3.1, 4.1–4.4: compact
+  form pairs, the ordered eigenbasis, expansions, Courant–Fischer and the
+  counting function, at 𝕜=ℝ, for R5c.
 - [GeneralizedCohomology G4.0b](../GeneralizedCohomology/README.md#g4-generalized-lerayhirsch-thom-and-euler-theory):
   smooth quaternionic projective and Stiefel carriers, the smooth Hopf
   quotient submersion and its classical homogeneous-space diffeomorphism.
@@ -854,6 +1040,7 @@ limits of rescaled metrics labelled R1.5 rest. R3 builds the finite index
 and path-space theory, R4 the comparison and geodesic multiplicity results,
 R5 immersion geometry and volume variations, and R6 their focal consequences.
 R7 applies the supplied analytic theory to curvature identities and vanishing,
+R7.9 adds the separation and two-sidedness of closed hypersurfaces,
 and R8 identifies the spherical harmonic representations and minimal eigenmaps.
 The direct round model in R4.7 precedes the projective examples and does not
 use the comparison or path-space theorems.
@@ -882,7 +1069,10 @@ use the comparison or path-space theorems.
    `CovariantDerivative.secondCovariantDerivative_sub_swap`). R1 owns what goes
    beyond them: the moving-frame form of R and ∇R through the connection 1-forms of
    a smooth local frame, skew-symmetric for an orthonormal frame, with the frame
-   components smooth on the frame's domain.
+   components smooth on the frame's domain
+   (Bishop, *Riemannian Geometry*, §3.11, p. 13, the second structural equation
+   `Φ=dϕ+ϕ∧ϕ`; Bishop's curvature operator is the negative of ours, so his Φ is the
+   matrix of our R).
    For End-valued curvature match SBC B4's covariant exterior derivative and
    `Ω=dω+½[ω∧ω]`, `d_∇Ω=0`, explaining the equivalent matrix
    `F=dA+A∧A` convention: section coefficients are columns and
@@ -911,7 +1101,9 @@ use the comparison or path-space theorems.
    `CovariantDerivative.hasParallelCurvature_iff_isLocallyConstant_scalarCurvature_of_finrank_eq_two`
    for surfaces: K is locally constant, hence constant on each connected surface.
    Flat curvature on an open set is equivalent
-   to a local Euclidean isometry around every point of that set. For the flat
+   to a local Euclidean isometry around every point of that set
+   (Barzen–Leymann, *Mathematics of Spacetime*, Theorem 7, p. 46, which cites Lee,
+   *Introduction to Riemannian Manifolds*, second edition, Theorem 7.10). For the flat
    implication use B5's local parallel frames, torsion-free closed coframes and
    DG's local primitives, then the shared manifold inverse-function theorem.
 4. Pin the mixed form of the polarization in item 2. For the covariant
@@ -1535,7 +1727,18 @@ derivative/integral under compact-parameter hypotheses, and derive the second
 energy variation, including endpoint acceleration and corner terms. For fixed
 endpoints its Hessian is the pinned index form. For length, use normal fields
 along a unit-speed nonconstant geodesic and state the tangential/reparametrization
-degeneracy separately. On smooth closed geodesics also prove the second
+degeneracy separately.
+With free endpoints, derive from the second energy variation, with its endpoint
+acceleration terms, the second variation of length of a smooth variation Γ of a
+unit-speed geodesic γ:[0,ℓ]→M, with variation field V and transverse acceleration
+`A=D_s∂_sΓ(0,·)`:
+
+`d²/ds² L(Γ_s)|_(s=0)=∫_0^ℓ(|D_tV^⊥|²−⟨R(V^⊥,γ′)γ′,V^⊥⟩)dt+⟨A,γ′⟩|_0^ℓ`,
+
+where `V^⊥=V−⟨V,γ′⟩γ′`. It is the energy formula minus `∫_0^ℓ⟨D_tV,γ′⟩²dt`, so
+only the normal part of V enters. This is the free-endpoint formula consumed by
+R4.1's smooth upper distance barriers.
+On smooth closed geodesics also prove the second
 variation on periodic fields/variations; periodic endpoint terms cancel. This
 is the closed-geodesic formula consumed by R4.6's Synge argument; DGFloer
 owns the wider free-loop Morse theory. Give the smooth-density/approximation comparison with
@@ -2167,6 +2370,161 @@ Supply annulus/restricted-polar versions, the small-ball limit 1, measure-zero c
 
    Construct the following equality API, also consumed by PositiveMass §2.3. Equality of the flat volume ratio on all positive radii forces equality of the radial densities a.e.; smoothness on the star domain upgrades it there. The Riccati inequality has equality, so A=(1/t)Id and the radial metric is Euclidean before cut. Prove absence of a finite cut obstruction from the equality of density and the actual cut/conjugate/loop alternative, and construct the complete local-isometry covering from the exponential model. Show any nontrivial covering identification strictly reduces the full ball volume, so equality yields a global Euclidean isometry. For equality only up to a radius, retain the actual normal-domain/radius hypotheses and ball conclusion; do not infer global flatness. PositiveMass §2.3 supplies its separate asymptotically Euclidean large-ball lower limit and combines it with this comparison and the small-ball limit; neither positive-mass theory nor a zero-mass hypothesis is an input to the present comparison.
 
+   **Smooth upper distance barriers.** At a possible cut point the distance from p
+   is not smooth and the radial comparisons above do not apply. A Ricci lower bound
+   along one minimizing geodesic still gives a smooth function that touches
+   `dist(p,·)` from above at the endpoint and satisfies the model Laplacian bound
+   there. The construction uses first and second variation of length only: no
+   cut-locus theory, no smoothness of the distance and no completeness, only the
+   given geodesic and a neighbourhood of 0 in the domain of the exponential map at
+   its endpoint, which may be a cut point of p.
+
+   Let γ:[0,ℓ]→M be a unit-speed geodesic from p=γ(0) to p̄=γ(ℓ) in a Riemannian
+   n-manifold, n≥2, minimizing in the sense that ℓ=dist(p,p̄)>0. Let κ be real with
+   `Ric(γ′(t),γ′(t))≥(n−1)κ` for every t∈[0,ℓ], and ℓ<π/√κ when κ>0. Put
+   `f(t)=s_κ(t)/s_κ(ℓ)`, so that `f″+κf=0`, f(0)=0 and f(ℓ)=1; for κ=−k≤0 this is
+   `sinh(√k t)/sinh(√k ℓ)`, read as t/ℓ when k=0. Let P_t:T_p̄M→T_(γ(t))M be parallel
+   transport along γ from γ(ℓ) to γ(t), and for w∈T_p̄M define
+
+   `W_w(t)=f(t)P_t w`, `γ_w(t)=exp_(γ(t))(W_w(t))`, t∈[0,ℓ].
+
+   Thus `γ_(sw)(t)=exp_(γ(t))(sW_w(t))`, and (s,t)↦γ_(sw)(t) is a variation of γ,
+   smooth where `sW_w(t)` lies in `expDomain` by
+   `TauCeti.Manifold.contMDiffOn_riemannianExp_tangentBundle`: its central curve
+   is γ, its variation field is W_w, `γ_w(0)=p`,
+   `γ_w(ℓ)=exp_p̄(w)`, and each transverse curve s↦γ_(sw)(t) is a geodesic. Take γ
+   on an open interval containing [0,ℓ], to which it extends as a geodesic, with P
+   and f on that interval, so that the variation is smooth at the end parameters.
+   Prove that there is ρ>0 such that the tangent ball B_ρ(0)⊂T_p̄M is a normal domain
+   at p̄, `W_w(t)` lies in `expDomain` at γ(t) for all |w|<ρ and t∈[0,ℓ], the map
+   (t,w)↦γ_w(t) is C^∞ on [0,ℓ]×B_ρ(0), and every γ_w has nowhere vanishing
+   velocity. On the normal neighbourhood `V=exp_p̄(B_ρ(0))` of p̄ define
+
+   `r̃(x)=L(γ_(log_p̄ x))`,
+
+   the length on [0,ℓ] of the curve indexed by the Riemannian logarithm of x. The
+   gradient, Hessian and Laplacian of r̃ at p̄ depend only on its germ there, so its
+   values off V are immaterial. Prove:
+
+   - r̃ is C^∞ on V, `r̃(x)≥dist(p,x)` for every x∈V, and `r̃(p̄)=ℓ=dist(p,p̄)`;
+   - `grad r̃(p̄)=γ′(ℓ)`, so `|grad r̃(p̄)|=1`;
+   - for every w∈T_p̄M, with `w^⊥=w−⟨w,γ′(ℓ)⟩γ′(ℓ)`,
+     `Hess r̃_p̄(w,w)=∫_0^ℓ(f′(t)²|w^⊥|²−f(t)²⟨R(P_t w^⊥,γ′)γ′,P_t w^⊥⟩)dt`,
+     the value of R3's bulk index integral at the field `W_(w^⊥)`; the direction
+     γ′(ℓ) contributes zero;
+   - `Δr̃(p̄)=∫_0^ℓ((n−1)f′(t)²−f(t)²Ric(γ′(t),γ′(t)))dt≤(n−1)s_κ′(ℓ)/s_κ(ℓ)`, where
+     Δ is Tau Ceti's `TauCeti.Manifold.laplaceBeltrami`, `Δ=div grad`, and
+     `s_κ′(ℓ)/s_κ(ℓ)` is `TauCeti.curvatureCosine κ ℓ / TauCeti.curvatureSine κ ℓ`,
+     by `TauCeti.hasDerivAt_curvatureSine`. In the sign
+     convention of this roadmap the bound is `Δ⁺r̃(p̄)≥−(n−1)s_κ′(ℓ)/s_κ(ℓ)`. For
+     κ=−k≤0 it reads `Δr̃(p̄)≤(n−1)√k coth(√k ℓ)≤(n−1)(√k+1/ℓ)`, the middle term
+     being (n−1)/ℓ when k=0 and the last step being `x coth x≤1+x` for x>0.
+
+   The headline `exists_upper_barrier_laplaceBeltrami_le` states the first and last
+   items as an existence statement: a function smooth at p̄, equal to ℓ there and at
+   least `dist(p,·)` near p̄, whose Laplacian at p̄ is at most
+   `(n−1)s_κ′(ℓ)/s_κ(ℓ)`. The Lean statement carries no dimension hypothesis:
+   for n=1 the bound is 0 and the arclength coordinate along γ, continued past
+   p̄, is such a function, with Laplacian 0; for n=0 no unit-speed geodesic
+   exists.
+
+   Proof programme: the zero vectors at the points γ(t), t∈[0,ℓ], form a compact
+   subset of the set of tangent vectors lying in `expDomain`, which is open in TM
+   by `TauCeti.Manifold.isOpen_setOfPred_mem_expDomain`, and
+   `|W_w(t)|=|f(t)||w|` because parallel transport is isometric; with
+   `TauCeti.Manifold.exists_isNormalDomain_ball` this gives ρ, and
+   `TauCeti.Manifold.contMDiffOn_riemannianExp_tangentBundle`, composed with the
+   smooth map (t,w)↦(γ(t),W_w(t)) into TM, gives the joint smoothness. The speed of
+   γ_0=γ is 1, so after shrinking ρ the speeds are positive and w↦L(γ_w) is smooth
+   by differentiation under the integral; composing with the smooth
+   `TauCeti.Manifold.riemannianLog` of the normal domain gives the regularity of
+   r̃. The inequality `r̃≥dist(p,·)` holds because γ_w is a C¹ curve from p to
+   `exp_p̄(w)`, and `r̃(p̄)=L(γ)=ℓ`. For the gradient, the central curve has unit
+   speed, so the s-derivative at s=0 of `L(γ_(sw))` equals that of the energy
+   `½∫_0^ℓ|∂_tγ_(sw)|²dt`, which Tau Ceti's `TauCeti.Manifold.hasDerivAt_energy`
+   (supplier contract) gives with free endpoints: it is
+   `⟨W_w(ℓ),γ′(ℓ)⟩−⟨W_w(0),γ′(0)⟩−∫_0^ℓ⟨W_w,D_tγ′⟩dt=⟨w,γ′(ℓ)⟩`, and
+   `d(exp_p̄)_0=Id` by `TauCeti.Manifold.mfderiv_riemannianExp_zero`. For the
+   Hessian prove that a C² function h near x and a geodesic c with c(0)=x satisfy
+   `(h∘c)″(0)=Hess h(c′(0),c′(0))`, with Hess Tau Ceti's
+   `TauCeti.Manifold.hessian`, and apply it to `c(s)=exp_p̄(sw)`, along which
+   `r̃(c(s))=L(γ_(sw))`. Apply R3's second variation of length with free endpoints
+   to the variation (s,t)↦γ_(sw)(t), whose variation field is W_w. Its transverse
+   acceleration A vanishes, every transverse curve being a geodesic, and
+   `W_w^⊥=W_(w^⊥)` with `D_tW_(w^⊥)=f′P_t w^⊥`, because γ′ is parallel and
+   `P_tγ′(ℓ)=γ′(t)`; this is the Hessian formula. In the direction
+   w=γ′(ℓ) the curve `γ_(sw)(t)=γ(t+sf(t))` is a reparametrization of γ on
+   [0,ℓ+s], of length exactly ℓ+s, which exhibits the first derivative 1 and the
+   second derivative 0 directly: the same modulation f serves in the tangential
+   direction. Trace the Hessian over an orthonormal basis e_1,…,e_(n−1),γ′(ℓ) of
+   T_p̄M with `TauCeti.Manifold.laplaceBeltrami_eq_sum_hessian`. The vectors
+   P_te_i are an orthonormal basis of the orthogonal complement of γ′(t), by
+   `CovariantDerivative.IsMetricCompatible.inner_eq_of_alongCurveWithin_eq_zero`,
+   so `Σ_i⟨R(P_te_i,γ′)γ′,P_te_i⟩=Ric(γ′,γ′)` by
+   `CovariantDerivative.ricciTensor_eq_sum_inner`, the term of γ′ itself
+   vanishing. Finally `(n−1)f′²−f²Ric(γ′,γ′)≤(n−1)(f′²−κf²)=(n−1)(ff′)′` by
+   `f″=−κf`, and `(ff′)(ℓ)−(ff′)(0)=f′(ℓ)=s_κ′(ℓ)/s_κ(ℓ)` (Lynch, *The Cheng–Yau
+   gradient estimate for Jacobi fields*, Proposition B.1 and its proof,
+   pp. 15–16, with constant weight and N=n, for this second-variation comparison
+   with the modulation f when κ=−k≤0; the constant written κ≥0 there is √k). For
+   every real κ, on a complete manifold with `Ric≥(n−1)κ` the distance r from p
+   satisfies `Δr≤Δ_κ r` in the barrier sense, Δ_κ r being the Laplacian of the
+   distance in the model of curvature κ, through Calabi's upper barrier
+   `ε+dist(γ(ε),·)` (Wei, *Manifolds with a lower Ricci curvature bound*, §3,
+   inequality (3.1), Lemma 3.4 and Theorem 3.6, pp. 3–4).
+
+   The barrier API also comprises:
+
+   - Where `dist(p,·)` is C² near p̄, the function `r̃−dist(p,·)` has a local minimum
+     at p̄, so `Hess r̃_p̄(w,w)≥Hess dist(p,·)_p̄(w,w)` by Tau Ceti's
+     `TauCeti.Manifold.hessian_self_nonneg_of_isLocalMin`, and the barrier bound
+     gives `Δ dist(p,·)(p̄)≤(n−1)s_κ′(ℓ)/s_κ(ℓ)` there.
+   - For a nonincreasing C² function F and a nonnegative C² function Q near p̄,
+     `F(r̃)Q≤F(dist(p,·))Q` on V with equality at p̄. A local maximum of
+     `F(dist(p,·))Q` at p̄ is therefore a local maximum of the C² function
+     `F(r̃)Q`, to which `TauCeti.Manifold.laplaceBeltrami_nonpos_of_isLocalMax`
+     applies with the gradient and Laplacian of r̃ above: in this form a
+     maximum-principle argument with a radial cutoff passes through a cut point.
+
+   **Checks.**
+
+   - Euclidean ℝⁿ, κ=0, p=0 and |p̄|=ℓ: `γ_w(t)=(t/ℓ)(p̄+w)` is the segment from 0
+     to p̄+w, so `r̃(x)=|x|` near p̄ and `Δr̃(p̄)=(n−1)/ℓ`, equality in the bound; for
+     n=3, ℓ=2 both sides are 1.
+   - Hyperbolic space of curvature −1 with κ=−1: `Ric(γ′,γ′)=−(n−1)`,
+     `f=sinh t/sinh ℓ` and `Δr̃(p̄)=(n−1)∫_0^ℓ(f′²+f²)dt=(n−1)coth ℓ`, the Laplacian
+     of the distance itself, so equality again; for n=2, ℓ=1 the value is 1.3130.
+     The modulation t/ℓ on the same geodesic gives `(n−1)(1/ℓ+ℓ/3)`, which is
+     1.3333 for n=2, ℓ=1: still a barrier, with a weaker bound, so the model
+     modulation is the one that yields the stated constant.
+   - Unit sphere Sⁿ with p̄ antipodal to p, ℓ=π and κ=0, admissible because
+     `Ric(γ′,γ′)=n−1≥0`: `dist(p,·)=π−dist(p̄,·)` is not differentiable at p̄,
+     while the barrier exists with f=t/π and
+     `Δr̃(p̄)=(n−1)∫_0^π(1/π²−t²/π²)dt=(n−1)(1/π−π/3)≈−0.729(n−1)`, below the
+     bound (n−1)/π≈0.318(n−1). In the convention of this roadmap
+     `Δ⁺r̃(p̄)≈0.729(n−1)≥−0.318(n−1)`; the reversed inequality
+     `Δ⁺r̃(p̄)≤−(n−1)/π` fails.
+   - Unit sphere with κ=1 and ℓ=3π/4: `f=sin t/sin ℓ` and
+     `Δr̃(p̄)=(n−1)cot ℓ=−(n−1)`, the Laplacian of the distance at p̄, so the bound
+     is attained and is negative. At ℓ=π the model sine vanishes and f is
+     undefined, so the guard ℓ<π/√κ is needed; the antipodal point is reached with
+     κ=0 as in the previous check.
+   - Tangential direction in ℝⁿ: `r̃(p̄+s p̄/ℓ)=ℓ+s`, with first derivative 1 and
+     second derivative 0, as for `γ_(sγ′(ℓ))(t)=γ(t+sf(t))` in general.
+
+   *Needs:* R3 (second variation of length with free endpoints; bulk
+   index integral); SmoothBundlesConnections B5.0 (parallel transport along γ,
+   linear, smooth in the parameter and agreeing with Tau Ceti's covariant
+   derivative along curves); HopfRinow (Completed) Layers 1–2 (exponential map
+   and its open domain, normal domains and logarithm); Tau Ceti
+   `TauCeti.Manifold.contMDiffOn_riemannianExp_tangentBundle`,
+   `TauCeti.Manifold.hasDerivAt_energy`,
+   `TauCeti.Manifold.riemannianLog`,
+   `TauCeti.Manifold.laplaceBeltrami_eq_sum_hessian`,
+   `CovariantDerivative.ricciTensor_eq_sum_inner`,
+   `TauCeti.curvatureSine`, `TauCeti.curvatureCosine` and
+   `TauCeti.hasDerivAt_curvatureSine` (supplier contract).
+
 2. On a connected complete noncompact manifold, prove a ray exists from every
    point by compactness of initial unit directions and a limit of minimizing
    segments. For p∈M let M_p be its connected component, carrying the restricted smooth
@@ -2317,8 +2675,9 @@ Supply annulus/restricted-polar versions, the small-ball limit 1, measure-zero c
 
 7. Consume the existing `TauCeti` round-sphere RiemannianBundle and
    `Riemannian/Hyperbolic.lean`, `Hyperbolic/UpperHalfSpace/Basic.lean` objects and
-   GT Layer 7’s `HyperbolicMetric`; compare with GT Layer 8's native
-   `ModelGeometry.Space` in dimension 3. The curvature +1 of the round unit sphere,
+   Tau Ceti's `TauCeti.HyperbolicMetric`; compare the Euclidean and round models
+   with Tau Ceti's `TauCeti.ModelGeometry.Space` in dimension 3. The curvature +1 of
+   the round unit sphere,
    the curvature 1/r² of the round metric of radius r>0 and the curvature −1 of the
    half-space metric `(|dx|²+dt²)/t²` are Tau Ceti's
    `TauCeti.hasConstantSectionalCurvature_sphere`,
@@ -2367,18 +2726,21 @@ Supply annulus/restricted-polar versions, the small-ball limit 1, measure-zero c
    local constant-curvature isometry germs from their value/tangent data, using
    completeness to continue along finite paths and simple connectivity to
    remove path dependence.
-   Prove the Killing–Hopf universal-cover classification (`killingHopf_euclidean`,
-   `killingHopf_sphere`, `killingHopf_hyperbolic`: a connected complete simply
+   Prove the Killing–Hopf universal-cover classification in curvature 0 and 1
+   (`killingHopf_euclidean`, `killingHopf_sphere`: a connected complete simply
    connected Riemannian manifold modelled on ℝⁿ with constant sectional
-   curvature 0, 1 or −1 is isometric to Euclidean n-space, to the unit sphere
-   of ℝ^(n+1), or to the upper half-space model of hyperbolic n-space with the
-   metric `(|dx|²+dt²)/t²`; the spherical case needs n≥2, since the line
+   curvature 0 or 1 is isometric to Euclidean n-space or to the unit sphere
+   of ℝ^(n+1); the spherical case needs n≥2, since the line
    satisfies the curvature hypothesis vacuously for n=1 and is not a circle,
-   and the hyperbolic case needs n≥1 so that the two dimensions agree, while
-   the Euclidean case holds for every n, a point and the line included;
-   Barzen–Leymann, *Mathematics of Spacetime*, Theorem 9, p. 60, with the
-   hyperboloid sheet as the model of curvature −1) and the quotient
+   while the Euclidean case holds for every n, a point and the line included;
+   Barzen–Leymann, *Mathematics of Spacetime*, Theorem 9, p. 60) and, in these
+   two curvatures, the quotient
    description by free properly discontinuous discrete smooth isometries.
+   For n ≥ 1 the curvature −1 case (a complete hyperbolic n-manifold is ℍⁿ/Γ,
+   with universal cover the upper half-space model in ℝⁿ⁻¹×ℝ) and that model's
+   identification with `TauCeti.ModelGeometry` are GeometricTopology §7.1's,
+   consumed here; for n = 0 the point satisfies the curvature hypothesis
+   vacuously and has no half-space model.
    For a free properly discontinuous group of smooth isometries of any Riemannian
    manifold, none of the following needs constant curvature: the quotient atlas is
    Mathlib's `MulAction.instChartedSpaceQuotient` and the orbit projection is a
@@ -2407,9 +2769,9 @@ Supply annulus/restricted-polar versions, the small-ball limit 1, measure-zero c
    generic isometric quotient with that carrier and descend the round metric.
    **The round real-projective quotient, with low-dimensional and orientation branches.**
 
-   For every n ≥ 0 use the native unit sphere in `EuclideanSpace ℝ (Fin (n+1))` with its antipodal integer-unit action and Tau Ceti's orbit quotient `TauCeti.RealProjectiveSpace` n. The native projection is continuous, surjective, a quotient covering map and identifies x and y exactly when x = y or x = −y; its compactness/path-connectedness/unique-zero-dimensional carrier are existing declarations. Construct its comparison with AlgebraicTopology AT4.6's native `Projectivization` ℝ (Fin (n+1) → ℝ), after the `WithLp` linear homeomorphism. Send a unit vector to its one-dimensional span. Surjectivity chooses a nonzero vector on the line and normalizes it; if two unit vectors span the same line the real scalar has absolute value 1, hence is ±1. The induced quotient bijection is continuous, and compact-to-Hausdorff gives the homeomorphism. Pin representative, inverse, topology and basepoint equations. This comparison is an owned construction, not supplied by the mere generic quotient theorem.
+   For every n ≥ 0 use the native unit sphere in `EuclideanSpace ℝ (Fin (n+1))` with its antipodal integer-unit action and Tau Ceti's orbit quotient `TauCeti.RealProjectiveSpace` n. The native projection is continuous, surjective, a quotient covering map and identifies x and y exactly when x = y or x = −y; its compactness/path-connectedness/unique-zero-dimensional carrier are existing declarations. Consume AlgebraicTopology §4.6's homeomorphism from `TauCeti.RealProjectiveSpace` n to `Projectivization` ℝ (Fin (n+1) → ℝ), induced by v↦[v] on the unit sphere after the `WithLp` linear homeomorphism, together with §4.6's Hausdorffness of Mathlib's quotient topology.
 
-   In the projective chart with coordinate i nonzero choose its unit representative with positive i-th coordinate. The affine ratio vector gives the explicit smooth section, with normalizing denominator √(1 + Σ ratios²) > 0. Compare it with the lifted smooth antipodal-cover atlas and AT's designated projective atlas by these coordinate maps; the identity is a diffeomorphism and no second projective manifold/topology is installed. The antipodal action is a smooth round isometry, free even on S⁰. The generic Riemannian quotient/pullback metric then descends the round metric, and in each local sheet sectional curvature equals 1 for n ≥ 2. In dimensions 0 and 1 the sectional statement has no two-plane test and is vacuous; no positive-Ricci Myers hypothesis is inferred there. Compactness is from the sphere quotient, before any classification of complete space forms.
+   Through that homeomorphism, §4.6's smooth comparison with the affine charts identifies the lifted smooth antipodal-cover atlas with AT's projective atlas; no second projective manifold or topology is installed. The antipodal action is a smooth round isometry, free even on S⁰. The generic Riemannian quotient/pullback metric then descends the round metric, and in each local sheet sectional curvature equals 1 for n ≥ 2. In dimensions 0 and 1 the sectional statement has no two-plane test and is vacuous; no positive-Ricci Myers hypothesis is inferred there. Compactness is from the sphere quotient, before any classification of complete space forms.
 
    For n ≥ 1 the connected sphere is oriented by the outward-normal-first orientation. The antipodal map on the ambient ℝⁿ⁺¹ has determinant (−1)ⁿ⁺¹; its boundary-sphere degree is the same sign. Prove the normal/tangent orientation comparison, not determinant(-Id on a fixed abstract n-plane), which would give the wrong exponent. A quotient orientation pulls back to an invariant sphere orientation; conversely an invariant orientation descends in the covering charts. On connected Sⁿ every orientation differs by one global sign, so an orientation-reversing deck transformation obstructs every descent. Thus RPⁿ is orientable exactly for odd n when n ≥ 1. RP⁰ is a single point and is orientable separately. This is a concrete quotient/parity comparison, not a full Stiefel–Whitney or Killing–Hopf classification input.
 
@@ -2829,7 +3191,10 @@ universal-cover manifold, fibre bijection and pullback metric, and
 SmoothBundlesConnections B5.2, before applying Myers. R4.7's quotients use
 Mathlib's quotient atlas and covering and Tau Ceti's quotient manifold,
 descended metric and curvature naturality.
-R4.6 supplies cut-locus integration to R4.1. R4.8 uses R3 and the topological
+R4.6 supplies cut-locus integration to R4.1. R4.1's smooth upper distance
+barriers use R3's second variation, SmoothBundlesConnections B5.0 and Tau Ceti's
+exponential map and first variation of energy, with no cut-locus input.
+R4.8 uses R3 and the topological
 contracts named there; R4.9 uses its separately stated planar, parabolic and
 finite-relative-homology inputs, never its own minimax conclusion.
 
@@ -3253,16 +3618,26 @@ sections, not the scalar inequality for every function on the cover.
 Prove the W¹,²_0 quadratic-form extension on relatively compact smooth
 domains and its agreement with the smooth form. Consume PDE A1–A6, D16–D19 and
 E20–E22's Sobolev, trace and bounded-domain elliptic/Dirichlet estimates, and own
-their finite-chart Riemannian normal-bundle specialization: actual
-metric/connection weights, trace-compatible transitions, bounded curvature
+their finite-chart specialization to bundles. Let E be a smooth real vector
+bundle of finite rank over a Riemannian manifold M, with a fibre metric, a
+metric connection ∇ (SmoothBundlesConnections B2–B4) and a smooth section K of
+End(E) with K_x symmetric for the fibre metric at every x, and let
+`L=∇*∇+K`, where `∇*∇` is PseudodifferentialOperators P1.0's connection
+Laplacian, with form `∫_D[⟨∇u,∇v⟩+⟨Ku,v⟩] dvol`. The normal Jacobi operator
+and the second-variation form Q above are the case M=P, E=ν_f, ∇=∇⊥ and
+`⟨Ku,v⟩=−Σ_i⟨R^N(u,e_i)e_i,v⟩−Σ_ij⟨B(e_i,e_j),u⟩⟨B(e_i,e_j),v⟩`. The
+specialization comprises actual
+metric/connection weights, trace-compatible transitions, bounded
 potential, coercive shift, form closure and compact embedding. On a relatively
-compact smooth domain D⊂P write V=W¹,²₀(D;ν), H=L²(D;ν), J:V→H for the
+compact smooth domain D⊂M write V=W¹,²₀(D;E), H=L²(D;E), J:V→H for the
 inclusion, injective and compact with dense range, and Q for the extended form,
-bounded and symmetric on V. Prove the coercive shift: with K the supremum over D
-of the curvature potential, `Q(u,u)≥‖∇⊥u‖²−K‖Ju‖²`, so there are c≥0 and α>0
+bounded and symmetric on V. Prove the coercive shift: for k₀≥0 with
+`⟨K_x e,e⟩≥−k₀|e|²` for every x∈D̄ and e∈E_x, `Q(u,u)≥‖∇u‖²−k₀‖Ju‖²`, so there
+are c≥0 and α>0
 with `Q(u,u)+c‖Ju‖²≥α‖u‖²_V` for every u∈V.
 
-Define the Dirichlet Jacobi operator L_D as the partial operator on H whose graph
+Define the Dirichlet operator L_D of L, the Dirichlet Jacobi operator in the
+normal-bundle case, as the partial operator on H whose graph
 is the set of pairs (Ju,f) with Q(u,v)=⟨f,Jv⟩ for every v∈V; injectivity and
 dense range of J make u and f unique, and its domain is the image under J of the
 u for which v↦Q(u,v) is bounded by a multiple of ‖Jv‖. Prove that L_D is
@@ -3310,9 +3685,10 @@ bundle Laplace theory and PDO P5/P6 does not supply a Dirichlet boundary theorem
   not bounded by a multiple of the L² norm of v, so φ∉dom L_D; s(π−s) lies in
   dom L_D with L_D(s(π−s))=2.
 
-Own the boundary H² estimate for the normal Jacobi operator on a relatively compact smooth domain D
-with smooth boundary and the actual smooth normal bundle/connection. For its
-normal Jacobi operator L, a weak u∈W¹,²₀ with Lu=f∈L² satisfies
+Own the boundary H² estimate for `L=∇*∇+K` on a relatively compact smooth domain D
+with smooth boundary and the actual smooth bundle E and connection ∇, in
+particular the normal bundle and ∇⊥. For
+L, a weak u∈W¹,²₀ with Lu=f∈L², that is Q(u,v)=⟨f,Jv⟩ for every v∈V, satisfies
 `‖u‖_(W²,²)≤C(‖f‖_(L²)+‖u‖_(L²))`. Construct the finite-chart bundle W²,²
 carrier and equivalent transition/trace norms. Prove the boundary estimate by
 smooth boundary flattening, localized tangential difference quotients and the
@@ -3320,10 +3696,10 @@ first-order energy estimate; control connection/metric commutators and recover
 the second normal derivative from the uniformly elliptic normal coefficient.
 The principal symbol is the scalar metric symbol times the identity. This
 boundary H² theorem is a target here, not an assumed PDE E theorem.
-Own the Dirichlet-domain identification: L_D has domain exactly W²,²(D;ν)∩W¹,²₀(D;ν), with graph norm
+Own the Dirichlet-domain identification: L_D has domain exactly W²,²(D;E)∩W¹,²₀(D;E), with graph norm
 equivalent to W²,². Compare it with the smooth differential operator and give
 interior/up-to-boundary higher regularity for smooth data by the same chart
-argument. No global Fredholm claim on arbitrary noncompact P is inferred.
+argument. No global Fredholm claim on an arbitrary noncompact base is inferred.
 
 Own the scalar Gauss equation of a minimal hypersurface with full scalar curvature:
 `Scal_P=Scal_N−2Ric_N(ν,ν)+(tr A)²−|A|²`, and
@@ -3335,6 +3711,340 @@ formulas require their own stated variation class and outward/normal
 second-fundamental-form signs; the compactly supported interior formula
 does not silently include them. CalibratedGeometry C6 retains its special
 Lagrangian/Hodge Hessian identity on its existing carrier.
+
+### R5c. Schrödinger operators on compact manifolds: spectrum, principal eigenfunction and Dirichlet problem
+
+R5b supplies the Dirichlet realization of a symmetric Schrödinger operator on
+a Riemannian vector bundle over a relatively compact smooth domain, the
+normal Jacobi operator being a case. R5c adds the closed manifolds, regularity
+up to the boundary at every order,
+the min–max characterization, the index on smooth sections and, for
+scalar operators, the theory of the lowest eigenvalue (simplicity, positivity,
+strict domain monotonicity), the first positive eigenvalue of Δ⁺ with its
+Rayleigh characterization, and the inhomogeneous Dirichlet problem with
+positivity.
+
+Let (M,g) be a Riemannian manifold of dimension m≥1, E→M a smooth real vector
+bundle of finite rank with a fibre metric and a metric connection ∇
+(SmoothBundlesConnections B2–B4), and K a smooth section of End(E) with K_x
+symmetric for the fibre metric at every x, as in R5b. The symmetric bundle
+Schrödinger operator is
+
+`L=∇*∇+K`,
+
+where `∇*∇` is PseudodifferentialOperators P1.0's connection Laplacian, the
+negative metric trace of the second covariant derivative. It is a P1.0
+differential operator of Laplace type with leading scale 1, formally
+self-adjoint for the canonical density. In the scalar case E is the trivial
+line with ∇=d and K is a smooth function q, and
+
+`L=Δ⁺+q`, that is `Lu=−Δu+qu`
+
+for Tau Ceti's `TauCeti.Manifold.laplaceBeltrami` Δ; prove this identification
+from `TauCeti.Manifold.laplaceBeltrami_eq_sum_hessian`. R5b's normal Jacobi
+operator is the case M=P, E=ν_f, ∇=∇⊥ and
+`⟨Ku,v⟩=−Σ_i⟨R^N(u,e_i)e_i,v⟩−Σ_ij⟨B(e_i,e_j),u⟩⟨B(e_i,e_j),v⟩`,
+and its hypersurface Jacobi operator is the scalar case `q=−(|A|²+Ric_N(ν,ν))`.
+
+The standing manifolds are boundaryless and no carrier for manifolds with
+boundary is introduced: as in R5b, a compact manifold with smooth boundary is
+the closure of a relatively compact smooth domain D⊂M, an open subset with
+compact closure each of whose boundary points has a chart of M in which D is
+the half-space x_m>0. Its boundary ∂D is a compact embedded hypersurface, and
+g, E, ∇ and K on D̄ are the restrictions of the data on M. The Dirichlet case
+is ∂D≠∅. In the closed case, ∂D=∅, D is a compact union of connected
+components of M; replace M by D, so that M is compact and D=M. Write C^∞(D̄;E)
+for the sections of E over D that are smooth up to the boundary, that is
+smooth on D with every derivative, in charts of M and smooth local frames of
+E, extending continuously to D̄, and C^∞_c(D;E) for the smooth sections with
+compact support in D.
+
+Write H=L²(D;E), V=W¹,²₀(D;E), which is W¹,²(M;E) in the closed case, J:V→H
+for the inclusion and
+
+`Q(u,v)=∫_D[⟨∇u,∇v⟩+⟨Ku,v⟩] dvol_g`.
+
+Fix k₀≥0 with `⟨K_x e,e⟩≥−k₀|e|²` for every x∈D̄ and e∈E_x. Then
+`Q(u,u)≥‖∇u‖²−k₀‖Ju‖²`, and the shifted form Q+c⟨J·,J·⟩ is coercive on V for
+every c>k₀.
+
+In the Dirichlet case R5b supplies, for (E,∇,K): the
+finite-chart Sobolev carriers and the W¹,²₀ form extension, the compact
+inclusion J with dense range, the self-adjoint Dirichlet operator L_D with
+`(L_D+c)⁻¹=S` for S Tau Ceti's `IsCoercive.formSolutionOperator` of the shifted
+form along J, the Hilbert basis of eigensections with eigenvalues κ−c, the
+least eigenvalue as the least Rayleigh quotient, the index statement on V, the
+boundary H² estimate, the operator domain W²,²∩W¹,²₀ and regularity up to the
+boundary for smooth data. Consume them; none is proved again here.
+Construct the finite-chart carriers W^(k,2)(D;E) for every k≥0 as
+R5b constructs W²,², and prove the boundary estimate at every order: for
+f∈W^(k,2)(D;E), a u∈V with Q(u,v)=⟨f,Jv⟩ for every v∈V lies in
+W^(k+2,2)(D;E), and
+
+`‖u‖_(W^(k+2,2))≤C_k(‖f‖_(W^(k,2))+‖u‖_(L²))`,
+
+by R5b's boundary flattening and tangential difference quotients applied to
+the tangentially differentiated equation, the equation itself giving the
+normal derivatives; for scalar L the boundary step is PDE E20's global
+H^(k+2) theorem in boundary charts. Prove that C^∞(D̄;E) is the intersection
+of the W^(k,2)(D;E), k≥0, from PDE A4's embeddings through A6's extension
+operator in boundary charts; in these terms R5b's regularity for smooth data
+is that f∈C^∞(D̄;E) gives u∈C^∞(D̄;E).
+
+In the closed case nothing of this is rebuilt: consume
+[ComplexKahlerGeometry](../ComplexKahlerGeometry/README.md) K5a. For c>k₀ the
+operator L+c is a formally self-adjoint nonnegative Laplace-type system on the
+compact boundaryless M, and K5a supplies its Gårding inequality, the
+compactness and dense range of J, its H² realization, self-adjoint with
+compact resolvent, a Hilbert basis of L²(M;E) of smooth eigensections, and
+elliptic regularity. Here V is K5a's first-order Sobolev space of E, and
+Q+c⟨J·,J·⟩ is K5a's energy form of L+c. Define L_D, for D=M, as that
+realization minus c. Prove
+that it does not depend on c, that `(L_D+c)⁻¹=S` for the solution operator S
+of Q+c⟨J·,J·⟩ along J as in R5b, and that its eigenvalues are those of L+c
+minus c.
+
+*Needs:* R5b (the Dirichlet realization for (E,∇,K)); ComplexKahlerGeometry
+K5a (closed case); PDE A4, A6 and E20; PseudodifferentialOperators P1.0 (the
+connection Laplacian); SmoothBundlesConnections B2–B4; Tau Ceti
+`TauCeti.Manifold.laplaceBeltrami`,
+`TauCeti.Manifold.laplaceBeltrami_eq_sum_hessian` and
+`IsCoercive.formSolutionOperator`.
+
+In both cases let D be nonempty and E of positive rank, so that H is
+infinite-dimensional, since m≥1. Deduce from the realization that the
+spectrum of L_D is real,
+consists of eigenvalues of finite multiplicity
+(`IsCoercive.finiteDimensional_eigenspace_formSolutionOperator`) and has no
+finite accumulation point. List the eigenvalues with multiplicity as
+
+`μ₁≤μ₂≤…`, `μ_k→+∞`,
+
+written μ_k(L,D), or μ_k(L) in the closed case. Prove that every eigensection
+lies in C^∞(D̄;E) and vanishes on ∂D, and that there is a Hilbert basis (u_k)
+of H with `Lu_k=μ_k u_k`. For the order and the variational characterization
+consume [VariationalMethods](../VariationalMethods/README.md) 3.1 and 4.1–4.4:
+J and Q with the coercive shift above form a compact form pair, μ_k is its
+eigenvalue λ_(k−1) in VariationalMethods' indexing from 0, its 4.2 identifies
+the μ_k with the numbers κ−c, κ the variational eigenvalues of Tau Ceti's
+basis `IsCoercive.exists_hilbertBasis_forall_apply_eq_smul_inner` as in R5b,
+and its Courant–Fischer theorem is the Rayleigh min–max characterization
+
+`μ_k=min_(W⊂V, dim W=k) max_(u∈W, u≠0) Q(u,u)/‖Ju‖²`,
+
+attained on the span of u₁,…,u_k; for k=1 it is
+`IsCoercive.isLeast_rayleighQuotient` for the shifted form. The abstract
+ordered eigenbasis and min–max theorem are not proved again here.
+
+Prove the index statement. Call a section admissible if it lies in C^∞(M;E)
+in the closed case, and in C^∞_c(D;E) in the Dirichlet case. Every admissible
+u lies in the domain of L_D with L_D u=Lu, so `⟨u,Lu⟩_(L²)=Q(u,u)`. The
+supremum of the dimensions of the spaces W of admissible sections with
+⟨u,Lu⟩<0 for every nonzero u∈W is finite and equals the number of k with
+μ_k<0, the number of negative eigenvalues counted with multiplicity. In the
+Dirichlet case the same holds, with the same number, for the spaces of
+sections in C^∞(D̄;E) vanishing on ∂D. A route: these sections lie in V, a
+section in C^∞(D̄;E) vanishing on ∂D being in W¹,²₀ by the trace-kernel
+theorem of PDE A6 in boundary charts, and C^∞_c(D;E) is dense in V. On V the
+supremum is the number of negative eigenvalues: this is the index statement
+of the realization above, the value at 0 of the counting function of
+VariationalMethods 4.4. Since Q is bounded on V, negative definiteness on a
+finite-dimensional subspace of V is stable under small perturbations of a
+basis in the norm of V, so such a subspace is approximated by one of the same
+dimension in C^∞_c(D;E).
+
+*Needs:* the realization above; VariationalMethods 3.1 and 4.1–4.4; PDE A6
+(the trace kernel); Tau Ceti
+`IsCoercive.finiteDimensional_eigenspace_formSolutionOperator`,
+`IsCoercive.exists_hilbertBasis_forall_apply_eq_smul_inner` and
+`IsCoercive.isLeast_rayleighQuotient`.
+
+**Scalar principal eigenfunction.** Let `L=Δ⁺+q` and let D be connected.
+Prove:
+
+1. μ₁(L,D) is simple, and its eigenspace is spanned by a φ₁∈C^∞(D̄) with φ₁>0
+   on D. In the Dirichlet case φ₁ vanishes on ∂D. The headline
+   `exists_pos_dirichletEigenfunction_neg_laplaceBeltrami_add` states the
+   Dirichlet case on D̄, a compact manifold with boundary modelled on
+   Mathlib's `𝓡∂ m`, among the functions smooth up to the boundary and
+   vanishing on it. Every compact Riemannian manifold with boundary arises
+   so: a collar (GeometricTopology §1.1), glued along the boundary (§1.3),
+   extends the manifold, and the metric extends across the boundary by
+   ComplexKahlerGeometry K5a's Seeley extension, staying positive definite on a
+   neighbourhood of D̄. On a closed connected M
+   the headline `exists_pos_eigenfunction_neg_laplaceBeltrami_add` states
+   this among smooth functions, with μ₁ their least Rayleigh quotient
+   `(∫|∇u|²+∫qu²)/∫u²`. The Lean statement carries no dimension hypothesis:
+   for m=0 a closed connected M is a point, Δ⁺=0, μ₁ is the value of q there
+   and φ₁=1.
+2. On a closed connected M there is a smooth h>0 with Lh=0 if and only if
+   μ₁(L)=0.
+3. Strict domain monotonicity: for connected relatively compact smooth
+   domains D₁ and D₂ of M with D̄₁⊂D₂ and D₁≠D₂, where D₂ may be closed, that
+   is D₂=M for a compact connected M, `μ₁(L,D₁)>μ₁(L,D₂)`. The headline
+   `exists_rayleigh_lt_of_pos_dirichletEigenfunction` states it with
+   Dᵢ={ρᵢ<0} for smooth ρᵢ with regular value 0 and {ρᵢ≤0} compact, D₂=M
+   closed being ρ₂=−1. Every relatively compact smooth domain has such a ρ,
+   glued by a partition of unity from −x_m in boundary charts and ±1 away from
+   ∂D. μ₁(L,D₁) is given by a positive eigenfunction smooth up to ∂D₁ and
+   vanishing there (item 1), and μ₁(L,D₂)<μ₁(L,D₁) is written as a smooth
+   function supported in D₂ whose Rayleigh quotient is below μ₁(L,D₁).
+4. For q=0 on a closed connected M, μ₁(Δ⁺)=0 with eigenspace the constants,
+   the first positive eigenvalue `λ₁(Δ⁺)=μ₂(Δ⁺)` is positive and has a smooth
+   eigenfunction, and
+
+   `λ₁(Δ⁺)=inf{∫|∇f|²/∫f² : f∈C^∞(M), f≠0, ∫f=0}`,
+
+   the infimum being attained at the λ₁-eigenfunctions. The headline
+   `exists_pos_laplaceBeltrami_eigenvalue_isLeast` states the positivity of
+   λ₁(Δ⁺), its smooth eigenfunction and this characterization. It gives the
+   Poincaré–Wirtinger inequality `∫(f−a)²≤λ₁(Δ⁺)⁻¹∫|∇f|²` for f∈C^∞(M), a
+   the mean of f, with least constant λ₁(Δ⁺)⁻¹. R7.0's Lichnerowicz
+   bound is a lower bound for every positive eigenvalue; the existence of the
+   least one, its eigenfunction and this characterization are owned here.
+
+A route: for item 1, let u lie in the μ₁-eigenspace.
+Then |u|=u⁺+(−u)⁺∈V with Q(|u|,|u|)=Q(u,u) and ‖J|u|‖=‖Ju‖, by Tau Ceti's
+truncation `TauCeti.W1p.posPartAbove` at level 0 in charts. In the Dirichlet
+case it preserves the zero-boundary class
+(`TauCeti.W1p.posPart_mem_w1p0Submodule`); in the closed case there is no
+boundary condition, and V is W¹,² in charts by PDE A3.
+So |u| attains the least Rayleigh
+quotient and, by the expansion of Q in the eigenbasis (VariationalMethods
+4.3), lies in the μ₁-eigenspace; hence |u|∈C^∞(D̄). Write q−μ₁=c⁺−c⁻ with
+c⁺,c⁻≥0 continuous. Then `Δ|u|−c⁺|u|=−c⁻|u|≤0` for Tau Ceti's Δ, and the
+strong maximum principle of PDE C13 in charts (variable symmetric principal
+part, zeroth-order coefficient −c⁺≤0; Gilbarg–Trudinger, Theorem 3.5) makes
+the zero set of |u| open in D. It is closed and D is connected, so a nonzero
+u has no zero in D, hence one sign; and if the eigenspace had dimension at
+least 2, some nonzero element would vanish at a chosen point of D. For
+item 2, φ₁ is such an h when μ₁=0; conversely Green's identity
+`TauCeti.Manifold.integral_mul_laplaceBeltrami_right_eq_left` gives
+`μ₁∫φ₁h=∫(Lφ₁)h=∫φ₁Lh=0`, and ∫φ₁h>0. For item 3, extension by zero
+(`TauCeti.W1p0.extendByZeroL` in charts) maps V for D₁ into V for D₂ and
+preserves Q and the L² norm, so μ₁(L,D₂)≤μ₁(L,D₁). In case of equality the
+extension of the first eigenfunction of D₁ attains the least Rayleigh
+quotient on D₂, so it is a first eigenfunction there; it is continuous and
+vanishes on ∂D₁, which is nonempty and contained in D₂, against item 1. For
+item 4, a harmonic function f on a closed connected manifold is constant,
+since Green's first identity `TauCeti.Manifold.integral_mul_laplaceBeltrami`
+with g=f gives ∫|∇f|²=0; the functions of
+mean zero are the L²-orthogonal complement of u₁, so μ₂ is the constrained
+minimum of VariationalMethods 4.1 over the elements of V of mean zero, in
+which the smooth functions of mean zero are dense; and the
+Poincaré–Wirtinger inequality is the Rayleigh bound for f−a, which has mean
+zero, with equality at the λ₁-eigenfunctions.
+
+*Needs:* the realization and the min–max characterization above; PDE A3
+(closed case) and C13; VariationalMethods 4.1 and 4.3; GeometricTopology
+§1.1 and §1.3 and ComplexKahlerGeometry K5a's Seeley extension (for the
+headline on a manifold with boundary); Tau
+Ceti
+`TauCeti.W1p.posPartAbove`, `TauCeti.W1p.posPart_mem_w1p0Submodule`,
+`TauCeti.W1p0.extendByZeroL`, `TauCeti.Manifold.integral_mul_laplaceBeltrami`
+and `TauCeti.Manifold.integral_mul_laplaceBeltrami_right_eq_left`.
+
+**Scalar Dirichlet problem.** Let D be a relatively compact smooth domain
+such that every connected component of D̄ meets ∂D, let `L=Δ⁺+q`, and suppose
+μ₁(L,D)>0. Prove that for every f∈C^∞(D̄) and every smooth function φ on ∂D
+there is exactly one u∈C^∞(D̄) with
+
+`Lu=f on D`, `u=φ on ∂D`,
+
+and that u>0 on D̄ whenever f≥0 on D and φ>0 on ∂D. Prove the Friedrichs
+inequality in this form: if every connected component of D̄ meets ∂D, then
+μ₁(Δ⁺,D)>0, that is `‖Ju‖²≤μ₁(Δ⁺,D)⁻¹‖∇u‖²` on W¹,²₀(D). So the theorem holds
+for L=Δ⁺ with no hypothesis on the spectrum. The headline
+`existsUnique_dirichletProblem_neg_laplaceBeltrami_add` states it on D̄ as in
+item 1, with μ₁(L,D)>0 written as positivity of Q on the nonzero smooth
+functions vanishing on ∂D, which is equivalent because the first
+eigenfunctions are such functions, and with φ the restriction to ∂D of a
+smooth function on D̄.
+
+A route: for 0<t<1, `Q(u,u)≥t‖∇u‖²+((1−t)μ₁−tk₀)‖Ju‖²`, so Q is coercive on V
+for small t. Extend φ to a smooth Φ on M through a tubular neighbourhood of
+∂D (GeometricTopology Layer 1) and a cutoff. Lax–Milgram
+(`IsCoercive.continuousLinearEquivOfBilin`) gives a unique w∈V with
+Q(w,v)=⟨f−LΦ,Jv⟩ for every v∈V; w∈C^∞(D̄) by the boundary estimate, and
+u=Φ+w. Two solutions in C^∞(D̄) differ by an element of V, by the trace-kernel
+theorem, which solves the homogeneous weak equation and so vanishes. For
+positivity, u⁻=max(−u,0) has compact support in D, since u is continuous on D̄
+and positive on ∂D; so u⁻∈V, and `Q(u⁻,u⁻)=−∫f u⁻≤0` gives u⁻=0. With
+q=q⁺−q⁻, `Δu−q⁺u=−q⁻u−f≤0` for u≥0, so by PDE C13 the zero set of u is open
+and closed in D; u is positive near ∂D, which every component of D̄ meets, so u
+has no zero. For the Friedrichs inequality, Q≥0 when q=0, and an eigenfunction
+for the eigenvalue 0 has ∇u=0: it is locally constant on D, lies in C^∞(D̄)
+and vanishes on ∂D, which every component of D̄ meets, so it vanishes.
+
+*Needs:* the boundary estimate and the Rayleigh characterization of μ₁
+above; GeometricTopology Layer 1 (a tubular neighbourhood of ∂D); PDE A6 (the
+trace kernel) and C13; Mathlib `IsCoercive.continuousLinearEquivOfBilin`; Tau
+Ceti `TauCeti.W1p.posPartAbove` (u⁻ is the truncation of −u at level 0).
+
+For R5b's normal Jacobi operators these statements give: the Morse index of a
+minimal immersion over a closed source or over a relatively compact smooth
+domain D of its source, the supremum of the dimensions of the spaces of smooth
+normal fields, with compact support in D in the Dirichlet case, on which
+R5b's second-variation form is negative definite, is the number of negative
+eigenvalues of its normal Jacobi
+operator; a closed connected two-sided minimal hypersurface has a positive
+Jacobi function exactly when μ₁(L)=0; and on a stable two-sided minimal
+hypersurface, a connected relatively compact smooth domain D whose closure
+lies in a larger such domain has μ₁(L,D)>0, so that Lu=0 has exactly one
+solution with u=1 on ∂D, smooth up to the boundary and positive on D̄.
+
+The statements for scalar operators on bounded Euclidean domains are
+Gilbarg–Trudinger, Chapter 8: Theorems 8.12–8.14 for regularity up to the
+boundary, Theorem 8.37 for the eigenvalue sequence, its variational
+characterization and the eigenfunction basis, and Theorem 8.38 for the simple
+first eigenvalue with its positive eigenfunction.
+
+- In the Dirichlet and in the closed case, the eigenvalues `μ₁≤μ₂≤…→+∞` of
+  L_D have finite multiplicity and are
+  given by the min–max formula, and its eigensections are smooth up to the
+  boundary and contain a Hilbert basis of L²(D;E).
+- The index of ⟨u,Lu⟩ on smooth admissible sections is the number of negative
+  eigenvalues, with multiplicity.
+- For scalar L on a connected domain, μ₁ is simple with a positive
+  eigenfunction and decreases strictly when the domain grows; on a closed
+  connected M, Lh=0 has a positive solution exactly when μ₁=0.
+- On a closed connected M, `λ₁(Δ⁺)=μ₂(Δ⁺)>0` is the least Rayleigh quotient of
+  the smooth functions of mean zero.
+- If μ₁(L,D)>0, in particular for L=Δ⁺, the Dirichlet problem Lu=f, u=φ has
+  exactly one solution smooth up to the boundary, positive for f≥0 and φ>0.
+
+**Checks.**
+
+- Sign and closed spectrum. On the unit circle `Δ⁺=−d²/dx²` has eigenvalues
+  0,1,1,4,4,…: μ₁=0 is simple with constant eigenfunctions, and λ₁(Δ⁺)=1 with
+  eigenfunctions cos x and sin x and Rayleigh quotient ∫cos²x/∫sin²x=1. On the
+  unit two-sphere the eigenvalues are j(j+1), j≥0, with multiplicity 2j+1, so
+  λ₁=2 has multiplicity 3: simplicity is a statement about μ₁ only. With Tau
+  Ceti's Δ=div grad the operator is −Δ+q; reading it as Δ+q turns the circle
+  spectrum into 0,−1,−1,−4,…, unbounded below, and μ_k→+∞ fails.
+- Index and positive solutions. On the unit circle with q=−1 the eigenvalues
+  are k²−1, that is −1,0,0,3,3,…: the index is 1, and Lh=0 has the solutions
+  cos x and sin x but no positive one, as μ₁=−1≠0; for q=0, μ₁=0 and h=1. For
+  a smooth q≥0, not identically 0, on a closed connected M,
+  Q(u,u)=∫|∇u|²+∫qu² vanishes only for u=0 (u is a constant c with c²∫q=0),
+  so μ₁(Δ⁺+q)>0 and Lh=0 has only the solution 0. The totally geodesic
+  S² in the unit S³ has A=0 and Ric_N(ν,ν)=2, so L=Δ⁺−2 with eigenvalues
+  j(j+1)−2, that is −2, then 0 three times, then 4: index 1, nullity 3 and no
+  positive Jacobi function.
+- Dirichlet problem on D=(0,π)⊂ℝ, where Δ⁺+q with q constant has eigenvalues
+  k²+q and eigenfunctions sin kx, k≥1. For q=0, μ₁=1>0, and f=1, φ=1 give
+  u=1+x(π−x)/2>0. For q=−2, μ₁=−1<0 and 0 is not an eigenvalue: f=0, φ=1 has
+  the unique solution `u=cos(√2(x−π/2))/cos(√2π/2)`, with
+  u(π/2)=1/cos(√2π/2)≈−1.65<0, so positivity needs μ₁>0. For q=−1, μ₁=0, and
+  f=0, φ=1 has no solution, since cos x+b sin x equals −1 at π.
+- Domains and bundles. D₁=(π/4,3π/4) and D₂=(0,π) have μ₁(Δ⁺,D₁)=4>1=μ₁(Δ⁺,D₂);
+  an arc of length ℓ<2π of the unit circle has μ₁=(π/ℓ)²>¼, while μ₁=0 on the
+  circle. D=(0,π)∪(2π,3π) has μ₁=μ₂=1, with nonnegative first eigenfunctions
+  vanishing on a component, so connectedness is needed in item 1. On the
+  Möbius line bundle over the unit circle with its flat metric connection and
+  K=0, the sections are the functions with u(x+2π)=−u(x) and the eigenvalues
+  are (j+½)², j≥0, each of multiplicity 2: μ₁=μ₂=¼ and every eigensection has
+  a zero, so simplicity and positivity are scalar statements.
 
 ### Examples
 
@@ -3352,6 +4062,19 @@ boundary estimates and Tau Ceti's Lax–Milgram solution operator
 `IsCoercive.formSolutionOperator` with its eigenbasis and Rayleigh principle; its
 normal Jacobi operator, principal symbol and formal self-adjointness use
 PseudodifferentialOperators P1.0's operator, symbol and formal-adjoint carriers.
+R5b's Dirichlet realization is stated for a bundle with a metric connection of
+SmoothBundlesConnections B2–B4 and for P1.0's connection Laplacian.
+R5c uses R5b's Dirichlet realization with its PDE and Tau Ceti inputs, PDE
+A3, A4 and A6, C13's strong maximum principle and E20's global regularity,
+ComplexKahlerGeometry K5a on closed manifolds and its Seeley extension across a
+boundary, VariationalMethods 3.1 and
+4.1–4.4 for the ordered eigenvalues and the min–max principle,
+PseudodifferentialOperators
+P1.0's connection Laplacian, SmoothBundlesConnections B2–B4, GeometricTopology
+Layer 1's tubular neighbourhoods, collars (§1.1) and gluing along the boundary
+(§1.3), and Tau Ceti's Laplace–Beltrami
+operator,
+Green identities, Sobolev truncation and extension by zero.
 
 ## Layer 6: focal points and squared distance
 
@@ -3527,6 +4250,9 @@ K5a's Sobolev and Hodge analysis. It consumes Tau Ceti's scalar Bochner identity
 Lichnerowicz bound (R7.0), owns their invariance, integrated and equality
 statements, and owns the geometric Weitzenböck identities with their vanishing
 consequences (R7.1–R7.8).
+R7.9 adds the separation and two-sidedness of closed hypersurfaces, on
+GeometricTopology Layer 1.5's tubes and Tau Ceti's de Rham periods, using
+neither P1.0 nor K5a and R7.6 only for its positive-Ricci corollary.
 
 ### R7.0. Scalar Bochner identity and the first positive eigenvalue
 
@@ -3740,6 +4466,304 @@ and has no positive eigenvalue.
    [NoncommutativeGeometry](../NoncommutativeGeometry/README.md)'s carriers;
    this item specifies the classical manifold commutator-distance theorem.
 
+### R7.9. Separating and two-sided hypersurfaces
+
+R7.9 is the differential topology of closed hypersurfaces on this roadmap's
+carriers. It answers two questions: when a hypersurface bounds a domain on
+each side, the setting of the divergence theorem and of Dirichlet problems on
+one side of a minimal hypersurface, these domains being compact when the
+ambient manifold is; and when a hypersurface has a unit normal at all. It rests on
+GeometricTopology Layer 1.5's tubular neighbourhood theorem in its Riemannian
+form, R5a's normal bundle, Tau Ceti's first de Rham cohomology with its periods
+(DifferentialGeometry 6.1 and 6.3), Tau Ceti's bicollars, regular sublevels
+and vector-bundle orientation cover, and Mathlib's covering maps. It uses no
+Poincaré duality, Mayer–Vietoris sequence, Hodge theory or intersection
+number, and R7.6 only for the positive-Ricci corollary.
+
+Throughout, M has dimension n≥1, Σ is a boundaryless manifold of dimension
+n−1, not necessarily compact, and f:Σ→M is a smooth embedding whose image f(Σ)
+is closed in M, a *closed embedded hypersurface*; it is *compact* when Σ is,
+and the image of a compact Σ is closed. M is second countable, as everywhere
+in this roadmap, which the signatures in `Suggested.lean` state as a
+hypothesis, and need not be compact. No orientation of M or
+Σ and no completeness of M is assumed. The normal bundle of f (GT Layer 1.5's
+`TauCeti.SmoothEmbedding.NormalSpace`, identified by R5a with the orthogonal
+complement `ν_f`) is a line bundle with the induced fibre metric. Call f
+*two-sided* when it has a unit normal field ν, a smooth section of `ν_f` of
+norm one, as R5b supposes, and *one-sided* otherwise. The unit vectors of
+`ν_f` form the *unit normal double cover* `S(ν_f)→Σ`, with deck involution
+u↦−u. Prove that sending a unit vector to the orientation of its fibre for
+which it is a positive basis is a homeomorphism of `S(ν_f)` onto Tau Ceti's
+`TauCeti.VectorBundleOrientationCover` of `ν_f`, over Σ and commuting with the
+deck involutions. Hence `S(ν_f)→Σ` is a two-sheeted covering; f is two-sided
+exactly when this covering has a continuous section, a continuous unit normal
+field being smooth because it is locally plus or minus a smooth one,
+equivalently when `ν_f` is orientable
+(`TauCeti.VectorBundleOrientation.nonempty_iff_exists_section`); and for
+connected Σ, f is one-sided exactly when `S(ν_f)` is connected
+(`TauCeti.VectorBundleOrientation.nonempty_iff_not_connectedSpace`). Sections
+of `ν_f` are the functions ψ on `S(ν_f)` with ψ(−u)=−ψ(u), through s(x)=ψ(u)u
+for u over x: this is the double cover of R5b's deck-odd description. For n=1,
+Σ is discrete and every f is two-sided.
+
+**Separation.** Let M be connected, Σ compact and connected, and f two-sided
+with unit normal ν. Construct the *normal collar* `c_ν:Σ×(−ε,ε)→M`,
+`c_ν(x,t)=exp_(f(x))(tν(x))`, R6's `TauCeti.SmoothEmbedding.normalExp` at
+tν(x). Prove that for ε>0 small, which exists because Σ is compact, it is a
+diffeomorphism onto an open
+neighbourhood U of f(Σ) with `c_ν(x,0)=f(x)` (GT Layer 1.5,
+`TauCeti.SmoothEmbedding.exists_isClosedEmbedding_normalExp_disc`), and that
+`(x,s)↦c_ν(x,εs/√(1+s²))` is a bicollar of f, `TauCeti.IsBicollar`. Write
+`t:U→(−ε,ε)` for the second component of the inverse of `c_ν`, and
+`U₊=c_ν(Σ×(0,ε))`, `U₋=c_ν(Σ×(−ε,0))` for the two sides. Fix a smooth
+χ:ℝ→[0,1] with χ=0 on (−∞,−ε/2] and χ=1 on [ε/2,∞). The *crossing form* `ω_ν`
+is the 1-form equal to `d(χ∘t)` on U and to 0 off the compact band
+`c_ν(Σ×[−ε/2,ε/2])`; the band is closed in M and `d(χ∘t)` vanishes on U off
+it, so `ω_ν` is smooth, closed and compactly supported, whether or not M is
+compact. Prove:
+
+- `M∖f(Σ)` has at most two connected components, with no cohomological
+  hypothesis. A component is open and, M being connected, not closed, so it has
+  a frontier point, necessarily on f(Σ); it then meets U and contains U₊ or U₋:
+  these are the images of the connected `Σ×(0,ε)` and `Σ×(−ε,0)`, so each lies
+  in a single component of `M∖f(Σ)`.
+- The class of `ω_ν` in `TauCeti.deRhamCohomology I M 1` does not depend on ε
+  or χ, and `[ω_(−ν)]=−[ω_ν]`.
+- `[ω_ν]=0` exactly when `M∖f(Σ)` is not connected. If Ω₊⊇U₊ and Ω₋⊇U₋ are its
+  two components, the function equal to χ∘t on U, to 1 on Ω₊∖U and to 0 on
+  Ω₋∖U is a primitive. If `M∖f(Σ)` is connected, so is the complement W of the
+  band, onto which `M∖f(Σ)` is pushed homeomorphically along the collar; a loop
+  that follows the normal segment `t↦c_ν(x,t)`, |t|≤3ε/4, and returns inside W,
+  where `ω_ν=0`, has period `χ(3ε/4)−χ(−3ε/4)=1` (`TauCeti.periodHom`, computed
+  with `TauCeti.pathClassIntegral_trans` and
+  `TauCeti.pathClassIntegral_mk_eq_pathIntegral`), whereas exact forms have zero
+  periods (`TauCeti.mem_exactForms_one_iff_periodHom_eq_zero`).
+
+Prove the separation theorem (1): if moreover `H¹_dR(M)=0`, that is
+`TauCeti.deRhamCohomology I M 1` is trivial, then `M∖f(Σ)` has exactly two
+connected components, Ω₊⊇U₊ and Ω₋⊇U₋; there are at most two, and `[ω_ν]=0`
+makes the complement disconnected (Bott–Tu, *Differential Forms in Algebraic
+Topology*, Ch. I, §5, for the closed form dual to a closed oriented
+submanifold, which `ω_ν` represents up to sign when M and Σ are oriented; here
+it comes from the collar, and no duality is used).
+The case M=ℝⁿ of (1) is the separation statement of the Jordan–Brouwer
+theorem for a compact connected hypersurface with a unit normal field, and
+this route is its proof in E. L. Lima, *The
+Jordan–Brouwer separation theorem for smooth hypersurfaces*, Amer. Math.
+Monthly 95 (1988), 39–42: a function on a tubular neighbourhood vanishing
+exactly on the hypersurface, whose differential is extended to ℝⁿ and
+integrated; (1) replaces the exactness of closed 1-forms on ℝⁿ by
+`H¹_dR(M)=0`. For simply connected M, where two-sidedness is not a hypothesis,
+the separation is S. Caracciolo, R. G. Edwards, A. Pelissetto and A. D. Sokal,
+*Wolff-type embedding algorithms for general nonlinear σ-models*, Appendix
+A.1, Theorem A.2, p. 49 (the complement of a closed hypersurface is not
+connected), and Remark 3 after Theorem A.3, p. 51 (that of a connected one
+has at most two components); the proof there is by mod 2 intersection numbers.
+Caracciolo et al. cite M. W. Hirsch, *Differential Topology*, for both: as
+"[74, Theorem 4.4.6]" for that proof when the hypersurface is compact and
+connected (Remark 1 after Theorem A.2, p. 49) and as "[74, Lemma 4.4.4]" for
+at most two components (Remark 3), that is, Ch. 4, §4, Theorem 4.6 and
+Lemma 4.4.
+
+Construct a *defining function*: a smooth φ:M→ℝ with `φ⁻¹(0)=f(Σ)`,
+`Ω₊={φ>0}`, `Ω₋={φ<0}` and `grad φ=ν` along f, namely φ=h∘t on U and φ=±1 on
+`Ω_±∖U`, for a smooth nondecreasing h with h(t)=t near 0, h=−1 on (−ε,−ε/2]
+and h=1 on [ε/2,ε). Then 0 is a regular value of φ (`TauCeti.IsRegularValue`).
+Prove `closure Ω_±=Ω_±∪f(Σ)`, using
+`TauCeti.IsBicollar.apply_mem_closure_image` and
+`TauCeti.IsBicollar.range_diff_range_eq_union`; the closures
+`D₋=Ω₋∪f(Σ)={φ≤0}` and `D₊=Ω₊∪f(Σ)={−φ≤0}` are then regular sublevels. This is
+the sense in which they are manifolds with common smooth boundary:
+with Tau Ceti's atlas `TauCeti.scalarRegularSublevelChartedSpace`, each is a
+smooth manifold with boundary over the half-space model `𝓡∂ n`
+(`TauCeti.isManifold_scalarRegularSublevel`), closed in M and therefore
+compact when M is; when M is not compact, at least one of the two is not.
+Each is a carrier of DifferentialGeometry 12.5's divergence theorem, which
+holds for every smooth vector field on a compact one and for the fields
+vanishing outside a compact subset of a noncompact one; its manifold
+interior is Ω₋, respectively Ω₊, and its manifold boundary is f(Σ)
+(`TauCeti.interior_scalarRegularSublevel`,
+`TauCeti.boundary_scalarRegularSublevel`). Prove that, with
+`TauCeti.scalarRegularSublevelChartedSpace`, the inclusion ι of a regular
+sublevel `{φ≤a}` in M, for any smooth φ with regular value a, is smooth with
+invertible differential, and that a tangent vector v at a boundary point of
+`{φ≤a}` is outward (`TauCeti.IsOutwardPointing`) exactly when `dφ(dι v)>0`:
+the outward vectors of a sublevel are those on which its function increases.
+Prove that f is a diffeomorphism of
+Σ onto the boundary of each, with Tau Ceti's boundary atlas
+(`TauCeti.isManifold_boundary`), and that, for the metric pulled back along
+the inclusion, DG 12.5's outward unit normal at f(x) is ν(x) on D₋ and −ν(x)
+on D₊, read through the differential of the inclusion: `dφ(ν)=1` along f.
+
+**Two-sidedness.** Here M need not be compact or connected, and Σ need not be
+compact or connected. For every closed embedded hypersurface f construct the
+*crossing double cover* `p_f:X_f→M`. A noncompact Σ need not have a collar
+of constant width, so take from GT Layer 1.5's
+`TauCeti.SmoothEmbedding.exists_diffeomorph_normalBundle_riemannian_subset`,
+which needs neither compactness of Σ nor closedness of f(Σ), a diffeomorphism
+Φ of the total space of `ν_f` onto an open neighbourhood U of f(Σ) with
+`Φ(0_x)=f(x)`. Only these properties of Φ are used; it need not be the normal
+exponential. Let `c_f:S(ν_f)×ℝ→U`, `c_f(u,t)=Φ(tu)`. Prove that it is a
+two-sheeted covering of U, with `c_f(−u,−t)=c_f(u,t)` and `c_f(u,0)=f(x)` for
+u over x: over an open subset of Σ on which `ν_f` has a unit section ν, its
+two sheets are (x,t)↦Φ(tν(x)) and (x,t)↦Φ(−tν(x)). `X_f` is the quotient of
+the disjoint union of
+`(M∖f(Σ))×{1,−1}` and `S(ν_f)×ℝ` that identifies (u,t), t≠0, with
+`(c_f(u,t),sign t)`, and `p_f` is the first projection on the first piece and
+`c_f` on the second. The closedness of f(Σ) is used here, and nowhere else
+in (2): `M∖f(Σ)` is then open, and M is the union of the two open sets
+`M∖f(Σ)` and U over which `p_f` is described. Prove:
+
+- `p_f` is a covering map with two-point fibres (Mathlib's `IsCoveringMap`):
+  the identification is a homeomorphism of `S(ν_f)×(ℝ∖{0})` onto
+  `(U∖f(Σ))×{1,−1}`, an open subset of `(M∖f(Σ))×{1,−1}`, so `p_f` is the
+  trivial two-sheeted cover over `M∖f(Σ)` and `c_f` over U.
+- u↦[(u,0)] is a homeomorphism of `S(ν_f)` onto `p_f⁻¹(f(Σ))` over f. Hence a
+  continuous section of `p_f` restricts to a continuous section of
+  `S(ν_f)→Σ`, and f is two-sided.
+
+Prove (2): a simply connected M (Mathlib's `SimplyConnectedSpace`) contains no
+closed embedded one-sided hypersurface, compact or not. M is locally
+path-connected, so its
+identity lifts through `p_f` (`IsCoveringMap.existsUnique_continuousMap_lifts`),
+the lift is a section, and f is two-sided by the second item. No mod 2
+intersection number and no transversality theorem is used.
+The statement is H. Samelson, *Orientability of hypersurfaces in ℝⁿ*, Proc.
+Amer. Math. Soc. 22 (1969), 301–302, for hypersurfaces that are closed subsets
+of ℝⁿ and, by its closing remark, p. 302, of any simply connected manifold;
+orientability there means that the normal returns to itself around every loop
+of the hypersurface, which is two-sidedness. Samelson's proof is the parity
+argument of the mod 2 intersection number: a one-sided hypersurface gives a
+loop meeting it exactly once, transversally, whereas the preimage of the
+hypersurface in a transversal disc spanning the loop consists of closed curves
+and of arcs, each with two ends on the boundary circle.
+
+The headline statements are:
+
+- (1) In a connected M with `H¹_dR(M)=0`, a compact connected two-sided
+  embedded hypersurface separates M: `M∖f(Σ)` has exactly two components, whose
+  closures are smooth manifolds, compact when M is, with common boundary f(Σ)
+  and outward unit normals ν and −ν
+  (`separates_of_subsingleton_deRhamCohomology_one`: the two components are
+  open, connected and disjoint, with closures `Ω_±∪f(Σ)`; the manifold
+  structure of the closures and their outward normals are the targets of the
+  defining-function paragraph above).
+- On a connected compact M with Ric>0, (1) applies: R7.6's
+  `subsingleton_deRhamCohomology_one_of_ricciTensor_pos` gives `H¹_dR(M)=0`.
+- (2) A simply connected M contains no closed embedded one-sided hypersurface
+  (`exists_unitNormal_of_simplyConnectedSpace`: an embedded hypersurface with
+  closed image in a simply connected M has a smooth unit normal field).
+- In a simply connected M every compact connected embedded hypersurface
+  is two-sided, by (2), and separates M as in (1), since
+  `TauCeti.subsingleton_deRhamCohomology_one_of_simplyConnectedSpace` gives
+  `H¹_dR(M)=0`.
+
+GeometricTopology 1.7.1 item 3, for closed locally flat surfaces in ℝ³ by a
+parity count, and Poincare3D 8.1, for embedded spheres in closed simply
+connected three-manifolds by duality and van Kampen, are separate statements
+with their own proofs; R7.9 consumes neither.
+
+**Checks.**
+
+- Equator of the unit Sⁿ, n≥2: f(x)=(x,0), ν=e_(n+1) and
+  `c_ν(x,t)=(cos t·x, sin t)`, a diffeomorphism of `S^(n−1)×(−π/2,π/2)` onto
+  the complement of the two poles. `H¹_dR(Sⁿ)=0`
+  (`TauCeti.subsingleton_deRhamCohomology_sphere_one`), Ω₊ and Ω₋ are the open
+  hemispheres x_(n+1)>0 and x_(n+1)<0, and φ=x_(n+1) is a defining function,
+  its gradient e_(n+1)−x_(n+1)p at p being ν on the equator. The outward unit
+  normal of the lower closed hemisphere D₋ is e_(n+1)=ν and that of the upper
+  one is −ν; the opposite assignment points into the domains. For n=1 the
+  equator S⁰ is not connected.
+- Width of the collar of that equator: `c_ν(x,t)=(cos t·x, sin t)` is injective
+  on `S^(n−1)×(−ε,ε)` exactly when ε≤π/2. For |t|<π/2 the image point
+  determines t, the arcsine of its last coordinate, and then x; at t=±π/2
+  every x is sent to a pole.
+- Sign of the defining function of that equator: `−x_(n+1)` has the zero set
+  and the regular value 0 of `x_(n+1)`, but its gradient on the equator is −ν
+  and its positive set is Ω₋, so the laws `grad φ=ν` and `Ω₊={φ>0}` exclude
+  it; it is the defining function for the unit normal −ν. `x_(n+1)³` has the
+  zero set and the sign sets of `x_(n+1)`, but its gradient
+  `3x_(n+1)²(e_(n+1)−x_(n+1)p)` vanishes on the equator, so `grad φ=ν`
+  excludes it, and 0 is not a regular value of it.
+- Smoothness of the defining function: on the unit S² the signed distance to
+  the equator is `arcsin x₃`, which equals t on the collar `S¹×(−π/2,π/2)`. It
+  is also π/2−r, r the distance to the north pole, so it is not differentiable
+  at that pole and is not a defining function. This is why h is constant for
+  |t|≥ε/2: φ=h∘t then extends smoothly by ±1 across the ends of the collar.
+- Flat torus ℝ²/ℤ² with coordinates (θ,s): the circle θ=0 is two-sided with
+  ν=∂_θ and `c_ν(s,t)=(t,s)`, |t|<1/2, and its complement 0<θ<1 is connected.
+  Here `ω_ν=χ′(θ)dθ=dθ+d(χ(θ)−θ)`, and χ(θ)−θ on −1/2≤θ≤1/2 equals −θ near
+  the left end and 1−θ near the right end, with value 1/2 at both, so it is a
+  smooth function on the torus; thus `[ω_ν]=[dθ]≠0`
+  (`TauCeti.torusTimeForm_notMem_exactForms`), with period 1 on the loop
+  u↦(u,0), 0≤u≤1. The hypothesis `H¹_dR(M)=0` cannot be dropped from (1).
+  Moreover `p_f` is the connected double cover ℝ/2ℤ×ℝ/ℤ→ℝ²/ℤ², with no section
+  although f is two-sided: a section of `p_f` is sufficient for two-sidedness,
+  not necessary.
+- A defining function needs separation: for that circle θ=0 of the flat torus
+  no smooth φ has `φ⁻¹(0)=f(Σ)` and `grad φ=ν` along f. Such a φ would be
+  positive on U₊ and negative on U₋, each being connected and free of zeros,
+  with φ(c_ν(x,t))=t+o(t); but φ has no zero on the connected complement
+  0<θ<1, which contains both, so it has one sign there.
+- Circle, n=1: a point is a compact connected two-sided hypersurface with
+  connected complement; its crossing form is a bump form of integral 1,
+  cohomologous to dθ/2π, whose class is not zero
+  (`TauCeti.deRhamCohomology.mk_circleAngularClosedForm_ne_zero`).
+- Noncompact M: `H¹_dR(ℝⁿ)=0`
+  (`TauCeti.subsingleton_deRhamCohomology_normedSpace`). On ℝ the point p with
+  ν=∂_x has `c_ν(p,t)=p+t` and `ω_ν=d(χ(x−p))`; it leaves the two half-lines
+  Ω₋=(−∞,p) and Ω₊=(p,∞), with defining function x−p, and neither closure is
+  compact. On ℝⁿ, n≥2, the unit sphere with ν(x)=x has `c_ν(x,t)=(1+t)x`,
+  injective exactly when ε≤1; Ω₋ is the open unit ball, Ω₊ the exterior, and
+  `(|y|²−1)/2` is a defining function, its gradient y being ν on the sphere.
+  D₋ is the closed ball, compact, with outward unit normal ν; D₊ is `{|y|≥1}`,
+  not compact, with outward unit normal −ν, and DG 12.5's divergence theorem
+  holds on it for the fields vanishing outside a compact set.
+- ℝP²⊂ℝP³ with the round metric of curvature 1: Ric=2g, `H¹_dR=0` and π₁=ℤ/2.
+  The unit normal double cover is the equatorial S²→ℝP², connected, so f is
+  one-sided; the complement is an open ball, connected, and `p_f` is S³→ℝP³,
+  with no section. Two-sidedness cannot be dropped from (1), and simple
+  connectivity cannot be weakened to `H¹_dR(M)=0` or to Ric>0 in (2). ℝP¹⊂ℝP²,
+  with Ric=g, is the same in dimension two: the tube is a Möbius band, the
+  complement a disc and `p_f` is S²→ℝP².
+- Two circles of latitude x₃=±1/2 on the unit S²: each is two-sided, their
+  union is not connected and its complement has three components; (1) needs Σ
+  connected.
+- Open Möbius band in ℝ³: Σ is the quotient of `ℝ×(−1,1)` by
+  (θ,s)∼(θ+2π,−s) and
+  `f(θ,s)=((2+s cos(θ/2))cos θ, (2+s cos(θ/2))sin θ, s sin(θ/2))`, a smooth
+  embedding of a boundaryless noncompact surface in the simply connected ℝ³.
+  Along the core s=0 its unit normal is
+  `N(θ)=(cos θ sin(θ/2), sin θ sin(θ/2), −cos(θ/2))`, and N(θ+2π)=−N(θ) at the
+  same point f(θ,0), so f is one-sided. The image is not closed: the same
+  formula at s=±1 gives limit points of f(Σ) outside it. Closedness of f(Σ)
+  cannot be dropped from (2): `M∖f(Σ)` is not open, and a small loop around
+  the edge of the band near such a limit point crosses f(Σ) once, so its
+  lifts through `p_f` do not close and `p_f` is not a covering map. A line in
+  ℝ² is a noncompact closed embedded hypersurface, to which (2) applies.
+
+*Needs:* GeometricTopology Layer 1.5 with Tau Ceti
+`TauCeti.SmoothEmbedding.NormalSpace`
+(`Geometry/Manifold/SmoothEmbedding/NormalSpace/`),
+`TauCeti.SmoothEmbedding.normalExp`,
+`TauCeti.SmoothEmbedding.exists_isClosedEmbedding_normalExp_disc` and
+`TauCeti.SmoothEmbedding.exists_diffeomorph_normalBundle_riemannian_subset`
+(`Geometry/Manifold/TubularNeighborhood/Riemannian/`); R5a's normal bundle;
+Tau Ceti `TauCeti.IsBicollar`
+(`Geometry/Manifold/LocallyFlat/Bicollar.lean`);
+DifferentialGeometry 6.1 and 6.3 through Tau Ceti `TauCeti.deRhamCohomology`,
+`TauCeti.periodHom` and `TauCeti.mem_exactForms_one_iff_periodHom_eq_zero`
+(`Geometry/Manifold/DeRham/{Basic,Period}.lean`); Tau Ceti's regular sublevels
+(`Geometry/Manifold/RegularValue/Scalar/Sublevel.lean`), boundary manifold
+(`Geometry/Manifold/Boundary/Charts.lean`) and outward vectors
+`TauCeti.IsOutwardPointing` (`Geometry/Manifold/Boundary/Orientation.lean`);
+DifferentialGeometry 12.5's outward unit normal; Tau Ceti
+`TauCeti.VectorBundleOrientationCover`
+(`Topology/VectorBundle/Orientation/Cover.lean`); Mathlib
+`Manifold.IsSmoothEmbedding`, `IsCoveringMap`,
+`SimplyConnectedSpace` and `IsCoveringMap.existsUnique_continuousMap_lifts`;
+R7.6 for the positive-Ricci corollary.
+
 ### Examples
 
 For f(x)=x² on the Euclidean line, Δ⁺f=−2. On the unit circle,
@@ -3754,6 +4778,11 @@ and ComplexKahlerGeometry K5a; its vanishing theorems are stated on Tau Ceti's
 de Rham cohomology and curvature endomorphism. The scalar local identity precedes the global
 analytic realization. R7.8 uses Mathlib real Lipschitz extension and owns
 the quantitative smooth gluing and Clifford-module norm comparison.
+R7.9 uses R5a's normal bundle, GeometricTopology Layer 1.5's Riemannian tubular
+neighbourhoods, Tau Ceti's first de Rham cohomology and periods, bicollars,
+regular sublevels and vector-bundle orientation cover, and Mathlib's covering
+maps; it uses neither P1.0 nor K5a, and R7.6 only for its positive-Ricci
+corollary.
 
 ## Layer 8: spherical harmonics and minimal eigenmaps
 
@@ -4018,7 +5047,9 @@ DGFloer consumes R2–R3's fixed-interval Jacobi and path geometry for its free-
 applications. CalibratedGeometry C3 consumes R5a.1's relative volume, and
 AffineMorseLefschetz uses R5a/R6's real focal geometry. OptimalTransport Layer 7
 uses R4.6's cut-locus objects; SpectralManifolds uses R7.8's commutator-distance
-theorem. The following internal order separates the direct model and algebra
+theorem. The sub-roadmap [Minimal surfaces](MinimalSurfaces/README.md) consumes R1's
+Euclidean limits of rescaled metrics, R3, R4.1–R4.3, R4.5, R5a, R5b, R5c, R7.0, R7.6, R7.9
+and R8.2. The following internal order separates the direct model and algebra
 constructions from their comparison and analytic applications.
 
 R1's generic connection/tensor/submersion algebra precedes R2; R1's normal
@@ -4103,7 +5134,8 @@ minimization nor GeometricCurrents regularity enters R5b.
   dimension) and Problem 7.11, p. 50 (orientability in odd dimension), used by R4.6;
   Theorem 6.11, p. 41 (normal-coordinate expansion of the metric, used by R1.5),
   and §6.11 with Problem 6.12, p. 41 (the canonical frame by radial parallel
-  translation, used by R1.4).
+  translation, used by R1.4); §3.11, p. 13 (the second structural equation, used
+  by R1.1).
 - K.-K. Kwong, [Quantitative comparison theorems in Riemannian and Kähler geometry](https://arxiv.org/abs/1904.08595),
   arXiv:1904.08595v1 (2019), Theorem 10(2), p. 27: the polar volume-density lower
   bound under an upper sectional curvature bound, integrated to Günther's volume
@@ -4124,7 +5156,8 @@ minimization nor GeometricCurrents regularity enters R5b.
   loop space is homotopy-discrete).
 - J. Barzen and F. Leymann, [Mathematics of Spacetime: A Guided Tour Through The
   Underlying Differential Topology and Differential Geometry](https://arxiv.org/abs/2606.02616),
-  arXiv:2606.02616, Theorem 9, p. 60: the Killing–Hopf classification of complete
+  arXiv:2606.02616, Theorem 7, p. 46: a Riemannian manifold is flat exactly when its
+  curvature tensor vanishes, used by R1.1; Theorem 9, p. 60: the Killing–Hopf classification of complete
   simply connected manifolds of constant sectional curvature, used by R4.7; Lemma 35,
   pp. 61–62, and Lemma 36, p. 62: the curvature and Ricci tensors of a warped product,
   with the opposite curvature sign, used by R1.3.
@@ -4148,9 +5181,53 @@ minimization nor GeometricCurrents regularity enters R5b.
   in *Comparison Geometry*, MSRI Publications 30 (1997), 221–262, Theorem 3.1,
   p. 226, and Corollary 3.3(1), p. 228: Bishop–Gromov relative volume
   comparison under a Ricci lower bound, used by R4.1.
+- S. Lynch, [*The Cheng–Yau gradient estimate for Jacobi fields*](https://arxiv.org/abs/2611.12758v1),
+  arXiv:2611.12758v1 (2026), Appendix B, Proposition B.1, p. 15, and its proof,
+  p. 16, with constant weight and N=n, the constant written κ≥0 there being √k:
+  the Laplacian comparison
+  `Δr≤(n−1)√k coth(√k r)` in the barrier sense at the endpoint of a minimizing
+  geodesic along which `Ric≥−(n−1)k`, from the second variation of length with the
+  modulation `sinh(√k t)/sinh(√k ℓ)`, used by R4.1's smooth upper distance barriers.
+- G. Wei, [*Manifolds with a lower Ricci curvature bound*](https://arxiv.org/abs/math/0612107v1),
+  arXiv:math/0612107v1 (2006), §3, inequality (3.1), p. 3, Lemma 3.4 and
+  Theorem 3.6, p. 4: on a complete manifold with `Ric≥(n−1)H`, H real, the
+  Laplacian of the distance from a point is at most its value in the model of
+  curvature H, off the cut locus and, through Calabi's upper barrier
+  `ε+dist(γ(ε),·)`, in the barrier sense at every point; the comparison of R4.1's
+  smooth upper distance barriers for every sign of κ.
 - D. Azagra, J. Ferrera, F. López-Mesas and Y. Rangel,
   [*Smooth approximation of Lipschitz functions on Riemannian manifolds*](https://arxiv.org/abs/math/0602051),
   for R7.8's quantitative smoothing and intrinsic-distance comparison.
+- R. Bott and L. W. Tu, *Differential Forms in Algebraic Topology*, Graduate
+  Texts in Mathematics 82, Springer, 1982, Ch. I, §5 (the Mayer–Vietoris
+  argument; the Poincaré dual of a closed oriented submanifold): the closed
+  form dual to a hypersurface, which R7.9 builds from a normal collar as its
+  crossing form.
+- E. L. Lima, [The Jordan–Brouwer separation theorem for smooth hypersurfaces](https://doi.org/10.1080/00029890.1988.11971963),
+  Amer. Math. Monthly 95 (1988), 39–42: the separation of ℝⁿ by a compact
+  connected hypersurface with a unit normal field, proved by extending and
+  integrating the differential of a function on a tubular neighbourhood; the
+  case M=ℝⁿ of R7.9 (1), by the same route.
+- H. Samelson, [Orientability of hypersurfaces in ℝⁿ](https://doi.org/10.1090/S0002-9939-1969-0245026-9),
+  Proc. Amer. Math. Soc. 22 (1969), 301–302: a hypersurface that is a closed
+  subset of ℝⁿ is two-sided, by a transversality argument, and the same holds
+  in any simply connected manifold (closing remark, p. 302); the statement of
+  R7.9 (2).
+- S. Caracciolo, R. G. Edwards, A. Pelissetto and A. D. Sokal,
+  [Wolff-type embedding algorithms for general nonlinear σ-models](https://arxiv.org/abs/hep-lat/9205005),
+  Nucl. Phys. B 403 (1993), 475–541, arXiv:hep-lat/9205005v1 (whose page
+  numbers are used), Appendix A.1, Theorem A.2, p. 49, and Remark 3 after
+  Theorem A.3, p. 51: a closed hypersurface of a simply connected manifold has
+  a disconnected complement, by mod 2 intersection numbers, and the complement
+  of a connected closed hypersurface of a connected manifold has at most two
+  components; the simply connected case of R7.9 (1).
+- M. W. Hirsch, *Differential Topology*, Graduate Texts in Mathematics 33,
+  Springer, 1976, Ch. 4, §4, Theorem 4.6 and Lemma 4.4, as cited by the
+  preceding entry ("[74, Theorem 4.4.6]" in Remark 1 after its Theorem A.2,
+  p. 49, and "[74, Lemma 4.4.4]" in Remark 3 after its Theorem A.3, p. 51):
+  the separation of a simply connected manifold by a compact connected
+  hypersurface, and at most two components for the complement of a connected
+  closed hypersurface of a connected manifold.
 - G. Toth and W. Ziller,
   [Spherical minimal immersions of the 3-sphere](https://ems.press/content/serial-article-files/42818?nt=1),
   introduction and spherical-harmonic setup, for Takahashi/eigenmap normalization
@@ -4179,6 +5256,13 @@ minimization nor GeometricCurrents regularity enters R5b.
   University of Cambridge, Part II, Lent 2016, Problem 14, p. 2: every geodesic of
   the paraboloid z=x²+y² that is not a meridian meets itself infinitely often, used
   by R5a.3.
+- D. Gilbarg and N. S. Trudinger, *Elliptic Partial Differential Equations of
+  Second Order*, Classics in Mathematics, Springer, 2001, Chapter 8: Theorems
+  8.12–8.14 (regularity up to the boundary), Theorem 8.37 (the eigenvalue
+  sequence, its variational characterization and the eigenfunction basis) and
+  Theorem 8.38 (the first eigenvalue is simple with a positive eigenfunction),
+  for scalar operators on bounded Euclidean domains, and Theorem 3.5 (the
+  strong maximum principle), used by R5c.
 - S. Axler, P. Bourdon and W. Ramey, [*Harmonic Function Theory*](https://www.axler.net/HFT.pdf),
   second edition (2001), electronic version of 17 July 2020, Proposition 5.5,
   p. 76, and Theorem 5.7, p. 77: unique finite harmonic decomposition
