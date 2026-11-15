@@ -1,37 +1,36 @@
 import Mathlib
 import TauCeti.LinearAlgebra.CliffordAlgebra.Filtration
-import TauCeti.LinearAlgebra.CliffordAlgebra.RealForm.Basic
 import TauCeti.LinearAlgebra.CliffordAlgebra.Quadratic.Lie.LeftRegular
+import TauCeti.LinearAlgebra.CliffordAlgebra.Spin.SpecialOrthogonal
 import TauCeti.RepresentationTheory.Spin.HalfSpin.Basic
-import TauCeti.RepresentationTheory.Spin.Polarization.TypeD.HighestWeight
 import TauCeti.Algebra.Lie.HighestWeight.Verma
 import TauCeti.LinearAlgebra.RootSystem.Weyl.Vector
-import TauCeti.Algebra.Lie.D4.Tripled.Triality
-import TauCeti.Topology.Algebra.CliffordAlgebra.Spin.Connected
+import TauCeti.Algebra.Lie.D4.Tripled.Triality.Basic
 
 /-!
 # Clifford algebras, the Pin and Spin groups, and spin representations: target signatures
 
 The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline
-theorems against the pinned Mathlib and Tau Ceti, each with `sorry`, together with the
-definitions some of them need to be stated (`kostantSpinRep`, and the plane form and matrices
-of the Bogoliubov section). Everything the pinned libraries
-already prove (the structure theorem, the double covers, the Fock module and its irreducibility,
-`Spin₃ ≅ SL₂`, `Spin₄ ≅ SL₂ × SL₂`, Bott periodicity, the `gl_N` CAR decomposition) is consumed
-by name in `README.md` and is not restated here.
+theorems against the pinned Mathlib and Tau Ceti, each with `sorry`, together with the single
+definition (`kostantSpinRep`) one of them needs to be stated. Everything the pinned libraries
+already prove is consumed by name in `README.md` and is not restated here: the structure theorem,
+the double covers, the Fock module and its irreducibility, simple connectivity of compact `Spin(n)`
+for `n ≥ 3` (`CliffordAlgebra.simplyConnectedSpace_realCliffordSpinGroupZero`), the type-`Bₗ`
+identification `S ≅ L(ωₗ)` and the four type-`Dₗ` half-spin identifications for `l ≥ 4`
+(`TauCeti.SpinPolarizationData.nonempty_lieModuleEquiv_typeBSpin_irreducibleQuotient` and the
+`nonempty_lieModuleEquiv_typeDSpin{Plus,Minus}_irreducibleQuotient_…` theorems), `Spin₃ ≅ SL₂`,
+`Spin₄ ≅ SL₂ × SL₂`, `Spin₆ ≅ SL₄` (`TauCeti.spinGroupEquivSpecialLinearGroupOfFinrankEqSix`), Bott
+periodicity and the eightfold classification table of `Cliff(p, q)`
+(`TauCeti.realClifford_classification`), and the `gl_N` CAR decomposition.
 
 Headline theorems not statable at the pins, and what each lacks:
 
-* the type-`Bₗ` identification `S ≅ L(ωₗ)` (Layer 5): `LieAlgebra.Orthogonal.typeB` has no
-  Killing-form instance, no Cartan subalgebra with a basis and no base of a root system at the
-  pin, so the fundamental weight `ωₗ` has no carrier;
 * the type-`Dₗ` identifications in half-rank `2` and `3` (Layer 5): the split Cartan basis
   `TauCeti.TypeDStd.lieBasis n hn` and the instance `TauCeti.TypeDStd.isKilling_typeD` need
   `4 ≤ n`;
 * the group-level highest-weight corollary and the differential comparison (Layers 3 and 5): no
-  smooth-group carrier for `spinGroup Q` identifies the differential of `TauCeti.spinRep` with a
-  Lie-algebra action;
-* the octonion comparison of the triality form (Layer 8): Mathlib has no octonion algebra;
+  smooth-group carrier for the complex `spinGroup Q` identifies the differential of
+  `TauCeti.spinRep` with a Lie-algebra action;
 * Kostant's full `ρ`-decomposition `C(𝔤) ≅ End(V_ρ) ⊗ C(P)` (Layer 9): the primitive subspace
   `P` and its quadratic form `Q_P` are constructions of the roadmap.
 -/
@@ -75,189 +74,6 @@ theorem first_word_piece_iff {K : Type u} {V : Type v} [Field K] [Invertible (2 
       Submodule.map φ.toLinearMap (LinearMap.range (CliffordAlgebra.ι Q)) =
         LinearMap.range (CliffordAlgebra.ι Q) := sorry
 
-/-! ## Layer 0, continued: the Bogoliubov criteria and the real-plane counterexample
-
-**This section is not the roadmap and is not exhaustive.** The README is the specification.
-These signatures pin L0.Bogoliubov's native range/filtration criteria (`generator_range_iff` and
-`first_word_piece_iff` above) and the real-plane counterexample to unrestricted automorphism
-recovery. They consume the implemented Clifford injection and word filtration; they do not
-construct another Clifford algebra. The admitted statements are future theorem targets, not
-completed proofs of the full group comparison. -/
-
-noncomputable section Bogoliubov
-
-abbrev planeForm : QuadraticForm ℝ (Fin 2 → ℝ) :=
-  TauCeti.realCliffordForm 2 0
-
-/-- This elementary model precedes the real periodicity classification. -/
-theorem positive_plane_model :
-    ∃ e : CliffordAlgebra planeForm ≃ₐ[ℝ] Matrix (Fin 2) (Fin 2) ℝ,
-      ∀ v, e (CliffordAlgebra.ι planeForm v) = !![v 0, v 1; v 1, -v 0] := by
-  sorry
-
-def Z : Matrix (Fin 2) (Fin 2) ℝ := !![1, 0; 0, -1]
-def X : Matrix (Fin 2) (Fin 2) ℝ := !![0, 1; 1, 0]
-def D : Matrix (Fin 2) (Fin 2) ℝ := !![2, 0; 0, 1]
-def Dinv : Matrix (Fin 2) (Fin 2) ℝ := !![1 / 2, 0; 0, 1]
-
-/-- Conjugation by D is an algebra automorphism, but takes X outside the generator plane. -/
-theorem matrix_counterexample :
-    D * Dinv = 1 ∧ Dinv * D = 1 ∧
-    D * Z * Dinv = Z ∧
-    D * X * Dinv = !![0, 2; 1 / 2, 0] ∧
-    D * X * Dinv ∉ Submodule.span ℝ ({Z, X} : Set (Matrix (Fin 2) (Fin 2) ℝ)) := by
-  sorry
-
-end Bogoliubov
-
-/-! ## Layer 2: the Pin and Spin groups and the double covers -/
-
-/-- **Compact `Spin(n)` is simply connected for `n ≥ 3`.** The carrier is the native
-`CliffordAlgebra.realCliffordSpinGroupZero n = spinGroup (TauCeti.realCliffordForm n 0)` with its
-subspace topology from the Clifford units. The offset is exact: `Spin(2) ≅ S¹` has fundamental
-group `ℤ`, and `Spin(1) = {±1}` is not path connected. The route is the fibre sequence
-`Spin(m) → Spin(m + 1) → S^m` and the simple connectivity of `S^m` for `m ≥ 2`, seeded by the
-native `Spin(3) ≅ S³` (Lawson–Michelsohn, *Spin Geometry*, Theorem I.2.10). -/
-theorem simplyConnectedSpace_realCliffordSpinGroupZero_add_three (n : ℕ) :
-    SimplyConnectedSpace (CliffordAlgebra.realCliffordSpinGroupZero (n + 3)) := sorry
-
-/-! ## Layer 5: the fundamental representations of `Bₗ` and `Dₗ`
-
-The four statements identify the native half-spin modules, made modules over the split
-`𝔰𝔬(2n) = LieAlgebra.Orthogonal.typeD (Fin n) ℂ` through the native coordinate realizations
-`P.typeDSpinPlusLieRep b hline` and `P.typeDSpinMinusLieRep b hline`, with the irreducible
-highest-weight modules `TauCeti.irreducibleQuotient base ω` of the fork weights. Here `base` is
-the base of the native split Cartan basis `TauCeti.TypeDStd.lieBasis n hn`, and the fundamental
-weights are the dual basis of its simple coroots: `ωₙ` is the dual-basis vector at index `n - 1`
-and `ωₙ₋₁` the one at index `n - 2`. The parity rule is forced by the degree of the top wedge:
-`w₁ ∧ ⋯ ∧ wₙ` has weight `ωₙ` and lies in `S⁺` for even `n`, in `S⁻` for odd `n`; erasing the
-last basis vector gives weight `ωₙ₋₁` on the other summand (Fulton–Harris, *Representation
-Theory*, Lecture 20, §20.1). The native lemmas
-`TauCeti.SpinPolarizationData.isHighestWeightVector_typeDSpin{Plus,Minus}LieRep_exteriorBasis_…`
-supply the highest-weight vectors; the headlines add the isomorphism of modules. -/
-
-/-- **`S⁺ ≅ L(ωₙ)` for even `n ≥ 4`.** -/
-theorem spinPlus_equiv_irreducibleQuotient_of_even {n : ℕ} {V : Type v} [AddCommGroup V]
-    [Module ℂ V] {Q : QuadraticForm ℂ V} (P : TauCeti.SpinPolarizationData Q)
-    (b : Module.Basis (Fin n) ℂ P.W) (hn : 4 ≤ n) (hline : P.line = ⊥) (heven : Even n) :
-    letI := TauCeti.TypeDStd.isKilling_typeD (K := ℂ) n hn
-    letI := (TauCeti.TypeDStd.lieBasis (K := ℂ) n hn).isCartanSubalgebra
-    letI := (TauCeti.TypeDStd.lieBasis (K := ℂ) n hn).isTriangularizable
-    letI : LieRingModule (LieAlgebra.Orthogonal.typeD (Fin n) ℂ) (TauCeti.spinPlus Q P) :=
-      LieRingModule.compLieHom _ (P.typeDSpinPlusLieRep b hline)
-    letI : LieModule ℂ (LieAlgebra.Orthogonal.typeD (Fin n) ℂ) (TauCeti.spinPlus Q P) :=
-      LieModule.compLieHom _ (P.typeDSpinPlusLieRep b hline)
-    Nonempty (TauCeti.spinPlus Q P ≃ₗ⁅ℂ, LieAlgebra.Orthogonal.typeD (Fin n) ℂ⁆
-      TauCeti.irreducibleQuotient (TauCeti.TypeDStd.lieBasis (K := ℂ) n hn).base
-        ((TauCeti.TypeDStd.lieBasis (K := ℂ) n hn).cartanBasis.dualBasis
-          (⟨n - 1, by omega⟩ : Fin n))) := sorry
-
-/-- **`S⁻ ≅ L(ωₙ)` for odd `n ≥ 4`.** -/
-theorem spinMinus_equiv_irreducibleQuotient_of_odd {n : ℕ} {V : Type v} [AddCommGroup V]
-    [Module ℂ V] {Q : QuadraticForm ℂ V} (P : TauCeti.SpinPolarizationData Q)
-    (b : Module.Basis (Fin n) ℂ P.W) (hn : 4 ≤ n) (hline : P.line = ⊥) (hodd : Odd n) :
-    letI := TauCeti.TypeDStd.isKilling_typeD (K := ℂ) n hn
-    letI := (TauCeti.TypeDStd.lieBasis (K := ℂ) n hn).isCartanSubalgebra
-    letI := (TauCeti.TypeDStd.lieBasis (K := ℂ) n hn).isTriangularizable
-    letI : LieRingModule (LieAlgebra.Orthogonal.typeD (Fin n) ℂ) (TauCeti.spinMinus Q P) :=
-      LieRingModule.compLieHom _ (P.typeDSpinMinusLieRep b hline)
-    letI : LieModule ℂ (LieAlgebra.Orthogonal.typeD (Fin n) ℂ) (TauCeti.spinMinus Q P) :=
-      LieModule.compLieHom _ (P.typeDSpinMinusLieRep b hline)
-    Nonempty (TauCeti.spinMinus Q P ≃ₗ⁅ℂ, LieAlgebra.Orthogonal.typeD (Fin n) ℂ⁆
-      TauCeti.irreducibleQuotient (TauCeti.TypeDStd.lieBasis (K := ℂ) n hn).base
-        ((TauCeti.TypeDStd.lieBasis (K := ℂ) n hn).cartanBasis.dualBasis
-          (⟨n - 1, by omega⟩ : Fin n))) := sorry
-
-/-- **`S⁺ ≅ L(ωₙ₋₁)` for odd `n ≥ 4`.** -/
-theorem spinPlus_equiv_irreducibleQuotient_of_odd {n : ℕ} {V : Type v} [AddCommGroup V]
-    [Module ℂ V] {Q : QuadraticForm ℂ V} (P : TauCeti.SpinPolarizationData Q)
-    (b : Module.Basis (Fin n) ℂ P.W) (hn : 4 ≤ n) (hline : P.line = ⊥) (hodd : Odd n) :
-    letI := TauCeti.TypeDStd.isKilling_typeD (K := ℂ) n hn
-    letI := (TauCeti.TypeDStd.lieBasis (K := ℂ) n hn).isCartanSubalgebra
-    letI := (TauCeti.TypeDStd.lieBasis (K := ℂ) n hn).isTriangularizable
-    letI : LieRingModule (LieAlgebra.Orthogonal.typeD (Fin n) ℂ) (TauCeti.spinPlus Q P) :=
-      LieRingModule.compLieHom _ (P.typeDSpinPlusLieRep b hline)
-    letI : LieModule ℂ (LieAlgebra.Orthogonal.typeD (Fin n) ℂ) (TauCeti.spinPlus Q P) :=
-      LieModule.compLieHom _ (P.typeDSpinPlusLieRep b hline)
-    Nonempty (TauCeti.spinPlus Q P ≃ₗ⁅ℂ, LieAlgebra.Orthogonal.typeD (Fin n) ℂ⁆
-      TauCeti.irreducibleQuotient (TauCeti.TypeDStd.lieBasis (K := ℂ) n hn).base
-        ((TauCeti.TypeDStd.lieBasis (K := ℂ) n hn).cartanBasis.dualBasis
-          (⟨n - 2, by omega⟩ : Fin n))) := sorry
-
-/-- **`S⁻ ≅ L(ωₙ₋₁)` for even `n ≥ 4`.** -/
-theorem spinMinus_equiv_irreducibleQuotient_of_even {n : ℕ} {V : Type v} [AddCommGroup V]
-    [Module ℂ V] {Q : QuadraticForm ℂ V} (P : TauCeti.SpinPolarizationData Q)
-    (b : Module.Basis (Fin n) ℂ P.W) (hn : 4 ≤ n) (hline : P.line = ⊥) (heven : Even n) :
-    letI := TauCeti.TypeDStd.isKilling_typeD (K := ℂ) n hn
-    letI := (TauCeti.TypeDStd.lieBasis (K := ℂ) n hn).isCartanSubalgebra
-    letI := (TauCeti.TypeDStd.lieBasis (K := ℂ) n hn).isTriangularizable
-    letI : LieRingModule (LieAlgebra.Orthogonal.typeD (Fin n) ℂ) (TauCeti.spinMinus Q P) :=
-      LieRingModule.compLieHom _ (P.typeDSpinMinusLieRep b hline)
-    letI : LieModule ℂ (LieAlgebra.Orthogonal.typeD (Fin n) ℂ) (TauCeti.spinMinus Q P) :=
-      LieModule.compLieHom _ (P.typeDSpinMinusLieRep b hline)
-    Nonempty (TauCeti.spinMinus Q P ≃ₗ⁅ℂ, LieAlgebra.Orthogonal.typeD (Fin n) ℂ⁆
-      TauCeti.irreducibleQuotient (TauCeti.TypeDStd.lieBasis (K := ℂ) n hn).base
-        ((TauCeti.TypeDStd.lieBasis (K := ℂ) n hn).cartanBasis.dualBasis
-          (⟨n - 2, by omega⟩ : Fin n))) := sorry
-
-/-! ## Layer 6: the low-dimensional exceptional isomorphisms
-
-`Spin₃ ≅ SL₂` and `Spin₄ ≅ SL₂ × SL₂` are native
-(`TauCeti.nonempty_spinGroup_mulEquiv_specialLinearGroup_of_finrank_eq_three`,
-`TauCeti.nonempty_spinGroup_mulEquiv_specialLinearGroup_prod_of_finrank_eq_four`), and
-`Spin₅ ≅ Sp₄` is the split case of the general-field statement `Spin(Q) = Sp(C₀, σ)` of
-OrthogonalSpinGroups Layer 1F, with the native `range_spinGroup_toUnits_eq_evenUnitaryGroup`
-in dimension five; only the identification of the spin module with the standard representation
-is this roadmap's, and it is a README target. -/
-
-/-- **`Spin₆ ≅ SL₄`** (type `D₃ = A₃`): for every nondegenerate complex quadratic form in
-dimension `6`, the native `spinGroup Q` is isomorphic to `SL₄(ℂ)`. The even Clifford algebra is
-`End(S⁺) × End(S⁻) ≅ M₄(ℂ) × M₄(ℂ)`; with a reversal-compatible duality `S⁻ ≅ (S⁺)*` the
-norm-one even units are the pairs `(A, (A⁻¹)ᵀ)`, a copy of `GL₄(ℂ)`, and the vector-preservation
-condition of native Spin membership cuts this to `det A = 1`; the native obstruction
-`CliffordAlgebra.range_spinGroup_toUnits_ne_evenUnitaryGroup_of_six_le_finrank` records that the
-norm-one condition alone does not suffice (Fulton–Harris, Lecture 20, §20.2). -/
-theorem spin6_equiv_sl4 {V : Type v} [AddCommGroup V] [Module ℂ V] [FiniteDimensional ℂ V]
-    (Q : QuadraticForm ℂ V) (hQ : Q.Nondegenerate) (hV : Module.finrank ℂ V = 6) :
-    Nonempty (spinGroup Q ≃* Matrix.SpecialLinearGroup (Fin 4) ℂ) := sorry
-
-/-! ## Layer 7: real Clifford algebras, Bott periodicity, and `Spin(p, q)` -/
-
-/-- **The eightfold way.** `Cliff(p, q) = CliffordAlgebra (TauCeti.realCliffordForm p q)`, with
-`p` generators squaring to `+1` and `q` to `−1`, is a matrix algebra, or a product of two, over
-`ℝ`, `ℂ` or `ℍ` according to `(q − p) mod 8`, with the size fixed by `dim Cliff(p, q) = 2^(p+q)`:
-
-| `(q − p) mod 8` | `0` | `1` | `2` | `3` | `4` | `5` | `6` | `7` |
-|---|---|---|---|---|---|---|---|---|
-| `Cliff(p, q)` | `M(ℝ)` | `M(ℂ)` | `M(ℍ)` | `M(ℍ) × M(ℍ)` | `M(ℍ)` | `M(ℂ)` | `M(ℝ)` | `M(ℝ) × M(ℝ)` |
-
-The indexing is the one forced by the native base entries `Cliff(1, 0) ≅ ℝ × ℝ` (residue `7`),
-`Cliff(0, 1) ≅ ℂ` (residue `1`), `Cliff(0, 2) ≅ ℍ` (residue `2`) and `Cliff(1, 1) ≅ M₂(ℝ)`
-(residue `0`); references whose generators square to `+1` index by `(p − q) mod 8` instead. The
-residue has the parity of `p + q`, so every exponent below is an exact division and no
-subtraction is truncated (Lawson–Michelsohn, *Spin Geometry*, Theorem I.4.3 and Tables I–II of
-§I.4, whose `Cl(r, s)` is `Cliff(s, r)` here). The route is the native Bott recurrence
-`TauCeti.realCliffordBottEquiv`, the two one-sided recurrences and the base entries. -/
-theorem realClifford_eightfold (p q : ℕ) :
-    (((q : ℤ) - p) % 8 = 0 → Nonempty (CliffordAlgebra (TauCeti.realCliffordForm p q) ≃ₐ[ℝ]
-        Matrix (Fin (2 ^ ((p + q) / 2))) (Fin (2 ^ ((p + q) / 2))) ℝ)) ∧
-    (((q : ℤ) - p) % 8 = 1 → Nonempty (CliffordAlgebra (TauCeti.realCliffordForm p q) ≃ₐ[ℝ]
-        Matrix (Fin (2 ^ ((p + q - 1) / 2))) (Fin (2 ^ ((p + q - 1) / 2))) ℂ)) ∧
-    (((q : ℤ) - p) % 8 = 2 → Nonempty (CliffordAlgebra (TauCeti.realCliffordForm p q) ≃ₐ[ℝ]
-        Matrix (Fin (2 ^ ((p + q - 2) / 2))) (Fin (2 ^ ((p + q - 2) / 2))) (Quaternion ℝ))) ∧
-    (((q : ℤ) - p) % 8 = 3 → Nonempty (CliffordAlgebra (TauCeti.realCliffordForm p q) ≃ₐ[ℝ]
-        Matrix (Fin (2 ^ ((p + q - 3) / 2))) (Fin (2 ^ ((p + q - 3) / 2))) (Quaternion ℝ) ×
-        Matrix (Fin (2 ^ ((p + q - 3) / 2))) (Fin (2 ^ ((p + q - 3) / 2))) (Quaternion ℝ))) ∧
-    (((q : ℤ) - p) % 8 = 4 → Nonempty (CliffordAlgebra (TauCeti.realCliffordForm p q) ≃ₐ[ℝ]
-        Matrix (Fin (2 ^ ((p + q - 2) / 2))) (Fin (2 ^ ((p + q - 2) / 2))) (Quaternion ℝ))) ∧
-    (((q : ℤ) - p) % 8 = 5 → Nonempty (CliffordAlgebra (TauCeti.realCliffordForm p q) ≃ₐ[ℝ]
-        Matrix (Fin (2 ^ ((p + q - 1) / 2))) (Fin (2 ^ ((p + q - 1) / 2))) ℂ)) ∧
-    (((q : ℤ) - p) % 8 = 6 → Nonempty (CliffordAlgebra (TauCeti.realCliffordForm p q) ≃ₐ[ℝ]
-        Matrix (Fin (2 ^ ((p + q) / 2))) (Fin (2 ^ ((p + q) / 2))) ℝ)) ∧
-    (((q : ℤ) - p) % 8 = 7 → Nonempty (CliffordAlgebra (TauCeti.realCliffordForm p q) ≃ₐ[ℝ]
-        Matrix (Fin (2 ^ ((p + q - 1) / 2))) (Fin (2 ^ ((p + q - 1) / 2))) ℝ ×
-        Matrix (Fin (2 ^ ((p + q - 1) / 2))) (Fin (2 ^ ((p + q - 1) / 2))) ℝ)) := sorry
-
 /-! ## Layer 8: triality for `Spin₈` -/
 
 /-- **Triality for `Spin₈`, compared with the native tripled carrier.** For a nondegenerate
@@ -293,8 +109,8 @@ theorem exists_trialityAut {V : Type v} [AddCommGroup V] [Module ℂ V] [FiniteD
 `V ⊗ S⁺ ⊗ S⁻ → ℂ` invariant under the native `spinGroup Q`, acting on `V` through
 `spinToSpecialOrthogonal` and on the half-spin summands through the native subrepresentations;
 it is Clifford multiplication `V ⊗ S⁺ → S⁻` paired with the reversal-invariant pairing on `S⁻`
-(Fulton–Harris, Lecture 20, §20.3). Its comparison with octonion multiplication is a README
-target with no carrier at the pin. -/
+(Fulton–Harris, Lecture 20, §20.3). Its comparison with the octonion form
+`TauCeti.Octonion.trialityTrilinearForm` is a README target of Layer 8. -/
 theorem exists_trialityForm {V : Type v} [AddCommGroup V] [Module ℂ V] [FiniteDimensional ℂ V]
     (Q : QuadraticForm ℂ V) (hQ : Q.Nondegenerate) (hV : Module.finrank ℂ V = 8)
     (P : TauCeti.SpinPolarizationData Q) (hline : P.line = ⊥) :
@@ -321,9 +137,9 @@ paper): for Killing-semisimple `L` over `ℂ`, a Cartan subalgebra `H` and a bas
 system, every simple submodule of the left-regular `Cliff(L, κ)` is isomorphic to `L(ρ)`.
 Nonvacuous because the carrier is finite-dimensional (`CliffordAlgebra.finrank_eq_two_pow`), so
 simple submodules exist. -/
-theorem kostant_isotypic (L : Type u) [LieRing L] [LieAlgebra ℂ L] [FiniteDimensional ℂ L]
-    [LieAlgebra.IsKilling ℂ L] (H : LieSubalgebra ℂ L) [H.IsCartanSubalgebra]
-    (b : (LieAlgebra.IsKilling.rootSystem H).Base)
+theorem nonempty_kostant_isotypic (L : Type u) [LieRing L] [LieAlgebra ℂ L]
+    [FiniteDimensional ℂ L] [LieAlgebra.IsKilling ℂ L] (H : LieSubalgebra ℂ L)
+    [H.IsCartanSubalgebra] (b : (LieAlgebra.IsKilling.rootSystem H).Base)
     (S : LieSubmodule ℂ L (CliffordAlgebra (TauCeti.LieAlgebra.killingQuadraticForm ℂ L)))
     (hS : LieModule.IsIrreducible ℂ L S) :
     Nonempty (S ≃ₗ⁅ℂ,L⁆ TauCeti.irreducibleQuotient b
@@ -348,7 +164,7 @@ theorem kostant_multiplicity (L : Type u) [LieRing L] [LieAlgebra ℂ L] [Finite
 /-- **The spin module of `Cliff(L, κ)` restricted to `L`**: the full spinor module `⋀·W` of a
 polarization `P` of the Killing quadratic form (in positive even dimension `S⁺ ⊕ S⁻`; at
 dimension `0` it is `ℂ`), with `L` acting through the composite of the adjoint quadratic lift
-with the native Fock action `TauCeti.spinAction`. The only definition this layer needs: it makes
+with the native Fock action `TauCeti.spinAction`. The only definition this file needs: it makes
 `kostantSpinRep_multiplicity` statable. -/
 noncomputable def kostantSpinRep (L : Type u) [LieRing L] [LieAlgebra ℂ L]
     [FiniteDimensional ℂ L] [LieAlgebra.IsKilling ℂ L]
