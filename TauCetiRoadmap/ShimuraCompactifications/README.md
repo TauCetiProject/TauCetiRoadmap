@@ -214,7 +214,7 @@ number field with `NumberField.Units.dirichletUnitTheorem.exists_unit`, `NumberF
 
 ### From Tau Ceti
 
-The library baseline is Mathlib `6b7abb3` and Tau Ceti `a91d3aa`.
+The library baseline is Mathlib `1b1ccf4` and Tau Ceti `2fd255d`.
 
 - `TauCeti.Toric.IsIntegralLattice`, `TauCeti.Toric.IsToricCone`, `TauCeti.Toric.IsRegularCone`
   and `TauCeti.Toric.Fan` with `TauCeti.Toric.Fan.ext`: respectively
@@ -557,15 +557,12 @@ descent of quasi-coherent algebras); Tau Ceti `TauCeti.SplitTorus.groupScheme`; 
 
 **Checks.**
 
-- `embedding_rankOne_test`: for the trivial `G_m`-torsor and the positive ray, `T(σ) = A¹_Z` with
-  its standard open `G_m`.
-- `embedding_zeroCone_test`: the zero-cone embedding is the given torsor, also when it is
-  nontrivial.
-- `embedding_lineDual_test`: in rank one with weight-one line `L`, the positive-ray embedding is
-  `Spec_Z Sym(L)`, the total space of `L^∨` under `V(E) = Spec Sym(E^∨)`; the total space of `L`
-  itself is wrong.
-- `embedding_nilpotentBase_test`: for the trivial rank-one torsor over `ℤ/4`, the ray chart is
-  `(ℤ/4)[q]` and its restriction to `q = 0` keeps the scalar `2`.
+- For the trivial `G_m`-torsor and the positive ray, `T(σ) = A¹_Z` with its standard open `G_m`.
+- The zero-cone embedding is the given torsor, also when it is nontrivial.
+- In rank one with weight-one line `L`, the positive-ray embedding is `Spec_Z Sym(L)`, the total
+  space of `L^∨` under `V(E) = Spec Sym(E^∨)`; the total space of `L` itself is wrong.
+- For the trivial rank-one torsor over `ℤ/4`, the ray chart is `(ℤ/4)[q]` and its restriction to
+  `q = 0` keeps the scalar `2`.
 - A nontrivial torsor need not have a global nonvanishing monomial of each degree.
 
 ### 0.9 Face charts are open subschemes
@@ -677,14 +674,11 @@ space). *Needs:* AnalyticToricGeometry Layer 0; Tau Ceti `TauCeti.Toric.Fan.ext`
 
 **Checks.**
 
-- `ArithmeticFan.zero_test`: for a rank-zero lattice, `C* = {0}` and the complete system is the zero
+- For a rank-zero lattice, `C* = {0}` and the complete system is the zero cone.
+- A finite quadrant fan with trivial action returns exactly its cones under `toFiniteFan`.
+- An infinite system is never locally finite at `0` but is admitted when locally finite on the open
   cone.
-- `ArithmeticFan.finite_test`: a finite quadrant fan with trivial action returns exactly its cones
-  under `toFiniteFan`.
-- `ArithmeticFan.origin_test`: an infinite system is never locally finite at `0` but is admitted when
-  locally finite on the open cone.
-- `ArithmeticFan.support_test`: the positive ray in `ℝ` has support `ℝ_{≥0}`; it is complete for
-  `C* = ℝ_{≥0}` and not for `ℝ`.
+- The positive ray in `ℝ` has support `ℝ_{≥0}`; it is complete for `C* = ℝ_{≥0}` and not for `ℝ`.
 - An infinite system with finitely many orbits is not coerced to a finite `Fan`.
 
 ### 0.14 Common refinements
@@ -713,10 +707,10 @@ The API: `commonRefinement_le` (each cone lies in a cone of each input);
 
 **Checks.**
 
-- `commonRefinement_self_test`: the common refinement of a system with itself is the same system.
-- `quadrant_refinement_test`: intersecting the quadrant fan with its subdivision by `(1,1)` gives the
-  two cones of the subdivision and their faces.
-- `commonRefinement_level_test`: restriction to a smaller level induces the same containment maps.
+- The common refinement of a system with itself is the same system.
+- Intersecting the quadrant fan with its subdivision by `(1,1)` gives the two cones of the
+  subdivision and their faces.
+- Restriction to a smaller level induces the same containment maps.
 - Two refinements are compared through a third; they need not be equal.
 - The coordinate-swap action on the quadrant does not preserve the subdivision at `(1,2)` alone:
   the identity map to that fan with trivial action is not equivariant. Adding `(2,1)` gives an
@@ -768,12 +762,11 @@ SchemeAndStackFoundations Layer 0; Tau Ceti `TauCeti.SplitTorus.groupScheme`; Ma
 
 **Checks.**
 
-- `affineChart_ray_Z4_test`: the positive ray over `ℤ/4` has coordinate ring `(ℤ/4)[q]`, and its
-  closed stratum has coordinate ring `ℤ/4`.
-- `affineChart_zero_test`: the zero cone gives `Spec R[M]`, the split torus.
-- `affineChart_valuation_test`: for a valuation ring `V`, `U_{σ,V}` is the base change of `U_{σ,ℤ}`
-  with the same face maps.
-- `affineChart_nilpotent_test`: replacing `R` by its reduction kills `2 ∈ ℤ/4` and is rejected.
+- The positive ray over `ℤ/4` has coordinate ring `(ℤ/4)[q]`, and its closed stratum has coordinate
+  ring `ℤ/4`.
+- The zero cone gives `Spec R[M]`, the split torus.
+- For a valuation ring `V`, `U_{σ,V}` is the base change of `U_{σ,ℤ}` with the same face maps.
+- Replacing `R` by its reduction kills `2 ∈ ℤ/4` and is rejected.
 
 ### 0.17 Relative toric maps and the support criterion
 
@@ -956,13 +949,11 @@ datum). *Needs:* ShimuraVarieties 2.1; ShimuraData Layers 3–4; ReductiveGroups
 
 **Checks.**
 
-- `MixedBoundaryDatum.siegel2_rank1_test`: at a genus-two rank-one cusp, `dim U_1 = 1`,
-  `dim V_1 = 2` and `dim W_1 = 3`.
-- `MixedBoundaryDatum.pure_test`: when `W_1 = 1`, also `U_1 = 1` and `Lie P_1` is pure of weight `0`.
-- `MixedBoundaryDatum.hodge_test`: the induced graded pieces are Tau Ceti Hodge structures on the
-  weight-graded quotients.
-- `MixedBoundaryDatum.radical_center_test`: taking all of `W_1` as torus character group gives rank
-  `3` instead of `1` at the genus-two rank-one cusp, and is rejected.
+- At a genus-two rank-one cusp, `dim U_1 = 1`, `dim V_1 = 2` and `dim W_1 = 3`.
+- When `W_1 = 1`, also `U_1 = 1` and `Lie P_1` is pure of weight `0`.
+- The induced graded pieces are Tau Ceti Hodge structures on the weight-graded quotients.
+- Taking all of `W_1` as torus character group gives rank `3` instead of `1` at the genus-two
+  rank-one cusp, and is rejected.
 - In the split modular boundary `P_1 = {[[a,b],[0,1]]}`, `U_1 = W_1 = G_a`, the value
   `h_{1,0}(z_1,z_2) = diag(z_1z_2,1)` has the infinite kernel `{(z,z⁻¹)}`. Its weight
   `diag(t⁻²,1)` scales `b` by `t⁻²`; it is central in `G_1 = G_m`, not in `P_1`.
@@ -1004,10 +995,9 @@ and the strictness results of `TauCeti/Geometry/Hodge/Mixed/Strictness`.
 
 **Checks.**
 
-- `BoundaryMHS.pure_test`: for `W_1 = 1`, `W_{−1} = 0` and `W_0 = Lie P_1` in the adjoint structure.
-- `BoundaryMHS.siegel2_test`: at a genus-two rank-one cusp, `gr_{−2}` has dimension `1` and
-  `gr_{−1}` dimension `2`.
-- `BoundaryMHS.graded_test`: the graded Hodge filtration is the induced quotient filtration.
+- For `W_1 = 1`, `W_{−1} = 0` and `W_0 = Lie P_1` in the adjoint structure.
+- At a genus-two rank-one cusp, `gr_{−2}` has dimension `1` and `gr_{−1}` dimension `2`.
+- The graded Hodge filtration is the induced quotient filtration.
 - For `F = ℚ(√2)`, `T = Res_{F/ℚ} G_m` and `h(z) = (zz̄,1)`, the representation `V = F`
   has stable lattice `O_F` but weights `−2,0`. In the basis `1,√2`, `W_{−1}` is the irrational
   line `a = √2b`, so no rational `WQ` exists. This occurs at the improper boundary and, after
@@ -1044,12 +1034,9 @@ SchemeAndStackFoundations Layer 1 (torsors); ShimuraVarieties 0.5; Tau Ceti
 
 **Checks.**
 
-- `BoundaryTorsor.siegel2_klingen_test`: at the genus-two rank-one cusp the torus has rank `1` and
-  the abelian part is an elliptic curve.
-- `BoundaryTorsor.siegel2_siegel_test`: at the maximal genus-two cusp the torus has rank
-  `dim Sym²(ℤ²) = 3` and there is no abelian part.
-- `BoundaryTorsor.nontrivial_test`: a nontrivial character line gives a nontrivial torsor, not a
-  product with `G_m`.
+- At the genus-two rank-one cusp the torus has rank `1` and the abelian part is an elliptic curve.
+- At the maximal genus-two cusp the torus has rank `dim Sym²(ℤ²) = 3` and there is no abelian part.
+- A nontrivial character line gives a nontrivial torsor, not a product with `G_m`.
 
 ### 1.4 Cusp labels
 
@@ -1073,11 +1060,10 @@ finiteness of class sets), 3.6 (cusps); ShimuraVarieties 2.1.
 
 **Checks.**
 
-- `CuspLabel.modular_test`: for modular-curve data the labels are the usual double cosets of
-  rational cusps with their widths.
-- `CuspLabel.representative_test`: right multiplication by an element of `K` gives the same label.
-- `CuspLabel.component_test`: a cusp whose base has two connected components gives one cusp label
-  and two boundary strata; they are not merged.
+- For modular-curve data the labels are the usual double cosets of rational cusps with their widths.
+- Right multiplication by an element of `K` gives the same label.
+- A cusp whose base has two connected components gives one cusp label and two boundary strata; they
+  are not merged.
 
 ### 1.5 Effective arithmetic stabilizers and finite overlap
 
@@ -1198,13 +1184,13 @@ ComplexComparisonPartII C0.4; AnalyticToricGeometry Layers 0, 2, 3 and 4.
 
 **Checks.**
 
-- `PartialBoundaryChart.zero_test`: the zero cone adds no boundary; its controlled chart is `U_0`.
-- `PartialBoundaryChart.rankOne_test`: at the standard rank-one cusp the ambient ray chart is `A¹_ℂ`
-  with open `G_m`, and `q = exp(2πiz)`, `Im z > 0` gives `Ū = {|q| < 1}` with `U_0 = {0 < |q| < 1}`;
-  taking all of `A¹_ℂ` as the controlled chart is wrong. Multiplication by `2` sends `q = 3/4`
-  outside both controlled opens, so the full torus action does not restrict.
-- `PartialBoundaryChart.nilpotent_test`: analytifying a nonreduced finite-type base keeps the class
-  of `ε` with `ε² = 0`; passing to the reduced manifold loses it.
+- The zero cone adds no boundary; its controlled chart is `U_0`.
+- At the standard rank-one cusp the ambient ray chart is `A¹_ℂ` with open `G_m`, and
+  `q = exp(2πiz)`, `Im z > 0` gives `Ū = {|q| < 1}` with `U_0 = {0 < |q| < 1}`; taking all of `A¹_ℂ`
+  as the controlled chart is wrong. Multiplication by `2` sends `q = 3/4` outside both controlled
+  opens, so the full torus action does not restrict.
+- Analytifying a nonreduced finite-type base keeps the class of `ε` with `ε² = 0`; passing to the
+  reduced manifold loses it.
 
 ### 2.2 Arithmetic quotient neighbourhoods and separation
 
@@ -1250,12 +1236,10 @@ ComplexComparisonPartII §C−1.1; AnalyticToricGeometry Layer 3.
 
 **Checks.**
 
-- `ToroidalSpace.compact_interior_test`: if `G^ad` has no rational boundary components, the toroidal
-  space is `Sh_K(ℂ)`.
-- `ToroidalSpace.modular_q_test`: a modular cusp of width `w` gives the punctured disc in
-  `q = exp(2πiz/w)` together with the point `q = 0`.
-- `ToroidalSpace.anchor_test`: a trivialized finite regular chart has the face-open overlaps of
-  AnalyticToricGeometry Layer 3.
+- If `G^ad` has no rational boundary components, the toroidal space is `Sh_K(ℂ)`.
+- A modular cusp of width `w` gives the punctured disc in `q = exp(2πiz/w)` together with the point
+  `q = 0`.
+- A trivialized finite regular chart has the face-open overlaps of AnalyticToricGeometry Layer 3.
 - An interior point is never identified with a boundary point of another cusp.
 
 ### 2.4 Normality and the dense interior
@@ -1382,11 +1366,10 @@ ComplexComparisonPartII C4.4.
 
 **Checks.**
 
-- `ToroidalCanonicalModel.empty_boundary_test`: for a compact Shimura variety the model is the
-  canonical model itself.
-- `ToroidalCanonicalModel.baseChange_C_test`: base change to `ℂ` and analytification recover 2.3.
-- `ToroidalCanonicalModel.modular_cusp_test`: at a modular cusp the completed ring descends to the
-  cyclotomic cusp ring with its width-normalized parameter `q`.
+- For a compact Shimura variety the model is the canonical model itself.
+- Base change to `ℂ` and analytification recover 2.3.
+- At a modular cusp the completed ring descends to the cyclotomic cusp ring with its
+  width-normalized parameter `q`.
 - A formal chart isomorphism is not used as an ordinary open overlap.
 - At a modular cusp the mixed model is the punctured `q`-line; completion at `q = 0` takes
   place in its ray embedding `A¹`, giving the completed power-series chart, not in `G_m`.
@@ -1490,11 +1473,10 @@ AnalyticToricGeometry Layers 0, 3, 4 and 5.
 
 **Checks.**
 
-- `ToroidalRefinement.identity_test`: refining by the same system gives the identity.
-- `ToroidalRefinement.star_test`: the star subdivision of the quadrant at `(1,1)` gives the blow-up of
-  `A²` at the origin, proper and birational but not an isomorphism.
-- `ToroidalRefinement.anchor_test`: on a finite regular complex chart the map is the toric map of
-  AnalyticToricGeometry Layer 5.
+- Refining by the same system gives the identity.
+- The star subdivision of the quadrant at `(1,1)` gives the blow-up of `A²` at the origin, proper
+  and birational but not an isomorphism.
+- On a finite regular complex chart the map is the toric map of AnalyticToricGeometry Layer 5.
 
 ### 4.2 Level and datum maps
 
@@ -1531,16 +1513,15 @@ is that of ShimuraVarieties 8.4, with its order of arrows); `ToroidalHeckeSpan.c
 
 **Checks.**
 
-- `ToroidalHeckeSpan.q_power_test`: take `g = diag(p,1)`, `p ∤ N`, `N ≥ 3`, and
-  `Γ′ = Γ(N) ∩ gΓ(N)g⁻¹`. At infinity its width is `pN`; for the ordered arrows `z ↦ z` and
-  `z ↦ z/p`, put `t = exp(2πiz/(pN))`. The two target cusp parameters pull back to `t^p` and
-  `t`. The ordered cocharacter maps are multiplication by `p` and `1`, with ramification indices
-  `p` and `1`.
+- Take `g = diag(p,1)`, `p ∤ N`, `N ≥ 3`, and `Γ′ = Γ(N) ∩ gΓ(N)g⁻¹`. At infinity its width is `pN`;
+  for the ordered arrows `z ↦ z` and `z ↦ z/p`, put `t = exp(2πiz/(pN))`. The two target cusp
+  parameters pull back to `t^p` and `t`. The ordered cocharacter maps are multiplication by `p` and
+  `1`, with ramification indices `p` and `1`.
 - On a diagonal quadrant face at a genus-two maximal cusp, intermediate fans with rays `(1,1)`
   and `(1,2)` have common refinement with both rays and maximal cones spanned by the consecutive
   pairs `(1,0),(1,1)`, `(1,1),(1,2)` and `(1,2),(0,1)`, together with their faces.
-- `ToroidalHeckeSpan.refinement_test`: subdividing that middle cone inserts new strata, while both
-  ordered maps retain their character pullbacks on the torus and hence the same open Hecke span.
+- Subdividing that middle cone inserts new strata, while both ordered maps retain their character
+  pullbacks on the torus and hence the same open Hecke span.
 
 ### 4.4 Independence through common refinements
 
@@ -1813,13 +1794,10 @@ SchemeAndStackFoundations Layer 0, Layer 1; Tau Ceti `TauCeti.SplitTorus.groupSc
 
 **Checks.**
 
-- `SemiAbelianScheme.abelian_test`: an abelian scheme has toric rank `0`.
-- `SemiAbelianScheme.splitTorus_test`: the split torus of rank `r` is semi-abelian with character
-  sheaf `ℤ^r` and zero abelian quotient.
-- `SemiAbelianScheme.tate_rank_test`: the Tate family has toric rank `0` generically and `1` at the
-  boundary.
-- `SemiAbelianScheme.additive_test`: `G_a` is excluded; its fibres are not extensions of abelian
-  varieties by tori.
+- An abelian scheme has toric rank `0`.
+- The split torus of rank `r` is semi-abelian with character sheaf `ℤ^r` and zero abelian quotient.
+- The Tate family has toric rank `0` generically and `1` at the boundary.
+- `G_a` is excluded; its fibres are not extensions of abelian varieties by tori.
 - For `G_m` the Hodge bundle is free on `du/u`.
 
 ### 6.2 Character sheaves and homomorphisms from tori
@@ -1889,12 +1867,12 @@ NeronModelsAndSemistableAbelianVarieties 3.13, 3.14; AbelianSchemesAndArithmetic
 
 **Checks.**
 
-- `PolarizedDegenerationData.rankZero_test`: `X = Y = 0` gives `A` with its polarization.
-- `PolarizedDegenerationData.tate_test`: for `A = 0`, `X = Y = ℤ`, the standard principal polarization and period `q`, positivity is `v(q) > 0`
-  and the datum is that of the Tate curve.
-- `PolarizedDegenerationData.local_test`: over a complete discrete valuation ring the character and
-  period lattices are those of NeronModelsAndSemistableAbelianVarieties 3.13.
-- `PolarizedDegenerationData.negative_test`: the period `q⁻¹` with `v(q) > 0` fails positivity.
+- `X = Y = 0` gives `A` with its polarization.
+- For `A = 0`, `X = Y = ℤ`, the standard principal polarization and period `q`, positivity is
+  `v(q) > 0` and the datum is that of the Tate curve.
+- Over a complete discrete valuation ring the character and period lattices are those of
+  NeronModelsAndSemistableAbelianVarieties 3.13.
+- The period `q⁻¹` with `v(q) > 0` fails positivity.
 
 ### 6.5 Mumford's construction
 
@@ -1920,11 +1898,11 @@ SchemeAndStackFoundations Layer 1, Layer 4; NeronModelsAndSemistableAbelianVarie
 
 **Checks.**
 
-- `MumfordDegeneration.rankZero_test`: the datum with no periods returns `A`.
-- `MumfordDegeneration.tate_test`: with `A = 0`, `X = Y = ℤ` and the standard principal polarization, period `q` gives `G_m/q^ℤ` on the generic analytic
-  fibre.
-- `MumfordDegeneration.refinement_test`: a compatible subdivision changes the model by a toroidal
-  comparison and keeps the generic uniformization.
+- The datum with no periods returns `A`.
+- With `A = 0`, `X = Y = ℤ` and the standard principal polarization, period `q` gives `G_m/q^ℤ` on
+  the generic analytic fibre.
+- A compatible subdivision changes the model by a toroidal comparison and keeps the generic
+  uniformization.
 
 ### 6.6 The degeneration equivalence
 
@@ -1959,12 +1937,10 @@ PELModuli M1.2 (PEL-type abelian schemes), M1.7; SchemeAndStackFoundations Layer
 
 **Checks.**
 
-- `UniversalDegeneration.rankZero_test`: at toric rank zero the family is the universal abelian family
-  of the lower-dimensional boundary moduli space.
-- `UniversalDegeneration.tate_test`: at a modular cusp the period is `q` and the invariant
-  differential of the fibre is `du/u`.
-- `UniversalDegeneration.representative_test`: equivalent cusp representatives give isomorphic
-  families through the descent map.
+- At toric rank zero the family is the universal abelian family of the lower-dimensional boundary
+  moduli space.
+- At a modular cusp the period is `q` and the invariant differential of the fibre is `du/u`.
+- Equivalent cusp representatives give isomorphic families through the descent map.
 
 ### 6.8 Extension of homomorphisms
 
@@ -2097,11 +2073,10 @@ ArithmeticGaloisDuality R02.1.1.
 
 **Checks.**
 
-- `SemiAbelianTateModule.Gm_test`: for `J = G_m`, `TJ = Ẑ(1)`, not `Ẑ` with trivial action.
-- `SemiAbelianTateModule.abelian_test`: for `T = 0` the construction is `TA`.
-- `SemiAbelianTateModule.product_test`: for `J = T × A` the sequence splits.
-- `SemiAbelianTateModule.transitions_test`: the inclusions `J[m] → J[n]` go the wrong way and do not
-  define this inverse system.
+- For `J = G_m`, `TJ = Ẑ(1)`, not `Ẑ` with trivial action.
+- For `T = 0` the construction is `TA`.
+- For `J = T × A` the sequence splits.
+- The inclusions `J[m] → J[n]` go the wrong way and do not define this inverse system.
 
 ### 6.15 Verschiebung on the Hodge line at the boundary
 
@@ -2265,13 +2240,11 @@ AlgebraicModuliForArithmeticGeometry Layer 6; SchemeAndStackFoundations Layer 1,
 
 **Checks.**
 
-- `GoodCuspModel.rankZero_test`: at toric rank zero the model is an étale chart of the open moduli
-  space.
-- `GoodCuspModel.tate_test`: for elliptic data `A = 0`, `X = Y = ℤ` and the standard principal
-  polarization, the completion carries the Tate degeneration with the level's width-normalized
-  period. A genus-two Klingen chart retains its elliptic abelian quotient and rank-one toric part.
-- `GoodCuspModel.twoEmbeddings_test`: requiring `i_nat = i_alg` in the definition excludes models
-  that Lan's construction produces.
+- At toric rank zero the model is an étale chart of the open moduli space.
+- For elliptic data `A = 0`, `X = Y = ℤ` and the standard principal polarization, the completion
+  carries the Tate degeneration with the level's width-normalized period. A genus-two Klingen chart
+  retains its elliptic abelian quotient and rank-one toric part.
+- Requiring `i_nat = i_alg` in the definition excludes models that Lan's construction produces.
 
 ### 7.2 The étale relation on boundary charts
 
@@ -2564,14 +2537,13 @@ The API: `HodgeLineFJ.coeff`; `.indep_cone`; `.indep_fan` (through 4.10); `.inva
 
 **Checks.**
 
-- `HodgeLineFJ.unit_test`: for `k = 0`, `M = O_{F_0,(□)}` and `f = 1`, `FJ^{(0)}(1) = 1` and all other
-  coefficients vanish.
-- `HodgeLineFJ.modular_test`: at a cusp of width `w` of a modular curve the expansion of a weight-`k`
-  form is its `q`-expansion `∑_{m ≥ 0} a_m t^m` in the cusp parameter `t` with `t^w` the Tate
-  parameter, and its value at the cusp is `a_0`.
-- `HodgeLineFJ.refinement_test`: for a refinement `Σ′`, the expansion of the pulled-back section agrees.
-- `HodgeLineFJ.negative_test`: `q⁻¹ + O(1)` is not the expansion of a section; degrees negative on the
-  positivity cone never occur.
+- For `k = 0`, `M = O_{F_0,(□)}` and `f = 1`, `FJ^{(0)}(1) = 1` and all other coefficients vanish.
+- At a cusp of width `w` of a modular curve the expansion of a weight-`k` form is its `q`-expansion
+  `∑_{m ≥ 0} a_m t^m` in the cusp parameter `t` with `t^w` the Tate parameter, and its value at the
+  cusp is `a_0`.
+- For a refinement `Σ′`, the expansion of the pulled-back section agrees.
+- `q⁻¹ + O(1)` is not the expansion of a section; degrees negative on the positivity cone never
+  occur.
 
 ### 7.16 The integral minimal compactification
 
@@ -2600,8 +2572,8 @@ Layer 4.
 
 **Checks.**
 
-- `IntegralMinimalModel.modular_test`: for fine genus-one level, `π` is the identity on `X(N)`;
-  each cusp remains a point and the positive-degree Hodge line is ample.
+- For fine genus-one level, `π` is the identity on `X(N)`; each cusp remains a point and the
+  positive-degree Hodge line is ample.
 - In genus two the Klingen boundary maps to the elliptic modular curve, and the maximal Siegel
   boundary maps to the zero-dimensional genus-zero stratum; the minimal boundary has dimension one.
 - Over an elliptic Klingen boundary point, the proper toroidal fibre has positive dimension
@@ -2664,12 +2636,10 @@ SchemeAndStackFoundations Layer 1, Layer 4.
 
 **Checks.**
 
-- `NormalizedToroidalModel.identity_test`: the trivial generic cover returns the base model.
-- `NormalizedToroidalModel.tate_ramification_test`: the cusp cover `q = t^p` is finite and ramified
-  at `t = 0`.
-- `NormalizedToroidalModel.open_test`: the interior is the normalization of PELModuli M4.5.
-- `NormalizedToroidalModel.smoothness_test`: the normalized chart is not smooth merely because the
-  good-level model is.
+- The trivial generic cover returns the base model.
+- The cusp cover `q = t^p` is finite and ramified at `t = 0`.
+- The interior is the normalization of PELModuli M4.5.
+- The normalized chart is not smooth merely because the good-level model is.
 
 ### 7.20 Charts of normalized models
 
@@ -2894,12 +2864,11 @@ SchemeAndStackFoundations Layer 1.
 
 **Checks.**
 
-- `PrimeQGeneratorCover.Q3_test`: for `Q = 3` and `H = ℤ/3` there are two generators, swapped by
-  `(ℤ/3)^×`.
-- `PrimeQGeneratorCover.Q2_test`: for `Q = 2` the cover has degree one.
-- `PrimeQGeneratorCover.open_test`: on the open part it is the given level cover.
-- `PrimeQGeneratorCover.noninvertible_test`: a `p`-kernel that loses rank at a boundary of
-  characteristic `p` does not give a finite étale cover.
+- For `Q = 3` and `H = ℤ/3` there are two generators, swapped by `(ℤ/3)^×`.
+- For `Q = 2` the cover has degree one.
+- On the open part it is the given level cover.
+- A `p`-kernel that loses rank at a boundary of characteristic `p` does not give a finite étale
+  cover.
 
 ### 7.29 The canonical bundle of a Siegel threefold
 
@@ -2969,12 +2938,11 @@ SchemeAndStackFoundations §0.3, Layer 2, Layer 4.
 
 **Checks.**
 
-- `ProjectiveToroidalModel.rankZero_test`: without boundary the ideal is the unit ideal and the model
-  is the given normal model.
-- `ProjectiveToroidalModel.blowup_test`: the normalized blow-up of `(x, y)` in a regular
-  two-dimensional chart has an exceptional `ℙ¹`; it is not a finite normalization.
-- `ProjectiveToroidalModel.stabilization_test`: two sufficiently divisible `d` give canonically
-  identified models, with the same charts and families.
+- Without boundary the ideal is the unit ideal and the model is the given normal model.
+- The normalized blow-up of `(x, y)` in a regular two-dimensional chart has an exceptional `ℙ¹`; it
+  is not a finite normalization.
+- Two sufficiently divisible `d` give canonically identified models, with the same charts and
+  families.
 - Each index `j` has its own tautological semi-abelian family.
 - The lattice-chain-to-singleton maps of Lan16 Example 13.12 are projective and can be nonfinite
   on the interior; the unit boundary ideal there leaves the chosen interior unchanged.
