@@ -1476,6 +1476,26 @@ contains a field; and, in mixed characteristic, when `R` is unramified and `G` h
 `R`-subgroup (ibid., §3.1.4 (1)–(4)). It remains open in mixed characteristic, especially over
 ramified regular local rings, those with `p ∈ m²` (ibid., end of §3.1.4).
 
+## Provenance: existing formalizations outside Tau Ceti
+
+This section is secondary: it maps existing Lean code to targets and prescribes nothing. The
+Apache-2.0 repository AxiomMath, *The Stacks Project in Lean* (References), formalizes the Stacks
+Project on Mathlib. Its `StacksFrontier` tier is written by AI agents and builds without `sorry`;
+the repository records it as unreviewed by humans, and it is built on Lean and Mathlib v4.35.0,
+earlier than our pin. It is not a dependency: a statement read there is compared with the target
+here before it is used, adaptation is agreed with its maintainers first, and adapted code keeps its
+Apache-2.0 notices.
+
+`StacksFrontier/AlgebraicGeometry/GroupScheme/OverField` follows the Stacks chapter *Groupoid
+Schemes* over a field: the identity component of a group scheme over a field and its geometric
+properties (Tag 047M, `IdentityComponent.lean`, `IdentityComponentGeometric.lean`), centers,
+stabilizers, actions and abelian varieties, the field case of 0.2 and of 4.6–4.8.
+`AlgebraicGeometry/Groupoids` builds groupoid schemes over a base, their quotients and stabilizers.
+No file name or tag there treats diagonalizable groups, groups of multiplicative type and tori
+(Layers 1–2), rigidity, density of torsion and Hom schemes (Layer 3), rank functions and maximal
+tori over a base (Layer 5), Picard groups of the flag scheme (Layer 6) or the Steinberg map (Layer
+7).
+
 ## References
 
 - M. Demazure, A. Grothendieck et al., *Schémas en groupes* (SGA 3), LNM 151–153 (1970); re-edition
@@ -1526,3 +1546,8 @@ ramified regular local rings, those with `p ∈ m²` (ibid., end of §3.1.4).
   one-dimensional homogeneous vector bundles », *Math. USSR Izv.* 8 (1974), 301–327, §4.
 - J.-J. Sansuc, « Groupe de Brauer et arithmétique des groupes algébriques linéaires sur un corps
   de nombres », *J. reine angew. Math.* 327 (1981), 12–80, §6.
+- AxiomMath, *The Stacks Project in Lean*. Lean 4 formalization at commit
+  c496df0d9beea9deaeabcea8492605f9a0a2313b, Apache-2.0, built on Lean and Mathlib v4.35.0;
+  directories `StacksFrontier/AlgebraicGeometry/GroupScheme`,
+  `StacksFrontier/AlgebraicGeometry/Groupoids`.
+  https://github.com/AxiomMath/Stacks/tree/c496df0d9beea9deaeabcea8492605f9a0a2313b/StacksFrontier
