@@ -85,10 +85,10 @@ The numbers are those of the layers below, and `k.n` names subsection `n` of Lay
 - the Fisher information matrix `E ℓ̇ ℓ̇ᵀ` of a score function, owned by
   MathematicalStatisticsAsymptotic 7.3; `informationMatrix` of 1.3 is the same matrix for scores
   given as `Lp` classes, kept as a definition because Layer 1 uses Mathlib only;
-- i.i.d. families, the weak law of large numbers, Slutsky's lemma, the `o_P` algebra and
-  contiguity basics:
-  [MathematicalStatisticsFoundations](../MathematicalStatisticsFoundations/README.md),
-  8.2–8.6;
+- i.i.d. families, the weak law of large numbers, the `o_P` algebra on one probability space
+  and contiguity basics:
+  [MathematicalStatisticsFoundations](../MathematicalStatisticsFoundations/README.md), 8.3, 8.5,
+  8.6;
 - Z-estimator theory beyond the monotone `√n`-consistency lemma of 5.3, and every empirical-process
   result. Nothing in this roadmap uses a Donsker class: the cross-fitting lemma replaces the
   Donsker condition by sample splitting, and the one-step theorem of 5.2 uses splitting in the
@@ -214,7 +214,6 @@ These are fixed for every target. A statement that departs from them is a differ
 [MathematicalStatisticsFoundations](../MathematicalStatisticsFoundations/README.md) supplies:
 - 8.3: the algebra of convergence in probability on one probability space, including
   `O_P(1) · o_P(1) = o_P(1)` (5.1, 5.2, 6.5);
-- 8.4: Slutsky's lemma without separability;
 - 8.5: `IsIndependentIdenticallyDistributed`, the law of `(X 0, …, X (n-1))` as `Measure.pi`,
   and the weak law of large numbers;
 - 8.6: contiguity of sequences of laws and the transfer of convergence in probability under
@@ -1342,7 +1341,7 @@ local asymptotic normality).
 
 ### Dependencies
 
-Layers 1–5; Foundations 8.3–8.5.
+Layers 1–5; Foundations 8.3, 8.5.
 
 ## Layer 7: the EM algorithm and missing information
 
