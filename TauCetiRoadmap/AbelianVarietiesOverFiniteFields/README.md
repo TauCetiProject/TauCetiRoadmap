@@ -2439,8 +2439,9 @@ licensed, and a proof adapted from them rather than rewritten keeps that attribu
 Tau Ceti's carriers (in the first, an abelian variety is a group object over `Spec K` satisfying an
 abelian-variety predicate, not `AbelianVariety K`), so each statement is compared with the milestone
 here before it is transported. Their overlap with this roadmap is in scheme-level inputs (most of
-them consumed from the suppliers; the rest are steps of 1.2 and 7.2) and in the Weil-number
-predicate consumed from CurvesOverFiniteFields 1.1.
+them consumed from the suppliers; the rest are steps of 1.2 and 7.2), in the Weil-number
+predicate consumed from CurvesOverFiniteFields 1.1, and in the Weil estimate consumed from
+DWP.1 §1.4, for which the second has only the Riemann hypothesis for all smooth proper schemes.
 
 - formal-arithmetic-geometry/weil-conjectures, commit `55abf461d4688270382c9c982ac08a279e41c00b`:
   - [`AlgebraicGeometry/AbelianVariety/TateModule.lean`](https://github.com/formal-arithmetic-geometry/weil-conjectures/blob/55abf461d4688270382c9c982ac08a279e41c00b/WeilConjectures/AlgebraicGeometry/AbelianVariety/TateModule.lean)
@@ -2485,7 +2486,17 @@ predicate consumed from CurvesOverFiniteFields 1.1.
   [`Defs/AlgebraicGeometry/EtaleCohomology/Trace/FieldValuedPointCount.lean`](https://github.com/AxiomMath/Weil/blob/27cdb2049be62ee2911429b47f54774078450e32/Weil/Defs/AlgebraicGeometry/EtaleCohomology/Trace/FieldValuedPointCount.lean),
   point counts over Mathlib's model `FiniteField.Extension` of `𝔽_{q^n}`, compared with an
   arbitrary extension of degree `n` through `FiniteField.algEquivExtension`, which is the route of
-  1.2.
+  1.2. Its directory
+  [`AlgebraicGeometry/EtaleCohomology/Trace`](https://github.com/AxiomMath/Weil/tree/27cdb2049be62ee2911429b47f54774078450e32/Weil/AlgebraicGeometry/EtaleCohomology/Trace)
+  proves the Riemann hypothesis for smooth proper schemes `X` over `𝔽_q`
+  (`DeligneWeilConjecture.lean`: geometric Frobenius on `H^ν(X_{K̄}, ℚ_ℓ)` is pure of weight `ν`;
+  the Provenance of *Deligne weights, purity and the Weil bounds* maps it to DWP.4 §4.3). The
+  repository's own files contain no result specific to abelian varieties: at `X = A`, `ν = 1` the
+  theorem gives the Weil estimate of DWP.1 §1.4 only through a comparison of `H¹(A_{K̄}, ℚ_ℓ)` with
+  `(V_ℓ A)^∨` carrying geometric Frobenius to the transpose of `π_A`, which they do not contain. Its
+  [`AlgebraicGeometry/EtaleCohomology/Curves/RootsOfUnityAlgClosed.lean`](https://github.com/AxiomMath/Weil/blob/27cdb2049be62ee2911429b47f54774078450e32/Weil/AlgebraicGeometry/EtaleCohomology/Curves/RootsOfUnityAlgClosed.lean)
+  gives `H¹(C, μ_n) ≅ Pic(C)[n]` for a smooth projective curve `C` over an algebraically closed field
+  in which `n` is invertible, the first step of the Kummer isomorphism of 1.5.
 
 ## References
 
