@@ -87,8 +87,8 @@ Newton polygon and function-field zeta theory belong to the named suppliers belo
   coefficient criterion `IsSupersingular q P_E` of 1.6 for `r ≥ 3` (4.1 proves the cases `r ≤ 2`,
   which are polynomial identities), is a statement about abelian varieties and belongs there.
   Nothing from that roadmap is an input here.
-- **Étale cohomology and the cohomological route** to zeta functions and weights: the
-  `CohomologicalPointCounting` family, `WeilConjectures` and `DeligneWeightsAndPurity`. The
+- **Étale cohomology and the cohomological route** to zeta functions and weights:
+  `WeilConjectures` and `DeligneWeightsAndPurity`. The
   comparison of the zeta function with them is FunctionFieldArithmetic §5.4; nothing cohomological
   is built or stated here.
 - **Character sums** — Gauss and Jacobi sums, Hasse–Davenport, Kloosterman sums and the Weil bound for
@@ -1423,8 +1423,8 @@ definitions and the computed Checks specify the conventions independently.
   `dickson_one_one_eval_add_inv` for parameter `1`; its docstring cites R. Lidl, G. L. Mullen,
   G. Turnwald, *Dickson polynomials*, Pitman Monographs 65, Longman, 1993) — the Dickson
   polynomials of 1.4.
-- Existing formalisations, consulted as proof sources and not as specifications (both Apache-2.0;
-  a proof adapted from them keeps that attribution).
+- Existing formalisations, consulted as proof sources and not as specifications (all three
+  Apache-2.0; a proof adapted from them keeps that attribution).
   [formal-arithmetic-geometry/weil-conjectures](https://github.com/formal-arithmetic-geometry/weil-conjectures/tree/55abf461d4688270382c9c982ac08a279e41c00b)
   works with a smooth proper geometrically integral curve `X → Spec k`, a scheme rather than this
   roadmap's function-field carrier: `Scheme.Hom.abs_pointCount_sub_le_two_mul_genus`
@@ -1443,9 +1443,30 @@ definitions and the computed Checks specify the conventions independently.
   `Weil/AlgebraicGeometry/EtaleCohomology/Trace/DeligneWeilConjecture.lean`) and the passage to the
   field of constants `k'`, where the reversed Frobenius polynomial over `k` is the one over `k'`
   evaluated at `T^{[k' : k]}` (`exists_fieldOfConstants_rationalFrobeniusCharpolyReverse_eq_comp`,
-  `Trace/FieldOfConstantsFrobenius.lean`), the scheme form of convention 1's witness. Neither
-  states Layer 1's polynomial theory, the bounds of 3.2–3.3 or a comparison with Tau Ceti's
-  carriers (Layer 4).
+  `Trace/FieldOfConstantsFrobenius.lean`), the scheme form of convention 1's witness.
+  [AxiomMath/Stacks](https://github.com/AxiomMath/Stacks/tree/c496df0d9beea9deaeabcea8492605f9a0a2313b/StacksFrontier/AlgebraicGeometry/Curves),
+  folder `StacksFrontier/AlgebraicGeometry/Curves/`, also works with a smooth proper geometrically
+  irreducible curve `X → Spec k`. Its subfolders `WeilBound/`, `ZetaFunction/` and
+  `BombieriStepanov/` overlap this roadmap; the rest of the folder is general curve theory (nodes,
+  stable and semistable models, linear series, Riemann–Hurwitz, Weierstrass models in genus one)
+  that this roadmap neither owns nor states.
+  `AlgebraicGeometry.WeilBound.abs_natCard_fieldValuedPoints_sub_le` (`WeilBound/WeilBound.lean`:
+  `|#X(K) − #K − 1| ≤ 2g √#K` for every finite extension `K` of `k`) is the scheme form of the
+  Hasse–Weil bound consumed in Layer 3; `Stacks.BombieriStepanov.norm_eq_sqrt_of_smooth`
+  (`BombieriStepanov/LowerBoundCurve.lean`: `|α_i| = √q` from the point-count formula and the
+  pairing `α_i α_j = q`, by the Bombieri–Stepanov upper and lower bounds) is the Riemann
+  hypothesis 3.1 reads from FunctionFieldArithmetic §5.4; `Stacks.Zeta.exists_zeta_roots_of_isCurve`
+  (`ZetaFunction/CurveZetaRoots.lean`: at most `2g` algebraic integers `α_i` with
+  `N_m = 1 + q^m − ∑ α_i^m` and, for the classes of `Pic⁰` fixed by the `m`-th power of
+  Frobenius, `h_m = ∏ (1 − α_i^m)`) is the scheme counterpart of 2.2's point-count formula and of
+  2.3's `h_{F'}`; and `Stacks.Zeta.roots_map_div_eq_of_coeff_symm`
+  (`ZetaFunction/FrobeniusEigenvalues.lean`: over an algebraically closed field, a monic `χ` of
+  degree `N` with `χ(0) ≠ 0` and `χ(0) · χ_j = q^{N−j} · χ_{N−j}` for `j ≤ N` has root multiset
+  stable under `b ↦ q/b`) gives 1.4's `IsWeilSymmetric.aroots_map_div` once a nonzero `P` is
+  divided by its leading coefficient: for `q ≠ 0`, `P(0) = q^g · leadingCoeff P` turns
+  convention 7's symmetry into that coefficient condition. None of the three states Layer 1's
+  polynomial theory beyond that root symmetry, the bounds of 3.2–3.3 or a comparison with Tau
+  Ceti's carriers (Layer 4).
 - LMFDB knowls `av.fq.weil_polynomial`, `av.fq.l-polynomial`, `nf.weil_polynomial`,
   `av.fq.lmfdb_label`, `av.fq.frobenius_angles`, `av.fq.angle_rank`, `av.fq.newton_elevation`,
   `av.fq.p_rank`, `av.fq.ordinary`, `av.fq.supersingular`, `av.fq.number_field`,
