@@ -322,7 +322,7 @@ and its discard of primes of higher residue degree; it does not develop a second
 Target 4.6 completes the affine quotients of `ModularCurves` 0C at the given local points; the
 quotient construction itself is not rebuilt.
 
-### From ArithmeticGaloisRepresentations, ArithmeticGaloisDuality and SelmerIwasawaCohomology
+### From TauCetiRoadmap.ArithmeticGaloisRepresentations, ArithmeticGaloisDuality and SelmerIwasawaCohomology
 
 The declarations and targets listed under *Scope and ownership*, with these contracts:
 continuous representations of profinite groups on finite free modules over topological coefficient
@@ -335,7 +335,7 @@ cohomology vanishing used in prime selection. The framed complexes are mapping f
 of SelmerIwasawaCohomology §2.21, *Selmer complex as a mapping fibre*; the kernel Selmer group
 is its §2.2, *Compact and rational Selmer kernel*.
 
-### From SchemeAndStackFoundations
+### From TauCetiRoadmap.SchemeAndStackFoundations
 
 [SchemeAndStackFoundations §4.2](../SchemeAndStackFoundations/README.md#42-the-artinian-coefficient-category)
 constructs `ArtinLocalAlg 𝒪 k` and `CompleteLocalAlg 𝒪 k`, used here as `Art_𝒪` and `C_𝒪`, with
@@ -348,7 +348,16 @@ supply catenarity, Nagata rings, excellence of complete Noetherian local rings a
 with preservation of reducedness and normality. LocalGaloisDeformationRings §§F.0.1–F.0.2
 supply the coefficient-product adapters and obstruction-compatible minimal presentations.
 
-### From LocalGaloisDeformationRings
+The material of §§4.3–4.4 also has an independent formalization following the Stacks Project, in
+*AxiomMath Stacks* (see *References*): Schlessinger's conditions, hulls and the prorepresentability
+criterion (Stacks, Tag 06JM) in its
+[Schlessinger](https://github.com/AxiomMath/Stacks/tree/c496df0d9beea9deaeabcea8492605f9a0a2313b/StacksFrontier/Deformation/Schlessinger)
+folder, and the set-valued Rim–Schlessinger condition and deformation functors in its
+[RimSchlessinger](https://github.com/AxiomMath/Stacks/tree/c496df0d9beea9deaeabcea8492605f9a0a2313b/StacksFrontier/Deformation/RimSchlessinger)
+folder. It is prior art for those supplier sections, not an input here: this roadmap states no
+target at that level and applies the criteria only through §§4.3–4.4, in 3.4, 3.7, 4.6 and 8.4.
+
+### From TauCetiRoadmap.LocalGaloisDeformationRings
 
 Layer F supplies the generic deformation foundations at §§F.0.1–F.0.2, F.1.1–F.1.10,
 F.2.1–F.2.11, F.3.1–F.3.2 and F.4.12. For the common complete-local coproduct, relative presentation
@@ -2210,3 +2219,7 @@ Page numbers are printed pages of the cited edition unless marked as PDF pages.
 - **Taylor.** R. Taylor, [*On the meromorphic continuation of degree two L-functions*](https://ftp.gwdg.de/pub/misc/EMIS/journals/DMJDMV/vol-coates/taylor.pdf),
   Doc. Math., Extra Volume Coates (2006), 729–779; Lemma 2.5 on printed pp. 749–750. It is reference [59]
   of KW final, and its argument assumes `l > 3`.
+- **AxiomMath Stacks.** AxiomMath, [*Stacks: a Lean formalization of the Stacks Project*](https://github.com/AxiomMath/Stacks/tree/c496df0d9beea9deaeabcea8492605f9a0a2313b),
+  Apache-2.0, cited at commit `c496df0d9beea9deaeabcea8492605f9a0a2313b`; its
+  `StacksFrontier/Deformation` directory follows the formal deformation theory chapter of the
+  Stacks Project.
