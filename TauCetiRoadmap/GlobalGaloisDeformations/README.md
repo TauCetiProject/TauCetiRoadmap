@@ -200,7 +200,7 @@ completeness includes separatedness. Every residue map `π_A : A ↠ k` is surje
 `𝔪_A`, and Artinian coefficients carry the discrete topology. An arbitrary ring with a surjection
 onto `k` is not an object of either category. Completed tensor products are taken over the stated
 coefficient ring, with the local topology and residue identification of
-[LocalGaloisDeformationRings §F.0.1](../LocalGaloisDeformationRings/README.md#completed-coefficient-products). A representing ring is
+LocalGaloisDeformationRings §F.0.1. A representing ring is
 an object of `C_𝒪`;
 "pro-represented" refers to the restriction of a functor to `Art_𝒪`.
 
@@ -420,8 +420,8 @@ The API:
 - `TFramedDef.localLift`: the well-defined framed local lift `α_v⁻¹ρ|_{G_v}α_v` for `v ∈ T`.
 - `TFramedDef.forgetFraming`: the map to unframed deformations of type `𝒮`.
 
-*Needs:* [LocalGaloisDeformationRings §F.3.1](../LocalGaloisDeformationRings/README.md#local-deformation-problem); [LocalGaloisDeformationRings §F.1.6](../LocalGaloisDeformationRings/README.md#restriction-of-deformations);
-[LocalGaloisDeformationRings §F.1.7](../LocalGaloisDeformationRings/README.md#fixed-determinant-functors); [LocalGaloisDeformationRings §F.1.3](../LocalGaloisDeformationRings/README.md#strict-deformation-functor).
+*Needs:* LocalGaloisDeformationRings §F.3.1; LocalGaloisDeformationRings §F.1.6;
+LocalGaloisDeformationRings §F.1.7; LocalGaloisDeformationRings §F.1.3.
 
 *Lean:* LocalGaloisDeformationRings §F.2.6 supplies `TFramedLift` (pairs `(ρ, α)` with
 `α : T → Γ̂ₙ(A)`), its simultaneous strict conjugation action `(ρ, α) ↦ (βρβ⁻¹, βα)` and the quotient
@@ -445,9 +445,9 @@ matrix-valued universal object is used,
 the chosen representative and frames are named; the invariant universal framed class does not depend
 on them (Gee, Lemma 3.22, p. 15).
 
-*Needs:* §3.3; [LocalGaloisDeformationRings §F.3.2](../LocalGaloisDeformationRings/README.md#deformation-problem-ideal);
-[LocalGaloisDeformationRings §F.2.5](../LocalGaloisDeformationRings/README.md#universal-deformation-ring); [LocalGaloisDeformationRings §F.2.9](../LocalGaloisDeformationRings/README.md#fixed-determinant-rings); [LocalGaloisDeformationRings §F.2.2](../LocalGaloisDeformationRings/README.md#phi-p-global);
-[LocalGaloisDeformationRings §F.0.2](../LocalGaloisDeformationRings/README.md#minimal-relative-presentations); SchemeAndStackFoundations §§4.3–4.4.
+*Needs:* §3.3; LocalGaloisDeformationRings §F.3.2;
+LocalGaloisDeformationRings §F.2.5; LocalGaloisDeformationRings §F.2.9; LocalGaloisDeformationRings §F.2.2;
+LocalGaloisDeformationRings §F.0.2; SchemeAndStackFoundations §§4.3–4.4.
 
 **Checks.**
 
@@ -476,9 +476,9 @@ The API:
 - `locToGlobal_apply`: it classifies the framed local lifts `α_v⁻¹ρ^{□T}|_{G_v}α_v`.
 - `locToGlobal_mono_T`: compatibility with enlarging `T`.
 
-*Needs:* §3.4; [LocalGaloisDeformationRings §F.3.2](../LocalGaloisDeformationRings/README.md#deformation-problem-ideal);
-[LocalGaloisDeformationRings §F.1.6](../LocalGaloisDeformationRings/README.md#restriction-of-deformations); LocalGaloisDeformationRings 1.1 and 1.10;
-[LocalGaloisDeformationRings §F.0.1](../LocalGaloisDeformationRings/README.md#completed-coefficient-products).
+*Needs:* §3.4; LocalGaloisDeformationRings §F.3.2;
+LocalGaloisDeformationRings §F.1.6; LocalGaloisDeformationRings 1.1 and 1.10;
+LocalGaloisDeformationRings §F.0.1.
 
 **Checks.**
 
@@ -597,14 +597,14 @@ Apply this construction to Artinian quotients of the universal minimal presentat
 This gives a linear map `(J/𝔪J)ˇ → H²_rel`. If a nonzero `u` had zero obstruction, a compatible
 global lift would split that nonzero extension; minimality makes its relative tangent map an
 isomorphism, contradicting the existence of the section. Thus the map is injective.
-[LocalGaloisDeformationRings §F.0.2](../LocalGaloisDeformationRings/README.md#minimal-relative-presentations) supplies the algebraic passage and
+LocalGaloisDeformationRings §F.0.2 supplies the algebraic passage and
 SelmerIwasawaCohomology §§2A.3–2A.4 supplies cohomological comparison and ArithmeticGaloisDuality
 the product formula, not this construction. For polarized lifts in 8.3 use the same construction with the CHT group and its
 fixed-multiplier adjoint (KW final, Lemma 4.6 and proof, pp. 43–45; CHT, Lemma 2.2.11 and
 Corollary 2.2.12, pp. 24–25).
 
 *Needs:* §3.6; §3.5; ArithmeticGaloisDuality R02.4,
-R02.6 and D8.1; SelmerIwasawaCohomology §§2A.3–2A.4; [LocalGaloisDeformationRings §F.0.2](../LocalGaloisDeformationRings/README.md#minimal-relative-presentations); SchemeAndStackFoundations §§4.3–4.4.
+R02.6 and D8.1; SelmerIwasawaCohomology §§2A.3–2A.4; LocalGaloisDeformationRings §F.0.2; SchemeAndStackFoundations §§4.3–4.4.
 
 **Checks.**
 
@@ -642,7 +642,7 @@ supplied by its modularity consumer (Gee, Proposition 3.24(3), p. 18; KW ESI, §
 p. 32; KW final, §4.2, Proposition 4.5, p. 42, and Corollary 4.7, p. 45).
 
 *Needs:* §3.7; §3.6;
-[LocalGaloisDeformationRings §F.2.6](../LocalGaloisDeformationRings/README.md#framed-unframed-comparison); ArithmeticGaloisDuality R02.6 (*Archimedean adjoint
+LocalGaloisDeformationRings §F.2.6; ArithmeticGaloisDuality R02.6 (*Archimedean adjoint
 dimensions*); LocalGaloisDeformationRings 1.1, 1.11, 8.17.
 
 **Checks.**
@@ -695,8 +695,8 @@ The API:
 - `resRing_classifies`: `resRing` classifies the restriction of the universal lift.
 - `resRing_comp`: restriction along a composite is the composite of the maps.
 
-*Needs:* [LocalGaloisDeformationRings §F.2.3](../LocalGaloisDeformationRings/README.md#universal-lifting-ring); [LocalGaloisDeformationRings §F.2.5](../LocalGaloisDeformationRings/README.md#universal-deformation-ring);
-[LocalGaloisDeformationRings §F.1.6](../LocalGaloisDeformationRings/README.md#restriction-of-deformations); §3.3.
+*Needs:* LocalGaloisDeformationRings §F.2.3; LocalGaloisDeformationRings §F.2.5;
+LocalGaloisDeformationRings §F.1.6; §3.3.
 
 **Checks.**
 
@@ -727,8 +727,8 @@ of the finitely many traces is integral over `k`. They topologically generate `B
 finite-dimensional algebra they generate is already closed and equals `B`. Complete Nakayama
 now gives module finiteness, as in BLGGT Lemma 1.2.3.
 
-*Needs:* §4.1; [LocalGaloisDeformationRings §F.2.7](../LocalGaloisDeformationRings/README.md#carayol-trace-theorem);
-[LocalGaloisDeformationRings §F.2.5](../LocalGaloisDeformationRings/README.md#universal-deformation-ring).
+*Needs:* §4.1; LocalGaloisDeformationRings §F.2.7;
+LocalGaloisDeformationRings §F.2.5.
 
 **Checks.**
 
@@ -751,7 +751,7 @@ local-condition versions hold. Surjectivity of the ring map is injectivity of th
 detected on tangent spaces for complete local coefficient objects (KW final, §2.1, p. 6;
 Proposition 5.11, p. 53).
 
-*Needs:* [LocalGaloisDeformationRings §F.2.3](../LocalGaloisDeformationRings/README.md#universal-lifting-ring); [LocalGaloisDeformationRings §F.2.5](../LocalGaloisDeformationRings/README.md#universal-deformation-ring);
+*Needs:* LocalGaloisDeformationRings §F.2.3; LocalGaloisDeformationRings §F.2.5;
 Scope and ownership, tangent spaces.
 
 **Checks.**
@@ -782,8 +782,8 @@ twisting uses that library API; continuous twists use ArithmeticGaloisRepresenta
 The matrix comparison, deformation compatibility, determinant changes and induced maps of
 deformation rings belong here.
 
-*Needs:* [LocalGaloisDeformationRings §F.2.9](../LocalGaloisDeformationRings/README.md#fixed-determinant-rings); [LocalGaloisDeformationRings §F.1.7](../LocalGaloisDeformationRings/README.md#fixed-determinant-functors);
-[LocalGaloisDeformationRings §F.3.1](../LocalGaloisDeformationRings/README.md#local-deformation-problem); ArithmeticGaloisDuality R02.6;
+*Needs:* LocalGaloisDeformationRings §F.2.9; LocalGaloisDeformationRings §F.1.7;
+LocalGaloisDeformationRings §F.3.1; ArithmeticGaloisDuality R02.6;
 Tau Ceti `TauCeti.RepresentationTheory.CharacterTwist`; ArithmeticGaloisRepresentations §1.2.
 
 **Checks.**
@@ -814,7 +814,7 @@ The API:
 - `DiagGroup.torus`: the formal torus `Ĝ_mᵗ = (ℤᵗ)*`.
 - `DiagGroup.truncation_iso`: `T[pᵐ] → T` is an isomorphism after truncation at level `m + 1`.
 
-*Needs:* [LocalGaloisDeformationRings §F.2.3](../LocalGaloisDeformationRings/README.md#universal-lifting-ring); Tau Ceti
+*Needs:* LocalGaloisDeformationRings §F.2.3; Tau Ceti
 `TauCeti.Algebra.AlgebraicGroup.DiagonalizableGroup.Basic`, `DiagonalizableGroup.pointsMulEquiv`
 for the ordinary character functor before completion at the identity.
 
@@ -838,7 +838,7 @@ locally free affine quotient is `ModularCurves` Layer 0C; completion, the smooth
 through the torsion and free filtration are the constructions here (KW final, §2.4, p. 10;
 Proposition 2.5 and its proof, pp. 11–12; Proposition 2.6, pp. 12–13).
 
-*Needs:* §4.5; [LocalGaloisDeformationRings §F.0.2](../LocalGaloisDeformationRings/README.md#minimal-relative-presentations); SchemeAndStackFoundations §§4.3–4.4;
+*Needs:* §4.5; LocalGaloisDeformationRings §F.0.2; SchemeAndStackFoundations §§4.3–4.4;
 `ModularCurves` Layer 0C.
 
 **Checks.**
@@ -905,7 +905,7 @@ The API:
 - `fixedDet_eq_fiber`: `Sp R^{□,ψ}_{S∪V} = d⁻¹(1)`.
 
 *Needs:* §3.3; §3.5;
-§4.5; [LocalGaloisDeformationRings §F.2.9](../LocalGaloisDeformationRings/README.md#fixed-determinant-rings).
+§4.5; LocalGaloisDeformationRings §F.2.9.
 
 **Checks.**
 
@@ -941,7 +941,7 @@ The API:
 - `twistAction_det`: `det(χ ⊗ ρ) = χ² det ρ`; for `χ² = 1` the determinant is preserved.
 
 *Needs:* §4.5; §4.8;
-§3.3; [LocalGaloisDeformationRings §F.2.6](../LocalGaloisDeformationRings/README.md#framed-unframed-comparison); `ClassFieldTheory` Layer 12.
+§3.3; LocalGaloisDeformationRings §F.2.6; `ClassFieldTheory` Layer 12.
 
 **Checks.**
 
@@ -968,7 +968,7 @@ these stabilizers using `Matrix.GeneralLinearGroup` and `IsLocalRing.residue`. I
 to every local ring with finite residue field of characteristic two; completeness and
 continuity are not needed for this algebraic freeness statement.
 
-*Needs:* §4.9; §4.6; [LocalGaloisDeformationRings §F.1.3](../LocalGaloisDeformationRings/README.md#strict-deformation-functor);
+*Needs:* §4.9; §4.6; LocalGaloisDeformationRings §F.1.3;
 ArithmeticGaloisRepresentations Layer 4.
 
 **Checks.**
@@ -1022,7 +1022,7 @@ proof, p. 87).
 
 ### Dependencies
 
-Layer R04.3; LocalGaloisDeformationRings §§F.1.1–F.1.10, F.2.1–F.2.11, F.3.1–F.3.2; [LocalGaloisDeformationRings §F.0.2](../LocalGaloisDeformationRings/README.md#minimal-relative-presentations); SchemeAndStackFoundations §§0.16, 0.20–0.21; `ModularCurves` Layer 0C;
+Layer R04.3; LocalGaloisDeformationRings §§F.1.1–F.1.10, F.2.1–F.2.11, F.3.1–F.3.2; LocalGaloisDeformationRings §F.0.2; SchemeAndStackFoundations §§0.16, 0.20–0.21; `ModularCurves` Layer 0C;
 `ClassFieldTheory` Layer 12; ArithmeticGaloisRepresentations Layer 4; ArithmeticGaloisDuality R02.6.
 
 ## Layer R04.5: Taylor–Wiles data at auxiliary primes
@@ -1060,8 +1060,8 @@ fixed-determinant ring. This construction requires no auxiliary-prime datum and 
 no division by two (KW final, §5.6, Proposition 5.11, p. 53; ACC published, §6.2.18,
 Lemma 6.2.19 and the following paragraph, pp. 1038–1039).
 
-*Needs:* LocalGaloisDeformationRings 1.1 and 1.10; [LocalGaloisDeformationRings §F.1.7](../LocalGaloisDeformationRings/README.md#fixed-determinant-functors);
-ClassFieldTheory Layer 7; [LocalGaloisDeformationRings §F.0.1](../LocalGaloisDeformationRings/README.md#completed-coefficient-products).
+*Needs:* LocalGaloisDeformationRings 1.1 and 1.10; LocalGaloisDeformationRings §F.1.7;
+ClassFieldTheory Layer 7; LocalGaloisDeformationRings §F.0.1.
 
 **Checks.**
 
@@ -1107,7 +1107,7 @@ The API:
 
 *Needs:* §3.3; §5.3 in the dyadic
 case; Layer R04.5, rank-two local diagonalization;
-[LocalGaloisDeformationRings §F.2.10](../LocalGaloisDeformationRings/README.md#change-of-residue-field).
+LocalGaloisDeformationRings §F.2.10.
 
 **Checks.**
 
@@ -1146,7 +1146,7 @@ The API:
 - `HasBigImage`: `ρ̄(G_F) ⊇ SL₂(𝔽_p)`.
 - `HasNonsolvableImage`: `ρ̄(G_F)` is not solvable.
 
-*Needs:* ArithmeticGaloisRepresentations Layer 4; [LocalGaloisDeformationRings §F.1.3](../LocalGaloisDeformationRings/README.md#strict-deformation-functor).
+*Needs:* ArithmeticGaloisRepresentations Layer 4; LocalGaloisDeformationRings §F.1.3.
 
 **Checks.**
 
@@ -1438,7 +1438,7 @@ The API:
 - `KWDeformationData.localRing_relDim`: relative dimension `3|S|`.
 
 *Needs:* §3.3; §3.5; LocalGaloisDeformationRings 1.11,
-1.14, 2.5, 8.2, 8.17; [LocalGaloisDeformationRings §F.0.1](../LocalGaloisDeformationRings/README.md#completed-coefficient-products); SchemeAndStackFoundations §§0.16, 0.20–0.21.
+1.14, 2.5, 8.2, 8.17; LocalGaloisDeformationRings §F.0.1; SchemeAndStackFoundations §§0.16, 0.20–0.21.
 
 **Checks.**
 
@@ -1466,8 +1466,8 @@ The API:
 - `KWDeformationData.univRep`: `ρ^univ_S : G_{F,S} → GL₂(R̄^ψ_S)`.
 - `KWDeformationData.framed_powerSeries`: `R̄^{□,ψ}_S ≃ R̄^ψ_S⟦y₁, …, y_{4|S|−1}⟧`.
 
-*Needs:* §6.1; [LocalGaloisDeformationRings §F.2.6](../LocalGaloisDeformationRings/README.md#framed-unframed-comparison);
-[LocalGaloisDeformationRings §F.2.7](../LocalGaloisDeformationRings/README.md#carayol-trace-theorem).
+*Needs:* §6.1; LocalGaloisDeformationRings §F.2.6;
+LocalGaloisDeformationRings §F.2.7.
 
 **Checks.**
 
@@ -1642,8 +1642,8 @@ source is compact and `T` is Hausdorff, and contains every `t_v`, hence equals `
 Sources: KW final, Lemma 9.1 and proof, pp. 80–81; Chenevier, §3.1, Example 3.4, p. 42.
 
 *Needs:* §3.4;
-[LocalGaloisDeformationRings §F.2.5](../LocalGaloisDeformationRings/README.md#universal-deformation-ring),
-[§F.2.7](../LocalGaloisDeformationRings/README.md#carayol-trace-theorem);
+LocalGaloisDeformationRings §F.2.5,
+§F.2.7;
 `Chebotarev` Layer 10;
 AutomorphicFormsOnReductiveGroups §5.8 and §7.3.
 
@@ -1694,10 +1694,10 @@ representations to be used. This specializes the same point-detection argument a
 
 *Needs:* §6.7; §6.3;
 IntegralHeckeAndGaloisDeterminants §4.1 and §1.3;
-[LocalGaloisDeformationRings §F.2.8](../LocalGaloisDeformationRings/README.md#determinant-comparison-isomorphism),
-[§F.2.10](../LocalGaloisDeformationRings/README.md#change-of-residue-field),
-[§F.3.1](../LocalGaloisDeformationRings/README.md#local-deformation-problem),
-[§F.3.2](../LocalGaloisDeformationRings/README.md#deformation-problem-ideal);
+LocalGaloisDeformationRings §F.2.8,
+§F.2.10,
+§F.3.1,
+§F.3.2;
 `Chebotarev` Layer 10.
 
 **Checks.**
@@ -1723,7 +1723,7 @@ IntegralHeckeAndGaloisDeterminants §4.1 and §1.3;
 ### Dependencies
 
 Layers R04.3–R04.5; LocalGaloisDeformationRings §§F.2.1–F.2.11, F.4.12; LocalGaloisDeformationRings 1.11, 1.14, 2.5, 8.2, 8.17;
-[LocalGaloisDeformationRings §F.0.1](../LocalGaloisDeformationRings/README.md#completed-coefficient-products); SchemeAndStackFoundations §§0.16, 0.20–0.21.
+LocalGaloisDeformationRings §F.0.1; SchemeAndStackFoundations §§0.16, 0.20–0.21.
 
 ## Layer G8: Variable-determinant global problems
 
@@ -1752,8 +1752,8 @@ The API:
 - `GlobalDeformationProblem.framedDef`: the functor `D^T_𝒮` of `T`-framed deformations of type `𝒮` on
   `CNL_Λ`.
 
-*Needs:* [LocalGaloisDeformationRings §F.3.1](../LocalGaloisDeformationRings/README.md#local-deformation-problem); [LocalGaloisDeformationRings §F.3.2](../LocalGaloisDeformationRings/README.md#deformation-problem-ideal);
-[LocalGaloisDeformationRings §F.1.1](../LocalGaloisDeformationRings/README.md#lifting-functor); [LocalGaloisDeformationRings §F.1.3](../LocalGaloisDeformationRings/README.md#strict-deformation-functor); LocalGaloisDeformationRings 1.1 and 1.15.
+*Needs:* LocalGaloisDeformationRings §F.3.1; LocalGaloisDeformationRings §F.3.2;
+LocalGaloisDeformationRings §F.1.1; LocalGaloisDeformationRings §F.1.3; LocalGaloisDeformationRings 1.1 and 1.15.
 
 **Checks.**
 
@@ -1777,9 +1777,9 @@ universal frame tuple is `1 + (X_{v,i,j})`. For `T` empty use `R_𝒮` directly.
 residual absolute irreducibility of the ACC setting are kept (ACC arXiv v2, Theorem 6.2.3 and
 Lemma 6.2.4, p. 137; ACC published, printed p. 1033).
 
-*Needs:* §7.1; [LocalGaloisDeformationRings §F.2.3](../LocalGaloisDeformationRings/README.md#universal-lifting-ring);
-[LocalGaloisDeformationRings §F.2.2](../LocalGaloisDeformationRings/README.md#phi-p-global); [LocalGaloisDeformationRings §F.2.5](../LocalGaloisDeformationRings/README.md#universal-deformation-ring); [LocalGaloisDeformationRings §F.2.6](../LocalGaloisDeformationRings/README.md#framed-unframed-comparison);
-[LocalGaloisDeformationRings §F.1.5](../LocalGaloisDeformationRings/README.md#strict-vs-full-conjugacy); [LocalGaloisDeformationRings §F.3.2](../LocalGaloisDeformationRings/README.md#deformation-problem-ideal).
+*Needs:* §7.1; LocalGaloisDeformationRings §F.2.3;
+LocalGaloisDeformationRings §F.2.2; LocalGaloisDeformationRings §F.2.5; LocalGaloisDeformationRings §F.2.6;
+LocalGaloisDeformationRings §F.1.5; LocalGaloisDeformationRings §F.3.2.
 
 **Checks.**
 
@@ -1836,8 +1836,8 @@ torsion-free. Fixed Hodge–Tate or inertial data can violate twist stability; f
 quotient statement is kept and the product conclusion is not claimed (ACC arXiv v2, §§6.1–6.2 opening,
 pp. 135–136).
 
-*Needs:* §7.2; [LocalGaloisDeformationRings §F.2.9](../LocalGaloisDeformationRings/README.md#fixed-determinant-rings);
-[LocalGaloisDeformationRings §F.1.7](../LocalGaloisDeformationRings/README.md#fixed-determinant-functors); §3.3.
+*Needs:* §7.2; LocalGaloisDeformationRings §F.2.9;
+LocalGaloisDeformationRings §F.1.7; §3.3.
 
 *Lean:* LocalGaloisDeformationRings §F.2.9 supplies, for `p ∤ n`, the bijectivity of the `n`-th
 power map on `1 + 𝔪_A`, with its boundary Checks (injectivity over Artinian local rings and failure
@@ -1912,7 +1912,7 @@ The API:
 ArithmeticGaloisRepresentations §7.4 supplies `CHTGroup` and its triple correspondence;
 the polarized deformation problem uses that group and that correspondence.
 
-*Needs:* [LocalGaloisDeformationRings §F.3.1](../LocalGaloisDeformationRings/README.md#local-deformation-problem); [LocalGaloisDeformationRings §F.1.8](../LocalGaloisDeformationRings/README.md#change-of-coefficients);
+*Needs:* LocalGaloisDeformationRings §F.3.1; LocalGaloisDeformationRings §F.1.8;
 ArithmeticGaloisRepresentations §7.4.
 
 **Checks.**
@@ -1948,8 +1948,8 @@ variable is removed. The adjoint is `Mₙ(k)` with `(g, μ)` acting by conjugati
 transpose; the `GLₙ` scalar-centralizer count is not reused (CHT, Proposition 2.2.9 and its proof,
 pp. 22–24).
 
-*Needs:* §8.1; [LocalGaloisDeformationRings §F.2.3](../LocalGaloisDeformationRings/README.md#universal-lifting-ring);
-[LocalGaloisDeformationRings §F.2.2](../LocalGaloisDeformationRings/README.md#phi-p-global); [LocalGaloisDeformationRings §F.3.2](../LocalGaloisDeformationRings/README.md#deformation-problem-ideal).
+*Needs:* §8.1; LocalGaloisDeformationRings §F.2.3;
+LocalGaloisDeformationRings §F.2.2; LocalGaloisDeformationRings §F.3.2.
 
 **Checks.**
 
@@ -2015,7 +2015,7 @@ reduced generic fibre have their own roles in component arguments and are not su
 representing ring here (CHT, Corollaries 2.2.12, 2.2.13 and 2.3.5, pp. 25 and 32).
 
 *Needs:* §8.3; §8.2;
-[LocalGaloisDeformationRings §F.0.2](../LocalGaloisDeformationRings/README.md#minimal-relative-presentations); SchemeAndStackFoundations §§4.3–4.4; LocalGaloisDeformationRings Layers 1, 2, 3 and 6.
+LocalGaloisDeformationRings §F.0.2; SchemeAndStackFoundations §§4.3–4.4; LocalGaloisDeformationRings Layers 1, 2, 3 and 6.
 
 **Checks.**
 
@@ -2144,7 +2144,7 @@ and its proof, printed p. 1047, PDF p. 151, with the diamond and augmentation da
 ### Dependencies
 
 Layers R04.3–R04.5 and G8; LocalGaloisDeformationRings §§F.1.1–F.1.10, F.2.1–F.2.11, F.3.1–F.3.2; ArithmeticGaloisRepresentations §7.4 and §7.10; ArithmeticGaloisDuality
-R02.4, D7 and D8.1; SelmerIwasawaCohomology §2A.3; LocalGaloisDeformationRings Layers 1, 2, 3 and 6; [LocalGaloisDeformationRings §F.0.2](../LocalGaloisDeformationRings/README.md#minimal-relative-presentations); SchemeAndStackFoundations §§4.3–4.4.
+R02.4, D7 and D8.1; SelmerIwasawaCohomology §2A.3; LocalGaloisDeformationRings Layers 1, 2, 3 and 6; LocalGaloisDeformationRings §F.0.2; SchemeAndStackFoundations §§4.3–4.4.
 
 ## Downstream consumers
 
