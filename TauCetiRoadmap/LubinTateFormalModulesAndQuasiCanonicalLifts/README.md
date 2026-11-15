@@ -10,26 +10,29 @@ primitive-root coordinates, and compares its Galois character with the arithmeti
 of Tau Ceti and ClassFieldTheory. It then proves the
 finite-height deformation theorem for formal `O_K`-modules with a specified coefficient ring,
 Honda's functional-equation theory over unramified bases and its supersingular elliptic
-specialization, integral lattice quotients and finite-residue descent of the supplied quadratic
-quasi-canonical lifts, higher-degree lattice classification and marked fields of moduli (the ring
-class fields of Gross and Yu), and the explicit tame and
-anticyclotomic towers of Burungale–Kobayashi–Ota with the formal traces between them. The end
-theorems are the Lubin–Tate existence and uniqueness theorem with its formal-module structure, the
-degree of the Lubin–Tate division fields, the explicit reciprocity law `Art_K(π^r u) = [u⁻¹]_f` on
-their torsion and their norm groups, the representability of marked finite-height deformations, the
-Lubin–Tate structure of the formal group of a supersingular elliptic curve with scalar Frobenius,
-the classification and fields of moduli of quasi-canonical lifts, and the trace-compatible
-comparison of the two BKO towers.
+specialization, integral lattice quotients, finite-residue quasi-canonical lifts with their
+comparison to the supplied quadratic ones, higher-degree lattice classification and marked fields of
+moduli (the ring class fields of Gross and Yu), and the explicit tame and anticyclotomic towers of
+Burungale–Kobayashi–Ota with the formal traces between them. The end theorems are the Lubin–Tate
+existence and uniqueness theorem with its formal-module structure, the degree of the Lubin–Tate
+division fields, the explicit reciprocity law `Art_K(π^r u) = [u⁻¹]_f` on their torsion and their
+norm groups, the representability of marked finite-height deformations, the Lubin–Tate structure of
+the formal group of a supersingular elliptic curve with scalar Frobenius, the classification and
+fields of moduli of quasi-canonical lifts, and the trace-compatible comparison of the two BKO
+towers.
 
 The formal-module foundations of Layer 0 hold over an arbitrary commutative coefficient ring, and
 the Lubin–Tate construction of Layer 1 over any discrete valuation ring with finite residue field
 (either characteristic, complete or not). The torsion, Tate-module, division-field and
 reciprocity results of Layer 2 and the deformation theory of Layer 3 hold for every
-nonarchimedean local field `K`; their comparisons with `p`-divisible groups, with the `p`-adic
-deformation suppliers and with elliptic curves are stated for finite extensions of `ℚ_p`. For the
-CM construction the coefficient field `F₀` and the CM field `F` are distinguished; the quadratic
-results cover ramified and unramified `F/F₀`, including residue characteristic two. Only the BKO
-layers impose `p ≥ 5` and `Φ/ℚ_p` unramified quadratic.
+nonarchimedean local field `K`, and the lattice quotients, quasi-canonical lifts, fields of moduli,
+quadratic degrees and uniformizing moduli of Layers 5–6 and §§7.1–7.2 for every nonarchimedean local
+field `F₀` and finite separable `F/F₀`; their comparisons with `p`-divisible groups, with the
+`p`-adic deformation suppliers, with the strict-base quadratic lifts of
+GrossZagierAndArithmeticHeights §7.2 and with elliptic curves are stated for finite extensions of
+`ℚ_p`. For the CM construction the coefficient field `F₀` and the CM field `F` are distinguished;
+the quadratic results cover ramified and unramified `F/F₀`, including residue characteristic two.
+Only the BKO layers impose `p ≥ 5` and `Φ/ℚ_p` unramified quadratic.
 
 ## Scope and ownership
 
@@ -66,9 +69,10 @@ correction of traces between differently indexed generators and the trace-compat
   primitive-root coordinates and Tate character; §2.5 adds the comparison with the pinned
   arithmetic Artin map.
 - Quadratic canonical and quasi-canonical lifts over the completed strict base, with markings,
-  orders, orbit sizes and integral endomorphism lifting filtrations:
+  orders, orbit sizes and integral endomorphism lifting filtrations, in mixed characteristic:
   GrossZagierAndArithmeticHeights §7.2. Layers 6–7 add finite-residue descent, higher-degree lattice
-  classification, explicit moduli coordinates and the comparisons used by the BKO towers.
+  classification, explicit moduli coordinates, the equal-characteristic case, which that section
+  does not state, and the comparisons used by the BKO towers.
 - The marked strict formal `O`-module deformation rings at the finite-residue base `O_r`, and
   the deformation spaces over an algebraically closed residue field framed by quasi-isogenies:
   EndoscopicTransferAndUnitaryTraceComparison §§10.2, 12.3. Section 3.6 constructs the functor
@@ -131,10 +135,10 @@ correction of traces between differently indexed generators and the trace-compat
 
 - `K` is a nonarchimedean local field with integers `O = O_K`, uniformizer `π`, maximal ideal
   `𝔪_K` and residue field `k_K` of cardinality `q`. In Layer 1, `O` may be any discrete valuation
-  ring with finite residue field of cardinality `q` and `π` any irreducible element; Layers 2–3
-  allow either characteristic and assume `K/ℚ_p` finite only in the clauses that say so; in
-  §§0.3–0.4 and Layers 4–9, `K` has characteristic zero, so `K/ℚ_p` is finite with ramification
-  index `e` and residue degree `f`.
+  ring with finite residue field of cardinality `q` and `π` any irreducible element; Layers 2, 3,
+  5 and 6 and §§7.1–7.2 allow either characteristic and assume `K/ℚ_p` or `F₀/ℚ_p` finite only
+  in the clauses that say so (all of §5.5); in §§0.3–0.4, Layer 4, §§7.3–7.6 and Layers 8–9, `K`
+  has characteristic zero, so `K/ℚ_p` is finite with ramification index `e` and residue degree `f`.
 - A formal `A`-module over an `A`-algebra `R` (`FormalModule`, §0.1) is a commutative
   one-dimensional Mathlib `FormalGroup R` together with an action `a ↦ [a]` of `A` by
   endomorphisms `TauCeti.FormalGroupHom F F`, additive for the formal sum `[a + b] = F([a], [b])`,
@@ -326,15 +330,16 @@ Lubin–Tate for `π`; its normalization and variance are those of the supplier.
 
 ### From TauCetiRoadmap.GrossZagierAndArithmeticHeights
 
-§7.2 supplies quadratic canonical and level-`s` quasi-canonical lifts over the completed strict
-integer ring of `F`, their special-fibre markings and prescribed tangent CM embedding, orders
-`O_s`, degree-`q₀^s` quotient isogenies, and marked orbit `O_F^×/O_s^×`. For `s ≥ 1` its size is
-`q₀^(s−1)(q₀+1)` when unramified and `q₀^s` when ramified; level zero has one class. Its integral
-endomorphism filtrations and lifting lengths remain with that supplier. Sections 6.1–6.6 identify
-the quadratic base changes of the finite-residue lattice models with these lifts and markings;
-§7.1 identifies their finite-residue fields with the fields whose strict completions occur there.
-For each comparison choose the supplier's residual module to be the designated Frobenius twist
-and transport the same residual CM embedding and marking.
+§7.2 supplies, for `F₀` of mixed characteristic, quadratic canonical and level-`s`
+quasi-canonical lifts over the completed strict integer ring of `F`, their special-fibre markings
+and prescribed tangent CM embedding, orders `O_s`, degree-`q₀^s` quotient isogenies, and marked
+orbit `O_F^×/O_s^×`. For `s ≥ 1` its size is `q₀^(s−1)(q₀+1)` when unramified and `q₀^s` when
+ramified; level zero has one class. Its integral endomorphism filtrations and lifting lengths remain
+with that supplier. For `F₀/ℚ_p` finite, §§6.1–6.6 identify the quadratic base changes of the
+finite-residue lattice models with these lifts and markings, and §7.1 identifies their
+finite-residue fields with the fields whose strict completions occur there. For each comparison
+choose the supplier's residual module to be the designated Frobenius twist and transport the same
+residual CM embedding and marking.
 
 ### From TauCetiRoadmap.EndoscopicTransferAndUnitaryTraceComparison
 
@@ -404,9 +409,11 @@ Layers 6–7: finite local reciprocity, the absolute local Artin map with its ar
 normalization, unramified coordinate, norm functoriality and naturality (implemented in Tau Ceti as
 `TauCeti.ClassFieldTheory.artinMap`), with the Frobenius convention of its Conventions C.6 (a
 uniformizer maps to arithmetic Frobenius, and `χ_cyc(Art_K(u)) = N_(K/ℚ_p)(u)⁻¹` for units `u`
-of a finite extension `K/ℚ_p`). Layer 8: the local norm subgroups and the class-field
-correspondence, including `localAbelianExistence` for finite extensions of `ℚ_p`, used to identify
-fields of moduli and fixed fields by their norm groups.
+of a finite extension `K/ℚ_p`). Layer 8: the local norm subgroups and the uniqueness of a finite
+abelian extension with a given norm subgroup, in every characteristic, used to identify fields of
+moduli and fixed fields by their norm groups; and the class-field correspondence, including
+`localAbelianExistence`, for finite extensions of `ℚ_p`. Fields of moduli in equal characteristic
+are identified without an existence theorem (§6.6).
 
 ### From TauCetiRoadmap.LocalFieldsRamification
 
@@ -436,17 +443,18 @@ and Tate module, identifies the supplied division tower and character in primiti
 compares the character with the arithmetic Artin map. Layer 3 is the deformation theory of formal
 `O_K`-modules of finite height. Layer 4 is Honda's theory over unramified bases and the
 supersingular elliptic comparison. Layer 5 builds integral lattice quotients of formal modules and
-their homomorphisms. Layer 6 descends quadratic canonical and quasi-canonical lifts from their
-supplied strict-base models and proves the higher-degree lattice classification and finite-residue
-fields of moduli; Layer 7 computes the finite-residue quadratic degrees, the uniformizer property
-and the BKO primed tower. Layer 8 builds the BKO tame and anticyclotomic towers and Layer 9 the
-formal traces between them. Layers 3–4 depend only on Layers 0–2, and Layer 5 on Layers 0, 2 and 3;
-Layers 6–9 depend on their predecessors as listed in each layer's dependencies. No section requires
-a later one: a consequence of an early construction for objects built later is stated with those
-objects (the coordinate comparison of §1.4 in §§2.1–2.4, the logarithm of a formal trace in §9.1,
-the comparison of the quadratic levels of the §6.2 lattice quotients with the supplied lifts in §6.5,
-the Artin action on marked lattice classes in §6.6, the signs of traces between differently indexed
-generators in §9.3), and the remaining forward references are pointers only.
+their homomorphisms. Layer 6 builds canonical and quasi-canonical lifts as finite-residue lattice
+quotients, compares the quadratic ones with their supplied strict-base models when `F₀/ℚ_p` is
+finite, and proves the higher-degree lattice classification and finite-residue fields of moduli;
+Layer 7 computes the finite-residue quadratic degrees, the uniformizer property and the BKO primed
+tower. Layer 8 builds the BKO tame and anticyclotomic towers and Layer 9 the formal traces between
+them. Layers 3–4 depend only on Layers 0–2, and Layer 5 on Layers 0, 2 and 3; Layers 6–9 depend on
+their predecessors as listed in each layer's dependencies. No section requires a later one: a
+consequence of an early construction for objects built later is stated with those objects (the
+coordinate comparison of §1.4 in §§2.1–2.4, the logarithm of a formal trace in §9.1, the comparison
+of the quadratic levels of the §6.2 lattice quotients with the supplied lifts in §6.5, the Artin
+action on marked lattice classes in §6.6, the signs of traces between differently indexed generators
+in §9.3), and the remaining forward references are pointers only.
 
 The companion `Suggested.lean` states the headline theorems that are statable against the pinned
 libraries, with the formal-module structure `FormalModule` of §0.1 and the two predicates
@@ -713,15 +721,17 @@ LocalFieldsRamification Layers 0–1.
 Let `L₁ ⊂ L₂ ⊂ ⋯ ⊂ L_r` be finite extensions of `ℚ_p` inside a fixed algebraic closure. Prove that
 there are number fields `E₁ ⊂ E₂ ⊂ ⋯ ⊂ E_r` and height-one primes `𝔭_i` of their rings of integers,
 with `𝔭_(i+1)` above `𝔭_i`, and continuous field isomorphisms
-`IsDedekindDomain.HeightOneSpectrum.adicCompletion E_i 𝔭_i ≃ L_i` compatible with the inclusions.
-Transport along these isomorphisms the integer rings, maximal ideals, a Weierstrass curve `W` over
-`O_(L_r)` that is elliptic over `L_r`, its formal group law and logarithm, and the formal-point
-homomorphism `WeierstrassCurve.formalPointHomAdicCompletion`, compatibly with the inclusions
-`L_i ⊂ L_(i+1)`. A proof route: realize `L₁ = ℚ_p(α₁)` by approximating the minimal polynomial of
-`α₁` by a rational polynomial and applying Krasner's lemma, so that `E₁ = ℚ(α₁′)` is dense in `L₁`;
-inductively, approximate the minimal polynomial of a generator of `L_(i+1)/L_i` by a polynomial
-over the dense subfield `E_i` and apply Krasner's lemma again; weak approximation chooses the
-approximations.
+`IsDedekindDomain.HeightOneSpectrum.adicCompletion E_i 𝔭_i ≃ L_i` compatible with the inclusions
+(for `r = 1`: a finite extension of `ℚ_p` contains a number field of the same degree over `ℚ` that
+generates it over `ℚ_p`, Mil20, Corollary 7.62, p.132, from Krasner's lemma, Proposition 7.60,
+p.131; the tower is the induction of the route below). Transport along these isomorphisms the
+integer rings, maximal ideals, a Weierstrass curve `W` over `O_(L_r)` that is elliptic over `L_r`,
+its formal group law and logarithm, and the formal-point homomorphism
+`WeierstrassCurve.formalPointHomAdicCompletion`, compatibly with the inclusions `L_i ⊂ L_(i+1)`. A
+proof route: realize `L₁ = ℚ_p(α₁)` by approximating the minimal polynomial of `α₁` by a rational
+polynomial and applying Krasner's lemma, so that `E₁ = ℚ(α₁′)` is dense in `L₁`; inductively,
+approximate the minimal polynomial of a generator of `L_(i+1)/L_i` by a polynomial over the dense
+subfield `E_i` and apply Krasner's lemma again; weak approximation chooses the approximations.
 
 API:
 
@@ -1607,9 +1617,11 @@ API:
 Under (F) with `q = p^r`, `r ≥ 1`, as in §4.1, prove: a normalized logarithm `ℓ` of special type `u`
 defines an integral commutative formal group law `ℓ⁻¹(ℓ(X) + ℓ(Y))`; two normalized logarithms of
 the same type have integral strict comparison `ℓ₂⁻¹ ∘ ℓ₁`; for source type `u`, target type `v` and
-`C ∈ O`, the series `ℓ_v⁻¹(C·ℓ_u)` is integral exactly when `vC = tu` for some `t ∈ O_σ[[T]]`. For
-`O` the integers of an unramified extension of `ℚ_p`, finite or infinite, `π = p`, `q = p` and `σ`
-the Frobenius lift (condition (F1)), prove the converse: every formal group law over `O` has a type,
+`C ∈ O`, the series `ℓ_v⁻¹(C·ℓ_u)` is integral exactly when `vC = tu` for some `t ∈ O_σ[[T]]`. Under
+condition (F1), that is, (F) with `q = p` for a ring `O` in which `p` is a uniformizer, so that
+`π = p` (H70, §3, p.225; examples are the integers of an unramified algebraic extension of `ℚ_p`,
+finite or infinite, their completions, and `W(k)` for a perfect field `k` of characteristic `p`:
+H70, §2, p.220, and §3, pp.225–226), prove the converse: every formal group law over `O` has a type,
 and strict isomorphism classes correspond to left-associate classes of special elements. When `O` is
 moreover complete, prove that a law of height `h` has a type `p + Σ_(ν=1)^h b_ν T^ν` with `b_h` a
 unit and `b_1, …, b_(h−1) ∈ pO`, and that two such normal forms give strictly isomorphic laws only
@@ -1732,12 +1744,14 @@ isomorphisms; Mathlib `WittVector`, `GaloisField` and Weierstrass curves.
 
 ## Layer 5: Lattice kernels and integral quotient isogenies
 
-Let `F₀/ℚ_p` be finite with integers `O₀`, uniformizer `ϖ₀` and residue cardinality `q₀`, and let `G`
-be a formal `O₀`-module of finite height over the integers `R` of a finite extension `K` of `F₀`,
-with `K̄` a fixed algebraic closure of `K`, `T = T_(ϖ₀) G` and `V = T ⊗ F₀` (§2.2). An embedded
-lattice above `T` is a finite subgroup of torsion; this layer builds the integral quotient of `G`
-by it as a formal `O₀`-module with an explicit coordinate, its Frobenius-twisted marking, its
-homomorphisms and its descent.
+Let `F₀` be a nonarchimedean local field of either characteristic, with integers `O₀`, uniformizer
+`ϖ₀` and residue cardinality `q₀`, and let `G` be a formal `O₀`-module of finite height over the
+integers `R` of a finite extension `K` of `F₀`, with `K̄` a fixed algebraic closure of `K`,
+`T = T_(ϖ₀) G` and `V = T ⊗ F₀` (§2.2). An embedded lattice above `T` is a finite subgroup of
+torsion; this layer builds the integral quotient of `G` by it as a formal `O₀`-module with an
+explicit coordinate, its Frobenius-twisted marking, its homomorphisms and its descent. Only the
+`p`-divisible-group comparison of §5.2 and the elliptic comparison of §5.5 assume `F₀/ℚ_p` finite
+(Y95, §§1 and 3, pp.294–296, for a nonarchimedean local base field of either characteristic).
 
 ### 5.1 Tate lattices and finite kernels
 
@@ -1778,8 +1792,9 @@ a formal `O₀`-module `G_L` over `R` and an isogeny `g_L : G → G_L` of formal
 exactly the finite flat subgroup of §5.1. Over a splitting extension, `g_L` is the normalized Serre
 product `g_L(X) = Π_(c ∈ C_L) (X −_G c)`, a power series; if `#C_L = q₀^N` then `g_L` reduces to
 `X^(q₀^N)` and `G_L` reduces to the `q₀^N`-Frobenius twist of the special fibre of `G`, which is its
-marking (Y95, §3, pp.295–296; G86, §5, pp.324–325). The underlying `p`-divisible group of `G_L` is
-`BarsottiTate.quotientFiniteFlatSubgroup` of FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.1.20a;
+marking (Y95, §3, pp.295–296; G86, §5, pp.324–325). For `F₀/ℚ_p` finite, the underlying
+`p`-divisible group of `G_L` is `BarsottiTate.quotientFiniteFlatSubgroup` of
+FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.1.20a, which is stated in mixed characteristic;
 this target adds the formal `O₀`-module structure, the integral coordinate `g_L` and the marking. A
 proof route: the factors are integral, so the product is integral and Galois invariant; Weierstrass
 preparation of `g_L(X) − Z` over `R[[Z]]` gives a basis `1, X, …, X^(d−1)`, `d = #C_L`, over
@@ -1809,7 +1824,7 @@ API:
 
 *Needs:* §5.1; §0.2; Mathlib `PowerSeries.exists_isWeierstrassFactorization`,
 `PowerSeries.IsWeierstrassFactorizationAt.algEquivQuotient`; FiniteFlatGroupsAndIntegralPadicHodgeTheory
-§R07.1.20a; ModularCurves §0C.
+§R07.1.20a (for `F₀/ℚ_p` finite); ModularCurves §0C.
 
 ### 5.3 Homomorphisms in the lattice isogeny class
 
@@ -1868,24 +1883,25 @@ the fields of moduli of the marked quotient are stated in §6.6.
 
 ### 5.5 Elliptic quotient comparison
 
-Let `E` be an elliptic curve over `R` whose formal completion at the zero section, in a parameter
-`X` (ModularCurves §7C), is the formal group underlying the formal `O₀`-module `G`. For
-`O₀ = ℤ_p` this is every elliptic curve over `R`: the completion carries exactly one formal
-`ℤ_p`-module structure, `[a]` being the limit of `[n]` over integers `n → a`. For `O₀ ≠ ℤ_p` the
-`O₀`-action on the completion is part of the data, and a curve whose completion carries none is
-excluded. Let `H ⊂ E` be a finite locally free subgroup scheme whose special fibre is supported at
-the zero section; its order is then a power `p^m`, which kills `H`. Being finite and local over the
-complete ring `R`, `H` lies in the formal neighbourhood of the zero section: it is
+In this section `F₀/ℚ_p` is finite. In equal characteristic no curve qualifies: a formal `O₀`-module
+has `[p] = [0] = 0`, while the completion of an elliptic curve over `R` has `[p] ≠ 0`, its reduction
+having `p`-height one or two. Let `E` be an elliptic curve over `R` whose formal completion at the
+zero section, in a parameter `X` (ModularCurves §7C), is the formal group underlying the formal
+`O₀`-module `G`. For `O₀ = ℤ_p` this is every elliptic curve over `R`: the completion carries
+exactly one formal `ℤ_p`-module structure, `[a]` being the limit of `[n]` over integers `n → a`. For
+`O₀ ≠ ℤ_p` the `O₀`-action on the completion is part of the data, and a curve whose completion
+carries none is excluded. Let `H ⊂ E` be a finite locally free subgroup scheme whose special fibre
+is supported at the zero section; its order is then a power `p^m`, which kills `H`. Being finite and
+local over the complete ring `R`, `H` lies in the formal neighbourhood of the zero section: it is
 `Spec(R[[X]]/J)` for an ideal `J ⊃ ([p^m]_G)`, a closed finite flat subgroup scheme of the torsion
-level `G[p^m] = Spec(R[[X]]/([p^m]_G))` of §2.1. When its geometric points form an
-`O₀`-stable subgroup `C_L = H(K̄)` of `G[ϖ₀^∞](K̄)`, as always when `O₀ = ℤ_p`, `H` is the finite
-flat subgroup of §5.1 attached to `C_L`, being flat and closed with that generic fibre. Prove that
-the completion of the elliptic quotient `E/H` of ModularCurves §2B is canonically isomorphic, as
-a formal group, to the formal group underlying `G_L`, and that the completed elliptic isogeny and
-`g_L` differ by this integral target coordinate; the `O₀`-action on the completion of `E/H` is the
-one transported from `G_L` by this isomorphism (for `O₀ = ℤ_p`, its unique `ℤ_p`-action). The
-induced maps on torsion, Tate modules and logarithms agree (BKO21, §5, pp.957–959, for the use of
-this transport).
+level `G[p^m] = Spec(R[[X]]/([p^m]_G))` of §2.1. When its geometric points form an `O₀`-stable
+subgroup `C_L = H(K̄)` of `G[ϖ₀^∞](K̄)`, as always when `O₀ = ℤ_p`, `H` is the finite flat subgroup
+of §5.1 attached to `C_L`, being flat and closed with that generic fibre. Prove that the completion
+of the elliptic quotient `E/H` of ModularCurves §2B is canonically isomorphic, as a formal group, to
+the formal group underlying `G_L`, and that the completed elliptic isogeny and `g_L` differ by this
+integral target coordinate; the `O₀`-action on the completion of `E/H` is the one transported from
+`G_L` by this isomorphism (for `O₀ = ℤ_p`, its unique `ℤ_p`-action). The induced maps on torsion,
+Tate modules and logarithms agree (BKO21, §5, pp.957–959, for the use of this transport).
 
 **Checks.**
 
@@ -1920,19 +1936,21 @@ ModularCurves §§0B, 0C, 2B, 7C, 7E; EllipticCurves Layer 1; Mathlib Weierstras
 
 ## Layer 6: Canonical and quasi-canonical lifts
 
-Let `F/F₀` be a finite extension of finite extensions of `ℚ_p`, with integers `O_F`, uniformizer
-`π_F` and residue field `k_F`. This layer constructs finite-residue lattice models and their
-descent and compares their quadratic strict-base extensions with the lifts of
-GrossZagierAndArithmeticHeights §7.2. It proves the higher-degree lattice classification and
-identifies finite-residue fields of moduli by local class field theory.
+Let `F₀` be a nonarchimedean local field of either characteristic and `F/F₀` a finite separable
+extension, with integers `O_F`, uniformizer `π_F` and residue field `k_F` (Y95, §1, p.294; G86,
+§§1–2, p.321, for quadratic `F/F₀`). This layer constructs finite-residue lattice models and
+their descent and, for `F₀/ℚ_p` finite, compares their quadratic strict-base extensions with the
+lifts of GrossZagierAndArithmeticHeights §7.2, which is stated in mixed characteristic. It proves
+the higher-degree lattice classification and identifies finite-residue fields of moduli by local
+class field theory.
 
 ### 6.1 The canonical lift
 
 Let `H` be the Lubin–Tate `O_F`-module of `[π_F] = π_F X + X^(#k_F)`, restricted to `O₀ = O_(F₀)`.
 Prove that this finite-residue model has `O₀`-height `[F:F₀]` and CM by `O_F`, and that over a
 complete noetherian local `O_F`-algebra with specified residue embedding it is the unique marked lift of its
-special fibre with this tangent `O_F`-action. In the quadratic case identify its extension to the
-completed strict base, with its marking, with the canonical lift of
+special fibre with this tangent `O_F`-action. In the quadratic case with `F₀/ℚ_p` finite identify
+its extension to the completed strict base, with its marking, with the canonical lift of
 GrossZagierAndArithmeticHeights §7.2
 (G86, §2, Proposition 2.1, p.322; Y95, §4, pp.296–297). A proof route: the `O_F`-module deformation
 problem has height one, so §3.6 gives no parameters.
@@ -2040,23 +2058,23 @@ For quadratic `F/F₀`, write `T = O_F t` with `t` a basis of the Tate module of
 `L_s/T ≅ O₀/ϖ₀^s O₀` cyclic of order `q₀^s`, and its multiplier order is `O_s`; so the
 quasi-canonical lift `H_(L_s)` of level `s`, the lattice quotient of §6.2, has endomorphism order
 `O_s` and is marked to the `q₀^s`-Frobenius twist of the special fibre (G86, §5, Proposition 5.3,
-p.325). Prove that the completed strict-base extension of `H_(L_s)`, with this marking, and the
-base change of the degree-`q₀^s` quotient isogeny `g_(L_s) : H → H_(L_s)` of §5.2 identify with a
-marked level-`s` lift of GrossZagierAndArithmeticHeights §7.2 and its canonical-to-quasi-canonical
-isogeny; the comparison is the unique one preserving the special-fibre marking (Y95, §4,
-pp.296–298; G86, §5, pp.324–325). Prove the lattice-algebra assertion that every proper
-`O_s`-lattice in `F` is free of rank one over `O_s` (Y95, §5, Proposition 4, p.300). Use these to
-identify the finite-residue marked lattice classes of §6.3 in each twist component with the
-supplied `O_F^×/O_s^×`-orbit of GrossZagierAndArithmeticHeights §7.2 after completed strict base
-change. Prove that this map is equivariant and bijective and that it identifies the unmarked level
-class and the multiplier order. A proof route: by §6.1 the base change of `H` is the supplied
-canonical lift with its marking; the lattice quotient, its marking and its order commute with
-coefficient extension (§§5.2, 6.2), so the base change of `H_(L_s)` is the quotient of the supplied
-canonical lift by a cyclic `O₀`-stable kernel of order `q₀^s` whose stabilizer in `O_F` is `O_s`,
-and the rigidity of §3.4 makes a marking-preserving comparison unique. Quadratic orders are
-Gorenstein and Yu's Proposition 4 gives the lattice freeness; the rank-two integral-basis
-calculation identifies the stabilizer with `O_s^×`; the level comparison then identifies the two
-orbits.
+p.325). Prove the lattice-algebra assertion that every proper `O_s`-lattice in `F` is free of rank
+one over `O_s` (Y95, §5, Proposition 4, p.300). For `F₀/ℚ_p` finite, prove that the completed
+strict-base extension of `H_(L_s)`, with this marking, and the base change of the degree-`q₀^s`
+quotient isogeny `g_(L_s) : H → H_(L_s)` of §5.2 identify with a marked level-`s` lift of
+GrossZagierAndArithmeticHeights §7.2 and its canonical-to-quasi-canonical isogeny; the comparison
+is the unique one preserving the special-fibre marking (Y95, §4, pp.296–298; G86, §5,
+pp.324–325). Use these to identify the finite-residue marked lattice classes of §6.3 in each twist
+component with the supplied `O_F^×/O_s^×`-orbit of GrossZagierAndArithmeticHeights §7.2 after
+completed strict base change. Prove that this map is equivariant and bijective and that it
+identifies the unmarked level class and the multiplier order. A proof route: by §6.1 the base change
+of `H` is the supplied canonical lift with its marking; the lattice quotient, its marking and its
+order commute with coefficient extension (§§5.2, 6.2), so the base change of `H_(L_s)` is the
+quotient of the supplied canonical lift by a cyclic `O₀`-stable kernel of order `q₀^s` whose
+stabilizer in `O_F` is `O_s`, and the rigidity of §3.4 makes a marking-preserving comparison unique.
+Quadratic orders are Gorenstein and Yu's Proposition 4 gives the lattice freeness; the rank-two
+integral-basis calculation identifies the stabilizer with `O_s^×`; the level comparison then
+identifies the two orbits.
 
 **Checks.**
 
@@ -2074,7 +2092,7 @@ orbits.
 *Needs:* §§6.4, 6.3, 6.2 (lattice quotients, markings and orders), 6.1 (comparison of the canonical
 lift), 5.2 (the quotient isogeny and its coefficient extension), 3.4 (uniqueness of a marked
 comparison); GrossZagierAndArithmeticHeights §7.2 (marked quadratic lifts, their isogenies and
-orbit).
+orbit, for `F₀/ℚ_p` finite).
 
 ### 6.6 The field of moduli of a marked quasi-canonical lift
 
@@ -2092,11 +2110,17 @@ p.296, unit action; G86, §5, pp.324–325). Prove that the smallest field conta
 this marked deformation is defined is `M_L = F(m_L)`, the class field of `π_F^ℤ O_L^× ⊂ F^×` under
 the arithmetic Artin map; the statement does not depend on the universal coordinates. After base
 change to the completion `F̂^ur` of the maximal unramified extension
-(RamificationOfCompleteDiscretelyValuedFields §4a.3) the quadratic case identifies this field with
-the field of definition in GrossZagierAndArithmeticHeights §7.2. It does not assert minimality among
-fields not containing `F` (Y95, §4, Theorem 1 and proof, p.297; G86, §5, Proposition 5.3,
-pp.325–326). A proof route: `m_(a⁻¹L) = m_L` exactly when `a ∈ π_F^ℤ O_L^×` by §6.3;
-ClassFieldTheory Layer 8 identifies the field, and representability descends the marked module.
+(RamificationOfCompleteDiscretelyValuedFields §4a.3) the quadratic case with `F₀/ℚ_p` finite
+identifies this field with the field of definition in GrossZagierAndArithmeticHeights §7.2. It
+does not assert minimality among fields not containing `F` (Y95, §4, Theorem 1 and proof, p.297;
+G86, §5, Proposition 5.3, pp.325–326). A proof route: `m_(a⁻¹L) = m_L` exactly when
+`a ∈ π_F^ℤ O_L^×` by §6.3; `m_L` lies in the division field `F(H[π_F^m])` for `π_F^m L ⊂ T`
+(§§5.2, 5.4), which is abelian over `F` with Artin symbols computed in §2.5, so `F(m_L)` is the
+subfield fixed by the Artin symbols of `π_F^ℤ O_L^×`; `TauCeti.ClassFieldTheory.artinMap_restrict`
+and `TauCeti.ClassFieldTheory.localArtinMap_eq_zero_iff` make this subgroup its norm group, and the
+uniqueness of ClassFieldTheory Layer 8 makes `F(m_L)` the only abelian extension of `F` with that
+norm group. No existence theorem is used, so the route holds in either
+characteristic; representability descends the marked module.
 
 **Checks.**
 
@@ -2116,8 +2140,11 @@ ClassFieldTheory Layer 8 identifies the field, and representability descends the
   `a ∈ O_F^×/O_s^×`, are pairwise distinct; a field of definition of an unmarked model need not
   contain `M_s`.
 
-*Needs:* §§6.3, 6.2, 5.4, 2.5, 3.6; §6.5 for the lattices `L_s`; ClassFieldTheory Layer 8;
-RamificationOfCompleteDiscretelyValuedFields §4a.3; GrossZagierAndArithmeticHeights §7.2.
+*Needs:* §§6.3, 6.2, 5.4, 2.3–2.5, 3.6; §6.5 for the lattices `L_s`; Tau Ceti
+`TauCeti.ClassFieldTheory.artinMap_restrict`, `TauCeti.ClassFieldTheory.localArtinMap_eq_zero_iff`;
+ClassFieldTheory Layer 8 (uniqueness of the class field);
+RamificationOfCompleteDiscretelyValuedFields §4a.3; GrossZagierAndArithmeticHeights §7.2 (for
+`F₀/ℚ_p` finite).
 
 ### Examples
 
@@ -2126,30 +2153,32 @@ transitively by `Gal(M_1/F)`; for ramified `F/F₀` there are `q₀`.
 
 ### Dependencies
 
-§§1.3, 2.2, 2.5, 3.4, 3.6, 5.2–5.4; ClassFieldTheory Layer 8; LocalFieldsRamification Layer 0;
-RamificationOfCompleteDiscretelyValuedFields §4a.3; GrossZagierAndArithmeticHeights §7.2.
+§§1.3, 2.2–2.5, 3.4, 3.6, 5.2–5.4; Tau Ceti's Artin map; ClassFieldTheory Layer 8;
+LocalFieldsRamification Layer 0; RamificationOfCompleteDiscretelyValuedFields §4a.3;
+GrossZagierAndArithmeticHeights §7.2 (for `F₀/ℚ_p` finite).
 
 ## Layer 7: Quadratic degrees, the primed tower and boundary tests
 
-This layer identifies finite-residue quadratic field degrees with the supplied marked orbit
-sizes for unramified and ramified `F/F₀`, proves
-that the positive-level modulus is a uniformizer, specializes to the BKO primed tower, gives the
-ramified example showing that §4.3 needs an unramified base, and computes neighbouring lattices.
+This layer computes the finite-residue quadratic field degrees for unramified and ramified `F/F₀`,
+with `F₀` of either characteristic and `F/F₀` separable as in Layer 6, and identifies them with the
+supplied marked orbit sizes when `F₀/ℚ_p` is finite; it proves that the positive-level modulus is a
+uniformizer, specializes to the BKO primed tower, gives the ramified example showing that §4.3 needs
+an unramified base, and computes neighbouring lattices.
 
 ### 7.1 Quadratic ring-class degrees
 
 Let `F/F₀` be quadratic, `q₀ = #k_(F₀)`, `π_F` fixed and `s ≥ 1`, and let `M_s` be the field of §6.6
 for level `s`. Prove that the finite-residue field `M_s/F` is totally ramified with norm group
-`π_F^ℤ O_s^×`, and its strict-base extension is the field of definition of the supplied marked
-level-`s` lift of GrossZagierAndArithmeticHeights §7.2. Thus
-`Gal(M_s/F) ≅ O_F^×/O_s^× ≅ (O_F/ϖ₀^s O_F)^×/(O₀/ϖ₀^s O₀)^×`, and
-`[M_s : F] = q₀^(s−1)(q₀ + 1)` when `F/F₀` is unramified and `q₀^s` when it is ramified; `M_0 = F`
-separately. Residue characteristic two is included (G86, Proposition 5.3(2), p.325; Y95, §4,
-Theorem 1, p.297). A proof route: §6.6 gives the finite-residue field, §6.5 identifies its
-marked orbit with the supplied one, and local reciprocity gives total ramification. As a check
-on the supplied orbit sizes, count units in
-`O_F/ϖ₀^s O_F`, of order `(q₀² − 1)q₀^(2s−2)` when unramified and `(q₀ − 1)q₀^(2s−1)` when ramified,
-and divide by `(q₀ − 1)q₀^(s−1)`.
+`π_F^ℤ O_s^×` and, for `F₀/ℚ_p` finite, that its strict-base extension is the field of definition of
+the supplied marked level-`s` lift of GrossZagierAndArithmeticHeights §7.2. Thus
+`Gal(M_s/F) ≅ O_F^×/O_s^× ≅ (O_F/ϖ₀^s O_F)^×/(O₀/ϖ₀^s O₀)^×`, and `[M_s : F] = q₀^(s−1)(q₀ + 1)`
+when `F/F₀` is unramified and `q₀^s` when it is ramified; `M_0 = F` separately. Residue
+characteristic two is included (G86, Proposition 5.3(2), p.325; Y95, §4, Theorem 1, p.297). A proof
+route: §6.6 gives the finite-residue field and its norm group; finite local reciprocity gives the
+Galois group `F^×/π_F^ℤ O_s^× ≅ O_F^×/O_s^×` and total ramification, since `π_F` is a norm; for
+`F₀/ℚ_p` finite, §6.5 identifies the marked orbit with the supplied one. As a check on the supplied
+orbit sizes, count units in `O_F/ϖ₀^s O_F`, of order `(q₀² − 1)q₀^(2s−2)` when unramified and
+`(q₀ − 1)q₀^(2s−1)` when ramified, and divide by `(q₀ − 1)q₀^(s−1)`.
 
 **Checks.**
 
@@ -2159,9 +2188,14 @@ and divide by `(q₀ − 1)q₀^(s−1)`.
   (unramified) it is `3`.
 - The positive-level formula at `s = 0` would give `(q₀ + 1)/q₀`, not an integer; level zero is
   `M_0 = F`.
+- In equal characteristic, for `F₀ = 𝔽_q((t))` and `F = 𝔽_(q²)((t))` (unramified, `ϖ₀ = t` also
+  a uniformizer of `F`), the level-one degree is `(q² − 1)/(q − 1) = q + 1`: `M_1` is the subfield
+  of the first division field `F(H[t])`, of degree `q² − 1` with Galois group `𝔽_(q²)^×`
+  (§§2.3–2.4), fixed by `𝔽_q^×`. Taking the whole division field instead gives `q² − 1`, which
+  differs from `q + 1` once `q ≥ 3`.
 
-*Needs:* §§6.6, 6.4, 6.5; LocalFieldsRamification Layer 1; ClassFieldTheory Layer 8;
-GrossZagierAndArithmeticHeights §7.2 (strict-base lifts and orbit sizes).
+*Needs:* §§6.6, 6.4, 6.5; LocalFieldsRamification Layer 1; ClassFieldTheory Layers 6–8;
+GrossZagierAndArithmeticHeights §7.2 (strict-base lifts and orbit sizes, for `F₀/ℚ_p` finite).
 
 ### 7.2 The quasi-canonical modulus is a uniformizer
 
@@ -2289,8 +2323,8 @@ transitively by `Gal(Ψ′_1/Φ)`; the canonical lattice has six neighbours, all
 
 ### Dependencies
 
-§§2.4, 3.6, 4.3, 5.2, 5.3, 6.2–6.6; LocalFieldsRamification Layer 1; ClassFieldTheory Layer 8;
-GrossZagierAndArithmeticHeights §7.2.
+§§2.3–2.4, 3.6, 4.3, 5.2, 5.3, 6.2–6.6; LocalFieldsRamification Layer 1; ClassFieldTheory
+Layers 6–8; GrossZagierAndArithmeticHeights §7.2 (for `F₀/ℚ_p` finite).
 
 ## Layer 8: The BKO tame and anticyclotomic towers
 
@@ -2579,3 +2613,5 @@ traces `Ψ′_2 → Ψ₁ → Φ` and `Ψ′_2 → Ψ′_1 → Φ`, of total deg
   DOI 10.4007/annals.2021.194.3.8. [CaltechAUTHORS](https://authors.library.caltech.edu/records/8svwt-jn031).
 - **VZ07.** Eva Viehmann and Konstantin Ziegler, *Formal moduli of formal O_K-modules*, Astérisque
   312 (2007), 57–66. [Numdam](https://www.numdam.org/item/AST_2007__312__R1_0.pdf).
+- **Mil20.** James S. Milne, *Algebraic Number Theory*, course notes, version 3.08 (2020).
+  [Author page](https://www.jmilne.org/math/CourseNotes/ANT.pdf).
