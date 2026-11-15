@@ -760,8 +760,9 @@ pairwise Whitehead maps for i<j, and own this finite-wedge decomposition and
 its inverse. Define the Hopf invariant H(f) of a map f:S³→S² by the cup
 square in its mapping cone C_f: a²=H(f)·b, where a∈H²(C_f) restricts to the
 chosen generator of H²(S²) and b∈H⁴(C_f) is the pullback of the chosen
-generator of H⁴(S⁴) under the collapse C_f→C_f/S²=S⁴. Let η be the class of AlgebraicTopology
-8.16's Hopf projection, with its sign chosen so that H(η)=+1. Define the
+generator of H⁴(S⁴) under the collapse C_f→C_f/S²=S⁴. Let η be the class
+of AlgebraicTopology 8.16's Hopf projection, with its sign chosen so that
+H(η)=+1. Define the
 Whitehead product [α,β] of α,β∈π₂(X) as α∨β composed with the top-cell
 attaching map S³→S²∨S² of the product-oriented S²×S², which is the
 off-diagonal map. Prove the self-product relation `[ιᵢ,ιᵢ]=2ηᵢ` in these
