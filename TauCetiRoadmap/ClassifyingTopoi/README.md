@@ -232,7 +232,9 @@ and the representation of a topos by a localic groupoid (Joyal–Tierney 1984).
   `FintypeCat.Skeleton`, `FintypeCat.Skeleton.incl`, `FintypeCat.incl`, `SingleObj`,
   `SingleObj.star`, `AsSmall`, `AsSmall.up`, `AsSmall.equiv`, `SimplexCategory` with
   `SimplexCategory.δ`, `SimplexCategory.σ`, `SimplexCategory.isTerminalZero` and the notation `⦋n⦌`
-  of `Simplicial` (`AlgebraicTopology/SimplexCategory`), `IsIdempotentComplete`
+  of `Simplicial` (`AlgebraicTopology/SimplexCategory`), `Shrink` (`Logic/Small/Defs`) and
+  `WellPowered` (`CategoryTheory/Subobject/WellPowered`), for the small site of definable objects of
+  2.4, `IsIdempotentComplete`
   (`CategoryTheory/Idempotents/Basic`) and `IsFinitelyPresentable`
   (`CategoryTheory/Presentable/Finite`).
 - Schemes: `AlgebraicGeometry.Scheme.Γ`, `Spec` and `Scheme.ΓSpecIso` (`AlgebraicGeometry/Scheme`),
@@ -263,20 +265,20 @@ topology on schemes) and `AlgebraicGeometry.Scheme.Ga`, both in
 site and every Grothendieck topos is equivalent to one, so the quantifier over small sites in 2.1 is
 a quantifier over Grothendieck topoi), 1.2 (epimorphisms and coproducts in `Sheaf J (Type u)`, every
 epimorphism being the coequalizer of its kernel pair, and the frame property of its subobject
-lattices), the Examples of Layer 1 (`B G` as `Action (Type u) G`, for Convention 5 and 3.3), 1.4
-(Giraud's axioms: coequalizers of internal equivalence relations are universal, so images are stable
-under pullback, for 1.4 and 2.2 (b)), 2.1 (`GeometricMorphism`: left exact left adjoints between
-Grothendieck topoi are the inverse images of geometric morphisms), 2.2
-(`GeometricMorphism.homEquivInverse`: 2-cells and transformations of inverse images), 2.4
-(`GeometricMorphism.ofContinuous`: inverse images of continuous maps, for the Examples of Layer 1),
-2.5 (`IsFiltering`, `nonempty_geometricMorphism_equiv_isFiltering`, Diaconescu's theorem, also
-for the site of definable objects of 2.4), 4.1
-(`Subtopos`) and 4.2 (the subtopoi of `Sheaf J (Type u)` are the `Sheaf J' (Type u)` for `J' ≥ J`),
-for 2.5; 6.1 (points of a topos, `nonempty_point_equivalence`), for the Examples of Layer 2; 6.5
-(connected nonempty projective objects, Roos's theorem
-`exists_equiv_presheaf_iff_essential_points`, and the essential points of `Cᵒᵖ ⥤ Type u` forming
-`Idempotents.Karoubi C`), for 3.3 and 3.5; 6.6 (`IsIrreducibleObject` and
-`isIrreducibleObject_iff_projective_preservesCoproducts`), for 3.5 and 3.6.
+lattices, and `IsGrothendieckTopos.wellPowered`, for 2.4), the Examples of Layer 1 (`B G` as `Action
+(Type u) G`, for Convention 5 and 3.3), 1.4 (Giraud's axioms: coequalizers of internal equivalence
+relations are universal, so images are stable under pullback, for 1.4, 2.2 (b) and 2.4), 2.1
+(`GeometricMorphism`: left exact left adjoints between Grothendieck topoi are the inverse images of
+geometric morphisms), 2.2 (`GeometricMorphism.homEquivInverse`: 2-cells and transformations of
+inverse images), 2.4 (`GeometricMorphism.ofContinuous`: inverse images of continuous maps, for the
+Examples of Layer 1), 2.5 (`IsFiltering`, `nonempty_geometricMorphism_equiv_isFiltering`,
+Diaconescu's theorem, also for the site of definable objects of 2.4), 4.1 (`Subtopos`) and 4.2 (the
+subtopoi of `Sheaf J (Type u)` are the `Sheaf J' (Type u)` for `J' ≥ J`), for 2.5; 6.1 (points of a
+topos, `nonempty_point_equivalence`), for the Examples of Layer 2; 6.5 (connected nonempty
+projective objects, Roos's theorem `exists_equiv_presheaf_iff_essential_points`, and the essential
+points of `Cᵒᵖ ⥤ Type u` forming `Idempotents.Karoubi C`), for 3.3 and 3.5; 6.6
+(`IsIrreducibleObject` and `isIrreducibleObject_iff_projective_preservesCoproducts`), for 3.5 and
+3.6.
 
 **From InfinitaryModelExistence.** 5.1 (the Morleyization `morleyize L Φ` of a language by a family
 of formulas, `lhomMorleyize Φ` and the canonical expansion `morleyExpansion Φ M`), for 1.5.
@@ -758,43 +760,44 @@ Route: (i) for `U'` gives `F` with `U' ≅ U.map F`, and symmetrically `G`; (ii)
 `G ⋙ F` and `F ⋙ G` are isomorphic to the identities, a 2-dimensional Yoneda argument
 (Caramello 2017, the chapter « Lattices of theories », §2.1 in the numbering of arXiv:0905.0299v1).
 
-Prove also `IsClassifyingSite.exists_interp_eq_of_subobject`: for
-`L : FirstOrder.Language.{u₁, u₂}`, `T : GeometricTheory.{u} L` and a classifying site `(C, J, U)`
-of `T` with `C : Type u`, for every universe `u`, every subobject of `U.pow n` is `U.interp ψ` for
-some `ψ : GeometricFormula.{u} L n`. Prove also, as API, that the objects underlying the
-`U.interp φ` form a separating family of `Sheaf J (Type u)`, a small one up to isomorphism, since
-each `U.pow n` has a `u`-small set of subobjects, a subobject of a sheaf being determined by its
-sets of sections (Caramello 2012a, proof of Lemma 3.2, p. 182, for the geometric syntactic site).
-Disjunctions indexed by types in `Type u` suffice because these lattices are `u`-small: a subobject
-is the join of the definable subobjects below it, a `u`-small family. The site of 2.3 lies in
-`Type (max u₁ u₂ u)`, and `exists_equivalence` compares two sites in one universe only, so the route
-goes through the given site. Route: let `D` be the category of definable objects and maps of
-`(C, J, U)`: the objects are the pairs of `n` and a subobject `U.interp φ` of `U.pow n`, and the
-morphisms are the morphisms of `Sheaf J (Type u)` between their underlying objects whose graph, a
-subobject of the product, is some `U.interp θ` in the concatenated context (1.1, API: relabelling).
-It is equivalent to a small category in `Type u` (`Shrink`, `AsSmall`), since the subobject lattices
-are `u`-small; it has finite limits, computed in `Sheaf J (Type u)` by conjunctions, equations and
-`ex`, and the images of its maps and the `u`-small joins of its subobjects are definable, by `ex`
-and `iSup`. Let `K` be the topology on `D` of the families that are epimorphic in
-`Sheaf J (Type u)`. The inclusion of `D` is left exact and sends `K`-covers to epimorphic families,
-so it is a `K`-continuous filtering functor, the inverse image `g` of a geometric morphism
-(GrothendieckTopoi 2.5), and by induction on `φ` the structure `V` on `Sheaf K (Type u)` whose
-carrier is the sheafified representable of `(1, top)`, with the definable graphs of the symbols,
-interprets `φ` by the sheafified representable of `(n, U.interp φ)`; so `V` is a model of `T` and
-`V.map g` is isomorphic to `U`. By 2.1 (i) for the site `(D, K)`, `V` is isomorphic to `U.map f` for
-a left exact left adjoint `f`, so `U.map (f ⋙ g)` is isomorphic to `U`, and 2.1 (ii) for the site
-`(C, J)` itself makes `f ⋙ g` isomorphic to the identity, as in the route of the first statement.
-Every object `X` is therefore isomorphic to `g (f X)`, a `u`-small colimit of definable objects,
-which separate. For a subobject `S` of `U.pow n`, `f S` is a subobject of `f (U.pow n)`, the
-sheafified representable of `(n, top)`, hence the join of the images of maps given on `K`-covers by
-maps of `D`; applying `g`, `S` is, up to the isomorphism of structures from `U.map (f ⋙ g)` to `U`,
-which carries the interpretation of each formula to that of the same formula (1.4, API), the join of
-the images of definable maps, each the interpretation of an `ex` of a conjunction.
+Prove also `IsClassifyingSite.exists_interp_eq_of_subobject`: for `L : FirstOrder.Language.{u₁,
+u₂}`, `T : GeometricTheory.{u} L` and a classifying site `(C, J, U)` of `T` with `C : Type u`, for
+every universe `u`, every subobject of `U.pow n` is `U.interp ψ` for some `ψ : GeometricFormula.{u}
+L n`. Prove also, as API, that the objects underlying the `U.interp φ` form a separating family of
+`Sheaf J (Type u)`, a small one up to isomorphism, since each `U.pow n` has a `u`-small set of
+subobjects (GrothendieckTopoi 1.2, `IsGrothendieckTopos.wellPowered`) (Caramello 2012a, proof of
+Lemma 3.2, p. 182, for the geometric syntactic site). Disjunctions indexed by types in `Type u`
+suffice because these lattices are `u`-small: a subobject is the join of the definable subobjects
+below it, a `u`-small family. The site of 2.3 lies in `Type (max u₁ u₂ u)`, and `exists_equivalence`
+compares two sites in one universe only, so the route goes through the given site. Route: let `D` be
+the category of definable objects and maps of `(C, J, U)`: the objects are the pairs of `n` and a
+subobject `U.interp φ` of `U.pow n`, and the morphisms are the morphisms of `Sheaf J (Type u)`
+between their underlying objects whose graph, a subobject of the product, is some `U.interp θ` in
+the concatenated context (1.1, API: relabelling). It is equivalent to a small category in `Type u`
+(`Shrink`, `AsSmall`), since the subobject lattices are `u`-small; it has finite limits, computed in
+`Sheaf J (Type u)` by conjunctions, equations and `ex`, and the images of its maps and the `u`-small
+joins of its subobjects are definable, by `ex` and `iSup`. Let `K` be the topology on `D` of the
+families that are epimorphic in `Sheaf J (Type u)`. The inclusion of `D` is left exact and sends
+`K`-covers to epimorphic families, so it is a `K`-continuous filtering functor, the inverse image
+`g` of a geometric morphism (GrothendieckTopoi 2.5), and by induction on `φ` the structure `V` on
+`Sheaf K (Type u)` whose carrier is the sheafified representable of `(1, top)`, with the definable
+graphs of the symbols, interprets `φ` by the sheafified representable of `(n, U.interp φ)`; so `V`
+is a model of `T` and `V.map g` is isomorphic to `U`. By 2.1 (i) for the site `(D, K)`, `V` is
+isomorphic to `U.map f` for a left exact left adjoint `f`, so `U.map (f ⋙ g)` is isomorphic to `U`,
+and 2.1 (ii) for the site `(C, J)` itself makes `f ⋙ g` isomorphic to the identity, as in the route
+of the first statement. Every object `X` is therefore isomorphic to `g (f X)`, a `u`-small colimit
+of definable objects, which separate. For a subobject `S` of `U.pow n`, `f S` is a subobject of `f
+(U.pow n)`, the sheafified representable of `(n, top)`, hence the join of the images of maps given
+on `K`-covers by maps of `D`; applying `g`, `S` is, up to the isomorphism of structures from `U.map
+(f ⋙ g)` to `U`, which carries the interpretation of each formula to that of the same formula (1.4,
+API), the join of the images of definable maps, each the interpretation of an `ex` of a conjunction.
 *Needs:* 1.1 (API: the relabelling of formulas), 1.3, 1.4 (API: `CatStructure.Isomorphic` is an
 equivalence relation, `CatStructure.map` along the identity and along a composite, the
-interpretation in `M.map F` as the image under `F` of that in `M`); 2.1; GrothendieckTopoi 2.5;
-Mathlib `GrothendieckTopology`, `Sheaf`, `Equivalence`, `Subobject`, `Shrink`, `AsSmall`, `yoneda`,
-`presheafToSheaf`.
+interpretation in `M.map F` as the image under `F` of that in `M`); 2.1; GrothendieckTopoi 1.2
+(`IsGrothendieckTopos.wellPowered`, the joins of the frames of subobjects, jointly epimorphic
+families), 1.4 (universal coequalizers: epimorphic families are stable under pullback, so `K` is a
+topology), 2.5; Mathlib `GrothendieckTopology`, `Sheaf`, `Equivalence`, `Subobject`, `WellPowered`,
+`Shrink`, `AsSmall`, `yoneda`, `presheafToSheaf`.
 
 **Checks.**
 
@@ -899,7 +902,8 @@ arXiv:0905.0299v1; Elephant, D3.1).
 
 Layer 1; Mathlib; GrothendieckTopoi 1.1, 1.2, 1.4, 2.1, 2.2, 2.5, 4.1 and 4.2, and 6.1 for the
 Examples. Within the layer, 2.3–2.6 use 2.1, 2.3 uses 2.2, the definability statement of 2.4 uses
-GrothendieckTopoi 2.5 and no other target of the layer, 2.5 uses 2.3 and 2.4, and 2.6 uses 2.4.
+GrothendieckTopoi 1.2, 1.4 and 2.5 and no other target of the layer, 2.5 uses 2.3 and 2.4, and 2.6
+uses 2.4.
 
 ## Layer 3: theories of presheaf type
 
