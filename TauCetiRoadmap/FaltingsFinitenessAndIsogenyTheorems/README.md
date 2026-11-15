@@ -2938,6 +2938,37 @@ then bounds the fibres of the map to curve isomorphism classes.
 - *MordellLawrenceVenkatesh* uses Hermite–Minkowski with prescribed ramification (R28.1.9), and the
   finiteness of Weil polynomials and the Frobenius test set in the generality of R28.5.1 and R28.5.2.
 
+## Provenance
+
+This section is secondary: it records an existing formalization that overlaps this roadmap and
+prescribes nothing.
+
+[AxiomMath/Mordell](https://github.com/AxiomMath/Mordell/tree/82a30cb7857f6e3cfdb1be91f5533c0ccb57d493),
+read at commit `82a30cb7857f6e3cfdb1be91f5533c0ccb57d493`, is an Apache-2.0 Lean formalization of the
+Mordell conjecture following Bombieri's proof by Vojta's method, built on Mathlib and on AxiomMath's
+Lean formalization of the Stacks project, at other Lean and Mathlib versions. It is not a dependency
+of this roadmap or of Tau Ceti, and no code from it is transferred here; adapting any of it requires
+agreement with its authors and keeps its Apache-2.0 notices.
+
+Its [`MordellConjecture`](https://github.com/AxiomMath/Mordell/tree/82a30cb7857f6e3cfdb1be91f5533c0ccb57d493/Mordell/MordellConjecture)
+directory states the headline theorem in two forms.
+[`Faltings.finite_setOf_comp_eq_id_of_two_le_genus`](https://github.com/AxiomMath/Mordell/blob/82a30cb7857f6e3cfdb1be91f5533c0ccb57d493/Mordell/MordellConjecture/Curve.lean#L798)
+says that a smooth projective geometrically integral curve `C` over a number field `k` whose genus
+`dim_k H¹(C, O_C)` is at least two has finitely many `k`-rational points, taken as sections of
+`C → Spec k`, and
+[`Faltings.finite_setOf_place_isDegreeOne`](https://github.com/AxiomMath/Mordell/blob/82a30cb7857f6e3cfdb1be91f5533c0ccb57d493/Mordell/MordellConjecture/FunctionField.lean#L46)
+says the same of the places of degree one of a function field of one variable over `k`. The proof
+applies Vojta's inequality to the points of large Néron–Tate norm on the Jacobian and Northcott's
+theorem to the rest.
+
+That theorem is the conclusion of the worked Parshin example, which reaches it from R28.5.15 only
+under the covering and de Franchis hypotheses stated there; the Vojta–Bombieri route is outside the
+scope of this roadmap. The curves there are those of R28.5.15 (a smooth proper geometrically
+connected curve over a field is projective and geometrically integral), with the genus taken in
+AxiomMath's own cohomology rather than Tau Ceti's. No target of Layers R28.1–R28.6 has a counterpart
+in this directory: it has no modular height, isogeny estimate, Tate module, good reduction of curves
+or finiteness of curves.
+
 ## References
 
 - P. Deligne and D. Mumford, *The irreducibility of the space of curves of given genus*,
