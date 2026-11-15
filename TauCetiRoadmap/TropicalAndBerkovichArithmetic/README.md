@@ -36,7 +36,7 @@ All sets, graphs, fans and diagrams are small in a fixed universe; colimits use 
 
 ## Exact supplier contracts
 
-The headline signatures use Mathlib `6b7abb3c7686292736be2955bd3eb9ebf63b456a` and Tau Ceti `a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039`. The following native interfaces supply the spectrum construction:
+The headline signatures use Mathlib `1b1ccf4b088b32fa3f23f2de1127433254a81e1e` and Tau Ceti `2fd255d997f47c0b5d834ee416c7015d55444ce5`. The following native interfaces supply the spectrum construction:
 
 ### From Mathlib
 
@@ -75,7 +75,7 @@ The headline signatures use Mathlib `6b7abb3c7686292736be2955bd3eb9ebf63b456a` a
 - `TauCeti.ValuationSpectrum.spaSeparationQuotientHomeomorph`, in `TauCeti/AlgebraicGeometry/AdicSpace/Spa/SeparationQuotient.lean`, identifies Spa of A modulo the closure of zero with Spa of A. This separated-ring invariance does not provide the maximal Hausdorff quotient of the adic point space required here.
 - `TauCeti.PowerSeries.gaussNorm_mul_of_isRestricted`, in `TauCeti/RingTheory/PowerSeries/GaussNorm.lean`, provides multiplicativity of restricted Gauss norms. Layer 1 uses it for the analytic Gauss-point comparison.
 - `TauCeti.exists_isRiemannRochDivisor`, in `TauCeti/FieldTheory/FunctionField/Differential/CanonicalDivisor.lean`, and AlgebraicCurves Layer 4 provide algebraic Riemann–Roch. Layer 5 adds analytic lifting and separating functions.
-- `TauCeti.IsConvexPolyhedron`, in `TauCeti/Analysis/Convex/Polyhedron.lean`, and the lattice/cone/fan interfaces of AnalyticToricGeometry supply the underlying convex geometry. Layer 4 adds valued initial degenerations and tropical cycles.
+- `TauCeti.IsConvexPolyhedron`, in `TauCeti/Analysis/Convex/Polyhedron/Basic.lean`, and the lattice/cone/fan interfaces of AnalyticToricGeometry supply the underlying convex geometry. Layer 4 adds valued initial degenerations and tropical cycles.
 
 ### From TauCetiRoadmap.StableReduction
 
@@ -129,7 +129,7 @@ The headline signatures use Mathlib `6b7abb3c7686292736be2955bd3eb9ebf63b456a` a
 
 ### From TauCetiRoadmap.ClassicalAdicEtaleCohomology
 
-- ClassicalAdicEtaleCohomology §3.1 (`StrictAnalyticSpace`, its Berkovich realization u and inverse s₀, the maximal Hausdorff quotient identification, and the boundary, properness, étale and smooth comparisons): Hausdorff strict analytic atlases over a complete nontrivially valued rank-one field, their taut locally finite-type adic equivalence, and boundary, properness, étale and smooth comparisons. Sections 0.21 and 0.30 identify the strict specialization and transport these results; §0.22 uses them for the strict GAGA route.
+- ClassicalAdicEtaleCohomology §3.1 (the Hausdorff strict analytic spaces, the Berkovich realization u of taut locally finite-type adic spaces and its inverse s₀, the maximal Hausdorff quotient identification, and the boundary, properness, étale and smooth comparisons): Hausdorff strict analytic atlases over a complete nontrivially valued rank-one field, their taut locally finite-type adic equivalence, and boundary, properness, étale and smooth comparisons. Sections 0.21 and 0.30 identify the strict specialization and transport these results; §0.22 uses them for the strict GAGA route.
 - ClassicalAdicEtaleCohomology §3.7 (the analytic Tate quotient and the finite étale degree-one criterion): The analytic quotient, covering, Tate analytification isomorphism and skeletal circle over a complete algebraically closed rank-one field. Section 7.1 extends this to general complete K and compares the metric and differential.
 
 ### From TauCetiRoadmap.PerfectoidSpaces
