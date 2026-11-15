@@ -34,8 +34,8 @@ the file states nothing. The headline theorems, and what each lacks, are:
   fiber-product atlases, supported Čech cohomology with its excision and tautness comparisons,
   and the diagonal Thom class of CharacteristicClasses §C2.
 
-Invariance of domain, which Layer V6.2 uses, is stated by AbelianSchemesAndArithmeticModuliPartII
-§B2.9 and is not a headline of this roadmap.
+Invariance of domain, which Layer V6.2 uses, is Tau Ceti's `IsOpen.image_of_continuousOn_of_injOn`
+and is not a headline of this roadmap.
 -/
 
 public section

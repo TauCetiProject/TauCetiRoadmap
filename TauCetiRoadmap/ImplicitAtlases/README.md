@@ -21,7 +21,7 @@ What it builds on, and does not plan again:
 - **CharacteristicClasses.** The constant-coefficient Čech/singular comparison on paracompact Hausdorff spaces of CW type (§C1.2b), the Thom class of an oriented vector bundle (§C2, item 1), the representation of the Euler class by the zero locus of a transverse section (§C2, item 3) and the compact-support Gysin convention on a noncompact base (§C2, item 4).
 - **TopologicalSheafCohomology.** The open-cover Čech complex and Čech cohomology of a presheaf of modules on any space, with refinement independence, finite-cover cofinality on compact spaces and vanishing on the empty space (TS1.1–TS1.2), and the bounded-below open-cover hypercohomology of complexes of sheaves on compact Hausdorff spaces with its first spectral sequence (§1.4). Every Čech group of this roadmap, the domain of the virtual class included, is Tau Ceti's open-cover Čech cohomology `TauCeti.Topology.cechCohomology`, with the order-free computation, restriction naturality and cofinal-system comparison of TS1.2.
 - **DGAInfinity, Layer 0.** Signed graded tensor and Koszul-sign conventions for complexes.
-- **AbelianSchemesAndArithmeticModuliPartII, §B2.9.** Invariance of domain in equal real dimension: a continuous injection from an open subset of ℝ^m to ℝ^m is an open embedding, and its consequence for boundaryless topological manifolds. Layer 6 consumes it and proves only the cell-like-stratum consequences.
+- **Tau Ceti, invariance of domain and of dimension.** Invariance of domain for boundaryless manifolds charted on finite-dimensional real normed spaces, and invariance of dimension for subspaces of such spaces, are in Tau Ceti (supplier contracts below). Layer 6 consumes them and proves only the cell-like-stratum consequences.
 
 The engine takes an implicit atlas as input. It does not construct nodal curve domains, stable maps, analytic obstruction spaces, Fredholm operators, gluing maps or compactifications: the application roadmaps (AnalyticStableMaps, GromovWittenTheory, SymplecticFieldTheory, DGFloer, HamiltonianFloerOperations) construct their atlases and witnesses. Smooth orbifold geometry, weighted orbifold Poincaré duality and orbifold integration belong to Orbifolds; ineffective finite groups already occur in the atlas data and in the rational invariant chains, so the engine has no Orbifolds input. The source's lift of the virtual class to Steenrod homology (Pardon, Definition 5.4.2, p. 46) is outside this roadmap: the public class is the rational dual-Čech functional, and it is never identified with singular homology of a possibly wild compact space.
 
@@ -65,6 +65,7 @@ Signs are read in ℤ/2: an exponent such as d(q − d) with d negative is reduc
 - `TauCeti.koszulBraidingSummand` (TauCeti/Algebra/Homology/Monoidal/Braiding.lean): the Koszul factor `(−1)^(pq)` on the degree-(p, q) summand. It does not carry the independent parity; §0.5 adds it.
 - `TauCeti.Topology.cechCohomology` (TauCeti/Topology/Sheaves/Cech/Colimit.lean): for a presheaf on any topological space with values in a preadditive category with products and homology, the degree-n Čech cohomology as the colimit over the point-neighbourhood covers `TauCeti.Topology.PointOpenCover` (TauCeti/Topology/Sheaves/CoverSystems.lean) of the cohomology of their Čech complexes, with transition maps independent of the chosen refinement map, in natural-number degrees and without any separation hypothesis on the space; with it `TauCeti.Topology.isZero_cechCohomology_obj_of_isEmpty` (vanishing in every degree on the empty space, for every presheaf) and `TauCeti.Topology.cechCohomologyZeroIso` (degree 0 of a sheaf is its global sections, naturally in the sheaf). This is the carrier of every open-cover Čech group of this roadmap (§0.7).
 - `TauCeti.Topology.FiniteOpenCover`, `TauCeti.Topology.FiniteOpenCover.exists_refinement` (TauCeti/Topology/Sheaves/CoverSystems.lean), `TauCeti.Topology.toCechCohomology` and `TauCeti.Topology.finiteCechCohomologyIso` (TauCeti/Topology/Sheaves/Cech/Cofinal.lean): the finite indexed covers, with repeats and the empty family of the empty space, refine every small open cover of a `CompactSpace`; the map from the Čech cohomology of any small open cover to `TauCeti.Topology.cechCohomology`, independent of the refinement; and, on a `CompactSpace`, the isomorphism from the colimit over finite indexed covers to `TauCeti.Topology.cechCohomology`. Used in §0.7 for the computation by finite covers. Neither file compares the order-free complex with the tuple complex, restricts to open subspaces or compares two arbitrary cofinal systems: these are TopologicalSheafCohomology TS1.1–TS1.2.
+- `IsOpen.image_of_continuousOn_of_injOn` and `Topology.IsOpenEmbedding.finrank_le_of_isEmbedding` (TauCeti/AlgebraicTopology/Singular/InvarianceOfDomain.lean): for spaces M, N charted on finite-dimensional real normed spaces E, F with `finrank ℝ E = finrank ℝ F`, a map M → N continuous and injective on an open set U maps U onto an open set; and a nonempty space with an open embedding into F and an embedding into E has `finrank ℝ F ≤ finrank ℝ E`. Dimension 0 is included and no Hausdorff or countability hypothesis is assumed; the charts are on normed spaces, so manifolds with boundary are not covered. Used in §6.2.
 
 ### From TauCetiRoadmap.AlgebraicTopology
 
@@ -89,10 +90,6 @@ Signs are read in ℤ/2: an exponent such as d(q − d) with d negative is reduc
 ### From TauCetiRoadmap.DGAInfinity
 
 - Layer 0: signed graded tensor products and Koszul signs. Used in §0.5 and §6.4.
-
-### From TauCetiRoadmap.AbelianSchemesAndArithmeticModuliPartII
-
-- §B2.9: for every m ≥ 0, a continuous injective map from an open U ⊆ ℝ^m to ℝ^m is an open embedding; a continuous injection between boundaryless topological m-manifolds is an open embedding. Used in §6.2.
 
 ## How to read the build
 
@@ -710,7 +707,7 @@ Define an implicit atlas with boundary and cell-like stratification on (X, ∂X)
 
 ### 6.2 Normal lines, local consequences and restricted atlases
 
-Supply integral rank-one graded normal lines o_s, odd incidence maps for codimension 1, and Γ_I-equivariant sheaf isomorphisms `o_((X_I^reg)^≤s) ⊗ o_s ≅ o_(X_I^reg)` over (X_I^reg)^≤s, with Γ_I acting trivially on o_s, that commute with ψ_IJ on regular zero fibers and with the incidence square (Pardon, Definition 6.1.6 and diagram (6.1.1), p. 48). The parity of o_s is that of the normal dimension. From invariance of domain (AbelianSchemesAndArithmeticModuliPartII, §B2.9) derive the local consequences for nonempty strata (Pardon, Lemma 6.1.5, p. 47): dimension bounds, openness of top strata, one incident top side at a physical boundary face and two at an interior codimension-1 face. Construct the codimension-2 cancellation from these geometric normal maps. Construct the restricted atlases: on ∂X → ∂S with empty boundary, every orientation line tensored with o_ℝ and dimension d − 1; and for each s ∈ S on (X^≤s, X^<s) → (S^≤s, S^<s) with thickenings X_I^≤s, domains U_IJ ∩ X_I^≤s, regular loci X_I^reg ∩ X_I^≤s, orientation lines tensored with o_s^∨ and dimension dim(s) (Pardon, Definition 6.1.6, p. 48). The zero-fiber compatibility gives ψ_IJ⁻¹(X_I^≤s) = Z_IJ ∩ X_J^≤s, hence the restricted coordinate changes and quotient homeomorphisms; the cell-like models give the restricted product projections; and a regular zero y ∈ X_I with ψ_∅I(y) ∈ X^≤s lies in X_I^≤s, so the restricted footprints cover X^≤s.
+Supply integral rank-one graded normal lines o_s, odd incidence maps for codimension 1, and Γ_I-equivariant sheaf isomorphisms `o_((X_I^reg)^≤s) ⊗ o_s ≅ o_(X_I^reg)` over (X_I^reg)^≤s, with Γ_I acting trivially on o_s, that commute with ψ_IJ on regular zero fibers and with the incidence square (Pardon, Definition 6.1.6 and diagram (6.1.1), p. 48). The parity of o_s is that of the normal dimension. From invariance of domain and of dimension (Tau Ceti `IsOpen.image_of_continuousOn_of_injOn`, `Topology.IsOpenEmbedding.finrank_le_of_isEmbedding`) derive the local consequences for nonempty strata (Pardon, Lemma 6.1.5, p. 47): dimension bounds, openness of top strata, one incident top side at a physical boundary face and two at an interior codimension-1 face. Construct the codimension-2 cancellation from these geometric normal maps. Construct the restricted atlases: on ∂X → ∂S with empty boundary, every orientation line tensored with o_ℝ and dimension d − 1; and for each s ∈ S on (X^≤s, X^<s) → (S^≤s, S^<s) with thickenings X_I^≤s, domains U_IJ ∩ X_I^≤s, regular loci X_I^reg ∩ X_I^≤s, orientation lines tensored with o_s^∨ and dimension dim(s) (Pardon, Definition 6.1.6, p. 48). The zero-fiber compatibility gives ψ_IJ⁻¹(X_I^≤s) = Z_IJ ∩ X_J^≤s, hence the restricted coordinate changes and quotient homeomorphisms; the cell-like models give the restricted product projections; and a regular zero y ∈ X_I with ψ_∅I(y) ∈ X^≤s lies in X_I^≤s, so the restricted footprints cover X^≤s.
 
 - Every restricted atlas satisfies the Layer 1 axioms in its stated dimension.
 - If the stratified atlas is locally orientable, so is every restricted atlas, by the equivariance of the normal-line identifications, and its orientation sheaf is identified with the tensored line compatibly with ψ_IJ and the incidences.
@@ -722,7 +719,7 @@ Supply integral rank-one graded normal lines o_s, odd incidence maps for codimen
 - In the quadrant ℝ_≥0², the two paths from the origin through the two edges to the open face carry opposite composite incidence signs, so their sum is 0.
 - Γ = ℤ/2 reflecting ℝ, with both half-lines in one stratum t and {0} in s, acts on the normal line of {0} by −1, so no equivariant identification with trivial action on o_s exists; the equivariance requirement excludes this datum, whose restricted atlas on s would not be locally orientable.
 
-*Needs:* §6.1, §3.1; AbelianSchemesAndArithmeticModuliPartII §B2.9.
+*Needs:* §6.1, §3.1; Tau Ceti `IsOpen.image_of_continuousOn_of_injOn`, `Topology.IsOpenEmbedding.finrank_le_of_isEmbedding`.
 
 ### 6.3 The stratified virtual complex
 
@@ -774,7 +771,7 @@ The square [0, 1]² as a product of two interval atlases tests the corner strati
 
 ### Dependencies
 
-Layers 0–5; AlgebraicTopology Layer 6; AbelianSchemesAndArithmeticModuliPartII §B2.9.
+Layers 0–5; AlgebraicTopology Layer 6; Tau Ceti invariance of domain and of dimension.
 
 ## Layer 7: Transverse fiber products and application interfaces (V7)
 
