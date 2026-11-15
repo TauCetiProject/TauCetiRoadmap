@@ -1,13 +1,19 @@
 module
 
 public import Mathlib
+public import TauCeti.AlgebraicGeometry.FiniteEtale.Fiber
 
 /-!
 # Étale homotopy types: target signatures
 
 The roadmap is README.md; this file is not the roadmap. It states the roadmap's headline
-theorems when statable against the pinned APIs. None is statable at these pins: each requires
-one of the missing carriers listed below. No substitute assertion is stated.
+theorems when statable against the pinned APIs. Two are statable at these pins, both on the
+finite étale fundamental group of a scheme, the automorphism group of a geometric fibre functor
+of Tau Ceti's finite étale carrier: the geometric product formula over an algebraically closed
+field of characteristic zero (§3.8a) and the finite étale product formula over a field of
+characteristic zero (§3.9a), with the one definition they need, the homomorphism of fundamental
+groups induced by a morphism of schemes (§3.0b). Every other headline requires one of the
+missing carriers listed below. No substitute assertion is stated.
 
 Layer 0:
 * Isaksen's simplicial model structure, properness and the strong-fibration presentation result
@@ -41,10 +47,10 @@ Layer 3:
   the field classifying equivalence and finite etale base change lack the rigid etale type.
 * Galois-equivariant geometric cohomology transport and the elementary-fibration homotopy
   sequence lack that type, its cover tower and its homotopy-fiber comparison.
-* The characteristic-zero finite etale product formula, over a field and over an algebraically
-  closed field, and the homotopy exact sequence of fundamental groups it rests on lack the scheme
-  finite-etale fiber-functor fundamental group and its geometric product comparison interface;
-  Mathlib's finite etale algebras over a ring cover only affine schemes.
+* The homotopy exact sequence of fundamental groups for a morphism, on which the product
+  formulas rest, lacks its hypotheses: cohomological properness in dimension at most 1 and local
+  0-acyclicity, which need stacks of etale torsors with their direct images and base change, and
+  strict localizations of schemes.
 * Strong desingularizability of finite-type schemes over an algebraically closed field of
   characteristic zero lacks resolution of singularities and the strong-desingularizability
   notion of SGA 5. Cohomological properness of normal-crossings complements over an arbitrary
@@ -61,7 +67,7 @@ Layer 3:
   their descent along limits of schemes.
 
 Layer 4:
-* Open arithmetic image lacks the scheme finite-etale fiber-functor fundamental group.
+* Open arithmetic image is an adapter rather than a headline and is not stated.
 * Pointed arithmetic lifting, arithmetic isomorphism lifting, the geometric orbit surjection and
   bijection, the outer fundamental-group map, the open-image restriction and the product mapping
   result lack the raw etale homotopy category and its arithmetic structural maps.
@@ -84,6 +90,70 @@ Layer 6:
 No substitute predicates, admitted data, API lemmas or boundary-case theorems are asserted.
 -/
 
+open CategoryTheory AlgebraicGeometry
+
+universe u
+
 namespace TauCetiRoadmap.EtaleHomotopyTypes
+
+/-! ## Layer 3: Rigid étale types and finite-cover comparison -/
+
+/-- The homomorphism of étale fundamental groups induced by a morphism of schemes `f : X ⟶ Y`
+at a geometric point `a : Spec Ω ⟶ X`, with `Ω` separably closed (§3.0b). The fundamental group
+of `X` at `a` is the automorphism group of the geometric fibre functor
+`TauCeti.FiniteEtaleScheme.fiber a` on finite étale `X`-schemes. An automorphism `σ` of it acts on
+the fibre at `a` of the base change `E ×_Y X` of every finite étale `Y`-scheme `E`; that fibre is
+the fibre of `E` at `a ≫ f` through `TauCeti.FiniteEtaleScheme.pullbackCompFiberIso`, and the
+image of `σ` is the automorphism of the geometric fibre functor at `a ≫ f` so obtained. -/
+noncomputable def fundamentalGroupMap {X Y : Scheme.{u}} (f : X ⟶ Y) {Ω : Type u} [Field Ω]
+    [IsSepClosed Ω] (a : Spec (.of Ω) ⟶ X) :
+    Aut (TauCeti.FiniteEtaleScheme.fiber a) →* Aut (TauCeti.FiniteEtaleScheme.fiber (a ≫ f)) :=
+  (TauCeti.FiniteEtaleScheme.pullbackCompFiberIso f a).conjAut.toMonoidHom.comp
+    (((Functor.whiskeringLeft _ _ FintypeCat.{u}).obj
+      (TauCeti.FiniteEtaleScheme.pullback f)).mapAut (TauCeti.FiniteEtaleScheme.fiber a))
+
+/-- **Geometric product formula** (§3.8a; SGA 1, Exposé XIII, Proposition 4.6(b)). Let `K` be an
+algebraically closed field of characteristic zero, `X` a connected quasi-compact quasi-separated
+`K`-scheme and `Y` a connected `K`-scheme, with no finiteness condition on `Y`. Then `X ×_K Y` is
+connected, and at every geometric point `c` of `X ×_K Y` the homomorphisms induced by the two
+projections form an isomorphism of profinite groups
+`π₁(X ×_K Y, c) ≅ π₁(X, pr₁ ∘ c) × π₁(Y, pr₂ ∘ c)`. -/
+theorem geometric_product_formula {K : Type u} [Field K] [IsAlgClosed K] [CharZero K]
+    {X Y : Scheme.{u}} (p : X ⟶ Spec (.of K)) (q : Y ⟶ Spec (.of K)) [QuasiCompact p]
+    [QuasiSeparated p] [ConnectedSpace X] [ConnectedSpace Y] {Ω : Type u} [Field Ω]
+    [IsSepClosed Ω] (c : Spec (.of Ω) ⟶ Limits.pullback p q) :
+    ConnectedSpace (Limits.pullback p q : Scheme.{u}) ∧
+      ∃ e : Aut (TauCeti.FiniteEtaleScheme.fiber c) ≃ₜ*
+          Aut (TauCeti.FiniteEtaleScheme.fiber (c ≫ Limits.pullback.fst p q)) ×
+            Aut (TauCeti.FiniteEtaleScheme.fiber (c ≫ Limits.pullback.snd p q)),
+        ∀ σ, e σ = (fundamentalGroupMap (Limits.pullback.fst p q) c σ,
+          fundamentalGroupMap (Limits.pullback.snd p q) c σ) := by
+  sorry
+
+/-- **Finite étale product formula over a field** (§3.9a; Schmidt–Stix, proof of Lemma 2.9;
+SGA 1, Exposé XIII, Proposition 4.6). Let `k` be a field of characteristic zero and `Y₁`, `Y₂`
+geometrically connected `k`-schemes of finite type, with structure morphisms `p₁`, `p₂`. Let `c`
+be a geometric point of `Y₁ ×_k Y₂` with images `a` in `Y₁` and `b` in `Y₂`; the equality
+`b ≫ p₂ = a ≫ p₁` identifies the fundamental groups of `Spec k` at the two images. The
+homomorphisms induced by the two projections identify `π₁(Y₁ ×_k Y₂, c)`, as a profinite group,
+with the fibre product of `π₁(Y₁, a)` and `π₁(Y₂, b)` over the fundamental group of `Spec k`: the
+subgroup of pairs with the same image there. -/
+theorem finiteEtale_product_formula {k : Type u} [Field k] [CharZero k] {Y₁ Y₂ : Scheme.{u}}
+    (p₁ : Y₁ ⟶ Spec (.of k)) (p₂ : Y₂ ⟶ Spec (.of k)) [GeometricallyConnected p₁]
+    [GeometricallyConnected p₂] [LocallyOfFiniteType p₁] [QuasiCompact p₁]
+    [LocallyOfFiniteType p₂] [QuasiCompact p₂] {Ω : Type u} [Field Ω] [IsSepClosed Ω]
+    (c : Spec (.of Ω) ⟶ Limits.pullback p₁ p₂) :
+    ∃ e : Aut (TauCeti.FiniteEtaleScheme.fiber c) ≃ₜ*
+        MonoidHom.eqLocus
+          (G := Aut (TauCeti.FiniteEtaleScheme.fiber (c ≫ Limits.pullback.fst p₁ p₂)) ×
+            Aut (TauCeti.FiniteEtaleScheme.fiber (c ≫ Limits.pullback.snd p₁ p₂)))
+          ((fundamentalGroupMap p₁ (c ≫ Limits.pullback.fst p₁ p₂)).comp (MonoidHom.fst _ _))
+          ((eqToIso (congrArg (TauCeti.FiniteEtaleScheme.fiber (Ω := Ω))
+              (show (c ≫ Limits.pullback.snd p₁ p₂) ≫ p₂ = (c ≫ Limits.pullback.fst p₁ p₂) ≫ p₁ by
+                simp [Limits.pullback.condition]))).conjAut.toMonoidHom.comp
+            ((fundamentalGroupMap p₂ (c ≫ Limits.pullback.snd p₁ p₂)).comp (MonoidHom.snd _ _))),
+      ∀ σ, (e σ).val = (fundamentalGroupMap (Limits.pullback.fst p₁ p₂) c σ,
+        fundamentalGroupMap (Limits.pullback.snd p₁ p₂) c σ) := by
+  sorry
 
 end TauCetiRoadmap.EtaleHomotopyTypes
