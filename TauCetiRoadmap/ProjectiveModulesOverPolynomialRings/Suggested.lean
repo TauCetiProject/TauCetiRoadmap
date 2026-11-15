@@ -15,7 +15,7 @@ Headlines stated, with their README targets:
 * 1.1 `exists_specialLinearGroup_row_pow`; 2.1 `isStablyFree_mvPolynomial`;
 * 3.1 `isExtendedFrom_iff_evalZero`; 3.2 `exists_unit_lift_dilation`;
   3.3 `exists_ideal_isExtendedAfter_away`; 3.4 `isExtendedFrom_of_forall_isMaximal`;
-  3.5 `isExtendedFrom_mvPolynomial_of_forall_isMaximal`;
+  3.5 `isExtendedFrom_mvPolynomial_of_forall_isMaximal`; 3.6 `exists_finite_projective_glue`;
 * 4.1 `isPrincipalIdealRing_monicLocalization` and `isField_monicLocalization`;
   4.2 `free_of_free_monicLocalization_of_isLocalRing`;
   4.3 `isExtendedFrom_of_isExtendedFrom_monicLocalization`;
@@ -26,11 +26,11 @@ Headlines stated, with their README targets:
 Every headline of the README is stated. Finite free resolutions and the unimodular extension
 property are PadicDifferentialEquationsAndRigidCohomology's (§RD.0.55, §RD.0.56) and enter only
 the routes of 2.1 and 5.4, whose statements use Mathlib's `Module.IsStablyFree` and
-`Module.IsUnimodular` alone; the gluing of finitely generated projective modules over a glueing
-pair is RelativeFarguesFontaine's (§6.4, §6.5) and enters only the route of 4.4. The base changes
-along `A[X] → B[X]` and `A[X₁, …, Xₙ] → B[X₁, …, Xₙ]` use Mathlib's `Polynomial.algebra` and
+`Module.IsUnimodular` alone. The base changes along `A[X] → B[X]` and
+`A[X₁, …, Xₙ] → B[X₁, …, Xₙ]` use Mathlib's `Polynomial.algebra` and
 `MvPolynomial.algebraMvPolynomial`, which are not global instances; they are installed locally
-inside the two predicates that need them. In 3.2 the localisation of a not necessarily
+inside the two predicates that need them. In 3.6 the three localisations are given through
+`IsLocalization.Away`, with the maps `R_f → R_fg` and `R_g → R_fg` as algebras over `R`. In 3.2 the localisation of a not necessarily
 commutative `A`-algebra `R` at `f ∈ A` is `Localization.Away f ⊗[A] R`, and the substitution
 `X ↦ gX` is `Polynomial.eval₂ C (g • X)`.
 -/
@@ -133,6 +133,22 @@ theorem isExtendedFrom_mvPolynomial_of_forall_isMaximal (n : ℕ) (M : Type v) [
     [Module (MvPolynomial (Fin n) A) M] [Module.FinitePresentation (MvPolynomial (Fin n) A) M]
     (h : ∀ (m : Ideal A) [m.IsMaximal], IsExtendedAfterMv A (Localization.AtPrime m) n M) :
     IsExtendedFrom A (MvPolynomial (Fin n) A) M := by
+  sorry
+
+/-- **3.6.** Zariski gluing: for comaximal `f, g ∈ R`, a finitely generated projective
+`R_f`-module and a finitely generated projective `R_g`-module that are isomorphic over `R_fg`
+glue to a finitely generated projective `R`-module in their universe (Lombardi–Quitté,
+XV.4.4 bis, p. 866, and XV.2.2, item 4, p. 852). -/
+theorem exists_finite_projective_glue {R : Type u} [CommRing R] {f g : R} (hfg : IsCoprime f g)
+    (Rf Rg Rfg : Type w) [CommRing Rf] [CommRing Rg] [CommRing Rfg] [Algebra R Rf] [Algebra R Rg]
+    [Algebra R Rfg] [IsLocalization.Away f Rf] [IsLocalization.Away g Rg]
+    [IsLocalization.Away (f * g) Rfg] [Algebra Rf Rfg] [Algebra Rg Rfg] [IsScalarTower R Rf Rfg]
+    [IsScalarTower R Rg Rfg] (M₁ M₂ : Type v) [AddCommGroup M₁] [Module Rf M₁]
+    [Module.Finite Rf M₁] [Module.Projective Rf M₁] [AddCommGroup M₂] [Module Rg M₂]
+    [Module.Finite Rg M₂] [Module.Projective Rg M₂] (α : Rfg ⊗[Rf] M₁ ≃ₗ[Rfg] Rfg ⊗[Rg] M₂) :
+    ∃ (M : Type v) (_ : AddCommGroup M) (_ : Module R M), Module.Finite R M ∧
+      Module.Projective R M ∧ Nonempty (Rf ⊗[R] M ≃ₗ[Rf] M₁) ∧
+        Nonempty (Rg ⊗[R] M ≃ₗ[Rg] M₂) := by
   sorry
 
 /-! ## Layer 4: monic inversion and Horrocks' theorem -/

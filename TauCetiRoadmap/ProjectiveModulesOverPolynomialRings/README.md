@@ -12,7 +12,9 @@ commutative, `f ∈ A` and a unit `θ` of `R_f[X]` with `θ(0) = 1`, the unit `�
 from a unit of `R[X]` whenever `g₁ − g₂` lies in a high enough power of `fA` (Quillen's dilation
 lemma); the `a ∈ A` over which a finitely presented `A[X]`-module becomes extended form an ideal,
 and a finitely presented module over `A[X]` or `A[X₁, …, Xₙ]` that is extended at every maximal
-ideal of `A` is extended, Quillen's patching theorem (Layer 3); for the localisation `A⟨X⟩` of
+ideal of `A` is extended, Quillen's patching theorem, and for comaximal `f, g ∈ R` finitely
+generated projective modules over `R_f` and `R_g` that are isomorphic over `R_fg` glue to one over
+`R` (Layer 3); for the localisation `A⟨X⟩` of
 `A[X]` at the monic polynomials, `k⟨X⟩` is a principal ideal domain when `k` is one and a field when
 `k` is one; over a local ring `A`, a finitely generated projective `A[X]`-module that is free over
 `A⟨X⟩` is free (local Horrocks); over any commutative `A`, one that is extended from `A` over `A⟨X⟩`
@@ -31,8 +33,9 @@ Suggested home: `TauCeti/RingTheory/Polynomial/Projective/`.
 
 **Owned here.** Suslin's `r!` theorem (Layer 1); Serre's stable freeness over polynomial rings
 over a field (Layer 2); extended modules, base change of a polynomial module along `A → B`,
-Quillen's dilation lemma, the Quillen ideal and Quillen's patching theorem in one and in `n`
-variables (Layer 3); the monic polynomials, the ring `A⟨X⟩` and its faithful flatness over `A`,
+Quillen's dilation lemma, the Quillen ideal, Quillen's patching theorem in one and in `n`
+variables, and the gluing of finitely generated projective modules over two comaximal
+localisations (Layer 3); the monic polynomials, the ring `A⟨X⟩` and its faithful flatness over `A`,
 Quillen's Lemma 2, Horrocks' theorem in its local, affine and global (Quillen's) forms, and Bass's
 theorem that `A⟨X⟩` reflects isomorphism (Layer 4); unimodular polynomial vectors with a unit
 head ideal, the Quillen–Suslin theorem over principal ideal domains, its extended form over
@@ -49,11 +52,12 @@ roadmap states neither and consumes both (Exact supplier contracts). Target 5.1 
 monic entry. The rigid-analytic Quillen–Suslin theorem over overconvergent power series rings
 (PadicDifferentialEquationsAndRigidCohomology §RD.3.27) is a different ring and stays there.
 
-**Left to RelativeFarguesFontaine.** Glueing pairs `(R → R′, f)` and the gluing of a finitely
-generated projective `R′`-module with a finitely generated projective `R_f`-module along an
-isomorphism over `R′_f` (RelativeFarguesFontaine §6.4 and §6.5), which contains the gluing over two
-comaximal localisations used in 4.4. This roadmap states no gluing theorem and consumes this one
-(Exact supplier contracts).
+**Left to RelativeFarguesFontaine.** Exact squares of rings, glueing pairs `(R → R′, f)`, and the
+effectivity of finitely generated projective glueing data over them, Beauville–Laszlo gluing
+included (RelativeFarguesFontaine §6.1–§6.5). The gluing used in 4.4 is over the two comaximal
+localisations `A[Y]_Y` and `A[Y]_h` of `A[Y]`, that is, Zariski descent, which that roadmap
+recovers as a specialisation (§6.2); this roadmap states the two-element case as 3.6, proved from
+Mathlib's local-global principles, and consumes nothing from RelativeFarguesFontaine.
 
 **Left to AlgebraicKTheory.** The elementary subgroups `Eₙ(R)`, Bass's stable range
 `HasStableRangeLE R s` and the stability theorems (AlgebraicKTheory 1.1, 4.1, 4.2), K₀ and K₁ of
@@ -75,7 +79,9 @@ rings `Module.End`; projective, free, stably free, finite and finitely presented
 elements; general and special linear groups; principal ideal domains, Dedekind domains and their
 localisations at nonzero primes, which are discrete valuation rings, Noetherian rings, local rings
 and fields; flat and faithfully flat modules, with the descent of finite generation and of flatness
-along a faithfully flat algebra; freeness of finitely generated flat modules over a local ring
+along a faithfully flat algebra; the flatness of localisations, and the local nature of finite
+generation, of finite presentation (on elements generating the unit ideal) and of projectivity (at
+the maximal ideals); freeness of finitely generated flat modules over a local ring
 (`Module.free_of_flat_of_isLocalRing`) and of finitely generated torsion-free modules over a
 principal ideal domain (`Module.free_of_finite_type_torsion_free'`); the primes of a
 localisation, Gauss's lemma for primitive polynomials, and the fact that a ring whose prime ideals
@@ -133,11 +139,16 @@ overconvergent rings of PadicDifferentialEquationsAndRigidCohomology; and algori
   `Module.finitePresentation_of_projective` (`Algebra/Module/FinitePresentation`),
   `Module.free_of_flat_of_isLocalRing` (`RingTheory/LocalRing/Module`) and
   `Module.free_of_finite_type_torsion_free'` (`LinearAlgebra/FreeModule/PID`).
+- Locality: `IsLocalizedModule`, `Module.Finite.of_localizationSpan'`
+  (`RingTheory/Localization/Finiteness`), `Module.FinitePresentation.of_localizationSpan'`
+  (`RingTheory/LocalProperties/FinitePresentation`) and `Module.projective_of_localization_maximal'`
+  (`RingTheory/LocalProperties/Projective`); `IsLocalization.flat` (`RingTheory/Flat/Localization`).
 - Flatness: `Module.Flat`, `Module.FaithfullyFlat` and `Module.Flat.of_flat_tensorProduct`
   (flatness descends along a faithfully flat algebra; `RingTheory/Flat/FaithfullyFlat/Basic`),
   `Module.Finite.of_finite_tensorProduct_of_faithfullyFlat` (so does finite generation;
   `RingTheory/Finiteness/Descent`).
-- Rings: `Ideal.span`, `Ideal.IsMaximal`, `Submonoid`, `Localization`, `Localization.Away`,
+- Rings: `Ideal.span`, `Ideal.IsMaximal`, `IsCoprime` (`RingTheory/Coprime/Basic`), `Submonoid`,
+  `Localization`, `Localization.Away`, `IsLocalization.Away`, `IsScalarTower`,
   `Localization.AtPrime`, `IsLocalization.isDomain_localization` (`RingTheory/Localization/Defs`),
   `IsLocalization.orderIsoOfPrime` (the primes of a localisation; `RingTheory/Localization/Ideal`),
   `IsDomain`, `IsField`, `IsLocalRing`, `IsPrincipalIdealRing`, `IsPrincipalIdealRing.of_prime`
@@ -165,28 +176,18 @@ overconvergent rings of PadicDifferentialEquationsAndRigidCohomology; and algori
   an invertible matrix) exactly when every finitely generated stably free `R`-module in the
   universe of `R` is free. Used in 5.4.
 
-**From TauCetiRoadmap.RelativeFarguesFontaine.**
-
-- §6.4, `GlueingPair R′ f` for an `R`-algebra `R′` and `f ∈ R`, both rings in one universe: for
-  every `n`, `R ⧸ fⁿR → R′ ⧸ fⁿR′` is bijective, and `R → R′` is bijective on `f`-power torsion.
-- §6.5, `beauvilleLaszlo_effective`: for a glueing pair `(R → R′, f)`, a localisation `L` of `R′`
-  away from `f` that is an `R_f`-algebra, a finitely generated projective `R′`-module `M′`, a
-  finitely generated projective `R_f`-module `M₁` and an `L`-linear isomorphism
-  `α : L ⊗[R′] M′ ≅ L ⊗[R_f] M₁`, all in the universe of `R`, there are a finitely generated
-  projective `R`-module `M` in that universe and isomorphisms `R′ ⊗[R] M ≅ M′` and
-  `R_f ⊗[R] M ≅ M₁` compatible with `α`. Used in 4.4.
-
 ## How to read the build
 
 Layer 1 is Suslin's `r!` theorem on unimodular rows, independent of the rest. Layer 2 applies the
 finite free resolutions of PadicDifferentialEquationsAndRigidCohomology §RD.0.55 to obtain Serre's
 stable freeness over polynomial rings over a field. Layer 3 defines extended modules and base change
 of polynomial modules, proves Quillen's dilation lemma on units of polynomial rings over a not
-necessarily commutative algebra, and from it Quillen's patching theorem through the Quillen ideal.
+necessarily commutative algebra, and from it Quillen's patching theorem through the Quillen ideal;
+it ends with the gluing of finitely generated projective modules over two comaximal localisations.
 Layer 4 inverts the monic polynomials: Quillen's Lemma 2 and the faithful flatness of `A⟨X⟩` over
 `A`, then Horrocks' theorem over a local ring, the affine Horrocks theorem (local Horrocks at every
 maximal ideal plus Layer 3), Bass's theorem on isomorphism over `A⟨X⟩` (with `Y = 1/X`, a gluing
-over `A[Y]` by RelativeFarguesFontaine §6.5, then the affine Horrocks theorem over `A[Y]`) and, from
+over `A[Y]` by 3.6, then the affine Horrocks theorem over `A[Y]`) and, from
 the last two, Horrocks' theorem in Quillen's form, with no projective line. Layer 5 assembles the
 Quillen–Suslin theorem: by induction on `n`, Lemma 2 makes `k⟨Xₙ⟩` a principal ideal domain, the
 induction hypothesis makes the base change of the module to `k⟨Xₙ⟩[X₁, …, Xₙ₋₁]`, a localisation
@@ -419,6 +420,45 @@ on `n` through `A[X₁, …, Xₙ] ≅ A[X₁, …, Xₙ₋₁][Xₙ]`, applying
 - The maximal ideals are those of `A`, not of `A[X₁, …, Xₙ]`: localising at a maximal ideal of
   the polynomial ring would not produce a polynomial ring over a local ring.
 
+### 3.6 Gluing over two comaximal localisations
+
+Prove `exists_finite_projective_glue`: let `f, g ∈ R` be comaximal (`IsCoprime f g`), let `R_f`,
+`R_g` and `R_fg` be localisations of `R` away from `f`, `g` and `fg`, with algebra maps
+`R_f → R_fg` and `R_g → R_fg` compatible with those from `R`, let `M₁` be a finitely generated
+projective `R_f`-module and `M₂` a finitely generated projective `R_g`-module, in one universe,
+and let `α : R_fg ⊗[R_f] M₁ ≅ R_fg ⊗[R_g] M₂` be `R_fg`-linear. Then there is a finitely
+generated projective `R`-module `M`, in the universe of `M₁` and `M₂`, with `R_f ⊗[R] M ≅ M₁` over
+`R_f` and `R_g ⊗[R] M ≅ M₂` over `R_g` (Lombardi–Quitté, concrete local-global principle XV.4.4
+bis, p. 866, whose compatibility conditions are empty for two comaximal elements, with XV.2.2,
+item 4, p. 852). Route: `M` is the submodule of `M₁ × M₂` of the pairs `(x₁, x₂)` with
+`α(1 ⊗ x₁) = 1 ⊗ x₂`. Localisations are flat (`IsLocalization.flat`), so forming `M` commutes
+with `R_f ⊗[R] −`; since `R_f ⊗[R] R_f = R_f` and `R_f ⊗[R] R_g = R_fg`, the projection
+`M → M₁` is a localisation away from `f` (`IsLocalizedModule`), and `M → M₂` one away from `g`.
+As `Ideal.span {f, g} = ⊤`, `M` is finitely generated (`Module.Finite.of_localizationSpan'`) and
+finitely presented (`Module.FinitePresentation.of_localizationSpan'`); every maximal ideal misses
+`f` or `g`, so each localisation of `M` at a maximal ideal is one of `M₁` or of `M₂`, hence
+projective, and `Module.projective_of_localization_maximal'` concludes.
+*Needs:* Mathlib `IsCoprime`, `IsLocalization.Away`, `IsScalarTower`, `TensorProduct`,
+`LinearEquiv`, `Module.Finite`, `Module.Projective`, `IsLocalization.flat`, `IsLocalizedModule`,
+`Module.Finite.of_localizationSpan'`, `Module.FinitePresentation.of_localizationSpan'`,
+`Module.projective_of_localization_maximal'`.
+
+**Checks.**
+
+- For `f = 1` and `g = 0`, `R_f ≅ R` and `R_g = R_fg = 0`, so `M₂ = 0` and `α` is the unique map:
+  the statement gives back `M = M₁`, a gluing with one piece.
+- The glued module depends on `α`, not only on `M₁` and `M₂`. Over `R = ℤ[√−5]` take `f = 2`,
+  `g = 3` (`3 − 2 = 1`) and `M₁ = R_f`, `M₂ = R_g`. As `(1 + √−5)(1 − √−5) = 6`, `u = 1 + √−5` is
+  a unit of `R_fg`. With `α = 1`, `M ≅ R`; with `α` the multiplication by `u⁻¹`, `a ↦ (a, a/u)`
+  identifies `M` with `𝔞 = (2, 1 + √−5)`, since `𝔞R_f = R_f` and `2/u = (1 − √−5)/3` gives
+  `𝔞R_g = uR_g`; and `𝔞` is not free, as no `a + b√−5` has norm `a² + 5b² = 2`.
+- Neither hypothesis can be dropped. If `M` exists, `R_fg ⊗[R_f] M₁` and `R_fg ⊗[R_g] M₂` are
+  both isomorphic to `R_fg ⊗[R] M`, so some `α` is necessary: over `ℤ` with `f = 2`, `g = 3`,
+  `M₁ = ℤ[1/2]` and `M₂ = ℤ[1/3]²` have ranks `1 ≠ 2` and glue to nothing. Without comaximality the
+  localisations do not determine projectivity: for `R = ℤ[Y]`, `f = Y` and `g = 2 + Y`, with
+  `(Y, 2 + Y) = (Y, 2)`, both `ℤ[Y]` and `ℤ[Y] ⊕ ℤ[Y] ⧸ (2, Y)` localise to `R_f` and `R_g` (both
+  `Y` and `2 + Y` act by `0` on `𝔽₂ = ℤ[Y] ⧸ (2, Y)`), and the second is not projective.
+
 ### Examples
 
 - Over a field `k`, every finitely presented `k[X]`-module that is extended at the unique maximal
@@ -427,7 +467,7 @@ on `n` through `A[X₁, …, Xₙ] ≅ A[X₁, …, Xₙ₋₁][Xₙ]`, applying
 ### Dependencies
 
 Mathlib only. Within the layer, 3.2 uses no other target; 3.3 uses 3.1 and 3.2; 3.4 uses 3.1 and
-3.3; and 3.5 uses 3.1 and 3.4.
+3.3; 3.5 uses 3.1 and 3.4; and 3.6 uses no other target.
 
 ## Layer 4: monic inversion and Horrocks' theorem
 
@@ -538,17 +578,14 @@ lemma V.2.10, p. 253); clearing a monic common denominator `s` gives `H ∈ Mₙ
 `HF = GH` and monic determinant `sⁿ`. With `Y = 1/X` and `d` the largest degree of an entry of
 `H`, `H′ = Yᵈ H(1/Y)` lies in `Mₙ(A[Y])`, satisfies `H′F = GH′` and has determinant `Yʳ h` with
 `h(0) = 1`; so `H′` is invertible over `A[Y]_(Yh)` and identifies `A[Y]_(Yh) ⊗[A] P` with
-`A[Y]_(Yh) ⊗[A] Q`. Since `h` is a unit modulo every `Yᵐ` and `Y` is a nonzerodivisor of `A[Y]`
-and of `A[Y]_h`, `(A[Y] → A[Y]_h, Y)` is a glueing pair (RelativeFarguesFontaine §6.4), and
-RelativeFarguesFontaine §6.5 glues `A[Y]_Y ⊗[A] P` and `A[Y]_h ⊗[A] Q` along this identification
-to a finitely generated projective `A[Y]`-module `M`; both pieces are finitely generated, hence
-small in the universe of `A` (`Module.Finite.small`), and §6.5 is applied to their `Shrink`
-copies. The monic `Y` is a unit of `A[Y]_Y`, so `A⟨Y⟩` is a localisation of `A[Y]_Y` and
+`A[Y]_(Yh) ⊗[A] Q`. Since `h(0) = 1`, `h = 1 + Yk` for some `k ∈ A[Y]`, so `Y` and `h` are
+comaximal, and 3.6 glues `A[Y]_Y ⊗[A] P` and `A[Y]_h ⊗[A] Q` along this identification to a
+finitely generated projective `A[Y]`-module `M` in the universe of `P` and `Q`. The monic `Y` is
+a unit of `A[Y]_Y`, so `A⟨Y⟩` is a localisation of `A[Y]_Y` and
 `A⟨Y⟩ ⊗[A[Y]] M ≅ A⟨Y⟩ ⊗[A] P` is extended from `A`; by 4.3 over `A[Y]`, `M ≅ A[Y] ⊗[A] N` for
 an `A`-module `N`, so `M(1) ≅ N ≅ M(0)`. Evaluation at `Y = 1` factors through `A[Y]_Y`, and
 evaluation at `Y = 0` through `A[Y]_h` since `h(0) = 1`; hence `P ≅ M(1) ≅ M(0) ≅ Q`.
-*Needs:* 4.1, 4.3; RelativeFarguesFontaine §6.4, §6.5; Mathlib `Module.Projective`,
-`TensorProduct`, `Localization.Away`, `Module.Finite.small`, `Shrink.linearEquiv`.
+*Needs:* 3.6, 4.1, 4.3; Mathlib `Module.Projective`, `TensorProduct`, `Localization.Away`.
 
 **Checks.**
 
@@ -593,8 +630,8 @@ route here needs no projective line.
 
 ### Dependencies
 
-Layer 3; RelativeFarguesFontaine §6.4 and §6.5 (in 4.4); Mathlib. Within the layer, 4.2 uses
-4.1; 4.3 uses 4.1, 4.2 and 3.4; 4.4 uses 4.1 and 4.3; and 4.5 uses 4.3 and 4.4.
+Layer 3; Mathlib. Within the layer, 4.2 uses 4.1; 4.3 uses 4.1, 4.2 and 3.4; 4.4 uses 4.1, 4.3
+and 3.6; and 4.5 uses 4.3 and 4.4.
 
 ## Layer 5: unimodular polynomial vectors and the Quillen–Suslin theorem
 
@@ -767,9 +804,7 @@ A ring is Hermite when its finitely generated stably free modules are free, equi
 unimodular vector over it is the first column of an invertible matrix (Lombardi–Quitté, Chapter XVI,
 Conclusion: a few conjectures, p. 936). The Hermite ring conjecture, that `A[X]` is Hermite whenever
 `A` is (*ibid.*), is equivalent to asking that, for every commutative ring `A`, every stably free
-`A[X]`-module be extended from `A`, and a preprint claims a commutative ring `A` with a stably free
-`A[X]`-module that is not extended (Schäppi 2023, arXiv:2311.04104v1, Theorem 1.1 and the paragraph
-before it, p. 1).
+`A[X]`-module be extended from `A`.
 
 ## References
 
@@ -824,5 +859,3 @@ before it, p. 1).
 - A. Asok, M. Hoyois, M. Wendt, « Affine representability results in A¹-homotopy theory, II:
   principal bundles and homogeneous spaces », *Geom. Topol.* 22 (2018), 1181–1225.
   doi:10.2140/gt.2018.22.1181.
-- D. Schäppi, « A counterexample to the Hermite ring conjecture », preprint, 2023.
-  arXiv:2311.04104v1.
