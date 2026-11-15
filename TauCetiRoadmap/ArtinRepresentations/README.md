@@ -173,7 +173,9 @@ containers, stem fields, Galois conjugates), `Conjectures/` (Artin, weight one, 
 - From the [Chebotarev roadmap](../Chebotarev/README.md): `frobeniusPrimeSet`,
   `hasDirichletDensity_frobeniusPrimeSet`, `hasNaturalDensity_frobeniusPrimeSet`.
 - From the [`GL₂` automorphic representations roadmap](../GL2AutomorphicRepresentationsAndTransfer/README.md):
-  R17.5.1, R17.5.6–R17.5.8 (dihedral, tetrahedral, octahedral and solvable strong Artin), R17.5.9
+  R16.6.6 (the cuspidal class of a weight-one newform, with its newvector comparison), R17.5.5
+  (the all-place upgrade of weak Artin matching), R17.5.1, R17.5.6–R17.5.8 (dihedral,
+  tetrahedral, octahedral and solvable strong Artin), R17.5.9
   and R17.5.10 (odd solvable Artin representations and weight one); from the
   [automorphic Galois representations roadmap](../AutomorphicGaloisRepresentations/README.md):
   §2.10 (the Deligne–Serre representation of a weight-one eigenform); from the
@@ -375,7 +377,10 @@ leaves one open gets implemented twice.
 - `TauCeti/NumberTheory/ModularForms/Newforms/Newform.lean`: `HeckeRing.GL2.Newform`
   bundles a nonzero cusp form, its nebentypus and good Hecke eigenconditions, membership
   in the new subspace, and first Fourier coefficient 1. It imposes no bad-prime
-  eigencondition; the full eigenform theorem is ModularForms Layer 4.
+  eigencondition; `Newforms/FullEigenform.lean` (`HeckeRing.GL2.Newform.toEigenform`) proves
+  that it is an eigenform at every prime, and `LFunction/EulerProduct.lean`
+  (`HeckeRing.GL2.Newform.L_eulerProduct_tprod`) writes its L-series as the Euler product over
+  all primes, with factor `(1 − a_p p^{−s})^{−1}` at `p ∣ N`, on `Re s > k/2 + 1`.
 - `TauCeti/NumberTheory/Chebotarev/`: `frobeniusPrimeSet`, `mem_frobeniusPrimeSet_iff_artinSymbol_eq`.
 
 ### From named roadmaps
@@ -425,15 +430,18 @@ parameter of `ArtinRep`. The finite field has degree equal to the order of the i
 finite factorization uses the actual restriction map of Galois groups.
 For an arbitrary finite Galois extension L/F of number fields and a finite-dimensional
 complex representation of Gal(L/F), `finiteLocalPolynomial` uses the arithmetic Frobenius
-operator times the inertia averaging projector, and `finiteArtinLSeries` is the product
+operator times the inertia averaging projector, taken as the common value over all primes
+above the place and all arithmetic Frobenius elements at them (§3.1's independence of these
+choices), and `finiteArtinLSeries` is the product
 of its evaluated reciprocals at all finite places. This is the same polynomial as the
 inertia-restriction definition in §3.1: the complementary summand contributes 1. The projector is the finite-group average on the
 native representation; its denominator is nonzero because inertia is a nonempty finite group
 and ℂ has characteristic zero.
 `dedekindZeta_eq_prod_artinLSeries_pow` is §3.4's full irreducible factorization;
 `exists_meromorphicContinuation` combines §4.1's continuation and pole at one with §4.4's
-order at zero. The latter uses `finiteNPlus`, the +1-eigenspace dimension of conjugation
-at a real place, or the full dimension when all places above it are real.
+order at zero. The latter uses `finiteNPlus`, the dimension of the vectors fixed by the
+stabilizer of a place of L above a real place: §3.3's `n₊`, the +1-eigenspace of complex
+conjugation when that place is complex and the full dimension when it is real.
 `klein_classification` states §7.6's five abstract group possibilities;
 `finite_pgl2_iso_implies_conjugate` states that isomorphic finite subgroups of PGL₂(ℂ)
 are conjugate, giving uniqueness of the conjugacy class for each possibility.
@@ -1792,9 +1800,18 @@ Galois number field E/ℚ and an irreducible representation of Gal(E/ℚ) on ℂ
 that `finiteArtinLSeries` equals the `LSeries` of
 `UpperHalfPlane.qExpansion 1 f.toCuspForm` for every s with Re(s)>1. The product includes
 every finite prime, including those dividing N (Deligne–Serre, Theorem 4.6(b), p. 514).
-Consume the Deligne–Serre attachment of AutomorphicGaloisRepresentations §2.10,
-transport it through Layer 1's finite Galois factorization, and compare its full local
-factors with §3.4's Euler product. Equality of the Artin conductor with N remains the
+AutomorphicGaloisRepresentations §2.10 supplies the Deligne–Serre representation `ρ_f`, its
+irreducibility and its arithmetic polynomials `X² − a_p X + ψ(p)` at `p ∤ N`; it states
+nothing at `p ∣ N`. The factors at `p ∣ N` come from ModularityAndLanglandsExtensions §1.2,
+whose rank-two all-place upgrade (GL2AutomorphicRepresentationsAndTransfer R17.5.5) matches
+`ρ_f` at every place with the weight-one cuspidal class `π_f` of `f`
+(GL2AutomorphicRepresentationsAndTransfer R16.6.6; its real parameter `1 ⊕ sgn` is that of
+`ρ_f^∨` because `ψ` is odd), read through the Conventions' Euler-factor row: the arithmetic
+factor of `ρ_f` is the geometric factor of `ρ_f^∨`. On the newform side
+Tau Ceti's `HeckeRing.GL2.Newform.L_eulerProduct_tprod` gives the factor `(1 − a_p p^{−s})^{−1}`
+at `p ∣ N`, the local factor of `π_f` at `p` through R16.6.6's newvector comparison. Transport
+`ρ_f` through Layer 1's finite Galois factorization and compare with §3.4's Euler product.
+Equality of the Artin conductor with N remains the
 separate refinement of §5.2 (Deligne–Serre, Theorem 4.6(a), p. 514).
 
 **Checks for the full L-series comparison.**
@@ -1845,9 +1862,10 @@ The supporting API is:
   from a falsely exclusive dihedral classification.
 
 *Needs:* Layers 1.2, 1.5, 3.3, 3.4, 4.1, 7.6; [`GL₂` automorphic representations](../GL2AutomorphicRepresentationsAndTransfer/README.md)
-R17.5.1, R17.5.9; [automorphic Galois representations](../AutomorphicGaloisRepresentations/README.md)
+R16.6.6, R17.5.1, R17.5.5, R17.5.9; [automorphic Galois representations](../AutomorphicGaloisRepresentations/README.md)
 §2.10; [modularity and Langlands extensions](../ModularityAndLanglandsExtensions/README.md)
-§§1.2, 1.9; [modular forms](../ModularForms/README.md) Layer 4 (newforms, nebentypus).
+§§1.2, 1.9; Tau Ceti `HeckeRing.GL2.Newform` (newforms, nebentypus) and
+`HeckeRing.GL2.Newform.L_eulerProduct_tprod`.
 
 ### 8.3 Stark's conjecture at `s = 0`
 
