@@ -1,6 +1,7 @@
 import Mathlib
 import TauCeti.NumberTheory.ModularForms.BinaryForms
 import TauCeti.NumberTheory.ModularForms.GeodesicIntegral.BetweenCusps
+import TauCeti.NumberTheory.ModularForms.Newforms.Fields
 import TauCeti.NumberTheory.ModularForms.Newforms.Newform
 
 /-!
@@ -15,8 +16,9 @@ of Mathlib's restriction maps on `H¹`, and its cocycle representatives are spec
 cusp integrals. Restricting scalars along complex conjugation gives the conjugate cusp-form
 summand. `critical_values_algebraic` states §1.2's existence of two nonzero periods giving
 `K_f(χ)`-valued normalised critical coordinates, for all primitive twists and all `0 ≤ j ≤ k`,
-with sign `(-1)^(k-j)χ(-1)`. The coordinates are the cusp-integral side of the twisted Mellin
-formula; no bundled Dirichlet twist of a cusp form is supplied at the pins.
+with sign `(-1)^(k-j)χ(-1)`, and `K_f` is Tau Ceti's coefficient field of the newform. The
+coordinates are the cusp-integral side of the twisted Mellin formula of §1.2, whose other side is
+`τ(χ) j! / (-2πi)^j · L(f, χ̄, j + 1)`.
 
 The Hecke-, diamond- and sign-equivariant refinements of Eichler–Shimura, signed eigenspace
 multiplicity one and the rational Drinfeld–Manin retraction require the Hom-side/cohomological
@@ -84,13 +86,6 @@ theorem eichlerShimura (Γ : Subgroup SL(2, ℤ)) [Γ.FiniteIndex] (k : ℕ) :
               (periodValue k g ∞ (SpecialLinearGroup.mapGL ℚ γ.val • (∞ : OnePoint ℚ))) := by
   sorry
 
-/-- The field `K_f = ℚ(a_n(f), ε)` inside `ℂ`, on the pinned newform and q-expansion carriers. -/
-def coefficientField {N k : ℕ} [NeZero N]
-    (f : HeckeRing.GL2.Newform N (k + 2)) : IntermediateField ℚ ℂ :=
-  IntermediateField.adjoin ℚ
-    (Set.range (fun n ↦ (qExpansion 1 f.toCuspForm).coeff n) ∪
-      Set.range (fun d ↦ (f.χ d : ℂ)))
-
 /-- The left side of §1.2's twisted Mellin formula, with `+a/m` and the character `χ`.
 For primitive `χ` it is `τ(χ) j! / (-2πi)^j · L(f, χ̄, j + 1)`. -/
 def twistedPeriod {m : ℕ} [NeZero m] (f : ℍ → ℂ)
@@ -109,7 +104,7 @@ theorem critical_values_algebraic {N k : ℕ} [NeZero N]
         ∀ j ≤ k, twistedPeriod f.toCuspForm χ j /
           (if (-1 : ℂ) ^ (k - j) * χ (-1) = 1 then Ωplus else Ωminus) ∈
             IntermediateField.adjoin ℚ
-              ((coefficientField f : Set ℂ) ∪ Set.range χ) := by
+              ((TauCeti.CoefficientField f : Set ℂ) ∪ Set.range χ) := by
   sorry
 
 end

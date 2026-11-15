@@ -98,7 +98,7 @@ It leaves to other roadmaps, and cites:
   Eichler–Shimura isomorphism enter. Layer 8 presents `𝕄` through Manin symbols but states neither the
   full kernel of Manin's map `ℤ[PSL₂(ℤ)] → Div⁰` nor the fundamental-domain presentation of `Div⁰` over `ℤ[Γ]`
   for general `Γ`, and Layer 5 does not separate cuspidal from Eisenstein eigensystems; these are
-  targets of §0.2 and §0.7 here. In the pinned Tau Ceti library (`a91d3aaf`) the following
+  targets of §0.2 and §0.7 here. In the pinned Tau Ceti library the following
   Layer-8 material already exists and is imported, never rebuilt here:
   `TauCeti.ModularSymbols.degreeZero`, `divisorRep`, `degreeZeroGLRep`, `degreeZeroRep` and
   `degreeZero_eq_span_unimodular` (the divisor modules, their actions and their generation by
@@ -198,7 +198,7 @@ primes with `a_p ≠ 0` are outside this roadmap's scope.
 
 ### From Mathlib
 
-At commit `6b7abb3c7686292736be2955bd3eb9ebf63b456a`, each with exactly its stated hypotheses:
+In the pinned Mathlib, each with exactly its stated hypotheses:
 `OnePoint` (`P¹(ℚ)` as `OnePoint ℚ`) and the `GL₂`-action of
 `Mathlib/Topology/Compactification/OnePoint/ProjectiveLine.lean`; `Matrix.SpecialLinearGroup`,
 `Matrix.SpecialLinearGroup.map`, `Matrix.SpecialLinearGroup.toGL`, `Matrix.SpecialLinearGroup.mapGL`,
@@ -222,7 +222,7 @@ L-function of a modular form on an arithmetic subgroup of `GL₂(ℝ)`, entire f
 
 ### From Tau Ceti
 
-At the pinned commit `a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039`:
+In the pinned Tau Ceti library:
 `TauCeti.augmentationSubrepresentation` with `TauCeti.toSubmodule_augmentationSubrepresentation` and
 `TauCeti.single_sub_single_mem_augmentationSubrepresentation` (the degree-zero subrepresentation of a
 permutation representation, from which the pinned library builds `degreeZero`);
@@ -236,7 +236,12 @@ and is `Γ₂`-invariant); `diamondOp`
 decomposition of `S_k(Γ₁(N))`); `CuspForm.peterssonInnerCosets_definite` (positive definiteness of the
 Petersson product for finite-index `Γ`); `HeckeRing.GL2.Newform` and
 `HeckeRing.GL2.finrank_cuspFormsNewEigenspace_eq_one` (dimension one of a newspace eigenspace
-containing a nonzero form of the given character); `TauCeti.CuspForm.levelRaise` (`V_d f(z) = f(dz)`,
+containing a nonzero form of the given character); `TauCeti.CoefficientField` (the field generated over `ℚ`
+by the coefficients `a_n(f), n ≥ 1`, of a newform) with `TauCeti.char_mem_CoefficientField` (it contains
+the values of the nebentypus); `CuspForm.twist` (for `Φ : ℤ/m → ℂ`, the twist of a cusp form on `Γ₁(N)`
+with coefficients `Φ(n)a_n`, a cusp form on `Γ₁(L)` whenever `Nm | L` and `m² | L`) and
+`TauCeti.cuspIntegral_mul_pow_zero_infty_eq_L` (`∫_0^{i∞} f(z)z^jdz = j!/(−2πi)^{j+1}·L(f, j + 1)` for a cusp
+form of positive weight on an arithmetic subgroup); `TauCeti.CuspForm.levelRaise` (`V_d f(z) = f(dz)`,
 no determinant factor) and `TauCeti.CuspForm.qExpansion_levelRaise`;
 `HeckeRing.GL2.heckeTCuspNat_eq_smul_iff_forall_qExpansion_coeff_prime_mul` (for `p ∤ N`,
 `T_p F = cF` iff `a_{pm} = c·a_m − χ(p)p^{w−1}a_{m/p}`, in weight `w`) and
@@ -1382,7 +1387,8 @@ periods); §0.5 (Modular symbols commute with flat base change); §0.6 (The inva
 **The twisted Mellin formula for modular symbols** (theorem). Let `f = Σa_nq^n ∈ S_{k+2}(Γ₁(N)), χ` primitive
 of conductor `m, τ(χ) = Σ_{a mod m} χ(a)e^{2πia/m}`, and `0 ≤ j ≤ k`. Along vertical paths,
 `Σ_{a mod m} χ(a)·2πi∫_{i∞}^{a/m} f(z)(z − a/m)^j dz = τ(χ)·j!/(−2πi)^j·L(f, χ̄, j + 1)`. For `m = 1` this is
-`2πi∫_{i∞}^0 f(z)z^jdz = j!/(−2πi)^j·L(f, j + 1)`. In symbol form, with
+`2πi∫_{i∞}^0 f(z)z^jdz = j!/(−2πi)^j·L(f, j + 1)`, which is `2πi` times the pinned
+`TauCeti.cuspIntegral_mul_pow_zero_infty_eq_L` with the path reversed. In symbol form, with
 `λ_{j,x}(P) = (j!/k!)(∂_Y^{k−j}P)(1, −x)` (so that `λ_{j,x}((zX + Y)^k) = (z − x)^j`),
 `Σ_a χ(a)λ_{j,a/m}(ψ_f({a/m} − {∞})) = τ(χ)·j!/(−2πi)^j·L(f, χ̄, j + 1)`. Proof: Birch's lemma
 `Σ_{a mod m} χ̄(a)e^{2πina/m} = χ(n)τ(χ̄)` gives `f_χ = τ(χ̄)⁻¹Σ_aχ̄(a)f(z + a/m)`; for a cusp form `g`,
@@ -1393,8 +1399,9 @@ sum against `χ(a)` produces `L(f, χ̄)`; reversing the path changes the sign; 
 untwisted case; §2.1, formula `(2)`, p. 3, for `k = j = 0` in the `−a/N` form, where the character on the
 right is the conjugate). *Needs:* §0.7 (The period symbol); ModularForms Layer 7; Mathlib
 `ModularForm.L` and `mellin` (Mathlib's L-function of a modular form on an arithmetic subgroup, with
-its entire extension for cusp forms); Tau Ceti `TauCeti.cuspIntegral`.
-The Mellin identity itself is supplied by `CuspForm.Λ_eq_mellin` with
+its entire extension for cusp forms); Tau Ceti `TauCeti.cuspIntegral`,
+`TauCeti.cuspIntegral_mul_pow_zero_infty_eq_L` and `CuspForm.twist` (the twist `f_χ`, with coefficients
+`χ(n)a_n`). The Mellin identity itself is supplied by `CuspForm.Λ_eq_mellin` with
 `ModularForm.L = Λ·2/Gammaℂ`.
 
 **Checks.**
@@ -1417,9 +1424,10 @@ range `0 ≤ j ≤ k` is [RJW] Appendix B.2.1, p. 79). *Needs:* §1.2 (The twist
 lines and periods); §0.3 (The involution at infinity); §0.7 (Newform eigenspaces are one-dimensional).
 The signature `critical_values_algebraic` states the existence of a single pair of nonzero periods
 for all primitive twists and critical exponents, with values in `K_f(χ)` and the displayed parity
-sign. Here `coefficientField` is `K_f` on Tau Ceti's newforms, and `twistedPeriod` is the cusp-integral
+sign. Here `K_f` is the pinned `TauCeti.CoefficientField`, which contains the character values
+(`TauCeti.char_mem_CoefficientField`), and `twistedPeriod` is the cusp-integral
 side of the twisted Mellin formula, hence the numerator of the displayed normalised critical
-value. *Lean:* `critical_values_algebraic`, `coefficientField`, `twistedPeriod`.
+value. *Lean:* `critical_values_algebraic`, `twistedPeriod`.
 
 ### 1.3 `p`-stabilisation and the interpolation dictionary
 
@@ -2232,11 +2240,17 @@ Eisenstein series of level `ℓ` with `a_n = Σ_{d | n, ℓ ∤ d} d` for `n ≥
 slope `k + 1 = 1` at `k = 0`. Write `[f_β]` for the joint eigenspace of these operators.
 (i) There is a nonzero `e ∈ Symb_{Γ₀(ℓp)}(D₀(ℤ_p))⁻[f_β]` with `ρ₀*(e) = 0`. Construction: let `Ψ` be a nonzero plus ordinary boundary
 symbol in `BSymb_{Γ₀(ℓp)}(D†_{−2}(ℚ_p))` with eigenvalues `T_q = 1 + q⁻¹, U_ℓ = ℓ⁻¹` and `U_p = 1`. Its values vanish
-at the cusps outside `Γ₀(p)·0` and are multiples of Dirac distributions at the `p`-integral cusps, and the
-existence of `Ψ` for this eigensystem is part of the cited proposition. Put `e = res(Θ₀Ψ)` with `Θ₀` the map of
+at the cusps outside `Γ₀(p)·0`, and at a `p`-integral cusp `c` the value `Ψ(c)` is a multiple of the evaluation
+`f ↦ f(−c)`: [BD] prove these facts for the factor `a − cz` where §2.2 has `a + cz`, and `f ↦ f(−z)` intertwines
+the two actions, so their point `c` becomes `−c` here. Such a `Ψ` exists: up to a scalar, `Ψ(0) = δ₀` and
+`Ψ(1/ℓ) = −ℓ⁻¹·(f ↦ f(−1/ℓ))`, extended equivariantly to the two classes `Γ₀(ℓp)·0` and `Γ₀(ℓp)·(1/ℓ)` of
+`p`-integral cusps. This is the `ℓ`-critical vector `Φ − Φ|V_ℓ` in the span of the basis of [BD] Theorem 5.8 at
+`k = −2, ψ = τ = 1` and `N = ℓ`, transported to the action of §2.2, where `Φ` takes the value `y⁻²·(f ↦ f(x/y))`
+at a `p`-integral cusp `x/y` in lowest terms in their convention (their formula (39)); `Φ|V_ℓ` is `ℓ⁻¹Φ` at the
+cusps with `ℓ ∤ y` and `ℓΦ` at those with `ℓ | y`. Put `e = res(Θ₀Ψ)` with `Θ₀` the map of
 the theta exact sequence (§3.0) on boundary symbols. The twist `det^(k+1) = det` multiplies the `T_q`-, `U_ℓ`- and
 `U_p`-eigenvalues by `q, ℓ` and `p` and changes the sign. The values of `e` are combinations of first
-derivatives at `p`-integral cusps, which are defined on all of `A(ℤ_p)`, so `e` takes values in `D₀(ℤ_p)`. `Θ₀` is injective on boundary symbols and `res` is injective
+derivatives at the points `−c`, `c` a `p`-integral cusp, which are defined on all of `A(ℤ_p)`, so `e` takes values in `D₀(ℤ_p)`. `Θ₀` is injective on boundary symbols and `res` is injective
 because `(D†₀)^{Γ₀(ℓp)} = 0`, so `e ≠ 0`, and `ρ₀*(e) = 0` by exactness. (ii) Assume that the plus generalised
 eigenspace `W` of `Symb_{Γ₀(ℓp)}(D†₀(ℚ_p))⁺` for the eigensystem of `f_β` is one-dimensional, a consequence of the
 étaleness of the eigencurve over weight space at `f_β` that [BD] §7 takes as input. Then `ρ₀*` maps `W`
@@ -2244,7 +2258,8 @@ isomorphically onto the classical plus generalised eigenspace, the line spanned 
 `ρ₀*` is surjective and Hecke-equivariant, so it maps the slope-one generalised eigenspace onto the classical one,
 and both are lines. Hence `φ_eis` has a unique Hecke eigenlift `Φ⁺_eis`. Sources: [BD] Lemma 5.1 and Proposition 5.2, pp. 31–32 (values of ordinary boundary symbols), Theorem 5.5,
 p. 33 (`Θ_k` is a Hecke-equivariant isomorphism from the ordinary weight `−2 − k` boundary symbols to the critical
-weight-`k` ones), Proposition 5.9 and Remark 5.10, pp. 35–36 (the minus eigensymbol of a critical Eisenstein
+weight-`k` ones), Theorem 5.8 with formula (39), p. 34 (a basis of the ordinary boundary symbols of an Eisenstein
+eigensystem in every weight `k ≠ −1`), Proposition 5.9 and Remark 5.10, pp. 35–36 (the minus eigensymbol of a critical Eisenstein
 refinement is such a boundary symbol, including the exceptional `E_{2,ℓ}`), and §7, opening and Proposition 7.2,
 pp. 44–47 (the plus eigensymbol). *Needs:* §0.4 (Boundary symbols); §2.3 (Specialisation to polynomial
 coefficients; Lifting classical symbols to overconvergent ones; Slope decomposition of the fibre of
@@ -2255,6 +2270,14 @@ specialisation); §3.0 (The theta exact sequence).
 - At `ℓ = 11, p = 3` the vector `e` lies in `Symb_{Γ₀(33)}(D₀(ℤ₃))⁻`, is nonzero, has `ρ₀*(e) = 0`, and satisfies
   `T_qe = (q + 1)e` for `q ∤ 33, U₁₁e = e` and `U₃e = 3e`: `Ψ` has `U₁₁`-eigenvalue `11⁻¹` and `U₃`-eigenvalue 1,
   and the twist multiplies them by 11 and 3.
+- At `Γ₀(33)` the matrix `γ = (−32 3; −363 34)` has determinant `−1088 + 1089 = 1` and fixes the cusp `1/11`.
+  Under the weight-`−2` action of §2.2 it sends the evaluation at `1/11` to `65⁻²` times the evaluation at
+  `−67/715`, since `a + c/11 = −65`, and fixes the evaluation at `−1/11`, since `a − c/11 = 1`. So the
+  invariant Dirac distribution at the cusp `1/11` sits at `−1/11`; one placed at `1/11` is not invariant under
+  the stabiliser.
+- At the cusp `0`, `U_ℓ = Σ_{a mod ℓ}|(1 a; 0 ℓ)` sends `Ψ` to `δ₀ + (ℓ − 1)·(−ℓ⁻¹)·δ₀ = ℓ⁻¹δ₀`: for `a ≢ 0` the cusp
+  `a/ℓ` is in the class of `1/ℓ`, `Ψ(a/ℓ) = −ℓ⁻¹·(f ↦ f(−a/ℓ))`, and `(1 a; 0 ℓ)` carries this evaluation to `δ₀`.
+  With `+ℓ⁻¹` at `1/ℓ` the value would be `(2 − ℓ⁻¹)δ₀`, so the `U_ℓ`-eigenvalue would not be `ℓ⁻¹`.
 - The plus sign of `Ψ` becomes the minus sign of `e` because the twist `det` takes the value `−1` at `ι`;
   without the twist `e` would be plus, contradicting the minus kernel symbol of [PS] Example 8.6. The classical
   minus generalised eigenspace for `f_β` is zero, consistent with `ρ₀*(e) = 0`.
