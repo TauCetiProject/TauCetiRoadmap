@@ -1,0 +1,147 @@
+module
+
+public import Mathlib
+public import TauCeti.Analysis.Calculus.Morse.Index
+public import TauCeti.Geometry.Manifold.SmoothEmbedding.Concordance
+public import TauCeti.Geometry.Manifold.SmoothEmbedding.SmoothAmbientIsotopy.Basic
+public import TauCeti.KnotTheory.Slice.Basic
+
+/-!
+# Ribbon knots and ribbon concordance: target signatures
+
+The roadmap is `README.md`. This file states the roadmap's headline theorems against the pinned
+Mathlib and Tau Ceti, each with `sorry`, with only the definitions they need: the radial function
+of a slice disc and the time function of a concordance, read on the plane, and the two ribbon
+conditions on them.
+
+Headlines stated:
+
+* README 1.2, `ribbonLE_refl` and `RibbonLE.trans`: ribbon concordance is reflexive and
+  transitive;
+* README 1.3, `knotGroup_injective_of_isRibbonConcordance` and
+  `knotGroup_surjective_of_isRibbonConcordance`: Gordon's lemma on the groups of the two ends;
+* README 1.4, `RibbonLE.antisymm`: Agol's theorem, ribbon concordance is antisymmetric up to
+  smooth ambient isotopy.
+
+Not stated:
+
+* README 1.5, monotonicity of the Seifert genus and of the degree of the Alexander polynomial,
+  lacking GeometricTopology 4.3's Seifert genus and GeometricTopology 4.4's Alexander polynomial
+  of a smooth circle embedding;
+* README 2.1, Lisca's theorem, lacking GeometricTopology 4.10's two-bridge knots as smooth
+  circle embeddings.
+-/
+
+public section
+
+noncomputable section
+
+open Manifold Metric Module Set TauCeti
+open scoped Manifold ContDiff
+
+namespace TauCetiRoadmap.RibbonKnots
+
+attribute [local instance] Complex.finrank_real_complex_fact
+
+/-! ## Layer 0: ribbon discs -/
+
+section Disc
+
+variable {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E] {n : ℕ}
+  [Fact (finrank ℝ E = n + 1)]
+
+/-- The squared radial function `z ↦ ‖Φ z‖²` of a map `Φ` from the closed unit disc of `ℂ` to the
+closed unit ball of `E`, read on the plane: it is `0` outside the closed disc, where it is never
+used, since the ribbon condition only looks at the open disc. -/
+def radialFunction (Φ : closedBall (0 : ℂ) 1 → closedBall (0 : E) 1) : ℂ → ℝ :=
+  fun z ↦ if h : z ∈ closedBall (0 : ℂ) 1 then ‖(Φ ⟨z, h⟩ : E)‖ ^ 2 else 0
+
+/-- A **ribbon disc** for `K`: a smooth slice disc on whose interior the squared radial function is
+Morse with no critical point of index `2`, that is, no local maximum (README 0.1). -/
+structure IsRibbonDisc (K : SmoothCircleEmbedding (𝓡 n) (sphere (0 : E) 1))
+    (Φ : closedBall (0 : ℂ) 1 → closedBall (0 : E) 1) : Prop where
+  /-- The disc is a smooth slice disc for `K`. -/
+  isSmoothSliceDisc : IsSmoothSliceDisc K Φ
+  /-- The squared radial function has only nondegenerate critical points in the open disc. -/
+  hasNondegenerateCriticalPointsOn : HasNondegenerateCriticalPointsOn (radialFunction Φ) (ball 0 1)
+  /-- No critical point in the open disc has index `2`. -/
+  morseIndex_ne_two : ∀ z ∈ ball (0 : ℂ) 1, fderiv ℝ (radialFunction Φ) z = 0 →
+    morseIndex (radialFunction Φ) z ≠ 2
+
+/-- A knot is **ribbon** when it bounds a ribbon disc (README 0.1). -/
+def IsRibbon (K : SmoothCircleEmbedding (𝓡 n) (sphere (0 : E) 1)) : Prop :=
+  ∃ Φ : closedBall (0 : ℂ) 1 → closedBall (0 : E) 1, IsRibbonDisc K Φ
+
+end Disc
+
+/-! ## Layer 1: ribbon concordance -/
+
+section Concordance
+
+/-- The knots of this layer: smooth circle embeddings in the unit sphere `S³` of `ℝ⁴`. -/
+abbrev Knot : Type :=
+  SmoothCircleEmbedding (𝓡 3) (sphere (0 : EuclideanSpace ℝ (Fin 4)) 1)
+
+variable {K₀ K₁ K₂ : Knot}
+
+/-- The time function `(s, t) ↦ pr₂ (F (exp (i s), t))` of a concordance `F` from `K₀` to `K₁`,
+read on the plane through the covering `s ↦ exp (i s)` of the circle (README 1.1). -/
+def timeFunction (F : SmoothEmbedding.Concordance K₀ K₁) : ℝ × ℝ → ℝ :=
+  fun p ↦ (F (Circle.exp p.1, p.2)).2
+
+/-- A **ribbon concordance** from `K₀` (time `0`) to `K₁` (time `1`): on the open slab the time
+function is Morse with no critical point of index `2`, that is, no local maximum (README 1.1). -/
+structure IsRibbonConcordance (F : SmoothEmbedding.Concordance K₀ K₁) : Prop where
+  /-- The time function has only nondegenerate critical points on the open slab. -/
+  hasNondegenerateCriticalPointsOn :
+    HasNondegenerateCriticalPointsOn (timeFunction F) {p | p.2 ∈ Ioo 0 1}
+  /-- No critical point on the open slab has index `2`. -/
+  morseIndex_ne_two : ∀ p : ℝ × ℝ, p.2 ∈ Ioo 0 1 → fderiv ℝ (timeFunction F) p = 0 →
+    morseIndex (timeFunction F) p ≠ 2
+
+/-- `RibbonLE K₀ K₁`: there is a ribbon concordance from `K₀` to `K₁`. Agol writes `K₁ ≥ K₀`
+(README 1.1). -/
+def RibbonLE (K₀ K₁ : Knot) : Prop :=
+  ∃ F : SmoothEmbedding.Concordance K₀ K₁, IsRibbonConcordance F
+
+/-- The product concordance is a ribbon concordance: ribbon concordance is reflexive
+(README 1.2). -/
+theorem ribbonLE_refl (K : Knot) : RibbonLE K K := by
+  sorry
+
+/-- Ribbon concordance is transitive: stacking two ribbon concordances gives one (README 1.2). -/
+theorem RibbonLE.trans (h₀₁ : RibbonLE K₀ K₁) (h₁₂ : RibbonLE K₁ K₂) : RibbonLE K₀ K₂ := by
+  sorry
+
+/-- The complement of a concordance `F` in the slab `S³ × [0, 1]` (README 1.3). -/
+def trackComplement (F : SmoothEmbedding.Concordance K₀ K₁) :
+    Set (sphere (0 : EuclideanSpace ℝ (Fin 4)) 1 × ℝ) :=
+  {p | p ∉ range F ∧ p.2 ∈ Icc 0 1}
+
+/-- **Gordon's lemma, first half** (README 1.3): for a ribbon concordance `F` from `K₀` to `K₁`,
+the inclusion `x ↦ (x, 0)` of the complement of `K₀` into the complement of `F` in the slab
+induces an injection of fundamental groups. -/
+theorem knotGroup_injective_of_isRibbonConcordance {F : SmoothEmbedding.Concordance K₀ K₁}
+    (hF : IsRibbonConcordance F) (i : C((range K₀)ᶜ, trackComplement F))
+    (hi : ∀ x, (i x : sphere (0 : EuclideanSpace ℝ (Fin 4)) 1 × ℝ) = ((x : _), 0))
+    (x : (range K₀)ᶜ) : Function.Injective (FundamentalGroup.map i x) := by
+  sorry
+
+/-- **Gordon's lemma, second half** (README 1.3): for a ribbon concordance `F` from `K₀` to `K₁`,
+the inclusion `x ↦ (x, 1)` of the complement of `K₁` into the complement of `F` in the slab
+induces a surjection of fundamental groups. -/
+theorem knotGroup_surjective_of_isRibbonConcordance {F : SmoothEmbedding.Concordance K₀ K₁}
+    (hF : IsRibbonConcordance F) (i : C((range K₁)ᶜ, trackComplement F))
+    (hi : ∀ x, (i x : sphere (0 : EuclideanSpace ℝ (Fin 4)) 1 × ℝ) = ((x : _), 1))
+    (x : (range K₁)ᶜ) : Function.Surjective (FundamentalGroup.map i x) := by
+  sorry
+
+/-- **Agol's theorem** (README 1.4): ribbon concordance is antisymmetric up to smooth ambient
+isotopy, so it is a partial order on isotopy classes of knots. -/
+theorem RibbonLE.antisymm (h₀₁ : RibbonLE K₀ K₁) (h₁₀ : RibbonLE K₁ K₀) :
+    SmoothEmbedding.SmoothAmbientIsotopic K₀ K₁ := by
+  sorry
+
+end Concordance
+
+end TauCetiRoadmap.RibbonKnots
