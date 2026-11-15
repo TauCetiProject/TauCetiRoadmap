@@ -3072,6 +3072,33 @@ Layers LV.0, LV.1, LV.2, LV.3, LV.7, LV.8, LV.10; TauCetiRoadmap LocalFieldsRami
   entry point for the higher-dimensional applications of Lawrence–Venkatesh and its successors, which are not part of
   this roadmap.
 
+## Existing formalizations outside Tau Ceti
+
+This section records provenance only; it changes no target, owner or hypothesis above.
+
+[AxiomMath/Mordell](https://github.com/AxiomMath/Mordell/tree/82a30cb7857f6e3cfdb1be91f5533c0ccb57d493), read at
+commit `82a30cb7857f6e3cfdb1be91f5533c0ccb57d493`, is an Apache-2.0 Lean formalization of Faltings's theorem by the
+Vojta–Bombieri method, built on AxiomMath/Stacks with its own Lean and Mathlib pins. It is not a dependency of this
+roadmap. A statement read there is compared with the target here before use; a proof adapted rather than rewritten
+keeps the Apache-2.0 attribution, and porting a file is agreed with that repository's maintainers first.
+
+- **[`MordellConjecture/`](https://github.com/AxiomMath/Mordell/tree/82a30cb7857f6e3cfdb1be91f5533c0ccb57d493/Mordell/MordellConjecture).**
+  `Faltings.finite_setOf_comp_eq_id_of_two_le_genus` in `Curve.lean` states §11.6 on that repository's carriers: a
+  smooth, projective, geometrically integral curve `f : C ⟶ Spec k` over a number field with
+  `dim_k H¹(C, 𝒪_C) ≥ 2` has finitely many sections of `f`; for smooth curves geometric integrality is geometric
+  connectedness. `Faltings.finite_setOf_place_isDegreeOne` in `FunctionField.lean` restates it for the degree-one
+  places of a function field of one variable. Both are prior art for the statement of §11.6, whose declaration
+  HeightsRationalPointsAndObstructions §§5.12, 6.4 owns, and not for its proof.
+- **[`BombieriVojta/`](https://github.com/AxiomMath/Mordell/tree/82a30cb7857f6e3cfdb1be91f5533c0ccb57d493/Mordell/BombieriVojta).**
+  Bombieri's proof of Vojta's inequality: Vojta divisors on `C × C`, admissible pairs and Taylor coefficients, the
+  small section from Siegel's lemma, norm polynomials, the derivative estimate, Bombieri's Theorems 1–2 and
+  Mumford's gap principle. It is prior art for HeightsRationalPointsAndObstructions §§5.10–5.12 and has no
+  counterpart here.
+
+Layers LV.0–LV.10 and §§11.1–11.5, and with them the proofs of 6.10 and 11.6, have no counterpart in that
+repository, which contains no `p`-adic Galois representations, `p`-adic Hodge theory, period maps, surface topology,
+mapping class groups, Hurwitz spaces or `S`-unit theorem.
+
 ## References
 
 - **LV20**: Brian Lawrence and Akshay Venkatesh, [Diophantine problems and p-adic period mappings](https://arxiv.org/pdf/1807.02721v3),
