@@ -142,6 +142,7 @@ body:
         - PolylogarithmFunctions
         - PositiveMass
         - PositiveScalarCurvature
+        - PresentationsOfMonoidalCategories
         - PrimitivePrimeDivisors
         - ProfiniteCohomology
         - PseudodifferentialOperators
