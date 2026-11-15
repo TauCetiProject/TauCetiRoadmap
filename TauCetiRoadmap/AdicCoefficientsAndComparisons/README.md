@@ -352,7 +352,7 @@ EtaleCohomologyFoundations §0.8 for the supplied broader D⁺ torsion domain.
 
 ## 3. Exact supplier contracts
 
-The pinned libraries are Mathlib `6b7abb3` and Tau Ceti `a91d3aa`. The roadmap uses the following
+The pinned libraries are Mathlib `1b1ccf4` and Tau Ceti `2fd255d`. The roadmap uses the following
 declarations as they are.
 
 **Limits of schemes** (`Mathlib/AlgebraicGeometry/AffineTransitionLimit.lean`). For a *given* limit
@@ -1165,7 +1165,7 @@ stability under products: on a common affine neighborhood the product equation i
 of the two non-zero-divisor equations. Arbitrary pullback need not preserve the condition.
 The new geometric target here is `L2/cartier-boundary-cofinal`.
 
-*Source:* Tau Ceti `a91d3aa`, `TauCeti/AlgebraicGeometry/EffectiveCartierDivisor/Basic.lean`,
+*Source:* Tau Ceti `2fd255d`, `TauCeti/AlgebraicGeometry/EffectiveCartierDivisor/Basic.lean`,
 `AlgebraicGeometry.Scheme.IdealSheafData.IsEffectiveCartier`; Stacks §31.14,
 Definition 31.14.1 and Lemma 31.14.2 (Tag 01WQ).
 *Needs:* the pinned Tau Ceti effective Cartier divisor API.
