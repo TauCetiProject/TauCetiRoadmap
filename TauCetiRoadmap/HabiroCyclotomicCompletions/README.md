@@ -140,7 +140,7 @@ does not provide the required p-adic operation.
 
 ### From Mathlib and Tau Ceti
 
-The library interfaces are Mathlib `6b7abb3` and Tau Ceti `a91d3aa`. Reuse the following library
+The library interfaces are Mathlib `1b1ccf4` and Tau Ceti `2fd255d`. Reuse the following library
 material instead of introducing a parallel vocabulary:
 
 | Input | Use in this roadmap |
@@ -156,7 +156,7 @@ material instead of introducing a parallel vocabulary:
 | `HahnSeries.embDomainRingHom` | Laurent-series dilation induced by the injective additive map `i ↦ n*i` on `ℤ`, for `n>0` |
 | Mathlib resultants and integral matrices | Cyclotomic resultants, simultaneous remainder determinants, and adjugate image congruences |
 | Tau Ceti `TauCeti.TopCommRingCat.IsCompleteSeparated` and `TauCeti.CompleteSeparatedTopCommRingCat` | Complete separated topological rings as existing categorical objects; products and closed compatible-family subobjects |
-| Tau Ceti polynomial coefficient-list and synthetic-division API | Descending coefficient lists, `ofCoeffList`, `divModByMonicList`, and their monic quotient/remainder identities for the finite digit comparisons in §2.2 |
+| Tau Ceti polynomial coefficient-list and synthetic-division API | Descending coefficient lists read through Mathlib's `Polynomial.ofCoeffList` after reversal, `TauCeti.Polynomial.divModByMonicList`, and its monic quotient/remainder identities for the finite digit comparisons in §2.2 |
 
 The exact contracts used by the constructions are:
 
@@ -847,9 +847,11 @@ only affect higher digit positions.
 
 For integer polynomials presented by descending coefficient lists, require the
 same normalized polynomial digits after applying
-`Polynomial.ofCoeffList` to the reversed list. The quotient/remainder identities
-of that supplier identify the finite monic decomposition with divisor
-`q^(n+1) − 1`, including lists with leading zeros. If `r` is the polynomial
+`Polynomial.ofCoeffList` to the reversed list. Tau Ceti's
+`TauCeti.Polynomial.ofCoeffList_reverse_divByMonicList` and
+`TauCeti.Polynomial.ofCoeffList_reverse_modByMonicList` identify the finite
+monic decomposition with divisor `q^(n+1) − 1`, including lists with leading
+zeros. If `r` is the polynomial
 residual and `r = a + (q^(n+1) − 1)b` with `deg a ≤ n`, the next
 factorial residual is `−b`. Thus the list presentation and polynomial
 presentation satisfy the same uniqueness theorem for the digits; no new
