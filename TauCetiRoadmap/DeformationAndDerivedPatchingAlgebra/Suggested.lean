@@ -1,5 +1,4 @@
 import Mathlib
-import TauCeti.Algebra.Homology.LinearHomComplex.Basic
 import TauCeti.AlgebraicGeometry.LineBundle.Basic
 
 /-!
@@ -29,8 +28,8 @@ comparisons. These headline statements are not statable at the pins without thos
 objects and constructions; coefficient-support equalities do not substitute
 for the spectral support theorem.
 
-Mathlib 6b7abb3c7686292736be2955bd3eb9ebf63b456a;
-Tau Ceti a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039.
+Mathlib 1b1ccf4b088b32fa3f23f2de1127433254a81e1e;
+Tau Ceti 2fd255d997f47c0b5d834ee416c7015d55444ce5.
 Cochains have C[n]^i = C^(i+n); a module in degree b is M[-b].
 -/
 
@@ -38,7 +37,6 @@ noncomputable section
 universe u v w
 open IsLocalRing CategoryTheory CategoryTheory.Limits
 open scoped Pointwise TensorProduct ZeroObject
-attribute [local instance] HasDerivedCategory.standard
 
 namespace TauCetiRoadmap.DeformationAndDerivedPatchingAlgebra
 
@@ -48,13 +46,15 @@ variable (M : Type v) [AddCommGroup M] [Module A M]
 /-! ## Definitions used in the headline statements -/
 
 /-- Native derived module objects. -/
-abbrev Der (R : Type u) [CommRing R] := DerivedCategory (ModuleCat.{u} R)
+abbrev Der (R : Type u) [CommRing R]
+    [HasDerivedCategory.{v} (ModuleCat.{u} R)] := DerivedCategory (ModuleCat.{u} R)
 
 /-- Native integer-indexed cochain complexes. -/
 abbrev Cpx (R : Type u) [CommRing R] := CochainComplex (ModuleCat.{u} R) ℤ
 
 /-- Cohomology in the native module category. -/
-abbrev H {R : Type u} [CommRing R] (i : ℤ) (C : Der R) :=
+abbrev H {R : Type u} [CommRing R]
+    [HasDerivedCategory.{v} (ModuleCat.{u} R)] (i : ℤ) (C : Der R) :=
   (DerivedCategory.homologyFunctor (ModuleCat R) i).obj C
 
 /-- A square finite presentation permits zero generators and does not require injectivity. -/
@@ -65,7 +65,8 @@ def HasSquarePresentation (S : Type*) [Ring S]
       Function.Surjective g ∧ LinearMap.range f = LinearMap.ker g
 
 /-- Complex support is the union of the supports of its native cohomology modules. -/
-def derivedSupport {R : Type u} [CommRing R] (C : Der R) : Set (PrimeSpectrum R) :=
+def derivedSupport {R : Type u} [CommRing R]
+    [HasDerivedCategory.{v} (ModuleCat.{u} R)] (C : Der R) : Set (PrimeSpectrum R) :=
   ⋃ i : ℤ, Module.support R (H i C)
 
 /-- The finite Taylor–Wiles group ring at the positive level n + 1. -/
@@ -207,9 +208,8 @@ theorem exists_integral_point_of_not_nilpotent
     [IsLocalHom (algebraMap O B)] (π : O) (hπ : Irreducible π)
     (h : ¬ IsNilpotent (algebraMap O B π)) :
     ∃ E : IntermediateField K Ω, Module.Finite K E ∧
-      (letI : Algebra O E := ((algebraMap K E).comp (algebraMap O K)).toAlgebra;
-       Module.Finite O (integralClosure O E) ∧
-         ∃ f : B →ₐ[O] integralClosure O E, IsLocalHom f.toRingHom) := by
+      Module.Finite O (integralClosure O E) ∧
+        ∃ f : B →ₐ[O] integralClosure O E, IsLocalHom f.toRingHom := by
   sorry
 
 /-! ## Layer 5: Module patching -/
@@ -299,7 +299,7 @@ theorem patching_surjection_iso
 
 /-- Every line bundle on the punctured spectrum of a local complete intersection
 of dimension at least four is trivial. The completion presentation is explicit. -/
-theorem localCI_parafactorial [IsLocalRing A] [IsNoetherianRing A]
+theorem nonempty_localCI_parafactorial [IsLocalRing A] [IsNoetherianRing A]
     (Q : Type u) [CommRing Q] [IsRegularLocalRing Q]
     (xs : List Q) (hxs : RingTheory.Sequence.IsRegular Q xs)
     (e : AdicCompletion (maximalIdeal A) A ≃+* Q ⧸ Ideal.ofList xs)
@@ -339,6 +339,7 @@ theorem completeFlat_minimal_retract
 /-- Over a regular local ring, a nonzero finite-projective interval has support of codimension at most its width. -/
 theorem codimension_amplitude_inequality
     {R : Type u} [CommRing R] [IsRegularLocalRing R]
+    [HasDerivedCategory.{v} (ModuleCat.{u} R)]
     (C : Der R) (n l : ℕ) (a : ℤ)
     (hdim : ringKrullDim R = (n : WithBot ℕ∞)) (hl : l ≤ n)
     (hC : ¬ IsZero C) (P : Cpx R)
@@ -352,6 +353,7 @@ theorem codimension_amplitude_inequality
 /-- The matching support bound forces top-degree concentration with the predicted projective and support dimensions. -/
 theorem balanced_dimension_concentration
     {R : Type u} [CommRing R] [IsRegularLocalRing R]
+    [HasDerivedCategory.{v} (ModuleCat.{u} R)]
     (C : Der R) (n l : ℕ) (a : ℤ)
     (hdim : ringKrullDim R = (n : WithBot ℕ∞)) (hl : l ≤ n)
     (hC : ¬ IsZero C) (P : Cpx R)
@@ -372,6 +374,7 @@ theorem balanced_dimension_concentration
 the top cohomology is maximal Cohen–Macaulay over the acting local ring. -/
 theorem cohenMacaulay_action_concentration
     (S R : Type u) [CommRing S] [IsLocalRing S] [IsNoetherianRing S]
+    [HasDerivedCategory.{v} (ModuleCat.{u} S)]
     [CommRing R] [IsLocalRing R] [IsNoetherianRing R]
     [Algebra S R] [IsLocalHom (algebraMap S R)]
     (d l : ℕ) (a : ℤ) (hl : l ≤ d)
@@ -398,6 +401,7 @@ theorem cohenMacaulay_action_concentration
 its remaining module is the canonical CM dual expressed as Ext over the regular base. -/
 theorem patched_dual_concentration
     {R : Type u} [CommRing R] [IsRegularLocalRing R]
+    [HasDerivedCategory.{v} (ModuleCat.{u} R)]
     (C : Der R) (n l : ℕ) (a : ℤ)
     (hdim : ringKrullDim R = (n : WithBot ℕ∞)) (hl : l ≤ n)
     (hC : ¬ IsZero C) (P : Cpx R)
@@ -416,7 +420,7 @@ theorem patched_dual_concentration
 
 /-- Two complete regular coefficient sources compute the same canonical dual through
 finite faithful action quotients, expressed as an additive equivalence of Ext groups. -/
-theorem finiteActionCanonicalDuality_ext
+theorem nonempty_finiteActionCanonicalDuality_ext
     (S Q R : Type u) [CommRing S] [IsRegularLocalRing S]
     [IsAdicComplete (maximalIdeal S) S]
     [CommRing Q] [IsRegularLocalRing Q] [IsAdicComplete (maximalIdeal Q) Q]
