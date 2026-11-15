@@ -30,7 +30,7 @@ At a changed p-level, retain the actual cusp lattice: smoothness of a fan in the
 
 ### From Mathlib and Tau Ceti
 
-The baseline is Mathlib `6b7abb3c7686292736be2955bd3eb9ebf63b456a` and Tau Ceti `a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039`. The following declarations supply only the stated portions.
+The baseline is Mathlib `1b1ccf4b088b32fa3f23f2de1127433254a81e1e` and Tau Ceti `2fd255d997f47c0b5d834ee416c7015d55444ce5`. The following declarations supply only the stated portions.
 
 - `mathlib:CategoryTheory.Functor` (module `Mathlib/CategoryTheory/Functor/Basic.lean`): Functors between categories; the p-level tower is a functor from the poset of compact open subgroups of `G(ℚ_p)`.
 - `mathlib:CategoryTheory.IsCofiltered` (module `Mathlib/CategoryTheory/Filtered/Basic.lean`): Cofiltered categories; the compact open subgroups of `G(ℚ_p)` under inclusion form a cofiltered poset, the index category of the towers.

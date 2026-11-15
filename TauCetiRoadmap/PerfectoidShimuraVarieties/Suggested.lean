@@ -4,8 +4,7 @@ import Mathlib
 # Shimura towers and perfectoid representability: target signatures
 
 **This file is not the roadmap and is not exhaustive.** The definitive document is
-`README.md`. Target signatures here suggest Lean forms for selected milestones;
-discharging them finishes neither a layer nor the roadmap.
+`README.md`.
 
 No headline theorem is statable against the pinned Mathlib and Tau Ceti APIs.
 Tau Ceti supplies adic spaces, and Mathlib supplies module-valued Grassmannians and
