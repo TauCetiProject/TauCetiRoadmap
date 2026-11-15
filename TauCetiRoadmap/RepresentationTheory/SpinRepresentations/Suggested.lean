@@ -8,6 +8,8 @@ import TauCeti.LinearAlgebra.RootSystem.Weyl.Vector
 import TauCeti.Algebra.Lie.D4.Tripled.Triality.Basic
 import TauCeti.LinearAlgebra.CliffordAlgebra.Spin.LowRank.Six.SpecialLinear
 import TauCeti.RepresentationTheory.Spin.Exceptional.Six.ExteriorSquare
+import TauCeti.Topology.Algebra.CliffordAlgebra.Basic
+import TauCeti.LinearAlgebra.CliffordAlgebra.Lipschitz.FullCover
 
 /-!
 # Clifford algebras, the Pin and Spin groups, and spin representations: target signatures
@@ -33,6 +35,10 @@ Headline theorems not statable at the pins, and what each lacks:
 * the group-level highest-weight corollary and the differential comparison (Layers 3 and 5): no
   smooth-group carrier for the complex `spinGroup Q` identifies the differential of
   `TauCeti.spinRep` with a Lie-algebra action;
+* the maximal compact subgroup `K(p,q) ≅ (Spin(p) × Spin(q))/⟨(-1,-1)⟩` of `Spin(p,q)` and the
+  Cartan homeomorphism `Spin(p,q) ≅ K(p,q) × ℝ^(p*q)` (Layer 7): the block Clifford inclusions of
+  `Spin(p)` and `Spin(q)` into `Spin(p,q)` and the quotient `K(p,q)` are constructions of the
+  roadmap;
 * Kostant's full `ρ`-decomposition `C(𝔤) ≅ End(V_ρ) ⊗ C(P)` (Layer 9): the primitive subspace
   `P` and its quadratic form `Q_P` are constructions of the roadmap.
 -/
@@ -76,6 +82,20 @@ theorem first_word_piece_iff {K : Type u} {V : Type v} [Field K] [Invertible (2 
       Submodule.map φ.toLinearMap (LinearMap.range (CliffordAlgebra.ι Q)) =
         LinearMap.range (CliffordAlgebra.ι Q) := sorry
 
+/-! ## Layer 2: the Pin and Spin groups and the double covers -/
+
+/-- **Complex Spin groups are simply connected in dimension at least three.** For a
+nondegenerate quadratic form on a complex vector space of dimension at least three, the native
+`spinGroup Q`, with the subspace topology of the module topology on the Clifford algebra, is
+simply connected. The bound is sharp: in dimension two the group is `ℂˣ`
+(`CliffordAlgebra.not_simplyConnectedSpace_spinGroup_of_finrank_eq_two`), and
+path-connectedness for dimension at least two is native
+(`CliffordAlgebra.pathConnectedSpace_spinGroup_of_two_le_finrank`). README §2.3 deforms the
+group onto its unitary part, compact `Spin(n)` (Gallier, arXiv:0805.0311v3, Theorem 1.24). -/
+theorem simplyConnectedSpace_spinGroup_of_three_le_finrank {V : Type v} [AddCommGroup V]
+    [Module ℂ V] [FiniteDimensional ℂ V] (Q : QuadraticForm ℂ V) (hQ : Q.Nondegenerate)
+    (hV : 3 ≤ Module.finrank ℂ V) : SimplyConnectedSpace (spinGroup Q) := sorry
+
 /-! ## Layer 6: the low-dimensional exceptional isomorphisms -/
 
 /-- The vector representation of a six-dimensional nondegenerate complex quadratic space is
@@ -89,6 +109,21 @@ theorem spin6_vector_equiv_exteriorSquare {V : Type v} [AddCommGroup V] [Module 
       E ((spinToSpecialOrthogonal Q g : V ≃ₗ[ℂ] V) v) =
         ((TauCeti.stdSLRep ℂ 4).exteriorPower 2
           (TauCeti.spinGroupEquivSpecialLinearGroupOfFinrankEqSix P hV g)) (E v) := sorry
+
+/-! ## Layer 7: real Clifford algebras, Bott periodicity, and `Spin(p, q)` -/
+
+/-- **The real full Clifford cover of the orthogonal group.** For a nondegenerate quadratic form
+on a real vector space of positive finite dimension, the native normalized full cover
+`CliffordAlgebra.cliffordFullCover Q` (Lipschitz elements of reverse norm `±1`) maps onto the
+whole orthogonal group by twisted conjugation, with kernel of order two, the scalars `±1`.
+Native `pinGroup Q` (star norm `1`) does not reach every reflection for an indefinite or
+positive-definite form, so this is the Pin cover of all of `O(Q)` (Gallier, arXiv:0805.0311v3,
+Definition 1.6 and Proposition 1.21). -/
+theorem cliffordFullCoverToOrthogonal_surjective_and_card_ker {V : Type v} [AddCommGroup V]
+    [Module ℝ V] [FiniteDimensional ℝ V] (Q : QuadraticForm ℝ V) (hQ : Q.Nondegenerate)
+    (hV : 0 < Module.finrank ℝ V) :
+    Function.Surjective (cliffordFullCoverToOrthogonal Q) ∧
+      Nat.card (cliffordFullCoverToOrthogonal Q).ker = 2 := sorry
 
 /-! ## Layer 8: triality for `Spin₈` -/
 
