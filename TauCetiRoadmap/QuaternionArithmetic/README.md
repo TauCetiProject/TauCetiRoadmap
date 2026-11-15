@@ -14,9 +14,8 @@ The LMFDB indexes its Shimura curves by subgroups `H` of an *enhanced group*
 `Aut_{±μ}(O) ⋉ (O/NO)^×` attached to a *polarized order* `(O, μ)`; this roadmap defines all of
 these objects and proves the formulas by which the LMFDB computes their invariants.
 
-The book this roadmap follows is Voight, *Quaternion Algebras* (GTM 288), cited below by its
-numbering (`[V, 15.5.5]` is Theorem 15.5.5 there); theorem numbers follow the 2021 author
-edition v0.9.28.
+Voight, *Quaternion Algebras* (GTM 288), is cited as `[V]` by its numbering (`[V, 15.5.5]` is
+Theorem 15.5.5 there); theorem numbers follow the 2021 author edition v0.9.28.
 
 **Carrier.** The algebra is Mathlib's symbol algebra `ℍ[F,a,b] = QuaternionAlgebra F a 0 b` with
 `a b : Fˣ`, over a field `F` of characteristic `0`: `i² = a`, `j² = b`, `ji = -ij`. Orders are
@@ -263,7 +262,7 @@ milestone under *Scope and ownership*.
   and positivity at the infinite part) and `RayClassGroup`
   (`NumberTheory/NumberField/Global/RayClass/{Modulus,Basic}.lean`), whose group with finite part
   `⊤` and infinite part `Ω` is the `Cl_Ω R` of 4.1. Orders, maximal orders and left orders are, at
-  Tau Ceti `2fd255d` (the three modules are absent at `358314d`), Tau Ceti's
+  Tau Ceti `2fd255d`, Tau Ceti's
   `TauCeti.IntegralOrder.IsOrder` (an `R`-subalgebra that is an `R`-lattice),
   `TauCeti.IntegralOrder.IsMaximalOrder` (maximal among them) and `Submodule.leftOrder`
   (`RingTheory/IntegralOrder/{Basic,Maximal,LeftOrder}.lean`), the carriers of classical
@@ -275,7 +274,7 @@ milestone under *Scope and ownership*.
   in `NumberTheory/LocalField/Quaternion/Invariant.lean` (line 79) identifies Hilbert symbol −1
   with local invariant 1/2 for a nonarchimedean local field with 2 invertible;
   `quaternionSubgroup_eq_twoTorsion` in the same file identifies the quaternion subgroup with Br(K)[2].
-  At Tau Ceti `2fd255d` (the module is absent at `358314d`),
+  At Tau Ceti `2fd255d`,
   `TauCeti.brauerCohomologyEquiv_baseChange` (`Algebra/CrossedProduct/BaseChange/Naturality.lean`)
   says that, for a finite separable extension `L/K` embedded in `Kˢ`, scalar extension of Brauer
   classes corresponds to restriction in Galois cohomology; 0.6 uses it with `invMap_brRes`.
@@ -629,7 +628,7 @@ no ramified place of B splits in K, that is, iff `K_v = K ⊗_F F_v` is a field 
 `TauCeti.BrauerGroup.invMap_brauerGroupEquivBr_quaternionClass_eq_half_iff` over `K_w`, and the
 naturality of the Brauer–cohomology comparison under scalar extension,
 `TauCeti.brauerCohomologyEquiv_baseChange` (`Algebra/CrossedProduct/BaseChange/Naturality.lean`, at
-Tau Ceti `2fd255d`; absent at `358314d`); completed NFA Layer 5 for `K_w` as a local field;
+Tau Ceti `2fd255d`); completed NFA Layer 5 for `K_w` as a local field;
 GL2AutomorphicRepresentationsAndTransfer R17.1.5 (`nonempty_quaternionAlgEquiv_of_localSplitting`,
 over `K`); GlobalNumberFields Layer 1.
 
