@@ -7538,6 +7538,96 @@ integral thin-set count of Layer IG.2 by the sieve roadmaps; the finite Hurwitz 
 statements of Layers IG.0 and IG.5 by the roadmap on weights; and the lifting invariants and Hurwitz component counts of Layers
 IG.3–IG.5 by arithmetic statistics (Cohen–Lenstra and nonabelian Cohen–Lenstra heuristics).
 
+## Existing formalizations outside Tau Ceti
+
+This section records provenance only; it changes no target, owner, supplier or hypothesis above.
+
+[AxiomMath/Stacks](https://github.com/AxiomMath/Stacks/tree/c496df0d9beea9deaeabcea8492605f9a0a2313b)
+is an Apache-2.0 Lean formalization of the Stacks project whose declarations carry `@[stacks TAG]`.
+It is not a Lake dependency of Tau Ceti and has its own Lean and Mathlib pins. Its directory
+[`StacksFrontier/AlgebraicGeometry/FundamentalGroup`](https://github.com/AxiomMath/Stacks/tree/c496df0d9beea9deaeabcea8492605f9a0a2313b/StacksFrontier/AlgebraicGeometry/FundamentalGroup),
+457 files at that commit, covers most of the Stacks chapter *Fundamental Groups of Schemes*
+([Tag 0BQ6](https://stacks.math.columbia.edu/tag/0BQ6)) and a few results of *The Trace Formula*.
+It lies in the repository's AI-written `StacksFrontier` tier, not its human-reviewed `StacksCore`.
+A statement read there is compared with the target here before use; a proof adapted rather than
+rewritten keeps the Apache-2.0 attribution, and porting a file is agreed with that repository's
+maintainers first. Paths below are relative to that directory unless a link says otherwise.
+
+- **Consumed from suppliers.** Galois categories with their functoriality and exact sequences
+  (`GaloisCategories/`, `FunctorsHomomorphisms/`, `GaloisCategoryExactSequence.lean`), the étale
+  fundamental group and change of base point (`EtaleFundamental/`, `FiniteEtaleGaloisCategory.lean`),
+  the fundamental group of a field (`GaloisCategory/FieldFundamentalGroup/`, tag 0BNE), the
+  geometric–arithmetic exact sequence (`GeometricArithmeticExactSequence.lean`, tag 0BTX), inertia
+  and decomposition groups with the `ℓ`-adic tame character (`GroupActionsIntegral/`,
+  `GaloisCategory/InertiaDiagram.lean`, `TameRamification/InfiniteInertia.lean`,
+  `TameRamification/SeparableClosureInertia.lean`, `TameRamification/LAdicTameCharacter.lean`; tags
+  0BSS, 0BSV, 0BUA–0BUB) and topological invariance (`TopologicalInvarianceFundamental/`,
+  `PerfectionFundamentalGroup.lean`; tags 0BQN, 0BTW). This roadmap takes all of it from Mathlib's
+  `CategoryTheory.GaloisCategory` and from EtaleCohomologyFoundations §§F.0, F.0.A0–F.0.A2 and
+  F.3a, so that part of the overlap lies with those suppliers.
+- **Targets owned here.** The overlap with this roadmap's own targets is confined to Layer IG.1.
+  - *Finite étale covers over a henselian local base* is Stacks 0A48, proved in
+    [`FiniteEtaleProperHenselianLimit.lean`](https://github.com/AxiomMath/Stacks/blob/c496df0d9beea9deaeabcea8492605f9a0a2313b/StacksFrontier/AlgebraicGeometry/FundamentalGroup/FiniteEtaleProperHenselianLimit.lean)
+    (`isEquivalence_finiteEtaleBaseChange_of_isProper_of_henselianLocalRing`) through the three
+    stages of the proof sketch here (complete base, henselian G-ring, arbitrary henselian local
+    ring), with Grothendieck existence from Stacks 088C;
+    [`FiniteEtaleProperHenselianPair.lean`](https://github.com/AxiomMath/Stacks/blob/c496df0d9beea9deaeabcea8492605f9a0a2313b/StacksFrontier/AlgebraicGeometry/FundamentalGroup/FiniteEtaleProperHenselianPair.lean)
+    extends it to henselian pairs (tag 0GS2).
+  - *Specialization for proper smooth families* is the case `S = Spec R` of Stacks 0C0P, 0C0Q and
+    0C0R, proved there for any specialization `s′ ⇝ s` on the base of a smooth proper morphism with
+    geometrically connected fibres:
+    [`SpecializationSurjective.lean`](https://github.com/AxiomMath/Stacks/blob/c496df0d9beea9deaeabcea8492605f9a0a2313b/StacksFrontier/AlgebraicGeometry/FundamentalGroup/SpecializationSurjective.lean)
+    (surjectivity),
+    [`SpecializationInjective/GaloisGenericFibreDescent.lean`](https://github.com/AxiomMath/Stacks/blob/c496df0d9beea9deaeabcea8492605f9a0a2313b/StacksFrontier/AlgebraicGeometry/FundamentalGroup/SpecializationInjective/GaloisGenericFibreDescent.lean)
+    (`bijective_isSpecializationMap_of_ringChar_zero`, residue characteristic zero) and
+    [`SpecializationPrimeToP/GaloisGenericFibrePrimeToP.lean`](https://github.com/AxiomMath/Stacks/blob/c496df0d9beea9deaeabcea8492605f9a0a2313b/StacksFrontier/AlgebraicGeometry/FundamentalGroup/SpecializationPrimeToP/GaloisGenericFibrePrimeToP.lean)
+    (`surjective_and_exists_continuousMulEquiv_primeToP`, the prime-to-`p` isomorphism), with the
+    specialization map itself in `SpecializationMap*.lean` (tags 0BUP, 0C0K–0C0N).
+  - Of *Invariance under algebraically closed base extension in characteristic zero* the directory
+    has the proper clause, Stacks 0A49
+    ([`FiniteEtaleAlgClosedEquivalence.lean`](https://github.com/AxiomMath/Stacks/blob/c496df0d9beea9deaeabcea8492605f9a0a2313b/StacksFrontier/AlgebraicGeometry/FundamentalGroup/FiniteEtaleAlgClosedEquivalence.lean)),
+    and the Artin–Schreier failure for `𝔸¹` in characteristic `p` that the second check records,
+    Stacks 0A47
+    ([`AffineLineScalarExtension.lean`](https://github.com/AxiomMath/Stacks/blob/c496df0d9beea9deaeabcea8492605f9a0a2313b/StacksFrontier/AlgebraicGeometry/FundamentalGroup/AffineLineScalarExtension.lean)).
+    The non-proper characteristic-zero statement and its proof have no counterpart there.
+  - The three Stacks results cited by *Proper descent of finite étale covers* are formalized in
+    sibling directories:
+    [`Etale/Morphisms/DescentFullyFaithful.lean`](https://github.com/AxiomMath/Stacks/blob/c496df0d9beea9deaeabcea8492605f9a0a2313b/StacksFrontier/AlgebraicGeometry/Etale/Morphisms/DescentFullyFaithful.lean)
+    (0BTL),
+    [`Descent/Scheme/EtaleBaseLocal.lean`](https://github.com/AxiomMath/Stacks/blob/c496df0d9beea9deaeabcea8492605f9a0a2313b/StacksFrontier/AlgebraicGeometry/Descent/Scheme/EtaleBaseLocal.lean)
+    (0BTM) and
+    [`EtaleCohomology/PullbackStalk/SheafDescentProperSurjectiveUnconditional.lean`](https://github.com/AxiomMath/Stacks/blob/c496df0d9beea9deaeabcea8492605f9a0a2313b/StacksFrontier/AlgebraicGeometry/EtaleCohomology/PullbackStalk/SheafDescentProperSurjectiveUnconditional.lean)
+    (0GF0), all under `StacksFrontier/AlgebraicGeometry`.
+  - *Tame and prime-to-`p` fundamental quotients* and *Frobenius and cyclotomic normalisation* meet
+    [`TameMultiplicativeGroup/`](https://github.com/AxiomMath/Stacks/tree/c496df0d9beea9deaeabcea8492605f9a0a2313b/StacksFrontier/AlgebraicGeometry/FundamentalGroup/TameMultiplicativeGroup),
+    which defines the tame fundamental group of `𝔾_m` over a field, tameness at `0` and `∞` being
+    tame ramification in codimension one (tag 0EYD), and over a finite field with `q` elements
+    identifies it with `ẑ^{(q)} ⋊ ẑ` through the Kummer tower (`Identification.lean`,
+    `tameFundamentalGroupEquiv`). Its generator of `ẑ` is geometric Frobenius, with
+    `F x F⁻¹ = q⁻¹ x` (`DeckAction.lean`); this roadmap normalises by arithmetic Frobenius, which
+    conjugates a tame inertia generator to its `q`-th power, so a statement read there is transported
+    by inverting that generator. `TameRamification/CurvePointInertia.lean` defines the inertia and
+    decomposition groups of a missing point of a curve inside `π₁`; the image of that inertia group
+    in `π₁^t(U)` is the image of the peripheral map here, and
+    `FiniteFieldTopologicalGenerator.lean` gives the Frobenius generator of the arithmetic quotient
+    over `𝔽_q`. The tame quotient of a general curve over an algebraically closed field,
+    the peripheral map from the prime-to-`p` Tate module and tame tangential fibres have no
+    counterpart there.
+  - *Tame specialization with a relative boundary* has no counterpart. The nearest results,
+    Abhyankar's lemma along a regular divisor (`Abhyankar/`, `TameCovers/`; tags 0EYG–0EYI) and the
+    extension of Galois covers of invertible order from the generic fibre of a smooth morphism with
+    a section (`Abhyankar/GaloisCoverNoetherianExtension.lean`, `GaloisCoverEnlargement/`,
+    `GaloisCoverLimits/`; tags 0EYJ, 0EZJ), do not compare prime-to-`p` quotients across a relative
+    normal crossings boundary.
+- **No target here.** Among the remaining files: purity of the branch and ramification loci and
+  finite étale covers of punctured spectra (`Purity*`, `PuncturedSpectrum*`, `ExtendedEtale/`), the
+  comparison of `π₁` of a scheme with that of a dense open (`LocalConnectedness/`), the Lefschetz
+  theorems for `π₁` (`LefschetzZeroScheme*.lean`, `RestrictionColimit*.lean`), the homotopy exact
+  sequence of a proper flat family (`HomotopySequenceExactness.lean`, tag 0C0J), whose fibres are
+  proper and so exclude the punctured curves of *Exactness in families and the moduli outer
+  action*, and the files from *The Trace Formula* on de Jong's conjecture, character torsors and
+  Frobenius generation (tags 03W1, 03W5).
+
 ## References
 
 Sources and the editions or versions to which the locators refer.
