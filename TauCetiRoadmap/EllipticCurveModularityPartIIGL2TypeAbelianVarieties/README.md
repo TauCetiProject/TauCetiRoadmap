@@ -1487,6 +1487,31 @@ bad places, and `L(Π,s−1/2) = L(C,s)`; it does not require conjugate isogenie
 defined over the original quadratic field. §5.8 adds the sharper
 Weil-restriction description when those isogenies are defined over that field.
 
+## Provenance
+
+This section is secondary; it records an existing formalisation outside Tau Ceti and
+prescribes nothing. The Apache-2.0 Lean repository
+[AxiomMath/Mordell](https://github.com/AxiomMath/Mordell/tree/82a30cb7857f6e3cfdb1be91f5533c0ccb57d493),
+read at commit `82a30cb7`, formalises Faltings' theorem by the Bombieri–Vojta method. It is not
+a dependency: it is built against another Lean toolchain and Mathlib commit and on the
+AxiomMath/Stacks library, so a statement read there is compared with the target here before it
+is used, and a proof adapted from it keeps the Apache-2.0 attribution. Its directory
+[`Mordell/AbelianVariety/`](https://github.com/AxiomMath/Mordell/tree/82a30cb7857f6e3cfdb1be91f5533c0ccb57d493/Mordell/AbelianVariety)
+(19 files) works with abelian schemes as group objects of `Over W` whose properties are spelled
+out, rather than with the native carrier of the Conventions. It proves rigidity, the theorems of
+the cube and of the square, `Pic⁰` and its translation invariance, even and ample classes, base
+change of abelian schemes and of their torsion, spreading out over `𝓞_k[1/N]` with good
+reduction at all but finitely many places, and the reduction map over a discrete valuation ring,
+injective on torsion prime to the residue characteristic and compatible with automorphisms of
+the base. In Tau Ceti this is supplier material of AbelianSchemesAndArithmeticModuli Layers
+A1–A3 and of NeronModelsAndSemistableAbelianVarieties §§1.8–1.9 and 5.0a, the last being the
+input to that roadmap's good-reduction theorem §5.0b, which §2.2 here consumes.
+
+No section of this roadmap has a counterpart in that directory: the endomorphism algebras and
+GL₂-type structures of Layer 1, the integral models and λ-adic systems of Layer 2, modularity
+and the exact level in Layers 3–4, and the ℚ-curves, cocycles and base change of Layers 5–6 are
+absent from it.
+
 ## References
 
 - **KW-I.** Chandrashekhar Khare and Jean-Pierre Wintenberger, [Serre's modularity conjecture (I)](https://www.math.ucla.edu/~shekhar/papers/results.pdf). Inventiones mathematicae 178 (2009), no. 3, 485–504; authors' copy results.pdf (23 pp., PDF of 31 May 2009), cited by its own page numbers. Target citations use this version and its stated pagination.
