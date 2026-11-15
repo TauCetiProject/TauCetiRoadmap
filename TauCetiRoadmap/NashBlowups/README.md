@@ -1028,7 +1028,9 @@ so `X* = s(X)` and `ν ∘ s = id` (nashModificationNotes2024, Section 2, lines 
 duarteNunezBetancourt2020, Lemma 2.4, lines 152–182, for one direction).
 
 Corollary *nashBlowupHom_isIso_of_smooth*: if `X → Spec k` is smooth of relative dimension `d` (in particular if
-`X` is in the Setting and smooth, §0.3), then `ν` is an isomorphism. Here `X_sm^{(d)} = X`, and `σ_X` is a section of
+`X` is in the Setting and smooth, §0.3), then `ν` is an isomorphism (nashModificationNotes2024, Section 1, lines
+110–111, for an embedded variety over an algebraically closed field, where the Nash modification is an isomorphism
+over the regular locus). Here `X_sm^{(d)} = X`, and `σ_X` is a section of
 the separated `Gr_d(Ω_{X/k}) → X`, hence a closed immersion; so `X*` is the closed subscheme `σ_X(X)` and `ν` is
 inverse to `X → X*`.
 For `X = 𝔸²_k ⊔ 𝔸¹_k`, which is smooth but not of relative dimension `2`, `X* = 𝔸² ≠ X` for `d = 2` (§2.3): the
@@ -1055,7 +1057,9 @@ with `L` (§1.5 and §0.1 for open immersions). Nash blowups glue and are comput
 Prove *nashBlowup.baseChange*: for a field extension `k'/k` and `X` in the Setting, `X_{k'}` is in the
 Setting (geometrically reduced by §1.1; pure of dimension `d` by
 `isPureDimensional_pullback_Spec_map_iff_of_field`; separated and of finite type by base change), and
-`(X*)_{k'} ≅ (X_{k'})*` over `X_{k'}`, compatibly with the Nash cotangent bundles. Route: `Ω` commutes with
+`(X*)_{k'} ≅ (X_{k'})*` over `X_{k'}`, compatibly with the Nash cotangent bundles (the statement is this
+roadmap's own; nobile1975, proof of Theorem 2, lines 147–148, relies on it, unstated, when reducing to `k = ℂ` by
+descent). Route: `Ω` commutes with
 base change (§0.2), `(X_sm)_{k'} ⊆ (X_{k'})_sm` (`preimage_smoothLocus_le_smoothLocus_pullback_snd`) with `Ω` of
 rank `d` there, and it is dense because `X_{k'} → X` is flat, so the generic points of `X_{k'}` map to generic
 points of `X`, which lie in `X_sm` (§1.1); then §1.5 with the independence of the open (§1.2) applies.
@@ -1663,8 +1667,8 @@ Define *normalizedNashIterate*: `Y_0 = X`, `Y_{i+1} = (Y_i)̄*` (with the same `
 Introduction, lines 28–32 and 52–55).
 
 Prove *nashIterate_of_smooth* and *normalizedNashIterate_of_smooth*: if `X` is in the Setting with this `d` and smooth
-over `k` (so smooth of relative dimension `d`, §0.3), then `X^{(i)} ≅ X ≅ Y_i` over `X` for all `i`, by induction on
-`i` (§2.5 for `ν`; §6.4 for `ν̄`, a smooth `X` being normal).
+over `k` (so smooth of relative dimension `d`, §0.3), then `X^{(i)} ≅ X ≅ Y_i` over `X` for all `i`. The statement is
+this roadmap's own; it follows by induction on `i` (§2.5 for `ν`; §6.4 for `ν̄`, a smooth `X` being normal).
 
 - Evaluation: `Y_0 = X` with the identity of `X`, and `Y_{i+1}` is the normalised Nash blowup of `Y_i` (§6.1, with
   the same `d`), its map to `X` being `ν̄` for `Y_i` followed by `Y_i → X`. Consequently the `j`-th normalised
