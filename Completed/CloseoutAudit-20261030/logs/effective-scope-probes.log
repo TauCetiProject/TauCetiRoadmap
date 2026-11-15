@@ -1,0 +1,7 @@
+'TauCeti.NumberField.Units.unitHeightLowerBound_le_logHeight₁_of_isIntegral' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'TauCeti.NumberField.Units.regulatorLowerBound_rank_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+'TauCeti.measurePreserving_euclideanLogSpaceEquiv' depends on axioms: [propext, Classical.choice, Quot.sound]
+'TauCeti.det_gram_euclideanLogBasis' depends on axioms: [propext, Classical.choice, Quot.sound]
+'TauCeti.covolume_euclideanUnitLattice' depends on axioms: [propext, Classical.choice, Quot.sound]
