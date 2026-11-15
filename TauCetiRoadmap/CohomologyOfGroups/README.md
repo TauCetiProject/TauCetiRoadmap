@@ -1821,8 +1821,8 @@ Define `x × y = pr₁^* x ∪ pr₂^* y` for `x ∈ Hᵖ(G, M)`, `y ∈ H^q(H, 
 `Res M ⊗ Res N ⟶ M ⊠ N`. Prove that for a field `k`, trivial coefficients `k`, and `H` such that
 `H_q(H, k)` is finite-dimensional for every `q ≤ n`, the map
 `⊕_{p+q=n} Hᵖ(G, k) ⊗ H^q(H, k) → Hⁿ(G × H, k)` is an isomorphism (Loh19 Outlook 3.2.26, p. 138,
-records the statement without proof; the generality here follows from 5.1
-and 5.2). Route: over a field `Hⁿ(−, k) = Hom(Hₙ(−, k), k)` by 5.2, 5.1, and
+mentions a group-cohomology Künneth theorem under a finiteness assumption; the statement here
+follows from 5.1 and 5.2). Route: over a field `Hⁿ(−, k) = Hom(Hₙ(−, k), k)` by 5.2, 5.1, and
 `(V ⊗ W)^* = V^* ⊗ W^*` for finite-dimensional `W`; with the evaluation of 4.6 and the cross product
 of 5.1, `⟨x × y, a × b⟩ = ⟨x, a⟩⟨y, b⟩` for trivial coefficients, without sign, because on
 normalized representatives (HS53 Ch. II §1, p. 118) only the identity shuffle survives in the
