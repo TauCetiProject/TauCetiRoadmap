@@ -1428,9 +1428,6 @@ ModularCurves 0C; SchemeAndStackFoundations §0.6, §3.4.
   type over a field of characteristic `0`, which is 4.5's `smooth_of_charZero`, for the intersection
   of two abelian subvarieties, which gives the minimal period subvariety. 4.5 owns that statement
   (Scope and ownership), and §6.0f is to cite it.
-- FlagVarieties (Scope) names this roadmap, as GS7, for the relative scheme `Bor(G)`; that scheme
-  is ReductiveGroups Layer 9D's, and this roadmap's share is the line bundles on it and its Picard
-  group (Layer 6).
 - HeightsRationalPointsAndObstructions §3.8e uses the Picard groups of a connected split reductive
   group and of its flag variety over a field, which are 6.2's, for the reductive quotient of `Ḡ`.
   6.2 owns them (Scope and ownership), and §3.8e is to cite 6.2 for `Ḡ_red`, keeping the reduction
@@ -1443,9 +1440,6 @@ ModularCurves 0C; SchemeAndStackFoundations §0.6, §3.4.
 - SpringerResolutionAndCharacteristicCycles (Scope) names 7.6, as §7.6, for the
   Grothendieck–Springer space `G̃ ⊆ G × Bor(G)`, distinct from its own additive `g̃`, and consumes
   nothing from it.
-
-The identifier GS7 used in FlagVarieties resolves here, for `Bor(G)`, to ReductiveGroups Layer 9D
-and, for the line bundles on it, to Layer 6.
 
 ## Research context
 
