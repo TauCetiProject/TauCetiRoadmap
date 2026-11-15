@@ -17,9 +17,8 @@ the roadmap is statable at the pins; none is missing.
 
 The conclusion of the three group-theoretic headlines is the self-contained existence form of
 `t ∈ Z*(G)`: a normal subgroup of odd order containing every commutator `g t g⁻¹ t⁻¹`. The README
-(Layer 1) proves it equivalent to centrality of `t` modulo the `2'`-core of
-LocalFiniteGroupTheory; stating it this way keeps the file independent of that roadmap's
-declarations.
+(Layer 1) proves it equivalent to centrality of `t` modulo the `2'`-core; stating it this way
+keeps the file independent of other roadmaps' declarations.
 -/
 
 @[expose] public section

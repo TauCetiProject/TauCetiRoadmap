@@ -12,7 +12,8 @@ block-section orthogonality contradiction finishes the proof. The end theorems a
 `glauberman_zStar`, its Sylow weak-closure form `glauberman_zStar_sylow`, `brauer_suzuki`, and the
 principal-block constancy theorem `principalBlock_involution_section_constancy`. Everything is
 stated for an arbitrary finite group at the prime two; the `2'`-core and the block theory are
-consumed from LocalFiniteGroupTheory and ModularCharactersAndBlocks.
+consumed from ModularCharactersAndBlocks, and the classification of `2`-groups whose abelian
+subgroups are cyclic from CohomologyOfGroups.
 
 Suggested home: `TauCeti/GroupTheory/ZStar/`, with the principal-block lemmas next to the
 block-theory library of ModularCharactersAndBlocks.
@@ -30,7 +31,9 @@ This roadmap owns:
   (Layer 1);
 - the **Brauer–Suzuki theorem**: the unique involution of a generalized quaternion Sylow
   `2`-subgroup lies in `Z*(G)`, proved with ordinary characters on a trivial-intersection set,
-  and the cyclic-Sylow case from the normal `2`-complement (Layer 2);
+  the cyclic-Sylow case from the normal `2`-complement, and the cyclicity of finite abelian
+  `2`-groups with at most one involution, which reduces a Sylow `2`-subgroup with a unique
+  involution to the cyclic and generalized quaternion cases (Layer 2);
 - the comparison of the central-character criterion for the principal `2`-block with the block
   of ModularCharactersAndBlocks, and the **constancy theorem**: a principal-block character is
   constant on `s · N` for an involution `s` and an odd-order normal subgroup `N` of `C_G(s)`
@@ -42,10 +45,10 @@ This roadmap owns:
 
 It leaves to other roadmaps, by section:
 
-- LocalFiniteGroupTheory L1 owns the `2'`-core `O(G) = pPrimeCore 2 ⊤`, its normality,
-  characteristic property, behaviour under quotients and `O(G ⧸ O(G)) = 1`; L4 owns the
-  classification of `2`-groups of `2`-rank one as cyclic or generalized quaternion; L5 owns
-  normal `p`-complements and the cyclic-Sylow form of Burnside's theorem.
+- ModularCharactersAndBlocks §0.3 owns the `2'`-core `O(G) = pPrimeCore 2 G`, its normality,
+  characteristic property, behaviour under quotients and `O(G ⧸ O(G)) = 1`.
+- CohomologyOfGroups §8.2 owns the classification of finite `2`-groups whose abelian subgroups
+  are all cyclic as cyclic or generalized quaternion.
 - ModularCharactersAndBlocks M1 owns the `2`-modular system over the cyclotomic field and the
   lifting of roots of unity; M2 the comparison between modular systems; M4 the principal block
   `B₀(G)`; M5 generalized decomposition numbers and block-section orthogonality; M7 the second
@@ -62,6 +65,10 @@ It leaves to other roadmaps, by section:
   induction when every complement `H_a` is trivial, on `TauCeti.IsTISet` data (its §2.4). Layer 2
   consumes that comparison alone; it does not consume the cyclic-factor coherence theorems of F2
   nor anything of F0 or F3–F6, and no odd-order hypothesis enters.
+
+Burnside's normal `p`-complement theorem and its form for a cyclic Sylow subgroup at the smallest
+prime divisor of `|G|` are already in Mathlib (`MonoidHom.ker_transferSylow_isComplement'`,
+`IsCyclic.isComplement'`) and are consumed, not restated.
 
 Not in scope: isolated elements of odd prime order (the `Z*_p` theorem, which rests on the
 classification of finite simple groups), the classification of groups with dihedral or
@@ -83,7 +90,7 @@ the odd order theorem or the classification.
   `∀ g : G, g⁻¹ t g ∈ S → g⁻¹ t g = t`. Layer 0 proves the two equivalent. Neither condition is
   `t ∈ Z(S)`: isolation implies `t ∈ Z(S)`, and the converse fails (Layer 0, Checks).
 - **The core and `Z*(G)`.** `O(G)` is the largest normal subgroup of odd order,
-  `pPrimeCore 2 ⊤` of LocalFiniteGroupTheory L1 (there `O_{2'} = piCore {q | q ≠ 2}`), and
+  `pPrimeCore 2 G` of ModularCharactersAndBlocks §0.3, and
   `Z*(G)` is the preimage of `Z(G ⧸ O(G))` under the quotient map. The **existence form** of
   `t ∈ Z*(G)` is
   `∃ N : Subgroup G, N.Normal ∧ Odd (Nat.card N) ∧ ∀ g : G, g t g⁻¹ t⁻¹ ∈ N`;
@@ -117,11 +124,12 @@ the odd order theorem or the classification.
 | conjugacy and classes | `IsConj`, `ConjClasses`, `ConjClasses.mk`, `ConjClasses.carrier`, `MulAut.conj`, `Subgroup.centralizer`, `Subgroup.center`, `Subgroup.normalClosure`, `Subgroup.Normal` |
 | Sylow theory | `Sylow`, `Sylow.exists_subgroup_card_pow_prime`, Sylow conjugacy (`MulAction.exists_smul_eq` for the pretransitive action of `G` on `Sylow p G`), `Sylow.normalizer_sup_eq_top` (Frattini), `IsPGroup`, `IsPGroup.center_nontrivial` |
 | quotients | `QuotientGroup.mk'`, `QuotientGroup.map`, `Subgroup.comap`, `Subgroup.map`, the correspondence of subgroups under a surjection, `Subgroup.card_mul_index` |
-| transfer | `MonoidHom.transfer`, `MonoidHom.transferSylow`, `MonoidHom.ker_transferSylow_isComplement'` (Burnside's normal `p`-complement for a central Sylow subgroup) |
+| transfer | `MonoidHom.transfer`, `MonoidHom.transferSylow`, `MonoidHom.ker_transferSylow_isComplement'` (Burnside's normal `p`-complement for a Sylow subgroup `P` with `N_G(P) ≤ C_G(P)`), `IsCyclic.normalizer_le_centralizer` and `IsCyclic.isComplement'` (a cyclic Sylow `p`-subgroup for `p = (Nat.card G).minFac` has the kernel of the transfer as a normal complement) |
+| finite abelian groups | `CommGroup.equiv_prod_multiplicative_zmod_of_finite` (a finite abelian group is a product of nontrivial cyclic groups) |
 | specific groups | `QuaternionGroup`, `QuaternionGroup.card`, `QuaternionGroup.orderOf_a`, `QuaternionGroup.orderOf_xa`, `DihedralGroup`, `Equiv.Perm (Fin n)`, `alternatingGroup` |
 | algebraic integers | `integralClosure`, `IsIntegral`, `Ideal.IsMaximal`, `Representation.isIntegral_character` |
 | orthonormality | `Representation.char_orthonormal` |
-| transfer and simplicity | `MonoidHom.transfer`, `MonoidHom.transfer_eq_prod_quotient_orbitRel_zpowers_quot`, `Abelianization.of`, `Abelianization.commutator_subset_ker`, `IsSimpleGroup`, `IsPGroup.le_sylow_of_normal` |
+| transfer and simplicity | `MonoidHom.transfer`, `MonoidHom.transfer_eq_prod_quotient_orbitRel_zpowers_quot`, `Abelianization.of`, `Abelianization.commutator_le_ker`, `IsSimpleGroup`, `IsPGroup.le_sylow_of_normal` |
 
 ### From Tau Ceti
 
@@ -132,17 +140,12 @@ the odd order theorem or the classification.
 | kernels | `Representation.char_eq_finrank_iff` (`χ(g) = χ(1)` exactly when `g` acts trivially) |
 | trivial-intersection sets | `TauCeti.IsTISet` (a subset of `H`, normalized by `H`, moved off itself by every `g ∉ H`), `TauCeti.IsTISubgroup` |
 
-### From `TauCetiRoadmap.LocalFiniteGroupTheory`
-
-L1: `pPrimeCore 2 ⊤` with its normality, characteristic property, maximality among normal
-subgroups of odd order, `O(G ⧸ O(G)) = 1`, and `O(N) = O(G) ⊓ N` for `N` normal. L4: a `2`-group
-whose only involution is unique (`2`-rank one) is cyclic or generalized quaternion. L5:
-`HasNormalPComplement 2 G` when a Sylow `2`-subgroup is cyclic, and the complement is `O(G)`.
-
 ### From `TauCetiRoadmap.RepresentationTheory.ModularCharactersAndBlocks`
 
-M1: the `2`-modular system `(K, O, k)` over the cyclotomic field and the bijection lifting
-prime-to-`2` roots of unity. M2: the comparison between splitting modular systems. M4: the
+§0.3: the `2'`-core `pPrimeCore 2 G` with its normality and characteristic property, the fact
+that a normal subgroup lies in it exactly when it has odd order, `O(G ⧸ O(G)) = 1`, and
+`O(N) = O(G) ⊓ N` for `N` normal. M1: the `2`-modular system `(K, O, k)` over the cyclotomic
+field and the bijection lifting prime-to-`2` roots of unity. M2: the comparison between splitting modular systems. M4: the
 principal block `B₀(G)` and the characterization of the block partition by equality of reduced
 central characters on integral class sums. M5: generalized decomposition numbers,
 `χ(x u) = ∑_φ d^x_{χφ} φ(u)` for a `2`-element `x` and a commuting `2`-regular `u`, and
@@ -167,6 +170,11 @@ integrality. §4.4: the Galois action on irreducible characters and the value id
 ### From `TauCetiRoadmap.RepresentationTheory.InductionRestriction`
 
 Layer 2: induced class functions and characters, Frobenius reciprocity.
+
+### From `TauCetiRoadmap.CohomologyOfGroups`
+
+§8.2: a finite `2`-group in which every abelian subgroup is cyclic is cyclic or isomorphic to
+`QuaternionGroup (2^(s-2))` for some `s ≥ 3`.
 
 ### From `TauCetiRoadmap.OddOrderTheorem`
 
@@ -334,7 +342,7 @@ Mathlib `orderOf`, `IsConj`, `Sylow`, `IsPGroup`, `QuotientGroup`, `Subgroup.cen
 ### 1.1 `Z*(G)` and the existence form
 
 Define `Z*(G)` as the preimage of `Z(G ⧸ O(G))` under the quotient map, with `O(G)` the
-`2'`-core of LocalFiniteGroupTheory L1. For an involution `t` prove the equivalence of
+`2'`-core of ModularCharactersAndBlocks §0.3. For an involution `t` prove the equivalence of
 (a) `t ∈ Z*(G)`;
 (b) the existence form: some normal subgroup `N` of odd order contains every commutator
 `g t g⁻¹ t⁻¹`;
@@ -349,8 +357,8 @@ have order two, hence are conjugate by some `n ∈ O(G)`, and then `n⁻¹ g ∈
 `p`-subgroups; the Sylow argument is the route taken here); (c) ⇒ (d): for `n ∈ O(G)` and `c ∈ C_G(t)`,
 `⁅n c, t⁆ = n (c t c⁻¹) n⁻¹ t⁻¹ = ⁅n, t⁆`, which lies in `O(G)` by normality.
 Prove that the subgroup generated by the commutators `⁅g, t⁆` is the normal subgroup `[G, ⟨t⟩]`
-and that `⟨t^G⟩ = [G, ⟨t⟩] · ⟨t⟩`. *Needs:* LocalFiniteGroupTheory L1 (`pPrimeCore 2 ⊤`, its maximality and
-`O(G ⧸ O(G)) = 1`); Mathlib `Subgroup.center`, `QuotientGroup.mk'`.
+and that `⟨t^G⟩ = [G, ⟨t⟩] · ⟨t⟩`. *Needs:* ModularCharactersAndBlocks §0.3 (`pPrimeCore 2 G`,
+its maximality and `O(G ⧸ O(G)) = 1`); Mathlib `Subgroup.center`, `QuotientGroup.mk'`.
 
 **Checks.**
 - `C₂`: `O = 1`, `Z* = C₂`; the existence form holds with `N = ⊥` and every commutator trivial.
@@ -380,7 +388,7 @@ Prove, for an involution `t`:
   (descent, §0.2) forces it to equal `t̄`, so `t̄` is central and `⁅G, t⁆ ≤ O(H)`. This item
   assumes `t` isolated.
 
-*Needs:* §0.2; LocalFiniteGroupTheory L1 (`O(N) = O(G) ⊓ N`, characteristic property); Mathlib
+*Needs:* §0.2; ModularCharactersAndBlocks §0.3 (`O(N) = O(G) ⊓ N`, characteristic property); Mathlib
 `Subgroup.map`, `Subgroup.comap`, `Subgroup.card_mul_index`.
 
 **Checks.**
@@ -409,7 +417,8 @@ a minimal counterexample (Waldecker, Lemma 4.4 (1)–(2)):
    Pick an involution `w ∈ N`; then `t ∉ ⟨w⟩`, the image of `t` in `G ⧸ ⟨w⟩` is isolated (§0.2)
    and lies in `Z*(G ⧸ ⟨w⟩)` by minimality. The preimage `X` of `O(G ⧸ ⟨w⟩)` has the central
    subgroup `⟨w⟩` as a Sylow `2`-subgroup, so `X = ⟨w⟩ × O(X)` by Burnside's normal complement
-   (L5), and `O(X) ≤ O(G) = 1`; hence `O(G ⧸ ⟨w⟩) = 1` and `⁅G, t⁆ ≤ ⟨w⟩ ≤ Z(G)`. Every
+   (Mathlib `MonoidHom.ker_transferSylow_isComplement'`, as `N_X(⟨w⟩) = X = C_X(⟨w⟩)`), and
+   `O(X) ≤ O(G) = 1`; hence `O(G ⧸ ⟨w⟩) = 1` and `⁅G, t⁆ ≤ ⟨w⟩ ≤ Z(G)`. Every
    conjugate of `t` then commutes with `t`, so `t` is central by isolation, a contradiction.
 4. For a Sylow `2`-subgroup `S` containing `t`: either `t` is the unique involution of `S`, or
    `S` contains an involution `s ≠ t`; in the second case `s` commutes with `t` (`t ∈ Z(S)`) and
@@ -417,8 +426,9 @@ a minimal counterexample (Waldecker, Lemma 4.4 (1)–(2)):
 5. Every proper subgroup `H` containing `t` satisfies `t ∈ Z*(H)`, so `⁅H, t⁆ ≤ O(H)`
    (Waldecker, Lemma 4.2 (1)–(2)).
 
-*Needs:* §0.2, §0.4, §1.1, §1.2; LocalFiniteGroupTheory L1 and L5; Mathlib
-`Subgroup.normalClosure`, `WellFounded` induction on `Nat.card`.
+*Needs:* §0.2, §0.4, §1.1, §1.2; ModularCharactersAndBlocks §0.3; Mathlib
+`Subgroup.normalClosure`, `MonoidHom.ker_transferSylow_isComplement'`, `WellFounded` induction on
+`Nat.card`.
 
 **Checks.**
 - No group of order at most `7` is a counterexample: each is abelian or `S₃`, where `Z*` is
@@ -437,7 +447,8 @@ a minimal counterexample (Waldecker, Lemma 4.4 (1)–(2)):
 
 ### Dependencies
 
-Layer 0; LocalFiniteGroupTheory L1 and L5; Mathlib quotient and Sylow theory.
+Layer 0; ModularCharactersAndBlocks §0.3; Mathlib quotient and Sylow theory and
+`MonoidHom.ker_transferSylow_isComplement'`.
 
 ## Layer 2: the Brauer–Suzuki theorem
 
@@ -478,17 +489,28 @@ and any of them serves as `X`. Transport these statements along an isomorphism
 ### 2.2 Cyclic Sylow subgroups and the rank-one case
 
 If a Sylow `2`-subgroup `S` of `G` is cyclic, then `G` has a normal `2`-complement, which is
-`O(G)` (LocalFiniteGroupTheory L5, from Mathlib `MonoidHom.ker_transferSylow_isComplement'`), so
-`G ⧸ O(G) ≅ S` is abelian and the involution of `S` lies in `Z*(G)` (Waldecker, Theorem 2.19).
-Combine with LocalFiniteGroupTheory L4: if a Sylow `2`-subgroup has a unique involution then it is
-cyclic or generalized quaternion, so the cyclic case here and §2.4 together give: the unique
-involution of a Sylow `2`-subgroup of `2`-rank one lies in `Z*(G)`. *Needs:* LocalFiniteGroupTheory
-L4, L5; Mathlib `MonoidHom.transferSylow`.
+`O(G)`, so `G ⧸ O(G) ≅ S` is abelian and the involution of `S` lies in `Z*(G)` (Waldecker,
+Theorem 2.19). Route: if `|G|` is odd, `S = 1` and `O(G) = G`. If `|G|` is even, then
+`(Nat.card G).minFac = 2` and Mathlib `IsCyclic.isComplement'` makes the kernel `K` of the
+transfer `G →* S` a complement of `S`; `K` is normal of odd order `|G : S|`, so `K ≤ O(G)`
+(ModularCharactersAndBlocks §0.3), and `|O(G)|` is odd and divides `|K| · |S|`, so `O(G) = K`.
+Prove that a finite abelian `2`-group with at most one involution is cyclic: by the structure
+theorem it is a product of nontrivial cyclic `2`-groups, each of which contains an involution, so
+there is at most one factor. Hence every abelian subgroup of a `2`-group with a unique involution
+is cyclic, and the `2`-group is cyclic or generalized quaternion (CohomologyOfGroups §8.2); so the
+cyclic case here and §2.5 together give: the unique involution of a Sylow `2`-subgroup of `2`-rank
+one lies in `Z*(G)`. *Needs:* ModularCharactersAndBlocks §0.3; CohomologyOfGroups §8.2; Mathlib
+`IsCyclic.isComplement'`, `IsCyclic.normalizer_le_centralizer`, `MonoidHom.transferSylow`,
+`CommGroup.equiv_prod_multiplicative_zmod_of_finite`.
 
 **Checks.**
 - `F₂₀ = C₅ ⋊ C₄`: Sylow `C₄`, complement `C₅ = O(G)`, involution in `Z*`, not in `Z`.
 - `C₆`: Sylow `C₂`, `O = C₃`, `Z* = C₆`.
 - A nonabelian simple group has no cyclic Sylow `2`-subgroup: `A₅` has Sylow `V₄`, consistently.
+- The cyclicity step needs commutativity and the single involution: `Q₈` has the unique
+  involution `−1` and is not cyclic, though its abelian subgroups `⟨i⟩`, `⟨j⟩`, `⟨k⟩`, `⟨−1⟩`
+  and `1` are; the abelian group `C₄ × C₂` is not cyclic and has the three involutions `(2, 0)`,
+  `(0, 1)` and `(2, 1)`.
 
 ### 2.3 The trivial-intersection configuration
 
@@ -604,9 +626,10 @@ counterexample of least order, with `S`, `X`, `U = ⟨u⟩`, `z = u²`, `C`, `H`
   is odd and `M ≤ O(G) = 1`.
 - `G` is nonabelian simple: for a proper nontrivial normal `M`, the Sylow `2`-subgroup `S ⊓ M` of
   `M` has the unique involution `z`, so it is cyclic or generalized quaternion
-  (LocalFiniteGroupTheory L4); by §2.2, or by `P(M)` for the smaller group `M`, `z ∈ Z*(M)`, and
-  `O(M) ≤ O(G) = 1` (L1), so `z ∈ Z(M)`. The Sylow `2`-subgroup `P` of the abelian characteristic
-  subgroup `Z(M)` of `M` is a nontrivial normal `2`-subgroup of `G`, hence `P ≤ S`
+  (§2.2 with CohomologyOfGroups §8.2); by the cyclic case of §2.2, or by `P(M)` for the smaller
+  group `M`, `z ∈ Z*(M)`, and `O(M) ≤ O(G) = 1` (ModularCharactersAndBlocks §0.3), so
+  `z ∈ Z(M)`. The Sylow `2`-subgroup `P` of the abelian characteristic subgroup `Z(M)` of `M` is a
+  nontrivial normal `2`-subgroup of `G`, hence `P ≤ S`
   (`IsPGroup.le_sylow_of_normal`), and `z` is the unique involution of `P`; conjugation by any
   `g ∈ G` preserves `P` and so fixes `z`, against `z ∉ Z(G)`.
 - Consequently every nontrivial irreducible character `ψ` of `G` is faithful, so `ψ(z) ≠ ψ(1)`
@@ -674,7 +697,7 @@ conjugates of `K` and `0` elsewhere. Prove, in order:
 3. *Fusion of elements of order four.* All elements of order four of `G` are conjugate, so
    `ψᵢ(y) = εᵢ` for every `y` of order four. Route: the transfer `V : G →* Abelianization S`
    (`MonoidHom.transfer` along `Abelianization.of`) is trivial, `G` being perfect
-   (`Abelianization.commutator_subset_ker`). Evaluate `V(u)` by
+   (`Abelianization.commutator_le_ker`). Evaluate `V(u)` by
    `MonoidHom.transfer_eq_prod_quotient_orbitRel_zpowers_quot`: an orbit of `⟨u⟩` on `G ⧸ S` of
    size two or four contributes the image of a conjugate of `u²` or `u⁴` lying in `S`, that is
    of `z` or of `1`, trivial since `z ∈ [S, S]` (§2.1); an orbit of size one contributes the image
@@ -702,11 +725,12 @@ state and prove `brauer_suzuki`: for `S` a Sylow `2`-subgroup with
 `S ≃* QuaternionGroup (2^(n-2))`, `n ≥ 3`, and `t ∈ S` an involution, the existence form of
 `t ∈ Z*(G)` holds. Derive that a group with generalized quaternion Sylow `2`-subgroups is not
 nonabelian simple, and that `G ⧸ O(G)` has a central involution. *Needs:* §0.3, §1.1, §1.2,
-§2.1–§2.4; LocalFiniteGroupTheory L1, L4; CharacterTheory §3.5, §4.2, §4.3, §4.4, §5.1;
+§2.1–§2.4; ModularCharactersAndBlocks §0.3; CohomologyOfGroups §8.2; CharacterTheory §3.5, §4.2,
+§4.3, §4.4, §5.1;
 InductionRestriction Layer 2; Tau Ceti `Representation.char_eq_finrank_iff`,
 `TauCeti.structureConstant`, `TauCeti.ClassFunction.characterPairing`; Mathlib
 `MonoidHom.transfer`, `MonoidHom.transfer_eq_prod_quotient_orbitRel_zpowers_quot`,
-`Abelianization.of`, `Abelianization.commutator_subset_ker`, `IsSimpleGroup`,
+`Abelianization.of`, `Abelianization.commutator_le_ker`, `IsSimpleGroup`,
 `IsPGroup.le_sylow_of_normal`, `Representation.char_orthonormal`,
 `Representation.isIntegral_character`, `Nat.chineseRemainder`.
 
@@ -743,11 +767,12 @@ negative controls.
 
 ### Dependencies
 
-Layers 0–1; LocalFiniteGroupTheory L1, L4, L5; OddOrderTheorem F2; InductionRestriction Layer 2;
-ModularCharactersAndBlocks M8 (the inflation law); CharacterTheory §3.5, §4.2–§4.4, §5.1; Tau
-Ceti `TauCeti.IsTISet`, `TauCeti.ClassFunction.characterPairing`, `TauCeti.structureConstant`,
-`Representation.char_eq_finrank_iff`; Mathlib `QuaternionGroup`, `MonoidHom.transferSylow`,
-`MonoidHom.transfer`, `IsSimpleGroup`.
+Layers 0–1; ModularCharactersAndBlocks §0.3 (the `2'`-core) and M8 (the inflation law);
+CohomologyOfGroups §8.2; OddOrderTheorem F2; InductionRestriction Layer 2; CharacterTheory §3.5,
+§4.2–§4.4, §5.1; Tau Ceti `TauCeti.IsTISet`, `TauCeti.ClassFunction.characterPairing`,
+`TauCeti.structureConstant`, `Representation.char_eq_finrank_iff`; Mathlib `QuaternionGroup`,
+`IsCyclic.isComplement'`, `CommGroup.equiv_prod_multiplicative_zmod_of_finite`,
+`MonoidHom.transferSylow`, `MonoidHom.transfer`, `IsSimpleGroup`.
 
 ## Layer 3: principal-block stability on involution sections
 
@@ -798,10 +823,11 @@ Route, in the modular system of M1 with `p = 2`:
    `b^G = B₀(G)`; by the local third main theorem (M7) with `P = ⟨s⟩` and
    `H = C_G(s) = P · C_G(P) ≤ N_G(P)`, that block is `B₀(C_G(s))`.
 3. By M8, every simple module of `B₀(C_G(s))` is trivial on `O(C_G(s))`, which contains `N`
-   (L1 maximality), so `φ(v) = φ(1)` for the `φ` that occur.
+   (maximality of the core, ModularCharactersAndBlocks §0.3), so `φ(v) = φ(1)` for the `φ` that
+   occur.
 4. Hence `χ(s v) = ∑_φ d^s_{χφ} φ(1) = χ(s · 1) = χ(s)`, the formula of step 1 at `v = 1`.
 
-*Needs:* §3.1; ModularCharactersAndBlocks M1, M5, M7, M8; LocalFiniteGroupTheory L1.
+*Needs:* §3.1; ModularCharactersAndBlocks §0.3, M1, M5, M7, M8.
 
 **Checks.**
 - `N = ⊥`: `χ(s · 1) = χ(s)`, trivially.
@@ -820,8 +846,8 @@ Route, in the modular system of M1 with `p = 2`:
 
 ### Dependencies
 
-ModularCharactersAndBlocks M1, M2, M4, M5, M7, M8; CharacterTheory §4.3, §4.4;
-LocalFiniteGroupTheory L1; Tau Ceti `TauCeti.irreducibleCharacters`.
+ModularCharactersAndBlocks §0.3, M1, M2, M4, M5, M7, M8; CharacterTheory §4.3, §4.4; Tau Ceti
+`TauCeti.irreducibleCharacters`.
 
 ## Layer 4: character values and the contradiction
 
@@ -980,12 +1006,10 @@ Layers 0–4; ModularCharactersAndBlocks M8.
 
 ## Downstream consumers
 
-No roadmap on main consumes this roadmap yet. LocalFiniteGroupTheory names Glauberman's Z*
-theorem and the Brauer–Suzuki theorem, in its closing section, as the local theorems a later
-roadmap should supply on top of its material; this roadmap is that supply. The natural consumers
-are the local analysis of involution centralizers and the classification of groups with dihedral
-or semidihedral Sylow `2`-subgroups, which use `glauberman_zStar` and its corollary that a
-nonabelian simple group has no isolated involution.
+No roadmap on main consumes this roadmap yet. The natural consumers are the local analysis of
+involution centralizers and the classification of groups with dihedral or semidihedral Sylow
+`2`-subgroups, which use `glauberman_zStar` and its corollary that a nonabelian simple group has
+no isolated involution.
 
 ## References
 
