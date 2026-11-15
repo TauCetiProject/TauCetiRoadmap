@@ -3228,7 +3228,7 @@ Fix λ|2 in Q̄⊂ℂ. Let `g=Σb(n)q^n∈Prim₁(2^νNr,χ)`, χ²=1, ν∈{0,2
 (classical weight-one attachment); AlgebraicModularFormsAndSerreWeights R15.5A.2
 (classical higher-weight attachment).
 
-*Source:* [rt97], §1, Lemma, p. 302; §1, p. 301; §1, proof of the Lemma, step (iii), p. 302; §1, preliminary remark, p. 302; §1, Case 2 (ν=2), p. 304.
+*Source:* [rt97], §1, Lemma, p. 302; §1, p. 301; §1, proof of the Lemma, step (iii), p. 302; §1, preliminary remark, p. 302; §1, Case 2 (ν=2), formula (3), p. 303.
 
 ### R17.6.9 The real-quadratic odd-lift trick
 
@@ -3238,7 +3238,7 @@ Use degree-one primes in the specified narrow ray class modulo 4f(φ̃), by Cheb
 
 *Needs:* R17.6/teichmuller-conductor; R17.5/dihedral-artin; R17.5/q-weight-one; ClassFieldTheory Layer 11; GlobalNumberFields Layer 7; ArithmeticGaloisRepresentations §§3.1–3.6; R17.4/quadratic-induction; Chebotarev Layer 10; GlobalNumberFields Layer 9.
 
-*Source:* [rt97], §2, proof of the Theorem, case D>0, p. 307; §2, construction of 𝔯 and ξ, p. 308; Remark 1, p. 308.
+*Source:* [rt97], §2, proof of the Theorem, case D>0, p. 307; §2, construction of 𝔯 and ξ, pp. 307–308; Remark 1, p. 308.
 
 ### R17.6.10 Rohrlich–Tunnell characteristic-two modularity
 
@@ -3442,6 +3442,17 @@ R16.3 and R16.6; R17.4–R17.5; ArithmeticGaloisRepresentations Layers 1–5; Al
   normalizations and restricted-series slash at algebraic weights, the level and classical forms
   with their norms and stabilizer averaging, and the Hecke operators at good places and at `K₀`,
   `K₁` levels with their commutative Hecke algebra and norm bounds.
+- PotentialModularityAndCompatibleSystems §2.15 extends finite local characters to finite-order
+  idele class characters with R16.1.7's power-detecting congruences in finitely generated
+  subgroups of a number field's multiplicative group (`chevalley_power_congruence`) and R16.1.8's
+  `finite_hecke_full_local_prescription`; its §3.1 applies the same congruences to S-units when
+  it constructs CM characters. Its §§4.2, 4.4–4.8, 4.14–4.15, 6.1, 8.6–8.7, 11.1–11.2 and 12.1 use
+  R17.3's quaternionic Jacquet–Langlands, the cyclic and solvable base change and descent of
+  R17.4.2–R17.4.11, the quadratic automorphic induction of R17.4.16, R17.5, and R17.6 with the
+  transfer interface of R17.6.19.
+- PotentialAutomorphyInfrastructure §1.13 builds its genericity-making character twist from
+  R16.1.8's `finite_hecke_full_local_prescription`, through PotentialModularityAndCompatibleSystems
+  §2.15.
 
 ## References
 [jl70] H. Jacquet and R. P. Langlands, Automorphic forms on GL(2). LNM 114 (1970); locators cite the IAS retypeset edition (2026).
