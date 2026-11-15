@@ -1541,7 +1541,8 @@ Hatcher, *Algebraic Topology*, Proposition 4.48.
   Stiefel class in `H₁(Ω²S²)` maps to zero in `H₁(Ω²CP³)`. (`CP³` is abundant all the same, by
   4.5's Proposition 6.38.)
 - `S^(4k+1)` admits no pair of pointwise independent vector fields, so the odd-sphere
-  construction is not available for `n ≡ 1 (mod 4)`; these spheres are covered by 4.3 instead.
+  construction is not available for `n ≡ 1 (mod 4)`; for `k ≥ 1` these spheres are covered by
+  4.3 instead.
 - Positive fibre dimension is needed: with a one-point fibre, `Σ = Q`, `π` the identity and `σ`
   the constant spheres, the fibre class is the class of a point in `H₀(Ω²Q)`, nonzero for every
   `Q`, including `T^r`, whose capacity is infinite (4.1). With positive fibre dimension `T^r`
@@ -1850,12 +1851,12 @@ groups*; Eschenburg and Hanke, *Bott periodicity, submanifolds, and vector bundl
 
 ### 4.3 Abundance from group actions: diffeomorphisms and homogeneous spaces
 
-This part makes a manifold abundant with 2-spheres from a group acting on it: `Diff(M)` through
-evaluation, for manifolds covered or `ℓ`-covered by diffeomorphisms under the homotopy
-hypotheses stated there, with compact connected Lie groups other than tori and odd spheres as
-cases (4.3), and `G` on a homogeneous space `M = G/H` (4.4), which for nonorientable `M` gives
-`c°_HZ(D*M) < ∞` instead. 4.5 consumes both: 4.3 towards Theorem I, 4.4 for the orientable
-homogeneous spaces it adds to that list.
+This part makes a manifold abundant with 2-spheres from a group acting on it. `Diff(M)` acts
+through evaluation on manifolds covered or `ℓ`-covered by diffeomorphisms, under the homotopy
+hypotheses stated below; the compact connected Lie groups that are not tori, and the odd spheres
+`Sⁿ` with `n ≥ 3`, are cases (4.3). `G` acts on a homogeneous space `M = G/H` (4.4), which for
+nonorientable `M` gives `c°_HZ(D*M) < ∞` instead. 4.5 consumes both: 4.3 towards Theorem I,
+4.4 for the orientable homogeneous spaces it adds to that list.
 
 Define, for a closed connected oriented `n`-manifold `M` with basepoint and the evaluation
 `ev : Diff(M) → M` over GeometricTopology Layer 3's `Diff(M)`, *covered by diffeomorphisms*
@@ -1899,15 +1900,16 @@ bundle and the shriek naturality of DGFloer Layer 5 item 5.
   `nonempty_pi_SO_mulEquiv_prod_stiefel`, with its stable term `π_(n−1)(O)` read in the finite
   rank `SO(n+1)`, where it is already stable by 4.2a, and `V_(n+2,2)(ℝ)` Tau Ceti's
   `TauCeti.stiefel` of orthonormal `2`-frames in `ℝⁿ⁺²` at any base frame.
-- **First proof of odd-sphere covering (Proposition 6.34).** Use the evaluation fibration
-  `SO(n) → SO(n+1) → Sⁿ` and its exact segment `π_n(SO(n+1)) → π_n(Sⁿ) → π_(n−1)(SO(n))`. Since
+- **First proof of covering for `Sⁿ`, odd `n ≥ 3` (Proposition 6.34).** Use the evaluation
+  fibration `SO(n) → SO(n+1) → Sⁿ` and its exact segment
+  `π_n(SO(n+1)) → π_n(Sⁿ) → π_(n−1)(SO(n))`. Since
   `π_n(Sⁿ) = ℤ` and the last group is torsion, the boundary map has nonzero kernel, and
   exactness gives a class mapping to `ℓ[Id_(Sⁿ)]`, `ℓ > 0`. Carry it through the Hurewicz map to
   `H_n(SO(n+1); ℤ)`, then through Tau Ceti's continuous inclusion
   `TauCeti.continuousOrthogonalToDiffSphere`, restricted to `SO(n+1)`, and evaluation to obtain
   `ev_*A = ℓ[Sⁿ]`. Apply Proposition 6.33 using that `π_n(Sⁿ) = ℤ` is not `ℓ`-torsion.
-- **Second proof of odd-sphere covering (Proposition 6.34).** Use GeometricTopology Layer 3 and
-  DGFloer Layer 1 item 6's local evaluation bundle and 1.4's rotation family
+- **Second proof of covering for `Sⁿ`, odd `n ≥ 3` (Proposition 6.34).** Use GeometricTopology
+  Layer 3 and DGFloer Layer 1 item 6's local evaluation bundle and 1.4's rotation family
   `f : T¹_pSⁿ × S¹ → SO(n+1)`. Take `A = f_*([S^(n−1)] × [S¹]) ∈ H_n(SO(n+1))`; by 1.4,
   `(ev_p)_*A = (1 + (−1)^(n−1))[Sⁿ] = 2[Sⁿ]` for odd `n`, and the inclusion `SO(n+1) → Diff(Sⁿ)`
   (`TauCeti.continuousOrthogonalToDiffSphere`) carries `A` to a class with the same evaluation, so
