@@ -198,9 +198,11 @@ returns a stable matching for every market makes truth-telling a dominant strate
 agent (README 3.1). -/
 theorem not_exists_truthful_stable_mechanism [Fintype M] [Fintype W] [DecidableEq M]
     [DecidableEq W] (hM : 2 ≤ Fintype.card M) (hW : 2 ≤ Fintype.card W) :
-    ¬ ∃ h : Market M W → Matching M W, (∀ P, P.IsStable (h P)) ∧
-      (∀ P m r hr, P.rankM m ((h P).man m) ≤ P.rankM m ((h (P.updateMan m r hr)).man m)) ∧
-      ∀ P w r hr, P.rankW w ((h P).woman w) ≤ P.rankW w ((h (P.updateWoman w r hr)).woman w) := by
+    ¬ ∃ h : Market M W → Matching M W, (∀ P : Market M W, P.IsStable (h P)) ∧
+      (∀ (P : Market M W) (m : M) (r : Option W → ℕ) (hr : Function.Injective r),
+        P.rankM m ((h P).man m) ≤ P.rankM m ((h (P.updateMan m r hr)).man m)) ∧
+      ∀ (P : Market M W) (w : W) (r : Option M → ℕ) (hr : Function.Injective r),
+        P.rankW w ((h P).woman w) ≤ P.rankW w ((h (P.updateWoman w r hr)).woman w) := by
   sorry
 
 end TauCetiRoadmap.StableMatching
