@@ -18,6 +18,7 @@ statable at the pins: the required spectral and enhanced categorical carriers ar
 absent. The precise missing carriers are listed below.
 
 - Bott–Samelson and the homology of the reduced product: lack the Pontryagin product on singular homology.
+- Stable James splitting: lacks stable equivalences of spectra; Tau Ceti's symmetric spectra and free spectra are point-set constructions with no stable homotopy category.
 - K-theory localization for compact kernels: lacks enhanced stable categories and their K spectrum.
 - Connective plus comparison: lacks connective ring spectra, GL spaces, plus and K.
 - Additive Morita and projective K comparison: lacks additive infinity categories and spectral modules.
@@ -131,8 +132,7 @@ variable {W : Type u} [TopologicalSpace W] [T2Space W] [Topology.CWComplex (Set.
   {w₀ : W}
 
 /-- For a Hausdorff CW complex whose base point is a `0`-cell, `J(W)` is a Hausdorff CW complex
-whose cells other than the unit are the products of cells of `W` other than the base point, and
-the stages of the word-length filtration are subcomplexes. -/
+in which the stages of the word-length filtration are subcomplexes. -/
 theorem exists_cwComplex
     (hw₀ : ∃ i : Topology.CWComplex.cell (Set.univ : Set W) 0,
       Topology.CWComplex.map 0 i 0 = w₀) :
@@ -141,8 +141,8 @@ theorem exists_cwComplex
         ∀ r, ∃ E : Topology.RelCWComplex.Subcomplex (Set.univ : Set (JamesReducedProduct W w₀)),
           (E : Set (JamesReducedProduct W w₀)) = filtration W w₀ r := sorry
 
-/-- For a CW complex with countably many cells, the product topology on `J(W) × J(W)` is the CW
-topology, and `J(W)` is a topological monoid. -/
+/-- For a Hausdorff CW complex with countably many cells whose base point is a `0`-cell, `J(W)`
+is a topological monoid. -/
 theorem continuousMul [Countable (Σ n, Topology.CWComplex.cell (Set.univ : Set W) n)]
     (hw₀ : ∃ i : Topology.CWComplex.cell (Set.univ : Set W) 0,
       Topology.CWComplex.map 0 i 0 = w₀) :
@@ -169,8 +169,8 @@ theorem exists_jamesMap_isWeakHomotopyEquivalence [ConnectedSpace W]
           TauCeti.MooreLoopSpace Y (q (w₀, 0)))).IsWeakHomotopyEquivalence := sorry
 
 /-- **The James theorem, homotopy-equivalence form.** Under the hypotheses of
-`exists_jamesMap_isWeakHomotopyEquivalence`, the James map is a homotopy equivalence: `J(W)` is
-a CW complex and the Moore loop space of the reduced suspension has CW type. -/
+`exists_jamesMap_isWeakHomotopyEquivalence`, the James map is a multiplicative homotopy
+equivalence from `J(W)` to the Moore loops of the reduced suspension. -/
 theorem exists_jamesMap_homotopyEquiv [ConnectedSpace W]
     (hw₀ : ∃ i : Topology.CWComplex.cell (Set.univ : Set W) 0,
       Topology.CWComplex.map 0 i 0 = w₀)
