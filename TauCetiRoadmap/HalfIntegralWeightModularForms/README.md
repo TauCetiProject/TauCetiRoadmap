@@ -341,14 +341,14 @@ some of them differently from the sources.
 - `DirichletCharacter ℂ N`, `changeLevel`, `conductor`, `primitiveCharacter`,
   `MulChar.equivToUnitHom`, `DirichletCharacter.Even`/`Odd`; `jacobiSym` with quadratic reciprocity,
   `ZMod.χ₄`, `ZMod.χ₈`; `Int.IsFundamentalDiscr` (`FundamentalDiscriminant.lean`, with
-  `isFundamentalDiscr_iff_squarefree`) and `padicValNat` (5.3); `LSeries`, `ArithmeticFunction`
+  `isFundamentalDiscr_iff_squarefree`; 5.3); `LSeries`, `ArithmeticFunction`
   (1.2); `Complex.cpow`, `Real.rpow`.
 
 ### From Tau Ceti
 
 - `DiamondOperators`: `diamondOpHom`, `modFormCharSpace`, `cuspFormCharSpace`,
   `mem_modFormCharSpace_iff`, `eq_of_mem_cuspFormCharSpace_of_ne_zero`; 0.4 copies the construction
-  onto the new carrier. `TauCeti.ModularForm.finiteDimensional_modularForm_finiteIndex` in
+  onto the new carrier. `TauCeti.finiteDimensional_modularForm_finiteIndex` in
   `TauCeti/NumberTheory/ModularForms/SturmBound.lean`: for `𝒢 ≤ GL₂(ℝ)`,
   determinant-one elements, finite relative index in the integral modular group and
   discrete strict periods imply `Module.Finite ℂ (ModularForm 𝒢 k)`. The image of
@@ -874,6 +874,12 @@ trivial character; `Θ_{A₃} ∈ M_{3/2}(Γ₀(8), (2/·))`; `Θ_{D₅} ∈ M_{
 
 *Needs:* 0.1–0.4, 2.1; theta-series roadmap Layers 3 and 7.
 
+The headline `thetaSeries_oddRank` states 2.1's `4 ∣ level L` with this theorem for an even full
+lattice of rank `2k + 1`: an element of `HalfIntegralForm k (Γ₁(level L))` whose underlying
+function is `thetaSeries L` and which satisfies the law above on `Γ₀(level L)`, multiplied out as
+in 0.2, with `det L` read as the order of `L^∨/L` (Tau Ceti's
+`ZLattice.IsIntegral.det_eq_card_discriminantGroup`).
+
 The definition has the following API.
 
 - The odd-rank theta form has the original lattice theta series as underlying function.
@@ -1052,9 +1058,8 @@ holomorphic and nonvanishing on `ℍ`, that its multiplier on `Γ₀(N)` is `∏
 `γ_m = [[a, mb], [c/m, d]]` (3.3), and the **half-integral-weight eta-quotient theorem**: if
 `∑ r_m = 2k + 1`, `∑_m m r_m ≡ 0 (mod 24)` and `∑_m (N/m) r_m ≡ 0 (mod 24)`, then
 `∏ η(mz)^{r_m}` satisfies the law `f(γz) = (2s/d) j(γ, z)^{2k+1} f(z)` for `γ ∈ Γ₀(N)`, where
-`s := ∏_m m^{r_m} ∈ ℚ_{>0}` and `(2s/d)` is the Kronecker symbol of the squarefree-free part
-(write `2s = u v²` with `u` a squarefree-with-sign integer times a power of `2`, and read
-`(2s/d) := (u/d)`; `d` is odd and coprime to `N`). With the **orders at the cusps** of the
+`s := ∏_m m^{r_m} ∈ ℚ_{>0}` and `(2s/d) := (u/d)` for `2s = u v²` with `u` a positive squarefree
+integer and `v ∈ ℚ_{>0}` (`d` is odd and coprime to `N`). With the **orders at the cusps** of the
 modular-forms roadmap §0.2, stated there for every exponent vector (Ligozat, Proposition 3.2.8:
 at the cusp `a/c` of `Γ₀(N)`, `c ∣ N`, the order in the local parameter is
 `(N/24) ∑_m gcd(c, m)² r_m / (gcd(c, N/c) · c · m)`), deduce that the quotient lies in
@@ -1441,7 +1446,7 @@ through `pr⁺`, the Shimura lift and the trace map; the Hecke equivariance at `
 enters). The eigenform `δ ∈ S⁺_{13/2}(4)` with `δ = q − 56q⁴ + 120q⁵ − 240q⁸ + 9q⁹ + ⋯` corresponds
 to `Δ`: `T(9)δ = 252δ`, `T(25)δ = 4830δ`, `T⁺(4)δ = −24δ`, `Sh_1⁺(δ) = Δ` (worked examples).
 
-*Needs:* 1.1, 1.3, 5.1, 5.2; Tau Ceti `LevelOne.GradedRing`; Kohnen 1980.
+*Needs:* 1.1, 1.3, 5.1, 5.2; Tau Ceti `LevelOne.GradedRing`, `TauCeti.kroneckerSym`; Kohnen 1980.
 
 The definition has the following API.
 
@@ -1459,8 +1464,7 @@ The definition has the following API.
   `M⁺_{5/2}(4) = ℂ(θ⁵ − 20θF)` goes to `ℂE₄`.
 - Kronecker values: `(5/2) = −1`, `(−7/2) = 1`, `(−3/2) = −1`, `(−4/2) = (8/2) = 0`, `(5/3) = −1`,
   `(1/d) = 1` for every `d ≥ 1`; reading `(D/2)` as the Legendre symbol at the prime `2` (the
-  parity of `D`) would give `(5/2) = 1`. At `d = 0` the closed formula gives `1` while the
-  Kronecker symbol has `(5/0) = 0`, so the two agree for `d ≥ 1` only.
+  parity of `D`) would give `(5/2) = 1`.
 - `Sh_5⁺(δ)` (`D = 5`, `k = 6`): `A(1) = c(5) = 120`, `A(2) = c(20) + (5/2) 2⁵ c(5) = 960 − 3840 =
   −2880 = 120 τ(2)`, `A(3) = c(45) + (5/3) 3⁵ c(5) = 59400 − 29160 = 30240 = 120 τ(3)`, so
   `Sh_5⁺(δ) = c(5) Δ` at these indices (Kohnen–Zagier's table, p.178).
@@ -1471,15 +1475,7 @@ The lift headline is `HalfIntegralForm.kohnenLift`: for `k ≥ 1`, a fundamental
 (Mathlib's `Int.IsFundamentalDiscr`) with `(−1)^k D > 0` and `g ∈ S⁺_{k+1/2}(4)`, the series
 `∑_{n ≥ 1} A_D⁺(n) qⁿ` is the expansion of a cusp form of weight `2k` on `SL₂(ℤ)`; its Hecke
 equivariance and the eigenform identity `Sh_D⁺(g) = c(|D|) f` remain targets. Its Kronecker
-symbol `(D/d)` for `d ≥ 1` is `HalfIntegralForm.kroneckerSymNat`: `(D/2)^{v₂(d)} (D/d')` with `d'`
-the odd part of `d`, `(D/2) = χ₈(D)` (`1` for `D ≡ ±1`, `−1` for `D ≡ ±3 (mod 8)`, `0` for
-even `D`) and `(D/d')` the Jacobi symbol. For `d ≥ 1` it is `TauCeti.kroneckerSym D d`, the
-theta-series roadmap's `kroneckerSym`: at a positive second argument,
-`TauCeti.kroneckerSym_of_ne_zero` has sign factor `1`, exponent `d.factorization 2 = v₂(d)` and
-odd part `ordCompl[2] d = d'`. Prove that the two agree for `d ≥ 1`, so that the lift is stated
-through the consumed symbol. They differ only at `d = 0`, where the closed formula gives `1` and
-`TauCeti.kroneckerSym D 0 = 0` for `D ≠ ±1`; the divisor sum over the divisors of `n > 0` never
-reads that value.
+symbol `(D/d)` is `TauCeti.kroneckerSym D d`.
 
 ### 5.4 Kohnen's plus space at level `4N`
 
@@ -1489,9 +1485,9 @@ condition `(−1)^k n ≡ 0, 1 (mod 4)` inside `M_{k+1/2}(4N, 1)`, and the newsp
 `4M`, `M ∣ N`, `M < N`. **Prove** (Kohnen 1982): `S⁺_{k+1/2}(4N)^{new} ≅ S_{2k}(Γ₀(N))^{new}` as
 Hecke modules (for `T(p²)` against `T_p`, `p ∤ 2N`, and the operators at `p ∣ 2N`), with a
 half-integral-weight newform theory (strong multiplicity one on the plus newspace). This is the
-level-`4N` shape of the LMFDB's `newpart` for odd squarefree `N` and trivial character; the character version has the same proof ownership in this section (Kohnen 1982, uncertified). Prove the level maps, their Petersson adjoints, the orthogonal old/new decomposition,
+level-`4N` shape of the LMFDB's `newpart` for odd squarefree `N` and trivial character. Prove the level maps, their Petersson adjoints, the orthogonal old/new decomposition,
 the multiplicity-one theorem and the compatibility at primes dividing `2N`, as well as the
-displayed isomorphism (Kohnen 1982, §§2–4, pp.32–72, uncertified).
+displayed isomorphism (Kohnen 1982, §§2–4, pp.32–72).
 
 *Needs:* 1.1, 4.6, 5.1; modular-forms roadmap Layer 4; Kohnen 1982.
 
@@ -1547,8 +1543,7 @@ in `ℚ_p^×/(ℚ_p^×)²`, `p ∣ N`, wherever the `L`-value is nonzero; and (W
 statement) for each `F` and each such local class there is a level `N'` and an eigenform `g` in
 some `S_{k+1/2}(N', χ', F)` with `a_g(t) ≠ 0` whenever `L(F ⊗ χ_{(−1)^k t}, k) ≠ 0`. This is why
 `dim S_{k+1/2}(N, χ, F)` can exceed `1` and can vanish, and why the LMFDB stores `dim_image`. The
-nontrivial-`χ` version and its character factor also belong to this section
-(Waldspurger, Théorème 1 and Corollaire 2, uncertified); the holomorphic coefficient formula and its proof belong here, using the local
+holomorphic coefficient formula and its proof (Waldspurger, Théorème 1 and Corollaire 2) belong here, using the local
 metaplectic representation and theta-kernel theory of MetaplecticAutomorphicForms Layers 2–6.
 The norm comparison and local matching at every place, including primes dividing `2N`,
 are proof targets of this section; a spectral Maass correspondence does not supply them.
@@ -1594,7 +1589,7 @@ adjoint of an arbitrary Hecke isomorphism. The general discriminant adjoints abo
 include odd `k` and negative `D`; their cycle comparison requires the discriminant-twisted
 kernel of Kohnen 1985. Its construction, the square-discriminant endpoint terms and
 its comparison with these Fourier-normalized adjoints are proof targets here
-(Kohnen 1985, pp.237–268, uncertified).
+(Kohnen 1985, pp.237–268).
 
 *Needs:* 0.5, 5.3; Shintani, §2, equations (2.14), (2.19), Theorem 2, pp.105–109;
 Kohnen–Zagier, Corollary 8, p.183; Kohnen 1985 (discriminant-twisted normalization).
@@ -1623,7 +1618,7 @@ Layers 0, 1 and 4; ModularForms Layers 4 and 7; MetaplecticAutomorphicForms Laye
 
 ### 6.1 The classical Jacobi carrier
 
-`J_{k,m}` (`k : ℕ`, `m ≥ 1`) is the the holomorphic classical
+`J_{k,m}` (`k : ℕ`, `m ≥ 1`) is the holomorphic classical
 specialization of MetaplecticAutomorphicForms 6.18's `jacobiSpace`: the Jacobi lattice
 `SL₂(ℤ) ⋉ ℤ²`, central index `m`, weight `k` and trivial multiplier, cut down by holomorphy in `τ`
 and the cusp condition. Define its classical coordinate function
@@ -1640,8 +1635,8 @@ depends only on `4nm − r²` and `r mod 2m` (Eichler–Zagier, Theorem 2.2);
 `φ(τ, −z) = (−1)^k φ(τ, z)`, so `J_{k,1} = 0` for odd `k` (`c(n, −r) = (−1)^k c(n, r)` and `r mod 2`
 is determined by `4n − r²`); the cusp subspace `J^{cusp}_{k,m}` (`c(n, r) = 0` when `4nm = r²`);
 `φ(τ, 0) ∈ M_k(SL₂(ℤ))` and more generally the Taylor development in `z` (Eichler–Zagier §3, the
-maps `D_ν : J_{k,m} → M_{k+ν}`). `JacobiForm k 1` is the carrier on which the sibling
-Section 6.4 supplies the general index maps on this carrier.
+maps `D_ν : J_{k,m} → M_{k+ν}`). `JacobiForm k m` is the carrier on which §6.4 defines the index
+maps `U_d` and `V_l`; the sibling `SiegelModularForms` §9.2 states `E_{k,1}` on `JacobiForm k 1`.
 Finite-dimensionality is 6.2's corollary.
 
 *Needs:* MetaplecticAutomorphicForms 6.17, 6.18; Mathlib `UpperHalfPlane`, `HasSum`;
@@ -1806,7 +1801,7 @@ character orbit, Hecke eigenvalues — the string is the modular-forms roadmap's
 `S_{k+1/2}(N, χ, F)` with coefficients in that field — **the choice of basis is a convention and is not
 a target**; what is intrinsic is the subspace and its field). Prove finite Fourier data determine the forms by a Sturm-type bound: `S_{k+1/2}(N, χ)` embeds by `m_θ` into
 `S_{k+1}(N, χχ₋₄^{k+1})`, so two forms agreeing to the Sturm bound of weight `k + 1` at level `N`
-(Tau Ceti's `sturm_bound_finiteIndex`) are equal.
+(Tau Ceti's `ModularForm.sturm_bound_finiteIndex`) are equal.
 
 *Needs:* 0.3–0.5, 4.6, 4.7, 4.5; Tau Ceti `SturmBound`.
 

@@ -1,6 +1,11 @@
 module
 
 import Mathlib
+import TauCeti.Algebra.Module.ZLattice.Determinant
+import TauCeti.Algebra.Module.ZLattice.Integral
+import TauCeti.Algebra.Module.ZLattice.Level
+import TauCeti.NumberTheory.LegendreSymbol.KroneckerSymbol
+import TauCeti.NumberTheory.ModularForms.ThetaSeries.Basic
 
 /-!
 # Modular forms of half-integral weight: target signatures
@@ -8,7 +13,8 @@ import Mathlib
 The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline
 theorems against the pinned Mathlib and Tau Ceti APIs, using simple definitions on native
 carriers. The headlines stated here are finite-dimensionality, Cohen's level-four dimension
-formulas, the Shimura–Niwa–Cipra theorem with nebentypus, the theta eta quotient, even and
+formulas, the Shimura–Niwa–Cipra theorem with nebentypus, the modularity of the theta series
+of an even lattice of odd rank with its level and character, the theta eta quotient, even and
 odd unary-theta modularity, both Serre–Stark basis theorems, the two unary eta identities,
 Kohnen's lift `Sh_D⁺` for every fundamental discriminant, and the dimension consequence of
 Kohnen's correspondence.
@@ -16,8 +22,7 @@ Kohnen's correspondence.
 The following headlines are not statable with these definitions at the pins. Shimura's
 Euler product, the Hecke equivariance of the lift and the Shimura decomposition lack the
 half-integral Hecke action and its eigenspaces. The existence of the lift with nebentypus
-is stated directly using the character transformation laws. Odd-rank lattice
-modularity lacks ThetaSeries' real-lattice theta-form bridge. Kohnen's Hecke correspondence,
+is stated directly using the character transformation laws. Kohnen's Hecke correspondence,
 the Hecke equivariance of `Sh_D⁺` and the higher-level newform theorem lack the plus-space
 Hecke and newspace carriers. Kohnen–Zagier, Waldspurger and the normalized Shintani adjunction
 lack the half-integral Petersson space, the Shimura maps and the cycle-integral construction.
@@ -279,6 +284,28 @@ theorem shimuraNiwaCipra {N : ℕ} [NeZero N] (hN : 4 ∣ N) {k : ℕ} (hk : 1 �
 
 end HalfIntegralForm
 
+/-! ## Layer 2: theta series of odd-rank lattices -/
+
+section OddRank
+
+/-- **2.1–2.2, Hecke–Schoeneberg in odd rank.** Let `L` be an even full lattice of odd rank
+`2k + 1` in a real inner product space. Then `4 ∣ level L`, and the theta series
+`Θ_L(z) = ∑_{v ∈ L} e(‖v‖² z / 2)` is a form of weight `k + 1/2` on `Γ₁(level L)` satisfying,
+for `γ ∈ Γ₀(level L)` with lower-right entry `d`, the law with the Kronecker character
+`(2 det L / d)`; for an integral lattice `det L` is the order of `L^∨/L`
+(`ZLattice.IsIntegral.det_eq_card_discriminantGroup`). -/
+theorem thetaSeries_oddRank {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E]
+    [FiniteDimensional ℝ E] (L : Submodule ℤ E) [DiscreteTopology L] [IsZLattice ℝ L]
+    (hL : ZLattice.IsEven L) (k : ℕ) (hk : Module.finrank ℝ E = 2 * k + 1) :
+    4 ∣ ZLattice.level L ∧
+      ∃ f : HalfIntegralForm k (Gamma1 (ZLattice.level L)), ⇑f = ZLattice.thetaSeries L ∧
+        ∀ γ ∈ Gamma0 (ZLattice.level L), ∀ z : ℍ,
+          f (γ • z) * theta z ^ (2 * k + 1) =
+            (TauCeti.kroneckerSym (2 * Nat.card (ZLattice.DiscriminantGroup L) : ℤ) (γ 1 1) : ℂ) *
+              theta (γ • z) ^ (2 * k + 1) * f z := sorry
+
+end OddRank
+
 /-! ## Layer 3: multiplier systems; `θ`, `η` and eta quotients -/
 
 section Eta
@@ -392,23 +419,17 @@ theorem finrank_plusSpace (hk : 1 ≤ k) :
       (ModularForm ((CongruenceSubgroup.Gamma 1).map (Matrix.SpecialLinearGroup.mapGL ℝ))
         (2 * k : ℤ)) := sorry
 
-/-- **5.3**, the Kronecker symbol `(D/d)` for `d ≥ 1`: `(D/2)^{v₂(d)} (D/d')` with `d'` the odd
-part of `d`, where `(D/2) = χ₈(D)` is `1, −1, 0` for `D ≡ ±1, ±3 (mod 8)` and `D` even, and
-`(D/d')` is Mathlib's `jacobiSym`. Only the values at `d ≥ 1` are used. -/
-def kroneckerSymNat (D : ℤ) (d : ℕ) : ℤ :=
-  ZMod.χ₈ (D : ZMod 8) ^ padicValNat 2 d * jacobiSym D (d / 2 ^ padicValNat 2 d)
-
 /-- **5.3, Kohnen's lift** `Sh_D⁺` (Kohnen–Zagier, equation (4), p.182): for `k ≥ 1`, a
 fundamental discriminant `D` with `(−1)^k D > 0` and `g = ∑ c(n) qⁿ ∈ S⁺_{k+1/2}(Γ₀(4))`, the
-divisor sums `A_D⁺(n) = ∑_{d ∣ n} (D/d) d^{k−1} c(|D| n²/d²)` are the coefficients of a cusp
-form of weight `2k` on `SL₂(ℤ)`. -/
+divisor sums `A_D⁺(n) = ∑_{d ∣ n} (D/d) d^{k−1} c(|D| n²/d²)`, with `(D/d)` Tau Ceti's Kronecker
+symbol `TauCeti.kroneckerSym`, are the coefficients of a cusp form of weight `2k` on `SL₂(ℤ)`. -/
 theorem kohnenLift (hk : 1 ≤ k) {D : ℤ} (hD : D.IsFundamentalDiscr)
     (hsign : 0 < (-1) ^ k * D) (g : HalfIntegralForm k (Gamma0 4))
     (hg : g ∈ plusSpace k ⊓ cuspSpace k (Gamma0 4)) :
     ∃ F : CuspForm ((CongruenceSubgroup.Gamma 1).map (Matrix.SpecialLinearGroup.mapGL ℝ))
         (2 * k : ℤ),
       ∀ n : ℕ, 0 < n → (UpperHalfPlane.qExpansion 1 F).coeff n =
-        ∑ d ∈ n.divisors, (kroneckerSymNat D d : ℂ) * (d : ℂ) ^ (k - 1) *
+        ∑ d ∈ n.divisors, (TauCeti.kroneckerSym D d : ℂ) * (d : ℂ) ^ (k - 1) *
           coeff g (D.natAbs * n ^ 2 / d ^ 2) := sorry
 
 end HalfIntegralForm
