@@ -131,7 +131,7 @@ comparison with compactified modular curves.
 algebraic-space foundations (relative Proj, descent, algebraic spaces and quotients,
 coherent cohomology, formal schemes and Stein factorization) are SchemeAndStackFoundations;
 relative spectra and their base change are AlgebraicVectorBundles L1A–L1B; complex
-analytic spaces with nilpotents are ComplexComparisonPartII §C−1.1; Artin
+analytic spaces with nilpotents are ComplexComparisonPartII §C-1.1; Artin
 approximation is AlgebraicModuliForArithmeticGeometry Layer 6; coherent analytification, GAGA, Chow's theorem and Remmert's theorems are
 ComplexComparisonPartII; noetherian formal geometry and proper GAGA are AdicSpacesPartIII; rigid and adic
 analytification are AdicSpacesPartII Layer R1; reduction theory and cusps of arithmetic groups are AdelicAlgebraicGroups;
@@ -198,7 +198,7 @@ parahoric level are not used and are not constructed here.
   HilbertModularVarietiesAndShimuraCurves H0–H5; ShimuraVarieties §§P.1–P.3 and Layers 0–8;
   ShimuraData §1.1 and Layers 3–4; NeronModelsAndSemistableAbelianVarieties Layers 1–3;
   ModularCurvesPartII Layers 3–9; FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.2;
-  ArithmeticGaloisDuality R02.1; ComplexComparisonPartII C−1–C4. Internal references `k.n` name target `n` of Layer `k`.
+  ArithmeticGaloisDuality R02.1; ComplexComparisonPartII C-1–C4. Internal references `k.n` name target `n` of Layer `k`.
 
 ## Exact supplier contracts
 
@@ -210,7 +210,7 @@ parahoric level are not used and are not constructed here.
 number field with `NumberField.Units.dirichletUnitTheorem.exists_unit`, `NumberField.Units.sum_mult_mul_log`,
 `NumberField.Units.pos_at_place`, `NumberField.IsTotallyReal.mult_eq` and `Subgroup.exists_pow_mem_of_index_ne_zero`
 (8.1); `Submodule.traceDual` with `Submodule.mem_traceDual` (8.16–8.20); `Units.mul_right_eq_zero`
-(8.4); limits of powers (8.3).
+(8.4); limits of powers (8.3); `localCohomology` (7.34).
 
 ### From Tau Ceti
 
@@ -258,9 +258,9 @@ Layer 7 supplies parabolics and unipotent radicals (Layer 1). ModularCurves Laye
   relative Spec is the pinned `TauCeti.AlgebraicGeometry.relativeSpec` and its base-change API,
   used directly in 0.8 and 0.21.
 - **SchemeAndStackFoundations.** §0.3 supplies general relative Proj; §0.6 supplies coherent Hartogs;
-  §0.8 supplies étale coordinates; §0.28 supplies closed-subscheme ideal quotients; §0.29 supplies
-  relative Frobenius. §§1.1–1.2 supply descent of quasi-coherent modules and algebraic spaces,
-  §§1.3–1.9 algebraic spaces, étale presentations and étale-local properties,
+  §0.8 supplies étale coordinates; §0.17 supplies depth and Serre's conditions; §0.28 supplies
+  closed-subscheme ideal quotients; §0.29 supplies relative Frobenius. §§1.1–1.2 supply descent of
+  quasi-coherent modules and algebraic spaces, §§1.3–1.9 algebraic spaces, étale presentations and étale-local properties,
   §§1.15–1.17 torsors, contracted products and quotients, and §§1.19–1.23 algebraic stacks,
   quotient stacks, coarse spaces and tameness. §§2.1–2.2 supply higher direct images, projection
   formula and Čech cohomology, §§2.5–2.6 filtered colimits and quasi-coherent cohomology with
@@ -273,12 +273,12 @@ Layer 7 supplies parabolics and unipotent radicals (Layer 1). ModularCurves Laye
 - **AlgebraicModuliForArithmeticGeometry.** Layer 6 supplies Artin approximation:
   `Approximation.HasArtinApproximation` and the approximation theorem for henselian noetherian
   local G-rings.
-- **ComplexComparisonPartII.** §C−1.1 supplies `ComplexAnalyticSpace`, including nilpotents, open
+- **ComplexComparisonPartII.** §C-1.1 supplies `ComplexAnalyticSpace`, including nilpotents, open
   and closed subspaces, arbitrary open gluing and fibre products, and
-  `complexSchemeAnalytification`. §0.4 supplies coherent analytification; Layer 2 projective
-  and proper consequences of GAGA; §4.3 derived GAGA for proper algebraic spaces; §6.1
-  Remmert's theorems; §6.2 Chow's theorem with nilpotents; §6.3 compactification and
-  algebraization with proper support; §6.4 algebraicity of holomorphic maps out of proper schemes.
+  `complexSchemeAnalytification`. §C0.4 supplies coherent analytification; Layer C2 projective
+  and proper consequences of GAGA; §C3.3 derived GAGA for proper algebraic spaces; §C4.1
+  Remmert's theorems; §C4.2 Chow's theorem with nilpotents; §C4.3 compactification and
+  algebraization with proper support; §C4.4 algebraicity of holomorphic maps out of proper schemes.
 - **AdicSpacesPartII.** §R1.3 (analytification-functor) supplies adic analytification of schemes
   locally of finite type over a complete nonarchimedean field and its functoriality; §§R1.4 and
   R1.7 supply its morphism comparisons and the rigid–adic comparison.
@@ -334,23 +334,24 @@ Layer 7 supplies parabolics and unipotent radicals (Layer 1). ModularCurves Laye
   over the quotient stack. H3.6/H4.9 supply the
   coarse Cartesian finite étale `Δ(N)`-torsor square over `X^free/Δ(N)`, including restriction to
   invariant Hasse domains inside that free locus; H5.1 (the elliptic case `F = ℚ`).
-- **ArakelovGeometryAndAbelianHeights.** §2.0 supplies `GroupScheme.IsSemiAbelianFamily` for smooth
-  separated commutative groups of finite presentation, its base-change API, and
-  `GroupScheme.semiAbelianHom_extend` over Noetherian normal schemes. 6.1 uses this carrier and
-  adds character and Hodge theory; 6.8 supplies locally Noetherian and algebraic-space descent.
-  §§5.0a–5.0b supply `SiegelModuli.ToroidalCompactification`, `SiegelModuli.toroidalDegenerationChart`,
-  `SiegelModuli.MinimalCompactification`, `SiegelModuli.hodgePower_generated` and
-  `SiegelModuli.hodgeDegree_zero_criterion`, with the principal Siegel families, refinements and
-  Hodge powers over all of `ℤ`. Layers 6–7 extend these interfaces to general degeneration and PEL data
+- **ArakelovGeometryAndAbelianHeights.** §2.0 supplies the semi-abelian family predicate for smooth
+  separated commutative groups of finite presentation, its base-change API, and the extension
+  theorem for homomorphisms of semi-abelian families over Noetherian normal schemes. 6.1 uses this
+  carrier and adds character and Hodge theory; 6.8 supplies locally Noetherian and algebraic-space
+  descent. §§5.0a–5.0b supply the principal Siegel toroidal compactification with its degeneration
+  charts and refinement maps, the integral minimal compactification, the global generation of a
+  positive Hodge power and the Hodge-degree criterion, with the principal Siegel families,
+  refinements and Hodge powers over all of `ℤ`. Layers 6–7 extend these interfaces to general degeneration and PEL data
   and prove agreement on the principal Siegel specialization, including level pullback.
 - **PadicDifferentialEquationsAndRigidCohomology.** §RD.5.116 supplies relative Zarhin's trick: the abelian
   scheme `(A ×_S A^∨)^4` carries a principal polarization when `A` is polarizable étale locally on
   `S`. 7.32–7.33 apply it on the polarized abelian locus, retaining its
   étale-local polarization hypotheses, and extend the comparisons by 6.8.
-- **ModularCurvesPartII.** 3.6 (generalized Tate `n`-gons and `du/u`), 3.7 (power isogenies at the
-  boundary), 3.11 (the compactified coarse `j`-line), 4.8 (Tate and analytic cusp parameters), 5.2
-  (integral coarse modular curves), 5.13 (the fixed-pairing compactified curve), 9.1 (compactified Hecke
-  degeneracy maps), and its import of ModularCurves Layer 10.
+- **ModularCurvesPartII.** 3.5 (fine loci and bad-level inertia), 3.6 (generalized Tate `n`-gons
+  and `du/u`), 3.7 (power isogenies at the boundary), 3.11 (the compactified coarse `j`-line), 4.8
+  (Tate and analytic cusp parameters), 5.2 (integral coarse modular curves), 5.13 (the fixed-pairing
+  compactified curve), 9.1 (compactified Hecke degeneracy maps), and its import of ModularCurves
+  Layer 10.
 
 ## How to read the build
 
@@ -1141,9 +1142,9 @@ Hodge structures; AnalyticToricGeometry Layer 0; Layer 0 (0.13).
 
 This layer builds Pink's toroidal compactification of a pure Shimura variety as a complex analytic
 space, algebraizes it, and descends it to the reflex field. Analytic spaces are those of
-ComplexComparisonPartII §C−1.1 (`ComplexAnalyticSpace`, with nilpotents, open gluing,
+ComplexComparisonPartII §C-1.1 (`ComplexAnalyticSpace`, with nilpotents, open gluing,
 fibre products and scheme analytification), with coherent analytification from ComplexComparisonPartII
-Layer 0. The partial compactifications of the boundary torsors of Layer 1 come from the relative torus
+§C0.4. The partial compactifications of the boundary torsors of Layer 1 come from the relative torus
 embeddings of Layer 0; a controlled open neighbourhood of the image of the symmetric domain is cut out
 inside them, quotients by the effective cusp stabilizers are glued, and the result is normal,
 compact for a complete cone system, smooth with normal-crossings boundary at neat level for a smooth
@@ -1179,7 +1180,7 @@ give the analytified open immersions of 0.9, and the elementary identifications 
 controlled opens); `PartialBoundaryChart.anchor` (a finite regular trivialized chart is the chart of
 AnalyticToricGeometry Layer 2, with characters and strata); `PartialBoundaryChart.glue_hom`
 (compatible analytic maps on the controlled opens glue uniquely). *Needs:* 0.8, 0.9, 1.3, 1.4,
-1.6; ComplexComparisonPartII §C−1.1 (`ComplexAnalyticSpace`, `complexSchemeAnalytification`);
+1.6; ComplexComparisonPartII §C-1.1 (`ComplexAnalyticSpace`, `complexSchemeAnalytification`);
 ComplexComparisonPartII C0.4; AnalyticToricGeometry Layers 0, 2, 3 and 4.
 
 **Checks.**
@@ -1206,7 +1207,7 @@ Pink's controlled neighbourhoods `V_1 ⊆ V_2 ⊆ V_3` in the rational Satake sp
 2.2. The ineffective centre acts trivially and is removed; the full cusp group is not finite. The
 finite-overlap theorem 1.5 gives discontinuity on cone charts; on the controlled neighbourhoods the
 chart relation is the action of the cusp normalizer, whose graph is closed ([Pink], 6.20–6.24, pp.
-107–112). *Needs:* 1.5, 2.1; ShimuraVarieties §P.6, 2.2; ComplexComparisonPartII §C−1.1;
+107–112). *Needs:* 1.5, 2.1; ShimuraVarieties §P.6, 2.2; ComplexComparisonPartII §C-1.1;
 AnalyticToricGeometry Layer 3; SchemeAndStackFoundations Layer 1 (finite group quotients).
 
 **Checks.**
@@ -1232,7 +1233,7 @@ The API: `ToroidalSpace.chart`; `ToroidalSpace.interior` (`Sh_K(ℂ)` is the giv
 `ToroidalSpace.strata` (strata are cone-label quotients with Pink's incidence rule);
 `ToroidalSpace.chart_overlap` (cocycle on triple overlaps); `ToroidalSpace.descend_hom` (compatible
 invariant maps on charts descend uniquely). *Needs:* 1.4, 1.6, 2.1, 2.2;
-ComplexComparisonPartII §C−1.1; AnalyticToricGeometry Layer 3.
+ComplexComparisonPartII §C-1.1; AnalyticToricGeometry Layer 3.
 
 **Checks.**
 
@@ -1250,7 +1251,7 @@ normality of saturated monoid algebras over the normal boundary base and from fi
 quotients, not from the existence of a smooth refinement. The torus is schematically dense in each
 monoid chart, and the identification transports through the chart relation ([Pink], 6.6 and 6.24,
 pp. 98 and 112). *Needs:* 0.16, 2.2, 2.3; SchemeAndStackFoundations Layer 0;
-ComplexComparisonPartII §C−1.1.
+ComplexComparisonPartII §C-1.1.
 
 **Checks.**
 
@@ -1269,7 +1270,7 @@ is proper if and only if its analytification is compact (SGA 1, Exposé XII, Pro
 re-edition pp. 245–246, for
 schemes; for algebraic spaces reduce by Chow's lemma). Properness of the integral models of Layer 7 is a
 separate valuative argument. *Needs:* 0.17, 2.3, 2.8; ShimuraVarieties 2.2; ComplexComparisonPartII
-Layer 2, 6.1 (Remmert's proper mapping theorem), 6.3 (compactification and algebraization with proper support).
+C2, C4.1 (Remmert's proper mapping theorem), C4.3 (compactification and algebraization with proper support).
 
 **Checks.**
 
@@ -1288,7 +1289,7 @@ Assume (2-a), `K` neat, and every cone regular for the central lattice. Neatness
 point stabilizers on the controlled neighbourhoods trivial (1.5, 2.2), so the regular coordinates
 of 0.10 and 0.12 descend ([Pink], 6.26 and
 9.20–9.21, pp. 113–114 and 156–157). *Needs:* 0.10, 0.12, 1.5, 2.3; AnalyticToricGeometry
-Layer 4; ComplexComparisonPartII §C−1.1.
+Layer 4; ComplexComparisonPartII §C-1.1.
 
 **Checks.**
 
@@ -1409,8 +1410,8 @@ AbelianSchemesAndArithmeticModuli A1–A2; PELModuli M2 (Siegel moduli with univ
 
 ### Dependencies
 
-Layers 0 and 1; ComplexComparisonPartII §C−1.1; ComplexComparisonPartII C0, C2, C3 and C4; ShimuraVarieties Layers 2, 4, 7 and 8; SchemeAndStackFoundations Layer 0, Layer 1 and Layer 4;
-AbelianSchemesAndArithmeticModuli A1–A2; PELModuli M2; AnalyticToricGeometry Layers 0–4.
+Layers 0 and 1; ComplexComparisonPartII §C-1.1; ComplexComparisonPartII C0, C2, C3 and C4; ShimuraVarieties Layers 2, 4, 7 and 8; SchemeAndStackFoundations Layer 0, Layer 1 and Layer 4;
+AbelianSchemesAndArithmeticModuli A1–A2; PELModuli M2; AnalyticToricGeometry Layers 0, 2, 3 and 4.
 
 ## Layer 3: general-data completion
 
@@ -1432,6 +1433,14 @@ and ample-cover criterion are applied as in 2.9 ([Pink], 12.4–12.5, pp. 197–
 
 - Changing the auxiliary data of the general route does not change the boundary pure datum.
 - No PEL moduli family is introduced for a general datum.
+
+### Examples
+
+- For the modular-curve datum, which is of abelian type, 3.1 and 2.9 give the same model, the
+  compactified modular curve; uniqueness of canonical models identifies the two routes.
+- For a datum with `G^ad` anisotropic over `ℚ` there are no proper rational boundary components, so
+  no boundary is added and 3.1 returns the canonical model of ShimuraVarieties 8.22, which is
+  already proper.
 
 ### Dependencies
 
@@ -1467,8 +1476,8 @@ on the models of Layer 7 is the same construction on their degeneration charts (
 9.22–9.23, pp. 112–113 and 157–158; [Lan], 6.4.2.2–6.4.2.3 and 7.1.1.4, pp. 524–525 and 532). The
 API: `ToroidalRefinement.id`; `ToroidalRefinement.comp`; `ToroidalRefinement.interior`;
 `ToroidalRefinement.proper`. On principal Siegel models, identify these maps and pulled-back
-families with ArakelovGeometryAndAbelianHeights §5.0a's `SiegelModuli.toroidalRefinement` and its
-family comparison. *Needs:* ArakelovGeometryAndAbelianHeights §5.0a; 0.17, 1.4, 2.9;
+families with the refinement maps of ArakelovGeometryAndAbelianHeights §5.0a and their family
+comparison. *Needs:* ArakelovGeometryAndAbelianHeights §5.0a; 0.17, 1.4, 2.9;
 AnalyticToricGeometry Layers 0, 3, 4 and 5.
 
 **Checks.**
@@ -1490,7 +1499,8 @@ at the boundary: the induced lattice map records the boundary ramification. Assu
 compatible source and target systems for the given map and the level, datum and translation maps of
 ShimuraVarieties Layer 8 (and 1.5). Use the induced monomial and torsor chart maps and Pink 6.25,
 descend and glue, and prove composition and the quotient statement on charts and by uniqueness on
-the dense interior ([Pink], 6.25, pp. 112–113). *Needs:* 0.14, 1.5, 1.6, 4.1; ShimuraVarieties
+the dense interior ([Pink], 6.25, pp. 112–113; 12.4(b) and 12.5, pp. 197–198, for the fields of
+definition). *Needs:* 0.14, 1.5, 1.6, 4.1; ShimuraVarieties
 1.5, Layer 8; AnalyticToricGeometry Layer 5.
 
 **Checks.**
@@ -1673,7 +1683,8 @@ formula, cohomology and filtered colimits).
 
 **Checks.**
 
-- The statement holds for `M = B/ϖ^n`, which is not flat.
+- The statement holds for `M = O_{F_0,(□)}/𝔭^n` with `𝔭` a nonzero prime of `O_{F_0,(□)}` and
+  `n ≥ 1`, which is not flat.
 - It holds in every degree, not only for `H^0`.
 
 ### 4.11 Completed local comparisons
@@ -1692,7 +1703,7 @@ formal higher direct images, together with the Mittag-Leffler property of the co
 thickenings (AdicSpacesPartIII §F0.6 (formal-functions-affine)). On non-neat quotient stacks use
 the neat-cover descent of 4.7. Boxer–Pilloni apply this on partial compactifications of Igusa
 towers and Pilloni with completed coefficients; those towers are built in the roadmaps that build on
-this one ([BP], 3.4.15–3.4.16, p. 39; [Pilloni20], 3.4, pp. 15–16). *Needs:* 4.7, 4.8, 4.9,
+this one ([BP], 3.4.15–3.4.16, p. 39; [Pilloni20], 3.4, pp. 14–15). *Needs:* 4.7, 4.8, 4.9,
 4.10; AdicSpacesPartIII §F0.6 (cohomology-of-mittag-leffler-limit), §F0.6 (theorem-on-formal-functions), §F0.6 (formal-functions-affine), §F0.6 (formal-direct-image-comparison); SchemeAndStackFoundations Layer 2;
 ArithmeticGaloisDuality R02.1.1 (Milnor exact sequence).
 
@@ -1714,7 +1725,7 @@ ArithmeticGaloisDuality R02.1.1 (Milnor exact sequence).
 ### Dependencies
 
 Layers 0–2; ShimuraVarieties 1.5 and Layer 8; AdicSpacesPartIII F0;
-SchemeAndStackFoundations Layers 0–2; AnalyticToricGeometry Layers 0–5.
+SchemeAndStackFoundations Layers 0–2; AnalyticToricGeometry Layers 0, 2, 3, 4 and 5.
 
 ## Layer 5: general-data maps and correspondences
 
@@ -1728,12 +1739,20 @@ coefficient theorems 4.5–4.11 keep their hypotheses. Identify the open restric
 of the general route, descend using the canonical boundary models (2.10) and uniqueness on the dense
 interior, and check identities after base change to `ℂ` ([Pink], 6.25 and 12.4–12.8, pp. 112–113 and
 197–200). *Needs:* 3.1, 4.2, 4.3, 4.4; ShimuraVarieties 8.22–8.23; AnalyticToricGeometry
-Layers 0–5.
+Layers 0, 2, 3, 4 and 5.
 
 **Checks.**
 
 - A map of general data is defined over the specified compositum of reflex fields.
 - No integral extension at any prime is added.
+
+### Examples
+
+- For the modular-curve datum the maps of 5.1 are those of 4.2–4.3: at a cusp the two arrows of
+  `T_p` are `q ↦ q^p` and `q ↦ q`, as in Layer 4.
+- For a datum with `G^ad` anisotropic over `ℚ` no boundary is added, every refinement map is the
+  identity, and the level, datum and Hecke maps of 5.1 are those of the canonical tower of
+  ShimuraVarieties 8.22.
 
 ### Dependencies
 
@@ -1766,7 +1785,7 @@ Standing hypotheses of the layer:
 
 ### 6.1 Semi-abelian schemes
 
-Use `GroupScheme.IsSemiAbelianFamily` from ArakelovGeometryAndAbelianHeights §2.0.
+Use the semi-abelian family predicate of ArakelovGeometryAndAbelianHeights §2.0.
 `SemiAbelianScheme` denotes a smooth separated commutative group scheme of finite presentation with
 that supplied fibrewise predicate, rather than a second predicate or a chosen torus extension. Its
 geometric fibres are extensions of abelian varieties by tori. The relative dimension and the
@@ -1946,9 +1965,8 @@ PELModuli M1.2 (PEL-type abelian schemes), M1.7; SchemeAndStackFoundations Layer
 
 Prove `SemiAbelianScheme.hom_extend`: for semi-abelian schemes `G`, `H` over a locally noetherian
 normal scheme `S` and a dense open `U ⊆ S`, restriction `Hom_S(G, H) → Hom_U(G_U, H_U)` is
-bijective; the same holds over normal algebraic spaces by étale descent. Apply the supplied
-`GroupScheme.semiAbelianHom_extend` of ArakelovGeometryAndAbelianHeights §2.0 on Noetherian normal
-affine opens. Uniqueness makes the extensions agree on overlaps; descent along normal étale atlases
+bijective; the same holds over normal algebraic spaces by étale descent. Apply the extension
+theorem of ArakelovGeometryAndAbelianHeights §2.0 on Noetherian normal affine opens. Uniqueness makes the extensions agree on overlaps; descent along normal étale atlases
 then supplies the algebraic-space statement. All families use 6.1's finite-presentation carrier
 ([FC], Chapter I, Proposition 2.7 and its proof, pp. 9–11; [Lan], 3.3.1.5, p. 192; [BP], Lemma
 4.2.2, p. 43). *Needs:* 6.1; ArakelovGeometryAndAbelianHeights §2.0;
@@ -2194,7 +2212,7 @@ AdicSpacesPartIII Layers F0, R2–R3; AdicSpacesPartII Layer R1; SchemeAndStackF
 ## Layer 7: integral PEL compactifications
 
 Over a base where the PEL datum has good reduction, the toroidal compactification has an integral
-model. This layer constructs it following Lan's book: good algebraic models of the formal boundary
+model. This layer constructs it from good algebraic models of the formal boundary
 charts of Layer 6, glued by an étale relation into a smooth proper algebraic space (a stack at non-neat
 level) with its universal semi-abelian family, formal completions and logarithmic Kodaira–Spencer
 isomorphism. The boundary strata are analysed down to the statements used by coefficient
@@ -2726,7 +2744,7 @@ pp. 1009–1010). *Needs:* 4.9, 6.1, 6.7, 7.3, 7.4, 7.19, 7.31.
 Prove `IntegralToroidalModel.koecher`: if `O ⊗ ℚ` is simple, `R` is an `O_{F_0,(p)}`-algebra and `E`
 is formally canonical on the normalized model of 7.31, then for every open `U ⊆ M^min` with toroidal
 preimage `U^tor`, restriction `Γ(U^tor, E) → Γ(U ∩ M_H, E)` is bijective, except when `dim M_H = 1` and
-`U` meets the boundary. This includes torsion coefficients `R = O/ϖ^n` and the normalization model of
+`U` meets the boundary. This includes torsion coefficients `R = O_{F_0,(p)}/p^n` and the normalization model of
 Bijakowski–Pilloni–Stroh; it does not identify that model with a parahoric model. Apply Lan 2017
 Lemma 8.1 and Propositions 8.3–8.4 (vanishing of the relevant cohomology of `Ψ(ℓ)` for `ℓ` positive,
 and of global sections for `ℓ` not in `σ^∨` on positive-dimensional torsor fibres) to the graded
@@ -2743,9 +2761,10 @@ Layer 2.
 
 ### 7.23 The Siegel Koecher principle with arbitrary coefficients
 
-Prove `IntegralToroidalModel.siegel_koecher`: for the neat good-prime genus-two Siegel model, `E` of
-rank two, `a ≥ b`, `ω(a, b) = Sym^{a−b}E ⊗ (det E)^{⊗b}`, and every `O`-module `M`, restriction
-`H^0(X, ω(a, b) ⊗_O M) → H^0(Y, ω(a, b) ⊗_O M)` from the toroidal model to the open moduli space is
+Prove `IntegralToroidalModel.siegel_koecher`: for a good prime `p` and the neat genus-two Siegel
+model over `ℤ_(p)` (the case `□ = {p}` of (6-b)), `E` of rank two, `a ≥ b`,
+`ω(a, b) = Sym^{a−b}E ⊗ (det E)^{⊗b}`, and every `ℤ_(p)`-module `M`, restriction
+`H^0(X, ω(a, b) ⊗_{ℤ_(p)} M) → H^0(Y, ω(a, b) ⊗_{ℤ_(p)} M)` from the toroidal model to the open moduli space is
 bijective, independently of the toroidal model. Apply 7.22 to finite modules, which are formally
 canonical by 7.21, and pass to arbitrary modules by filtered colimits (cohomology of quasi-compact
 separated spaces commutes with them) ([CG], 5.2, pp. 821–822; [Lan], 7.1.1.4–7.1.1.5, pp. 532–533).
@@ -2753,7 +2772,8 @@ separated spaces commutes with them) ([CG], 5.2, pp. 821–822; [Lan], 7.1.1.4�
 
 **Checks.**
 
-- `M = O/ϖ^n` is included.
+- `M = ℤ/p^n` and `M = 𝒪/ϖ^n`, for `n ≥ 1` and the ring of integers `𝒪` of a finite extension of
+  `ℚ_p` with uniformizer `ϖ`, are included; neither is flat over `ℤ_(p)`.
 - Nothing is asserted for higher cohomology.
 
 ### 7.24 The Koecher principle on the ordinary locus
@@ -3054,7 +3074,7 @@ Layer 1, Layer 2 and Layer 4.
 
 For Hilbert modular varieties the general machinery becomes explicit, and it can be pushed to every
 prime not dividing the tame level, including primes ramified in the totally real field and `p = 2`,
-where the PEL models of Layer 7 are not smooth. Following Dimitrov, this layer first proves only the
+where the PEL models of Layer 7 are not smooth. This layer first proves only the
 elementary unit-orbit estimates 8.1–8.8 and trace-phase arithmetic 8.16–8.20. It constructs the
 ideal-level moduli, Hilbert cusp data, lattices, stabilizers, fans and all-prime families, then
 glues the toroidal compactification over `ℤ[1/N(n)]` from formal charts by Rapoport's gluing theorem
@@ -3482,7 +3502,8 @@ Prove `HilbertModular.toroidal_exists`: at neat tame level, for an admissible fa
 there are a scheme `M̄¹_Σ` over `B`, an open immersion `M¹ → M̄¹_Σ` and identifications of the completions along the boundary
 with the cusp charts of 8.21, compatible with the universal family; the triple is unique up to
 unique isomorphism. Choose finitely many orbit representatives of cusps and cones with their unit,
-cyclotomic and face relations; the cusp charts form a découpage in the sense of 8.57; its
+cyclotomic and face relations; the cusp charts, the open moduli space and the gluing map form a
+découpage in the sense of 8.57; its
 hypotheses hold: the interior is schematically dense, the open moduli space is compactifiable, the
 gluing map is permitted, and the conditions on points over complete discrete valuation rings and
 their Artinian thickenings are verified on the permitted boundary-specializing locus of 8.57, using
@@ -4133,8 +4154,10 @@ an affine scheme of finite type over a field or an excellent Dedekind ring, `X` 
 algebraic space of finite type over `S` with an affine atlas `Spf A_2 ⇒ Spf A_1 → X`, and `Y°` an
 algebraic space of finite type over `S` with a map `f° : (Spec A_1)° → Y°` from the complement of
 the closed fibre (`Spec A_1` with its ideal of definition), equalizing the two arrows obtained from
-the atlas by algebraization of formal maps (Lemme 5.8, EGA III 5; AdicSpacesPartIII §F0.8
-(completion on relative morphisms and grothendieck-algebraization)). Assume: `(Spec A_1)°` is
+the atlas by algebraization of formal maps ([Dimitrov], Lemme 5.8, which refers to EGA III₁, §5;
+AdicSpacesPartIII §F0.8 (completion on relative morphisms and grothendieck-algebraization)). Call
+the atlas together with `Y°` and such an `f°` a découpage of `X` ([Dimitrov], Définition 5.10).
+Assume: `(Spec A_1)°` is
 schematically dense in `Spec A_1`; `Y°` admits an open immersion into an algebraic space proper over
 `S`, fixed as `Y*`. Define `Y°(K)_permis` by requiring that the unique extension of a `K`-point to
 `Spec V → Y*` specializes to `Y* ∖ Y°`. For a thickening `(R,R^{(0)})`, `R` is local Artinian with
@@ -4294,6 +4317,9 @@ Mathlib's units of number fields and trace duals; Tau Ceti's total positivity.
   et globaux*), Exposé VIII; re-edition by Y. Laszlo, arXiv:math/0511279 (re-edition pagination used here).
 - SGA 1 (A. Grothendieck, *Revêtements étales et groupe fondamental*), Exposés VIII and XII; SGA 3
   (M. Demazure and A. Grothendieck, *Schémas en groupes*), Exposés I and VII_A, revised edition at
-  https://webusers.imj-prg.fr/~patrick.polo/SGA3/ (re-edition pagination used here); EGA IV₂, §5.
+  https://webusers.imj-prg.fr/~patrick.polo/SGA3/ (re-edition pagination used here); EGA III₁
+  (A. Grothendieck, *Étude cohomologique des faisceaux cohérents*, Publ. Math. IHÉS 11, 1961), §5
+  (the existence theorem for coherent sheaves and, in 5.4, the comparison of morphisms of schemes
+  with morphisms of formal schemes).
 - [Stacks] The Stacks Project, Tags 0CBN (normal crossings divisors), 0A18 (Stein factorization for
   algebraic spaces), 0E0L (Lemma 36.32.6: global functions of proper flat families).

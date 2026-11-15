@@ -2,7 +2,7 @@ import Mathlib
 import TauCeti.NumberTheory.NumberField.TotallyPositive
 
 /-!
-# Shimura compactifications: headline target statements
+# Toroidal compactifications and boundary geometry: target signatures
 
 **This file is not the roadmap and is not exhaustive.** The definitive document is
 `README.md`. These statements suggest Lean forms for particular milestones; discharging them
@@ -23,8 +23,8 @@ absent at the pins:
   maps and independence of coherent cohomology, need Shimura varieties and their toroidal models.
 * Layer 6's Mumford degeneration equivalence, extension theorems and boundary Hasse determinant need
   semi-abelian families, polarized degeneration data and their Hodge bundles.
-* Layer 7's integral toroidal and minimal compactifications, Hodge-line generation and integral Koecher
-  theorem need PEL moduli and the preceding degeneration objects.
+* Layer 7's integral toroidal and minimal compactifications, Hodge-line generation and the integral
+  Koecher theorem need PEL moduli and the preceding degeneration objects.
 * Layer 8's Hilbert compactifications, geometric Koecher and q-expansion principles, cusp-ideal
   comparison and ordinary boundary need Hilbert moduli, cusp charts and weight sheaves. Its formal
   gluing theorem needs formal algebraic spaces. The arithmetic support statement below does not
