@@ -108,6 +108,11 @@ hypotheses in their declarations.
 - [Simple-function density][ml-simple] and [completeness][ml-lp-complete] supply
   native `Lp`, `MemLp`, finite-exponent simple density, completeness and
   a.e.-convergent subsequences. Section 3 supplies the additional comparisons.
+- [Hölder pairing of sequence spaces][ml-lp-holder] supplies `lp.dualPairing` and
+  `lp.norm_dualPairing`: for conjugate exponents `1 ≤ p, q ≤ ∞`, a family of continuous
+  bilinear maps of norm at most `K` (`K ≥ 0`) and a complete target, the pairing
+  `(e,f) ↦ ∑' i, B i (e i) (f i)` is bounded with norm at most `K`.
+  Section 8.3 supplies surjectivity and the isometry.
 - [Vector measures and densities][ml-density] supply `VectorMeasure`,
   `VectorMeasure.variation`, `Measure.withDensityᵥ` and the variation-of-density
   identity. [Variation][ml-variation] supplies `VectorMeasure.le_variation` and
@@ -1168,7 +1173,7 @@ and coordinate formula for complete X, including p=1 and q=∞, without an RNP a
 
 (HvNVW, Proposition 1.3.3 and the atomic-measure discussion preceding it, pp. 39–40; the [errata][hvn-errata], entry for p. 39, give the atom-dependent functional bound.)
 
-*Needs:* §3.2, scalar lp.dualEquiv and BanachSpaceTheory B3 and B5; no RNP input.
+*Needs:* §3.2, Mathlib `lp.dualPairing` and `lp.norm_dualPairing`, scalar lp.dualEquiv and BanachSpaceTheory B3 and B5; no RNP input.
 
 ### Examples
 
@@ -1345,6 +1350,7 @@ differentiation, harmonic analysis and stochastic integration.
 [ml-prod]: https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/MeasureTheory/Integral/Prod.lean
 [ml-simple]: https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/MeasureTheory/Function/SimpleFuncDenseLp.lean
 [ml-lp-complete]: https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/MeasureTheory/Function/LpSpace/Complete.lean
+[ml-lp-holder]: https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/Analysis/Normed/Lp/lpHolder.lean
 [ml-measured-sets]: https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/MeasureTheory/Measure/MeasuredSets.lean
 [ml-separable-measure]: https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/MeasureTheory/Measure/SeparableMeasure.lean
 [ml-density]: https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/MeasureTheory/VectorMeasure/WithDensityVec.lean
