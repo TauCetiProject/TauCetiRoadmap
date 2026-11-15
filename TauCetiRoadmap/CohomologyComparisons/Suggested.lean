@@ -4,10 +4,10 @@ import Mathlib
 # p-adic cohomology comparisons: target signatures
 
 **This file is not the roadmap.** The roadmap is `README.md`, which carries every target,
-API list and Check. This file is the roadmap's acceptance test: it states the headline
-theorems against the pinned Mathlib and Tau Ceti, each with `sorry`; it states no theorem because none is statable at the pins.
+API list and Check. This file is the roadmap's acceptance test, meant to state the headline
+theorems against the pinned Mathlib and Tau Ceti, each with `sorry`. It states none, because
+none is statable at the pins; the list below says what each lacks.
 
-No headline theorem can be stated against the pinned Mathlib and Tau Ceti libraries.
 The missing objects are mathematical constructions, rather than abbreviations of the
 available coefficient rings or ordinary derived categories:
 
