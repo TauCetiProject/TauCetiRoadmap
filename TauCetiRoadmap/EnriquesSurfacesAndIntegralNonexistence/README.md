@@ -1,6 +1,6 @@
 # Roadmap: Enriques surfaces and nonexistence over the integers
 
-**Summary.** This arithmetic Part II to EnriquesSurfaces extends its characteristic-not-two surface theory to characteristic two and arbitrary-field descent. Build the arithmetic geometry of Enriques surfaces from their geometric definition and numerical intersection lattice through genus-one fibrations, canonical coverings and Picard descent. The main targets exclude nonexceptional Enriques surfaces over F₂ with constant full Picard scheme, and then flat proper families over Spec ℤ with geometric Enriques fibres. The route includes characteristic-two deformation theory and two separate classification obligations: an exhaustive fourteen-case rational-Jacobian classification and the exclusion of three additional Enriques configurations. These obligations are part of the specification of the proof, including every use of the eight-case residual table.
+**Summary.** This arithmetic Part II to EnriquesSurfaces extends its characteristic-not-two surface theory to characteristic two and arbitrary-field descent. Build the arithmetic geometry of Enriques surfaces from their geometric definition and numerical intersection lattice through genus-one fibrations, canonical coverings and Picard descent. The main targets exclude nonexceptional Enriques surfaces over F₂ with constant full Picard scheme, and then flat proper families over Spec ℤ with geometric Enriques fibres. The route includes characteristic-two deformation theory and two separate classification obligations: completeness of the fourteen-case rational-Jacobian classification, imported under Exact supplier contracts, and the exclusion of three additional Enriques configurations, a proof target of Layer 5. Every use of the eight-case residual table depends on both.
 
 ## Scope and ownership
 
@@ -102,7 +102,7 @@ These six Part II contracts specify the required general extensions and their ex
 
 ## How to read the build
 
-Layer 0 identifies the surface and its numerical lattice. Layer 1 develops the linear systems, local coverings and exceptional configurations. Layer 2 treats families and descent. Layer 3 proves numerical constancy and point counts before comparing canonical covers; its four-twist argument yields full Picard constancy over ℤ. Layer 4 compares Enriques fibrations with rational Jacobians, Layer 5 enumerates and reduces the possibilities, and Layers 6–7 perform the two lattice and incidence eliminations. Layer 8 combines the independent lifting obstruction with the finite-field and integral endpoints. The exhaustive rational-Jacobian theorem and the three additional configuration exclusions are separate proof obligations; every argument using the residual eight-case list depends on both. The arithmetic matrix and incidence calculations assert no geometric realizability.
+Layer 0 identifies the surface and its numerical lattice. Layer 1 develops the linear systems, local coverings and exceptional configurations. Layer 2 treats families and descent. Layer 3 proves numerical constancy and point counts before comparing canonical covers; its four-twist argument yields full Picard constancy over ℤ. Layer 4 compares Enriques fibrations with rational Jacobians, Layer 5 enumerates and reduces the possibilities, and Layers 6–7 perform the two lattice and incidence eliminations. Layer 8 combines the independent lifting obstruction with the finite-field and integral endpoints. The exhaustive rational-Jacobian theorem, imported from a supplier, and the three additional configuration exclusions of §5.7 are separate proof obligations; every argument using the residual eight-case list depends on both. The arithmetic matrix and incidence calculations assert no geometric realizability.
 
 ## Layer 0: geometric Enriques surfaces and their numerical lattice
 
@@ -1516,7 +1516,7 @@ In the IV exclusion, put the relevant D₅ and A₂ divisors in the same partner
 
 ### Dependencies
 
-Layers 1–4; the exhaustive fourteen-case rational-Jacobian classification; quasielliptic component/rank theory; canonical-type reconstruction; and the separate three-configuration exclusion 5.7. The no-I₈, no-IV*, residual and later elimination arguments carry both classification prerequisites. The local prohibition on rational special two-sections does not require the classification.
+Layers 1–4; the exhaustive fourteen-case rational-Jacobian classification of NeronModelsAndSemistableAbelianVarietiesPartII §7.4; quasielliptic component/rank theory; canonical-type reconstruction; and the separate three-configuration exclusion 5.7. The no-I₈, no-IV*, residual and later elimination arguments carry both classification prerequisites. The local prohibition on rational special two-sections does not require the classification.
 
 ## Layer 6: ten-curve lattices and the I₄* exclusion
 
