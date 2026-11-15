@@ -78,12 +78,13 @@ filtered colimits. No second carrier is built.
   `rightOrthogonal`, orthogonal factorization systems and local objects for an arbitrary class are
   not built here; this roadmap uses only Mathlib's `MorphismProperty.isLocal`, objects orthogonal
   to a class.
-- *Lurie's form of presentability, the small object argument in a presentable category, weakly
-  saturated classes, accessible subcategories and combinatorial model categories* are
-  HigherToposTheory's Layer F1 (§§F1.1, F1.3, F1.6).
+- *Lurie's form of presentability, weakly saturated classes, the small object argument in a
+  presentable category, accessible subcategories and combinatorial model categories* are
+  ModelCategories' (§1.2, §1.3, §§1.4–1.5, §5.1 and Layer 6).
 - *Presentable and accessible ∞-categories* are EnhancedDerivedSheaves §E0.8 and Layer
-  E5:presentability, and HigherToposTheory Layer L7; the ∞-categorical `Ind_κ` is
-  BordismFormalGroups §F6.5. Nothing here is about ∞-categories.
+  E5:presentability, PresentableInfinityCategories (Layer 1) and AccessibleInfinityCategories
+  (§4.1); the ∞-categorical `Ind_κ` is BordismFormalGroups §F6.5. Nothing here is about
+  ∞-categories.
 - *Grothendieck topoi, Giraud's theorem and geometric morphisms* are GrothendieckTopoi's (Layers 1
   and 2; §1.4 for Giraud's theorem). That a Grothendieck topos is locally presentable is an
   instance of target 1.2 recorded in the Examples of Layer 1. Classifying topoi of geometric
@@ -983,8 +984,8 @@ Mathlib: `CategoryTheory.ObjectProperty.LimitsClosure`, `CategoryTheory.Morphism
 ClassifyingTopoi consumes 1.5 (finitely accessible categories as `Ind A`) in its 3.5 and in the
 Examples of its Layer 3, and 3.1 and 3.5 (theories with finite limits and essentially algebraic
 theories) in those Examples.
-HigherToposTheory (Layer F1) consumes Mathlib's `CategoryTheory.Presentable` directly; its
-statements about locally presentable categories use the carriers named here.
+ModelCategories consumes Mathlib's `CategoryTheory.Presentable` directly; its statements about
+presentable categories use the carriers named here.
 
 ## Research context
 
