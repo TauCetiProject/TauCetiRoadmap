@@ -36,15 +36,16 @@ schemes over a ring `k` and its comparison with Mathlib's internal equivalence r
 `Scheme`; the ring of invariants and the difference ideal `J(B)`; the categorical quotient and
 the effectivity criterion for `A` finite over a field; the restriction to closed subschemes;
 Raicu's examples (the non-effective relation on `𝔸²` and the toric theorem); the non-effective
-relation on a finite local scheme of Layer 3, and the theorem that every equivalence relation on a
-square-zero extension `k ⊕ V` of a field is given by its invariants (3.2); the Amitsur condition,
-descent of morphisms of modules and the Joyal–Tierney theorem for pure ring maps, with their
-application to the quotient map `A^R → A` and to the universal effective epimorphisms of affine
-schemes (Layer 4). No roadmap on main or in an open pull request states descent along pure maps.
-Purity itself is PerfectoidSpacesPartII's (Owned elsewhere); Layer 4 writes the condition out
-(`P → B ⊗[A] P` injective for every `A`-module `P`). 4.2 extends faithfully flat descent of modules
-(Mathlib's `comonadicExtendScalars`; AlgebraicModuliForArithmeticGeometry §3.1,
-`affineModuleDescentEquivalence`, under Owned elsewhere) to pure ring maps; neither consumes 4.2.
+relation on a finite local scheme of 3.2–3.3, an example of this roadmap's own that no published
+source states, and the theorem that every equivalence relation on a square-zero extension `k ⊕ V` of
+a field is given by its invariants (3.2); the Amitsur condition, descent of morphisms of modules and
+the Joyal–Tierney theorem for pure ring maps, with their application to the quotient map `A^R → A`
+and to the universal effective epimorphisms of affine schemes (Layer 4). No roadmap on main or in an
+open pull request states descent along pure maps. Purity itself is PerfectoidSpacesPartII's (Owned
+elsewhere); Layer 4 writes the condition out (`P → B ⊗[A] P` injective for every `A`-module `P`).
+4.2 extends faithfully flat descent of modules (Mathlib's `comonadicExtendScalars`;
+AlgebraicModuliForArithmeticGeometry §3.1, `affineModuleDescentEquivalence`, under Owned elsewhere)
+to pure ring maps; neither consumes 4.2.
 
 **Owned elsewhere.**
 
@@ -475,16 +476,22 @@ a local artinian `k`-algebra with residue field `k`. Prove
 `not_isEffectiveEquivalenceRelation_raicuArtin`: over every field `k`, this relation is not
 effective. This answers negatively, over a field, the question of FGA III, §2, p. 212-05: whether
 every closed equivalence relation on a finite scheme over a field is effective. The restriction to
-`Z` is this roadmap's own; it is not in Raicu's or Kollár's text. It is not formal: the invariants
-`B(Z)` of `R ∩ (Z × Z)` are computed on `O(Z)` and can be more than the images of the invariants on
-`𝔸²`, so the difference ideal can grow. Route: by 1.3 it suffices that `I(Z) ≠ J(B(Z))`,
-`I(Z) = raicuArtinRelation k`; both are graded, and in degree `5` their lifts to `k[x, y]` satisfy
+`Z`, the statement and its proof are this roadmap's own: no published source states them, and they
+are not in Raicu's or Kollár's text. It is not formal: the invariants `B(Z)` of `R ∩ (Z × Z)` are
+computed on `O(Z)` and can be more than the images of the invariants on `𝔸²`, so the difference
+ideal can grow. Route: by 1.3 it suffices that `I(Z) ≠ J(B(Z))`, `I(Z) = raicuArtinRelation k`; both
+are graded, and in degree `5` their lifts to `k[x, y]` satisfy
 `dim (I + K)₅ = 52 > 51 = dim (J + K)₅`, `K` the ideal of `Z × Z` and `J` the lift of `J(B(Z))`, a
-rank computation needing the invariants of `O(Z)` of degree `≤ 5` only. Over `ℚ` the eliminations
-divide only by integers whose prime factors are 2, 3, 5, 7, 13, 41 and 61; for every other prime `p`
-the same elimination runs over `𝔽_p` with the same ranks, the seven listed primes are checked
-directly, and ranks do not change under field extension from the prime field. *Needs:* 0.2, 1.3,
-3.1, Mathlib `Ideal.Quotient`, `MvPolynomial`, `Module.finrank`.
+rank computation needing the invariants of `O(Z)` of degree `≤ 5` only. These are the classes of
+`f₁`, `f₂` (degree `2`), `f₃` (degree `3`), `f₁f₂` (degree `4`) and all of `O(Z)₅` (dimension `2`).
+The computation is uniform in the field: in each degree `e ≤ 5`, the integer matrix whose columns
+span `(I + K)ₑ`, and the same matrix with the columns `a(x) - a(y)` added, `a` a monomial of degree
+`e` in `x`, each have nonzero maximal minors with greatest common divisor `1`, so their ranks are
+the same over `ℚ` and over every `𝔽_p`. Hence the invariants of degree `≤ 5` have the same integral
+basis over every field, `dim (J + K)₅ ≤ 51` since `J + K` is then spanned by reductions of integer
+vectors whose rank over `ℚ` is `51`, and `dim (I + K)₅ = 52`. Ranks do not change under field
+extension from the prime field, so this covers every field. *Needs:* 0.2, 1.3, 3.1, Mathlib
+`Ideal.Quotient`, `MvPolynomial`, `Module.finrank`.
 
 Prove also `eq_differenceIdeal_of_sq_eq_bot`, this roadmap's own: for `k` a field and `A = k ⊕ V`
 (every `a ∈ A` is `c · 1 + v` with `c ∈ k`, `v ∈ V`), `V` an ideal with `V² = 0`, every equivalence
@@ -538,8 +545,11 @@ Everything is finite over `𝔽₃`, and a certificate is: a basis of the invari
 degree `≤ 5` together with a nonzero minor proving that no other invariant exists in those
 degrees (the invariants of degree `d` are the kernel of a linear map on `(O(Z))_d`), and a linear
 form on `(O(Z) ⊗ O(Z))₅` that vanishes on `(J(B(Z)))₅` and not on the cocycle. Checking it is matrix
-arithmetic over `ZMod 3`, by `decide` or by a verified elimination. The same holds over `ℚ` and
-`𝔽₂`. *Needs:* 3.2, 1.1, Mathlib `ZMod`.
+arithmetic over `ZMod 3`, by `decide` or by a verified elimination. The same holds over every field:
+in degree `5`, `(I + K)₅` is spanned by `(J + K)₅` and the cocycle (the other generators of
+`raicuIdeal` are the differences `fᵢ(x) - fᵢ(y)` of invariants), and the dimensions are `52` and
+`51` by 3.2. Like 3.2, this statement is this roadmap's own; no published source states it. *Needs:*
+3.2, 1.1, Mathlib `ZMod`.
 
 **Checks.**
 
@@ -796,12 +806,16 @@ The smallest length of a finite local scheme over a field carrying a non-effecti
 equivalence relation is not known. It is at least `3` over every field, and local algebras with
 residue field `k` and `m² = 0` give no example in any length (3.2,
 `eq_differenceIdeal_of_sq_eq_bot`); it is at most `15` (`16` in characteristic `2`) by 3.2. An
-unpublished exhaustive search over `𝔽₂` and `𝔽₃` finds no example in lengths `3` and `4`, over the
-local algebras `k[x]/(x³)`, `k[x, y]/m²`, `𝔽_{p³}`, `k[x]/(x⁴)`, `k[x, y, z]/m²`, every
-`k[x, y]/(W + m³)` with `W` a plane of quadrics, `𝔽_{p²}[ε]` and `𝔽_{p⁴}`, testing every ideal
-with the three fields of 0.1 against the criterion of 1.3; there the equivalence ideals are exactly
-the kernel pairs of subalgebras. Whether every non-effective example comes, as in 3.2,
-from restricting one on an affine space is not known either.
+unpublished exhaustive computer search over `k = 𝔽₂` and `k = 𝔽₃` finds no example on the local
+algebras `k[x]/(x³)`, `k[x, y]/m²` and `𝔽_{p³}` (length `3`) and `k[x]/(x⁴)`, every
+`k[x, y]/(W + m³)` with `W` a plane of quadrics, `𝔽_{p²}[ε]` and `𝔽_{p⁴}` (length `4`). For each it
+lists every ideal of `A ⊗[k] A` inside `ker μ`, keeps those satisfying the three fields of 0.1, and
+tests them against the criterion of 1.3: every one is effective, the kernel pair of its invariants.
+The only other local algebra of length `≤ 4` with residue field `k`, `k[x, y, z]/m²`, has `m² = 0`
+and is covered by 3.2 over every field; it is not part of the search. By residue degree and Hilbert
+function these are all local `k`-algebras of lengths `3` and `4` up to isomorphism, so over `𝔽₂` and
+`𝔽₃` the smallest length is at least `5`. Whether every non-effective example comes, as in 3.2, from
+restricting one on an affine space is not known either.
 
 Kollár's Question 8 is open: in characteristic zero, for a scheme-theoretic equivalence relation
 `R ⊂ X × X` whose two projections are finite, does a geometric quotient `X/R` exist, that is a
