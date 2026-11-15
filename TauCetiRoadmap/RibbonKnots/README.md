@@ -215,7 +215,7 @@ the radial function on it is a Morse function with only critical points of index
 - At an endpoint `β_i 0` on the boundary circle the depth is `0`, while `α_i 0`, with the same
   image, lies in the open disc, where the depth is positive. So the interior arcs, and only they,
   are pushed deeper; a reading that may push either sheet deeper is excluded.
-- The trefoil `K(3, 1)` becomes the unknot after one crossing change, so it bounds an immersed
+- The trefoil `K(3, 1)` is a twisted double of the unknot, so it bounds an immersed
   disc whose only singularity is one clasp, an arc of double points whose two preimage arcs each
   have exactly one endpoint on the boundary circle. The trefoil is not slice (2.1, first Check),
   so the condition that `β_i` meets the boundary circle at both endpoints and `α_i` not at all
@@ -330,9 +330,14 @@ one, while by residual finiteness (gap:knot-group-residually-finite) every nontr
 the knot group survives in some `SO(N)`-representation (Agol 2022, Theorem 1.2 and its proof).
 The time-0 end of the concordance from `K₁` to `K₀` then injects the group of `K₁` into that of
 `K₀`, meridian to meridian and longitude to longitude. By gap:knot-group-peripheral-injection this
-injection is an isomorphism. Waldhausen's realization gives a homeomorphism of the exteriors,
-which extends over the meridional fillings and is smoothed to an ambient isotopy (Agol 2022,
-Theorem 1.1, through Gordon 1981, Lemma 3.2).
+injection is an isomorphism. If `K₀` or `K₁` is the unknot, both groups are then `ℤ`, so both knots
+are smoothly ambient isotopic to the unknot (GeometricTopology 8.1: a knot in `S³` with knot group
+`ℤ` is the unknot), hence to each other; the parametrizations agree up to isotopy because every
+orientation-preserving diffeomorphism of the circle is isotopic to the identity and a rotation of
+`S³` carries the great circle to its reverse. Otherwise both exteriors have incompressible boundary,
+and Waldhausen's realization gives a homeomorphism of the exteriors, which extends over the
+meridional fillings and is smoothed to an ambient isotopy (Agol 2022, Theorem 1.1, through Gordon
+1981, Lemma 3.2).
 
 The proof uses two further results, each a target here:
 
@@ -348,7 +353,7 @@ The proof uses two further results, each a target here:
 `TauCeti.SmoothCircleEmbedding.KnotGroup`, `Matrix.specialOrthogonalGroup`, `MvPolynomial.eval`,
 `TauCeti.semialgebraicDim`, `TauCeti.IsSemialgebraic.semialgebraicDim_image_comp_le`;
 GeometricTopology 5.1 (knot exteriors, peripheral markings), 8.3.1 (relative Waldhausen
-realization), 8.1 (extension over the meridional filling), 11.2 and 3.4 (smooth realization,
+realization), 8.1 (a knot with group `ℤ` is the unknot; extension over the meridional filling), 11.2 and 3.4 (smooth realization,
 Cerf's theorem); gap:knot-group-residually-finite, gap:knot-group-peripheral-injection.
 
 **Checks.**
