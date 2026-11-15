@@ -435,7 +435,9 @@ file:
   with local coefficients, the local system `TauCeti.classifyingSpaceLocalSystem k A` of a
   representation `A : Rep k G` through the orbit map, with
   `TauCeti.classifyingSpaceTwistedHomologyIsoGroupHomology : Hₙ(BG; A) ≅ Hₙ(G, A)`, natural in
-  `A` (`TauCeti.classifyingSpaceTwistedHomologyIsoGroupHomology_hom_naturality`) and carrying the
+  `A` for the morphism `TauCeti.classifyingSpaceLocalSystemMap f` of local systems induced by a
+  morphism `f` of representations
+  (`TauCeti.classifyingSpaceTwistedHomologyIsoGroupHomology_hom_naturality`) and carrying the
   connecting map of a short exact sequence of representations to `groupHomology.δ`
   (`TauCeti.twistedHomologyδ_comp_classifyingSpaceTwistedHomologyIsoGroupHomology_hom`), and
   `TauCeti.classifyingSpaceTwistedCohomologyIsoGroupCohomology : Hⁿ(BG; A, N) ≅ Hⁿ(G, Homₖ(A, N))`,
@@ -536,8 +538,10 @@ coefficients commutes with the map induced by a continuous map)
 (`TauCeti/AlgebraicTopology/LocalCoefficient/Representation.lean`);
 `TauCeti.Groupoid.natIsoOfEnd` and `TauCeti.Groupoid.eq_natIsoOfEnd` (on a connected groupoid,
 an isomorphism of the values of two functors at one object, equivariant for its endomorphisms,
-extends to a unique natural isomorphism with that component)
-(`TauCeti/CategoryTheory/Groupoid/ConnectedFunctor.lean`);
+extends to a unique natural isomorphism with that component), `TauCeti.Groupoid.natTransOfEnd`
+(the same for a morphism, extended to a natural transformation) and
+`TauCeti.Groupoid.natTrans_ext` (a natural transformation is determined by its component at that
+object) (`TauCeti/CategoryTheory/Groupoid/ConnectedFunctor.lean`);
 `TauCeti.LocalCoefficientSystem.pullbackHomotopyIso`,
 `TauCeti.LocalCoefficientSystem.pullback_monodromyRepresentation` (the monodromy of a pulled-back
 system at `x` is the monodromy at the image point composed with the induced map of fundamental
@@ -561,6 +565,16 @@ sequence of modules of values, for a local system with projective fibres)
 `TauCeti.LocalCoefficientSystem.twistedCohomologyConstantIso`
 (`TauCeti/AlgebraicTopology/Singular/Twisted/Basic.lean`,
 `TauCeti/AlgebraicTopology/Cohomology/Twisted/Basic.lean`),
+`TauCeti.LocalCoefficientSystem.twistedHomologyCoefficientMap`,
+`TauCeti.LocalCoefficientSystem.twistedCohomologyCoefficientMap` (the maps on twisted homology and
+cohomology induced by a morphism of local systems on one space) and
+`TauCeti.LocalCoefficientSystem.twistedChainComplexMap_naturality` (the map of twisted chains
+induced by a continuous map commutes with a morphism of local systems on the target and its
+pullback) (`TauCeti/AlgebraicTopology/Singular/Twisted/Basic.lean`,
+`TauCeti/AlgebraicTopology/Cohomology/Twisted/Basic.lean`),
+`CategoryTheory.ShortComplex.ShortExact.twistedHomologyδ` (the connecting map in twisted homology
+of a short exact sequence of local systems on one space)
+(`TauCeti/AlgebraicTopology/Singular/Twisted/Coefficients.lean`),
 `TauCeti.LocalCoefficientSystem.twistedHomology₀IsoCoinvariants`
 (`TauCeti/AlgebraicTopology/Singular/Twisted/Coinvariants.lean`, for a path-connected space and a
 commutative ring);
@@ -1088,6 +1102,17 @@ form of that resolution. Prove:
   isomorphism with component `u` at `x`, unique by `TauCeti.Groupoid.eq_natIsoOfEnd`; the chosen
   path classes out of `x` act on both systems by the identity, so naturality along them makes
   every component `u`. The pin has no such transport.
+- **Functoriality in the representation.** For `ρ` and `ρ'` as above and a `k`-linear map
+  `u : V → V'`, not necessarily invertible, with `u ∘ ρ(γ) = ρ'(γ) ∘ u` for every `γ`, there is
+  exactly one morphism of local systems `ofRepresentation x ρ → ofRepresentation x ρ'` whose
+  component at `x` is `u`; its component at every point is `u`, it sends identities to identities
+  and composites to composites, and for invertible `u` it is the transport of the previous bullet.
+  Route: as for the transport, with `TauCeti.Groupoid.natTransOfEnd` for existence and
+  `TauCeti.Groupoid.natTrans_ext` for uniqueness. For a morphism `f : A → A'` in `Rep k G`, which
+  intertwines `A ∘ Ψ` and `A' ∘ Ψ`, write `L_f : L_A → L_{A'}` for this morphism with `u = f`. A
+  short exact sequence `0 → A₁ → A₂ → A₃ → 0` in `Rep k G` gives a short exact sequence
+  `0 → L_{A₁} → L_{A₂} → L_{A₃} → 0` of local systems: kernels and cokernels of local systems are
+  computed fibrewise, and at every point the fibre sequence is the given sequence of modules.
 - `Hₙ(X; L_A) ≅ Hₙ(G, A)` for every `n` (the headline
   `nonempty_twistedHomology_iso_groupHomology`), and for a `k`-module `N`,
   `Hⁿ(X; L_A, N) ≅ Hⁿ(G, Homₖ(A, N))`, `N` with the trivial action (the headline
@@ -1118,11 +1143,17 @@ form of that resolution. Prove:
      `TauCeti.classifyingSpaceTwistedHomologyIsoGroupHomology` finishes; for cohomology, the same
      with `TopCat.Homotopy.twistedCohomologyMap_eq_comp` and
      `TauCeti.classifyingSpaceTwistedCohomologyIsoGroupCohomology`.
-- The homology isomorphisms are natural in `A` and carry the connecting map of a short exact
-  sequence of representations to `groupHomology.δ`, through the pinned
+- The homology isomorphisms are natural in `A`, for the maps
+  `TauCeti.LocalCoefficientSystem.twistedHomologyCoefficientMap` of `L_f` and
+  `groupHomology.map` of `f`, and carry the connecting map
+  `CategoryTheory.ShortComplex.ShortExact.twistedHomologyδ` of the sequence
+  `0 → L_{A₁} → L_{A₂} → L_{A₃} → 0` of a short exact sequence of representations to
+  `groupHomology.δ`, through the pinned
   `TauCeti.classifyingSpaceTwistedHomologyIsoGroupHomology_hom_naturality` and
   `TauCeti.twistedHomologyδ_comp_classifyingSpaceTwistedHomologyIsoGroupHomology_hom`. The
-  cohomology isomorphisms are natural in `A` and in `N`, through the pinned
+  cohomology isomorphisms are natural in `A`, for the maps
+  `TauCeti.LocalCoefficientSystem.twistedCohomologyCoefficientMap` of `L_f` and
+  `groupCohomology.map` of precomposition with `f`, and in `N`, through the pinned
   `TauCeti.classifyingSpaceTwistedCohomologyIsoGroupCohomology_hom_naturality_left` and
   `TauCeti.classifyingSpaceTwistedCohomologyIsoGroupCohomology_hom_naturality_right`. When the
   module of `A` is projective over `k`, the fibres of `L_A` are projective, and the cohomology
@@ -1130,11 +1161,17 @@ form of that resolution. Prove:
   a short exact sequence `0 → N₁ → N₂ → N₃ → 0` of `k`-modules to `groupCohomology.δ` of
   `0 → Homₖ(A, N₁) → Homₖ(A, N₂) → Homₖ(A, N₃) → 0`, through the pinned
   `TauCeti.twistedCohomologyBockstein_comp_classifyingSpaceTwistedCohomologyIsoGroupCohomology_hom`.
-  Route for moving the connecting maps from Milnor's model to `X`: the identifications of steps 3
-  and 4 are induced by maps of twisted chain and cochain complexes that commute with the maps of
-  these short exact sequences, so `HomologicalComplex.HomologySequence.δ_naturality` applies. No
-  connecting map in cohomology is claimed for a short exact sequence in `A`: `Homₖ(−, N)` is not
-  exact.
+  Route for moving the naturality and the connecting maps from Milnor's model to `X`: the
+  identification of step 3 commutes with `L_f` and with the pullback along `c_X` of
+  `TauCeti.classifyingSpaceLocalSystemMap f`, which on the fibre over `b₀` sends the class of
+  `a ⊗ e` to the class of `f(a) ⊗ e`. At `x`, by the formula of step 2 for `A` and for `A'`, both
+  composites send `a ∈ A` to the class of `f(a) ⊗ e₀`, so they are equal by
+  `TauCeti.Groupoid.natTrans_ext`. The identification of step 4 is induced by maps of twisted
+  chain and cochain complexes that commute with morphisms of local systems on `BG` and their
+  pullbacks (`TauCeti.LocalCoefficientSystem.twistedChainComplexMap_naturality`). So the
+  identifications commute with `L_f` and with the maps of these short exact sequences, and
+  `HomologicalComplex.HomologySequence.δ_naturality` applies. No connecting map in cohomology is
+  claimed for a short exact sequence in `A`: `Homₖ(−, N)` is not exact.
 - For the trivial representation `A = Rep.trivial k G k`, `L_A` is the constant system (the
   constant system has trivial monodromy,
   `TauCeti.LocalCoefficientSystem.constant_monodromyRepresentation`, so
@@ -1145,15 +1182,21 @@ form of that resolution. Prove:
 *Needs:* (1.3), (2.1); Tau Ceti `TauCeti.LocalCoefficientSystem.ofRepresentation`,
 `TauCeti.LocalCoefficientSystem.monodromyRepresentation_ofRepresentation`,
 `TauCeti.LocalCoefficientSystem.ofRepresentationMonodromyIso`, `TauCeti.Groupoid.natIsoOfEnd`,
-`TauCeti.Groupoid.eq_natIsoOfEnd`, `TauCeti.LocalCoefficientSystem.pullbackHomotopyIso`,
+`TauCeti.Groupoid.eq_natIsoOfEnd`, `TauCeti.Groupoid.natTransOfEnd`,
+`TauCeti.Groupoid.natTrans_ext`, `TauCeti.LocalCoefficientSystem.pullbackHomotopyIso`,
 `TauCeti.LocalCoefficientSystem.pullback_monodromyRepresentation`,
 `TauCeti.LocalCoefficientSystem.constant_monodromyRepresentation`,
 `IsQuotientCoveringMap.associatedLocalSystem_map_coinvariantsTensorMk`,
 `IsQuotientCoveringMap.associatedLocalSystemFiberIso`,
 `IsQuotientCoveringMap.associatedLocalSystemFiberIso_hom_coinvariantsTensorMk`,
 `TauCeti.universalGSpaceBasepoint`, `TauCeti.classifyingSpaceFundamentalGroupMulEquiv_apply_eq_iff`,
-`TauCeti.classifyingSpaceLocalSystem`, `TauCeti.classifyingSpaceTwistedHomologyIsoGroupHomology`,
+`TauCeti.classifyingSpaceLocalSystem`, `TauCeti.classifyingSpaceLocalSystemMap`,
+`TauCeti.classifyingSpaceTwistedHomologyIsoGroupHomology`,
 `TauCeti.classifyingSpaceTwistedCohomologyIsoGroupCohomology`,
+`TauCeti.LocalCoefficientSystem.twistedHomologyCoefficientMap`,
+`TauCeti.LocalCoefficientSystem.twistedCohomologyCoefficientMap`,
+`CategoryTheory.ShortComplex.ShortExact.twistedHomologyδ`,
+`TauCeti.LocalCoefficientSystem.twistedChainComplexMap_naturality`,
 `TauCeti.classifyingSpaceTwistedHomologyIsoGroupHomology_hom_naturality`,
 `TauCeti.twistedHomologyδ_comp_classifyingSpaceTwistedHomologyIsoGroupHomology_hom`,
 `TauCeti.classifyingSpaceTwistedCohomologyIsoGroupCohomology_hom_naturality_left`,
@@ -1164,7 +1207,8 @@ form of that resolution. Prove:
 `TopCat.Homotopy.twistedCohomologyMap_eq_comp`,
 `TauCeti.LocalCoefficientSystem.twistedHomologyConstantIso`,
 `TauCeti.LocalCoefficientSystem.twistedCohomologyConstantIso`; Mathlib `Rep.ihom`, `Rep.trivial`,
-`groupHomology.δ`, `groupCohomology.δ`, `HomologicalComplex.HomologySequence.δ_naturality`.
+`groupHomology.map`, `groupCohomology.map`, `groupHomology.δ`, `groupCohomology.δ`,
+`HomologicalComplex.HomologySequence.δ_naturality`.
 
 **Checks.**
 - Transport: `ρ = ρ'` and `u` the identity give the identity of `ofRepresentation x ρ`; for
@@ -1175,6 +1219,12 @@ form of that resolution. Prove:
   then `u` sends `(a, b)` to `(a, −b)`, and `u` followed by the exchange sends `(a, b)` to
   `(−b, a)`, while the exchange followed by `u` sends it to `(b, −a)`, so for `2 ≠ 0` in `k` no
   natural isomorphism has component `u` at `x`.
+- Functoriality: `X` the circle, `G = ℤ` with `Ψ` the degree, `k = ℤ`, `A = A' = ℤ` with the
+  trivial action and `f` multiplication by `2`, which is not invertible, so the transport does not
+  supply `L_f`. Every path class acts on `L_A` by the identity, so `L_f` is multiplication by `2`
+  at every point; the induced map on `H₁(X; L_A) = ℤ` is multiplication by `2`, as is the map of
+  `f` on `H₁(ℤ, ℤ) = ℤ`. A morphism with another component at `x`, the zero morphism for
+  instance, would give a different map there.
 - The identification of step 3 for `G = ℤ`, written additively, `X` the circle with `Ψ` the
   degree, and `A = k` with the generator acting by a unit `u`: `e₀ = (0, 0)`, and at `x` the
   identification sends `1 ∈ k` to the class of `1 ⊗ (0, 0)`. Along the loop `γ` with `Ψ(γ) = 1`,
