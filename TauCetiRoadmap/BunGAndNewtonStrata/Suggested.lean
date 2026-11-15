@@ -46,8 +46,10 @@ The other headline statements need objects absent from the pinned libraries:
   filtered charts and Banach–Colmez extension spaces.
 
 Tau Ceti's reductive group schemes, finite rational comodules and finite locally free
-sheaves supply the algebraic foundations. Its Fargues–Fontaine Frobenius orbit space
-is a topological space; the relative curve and bundle theory are further targets.
+sheaves supply the algebraic foundations. Its `p`-adic Fargues–Fontaine curve `𝒴/φ^ℤ` over
+a perfect ring is an adic space when the structure presheaf of `𝒴` is a sheaf, which Tau Ceti
+proves for rank-one valuation rings; bundles on it and the curve over a general local field
+are further targets.
 -/
 
 open scoped Isocrystal
@@ -102,8 +104,8 @@ theorem wittGL_isocrystal_classes {n : ℕ} (V : Type*) [AddCommGroup V]
     (hdim : Module.finrank K(p, k) V = n) :
     ∃ b : Matrix.GeneralLinearGroup (Fin n) K(p, k),
       ∀ c : Matrix.GeneralLinearGroup (Fin n) K(p, k),
-        (letI := wittGLIsocrystal p k c
-         Nonempty (IsocrystalEquiv p k (Fin n → K(p, k)) V)) ↔
+        Nonempty (@IsocrystalEquiv p _ k _ _ _ (Fin n → K(p, k)) _
+          (wittGLIsocrystal p k c) V _ _) ↔
           (wittGLSigmaSetoid p k n).r b c := by
   sorry
 
