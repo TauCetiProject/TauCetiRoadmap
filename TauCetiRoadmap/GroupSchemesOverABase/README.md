@@ -1487,14 +1487,21 @@ here before it is used, adaptation is agreed with its maintainers first, and ada
 Apache-2.0 notices.
 
 `StacksFrontier/AlgebraicGeometry/GroupScheme/OverField` follows the Stacks chapter *Groupoid
-Schemes* over a field: the identity component of a group scheme over a field and its geometric
-properties (Tag 047M, `IdentityComponent.lean`, `IdentityComponentGeometric.lean`), centers,
-stabilizers, actions and abelian varieties, the field case of 0.2 and of 4.6–4.8.
-`AlgebraicGeometry/Groupoids` builds groupoid schemes over a base, their quotients and stabilizers.
-No file name or tag there treats diagonalizable groups, groups of multiplicative type and tori
-(Layers 1–2), rigidity, density of torsion and Hom schemes (Layer 3), rank functions and maximal
-tori over a base (Layer 5), Picard groups of the flag scheme (Layer 6) or the Steinberg map (Layer
-7).
+Schemes* over a field. It has the field case of three statements of 4.5: separatedness (Tag 047L,
+`Separated.lean`), smoothness of a reduced group locally of finite type over a perfect field (Tag
+047P, `SmoothPerfectField.lean`) and Cartier's theorem for groups locally of finite type (Tag 047N,
+`SmoothCharacteristicZero.lean`); and, of 0.2 and 4.6, the irreducible component through the unit
+with its geometric irreducibility (Tag 047M, `IdentityComponent.lean`,
+`IdentityComponentGeometric.lean`), the irreducibility of a connected group (Tag 0B7Q,
+`Irreducible.lean`) and the quasi-compactness of an irreducible one (Tag 0B7P, `QuasiCompact.lean`).
+It also has centers, stabilizers, actions and abelian varieties, which are no target here.
+`StacksFrontier/AlgebraicGeometry/GroupScheme/Examples` has `𝔾_m` and `μ_n` over a base (Tag 040M),
+which this roadmap takes from Tau Ceti. `StacksFrontier/AlgebraicGeometry/Groupoids` builds groupoid
+schemes over a base, their quotients and stabilizers. No file name or tag in these directories
+treats the reduced subgroup or monomorphisms of 4.5, the schemes and groups of connected components
+(4.7–4.8), `D_S(M)` for a general `M`, groups of multiplicative type and tori (Layers 1–2),
+rigidity, density of torsion and Hom schemes (Layer 3), rank functions and maximal tori over a base
+(Layer 5), Picard groups of the flag scheme (Layer 6) or the Steinberg map (Layer 7).
 
 ## References
 
