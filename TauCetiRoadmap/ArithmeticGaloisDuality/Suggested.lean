@@ -166,8 +166,10 @@ def Completion : HeightOneSpectrum (𝓞 K) ⊕ InfinitePlace K → Type
   | .inl v => v.adicCompletion K
   | .inr v => v.Completion
 
+/-- Each finite or infinite completion inherits its field structure from Mathlib. -/
 instance (v) : Field (Completion K v) := by cases v <;> dsimp [Completion] <;> infer_instance
 
+/-- Each finite or infinite completion inherits its canonical `K`-algebra structure. -/
 instance (v) : Algebra K (Completion K v) := by cases v <;> dsimp [Completion] <;> infer_instance
 
 /-- Mathlib's all-place localization kernel, transported along the pinned comparison
@@ -217,6 +219,7 @@ variable (k F : Type) [Field k] [Finite k] [Field F] [Algebra k F]
 pinned `TauCeti.Place.Completion`, indexed by the places. -/
 def Completion (v : TauCeti.Place k F) : Type := v.Completion
 
+/-- The field structure on each completion is inherited from `TauCeti.Place.Completion`. -/
 instance (v : TauCeti.Place k F) : Field (Completion k F v) :=
   inferInstanceAs (Field v.Completion)
 
