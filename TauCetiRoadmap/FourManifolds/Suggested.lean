@@ -1,6 +1,7 @@
 import Mathlib
 import TauCeti.Geometry.Manifold.LocallyFlat.Annulus
 import TauCeti.KnotTheory.Slice.Freedman
+import TauCeti.Geometry.Manifold.Orientation.Basic
 
 /-!
 # Four-dimensional manifolds, intersection forms and elliptic examples: target signatures
@@ -14,15 +15,18 @@ commutator subgroup, equivalently with Alexander polynomial one, is topologicall
 slice; the smoothness of the explicit projective models (the
 elliptic quartic K3 surface and the Enriques K3 cover) on their punctured affine
 cones, and the absence of fixed points of the Enriques involution on its
-projective common zero set; and the existence of a smooth manifold homeomorphic
+projective common zero set; realization of every finite group presentation
+by a closed connected oriented smooth manifold in every dimension at least
+four; and the existence of a smooth manifold homeomorphic
 but not diffeomorphic to Euclidean four-space.
 
 Not statable at the pins, and therefore not stated here:
 * Freedman's classification of closed simply connected topological four-manifolds
   and the homotopy classification by intersection forms: the missing inputs are
-  the manifold fundamental class and its intersection pairing, and the
+  the manifold intersection pairing and the
   Kirby–Siebenmann invariant. The singular cup product alone does not supply
-  these manifold constructions.
+  the intersection lattice or the Kirby–Siebenmann construction; the
+  homological fundamental class itself is supplied at the pin.
 * Donaldson's theorem that a definite intersection form of a closed simply
   connected smooth oriented four-manifold is diagonal: it needs the same intersection
   form, as a manifold invariant; the ASD moduli space is proof machinery, not
@@ -42,9 +46,6 @@ Not statable at the pins, and therefore not stated here:
 * The disk-embedding theorem with geometric duals, controlled disk embedding,
   controlled five-dimensional product theorem and dimension-four normal surgery:
   the framed generic-immersion, grope, control and normal-map carriers are missing.
-* The general presentation-realization theorem: the native fundamental group exists,
-  as does `PresentedGroup`, but the oriented manifold structure and its
-  comparison with the boundary orientation are not supplied.
 * Nonrecognition of a fixed connected sum of copies of S² × S²: the finite
   manifold-triangulation input type, its realization and the connected-sum
   comparison are missing.
@@ -137,6 +138,19 @@ theorem enriquesProjectiveInvolution_no_fixed_point
   sorry
 
 /-! ## Layer 8: Presentation realization, nonrecognition and exotic four-space -/
+
+/-- Every finite presentation is realized by the fundamental group of a closed,
+connected, oriented smooth manifold in each dimension at least four
+(Gompf–Stipsicz, Theorem 1.2.33). The equivalence retains the presentation marking. -/
+theorem presentation_realization (n : ℕ) (hn : 4 ≤ n) (g r : ℕ)
+    (rels : Fin r → FreeGroup (Fin g)) :
+    ∃ (M : Type) (_ : TopologicalSpace M)
+      (_ : ChartedSpace (EuclideanSpace ℝ (Fin n)) M),
+      IsManifold 𝓘(ℝ, EuclideanSpace ℝ (Fin n)) ∞ M ∧
+      CompactSpace M ∧ T2Space M ∧ SecondCountableTopology M ∧ ConnectedSpace M ∧
+      Nonempty (TauCeti.Manifold.Orientation 𝓘(ℝ, EuclideanSpace ℝ (Fin n)) M (Fin n)) ∧
+      ∃ x : M, Nonempty (FundamentalGroup M x ≃* PresentedGroup (Set.range rels)) := by
+  sorry
 
 /-- A smooth four-manifold exists that is homeomorphic, but not diffeomorphic,
 to standard Euclidean four-space (Gompf, Theorem 1.2). -/

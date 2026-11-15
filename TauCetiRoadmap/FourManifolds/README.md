@@ -19,19 +19,17 @@ existence theorem is not applied in dimension four. GeometricTopology
 Layer 2 states the annulus theorem in every dimension; its dimension-four
 case, and Freedman's theorem that a knot with Alexander polynomial one is
 topologically slice, are proved here in §3.6 from §3.2–§3.6, and nothing is
-supplied back to GeometricTopology. The tangent-microbundle,
-stable-classifier, algebraic-surgery, controlled K-theory, normal-bundle,
-transversality and CW-type inputs that F3 needs, the oriented linking
-number, the S-equivalence theorem for Seifert matrices and the infinite
-cyclic cover with Crowell's comparison that §1.4, §2.3 and §3.6 need, the
-finite quadratic Arf algebra that §1.4 and §4.2 evaluate, and the smoothing
-of topological three-manifolds that §3.6 uses, are stated by no
-GeometricTopology layer; each is declared as a gap, one slug each, in the
-supplier contracts below. The Seifert-matrix presentation of the Alexander
-module is MorseNovikov N6's. Handle slides, blow-ups and the Kirby moves on
-framed links, the Arf invariant of a knot or proper link and its vanishing
-on smoothly slice knots are targets of §1.4; its vanishing on topologically
-slice knots is a target of §3.6. The negative K-groups, the fundamental theorem in every degree and
+supplied back to GeometricTopology. GeometricTopology §2.2 supplies Brown's generalized Schoenflies theorem;
+§4.3 supplies oriented linking, the positive Seifert push-off and S-equivalence;
+§4.4 supplies the infinite cyclic cover and the deck-equivariant Crowell comparison;
+§4.3.1 supplies finite quadratic Arf algebra and the knot/proper-link dictionary;
+§6.2.1 supplies Arf vanishing for smooth and TOP slice knots; and §11.2 supplies
+relative three-dimensional smoothing. TangentialBordism §1.1 uses the same
+§4.3.1 Arf algebra for its Spin-surface comparison. The remaining TOP and
+surgery prerequisites are specified in the supplier contracts below.
+Handle slides, blow-ups and the Kirby moves on framed links are targets of §1.4;
+§3.6 and §4.2 retain the normal-filling and characteristic-surface comparisons.
+The negative K-groups, the fundamental theorem in every degree and
 the vanishing of K̃₀ and K_(−i) for ℤ and ℤ[ℤ] are GeneralAlgebraicKTheory
 §10.3, §10.5, §10.12a and §10.13, and K₁(ℤ)={±1} is AlgebraicKTheory A2;
 this roadmap plans neither. Clutching cocycles, associated bundles and
@@ -128,8 +126,18 @@ From Mathlib, use `MvPolynomial`, its evaluation maps, `fderiv`, and
 projective quotient. These supply the polynomial and projective statements
 in Layer 7 without an assumed smooth atlas on their zero sets. From Tau Ceti,
 use `TopCat.singularCup` in `TauCeti.AlgebraicTopology.Cohomology.Cup` for
-the cohomology pairing; its manifold fundamental-class comparison is an
-AlgebraicTopology Stage 6 input. Use `TauCeti.IsLocallyFlat`,
+the cohomology pairing. Use
+`TauCeti.HomologicalOrientation.fundamentalClass` in
+`TauCeti.AlgebraicTopology.Singular.LocalHomology.FundamentalClass` for a
+compact Hausdorff boundaryless manifold with homological orientation and the
+specified dimension equality; its local restriction is the chosen orientation.
+This supplies the class, not the intersection lattice or Kirby–Siebenmann
+invariant. Use `TauCeti.Manifold.Orientation` in
+`TauCeti.Geometry.Manifold.Orientation.Basic` for §8.1's smooth orientation.
+Use `TauCeti.IntegralLattice.IsPosDef.finite_isometry` and
+`TauCeti.IntegralLattice.IsNegDef.finite_isometry` in
+`TauCeti.LinearAlgebra.IntegralLattice.PosDef.Finite` for finiteness of
+isometries into a definite integral lattice, without unimodularity. Use `TauCeti.IsLocallyFlat`,
 `TauCeti.CoboundAnnulus` and `TauCeti.AnnulusConjecture` in
 `TauCeti.Geometry.Manifold.LocallyFlat.Annulus` and `TauCeti.brownBicollaring`
 in `TauCeti.Geometry.Manifold.LocallyFlat.Brown`. The annulus statement
@@ -172,11 +180,11 @@ point with `k ≥ (dim ker)² + 1`. The roadmap suppliers are listed below.
 
 | Supplier | Exact use and ownership here |
 | --- | --- |
-| GT Layers 1, 2, 4 and 5; its smoothing-and-triangulation comparison, item 3 | Handles, collars, gluing, connected sum and tubular neighbourhoods; locally flat embeddings and Brown's collaring, pinned as `TauCeti.brownBicollaring`; framed links, Seifert surfaces, Seifert matrices and the Conway-normalized Alexander polynomial; Dehn surgery; the statement of the Kirby–Siebenmann obstruction. What these layers do not state is declared as gaps below. F3 owns the dimension-four disk-embedding, classification, annulus and slice theorems; no GeometricTopology layer consumes this roadmap. |
-| MorseNovikov N6 | The Alexander module of an oriented knot's infinite cyclic cover presented by the Seifert-matrix presentation `tV − Vᵀ`, and its comparison with the Conway-normalized polynomial. §3.6 consumes the presentation; the cover's classification and Crowell's commutator comparison are gap:alexander-module-presentation below. |
+| GT Layers 1, 2, 4 and 5; its smoothing-and-triangulation comparison, item 3 | Handles, collars, gluing, connected sum and tubular neighbourhoods; locally flat embeddings and Brown's collaring, pinned as `TauCeti.brownBicollaring`; framed links, Seifert surfaces, Seifert matrices and the Conway-normalized Alexander polynomial; Dehn surgery; §2.2 generalized Schoenflies, §4.3 oriented linking and Seifert S-equivalence, §4.4 the Alexander module and Crowell comparison, §4.3.1 finite Arf algebra and knot/proper-link refinements, §6.2.1 smooth and TOP slice vanishing, and §11.2 relative three-dimensional smoothing; the statement of the Kirby–Siebenmann obstruction. The remaining prerequisites are listed below. F3 owns the dimension-four disk-embedding, classification, annulus and slice theorems; no GeometricTopology layer consumes this roadmap. |
+| MorseNovikov N6 | The Alexander module of an oriented knot's infinite cyclic cover presented by the Seifert-matrix presentation `tV − Vᵀ`, and its comparison with the Conway-normalized polynomial. §3.6 consumes the presentation together with GeometricTopology §4.4's cover classification and deck-equivariant Crowell comparison. |
 | AT Stages 2–4, 6, 8 | Native chains/cochains, normalized sphere generators, orientation-local-system duality, ordinary obstruction/EM comparisons, 4.4's reduced suspension, 8.16's Hopf projection S³→S² and proper 8.5 plus its end API for the early opened cobordism and product theorem. F1/F2 own the actual handle/link/intersection computations, the Hopf invariant and the Whitehead products. |
 | IntegralLattices | Native integral symmetric lattices, inertia, parity, characteristic vectors and indefinite/unimodular classification. F3/F5/F7 prove manifold realizations/restrictions. |
-| CKG K7, TopK T1/T6 and G4.0b | One native projective/Grassmannian carrier, its smooth model comparison and tautological bundles; TopK T1.5's Stiefel connectivity for §4.3's finite-to-stable comparison. F6/F7 own blowup, hypersurface and elliptic constructions on them. |
+| CKG K7, TopK T1/T6 and G4.0b | One native projective/Grassmannian carrier, its smooth model comparison and tautological bundles; CKG K7.2 (§7.3)'s normalized projective cup ring and transported cellular generators; TopK T1.5's Stiefel connectivity for §4.3's finite-to-stable comparison. F6/F7 own blowup, hypersurface and elliptic constructions on them. |
 | AffineMorseLefschetz A4.0 and A0/A5/A6; GroebnerGeometry G1 | A4.0's generic noncompact boundary/BM/support duality precedes the early proper cobordism; single projective zero-locus carrier, weak hyperplane theorem and finite Veronese comparison; single elimination/saturation engine. F6/F7 own cubic/quartic discriminant and elliptic-example comparisons. |
 | CC C1.1b/C1.2a/C1.6/C2/C3; TB B4.1 and B4.3 | C1.2a S0–S5's independent supported cochains and collared-pair sequence precede the proper cobordism; C1.1b's oriented classification with its finite-rank and stable inclusions, C1.6's complex-line classification and C3.6's realification BU(1)→BSO(2) for §4.3; single ordinary characteristic/Thom, cup-i/Sq and Wu-class APIs. F4 owns the oriented 4/Spinᶜ/torsion consequences and Z/4 Pontryagin square. |
 | Spin G6.7; Index I7.2/I7.5; TB B1.7/B2.1–B2.4/B3.2(b)–(c)/B3.3/B3.4/B5.2 | Untwisted quaternionic kernels, signature and analytic Rokhlin formulas; the concrete K3 and marked E(1) complement with their Spin data; Spin bordism of spaces and pairs as a homology theory, with its transverse intersection; the Spin-surface quadratic refinement, Ω₂^Spin ≅ F₂ by Arf and Ω₃^Spin = 0; the K3 KO genus; the finite embedded Pontryagin–Thom comparison that §2.3's coloured-link collapse specializes. §3.6 derives Ω₃^Spin(S¹) ≅ ℤ/2 from these. |
@@ -221,14 +229,6 @@ normal complement being unique up to stable isomorphism (Kirby–Siebenmann,
 *Foundational Essays*, Essay III and Essay IV). §3.5's graph construction,
 §3.6's TOP normal maps and §3.8's definition of the Kirby–Siebenmann number
 consume exactly these.
-
-What GeometricTopology must provide (gap:brown-schoenflies): Brown's
-generalized Schoenflies theorem: for n ≥ 1 and a bicollared embedding of
-Sⁿ⁻¹ in Sⁿ, each complementary closure is homeomorphic to Dⁿ by a
-homeomorphism restricting to the given parametrization on the sphere
-(Brown, *A proof of the generalized Schoenflies theorem*, Bull. Amer. Math.
-Soc. 66 (1960), Theorems 4 and 5; `brown1960` lines 84 and 101); with
-`TauCeti.brownBicollaring` this gives the locally flat form. §3.5's marked ball theorem uses the case n=4.
 
 What GeometricTopology must provide (gap:torus-trick-immersion): the
 immersion of the punctured n-torus into ℝⁿ obtained from its parallelization
@@ -287,7 +287,8 @@ for i=3 and 0 otherwise (Kirby–Siebenmann, Essay V) and
 π_i(G/PL)=0, ℤ/2, 0, ℤ, 0 for i=1,…,5, with the integral degree-four class
 whose mod-two reduction is the square of the degree-two class (Madsen–Milgram,
 *The classifying spaces for surgery and cobordism of manifolds*, Ann. of Math.
-Studies 92 (1979)); and Wall's quadratic L-groups L_n(ℤ[π]) with their
+Studies 92 (1979)); and Wall's quadratic L-groups L_nʰ(ℤ[π],ω) and L_nˢ(ℤ[π],ω),
+with orientation involution ḡ=(−1)^ω(g)g⁻¹, their change-of-decoration maps and
 four-periodicity and their chain-level algebraic Poincaré-complex model,
 agreeing for π=1 with GeometryOfNumbersAndQuadraticArithmetic §6.8's Wall
 groups of ℤ (Ranicki, *Algebraic
@@ -328,78 +329,6 @@ K_(−i)(ℤ[ℤ])=0 for i ≥ 1 by GeneralAlgebraicKTheory §10.13, since ℤ a
 theorem in every degree being its §10.5. §3.4 uses these vanishings, not
 goodness of the group, to conclude q₁=0 for local groups 1 and ℤ.
 
-What GeometricTopology must provide (gap:oriented-linking-number): the
-oriented linking number lk(J,K) ∈ ℤ of two disjoint oriented knots J, K in
-S³, defined as the algebraic intersection number of J with any Seifert
-surface of K, independent of the surface, equal to half the signed count of
-the crossings between J and K in any diagram with a right-handed crossing
-counting +1, symmetric in J and K, negated by reversing the orientation of
-either knot, and equal to +1 on the positive Hopf link; and the framing
-coefficient of a framed knot as the linking number of the knot with its
-push-off, the Seifert framing having coefficient 0 (Lickorish, *An
-Introduction to Knot Theory*, GTM 175, Chapter 1 and, for the Seifert
-pairing, Chapter 8). §1.4's framed linking matrix and proper links and
-§2.3's linking coordinates consume it.
-
-What GeometricTopology must provide (gap:seifert-matrix-s-equivalence): the
-Seifert matrix V of a Seifert surface F of an oriented link, V(a,b)=lk(a,b⁺)
-on a basis of H₁(F;ℤ) with b⁺ the positive push-off, with V−Vᵀ the
-intersection form of F; and the theorem that any two Seifert surfaces of the
-same oriented link in S³ have S-equivalent Seifert matrices, S-equivalence
-being the pinned relation `TauCeti.KnotTheory.IntegralSquareMatrix.SEquivalent`
-generated by unimodular congruence and the enlargements
-`TauCeti.KnotTheory.enlargeColumn` and `TauCeti.KnotTheory.enlargeRow`
-(Lickorish, Chapter 8). §1.4's independence of the Arf invariant from the
-Seifert surface consumes it.
-
-What GeometricTopology must provide (gap:alexander-module-presentation):
-the infinite cyclic cover X∞ of the exterior of an oriented knot K in S³,
-classified by the abelianization π₁→H₁(S³−K)≅ℤ, with its
-`ℤ[t,t⁻¹]`-module H₁(X∞;ℤ), the Alexander module; and Crowell's
-identification H₁(X∞;ℤ) ≅ π'/π'' for the commutator subgroup π' of the knot
-group, so that the module vanishes exactly when π' is perfect, exactly
-when its order ideal is the unit ideal (Lickorish, Chapter 6; Rolfsen,
-*Knots and Links*, Publish or Perish (1976), Chapter 7; Freedman–Quinn
-§11.9, printed p. 225, `freedmanquinn` lines 7925–7930). The presentation
-of this module by the pinned `TauCeti.KnotTheory.alexanderMatrix`, the
-matrix tV−Vᵀ of any Seifert matrix V of K, and the generation of its order
-ideal by the pinned Conway-normalized `TauCeti.KnotTheory.alexander` of V,
-which is GeometricTopology Layer 4's Δ_K, are MorseNovikov N6's
-Seifert-matrix Alexander module and polynomial/module comparison, not
-part of this gap. §3.6's ℤ[ℤ]-chain equivalence and its comparison of the
-slice hypothesis with Δ_K=1 consume both.
-
-What GeometricTopology must provide (gap:finite-quadratic-arf): for a
-finite-dimensional F₂ vector space V with a quadratic form q whose polar
-bilinear form is nondegenerate, so that dim V=2m with m ≥ 0, the Arf
-invariant Arf(q) ∈ F₂, given on a symplectic basis (a_i,b_i) by
-Σ q(a_i)q(b_i), with its independence of the symplectic basis, invariance
-under isometry and additivity under orthogonal sums; the decomposition of
-(V,q) into hyperbolic planes, q(x,y)=xy with Arf 0, and anisotropic planes,
-q(x,y)=x²+xy+y² with Arf 1, dimension and Arf classifying (V,q) up to
-isometry; the Gauss sum Σ_v (−1)^(q(v)) = (−1)^(Arf(q))·2^m; and the
-equivalence of Arf(q)=0 with the existence of an m-dimensional subspace on
-which q vanishes, the q-zero Lagrangian criterion (Lickorish, Chapter 10).
-TangentialBordism 1.1 declares the same gap for its
-B3.2(b)–(c). §1.4's knot and proper-link Arf invariant and §4.2's
-membrane formula evaluate Arf through it.
-
-What GeometricTopology must provide (gap:three-manifold-smoothing): every
-topological three-manifold, compact with boundary allowed, admits a PL
-structure, unique up to PL homeomorphism, and one agreeing near a closed
-subset with a PL structure given on a neighbourhood of it (Moise,
-*Geometric Topology in Dimensions 2 and 3*, GTM 47 (1977), Theorem 35.3,
-printed p. 252, Theorem 36.2, printed p. 253, and the open-set
-approximation Theorem 36.1, printed p. 253, for the relative form); and
-every PL three-manifold admits a smooth structure compatible with it,
-unique up to diffeomorphism, with the same relative form (Munkres,
-*Obstructions to the smoothing of piecewise-differentiable
-homeomorphisms*, Ann. of Math. 72 (1960), 521–554; Whitehead, *Manifolds
-with transverse fields in Euclidean space*, Ann. of Math. 73 (1961),
-154–212). §3.6's comparison for locally flat slice discs consumes it to
-smooth the Seifert three-manifold of the capped surface relative to the
-smooth part of its boundary; nothing here smooths a locally flat disc.
-
 ## How to read the build
 
 The model and handle calculations give the generators used in the homotopy
@@ -416,13 +345,17 @@ The labels F1–F8 identify the layers in dependency statements.
 ### 1.1 Projective and product generators
 
 On K7's actual CP² carrier, construct the complex-oriented line and point,
-their fundamental classes and H₀/H₂/H₄ generators, cup ring
-ℤ[h]/(h³), and intersection value +1 for a line. Compare its three-cell
+and compare their fundamental classes with ComplexKahlerGeometry K7.2
+(§7.3)'s transported cellular generators and cup ring ℤ[h]/(h³),
+normalized by h[CP¹]=1. Prove intersection value +1 for a line. Compare its three-cell
 structure with the Hopf attaching map through AT's sphere generators.
-Orientation reversal changes the form to −1. Build S²×S² with product
+Orientation reversal changes the form to −1 (Torres, notes on Gompf's
+*Four Manifold Topology*, §1.1, pp. 2–3, Proposition 1.2 and Theorem 1.4;
+gompfnotes2018 line 56). Build S²×S² with product
 orientation and the factor generators, whose matrix is
-`[[0,1],[1,0]]`. Treat S⁴, the rank-zero form and empty connected-sum lists.
-*Needs:* ComplexKahlerGeometry K7; AlgebraicTopology Stages 3 and 6;
+`[[0,1],[1,0]]` (same §1.1, p. 2; gompfnotes2018 line 67). Treat S⁴, the rank-zero form and empty connected-sum lists.
+*Needs:* ComplexKahlerGeometry K7.2 (§7.3)'s projective cup ring and cellular comparisons;
+AlgebraicTopology Stages 3 and 6;
 CharacteristicClasses C2–C3 for the tautological line.
 
 The model and generator constructions have the following API.
@@ -470,7 +403,9 @@ The sphere-bundle comparison has the following API.
 Consume GT's connected-sum operation and prove the homology, fundamental
 group, orientation, Euler characteristic and signature comparisons. For
 connected four-manifolds use punctured-ball Mayer–Vietoris and van Kampen:
-H₂ splits as a direct sum and the intersection form is the orthogonal sum.
+H₂ splits as a direct sum and the intersection form is the orthogonal sum
+(Torres, §1.1, Proposition 1.2 and its intersection-form consequence,
+p. 2; gompfnotes2018 lines 56 and 74).
 Keep the actual maps from the punctured summands. Prove independence of
 the permitted gluing choices by the corresponding GT isotopies.
 *Needs:* GeometricTopology Layer 1's collars and connected sum;
@@ -495,7 +430,7 @@ GT's native handle attachment. Prove simple connectivity, H₂≅ℤʳ and
 homotopy type ∨ʳS². Build each generator as its oriented core joined to
 a spanning surface, with the relative normal framing fixed. Its square
 is the attaching framing and the off-diagonal pairing is the oriented
-linking number of gap:oriented-linking-number. The intersection matrix is
+linking number of GeometricTopology §4.3. The intersection matrix is
 the full framed linking matrix.
 Pin signs against +1-framed and 0-framed unknots and the positive Hopf link.
 Own the Kirby moves on these framed links: a handle slide of one component
@@ -513,7 +448,7 @@ Construct the oriented diffeomorphisms of the surgery three-boundaries
 for all these Kirby moves. A blow-up does not give an unstabilized
 four-dimensional diffeomorphism.
 *Needs:* GeometricTopology Layer 1's handle attachment and attaching-map
-isotopies and Layers 4 and 5's framed links; gap:oriented-linking-number;
+isotopies and Layers 4 and 5's framed links; GeometricTopology §4.3;
 AlgebraicTopology Stages 3 and 6; §1.1's orientations.
 
 The framed-link handlebody has the following API.
@@ -531,6 +466,9 @@ The framed-link handlebody has the following API.
   gives CP² minus an open ball, with H₂≃ℤ and form [1]; both boundaries are
   S³, but the four-manifolds are not diffeomorphic. The −1 version has form [−1].
 - The zero-framed unknot gives matrix [0], while the +1-framed unknot gives [1].
+- For GeometricTopology §4.3's positive push-off V(a,b)=lk(a,b⁺),
+  the ordered intersection matrix is Vᵀ−V. The trefoil matrix
+  [[−1,1],[0,−1]] gives [[0,−1],[1,0]]; V−Vᵀ gives its negative.
 - The positive Hopf link with both framings zero gives H and determinant −1;
   reversing one component changes the off-diagonal signs, not the diagonal entries.
 - Sliding a 0-framed unknot over a disjoint +1-framed unknot, P=[[1,0],[1,1]],
@@ -538,104 +476,14 @@ The framed-link handlebody has the following API.
   the matrix itself changes, so a slide is not the identity on forms.
   Sliding the +1-framed one over the 0-framed one instead leaves diag(0,1).
 
-Define the Arf invariant of an oriented knot in S³, and of a proper link,
-one in which every component has even total linking number with the others,
-as follows. For a connected Seifert surface F of GeometricTopology Layer 4
-with Seifert matrix V, the linking form of gap:seifert-matrix-s-equivalence,
-the Seifert quadratic refinement q(x)=V(x,x) mod 2 on H₁(F;F₂) refines the
-mod-two intersection form of F, its polar form; q vanishes on the radical
-of that form, which is spanned by the boundary components, exactly when the
-link is proper, the total linking numbers being those of
-gap:oriented-linking-number, so it descends to a nonsingular form on the
-quotient by the radical, and the Arf invariant is gap:finite-quadratic-arf's
-Arf of that quotient. Prove independence of F through
-gap:seifert-matrix-s-equivalence's theorem: the invariant is unchanged by
-unimodular congruence and by the pinned enlargements
-`TauCeti.KnotTheory.enlargeColumn` and `TauCeti.KnotTheory.enlargeRow`,
-hence by `TauCeti.KnotTheory.IntegralSquareMatrix.SEquivalent`. For a knot
-prove Levine's congruence, with Δ_K the pinned Conway-normalized
-`TauCeti.KnotTheory.alexander` of V, which is GeometricTopology Layer 4's:
-Δ_K(−1)≡1 mod 4 always, Arf(K)=0 exactly when Δ_K(−1)≡1 mod 8 and
-Arf(K)=1 exactly when Δ_K(−1)≡5 mod 8, so that for the determinant
-d=|Δ_K(−1)| the Arf-zero criterion reads d≡±1 mod 8 (Lickorish, *An
-Introduction to Knot Theory*, GTM 175, Chapter 10; Robertello, *An
-invariant of knot cobordism*, Comm. Pure Appl. Math. 18 (1965), 543–555,
-for proper links). These congruences are knot criteria; a proper link's
-invariant is evaluated on its quotient form directly.
-
-The Arf invariant has the following API.
-
-- q(x+y)=q(x)+q(y)+x·y on H₁(F;F₂), and q(x) is the mod-two number of
-  full twists of the band of F along a curve representing x.
-- S-equivalent Seifert matrices give the same invariant; the invariant of a
-  connected sum of knots is the sum; it vanishes on smoothly slice knots by
-  the comparison below and on topologically slice knots by §3.6's.
-- Arf(K)=0 exactly when Δ_K(−1)≡1 mod 8, equivalently |Δ_K(−1)|≡±1 mod 8,
-  with Δ_K the Conway-normalized Alexander polynomial, the pinned
-  `TauCeti.KnotTheory.alexander` of a Seifert matrix.
-
-Prove that a smoothly slice knot has Arf invariant 0. Given a smooth slice
-disc D⊂D⁴ for K and a connected Seifert surface F, push the interior of F
-into a boundary collar and cap it by D, giving a closed oriented smooth
-surface F̂⊂int(D⁴) of genus g(F) with H₁(F;F₂)≅H₁(F̂;F₂). Construct a
-compact oriented smooth three-manifold W⊂int(D⁴) with ∂W=F̂: the exterior
-of a tubular neighbourhood of F̂ has H₁≅ℤ generated by a meridian, by
-AlgebraicTopology Stage 6's Poincaré–Lefschetz duality and excision, so the
-angular coordinate of the normal circle bundle extends to a smooth map of
-the exterior to S¹, and W is the closure of the preimage of a regular
-value. The Spin structure of D⁴ restricts through the trivial normal line
-of W to a Spin structure on W, SpinGeometry G4's stable lift, and its
-boundary Spin structure on F̂ induces TangentialBordism B3.2(b)'s quadratic
-refinement; prove that it equals q under H₁(F;F₂)≅H₁(F̂;F₂), both counting
-mod 2 the twisting of the Seifert framing of a curve of F against the
-ambient framing, the band-twist comparison also used for M_K in §3.6. By
-B3.2(c)'s boundary-kernel statement, U=ker(H₁(F̂;F₂)→H₁(W;F₂)) is a q-zero
-Lagrangian, of dimension g(F) by relative duality, and
-gap:finite-quadratic-arf's criterion gives Arf(K)=0 (Robertello, as
-above). The genus-one trefoil surface shows the contrapositive: its three
-nonzero classes all have q=1, no q-zero line exists, and the trefoil is not
-slice. Nothing of Layer 3 is used; the locally flat case is §3.6's, with
-the topological normal and smoothing inputs named there.
-
-**Checks.**
-
-- The unknot has Δ=1 and Arf 0. The right-handed trefoil has Δ=t−1+t⁻¹,
-  so Δ(−1)=−3≡5 mod 8, and on a symplectic basis of its genus-one Seifert
-  surface q(a)=q(b)=1, so Arf=1; forgetting the band twists would give 0.
-- The figure-eight knot has Δ=−t+3−t⁻¹ and Δ(−1)=5, so Arf 1 although its
-  signature is 0; the stevedore knot 6₁ has Δ=−2t+5−2t⁻¹ and Δ(−1)=9≡1,
-  so Arf 0 although it is nontrivial. The Alexander polynomial at 1 is
-  always 1 and detects nothing.
-- The positive Hopf link bounds an annulus with one full twist: q(core)=1
-  on the polar radical, linking number 1 is odd, and no proper-link Arf value
-  is assigned.
-- The standard positive cooriented T(2,4)=closure(σ₁⁴) has Seifert matrix
-  [[−1,1,0],[0,−1,1],[0,0,−1]]. Its polar radical is generated by e₁+e₃,
-  q vanishes there, and the quotient is anisotropic: Arf 1. Its Jones value
-  at t=i and u=exp(πi/4) is +√2.
-- Reversing one component changes its linking number from +2 to −2. This
-  orientation bounds the twice-twisted annulus with matrix [+2]; its zero
-  mod 2 refinement descends to dimension 0, so Arf 0. Reversing the component
-  thus changes the Arf invariant of this link by 1, half its linking number
-  mod 2, and the Jones value by i^(−6)=−1.
-  The annular and cooriented positive-braid orientations must be distinguished.
-
-*Needs:* GeometricTopology Layer 1's tubular neighbourhoods and Layer 4's
-Seifert surfaces, Seifert matrices and Alexander polynomial;
-gap:seifert-matrix-s-equivalence, gap:oriented-linking-number and
-gap:finite-quadratic-arf; the pinned `TauCeti.KnotTheory.alexander` and
-`TauCeti.KnotTheory.IntegralSquareMatrix.SEquivalent`; §1.1's
-orientations; AlgebraicTopology Stage 6's Poincaré–Lefschetz duality,
-excision and first homology; SpinGeometry G4's stable Spin lifts;
-TangentialBordism B3.2(b)'s Spin-surface refinement and B3.2(c)'s
-boundary-kernel Lagrangian.
-
 ### 1.5 Boundary kernel and cokernel
 
 The pair sequence and Poincaré–Lefschetz duality identify its map
 H₂(W)→H₂(W,∂W) with the adjoint of this matrix and give
 H₁(∂W)≅coker(Q). Prove the corresponding kernel, determinant and torsion
-calculations. Unimodularity gives an integral homology-sphere boundary;
+calculations (Hatcher, Theorem 3.43, Poincaré–Lefschetz duality,
+and the pair sequence; Bastl et al., §3, Remark 3.4(2), p. 4, for the
+handlebody interpretation; bastl2024 line 281). Unimodularity gives an integral homology-sphere boundary;
 an actual S³ boundary is required to attach a smooth 4-handle. F3 provides
 the distinct topological contractible caps for other homology spheres.
 *Needs:* §1.4; AlgebraicTopology Stage 6's pair duality and UCT;
@@ -658,7 +506,8 @@ The boundary comparison has the following API.
 Realize every symmetric integral matrix by an explicit framed link,
 using crossings/clasps for off-diagonal entries and integer framings for
 the diagonal; a block-diagonal matrix is realized by the split union of
-the realizations of its blocks. Construct the four-dimensional E₈
+the realizations of its blocks (the linking-matrix construction of
+Bastl et al., Definition 3.3 and Remark 3.4(2), p. 4; bastl2024 line 271). Construct the four-dimensional E₈
 plumbing: eight disk bundles over S² of Euler number −2 plumbed along the
 E₈ tree on disjoint local discs, with straightened corners, the core
 orientations and the sign at each plumbing point chosen so that, in the
@@ -712,11 +561,8 @@ the 0-framed unknot gives [0], and the positive Hopf link gives H.
 ### Dependencies
 
 GeometricTopology Layers 1, 4 and 5 supply collars, gluing, framed links,
-Seifert surfaces and handle attachment; gap:oriented-linking-number,
-gap:seifert-matrix-s-equivalence and gap:finite-quadratic-arf supply the
-linking numbers, S-equivalence and finite Arf algebra of §1.4, and
-TangentialBordism B3.2(b)–(c) its Spin-surface refinement and
-boundary-kernel Lagrangian;
+Seifert surfaces and handle attachment; GeometricTopology §4.3 supplies the linking numbers and Seifert
+conventions used by §1.4;
 SmoothBundlesConnections B1.3, B2.1 and B2.5 supply the clutched, associated
 and frame bundles of §1.2, and B2.2 the fibre metrics of §1.6's disk
 bundles. AlgebraicTopology Stages 2–4 and 6 supply the pair sequence, van
@@ -757,19 +603,20 @@ Hurewicz and homological Whitehead theorem.
 
 Compute π₃ of this wedge as a free abelian group on the Hopf maps ηᵢ and the
 pairwise Whitehead maps for i<j, and own this finite-wedge decomposition and
-its inverse. Define the Hopf invariant H(f) of a map f:S³→S² by the cup
+its inverse (Hatcher, Example 4.52, pp. 380–381). Define the Hopf invariant H(f) of a map f:S³→S² by the cup
 square in its mapping cone C_f: a²=H(f)·b, where a∈H²(C_f) restricts to the
 chosen generator of H²(S²) and b∈H⁴(C_f) is the pullback of the chosen
 generator of H⁴(S⁴) under the collapse C_f→C_f/S²=S⁴. Let η be the class
 of AlgebraicTopology 8.16's Hopf projection, with its sign chosen so that
-H(η)=+1. Define the
+H(η)=+1 (Hatcher, §4.B, pp. 427–428). Define the
 Whitehead product [α,β] of α,β∈π₂(X) as α∨β composed with the top-cell
 attaching map S³→S²∨S² of the product-oriented S²×S², which is the
 off-diagonal map. Prove the self-product relation `[ιᵢ,ιᵢ]=2ηᵢ` in these
 conventions and calculate the attaching coordinates as
 `Σᵢ Cᵢᵢ ηᵢ + Σᵢ<ⱼ Cᵢⱼ [ιᵢ,ιⱼ]`, where
 Cᵢⱼ=⟨xᵢ∪xⱼ,[M]⟩ in the H² basis dual to the chosen H₂ sphere
-generators. If Q is the homological intersection matrix in those sphere
+generators (Hatcher, Proposition 4C.3 and proof, pp. 430–431;
+hatcher2002 line 18574). If Q is the homological intersection matrix in those sphere
 generators, prove C=Q⁻¹, integrally by unimodularity. Test the
 positively linked Hopf link with framings 1 and 2: its handle matrix is
 Q=[[1,1],[1,2]], while C=[[2,−1],[−1,1]], so the attachment has
@@ -822,7 +669,7 @@ The coloured-link and mapping-cone comparisons have the following API.
 *Needs:* TangentialBordism 5.2's finite embedded collapse comparison,
 specialized here to maps from S³ to a wedge of two-spheres with its
 tubular inverse; GeometricTopology Layer 1's tubular neighbourhoods and
-Layer 4's framed links; gap:oriented-linking-number; §2.2's Hopf and
+Layer 4's framed links; GeometricTopology §4.3; §2.2's Hopf and
 Whitehead classes;
 AlgebraicTopology's cofibres, cup product and sphere generators.
 
@@ -907,17 +754,18 @@ assumed anywhere in the layer.
 
 ### 3.2 Smooth-ambient immersion data and the disk engine
 
-On a smooth
-oriented 4-manifold, define a proper generic immersed disk/sphere family
+On a smooth 4-manifold with a chosen local orientation at the basepoint
+and orientation character ω:π₁→ℤ/2, define a proper generic immersed disk/sphere family
 by native smooth maps with injective differential, embedded prescribed
 boundary collars and finitely many transverse double points. Supply
 local sheet charts, normal rank 2 bundles, framings and intersection signs;
 extend to locally finite families with proper sheet neighborhoods.
-Define λ and µ using ℤ[π] using the universal-cover/local-coefficient chain
-dictionary, with sheet-order involution g↦g⁻¹ and whiskered labels.
+Define λ and µ over ℤ[π] using the universal-cover/local-coefficient chain
+dictionary, with sheet-order involution ḡ=(−1)^ω(g)g⁻¹ and whiskered labels.
 For fixed normal framing µ takes values in the additive quotient by
-⟨g−g⁻¹⟩, retaining the identity coefficient. Prove
-λ(f,f)=sym(µ(f))+e(ν_f)·1 with sym([g])=g+g⁻¹,
+⟨g−ḡ⟩, retaining the identity coefficient. Prove
+λ(f,f)=sym(µ(f))+e(ν_f)·1 with sym([g])=g+ḡ
+(Freedman–Quinn §1.7, printed pp. 14–15; freedmanquinn line 773),
 together with basepoint, tubing, finger/Whitney/cusp and framing-change
 formulas. For unframed homotopy classes of dual spheres, additionally
 quotient µ by the identity coefficient; call this reduced µ. It is
@@ -927,8 +775,8 @@ independent of cusp changes (Powell–Ray–Teichner, §1.3, p. 6, equation
 The immersed-sheet and intersection constructions have the following API
 (Freedman–Quinn §§1.2–1.5).
 
-- Whisker changes transport group-ring labels; sheet interchange inverts
-  a label and preserves its class modulo g−g⁻¹.
+- Whisker changes transport group-ring labels; sheet interchange replaces
+  g by ḡ, preserving its class modulo g−ḡ. For ω=0 this is g↦g⁻¹.
 - Regular homotopies retain the boundary framing; a cusp changes the
   normal Euler term and the identity coefficient of µ compatibly.
 - Restriction and locally finite gluing retain sheet neighborhoods and
@@ -939,7 +787,9 @@ The immersed-sheet and intersection constructions have the following API
 - A framed embedded disc has µ=0 and e=0, hence λ(f,f)=0.
 - One positive double point with e=0 gives µ=1 and λ=2; a negative
   double point gives µ=−1 and λ=−2.
-- For π=ℤ, the label t and its inverse give the same symmetrization
+- For an orientation-reversing label t in π=ℤ, t̄=−t⁻¹ and
+  sym([t])=t−t⁻¹; forgetting ω would give t+t⁻¹.
+- For π=ℤ and ω=0, the label t and its inverse give the same symmetrization
   t+t⁻¹; deleting the identity coefficient would instead give 0 for
   the positive-double-point test, contradicting λ=2.
 
@@ -1347,7 +1197,7 @@ The same escape construction proves AT8.5's `ConnectedAtInfinity`,
 hence exactly one `endComponents` class; its finite-end comparison with
 `SimplyConnectedAtInfinity` gives the required stable image group 0.
 Apply §3.4's
-the proper simply connected five-dimensional h-cobordism product theorem to obtain V≅B≅ℝ⁴;
+proper simply connected five-dimensional h-cobordism product theorem to obtain V≅B≅ℝ⁴;
 retain the actual inverse and proper end comparisons.
 
 Export the early
@@ -1357,7 +1207,7 @@ homeomorphism to S³ is homeomorphic to closed D⁴ extending that marking.
 Its interior is contractible and simply connected at infinity by the
 boundary collar. Under the preceding ℝ⁴ comparison, the inner collar
 sphere is bicollared in S⁴=OnePoint(ℝ⁴). Brown's generalized Schoenflies
-theorem, gap:brown-schoenflies (`brown1960` lines 84–101, Theorems 4 and 5),
+theorem, GeometricTopology §2.2 (`brown1960` lines 84–101, Theorems 4 and 5),
 identifies its bounded complementary closure with D⁴; reattach the collar and use Alexander extension to fix the given
 boundary marking. This construction uses no four-dimensional annulus
 theorem, global form classification or F4 Spin/KS formula.
@@ -1389,13 +1239,21 @@ framed hypersurfaces in S⁵. Compute their hyperbolic forms and apply
 the hyperbolic hypersurface homeomorphism theorem, keeping the tangent-reduction
 comparison. Give the relative/concordance form and the induced stable
 bundle homotopy. Consume the earlier
-the unstable smoothing comparison for noncompact TOP four-manifolds, then prove
+unstable smoothing comparison for noncompact TOP four-manifolds, then prove
 TOP(4)/O(4)→TOP/O is 4-connected by the sum-stable
 existence/concordance construction and this immersion comparison,
 as in Freedman–Quinn 8.19.2. Combine the 4-connected comparison with the ordinary relative H⁴
-vanishing on noncompact components to classify their smoothings by the
-chosen stable tangent reductions. Display the lifting and difference
-obstruction groups and their relative vanishings.
+vanishing on noncompact components: for a connected noncompact TOP
+four-manifold with fixed boundary smoothing, concordance classes of smoothings
+correspond to homotopy classes of stable tangent reductions, a torsor for
+H³(M,∂M;ℤ/2) (Freedman–Quinn, Theorem 8.18, printed p. 134;
+freedmanquinn line 4647). Display the lifting and difference obstruction
+groups and their relative vanishings.
+
+**Checks.**
+
+- H³(ℝ⁴;ℤ/2)=0 gives one concordance class, containing both the standard
+  smoothing and §8.3's exotic smoothing; these are not diffeomorphic.
 
 Then own stable isotopy of smooth four-dimensional pseudo-isotopies to the identity: a smooth
 pseudo-isotopy of a compact simply connected smooth 4-manifold, fixed on
@@ -1633,7 +1491,8 @@ gap:spherical-classifier-g-top; §3.5's TOP charts.
 
 Define degree-one TOP normal maps and normal bordism. A degree-one
 geometric TOP normal map is a proper map
-of compact pairs f:N→M of degree 1 with a specified stable TOP bundle ξ on
+of compact pairs f:N→M, identifying their orientation local systems and
+sending the relative fundamental class to the target class, with a specified stable TOP bundle ξ on
 M, a stable bundle map ν_N→ξ covering f, and a fiber homotopy equivalence
 of ξ's spherical fibration with ν_M's, where ν is the stable normal
 complement of gap:tangent-microbundle-stable-classifier, so that no Lie
@@ -1683,13 +1542,25 @@ hypersurface homeomorphism with this PL surgery construction here.
 Build the based quadratic surgery kernel of a TOP normal map after the
 relative π₁ surgery, with its form and normal-framing quadratic refinement
 and its functorial comparison to
-gap:spherical-classifier-g-top's algebraic Poincaré-chain model.
+gap:spherical-classifier-g-top's algebraic Poincaré-chain model, with involution ḡ=(−1)^ω(g)g⁻¹ and
+both h and s decorations.
 Consume GeometryOfNumbersAndQuadraticArithmetic §6.8's L₄(ℤ)≅ℤ by σ/8,
 the positive E₈ form going to 1, and L₅(ℤ)=0; prove the
-TOP obstruction and zero-obstruction surgery exact sequence in dimension 4
-for targets with π₁=1 or ℤ by §3.2's framed-disk controls (Freedman–Quinn
+relative TOP surgery exact sequence for every four-dimensional Poincaré
+pair (X,N) with N a closed three-manifold, good group π=π₁(X), and
+orientation character ω:π→ℤ/2, with no orientability restriction:
+L₅ʰ(ℤ[π],ω) acts on S_TOPʰ(X,N), followed by the normal-invariant map
+and the obstruction map to L₄ʰ(ℤ[π],ω). The structure set uses
+homotopy equivalences with boundary homeomorphism to the fixed N, modulo
+h-cobordism respecting that marking; a normal invariant has zero obstruction
+exactly when realized by a structure, and each nonempty fibre of the
+normal-invariant map is an L₅ʰ orbit. For finite X include the s-decorated
+sequence with simple equivalences and s-cobordisms. Use §3.2's framed-disk controls (Freedman–Quinn
 §11.4 and Theorem 11.5, printed pp. 212–213; `freedmanquinn` line 7469).
-For the cyclic case consume gap:laurent-l-group-splitting's Shaneson
+For the identity of S¹×RP³, π=ℤ×C₂ is good by §3.2, ω=0,
+the surgery kernel is zero and the obstruction is 0; this instance lies
+outside π=1,ℤ.
+The cases π=1 and π=ℤ are applications. For the cyclic case consume gap:laurent-l-group-splitting's Shaneson
 splitting and Wh(ℤ)=0; retain its nonzero L₅ action. Retain the prescribed
 boundary normal map/homeomorphism, the L₅ action and the normal-invariant
 difference. The geometric TOP kernel and its signature are compared to
@@ -1717,7 +1588,7 @@ the single degree 2 obstruction with the generator of
 and its actual boundary/clutching maps. Prove Arf(K)=0 yields a compact
 TOP 4-dimensional normal filling (W,M_K)→(S¹×D³,S¹×S²), degree 1 with its actual
 extending stable normal bundle map and the original boundary map fixed.
-Use §1.4's Arf invariant on the Seifert matrix of GeometricTopology Layer 4's
+Use GeometricTopology §4.3.1's Arf invariant on the Seifert matrix of GeometricTopology Layer 4's
 Seifert surface. For the geometric filling, own the computation
 Ω₃^Spin(S¹) ≅ Ω₃^Spin ⊕ Ω₂^Spin ≅ ℤ/2: TangentialBordism B2.1–B2.3 give Spin
 bordism of spaces and pairs its pair sequence, excision and homotopy
@@ -1730,7 +1601,7 @@ B3.2(b)'s quadratic refinement, of the Spin surface transverse preimage of a
 point, which is B2.4's transverse intersection with the point class of S¹.
 For N=M_K with the map to S¹ dual to the capped Seifert surface F̂ and the
 Spin structure restricted from the zero-framed trace of the surgery, prove
-that the refinement induced on F̂ is §1.4's Seifert refinement q under the
+that the refinement induced on F̂ is GeometricTopology §4.3.1's Seifert refinement q under the
 capped-surface H₁ comparison, so the
 invariant is Arf(K) (Freedman–Kirby, *A geometric proof of Rochlin's
 theorem*, Proc. Sympos. Pure Math. 32 (1978), 85–97; Kirby, *The Topology of
@@ -1738,10 +1609,10 @@ theorem*, Proc. Sympos. Pure Math. 32 (1978), 85–97; Kirby, *The Topology of
 Spin four-manifold over S¹ with boundary M_K; then own the normal-data
 extension/rectification via the displayed G/TOP obstruction; an unmarked
 Spin filling alone is insufficient. For Δ_K=1 prove g is a ℤ[ℤ]-chain
-equivalence through gap:alexander-module-presentation's infinite cyclic
+equivalence through GeometricTopology §4.4's infinite cyclic
 cover and MorseNovikov N6's presentation of its Alexander module by the
 pinned `TauCeti.KnotTheory.alexanderMatrix` of GeometricTopology Layer 4's
-Seifert matrix, and prove Arf(K)=0 from Δ_K(−1)=1 by §1.4's congruence.
+Seifert matrix, and prove Arf(K)=0 from Δ_K(−1)=1 by GeometricTopology §4.3.1's congruence.
 
 Prove the end theorem `freedmanSliceTheorem`, the pinned statement
 `TauCeti.FreedmanSliceTheorem`: a smooth circle embedding K in S³ whose knot
@@ -1750,7 +1621,7 @@ slice, bounding a locally flat disc in the closed unit four-ball. Compare the
 hypothesis with Δ_K=1 through the Alexander module H₁ of the infinite cyclic
 cover, presented over ℤ[t,t⁻¹] by the pinned `TauCeti.KnotTheory.alexanderMatrix`
 tV−Vᵀ of GeometricTopology Layer 4's Seifert matrix, as in MorseNovikov N6,
-and gap:alexander-module-presentation's Crowell comparison: the
+and GeometricTopology §4.4's Crowell comparison: the
 commutator subgroup is perfect exactly when this module vanishes, which is
 the order ideal being the unit ideal, which is Δ_K≐1 (Crowell; Freedman–Quinn
 §11.9, printed p. 225, `freedmanquinn` lines 7925–7930). Take the normal
@@ -1766,36 +1637,13 @@ the 2013 reformat; `freedmanquinn` lines 7884–7922). The unknot is the
 degenerate instance: its knot group is ℤ with trivial commutator subgroup,
 and its slice disc is the standard one.
 
-Prove that a topologically slice knot has Arf invariant 0, extending
-§1.4's comparison for smooth slice discs. For a locally flat slice disc
-D⊂D⁴ with boundary K the capped surface F̂=F∪D of a connected Seifert
-surface F pushed into the boundary collar is a closed locally flat surface
-in int(D⁴); §3.5's normal-bundle theorem gives it a linear normal bundle,
-whose angular coordinate extends over the exterior to a map to S¹ as in
-§1.4, and §3.5's dimension-four transversality makes a point's preimage a
-compact locally flat three-manifold W⊂int(D⁴) with ∂W=F̂, bicollared by
-`TauCeti.brownBicollaring`, smooth near the pushed-in F where every datum
-is smooth. Give W a smooth structure agreeing with that one near F by
-gap:three-manifold-smoothing. Prove that the Spin structure of D⁴,
-restricted to the stable tangent microbundle of W through
-gap:tangent-microbundle-stable-classifier, determines a Spin structure on
-the smoothed W: SpinGeometry G4's smooth lifts and the lifts of the stable
-microbundle are both H¹(W;F₂)-torsors and the comparison is equivariant.
-Its boundary refinement on F̂, TangentialBordism B3.2(b)'s, equals §1.4's
-Seifert refinement q, the comparison being made along the curves of F,
-which carry all of H₁(F̂;F₂), with the smooth normal framings there. Then
-B3.2(c)'s boundary-kernel Lagrangian and gap:finite-quadratic-arf's
-criterion give Arf(K)=0. This agrees with the slice theorem: Δ_K=1 forces
-Arf(K)=0 by §1.4's congruence. W is smoothed intrinsically; no slice disc
-is smoothed, and a topologically slice knot need not be smoothly slice.
-*Needs:* §1.4's Arf invariant, slice-disc comparison and framed-link
-handlebodies; GeometricTopology Layer 4's Seifert surfaces and Seifert
-matrices and Layer 5's zero surgery; gap:alexander-module-presentation,
-MorseNovikov N6's presentation and the pinned
-`TauCeti.KnotTheory.alexanderMatrix`; §3.5's normal-bundle theorem and
-dimension-four transversality; gap:three-manifold-smoothing;
-gap:tangent-microbundle-stable-classifier; gap:finite-quadratic-arf;
-`TauCeti.brownBicollaring`; SpinGeometry G4; TangentialBordism B2.1–B2.4,
+*Needs:* §1.4's framed-link handlebodies; GeometricTopology §4.3.1's
+Seifert quadratic refinement and knot Arf invariant, §4.4's Alexander
+module and Crowell comparison and Layer 5's zero surgery; MorseNovikov
+N6's presentation and the pinned `TauCeti.KnotTheory.alexanderMatrix`;
+§3.5's normal-bundle theorem and dimension-four transversality;
+gap:tangent-microbundle-stable-classifier; SpinGeometry G4;
+TangentialBordism B2.1–B2.4,
 B3.2(b)–(c) and B3.3 for Ω₃^Spin(S¹); the ℤ[ℤ]-homology-surgery theorem and
 the TOP normal-map correspondence above; §3.5's marked contractible
 four-ball theorem; the pinned `TauCeti.FreedmanSliceTheorem` and
@@ -1905,10 +1753,10 @@ the full linking matrix and changes the characteristic-link Arf by 1;
 F4's formula then gives the other KS value on the same form.
 The parity constraint belongs to the even branch, not to the existence
 of a topological realization of a unimodular form (Freedman–Quinn,
-Theorem 10.10, existence, printed p. 184; `freedmanquinn` line 6416).
+§10.1, Classification Theorem, existence, printed p. 172; freedmanquinn line 5931).
 
-*Needs:* §1.4 and §1.6's framed-link handlebodies, Kirby moves and Arf
-invariant; §3.6's contractible caps, the signature-8 block and the pinch
+*Needs:* §1.4 and §1.6's framed-link handlebodies and Kirby moves;
+GeometricTopology §4.3.1's knot Arf invariant; §3.6's contractible caps, the signature-8 block and the pinch
 formula; §4.2's characteristic-surface formula for the Kirby–Siebenmann
 values; IntegralLattices' unimodular classification.
 
@@ -1931,8 +1779,8 @@ construct its normal bordism, and use L₅(ℤ)=0 and the TOP 5-dimensional prod
 theorem to realize the original isometry by a homeomorphism. Pin the
 composition actions and chosen orientations. The KS obstruction remains
 distinct from existence of an unstabilized smooth structure
-(Freedman–Quinn, Theorem 10.10, uniqueness, printed p. 184;
-`freedmanquinn` line 6416).
+(Freedman–Quinn, §10.1, Classification Theorem, uniqueness, printed p. 172;
+freedmanquinn line 5935).
 
 *Needs:* §2.4's homotopy classification; §3.6's pinch formula, normal
 bordism and topological five-dimensional product theorem;
@@ -2013,7 +1861,12 @@ twisting by a line of class a changes c₁(L) by 2a. Prove pullback, sums,
 orientation changes, restrictions to boundaries and compatibility with Spin
 structures. Construct integral lifts of w₂ for closed oriented four-manifolds,
 including the torsion calculation. A characteristic vector of the free form
-alone does not detect all of w₂.
+alone does not detect all of w₂ (Salamon, *Spin Geometry and
+Seiberg–Witten Invariants*, §5.2, Theorem 5.8, pp. 157–160, for even-rank
+bundles over smooth bases; salamon1999 line 6516). The stated CW-base
+form uses the central-extension lifting obstruction and its difference
+classes in AlgebraicTopology Stage 8; odd rank is compared by adjoining
+a trivial oriented line.
 
 The Spinᶜ group, lift and determinant constructions have the following API.
 
@@ -2067,7 +1920,7 @@ quadratic refinement q_F:H₁(F;F₂)→F₂ from the normal twisting and transv
 intersection counts; prove independence, q(x+y)=q(x)+q(y)+x·y and its
 change under the specified Spin/framing data. Prove
 KS(M)=(σ(M)−F²)/8+Arf(q_F) mod 2, evaluating Arf through
-gap:finite-quadratic-arf's finite nonsingular-F₂ Arf algebra after constructing
+GeometricTopology §4.3.1's finite nonsingular-F₂ Arf algebra after constructing
 the membrane refinement q_F and proving that its polarization is the
 nondegenerate mod 2 intersection pairing of the closed oriented surface. Include integral divisibility by 8
 via the characteristic-vector theorem. First prove the smooth
@@ -2114,7 +1967,7 @@ The membrane refinement and boundary invariant have the following API.
 - On a symplectic torus basis a,b, q(a)=q(b)=1 gives q(a+b)=1
   and Arf=1; q(a)=q(b)=0 gives q(a+b)=1 and Arf=0.
 
-*Needs:* gap:finite-quadratic-arf's Arf algebra; §3.5's immersed normal charts and punctured smoothing;
+*Needs:* GeometricTopology §4.3.1's Arf algebra; §3.5's immersed normal charts and punctured smoothing;
 TangentialBordism B3.2–B3.3; IndexTheory I7.5; §3.6's low G/PL-to-G/TOP
 coefficient comparison for the TOP extension.
 
@@ -2267,7 +2120,7 @@ For S⁴ the half-spin values −u and u give p₁=0 and Euler class 2u.
 
 SpinGeometry G4 and CharacteristicClasses C2–C3 supply lifts and classes.
 TangentialBordism B4 supplies the higher diagonals and Wu theory, and B3
-supplies the geometric Spin refinements and fillings. gap:finite-quadratic-arf
+supplies the geometric Spin refinements and fillings. GeometricTopology §4.3.1
 supplies the finite quadratic Arf algebra. The TOP arguments
 use F3's local engine; StringOrientation S1 supplies the stable Spin
 comparison on four-dimensional bases. TopologicalKTheory T1.5 and
@@ -2286,18 +2139,22 @@ energy E(A) below, prove its gauge invariance and its first variation
 dE_A(a)=2⟨F_A,d_Aa⟩, so that A is stationary exactly when d_A*F_A=0, and
 prove that every ASD connection is stationary by the Bianchi identity.
 Prove the second variation at an ASD connection to be the quadratic form
-a↦2‖d_A⁺a‖² on the Coulomb slice, whose kernel is H_A¹ below, and define the
+a↦4‖d_A⁺a‖² on the Coulomb slice, whose kernel is H_A¹ below, and define the
 gauge-fixed elliptic operator d_A*⊕d_A⁺ from one-forms to zero-forms plus
 self-dual two-forms. Prove four-dimensional conformal invariance: the Hodge
 star on two-forms, hence self-duality, the energy and the ASD equations,
 are unchanged when the metric is multiplied by a positive smooth function.
-The nonlinear slices and ASD moduli constructions follow.
+Derive the variations by expanding the curvature in the parameter
+(Feehan–Leness, equation (2.9), p. 14; feehanleness line 576), the ASD
+Hessian from the energy decomposition below, and conformal invariance
+from the Hodge-star scaling on two-forms. The nonlinear slices and ASD
+moduli constructions follow.
 
 The Yang–Mills calculus has the following API.
 
 - The energy is gauge invariant and its first variation is the pairing of
   the curvature with d_A of the variation; stationarity is d_A*F_A=0.
-- At an ASD connection the second variation is 2‖d_A⁺a‖² and the
+- At an ASD connection the second variation is 4‖d_A⁺a‖² and the
   gauge-fixed operator d_A*⊕d_A⁺ is elliptic of first order.
 - Conformal changes of the four-dimensional metric preserve self-duality
   of two-forms, the energy and the ASD condition.
@@ -2307,6 +2164,9 @@ The Yang–Mills calculus has the following API.
 - The trivial flat connection on S⁴ has F=0, energy 0 and first variation
   0; the BPST instanton has F⁺=0 and is stationary by Bianchi, whereas a
   connection with F⁺≠0 and the same charge has strictly larger energy.
+- On the unit flat four-torus, A=0 and a=T sin(2πx₁)dx₂ with
+  −tr(T²)=1 give d*a=0, ‖d⁺a‖²=π² and E(ta)=2π²t². Thus
+  E″(0)=4π²=4‖d⁺a‖²; coefficient 2 would give only 2π².
 - Multiplying the metric by λ² scales the energy density |F|² by λ⁻⁴ and
   the volume form by λ⁴ in dimension four, so E is unchanged; in dimension
   n the energy scales by λ^(n−4), so the invariance is special to n=4.
@@ -2876,9 +2736,8 @@ ordered fibre basis (Gompf–Stipsicz, §3.1, pp. 67–77; TangentialBordism
 2.7). The comparison with the local model is on the specified blowup
 atlas, rather than an inference from the Euler number.
 
-Own the torus mapping-class comparison with SL₂(ℤ), consuming GT's surface
-and diffeomorphism carriers and proving the necessary disk/curve isotopy
-comparisons. For the ordered symplectic basis a·b=+1, use column action
+Consume GeometricTopology §1.7.2's torus mapping-class comparison with
+SL₂(ℤ), disk/curve isotopy comparisons and twist conventions. For the ordered symplectic basis a·b=+1, use column action
 `A=[[1,1],[0,1]]`, `B=[[1,0],[-1,1]]` and
 `S=[[0,-1],[1,0]]`, so B=SAS⁻¹ and (AB)⁶=I.
 Construct the monodromy factorization of E(1) and prove its Hurwitz/conjugation
@@ -2901,7 +2760,7 @@ alternating A/B words.
   divisible by 12 is necessary for an identity factorization, not sufficient.
 
 *Needs:* §6.1's discriminant comparison; §6.2's marked node monodromy;
-GeometricTopology Layer 3's diffeomorphism-group carriers for the torus;
+GeometricTopology §1.7.2's torus mapping-class comparison and twist conventions;
 TangentialBordism 2.7's E(1); AffineMorseLefschetz A0's cubic coefficient
 space.
 
@@ -2931,9 +2790,11 @@ orientation reversal negates both indices. The KO genus normalization is
 c(a)=2u² and the signature/16 bordism number is −1.
 
 For the marked Lie Spin T³ boundary of the E(1) fibre complement, apply
-F4's Rokhlin comparison to obtain ρ(T³)=−8 mod 16=8. Distinguish the
+F4's Rokhlin comparison to obtain ρ(T³)=−8 mod 16=8
+(Kirby–Melvin, §2(c), p. 99, footnote 3, for the Lie Spin filling
+and signature comparison; kirbymelvin line 525). Distinguish the
 induced stable framing from the Lie framing, which represents
-η³=12ν in π₃ˢ≅ℤ/24 (Kirby–Melvin, §2(c), p. 99, footnote 3).
+η³=12ν in π₃ˢ≅ℤ/24 by TangentialBordism B3.3.
 
 **Checks.**
 
@@ -2944,7 +2805,7 @@ induced stable framing from the Lie framing, which represents
   its Lie Spin restrictions are (1,1,1), whereas a meridian bounding
   a Spin disc would give (1,1,0).
 
-*Needs:* TangentialBordism B1.7 and B3.4; IndexTheory I7.5; F4's
+*Needs:* TangentialBordism B1.7, B3.3 and B3.4; IndexTheory I7.5; F4's
 boundary Rokhlin comparison for the filling application only.
 
 ### 7.2 Elliptic surfaces and the quartic comparison
@@ -2952,9 +2813,14 @@ boundary Rokhlin comparison for the filling application only.
 Form E(n), n≥1, by the specified fiber sums, with actual section and gluing
 data. Prove π₁=0, χ=12n, σ=−8n, b₂=12n−2 and the Chern formula
 c₁=(2−n)F. For even n the form is n(−E₈)⊕(2n−1)H; for odd n it is
-I_(2n−1,10n−1). Prove Spin iff n is even, including the fiber's primitivity.
+I_(2n−1,10n−1). Prove Spin iff n is even, including the fiber's primitivity
+(Hamilton, *On symplectic 4-manifolds and contact 5-manifolds*,
+§II.3.5, p. 17; hamilton2008 line 726; the section pairs with the fiber
+to 1, and the form calculation uses IntegralLattices).
 Prove the genus-one positive-factorization classification, with section
-and Hurwitz/total-space diffeomorphism comparisons. Construct the actual
+and Hurwitz/total-space diffeomorphism comparisons
+(Salepci, *Lefschetz Fibrations and real Lefschetz fibrations*, §1.4.1,
+Theorem 1.5, p. IV–7; salepci2014 line 277). Construct the actual
 elliptic quartic on A0's carrier as follows. In CP³ fix the disjoint lines
 L₀={z₂=z₃=0} and L₁={z₀=z₁=0}. The polynomial
 `ellipticQuarticSeedPolynomial`,
@@ -2964,7 +2830,8 @@ Define `ellipticQuarticSeedMap` as its evaluation map ℂ⁴→ℂ and prove
 points outside the zero locus. Its cyclic derivative
 equations have no common nonzero zero, since the all-nonzero branch
 would give 3⁴=1, and any zero forces all coordinates zero.
-The seed polynomial and evaluation map have the following API.
+The assertions for this explicit polynomial are proved directly by these
+derivative equations. The seed polynomial and evaluation map have the following API.
 
 - Scalar multiplication rescales evaluation by the fourth power.
 - Restriction to either specified coordinate line vanishes identically.
@@ -3010,7 +2877,10 @@ compactness and submersion by the fiberwise Jacobian. Consume
 SmoothBundlesConnections B1.5's Ehresmann fibration theorem to connect
 every smooth quartic to the elliptic model through this same family.
 This proves the oriented diffeomorphism E2≅K3; it does not assert every quartic
-is elliptic as a complex surface. Retain the fiber, section and form comparisons.
+is elliptic as a complex surface (Hamilton, §II.3.4–§II.3.5,
+pp. 16–17, identifies E(2) as K3; hamilton2008 lines 710 and 730;
+the marked quartic comparison is the incidence-family argument above).
+Retain the fiber, section and form comparisons.
 
 The elliptic fibre-sum and quartic-family comparisons have the following API.
 
@@ -3046,7 +2916,13 @@ all three coordinate squares to vanish. Prove regularity, freeness and
 simple connectivity, the canonical residue-form action −1 and the quotient
 manifold atlas. Compute its Enriques quotient's H₁=ℤ/2, torsion canonical
 class, nonzero w₂ and even free form H⊕(−E₈). This gives the required torsion
-counterexample to an unqualified even-form-implies-Spin statement.
+counterexample to an unqualified even-form-implies-Spin statement
+(Dolgachev, *A brief introduction to Enriques surfaces*, arXiv:1412.7744v2,
+§3, pp. 8–9; dolgachev2014 lines 283, 311 and 319). The Vandermonde
+regularity and fixed-point exclusions for these explicit quadrics are
+direct polynomial arguments, and H₁=ℤ/2 follows from the simply connected
+double cover; the nonzero canonical order-two class has nonzero mod-two
+reduction because the torsion subgroup is exactly ℤ/2.
 
 The quadrics, zero set and sign action have the following API.
 
@@ -3101,7 +2977,7 @@ obstruction; the elementary polynomial and freeness results do not use it.
 
 ### 8.1 Presentation realization and nonrecognition
 
-Every finitely presented group is the fundamental group of a closed connected
+Prove `presentation_realization`: every finitely presented group is the fundamental group of a closed connected
 oriented smooth n-manifold for every n≥4. Use a finite presentation complex,
 a general-position embedding into ℝⁿ⁺¹ and a compact smooth regular
 neighborhood; identify the boundary fundamental group through the dual handles
@@ -3137,7 +3013,8 @@ For positive definite symmetric integer matrices Q and Q′ of the same rank,
 prove that each column vᵢ of an integral isometry satisfies
 ‖vᵢ‖²≤Q′ᵢᵢ tr(Q⁻¹), using the positive real scalar extension and
 vᵢᵀQvᵢ=Q′ᵢᵢ. The inverse exists by positive definiteness; in rank zero
-use the unique empty matrix. Thus the set of integral isometries is finite
+use the unique empty matrix. Consume the pinned definite-lattice finiteness
+theorems from the supplier contracts; the additional target is this explicit trace bound
 ([Bastl et al., arXiv:2411.08775v2, §6, proof of Lemma 6.5, pp. 12–13](https://arxiv.org/abs/2411.08775v2));
 the trace bound follows from λ_min(Q)⁻¹≤tr(Q⁻¹).
 Negating both negative definite forms gives the corresponding result.
@@ -3164,7 +3041,7 @@ orientation allows either Q′ or −Q′
 - For the +1-framed unknot, x=1, σ=1, xᵀQx=1 and Arf(C)=0, so KS=0;
   the signature term alone would not give the required integral quotient.
 
-*Needs:* §1.4's framed-link handlebodies and Arf invariant of a proper link;
+*Needs:* §1.4's framed-link handlebodies; GeometricTopology §4.3.1's proper-link Arf invariant;
 §3.6's contractible cap; §3.8's classification; §4.2's membrane formula;
 IntegralLattices' indefinite classification; Bastl et al., Theorem 5.3,
 Proposition 5.6 and Lemma 6.5.
@@ -3278,10 +3155,9 @@ preprint versions determine the theorem numbering used above.
 The remaining works cited inline are Powell–Ray–Teichner, *The 4-dimensional
 disc embedding theorem and dual spheres*, arXiv:2006.05209; Gabai, Gay,
 Hartman, Krushkal and Powell, *Pseudo-isotopies of simply connected
-4-manifolds*, arXiv:2311.11196; Tancer, *Recognition of the sphere and
-other 4-manifolds is undecidable*, arXiv:2310.07421v2; Bastl, Kasprowski,
-Powell and Ray, *Simply connected topological 4-manifolds and the
-isometries of their intersection forms*, arXiv:2411.08775v2; Rabin,
+4-manifolds*, arXiv:2311.11196; Martin Tancer, *Simpler algorithmically unrecognizable
+4-manifolds*, arXiv:2310.07421v2; Stefan Bastl et al.,
+*Algorithms in 4-manifold topology*, arXiv:2411.08775v2; Rabin,
 *Recursive unsolvability of group theoretic problems*, Ann. of Math. 67
 (1958); Browder, *Surgery on Simply-Connected Manifolds*, Springer (1972),
 Chapter V; Quinn, *Ends of maps I*, Ann. of Math. 110 (1979), *Ends of maps
@@ -3322,3 +3198,14 @@ Ann. of Math. 73 (1961); Dold–Whitney, *Classification of oriented sphere
 bundles over a 4-complex*, Ann. of Math. 69 (1959), 667–677; Hanner, *Some
 theorems on absolute neighborhood retracts*, Ark. Mat. 1 (1951); and Gompf,
 *Three exotic ℝ⁴'s and other anomalies*, J. Differential Geom. 18 (1983).
+
+Additional locators above use George Torres, *Four Manifold Topology*,
+notes on Bob Gompf's course, 2018 (revised 2019), §1.1 and §3.6;
+Allen Hatcher, *Algebraic Topology*, 2002, Theorem 3.43, Example 4.52,
+§4.B and Proposition 4C.3; Dietmar Salamon, *Spin Geometry and
+Seiberg–Witten Invariants*, August 1999, §5.2, Theorem 5.8;
+Mark Hamilton, *On symplectic 4-manifolds and contact 5-manifolds*,
+2008, §II.3.4–§II.3.5; Nermin Salepci, *Lefschetz Fibrations and real
+Lefschetz fibrations*, Winter Braids Lecture Notes 1 (2014), Course IV,
+Theorem 1.5; and Igor Dolgachev, *A brief introduction to Enriques
+surfaces*, arXiv:1412.7744v2, §3.
