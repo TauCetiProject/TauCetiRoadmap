@@ -1033,6 +1033,19 @@ monomorphism of firm modules that is not a kernel (González-Férez–Marín 201
 of firm modules is abelian if and only if the composite of two kernels is a kernel
 (González-Férez–Marín 2010, Theorem 3, p. 86).
 
+## Provenance: existing formalizations outside Tau Ceti
+
+This section is secondary: it maps existing Lean code to targets and prescribes nothing. The
+repository LeanPool, *lean-pool* (References), keeps Lean 4 formalizations that do not fit Mathlib,
+each project permissively licensed (Apache-2.0 or MIT) and bumped to Lean and Mathlib v4.35.0,
+earlier than our pin. It is not a dependency: a statement read there is compared with the target
+here before it is used, adaptation is agreed with its maintainers first, and adapted code keeps its
+license notices.
+
+`LeanPool/EilenbergZilber` proves the Eilenberg–Zilber theorem for bisimplicial objects, with the
+shuffle map and the normalized comparison, a tool of the simplicial computations around Layer 1.
+Nothing there treats cyclic homology, the Loday–Quillen–Tsygan theorem or quasi-free algebras.
+
 ## References
 
 - A. Connes, « Cohomologie cyclique et foncteurs Extⁿ », *C. R. Acad. Sci. Paris Sér. I Math.*
@@ -1096,3 +1109,6 @@ of firm modules is abelian if and only if the composite of two kernels is a kern
 - G. Cortiñas, « The obstruction to excision in K-theory and in cyclic homology », *Invent. Math.*
   164 (2006), 143–173. doi:10.1007/s00222-005-0473-9. Zbl 1092.19001. arXiv:math/0111096
   (theorem numbering of the arXiv version).
+- LeanPool, *lean-pool*. Lean 4 formalizations at commit f8b9b721d616a2cc0b22fc226e4a9e3dd6cea2d0,
+  Lean and Mathlib v4.35.0; projects `LeanPool/EilenbergZilber`.
+  https://github.com/LeanPool/lean-pool/tree/f8b9b721d616a2cc0b22fc226e4a9e3dd6cea2d0/LeanPool
