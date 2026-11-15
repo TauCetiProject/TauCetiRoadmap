@@ -389,6 +389,11 @@ laws) with `FormalGroup.IsComm`.
 - **Tate modules.** `TauCeti.TateModule p A` of an abelian group `A` with
   `TauCeti.TateModule.mapLinearMap` (`Algebra/Module/Torsion/TateModule.lean`), and
   `TauCeti.PadicTateTwist p K` for `ℤ_p(1)` (`RingTheory/RootsOfUnity/PadicTateTwist.lean`).
+- **Fibrewise flatness.** `Module.Flat.of_flat_fiber` (`RingTheory/Flat/Fiber.lean`: a finitely
+  presented `B`-module that is flat over `R`, with flat fibres over every prime of `R`, is flat
+  over `B`), with its form for finite, locally finitely presented morphisms of schemes over a base
+  in `AlgebraicGeometry/Morphisms/Flat/Fiber.lean`. This is the finite case of EGA IV₃ 11.3.10;
+  §R07.1.11 applies it to the coordinate algebras of the affine carrier.
 
 ### From TauCetiRoadmap.ModularCurves, LocalFieldsRamification, EllipticCurves, ProfiniteCohomology and ClassFieldTheory
 
@@ -1155,7 +1160,8 @@ criteria above, not for these constructions.
 
 *Proof sketch.* `(i)` is Illusie's Corollaire 2.2.5, quoted with its notation by Anschütz–Le Bras,
 Remark 4.6.3. `(ii)` for `n = 1`: reduce to `S` over `F_p`; `F : G → G^{(p)}` factors through `G → ker(V : G^{(p)} → G)`; this map is surjective by the hypothesis on fibres, hence flat by the fibrewise
-flatness criterion (EGA IV₃ 11.3.10) and so faithfully flat; then `ker F = im V` (Pilloni, Lemma
+flatness criterion (EGA IV₃ 11.3.10, in the finite form `Module.Flat.of_flat_fiber` on coordinate
+algebras over affine opens of `S`) and so faithfully flat; then `ker F = im V` (Pilloni, Lemma
 10.1.1, proof, p. 57). `(ii)` for `n ≥ 2`: since each `G[p^i]` is finite locally free by hypothesis,
 the fibrewise flatness criterion applies to the maps `p^{n−i} : G → G[p^i]`, which are surjective on
 fibres because the fibres are `BT_n`; so they are faithfully flat and `im p^{n−i} = ker p^i`, which
@@ -1167,7 +1173,8 @@ of Lemma 10.1.1 and footnote `14`, p. 57: the fibrewise criterion, proved for `n
 case asserted and attributed to Fargues.)
 
 *Needs:* AbelianSchemesAndArithmeticModuli §A4.5a (`TruncatedBT`); §R07.1.1;
-DerivedModuleAlgebra §0.4 (the full cotangent complex); TauCetiRoadmap.ModularCurves Layer 0B.
+DerivedModuleAlgebra §0.4 (the full cotangent complex); TauCetiRoadmap.ModularCurves Layer 0B;
+Tau Ceti `Module.Flat.of_flat_fiber` (fibrewise flatness of finitely presented modules).
 
 **Checks.**
 
@@ -2748,7 +2755,8 @@ finite projective modules, finite locally free group schemes and `p`-divisible g
 ### Dependencies
 
 Tau Ceti `FiniteLocallyFreeCommAffineGroupSchemeCat` with Cartier duality and base change, and its
-constant and diagonalizable groups; TauCetiRoadmap.ModularCurves Layers 0B, `0C, 0D, 0E`, `2B` and `7E`;
+constant and diagonalizable groups; Tau Ceti's fibrewise flatness criterion
+`Module.Flat.of_flat_fiber`; TauCetiRoadmap.ModularCurves Layers 0B, `0C, 0D, 0E`, `2B` and `7E`;
 TauCetiRoadmap.LocalFieldsRamification Layers 3 and `4`; TauCetiRoadmap.ClassFieldTheory Layers 7
 and `11`; GlobalNumberFields Layers 9–10; AbelianSchemesAndArithmeticModuli §§A4.5, A4.5a and
 Layer A3; DerivedModuleAlgebra §0.4; SchemeAndStackFoundations §§0.29 and 4.1;
@@ -9032,6 +9040,54 @@ Mathlib `differentIdeal`, `IsKrasner.krasner`,
 - **CohomologyComparisons** uses the Fontaine–Laffaille lattice correspondence and full faithfulness
   (§§R07.3.15–R07.3.17), the all-weight Kisin functor and its lattice comparisons (R07.4), and
   Illusie's obstruction class (§R07.6.6).
+
+## Provenance: existing Lean work
+
+The Apache-2.0 repository
+[AxiomMath/Stacks](https://github.com/AxiomMath/Stacks/tree/c496df0d9beea9deaeabcea8492605f9a0a2313b),
+a Lean formalisation of the Stacks project, meets this roadmap in five directories of
+`StacksFrontier`: `AlgebraicGeometry/GroupScheme`, `AlgebraicGeometry/Morphisms`,
+`AlgebraicGeometry/Flatness`, `AlgebraicGeometry/Constructions` and `RingTheory/Flat`. The overlap
+is confined to scheme-theoretic inputs. These directories contain no `p`-divisible groups, no
+Cartier duality of finite flat groups, no Dieudonné theory, no finite flat models and none of the
+semilinear classifications of R07.2–R07.4. The repository is not a dependency and is built against its own
+Lean and Mathlib versions. Its group schemes are Mathlib's group objects in `Over S`, not the
+carriers `FLF R`, `BarsottiTate` and `TruncatedBT` used here. A statement read there is compared
+with the target here before it is used. A proof adapted from it, rather than rewritten, keeps its
+Apache-2.0 notice, and the adaptation is agreed with its authors first.
+
+- **Overlapping targets owned here.**
+  [`AlgebraicGeometry/Morphisms/HenselianLocalFinitePiece.lean`](https://github.com/AxiomMath/Stacks/blob/c496df0d9beea9deaeabcea8492605f9a0a2313b/StacksFrontier/AlgebraicGeometry/Morphisms/HenselianLocalFinitePiece.lean)
+  (EGA IV 18.5.11; Stacks Tags 02LK and 04GG): over a henselian local ring, a closed-fibre point
+  of a locally quasi-finite morphism locally of finite type has an open neighbourhood that is
+  finite over the base and meets the closed fibre only in that point. This is the scheme-level
+  step of the decomposition `𝒢 = 𝒢^f ⊔ 𝒢′` of §R07.1.3. The subgroup property, the flatness of
+  `𝒢^f` and the description of `𝒢^f(K̄)` are not there.
+  [`AlgebraicGeometry/GroupScheme/OverFieldProperties/Reduction.lean`](https://github.com/AxiomMath/Stacks/blob/c496df0d9beea9deaeabcea8492605f9a0a2313b/StacksFrontier/AlgebraicGeometry/GroupScheme/OverFieldProperties/Reduction.lean)
+  (Stacks Tag 047R) and
+  [`AlgebraicGeometry/GroupScheme/OverField/SmoothPerfectField.lean`](https://github.com/AxiomMath/Stacks/blob/c496df0d9beea9deaeabcea8492605f9a0a2313b/StacksFrontier/AlgebraicGeometry/GroupScheme/OverField/SmoothPerfectField.lean)
+  (Stacks Tag 047P): over a perfect field the reduction of a group scheme is a closed subgroup
+  scheme, and a reduced group scheme locally of finite type is smooth. For finite groups these
+  give the reduced, hence étale, subgroup that splits the connected–étale sequence in §R07.2.1.
+- **Inputs this roadmap takes from elsewhere.** `RingTheory/Flat/FibrewiseCriterion.lean` proves
+  the fibrewise flatness criterion over a nilpotent ideal and for Noetherian local rings; §R07.1.11
+  uses the finite, finitely presented case, which is at the Tau Ceti pin. The relative Frobenius
+  of `Morphisms/Differentials/RelativeFrobenius.lean` is the scheme map of
+  SchemeAndStackFoundations §0.29, and the sections of smooth morphisms over a henselian local ring
+  in `Morphisms/SmoothSectionHenselian.lean` are the local case of SchemeAndStackFoundations
+  §0.14. Quasi-finite and finite locally free morphisms with their rank (`Morphisms/QuasiFinite/`,
+  `Morphisms/FiniteLocallyFree/`) are Mathlib's `AlgebraicGeometry.LocallyQuasiFinite` and
+  `Scheme.Hom.finrank` together with ModularCurves Layer 0B. The constant groups and `μ_n` of
+  `GroupScheme/Examples/` are Tau Ceti's constant and diagonalizable groups, the `n`-torsion
+  subgroups of `GroupScheme/Torsion.lean` are kernels of ModularCurves Layer 0B, and the torsion
+  of abelian varieties in `GroupScheme/AbelianVariety/` is, over a field, a case of
+  AbelianSchemesAndArithmeticModuli §A3.2, with the Tate module of its points given by
+  `TauCeti.TateModule`.
+- **Not targets here.** The rest of `GroupScheme/` (group schemes over a field, identity
+  components, actions and quotients, abelian schemes and their torsors), the general morphism
+  properties in the rest of `Morphisms/`, flattening by blow-up, the Raynaud–Gruson theorem and
+  the pure and Mittag-Leffler modules of `Flatness/` and `RingTheory/Flat/`, and the `Proj`, cone
+  and graded-algebra constructions of `Constructions/`.
 
 ## References
 
