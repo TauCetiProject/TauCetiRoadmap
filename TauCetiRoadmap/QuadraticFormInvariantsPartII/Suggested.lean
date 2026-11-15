@@ -18,8 +18,8 @@ Kummer classes, the `C_i` property, the Kronecker dimension and the constant fie
 
 Stated here:
 
-* roundness of quadratic Pfister forms, and the equivalence of isotropy with hyperbolicity, in every
-  characteristic (Layer 1);
+* roundness of quadratic Pfister forms and, for nonsingular ones, the equivalence of isotropy with
+  hyperbolicity, in every characteristic (Layer 1);
 * the Cassels–Pfister theorem, the representation theorem, Springer's odd-degree theorem, the
   similarity norm principle, the quadratic similarity theorem and the subform theorem in every
   characteristic, and the Arason–Pfister Hauptsatz when `2` is invertible (Layer 2);

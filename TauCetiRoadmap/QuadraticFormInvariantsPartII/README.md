@@ -6,8 +6,9 @@ cohomological invariants of quadratic forms in every degree. Starting from Tau C
 Pfister classes (for `2` invertible) and Mathlib's quadratic maps, it builds, in every
 characteristic, the module structure of the quadratic Witt group over the bilinear Witt ring and its
 filtration
-`I_qⁿ = I_bⁿ⁻¹ · I_q`, the quadratic Pfister forms `quadraticPfister`, their roundness and the
-equivalence of isotropy with hyperbolicity, polynomial representation (Cassels–Pfister), Springer's
+`I_qⁿ = I_bⁿ⁻¹ · I_q`, the quadratic Pfister forms `quadraticPfister`, their roundness in every fold
+and, for nonsingular ones, the equivalence of isotropy with hyperbolicity, polynomial
+representation (Cassels–Pfister), Springer's
 odd-degree theorem, transfer and the similarity theorems, the function field of a quadric and the
 subform theorem, and the Arason–Pfister Hauptsatz. It then builds the graded invariants: the Milnor
 conjecture for the Witt ring in characteristic different from two (Morel), Kato's comparison with
@@ -38,8 +39,9 @@ This roadmap owns:
   forms, Witt decomposition and cancellation for nonsingular forms, the product on the bilinear Witt
   ring `W_b(F)`, the `W_b(F)`-module structure on the quadratic Witt group `I_q(F)` and the
   filtration `I_qⁿ(F)` (Layer 0);
-- quadratic Pfister forms in every characteristic, their roundness in every fold and the
-  equivalence of isotropy, hyperbolicity and vanishing of the Witt class (Layer 1);
+- quadratic Pfister forms in every characteristic, their roundness in every fold and, for
+  nonsingular ones, the equivalence of isotropy, hyperbolicity and vanishing of the Witt class
+  (Layer 1);
 - pure-transcendental anisotropy, the Cassels–Pfister and representation theorems, the
   characteristic-two extension of Scharlau transfer to Witt groups, Springer's theorem, the
   similarity norm principle, odd-divisor specialization, the quadratic similarity theorem, the
@@ -428,7 +430,8 @@ Layer 0 builds the characteristic-two carriers that Tau Ceti's Witt ring does no
 nonsingular blocks, coordinate scalar extension, Witt decomposition, the bilinear Witt ring, and the
 module structure and filtration of the imported quadratic Witt group; in characteristic different from two each object is
 identified with the parent's. Layer 1 defines quadratic Pfister forms uniformly and proves
-roundness and the isotropy criterion in every fold and characteristic. Layer 2 develops polynomial
+roundness in every fold and characteristic, and the isotropy criterion for nonsingular ones. Layer 2
+develops polynomial
 representation, transfer and the similarity theorems, the function field of a quadric and the
 subform theorem, and proves the Arason–Pfister Hauptsatz. Layer 3 builds the coefficient groups,
 the odd-characteristic Milnor map, its bijectivity in low degrees and over the prime fields, Morel's
