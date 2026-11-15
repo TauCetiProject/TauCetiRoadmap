@@ -1,236 +1,142 @@
-import TauCeti.RepresentationTheory.Spin.Structure
-import TauCeti.RepresentationTheory.QuaternionicStructure
-import TauCeti.RepresentationTheory.Spin.OddStructure
-import TauCeti.RepresentationTheory.Spin.HalfSpin.Basic
-import TauCeti.LinearAlgebra.CliffordAlgebra.VolumeElement.Basic
-import TauCeti.LinearAlgebra.CliffordAlgebra.EightPeriodicity
-import Mathlib.Analysis.InnerProductSpace.LinearMap
-import Mathlib.Analysis.InnerProductSpace.PiL2
-import Mathlib.Geometry.Manifold.VectorBundle.CovariantDerivative.Basic
-import TauCeti.Geometry.Manifold.Riemannian.Basic
-import Mathlib.LinearAlgebra.CliffordAlgebra.Conjugation
-import Mathlib.Tactic.Linarith
-import Mathlib.LinearAlgebra.FiniteDimensional.Basic
-import Mathlib.LinearAlgebra.Matrix.ToLin
-import Mathlib.LinearAlgebra.Matrix.Determinant.Basic
+module
+
+public import Mathlib
+public import TauCeti.Topology.FiberBundle.Principal
+public import TauCeti.Topology.VectorBundle.OrthonormalFrame.Basic
+public import TauCeti.Topology.VectorBundle.EulerClass
+public import TauCeti.Topology.Algebra.CliffordAlgebra.Spin.Compact
 
 /-!
-**This file is not the roadmap and is not exhaustive.**
-These are suggested forms. The README is the definitive specification.
-These selected pointwise/chirality and connection-contraction interfaces use
-actual Clifford actions and Mathlib covariant derivatives. The smooth algebra
-bundle, principal spin lift and cohomological obstruction are explicit README
-targets; absent carriers are not represented by empty proposition fields here.
+# Clifford bundles, spin structures, and Dirac geometry: target signatures
+
+The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline
+theorems against the pinned Mathlib and Tau Ceti, each admitted with `sorry`. At the pins one
+geometric headline is statable: the rank-two Spin criterion of G4.4a, stated with the one
+definition it needs, the Spin structure of a real vector bundle with fibre inner products (G4.2).
+
+The finite Clifford-module algebra of G1–G2 is proved by the pinned Tau Ceti and is cited in the
+README's supplier contracts instead of being restated here:
+
+* the scalar trace and its regular-trace formula, positivity and faithfulness (G1.3):
+  `CliffordAlgebra.scalarTrace`, `CliffordAlgebra.trace_mulLeft_eq_two_pow_mul_scalarTrace`,
+  `CliffordAlgebra.scalarTrace_reverse_mul_self_nonneg` and
+  `CliffordAlgebra.scalarTrace_reverse_mul_self_eq_zero_iff`;
+* the multiplicity evaluation `S ⊗ Hom_Cl(S, E) ≃ E` (G1.3):
+  `TauCeti.isotypicTensorEquivOfBijective`;
+* the chirality operator, its square, its anticommutation with vectors and the half-spin
+  splitting (G2.1): `CliffordAlgebra.complexVolume`, `CliffordAlgebra.complexVolume_mul_self`,
+  `CliffordAlgebra.complexVolume_mul_ι_of_even` and
+  `CliffordAlgebra.isCompl_eigenspace_complexVolume`.
+
+The comparisons that G1–G2 keep beyond the library (the Pauli models of the real planes, the
+polarized relation `c(v)c(w) + c(w)c(v) = −2⟨v, w⟩` of a real algebra map in the geometric
+convention, the Gram-determinant formula for the Fock metric, the two-factor odd evaluation, the
+chirality of a real algebra map, the agreement of the wedge-basis form on complexified forms with
+the complexified Gram metric, the forms-to-endomorphisms module equivalence and the laws of the
+graded product) are pointwise lemmas on pinned carriers that the geometric layers consume. So is
+the frame independence of the pointwise contraction `Σ_j c(e_j) ∇_(e_j) s` of G6.1, the metric
+trace of a bilinear map. They are README targets, not headline theorems, and are not stated here.
+
+Not statable at the pins, and therefore stated nowhere in this file:
+
+* smooth Clifford-module and spinor-bundle comparisons (G3, G5.1): the pins have no smooth
+  Clifford algebra bundle acting on a bundle and no associated spinor bundle;
+* the Dirac operator's intrinsic frame and symbol comparisons (G6.1), the Bochner formula
+  `D² = ∇*∇ + Σ_(i<j) c(e_i) c(e_j) R(e_i, e_j)` (G6.2), the untwisted and twisted Lichnerowicz
+  formulas `D² = ∇*∇ + Scal/4 + …` with their curvature vanishing (G6.0, G6.3) and the de Rham
+  identification `D = d + d*` (G6.4): the pins have no smooth Clifford-module bundle with a
+  compatible connection and no Dirac operator on its sections, and a pointwise contraction is not
+  that operator;
+* the closed-base self-adjoint realization with `H¹` domain and compact resolvent and the chiral
+  adjoint theorems (G6.1): the pins have no bundle Sobolev spaces;
+* existence of a spin structure iff `w₂ = 0` in every rank, and the `H¹(X; ℤ/2)` torsor of the
+  spin structures of a fixed orientation (G4.3, G4.4): the pins have no second Stiefel–Whitney
+  class of a real vector bundle (their Stiefel–Whitney classes are those of quadratic forms over
+  fields) and no twist of a principal `Spin(n)`-bundle by a principal `ℤ/2`-bundle;
+* the skeletal comparison of G4.4a: the pins have no quotient of frame sections over the
+  one-skeleton by homotopy through such sections;
+* plane-bundle square roots (G5.3): the pins have no tensor product of topological vector bundles,
+  so no tensor square of a complex line bundle;
+* the compact-support symbol class of `D⁺` (G6.6): the pins have no spinor bundle and no
+  topological K-theory;
+* the `KO`-valued analytic index class of the real spin Dirac operator (G6.0): the pins have no
+  real Clifford Hilbert-module classifier and no `KO`;
+* the quaternionic four-dimensional index formula `ind D⁺ = 2α` (G6.7): the pins have no spinor
+  bundle and no chiral Dirac operator, and parity of an abstract quaternionic vector space does not
+  state this geometric result.
 -/
 
-noncomputable section
+@[expose] public section
+
+open Bundle TauCeti MulOpposite Module CliffordAlgebra
+
+universe w
 
 namespace TauCetiRoadmap.SpinGeometry
 
-open scoped Manifold ContDiff TensorProduct
+/-! ## Layer 4: Spin lifts, obstruction and classification -/
 
-section RealRegularClifford
+/-- A **Spin structure** of rank `n ≥ 1` on a real vector bundle `E` with fibre inner products
+(G4.2): a principal `Spin(n)`-bundle `P` over the base, where `Spin(n)` is the compact group
+`realCliffordSpinGroupZero n` with its subspace topology, together with a continuous map to the
+orthonormal frame bundle of `E` over the identity, equivariant along the vector action
+`Spin(n) → SO(n)`: the frame of `p • g` sends `v` to the frame of `p` applied to `g v g⁻¹`.
+Each fibre of `P` is a `Spin(n)`-torsor, so its image is one `SO(n)`-orbit of frames, and the
+orientation of `E` is the one for which these frames are positive. A structure thus chooses an
+orientation of `E`, which equivalences preserving the frame map preserve, and G4.4's
+`H¹(X; ℤ/2)` torsor acts on the classes of one orientation. Positive rank is required:
+the native `Spin(0)` is trivial, while the rank-zero branch of G4.2 uses the geometric group
+`μ₂`. (Kirby, *The topology of 4-manifolds*, Chapter IV, p. 33; Lawson–Michelsohn,
+*Spin Geometry*, Chapter II, §1.) -/
+structure SpinStructure {X : Type w} [TopologicalSpace X] (F : Type*) (E : X → Type w)
+    [TopologicalSpace (TotalSpace F E)]
+    [∀ x, NormedAddCommGroup (E x)] [∀ x, InnerProductSpace ℝ (E x)] (n : ℕ) [NeZero n] where
+  /-- The fibres of the principal `Spin(n)`-bundle. -/
+  P : X → Type w
+  /-- The topology of the total space of `P`. -/
+  [topTotal : TopologicalSpace (TotalSpace (realCliffordSpinGroupZero n) P)]
+  /-- The topologies of the fibres of `P`. -/
+  [topFiber : ∀ x, TopologicalSpace (P x)]
+  /-- The right action of `Spin(n)` on the fibres of `P`. -/
+  [act : ∀ x, MulAction (realCliffordSpinGroupZero n)ᵐᵒᵖ (P x)]
+  /-- `P` is a fibre bundle with model fibre `Spin(n)`. -/
+  [fiberBundle : FiberBundle (realCliffordSpinGroupZero n) P]
+  /-- The trivializations of the atlas of `P` are equivariant. -/
+  [principal : TauCeti.PrincipalBundle (realCliffordSpinGroupZero n) P]
+  /-- The map to the orthonormal frames of `E`. -/
+  toFrame : TotalSpace (realCliffordSpinGroupZero n) P →
+    OrthonormalFrameBundle ℝ F E (EuclideanSpace ℝ (Fin n))
+  /-- The map to frames is continuous. -/
+  continuous_toFrame : Continuous toFrame
+  /-- The map to frames covers the identity of the base. -/
+  proj_toFrame : ∀ p, (toFrame p).proj = p.proj
+  /-- The map to frames is equivariant along the vector action of `Spin(n)`. -/
+  toFrame_smul : ∀ (x : X) (p : P x) (g : realCliffordSpinGroupZero n) (v : Fin n → ℝ),
+    TotalSpace.mk' F (toFrame ⟨x, op g • p⟩).proj
+        ((toFrame ⟨x, op g • p⟩).frame (WithLp.toLp 2 v)) =
+      TotalSpace.mk' F (toFrame ⟨x, p⟩).proj
+        ((toFrame ⟨x, p⟩).frame (WithLp.toLp 2 (spinVectorAction _ g v)))
 
-variable {V : Type*} [AddCommGroup V] [Module ℝ V]
-    (Q : QuadraticForm ℝ V)
-
-/-- G5.0: right negative multiplication after parity acts with opposite square. -/
-def realCliffordPositiveRightVector (w : V) :
-    Module.End ℝ (CliffordAlgebra Q) where
-  toFun s := CliffordAlgebra.involute s * CliffordAlgebra.ι Q w
-  map_add' s t := by simp [add_mul]
-  map_smul' r s := by simp
-
-/-- For Q=-g this is the positive external Clifford square. -/
-theorem realCliffordPositiveRightVector_square (w : V) (s : CliffordAlgebra Q) :
-    realCliffordPositiveRightVector Q w (realCliffordPositiveRightVector Q w s) =
-      (-Q w) • s := by
-  simp [realCliffordPositiveRightVector, map_mul, CliffordAlgebra.involute_ι,
-    CliffordAlgebra.involute_involute, mul_assoc,
-    CliffordAlgebra.ι_sq_scalar]
-  rw [← Algebra.commutes (Q w) s, ← Algebra.smul_def]
-
-/-- The fixed external action is graded-linear with the tangent action. -/
-theorem realCliffordPositiveRightVector_anticommute (v w : V)
-    (s : CliffordAlgebra Q) :
-    realCliffordPositiveRightVector Q w (CliffordAlgebra.ι Q v * s) =
-      -(CliffordAlgebra.ι Q v * realCliffordPositiveRightVector Q w s) := by
-  simp [realCliffordPositiveRightVector, map_mul, CliffordAlgebra.involute_ι,
-    mul_assoc]
-
-end RealRegularClifford
-
-section MetricAction
-
-variable {V S : Type*} [NormedAddCommGroup V] [InnerProductSpace ℝ V]
-  [NormedAddCommGroup S] [InnerProductSpace ℂ S]
-  (Q : QuadraticForm ℝ V) (ρ : CliffordAlgebra Q →ₐ[ℝ] Module.End ℂ S)
-
-/-- The real Clifford algebra acts by complex-linear endomorphisms. -/
-def cliffordMultiplication (v : V) : Module.End ℂ S := ρ (CliffordAlgebra.ι Q v)
-
-/-- Concrete negative-metric and skew-Hermitian requirements. -/
-def IsGeometricAction : Prop :=
-  (∀ v, Q v = -inner ℝ v v) ∧
-    ∀ v s t, inner ℂ (cliffordMultiplication Q ρ v s) t =
-      -inner ℂ s (cliffordMultiplication Q ρ v t)
-
-/-- G1: the native Clifford relation, with no new algebra carrier. -/
-theorem cliffordMultiplication_sq (h : IsGeometricAction Q ρ) (v : V) :
-    cliffordMultiplication Q ρ v * cliffordMultiplication Q ρ v =
-      (-inner ℝ v v) • (1 : Module.End ℂ S) := by
-  simp only [cliffordMultiplication, ← map_mul, CliffordAlgebra.ι_sq_scalar,
-    Algebra.algebraMap_eq_smul_one, h.1 v, map_smul, map_one]
-
-/-- G1: the mixed negative-metric Clifford relation. -/
-theorem cliffordMultiplication_anticommutator (h : IsGeometricAction Q ρ) (v w : V) :
-    cliffordMultiplication Q ρ v * cliffordMultiplication Q ρ w +
-      cliffordMultiplication Q ρ w * cliffordMultiplication Q ρ v =
-      (-2 * inner ℝ v w) • (1 : Module.End ℂ S) := by
+/-- **Rank-two Spin criterion** (G4.4a). Let `E` be a real vector bundle of rank two with a
+continuous fibre metric over a Hausdorff CW complex `X`, and let `u` be an integral Thom class of
+`E`. Then `E` admits a Spin structure exactly when the Euler class `e(u) ∈ H²(X; ℤ)` is twice an
+integral class, torsion classes included. Divisibility by two does not depend on the sign of `u`,
+so the condition is the same for both orientations. The route: a Spin structure exists exactly
+when `w₂(E) = 0` (Kirby, *The topology of 4-manifolds*, Chapter IV, p. 34), `w₂(E)` is the
+reduction of `e(u)` modulo two, and the reduction `H²(X; ℤ) → H²(X; ℤ/2)` has kernel
+`2 H²(X; ℤ)`. The base and the fibres live in `Type`: at the pins the integral coefficients
+`ModuleCat.of ℤ ℤ` give the singular cohomology of spaces in that universe. -/
+theorem nonempty_spinStructure_iff_exists_eulerClass_eq_two_smul
+    {X : Type} [TopologicalSpace X] [T2Space X] [Topology.CWComplex (Set.univ : Set X)]
+    (F : Type) [NormedAddCommGroup F] [InnerProductSpace ℝ F] (hF : finrank ℝ F = 2)
+    (E : X → Type) [TopologicalSpace (TotalSpace F E)]
+    [∀ x, NormedAddCommGroup (E x)] [∀ x, InnerProductSpace ℝ (E x)]
+    [FiberBundle F E] [VectorBundle ℝ F E] [IsContinuousRiemannianBundle F E]
+    (u : (thomPair F E).singularCohomology (ModuleCat.of ℤ ℤ) ℤ (ModuleCat.of ℤ ℤ) (finrank ℝ F))
+    (hu : IsThomClass F E u) :
+    Nonempty (SpinStructure F E 2) ↔
+      ∃ c, (eulerClass (ModuleCat.of ℤ ℤ) ℤ (ModuleCat.of ℤ ℤ) F E (finrank ℝ F)).hom u =
+        2 • c := by
   sorry
-
-/-- G2: an ordered orthonormal frame, with orientation fixed in the README. -/
-def chirality {ℓ : ℕ} (b : OrthonormalBasis (Fin (2 * ℓ)) ℝ V) : Module.End ℂ S :=
-  Complex.I ^ ℓ • ((List.ofFn fun i => cliffordMultiplication Q ρ (b i)).prod)
-
-theorem chirality_sq {ℓ : ℕ} (b : OrthonormalBasis (Fin (2 * ℓ)) ℝ V)
-    (h : IsGeometricAction Q ρ) : chirality Q ρ b * chirality Q ρ b = 1 := by
-  sorry
-
-theorem chirality_anticommutes {ℓ : ℕ} (b : OrthonormalBasis (Fin (2 * ℓ)) ℝ V)
-    (h : IsGeometricAction Q ρ) (v : V) :
-    chirality Q ρ b * cliffordMultiplication Q ρ v =
-      -(cliffordMultiplication Q ρ v * chirality Q ρ b) := by
-  sorry
-
-/-- The eigenspace is an actual submodule; Γ is not a freely chosen grading. -/
-def positiveSpinors {ℓ : ℕ} (b : OrthonormalBasis (Fin (2 * ℓ)) ℝ V) : Submodule ℂ S :=
-  LinearMap.ker (chirality Q ρ b - LinearMap.id)
-
-def negativeSpinors {ℓ : ℕ} (b : OrthonormalBasis (Fin (2 * ℓ)) ℝ V) : Submodule ℂ S :=
-  LinearMap.ker (chirality Q ρ b + LinearMap.id)
-
-theorem isCompl_spinors {ℓ : ℕ} (b : OrthonormalBasis (Fin (2 * ℓ)) ℝ V)
-    (h : IsGeometricAction Q ρ) :
-    IsCompl (positiveSpinors Q ρ b) (negativeSpinors Q ρ b) := by
-  sorry
-
-end MetricAction
-
-section Multiplicity
-
-variable {V S E : Type*} [AddCommGroup V] [Module ℂ V]
-  [AddCommGroup S] [Module ℂ S] [FiniteDimensional ℂ S]
-  [AddCommGroup E] [Module ℂ E] [FiniteDimensional ℂ E]
-  (Q : QuadraticForm ℂ V) (ρ : CliffordAlgebra Q ≃ₐ[ℂ] Module.End ℂ S)
-  (σ : CliffordAlgebra Q →ₐ[ℂ] Module.End ℂ E)
-
-/-- Native linear maps satisfying the intertwining equation. -/
-def multiplicitySpace : Submodule ℂ (S →ₗ[ℂ] E) where
-  carrier := {T | ∀ a s, T (ρ a s) = σ a (T s)}
-  zero_mem' := by simp
-  add_mem' := by
-    intro T U hT hU a s
-    simp only [LinearMap.add_apply, map_add, hT a s, hU a s]
-  smul_mem' := by
-    intro z T hT a s
-    simp only [LinearMap.smul_apply, map_smul, hT a s]
-
-/-- G1: finite-module Morita evaluation, rather than an unexplained tensor decomposition. -/
-def multiplicityEvaluation [Nontrivial S] :
-    S ⊗[ℂ] multiplicitySpace Q ρ σ ≃ₗ[ℂ] E := by
-  sorry
-
-theorem multiplicityEvaluation_tmul [Nontrivial S]
-    (s : S) (T : multiplicitySpace Q ρ σ) :
-    multiplicityEvaluation Q ρ σ (s ⊗ₜ[ℂ] T) = T.val s := by
-  sorry
-
-end Multiplicity
-
-section ConnectionContraction
-
-open Bundle
-
-variable {E H M F : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
-  [TopologicalSpace H] {I : ModelWithCorners ℝ E H}
-  [TopologicalSpace M] [ChartedSpace H M]
-  [NormedAddCommGroup F] [NormedSpace ℝ F]
-  {W : M → Type*} [∀ x, NormedAddCommGroup (W x)]
-  [∀ x, InnerProductSpace ℂ (W x)]
-  [TopologicalSpace (TotalSpace F W)] [FiberBundle F W] [VectorBundle ℝ F W]
-  [RiemannianBundle (fun x : M => TangentSpace I x)]
-
-/-- G6 pointwise contraction, using the supplier's actual covariant derivative.
-Smooth Clifford compatibility and a smooth bundle frame are README hypotheses.
-The frame-independence theorem below is algebraic and needs no smoothness. -/
-def diracInFrame {n : ℕ}
-    (c : ∀ x, TangentSpace I x →ₗ[ℝ] Module.End ℂ (W x))
-    (conn : CovariantDerivative I F W) (s : ∀ x, W x) (x : M)
-    (b : OrthonormalBasis (Fin n) ℝ (TangentSpace I x)) : W x :=
-  ∑ j, c x (b j) (conn s x (b j))
-
-theorem diracInFrame_eq {n : ℕ}
-    (c : ∀ x, TangentSpace I x →ₗ[ℝ] Module.End ℂ (W x))
-    (conn : CovariantDerivative I F W) (s : ∀ x, W x) (x : M)
-    (b b' : OrthonormalBasis (Fin n) ℝ (TangentSpace I x)) :
-    diracInFrame c conn s x b = diracInFrame c conn s x b' := by
-  sorry
-
-end ConnectionContraction
-
-section QuaternionicKernelParity
-
-variable {G V : Type*} [Monoid G] [AddCommGroup V] [Module ℂ V]
-  [FiniteDimensional ℂ V]
-
-/-- Finite-dimensional conjugate-linear square law forces even complex dimension.
-This algebraic lemma does not require a group action. -/
-theorem even_finrank_of_conjLinear_square_neg
-    (J : V →ₛₗ[starRingEnd ℂ] V) (hsq : ∀ v, J (J v) = -v) :
-    Even (Module.finrank ℂ V) := by
-  classical
-  let b := Module.finBasis ℂ V
-  let A : Matrix (Fin (Module.finrank ℂ V)) (Fin (Module.finrank ℂ V)) ℂ :=
-    fun i j => b.repr (J (b j)) i
-  have hmatrix : A * A.map (starRingEnd ℂ) = -1 := by
-    ext i j
-    have h := congrArg (fun v => b.repr v i) (hsq (b j))
-    have hsum : J (J (b j)) = ∑ k, star (b.repr (J (b j)) k) • J (b k) := by
-      calc
-        J (J (b j)) = J (∑ k, b.repr (J (b j)) k • b k) :=
-          congrArg J (b.sum_repr (J (b j))).symm
-        _ = _ := by simp only [map_sum, map_smulₛₗ, starRingEnd_apply]
-    rw [hsum] at h
-    change (∑ k, A i k * (starRingEnd ℂ) (A k j)) =
-      -(1 : Matrix _ _ ℂ) i j
-    simpa [A, map_sum, mul_comm, Matrix.one_apply,
-      Finsupp.single_apply, eq_comm] using h
-  have hd := congrArg Matrix.det hmatrix
-  have heq : A.det * star A.det = (-1 : ℂ) ^ Module.finrank ℂ V := by
-    have hmap : (A.map (starRingEnd ℂ)).det = star A.det := by
-      simpa only [RingHom.mapMatrix_apply, starRingEnd_apply] using
-        ((starRingEnd ℂ).map_det A).symm
-    rw [Matrix.det_mul, hmap, Matrix.det_neg,
-      Matrix.det_one, mul_one] at hd
-    simpa only [Fintype.card_fin, starRingEnd_apply] using hd
-  by_contra hnot
-  have hodd : Odd (Module.finrank ℂ V) := Nat.not_even_iff_odd.mp hnot
-  rw [hodd.neg_one_pow] at heq
-  have hr := congrArg Complex.re heq
-  simp only [Complex.star_def, Complex.mul_conj, Complex.ofReal_re,
-    Complex.neg_re, Complex.one_re] at hr
-  have hp := Complex.normSq_nonneg A.det
-  linarith
-
-/-- Native quaternionic equivariance supplies the square law; equivariance is
-not otherwise needed for finite-dimensional parity. -/
-theorem even_finrank_of_quaternionicStructure
-    (ρ : Representation ℂ G V) (J : V →ₛₗ[starRingEnd ℂ] V)
-    (hJ : Representation.IsQuaternionicStructure ρ J) :
-    Even (Module.finrank ℂ V) :=
-  even_finrank_of_conjLinear_square_neg J hJ.sq_eq_neg
-
-end QuaternionicKernelParity
 
 end TauCetiRoadmap.SpinGeometry
