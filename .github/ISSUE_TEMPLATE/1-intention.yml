@@ -19,6 +19,7 @@ body:
       description: Which roadmap does this intention sit in?
       options:
         - AbhyankarLemma
+        - AdelicAlgebraicGroups
         - AdicEtaleGeometry
         - AdicSpacesPartII
         - AdicSpacesPartIII
@@ -31,6 +32,7 @@ body:
         - AlgebraicVectorBundles
         - AmenableGroups
         - AnalyticNumberTheoryPartI
+        - AnalyticNumberTheoryPartII
         - ArithmeticInterpolationDeterminants
         - AsymptoticExpansions
         - BanachAlgebras
@@ -65,6 +67,7 @@ body:
         - DeRhamCohomologyAndDuality
         - DerivedModuleAlgebra
         - DiagrammaticCoherence
+        - DiamondsAndVStacks
         - DifferentialGeometry
         - DiophantineApproximationAndTranscendence
         - DysonBrownianMotion
@@ -128,6 +131,7 @@ body:
         - NoncommutativeGeometry
         - NoncommutativeIntegration
         - NoncongruenceModularForms
+        - OcneanuRigidity
         - OperatorAlgebraDynamics
         - OperatorKTheory
         - OperatorTheory
@@ -143,6 +147,7 @@ body:
         - PolylogarithmFunctions
         - PositiveMass
         - PositiveScalarCurvature
+        - PresentationsOfMonoidalCategories
         - PrimitivePrimeDivisors
         - ProfiniteCohomology
         - PseudodifferentialOperators
@@ -174,6 +179,8 @@ body:
         - SchubertGeometry
         - SeibergWittenTheory
         - SmoothBundlesConnections
+        - SmoothRepresentationsOfLocalGroups
+        - SobolevMapsBetweenManifolds
         - SobolevPolynomialApproximation
         - SpecialFunctionsAiry
         - SpecialFunctionsEiLiErfIncompleteGamma
@@ -181,6 +188,7 @@ body:
         - SpecialFunctionsParabolicCylinder
         - SpinGeometry
         - SporadicOrders
+        - StableHomotopyKTheory
         - StablePeriodicCurved
         - StableReduction
         - StandardDistributions
