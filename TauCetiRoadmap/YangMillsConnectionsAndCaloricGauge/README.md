@@ -2135,7 +2135,7 @@ infinitesimal de Turck trick), with 8.3–8.4.
 
 The caloric size with continuation and small-energy global existence (9.4), convergence to a flat
 connection with the `C¹` limit map (9.5), and the Dichotomy (9.6) and Threshold (9.7) Theorems. The
-caloric gauge (10.2) consumes 9.4, 9.5 and 9.7; 10.3 uses 9.4–9.5, and 10.4–10.5 use 9.5.
+caloric gauge (10.2) consumes 9.4, 9.5 and 9.7; 10.3 uses 9.4–9.5, and 10.5 uses 9.5.
 
 Define the caloric size `Q(a) = ‖F‖_{L³([0,∞); L³)}` when `s₀(a) = ∞`, and `Q(a) = ∞` otherwise
 (OhTataru-YMHF (2.5) and (5.40), lines 419–425 and 1940–1942). Prove (Theorem 5.10, Theorem 5.11,
