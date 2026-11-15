@@ -161,6 +161,10 @@ theorem primePower_indexRealUnits_eq_one (p r : ℕ) (hp : p.Prime)
     NumberField.IsCMField.indexRealUnits K = 1 := by
   sorry
 
+/-- A character at a nonzero modulus has nonzero primitive conductor. -/
+local instance conductorNeZero (m : ℕ) [NeZero m] (χ : DirichletCharacter ℂ m) :
+    NeZero χ.conductor := ⟨χ.conductor_ne_zero⟩
+
 /-- The primitive Gauss sums of every abelian subfield have product
 with phase i^(r₂) and magnitude √|D| (README §3.4). -/
 theorem abelianCharacter_gauss_product (m : ℕ) [NeZero m]
@@ -168,7 +172,6 @@ theorem abelianCharacter_gauss_product (m : ℕ) [NeZero m]
     [IsAbelianGalois ℚ K] (F : IntermediateField ℚ K) :
     let X := IsCyclotomicExtension.Rat.intermediateFieldEquivSubgroupChar m K ℂ F
     (∏ χ : DirichletCharacter ℂ m,
-      letI : NeZero χ.conductor := ⟨χ.conductor_ne_zero⟩
       if χ ∈ X then gaussSum χ.primitiveCharacter ZMod.stdAddChar else 1) =
         Complex.I ^ NumberField.InfinitePlace.nrComplexPlaces F *
           (Real.sqrt |(NumberField.discr F : ℝ)| : ℂ) := by
@@ -183,7 +186,6 @@ theorem relativeClassNumber_character_product (m : ℕ) [NeZero m]
     (NumberField.classNumber F : ℂ) / NumberField.classNumber (maximalRealSubfield F) =
       (IsCMField.indexRealUnits F : ℂ) * Units.torsionOrder F *
         ∏ χ : DirichletCharacter ℂ m,
-          letI : NeZero χ.conductor := ⟨χ.conductor_ne_zero⟩
           if χ ∈ X ∧ χ.Odd then -χ.primitiveCharacter.generalizedBernoulli 1 / 2 else 1 := by
   sorry
 
@@ -195,7 +197,6 @@ theorem realClassNumber_log_product (m : ℕ) [NeZero m]
     let X := IsCyclotomicExtension.Rat.intermediateFieldEquivSubgroupChar m K ℂ F
     (NumberField.classNumber F : ℂ) * (Units.regulator F : ℂ) =
       ∏ χ : DirichletCharacter ℂ m,
-        letI : NeZero χ.conductor := ⟨χ.conductor_ne_zero⟩
         if χ ∈ X ∧ χ ≠ 1 then
           -(1 / 2 : ℂ) * ∑ a : ZMod χ.conductor,
             χ.primitiveCharacter a * (Real.log ‖1 - (ZMod.stdAddChar a : ℂ)‖ : ℂ)
@@ -219,7 +220,6 @@ theorem primeLevel_cuspidal_eigenlift (p : ℕ) [Fact p.Prime] [NeZero p]
     (hodd : p ≠ 2) (k : ℕ) (hk : 2 ≤ k) (hkp : k ≤ p - 3)
     (heven : Even k) (hirreg : (p : ℤ) ∣ (bernoulli k).num) :
     ∃ (f : HeckeRing.GL2.Newform p 2) (E : Subfield ℂ) (hE : NumberField E),
-      letI := hE
       ∃ (red : 𝓞 E →+* AlgebraicClosure (ZMod p))
         (ω : (ZMod p)ˣ →* (𝓞 E)ˣ) (c : ℕ → 𝓞 E),
         (∀ a, red (ω a : 𝓞 E) = algebraMap (ZMod p) (AlgebraicClosure (ZMod p)) a.val) ∧
