@@ -1,11 +1,13 @@
 import Mathlib
+import TauCeti.QuantumGroups.QuantumInteger.Basic
+import TauCeti.QuantumGroups.UqSl2.Hopf
 
 /-!
 # Quantum enveloping algebras: target signatures
 
 **This file is not the roadmap.** The roadmap is `README.md`. This file states the roadmap's
-headline theorems against the pinned Mathlib, each with `sorry`, together with the few definitions
-needed to state them: the full-lattice Cartan datum, the symmetric quantum integers and the
+headline theorems against the pinned Mathlib and Tau Ceti, each with `sorry`, together with the few
+definitions needed to state them: the full-lattice Cartan datum, the quantum factorials and the
 Laurent Gaussian binomials, the free algebra on the `θᵢ` with its bilinear form and the algebra
 `f` as its quotient by the radical, the algebra `U` of Layer 1 and its Drinfeld–Jimbo
 presentation as `RingQuot`s of one `FreeAlgebra` over an arbitrary field `K` with parameter `q`,
@@ -16,18 +18,12 @@ Stated here: the quantum Lucas theorem for signed upper arguments at every root 
 (Layer 0); the characterization of the form on the free algebra (1.0); the Hopf structure
 (coalgebra laws, then the antipode with its generator values), the triangular decomposition, its
 form `f ⊗ K[Y] ⊗ f`, and the linear independence of the full-`Y` torus (1.2–1.3); the Serre
-presentations of `f` and of `U` (1.3a); the existence of the braid automorphisms with their
-generator formulas and the braid relations (Layer 2); and, in the section `QuantumPlaneLattice`,
-native integral matrices illustrating the quantum-plane comparisons of Layer 8 (QEA8.1–8.2): the
-divided-power Weyl-to-monomial comparison, its intertwining and injectivity, the Hopf-dual
-comparison, and the kernel and range of the comparison specialized at an odd root of unity. These
-matrices do not assume that the integral quantum algebra or its modules have been constructed;
-the full divided-power, toral, Hopf-dual and exact-sequence comparisons remain README targets.
+presentations of `f` and of `U` (1.3a); the rank-one embedding from `TauCeti.UqSl2` (Layer 1);
+the existence of the braid automorphisms with their generator formulas and the braid relations
+(Layer 2).
 
 Not statable at the pins:
 
-* the comparison with the rank-one algebra of QuantumGroups Q8 (Layer 1), whose carrier is a
-  roadmap target, not a library declaration;
 * the braided tensor product algebras `T ⊗_χ T`, `f ⊗_χ f` and `U⁺ ⊗_χ U⁺`, the nilpotent and
   Borel pairings and the Drinfeld double (Layer 1): the bicharacter-twisted tensor product algebra
   is not at the pins, so the coproduct `freeHalfDelta` of 1.0 is stated only as a linear map;
@@ -112,15 +108,9 @@ def braidLength (i j : ι) : ℕ :=
 
 end CartanDatum
 
-/-- The symmetric quantum integer `[r]_q = (q^r − q^(−r))/(q − q⁻¹)` in a field. At `q = ±1` the
-denominator vanishes and the value is `0`; the theorems below assume that `q` is not a root of
-unity, where it is the honest quotient. -/
-def qInt {K : Type*} [Field K] (q : K) (r : ℕ) : K :=
-  (q ^ r - (q ^ r)⁻¹) / (q - q⁻¹)
-
 /-- The quantum factorial `[r]_q! = [1]_q ⋯ [r]_q`. -/
 def qFactorial {K : Type*} [Field K] (q : K) (r : ℕ) : K :=
-  ∏ j ∈ Finset.range r, qInt q (j + 1)
+  ∏ j ∈ Finset.range r, TauCeti.quantumInteger q ((j : ℤ) + 1)
 
 open LaurentPolynomial in
 /-- The symmetric Gaussian binomial `[n choose r]_v ∈ ℤ[v, v⁻¹]`, by the denominator-free Pascal
@@ -160,9 +150,7 @@ theorem quantumLucas {K : Type*} [Field K] (ζ : Kˣ) (l : ℕ) (hl : 0 < l)
 
 section HalfAlgebra
 
-variable {K ι : Type*} [Field K]
-
-local instance halfDecidableEq : DecidableEq ι := Classical.decEq ι
+variable {K ι : Type*} [Field K] [DecidableEq ι]
 
 /-- The free associative algebra on the `θᵢ`, with words as a basis. -/
 abbrev HalfWordAlgebra (K ι : Type*) [Field K] := MonoidAlgebra K (FreeMonoid ι)
@@ -387,7 +375,7 @@ def comulGenerator : Generator ι Y → U D q ⊗[K] U D q
   | .F i => F D q i ⊗ₜ[K] KiInv D q i + (1 : U D q) ⊗ₜ[K] F D q i
   | .K y => Ktorus D q y ⊗ₜ[K] Ktorus D q y
 
-/-- The coproduct images satisfy every defining relation, for `q` not a root of unity. -/
+/-- The coproduct images satisfy every defining relation under the Layer 1 parameter hypotheses. -/
 theorem comul_relations (hq : q ≠ 0)
     (hfac : ∀ i n, qFactorial (q ^ D.symmetrizer i) n ≠ 0)
     (a b : Free) (h : Relation D q a b) :
@@ -456,12 +444,11 @@ is a convolution inverse of the identity on both sides, is bijective, and takes 
 `S(Eᵢ) = −Kᵢ⁻¹Eᵢ`, `S(Fᵢ) = −FᵢKᵢ`, `S(K_y) = K_(−y)`. -/
 theorem exists_antipode (hq : q ≠ 0)
     (hfac : ∀ i n, qFactorial (q ^ D.symmetrizer i) n ≠ 0) :
-    letI := bialgebra D q hq hfac
     ∃ S : U D q →ₗ[K] U D q,
-      LinearMap.mul' K (U D q) ∘ₗ S.rTensor (U D q) ∘ₗ Coalgebra.comul =
-          Algebra.linearMap K (U D q) ∘ₗ Coalgebra.counit ∧
-        LinearMap.mul' K (U D q) ∘ₗ S.lTensor (U D q) ∘ₗ Coalgebra.comul =
-          Algebra.linearMap K (U D q) ∘ₗ Coalgebra.counit ∧
+      LinearMap.mul' K (U D q) ∘ₗ S.rTensor (U D q) ∘ₗ (comulAlgHom D q hq hfac).toLinearMap =
+          Algebra.linearMap K (U D q) ∘ₗ (counitAlgHom D q).toLinearMap ∧
+        LinearMap.mul' K (U D q) ∘ₗ S.lTensor (U D q) ∘ₗ (comulAlgHom D q hq hfac).toLinearMap =
+          Algebra.linearMap K (U D q) ∘ₗ (counitAlgHom D q).toLinearMap ∧
         Function.Bijective S ∧
         (∀ i, S (E D q i) = -(KiInv D q i * E D q i)) ∧
         (∀ i, S (F D q i) = -(F D q i * Ki D q i)) ∧
@@ -514,11 +501,21 @@ abbrev DJPresentation := RingQuot (DJRelation D q)
 
 /-- **Drinfeld–Jimbo presentation** (1.3a): the Drinfeld–Jimbo presentation defines an algebra
 isomorphic to `U`, with the same generators. -/
-theorem drinfeldJimbo_equiv (hq : q ≠ 0)
+theorem exists_drinfeldJimbo_equiv (hq : q ≠ 0)
     (hfac : ∀ i n, qFactorial (q ^ D.symmetrizer i) n ≠ 0) :
     ∃ e : DJPresentation D q ≃ₐ[K] U D q,
       ∀ g, e (RingQuot.mkAlgHom K (DJRelation D q) (FreeAlgebra.ι K g)) =
         generator D q g := by
+  sorry
+
+/-- **Rank-one comparison** (Layer 1): each simple root gives an injective algebra map from
+`TauCeti.UqSl2` with parameter `qᵢ` and the indicated generator values. -/
+theorem exists_rankOne_algHom (D : CartanDatum ι X Y) (q : ℂ)
+    (hq : q ≠ 0) (hfac : ∀ i n, qFactorial (q ^ D.symmetrizer i) n ≠ 0) (i : ι) :
+    ∃ φ : TauCeti.UqSl2 (q ^ D.symmetrizer i) →ₐ[ℂ] U D q,
+      Function.Injective φ ∧
+      φ (TauCeti.UqSl2.e _) = E D q i ∧ φ (TauCeti.UqSl2.f _) = F D q i ∧
+      φ (TauCeti.UqSl2.k _) = Ki D q i ∧ φ (TauCeti.UqSl2.kInv _) = KiInv D q i := by
   sorry
 
 /-! ## Layer 2: braid operators -/
@@ -573,113 +570,6 @@ theorem braid_relation (hq : q ≠ 0)
   sorry
 
 end Presentation
-
-/-! ## Layer 8: quantum-plane integral lattices, as native matrices -/
-
-section QuantumPlaneLattice
-
-/-!
-**This section is not the roadmap and is not exhaustive.** The README is the
-specification. These native matrices illustrate QEA8.1–8.2; they do not assume
-that the future integral quantum algebra or its modules have been constructed.
-The full divided-power, toral, Hopf-dual and exact-sequence comparisons remain
-README targets. The admitted theorems here are targets, not proved results.
-
-The Gaussian binomial `gaussian` and the specialization map `specialize` are those of Layer 0
-above.
--/
-
-open LaurentPolynomial
-
-abbrev A := LaurentPolynomial ℤ
-
-/-- Column j is the image of the jth divided-power Weyl vector. -/
-def comparison (n : ℕ) : Matrix (Fin (n + 1)) (Fin (n + 1)) A :=
-  Matrix.diagonal fun j => gaussian n j.val
-
-def monomialE (n r : ℕ) : Matrix (Fin (n + 1)) (Fin (n + 1)) A :=
-  fun i j => if j.val = i.val + r then gaussian j.val r else 0
-
-def monomialF (n r : ℕ) : Matrix (Fin (n + 1)) (Fin (n + 1)) A :=
-  fun i j => if i.val = j.val + r then gaussian (n - j.val) r else 0
-
-def weylE (n r : ℕ) : Matrix (Fin (n + 1)) (Fin (n + 1)) A :=
-  fun i j => if j.val = i.val + r then gaussian (n - j.val + r) r else 0
-
-def weylF (n r : ℕ) : Matrix (Fin (n + 1)) (Fin (n + 1)) A :=
-  fun i j => if i.val = j.val + r then gaussian (j.val + r) r else 0
-
-def torus (n : ℕ) (sign : ℤ) : Matrix (Fin (n + 1)) (Fin (n + 1)) A :=
-  Matrix.diagonal fun j => T (sign * ((n : ℤ) - 2 * (j.val : ℤ)))
-
-/-- All divided-power intertwiners, including r = 0 and r > n. -/
-theorem comparison_intertwines (n r : ℕ) :
-    comparison n * weylE n r = monomialE n r * comparison n ∧
-    comparison n * weylF n r = monomialF n r * comparison n ∧
-    comparison n * torus n 1 = torus n 1 * comparison n := by
-  sorry
-
-/-- Injectivity is an integral assertion; it is not asserted after arbitrary base change. -/
-theorem comparison_injective (n : ℕ) :
-    Function.Injective (comparison n).mulVecLin := by
-  sorry
-
-/-- Coordinates in the dual Weyl basis, with QEA1's actual antipode. -/
-def hopfDualComparison (n : ℕ) : Matrix (Fin (n + 1)) (Fin (n + 1)) A :=
-  fun i j => if i.val + j.val = n then
-    (-1 : A) ^ j.val * T ((j.val : ℤ) * ((j.val : ℤ) + 1 - (n : ℤ))) else 0
-
-/-- E and F on the left Hopf dual are transposes of the actual antipode matrices. -/
-def dualE (n : ℕ) : Matrix (Fin (n + 1)) (Fin (n + 1)) A :=
-  (-(torus n (-1) * weylE n 1)).transpose
-
-def dualF (n : ℕ) : Matrix (Fin (n + 1)) (Fin (n + 1)) A :=
-  (-(weylF n 1 * torus n 1)).transpose
-
-theorem hopfDualComparison_bijective (n : ℕ) :
-    Function.Bijective (hopfDualComparison n).mulVecLin := by
-  sorry
-
-theorem hopfDualComparison_intertwines (n : ℕ) :
-    hopfDualComparison n * monomialE n 1 = dualE n * hopfDualComparison n ∧
-    hopfDualComparison n * monomialF n 1 = dualF n * hopfDualComparison n ∧
-    hopfDualComparison n * torus n 1 =
-      (torus n (-1)).transpose * hopfDualComparison n := by
-  sorry
-
-section Specialization
-
-variable {k : Type*} [Field k] [CharZero k]
-
-def specializedComparison (n : ℕ) (z : kˣ) :
-    Matrix (Fin (n + 1)) (Fin (n + 1)) k :=
-  fun i j => specialize z (comparison n i j)
-
-theorem gaussian_at_one (n j : ℕ) :
-    specialize (1 : kˣ) (gaussian n j) = (Nat.choose n j : k) := by
-  sorry
-
-theorem gaussian_first_root (ell : ℕ) (hell : 3 ≤ ell) (hodd : Odd ell)
-    (z : kˣ) (hz : IsPrimitiveRoot (z : k) ell) (j : Fin (ell + 1)) :
-    specialize z (gaussian ell j.val) =
-      if j.val = 0 ∨ j.val = ell then 1 else 0 := by
-  sorry
-
-/-- Actual kernel and range, expressed in the native coordinate module.
-The endpoint spans remain distinct from the interior kernel. -/
-theorem specializedComparison_ker_range (ell : ℕ) (hell : 3 ≤ ell)
-    (hodd : Odd ell) (z : kˣ) (hz : IsPrimitiveRoot (z : k) ell) :
-    LinearMap.ker (specializedComparison ell z).mulVecLin =
-      Submodule.span k {f | ∃ j : Fin (ell + 1),
-        0 < j.val ∧ j.val < ell ∧ f = Pi.single j 1} ∧
-    LinearMap.range (specializedComparison ell z).mulVecLin =
-      Submodule.span k {f | ∃ j : Fin (ell + 1),
-        (j.val = 0 ∨ j.val = ell) ∧ f = Pi.single j 1} := by
-  sorry
-
-end Specialization
-
-end QuantumPlaneLattice
 
 end TauCetiRoadmap.QuantumEnvelopingAlgebras
 
