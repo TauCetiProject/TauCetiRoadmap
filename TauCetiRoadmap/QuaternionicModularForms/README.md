@@ -3,8 +3,9 @@
 **Summary.** Specialise the abstract level-form carrier, evaluation equivalence and Hecke action of
 AutomorphicFormsOnReductiveGroups §7.4 to the unit group of a quaternion algebra `D` over a number
 field `F`, and build on it the classical, analytic and overconvergent theory of quaternionic modular
-forms. The inputs are the quaternion norm form and base change of Tau Ceti, the class sets and
-definite stabiliser theorem of AdelicAlgebraicGroups §5.3, the restricted-series, Banach-module and
+forms. The inputs are the quaternion norm form, base change, weighted substitution on restricted
+series and Fredholm series on property-(Pr) modules of Tau Ceti, the class sets and definite
+stabiliser theorem of AdelicAlgebraicGroups §5.3, the restricted-series, Banach-module and
 Fredholm libraries of RestrictedPowerSeries, PadicFunctionalAnalysis, CompactOperators and
 NewtonPolygons, and the automorphic forms of ArithmeticLocallySymmetricSpaces. The roadmap builds
 local integral data and double-coset certificates, algebraic coefficient modules over every
@@ -67,6 +68,11 @@ It consumes and does not restate:
   AutomorphicFormsOnReductiveGroups §§7.4–7.6;
 - automorphic forms, cusp forms, algebraic weights, symmetric spaces, level spaces, local systems,
   Hecke actions on invariants and cuspidal cohomology, from ArithmeticLocallySymmetricSpaces;
+- the weighted substitution `f↦g·f(h)` on restricted series with its bound, composition and
+  identity laws, matrix and row compactness on a larger polydisc, the Neumann-series unit criterion
+  for restricted series, property (Pr), row-compact operators, and the Fredholm series `det(1−Tu)`
+  of row-compact endomorphisms of (Pr) modules with its independence of the presentation,
+  cyclicity and conjugation invariance, from Tau Ceti;
 - restricted series, Gauss norms, substitution, derivatives and identity theorems, from
   RestrictedPowerSeries; Banach–Tate modules, `C₀` models, property (Pr), Mahler and Amice
   coordinates, analytic stages, characters and the annular ring `H`, from PadicFunctionalAnalysis;
@@ -174,6 +180,42 @@ its centre (Loeffler, Assumption 3.1.3 and Proposition 3.1.4, p. 15). At a compl
 - The Tate algebra `PowerSeries.IsRestricted.subring c` with its Gauss norm as a complete
   ultrametric normed ring (`TauCeti/RingTheory/PowerSeries/TateAlgebra.lean`,
   `TauCeti.PowerSeries.norm_eq_gaussNorm`).
+- The weighted substitution `TauCeti.MvPowerSeries.restrictedWeightedSubstCLM` with
+  `TauCeti.MvPowerSeries.norm_restrictedWeightedSubstCLM_apply_le`,
+  `TauCeti.MvPowerSeries.restrictedWeightedSubstCLM_comp`,
+  `TauCeti.MvPowerSeries.restrictedWeightedSubstCLM_one_X` and
+  `TauCeti.MvPowerSeries.matrixCoeff_weightedSubstCLM`
+  (`TauCeti/RingTheory/MvPowerSeries/TateAlgebra/WeightedSubst.lean`), and
+  `TauCeti.MvPowerSeries.isRowCompact_weightedSubstCLM`
+  (`TauCeti/Analysis/Normed/Operator/RowCompact/WeightedSubst.lean`). Over a complete ultrametric
+  normed commutative ring, for `g` and `h_1,…,h_k` restricted at a polyradius `s` with
+  `‖h_i‖_s≤r_i`, the map `f↦g·f(h)` from series restricted at `r` is continuous and linear with
+  `‖g·f(h)‖≤‖g‖‖f‖`; following it by the map with data `(g′,h′)` gives the map with weight
+  `g′·g(h′)` and substitution `h(h′)`, and weight `1` with `h=X` gives the identity when `‖1‖=1`.
+  At unit radius its matrix entry in row `e` and column `t` is `coeff_e(g·h^t)`, and in finitely
+  many variables it is row compact when `g` and the `h_i` are restricted at polyradii `c` with
+  every `c_j>1` and `‖h_i‖_c≤1`.
+- `MvPowerSeries.isNormMulUnit_of_norm_sub_C_lt`
+  (`TauCeti/RingTheory/MvPowerSeries/TateAlgebra/Units.lean`): over a complete ultrametric normed
+  ring with `‖1‖=1`, a restricted series within Gauss distance less than `‖a‖` of a constant `a`
+  that is a unit with `‖ax‖=‖a‖‖x‖` for all `x` is again such a unit.
+- Property (Pr) `TauCeti.HasPr` and `TauCeti.HasPr.of_retract`
+  (`TauCeti/Analysis/Normed/Module/Bases/PotentiallyONable.lean`), row compactness
+  `ContinuousLinearMap.IsRowCompact` (`TauCeti/Analysis/Normed/Operator/RowCompact.lean`) and its
+  extension `ContinuousLinearMap.IsPrCompact` to maps between (Pr) modules
+  (`TauCeti/Analysis/Normed/Operator/RowCompact/PrModule.lean`), and the Fredholm series
+  `ContinuousLinearMap.charPowerSeries` with `ContinuousLinearMap.IsPrCompact.charPowerSeries_eq`,
+  `ContinuousLinearMap.IsPrCompact.charPowerSeries_comp_comm` and
+  `ContinuousLinearMap.IsPrCompact.charPowerSeries_conj`
+  (`TauCeti/Analysis/Normed/Operator/Nonarchimedean/PrModule/Basic.lean`). A module has (Pr) when
+  it is a continuous linear retract `r∘i=id` of a model space `C₀(I,R)`, and a retract of a (Pr)
+  module has (Pr). The series of `u` is the principal-minor series `det(1−T·iur)` for a
+  presentation fixed by choice, and `1` without (Pr). Over a complete ultrametric normed
+  commutative ring with `‖1‖=1` and a multiplicative pseudo-uniformiser
+  (`TauCeti.NormedRing.IsTate`), for row-compact `u` it equals `det(1−T·iur)` for every
+  presentation, it satisfies `H_{u∘v}=H_{v∘u}` for row-compact `u` between two (Pr) modules and
+  any continuous linear `v` back, and it is invariant under conjugation by continuous linear
+  equivalences.
 - `TauCeti.SU2.symPower` (`TauCeti/RepresentationTheory/SU2/SymmetricPower.lean`) and
   `TauCeti.SU2.isIrreducible_symPower` (`TauCeti/RepresentationTheory/SU2/Irreducible.lean`).
 - `TauCeti.symPowerRep` (`TauCeti/RepresentationTheory/ClassicalGroups/SymmetricPower.lean`), the
@@ -235,7 +277,7 @@ its centre (Loeffler, Assumption 3.1.3 and Proposition 3.1.4, p. 15). At a compl
 
 ### From TauCetiRoadmap.CompactOperators
 
-- §§0.1–0.3 complete continuity, `IsRowCompact` and improvement of radius; §1.2 principal-minor
+- §§0.1–0.3 complete continuity, row compactness and improvement of radius; §1.2 principal-minor
   bounds; §1.4 cyclicity, invariance and diagonal intertwining; §1.5 determinants on (Pr) modules;
   §1.6 block-triangular factors; §1.7 coefficients and the completed base-change comparison
   `c0_completedBaseChange`; Layers 3–4 Riesz projectors, slopes and finite-slope summands.
@@ -470,21 +512,32 @@ form spaces and Hecke operators (Jacobs, §1.5, Definition 1.27 and equation (1.
 
 ### 1.2 Slash action and generating functions
 
-Construct the action by bounded multiplication and analytic substitution:
-`w_{γ,σ}=(σ(a)z_σ+σ(b))/(σ(c)z_σ+σ(d))` and `f|γ=j_κ(γ)·f(w_γ)`. Prove preservation of the
-restricted algebra, boundedness, the identity and right-action laws, and independence of equivalent
-expansion data. On an integral norm model the bounds `‖j_κ(γ)‖≤1` and `‖w_γ‖≤1` give
-`‖slash γ‖≤1`. *Needs:* §1.1; RestrictedPowerSeries §§1.1–1.3, 2.2; PadicFunctionalAnalysis §1.1.
+Define `f|γ=j_κ(γ)·f(w_γ)`, with `w_{γ,σ}=(σ(a)z_σ+σ(b))/(σ(c)z_σ+σ(d))`, as Tau Ceti's
+weighted substitution `TauCeti.MvPowerSeries.restrictedWeightedSubstCLM` with weight `j_κ(γ)` and
+substitution `w_γ`, on the restricted algebra at a polyradius `s` within the weight's expansion
+radius (§1.1) with `1≤s_σ` and `‖σ(c)‖s_σ<1`. Prove that `σ(c)z_σ+σ(d)` is a unit there (by
+`MvPowerSeries.isNormMulUnit_of_norm_sub_C_lt`, as `‖σ(c)z_σ‖_s<1=‖σ(d)‖`), that `j_κ(γ)` is
+restricted at `s` and `‖w_{γ,σ}‖_s≤s_σ`, the cocycle `j_κ(γδ)=j_κ(δ)·j_κ(γ)(w_δ)` with
+`w_{γδ}=w_γ∘w_δ`, and independence of equivalent expansion data. The right-action law then follows
+from `TauCeti.MvPowerSeries.restrictedWeightedSubstCLM_comp`, the identity law from
+`TauCeti.MvPowerSeries.restrictedWeightedSubstCLM_one_X` when `‖1‖=1`, and `‖f|γ‖≤‖j_κ(γ)‖‖f‖`
+from `TauCeti.MvPowerSeries.norm_restrictedWeightedSubstCLM_apply_le`. On an integral norm model
+the bounds `‖j_κ(γ)‖≤1` and `‖w_γ‖≤1` give `‖slash γ‖≤1`. *Needs:* §1.1; RestrictedPowerSeries
+§§1.1–1.3, 2.2; PadicFunctionalAnalysis §1.1; Tau Ceti
+`TauCeti.MvPowerSeries.restrictedWeightedSubstCLM`, `MvPowerSeries.isNormMulUnit_of_norm_sub_C_lt`.
 
-- The column indexed by `r` is `j_κ(γ)∏_σ w_{γ,σ}^{r_σ}`, and
+- The column indexed by `r` is `j_κ(γ)∏_σ w_{γ,σ}^{r_σ}`, the image of `z^r` (at unit radius,
+  `TauCeti.MvPowerSeries.matrixCoeff_weightedSubstCLM`), and
   `∑_r (z^r|γ) X^r = j_κ(γ)∏_σ(1−X_σ w_{γ,σ})⁻¹` as formal series in the input variables with
   restricted coefficients (a deduction from the geometric series).
 - For `‖c‖≤ρ<1`, `‖det γ‖≤σ<1`, `ρ≤σ` and `‖coeff_m j_κ(γ)‖≤η^{|m|}` with `η≤σ`, the matrix entries
   satisfy `‖a_{m,r}(slash γ)‖≤σ^{|m|}`; with several variables, one contraction factor per
   variable.
 - Without a geometric bound on `j_κ`, the slash is the composite of bounded multiplication and a
-  strictly contracting substitution, which gives compactness (CompactOperators §0.3) but no explicit
-  row estimate.
+  strictly contracting substitution, which gives compactness (CompactOperators §0.3; at unit radius
+  the substitution with weight `1` is row compact by
+  `TauCeti.MvPowerSeries.isRowCompact_weightedSubstCLM` when `w_γ` is restricted at radii `c>1`
+  with `‖w_γ‖_c≤1`) but no explicit row estimate.
 - Compactness of the domain of a character does not by itself bound `‖slash γ‖` for an arbitrary
   Banach-algebra norm.
 
@@ -600,7 +653,9 @@ For `p=3`, trivial determinant twist and `n_w(u)=exp(w log u)` on `1+3ℤ₃`, e
 Layer 0; RestrictedPowerSeries §§0.1, 1.1–1.3, 2.2–2.4; PadicFunctionalAnalysis §§1.1, 4.1–4.6,
 5.2–5.5; CompactOperators §0.3; AdicSpacesPartII R0.5; Mathlib `SymmetricPower`,
 `MvPolynomial.restrictSupport`, `NumberField.Units.dirichletUnitTheorem.unitLattice_span_eq_top`;
-Tau Ceti `TauCeti.symPowerRep`, `Representation.charTwist`.
+Tau Ceti `TauCeti.symPowerRep`, `Representation.charTwist`, the weighted substitution
+`TauCeti.MvPowerSeries.restrictedWeightedSubstCLM` with its laws, matrix and row compactness, and
+`MvPowerSeries.isNormMulUnit_of_norm_sub_C_lt`.
 
 ## Layer 2: spaces of quaternionic forms
 
@@ -766,9 +821,10 @@ factors through a finite group once its central action has finite image, from Ad
 §5.3; for families require a common finite quotient. If each image group `H_i` has order invertible
 in `R`, define `E_i=|H_i|⁻¹∑_{h∈H_i} slash(h)` (Mathlib `Representation.averageMap` for the left
 action `h↦slash(h⁻¹)`, with `Representation.isProj_averageMap`), prove it is a bounded idempotent
-with image `A^{Γ_i}`, and deduce property (Pr) for `M(U,A)` from PadicFunctionalAnalysis §2.2.
-*Needs:* §§1.3, 2.1; AdelicAlgebraicGroups §5.3; PadicFunctionalAnalysis §2.2; Mathlib
-`Representation.averageMap`, `Representation.isProj_averageMap`.
+with image `A^{Γ_i}`, and deduce property (Pr) (`TauCeti.HasPr`) for `M(U,A)` as a retract of the
+block model by `TauCeti.HasPr.of_retract` (PadicFunctionalAnalysis §2.2). *Needs:* §§1.3, 2.1;
+AdelicAlgebraicGroups §5.3; PadicFunctionalAnalysis §2.2; Mathlib `Representation.averageMap`,
+`Representation.isProj_averageMap`; Tau Ceti `TauCeti.HasPr.of_retract`.
 
 - For an isometric action `‖E_i‖≤‖|H_i|⁻¹‖`, which can exceed one.
 - `E=∏_iE_i` is a bounded projection of the block model onto `M(U,A)`.
@@ -1040,8 +1096,8 @@ finite-stabiliser or averaging hypothesis of §2.3 enters the Bianchi theory. Fo
 Layers 0–1; AutomorphicFormsOnReductiveGroups §§2.3, 2.6, 4.3, 5.5, 7.2, 7.4–7.6;
 AdelicAlgebraicGroups §§4.5, 5.3; ArithmeticLocallySymmetricSpaces ALS.F.1, F.5–F.7, 0.4, 0.6–0.8,
 1.1, 1.3, 3.1, 5b.1, 5b.4, 5b.5; PadicFunctionalAnalysis §§0.3, 1.1, 2.2; KleinianGroups Layers 0
-and 3; Tau Ceti `TauCeti.SU2.symPower`, `TauCeti.skolemNoether`; Mathlib
-`Representation.averageMap`, `Representation.isProj_averageMap`.
+and 3; Tau Ceti `TauCeti.SU2.symPower`, `TauCeti.skolemNoether`, `TauCeti.HasPr.of_retract`;
+Mathlib `Representation.averageMap`, `Representation.isProj_averageMap`.
 
 ## Layer 3: Hecke operators and compactness
 
@@ -1129,13 +1185,13 @@ For the totally definite spaces of §§2.2–2.3, prove the norm bounds and radi
 standard `U_v` from §1.2's local formulas and §0.4's representatives: `U_π` is the composite of the
 restriction `M(U,A_{κ,r})→M(U,A_{κ,r|π|})` and a norm-decreasing map back, so it is norm-decreasing
 and compact on each stage (Buzzard, *Eigenvarieties*, Lemma 12.2, pp. 78–79). At several analytic
-places prove the same for `U_π=∏_vU_v`. Use `IsRowCompact` and finite-image approximation from
-CompactOperators §§0.1–0.2, invoking the converse only under its finite-lifting hypotheses, and
-transport compactness through finite blocks and bounded invariant projections. For quantitatively
-bounded weights prove `‖B_{(i,m),(j,r)}‖≤∏_σs_σ^{m_σ}` with every `s_σ<1`. Prove that for
-`r′≤r` admissible the restriction between stages is a link in Buzzard's sense (Buzzard,
-*Eigenvarieties*, Lemma 13.1, pp. 79–80). *Needs:* §§1.2, 2.2, 2.3, 3.2; CompactOperators
-§§0.1–0.3.
+places prove the same for `U_π=∏_vU_v`. Use Tau Ceti's `ContinuousLinearMap.IsRowCompact` and
+finite-image approximation (CompactOperators §§0.1–0.2), invoking the converse only under its
+finite-lifting hypotheses, and transport compactness through finite blocks and bounded invariant
+projections. For quantitatively bounded weights prove `‖B_{(i,m),(j,r)}‖≤∏_σs_σ^{m_σ}` with every
+`s_σ<1`. Prove that for `r′≤r` admissible the restriction between stages is a link in Buzzard's
+sense (Buzzard, *Eigenvarieties*, Lemma 13.1, pp. 79–80). *Needs:* §§1.2, 2.2, 2.3, 3.2;
+CompactOperators §§0.1–0.3; Tau Ceti `ContinuousLinearMap.IsRowCompact`.
 
 - If one analytic variable is uncontracted the row bound does not tend to zero cofinitely; if the
   other coefficient factors are finite dimensional, contraction in the remaining analytic
@@ -1158,22 +1214,29 @@ and the row bound is `|3|^m`.
 ### Dependencies
 
 Layers 0–2; AutomorphicFormsOnReductiveGroups §7.4; CompactOperators §§0.1–0.3; Tau Ceti Hecke
-ring.
+ring and `ContinuousLinearMap.IsRowCompact`.
 
 ## Layer 4: Fredholm theory for the forms spaces
 
 ### 4.1 Intrinsic determinant and finite-slope parts
 
-For the compact controlling operator define `H_κ(T)=det(1−TU_π)` by CompactOperators §1.5's
-determinant on property-(Pr) modules. Prove the comparison with the block model and with `BE`,
-independence of all choices, and independence of the radius on overlapping admissible stages, using
-the actual restriction/factorisation maps and CompactOperators §1.4 (a dense inclusion alone is not
-a proof). Over a complete field identify nonzero eigenvalues with reciprocal zeros of `H_κ`, and
+For the compact controlling operator define `H_κ(T)=det(1−TU_π)` as Tau Ceti's
+`ContinuousLinearMap.charPowerSeries` of `U_π` on the (Pr) module of §2.3 (CompactOperators §1.5).
+Prove the comparison with the block model and with `BE` and independence of all choices, by
+`ContinuousLinearMap.IsPrCompact.charPowerSeries_eq` for the retract presentations these define and
+`ContinuousLinearMap.IsPrCompact.charPowerSeries_conj` for the change-of-splitting isomorphisms of
+§2.2, and independence of the radius on overlapping admissible stages, using the actual
+restriction/factorisation maps and the cyclicity of CompactOperators §1.4
+(`ContinuousLinearMap.IsPrCompact.charPowerSeries_comp_comm`); a dense inclusion alone is not a
+proof. Over a complete field identify nonzero eigenvalues with reciprocal zeros of `H_κ`, and
 apply CompactOperators Layers 3–4 for finite-dimensional cutoff summands; over Noetherian affinoid
 coefficients obtain finite projective summands whose image Hecke algebra is a finite module. Over a
 complete algebraically closed field every nonzero finite-slope summand contains a simultaneous
 eigenvector and has finitely many eigensystems. Define the ordinary subspace by slope zero.
-*Needs:* §§2.3, 3.3; CompactOperators §§1.4–1.5, Layers 3–4.
+*Needs:* §§2.3, 3.3; CompactOperators §§1.4–1.5, Layers 3–4; Tau Ceti
+`ContinuousLinearMap.charPowerSeries`, `ContinuousLinearMap.IsPrCompact.charPowerSeries_eq`,
+`ContinuousLinearMap.IsPrCompact.charPowerSeries_conj`,
+`ContinuousLinearMap.IsPrCompact.charPowerSeries_comp_comm`.
 
 - Commuting Hecke operators preserve the finite-slope summands.
 - The zero eigenvalue is invisible to `H_κ`; no globally free eigenbasis is claimed.
@@ -1303,7 +1366,8 @@ For `h=1` and `α=|t|`, the annular series specialises to a series whose `n`th c
 ### Dependencies
 
 Layers 0–3; CompactOperators §§1.2, 1.4–1.7, Layers 3–4; NewtonPolygons Layer 2; PadicFunctionalAnalysis
-§§2.6, 3.2, 5.3–5.6; AdicSpacesPartII R0.5.
+§§2.6, 3.2, 5.3–5.6; AdicSpacesPartII R0.5; Tau Ceti `ContinuousLinearMap.charPowerSeries` and its
+independence of the presentation, cyclicity and conjugation invariance.
 
 ## Layer 5: theta maps and small-slope classicality
 
