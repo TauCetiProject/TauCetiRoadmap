@@ -2287,12 +2287,19 @@ The partial-new-space API uses orthogonal complements at the chosen primes.
 
 Let `B` be a quaternion algebra over `F` ramified at every real place and at the primes of a
 squarefree `𝔇 ‖ 𝔫` (`v_𝔭(𝔫) = 1` for `𝔭 ∣ 𝔇`, so that `𝔫𝔇⁻¹` is prime to `𝔇`), with `n + ω(𝔇)` even, and `𝒪_B` an Eichler order of level `𝔫𝔇⁻¹`
-(Hilbert modular varieties and Shimura curves §R18.5.16a). State and prove by citation the
-**Jacquet–Langlands dictionary**: the space `M_{n,s}(𝒪̂_B^×; ℂ)` of classical quaternionic forms
-of level `𝒪̂_B^×` (GL₂ automorphic representations and transfer R17.3.8c, with R17.3.8a's
-coefficient module at `n_w = k_w − 2` and its determinant normalization; in parallel weight `2`,
-where `n = s = 0`, the functions on the class set `Cl(𝒪̂_B^×)` of R17.3.8b), modulo the forms factoring through the
-reduced norm in parallel weight `2`, is isomorphic as a module over the `T_𝔭`, `𝔭 ∤ 𝔫`
+(Hilbert modular varieties and Shimura curves §R18.5.16a). Fix a rational prime `p` and a field
+isomorphism `ι : ℚ̄_p ≅ ℂ`, let `T` be the places of `F` above `p`, and let `Σ_v` consist of the
+composites with `ι` of the `ℚ_p`-embeddings `F_v → ℚ̄_p`; each real place `w` corresponds to the
+unique pair `(v, σ)` with `σ ∈ Σ_v` and `σ|_F = σ_w`. The quaternionic weight of `k` is
+R17.3.8c's `(n, s) = (k − 2, m)` read along this bijection, so that `(k − 2) + 2m = k₀ − 2` is
+parallel; after the change of variables by `(0 1; −1 0)`, `L_{k−2,m}` is the coefficient module
+of Dembélé–Voight, (7.3), p. 35, of degrees `k − 2` and determinant twists `m`. State and prove
+by citation the **Jacquet–Langlands dictionary**: the space `M_{k−2,m}(𝒪̂_B^×; ℂ)` of classical
+quaternionic forms of level `𝒪̂_B^×` (GL₂ automorphic representations and transfer R17.3.8c at
+`K = ℂ` with these `T` and `Σ_v`, in R17.3.8a's algebraic, not normalized, determinant
+convention; in parallel weight `2`, where `k − 2 = m = 0`, the functions on the class set
+`Cl(𝒪̂_B^×)` of R17.3.8b, whatever `p` and `ι`), modulo the forms factoring through the reduced
+norm in parallel weight `2`, is isomorphic as a module over the `T_𝔭`, `𝔭 ∤ 𝔫`
 (R17.3.8d's `T_v` there, 5.2 here) to
 `S_k(𝔫; R)^{𝔇-new}`, compatibly with the central action and with `U_𝔭` at `𝔭 ∣ 𝔫𝔇⁻¹`, the
 eigenvalue at 𝔭 ∣ 𝔇 on the ψ summand of the quaternionic side being
@@ -2316,6 +2323,17 @@ a totally definite B must ramify at an odd number of finite places
 - For n=3 and 𝔇=1, the count is 3+0=3, so it does not exist.
 - For n=3 and 𝔇 a single prime, the count is 3+1=4; the parity obstruction disappears,
   while the exact-level condition still requires valuation one at that prime.
+- For `F = ℚ(√5)` and `k = (2, 4)`, with weight `2` at the real place `w₁` sending `√5` to `√5`
+  and weight `4` at `w₂`: `k₀ = 4`, `m = (1, 0)`, the quaternionic weight is
+  `(k − 2, m) = ((0, 2), (1, 0))` and `(k − 2) + 2m = (2, 2)`, so the unit `u = (3+√5)/2`, which
+  lies in every stabilizer `Γ_i` of R17.3.8b, acts on the coefficients by `N(u)² = 1`. With
+  determinant twist `0` in place of `m` it would act by `σ_{w₂}(u)² = ((3−√5)/2)² ≈ 0.146`, every
+  `Γ_i` would have zero invariants, and the quaternionic space would be zero at every level.
+- In the same weight, take `p = 11`, which splits in `ℚ(√5)`, and `𝔫` prime to `11`. In the
+  algebraic convention the product of R17.3.8d's `S_v` over the two places `v ∣ 11`, with
+  `ϖ_v = 11`, acts by `11^{(0+2)+(2+0)} = 11⁴ = N(11)^{k₀−2}`, the value of 5.2's `S_(11)`; in
+  the normalized convention the determinant factor `σ(11²)^{m_{w₁}} = 11²` at the place
+  corresponding to `w₁` becomes `1`, and it acts by `11²`.
 
 *Rests on:* 5.2, 6.4, 7.7, 10.1; Hilbert modular varieties and Shimura curves §R18.5.16a;
 GL₂ automorphic representations and transfer R17.3.8a–R17.3.8d; the cited R17.3 milestones.
@@ -2326,7 +2344,7 @@ Define nothing new: for the Eichler order `𝒪_B` of 10.2, `U = 𝒪̂_B^×` an
 matrix `B(𝔭)` is the matrix, by Mathlib `LinearMap.toMatrix`, of the operator `T_v = [Uη_vU]` at
 `v = 𝔭` of GL2AutomorphicRepresentationsAndTransfer R17.3.8d, with trivial coefficients, on the
 basis of indicator functions of the class set `Cl(U)` of its R17.3.8b; `B_k(𝔭)` is the matrix of
-the same operator on `M_{n,s}(U; ℂ)` in the weight of 10.2. The neighbour matrix `B(v)` of
+the same operator on the space `M_{k−2,m}(U; ℂ)` of 10.2. The neighbour matrix `B(v)` of
 HilbertModularVarietiesAndShimuraCurves §R18.5.16c is the matrix of `[Uη_v⁻¹U] = S_v⁻¹T_v` (its
 item 2): it is `B(𝔭)` followed by the permutation `s_v : [I] ↦ [𝔭I]` of `Cl(U)`, so the two
 agree when `𝔭` is principal. They have the same trace: a nonzero diagonal entry of either
