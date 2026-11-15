@@ -63,16 +63,16 @@ the general blowup laws, coefficient discriminant comparison and torus
 factorization theory; F7 retains E(n), the elliptic-quartic comparison,
 the Enriques cover and the Rokhlin application to the imported filling.
 
-HomotopySpheres 6B owns the signed E₈ tree plumbing in every dimension 4k,
-including its k=1 branch with homology-three-sphere boundary, and its
-Stage 7 owns degree-one normal maps, normal bordism, the surgery kernel,
-the simply connected surgery groups L_n(ℤ) with the σ/8 normalization in
-dimension 4k, L₅(ℤ)=0 and the E₈ realization. §1.6 and §3.9 keep only the
-comparison of the orientation-reversed plumbing with the pinned
-`TauCeti.e8Plumbing` lattice, its Poincaré-sphere boundary and its
-topological cap; §3.6 keeps the TOP normal-map variant, which differs from
-HomotopySpheres 7A in one respect: its stable normal data are a TOP stable
-normal complement, with no Lie frame. SmoothBundlesConnections stops
+The simply connected surgery groups are GeometryOfNumbersAndQuadraticArithmetic
+§6.8's Wall form and formation groups of ℤ: L₄(ℤ)≅ℤ by signature over
+eight, the positive E₈ form going to 1, and L₅(ℤ)=0. This roadmap owns the
+four-dimensional E₈ plumbing of §1.6, with its comparison with the pinned
+`TauCeti.e8Plumbing` lattice and its Poincaré-sphere boundary, capped in
+§3.9 by §3.6's contractible TOP cap; the Hopf invariant of maps S³→S² and
+the Whitehead products of classes in π₂ of §2.2, the Hopf projection itself
+being AlgebraicTopology 8.16's; and the degree-one TOP normal maps, normal
+bordism and surgery kernel of §3.6, whose stable normal data are a TOP
+stable normal complement, with no Lie frame. SmoothBundlesConnections stops
 before the Yang–Mills energy and its variational calculus; the
 four-dimensional calculus Layer 5 uses, namely the energy identity, the
 first and second variations, the gauge-fixed operator and conformal
@@ -150,7 +150,7 @@ three-sphere. Use `TauCeti.PlumbingGraph` with its `intersectionMatrix`,
 `TauCeti.e8Plumbing` in `TauCeti.LowDimTopology.Plumbing.E8`, every framing
 −2 on a chain of seven vertices with the eighth attached to the third, as
 the lattice of the E₈ plumbing; the plumbed four-manifold itself is
-HomotopySpheres 6B's. Use `TauCeti.KnotTheory.alexanderMatrix`, the matrix
+constructed in §1.6. Use `TauCeti.KnotTheory.alexanderMatrix`, the matrix
 `tV − Vᵀ` over `ℤ[t,t⁻¹]` of a square integral matrix V, and the
 Conway-normalized `TauCeti.KnotTheory.alexander` in
 `TauCeti.KnotTheory.Alexander`, with the enlargements
@@ -174,14 +174,14 @@ point with `k ≥ (dim ker)² + 1`. The roadmap suppliers are listed below.
 | --- | --- |
 | GT Layers 1, 2, 4 and 5; its smoothing-and-triangulation comparison, item 3 | Handles, collars, gluing, connected sum and tubular neighbourhoods; locally flat embeddings and Brown's collaring, pinned as `TauCeti.brownBicollaring`; framed links, Seifert surfaces, Seifert matrices and the Conway-normalized Alexander polynomial; Dehn surgery; the statement of the Kirby–Siebenmann obstruction. What these layers do not state is declared as gaps below. F3 owns the dimension-four disk-embedding, classification, annulus and slice theorems; no GeometricTopology layer consumes this roadmap. |
 | MorseNovikov N6 | The Alexander module of an oriented knot's infinite cyclic cover presented by the Seifert-matrix presentation `tV − Vᵀ`, and its comparison with the Conway-normalized polynomial. §3.6 consumes the presentation; the cover's classification and Crowell's commutator comparison are gap:alexander-module-presentation below. |
-| AT Stages 2–4, 6, 8 | Native chains/cochains, normalized sphere generators, orientation-local-system duality, ordinary obstruction/EM comparisons and proper 8.5 plus its end API for the early opened cobordism and product theorem. F1/F2 own the actual handle/link/intersection computations. |
+| AT Stages 2–4, 6, 8 | Native chains/cochains, normalized sphere generators, orientation-local-system duality, ordinary obstruction/EM comparisons, 4.4's reduced suspension, 8.16's Hopf projection S³→S² and proper 8.5 plus its end API for the early opened cobordism and product theorem. F1/F2 own the actual handle/link/intersection computations, the Hopf invariant and the Whitehead products. |
 | IntegralLattices | Native integral symmetric lattices, inertia, parity, characteristic vectors and indefinite/unimodular classification. F3/F5/F7 prove manifold realizations/restrictions. |
 | CKG K7, TopK T1/T6 and G4.0b | One native projective/Grassmannian carrier, its smooth model comparison and tautological bundles; TopK T1.5's Stiefel connectivity for §4.3's finite-to-stable comparison. F6/F7 own blowup, hypersurface and elliptic constructions on them. |
 | AffineMorseLefschetz A4.0 and A0/A5/A6; GroebnerGeometry G1 | A4.0's generic noncompact boundary/BM/support duality precedes the early proper cobordism; single projective zero-locus carrier, weak hyperplane theorem and finite Veronese comparison; single elimination/saturation engine. F6/F7 own cubic/quartic discriminant and elliptic-example comparisons. |
 | CC C1.1b/C1.2a/C1.6/C2/C3; TB B4.1 and B4.3 | C1.2a S0–S5's independent supported cochains and collared-pair sequence precede the proper cobordism; C1.1b's oriented classification with its finite-rank and stable inclusions, C1.6's complex-line classification and C3.6's realification BU(1)→BSO(2) for §4.3; single ordinary characteristic/Thom, cup-i/Sq and Wu-class APIs. F4 owns the oriented 4/Spinᶜ/torsion consequences and Z/4 Pontryagin square. |
 | Spin G6.7; Index I7.2/I7.5; TB B1.7/B2.1–B2.4/B3.2(b)–(c)/B3.3/B3.4/B5.2 | Untwisted quaternionic kernels, signature and analytic Rokhlin formulas; the concrete K3 and marked E(1) complement with their Spin data; Spin bordism of spaces and pairs as a homology theory, with its transverse intersection; the Spin-surface quadratic refinement, Ω₂^Spin ≅ F₂ by Arf and Ω₃^Spin = 0; the K3 KO genus; the finite embedded Pontryagin–Thom comparison that §2.3's coloured-link collapse specializes. §3.6 derives Ω₃^Spin(S¹) ≅ ℤ/2 from these. |
 | StringOrientation S1 | Actual stable/finite-rank BString lift and H³ torsor; F4 owns the dimension≤4 consequences on its specified real vector-bundle Spin reduction. |
-| HomotopySpheres §3C/§4B/§6B/§6C/§7A–7C/§9 | Unstable link/Hopf, real stable-space and low-stem inputs to F2/F3; the signed E₈ tree plumbing with its dimension-four branch; degree-one normal maps, normal bordism, surgery kernels, L_n(ℤ) with σ/8 in dimension 4k and L₅(ℤ)=0. F3 owns the TOP normal-map variant and every dimension-four surgery statement. |
+| GeometryOfNumbersAndQuadraticArithmetic §6.8 | Wall's form and formation groups of ℤ: L₄(ℤ)≅ℤ by signature over eight, the positive E₈ form going to 1, and L₅(ℤ)=0. F1 owns the four-dimensional E₈ plumbing; F3 owns degree-one TOP normal maps, normal bordism, surgery kernels and every dimension-four surgery statement. |
 | AlgebraicKTheory A2; GeneralAlgebraicKTheory §10.3, §10.5, §10.12a and §10.13 | K₁(ℤ)={±1}; Bass's negative K-groups K_(−n)=LⁿK₀, the fundamental theorem in every degree, polynomial and Laurent invariance of K₀ for a left noetherian ring of finite global dimension and the vanishing of its negative K-groups. §3.4 consumes only Wh(1)=0, K̃₀(ℤ)=K̃₀(ℤ[ℤ])=0 and K_(−i)(ℤ)=K_(−i)(ℤ[ℤ])=0 for i ≥ 1. |
 | SBC B1–B5, CKG K5, PDO P5–7, Index I4/I7 and HF F0 | Shared principal bundles, clutching cocycles, associated and frame bundles, connections, curvature, the Bianchi identity, parallel transport and Sobolev carriers, estimates/Fredholm theory, and HF F0's Sard–Smale theorem on Banach manifolds with its Fredholm-section package; the parameter-projection algebra and the open-set Sard–Smale theorem are the pinned declarations named above. F5 constructs the four-dimensional Yang–Mills variational calculus, the nonlinear gauge slices, transversality, bubbling and gluing. |
 
@@ -191,8 +191,10 @@ Entries explicitly marked `gap:` below specify inputs of F1, F3 and F4's
 proof routes that the cited GeometricTopology layers must provide; each use
 names its slug. This roadmap consumes them only in the forms stated here and
 derives none of them from the dimension-four theorems it proves. The simply
-connected normal maps, surgery kernels, L_n(ℤ), the σ/8 normalization and the
-E₈ realization are not gaps: they are HomotopySpheres 7A–7C.
+connected surgery groups L₄(ℤ) and L₅(ℤ), with the σ/8 normalization, are not
+gaps: they are GeometryOfNumbersAndQuadraticArithmetic §6.8's. Normal maps
+and surgery kernels are targets of §3.6, and the positive E₈ plumbing, whose
+form is the generator of L₄(ℤ), is §1.6's.
 
 What GeometricTopology must provide (gap:top-manifold-cw-type): every
 topological manifold, Hausdorff, second countable and locally Euclidean or
@@ -287,7 +289,8 @@ whose mod-two reduction is the square of the degree-two class (Madsen–Milgram,
 *The classifying spaces for surgery and cobordism of manifolds*, Ann. of Math.
 Studies 92 (1979)); and Wall's quadratic L-groups L_n(ℤ[π]) with their
 four-periodicity and their chain-level algebraic Poincaré-complex model,
-agreeing for π=1 with HomotopySpheres 7B's L_n(ℤ) (Ranicki, *Algebraic
+agreeing for π=1 with GeometryOfNumbersAndQuadraticArithmetic §6.8's Wall
+groups of ℤ (Ranicki, *Algebraic
 L-theory and topological manifolds*, Cambridge Tracts 102 (1992), §1, p. 25;
 `ranicki1992` line 1125).
 §3.6 constructs BTOP→BG, G/TOP and its fourth Postnikov stage from these.
@@ -655,11 +658,14 @@ The boundary comparison has the following API.
 Realize every symmetric integral matrix by an explicit framed link,
 using crossings/clasps for off-diagonal entries and integer framings for
 the diagonal; a block-diagonal matrix is realized by the split union of
-the realizations of its blocks. Take the E₈ plumbing from HomotopySpheres 6B in its
-dimension-four branch: eight disk bundles of TS² plumbed along the E₈ tree,
-with the negative E₈ matrix; its lattice is the pinned `TauCeti.e8Plumbing`,
-whose `intersectionMatrix` is the negative Cartan matrix and which
-`e8Plumbing_isNegativeDefinite` proves negative definite. The positive
+the realizations of its blocks. Construct the four-dimensional E₈
+plumbing: eight disk bundles over S² of Euler number −2 plumbed along the
+E₈ tree on disjoint local discs, with straightened corners, the core
+orientations and the sign at each plumbing point chosen so that, in the
+basis of oriented cores, its intersection matrix is that of the pinned
+`TauCeti.e8Plumbing`: −2 on the diagonal and +1 at each of the seven
+edges, the negative Cartan matrix, which `e8Plumbing_isNegativeDefinite`
+proves negative definite. The positive
 plumbing used in §3.9 is its orientation reversal. Identify its oriented
 boundary and intersection generators as the core spheres, compare the
 lattice statements, determinant 1, the leading principal minors and the
@@ -683,10 +689,18 @@ The matrix-realization construction has the following API.
   positive plumbing here has every framing +2, the Cartan matrix itself,
   determinant 1 and signature 8. Both have determinant 1, so the determinant
   alone cannot detect the orientation convention.
+- In the labels of `TauCeti.e8Plumbing` (the chain 0,…,6 with 7 attached
+  to 2) the core matrix has entries +1 at (2,7) and (5,6) and 0 at (0,2).
+  Recording every plumbing point with sign −1 instead gives −2I−A for the
+  adjacency matrix A, congruent to −2I+A through the ±1 signs of the tree's
+  two colour classes, so it has the same determinant 1 and signature −8 but
+  differs from the pinned matrix at every edge.
 
 *Needs:* §1.4's framed-link handlebodies and Kirby moves and §1.5's
-boundary comparison; GeometricTopology Layers 4 and 5's framed links;
-HomotopySpheres 6B's E₈ plumbing; Tau Ceti `TauCeti.e8Plumbing`;
+boundary comparison; GeometricTopology Layer 1's collars, corner
+straightening and tubular neighbourhoods for the plumbing, and Layers 4
+and 5's framed links; SmoothBundlesConnections B2.1's associated bundles
+and B2.2's fibre metrics for the disk bundles; Tau Ceti `TauCeti.e8Plumbing`;
 IntegralLattices' E₈ form.
 
 ### Examples
@@ -704,9 +718,10 @@ linking numbers, S-equivalence and finite Arf algebra of §1.4, and
 TangentialBordism B3.2(b)–(c) its Spin-surface refinement and
 boundary-kernel Lagrangian;
 SmoothBundlesConnections B1.3, B2.1 and B2.5 supply the clutched, associated
-and frame bundles of §1.2. AlgebraicTopology Stages 2–4 and 6 supply the pair
-sequence, van Kampen, cup products and duality. ComplexKahlerGeometry K7
-supplies projective atlases; CharacteristicClasses C2–C3 supplies the
+and frame bundles of §1.2, and B2.2 the fibre metrics of §1.6's disk
+bundles. AlgebraicTopology Stages 2–4 and 6 supply the pair sequence, van
+Kampen, cup products and duality. ComplexKahlerGeometry K7 supplies
+projective atlases; CharacteristicClasses C2–C3 supplies the
 clutching and characteristic-class comparisons. F3's caps are used only
 in the later topological applications of the handle calculations.
 
@@ -741,12 +756,15 @@ Hurewicz and homological Whitehead theorem.
 ### 2.2 Attaching coordinates and π₃ of the wedge
 
 Compute π₃ of this wedge as a free abelian group on the Hopf maps ηᵢ and the
-pairwise Whitehead maps for i<j. Consume the generic Hopf/Whitehead operations
-of HomotopySpheres §3C.1–2
-and own this particular finite-wedge decomposition and its inverse. Normalize
-η by Hopf invariant +1. Normalize the off-diagonal map by the top-cell
-attachment of the product-oriented S²×S²; compare it with the supplier's
-Whitehead sign. Prove the self-product relation `[ιᵢ,ιᵢ]=2ηᵢ` in these
+pairwise Whitehead maps for i<j, and own this finite-wedge decomposition and
+its inverse. Define the Hopf invariant H(f) of a map f:S³→S² by the cup
+square in its mapping cone C_f: a²=H(f)·b, where a∈H²(C_f) restricts to the
+chosen generator of H²(S²) and b∈H⁴(C_f) is the pullback of the chosen
+generator of H⁴(S⁴) under the collapse C_f→C_f/S²=S⁴. Let η be the class of AlgebraicTopology
+8.16's Hopf projection, with its sign chosen so that H(η)=+1. Define the
+Whitehead product [α,β] of α,β∈π₂(X) as α∨β composed with the top-cell
+attaching map S³→S²∨S² of the product-oriented S²×S², which is the
+off-diagonal map. Prove the self-product relation `[ιᵢ,ιᵢ]=2ηᵢ` in these
 conventions and calculate the attaching coordinates as
 `Σᵢ Cᵢᵢ ηᵢ + Σᵢ<ⱼ Cᵢⱼ [ιᵢ,ιⱼ]`, where
 Cᵢⱼ=⟨xᵢ∪xⱼ,[M]⟩ in the H² basis dual to the chosen H₂ sphere
@@ -766,8 +784,8 @@ rank 1/product sign tests, rather than the only basis-conversion tests.
 - For CP² the single coordinate is C₁₁=1, the Hopf generator; the hyperbolic
   product has C=H, so coordinates 0η₁+0η₂+[ι₁,ι₂].
 
-*Needs:* §2.1's wedge; HomotopySpheres §3C.1–2's Hopf and Whitehead
-operations; AlgebraicTopology Stage 6's cup product and sphere generators.
+*Needs:* §2.1's wedge; AlgebraicTopology 8.16's Hopf projection, §4.5's
+mapping cones and Stage 6's cup product and sphere generators.
 
 ### 2.3 Coloured framed links and the Pontryagin–Thom comparison
 
@@ -803,7 +821,8 @@ The coloured-link and mapping-cone comparisons have the following API.
 *Needs:* TangentialBordism 5.2's finite embedded collapse comparison,
 specialized here to maps from S³ to a wedge of two-spheres with its
 tubular inverse; GeometricTopology Layer 1's tubular neighbourhoods and
-Layer 4's framed links; gap:oriented-linking-number; HomotopySpheres §3C;
+Layer 4's framed links; gap:oriented-linking-number; §2.2's Hopf and
+Whitehead classes;
 AlgebraicTopology's cofibres, cup product and sphere generators.
 
 ### 2.4 Isotropic splitting and the homotopy classification
@@ -856,9 +875,10 @@ attaching coordinates 2η₁+η₂−[ι₁,ι₂]. The zero-rank case has no
 ### Dependencies
 
 F1 supplies the handle generators and intersection pairing; AlgebraicTopology
-Stages 2–4, 6 and 8 supply duality, Hurewicz and CW comparison;
-gap:top-manifold-cw-type supplies the CW type of the punctured manifold;
-HomotopySpheres §3C supplies Hopf and Whitehead operations; TangentialBordism
+Stages 2–4, 6 and 8 supply duality, Hurewicz, CW comparison, mapping cones
+and 8.16's Hopf projection, on which §2.2 defines the Hopf invariant and
+Whitehead products; gap:top-manifold-cw-type supplies the CW type of the
+punctured manifold; TangentialBordism
 5.2 supplies the finite embedded collapse; IntegralLattices Layers 0F and 6A
 supply primitive splitting and normal forms.
 
@@ -1610,16 +1630,16 @@ The G/TOP fibre and normal-invariant comparison have the following API
 *Needs:* AlgebraicTopology Stage 8's EM models and relative lifts;
 gap:spherical-classifier-g-top; §3.5's TOP charts.
 
-Specialize HomotopySpheres 7A's degree-one normal map and normal bordism
-to the TOP category. A degree-one geometric TOP normal map is a proper map
+Define degree-one TOP normal maps and normal bordism. A degree-one
+geometric TOP normal map is a proper map
 of compact pairs f:N→M of degree 1 with a specified stable TOP bundle ξ on
 M, a stable bundle map ν_N→ξ covering f, and a fiber homotopy equivalence
 of ξ's spherical fibration with ν_M's, where ν is the stable normal
-complement of gap:tangent-microbundle-stable-classifier; this is the one
-difference from 7A, whose normal data carry a Lie frame. Include the actual
+complement of gap:tangent-microbundle-stable-classifier, so that no Lie
+frame is part of the data. Include the actual
 normal trivializations and boundary identification. Define relative normal
-bordism on TOP 5-dimensional pairs with those stable maps, agreeing with 7A's on smooth
-input. Prove the normal-invariant correspondence with
+bordism on TOP 5-dimensional pairs with those stable maps. Prove the
+normal-invariant correspondence with
 relative maps to G/TOP, change-of-reference and coefficient maps,
 identity, pullback under the supplied transversality, and addition/action.
 
@@ -1643,13 +1663,14 @@ The normal-map and normal-bordism constructions have the following API
   degree 1 but cannot identify its stable normal bundle with ξ:
   w₂(ν_CP²)=h mod 2≠0 whereas w₂(ξ)=0.
 
-*Needs:* HomotopySpheres 7A; §3.5's TOP transversality and normal charts;
+*Needs:* §3.5's TOP transversality and normal charts;
 gap:tangent-microbundle-stable-classifier's stable normal complement and
 gap:spherical-classifier-g-top; AlgebraicTopology Stage 6's degree and
 Stage 8's relative lifting theory.
 
 Own the pinch self-equivalence normal-invariant formula after this correspondence:
-for α∈π₂(M), construct h_α=id∨(α∘η∘Ση) with its actual M→M∨S⁴
+for α∈π₂(M), construct h_α=id∨(α∘η∘Ση), where η is §2.2's Hopf map and
+Ση its reduced suspension (AlgebraicTopology §4.4), with its actual M→M∨S⁴
 pinch map. In the chosen TOP 4-stage prove
 η(h_α)=((1+⟨w₂(M),α⟩)PD(α mod 2),0), and prove the geometric
 normal-map composition/action formula. For a PL M retain its G/PL
@@ -1660,9 +1681,10 @@ hypersurface homeomorphism with this PL surgery construction here.
 
 Build the based quadratic surgery kernel of a TOP normal map after the
 relative π₁ surgery, with its form and normal-framing quadratic refinement
-as in HomotopySpheres 7B, and its functorial comparison to
+and its functorial comparison to
 gap:spherical-classifier-g-top's algebraic Poincaré-chain model.
-Consume HomotopySpheres 7B–7C's L₄(ℤ)≅ℤ with σ/8 and L₅(ℤ)=0; prove the
+Consume GeometryOfNumbersAndQuadraticArithmetic §6.8's L₄(ℤ)≅ℤ by σ/8,
+the positive E₈ form going to 1, and L₅(ℤ)=0; prove the
 TOP obstruction and zero-obstruction surgery exact sequence in dimension 4
 for targets with π₁=1 or ℤ by §3.2's framed-disk controls (Freedman–Quinn
 §11.4 and Theorem 11.5, printed pp. 212–213; `freedmanquinn` line 7469).
@@ -1912,15 +1934,16 @@ distinct from existence of an unstabilized smooth structure
 `freedmanquinn` line 6416).
 
 *Needs:* §2.4's homotopy classification; §3.6's pinch formula, normal
-bordism and topological five-dimensional product theorem; HomotopySpheres
-7C's L₅(ℤ)=0; gap:tangent-microbundle-stable-classifier for the
+bordism and topological five-dimensional product theorem;
+GeometryOfNumbersAndQuadraticArithmetic §6.8's L₅(ℤ)=0;
+gap:tangent-microbundle-stable-classifier for the
 Kirby–Siebenmann number; AlgebraicTopology Stage 8's Hurewicz theorem.
 
 ### 3.9 Definite and rank-zero examples
 
 Construct the E₈ and 2E₈ examples and their KS numbers. The positive E₈
-plumbing of §1.6 is the orientation reversal of HomotopySpheres 6B's
-dimension-four plumbing: the eight-vertex tree with arms of lengths 1,2,4
+plumbing of §1.6 is the orientation reversal of its negative E₈
+plumbing: the eight-vertex tree with arms of lengths 1,2,4
 at its trivalent vertex, every framing +2, with linking signs compared
 with the native positive E₈ lattice and with the pinned `TauCeti.e8Plumbing`
 by an explicit signed basis change.
@@ -1962,8 +1985,9 @@ L₅(ℤ[ℤ])≅L₅(ℤ)⊕L₄(ℤ)≅ℤ. The positive E₈ cap has
 
 F1–F2 supply the form and homotopy comparisons. The local disk/control
 constructions precede the normal-map and product theorems; F4's early
-characteristic-surface comparison precedes form realization. HomotopySpheres
-7A–7C supply normal maps and the simply connected surgery groups.
+characteristic-surface comparison precedes form realization.
+GeometryOfNumbersAndQuadraticArithmetic §6.8 supplies the simply connected
+surgery groups; §3.6 owns the normal maps.
 AlgebraicKTheory A2 and GeneralAlgebraicKTheory §10.3, §10.5, §10.12a and
 §10.13 supply the K-theoretic vanishings of §3.4. The
 generic TOP, PL, normal-bundle and algebraic-surgery inputs are the gaps
