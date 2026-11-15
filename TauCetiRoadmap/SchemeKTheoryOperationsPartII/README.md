@@ -794,7 +794,7 @@ On Spf ℤ_p⟦t⟧ over ℤ_p, the two sections t = 0 and t = pⁿ have interse
 
 ### Dependencies
 
-Layers 0–3; AdicSpacesPartIII §§F0.2–F0.4, §F0.6 (formal-direct-image-comparison, associated-formal-module, affine-coherent-equivalence) and the proper formal coherent-direct-image contract (gap:proper-formal-coherent-direct-images); SchemeAndStackFoundations §§2.2, 2.6, 3.3; JacobianChallenge Layer C; EnhancedDerivedSheaves §§0.4, E1.4; SchemeKTheoryOperations §§2.2–2.4, 6.1.
+Layers 0–2; AdicSpacesPartIII §§F0.2–F0.4, §F0.6 (formal-direct-image-comparison, associated-formal-module, affine-coherent-equivalence) and the proper formal coherent-direct-image contract (gap:proper-formal-coherent-direct-images); SchemeAndStackFoundations §§2.2, 2.6, 3.3; JacobianChallenge Layer C; EnhancedDerivedSheaves §§0.4, E1.4; SchemeKTheoryOperations §§2.2–2.4, 6.1.
 
 ## Downstream consumers
 

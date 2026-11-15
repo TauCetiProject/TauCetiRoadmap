@@ -10,9 +10,12 @@ headline theorems can be stated against the pinned APIs.
 
 None of the following headline theorems is statable at the pins on its actual carrier:
 
-* The formal stalk/completion and codimension comparison (Layer 0) lacks the locally ringed
-  formal-scheme carrier and its coherent closed immersions. Adic completion of modules alone
-  does not supply a formal stalk.
+* The codimension comparison on Cohen–Macaulay formal schemes (Layer 0) lacks non-affine
+  formal schemes and closed immersions of formal schemes. The pinned Tau Ceti builds the
+  structure sheaf of an affine formal spectrum Spf A, so the affine stalk comparison of Layer 0
+  (the stalk, the localisation and the completed localisation at an open prime have the same
+  dimension and regularity) can be written at the pins; it is an input of the codimension
+  comparison, not a headline, and the README states it as a target.
 * Formal coherent supported devissage and affine transport (Layer 1) lack coherent modules on
   formal schemes, the power-supported subcategory and the strict supported complex category.
 * Regular supported comparison (Layer 2) lacks formal supported K-zero and its homology map.
