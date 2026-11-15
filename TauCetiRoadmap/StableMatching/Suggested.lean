@@ -7,13 +7,15 @@ public import Mathlib
 
 The roadmap is `README.md`. This file states the roadmap's headline theorems against the pinned
 Mathlib, each with `sorry`, with only the definitions they need: marriage markets with strict
-preferences given by rank functions, matchings, stability, the change of one agent's stated
-preferences, and the men-proposing deferred acceptance algorithm run for a fixed number of rounds.
+preferences given by rank functions, stability of a matching (a Mathlib partial equivalence
+`M ≃. W`), the change of one agent's stated preferences, and the men-proposing deferred
+acceptance algorithm run for a fixed number of rounds.
 
 Headlines stated:
 
-* README 1.1, `exists_isStable`: every marriage market has a stable matching (Gale–Shapley);
-* README 1.2, `exists_isStable_man_eq_deferredAcceptance`: deferred acceptance returns one;
+* README 1.1, `exists_isStable_man_eq_deferredAcceptance`: deferred acceptance returns a stable
+  matching;
+* README 1.2, `exists_isStable`: every marriage market has a stable matching (Gale–Shapley);
 * README 1.3, `rankM_deferredAcceptance_le`: it is the men-optimal stable matching;
 * README 2.1, `exists_isStable_manSup` and `exists_isStable_manInf`: Conway's lattice;
 * README 2.2, `man_eq_none_iff_of_isStable` and `woman_eq_none_iff_of_isStable`: the theorem of
@@ -32,6 +34,8 @@ noncomputable section
 
 namespace TauCetiRoadmap.StableMatching
 
+/-! ## Layer 0: markets and matchings -/
+
 /-- A **marriage market** with strict preferences: each man ranks the women and « single »
 (`none`), each woman ranks the men and `none`, by injective rank functions; a smaller rank is
 better, and a partner ranked after `none` is unacceptable (README 0.1). -/
@@ -45,16 +49,6 @@ structure Market (M W : Type*) where
   /-- Women's preferences are strict. -/
   rankW_injective : ∀ w, Function.Injective (rankW w)
 
-/-- A **matching**: a partner (or none) for each man and for each woman, consistently
-(README 0.1). -/
-structure Matching (M W : Type*) where
-  /-- The partner of a man. -/
-  man : M → Option W
-  /-- The partner of a woman. -/
-  woman : W → Option M
-  /-- `m` is matched to `w` exactly when `w` is matched to `m`. -/
-  man_eq_some_iff : ∀ m w, man m = some w ↔ woman w = some m
-
 variable {M W : Type*}
 
 namespace Market
@@ -63,17 +57,17 @@ variable (P : Market M W)
 
 /-- A matching is **individually rational** when nobody is matched to an unacceptable partner
 (README 0.1). -/
-def IsIndividuallyRational (μ : Matching M W) : Prop :=
-  (∀ m, P.rankM m (μ.man m) ≤ P.rankM m none) ∧ ∀ w, P.rankW w (μ.woman w) ≤ P.rankW w none
+def IsIndividuallyRational (μ : M ≃. W) : Prop :=
+  (∀ m, P.rankM m (μ m) ≤ P.rankM m none) ∧ ∀ w, P.rankW w (μ.symm w) ≤ P.rankW w none
 
 /-- The pair `(m, w)` **blocks** `μ` when each prefers the other to the partner `μ` gives them
 (README 0.1). -/
-def Blocks (μ : Matching M W) (m : M) (w : W) : Prop :=
-  P.rankM m (some w) < P.rankM m (μ.man m) ∧ P.rankW w (some m) < P.rankW w (μ.woman w)
+def Blocks (μ : M ≃. W) (m : M) (w : W) : Prop :=
+  P.rankM m (some w) < P.rankM m (μ m) ∧ P.rankW w (some m) < P.rankW w (μ.symm w)
 
 /-- A matching is **stable** when it is individually rational and no pair blocks it
 (README 0.1). -/
-def IsStable (μ : Matching M W) : Prop :=
+def IsStable (μ : M ≃. W) : Prop :=
   P.IsIndividuallyRational μ ∧ ∀ m w, ¬ P.Blocks μ m w
 
 /-- The market in which man `m` states the strict preferences `r` instead of his own
@@ -102,22 +96,24 @@ def updateWoman [DecidableEq W] (w : W) (r : Option M → ℕ) (hr : Function.In
       simpa using hr
     · simpa [Function.update_of_ne h] using P.rankW_injective w'
 
+/-! ## Layer 1: existence and the deferred acceptance algorithm -/
+
 variable [Fintype M] [Fintype W] [DecidableEq M] [DecidableEq W]
 
 /-- The proposal of man `m` when the women in `R` have rejected him: his best acceptable woman
-outside `R`, if any (README 1.2). -/
+outside `R`, if any (README 1.1). -/
 def proposal (m : M) (R : Finset W) : Option W :=
   List.argmin (fun w ↦ P.rankM m (some w))
     (Finset.univ.filter fun w ↦ w ∉ R ∧ P.rankM m (some w) < P.rankM m none).toList
 
 /-- The man woman `w` holds among the proposals `props`: her best acceptable proposer, if any
-(README 1.2). -/
+(README 1.1). -/
 def held (props : M → Option W) (w : W) : Option M :=
   List.argmin (fun m ↦ P.rankW w (some m))
     (Finset.univ.filter fun m ↦ props m = some w ∧ P.rankW w (some m) < P.rankW w none).toList
 
 /-- One round of deferred acceptance: every man proposes, every woman holds her best acceptable
-proposer, and each rejected proposal is added to the proposer's rejections (README 1.2). -/
+proposer, and each rejected proposal is added to the proposer's rejections (README 1.1). -/
 def step (R : M → Finset W) : M → Finset W := fun m ↦
   match P.proposal m (R m) with
   | none => R m
@@ -125,60 +121,58 @@ def step (R : M → Finset W) : M → Finset W := fun m ↦
     if P.held (fun m' ↦ P.proposal m' (R m')) w = some m then R m else insert w (R m)
 
 /-- The men-proposing **deferred acceptance** algorithm: `|M| · |W| + 1` rounds from no
-rejection, then each man's final proposal (README 1.2). -/
+rejection, then each man's final proposal (README 1.1). -/
 def deferredAcceptance : M → Option W :=
   let R := P.step^[Fintype.card M * Fintype.card W + 1] fun _ ↦ ∅
   fun m ↦ P.proposal m (R m)
 
-/-! ## Layer 1: existence and the deferred acceptance algorithm -/
-
-/-- **Gale–Shapley.** Every finite marriage market has a stable matching (README 1.1). -/
-theorem exists_isStable : ∃ μ : Matching M W, P.IsStable μ := by
+/-- Deferred acceptance returns the men's side of a stable matching (README 1.1). -/
+theorem exists_isStable_man_eq_deferredAcceptance :
+    ∃ μ : M ≃. W, ⇑μ = P.deferredAcceptance ∧ P.IsStable μ := by
   sorry
 
-/-- Deferred acceptance returns the men's side of a stable matching (README 1.2). -/
-theorem exists_isStable_man_eq_deferredAcceptance :
-    ∃ μ : Matching M W, μ.man = P.deferredAcceptance ∧ P.IsStable μ := by
+/-- **Gale–Shapley.** Every finite marriage market has a stable matching (README 1.2). -/
+theorem exists_isStable : ∃ μ : M ≃. W, P.IsStable μ := by
   sorry
 
 /-- **Gale–Shapley.** Every man likes the outcome of deferred acceptance at least as well as his
 partner at any stable matching (README 1.3). -/
-theorem rankM_deferredAcceptance_le {ν : Matching M W} (hν : P.IsStable ν) (m : M) :
-    P.rankM m (P.deferredAcceptance m) ≤ P.rankM m (ν.man m) := by
+theorem rankM_deferredAcceptance_le {ν : M ≃. W} (hν : P.IsStable ν) (m : M) :
+    P.rankM m (P.deferredAcceptance m) ≤ P.rankM m (ν m) := by
   sorry
 
 /-! ## Layer 2: the set of stable matchings -/
 
 /-- **Conway's lattice, join.** Letting each man take the better of his partners at two stable
 matchings gives a stable matching (README 2.1). -/
-theorem exists_isStable_manSup {μ ν : Matching M W} (hμ : P.IsStable μ) (hν : P.IsStable ν) :
-    ∃ ρ : Matching M W, P.IsStable ρ ∧ ∀ m, ρ.man m =
-      if P.rankM m (μ.man m) ≤ P.rankM m (ν.man m) then μ.man m else ν.man m := by
+theorem exists_isStable_manSup {μ ν : M ≃. W} (hμ : P.IsStable μ) (hν : P.IsStable ν) :
+    ∃ ρ : M ≃. W, P.IsStable ρ ∧ ∀ m, ρ m =
+      if P.rankM m (μ m) ≤ P.rankM m (ν m) then μ m else ν m := by
   sorry
 
 /-- **Conway's lattice, meet.** Letting each man take the worse of his partners at two stable
 matchings gives a stable matching (README 2.1). -/
-theorem exists_isStable_manInf {μ ν : Matching M W} (hμ : P.IsStable μ) (hν : P.IsStable ν) :
-    ∃ ρ : Matching M W, P.IsStable ρ ∧ ∀ m, ρ.man m =
-      if P.rankM m (ν.man m) ≤ P.rankM m (μ.man m) then μ.man m else ν.man m := by
+theorem exists_isStable_manInf {μ ν : M ≃. W} (hμ : P.IsStable μ) (hν : P.IsStable ν) :
+    ∃ ρ : M ≃. W, P.IsStable ρ ∧ ∀ m, ρ m =
+      if P.rankM m (ν m) ≤ P.rankM m (μ m) then μ m else ν m := by
   sorry
 
 /-- **McVitie–Wilson, men.** The same men are single at every stable matching (README 2.2). -/
-theorem man_eq_none_iff_of_isStable {μ ν : Matching M W} (hμ : P.IsStable μ)
-    (hν : P.IsStable ν) (m : M) : μ.man m = none ↔ ν.man m = none := by
+theorem man_eq_none_iff_of_isStable {μ ν : M ≃. W} (hμ : P.IsStable μ)
+    (hν : P.IsStable ν) (m : M) : μ m = none ↔ ν m = none := by
   sorry
 
 /-- **McVitie–Wilson, women.** The same women are single at every stable matching
 (README 2.2). -/
-theorem woman_eq_none_iff_of_isStable {μ ν : Matching M W} (hμ : P.IsStable μ)
-    (hν : P.IsStable ν) (w : W) : μ.woman w = none ↔ ν.woman w = none := by
+theorem woman_eq_none_iff_of_isStable {μ ν : M ≃. W} (hμ : P.IsStable μ)
+    (hν : P.IsStable ν) (w : W) : μ.symm w = none ↔ ν.symm w = none := by
   sorry
 
 /-- **Roth.** No individually rational matching makes every man strictly better off than
 deferred acceptance (README 2.3). -/
-theorem not_forall_rankM_lt_deferredAcceptance [Nonempty M] {ν : Matching M W}
+theorem not_forall_rankM_lt_deferredAcceptance [Nonempty M] {ν : M ≃. W}
     (hν : P.IsIndividuallyRational ν) :
-    ¬ ∀ m, P.rankM m (ν.man m) < P.rankM m (P.deferredAcceptance m) := by
+    ¬ ∀ m, P.rankM m (ν m) < P.rankM m (P.deferredAcceptance m) := by
   sorry
 
 /-! ## Layer 3: incentives -/
@@ -198,11 +192,11 @@ returns a stable matching for every market makes truth-telling a dominant strate
 agent (README 3.1). -/
 theorem not_exists_truthful_stable_mechanism [Fintype M] [Fintype W] [DecidableEq M]
     [DecidableEq W] (hM : 2 ≤ Fintype.card M) (hW : 2 ≤ Fintype.card W) :
-    ¬ ∃ h : Market M W → Matching M W, (∀ P : Market M W, P.IsStable (h P)) ∧
+    ¬ ∃ h : Market M W → (M ≃. W), (∀ P : Market M W, P.IsStable (h P)) ∧
       (∀ (P : Market M W) (m : M) (r : Option W → ℕ) (hr : Function.Injective r),
-        P.rankM m ((h P).man m) ≤ P.rankM m ((h (P.updateMan m r hr)).man m)) ∧
+        P.rankM m (h P m) ≤ P.rankM m (h (P.updateMan m r hr) m)) ∧
       ∀ (P : Market M W) (w : W) (r : Option M → ℕ) (hr : Function.Injective r),
-        P.rankW w ((h P).woman w) ≤ P.rankW w ((h (P.updateWoman w r hr)).woman w) := by
+        P.rankW w ((h P).symm w) ≤ P.rankW w ((h (P.updateWoman w r hr)).symm w) := by
   sorry
 
 end TauCetiRoadmap.StableMatching
