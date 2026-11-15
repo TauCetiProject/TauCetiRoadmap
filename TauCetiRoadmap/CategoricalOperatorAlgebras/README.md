@@ -1,0 +1,2781 @@
+# Roadmap: categorical operator algebras and planar constructions
+
+**Summary.** Starting from Mathlib's native linear, monoidal and rigid
+categories, bicategories, `CStarModule` and `VonNeumannAlgebra`, and from
+the Hilbert-module, operator K-theory, von Neumann algebra and subfactor
+roadmaps, build C*- and W*-categories and bicategories, their tensor and
+module categories, and their operator-algebra realizations. The end
+theorems are the classification of unitary dual functors by positive
+characters of the universal grading groupoid and the shaded planar
+correspondence (CA2); Q-system completion and the realization
+biequivalence with unital C*-algebras (CA3); the equivalences of compact
+connected W*-algebra objects with Q-systems (CA4) and of connected
+W*-algebra objects with extremal irreducible discrete inclusions (CA5);
+the equivalence of unitary anchored planar algebras with pointed module
+tensor categories (CA6); the six-term sequence of every Cuntz–Pimsner
+algebra and the K-theory of free graph algebras (CA7); the Morita
+classes, K-theory, ordered K₀ and Watatani index of the canonical planar
+C*-towers (CA8); the biequivalence of von Neumann algebras with complete
+W*-categories and the existence and uniqueness of fusion-category
+representations in hyperfinite factors (CA9); and the classification of
+finite-depth real objects in fusion commutants by anchored planar
+algebras (CA10).
+
+## Scope and ownership
+
+This roadmap owns CA1–CA10: C*- and W*-categories and bicategories,
+unitary tensor duality and the shaded planar correspondence, Q-systems
+and their completion, internal C*/W* algebra objects and their discrete
+realizations, unitary anchored planar algebras, Pimsner and free-graph
+C*-algebras, the canonical planar C*-towers, complete W*-categories and
+fusion commutants, and the finite-depth anchored classification.
+No conjectural classifier for arbitrary bicommutant categories is a
+target. The finite-depth classifier in CA10 has a specified fusion
+subcategory and real generator. General fusion-category actions on
+continuous-trace spaces, cocycle-action classification outside the
+centrally free amenable separable-predual factor setting of CA9, the
+characterization of centrally trivial endomorphisms of hyperfinite
+factors other than the II∞ and III₁ factors, and spectral triples of
+the planar C*-models are outside scope. Compact quantum groups and their
+Tannaka realization are in QuantumGroups. C*-categories, their finite
+additive and Karoubi completion and the finite-Hilbert and Hilbert-module
+examples (CA1a),
+and C*-tensor categories with solutions of the conjugate equations,
+standard solutions and intrinsic dimension, unitary dual functors and
+signed self-dualities (CA2a) have their single home here; QuantumGroups
+consumes CA1a and CA2a for these tensor-category inputs.
+The positive Temperley–Lieb quotients and their C*-inductive limit are
+Subfactors 3.3. The unitary Temperley–Lieb category is
+TemperleyLiebOperatorAlgebras Layer 3, which consumes CA1a (3.2–3.3) and
+CA2a (3.3); this roadmap builds the unshaded positive TL factor planar
+algebra it needs in CA8 directly from Subfactors 3.2 and 6.1.
+Hilbert C*-modules, their adjointable and module compact operators,
+interior tensor products, imprimitivity bimodules, linking algebras and
+the Rieffel correspondence are HilbertModules H1–H3; CA1a and CA1b
+assemble them into a C*-category and a correspondence bicategory. The
+Cuntz algebras `O_n` are OperatorAlgebraDynamics D6; CA7's general
+Pimsner construction does not rebuild them. The rigid, linear, abelian,
+pivotal and spherical structures of the native Drinfeld centre
+`Center C`, its Hom-finiteness and its simple unit are in Tau Ceti at the
+pin, and the finite semisimplicity, finitely many simple classes and
+global dimension of the centre of a fusion category are PivotalSpherical
+Layer 11; CA6 and CA10 add unitary half-braidings, the relative centre
+and the analytic structure of the unitary centre. Left and right actions
+of a monoidal category with their module functors, module and bimodule
+objects over monoid objects with the bicategory of bimodules, and free
+modules are in Mathlib and Tau Ceti at the pin, and so are balanced and
+ribbon structures and the twist of a braided pivotal category
+(PivotalSpherical Layer 10); CA2b, CA3 and CA4 add dagger and analytic
+structure to the actions, modules and bimodules, and CA6 uses that twist.
+
+## Conventions
+
+Use Mathlib `Category`, `Preadditive`, `Linear ℂ`, `MonoidalCategory`,
+`MonObj`, `Mon`, `Functor.Monoidal`, `LaxMonoidalFunctor`,
+`NatTrans.IsMonoidal`, `HalfBraiding`, `Center`, rigid categories,
+`Iso`, `Equivalence`, biproducts and `Karoubi`. Analytic structure is
+added to these carriers. In categorical notation `f≫g` means first f,
+then g; formulas below use ordinary operator composition,
+with the rightmost map applied first. Tensor formulas carry the native
+associators and unitors, including where they are suppressed in print.
+
+A dagger is chosen conjugate-linear arrow-reversing involutive data.
+Unitary arrows satisfy f†f=1 and ff†=1; a dagger functor preserves this
+operation. Dagger tensor functors have unitary structural isomorphisms.
+The bi-involution from conjugation/duality and the dagger on morphisms
+are distinct operations. Hom spaces are complete complex normed spaces;
+weak-* continuity is separately specified in the W* theory. Zero objects
+are allowed. Units of nonzero endomorphism algebras have norm one.
+
+A unitary multitensor category is a semisimple idempotent-complete rigid
+C*-tensor category with finite-dimensional Hom spaces and finitely many
+simple summands of the tensor unit; each object is a finite sum of
+simple objects. A unitary fusion category also has
+simple unit and finitely many simple isomorphism classes. General
+internal-algebra theory below uses an essentially small such category
+with simple unit, allowing an infinite set of simples. Take Hom spaces and index sets in `Type u`, objects in `Type (u+1)`,
+and generator families indexed in `Type u`. Presheaves take values in
+complex vector/Hilbert spaces in `Type u`; their categories and all
+completions live in `Type (u+1)`. For separable bimodules use countable
+Hilbert sums. Choose a small skeleton for the essentially small input; equivalences transport
+all constructions, so a particular skeleton is not mathematical data.
+
+Q-systems use the separable convention `mm†=1_Q`. The unit is not
+also required isometric. For a simple-unit category, the unit-isometric
+convention in the compact-algebra-object correspondence is transported
+by explicit positive scalar rescaling in CA3. Left/right dimension and
+sphericality refer to the chosen dual functor, not just a dagger: they are
+`TauCeti.leftDim`, `TauCeti.rightDim` and `TauCeti.SphericalCategory` for
+the `TauCeti.PivotalCategory` structure that dual functor induces (CA2a).
+
+## Exact supplier contracts
+
+- From Mathlib: `Category`, `Preadditive`, `Linear ℂ`, `MonoidalCategory`,
+  `MonoidalPreadditive`, `MonoidalLinear`, `MonObj`, `Mon`,
+  `Functor.Monoidal` (a strong monoidal structure on a functor),
+  `NatTrans.IsMonoidal` (monoidal natural transformations),
+  `LaxMonoidalFunctor` (the bundled category of lax monoidal functors, in
+  which the strong ones form a full subcategory), `Bicategory`,
+  `EndMonoidal`, `HalfBraiding`, `Center`,
+  `ExactPairing`, `exactPairingCongrLeft`, `HasRightDual`, `Iso`,
+  `Equivalence`, biproducts, `Karoubi`, Day convolution
+  (`Mathlib/CategoryTheory/Monoidal/DayConvolution.lean`), `CStarModule`
+  and `VonNeumannAlgebra`. For module categories and bimodules:
+  `MonoidalLeftAction` and `MonoidalRightAction`
+  (`Mathlib/CategoryTheory/Monoidal/Action/Basic.lean`), a monoidal category
+  acting on a category with action bifunctor, associator `d⊙(c⊗c′)≅(d⊙c)⊙c′`
+  on the right and unitor, and the regular actions `selfLeftAction` and
+  `selfRightAction` by tensoring;
+  `MonoidalLeftAction.monoidalOppositeLeftAction` and
+  `MonoidalRightAction.monoidalOppositeRightAction`
+  (`Action/Opposites.lean`), the left (right) action of the monoidal
+  opposite `Cᴹᵒᵖ` defined by a right (left) C-action, with the converse
+  constructions `MonoidalRightAction.rightActionOfMonoidalOppositeLeftAction`
+  and `MonoidalLeftAction.leftActionOfMonoidalOppositeRightAction`;
+  `Functor.LeftLinear` and
+  `Functor.RightLinear` (`Action/LinearFunctor.lean`), module functors
+  with invertible lineators; `ModObj` and its category `CategoryTheory.Mod`
+  (`Monoidal/Mod.lean`), modules over a monoid object acting through a left
+  action, with `MonObj.mopMonObj` for the monoid `mop A` of `Cᴹᵒᵖ`; and
+  `Bimod` (`Monoidal/Bimod.lean`), bimodules between monoid objects, with
+  their tensor product `Bimod.tensorBimod`, the coequalizer of the two
+  actions on `X⊗Y`, and the bicategory `Bimod.monBicategory`, both for a
+  monoidal category with coequalizers in which tensoring on either side
+  preserves small colimits (`PreservesColimitsOfSize.{0,0}` for
+  `tensorLeft X` and `tensorRight X`), not only coequalizers.
+  They are used as stated at the pin; the analytic
+  structure of this roadmap is added to these carriers, never a second copy
+  of them.
+- From Tau Ceti: `TauCeti.CategoryTheory.Monoidal.Rigid.Basic` (evaluation
+  and coevaluation lemmas for `exactPairingCongrLeft`, including
+  `TauCeti.exactPairingCongrLeft_evaluation`),
+  `TauCeti.CategoryTheory.Monoidal.Rigid.Functor` (strong-monoidal images of
+  duals) and `TauCeti.CategoryTheory.Monoidal.Rigid.DoubleDual` (closed
+  braided double duals, not used for the pivotal comparison). Tau Ceti's
+  implementation of PivotalSpherical Layers 0–2, 5, 6 and 9, of the
+  Frobenius–Schur indicators of Layer 8, of the balanced and ribbon
+  categories, the twist of a braided pivotal category and the canonical
+  rigid, linear, abelian and pivotal structures of the centre of Layer 10,
+  and of the Hom-finiteness and simple unit of the centre of Layer 11 is
+  consumed as stated at the pin; its pivotal classes are stated over
+  `[RigidCategory C]` with no braiding, and carry finiteness or
+  semisimplicity only where named:
+  - `TauCeti.CategoryTheory.Monoidal.Rigid.DualFunctor`: the strong monoidal
+    double right dual functor `TauCeti.doubleRightDualFunctor`;
+  - `TauCeti.CategoryTheory.Monoidal.Pivotal.Basic`: `TauCeti.PivotalCategory`,
+    a monoidal natural isomorphism from the identity to
+    `TauCeti.doubleRightDualFunctor`, with components
+    `TauCeti.pivotalIsoApp : X ≅ Xᘁᘁ`;
+  - `TauCeti.CategoryTheory.Monoidal.Pivotal.LeftDual`:
+    `TauCeti.leftDualIsoRightDual : ᘁX ≅ Xᘁ` and the monoidal natural
+    isomorphism `TauCeti.dualFunctorIso` of the left and right dual functors;
+  - `TauCeti.CategoryTheory.Monoidal.Pivotal.Trace`: `TauCeti.leftTrace`,
+    `TauCeti.rightTrace`, `TauCeti.leftDim` and `TauCeti.rightDim`, valued in
+    `𝟙_ C ⟶ 𝟙_ C`;
+  - `TauCeti.CategoryTheory.Monoidal.Pivotal.Spherical`:
+    `TauCeti.SphericalCategory`, equality of the two traces of every
+    endomorphism;
+  - `TauCeti.CategoryTheory.Monoidal.Pivotal.Torsor`:
+    `TauCeti.PivotalCategory.instTorsor`, the pivotal structures, when one
+    exists, as a torsor over the monoidal automorphisms of the identity;
+  - `TauCeti.CategoryTheory.Monoidal.Grading.Universal`:
+    `TauCeti.universalGradingGroup`, the group presented by simple classes
+    with `[S][T]=[U]` for every nonzero `U→S⊗T`, and its universal property
+    `TauCeti.universalGradingGroup.liftEquiv`;
+  - `TauCeti.CategoryTheory.Monoidal.Pivotal.Grading`:
+    `TauCeti.PivotalCategory.characterEquiv`, pivotal structures relative to
+    a base point as characters `TauCeti.universalGradingGroup C →* kˣ`, for a finite
+    semisimple abelian k-linear rigid category with simple unit over an
+    algebraically closed field k;
+  - `TauCeti.CategoryTheory.Monoidal.Pivotal.FrobeniusSchur`:
+    `TauCeti.frobeniusSchurIndicator k V n`, for a positive integer n the
+    trace of Ng–Schauenburg's rotation operator on `𝟙_ C ⟶ V^⊗n` in a
+    k-linear pivotal category, the indicator `ν_n(V)` whenever that space
+    is finite and free over k;
+  - `TauCeti.CategoryTheory.Monoidal.Pivotal.Character`: the left dimension
+    character `TauCeti.SplitK0.leftDimChar k C`, the ring homomorphism from
+    the Grothendieck ring to k sending the class of X to its left dimension,
+    for a pivotal category whose unit is simple with finite-dimensional
+    endomorphisms over an algebraically closed field k;
+  - `TauCeti.CategoryTheory.Semisimple.FrobeniusPerron`: for a fusion
+    category over an algebraically closed field, the Frobenius–Perron
+    character `TauCeti.SplitK0.frobeniusPerronChar`, its uniqueness
+    `TauCeti.SplitK0.eq_frobeniusPerronChar` among ring homomorphisms from
+    the Grothendieck ring to ℝ that are nonnegative on the simple classes,
+    and the Frobenius–Perron dimension `TauCeti.frobeniusPerronDim`;
+  - `TauCeti.CategoryTheory.Monoidal.Pivotal.PseudoUnitary.Basic` and
+    `TauCeti.CategoryTheory.Monoidal.Pivotal.PseudoUnitary.Existence`:
+    `TauCeti.IsPseudoUnitary`, global dimension equal to Frobenius–Perron
+    dimension for a pivotal fusion category over ℂ;
+    `TauCeti.IsPseudoUnitary.of_leftDim_eq_frobeniusPerronDim`, a pivotal
+    structure whose left dimensions of simple objects are their
+    Frobenius–Perron dimensions makes the category pseudo-unitary;
+    `TauCeti.PivotalCategory.eq_of_leftDim_eq_frobeniusPerronDim`, there is
+    at most one such structure; and
+    `TauCeti.IsPseudoUnitary.existsUnique_pivotalCategory`, under
+    pseudo-unitarity there is exactly one, and it is spherical;
+  - `TauCeti.CategoryTheory.Monoidal.Center.Preadditive`,
+    `TauCeti.CategoryTheory.Monoidal.Center.Abelian`,
+    `TauCeti.CategoryTheory.Monoidal.Center.Rigid`,
+    `TauCeti.CategoryTheory.Monoidal.Center.Pivotal` and
+    `TauCeti.CategoryTheory.Monoidal.Center.Simple`, the canonical
+    structures on Mathlib's `Center C`: the induced preadditive and linear
+    structure with `CategoryTheory.Center.instFiniteDimensionalHom`, each
+    Hom space of the centre finite-dimensional over a division ring k when
+    the underlying Hom space of C is; `CategoryTheory.Center.instAbelian`,
+    the centre of an abelian monoidal category whose tensor products are
+    additive and exact on both sides is abelian, with kernels and cokernels
+    computed in C; `CategoryTheory.HalfBraiding.rightDual`, the half-braiding
+    on a right dual `X′` of X whose component at U is the mate of the
+    inverse of the half-braiding of X at U, for left rigid C, and
+    `CategoryTheory.Center.rigidCategory`, the centre of a rigid category is
+    rigid with right duals, evaluations, coevaluations and mates computed in
+    C; `CategoryTheory.Center.pivotalCategory`, the pivotal structure on the
+    centre of a pivotal category whose component at X is
+    `TauCeti.pivotalIsoApp X.1`, with traces and dimensions computed in C
+    (`CategoryTheory.Center.leftDim_f`), and
+    `CategoryTheory.Center.sphericalCategory`, the centre of a spherical
+    category is spherical; and `CategoryTheory.Center.instSimpleUnit`, the
+    unit of the centre is simple when the unit of C is simple and the
+    forgetful functor preserves monomorphisms, as it does when C has finite
+    limits preserved by tensoring on both sides;
+  - `TauCeti.CategoryTheory.Monoidal.Braided.Balanced`,
+    `TauCeti.CategoryTheory.Monoidal.Braided.Ribbon`,
+    `TauCeti.CategoryTheory.Monoidal.Pivotal.Balanced`,
+    `TauCeti.CategoryTheory.Monoidal.Pivotal.OfBalanced`,
+    `TauCeti.CategoryTheory.Monoidal.Pivotal.Ribbon` and
+    `TauCeti.CategoryTheory.Monoidal.Pivotal.Symmetric`:
+    `TauCeti.BalancedCategory`, a twist θ on a braided category, a natural
+    automorphism of the identity with `θ_(X⊗Y)=β_(Y,X)β_(X,Y)(θ_X⊗θ_Y)`;
+    `TauCeti.RibbonCategory`, the property of a balanced rigid category that
+    the twist of `Xᘁ` is the dual of the twist of X;
+    `TauCeti.balancedOfBraidedPivotal`, the balanced structure of a braided
+    rigid category with a pivotal structure φ, whose twist is `u_X⁻¹φ_X` for
+    the Drinfeld isomorphism `u_X=TauCeti.drinfeldIso X : X ≅ Xᘁᘁ`
+    (`TauCeti.balancedOfBraidedPivotal_twist_hom_app`);
+    `TauCeti.pivotalBalancedEquiv`, the bijection between pivotal and
+    balanced structures of a braided rigid category;
+    `TauCeti.sphericalCategory_of_ribbonCategory`, a pivotal structure whose
+    twist is ribbon is spherical; and the instance
+    `TauCeti.symmetricPivotalCategory`, the pivotal structure of a symmetric
+    rigid category by Drinfeld isomorphisms, whose twist is the identity
+    (`TauCeti.balancedOfBraidedPivotal_twist_eq_refl`);
+  - `TauCeti.CategoryTheory.Monoidal.Mod.Free`: the free left module functor
+    `TauCeti.freeMod A`, sending X to `A⊗X`, for a monoid object A of any
+    monoidal category, and `TauCeti.freeModAdjunction`, which makes it left
+    adjoint to the forgetful functor from `CategoryTheory.Mod`;
+  - `TauCeti.CategoryTheory.Monoidal.Action.LinearFunctor` and
+    `TauCeti.CategoryTheory.Monoidal.Action.FullSubcategory`: composites of
+    left-linear functors (`CategoryTheory.Functor.LeftLinear.comp`),
+    left-linear natural transformations
+    (`CategoryTheory.NatTrans.IsLeftLinear`), and the restriction
+    `CategoryTheory.ObjectProperty.fullSubcategoryMonoidalLeftAction` of a
+    left action to a full subcategory stable under it
+    (`CategoryTheory.ObjectProperty.IsStableUnderLeftAction`).
+
+  CA2a builds its unitary duality on these declarations and does not
+  restate them; CA6 and CA10 add unitary half-braidings to the centre's
+  canonical structures and do not restate those. CA2b's right module
+  C*-categories, CA3's bimodules and CA4's free modules add dagger and
+  analytic structure to the native actions, modules and bimodules, and
+  CA6's twist is the pinned twist of a braided pivotal category.
+- [PivotalSpherical](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/PivotalSpherical/README.md)
+  Layers 0–6 and 9 supply general pivotal/spherical, rigidity, finite
+  semisimple, Frobenius–Perron, pseudo-unitarity and grading theory, Layer 8
+  supplies the Frobenius–Schur indicators, and Layer 11 supplies finite
+  semisimplicity and finitely many simple classes of the centre `Center C`
+  of a fusion category in characteristic 0, with `dim Z(C)=(dim C)²`. The
+  balanced and ribbon categories, the twist of a braided pivotal category
+  and the implication from ribbon to spherical (Layer 10), the centre's
+  canonical rigid, linear, abelian and pivotal structures (Layer 10) and
+  its Hom-finiteness and simple unit (Layer 11) are consumed from Tau
+  Ceti's implementation at the pin, listed above. CA2a adds analytic
+  unitary choices and their classification, CA6 reads the twist of the
+  pivotal structure its unitary dual functor induces, and CA10 adds
+  unitary half-braidings and the tube algebra; none duplicates that
+  categorical API.
+- [CStarAlgebras C1–C5](../CStarAlgebras/README.md) supplies C* order,
+  representations and CP/CB maps.
+- [HilbertModules H1–H3](../HilbertModules/README.md) supplies right
+  Hilbert B-modules as Mathlib `CStarModule` over `Bᵐᵒᵖ` (H1, with
+  Mathlib's finite products on `WithCStarModule` for finite sums), the
+  adjointable operators `L_B(E,F)`, the rank-one operators
+  `θ_(x,y)z=x⟨y,z⟩`, the module compact operators `K_B(E,F)` and
+  `K_B(B)≅B` (H2), and the interior tensor product with its associator
+  and unitor unitaries, imprimitivity bimodules with
+  `_A⟨x,y⟩z=x⟨y,z⟩_B`, conjugate modules and evaluation unitaries, the
+  linking algebra `K_B(E⊕B)`, full corners, the Rieffel correspondence
+  and Morita invariance of simplicity (H3). CA1a and CA1b consume them
+  as stated there and add only the categorical and bicategorical
+  structure.
+- [VonNeumannAlgebras V4–V6,V11–V13](../VonNeumannAlgebras/README.md)
+  supplies normality and normal representations (V4), projection
+  comparison and countable absorption (V5), tracial standard form (V6),
+  general standard form, tensor commutation and the continuous core (V11),
+  the tracial ultrapower and Connes's centrally trivial automorphisms
+  `Ct(M)` (V12), and the hyperfinite II₁, II∞ and III₁ models with
+  `Ct(R_(0,1))=Int(R_(0,1))` (V13).
+- [Subfactors Layers 1–3, 5–9](../Subfactors/README.md) supplies normal
+  correspondences, the opposite weight and Connes fusion with its unitors
+  (1.1–1.2), the basic construction, Pimsner–Popa bases and the Jones
+  tower (2.1–2.3), bifinite bimodules with their conjugate equations and
+  statistical dimension, including Kosaki's sector dimension over
+  properly infinite factors (2.4), the inverse operator-valued weight
+  `E⁻¹` and index `Ind(E)=E⁻¹(1)` of a faithful normal expectation between
+  factors of any type, and the minimal expectation with
+  `Ind(E_0)=d(X)²≤[M:N]` (2.5), Jones's Temperley–Lieb positivity at
+  the permitted moduli (3.2), the extremality criterion
+  `d(X)²=[M:N]` (5.1), ordinary shaded planar algebras with the TL planar
+  algebra example, rigid planar algebras with angle-power insertion, the
+  rigid-to-spherical weight correction and the planar algebra of a
+  subfactor (6.1–6.4), graph planar algebras and right planar modules with
+  their tower graphs (7.1–7.2), the orthogonal and graded/Fock (GJS)
+  models (8.1–8.2) and Popa's finite-depth hyperfinite standard model
+  (9.1–9.2). CA2b's planar correspondence consumes those abstract
+  box/tangle objects, and CA5 owns discrete internal-algebra realizations.
+  CA6's anchored theory is different from the scalar shaded operad.
+- [FreeProbability F2–F4](../FreeProbability/README.md) supplies the
+  noncrossing pair partitions indexing CA8's Wick-contraction trace (F2),
+  Fock models (F3) and reduced/amalgamated products (F4); CA7 adds module Pimsner
+  presentations and free-graph C* norm/K-theory results. CA8 compares
+  their von Neumann closures with Subfactors 8.1–8.2's models.
+- [OperatorKTheory K1–K6](../OperatorKTheory/README.md) supplies
+  projection/unitary K-groups and full-corner transport (K1–K2), the
+  boundary maps closing six-term sequences (K3), extensions (K4), KK and
+  the Kasparov product (K5–K6).
+  CA7–CA8 own these particular K computations and ordered/trace comparisons.
+  General AF/C* classification remains in CStarClassification.
+
+## How to read the build
+
+CA1 builds C*- and W*-categories and bicategories on native carriers.
+CA2 adds unitary tensor duality and the shaded planar correspondence. CA3
+builds Q-systems and their completion, CA4 internal C*/W* algebra objects,
+and CA5 their realization as discrete inclusions. CA6 builds anchored
+planar algebras. CA7 builds Pimsner and free-graph C*-algebras, which CA8
+uses for the canonical planar C*-towers. CA9 builds complete W*-categories,
+the normal correspondence models and fusion commutants, and CA10 classifies
+finite-depth real objects in those commutants by CA6.
+
+The definitive specification is this README. [Suggested.lean](Suggested.lean)
+records which headline theorems are statable at the pins.
+
+## CA1. Analytic categories, completions and linking algebras
+
+### CA1a. Elementary analytic category interfaces
+
+The C*-category layer consumes CStarAlgebras and builds its Hilbert
+C*-module examples from HilbertModules H1–H2.
+The W*-category portion also consumes VonNeumannAlgebras V4 for preduals,
+normality and Sakai's theorem. These interfaces are independent of normal
+correspondences and subfactor theory; TemperleyLiebOperatorAlgebras
+3.2–3.3 consumes the C* portion for the unitary Temperley–Lieb category.
+
+Construct a dagger on a native complex linear category, with identity,
+composition, involution, additivity and conjugate-scalar laws. Define
+C*-categories by Banach Hom spaces, bilinear contractive composition,
+isometric dagger, `‖f†f‖=‖f‖²`, and positivity of f†f in End(X).
+Construct the compatible C*-algebra structure on each End(X), using
+operator-order composition. Prove identities, zero-object formulas,
+Cauchy–Schwarz and polarization, norm bounds, closed kernels of
+continuous linear maps on Hom spaces and automatic contractivity of linear dagger functors;
+faithful such functors are isometric.
+
+Build finite linking algebras for lists of objects, their corner
+identifications and matrix positivity. Recover the Hom norm and
+positivity from two-object corners. Call a C*-category finitely unitarily
+Cauchy complete when it admits finite orthogonal sums and unitary
+splittings of all self-adjoint idempotents. Construct finite orthogonal sums,
+unitary splittings of self-adjoint idempotents, and additive/Karoubi
+completion. Compare with native biproducts and `Karoubi`, proving an
+idempotent is similar through an invertible morphism to a self-adjoint
+projection before using the C* splitting. Compare its algebraic retract
+with that projection's range; unitary conjugacy is asserted only for
+self-adjoint projections. Prove the completion's universal property for
+linear dagger functors, with unitary natural transformations and
+independence of chosen splittings. Build examples from finite Hilbert
+spaces and Hilbert C*-modules with adjointable maps.
+
+Hilbert C*-modules are HilbertModules' right Hilbert B-modules, a
+`CStarModule` over `Bᵐᵒᵖ` read through `MulOpposite.unop`, so that
+`⟨x,yb⟩=⟨x,y⟩b`. Prove that right Hilbert B-modules with HilbertModules
+H2's spaces `L_B(E,F)`, their composition, adjoint and operator norm form
+a C*-category in the sense above, with the zero module as zero object,
+the Hilbert-module direct sums as its finite orthogonal sums, and the
+module compact operators `K_B(E,F)` as a closed two-sided ideal of it.
+For the pair (E,B) its finite linking algebra is `L_B(E⊕B)`, which
+contains HilbertModules H3's linking algebra `K_B(E⊕B)` as a closed
+ideal.
+
+A W*-category has dual Banach Hom spaces with separately weak-* continuous
+composition and weak-* continuous dagger. Prove equivalence with the
+finite-linking-algebra W* criterion, construct its preduals and normal
+functors, and prove normality is detectable on finite sums' endomorphism
+algebras. Develop weak-* closed subcategories, their corners, commutants,
+normal representations and pointwise weak-* limits of uniformly
+bounded natural transformations between fixed normal functors. Prove
+naturality and the component norm bound; pointwise limits of arbitrary
+normal functors are not asserted to preserve normality.
+
+Construct orthogonal direct sums indexed by sets in `Type u`, with bounded column/row morphism criteria and convergence of
+finite partial sums. Define W*-Cauchy completeness here to require these
+sums and projection splittings, in the W* sense used in CA9. Construct
+this completion and its normal-functor universal property. A finite
+additive Karoubi completion alone does not supply infinite W* sums.
+
+**Checks.**
+
+- In finite-dimensional Hilbert spaces with the operator norm,
+  `f=diag(2,1)` has `‖f†f‖=4=‖f‖²`. With the Hilbert–Schmidt norm
+  instead, `‖f‖₂²=5` while `‖f†f‖₂=√17`, so a Hom norm other than the
+  operator norm fails the C*-identity.
+- The idempotent `e(x,y)=(x+y,0)` on ℂ² has `‖e‖=√2` and `e†≠e`. Its
+  algebraic retract `ℂ²→ℂ`, `(x,y)↦x+y`, has norm √2 and is not the
+  adjoint of the inclusion `t↦(t,0)`; the self-adjoint projection with the
+  same range is `diag(1,0)`, and only it gives a unitary splitting.
+- The zero object has `End(0)=0`, whose unit has norm 0: the norm-one
+  condition on units applies to nonzero endomorphism algebras only.
+- In the W*-category of Hilbert spaces the orthogonal sum of countably
+  many copies of ℂ is ℓ². The column ℂ→ℓ² with components `1/n` is a
+  morphism (`Σ1/n²=π²/6`), while components `1/√n` give none (`Σ1/n`
+  diverges); finite partial sums of the first converge in norm.
+- For unital `B=C([0,1])` the right self-module has `L_B(B)≅B`, T↦T(1)
+  acting by left multiplication, so End of that object is `C([0,1])`. Its
+  only projections are 0 and 1, while a W*-algebra is the norm-closed span
+  of its projections; so the C*-category of Hilbert `C([0,1])`-modules
+  fails the finite-linking-algebra W* criterion, whereas for `B=ℂ` it is
+  the W*-category of Hilbert spaces with `End(ℂ²)=M₂(ℂ)`.
+- Starting from the one-object W*-category with `End=ℂ`, the finite
+  additive Karoubi completion is `Hilb_fd`, whose objects all have finite
+  dimension, while the W*-Cauchy completion contains `ℓ²(ℕ)` as the sum of
+  countably many copies of ℂ: the two completions differ.
+
+*Needs:* Mathlib `Category`, `Preadditive`, `Linear`, biproducts,
+`Karoubi`, `CStarModule`, `MulOpposite`; CStarAlgebras C1–C5;
+HilbertModules H1–H3; VonNeumannAlgebras V4.
+
+### CA1b. Analytic bicategories and correspondences
+
+Add analytic structure to a native `Bicategory`: each Hom category is
+C* (respectively W*), horizontal composition is bilinear, contractive
+and dagger compatible on 2-cells (separately normal in the W* case),
+and associator/unitor 2-isomorphisms are unitary. Define dagger
+pseudofunctors, bounded unitary pseudonatural comparisons and
+modifications; prove whiskering/interchange and the normal composition
+laws. Use `EndMonoidal b` for the monoidal endomorphism category at b.
+
+A B–C correspondence is a right Hilbert C-module F with a
+*-homomorphism `φ:B→L_C(F)`. Its interior tensor product `E⊗_B F` with a
+right Hilbert B-module E, the associator unitaries, the unitor
+`E⊗_B B≅E`, the unitor `B⊗_B F≅F` for nondegenerate φ and their pentagon
+and triangle identities, imprimitivity bimodules, conjugate bimodules Ē
+with the evaluation unitaries `E⊗_B Ē≅A` and `Ē⊗_A E≅B`, strong Morita
+equivalence and the Rieffel correspondence are HilbertModules H3, and
+this layer consumes them.
+
+Construct C*- and W*-bicategories from right C*-correspondences and
+normal Hilbert correspondences respectively, with nondegenerate left
+actions and adjointable/bounded bimodule intertwiners. The nondegeneracy
+hypothesis supplies the left unitors; include it in the carriers rather
+than silently using it for arbitrary adjointable actions. Prove linear/dagger hom-category structure,
+unitors, associators, interchange and pentagon/triangle identities from
+HilbertModules H3's interior tensor product and Subfactors Layer 1's
+tensor constructions. Use M–N correspondences and compose
+H:M–N, K:N–P by H⊗_N K. On normal scalar-Hilbert correspondences,
+construct conjugate bimodules as the bi-involution, including its
+reversed tensor coherence. The general right C*-correspondence
+bicategory carries the dagger on 2-cells. Construct reversed
+C*-correspondences on the subbicategory of HilbertModules H3's
+imprimitivity bimodules using both inner products, with conjugation and
+reversed tensor coherence.
+
+**Checks.**
+
+- Over `M=N=P=ℂ` correspondences are Hilbert spaces and composition is the
+  Hilbert tensor product: ℂ² composed with ℂ³ has dimension 6.
+- Let `A=ℂ²` act on `X=ℂ` (a right ℂ-module) by `(a,b)·x=ax`; this is
+  nondegenerate and the left unitor `A⊗_A X→X` is unitary. With the zero
+  left action every inner product `⟨a⊗x,a′⊗x′⟩=⟨x,φ(a*a′)x′⟩` vanishes,
+  so `A⊗_A X=0` while `X=ℂ`: no unitary left unitor exists without
+  nondegeneracy.
+- For `M=M₂(ℂ)` with its normalized trace, `L²(M)=M₂(ℂ)` and `J(ξ)=ξ*`
+  intertwines the conjugate bimodule with the original:
+  `J(b*ξa*)=aξ*b`.
+- The `M_n(ℂ)`–ℂ imprimitivity bimodule ℂⁿ and its reversed ℂ–`M_n(ℂ)`
+  correspondence `(ℂⁿ)‾` compose to `ℂⁿ⊗_ℂ(ℂⁿ)‾≅M_n(ℂ)`, of dimension n²,
+  and `(ℂⁿ)‾⊗_(M_n(ℂ))ℂⁿ≅ℂ`, of dimension 1: the identity 1-cells at the
+  two objects, so the reversal is an inverse up to unitary 2-cells. A
+  reversal taken to be ℂⁿ itself would not even compose for n≥2.
+
+*Needs:* CA1a; Mathlib `Bicategory`, `CStarModule`; HilbertModules H3;
+Subfactors Layer 1 (1.1–1.2).
+
+### Examples
+
+The Checks of CA1a and CA1b compute the C*-identity and its failure for the
+Hilbert–Schmidt norm, a non-self-adjoint idempotent against its range
+projection, the W* criterion on Hilbert `C([0,1])`-modules against Hilbert
+spaces, the two completions of the one-object W*-category, the `ℂⁿ`
+imprimitivity bimodule with its reversal, and the conjugate bimodule of
+`M₂(ℂ)`.
+
+### Dependencies
+
+Mathlib `Category`, `Preadditive`, `Linear`, biproducts, `Karoubi`,
+`Bicategory`, `CStarModule` and `MulOpposite`; CStarAlgebras C1–C5;
+HilbertModules H1–H3; VonNeumannAlgebras V4; Subfactors 1.1–1.2. No other
+layer of this roadmap.
+
+## CA2. Unitary tensor duality and shaded planar algebras
+
+### CA2a. Tensor and unitary-duality interfaces
+
+This layer consumes CA1a's C*-category interfaces and native tensor/rigid
+categories only. Its definitions and duality theorems do not require
+subfactor correspondences, planar reconstruction or module correspondences.
+TemperleyLiebOperatorAlgebras 3.3 instantiates this layer directly on the
+unitary Temperley–Lieb category.
+
+Add dagger compatibility and unitary associators/unitors to the native
+tensor structure; prove tensor norm and dagger laws. Build tensor-functor
+categories on Mathlib's `Functor.Monoidal` and `NatTrans.IsMonoidal`, as
+full subcategories of `LaxMonoidalFunctor`, and unitary monoidal natural
+isomorphisms.
+For a rigid object construct solutions of the conjugate equations,
+standard/balanced solutions, dual morphisms and dimension,
+using native right duals `Xᘁ` as primary and transporting left duals
+through `TauCeti.leftDualIsoRightDual` of the pivotal structure induced
+by the chosen dual functor, with direct
+sum, subobject and tensor compatibilities. Prove positivity, invertibility
+and uniqueness of balanced solutions up to unitary equivalence in the
+simple-unit setting (Penneys, Proposition 3.24, p. 16, and Corollary 3.26,
+p. 18, with π the trivial character; the proof treats each object as a
+finite orthogonal sum of simples, so it applies objectwise). Separate that statement from arbitrary choices of
+a dual functor on a multitensor category.
+
+Define a unitary dual functor by chosen evaluations/coevaluations with
+unitary tensorator and `(f∨)†=(f†)∨`; its evaluations and coevaluations
+are a choice of right duals, hence a rigid structure, with the left duals
+given by the adjoints of the evaluations and coevaluations. Construct the
+`TauCeti.PivotalCategory` instance that the unitary dual functor induces on
+this rigid structure, take its traces and dimensions to be
+`TauCeti.leftTrace`, `TauCeti.rightTrace`, `TauCeti.leftDim` and
+`TauCeti.rightDim`, and prove that these traces are positive linear maps on
+`End(x)`, that the dimensions of nonzero objects are positive, and the
+bi-involution. For a
+unitary `r:x→x∨`, pin evaluation as ev_x:x∨⊗x→1 and the
+symmetric-evaluation equation as
+ev_x∘(r⊗id_x)=ev_(x∨)∘(φ_x⊗r), with unitors understood.
+Prove this equivalent to `r̄ r=φ_x`, where `x̄=x∨`, `f̄=(f†)∨` and
+`φ_x:x→x̄̄` is the component `TauCeti.pivotalIsoApp` of the induced
+pivotal structure, which is unitary. Thus
+`r=r̄†φ_x`; use these typed formulas for real objects and transport. Define
+the signed self-duality variants by `r̄ r=ε φ_x`, ε∈{+1,−1},
+equivalently `r=ε r̄†φ_x`. Their evaluation equation is
+ev_x∘(r⊗id_x)=ε ev_(x∨)∘(φ_x⊗r).
+Construct their cup equations
+and unitary transport, retaining the negative
+Frobenius–Schur sign as distinct data. On a simple self-dual object x prove
+`ε=ν₂(x)`, where `ν₂(x)` is `TauCeti.frobeniusSchurIndicator ℂ x 2` for the
+induced pivotal structure, so that ε does not depend on the normalized
+unitary identification: through `Hom(1,x⊗x)≅Hom(x∨,x)`, a line because x
+is simple and self-dual, the indicator is the trace of `f↦φ_x⁻¹∘f∨`
+(Ng–Schauenburg, Definition 3.1, p. 8), and `r̄ r=ε φ_x` says that this
+map sends `r⁻¹` to `ε r⁻¹`. In the
+finite-Hilbert realization the negative sign gives an antiunitary J with
+J²=−1 and forces even Hilbert dimension. Compare both signs with standard
+conjugate solutions and their positive intrinsic dimension; positivity
+does not change a negative sign into symmetric self-duality. Define
+the tensor-product sign law `ε(r_x⊗_β r_y)=ε(r_x)ε(r_y)` for
+the constructed braided self-duality map under an explicit unitary
+symmetric braiding with its dual/pivotal compatibility and trivial
+induced twist on the generated tensor category: the twist of
+`TauCeti.balancedOfBraidedPivotal` for the pivotal structure of the chosen
+unitary dual functor is the identity there. Construct the tensor
+self-duality map using the braiding to reverse the dual factors and
+prove the law.
+In a general rigid category the dual
+of X⊗Y has the reversed order Y∨⊗X∨; individual self-duality maps
+alone do not supply a self-duality of X⊗Y. Call a pivotal structure
+on a choice of right duals, that is a `TauCeti.PivotalCategory` instance
+on the corresponding rigid structure, pseudounitary when the left and
+right dimensions of every simple object are strictly positive, each read
+in the copy `End(1_i)=ℂ` of the unit summand on which it is supported
+(Penneys, Definition 2.10, p. 8). A pivotal fusion category over ℂ has a
+pseudounitary pivotal structure exactly when it is
+`TauCeti.IsPseudoUnitary`, and that structure is then the one of
+`TauCeti.IsPseudoUnitary.existsUnique_pivotalCategory`: for a
+pseudounitary structure the left dimension character
+`TauCeti.SplitK0.leftDimChar ℂ C` is real and positive on the simple
+classes, so it factors through a ring homomorphism to ℝ which is
+nonnegative on the simple classes and which
+`TauCeti.SplitK0.eq_frobeniusPerronChar` identifies with the
+Frobenius–Perron character; the left dimensions are then the
+`TauCeti.frobeniusPerronDim`, and
+`TauCeti.IsPseudoUnitary.of_leftDim_eq_frobeniusPerronDim` and
+`TauCeti.PivotalCategory.eq_of_leftDim_eq_frobeniusPerronDim` give
+pseudo-unitarity and the identification. Conversely that structure is
+spherical with Frobenius–Perron dimensions, which are positive, on both
+sides. The definition here extends
+this to unitary multitensor categories with nonsimple unit or infinitely
+many simple classes, which `TauCeti.IsPseudoUnitary` does not cover.
+Construct the universal grading groupoid `U` (Penneys, §3.3, the paragraph
+after Definition 3.16, p. 14) from the simple unit summands,
+nonzero simple objects, and tensor-product decomposition relations;
+prove its universal property, transport and skeleton independence. For
+a simple unit it has one object; identify its vertex group with
+`TauCeti.universalGradingGroup C` by matching the degrees of simple
+objects through `TauCeti.universalGradingGroup.liftEquiv`, so the groupoid
+is new only for a nonsimple unit.
+
+Prove the canonical bijections between pseudounitary pivotal structures
+modulo monoidal natural isomorphism, unitary dual functors modulo unitary
+monoidal natural isomorphism, and groupoid homomorphisms to the positive reals `ℝ>0`
+(Penneys, Theorem A, p. 3, with the universal grading groupoid of §3.3,
+p. 13, and the dimension-ratio character of Lemma 3.20, p. 14).
+Two pivotal structures on the same rigid structure differ by a unique
+monoidal automorphism of the identity (`TauCeti.PivotalCategory.instTorsor`);
+these automorphisms are the homomorphisms `U→ℂˣ`, and relative to a
+pseudounitary base point the pseudounitary structures are exactly those
+whose homomorphism takes values in `ℝ>0` (Penneys, Remark 2.5, p. 6,
+Remark 2.11, p. 8, and Lemma 3.19 with the paragraph after it, p. 14).
+For a fusion category over ℂ, `TauCeti.PivotalCategory.characterEquiv`
+with `k=ℂ` is the composite of the first two of these steps. For a
+unitary fusion category the three sets of Theorem A are single points:
+`TauCeti.universalGradingGroup C` is finite, so its only homomorphism to
+`ℝ>0` is trivial, and the pseudounitary pivotal structure is the one of
+`TauCeti.IsPseudoUnitary.existsUnique_pivotalCategory`. What the theorem
+adds to the pinned classification is the nonsimple unit, infinitely many
+simple classes and the unitary dual functors.
+For a homogeneous simple X pin the character to `dim_L(X)/dim_R(X)`.
+For equivalence of chosen dual functors require the canonical monoidal
+natural comparison determined by their evaluations/coevaluations to be
+unitary and to intertwine those data. Construct the inverse
+positive-character rescaling, check conjugate equations and tensor
+coherence, and prove the two composites and uniqueness of this
+duality-compatible comparison. Do not assert uniqueness among arbitrary
+unitary monoidal automorphisms of the underlying dual functor. Identify the balanced
+simple-unit choice with the spherical structure and prove, for simple
+unit, `TauCeti.SphericalCategory` for the induced pivotal structure
+equivalent to the trivial grading character.
+For a nonsimple unit, a trivial character means equality of the scalar
+left/right dimension coefficients after `End(1_i)=ℂ`; it does not mean
+equality of the two different unit projections as End(1)-valued traces.
+Define a spherical faithful state ψ on End(1) by `ψ(tr_L(f))=ψ(tr_R(f))`
+for all endomorphisms f. Develop its positive unit-summand weights and
+the resulting trace-compatibility equations; the equal-weight state
+is spherical for the balanced choice. Keep this state condition
+distinct from `TauCeti.SphericalCategory`, which compares the two traces
+as endomorphisms of the whole unit.
+
+**Checks.**
+
+- In finite-dimensional Hilbert spaces, `J(a,b)=(−b̄,ā)` on ℂ² is
+  antiunitary with `J²(a,b)=(−a,−b)`, so the corresponding self-duality has
+  sign ε=−1; `J′(a,b)=(b̄,ā)` has `J′²=1` and ε=+1. On ℂ every antiunitary
+  is `J(a)=cā` with `|c|=1` and `J²(a)=|c|²a=a`, so ε=−1 does not occur in
+  dimension 1.
+- Under the flip braiding of Hilbert spaces, the tensor square of the ε=−1
+  structure on ℂ² is `J⊗J` with `(J⊗J)²=J²⊗J²=+1`, matching
+  `ε(r⊗_β r)=(−1)(−1)=+1`.
+- The comparison `ε=ν₂(x)` needs a simple object and the induced pivotal
+  structure. The object ℂ² of finite-dimensional Hilbert spaces is not
+  simple: it carries self-dualities of both signs (J and J′ above), while
+  `ν₂(ℂ²)` is the trace of the flip of `ℂ²⊗ℂ²`, which is 2. In `Hilb(ℤ/2)`
+  with trivial associator, the generator g has `ε(g)=+1=ν₂(g)` for the
+  pivotal structure of its unitary dual functor; for the pivotal structure
+  twisted by `χ(g)=−1` the rotation uses `φ_g⁻¹` once, so `ν₂(g)=−1`, and
+  that structure, with dimensions −1, is induced by no unitary dual functor.
+- For the pointed category `Hilb(ℤ/2)` the universal grading group is ℤ/2.
+  A homomorphism `χ:ℤ/2→ℝ>0` has `χ(g)²=1`, hence `χ=1`, so the unitary
+  dual functor is unique up to equivalence; homomorphisms to ℂ× would give
+  two (χ(g)=±1), which is why the target group is ℝ>0. The pivotal
+  structure twisted by `χ(g)=−1` has `dim_L(g)=dim_R(g)=−1`: it is
+  spherical but not pseudounitary, so positivity, not sphericality, is
+  what cuts the two pivotal structures down to one. Its dimension ratio
+  `(−1)/(−1)=1` is the same as that of the standard structure, so the
+  ratio character separates pivotal structures only among the
+  pseudounitary ones.
+- For `End†(Hilb_fd ⊕ Hilb_fd)`, with two simple unit summands, the
+  grading groupoid is the pair groupoid on two objects and its
+  homomorphisms to ℝ>0 form a one-parameter family `t>0`; the balanced
+  choice is `t=1`.
+- For that category with character `t`, one off-diagonal simple object X
+  has `dim_L(X)/dim_R(X)=t` and the other `t⁻¹`, with
+  `dim_L(X)·dim_R(X)=1` and `End(X)=ℂ`, so a faithful state ψ on
+  `End(1)=ℂ⊕ℂ` is spherical exactly when the weight of the unit summand
+  carrying `tr_R(id_X)` is `t` times the weight of the summand carrying
+  `tr_L(id_X)`: one spherical state for each `t`. For `t=4`, with
+  `dim_L(X)=2` and `dim_R(X)=1/2`, the equal-weight state gives
+  `ψ(tr_L(id_X))=1` and `ψ(tr_R(id_X))=1/4`, while the weights `1/5` and
+  `4/5` give `2/5` on both sides; the equal-weight state is spherical only
+  at `t=1`.
+
+*Needs:* CA1a; Mathlib `MonoidalCategory`, `ExactPairing`, `HasRightDual`,
+`Functor.Monoidal`, `NatTrans.IsMonoidal`, `LaxMonoidalFunctor`; Tau Ceti
+`TauCeti.CategoryTheory.Monoidal.Rigid.Basic`,
+`TauCeti.CategoryTheory.Monoidal.Rigid.Functor`, `TauCeti.PivotalCategory`,
+`TauCeti.pivotalIsoApp`, `TauCeti.leftDualIsoRightDual`,
+`TauCeti.leftTrace`, `TauCeti.rightTrace`, `TauCeti.leftDim`,
+`TauCeti.rightDim`, `TauCeti.SphericalCategory`,
+`TauCeti.PivotalCategory.instTorsor`, `TauCeti.universalGradingGroup`,
+`TauCeti.frobeniusSchurIndicator`, for the braided sign law
+`TauCeti.balancedOfBraidedPivotal`,
+and, for the fusion-category comparisons only,
+`TauCeti.PivotalCategory.characterEquiv`, `TauCeti.SplitK0.leftDimChar`,
+`TauCeti.SplitK0.eq_frobeniusPerronChar`, `TauCeti.frobeniusPerronDim`,
+`TauCeti.IsPseudoUnitary.of_leftDim_eq_frobeniusPerronDim`,
+`TauCeti.PivotalCategory.eq_of_leftDim_eq_frobeniusPerronDim` and
+`TauCeti.IsPseudoUnitary.existsUnique_pivotalCategory`; PivotalSpherical
+Layers 0–6 and 9 and the Frobenius–Schur indicators of Layer 8.
+
+### CA2b. Planar and module correspondences
+
+This layer consumes CA2a, CA1b and Subfactors Layers 5–7 for the comparisons
+below. Its reconstruction/equivalence targets are separate from CA2a's
+elementary tensor and duality interfaces.
+
+Prove the shaded correspondence at object and morphism level (Penneys,
+Theorem C, p. 4): shaded ordinary-operad planar C*-algebras with
+finite-dimensional boxes correspond to triples
+(C,∨,X), with C a unitary multitensor category, chosen unitary dual
+functor, an orthogonal decomposition `1=1_+⊕1_-` of the unit, and
+`X=1_+⊗X⊗1_-`. The summands 1_± need not be simple: the zero boxes
+are the finite-dimensional commutative C*-algebras `P_(0,±)≅End(1_±)`,
+and the left and right closures are faithful positive maps into them.
+The connected case `P_(0,±)=ℂ` corresponds exactly to simple 1_±
+(Penneys, §4, dictionary on p. 23); subfactor planar algebras are
+connected. Every object is a summand of a finite direct sum
+of alternating tensor words in X,X∨, including the empty words.
+Build the category of rectangular boxes, projections and finite sums
+from the planar algebra, and recover boxes/tangle operations from the
+category. Morphisms of triples are dagger tensor functors with unitary
+duality comparison and a specified unitary image of the generator,
+preserving the two unit summands; transformations preserve these data.
+Match them with planar *-algebra morphisms commuting with all tangles.
+Preserve two shadings, marked intervals, positive box inner
+products and left/right closures. Prove functoriality, unitary comparison
+and inverse equivalences. Compare Subfactors 5.1 and 6.4's bimodule/planar construction. For general finite-index
+inclusions first use Subfactors 6.3's weight correction from the rigid operad to
+the ordinary planar operad, and then identify the resulting
+balanced unitary duality on the sphericalized category and the two
+original closure functionals recovered from its retained positive
+weight w and Subfactors 6.2's angle-power insertion. The invariant compared here
+is the pair (spherical category,w), not the spherical category alone.
+Keep the E_N-induced weighted rigid evaluation distinct from the
+ordinary spherical closure. Sphericality remains an additional
+condition on the general planar correspondence.
+
+A right module C*-category over a unitary multitensor category C is a
+C*-category M with Mathlib's `MonoidalRightAction C M` whose action is a
+dagger functor in each variable and whose module associator and unitor
+are unitary; C is one through `selfRightAction`. It is pivotal when it
+carries a module trace compatible with C's chosen pivotal traces. Module
+functors are dagger functors with `Functor.RightLinear` structure whose
+lineators are unitary. Neither library carries a right-linear structure
+across the monoidal opposite, so construct that passage first. For a
+functor F between categories with right C-actions, both regarded as
+categories with left `Cᴹᵒᵖ`-actions by
+`MonoidalLeftAction.monoidalOppositeLeftAction`, construct the bijection
+between `Functor.RightLinear` structures on F for C and
+`Functor.LeftLinear` structures on F for `Cᴹᵒᵖ`: the left lineator
+`mop c⊙F(d)→F(mop c⊙d)` is the right lineator `F(d)⊙c→F(d⊙c)`, the two
+actions having the same objects and morphisms, and the associativity and
+unit laws of one structure are those of the other because the opposite
+action's associator and unitor are the right action's. Prove that the
+bijection preserves unitarity of the lineators, sends the identity
+structure to the identity structure, and that the left-linear structure
+of a composite given by Tau Ceti's
+`CategoryTheory.Functor.LeftLinear.comp` has lineator
+`G(μ_F)∘μ_G`. Define a module natural transformation between right-linear
+functors as a natural transformation that is
+`CategoryTheory.NatTrans.IsLeftLinear` for `Cᴹᵒᵖ` and the transported
+structures, which says that it commutes with the right lineators. With
+this passage, develop unitary module natural transformations,
+finite sums, subobjects and generation by a chosen object, taking
+composition of module functors, module natural transformations and the
+restriction of the action to a full subcategory closed under it from Tau
+Ceti's left-linear API. For the generated 2-by-2 category of a subfactor planar algebra,
+prove the correspondence between connected right planar modules of
+Subfactors 7.2 and indecomposable pivotal right module C*-categories with a
+simple basepoint m=m⊗1₊ with Tr_m(id_m)=1, generating under the
+alternating strand action (Coles–Huston–Penneys–Srinivas, Theorem A,
+p. 3, with the body statement in §2.3, p. 10).
+Use the prescribed positive Markov tower dimensions: rectangular module
+boxes give the Hom spaces, concatenation gives the action, closure gives
+the module trace, and range projections give the C* completion. Recover
+the planar module from Hom spaces of alternating words acting on the
+generator, with the prescribed trace and Markov normalization; prove
+functoriality and the two inverse comparisons. Identify the level-zero
+identity with the simple basepoint in the rectangular-box projection
+category and prove its strand-action fusion graph is Subfactors 7.2's
+tower graph. Subfactors 7.2 owns the tower and
+graph embedding; this milestone owns the abstract module-category
+equivalence.
+
+**Checks.**
+
+- For the connected finite bipartite graph `u₁ — w — u₂` with `V₊={u₁,u₂}`
+  and `V₋={w}`, Penneys's bipartite-graph example (Example 4.7, p. 25) gives a
+  triple with `1₊` a sum of two simples, so `P_(0,+)=ℂ²` and `P_(0,−)=ℂ`.
+  A definition requiring `P_(0,±)=ℂ` excludes this example; the connected
+  case is a graph with one even and one odd vertex.
+- In the shaded TL planar algebra with modulus δ, the Gram matrix of
+  `P_(2,+)` in the basis `{1,e}` is `[[δ²,δ],[δ,δ²]]`, with determinant
+  `δ²(δ²−1)>0` for δ>1.
+- For the identity functor of C with `selfRightAction`, the opposite
+  action is `mop c⊙d=d⊗c`, the right lineator `d⊗c→d⊗c` is the identity,
+  and so is the transported left lineator; the composite of two such
+  structures again has identity lineator. A passage through the left
+  regular action `c⊗d` instead compares the objects `c⊗d` and `d⊗c`,
+  which differ in `Hilb(G)` for a nonabelian group G (`δ_g⊗δ_h=δ_(gh)`).
+- For a subfactor planar algebra regarded as a right planar module over
+  itself, the basepoint is `1₊` with `Tr(id)=1` and the fusion graph of the
+  strand action is the principal graph.
+
+*Needs:* CA2a, CA1b; Mathlib `MonoidalRightAction`, `selfRightAction`,
+`Functor.RightLinear`, `MonoidalLeftAction.monoidalOppositeLeftAction`;
+Tau Ceti `CategoryTheory.Functor.LeftLinear.comp`,
+`CategoryTheory.NatTrans.IsLeftLinear`,
+`CategoryTheory.ObjectProperty.fullSubcategoryMonoidalLeftAction`;
+Subfactors 5.1, 6.1–6.4, 7.1–7.2.
+
+### Examples
+
+The Checks of CA2a and CA2b compute the signs of the antiunitary
+self-dualities on ℂ and ℂ², their comparison with the second
+Frobenius–Schur indicator on ℂ² and in `Hilb(ℤ/2)`, the grading characters
+of `Hilb(ℤ/2)` and of
+`End†(Hilb_fd⊕Hilb_fd)` with their spherical states, the bipartite-graph
+triple with nonsimple `1₊`, and the Temperley–Lieb Gram matrix.
+
+### Dependencies
+
+CA1a and CA1b; Mathlib `MonoidalCategory`, `ExactPairing`, `HasRightDual`,
+`Functor.Monoidal`, `NatTrans.IsMonoidal`, `LaxMonoidalFunctor`,
+`MonoidalRightAction`, `selfRightAction`, `Functor.RightLinear` and
+`MonoidalLeftAction.monoidalOppositeLeftAction`; Tau Ceti
+`TauCeti.CategoryTheory.Monoidal.Rigid.Basic` and
+`TauCeti.CategoryTheory.Monoidal.Rigid.Functor`, the pivotal modules
+listed in the supplier contracts, `TauCeti.balancedOfBraidedPivotal`, and
+the left-linear API `CategoryTheory.Functor.LeftLinear.comp`,
+`CategoryTheory.NatTrans.IsLeftLinear` and
+`CategoryTheory.ObjectProperty.fullSubcategoryMonoidalLeftAction`;
+PivotalSpherical Layers 0–6 and 9, the Frobenius–Schur indicators of
+Layer 8 and the twist of Layer 10; Subfactors 5.1, 6.1–6.4 and 7.1–7.2.
+
+## CA3. Q-systems and their bicategorical completion
+
+Throughout CA3 require the C*/W*-bicategory B to be locally unitarily
+Cauchy complete in CA1a's finite sense: every Hom category has finite
+orthogonal sums and unitary splittings of self-adjoint idempotents.
+This is separate from the W*-Cauchy completeness with arbitrary sums
+used in CA9. Verify this hypothesis for CA1b's intended correspondence
+bicategories: finite direct sums and adjointable projection ranges
+are right Hilbert C*-correspondences with nondegenerate inherited left
+actions, and bounded projection ranges are normal Hilbert
+correspondences. Prove the inclusions and orthogonal projections are
+bimodule intertwiners and the splittings have the required analytic
+structure.
+
+A Q-system at b is a monoid object
+Q in `EndMonoidal b`, with multiplication m:Q≫Q→Q and unit
+i:1_b→Q. The 2-cell equations below use native bicategory associators
+and unitors; a C*-tensor category is the one-object specialization.
+Require
+Frobenius `m†m=(m⊗1)(1⊗m†)=(1⊗m)(m†⊗1)` and specialness
+`mm†=1_Q`. Build unit/associativity/Frobenius consequences, separability
+projection, dagger/opposite and scalar-rescaling laws. Define morphisms
+and equivalences of Q-systems by their actual algebra and dagger
+compatibilities. Distinguish algebra homomorphisms from Morita
+bimodules and from arbitrary intertwiners of underlying objects.
+
+For Q-systems P at a and Q at b, construct unital Frobenius
+P–Q bimodules with underlying 1-cell X:a→b and 2-cell actions
+`λ:P≫X→X`, `ρ:X≫Q→X`.
+Require associativity, commuting actions, both unit laws, action
+Frobenius identities and `λλ†=ρρ†=1`. Explicitly use
+`λ†λ=(m_P⊗1)(1⊗λ†)=(1⊗λ)(m_P†⊗1)` and
+`ρ†ρ=(1⊗m_Q)(ρ†⊗1)=(ρ⊗1)(1⊗m_Q†)`.
+Construct adjoints and spaces of bimodule intertwiners. When B is a
+C*-tensor category C regarded as a one-object bicategory, P and Q are
+objects of Mathlib's `Mon C` and such a bimodule is a Mathlib `Bimod P Q`,
+whose unit, associativity and middle-associativity laws are the module
+laws above, satisfying in addition the Frobenius and separability
+equations; its intertwiners are the morphisms of `Bimod P Q`.
+
+Compose X:P–Q and Y:Q–R by the range of the self-adjoint idempotent
+`p=(ρ_X⊗λ_Y)(1_X⊗m_Q†i_Q⊗1_Y)` on X⊗Y. Prove self-adjointness,
+idempotence and balancedness, then split it unitarily inside the original
+Hom category using the standing local unitary Cauchy-completeness
+hypothesis. Show the
+range is the balanced coequalizer, independent of the splitting. In the
+one-object case, when C has coequalizers and tensoring on either side
+preserves small colimits, as in a unitary multitensor category (it is
+semisimple, hence abelian, and rigidity makes tensoring on either side a
+left adjoint, which preserves every colimit),
+identify the range with the coequalizer underlying Mathlib's
+`Bimod.tensorBimod` by the unique isomorphism compatible with the two
+quotient maps from X⊗Y, and show that it intertwines the actions.
+Construct its left/right actions, regular-Q units and unitors,
+associators from the splittings, and prove all bicategory coherences.
+Build QSys(C) and its canonical fully faithful hom-wise inclusion. In
+the one-object case with the colimit hypothesis above, prove that
+these identifications carry the associators and unitors built here to
+those of Mathlib's `Bimod.monBicategory`, giving a pseudofunctor from
+QSys(C) to `Bimod.monBicategory` that is the identity on Q-systems,
+bimodules and intertwiners, so fully faithful on each Hom category.
+Prove QSys(C) is again locally unitarily Cauchy complete in the finite
+sense: finite orthogonal sums carry the componentwise bimodule actions,
+and a self-adjoint bimodule-intertwiner idempotent splits using the
+ambient Hom category's splitting. Transport both actions through its
+isometry, and prove all unital Frobenius and specialness equations for
+the range. Prove normality of these constructions in the W* case.
+This supplies the carrier for iterating QSys and its completion
+universal property.
+
+Define splitting by a dual pair of 1-morphisms X,X̄ and a unitary
+algebra identification `Q≃X⊗X̄`, with multiplication
+`1_X⊗ev⊗1_X̄`, unit coev, and `ev ev†=1` in the separable
+normalization, and prove Q-system
+completeness iff every Q-system splits (Chen–Hernández Palomares–Jones–Penneys,
+Theorem 3.36, p. 26). Prove QSys(QSys(C))≃QSys(C) (Corollary 3.37,
+p. 27), its completion universal property and normal W* version. Construct
+realization in the C*-bicategory of unital C*-algebras and right
+correspondences: the realized algebra, norm/completion, correspondence
+actions and intertwiner maps; check tensor/splitting comparisons.
+Prove this bicategory Q-system complete and the realization/inclusion
+biequivalence (Theorem A and Lemma B, p. 3, proved in §4). Construct the
+corresponding normal W* realization.
+
+For the simple-unit connected compact-object comparison in CA4, translate
+the unit-isometric convention `i†i=1`, `mm†=d_Q·1`, where d_Q is the
+standard statistical dimension of Q, to the separable
+one by `m'=d_Q^(-1/2)m`, `i'=d_Q^(1/2)i`. Prove both unit laws and
+Frobenius preserved, `m'm'†=1`, and `i'†i'=d_Q·1`. The target of this
+conversion is the connected standard separable Q-system; retain the
+standard evaluation `i†m`, which the rescaling leaves unchanged. Connectedness
+means dim Hom(1,Q)=1. On involutive algebra morphisms f:Q₁→Q₂
+use `f'=sqrt(d_(Q₂)/d_(Q₁)) f`, not f itself. Prove both algebra
+and unit equations for f', preservation of the involution, identities
+and composition; the reciprocal rescaling gives the inverse functor. Keep the standard conjugate-equation condition
+in the unit-isometric Q-system notion; unit normalization alone does
+not supply that condition. Construct the finite-index Q-system on `_N L²(M)_N` from Subfactors 2.4's
+dualizable bimodule `X=_N L²(M)_M` and its standard solution, identifying
+it with `X⊗_M X̄`. Derive multiplication and unit from evaluation/
+coevaluation and compare the separable and unit-isometric normalizations
+with the inclusion trace. For the standard solution prove `d_Q=d(X)²`;
+then Subfactors 2.5 gives `d(X)²=Ind(E₀)≤[M:N]` and Subfactors 5.1 gives
+equality exactly in the extremal case. Compare separately the
+trace-preserving E_N-induced nonstandard
+solution and its Jones-index scalar; no equality of these two
+normalizations is imposed on a nonextremal inclusion. Subfactors 2.4
+supplies the dual pair; constructing its Q-system is owned here.
+
+**Checks.**
+
+- Take `Q=M_n(ℂ)` in finite-dimensional Hilbert spaces with
+  `⟨x,y⟩=n⁻¹Tr(x*y)`. Then `i†i=1` and `mm†=n²=d_Q`, the unit-isometric
+  convention. After `m′=n⁻¹m`, `i′=n i` one gets `m′m′†=1`, `i′†i′=n²` and
+  `i′†m′=i†m`; for n=2 the values are 1, 4 and the unchanged evaluation.
+  The wrong rescaling `m′=d_Q⁻¹m` would give `m′m′†=n⁻²`.
+- The unital map `f:ℂ→M_n(ℂ)`, `a↦a·1`, goes from `d₁=1` to `d₂=n²`, and
+  `f′=√(d₂/d₁)f=n f`. Then `f′(i₁′(1))=n·1=i₂′(1)`, while the unscaled f
+  gives `1≠n·1` for n≥2.
+- With the trivial Q-system `Q=1` and unitor actions the balanced projector
+  is the identity of X⊗Y. For `Q=M_n(ℂ)` with X the row vectors and Y the
+  column vectors, its range `X⊗_Q Y` is one-dimensional inside the
+  `n²`-dimensional `X⊗Y`.
+- For the same X and Y, the coequalizer underlying `Bimod.tensorBimod`
+  identifies `X⊗Y` with `M_n(ℂ)` by `x⊗y↦yx` and the two maps from
+  `X⊗Q⊗Y` with `q⊗(yx)↦(yx)q` and `q⊗(yx)↦q(yx)`, so it is `M_n(ℂ)`
+  modulo the commutators, which span the trace-zero matrices: it is ℂ
+  through the trace `x⊗y↦xy`, of dimension 1 like the range of the
+  projector, while `X⊗Y` itself has dimension `n²`. For `Q=1` the two
+  maps agree and the coequalizer is all of `X⊗Y`, again matching the
+  projector.
+- `M_n(ℂ)` splits as `ℂⁿ⊗(ℂⁿ)‾` with multiplication `1⊗ev⊗1` and unit coev.
+
+*Needs:* CA1a, CA1b, CA2a; Mathlib `MonObj`, `Mon`, `EndMonoidal`, and for
+the one-object comparison `Bimod`, `Bimod.tensorBimod` and
+`Bimod.monBicategory`;
+HilbertModules H2; Subfactors 2.4–2.5, 5.1.
+
+### Examples
+
+The Checks compute the unit-isometric and separable normalisations of
+`M_n(ℂ)` with its rescaled morphisms, the balanced projector for the trivial
+Q-system and for row and column vectors over `M_n(ℂ)` with its agreement
+with Mathlib's coequalizer, and the splitting
+`M_n(ℂ)=ℂⁿ⊗(ℂⁿ)‾`.
+
+### Dependencies
+
+CA1a, CA1b and CA2a; Mathlib `MonObj`, `Mon`, `EndMonoidal`, `Bimod`,
+`Bimod.tensorBimod` and `Bimod.monBicategory`;
+HilbertModules H2; Subfactors 2.4–2.5 and 5.1.
+
+## CA4. Internal C*/W* algebra objects
+
+For essentially small semisimple rigid C*-tensor C with simple unit and
+finite-dimensional Hom spaces, require CA1a's finite unitary Cauchy
+completeness, so the one-object bicategory meets CA3's local hypothesis.
+Construct complex linear presheaves Vec(C), and Hilbert-space objects Hilb(C),
+using simple-object coefficient spaces, their direct sums, bounded
+natural transformations and dagger. Build linear Day convolution,
+monoidal Yoneda and the tensor of Hilbert objects, including completion
+and Fubini/unit/coherence isomorphisms. Use native Day convolution and
+linear Yoneda, adding the linear/Hilbert specialization and needed
+coends as targets. Compare representable/compact objects with C.
+
+Algebra objects are Mathlib `MonObj` structures on objects of Vec(C), and
+left C-module categories are categories with `MonoidalLeftAction C M`.
+CA2b's right-module API applies to them as right `Cᴹᵒᵖ`-modules through
+Mathlib's `MonoidalRightAction.monoidalOppositeRightAction` and its
+converse `MonoidalLeftAction.leftActionOfMonoidalOppositeRightAction`,
+which are not built again. The free right A-module on c is `c⊗A`, with
+c read in Vec(C) by the linear Yoneda embedding: it is Tau Ceti's free
+module `TauCeti.freeMod` for the monoid `mop A` of the monoidal opposite
+of Vec(C) (`MonObj.mopMonObj`), whose underlying object
+`mop A⊗mop c=mop(c⊗A)` is `c⊗A`, and `TauCeti.freeModAdjunction`
+identifies right A-module maps out of `c⊗A` with maps out of c. These free
+modules form the left C-module category FreeMod(A) (Jones–Penneys,
+*Operator algebras*, proof of Theorem 3.8, p. 22). Prove algebra objects
+correspond to cyclic C-module categories
+with a chosen basepoint, on both functors and morphisms (Jones–Penneys,
+*Operator algebras*, Theorem 3.8, p. 22). Define a star
+algebra object by the corresponding cyclic dagger structure and prove
+the equivalence with the explicit involutive natural-transformation
+form (Theorem 3.20, p. 27). C*/W* algebra objects are those whose free-module categories
+carry the CA1 analytic structure (Theorem 3.24, p. 29, for the W* case); construct their finite linking
+algebras, norm/order/predual API and normal star transformations.
+
+Construct internal B(H), positive transformations and categorical CP:
+positivity of the induced maps on End(c⊗A) for every c, with finite
+sums giving matrix positivity. Build the faithful internal GNS/
+Gelfand–Naimark representation (Jones–Penneys, *Operator algebras*,
+Theorem 4.18, p. 35). Prove Stinespring for unital CP
+`θ:A→B(H)`: construct K, a star representation π and an isometry
+v:H→K with θ(a)=v†π(a)v (Theorem 4.28, p. 39); prove minimality/uniqueness and transport.
+Build internal linking algebras and commutants of cyclic left/right
+module dagger subcategories: maps commute with every opposite-sided
+module morphism. Prove their weak-* closure equals the bicommutant
+(Theorem 5.15, p. 51),
+and the faithful-normal W* representation identifies A with A''.
+This is a module-category commutant, distinct from CA9's tensor
+half-braiding commutant.
+
+An internal W* object is compact when its L² Hilbert object lies in
+C, and connected when A(1)=ℂ. Prove compact connected W* algebra
+objects with unital star natural transformations equivalent to
+unit-isometric irreducible Q-systems with involutive algebra morphisms
+(Jones–Penneys, *Q-systems*, Theorem A, p. 1, for rigid C*-tensor
+categories with simple unit, with the projected Q-system of
+Proposition 4.11, p. 14).
+Construct the GNS projection in H⊗H̄ as
+`p=Σ_(a,f) α_(a,f) α_(a,f)†`, where a ranges over simple classes,
+f over an orthonormal basis of A(a), and
+`α_(a,f)=d_a^(1/2)d_H^(-1/2)λ̃_a(f)`. Use the GNS inner product
+on A(a) transported by its canonical coefficient inclusion
+`Λ_a:A(a)→H(a)`. Pin the coefficient inner product on the
+representable Hilbert object to the categorical trace:
+`⟨h,k⟩=Tr_a(h†k)`. The GNS pairing closes its star/multiplication
+diagram with the standard coevaluation of a; for a unit-isometric
+standard Q-system and simple a it is `d_a c` when `f†g=c id_a`.
+Prove that Λ transports this GNS pairing to the trace pairing, rather
+than to the unweighted scalar c.
+Here λ_a(f):a⊗H→H is the GNS action and
+`λ̃_a(f)=(λ_a(f)⊗1_H̄)(1_a⊗coev_H)` is its Frobenius-reciprocity
+mate using H's standard duality, with `coev_H†coev_H=d_H`.
+Prove `λ̃_a(f)†λ̃_a(g)=(d_H/d_a)⟨f,g⟩ id_a`, hence
+`α_(a,f)†α_(a,g)=⟨f,g⟩ id_a`; the GNS-orthonormal bases give
+isometric simple summand maps. For a representable Q this also gives
+`α(f)†α(g)=d_a(d_Q/d_H) f†g`. Reciprocity itself is not asserted
+isometric.
+Compactness makes this sum
+finite. Scale the projected trivalent multiplication by d_H^(1/2)
+and the projected cup by d_H^(-1/2); prove d_H=d_Q for its image Q.
+From these orthonormal coefficient bases, prove basis independence, self-adjointness and idempotence,
+and equip its image with multiplication/unit and standard duality.
+Prove the two functors are fully faithful and essentially surjective;
+transport to CA3's separable convention by its explicit rescaling.
+Compactness here is categorical finite representability, not compactness
+of all Hilbert-space operators in an analytic representation.
+
+**Checks.**
+
+- The trivial algebra object `A(a)=Hom(a,1)` is compact and connected and
+  corresponds to the trivial Q-system with `d_Q=1`.
+- The transpose map on `M₂(ℂ)` is positive but not CP: amplified by `c=ℂ²`
+  it sends `Σ e_ij⊗e_ij` to the flip, which has eigenvalue −1. The
+  categorical CP condition tests every `End(c⊗A)` and excludes it.
+- For `Q=H=1` and `a=1` the GNS normalization `α(f)†α(g)=d_a(d_Q/d_H)f†g`
+  reduces to `α(f)†α(g)=f†g`.
+- For `C=Hilb_fd`, `A=M₂(ℂ)` and θ the normalized trace into `B(ℂ)=ℂ`,
+  the minimal Stinespring space is `A⊗_θ ℂ` with `⟨a,b⟩=½Tr(a*b)`, which
+  is faithful, so `K=M₂(ℂ)` has dimension 4, π is left multiplication and
+  `v(1)=1`. A dilation with `K=ℂ²` would have π the defining
+  representation and make θ the vector state `a↦⟨ξ,aξ⟩` of `ξ=v(1)`; the
+  trace, with density matrix `½·1` of rank 2, is not a vector state.
+
+*Needs:* CA1a, CA2a, CA2b, CA3; Mathlib Day convolution, `MonObj`,
+`MonObj.mopMonObj`, `MonoidalLeftAction`,
+`MonoidalRightAction.monoidalOppositeRightAction`,
+`MonoidalLeftAction.leftActionOfMonoidalOppositeRightAction`; Tau Ceti
+`TauCeti.freeMod`, `TauCeti.freeModAdjunction`; CStarAlgebras C4;
+VonNeumannAlgebras V4.
+
+### Examples
+
+The Checks compute the trivial algebra object, the transpose on `M₂(ℂ)` as
+a positive map that is not CP, the GNS normalization for the trivial data,
+and the minimal Stinespring dilation of the normalized trace of `M₂(ℂ)`.
+
+### Dependencies
+
+CA1a, CA2a, CA2b and CA3; Mathlib Day convolution, `MonObj`,
+`MonObj.mopMonObj`, `MonoidalLeftAction`,
+`MonoidalRightAction.monoidalOppositeRightAction` and
+`MonoidalLeftAction.leftActionOfMonoidalOppositeRightAction`; Tau Ceti
+`TauCeti.freeMod` and `TauCeti.freeModAdjunction`; CStarAlgebras C4;
+VonNeumannAlgebras V4.
+
+## CA5. Discrete inclusions and internal-algebra realization
+
+Fix a II₁ factor N and a fully faithful bi-involutive representation
+`H:C→Bim_bf^sp(N)` compatible with standard forms and bifinite
+bimodules. Here the target consists of bifinite spherical N–N bimodules:
+their canonical left and right traces on the endomorphism algebra agree.
+Equip it with standard duality and its bi-involution. Define its Hilbert
+completion from direct sums of represented
+simples. A discrete expected inclusion `(N⊆M,E)` has a faithful normal
+E, M a factor, and standard L²(M,τ_N∘E) a sum of bifinite N–N
+bimodules. Define extremality for that discrete inclusion by equality
+of the left/right canonical traces/dimensions on its finite bimodule
+summands, using Subfactors 1.1's standard-form comparison; retain irreducibility
+`N′∩M=ℂ`. Supported means its L² object is in Hilb(H(C)).
+
+Realize a connected internal W* object algebraically by its represented
+simple coefficients. Construct multiplication, involution, bounded
+vectors, Hilbert completion, the represented von Neumann algebra and
+expectation onto N. Prove normality, faithfulness, factoriality,
+irreducibility, discreteness, extremality and the support condition.
+Do not assume M is finite: the canonical faithful state is τ_N∘E,
+and the realization can be type III. In reverse extract the internal
+object by represented bimodule Hom spaces and Frobenius reciprocity,
+with its CP/order/predual structures.
+
+Prove the relative-to-H equivalence: connected internal W* objects
+with categorical ucp maps correspond to extremal irreducible discrete
+inclusions supported on H(C), with normal N–N-bilinear ucp maps
+ψ:M→P satisfying `(τ_N∘E_P)∘ψ=τ_N∘E_M` (Jones–Penneys, *Realizations*,
+Theorem A, p. 4, proved as Theorem 5.35, p. 47). Construct maps by
+internal Stinespring and Hilbert realization, check composition, and
+prove both natural inverse comparisons. Restrict to unital *-algebra natural transformations
+and normal state-preserving N–N-bilinear star homomorphisms (Corollary 7.14, p. 62).
+Construct intermediate-object/inclusion correspondence (Corollary E,
+p. 6), conjugation,
+and the standard invariant pair (C,A) (Theorems 7.2–7.3, pp. 58–59). Compare compact objects with
+finite-index Q-systems and Subfactors 5.1's standard invariant, retaining
+finite-index, extremality and the fixed representation hypotheses.
+
+**Checks.**
+
+- The trivial inclusion `N⊆N` with `E=id` has `L²(M)=L²(N)`, the trivial
+  bimodule, and corresponds to the trivial internal object.
+- For an outer action of `ℤ/2` on a II₁ factor N, `N⊆N⋊ℤ/2` is
+  irreducible and extremal, `L²(M)` is the sum of the two invertible
+  bimodules, and the internal object is compact with `d_Q=2`.
+- For an outer action of ℤ, `N⊆N⋊ℤ` is discrete and irreducible but of
+  infinite index: its internal object is connected and not compact, so
+  discreteness does not imply compactness.
+
+*Needs:* CA3, CA4; VonNeumannAlgebras V4, V6, V11; Subfactors 1.1–1.2,
+2.4–2.5, 5.1.
+
+### Examples
+
+The Checks compute the trivial inclusion, the crossed product by an outer
+`ℤ/2`-action as a compact internal object with `d_Q=2`, and the crossed
+product by an outer ℤ-action as a discrete internal object that is not
+compact.
+
+### Dependencies
+
+CA3 and CA4; VonNeumannAlgebras V4, V6 and V11; Subfactors 1.1–1.2,
+2.4–2.5 and 5.1.
+
+## CA6. Unitary anchored planar algebras
+
+For essentially small semisimple braided unitary pivotal V, with
+finite-dimensional Hom spaces and chosen unitary dual functor,
+construct anchored tangles: planar disks/strings and disjoint anchor
+lines from internal anchor points to the exterior anchor, transparent
+to strings. Build isotopy, substitution and the ordering of inputs.
+An anchored algebra has box objects P[n] in V and morphisms Z(T)
+from their ordered tensor product to the output. Require identity,
+substitution, anchor-braiding and twist laws (Henriques–Penneys–Tener,
+*Anchored*, Definition 4.2, pp. 29–30). The twist is that of Tau Ceti's
+balanced structure `TauCeti.balancedOfBraidedPivotal V` for the
+`TauCeti.PivotalCategory` structure induced by V's chosen unitary dual
+functor (CA2a): at v it is `θ_v=u_v⁻¹φ_v`, with u the Drinfeld isomorphism
+(`TauCeti.balancedOfBraidedPivotal_twist_hom_app`; equation (24), p. 29),
+which for the unitary braiding of V reads
+`θ_v=(1_v⊗coev_v†)(β_(v,v)⊗1_(v∨))(1_v⊗coev_v)` (p. 30). For symmetric V
+it is in general not the twist of Tau Ceti's instance
+`TauCeti.symmetricPivotalCategory`, which is the identity
+(`TauCeti.balancedOfBraidedPivotal_twist_eq_refl`), and it is not unitary
+in general when the chosen dual functor is not balanced; the Checks
+compute both. Build generating moves and prove they present the tangle
+operations, so every isotopy/substitution has a specified action.
+
+A unitary anchored planar algebra is `(P,r,ψ)`, with real structures
+r_n:P[n]→P[n]̄ satisfying `r̄_n r_n=ν_(P[n])`, where
+ν is the chosen bi-involution comparison `P[n]→P[n]̄̄`, and
+faithful unital state ψ:P[0]→1. Require reflection
+compatibility through the dual functor's tensorator, and the cap pairing
+obtained from ψ and the reflected real-structured mate to equal the
+canonical `coev†_(P[n])` pairing. Prove positivity, adjoint and inner
+product laws, transport and category structure. Call V ribbon when this
+balanced structure is a `TauCeti.RibbonCategory`, the twist of `v∨` being
+the dual of the twist of v; the induced pivotal structure is then
+spherical (`TauCeti.sphericalCategory_of_ribbonCategory`). For ribbon V
+define sphericality of `(P,r,ψ)` by equality of the two annular closures
+against ψ; it is an additional axiom.
+
+Construct pointed unitary pivotal V-module multitensor categories: C with
+unitary dual functor, braided pivotal dagger functor
+`Φ:V→Z†(C)`, faithful state on End(1_C), and symmetrically self-dual
+generator x, with unitary `r_x:x→x∨` satisfying
+`ev_x(r_x⊗1_x)=ev_(x∨)(φ_x⊗r_x)` for the chosen pivotal
+comparison φ_x:x→x∨∨. Identify this condition with the real-bimodule
+condition under CA2's chosen dual/conjugate comparison. Require
+the composite `V→Z†(C)→C` to
+admit a unitary right adjoint Tr_V, with its unit/counit and actual
+natural adjunction isomorphisms. Develop the representability criterion:
+for each c∈C the functor `v↦Hom_C(Φ(v),c)` is represented in V
+exactly when its simple-object coefficient spaces have finite support;
+their dimensions are finite by the standing Hom hypotheses. Construct
+Tr_V as that finite direct sum when the criterion holds. In particular
+it holds for fusion V. No infinite sum is assumed to be an object of V.
+The pointing and Φ(V) generate by tensors, finite sums
+and subobjects. Morphisms are pivotal dagger tensor functors, unitary
+module-action coherence compatible with half-braidings, state transport, a specified unitary `G(x₁)≃x₂`,
+and real-structure transport through that unitary and the canonical
+duality comparison.
+Define the unitary relative center Z_C(E) for a dagger tensor functor
+α:C→E: objects are X∈E with unitary natural half-braidings
+`X⊗α(c)≃α(c)⊗X`, with the tensor hexagon and unit equation;
+morphisms intertwine them. Use Mathlib's `HalfBraiding` orientation and
+construct the dagger, the tensor product and duality by mates: on a
+dual `X′` of X in E, the half-braiding at c is the mate of the inverse
+of the half-braiding of X at c, invertible through the images under α
+of the left duals of C. At α=id this is the pinned construction,
+`CategoryTheory.HalfBraiding.rightDual` on the right duals of
+`CategoryTheory.Center.rigidCategory`, and it is not built again.
+Identify `Z†(C)=Z_C(C)` for α=id as the full subcategory of the native
+`Center C` whose half-braiding components are unitary. Native
+`HalfBraiding` supplies invertible components; the unitary condition is
+an additional property. Prove that the dagger of an intertwiner,
+Mathlib's tensor product of half-braidings and, for the right duals
+given by C's chosen unitary dual functor, the pinned dual half-braiding
+`CategoryTheory.HalfBraiding.rightDual` preserve that condition, before
+installing the analytic center structure. For the dual: at a right dual
+`Uᘁ` the induced half-braiding is the dual morphism of the half-braiding
+at U between the tensorators
+(`CategoryTheory.HalfBraiding.rightDualβHom_rightDual`), which is
+unitary because the dual functor satisfies `(f∨)†=(f†)∨` and has unitary
+tensorator, and naturality along the unitary pivotal component
+`V≅Vᘁᘁ` of CA2a, with `U=Vᘁ`, gives unitarity at every V.
+
+Prove the equivalence between these pointed state-bearing categories
+and unitary anchored planar algebras, and its spherical refinement below
+(Henriques–Penneys–Tener, *Anchored*, Theorem A, p. 3). In one direction recover boxes by
+the specified right adjoint/trace of Φ applied to tensor powers of x;
+construct its unitary/lax-monoidal and trace coherence, and prove
+independence of adjoint choices. In reverse build the box
+category, positive linking algebras and C*-completion, split projections,
+and recover Φ,x,r,ψ. Construct the actual right adjoint first on the
+generators by `Tr_V(Φ(v)⊗x^n)=v⊗P[n]`, then on finite sums and
+projection summands, and prove its adjunction on all objects. Prove
+naturality and both inverse comparisons,
+including uniqueness of compatible unitary natural transformations.
+When V is ribbon, prove spherical objects correspond exactly to
+spherical chosen states. Write F=Forget∘Φ:V→C for the underlying
+action functor, distinct from its central lift Φ:V→Z†(C).
+Define connectedness by the connected zero-box condition and prove
+its characterization by full faithfulness of F; for the CA10 fusion
+setting it says P[0]≅1_V. Full faithfulness of the central lift alone
+is not this condition. Define finite depth by
+finitely many simple summand classes in the associated generated
+category, and prove the tensor-power criterion for the real generator.
+
+**Checks.**
+
+- For `V=Hilb(ℤ)`, which has infinitely many simple objects, and Φ the
+  forgetful functor to `C=Hilb_fd`, the functor `v↦Hom_C(Φ(v),ℂ)` has a
+  one-dimensional coefficient at every simple object, so its support is
+  infinite and `Tr_V(1_C)` is not an object of V.
+- For fusion V, for example `V=Hilb(ℤ/2)` acting on `C=Hilb_fd`, the
+  support is finite and `Tr_V(ℂ)` is the sum of the two simples.
+- On ℂ² with its ε=−1 structure `J(a,b)=(−b̄,ā)`, the condition
+  `r̄r=ν` fails (`r̄r=−ν`), so this object carries no real structure
+  in the sense of CA6.
+- For `V=Hilb_fd`, where the pairing `coev†_(P[n])` is the inner product
+  of the Hilbert space P[n], the pairing axiom says that inner product is
+  `⟨a,b⟩=ψ(r⁻¹(a)·b)` computed by the planar operations. For a
+  nonconnected zero box `P[0]=ℂ²` with `ψ(a)=(a₁+a₂)/2`, it forces
+  `‖(1,0)‖²=1/2`; giving P[0] the standard inner product of ℂ², with
+  `‖(1,0)‖²=1`, violates the axiom, so ψ determines the box inner products.
+- For `V=C=Hilb_fd` with Φ the identity and generator `x=ℂ^k`, `Tr_V` is
+  the identity functor and `P[n]=Tr_V(x^⊗n)=(ℂ^k)^⊗n` has dimension `k^n`;
+  boxes taken as `End(x^⊗n)` would have dimension `k^(2n)`.
+- In `Hilb(ℤ/3)` with trivial associator, a half-braiding on the simple
+  object `δ_g` is a character χ, acting by the scalar `χ(h)` at `δ_h`.
+  The mate of the inverse gives the dual `δ_(g⁻¹)` the character `χ⁻¹`,
+  so the tensor half-braiding on `δ_(g⁻¹)⊗δ_g` is `χ⁻¹χ=1` and the
+  evaluation is a morphism of the centre. For `χ(h)=ω^h` with
+  `ω=exp(2πi/3)` the dual carries `ω^(−h)`, of modulus one, so it stays
+  unitary. Giving the dual the same character χ would make the tensor
+  half-braiding `χ(1)²=ω²≠1`, and the evaluation would not intertwine.
+- In `Hilb(ℤ)`, the unit with half-braiding `χ(h)=2^h` at `δ_h` is an
+  object of the native `Center` that is not in Z†(C): its components have
+  modulus `2^h≠1` for h≠0, and an isomorphism to the unit with another
+  half-braiding is a scalar, which forces the same character. Its dual
+  carries `2^(−h)`, again not unitary. So for this C, with infinitely many
+  simple objects, the inclusion of Z†(C) in `Center C` is not essentially
+  surjective; CA10 proves that it is for unitary fusion C.
+- For sVec, the unitary symmetric fusion category `Hilb(ℤ/2)` whose
+  braiding is −1 on `f⊗f` for the odd generator f, the unitary dual
+  functor gives `dim f=+1`, and with `β_(f,f)=−flip` and `coev_f†coev_f=1`
+  the twist is `θ_f=−1`; it is ribbon, since `f∨≅f` and `θ_(f∨)=−1` is the
+  dual of `θ_f`. Tau Ceti's instance `TauCeti.symmetricPivotalCategory` on
+  this symmetric category is the unitary dual functor's pivotal structure
+  twisted by the character `χ(f)=−1`: its twist is the identity and
+  `dim f=−1`. Reading the twist law with that instance would give the
+  wrong twist.
+- For `V=Hilb(ℤ)` with the flip braiding and the unitary dual functor whose
+  coevaluation of `δ_n` has norm `s^n` for a fixed s>0, the formula gives
+  `θ_(δ_n)=coev†coev=s^(2n)`, unitary only for the balanced choice s=1. For
+  s≠1 this V is not ribbon: `θ_(δ_(−n))=s^(−2n)`, while the dual of
+  `θ_(δ_n)` is the scalar `s^(2n)`, matching the unequal dimensions
+  `s^(2n)` and `s^(−2n)` of `δ_n`.
+
+*Needs:* CA1a, CA2a; Mathlib `HalfBraiding`, `Center`, `Functor.Monoidal`;
+Tau Ceti `CategoryTheory.HalfBraiding.rightDual`,
+`CategoryTheory.HalfBraiding.rightDualβHom_rightDual`,
+`CategoryTheory.Center.rigidCategory`, `TauCeti.balancedOfBraidedPivotal`,
+`TauCeti.balancedOfBraidedPivotal_twist_hom_app`, `TauCeti.RibbonCategory`
+and `TauCeti.sphericalCategory_of_ribbonCategory`; PivotalSpherical
+Layer 10 for the twist of a braided pivotal category.
+
+### Examples
+
+The Checks compute the representability criterion for `Hilb(ℤ)` against
+`Hilb(ℤ/2)`, the absence of a real structure on the ε=−1 object, the box
+inner product forced by the pairing axiom, the box dimensions `k^n` for
+the generator `ℂ^k`, the dual half-braiding `χ⁻¹` in `Hilb(ℤ/3)`, a
+half-braiding of the unit of `Hilb(ℤ)` that is not unitary, the twist of
+sVec against the symmetric pivotal instance, and the twist of a
+non-balanced unitary dual functor on `Hilb(ℤ)`.
+
+### Dependencies
+
+CA1a and CA2a; Mathlib `HalfBraiding`, `Center` and `Functor.Monoidal`;
+Tau Ceti `CategoryTheory.HalfBraiding.rightDual`,
+`CategoryTheory.HalfBraiding.rightDualβHom_rightDual`,
+`CategoryTheory.Center.rigidCategory`, `TauCeti.balancedOfBraidedPivotal`,
+`TauCeti.balancedOfBraidedPivotal_twist_hom_app`, `TauCeti.RibbonCategory`
+and `TauCeti.sphericalCategory_of_ribbonCategory`; PivotalSpherical
+Layer 10.
+
+## CA7. Pimsner and free-graph C*-constructions
+
+For a C*-correspondence X over B construct the module Fock space
+`F(X)=B⊕X⊕X⊗_B X⊕⋯`, adjointable creation/annihilation maps,
+norm and inner-product identities, and the Toeplitz algebra.
+Define Toeplitz representations (π,t) by the bimodule and inner-product
+relations, construct the universal algebra and prove its faithful
+Fock representation, gauge action and fixed-point filtration.
+Define `J_X=φ⁻¹(K(X))∩(kerφ)^⊥`, the largest ideal of B on which φ is
+injective with values in K(X) (Katsura, Definition 3.2, p. 5), and
+Cuntz–Pimsner covariance `π(a)=t^(1)(φ(a))` for a∈J_X (Katsura,
+Definition 3.4, p. 6). Construct O_X with its universal property and
+its gauge-invariant uniqueness theorem: the map from O_X induced by a
+covariant representation is an isomorphism exactly when the
+representation is injective and admits a gauge action (Katsura,
+Theorem 6.4, p. 14). Construct the Fock compact-ideal model with the
+correct J_X-corner ideal and the extension
+`0→K(F(X)J_X)→T_X→O_X→0`. Compare the faithful compact-left-
+action case with quotient by K(F(X)). Prove functoriality under
+correspondence maps with the covariance-ideal hypotheses, and Morita
+transport.
+
+For every C*-correspondence X over every C*-algebra B, with no
+separability or countable-generation hypothesis, prove the cyclic
+six-term sequence `K_i(J_X)→K_i(B)→K_i(O_X)→K_(i−1)(J_X)`, whose first
+map is `ι_*−[X]`: here ι:J_X→B is the inclusion and `[X]` is
+`(φ|_(J_X))_*:K_*(J_X)→K_*(K(X))` followed by the map `K_*(K(X))→K_*(B)`
+through the linking algebra `K_B(X⊕B)` (Katsura, Definition 8.3, p. 17,
+and Theorem 8.6, p. 18). Route: the inclusion of B as a full corner of
+`K_B(X⊕B)` induces a K-isomorphism, for separable B and X by
+OperatorKTheory K2.3's Morita invariance and full-corner comparison, and
+in general by exhausting (B,X) by separable sub-pairs with K2.3's
+continuity (Katsura, Lemma B.2 and Proposition B.3, p. 23); hence every
+injective map onto a full hereditary subalgebra is a K-isomorphism
+(Proposition B.5, p. 24). So `φ₀:J_X→K(F(X)J_X)` is a K-isomorphism and
+the Fock ideal is Morita equivalent to J_X (Proposition 8.1, p. 17);
+B→T_X is a K-isomorphism by the suspension and mapping-cone argument of
+Katsura's Appendix C (Proposition 8.2, p. 17); apply OperatorKTheory
+K3's six-term sequence to the Fock extension. For separable B and
+countably generated X, upgrade these two K-isomorphisms to the Toeplitz
+KK-equivalence of T_X with B and the KK-equivalence of the Fock ideal
+with J_X using K4–K6, and identify the first map with the action of
+`[ι:J_X→B]−[X|_(J_X)]` in KK(J_X,B), where the restricted left action
+is compact. If J_X=B, identify the first map as `1−[X]`; no general
+compact-left-action class for X over all of B is assumed. The Cuntz
+algebras `O_n` are OperatorAlgebraDynamics D6, and the Toeplitz–Cuntz
+algebras `E_n`, the Cuntz algebra `O_∞` and the K-theory of these
+algebras are OperatorKTheory K7 (7.6).
+
+For an undirected graph Λ, with vertex and edge sets in `Type u` of
+arbitrary cardinality and neither local finiteness nor connectedness
+assumed, and positive finite real vertex
+weights μ, construct the oriented-edge correspondence over B=C₀(V),
+its Fock module, Toeplitz–Cuntz–Krieger algebra and weighted free-graph
+algebra S(Λ,μ). On the finitely supported edge vectors fix
+`p_s(e) e=e=e p_t(e)` and `⟨e,f⟩=0` for distinct edges,
+`⟨e,e⟩=p_t(e)`. Complete in this B-valued inner product and retain
+the nondegenerate left B-action. Creation is left tensoring:
+`L(e)ξ=e⊗_B ξ`; prove its adjoint formula on every tensor length,
+including the vacuum B, and `L(e)†L(f)=⟨e,f⟩` acting on the left.
+Replace each non-loop edge ε by opposite edges ε',ε'', with
+ε':v→w, ε'':w→v, and each loop by one fixed directed edge;
+retain multiple-edge multiplicity. Set
+`a=(μ(s(ε'))/μ(t(ε')))^(1/4)>0`, so `a⁴=μ(v)/μ(w)`, and retain
+`T_ε=aL(ε')+a⁻¹L(ε'')†+a⁻¹L(ε'')+aL(ε')†`;
+for a loop retain `T_ε=L(ε)+L(ε)†`. Define S(Λ,μ) as the
+C*-subalgebra generated by B and these self-adjoint T_ε
+(Hartglass–Penneys I, Definitions 5.17–5.18, p. 35).
+For nonunital B construct the reduced-word/expectation comparison from
+the directed finite-vertex/finite-edge corners with their compatible
+vacuum maps and isometric inclusions, before applying the unital
+reduced-product interfaces of F4. No trace on the entire creation or
+Toeplitz algebra is inferred from the Gaussian/free-graph trace.
+Construct the faithful vacuum vertex expectation E:S(Λ,μ)→B and
+the faithful lower-semicontinuous semifinite trace on positive elements
+`τ_μ(y)=Σ_(v∈V) μ(v) E(y)(v)`, with its extended-positive-value
+convention and dense finite-trace ideal (Theorems 5.19–5.20, pp. 35–38);
+for each y only countably many terms are nonzero, since `E(y)∈C₀(V)`. In particular
+`τ_μ(p_v)=μ(v)`; this functional is not made a normalized state
+when the total vertex mass is infinite. Prove traciality on the dense
+finite-edge/finite-vertex word algebra by the weighted creation and
+reduced free-product moment identities, then extend to that trace.
+For x=p_v T_ε p_w pin
+`E(x†x)=a²p_w`, `E(xx†)=a⁻²p_v`, so
+`τ_μ(x†x)=a²μ(w)=a⁻²μ(v)=τ_μ(xx†)`.
+Require the one-edge regression μ(v)=16, μ(w)=1: a=2 gives both
+moments equal 4; the reciprocal a=1/2 instead gives 1/4 and 64 and must fail.
+Under reversal of the distinguished orientation interchange ε',ε''
+and a,a⁻¹; identify the same self-adjoint T_ε on the same doubled-edge
+correspondence, with E and τ_μ preserved. Prove the Fock intertwining
+and trace transport for weighted graph isomorphisms, and the identity
+comparison for μ↦cμ, c>0: ratios and T_ε are unchanged, while
+τ_(cμ)=cτ_μ. Keep loop generators and all multiplicities in these
+comparisons.
+For an edge-subgraph on the same vertex set with restricted weights,
+prove the canonical generator map is injective and construct its
+vertex-preserving conditional expectation using the reduced edge
+free-product model. Prove the inclusion C₀(V)→S(Λ,μ) induces isomorphisms
+on K₀ and K₁; thus K₀ is the free abelian group on vertices and
+K₁=0 (Hartglass–Penneys I, Theorem 5.25, p. 40). For a finite graph
+construct the module deformation/Toeplitz comparison and compact
+ideal exact sequences proving this, including the vertex projection map.
+For an arbitrary graph, S(Λ,μ) is the closure of the directed union of
+the algebras of its finite edge-subgraphs on the same vertex set V, by
+the injectivity above; each of these is the direct sum of the algebra of
+a finite graph and `C₀` of the vertices meeting none of its edges, so
+OperatorKTheory K2.3's continuity over this directed system gives the
+isomorphism with no cardinality hypothesis.
+Define `a_μ(v)=Σ_w n(v,w)μ(w)`, a sum of positive terms with value in
+`[0,∞]`, infinite when v has infinite weighted degree, and
+`A(Λ,μ)={v:μ(v)>a_μ(v)}` (Lemma 5.21, p. 39).
+For a countable graph, the standing setting of Hartglass–Penneys I
+(Notation 2.11, p. 8), prove: if Λ is connected and `A(Λ,μ)=∅` then
+`S(Λ,μ)∩K(F(X))=0`, hence injection into the graph Cuntz–Pimsner
+quotient (Theorem 5.23 and Corollary 5.24, p. 39); if Λ is locally
+finite and `A(Λ,μ)` is nonempty then `S(Λ,μ)` meets `K(F(X))`
+(Theorem 5.23, p. 39). The proof passes through the structure of the
+von Neumann closure (Lemma 5.21, p. 39), which the source proves for
+finite graphs and extends to countable ones by embedding. The K-theory
+above reaches arbitrary cardinality by continuity; this statement is
+made only in the source's countable setting.
+Prove the principal-graph dimension weighting has empty A when δ>1
+(§5.4, p. 41),
+so the planar quotient comparison in CA8 is faithful.
+
+**Checks.**
+
+- For `X=ℂⁿ` over `B=ℂ` with the unital left action, `φ⁻¹(K(X))=ℂ` and
+  `ker φ=0`, so `J_X=B` and the first map of the six-term sequence is
+  `1−[X]=1−n` on `K₀(ℂ)=ℤ`: for `n≥2`, `O_X` is the Cuntz algebra `O_n`
+  of OperatorAlgebraDynamics D6, with `K₀(O_n)=ℤ/(n−1)` and `K₁(O_n)=0`;
+  for `n=1`, `O_X=C(S¹)` with `K₀=K₁=ℤ`. For the zero left action
+  `ker φ=B` and `(ker φ)^⊥=0`, so `J_X=0`, the covariance condition is
+  empty and `O_X=T_X`; the ideal `φ⁻¹(K(X))=B` without the `(ker φ)^⊥`
+  factor would impose `π(a)=t^(1)(0)=0` for every a and collapse `O_X`
+  to 0.
+- For `X=ℓ²(I)` over `B=ℂ` with I uncountable and scalar left action, X
+  is not countably generated and `φ(1)=1` is not compact, so
+  `φ⁻¹(K(X))=0`, `J_X=0` and `O_X=T_X`; the six-term sequence gives
+  `K₀(O_X)=ℤ`, generated by `[1]`, and `K₁(O_X)=0`. For countably
+  infinite I the same algebra is `O_∞`, with the same groups. A sequence
+  stated only for countably generated X has no instance here.
+- One edge with `μ(v)=16`, `μ(w)=1`: `a=2` gives `a²μ(w)=4=a⁻²μ(v)`; the
+  reciprocal `a=1/2` gives `1/4` and `64`.
+- For that weighting `a_μ(v)=μ(w)=1<16`, so `v∈A(Λ,μ)`, and
+  `a_μ(w)=16>1`, so `w∉A(Λ,μ)`; the graph is locally finite and
+  `S(Λ,μ)` meets the compacts.
+- One vertex with one loop and `μ=1`: `a_μ=1`, not less than μ, so
+  `A(Λ,μ)=∅`; `S(Λ,μ)` is generated by one semicircular element, so it is
+  `C([−2,2])` with `K₀=ℤ`, `K₁=0`.
+- Rescaling the one-edge weighting by `c=3` leaves `a=2` and `T_ε`
+  unchanged and gives `τ_(3μ)(p_v)=48`.
+- A star whose centre c has weight 2 and whose countably infinitely many
+  leaves have weight 1 is connected, countable and not locally finite.
+  Then `a_μ(c)=Σ_ℕ 1=∞` and every leaf has `a_μ=μ(c)=2>1`, so
+  `A(Λ,μ)=∅` and `S(Λ,μ)` meets no compact operator on `F(X)`; the
+  converse half of the theorem says nothing here, since the centre has
+  infinite degree.
+- The same star with uncountably many leaves still has `A(Λ,μ)=∅`, and
+  `K₀(S(Λ,μ))` is free abelian on the uncountably many vertex classes
+  with `K₁=0`, by the continuity argument; a K-theory computation
+  restricted to countable graphs has no instance here. The
+  compact-intersection statement is not claimed for it.
+
+*Needs:* CA1a, CA1b; HilbertModules H2–H3; FreeProbability F3–F4;
+CStarAlgebras C1; OperatorKTheory K1–K6.
+
+### Examples
+
+The Checks compute the covariance ideal and K-theory of the Cuntz algebras,
+of `C(S¹)` and of the Toeplitz algebra of a nonseparable Hilbert space as
+Cuntz–Pimsner algebras over ℂ, the weighted one-edge
+moments, the set `A(Λ,μ)` for one edge, for one loop and for a
+countable and an uncountable star, and the rescaling of the trace.
+
+### Dependencies
+
+CA1a and CA1b; HilbertModules H2–H3; FreeProbability F3–F4; CStarAlgebras
+C1; OperatorKTheory K1–K6.
+
+## CA8. Canonical planar C*-algebras and their towers
+
+Construct the unshaded planar operad of disks with marked intervals
+and uncolored strings, all endpoint counts, isotopy and substitution.
+An unshaded factor planar algebra has finite-dimensional box spaces,
+one-dimensional zero box, conjugate-linear reflection, positive
+definite closure pairing, spherical closure, and circle value δ>1.
+Build the box *-algebras, inclusions, expectations and rectangular
+calculus. Adding checkerboard shading to even-endpoint operations
+gives a shaded algebra identifying `P_(n,+)=P_(n,−)=P[2n]`
+for every n, compatibly with all even-endpoint operations;
+an unshaded extension of a shaded algebra requires a chosen
+symmetrically self-dual strand, odd-endpoint box data and a compatible
+shading-switch isomorphism on all operations. Construct restriction
+and comparison only with these specified data. Do not identify every shaded
+input with an unshaded one.
+
+Build its rectangular C*-tensor category by finite sums and projection
+ranges, with the distinguished symmetrically self-dual strand x.
+Define the rooted undirected principal graph Γ by simple objects and
+edge multiplicity `dim Hom(v⊗x,w)`, allowing loops; prove reciprocity,
+local finiteness and the eigenvector relation for weights μ(v)=d_v.
+Construct the unshaded graph planar algebra from these path spaces,
+with an extremum from region v to region w weighted by
+`sqrt(μ(w)/μ(v))`. On loop spaces `Hom(v⊗x,v)` choose orthonormal
+bases fixed by the antiunitary reciprocity involution; prove its square
+is one from x's symmetric self-duality and prove existence of such bases.
+These choices identify CA7's loop generator with `L(ξ)+L(ξ)†`.
+Using the regular module category and orthonormal intertwiner bases,
+construct the faithful trace-preserving planar embedding, prove basis
+independence up to unitary comparison, and identify the rectangular
+module/Fock corners. These targets extend Subfactors 7.1's shaded path construction;
+they do not assume Γ bipartite or a finite-depth graph.
+
+Construct the unshaded graded algebra `Gr_k=⊕_(n≥0)P[2k+n]`,
+its Wick-contraction trace and free-Fock representation. Prove positivity,
+faithfulness, generator boundedness and that each weak closure is a
+II₁ factor, with consecutive Jones index δ² and standard invariant
+its even shaded restriction (Hartglass–Penneys II, §6, p. 25, for the
+Guionnet–Jones–Shlyakhtenko tower of an unshaded factor planar algebra,
+and Corollary 6.8, p. 27). Give the filtered/orthogonal unitary
+comparison by contraction sums. Apply the Subfactors 8.1–8.2 proof constructions with
+the self-dual single strand, retaining odd boxes, rather than importing
+a nonexistent unshaded version of those theorems.
+
+For each permitted modulus `δ∈{2cos(π/n):n≥4}∪[2,∞)` construct the
+unshaded positive Temperley–Lieb factor planar algebra TL(δ): P[n] is the
+span of planar matchings of n boundary points (so P[n]=0 for odd n),
+unshaded tangles act by gluing with closed loops evaluated to δ, the
+one-click rotation acts on matchings, and the negligible ideal of the
+closure pairing is divided out. Identify its even restriction with
+Subfactors 6.1's shaded TL planar algebra example, `P_(n,±)=P[2n]`, the
+shading-switch isomorphism being the identity on matchings; positivity
+and the restriction to permitted moduli come from Subfactors 3.2
+and 6.1. Prove the strand is
+symmetrically self-dual, so TL(δ) is an unshaded factor planar algebra
+in the sense above with `P[n]=Hom(1,x^⊗n)` in its rectangular category.
+
+For an unshaded factor planar algebra of modulus δ>1 construct
+its ground algebra B(P), Hilbert correspondence X(P), Fock, Toeplitz,
+Cuntz–Pimsner and free semicircular C*-algebras. Define the ground
+finite matrix blocks and inclusions from rectangular box composition,
+complete their compatible norms, and prove the correspondence inner
+product positive with dense bounded planar generators. Define its
+conjugate-linear reflection on rectangular planar vectors, with
+`J(bξc)=c*J(ξ)b*`, and the reflection-fixed real span. Generate
+the free semicircular algebra by B(P) and `L(ξ)+L(ξ)†` on that real
+span; prove the reflection, corner and adjoint relations and boundedness.
+Prove tangle/
+planar-map functoriality on all these objects, respecting the gauge,
+trace and covariance structures.
+
+Construct both the unshaded graded/filtered GJS C*-tower A_k and
+the shaded towers A_(k,±), for the spherical subfactor planar algebras
+of Subfactors 6.4, by retaining the region color on every
+rectangle, tensor action and corner. Use Subfactors 8.2's shaded multiplication/
+trace and perform the same module/Fock norm completion with the two
+ground vertex families. In each setting construct the planar bounded
+representations and corner projections. Compare the two product
+conventions explicitly, and identify the shaded weak closures with
+Subfactors 8.1–8.2's orthogonal and GJS realizations and the unshaded closures with the
+corresponding construction above. Identify the weighted principal-
+graph free algebra and its root/through-string corners with the planar
+constructions, using quantum-dimension vertex weights and CA7's Fock
+comparison. Keep the trace on the semifinite algebra distinct from
+the normalized corner trace.
+
+Prove all unshaded A_k strongly Morita equivalent via the full corner
+bimodules (Hartglass–Penneys II, Theorem A, p. 2, proved as
+Corollary 4.16, p. 15); in the shaded theory prove
+`A_(n,±)∼_M A_(n+1,∓)` and retain the two possible Morita classes
+(Remark 4.18, p. 16).
+For shaded input use the principal or dual graph belonging to the
+base color of its Morita class, with the transported vertex projections.
+Use CA7's vertex K computation and the actual full-corner maps to prove
+`K₀(A_k)≃⊕_(v∈VΓ)ℤ` and `K₁(A_k)=0`, with transported vertex classes
+(Theorem B, p. 3, proved as Corollary 4.17, p. 15).
+Prove A₀ simple, uniquely tracial and stable rank one (Theorem C, p. 3,
+proved as Theorems 5.1, 5.5 and 5.14, pp. 17, 19 and 24), and prove
+these properties separately for both shaded roots A_(0,+),A_(0,−); build the
+free-product norm estimates, unique-trace averaging, approximation of
+elements by invertibles and comparison of projections that yield
+these results. General reduced/amalgamated products come from F4,
+while these particular C* norm and rank arguments are targets here.
+
+Pin its ordered K₀ and scale on A₀ itself:
+`K₀(A₀)^+={0}∪{x:τ_*(x)>0}` and
+`Σ(A₀)={0,[1]}∪{x:0<τ_*(x)<1}` (Theorem C, p. 3, and Corollary 5.18,
+p. 25).
+Prove τ_* and [1] match the normalized root trace and projection;
+transport other A_k groups by the specified Morita bimodules before
+comparing their trace pairings. No unnamed identification of K₀(A_k)
+with K₀(A₀) is used in the cone formula.
+
+Construct the C*-basic construction, dual expectations, Watatani index
+and tower comparison with Subfactors 2.1–2.3. For E:B→A define a finite quasi-basis
+(u_i,v_i) by `x=Σ_i u_i E(v_i x)=Σ_i E(x u_i)v_i` for every x∈B,
+and its Watatani index by `Ind(E)=Σ_i u_i v_i`;
+a Pimsner–Popa basis has v_i=u_i*. Prove basis independence,
+positivity/centrality of index, composition and corner transport.
+For every planar tower inclusion above, without a finite-depth hypothesis,
+derive simplicity at every level from the proved corner Morita
+equivalences and HilbertModules H3's Morita invariance of simplicity,
+and construct a finite quasi-basis from simplicity, fullness of the Jones
+projection and the pull-down identity. Prove its Watatani index is δ²
+(Lemma 6.6, Proposition 6.7 and Corollary 6.8, p. 27).
+Construct a Pimsner–Popa basis with
+`N(δ²)=min{n∈ℕ:n>δ²}` elements at every level. Prove the K₀
+constraints on basis sizes and existential sharpness (Definition 6.11
+and Theorem 6.13, p. 27, proved on p. 28): for each permitted
+modulus `δ∈{2cos(π/n):n≥4}∪[2,∞)` there is a factor planar
+algebra whose first inclusion admits no
+smaller basis. Use the positive Temperley–Lieb factor planar algebra
+at that modulus: for nonintegral δ² the trace inequality excludes
+smaller sizes, while at integer δ²≥2 its depth≥2 and the vertex
+K₀ obstruction `[1₂]≠δ²[1₀]` exclude the endpoint size δ².
+Here 1_k is the through-string projection in the common semifinite
+planar algebra whose corner is A_k; compare these classes in that
+algebra's K₀ through the full-corner maps, before using the obstruction.
+Also work out the outer finite-group crossed-product witnesses and
+the distinct shaded Morita classes for nonabelian groups (Examples 6.15
+and 6.16, p. 28). This is
+existential sharpness, not a lower bound for every input planar algebra.
+Keep finite-dimensional planar levels, finite von Neumann index and
+existence of a finite C* quasi-basis distinct. Include the Temperley–Lieb
+examples TL(δ) constructed above, group-subfactor and shaded
+examples with their corner/K-theory data.
+
+**Checks.**
+
+- `N(δ²)=min{n∈ℕ:n>δ²}` gives 3 for `δ²=2` and for `δ²=(3+√5)/2`, 4 for
+  `δ²=3`, and 5 for `δ²=4`, not 4: the endpoint is excluded at integer δ².
+- In TL(δ), `P[1]=P[3]=0`, `P[2]` is one-dimensional, and the Gram matrix
+  of `P[4]` in the basis of its two matchings is `[[δ²,δ],[δ,δ²]]`.
+- For δ=√2 the principal graph of TL(δ) is `A₃` with dimensions
+  `(1,√2,1)`; the eigenvector relation holds (`√2=δ·1`, `1+1=δ·√2`), and
+  `K₀(A_k)=ℤ³`.
+- Ordered `K₀` of TL(√2): write `K₀(A₀)=ℤ³` on the vertex classes
+  `[p_(f₀)],[p_(f₁)],[p_(f₂)]` of `A₃`, with `[1]=[p_(f₀)]` and
+  `τ_*(a,b,c)=a+√2b+c`. Then `[p_(f₁)]−[p_(f₀)]` has trace `√2−1∈(0,1)`,
+  so it lies in `Σ(A₀)` although it is not coordinatewise positive;
+  `[p_(f₁)]` has trace `√2>1`, so it lies in `K₀(A₀)^+` but not in
+  `Σ(A₀)`; and `[p_(f₀)]−[p_(f₂)]` has trace 0, so neither it nor its
+  negative is positive, although `p_(f₀)` and `p_(f₂)` have equal trace
+  (Hartglass–Penneys II, Remark 5.17, p. 25). Taking the coordinatewise
+  cone of `ℤ³` for `K₀(A₀)^+` would exclude the first class.
+- Watatani index: for `ℂ⊂ℂ²` with `E(a,b)=(a+2b)/3`, the pairs
+  `u₁=e₁, v₁=3e₁, u₂=e₂, v₂=(3/2)e₂` form a quasi-basis, since
+  `e₁E(3x₁e₁)=x₁e₁`, `e₂E((3/2)x₂e₂)=x₂e₂`, and symmetrically
+  `E(xe₁)·3e₁=x₁e₁`, `E(xe₂)·(3/2)e₂=x₂e₂`. Its index is
+  `Ind(E)=(3,3/2)`, central and not scalar; for `E(a,b)=(a+b)/2` the
+  index is `2·1`. A count of basis elements gives 2 in both cases.
+
+*Needs:* CA1b, CA2a, CA2b, CA7; HilbertModules H3; Subfactors 2.1–2.5,
+3.2, 6.1–6.4, 7.1–7.2, 8.1–8.2;
+FreeProbability F2, F4; OperatorKTheory K1–K2.
+
+### Examples
+
+The Checks compute `N(δ²)` at integer and non-integer `δ²`, the small box
+spaces and Gram matrix of TL(δ), the principal graph, `K₀`, its positive
+cone and its scale at δ=√2, and the Watatani index of two expectations
+of `ℂ²` onto ℂ.
+
+### Dependencies
+
+CA1b, CA2a, CA2b and CA7; HilbertModules H3; Subfactors 2.1–2.5, 3.2,
+6.1–6.4, 7.1–7.2 and 8.1–8.2; FreeProbability F2 and F4; OperatorKTheory
+K1–K2.
+
+## CA9. Complete W*-categories and fusion commutants
+
+For a complete W*-category with a set of generators, take their
+orthogonal sum G and linking algebra A=End(G), with operator-order
+multiplication. Identify the category with normal Hilbert-space right
+A-modules, equivalently normal left representations of A^op, using the
+right A-action on `p_X L²(End(G⊕X)) p_G`. Construct the representation
+and bounded intertwiner functors, prove full faithfulness and essential
+surjectivity, independence of G and Morita transport. These modules use
+scalar Hilbert-space inner products; any comparison with self-dual
+Hilbert C*-modules requires a separate construction.
+For every W*-category construct the canonical Hilb-valued inner product
+`⟨a,b⟩=p_b L²(End(a⊕b)) p_a`, with sesquilinear, dagger, sum and
+naturality laws. For complete W*-categories construct the transpose
+F^t of a normal dagger functor,
+characterized by natural unitary identifications
+`⟨c,F^t(d)⟩_Hilb≃⟨F(c),d⟩_Hilb` (Henriques–Nivedita–Penneys,
+Definition 4.14, p. 26).
+This is the Hilb-valued transpose, not an assertion that every normal
+functor has an ordinary categorical adjoint. Prove its tensor,
+composition and bi-involution coherences.
+
+Prove the biequivalence between von Neumann algebras/normal
+correspondences/intertwiners and complete W*-categories admitting a
+set of generators/normal functors/bounded natural transformations
+(Henriques–Nivedita–Penneys, Theorem A, p. 2, proved as Theorem 7.4,
+p. 38, there with left modules).
+On objects use normal Hilbert-space right modules. A correspondence
+`_A H_B` induces `K_A↦K⊗_A H` on these module categories; bounded
+intertwiners induce natural transformations. Use this handedness
+throughout the biequivalence and its comparison with left modules;
+construct the inverse from the generator linking algebra and prove
+full faithfulness on hom-categories and essential surjectivity.
+Use the fixed `Type u` generator sets and Hilbert sums and
+`Type (u+1)` module categories from the scope conventions. Natural
+transformations have uniformly bounded components. Prove the existence
+of a generator family is an additional property; category size alone
+does not provide it.
+
+For a unitary tensor functor α:C→Bim(R) define
+`C′=Z_C(Bim(R))` by CA6's relative-center construction, with separable
+normal R–R bimodules. Construct its dagger/tensor/bi-involution,
+positive cones and the double-commutant comparison. Define a positive
+representation by compatible cones on morphisms
+`a⊗ā→b⊗b̄`; prove every fully faithful representation of a
+semisimple rigid C*-tensor category extends uniquely to one, and every
+representation isomorphism preserves it (Henriques–Penneys 2020,
+Theorem A, p. 2, proved as Theorem 5.18, p. 28).
+
+For a unitary fusion category C construct its 2-by-2 matrix multifusion
+category, choose the sum of simple generators in the off-diagonal sector,
+and use CA2 to form its finite-depth spherical planar algebra. Apply
+Subfactors 9.1–9.2's hyperfinite standard-model realization, then recover the
+fully faithful multifusion representation in Bim(A⊕B) and its C corner.
+This constructs the fully faithful realization in Bim(R_II₁), R_II₁ the
+hyperfinite II₁ factor. For every hyperfinite factor R with separable
+predual that is not of type I prove `R⊗̄R_II₁≅R` (Henriques–Penneys 2015,
+Lemma 3.4, p. 16): `R⊗̄R_II₁` is an injective factor with separable
+predual by V13b's tensor permanence of semidiscreteness and V11's tensor
+commutation; for R of type II apply V13b's uniqueness of the injective
+II₁ and II∞ factors; for R of type III take the weight `φ⊗τ`, whose
+modular flow is `σ^φ⊗id`, identify the continuous core of `R⊗̄R_II₁`
+with `core(R)⊗̄R_II₁` and its dual flow with `θ⊗id`, so that its flow
+of weights is that of R, and apply V13b's classification of injective
+type III factors (III_λ and III₁ uniqueness, III₀ by the flow of
+weights). Then compose with `Bim(R_II₁)→Bim(R⊗̄R_II₁)≅Bim(R)`,
+`H↦L²(R)⊗H`, to obtain a fully faithful representation of every unitary
+fusion category in Bim(R) for every such R (Henriques–Penneys 2015,
+Theorem 3.5, p. 17; Henriques–Penneys 2020, Theorem 3.15 and
+Corollary 3.16, p. 16). Prove full faithfulness by the factor
+relative-commutant calculation `Hom(L²(R)⊗H,L²(R)⊗K)=ℂ⊗Hom(H,K)` and
+fusion compatibility `(L²(R)⊗H)⊠(L²(R)⊗K)≅L²(R)⊗(H⊠K)`. The instances
+used below are R_II₁, R_II∞ and R_III₁.
+For unitary fusion C and fully faithful representations
+`α:C→Bim(R)`, `β:C→Bim(S)`, with R,S hyperfinite of separable
+predual and either both type II (II₁ or II∞) or both III₁, prove
+representation uniqueness: construct an invertible R–S correspondence
+U and unitary natural identifications `U⊗_S β(c)≃α(c)⊗_R U`,
+with tensor and unit coherence (Henriques–Penneys 2020, Theorem 3.10,
+p. 14). Prove the induced positive structures
+agree; do not assert uniqueness between the type-II and III₁ classes.
+
+Construct the normal correspondence models with their size and
+standardization domains explicit. Keep the arbitrary-universe W*-category,
+generator and module-category targets above. Use VonNeumannAlgebras
+V4.Normality's normal representation amplification, V5's projection
+comparison and
+countable absorption, V11's general standard form and tensor commutation,
+and Subfactors 1.1–1.2's normal correspondences and Connes fusion. CA9 owns
+the following coordinate models and comparison functors, not a second
+standard-form, normal-representation or fusion construction.
+
+For any von Neumann factor M, write H₀=L²(M), with
+`aξb=aJb*Jξ`. Define End_rev(M) to have the normal unital endomorphisms
+ρ:M→M and a zero object; morphisms t:ρ→σ are t∈M with
+`tρ(a)=σ(a)t` for every a, with the usual zero-object Hom spaces.
+Build its complex-linear dagger, norms and reversed tensor composition
+`ρ⊗_rev σ=σ∘ρ`; for t:ρ→ρ′ and s:σ→σ′ the tensor
+intertwiner is `s σ(t)=σ′(t)s`. Define the full subcategory
+Bim_std(M) of normal M–M correspondences whose nonzero underlying right
+M-module admits a right-M-linear unitary to H₀, together with zero.
+Construct the complex-linear dagger tensor equivalence
+End_rev(M)≃Bim_std(M) by `_ρH₀`, with left action `a·ξ=ρ(a)ξ`
+and ordinary right action. Map t to left multiplication by t. From a
+chosen right standardization recover ρ using the commutant of the right
+action, and compare different choices by the corresponding unitary
+intertwiner. Construct
+`U_(ρ,σ):_ρH₀⊗_M _σH₀≃_(σ∘ρ)H₀` and prove its naturality,
+unitarity and associator/unit coherence. Do not infer closure of this
+right-standardizable subcategory under arbitrary sums or subobjects
+without proving standardizability of those particular ranges.
+
+For all normal M–M correspondences, construct instead the amplified
+corner category. In a common universe u choose an index type I:Type u,
+put `H_I=H₀⊗̂ℓ²(I)` and `A_I=M⊗̄B(ℓ²(I))`, identified with the
+commutant of the diagonal right M-action on H_I. An object consists of
+a projection p∈A_I and a normal unital star homomorphism
+`λ:M→pA_Ip`, where the corner unit is p. Its realization is pH_I,
+with left action λ and the restricted diagonal right action. Include
+I=∅ and p=0 as zero presentations. All Hilbert carriers and index sets
+lie in the common Type u, and the presentation category in Type(u+1);
+use universe lifts when comparing data initially given at different levels.
+There is no fixed countable bound on I. Consume V4/V11 to present every
+normal right M-module as such a reducing corner: decompose into cyclic
+normal subrepresentations, realize their positive functionals in the
+standard form, take their orthogonal sum and the commutant range
+projection, and transport the commuting left action to λ. Retain all
+normal correspondences, including nonseparable carriers.
+
+For objects (I,p,λ),(J,q,μ), the Hom space consists of rectangular
+operators `T∈q(M⊗̄B(ℓ²(I),ℓ²(J)))p` satisfying
+`Tλ(a)=μ(a)T` for every a∈M. Define the rectangular space as the
+appropriate off-diagonal corner in A_(I⊔J), not an algebra of
+rectangular matrices. Use operator norm, multiplication for composition
+and adjoint for dagger. Prove the intertwiner equations define a weak-*
+closed space; identify its actual quotient predual, separately normal
+composition and the C*-norm/dagger laws. Construct all Type-u-indexed
+orthogonal sums and all projection ranges by block sums and corners,
+including the zero case. Prove realization fully faithful using the
+right-action commutant and essentially surjective by the preceding
+presentation. Construct its inverse equivalence, unitary changes of
+presentation and common-amplification comparisons, with their coherence;
+do not declare the choices literally equal.
+
+For H=(I,p,λ), K=(J,q,μ), use the normal spatial matrix amplification
+`μ^[I]:A_I→(q⊗1_I)A_(J×I)(q⊗1_I)`, with
+`μ^[I](a⊗E_(i′,i))=μ(a)⊗E_(i′,i)`, under the fixed unitary
+`H₀⊗̂ℓ²(J×I)≃(H₀⊗̂ℓ²(J))⊗̂ℓ²(I)`.
+Set `P=μ^[I](p)` and `ν(a)=μ^[I](λ(a))`, a normal map with
+ν(1)=P. Define their composite presentation to be (J×I,P,ν).
+Construct the unitary
+`pH_I⊗_M qH_J≃P(H₀⊗̂ℓ²(J×I))` from Subfactors 1.2's standard-form
+left unitor on each coordinate. Verify it first on the dense bounded-
+vector tensor domain, with Subfactors 1.2's opposite-weight convention, and then
+complete and restrict by the range projection. Show a rectangular
+right-module operator T acts after this comparison by its amplified
+matrix μ(T); extend the finite-coordinate formulas normally, rather
+than assuming an infinite matrix sum converges in norm.
+
+For T:H→H′ with coordinate types I,I′ and S:K→K′ with
+coordinate types J,J′ and target left action μ′, the fusion morphism is
+`(S⊗1_(I′)) μ^[I′,I](T)
+ = μ′^[I′,I](T)(S⊗1_I)`, restricted to the composite corners.
+Construct the rectangular amplification from the same off-diagonal
+corner; prove this equality, the corner supports, intertwining,
+contractive tensor norm, dagger/interchange and separate normality.
+Construct the unit presentation (one coordinate,1,id_M), both unitors
+and, for a third coordinate type L, the associator from the canonical
+coordinate bijection between L×(J×I) and (L×J)×I. Check their projection/left-action equations,
+pentagon/triangle and compatibility with Subfactors 1.2's fusion comparisons.
+Transport Subfactors 1.1's conjugation and double-conjugation data by the presentation
+equivalence, with natural unitary comparisons. In the one-coordinate
+p=q=1 specialization the formulas give ν=σ∘ρ and
+`T⊗S=sσ(t)=σ′(t)s`, exactly End_rev(M), and give U_(ρ,σ).
+
+For a properly infinite factor M with separable predual, prove that
+H₀ is separable and every nonzero separable normal M–M correspondence
+is right standardizable. Use a countable amplification, V5's countable
+absorption and projection comparison: the represented left M makes
+its nonzero support corner properly infinite, so that support is
+equivalent to the unit in the sigma-finite amplified factor. Construct
+the resulting right-module unitary, and identify the model with all
+separable normal Bim(M). Prove finite and countable sums and every
+bimodule projection range stay in this separable model; arbitrary
+cardinal sums remain in the full amplified model. For any finite-
+statistical-dimension endomorphism pair, transport both standard
+conjugate cups and their adjoints through U and the unit comparison,
+preserving their equations and squared norm d. In End_rev,
+ρ⊗_rev ρ̄=ρ̄∘ρ, so a usual-composition
+`R_std:id→ρ̄∘ρ` becomes `U_(ρ,ρ̄)⁻¹ L_(R_std)`;
+the other cup uses the reversed pair. Keep these comparisons compatible
+with the tensor-reversal/cocycle bridge and normalized left inverses below.
+
+Include the size tests: for uncountable I, B(ℓ²(I)) has no nonzero
+normal representation on a separable Hilbert space, although its identity
+endomorphism has its standard right-module realization. For B(ℓ²),
+construct normal correspondences with uncountable right multiplicity
+and prove they cannot be `_ρL²(M)` on its fixed standard right carrier;
+the amplified model must realize them. Check zero presentations,
+arbitrary reindexing and common-universe lifts, finite matrix corners,
+and the above one-coordinate tensor and cup specializations.
+
+Construct the convention bridge to Tomatsu's usual-composition
+endomorphism category, whose tensor on objects is `ρ⊗σ=ρ∘σ` and
+on intertwiners is `t ρ(s)=ρ′(s)t`. End_rev(M) is exactly this
+category with its tensor reversed. Tensor reversal keeps objects,
+morphisms, dagger and complex scalars, sets `X⊗_rev Y=Y⊗X`, and
+uses `a^rev_(X,Y,Z)=a_(Z,Y,X)⁻¹`, `λ^rev=ρ`, `ρ^rev=λ`. For a representation
+F:C→End_rev(M) obtained above, construct the unitary tensor functor
+G:C^rev→End(M) with the same object and morphism maps. If
+`u_(X,Y):F_Y∘F_X→F_(X⊗Y)` is F's tensor constraint, G's constraint
+is `u_(Y,X)` and Tomatsu's cocycle is `c_(X,Y)=u_(Y,X)†`.
+Prove the tensor-intertwiner and cocycle equations under this translation,
+including nonstrict associators. Swap the two standard conjugate cups
+when reversing the tensor category, retaining their dimension and
+standardness. Prove preservation of amenability, central freeness,
+approximate unitary equivalence and strong cocycle conjugacy, and
+construct the inverse translation. Apply the action theorem below to
+C^rev and translate its result back to the original correspondence
+representations; no identification of C with C^rev is required.
+For the back-translation take the invertible correspondence
+`U=_γL²(M)`. Construct the natural unitaries
+`U⊗_M β(X)≃α(X)⊗_M U` from the action intertwiners w_X† and the
+fusion tensorators, proving their tensor coherence.
+
+In the usual-composition endomorphism category, for
+finite-statistical-dimension objects choose CA2's standard conjugate
+solution `R_std:id→ρ̄∘ρ` with R_std†R_std=d_ρ, and use the isometry
+`r_ρ=d_ρ^(-1/2)R_std`. Pin the source's normalized conjugate equations
+`r_ρ* ρ̄(r̄_ρ)=d_ρ⁻¹1`, `r̄_ρ*ρ(r_ρ)=d_ρ⁻¹1` and the canonical
+normal ucp left inverse `φ_ρ(x)=r_ρ*ρ̄(x)r_ρ`.
+Prove φ_ρρ=id, faithfulness, normality, `E_ρ=ρφ_ρ` a conditional
+expectation, standard/minimal index `Ind(E_ρ)=d_ρ²` for Subfactors 2.5's
+index of an expectation, agreement of d_ρ with Subfactors 2.4's sector
+dimension, and the tensor/composition and corner laws; retain the factor
+hypothesis in the scalar-index claim.
+
+For an inclusion N⊂M of σ-finite factors with a faithful normal
+conditional expectation E of finite index, M in standard form on L²(M)
+with modular conjugation J, construct Kosaki's basic extension `M₁=⟨M,e_E⟩=JN′J`
+(Kosaki 1986, §3, Lemma 3.2, as recalled in Burns, *Subfactors, planar
+algebras and rotations*, Proposition 2.1.21, pp. 12–13; over a II₁ base
+N this is the form `⟨M,N⟩=J_φN′J_φ` of Jones–Penneys, *Realizations*,
+Definition 3.3(1), p. 15), where the Jones projection e_E projects onto
+the closure of `Nξ` for the vector ξ of `ψ∘E`, ψ a faithful normal state
+on N, so that `e_E x e_E=E(x)e_E` for x∈M, `N=M∩{e_E}′` and
+`Je_EJ=e_E`. Construct the dual expectation
+`E₁=Ind(E)⁻¹·j∘E⁻¹∘j:M₁→M` from Subfactors 2.5's inverse weight
+`E⁻¹:N′₊→M̂′₊`, where `j(x)=Jx*J`, and prove `E₁(e_E)=Ind(E)⁻¹` and
+`Ind(E₁)=Ind(E)` (Kosaki 1986, §3; Burns, p. 13); iterate to the tower
+`N⊂M⊂M₁⊂M₂⊂⋯`. The algebra M₁ does not depend on E; its Jones projection
+and the index do. For a finite-index endomorphism σ of an infinite factor
+M with separable predual, applied to `σ(M)⊂M` with `E=E_σ`, identify
+`M⊂M₁` with `σ̄(M)⊂M`, the identification used in the proof of
+Masuda–Tomatsu 2009, Corollary 4.19 (p. 38). A route: realize M₁ as
+`J_M σ(M)′ J_M` for a vector cyclic and separating for both σ(M) and M;
+`γ=Ad(J_(σ(M))J_M)` maps M into σ(M), the two modular conjugations carry
+`M⊂M₁` anti-isomorphically onto `M′⊂σ(M)′` and that onto `γ(M)⊂σ(M)`, and
+`σ⁻¹∘γ` represents the sector `[σ̄]`.
+
+For separable-predual M and a free ultrafilter ω, build the general
+Ocneanu ultrapower (Tomatsu, §2.2, p. 5; Masuda–Tomatsu 2009, §2.4,
+p. 5). Let T^ω be the bounded sequences tending strongly-*
+to zero along ω; let N^ω be their two-sided multiplier algebra inside
+ℓ∞(M), and let C^ω be the bounded sequences with
+`lim_ω‖x_nψ−ψx_n‖_(M_*)=0` for every ψ∈M_*.
+Prove C^ω⊆N^ω and T^ω a closed ideal of both. Construct
+`M^ω=N^ω/T^ω` as a von Neumann algebra, its constant normal embedding,
+bounded representatives, canonical weak-* ultralimit expectation and
+normal state lifts. Construct `M_ω=C^ω/T^ω`, prove it is weak-* closed
+in M^ω and hence a von Neumann subalgebra, and prove
+`M_ω⊆M′∩M^ω`; no equality is assumed for general M.
+For factors derive its canonical trace from the state lifts and central
+weak-* limits, with faithful normality and independence of the chosen
+faithful state: for bounded centralizing x_n and bounded y_n use
+`|φ(x_ny_n−y_nx_n)|≤‖x_nφ−φx_n‖‖y_n‖`, and prove the ultralimit
+expectation of a centralizing sequence is scalar. This is a trace on
+M_ω; the expectation on M^ω is M-valued. Relate the finite-tracial
+case to V12. Prove the extension
+of finite-index ρ and φ_ρ to M^ω, and
+`ψ^ω∘φ_ρ^ω=(ψ∘φ_ρ)^ω`. Define central sequence containment and
+countably generated subalgebras with their strong closures and corners.
+
+For a cocycle action α, central freeness means: for each nontrivial
+simple X, no nonzero a∈M satisfies `ax=α_X^ω(x)a` for every
+x∈M_ω, with a viewed in M^ω by the constant embedding. Strong
+freeness instead quantifies a∈M^ω and tests x∈Q′∩M_ω for every
+countably generated Q⊆M^ω. Prove the required implication from
+central to strong freeness (Masuda–Tomatsu 2007, Lemma 8.2, p. 64, for a
+unital faithful normal homomorphism M→M⊗B(K) of a separable-predual M,
+K finite-dimensional, with a faithful normal ucp left inverse, applied
+with K=ℂ to each α_X with its standard left inverse; Tomatsu,
+Remark 2.17(1), p. 16) and the relative commutant/corner forms
+used by the Rohlin construction; keep their different ambient
+intertwiner spaces. Define `ρ(ψ)=ψ∘φ_ρ∈M_*` and
+`(uρ(ψ)u*)(x)=ρ(ψ)(u*xu)`. Approximate unitary equivalence of
+ρ₁,ρ₂ means a sequence of unitaries u_n∈M with
+`‖u_nρ₁(ψ)u_n*−ρ₂(ψ)‖_(M_*)→0` for every ψ∈M_*.
+Define the induced lifted functional
+`ρ_i(ψ^ω)=ψ^ω∘φ_(ρ_i)^ω`. Prove equivalence with the existence of
+one unitary u∈M^ω satisfying
+`u ρ₁(ψ^ω) u*=ρ₂(ψ^ω)` for every ψ∈M_*; the conjugation action
+on functionals is `(u f u*)(x)=f(u*xu)`. Construct the necessary
+unitary representatives and use separability of the predual to pass
+between sequences and this simultaneous exact comparison. Prove
+invariance, sums and standard left-inverse transport. This is a predual criterion, not pointwise
+convergence of ρ₁(x) and ρ₂(x).
+
+Define approximate innerness of rank r>0 by partial isometries v_i^n,
+`1≤i≤⌊r⌋+1`, with `(v_i^n)*v_i^n=1` for i≤⌊r⌋,
+`v_(⌊r⌋+1)^n=0` for integral r, `Σ_i v_i^n(v_i^n)*=1`, and
+`‖r⁻¹ v_i^n ψ−(ψ∘φ_ρ)v_i^n‖_(M_*)→0` for every ψ∈M_*.
+Develop integer-rank Hilbert-space implementations, predual topology,
+rescaling, tensor and conjugacy laws. Prove, for finite-index
+endomorphisms of an infinite factor with separable predual, that
+endomorphisms approximately inner of the same rank are approximately
+unitarily equivalent (Tomatsu, Proposition 2.7, p. 10, in the setting of
+§2.4, p. 8). Construct the finite von Neumann algebra in
+`M^ω⊗M₂`, compare its two diagonal projections using the rank families,
+and descend its unitary to the preceding predual criterion.
+
+For hyperfinite II∞ prove the Masuda–Tomatsu characterization
+`ρ approximately inner of rank r ↔ τ∘φ_ρ=r⁻¹τ` for finite-index
+endomorphisms. For hyperfinite III₁ prove every finite-index
+endomorphism approximately inner of each rank r>0 (Masuda–Tomatsu
+2009, Corollary 3.16(3)–(4), p. 29). These are targets
+here, not consequences of V13's automorphism-only theorem. Construct
+Izumi's canonical extension (Izumi 2003, Theorem 2.4, p. 5, for a
+type III factor; Masuda–Tomatsu 2009, §3.1, p. 15, for a factor of
+any type) on V11's core, with the positive dual
+action fixed by `θ_s(x)=x` for x∈M, `θ_s(u_t)=exp(i s t)u_t`
+and `Tr∘θ_s=exp(s)Tr`. For a faithful normal semifinite weight φ
+and the designated standard left inverse φ_ρ, construct the normalized
+version `ρ̌(x)=ρ(x)`, `ρ̌(u_t)=(D(φ∘φ_ρ):Dφ)_t u_t` and
+pin the canonical extension by
+`ρ̃(x)=ρ(x)`, `ρ̃(u_t)=d_ρ^(it)(D(φ∘φ_ρ):Dφ)_t u_t`.
+Prove `ρ̃=θ_(+log d_ρ)∘ρ̌`, independence of weight via V11's
+specified cocycle comparison, and equivariance with the same dual action.
+Define having a Connes–Takesaki module by ρ̃ taking the core center
+into itself with automorphism restriction. For an approximately inner
+finite-index endomorphism of rank r>0, prove
+`mod(ρ)=θ_(log(d_ρ/r))|_(Z(core))` with this positive convention.
+When consuming negative-action formulas put `θ⁻_s=θ_(-s)` explicitly:
+`θ⁻_(-log d_ρ)∘ρ̌=θ_(+log d_ρ)∘ρ̌` and
+`θ⁻_(log(r/d_ρ))=θ_(log(d_ρ/r))`. Transport the source cocycle,
+module and rank statements together, keeping Tr and the weight normalization
+unchanged rather than renaming only one sign.
+Require the II∞ inner-amplification normalization for every integer n≥2:
+with `v_i†v_j=δ_ij1`, `Σ_i v_i v_i†=1`, put
+`ρ(x)=Σ_i v_i x v_i†`, `φ_ρ(x)=n⁻¹Σ_i v_i†xv_i`.
+Prove d_ρ=r=n, `τ∘φ_ρ=n⁻¹τ` and the scalar cocycle
+`(D(τ/n):Dτ)_t=n^(-it)`. In this trace core u_t is central;
+hence `ρ̌(u_t)=n^(-it)u_t`, `ρ̃(u_t)=u_t`, and its module is
+`θ_0=id`. The formula with a second negative phase would instead
+give n^(-2it)u_t and does not satisfy this regression.
+For II∞ build trace-scaled partial-isometry approximants. For III₁
+construct the locally trivial inclusion `diag(x,ρ(x))⊂M₂(M)`,
+its weighted conditional expectations and modular/finite-index API;
+prove the weighted approximation theorem used by the III₁ argument of
+Masuda–Tomatsu 2009 with expectation-weight ratio μ₁/μ₀=r, and extract
+the displayed rank families. The normalizations and estimates needed
+for this application are part of this target.
+
+Call a finite-index endomorphism ρ of a factor M with separable predual
+centrally trivial when ρ^ω is the identity on M_ω (Masuda–Tomatsu 2009,
+Definition 4.1, p. 30). Prove that on automorphisms this is
+VonNeumannAlgebras V12's `Ct(M)`: along a dense sequence in M_*, an
+ω-centralizing sequence on which ρ^ω is not the identity has a
+subsequence that is predual-centralizing in V12's sense and on which ρ
+does not converge to the identity, and a predual-centralizing sequence
+on which ρ does not converge to the identity has a subsequence bounded
+away from it, which is ω-centralizing for every free ultrafilter. Call
+ρ modular when its canonical extension ρ̃ above is inner, that is,
+implemented by a finite-dimensional Hilbert space in the core
+(Izumi 2003, Definition 3.1, p. 7, for a type III factor; Masuda–Tomatsu
+2009, §4.2, p. 33, for a factor of any type). On every such factor
+prove that the inner automorphisms are centrally trivial (p. 31), that a
+centrally trivial ρ and an approximately inner automorphism θ satisfy
+`[θρθ⁻¹]=[ρ]` as sectors (Lemma 4.7, p. 32), and that every modular
+endomorphism, in particular every `Ad u∘σ_t^φ`, is centrally trivial
+(Lemma 4.11, p. 34). Prove that the irreducible modular endomorphisms of
+a factor of type II∞ are its inner automorphisms, and those of a factor
+of type III_λ, 0<λ≤1, are the `Ad u∘σ_t^φ` with u unitary, φ a faithful
+normal semifinite weight and t∈ℝ (Lemma 4.10(2), p. 34, for type II∞;
+for type III_λ, Izumi 2003, Theorem 3.3 with Remark 3.8, pp. 9 and 17,
+recalled as Masuda–Tomatsu 2009, Lemma 4.10(3)); by V11's
+Connes cocycle a faithful normal state may replace the weight. On an
+infinite factor prove that the centrally trivial endomorphisms are
+closed under composition, subobjects, finite direct sums and conjugates
+(Theorem 4.6, p. 31). For irreducible ρ prove that ρ is
+not centrally trivial exactly when no nonzero a∈M satisfies
+`ax=ρ^ω(x)a` for every x∈M_ω (Masuda–Tomatsu 2007, Lemma 8.3, p. 65,
+with K=ℂ; since a commutes with M_ω this is Definition 8.1(4), p. 64,
+there). Prove `T(M)={0}` for V11's invariant T(M) of every factor M of
+type III₁ with separable predual: if `σ_T^φ=Ad u` for a faithful normal
+state φ and T≠0, then `φ∘Ad u*` is a positive multiple of φ with the
+same value at 1, so u lies in the centralizer of φ; writing `u=h^(iT)`
+with h positive and invertible in that centralizer, the faithful normal
+functional `φ(h^(-1)·)` has a modular flow of period T, so the Connes
+spectrum lies in `(2π/T)ℤ`, against V11's identification of it with
+`log(S(M)∖{0})=ℝ`. Then prove the Masuda–Tomatsu characterization on
+the two hyperfinite factors used below (Masuda–Tomatsu 2009,
+Theorem 4.12, p. 35, with Lemma 4.10(2)–(3), p. 34): an irreducible
+centrally trivial finite-index endomorphism of R_II∞ is an inner
+automorphism, and one of R_III₁ is `Ad u∘σ_t^φ` for a unitary u, a
+faithful normal state φ and some t∈ℝ. On an infinite McDuff factor M
+with separable predual, meaning that M_ω is of type II₁, prove for
+centrally trivial ρ the splittings `[ρ]=[θ∘(ρ⊗id)∘θ⁻¹]` for some
+isomorphism `θ:M⊗̄R₀→M`, R₀ the hyperfinite II₁ factor, and likewise
+for some isomorphism `θ:M⊗̄R_II∞→M` (Propositions 4.8–4.9, p. 33). On
+the McDuff factor R_II∞ the flip of `R_II∞⊗̄R_II∞` preserves the trace
+and so is approximately inner by V13b, and Lemma 4.7 then puts id⊗id
+inside ρ⊗ρ̄, so `Hom(id,ρ)≠0` (p. 35).
+
+Call an inclusion N⊂M of factors with a faithful normal conditional
+expectation centrally non-trivial when for every ε>0 and finite F⊂M_*
+some finite partition of unity (q_j) by projections of N satisfies
+`‖Σ_j q_jφq_j−φ∘E_(N∨(N′∩M))‖<ε` for every φ∈F, with E_(N∨(N′∩M)) the
+faithful normal conditional expectation onto N∨(N′∩M) of Masuda–Tomatsu
+2009, Definition 4.13 (p. 36); the condition does not depend on the
+expectation onto N. On an infinite factor with separable predual prove
+that for a non-inner irreducible centrally trivial ρ the inclusion
+`(id⊕ρ)(M)⊂M` is not centrally non-trivial (Lemma 4.15, p. 36). For a
+finite-index endomorphism σ of a type III₁ factor M with separable
+predual prove Izumi's criterion: `σ(M)′∩M=σ̃(M̃)′∩M̃` in the core M̃
+exactly when the sector `[σσ̄]` contains no outer modular automorphism
+(Masuda–Tomatsu 2009, Theorem 4.16, p. 37, recalled there from Izumi
+1993, Theorem 3.5). For a finite-index endomorphism σ of R_III₁, with the
+tower `σ(M)⊂M⊂M₁⊂⋯` constructed above and n≥1, prove Popa's criterion:
+`M⊂M_n` is centrally non-trivial exactly when `[(σσ̄)ⁿ]` contains no
+outer modular automorphism (Masuda–Tomatsu 2009, Theorem 4.18, p. 37).
+Popa proves this for centrally free subfactors (Popa 1995, Theorem 3.5(ii)
+and Corollary 4.4); the centrally non-trivial form is Masuda–Tomatsu's
+observation that his argument applies unchanged (p. 37). Deduce
+Corollary 4.19 (p. 38) by applying Lemma 4.15 to `σ̄` for `σ=id⊕ρ` and
+Popa's criterion with n=1 through the identification of `M⊂M₁` with
+`σ̄(M)⊂M`; and exclude an outer `σ_t^φ` from ρρ̄: it would put `σ_(nt)^φ`
+into ρρ̄ for every integer n, infinitely many inequivalent sectors by
+`T(R_III₁)={0}`, inside a finite-index endomorphism (p. 38).
+
+Define fusion amenability by the weighted Følner criterion: for every
+nonempty finite F⊆Irr(C) and ε>0 there is a nonempty finite K with
+`|(F·K)△K|_σ≤ε|K|_σ`, where `σ(X)=d(X)²` and F·K consists
+of simple summands of X⊗Y for X∈F,Y∈K. Build the fusion
+transition matrices, dimension eigenvector and finite-set estimates;
+prove every unitary fusion category amenable by taking K=Irr(C).
+
+Construct cocycle actions with source convention
+`α_Xα_Y=Ad(c_(X,Y))α_(X⊗Y)`, normalized α_1=id and
+`c_(1,X)=c_(X,1)=1`. The cocycle equation is
+`c_(X,Y)c_(X⊗Y,Z)=α_X(c_(Y,Z))c_(X,Y⊗Z)`, with the
+category associators inserted in the nonstrict form. Their morphism
+maps preserve norms, composition and dagger, with the tensorator
+compatibility `c_(X,Y)[S⊗T]^α=S^α α_U(T^α)c_(U,V)`
+for S:U→X,T:V→Y; c is the inverse of the usual tensor-functor constraint.
+The standard left inverse is
+`φ_X^α(x)=r_X^(α)* c_(X̄,X)* α_X̄(x) c_(X̄,X) r_X^α`,
+using the normalized CA2 cup. For dimension-preserving actions prove
+its agreement with the minimal endomorphism-model left inverse above;
+prove fully faithful actions preserve intrinsic dimensions. On a factor
+prove central freeness excludes intertwiners from the identity to each
+nontrivial simple image, and use rigidity and Frobenius reciprocity to
+deduce full faithfulness. General actions need not send a standard
+conjugate solution to a standard one. Cocycle conjugacy consists of
+γ∈Aut(M) and natural unitaries w_X:γα_Xγ⁻¹→β_X with
+`w_X (γα_Xγ⁻¹)(w_Y) γ(c_(X,Y)^α)=c_(X,Y)^β w_(X⊗Y)`.
+Strong cocycle conjugacy requires γ in the closure of inner
+automorphisms for pointwise predual-norm convergence. Build these
+relations, coherence, invariance and transport APIs.
+
+Prove the factor specialization of Tomatsu's Theorem D (p. 2, proved as
+Theorem 5.7, p. 47): for an
+amenable semisimple rigid C*-tensor category with simple unit and
+countably many simple classes (the generality chosen here), centrally free cocycle actions α,β
+on a properly infinite factor M with separable predual, and
+`α_X≈β_X` for every X in the preceding canonical-predual sense,
+construct a strong cocycle conjugacy. The source's invariant faithful
+normal state on Z(M) is automatic for a factor; no injectivity is
+assumed. Build the Rohlin and approximate-intertwining constructions
+that prove this theorem, then apply it to representation uniqueness.
+Use the preceding ultrapower, central-freeness and canonical-left-
+inverse APIs throughout. For a unitary fusion category C and R the
+hyperfinite II∞ or III₁ factor, prove that a cocycle action α of C on
+R is centrally free exactly when it is fully faithful (Henriques–Penneys
+2020, Lemma 3.6 and Corollary 3.8, p. 13). The forward implication is
+the factor statement above. Conversely, by Masuda–Tomatsu 2007,
+Lemma 8.3, a fully faithful α fails central freeness only at a
+nontrivial simple X with α_X centrally trivial. On R_II∞ the
+characterization above makes α_X inner, so α_X≅α_1. On R_III₁ it makes
+α_X the automorphism `Ad u∘σ_t^φ`; full faithfulness then makes X
+invertible, of some finite order n because C has finitely many simple
+classes, so `σ_(nt)^φ` is inner, t=0 by `T(R_III₁)={0}`, and again
+α_X≅α_1. Both contradict full faithfulness. The equivalence can fail
+on a III_λ factor, 0<λ<1, and on a non-hyperfinite factor (Checks
+below).
+Prove the induced-predual-map comparison for dualizable finite-depth
+endomorphisms of a hyperfinite factor with separable predual
+(Henriques–Penneys 2020, Lemma 3.9, p. 13): on II∞ retain
+irreducibility and equality of intrinsic statistical dimensions
+d_ρ=d_σ, and on III₁ retain its finite-depth hypothesis. Derive those
+hypotheses for each simple image of α and β. Define the Connes–Takesaki
+module through V11's core, prove finite depth forces the module trivial,
+and prove the approximate-inner rank comparison giving rank d_ρ in the II∞
+case. Apply the just-proved cocycle-action theorem and transport it back
+to the invertible correspondence U. For type II₁ first pass to II∞
+by the explicit Morita equivalence and return through it; V13 supplies
+the hyperfinite factor identifications. These are construction targets,
+not extra assumed rigidity hypotheses on the input representations.
+
+Build absorbing bimodules,
+their factor endomorphism algebras and half-braiding extensions, and
+prove the double commutant is the Hilbert-multiplicity completion
+`C⊗_Vec Hilb_sep`. Prove this completion is bicommutant; do not identify
+it with C, whose sums are only finite (Henriques–Penneys 2015, Theorem A,
+p. 2, with absorbing objects in §5, Theorems 5.10–5.13, pp. 24–25, and
+the proof in §6, p. 30). Construct Morita transport of
+commutants: Morita-equivalent unitary fusion categories represented
+fully faithfully in hyperfinite factors have equivalent commutant
+bicommutant categories when the factor types are both type II or both
+III₁ (Henriques–Penneys 2020, Theorem B, p. 3, proved as Theorem 6.8,
+p. 37). Build the linking/multifusion and bimodule equivalences with the
+positive structures; no equivalence across those factor-type classes
+is asserted.
+
+**Checks.**
+
+- II∞ inner amplification with n=2: `d_ρ=r=2`, `τ∘φ_ρ=τ/2`, cocycle
+  `2^(−it)`, `ρ̌(u_t)=2^(−it)u_t`, `ρ̃(u_t)=u_t` and module `θ₀=id`; a second
+  negative phase would give `2^(−2it)u_t`.
+- For `M=M₂(ℂ)`, `u=diag(1,i)` and `v=[[0,1],[1,0]]`, `uv=[[0,1],[i,0]]`
+  and `vu=[[0,i],[1,0]]` are not proportional, so `Ad(v)∘Ad(u)≠Ad(u)∘Ad(v)`:
+  End_rev's `ρ⊗_rev σ=σ∘ρ` differs from the usual composition tensor.
+- For `M=M_n(ℂ)` the ultrapower is `M^ω=M` and `M_ω=ℂ=M′∩M^ω`.
+- For the free group factor `M=L(F₂)`, which does not have property Γ,
+  `M_ω=ℂ`; for the hyperfinite II₁ factor R, which has property Γ,
+  `R_ω≠ℂ`. A definition of `M_ω` as the scalar sequences alone would give
+  ℂ in both cases.
+- For a factor M, `Hom_(End_rev)(id,id)={t∈M: ta=at}=Z(M)=ℂ`. For
+  `M=M₂(ℂ)` and `ρ=Ad(u)` with u unitary, `Hom(id,ρ)={t: ta=uau*t}=ℂu`
+  is one-dimensional and contains the unitary u, so `ρ≅id` and `_ρH₀≅H₀`.
+- In the amplified corner model the one-coordinate presentation
+  `(pt,1,ρ)` realizes `_ρH₀`; the two-coordinate presentation
+  `({1,2},1⊗e₁₁,ρ⊗e₁₁)` realizes `H₀⊗e₁` with the same actions, and the
+  rectangular operator `T=1⊗e_(1,pt)` satisfies `Tρ(a)=(ρ(a)⊗e₁₁)T`,
+  `T*T=1` and `TT*=1⊗e₁₁`, so it is a unitary change of presentation, not
+  an equality of data. The presentation `(∅,0,0)` realizes the zero
+  correspondence.
+- For `M=ℂ` the model is Hilbert spaces: `(I,p,id)` realizes `pℓ²(I)` and
+  the Hom space to `(J,q,id)` is `qB(ℓ²(I),ℓ²(J))p`, of dimension
+  `rk(p)·rk(q)`; for `I=pt`, `J={1,2}` and `p=q=1` it is the 2×1 block
+  of `A_(I⊔J)=M₃(ℂ)`, of dimension 2, while each diagonal corner
+  `End` has dimension 1 or 4.
+- For the W*-category Hilb, `⟨a,b⟩` is the Hilbert–Schmidt space
+  `HS(a,b)≅ā⊗b`, so for `F=−⊗ℂ^k` the identification
+  `HS(c⊗ℂ^k,d)≅c̄⊗(ℂ^k)‾⊗d≅HS(c,d⊗(ℂ^k)‾)` gives the Hilb-valued
+  transpose `F^t=−⊗(ℂ^k)‾`. Dimension counts do not test this: every
+  `ℂ^k` is unitarily its own conjugate, so for `c=ℂ^m`, `d=ℂ^n` both
+  `⟨c,F^t(d)⟩` and `⟨F(c),d⟩` have dimension `mnk` whether `F^t` is
+  `−⊗(ℂ^k)‾`, `−⊗ℂ^k` or F itself.
+- In the W*-category of pairs `(c₁,c₂)` of Hilbert spaces (normal
+  `ℂ²`-modules), where `⟨c,d⟩=HS(c₁,d₁)⊕HS(c₂,d₂)`, the normal dagger
+  functor `F(c₁,c₂)=(0,c₁)` has `⟨F(c),d⟩=HS(c₁,d₂)`, and its transpose is
+  `F^t(d₁,d₂)=(d₂,0)`, with `⟨c,F^t(d)⟩=HS(c₁,d₂)`. For `c=(ℂ²,ℂ)` and
+  `d=(ℂ,ℂ³)` this space has dimension 6, while `F^t=F` would give
+  `⟨c,F(d)⟩=HS(c₂,d₁)`, of dimension 1.
+- With `K=Irr(C)` every product `F·K` equals `Irr(C)`, so
+  `|(F·K)△K|_σ=0`, which is the Følner condition for every unitary fusion
+  category.
+- For the Powers factor `R_λ`, 0<λ<1, and `C=Hilb(ℤ/2)`: the product action
+  α of ℤ/2 on `R_II₁=⊗̄(M₂(ℂ),tr)` by `Ad(diag(1,−1))` in each factor is
+  outer, and under `R_λ⊗̄R_II₁≅R_λ` the image of the generator is
+  `_ρL²` with `ρ=id⊗α`, again outer. Then `Hom(_ρL²,L²)={t:tρ(a)=at}=0`
+  and `End(_ρL²)=ℂ`, so `g↦_(ρ^g)L²` is a fully faithful representation in
+  a III_λ factor; a statement restricted to the types II₁, II∞ and III₁
+  has no instance here, while for type I the absorption fails
+  (`M_n(ℂ)⊗̄R_II₁≅R_II₁`, not `M_n(ℂ)`).
+- On the same factor, written `R_λ=⊗̄(M₂(ℂ),φ_λ)` with
+  `φ_λ=Tr(diag(1,λ)·)/(1+λ)`, the modular group is
+  `σ_t=⊗Ad(diag(1,λ^(it)))`; at `t₀=π/|log λ|` it is `⊗Ad(diag(1,−1))`,
+  which squares to the identity and is outer because
+  `T(R_λ)=(2π/log λ)ℤ` does not contain t₀. So `g↦_(σ_(gt₀))L²` is a
+  fully faithful representation of `Hilb(ℤ/2)` whose generator is
+  modular, hence centrally trivial and not centrally free. The action of
+  the preceding Check is centrally free: the sequence with `[[0,1],[1,0]]`
+  in the n-th coordinate of `R_II₁` is central and is negated by α.
+  Central triviality is invariant under isomorphism of representations,
+  so these two fully faithful representations of `Hilb(ℤ/2)` in `R_λ` are
+  not isomorphic, and full faithfulness does not imply central freeness
+  on a III_λ factor; dropping the II/III₁ restriction from the
+  equivalence or from uniqueness fails here.
+- On the same `R_λ`, `σ_(t₀)` is an automorphism, hence irreducible; it is
+  modular, hence centrally trivial, and not inner since t₀∉T(R_λ). So the
+  infinite-factor form of Lemma 4.15 makes `(id⊕σ_(t₀))(R_λ)⊂R_λ` not
+  centrally non-trivial, an instance that a statement on R_III₁ alone
+  omits. For an inner ρ=Ad u the conclusion fails: `id⊕Ad u` is unitarily
+  equivalent to `id⊕id`, so `(id⊕Ad u)(M)⊂M` is isomorphic to
+  `M⊗1⊂M⊗M₂(ℂ)`, where `N∨(N′∩M)=M`, the expectation onto it is the
+  identity, and the one-term partition q₁=1 meets the definition: the
+  non-inner hypothesis cannot be dropped.
+- For `σ=id⊕id` on an infinite factor M with separable predual,
+  `σ(M)⊂M` is isomorphic to `M⊗1⊂M⊗M₂(ℂ)`, `d_σ=2` and
+  `Ind(E_σ)=4=d_σ²`; σ̄≅σ, so `M⊂M₁` is again isomorphic to
+  `M⊗1⊂M⊗M₂(ℂ)`, of index 4, and `E₁(e)=1/4`. The
+  non-minimal expectation `E=σ∘(x↦λv₁*xv₁+(1−λ)v₂*xv₂)` with λ=1/5 is
+  `id⊗Tr(diag(1/5,4/5)·)`, with `Ind(E)=5+5/4=25/4` and `E₁(e_E)=4/25`,
+  while M₁ is the same algebra. For an automorphism σ, `σ(M)=M`,
+  `M₁=M`, `e=1` and `σ̄(M)=M`.
+- On R_III₁ with a faithful normal state φ and t≠0, `n↦σ_(nt)^φ` is an
+  action of ℤ by automorphisms that are outer for n≠0, since
+  `T(R_III₁)={0}`, so it is a fully faithful representation of `Hilb(ℤ)`,
+  an amenable category with infinitely many simple classes. Each
+  `σ_(nt)^φ` is modular, hence centrally trivial, so the action is not
+  centrally free: the finiteness of the simple classes of C, which bounds
+  the order of an invertible simple object, cannot be dropped from the
+  III₁ equivalence.
+- For `M=L(F₂)⊗̄B(ℓ²)`, a properly infinite factor with separable predual
+  that is not hyperfinite, let φ swap the free generators a,b of F₂. If
+  `Ad u=φ` on L(F₂), the Fourier coefficients of u are constant on each
+  set `{φ(g)⁻¹hg: g∈F₂}`, which is infinite because the elements
+  `b⁻ⁿhaⁿ` are distinct (`h⁻¹bʲh=aʲ` forces j=0 in the abelianization);
+  so u=0 and φ is outer, as is `φ⊗id`, which squares to the identity.
+  Hence `g↦_((φ⊗id)^g)L²(M)` is a fully faithful representation of
+  `Hilb(ℤ/2)`. As L(F₂) lacks property Γ, M is full and `M_ω=ℂ`, so
+  a=1 satisfies `ax=α_g^ω(x)a` for every x∈M_ω and the action is not
+  centrally free. Reading central freeness as outerness of the simple
+  images would accept this action.
+
+*Needs:* CA1a, CA1b, CA2a, CA2b, CA6; VonNeumannAlgebras V4, V5, V11, V12, V13;
+Subfactors 1.1–1.2, 2.4–2.5, 9.1–9.2.
+
+### Examples
+
+The Checks compute the II∞ amplification cocycle, the reversed composition
+on `M₂(ℂ)`, the ultrapower centralizers of `M_n(ℂ)`, `L(F₂)` and R, the Hom
+spaces and presentations of the corner model, the Hilb-valued transpose on
+Hilbert spaces and on pairs of Hilbert spaces, the Følner condition for
+`K=Irr(C)`, a centrally free and a centrally trivial fully faithful
+representation of `Hilb(ℤ/2)` in the III_λ Powers factor, the
+inclusion `(id⊕σ_(t₀))(R_λ)⊂R_λ` that is not centrally non-trivial
+against the inner control `id⊕Ad u`, the basic extension and index of
+`id⊕id` for the minimal and a non-minimal expectation, a fully
+faithful but centrally trivial action of `Hilb(ℤ)` on R_III₁, and a
+fully faithful but not centrally free representation of `Hilb(ℤ/2)` in
+`L(F₂)⊗̄B(ℓ²)`.
+
+### Dependencies
+
+CA1a, CA1b, CA2a, CA2b and CA6; VonNeumannAlgebras V4, V5, V11, V12 and
+V13; Subfactors 1.1–1.2, 2.4–2.5 and 9.1–9.2.
+
+## CA10. Finite-depth real objects and anchored classification
+
+Let R be the hyperfinite II₁, II∞ or III₁ factor with separable
+predual, and fix a fully
+faithful unitary fusion subcategory C⊆Bim(R). A real object of C′
+has chosen symmetric self-duality r:X→X̄, a unitary fixed by
+`r↦r̄†φ_X`, equivalently `r̄r=φ_X`. Here CA9's bi-involution uses
+the conjugate bimodule, conjugated half-braiding and canonical unitary
+double-conjugate identification φ_X:X→X̄̄. On each generated unitary
+fusion subcategory prove its canonical unitary comparison with the
+bi-involution induced by CA2's spherical dual functor, and transport r
+through that comparison before applying CA6. Require X dualizable and define finite depth by finitely many simple
+classes in the full finite-sum, subobject-closed tensor category of C′
+generated by X. Give any Bim(R)-dual of X the mate half-braiding of
+CA6's relative duality by mates, with E=Bim(R) and α the fixed
+embedding of C, prove its conjugate equations in C′, and prove
+dualizability in C′ equivalent to finite statistical dimension of the underlying bimodule.
+Define conjugacy of these
+structured objects by invertible U∈C′ and unitary Y≃U⊗X⊗U⁻¹
+transporting the real structure through the tensor/duality coherence.
+Develop its equivalence relation, tensor-power and depth invariance.
+
+Construct the tube algebra once, on
+`⊕_(i,j,k∈Irr(C)) Hom_C(i⊗k,k⊗j)`. For f in the (i,j;k)
+space and g in (j,h;l), define g*f by stacking f first, g second,
+then summing `(v†⊗1_h)(1_k⊗g)(f⊗1_l)(1_i⊗v)` over orthonormal
+isometric simple summands v:s→k⊗l; mismatched middle labels give
+zero. Include all associators. The unit is the sum of identity tubes;
+reflection with CA2's standard cups/caps defines the involution.
+Prove basis independence, associativity, the * laws and positivity of
+the weighted closure trace and its finite-dimensional regular norm.
+Pin the module convention to `H_z=Hom_C(Fz,⊕_c c)` with the annular
+left action. On t:i⊗k→k⊗j and h:Fz→i, insert the standard cup
+`1→k̄⊗k` to the left of Fz, move k past Fz by the inverse
+half-braiding, apply `1_k̄⊗h⊗1_k` then `1_k̄⊗t`, and close
+`k̄⊗k→1` with the standard cap, including the pivotal comparison.
+Prove this respects the displayed tube multiplication and *. This
+action is contravariant in z, so its module category is identified
+with Z(C)^op; right/dual module conventions are compared explicitly.
+The abelian structure, Hom-finiteness and simple unit of the native
+`Center C` are Tau Ceti's `CategoryTheory.Center.instAbelian`,
+`CategoryTheory.Center.instFiniteDimensionalHom` and
+`CategoryTheory.Center.instSimpleUnit`, and its finite semisimplicity
+and finitely many simple classes are PivotalSpherical Layer 11, with
+`dim Z(C)=(dim C)²`; all are consumed here. Recover the unitary
+half-braiding from these simple modules, prove every object of
+`Center C` isomorphic to one with unitary half-braiding, so that the
+unitary centre Z†(C) is equivalent to `Center C`, and construct its
+dagger, unitary associators and canonical spherical unitary dual
+functor, making Z(C) unitary fusion. Prove that the pivotal structure
+this dual functor induces (CA2a), transported to the right duals of
+`CategoryTheory.Center.rigidCategory`, which lie in Z†(C) by CA6, is the
+restriction of `CategoryTheory.Center.pivotalCategory` formed from the
+pivotal structure of C's canonical spherical unitary dual functor, so
+that dimensions in Z(C) are those of the underlying objects in C
+(`CategoryTheory.Center.leftDim_f`) and the structure is spherical
+(`CategoryTheory.Center.sphericalCategory`). Route: under that
+restriction every nonzero object has the positive dimension of its
+underlying object, so it is pseudounitary, and a unitary fusion category
+has exactly one pseudounitary pivotal structure (CA2a, through
+`TauCeti.SplitK0.eq_frobeniusPerronChar` and
+`TauCeti.PivotalCategory.eq_of_leftDim_eq_frobeniusPerronDim`).
+Develop the relative tube version for a fully faithful fusion inclusion
+C⊆E, proving Z_C(E) finite semisimple. The reversed braiding retains
+these dagger/duality structures.
+
+Prove the finite-depth criterion equivalent to finiteness of the
+irreducible underlying Bim(R) classes among X^⊗n: one direction uses
+finite multiplicities of dualizable bimodules; for the converse form
+the finite fusion category E⊆Bim(R) generated by these underlying
+objects and α(C), reorder words by X's half-braiding, and use the
+finite relative-center/tube theory to bound the lifts to C′. Infinite
+Hilbert multiplicities of a single simple do not meet dualizability.
+
+Use `Z(C)=Z†(C)=Z_C(C)` with its proved native Center comparison.
+Pin balanced-product conventions once: `A⊠_V B` takes braided
+central functors `Ψ:V^rev→Z†(A)` and `Φ:V→Z†(B)`. Its balancing
+isomorphism is
+`((a⊗Forget Ψ(v))⊠b)≃(a⊠(Forget Φ(v)⊗b))`,
+natural in a,v,b and compatible with units and tensor products.
+For the classifier take `V=Z(C)^rev`, A=C, B=M: Ψ is the
+canonical identity lift `Z(C)→Z†(C)`, and Φ is the central
+action `Z(C)^rev→Z†(M)`. Thus write
+`E=C⊠_(Z(C)^rev)M`; construct the reversal equivalence
+`E≃M⊠_(Z(C))C` with its tensor and dagger comparisons. For the relative-center
+comparison take A=Z_C(E), B=C, V=Z(C): the first central lift
+uses the inverse relative half-braiding against the underlying z,
+and the second is the canonical lift into Z†(C). Prove these
+lifts braided with the stated reversal.
+Construct these balanced products with ladder-category morphisms, contraction composition, positive
+linking forms and finite additive/projection completion. Construct the
+tensor product, unit, dagger, unitary associators and standard dual
+functor on the balanced product. When both inputs are fusion and, for the central lift
+Φ:Z(C)^rev→Z†(M), its underlying action F=Forget∘Φ:Z(C)^rev→M
+is fully faithful on the connected input M, prove finite semisimplicity
+and `End(1_(C⊠M))=ℂ`. Retain the corresponding central lift and
+its braided compatibility; full faithfulness of that lift alone does
+not replace this hypothesis.
+Construct its canonical centralizing structure and prove the
+functor `M→Z_C(C⊠_(Z(C)^rev)M)` fully faithful (Henriques–Penneys–Tener,
+*Classification*, Lemma 3.7, p. 10). Use CA6's relative center. For spherical fusion C fully faithfully embedded in E with
+simple unit, using the algebraic central structure (unitary in the
+C* specialization), prove the multiplication functor
+`Z_C(E)⊠_(Z(C)) C→E`, `(e,c)↦e⊗c`, fully faithful (Theorem 3.8, p. 10).
+Use the tube algebra and left-module convention above to prove the Hom decomposition
+`⊕_z Hom_(Z_C(E))(e₁,e₂⊗z)⊗Hom_C(z⊗c₁,c₂)`
+`≃Hom_E(e₁⊗c₁,e₂⊗c₂)` by its tube-action multiplicities and Yoneda.
+For E=Bim(R), prove dominance separately: the averaging object
+`⊕_(c∈Irr(C)) c⊗Y⊗c̄` has a canonical C half-braiding and contains
+Y as a summand. Thus the multiplication functor is an equivalence
+(Corollary 3.9, p. 11).
+Give the finite ladder Hom spaces their W* corner topology, prove
+composition separately normal and that the resulting equivalence is
+normal. Since C′ already has separable Hilbert multiplicities and
+every Y occurs in the finite averaging sum, its additive/projection
+completion already has all Bim(R) objects. Compare with CA1's W*
+Cauchy completion without imposing an additional existence step.
+
+Prove the natural bijection between the stated conjugacy classes and
+isomorphism classes of connected finite-depth unitary anchored planar
+algebras in `Z(C)^rev` (Henriques–Penneys–Tener, *Classification*, §4,
+pp. 16–17, the case `B=C′` of their Conjecture 1.1, p. 2). From X build the finite fusion subcategory M
+of C′ generated jointly by X and the canonical central image of Z(C),
+whose half-braiding defines the action `Z(C)^rev→Z†(M)`.
+Prove finiteness using dualizability, finite depth and finite fusion of
+Z(C) (Lemma 4.1, p. 16), construct its spherical unitary duality and pointed state, and
+apply CA6.
+In reverse use the reversed-braiding forgetful functor from Z(C), the
+balanced product E=C⊠_(Z(C)^rev)M and its proved unitary fusion
+structure, then CA9's fully faithful factor realization. The canonical
+centralizing functor embeds M fully faithfully into C′ after restriction
+of the realized E to the fixed C. Align
+the restricted representation of C with the fixed embedding. Apply
+CA9's representation uniqueness for finite fusion categories over
+the same specified factor type, with its invertible bimodule, unitary
+monoidal natural isomorphism and trace/positive compatibility. Its restriction
+to C puts that bimodule in C′; naturality at r transports the chosen
+real structure. Prove the two constructions inverse on the stated
+classes. This is a bijection on structured-object classes, with the
+CA6 category equivalence supplying the required morphism comparisons.
+
+**Checks.**
+
+- The tube algebra of `Hilb_fd` is ℂ and `Z(Hilb_fd)=Hilb_fd`.
+- For `Hilb(ℤ/2)` the tube algebra has dimension
+  `Σ_(i,j,k) dim Hom(i⊗k,k⊗j)=2·2=4` (nonzero only for i=j) and is
+  commutative, so `Z(Hilb(ℤ/2))` has four simple objects.
+- The unit object of C′ with `r=id` satisfies `r̄r=φ` and corresponds to
+  the trivial anchored planar algebra.
+- For `Hilb(ℤ/3)` the tube algebra has dimension `3·3=9`, nonzero only
+  for i=j, and is commutative, so `Z(Hilb(ℤ/3))` has nine simple objects.
+- For the non-abelian `Hilb(S₃)` the (i,j;k) space is nonzero exactly
+  when `j=k⁻¹ik`, so the tube algebra has dimension `6·6=36`. Its simple
+  modules are labelled by a conjugacy class and an irreducible
+  representation of a centralizer, of dimensions 1,1,2 (identity class),
+  3,3 (transpositions) and 2,2,2 (three-cycles): eight simple objects of
+  `Z(Hilb(S₃))`, with `1+1+4+9+9+4+4+4=36`, equal to `(dim C)²=6²`. The
+  algebra is not commutative, unlike the abelian cases.
+- On the unit object both `r=id` and `r=−id` satisfy `r̄r=φ`. The unitary
+  `u=i·id` has `ū=−i·id` and transports r to `ū r u⁻¹=(−i)r(−i)=−r`, so
+  the two real structures are conjugate and give the same anchored planar
+  algebra; equality of real structures is finer than the conjugacy
+  relation the bijection uses.
+- For `C=Hilb_fd`, `Z(C)=Hilb_fd` and the balancing isomorphisms are the
+  unit coherences, so `E=Hilb_fd⊠_(Hilb_fd)M≃M`; every object of E
+  half-braids uniquely with `Hilb_fd`, so `Z_C(E)=E` and the centralizing
+  functor `M→Z_C(E)` is an equivalence, not only fully faithful.
+- For `C=Hilb(ℤ/2)` with the pivotal structure of its unitary dual
+  functor, the pivotal structure of the centre with the components of C
+  gives each of the four simple objects `(δ_g,χ)` of Z(C) the dimension
+  `dim(δ_g)=1`, positive, with `Σ dim²=4=(dim C)²`; for `Hilb(S₃)` it gives the eight simple
+  objects the dimensions `1,1,2,3,3,2,2,2` of their underlying objects.
+  Formed instead from the pivotal structure of `Hilb(ℤ/2)` twisted by
+  `χ(g)=−1`, it gives the two simple objects over the generator the
+  dimension −1. The sum of squares is still 4, so the dimension formula
+  does not detect the twist, but the negative dimensions show that this
+  structure is not the one induced by the unitary dual functor of Z(C).
+
+*Needs:* CA2a, CA6, CA9; PivotalSpherical Layer 11; Tau Ceti
+`CategoryTheory.Center.instAbelian`,
+`CategoryTheory.Center.instFiniteDimensionalHom`,
+`CategoryTheory.Center.instSimpleUnit`,
+`CategoryTheory.Center.rigidCategory`,
+`CategoryTheory.Center.pivotalCategory`,
+`CategoryTheory.Center.leftDim_f`,
+`CategoryTheory.Center.sphericalCategory`,
+`TauCeti.SplitK0.eq_frobeniusPerronChar` and
+`TauCeti.PivotalCategory.eq_of_leftDim_eq_frobeniusPerronDim`.
+
+### Examples
+
+The Checks compute the tube algebras and centres `Z(−)` of `Hilb_fd`,
+`Hilb(ℤ/2)`, `Hilb(ℤ/3)` and `Hilb(S₃)`, the two conjugate real structures
+on the unit object, the centralizer equivalence for `C=Hilb_fd`, and the
+dimensions of the simple objects of `Z(Hilb(ℤ/2))` and `Z(Hilb(S₃))`
+under the pivotal structure of the centre, with the twisted structure as
+a negative control.
+
+### Dependencies
+
+CA2a, CA6 and CA9; PivotalSpherical Layer 11; Tau Ceti
+`CategoryTheory.Center.instAbelian`,
+`CategoryTheory.Center.instFiniteDimensionalHom`,
+`CategoryTheory.Center.instSimpleUnit`,
+`CategoryTheory.Center.rigidCategory`,
+`CategoryTheory.Center.pivotalCategory`,
+`CategoryTheory.Center.leftDim_f`,
+`CategoryTheory.Center.sphericalCategory`,
+`TauCeti.SplitK0.eq_frobeniusPerronChar` and
+`TauCeti.PivotalCategory.eq_of_leftDim_eq_frobeniusPerronDim`.
+
+## Downstream consumers
+
+- QuantumGroups consumes CA1a and CA2a: the finite-Hilbert dagger
+  category, unitary rigid tensor categories, chosen conjugates, the
+  balanced unitary dual functor, signed self-duality, standard solutions
+  and intrinsic dimension, for the pivotal structure of the
+  representation categories of compact quantum groups, the signed
+  self-duality of free orthogonal quantum groups and Tannaka–Krein
+  reconstruction.
+- TemperleyLiebOperatorAlgebras Layer 3 consumes CA1a's C*-category
+  interfaces (3.2–3.3) and CA2a's dagger tensor and unitary-duality
+  interfaces (3.3) for the unitary Temperley–Lieb category.
+
+## References
+
+- Jones–Penneys, [*Operator algebras in rigid C*-tensor categories*](https://arxiv.org/abs/1611.04620),
+  §§2–5, Theorems 3.8 (p. 22), 3.20 (p. 27), 3.24 (p. 29), 4.18 (p. 35),
+  4.28 (p. 39) and 5.15 (p. 51), for internal algebra/module comparisons,
+  Gelfand–Naimark representations, CP maps and Stinespring dilation, and
+  the bicommutant theorem.
+- Jones–Penneys, [*Q-systems and compact W*-algebra objects*](https://arxiv.org/abs/1707.02155),
+  Theorem A (p. 1), with Proposition 4.11 (p. 14) and Theorem 5.3, for the
+  unit-isometric compact-object correspondence.
+- Chen–Hernández Palomares–Jones–Penneys,
+  [*Q-system completion for C*-2-categories*](https://arxiv.org/abs/2105.12010),
+  Theorem A and Lemma B (p. 3), Definitions 3.1, 3.14 and 3.17–3.20,
+  Theorem 3.36 (p. 26), Corollary 3.37 (p. 27) and §4, for separable
+  Q-systems, balanced composition, splitting, Q-system completeness and
+  C*-realization (printed page numbers of the arXiv version).
+- Jones–Penneys, [*Realizations of algebra objects and discrete subfactors*](https://arxiv.org/abs/1704.02035),
+  Theorem A (p. 4), Corollary E (p. 6), Definition 3.3(1) (p. 15),
+  Theorem 5.35 (p. 47), Theorems 7.2–7.3 (pp. 58–59) and Corollary 7.14
+  (p. 62), for the representation-relative equivalence, its canonical
+  states and morphisms, intermediate objects and standard invariants, and
+  the basic construction `J_φN′J_φ` over a II₁ base.
+- Penneys, [*Unitary dual functors for unitary multitensor categories*](https://arxiv.org/abs/1808.00323),
+  Theorem A (p. 3), Theorem C (p. 4), Remark 2.5 (p. 6), Definition 2.10
+  and Remark 2.11 (p. 8), the universal grading groupoid after
+  Definition 3.16 and Lemmas 3.19–3.20 (p. 14),
+  Proposition 3.24 (p. 16), Corollary 3.26 (p. 18) and §§2–4, for
+  pseudounitary pivotal structures, positive grading characters, balanced
+  duals and the shaded planar correspondence.
+- Ng–Schauenburg, [*Higher Frobenius–Schur indicators for pivotal
+  categories*](https://arxiv.org/abs/math/0503167), in *Hopf algebras and
+  generalizations*, Contemp. Math. 441 (2007), Definition 3.1 (p. 8, in the
+  numbering of the arXiv version), for the operators `T_(V,W)` and
+  `E_V^(n)` and the indicators `ν_n(V)`, compared in CA2a with the sign of a
+  self-duality.
+- Coles–Huston–Penneys–Srinivas, [*The module embedding theorem via towers
+  of algebras*](https://arxiv.org/abs/1810.07049) (2018), Theorem A (p. 3;
+  §2.3, p. 10), for the equivalence between connected right planar modules
+  and indecomposable pivotal right module C*-categories with simple
+  basepoint in CA2b.
+- Henriques–Penneys–Tener, [*Unitary anchored planar algebras*](https://arxiv.org/abs/2301.11114),
+  Definitions 3.1–3.6, Definition 4.2 with equation (24) (pp. 29–30),
+  Definitions 4.3–4.5 and Theorem A (p. 3), for states, pointings,
+  reflected pairings, the twist law and category equivalence.
+- Katsura, [*On C*-algebras associated with C*-correspondences*](https://arxiv.org/abs/math/0309088v3),
+  J. Funct. Anal. 217 (2004), Definitions 3.2 and 3.4, Theorem 6.4,
+  Propositions 8.1–8.2, Definition 8.3, Theorem 8.6 and Appendices B–C,
+  for the ideal `J_X`, covariance, gauge-invariant uniqueness and the
+  six-term sequence for every C*-correspondence in CA7 (numbering, and
+  the printed page numbers CA7 cites, of the linked arXiv v3).
+- Hartglass–Penneys, *C*-algebras from planar algebras*,
+  [Part I](https://arxiv.org/abs/1401.2485), §§2–5, with Notation 2.11
+  (p. 8), Definitions 5.17–5.18 and Theorems 5.19–5.20 (pp. 35–38), Lemma 5.21,
+  Theorem 5.23 and Corollary 5.24 (p. 39) and Theorem 5.25 (p. 40);
+  [Part II](https://arxiv.org/abs/1401.2486), §§3–6, with Theorems A–C
+  (pp. 2–3), Corollaries 4.16–4.17 (p. 15), Remark 4.18 (p. 16),
+  Remark 5.17 and Corollary 5.18 (p. 25), Corollary 6.8, Definition 6.11
+  and Theorem 6.13 (p. 27) and Examples 6.15–6.16 (p. 28); for Fock/graph
+  models, Morita and trace/K-theory and Watatani towers.
+- Henriques–Nivedita–Penneys, [*Complete W*-categories*](https://arxiv.org/abs/2411.01678),
+  §§2–7, Theorem A (p. 2), Definition 4.14 (p. 26) and Theorem 7.4
+  (p. 38), for generator sets, Hilb-valued transpose and the
+  bi-involutive biequivalence.
+- Henriques–Penneys 2015, [*Bicommutant categories from fusion categories*](https://arxiv.org/abs/1511.05226),
+  Theorem A (p. 2), Lemma 3.4 (p. 16), Theorem 3.5 (p. 17) and
+  Theorems 5.10–5.13 (pp. 24–25), for `R⊗̄R_II₁≅R`, representation
+  existence in every hyperfinite factor not of type I, absorbing objects
+  and the bicommutant property of `C⊗_Vec Hilb`;
+  and Henriques–Penneys 2020, [*Representations of fusion categories and their commutants*](https://arxiv.org/abs/2004.08271),
+  §§3.1–3.3, Theorem A (p. 2; Theorem 5.18, p. 28), Theorem B (p. 3;
+  Theorem 6.8, p. 37), Lemma 3.6, Corollary 3.8 and Lemma 3.9 (p. 13),
+  Theorem 3.10 (p. 14), Theorem 3.15 and Corollary 3.16 (p. 16), for
+  central freeness of fully faithful representations,
+  representation existence/uniqueness, absorbing objects, positive
+  representations and Morita transport.
+- Masuda–Tomatsu 2007, [*Classification of minimal actions of a compact
+  Kac algebra with amenable dual*](https://arxiv.org/abs/math/0604348v2),
+  Comm. Math. Phys. 274 (2007), Definition 8.1 and Lemma 8.2 (Appendix,
+  p. 64) and Lemma 8.3 (p. 65), for the equivalence of proper central
+  nontriviality and strong outerness, and of central nontriviality and
+  proper central nontriviality for irreducible maps (numbering and
+  printed page numbers of the linked arXiv v2).
+- Masuda–Tomatsu 2009, [*Approximate innerness and central triviality of
+  endomorphisms*](https://arxiv.org/abs/0802.0344v1), Adv. Math. 220 (2009),
+  §2.4 (p. 5), Definitions 2.1, 2.4, 3.1, Theorem 3.15 and
+  Corollary 3.16(3)–(4) (p. 29), Definition 4.1 (p. 30), Theorem 4.6
+  (p. 31), Lemma 4.7 (p. 32), Propositions 4.8–4.9 and §4.2 (p. 33),
+  Lemmas 4.10–4.11 (p. 34), Theorem 4.12 (p. 35), Definition 4.13 and
+  Lemma 4.15 (p. 36), Theorems 4.16 and 4.18 (p. 37) and Corollary 4.19
+  with its proof (p. 38), for the ultraproduct and central sequence
+  algebras, real-rank partial-isometry approximation and its II∞/III₁
+  characterizations, modular and centrally trivial endomorphisms, central
+  non-triviality of inclusions, and the II∞/III₁ characterization of
+  centrally trivial endomorphisms; Lemma 4.10(3) and Theorem 4.16 are
+  recalled there from Izumi 2003 and Izumi 1993, and Theorem 4.18 extends
+  Popa's theorem from centrally free to centrally non-trivial subfactors
+  (numbering and printed page numbers of the linked arXiv v1).
+- Izumi, [*Canonical extension of endomorphisms of type III factors*](https://arxiv.org/abs/math/0104228v1),
+  Amer. J. Math. 125 (2003), 1–56, Theorem 2.4 (p. 5), Definition 3.1
+  (p. 7), Theorem 3.3 (p. 9) and Remark 3.8 (p. 17), for the canonical
+  extension of a finite-index endomorphism of a type III factor, modular
+  endomorphisms and their classification by unitary cocycles on the flow
+  of weights, whose III_λ case is Masuda–Tomatsu 2009, Lemma 4.10(3)
+  (numbering and printed page numbers of the linked arXiv v1).
+- Izumi, [*On type II and type III principal graphs of subfactors*](https://doi.org/10.7146/math.scand.a-12473),
+  Math. Scand. 73 (1993), 307–319, Theorem 3.5, for the comparison of the
+  relative commutants of an endomorphism of a type III₁ factor and of its
+  canonical extension, as recalled in Masuda–Tomatsu 2009, Theorem 4.16.
+- Kosaki, *Extension of Jones' theory on index to arbitrary factors*,
+  J. Funct. Anal. 66 (1986), 123–140, §3, Lemma 3.2, for the basic
+  extension `JN′J` of an inclusion of arbitrary factors with a
+  finite-index expectation, its Jones projection, the dual expectation
+  and `Ind(E₁)=Ind(E)`, as recalled in Burns,
+  [*Subfactors, planar algebras and rotations*](https://arxiv.org/abs/1111.1362),
+  Proposition 2.1.21 (pp. 12–13) for the basic extension and its Jones
+  projection, and the paragraph after it (p. 13) for the dual
+  expectation and its index.
+- Popa, *Classification of subfactors and their endomorphisms*, CBMS
+  Regional Conference Series in Mathematics 86, Amer. Math. Soc. (1995),
+  Theorem 3.5(ii) and Corollary 4.4, for the criterion relating central
+  freeness of the tower inclusions `M⊂M_n` of a hyperfinite type III₁
+  subfactor to the modular automorphisms in `[(σσ̄)ⁿ]`, as recalled in
+  Masuda–Tomatsu 2009, Theorem 4.18.
+- Tomatsu, [*Centrally free actions of amenable C*-tensor categories on
+  von Neumann algebras*](https://arxiv.org/abs/1812.04222),
+  §2.2 (p. 5), §2.4 (p. 8), Proposition 2.7 (p. 10), Remark 2.17(1)
+  (p. 16), Theorem D (p. 2; Theorem 5.7, p. 47) and its
+  Rohlin/approximate-intertwining constructions, for the Ocneanu
+  ultrapower, central and strong freeness and the properly infinite
+  uniqueness theorem in CA9.
+- Henriques–Penneys–Tener, [*Classification of finite-depth objects in
+  bicommutant categories via anchored planar algebras*](https://arxiv.org/abs/2307.13822),
+  Conjecture 1.1 (p. 2), Lemma 3.7 and Theorem 3.8 (p. 10),
+  Corollary 3.9 (p. 11), and §4 with Lemma 4.1 (pp. 16–17), for CA10.
+- Tau Ceti's `Monoidal.Rigid.Basic` and `Monoidal.Rigid.Functor`
+  supply evaluation/coevaluation lemmas for Mathlib's exact-pairing
+  transport and construct strong-monoidal images, and its
+  `Monoidal.Pivotal` modules supply pivotal structures over any rigid
+  monoidal category, with no braiding, their traces and Frobenius–Schur
+  indicators, its `Monoidal.Braided` and `Monoidal.Pivotal` modules the
+  twist of a braided pivotal category and ribbon structures, its
+  `Monoidal.Mod.Free` and `Monoidal.Action` modules free modules and
+  left-linear functors, and its `Semisimple.FrobeniusPerron` module the
+  Frobenius–Perron character, as listed in the supplier contracts. The [dagger-category discussion](https://leanprover.zulipchat.com/#narrow/stream/116395-maths/topic/dagger%20categories)
+  distinguishes chosen dagger data from categorical properties and
+  describes functors as the corresponding full subcategory.

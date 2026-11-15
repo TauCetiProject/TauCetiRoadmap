@@ -2,123 +2,87 @@
 Copyright (c) 2026 Kim Morrison. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
-import TauCeti.Algebra.Coalgebra.Comodule.MatrixCoefficient.FromMatrix
-import Mathlib.LinearAlgebra.Matrix.ConjTranspose
-import Mathlib.Algebra.Star.Unitary
-import Mathlib.RingTheory.TensorProduct.Basic
-import Mathlib.Basic.Complex.Basic
-import Mathlib.Analysis.Complex.Order
-import Mathlib.LinearAlgebra.Matrix.PosDef
-import Mathlib.Analysis.InnerProductSpace.PiL2
-import TauCeti.Algebra.Coalgebra.Comodule.LinearlyReductive
-import Mathlib.Algebra.FreeAlgebra
-import Mathlib.Algebra.RingQuot
-import Mathlib.Algebra.Category.ModuleCat.ChangeOfRings
-import Mathlib.Algebra.Category.FGModuleCat.Basic
-import Mathlib.CategoryTheory.ObjectProperty.FullSubcategory
-import Mathlib.RepresentationTheory.Rep.Iso
+module
+
+public import Mathlib
+public import TauCeti.Algebra.Category.FiniteHopfModuleCat.Pivotal
+public import TauCeti.Algebra.Category.FiniteHopfModuleCat.Rigid
+public import TauCeti.Algebra.Coalgebra.Comodule.MatrixCoefficient.Matrix
+public import TauCeti.Algebra.Coalgebra.Star
+public import TauCeti.Algebra.Coalgebra.Subcomodule.Basic
+public import TauCeti.CategoryTheory.Monoidal.Pivotal.Spherical
+public import TauCeti.QuantumGroups.UqSl2.Antipode
 
 /-!
-**This file is not the roadmap and is not exhaustive.**
-These are suggested forms. The README is the definitive specification.
-These prototypes use native Hopf algebras and existing comodule coefficient
-matrices. The analytic tensor/coaction constructions belong to the README;
-they are not replaced here by empty proposition fields.
+# Quantum groups: target signatures
+
+The roadmap is README.md; this file is not the roadmap. It states the roadmap's
+headline theorems against the pinned APIs: weighted Schur orthogonality, the
+algebraic compact-type characterization and, on every Hopf star algebra with a
+positive normalized invariant integral, the uniqueness of the modular automorphism
+of that integral and the Kac equivalence between its traciality and involutivity of
+the antipode; and, for Layer 8, the sphericity of the finite `U_q(sl₂)`-modules with
+pivot `K⁻¹` for `q - q⁻¹ ≠ 0` (§8.5), together with the rigid and pivotal instances on
+those modules, for every `q ≠ 0`, that it needs.
+
+The following headlines are not statable at the pins without heavy constructions:
+* Layer 0: the standard-solution, fiber-functor and Temperley–Lieb comparisons
+  need rigid C*-tensor categories with their conjugate equations and the
+  positive Temperley–Lieb quotients, none of which exist at the pins.
+* Layer 1: classical multiplier/tensor comparison and compact Haar existence and
+  uniqueness need the completed minimal C*-tensor functor and the analytic
+  compact-quantum-group carrier.
+* Layer 2: arbitrary-Hilbert complete reducibility and analytic Peter–Weyl density
+  need free Hilbert C*-modules, the legs of their adjointable operators along unital
+  star homomorphisms, their multiplier coactions and analytic CQGs.
+* Layer 3: the density of the Hopf core, the Plancherel completion, the unitary
+  pivotal comparison and intrinsic dimension of §3.3 and the Tomita comparison of
+  §3.4 need that analytic CQG, its Haar GNS completion, the full left Hilbert
+  algebra and unitary tensor-category carriers.
+* Layer 4: universal/reduced completion and coamenability criteria need the
+  constructed C*-completions and their comparison maps.
+* Layers 5–7: the SUq(2)/free orthogonal universal presentations, Tannaka–Krein and
+  commutative reconstruction, fusion, Haar laws, dimensions and coamenability
+  need the universal C*-algebras, analytic CQGs and rigid C*-fiber functors.
+* Layer 8: the presentation, PBW basis, domain property, Hopf structure, Casimir
+  and center, signed ladder modules, finite-simple classification, complete
+  reducibility, ladder decomposition of locally finite modules, Clebsch–Gordan
+  and recoupling isomorphisms, invariant metric, quantum traces and classical
+  specialization are proved in the pinned Tau Ceti (`TauCeti.QuantumGroups.UqSl2`
+  and `TauCeti.Algebra.Category.FiniteHopfModuleCat`) and are not restated; in
+  particular the local-finiteness characterization of §8.4 is the pin's
+  `TauCeti.UqSl2.isSignedTypeOne_and_forall_exists_pow_smul_eq_zero_iff_isLocallyFiniteModule`.
+  The rigid and pivotal instances and the sphericity of §8.5 are stated below.
+  The Biedenharn–Elliott pentagon of §8.5 is not statable: it needs channel
+  coordinates on quadruple tensor products and recoupling maps between all five
+  bracketings, which the pin's `TauCeti.UqSl2.clebschGordanRecouplingEquiv`
+  supplies only for triple products. Nor is the compact comparison of §8.6,
+  which needs analytic SUq(2).
 -/
 
 open scoped TensorProduct ComplexOrder
-open Module CategoryTheory
-namespace QuantumGroups
+open Module
+namespace TauCetiRoadmap.QuantumGroups
+
+@[expose] public section
 
 universe u v w
 
-/-- Q8.5: finite dimension is over the base field, not over the Hopf algebra.
-The synonym separates tensor-over-k from ModuleCat H's possible tensor-over-H. -/
-def FiniteHopfModuleCat (k : Type u) (H : Type v)
-    [Field k] [Ring H] [Algebra k H] :=
-  CategoryTheory.ObjectProperty.FullSubcategory (fun V : ModuleCat.{u} H =>
-    FiniteDimensional k ((ModuleCat.restrictScalars (algebraMap k H)).obj V))
-
-section Carrier
-variable (k : Type u) (H : Type v) [Field k] [Ring H] [Algebra k H]
-
-def finiteProperty : CategoryTheory.ObjectProperty (ModuleCat.{u} H) :=
-  fun V => FiniteDimensional k ((ModuleCat.restrictScalars (algebraMap k H)).obj V)
-
-instance : CategoryTheory.Category (FiniteHopfModuleCat k H) :=
-  inferInstanceAs (CategoryTheory.Category ((finiteProperty k H).FullSubcategory))
-
-noncomputable def toBaseModules : FiniteHopfModuleCat k H ⥤ ModuleCat.{u} k :=
-  (finiteProperty k H).ι ⋙ ModuleCat.restrictScalars (algebraMap k H)
-
-noncomputable def toFiniteBaseModules : FiniteHopfModuleCat k H ⥤ FGModuleCat.{u} k :=
-  (ModuleCat.isFG k).lift (toBaseModules k H) (fun V => V.property)
-
-instance toBaseModulesFaithful : (toBaseModules k H).Faithful where
-  map_injective {X Y} {f g} h := by
-    apply CategoryTheory.ObjectProperty.hom_ext
-    apply ModuleCat.hom_ext
-    ext x
-    exact congrArg (fun t => t.hom x) h
-
-instance toFiniteBaseModulesFaithful : (toFiniteBaseModules k H).Faithful where
-  map_injective {X Y} {f g} h := by
-    apply (toBaseModules k H).map_injective
-    exact congrArg (fun t => t.hom) h
-end Carrier
+/-! ## Layer 3: The Hopf star core and weighted orthogonality -/
 
 section HopfCore
 
 variable {A : Type u} [Ring A] [HopfAlgebra ℂ A] [StarRing A] [StarModule ℂ A]
 
-/-- Star compatibility supplements the native Hopf algebra, without another carrier. -/
-class StarCompatibleHopf : Prop where
-  comul_star : ∀ a : A, Coalgebra.comul (R := ℂ) (star a) =
-    star (Coalgebra.comul (R := ℂ) a)
-
-/-- Counit star compatibility is a consequence, not an extra defining axiom. -/
-theorem counit_star [StarCompatibleHopf (A := A)] (a : A) :
-    Coalgebra.counit (R := ℂ) (star a) = star (Coalgebra.counit (R := ℂ) a) := by
-  sorry
-
-/-- Antipode-star compatibility follows from uniqueness of convolution inverse. -/
-theorem antipode_star_antipode_star [StarCompatibleHopf (A := A)] (a : A) :
-    HopfAlgebra.antipode ℂ (star (HopfAlgebra.antipode ℂ (star a))) = a := by
-  sorry
-
 variable {H : Type v} [NormedAddCommGroup H] [InnerProductSpace ℂ H]
   [TauCeti.Comodule ℂ A H]
 variable {ι : Type w} [Fintype ι] [DecidableEq ι]
 
-omit [StarModule ℂ A] in
-/-- The antipode inverse already supplied by the comodule API becomes the matrix adjoint. -/
-theorem coefficientMatrix_map_antipode_eq_star (b : OrthonormalBasis ι ℂ H)
-    (hu : TauCeti.Comodule.coefficientMatrix (C := A) b.toBasis ∈ unitary (Matrix ι ι A)) :
-    (TauCeti.Comodule.coefficientMatrix (C := A) b.toBasis).map
-      (HopfAlgebra.antipode ℂ) =
-    star (TauCeti.Comodule.coefficientMatrix (C := A) b.toBasis) := by
-  let U := TauCeti.Comodule.coefficientMatrix (C := A) b.toBasis
-  have hright : U * star U = 1 := Unitary.mul_star_self_of_mem hu
-  have hleft : U.map (HopfAlgebra.antipode ℂ) * U = 1 :=
-    TauCeti.Comodule.map_antipode_mul_coefficientMatrix b.toBasis
-  change U.map (HopfAlgebra.antipode ℂ) = star U
-  calc
-    U.map (HopfAlgebra.antipode ℂ) = U.map (HopfAlgebra.antipode ℂ) * (U * star U) :=
-      by rw [hright, mul_one]
-    _ = (U.map (HopfAlgebra.antipode ℂ) * U) * star U := (mul_assoc _ _ _).symm
-    _ = star U := by rw [hleft, one_mul]
-
-omit [StarModule ℂ A] in
-/-- This entrywise convention is forced by the existing column-coaction orientation. -/
-theorem antipode_coefficient (b : OrthonormalBasis ι ℂ H)
-    (hu : TauCeti.Comodule.coefficientMatrix (C := A) b.toBasis ∈ unitary (Matrix ι ι A))
-    (i j : ι) :
-    HopfAlgebra.antipode ℂ (TauCeti.Comodule.coefficientMatrix (C := A) b.toBasis i j) =
-      star (TauCeti.Comodule.coefficientMatrix (C := A) b.toBasis j i) := by
-  have h := congrFun (congrFun (coefficientMatrix_map_antipode_eq_star (A := A) b hu) i) j
-  simpa only [Matrix.map_apply, Matrix.star_apply] using h
-
-/-- Haar invariance on the core is stated by actual slice equations. -/
+/-- A positive normalized two-sided invariant integral on a complex Hopf algebra `A` with a
+star operation (§3.1): a linear functional `h : A → ℂ` with `h 1 = 1`, with
+`(id ⊗ h) (Δ a) = h a • 1` and `(h ⊗ id) (Δ a) = h a • 1` for every `a`, and with
+`0 ≤ h (star a * a)` for every `a`. The normalization and the two invariance equations are those
+of Neshveyev–Tuset, Theorem 1.6.6, Step 1, p. 18. -/
 structure AlgebraicHaar where
   functional : A →ₗ[ℂ] ℂ
   normalized : functional 1 = 1
@@ -130,8 +94,16 @@ structure AlgebraicHaar where
       (Coalgebra.comul (R := ℂ) a)) = functional a • (1 : A)
   positive : ∀ a : A, 0 ≤ functional (star a * a)
 
-/-- The matrix Ft is the pre-antipode F̃ in the README, rather than its transpose F. -/
-theorem schur_orthogonality [StarCompatibleHopf (A := A)]
+/-- Weighted Schur orthogonality (§3.1). Let `A` be a complex Hopf star algebra whose coproduct
+preserves the star (the native `TauCeti.StarCoalgebra`), `h` a positive normalized two-sided
+invariant integral on `A`, and `H` an irreducible finite-dimensional comodule with an inner
+product whose coefficient matrix `u` in the orthonormal basis `b` is unitary. Then there is a
+positive definite matrix `Ft` (the README's `F̃`) with `Tr F̃ = Tr F̃⁻¹`,
+`h (u_ij⋆ u_kl) = δ_jl (F̃⁻¹)_ik / Tr F̃⁻¹` and `h (u_ij u_kl⋆) = δ_ik F̃_jl / Tr F̃`.
+`F̃` is the transpose of the matrix `F = (f₁(u_ij))` of the Woronowicz character `f₁` (§3.2):
+in Neshveyev–Tuset, Theorem 1.4.2, p. 9, the weight is `ρ = F` (Definition 1.7.1, p. 21), so
+`F̃ = ρᵗ`. -/
+theorem schur_orthogonality [TauCeti.StarCoalgebra ℂ A]
     [IsSimpleOrder (TauCeti.Subcomodule ℂ A H)]
     (h : AlgebraicHaar (A := A)) (b : OrthonormalBasis ι ℂ H)
     (hu : TauCeti.Comodule.coefficientMatrix (C := A) b.toBasis ∈ unitary (Matrix ι ι A)) :
@@ -148,139 +120,73 @@ theorem schur_orthogonality [StarCompatibleHopf (A := A)]
 
 end HopfCore
 
-section StarPresentations
+/-! ## Layer 4: Algebraic compact type -/
 
-variable {A : Type u} [Ring A] [Algebra ℂ A] [StarRing A] [StarModule ℂ A]
-variable {ι : Type w} [Fintype ι] [DecidableEq ι]
+/-- Coefficients of all finite unitary native comodules, in coordinate bases. -/
+def unitaryCoefficientSet (A : Type u) [Ring A] [HopfAlgebra ℂ A] [StarRing A] : Set A :=
+  {a | ∃ (n : ℕ) (ρ : TauCeti.Comodule ℂ A (Fin n → ℂ)),
+    letI := ρ
+    let U := TauCeti.Comodule.coefficientMatrix (C := A) (Pi.basisFun ℂ (Fin n))
+    U ∈ unitary (Matrix (Fin n) (Fin n) A) ∧ ∃ i j, a = U i j}
 
-/-- Q5's coefficient relation uses the entrywise bar, not the matrix adjoint. -/
-def freeOrthogonalRelation (F : Matrix ι ι ℂ) [Invertible F] (U : Matrix ι ι A) : Prop :=
-  U ∈ unitary (Matrix ι ι A) ∧
-    U = F.map (algebraMap ℂ A) * U.map star * (⅟ F).map (algebraMap ℂ A)
-
-/-- The F indices fix the signed cup and tensor-product orientation. -/
-noncomputable def freeOrthogonalCupVector (F : Matrix ι ι ℂ) :
-    (ι → ℂ) ⊗[ℂ] (ι → ℂ) :=
-  ∑ i, ∑ j, F j i • ((Pi.basisFun ℂ ι) i ⊗ₜ[ℂ] (Pi.basisFun ℂ ι) j)
-
-/-- The cup intertwiner equation for the native U₁₃U₂₃ tensor convention. -/
-theorem freeOrthogonalCup_invariant (F : Matrix ι ι ℂ) [Invertible F]
-    (U : Matrix ι ι A) (hU : freeOrthogonalRelation F U) (i k : ι) :
-    ∑ j, ∑ l, U i j * algebraMap ℂ A (F l j) * U k l =
-      algebraMap ℂ A (F k i) := by
+/-- A Hopf star algebra has a normalized positive invariant integral exactly when
+it is spanned by finite unitary coefficients (Timmermann, Theorem 3.2.12). No nontriviality
+hypothesis is needed: the counit of a complex bialgebra is unital, so `A` is nonzero. -/
+theorem compactType_iff (A : Type u) [Ring A] [HopfAlgebra ℂ A]
+    [StarRing A] [StarModule ℂ A] [TauCeti.StarCoalgebra ℂ A] :
+    Nonempty (AlgebraicHaar (A := A)) ↔
+      Submodule.span ℂ (unitaryCoefficientSet A) = ⊤ := by
   sorry
 
-/-- In orthonormal coordinates this is the signed cup-cap zigzag equation. -/
-theorem freeOrthogonalCup_zigzag (F : Matrix ι ι ℂ) (c : ℝ)
-    (hF : F * F.map star = (c : ℂ) • (1 : Matrix ι ι ℂ)) (j k : ι) :
-    ∑ i, F j i * star (F i k) = (c : ℂ) * (if j = k then 1 else 0) := by
-  have h := congrFun (congrFun hF j) k
-  simpa only [Matrix.mul_apply, Matrix.map_apply, Matrix.smul_apply,
-    Matrix.one_apply, smul_eq_mul] using h
-
-/-- The SUq(2) fundamental matrix has the specified off-diagonal coefficient. -/
-def suqMatrix (q : ℝ) (a c : A) : Matrix (Fin 2) (Fin 2) A :=
-  !![a, -(q : ℂ) • star c; c, star a]
-
-/-- These algebraic relations make sense for every real q; the CQG family has q≠0. -/
-structure SUqRelations (q : ℝ) (a c : A) : Prop where
-  initial : star a * a + star c * c = 1
-  final : a * star a + (q ^ 2 : ℂ) • (star c * c) = 1
-  c_normal : star c * c = c * star c
-  ac : a * c = (q : ℂ) • (c * a)
-  ac_star : a * star c = (q : ℂ) • (star c * a)
-
-/-- Unitarity of this matrix is equivalent to the stated generator relations. -/
-theorem suqMatrix_unitary_iff (q : ℝ) (a c : A) :
-    suqMatrix q a c ∈ unitary (Matrix (Fin 2) (Fin 2) A) ↔ SUqRelations q a c := by
+/-- The modular automorphism of the Haar integral (§4.1, from §3.2): a positive normalized
+invariant integral `h` on a Hopf star algebra admits exactly one algebra automorphism `θ` with
+`h(ab) = h(b θ(a))` for all `a, b`. It is convolution by the Woronowicz character `f₁` on both
+sides, so `θ(u) = F u F` on a unitary coefficient matrix, and uniqueness is the faithfulness of
+`h` (Neshveyev–Tuset, Theorem 1.7.3, p. 22, where `θ = σ_(-i)`). -/
+theorem haar_modular_automorphism {A : Type u} [Ring A] [HopfAlgebra ℂ A] [StarRing A]
+    [StarModule ℂ A] [TauCeti.StarCoalgebra ℂ A] (h : AlgebraicHaar (A := A)) :
+    ∃! θ : A ≃ₐ[ℂ] A, ∀ a b : A, h.functional (a * b) = h.functional (b * θ a) := by
   sorry
 
-end StarPresentations
-
-noncomputable section GenericRankOne
-
-inductive SL2Generator
-  | E | F | K | Kinv
-  deriving DecidableEq
-
-/-- Q8: actual equations in the free complex algebra. -/
-inductive QuantumSL2Relation (q : ℂ) :
-    FreeAlgebra ℂ SL2Generator → FreeAlgebra ℂ SL2Generator → Prop
-  | kkInv : QuantumSL2Relation q
-      (FreeAlgebra.ι ℂ .K * FreeAlgebra.ι ℂ .Kinv) 1
-  | kInvK : QuantumSL2Relation q
-      (FreeAlgebra.ι ℂ .Kinv * FreeAlgebra.ι ℂ .K) 1
-  | ke : QuantumSL2Relation q
-      (FreeAlgebra.ι ℂ .K * FreeAlgebra.ι ℂ .E)
-      (q ^ 2 • (FreeAlgebra.ι ℂ .E * FreeAlgebra.ι ℂ .K))
-  | kf : QuantumSL2Relation q
-      (FreeAlgebra.ι ℂ .K * FreeAlgebra.ι ℂ .F)
-      ((q⁻¹) ^ 2 • (FreeAlgebra.ι ℂ .F * FreeAlgebra.ι ℂ .K))
-  | ef : QuantumSL2Relation q
-      (FreeAlgebra.ι ℂ .E * FreeAlgebra.ι ℂ .F)
-      (FreeAlgebra.ι ℂ .F * FreeAlgebra.ι ℂ .E +
-        (q - q⁻¹)⁻¹ • (FreeAlgebra.ι ℂ .K - FreeAlgebra.ι ℂ .Kinv))
-
-/-- The quotient is defined for all q. At zero the E,F generators vanish;
-at q=±1 the totalized inverse yields a commutative quotient. The generic
-PBW/Hopf/representation targets in the README state their parameter hypotheses. -/
-abbrev QuantumSL2 (q : ℂ) := RingQuot (QuantumSL2Relation q)
-
-def quantumSL2Generator (q : ℂ) (g : SL2Generator) : QuantumSL2 q :=
-  RingQuot.mkAlgHom ℂ (QuantumSL2Relation q) (FreeAlgebra.ι ℂ g)
-
-/-- The Laurent generator is an actual unit of the quotient. -/
-def quantumSL2KUnit (q : ℂ) : (QuantumSL2 q)ˣ where
-  val := quantumSL2Generator q .K
-  inv := quantumSL2Generator q .Kinv
-  val_inv := by
-    simpa [quantumSL2Generator] using
-      (RingQuot.mkAlgHom_rel ℂ (QuantumSL2Relation.kkInv (q := q)))
-  inv_val := by
-    simpa [quantumSL2Generator] using
-      (RingQuot.mkAlgHom_rel ℂ (QuantumSL2Relation.kInvK (q := q)))
-
-def quantumSL2Casimir (q : ℂ) : QuantumSL2 q :=
-  quantumSL2Generator q .F * quantumSL2Generator q .E +
-    ((q - q⁻¹) ^ 2)⁻¹ •
-      (q • quantumSL2Generator q .K + q⁻¹ • quantumSL2Generator q .Kinv)
-
-/-- Q8.1: the coproduct on the actual quotient, with complex scalars central. -/
-def quantumSL2Comul (q : ℂ) [Fact (q ≠ 0)] :
-    QuantumSL2 q →ₐ[ℂ] (QuantumSL2 q) ⊗[ℂ] QuantumSL2 q := by
+/-- The Kac equivalence (§4.1, from §3.3): a positive normalized invariant integral `h` on a
+Hopf star algebra is a trace exactly when the antipode is involutive (Neshveyev–Tuset,
+Proposition 1.7.7, p. 23). -/
+theorem haar_trace_iff_antipode_involutive {A : Type u} [Ring A] [HopfAlgebra ℂ A]
+    [StarRing A] [StarModule ℂ A] [TauCeti.StarCoalgebra ℂ A] (h : AlgebraicHaar (A := A)) :
+    (∀ a b : A, h.functional (a * b) = h.functional (b * a)) ↔
+      ∀ a : A, HopfAlgebra.antipode ℂ (HopfAlgebra.antipode ℂ a) = a := by
   sorry
 
-/-- The three generator equations pin the Hopf convention of Q8. -/
-theorem quantumSL2Comul_generators (q : ℂ) [Fact (q ≠ 0)] :
-    quantumSL2Comul q (quantumSL2Generator q .K) =
-      quantumSL2Generator q .K ⊗ₜ[ℂ] quantumSL2Generator q .K ∧
-    quantumSL2Comul q (quantumSL2Generator q .E) =
-      quantumSL2Generator q .E ⊗ₜ[ℂ] 1 +
-        quantumSL2Generator q .K ⊗ₜ[ℂ] quantumSL2Generator q .E ∧
-    quantumSL2Comul q (quantumSL2Generator q .F) =
-      quantumSL2Generator q .F ⊗ₜ[ℂ] quantumSL2Generator q .Kinv +
-        1 ⊗ₜ[ℂ] quantumSL2Generator q .F := by
+/-! ## Layer 8: Generic U_q(sl₂), signed modules and integrability -/
+
+/-- The rigid structure on the finite `U_q(sl₂)`-modules for `q ≠ 0` (§8.5): right duals are the
+contragredients through the antipode `S`, and left duals the contragredients through `S⁻¹`, which
+exists because `S²` is conjugation by `K⁻¹`. -/
+noncomputable instance uqSl2RigidCategory (q : ℂ) [Fact (q ≠ 0)] :
+    CategoryTheory.RigidCategory (TauCeti.FiniteHopfModuleCat ℂ (TauCeti.UqSl2 q)) :=
+  TauCeti.FiniteHopfModuleCat.rigidCategory (TauCeti.UqSl2.antipode_bijective q)
+
+/-- The pivotal structure on the finite `U_q(sl₂)`-modules for `q ≠ 0` with pivot `K⁻¹` (§8.5):
+`K⁻¹` is group-like and implements the square of the antipode, `S²(x) = K⁻¹ x K`, so the
+double-dual isomorphisms `v ↦ (φ ↦ φ(K⁻¹ v))` form a monoidal natural isomorphism from the
+identity functor to the double right dual functor. -/
+noncomputable instance uqSl2PivotalCategory (q : ℂ) [Fact (q ≠ 0)] :
+    TauCeti.PivotalCategory (TauCeti.FiniteHopfModuleCat ℂ (TauCeti.UqSl2 q)) where
+  pivotalIso := TauCeti.FiniteHopfModuleCat.unitEvalNatIso (TauCeti.UqSl2.kUnit q)⁻¹
+    (fun x => by simpa using TauCeti.UqSl2.antipode_antipode q x)
+  pivotalIso_isMonoidal := TauCeti.FiniteHopfModuleCat.unitEvalNatIso_isMonoidal _
+    ⟨by simp, by simp⟩
+
+/-- Sphericity of the finite `U_q(sl₂)`-modules (§8.5): for `q ≠ 0` with `q - q⁻¹ ≠ 0`, the finite
+modules over `U_q(sl₂)`, with the rigid structure `uqSl2RigidCategory` and the pivotal structure
+`uqSl2PivotalCategory` of the pivot `K⁻¹`, form a spherical category: for every module
+endomorphism `f` of `V` the right trace `tr_V(K⁻¹ f)` equals the left trace `tr_V(K f)`. The
+hypothesis cannot be dropped: at `q = ±1` the one-dimensional module with `K = 2` and `E = F = 0`
+has right and left traces `1/2` and `2` of its identity. -/
+theorem uqSl2_sphericalCategory (q : ℂ) [Fact (q ≠ 0)] (hq : q - q⁻¹ ≠ 0) :
+    TauCeti.SphericalCategory (TauCeti.FiniteHopfModuleCat ℂ (TauCeti.UqSl2 q)) := by
   sorry
 
-/-- Q8.1 PBW basis on the presentation, not a privately assumed algebra. -/
-def quantumSL2PBWBasis (q : ℂ) (hq : q ≠ 0)
-    (hgeneric : ∀ r : ℕ, 0 < r → q ^ r ≠ 1) :
-    Module.Basis (ℕ × ℤ × ℕ) ℂ (QuantumSL2 q) := by
-  sorry
+end
 
-theorem quantumSL2PBWBasis_apply (q : ℂ) (hq : q ≠ 0)
-    (hgeneric : ∀ r : ℕ, 0 < r → q ^ r ≠ 1) (a : ℕ) (b : ℤ) (c : ℕ) :
-    quantumSL2PBWBasis q hq hgeneric (a, b, c) =
-      quantumSL2Generator q .F ^ a *
-        ((quantumSL2KUnit q) ^ b : (QuantumSL2 q)ˣ) *
-        quantumSL2Generator q .E ^ c := by
-  sorry
-
-theorem quantumSL2Casimir_commute (q : ℂ) (hq : q ≠ 0)
-    (hgeneric : ∀ r : ℕ, 0 < r → q ^ r ≠ 1) (x : QuantumSL2 q) :
-    Commute (quantumSL2Casimir q) x := by
-  sorry
-
-end GenericRankOne
-
-end QuantumGroups
+end TauCetiRoadmap.QuantumGroups
