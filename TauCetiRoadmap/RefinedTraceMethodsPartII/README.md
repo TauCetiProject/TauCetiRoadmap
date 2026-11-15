@@ -52,7 +52,7 @@ A finite chain ring is `R = O_K/ϖ^n` with K/ℚ_p finite, `e = v_K(p)`, residue
 
 - *Witt sign.* Over ℤ, `τ(1) + τ(1) = (2,−1)` in `W_{{1,2}}(ℤ)`, and `γ_2(2,−1) = 1 + 2t + 3t² mod t³`. A componentwise sum would give `1 + 2t + 4t²`.
 - *Verschiebung.* `V_1` is the identity, so the quotient `W_{re}(R)/V_eW_r(R)` vanishes at e = 1. For k = 𝔽_2, `W_{{1,2}}(𝔽_2) ≅ W_2(𝔽_2) = ℤ/4` and `V_2W_1(𝔽_2) = 2ℤ/4`, so `W_2(𝔽_2)/V_2W_1(𝔽_2) = ℤ/2`. This is the order of the principal units `1 + x𝔽_2[x]/x²`.
-- *Tate grading.* For trivial C_p acting on Hℤ, `π_{2r}((Hℤ)^{tC_p}) = ℤ/p` and the odd groups vanish (RefinedTraceMethods §2.13 Examples).
+- *Tate grading.* For trivial C_p acting on Hℤ, `π_{2r}((Hℤ)^{tC_p}) = ℤ/p` and the odd groups vanish (RefinedTraceMethods, Layer 2 Examples).
 - *Circle cells.* `(X ⊗ (T/C_m)_+)^{hT} ≃ Σ X^{hC_m}`. For X = Hℤ with trivial action and m = 1 this is `ΣHℤ`, with π₁ = ℤ. An unshifted formula would put ℤ in degree 0.
 - *Syntomic degrees.* `ℤ_p(1)` is the derived p-completion of `G_m[−1]` (akn-delta line 118, where it is written as the p-adic Tate module of `G_m`), so for a local ring R with finite unit group `H¹(ℤ_p(1)(R))` is the p-primary part of `R^×`. For R = ℤ/4 this is `(ℤ/4)^× = ℤ/2 = K_1(ℤ/4;ℤ_2)`, in cohomological degree 1, not 0.
 
@@ -142,7 +142,7 @@ Mathlib and Tau Ceti have no big Witt vectors, cyclic bar constructions, THH, TC
 
 ### From TauCetiRoadmap.PrismaticCohomologyPartII
 
-- §3.6: transversal prisms and the ideals `I_r`. §§3.9–3.10: Breuil–Kisin twists and the divided Frobenius. §3.19: comparison of the Nygaard filtration with the Hodge filtration of derived de Rham cohomology. §3.20: Nygaard completion. §3.24: the Nygaard filtration in de Rham coordinates. Layer 4: WCart, its points and fibre products, quasi-coherent complexes and prismatic crystals (§§4.4–4.10), relative prismatic complexes (§4.17), absolute prismatic cohomology (§§4.18–4.19), the diffracted Hodge complex (§4.22), the crystalline comparison in characteristic p (§4.23), the absolute Nygaard filtration (§§4.25, 4.29) and the absolute Frobenius (§4.31).
+- §3.6: transversal prisms and the ideals `I_r`. §§3.9–3.10: Breuil–Kisin twists and the divided Frobenius. §3.15: the graded pieces of the relative Nygaard filtration as the conjugate pieces of Hodge–Tate cohomology. §3.19: comparison of the Nygaard filtration with the Hodge filtration of derived de Rham cohomology. §3.20: Nygaard completion. §3.24: the Nygaard filtration in de Rham coordinates. Layer 4: WCart, its points and fibre products, quasi-coherent complexes and prismatic crystals (§§4.4–4.10), relative prismatic complexes (§4.17), absolute prismatic cohomology (§§4.18–4.19), the diffracted Hodge complex (§4.22), the crystalline comparison in characteristic p (§4.23), the absolute Nygaard filtration (§§4.25, 4.29) and the absolute Frobenius (§4.31).
 
 ### From TauCetiRoadmap.PrismaticCohomologyPartIII
 
@@ -333,7 +333,7 @@ For d ≥ 2 and the pointed monoid Π_d of 2.1, prove the following (speirs-axes
 - *Contractibility.* If ω has period at least 2 and a cyclic repetition, B(ω) is T-equivariantly contractible (speirs-axes Lemma 9(2), line 366). The words of period 1 are the powers `x_j^m` (m ≥ 1), which all have a cyclic repetition; `B(x_j^m)` is the weight-m part of `B^cy(⟨x_j⟩_+)`, hence `B(x_j^m) ≃ (T/C_m)_+`, which is not contractible (speirs-axes line 1160). These are the cells of the line `k[x_j]` and lie in the image of the normalization, which is why the birelative sum omits them.
 - *Cell type.* If ω has period s ≥ 2, no cyclic repetition, length m and i = m/s blocks, then: for s even, `ΣB(ω) ≃ S^{λ_{m/2}} ∧ (T/C_i)_+`; for s and i odd, `B(ω) ≃ S^{λ_{(m−1)/2}} ∧ (T/C_i)_+`; for s odd and i even, `B(ω) ≃ S^{λ_{(m−2)/2}} ∧ RP²(i)`, where RP²(i) is the mapping cone of `(T/C_{i/2})_+ → (T/C_i)_+`.
 - *Homology.* `H̃_*(B(ω);R)` is concentrated in degrees m − 1 and m. It is R in both degrees when s is even, or s and i are odd, with Connes' operator multiplication by i. When s is odd and i is even it is R/2 in degree m − 1 and R[2] in degree m, with Connes' operator zero.
-- *Frobenius.* ψ_p restricts to homeomorphisms `B(ω) → B(ω^{⋆p})^{C_p}`, where `ω^{⋆p}` has length pm and the same period.
+- *Frobenius.* ψ_p restricts to homeomorphisms `B(ω) → B(ω^{⋆p})^{C_p}`, where `ω^{⋆p}` has length pm and the same period (speirs-axes lines 527–531).
 
 *Needs:* §1.4 (cyclic words, period and repetition); §§2.2–2.3; RefinedTraceMethods §2.13 (representation spheres).
 
@@ -484,7 +484,7 @@ For a map of rings f : A → B and an ideal I ⊂ A mapped isomorphically onto a
 - For B = A and f the identity, every birelative term vanishes.
 - For A = B × C and the ideal B × 0, the square is a product square and the birelative terms vanish, because K and TC preserve finite products.
 - For the coordinate axes A_2 → k[x] × k[y] over a field k, `K_2(A_2,B_2,I_2) ≅ k`: Dennis–Krusemeyer computed `K_2(A_2,I_2) = k` (hesselholt-axes line 31), and the relative and birelative terms agree because k is regular (hesselholt-axes lines 55–57). A birelative term that ignored the K₂ failure of excision would give zero in degree 2.
-- Non-example: the square of the reduction map f : A = ℤ → B = ℤ/p with I = pℤ and `A/I = B/f(I) = ℤ/p` is not a Milnor square, because f carries I = pℤ to 0 and not isomorphically onto an ideal of B. Its birelative term is the relative term `K(ℤ, pℤ)`, so excision for `K^inv` (RefinedTraceMethods §4.18) says nothing about it, and relative K is not relative TC there (RefinedTraceMethods §4.17 Checks).
+- Non-example: the square of the reduction map f : A = ℤ → B = ℤ/p with I = pℤ and `A/I = B/f(I) = ℤ/p` is not a Milnor square, because f carries I = pℤ to 0 and not isomorphically onto an ideal of B. Its birelative term is the relative term `K(ℤ, pℤ)`, so excision for `K^inv` (RefinedTraceMethods §4.18) says nothing about it, and, pℤ not being nilpotent, neither does the Dundas–Goodwillie–McCarthy theorem (RefinedTraceMethods §4.17 and its Checks).
 
 ### 4.2 The normalization squares of axes and cusps
 
@@ -659,19 +659,19 @@ Prove that for every perfectoid ring R and e ≥ 1 there is an equivalence `TC^-
 
 ### 7.2 The p-adic K-theory of truncated polynomial algebras
 
-Prove that for every perfectoid ring R, every e ≥ 1 and r ≥ 1, `K_{2r−1}(R[x]/x^e,(x);ℤ_p) ≅ W_{re}(R)/V_eW_r(R)`, with big Witt vectors on {1,…,n}, and that `K_j(R[x]/x^e,(x);ℤ_p) = 0` for every even j (riggenbach-trunc Theorem 1.1 and Corollary 6.5, lines 67 and 1279).
+Prove that for every perfectoid ring R, every e ≥ 1 and r ≥ 1, `K_{2r−1}(R[x]/x^e,(x);ℤ_p) ≅ W_{re}(R)/V_eW_r(R)`, with the big Witt vectors `W_N(R) = W_{{1,…,N}}(R)` of the Conventions, and that `K_j(R[x]/x^e,(x);ℤ_p) = 0` for every even j (riggenbach-trunc Theorem 1.1 and Corollary 6.5, lines 67 and 1279).
 
 The route: DGM (RefinedTraceMethods §4.17) identifies the relative p-adic K-theory with relative TC, because (x) is nilpotent. §7.1 and §3.4 give the homotopy groups of each factor, in odd degrees only. For each u ∈ J_p, the staircase lemma (§3.5) applies to the weights p^v u with `s = s(p,re,u)`, the unique s with `up^{s−1} ≤ re < up^s`, or 0 if none exists. It yields `W_s(R)` if e′ ∤ u and `W_{min(s,v_p(e))}(R)` if e′ | u, where `e = p^{v_p(e)}e′` (riggenbach-trunc lines 74–99). That index is `s_{T_{r,e}}(u)` for `T_{r,e} = {m ≤ re : e ∤ m}`. Finally §1.2 and gap `bigwitt-ptypical-decomposition` identify `∏_u W_{s_T(u)}(R) ≅ W_{T_{r,e}}(R) ≅ W_{re}(R)/V_eW_r(R)`.
 
-Prove also the syntomic form: for every perfect 𝔽_p-algebra k and i ≥ 1, the reduced syntomic complex `ℤ̃_p(i)(k[x]/x^e) = fib(ℤ_p(i)(k[x]/x^e) → ℤ_p(i)(k))` is `(W_{ei}(k)/V_eW_i(k))[−1]` (sulyma-slopes Theorem 1.1, line 43). Its route: the crystalline comparison (PrismaticCohomologyPartII §4.23) and the PD de Rham model of `Δ_{k[x]/x^e}` with Nygaard filtration the product of the PD-Hodge and p-adic filtrations (PrismaticCohomologyPartII §§3.19, 3.24; CrystallineCohomology CR.2), followed by the explicit diagonalization by monomial degree (sulyma-slopes §3, lines 232–330).
+Prove also the syntomic form: for every perfectoid ring R and i ≥ 1, the reduced syntomic complex `ℤ̃_p(i)(R[x]/x^e) = fib(ℤ_p(i)(R[x]/x^e) → ℤ_p(i)(R))` is `(W_{ei}(R)/V_eW_i(R))[−1]` (sulyma-slopes Theorem 1.1 and Remark 1.3, lines 43 and 52; bouis-motivic Theorem 3.9, line 263). When p = 0 in R, the route is the crystalline comparison (PrismaticCohomologyPartII §4.23) and the PD de Rham model of `Δ_{R[x]/x^e}` with Nygaard filtration the product of the PD-Hodge and p-adic filtrations (PrismaticCohomologyPartII §§3.19, 3.24; CrystallineCohomology CR.2), followed by the explicit diagonalization by monomial degree (sulyma-slopes §3, lines 232–330). For general R the route identifies the motivic filtration of PrismaticCohomologyPartIII §7.0 on `TC(R[x]/x^e,(x);ℤ_p)`, whose i-th graded piece is `ℤ̃_p(i)(R[x]/x^e)[2i]`, with the filtration of riggenbach-trunc Corollary 5.7 (line 1037) shifted by one index. The proof of riggenbach-trunc Corollary 6.5 (lines 1284–1318) computes the (i − 1)-st graded piece of the latter as `(W_{ei}(R)/V_eW_i(R))[2i − 1]`, through the identification of the first paragraph; bouis-motivic reads it the same way (line 268). Both filtrations are quasisyntomic sheaves in the coefficient ring, so it suffices to compare them over a quasiregular semiperfectoid coefficient ring S. There riggenbach-trunc's filtration is the odd Postnikov filtration of the relative TC^- and TP of `S[x]/x^e`, whose homotopy is concentrated in odd degrees (lines 939–945). The motivic filtration is the same: over a perfectoid ring P mapping onto S, the relative Nygaard graded pieces of `S[x]/x^e` are finite extensions of conjugate pieces `∧^mL_{(S[x]/x^e)/P}[−m]`, which lie in cohomological degrees [0,1] (PrismaticCohomologyPartII §§3.15, 4.19). The limit over the Nygaard filtration adds at most one degree, so the i-th motivic graded pieces `N^{≥i}Δ̂{i}[2i]` and `Δ̂{i}[2i]` of the relative TC^- and TP lie in homological degrees [2i − 2, 2i], their spectral sequences have no nonzero differentials, and odd homotopy leaves only degree 2i − 1.
 
-*Needs:* §§1.2–1.3, 3.4–3.5, 7.1; RefinedTraceMethods §4.17; PrismaticCohomologyPartII §§3.19, 3.24, 4.23; PrismaticCohomologyPartIII §7.0; CrystallineCohomology CR.2; gap `bigwitt-ptypical-decomposition`.
+*Needs:* §§1.2–1.3, 3.4–3.5, 7.1; RefinedTraceMethods §4.17; PrismaticCohomologyPartII §§3.15, 3.19, 3.24, 4.19, 4.23; PrismaticCohomologyPartIII §§6.8, 7.0; CrystallineCohomology CR.2; DerivedDeRhamCohomology Layer 5 (cotangent complex); AInfCohomology §AI.7.2 (quasisyntomic unfolding); gap `bigwitt-ptypical-decomposition`.
 
 **Checks.**
 
 - e = 1: `W_r(R)/V_1W_r(R) = 0`, as for `R[x]/x = R`.
 - R a perfect field: the group is `𝕎_{re}(k)/V_e𝕎_r(k)` of KTheoryFiniteLocalFields §5.17, transported by the big Witt comparison of QWittVectors §1.4a. For R = 𝔽_2, e = 2 and r = 1 it is ℤ/2, the principal units `1 + x𝔽_2[x]/x²`. For R = 𝔽_3, e = 2 and r = 2: `T_{2,2} = {1,3}` and the group is `W_2(𝔽_3) = ℤ/9`, not `𝔽_3²`.
-- Mixed characteristic: for `R = O_C` (the ring of integers of the completed algebraic closure of ℚ_p), e = 2 and r = 1, the group is `W_{{1}}(O_C) = O_C`. This agrees with relative K_1, the p-completed principal units `1 + xO_C`, which are additively O_C through `1 + ax ↦ a`.
+- Mixed characteristic: for `R = O_C` (the ring of integers of the completed algebraic closure of ℚ_p), e = 2 and r = 1, the group is `W_{{1}}(O_C) = O_C`. This agrees with relative K_1, the p-completed principal units `1 + xO_C`, which are additively O_C through `1 + ax ↦ a`. In the syntomic form at i = 1, `ℤ̃_p(1)(O_C[x]/x²)` is these relative units placed in cohomological degree 1 (PrismaticCohomologyPartIII §6.24), that is `W_{{1}}(O_C)[−1] = O_C[−1]`, which the crystalline route of the case p = 0 does not reach.
 
 ### Examples
 
@@ -679,7 +679,7 @@ For R = 𝔽_p and e = 2 the odd groups are `K_{2r−1}(𝔽_p[x]/x²,(x)) ≅ W
 
 ### Dependencies
 
-Layers 1–3. Suppliers: RefinedTraceMethods §4.17; KTheoryFiniteLocalFields §§5.16, 5.17 and Conventions; QWittVectors §1.4a; PrismaticCohomologyPartII §§3.19, 3.24, 4.23; PrismaticCohomologyPartIII §7.0; CrystallineCohomology CR.2; AInfCohomology §AI.7.2; gap `bigwitt-ptypical-decomposition`.
+Layers 1–3. Suppliers: RefinedTraceMethods §4.17; KTheoryFiniteLocalFields §§5.16, 5.17 and Conventions; QWittVectors §1.4a; PrismaticCohomologyPartII §§3.15, 3.19, 3.24, 4.19, 4.23; PrismaticCohomologyPartIII §§6.8, 6.24, 7.0; CrystallineCohomology CR.2; DerivedDeRhamCohomology Layer 5; AInfCohomology §AI.7.2; gap `bigwitt-ptypical-decomposition`.
 
 ## Layer 8: Prismatic and syntomic cohomology relative to δ-rings and of filtered rings
 
@@ -853,7 +853,7 @@ Prove that for i ≥ 1, `|H¹(ℤ_p(i)(R))| / |H²(ℤ_p(i)(R))| = q^{i(n−1)}`
 
 - ℤ/4, i = 2: `|K_3(ℤ/4;ℤ_2)| = 8` and `|K_2(ℤ/4)| = 2`, ratio `4 = 2^{2·1}` (akn24 line 144).
 - ℤ/8, i = 2: `|K_3(ℤ/8;ℤ_2)| = 4·8 = 32` and `|K_2(ℤ/8)| = 2`, ratio `16 = 2^{2·2}`. For i = 3: `|K_5(ℤ/8;ℤ_2)| = 2·64 = 128` and `|K_4(ℤ/8)| = 2`, ratio `64 = 2^{3·2}`.
-- `𝔽_2[z]/z³` (n = 3), i = 3: `|K_5;ℤ_2| = 4·16 = 64` and `K_4 = 0`, ratio `64 = 2^{3·2}`. A ratio `q^{in}` would give 2^9.
+- `𝔽_2[z]/z³` (n = 3), i = 3: `|K_5(𝔽_2[z]/z³;ℤ_2)| = 4·16 = 64` and `K_4 = 0`, ratio `64 = 2^{3·2}`. A ratio `q^{in}` would give 2^9.
 
 ### 9.4 Relative-to-absolute descent and the finite free model
 
