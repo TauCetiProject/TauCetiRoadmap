@@ -10,9 +10,10 @@ roadmap's headline theorems against the pinned Mathlib and Tau Ceti whenever eve
 statement exists at the pins or is a simple definition on native objects. None of the headline
 theorems is statable at the pins, so this file declares nothing. Mathlib and Tau Ceti carry no
 affine Grassmannian or affine flag variety, no loop group, no parahoric group scheme, no
-Schubert variety, no represented Grassmannian scheme (Mathlib's `Module.Grassmannian` is a
-functor of points without representability), no v-sheaf or kimberlite, and no nearby-cycle
-functor at the pins; every headline below mentions at least one of them.
+Schubert variety, no lattice-chain incidence subscheme of a product of Grassmannians, no v-sheaf
+or kimberlite, and no nearby-cycle functor at the pins; every headline below mentions at least
+one of them. Tau Ceti's `Module.Grassmannian.scheme` represents the Grassmannian of a module over
+an affine base; the incidence models are closed subschemes of finite products of these schemes.
 
 The headline theorems and the carriers each lacks:
 
@@ -21,11 +22,12 @@ The headline theorems and the carriers each lacks:
   Grassmannians, their schematic Schubert closures and the companion twisted affine flags.
 * The auxiliary prime-to-`p` Hodge cover (§1.5): local cocharacter data, reflex fields and
   parahoric levels on the reductive-group carriers.
-* Flatness of the standard `GL` and `GSp` lattice-chain incidence models (§2.5): the represented
-  relative Grassmannian scheme and its closed incidence subscheme over `O_F`.
+* Flatness of the standard `GL` and `GSp` lattice-chain incidence models (§2.5): the closed
+  incidence subscheme over `O_F` of a finite product of Grassmannian schemes, cut out by the
+  transition and periodicity conditions and, for `GSp`, the annihilator conditions.
 * Closed polynomial Hodge, Weyl-lattice, restriction-of-scalars and tame symplectic model
   embeddings and the period-total embedding (§§2.1–2.4, 2.6–2.7): the polynomial local models and
-  the represented lattice-chain Grassmannians.
+  the lattice-chain incidence models.
 * The canonical local model in the classical abelian-type range, normalization of integral Hodge
   images and good embeddings cut out by descent endomorphisms (§§3.1–3.3): integral local-model
   v-sheaves and their scheme comparison morphisms.
