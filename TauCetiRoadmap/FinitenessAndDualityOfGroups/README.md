@@ -509,7 +509,18 @@ Pinned at `2fd255d997f47c0b5d834ee416c7015d55444ce5`.
   (`.../SemilocallySimplyConnected/WedgeSum.lean` line 112), used in a Check of 5.1.
 - `AbstractSimplicialComplex.Realization`
   (`TauCeti/AlgebraicTopology/SimplicialComplex/Realization/Basic.lean` line 71), the realization of
-  an abstract simplicial complex, used in 5.5.
+  an abstract simplicial complex, used in 5.4 and 5.5.
+- `AbstractSimplicialComplex.dimension K`
+  (`TauCeti/AlgebraicTopology/SimplicialComplex/Dimension.lean` line 266), valued in `WithBot ℕ∞`:
+  the supremum over the faces of `K` of the number of vertices minus one, `⊥` for the complex with
+  no face and `⊤` when the faces have unboundedly many vertices; by
+  `AbstractSimplicialComplex.dimension_le_iff` (line 283), `dimension K ≤ N` for `N : ℕ` says that
+  every face has at most `N + 1` vertices. Used in 5.4.
+- `AbstractSimplicialComplex.barycentricSubdivisionRealizationHomeomorph K`
+  (`TauCeti/AlgebraicTopology/SimplicialComplex/Subdivision/Homeomorph.lean` line 221): the
+  homeomorphism from the realization of the barycentric subdivision of `K` (its vertices are the
+  faces of `K`, its faces the nonempty chains of faces under inclusion) to the realization of `K`,
+  sending the vertex of a face to the barycentre of that face. Used in 5.4.
 - `AbstractSimplicialComplex.realizationCWComplex K`
   (`TauCeti/AlgebraicTopology/SimplicialComplex/Realization/CWComplex/Basic.lean` line 172), for `K`
   on a linearly ordered vertex type: the CW structure on the (Hausdorff) realization `|K|` whose

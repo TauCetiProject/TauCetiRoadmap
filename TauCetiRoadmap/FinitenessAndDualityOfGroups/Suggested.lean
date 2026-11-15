@@ -112,7 +112,7 @@ theorem isOfTypeFPn_iff_piComparison (R G : Type u) [CommRing R] [Group G] (n : 
           Epi (piComparison (groupHomology.functor R G n) N) := by
   sorry
 
-/-! ## Layer 2: cohomological dimension -/
+/-! ## Layer 2: cohomological and homological dimension -/
 
 /-- The *cohomological dimension* `cd_R G` (README 2.1): the least `n ∈ ℕ∞` such that
 `Hᵏ(G, M) = 0` for every representation `M` of `G` over `R` and every `k > n`; it is `⊤` when no
@@ -152,7 +152,7 @@ over `ℤ`. -/
 def IsVirtuallyOfTypeFP (G : Type) [Group G] : Prop :=
   ∃ H : Subgroup G, H.FiniteIndex ∧ IsOfTypeFP ℤ H
 
-/-! ## Layer 5: geometric dimension and the Eilenberg–Ganea theorem -/
+/-! ## Layer 5: geometric dimension, the Eilenberg–Ganea theorem and proper actions -/
 
 /-- The *geometric dimension* `gd G` (README 5.1): the least `n ∈ ℕ∞` such that some Hausdorff
 space `X : Type u` with a CW structure on the whole space and no cells of dimension above `n` is a
@@ -186,7 +186,7 @@ theorem exists_acyclic_action_finite_stabilizers {G : Type} [Group G] (Γ : Subg
           ∀ g ∈ Γ, (Z.ρ g).asHom.app _ z = z → g = 1 := by
   sorry
 
-/-! ## Layer 7: projective modules over group rings and Swan's theorem -/
+/-! ## Layer 7: ranks of projective modules over group rings and Swan's theorem -/
 
 /-- **Swan's theorem, rational form** (README 7.3(b)). For a finite group `G` and a finitely
 generated projective `ℤ[G]`-module `P`, the rationalization of `P` is free over `ℚ[G]` of rank
