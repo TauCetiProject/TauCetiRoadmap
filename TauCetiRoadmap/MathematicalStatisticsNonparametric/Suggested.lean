@@ -260,19 +260,6 @@ theorem hellingerAffinity_prod (P Q : Measure X) (P' Q' : Measure Y) [IsProbabil
       hellingerAffinity P Q * hellingerAffinity P' Q' := by
   sorry
 
-/-- **1.1** The squared Hellinger distance of `n`-fold products; both sides vanish at `n = 0`. -/
-theorem sqHellinger_pi_const {n : ℕ} (P Q : Measure X) [IsProbabilityMeasure P]
-    [IsProbabilityMeasure Q] :
-    sqHellinger (Measure.pi fun _ : Fin n ↦ P) (Measure.pi fun _ : Fin n ↦ Q) =
-      2 * (1 - (1 - sqHellinger P Q / 2) ^ n) := by
-  sorry
-
-/-- **1.1** Data processing for a measurable map. -/
-theorem hellingerAffinity_le_map (P Q : Measure X) [IsProbabilityMeasure P]
-    [IsProbabilityMeasure Q] {T : X → Y} (hT : Measurable T) :
-    hellingerAffinity P Q ≤ hellingerAffinity (P.map T) (Q.map T) := by
-  sorry
-
 /-- **1.1** The affinity of two Gaussian sequence laws whose means differ in finitely many
 coordinates. -/
 theorem hellingerAffinity_infinitePi_gaussianReal (θ θ' : ℕ → ℝ) {ε : ℝ} (hε : ε ≠ 0)
@@ -297,12 +284,6 @@ theorem one_add_chiSqDiv_gaussianMixture {d : ℕ} {ε : ℝ} (hε : 0 < ε)
         (π.bind fun θ ↦ multivariateGaussian θ (ε ^ 2 • (1 : Matrix (Fin d) (Fin d) ℝ)))
         (multivariateGaussian 0 (ε ^ 2 • (1 : Matrix (Fin d) (Fin d) ℝ))) =
       ∫⁻ θ, ∫⁻ θ', ENNReal.ofReal (Real.exp (⟪θ, θ'⟫ / ε ^ 2)) ∂π ∂π := by
-  sorry
-
-/-- **1.3** The Kullback–Leibler divergence of `n`-fold products. -/
-theorem klDiv_pi_const {n : ℕ} (P Q : Measure X) [IsProbabilityMeasure P]
-    [IsProbabilityMeasure Q] :
-    klDiv (Measure.pi fun _ : Fin n ↦ P) (Measure.pi fun _ : Fin n ↦ Q) = n * klDiv P Q := by
   sorry
 
 /-- **1.3** The Kullback–Leibler divergence of two Gaussian sequence laws whose means differ in
@@ -356,18 +337,6 @@ theorem sq_one_sub_sqHellinger_le_integral_min (P Q : Measure X) [IsProbabilityM
     [IsProbabilityMeasure Q] :
     (1 - sqHellinger P Q / 2) ^ 2 / 2 ≤
       ∫ x, min (P.rnDeriv (P + Q) x).toReal (Q.rnDeriv (P + Q) x).toReal ∂(P + Q) := by
-  sorry
-
-/-- **1.4** Pinsker's inequality in the convention `tvDist ∈ [0, 2]`. -/
-theorem ofReal_tvDist_sq_le_two_mul_klDiv (P Q : Measure X) [IsProbabilityMeasure P]
-    [IsProbabilityMeasure Q] :
-    ENNReal.ofReal (tvDist P Q) ^ 2 ≤ 2 * klDiv P Q := by
-  sorry
-
-/-- **1.4** `log (1 + χ²) ≤ χ²`, the second half of the chi-squared bound. -/
-theorem ofReal_log_one_add_chiSqDiv_le (P Q : Measure X) [IsProbabilityMeasure P]
-    [IsProbabilityMeasure Q] (h : chiSqDiv P Q ≠ ∞) :
-    ENNReal.ofReal (Real.log (1 + (chiSqDiv P Q).toReal)) ≤ chiSqDiv P Q := by
   sorry
 
 end Layer1
@@ -542,15 +511,13 @@ theorem max_measure_ge_of_fano {M : ℕ} (hM : 2 ≤ M) (P : Fin M → Measure X
       ⨆ j, (κ ∘ₘ P j).real {y | s ≤ dist y (θ j)} := by
   sorry
 
-/-- **2.4** The packing form of Fano's method, with a bound independent of `M`. -/
+/-- **2.4** The packing form of Fano's method. -/
 theorem max_measure_ge_of_packing {M : ℕ} (hM : 2 ≤ M) (P : Fin (M + 1) → Measure X)
     [∀ j, IsProbabilityMeasure (P j)] (θ : Fin (M + 1) → Y) {s : ℝ}
     (hs : ∀ i j, i ≠ j → 2 * s ≤ dist (θ i) (θ j)) {α : ℝ} (hα0 : 0 < α) (hα : α < 1 / 8)
     (hkl : ((M : ℝ≥0∞) + 1)⁻¹ * ∑ j, klDiv (P j) (P 0) ≤ ENNReal.ofReal (α * Real.log M))
     (κ : Kernel X Y) [IsMarkovKernel κ] :
-    1 - α - Real.log 2 / Real.log (M + 1) ≤ ⨆ j, (κ ∘ₘ P j).real {y | s ≤ dist y (θ j)} ∧
-      1 - 1 / 8 - Real.log 2 / Real.log 3 ≤ 1 - α - Real.log 2 / Real.log (M + 1) ∧
-      (0.24 : ℝ) < 1 - 1 / 8 - Real.log 2 / Real.log 3 := by
+    1 - α - Real.log 2 / Real.log (M + 1) ≤ ⨆ j, (κ ∘ₘ P j).real {y | s ≤ dist y (θ j)} := by
   sorry
 
 /-- **2.5** Assouad's lemma in Hellinger form. -/
@@ -1054,10 +1021,6 @@ theorem gnedenkoKorolyuk_ceil_eq {n : ℕ} (hn : 1 ≤ n) (P : Measure ℝ) [IsP
     gnedenkoKorolyuk n ⌈x * √(2 * n)⌉₊ =
       ((Measure.pi fun _ : Fin n ↦ P).prod (Measure.pi fun _ : Fin n ↦ P)).real
         {z | √((n : ℝ) / 2) * ksTwoSample z.1 z.2 < x} := by
-  sorry
-
-/-- **3.5** For `k > n` only the term `j = 0` of the Gnedenko–Korolyuk sum survives. -/
-theorem gnedenkoKorolyuk_of_lt {n k : ℕ} (h : n < k) : gnedenkoKorolyuk n k = 1 := by
   sorry
 
 /-- **3.6** The Kolmogorov distribution function is nondecreasing on `(0, ∞)`. -/
@@ -1938,12 +1901,11 @@ theorem tendstoInMeasure_nadarayaWatson_bias {Ω : Type*} [MeasurableSpace Ω]
   sorry
 
 /-- **5.5** The boundary: for a design supported on `[0, ∞)` with `f_X(0) > 0` and `f_X`,
-`m^{(p+1)}`, `σ²` right continuous at `0`, `σ²(0) > 0`, and `x₀ = c h`, `c ≥ 0`, the conditional
-mean squared error `bias² + variance` of `m̂_ν(x₀)` is its leading term
-`(ν!/(p + 1)! ∫ t^{p+1} K*_{ν,c} · m^{(p+1)}(0))² h^{2(p+1-ν)}` plus
-`ν!² ∫ K*_{ν,c}² σ²(0)/(f_X(0) n h^{1+2ν})`, times `1 + o_P(1)`, with the equivalent kernel
-`K*_{ν,c}` of the truncated moments over `[-c, ∞)`; derivatives at `0` are taken within
-`[0, ∞)`. -/
+`m^{(p+1)}`, `σ²` right continuous at `0`, and `x₀ = c h`, `c ≥ 0`, conditionally on the design
+`n h^{1+2ν} Var m̂_ν(x₀) → ν!² ∫ K*_{ν,c}² σ²(0)/f_X(0)` and
+`Bias m̂_ν(x₀) / h^{p+1-ν} → ν!/(p + 1)! (∫ t^{p+1} K*_{ν,c}) m^{(p+1)}(0)`, both in probability,
+with the equivalent kernel `K*_{ν,c}` of the truncated moments over `[-c, ∞)`; derivatives at `0`
+are taken within `[0, ∞)`. -/
 theorem tendstoInMeasure_localPolynomial_boundary {Ω : Type*} [MeasurableSpace Ω]
     (μ : Measure Ω) [IsProbabilityMeasure μ] (P : Measure (ℝ × ℝ)) [IsProbabilityMeasure P]
     (hY : MemLp (fun z : ℝ × ℝ ↦ z.2) 2 P) (fX : ℝ → ℝ)
@@ -1958,21 +1920,21 @@ theorem tendstoInMeasure_localPolynomial_boundary {Ω : Type*} [MeasurableSpace 
     (hfXc : ContinuousWithinAt fX (Ici 0) 0) {δ : ℝ} (hδ : 0 < δ)
     (hmc : ContDiffOn ℝ (p + 1 : ℕ) m (Ico 0 δ))
     (hmc' : ContinuousWithinAt (iteratedDerivWithin (p + 1) m (Ici 0)) (Ici 0) 0)
-    (hs2c : ContinuousWithinAt s2 (Ici 0) 0) (hs20 : 0 < s2 0) (h : ℕ → ℝ) (hh : ∀ n, 0 < h n)
+    (hs2c : ContinuousWithinAt s2 (Ici 0) 0) (h : ℕ → ℝ) (hh : ∀ n, 0 < h n)
     (hh0 : Tendsto h atTop (𝓝 0)) (hnh : Tendsto (fun n ↦ n * h n) atTop atTop)
     (Z : ℕ → Ω → ℝ × ℝ) (hZ : IsIndependentIdenticallyDistributed μ Z P) :
+    TendstoInMeasure μ (fun (n : ℕ) ω ↦ n * h n ^ (1 + 2 * (ν : ℕ)) *
+        (((ν : ℕ).factorial : ℝ) ^ 2 * ∑ i : Fin n, localPolynomialCoeff K (h n) p
+          (fun j : Fin n ↦ (Z j ω).1) (Pi.single i 1) (c * h n) ν ^ 2 * s2 (Z i ω).1) -
+        ((ν : ℕ).factorial : ℝ) ^ 2 * (∫ t, equivalentKernel (Ici (-c)) K p ν t ^ 2) * s2 0 /
+          fX 0) atTop (fun _ ↦ 0) ∧
     TendstoInMeasure μ (fun (n : ℕ) ω ↦
-        ((((ν : ℕ).factorial : ℝ) * localPolynomialCoeff K (h n) p (fun j : Fin n ↦ (Z j ω).1)
+        (((ν : ℕ).factorial : ℝ) * localPolynomialCoeff K (h n) p (fun j : Fin n ↦ (Z j ω).1)
             (fun j : Fin n ↦ m (Z j ω).1) (c * h n) ν -
-            iteratedDerivWithin ν m (Ici 0) (c * h n)) ^ 2 +
-          ((ν : ℕ).factorial : ℝ) ^ 2 * ∑ i : Fin n, localPolynomialCoeff K (h n) p
-            (fun j : Fin n ↦ (Z j ω).1) (Pi.single i 1) (c * h n) ν ^ 2 * s2 (Z i ω).1) /
-        ((((ν : ℕ).factorial : ℝ) / ((p + 1).factorial : ℝ) *
-            (∫ t, t ^ (p + 1) * equivalentKernel (Ici (-c)) K p ν t) *
-            iteratedDerivWithin (p + 1) m (Ici 0) 0) ^ 2 * h n ^ (2 * (p + 1 - (ν : ℕ))) +
-          ((ν : ℕ).factorial : ℝ) ^ 2 * (∫ t, equivalentKernel (Ici (-c)) K p ν t ^ 2) * s2 0 /
-            (fX 0 * n * h n ^ (1 + 2 * (ν : ℕ)))))
-      atTop (fun _ ↦ 1) := by
+          iteratedDerivWithin ν m (Ici 0) (c * h n)) / h n ^ (p + 1 - (ν : ℕ)) -
+        ((ν : ℕ).factorial : ℝ) / ((p + 1).factorial : ℝ) *
+          (∫ t, t ^ (p + 1) * equivalentKernel (Ici (-c)) K p ν t) *
+          iteratedDerivWithin (p + 1) m (Ici 0) 0) atTop (fun _ ↦ 0) := by
   sorry
 
 /-- **5.5** Asymptotic normality of the local polynomial estimator for `p - ν` odd: under the
@@ -2811,12 +2773,6 @@ theorem isGaussian_gaussianHilbert (T : H →L[ℝ] H) (lam : ℕ → ℝ) (φ :
       covarianceOperator (gaussianHilbert lam φ) = T := by
   sorry
 
-/-- **8.4** The Gaussian measure of a summable eigen-expansion is a probability measure. -/
-theorem isProbabilityMeasure_gaussianHilbert {T : H →L[ℝ] H} {lam : ℕ → ℝ} {φ : ℕ → H}
-    (he : IsEigenExpansion T lam φ) (hsum : Summable lam) :
-    IsProbabilityMeasure (gaussianHilbert lam φ) := by
-  sorry
-
 /-- **8.4** Uniqueness: a centered Gaussian measure with covariance operator `T` is the
 Gaussian measure of the eigen-expansion of `T`. -/
 theorem eq_gaussianHilbert (T : H →L[ℝ] H) (lam : ℕ → ℝ) (φ : ℕ → H)
@@ -2849,19 +2805,15 @@ def empiricalCovariance {n : ℕ} (x : Fin n → H) : H →L[ℝ] H :=
   (n : ℝ)⁻¹ • ∑ i, (innerSL ℝ (x i - (n : ℝ)⁻¹ • ∑ j, x j)).smulRight
     (x i - (n : ℝ)⁻¹ • ∑ j, x j)
 
-/-- **8.6** Consistency: `Ĉ_n → C` almost surely in Hilbert–Schmidt energy when `E ‖X‖² < ∞`;
-`‖Ĉ_n - C‖ = O_P(n^{-1/2})` when `E ‖X‖⁴ < ∞`, in outer probability; and every approximation
-number of `Ĉ_n` is within `‖Ĉ_n - C‖` of that of `C`. -/
+/-- **8.6** Consistency: `Ĉ_n → C` almost surely in Hilbert–Schmidt energy when `E ‖X‖² < ∞`,
+and `‖Ĉ_n - C‖ = O_P(n^{-1/2})` when `E ‖X‖⁴ < ∞`, in outer probability. -/
 theorem fpca_consistency (P : Measure H) [IsProbabilityMeasure P] (X : ℕ → Ω → H)
     (hX : IsIndependentIdenticallyDistributed μ X P) {ι : Type*} (b : HilbertBasis ι ℝ H) :
     (MemLp id 2 P → ∀ᵐ ω ∂μ, Tendsto (fun n : ℕ ↦ (empiricalCovariance (firstN X n ω) -
         covarianceOperator (P.map fun x ↦ x - ∫ y, y ∂P)).hilbertSchmidtEnergy b) atTop (𝓝 0)) ∧
     (MemLp id 4 P → ∀ ε > 0, ∃ M : ℝ, ∀ᶠ n : ℕ in atTop,
       μ {ω | M < √(n : ℝ) * ‖empiricalCovariance (firstN X n ω) -
-        covarianceOperator (P.map fun x ↦ x - ∫ y, y ∂P)‖} ≤ ENNReal.ofReal ε) ∧
-    ∀ (n : ℕ) ω j, |((empiricalCovariance (firstN X n ω)).singularValue j : ℝ) -
-        (covarianceOperator (P.map fun x ↦ x - ∫ y, y ∂P)).singularValue j| ≤
-      ‖empiricalCovariance (firstN X n ω) - covarianceOperator (P.map fun x ↦ x - ∫ y, y ∂P)‖ := by
+        covarianceOperator (P.map fun x ↦ x - ∫ y, y ∂P)‖} ≤ ENNReal.ofReal ε) := by
   sorry
 
 /-- **8.6** Asymptotic normality of a simple positive eigenvalue of the empirical covariance. -/
@@ -2936,7 +2888,7 @@ end Layer8
 #check @Tuple.sort
 #check @MeasureTheory.Measure.bind
 #check @MeasureTheory.Measure.conv
-#check @MeasureTheory.Measure.ext_of_charFunDual
+#check @ProbabilityTheory.IsGaussian.ext
 #check @StieltjesFunction.measure
 #check @MeasureTheory.condExp
 #check @MeasureTheory.TendstoInMeasure
@@ -2996,7 +2948,7 @@ end Layer8
 #check @ContinuousLinearMap.kyFanGauge
 #check @LinearMap.IsSymmetric.sum_re_inner_apply_self_le_sum_eigenvalues
 #check @ContinuousLinearMap.isCompactOperator_of_tendsto_singularValue
-#check @LinearMap.abs_singularValues_sub_singularValues_le
+#check @ContinuousLinearMap.abs_singularValue_sub_singularValue_le
 #check @TauCeti.etvDist_sq_le_two_mul_klDiv
 #check @TauCeti.two_mul_sq_measureReal_sub_le_klDiv
 #check @TauCeti.klDiv_prod_prod
