@@ -66,7 +66,7 @@ analytification (R0, R1); AdicSpacesPartIII owns sheafy affinoid acyclicity and 
 localization theory, including the coefficient Kiehl comparisons (R4, R5.5–R5.11).
 AdicEtaleGeometry A4.2a supplies finite Galois module descent, including projectivity and rank reflection.
 Lifting continuous cochains through surjections onto discrete spaces is Tau Ceti's
-`TauCeti.ContCohomology.exists_continuous_lift` and is not restated. P9.0 owns continuous
+`TauCeti.exists_continuous_lift` and is not restated. P9.0 owns continuous
 cochains into inverse limits, and the general continuous inhomogeneous cochain model with its all-degree
 homogeneous comparison for jointly continuous actions on topological modules. Its coefficient
 module need not be compact. P9.5 uses P9.0 for the geometric Čech-nerve, completed-section
@@ -314,7 +314,7 @@ This roadmap's own targets are cited by subsection.
 | Field-valued Galois descent | `TauCeti.GaloisDescent.span_invariants_eq_top`, `TauCeti/RepresentationTheory/GaloisDescent/Span.lean`; `TauCeti.GaloisDescent.liftBaseChange_injective_of_invariant`, `TauCeti/RepresentationTheory/GaloisDescent/Injective.lean`; `TauCeti.GaloisDescent.range_eq_invariants_of_liftBaseChange_surjective`, `TauCeti/RepresentationTheory/GaloisDescent/Range.lean` | Finite étale torsors over arbitrary commutative rings, including disconnected rings and characteristic dividing the group order. |
 | Finiteness and rank under base change | `Module.Finite.of_finite_tensorProduct_of_faithfullyFlat`, `Mathlib/RingTheory/Finiteness/Descent.lean`; `Module.rankAtStalk_baseChange`, `Mathlib/RingTheory/Spectrum/Prime/FreeLocus.lean` | Establish faithful flatness from finite étaleness and injectivity, then reflect rank using surjectivity on spectra. |
 | Continuous degree-zero cohomology | `ContinuousCohomology.zeroIso`, `Mathlib/RepresentationTheory/Homological/ContCohomology/LowDegree.lean`; `TauCeti.ContinuousCohomology.zeroIsoNatIso`, `TauCeti/RepresentationTheory/Homological/ContCohomology/DegreeZero.lean` | Identify the tower's Čech complex with continuous cochains; use these degree-zero comparisons directly. |
-| Continuous lifts along discrete surjections | `TauCeti.ContCohomology.exists_continuous_lift`, `TauCeti/RepresentationTheory/Homological/ContCohomology/ShortExact.lean` | For any topological source and any surjection onto a discrete space, a continuous map lifts continuously; P9.0 applies it with source `Gⁱ` in each cochain degree. |
+| Continuous lifts along discrete surjections | `TauCeti.exists_continuous_lift`, `TauCeti/Topology/Discrete.lean` | For any topological source and any surjection onto a discrete space, a continuous map lifts continuously; P9.0 applies it with source `Gⁱ` in each cochain degree. |
 | Continuous inhomogeneous cochains in degrees 0, 1 and 2 | `TauCeti.ContCohomology.cochainEquiv0`, `TauCeti.ContCohomology.cochainEquiv1`, `TauCeti.ContCohomology.cochainEquiv2`, `TauCeti.ContCohomology.d_cochainEquiv0`, `TauCeti.ContCohomology.d_cochainEquiv1_apply`, `TauCeti/RepresentationTheory/Homological/ContCohomology/CochainComparison.lean` | These additive comparisons use discrete modules with jointly continuous action; degree 2 also assumes local compactness of the group, automatic for profinite groups. P9.5 uses the all-degree and non-discrete extension of P9.0 with its explicit joint-continuity premise. |
 | Finite torsor Galois map, fixed ring and module descent | `TauCetiRoadmap.AdicEtaleGeometry.Algebra.galoisTensorMap`, `TauCetiRoadmap.AdicEtaleGeometry.Algebra.IsFiniteEtaleTorsor`, `TauCetiRoadmap.AdicEtaleGeometry.Algebra.IsFiniteEtaleTorsor.isInvariant` (A4.2); `TauCetiRoadmap.AdicEtaleGeometry.IsGaloisExtension`, *finite-galois-descent-of-modules* (A4.2a, README only) | A4.2a supplies faithful flatness, the torsor and fixed-ring conclusions, effective module descent, and finite-projectivity and rank reflection for P9.10. |
 | Faithful flatness of an injective finite étale algebra | `Algebra.IsIntegral.comap_surjective`, `Mathlib/RingTheory/Spectrum/Prime/Topology.lean`; `Module.FaithfullyFlat.of_comap_surjective`, `Mathlib/RingTheory/Flat/FaithfullyFlat/Algebra.lean` | Finiteness gives integrality, injectivity gives lying over every prime, and étaleness gives flatness. These construct the faithful-flatness field of the torsor. |
@@ -1898,7 +1898,7 @@ comparison; and flat and derived coefficient change with the vanishing of higher
 
 ### P9.0 continuous cochains and inverse limits
 
-Lifting along discrete surjections is Tau Ceti's `TauCeti.ContCohomology.exists_continuous_lift`:
+Lifting along discrete surjections is Tau Ceti's `TauCeti.exists_continuous_lift`:
 for any topological space `X`, a surjection `π : Y → Z` onto a discrete space and a continuous
 `f : X → Z`, there is a continuous `g : X → Y` with `π ∘ g = f` (compose `f` with a set-theoretic
 section of `π`; [Rubin] Appendix B, §2, Remark 2.2, p. 152). Applied with `X = Gⁱ` in each degree,
@@ -1914,9 +1914,9 @@ transitions, the transitions of the tower `Cⁱ(G, T_n)` are surjective.
 *Proof sketch.* A continuous map into a subspace of a product is a compatible family of
 continuous maps into the factors (Mathlib `continuous_pi_iff`); the coboundaries are given by the
 same formula at every level, so the identification is one of complexes. Surjectivity is
-`TauCeti.ContCohomology.exists_continuous_lift` with source `Gⁱ` ([Rubin] Appendix B, §2,
+`TauCeti.exists_continuous_lift` with source `Gⁱ` ([Rubin] Appendix B, §2,
 Definition 2.1 and Remark 2.2, pp. 151–152). *Needs:* Tau Ceti
-`TauCeti.ContCohomology.exists_continuous_lift`; Mathlib `continuous_pi_iff`.
+`TauCeti.exists_continuous_lift`; Mathlib `continuous_pi_iff`.
 
 **Checks.**
 
