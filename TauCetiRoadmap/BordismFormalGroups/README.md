@@ -31,7 +31,9 @@ Hopf algebroid) and the height classification of
 one-dimensional commutative formal groups over separably closed fields,
 built on the pinned Tau Ceti formal-group tree, which F1 consumes by name
 and never plans again; F2, complex and real orientations with their
-formal laws, the mod-p Steenrod algebras and HF_p-based Adams towers, the
+formal laws, the mod-p Steenrod algebras and HF_p-based Adams towers
+with the identification of the HF_p-nilpotent completion of a
+bounded-below spectrum with its derived p-completion, the
 unoriented coefficient ring MO_*, Thom's and Quillen's coefficient
 theorems for MO and MU, and the Conner–Floyd and graded Eilenberg–MacLane
 comparisons; F3, the splitting of idempotents of spectra, the
@@ -43,7 +45,8 @@ the three-fold Toda brackets of pointed spaces, the higher Toda
 operations and the Ω-spectrum Hopf rings of BP⟨n⟩; F5, invariant prime
 ideals, Landweber exactness and the Lubin–Tate universal deformation
 theorem; F6, homological Bousfield localization, the nilpotence theorem
-with its James-construction proof, thick subcategories and periodicity,
+with its James-construction proof and the loop comparison ΩBU≃U it
+uses, thick subcategories and periodicity,
 the Bousfield classes of the Johnson–Wilson theories, the smashing
 theorem and the chromatic fracture square, local group actions with
 their Tate comparisons, and the torus Euler cancellation on finite MU
@@ -56,8 +59,10 @@ orientations, MU and its multiplicative model, connective K spectra and
 generic spectral Postnikov covers, and G2.11's enriched, quasicategorical,
 straightening, monoidal-localization and operadic foundations.
 TopologicalKTheory's Conventions fix the Bott class β=[O(−1)]−1 on
-CP¹=S² that F2 uses for K-theory's multiplicative law, and its T2.5
-supplies the Adams operations by which F6.3 detects Adams' v₁ maps.
+CP¹=S² that F2 uses for K-theory's multiplicative law, its T1.5 and
+T1.6a supply the complex frame-span bundles and the stable Grassmannian
+BU on which F6.2 proves ΩBU≃U, and its T2.5 supplies the Adams
+operations by which F6.3 detects Adams' v₁ maps.
 AlgebraicTopology supplies ordinary (co)homology with cup products,
 Stage 5.5's Serre spectral sequences, Stage 8.3's Hurewicz theorem,
 Stage 8.7's finite CW type of compact smooth manifolds and Stage
@@ -204,9 +209,12 @@ choices, with explicit comparison maps between choices.
   hypothesis of this roadmap's target, not of the library's height.
 - **From TauCetiRoadmap.GeneralizedCohomology:** G2–G5 and G2.11 as
   described under Scope and ownership: G2's spectral model and cofiber
-  sequences, G2.7's mod-p Eilenberg–MacLane spectrum, G3.3's arbitrary-CW
-  comparison, G3.8's Milnor sequence and connective covers, G3.9's derived
-  p-completion, G4's projective-bundle comparison and G4.3's Thom
+  sequences, G2.7's mod-p Eilenberg–MacLane spectrum, G3.2's presentation
+  of a spectrum by its levels with the Milnor sequence of their
+  restriction tower, G3.3's arbitrary-CW comparison, G3.4's telescopes
+  with the Milnor sequence of the cohomology of a telescope, G3.8's
+  homotopy limits with their homotopy Milnor sequence and connective
+  covers, G3.9's derived p-completion, G4's projective-bundle comparison and G4.3's Thom
   isomorphism, G5.3–G5.5 and G5.7's Thom models, Thom product, finite
   duality, module families and extension classification. G3 owns integer
   spectral localization and derived p-completion; it supplies no chromatic
@@ -221,7 +229,10 @@ choices, with explicit comparison maps between choices.
 - **From TauCetiRoadmap.CharacteristicClasses:** C3's Stiefel–Whitney
   classes, the Whitney formula and `H^*(BO(n);𝔽₂)=𝔽₂[w₁,…,w_n]`.
 - **From TauCetiRoadmap.TopologicalKTheory:** the Conventions' Bott class
-  β=[O(−1)]−1 on CP¹=S², and T2.5's Adams operations ψ^k, k≥1, with
+  β=[O(−1)]−1 on CP¹=S²; T1.5's orthonormal frame-span maps
+  V_n(ℂ^N)→Gr_n(ℂ^N) as principal U(n)-bundles and T1.6a's stable complex
+  Grassmannian BU, for F6.2's loop comparison ΩBU≃U; and T2.5's Adams
+  operations ψ^k, k≥1, with
   ψ^kβ_n=k^nβ_n on the Bott classes of the spheres S^(2n), for F6.3's
   detection of Adams' v₁ maps.
 - **From TauCetiRoadmap.ProfiniteCohomology:** the continuous-cohomology
@@ -251,8 +262,9 @@ sequence (F4.4); the Massey/Toda comparisons on cobar complexes (F4.5)
 follow, and F4.6 runs that Atiyah–Hirzebruch spectral sequence on the
 Ω-spectrum spaces of F3's BP⟨n⟩ for their Hopf rings. G3 owns integer
 spectral localization, derived p-completion and π-holim/Milnor, with its
-actual ring/module and convergence comparisons; consume it before MU_(p)
-and keep F4's BP-nilpotent completion and its identification as new targets.
+actual ring/module and convergence comparisons; consume it before MU_(p),
+and keep F2.2's HF_p-nilpotent completion, F4's BP-nilpotent completion
+and their identifications with derived p-completion as new targets.
 F6.1 builds homological localization from G2's model and its own
 cardinality inputs. F6.2's nilpotence proof consumes G5's Thom and
 complex Bott models and its own James construction;
@@ -774,7 +786,8 @@ orientations and use the standard normalization for e_Sp.
 Do not impose this normalization on an arbitrary independent E orientation.
 *Needs:* GeneralizedCohomology G4 (the chosen complex orientation, the
 finite projective-bundle theorem and the two quaternionic orientations)
-and G3.8 (the Milnor sequence); TopologicalKTheory's Conventions (the Bott
+and G3.4 (the Milnor sequence of a telescope, for CP∞×CP∞);
+TopologicalKTheory's Conventions (the Bott
 class); Mathlib `FormalGroup` and `FormalGroup.𝔾ₘ`, and F1.1's
 `TauCeti.FormalCoordinate` for the comparison of two orientations.
 
@@ -805,7 +818,10 @@ P^(|x|/2)x=x^p for even |x|), the Cartan formula, suspension stability,
 Sq¹=β at p=2 and the Adem relations. Define the Steenrod algebra A_p as the
 algebra of stable operations, identified with H^*(HF_p) for G2.7's mod-p
 Eilenberg–MacLane spectrum through AlgebraicTopology Stage 8.10's universal
-classes and G3.8's Milnor sequence, and prove that the admissible monomials
+classes, G3.2's presentation of HF_p by the desuspended suspension spectra
+of the K(ℤ/p,n) and the Milnor sequence of their restriction tower, whose
+lim¹ term vanishes because each H^(n+k)(K(ℤ/p,n);𝔽_p) is finite, and prove
+that the admissible monomials
 form a basis: spanning by the Adem relations, independence by the
 Serre–Cartan computation. Own that computation: H^*(K(ℤ/p,n);𝔽_p) is the
 free graded-commutative algebra on the admissible monomials of excess
@@ -873,17 +889,23 @@ resolution (Ravenel, Definition 2.2.1), its exact couple and spectral
 sequence with E₂^(s,t)=Ext_(A_*)^(s,t)(𝔽_p,H_*(X;𝔽_p)) and d_r of bidegree
 (r,r−1) (Ravenel, Theorems 2.1.1 and 2.2.3); prove the pairing for ring
 spectra (Ravenel, Theorem 2.3.3) and, for bounded-below X, strong
-convergence to the homotopy of the HF_p-nilpotent completion, identified
-for bounded-below X with G3.9's derived p-completion (Bousfield, §6,
-Theorem 6.6), which is π_*(X)⊗ℤ_p when the homotopy groups of X are
-finitely generated (Ravenel, Theorem 2.1.1(ii)); control
+convergence to the homotopy of the HF_p-nilpotent completion. Prove that
+for bounded-below X this completion is G3.9's derived p-completion
+(Bousfield, §6, Theorem 6.6): the identification is owned here, and G3.9
+supplies only the derived completion, its Hom/Ext sequence and its
+tensor formula, by which the completion has homotopy π_*(X)⊗ℤ_p when the
+homotopy groups of X are finitely generated (Ravenel, Theorem
+2.1.1(ii)); control
 lim¹ and keep this completion distinct from p-localization.
 TangentialBordism consumes these operations, algebras and towers.
 *Needs:* AlgebraicTopology's ordinary cohomology with cup products, Stage
 5.5's cohomological Serre spectral sequence and Stage 8.8–8.10's
 Eilenberg–MacLane models, universal classes and representability;
-GeneralizedCohomology G2's cofiber sequences, G2.7's HF_p, G3.8's Milnor
-sequence and G3.9's derived p-completion. Hatcher, Miller, Ravenel,
+GeneralizedCohomology G2's cofiber sequences, G2.7's HF_p, G3.2's
+presentation of HF_p by its levels with the Milnor sequence of their
+restriction tower, G3.8's homotopy limits and their Milnor sequence (for
+the HF_p-nilpotent completion) and G3.9's derived p-completion. Hatcher,
+Miller, Ravenel,
 Guillou–Weibel and Bousfield are cited sources, not suppliers.
 
 **Checks.**
@@ -1055,7 +1077,8 @@ universal property of MO.
 TangentialBordism consumes these real formal laws; its geometric cycles
 and manifold representatives are not inputs here. *Needs:*
 GeneralizedCohomology G4 (real projective comparisons and Euler classes)
-and G3.8 (Milnor sequence); F1.4's pinned `TauCeti.ExponentTwoLazardRing`,
+and G3.4 (the Milnor sequence of a telescope, for RP∞×RP∞); F1.4's
+pinned `TauCeti.ExponentTwoLazardRing`,
 `ExponentTwoLazardRing.lift` and `ExponentTwoLazardRing.gradedLift`; F2.4's
 π_*MO.
 
@@ -1172,8 +1195,8 @@ algebra; F2.4's MO_* and F2.5's real laws; F1.4's pinned
 
 F1; AlgebraicTopology's ordinary cohomology, Stage 5.5, Stage 8.3 and
 Stages 8.8–8.10; CharacteristicClasses C3; TopologicalKTheory's
-Conventions; GeneralizedCohomology G2.4, G2.5, G2.6, G2.7, G3.8, G3.9, G4
-(with G4.3) and G5.3–G5.4.
+Conventions; GeneralizedCohomology G2.4, G2.5, G2.6, G2.7, G3.2, G3.4,
+G3.8, G3.9, G4 (with G4.3) and G5.3–G5.4.
 
 ## Layer 3: F3. p-typical and Brown–Peterson theories
 
@@ -2138,8 +2161,27 @@ shows every smash power of δ is nonzero.
 
 Construct the core nilpotence proof following
 [Devinatz–Hopkins–Smith, §§1–3](https://www.sas.rochester.edu/mth/sites/doug-ravenel/otherpapers/dhs-ocr.pdf).
-Use G5.4's complex space-level Bott equivalence and G2.9's
-loop/bar comparison, with the stable determinant fibration SU→U→S¹,
+Own the loop comparison ΩBU≃U, the complex counterpart of
+TopologicalKTheory T7.1's ΩBO≃O, which no supplier states. Let U be the
+colimit of the U(n) along the block inclusions A↦diag(A,1) and BU
+TopologicalKTheory T1.6a's stable complex Grassmannian. The orthonormal
+frame-span maps V_n(ℂ^N)→Gr_n(ℂ^N) are principal U(n)-bundles
+(TopologicalKTheory T1.5), and V_n(ℂ^N) is (2N−2n)-connected (Hatcher,
+Examples 4.53 and 4.54, pp. 381–383). Along the rank and ambient
+stabilizations their colimit is a principal bundle over BU whose fibre
+is U, identified as T7.1 identifies O, and whose total space is weakly
+contractible, every compact subset lying in a finite stage; so the
+connecting maps of AlgebraicTopology Stage 5.5's homotopy sequence are
+isomorphisms π_(i+1)(BU)≅π_i(U) for every i≥0. Prove that a weak
+homotopy equivalence U→ΩBU induces their inverses. A route: V_n(ℂ^∞) is
+contractible, so composing a contraction with the projection gives a weak
+homotopy equivalence U(n)→ΩGr_n(ℂ^∞) inducing the inverse connecting
+isomorphisms (Hatcher, Proposition 4.66 and the examples after it,
+pp. 408–409); these maps commute with the rank inclusions up to homotopy,
+and they induce the map on the mapping telescope of the U(n), which is
+homotopy equivalent to U.
+Use G5.4's complex space-level Bott equivalence and this loop
+comparison, with the stable determinant fibration SU→U→S¹,
 to construct the actual additive Bott map ΩSU→BU. Own this
 SU-loop/clutching adapter, its rank inclusions and multiplicative
 coherence; the bundle Bott theorem alone is not this map. Construct the native SU(r) stabilization and the sphere fibration
@@ -2158,7 +2200,22 @@ loop-map refinement. Construct X(r), its units, products and rank maps,
 H_*X(r)=ℤ[b₁,…,b_(r−1)] with |b_i|=2i and the flat graded
 cooperation Hopf algebroids used by the relative Adams comparison. Prove X(1)≃S, the (2r−1)-connectivity of
 X(r)→MU and hocolim_r X(r)≃MU, with the Thom homology/product
-comparisons. Own the James construction. For a pointed CW complex Y whose
+comparisons.
+
+**Checks.**
+- SU(1) is the trivial group, so ΩSU(1) is a point and X(1) is the
+  sphere. At r=1 the bound 2r−1=1 says S→MU is an isomorphism on π₀ and
+  onto on π₁, as π₀S=π₀MU=ℤ and π₁S=ℤ/2→π₁MU=0 confirm; the map is not
+  2-connected, since π₁S=ℤ/2→π₁MU=0 is not injective, so the bound cannot
+  be raised to 2r.
+- X(2) is the Thom spectrum over ΩSU(2)=ΩS³, so H_*X(2)=ℤ[b₁] with one
+  class in each even degree: H₂X(2)=ℤ separates X(2) from S, and
+  H₄X(2)=ℤb₁² against H₄MU=ℤb₁²⊕ℤb₂ shows that X(2)→MU is not onto on
+  H₄, as the bound 2r−1=3 allows.
+- Indexing the generators as b₁,…,b_r would give X(1) the homology ℤ[b₁]
+  of ΩS³ instead of the homology ℤ of the sphere.
+
+Own the James construction. For a pointed CW complex Y whose
 basepoint is a 0-cell, construct J(Y) as the free topological monoid on Y
 with the basepoint as unit, with the word-length filtration J_j(Y), the
 image of Y^j, J₀=*, J₁=Y and J_j/J_(j−1)≅Y^(∧j), each J_j a subcomplex of a
@@ -2224,6 +2281,18 @@ The proof has the following constructions and estimates.
    are contractible, by annihilating each homotopy class. A convergent
    Adams spectral sequence without this stage-dependent estimate is
    insufficient.
+
+   **Checks.**
+   - Tel(2;S) is S[1/2], with π₀=ℤ[1/2]≠0: 2 is not nilpotent, and
+     neither is its MU-Hurewicz image 2∈π₀MU=ℤ. The homotopy limit of
+     ⋯→S→S along multiplication by 2 has π₀=0 and π_(−1)=lim¹=ℤ₂/ℤ, so
+     a limit in place of the telescope is a different spectrum.
+   - η∈π₁S has η³=12ν≠0 in π₃S=ℤ/24 and η⁴=0 since π₄S=0, so Tel(η;S)≃0
+     although no smaller power of η vanishes; its MU-Hurewicz image lies
+     in π₁MU=0, as the criterion requires.
+   - Tel(1;R)≃R and Tel(0;R)≃0 for every R: the identity of a nonzero R
+     is not nilpotent and zero is, in agreement with the criterion in
+     degree 0.
 3. Construct the combinatorial James–Hopf maps
    H_j:J(Y)→J(Y^(∧j)) for every j≥1, using the ordered j-element
    subwords, their basepoint identifications and filtration/naturality
@@ -2282,9 +2351,12 @@ The proof has the following constructions and estimates.
 
 *Needs:* GeneralizedCohomology G2.4 (derived smash products and ring
 spectra), G3.4 (telescopes of spectra, for the multiplication telescopes
-Tel(α;R)), G2.9 (loop/bar comparison), G5.1 (finite duality), G5.3
+Tel(α;R)), G5.1 (finite duality), G5.3
 (numerable bundle and Thom diagrams) and G5.4 (strict MU and the complex
-Bott equivalence); AlgebraicTopology Stage 5.5 (Serre fibrations); F4.1's
+Bott equivalence); TopologicalKTheory T1.5 and T1.6a (the complex
+frame-span bundles and the stable Grassmannian BU, for the loop
+comparison ΩBU≃U owned here); AlgebraicTopology Stage 5.5 (Serre
+fibrations and their homotopy sequence); F4.1's
 derived right-module category over a strict ring spectrum; F2.2's mod-p
 Steenrod operations and dual Steenrod algebra; the mod-p homology
 operations of Ω²S^(2m+1) and of the extended powers D_(2,j), at odd
@@ -3161,6 +3233,21 @@ with the following intermediate APIs before invoking smashing.
    Handle the full/extended groups by their indicated quotient actions
    and treat height 0 rationally. ProfiniteCohomology supplies the
    carrier and generic resolutions, not these analytic-group theorems.
+
+   **Checks.**
+   - At m=1, D=ℚ_p, O_D=ℤ_p and S=p, so 𝕊₁=ℤ_p^×, S₁=1+pℤ_p,
+     𝕊₁/S₁=𝔽_p^× and d=1. For odd p, (p−1)∤1 and S₁≅ℤ_p is torsion-free
+     of cohomological dimension 1; at p=2, S₁=ℤ₂^× contains −1 of order
+     2, so its mod-2 cohomological dimension is infinite, and the deeper
+     level 1+4ℤ₂≅ℤ₂ is a torsion-free U of dimension 1.
+   - At m=2, for the Teichmüller representative ω of a generator of
+     𝔽_(p²)^×, SωS⁻¹=φ(ω)=ω^p≠ω, because ω has order p²−1>p−1; so D is
+     not commutative, whereas the untwisted relation Sa=aS would make O_D
+     the commutative ring W(𝔽_(p²))[S]/(S²−p), of rank 4 over ℤ_p.
+   - With v(p)=1, S^m=p gives v(S)=1/m, so D has ramification index m and
+     residue field 𝔽_(p^m), and e·f=m² is its dimension over ℚ_p; the
+     unramified field ℚ_(p^m) has the same residue field, e=1 and
+     dimension m.
 4. Apply F6.3's Smith idempotents to tensor/smash powers of a finite
    torsion-free W: nontrivial actions
    of the relevant order-p subgroups on FK(m)_*W produce a nonzero
@@ -3496,7 +3583,9 @@ local categories and fracture functors.
 
 *Needs:* GeneralizedCohomology G2 (simplicial model of spectra and
 projective BG-diagrams), G2.11 (enriched, quasicategorical and monoidal
-foundations), G3.8 (Milnor sequence), G3.9 (derived p-completion),
+foundations), G3.4 (telescopes and their Milnor sequences, for R⁰(BG),
+K(n)^*(BC_p) and the countable-cell models), G3.8 (homotopy limits and
+their Milnor sequence), G3.9 (derived p-completion),
 G4.3–G4.5 (Thom isomorphisms, Euler classes and complex orientations, for
 the Gysin sequence of the circle bundle over CP∞), G5.1 (finite duality) and G5.4 (strict MU); F3.2 and F3.3 (K(n), its
 p-series v_n x^(p^n), and E(n)); F4.1 (the derived right-module category
@@ -3575,8 +3664,9 @@ calculation and prove injectivity. Include the empty sums and r=0 unit branch.
 
 For any finite CW X, build the actual finite projective-bundle comparisons
 MU^k(X×(CP^n)^ℓ)=⊕_(0≤α_i≤n)MU^(k−2|α|)(X)x^α, their multiplicative
-restriction maps and their surjectivity in every degree. Use G3's Milnor
-sequence to obtain zero lim¹ and the completed graded ring
+restriction maps and their surjectivity in every degree. Use G3.4's
+Milnor sequence of a telescope to obtain zero lim¹ and the completed
+graded ring
 MU^k(X×BT)=∏_(α∈ℕ^ℓ)MU^(k−2|α|)(X)x^α. Construct the same comparisons
 for BP and MU_(p). Use x_i=e(λ_i) for the standard-character line of
 CharacteristicClasses' Conventions, as G5.7 uses it,
@@ -3668,8 +3758,9 @@ compatibility with the torus finite-cell mapping Euler comparison, its cup actio
 and the finite-X/completed comparisons. This gives the corresponding
 coefficient maps on Euler and extension classes.
 
-*Needs:* GeneralizedCohomology G3.8 (Milnor sequence), G4 (projective
-bundles and Thom multiplicativity), G4.5 (complex orientation), G5.1
+*Needs:* GeneralizedCohomology G3.4 (the Milnor sequence of a telescope,
+for MU^*(X×BT)), G3.8 (the homotopy Milnor sequence of the mapping
+towers), G4 (projective bundles and Thom multiplicativity), G4.5 (complex orientation), G5.1
 (finite duality), G5.4 (MU), G5.5 (the MU→Hℤ coefficient square) and G5.7
 (torus actions, Thom families, mapping towers); F1–F3 (formal group and
 p-typicalization); F5.1–F5.2 (quotients A/I_h and the finite Landweber
@@ -3750,7 +3841,8 @@ form) and G5.5 (the MU→Hℤ scalar extension).
 ### Dependencies
 
 F1–F5; GeneralizedCohomology G2.3–G2.11, G3, G4, G5.1 and G5.3–G5.7;
-AlgebraicTopology Stages 5.5, 8.7 and 8.8; TopologicalKTheory T2.5;
+AlgebraicTopology Stages 5.5, 8.7 and 8.8; TopologicalKTheory T1.5,
+T1.6a and T2.5;
 CharacteristicClasses' Conventions; ProfiniteCohomology;
 RepresentationTheory SchurWeyl Layers 0, 2 and 5 and CompactGroups
 Layers 1–2; Mathlib's Witt vectors.
