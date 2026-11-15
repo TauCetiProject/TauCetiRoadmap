@@ -6,6 +6,8 @@ import TauCeti.RepresentationTheory.Spin.HalfSpin.Basic
 import TauCeti.Algebra.Lie.HighestWeight.Verma
 import TauCeti.LinearAlgebra.RootSystem.Weyl.Vector
 import TauCeti.Algebra.Lie.D4.Tripled.Triality.Basic
+import TauCeti.LinearAlgebra.CliffordAlgebra.Spin.LowRank.Six.SpecialLinear
+import TauCeti.RepresentationTheory.Spin.Exceptional.Six.ExteriorSquare
 
 /-!
 # Clifford algebras, the Pin and Spin groups, and spin representations: target signatures
@@ -73,6 +75,20 @@ theorem first_word_piece_iff {K : Type u} {V : Type v} [Field K] [Invertible (2 
         CliffordAlgebra.filtration Q 1 ↔
       Submodule.map φ.toLinearMap (LinearMap.range (CliffordAlgebra.ι Q)) =
         LinearMap.range (CliffordAlgebra.ι Q) := sorry
+
+/-! ## Layer 6: the low-dimensional exceptional isomorphisms -/
+
+/-- The vector representation of a six-dimensional nondegenerate complex quadratic space is
+exterior square of the standard four-dimensional representation under the polarized
+`Spin₆ ≃ SL₄` equivalence. The group equivalence is the one defined by the action on the
+native even half-spin module, so the comparison retains the polarization. -/
+theorem spin6_vector_equiv_exteriorSquare {V : Type v} [AddCommGroup V] [Module ℂ V]
+    [FiniteDimensional ℂ V] (Q : QuadraticForm ℂ V) (hQ : Q.Nondegenerate)
+    (P : TauCeti.SpinPolarizationData Q) (hV : Module.finrank ℂ V = 6) :
+    ∃ E : V ≃ₗ[ℂ] (⋀[ℂ]^2 (Fin 4 → ℂ)), ∀ (g : spinGroup Q) (v : V),
+      E ((spinToSpecialOrthogonal Q g : V ≃ₗ[ℂ] V) v) =
+        ((TauCeti.stdSLRep ℂ 4).exteriorPower 2
+          (TauCeti.spinGroupEquivSpecialLinearGroupOfFinrankEqSix P hV g)) (E v) := sorry
 
 /-! ## Layer 8: triality for `Spin₈` -/
 
