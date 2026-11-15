@@ -1111,7 +1111,7 @@ Transfer the algebraic invariant theory from `ℚ` to `ℚ_ℓ` by flat base cha
 
 ### 2.4. Compact cohomology and the `L`-function of `⊗^{2k}F`
 
-Under the hypotheses of Theorem `3.2`, with `U` affine and `F₀ ≠ 0: H⁰_c(U, ⊗^{2k}F) = 0`, `H²_c(U, ⊗^{2k}F) ≅ ℚ_ℓ(−kβ − 1)^N` with `N ≥ 1` as Frobenius modules, and `Z(U₀, ⊗^{2k}F₀, t) = det(1 − F^*t, H¹_c(U, ⊗^{2k}F)) / (1 − q^{kβ+1}t)^N`. So `Z(U₀, ⊗^{2k}F₀, t)` is the Taylor expansion of a rational function whose only poles are at `t = q^{−kβ−1}`.
+Under the hypotheses of [2.9](#29-the-fundamental-estimate-and-coarse-curve-bounds), with `U` affine and `F₀ ≠ 0: H⁰_c(U, ⊗^{2k}F) = 0`, `H²_c(U, ⊗^{2k}F) ≅ ℚ_ℓ(−kβ − 1)^N` with `N ≥ 1` as Frobenius modules, and `Z(U₀, ⊗^{2k}F₀, t) = det(1 − F^*t, H¹_c(U, ⊗^{2k}F)) / (1 − q^{kβ+1}t)^N`. So `Z(U₀, ⊗^{2k}F₀, t)` is the Taylor expansion of a rational function whose only poles are at `t = q^{−kβ−1}`.
 
 Take `U` affine and `F₀≠0`. Import the curve coinvariant description of `H²_c` and the coefficient trace formula.
 
@@ -1123,14 +1123,14 @@ Take `U` affine and `F₀≠0`. Import the curve coinvariant description of `H²
 
 This group provides nonnegative coefficients for the local factors of even tensor powers under hypothesis (iii) of 2.9, through their logarithmic derivatives (2.5); §2.9 uses 2.6, and §5.8 refers to 2.6.
 
-Under hypothesis (iii) of Theorem `3.2`, for every even integer `2k` and every `x ∈ |U₀|`, the power series `t (d/dt) log det(1 − F_x t, ⊗^{2k}F₀)⁻¹` has nonnegative rational coefficients.
+Under hypothesis (iii) of [2.9](#29-the-fundamental-estimate-and-coarse-curve-bounds), for every even integer `2k` and every `x ∈ |U₀|`, the power series `t (d/dt) log det(1 − F_x t, ⊗^{2k}F₀)⁻¹` has nonnegative rational coefficients.
 
 *Needs:* [0.10](#010-the-characteristic-power-series-det1--tf-and-traces-of-powers), [LinearMap.trace_tensorProduct'](#from-mathlib-and-tau-ceti).
 
 (Sources: [WI](#references), §3, Lemme (3.3), p. 284.)
 
 **2.6. Local factors of even tensor powers have nonnegative coefficients.**
-Under hypothesis (iii) of Theorem `3.2`, for every even `2k` and `x ∈ |U₀|`, the local factor `det(1 − F_x t^{deg x}, ⊗^{2k}F₀)⁻¹ ∈ ℚ[[t]]` has constant term `1` and nonnegative coefficients.
+Under hypothesis (iii) of [2.9](#29-the-fundamental-estimate-and-coarse-curve-bounds), for every even `2k` and `x ∈ |U₀|`, the local factor `det(1 − F_x t^{deg x}, ⊗^{2k}F₀)⁻¹ ∈ ℚ[[t]]` has constant term `1` and nonnegative coefficients.
 
 *Needs:* [2.5](#25-positivity-of-the-local-factors-of-even-tensor-powers).
 
@@ -1147,7 +1147,7 @@ Take power series `f_i = Σ_n a_{i,n} t^n`, indexed by a countable set, each hav
 (Sources: [WI](#references), §3, Lemme (3.5), p. 284.)
 
 **2.8. Poles of the factors lie no closer than the poles of the product.**
-Keep the setting of Lemma `3.5`, and assume in addition that `f` and every `f_i` are Taylor expansions at `0` of meromorphic functions on `ℂ`. For each `i`, the infimum of the moduli of the poles of `f_i` is then at least the same infimum for `f`: `inf`{`|z| : f_i` has a pole at `z`} `≥ inf`{`|z| : f` has a pole at `z`}.
+Keep the setting of [2.7](#27-coefficient-convergence-and-pole-comparison-for-products-of-positive-power-series), and assume in addition that `f` and every `f_i` are Taylor expansions at `0` of meromorphic functions on `ℂ`. For each `i`, the infimum of the moduli of the poles of `f_i` is then at least the same infimum for `f`: `inf`{`|z| : f_i` has a pole at `z`} `≥ inf`{`|z| : f` has a pole at `z`}.
 
 *Needs:* [2.7](#27-coefficient-convergence-and-pole-comparison-for-products-of-positive-power-series).
 
@@ -1166,14 +1166,14 @@ Use openness in `Sp`, rational local factors of the fixed `ℚ_ℓ` sheaf, and t
 (Sources: [WI](#references), §3, Théorème (3.2), p. 284; [WI](#references), §3, proof of (3.2), p. 285.)
 
 **2.10. The coarse bound on `H¹_c(U, F)`.**
-Under the hypotheses of Theorem `3.2`, with `U` affine, every eigenvalue `α` of `F^*` on `H¹_c(U, F)` is an algebraic number, and every complex conjugate of `α` satisfies `|α| ≤ q^{β/2 + 1}`.
+Under the hypotheses of [2.9](#29-the-fundamental-estimate-and-coarse-curve-bounds), with `U` affine, every eigenvalue `α` of `F^*` on `H¹_c(U, F)` is an algebraic number, and every complex conjugate of `α` satisfies `|α| ≤ q^{β/2 + 1}`.
 
 *Needs:* [2.9](#29-the-fundamental-estimate-and-coarse-curve-bounds), [2.1](#21-the-weil-i-curve-coefficient-interface), [2.2](#22-open-subgroups-of-spvℚ_ℓ-are-zariski-dense), [EtaleCohomologyFoundations §§F.0–F.4, F.10.1–F.10.5 and InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T1–IG.0.T4 (finite cohomology, base change and geometric trace formulas)](#etalecohomologyfoundations-f0f4-f101f105-and-inversegaloisandarithmeticfundamentalgroups-ig0t1ig0t4-finite-cohomology-base-change-and-geometric-trace-formulas), [EtaleCohomologyFoundations §§F.3, F.5–F.6 (extreme-degree curve cohomology)](#etalecohomologyfoundations-f3-f5f6-extreme-degree-curve-cohomology).
 
 (Sources: [WI](#references), §3, Corollaire (3.8), p. 286.)
 
 **2.11. The two-sided coarse bound on `H¹(ℙ¹, j_*F)`.**
-Let `j : U → ℙ¹` be the inclusion. Under the hypotheses of Theorem `3.2`, every eigenvalue `α` of `F^*` on `H¹(ℙ¹, j_*F)` is an algebraic number, and every complex conjugate of `α` satisfies `q^{β/2} ≤ |α| ≤ q^{β/2 + 1}`; in Deligne's notation `q^{(β+1)/2 − 1/2} ≤ |α| ≤ q^{(β+1)/2 + 1/2}`.
+Let `j : U → ℙ¹` be the inclusion. Under the hypotheses of [2.9](#29-the-fundamental-estimate-and-coarse-curve-bounds), every eigenvalue `α` of `F^*` on `H¹(ℙ¹, j_*F)` is an algebraic number, and every complex conjugate of `α` satisfies `q^{β/2} ≤ |α| ≤ q^{β/2 + 1}`; in Deligne's notation `q^{(β+1)/2 − 1/2} ≤ |α| ≤ q^{(β+1)/2 + 1/2}`.
 
 Use the imported duality pairing for `H¹(ℙ¹,j_*F)`.
 
@@ -2130,7 +2130,7 @@ Its API includes:
 
 - If `ℱ` is integral and `m ≥ 0` then `ℱ(−m)` is integral; the converse fails for `m > 0`.
 
-- An integral mixed sheaf has all punctual weights `≥ 0` (Weil II 3.3.2): the norm of an integral Weil `q`-number of weight `n` and degree `d` is a nonzero integer of absolute value `q^{nd/2}` (DWP.0/weil-number-arithmetic (iv)).
+- An integral mixed sheaf has all punctual weights `≥ 0` (Weil II 3.3.2): the norm of an integral Weil `q`-number of weight `n` and degree `d` is a nonzero integer of absolute value `q^{nd/2}` ([0.2](#02-products-inverses-conjugation-and-integrality-of-weil-q-numbers) (iv)).
 
 - The constant sheaf `ℚ̄_ℓ` is integral; so is every sheaf `ℱ` whose Frobenius traces at all closed points of all finite extensions are algebraic integers.
 
@@ -2162,7 +2162,7 @@ Fix `n ∈ ℤ` and a separated morphism `f : X → Y` of schemes of finite type
 (Sources: [WII](#references), §3, (3.3.1) a), b), f), p. 204; [WII](#references), §3, (3.3.1) f), p. 204.)
 
 **7.4. Dévissage along the target, through a factorisation and under universal homeomorphisms.**
-The property `P_n(f)` is that of DWP.7/devissage-in-the-sheaf-and-the-source. (c) Split the target into an open `j : V → Y` and its closed complement `i : T → Y`, and write `f_V`, `f_T` for the base changes of `f` to these pieces. Then `P_n(f)` holds for `ℱ` exactly when `P_n(f_V)` holds for `ℱ|X_V` and `P_n(f_T)` holds for `ℱ|X_T`; more generally, for a sheaf `𝒢` on `Y` the condition 'mixed of weights `≤ m`' holds if and only if it holds for both `𝒢|V` and `𝒢|T`. (d) Factor `f = g ∘ h` through separated finite-type morphisms `h : X → Z` and `g : Z → Y`. Once every `R^p g_! R^q h_!ℱ` is known to be mixed of weights `≤ n + p + q`, `P_n(f)` holds for `ℱ`; this covers the case where `ℱ` has `P_n(h)` and each `R^q h_!ℱ` has `P_{n+q}(g)`. (e) Base change along a universal homeomorphism `g : Y′ → Y` (that is, `g` integral, radicial and surjective) does not affect the property: with `f′ : X′ → Y′` the base change of `f` and `ℱ′` the pullback of `ℱ`, `P_n(f)` for `ℱ` is equivalent to `P_n(f′)` for `ℱ′`. Two instances are `Y′ = Y_red` and, for normal integral `Y`, the normalisation of `Y` in a purely inseparable extension of its function field. Statements (c)–(e) carry over to `ι`-mixed sheaves with real weights.
+The property `P_n(f)` is that of [7.3](#73-dévissage-of-the-direct-image-property-and-tame-covers-on-curves). (c) Split the target into an open `j : V → Y` and its closed complement `i : T → Y`, and write `f_V`, `f_T` for the base changes of `f` to these pieces. Then `P_n(f)` holds for `ℱ` exactly when `P_n(f_V)` holds for `ℱ|X_V` and `P_n(f_T)` holds for `ℱ|X_T`; more generally, for a sheaf `𝒢` on `Y` the condition 'mixed of weights `≤ m`' holds if and only if it holds for both `𝒢|V` and `𝒢|T`. (d) Factor `f = g ∘ h` through separated finite-type morphisms `h : X → Z` and `g : Z → Y`. Once every `R^p g_! R^q h_!ℱ` is known to be mixed of weights `≤ n + p + q`, `P_n(f)` holds for `ℱ`; this covers the case where `ℱ` has `P_n(h)` and each `R^q h_!ℱ` has `P_{n+q}(g)`. (e) Base change along a universal homeomorphism `g : Y′ → Y` (that is, `g` integral, radicial and surjective) does not affect the property: with `f′ : X′ → Y′` the base change of `f` and `ℱ′` the pullback of `ℱ`, `P_n(f)` for `ℱ` is equivalent to `P_n(f′)` for `ℱ′`. Two instances are `Y′ = Y_red` and, for normal integral `Y`, the normalisation of `Y` in a purely inseparable extension of its function field. Statements (c)–(e) carry over to `ι`-mixed sheaves with real weights.
 
 *Needs:* [7.3](#73-dévissage-of-the-direct-image-property-and-tame-covers-on-curves), [7.1](#71-weil-ii-12-weight-conventions-for-dwp7dwp9-imported-from-dwp5), [EtaleCohomologyFoundations §§F.0–F.4 (constructible derived coefficients, base change and finiteness)](#etalecohomologyfoundations-f0f4-constructible-derived-coefficients-base-change-and-finiteness), [EtaleCohomologyFoundations §§F.0–F.4, F.10.1–F.10.5 and InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T1–IG.0.T4 (finite cohomology, base change and geometric trace formulas)](#etalecohomologyfoundations-f0f4-f101f105-and-inversegaloisandarithmeticfundamentalgroups-ig0t1ig0t4-finite-cohomology-base-change-and-geometric-trace-formulas).
 
@@ -2179,7 +2179,7 @@ Trace followed by adjunction multiplies by the cover degree on each component, w
 
 ### 7.6. Reduction of the direct-image theorem to a tame smooth projective relative curve
 
-Assume Theorem 3.3.1 holds for every quadruple `(f̄, D, ℱ, Y)` of the following kind: `Y` is an integral regular scheme of finite type over `ℤ[1/ℓ]` (the source's '`Y_red` lisse'); `f̄ : X̄ → Y` is projective and smooth of pure relative dimension `1`; `D ⊂ X̄` is a divisor finite étale over `Y`; `X = X̄ − D` with `f = f̄|X`; and `ℱ` is a lisse sheaf on `X`, punctually pure of weight `n` and tamely ramified along `D`. Then Theorem 3.3.1 holds for every separated morphism of schemes of finite type over `ℤ[1/ℓ]` and every sheaf mixed of weights `≤ n`. The same reduction holds for `ι`-mixed sheaves with real weights.
+Assume the conclusion of [7.8](#78-delignes-fundamental-theorem-ri-f_-of-a-mixed-sheaf-of-weights--n-has-weights--n--i), that every `R^i f_!ℱ` is mixed of weights `≤ n + i`, holds for every quadruple `(f̄, D, ℱ, Y)` of the following kind: `Y` is an integral regular scheme of finite type over `ℤ[1/ℓ]` (the source's '`Y_red` lisse'); `f̄ : X̄ → Y` is projective and smooth of pure relative dimension `1`; `D ⊂ X̄` is a divisor finite étale over `Y`; `X = X̄ − D` with `f = f̄|X`; and `ℱ` is a lisse sheaf on `X`, punctually pure of weight `n` and tamely ramified along `D`. Then that conclusion holds for every separated morphism of schemes of finite type over `ℤ[1/ℓ]` and every sheaf mixed of weights `≤ n`. The same reduction holds for `ι`-mixed sheaves with real weights.
 
 *Needs:* [7.3](#73-dévissage-of-the-direct-image-property-and-tame-covers-on-curves), [7.4](#73-dévissage-of-the-direct-image-property-and-tame-covers-on-curves), [7.5](#73-dévissage-of-the-direct-image-property-and-tame-covers-on-curves), [ModularCurves §0E and SchemeAndStackFoundations §0.9 (spreading out)](#modularcurves-0e-and-schemeandstackfoundations-09-spreading-out), [SchemeAndStackFoundations §0.9 and LefschetzPencilsAndVanishingCycles §§7b.3, 7b.7 (Noetherian approximation and arithmetic models)](#schemeandstackfoundations-09-and-lefschetzpencilsandvanishingcycles-7b3-7b7-noetherian-approximation-and-arithmetic-models), [EtaleCohomologyFoundations §§F.0–F.4, F.10.1–F.10.5 and InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T1–IG.0.T4 (finite cohomology, base change and geometric trace formulas)](#etalecohomologyfoundations-f0f4-f101f105-and-inversegaloisandarithmeticfundamentalgroups-ig0t1ig0t4-finite-cohomology-base-change-and-geometric-trace-formulas).
 
@@ -2187,7 +2187,7 @@ Assume Theorem 3.3.1 holds for every quadruple `(f̄, D, ℱ, Y)` of the followi
 
 ### 7.7. The direct-image theorem for a tame smooth projective relative curve
 
-In the reduced situation of DWP.7/spreading-out-to-a-tame-relative-curve (`f̄ : X̄ → Y` projective and smooth of pure relative dimension `1` over an integral regular `Y` of finite type over `ℤ[1/ℓ]`, `j : X = X̄ − D → X̄` with `i : D → X̄` the inclusion of a divisor finite étale over `Y`, and `ℱ` lisse on `X`, punctually pure of weight `n` and tamely ramified along `D`), `R^i f_!ℱ` is mixed of weights `≤ n + i` for every `i`. More precisely `Rf_!ℱ = Rf̄_*(j_!ℱ)`; `R^i f̄_*(j_*ℱ)` is punctually pure of weight `n + i`; and `i*j_*ℱ` carries the filtration induced by the local monodromy filtration `M` along `D`, with `Gr^M_k(i*j_*ℱ)` zero for `k > 0` and punctually pure of weight `n + k` on `D` for `k ≤ 0`. The `ι`-version holds with `n` replaced by `β ∈ ℝ`.
+In the reduced situation of [7.6](#76-reduction-of-the-direct-image-theorem-to-a-tame-smooth-projective-relative-curve) (`f̄ : X̄ → Y` projective and smooth of pure relative dimension `1` over an integral regular `Y` of finite type over `ℤ[1/ℓ]`, `j : X = X̄ − D → X̄` with `i : D → X̄` the inclusion of a divisor finite étale over `Y`, and `ℱ` lisse on `X`, punctually pure of weight `n` and tamely ramified along `D`), `R^i f_!ℱ` is mixed of weights `≤ n + i` for every `i`. More precisely `Rf_!ℱ = Rf̄_*(j_!ℱ)`; `R^i f̄_*(j_*ℱ)` is punctually pure of weight `n + i`; and `i*j_*ℱ` carries the filtration induced by the local monodromy filtration `M` along `D`, with `Gr^M_k(i*j_*ℱ)` zero for `k > 0` and punctually pure of weight `n + k` on `D` for `k ≤ 0`. The `ι`-version holds with `n` replaced by `β ∈ ℝ`.
 
 *Needs:* [7.6](#76-reduction-of-the-direct-image-theorem-to-a-tame-smooth-projective-relative-curve), [7.3](#73-dévissage-of-the-direct-image-property-and-tame-covers-on-curves), [6.4](#64-purity-of-parabolic-curve-cohomology), [5.11](#511-the-local-weightmonodromy-theorem-on-a-curve), [5.12](#512-boundary-mixedness-and-extension-of-purity), [EtaleCohomologyFoundations §§F.0–F.4 (constructible derived coefficients, base change and finiteness)](#etalecohomologyfoundations-f0f4-constructible-derived-coefficients-base-change-and-finiteness), [EtaleCohomologyFoundations §§F.0–F.4, F.10.1–F.10.5 and InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T1–IG.0.T4 (finite cohomology, base change and geometric trace formulas)](#etalecohomologyfoundations-f0f4-f101f105-and-inversegaloisandarithmeticfundamentalgroups-ig0t1ig0t4-finite-cohomology-base-change-and-geometric-trace-formulas).
 
@@ -2237,7 +2237,7 @@ SchemeAndStackFoundations §0.7 (dimensions and finite-type morphisms).
 
 ### 7.10. Deligne's integrality theorem (SGA `7` XXI 5.2.2)
 
-Let `f : X → Y` be a separated morphism of schemes of finite type over `ℤ[1/ℓ]` whose fibres have dimension `≤ d`, and `ℱ` an integral sheaf on `X` (DWP.7/integral-sheaf). Then for every `i` the sheaf `R^i f_!ℱ` is integral, and for `i ≥ d` the `twist R^i f_!ℱ(i − d)` is integral: at every closed point `y` of `Y`, every eigenvalue `α` of `F_y` on `(R^i f_!ℱ)_ȳ` is an algebraic integer, and for `i ≥ d` the number `α/N(y)^{i−d}` is an algebraic integer.
+Let `f : X → Y` be a separated morphism of schemes of finite type over `ℤ[1/ℓ]` whose fibres have dimension `≤ d`, and `ℱ` an integral sheaf on `X` ([7.2](#72-integral-sheaves)). Then for every `i` the sheaf `R^i f_!ℱ` is integral, and for `i ≥ d` the `twist R^i f_!ℱ(i − d)` is integral: at every closed point `y` of `Y`, every eigenvalue `α` of `F_y` on `(R^i f_!ℱ)_ȳ` is an algebraic integer, and for `i ≥ d` the number `α/N(y)^{i−d}` is an algebraic integer.
 
 *Needs:* the affine fibration reduction above, [7.2](#72-integral-sheaves), [EtaleCohomologyFoundations §§F.0–F.4, F.10.1–F.10.5 and InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T1–IG.0.T4 (finite cohomology, base change and geometric trace formulas)](#etalecohomologyfoundations-f0f4-f101f105-and-inversegaloisandarithmeticfundamentalgroups-ig0t1ig0t4-finite-cohomology-base-change-and-geometric-trace-formulas), [EtaleCohomologyFoundations §§F.0–F.4 (constructible derived coefficients, base change and finiteness)](#etalecohomologyfoundations-f0f4-constructible-derived-coefficients-base-change-and-finiteness), [5.2](#52-weil-sheaves-and-étale-descent), [EtaleCohomologyFoundations §§F.5–F.6 (smooth purity and Poincaré duality)](#etalecohomologyfoundations-f5f6-smooth-purity-and-poincaré-duality).
 
@@ -2261,7 +2261,7 @@ Let `X₀` be a scheme of finite type over `𝔽_q`, `X = X₀ ⊗ 𝔽̄_q`. (i
 
 ### 7.13. The `p`-adic couple of a pure algebraic number
 
-Let `q = p^f`, `n ∈ ℤ`, and `α` an algebraic number which is a Weil `q`-number of weight `n` (DWP.0). Let `K` be a number field containing `α` and `v` a valuation of `K` above `p`, normalised by `v(q) = 1`, extended to `v : K → ℚ ∪ {∞}`. The couple of `α` at `v` is `(r, s) = (v(α), v(q^n α⁻¹))`. Here `q^n α⁻¹ ∈ K`, and under every embedding `σ : K → ℂ` it maps to the complex conjugate of `σ(α)` (DWP.0/weil-number-arithmetic (iii)); so `q^n α⁻¹` has the same minimal polynomial over `ℚ` as `α`, `i`.`e`. it is a Galois conjugate of `α`. Always `r + s = n`; if `α` is integral over `ℤ` then `r ≥ 0` and `s ≥ 0`.
+Let `q = p^f`, `n ∈ ℤ`, and `α` an algebraic number which is a Weil `q`-number of weight `n` (DWP.0). Let `K` be a number field containing `α` and `v` a valuation of `K` above `p`, normalised by `v(q) = 1`, extended to `v : K → ℚ ∪ {∞}`. The couple of `α` at `v` is `(r, s) = (v(α), v(q^n α⁻¹))`. Here `q^n α⁻¹ ∈ K`, and under every embedding `σ : K → ℂ` it maps to the complex conjugate of `σ(α)` ([0.2](#02-products-inverses-conjugation-and-integrality-of-weil-q-numbers) (iii)); so `q^n α⁻¹` has the same minimal polynomial over `ℚ` as `α`, `i`.`e`. it is a Galois conjugate of `α`. Always `r + s = n`; if `α` is integral over `ℤ` then `r ≥ 0` and `s ≥ 0`.
 
 Its API includes:
 - The couple of `α` relative to an additive valuation `v` of `K` with values in `ℚ ∪ {∞}`, `q ∈ K` and `n ∈ ℤ`: the pair `(v(α), v(q^n α⁻¹))` in `(ℚ ∪ {∞})²`.
@@ -2297,7 +2297,7 @@ Its API includes:
 
 ### 7.14. The `p`-adic couples of Frobenius eigenvalues lie in triangles
 
-Let `X₀` be a scheme of finite type over `𝔽_q`, `q = p^f`, of dimension `≤ d`, and `i ≥ 0`. Let `α` be an eigenvalue of `F` on `H^i_c(X, ℚ̄_ℓ)`, or on `H^i(X, ℚ̄_ℓ)` when `X₀` is proper, of weight `w`, and `(r, s)` its couple at a place `v` above `p` (DWP.7/newton-couples-`3`-`3`-`7`). Then `r + s = w ≤ i` and `r`, `s ≥ max(0, i − d)`: `(r, s)` lies in the lower triangle `{r + s ≤ i, r ≥ max(0, i − d), s ≥ max(0, i − d)}`. If `X₀` is smooth of dimension `≤ d` and `α` is an eigenvalue of `F` on `H^i(X, ℚ̄_ℓ)`, then `r + s = w ≥ i` and `r`, `s ≤ min(i, d)`: `(r, s)` lies in the upper triangle `{r + s ≥ i, r ≤ min(i, d), s ≤ min(i, d)}`.
+Let `X₀` be a scheme of finite type over `𝔽_q`, `q = p^f`, of dimension `≤ d`, and `i ≥ 0`. Let `α` be an eigenvalue of `F` on `H^i_c(X, ℚ̄_ℓ)`, or on `H^i(X, ℚ̄_ℓ)` when `X₀` is proper, of weight `w`, and `(r, s)` its couple at a place `v` above `p` ([7.13](#713-the-p-adic-couple-of-a-pure-algebraic-number)). Then `r + s = w ≤ i` and `r`, `s ≥ max(0, i − d)`: `(r, s)` lies in the lower triangle `{r + s ≤ i, r ≥ max(0, i − d), s ≥ max(0, i − d)}`. If `X₀` is smooth of dimension `≤ d` and `α` is an eigenvalue of `F` on `H^i(X, ℚ̄_ℓ)`, then `r + s = w ≥ i` and `r`, `s ≤ min(i, d)`: `(r, s)` lies in the upper triangle `{r + s ≥ i, r ≤ min(i, d), s ≤ min(i, d)}`.
 
 Use constant coefficients; the upper-triangle duality argument is degreewise on smooth pure-dimensional components.
 
@@ -2307,7 +2307,7 @@ Use constant coefficients; the upper-triangle duality argument is degreewise on 
 
 ### 7.15. Purity for proper smooth varieties and rational homology manifolds over a finite field
 
-Let `X₀` be a scheme of finite type over `𝔽_q`, `X = X₀ ⊗ 𝔽̄_q`, a : `X₀ → Spec 𝔽_q`. (i) If `X₀` is proper and smooth and `ℱ₀` is lisse and punctually pure of weight `n`, then `H^i(X, ℱ)` is pure of weight `n + i` for every `i`; the same holds for `ι`-purity with `n ∈ ℝ`. (ii) (Weil II 3.3.9) If `X₀` is proper and smooth, then for every `i` the polynomial `det(1 − F t, H^i(X, ℚ_ℓ))` has integer coefficients independent of `ℓ ≠ p`, and its reciprocal roots, the eigenvalues of `F`, are Weil `q`-numbers of weight `i`. (iii) (3.3.11) In (i) and (ii) and in DWP.7/cohomological-bounds-`3`-`3`-`2`-`3`-`3`-`6` (ii)–(iii), 'smooth of pure dimension `N`' may be replaced by the condition that `X₀` is of pure dimension `N` and `Ra^!ℚ_ℓ ≅ ℚ_ℓ(N)[2N]` Frobenius-equivariantly (EtaleCohomologyFoundations §F.5's exceptional inverse image), for instance when `X₀` is étale-locally the quotient of a smooth scheme of dimension `N` by a finite group; then the lower bound and purity statements hold with `ℱ₀ = ℚ̄_ℓ`.
+Let `X₀` be a scheme of finite type over `𝔽_q`, `X = X₀ ⊗ 𝔽̄_q`, a : `X₀ → Spec 𝔽_q`. (i) If `X₀` is proper and smooth and `ℱ₀` is lisse and punctually pure of weight `n`, then `H^i(X, ℱ)` is pure of weight `n + i` for every `i`; the same holds for `ι`-purity with `n ∈ ℝ`. (ii) (Weil II 3.3.9) If `X₀` is proper and smooth, then for every `i` the polynomial `det(1 − F t, H^i(X, ℚ_ℓ))` has integer coefficients independent of `ℓ ≠ p`, and its reciprocal roots, the eigenvalues of `F`, are Weil `q`-numbers of weight `i`. (iii) (3.3.11) In (i) and (ii) and in [7.12](#712-weight-bounds-for-hi_c-and-hi-over-a-finite-field-and-purity-of-the-image-hi_c--hi) (ii)–(iii), 'smooth of pure dimension `N`' may be replaced by the condition that `X₀` is of pure dimension `N` and `Ra^!ℚ_ℓ ≅ ℚ_ℓ(N)[2N]` Frobenius-equivariantly (EtaleCohomologyFoundations §F.5's exceptional inverse image), for instance when `X₀` is étale-locally the quotient of a smooth scheme of dimension `N` by a finite group; then the lower bound and purity statements hold with `ℱ₀ = ℚ̄_ℓ`.
 
 The integral factors and `ℓ`-independence in (ii) use §4.4 after purity in (i) and integrality from §7.10. In (iii) use constant coefficients and the displayed dualizing-object isomorphism.
 
@@ -2354,7 +2354,7 @@ Its API includes:
 
 - For mixed `K: K` has weights `≤ w` iff for all `i` and `x ∈ |X₀|` every eigenvalue of `F_x` on `ℋ^i(K)_x̄` has weight `≤ w + i` relative to `N(x)`.
 
-- Weights are unchanged by the base extension `𝔽_q → 𝔽_{q^r}` (DWP.0/finite-field-base-extension-of-weights).
+- Weights are unchanged by the base extension `𝔽_q → 𝔽_{q^r}` ([0.12](#012-weights-under-a-finite-extension-of-the-finite-base-field)).
 
 - A complex of weights `≤ w` has `ι`-weights `≤ w` for every `ι`.
 
@@ -2377,7 +2377,7 @@ Its API includes:
 
 ### 8.2. Complexes of weights `≥ w` and pure complexes
 
-Let `X₀` be of finite type over `𝔽_q`, a : `X₀ → Spec 𝔽_q`, `K_{X₀} = Ra^!ℚ̄_ℓ` the dualizing complex and `D = RHom(−, K_{X₀})` the duality functor of EtaleCohomologyFoundations §F.5, which is involutive on `D^b_c(X₀)`, exchanges `f*` with `Rf^!` and `Rf_*` with `Rf_!`, and satisfies `D(K ⊗ L) = RHom(K, DL)`. A complex `K` is mixed of weights `≥ w` when `DK` is mixed of weights `≤ −w` (DWP.8/mixed-complexes). `K` is pure of weight `w` when it is mixed of weights `≤ w` and of weights `≥ w` (Weil II 6.2.4). A sheaf `ℱ` is pure of weight `w` when the complex `ℱ[0]` is. The `ι`-variants `(w ∈ ℝ)` are defined in the same way. On `X₀` smooth of pure dimension `d`, `K_{X₀} = ℚ̄_ℓ(d)[2d]` (EtaleCohomologyFoundations §F.6), so `K` has weights `≥ w` iff `RHom(K, ℚ̄_ℓ)` has weights `≤ −w`.
+Let `X₀` be of finite type over `𝔽_q`, a : `X₀ → Spec 𝔽_q`, `K_{X₀} = Ra^!ℚ̄_ℓ` the dualizing complex and `D = RHom(−, K_{X₀})` the duality functor of EtaleCohomologyFoundations §F.5, which is involutive on `D^b_c(X₀)`, exchanges `f*` with `Rf^!` and `Rf_*` with `Rf_!`, and satisfies `D(K ⊗ L) = RHom(K, DL)`. A complex `K` is mixed of weights `≥ w` when `DK` is mixed of weights `≤ −w` ([8.1](#81-mixed-complexes-and-complexes-of-weights--w)). `K` is pure of weight `w` when it is mixed of weights `≤ w` and of weights `≥ w` (Weil II 6.2.4). A sheaf `ℱ` is pure of weight `w` when the complex `ℱ[0]` is. The `ι`-variants `(w ∈ ℝ)` are defined in the same way. On `X₀` smooth of pure dimension `d`, `K_{X₀} = ℚ̄_ℓ(d)[2d]` (EtaleCohomologyFoundations §F.6), so `K` has weights `≥ w` iff `RHom(K, ℚ̄_ℓ)` has weights `≤ −w`.
 
 Its API includes:
 - Weights `≥ w`: `D K` has weights `≤ −w`.
@@ -2403,7 +2403,7 @@ Its API includes:
 #### Checks
 - On `X₀` smooth of pure dimension `d`, `ℚ̄_ℓ[0]` is pure of weight `0` and `ℚ̄_ℓ[d]` is pure of weight `d`.
 
-- On `Spec 𝔽_q`, `K` is pure of weight `w` iff every Frobenius module `H^i(K)` is pure of weight `w + i` in the sense of DWP.0/endomorphism-weights.
+- On `Spec 𝔽_q`, `K` is pure of weight `w` iff every Frobenius module `H^i(K)` is pure of weight `w + i` in the sense of [0.7](#07-eigenvalues-weil-purity-and-ι-weights-of-an-invertible-endomorphism).
 
 - On the nodal cubic `X₀ ⊂ ℙ²`, `ℚ̄_ℓ[0]` is mixed of weights `≤ 0` and every stalk is pure of weight `0`, but it is not pure: if it were, `H¹(X, ℚ̄_ℓ)` would be pure of weight `1` (proper direct image, 6.2.6), whereas it is `ℚ̄_ℓ` of weight `0`.
 
@@ -2478,7 +2478,7 @@ Its API includes:
 
 ### 8.7. Nearby cycles of a mixed sheaf are mixed
 
-In the setting of DWP.8/mixed-sheaves-with-galois-action-on-the-special-fibre, let `ℱ` be a mixed sheaf on `X` (`X` of finite type over `S`). Then the sheaves of nearby cycles `R^iΨ(ℱ)` on `X_s̄`, with their action of `Gal(η̄/η)`, are mixed for every `i`.
+In the setting of [8.6](#86-mixed-sheaves-on-the-special-fibre-with-an-action-of-the-generic-galois-group), let `ℱ` be a mixed sheaf on `X` (`X` of finite type over `S`). Then the sheaves of nearby cycles `R^iΨ(ℱ)` on `X_s̄`, with their action of `Gal(η̄/η)`, are mixed for every `i`.
 
 *Needs:* [8.6](#86-mixed-sheaves-on-the-special-fibre-with-an-action-of-the-generic-galois-group), [8.5](#85-stability-of-mixed-complexes-under-the-six-operations-and-duality), [LefschetzPencilsAndVanishingCycles §0.5 (derived nearby cycles and the vanishing triangle)](#lefschetzpencilsandvanishingcycles-05-derived-nearby-cycles-and-the-vanishing-triangle), [LefschetzPencilsAndVanishingCycles §§0.6–0.8 (specialization and nearby-cycle functoriality)](#lefschetzpencilsandvanishingcycles-0608-specialization-and-nearby-cycle-functoriality), [LefschetzPencilsAndVanishingCycles §§1.1–1.6 (inertia, monodromy and relative filtrations)](#lefschetzpencilsandvanishingcycles-1116-inertia-monodromy-and-relative-filtrations), [5.12](#512-boundary-mixedness-and-extension-of-purity).
 
@@ -2504,7 +2504,7 @@ Let `X₀` be of finite type over `𝔽_q`. (a) For every `N ∈ ℤ`, `K` is mi
 
 ### 8.10. `j_*` of a pure lisse sheaf across a smooth divisor is pure
 
-(c) Let `X₀` be a smooth curve over `𝔽_q`, `j : U₀ → X₀` a dense open and `ℱ₀` a lisse sheaf on `U₀`, punctually pure of weight `w` (equivalently, by DWP.8`/twist`-shift-and-smooth-lisse-purity-`6`-`2`-`5`, `ℱ₀` is pure of weight `w` as a sheaf). Then `j_*ℱ₀` is pure of weight `w`. (d) Let `X₀` be smooth, `D₀ ⊂ X₀` a smooth divisor, `j : U₀ = X₀ − D₀ → X₀`, and `ℱ₀` lisse on `U₀`, punctually pure of weight `w` and tamely ramified along `D₀`. Then `j_*ℱ₀` is pure of weight `w`. The `ι`-variants hold.
+(c) Let `X₀` be a smooth curve over `𝔽_q`, `j : U₀ → X₀` a dense open and `ℱ₀` a lisse sheaf on `U₀`, punctually pure of weight `w` (equivalently, by [8.9](#89-purity-on-a-smooth-scheme-is-pointwise-purity-of-lisse-cohomology-sheaves), `ℱ₀` is pure of weight `w` as a sheaf). Then `j_*ℱ₀` is pure of weight `w`. (d) Let `X₀` be smooth, `D₀ ⊂ X₀` a smooth divisor, `j : U₀ = X₀ − D₀ → X₀`, and `ℱ₀` lisse on `U₀`, punctually pure of weight `w` and tamely ramified along `D₀`. Then `j_*ℱ₀` is pure of weight `w`. The `ι`-variants hold.
 
 Use the underived `j_*` placed in degree zero, with lisse source sheaf.
 
@@ -2532,7 +2532,7 @@ Let `f : X₀ → Y₀` be a proper morphism of schemes of finite type over `�
 
 ### 8.13. Pure complexes over `ℤ[1/ℓ]`
 
-For `X` of finite type over `ℤ[1/ℓ]` with structure map a : `X → Spec ℤ[1/ℓ]`, put `K′_X = Ra^!ℚ̄_ℓ` and `D′ = RHom(−, K′_X)`. Call `K ∈ D^b_c(X)` pure of weight `w` when `K` is mixed of weights `≤ w` (DWP.8/mixed-complexes, read on schemes of finite type over `ℤ[1/ℓ]`, where mixedness and punctual weights are tested at the closed points, whose residue fields are finite) and `D′K` is mixed of weights `≤ −w`. If `X` is of finite type over `𝔽_p` then `K′_X = K_X(−1)[−2]`, because `i^!ℚ̄_ℓ = ℚ̄_ℓ(−1)[−2]` for the closed point `i : Spec 𝔽_p → Spec ℤ[1/ℓ]`; so `D′ = D(−1)[−2]` and this notion agrees with that of DWP.8/pure-complexes. Proper direct images preserve this purity: for `f : X → Y` proper over `ℤ[1/ℓ]` and `K` pure of weight `w`, `Rf_*K` is pure of weight `w`.
+For `X` of finite type over `ℤ[1/ℓ]` with structure map a : `X → Spec ℤ[1/ℓ]`, put `K′_X = Ra^!ℚ̄_ℓ` and `D′ = RHom(−, K′_X)`. Call `K ∈ D^b_c(X)` pure of weight `w` when `K` is mixed of weights `≤ w` ([8.1](#81-mixed-complexes-and-complexes-of-weights--w), read on schemes of finite type over `ℤ[1/ℓ]`, where mixedness and punctual weights are tested at the closed points, whose residue fields are finite) and `D′K` is mixed of weights `≤ −w`. If `X` is of finite type over `𝔽_p` then `K′_X = K_X(−1)[−2]`, because `i^!ℚ̄_ℓ = ℚ̄_ℓ(−1)[−2]` for the closed point `i : Spec 𝔽_p → Spec ℤ[1/ℓ]`; so `D′ = D(−1)[−2]` and this notion agrees with that of [8.2](#82-complexes-of-weights--w-and-pure-complexes). Proper direct images preserve this purity: for `f : X → Y` proper over `ℤ[1/ℓ]` and `K` pure of weight `w`, `Rf_*K` is pure of weight `w`.
 
 Its API includes:
 - `D′` is involutive on `D^b_c(X)` and exchanges `f^*` with `Rf^!` and `Rf_*` with `Rf_!` for morphisms of schemes of finite type over `ℤ[1/ℓ]` (EtaleCohomologyFoundations §F.5 over this base).
@@ -2754,7 +2754,7 @@ Its API includes:
 
 - Over `k = 𝔽̄_q`, a sheaf `ℱ₀` on `X₀/𝔽_q` with property `P` is potentially `P` with model `S = Spec 𝔽_q`.
 
-- The Kummer extension `ℒ` on `𝔾_m` over `ℂ` (a nonsplit unipotent local system of rank two) is potentially mixed but not potentially punctually `ι`-pure: otherwise it would be semisimple by DWP.8/potentially-pure-lisse-sheaves-are-semisimple-`3`-`4`-`12`.
+- The Kummer extension `ℒ` on `𝔾_m` over `ℂ` (a nonsplit unipotent local system of rank two) is potentially mixed but not potentially punctually `ι`-pure: otherwise it would be semisimple by [8.22](#822-potentially-pure-lisse-sheaves-on-a-normal-variety-are-semisimple).
 
 - The zero sheaf is potentially `P` for every `P` satisfied by zero sheaves: choose a finite-type model of `X` and the zero sheaf on the entire model. For `X=Spec ℚ̄` and `S=Spec ℤ[1/ℓ]`, the sheaf `i_(p)*ℚ̄_ℓ` with `p≠ℓ` has
   zero `ℚ̄`-fibre and nonzero `p`-fibre; that model does not witness `P=(being zero)`.
@@ -2849,7 +2849,7 @@ Let `k` be algebraically closed with `ℓ` invertible, `X` of finite type over `
 
 ### 8.22. Potentially pure lisse sheaves on a normal variety are semisimple
 
-Let `k` be algebraically closed with `ℓ` invertible, `X` a normal scheme of finite type over `k`, and `ℱ` a lisse sheaf on `X` which is potentially punctually `ι`-pure (DWP.8/potentially-property-`p`-`3`-`4`-`10`). Then `ℱ` is semisimple.
+Let `k` be algebraically closed with `ℓ` invertible, `X` a normal scheme of finite type over `k`, and `ℱ` a lisse sheaf on `X` which is potentially punctually `ι`-pure ([8.20](#820-sheaves-and-complexes-potentially-having-a-property-p)). Then `ℱ` is semisimple.
 
 *Needs:* [8.20](#820-sheaves-and-complexes-potentially-having-a-property-p), [8.19](#819-delignes-semisimplicity-theorem-pure-lisse-sheaves-are-geometrically-semisimple), [8.14](#814-geometric-monodromy-and-geometrically-semisimple-lisse-sheaves), [5.15](#515-specialization-of-geometric-monodromy), [SchemeAndStackFoundations §0.9 and LefschetzPencilsAndVanishingCycles §§7b.3, 7b.7 (Noetherian approximation and arithmetic models)](#schemeandstackfoundations-09-and-lefschetzpencilsandvanishingcycles-7b3-7b7-noetherian-approximation-and-arithmetic-models).
 
@@ -3110,7 +3110,7 @@ Tate twist.
 
 ### 9.8. Primitive Lefschetz decomposition and nondegenerate Lefschetz pairings
 
-Let `k` be algebraically closed with `ℓ` invertible, `X` a smooth projective `k`-scheme of pure dimension `n`, `L` ample, `η = c₁(L)`. (i) For `0 ≤ r ≤ n`, `H^{n−r}(X, ℚ_ℓ) = ⊕_{k≥0} η^k ∪ P^{n−r−2k}(X)(−k)` and `H^{n+r}(X, ℚ_ℓ(r)) = ⊕_{k≥0} η^{r+k} ∪ P^{n−r−2k}(X)(−k)`, where `P^{n−r}(X) = ker(η^{r+1} on H^{n−r}(X, ℚ_ℓ))` is the primitive part (DWP.9/lefschetz-operator) and `η^k ∪ P(−k)` denotes the image of `P` under `η^k ∪ −` composed with the inverse twist; `dim P^{n−r} = b_{n−r} − b_{n−r−2}`. (ii) The Lefschetz pairing `ψ_r(x, y) = Tr_X(η^r ∪ x ∪ y)` on `H^{n−r}(X, ℚ_ℓ)` is nondegenerate and `(−1)^{n−r}`-symmetric, the decomposition (i) of `H^{n−r}` is `ψ_r`-orthogonal, and `ψ_r` is nondegenerate on `P^{n−r}(X)`. All these are `Gal(k/k₀)`-equivariant when `(X, L)` is defined over `k₀`.
+Let `k` be algebraically closed with `ℓ` invertible, `X` a smooth projective `k`-scheme of pure dimension `n`, `L` ample, `η = c₁(L)`. (i) For `0 ≤ r ≤ n`, `H^{n−r}(X, ℚ_ℓ) = ⊕_{k≥0} η^k ∪ P^{n−r−2k}(X)(−k)` and `H^{n+r}(X, ℚ_ℓ(r)) = ⊕_{k≥0} η^{r+k} ∪ P^{n−r−2k}(X)(−k)`, where `P^{n−r}(X) = ker(η^{r+1} on H^{n−r}(X, ℚ_ℓ))` is the primitive part ([9.1](#91-the-lefschetz-operator-of-a-line-bundle)) and `η^k ∪ P(−k)` denotes the image of `P` under `η^k ∪ −` composed with the inverse twist; `dim P^{n−r} = b_{n−r} − b_{n−r−2}`. (ii) The Lefschetz pairing `ψ_r(x, y) = Tr_X(η^r ∪ x ∪ y)` on `H^{n−r}(X, ℚ_ℓ)` is nondegenerate and `(−1)^{n−r}`-symmetric, the decomposition (i) of `H^{n−r}` is `ψ_r`-orthogonal, and `ψ_r` is nondegenerate on `P^{n−r}(X)`. All these are `Gal(k/k₀)`-equivariant when `(X, L)` is defined over `k₀`.
 
 Nondegeneracy and graded symmetry are the conclusions; no Hodge–Riemann positivity is required.
 
