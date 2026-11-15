@@ -131,6 +131,7 @@ body:
         - NoncommutativeGeometry
         - NoncommutativeIntegration
         - NoncongruenceModularForms
+        - OcneanuRigidity
         - OperatorAlgebraDynamics
         - OperatorKTheory
         - OperatorTheory
@@ -146,6 +147,7 @@ body:
         - PolylogarithmFunctions
         - PositiveMass
         - PositiveScalarCurvature
+        - PresentationsOfMonoidalCategories
         - PrimitivePrimeDivisors
         - ProfiniteCohomology
         - PseudodifferentialOperators
