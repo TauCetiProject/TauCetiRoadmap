@@ -33,8 +33,8 @@ The following headline theorems are not statable at the pins:
 
 Mathlib's one-dimensional isocrystals and absolute de Rham completion do not
 supply these relative period-lattice and moduli categories. Tau Ceti's
-topological Frobenius quotient and classical complex Hodge structures do not
-supply them either. No weakened scalar, weight-bound or set-intersection
+adic Frobenius quotient, which carries no vector bundles or modifications, and
+its classical complex Hodge structures do not supply them either. No weakened scalar, weight-bound or set-intersection
 statement is substituted for a headline theorem.
 -/
 
