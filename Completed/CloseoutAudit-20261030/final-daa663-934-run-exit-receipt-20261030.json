@@ -1,0 +1,24 @@
+{
+  "started_utc": "2026-10-30T10:56:23.678791+00:00",
+  "driver_pid": 1045878,
+  "wrapper_pid": 1045876,
+  "source_main": "daa66339a578b8c1c41c20b94839ca25444cc1e8",
+  "module_roots": 934,
+  "probes": 16,
+  "expected_axiom_reports": 128,
+  "manifest_sha256": "87739ed9ba79bb650f932d0ef78b25700435c9323cca6de0111bc72b88c72854",
+  "command": [
+    "python3",
+    "-u",
+    "/home/kim/worktrees/TauCetiRoadmap/goal-archive-nine-evidence/final-native-replay/run.py",
+    "--source-dir",
+    "/home/kim/worktrees/TauCeti/TauCeti-goal-archive-main-verification-20261028",
+    "--verified-main",
+    "daa66339a578b8c1c41c20b94839ca25444cc1e8"
+  ],
+  "driver_log": "/home/kim/worktrees/TauCetiRoadmap/goal-archive-nine-evidence/final-native-replay/driver-final-daa663-934-20261030.log",
+  "one_final_native_execution": true,
+  "exit_code": 0,
+  "observed_utc": "2026-10-30T11:01:04.230103+00:00",
+  "independent_full_output_audit_required": true
+}
