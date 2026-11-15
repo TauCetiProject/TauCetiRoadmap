@@ -175,8 +175,6 @@ theorem pureSubring_cohenMacaulay (B : Type u) (B' : Type v) [CommRing B] [CommR
 
 open CategoryTheory AlgebraicGeometry
 
-attribute [local instance] HasDerivedCategory.standard
-
 /-- The structure sheaf as the native bounded-below cochain complex supported
 in degree zero. -/
 noncomputable def structureComplex (X : Scheme.{u}) : CochainComplex.Plus X.Modules :=
@@ -190,7 +188,8 @@ noncomputable def structureComplex (X : Scheme.{u}) : CochainComplex.Plus X.Modu
 /-- The geometric unit O_Y[0] → Rf_*O_X in the native bounded-below derived
 category of sheaves of modules, obtained from the ringed-space unit and the
 native right-derived-functor unit. -/
-noncomputable def derivedUnit {X Y : Scheme.{u}} (f : X ⟶ Y) :
+noncomputable def derivedUnit {X Y : Scheme.{u}} [HasDerivedCategory.{u + 1} X.Modules]
+    [HasDerivedCategory.{u + 1} Y.Modules] (f : X ⟶ Y) :
     DerivedCategory.Plus.Q.obj (structureComplex Y) ⟶
       (Scheme.Modules.pushforward f).rightDerivedFunctorPlus.obj
         (DerivedCategory.Plus.Q.obj (structureComplex X)) :=
@@ -205,24 +204,29 @@ noncomputable def derivedUnit {X Y : Scheme.{u}} (f : X ⟶ Y) :
     (Scheme.Modules.pushforward f).rightDerivedFunctorPlusUnit.app (structureComplex X)
 
 /-- A Noetherian ring is a derived splinter when every proper surjective scheme
-cover of its spectrum has a retraction of its geometric derived unit. -/
-noncomputable def DerivedSplinter (R : Type u) [CommRing R] : Prop :=
+cover of its spectrum has a retraction of its geometric derived unit. The derived
+categories are instance arguments at the universe of `HasDerivedCategory.standard`;
+whether a retraction exists does not depend on their choice. -/
+noncomputable def DerivedSplinter (R : Type u) [CommRing R]
+    [HasDerivedCategory.{u + 1} (Spec (CommRingCat.of R)).Modules] : Prop :=
   IsNoetherianRing R ∧
-    ∀ (X : Scheme.{u}) (f : X ⟶ Spec (CommRingCat.of R)),
+    ∀ (X : Scheme.{u}) [HasDerivedCategory.{u + 1} X.Modules] (f : X ⟶ Spec (CommRingCat.of R)),
       AlgebraicGeometry.IsProper f → AlgebraicGeometry.Surjective f →
         ∃ ρ, derivedUnit f ≫ ρ = 𝟙 _
 
 /-- In positive characteristic splinters and derived splinters coincide
 (Bhatt, Derived splinters, Theorem 0.3). -/
 theorem splinter_iff_derivedSplinter_charP (R : Type u) [CommRing R]
-    [IsNoetherianRing R] (p : ℕ) [Fact p.Prime] [CharP R p] :
+    [IsNoetherianRing R] (p : ℕ) [Fact p.Prime] [CharP R p]
+    [HasDerivedCategory.{u + 1} (Spec (CommRingCat.of R)).Modules] :
     Splinter R ↔ DerivedSplinter R := by
   sorry
 
 /-- Every Noetherian regular ring is a derived splinter: every proper surjective
 cover of its spectrum admits a derived retraction of the geometric unit
 (Bhatt, direct summand and its derived variant, Theorems 1.2 and 6.1). -/
-theorem derivedDirectSummand (R : Type u) [CommRing R] [IsRegularRing R] :
+theorem derivedDirectSummand (R : Type u) [CommRing R] [IsRegularRing R]
+    [HasDerivedCategory.{u + 1} (Spec (CommRingCat.of R)).Modules] :
     DerivedSplinter R := by
   sorry
 
