@@ -1628,6 +1628,38 @@ without being a presheaf topos (TotallyDistributiveTopoi 3.5), and the topoi sat
 the essential subtopoi of presheaf topoi (TotallyDistributiveTopoi 2.4). ClassifyingTopoi consumes
 Conventions 1 and 4 and 1.1, 1.2, 2.1, 2.2, 2.4, 2.5, 4.1, 4.2, 6.1, 6.5 and 6.6.
 
+## Provenance: existing formalizations outside Tau Ceti
+
+This section is secondary: it maps existing Lean code to targets and prescribes nothing. The
+Apache-2.0 repository AxiomMath, *The Stacks Project in Lean* (References), formalizes the Stacks
+Project on Mathlib. Its `StacksFrontier` tier is written by AI agents and builds without `sorry`;
+the repository records it as unreviewed by humans, and it is built on Lean and Mathlib v4.35.0,
+earlier than our pin. It is not a dependency: a statement read there is compared with the target
+here before it is used, adaptation is agreed with its maintainers first, and adapted code keeps its
+Apache-2.0 notices.
+
+`StacksFrontier/CategoryTheory/Sites` follows the Stacks chapter *Sites and Sheaves* and SGA 4 IV,
+for topoi given by a site. Its `Topos/` files define a morphism of topoi as an adjunction with left
+exact inverse image (Tag 00XC, `MorphismOfTopoi.lean`), the morphism of sheaf topoi of a morphism of
+sites and its composition (Tag 00XA, `ToposDefs.lean`), and 2-morphisms with their horizontal
+composition (Tag 04I9, `TwoMorphismOfTopoi.lean`): the content of 2.1 and 2.2 for topoi of sites,
+without the existence criterion of 2.1 or the 2-category of 2.2. `SliceTopos/` builds localization
+at an object and its compatibility with morphisms of topoi (Tags 04IU and 04IW,
+`LocalizationAndMorphismsOfTopoi.lean`), the slices of 3.1, and localization at a subterminal object
+(`SubterminalSlice*.lean`), the open subterminals of 3.3; `Topos/LocalizationShriekExact.lean`
+proves exactness of extension by zero, the input of Layer 9.
+
+`Subtopos/` defines subtopoi (Tag 08LV, SGA 4 IV 9.1, `Defs.lean`), open and closed subtopoi and
+closed complements (Tag 08LZ, `Open.lean`, `Closed.lean`) and embeddings: part of 4.1 and 4.3,
+without Lawvere–Tierney topologies, the lattice of subtopoi, gluing or the surjection–embedding
+factorization. `Point/` defines points of a topos (Tag 00Y4, SGA 4 IV 6.1, `Defs.lean`), stalks and
+conservative families, and proves a criterion for enough points by finite refinements
+(`CriterionForExistenceOfPoints/DeligneCriterion.lean`), to be compared with 6.1, 6.2 and 6.4. No
+file name or tag there treats the predicate of 1.1, power objects (1.3), Giraud's theorem (1.4),
+Diaconescu's theorem (2.5), the classes of geometric morphisms of Layer 5, locales and localic topoi
+(Layer 7) or fibre products of topoi (Layer 8): a topos there is the category of sheaves on a given
+site.
+
 ## References
 
 - [SGA 4] M. Artin, A. Grothendieck, J.-L. Verdier, *Théorie des topos et cohomologie étale des
@@ -1699,3 +1731,7 @@ Conventions 1 and 4 and 1.1, 1.2, 2.1, 2.2, 2.4, 2.5, 4.1, 4.2, 6.1, 6.5 and 6.6
 - [Caramello 2012] O. Caramello, « Syntactic characterizations of properties of classifying
   toposes », *Theory and Applications of Categories* 26 (2012), no. 6, 176–193: §2 (irreducible
   objects, rigid topologies, Propositions 2.5 and 2.6) and §3 (Theorem 3.13 and Remark 3.14).
+- AxiomMath, *The Stacks Project in Lean*. Lean 4 formalization at commit
+  c496df0d9beea9deaeabcea8492605f9a0a2313b, Apache-2.0, built on Lean and Mathlib v4.35.0;
+  directories `StacksFrontier/CategoryTheory/Sites`.
+  https://github.com/AxiomMath/Stacks/tree/c496df0d9beea9deaeabcea8492605f9a0a2313b/StacksFrontier
