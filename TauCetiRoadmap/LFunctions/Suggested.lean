@@ -407,7 +407,7 @@ def symm : FEPairWithLevel E where
     have ht' : (0 : ℝ) < t := ht
     have hN := P.hN
     have hu : (0 : ℝ) < 1 / (P.N * t) := by positivity
-    have h := P.h_feq _ hu
+    have h := P.h_feq (1 / (P.N * t)) hu
     rw [show 1 / (P.N * (1 / (P.N * t))) = t by field_simp] at h
     rw [h, smul_smul]
     have h1 : ((P.N ^ P.k : ℝ) : ℂ) ≠ 0 := ofReal_ne_zero.mpr (Real.rpow_pos_of_pos hN _).ne'
@@ -484,9 +484,9 @@ theorem Λ_eq [CompleteSpace E] {s : ℂ} (h0 : s ≠ 0) (hk : s ≠ P.k) :
   rw [sub_sub_cancel] at h
   rw [h, P.toWeakFEPair_symm_Λ (sub_ne_zero.mpr hk.symm)
     (fun h' ↦ h0 (sub_eq_self.mp h')), smul_smul]
-  congr 1
+  refine congrArg (fun c : ℂ ↦ c • P.symm.Λ (P.k - s)) ?_
   rw [ofReal_cpow P.hN.le, mul_assoc, ← cpow_add _ _ (ofReal_ne_zero.mpr P.hN.ne')]
-  congr 2
+  refine congrArg (fun z : ℂ ↦ P.ε * (P.N : ℂ) ^ z) ?_
   push_cast
   ring
 
@@ -2797,7 +2797,8 @@ theorem Grossencharacter.exists_continuousOn_logDeriv
 have the same logarithmic derivative there. -/
 theorem dedekindZetaC_eventuallyEq {s : ℂ} (hs : 1 < s.re) :
     dedekindZetaC K =ᶠ[𝓝 s] dedekindZeta K :=
-  Filter.eventually_of_mem ((isOpen_lt continuous_const Complex.continuous_re).mem_nhds hs)
+  Filter.eventually_of_mem ((isOpen_lt continuous_const Complex.continuous_re :
+      IsOpen {z : ℂ | 1 < z.re}).mem_nhds hs)
     fun _ hz ↦ dedekindZetaC_eq K hz
 
 /-- **The boundary datum named by Arithmetic Dirichlet Series** is Tau Ceti's
