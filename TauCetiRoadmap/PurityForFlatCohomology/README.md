@@ -21,7 +21,7 @@ integral schemes.
 | Layer | Title | What it delivers |
 |---|---|---|
 | [0](#layer-0-punctured-spectra-flat-cohomology-with-supports-and-hartogs-extension) | Punctured spectra, flat cohomology with supports and Hartogs extension | the punctured spectrum `U_R` of a semilocal ring, `RΓ_Z(X, F)` on the big fppf site, continuity, regular-sequence vanishing, Hartogs |
-| [1](#layer-1-virtual-dimension-étale-depth-and-zariskinagata-purity) | Virtual dimension, étale depth and Zariski–Nagata purity | `virtualDimension`, local Lefschetz, Gabber's étale-depth bound, Zariski–Nagata purity for `vdim ≥ 3` |
+| [1](#layer-1-virtual-dimension-étale-depth-and-zariskinagata-purity) | Virtual dimension, étale depth and Zariski–Nagata purity | `virtualDimension`, local Lefschetz, Gabber's étale-depth bound for coefficients of invertible order, Zariski–Nagata purity for `vdim ≥ 3` |
 | [2](#layer-2-the-crystalline-key-formula-over-perfect-schemes) | The crystalline key formula over perfect schemes | `RΓ_Z(S, G) ≅ RΓ_Z(W_n(S), 𝕄(G))^{V=1}` with supports, from the perfect-base Dieudonné triangle |
 | [3](#layer-3-flat-cohomology-of-animated-rings) | Flat cohomology of animated rings | supports, nilpotent invariance, consequences of `p`-adic continuity, excision along finitely generated ideals, descent modulo `p` |
 | [4](#layer-4-purity-in-positive-characteristic) | Purity in positive characteristic | root extraction, finite flat covers, purity for complete intersections over `𝔽_p` |
@@ -778,10 +778,11 @@ only; the sign of the residue is fixed here by Convention 8.
 
 Layer 0 constructs fppf cohomology with supports and the two commutative-algebra lemmas on regular
 sequences that every later vanishing reduces to. Layer 1 is classical: the virtual dimension, the
-étale depth bound through absolute purity and local duality, and Zariski–Nagata purity through
-algebraization over punctured spectra. Layer 2 turns the perfect-base Dieudonné triangle of
-PrismaticCohomologyPartIII into the crystalline key formula with supports for perfect
-`𝔽_p`-schemes, and Layer 3 develops flat cohomology of animated rings, from the construction,
+étale-depth bound for coefficients of order invertible in `R` through absolute purity and local
+duality, and Zariski–Nagata purity through algebraization over punctured spectra; the bound for
+every commutative finite étale group is Layer 6's (§6.3), through purity for complete intersections.
+Layer 2 turns the perfect-base Dieudonné triangle of PrismaticCohomologyPartIII into the crystalline
+key formula with supports for perfect `𝔽_p`-schemes, and Layer 3 develops flat cohomology of animated rings, from the construction,
 deformation triangle, `p`-adic continuity and principal excision of PrismaticCohomologyPartIII, far
 enough to pass between a ring and its reductions modulo `p`, its completions and its fpqc covers.
 Layer 4 proves purity in
@@ -1195,7 +1196,7 @@ SchemeAndStackFoundations §2.15 (`gabber_affine_proper_base_change`); ModularCu
   `≠ ℓ` and `f = x`, both sides vanish in degrees `≤ 1`, while in degree `2 = dim R` the map is
   `0 → H^2_𝔪(k⟦y⟧, ℤ/ℓ) ≅ ℤ/ℓ(−1)`, not surjective.
 
-### 1.6 The étale depth is at least the virtual dimension
+### 1.6 The étale-depth bound for coefficients of invertible order
 
 Prove: for a Noetherian local ring `(R, 𝔪)` and a commutative finite étale `R`-group `G` whose order
 is invertible in `R`, `H^i_𝔪(R, G) = 0` for `i < vdim(R)` ([CS24] Theorem 3.2.4 and proof, pp. 33–34;
