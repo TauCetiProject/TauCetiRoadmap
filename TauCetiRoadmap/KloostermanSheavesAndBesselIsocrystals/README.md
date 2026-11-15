@@ -360,8 +360,13 @@ categories live in one fixed universe; `Suggested.lean` places the extension fie
   `k`-schemes of finite type and on quotient stacks by smooth descent, with the six operations and
   duality, the holonomic t-structure, the Abe–Caro weight theory, Abe's nearby and vanishing cycles,
   the trace formula, and the equality of trace functions with `ℓ`-adic sheaves built by the same
-  operations from compatible inputs (Gabber–Fujiwara independence), overconvergent F-isocrystals
-  being the smooth objects.
+  operations, nearby cycles included, from compatible inputs (Gabber–Fujiwara independence), overconvergent
+  F-isocrystals being the smooth objects; in the weight theory, an `ι`-pure object is semisimple once its
+  Frobenius structure is forgotten (Abe–Caro Theorem 4.3.1, p. 58), and on a smooth connected variety over `𝔽_q`
+  the radical of the monodromy group of an overconvergent F-isocrystal with Frobenius forgotten is unipotent
+  (Crew's theorem, proved by Crew on curves; D'Addezio Theorem 3.4.4, p. 17); and, for an overconvergent F-isocrystal on `𝔾_m` that is
+  unipotent at `0`, its logarithmic fibre at `0` (§RD.5.103) is isomorphic, compatibly with Frobenius, to its
+  nearby cycles at `0` along the coordinate (Xu–Zhu Proposition 2.9.4, p. 24).
 - What PadicDifferentialEquationsAndRigidCohomology must provide (gap:dense-convergence-detection):
   for a smooth curve with smooth formal lift, a finite locally free module with integrable
   connection on its tube is convergent if its restriction over a Zariski dense open of the
@@ -592,7 +597,8 @@ Layer 9.
 - For `G = 𝔾_m`, `V = 0` and the zero functional is generic by the empty condition.
 - For `GL₂` over `𝔽₂`, `diag(1 + t, 1)` with `t` a uniformizer of `𝔽₂[[t]]` lies in the Moy–Prasad `I(2)`; its
   determinant `1 + t` is not a square times a commutator, so the commutator-plus-scalar kernel is a
-  different subgroup. For `y = t²` the determinant is `(1 + t)²`, so an arbitrary maximal-ideal element does not give this control.
+  different subgroup. The determinant test detects nothing for `diag(1 + t², 1)`, whose determinant
+  `1 + t² = (1 + t)²` is a square; so not every `diag(1 + y, 1)` with `y` in the maximal ideal is a witness.
 
 ### 0.3 The two-point level models
 
@@ -955,7 +961,7 @@ gap:arithmetic-d-module-operations; GlobalShtukasAndFunctionFieldLanglands §§1
 Layer 0; GlobalShtukasAndFunctionFieldLanglands §§0.1, 1.1–1.9, gap:relative-level-geometry and
 gap:equal-characteristic-central-sheaves; gap:arithmetic-d-module-operations; SpringerResolutionAndCharacteristicCycles Layer 9;
 PadicDifferentialEquationsAndRigidCohomology §§RD.6.42, RD.6.47; DeligneWeightsAndPurity DWP.8;
-EtaleCohomologyFoundations §§F.2.1–F.2.7, F.4.1–F.4.6.
+EtaleCohomologyFoundations §§F.2.1–F.2.7, F.4.1–F.4.6; ReductiveGroups Layers 1, 10.
 
 ## Layer 2: The Frenkel–Gross connection and Zhu's comparison
 
@@ -1523,7 +1529,7 @@ formulas with the column ones. *Needs:* §§4.3–4.4; PadicDifferentialEquation
 ### Dependencies
 
 Layers 1–3; gap:arithmetic-d-module-operations; PadicDifferentialEquationsAndRigidCohomology
-§§RD.2.13–RD.2.16, RD.2.33, RD.3.25, RD.5.101–RD.5.103, RD.6.23; ReductiveGroups Layer 7; Mathlib
+§§RD.1.44, RD.2.13–RD.2.16, RD.2.33, RD.3.25, RD.5.101–RD.5.103, RD.6.23; ReductiveGroups Layer 7; Mathlib
 `Matrix.trace`.
 
 ## Layer 5: Newton bounds and generic ordinarity
@@ -1606,7 +1612,7 @@ PadicDifferentialEquationsAndRigidCohomology §§RD.3.43, RD.5.101.
 
 ### Dependencies
 
-Layer 4; BunGAndNewtonStrata §§1.5, 1.22; GlobalShtukasAndFunctionFieldLanglands §§0.14, 1.4, 1.12 and
+Layers 1, 4; BunGAndNewtonStrata §§1.5, 1.22; GlobalShtukasAndFunctionFieldLanglands §§0.14, 1.4, 1.12 and
 gap:cuspidal-newton-bound; gap:log-newton-semicontinuity; PadicDifferentialEquationsAndRigidCohomology §§RD.3.43,
 RD.5.101.
 
@@ -1662,10 +1668,13 @@ characteristic (§RD.6.25; the `ℓ`-adic trace formula of GlobalShtukasAndFunct
 §5.2) gives `Swan_0 + Swan_∞ = 0`: the `ℓ`-adic companion is tame at both ends. Its geometric monodromy then
 factors through the tame fundamental group of `𝔾_{m,𝔽̄_q}`, which is procyclic, every connected tame cover being
 a Kummer cover (InverseGaloisAndArithmeticFundamentalGroups §IG.1.2), so the `ℓ`-adic geometric monodromy group
-is commutative; its neutral component has unipotent radical and is reductive by purity of weight zero, hence
-semisimple (DeligneWeightsAndPurity §§5.7, 8.19), hence trivial, and the group is finite. This contradicts the principal unipotent monodromy of
-`Kl_H^{ét,ℓ}` at `0` (§1.9(i)). Semisimplicity of the `p`-adic `G_geo°` comes from purity of weight zero (§4.1) and
-the geometric semisimplicity of pure objects in the weight theory of gap:arithmetic-d-module-operations.
+is commutative. The radical of its neutral component is unipotent (DeligneWeightsAndPurity §5.7), and the
+neutral component is reductive because the sheaf, pure of weight zero, is geometrically semisimple (§8.19); a
+reductive group whose radical is unipotent is semisimple, and a commutative connected semisimple group is trivial,
+so the group is finite. This contradicts the principal unipotent monodromy of
+`Kl_H^{ét,ℓ}` at `0` (§1.9(i)). Semisimplicity of the `p`-adic `G_geo°` comes from purity of weight zero (§4.1): with
+Frobenius forgotten `Be†_W` is then semisimple, so `G_geo°` is reductive, and its radical is unipotent by Crew's
+theorem; both inputs are in gap:arithmetic-d-module-operations.
 *Needs:* §§1.8, 1.9, 4.1, 4.2, 6.1; PadicDifferentialEquationsAndRigidCohomology §§RD.2.51, RD.5.89, RD.6.25,
 RD.6.55; gap:arithmetic-d-module-operations; GlobalShtukasAndFunctionFieldLanglands §1.4;
 EtaleDualityAndPerverseSheaves §5.2; InverseGaloisAndArithmeticFundamentalGroups §IG.1.2; DeligneWeightsAndPurity
@@ -2096,7 +2105,7 @@ Let `Q = q^d`. For `n ≥ 3` and `a ∈ 𝔽_Q^×`, prove that the normalized `S
 
 Layers 1, 2, 4, 7; KloostermanMomentsAndPotentialAutomorphy §§1.1, 1.3, 2.1, 2.5–2.6; CongruenceSpectralGap
 §§4.2a–4.2b; PadicDifferentialEquationsAndRigidCohomology §§RD.6.42, RD.6.95; OrthogonalSpinGroups
-Layer 0; Mathlib `AddChar.sum_eq_ite`, `Matrix.trace`.
+Layer 0; Mathlib `AddChar.sum_eq_ite`, `AddChar.sum_eq_zero_of_ne_one`, `Matrix.trace`.
 
 ## Layer 9: Hypergeometric realizations and convolution
 
@@ -2600,10 +2609,10 @@ through the standard comparison; apply gap:companion-monodromy; transport the co
 
 ### Dependencies
 
-Layers 5–10; KloostermanMomentsAndPotentialAutomorphy §§1.1, 1.3 and gap:scalar-kloosterman-ordinarity;
+Layers 2, 5–10; KloostermanMomentsAndPotentialAutomorphy §§1.1, 1.3 and gap:scalar-kloosterman-ordinarity;
 CongruenceSpectralGap §4.2a; gap:companion-monodromy; PadicDifferentialEquationsAndRigidCohomology
 §§RD.6.4, RD.6.25; gap:toric-exponential-sum-hodge-bound; gap:toric-exponential-sum-ordinarity;
-Mathlib `gaussSum`, `quadraticChar`, `AddChar`, `PadicComplex`.
+Mathlib `gaussSum`, `quadraticChar`, `AddChar`, `AddChar.sum_eq_zero_of_ne_one`, `PadicComplex`.
 
 ## Downstream consumers
 
