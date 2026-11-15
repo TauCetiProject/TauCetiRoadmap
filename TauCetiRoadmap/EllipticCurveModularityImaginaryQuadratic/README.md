@@ -145,7 +145,7 @@ The named outputs below are consumed with their hypotheses. Roadmap interfaces a
 | `SmallRamificationAndAbelianVarietyBaseCases` §5.0d | Shared `AutomorphicSystemData` for an arbitrary number field and rank, with coefficient field, good polynomials, finite realization fields and labelled Hodge data. Its operations are separate from compatibility predicates. Populate this carrier in §4.1; do not create a competing rank-two carrier. |
 | `PotentialModularityAndCompatibleSystems`, Layer 1 (§§1.1–1.4), together with `AutomorphicGaloisRepresentations` §7.1 | Compatibility predicates, coefficient extension, finite restriction, residual semisimplification and common-polynomial recognition, adapted to the single shared raw carrier above. Potential modularity Layer 5 is a transitive input to the residual-modularity supplier, not a hypothesis on E. |
 | `ArithmeticGaloisRepresentations`, Layers 1–2, §§4.2–4.7, Layers 5–6 | Full WD carrier and conventions; restriction and persistence of an assumed large image, commutators, Goursat, Chebotarev and Brauer–Nesbitt recognition; dual Tate modules and determinant; [§6.1 `TateModule.residualRep`](../ArithmeticGaloisRepresentations/README.md#elliptic-residual-representation) supplies the basis-free action on elliptic p-torsion over each number field, with scalar extension and change of basis. Section 5.1 owns Serre's non-CM elliptic large-prime existence theorem and consumes §§4.4–4.5 for its proof; Layer 7 owns the simultaneous all-character specialization. |
-| `FaltingsFinitenessAndIsogenyTheorems`, R28.4, §§R28.6.2–R28.6.3 and R28.6.5–R28.6.6 | Semisimplicity of the rational Tate representation of an abelian variety, preserved on deck-character summands; for §5.1, the elliptic semisimplicity and Tate Hom comparison, the finiteness of the isogeny class of an elliptic curve over a number field and the infinite cyclic group of homomorphisms to an isogenous curve without extra endomorphisms. |
+| `FaltingsFinitenessAndIsogenyTheorems`, R28.4, §§R28.6.2–R28.6.3 and R28.6.5–R28.6.7 | Semisimplicity of the rational Tate representation of an abelian variety, preserved on deck-character summands; for §5.1, the elliptic semisimplicity and Tate Hom comparison, the finiteness of the isogeny class of an elliptic curve over a number field and the infinite cyclic group of homomorphisms to an isogenous curve without extra endomorphisms, and the integral commutant at almost all primes. |
 | `AutomorphicGaloisRepresentations` §3.13 (geometric characters and algebraic Hecke characters), and `AutomorphicGaloisRepresentationsPartII` AG2.0, `AlgHeckeChar.galoisChar` | A continuous rank-one character over a finite extension of Q_ℓ, finitely ramified and de Rham above ℓ, is an algebraic Hecke-character avatar; conversely such avatars have the prescribed labelled Hodge degrees and local class-field parameters. Together with CM endomorphism eigenspaces and common Frobenius polynomials, this supplies the CM comparison in §8.6. No higher-rank Fontaine–Mazur assertion is consumed. |
 | `CrystallineLocalGlobalCompatibilityCM` §§7.5–7.6, 8.7 and 9.1–9.12 | CN's general-rank integral deformation factorization and fixed-determinant refinement; non-neat PGL₂ perfectness and derived augmentation; prepared deformation–Hecke maps with uniform nilpotence, paired support and prepared lifting. The §9.12 export retains `[F(ζ_p):F] ≠ 3` or projective image different from A₄. Section 0.1 supplies the additional preparation branch, and §5.2 consumes that qualified export without copying its arithmetic construction. |
 | LocalGaloisDeformationRings Layers 1–6 and 8; GlobalGaloisDeformations R04.3–R04.6; DeformationAndDerivedPatchingAlgebra §§8.2–8.5 and 9.4–9.7 | Local crystalline/ordinary components, global deformation rings, finite-complex patching, paired residual data and spectral support transport. Layer 0 constructs the distinct AKT ordinary and dyadic arithmetic inputs on these interfaces. |
@@ -1461,7 +1461,9 @@ theorem separately over any fixed finite extension, in particular the
 normal closure of k, where E remains geometrically non-CM. No bound
 independent of E and k is asserted.
 (Serre, *Propriétés galoisiennes*, §4.2, Théorème 2, p.294.)
-The route is Serre's. For p large, a proper subgroup of GL₂(𝔽_p) not
+The case analysis is Serre's (§4.2, pp.294–299); the Borel and Cartan
+cases use Faltings' theorems in place of his abelian ℓ-adic
+representations. For p large, a proper subgroup of GL₂(𝔽_p) not
 containing SL₂(𝔽_p) lies in a Borel subgroup or in the normalizer of a
 Cartan subgroup, or has projective image A₄, S₄ or A₅
 (ArithmeticGaloisRepresentations §§4.4–4.5). A Borel image at infinitely
@@ -1469,16 +1471,21 @@ many p gives k-rational cyclic isogenies of infinitely many prime degrees
 into one member of the finite isogeny class of E, whereas the
 homomorphisms from E to that member form an infinite cyclic group whose
 nonzero elements have degree a square times a fixed integer
-(FaltingsFinitenessAndIsogenyTheorems R28.6.5–R28.6.6). The exceptional
+(FaltingsFinitenessAndIsogenyTheorems R28.6.5–R28.6.6). An image inside a
+Cartan subgroup is excluded for all but finitely many p by the integral
+commutant at almost all primes (FaltingsFinitenessAndIsogenyTheorems
+R28.6.7): as End_k(E)=ℤ, the image of G_k spans M₂(𝔽_p) for all but
+finitely many p, whereas a Cartan subgroup spans a commutative subalgebra
+of dimension two. The exceptional
 images are excluded once p≥7 by the image of inertia at a place of good
 reduction above a prime p unramified in k: it contains a semisimple
 element of projective order p−1 (good ordinary) or p+1 (supersingular),
 larger than every element order of A₄, S₄ and A₅. The inertia images
 are those of FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.5.2–R07.5.3,
 built on R07.5.1: in the ordinary case `diag(u,1)` with u a generator of
-𝔽_p^× has projective order p−1, and in the supersingular case a generator
-of 𝔽_{p²}^× has image of order (p²−1)/(p−1)=p+1 in PGL₂(𝔽_p). The
-Cartan-normalizer case is excluded,
+`𝔽_p^×` has projective order p−1, and in the supersingular case a generator
+of `𝔽_(p²)^×` has image of order (p²−1)/(p−1)=p+1 in PGL₂(𝔽_p). An image
+in the normalizer of a Cartan subgroup but not in the subgroup is excluded,
 as in Serre, through the p₀-adic image at one fixed auxiliary prime p₀,
 using the finiteness of the quadratic characters of G_k unramified
 outside a fixed finite set (Hermite's theorem, Mathlib
@@ -1501,7 +1508,7 @@ inhabited by Tau Ceti's rank-two finite-torsion theorem.
 *Needs:* ArithmeticGaloisRepresentations Layers 1–2, §§4.4–4.5 and
 [§6.1 `TateModule.residualRep`](../ArithmeticGaloisRepresentations/README.md#elliptic-residual-representation),
 with §6.2 for its determinant; FaltingsFinitenessAndIsogenyTheorems
-R28.6.2–R28.6.3 and R28.6.5–R28.6.6; FiniteFlatGroupsAndIntegralPadicHodgeTheory
+R28.6.2–R28.6.3 and R28.6.5–R28.6.7; FiniteFlatGroupsAndIntegralPadicHodgeTheory
 R07.1.19 and R07.5.1–R07.5.3; EllipticCurves Layers 1 and 4; Mathlib
 `NumberField.finite_of_discr_bdd`; Chebotarev through
 ArithmeticGaloisRepresentations §§4.2–4.7. Its §4.7 supplies restriction
@@ -2435,7 +2442,7 @@ pages 1–30.
 - **CN.** Ana Caraiani and James Newton, [On the modularity of elliptic curves over imaginary quadratic fields](https://arxiv.org/pdf/2301.10509v3), arXiv:2301.10509v3, 27 March 2025. Theorem 5.2 and Remarks 5.2.1–5.2.3 pp.73–74; Theorem 6.1 pp.87,90; Lemma 6.1.3 p.88; residual constructions Lemmas 6.1.4, 6.1.7 and Propositions 6.1.5–6.1.6 pp.88–90. The exceptional modular-curve analysis of §7 is outside the proof route here.
 - **AKT.** Patrick B. Allen, Chandrashekhar Khare and Jack A. Thorne, [Modularity of GL₂(F_p)-representations over CM fields](https://arxiv.org/pdf/1910.12986v2), arXiv:1910.12986v2, 2 September 2022. Theorems 7.1 and 8.1 pp.67,71–72; independent elliptic seed Proposition 9.12 p.79 and prescribed-type constructions in §9 pp.73–81. Their independent lifting and elliptic seed arguments are the targets of Layer 0.
 - **DDT.** Henri Darmon, Fred Diamond and Richard Taylor, [Fermat's Last Theorem](https://www.math.mcgill.ca/darmon/pub/Articles/Expository/05.DDT/paper.pdf), Lemma 4.11, p.119. Its determinant-character trace criterion retains the degree-three projective-A₄ alternative; §0.1 supplies a cyclotomic preparation branch for that case.
-- **Serre.** Jean-Pierre Serre, *Propriétés galoisiennes des points d’ordre fini des courbes elliptiques*, Inventiones mathematicae 15 (1972), 259–331, DOI 10.1007/BF01405086; §4.2, Théorème 2, p.294, cited by locator (the journal copy is not openly available). This is the non-CM elliptic large-prime theorem proved in §5.1.
+- **Serre.** Jean-Pierre Serre, *Propriétés galoisiennes des points d’ordre fini des courbes elliptiques*, Inventiones mathematicae 15 (1972), 259–331, DOI 10.1007/BF01405086; §4.2, Théorème 2, p.294; the journal printing is openly available from the [Göttingen Digitization Centre](https://gdz.sub.uni-goettingen.de/download/pdf/PPN356556735_0015/LOG_0024.pdf). This is the non-CM elliptic large-prime theorem proved in §5.1.
 - **Varma.** Ila Varma, [Local-global compatibility for regular algebraic cuspidal automorphic representations when ℓ is different from p](https://arxiv.org/pdf/1411.2520v1), arXiv:1411.2520v1. Theorem (1ss), p.1, gives the underlying semisimplified Weil compatibility; Theorem (1), on the same page, bounds monodromy. Its application in OpenAI Lemma 9.2 is the local comparison used here, without an unproved general monodromy equality.
 - **ACC+.** P. B. Allen, F. Calegari, A. Caraiani, T. Gee, D. Helm, B. V. Le Hung, J. Newton, P. Scholze, R. Taylor and J. A. Thorne, [Potential automorphy over CM fields](https://arxiv.org/pdf/1812.09999v2), arXiv:1812.09999v2, 16 June 2022; published in Annals of Mathematics 197 (2023), 897–1113. The cited PDF's §7.1 pp.189–190 specifies compatible-system data and predicates. The shared carrier's single owner is SmallRamificationAndAbelianVarietyBaseCases §5.0d.
 - **Algebraic Hecke-character notes.** [Algebraic Hecke Characters](https://math.stanford.edu/~conrad/DarmonCM/2011Notes/algebraicHeckecharacters.pdf), seminar notes hosted by Brian Conrad; second Lemma 1 and proof, pp.9–10. Used through AutomorphicGaloisRepresentations §3.13, with its local algebraicity and coefficient-field hypotheses discharged there.
