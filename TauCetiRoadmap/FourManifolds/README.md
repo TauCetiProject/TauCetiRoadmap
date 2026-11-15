@@ -176,9 +176,9 @@ point with `k ≥ (dim ker)² + 1`. The roadmap suppliers are listed below.
 | MorseNovikov N6 | The Alexander module of an oriented knot's infinite cyclic cover presented by the Seifert-matrix presentation `tV − Vᵀ`, and its comparison with the Conway-normalized polynomial. §3.6 consumes the presentation; the cover's classification and Crowell's commutator comparison are gap:alexander-module-presentation below. |
 | AT Stages 2–4, 6, 8 | Native chains/cochains, normalized sphere generators, orientation-local-system duality, ordinary obstruction/EM comparisons and proper 8.5 plus its end API for the early opened cobordism and product theorem. F1/F2 own the actual handle/link/intersection computations. |
 | IntegralLattices | Native integral symmetric lattices, inertia, parity, characteristic vectors and indefinite/unimodular classification. F3/F5/F7 prove manifold realizations/restrictions. |
-| CKG K7, TopK T1/T6 and G4.0b | One native projective/Grassmannian carrier, its smooth model comparison and tautological bundles. F6/F7 own blowup, hypersurface and elliptic constructions on them. |
+| CKG K7, TopK T1/T6 and G4.0b | One native projective/Grassmannian carrier, its smooth model comparison and tautological bundles; TopK T1.5's Stiefel connectivity for §4.3's finite-to-stable comparison. F6/F7 own blowup, hypersurface and elliptic constructions on them. |
 | AffineMorseLefschetz A4.0 and A0/A5/A6; GroebnerGeometry G1 | A4.0's generic noncompact boundary/BM/support duality precedes the early proper cobordism; single projective zero-locus carrier, weak hyperplane theorem and finite Veronese comparison; single elimination/saturation engine. F6/F7 own cubic/quartic discriminant and elliptic-example comparisons. |
-| CC C1.2a/C2/C3; TB B4.1 and B4.3 | C1.2a S0–S5's independent supported cochains and collared-pair sequence precede the proper cobordism; single ordinary characteristic/Thom, cup-i/Sq and Wu-class APIs. F4 owns the oriented 4/Spinᶜ/torsion consequences and Z/4 Pontryagin square. |
+| CC C1.1b/C1.2a/C1.6/C2/C3; TB B4.1 and B4.3 | C1.2a S0–S5's independent supported cochains and collared-pair sequence precede the proper cobordism; C1.1b's oriented classification with its finite-rank and stable inclusions, C1.6's complex-line classification and C3.6's realification BU(1)→BSO(2) for §4.3; single ordinary characteristic/Thom, cup-i/Sq and Wu-class APIs. F4 owns the oriented 4/Spinᶜ/torsion consequences and Z/4 Pontryagin square. |
 | Spin G6.7; Index I7.2/I7.5; TB B1.7/B2.1–B2.4/B3.2(b)–(c)/B3.3/B3.4/B5.2 | Untwisted quaternionic kernels, signature and analytic Rokhlin formulas; the concrete K3 and marked E(1) complement with their Spin data; Spin bordism of spaces and pairs as a homology theory, with its transverse intersection; the Spin-surface quadratic refinement, Ω₂^Spin ≅ F₂ by Arf and Ω₃^Spin = 0; the K3 KO genus; the finite embedded Pontryagin–Thom comparison that §2.3's coloured-link collapse specializes. §3.6 derives Ω₃^Spin(S¹) ≅ ℤ/2 from these. |
 | StringOrientation S1 | Actual stable/finite-rank BString lift and H³ torsor; F4 owns the dimension≤4 consequences on its specified real vector-bundle Spin reduction. |
 | HomotopySpheres §3C/§4B/§6B/§6C/§7A–7C/§9 | Unstable link/Hopf, real stable-space and low-stem inputs to F2/F3; the signed E₈ tree plumbing with its dimension-four branch; degree-one normal maps, normal bordism, surgery kernels, L_n(ℤ) with σ/8 in dimension 4k and L₅(ℤ)=0. F3 owns the TOP normal-map variant and every dimension-four surgery statement. |
@@ -1527,7 +1527,7 @@ with Freedman–Quinn 8.19's relative product structure and stable-germ uniquene
 For codimension 1–2 stabilize the preceding ordinary normal-microbundle
 theorem and compare stable germs. In codimension 2 with ambient target
 dimension 4 own stable map transversality for codimension-two submanifolds of TOP four-manifolds for all
-domain dimensions, using this section's the normal-bundle theorem for locally flat submanifolds of TOP four-manifolds;
+domain dimensions, using this section's normal-bundle theorem for locally flat submanifolds of TOP four-manifolds;
 The other low-codimension normal constructions are
 gap:low-codimension-normal-bundles. Retain the
 exceptional domain/preimage 4 arguments above, the full locally flat inverse
@@ -2152,37 +2152,63 @@ Postnikov lifts; CharacteristicClasses C2–C3; SpinGeometry G4–G6.
 **All-rank oriented determination in dimension four.** On a CW complex
 X of dimension≤4, make the preceding H¹ action explicit as
 `σ_w(x)=β(x)∪β(x)+β(x∪w)`, for w=w₂ and x∈H¹(X;F₂),
-with the integral Bockstein β. In rank3 it translates the difference
-coordinate by σ_w(x); in the rank4 half-spin coordinates (a,b) it
+with the integral Bockstein β. In rank 3 it translates the difference
+coordinate by σ_w(x); in the rank 4 half-spin coordinates (a,b) it
 translates both coordinates by σ_w(x). Construct these comparisons from
 the actual cochain Postnikov invariant, retaining the chosen w₂ map and
 its nullhomotopy before passing to absolute isomorphism classes.
 
 For every n≥5 construct the finite-to-stable SO(n) classifier comparison
-on dimension≤4 bases using the existing Stiefel connectivity and bundle
-classification. Prove that it induces a bijection on oriented rank-n
-bundle isomorphism classes and stable oriented classes of virtual rank n,
-with actual finite-rank cancellation and pullback naturality. In the
-same-w₂ degree-four difference coordinate d, prove
-`Δp₁=−2d`, `Δw₄=ρ₂d`, and absolute equivalence iff d=0.
+on dimension≤4 bases using TopologicalKTheory T1.5's Stiefel connectivity
+and CharacteristicClasses C1.1b's oriented classification with its
+finite-rank and stable inclusions. Prove that it induces a bijection on
+oriented rank-n bundle isomorphism classes and stable oriented classes of
+virtual rank n, with actual finite-rank cancellation and pullback
+naturality. In this branch the H¹(X;F₂) action on the lift fibre is
+trivial: the stable Postnikov invariant is twice the rank 3 one, so the
+action translates by 2σ_w(x)=0. In the same-w₂ degree-four difference
+coordinate d, prove `Δp₁=−2d`, `Δw₄=ρ₂d`, and absolute equivalence iff d=0.
 Export `ρ₄p₁=P(w₂)+j(w₄)`, with j(1)=2 as above. This is the
-rank≥5 branch of the existing Postnikov construction, with the actual
-stabilization map; the rank3 coefficient −4 is not used in this branch.
+rank≥5 branch of this section's Postnikov lift construction, with the
+actual stabilization map; the rank 3 coefficient −4 is not used in this branch.
 
-If multiplication by2 on H⁴(X;ℤ) is injective, deduce that two oriented
+If multiplication by 2 on H⁴(X;ℤ) is injective, deduce that two oriented
 bundles of the same rank are oriented-isomorphic when their Stiefel–Whitney
 and Pontryagin classes and their Euler class (including degree zero) agree.
-In rank3 use w₂,p₁;
-in rank4 use w₂,e,p₁; in rank≥5 use w₂,w₄,p₁ and the preceding comparison.
-Include rank1 by oriented triviality; rank0 retains its locally constant
-orientation sign, detected by its degree-zero Euler class. Rank2 uses the
-existing Euler/complex-line classification. Prove the assertions
+In rank 3 use w₂,p₁;
+in rank 4 use w₂,e,p₁; in rank≥5 use w₂,w₄,p₁ and the preceding comparison.
+Include rank 1 by oriented triviality; rank 0 retains its locally constant
+orientation sign, detected by its degree-zero Euler class. Rank 2 uses
+CharacteristicClasses C1.6's complex-line classification through C3.6's
+realification BU(1)→BSO(2), under which e=c₁. Prove the assertions
 directly for dimension≤4, with pullback and isomorphism invariance. This
 is a sufficient no-2-torsion hypothesis, not an assertion that every base
-with2-torsion has a counterexample. The theorem concerns SO(n) bundles;
+with 2-torsion has a counterexample. The theorem concerns SO(n) bundles;
 nonoriented bundles require determinant systems and twisted Euler data.
-See Dold–Whitney, *Classification of Oriented Sphere Bundles Over a
-4-Complex*, Theorems1–2 and the corollary, printed671–674.
+See Dold–Whitney, Theorems 1–2 and the corollary, pp. 671–674.
+
+**Checks.**
+
+- Over RP⁴ with w₂=0 and a the generator of H¹(RP⁴;F₂), σ₀(a)=β(a)²
+  generates H⁴(RP⁴;ℤ)=ℤ/2, so the two rank 3 lifts form one orbit: the
+  SU(2) bundles with c₂=0 and c₂=β(a)² (the latter L_ℂ⊕L_ℂ, L the
+  tautological line) have the same trivial adjoint bundle. Dropping the
+  term β(x)∪β(x) would leave two classes.
+- Over RP²×RP² with w₂=0, the Bocksteins of the two generators of H¹ are
+  the classes a,b of the construction below, with a²=b²=0 and (a+b)²=2ab=0,
+  so σ₀ vanishes on H¹=(ℤ/2)² and the rank 3 lifts 0 and ab are two
+  non-isomorphic bundles with w₂=0 and p₁=0.
+- Over RP⁴ in rank n≥5 with w₂=0 and a as above, the lifts 0 and β(a)²
+  are the trivial bundle and 4L⊕ε^(n−4), with w₄ equal to 0 and a⁴≠0 and
+  p₁=0 for both, so the H¹ action fixes both lifts; carrying σ₀ into this
+  branch would identify 4L⊕ε^(n−4) with the trivial bundle.
+
+*Needs:* TopologicalKTheory T1.5's Stiefel connectivity; CharacteristicClasses
+C1.1b's oriented classification with its finite-rank and stable inclusions,
+C1.6's complex-line classification and C3.6's realification BU(1)→BSO(2);
+AlgebraicTopology Stage 8's relative obstruction theory and ordinary
+representability (8.9–8.10) for the Postnikov lifts; this section's
+Pontryagin square and fixed-w₂ lift actions.
 
 Construct the source's explicit characteristic-invisible rank 3 bundle over
 RP²×RP² on AT's actual projective carriers. If a,b are the pullbacks of the
@@ -2219,7 +2245,10 @@ TangentialBordism B4 supplies the higher diagonals and Wu theory, and B3
 supplies the geometric Spin refinements and fillings. gap:finite-quadratic-arf
 supplies the finite quadratic Arf algebra. The TOP arguments
 use F3's local engine; StringOrientation S1 supplies the stable Spin
-comparison on four-dimensional bases.
+comparison on four-dimensional bases. TopologicalKTheory T1.5 and
+CharacteristicClasses C1.1b, C1.6 and C3.6 supply the Stiefel connectivity
+and the oriented and complex-line classifications of §4.3's all-rank
+determination.
 
 ## Layer 5: Anti-self-dual gauge theory and the definite-form theorem
 
@@ -2264,10 +2293,11 @@ The Yang–Mills calculus has the following API.
 *Needs:* SmoothBundlesConnections B3–B5; ComplexKahlerGeometry K5's Hodge
 star and L² pairing on forms; the energy normalization below.
 
-Build principal SU(2) connections and gauge transformations on the existing
-bundle carriers, Sobolev affine connection spaces and gauge groups for s≥3,
-Coulomb slices, stabilizers, deformation complexes and the determinant
-orientation. Consume SmoothBundlesConnections' bundle L²/Sobolev theory,
+Build principal SU(2) connections and gauge transformations on
+SmoothBundlesConnections B1's principal-bundle carriers, Sobolev affine
+connection spaces and gauge groups for s≥3, Coulomb slices, stabilizers,
+deformation complexes and the determinant orientation. Consume
+SmoothBundlesConnections' bundle L²/Sobolev theory,
 PseudodifferentialOperators' elliptic estimates and IndexTheory's Fredholm
 index comparison; own the nonlinear gauge and moduli-space arguments here.
 Use A_s=A₀+H^s(T*M⊗ad P) and H^(s+1) gauge sections of the actual
@@ -2976,7 +3006,7 @@ SmoothBundlesConnections B1.5; IntegralLattices' form classification.
 ### 7.3 The Enriques cover
 
 Define the Enriques K3 cover on A0's same native projective zero-locus carrier
-by the three quadrics `enriquesQuadric`, indexed by j, Σ_(i:Fin6)t_i^j z_i²=0 for j=0,1,2 and
+by the three quadrics `enriquesQuadric`, indexed by j, Σ_(i:Fin 6)t_i^j z_i²=0 for j=0,1,2 and
 t_i=i+1. The specialization `enriquesZeroSet` is the subset of
 `Projectivization ℂ (Fin 6 → ℂ)` consisting of lines on which all three
 quadrics vanish on every vector; it requires no atlas. Define
@@ -3263,5 +3293,7 @@ Appl. Math. 18 (1965); Serre, *Trees*, Springer (1980); Moise, *Geometric
 Topology in Dimensions 2 and 3*, GTM 47 (1977); Munkres, *Obstructions to the
 smoothing of piecewise-differentiable homeomorphisms*, Ann. of Math. 72
 (1960); Whitehead, *Manifolds with transverse fields in Euclidean space*,
-Ann. of Math. 73 (1961); and Gompf, *Three exotic ℝ⁴'s and other anomalies*,
-J. Differential Geom. 18 (1983).
+Ann. of Math. 73 (1961); Dold–Whitney, *Classification of oriented sphere
+bundles over a 4-complex*, Ann. of Math. 69 (1959), 667–677; Hanner, *Some
+theorems on absolute neighborhood retracts*, Ark. Mat. 1 (1951); and Gompf,
+*Three exotic ℝ⁴'s and other anomalies*, J. Differential Geom. 18 (1983).

@@ -141,10 +141,8 @@ theorem enriquesProjectiveInvolution_no_fixed_point
 /-- A smooth four-manifold exists that is homeomorphic, but not diffeomorphic,
 to standard Euclidean four-space (Gompf, Theorem 1.2). -/
 theorem exoticFourSpace_exists :
-    ∃ (M : Type) (t : TopologicalSpace M) (c : @ChartedSpace
-      (EuclideanSpace ℝ (Fin 4)) inferInstance M t),
-      letI : TopologicalSpace M := t
-      letI : ChartedSpace (EuclideanSpace ℝ (Fin 4)) M := c
+    ∃ (M : Type) (_ : TopologicalSpace M)
+      (_ : ChartedSpace (EuclideanSpace ℝ (Fin 4)) M),
       IsManifold 𝓘(ℝ, EuclideanSpace ℝ (Fin 4)) ∞ M ∧
       Nonempty (M ≃ₜ EuclideanSpace ℝ (Fin 4)) ∧
       IsEmpty (Diffeomorph 𝓘(ℝ, EuclideanSpace ℝ (Fin 4))
