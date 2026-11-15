@@ -127,6 +127,7 @@ body:
         - NoncommutativeGeometry
         - NoncommutativeIntegration
         - NoncongruenceModularForms
+        - OcneanuRigidity
         - OperatorAlgebraDynamics
         - OperatorKTheory
         - OperatorTheory
