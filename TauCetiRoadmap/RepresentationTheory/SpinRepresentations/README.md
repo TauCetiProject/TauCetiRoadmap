@@ -1354,16 +1354,21 @@ CliffordSpin. Build that comparison before transporting triality.
      `A₄A₃·b₁₂₃₄ = b₁₂ ≠ 0` and the highest line would move.
    - `h_i(z)` acts on a vector of `[E_i, F_i]`-eigenvalue m by `z^m`, as `diag(z, z⁻¹)` does in the
      standard representation of `SL₂`, where `n_i(z)` is `[[0, z], [−z⁻¹, 0]]`; hence
-     `h_i(z)h_i(w) = h_i(zw)` and `h_i(1) = 1`. On S the eigenvalue of `N₃ + N₄ − 1` gives
-     `h₄(z)·1 = z⁻¹·1`, `h₄(z)·b₁₂₃₄ = z·b₁₂₃₄` and `h₄(z)·b₃ = b₃`.
+     `h_i(z)h_i(w) = h_i(zw)` and `h_i(1) = 1`.
+   - On S the eigenvalue of `N₃ + N₄ − 1` gives `h₄(z)·1 = z⁻¹·1`, `h₄(z)·b₁₂₃₄ = z·b₁₂₃₄` and
+     `h₄(z)·b₃ = b₃`; with `n₄(z)n₄(1)` in place of `n₄(z)n₄(−1)` the value at `z = 1` would be
+     `n₄(1)²`, which acts on `1` by `−1`, not the identity.
    - `h₃(−1)h₄(−1) = −1`: on `b_I` its exponent is `(N₃ − N₄) + (N₃ + N₄ − 1) = 2N₃ − 1`, odd, so
      it acts by `−1` on `S⁺ ⊕ S⁻`, where the Clifford algebra acts faithfully, and trivially on V,
      so it is the central `−1` of Spin₈, invisible in the coordinate torus of `SO₈`.
-   - `T_Cl(s)` acts on `b₁₂₃₄` by `s₄` (character ω₄), on `b₁₂₃ ∈ S⁻` by `s₃` (ω₃), on
-     `b₁₂ ∈ S⁺` by `s₂ s₄⁻¹`, on `b₁ ∈ S⁻` by `s₁ s₄⁻¹`, and on `b₁ ∈ V` by `s₁` (ω₁). These
-     four spinor values force `s = 1` when `T_Cl(s) = 1`, so the torus is injective; on V,
-     `T_Cl(s)` is trivial exactly when `s₁ = s₂ = 1` and `s₃ = s₄ = ±1`, so the kernel of the
-     vector action on the torus is `{1, h₃(−1)h₄(−1)} = {±1}`.
+   - `T_Cl(s)` acts on the highest vectors by their fundamental characters: on `b₁₂₃₄ ∈ S⁺` by
+     `s₄` (ω₄), on `b₁₂₃ ∈ S⁻` by `s₃` (ω₃) and on `b₁ ∈ V` by `s₁` (ω₁).
+   - `T_Cl` is injective: it acts on `b₁₂ ∈ S⁺` by `s₂ s₄⁻¹` and on `b₁ ∈ S⁻` by `s₁ s₄⁻¹`, and
+     with the values `s₄`, `s₃` above these force `s = 1` when `T_Cl(s) = 1`.
+   - On V, `b₁, b₂, b₃, b₄` have characters `s₁`, `s₁⁻¹s₂`, `s₂⁻¹s₃s₄`, `s₃⁻¹s₄`, so `T_Cl(s)` acts
+     trivially on V exactly when `s₁ = s₂ = 1` and `s₃ = s₄ = ±1`: the kernel of the vector action
+     on the torus is `{1, h₃(−1)h₄(−1)} = {±1}`, of order two, not trivial as for the
+     coordinate torus of `SO₈`.
 3. **The comparison and its values.** Apply9B's pinned-isomorphism theorem to the
    tripled carrier and the spin carrier over ℂ with these
    actual computed pinnings. Bundle the resulting algebraic isomorphisms and,
@@ -1571,7 +1576,8 @@ here. Independent of Layers 6-8.
     `E = ℂ1 ⊕ ℂω`, `I = ℂω`, `I² = 0` and `P = ℂω`, of dimension `1 = l`.
   - `𝔰𝔩₂ ⊕ 𝔰𝔩₂` (`d = 6`, `l = 2`): with the volume forms ω₁, ω₂ of the factors,
     `E = span{1, ω₁, ω₂, ω₁∧ω₂}`, `I² = ℂ ω₁∧ω₂` and `P = span{ω₁, ω₂}`, of dimension `2 = l`;
-    taking `P = I` would give dimension 3. In rank zero, `E = ℂ` and `P = 0`.
+    taking `P = I` would give dimension 3.
+  - Rank zero: for `𝔤 = 0`, `E = ℂ`, `I = 0` and `P = 0`, of dimension `0 = l`.
   - `Q_P(ω) = σ(ω)²`: three anticommuting factors with squares `q₁, q₂, q₃` give
     `(x₁x₂x₃)² = −q₁q₂q₃`, so `Q_P(ω) = −(8·8·(−8)) = 512 ≠ 0`.
   - The determinant extension of κ gives `⟨ω, ω⟩ = 8·8·(−8) = −512 = −Q_P(ω)`; the factor
