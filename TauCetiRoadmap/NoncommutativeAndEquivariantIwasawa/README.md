@@ -43,9 +43,9 @@ Use the following supplied carriers and contracts. Section F.0 fixes the low-deg
 - **TauCetiRoadmap EllipticCurves, Layer 7**: Selmer structures on a discrete Galois module (local-condition subgroups, unramified at almost all places) with their Selmer groups, and the elliptic Kummer maps with `Sel_m`. Section F.4 instantiates these on discrete lattice quotients and adds the compact, rational and Greenberg conditions.
 - **TauCetiRoadmap IntegralIwasawaTheory §§2.0, 2.2, 2.4–2.6, 4.1, 6.0–6.3, 8.3, 9.3, 9.7, 10.0–10.2, 11.2, 11.5, 12.1**: finite-coefficient Poitou–Tate, compact support and duality for `ℤ_p`-lattices, the field-level Leopoldt defect and proposition with its logarithm-matrix and regulator criteria, the generic local-condition mapping fibre, the abelian derived towers and Iwasawa complexes with the finite perfect model including `p=2`, the Deligne–Ribet rationality and pseudomeasures, finite-level Hilbert cusp spaces, the finite and infinite smoothed Selmer carriers with their Fitting identities, and Wiles's abelian main conjecture. Sections F.3–F.4 use these carriers on their common domain and construct their compact `O`-coefficient and noncommutative extensions with canonical coefficient comparisons.
 
-The arithmetic foundations used here are §F.3 (continuous Galois duality), §F.4 (Selmer complexes and Iwasawa cochains), §F.5 (Hilbert modular forms), and §F.6 (de Rham comparison and Weil–Deligne realization). ClassicalArithmeticCompletion's on-main local-constant contract forwards the completed finite-image Artin theory from its named arithmetic suppliers; it does not construct that theory. The normalization adapter and its transport to the supplied Dedekind germ are specified below.
+The arithmetic foundations used here are §F.3 (continuous Galois duality), §F.4 (Selmer complexes and Iwasawa cochains), §F.5 (Hilbert modular forms), and §F.6 (de Rham comparison and Weil–Deligne realization). ClassicalArithmeticCompletion §§7.12a–7.12c construct the trace characters, the Tate and Weil local constants and the completed finite-image Artin functions; this roadmap imports them and does not construct that theory. The normalization adapter and its transport to the supplied Dedekind germ are specified below.
 
-The direct prerequisites include both IntegralHeckeAndGaloisDeterminants §0.6 and SmoothRepresentationsOfLocalGroups SR.5.2, as well as AlgebraicKTheory conventions and A0–A4, GeneralAlgebraicKTheory, PadicPeriodRings and the specified IntegralIwasawaTheory contracts. The ClassicalArithmeticCompletion forwarding chain is an additional prerequisite; the receiving presentations of §§F.1–F.6 consume the shared foundations here.
+The direct prerequisites include both IntegralHeckeAndGaloisDeterminants §0.6 and SmoothRepresentationsOfLocalGroups SR.5.2, as well as AlgebraicKTheory conventions and A0–A4, GeneralAlgebraicKTheory, PadicPeriodRings and the specified IntegralIwasawaTheory contracts. ClassicalArithmeticCompletion §§7.12a–7.12c are an additional prerequisite; the receiving presentations of §§F.1–F.6 consume the shared foundations here.
 
 ### Theorems and conjectures
 
@@ -122,13 +122,13 @@ PadicPeriodRings supplies the topological rings `B_cris`, `B_st`, `B_dR`, their 
 
 ### ClassicalArithmeticCompletion: local constants and completed finite-image Artin functions
 
-Use ClassicalArithmeticCompletion’s standing on-main forwarding contract “Local constants and Artin completion”, with its conductor, Frobenius, additive-character and self-dual-measure conventions. It imports, rather than proves, the following theories: ArithmeticGaloisRepresentations §2.7 owns `epsilonWeil`, Deligne–Langlands constants, the standard trace characters and scalar self-dual measures, and the completed finite-image equation; AdelicAlgebraicGroups AA.2.4 owns inertia-invariant Artin factors, induction, the Artin–Hecke comparison and meromorphic assembly; AutomorphicLFunctionsAndLocalFactors AL.0–AL.1 owns the local-factor character/measure adapters and analytic rank-one normalization on those supplied scalar characters and measures. The Fröhlich–Taylor adapters remain ClassicalArithmeticCompletion §§7.13, 7.30. The prerequisite here is that on-main forwarding contract, including these imported results; none is claimed to exist at the Tau Ceti pin. General local constants and functional equations retain their existing owners.
+Use ClassicalArithmeticCompletion §§7.12a–7.12c, with their conductor, Frobenius, additive-character and self-dual-measure conventions. §7.12a supplies the standard trace characters, the self-dual measures and the Tate local constants with their local functional equation; §7.12b supplies the Weil local constants, the Artin conductor and its induction formula; §7.12c supplies the finite-image Artin functions, with inertia-invariant Euler factors at arithmetic Frobenius, induction including the ramified primes, the identification in rank one with the continued Hecke functions, the Brauer meromorphic continuation and the completed functional equation. The Fröhlich–Taylor adapters remain ClassicalArithmeticCompletion §§7.13, 7.30. None of these results is claimed to exist at the Tau Ceti pin. General local constants and functional equations retain their existing owners.
 
-The scalar-character, local-constant and finite-order Hecke stages of ArithmeticGaloisRepresentations §2.7, the Artin-factor and Artin–Hecke stages of AdelicAlgebraicGroups AA.2.4, and the applicable AL.0–AL.1 normalization adapters of AutomorphicLFunctionsAndLocalFactors reach this roadmap only through this on-main contract, and only §§6.1 and 7.9–7.18 use them.
+Only §§6.1 and 7.9–7.18 use these results.
 
-**Comparison.** Use finiteHeckeArtinComparison as a normalization adapter to the one-dimensional Artin–Hecke comparison of AA.2.4 forwarded by ClassicalArithmeticCompletion: for every number field, finite-order Hecke character with its class-field-theory Galois character, and finite deleted set containing the ramified primes, transport its Euler-product and meromorphic-germ equality. Retain its conjugation, deleted-factor and induction compatibilities, with the same primes above the deleted set and the arithmetic-Frobenius/contragredient conversion of ClassicalArithmeticCompletion §§7.13, 7.30. This is an alias on the shared function carriers, not a second continuation or Artin–Hecke theorem. For the trivial character, identify the supplied Artin germ at every `s₀ ∈ ℂ` with the germ of LFunctions Layer 3’s `dedekindZetaC`: both agree with the same Euler product on `Re(s)>1`, so apply `eventuallyEq_of_meromorphic_of_eqOn_halfPlane`. After deleting a finite set `Σ` of finite primes, transport this equality after multiplication by `∏_(v∈Σ) (1 − Nv^(−s))`; in particular the residue at `1` is `NumberField.dedekindZeta_residue · ∏_(v∈Σ) (1 − Nv⁻¹)`, by `tendsto_sub_one_mul_dedekindZetaC`. Nontrivial finite-order characters are holomorphic at `1`. Use these germs for the complex leading coefficients in Layer 7. Artin values at negative integers are the adapters of §6.1; the Deligne–Ribet rationality and distributions come from IntegralIwasawaTheory §§6.0–6.3.
+**Comparison.** Use finiteHeckeArtinComparison as a normalization adapter to the rank-one identification of ClassicalArithmeticCompletion §7.12c: for every number field, finite-order Hecke character with its class-field-theory Galois character, and finite deleted set containing the ramified primes, transport its Euler-product and meromorphic-germ equality. Retain its conjugation, deleted-factor and induction compatibilities, with the same primes above the deleted set and the arithmetic-Frobenius/contragredient conversion of ClassicalArithmeticCompletion §§7.13, 7.30. This is an alias on the shared function carriers, not a second continuation or Artin–Hecke theorem. For the trivial character, identify the supplied Artin germ at every `s₀ ∈ ℂ` with the germ of LFunctions Layer 3’s `dedekindZetaC`: both agree with the same Euler product on `Re(s)>1`, so apply `eventuallyEq_of_meromorphic_of_eqOn_halfPlane`. After deleting a finite set `Σ` of finite primes, transport this equality after multiplication by `∏_(v∈Σ) (1 − Nv^(−s))`; in particular the residue at `1` is `NumberField.dedekindZeta_residue · ∏_(v∈Σ) (1 − Nv⁻¹)`, by `tendsto_sub_one_mul_dedekindZetaC`. Nontrivial finite-order characters are holomorphic at `1`. Use these germs for the complex leading coefficients in Layer 7. Artin values at negative integers are the adapters of §6.1; the Deligne–Ribet rationality and distributions come from IntegralIwasawaTheory §§6.0–6.3.
 
-Source: ClassicalArithmeticCompletion’s “Local constants and Artin completion” forwarding contract and §§7.13, 7.30, Deligne (1973), §3.12(A)–(D), Theorem 4.1 and §8.12; ClassFieldTheory’s Frobenius/reciprocity compatibility; LFunctions Layer 3, the named continuation, germ uniqueness and residue contracts above.
+Source: ClassicalArithmeticCompletion §§7.12a–7.12c, 7.13 and 7.30; Deligne (1973), §3.12(A)–(D), Theorem 4.1 and §8.12; ClassFieldTheory’s Frobenius/reciprocity compatibility; LFunctions Layer 3, the named continuation, germ uniqueness and residue contracts above.
 
 **Checks.**
 
@@ -137,7 +137,7 @@ Source: ClassicalArithmeticCompletion’s “Local constants and Artin completio
 - For `K/F`, the induced character’s factors are indexed over `F` and those of the original character over `K`, with the deleted set upstairs consisting of primes above the downstairs set.
 - A primitive nontrivial Dirichlet character is regular at `1`, unlike the trivial one; the same pole convention cannot be assigned to every character.
 
-*Needs:* ClassicalArithmeticCompletion’s on-main local-constant and Artin-completion contract; ClassFieldTheory Layers 10–13; GlobalNumberFields Hecke-character carriers; Mathlib Dedekind zeta and meromorphic germs.
+*Needs:* ClassicalArithmeticCompletion §§7.12a–7.12c, 7.13 and 7.30; ClassFieldTheory Layers 10–13; GlobalNumberFields Hecke-character carriers; Mathlib Dedekind zeta and meromorphic germs.
 
 ## How to read the build
 
@@ -2639,11 +2639,11 @@ The hypotheses are as follows. The hypotheses listed; `μ = 0` for each subquoti
 
 *Needs:* [5.5](#55-the-main-conjecture-for-totally-real-fields) (The main conjecture for totally real fields); [2.15](#215-surjectivity-of--for-every-compact-p-adic-lie-group) (Surjectivity of `∂` for every compact `p`-adic Lie group); [4.5](#45-the-complex-cf_f) (The complex `C(F_∞/F)`); [3.3](#33-evaluation-of-k-elements-at-representations) (Evaluation of `K₁`-elements at representations).
 
-### 6.3 Reduction of the main conjecture and `K′₁`-injectivity to `Δ ×` pro-`p` of dimension one
-
-The parts apply in turn: the first passes to the one-dimensional quotients `G/U`, §6.4 to `ℚ_p`-elementary Galois groups, §6.5 settles the `l-ℚ_p`-elementary case for `l ≠ p`, and §6.6 reduces the `p-ℚ_p`-elementary case to `Δ × G_p` with `Δ` cyclic of order prime to `p` and `G_p` one-dimensional pro-`p`. §6.34 uses all four; §6.16 uses the group-theoretic injectivity clauses of §§6.4–6.6.
+### 6.3 Burns's reduction to one-dimensional extensions
 
 **Theorem.** Let `F_∞/F` be admissible with `μ = 0`. If MC holds for every `F_∞^U/F` with `U ≤ H` open pro-`p` and normal in `G`, and each `K′₁(Λ(G/U))` injects into `K′₁(Λ(G/U)_S)`, then `MC(F_∞/F)` holds.
+
+See Kakde, §4.1, Theorem 21, p. 19 (arXiv v3): Theorem 21 and its proof (pp. 19–20).
 
 The hypotheses are as follows. `μ = 0`; the quotients `G/U` are one-dimensional. `p` is odd.
 
@@ -2656,9 +2656,13 @@ The hypotheses are as follows. `μ = 0`; the quotients `G/U` are one-dimensional
 
 - The injectivity hypothesis on `K′₁` is carried, not dropped.
 
-**6.4 Reduction to `ℚ_p`-elementary Galois groups.**
+*Needs:* [6.2](#62-the-burnskato-patching-principle) (The Burns–Kato patching principle); [3.11](#311-sk-and-the-quotient-k-of-iwasawa-algebras) (`SK₁` and the quotient `K′₁` of Iwasawa algebras).
+
+### 6.4 Reduction to `ℚ_p`-elementary Galois groups
 
 **Theorem.** Let `F_∞/F` be admissible, one-dimensional, with `μ = 0`. If MC holds, and `K′₁(Λ(U)) → K′₁(Λ(U)_S)` is injective, for every admissible subextension whose Galois group `U` is `ℚ_p`-elementary (`U = P ⋊ Γ` with a central open `Γ^{p^r}` and `(P ⋊ Γ)/Γ^{p^r}` an `l-ℚ_p`-elementary finite group `C_n ⋊ P₁`, the image of `P₁` in `(ℤ/n)^×` lying in `Gal(ℚ_p(μ_n)/ℚ_p)`), then `MC(F_∞/F)` holds and `K′₁(Λ(G))` injects into `K′₁(Λ(G)_S)`. The injectivity clause is group-theoretic: for every one-dimensional `G = H ⋊ Γ` with `Γ^{p^e}` central, if `K′₁(Λ(U)) → K′₁(Λ(U)_S)` is injective for every open `ℚ_p`-elementary subgroup `U` containing a central open `Γ^{p^r}`, then it is injective for `G`; this uses only step 1's Dress–Wall induction and compatibility of norms with localization, not `μ = 0` or a main conjecture. The injectivity clause holds verbatim for `Λ_𝒪` with `𝒪` the ring of integers of a finite unramified extension of `ℚ_p`, because dressWall_induction is stated over `𝒪` with `K′ = ℚ_p` and k1Prime_equiv_limit over `𝒪`.
+
+See Kakde, §4.2, Theorem 27, p. 21 (arXiv v3): Theorem 27 with Definitions 23–24, Theorem 25 and Lemma 26 (pp. 20–23).
 
 The hypotheses are as follows. `G` one-dimensional: `G ≅ H ⋊ Γ` with `Γ^{p^e}` central. `p` is odd.
 
@@ -2672,9 +2676,13 @@ The hypotheses are as follows. `G` one-dimensional: `G ≅ H ⋊ Γ` with `Γ^{p
 
 - Uses `ℚ_p`-elementary subgroups for the `K₁` isomorphism, although Brauer induction needs only elementary ones.
 
-**6.5 The `l-ℚ_p`-elementary case, `l ≠ p`.**
+*Needs:* [6.2](#62-the-burnskato-patching-principle) (The Burns–Kato patching principle); [3.11](#311-sk-and-the-quotient-k-of-iwasawa-algebras) (`SK₁` and the quotient `K′₁` of Iwasawa algebras); TauCetiRoadmap ClassicalArithmeticCompletion §7.63.
+
+### 6.5 The `l-ℚ_p`-elementary case, `l ≠ p`
 
 **Theorem.** If `F_∞/F` is admissible with `μ = 0` and `G = Gal(F_∞/F)` is `l-ℚ_p`-elementary for a prime `l ≠ p`, then `MC(F_∞/F)` holds and `K′₁(Λ(G))` injects into `K′₁(Λ(G)_S)`. Here `G ≅ Γ^{p^e} × Ḡ` with `Ḡ = C ⋊ P` finite (Lemma 28); reducing to `C` a cyclic `p`-group and `P` of order prime to `p`, with `C̄ = H₀(P, C) = C/[P, C]` (isomorphic to `H⁰(P, C)`, as `|P|` is prime to `p`), `P₁ = ker(P → Aut C)` and `G₁ = Γ × C × P₁`, the map `θ =` (quotient, norm) : `K′₁(Λ(G)) → K′₁(Λ(Γ × C̄ × P)) × K′₁(Λ(G₁))` is an isomorphism onto `Φ = {(x₀, x₁) : norm(x₀) = can(x₁), x₁ fixed by P}` (Proposition 30). Moreover `SK₁(ℤ_p[Δ]) = 1` at every finite level `Δ` of `G`. The `θ`-isomorphism onto `Φ` and the injectivity of `K′₁(Λ(G)) → K′₁(Λ(G)_S)` hold for every one-dimensional `l-ℚ_p`-elementary `G`, without `μ = 0` or arithmetic input: steps 2–5 use only group rings and §6.1's commutative injectivity `Λ(A)^× ↪ Λ(A)_S^×`. Hence, by k1_adicContinuity (§3.11, step 7), `SK₁(Λ(G)) = 1, K₁ = K′₁` for `Λ(G)` and `Λ(G)_S`, and `K₁(Λ(G))` injects into `K₁(Λ(G)_S)`, which is Kakde's Theorem 33 as printed. The `θ`-isomorphism onto `Φ` and the injectivity `K′₁(Λ_𝒪(G)) ↪ K′₁(Λ_𝒪(G)_S)` hold with the same proof for `𝒪` the ring of integers of a finite unramified extension of `ℚ_p`, with `Φ` defined by the same conditions over `𝒪`: steps 2–5 use k1Prime_equiv_limit over `𝒪`, Chinburg–Pappas–Taylor II, Lemmas 2.1–2.2, for `𝒪[Δ_(1,n)]`, the characters of `Δ_n` over `ℚ̄_p`, sk1_semisimple_padic for `Frac(𝒪)[Δ_n]`, and the injectivity of units of a commutative ring into its localization at non-zero-divisors.
+
+See Kakde, §4.3, Theorem 33, p. 27 (arXiv v3): Theorem 33 with Lemmas 28, 31, Definition 29 and Proposition 30 (pp. 23–27).
 
 The hypotheses are as follows. `l ≠ p`; `μ = 0`. `p` is odd. The coefficient ring is `ℤ_p`, except in the group-theoretic `𝒪`-clause, where it is an unramified `𝒪`. The `K₁`-level clause additionally uses k1_adicContinuity (§3.11, step 7); the main conjecture and the `K′₁` statements do not.
 
@@ -2695,9 +2703,13 @@ The hypotheses are as follows. `l ≠ p`; `μ = 0`. `p` is odd. The coefficient 
 - Step 3 needs `(P : P₁)`-th roots in a pro-`p` group, which exist because `P` has order prime to `p`. For `l = p` the corresponding index can be divisible by `p`, which is why the `p-ℚ_p`-elementary case (§6.6) is treated differently.
 - For `C = C_p, P = C₂` acting by inversion (`p` odd) and the level `n = 0, Δ_(1,0) = C_p, C̄ = 1` and `N = C_p`. Then `J_0 = Det(1 + I_(C_p))`, whose values at the nontrivial characters lie in `1 + (ζ_p − 1)ℤ_p[ζ_p]`, a pro-`p` group, and `z ↦ z²` is bijective on it.
 
-**6.6 Reduction of the `p-ℚ_p`-elementary case to `Δ ×` pro-`p`.**
+*Needs:* [6.2](#62-the-burnskato-patching-principle) (The Burns–Kato patching principle); [6.1](#61-the-main-conjecture-for-abelian--prime-to-p-galois-groups) (The main conjecture for abelian `×` prime-to-`p` Galois groups); [3.11](#311-sk-and-the-quotient-k-of-iwasawa-algebras) (`SK₁` and the quotient `K′₁` of Iwasawa algebras); [3.14](#314-functoriality-and-induction-of-artin-evaluation) (Functoriality and induction of Artin evaluation).
+
+### 6.6 Reduction of the `p-ℚ_p`-elementary case to `Δ ×` pro-`p`
 
 **Theorem.** Let `F_∞/F` be admissible with `μ = 0` and `G p-ℚ_p`-elementary, `G/Γ^{p^e} = C_n ⋊ H_p` with `p ∤ n, U` the preimage of `H_p`. Put `𝒞=I_{ℚ_p}(C_n)` as in §6.1. For `χ∈𝒞` let `C_χ=ker χ`, `L_χ=ℚ_p(χ)` and `U_χ=ker(U → Gal(L_χ/ℚ_p))`, using the induced coefficient action. Then `K′₁(Λ(G)) ≅ ∏_{χ∈𝒞} K′₁(Λ_{O_χ}(U_χ))^{U/U_χ}` (Proposition 35), and if MC holds for each `F_∞^{C_χ}/F_∞^{C_n ⋊ U_χ}` with `K′₁(Λ_{𝒪_χ}(U_χ)) → K′₁(Λ_{𝒪_χ}(U_χ)_S)` injective, then `MC(F_∞/F)` holds and `K′₁(Λ(G))` injects into `K′₁(Λ(G)_S)`. This reduces the main conjecture to `G = Δ × G_p` with `Δ` cyclic of order prime to `p` and `G_p` one-dimensional pro-`p`. Proposition 35 and the reduction of injectivity to the factors `Λ_{O_χ}(U_χ)` are group-theoretic and hold for every one-dimensional `p-ℚ_p`-elementary `G`, without `μ = 0` or a main conjecture.
+
+See Kakde, §4.4, Theorem 36, p. 29 (arXiv v3): Theorem 36 with Remark 34 and Proposition 35 (pp. 27–30).
 
 The hypotheses are as follows. `G p-ℚ_p`-elementary; `μ = 0`. `p` is odd.
 
@@ -2713,9 +2725,7 @@ The hypotheses are as follows. `G p-ℚ_p`-elementary; `μ = 0`. `p` is odd.
 - For `p=5`, `C_n=C₃` and trivial `U`-action, `𝒞` has two elements and both stabilizers are `U`; the product has coefficients `ℤ₅` and `ℤ₅[ζ₃]`, without a repeated quadratic factor.
 - A `p`-elementary action through coefficient Galois automorphisms may permute the absolute characters inside an orbit. It fixes `e_[χ]`, so the twisted component and its invariant determinant group remain defined over the orbit's unramified integer ring.
 
-See Kakde, §4.1, Theorem 21, p. 19 (arXiv v3): Theorem 21 and its proof (pp. 19–20). Kakde, §4.2, Theorem 27, p. 21 (arXiv v3): Theorem 27 with Definitions 23–24, Theorem 25 and Lemma 26 (pp. 20–23). Kakde, §4.3, Theorem 33, p. 27 (arXiv v3): Theorem 33 with Lemmas 28, 31, Definition 29 and Proposition 30 (pp. 23–27). Kakde, §4.4, Theorem 36, p. 29 (arXiv v3): Theorem 36 with Remark 34 and Proposition 35 (pp. 27–30).
-
-*Needs:* [6.2](#62-the-burnskato-patching-principle) (The Burns–Kato patching principle); [3.11](#311-sk-and-the-quotient-k-of-iwasawa-algebras) (`SK₁` and the quotient `K′₁` of Iwasawa algebras); [6.1](#61-the-main-conjecture-for-abelian--prime-to-p-galois-groups) (The main conjecture for abelian `×` prime-to-`p` Galois groups); [3.14](#314-functoriality-and-induction-of-artin-evaluation) (Functoriality and induction of Artin evaluation); TauCetiRoadmap ClassicalArithmeticCompletion §§7.63, 7.86.
+*Needs:* [6.2](#62-the-burnskato-patching-principle) (The Burns–Kato patching principle); [3.11](#311-sk-and-the-quotient-k-of-iwasawa-algebras) (`SK₁` and the quotient `K′₁` of Iwasawa algebras); TauCetiRoadmap ClassicalArithmeticCompletion §7.86.
 
 ### 6.7 The Iwasawa algebra of a one-dimensional pro-`p` group as a twisted group ring
 
@@ -3016,7 +3026,7 @@ The hypotheses are as follows. `G` compact `p`-adic Lie with `G/H ≅ ℤ_p`; `�
 - After extending coefficients to `𝒪=ℤ₅[ζ₃]`, `I_{Frac(𝒪)}(C₃)` has three elements and `𝒪[C₃]≅𝒪³`. Orbit indexing changes with the coefficient field; a fixed list of `ℚ₅` orbits would miss this splitting.
 - For `p=5`, `G=C₃×U` with `U` acting trivially and `𝒪=ℤ₅[ζ₃]`, the nontrivial `ℚ₅`-orbit has `O_χ=ℤ₅[ζ₃]` and `𝒪⊗O_χ≅𝒪×𝒪` with both factors fixed by `U_n`. The component is `𝒪[U_n]×𝒪[U_n]`, two orbits with `r_j=1`, and not a matrix ring `M₂(𝒪[U_n])`.
 
-*Needs:* §F.0; [6.15](#615-kakdes-congruence-description-of-k) (Kakde's congruence description of `K′₁`); [6.4](#63-reduction-of-the-main-conjecture-and-k-injectivity-to-δ--pro-p-of-dimension-one) (Reduction to `ℚ_p`-elementary Galois groups); [6.5](#63-reduction-of-the-main-conjecture-and-k-injectivity-to-δ--pro-p-of-dimension-one) (The `l-ℚ_p`-elementary case, `l ≠ p`); [6.6](#63-reduction-of-the-main-conjecture-and-k-injectivity-to-δ--pro-p-of-dimension-one) (Reduction of the `p-ℚ_p`-elementary case to `Δ ×` pro-`p`); [3.11](#311-sk-and-the-quotient-k-of-iwasawa-algebras) (`SK₁` and the quotient `K′₁` of Iwasawa algebras); [1.7](#17-the-canonical-ore-set-theorem) (The canonical Ore set theorem).
+*Needs:* §F.0; [6.15](#615-kakdes-congruence-description-of-k) (Kakde's congruence description of `K′₁`); [6.4](#64-reduction-to-ℚ_p-elementary-galois-groups) (Reduction to `ℚ_p`-elementary Galois groups); [6.5](#65-the-l-ℚ_p-elementary-case-l--p) (The `l-ℚ_p`-elementary case, `l ≠ p`); [6.6](#66-reduction-of-the-p-ℚ_p-elementary-case-to-δ--pro-p) (Reduction of the `p-ℚ_p`-elementary case to `Δ ×` pro-`p`); [3.11](#311-sk-and-the-quotient-k-of-iwasawa-algebras) (`SK₁` and the quotient `K′₁` of Iwasawa algebras); [1.7](#17-the-canonical-ore-set-theorem) (The canonical Ore set theorem).
 
 ### 6.17 The main conjecture as congruences between abelian zeta functions
 
@@ -3286,7 +3296,7 @@ The hypotheses are as follows. The standing hypotheses `(B)` of this layer.
 - The descent along `G̃ → G` uses Fukaya–Kato's base change for `C` (§4.5).
 - For `Ḡ = 1, H̃` and `G̃_bar` are trivial, `F̃_∞=F_∞`, and `T₁=Λ(Δ×Z)`: the trace is the identity, rather than an undefined multiple by the order of an infinite group.
 
-*Needs:* §6.25a; Mathlib `Nat.exists_prime_gt_modEq_one` (primes `l≡1 mod |Ḡ|` beyond every bound); [6.17](#617-the-main-conjecture-as-congruences-between-abelian-zeta-functions) (The main conjecture as congruences between abelian zeta functions); [6.8](#68-the-maps-θg-and-the-congruence-subgroups-φg-φg_s) (The maps `θ^G` and the congruence subgroups `Φ^G, Φ^G_S`); [6.3](#63-reduction-of-the-main-conjecture-and-k-injectivity-to-δ--pro-p-of-dimension-one) (Reduction of the main conjecture and `K′₁`-injectivity to `Δ ×` pro-`p` of dimension one); [4.4](#44-admissible-extensions-μ--0-and-weak-leopoldt) (Admissible extensions, `μ = 0` and weak Leopoldt).
+*Needs:* §6.25a; Mathlib `Nat.exists_prime_gt_modEq_one` (primes `l≡1 mod |Ḡ|` beyond every bound); [6.17](#617-the-main-conjecture-as-congruences-between-abelian-zeta-functions) (The main conjecture as congruences between abelian zeta functions); [6.8](#68-the-maps-θg-and-the-congruence-subgroups-φg-φg_s) (The maps `θ^G` and the congruence subgroups `Φ^G, Φ^G_S`); [6.3](#63-burnss-reduction-to-one-dimensional-extensions) (Burns's reduction to one-dimensional extensions); [4.4](#44-admissible-extensions-μ--0-and-weak-leopoldt) (Admissible extensions, `μ = 0` and weak Leopoldt).
 
 ### 6.26a Completed logarithm, torsion correction and restriction
 
@@ -3546,7 +3556,7 @@ The hypotheses are as follows. `p` odd; `F_∞/F` admissible; `μ = 0` (Definiti
 - The finite Whitehead inputs of §3.11 (proved there without Oliver's induction theorems; k1_adicContinuity is not used on this route), the perfection of `C` (§4.5) and the earlier Ritter–Weiss logarithmic inputs (§6.29) enter as stated in those subsections.
 - For `F_∞ = F_cyc` the theorem is Wiles's theorem (§6.1).
 
-*Needs:* [6.33](#633-the-abelian-zeta-functions-satisfy-m1m4) (The abelian zeta functions satisfy `M1`–`M4`); [6.3](#63-reduction-of-the-main-conjecture-and-k-injectivity-to-δ--pro-p-of-dimension-one) (Reduction of the main conjecture and `K′₁`-injectivity to `Δ ×` pro-`p` of dimension one); [6.4](#63-reduction-of-the-main-conjecture-and-k-injectivity-to-δ--pro-p-of-dimension-one) (Reduction to `ℚ_p`-elementary Galois groups); [6.5](#63-reduction-of-the-main-conjecture-and-k-injectivity-to-δ--pro-p-of-dimension-one) (The `l-ℚ_p`-elementary case, `l ≠ p`); [6.6](#63-reduction-of-the-main-conjecture-and-k-injectivity-to-δ--pro-p-of-dimension-one) (Reduction of the `p-ℚ_p`-elementary case to `Δ ×` pro-`p`); [6.16](#616-kλ_𝒪g-injects-into-kλ_𝒪g_s) (`K′₁(Λ_𝒪(G))` injects into `K′₁(Λ_𝒪(G)_S)`); [6.15](#615-kakdes-congruence-description-of-k) (Kakde's congruence description of `K′₁`); [6.1](#61-the-main-conjecture-for-abelian--prime-to-p-galois-groups) (The main conjecture for abelian `×` prime-to-`p` Galois groups); [5.5](#55-the-main-conjecture-for-totally-real-fields) (The main conjecture for totally real fields).
+*Needs:* [6.33](#633-the-abelian-zeta-functions-satisfy-m1m4) (The abelian zeta functions satisfy `M1`–`M4`); [6.3](#63-burnss-reduction-to-one-dimensional-extensions) (Burns's reduction to one-dimensional extensions); [6.4](#64-reduction-to-ℚ_p-elementary-galois-groups) (Reduction to `ℚ_p`-elementary Galois groups); [6.5](#65-the-l-ℚ_p-elementary-case-l--p) (The `l-ℚ_p`-elementary case, `l ≠ p`); [6.6](#66-reduction-of-the-p-ℚ_p-elementary-case-to-δ--pro-p) (Reduction of the `p-ℚ_p`-elementary case to `Δ ×` pro-`p`); [6.16](#616-kλ_𝒪g-injects-into-kλ_𝒪g_s) (`K′₁(Λ_𝒪(G))` injects into `K′₁(Λ_𝒪(G)_S)`); [6.15](#615-kakdes-congruence-description-of-k) (Kakde's congruence description of `K′₁`); [6.1](#61-the-main-conjecture-for-abelian--prime-to-p-galois-groups) (The main conjecture for abelian `×` prime-to-`p` Galois groups); [5.5](#55-the-main-conjecture-for-totally-real-fields) (The main conjecture for totally real fields).
 
 ### 6.35 Conditional Ritter–Weiss `SK₁` reduction
 
@@ -3927,7 +3937,7 @@ API:
 - The displayed quotient formula requires `μ_p` to be invertible on the `ρ`-part. If Leopoldt fails there, its determinant is zero and this quotient is undefined; use the cross-multiplied conjectural formulation instead of inferring a higher-order zero from this test.
 - Burns–Venjakob Remark 5.3 makes Tate's formulation (Tate, *Les conjectures de Stark*, Chapter VI §5) precise about the unit lattice and `μ_p`; the statement here follows Burns–Venjakob.
 
-*Needs:* §6.26a (padicArtinL); [6.1](#61-the-main-conjecture-for-abelian--prime-to-p-galois-groups) (Deligne–Ribet functions, Brauer induction); [7.10](#710-descent-for-the-tate-motive-at-ρ-under-leopoldt-bv-lemma-51) (Leopoldt at `ρ`); §F.3; §F.4; ClassicalArithmeticCompletion's on-main Artin-completion contract (complex `L^*_S(1,ρ)`).
+*Needs:* §6.26a (padicArtinL); [6.1](#61-the-main-conjecture-for-abelian--prime-to-p-galois-groups) (Deligne–Ribet functions, Brauer induction); [7.10](#710-descent-for-the-tate-motive-at-ρ-under-leopoldt-bv-lemma-51) (Leopoldt at `ρ`); §F.3; §F.4; ClassicalArithmeticCompletion §7.12c (complex `L^*_S(1,ρ)`).
 
 ### 7.12 The `p`-adic Stark conjecture for permutation characters (BV Remark 5.4, after Colmez)
 
