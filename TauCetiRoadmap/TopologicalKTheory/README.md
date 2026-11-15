@@ -201,9 +201,9 @@ manifold, bundle or group-completion vocabulary replaces an existing API.
 - [CompactGroups Layers 0 and 5](../RepresentationTheory/CompactGroups/README.md)
   supplies the normalized Haar probability measure and averaging,
   Peter–Weyl (density of the representative functions in C(G) and in L²(G)),
-  and, under its Layer 5 contract `gap:banach-gfinite-density`, the gap
-  that AutomorphicFormsOnReductiveGroups §2.1 declares on that layer, the
-  G-finite vectors of a representation: the orbit-span predicate `IsGFinite`, the
+  and, under its Layer 5 contract `gap:banach-gfinite-density`, which its
+  Banach-representation consumers record as a supplier gap, the G-finite
+  vectors of a representation: the orbit-span predicate `IsGFinite`, the
   submodule `gFiniteSubmodule` and the density theorem
   `gFiniteSubmodule_dense` for a representation of a compact Hausdorff group
   on a complex Banach space with continuous orbit maps. T6.1 consumes that
@@ -372,7 +372,8 @@ these generators. Tensor products use the Koszul sign for Z/2 gradings.
    hypothesis, which is what the native embedding needs over a normal base
    (`TauCeti.exists_continuous_injective_pi_of_iUnion_baseSet`).
 4. Prove numerable bundle homotopy invariance over X×I for paracompact
-   Hausdorff X by the following anchored cylinder-transport construction. On
+   Hausdorff X (Hatcher, *Vector Bundles and K-Theory*, Proposition 1.7,
+   p. 20) by the following anchored cylinder-transport construction. On
    X×I×I write E_s,E_t for the two pullbacks of the cylinder bundle. The opens
    U×J×J on which E is trivial over U×J cover the diagonal s=t. Choose a
    locally finite partition of unity on the whole paracompact product,
@@ -622,7 +623,9 @@ these generators. Tensor products use the Koszul sign for Z/2 gradings.
 
 6. **T1.6a. Stable carriers and classification.** Build stable complex/unoriented real Grassmannian classification of bundles
    of bounded rank over compact bases and stable classes over finite CW bases,
-   with clutching naturality. For oriented real bundles of fixed positive rank
+   with clutching naturality (the fixed-rank classification over a
+   paracompact base is Hatcher, *Vector Bundles and K-Theory*, Theorem 1.16,
+   p. 29). For oriented real bundles of fixed positive rank
    n≥1 use the finite oriented carriers constructed below. Own the fixed-rank
    BSO(n) ambient colimits in this range and
    the stable oriented Grassmannian BSO as the positive-cofinal rank-colimit on
@@ -1278,11 +1281,15 @@ paracompact conclusions of T2.0.
    - The zero morphism between nonzero fibres is a relative symbol only for
      Y=∅; a record without the bijectivity field would accept it for every Y
      and produce a class with no boundary isomorphism.
-2. First construct the source's finite sequences of bundles on X with their
-   differentials defined only on Y, exact there, and isomorphism, homotopy and
-   adjacent identity-pair stabilization. Separately construct global complexes
-   exact on Y and prove their stable-homotopy comparison with that sequence
-   model. Extend the split exact sequence to a neighbourhood using the metric
+2. First construct finite sequences of bundles on X with their
+   differentials defined only on Y, exact there, with isomorphism, homotopy and
+   adjacent identity-pair stabilization (Atiyah–Bott–Shapiro, *Clifford
+   modules*, §§7–9). Separately construct global complexes exact on Y, whose
+   stable homotopy classes form a group naturally isomorphic to K(X,Y) (Segal,
+   *Equivariant K-theory*, Proposition (3.1), p. 139, proved as Proposition
+   (A.1) of its Appendix, p. 148), and prove their stable-homotopy
+   comparison with that sequence model. Extend the split exact sequence to a
+   neighbourhood using the metric
    image/kernel projections and their locally constant ranks; supply projection
    extension and correction of d²=0, then use a cutoff for a global differential.
    If stabilization is needed, prove its precise effect on the class. Do not
@@ -1317,7 +1324,10 @@ paracompact conclusions of T2.0.
    appending each S¹ coordinate after the base coordinates,
    in order x then y for the two-coordinate comparison with C via x+iy.
    Construct the cone-boundary connecting maps by clutching/cones with parameter
-   increasing from 0 to 1, with endpoint boundary sign − at 0 and + at 1, and the long exact sequence of a pair. Prove
+   increasing from 0 to 1, with endpoint boundary sign − at 0 and + at 1, and
+   the long exact sequence of a pair (for compact Hausdorff X and closed Y,
+   Hatcher, *Vector Bundles and K-Theory*, Proposition 2.9 and Lemma 2.10,
+   pp. 51–53). Prove
    exactness and naturality in every constructed degree, reduced wedge
    additivity for finite wedges, excision and Mayer–Vietoris, including compact
    supports and their support hypotheses. The sequence `K(X,Y)→K(X)→K(Y)`
@@ -1354,9 +1364,10 @@ paracompact conclusions of T2.0.
 ## T4. Complex Bott periodicity without an index theorem
 
 Prove the external-product isomorphism
-`K(X)⊕K(X)→K(X×S²), (a,b)↦a⊠1+b⊠β` for compact Hausdorff X.
-The proof follows the elementary clutching/polynomial approach of Atiyah–Bott;
-all steps below are targets, including independence of the constructed inverse.
+`K(X)⊕K(X)→K(X×S²), (a,b)↦a⊠1+b⊠β` for compact Hausdorff X (Hatcher,
+*Vector Bundles and K-Theory*, Theorem 2.2, p. 41). The route is the
+elementary clutching/polynomial proof of Atiyah–Bott (1964); all steps
+below are targets, including independence of the constructed inverse.
 
 1. Construct generalized clutching from an automorphism of the pullback of a
    bundle E→X over X×S¹, in the D₀-to-D∞ direction fixed above. Prove every bundle over X×S² arises this way by T1
@@ -1519,7 +1530,8 @@ all steps below are targets, including independence of the constructed inverse.
    This intrinsic proof supplies T6's equivariant line case without invoking
    a nonequivariant local cover.
 3. Prove the Thom isomorphism `Kc(X)→Kc(E)` by multiplication by the Koszul
-   class. For a trivial line it is −β, so compare its multiplier with the
+   class (Segal, *Equivariant K-theory*, Proposition (3.2), p. 140, with G
+   trivial). For a trivial line it is −β, so compare its multiplier with the
    negative of T4's β Bott map and prove both inverse laws in that convention.
    For a line bundle prove
    it using the projective compactification/exact sequence in item 2. Pull back
@@ -1555,10 +1567,9 @@ comparisons, not an assumption on every K-object.
 1. Construct equivariant bundle metrics by Haar averaging, sums/tensors/duals,
    pullbacks and their small category. Prove equivariant splitting of bundle
    exact sequences. Consume from CompactGroups Layer 5, under its contract
-   `gap:banach-gfinite-density`, the gap that
-   AutomorphicFormsOnReductiveGroups §2.1 declares on that layer, the
-   G-finite vectors `IsGFinite` of a representation (those with
-   finite-dimensional orbit span), their submodule `gFiniteSubmodule`,
+   `gap:banach-gfinite-density`, the G-finite vectors `IsGFinite` of a
+   representation (those with finite-dimensional orbit span), their
+   submodule `gFiniteSubmodule`,
    and the density theorem `gFiniteSubmodule_dense`: for a compact Hausdorff
    group acting on a complex Banach space by a representation whose orbit
    maps are continuous, the G-finite vectors are dense. Nothing of that
@@ -1843,7 +1854,10 @@ comparisons, not an assumption on every K-object.
    compatibility to prove injectivity and surjectivity before descending along
    P→X by item 4. Treat variable ranks on invariant clopen strata. This proves
    general complex equivariant Thom and representation Bott
-   `R(G)≃K_(G,c)(V)`, including nontrivial G-action on V. Afterwards derive
+   `R(G)≃K_(G,c)(V)`, including nontrivial G-action on V (Segal,
+   *Equivariant K-theory*, Proposition (3.2), p. 140, stated there for a
+   G-vector bundle over a locally compact G-space and proved there only for
+   abelian G). Afterwards derive
    the equivariant projective/flag module-basis and relation theorems from
    these Thom/transfer maps, with the explicit inverse and descent laws.
 8. For a smooth principal bundle P→X of a compact Lie group H, with commuting
@@ -2381,10 +2395,10 @@ matrix/bundle families; no elliptic operator or index theorem proves Bott.
 - Hatcher, [*Vector Bundles and K-Theory*](https://pi.math.cornell.edu/~hatcher/VBKT/VB.pdf), §1 and §§2.1–2.3, for bundle/classification foundations, the group completion of T2.0, the elementary product proof and Adams operations; the Introduction (p. 1) for the table of reduced KO of spheres and §4.1 (p. 108) for the stable range of the orthogonal groups in T7.1.
 - Kriz–May, [*Operads, algebras, modules, and motives*](https://www.math.uchicago.edu/~may/BOOKS/KM.pdf), the section “The linear isometries operad”, for the finite-support universe and compactly generated coordinate-choice topology; T1.6 builds the actual frame/coherence comparisons.
 - Freed's K-theory lectures, [notes by Arun Debray](https://www.math.purdue.edu/~adebray/lecture_notes/m392c_Knotes.pdf), §§5–6, for the companion-pencil, spectral bundle and inverse-independence proof spine, with uniform approximation and signs proved as specified above.
-- Segal, [*Equivariant K-theory*](https://www.numdam.org/item/PMIHES_1968__34__129_0/), Publ. Math. IHÉS 34 (1968), for equivariant bundles, representation embeddings, descent and complex Thom theory.
+- Segal, [*Equivariant K-theory*](https://www.numdam.org/item/PMIHES_1968__34__129_0/), Publ. Math. IHÉS 34 (1968), Proposition (3.1) and its Appendix for complexes with compact support (T3.2), Proposition (3.2) for the complex Thom isomorphism (T5.3, T6.7), and for equivariant bundles, representation embeddings and descent.
 - Atiyah, [*Bott periodicity and the index of elliptic operators*](https://doi.org/10.1093/qmath/19.1.113), Quart. J. Math. 19 (1968), §§2 and 4 (especially Proposition 4.9), for the minimal family-index transfer; prove the analytic bridges of T6.5 rather than importing a general index theorem.
 - Atiyah, [*K-theory and reality*](https://doi.org/10.1093/qmath/17.1.367), Quart. J. Math. Oxford 17 (1966), 367–386, §2 for (1,1)-periodicity and Theorem 3.10 for the eightfold periodicity of T7.1.
-- Atiyah–Bott–Shapiro, [*Clifford modules*](https://doi.org/10.1016/0040-9383(64)90003-5), Topology 3 Supplement 1 (1964), §§6 and 11, for the graded-module product computation and its geometric comparison in T7.
+- Atiyah–Bott–Shapiro, [*Clifford modules*](https://doi.org/10.1016/0040-9383(64)90003-5), Topology 3 Supplement 1 (1964), §§7–9 for the sequence model of T3.2, and §§6 and 11 for the graded-module product computation and its geometric comparison in T7.
 - Sibson, [*Existence theorems for H-space inverses*](https://doi.org/10.1017/S0305004100044029), Proc. Cambridge Philos. Soc. 65 (1969), pp. 19–21, for the connected CW H-space inverse of T7.0.
 - Mitchell, [*Notes on principal bundles and classifying spaces*](https://sites.math.washington.edu/~mitchell/Notes/prin.pdf) (2011), §§2–3 and Lemma 7.2, for the continuous principal-bundle category, pullbacks and balanced products in T6.4.
 - Kolář–Michor–Slovák, [*Natural Operations in Differential Geometry*](https://www.mat.univie.ac.at/~michor/kmsbookh.pdf), Springer 1993, §§10.1–10.9, for cocycles, division, homomorphisms and associated bundles in T6.4, read in the continuous category.
