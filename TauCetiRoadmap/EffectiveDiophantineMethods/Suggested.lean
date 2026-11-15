@@ -1,7 +1,7 @@
 import Mathlib
 import TauCeti.AlgebraicGeometry.EllipticCurve.CanonicalHeight.Basic
 import TauCeti.AlgebraicGeometry.EllipticCurve.MordellWeil.FinitelyGenerated
-import TauCeti.AlgebraicGeometry.EllipticCurve.MordellWeil.Regulator
+import TauCeti.AlgebraicGeometry.EllipticCurve.MordellWeil.Regulator.Basic
 
 /-!
 # Effective Diophantine methods: target signatures
@@ -151,7 +151,9 @@ def mordellWeilSubgroup (W : WeierstrassCurve.Affine ℚ) {r : ℕ}
 /-- Rank, height, Hermite and prime-saturation data yield a full basis and regulator (§3.22).
 The model is any elliptic Weierstrass model over `ℚ`: the argument uses only the Néron–Tate
 pairing, the height lower bound `lam`, Hermite's inequality and saturation, none of which depends
-on integrality of the coefficients. -/
+on integrality of the coefficients. The finiteness of `W.Point` under which the regulator and the
+basis modulo torsion are stated is Tau Ceti's instance
+`WeierstrassCurve.Affine.moduleFinite_point_of_numberField` (the Mordell–Weil theorem). -/
 theorem mordellWeil_basis_of_height_and_saturation
     (W : WeierstrassCurve.Affine ℚ) [W.IsElliptic]
     {r : ℕ} (hr : 0 < r) (T : Finset W.Point) (P : Fin r → W.Point)
@@ -170,7 +172,6 @@ theorem mordellWeil_basis_of_height_and_saturation
     (N : ℕ) (hN : N = ⌊Real.sqrt R * Real.rpow (γ / lam) ((r : ℝ) / 2)⌋₊)
     (hsat : ∀ p : ℕ, p.Prime → p ≤ N → ∀ Q : W.Point,
       p • Q ∈ mordellWeilSubgroup W T P → Q ∈ mordellWeilSubgroup W T P) :
-    letI : AddGroup.FG W.Point := WeierstrassCurve.Affine.fg_point_of_numberField
     mordellWeilSubgroup W T P = ⊤ ∧ Module.finrank ℤ W.Point = r ∧
       (∃ b : Module.Basis (Fin r) ℤ (WeierstrassCurve.Affine.PointModTorsion W),
         ∀ i, b i = Submodule.Quotient.mk (P i)) ∧
