@@ -63,7 +63,7 @@ set equality above is equality a.e. These are different assertions with a requir
   and their equality cases. The area and length bridge uses the existing curve APIs.
   The [Green layer 5.6 specification](https://github.com/TauCetiProject/TauCetiRoadmap/pull/826)
   supplies these flat planar targets.
-- [ConformalMapping](../ConformalMapping/README.md), L5, owns the Jordan-separation and
+- [ConformalMapping](../../Completed/ConformalMapping/README.md), L5, owns the Jordan-separation and
   filled-hull targets: exactly two complementary components, one bounded and one unbounded,
   with inside `filledHull C \ C` and frontier `C`. Use the implemented
   `TauCeti.IsJordanCurve` and `TauCeti.filledHull`;
