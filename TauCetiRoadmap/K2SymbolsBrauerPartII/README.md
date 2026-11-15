@@ -47,7 +47,7 @@ Use `rootsOfUnity m F` for the subgroup of Fˣ with m-th power one. For a primit
 
 ### From Tau Ceti
 
-At the pins Tau Ceti a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039 and Mathlib 6b7abb3c7686292736be2955bd3eb9ebf63b456a, `TauCeti.KummerCoeff F m` is `Additive (rootsOfUnity m (SeparableClosure F))` with its discrete continuous G_F-action. `TauCeti.kummerMap` is defined under `IsUnit (m : F)` and lands in the multiplicative tag of H¹. `TauCeti.kummerMap_eq_kummerCocycleClass` fixes its cocycle to gα/α. `TauCeti.ker_kummerMap` and `TauCeti.kummerMap_eq_one_iff` identify its kernel with m-th powers. These declarations supply the actual coefficient object and actual map for the dictionary.
+At the pins Tau Ceti 2fd255d997f47c0b5d834ee416c7015d55444ce5 and Mathlib 1b1ccf4b088b32fa3f23f2de1127433254a81e1e, `TauCeti.KummerCoeff F m` is `Additive (rootsOfUnity m (SeparableClosure F))` with its discrete continuous G_F-action. `TauCeti.kummerMap` is defined under `IsUnit (m : F)` and lands in the multiplicative tag of H¹. `TauCeti.kummerMap_eq_kummerCocycleClass` fixes its cocycle to gα/α. `TauCeti.ker_kummerMap` and `TauCeti.kummerMap_eq_one_iff` identify its kernel with m-th powers. These declarations supply the actual coefficient object and actual map for the dictionary.
 
 `TauCeti.ContCohomology.explicitCup11` accepts a jointly continuous equivariant biadditive coefficient pairing and gives the biadditive H¹×H¹→H² cup. `TauCeti.ContCohomology.explicitCup11_eq_neg_flip` compares it with the negative cup for the flipped pairing. Both the additive type tags and the flipped coefficient map are retained when using this theorem.
 
@@ -109,7 +109,7 @@ Consume §§1.14 and 1.25's H_m on every nonarchimedean local field F with μ_m�
 
 ## How to read the build
 
-Layer 1 compares coefficient models and fixes every root and residue transport. Layer 2 realizes the resulting Brauer symbol by a finite free algebra, retaining its degree when the radical polynomial factors. Layer 3 transports the supplied local K₂ maps and scalar invariant comparison to the Brauer and conic dictionaries. Layer 4 assembles those maps at every place and proves the K₂ form of reciprocity. Layer 5 first constructs the adic Tate symbol, its torsion and Picard theorems, and number-field coefficient reduction; it then identifies the same maps in the local, global and S-integer comparisons and in finite étale Chern theory. The README is the specification of all five layers. `Suggested.lean` states the field-generic conic/Hilbert equality and total real criterion, with the conic definition they need; its module docstring identifies the unavailable carriers for the other headlines.
+Layer 1 compares coefficient models and fixes every root and residue transport. Layer 2 realizes the resulting Brauer symbol by a finite free algebra, retaining its degree when the radical polynomial factors. Layer 3 transports the supplied local K₂ maps and scalar invariant comparison to the Brauer and conic dictionaries. Layer 4 assembles those maps at every place and proves the K₂ form of reciprocity. Layer 5 first constructs the adic Tate symbol, its torsion and Picard theorems, and number-field coefficient reduction; it then identifies the same maps in the local, global and S-integer comparisons and in finite étale Chern theory. The README is the specification of all five layers. `Suggested.lean` states the presented symbol algebra with its central-simplicity, splitting and matrix-corner headlines of Layer 2, and the conic definition with the field-generic conic/Hilbert equality and total real criterion of Layer 3; its module docstring identifies the unavailable carriers for the other headlines.
 
 ## Layer 1: coefficient models and Brauer symbols
 
@@ -369,9 +369,9 @@ Give eAe its unital F-algebra structure with unit e and scalar map t↦te. Speci
 
 - The corner has unit e and dimension d², with the displayed generator powers and commutation relation.
 - The s conjugate idempotents are orthogonal and sum to 1; the specified powers of Y give the corresponding matrix units.
-- The matrix equivalence takes these units to the usual matrix units and identifies the selected diagonal corner with the degree-d symbol algebra.
+- The matrix equivalence takes the matrix unit `Y^j e Y^(-k)` of A, for 0≤j,k<s, to the (j,k) matrix unit and identifies the selected diagonal corner with the degree-d symbol algebra. Writing X', Y' for the generators of `A_{ζ^s}(c,b)`, it sends X to the diagonal matrix with entries `ζ^(-j)X'` for 0≤j<s, and Y to the size-s forward shift with wrap factor Y', the s×s analogue of §2.2's representation.
 - The Brauer-class equality agrees with the generic Morita comparison.
-- The corner statement, with d the degree of the minimal polynomial of α over F, asserting d∣m, c=α^d∈F, c^s=a and the matrix equivalence on the presented algebras, is `symbolAlgebra_matrix_corner`.
+- The corner statement, with d the degree of the minimal polynomial of α over F, asserting d∣m, c=α^d∈F, c^s=a and the matrix equivalence with these generator images on the presented algebras, is `symbolAlgebra_matrix_corner`.
 
 No claim that a crossed product of a degree-d field has dimension m² is used. Changing α changes c and the chosen corner; the theorem asserts an equivalence with the corner associated to that specified α, while the original algebra and its Brauer class remain independent of this auxiliary choice.
 
@@ -379,8 +379,8 @@ No claim that a crossed product of a degree-d field has dimension m² is used. C
 
 **Checks.**
 
-- For m=4, a=c² with c nonsquare and ζ a fourth root, choose α²=c. Then d=2,s=2 and `A_ζ(c²,b)≃Mat₂(A_{ζ²}(c,b))`. The respective dimensions are 16 and 4; the inner algebra is quaternion.
-- If d=1, the corner is F and A≃Mat_m(F). The formula must include this split radical case.
+- For m=4, a=c² with c nonsquare and ζ a fourth root, choose α²=c. Then d=2,s=2 and `A_ζ(c²,b)≃Mat₂(A_{ζ²}(c,b))`. The respective dimensions are 16 and 4; the inner algebra is quaternion. There X goes to diag(X',ζ^(-1)X') and Y to the matrix with rows (0,Y') and (1,0); in entry (0,1) both YX and ζXY equal ζX'Y', because Y'X'=ζ²X'Y'. The backward shift, with rows (0,1) and (Y',0), gives ζ^(-1)X' against ζX' in that entry, and these differ since ζ²=-1.
+- If d=1, the corner is F and A≃Mat_m(F), with X and Y going to §2.2's matrices for α=c. The formula must include this split radical case.
 - If d=m, s=1 and c=a; the matrix formula reduces to the original presentation with a one-by-one matrix factor.
 - In the degree-four example T⁴-c²=(T²-c)(T²+c); Y interchanges the two factors and Y² preserves a corner. The corner unit corresponds to diag(1,0) in Mat₂(eAe), whereas the ambient unit corresponds to diag(1,1). Treating the inclusion as unital would identify these unequal matrices. A proof beginning by assuming T⁴-c² irreducible fails precisely this case.
 
@@ -492,7 +492,7 @@ Over R prove `conicSymbol_real_eq_neg_one_iff` for all r,s∈R:
 conicSymbol R r s = -1  ↔  r≤0 and s≤0.
 ```
 
-If both coefficients are nonpositive, every left-hand side rx²+sy² is nonpositive. If one coefficient is positive, set the other variable to zero and use its inverse square root. On nonzero real inputs this is exactly the familiar strict-negative criterion. The total definition does not inherit bilinearity over an arbitrary field. The exact rational counterexample below tests why the local bilinearity hypothesis is necessary. The acceptance headlines are the field-generic conic/Hilbert equality and the total real criterion.
+If both coefficients are nonpositive, every left-hand side rx²+sy² is nonpositive. If one coefficient is positive, set the other variable to zero and use its inverse square root. On nonzero real inputs this is exactly the familiar strict-negative criterion. The total definition does not inherit bilinearity over an arbitrary field. The exact rational counterexample below tests why the local bilinearity hypothesis is necessary. The acceptance headlines of this layer are the field-generic conic/Hilbert equality and the total real criterion.
 
 *Needs:* Mathlib fields, units, classical existence and real square roots. The norm bridge uses only (2:F)≠0 and the two nonzero coefficients.
 

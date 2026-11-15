@@ -7,9 +7,9 @@ import TauCeti.NumberTheory.HilbertSymbol.Basic
 The roadmap is README.md; this file is not the roadmap. It states the roadmap's
 headline theorems that are statable against the pinned APIs: the cyclic symbol
 algebra by its universal presentation with its central simplicity and degree,
-its splitting over any extension containing a root of `a`, its proper-degree
-matrix corner, the field-generic conic/Hilbert comparison and the real criterion
-on all field elements.
+its splitting over any extension containing a root of `a` and its proper-degree
+matrix corner, each by a map with specified generator images, the field-generic
+conic/Hilbert comparison and the real criterion on all field elements.
 
 The algebra/Brauer dictionary, K₂ norm-residue and invariant comparisons,
 all-place reciprocity on K₂, the adic Tate symbol and coefficient diagram,
@@ -58,30 +58,50 @@ theorem symbolAlgebra_isCentralSimple {F : Type*} [Field F] (m : ℕ) (hm : 2 �
   sorry
 
 /-- README §2.2: over any field extension `L` of `F` containing an `m`-th root `α` of `a`,
-the diagonal-and-shift representation (`X v_i = α ζ^(-i) v_i`, `Y` the forward shift with
-wrap factor `b`) splits the symbol algebra: `L ⊗_F A_ζ(a,b) ≃ Mat_m(L)`. No root of `b`
+the `L`-algebra map sending `X` to the diagonal matrix `diag(α ζ^(-i))` and `Y` to the
+forward shift with wrap factor `b` (`Y v_i = v_(i+1)` for `i < m - 1`, `Y v_(m-1) = b v_0`)
+is bijective, so it splits the symbol algebra: `L ⊗_F A_ζ(a,b) ≃ Mat_m(L)`. No root of `b`
 is required. -/
 theorem symbolAlgebra_split {F : Type*} [Field F] (m : ℕ) (hm : 2 ≤ m)
     (hmF : IsUnit (m : F)) {ζ : F} (hζ : IsPrimitiveRoot ζ m) (a b : Fˣ)
     (L : Type*) [Field L] [Algebra F L] (α : L) (hα : α ^ m = algebraMap F L (a : F)) :
-    Nonempty ((L ⊗[F] SymbolAlgebra F m ζ a b) ≃ₐ[L] Matrix (Fin m) (Fin m) L) := by
+    ∃ f : (L ⊗[F] SymbolAlgebra F m ζ a b) →ₐ[L] Matrix (Fin m) (Fin m) L,
+      f (1 ⊗ₜ RingQuot.mkAlgHom F (SymbolRel F m ζ a b) (FreeAlgebra.ι F 0)) =
+          Matrix.diagonal (fun i : Fin m => α * (algebraMap F L ζ)⁻¹ ^ (i : ℕ)) ∧
+        f (1 ⊗ₜ RingQuot.mkAlgHom F (SymbolRel F m ζ a b) (FreeAlgebra.ι F 1)) =
+          Matrix.of (fun i j : Fin m => if (i : ℕ) = j + 1 then 1
+            else if (i : ℕ) = 0 ∧ (j : ℕ) + 1 = m then algebraMap F L (b : F) else 0) ∧
+        Function.Bijective f := by
   sorry
 
 /-- README §2.3: for a root `α` of `T^m - a` in the separable closure with
-`d = [F(α):F]` the degree of its minimal polynomial, `d` divides `m`, `c = α^d` lies in `F`
-with `c^(m/d) = a`, and `A_ζ(a,b)` is the `(m/d) × (m/d)` matrix algebra over the degree-`d`
-symbol algebra `A_(ζ^(m/d))(c,b)`; at `d = 1` the inner algebra is the degree-one
-presentation, which is `F`. -/
+`d = [F(α):F]` the degree of its minimal polynomial and `s = m/d`, `d` divides `m`,
+`c = α^d` lies in `F` with `c^s = a`, and `A_ζ(a,b)` is the `s × s` matrix algebra over the
+degree-`d` symbol algebra `A_(ζ^s)(c,b)` with generators `X'`, `Y'`: the `F`-algebra map
+sending `X` to `diag(ζ^(-j) X')` and `Y` to the forward shift with wrap factor `Y'` is
+bijective. At `d = 1` the inner algebra is the degree-one presentation, which is `F`. -/
 theorem symbolAlgebra_matrix_corner {F : Type*} [Field F] (m : ℕ) (hm : 2 ≤ m)
     (hmF : IsUnit (m : F)) {ζ : F} (hζ : IsPrimitiveRoot ζ m) (a b : Fˣ)
     (α : SeparableClosure F) (hα : α ^ m = algebraMap F (SeparableClosure F) (a : F)) :
     (minpoly F α).natDegree ∣ m ∧
       ∃ c : F, algebraMap F (SeparableClosure F) c = α ^ (minpoly F α).natDegree ∧
         c ^ (m / (minpoly F α).natDegree) = (a : F) ∧
-        Nonempty (SymbolAlgebra F m ζ a b ≃ₐ[F]
-          Matrix (Fin (m / (minpoly F α).natDegree)) (Fin (m / (minpoly F α).natDegree))
-            (SymbolAlgebra F (minpoly F α).natDegree (ζ ^ (m / (minpoly F α).natDegree))
-              c b)) := by
+        ∃ f : SymbolAlgebra F m ζ a b →ₐ[F]
+            Matrix (Fin (m / (minpoly F α).natDegree)) (Fin (m / (minpoly F α).natDegree))
+              (SymbolAlgebra F (minpoly F α).natDegree (ζ ^ (m / (minpoly F α).natDegree))
+                c b),
+          f (RingQuot.mkAlgHom F (SymbolRel F m ζ a b) (FreeAlgebra.ι F 0)) =
+              Matrix.diagonal (fun j : Fin (m / (minpoly F α).natDegree) =>
+                ζ⁻¹ ^ (j : ℕ) • RingQuot.mkAlgHom F (SymbolRel F (minpoly F α).natDegree
+                  (ζ ^ (m / (minpoly F α).natDegree)) c b) (FreeAlgebra.ι F 0)) ∧
+            f (RingQuot.mkAlgHom F (SymbolRel F m ζ a b) (FreeAlgebra.ι F 1)) =
+              Matrix.of (fun i j : Fin (m / (minpoly F α).natDegree) =>
+                if (i : ℕ) = j + 1 then 1
+                else if (i : ℕ) = 0 ∧ (j : ℕ) + 1 = m / (minpoly F α).natDegree then
+                  RingQuot.mkAlgHom F (SymbolRel F (minpoly F α).natDegree
+                    (ζ ^ (m / (minpoly F α).natDegree)) c b) (FreeAlgebra.ι F 1)
+                else 0) ∧
+            Function.Bijective f := by
   sorry
 
 /-! ## Layer 3: local norm-residue and Hilbert symbols -/
