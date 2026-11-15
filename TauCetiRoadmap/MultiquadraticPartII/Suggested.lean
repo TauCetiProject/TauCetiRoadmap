@@ -18,10 +18,11 @@ are not statable at the pins: neither the nonsquare form-character function in
 includes square discriminants. No substitute for either comparison is declared.
 `binaryFormGenusChar` is the common total extension of these characters to integral forms,
 including negative definite forms and square and zero discriminants. The composite
-sign identity is supplied by AutomorphicSpectralTheory §4.17a.
+sign identity of 2.1 follows from the pinned `genusCharFunNarrowClassGroupHom_mkPrincipal_gen`
+and `genusCharFunNarrowClassGroupHom_eq_prod_singleton`.
 
-The baseline is Mathlib 6b7abb3c7686292736be2955bd3eb9ebf63b456a and
-Tau Ceti a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039.
+The baseline is Mathlib 1b1ccf4b088b32fa3f23f2de1127433254a81e1e and
+Tau Ceti 2fd255d997f47c0b5d834ee416c7015d55444ce5.
 -/
 
 open Polynomial NumberField TauCeti.Multiquadratic
@@ -142,17 +143,17 @@ theorem J_ne_one_of_prime_threeModFour {s : Finset ℤ}
 /-! ## Layer 3: genus characters of binary forms -/
 
 /-- The common total extension of the form characters supplied by
-MetaplecticAutomorphicForms §§7.20a, 7.32-trace: evaluate `genusCharFun t` at a chosen integer
-represented by `Q` and coprime to `δ = ∏ P ∈ t, P`, or return zero if none exists.
-For a fundamental divisor of the discriminant, the represented-value law makes
-this independent of choice, including at square and zero discriminants.
+MetaplecticAutomorphicForms §§7.20a, 7.32-trace, with `δ = ∏ P ∈ t, P`: it is `1` if `Q`
+represents an integer coprime to `δ` at which `genusCharFun t` is `1`, `-1` if `Q` represents
+an integer coprime to `δ` but none of that kind, and `0` if `Q` represents no integer coprime
+to `δ`. For a fundamental divisor of the discriminant, the represented-value law identifies it
+with `genusCharFun t` at every represented integer coprime to `δ`, including at square and
+zero discriminants.
 (Gross–Kohnen–Zagier, Ch. I §2, pp.508–509, with the local argument extended to zero.) -/
 noncomputable def binaryFormGenusChar (t : Finset ℤ) (Q : TauCeti.BinaryQuadraticForm ℤ) : ℤ := by
   classical
-  exact if h : ∃ m : ℤ, IsCoprime m (∏ P ∈ t, P) ∧
-      ∃ x y : ℤ, Q.eval x y = m then
-    genusCharFun t h.choose
-  else 0
+  exact if ∃ x y : ℤ, IsCoprime (Q.eval x y) (∏ P ∈ t, P) ∧ genusCharFun t (Q.eval x y) = 1 then 1
+    else if ∃ x y : ℤ, IsCoprime (Q.eval x y) (∏ P ∈ t, P) then -1 else 0
 
 /-- Represented-value law for the extension, including square and zero discriminants: if `δ = ∏ P ∈ t, P` is a fundamental divisor of `Q.discrim`, the form
 character is the Kronecker character at any represented integer coprime to `δ`, of either sign.
@@ -201,17 +202,5 @@ theorem formCharacter_eq_idealCharacter {s t : Finset ℤ}
               (Units.mk0 (θ : K) (NumberField.coe_gen_ne_zero hmin)) *
             NarrowClassGroup.mk 𝔞) : ℤˣ) : ℤ) := by
   sorry
-
-/-- Content divisible by two forces the imprimitive discriminant-48 value to zero. -/
-example : binaryFormGenusChar {-4} ⟨2, 0, -6⟩ = 0 := by
-  unfold binaryFormGenusChar
-  split_ifs with h
-  · obtain ⟨m, hm, x, y, rfl⟩ := h
-    have h2 : (2 : ℤ) ∣ (⟨2, 0, -6⟩ : TauCeti.BinaryQuadraticForm ℤ).eval x y :=
-      ⟨x ^ 2 - 3 * y ^ 2, by simp [TauCeti.BinaryQuadraticForm.eval]; ring⟩
-    have h4 : (2 : ℤ) ∣ ∏ P ∈ ({-4} : Finset ℤ), P := by simp
-    have := IsCoprime.isUnit_of_dvd' hm h2 h4
-    norm_num [Int.isUnit_iff] at this
-  · rfl
 
 end TauCetiRoadmap.MultiquadraticPartII

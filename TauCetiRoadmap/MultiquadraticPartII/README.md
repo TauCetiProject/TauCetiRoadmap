@@ -19,7 +19,7 @@ principal genus theorem and narrow two-rank formula are inputs here. In
 particular, the singleton character value on the distinguished class and the
 criterion that this class be a square are already Tau Ceti theorems. This
 roadmap adds arithmetic consequences and the form-character extension,
-building on those objects and the earlier composite sign theorem.
+building on those objects.
 
 The precise ownership boundaries are as follows.
 
@@ -46,13 +46,12 @@ The precise ownership boundaries are as follows.
   positive definite binary forms of negative discriminant and their ideal
   correspondence from IntegralLattices Layer B (B2, B4, B5); neither roadmap
   plans a genus character on forms.
-- **The pinned Tau Ceti** `genusCharFunNarrowClassGroupHom_mkPrincipal_gen`
-  and `genusCharFunNarrowClassGroupHom_eq_prod_singleton` own the real
-  composite identity χ(J)=sign δ=sign δ′; 2.1 derives it from them.
-  AutomorphicSpectralTheory §4.17a, `quadratic_weyl_domains`, states the
-  same identity in the same normalization and is cited as a convention
-  cross-reference only; AnalyticNumberTheoryPartI §2.25 consumes that value
-  from that section.
+- **AnalyticNumberTheoryPartI §2.1c** owns the real composite identity
+  χ(J)=sign δ=sign δ′ for the genus character it builds from the pinned
+  `genusCharFunNarrowClassGroupHom`, and its §2.25 consumes that value.
+  Section 2.1 here uses the identity for every t⊆s and derives it from the
+  pinned `genusCharFunNarrowClassGroupHom_mkPrincipal_gen` and
+  `genusCharFunNarrowClassGroupHom_eq_prod_singleton` alone.
 - **MetaplecticAutomorphicForms §§7.20a, 7.32-trace** owns both supplied
   form characters. Section 7.20a, `quadraticTraceData`, owns the
   imprimitive nonsquare form character, its represented-value existence and
@@ -166,7 +165,7 @@ fundamental divisor of `D` with `δ'=∏_(P∈ s∖ t)P`.
 
 ### From Mathlib
 
-Use Mathlib at `6b7abb3c7686292736be2955bd3eb9ebf63b456a`.
+Use Mathlib at `1b1ccf4b088b32fa3f23f2de1127433254a81e1e`.
 `QuotientGroup.lift` in `Mathlib/GroupTheory/QuotientGroup/Defs.lean`
 supplies quotient descent, and `QuotientGroup.quotientKerEquivOfSurjective`
 in `Mathlib/GroupTheory/QuotientGroup/Basic.lean` supplies the first
@@ -195,7 +194,7 @@ rank over ℤ; the latter takes an element of that ring.
 
 ### From Tau Ceti
 
-Use Tau Ceti at `a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039`. The declarations
+Use Tau Ceti at `2fd255d997f47c0b5d834ee416c7015d55444ce5`. The declarations
 below are the starting interfaces, not targets of the build.
 
 - `NumberField.NarrowClassGroup`, its `mk` (the narrow class of an invertible
@@ -282,17 +281,6 @@ The signed discriminant interfaces are in
 `TauCeti/NumberTheory/Multiquadratic/Prime/Discriminants.lean` and
 `TauCeti/NumberTheory/Multiquadratic/FundamentalDiscriminant/{Basic,OfSquarefree,Subfactorization}.lean`.
 
-### From TauCetiRoadmap.AutomorphicSpectralTheory
-
-Section 4.17a, `quadratic_weyl_domains`, states the real quadratic genus
-character for D=δδ′ with both factors fundamental, normalized on coprime
-ideals by Kronecker symbols, and its composite value χ(J)=sign δ=sign δ′.
-This is a convention cross-reference only: 2.1 uses the same normalization,
-and nothing here is proved from that section. The identity is owned by the
-pinned `genusCharFunNarrowClassGroupHom`, whose product-of-singletons law
-and singleton J-value give exactly it for every t⊆s
-(Duke–Imamoḡlu–Tóth, §7, p.971, before (7.8)).
-
 ### From TauCetiRoadmap.MetaplecticAutomorphicForms
 
 Section 7.20a, `quadraticTraceData`, supplies the form character for
@@ -326,10 +314,10 @@ nonsquare and Biró form characters and shows that at a positive fundamental
 discriminant it is the narrow ideal genus character of the oriented
 coefficient ideal. Layers 0–2 use the pinned narrow-class theory; the sign
 identity in 2.1 is derived from the pinned singleton J-value and product
-law, in the normalization AutomorphicSpectralTheory §4.17a also uses.
+law; it is the identity AnalyticNumberTheoryPartI §2.1c states.
 Layer 3 also uses MetaplecticAutomorphicForms §§7.20a, 7.32-trace and the pinned form
 carrier. `Suggested.lean` states the headline endpoints and the simple
-definition they need. Its proved example tests the content obstruction.
+definition they need.
 Both restriction agreements are README targets: the supplied form-character
 functions are absent from the pinned libraries, so those headlines cannot
 be stated against those pinned APIs.
@@ -513,8 +501,8 @@ Derive the composite sign identity from the pinned singleton J-value
 `genusCharFunNarrowClassGroupHom_mkPrincipal_gen` and product law
 `genusCharFunNarrowClassGroupHom_eq_prod_singleton`, with the real quadratic
 hypotheses and t⊆s. Its normalization is χ_t(J)=sign δ=sign δ′, with χ_t
-read in ℤ, the same as in AutomorphicSpectralTheory §4.17a
-(Duke–Imamoḡlu–Tóth, §7, p.971, before (7.8)).
+read in ℤ; this is the identity of AnalyticNumberTheoryPartI §2.1c, indexed
+here by the subsets t⊆s (Duke–Imamoḡlu–Tóth, §7, p.971, before (7.8)).
 
 Positivity is essential to complementary signs. For D=−4=1·(−4), the
 signs are 1 and −1; in the imaginary quadratic signature J=1. The
@@ -750,13 +738,13 @@ are prime discriminants and at most one is even, δ is a fundamental
 discriminant, possibly 1.
 Extend the characters of MetaplecticAutomorphicForms §§7.20a, 7.32-trace to every
 `Q : TauCeti.BinaryQuadraticForm ℤ` as `binaryFormGenusChar t Q`, written `χ_δ(Q)` for
-`Q=[a,b,c]`. Its value is `genusCharFun t m` if Q represents an integer m coprime to δ,
-and zero if no such integer exists. In the first case `m` is a chosen such represented integer. The
+`Q=[a,b,c]`. Its value is 1 if Q represents an integer m coprime to δ with
+`genusCharFun t m = 1`, −1 if it represents an integer coprime to δ but none
+of that kind, and 0 if it represents no integer coprime to δ. The
 definition is total on integral binary forms and takes no discriminant hypothesis.
-In Lean the represented integer is picked by choice, so the definition has a
-real body. That the choice does not matter is the first API theorem, and it
-needs `δ` to be a fundamental divisor of `disc Q`. The
-represented integer may be negative. Under these factor hypotheses,
+That the value is `genusCharFun t m` at every represented integer m coprime
+to δ is the first API theorem, and it needs `δ` to be a fundamental divisor
+of `disc Q`. The represented integer may be negative. Under these factor hypotheses,
 `genusCharFun` is the Kronecker character `(δ/·)` on all integers, so its
 value at `-1` is `sign δ`. On the supplied nonsquare domain this is the generalized genus character of
 Duke–Imamoḡlu–Tóth (§9, p.978, definition preceding Proposition 5) and the
@@ -814,14 +802,14 @@ Its API:
   when the content is prime to `δ`, for each prime `p∣δ` one of
   `Q(1,0)=a`, `Q(0,1)=c`, `Q(1,1)=a+b+c` is prime to `p`. The Chinese
   remainder theorem combines these choices into one pair `(x,y)` with
-  `Q(x,y)` coprime to `δ`, and `genusCharFun` is `±1` there
+  `Q(x,y)` coprime to `δ`, so the value is 1 or −1
   (Gross–Kohnen–Zagier, p.509, the representation fact quoted in the proof).
   Only the prime-discriminant hypotheses are needed; no restriction on
   even factors or on the form's discriminant is imposed.
 - At the empty factor: for `t=∅` the value is `1` on
   every form, the zero form included (Gross–Kohnen–Zagier, Ch. I §2, p.508,
   empty Kronecker product).
-  *Needs:* the defining represented-value predicate and the empty product.
+  *Needs:* the first defining condition and the empty product.
 - Scalar multiplication: for t a set of prime discriminants, at most
   one even, with `Q.discrim=δδ′` and `δ′≡0,1 (mod 4)`,
   `χ_δ(μ Q)= genusCharFun t μ·χ_δ(Q)`
@@ -832,9 +820,9 @@ Its API:
   every `g∈ GL₂(ℤ)`, because both forms represent the
   same integers. In particular `χ_δ` is a class function for proper
   equivalence, and `χ_δ([a,-b,c])=χ_δ([a,b,c])`. No factor or discriminant
-  hypotheses are needed: the predicate selecting a represented integer is
-  unchanged (Gross–Kohnen–Zagier, Ch. I §2, pp.508–509, representation definition).
-  *Needs:* the defining predicate and invertibility of g.
+  hypotheses are needed: both conditions the definition tests depend only on
+  the set of represented integers (Gross–Kohnen–Zagier, Ch. I §2, pp.508–509, representation definition).
+  *Needs:* the two defining conditions and invertibility of g.
 - Proper equivalence: for every t,Q and `γ : SL(2, ℤ)`,
   `binaryFormGenusChar t (γ • Q) = binaryFormGenusChar t Q`
   (Gross–Kohnen–Zagier, Ch. I §2, p.508, proper invariance).
@@ -855,7 +843,6 @@ content laws, and the ideal-character comparison of 3.2. Scalar,
 substitution and sign laws are prose API consequences. The supplied action
 is γ • Q = Q ∘ γ⁻¹, by `TauCeti.BinaryQuadraticForm.eval_smul`;
 the GL₂(ℤ) law above uses direct substitution Q ∘ g.
-The proved example tests the total definition's content obstruction directly.
 
 **Checks.**
 
@@ -1043,10 +1030,10 @@ order and Picard carriers of GlobalNumberFields Layer 11 are not needed. Layer
 
 The kernel, descent, fibre counts and ideal-character comparison provide
 interfaces for later work on quadratic genus-period formulas. The Hecke-period
-interfaces of AnalyticNumberTheoryPartI Layer 2 and the Nielsen surfaces and
-genus-weighted integrals of AutomorphicSpectralTheory §4.17a retain their own
-normalizations: AnalyticNumberTheoryPartI §2.25 consumes the real genus
-character and its value on J from AutomorphicSpectralTheory §4.17a.
+interfaces and Nielsen surfaces (§2.1c) of AnalyticNumberTheoryPartI Layer 2
+and the genus-weighted Weyl integrals of AutomorphicSpectralTheory §4.19
+retain their own normalizations: AnalyticNumberTheoryPartI §2.25 consumes the
+real genus character and its value on J from its §2.1c.
 MetaplecticAutomorphicForms §§7.20a, 7.32-trace supply respectively the
 nonsquare and Biró form weights used in their traces, the latter including
 positive square discriminants. The supplier contracts specify the direction
