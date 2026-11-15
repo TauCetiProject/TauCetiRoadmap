@@ -2,6 +2,7 @@ module
 
 public import Mathlib
 public import TauCeti.RepresentationTheory.ClassicalGroups.SymmetricPower
+public import TauCeti.RepresentationTheory.Tensor.Pi.Basic
 
 /-!
 # Arithmetic locally symmetric spaces, part II: target signatures
@@ -61,8 +62,8 @@ arbitrary: conjugate embeddings may carry different exponents. -/
 noncomputable def weightRep {F : Type} [Field F] [NumberField F] (Γ : Subgroup (SL(2, 𝓞 F)))
     (t : (F →+* ℂ) → ℕ) : Rep ℂ Γ :=
   Rep.of (X := PiTensorProduct ℂ fun σ : F →+* ℂ => Sym[ℂ]^(t σ) (Fin 2 → ℂ))
-    (PiTensorProduct.mapMonoidHom.comp
-      (MonoidHom.pi fun σ => (TauCeti.symPowerRep ℂ 2 (t σ)).comp (embeddingStdRep σ Γ)))
+    (Representation.piTensorProduct fun σ =>
+      (TauCeti.symPowerRep ℂ 2 (t σ)).comp (embeddingStdRep σ Γ))
 
 /-! ## Layer 4: Cuspidal dimensions in weight aspect -/
 

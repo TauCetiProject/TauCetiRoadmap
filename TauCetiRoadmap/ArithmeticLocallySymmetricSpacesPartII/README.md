@@ -67,13 +67,13 @@ H_c denotes compact support, H_! the image of H_c → H, and H_cusp the parent's
 
 Declarations are consumed at the Mathlib pinned by the content repository's manifest. Consume `Finset.prod`, `Fintype.prod_equiv`, `Fintype.prod_empty` and `Finset.prod_const_one` in Mathlib/Algebra/BigOperators/Group/Finset/Defs.lean; `Finset.prod_update_of_mem` in Mathlib/Algebra/BigOperators/Group/Finset/Piecewise.lean; and `Finset.prod_pos` in Mathlib/Algebra/Order/BigOperators/GroupWithZero/Finset.lean. The product requires a commutative monoid and supplies neither representations nor a degree-drop theorem.
 
-Use `Finset.powerset` in Mathlib/Data/Finset/Powerset.lean, whose membership means inclusion, and `MvPolynomial` in Mathlib/Algebra/MvPolynomial/Basic.lean, the finitely supported monoid-algebra carrier over a commutative semiring. Use `Module.finrank_tensorProduct` and `Module.finrank_baseChange` in Mathlib/LinearAlgebra/Dimension/Constructions.lean with their free-module and scalar-tower hypotheses, specialized to finite-dimensional vector spaces, and `Basis.piTensorProduct` in Mathlib/LinearAlgebra/PiTensorProduct/Basis.lean, the product basis of a finite tensor product. For the ordinary Bianchi headlines use `groupCohomology` in Mathlib/RepresentationTheory/Homological/GroupCohomology/Basic.lean: it takes an actual `Rep` and returns the homology of the inhomogeneous cochain complex, with no topology or support condition and no automatic finite-dimensionality assertion. The headline coefficient systems use `Matrix.SpecialLinearGroup.map` in Mathlib/LinearAlgebra/Matrix/SpecialLinearGroup.lean, the entrywise image of a ring homomorphism; `Matrix.SpecialLinearGroup.toGL` in Mathlib/LinearAlgebra/Matrix/GeneralLinearGroup/Defs.lean; `PiTensorProduct.mapMonoidHom` in Mathlib/LinearAlgebra/PiTensorProduct/Basic.lean, the monoid homomorphism sending a family of endomorphisms to their tensor product; `MonoidHom.pi` in Mathlib/Algebra/Group/Pi/Lemmas.lean; and `Rep.of` in Mathlib/RepresentationTheory/Rep/Basic.lean. The field hypotheses use `NumberField.IsTotallyReal` and `NumberField.IsTotallyComplex` in Mathlib/NumberTheory/NumberField/InfinitePlace/TotallyRealComplex.lean, defined by the type of every infinite place; a number field is not totally real exactly when r₂ > 0, and an imaginary quadratic field is a totally complex field of degree two over ℚ. For the amalgam inputs of §5.3 use `Monoid.PushoutI` in Mathlib/GroupTheory/PushoutI.lean, the pushout of a family of group homomorphisms out of a common group, with its universal property `Monoid.PushoutI.lift`; it asserts nothing about SL₂(ℤ). Use `ModularGroup.exists_smul_mem_fd` and `ModularGroup.eq_smul_self_of_mem_fdo_mem_fdo` in Mathlib/NumberTheory/Modular.lean: every point of the upper half-plane has an SL₂(ℤ)-translate in the closed standard fundamental domain, and two points of its interior in one orbit are equal. Use `groupCohomology.coindIso` in Mathlib/RepresentationTheory/Homological/GroupCohomology/Shapiro.lean, Shapiro's isomorphism `H^n(G, Coind_S^G A) ≅ H^n(S, A)` for a subgroup S of G.
+Use `Finset.powerset` in Mathlib/Data/Finset/Powerset.lean, whose membership means inclusion, and `MvPolynomial` in Mathlib/Algebra/MvPolynomial/Basic.lean, the finitely supported monoid-algebra carrier over a commutative semiring. Use `Module.finrank_tensorProduct` and `Module.finrank_baseChange` in Mathlib/LinearAlgebra/Dimension/Constructions.lean with their free-module and scalar-tower hypotheses, specialized to finite-dimensional vector spaces, and `Basis.piTensorProduct` in Mathlib/LinearAlgebra/PiTensorProduct/Basis.lean, the product basis of a finite tensor product. For the ordinary Bianchi headlines use `groupCohomology` in Mathlib/RepresentationTheory/Homological/GroupCohomology/Basic.lean: it takes an actual `Rep` and returns the homology of the inhomogeneous cochain complex, with no topology or support condition and no automatic finite-dimensionality assertion. The headline coefficient systems use `Matrix.SpecialLinearGroup.map` in Mathlib/LinearAlgebra/Matrix/SpecialLinearGroup.lean, the entrywise image of a ring homomorphism; `Matrix.SpecialLinearGroup.toGL` in Mathlib/LinearAlgebra/Matrix/GeneralLinearGroup/Defs.lean; and `Rep.of` in Mathlib/RepresentationTheory/Rep/Basic.lean. The field hypotheses use `NumberField.IsTotallyReal` and `NumberField.IsTotallyComplex` in Mathlib/NumberTheory/NumberField/InfinitePlace/TotallyRealComplex.lean, defined by the type of every infinite place; a number field is not totally real exactly when r₂ > 0, and an imaginary quadratic field is a totally complex field of degree two over ℚ. For the amalgam inputs of §5.3 use `Monoid.PushoutI` in Mathlib/GroupTheory/PushoutI.lean, the pushout of a family of group homomorphisms out of a common group, with its universal property `Monoid.PushoutI.lift`; it asserts nothing about SL₂(ℤ). Use `ModularGroup.exists_smul_mem_fd` and `ModularGroup.eq_smul_self_of_mem_fdo_mem_fdo` in Mathlib/NumberTheory/Modular.lean: every point of the upper half-plane has an SL₂(ℤ)-translate in the closed standard fundamental domain, and two points of its interior in one orbit are equal. Use `groupCohomology.coindIso` in Mathlib/RepresentationTheory/Homological/GroupCohomology/Shapiro.lean, Shapiro's isomorphism `H^n(G, Coind_S^G A) ≅ H^n(S, A)` for a subgroup S of G.
 
 For skew ranks use Mathlib's Ore localisation. `OreLocalization.OreSet` in Mathlib/GroupTheory/OreLocalization/OreSet.lean is the left Ore condition (for r and s ∈ S there are r′ and s′ ∈ S with s′r = r′s), and `OreLocalization` in Mathlib/GroupTheory/OreLocalization/Basic.lean forms left fractions s⁻¹r of a ring and s⁻¹x of a left module X. In Mathlib/RingTheory/OreLocalization/Ring.lean, the Ore localisation of a nontrivial ring without zero divisors at its non-zero-divisors R⁰, once R⁰ is known to be an Ore set, carries a division-ring instance, and the localisation of X is a left module over the localised ring. `IsNoetherianRing.strongRankCondition` in Mathlib/LinearAlgebra/InvariantBasisNumber.lean gives the strong rank condition for a nontrivial left noetherian ring, and `nonempty_oreSet_of_strongRankCondition` in Mathlib/LinearAlgebra/Dimension/Localization.lean makes R⁰ a left Ore set in a domain with that condition. Together they give the classical left division ring of a left noetherian domain. Mathlib supplies neither exactness of Ore localisation of modules nor a rank invariant of modules over it.
 
 ### From Tau Ceti
 
-Declarations are consumed at the Tau Ceti pinned by the content repository's manifest. Use `TauCeti.symPowerRep` in TauCeti/RepresentationTheory/ClassicalGroups/SymmetricPower.lean, the symmetric power of the standard GL(Fin n) representation over a commutative ring. Use `SymmetricPower.finrank_eq` in TauCeti/LinearAlgebra/SymmetricPower/Basis.lean, with finite freeness and the strong rank condition; in dimension two it gives n+1. Neither declaration asserts irreducibility on an arbitrary subgroup. Use `Module.Basis.symmetricPower` in the same file, the basis of the n-th symmetric power of a free module indexed by multisets of size n of basis indices; for K² it is the monomial basis `x^(n−j) y^j`, 0 ≤ j ≤ n. Use `TauCeti.groupCohomology.corestriction` and `TauCeti.groupCohomology.map_subtype_id_comp_corestriction` in TauCeti/RepresentationTheory/Homological/GroupCohomology/Corestriction.lean: for a finite-index subgroup S of a group G and a representation over a commutative ring, corestriction after restriction is [G:S] times the identity in every degree; over ℂ this makes restriction injective. The ordinary enveloping-algebra interface includes `TauCeti.UniversalEnvelopingAlgebra.pbwFiltration` in TauCeti/Algebra/Lie/UniversalEnveloping/PBW/Basic.lean and `Module.Basis.pbwBasis` in TauCeti/Algebra/Lie/UniversalEnveloping/PBW/Basis.lean; the latter uses a linearly ordered Lie-algebra basis over a commutative ring and fixes the increasing order of factors.
+Declarations are consumed at the Tau Ceti pinned by the content repository's manifest. Use `TauCeti.symPowerRep` in TauCeti/RepresentationTheory/ClassicalGroups/SymmetricPower.lean, the symmetric power of the standard GL(Fin n) representation over a commutative ring. Use `SymmetricPower.finrank_eq` in TauCeti/LinearAlgebra/SymmetricPower/Basis.lean, with finite freeness and the strong rank condition; in dimension two it gives n+1. Neither declaration asserts irreducibility on an arbitrary subgroup. Use `Module.Basis.symmetricPower` in the same file, the basis of the n-th symmetric power of a free module indexed by multisets of size n of basis indices; for K² it is the monomial basis `x^(n−j) y^j`, 0 ≤ j ≤ n. Use `Representation.piTensorProduct` in TauCeti/RepresentationTheory/Tensor/Pi/Basic.lean, the representation of a monoid on the tensor product of a family of representations in which every element acts in each factor, and `Representation.piTensorProduct_apply_tprod` in the same file, its value on a pure tensor. Use `TauCeti.groupCohomology.corestriction` and `TauCeti.groupCohomology.map_subtype_id_comp_corestriction` in TauCeti/RepresentationTheory/Homological/GroupCohomology/Corestriction.lean: for a finite-index subgroup S of a group G and a representation over a commutative ring, corestriction after restriction is [G:S] times the identity in every degree; over ℂ this makes restriction injective. The ordinary enveloping-algebra interface includes `TauCeti.UniversalEnvelopingAlgebra.pbwFiltration` in TauCeti/Algebra/Lie/UniversalEnveloping/PBW/Basic.lean and `Module.Basis.pbwBasis` in TauCeti/Algebra/Lie/UniversalEnveloping/PBW/Basis.lean; the latter uses a linearly ordered Lie-algebra basis over a commutative ring and fixes the increasing order of factors.
 
 ### From TauCetiRoadmap.ArithmeticLocallySymmetricSpaces
 
@@ -243,7 +243,7 @@ For a finitely generated left A-module M with its canonical finite-module topolo
 
 A proof uses the following route. Send f to the functional m⊗φ ↦ φ(f(m)); the G-invariance relation is exactly equivariance of f. Use the canonical finite-module topology and the finite-dimensional continuous Hom comparison so that the functional factors through the completed quotient. Apply the lattice and completed-Tor rational comparison and then finite-dimensional duality. No duality between unrelated Banach categories is substituted for this evaluation map.
 
-*Needs:* LocallyAnalyticDistributionsPartII §5.2; NoncommutativeAndEquivariantIwasawa §0.15; CompletedCohomologyPartII §3.1.
+*Needs:* LocallyAnalyticDistributionsPartII §5.2; NoncommutativeAndEquivariantIwasawa §F.1; NoncommutativeAndEquivariantIwasawa §0.15; CompletedCohomologyPartII §3.1.
 
 **Checks.**
 
@@ -274,7 +274,6 @@ A proof uses the following route. Choose finitely many generators of T and filte
 **Checks.**
 
 - Over ℚ_p[X,Y], A/(X,Y) is controlled by A/(X) but is not isomorphic to it: with W = A/(X,Y), both Hom spaces are one-dimensional, while the two modules have dimensions 1 and ∞.
-- The filtration is finite because T is finitely generated, not because its underlying vector space is finite-dimensional.
 
 ### 1.4 The torsion-module weight bound
 
@@ -319,7 +318,6 @@ The API includes the following facts.
 - For M = A^a, identity maps give T = N = 0 and ℓ = a.
 - For M = A/Aδ with δ a nonzero non-unit, a = 0 but one generator suffices: (a, ℓ, rank N, rank T) = (0, 1, 1, 0), so ℓ need not equal a.
 - The ideal (X,Y) over ℚ_p[X,Y] has rank one and needs two generators; an assertion that ℓ = a for every module is false.
-- The choices are exported with their exactness and rank equalities, not merely as two unspecified modules.
 
 ### 2.2 Upper rank estimate
 
@@ -332,7 +330,6 @@ A proof uses the following route. Apply the right-exact coinvariant functor to 0
 **Checks.**
 
 - For a free M the upper error is zero.
-- The argument uses right exactness alone.
 - For ℓ = 1 and k = (1,2), the free twist has H₀ of dimension 6 and all positive homology zero; on g⊗w the untwisting uses g⁻¹w. For M = A² it gives H₀ of dimension 12 = 2·6.
 
 ### 2.3 Lower rank estimate
@@ -400,7 +397,6 @@ A proof uses the following route. Use gap:canonical-dimension-zero, sourced at a
 
 **Checks.**
 
-- A nontrivial finite smooth twist is not silently identified with an algebraic representation.
 - The zero module has zero multiplicities and is handled separately from the canonical dimension of a nonzero module.
 - For M = W_(1,2), the matching multiplicity is 1 ≤ length 1 ≤ 6; for M = W₀ ⊕ W_(1,2) two weights occur, with length 2 ≤ 7.
 
@@ -418,7 +414,7 @@ NoncommutativeAndEquivariantIwasawa §F.1; NoncommutativeAndEquivariantIwasawa �
 
 For a number field F of signature (r₁,r₂), d = r₁+2r₂, use an archimedean tuple κ_v of even integers ≥ 2. Set `Δ(κ) = ∏_{v real} κ_v · ∏_{v complex} κ_v²`. The complex coefficient system is `V_κ = ⊠_{real v} Sym^{κ_v−2}(ℂ²) ⊠_{complex v} (Sym^{κ_v/2−1}(ℂ²) ⊗ conjugate Sym^{κ_v/2−1}(ℂ²))`. Index its factors by the d embeddings σ of F: t_σ = κ_v−2 at a real place and t_σ = κ_v/2−1 at each of the two embeddings of a complex place; call t the embedding tuple of κ, and put x_σ = t_σ+1. Then `D(x) = ∏_{real v}(κ_v−1) ∏_{complex v}(κ_v/2)²`, D(x) ≤ Δ(κ), and min_σ x_σ ≥ (min_v κ_v)/2. The tuple κ = (2,…,2) gives exactly the trivial coefficient system. (fu24, §1, pp. 1–2; §7, pp. 23–24; marshall12, §2.1, pp. 3–4.)
 
-On arithmetic subgroups the coefficient system is a concrete representation. For a subgroup Γ ≤ SL₂(O_F) and an embedding σ : F → ℂ, define `embeddingStdRep σ Γ` : Γ → GL₂(ℂ) as the homomorphism applying σ to the entries of a matrix of Γ. For every tuple t : Hom(F,ℂ) → ℕ, define `weightRep Γ t` as the complex representation of Γ on ⊗_σ `Sym^{t_σ}(ℂ²)` in which Γ acts on the factor at σ by `TauCeti.symPowerRep` composed with `embeddingStdRep σ Γ`; the factors are assembled by Mathlib `PiTensorProduct.mapMonoidHom` and `MonoidHom.pi`. The tuple t is arbitrary: it need not come from an admissible κ, and conjugate embeddings may carry different exponents. When t is the embedding tuple of κ, `weightRep Γ t` is V_κ restricted to Γ, because the two embeddings of a complex place are complex conjugate. For F imaginary quadratic and the constant tuple n, it is E_n = Sym^n(ℂ²) ⊗ conjugate Sym^n(ℂ²).
+On arithmetic subgroups the coefficient system is a concrete representation. For a subgroup Γ ≤ SL₂(O_F) and an embedding σ : F → ℂ, define `embeddingStdRep σ Γ` : Γ → GL₂(ℂ) as the homomorphism applying σ to the entries of a matrix of Γ. For every tuple t : Hom(F,ℂ) → ℕ, define `weightRep Γ t` as the complex representation of Γ on ⊗_σ `Sym^{t_σ}(ℂ²)` in which Γ acts on the factor at σ by `TauCeti.symPowerRep` composed with `embeddingStdRep σ Γ`; the factors are assembled by Tau Ceti `Representation.piTensorProduct`. The tuple t is arbitrary: it need not come from an admissible κ, and conjugate embeddings may carry different exponents. When t is the embedding tuple of κ, `weightRep Γ t` is V_κ restricted to Γ, because the two embeddings of a complex place are complex conjugate. For F imaginary quadratic and the constant tuple n, it is E_n = Sym^n(ℂ²) ⊗ conjugate Sym^n(ℂ²).
 
 A proof of the weight facts uses the following route. Use the coefficient conventions of Fu and Marshall, keeping the place tuple separate from the embedding tuple. Use evenness to make κ_v/2 integral; doubling each complex factor gives d factors. Compute the dimension by the symmetric-power and tensor finrank formulas, and compare each factor with κ_v and κ_v/2.
 
@@ -429,10 +425,10 @@ The API includes the following facts.
 - D(t+1) ≤ Δ(κ) and every t_σ+1 ≥ min_v κ_v/2.
 - `embeddingStdRep σ Γ` is a group homomorphism with values of determinant one, and its matrix entries are the σ-images of the entries of the given matrix.
 - The underlying space of `weightRep Γ t` has dimension ∏_σ(t_σ+1), by Tau Ceti `SymmetricPower.finrank_eq` and the product basis `Basis.piTensorProduct`.
-- An element γ ∈ Γ acts on a pure tensor ⊗_σ v_σ by ⊗_σ `Sym^{t_σ}(σ(γ))v_σ`; in particular −I acts by `(−1)^{Σ_σ t_σ}`.
+- An element γ ∈ Γ acts on a pure tensor ⊗_σ v_σ by ⊗_σ `Sym^{t_σ}(σ(γ))v_σ` (Tau Ceti `Representation.piTensorProduct_apply_tprod`); in particular −I acts by `(−1)^{Σ_σ t_σ}`.
 - For an admissible κ with embedding tuple t, `weightRep Γ t` is isomorphic to the restriction of V_κ to Γ through the archimedean embedding SL₂(O_F) → ∏_v SL₂(F_v), and dim V_κ = D(t+1).
 
-*Needs:* Mathlib `Finset.prod`; Mathlib `Matrix.SpecialLinearGroup.map`; Mathlib `Matrix.SpecialLinearGroup.toGL`; Mathlib `PiTensorProduct.mapMonoidHom`; Mathlib `MonoidHom.pi`; Mathlib `Rep.of`; Mathlib `Basis.piTensorProduct`; Tau Ceti `TauCeti.symPowerRep`; Tau Ceti `SymmetricPower.finrank_eq`; ArithmeticLocallySymmetricSpaces §ALS.1.1.
+*Needs:* Mathlib `Finset.prod`; Mathlib `Matrix.SpecialLinearGroup.map`; Mathlib `Matrix.SpecialLinearGroup.toGL`; Mathlib `Rep.of`; Mathlib `Basis.piTensorProduct`; Tau Ceti `TauCeti.symPowerRep`; Tau Ceti `Representation.piTensorProduct`; Tau Ceti `SymmetricPower.finrank_eq`; ArithmeticLocallySymmetricSpaces §ALS.1.1.
 
 **Checks.**
 
@@ -447,7 +443,7 @@ The API includes the following facts.
 
 ### 3.2 One auxiliary prime for a fixed level
 
-For a fixed compact open K_f ⊂ SL₂(𝔸_F^∞), choose an odd rational prime p splitting completely in a normal closure of F and outside the finitely many rational primes below a place v at which the factor K_v of a chosen product compact open subgroup ∏_v K_v ⊆ K_f differs from SL₂(O_v). There is a product level K′_f = G K^p ⊂ K_f, neat both for SL₂ over F and for `Res_{F/ℚ}SL₂` over ℚ, with G exactly the product of the d first-congruence SL₂(ℤ_p) groups at the places above p. At neat levels the cohomology pullback has the normalized trace as a left inverse; finite stabilizers at other levels are handled by characteristic-zero invariants. Every index and resulting dimension constant is fixed independently of κ. Fu chooses p only for the levels used in his theorem; the arbitrary fixed level and the neat refinement are proved here. (fu24, §7, pp. 23–24, before (38); Theorem 1.2, pp. 2–3.)
+For a fixed compact open K_f ⊂ SL₂(𝔸_F^∞), choose an odd rational prime p splitting completely in a normal closure of F and outside the finitely many rational primes below a place v at which the factor K_v of a chosen product compact open subgroup ∏_v K_v ⊆ K_f differs from SL₂(O_v). There is a product level K′_f = G K^p ⊂ K_f, neat both for SL₂ over F and for `Res_{F/ℚ}SL₂` over ℚ, with G exactly the product of the d first-congruence SL₂(ℤ_p) groups at the places above p. At neat levels the cohomology pullback has the normalized trace as a left inverse; finite stabilizers at other levels are handled by characteristic-zero invariants. The refinement therefore carries upper bounds from K′_f to K_f, never lower bounds. Every index and resulting dimension constant is fixed independently of κ. Fu chooses p only for the levels used in his theorem; the arbitrary fixed level and the neat refinement are proved here. (fu24, §7, pp. 23–24, before (38); Theorem 1.2, pp. 2–3.)
 
 A proof uses the following route. Use the identity Frobenius class in the normal closure and avoid the finite exceptional prime set; Chebotarev supplies infinitely many such primes. A compact open subgroup of SL₂(𝔸_F^∞) contains a product ∏_v K_v with K_v = SL₂(O_v) for all but finitely many v. At each of the d places above the chosen p the factor is then SL₂(O_v) = SL₂(ℤ_p), which contains the first congruence kernel; replace these factors by G, a pro-p group. Choose a rational prime q ≠ p and, at every place v′ of F above q, intersect the factor with the principal congruence kernel `ker(SL₂(O_{v′}) → SL₂(k_{v′}))`, a pro-q group. All factors above p are then pro-p and all factors above q are pro-q, so ArithmeticLocallySymmetricSpaces §ALS.0.11 makes K′_f neat, for SL₂ over F with its standard representation and for `Res_{F/ℚ}SL₂` over ℚ with the restriction of scalars of that representation; the p-factor stays exactly G. For topological comparison use the parent pullback and trace; the finite degree is invertible in characteristic zero.
 
@@ -458,7 +454,6 @@ A proof uses the following route. Use the identity Frobenius class in the normal
 - The auxiliary prime and refinement are fixed before varying κ. If K′ ⊂ K has index r, trace after pullback is r·id and the normalized composite is the identity; r is independent of κ, so one constant serves the entire weight orthant.
 - For F = ℚ(i), p = 5 splits into two places and q = 3 is inert: the factors above 5 are pro-5 and the factor at 3 is pro-3, so a root of unity among the eigenvalues of an element of Γ′ has both 5-power and 3-power order and equals 1.
 - One pro-unipotent factor does not suffice: γ = (1 1;−3 −2) ∈ SL₂(ℤ) has trace −1 and order three, and it lies in the pro-3 Iwahori factor at 3. A second factor that is pro-q for q ≠ 3 excludes it, since a nontrivial element of order three cannot lie in a pro-q group.
-- The argument gives an upper bound at arbitrary K_f; it does not transport a lower bound from a smaller to a larger level.
 - A maximal compact factor is not enough: at a split place v | p with O_v = ℤ_p, the conjugate diag(p²,1)SL₂(ℤ_p)diag(p²,1)⁻¹, a maximal compact subgroup since it is conjugate to SL₂(ℤ_p) by diag(p,p⁻¹) ∈ SL₂(ℚ_p), consists of matrices `(a, p²b; p⁻²c, d)` with a, b, c, d ∈ ℤ_p and so does not contain (1 p;0 1) ∈ G; the factor must equal SL₂(O_v).
 
 ### 3.3 Coefficient realizations over a number field
@@ -495,8 +490,6 @@ A proof uses the following route. The real group `SL₂(ℝ)^{r₁} × SL₂(ℂ
 **Checks.**
 
 - Every E² term on a total-degree diagonal contributes to the upper bound: in total degree 2 the terms (0,2), (1,1) and (2,0) all enter.
-- No isomorphism between the abutment and a direct sum of E² terms is asserted.
-- The totally real case is excluded precisely at the torsion input.
 - For F imaginary quadratic, d = 2 and dim K₀ = 6 = 3d, rather than the dimension 3 of a single prime of F; the local homology cutoff is 6.
 
 ### Examples
@@ -505,7 +498,7 @@ At signature (1,1) and κ = (4,6), the complex and p-adic coefficient dimensions
 
 ### Dependencies
 
-Mathlib `Finset.prod`; Mathlib `Matrix.SpecialLinearGroup.map`; Mathlib `Matrix.SpecialLinearGroup.toGL`; Mathlib `PiTensorProduct.mapMonoidHom`; Mathlib `MonoidHom.pi`; Mathlib `Rep.of`; Mathlib `Basis.piTensorProduct`; Mathlib `Module.finrank_baseChange`; Tau Ceti `TauCeti.symPowerRep`; Tau Ceti `SymmetricPower.finrank_eq`; Chebotarev Layer 10; ArithmeticLocallySymmetricSpaces §ALS.0.9; ArithmeticLocallySymmetricSpaces §ALS.0.11; ArithmeticLocallySymmetricSpaces §ALS.1.1; ArithmeticLocallySymmetricSpaces §ALS.1.6; ArithmeticLocallySymmetricSpaces §ALS.1.7; ArithmeticLocallySymmetricSpaces §ALS.1.8; ArithmeticLocallySymmetricSpaces §ALS.3.6; NoncommutativeAndEquivariantIwasawa §F.1; CompletedCohomologyPartII §4.2; CompletedCohomologyPartII §5.1; CompletedCohomologyPartII §5.7; CompletedCohomologyPartII §6.3.
+Mathlib `Finset.prod`; Mathlib `Matrix.SpecialLinearGroup.map`; Mathlib `Matrix.SpecialLinearGroup.toGL`; Mathlib `Rep.of`; Mathlib `Basis.piTensorProduct`; Mathlib `Module.finrank_baseChange`; Tau Ceti `TauCeti.symPowerRep`; Tau Ceti `Representation.piTensorProduct`; Tau Ceti `SymmetricPower.finrank_eq`; Chebotarev Layer 10; ArithmeticLocallySymmetricSpaces §ALS.0.9; ArithmeticLocallySymmetricSpaces §ALS.0.11; ArithmeticLocallySymmetricSpaces §ALS.1.1; ArithmeticLocallySymmetricSpaces §ALS.1.6; ArithmeticLocallySymmetricSpaces §ALS.1.7; ArithmeticLocallySymmetricSpaces §ALS.1.8; ArithmeticLocallySymmetricSpaces §ALS.3.6; NoncommutativeAndEquivariantIwasawa §F.1; CompletedCohomologyPartII §4.2; CompletedCohomologyPartII §5.1; CompletedCohomologyPartII §5.7; CompletedCohomologyPartII §6.3.
 
 ## Layer 4: Cuspidal dimensions in weight aspect
 
@@ -547,7 +540,6 @@ A proof of the cusp-form bound uses the following route. At the auxiliary level 
 
 **Checks.**
 
-- If only one weight grows and another remains minimal, the theorem still has one uniform constant but need not improve that particular growth exponent.
 - No r₂ = 0 instance is produced by this proof, and none exists: for F = ℚ and Γ = SL₂(ℤ), dim H¹(Γ, Sym^k(ℂ²)) = `2 dim S_{k+2}(SL₂(ℤ)) + 1` for even k ≥ 2, which is 3 at k = 10, 5 at k = 22 and grows like k/6, while the right side with a = k+1 is the constant C.
 - For F = ℚ(i), Γ = SL₂(ℤ[i]) and t = (n,n), the choice a = n+1 gives dim H^i(Γ, E_n) ≤ C(n+1); the choice a = 1 only gives C(n+1)², so the saving comes from the minimum.
 - For t = (n,0) over an imaginary quadratic field, min_σ(t_σ+1) = 1 and the bound is C(n+1); the statement claims no saving when one coordinate stays fixed.
@@ -565,7 +557,6 @@ A proof uses the following route. Apply the parallel-size identity and the globa
 **Checks.**
 
 - For signature (1,1), d = 3 and the exponent is 2, not 1: there are two place weights and three embedding weights, and at parallel κ = 4 the upper size is 4³/4 = 16.
-- No claim that `κ^{1−d} dim S_κ` converges is made; a two-sided estimate permits normalized values that alternate between two constants.
 
 ### 4.4 The Bianchi linear upper bound
 
@@ -578,7 +569,6 @@ A proof uses the following route. Use d = 2 in §4.3 for cusp forms. Use the ord
 **Checks.**
 
 - κ = 6 corresponds to E₂, of dimension 9.
-- This is an upper bound at arbitrary level; a lower bound requires the separate base-change argument of Layer 5.
 
 ### Examples
 
@@ -614,7 +604,6 @@ A proof uses the following route. Take the long exact sequence of the parent sup
 
 **Checks.**
 
-- The difference from the interior image is controlled separately on both sides of H_c^i → H^i.
 - At n = 0 a connected quotient has H_c³ ≃ ℂ; a proof that deletes it would give a false boundary surjectivity statement.
 - At a neat Bianchi level and n = 0, degree-one boundary restriction has image of dimension c, half of b₁ = 2c, as in the weight-two Eisenstein count of BianchiModularForms §1.2; hence dim H¹ − dim H¹_! = c ≤ 2c, and compact support cannot be identified with the interior image merely by notation.
 
@@ -637,7 +626,6 @@ The API includes the following facts; the first two are the group-theoretic inpu
 
 - Taking the trivial type recovers the admitted-parity leading term for level-one cusp forms.
 - Opposite central parity gives zero multiplicity and is excluded from the linear estimate.
-- Fixing N and σ is necessary for the bounded remainder.
 - For N = 1, σ = 1 and k = 12, the periodic expression is 11/12 − 1/2 + 1/4 + 1/3 = 1; at k = 2 it is 1/12 − 1/2 − 1/4 − 1/3 + 1 = 0.
 - At N = 3, k = 4: X(Γ(3)) has genus 0 and four regular cusps, so dim S₄(Γ(3)) = 3·(0−1) + (4/2−1)·4 = 1. Since S₄(SL₂(ℤ)) = 0, SL₂(𝔽₃) acts on this line by a nontrivial character, one of the two order-three characters ω, ω̄ (trivial on −I ∈ Q₈, as k is even); so m(ω) and m(ω̄) are 1 and 0 in some order. Conjugation by ι inverts T = (1 1;0 1), so ω^ι = ω̄, and H¹_par(Γ(3), V₂(ℂ)) ≃ ω ⊕ ω̄ gives 1 for both: a route through the cohomology character alone cannot separate them. This is the negative control for the hypothesis σ^ι ≃ σ: for σ = ω (`dim σ^{U_3} = 0`, σ(S₄) = 1 as S₄ ∈ Q₈, μ_4 = 0) the periodic expression gives 3/12 + 1/4 = ½, not an integer, whereas for the ι-stable σ = ω ⊕ ω̄ it gives 6/12 + 2/4 = 1 = m(ω) + m(ω̄).
 - For W = ℂ the amalgam formula gives 1−1−1+1 = 0, as it must since the abelianisation of SL₂(ℤ) is ℤ/12. For W = Sym²(ℂ²), on which −I acts trivially, S₄ has eigenvalues −1, 1, −1 and −S₃ has eigenvalues `e^{∓2πi/3}`, 1, `e^{±2πi/3}`, so the formula gives 3−1−1+0 = 1 = 2 dim S₄(SL₂(ℤ)) + 1; for W = Sym¹⁰(ℂ²) it gives 11−5−3+0 = 3, the value of the Check of §4.2. For W = ℂ², on which −I acts by −1, H¹ = 0, whereas the formula without the hypothesis on −I would give 2−0−0+0 = 2.
@@ -699,8 +687,6 @@ A proof uses the following route. Use the SL₂ base-change multiplicity count o
 
 - For F = ℚ(i), s = 1 and ν₂ = 2, so A_F = 5/24, B_F = 1/8 and A_F − B_F = 1/12 > 0.
 - The radicand u of F = ℚ(√−u) is not the degree d: for u = 1, 2, 5 the discriminants are −4, −8, −20, with ν₂ = 2, 3, 2, and A_F/B_F = (5/24)/(1/8) = 5/3, (3/8)/(1/8) = 3 and (5/4)/(1/4) = 5, all greater than 1 and at least `(5/3)·3^{s−1}`; reading −4d with d = 2 would give −8 for ℚ(i). For u = 3 and u = 7 the discriminants are −3 and −7, 2 is unramified, and B_F = 0, with A_F = 1/6 and 1/3.
-- The full cusp space may contain non-base-change classes.
-- The parity dependence prevents replacing this argument with one universal asymptotic coefficient.
 
 ### 5.7 Lower bounds at the admitted levels
 
@@ -712,8 +698,6 @@ A proof uses the following route. Apply the maximal-level base-change count and 
 
 **Checks.**
 
-- Shrinking an admitted level preserves the lower bound.
-- Injectivity of pullback does not give a lower bound at a larger arbitrary compact open level.
 - For Γ = SL₂(O_F), the index is 1 and restriction followed by corestriction is the identity; the lower bound applies despite torsion in Γ.
 - For Γ = SL₂(O_F), −I ∈ Γ acts on E_n by (−1)^n(−1)^n = 1, so the central character does not kill the cohomology; on Sym^n(ℂ²) ⊗ conjugate Sym^m(ℂ²) with n+m odd every H^i(Γ,·) vanishes.
 - If Q acted on Γ′\X reversing orientation, the dual of H_!¹ would be H_!² twisted by the orientation character and its Q-invariants could be smaller; for the trivial Q-module the invariants have dimension 1, while a sign twist would give 0. The orientation-preserving action of the connected group SL₂(ℂ) is what makes the degree-two invariant count equal.
@@ -728,8 +712,6 @@ A proof uses the following route. For ordinary cohomology at every congruence le
 
 **Checks.**
 
-- The result is stable under changing finitely many small weights.
-- The three cohomology spaces may have different dimensions at every weight despite having the same growth order.
 - For F = ℚ(i) and Γ = SL₂(ℤ[i]), the base-change part of H¹ has dimension `(5/24 + (−1)^{n+1}/8)(n+1) + O(1)` by §5.6; at n = 99 the leading term is (1/3)·100 ≈ 33.3 and at n = 100 it is (1/12)·101 ≈ 8.4. The lower-bound constant obtained from base change alone is therefore at most 1/12, and the parity oscillation shows why the statement asserts two constants rather than a limit of dim/(n+1).
 - The threshold n₀ is necessary: H¹(SL₂(ℤ[i]), ℂ) = 0 because the abelianization of SL₂(ℤ[i]) is finite, so no c > 0 works at n = 0.
 
