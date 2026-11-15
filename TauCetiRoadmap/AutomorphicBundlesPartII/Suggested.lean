@@ -69,8 +69,8 @@ locally free coefficient F and every integer i. The quotient is Artinian
 Gorenstein; its chosen uniformizer identifies this dual with O-linear Matlis
 duality. Completeness of O is not needed (O/(ϖ^n) is unchanged by completion),
 and at n = 0 both sides vanish over the zero ring. This is the finite-coefficient duality of README §1.6
-(CG18 §7.2, pp. 395–396, 399–400), not a trace isomorphism RΓ(ω)[d] ≃ A. -/
-theorem finiteCoefficientSerreDuality
+(CG18 §7.2, pp. 395–396, 398–400), not a trace isomorphism RΓ(ω)[d] ≃ A. -/
+theorem nonempty_finiteCoefficientSerreDuality
     (O : Type u) [CommRing O] [IsDomain O] [IsDiscreteValuationRing O]
     (ϖ : O) (hϖ : Irreducible ϖ) (n : ℕ)
     (X : Scheme.{u}) [X.Over (Spec (.of (dvrCoefficientRing O ϖ n)))]
