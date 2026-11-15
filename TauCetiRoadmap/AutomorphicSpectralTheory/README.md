@@ -611,7 +611,7 @@ Prove `whittaker_cycle_integral`. For `μ∈ℂ`, `t>0` and `Re(s)>0`, `∫_0^π
 
 ([DIT16], Lemma 7, display (9.4), p. 980 (statement); restated as (A.1), Appendix A, p. 983; proof Appendix A, pp. 983–985.)
 
-*Needs:* §0.26; `hasDerivAt_integral_of_dominated_loc_of_deriv_le`; `Complex.Gamma_mul_Gamma_add_half`; AnalyticNumberTheoryPartI §3.23b.
+*Needs:* §0.26; §0.29; §§0.31–0.34; `hasDerivAt_integral_of_dominated_loc_of_deriv_le`; `Complex.Gamma_mul_Gamma_add_half`; AnalyticNumberTheoryPartI §3.23b.
 
 
 **0.31 Endpoint-justified integration by parts for both signs.** Prove `whittaker_integration_by_parts`. Let `H_ε(t)=t^(−s)∫₀^π exp(εi(t cosθ+μθ))M_{μ,s−1/2}(2t sinθ)dθ/sinθ`, `μ∈ℂ`, `Re(s)>0`, `t>0`, `ε=±1`. Then `f_ε=t^sH_ε` satisfies `f_ε″+(1−s(s−1)/t²)f_ε=0`. On every compact parameter set with `Re(s)≥σ>0` the integrands and their first two `t` derivatives are bounded by `C sin^(σ−1)θ`; the integration-by-parts endpoint terms are `O(δ^σ)`. The calculation works for both signs without complex conjugation.
@@ -635,14 +635,14 @@ Prove `whittaker_cycle_integral`. For `μ∈ℂ`, `t>0` and `Re(s)>0`, `∫_0^π
 *Needs:* §0.26; `hasDerivAt_integral_of_dominated_loc_of_deriv_le`; `Complex.Gamma_mul_Gamma_add_half`; AnalyticNumberTheoryPartI §3.23b.
 
 
-**0.34 Agreement of the first coefficients of the two series.** Prove `cycle_series_leading_coefficients`. The `t^s` coefficients in (A.2) and (A.3) both equal `2π e(μ/4)Γ(s)/(Γ((s+1+μ)/2)Γ((s+1−μ)/2))`. In (A.2) the `t^(s+1)` coefficient vanishes by cancellation of `(m,n)=(1,0),(0,1)`, using `((s−μ)/2)/Γ((s−μ)/2+1)=1/Γ((s−μ)/2)`. The `t^(s+2)` coefficients also agree. The shared ODE and Frobenius uniqueness from `c₀` imply (A.1).
+**0.34 Agreement of the first coefficients of the two series.** Prove `cycle_series_leading_coefficients`. The `t^s` coefficients of the series of §0.32 and §0.33 both equal `2π e(μ/4)Γ(s)/(Γ((s+1+μ)/2)Γ((s+1−μ)/2))`. In the series of §0.32 the `t^(s+1)` coefficient vanishes by cancellation of `(m,n)=(1,0),(0,1)`, using `((s−μ)/2)/Γ((s−μ)/2+1)=1/Γ((s−μ)/2)`. The `t^(s+2)` coefficients also agree.
 
 ([DIT16], Appendix A, p. 985 (last paragraph of the proof).)
 
-*Needs:* §0.26; `hasDerivAt_integral_of_dominated_loc_of_deriv_le`; `Complex.Gamma_mul_Gamma_add_half`.
+*Needs:* §0.26; §§0.32–0.33; `hasDerivAt_integral_of_dominated_loc_of_deriv_le`; `Complex.Gamma_mul_Gamma_add_half`.
 
 
-### 0.35 Legendre function of the second kind `Q_{s−1}` (2.5), (2.6)
+### 0.35 Legendre function of the second kind `Q_{s−1}`
 
 Define `legendre_q` as follows. For `t>1` and complex `s` with `Re(s)>0`, define `Q_{s−1}(t)=∫₀∞(t+√(t²−1)cosh u)^(−s)du` with the positive real base. It equals `Γ(s)²/`[2Γ(2s)](2/(1+t)`)^s ₂F₁(s,s;2s;2/(1+t)`), satisfies `((1−t²)Q′)′+s(s−1)Q=0`, and for integer `s=k≥1` equals the `Q_{k−1}` of GZ `IV(5.7)`. In particular `Q₀(t)=½log((t+1)/(t−1))` and `Q₁(t)=tQ₀(t)−1`.
 
@@ -661,7 +661,7 @@ Prove the following API statements.
 *Needs:* `Complex.regularizedHGFun`; `Complex.betaIntegral_eq_Gamma_mul_div`; `hasDerivAt_integral_of_dominated_loc_of_deriv_le`.
 
 
-### 0.36 Asymptotics of `Q_{s−1}` (2.7), (2.8)
+### 0.36 Asymptotics of `Q_{s−1}`
 
 Prove the Legendre asymptotic formulas. `Q_{s−1}(t) = −½ log(t − 1) + O(1)` as `t ↘ 1` (2.7), and `Q_{s−1}(t) = O(t^{−s})` as `t → ∞` (2.8) `(s > 1 fixed)`.
 
@@ -670,7 +670,7 @@ Prove the Legendre asymptotic formulas. `Q_{s−1}(t) = −½ log(t − 1) + O(1
 *Needs:* `Complex.regularizedHGFun`; `Complex.betaIntegral_eq_Gamma_mul_div`; `hasDerivAt_integral_of_dominated_loc_of_deriv_le`; §0.35.
 
 
-### 0.37 Point-pair invariants `g` and `g_s` (2.4), (2.9)
+### 0.37 Point-pair invariants `g` and `g_s`
 
 Define `point_pair_invariant` as follows. `g(z, z′) = log(|z − z′|²/|z̄ − z′|²)` satisfies a′) `g(γz, γz′) = g(z, z′)` for `γ ∈ PSL₂(ℝ)`; b′) continuous and harmonic in each variable on `𝔥 × 𝔥 ∖` diagonal; c′) `g = log|z − z′|² + O(1)` as `z′ → z`; but `Σ_{γ ∈ Γ₀(N)} g(z, γz′)` diverges (barely). For `s > 1`, `g_s(z, z′) = −2Q_{s−1}(1 + |z − z′|²/(2yy′)) (z ≠ z′)` (2.9) satisfies a′), c′) (by (2.7)) and `Δg_s = s(s−1)g_s` in each variable; `g₁ = g`. The positive spectral Laplacian convention of DIT is `−Δ_GZ`, so its eigenvalue here is `s(1−s)`.
 
@@ -1363,7 +1363,7 @@ Prove `poincare_fourier_expansion`. Let `m≠0` and `Re(s)>1`. Then `F_m(z,s)=f_
 *Needs:* §0.26; §0.27.
 
 
-### 1.23 Weight-0 Eisenstein series `E_N(z, s)` at `∞` (2.14)
+### 1.23 Weight-0 Eisenstein series `E_N(z, s)` at `∞`
 
 Define the level-N Eisenstein series as follows. For `N≥1` and `Re(s)>1` define the cusp-`∞` Eisenstein series `E_N(z,s)=Σ_{γ∈Γ∞\Γ₀(N)}Im(γz)^s`, equivalently `(1/2)Σ y^s|cz+d|^(−2s)` over coprime `(c,d)` with `N|c`. Prove local normal convergence, `Γ₀(N)`-invariance and that `E_1` is the series of AnalyticNumberTheoryPartI §2.1b. Under `Δ_GZ=+y²(∂x²+∂y²)`, `Δ_GZ E_N=s(s−1)E_N`; `−4πE_N` has residue `κ_N=−12/[SL₂(ℤ):Γ₀(N)]` at `s=1`.
 
@@ -1384,7 +1384,7 @@ Prove the following API statements.
 *Needs:* AnalyticNumberTheoryPartI §2.1b; Mathlib `CongruenceSubgroup.Gamma0`; `zeta_eq_tsum_one_div_nat_add_one_cpow`.
 
 
-### 1.24 `E_N` via the `SL₂(ℤ)` series (2.16)
+### 1.24 `E_N` via the `SL₂(ℤ)` series
 
 Prove `level_eisenstein_mobius`. For `N ≥ 1`: `E_N(z, s) = N^{−s} ∏_{p|N} (1 − p^{−2s})⁻¹ Σ_{d|N} μ(d) d^{−s} E((N/d)z, s)`, `E = E₁` the `SL₂(ℤ)` series; consequently `E_N(w_N z, s) = N^{−s} ∏_{p|N}(1 − p^{−2s})⁻¹ Σ_{d|N} μ(d) d^{−s} E(dz, s)` (p. 241).
 
@@ -1412,7 +1412,7 @@ Prove the following API statements.
 *Needs:* §1.1; §1.3; AutomorphicLFunctionsAndLocalFactors AL.0 (local Fourier analysis); ArithmeticGaloisRepresentations §2.7, Standard-test-function evaluations and Root-number product formula (standard evaluations and finite-sum epsilon product); AutomorphicLFunctionsAndLocalFactors AL.1.5.3, Canonical rank-one comparison (algebraic Hecke comparison with LFunctions Layers 5–6); §1.15c Unitary Hecke continuation and functional equation; AutomorphicLFunctionsAndLocalFactors Rank-one local zeta integral and functional equation (AL.1.3.2); AutomorphicLFunctionsAndLocalFactors The global standard L-function (AL.2.4.1) at `n = 1` (global zeta integral for arbitrary Schwartz–Bruhat test functions, continuation and reflected equation); AL.1 (number-field normalization adapters).
 
 
-### 1.26 Eisenstein series `E^{(D₁)}_s` attached to a decomposition `D = D₁·D₂` (2.1)
+### 1.26 Eisenstein series `E^{(D₁)}_s` attached to a decomposition `D = D₁·D₂`
 
 Define `genus_eisenstein` as follows. Fix an odd negative fundamental discriminant `D`, `k≥1` and a factorization `D=D₁D₂` into fundamental discriminants, allowing `D_i=1`. Let `ε_i` be the primitive quadratic characters of conductors `|D_i|`. For sufficiently large `Re(s)`, define `E_s^(D₁)(z)` by half the sum over integer pairs `(m,n)` with `D₂` dividing `m` of `ε₁(m)ε₂(n)(mz+n)^(−2k+1) Im(z)^s |mz+n|^(−2s)`. Its transformation law has weight `2k−1` and character `ε₁ε₂` on `Γ₀(|D|)`. The case `D₁=1` recovers the level-`|D₂|` series. Genus characters and ramified ideals are imported arithmetic data for the consumers, rather than part of this analytic definition.
 
@@ -1817,7 +1817,7 @@ Prove `bessel_coefficient_residue`. Let `m,n≠0`. Then `Φ(m,n;s)` continues me
 *Needs:* §0.6; §0.15; §4.8; §2.19; §1.17; §2.21.
 
 
-### 2.23 Fourier expansion of the weight-0 resolvent kernel (Fay Thm 3.1, cited)
+### 2.23 Fourier expansion of the weight-0 resolvent kernel
 
 Prove `resolvent_kernel_fourier`. Let `Re(s)>1` and let `y′>max_{γ∈Γ}Im(γz)`, which holds for example when `z` lies in the standard fundamental domain and `y′>y`. Then `G(z,z′;s)=(2s−1)⁻¹y′^{1−s}E(z,s)+√y′Σ_{m≠0}F_{−m}(z,s)K_{s−1/2}(2π|m|y′)e(mx′)`.
 
@@ -1826,7 +1826,7 @@ Prove `resolvent_kernel_fourier`. Let `Re(s)>1` and let `y′>max_{γ∈Γ}Im(γ
 *Needs:* §0.6; §0.15; §4.8; §2.19.
 
 
-### 2.24 Meromorphic continuation of `G_{N,s}`; residue `κ_N` (2.13)
+### 2.24 Meromorphic continuation of `G_{N,s}`; residue `κ_N`
 
 The statement `Modular.green_kernel_continuation` in `Suggested.lean` asserts that `G_{N,s}(z, z′)` extends meromorphically in `s` to a neighbourhood of `s = 1` with a simple pole at `s = 1` of residue `κ_N = −12/[SL₂(ℤ) : Γ₀(N)] = −12 N⁻¹ ∏_{p|N} (1 + 1/p)⁻¹`, independent of `z`, `z′`. Consequently `lim_{s→1}[G_{N,s} − κ_N/(s−1)]` is not harmonic: its Laplacian is `κ_N ≠ 0`. The automorphic kernel is `G_{N,s}(z,z′)=Σ_{γ∈Γ₀(N)/{±I}}−2Q_{s−1}(1+|z−γz′|²/(2y Im(γz′)))`, initially `Re(s)>1` and `z` outside the `Γ`-orbit of `z′`. The comparison `G_{N,s}=−4πR_{N,s}` with the level-`N` resolvent gives residue `−4π/vol(Γ₀(N)/{±I}\ℍ)=κ_N`. Its finite part at `s=1` has `Δ_GZ` equal to `κ_N` and is not harmonic; the cusp-corrected arithmetic Green function is not constructed here.
 
@@ -3457,7 +3457,7 @@ The API records regularity of the cancelled sum near `λ₀`, the partial values
 
 ### 6.29 Product, root-product and central-translation identities for families
 
-This group provides identities for the families of §6.27: the product formula, the value and integrated value of root-product families, independence of the ambient parabolic, and vanishing under central translation. The degree-cutoff limits of §§3.16–3.17 consume §§6.29 and 6.33.
+This group provides identities for the families of §6.27: the product formula, the value and integrated value of root-product families, independence of the ambient parabolic, and vanishing under central translation. The degree-cutoff limit of §3.16 consumes §§6.29 and 6.33, and that of §3.17 consumes §6.29.
 
 Prove `family_product_formula`. If `c_M^Q` is independent of `Q∈P(L)` for every `L⊇M`, then `(cd)_M=Σ_L c_M^L d_L` in Yu's normalization. This hypothesis is essential; the formula is not asserted for arbitrary families without the partial-value compatibility.
 
