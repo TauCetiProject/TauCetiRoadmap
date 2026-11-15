@@ -1009,6 +1009,20 @@ characteristic, especially over ramified regular local rings (end of §3.1.4). A
 is `R = ℤ[x, y]/(x y − p)` localised at `(p, x, y)`: its maximal ideal is `(x, y)`, so `R` is
 regular of dimension `2`, and `p = x y ∈ m²`.
 
+## Provenance: existing formalizations outside Tau Ceti
+
+This section is secondary: it maps existing Lean code to targets and prescribes nothing. The
+repository LeanPool, *lean-pool* (References), keeps Lean 4 formalizations that do not fit Mathlib,
+each project permissively licensed (Apache-2.0 or MIT) and bumped to Lean and Mathlib v4.35.0,
+earlier than our pin. It is not a dependency: a statement read there is compared with the target
+here before it is used, adaptation is agreed with its maintainers first, and adapted code keeps its
+license notices.
+
+`LeanPool/HasseMinkowski` proves the Hasse–Minkowski theorem for quadratic forms over `ℚ`, with
+Hilbert symbols over `ℚ_p` and `ℝ`, their reciprocity and the Hasse invariant. These are forms over
+fields with `2` invertible, which Scope leaves to other roadmaps; nothing there treats forms over a
+base, half-discriminants or the orthogonal group scheme.
+
 ## References
 
 - A. Auel, O. Biesel, J. Voight, « Stickelberger's discriminant theorem for algebras », *Amer.
@@ -1041,3 +1055,6 @@ regular of dimension `2`, and `p = x y ∈ m²`.
   483–510. doi:10.2140/pjm.2016.283.483; Zbl 1410.11032; arXiv:1504.05228.
 - M. M. Wood, « Gauss composition over an arbitrary base », *Adv. Math.* 226 (2011), 1756–1771.
   doi:10.1016/j.aim.2010.08.018; Zbl 1262.11049; arXiv:1007.5285.
+- LeanPool, *lean-pool*. Lean 4 formalizations at commit f8b9b721d616a2cc0b22fc226e4a9e3dd6cea2d0,
+  Lean and Mathlib v4.35.0; projects `LeanPool/HasseMinkowski`.
+  https://github.com/LeanPool/lean-pool/tree/f8b9b721d616a2cc0b22fc226e4a9e3dd6cea2d0/LeanPool
