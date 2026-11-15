@@ -80,8 +80,8 @@ Suggested home: `TauCeti/CategoryTheory/Monoidal/Pivotal/`, `TauCeti/CategoryThe
   spherical; with `χ = 1` both dimensions are `1`.
 - On `C₃` over `ℚ`, let `ω` be the normalized coboundary of `b` with `b(1,2) = 2` and `b = 1`
   otherwise, so `ω(1,2,1) = 1/2`. The coevaluation of `δ_1` is `2`, its canonical pivotal component
-  `1/2`, and both dimensions are `1`; the inverse component `2` gives right dimension `4` and left
-  dimension `1/4`.
+  `1/2`, and both dimensions are `1`; the inverse component `2`, which is not monoidal since
+  `4³ ≠ 1`, would give right dimension `4` and left dimension `1/4`.
 - In the pivotal category of `2 × 2` matrices of `ℚ`-vector spaces, `f = 𝟙 E₁₂` and
   `g = 𝟙 E₂₁` have `leftTrace (f ⊗ₘ g) = (1, 0)` while `leftTrace f ≫ leftTrace g = (0, 0)`: traces
   are multiplicative only under the hypothesis of `TauCeti.leftTrace_tensorHom_eq_comp`.
@@ -441,31 +441,52 @@ give `R`-linearly monoidally equivalent categories ([EGNO] Proposition 2.6.1, p.
 
 `Aut_⊗(𝟭) ≃* (G →* Rˣ)`: a natural endomorphism of the identity of
 finitely generated projective `R`-modules is multiplication by its value on `R`, morphisms preserve
-degree, and monoidality makes the family a character. The canonical pivotal structure of the
-conventions is monoidal by an identity in `Rˣ` that follows from the cocycle condition alone. It is
-not a consequence of the field case applied factorwise: the values of `ω` may generate `(ℤ/2)²`,
-which embeds in the units of no field. So pivotal structures form a torsor over `G →* Rˣ`. For finite `G` over an algebraically closed field of characteristic zero
+degree, and monoidality makes the family a character. A family of components `j_g` on `δ_g` is
+monoidal iff the left evaluation `δ_{xy} ⊗ δ_{(xy)⁻¹} ⟶ 𝟙` it defines, transported along
+`δ_{y⁻¹} ⊗ δ_{x⁻¹} ≅ (δ_x ⊗ δ_y)ᘁ`, is the nested one built from those of `δ_x` and `δ_y`. With
+the conventions this reads, for all `x, y` and `z = xy`,
+`j_z ω(y⁻¹, x⁻¹, z) ω(x⁻¹, x, y)⁻¹ = j_x j_y ω(x, y, z⁻¹) ω(y, y⁻¹, x⁻¹)⁻¹`.
+For the canonical components `j_g = ω(g, g⁻¹, g)` the quotient of the left side by the right is
+`dω(y, y⁻¹, x⁻¹, z) / (dω(x, y, z⁻¹, z) · dω(x, x⁻¹, x, y))`, where
+`dω(a, b, c, d) = ω(b, c, d) ω(a, bc, d) ω(a, b, c) / (ω(ab, c, d) ω(a, b, cd))` is `1` by the
+cocycle identity. So the canonical structure is pivotal over every commutative ring, and pivotal
+structures form a torsor over `G →* Rˣ`. For finite `G` over an algebraically closed field of characteristic zero
 it is [DGNO] Proposition 2.3(iii), preprint p. 7; for every `G` and `R` it is a deduction from the
-three facts just listed. *Needs:* 8.1; Tau Ceti `TauCeti.PivotalCategory.instTorsor`.
+three facts just listed. *Needs:* 8.1; Tau Ceti `TauCeti.PivotalCategory.instTorsor`, `TauCeti.pivotalCategoryOfRightRigid`.
 
 ### 8.3 Spherical structures
 
 At the canonical structure both dimensions of `δ_g` are `1`, so the
-twist by `χ` is spherical iff `χ(g)² = 1` for every `g`. A deduction: the twist multiplies the left
-dimension of `δ_g` by `χ(g)⁻¹` and the right one by `χ(g)`. *Needs:* 8.2, Layer 2.
+twist by `χ` is spherical iff `χ(g)² = 1` for every `g`. A deduction: for the components
+`j_g = χ(g) ω(g, g⁻¹, g)`, the coevaluation of `pivotalExactPairing δ_g` is
+`η_ δ_{g⁻¹} δ_g ≫ δ_{g⁻¹} ◁ j_g⁻¹ = ω(g⁻¹, g, g⁻¹)⁻¹ j_g⁻¹ = χ(g)⁻¹` and its evaluation is
+`j_g`, using `ω(g⁻¹, g, g⁻¹) ω(g, g⁻¹, g) = dω(g⁻¹, g, g⁻¹, g) = 1`; so
+`leftDim δ_g = χ(g)⁻¹ · 1` and `rightDim δ_g = ω(g, g⁻¹, g)⁻¹ j_g = χ(g)`, and on a general object
+both traces are sums over degrees. *Needs:* 8.2,
+Layer 2.
 
 ### 8.4 Indicators
 
 For `n > 0`, `ν_n(δ_g) = 0` if `gⁿ ≠ 1`, and otherwise
 `ν_n(δ_g) = χ(g)⁻¹ ∏_{r=1}^{n-1} ω(g, gʳ, g)` for the twist by `χ`. For torsion `G` the indicators
 determine `χ`; for `G = ℤ` they do not. A deduction from [NS] Definition 3.1: `Hom(𝟙, δ_g^{⊗n})`
-is `R` or `0`, and the rotation acts on it by the displayed scalar. *Needs:* 8.2; Tau Ceti `TauCeti.frobeniusSchurIndicator`,
-`TauCeti.pivotalRotate`.
+is `R` or `0`, and the rotation acts on it by the displayed scalar. In `TauCeti.pivotalRotate` the
+coevaluation contributes `χ(g)⁻¹` (8.3) and the associator on `δ_{g⁻¹} ⊗ (δ_g ⊗ δ_g^{⊗(n-1)})`
+contributes `ω(g⁻¹, g, g⁻¹)⁻¹ = ω(g, g⁻¹, g) = ω(g, g^{n-1}, g)`; the re-bracketing
+`δ_g^{⊗(n-1)} ⊗ δ_g ≅ δ_g^{⊗n}` of `TauCeti.tensorPowSuccIso` contributes
+`∏_{r=1}^{n-2} ω(g, gʳ, g)`. On a general object the rotation permutes the summands
+`δ_{g₁} ⊗ ⋯ ⊗ δ_{gₙ}` cyclically, so when `Hom(𝟙, X^{⊗n})` is free only the constant words
+`g₁ = ⋯ = gₙ` contribute to the trace, and otherwise the indicator is `0` by the convention of
+`LinearMap.trace`. *Needs:* 8.2, 8.3; Tau Ceti `TauCeti.frobeniusSchurIndicator`,
+`TauCeti.pivotalRotate`, `TauCeti.tensorPowSuccIso`.
 
 ### Examples
 
 - `R = ℤ`, `G = C₂`: two characters and two pivotal structures; over the zero ring, one of each.
 - `G = C₂` with the sign pivotal structure: `ν₂(δ_g) = −1`; with the trivial one, `ν₂(δ_g) = 1`.
+- `G = C₃ = {0, 1, 2}` over `ℂ` with `ω(a, b, c) = ζ₉^{a(b + c − [b + c])}`, `[·]` the residue in
+  `{0, 1, 2}` and `ζ₉ = e^{2πi/9}`: at `χ = 1`, `ν₃(δ_1) = ω(1, 1, 1) ω(1, 2, 1) = ζ₉³`, a primitive
+  cube root of unity, and `ν₂(δ_1) = 0`.
 - `G = ℤ`, untwisted, over `ℚ`: `χ(n) = 2ⁿ` gives dimensions `2⁻ⁿ` and `2ⁿ`, not spherical, and
   all positive indicators of `δ_1` vanish, as for `χ = 1`.
 - `G = S₃`, `g = (12)`, `h = (23)`: `δ_g ⊗ δ_h = δ_{(123)}` and `δ_h ⊗ δ_g = δ_{(132)}`.
