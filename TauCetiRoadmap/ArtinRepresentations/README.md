@@ -93,8 +93,9 @@ containers, stem fields, Galois conjugates), `Conjectures/` (Artin, weight one, 
   discriminant of a defining polynomial, and the local polynomial table.
 - **The conjectures as statements** (Layer 8): Artin's conjecture, the strong Artin conjecture
   and the weight-one dictionary as propositions on this carrier, with the proved cases consumed;
-  the order of vanishing at `s = 0`; Stark's conjecture at `s = 0` in Tate's formulation and
-  Chinburg's weight-one Stark unit.
+  the identification of a weight-one newform's Euler factors at the primes dividing its level
+  with the local factors of its cuspidal class; the order of vanishing at `s = 0`; Stark's
+  conjecture at `s = 0` in Tate's formulation and Chinburg's weight-one Stark unit.
 - **Finite-image representations over finite fields** (Layer 9): the carrier
   `ρ̄ : G_F → GL_n(𝔽)`, image, order, index, surjectivity, determinant and determinant index,
   abelian and solvable images, irreducibility and absolute irreducibility, Frobenius matrices
@@ -173,8 +174,9 @@ containers, stem fields, Galois conjugates), `Conjectures/` (Artin, weight one, 
 - From the [Chebotarev roadmap](../Chebotarev/README.md): `frobeniusPrimeSet`,
   `hasDirichletDensity_frobeniusPrimeSet`, `hasNaturalDensity_frobeniusPrimeSet`.
 - From the [`GL₂` automorphic representations roadmap](../GL2AutomorphicRepresentationsAndTransfer/README.md):
-  R16.6.6 (the cuspidal class of a weight-one newform, with its newvector comparison), R17.5.5
-  (the all-place upgrade of weak Artin matching), R17.5.1, R17.5.6–R17.5.8 (dihedral,
+  R16.5.1 (the unfolding of the Hecke integral of a cusp form into local Whittaker zeta
+  integrals), R16.6.6 (the cuspidal class of a weight-one newform, with its newvector
+  comparison), R17.5.5 (the all-place upgrade of weak Artin matching), R17.5.1, R17.5.6–R17.5.8 (dihedral,
   tetrahedral, octahedral and solvable strong Artin), R17.5.9
   and R17.5.10 (odd solvable Artin representations and weight one); from the
   [automorphic Galois representations roadmap](../AutomorphicGaloisRepresentations/README.md):
@@ -400,6 +402,10 @@ contracts likewise supply no additional construction to §2.4.
 AutomorphicLFunctionsAndLocalFactors AL.3.10.3 supplies the equal-characteristic
 local-constant construction, including monodromy, norm twisting and conductor compatibility;
 §2.4 here compares its coefficient models with complex Artin representations.
+Its AL.2.2.4–AL.2.2.5 (the `GL₂` newvector line at the conductor and its Whittaker
+normalization) and AL.3.3.5 at `n = 2` (the zeta integral of the normalized newvector is the
+standard local factor) give §8.2 the factors of a weight-one newform at the primes dividing
+its level.
 For orthogonal obstructions, additionally consume GeneralizedCohomology G5, item 4
 (the real Pin⁺ double cover with its rank-zero convention), and OrthogonalSpinGroups Layer 1A–1E
 (Clifford norm and the vector action, including the distinction between reverse and star),
@@ -1809,7 +1815,14 @@ whose rank-two all-place upgrade (GL2AutomorphicRepresentationsAndTransfer R17.5
 `ρ_f^∨` because `ψ` is odd), read through the Conventions' Euler-factor row: the arithmetic
 factor of `ρ_f` is the geometric factor of `ρ_f^∨`. On the newform side
 Tau Ceti's `HeckeRing.GL2.Newform.L_eulerProduct_tprod` gives the factor `(1 − a_p p^{−s})^{−1}`
-at `p ∣ N`, the local factor of `π_f` at `p` through R16.6.6's newvector comparison. Transport
+at `p ∣ N`. Prove that it is the standard local factor `L(s, π_{f,p})`: by R16.6.6 `π_f` has
+exact conductor `N` and the adelic form of `f` is a finite newvector of it, so its component at
+`p` spans the line of AutomorphicLFunctionsAndLocalFactors AL.2.2.4, normalized as in AL.2.2.5;
+its Hecke integral unfolds into local Whittaker zeta integrals
+(GL2AutomorphicRepresentationsAndTransfer R16.5.1), and the integral of the normalized
+newvector at `p` is `L(s, π_{f,p})` (AutomorphicLFunctionsAndLocalFactors AL.3.3.5 at `n = 2`).
+This is the comparison that R16.5.3 states for `k ≥ 2`, taken at `k = 1`, where the classical
+and unitary variables coincide. Transport
 `ρ_f` through Layer 1's finite Galois factorization and compare with §3.4's Euler product.
 Equality of the Artin conductor with N remains the
 separate refinement of §5.2 (Deligne–Serre, Theorem 4.6(a), p. 514).
@@ -1862,7 +1875,8 @@ The supporting API is:
   from a falsely exclusive dihedral classification.
 
 *Needs:* Layers 1.2, 1.5, 3.3, 3.4, 4.1, 7.6; [`GL₂` automorphic representations](../GL2AutomorphicRepresentationsAndTransfer/README.md)
-R16.6.6, R17.5.1, R17.5.5, R17.5.9; [automorphic Galois representations](../AutomorphicGaloisRepresentations/README.md)
+R16.5.1, R16.6.6, R17.5.1, R17.5.5, R17.5.9; [automorphic L-functions and local factors](../AutomorphicLFunctionsAndLocalFactors/README.md)
+AL.2.2.4, AL.2.2.5, AL.3.3.5; [automorphic Galois representations](../AutomorphicGaloisRepresentations/README.md)
 §2.10; [modularity and Langlands extensions](../ModularityAndLanglandsExtensions/README.md)
 §§1.2, 1.9; Tau Ceti `HeckeRing.GL2.Newform` (newforms, nebentypus) and
 `HeckeRing.GL2.Newform.L_eulerProduct_tprod`.
