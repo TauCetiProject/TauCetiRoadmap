@@ -350,6 +350,10 @@ partial universes `V_α` in place of Grothendieck universes. They border on 1.3 
 name or tag there defines Grothendieck universes, inaccessible stages or the universe axiom, and
 Layers 0–2 have no counterpart there.
 
+In LeanPool, *lean-pool* (References), `LeanPool/SetTheory` treats ordinals, elementary embeddings
+and Kunen's inconsistency, and `LeanPool/PCFTheory` cofinality and club guessing; neither defines
+Grothendieck universes or inaccessible stages. It is not a dependency either.
+
 ## References
 
 - P. Gabriel, « Des catégories abéliennes », *Bull. Soc. Math. France* 90 (1962), 323–448,
@@ -406,3 +410,6 @@ Layers 0–2 have no counterpart there.
   c496df0d9beea9deaeabcea8492605f9a0a2313b, Apache-2.0, built on Lean and Mathlib v4.35.0;
   directories `StacksFrontier/SetTheory`.
   https://github.com/AxiomMath/Stacks/tree/c496df0d9beea9deaeabcea8492605f9a0a2313b/StacksFrontier
+- LeanPool, *lean-pool*. Lean 4 formalizations at commit f8b9b721d616a2cc0b22fc226e4a9e3dd6cea2d0,
+  Lean and Mathlib v4.35.0; projects `LeanPool/SetTheory`, `LeanPool/PCFTheory`.
+  https://github.com/LeanPool/lean-pool/tree/f8b9b721d616a2cc0b22fc226e4a9e3dd6cea2d0/LeanPool
