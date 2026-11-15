@@ -3063,7 +3063,8 @@ the content of 2.1–2.10 and the complex of 2.12, with a tautological presentat
 cover the graded Leibniz identity of 2.11 (only `d(fω)=df∧ω+f·dω`, and that for the PD de Rham complex,
 `dd_smul` in `DeRham/FormCalculus.lean`), the pullbacks of 2.13–2.19 (maps exist there only along
 divided power morphisms, between PD de Rham complexes, `pdDeRhamMap` in `Ocris/DeRham.lean`), or the
-universal differential graded algebra of 2.21.
+universal differential graded algebra of 2.21. A second formalisation, in [AxiomStacks], also proves
+2.11; *Provenance* at the end maps it.
 
 **Checks.**
 
@@ -5421,6 +5422,54 @@ Prismatic and `A_inf`-cohomology,
 p-adic Hodge theory and motivic and K-theoretic applications use cotangent powers,
 quasisyntomic descent, period identifications and the differential-symbol API.
 
+## Provenance: existing formalizations outside Tau Ceti
+
+This section is secondary: it maps existing Lean code to targets and prescribes nothing. The
+Apache-2.0 repository [AxiomStacks] formalizes the Stacks Project on Mathlib. Its `StacksFrontier`
+tier is written by AI agents and builds without `sorry`; the repository records it as not yet
+reviewed by humans, and it is built on Lean and Mathlib v4.35.0, earlier than our pin. It is not a
+dependency: a statement read there is compared with the target here before it is used, adaptation is
+agreed with its maintainers first, and adapted code keeps its Apache-2.0 notices.
+
+`StacksFrontier/Cotangent` follows [StacksCt]: the standard resolution and the cotangent complex of a
+ring map, transitivity, base change, localization, smooth and étale vanishing, Koszul-regular
+quotients, the naive and Lichtenbaum–Schlessinger truncations, Atiyah classes, Quillen's spectral
+sequence and cotangent complexes of ringed topoi and schemes. Its ring-level part is the material of
+DerivedModuleAlgebra §§0.1, 0.4 and 0.7–0.13, which this roadmap takes from that supplier. Three of
+its results are cited here: perfectness of amplitude `[−1, 0]` for local complete intersections
+(Tag 08SL, `LocalCompleteIntersectionPerfectUnconditional.lean`; DerivedModuleAlgebra §0.13), the
+forward direction of 0.20; the Lichtenbaum–Schlessinger identification of `τ_(≥−2)L` (Tag 09CG,
+`LichtenbaumSchlessingerComparison.lean`; DerivedModuleAlgebra §0.7), used by the square-zero check of
+0.20 and by 3.11; and the vanishing of `L` for maps of perfect rings (Tag 0G60,
+`PerfectVanishing.lean`), the check `test_f_finite_perfect` of 0.24. `SchemeCotangentComplex.lean`
+constructs the scheme cotangent complex of Tag 08T2 that 5.8 uses. The directory has no
+André–Quillen homology with coefficients, Cohen factorization, Avramov or André criterion, p-basis or
+F-finiteness result.
+
+`StacksFrontier/AlgebraicGeometry/DeRham` follows the Stacks chapter *de Rham Cohomology* for schemes.
+It builds the relative de Rham complex `Ω^•_(X/S)` as a complex of `f⁻¹O_S`-modules, the coefficient
+sheaf of 5.8, and identifies its sections over an affine open with the algebraic complex
+(`Complex/AffineOpenDeRhamComplexIso.lean`). Its cup product on de Rham cohomology (`CupProduct/`) is
+the ordinary counterpart of `schemeDeRhamCup` of 5.8 through the smooth comparisons of 3.13. For
+proper smooth `f`, perfectness and arbitrary base change of `Rf_*Ω^•_(X/S)` (Tag 0FM0;
+`ProperSmoothDeRhamPerfect.lean`, `ProperSmoothDeRhamBaseChange.lean`) are the finite-level input of
+5.23 and 5.24, proved along the same stupid filtration that 5.23 uses with EnhancedDerivedSheaves
+§E1.9. No file there constructs derived de Rham cohomology, Hodge completion, the conjugate
+filtration, PD envelopes, quasisyntomic descent or period rings. Its other results (Hodge cohomology,
+de Rham cohomology of projective space and the projective-bundle formula, Chern classes, blow-ups,
+log poles along a divisor, Gysin and trace maps, Poincaré duality, Weil cohomology, the Gauss–Manin
+connection and Hodge spreading out) are global de Rham cohomology of smooth schemes and are not
+targets of this roadmap.
+
+The algebraic complex comes from the sibling directory `StacksFrontier/RingTheory/DeRham`. It
+characterizes the differential by its value on `b₀ db₁ ∧ … ∧ dbₙ` and proves uniqueness, `d ∘ d = 0`,
+the full graded Leibniz rule and base change along `A → A′`, packaging `Ω^•_(B/A)` as a cochain complex
+of `A`-modules indexed by `ℕ`: the content of 2.7–2.12 and the first equivalence of 2.20, without the
+symbol presentation of 2.1–2.6. Its polynomial Poincaré lemma over `ℚ`-algebras is the vanishing used
+in 3.12. Its `Cartier/` files construct the Frobenius-twisted complex and the inverse Cartier map and
+prove it bijective when `B` has Frobenius coordinates over `A`, for instance for a polynomial algebra
+over a perfect ring; 3.4 and 3.6 assert the isomorphism over every `F_p`-algebra `A`.
+
 ## References
 
 References use the page numbering of the listed edition. [BMS19] pages are the published IHÉS pages;
@@ -5454,6 +5503,10 @@ the induced module action.
   J. Algebra 164 (1994), 124–145.
 - **Avramov**: Luchezar L. Avramov, *Locally complete intersection homomorphisms and a conjecture of
   Quillen on the vanishing of cotangent homology*. Ann. of Math. 150 (1999), 455–487; arXiv:math/9909192.
+- **AxiomStacks**: AxiomMath, *The Stacks Project in Lean*. Lean 4 formalisation at commit
+  c496df0d9beea9deaeabcea8492605f9a0a2313b, Apache-2.0, built on Lean and Mathlib v4.35.0;
+  directories `StacksFrontier/Cotangent`, `StacksFrontier/AlgebraicGeometry/DeRham` and
+  `StacksFrontier/RingTheory/DeRham`.
 - **Bhatt12**: Bhargav Bhatt, *p-adic derived de Rham cohomology*. arXiv:1204.6560v1, 30 April 2012.
 - **BhattDS**: Bhargav Bhatt, *On the direct summand conjecture and its derived variant*.
   arXiv:1608.08882v2.
@@ -5526,6 +5579,7 @@ the induced module action.
 [CMM]: https://arxiv.org/pdf/1803.10897v2
 [DM]: https://arxiv.org/pdf/1403.0534v1
 [DAddezio]: https://github.com/daddeziomath/affine-crystalline
+[AxiomStacks]: https://github.com/AxiomMath/Stacks/tree/c496df0d9beea9deaeabcea8492605f9a0a2313b/StacksFrontier
 [Avramov]: https://arxiv.org/pdf/math/9909192
 [Iyengar]: https://math.mit.edu/~hrm/palestine/iyengar-andre-quillen.pdf
 [BhattDS]: https://arxiv.org/pdf/1608.08882v2
