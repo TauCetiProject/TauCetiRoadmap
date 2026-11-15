@@ -523,6 +523,12 @@ Generic characteristic-zero untilt; minuscule `μ`; `ℓ≠p` for the smoothness
 
 The stabilizer filtration has no additional fibre when `μ` is minuscule.
 
+Provide the following API.
+
+- Each `Fil^m` is a direct summand of the rank-`n` fibre, and `Fil^m ⊂ Fil^(m+1)`. At a geometric point where `Λ=gμ(ξ)(B⁺)^n` with `g∈GL_n(B⁺)` and `μ=(k₁≥…≥k_n)`, the rank of `Fil^m` is the number of `i` with `k_i≤m`; in the inverse convention of CS it is the number of `i` with `k_i≥−m`.
+- For `g∈GL_n(B⁺)` with reduction `ḡ` modulo `ξ`, the filtration of `gΛ` is `ḡ` applied to the filtration of `Λ`, and the formation of the filtration commutes with base change of the perfectoid test algebra.
+- For general `G`, the image of a point is the tensor filtration whose value on each representation `V` of `G` is the filtration above of the lattice induced on `V`, compatibly with tensor products and exact sequences.
+
 **Checks.**
 
 - For `GL₂` and `Λ=diag(ξ,1)(B⁺)²`, the formula gives `Fil⁻¹=0`, `Fil⁰` the line spanned by `e₂`, and `Fil¹` the whole rank-two fibre. The ranks 0, 1, 2 at `m=−1,0,1` increase with `m`; the reversed filtration has ranks 2, 1, 0.
@@ -2122,7 +2128,7 @@ Provide the following API.
 - For `G=1`, `E=ℚ₅`, `Λ=𝔽₉` and `I=∅`, both sides are finite projective `𝔽₉`-modules over the geometric base. Before base change, the Frobenius `+1` and `−1` rank-one systems remain distinct despite `q=5` having a square root in `𝔽₉`.
 
 
-([FS](#source-fs), Theorem VI.0.2 p190; VI.11.1 p235; IX.2 p321 (PDF p. 344).)
+([FS](#source-fs), Theorem VI.0.2 p190; VI.11.1 p235; IX.2 p321.)
 
 *Needs:* [Pinned dual group](#414-canonical-pinned-dual-identification); [Coordinate Hopf algebra](#43-geometric-satake-coordinate-hopf-algebra); [Coefficient reconstruction](#44-multileg-and-coefficient-reconstruction); [Weil realization of total cohomology](#36-weil-realization-of-total-cohomology); [Fusion and Verdier duality](#38-fusion-and-verdier-duality); ReductiveGroupsPartII RG2.5; LanglandsParameterStacks §0.4; `CategoryTheory.Functor.Monoidal`; `Representation`.
 
@@ -2168,7 +2174,7 @@ For `P` with Levi `M`, `CT_P[deg_P]` intertwines geometric Satake with restricti
 
 Transport the geometric CT map through the two explicit semidirect comparison isomorphisms; multiply the two cocycles in the common torus.
 
-([FS](#source-fs), VI.9.6 p230; VI.11.1 pp238–240; IX.7.1 p334 (PDF p. 359).)
+([FS](#source-fs), VI.9.6 p230; VI.11.1 pp238–240; IX.7.1 p334.)
 
 *Needs:* [Normalized equivalence](#416-normalized-integral-satake-equivalence); [Symmetric constant terms](#37-symmetric-constant-terms); [Generic root datum](#411-weight-torus-and-generic-root-datum); ReductiveGroupsPartII RG2.5.
 
@@ -2237,7 +2243,7 @@ Let `Ĝ` be a split reductive group over `ℤ_ℓ[r]`, `Q` a finite group actin
 
 `Perf(B(Ĝ⋊Q)^I) ⊗_{Perf(BQ^I)} Perf(BQ^I_Λ) ≃ Perf(B(Ĝ⋊Q)^I_Λ)`.
 
-Prove that the stable idempotent completion of the exact category of finite-projective algebraic representations, with exact sequences split on underlying coefficient modules and its `Rep(Q^I)`-module structure retained, has the universal property used to extend exact linear monoidal functors to this relative perfect category. State the universal property as an equivalence of spaces of such coherent functors and natural equivalences, including coefficient base change and finite-set reindexing. The intended signatures are a `Perf(BQ^I)`-linear equivalence and a functor-space equivalence, not an ordinary equivalence of arbitrary categories. Provide relative perfect base change, stable completion and uniqueness of extension, with tensor, coefficient and finite-set coherence. ([FS](#source-fs), IX.2, p. 321 (PDF p. 344), with its use of highest-weight base change and extension from finite-projective representations.) Use ReductiveGroups §10B and LanglandsParameterStacks §4.1 for highest-weight and good-filtration theory; prove the additional relative integral and stable-completion assertions here. The parameter-stack generation theorem in LanglandsParameterStacks §6.2 has a prime restriction and a different target.
+Prove that the stable idempotent completion of the exact category of finite-projective algebraic representations, with exact sequences split on underlying coefficient modules and its `Rep(Q^I)`-module structure retained, has the universal property used to extend exact linear monoidal functors to this relative perfect category. State the universal property as an equivalence of spaces of such coherent functors and natural equivalences, including coefficient base change and finite-set reindexing. The intended signatures are a `Perf(BQ^I)`-linear equivalence and a functor-space equivalence, not an ordinary equivalence of arbitrary categories. Provide relative perfect base change, stable completion and uniqueness of extension, with tensor, coefficient and finite-set coherence. ([FS](#source-fs), IX.2, p. 321, with its use of highest-weight base change and extension from finite-projective representations.) Use ReductiveGroups §10B and LanglandsParameterStacks §4.1 for highest-weight and good-filtration theory; prove the additional relative integral and stable-completion assertions here. The parameter-stack generation theorem in LanglandsParameterStacks §6.2 has a prime restriction and a different target.
 
 **Checks.**
 
@@ -2269,7 +2275,7 @@ Provide the following API.
 - For `G=SL₂` and `ℓ=2≠p`, dual `PGL₂` has `π₁` of order two; the extension still applies.
 
 
-([FS](#source-fs), IX.2 p321 (PDF p. 344).)
+([FS](#source-fs), IX.2 p321.)
 
 *Needs:* [Normalized equivalence](#416-normalized-integral-satake-equivalence); [CoCartesian finite-set functoriality](#35-cocartesian-finite-set-functoriality); [Fusion and Verdier duality](#38-fusion-and-verdier-duality); [Representation-complex interface](#424-all-prime-representation-complex-interface); EnhancedDerivedSheaves §E0.4; EnhancedDerivedSheaves §§E0.4, E5:abstract.4; EnhancedDerivedSheaves §§E5:abstract.4, E5:presentability.1; EnhancedDerivedSheaves §E5:abstract.1; VStackSheavesAndLisseCategories VS3; DiamondSixOperations §§S6.1–S6.3.
 
@@ -2382,7 +2388,7 @@ Page numbers in the result references are printed pages except where explicitly 
 
 ### Source FS
 
-FS. Laurent Fargues, Peter Scholze, [Geometrization of the local Langlands correspondence](https://people.mpim-bonn.mpg.de/scholze/Geometrization.pdf). Author-hosted 383-page PDF; locators are printed pages, which differ from the PDF pages.
+FS. Laurent Fargues, Peter Scholze, [Geometrization of the local Langlands correspondence](https://people.mpim-bonn.mpg.de/scholze/Geometrization.pdf). Author-hosted 356-page PDF; PDF page `=` printed page.
 
 ### Source BS
 
