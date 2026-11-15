@@ -51,7 +51,7 @@ therefore imply perfect polars; the half-dimensions may differ or be zero.
 README §0.4; CDHHLMNNS-III-v4, proof of Corollary 2.3.10, p. 45.
 -/
 theorem arf_trace_classifies
-    {k V W : Type*} [Field k] [Fintype k] [CharP k 2] [Algebra (ZMod 2) k]
+    {k V W : Type*} [Field k] [Finite k] [CharP k 2] [Algebra (ZMod 2) k]
     [AddCommGroup V] [Module k V] [FiniteDimensional k V]
     [AddCommGroup W] [Module k W] [FiniteDimensional k W]
     (q : QuadraticForm k V) (q' : QuadraticForm k W) (n m : ℕ)
@@ -81,8 +81,8 @@ README §0.4; finite-field Arf coordinates from CDHHLMNNS-III-v4, Corollary 2.3.
 p. 45, with the extension law obtained by trace transitivity.
 -/
 theorem arf_scalar_extension
-    {k l V : Type*} [Field k] [Fintype k] [CharP k 2]
-    [Field l] [Fintype l] [CharP l 2] [Algebra k l]
+    {k l V : Type*} [Field k] [Finite k] [CharP k 2]
+    [Field l] [Finite l] [CharP l 2] [Algebra k l]
     [Algebra (ZMod 2) k] [Algebra (ZMod 2) l] [IsScalarTower (ZMod 2) k l]
     [AddCommGroup V] [Module k V] [FiniteDimensional k V]
     (q : QuadraticForm k V) (n : ℕ) (b : Module.Basis (Fin n × Bool) k V)
