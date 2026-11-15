@@ -711,11 +711,9 @@ whose local monodromy at `0` is unipotent of infinite order (Beukers–Peters 19
 the leaves to satisfy a Liouville property, which fails for most leaves of a generic foliation of
 `ℙ²` (Brunella 1994).
 
-Grothendieck raised the question of the converse in his notes, and split the rank-one case into
-a torsion question for the class of `M` in the Picard group and the question whether a closed
-`1`-form whose reductions are logarithmic has an integral multiple that is logarithmic; Layer 4
-answers the second over open subsets of `𝔸¹_K` (Montpellier fonds, folder 93, pp. 193–197,
-https://grothendieck.umontpellier.fr/93.pdf).
+In rank one the converse splits into a torsion question for the class of `M` in the Picard group
+and the question whether a closed `1`-form whose reductions are logarithmic has an integral
+multiple that is logarithmic; Layer 4 answers the second over open subsets of `𝔸¹_K`.
 
 Over `ℚ`, a finite and explicit set of primes suffices in 4.3. Fürnsinn–Pannier make effective
 the Chudnovskys' Hermite–Padé proof of Kronecker's theorem (their Theorem 1.2: an explicit `σ`
