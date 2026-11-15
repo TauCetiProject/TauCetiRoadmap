@@ -127,8 +127,9 @@ Tau Ceti only.
 
 ### 1.1 Ribbon concordances
 
-Define the time function `timeFunction F (s, t) = pr₂ (F (exp (i s), t))` of a concordance
-`F : SmoothEmbedding.Concordance K₀ K₁` of knots in `S³`, a ribbon concordance
+Write `S3` for the unit sphere of `ℝ⁴` and `Knot` for the smooth circle embeddings in it. Define
+the time function `timeFunction F (s, t) = pr₂ (F (exp (i s), t))` of a concordance
+`F : SmoothEmbedding.Concordance K₀ K₁` of knots in `S3`, a ribbon concordance
 `IsRibbonConcordance F` (on the open slab `0 < t < 1` the time function has only nondegenerate
 critical points, none of index `2`) and the relation `RibbonLE K₀ K₁`. The notion is Gordon's
 (Gordon 1981, §1; Agol 2022, §1).

@@ -53,6 +53,7 @@ variable {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E] {n : ℕ}
 /-- The squared radial function `z ↦ ‖Φ z‖²` of a map `Φ` from the closed unit disc of `ℂ` to the
 closed unit ball of `E`, read on the plane: it is `0` outside the closed disc, where it is never
 used, since the ribbon condition only looks at the open disc. -/
+open scoped Classical in
 def radialFunction (Φ : closedBall (0 : ℂ) 1 → closedBall (0 : E) 1) : ℂ → ℝ :=
   fun z ↦ if h : z ∈ closedBall (0 : ℂ) 1 then ‖(Φ ⟨z, h⟩ : E)‖ ^ 2 else 0
 
@@ -113,27 +114,30 @@ theorem ribbonLE_refl (K : Knot) : RibbonLE K K := by
 theorem RibbonLE.trans (h₀₁ : RibbonLE K₀ K₁) (h₁₂ : RibbonLE K₁ K₂) : RibbonLE K₀ K₂ := by
   sorry
 
+/-- The unit sphere `S³` of `ℝ⁴`. -/
+abbrev S3 : Type := sphere (0 : EuclideanSpace ℝ (Fin 4)) 1
+
 /-- The complement of a concordance `F` in the slab `S³ × [0, 1]` (README 1.3). -/
 def trackComplement (F : SmoothEmbedding.Concordance K₀ K₁) :
-    Set (sphere (0 : EuclideanSpace ℝ (Fin 4)) 1 × ℝ) :=
+    Set (S3 × ℝ) :=
   {p | p ∉ range F ∧ p.2 ∈ Icc 0 1}
 
 /-- **Gordon's lemma, first half** (README 1.3): for a ribbon concordance `F` from `K₀` to `K₁`,
 the inclusion `x ↦ (x, 0)` of the complement of `K₀` into the complement of `F` in the slab
 induces an injection of fundamental groups. -/
 theorem knotGroup_injective_of_isRibbonConcordance {F : SmoothEmbedding.Concordance K₀ K₁}
-    (hF : IsRibbonConcordance F) (i : C((range K₀)ᶜ, trackComplement F))
-    (hi : ∀ x, (i x : sphere (0 : EuclideanSpace ℝ (Fin 4)) 1 × ℝ) = ((x : _), 0))
-    (x : (range K₀)ᶜ) : Function.Injective (FundamentalGroup.map i x) := by
+    (hF : IsRibbonConcordance F) (i : C(((range K₀)ᶜ : Set S3), trackComplement F))
+    (hi : ∀ x, (i x : S3 × ℝ) = ((x : S3), 0))
+    (x : ((range K₀)ᶜ : Set S3)) : Function.Injective (FundamentalGroup.map i x) := by
   sorry
 
 /-- **Gordon's lemma, second half** (README 1.3): for a ribbon concordance `F` from `K₀` to `K₁`,
 the inclusion `x ↦ (x, 1)` of the complement of `K₁` into the complement of `F` in the slab
 induces a surjection of fundamental groups. -/
 theorem knotGroup_surjective_of_isRibbonConcordance {F : SmoothEmbedding.Concordance K₀ K₁}
-    (hF : IsRibbonConcordance F) (i : C((range K₁)ᶜ, trackComplement F))
-    (hi : ∀ x, (i x : sphere (0 : EuclideanSpace ℝ (Fin 4)) 1 × ℝ) = ((x : _), 1))
-    (x : (range K₁)ᶜ) : Function.Surjective (FundamentalGroup.map i x) := by
+    (hF : IsRibbonConcordance F) (i : C(((range K₁)ᶜ : Set S3), trackComplement F))
+    (hi : ∀ x, (i x : S3 × ℝ) = ((x : S3), 1))
+    (x : ((range K₁)ᶜ : Set S3)) : Function.Surjective (FundamentalGroup.map i x) := by
   sorry
 
 /-- **Agol's theorem** (README 1.4): ribbon concordance is antisymmetric up to smooth ambient
