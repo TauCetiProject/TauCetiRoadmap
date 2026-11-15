@@ -62,7 +62,12 @@ base changes, principal filtrations and formal functions (R3.6
 Faithfully flat complete extension of the ground field for affinoid algebras
 and the comparison of their finite modules (§1.3) are owned here, because
 Kiehl's excellence route in §1.2 uses them; AdicSpacesPartIII R3.6
-*affinoid-completed-field-extension*, downstream, cites it.
+*affinoid-completed-field-extension*, downstream, cites it. The
+Runge-immersion predicate of §4.3, with its dense-image criterion and its
+stability under composition and restriction to affinoid subdomains, and the
+Gerritzen–Grauert theorem for locally closed immersions are owned here,
+because §4.3 derives its finite-union form from them; AdicSpacesPartIV F1.6
+*rigid-locally-closed-immersion-runge*, downstream, consumes them from §4.3.
 
 Section ids of this roadmap whose content is Part III's:
 
@@ -2260,9 +2265,11 @@ elaborating roadmap prototype is not a proof or an implementation milestone.
   §8.1, the rigid category and properness predicates of §§6.2–6.3 and the
   rigid–adic functor of §8.3; the coherence, Kiehl, formal-functions and
   GAGA targets listed under **Scope and ownership** are theirs.
-- AdicSpacesPartIV F1.1 and R5.7, with its dagger-algebra targets, consume
-  strict-polyradius affinoidness (§1.5), affinoid excellence (§1.2),
-  Gerritzen–Grauert and the rational refinement of coverings (§4.3), the
+- AdicSpacesPartIV F1.1, F1.6 and R5.7, with its dagger-algebra targets,
+  consume strict-polyradius affinoidness (§1.5), affinoid excellence (§1.2),
+  Gerritzen–Grauert in its finite-union form and for locally closed
+  immersions, the Runge-immersion predicate and the rational refinement of
+  coverings (§4.3; F1.6 *rigid-locally-closed-immersion-runge*), the
   supremum theorems of §§2.1–2.2, fraction algebras (§1.4) and
   rational-local reducedness (§4.4), read through AdicSpacesPartII's
   R0.9 carrier bridge; dagger algebras, weak completion, étale and
@@ -2310,6 +2317,8 @@ elaborating roadmap prototype is not a proof or an implementation milestone.
   Ann. Inst. Fourier 49 (1999), 473–541, especially §1.1 with Theorems
   1.1.1 and 1.1.3, Lemma 2.1.4, Lemma 2.1.5, §3.1 and Appendix A.
   [Author text](https://virtualmath1.stanford.edu/~conrad/papers/irredpaper.pdf).
+  Locators use the numbering and the pages (1–38) of the author text, not
+  the journal pagination.
 - **[Conrad-RA]** B. Conrad, *Relative ampleness in rigid geometry*,
   Ann. Inst. Fourier 56 (2006), 1049–1126, Example 2.2.11 (relative
   analytification over an affinoid base),
