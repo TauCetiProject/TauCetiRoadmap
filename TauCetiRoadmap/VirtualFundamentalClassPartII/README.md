@@ -2250,9 +2250,9 @@ extensions of `g` to `T̄` (7.1) onto the extensions of `F ∘ 𝒞_g : 𝒞_T �
 `F ∘ 𝒞_ḡ` restricts to `F ∘ 𝒞_g` on `𝒞_T` because 2-isomorphic morphisms to the scheme `X` are equal.
 Where a stack of morphisms `Mor_𝔅(𝒞, X)` exists, every open substack of it that is a stack in the
 sense of Convention 1 is one, by its universal property; for `X` smooth and projective over `k` and
-`𝔅` a stack of prestable curves it exists, is algebraic and is representable over `𝔅`, and the stack
-of stable maps of a given class, which is proper, is such an open substack (behrend1997 lines 129–138
-and Proposition 4, lines 139–141).
+`𝔅` a stack of prestable curves it exists, is algebraic and is representable over `𝔅`, and, when `k` has
+characteristic `0`, the stack of stable maps of a given class, which is proper and Deligne–Mumford, is
+such an open substack (behrend1997 lines 129–138 and Proposition 4, lines 139–141).
 *Needs:* 7.1; Tau Ceti `TauCeti.AlgebraicGeometry.PrestableFamily`; StableReduction Layer 3;
 SchemeAndStackFoundations §1.19; for the second API statement, also SchemeAndStackFoundations §4.14.
 
@@ -2280,6 +2280,13 @@ SchemeAndStackFoundations §1.19; for the second API statement, also SchemeAndSt
   forms without common zero, up to scalars, with its universal map, is one.
 - A single point `M = Spec k` with `F = id : ℙ¹ → ℙ¹` over `𝔅 = Spec k` is not one: the first-order
   deformations of `id` form `H⁰(ℙ¹, T_{ℙ¹}) ≅ k³`, while `M` has none.
+- The characteristic-`0` hypothesis on the stack of stable maps is needed. For `char k = p > 0`, the
+  Frobenius `F : ℙ¹ → ℙ¹`, `[x : y] ↦ [x^p : y^p]`, is a stable map of genus `0`, with no markings, of degree
+  `p`. Every `A ∈ PGL₂` satisfies `F ∘ A = A^{(p)} ∘ F`, where `A^{(p)}` raises the entries to the `p`-th
+  power. So the automorphism group scheme of `F` is the Frobenius kernel of `PGL₂`, of order `p³`, and
+  its Lie algebra is all of `H⁰(ℙ¹, T_{ℙ¹}) ≅ k³`, since `dF = 0`. This stabiliser is not reduced. Hence
+  the stack of stable maps of genus `0` and degree `p` to `ℙ¹` is not Deligne–Mumford, not a stack of
+  Convention 1 and no relative space of maps.
 
 ### 9.2 Derived pushforward and duality along prestable families
 
