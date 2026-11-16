@@ -2007,7 +2007,9 @@ to the tangent-framed model used for almost-framed cycles.
 
 #### 5.1.3 Comparison of collapse representatives
 
-*Needs:* 5.0; 5.1 items 1–2; the supplied finite normal tubes and augmentation.
+*Needs:* 5.0; 5.1 items 1–2; the supplied finite normal tubes and augmentation;
+CharacteristicClasses C2.0 and GeneralizedCohomology G4 item 2 for the pointed Thom model
+and its suspension and compact-base comparisons.
 
 Compare its collapse on a fixed normal frame φ with the finite collapse of 5.0:
 the framed Thom equivalence sends a finite normal vector v to
@@ -3048,8 +3050,8 @@ Lemma 5.4 and equation (5.8), pp.41–43, fix the quaternionic Hopf and
 Whitehead-square comparison.
 Kervaire–Milnor's p.512 table records the integral group orders and does not
 identify ν² or prove these suspension and generator comparisons.  Kervaire–Milnor, Theorem
-5.1, p.512, proved in §§5–6, pp.512–526, gives bP₇ = 0, and Theorem 4.1 with the Remarks after
-it, pp.510–512, embeds Θ₆/bP₇ in Π₆/p(S⁶) = coker J₆. Their quadratic function and Arf
+5.1, p.512, gives bP₇ = 0. Lemmas 4.2 and 4.5 and the last paragraph of the proof
+of Theorem 4.1, with the remark on p. 512, embed Θ₆/bP₇ in Π₆/p(S⁶) = coker J₆. Their quadratic function and Arf
 invariant c(M) of §8, pp.534–535, are defined only for odd k other than 1, 3 and 7 (p.534),
 and in dimension six every embedded 3-sphere in an s-parallelizable manifold has trivial
 normal bundle (§7, Case 1, p.528), so they do not reach S³ × S³. The framed quadratic
