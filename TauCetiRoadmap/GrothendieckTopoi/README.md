@@ -1633,21 +1633,23 @@ Conventions 1 and 4 and 1.1, 1.2, 2.1, 2.2, 2.4, 2.5, 4.1, 4.2, 6.1, 6.5 and 6.6
 This section is secondary: it maps existing Lean code to targets and prescribes nothing. The
 Apache-2.0 repository AxiomMath, *The Stacks Project in Lean* (References), formalizes the Stacks
 Project on Mathlib. Its `StacksFrontier` tier is written by AI agents and builds without `sorry`;
-the repository records it as unreviewed by humans, and it is built on Lean and Mathlib v4.35.0,
-earlier than our pin. It is not a dependency: a statement read there is compared with the target
-here before it is used, adaptation is agreed with its maintainers first, and adapted code keeps its
-Apache-2.0 notices.
+the repository keeps it apart from its human-reviewed `StacksCore` tier, and it is built on Lean and
+Mathlib v4.35.0, earlier than our pin. It is not a dependency: a statement read there is compared
+with the target here before it is used, adaptation is agreed with its maintainers first, and adapted
+code keeps its Apache-2.0 notices.
 
 `StacksFrontier/CategoryTheory/Sites` follows the Stacks chapter *Sites and Sheaves* and SGA 4 IV,
-for topoi given by a site. Its `Topos/` files define a morphism of topoi as an adjunction with left
-exact inverse image (Tag 00XC, `MorphismOfTopoi.lean`), the morphism of sheaf topoi of a morphism of
-sites and its composition (Tag 00XA, `ToposDefs.lean`), and 2-morphisms with their horizontal
-composition (Tag 04I9, `TwoMorphismOfTopoi.lean`): the content of 2.1 and 2.2 for topoi of sites,
-without the existence criterion of 2.1 or the 2-category of 2.2. `SliceTopos/` builds localization
-at an object and its compatibility with morphisms of topoi (Tags 04IU and 04IW,
-`LocalizationAndMorphismsOfTopoi.lean`), the slices of 3.1, and localization at a subterminal object
-(`SubterminalSlice*.lean`), the open subterminals of 3.3; `Topos/LocalizationShriekExact.lean`
-proves exactness of extension by zero, the input of Layer 9.
+for topoi given by a site. Its `Topos/` files define, in `MorphismOfTopoi.lean`, a morphism of topoi
+as an adjunction with left exact inverse image, with identity and composition, and the morphism of
+topoi of a morphism of sites (Tag 00XC); in `ToposDefs.lean`, the same notion between topoi of sites
+with its composition (Tag 00XA); and in `TwoMorphismOfTopoi.lean`, 2-morphisms with their horizontal
+composition (Tag 04I9): the content of 2.1 and 2.2 for topoi of sites, without the existence
+criterion of 2.1 or the 2-category of 2.2, and the construction of 2.4's
+`GeometricMorphism.ofContinuous`. `SliceTopos/` builds localization at an object and its
+compatibility with morphisms of topoi (Tags 04IU and 04IW, `LocalizationAndMorphismsOfTopoi.lean`),
+the slices of 3.1, and localization at a subterminal object (`SubterminalSlice*.lean`), the open
+subterminals of 3.3; `Topos/LocalizationShriekExact.lean` proves exactness of extension by zero, the
+input of Layer 9.
 
 `Subtopos/` defines subtopoi (Tag 08LV, SGA 4 IV 9.1, `Defs.lean`), open and closed subtopoi and
 closed complements (Tag 08LZ, `Open.lean`, `Closed.lean`) and embeddings: part of 4.1 and 4.3,
