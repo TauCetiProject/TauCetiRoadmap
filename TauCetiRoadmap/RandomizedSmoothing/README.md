@@ -37,6 +37,15 @@ directly. Out of scope: smoothing with non-Gaussian noise and certificates in no
 procedure and its binomial test; numerical evaluation of `Φ` and `Φ⁻¹`; training with noise;
 and deterministic certificates, which belong to the RobustnessCertificates roadmap.
 
+## Conventions
+
+- `E` is a finite-dimensional real inner product space with its Borel σ-algebra, and
+  `γ = stdGaussian E`. Noise has standard deviation `σ > 0`, so the noisy input is `x + σ z`
+  with `z ∼ γ`.
+- `Φ = cdf (gaussianReal 0 1)` (`stdNormalCDF`) and `Φ⁻¹ = (gaussianReal 0 1).quantile`
+  (`probit`). Every statement about `Φ⁻¹ p` assumes `p ∈ (0, 1)`. `φ` is the standard Gaussian
+  density.
+
 ## Exact supplier contracts
 
 From Tau Ceti ([StandardDistributions](../StandardDistributions/README.md), Layers 1, 7 and
@@ -50,9 +59,10 @@ From Tau Ceti ([StandardDistributions](../StandardDistributions/README.md), Laye
 - `TauCeti.Probability.quantile_gaussianReal` (`Distributions/Gaussian/Quantile.lean`): the
   Gaussian quantile in closed form.
 - `TauCeti.Probability.binomial_tail_eq_regularizedIncompleteBeta`
-  (`Distributions/Binomial/Tail.lean`): `Bin(n, p).real {k | m ≤ k} = I_p(m, n - m + 1)`.
-- `TauCeti.Probability.cdf_betaMeasure_eq` (`Distributions/Beta/Cdf.lean`): the Beta cdf is the
-  regularized incomplete Beta function.
+  (`Distributions/Binomial/Tail.lean`): for `m ≤ n`,
+  `Bin(n, p).real {k | m ≤ k} = I_p(m, n - m + 1)`.
+- `TauCeti.Probability.cdf_betaMeasure_eq` (`Distributions/Beta/Cdf.lean`): for positive
+  parameters, the Beta cdf is the regularized incomplete Beta function.
 - `TauCeti.Probability.iIndepFun.hasLaw_sum_bernoulli` (`Distributions/Binomial/Basic.lean`):
   a sum of independent Bernoulli variables is binomial.
 
@@ -68,15 +78,6 @@ ends with its source locator in parentheses, or says that it is proved here, the
 Checks and a *Needs:* line naming the targets and suppliers it uses. Each layer ends with its
 Examples and Dependencies. `Suggested.lean` states every headline theorem of Layers 1–5 against
 the pinned APIs; the Lean name of each declared object or theorem is given at its statement.
-
-## Conventions
-
-- `E` is a finite-dimensional real inner product space with its Borel σ-algebra, and
-  `γ = stdGaussian E`. Noise has standard deviation `σ > 0`, so the noisy input is `x + σ z`
-  with `z ∼ γ`.
-- `Φ = cdf (gaussianReal 0 1)` (`stdNormalCDF`) and `Φ⁻¹ = (gaussianReal 0 1).quantile`
-  (`probit`). Every statement about `Φ⁻¹ p` assumes `p ∈ (0, 1)`. `φ` is the standard Gaussian
-  density.
 
 ## Layer 1: Gaussian smoothing
 
@@ -96,7 +97,8 @@ The **smoothing** of a measurable `f : E → ℝ` with `0 ≤ f ≤ 1` is
 **Checks.**
 
 - `f ≡ 1/2`: `smooth σ f ≡ 1/2`, in the third case.
-- `f` the indicator of `{0}`: `f = 0` almost everywhere, so `smooth σ f ≡ 0` although `f ≠ 0`.
+- For `E` nontrivial and `f` the indicator of `{0}`: `f = 0` `γ`-almost everywhere, so
+  `smooth σ f ≡ 0` although `f ≠ 0`.
 - `E` trivial and `f ≡ c`: `smooth σ f = c`, and the three cases are `c = 0`, `c = 1` and
   `c ∈ (0, 1)`.
 
@@ -114,9 +116,11 @@ Let `g : E → ℝ` be measurable with `0 ≤ g ≤ 1`, let `t ∈ ℝ` and `δ 
   `{z | ⟪z, u⟫ ≤ t}` has mean `Φ t`, and its translate by `δ` has mean exactly `Φ (t - ‖δ‖)`.
   The analogous halfspace attains the upper form.
 
-The lower form is the Neyman–Pearson lemma for the pair `γ` and `γ` shifted by `δ`, whose
-likelihood ratio is monotone in `⟪z, δ⟫`. It reduces to one dimension along an orthonormal
-basis whose first vector is `u`.
+For the lower form, put `h = 1[⟪z, u⟫ ≤ t]`, `r(z) = exp(⟪z, δ⟫ - ‖δ‖²/2)`, the density of
+`γ` shifted by `δ` with respect to `γ`, and `c = exp(t ‖δ‖ - ‖δ‖²/2)`. Then
+`(g - h)(r - c) ≥ 0` pointwise, so `∫ (g - h) r dγ ≥ c ∫ (g - h) dγ ≥ 0`, and
+`∫ h r dγ = Φ(t - ‖δ‖)` by reduction to the coordinate along `u`. The upper form is the lower
+form for `1 - g` and `-t`.
 
 (Cohen–Rosenfeld–Kolter, arXiv:1902.02918, Lemma 4, pp. 12–13.)
 
@@ -293,9 +297,10 @@ The proof shows that `{k | p < cpLower α N k}` is an upper set `{k | k₀ ≤ k
 
 **Checks.**
 
-- `N = 1`: `cpLower α 1 1 = α` for `α ≤ 1`, and the coverage event has probability
+- `N = 1`, `α < 1`: `cpLower α 1 1 = α`, and the coverage event has probability
   `p · 1[p < α] ≤ α`.
-- `α = 0`: `cpLower 0 N k = 0` for `k ≤ N`, so the event is empty.
+- `α = 0`: `cpLower 0 N k = 0` for `k ≤ N`, so the event is `{k | N < k}` when `p < 1` and
+  empty when `p = 1`; its probability is `0`.
 - `α = 1`: `cpLower 1 N k = 1` for every `k`, and the event has probability `1[p < 1] ≤ 1`.
 
 *Needs:* 3.1.
@@ -308,8 +313,9 @@ The proof shows that `{k | p < cpLower α N k}` is an upper set `{k | k₀ ≤ k
 - **All successes.** For `1 ≤ N` and `0 ≤ α ≤ 1`, `cpLower α N N = α ^ (1 / N)`
   (`cpLower_self`). Hence `cpLower α N k ≤ α ^ (1 / N)` for all `k ≤ N`, and
   `cpLower α N k < 1` when also `α < 1`.
-- **Upper bound.** The upper Clopper–Pearson bound, one minus `cpLower α N (N - k)`, exceeds
-  `p` except on an event of `Bin(N, p)`-probability at most `α`.
+- **Upper bound.** The upper Clopper–Pearson bound, one minus `cpLower α N (N - k)`, is at least
+  `p` except on an event of `Bin(N, p)`-probability at most `α`: the exceptional event is
+  `{1 - p < cpLower α N (N - K)}` with `N - K ∼ Bin(N, 1 - p)`, which 3.2 bounds.
 
 (Proved here, the Beta form from the binomial tail identity and the Beta cdf.)
 
@@ -350,8 +356,9 @@ and the Beta cdf.
 ### 4.1 Mean-value bounds
 
 For `0 ≤ a ≤ b`, `(b - a) φ(b) ≤ Φ b - Φ a ≤ (b - a) φ(a)`, since `φ` is decreasing on
-`[0, ∞)`. With `Φ 0 = 1/2` and the comparison lemmas listed under the supplier contracts, these
-bound `Φ⁻¹ p` above and below by finitely many values of `φ`.
+`[0, ∞)`. Hence, with `Φ 0 = 1/2`, for `0 = a₀ ≤ a₁ ≤ … ≤ a_n` and `p ∈ (0, 1)`: if
+`p ≤ 1/2 + Σ_{i=1}^{n} (a_i - a_{i-1}) φ(a_i)` then `Φ⁻¹ p ≤ a_n`, and if
+`1/2 + Σ_{i=1}^{n} (a_i - a_{i-1}) φ(a_{i-1}) < p` then `a_n < Φ⁻¹ p`.
 
 (Proved here.)
 
@@ -360,8 +367,10 @@ bound `Φ⁻¹ p` above and below by finitely many values of `φ`.
 - `a = b`: both sides are `0`.
 - `a = 0`, `b = 1`: `0.242 ≈ φ(1) ≤ Φ 1 - 1/2 ≈ 0.341 ≤ φ(0) ≈ 0.399`.
 - `Φ 0 = 1/2`, so `Φ⁻¹ (1/2) = 0`, and `Φ 0 < 3/4` gives `0 < Φ⁻¹ (3/4)`.
+- `p = 7/10`, grid `0, 1`: `1/2 + φ(1) ≈ 0.742 ≥ p` gives `Φ⁻¹ p ≤ 1`; `p = 19/20`:
+  `1/2 + φ(0) ≈ 0.899 < p` gives `1 < Φ⁻¹ p ≈ 1.645`.
 
-*Needs:* Mathlib `gaussianReal`, `cdf`; `Measure.lt_quantile_iff`.
+*Needs:* Mathlib `gaussianReal`, `cdf`; `Measure.quantile_le_iff`, `Measure.lt_quantile_iff`.
 
 ### Examples
 
@@ -410,8 +419,10 @@ p. 23, which draws the selection sample separately.)
 
 - A constant selection rule `s` reduces 5.2 to 5.1.
 - `N₀ = 0` forces `s` to be constant.
-- A selection rule that reads the estimation sample is not covered, and the README does not
-  claim it.
+- Independence of the two samples is needed: for `N = 1`, `α = 3/4`, the class
+  `A = C (x + σ ω 0)` read from the estimation sample, and a two-class halfspace classifier
+  with `x` on its boundary, `K = 1` and `p̲ = 3/4` always, so the radius `σ Φ⁻¹ (3/4)` is always
+  returned while `P_A(x) = 1/2`: the failure event has probability `1 > 3/4`.
 
 *Needs:* 5.1; Mathlib `Measure.prod` and Fubini.
 
