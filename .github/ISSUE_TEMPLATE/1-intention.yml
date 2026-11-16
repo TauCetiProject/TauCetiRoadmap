@@ -133,6 +133,7 @@ body:
         - HamiltonianFloerOperations
         - HeegaardFloer
         - HilbertModules
+        - HomologicalStabilityOfGeneralLinearGroups
         - HomotopySpheres
         - HopfologicalAlgebra
         - Hyperfunctions
