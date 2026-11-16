@@ -864,6 +864,50 @@ uses §6.1, and §6.3 uses §6.1–6.2.
 - ReductiveGroups, Layer 1, uses representations and their endomorphism algebras; it supplies
   no prerequisites to the algebra theory here.
 
+## Provenance
+
+This section is secondary; it maps sections of this roadmap to an existing formalisation outside
+Tau Ceti and prescribes nothing.
+[LeanPool/lean-pool](https://github.com/LeanPool/lean-pool/tree/f8b9b721d616a2cc0b22fc226e4a9e3dd6cea2d0),
+read at commit `f8b9b721`, is an Apache-2.0 collection of Lean formalisation projects maintained
+outside Mathlib. It is not a dependency: it is built against Lean and Mathlib v4.35.0, so a
+statement read there is compared with the section here before it is used, and a proof adapted
+from it keeps the Apache-2.0 attribution. Two of its folders bear on this roadmap; neither
+contains `sorry`.
+
+- [`LeanPool/ArtinWedderburn/`](https://github.com/LeanPool/lean-pool/tree/f8b9b721d616a2cc0b22fc226e4a9e3dd6cea2d0/LeanPool/ArtinWedderburn)
+  (13 files) proves that a nontrivial prime left Artinian ring is isomorphic to a matrix ring
+  over a division ring, by building matrix units from orthogonal idempotents, and specializes
+  this to simple Artinian rings. It is prior art for the simple case of §2.1, which is consumed
+  here from Mathlib.
+- [`LeanPool/BrauerGroupNew/`](https://github.com/LeanPool/lean-pool/tree/f8b9b721d616a2cc0b22fc226e4a9e3dd6cea2d0/LeanPool/BrauerGroupNew)
+  (78 files, 42 of them under `Mathlib/` extending Mathlib's API) is prior art for:
+  - §2.3 for one block, §3.1 for a simple module, and §3.2, over a finite-dimensional simple
+    algebra: uniqueness of the division ring and of the matrix size in a presentation Mₙ(D), the
+    double-centralizer isomorphism for a simple module, and comparison of finite modules by
+    dimension (`ZeroSevenFourE.lean`);
+  - §§4.1, 4.3 and 4.4: tensor products of central simple algebras, scalar extension,
+    A ⊗ₖ Aᵒᵖ ≅ Endₖ(A), the converse that a nontrivial Azumaya algebra over a field is
+    finite-dimensional central simple (`Azumaya/Basic.lean`), and A ≅ B ⊗ₖ Cₐ(B) for a central
+    simple subalgebra B;
+  - §5.1: `SkolemNoether.lean` proves its statement, with K, A and B in one universe, through a
+    simple A-module and its double centralizer; §5.1 lets the three universes vary independently;
+  - §§5.2–5.3: simplicity and dimension of the centralizer of a simple subalgebra, and the double
+    centralizer (`DoubleCentralizer.lean`);
+  - Layer 6 except §6.3: the commutative group law on Mathlib's `BrauerGroup`, base change,
+    splitting fields and separable maximal subfields (`Subfield/`), triviality over algebraically
+    closed and finite fields, and Br(ℝ) ≅ ℤ/2.
+
+Layers 0 and 1, §§2.1–2.2 for semisimple rings that are not simple, §2.4, §3.1 beyond simple
+modules, and the index of §6.3 have no counterpart in either folder. Conversely, four parts of
+`LeanPool/BrauerGroupNew/` correspond to no section of this roadmap: Azumaya algebras over a
+commutative ring and their tensor products; Morita theory, namely matrix algebras, tensor
+products, and the coincidence of Morita and Brauer equivalence of central simple algebras;
+crossed-product algebras, with the bijection between the relative Brauer group of a finite Galois
+extension K/F and H²(Gal(K/F), Kˣ); and Frobenius' theorem on real division algebras. Morita
+equivalence of Artin algebras is treated in ArtinAlgebras, Layer 7, and the crossed-product
+comparison with H² in QuadraticFormInvariants, §7B.
+
 ## References
 
 - The Stacks Project, *Brauer Groups*, version ed88ff78 (2026): Lemma 4.6 (tag 074E), p. 4;
