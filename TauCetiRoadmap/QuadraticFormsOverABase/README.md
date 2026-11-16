@@ -1016,11 +1016,14 @@ repository LeanPool, *lean-pool* (References), keeps Lean 4 formalizations that 
 each project permissively licensed (Apache-2.0 or MIT) and bumped to Lean and Mathlib v4.35.0,
 earlier than our pin. It is not a dependency: a statement read there is compared with the target
 here before it is used, adaptation is agreed first with the authors of the code (named in each
-file's header and in LeanPool's NOTICE), and adapted code keeps its license notices.
+file's header and in the project's entry in LeanPool's registry, `LeanPool/projects/`), and
+adapted code keeps its license notices.
 
 `LeanPool/HasseMinkowski` proves the Hasse–Minkowski theorem for quadratic forms over `ℚ`, with
 Hilbert symbols over `ℚ_p` and `ℝ`, their reciprocity and the Hasse invariant. Its main theorems
-concern forms over `ℚ`, `ℚ_p` and `ℝ`, which Scope leaves to QuadraticFormInvariants. Its
+concern forms over `ℚ`, `ℚ_p` and `ℝ`, fields in which `2` is invertible: the Hasse–Minkowski
+theorem is GlobalQuadraticForms' (§5.5), and the Hilbert symbol and the Hasse invariant over a
+nonarchimedean local field are QuadraticFormInvariants' (Layer 6). Its
 `Prod.lean` also shows, over a commutative ring `R` in which `2` is invertible, that the matrix of
 `QuadraticForm.baseChange A Q` in the base-changed basis is the matrix of `Q` mapped into `A`
 (`baseChange_toMatrix`, `baseChange_discr`). This is a matrix form of 0.2's
