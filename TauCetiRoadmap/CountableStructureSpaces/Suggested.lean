@@ -7,6 +7,7 @@ public import TauCeti.ModelTheory.BackAndForth.Equivalence
 public import TauCeti.ModelTheory.Interpolation.PCClass
 public import TauCeti.ModelTheory.RelationalConfiguration.BackAndForth
 public import TauCeti.ModelTheory.RelationalConfiguration.Isomorphism
+public import TauCeti.ModelTheory.RelationalConfiguration.LanguageMap
 public import TauCeti.ModelTheory.RelationalConfiguration.ModelsOf
 public import TauCeti.ModelTheory.RelationalConfiguration.Structure
 public import TauCeti.ModelTheory.RelationalConfiguration.Topology
@@ -31,11 +32,11 @@ Everything is stated over the pinned Tau Ceti library: the infinitary syntax and
 equivalence and the Scott analysis (`TauCeti.BFEquiv`, `TauCeti.scottSentence`,
 `TauCeti.SelfStabilizesCompletely`, `TauCeti.scottHeight`), the coding space
 `TauCeti.RelationalConfiguration` with its topology, decoding, logic action, model classes and
-isomorphism and back-and-forth setoids, the permutation-group topology, and projective classes
-(`FirstOrder.Language.LHom.PCMem`). The library's theorems are cited, not restated. Two targets
-are proved in place: `isomorphismInvariant_modelsOf`, which CountableModelCounting consumes by
-name, and the graph events `measurableSet_setOf_realize_graph`, from the target
-`toStructure_toRelationalConfiguration` and the library.
+isomorphism and back-and-forth setoids, reducts to symbol sublanguages, the permutation-group
+topology, and projective classes (`FirstOrder.Language.LHom.PCMem`). The library's theorems are
+cited, not restated. Two targets are proved in place: `isomorphismInvariant_modelsOf`, which
+CountableModelCounting consumes by name, and the graph events `measurableSet_setOf_realize_graph`,
+from the target `toStructure_toRelationalConfiguration` and the library.
 The PC sentence of a tree is recorded by its specification (`exists_pcSentence`); the
 README gives its explicit construction.
 -/
@@ -415,18 +416,34 @@ theorem analyticSet_iff_exists_pc [L.IsRelational] [∀ n, Countable (L.Relation
 
 /-! ## Layer 6: separation and the well-order class -/
 
-/-- **Layer 6 milestone, invariant analytic separation**, for every language. The route through
-the library's `Setoid.exists_invariant_measurableSet_separating` and
-`RelationalConfiguration.analyticSet_setOf_isoSetoid` covers relational languages. -/
-theorem invariant_analytic_separation [∀ n, Countable (L.Relations n)]
+/-- **Layer 6, a countable sublanguage separates.** For every language, disjoint analytic classes
+of codes have disjoint reducts to the sublanguage `symbSublang ∅ R` of some countable set `R` of
+relation symbols: `A` and `B` are continuous images of Baire space, whose square is Lindelöf, so
+countably many atoms distinguish every point of `A` from every point of `B`. Only the separation
+is countable: neither class need depend on countably many symbols. -/
+theorem exists_countable_sublanguage_separating
+    {A B : Set (RelationalConfiguration L ℕ)} (hA : AnalyticSet A) (hB : AnalyticSet B)
+    (hd : Disjoint A B) :
+    ∃ R : Set (Σ n, L.Relations n), R.Countable ∧
+      Disjoint ((symbSublangIncl ∅ R).reductConfiguration '' A)
+        ((symbSublangIncl ∅ R).reductConfiguration '' B) := by
+  sorry
+
+/-- **Layer 6 milestone, invariant analytic separation**, for every language. With `R` from
+`exists_countable_sublanguage_separating`, the reducts of `A` and `B` are disjoint analytic classes
+of a language with countably many relation symbols, that of `B` invariant; the library's
+`Setoid.exists_invariant_measurableSet_separating` for the orbit relation separates them there,
+and the preimage of that separator along the reduct is invariant and separates `A` from `B`. -/
+theorem invariant_analytic_separation
     {A B : Set (RelationalConfiguration L ℕ)} (hA : AnalyticSet A) (hB : AnalyticSet B)
     (hinv : MulAction.IsFixedBlock (Equiv.Perm ℕ) B) (hd : Disjoint A B) :
     ∃ C, A ⊆ C ∧ Disjoint B C ∧ MeasurableSet C ∧ MulAction.IsFixedBlock (Equiv.Perm ℕ) C := by
   sorry
 
-/-- **Layer 6 milestone.** A sentence separates an analytic class from a disjoint invariant
-analytic class. -/
-theorem exists_sentence_separating [L.IsRelational] [∀ n, Countable (L.Relations n)]
+/-- **Layer 6 milestone.** For every relational language, a sentence separates an analytic class
+from a disjoint invariant analytic class: the separator of `invariant_analytic_separation` is a
+model class by `lopezEscobar_action_iff`. -/
+theorem exists_sentence_separating [L.IsRelational]
     {A B : Set (RelationalConfiguration L ℕ)} (hA : AnalyticSet A) (hB : AnalyticSet B)
     (hinv : MulAction.IsFixedBlock (Equiv.Perm ℕ) B) (hd : Disjoint A B) :
     ∃ θ : L.Sentenceω, A ⊆ modelsOf θ ∧ Disjoint B (modelsOf θ) := by
