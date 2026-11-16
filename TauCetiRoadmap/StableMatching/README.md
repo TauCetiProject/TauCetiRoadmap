@@ -318,8 +318,8 @@ This section is secondary: it maps existing Lean code to targets and prescribes 
 repository LeanPool, *lean-pool* (References), keeps Lean 4 formalizations that do not fit Mathlib,
 each project permissively licensed (Apache-2.0 or MIT) and bumped to Lean and Mathlib v4.35.0,
 earlier than our pin. It is not a dependency: a statement read there is compared with the target
-here before it is used, adaptation is agreed with its maintainers first, and adapted code keeps its
-license notices.
+here before it is used, adaptation is agreed first with the authors of the code (named in each
+file's header and in LeanPool's NOTICE), and adapted code keeps its license notices.
 
 `LeanPool/ClassicalGraphColouring/Galvin/GaleShapley.lean` proves, by strong induction on the number
 of acceptable pairs, that stable matchings exist on finite markets whose acceptable pairs form one
