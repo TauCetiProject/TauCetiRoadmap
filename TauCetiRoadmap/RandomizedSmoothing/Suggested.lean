@@ -8,13 +8,12 @@ import TauCeti.Probability.Quantile
 # Randomized smoothing: target signatures
 
 **This file is not the roadmap, and it is not exhaustive.** The definitive document is
-`README.md`. This file states the headline theorems of Layers 1–6 against the pinned Mathlib and
+`README.md`. This file states the headline theorems of Layers 1–5 against the pinned Mathlib and
 Tau Ceti APIs; discharging them finishes neither a milestone nor the roadmap. The `sorry` proofs
-are targets, not completed results. The sharpness construction of §2.2, the upper bound
-`cpUpper` of §3.3, the decidable tail check of §3.4, the grid bounds of Layer 4 and the selection
-stage of §5.2 are README targets not stated here, as are the rational lower bounds of §3.4 and
-the converse probit bound of Layer 4, which close in one step from `le_csSup` and
-`Measure.quantile_le_iff`.
+are targets, not completed results. Every headline is stated. Not stated, as API or one-step
+consequences of the pinned quantile lemmas: the class-probability identities of §2.1, the tail
+formula and lower bounds of §3.4, the upper Clopper–Pearson bound of §3.3, the mean-value bounds
+of Layer 4 and the limit of §5.3.
 -/
 
 noncomputable section
@@ -50,7 +49,7 @@ theorem integral_add_le_stdNormalCDF_add_norm {g : E → ℝ} (hg : Measurable g
     (ht : ∫ z, g z ∂(stdGaussian E) ≤ stdNormalCDF t) (δ : E) :
     ∫ z, g (z + δ) ∂(stdGaussian E) ≤ stdNormalCDF (t + ‖δ‖) := sorry
 
-/-- The positivity dichotomy for smoothed `[0, 1]`-valued functions. -/
+/-- The positivity trichotomy for smoothed `[0, 1]`-valued functions. -/
 theorem smooth_trichotomy {σ : ℝ} (hσ : 0 < σ) {f : E → ℝ} (hf : Measurable f)
     (h0 : ∀ z, 0 ≤ f z) (h1 : ∀ z, f z ≤ 1) :
     (∀ x, smooth σ f x = 0) ∨ (∀ x, smooth σ f x = 1) ∨ (∀ x, smooth σ f x ∈ Ioo 0 1) := sorry
@@ -89,6 +88,16 @@ theorem smoothCertified_of_lower_bound {k : ℕ} {σ : ℝ} (hσ : 0 < σ) {C : 
     (hA : pA ≤ classProb σ C A x) :
     SmoothCertified σ C x A (σ * probit pA) := sorry
 
+/-- Sharpness of the certified radius: beyond it, some classifier with the same class
+probabilities at `x` prefers `B` (Cohen–Rosenfeld–Kolter, Theorem 2). -/
+theorem exists_classifier_not_certified [Nontrivial E] {k : ℕ} {σ : ℝ} (hσ : 0 < σ) {pA pB : ℝ}
+    (hpB : 0 < pB) (hBA : pB ≤ pA) (hpA : pA < 1) (hsum : pA + pB ≤ 1)
+    (hk : 2 + ⌈(1 - pA - pB) / pB⌉₊ ≤ k) {A B : Fin k} (hAB : A ≠ B) (x δ : E)
+    (hδ : σ / 2 * (probit pA - probit pB) < ‖δ‖) :
+    ∃ C : E → Fin k, Measurable C ∧ classProb σ C A x = pA ∧ classProb σ C B x = pB ∧
+      (∀ c, c ≠ A → classProb σ C c x ≤ pB) ∧
+      classProb σ C A (x + δ) < classProb σ C B (x + δ) := sorry
+
 /-! ## Layer 3: exact binomial confidence bounds -/
 
 /-- The binomial tail `P(X ≥ k)` for `X ∼ Bin(N, q)`. -/
@@ -115,12 +124,6 @@ theorem cpLower_eq_quantile_betaMeasure {α : ℝ} (hα : α ∈ Ioo 0 1) {N k :
 theorem cpLower_self {α : ℝ} (hα₀ : 0 ≤ α) (hα₁ : α ≤ 1) {N : ℕ} (hN : 1 ≤ N) :
     cpLower α N N = α ^ ((1 : ℝ) / N) := sorry
 
-/-! ## Layer 4: rational bounds for the probit -/
-
-/-- A rational upper bound for `Φ` gives a lower bound for `Φ⁻¹`. -/
-theorem le_probit_of_stdNormalCDF_le {p t : ℝ} (hp : p ∈ Ioo 0 1) (ht : stdNormalCDF t ≤ p) :
-    t ≤ probit p := sorry
-
 /-! ## Layer 5: Monte Carlo certification -/
 
 /-- The number of noisy samples on which the base classifier returns `A`. -/
@@ -135,12 +138,14 @@ theorem certify_failure_le {k : ℕ} {σ : ℝ} (hσ : 0 < σ) {C : E → Fin k}
         ¬ SmoothCertified σ C x A (σ * probit (cpLower α N (hitCount σ C x A ω)))} ≤ α :=
   sorry
 
-/-! ## Layer 6: checks -/
-
-/-- The maximal certifiable radius with `100 000` samples at `α = 1/1000` lies in
-`(3.81 σ, 3.82 σ)`. -/
-theorem probit_maximal_radius_bounds :
-    (381 / 100 : ℝ) < probit ((1 / 1000 : ℝ) ^ ((1 : ℝ) / 100000)) ∧
-      probit ((1 / 1000 : ℝ) ^ ((1 : ℝ) / 100000)) < 382 / 100 := sorry
+/-- The certification guarantee when the class is selected from an independent sample. -/
+theorem certify_failure_le_of_selection {k : ℕ} {σ : ℝ} (hσ : 0 < σ) {C : E → Fin k}
+    (hC : Measurable C) (x : E) (N₀ N : ℕ) {s : (Fin N₀ → E) → Fin k} (hs : Measurable s)
+    {α : ℝ} (hα : α ∈ Ico 0 1) :
+    ((Measure.pi fun _ : Fin N₀ => stdGaussian E).prod
+        (Measure.pi fun _ : Fin N => stdGaussian E)).real
+      {ω | 1 / 2 < cpLower α N (hitCount σ C x (s ω.1) ω.2) ∧
+        ¬ SmoothCertified σ C x (s ω.1)
+          (σ * probit (cpLower α N (hitCount σ C x (s ω.1) ω.2)))} ≤ α := sorry
 
 end TauCetiRoadmap.RandomizedSmoothing
