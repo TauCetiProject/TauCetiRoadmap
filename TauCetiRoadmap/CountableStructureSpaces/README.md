@@ -713,6 +713,17 @@ not isomorphic. So 4.3 bounds the external height, which a bound `β` on the int
 - in a language with one nullary relation symbol `Q`, two codes disagreeing on `Q` have
   `bfTree = ⊥`: the empty tuples already differ in atomic type.
 
+**Check.** Isomorphism on `modelsOf φ` (4.3–4.4) needs countably many relation symbols. Take
+unary predicates `P_r`, `r ∈ ℝ`, and `φ = ⊤`. A measurable set of pairs of codes depends on
+countably many coordinates (`MeasurableSet.eq_preimage_restrict_countable`, through
+`MeasurableEquiv.sumPiEquivProdPi`), so it cannot separate `(c₀, c₀)` from `(c₀, d)`, where `c₀` has
+every predicate empty and `d` makes true everywhere one `P_s` those coordinates do not mention. So
+isomorphism is not measurable, although level `ω` decides it (in a unary language level `k`
+compares, for each set of predicates, the number of elements satisfying exactly those, up to `k`),
+and `measurableSet_iso_inter_iff_exists_bfLevel` fails. This is why Layer 4 keeps the countability
+that 6.1 drops: there a countable sublanguage need only separate two analytic classes, while here
+no countable set of symbols decides isomorphism.
+
 ### Dependencies
 
 Layers 1–3. InfinitaryLogic Layers 1–3, implemented in Tau Ceti; `AnalyticSet.prod` of
