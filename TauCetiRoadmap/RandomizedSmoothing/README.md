@@ -35,8 +35,7 @@ general confidence sets to its 1.4. This roadmap needs only the Gaussian shift c
 directly. Out of scope: smoothing with non-Gaussian noise and certificates in norms other than
 `ℓ²`; Hoeffding-type and other non-exact confidence bounds; the abstaining prediction
 procedure and its binomial test; numerical evaluation of `Φ` and `Φ⁻¹`; training with noise;
-and deterministic certificates, which belong to
-[RobustnessCertificates](https://github.com/TauCetiProject/TauCetiRoadmap/pull/2426).
+and deterministic certificates, which belong to the RobustnessCertificates roadmap.
 
 ## Exact supplier contracts
 
