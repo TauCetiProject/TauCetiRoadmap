@@ -22,15 +22,22 @@ The following headline theorems are not statable at the pins:
   (AKNS, Theorem 3.1): Mathlib and Tau Ceti have first-order syntax, semantics and definability
   but no interpretations, homotopies of interpretations or bi-interpretations;
 * the cohomological local–global principles of Layer 1 (Kerz–Saito's principle with prime
-  coefficients, the principle in characteristic two, Kato's two-dimensional principle): the pins
-  have continuous group cohomology but no twisted Galois coefficients `ℤ/n(d)`, no Kato groups
-  of logarithmic differentials in characteristic two and no residue maps at discrete valuations,
-  so the detection statements have no carrier;
+  coefficients, the principle in characteristic two, Kato's two-dimensional principle): Galois
+  cohomology and restriction exist at the pins (Mathlib's `continuousCohomology`, with
+  `ContinuousCohomology.map` along `Field.absoluteGaloisGroup.map`), but the detection statements
+  restrict to the henselization `K_w` of `K` at a discrete valuation, and the pins have no
+  henselized valued field: Tau Ceti's `TauCeti.Henselization.algebra` henselizes a ring along an
+  ideal and is not shown to be a domain when the ring is a discrete valuation ring. The pins also
+  lack the coefficients `μ_ℓ^{⊗d}` for `d ≥ 2` (Tau Ceti's `TauCeti.KummerCoeff` is `μ_n`), Kato's
+  groups of logarithmic differentials in characteristic two, and the residue maps of Kato's
+  complex;
 * the characteristic-two cases of Kronecker dimension above three of the divisor theorem, the
   normalization theorem and the single-sentence theorem: their hypothesis, resolution of
   singularities above `𝔽₂`, asks for smooth projective compactifications with simple normal
-  crossings boundary, and the pins have no normal crossings divisors. The unconditional cases,
-  characteristic different from two or Kronecker dimension at most three, are stated below.
+  crossings boundary, and the pins have no simple normal crossings divisor on a scheme (Tau
+  Ceti's `TauCeti.SmoothPair.AlgebraicChart` is a normal-crossings chart on a single ring). The
+  unconditional cases, characteristic different from two or Kronecker dimension at most three,
+  are stated below.
 -/
 
 namespace TauCetiRoadmap.LogicAndDefinabilityInNumberTheoryPartII
