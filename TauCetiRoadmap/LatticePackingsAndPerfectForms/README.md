@@ -175,9 +175,19 @@ LMFDB columns (Layers 0, 1 and 7), `TauCeti/Analysis/SphericalDesign/` and
   theorem, lattices from codes, LLL-reduced bases**: GoN.
 - **Short-vector enumeration** (Fincke–Pohst) as an algorithm:
   [Effective Diophantine methods](../EffectiveDiophantineMethods/README.md) §1.8.
-- **The sphere packing problem for non-lattice packings**. The lattice Cohn–Elkies
-  bound and the dimension-24 auxiliary function belong to §4.11 here. `γ₈ = 2` and `γ₂₄ = 4` are stated here as theorems about *lattices* with cited proofs;
-  `math-inc/Sphere-Packing-Lean` is the migration source named in 4.11.
+- **The sphere packing problem for non-lattice packings**, including the Cohn–Elkies bound for
+  arbitrary packings and the asymptotics of its linear program. The lattice Cohn–Elkies bound and
+  the dimension-24 auxiliary function belong to §4.11 here. `γ₈ = 2` and `γ₂₄ = 4` are stated here
+  as theorems about *lattices* with cited proofs. Two Lean formalizations outside Tau Ceti are
+  provenance for 4.11, not suppliers (References): `math-inc/Sphere-Packing-Lean`, and the folder
+  `LeanPool/SpherePacking` of LeanPool's `lean-pool`. The latter proves, for every `d > 0`, every
+  packing of `ℝᵈ` with centers at mutual distance at least `1` and every real Schwartz function `f`
+  with real `f̂ ≥ 0`, `f̂(0) > 0` and `f(x) ≤ 0` for `‖x‖ ≥ 1`, that the packing density is at
+  most `vol B(0, 1/2) · f(0)/f̂(0)` (`PackingBound.lean`, through periodic packings and Poisson
+  summation), and that the `d`-th root of the infimum of this bound over such `f` tends to
+  `√(e/(2π))` as `d → ∞` (`Conclusion.lean`). Applied to `ℤⁿ` in `FormSpace A`, after an
+  isometry with `ℝⁿ`, scaling the minimal distance to `1` and replacing `f` by `x ↦ f(r x)`, the
+  former gives 4.11's `centerDensity_le_cohnElkies`; the latter has no target here.
 - **Label components beyond the intrinsic prefix, orderings fixed by convention, stored lists, and
   the completeness of database tables** are not targets: the lattice label's enumerative index, the
   order of the `shortest` list, and the stored genus representatives. The intrinsic prefix
@@ -1393,8 +1403,9 @@ procedures (Cohn–Kumar–Miller–Radchenko–Viazovska, arXiv:1603.06518v4,
 This gives center density ≤ 1, hence γ₂₄ ≤ 4. Tau Ceti's Leech lattice `TauCeti.leechLattice` has
 minimum 4 (`TauCeti.minimum_leechLattice`) and determinant 1 (`TauCeti.discriminant_leechLattice`
 with `TauCeti.isPosDef_leechLattice`), so it attains equality.
-Prove `hermiteConstant_twentyFour`. The external sphere-packing formalization is provenance,
-not a library prerequisite; the analytic input is owned in this subsection.
+Prove `hermiteConstant_twentyFour`. The external sphere-packing formalizations named under *Not
+owned here* are provenance, not library prerequisites; the analytic input is owned in this
+subsection.
 
 API:
 - The general bound is unchanged by positive rescaling of f.
@@ -2139,6 +2150,10 @@ Layer 1 for 5.5–5.6. The downstream applications consume these results.
   Math. 185 (2017), 991–1015. H. Cohn, A. Kumar, S. D. Miller, D. Radchenko, M. Viazovska, *The
   sphere packing problem in dimension 24*, Ann. of Math. 185 (2017), 1017–1033.
   `math-inc/Sphere-Packing-Lean` (Lean formalization of both).
+- LeanPool, *lean-pool*. Lean 4 formalizations at commit f8b9b721d616a2cc0b22fc226e4a9e3dd6cea2d0,
+  Lean v4.35.0; folder `LeanPool/SpherePacking` (Apache-2.0; upstream `openai/ten-proofs` per
+  LeanPool's NOTICE), files `PackingBound.lean` and `Conclusion.lean`.
+  https://github.com/LeanPool/lean-pool/tree/f8b9b721d616a2cc0b22fc226e4a9e3dd6cea2d0/LeanPool/SpherePacking
 - M. Dutour Sikirić, A. Schürmann, F. Vallentin, *Classification of eight-dimensional perfect
   forms*, arXiv:math/0609388v3, §1, pp.2–3, Table 1 and Theorem 1.1
   (version used here; the journal version is Electron. Res. Announc. AMS 13 (2007), 21–32).
