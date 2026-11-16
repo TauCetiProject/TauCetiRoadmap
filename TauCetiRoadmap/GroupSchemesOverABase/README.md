@@ -1500,12 +1500,15 @@ group (Tag 0B7Q, `Irreducible.lean`) and the quasi-compactness of an irreducible
 `QuasiCompact.lean`). It also has centers, stabilizers, actions and abelian varieties, which are no
 target here. `StacksFrontier/AlgebraicGeometry/GroupScheme/Examples` has `𝔾_m` and `μ_n` over a base
 (Tag 040M), which this roadmap takes from Tau Ceti. `StacksFrontier/AlgebraicGeometry/Groupoids`
-builds groupoid schemes over a base, their quotients and stabilizers. No file name or tag in these
-directories treats the monomorphisms of 4.5, the approximation, quotients and factorization of 4.9,
-the schemes and groups of connected components (4.7–4.8), `D_S(M)` for a general `M`, groups of
-multiplicative type and tori (Layers 1–2), rigidity, density of torsion and Hom schemes (Layer 3),
-rank functions and maximal tori over a base (Layer 5), Picard groups of the flag scheme (Layer 6) or
-the Steinberg map (Layer 7).
+builds groupoid schemes over a base, their quotients and stabilizers. Its
+`GroupSchemeProperties/Immersion.lean` has the case of the monomorphism statement of 4.5 and 4.9 in
+which the homomorphism is an immersion: an immersion of group schemes over a field is a closed
+immersion, with no hypothesis of finiteness or quasi-compactness (Tag 047T). No file name or tag in
+these directories treats a monomorphism that is not assumed to be an immersion (4.5), the
+approximation, quotients and factorization of 4.9, the schemes and groups of connected components
+(4.7–4.8), `D_S(M)` for a general `M`, groups of multiplicative type and tori (Layers 1–2),
+rigidity, density of torsion and Hom schemes (Layer 3), rank functions and maximal tori over a base
+(Layer 5), Picard groups of the flag scheme (Layer 6) or the Steinberg map (Layer 7).
 
 ## References
 
