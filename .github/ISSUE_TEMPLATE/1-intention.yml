@@ -217,6 +217,7 @@ body:
         - RamificationOfCompleteDiscretelyValuedFields
         - RandomMatrices
         - Rank24LatticeConstructions
+        - RationalHomotopyModels
         - RealAnalyticGeometry
         - RealSemisimpleLieGroups
         - ReductiveGroups
