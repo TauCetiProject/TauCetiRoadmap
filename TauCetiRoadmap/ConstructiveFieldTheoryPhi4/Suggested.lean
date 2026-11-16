@@ -650,12 +650,13 @@ end ReachabilityScheme
 
 /-- **7.3, structure of reachable fields.** A convergent reachability scheme has a reachable random
 field: a probability measure on `ℝ^{C_c(ℝ^d)}` (product σ-algebra) whose coordinate process is a
-random field and whose finite-dimensional marginals are the double limits of the scheme. It is
-symmetric under `Φ ↦ −Φ` when every member of `𝒞` is even, invariant under every linear isometry
-of `ℝ^d` preserving `ℤ^d` (the hyperoctahedral group `W_d`) acting on test functions, and
-`E[T_f²]` is at most `liminf_n liminf_k ⟨(T^{n,k}_f)²⟩` (Aizenman–Duminil-Copin, the paragraph
-after Definition 1.1; compare Sokal, Lemma 2.2, for φ⁴ lattice measures along a subsequence;
-README §7.3). -/
+random field and whose finite-dimensional marginals are the double limits of the scheme
+(Aizenman–Duminil-Copin, the paragraph after Definition 1.1 and footnote 2). It is symmetric under
+`Φ ↦ −Φ` when every member of `𝒞` is even, invariant under every linear isometry of `ℝ^d`
+preserving `ℤ^d` (the hyperoctahedral group `W_d`) acting on test functions, and `E[T_f²]` is at
+most `liminf_n liminf_k ⟨(T^{n,k}_f)²⟩` (stated in this form by the roadmap: the box Gibbs
+measures have these symmetries, and the second moment is lower semicontinuous under weak
+convergence; compare Sokal, Lemma 2.2, for φ⁴ lattice measures along a subsequence; README §7.3). -/
 theorem exists_reachableField {d : ℕ} {𝒞 : Set (Measure ℝ)} (S : ReachabilityScheme d 𝒞)
     (hS : S.Converges) :
     ∃ μ : Measure (C_c(EuclideanSpace ℝ (Fin d), ℝ) → ℝ), IsProbabilityMeasure μ ∧
