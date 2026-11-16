@@ -200,7 +200,9 @@ coefficient ring and the group in one universe and `ℂ : Type`; nothing else pi
   `Matrix.ProjectiveSpecialLinearGroup`, `Matrix.GeneralLinearGroup.toLin`, `Projectivization`
   with its `MulAction` instance for any group acting linearly (so for `GL (Fin 2) K` and its
   subgroups), `MulAction.stabilizer`,
-  `MulAction.orbitRel.Quotient`, `Subgroup.relIndex`, `Doset`.
+  `MulAction.orbitRel.Quotient`, `Subgroup.relIndex`, `Doset`, and the Hecke ring carrier
+  `HeckeRing Δ H R` (notation `𝕋 Δ H R`, the finitely supported `R`-combinations of double
+  cosets `H\Δ/H`) of `Mathlib/NumberTheory/HeckeRing/Defs.lean`.
 - `groupCohomology` with `H1`, `H1π`, `H1IsoOfIsTrivial : H1 A ≅ (Additive G →+ A)` for a
   trivial representation, `Rep.trivial`, and the functoriality `groupCohomology.map`.
 - `LSeries`, `LSeries.abscissaOfAbsConv`, `analyticOrderNatAt`, `Complex.Gamma`.
@@ -231,8 +233,9 @@ coefficient ring and the group in one universe and `ℂ : Type`; nothing else pi
 - `WeierstrassCurve.frobeniusTrace` and `WeierstrassCurve.pointCount` for a Weierstrass curve
   over a finite field (`TauCeti/AlgebraicGeometry/EllipticCurve/PointCount.lean`), with the
   Hasse bound.
-- The abstract Hecke ring `𝕋 Δ H R` of `TauCeti/NumberTheory/HeckeRing/` with its convolution
-  product, degree and commutativity criterion; the lattice-pair description of 4.1 is compared with
+- The convolution product making Mathlib's `𝕋 Δ H R` a semiring, and a ring when `R` is one, for
+  a Hecke pair (`IsHeckeTriple Δ H H`), the degree and the commutativity criterion, from
+  `TauCeti/NumberTheory/HeckeRing/`; the lattice-pair description of 4.1 is compared with
   the double-coset ring of `(Γ₀(𝔫, 𝔞), Δ₀(𝔫, 𝔞))` in 4.3.
 - Nothing on `ℍ³`, Bianchi groups, Bianchi forms, Bessel functions of the second kind, or
   `L`-functions of `GL₂` over number fields: those are the roadmaps named above.
