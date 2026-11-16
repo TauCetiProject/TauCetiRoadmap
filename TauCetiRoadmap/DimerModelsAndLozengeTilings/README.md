@@ -423,6 +423,16 @@ At the Mathlib revision pinned in `lake-manifest.json`.
   (line 277: additivity along a concatenation of two paths on which `ω` is curve integrable);
   `Path.segment` (`Mathlib/Analysis/Convex/PathConnected.lean`, line 39). These are the curve
   integrals of 9.6.
+- `circleIntegral`, written `∮ z in C(c, R), f z`
+  (`Mathlib/MeasureTheory/Integral/CircleIntegral.lean`, line 435: the interval integral over
+  `[0, 2π]` of `deriv (circleMap c R) θ • f (circleMap c R θ)`), with `deriv_circleMap` (line 130:
+  the derivative is `circleMap 0 R θ · i`), `circleIntegral.integral_sub_zpow_of_ne` (line 615: the
+  circle integral of `(z − w)^n` vanishes for every integer `n ≠ −1` and every `w`) and
+  `circleIntegral.integral_sub_inv_of_mem_ball` (line 748: the circle integral of `(z − w)⁻¹` is
+  `2πi` for `w` in the open disc); `DiffContOnCl.circleIntegral_eq_zero`
+  (`Mathlib/Analysis/Complex/CauchyIntegral.lean`, line 479: the circle integral of a function
+  complex differentiable on the open disc and continuous on its closure vanishes). These evaluate
+  the inner integrals of 9.1.
 - `DiscreteTiling.Prototile`, `DiscreteTiling.Protoset` and `DiscreteTiling.PlacedTile`
   (`Mathlib/Combinatorics/Tiling/Tile.lean`, lines 79, 110 and 142: a prototile is a set of points
   of `X` with a subgroup of its stabilizer in the acting group `G`, a protoset an indexed family of
@@ -703,6 +713,14 @@ of a tiling has both faces in `R`. *Needs:* 1.2, 1.4; Mathlib `SimpleGraph.induc
 `SimpleGraph.toSubgraph`, `SimpleGraph.Subgraph.IsPerfectMatching`,
 `SimpleGraph.Subgraph.isPerfectMatching_iff`, `Set.BijOn`.
 
+API:
+
+- Two faces of `R` are adjacent in `tilingSubgraph R M` exactly when they are distinct and some
+  edge of `M` lies in both; every face of `R` is a vertex of it, and it grows with `M`.
+- Only the interior edges of `M` count: `tilingSubgraph R M = tilingSubgraph R (M ∩ E°(R))`. So
+  `tilingSubgraph R` is not injective on free tilings (the three free tilings of `{W(0)}` all give
+  the subgraph with no edges), and 1.5 restricts it to tilings, which lie in `E°(R)`.
+
 **Checks.**
 
 - `R = ∅`: the empty tiling corresponds to the empty perfect matching of the empty graph.
@@ -952,6 +970,17 @@ is again a tiling of `R`, since the six faces round `v` all lie in `R`), and all
 region have the same number of lozenges of each type (gorin2021 lines 756–782 and footnote 1,
 lines 765–769; kenyon2009 lines 537–550). *Needs:* 2.6, 2.7; Mathlib `Relation.ReflTransGen`.
 
+API:
+
+- If `IsFlip M M'` at the vertex `v` and `M` contains at most one edge of each of the six faces
+  round `v`, then `IsFlip M' M`, and `M` and `M'` differ exactly in the six edges at `v` named in
+  the definition: `M'` loses one lozenge of each type and gains one of each type. If moreover `M`
+  is a tiling of a region `R` containing those six faces, so is `M'`.
+- For such tilings of a simply connected `R`, the height functions of `M` and `M'` on `R`,
+  normalised at a common vertex other than `v`, differ only at `v`, by one: exchanging `(v,3)`,
+  `(v−e₁,1)`, `(v−e₂,2)` for `(v,1)`, `(v,2)`, `(v−e₃,3)` lowers `H(v)` by one, and the reverse
+  exchange raises it by one.
+
 **Checks.**
 
 - Unit hexagon: `T_a` admits the flip at `0` and becomes `T_b`; `T_a` is `H_max`, `T_b` is `H_min`,
@@ -980,8 +1009,27 @@ oriented distance along the directions `(1,0)`, `(0,1)`, `(−1,−1)`; both for
 tileability of simply connected regions, so they are equivalent. *Needs:* 2.6, 2.8; Mathlib
 `SimpleGraph.Walk.darts`.
 
+API:
+
+- Every dart of `regionGraph R` goes from some `u` to `u + e_k` or to `u − e_k`, and
+  `positiveSteps` counts the darts of the first kind; it is `0` on a walk with no darts.
+- It is additive under concatenation of walks, and `positiveSteps p` plus `positiveSteps` of the
+  reversed walk is the length of `p`.
+- For a height function `H` on `R` (2.6) and a walk `p` in `regionGraph R` from `u ∈ V(R)` to `v`,
+  `H(v) − H(u) ≤ positiveSteps p`: `H` rises by at most `1` along a positive step and does not rise
+  along the other steps.
+
 **Checks.**
 
+- The closed walk `0 → e₁ → e₃ → 0` in `regionGraph {W(0)}` has `2` positive steps and its reverse
+  has `1`, adding up to the length `3`; counting every dart would give `3` both ways.
+- The one-dart walk `0 → e₃` has `1` positive step, and `H_{M₁} = x` rises by `1` along it. With
+  Gorin's positive directions `(1,0)`, `(0,1)`, `(−1,−1)` the step `0 → e₃` would be negative and
+  count `0`, and the bound `H(v) − H(u) ≤ positiveSteps p` would fail for the plane tiling `M₁`.
+- In the unit hexagon the walk `(−1,0) → 0 → (1,0)` has `2` positive steps, and the boundary height
+  of 2.7 rises by `1` from `(−1,0)` to `(1,0)`. Counting instead the darts from `u + e_k` to `u`
+  would give `0` for this walk, and the criterion would then reject the unit hexagon, which is
+  tileable.
 - Unit hexagon: `h` exists and the inequalities hold; `R` is tileable.
 - `R = {W(0)}` or a single black face: no `h` exists, since round the triangle `c₀` sums to
   `0 + 0 − 1 ≠ 0`.
@@ -1319,12 +1367,13 @@ on `X` for every cylinder event `C`. Write `Specification.gibbsInvariant γ` for
 measures, the members of Tau Ceti's `TauCeti.MeasureTheory.invariantMeasuresOfMeasureUnivEq Γ X 1`
 that are Gibbs. Properness of each kernel is Mathlib's notion; the consistent family and its Gibbs
 measures are this target's. The shape is that of the specifications of the GibbsMeasure project
-(gibbsmeasure, file `GibbsMeasure/Specification.lean`), which live on the full product `S → E`,
-with kernels `Kernel[cylinderEvents Λᶜ] (S → E) (S → E)` and the same consistency equation
-`(γ Λ₁).comap id _ ∘ₖ γ Λ₂ = γ Λ₂` for `Λ₁ ⊆ Λ₂`; this target differs in living on a subshift `X`
-and in making the Markov property and properness fields of the structure, and that project's Gibbs
-predicate, stated through conditional expectations, is equivalent to `Specification.IsGibbs` for
-probability measures and proper Markov kernels by the first API item below.
+(gibbsmeasure lines 34–63, file `GibbsMeasure/Specification.lean`), which live on the full
+product `S → E`, with kernels `Kernel[cylinderEvents Λᶜ] (S → E) (S → E)` and the same
+consistency equation `(γ Λ₁).comap id _ ∘ₖ γ Λ₂ = γ Λ₂` for `Λ₁ ⊆ Λ₂`; this target differs in
+living on a subshift `X` and in making the Markov property and properness fields of the structure,
+and that project's Gibbs predicate, stated through conditional expectations (gibbsmeasure lines
+163–171), is equivalent to `Specification.IsGibbs` for probability measures and proper Markov
+kernels by the first API item below.
 *Needs:* 4.1; Mathlib `ProbabilityTheory.Kernel`,
 `MeasureTheory.Measure.bind`, `MeasurableSpace.comap_mono`, `ProbabilityTheory.IsMarkovKernel`,
 `ProbabilityTheory.Kernel.comp`, `ProbabilityTheory.Kernel.comap`, `measurable_id''`,
@@ -1712,6 +1761,13 @@ Exercise 13, line 891). Route for the ergodicity of
 has `β_s(A) = β(A) ∈ {0,1}`. *Needs:* 1.6, 2.5, 4.3, 5.3, 5.4, 6.1; Mathlib
 `MeasureTheory.MeasurePreserving`, `Ergodic`, `ErgodicVAdd`, `Set.BijOn`.
 
+API:
+
+- `rowCode` is continuous and measurable for the product structures, each value being one
+  coordinate of `ω`, and `rowCode (M_ε) = ε` for the row tilings of 1.6.
+- `rowCode (e₁ +ᵥ ω) = σ (rowCode ω)` for every configuration `ω`; for `ω ∈ Φ₂` also
+  `rowCode (e₂ +ᵥ ω) = rowCode ω`, and on `Φ₂` it is the homeomorphism of (a).
+
 **Checks.**
 
 - `P(ε₀ = ε₁ = 1)` is `s²` under `Bern(s)^{⊗ℤ}` and `(s + s²)/2` under `β_s`; at `s = 1/2` these
@@ -1722,6 +1778,11 @@ has `β_s(A) = β(A) ∈ {0,1}`. *Needs:* 1.6, 2.5, 4.3, 5.3, 5.4, 6.1; Mathlib
   shift-invariant measure of density `1` is the point mass at the all-ones sequence.
 - The row tiling with `ε = 1_{[0,∞)}` lies in `Φ₂`, its point mass is Gibbs by (c) and is not
   translation-invariant: Gibbs measures concentrated on `Φ₂` need not be invariant.
+- `rowCode` sends `M₁` to the constant sequence `true` and both `M₂` and `M₃` to the constant
+  `false`: it is not injective on plane tilings, which is why (a) restricts it to `Φ₂`, which
+  contains `M₃` but not `M₂`.
+- Shift direction: for `ε = 1_{[0,∞)}`, `e₁ +ᵥ M_ε = M_{1_{[1,∞)}}` (1.6), whose code `1_{[1,∞)}`
+  is `σε`, since `(σε)(x) = ε(x − 1)`; the opposite shift `x ↦ ε(x + 1)` would give `1_{[−1,∞)}`.
 
 ### 6.4 Extreme points of slope fibres
 
@@ -1868,6 +1929,9 @@ API:
 - For type weights, `K_{ab}` commutes with the twisted translations of the torus.
 - Leibniz expansion: expanding every entry into its edge contributions, `det K_{ab}` is a signed
   sum, over torus tilings, of their weights.
+- For `n₁, n₂ ≥ 1` a torus tiling is determined by its edges `(v,k)` with `v ∈ [0,n₁) × [0,n₂)`,
+  so there are finitely many; `torusPartitionFunction n₁ n₂ w` is a finite sum, a polynomial in
+  the values of `w` on those edges, and at `w ≡ 1` it is the number of torus tilings.
 
 **Checks.**
 
@@ -2007,7 +2071,10 @@ Layer 7; Tau Ceti's complementary-minor identity; Mathlib determinants and inver
 
 For type weights `w` define `P̂_w` and, for liquid `w`, the kernel `G_w` as in the conventions
 (gorin2021 Theorem 4.11, lines 1853–1871; kenyon2009 Section 6.1, lines 958–975; kos2006 Theorem
-4.3, lines 714–727). *Needs:* 8.5; Mathlib `intervalIntegral`, `tendsto_integral_exp_inner_smul_cocompact`.
+4.3, lines 714–727). *Needs:* 8.5; Mathlib `intervalIntegral`,
+`tendsto_integral_exp_inner_smul_cocompact`, `circleIntegral`, `deriv_circleMap`,
+`circleIntegral.integral_sub_zpow_of_ne`, `circleIntegral.integral_sub_inv_of_mem_ball`,
+`DiffContOnCl.circleIntegral_eq_zero`.
 
 API:
 
@@ -2018,11 +2085,20 @@ API:
   `Σ_u G_w(v' − u) K(W(u), B(v'')) = [v' = v'']`, each sum having at most three nonzero terms.
 - Decay: `G_w(d) → 0` as `|d| → ∞` (Riemann–Lebesgue applied to the integrable function
   `1_{[0,2π]²}/P̂_w` on `ℝ²`).
+- Inner integrals: for `a ∈ ℂ`, `r > 0` with `|a| ≠ r` and `n ∈ ℤ`,
+  `(2π)⁻¹ ∫₀^{2π} e^{inθ} / (a + r e^{iθ}) dθ` is `[|a| > r] (−r)^{−n} a^{n−1}` for `n ≤ 0` and
+  `[|a| < r] (−a)^{n−1} r^{−n}` for `n ≥ 1`. Route: by `deriv_circleMap` it is `(2πi)⁻¹` times the
+  circle integral of `z^{n−1}/(a + rz)` over `|z| = 1`; partial fractions in `z` and `z + a/r`
+  reduce it to `circleIntegral.integral_sub_zpow_of_ne`, to
+  `circleIntegral.integral_sub_inv_of_mem_ball` for the pole `0` and, when `|a| < r`, the pole
+  `−a/r`, and to `DiffContOnCl.circleIntegral_eq_zero` for `−a/r` when `|a| > r`. With `r = w₂`,
+  `a = w₃ + w₁e^{−iφ}` and `n = d₁` it is the `θ`-integral of `G_w(d)`; with `r = w₁`,
+  `a = w₃ + w₂e^{iθ}` and `n = −d₂`, after `φ ↦ −φ`, it is the `φ`-integral.
 - Angles: `w₁G_w(−e₂) = θ₁/π`, `w₂G_w(e₁) = θ₂/π`, `w₃G_w(0) = θ₃/π`, where `θ_k` is the angle
   opposite the side `w_k` in the triangle with sides `w₁, w₂, w₃` (gorin2021 Theorem 6.1, lines
   2256–2279; kenyon2009 lines 976–1007). Along a row, `w₁G_w((m,−1)) = (−1)^m sin(θ₁m)/(πm)` for
-  `m ≠ 0`, obtained by integrating `φ` by residues over the arc `|w₃ + w₂e^{iθ}| < w₁`, of
-  half-width `θ₁` about `π`.
+  `m ≠ 0`, obtained by integrating `φ` first: the inner integral is `1/w₁` on the arc
+  `|w₃ + w₂e^{iθ}| < w₁`, of half-width `θ₁` about `π`, and `0` off it.
 
 **Checks.**
 
@@ -2168,8 +2244,8 @@ Let `ξ` be in the upper half-plane, `(s,t)` its slope and `w = w(s,t)` its sine
 `v_i = (x_i,y_i)` and `v_j = (x_j,y_j)` in `ℤ²`,
 `w₁G_w(v_i − v_j − e₂) = (−1)^{(x_i−x_j)+(y_i−y_j)} |ξ|^{x_j−x_i} |1−ξ|^{y_i−y_j} K_ξ(v_j;v_i)`,
 with `|ξ| = w₂/w₃` and `|1−ξ| = w₁/w₃` by the law of sines (9.6); it is obtained by evaluating the
-`φ`-integral of `G_w` by residues (okounkov-reshetikhin2003 equation (36), lines 1076–1083;
-gorin2021 lines 4744–4755). The factor is `κ(v_i)/κ(v_j)` for
+`φ`-integral of `G_w` by residues, with the inner integrals of 9.1 (okounkov-reshetikhin2003
+equation (36), lines 1076–1083; gorin2021 lines 4744–4755). The factor is `κ(v_i)/κ(v_j)` for
 `κ(x,y) = (−1)^{x+y} |ξ|^{−x} |1−ξ|^{y}`, so for pairwise distinct `v₁, …, v_m` the matrix
 `[w₁G_w(v_i − v_j − e₂)]` is the conjugate of the transpose of `[K_ξ(v_i;v_j)]` by the diagonal
 matrix of `κ`, and `det[w₁G_w(v_i − v_j − e₂)] = det[K_ξ(v_i;v_j)]`. (b) Hence `μ_ξ = μ^w` satisfies
@@ -2191,7 +2267,7 @@ on plane tilings and has these correlations equals μ. Route for (c): two measur
 (9.4) and density `s > 0`; and between rows `y` and `y + 1` the vertical increments are determined
 as soon as one of the two rows has a type-1 lozenge. Aggarwal's remark that a plane tiling is
 determined by `X(M)` whenever `X(M) ≠ ∅` (aggarwal2023 lines 465–467) is false; (f) is the correct
-statement. *Needs:* 4.4, 9.3, 9.4, 9.6.
+statement. *Needs:* 4.4, 9.1, 9.3, 9.4, 9.6.
 
 **Checks.**
 
@@ -2218,7 +2294,9 @@ kernel at `s = 1/2`.
 
 ### Dependencies
 
-Layers 4–8; Mathlib `intervalIntegral` and `tendsto_integral_exp_inner_smul_cocompact` (9.1), the
+Layers 4–8; Mathlib `intervalIntegral`, `tendsto_integral_exp_inner_smul_cocompact`,
+`circleIntegral`, `deriv_circleMap`, `circleIntegral.integral_sub_zpow_of_ne`,
+`circleIntegral.integral_sub_inv_of_mem_ball` and `DiffContOnCl.circleIntegral_eq_zero` (9.1), the
 approximation by measurable cylinders of 4.2 (9.4), `curveIntegral`, `Path.segment`,
 `curveIntegral_segment` and `curveIntegral_trans` (9.6); Tau Ceti
 `TauCeti.MeasureTheory.ergodicSMul_iff_forall_smul_invariant` (9.4) and the contour integrals of
@@ -2370,10 +2448,12 @@ Layers 4, 5, 9 (for 10.3), and 2.
   lattice of height functions; Theorem 1.1 belongs to Part II.
 - [thurston1990] W. P. Thurston, *Conway's tiling groups*, Amer. Math. Monthly 97 (1990), 757–773;
   cited by bibliographic data for 2.9, the statement and proof used being gorin2021 Theorem 1.4.
-- [gibbsmeasure] Y. Dillies and coauthors, the GibbsMeasure project, a Lean formalisation of
+- [gibbsmeasure] Y. Dillies, M. Cipollina, the GibbsMeasure project, a Lean formalisation of
   specifications and Gibbs measures following georgii2011 (Apache 2.0),
   `github.com/YaelDillies/gibbs-measure` at commit `fffe01e3a5d783fbe95b629cd34b97d50939b42b`, file
-  `GibbsMeasure/Specification.lean`; cited in 4.5 for the shape of a specification.
+  `GibbsMeasure/Specification.lean`: the consistency predicate and the structure of a
+  specification (lines 34–63), the Gibbs predicate and its kernel-invariance form (lines
+  163–171); cited in 4.5 for the shape of a specification.
 - [georgii2011] H.-O. Georgii, *Gibbs measures and phase transitions*, 2nd ed., de Gruyter (2011);
   cited by bibliographic data, Theorem 14.15, for 4.2, 4.6 and 5.4, whose statement is restated in
   sheffield2005 Lemma 3.2.2.
