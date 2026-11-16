@@ -13,8 +13,8 @@ determinant argument. The end theorems are: the existence of an `L`-rational Hod
 `ξ₀ ∈ V₁ ⊗_L V₂(d)` inducing an isomorphism of `L`-Hodge structures `V₁ ≃ V₂` between the quaternionic
 multiplicity realizations (IP23, Theorem 3.2(i) and Theorem 12.4(i)); the same class chosen fixed in
 every `ℓ`-adic realization under the degree-`2d` Kottwitz hypothesis, giving `G_{F_Σ}`-equivariant
-isomorphisms for all `ℓ` at once (Theorem 3.2(ii), Theorem 12.4(ii)); and the weight-two rational
-correspondence on `H^{2d}(X₁ × X₂, ℚ)(d)` (Theorem 1).
+isomorphisms for all `ℓ` at once (Theorem 3.2(ii), Theorem 12.4(ii)); and, in parallel weight two
+with `ℚ(π) = ℚ`, the rational correspondence on `H^{2d}(X₁ × X₂, ℚ)(d)` (Theorem 1).
 
 ## Scope and ownership
 
@@ -1836,7 +1836,7 @@ Apply `Res_{F/ℚ}` to the diagram of §2.8. At `v ∈ Σ` take `h_U(z) = diag(z
 realization and `h_i(z) = diag(z, z̄)` on the block planes; outside `Σ` take the trivial cocharacter.
 On the quaternionic exterior realization take `h_B(z) = diag(z², zz̄, zz̄)` in the basis of IP23. Prove
 that the projective isomorphisms identify these data, that the block arrows are morphisms of Shimura
-data, and that all data have reflex field `F_Σ` (IP23, §4.2, p. 23; §12.2.2, pp. 94–95). The Deligne
+data, and that all data have reflex field `F_Σ` (IP23, §4.2, p. 23; §12.2.2, pp. 94–96). The Deligne
 axioms are asserted for `d > 0`; for `d = 0` the construction is on finite Shimura sets with trivial
 cocharacter and constant models, the definite pairs of §0.2 (§0.1). Canonical models exist by
 ShimuraVarieties §6.7 and the arrows
@@ -1909,8 +1909,8 @@ extends to the connected similitude group by `ν^{−ℓ_v/2}`, algebraic with t
 group of highest weight `((k_v−2)/2, (k_v−2)/2, −(k_v−2)/2, −(k_v−2)/2)` in the Borel order of IP23
 §11.3 (§3.4 with the reordering `(1, 3, 2, 4)`); that the global coefficient has a `ℚ(k)`-form unique up
 to homothety; and that its restriction to the block subgroup has a rational equivariant projection to
-`τ_k^∨ ⊠ τ_k^∨` (IP23, §11.3, pp. 83–85; Proposition 12.2 and §12.2.3, pp. 95–96). The projection is
-normalized by the harmonic inclusion and pairing of §4.1.
+`τ_k^∨ ⊠ τ_k^∨` (IP23, §11.3, pp. 83–85; Proposition 12.2 and §12.2.3, p. 96; §§12.2.6 and 12.2.10,
+p. 97). The projection is normalized by the harmonic inclusion and pairing of §4.1.
 
 **Checks.**
 
@@ -2109,7 +2109,7 @@ the spaces and groups of §2.8. Define the *global theta data* to consist of: `H
 Schwartz form `φ′_{2,ℓ_v}` of §4.3 and at real `v ∉ Σ` the form `φ′_{ℓ_v}`, `ℓ_v = k_v − 2`, with a
 pure-tensor finite Schwartz vector; and an irreducible unitary automorphic `τ` of `H_N^+` with central
 character `ξ_E`, of antiholomorphic minimal type of weight `k_v + 1` at `Σ` and holomorphic type
-outside `Σ` (IP23, §§10.1–10.4, pp. 65–68; §12.2.4, p. 96). The exterior isometry group is
+outside `Σ` (IP23, §§10.1–10.4, pp. 65–68; §12.2.4, pp. 96–97). The exterior isometry group is
 `F`-anisotropic because some real localization is `O(0,6)`, so its adelic quotient modulo the centre is
 compact (AdelicAlgebraicGroups §3.4) and every automorphic form on it is cuspidal
 (AutomorphicFormsOnReductiveGroups §4.2).
