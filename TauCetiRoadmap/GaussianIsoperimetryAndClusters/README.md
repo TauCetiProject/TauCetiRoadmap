@@ -529,6 +529,7 @@ For `z ∈ e^⊥` let `p_U(z) = Σ_{t ∈ ∂^M(U_z)} φ(t)`, the Gaussian perim
 
 - The tilted half-plane `{x_2 < 1 + x_1}` is its own symmetral; both sides equal `φ(1/√2) = 0.310697`, the right side as `√2 ∫ φ(1 + z) φ(z) dz`. In Cianchi–Fusco–Maggi–Pratelli's normalization its perimeter is `e^{−1/4} = 0.778801` and the section perimeter is `e^{−(1+z)²/2}`: with the gradient of (4.8), `√(2π) φ(1 + z)`, the right side of (4.14) is `√(4π) · 0.219696 = 0.778801`, an equality, while with the gradient `φ(1 + z)` of `v_U = Φ(1 + z)` it is `√(2π + 1) · 0.219696 = 0.592901`, and equality would fail for this symmetral.
 - The slab `{|x_2| < 1}` gives equality `2φ(1) = 0.483941` on both sides although it is not a symmetral, so the equality condition is sufficient but not necessary.
+- `p_U` reads the essential boundary of each section. For `U = ball(0, 1) ⊂ ℝ²` and `e = e_2`, the section over `z` is `(−√(1 − z²), √(1 − z²))` for `|z| < 1` and null otherwise, so `p_U(z) = 2φ(√(1 − z²))` for `|z| < 1` and `0` for `|z| ≥ 1`; at `z = 0` this is `2φ(1) = 0.483941`, above `I(0.682689) = 0.356343` for the half-line section `(−∞, 0.475233)` of `S_e(U)` over `0`. The null modification `U′ = U ∪ ℚ²` has the section `(−1, 1) ∪ ℚ` over `0`, whose essential boundary is still `{−1, 1}`, so `p_{U′}(0) = 0.483941`; summing `φ` over the topological frontier `(−∞, −1] ∪ [1, ∞)` of that section would give `∞`.
 
 ### 6.5 An upper bound for the symmetral
 
