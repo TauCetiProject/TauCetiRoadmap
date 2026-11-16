@@ -27,9 +27,10 @@ The following headline theorems are not statable at the pins:
   `ContinuousCohomology.map` along `Field.absoluteGaloisGroup.map`), but the detection statements
   restrict to the henselization `K_w` of `K` at a discrete valuation, and the pins have no
   henselized valued field: Tau Ceti's `TauCeti.Henselization.algebra` henselizes a ring along an
-  ideal and is not shown to be a domain when the ring is a discrete valuation ring. The pins also
-  lack the coefficients `μ_ℓ^{⊗d}` for `d ≥ 2` (Tau Ceti's `TauCeti.KummerCoeff` is `μ_n`), Kato's
-  groups of logarithmic differentials in characteristic two, and the residue maps of Kato's
+  ideal and is not shown to be a domain when the ring is a discrete valuation ring. The twisted
+  coefficients `ℤ/ℓ(d) ≅ μ_ℓ^{⊗d}`, for a prime `ℓ` invertible in `K`, exist at the pins as Tau
+  Ceti's `TauCeti.ZModTwist (TauCeti.continuousLocalCyclotomicCharacter ℓ K ^ d) 1`; the pins lack
+  Kato's groups of logarithmic differentials in characteristic two and the residue maps of Kato's
   complex;
 * the characteristic-two cases of Kronecker dimension above three of the divisor theorem, the
   normalization theorem and the single-sentence theorem: their hypothesis, resolution of
