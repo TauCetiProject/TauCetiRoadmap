@@ -724,6 +724,14 @@ and `measurableSet_iso_inter_iff_exists_bfLevel` fails. This is why Layer 4 keep
 that 6.1 drops: there a countable sublanguage need only separate two analytic classes, while here
 no countable set of symbols decides isomorphism.
 
+**Check.** The strata of 4.3 need it too, already at `β = 0`. With binary symbols `R_r`, `r ∈ ℝ`,
+the code `c₀` with every relation empty has `s(c₀) = 0`: tuples of the same atomic type are related
+by a permutation, which is an automorphism. Given countably many coordinates, let `c₁` add to `c₀`
+the single edge `(0, 1)` of an `R_r` none of them mentions. Then `(0)` and `(2)` have the same
+atomic type but `BFEquiv 1` fails between them (only `0` has an outgoing edge), so `s(c₁) > 0`, and
+`{c | s(c) ≤ 0}` depends on no countable set of coordinates: it is not measurable. Unary symbols do
+not show this, since every code of a unary language has `s = 0`.
+
 ### Dependencies
 
 Layers 1–3. InfinitaryLogic Layers 1–3, implemented in Tau Ceti; `AnalyticSet.prod` of
