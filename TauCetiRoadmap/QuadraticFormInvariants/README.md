@@ -360,17 +360,20 @@ Each layer states its results against this list.
   low-degree complex and its comparison (Layers 2–3), the finite-quotient description (Layer 4),
   low-degree cups (Layer 8), Hilbert 90 and Kummer theory (Layer 9), corestriction (Layer 10), the
   graded cup product (Layer 12) and the index-two Evens norm with its `D₁₆` pullback formula
-  (Layer 13). Its `AbsoluteGaloisGroup`, `trivialF2`, `res`, `infl`, `coeffMap`, the
-  Kummer block (`KummerCoeff`, `kummerMap`, `kummerIso`, `kummerMapCanonical`), the multiplicative
-  block (`UnitsCoeff`, `kummerShortExact`, `hilbert90`, `h2KummerToUnits`), `galoisSubgroup`, the
-  explicit complex (`Z2`, `B2`, `H2`, `explicitH2IsoContinuousCohomology`, `explicitCup11`) and the
-  finite-quotient colimit are Tau Ceti's declarations under that roadmap's names, and its `TopRep`
-  is Mathlib's `TopRep` (`Mathlib/RepresentationTheory/Continuous/TopRep.lean`). Its
-  `ProfiniteCohomology.cup`, `ProfiniteCohomology.f2Pairing`,
-  `ProfiniteCohomology.inhomogeneousCochain2`, `ProfiniteCohomology.homClass`,
-  `ProfiniteCohomology.cochainClass` and `ProfiniteCohomology.galoisF2Iso` are that roadmap's
-  prototypes, as are the identities stated on them. Layers 7 to 9 are therefore stated on Tau
-  Ceti's native operations listed above, never on those prototypes.
+  (Layer 13). Its `AbsoluteGaloisGroup`, `trivialF2`, `coeffMap`, `KummerCoeff`,
+  `kummerMapCanonical`, `UnitsCoeff`, `h2KummerToUnits`, `galoisSubgroup`, the explicit complex
+  (`Z2`, `H2`, `explicitH2IsoContinuousCohomology`), the finite-quotient colimit
+  `explicitFiniteQuotientColimit2`, `f2Pairing`, `homClass`, `inhomogeneousCochain2`,
+  `cochainClass` and `galoisF2Iso` are reducible aliases of Tau Ceti's declarations, its `cup` is
+  a definition whose value is Tau Ceti's `TauCeti.TopPairing.cup` applied to its two arguments, and
+  its `TopRep` is Mathlib's `TopRep` (`Mathlib/RepresentationTheory/Continuous/TopRep.lean`).
+  That roadmap declares no name of its own for restriction to a subgroup and inflation with
+  arbitrary coefficients, the Kummer map into the explicit `H¹`, the Kummer isomorphism, the Kummer
+  sequence, Hilbert 90, the coboundaries `B²` or the explicit `(1, 1)` cup: these are Tau Ceti's
+  `TauCeti.ContinuousCohomology.res`, `TauCeti.ContinuousCohomology.infl`, `TauCeti.kummerMap`,
+  `TauCeti.kummerIso`, `TauCeti.kummerShortExact`, `TauCeti.hilbert90`,
+  `TauCeti.ContCohomology.B2` and `TauCeti.ContCohomology.explicitCup11`. Layers 7 to 9 are stated
+  on Tau Ceti's native operations listed above, under their Tau Ceti names.
 - **From TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras**
   ([Layers 4 and 6](../RepresentationTheory/SemisimpleAlgebras/README.md)): the tensor product of
   central simple algebras, `A ⊗_K Aᵒᵖ ≃ₐ[K] M_n(K)`, the Brauer group as a group under `⊗_K`, and
@@ -961,7 +964,7 @@ Basic API, all Tau Ceti's:
 
 ### Dependencies
 
-Layers 0 and 2. Mathlib's `QuadraticForm.discr'`, `QuadraticMap.basisRepr`, `Matrix.det` and
+Layers 0 to 2. Mathlib's `QuadraticForm.discr'`, `QuadraticMap.basisRepr`, `Matrix.det` and
 `ZMod 2`. Tau Ceti's `TauCeti/LinearAlgebra/QuadraticForm/RegularFormClass/` (`Basic`,
 `Semiring`, `Discriminant`, `BaseChange`), `TauCeti/LinearAlgebra/QuadraticForm/Matrix.lean`,
 `TauCeti/LinearAlgebra/QuadraticForm/Diagonal/Chain/Induction.lean` and
@@ -1304,7 +1307,7 @@ the general theory of base change of central simple algebras.
 Mathlib's `CSA`, `IsBrauerEquivalent`, `BrauerGroup`, `Algebra.IsCentral` and `CliffordAlgebra`;
 Tau Ceti's `TauCeti/Algebra/BrauerGroup/`, `TauCeti/Algebra/Quaternion/`,
 `TauCeti/LinearAlgebra/CliffordAlgebra/` and `TauCeti/LinearAlgebra/QuadraticForm/RegularFormClass/` and `TauCeti/LinearAlgebra/QuadraticForm/Witt/`;
-Layers 0, 2, 3 and 4 of this roadmap; TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras
+Layers 0 to 4 of this roadmap; TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras
 Layers 4 and 6.
 
 ## Layer 6: forms over a nonarchimedean local field
@@ -1914,10 +1917,12 @@ cohomology `TauCeti.cohomF2` with trivial `𝔽₂` coefficients
 `(TauCeti.trivialF2TopPairing (TauCeti.AbsoluteGaloisGroup K)).cup 1 1`
 (`TauCeti/RepresentationTheory/Homological/ContCohomology/Cup/TrivialF2/Basic.lean`), written
 `x ∪ y` below. TauCetiRoadmap.ProfiniteCohomology Layers 1, 9, 10, 12 and 13 specify these
-operations. That roadmap's prototypes `ProfiniteCohomology.cup`, `ProfiniteCohomology.f2Pairing`,
-`ProfiniteCohomology.homClass`, `ProfiniteCohomology.inhomogeneousCochain2` and
-`ProfiniteCohomology.galoisF2Iso` are not Tau Ceti's declarations, so no statement of these layers
-is phrased through them.
+operations. That roadmap's `ProfiniteCohomology.f2Pairing`, `ProfiniteCohomology.homClass`,
+`ProfiniteCohomology.inhomogeneousCochain2` and `ProfiniteCohomology.galoisF2Iso` are reducible
+aliases of `TauCeti.trivialF2TopPairing`, `TauCeti.ContCohomology.homClass`,
+`TauCeti.ContCohomology.inhomogeneousCochain2` and `TauCeti.galoisF2Iso`, and its
+`ProfiniteCohomology.cup` is `TauCeti.TopPairing.cup` applied to its two arguments; the statements
+of these layers use the Tau Ceti names.
 
 ### 7A. The mod-2 operations, consumed, and the `μ₂` adapters
 
