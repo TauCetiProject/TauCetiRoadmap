@@ -171,7 +171,7 @@ The division of ownership is as follows.
   ordinary `TopCat` products or limits where compact generation is required for an
   exponential law.
 
-- [TangentialBordism B1, B3.2(b–c), B5.2](../TangentialBordism/README.md) owns
+- [TangentialBordism B1, B3.2(b–c), B5.2 and B5.5](../TangentialBordism/README.md) owns
   relative facewise transversality, the Spin-surface refinement and filling criterion, and
   honest-rank finite Pontryagin–Thom. TangentialBordism B5.5 supplies its stable framed map. [StringOrientation S2.2–S2.3](../StringOrientation/README.md)
   owns the general coefficient and stable framed Pontryagin–Thom theorem and the
@@ -1583,7 +1583,7 @@ and construct the clutching equivalences
 `[S^n,BSO]_* ~= pi_n(BSO) ~= pi_(n-1)(SO)`.
 
 Use TopologicalKTheory T1.5–T1.6 for the universal-bundle diagrams and Hatcher,
-*Vector Bundles and K-Theory*, Proposition 1.11, pp. 22–23, for clutching over spheres.
+*Vector Bundles and K-Theory*, Proposition 1.14, p. 25, for oriented real clutching over spheres.
 
 #### 4A early finite orthogonal and sphere-loop comparisons
 
