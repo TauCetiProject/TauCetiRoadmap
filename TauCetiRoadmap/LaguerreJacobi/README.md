@@ -64,7 +64,7 @@ here.
 
 It owns: the families `Polynomial.laguerre`, `Polynomial.jacobi` and `Polynomial.gegenbauer` over a
 `ℚ`-algebra; the measures `Polynomial.laguerreMeasure` and `Polynomial.jacobiMeasure`; the norm
-sequence `Polynomial.jacobiNormSq`; the interval form of the real Beta integral; the Hilbert
+sequence `Polynomial.jacobiNormSq`; the Hilbert
 bases of the two measures and of the unweighted `L²`, and their tensor products; the Legendre
 transport and orthogonality; and the comparison with Chebyshev.
 
@@ -76,8 +76,7 @@ It does not own:
   for the ingredients;
 - the rest of the Askey scheme (Hahn, Meixner, Krawtchouk, Wilson, and every `q`-analogue);
 - Laguerre and Jacobi *functions* as eigenfunctions of their Sturm–Liouville operators, and the
-  associated spectral and PDE theory; the PDE roadmap owns an eigenfunction-expansion statement
-  and consumes the bases here;
+  associated spectral and PDE theory;
 - the classical `λ = 0` ultraspherical family, which is a renormalized limit of the family of
   Layer 6 (`lim_{λ→0} (n/λ) Cₙ^{(λ)} = 2 Tₙ` for `n ≥ 1`) and is a different definition;
 - analytic continuation in the Gegenbauer parameter, and Gegenbauer functions of non-integer
@@ -137,8 +136,7 @@ It does not own:
 - `Real.Gamma`, `Real.Gamma_eq_integral` (`0 < s → Gamma s = ∫ x in Ioi 0, exp (-x) * x ^ (s-1)`),
   `Real.Gamma_add_one`, `Real.Gamma_nat_eq_factorial` and `Real.Gamma_pos_of_pos`.
 - `ProbabilityTheory.beta α β = Gamma α * Gamma β / Gamma (α + β)`, `ProbabilityTheory.beta_pos`
-  and `ProbabilityTheory.beta_eq_betaIntegralReal` (`Mathlib/Probability/Distributions/Beta.lean`),
-  with `ProbabilityTheory.lintegral_betaPDF`, `ProbabilityTheory.lintegral_betaPDF_eq_one`
+  (`Mathlib/Probability/Distributions/Beta.lean`), with `ProbabilityTheory.lintegral_betaPDF`, `ProbabilityTheory.lintegral_betaPDF_eq_one`
   (`0 < α`, `0 < β`), `ProbabilityTheory.betaMeasure` and
   `ProbabilityTheory.isProbabilityMeasureBeta` in the same file. The real Beta constant, its
   `Real.rpow` density on `Ioo 0 1`, and its normalization are therefore consumed, not built.
@@ -170,6 +168,10 @@ It does not own:
 
 ### From Tau Ceti
 
+- `TauCeti.integral_rpow_mul_one_sub_rpow` and `ProbabilityTheory.beta_comm`
+  (`TauCeti/Analysis/SpecialFunctions/Beta.lean`): for `0 < a`, `0 < b`,
+  `∫ t in 0..1, t ^ (a - 1) * (1 - t) ^ (b - 1) = ProbabilityTheory.beta a b`, and
+  `beta a b = beta b a`. This is the interval form of the real Beta integral.
 - `TauCeti.hilbertBasisOfWeightedMeasure`, `TauCeti.coe_hilbertBasisOfWeightedMeasure`,
   `TauCeti.hilbertBasisOfOrthogonalSystem` and `TauCeti.coe_hilbertBasisOfOrthogonalSystem`
   (`TauCeti/Analysis/InnerProductSpace/WeightedOrthogonalBasis.lean`). The first takes `f`, `w`,
@@ -195,6 +197,11 @@ It does not own:
   (`TauCeti/Analysis/InnerProductSpace/L2/Pi.lean`): the product Hilbert basis of
   `Lp 𝕜 2 (Measure.pi μ)` from coordinatewise Hilbert bases, indexed by the dependent function
   type.
+- `TauCeti.chebyshevMeasureT_eq_withDensity`, `TauCeti.chebyshevMeasureT_univ`,
+  `TauCeti.integral_eval_T_real_mul_eval_T_real_measureT_eq_ite` and `TauCeti.chebyshevTNormSq`
+  (`TauCeti/Analysis/SpecialFunctions/Trigonometric/Chebyshev/Measure.lean`): `measureT` rewritten
+  as `(volume.restrict (Ioc (-1) 1)).withDensity fun x => ofReal (√(1 - x ^ 2))⁻¹`, its total mass,
+  the orthogonality integrals of `Tₙ` and their norm sequence.
 
 ## How to read the build
 
@@ -209,6 +216,18 @@ A name in code font that is qualified by `Polynomial` or `ProbabilityTheory` and
 or Tau Ceti declaration is a declaration of `Suggested.lean`, with the signature given there. The
 API facts that the text states in prose are targets too; a contributor names them in the same
 namespace.
+
+Earlier drafts of this roadmap, and the roadmaps that cite it, number the targets in six parts A–F.
+The correspondence with the sections below is:
+
+| Former id | Section |
+|---|---|
+| A1–A4 | §1.1–§1.4 |
+| B1–B4 | §2.1–§2.4 |
+| C1–C4 | §3.1–§3.4 |
+| D1–D4 | §4.1–§4.4 |
+| E | Layer 5 |
+| F1–F3 | §6.1–§6.3 |
 
 ## Layer 1: the Laguerre polynomials
 
@@ -226,11 +245,11 @@ The rational factorial coefficients are `ℚ`-scalars: `R` is a `CommRing` with 
 instance, so `/` is unavailable on `R`, and the factorials are inverted in `ℚ` and act through the
 algebra structure. The same convention governs every rational constant in this roadmap.
 
-Targets: `Polynomial.laguerre_zero` (`= 1`), `Polynomial.laguerre_one` (`= C (α + 1) - X`),
-`Polynomial.coeff_laguerre`, `Polynomial.degree_laguerre` (`= n`, for `[Nontrivial R]`),
-`Polynomial.natDegree_laguerre` and `Polynomial.leadingCoeff_laguerre`
-(`= algebraMap ℚ R ((-1)^n / n!)`, DLMF Table 18.3.1). The degree lemma is the hypothesis `hdeg` of
-the completeness theorem, so Layer 2 cannot start without it.
+Targets: `Polynomial.degree_laguerre` (`= n`, for `[Nontrivial R]`) and
+`Polynomial.leadingCoeff_laguerre` (`= algebraMap ℚ R ((-1)^n / n!)`, DLMF Table 18.3.1). The
+degree lemma is the hypothesis `hdeg` of the completeness theorem, so Layer 2 cannot start without
+it. The values `L₀^{(α)} = 1` and `L₁^{(α)} = C (α + 1) - X`, the coefficient of `X^k` for `k ≤ n`
+and `natDegree = n` are API facts, stated in prose.
 
 *Needs:* Mathlib `ascPochhammer`, `Polynomial.smeval`. *Locator:* DLMF 18.5.12; Table 18.3.1 for
 `kₙ`.
@@ -314,9 +333,9 @@ Suggested home: `TauCeti/Analysis/SpecialFunctions/Laguerre/`. Names live in the
 
 `Polynomial.laguerreMeasure (α : ℝ) : Measure ℝ`, defined as
 `(volume.restrict (Set.Ioi 0)).withDensity fun x => ENNReal.ofReal (x ^ α * Real.exp (-x))`.
-Targets: `Polynomial.isFiniteMeasure_laguerreMeasure` for `-1 < α` (total mass `Real.Gamma (α + 1)`,
-by `Real.Gamma_eq_integral`), and `Polynomial.integral_laguerreMeasure`, in the shape of
-`Polynomial.Chebyshev.integral_measureT`.
+Target: `Polynomial.isFiniteMeasure_laguerreMeasure` for `-1 < α` (total mass `Real.Gamma (α + 1)`,
+by `Real.Gamma_eq_integral`). The integral against the measure, in the shape of Mathlib's
+Chebyshev `integral_measureT`, is an API fact, stated in prose.
 
 *Needs:* Mathlib `Real.Gamma_eq_integral`, `integral_withDensity_eq_integral_toReal_smul`.
 *Locator:* DLMF Table 18.3.1 (the weight).
@@ -426,17 +445,14 @@ The closed-form Beta constant, its density on `Ioo 0 1` with `Real.rpow` powers,
 normalization are in Mathlib: `ProbabilityTheory.beta`, `ProbabilityTheory.lintegral_betaPDF`
 (the lower integral of `ofReal (1 / beta α β * x ^ (α - 1) * (1 - x) ^ (β - 1))` over `Ioo 0 1`),
 `ProbabilityTheory.lintegral_betaPDF_eq_one` (for `0 < α`, `0 < β`), `ProbabilityTheory.betaMeasure`
-and `ProbabilityTheory.isProbabilityMeasureBeta`. The single target is the Bochner
-interval-integral corollary
+and `ProbabilityTheory.isProbabilityMeasureBeta`. The interval form is Tau Ceti's
+`TauCeti.integral_rpow_mul_one_sub_rpow` (`TauCeti/Analysis/SpecialFunctions/Beta.lean`): for
+`0 < a`, `0 < b`, `∫ t in 0..1, t ^ (a - 1) * (1 - t) ^ (b - 1) = ProbabilityTheory.beta a b`. The
+symmetry is `ProbabilityTheory.beta_comm` (same file). The statements of §4.1 and §4.3 state their
+constants as `ProbabilityTheory.beta`, and no second abbreviation for the constant is introduced.
 
-`ProbabilityTheory.intervalIntegral_rpow_mul_rpow_one_sub_eq_beta : 0 < u → 0 < v → ∫ x in (0:ℝ)..1, x ^ (u-1) * (1-x) ^ (v-1) = ProbabilityTheory.beta u v`
-
-with `^` the `Real.rpow`, obtained by converting the lower integral of
-`ProbabilityTheory.lintegral_betaPDF_eq_one` to a Bochner integral and clearing the constant `1 / beta u v`. The
-statements of §4.1 and §4.3 state their constants as `ProbabilityTheory.beta`, and no second
-abbreviation for the constant is introduced.
-
-*Needs:* Mathlib `ProbabilityTheory.lintegral_betaPDF`, `ProbabilityTheory.lintegral_betaPDF_eq_one`,
+*Needs:* Tau Ceti `TauCeti.integral_rpow_mul_one_sub_rpow`, `ProbabilityTheory.beta_comm`;
+Mathlib `ProbabilityTheory.lintegral_betaPDF`, `ProbabilityTheory.lintegral_betaPDF_eq_one`,
 `ProbabilityTheory.betaMeasure`, `ProbabilityTheory.isProbabilityMeasureBeta`,
 `ProbabilityTheory.beta_pos`. *Locator:* DLMF 5.12.1.
 
@@ -460,15 +476,17 @@ forms of `(n+β).choose (n-k)` and `(n+α).choose k`: `β` travels with `(X - 1)
 `(X + 1)^k`. Swapping them gives a different family, and the reflection symmetry of §3.3 and every
 `α ↔ β` argument depend on exactly this pairing.
 
-Targets: `Polynomial.jacobi_zero` (`= 1`), `Polynomial.jacobi_one`
-(`= C (α + 1) + ((1 : ℚ) / 2) • (C (α + β + 2) * (X - 1))`), `Polynomial.coeff_jacobi_self`
+Targets: `Polynomial.coeff_jacobi_self`
 (the coefficient of `X^n` is `((1 : ℚ) / (2^n * n!)) • (ascPochhammer R n).smeval (n + α + β + 1)`,
 because every summand `(X - 1)^(n-k) * (X + 1)^k` is monic of degree `n` and the sum collapses by
-Vandermonde to `(2n + α + β).choose n`), `Polynomial.leadingCoeff_jacobi` (the same value when it
-is nonzero), `Polynomial.degree_jacobi` and `Polynomial.degree_jacobi_real`.
+Vandermonde to `(2n + α + β).choose n`), `Polynomial.degree_jacobi` and
+`Polynomial.degree_jacobi_real`. The values `P₀^{(α,β)} = 1` and
+`P₁^{(α,β)} = C (α + 1) + ((1 : ℚ) / 2) • (C (α + β + 2) * (X - 1))`, and the leading coefficient
+(the same value as the coefficient of `X^n` whenever it is nonzero), are API facts, stated in
+prose.
 
 **Degeneracy, at the right generality.** Write `z = n + α + β + 1`. The leading coefficient is
-`(z)ₙ / (2ⁿ n!)` with `(z)ₙ = z (z+1) ⋯ (z+n-1)`. For `n ≥ 1` it vanishes exactly when
+`(z)ₙ / (2ⁿ n!)` with `(z)ₙ = z (z+1) ⋯ (z+n-1)`. Over a domain, for `n ≥ 1` it vanishes exactly when
 `z ∈ {0, -1, …, -(n-1)}`; `z = -n` leaves `(z)ₙ` nonzero, and `(z)₀ = 1`, so `n = 0` never
 degenerates, in particular at `z = 0`, the Chebyshev edge `α = β = -1/2`, `n = 0`, which §6.3
 exercises. Since `jacobi` is stated over `[CommRing R] [Algebra ℚ R]`, where `-1 < α` is not a
@@ -594,10 +612,10 @@ exactly at `n = 0` with `α + β = -1`, which includes `α = β = -1/2`, the Che
 classical formula is `0/0` and the correct value is the total mass `2^{α+β+1} B(α+1, β+1)`. For
 `n ≥ 1` and `-1 < α`, `-1 < β` the factor `2n+α+β+1` is positive. A single uniformly positive
 sequence is also what the basis construction of §4.4 needs: the bridge takes `c n > 0` and
-normalizes by it, so a split formula is a proof ingredient and not an interface. Targets:
-`Polynomial.jacobiNormSq_pos` (`-1 < α`, `-1 < β`, all `n`, including the edge) and
-`Polynomial.jacobiNormSq_zero_eq_quotient` (for `α + β + 1 ≠ 0`, the `n = 0` value equals the
-classical quotient, since `Γ(z + 1) = z Γ(z)`).
+normalizes by it, so a split formula is a proof ingredient and not an interface. Target:
+`Polynomial.jacobiNormSq_pos` (`-1 < α`, `-1 < β`, all `n`, including the edge). For
+`α + β + 1 ≠ 0` the `n = 0` value equals the classical quotient, since `Γ(z + 1) = z Γ(z)`; this
+is an API fact, stated in prose.
 
 `Polynomial.integral_jacobi_mul_jacobi_jacobiMeasure`: for `-1 < α`, `-1 < β`,
 
@@ -706,7 +724,8 @@ lacks: `∫₀¹ P̃ₘ(x) P̃ₙ(x) dx = if m = n then 1/(2n+1) else 0`. The Le
 `L²((-1, 1))` is the case `α = β = 0` of §4.4.
 
 *Needs:* §§3.3, 4.3; Mathlib `Polynomial.shiftedLegendre`, `Polynomial.degree_shiftedLegendre`.
-*Locator:* DLMF 14.17.6; Table 18.6.1.
+*Locator:* DLMF 14.17.6 (orthogonality); 18.7.10 with Table 18.6.1
+(`P̃ₙ(x) = (−1)ⁿ Pₙ(2x − 1) = Pₙ(1 − 2x)`); Table 18.3.1, shifted-Legendre row (`hₙ = 1/(2n+1)`).
 
 **Checks.**
 
@@ -728,16 +747,14 @@ non-unit.
 that is `∑ₖ (-1)^k (λ)ₙ₋ₖ / (k! (n-2k)!) (2X)^{n-2k}`. Every coefficient is a `ℚ`-scalar acting on
 an element of `R`. Targets:
 
-- `Polynomial.gegenbauer_one` (`= C (2 * lam) * X`), `Polynomial.gegenbauer_two`
-  (`= C (2 * lam * (lam + 1)) * X ^ 2 - C lam`);
 - `Polynomial.coeff_gegenbauer_self`: the coefficient of `X^n` is
   `((2 : ℚ)^n / n!) • (ascPochhammer R n).smeval lam`, DLMF Table 18.3.1;
 - `Polynomial.degree_gegenbauer`: degree `n` as soon as `(ascPochhammer R n).smeval lam ≠ 0`
   (over `ℝ`, for `-1/2 < lam`, `lam ≠ 0`, since the zeros of `(λ)ₙ` are in `{0, -1, …, -(n-1)}`).
   The factor is `(λ)ₙ` and not `(2λ)ₙ`: the leading coefficient is
   `2ⁿ(λ)ₙ/n!`, and `(2λ)ₙ ≠ 0` does not imply `(λ)ₙ ≠ 0`;
-- `Polynomial.gegenbauer_zero_param`: `gegenbauer 0 n = 0` for `n ≥ 1`, so the family is degenerate
-  at `lam = 0` and the roadmap does not treat `gegenbauer 0 n` as the classical `λ = 0` family;
+- the degeneracy at `lam = 0`: `gegenbauer 0 n = 0` for `n ≥ 1`, stated in prose, so the roadmap does
+  not treat `gegenbauer 0 n` as the classical `λ = 0` family;
 - `Polynomial.ascPochhammer_smeval_smul_gegenbauer`, the multiplied-out relation to Jacobi, which
   holds over every `ℚ`-algebra with no invertibility hypothesis:
   `(ascPochhammer R n).smeval (lam + 1/2) • gegenbauer lam n = (ascPochhammer R n).smeval (2 * lam) • jacobi (lam - 1/2) (lam - 1/2) n`
@@ -761,7 +778,7 @@ an element of `R`. Targets:
 - `λ = 1`: `C₂ = 4X² - 1 = U₂`, the Chebyshev polynomial of the second kind, with norm constant
   `π 2^{-1} Γ(n+2) / (n! (n+1) · 1) = π/2`.
 - `λ = 1/2`: `C₂ = (3X² - 1)/2`, the Legendre polynomial `P₂`.
-- Negative control for the degree hypothesis, `Polynomial.gegenbauer_neg_one_two`: `gegenbauer (-1) 2 = 1`, of degree `0`, although
+- Negative control for the degree hypothesis: `gegenbauer (-1) 2 = 1`, of degree `0`, although
   `(2λ)₂ = (-2)(-1) = 2 ≠ 0`; here `(λ)₂ = (-1)(0) = 0`. At `λ = 3` the leading coefficients are
   `6, 24, 80` for `n = 1, 2, 3`, which are `2ⁿ(3)ₙ/n!`, while `(6)ₙ = 6, 42, 336`.
 - The multiplied-out relation at `λ = -1`, `n = 2`: `(−1/2)₂ · 1 = -1/4`, and
@@ -783,17 +800,18 @@ the `coe_` pins. Targets:
   Mathlib's `Polynomial.Chebyshev.measureT`. The two are built over `Set.Ioo (-1) 1` and
   `Set.Ioc (-1) 1` and with `withDensity`/`restrict` in opposite orders; they agree because `{1}` is
   `volume`-null (the density is absolutely continuous with respect to `volume`) and
-  `(1-x)^{-1/2} (1+x)^{-1/2} = (√(1-x²))⁻¹`, and the agreement is proved with
-  `MeasureTheory.restrict_withDensity` before any `measureT` lemma is consumed;
-- `Polynomial.jacobiNormSq_neg_half_neg_half_zero`: `jacobiNormSq (-1/2) (-1/2) 0 = π`, and
-  `Polynomial.jacobiNormSq_neg_half_neg_half_succ`:
-  `jacobiNormSq (-1/2) (-1/2) (n+1) = ((1/2)ₙ₊₁ / (n+1)!)² π / 2`, so that §4.3's constants
+  `(1-x)^{-1/2} (1+x)^{-1/2} = (√(1-x²))⁻¹`. After `TauCeti.chebyshevMeasureT_eq_withDensity` it
+  remains to compare the densities on `Ioo (-1) 1` and to drop the null set `{1}`;
+- `Polynomial.jacobiNormSq_neg_half_neg_half_succ`:
+  `jacobiNormSq (-1/2) (-1/2) (n+1) = ((1/2)ₙ₊₁ / (n+1)!)² π / 2`, together with the value
+  `jacobiNormSq (-1/2) (-1/2) 0 = π` (stated in prose), so that §4.3's constants
   reproduce Mathlib's `Polynomial.Chebyshev.integral_eval_T_real_mul_self_measureT_zero` (`π`) and
   `Polynomial.Chebyshev.integral_T_real_mul_self_measureT_of_ne_zero` (`π / 2`): the norm of `Pₙ^{(−1/2,−1/2)}` is the
   norm of `Tₙ` times the square of the scale above. `α = β = -1/2` is exactly the `n = 0`,
   `α + β = -1` edge of §4.3, and `π` versus `π/2` is where a wrong constant shows up.
 
-*Needs:* §§3.2, 4.1, 4.3; Mathlib `Polynomial.Chebyshev.T`, `Polynomial.Chebyshev.measureT`,
+*Needs:* §§3.2, 4.1, 4.3; Tau Ceti `TauCeti.chebyshevMeasureT_eq_withDensity`; Mathlib
+`Polynomial.Chebyshev.T`, `Polynomial.Chebyshev.measureT`,
 `Polynomial.Chebyshev.integral_eval_T_real_mul_self_measureT_zero`,
 `Polynomial.Chebyshev.integral_T_real_mul_self_measureT_of_ne_zero`,
 `MeasureTheory.restrict_withDensity`. *Locator:* DLMF 18.7.3.
@@ -816,20 +834,17 @@ Layers 3 and 4; Mathlib's Legendre and Chebyshev developments.
 
 ## Downstream consumers
 
-Layer 6.1's Legendre orthogonality is the case of order `0` of the Legendre orthogonality that
-SpecialFunctionsLegendre states, and Layer 6.2's Gegenbauer facts (the Jacobi relation, the degree,
-the norm constant) are the polynomial statements that SpecialFunctionsBessel's Gegenbauer functions
-agree with; those roadmaps own their analytic-continuation parts and cite these targets for the
-polynomial statements. Layers 1 and 2 are the Laguerre data used by NoncompactQuantumSymmetry and
-QuantumFoundations. Layers 2 and 4 supply the bases that the PDE roadmap consumes for
-eigenfunction expansions.
+SpecialFunctionsBessel consumes §§6.1–6.2; SpecialFunctionsConfluent consumes §1.1 and §2.3;
+NoncompactQuantumSymmetry and QuantumFoundations consume Layers 1 and 2. The order-0 Legendre
+orthogonality is owned here (§6.1); SpecialFunctionsLegendre's 14.17.6 for general `m` contains it
+as its case `m = 0`.
 
 ## References
 
 - DLMF, *NIST Digital Library of Mathematical Functions*, <https://dlmf.nist.gov>, Chapter 18
   (open access). Locators used above: Table 18.3.1 (weights, `hₙ`, `kₙ`); 18.5.5 with Table 18.5.1
   (Rodrigues); 18.5.8, 18.5.10, 18.5.12 (the explicit sums); 18.6.1 and Table 18.6.1 (special
-  values and reflection); 18.7.1 and 18.7.3 (Gegenbauer and Chebyshev in terms of Jacobi); 18.9.2,
+  values and reflection); 18.7.1, 18.7.3 and 18.7.10 (Gegenbauer, Chebyshev and shifted Legendre in terms of Jacobi); 18.9.2,
   18.9.13, 18.9.15, 18.9.23 (recurrences and derivatives); §14.17 (Legendre orthogonality).
 - G. Szegő, *Orthogonal Polynomials*, AMS Colloquium Publications 23, Ch. IV (Jacobi) and Ch. V
   (Laguerre and Hermite); §4.3 is the Jacobi orthogonality relation including the `α + β + 1 = 0`
