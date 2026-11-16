@@ -4,7 +4,7 @@
 
 ## Scope and ownership
 
-The forward direction from which this roadmap starts is supplied by named owners: ArithmeticStatisticsPartVI's supporting targets “Heegner logarithm and low rank” and “Elliptic p-parity” give the forward low-analytic-rank theorem and the elliptic root-number parity, and HeegnerPointEulerSystems §§8b.2 and 8b.10 give the anticyclotomic Iwasawa equalities at Eisenstein primes. There is no separate RankZeroOneBSD roadmap: the base direction, the forward Gross–Zagier–Kolyvagin theory, is owned by the suppliers just named, and this roadmap is complete in itself. The new implication here starts from Selmer corank. Ownership of the imported inputs is specified by the supplier sections below. The CM newform and elliptic converses belong to CMRankZeroConverse Layers 0–6, and the irreducible-residual localization criteria belong to RankOneConverse §§PC.0–PC.6. Their hypotheses are not imposed on this branch.
+The forward direction from which this roadmap starts is supplied by named owners: ArithmeticStatisticsPartVI's supporting targets “Heegner logarithm and low rank” and “Elliptic p-parity” give the forward low-analytic-rank theorem and the elliptic root-number parity, and HeegnerPointEulerSystems §§8b.2 and 8b.10 give the anticyclotomic Iwasawa equalities at Eisenstein primes. There is no separate RankZeroOneBSD roadmap: the base direction, the forward Gross–Zagier–Kolyvagin theory, is owned by the suppliers just named, and this roadmap is complete in itself. The new implication here starts from Selmer corank. Ownership of the imported inputs is specified by the supplier sections below. The CM newform and elliptic converses belong to CMRankZeroConverse Layers 0–6, and the irreducible-residual localization criteria belong to RankOneConverse Layers 0–6. Their hypotheses are not imposed on this branch. RankOneConverse §4.1 “General quadratic nonvanishing with local prescriptions”, which has no residual hypothesis, owns the existence of infinitely many quadratic twists of a trivial-nebentypus newform with prescribed split primes and analytic rank zero, and of infinitely many with analytic rank one; §1.1 imports it.
 
 The fixed-isogeny hypothesis predicate, complementary-field assembly, combination of discrete augmentation control with compact specialization, traced Heegner comparison, two converses and admissible statistical conversion are owned here. EulerSystemsAndKolyvaginSystems §8.31 owns discrete augmentation control and its corank-one consequence; compact specialization uses the additional SelmerIwasawaCohomology contract below. The Howard unit-line and level-zero normalization comparison is imported from HeegnerPointEulerSystems §8.13. The traced comparison here differs from its §8.32: it is an exact identity at the trivial character after the full Hilbert-class-field trace, rather than a finite-coefficient congruence for near-trivial characters.
 
@@ -104,13 +104,15 @@ Use §0.1 “Relative density” for the cutoff ratios r_X(S | T), their bounds 
 
 The supporting “Heegner logarithm and low rank” supplies, for every E/ℚ with the modular comparison data, analytic rank zero or one ⇒ that Mordell–Weil rank and finite whole Sha. The supporting “Elliptic p-parity” supplies (−1)^corank=w(E) on that realization. These are used first on the known auxiliary twist and only after the converse on E itself. The root-number theorem is required even when the residual representation is reducible and at p=3.
 
-What ArithmeticStatisticsPartVI must provide (gap:complementary-heegner-twists): For every rational elliptic curve and finite set of rational primes, prove both complementary imaginary-quadratic twist nonvanishing branches with those primes split, infinitely many odd fundamental discriminants below −4, and twist analytic order zero when the original root number is −1 and one when it is +1. The value branch, a twist with nonzero central value and prescribed splitting at finitely many primes, extends the auxiliary-twist existence that “Heegner logarithm and low rank” already proves inside its rank-one deduction; what this gap adds is the derivative branch, with the twist of analytic order one when w(E)=+1, and, in both branches, infinitely many odd fundamental discriminants below −4.
-
 ### From TauCetiRoadmap.ArithmeticStatisticsPartVII and TauCetiRoadmap.ArithmeticStatisticsPartIII
 
 Part VII §5.10 supplies “Selmer ratio of an isogeny”, “Local Selmer ratio via Tamagawa numbers”, “Selmer ratio classes are locally defined”, the three-isogeny parity theorem and both restricted zero/one three-Selmer bounds. Their corrected rank is dim Sel₃−dim E(ℚ)[3]. On the admissible family the torsion term is exactly zero. By the Tamagawa formula of §5.10, at 3 the good ordinary ratio is |φ′(0)|₃⁻¹, equal to 1 or 3 according to the étale/connected kernel, and the two real signs give 1 and 1/3. Part VII §5.32 “Attainable local three-isogeny ratios” supplies the Kodaira/twist and differential tables and the existence, at every finite prime ℓ≠3 including ℓ=2, of a local quadratic twist with ratio 1 (BKLOS Propositions 10.1, 10.7 and Theorem 10.5, pp. 14–17; BKLOS lines 674, 764 and 713). Section 5.10 supplies the ratio definition, the Tamagawa formula, the strata and the statistical bounds.
 
 The Part VII means and low-Selmer proportions retain the seven-part counting condition C(F,ι,Σ) of Part III's “Windowed cubic counting contract”. Part III's “Supporting uniform estimates”, “Windowed cubic counting contract”, items 1–7, state C(F,φ,Σ) as its own targets for every number field F, every degree-three isogeny φ of abelian varieties and every nonempty family Σ defined by finitely many local conditions, in the unweighted squareclass height H(s)=∏_(v(s) odd) Nv with the additive-Haar local mass normalization. That contract is applied here with F=ℚ, where H(d)=|d| on signed squarefree d, to ι and its dual and to the strata Σ∩T_m; a numerical average with C assumed does not discharge it.
+
+### From TauCetiRoadmap.RankOneConverse
+
+Section 4.1 “General quadratic nonvanishing with local prescriptions” supplies, for every normalized newform g of positive weight, positive level and trivial nebentypus, with root number ε(g) and every finite set S₀ of primes containing those dividing its level, infinitely many fundamental discriminants δ with every prime of S₀ split in ℚ(√δ), ε(g)δ>0 and primitive quadratic twist of analytic rank 0 (the value branch), and infinitely many with ε(g)δ<0 and primitive twist of analytic rank 1 (the derivative branch). Its primitive twist of g by δ is the unique newform whose q-th coefficient is χ_δ(q)a_q(g) at all primes q away from both levels and δ, by the cross-level strong multiplicity one of ModularForms Layer 5. No residual, ordinarity or localization hypothesis of the other RankOneConverse sections enters this theorem.
 
 ### From TauCetiRoadmap.CMRankZeroConverse
 
@@ -185,7 +187,7 @@ Under the Eisenstein converse condition, if corank Sel_(p∞)(E/ℚ)=r∈{0,1}, 
 
 E/ℚ is a Weierstrass curve with IsElliptic, conductor N; p is prime, p>2 and p∤N; ι:E→E′ is a rational cyclic isogeny of degree p. Its actual kernel character φ:G_ℚ→𝔽_pˣ satisfies φ|G_p∉{1,ω}, with ω the mod-p cyclotomic character. The residual quotient character is ψ=ωφ⁻¹. The rational Selmer corank is r=0 or r=1.
 
-A proof route uses the local dictionary for ordinarity and the elliptic p-parity theorem to the weight-two realization, using the rational newform bridge and elliptic Kummer comparison: w(E)=(−1)^r. Apply the value branch of the complementary-twist supplier contract for w(E)=−1, and its derivative branch for w(E)=+1. In the finite splitting set include every prime dividing N and both 2 and p. The sign of the negative discriminant is correct in each branch; splitting at 2 makes it odd. Infinitude excludes D=−3,−4. Splitting at every level prime gives (D,N)=1 and the classical Heegner hypothesis.
+A proof route uses the local dictionary for ordinarity and the elliptic p-parity theorem to the weight-two realization, using the rational newform bridge and elliptic Kummer comparison: w(E)=(−1)^r. Apply RankOneConverse §4.1 to the weight-two newform g of E (EllipticCurveModularity R29.3), whose root number is w(E): its value branch for w(E)=−1 and its derivative branch for w(E)=+1. In the finite splitting set S₀ include every prime dividing N and both 2 and p. In both branches the discriminant D is negative: ε(g)D>0 with ε(g)=−1, and ε(g)D<0 with ε(g)=+1; splitting at 2 makes it odd. The newform of E^K has q-th coefficient χ_D(q)a_q(E) at every prime q∤ND (the twisted point isomorphism of EllipticCurves Layer 5), so by the uniqueness in that section it is the primitive twist, and its analytic rank is that of E^K. Infinitude excludes D=−3,−4. Splitting at every level prime gives (D,N)=1 and the classical Heegner hypothesis.
 
 **Checks.**
 
@@ -194,7 +196,7 @@ A proof route uses the local dictionary for ordinarity and the elliptic p-parity
 
 (CGLS Proof of Theorem 5.2.1, pp. 574–575, conditions (a)–(d) and (d′); CGLS lines 2151–2161 and 2173–2182.)
 
-*Needs:* §0.1; ArithmeticStatisticsPartVI “Elliptic p-parity” and gap:complementary-heegner-twists; EllipticCurveModularity R29.3–R29.6 and gap:quadratic-analytic-factorization.
+*Needs:* §0.1; ArithmeticStatisticsPartVI “Elliptic p-parity”; RankOneConverse §4.1 “General quadratic nonvanishing with local prescriptions”; EllipticCurves Layer 5; EllipticCurveModularity R29.3–R29.6 and gap:quadratic-analytic-factorization.
 
 ### 1.2 The selected field has Selmer corank one
 
@@ -218,7 +220,7 @@ For r=0 the twist order is 1 and 0+1=1; for r=1 it is 0 and 1+0=1. The signs are
 
 ### Dependencies
 
-Layer 0; EllipticCurveModularity R29.3–R29.6; ArithmeticStatisticsPartVI supporting parity, forward and complementary-twist contracts; SelmerIwasawaCohomology §§2.11–2.12a, 4.26, 4.28.
+Layer 0; EllipticCurves Layer 5; EllipticCurveModularity R29.3–R29.6; ArithmeticStatisticsPartVI supporting parity and forward contracts; RankOneConverse §4.1; SelmerIwasawaCohomology §§2.11–2.12a, 4.26, 4.28.
 
 ## Layer 2: Augmentation control and the bottom Heegner point
 
