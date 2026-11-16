@@ -2334,7 +2334,13 @@ count the points of proper curves, not of the affine equations of Layer 4. The o
   `‖∑_i α_i^m‖ ≤ C B^m` for every `m ≥ m₀` divisible by `d ≠ 0`, with `B > 0`, forces
   `‖α_i‖ ≤ B`; at `d = 1` this is 4.4, proved by a sector argument.
 - **Layers 0–2, 4.5 and 5–7.** Multiplicative characters and their Kummer sheaves, and Gauss,
-  Jacobi and Kloosterman sums, have no counterpart in these three repositories.
+  Jacobi and Kloosterman sums, have no counterpart in these three repositories. Additive
+  characters do: `WeilConjectures/Mathlib/NumberTheory/LegendreSymbol/AddCharacter.lean`
+  (weil-conjectures) defines `ψ ∘ Tr_{L/K}` for an extension `L/K` of fields, the `ψ.liftTrace` of
+  0.6, proves its transitivity in a tower of finite extensions and its primitivity for `ψ ≠ 1` and
+  `L/K` finite and separable (at `K = 𝔽_p`, the primitivity of 0.1), and proves that every additive
+  character of a finite field with values in a field is a shift `ψ.mulShift a` of a given
+  primitive one, the surjectivity in 0.2.
 
 The Apache-2.0 [`LeanPool/lean-pool`](https://github.com/LeanPool/lean-pool) at commit `f8b9b72`
 (Lean `v4.35.0`, Mathlib `56a0058`) carries, in the 38 files of `LeanPool/KloostermanWeil/`
@@ -2342,9 +2348,9 @@ The Apache-2.0 [`LeanPool/lean-pool`](https://github.com/LeanPool/lean-pool) at 
 [`charliedorsey/weil-bounds-toolkit`](https://github.com/charliedorsey/weil-bounds-toolkit) at
 commit `7adcd23`), Weil's bound for untwisted Kloosterman sums to a prime modulus, proved by
 Stepanov's method and Carlitz's lifting of these sums to `𝔽_{p^n}`. It is not a supplier: its
-Kloosterman sums carry no multiplicative character, those over a finite field have their parameters
-in `𝔽_p`, and its Stepanov estimate is for `y² = f(x)` only. The paths below are relative to that
-directory.
+Kloosterman sums carry no multiplicative character, its lifting relation and its bounds for these
+sums over a finite field are for parameters in `𝔽_p`, and its Stepanov estimate is for
+`y² = f(x)` only. The paths below are relative to that directory.
 
 - **4.1, 4.2 and 4.4.** `Stepanov/Algebra.lean` proves the multiplicity criterion in divisibility
   form, `(X − x)^l ∣ h` exactly when the Hasse derivatives of `h` of order `< l` vanish at `x`, the
@@ -2354,8 +2360,9 @@ directory.
   `Stepanov/Defect.lean` proves, over a field with `q = p^e` elements, `p` odd, for `f ≠ 0` of
   degree `m ≥ 4` with `f(0) ≠ 0` that is not a nonzero constant times a square in `F[X]`, and for
   `100(m + 1)(⌊√q⌋ + 1) < q`, the estimate
-  `|#{(x, y) ∈ F² : y² = f(x)} − q| < 80(m + 1)(⌊√q⌋ + 1) + 1`: the case `d = 2` of 4.2, with
-  constants depending on `m` alone, under the two further hypotheses `f(0) ≠ 0` and `m ≥ 4`.
+  `|#{(x, y) ∈ F² : y² = f(x)} − q| < 80(m + 1)(⌊√q⌋ + 1) + 1`: the case `d = 2` of 4.2 in odd
+  characteristic, with constants depending on `m` alone, under the two further hypotheses
+  `f(0) ≠ 0` and `m ≥ 4`.
   `Stepanov/PowerSumSpectral.lean` proves 4.4 with `C ≥ 1`, which loses nothing, through Newton's
   identities and Cauchy's root bound.
 - **5.1 and 5.4–5.6 at `χ = 1` over `𝔽_p`.** `Weil/PrimeFoundation.lean` proves the symmetry
