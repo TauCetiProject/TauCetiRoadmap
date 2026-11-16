@@ -54,8 +54,7 @@ It leaves the following to the named owners and consumes them by section.
   representations (V0), the bicommutant and Kaplansky theorems (V1), traces on finite-dimensional
   algebras (V3), normal functionals and normality (V4), normal semifinite traces
   (`IsNormalSemifiniteTrace`) with faithfulness, semifiniteness, finite-trace projection
-  exhaustion and the `L²` of a faithful normal semifinite trace (V6), polar decomposition of
-  closed affiliated operators (V10.ClosedOperators, V10.Affiliation), the tracial `Lᵖ(M,τ)`,
+  exhaustion and the `L²` of a faithful normal semifinite trace (V6), the tracial `Lᵖ(M,τ)`,
   `1 ≤ p < ∞`, with completeness, Hölder, adjoints, bounded left and right multiplication,
   `L² = GNS` and `L¹ = M_*` (V10.TracialLp), and left Hilbert algebras with their commutants,
   full closures, Tomita's theorem and canonical normal semifinite faithful weights (V11). Tr2–Tr3
@@ -95,35 +94,36 @@ Cuntz comparison of positive elements, and group actions on traces.
   `StarOrderedRing` order; no unit, separability or simplicity is assumed. `B₊ = {x : 0 ≤ x}`.
   `B^†` is the forced unitization `Unitization ℂ B`, also for unital `B`, as in OperatorKTheory's
   `K₀` of a nonunital algebra.
-- **Traces.** A trace is a map `τ : B → [0,∞]` (`ℝ≥0∞`), of which only the values on `B₊` matter,
-  that is additive and positively homogeneous on `B₊` with `0·∞ = 0` and satisfies
-  `τ(x*x) = τ(xx*)` for every `x ∈ B` (Dixmier 1963, Définition 2, p. 224). This is the
-  convention of VonNeumannAlgebras V6's `IsNormalSemifiniteTrace`. The zero map is a trace. A trace
-  is faithful if `τ(x) = 0` with `x ∈ B₊` forces `x = 0`. Witness: on `ℂ²`, `τ(a,b) = 2a + ∞·b`
+- **Traces.** A trace (`IsTrace`) is a map `τ : B → [0,∞]` (`ℝ≥0∞`), of which only the values on
+  `B₊` matter, that is additive and positively homogeneous on `B₊` with `0·∞ = 0` and satisfies
+  `τ(x*x) = τ(xx*)` for every `x ∈ B` (Dixmier 1963, Définition 2, p. 224). This is the convention
+  of VonNeumannAlgebras V6's `IsNormalSemifiniteTrace`. The zero map is a trace. A trace is faithful
+  (`IsFaithful`) if `τ(x) = 0` with `x ∈ B₊` forces `x = 0`. Witness: on `ℂ²`, `τ(a,b) = 2a + ∞·b`
   (with `∞·0 = 0`) is a trace with `𝔪_τ = ℂ ⊕ 0`; homogeneity at `c = 0` forces `τ(0) = 0` although
   `τ(0,1) = ∞`.
-- **Domains.** `𝔪_τ⁺ = {x ∈ B₊ : τ(x) < ∞}`, `𝔫_τ = {x ∈ B : τ(x*x) < ∞}` and
-  `𝔪_τ = span_ℂ 𝔪_τ⁺`; the linear extension of `τ` to `𝔪_τ` (Tr1.1) is again written `τ`.
-  Witness: for the canonical trace on `K(ℓ²)`, `diag(1/n)` lies in `𝔫_Tr` (`Σ 1/n² < ∞`) and not in
-  `𝔪_Tr` (`Σ 1/n = ∞`).
+- **Domains.** `𝔪_τ⁺ = {x ∈ B₊ : τ(x) < ∞}` (`finitePart`), `𝔫_τ = {x ∈ B : τ(x*x) < ∞}`
+  (`sqIntegrable`) and `𝔪_τ = span_ℂ 𝔪_τ⁺` (`domain`); the linear extension of `τ` to `𝔪_τ` (Tr1.1)
+  is again written `τ`. Witness: for the canonical trace on `K(ℓ²)`, `diag(1/n)` lies in `𝔫_Tr`
+  (`Σ 1/n² < ∞`) and not in `𝔪_Tr` (`Σ 1/n = ∞`).
 - **Lower semicontinuity, semifiniteness, density.** `τ` is lower semicontinuous if it is
-  `LowerSemicontinuousOn` the set `B₊` for the norm topology. `τ` is semifinite if
+  `LowerSemicontinuousOn` the set `B₊` for the norm topology. `τ` is semifinite (`IsSemifinite`) if
   `τ(x) = sup{τ(y) : y ∈ B₊, y ≤ x, τ(y) < ∞}` for every `x ∈ B₊` (Dixmier 1963, Définition 2,
-  p. 224). `τ` is densely defined if `𝔪_τ⁺` is dense in `B₊`. For lower semicontinuous traces
-  density implies semifiniteness (Tr1.2), not conversely; without lower semicontinuity neither
-  implies the other. Witnesses: `τ(f) = ∫₀¹ f(t) t⁻¹ dt` on `C[0,1]` is lower semicontinuous and
-  semifinite but not densely defined, since every `f ∈ 𝔪_τ⁺` has `f(0) = 0`; on `c₀`, the map
-  `τ(f) = Σ f(n)` for finitely supported `f ≥ 0` and `τ(f) = ∞` otherwise is a densely defined
-  trace that is neither lower semicontinuous nor semifinite, since `f = (1/n²)` has `τ(f) = ∞`
-  while its finitely supported minorants have trace at most `π²/6`.
+  p. 224). `τ` is densely defined (`IsDenselyDefined`) if `𝔪_τ⁺` is dense in `B₊`. For lower
+  semicontinuous traces density implies semifiniteness (Tr1.2), not conversely; without lower
+  semicontinuity neither implies the other. Witnesses: `τ(f) = ∫₀¹ f(t) t⁻¹ dt` on `C[0,1]` is lower
+  semicontinuous and semifinite but not densely defined, since every `f ∈ 𝔪_τ⁺` has `f(0) = 0`; on
+  `c₀`, the map `τ(f) = Σ f(n)` for finitely supported `f ≥ 0` and `τ(f) = ∞` otherwise is a densely
+  defined trace that is neither lower semicontinuous nor semifinite, since `f = (1/n²)` has
+  `τ(f) = ∞` while its finitely supported minorants have trace at most `π²/6`.
 - **Powers, gauges and norms.** `|b| = (b*b)^{1/2}` is Mathlib's `CFC.abs`, and `|b|^p` is
-  `CFC.nnrpow (CFC.abs b) p` for `p ∈ ℝ≥0`. The trace gauge is `‖b‖_{τ,p} = τ(|b|^p)^{1/p} ∈ [0,∞]`,
-  the trace ideal is `J_p = {b : ‖b‖_{τ,p} < ∞}`, and `J_p` carries the norm
-  `|||b|||_p = ‖b‖ + ‖b‖_{τ,p}`. Exponents satisfy `1 ≤ p < ∞`; Hölder exponents satisfy
-  `1/r = 1/p + 1/q` with `r ≥ 1`. On `M_n(B)`, `J_p` is normed through the amplified trace `τ_n`,
-  not by the sum of the entry norms; the two are equivalent (Tr3.3). Witness: on `M₂(ℂ)` with
-  `Tr`, `x = [[1,1],[0,0]]` has `|x|` with eigenvalues `√2` and `0`, so `‖x‖_{Tr,1} = √2`, strictly
-  between its largest entry gauge `1` and the sum `2` of its entry gauges.
+  `CFC.nnrpow (CFC.abs b) p` for `p ∈ ℝ≥0`. The trace gauge (`traceGauge`) is
+  `‖b‖_{τ,p} = τ(|b|^p)^{1/p} ∈ [0,∞]`, the trace ideal (`traceIdeal`) is
+  `J_p = {b : ‖b‖_{τ,p} < ∞}`, and `J_p` carries the norm `|||b|||_p = ‖b‖ + ‖b‖_{τ,p}`. Exponents
+  satisfy `1 ≤ p < ∞`; Hölder exponents satisfy `1/r = 1/p + 1/q` with `r ≥ 1`. On `M_n(B)`, `J_p`
+  is normed through the amplified trace `τ_n`, not by the sum of the entry norms; the two are
+  equivalent (Tr3.3). Witness: on `M₂(ℂ)` with `Tr`, `x = [[1,1],[0,0]]` has `|x|` with eigenvalues
+  `√2` and `0`, so `‖x‖_{Tr,1} = √2`, strictly between its largest entry gauge `1` and the sum `2`
+  of its entry gauges.
 - **Hilbert spaces.** Inner products are conjugate-linear in the first variable. For a trace,
   `⟪Λ_τ(x), Λ_τ(y)⟫ = τ(x*y)` for `x, y ∈ 𝔫_τ`, `π_τ(a)Λ_τ(x) = Λ_τ(ax)`,
   `π_τᵒᵖ(bᵒᵖ)Λ_τ(x) = Λ_τ(xb)` and `J_τΛ_τ(x) = Λ_τ(x*)`. Witness: for `(M₂(ℂ), Tr)`,
@@ -209,7 +209,6 @@ Tau Ceti has no trace on a C*-algebra in the sense above, no Hilbert algebra and
 - V6: `IsNormalSemifiniteTrace`, faithfulness, semifiniteness and its equivalent forms,
   finite-trace projection exhaustion, and the `L²` of a faithful normal semifinite trace with
   `JΛ(x) = Λ(x*)` and `JMJ = M'`.
-- V10.ClosedOperators and V10.Affiliation: polar decompositions in `M_τ`.
 - V10.TracialLp: `Lᵖ(M,τ)` for a faithful normal semifinite trace, `1 ≤ p < ∞`, with completeness,
   Hölder, adjoints, bounded left and right multiplication, `L² = GNS` and `L¹ = M_*`.
 - V11: left Hilbert algebras `𝔄`, their left von Neumann algebra `R_l(𝔄)`, their full closure `𝔄''`
@@ -280,27 +279,36 @@ Define traces and faithfulness as in Conventions (Dixmier 1963, Définition 2, p
 
 - `τ` is monotone on `B₊`, and `𝔪_τ⁺` is a hereditary convex cone: `0 ≤ y ≤ x ∈ 𝔪_τ⁺` gives
   `y ∈ 𝔪_τ⁺`.
-- `𝔫_τ` is a two-sided self-adjoint ideal. It is a left ideal because `x*a*ax ≤ ‖a‖²x*x`, it is
-  self-adjoint by the trace identity, hence also a right ideal, and it is a subspace by
-  `(x + y)*(x + y) ≤ 2(x*x + y*y)`.
+- `𝔫_τ` is a two-sided self-adjoint ideal (`IsTrace.sqIntegrable_ideal`). It is a left ideal because
+  `x*a*ax ≤ ‖a‖²x*x`, it is self-adjoint by the trace identity, hence also a right ideal, and it is
+  a subspace by `(x + y)*(x + y) ≤ 2(x*x + y*y)`.
 - `𝔪_τ = span{y*x : x, y ∈ 𝔫_τ}` is a two-sided self-adjoint ideal with `𝔪_τ ∩ B₊ = 𝔪_τ⁺`, by
   the polarization `4y*x = Σ_{k=0}^{3} iᵏ (x + iᵏy)*(x + iᵏy)`.
 - `τ` extends uniquely to a complex-linear functional on `𝔪_τ`, real on self-adjoint elements and
-  nonnegative on `𝔪_τ⁺`; it satisfies `τ(xz) = τ(zx)` for `x ∈ 𝔪_τ`, `z ∈ B`, and
-  `τ(y*x) = τ(xy*)` for `x, y ∈ 𝔫_τ`.
+  nonnegative on `𝔪_τ⁺` (`IsTrace.existsUnique_linearMap`, which also records the ideal property of
+  `𝔪_τ` and `𝔪_τ ∩ B₊ = 𝔪_τ⁺`); it satisfies `τ(xz) = τ(zx)` for `x ∈ 𝔪_τ`, `z ∈ B`
+  (`IsTrace.linearMap_mul_comm`), and `τ(y*x) = τ(xy*)` for `x, y ∈ 𝔫_τ`.
 - Unitary invariance: `τ(uxu*) = τ(x)` for `x ∈ B₊` and every unitary `u` of `B^†`, by the trace
   identity at `z = x^{1/2}u*`.
+- Adjoint invariance: `τ(f(x*x)) = τ(f(xx*))` for every continuous `f : [0,∞) → [0,∞)` with
+  `f(0) = 0`, in particular `τ(|x|^p) = τ(|x*|^p)` (`IsTrace.traceGauge_star`). Route: put
+  `h = f^{1/2}` and `h_n = (h − 1/n)₊`, which vanishes near `0` and converges to `h` uniformly on
+  `[0, ‖x‖²]`; with `g_n(t) = h_n(t)t^{−1/2}`, continuous and `0` at `0`, the elements
+  `y_n = x·g_n(x*x) ∈ B` satisfy `y_n*y_n = h_n(x*x)²` and `y_ny_n* = h_n(xx*)²` (from
+  `xφ(x*x)x* = ψ(xx*)` with `ψ(t) = tφ(t)`, true for polynomials `φ` and then by uniform
+  approximation), and `‖y_n − y_m‖ = sup |h_n − h_m|` on the spectrum of `x*x`; their norm limit `y`
+  has `y*y = f(x*x)` and `yy* = f(xx*)`, so `τ(f(x*x)) = τ(y*y) = τ(yy*) = τ(f(xx*))`.
 - Bounded traces: `τ` is finite on `B₊` iff it is the restriction to `B₊` of a positive linear
-  functional `ω` with `ω(ab) = ω(ba)`; such an `ω` is bounded (VonNeumannAlgebras V0) and is the
-  positive tracial functional of OperatorKTheory K1.5. The tracial states of
-  AmenableTracesOnCStarAlgebras §1.1 are the bounded traces with
+  functional `ω` with `ω(ab) = ω(ba)` (`IsTrace.exists_positiveFunctional`); such an `ω` is bounded
+  (VonNeumannAlgebras V0) and is the positive tracial functional of OperatorKTheory K1.5. The
+  tracial states of AmenableTracesOnCStarAlgebras §1.1 are the bounded traces with
   `sup{τ(x) : x ∈ B₊, ‖x‖ ≤ 1} = 1`.
 - Constructions: for a star homomorphism `φ : A → B`, `τ ∘ φ` is a trace on `A`, faithful when `τ`
   is faithful and `φ` is injective; restriction to a C*-subalgebra; sums, multiples by `c ∈ [0,∞)`
   and suprema of upward directed families of traces are traces.
 
-*Needs:* Mathlib `CFC.sqrt` and the `StarOrderedRing` order, `Unitization ℂ B`; VonNeumannAlgebras
-V0 for the boundedness of positive functionals.
+*Needs:* Mathlib `CFC.sqrt`, the nonunital continuous functional calculus and the `StarOrderedRing`
+order, `Unitization ℂ B`; VonNeumannAlgebras V0 for the boundedness of positive functionals.
 
 **Checks.**
 
@@ -318,20 +326,22 @@ V0 for the boundedness of positive functionals.
   lower semicontinuous on `B`, as compositions with the norm-continuous maps `x ↦ x*x` and
   `x ↦ |x|^p`.
 - Combes's theorem for traces: a trace is lower semicontinuous iff
-  `τ(x) = sup{ω(x) : ω ∈ B →P[ℂ] ℂ, ω ≤ τ on B₊}` for every `x ∈ B₊` (Thomsen [KMS],
-  Theorem 1.1.1; Kustermans–Vaes, Theorem 1.6; both for lower semicontinuous weights, of which
-  traces are a case). The supremum of continuous functions is lower semicontinuous; the converse
-  separates by `geometric_hahn_banach_point_closed`.
-- Density: `𝔪_τ⁺` is dense in `B₊` iff `𝔪_τ` is dense in `B` iff `𝔫_τ` is dense in `B`. Route:
-  for dense `𝔫_τ`, CStarAlgebras C1.5's right approximate identity `e = e_{F,δ}` inside the left
-  ideal `𝔫_τ` satisfies `e ≤ δ⁻¹b_F ∈ 𝔪_τ⁺`, and for `x ∈ B₊` the elements
-  `x^{1/2}ex^{1/2} ∈ 𝔪_τ⁺` converge to `x`. A densely defined trace is finite on `Ped(B)`, since
-  `𝔪_τ` is a dense two-sided ideal and `Ped(B)` is the smallest one (C1.6).
-- For a lower semicontinuous trace, densely defined implies semifinite (Dixmier 1963,
-  Remarque 3, pp. 227–228); the converse fails (Conventions, witness on `C[0,1]`).
-- Lower semicontinuous regularization (Thomsen [WTK], Proposition 4.12): a densely defined trace
-  `τ` has a densely defined lower semicontinuous trace `τ̃ ≤ τ` that dominates every lower
-  semicontinuous trace below `τ`; `τ̃ = τ` iff `τ` is lower semicontinuous.
+  `τ(x) = sup{ω(x) : ω ∈ B →P[ℂ] ℂ, ω ≤ τ on B₊}` for every `x ∈ B₊`
+  (`IsTrace.lowerSemicontinuousOn_iff`; Thomsen [KMS], Theorem 1.1.1; Kustermans–Vaes, Theorem 1.6;
+  both for lower semicontinuous weights, of which traces are a case). The supremum of continuous
+  functions is lower semicontinuous; the converse separates by `geometric_hahn_banach_point_closed`.
+- Density: `𝔪_τ⁺` is dense in `B₊` iff `𝔪_τ` is dense in `B` iff `𝔫_τ` is dense in `B`
+  (`IsTrace.isDenselyDefined_iff`). Route: for dense `𝔫_τ`, CStarAlgebras C1.5's right approximate
+  identity `e = e_{F,δ}` inside the left ideal `𝔫_τ` satisfies `e ≤ δ⁻¹b_F ∈ 𝔪_τ⁺`, and for `x ∈ B₊`
+  the elements `x^{1/2}ex^{1/2} ∈ 𝔪_τ⁺` converge to `x`. A densely defined trace is finite on
+  `Ped(B)`, since `𝔪_τ` is a dense two-sided ideal and `Ped(B)` is the smallest one (C1.6).
+- For a lower semicontinuous trace, densely defined implies semifinite
+  (`IsTrace.isSemifinite_of_isDenselyDefined`; Dixmier 1963, Remarque 3, pp. 227–228); the converse
+  fails (Conventions, witness on `C[0,1]`).
+- Lower semicontinuous regularization (`IsTrace.exists_lowerSemicontinuous_regularization`; Thomsen
+  [WTK], Proposition 4.12): a densely defined trace `τ` has a densely defined lower semicontinuous
+  trace `τ̃ ≤ τ` that dominates every lower semicontinuous trace below `τ`; `τ̃ = τ` iff `τ` is
+  lower semicontinuous.
 - Reduction to the closed domain: for a lower semicontinuous trace, the norm closure `I_τ` of
   `𝔪_τ` is a closed two-sided ideal, `τ` restricts to a densely defined lower semicontinuous trace
   on `I_τ`, and `τ(x) = ∞` for `x ∈ B₊ \ I_τ`.
@@ -355,14 +365,15 @@ continuous functional calculus, `geometric_hahn_banach_point_closed`.
 
 ### 1.3 Matrix amplification (Tr1.3)
 
-For `n ≥ 1` define `τ_n(x) = Σ_i τ(x_ii)` on `M_n(B)₊`, with `M_n(B)` Mathlib's
-`CStarMatrix (Fin n) (Fin n) B`. Prove that `τ_n` is a trace that is lower semicontinuous,
-densely defined or faithful when `τ` is, with `𝔫_{τ_n} = M_n(𝔫_τ)` and
-`𝔪_{τ_n} = M_n(𝔪_τ)` (Thomsen [WTK], Lemma 3.1 (e)–(f)); that `τ_n(x) = Σ_i τ(x_ii)` for
-`x ∈ 𝔪_{τ_n}`; that `τ_{n+m}(diag(x, y)) = τ_n(x) + τ_m(y)`; and that `τ_n(uxu*) = τ_n(x)` for
-unitary scalar matrices `u`. For a densely defined `τ`, every projection of `M_n(B)` lies in
-`M_n(𝔪_τ)` (Thomsen [WTK], Lemma 4.11): approximate the projection `e` within `1/2` by a
-self-adjoint `x ∈ 𝔪_{τ_n}`, so that `e/2 ≤ exe ∈ 𝔪_{τ_n}⁺`.
+For `n ≥ 1` define `τ_n(x) = Σ_i τ(x_ii)` on `M_n(B)₊` (`matrixTrace`), with `M_n(B)` Mathlib's
+`CStarMatrix (Fin n) (Fin n) B`. Prove that `τ_n` is a trace (`IsTrace.isTrace_matrixTrace`) that is
+lower semicontinuous, densely defined or faithful when `τ` is, with `𝔫_{τ_n} = M_n(𝔫_τ)`
+(`IsTrace.mem_sqIntegrable_matrixTrace_iff`) and `𝔪_{τ_n} = M_n(𝔪_τ)` (Thomsen [WTK],
+Lemma 3.1 (e)–(f)); that `τ_n(x) = Σ_i τ(x_ii)` for `x ∈ 𝔪_{τ_n}`; that
+`τ_{n+m}(diag(x, y)) = τ_n(x) + τ_m(y)`; and that `τ_n(uxu*) = τ_n(x)` for unitary scalar matrices
+`u`. For a densely defined `τ`, every projection of `M_n(B)` lies in `M_n(𝔪_τ)`
+(`IsTrace.matrixTrace_lt_top_of_isStarProjection`; Thomsen [WTK], Lemma 4.11): approximate the
+projection `e` within `1/2` by a self-adjoint `x ∈ 𝔪_{τ_n}`, so that `e/2 ≤ exe ∈ 𝔪_{τ_n}⁺`.
 
 *Needs:* Tr1.1–Tr1.2; Mathlib `CStarMatrix` and its spectral order.
 
@@ -441,17 +452,15 @@ conjugate-linear isometric involution `J_τΛ(x) = Λ(x*)` with `J_τπ_τ(a)J_�
   involution of `𝔄_τ` is isometric: for a left-bounded `ξ` of the full closure, `J_τξ` is
   left-bounded with `π_l(J_τξ) = π_l(ξ)*`, so `τ̄(TT*) = ‖J_τξ‖² = ‖ξ‖² = τ̄(T*T)` for
   `T = π_l(ξ)`, and `T ∈ 𝔫_τ̄` iff `T* ∈ 𝔫_τ̄`.
-- Normal extension theorem: for a semifinite lower semicontinuous trace, `τ̄(π_τ(x)) = τ(x)` for
-  every `x ∈ B₊` (Dixmier 1963, Lemme 7, pp. 231–232, and Proposition 2 (i), p. 233).
-  Consequently `τ` is faithful iff `π_τ` is injective, and
-  `τ(f(x*x)) = τ(f(xx*))` for every continuous `f : [0,∞) → [0,∞)` with `f(0) = 0` (polar
-  decomposition in `M_τ`, V10.ClosedOperators), in particular `τ(|x|^p) = τ(|x*|^p)`.
-- Uniqueness: if `τ` is densely defined and lower semicontinuous, `τ̄` is the only normal
-  semifinite trace `θ` on `M_τ` with `θ ∘ π_τ = τ` on `B₊`, and more generally two normal
-  semifinite traces on `π(B)''` that agree with `τ` along a nondegenerate representation `π`
-  agree on `π(B)''₊`. Route: C1.5's net `e_{F,δ}` inside `𝔪_τ⁺` increases
-  with `F` and as `δ` decreases (`t ↦ t(δ + t)⁻¹` is operator monotone and decreasing in `δ`) and
-  is an approximate unit of `B`, so `π_τ(e) ↑ 1` strongly; normality and the trace property give
+- Normal extension theorem (`IsTrace.exists_normal_extension`): for a semifinite lower
+  semicontinuous trace, `τ̄(π_τ(x)) = τ(x)` for every `x ∈ B₊` (Dixmier 1963, Lemme 7, pp. 231–232,
+  and Proposition 2 (i), p. 233). Consequently `τ` is faithful iff `π_τ` is injective.
+- Uniqueness (`IsTrace.eq_of_normal_extension`): if `τ` is densely defined and lower semicontinuous,
+  `τ̄` is the only normal semifinite trace `θ` on `M_τ` with `θ ∘ π_τ = τ` on `B₊`, and more
+  generally two normal semifinite traces on `π(B)''` that agree with `τ` along a nondegenerate
+  representation `π` agree on `π(B)''₊`. Route: C1.5's net `e_{F,δ}` inside `𝔪_τ⁺` increases with
+  `F` and as `δ` decreases (`t ↦ t(δ + t)⁻¹` is operator monotone and decreasing in `δ`) and is an
+  approximate unit of `B`, so `π_τ(e) ↑ 1` strongly; normality and the trace property give
   `θ(T) = sup_e θ(π_τ(e)^{1/2}Tπ_τ(e)^{1/2})` for `T ∈ M_τ₊`; for fixed `e` the functionals
   `T ↦ θ(π_τ(e)^{1/2}Tπ_τ(e)^{1/2})` and `T ↦ τ̄(π_τ(e)^{1/2}Tπ_τ(e)^{1/2})` are normal, bounded by
   `τ(e)‖T‖`, and agree on `π_τ(B)`, hence on `M_τ` (V1, V4).
@@ -462,7 +471,7 @@ conjugate-linear isometric involution `J_τΛ(x) = Λ(x*)` with `J_τπ_τ(a)J_�
   `M_ω`; for a tracial state of a unital algebra it is the vector trace of
   AmenableTracesOnCStarAlgebras §1.4.
 
-*Needs:* Tr2.1; VonNeumannAlgebras V1, V4, V6, V10.ClosedOperators, V10.TracialLp, V11;
+*Needs:* Tr2.1; VonNeumannAlgebras V1, V4, V6, V10.TracialLp, V11;
 CStarAlgebras C1.5; Mathlib `PositiveLinearMap.GNS`, `NonUnitalStarAlgHom.map_cfcₙ` and the
 order lemmas of the continuous functional calculus.
 
@@ -511,7 +520,7 @@ and `(π', θ')` are quasi-equivalent if a star isomorphism `Φ : π(B)'' → π
 
 ### Dependencies
 
-Tr1; VonNeumannAlgebras V1, V4, V6, V10.ClosedOperators, V10.TracialLp, V11; CStarAlgebras C1.5;
+Tr1; VonNeumannAlgebras V1, V4, V6, V10.TracialLp, V11; CStarAlgebras C1.5;
 AmenableTracesOnCStarAlgebras §1.4; Tau Ceti `NonUnitalStarAlgHom.IsNondegenerate`,
 `VonNeumannAlgebra.adjoin`; Mathlib `PositiveLinearMap.GNS`, `NonUnitalStarAlgHom.map_cfcₙ`.
 
@@ -523,32 +532,35 @@ Throughout, `τ` is a semifinite lower semicontinuous trace and `1 ≤ p < ∞`.
 
 - Identification: `b ∈ J_p` iff `π_τ(b) ∈ Lᵖ(M_τ, τ̄)`, and `‖π_τ(b)‖_p = ‖b‖_{τ,p}`, because
   `|π_τ(b)|^p = π_τ(|b|^p)` (`NonUnitalStarAlgHom.map_cfcₙ`) and `τ̄ ∘ π_τ = τ` on `B₊` (Tr2.2).
-- Consequently `J_p` is a two-sided self-adjoint ideal of `B` and of `B^†`, `‖·‖_{τ,p}` is a
-  seminorm on `J_p` and a norm when `τ` is faithful, `‖b*‖_{τ,p} = ‖b‖_{τ,p}`, and
-  `‖abc‖_{τ,p} ≤ ‖a‖‖b‖_{τ,p}‖c‖` for `a, c ∈ B^†` (V10.TracialLp's bimodule bounds through the
-  unital extension of `π_τ` to `B^†`).
+- Consequently `J_p` is a two-sided ideal of `B` and of `B^†`, `‖·‖_{τ,p}` is a seminorm on `J_p`
+  (`IsTrace.traceGauge_add_le`) and a norm when `τ` is faithful, and `‖abc‖_{τ,p} ≤ ‖a‖‖b‖_{τ,p}‖c‖`
+  for `a, c ∈ B^†` (V10.TracialLp's bimodule bounds through the unital extension of `π_τ` to `B^†`;
+  `IsTrace.traceGauge_mul_le_left`, `IsTrace.traceGauge_mul_le_right`).
+- Adjoints, for every trace: `‖b*‖_{τ,p} = ‖b‖_{τ,p}` by the adjoint invariance of Tr1.1
+  (`IsTrace.traceGauge_star`), so `J_p` is self-adjoint.
 - `(J_p, |||·|||_p)` is a Banach *-algebra with isometric involution, and
-  `|||ab|||_p ≤ ‖a‖·|||b|||_p`, `|||ab|||_p ≤ |||a|||_p·‖b‖`. Completeness route: a
-  `|||·|||_p`-Cauchy sequence `(b_k)` converges in `B` to some `b`; lower semicontinuity of
-  `y ↦ τ(|y|^p)` (Tr1.2) gives `τ(|b − b_k|^p) ≤ liminf_m τ(|b_m − b_k|^p)`, so `b ∈ J_p` and
-  `‖b − b_k‖_{τ,p} → 0`. For `N ∩ L¹(N, τ)` with the norm `‖x‖ + τ(|x|)` this is
-  Hochs–Kaad–Schemaitat, §6.2.
+  `|||ab|||_p ≤ ‖a‖·|||b|||_p`, `|||ab|||_p ≤ |||a|||_p·‖b‖`. Completeness
+  (`IsTrace.exists_tendsto_traceGauge`) route: a `|||·|||_p`-Cauchy sequence `(b_k)` converges in
+  `B` to some `b`; lower semicontinuity of `y ↦ τ(|y|^p)` (Tr1.2) gives
+  `τ(|b − b_k|^p) ≤ liminf_m τ(|b_m − b_k|^p)`, so `b ∈ J_p` and `‖b − b_k‖_{τ,p} → 0`. For
+  `N ∩ L¹(N, τ)` with the norm `‖x‖ + τ(|x|)` this is Hochs–Kaad–Schemaitat, §6.2.
 - `𝔪_τ ⊆ J_p`, since `τ(x^p) ≤ ‖x‖^{p−1}τ(x)` on `𝔪_τ⁺`; `J_p` is dense in `B` iff `τ` is densely
-  defined (a dense `J_p` puts `|b|^p ∈ 𝔪_τ⁺` for a dense set of `b`).
+  defined (`IsTrace.dense_traceIdeal_iff`; a dense `J_p` puts `|b|^p ∈ 𝔪_τ⁺` for a dense set of
+  `b`).
 
 *Needs:* Tr1.2, Tr2.2; VonNeumannAlgebras V10.TracialLp; Mathlib `NonUnitalStarAlgHom.map_cfcₙ`.
 
 ### 3.2 Hölder, monotonicity, endpoints and cyclicity (Tr3.2)
 
-- Hölder: for `1/r = 1/p + 1/q` with `r ≥ 1`, `J_pJ_q ⊆ J_r` and
-  `‖ab‖_{τ,r} ≤ ‖a‖_{τ,p}‖b‖_{τ,q}` (V10.TracialLp; NoncommutativeIntegration §1.4).
-- Monotonicity: for `p ≤ q`, `τ(|b|^q) ≤ ‖b‖^{q−p}τ(|b|^p)` (this holds for every trace), so
-  `J_p ⊆ J_q` with `‖b‖_{τ,q} ≤ ‖b‖^{1−p/q}‖b‖_{τ,p}^{p/q}` and `|||b|||_q ≤ 2|||b|||_p` (weighted
-  arithmetic–geometric mean inequality).
+- Hölder: for `1/r = 1/p + 1/q` with `r ≥ 1`, `J_pJ_q ⊆ J_r` and `‖ab‖_{τ,r} ≤ ‖a‖_{τ,p}‖b‖_{τ,q}`
+  (`IsTrace.traceGauge_mul_le`; V10.TracialLp; NoncommutativeIntegration §1.4).
+- Monotonicity: for `p ≤ q`, `τ(|b|^q) ≤ ‖b‖^{q−p}τ(|b|^p)` (this holds for every trace;
+  `IsTrace.apply_abs_pow_le`), so `J_p ⊆ J_q` with `‖b‖_{τ,q} ≤ ‖b‖^{1−p/q}‖b‖_{τ,p}^{p/q}` and
+  `|||b|||_q ≤ 2|||b|||_p` (weighted arithmetic–geometric mean inequality).
 - Endpoints: `J₂ = 𝔫_τ` with `‖b‖_{τ,2} = ‖Λ_τ(b)‖`, for every trace, since `|b|² = b*b`
-  (`CFC.abs_nnrpow_two`); `J₁ = 𝔪_τ`, with `|τ(b)| ≤ ‖b‖_{τ,1}` for the linear extension. Route
-  for `J₁ ⊆ 𝔪_τ`: `J₁` is self-adjoint, so the real and imaginary parts of `b ∈ J₁` lie in `J₁`,
-  and a self-adjoint `h ∈ J₁` has `τ(h₊) + τ(h₋) = τ(|h|) < ∞`.
+  (`CFC.abs_nnrpow_two`); `J₁ = 𝔪_τ` (`IsTrace.traceIdeal_one`), with `|τ(b)| ≤ ‖b‖_{τ,1}` for the
+  linear extension. Route for `J₁ ⊆ 𝔪_τ`: `J₁` is self-adjoint, so the real and imaginary parts of
+  `b ∈ J₁` lie in `J₁`, and a self-adjoint `h ∈ J₁` has `τ(h₊) + τ(h₋) = τ(|h|) < ∞`.
 - Cyclicity: `τ(ab) = τ(ba)` for `a ∈ J_p`, `b ∈ J_q`, `1/p + 1/q = 1` (NoncommutativeIntegration
   §2.1 through Tr3.1), and for `a ∈ J₁`, `b ∈ B^†` (Tr1.1).
 
@@ -566,10 +578,10 @@ Throughout, `τ` is a semifinite lower semicontinuous trace and `1 ≤ p < ∞`.
 
 ### 3.3 Matrices and multilinear trace forms (Tr3.3)
 
-- `J_p(M_n(B), τ_n) = M_n(J_p(B, τ))` with
-  `‖x_ij‖_{τ,p} ≤ ‖x‖_{τ_n,p} ≤ Σ_{i,j} ‖x_ij‖_{τ,p}`. Route: the matrix units `e_ij ∈ M_n(B^†)`
-  give `x_ij ⊗ e_ij = e_ii x e_jj` and `‖y ⊗ e_ij‖_{τ_n,p} = ‖y‖_{τ,p}`. In the von Neumann algebra
-  case the identification is not isometric (Hochs–Kaad–Schemaitat, §6.3).
+- `J_p(M_n(B), τ_n) = M_n(J_p(B, τ))` with `‖x_ij‖_{τ,p} ≤ ‖x‖_{τ_n,p} ≤ Σ_{i,j} ‖x_ij‖_{τ,p}`
+  (`IsTrace.traceGauge_apply_le_matrix`, `IsTrace.traceGauge_matrix_le_sum`). Route: the matrix
+  units `e_ij ∈ M_n(B^†)` give `x_ij ⊗ e_ij = e_ii x e_jj` and `‖y ⊗ e_ij‖_{τ_n,p} = ‖y‖_{τ,p}`. In
+  the von Neumann algebra case the identification is not isometric (Hochs–Kaad–Schemaitat, §6.3).
 - For every `n`, `(M_n(J_p), |||·|||_{τ_n,p})` satisfies `|||xy||| ≤ ‖x‖·|||y|||` and
   `|||xy||| ≤ |||x|||·‖y‖`, and its unitization is inverse-closed in `M_n(B^†)`: if `1 + j` with
   `j ∈ M_n(J_p)` is invertible in `M_n(B^†)`, then `(1 + j)⁻¹ = 1 − j(1 + j)⁻¹ ∈ 1 + M_n(J_p)`.
@@ -642,11 +654,14 @@ matrix size (Tr3.1, Tr3.3). Prove:
 
 For a densely defined trace `τ`, lower semicontinuous or not (Thomsen [WTK], §4):
 
-- `𝔪_τ^† = 𝔪_τ + ℂ1 ⊆ B^†` carries `τ^†(x + λ1) = τ(x) + λ`; every projection of `M_n(B^†)` is
-  Murray–von Neumann equivalent in `M_n(B^†)` to a projection of `M_n(𝔪_τ^†)` (Lemma 4.10);
-  `τ^†_*([e] − [f]) = τ^†_n(e) − τ^†_n(f)` for projections `e, f` of `M_n(𝔪_τ^†)` is a well-defined
-  homomorphism `K₀(B^†) → ℝ` (Theorem 4.2, with Corollary 4.7 and Lemma 4.9), and `τ_*` is its
-  restriction to `K₀(B) = ker(K₀(B^†) → K₀(ℂ))`.
+- `𝔪_τ^† = 𝔪_τ + ℂ1 ⊆ B^†` carries `τ^†(x + λ1) = τ(x) + λ`, OperatorKTheory K1.5's normalization of
+  `τ⁺`. Thomsen's `τ^†(x + λ1)` is `τ(x)`, without the summand `λ`; on `M_n(𝔪_τ^†)` the two
+  functionals differ by `Tr_n` of the scalar part, itself a trace, so his proofs apply verbatim and
+  the two homomorphisms on `K₀(B^†)` differ by the rank homomorphism `K₀(B^†) → K₀(ℂ) = ℤ`; they
+  agree on `K₀(B)`, its kernel. Every projection of `M_n(B^†)` is Murray–von Neumann equivalent in
+  `M_n(B^†)` to a projection of `M_n(𝔪_τ^†)` (Lemma 4.10); `τ^†_*([e] − [f]) = τ^†_n(e) − τ^†_n(f)`
+  for projections `e, f` of `M_n(𝔪_τ^†)` is a well-defined homomorphism `K₀(B^†) → ℝ` (Theorem 4.2,
+  with Corollary 4.7 and Lemma 4.9), and `τ_*` is its restriction to `K₀(B) = ker(K₀(B^†) → K₀(ℂ))`.
 - `τ_*([e] − [f]) = τ_n(e) − τ_n(f)` for projections `e, f ∈ M_n(B)` (formula (4.1), with
   Lemma 4.11); `τ_*` is positive on `K₀(B)₊`, and `τ_*[e] > 0` for every nonzero projection
   `e ∈ M_n(B)` when `τ` is faithful.

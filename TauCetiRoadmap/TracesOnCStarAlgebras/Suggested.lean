@@ -178,12 +178,12 @@ theorem IsTrace.matrixTrace_lt_top_of_isStarProjection {τ : B → ℝ≥0∞} (
 
 /-! ## Layer Tr2: the normal extension -/
 
-/-- A normal semifinite trace on `M`, restating VonNeumannAlgebras V6's predicate
-(Anantharaman–Popa, Definition 8.3.1, pp. 124–125): a map `τ` into `[0, ∞]`, of which only the
-values on `M₊` matter, that is additive and positively homogeneous on `M₊` (with `0 · ∞ = 0`),
-satisfies `τ (x* x) = τ (x x*)` for `x ∈ M`, is semifinite (every nonzero `x ∈ M₊` dominates a
-nonzero `y ∈ M₊` with `τ y < ∞`) and is normal: along every increasing net of `M₊` converging
-strongly to `y`, the values converge to `τ y`. -/
+/-- A normal semifinite trace on `M`, restating VonNeumannAlgebras V6's predicate (README,
+Conventions; the definition and its source are VonNeumannAlgebras V6's): a map `τ` into
+`[0, ∞]`, of which only the values on `M₊` matter, that is additive and positively homogeneous on
+`M₊` (with `0 · ∞ = 0`), satisfies `τ (x* x) = τ (x x*)` for `x ∈ M`, is semifinite (every
+nonzero `x ∈ M₊` dominates a nonzero `y ∈ M₊` with `τ y < ∞`) and is normal: along every
+increasing net of `M₊` converging strongly to `y`, the values converge to `τ y`. -/
 def IsNormalSemifiniteTrace {H : Type u} [NormedAddCommGroup H] [InnerProductSpace ℂ H]
     [CompleteSpace H] (M : VonNeumannAlgebra H) (τ : (H →L[ℂ] H) → ℝ≥0∞) : Prop :=
   (∀ x ∈ M, ∀ y ∈ M, 0 ≤ x → 0 ≤ y → τ (x + y) = τ x + τ y) ∧
@@ -236,10 +236,6 @@ def traceIdeal (τ : B → ℝ≥0∞) (p : ℝ≥0) : Set B := {b | τ (CFC.abs
 Conventions). -/
 def traceGauge (τ : B → ℝ≥0∞) (p : ℝ≥0) (b : B) : ℝ≥0∞ := τ (CFC.abs b ^ p) ^ (p : ℝ)⁻¹
 
-/-- `J₂ = 𝔫_τ`, for every map `τ`, since `|b| ^ 2 = b* b` (README, Tr3.2). -/
-theorem traceIdeal_two (τ : B → ℝ≥0∞) : traceIdeal τ 2 = sqIntegrable τ := by
-  sorry
-
 /-- **Monotonicity in the exponent**, for every trace: `τ (|b| ^ q) ≤ ‖b‖ ^ (q - p) τ (|b| ^ p)`
 for `1 ≤ p ≤ q`, so `J_p ⊆ J_q` (README, Tr3.2). -/
 theorem IsTrace.apply_abs_pow_le {τ : B → ℝ≥0∞} (hτ : IsTrace τ) {p q : ℝ≥0} (hp : 1 ≤ p)
@@ -260,11 +256,9 @@ theorem IsTrace.traceGauge_add_le {τ : B → ℝ≥0∞} (hτ : IsTrace τ)
     traceGauge τ p (a + b) ≤ traceGauge τ p a + traceGauge τ p b := by
   sorry
 
-/-- **Adjoint invariance** of the trace gauge, `τ (|b*| ^ p) = τ (|b| ^ p)` (README, Tr2.2 and
-Tr3.1). -/
-theorem IsTrace.traceGauge_star {τ : B → ℝ≥0∞} (hτ : IsTrace τ)
-    (hlsc : LowerSemicontinuousOn τ {x : B | 0 ≤ x}) (hsf : IsSemifinite τ) {p : ℝ≥0}
-    (hp : 1 ≤ p) (b : B) :
+/-- **Adjoint invariance** of the trace gauge, `τ (|b*| ^ p) = τ (|b| ^ p)`, for every trace
+(README, Tr1.1 and Tr3.1). -/
+theorem IsTrace.traceGauge_star {τ : B → ℝ≥0∞} (hτ : IsTrace τ) {p : ℝ≥0} (hp : 1 ≤ p) (b : B) :
     traceGauge τ p (star b) = traceGauge τ p b := by
   sorry
 
