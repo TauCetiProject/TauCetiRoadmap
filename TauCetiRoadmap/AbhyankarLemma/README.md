@@ -92,7 +92,7 @@ no second carrier.
 - *Normalization and étale base change*: Mathlib `Scheme.Hom.normalization` and the
   `@[stacks 03GV]` instance `IsIso (f.normalizationPullback g)` for smooth `g`.
 - *Tame ramification of extensions of nonarchimedean local fields*: Tau Ceti `TauCeti.IsTamelyRamified`
-  ([LocalFieldsRamification](../LocalFieldsRamification/README.md) Layer 3). §0.3 compares.
+  ([LocalFieldsRamification](../../Completed/LocalFieldsRamification/README.md) Layer 3). §0.3 compares.
 - *Abhyankar's lemma for composita of function fields*: Tau Ceti
   `TauCeti.Place.ramificationIdx_restrict_sup` ([AlgebraicCurves](../AlgebraicCurves/README.md)
   Layer 8). It is a statement about ramification indices of places; §3.3 is the scheme-theoretic
