@@ -1481,27 +1481,31 @@ ramified regular local rings, those with `p ∈ m²` (ibid., end of §3.1.4).
 This section is secondary: it maps existing Lean code to targets and prescribes nothing. The
 Apache-2.0 repository AxiomMath, *The Stacks Project in Lean* (References), formalizes the Stacks
 Project on Mathlib. Its `StacksFrontier` tier is written by AI agents and builds without `sorry`;
-the repository records it as unreviewed by humans, and it is built on Lean and Mathlib v4.35.0,
-earlier than our pin. It is not a dependency: a statement read there is compared with the target
-here before it is used, adaptation is agreed with its maintainers first, and adapted code keeps its
-Apache-2.0 notices.
+the repository keeps it apart from its human-reviewed `StacksCore` tier, and it is built on Lean and
+Mathlib v4.35.0, earlier than our pin. It is not a dependency: a statement read there is compared
+with the target here before it is used, adaptation is agreed with its maintainers first, and adapted
+code keeps its Apache-2.0 notices.
 
 `StacksFrontier/AlgebraicGeometry/GroupScheme/OverField` follows the Stacks chapter *Groupoid
-Schemes* over a field. It has the field case of three statements of 4.5: separatedness (Tag 047L,
+Schemes* over a field. It has the field case of four statements of 4.5: separatedness (Tag 047L,
 `Separated.lean`), smoothness of a reduced group locally of finite type over a perfect field (Tag
-047P, `SmoothPerfectField.lean`) and Cartier's theorem for groups locally of finite type (Tag 047N,
-`SmoothCharacteristicZero.lean`); and, of 0.2 and 4.6, the irreducible component through the unit
-with its geometric irreducibility (Tag 047M, `IdentityComponent.lean`,
-`IdentityComponentGeometric.lean`), the irreducibility of a connected group (Tag 0B7Q,
-`Irreducible.lean`) and the quasi-compactness of an irreducible one (Tag 0B7P, `QuasiCompact.lean`).
-It also has centers, stabilizers, actions and abelian varieties, which are no target here.
-`StacksFrontier/AlgebraicGeometry/GroupScheme/Examples` has `𝔾_m` and `μ_n` over a base (Tag 040M),
-which this roadmap takes from Tau Ceti. `StacksFrontier/AlgebraicGeometry/Groupoids` builds groupoid
-schemes over a base, their quotients and stabilizers. No file name or tag in these directories
-treats the reduced subgroup or monomorphisms of 4.5, the schemes and groups of connected components
-(4.7–4.8), `D_S(M)` for a general `M`, groups of multiplicative type and tori (Layers 1–2),
-rigidity, density of torsion and Hom schemes (Layer 3), rank functions and maximal tori over a base
-(Layer 5), Picard groups of the flag scheme (Layer 6) or the Steinberg map (Layer 7).
+047P, `SmoothPerfectField.lean`), the reduced subscheme of a group over a perfect field as a closed
+subgroup scheme, with no finiteness hypothesis and without its smoothness (Tag 047R,
+`ReductionSubgroupGlue.lean`) and Cartier's theorem for groups locally of finite type (Tag 047N,
+`SmoothCharacteristicZero.lean`); of 4.9, the reducedness of every group scheme over a field of
+characteristic `0` (Tag 047O, `ReducedCharacteristicZeroGeneral.lean`); and, of 0.2 and 4.6, the
+irreducible component through the unit with its geometric irreducibility (Tag 047M,
+`IdentityComponent.lean`, `IdentityComponentGeometric.lean`), the irreducibility of a connected
+group (Tag 0B7Q, `Irreducible.lean`) and the quasi-compactness of an irreducible one (Tag 0B7P,
+`QuasiCompact.lean`). It also has centers, stabilizers, actions and abelian varieties, which are no
+target here. `StacksFrontier/AlgebraicGeometry/GroupScheme/Examples` has `𝔾_m` and `μ_n` over a base
+(Tag 040M), which this roadmap takes from Tau Ceti. `StacksFrontier/AlgebraicGeometry/Groupoids`
+builds groupoid schemes over a base, their quotients and stabilizers. No file name or tag in these
+directories treats the monomorphisms of 4.5, the approximation, quotients and factorization of 4.9,
+the schemes and groups of connected components (4.7–4.8), `D_S(M)` for a general `M`, groups of
+multiplicative type and tori (Layers 1–2), rigidity, density of torsion and Hom schemes (Layer 3),
+rank functions and maximal tori over a base (Layer 5), Picard groups of the flag scheme (Layer 6) or
+the Steinberg map (Layer 7).
 
 ## References
 
