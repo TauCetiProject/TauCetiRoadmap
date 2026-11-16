@@ -1,18 +1,19 @@
-/-
-# Spectral steepest descent: suggested interfaces
-
-**This file is not the roadmap, and it is not exhaustive.** The definitive document is
-`README.md`. These statements suggest Lean forms for selected milestones; discharging them
-finishes neither a milestone nor the roadmap. The `sorry` proofs are targets, not completed results.
--/
-
-import Mathlib.Analysis.Calculus.FDeriv.Basic
-import Mathlib.Analysis.SpecialFunctions.Pow.Real
+import Mathlib
 import TauCeti.Analysis.InnerProductSpace.ContinuousFunctionalCalculus
 import TauCeti.Analysis.InnerProductSpace.Polar.Finite
 import TauCeti.Analysis.InnerProductSpace.UnitarilyInvariantSeminorm.Frobenius
 import TauCeti.Analysis.InnerProductSpace.UnitarilyInvariantSeminorm.KyFan
 import TauCeti.Analysis.InnerProductSpace.UnitarilyInvariantSeminorm.OpNorm
+
+/-!
+# Spectral steepest descent: target signatures
+
+**This file is not the roadmap, and it is not exhaustive.** The definitive document is
+`README.md`. This file states the headline theorems of Layers 1–5 against the pinned Mathlib and
+Tau Ceti APIs; discharging them finishes neither a milestone nor the roadmap. The `sorry` proofs
+are targets, not completed results. The entry-time bound `K(s)` of §4.3, the cubic and quintic
+directions of §5.2, and the matrix forms of §6.1 are README targets not stated here.
+-/
 
 noncomputable section
 
@@ -30,6 +31,7 @@ variable {𝕜 E F : Type*} [RCLike 𝕜]
 def traceInner (A B : E →ₗ[𝕜] F) : ℝ :=
   RCLike.re (LinearMap.trace 𝕜 E (LinearMap.adjoint A ∘ₗ B))
 
+/-- The trace pairing of a map with itself is the square of its Frobenius norm. -/
 theorem traceInner_self (A : E →ₗ[𝕜] F) :
     traceInner A A = UnitarilyInvariantSeminorm.frobenius 𝕜 E F A ^ 2 := sorry
 
@@ -55,21 +57,20 @@ theorem traceInner_eq_nuclear_iff {D A : E →ₗ[𝕜] F}
     traceInner D A = UnitarilyInvariantSeminorm.nuclear 𝕜 E F A ↔ D ∘ₗ A.operatorAbs = A :=
   sorry
 
-theorem polarFactor_ofReal_smul (A : E →ₗ[𝕜] F) {c : ℝ} (hc : 0 < c) :
-    ((c : 𝕜) • A).polarFactor = A.polarFactor := sorry
+/-- Scaling by a nonzero scalar rotates the polar factor by the phase of the scalar. -/
+theorem polarFactor_smul (A : E →ₗ[𝕜] F) {z : 𝕜} (hz : z ≠ 0) :
+    (z • A).polarFactor = (z / (‖z‖ : 𝕜)) • A.polarFactor := sorry
 
-/-! ### The Shampoo identity, over `ℝ` -/
-
-variable {E' F' : Type*}
-  [NormedAddCommGroup E'] [InnerProductSpace ℝ E'] [FiniteDimensional ℝ E']
-  [NormedAddCommGroup F'] [InnerProductSpace ℝ F'] [FiniteDimensional ℝ F']
+/-! ### The Shampoo identity -/
 
 /-- `t ↦ t^(-1/4)` on `(0, ∞)`, extended by zero. -/
 def shampooWeight (t : ℝ) : ℝ := if 0 < t then t ^ (-(1 / 4 : ℝ)) else 0
 
 /-- Single-step Shampoo, `(A A†)^(-1/4) A (A† A)^(-1/4)`, is the canonical polar factor, with
 no invertibility assumption. -/
-theorem shampoo_eq_polarFactor (A : E' →ₗ[ℝ] F') :
+theorem shampoo_eq_polarFactor [CompleteSpace E] [CompleteSpace F]
+    [Algebra ℝ (E →L[𝕜] E)] [IsScalarTower ℝ 𝕜 (E →L[𝕜] E)]
+    [Algebra ℝ (F →L[𝕜] F)] [IsScalarTower ℝ 𝕜 (F →L[𝕜] F)] (A : E →ₗ[𝕜] F) :
     cfc shampooWeight (LinearMap.toContinuousLinearMap (A ∘ₗ LinearMap.adjoint A)) ∘L
         LinearMap.toContinuousLinearMap A ∘L
         cfc shampooWeight (LinearMap.toContinuousLinearMap (LinearMap.adjoint A ∘ₗ A)) =
@@ -83,12 +84,13 @@ theorem sum_abs_singularValues_sub_le_kyFanSum (A B : E →ₗ[𝕜] F) (k : ℕ
     (hs : s.card ≤ k) :
     ∑ i ∈ s, |A.singularValues i - B.singularValues i| ≤ (A - B).kyFanSum k := sorry
 
-/-- Fan–Hoffman: a unitary extension of the polar factor is a nearest unitary in every unitarily
-invariant seminorm. -/
+/-- Fan–Hoffman: an isometric extension of the polar factor is a nearest isometric embedding in
+every unitarily invariant seminorm, and its negative is a farthest one. -/
 theorem map_sub_le_map_sub_of_eqOn_polarFactor (N : UnitarilyInvariantSeminorm 𝕜 E F)
-    (A : E →ₗ[𝕜] F) (W Q : E ≃ₗᵢ[𝕜] F)
+    (A : E →ₗ[𝕜] F) (W Q : E →ₗᵢ[𝕜] F)
     (hW : ∀ x ∈ (LinearMap.ker A)ᗮ, W x = A.polarFactor x) :
-    N (A - (W : E →ₗ[𝕜] F)) ≤ N (A - (Q : E →ₗ[𝕜] F)) := sorry
+    N (A - W.toLinearMap) ≤ N (A - Q.toLinearMap) ∧
+      N (A - Q.toLinearMap) ≤ N (A + W.toLinearMap) := sorry
 
 /-- For injective `A`, the polar factor is the nearest isometric embedding in Frobenius norm. -/
 theorem frobenius_sub_polarFactor_le (A : E →ₗ[𝕜] F) (hA : Function.Injective A)
@@ -107,7 +109,8 @@ def oddScalar {n : ℕ} (c : Fin n → ℝ) (t : ℝ) : ℝ :=
   ∑ j, c j * t ^ (2 * (j : ℕ) + 1)
 
 /-- Spectral form of the iterates: only the singular values move, by the scalar iterate. -/
-theorem oddStep_iterate_eq {n : ℕ} (c : Fin n → ℝ) (k : ℕ) (X : E' →ₗ[ℝ] F') :
+theorem oddStep_iterate_eq [CompleteSpace E] [Algebra ℝ (E →L[𝕜] E)]
+    [IsScalarTower ℝ 𝕜 (E →L[𝕜] E)] {n : ℕ} (c : Fin n → ℝ) (k : ℕ) (X : E →ₗ[𝕜] F) :
     LinearMap.toContinuousLinearMap ((oddStep c)^[k] X) =
       LinearMap.toContinuousLinearMap X.polarFactor ∘L
         cfc ((oddScalar c)^[k]) (LinearMap.toContinuousLinearMap X.operatorAbs) := sorry
@@ -130,9 +133,11 @@ def quinticCoeffs : Fin 3 → ℝ := ![15 / 8, -5 / 4, 3 / 8]
 /-- Muon's tuned quintic coefficients `(3.4445, −4.7750, 2.0315)`, as exact rationals. -/
 def muonCoeffs : Fin 3 → ℝ := ![34445 / 10000, -4775 / 1000, 20315 / 10000]
 
+/-- The cubic Newton–Schulz orbit converges to `1` from every `s ∈ (0, √3)`. -/
 theorem tendsto_cubic_iterate {s : ℝ} (hs : s ∈ Set.Ioo 0 (Real.sqrt 3)) :
     Tendsto (fun k ↦ (oddScalar cubicCoeffs)^[k] s) atTop (𝓝 1) := sorry
 
+/-- The quintic Newton–Schulz orbit converges to `1` from every `s ∈ (0, 1]`. -/
 theorem tendsto_quintic_iterate {s : ℝ} (hs : s ∈ Set.Ioc 0 1) :
     Tendsto (fun k ↦ (oddScalar quinticCoeffs)^[k] s) atTop (𝓝 1) := sorry
 
@@ -149,7 +154,11 @@ theorem mapsTo_muon_band :
 theorem muon_iterate_five_mem_band {s : ℝ} (hs : s ∈ Set.Icc (1 / 270) (5 / 4)) :
     (oddScalar muonCoeffs)^[5] s ∈ Set.Icc (17 / 25) (5 / 4) := sorry
 
-/-! ## Layer 5: steepest descent -/
+/-! ## Layer 5: steepest descent, over `ℝ` -/
+
+variable {E' F' : Type*}
+  [NormedAddCommGroup E'] [InnerProductSpace ℝ E'] [FiniteDimensional ℝ E']
+  [NormedAddCommGroup F'] [InnerProductSpace ℝ F'] [FiniteDimensional ℝ F']
 
 /-- Muon's direction: `k` steps of its quintic from the Frobenius normalization. -/
 def muonDirection (k : ℕ) (A : E →ₗ[𝕜] F) : E →ₗ[𝕜] F :=
