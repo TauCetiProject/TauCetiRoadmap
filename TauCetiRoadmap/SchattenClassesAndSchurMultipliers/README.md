@@ -467,12 +467,12 @@ assumed for arbitrary complex Hilbert spaces, as Tau Ceti implements it.
 - §1.5: `Lᵖ(B(H), Tr) = S_p(H)` isometrically for `1 ≤ p < ∞`; the commutative identification
   `Lᵖ(L^∞(Ω), ∫) = Lᵖ(Ω)`.
 - §2.1: `L^{p'}(M, τ) = Lᵖ(M, τ)*` isometrically for `1 ≤ p < ∞` under `(X, Y) ↦ τ(XY)`, and
-  cyclicity `τ(XY) = τ(YX)`. The norming element of a nonzero `X` with polar decomposition
-  `X = u|X|` is consumed in the form `|X|^{p−1}u*/‖X‖_p^{p−1}` (`u*` at `p = 1`), whose pairing
-  with `X` is `τ(|X|^p u*u)/‖X‖_p^{p−1} = ‖X‖_p`. The product in the other order does not norm:
-  for `X = E₁₂` in `M₂`, `u = E₁₂` and `|X| = E₂₂`, so `u*|X| = E₂₁E₂₂ = 0`, while
-  `|X|u* = E₂₂E₂₁ = E₂₁` and `Tr(X E₂₁) = 1 = ‖X‖₂`. §1.2 constructs these elements itself for
-  finite-rank `X`.
+  cyclicity `τ(XY) = τ(YX)`. Nothing else of §2.1 is consumed: the norming element of a nonzero
+  finite-rank `X` with polar decomposition `X = u|X|` is constructed in §1.2 here, as
+  `|X|^{p−1}u*/‖X‖_p^{p−1}` (`u*` at `p = 1`), whose pairing with `X` is
+  `Tr(|X|^p u*u)/‖X‖_p^{p−1} = ‖X‖_p`. The product in the other order does not norm: for
+  `X = E₁₂` in `M₂`, `u = E₁₂` and `|X| = E₂₂`, so `u*|X| = E₂₁E₂₂ = 0`, while
+  `|X|u* = E₂₂E₂₁ = E₂₁` and `Tr(X E₂₁) = 1 = ‖X‖₂`.
 - §2.3: the complex method, the operator estimate `‖T‖_θ ≤ ‖T‖₀^{1−θ}‖T‖₁^θ`, and regularisation
   (each endpoint may be replaced by the closure of the intersection in it).
 - §2.5: `[L^{p₀}(M, τ), L^{p₁}(M, τ)]_θ = L^{p_θ}(M, τ)` isometrically, with `L^∞ = M`.
