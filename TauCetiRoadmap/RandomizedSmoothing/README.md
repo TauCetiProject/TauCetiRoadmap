@@ -1,4 +1,4 @@
-# Randomized smoothing: Gaussian certified radii and exact binomial confidence bounds
+# Roadmap: randomized smoothing, Gaussian certified radii and exact binomial confidence bounds
 
 **Summary.** Develop the mathematics of randomized smoothing, the certification method that
 replaces a classifier by the most probable class under Gaussian input noise. The analytic core
@@ -84,8 +84,8 @@ pinned APIs.
 - `smooth σ f x ∈ [0, 1]`, and `smooth σ f (x + y) = ∫ f (x + y + σ z) dγ(z)`.
 - For a base classifier, `Σ_c P_c(x) = 1`, so `P_c(x) ≤ 1 - P_A(x)` for `c ≠ A`.
 - **Positivity dichotomy.** Exactly one of the following holds: `f = 0` `γ`-almost everywhere
-  and `smooth σ f ≡ 0`; `f = 1` `γ`-almost everywhere and `smooth σ f ≡ 1`; or
-  `smooth σ f x ∈ (0, 1)` for every `x`. The proof uses that all translates of `γ` are
+  and `smooth σ f ≡ 0`; `f = 1` `γ`-almost everywhere and `smooth σ f ≡ 1`; or `smooth σ f x ∈
+  (0, 1)` for every `x` (`smooth_trichotomy`). The proof uses that all translates of `γ` are
   mutually absolutely continuous.
 
 (Proved here.)
@@ -102,8 +102,10 @@ pinned APIs.
 
 Let `g : E → ℝ` be measurable with `0 ≤ g ≤ 1`, let `t ∈ ℝ` and `δ ∈ E`.
 
-- **Lower form.** If `Φ t ≤ ∫ g dγ`, then `Φ (t - ‖δ‖) ≤ ∫ g (z + δ) dγ(z)`.
-- **Upper form.** If `∫ g dγ ≤ Φ t`, then `∫ g (z + δ) dγ(z) ≤ Φ (t + ‖δ‖)`.
+- **Lower form.** If `Φ t ≤ ∫ g dγ`, then `Φ (t - ‖δ‖) ≤ ∫ g (z + δ) dγ(z)`
+  (`stdNormalCDF_sub_norm_le_integral_add`).
+- **Upper form.** If `∫ g dγ ≤ Φ t`, then `∫ g (z + δ) dγ(z) ≤ Φ (t + ‖δ‖)`
+  (`integral_add_le_stdNormalCDF_add_norm`).
 - **Equality.** For `δ ≠ 0` and `u = δ / ‖δ‖`, the indicator of the halfspace
   `{z | ⟪z, u⟫ ≤ t}` has mean `Φ t`, and its translate by `δ` has mean exactly `Φ (t - ‖δ‖)`.
   The analogous halfspace attains the upper form.
@@ -126,10 +128,10 @@ basis whose first vector is `u`.
 ### 1.3 Lipschitz consequences
 
 - **Probit.** If `smooth σ f x ∈ (0, 1)` for every `x`, then `x ↦ Φ⁻¹ (smooth σ f x)` is
-  `σ⁻¹`-Lipschitz.
-- **Smoothing.** `smooth σ f` is `(σ √(2π))⁻¹`-Lipschitz, since `Φ` is `(√(2π))⁻¹`-Lipschitz.
-  When `E` is nontrivial this constant is the least one valid for all such `f`: it is attained
-  by a halfspace indicator at its boundary.
+  `σ⁻¹`-Lipschitz (`lipschitzWith_probit_smooth`).
+- **Smoothing.** `smooth σ f` is `(σ √(2π))⁻¹`-Lipschitz (`lipschitzWith_smooth`), since `Φ` is
+  `(√(2π))⁻¹`-Lipschitz. When `E` is nontrivial this constant is the least one valid for all
+  such `f`: it is attained by a halfspace indicator at its boundary.
 
 (Salman et al., Lemma 2, p. 13, for the probit with `σ = 1`. Their Lemma 1, p. 13, gives the
 weaker constant `√(2/π)/σ` for the smoothing; the sharp constant is proved here.)
@@ -151,11 +153,11 @@ Let `C` be a base classifier, `x ∈ E`, `A : Fin k`, and `p̲_A, p̄_B ∈ (0, 
 `p̲_A ≤ P_A(x)` and `P_c(x) ≤ p̄_B` for every `c ≠ A`. Let
 `R = (σ / 2) (Φ⁻¹ p̲_A - Φ⁻¹ p̄_B)`.
 
-- **Cohen's theorem.** The smoothed classifier is certified at `x` with class `A` and
-  radius `R`. The proof applies the two forms of 1.2 to `z ↦ 1[C (x + σ z) = c]` with shift
-  `δ / σ`; no hypothesis that `P_c(x)` lies in `(0, 1)` is needed.
+- **Cohen's theorem.** The smoothed classifier is certified at `x` with class `A` and radius `R`
+  (`smoothCertified_of_bounds`). The proof applies the two forms of 1.2 to `z ↦ 1[C (x + σ z) =
+  c]` with shift `δ / σ`; no hypothesis that `P_c(x)` lies in `(0, 1)` is needed.
 - **One-sided form.** If `p̲_A ∈ (1/2, 1)` and `p̲_A ≤ P_A(x)`, take `p̄_B = 1 - p̲_A`. Then the
-  radius is `σ Φ⁻¹ p̲_A`.
+  radius is `σ Φ⁻¹ p̲_A` (`smoothCertified_of_lower_bound`).
 
 (Cohen et al., Theorem 1, p. 4, including its remark on lower and upper bounds, and Theorem 1
 (binary case), p. 4; the formulation with `p̲_A, p̄_B ∈ (0, 1)` and without hypotheses on the
@@ -174,8 +176,8 @@ true probabilities is proved here.)
 Let `E` be nontrivial, `0 < p_B ≤ p_A < 1`, `p_A + p_B ≤ 1`, and
 `k ≥ 2 + ⌈(1 - p_A - p_B) / p_B⌉`. For every `r > (σ / 2) (Φ⁻¹ p_A - Φ⁻¹ p_B)` there are a
 base classifier `C` and `δ` with `‖δ‖ < r` such that `P_A(x) = p_A`, `P_B(x) = p_B`,
-`P_c(x) ≤ p_B` for all `c ≠ A`, and `P_A(x + δ) < P_B(x + δ)`. The construction assigns `A` and `B` to two parallel
-halfspaces, and splits the slab between them into parallel slabs of probability at most `p_B`,
+`P_c(x) ≤ p_B` for all `c ≠ A`, and `P_A(x + δ) < P_B(x + δ)`. The construction assigns `A`
+and `B` to two parallel halfspaces, and splits the slab between them into parallel slabs of probability at most `p_B`,
 one for each remaining class used.
 
 (Cohen et al., Theorem 2, pp. 4–5, with its halfspace construction, p. 15; the count of classes
@@ -212,7 +214,7 @@ boundary, and it is the exact certified radius.
 
 - For `1 ≤ k ≤ N`, `q ↦ tail N k q` is continuous and strictly increasing on `[0, 1]`, from `0`
   to `1`.
-- `k ↦ tail N k q` is antitone, and so `k ↦ cpLower α N k` is monotone.
+- `k ↦ tail N k q` is antitone, and so `k ↦ cpLower α N k` is monotone (`monotone_cpLower`).
 
 (Proved here.)
 
@@ -228,7 +230,7 @@ boundary, and it is the exact certified radius.
 
 For `0 ≤ α` and every `p ∈ unitInterval`,
 
-`Bin(N, p).real {k | p < cpLower α N k} ≤ α`.
+`Bin(N, p).real {k | p < cpLower α N k} ≤ α` (`binomial_real_lt_cpLower_le`).
 
 The proof shows that `{k | p < cpLower α N k}` is an upper set `{k | k₀ ≤ k}` with
 `tail N k₀ p ≤ α`.
@@ -246,11 +248,11 @@ used by Cohen et al., Appendix, p. 22.)
 
 ### 3.3 Closed forms
 
-- **Beta quantile.** For `1 ≤ k ≤ N` and `0 < α < 1`,
-  `cpLower α N k = (betaMeasure k (N - k + 1)).quantile α`, and `tail N k (cpLower α N k) = α`.
-- **All successes.** For `1 ≤ N` and `0 ≤ α ≤ 1`, `cpLower α N N = α ^ (1 / N)`. Hence
-  `cpLower α N k ≤ α ^ (1 / N)` for all `k ≤ N`, and `cpLower α N k < 1` when also `α < 1`.
-  For `k > N` the tail vanishes and `cpLower α N k = 1`.
+- **Beta quantile.** For `1 ≤ k ≤ N` and `0 < α < 1`, `cpLower α N k = (betaMeasure k (N - k +
+  1)).quantile α` (`cpLower_eq_quantile_betaMeasure`), and `tail N k (cpLower α N k) = α`.
+- **All successes.** For `1 ≤ N` and `0 ≤ α ≤ 1`, `cpLower α N N = α ^ (1 / N)`
+  (`cpLower_self`). Hence `cpLower α N k ≤ α ^ (1 / N)` for all `k ≤ N`, and `cpLower α N k < 1`
+  when also `α < 1`. For `k > N` the tail vanishes and `cpLower α N k = 1`.
 - **Upper bound.** The upper bound `cpUpper α N k = 1 - cpLower α N (N - k)` satisfies
   `Bin(N, p).real {k | cpUpper α N k < p} ≤ α`.
 
@@ -268,9 +270,9 @@ used by Cohen et al., Appendix, p. 22.)
 
 - For rational `q ∈ [0, 1]`, `tail N k q` is the rational number
   `Σ_{m = k}^{N} (N choose m) q^m (1 - q)^(N - m)`.
-- If `q ∈ [0, 1]` and `tail N k q ≤ α`, then `q ≤ cpLower α N k`. Give a decidable check of
-  `tail N k q ≤ α` for rational `q` and `α`, by exact natural-number arithmetic on a common
-  denominator, and prove it sound.
+- If `q ∈ [0, 1]` and `tail N k q ≤ α`, then `q ≤ cpLower α N k`. So a rational `q` with
+  `tail N k q ≤ α`, an inequality between rational numbers, is a lower bound for the
+  Clopper–Pearson bound.
 
 (Proved here.)
 
@@ -278,7 +280,7 @@ used by Cohen et al., Appendix, p. 22.)
 
 - `tail 2 2 (1/2) = 1/4 ≤ 1/4` certifies `1/2 ≤ cpLower (1/4) 2 2 = 1/2`, with equality.
 - `tail 3 3 (1/2) = 1/8`.
-- `tail 2 1 (1/2) = 3/4 > 1/2`, so the check does not certify `1/2 ≤ cpLower (1/2) 2 1`.
+- `tail 2 1 (1/2) = 3/4 > 1/2`, and indeed `cpLower (1/2) 2 1 = 1 - 1/√2 < 1/2`.
 
 *Needs:* 3.1.
 
@@ -290,8 +292,8 @@ used by Cohen et al., Appendix, p. 22.)
   item, every grid `0 = a₀ < a₁ < ⋯ < a_m` gives a rational upper bound for `Φ a_m`.
 - Symmetrically, `(b - a) φ(b) ≤ Φ b - Φ a` for `0 ≤ a ≤ b`, and rational upper bounds for
   `exp (a² / 2)` from Taylor's theorem with remainder give rational lower bounds for `Φ a_m`.
-- For `p ∈ (0, 1)`: `Φ t ≤ p` implies `t ≤ Φ⁻¹ p`, `Φ t < p` implies `t < Φ⁻¹ p`, and
-  `p ≤ Φ t` implies `Φ⁻¹ p ≤ t`, `p < Φ t` implies `Φ⁻¹ p < t`.
+- For `p ∈ (0, 1)`: `Φ t ≤ p` implies `t ≤ Φ⁻¹ p` (`le_probit_of_stdNormalCDF_le`), `Φ t < p`
+  implies `t < Φ⁻¹ p`, and `p ≤ Φ t` implies `Φ⁻¹ p ≤ t`, `p < Φ t` implies `Φ⁻¹ p < t`.
 - Hence a rational `t` and a rational upper bound `U` with `Φ t ≤ U ≤ p̲` certify the radius
   `σ t ≤ σ Φ⁻¹ p̲`.
 
@@ -317,7 +319,7 @@ Fix a base classifier `C`, `x ∈ E`, a class `A`, `N ∈ ℕ` and `α ∈ [0, 1
 - Let `p̲(ω) = cpLower α N (K ω)`. The **failure event** is the set of `ω` with `1/2 < p̲(ω)`
   for which the smoothed classifier is not certified at `x` with class `A` and radius
   `σ Φ⁻¹ p̲(ω)`. It is measurable and has probability at most `α`. The proof combines 3.2 with
-  the one-sided form of 2.1.
+  the one-sided form of 2.1 (`certify_failure_le`, with `K = hitCount σ C x A`).
 
 (Cohen et al., the CERTIFY pseudocode and Proposition 2, p. 6, with the proof on p. 23.)
 

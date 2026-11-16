@@ -12,7 +12,9 @@ import TauCeti.Probability.Quantile
 Tau Ceti APIs; discharging them finishes neither a milestone nor the roadmap. The `sorry` proofs
 are targets, not completed results. The sharpness construction of §2.2, the upper bound
 `cpUpper` of §3.3, the decidable tail check of §3.4, the grid bounds of Layer 4 and the selection
-stage of §5.2 are README targets not stated here.
+stage of §5.2 are README targets not stated here, as are the rational lower bounds of §3.4 and
+the converse probit bound of Layer 4, which close in one step from `le_csSup` and
+`Measure.quantile_le_iff`.
 -/
 
 noncomputable section
@@ -113,19 +115,11 @@ theorem cpLower_eq_quantile_betaMeasure {α : ℝ} (hα : α ∈ Ioo 0 1) {N k :
 theorem cpLower_self {α : ℝ} (hα₀ : 0 ≤ α) (hα₁ : α ≤ 1) {N : ℕ} (hN : 1 ≤ N) :
     cpLower α N N = α ^ ((1 : ℝ) / N) := sorry
 
-/-- A rational tail check certifies a lower bound for `cpLower`. -/
-theorem le_cpLower_of_tail_le {α : ℝ} {N k : ℕ} (q : unitInterval) (hq : tail N k q ≤ α) :
-    (q : ℝ) ≤ cpLower α N k := sorry
-
 /-! ## Layer 4: rational bounds for the probit -/
 
 /-- A rational upper bound for `Φ` gives a lower bound for `Φ⁻¹`. -/
 theorem le_probit_of_stdNormalCDF_le {p t : ℝ} (hp : p ∈ Ioo 0 1) (ht : stdNormalCDF t ≤ p) :
     t ≤ probit p := sorry
-
-/-- A rational lower bound for `Φ` gives an upper bound for `Φ⁻¹`. -/
-theorem probit_le_of_le_stdNormalCDF {p t : ℝ} (hp : p ∈ Ioo 0 1) (ht : p ≤ stdNormalCDF t) :
-    probit p ≤ t := sorry
 
 /-! ## Layer 5: Monte Carlo certification -/
 
@@ -142,10 +136,6 @@ theorem certify_failure_le {k : ℕ} {σ : ℝ} (hσ : 0 < σ) {C : E → Fin k}
   sorry
 
 /-! ## Layer 6: checks -/
-
-/-- The Clopper–Pearson bound after `10` successes in `10` trials at `α = 1/20`. -/
-theorem cpLower_twentieth_ten_ten : cpLower (1 / 20) 10 10 = (1 / 20 : ℝ) ^ ((1 : ℝ) / 10) :=
-  sorry
 
 /-- The maximal certifiable radius with `100 000` samples at `α = 1/1000` lies in
 `(3.81 σ, 3.82 σ)`. -/
