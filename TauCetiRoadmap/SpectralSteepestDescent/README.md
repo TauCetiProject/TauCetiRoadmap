@@ -1,16 +1,16 @@
 # Roadmap: spectral steepest descent, polar factors, Newton–Schulz iterations and Muon
 
 **Summary.** Develop the variational theory of the polar factor of a linear map between
-finite-dimensional inner product spaces, and the polynomial iterations that approximate it.
-The polar factor is the steepest-ascent direction for the operator norm: the trace pairing
-puts the operator and nuclear norms in duality, and the polar factor is the maximizer. It is
-also the single-step Shampoo preconditioned gradient and the nearest isometry in every
-unitarily invariant norm. Odd polynomial iterations of Newton–Schulz type act on singular
-values alone, so their convergence to the polar factor is a scalar question; the roadmap
-settles it for the classical cubic and quintic iterations and gives the exact invariant band
-of the quintic used by the Muon optimizer. It ends with a one-step descent guarantee for
-steepest descent under the operator norm, both with the exact polar factor and with Muon's
-five-step approximation.
+finite-dimensional inner product spaces, and the polynomial iterations that approximate it. The
+polar factor is the steepest-ascent direction for the operator norm: the trace pairing puts the
+operator and nuclear norms in duality, and the polar factor is the maximizer. It is also the
+single-step Shampoo preconditioned gradient and the nearest isometry in every unitarily
+invariant norm. Odd polynomial iterations of Newton–Schulz type act on singular values alone, so
+their convergence to the polar factor is a scalar question; the roadmap settles it for the
+classical cubic and quintic iterations and gives an explicit invariant band of the quintic used
+by the Muon optimizer and the number of steps needed to enter it. It ends with a one-step
+descent guarantee for steepest descent under the operator norm, both with the exact polar factor
+and with Muon's five-step approximation.
 
 ## Scope and ownership
 
@@ -20,7 +20,7 @@ This roadmap owns:
   seminorms, with the maximizers;
 - the scaling, sign and spectral API of the canonical polar factor that the duality uses;
 - the Shampoo identity;
-- Mirsky's singular-value inequality and the Fan–Hoffman nearest-isometry theorem;
+- the Ky Fan form of singular-value perturbation and the Fan–Hoffman nearest-isometry theorem;
 - odd polynomial iterations on linear maps, their spectral form and their convergence;
 - the scalar dynamics of the cubic and quintic Newton–Schulz maps and of Muon's quintic;
 - the descent lemma for functions with Lipschitz derivative, and its instances for spectral
@@ -34,6 +34,32 @@ Out of scope: infinite-dimensional and Schatten-class dualities (these belong to
 [OperatorTheory/OperatorIdeals](../OperatorTheory/OperatorIdeals/README.md)), dualities of
 vector `ℓᵖ` norms, momentum and stochastic-gradient convergence theory, and floating-point
 error.
+
+## Conventions
+
+- `𝕜` is `ℝ` or `ℂ` (`RCLike 𝕜`). `E`, `F` are finite-dimensional inner product spaces over
+  `𝕜`, and maps are `A : E →ₗ[𝕜] F`. Layer 5 is over `ℝ`.
+- The **trace pairing** is `⟪A, B⟫ := re (trace 𝕜 E (A† ∘ₗ B))`, a real number. It is real
+  bilinear, symmetric, and `⟪A, A⟫ = ‖A‖_F²`.
+- `‖A‖_op`, `‖A‖_F`, `N₁(A)` are `opNorm 𝕜 E F A`, `frobenius 𝕜 E F A` and
+  `nuclear 𝕜 E F A`. `σᵢ(A)` are the singular values, nonincreasing, with
+  `σᵢ(A) = 0` for `i ≥ rank A`.
+- `|A| := A.operatorAbs` and `U_A := A.polarFactor`. `U_A` is the canonical factor: it vanishes on
+  `ker A`, so it is a partial isometry and not, in general, a unitary. For a full-rank matrix it
+  is the factor `U Vᵀ` of a compact singular value decomposition `U Σ Vᵀ`.
+- Real functions of `|A|` and of the Gram operators use `cfc` on
+  `LinearMap.toContinuousLinearMap`. On `E →L[𝕜] E`, `cfc` is taken for any real algebra
+  structure compatible with the `𝕜`-action (`IsScalarTower ℝ 𝕜`).
+- An **odd polynomial step** has real coefficients `c₀, …, cₙ`. It is the map
+  `N_c(X) = Σⱼ cⱼ • X ∘ₗ (X† ∘ₗ X)ʲ` with scalar map `p_c(t) = Σⱼ cⱼ t^(2j+1)`. The cubic
+  Newton–Schulz step is `c = (3/2, -1/2)`, `g(t) = (3t − t³)/2`. The quintic is
+  `c = (15/8, -5/4, 3/8)`, `q(t) = (15t − 10t³ + 3t⁵)/8`.
+- **Muon's quintic** is `c = (3.4445, -4.7750, 2.0315)`, read as the exact rationals
+  `34445/10000`, `-4775/1000`, `20315/10000`, with `m(t) = 3.4445t − 4.775t³ + 2.0315t⁵`.
+  The **Muon band** is `J = [17/25, 5/4]`.
+- The **Muon direction** with `k` steps is `muonDirection k A := N_m^[k](‖A‖_F⁻¹ • A)`, which
+  is `0` at `A = 0`. The implementation constant `ε` added to `‖A‖_F` is not modelled.
+- `f^[k]` is the `k`-th iterate.
 
 ## Exact supplier contracts
 
@@ -63,32 +89,6 @@ discriminating tests that a wrong convention would fail. Each numbered target en
 *Needs:* line naming the targets and suppliers it uses. Every claim carries a source locator in
 parentheses, or says that it is proved here. `Suggested.lean` states the headline theorems of
 Layers 1–5 against the pinned APIs.
-
-## Conventions
-
-- `𝕜` is `ℝ` or `ℂ` (`RCLike 𝕜`). `E`, `F` are finite-dimensional inner product spaces over
-  `𝕜`, and maps are `A : E →ₗ[𝕜] F`. Layer 5 is over `ℝ`.
-- The **trace pairing** is `⟪A, B⟫ := re (trace 𝕜 E (A† ∘ₗ B))`, a real number. It is real
-  bilinear, symmetric, and `⟪A, A⟫ = ‖A‖_F²`.
-- `‖A‖_op`, `‖A‖_F`, `N₁(A)` are `opNorm 𝕜 E F A`, `frobenius 𝕜 E F A` and
-  `nuclear 𝕜 E F A`. `σᵢ(A)` are the singular values, nonincreasing, with
-  `σᵢ(A) = 0` for `i ≥ rank A`.
-- `|A| := A.operatorAbs` and `U_A := A.polarFactor`. `U_A` is the canonical factor: it vanishes on
-  `ker A`, so it is a partial isometry and not, in general, a unitary. For a full-rank matrix it
-  is the factor `U Vᵀ` of a compact singular value decomposition `U Σ Vᵀ`.
-- Real functions of `|A|` and of the Gram operators use `cfc` on
-  `LinearMap.toContinuousLinearMap`. On `E →L[𝕜] E`, `cfc` is taken for any real algebra
-  structure compatible with the `𝕜`-action (`IsScalarTower ℝ 𝕜`).
-- An **odd polynomial step** has real coefficients `c₀, …, cₙ`. It is the map
-  `N_c(X) = Σⱼ cⱼ • X ∘ₗ (X† ∘ₗ X)ʲ` with scalar map `p_c(t) = Σⱼ cⱼ t^(2j+1)`. The cubic
-  Newton–Schulz step is `c = (3/2, -1/2)`, `g(t) = (3t − t³)/2`. The quintic is
-  `c = (15/8, -5/4, 3/8)`, `q(t) = (15t − 10t³ + 3t⁵)/8`.
-- **Muon's quintic** is `c = (3.4445, -4.7750, 2.0315)`, read as the exact rationals
-  `34445/10000`, `-4775/1000`, `20315/10000`, with `m(t) = 3.4445t − 4.775t³ + 2.0315t⁵`.
-  The **Muon band** is `J = [17/25, 5/4]`.
-- The **Muon direction** with `k` steps is `muonDirection k A := N_m^[k](‖A‖_F⁻¹ • A)`, which
-  is `0` at `A = 0`. The implementation constant `ε` added to `‖A‖_F` is not modelled.
-- `f^[k]` is the `k`-th iterate.
 
 ## Layer 1: trace duality and the polar factor
 
@@ -146,6 +146,9 @@ maximizer; the description of all maximizers is proved here.)
   `N₁(U_A) = rank A` and `‖U_A‖_F² = rank A`.
 - `U_A` is an isometric embedding exactly when `A` is injective, and a linear isometric
   equivalence exactly when `A` is bijective.
+- If `finrank E ≤ finrank F`, some `W : E →ₗᵢ[𝕜] F` agrees with `U_A` on `(ker A)ᗮ`: extend
+  `U_A` by an isometry `ker A → (range A)ᗮ`, which exists since
+  `finrank (ker A) ≤ finrank (range A)ᗮ`.
 - For `A` bijective between spaces of equal dimension, `U_A` agrees under
   `Matrix.toEuclideanLin` with the unitary factor `Units.polarUnitary` of the unit `A` of the
   star-ordered algebra `Matrix n n 𝕜`.
@@ -157,7 +160,8 @@ maximizer; the description of all maximizers is proved here.)
 - Over `ℂ`, `A = 1` and `z = i`: `|i • 1| = 1` and `U_(i • 1) = i • 1`.
 - `A = [[0, 2], [0, 0]]`: the singular values of `U_A` are `(1, 0)`, and
   `N₁(U_A) = ‖U_A‖_F² = 1 = rank A`.
-- `A = 0`: `U_A = 0`, which is not an isometric embedding.
+- `A = 0`: `U_A = 0`, which is not an isometric embedding; every isometry `W : E →ₗᵢ[𝕜] F`
+  agrees with it on `(ker A)ᗮ = ⊥`.
 
 *Needs:* PD-B11 to PD-B16, PD-C28, MAJ-B37.
 
@@ -169,9 +173,10 @@ and `ψ(t) = 0` for `t ≤ 0`. Prove, for every `A`,
 `cfc φ (A ∘ A†) ∘ A ∘ cfc φ (A† ∘ A) = U_A`, `cfc ψ (A ∘ A†) ∘ A = U_A`,
 `A ∘ cfc ψ (A† ∘ A) = U_A`.
 
-The first identity is the single-step Shampoo update. No invertibility is assumed: on the
-kernel the functions vanish. (Bernstein–Newhouse, Equations (15)–(16), p. 5, and Appendix A,
-Equation (35), p. 15, for invertible `A`; the general case is proved here.)
+The first identity is the single-step Shampoo update. No invertibility is assumed: on the kernel
+the functions vanish. (Bernstein–Newhouse, Equations (15)–(16), p. 5, and Appendix A, Equation
+(35), p. 15, for invertible `A`; the general case is proved here. Gupta–Koren–Singer, Algorithm
+1, p. 3, give the update with accumulated preconditioners.)
 
 **Checks.**
 
@@ -182,16 +187,24 @@ Equation (35), p. 15, for invertible `A`; the general case is proved here.)
 
 *Needs:* 1.3, PD-B11 to PD-B16, `cfc`.
 
+### Examples
+
+`A = diag(3, 4)`, `A = [[0, 2], [0, 0]]`, `A = (1 0)` and a rotation times `diag(2, 1/2)`.
+
+### Dependencies
+
+1.1 uses `frobenius`; 1.2 uses 1.1, PolarDecomposition and Majorization; 1.3 uses
+PolarDecomposition; 1.4 uses 1.3 and `cfc`.
+
 ## Layer 2: nearest isometries
 
-### 2.1 Mirsky's inequality
+### 2.1 Singular-value perturbation in Ky Fan norms
 
 For `A, B : E →ₗ[𝕜] F` and every `k`, the sum of the `k` largest values of
 `|σᵢ(A) − σᵢ(B)|` is at most `kyFanSum (A − B) k`. Consequently, for every unitarily
 invariant seminorm `N`, `N` of any map with singular values `|σᵢ(A) − σᵢ(B)|` is at most
 `N(A − B)`. Tau Ceti's `LinearMap.abs_singularValues_sub_singularValues_le` (OI-A50) is the
-case `k = 1`. (Mirsky 1960 states the inequality for unitarily invariant norms; the Ky Fan form
-is proved here from MAJ-A28.)
+case `k = 1`. (Proved here from MAJ-A28.)
 
 **Checks.**
 
@@ -205,7 +218,7 @@ is proved here from MAJ-A28.)
 ### 2.2 The Fan–Hoffman theorem
 
 Let `W : E →ₗᵢ[𝕜] F` agree with `U_A` on `(ker A)ᗮ`; one exists whenever
-`finrank E ≤ finrank F`. For every linear isometry `Q : E →ₗᵢ[𝕜] F` and every unitarily
+`finrank E ≤ finrank F`, by 1.3. For every linear isometry `Q : E →ₗᵢ[𝕜] F` and every unitarily
 invariant seminorm `N`,
 
 `N(A − W) ≤ N(A − Q) ≤ N(A + W)`.
@@ -213,7 +226,8 @@ invariant seminorm `N`,
 The singular values of `A − W` are the values `|σᵢ(A) − 1|`, reordered, and those of `A + W`
 are `σᵢ(A) + 1`, for `i < finrank E`. The proof uses `W† ∘ A = |A|`, so that
 `(A − W)† (A − W) = (|A| − 1)²`, together with 2.1 applied to `A` and `Q`. (Fan–Hoffman,
-Theorem 1, p. 112.)
+Theorem 1, p. 112, for square matrices and unitary `W`, `Q`; the rectangular and seminorm form
+is proved here by the same argument.)
 
 **Checks.**
 
@@ -223,14 +237,17 @@ Theorem 1, p. 112.)
   `‖A − U_A‖_op = 1 ≤ √(5 − 4 cos θ) = ‖A − Q‖_op ≤ 3 = ‖A + U_A‖_op`.
 - `A = 0`: every isometry `W` qualifies, and all three terms equal `N` of an isometry.
 
-*Needs:* 1.3, 2.1, PD-B20, MAJ-B21.
+*Needs:* 1.3, 2.1, MAJ-B21.
 
 ### 2.3 The nearest isometric embedding in Frobenius norm
 
 Let `A` be injective, so `finrank E ≤ finrank F` and `U_A` is an isometric embedding. For every
 linear isometry `V : E →ₗᵢ[𝕜] F`, `‖A − U_A‖_F ≤ ‖A − V‖_F`, with equality only for
-`V = U_A`. The proof is `‖A − V‖_F² = ‖A‖_F² + finrank E − 2⟪V, A⟫` and 1.2.
-(Bernstein–Newhouse, Proposition 4, p. 5.)
+`V = U_A` (`frobenius_sub_polarFactor_le`). The proof is
+`‖A − V‖_F² = ‖A‖_F² + finrank E − 2⟪V, A⟫` and 1.2. If `A` is surjective, then
+`‖A − U_A‖_F ≤ ‖A − V‖_F` for every `V` with `V ∘ V† = 1`, with equality only for `V = U_A`;
+this is the injective case applied to `A†`, by PD-B19. (Bernstein–Newhouse, Proposition 4,
+p. 5.)
 
 **Checks.**
 
@@ -238,8 +255,19 @@ linear isometry `V : E →ₗᵢ[𝕜] F`, `‖A − U_A‖_F ≤ ‖A − V‖_
   `θ = 0`.
 - `A = 1`: `U_A = 1` and the minimum is `0`.
 - `A = diag(2, 1/2)`: `U_A = 1` and `‖A − U_A‖_F² = 5/4`.
+- `A = (2 0) : ℝ² → ℝ`, co-isometries `V = (cos θ, sin θ)`: `‖A − V‖_F² = 5 − 4 cos θ ≥ 1`,
+  with equality only at `θ = 0`.
 
-*Needs:* 1.1, 1.2, 1.3.
+*Needs:* 1.1, 1.2, 1.3, PD-B19.
+
+### Examples
+
+`A = (2, 0)ᵀ`, `A = (2 0)` and `A = diag(2, 0)`.
+
+### Dependencies
+
+2.1 uses OI-A50 and Majorization; 2.2 uses 1.3, 2.1 and Fan dominance; 2.3 uses 1.1–1.3 and
+PD-B19.
 
 ## Layer 3: odd polynomial iterations
 
@@ -249,8 +277,8 @@ Define `oddStep c X` and `oddScalar c t` as in the conventions, for a finite fam
 coefficients. The cubic, quintic and Muon steps are instances. Give the three-term form
 `a • X + b • X ∘ X† ∘ X + c • X ∘ (X† ∘ X) ∘ (X† ∘ X)`, and its equality with
 `a • X + b • (X ∘ X†) ∘ X + c • (X ∘ X†)² ∘ X`, the form in which Muon is usually written
-(Jordan et al., the section on the Newton–Schulz iteration). Define `muonDirection` as in the
-conventions.
+(Jordan et al., section *Proving that NS iteration orthogonalizes the update*). Define
+`muonDirection` as in the conventions.
 
 **Checks.**
 
@@ -260,7 +288,7 @@ conventions.
 - `oddScalar cubicCoeffs (1/2) = 11/16`.
 - `muonDirection k 0 = 0`, and `muonDirection k (t • A) = muonDirection k A` for real `t > 0`.
 
-*Needs:* none.
+*Needs:* Mathlib `LinearMap.adjoint`; MAJ-B30 to MAJ-B37 (`frobenius`) for `muonDirection`.
 
 ### 3.2 Spectral form
 
@@ -320,6 +348,14 @@ For `X ≠ 0` and `Y = (oddStep c)^[k] X`:
 
 *Needs:* 1.3, 3.2.
 
+### Examples
+
+`X = 2` on `ℝ`, `X = diag(2, 1/2)` and `X = diag(1/2, 0)` with the cubic step.
+
+### Dependencies
+
+3.1 uses the adjoint and `frobenius`; 3.2 uses 1.3, 3.1 and `cfc`; 3.3 and 3.4 use 3.2.
+
 ## Layer 4: scalar dynamics
 
 ### 4.1 The cubic
@@ -372,8 +408,8 @@ the boundary behaviour are proved here.)
   `m(t) ≥ 3t` and `m(t) ≤ m(3/10)` on `(0, 3/10]`, and `m([3/10, 17/25]) ⊆ J`.
 - **Five steps.** For `s ∈ [1/270, 5/4]`, `m^[5] s ∈ J`.
 
-(The coefficients are Jordan et al., the section on the Newton–Schulz iteration, which gives
-only the empirical target `[0.7, 1.3]`. The band, the entry time and the threshold `1/270` are
+(The coefficients are Jordan et al., section *Tuning the coefficients*, which gives only the
+empirical target `[0.7, 1.3]`. The band, the entry time and the threshold `1/270` are
 proved here and appear in no cited source.)
 
 **Checks.**
@@ -383,6 +419,14 @@ proved here and appear in no cited source.)
 - On `(0, 3/10]`, `min m(t)/t ≈ 3.031 ≥ 3`.
 
 *Needs:* none.
+
+### Examples
+
+The orbits of `1/2`, `√3`, `1/270` and `1/1000`.
+
+### Dependencies
+
+Layer 4 is real analysis on polynomials and uses nothing above it.
 
 ## Layer 5: steepest descent
 
@@ -432,15 +476,23 @@ Instances:
   `|m^[5](1/√2) − 1| ≤ 8/25`.
 - `G = 0`: every term of the bound is `0`.
 
-*Needs:* 1.2, 3.3, 3.4, 4.3, 5.1.
+*Needs:* dual norm: 1.2. Bound: 1.2, 5.1. Polar instance: 1.3. Muon instance: 3.2, 3.3, 3.4,
+4.3. Cubic and quintic directions: 3.3, 3.4, 4.1, 4.2.
 
-## Layer 6: matrices and worked examples
+### Examples
+
+`f = ⟪G, ·⟫` and `muonDirection 5 1` on `ℝ²`.
+
+### Dependencies
+
+5.1 uses Mathlib `fderiv`; 5.2 uses 1.2, 1.3, 3.2–3.4, 4.1–4.3 and 5.1.
+
+## Layer 6: matrices
 
 ### 6.1 Matrix interface
 
-For `A : Matrix m n 𝕜`, define `Matrix.polarFactor A` by transport along
-`Matrix.toEuclideanLin`. Prove `(Matrix.polarFactor A)ᴴ * Matrix.polarFactor A = 1` when `A`
-has full column rank, the compact singular value decomposition form `U Vᴴ`, and the matrix
+For `A : Matrix m n 𝕜`, define the matrix polar factor `U_A` by transport along
+`Matrix.toEuclideanLin`. Prove `U_Aᴴ * U_A = 1` when `A` has full column rank, the compact singular value decomposition form `U Vᴴ`, and the matrix
 forms of 1.2, 1.4, 3.2 and 5.2. Use the trace pairing `re (trace (Aᴴ * B))`, the
 `Matrix.Norms.L2Operator` norm and the Frobenius norm. (Proved here.)
 
@@ -448,22 +500,24 @@ forms of 1.2, 1.4, 3.2 and 5.2. Use the trace pairing `re (trace (Aᴴ * B))`, t
 
 - `A = (i) : Matrix (Fin 1) (Fin 1) ℂ`: `U_A = (i)`, `U_Aᴴ * U_A = 1`, and
   `re (trace (U_Aᴴ * A)) = 1 = N₁(A)`; with `ᵀ` in place of `ᴴ` the product would be `−1`.
-- `A = diag(3, 4)`: `Matrix.polarFactor A = 1`.
-- `A = [[0, 2], [0, 0]]`: `Matrix.polarFactor A = [[0, 1], [0, 0]]`.
+- `A = diag(3, 4)`: `U_A = 1`.
+- `A = [[0, 2], [0, 0]]`: `U_A = [[0, 1], [0, 0]]`.
 
 *Needs:* Layers 1–5, `Matrix.toEuclideanLin`.
 
-## Dependencies and order
+### Examples
 
-Layer 1 uses PolarDecomposition and Majorization; 1.4 also uses `cfc`. Layer 2 uses Layer 1,
-OI-A50 and Fan dominance. Layer 3 uses 1.3 and `cfc`. Layer 4 is real analysis on polynomials
-and uses nothing above it. Layer 5 uses Layers 1, 3 and 4. Layer 6 uses all of them. The
-per-target *Needs:* lines are authoritative.
+`A = (i)` over `ℂ`, `A = diag(3, 4)` and `A = [[0, 2], [0, 0]]`.
+
+### Dependencies
+
+6.1 uses Layers 1–5 and `Matrix.toEuclideanLin`. The per-target *Needs:* lines are
+authoritative.
 
 ## Downstream consumers
 
-The proposed ManifoldOptimization roadmap uses the Frobenius nearest-point property of the
-polar factor (2.3) and the Euclidean descent lemma (5.1); this roadmap owns both.
+ManifoldOptimization O2.2 uses the Frobenius nearest-point property of the polar factor (2.3),
+and its O2.4 the Euclidean descent lemma (5.1); this roadmap owns both.
 
 ## Provenance
 
@@ -486,5 +540,3 @@ and to the canonical polar factor; the source is reference material, not the spe
   ICML 2018, arXiv:1802.09568.
 - K. Fan and A. J. Hoffman, *Some metric inequalities in the space of matrices*, Proc. Amer.
   Math. Soc. **6** (1955), 111–116.
-- L. Mirsky, *Symmetric gauge functions and unitarily invariant norms*, Quart. J. Math. **11**
-  (1960), 50–59.

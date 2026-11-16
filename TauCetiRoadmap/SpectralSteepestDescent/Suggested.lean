@@ -12,7 +12,8 @@ import TauCeti.Analysis.InnerProductSpace.UnitarilyInvariantSeminorm.OpNorm
 `README.md`. This file states the headline theorems of Layers 1–5 against the pinned Mathlib and
 Tau Ceti APIs; discharging them finishes neither a milestone nor the roadmap. The `sorry` proofs
 are targets, not completed results. The entry-time bound `K(s)` of §4.3, the cubic and quintic
-directions of §5.2, and the matrix forms of §6.1 are README targets not stated here.
+directions of §5.2, the surjective case of §2.3, and the matrix forms of §6.1 are README targets
+not stated here; §1.1 is API of the definition.
 -/
 
 noncomputable section
@@ -30,10 +31,6 @@ variable {𝕜 E F : Type*} [RCLike 𝕜]
 /-- The real trace pairing `⟪A, B⟫ = re tr (A† B)` on linear maps `E → F`. -/
 def traceInner (A B : E →ₗ[𝕜] F) : ℝ :=
   RCLike.re (LinearMap.trace 𝕜 E (LinearMap.adjoint A ∘ₗ B))
-
-/-- The trace pairing of a map with itself is the square of its Frobenius norm. -/
-theorem traceInner_self (A : E →ₗ[𝕜] F) :
-    traceInner A A = UnitarilyInvariantSeminorm.frobenius 𝕜 E F A ^ 2 := sorry
 
 /-- Operator–nuclear duality: `|⟪D, A⟫| ≤ ‖D‖_op N₁(A)`. -/
 theorem abs_traceInner_le (D A : E →ₗ[𝕜] F) :
@@ -92,11 +89,15 @@ theorem map_sub_le_map_sub_of_eqOn_polarFactor (N : UnitarilyInvariantSeminorm �
     N (A - W.toLinearMap) ≤ N (A - Q.toLinearMap) ∧
       N (A - Q.toLinearMap) ≤ N (A + W.toLinearMap) := sorry
 
-/-- For injective `A`, the polar factor is the nearest isometric embedding in Frobenius norm. -/
+/-- For injective `A`, the polar factor is the unique nearest isometric embedding in Frobenius
+norm. -/
 theorem frobenius_sub_polarFactor_le (A : E →ₗ[𝕜] F) (hA : Function.Injective A)
     (V : E →ₗᵢ[𝕜] F) :
     UnitarilyInvariantSeminorm.frobenius 𝕜 E F (A - A.polarFactor) ≤
-      UnitarilyInvariantSeminorm.frobenius 𝕜 E F (A - V.toLinearMap) := sorry
+        UnitarilyInvariantSeminorm.frobenius 𝕜 E F (A - V.toLinearMap) ∧
+      (UnitarilyInvariantSeminorm.frobenius 𝕜 E F (A - V.toLinearMap) =
+          UnitarilyInvariantSeminorm.frobenius 𝕜 E F (A - A.polarFactor) →
+        V.toLinearMap = A.polarFactor) := sorry
 
 /-! ## Layer 3: odd polynomial iterations -/
 
