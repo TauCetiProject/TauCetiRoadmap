@@ -443,7 +443,9 @@ The specification, for relational `L`:
   `modelsOf φ`, measurable by Tau Ceti's `measurableSet_modelsOf`, under the measurable graph
   coding (`SimpleGraph.measurable_toRelationalConfiguration`). `Suggested.lean` proves it that way,
   with no other input; the same pullback of `measurableSet_setOf_realize` gives the events at fixed
-  assignments.
+  assignments, on `SimpleGraph V` for every countable carrier `V`, finite and empty ones included:
+  the graph coding and `toStructure_toRelationalConfiguration` hold on every `V`, and
+  `measurableSet_setOf_realize` asks only `[Countable V]`.
 
 ⚠ **API warning.** A model class need not be Gδ, so do not install a `PolishSpace` instance on
 `modelsOf φ` in its subspace topology. In the language of one unary predicate `P`, the codes with
