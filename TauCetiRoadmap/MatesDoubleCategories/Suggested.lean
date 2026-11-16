@@ -2,14 +2,10 @@
 Copyright (c) 2026 The Tau Ceti contributors. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
-module
-
-public import Mathlib.CategoryTheory.Bicategory.Adjunction.Adj
-public import Mathlib.CategoryTheory.Bicategory.Strict.Basic
-public import Mathlib.CategoryTheory.PathCategory.Basic
+import Mathlib
 
 /-!
-# Mates double categories: suggested interfaces
+# Mates as a double isomorphism: target signatures
 
 The roadmap is README.md; this file is not the roadmap. These are suggested
 forms, not an exhaustive checklist. The markdown specifies all required results.
@@ -18,18 +14,27 @@ This prototype makes the strict cell axioms, arbitrary path boundaries, and
 binary/nullary representations explicit. It also fixes the orientation of mates
 against Mathlib's API. It does not implement the roadmap.
 
-Functor and isomorphism structures, induced bicategories, their strictness, and
-the general and strict double isomorphisms require the M1--M3 constructions.
-Their headline signatures are deliberately not replaced by arbitrary `Prop`
-fields or opaque carrier types. The full contracts are in README.md.
+The following headline signatures require infrastructure specified in README.md
+but not constructed in this prototype:
+
+* M2.3's comparison isomorphisms require strict double functors and isomorphisms,
+  expansion, and extraction (M1.1--M2.2).
+* M3.3's represented double isomorphism `L(K) ≅ R(K)` requires represented
+  strict double functors, implicit 2-categories, coherent path evaluation, and
+  the two implicit double categories with their proved axioms (M1.2--M3.2).
+* M4's strict mates isomorphism requires those constructions and the proofs
+  that both induced bicategories of `L(K)` and `R(K)` are strict.
+
+These signatures are not replaced by arbitrary `Prop` fields or opaque carrier
+types. M1.3 specifies implicit 2-categories and their one-directional
+representations; they are not prototyped here. `representable_of_representation`
+is the M1.2 target connecting the two double-category notions below.
 
 The two edge categories are explicit parameters, avoiding competing instances
 on the common object type. `HEq` in the strict axioms records equality after
 transport of the four boundaries; the implementation must supply a usable
 transport API. It is not an isomorphism or a weak associativity axiom.
 -/
-
-@[expose] public section
 
 universe u h v s w
 
@@ -161,39 +166,17 @@ theorem representable_of_representation (R : D.Representation) : D.Representable
 
 end ImplicitDoubleCategory
 
-section Mates
+section ConventionCheck
 
 variable {K : Type u} [Bicategory.{w, v} K]
 
-/-- The vertical generating arrows retain the entire adjunction. -/
-abbrev AdjEdge (a b : K) := Bicategory.Adj.Hom a b
-
-/-- A left-adjoint square with top `S`, bottom `T`, and vertical sides `F₁`, `F₂`. -/
-abbrev LeftSquare {a b c d : K} (S : a ⟶ b) (T : c ⟶ d)
-    (F₁ : AdjEdge a c) (F₂ : AdjEdge b d) := S ≫ F₂.l ⟶ F₁.l ≫ T
-
-/-- The corresponding right-adjoint square, with the same external boundary. -/
-abbrev RightSquare {a b c d : K} (S : a ⟶ b) (T : c ⟶ d)
-    (F₁ : AdjEdge a c) (F₂ : AdjEdge b d) := F₁.r ≫ S ⟶ T ≫ F₂.r
-
-/-- Existing local equivalence that M3 must promote to a represented double isomorphism. -/
-def squareMateEquiv {a b c d : K} (S : a ⟶ b) (T : c ⟶ d)
-    (F₁ : AdjEdge a c) (F₂ : AdjEdge b d) :
-    LeftSquare S T F₁ F₂ ≃ RightSquare S T F₁ F₂ :=
+-- Check the README's boundary orientation against the existing API.
+-- This is a type check, not a new target or a proof of the double isomorphism.
+example {a b c d : K} (S : a ⟶ b) (T : c ⟶ d)
+    (F₁ : Bicategory.Adj.Hom a c) (F₂ : Bicategory.Adj.Hom b d) :
+    (S ≫ F₂.l ⟶ F₁.l ≫ T) ≃ (F₁.r ≫ S ⟶ T ≫ F₂.r) :=
   Bicategory.mateEquiv F₁.adj F₂.adj
 
-/-- The local inverse law already follows from Mathlib, without strictness. -/
-example {a b c d : K} (S : a ⟶ b) (T : c ⟶ d)
-    (F₁ : AdjEdge a c) (F₂ : AdjEdge b d) (α : LeftSquare S T F₁ F₂) :
-    (squareMateEquiv S T F₁ F₂).symm (squareMateEquiv S T F₁ F₂ α) = α :=
-  Equiv.symm_apply_apply _ _
-
-/-- The other local inverse law. Neither example asserts the global theorem. -/
-example {a b c d : K} (S : a ⟶ b) (T : c ⟶ d)
-    (F₁ : AdjEdge a c) (F₂ : AdjEdge b d) (β : RightSquare S T F₁ F₂) :
-    squareMateEquiv S T F₁ F₂ ((squareMateEquiv S T F₁ F₂).symm β) = β :=
-  Equiv.apply_symm_apply _ _
-
-end Mates
+end ConventionCheck
 
 end TauCetiRoadmap.MatesDoubleCategories
