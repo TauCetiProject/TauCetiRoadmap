@@ -83,8 +83,7 @@ It uses, and does not redevelop:
   used exactly as that roadmap defines them: the pairs start at (1,5), (5,20), (20,76), and
   `D_j = binomial(a_j + b_j, a_j)/6` for `j ≥ 1`, so `D_1 = 8855`.
 - **ClassicalArithmeticCompletion** §§2.18, 2.39 and 2.56 own Eulerian numbers, their basic
-  identities and unimodality; `eulerian` in `Suggested.lean` restates §2.18's definition only so
-  that the Layer 8 headline can be stated.
+  identities and unimodality.
 - **ReductiveGroups** owns algebraic groups, their closed subgroups, quotients and component groups
   (Layer 3), orbits of algebraic actions (Layer 3A), their tori (Layer 4), unipotent radicals
   (Layer 5), linear reductivity (Layer 6), characteristic-zero Levi complements (Layer 6A), root, Weyl,
@@ -249,8 +248,6 @@ finiteness for the quotient of the hypersurface parameter space by `PGL_(n+1)`.
   the carriers of `IsSmoothHypersurface` and `integralHypersurfaces_not_zariskiDense`.
 - `RingTheory.Sequence.IsRegular` (`Mathlib/RingTheory/Regular/RegularSequence.lean`): regular
   sequences, used for the Jacobian ring in §8.6.
-- `Equiv.Perm`, `Finset.filter` and `Nat.factorial`: the carriers of `eulerian` and
-  `eulerian_central_mass_le_half`.
 
 ### From Tau Ceti
 
@@ -982,9 +979,9 @@ API:
 
 For an H⁰-algebra `E`, define an **E-module system** as a system `V` with a unital associative action
 `E ⊗ V → V` compatible with the four realizations; define `E`-linear maps, and the relative tensor
-product `V ⊗_E W` as the coequalizer of the two actions on `V ⊗ E ⊗ W`. For finite étale `E` it is
-exact in each argument. A pairing valued in an invertible rank-one `E`-module `L` is **E-balanced**
-when `B(e·v, w) = B(v, e·w)` (LS, Definition 5.22 and Remark 5.23, p. 47).
+product `V ⊗_E W` as the coequalizer of the two actions on `V ⊗ E ⊗ W` (LS, Definition 5.22 and
+Remark 5.23, p. 47). For finite étale `E` it is exact in each argument. A pairing valued in an
+invertible rank-one `E`-module `L` is **E-balanced** when `B(e·v, w) = B(v, e·w)`.
 
 API:
 
@@ -2803,7 +2800,7 @@ enough independent factors satisfy the coefficient inequalities; it derives the 
 of projective hypersurfaces, their Eulerian asymptotics and the large-dimension, large-degree
 Lawrence–Venkatesh inequalities. Throughout, `A(n, q)` is the Eulerian number of
 ClassicalArithmeticCompletion §2.18, the number of permutations of `Fin n` with `q` descents, defined for
-all `n, q ∈ ℕ`; `Suggested.lean` restates it as `eulerian`. For `n ≥ 1` it vanishes outside `0 ≤ q < n`,
+all `n, q ∈ ℕ`. For `n ≥ 1` it vanishes outside `0 ≤ q < n`,
 while for `n = 0` the empty permutation gives `A(0, 0) = 1` and `A(0, q) = 0` for `q ≥ 1`. Every
 statement of this layer has `n ≥ 2`, where the two descriptions agree.
 
@@ -2879,9 +2876,9 @@ with gap:eulerian-row-log-concavity and gap:log-concave-convolution.
 
 ### 8.4 The central Eulerian convolution mass is at most one half
 
-Prove that for every `n ≥ 2`, `β₀ = Σ_q (A(n, q)/n!)² ≤ 1/2`; equivalently `2·Σ_(q<n) A(n, q)² ≤ (n!)²`.
-This is `eulerian_central_mass_le_half` (LS, Lemmas A.4–A.6, pp. 91–92, LS lines 4255–4321, with the
-corrected tail comparison and denominators of Source corrections).
+Prove that for every `n ≥ 2`, `β₀ = Σ_q (A(n, q)/n!)² ≤ 1/2`; equivalently `2·Σ_(q<n) A(n, q)² ≤ (n!)²`
+(LS, Lemmas A.4–A.6, pp. 91–92, LS lines 4255–4321, with the corrected tail comparison and denominators
+of Source corrections).
 
 A route: if `β₀ > 1/2`, symmetry gives `Σ_(j≥1) β_j < 1/4 = Σ_(j≥1) 1/(2·3^j)`; log-concavity and
 `β₀ > 1/2` then force every tail `Σ_(j≥k) β_j` below `Σ_(j≥k) 1/(2·3^j)`, since a first crossing below the
@@ -3397,7 +3394,9 @@ For a `K`-defined smooth ample divisor `H` with finite stabilizer `T`, prove tha
 in its geometric translation orbit are parametrized by `(A/T)(K)`, and that their `A(K)`-translation classes
 inject into `(A/T)(K)/π(A(K))`, which is finite. For primitive `H`, `T = 0` and the translating point between
 two `K`-defined divisors is unique and `K`-rational. Hence finitely many geometric classes give finitely many
-`A(K)`-classes (LS, arithmetic descent in Theorem 9.2 and Corollary 9.3, pp. 85–87).
+`A(K)`-classes. The `A(K)`-orbit form of the finiteness is that of LS, proof of Theorem 9.2, p. 85 (LS
+lines 3900–3902); the finite cokernel supplies the step that LS, Corollary 9.3, pp. 87–88, omits (Source
+corrections).
 
 A route: identify the proper orbit with `A/T`; `(A/T)(K)` is finitely generated
 (HeightsRationalPointsAndObstructions §1.7), and `[m]` on `A/T` factors through `π` for `m = |T|`, so the
@@ -3528,6 +3527,11 @@ The following corrections to the sources are used throughout; each is fixed by a
   `gr_k = f_k/f_(k−1)` is the image of `F^j ∩ f_k`; a quotient by `f_(k+1)` cannot be the graded piece.
 - **LV, end of the proof of Lemma 11.4, printed p. 993.** The forward map is `β ↦ −wβ` and the inverse is
   `α ↦ −w⁻¹α`; the minus signs are needed because the root sets consist of negative roots.
+- **LS, proof of Lemma 5.29, p. 51.** The orbit algebra `E_I` is taken to be the pushforward from `K` to ℚ
+  of the constant system with coefficients `ℚ(μ_r)` (LS lines 2348–2349), which has ℚ-rank
+  `[K : ℚ]·[ℚ(μ_r) : ℚ]` whatever the orbit, while the decomposition in the statement of the lemma
+  (LS lines 2266–2269) gives `E_I` rank `|I|`. For `K = ℚ`, `r = 3` and the orbit of the trivial character,
+  `|I| = 1` and that pushforward has rank 2. §1.7 descends the sum of the summands indexed by the orbit.
 - **LS, §5.8.2 after Definition 5.40, p. 57.** A parabolic does not determine a filtration up to
   reindexing, even for reductive `G`: on `𝔾_m` the cocharacters `t` and `t⁻¹` share the parabolic `𝔾_m`
   but give the chains `0 ⊂ ℚe₊ ⊂ V` and `0 ⊂ ℚe₋ ⊂ V` on `V = ℚe₊ ⊕ ℚe₋` (LS line 2645). The criterion
@@ -3544,6 +3548,22 @@ The following corrections to the sources are used throughout; each is fixed by a
 - **LS, Definition 5.44, p. 60.** The associated graded of a decreasing filtration is `F^a/F^(a+1)`.
 - **LS, Definition 9.1, p. 85.** Primitivity excludes nonzero stabilizing translations: translation by zero
   fixes every divisor.
+- **LS, proof of Theorem 9.2, p. 86.** Properness of the resolution does not make every integral point of
+  the closure lift to it (LS line 3943): a rational point whose fibre has no rational point does not lift.
+  The normalization `t ↦ (t² − 2, t(t² − 2))` of `y² = x²(x + 2)` sends only `t = ±√2` to the node
+  `(0, 0)`. §10.4 lifts only the points of the dense open set `U` over which the resolution is an
+  isomorphism.
+- **LS, proof of Corollary 9.3, pp. 87–88.** Theorem 9.2 applied to the primitive quotients `H′ ⊂ A′ = A/T`
+  gives finitely many `H = π⁻¹(H′)` up to translation by the points `a ∈ A(K̄)` with `π(a) ∈ A′(K)`, not up
+  to `A(K)`-translation (LS lines 4022–4030); the step needs the finiteness of `A′(K)/π(A(K))`, which weak
+  Mordell–Weil gives. For `A = E × B` with `E` an elliptic curve and `T = E[2] × 0`, `π` is `[2] × id`
+  up to isomorphism and the cokernel is `E(K)/2E(K)`, nonzero when `E(K)` has positive rank. §10.8
+  supplies the step.
+- **LS, proof of Theorem 9.6, p. 88.** The degree of `f : Jac C → A` is the intersection number of the
+  pushforward cycle `f_*[C]` with an ample class `ψ`, not that of the image curve `f(C)` (LS line 4054);
+  only the former is quadratic in `f`. If `f` has one-dimensional image, an elliptic curve `E ⊂ A`, then
+  `(2f)(C) = [2](E) = E` has the same intersection number with `ψ` as `f(C)`, while
+  `(2f)_*[C]·ψ = 4·(f_*[C]·ψ)`. §10.10 uses the pushforward cycle.
 - **LS, Lemma 8.10, pp. 78–79.** The balance of `F₀` relative to `f₀` is obtained from LS, Lemma 8.7,
   which assumes the purity of LS, Lemma 8.1; the statement of Lemma 8.10 omits it, and §5.8 assumes it.
   Without it the assertion fails: `ℚ_p ⊕ ℚ_p(−1)` and the nonsplit crystalline Kummer extension of

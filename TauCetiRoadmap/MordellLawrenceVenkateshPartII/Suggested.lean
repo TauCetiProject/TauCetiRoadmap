@@ -15,8 +15,6 @@ Stated here:
   outside a finite set `S` of primes lie on a nonzero homogeneous hypersurface of the projective
   space of coefficients. This is the non-density of the integral points of the parameter space
   of smooth degree-`d` hypersurfaces in `ℙⁿ`.
-* `eulerian_central_mass_le_half` (README §8.4; Lawrence–Sawin, Lemmas A.4–A.6): for `n ≥ 2`
-  the central mass `β₀ = Σ_q (A(n, q)/n!)²` of the Eulerian difference law is at most `1/2`.
 
 Headline theorems that are not statable at the pins:
 
@@ -56,27 +54,6 @@ Headline theorems that are not statable at the pins:
 namespace TauCetiRoadmap.MordellLawrenceVenkateshPartII
 
 open MvPolynomial
-
-/-! ## Layer 8: Eulerian profiles and numerical criteria -/
-
-/-- The Eulerian number `A(n, q)`: the number of permutations `σ` of `Fin n` with exactly `q`
-descents, a descent being a position `i` with `i + 1 < n` and `σ (i + 1) < σ i`. This is the
-object of ClassicalArithmeticCompletion §2.18, restated so that the Layer 8 headline can be
-stated without importing another roadmap; Lawrence–Sawin's `A(n, q)` (counted by ascents) is
-the same number. -/
-def eulerian (n q : ℕ) : ℕ :=
-  (Finset.univ.filter fun σ : Equiv.Perm (Fin n) =>
-    (Finset.univ.filter fun i : Fin n =>
-      ∃ h : i.val + 1 < n, σ ⟨i.val + 1, h⟩ < σ i).card = q).card
-
-/-- **The central Eulerian convolution mass is at most one half** (Lawrence–Sawin, Lemmas
-A.4–A.6, with the corrected tail comparison). For `n ≥ 2`,
-`β₀ = Σ_q (A(n, q)/n!)² ≤ 1/2`, written without denominators as
-`2 · Σ_{q<n} A(n, q)² ≤ (n!)²`. Equality holds for `n = 2` and `n = 3`; the statement fails
-for `n = 1`. -/
-theorem eulerian_central_mass_le_half (n : ℕ) (hn : 2 ≤ n) :
-    2 * ∑ q ∈ Finset.range n, eulerian n q ^ 2 ≤ n.factorial ^ 2 := by
-  sorry
 
 /-! ## Layer 9: Projective hypersurface application -/
 
