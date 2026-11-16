@@ -611,8 +611,8 @@ that OTM's Eichler theorem consumes, over the native class sets, stabilizers and
 and separates the rank-24 lattices, over the native definite classification in rank at most 9
 and the native rank-16 pair. Layer 7 records the native masses, local densities, Euler
 products and Euclidean volumes from which OTM assembles the mass formula, and proves the
-stabilizer-index and Conway–Sloane dictionaries of 7C, the rank-2 mass and the Riemannian
-comparison for the real factor. Layer 8 records what Theta Series takes, and Layer 9 records the native
+Conway–Sloane dictionary of 7C, the rank-2 mass and the Riemannian comparison for the real
+factor. Layer 8 records what Theta Series takes, and Layer 9 records the native
 completeness of a list of classes from the mass.
 
 
@@ -3059,7 +3059,7 @@ the mass `1/696729600` of the genus of `E₈` (7A), the local density with its s
 every prime, its values at odd `p` from the Jordan form, its dyadic values for `⟨1⟩`, `⟨2⟩` and
 `U`, and the convergent Euler products of its normalized good-prime factors outside rank 2 (7C),
 the Euclidean real factor (7E) and the low-rank values (7G), together with the dyadic Jordan data
-and exponents of 3I. Its targets are the stabilizer-index and Conway–Sloane dictionaries of 7C,
+and exponents of 3I. Its targets are the Conway–Sloane dictionary of 7C,
 the Riemannian comparison of 7E and the rank-2 mass of 7G through B8. None of them uses an adelic
 volume or a group scheme.
 
@@ -3199,10 +3199,10 @@ the normalized good-prime factors in rank 1 and in every rank at least 3, as unc
 nonzero products (`hasProd_inv_half_localDensity_of_card_eq_one`,
 `hasProd_inv_half_localDensity_of_card_eq_two_mul_add_one`,
 `hasProd_inv_half_localDensity_of_card_eq_two_mul_add_two` and the two
-`tprod_inv_half_localDensity_ne_zero_…`; Conway–Sloane, equation (6)). The targets of this
-milestone are the stabilizer-index statement and the Conway–Sloane dictionary at odd `p`; the
-conditional rank-2 product is OTM §1.4's, and the definition, stabilization, values and the
-other products are consumed. *Needs:* T the native density declarations above; L 3C, 4B for the
+`tprod_inv_half_localDensity_ne_zero_…`; Conway–Sloane, equation (6)). The target of this
+milestone is the Conway–Sloane dictionary at odd `p`; the stabilizer index is N0's and is cited
+here, the conditional rank-2 product is OTM §1.4's, and the definition, stabilization, values
+and the other products are consumed. *Needs:* T the native density declarations above; L 3C, 4B for the
 stabilizers, N0 for the stabilizer index.
 
 **Checks.** The densities below are read off the native diagonal formula; for the lattices of rank
