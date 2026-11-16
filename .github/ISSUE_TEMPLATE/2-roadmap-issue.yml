@@ -179,6 +179,7 @@ body:
         - OperatorTheory
         - OptimalTransport
         - Orbifolds
+        - PCurvature
         - PDE
         - PadicExtensionFamilies
         - PadicFunctionalAnalysis
