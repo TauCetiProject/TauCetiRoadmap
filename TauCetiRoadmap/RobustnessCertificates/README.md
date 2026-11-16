@@ -35,9 +35,8 @@ It consumes, and does not re-prove, the items listed under
 [Exact supplier contracts](#exact-supplier-contracts).
 
 Out of scope: randomized smoothing and other probabilistic certificates, which need Gaussian
-measure and binomial confidence bounds and belong to
-[RandomizedSmoothing](https://github.com/TauCetiProject/TauCetiRoadmap/pull/2428); attacks and
-lower bounds on the robust radius;
+measure and binomial confidence bounds and belong to the RandomizedSmoothing roadmap; attacks
+and lower bounds on the robust radius;
 complexity results (computing the exact Lipschitz constant of a ReLU network is NP-hard);
 convolutional, residual and attention layers beyond what `MLPSpec` covers; training methods;
 and floating-point error in evaluating a network.
@@ -52,8 +51,9 @@ and floating-point error in evaluating a network.
   layers `reluActivation` and `tanhActivation`.
 - Mathlib: `LipschitzWith`, `EuclideanSpace` and `WithLp.equiv`, the sup norm on `Fin n → ℝ`,
   `Matrix.PosSemidef` with the Schur-complement lemmas `Matrix.PosDef.fromBlocks₁₁` and
-  `Matrix.PosDef.fromBlocks₂₂`, and the `ℓ²` operator norm on matrices
-  (`Matrix.Norms.L2Operator`).
+  `Matrix.PosDef.fromBlocks₂₂`, the `LDLᴴ` decomposition of a positive definite matrix
+  (`LDL.lower_conj_diag`, `LDL.isLowerTriangular_lower`, in `Analysis/Matrix/LDL.lean`), and the
+  `ℓ²` operator norm on matrices (`Matrix.Norms.L2Operator`).
 
 ## How to read the build
 
@@ -159,8 +159,9 @@ norm `‖·‖_*` of the functional given by the row `a = W_i - W_j` is:
 - in `ℓ∞`, `‖a‖_* = Σ_p |a_p|`, by `Matrix.linfty_opNorm_eq_opNorm` for the `1 × n` matrix of
   `a`.
 
-So the certified radius of an affine classifier is exactly `min_{j ≠ i} g_{ij}(x) / ‖a_j‖_*`,
-with the convention that a term with `a_j = 0` and `g_{ij}(x) > 0` imposes no constraint.
+So, when `f` predicts `i` at `x`, the certified radius is exactly
+`min_{j ≠ i} g_{ij}(x) / ‖a_j‖_*` in `ℝ≥0∞`, a term with `a_j = 0` being `⊤`; when `f` does not
+predict `i` at `x` the radius is `0`.
 
 (Proved here.)
 
@@ -171,6 +172,9 @@ with the convention that a term with `a_j = 0` and `g_{ij}(x) > 0` imposes no co
 - A constant classifier with positive gaps has `a_j = 0` for all `j`, so every radius is
   certified.
 - At a point with `g_{ij}(x) = 0` no radius `r > 0` is certified.
+- The identity of `ℝ²` at `x = (0, 1)` with class `0`, in `ℓ²`: `g = -1` and the radius is `0`,
+  not `-1/√2`.
+- The constant classifier `f = (0, 0)` with class `0`: `a = 0`, `g = 0`, and the radius is `0`.
 
 *Needs:* 1.1; Mathlib `Matrix.l2_opNorm_def`, `Matrix.linfty_opNorm_eq_opNorm`.
 
@@ -373,9 +377,9 @@ activations; exactness per layer is proved here.)
   `j ≠ i`, then `A.realize θ` is certified on the input box with class `i`
   (`certifiedOn_Icc_of_ibpBounds`).
 - **Specification layer.** For `l ≤ u` on the last hidden box, bounding the gap directly, by
-  applying 4.1 to the last affine layer with the row `W_{L,i} - W_{L,j}` and bias `b_{L,i} -
-  b_{L,j}`, gives a lower bound on `g_{ij}` that is at least `lo i - hi j`, because `|a - a'| ≤
-  |a| + |a'|` entrywise.
+  applying 4.1 to the last affine layer with the row `W_{L,i} - W_{L,j}` and bias
+  `b_{L,i} - b_{L,j}`, gives a lower bound on `g_{ij}` that is at least `lo i - hi j`, because
+  `|a - a'| ≤ |a| + |a'|` entrywise.
 
 (Gowal et al., eq. (9), p. 4, for eliding the last layer into the specification; the comparison
 is proved here.)
@@ -413,14 +417,15 @@ Let `l < 0 < u` and `s = u / (u - l)`.
   affine lower bounds of ReLU on `[l, u]` with zero intercept.
 - For `0 ≤ l` ReLU is the identity on `[l, u]`, and for `u ≤ 0` it is zero.
 
-(Wong–Kolter, eq. (3), p. 3, for the upper chord; Zhang et al., §3.2, p. 5, for the adaptive
-lower lines.)
+(Wong–Kolter, eq. (3), p. 3, for the upper chord; Zhang et al., Table 3, p. 5, and §3.2, p. 6,
+for the adaptive lower lines.)
 
 **Checks.**
 
 - `l = -1`, `u = 1`: `s = 1/2`, and the chord `(z + 1)/2` equals ReLU at `±1` and is `1/2` at `0`.
 - `α = 1` gives `z ≤ max z 0`; `α = 2` fails at `z = 1`.
-- `crownRelax a l u α` is `(1, 0)` for `0 ≤ l` and `(0, 0)` for `u ≤ 0`, whatever `a` and `α`.
+- `crownRelax a l u α` is `(1, 0)` for `0 ≤ l` and `(0, 0)` for `l < 0` and `u ≤ 0`, whatever
+  `a` and `α`; at `l = u = 0` it is `(1, 0)`.
 - `crownRelax (-1) (-2ε) (2ε) α = (1/2, ε)` for `ε > 0`.
 
 *Needs:* none.
@@ -430,8 +435,8 @@ lower lines.)
 Let `f(x) = W₂ relu(W₁ x + b₁) + b₂`, let `c ∈ ℝ^k` be a specification vector, and let
 `l ≤ W₁ x + b₁ ≤ u` hold for every `x ∈ S` (for instance from 4.1). Put `a = W₂ᵀ c`, and fix
 slopes `α_p ∈ [0, 1]`. For each hidden neuron `p` define `(λ_p, μ_p)` as `(1, 0)` if `0 ≤ l_p`,
-as `(0, 0)` if `u_p ≤ 0`, and otherwise, when `l_p < 0 < u_p`, as `(α_p, 0)` if `a_p ≥ 0` and
-as `(s_p, -s_p l_p)` with `s_p = u_p / (u_p - l_p)` if `a_p < 0`. Then
+as `(0, 0)` if `l_p < 0` and `u_p ≤ 0`, and otherwise, when `l_p < 0 < u_p`, as `(α_p, 0)`
+if `a_p ≥ 0` and as `(s_p, -s_p l_p)` with `s_p = u_p / (u_p - l_p)` if `a_p < 0`. Then
 `a_p relu(z) ≥ a_p (λ_p z + μ_p)` for `z ∈ [l_p, u_p]`. Define `Λ = W₁ᵀ (a ⊙ λ)` and
 `κ = (a ⊙ λ) · b₁ + a · μ + c · b₂`.
 
@@ -466,7 +471,9 @@ The scalar envelopes of the Checks of 5.1; the worked example of 6.2.
   `Matrix.PosSemidef.mul_mul_conjTranspose_same`.
 - Every positive semidefinite real `M` factors as `L diag d Lᵀ` with `L` lower unitriangular and
   `d ≥ 0` (`exists_ldlt_of_posSemidef`): a zero pivot of a semidefinite matrix has a zero column
-  below it. If `M` is rational, so are `L` and `d`.
+  below it. If `M` is rational, so are `L` and `d`. Mathlib has this for positive definite `M`
+  (`LDL.lower_conj_diag`); the target is the semidefinite case, where pivots vanish, with unit
+  diagonal and `d ≥ 0`.
 - If `M : Matrix n n ℚ` is positive semidefinite then so is its cast to `ℝ`
   (`PosSemidef.map_ratCast`).
 - For the Schur matrix of 6.2 the factorization is `L = 1`, `d = (1, 0)`.
@@ -480,7 +487,8 @@ The scalar envelopes of the Checks of 5.1; the worked example of 6.2.
 - `diag(1, -1)` is not positive semidefinite, and its only factorization with `L = 1` has
   `d = (1, -1)`.
 
-*Needs:* Mathlib `Matrix.PosSemidef.diagonal`, `Matrix.PosSemidef.mul_mul_conjTranspose_same`.
+*Needs:* Mathlib `Matrix.PosSemidef.diagonal`, `Matrix.PosSemidef.mul_mul_conjTranspose_same`,
+`LDL.lower_conj_diag`, `LDL.isLowerTriangular_lower` (the positive definite case).
 
 ### 6.2 Worked example
 
@@ -508,6 +516,14 @@ The certified radii are thus `1/(2φ) < 1/√2 < 1` in `ℓ²` and `1/3 < 1/2 < 
 (Proved here.)
 
 *Needs:* 1.2, 2.2, 3.2, 4.2, 5.2, 6.1.
+
+### Examples
+
+The factorizations of the Checks of 6.1; the network of 6.2.
+
+### Dependencies
+
+6.1 uses only Mathlib; 6.2 uses 1.2, 2.2, 3.2, 4.2, 5.2 and 6.1.
 
 ## Dependencies and order
 
