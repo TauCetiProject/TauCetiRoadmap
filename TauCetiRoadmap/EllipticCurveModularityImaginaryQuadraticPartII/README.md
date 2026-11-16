@@ -854,8 +854,8 @@ nontrivial and consists of unipotent matrices. (CaptainSude26 treats only `p = 5
   and `M` has characteristic polynomial `X² + X + 1`; inertia is nontrivial and not unipotent, so `ρ̄`
   is not protected. A diagonal model `diag(ζ₃, ζ₃⁻¹)` does not exist over `𝔽₅`, whose unit group has order
   four; it needs `𝔽₂₅`.
-- After a base change of ramification index five, residual inertia becomes `U⁵ = 1`: protection is
-  lost.
+- For `p = 5`, after a base change of ramification index five, residual inertia becomes `U⁵ = 1`:
+  protection is lost.
 
 ### 3.4 The unipotent-inertia condition at a protected place
 
@@ -926,10 +926,11 @@ ClassFieldTheory Layer 5.
 
 **Checks.**
 
-- With `μ₅ ⊂ F_v`: `M^(I_v) = k e`, so `h⁰ = 1`, `h² = h⁰(M(1)) = 1`, and the Euler characteristic gives
-  `h¹ = 2`. Without `μ₅`, for `q_v ≡ 2 mod 5`, `φ` scales `e` by `2`, so `h⁰ = 0` and `L_v = 0`.
+- For `p = 5` and `μ₅ ⊂ F_v`: `M^(I_v) = k e`, so `h⁰ = 1`, `h² = h⁰(M(1)) = 1`, and the Euler
+  characteristic gives `h¹ = 2`. Without `μ₅`, for `q_v ≡ 2 mod 5`, `φ` scales `e` by `2`, so `h⁰ = 0`
+  and `L_v = 0`.
 - In (d), for a cocycle `ξ`, the relation `φτφ⁻¹ = τ^(q_v)` forces `(D − 1)ξ(φ) = 0` because
-  `1 + D + ⋯ + D^(q_v − 1) = 1` when `5 | q_v − 1`; so `ξ(φ) ∈ k e`, `ξ(τ)` is free modulo
+  `1 + D + ⋯ + D^(q_v − 1) = 1` when `p ≥ 5` and `p | q_v − 1`; so `ξ(φ) ∈ k e`, `ξ(τ)` is free modulo
   `(D − 1)M = k e ⊕ k h`, and `dim H¹ = 4 − 2 = 2`.
 - The ramified class `(f, 0)` is not in `L_v` (trace condition of §3.4(i)) and pairs nontrivially with
   `(0, e)`. As `L_v^⊥ = L_v = k[(0, e)]` here, a class `a(f, 0) + b(0, e)` lies in `L_v^⊥` only for
@@ -1754,7 +1755,7 @@ curve.
   BianchiModularForms consumes `imaginary_quadratic_modularity` over imaginary quadratic fields.
 - Theorem 6.2 is stated for an arbitrary representation and serves any consumer of
   CrystallineLocalGlobalCompatibilityCM §9.12 meeting residual image `SL₂(𝔽₅)` over a field
-  containing `ζ₅`.
+  containing `ζ₅`, provided there is a nonempty set `P` of places satisfying the conditions of §6.2.
 
 ## References
 
