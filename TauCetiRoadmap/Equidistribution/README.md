@@ -426,7 +426,7 @@ for irrational `ξ`, with `n ≥ 0` and no separate case: when `a₁ = 1` we hav
 (Legendre) for one direction and the determinant identity for the other. Derive that a
 denominator whose `‖q ξ‖` beats every smaller denominator is a convergent denominator.
 *Needs:* §§3.1 and 3.2; Mathlib `Real.exists_rat_eq_convergent`, `GenContFract.determinant`
-(Hardy–Wright Ch. X; Khinchin §§6, 9, 16).
+(Hardy–Wright Ch. X, §10.15 *Approximation by convergents*; Khinchin §§6, 9, 16).
 
 **Checks.**
 
@@ -447,7 +447,8 @@ has
 
 - `ContFrac.exists_convDen_mul_abs_convErr_lt_inv_sqrt_five : convDen ξ k * |convErr ξ k| < 1 / √5`
 
-(Hardy–Wright Ch. X–XI; Khinchin §19), which records which rationals Hurwitz's theorem
+(Hardy–Wright Ch. XI, §11.8 for Hurwitz's theorem and the sharpness of `√5`, §11.9 for
+three consecutive convergents; Khinchin §19), which records which rationals Hurwitz's theorem
 produces, namely convergents, three consecutive ones at a time. Prove the sharpness
 
 - `ContFrac.finite_setOf_abs_goldenRatio_sub_lt_of_sqrt_five_lt : √5 < c → {q : ℚ | |φ − q| < 1 / (c * q.den ^ 2)}.Finite`
@@ -456,7 +457,7 @@ and the limit `qₙ |convErr φ n| → 1/√5` along the convergents of `φ`, wh
 that `√5` cannot be improved for `φ`. The sharpness uses the explicit continued fraction of `φ`
 of §3.5 and `Real.fib_succ_sub_goldenRatio_mul_fib`. The sharpness at `φ` is not in Mathlib.
 *Needs:* §§3.2 and 3.5; Mathlib `Real.infinite_rat_abs_sub_lt_one_div_sqrt_five_mul_den_sq_of_irrational`
-(Hardy–Wright Ch. X–XI).
+(Hardy–Wright Ch. XI, §11.8).
 
 **Checks.**
 
@@ -478,7 +479,8 @@ Prove that the continued fraction of `φ` is `[1; 1, 1, …]`,
 `ContFrac.convErr_goldenRatio : convErr φ n = −(ψ ^ (n + 1))` (`Real.fib_succ_sub_goldenRatio_mul_fib`;
 `convErr` is the negative of that lemma's left-hand side, hence the sign), so that
 `|convErr φ n| = φ ^ (−(n + 1))`; and `(Nat.fib (n + 1) : ℝ) / Nat.fib n → φ`, as the consumer
-of `GenContFract.of_convergence` (Hardy–Wright Ch. X–XI). *Needs:* §3.1.
+of `GenContFract.of_convergence` (Hardy–Wright Ch. X, §10.14 *The series of Fibonacci and Lucas*).
+*Needs:* §3.1.
 
 **Checks.**
 
