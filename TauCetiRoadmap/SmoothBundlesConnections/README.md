@@ -43,9 +43,7 @@ and the countability of the fundamental group of a connected second-countable ma
 smooth good covers, the identification of the native Čech complex of a good cover in locally
 constant, smooth and circle coefficients, the vanishing of Mathlib's `Sheaf.H` in positive degrees
 for soft sheaves on paracompact Hausdorff spaces, the softness of smooth functions and of sheaves of
-modules over them (the fine-sheaf acyclicity that ComplexKahlerGeometry 2.5 consumes), raw
-refinement maps and refinement homotopies of native
-Čech complexes on an arbitrary space, the Čech–de Rham and Čech–singular comparisons on good
+modules over them, the Čech–de Rham and Čech–singular comparisons on good
 covers, and the integral theory of circle bundles and lattice torus bundles (B6), with the Hopf
 bundle over Tau Ceti's sphere quotient `ℂP¹ = S³/Circle`, the agreement of B1.4's quotient smooth
 structure on it with the real structure underlying Tau Ceti's homogeneous-ratio atlas, and the Hopf
@@ -92,6 +90,9 @@ distribution of a submersion; continuous fibre norms, continuous local orthonorm
 Gram–Schmidt and the orthogonal and unitary frame bundles of a bundle with fibre inner products;
 differential forms with the wedge, the exterior derivative, the homotopy
 operator, integration of top forms, de Rham cohomology and the existence of Riemannian metrics;
+the maps of native Čech complexes induced by refinements of covers, with their laws, the homotopy
+between the maps of two refinements, the change of coefficients and the diagram of Čech
+cohomology over a system of covers;
 and complex projective space as the circle quotient of the unit sphere, with its homogeneous-ratio
 charts, its complex atlas and the real structure underlying a complex manifold.
 Consume those objects, supplying principal/associated-bundle bridges and missing general bundle
@@ -237,8 +238,8 @@ exponential connecting class is `β(h)`; B6.4 proves this dictionary and B7 test
 
 | Supplier | Exact interface consumed |
 | --- | --- |
-| Mathlib, at the pin | `FiberBundle`, `FiberBundleCore`, `Trivialization` (with `Bundle.Trivialization.restrictPreimage`, `Bundle.Trivialization.localFrame`), `Bundle.TotalSpace`, `VectorBundle`, `ContMDiffVectorBundle`, `ContMDiffVectorBundle.pullback`; `GroupLieAlgebra`, `LieGroup`; `Manifold.IsSubmersionAt`, `Manifold.IsSubmersion`, `Manifold.IsSmoothEmbedding`; `MulAction.instChartedSpaceQuotient` (properly discontinuous actions only); `CovariantDerivative`, `CovariantDerivative.addOneForm`, `CovariantDerivative.difference`, `CovariantDerivative.leviCivitaConnection`; `IsContinuousRiemannianBundle`, `Bundle.ContinuousRiemannianMetric`, `EMetricSpace.ofRiemannianMetric` (which requires `T3Space`); `Circle`, `Circle.exp`, `FundamentalGroupoid`, `FundamentalGroup`; `MeasureTheory.Lp`, `MeasureTheory.L2.inner_def`, `MeasureTheory.Lp.dense_hasCompactSupport_contDiff`, `MeasureTheory.MemLp.exists_hasCompactSupport_eLpNorm_sub_le`, `MeasurableEmbedding.subtype_coe`, `map_comap_subtype_coe`; `InnerProductSpace.toDual`, `InnerProductSpace.ofCoreOfTopology`; `Matrix.GeneralLinearGroup`, `Matrix.linftyOpNormedRing`, `CFC.sqrt` with `Matrix.PosSemidef.inv_sqrt` and `Matrix.PosSemidef.det_sqrt`; `CategoryTheory.constantSheaf`, `CategoryTheory.constantSheafAdj`, `CategoryTheory.cechComplexFunctor`, `CategoryTheory.Limits.isTerminalTop`, `CategoryTheory.Sheaf.H`; `smoothSheafCommGroup`, `smoothSheafAddCommGroup` and `smoothSheafAddCommGroup.compLeft`. |
-| Tau Ceti, at the pin | `TauCeti.PrincipalBundle` with `Bundle.Trivialization.IsEquivariant`, `Bundle.Trivialization.coordChange_eq_mul`, `TauCeti.PrincipalBundle.division`, `TauCeti.PrincipalBundle.trivializationOfSection` and the instances `TauCeti.PrincipalBundle.trivial` and `TauCeti.PrincipalBundle.pullback` (`Topology/FiberBundle/Principal.lean`); `TauCeti.ContMDiffFiberBundle`, `TauCeti.ContMDiffFiberBundle.trivial`, `TauCeti.ManifoldTotalSpace`, `TauCeti.ManifoldTotalSpace.homeomorph`, `TauCeti.ManifoldTotalSpace.isManifold`, `TauCeti.ManifoldTotalSpace.contMDiff_proj`, `TauCeti.ManifoldTotalSpace.contMDiff_comp_proj_iff` and `TauCeti.ManifoldTotalSpace.existsUnique_contMDiff_comp_proj_eq` (`Geometry/Manifold/FiberBundle/Basic.lean`), `TauCeti.ManifoldTotalSpace.isSubmersion_proj` (`Geometry/Manifold/FiberBundle/Submersion.lean`); `TauCeti.PrincipalBundle.contMDiffFiberBundle_iff`, `ContMDiff.totalSpaceMk_smul`, `ContMDiff.division`, `TauCeti.PrincipalBundle.contMDiffOn_trivializationOfSection`, `TauCeti.PrincipalBundle.ker_mfderiv_proj_eq_range_mfderiv_totalSpaceMk_smul_one`, `TauCeti.PrincipalBundle.mfderiv_totalSpaceMk_smul_injective` and `TauCeti.PrincipalBundle.finrank_ker_mfderiv_proj` (`Geometry/Manifold/FiberBundle/Principal.lean`), `TauCeti.PrincipalBundle.diffeomorphOfEquivariant` (`Geometry/Manifold/FiberBundle/Principal/Equivariant.lean`); `TauCeti.ContMDiffFiberBundle.pullback` and `TauCeti.ManifoldTotalSpace.contMDiff_pullback_iff` (`Geometry/Manifold/FiberBundle/Pullback.lean`); `TauCeti.fiberBundleCoreOfGroupCocycle`, `TauCeti.principalBundle_fiberBundleCoreOfGroupCocycle`, `TauCeti.homeomorphOfCohomologous`, `TauCeti.contMDiffFiberBundle_fiberBundleCoreOfGroupCocycle` and `TauCeti.diffeomorphOfCohomologous` (bundles glued from group-valued cocycles); `TauCeti.exists_regularFiber_smoothEmbedding`, `TauCeti.regularFiberChartedSpace`, `TauCeti.isManifold_regularFiber`, `TauCeti.isSmoothEmbedding_coe_regularFiber`, `TauCeti.range_mfderiv_coe_regularFiber`, `TauCeti.RegularFiber.exists_diffeomorph_apply_eq_self` and `TauCeti.exists_diffeomorph_regularFiber_regularLevel_apply_eq_self` (regular fibres of `C^m` maps, `1 ≤ m`, over interior values, with no separation hypothesis); `PartialDiffeomorph.fiberProductEquation`, `PartialDiffeomorph.isRegularPoint_fiberProductEquation_iff` and `PartialDiffeomorph.finrank_ker_mvfderiv_fiberProductEquation` (local equations of transverse fibre products); `TauCeti.IsContMDiffDistribution`, `TauCeti.IsDistributionFrameOn`, `Manifold.IsSubmersion.isContMDiffDistribution_ker_mfderiv`, `Manifold.IsSubmersion.contMDiffVectorBundle_ker_mfderiv`; `TauCeti.ContinuousFiberNorm` (`Topology/VectorBundle/Riemannian/Hermitian.lean`), `Bundle.Trivialization.orthonormalBasis`, `Bundle.Trivialization.continuous_orthonormalBasis` and `Module.Basis.exists_continuous_local_orthonormalBasis` (`Topology/VectorBundle/GramSchmidt.lean`: continuous local orthonormal frames by Gram–Schmidt, over any `RCLike` field); `TauCeti.OrthonormalFrameBundle`, `Bundle.Trivialization.orthonormalFrameBundle`, `TauCeti.OrthonormalFrameBundle.exists_trivialization` and `TauCeti.OrthonormalFrameBundle.associatedHomeomorph` (`Topology/VectorBundle/OrthonormalFrame/Basic.lean`); `TauCeti.SmoothBundleForm` with its fixed-coefficient specialization, `ContinuousAlternatingMap.pairedWedge`, `TauCeti.bracketWedge`, `TauCeti.CurvatureForm`, `TauCeti.mextDeriv`, `TauCeti.homotopyOperator` on `M × Icc 0 1`, `TauCeti.integralTopForm` and `TauCeti.integralTopForm_mextDeriv_eq_zero`, `TauCeti.deRhamCohomology`, `TauCeti.fullSimplex` and `TauCeti.fullSimplexEquivStdSimplex`, `TauCeti.SmoothSimplex` and `TauCeti.smoothSingularSubcomplex` (smooth singular chains), `TauCeti.poincarePairing`, `TauCeti.riemannianVolumeForm`, `TauCeti.nonempty_contMDiffRiemannianMetric`; `TauCeti.fundamentalVectorField` and `TauCeti.isMIntegralCurve_mulInvariantExp_smul_smul` (`Geometry/Lie/FundamentalVectorField.lean`); `leftInvariantDerivationLieEquivGroupLieAlgebra`, `mulInvariantExp`, `lieExp_eq_mulInvariantExp`, `TauCeti.extChartPartialDiffeomorph`, `TauCeti.isLocalDiffeomorphAt_of_mfderiv_eq`; `CovariantDerivative.curvatureOperator` and its Bianchi and linearity results; `TauCeti.contMDiffOn_maximalIntegralCurve`, `ODE.exists_contDiffAt_localFlow`, `ODE.exists_contDiffAt_picard_solution` (whose zero-field base-parameter hypothesis is honoured in B5.0); `TauCeti.Manifold.riemannianExp`, `TauCeti.Manifold.riemannianLog`, `TauCeti.Manifold.IsNormalDomain` and `TauCeti.Manifold.IsNormalDomain.contMDiffOn_riemannianLog`; `TauCeti.riemannianVolume`; `Matrix.linftyOpTopologicalSpace` (Tau Ceti's `L∞`-operator topology on matrices); `TauCeti.UniversalCover` with its `ChartedSpace` and `IsManifold` instances; `TauCeti.LensSpace`, `TauCeti.LensSpace.fundamentalGroupMulEquiv`; `TauCeti.ComplexProjectiveSpace`, `TauCeti.ComplexProjectiveSpace.mk` and `TauCeti.ComplexProjectiveSpace.mk_eq_mk_iff` (`Topology/ComplexProjectiveSpace/Basic.lean`), `TauCeti.ComplexProjectiveSpace.ratio`, `TauCeti.ComplexProjectiveSpace.affineParam`, `TauCeti.ComplexProjectiveSpace.affineChart` and `TauCeti.ComplexProjectiveSpace.affineChart_transition` (`Topology/ComplexProjectiveSpace/Charts.lean`), `TauCeti.ComplexProjectiveSpace.contDiffOn_affineChart_transition` and the instances `TauCeti.ComplexProjectiveSpace.instChartedSpace` and `TauCeti.ComplexProjectiveSpace.instIsManifold` (`Geometry/Manifold/Instances/ComplexProjectiveSpace.lean`), and `IsManifold.restrictScalars_of_ne_zero` (`Geometry/Manifold/Complex/Analytic.lean`: a complex manifold modelled on `𝓘(ℂ, E)` is, with the same charts, a real smooth manifold modelled on `𝓘(ℝ, E)`); `TauCeti.CategoryTheory.cechAugmentation` and `TauCeti.CategoryTheory.cechAugmentation_f_zero_comp_π`, `TauCeti.CategoryTheory.quasiIsoAt_cechAugmentation_zero_iff`; `TauCeti.singularSubdivisionHomotopy`, `TauCeti.smallSingularChainHomotopyEquiv`; `TauCeti.Topology.isFlasque_of_injective` and `TauCeti.Topology.subsingleton_H_succ_of_isFlasque` (injective abelian sheaves are flasque, and flasque sheaves have no higher `Sheaf.H`); the smooth quotient construction for discrete actions in `Geometry/Manifold/Instances/Quotient.lean`. |
+| Mathlib, at the pin | `FiberBundle`, `FiberBundleCore`, `Trivialization` (with `Bundle.Trivialization.restrictPreimage`, `Bundle.Trivialization.localFrame`), `Bundle.TotalSpace`, `VectorBundle`, `ContMDiffVectorBundle`, `ContMDiffVectorBundle.pullback`; `GroupLieAlgebra`, `LieGroup`; `Manifold.IsSubmersionAt`, `Manifold.IsSubmersion`, `Manifold.IsSmoothEmbedding`; `MulAction.instChartedSpaceQuotient` (properly discontinuous actions only); `CovariantDerivative`, `CovariantDerivative.addOneForm`, `CovariantDerivative.difference`, `CovariantDerivative.leviCivitaConnection`; `IsContinuousRiemannianBundle`, `Bundle.ContinuousRiemannianMetric`, `EMetricSpace.ofRiemannianMetric` (which requires `T3Space`); `Circle`, `Circle.exp`, `FundamentalGroupoid`, `FundamentalGroup`; `MeasureTheory.Lp`, `MeasureTheory.L2.inner_def`, `MeasureTheory.Lp.dense_hasCompactSupport_contDiff`, `MeasureTheory.MemLp.exists_hasCompactSupport_eLpNorm_sub_le`, `MeasurableEmbedding.subtype_coe`, `map_comap_subtype_coe`; `InnerProductSpace.toDual`, `InnerProductSpace.ofCoreOfTopology`; `Matrix.GeneralLinearGroup`, `Matrix.linftyOpNormedRing`, `CFC.sqrt` with `Matrix.PosSemidef.inv_sqrt` and `Matrix.PosSemidef.det_sqrt`; `CategoryTheory.constantSheaf`, `CategoryTheory.constantSheafAdj`, `CategoryTheory.cechComplexFunctor`, `CategoryTheory.Limits.FormalCoproduct`, `CategoryTheory.Limits.isTerminalTop`, `CategoryTheory.Sheaf.H`; `smoothSheafCommGroup`, `smoothSheafAddCommGroup` and `smoothSheafAddCommGroup.compLeft`. |
+| Tau Ceti, at the pin | `TauCeti.PrincipalBundle` with `Bundle.Trivialization.IsEquivariant`, `Bundle.Trivialization.coordChange_eq_mul`, `TauCeti.PrincipalBundle.division`, `TauCeti.PrincipalBundle.trivializationOfSection` and the instances `TauCeti.PrincipalBundle.trivial` and `TauCeti.PrincipalBundle.pullback` (`Topology/FiberBundle/Principal.lean`); `TauCeti.ContMDiffFiberBundle`, `TauCeti.ContMDiffFiberBundle.trivial`, `TauCeti.ManifoldTotalSpace`, `TauCeti.ManifoldTotalSpace.homeomorph`, `TauCeti.ManifoldTotalSpace.isManifold`, `TauCeti.ManifoldTotalSpace.contMDiff_proj`, `TauCeti.ManifoldTotalSpace.contMDiff_comp_proj_iff` and `TauCeti.ManifoldTotalSpace.existsUnique_contMDiff_comp_proj_eq` (`Geometry/Manifold/FiberBundle/Basic.lean`), `TauCeti.ManifoldTotalSpace.isSubmersion_proj` (`Geometry/Manifold/FiberBundle/Submersion.lean`); `TauCeti.PrincipalBundle.contMDiffFiberBundle_iff`, `ContMDiff.totalSpaceMk_smul`, `ContMDiff.division`, `TauCeti.PrincipalBundle.contMDiffOn_trivializationOfSection`, `TauCeti.PrincipalBundle.ker_mfderiv_proj_eq_range_mfderiv_totalSpaceMk_smul_one`, `TauCeti.PrincipalBundle.mfderiv_totalSpaceMk_smul_injective` and `TauCeti.PrincipalBundle.finrank_ker_mfderiv_proj` (`Geometry/Manifold/FiberBundle/Principal.lean`), `TauCeti.PrincipalBundle.diffeomorphOfEquivariant` (`Geometry/Manifold/FiberBundle/Principal/Equivariant.lean`); `TauCeti.ContMDiffFiberBundle.pullback` and `TauCeti.ManifoldTotalSpace.contMDiff_pullback_iff` (`Geometry/Manifold/FiberBundle/Pullback.lean`); `TauCeti.fiberBundleCoreOfGroupCocycle`, `TauCeti.principalBundle_fiberBundleCoreOfGroupCocycle`, `TauCeti.homeomorphOfCohomologous`, `TauCeti.contMDiffFiberBundle_fiberBundleCoreOfGroupCocycle` and `TauCeti.diffeomorphOfCohomologous` (bundles glued from group-valued cocycles); `TauCeti.exists_regularFiber_smoothEmbedding`, `TauCeti.regularFiberChartedSpace`, `TauCeti.isManifold_regularFiber`, `TauCeti.isSmoothEmbedding_coe_regularFiber`, `TauCeti.range_mfderiv_coe_regularFiber`, `TauCeti.RegularFiber.exists_diffeomorph_apply_eq_self` and `TauCeti.exists_diffeomorph_regularFiber_regularLevel_apply_eq_self` (regular fibres of `C^m` maps, `1 ≤ m`, over interior values, with no separation hypothesis); `PartialDiffeomorph.fiberProductEquation`, `PartialDiffeomorph.isRegularPoint_fiberProductEquation_iff` and `PartialDiffeomorph.finrank_ker_mvfderiv_fiberProductEquation` (local equations of transverse fibre products); `TauCeti.IsContMDiffDistribution`, `TauCeti.IsDistributionFrameOn`, `Manifold.IsSubmersion.isContMDiffDistribution_ker_mfderiv`, `Manifold.IsSubmersion.contMDiffVectorBundle_ker_mfderiv`; `TauCeti.ContinuousFiberNorm` (`Topology/VectorBundle/Riemannian/Hermitian.lean`), `Bundle.Trivialization.orthonormalBasis`, `Bundle.Trivialization.continuous_orthonormalBasis` and `Module.Basis.exists_continuous_local_orthonormalBasis` (`Topology/VectorBundle/GramSchmidt.lean`: continuous local orthonormal frames by Gram–Schmidt, over any `RCLike` field); `TauCeti.OrthonormalFrameBundle`, `Bundle.Trivialization.orthonormalFrameBundle`, `TauCeti.OrthonormalFrameBundle.exists_trivialization` and `TauCeti.OrthonormalFrameBundle.associatedHomeomorph` (`Topology/VectorBundle/OrthonormalFrame/Basic.lean`); `TauCeti.SmoothBundleForm` with its fixed-coefficient specialization, `ContinuousAlternatingMap.pairedWedge`, `TauCeti.bracketWedge`, `TauCeti.CurvatureForm`, `TauCeti.mextDeriv`, `TauCeti.homotopyOperator` on `M × Icc 0 1`, `TauCeti.integralTopForm` and `TauCeti.integralTopForm_mextDeriv_eq_zero`, `TauCeti.deRhamCohomology`, `TauCeti.fullSimplex` and `TauCeti.fullSimplexEquivStdSimplex`, `TauCeti.SmoothSimplex` and `TauCeti.smoothSingularSubcomplex` (smooth singular chains), `TauCeti.poincarePairing`, `TauCeti.riemannianVolumeForm`, `TauCeti.nonempty_contMDiffRiemannianMetric`; `TauCeti.fundamentalVectorField` and `TauCeti.isMIntegralCurve_mulInvariantExp_smul_smul` (`Geometry/Lie/FundamentalVectorField.lean`); `leftInvariantDerivationLieEquivGroupLieAlgebra`, `mulInvariantExp`, `lieExp_eq_mulInvariantExp`, `TauCeti.extChartPartialDiffeomorph`, `TauCeti.isLocalDiffeomorphAt_of_mfderiv_eq`; `CovariantDerivative.curvatureOperator` and its Bianchi and linearity results; `TauCeti.contMDiffOn_maximalIntegralCurve`, `ODE.exists_contDiffAt_localFlow`, `ODE.exists_contDiffAt_picard_solution` (whose zero-field base-parameter hypothesis is honoured in B5.0); `TauCeti.Manifold.riemannianExp`, `TauCeti.Manifold.riemannianLog`, `TauCeti.Manifold.IsNormalDomain` and `TauCeti.Manifold.IsNormalDomain.contMDiffOn_riemannianLog`; `TauCeti.riemannianVolume`; `Matrix.linftyOpTopologicalSpace` (Tau Ceti's `L∞`-operator topology on matrices); `TauCeti.UniversalCover` with its `ChartedSpace` and `IsManifold` instances; `TauCeti.LensSpace`, `TauCeti.LensSpace.fundamentalGroupMulEquiv`; `TauCeti.ComplexProjectiveSpace`, `TauCeti.ComplexProjectiveSpace.mk` and `TauCeti.ComplexProjectiveSpace.mk_eq_mk_iff` (`Topology/ComplexProjectiveSpace/Basic.lean`), `TauCeti.ComplexProjectiveSpace.ratio`, `TauCeti.ComplexProjectiveSpace.affineParam`, `TauCeti.ComplexProjectiveSpace.affineChart` and `TauCeti.ComplexProjectiveSpace.affineChart_transition` (`Topology/ComplexProjectiveSpace/Charts.lean`), `TauCeti.ComplexProjectiveSpace.contDiffOn_affineChart_transition` and the instances `TauCeti.ComplexProjectiveSpace.instChartedSpace` and `TauCeti.ComplexProjectiveSpace.instIsManifold` (`Geometry/Manifold/Instances/ComplexProjectiveSpace.lean`), and `IsManifold.restrictScalars_of_ne_zero` (`Geometry/Manifold/Complex/Analytic.lean`: a complex manifold modelled on `𝓘(ℂ, E)` is, with the same charts, a real smooth manifold modelled on `𝓘(ℝ, E)`); `TauCeti.CategoryTheory.cechAugmentation` and `TauCeti.CategoryTheory.cechAugmentation_f_zero_comp_π`, `TauCeti.CategoryTheory.quasiIsoAt_cechAugmentation_zero_iff`, `TauCeti.CategoryTheory.cechComplexMap` with `TauCeti.CategoryTheory.cechComplexMap_f_π`, `TauCeti.CategoryTheory.cechComplexMap_id`, `TauCeti.CategoryTheory.cechComplexMap_comp` and `TauCeti.CategoryTheory.cechComplexMap_naturality`, `TauCeti.CategoryTheory.cechComplexMapHomotopy` and `TauCeti.CategoryTheory.cechComplexHomologyMap_eq` (`CategoryTheory/Sites/SheafCohomology/Cech/Basic.lean`: refinement maps of native Čech complexes and their homotopies), `TauCeti.CategoryTheory.cechComplexFunctorMapIso` (`Cech/Coefficients.lean`: change of coefficients), `TauCeti.CategoryTheory.cechCohomologyDiagram` (`Cech/Colimit.lean`: Čech cohomology over a system of covers); `TauCeti.singularSubdivisionHomotopy`, `TauCeti.smallSingularChainHomotopyEquiv`; `TauCeti.Topology.isFlasque_of_injective` and `TauCeti.Topology.subsingleton_H_succ_of_isFlasque` (injective abelian sheaves are flasque, and flasque sheaves have no higher `Sheaf.H`); the smooth quotient construction for discrete actions in `Geometry/Manifold/Instances/Quotient.lean`. |
 | DifferentialGeometry | 3.5 (time-dependent flows), 4.1–4.3 (distributions, integral manifolds and the local Frobenius theorem on the native carriers), 5.5 (densities and `integralDensity`), 8.3 (smooth chains, `smoothToSingular` and the smoothing theorem with its chain homotopies, under T2, σ-compact, finite-dimensional hypotheses), 8.4 (`simplexFace`, `chainIntegral`, `SmoothSimplex.integral_mextDeriv`, `deRhamHom`), 8.5 (`deRhamEquiv`, `circleLoop`), 12.1 (`volume_circle`), 12.4 (`riemannianDensity`). Its Layers 0, 1 and 6, 5.2–5.4, 9.1's pairing and 12.1's existence of metrics are realized by the Tau Ceti declarations of the preceding row and are consumed from there. |
 | LieGroups | Layer 0 (`lieExp`, one-parameter subgroups), Layer 1 (`Ad`, `ad`), Layer 2 (the closed-subgroup theorem and embedded Lie subgroups), Layer 4 (`integralSubgroup`, `IsImmersedLieSubgroup`). |
 | AlgebraicTopology | Stage 3.2 (the small-chain theorem for an open cover), Stage 4 (cellular chains and the cellular-to-singular comparison as a chain-homotopy equivalence), Stage 6.1 (absolute and relative singular cochains, the coefficient long exact sequence and the Bockstein for `0→ℤ→ℝ→ℝ/ℤ→0` and `0→ℤ→[×2]ℤ→F₂→0`, universal coefficients), Stage 6.3 (the integral orientation local system, the tangent-orientation comparison and the fundamental class of a closed oriented manifold). |
@@ -1810,45 +1811,53 @@ augmentation for an arbitrary presheaf or arbitrary cover is not automatically a
 - For the smooth real sheaf on that circle cover, the partition-of-unity contraction gives
   `H¹=0`; its degree-zero sections are exactly the glued smooth functions.
 
-**Raw refinement maps and homotopies.** Fix universes u, u′, v′, w, a topological space
-`X : Type u`, and an abelian category `A : Type u′` with `Category.{v′} A` and
-`CategoryTheory.Limits.HasProducts.{w} A`. For any presheaf P on `Opens X` with values in A,
-index types `ι,κ : Type w`, indexed open covers `U : ι → Opens X`, `V : κ → Opens X`, a function
-`r : κ → ι` and inclusions `V_a ⊆ U_(r a)`, construct the raw
-refinement cochain map on the native complexes: on tuple j precompose by `r ∘ j` and restrict to the
-smaller intersection. Prove the cochain-map equation, naturality under morphisms of A-valued presheaves, and
-the identity and composition equations. For a change of coefficient category use an additive
-functor preserving the stated products, with its product comparisons. For two refinement functions of the same covers, build the
-explicit native refinement cochain homotopy, so that the induced map in cohomology depends only on
-the two covers. All complexes and homotopies retain these universe and product hypotheses;
-pass to degree-p cohomology with the `HomologicalComplex.HasHomology` instances for both
-complexes, supplied by the abelian-category hypotheses. Repeated indices are retained, and the
-category of raw refinement functions is not
-asserted to be filtered. From this obtain the strict diagram of Čech cohomology groups on the
-preorder of covers ordered by existence of a refinement, and its restriction to good covers of a
-manifold; cofinality of good covers among all covers is `exists_smoothGoodCover_refining`.
-TopologicalSheafCohomology's cover-colimit Čech cohomology on arbitrary and compact spaces and its
-derived comparison are not needed here and are not targets here. The refinement homotopy is the
-finite alternating insertion formula: for refinements r,s from V to U, let
-`(hα)_(j₀…j_p)=Σ_(a=0)^p (-1)^a α_(r j₀…r j_a,s j_a…s j_p)|_(V_j₀∩…∩V_j_p)`.
-It maps degree p+1 on U to degree p on V; in degree zero its target is zero. With this order
-of insertion, prove `T_s−T_r=δh+hδ` (Stacks Project, §15, Tag 09UY, p. 24, displayed insertion
-formula, with this sign convention). The cancellation proof uses
-only restrictions and addition and therefore applies to presheaves in any abelian category with
-the stated products, without a sheaf condition or exactness of infinite products.
+**Refinement maps and homotopies.** Consume Tau Ceti's refinement maps of native Čech complexes
+in the following generality, which every Čech complex of this section keeps. Fix universes u, u′,
+v′, w, a topological space `X : Type u`, and an abelian category `A : Type u′` with
+`Category.{v′} A` and `CategoryTheory.Limits.HasProducts.{w} A`; let P be any presheaf on
+`Opens X` with values in A, and let `U : ι → Opens X` and `V : κ → Opens X` be indexed open covers
+with `ι κ : Type w`. A refinement function `r : κ → ι` with inclusions `V a ≤ U (r a)` is a
+morphism `FormalCoproduct.mk _ V ⟶ FormalCoproduct.mk _ U` of formal coproducts, and
+`TauCeti.CategoryTheory.cechComplexMap P` sends it to the cochain map from the native complex of U
+to that of V whose factor at a tuple j is the factor at `r ∘ j` restricted to the smaller
+intersection (`TauCeti.CategoryTheory.cechComplexMap_f_π`). Consume its identity, composition and
+naturality laws (`TauCeti.CategoryTheory.cechComplexMap_id`,
+`TauCeti.CategoryTheory.cechComplexMap_comp`, `TauCeti.CategoryTheory.cechComplexMap_naturality`),
+the homotopy between the maps of two refinement functions of the same covers
+(`TauCeti.CategoryTheory.cechComplexMapHomotopy`) and their resulting equality on Čech cohomology
+(`TauCeti.CategoryTheory.cechComplexHomologyMap_eq`), the identification of the Čech complex after
+a change of coefficients along an additive functor into another preadditive category with these
+products that preserves the products indexed by tuples
+(`TauCeti.CategoryTheory.cechComplexFunctorMapIso`), and the diagram of degree-n Čech cohomology
+over a system of covers indexed by a preorder in which the cover at j refines the cover at i
+whenever `i ≤ j` (`TauCeti.CategoryTheory.cechCohomologyDiagram`). None of these uses a sheaf
+condition, exactness of infinite products or a manifold, and repeated indices are retained. On a
+manifold with B6.0's hypotheses, the smooth good covers ordered by existence of a refinement
+function form such a system, and they are cofinal among all open covers by
+`exists_smoothGoodCover_refining`. TopologicalSheafCohomology's cover-colimit Čech cohomology on
+arbitrary and compact spaces and its derived comparison are not needed here and are not targets
+here.
 
-*Needs:* Mathlib `CategoryTheory.cechComplexFunctor`, `CategoryTheory.Limits.HasProducts`,
-`Homotopy.homologyMap_eq` with the homology instances; no manifold hypothesis.
+*Needs:* Mathlib `CategoryTheory.cechComplexFunctor`, `CategoryTheory.Limits.FormalCoproduct`,
+`CategoryTheory.Limits.HasProducts`; Tau Ceti `TauCeti.CategoryTheory.cechComplexMap`,
+`TauCeti.CategoryTheory.cechComplexMap_f_π`, `TauCeti.CategoryTheory.cechComplexMap_id`,
+`TauCeti.CategoryTheory.cechComplexMap_comp`, `TauCeti.CategoryTheory.cechComplexMap_naturality`,
+`TauCeti.CategoryTheory.cechComplexMapHomotopy`, `TauCeti.CategoryTheory.cechComplexHomologyMap_eq`,
+`TauCeti.CategoryTheory.cechComplexFunctorMapIso`, `TauCeti.CategoryTheory.cechCohomologyDiagram`;
+B6.0's `exists_smoothGoodCover_refining` for cofinality.
 
 **Checks.**
 
-- The identity refinement function induces the identity cochain map; composition of refinements
-  induces the composite.
 - For the cover `U = (X, X)` with two copies of X and `V = (X)`, the two refinement functions
-  `0 ↦ 0` and `0 ↦ 1` induce different cochain maps (they pick different degree-zero factors) but
-  the same map `H⁰ = P(X) → P(X)`, the identity. With constant ℤ coefficients, r selecting 0,
-  s selecting 1, and the degree-zero cochain `(2,5)`, the insertion gives
-  `hδ(2,5)=(δ(2,5))_(0,1)=5−2=3`, agreeing with `T_s−T_r` and excluding `T_r−T_s=−3`.
+  r: `0 ↦ 0` and s: `0 ↦ 1` induce different cochain maps `T_r`, `T_s` (they pick different
+  degree-zero factors) but the same map `H⁰ = P(X) → P(X)`, the identity. With constant ℤ
+  coefficients and the degree-zero cochain `(2,5)`, `T_r(2,5) = 2` and `T_s(2,5) = 5`, so a
+  homotopy H from `T_r` to `T_s` in Mathlib's convention `T_r − T_s = dH + Hd` sends `δ(2,5)` to
+  `2 − 5 = −3`, whatever its construction. The finite alternating insertion formula
+  `(hα)_(j₀…j_p)=Σ_(a=0)^p (-1)^a α_(r j₀…r j_a,s j_a…s j_p)|_(V_j₀∩…∩V_j_p)`, from degree p+1
+  on U to degree p on V, satisfies `T_s−T_r=δh+hδ` instead (Stacks Project, §15, Tag 09UY, p. 24,
+  displayed insertion formula, with this sign convention): `hδ(2,5)=(δ(2,5))_(0,1)=5−2=3`, so h
+  is a homotopy from `T_s` to `T_r`, and `−h` is one from `T_r` to `T_s`.
 - Refinement commutes with the coordinate identification: a coordinate cochain supported on
   nonempty intersections of a good cover pulls back to one supported on nonempty intersections of
   the finer good cover.
@@ -1883,7 +1892,7 @@ pp. 350–351, for the smooth sequence). On good covers, local logarithms on con
 intersections supply the smooth lifts; constant sheaf sections lift as constant functions. These
 are different lifting arguments, and neither assumes surjectivity on arbitrary open sections.
 
-*Needs:* the preceding sheaf exactness, native complex and refinement targets; B6.0; the
+*Needs:* the preceding sheaf exactness, native complex and refinement maps; B6.0; the
 constant-sheaf/singular comparison below; AlgebraicTopology Stage 6.1's coefficient Bockstein.
 
 **Čech–de Rham and Čech–singular comparisons.** Build Čech cochains, refinement and comparison with
@@ -2000,6 +2009,7 @@ pass through the fundamental group, and no Hurewicz theorem is used or restated 
 
 *Needs:* B6.0; Mathlib `cechComplexFunctor`, `constantSheaf`, `constantSheafAdj`, `Sheaf.H`,
 `smoothSheafAddCommGroup`, `smoothSheafCommGroup`; Tau Ceti `cechAugmentation`,
+`TauCeti.CategoryTheory.cechComplexMap`,
 `singularSubdivisionHomotopy`, `smallSingularChainHomotopyEquiv`, `TauCeti.integralTopForm`,
 `TauCeti.homotopyOperator`, `TauCeti.deRhamCohomology`, `TauCeti.smoothSingularSubcomplex`;
 DifferentialGeometry 8.3, 8.4; AlgebraicTopology Stages 3.2, 6.1, 6.3.
@@ -2192,7 +2202,7 @@ nontrivial holonomy, and the torsion circle bundles on lens spaces of B7.
 ### Dependencies
 
 B6.0 uses HopfRinow Layers 1–2 and Tau Ceti's existence of metrics and homotopy operator. B6.1
-uses B6.0, Mathlib's sites and smooth sheaves, Tau Ceti's Čech augmentation, subdivision, flasque
+uses B6.0, Mathlib's sites and smooth sheaves, Tau Ceti's Čech augmentation and refinement maps, subdivision, flasque
 sheaves, forms, top-form integration and de Rham cohomology, DifferentialGeometry Layer 8 and AlgebraicTopology Stages 3.2, 6.1, 6.3; nothing of B1–B5. B6.2–B6.6
 use B1–B5 and B6.1; B6.2 also uses B1.4's Hopf quotient and the affine parametrizations of B1's
 Examples.
@@ -2274,8 +2284,7 @@ and countability theorem; the Lie algebroid/groupoid structures and their integr
 there. [IntegrableSystems](../SymplecticGeometry/IntegrableSystems/README.md) consumes B1.5's
 Ehresmann trivialization and B6.1/B6.6's Čech comparison and affine torus classification.
 ComplexKahlerGeometry K5 consumes B2's `L²` construction and B2.1's complexification comparison,
-its 2.5 consumes B6's scalar good-cover comparison and B6.1's vanishing of `Sheaf.H` for soft
-sheaves, in the module form, for its sheaves of smooth type forms, and its K7.2 compares the
+its 2.5 consumes B6's scalar good-cover comparison, and its K7.2 compares the
 Fubini–Study class with B6.2's Hopf class through B6.3. DGFloer Layer 1 consumes B1.4's free
 proper quotients. OperatorAlgebraDynamics consumes B5.2's countability theorem.
 CharacteristicClasses and TopologicalKTheory consume the circle-bundle classification and the
