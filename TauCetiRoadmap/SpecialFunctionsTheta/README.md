@@ -55,13 +55,16 @@ The roadmap covers:
   on the fundamental region of `Γ(2)`, `K = (π/2)θ₃²` with its hypergeometric and Carlson forms,
   the nome `q = e^{−πK′/K}`, and Carlson's combined theta functions (Layer 6);
 - the Riemann theta function on `ℂ^g × 𝔥_g`, its quasi-periodicity, the half-integer
-  characteristics and their parity, the spaces of order `N` and their dimension `N^g`, and
-  Riemann's theta formula in genus `g` (Layer 7).
+  characteristics and their parity, the spaces of order `N` and their dimension `N^g`,
+  Riemann's theta formula in genus `g`, and the modular transformation under the theta group
+  (Layer 7).
 
-The roadmap rests on Mathlib, Tau Ceti and two roadmaps: it consumes the principal branch of the
-Gauss function `F` of [SpecialFunctionsHypergeometric](../SpecialFunctionsHypergeometric/README.md)
-for the complex-`τ` form of `K` in 6.4, and Jacobi's triple product of
-[ClassicalArithmeticCompletion](../ClassicalArithmeticCompletion/README.md) 4.40 in 4.1.
+The roadmap rests on Mathlib, Tau Ceti and three roadmaps: it consumes the principal branch of
+the Gauss function `F` of
+[SpecialFunctionsHypergeometric](../SpecialFunctionsHypergeometric/README.md) for the complex-`τ`
+form of `K` in 6.4, Jacobi's triple product of
+[ClassicalArithmeticCompletion](../ClassicalArithmeticCompletion/README.md) 4.40 in 4.1, and
+Poisson summation for a lattice of [ThetaSeries](../ThetaSeries/README.md) Layer 1 in 7.6.
 
 Suggested home: `TauCeti/Analysis/SpecialFunctions/JacobiTheta/`, beside the elliptic integrals
 in `TauCeti/Analysis/SpecialFunctions/EllipticIntegral/`.
@@ -81,7 +84,9 @@ The roadmap is complete when Tau Ceti proves all of the following.
 The numbers are those of the layers below, and `k.n` names subsection `n` of Layer `k`.
 `Suggested.lean` states the headlines that carry a Lean name, each with every conclusion the
 README attaches to it; it is not an exhaustive acceptance test, and the other headlines are
-targets of the same standing, stated in prose.
+targets of the same standing, stated in prose. One headline is not statable at the pins: the
+hypergeometric form `F(½, ½; 1; λ(τ)) = θ₃²(0|τ)` of 6.4, which needs the principal Gauss
+function of SpecialFunctionsHypergeometric; the pinned Tau Ceti does not have it.
 
 **Inputs.** Cases of the targets that Mathlib or Tau Ceti already proves are inputs, not targets:
 - quasi-periodicity of `θ₃` under `z ↦ z + π`, `z ↦ z + πτ` and `τ ↦ τ + 2`: Mathlib's
@@ -118,12 +123,16 @@ provides:
 - The Jacobi elliptic functions of a complex variable and the Weierstrass functions `℘`, `ζ`, `σ`;
   see the last section.
 
-**Overlaps with open roadmaps.** Two open roadmaps state results of this one for their own use:
-QSeriesPartitionsAndMockModularForms (§5.1) states the zeros of `θ₁`, `θ₁′(0) = 2η³` and the laws
-under `τ ↦ τ + 1` and `τ ↦ −1/τ` for `ϑ(z; τ) = −θ₁(πz|τ)`, and
-ThetaInvariantsOfEuclideanLattices (1.7–1.8) states `K(k) = (π/2)θ₃²(0|it)` with the AGM route
-and the value of `θ₃(0|i)`. This roadmap depends only on roadmaps on main, so it can precede
-both, and they can cite 1.3, 3.1, 4.2, 4.3 and 6.3.
+**Neighbouring statements.** QSeriesPartitionsAndMockModularForms §5.1 states the zeros of `θ₁`,
+`θ₁′(0) = 2η³` and the laws under `τ ↦ τ + 1`, `τ ↦ −1/τ` for `ϑ(z; τ) = −θ₁(πz|τ)`, which are
+1.3, 3.1, 4.2 and 4.3 here; ThetaInvariantsOfEuclideanLattices 1.7–1.8 states
+`K(k) = (π/2)θ₃²(0|it)` and the value of `θ₃(0|i)`, which are 6.3 here. SiegelModularForms 0.3
+builds the subtype `ℍ[g]` over `Fin g` with its manifold structure, and
+MetaplecticAutomorphicForms 8.10 the degree-two subtype; `siegelUpperHalfSpace ι` is the
+underlying set of matrices, kept as a `Set` over a finite type `ι` because Layer 7 needs no
+manifold structure. SiegelModularForms 5.4 states the count of even characteristics, the vanishing
+of the odd theta constants and the law of `{θ_ε²}` for `θ_ε(τ) = θ[ε′/2, ε″/2](0|τ)`; these are
+7.3 and 7.6 at `z = 0`. This roadmap consumes none of the four.
 
 **The boundary in one sentence:** this roadmap owns `θ₁, …, θ₄`, the theta functions of order `N`
 with characteristics, the modulus `k`, the modular function `λ`, Carlson's combined theta
@@ -206,6 +215,14 @@ jacobiThetaOne z τ   = −i M(z|τ) · jacobiTheta₂ (z/π + 1/2 + τ/2) τ
   `(w; q)_∞ (q/w; q)_∞ (q; q)_∞ = ∑_{k∈ℤ} (−1)^k q^{k(k−1)/2} w^k` for complex `q`, `w` with
   `0 < |q| < 1`, `w ≠ 0`, both sides converging absolutely. For 4.1.
 
+### From [ThetaSeries](../ThetaSeries/README.md)
+
+- Layer 1, 1A–1B: Poisson summation `∑_{ℓ∈L} f(v + ℓ) = covol(L)⁻¹ ∑_{m∈L^∨} 𝓕f(m) e(⟨v, m⟩)`
+  for a full-rank lattice `L`, a Schwartz function `f` and `v ∈ E`, both sums summable, with the
+  standard lattice `ℤ^n` as 1B; 1C, the Fourier transform under a linear change of variables; 1F,
+  the Gaussian `x ↦ exp(πiτ‖x‖²)` is Schwartz with its Fourier transform. For 7.6, at the
+  Gaussian `x ↦ exp(πi x·Ωx + 2πi x·z)` with `Ω = iY`, reduced to 1F by `x ↦ Y^{1/2}x`.
+
 ### From Tau Ceti
 
 - **Products.** `TauCeti.qTheta`, `TauCeti.multipliable_one_sub_pow_mul`,
@@ -228,6 +245,8 @@ jacobiThetaOne z τ   = −i M(z|τ) · jacobiTheta₂ (z/π + 1/2 + τ/2) τ
   `∑_{r<N} e^{2πir²/N}` (`TauCeti/NumberTheory/ModularForms/JacobiTheta/GaussSum.lean`), and the
   method of its proof (the transformation of `jacobiTheta₂` at a rational point approached
   vertically), for 3.2.
+- **Argument principle.** `TauCeti.argumentPrinciple_windingNumber_of_analyticOnNhd`
+  (`TauCeti/Analysis/Complex/Conformal/ArgumentPrinciple.lean`), for 6.2.
 
 ### From Mathlib
 
@@ -364,7 +383,7 @@ p. 4; DLMF 20.13.1). For `θ₃` this is the termwise identity
   `f(z + π) = (−1)^a f(z)` and `f(z + πτ) = (−1)^b q^{−N} e^{−2iNz} f(z)`. Every such `f` is
   `∑_{r<N} c_r Θ^{a,b}_{N,r}(z|τ)`, and the `Θ^{a,b}_{N,r}` are linearly independent, where
   `Θ^{a,b}_{N,r}(z|τ) = ∑_{n∈ℤ} (−1)^{bn} q^{(nN+r+a/2)²/N} e^{2i(nN+r+a/2)z}`
-  (`exists_eq_sum_thetaBasis`; Mumford, Ch. II, Def. 1.2, p. 122, and Prop. 1.3, p. 124, at
+  (`existsUnique_eq_sum_thetaBasis`; Mumford, Ch. II, Def. 1.2, p. 122, and Prop. 1.3, p. 124, at
   `g = 1`; Mumford, Ch. I §1, pp. 3–4; Igusa, Ch. II, Thm. 4, p. 72). Proof: by the first relation
   `f` is a Fourier series `∑ c_k e^{i(2k+a)z}`, and the second is the recurrence
   `c_{k+N} = (−1)^b q^{2k+a+N} c_k`; distinct `r` have disjoint Fourier supports. Written through
@@ -849,7 +868,7 @@ Layers 1, 4; Mathlib `logDeriv`, `TendstoLocallyUniformlyOn`.
 - `λ(1 + 0.5i) = −32.9706…`, on the boundary line `Re τ = 1`; `λ(0.3 − 0.8i) = 0`, the junk value,
   which is why `F` carries `0 < τ.im`.
 
-*Needs:* 1.3, 3.1, 6.1.
+*Needs:* 1.3, 3.1, 6.1; Tau Ceti `TauCeti.argumentPrinciple_windingNumber_of_analyticOnNhd`.
 
 ### 6.3 `K` in the rectangular case and the AGM
 
@@ -995,7 +1014,7 @@ Layers 1–4; SpecialFunctionsHypergeometric Layer 1; Tau Ceti
 **Checks.**
 - In genus one the law is the third line of the table of 1.3 at `z/π`.
 - With `+` in place of `−` in the exponent the law fails at `g = 1`, `m′ = 1`, `τ = i`, `z = 0`:
-  the factor would be `e^{π}` instead of `e^{−π}`.
+  the factor would be `e^{−π}` instead of `e^{π} = 23.14069 26…`.
 
 *Needs:* 7.1.
 
@@ -1006,7 +1025,9 @@ Layers 1–4; SpecialFunctionsHypergeometric Layer 1; Tau Ceti
   `a·b` odd, have `θ[a/2, b/2](0|Ω) = 0` (Freitag, Ch. VII, Lemma 7.1, p. 454; Igusa, Ch. V,
   Thm. 1, p. 174, for the converse).
 - Of the `4^g` characteristics, `2^{g−1}(2^g + 1)` are even and `2^{g−1}(2^g − 1)` are odd
-  (`card_even_halfCharacteristics`; Mumford, Ch. II §3, p. 169).
+  (Mumford, Ch. II §3, p. 169). So for `g ≥ 1` exactly `2^{g−1}(2^g + 1)` of the functions
+  `θ[a/2, b/2](·|Ω)` are even (`card_even_riemannThetaChar`): an odd characteristic gives an odd
+  function, which is not even because it is not identically zero.
 
 **Checks.**
 - `g = 1`: three even characteristics (`θ₂`, `θ₃`, `θ₄`) and one odd (`θ₁`).
@@ -1033,6 +1054,9 @@ Layers 1–4; SpecialFunctionsHypergeometric Layer 1; Tau Ceti
   are `1.25130 27… − 0.27476 75… i`; the term `a = 0` alone gives `1.00431 05… − 0.01023 74… i`.
 - In genus one with `N = 1` the space is the line through `θ₃(π·|τ)`, which is 1.5 at
   `(a, b) = (0, 0)`.
+- In genus one with `N = 2` the two basis functions are `θ₃(2πz|2τ)` and `θ₂(2πz|2τ)`, and the
+  square identity is 2.4 at `w = z`: at `(z, τ) = (0.2 + 0.1i, 0.3 + 0.9i)` both sides are
+  `1.18135 77… − 0.01889 96… i`, and the first term alone is `1.00751 25… − 0.00143 66… i`.
 
 *Needs:* 7.1–7.2.
 
@@ -1062,18 +1086,27 @@ Layers 1–4; SpecialFunctionsHypergeometric Layer 1; Tau Ceti
 ```
 
   for an eighth root of unity `ζ_M` and a continuous branch of the square root on `𝔥_g`
-  (Mumford, Ch. II §5 (5.1), p. 189; Igusa, Ch. II, Thm. 6, p. 84; Freitag, Ch. VII, Prop. 7.3,
-  p. 455). For `g = 1` and `M = [[0, −1], [1, 0]]` it is 3.1 for `θ₃`.
+  (`riemannTheta_symplectic`; Mumford, Ch. II §5 (5.1), p. 189; Igusa, Ch. II, Thm. 6, p. 84;
+  Freitag, Ch. VII, Prop. 7.3, p. 455). For `g = 1` and `M = [[0, −1], [1, 0]]` it is 3.1 for
+  `θ₃`. Proof, in Mumford's four steps (Ch. II §5, pp. 189–190): the set of `M` for which the
+  formula holds is closed under products; the theta group is generated by
+  `[[A, 0], [0, ᵗA⁻¹]]` with `A ∈ GL_g(ℤ)`, `[[I, B], [0, I]]` with `B` symmetric integral of even
+  diagonal, and `[[0, −I], [I, 0]]` (Mumford, Ch. II, Prop. A4, p. 209, a target here); for the
+  first the formula is the reindexing `n ↦ ᵗA n`, for the second the invariance of
+  `exp(πi n·Bn)` under even diagonal, and for the third Poisson summation on `ℤ^g`, at `Ω = iY`
+  and then for all `Ω` by the identity principle in `Ω`.
 
 **Checks.**
 - In genus two, `M = [[1, 1, 1, 1], [0, 1, 1, 0], [0, 0, 1, 0], [0, 0, −1, 1]]` satisfies the
   parity condition and the quotient of the two sides is an eighth root of unity at two choices of
-  `(z, Ω)`; for `M = [[1, 1, 0, 1], [0, 1, 0, 1], [0, 0, 1, 0], [0, 0, −1, 1]]`, for which
-  `diag(Aᵗ B)` and `diag(Cᵗ D)` are even but `diag(ᵗB D)` is not, the quotient is not.
+  `(z, Ω)`. For `M = [[1, 1, 0, 1], [0, 1, 0, 1], [0, 0, 1, 0], [0, 0, −1, 1]]`, which is
+  symplectic and fails the parity condition (`diag(ᵗB D) = (0, 1)`), the quotient is not: at the
+  `Ω` of 7.4 and `z = (0.3 + 0.2i, 0.1)` its eighth power is `0.17812 84… + 0.19227 51… i`.
 - `g = 1`, `M = [[1, 1], [0, 1]]` (`τ ↦ τ + 1`) fails the condition, and `θ₃(z|τ + 1)` is
   `θ₄(z|τ)`, not a multiple of `θ₃(z|τ)` (1.3).
 
-*Needs:* 7.1–7.2; 3.1 for `g = 1`.
+*Needs:* 7.1–7.2; ThetaSeries Layer 1 (1A–1C, 1F: Poisson summation for a lattice); Mathlib
+`Matrix.symplecticGroup`, `Matrix.fromBlocks`; 3.1 for `g = 1`.
 
 ### Examples
 

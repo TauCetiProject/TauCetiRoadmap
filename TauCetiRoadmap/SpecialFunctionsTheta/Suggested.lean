@@ -10,6 +10,7 @@ public import TauCeti.Analysis.SpecialFunctions.EllipticIntegral.Lemniscate
 public import TauCeti.Analysis.SpecialFunctions.QPochhammer
 public import TauCeti.NumberTheory.ModularForms.JacobiTheta.OneVariable
 public import TauCeti.NumberTheory.ModularForms.JacobiTheta.GaussSum
+public import TauCeti.Analysis.Complex.Conformal.ArgumentPrinciple
 
 /-!
 # Theta functions: target signatures
@@ -17,7 +18,9 @@ public import TauCeti.NumberTheory.ModularForms.JacobiTheta.GaussSum
 This file states, against the pinned Mathlib and Tau Ceti, the headlines of `README.md` that
 carry a Lean name, each with every conclusion the README attaches to it. It is not an exhaustive
 acceptance test: the other headlines of the README are targets of the same standing, stated in
-prose. Discharging this file finishes neither a layer nor the roadmap.
+prose. Not statable at the pins: the hypergeometric form `F(½, ½; 1; λ(τ)) = θ₃²(0|τ)` of 6.4,
+which needs the principal Gauss function of SpecialFunctionsHypergeometric; the pinned Tau Ceti
+does not have it. Discharging this file finishes neither a layer nor the roadmap.
 
 The definitions below are roadmap-local copies of the definitions `README.md` pins. The four
 theta functions, the modulus, the modular function `λ`, the basis of theta functions of order `N`
@@ -101,13 +104,13 @@ def thetaBasis (N r a b : ℕ) (z τ : ℂ) : ℂ :=
     jacobiTheta₂ (N * z / π + ((r : ℂ) + a / 2) * τ + b / 2) (N * τ)
 
 /-- README 1.5: an entire function with the quasi-periodicity of order `N` and characteristic
-`(a, b)` is a combination of the `Θ^{a,b}_{N,r}`, `r < N`. -/
-theorem exists_eq_sum_thetaBasis {N a b : ℕ} (hN : 1 ≤ N) (ha : a ≤ 1) (hb : b ≤ 1) {τ : ℂ}
+`(a, b)` is a combination of the `Θ^{a,b}_{N,r}`, `r < N`, with unique coefficients. -/
+theorem existsUnique_eq_sum_thetaBasis {N a b : ℕ} (hN : 1 ≤ N) (ha : a ≤ 1) (hb : b ≤ 1) {τ : ℂ}
     (hτ : 0 < τ.im) {f : ℂ → ℂ} (hf : Differentiable ℂ f)
     (h₁ : ∀ z, f (z + π) = (-1) ^ a * f z)
     (h₂ : ∀ z, f (z + π * τ) =
       (-1) ^ b * cexp (-(π * I * τ * N)) * cexp (-(2 * I * N * z)) * f z) :
-    ∃ c : Fin N → ℂ, ∀ z, f z = ∑ r : Fin N, c r * thetaBasis N r a b z τ := by
+    ∃! c : Fin N → ℂ, ∀ z, f z = ∑ r : Fin N, c r * thetaBasis N r a b z τ := by
   sorry
 
 /-! ## Layer 2: Riemann's theta formula and the identities it implies -/
@@ -171,7 +174,7 @@ theorem integral_exp_mul_jacobiThetaFour {s β : ℂ} {ℓ : ℝ} (hs : 0 < s.re
           Complex.sinh (ℓ * s ^ (1 / 2 : ℂ)) := by
   sorry
 
-/-! ## Layer 4: the product formula, zeros and theta constants -/
+/-! ## Layer 4: the product formula, zeros, theta constants and Landen's transformations -/
 
 /-- README 4.1: with `p = e^{iπz}`,
 `θ₃(πz|τ) = ∏_{n≥1}(1 − q^{2n})(1 + q^{2n−1}p²)(1 + q^{2n−1}p^{−2})` (DLMF 20.5.9). -/
@@ -347,10 +350,13 @@ theorem riemannThetaChar_neg (a b : ι → Fin 2) (z : ι → ℂ) (Ω : Matrix 
         riemannThetaChar (fun i ↦ (a i : ℝ) / 2) (fun i ↦ (b i : ℝ) / 2) z Ω := by
   sorry
 
-/-- README 7.3: of the `4^g` half-integer characteristics, `2^{g−1}(2^g + 1)` are even. -/
-theorem card_even_halfCharacteristics (g : ℕ) (hg : 1 ≤ g) :
-    (Finset.univ.filter fun ab : (Fin g → Fin 2) × (Fin g → Fin 2) ↦
-        Even (∑ i, (ab.1 i : ℕ) * (ab.2 i : ℕ))).card = 2 ^ (g - 1) * (2 ^ g + 1) := by
+/-- README 7.3: for `g ≥ 1`, exactly `2^{g−1}(2^g + 1)` of the `θ[a/2, b/2](·|Ω)` are even. -/
+theorem card_even_riemannThetaChar [Nonempty ι] {Ω : Matrix ι ι ℂ}
+    (hΩ : Ω ∈ siegelUpperHalfSpace ι) :
+    Nat.card {ab : (ι → Fin 2) × (ι → Fin 2) // ∀ z : ι → ℂ,
+        riemannThetaChar (fun i ↦ (ab.1 i : ℝ) / 2) (fun i ↦ (ab.2 i : ℝ) / 2) (-z) Ω =
+          riemannThetaChar (fun i ↦ (ab.1 i : ℝ) / 2) (fun i ↦ (ab.2 i : ℝ) / 2) z Ω} =
+      2 ^ (Fintype.card ι - 1) * (2 ^ Fintype.card ι + 1) := by
   sorry
 
 /-- README 7.4: the entire functions with `f(z + m) = f(z)` and
@@ -381,10 +387,35 @@ theorem riemannTheta_mul_four {Ω : Matrix ι ι ℂ} (hΩ : Ω ∈ siegelUpperH
           riemannThetaChar α β ((1 / 2 : ℂ) • (x - y - u + v)) Ω := by
   sorry
 
+/-- README 7.6, the modular transformation under the theta group: for
+`M = [[A, B], [C, D]] ∈ Sp_{2g}(ℤ)` with `diag(ᵗA C)` and `diag(ᵗB D)` even,
+`θ((CΩ + D)^{−ᵗ} z | (AΩ + B)(CΩ + D)^{−1})` is
+`ζ_M det(CΩ + D)^{1/2} exp(πi z·(CΩ + D)^{−1}C z) θ(z|Ω)` for an eighth root of unity `ζ_M`
+and a continuous square root on the Siegel upper half-space. -/
+theorem riemannTheta_symplectic {A B C D : Matrix ι ι ℤ}
+    (hM : Matrix.fromBlocks A B C D ∈ Matrix.symplecticGroup ι ℤ)
+    (hAC : ∀ i, Even ((Aᵀ * C) i i)) (hBD : ∀ i, Even ((Bᵀ * D) i i)) :
+    ∃ ζ : ℂ, ζ ^ 8 = 1 ∧ ∃ s : Matrix ι ι ℂ → ℂ, ContinuousOn s (siegelUpperHalfSpace ι) ∧
+      ∀ Ω ∈ siegelUpperHalfSpace ι,
+        s Ω ^ 2 = (C.map (Int.cast : ℤ → ℂ) * Ω + D.map (Int.cast : ℤ → ℂ)).det ∧
+        (A.map (Int.cast : ℤ → ℂ) * Ω + B.map (Int.cast : ℤ → ℂ)) *
+            (C.map (Int.cast : ℤ → ℂ) * Ω + D.map (Int.cast : ℤ → ℂ))⁻¹ ∈ siegelUpperHalfSpace ι ∧
+        ∀ z : ι → ℂ,
+          riemannTheta ((C.map (Int.cast : ℤ → ℂ) * Ω + D.map (Int.cast : ℤ → ℂ))⁻¹ᵀ *ᵥ z)
+              ((A.map (Int.cast : ℤ → ℂ) * Ω + B.map (Int.cast : ℤ → ℂ)) *
+                (C.map (Int.cast : ℤ → ℂ) * Ω + D.map (Int.cast : ℤ → ℂ))⁻¹) =
+            ζ * s Ω *
+              cexp (π * I * (z ⬝ᵥ (((C.map (Int.cast : ℤ → ℂ) * Ω + D.map (Int.cast : ℤ → ℂ))⁻¹ *
+                C.map (Int.cast : ℤ → ℂ)) *ᵥ z))) * riemannTheta z Ω := by
+  sorry
+
 -- Library declarations cited in the README
 #check @AnalyticOnNhd.eqOn_of_preconnected_of_eventuallyEq
 #check @completedRiemannZeta
 #check @Complex.carlsonRF
+#check @TauCeti.argumentPrinciple_windingNumber_of_analyticOnNhd
+#check @Matrix.symplecticGroup
+#check @Matrix.fromBlocks
 #check @Complex.carlsonRF_self
 #check @Complex.cpow
 #check @Complex.slitPlane
