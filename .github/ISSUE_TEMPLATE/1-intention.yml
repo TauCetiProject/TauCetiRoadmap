@@ -107,6 +107,7 @@ body:
         - FiniteSamplingDiscrepancy
         - FlagVarieties
         - Foams
+        - FormalConnectionsOpers
         - FormalLaurentPuiseux
         - FreeGroupsAndLimitGroups
         - FreeProbability
