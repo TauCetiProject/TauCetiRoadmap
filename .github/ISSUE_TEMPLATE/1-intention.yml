@@ -18,21 +18,35 @@ body:
       label: Roadmap area
       description: Which roadmap does this intention sit in?
       options:
+        - AbelianSchemesAndArithmeticModuli
         - AbhyankarLemma
+        - AdelicAlgebraicGroups
         - AdicEtaleGeometry
         - AdicSpacesPartII
         - AdicSpacesPartIII
         - AdicSpacesPartIV
+        - AdicSpacesPartV
         - AffineLieAlgebras
         - AffineMorseLefschetz
         - AlgebraicCurves
         - AlgebraicKTheory
+        - AlgebraicModuliForArithmeticGeometry
+        - AlgebraicModuliForArithmeticGeometryPartII
         - AlgebraicTopology
         - AlgebraicVectorBundles
         - AmenableGroups
+        - AmenableTracesOnCStarAlgebras
         - AnalyticNumberTheoryPartI
+        - AnalyticNumberTheoryPartII
+        - AnalyticNumberTheoryPartIII
+        - AnalyticStableMaps
+        - ArithmeticDirichletSeriesPartII
+        - ArithmeticGaloisDuality
+        - ArithmeticGaloisRepresentations
         - ArithmeticInterpolationDeterminants
+        - ArithmeticLocallySymmetricSpaces
         - AsymptoticExpansions
+        - AutomorphicFormsOnReductiveGroups
         - BanachAlgebras
         - BanachSpaceTheory
         - BelyiMaps
@@ -42,6 +56,8 @@ body:
         - CFSGStatement
         - CStarAlgebras
         - CStarClassification
+        - CalibratedGeometry
+        - CategoricalOperatorAlgebras
         - CharacteristicClasses
         - ChevalleyGroups
         - ClassFieldTheory
@@ -49,20 +65,27 @@ body:
         - ClassifyingSpaces
         - ClusterAlgebras
         - CoboundaryExpansion
+        - ColemanPowerSeries
         - CombinatorialHeegaardFloer
         - CompactOperators
+        - ComplexComparisonPartII
         - ComplexCurveModuli
         - ComplexKahlerGeometry
         - ComplexManifolds
         - ComplexTori
         - ComputabilityTheory
         - ConformalMappingPartII
+        - ConvexLifting
         - CountableModelCounting
+        - CrystallineCohomology
+        - CyclotomicClassGroupsAndStickelberger
         - DGAInfinity
         - DGFloer
         - DeRhamCohomologyAndDuality
+        - DerivedDeRhamCohomology
         - DerivedModuleAlgebra
         - DiagrammaticCoherence
+        - DiamondsAndVStacks
         - DifferentialGeometry
         - DiophantineApproximationAndTranscendence
         - DysonBrownianMotion
@@ -74,8 +97,12 @@ body:
         - EquivariantIntersectionTheory
         - EtaleCohomologyFoundations
         - EtaleMassFormula
+        - ExplicitPrimeCounting
+        - ExplicitZetaBounds
+        - ExponentialCone
         - FactorRigidity
         - FinancialMathematics
+        - FiniteAffineBoundTightening
         - FiniteGroupExtensionSplitting
         - FiniteSamplingDiscrepancy
         - FlagVarieties
@@ -84,35 +111,55 @@ body:
         - FreeGroupsAndLimitGroups
         - FreeProbability
         - FuchsianOrbifolds
+        - FukayaTheory
+        - GaugeQuiltFieldTheory
+        - GeneralAlgebraicKTheory
         - GeneralizedCohomology
+        - GenericDoublePointInterpolation
         - GeometricCurrents
         - GeometricMeasureTheory
+        - GeometricQuantization
         - GeometricRepresentationCategories
         - GeometricTopology
+        - GlobalHolomorphicFunctions
         - GlobalQuadraticForms
         - GraphConnectivityAndFlows
         - GroebnerGeometry
+        - GromovWittenTheory
         - GrothendieckEulerForms
+        - HabiroCyclotomicCompletions
         - HamiltonianFloerOperations
         - HeegaardFloer
         - HilbertModules
+        - HomotopySpheres
         - HopfologicalAlgebra
         - Hyperfunctions
         - ImaginaryQuadraticClassNumber
+        - ImplicitAtlases
         - IndexTheory
         - InfinitaryModelExistence
+        - IntegralHeckeAndGaloisDeterminants
+        - IntegralIwasawaTheory
         - IntegralLattices
         - Isoperimetry
         - JacobianChallenge
+        - K2SymbolsBrauer
+        - KTheoryLowDegrees
         - KacMoody
         - KhovanovHomology
         - LFunctions
+        - LefschetzPencilsAndVanishingCyclesPartII
         - LieGroupoidsPoisson
         - LinearFormsInLogarithms
         - LocalPurity
         - LocalVariationalFieldTheory
+        - LocallyAnalyticDistributions
         - MarkovChainsAndRenewal
         - MassFormula
+        - MathematicalBilliards
+        - MathematicalStatisticsAsymptotic
+        - MathematicalStatisticsFoundations
+        - MathematicalStatisticsSemiparametric
         - McKaySkewGroup
         - ModularCurves
         - ModularForms
@@ -121,9 +168,11 @@ body:
         - Neuromanifolds
         - NewtonPolygons
         - NilpotentOrbits
+        - NoncommutativeAndEquivariantIwasawa
         - NoncommutativeGeometry
         - NoncommutativeIntegration
         - NoncongruenceModularForms
+        - OcneanuRigidity
         - OperatorAlgebraDynamics
         - OperatorKTheory
         - OperatorTheory
@@ -132,13 +181,22 @@ body:
         - PDE
         - PadicExtensionFamilies
         - PadicFunctionalAnalysis
+        - PadicLocalLanglandsForGL2Qp
         - PadicMeasuresIwasawaAlgebras
+        - PadicPeriodRings
+        - PerfectoidQuotients
         - PerfectoidSpaces
+        - PerfectoidTowers
+        - PhiGammaModulesAndIwasawaCohomology
         - PivotalSpherical
         - Poincare3D
         - PolylogarithmFunctions
+        - PositiveMass
         - PositiveScalarCurvature
+        - PresentationsOfMonoidalCategories
         - PrimitivePrimeDivisors
+        - ProbabilisticAndMetricNumberTheory
+        - ProbabilisticAndMetricNumberTheoryPartII
         - ProfiniteCohomology
         - PseudodifferentialOperators
         - PseudoholomorphicCurveAnalysis
@@ -148,10 +206,12 @@ body:
         - QuantumEnvelopingAlgebras
         - QuantumGroups
         - QuaternionicAnalysis
+        - QuiverRepresentationsPartII
         - RamificationOfCompleteDiscretelyValuedFields
         - RandomMatrices
         - Rank24LatticeConstructions
         - RealAnalyticGeometry
+        - RealSemisimpleLieGroups
         - ReductiveGroups
         - ReductiveGroupsPartII
         - ReflectionInvariantTheory
@@ -159,22 +219,30 @@ body:
         - RepresentationTheory
         - ResolutionOfSingularitiesCharacteristicZero
         - RestrictedPowerSeries
+        - RicciFlow
         - RiemannianGeometry
         - RigidAnalyticGeometry
         - RootSystemsPartII
         - SNumbers
         - ScatteringDiagrams
         - SchemeAndStackFoundations
+        - SchemeKTheoryOperations
+        - SchemeKTheoryOperationsPartII
         - SchubertGeometry
         - SeibergWittenTheory
+        - SieveMethodsAndPrimePatterns
         - SmoothBundlesConnections
+        - SmoothRepresentationsOfLocalGroups
+        - SobolevMapsBetweenManifolds
         - SobolevPolynomialApproximation
         - SpecialFunctionsAiry
         - SpecialFunctionsEiLiErfIncompleteGamma
         - SpecialFunctionsHypergeometric
         - SpecialFunctionsParabolicCylinder
+        - SpectralSequencesAndConvergence
         - SpinGeometry
         - SporadicOrders
+        - StableHomotopyKTheory
         - StablePeriodicCurved
         - StableReduction
         - StandardDistributions
@@ -189,13 +257,16 @@ body:
         - TauberianBoundaryConvergence
         - TaubesGromov
         - TemperleyLieb
+        - TemperleyLiebOperatorAlgebras
         - TensorProductCombinatorics
         - ThetaSeries
         - TopologicalKTheory
         - TopologicalSheafCohomology
         - TypeAHeckeAlgebras
+        - VariationalMethods
         - VonNeumannAlgebras
         - Yamabe
+        - YangMillsConnectionsAndCaloricGauge
         - ZerosOfLFunctions
         - ZigzagPreprojective
     validations:
