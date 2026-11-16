@@ -1163,9 +1163,9 @@ Let `f ∈ C^∞(N)` have `0` as a regular value, `Σ := f⁻¹(0)` with Tau Cet
 (`TauCeti.regularLevelChartedSpace`, `TauCeti.isSmoothEmbedding_coe_regularLevel`), `ν_Σ :=
 grad f/|grad f|`, and `E_Σ(q, r) := exp_q(r ν_Σ(q))` on its open natural domain in `Σ × ℝ` (Tau
 Ceti `TauCeti.SmoothEmbedding.normalExp` through the trivialisation of the normal line bundle by
-`ν_Σ`). Prove (Stefanov–Uhlmann–Vasy, lines 99–100 and 220–221; Paternain–Salo–Uhlmann, Lemma
-3.1.10, lines 2766–2773; Lee, *Introduction to Riemannian Manifolds*, Ch. 5, "Tubular
-Neighborhoods and Fermi Coordinates", pp. 133–136, and Ch. 6 for the Gauss lemma):
+`ν_Σ`). Prove (Stefanov–Uhlmann–Vasy, lines 99–100; Paternain–Salo–Uhlmann, Lemma 3.1.10, lines
+2766–2773; Lee, *Introduction to Riemannian Manifolds*, Ch. 5, "Tubular Neighborhoods and Fermi
+Coordinates", pp. 133–136, and Ch. 6 for the Gauss lemma):
 
 - Tube: there is a smooth `ε : Σ → (0, ∞)`, constant when `Σ` is compact, such that `E_Σ` is a
   diffeomorphism from `{(q, r) : |r| < ε(q)}` onto an open neighbourhood `W` of `Σ`, with
@@ -1235,9 +1235,10 @@ defining function in the compact connected case); Tau Ceti `TauCeti.regularLevel
 
 ### 4.4 Boundary normal coordinates
 
-With `ε` and `E := E_{∂M}` from 4.3 for `f = ρ`, prove (Stefanov–Uhlmann–Vasy, lines 20–22 and
-220–221; Lee, *Introduction to Riemannian Manifolds*, Ch. 5, "Tubular Neighborhoods and Fermi
-Coordinates", pp. 133–136, and Ch. 6 for the Gauss lemma):
+With `ε` and `E := E_{∂M}` from 4.3 for `f = ρ`, prove (Paternain–Salo–Uhlmann, Proposition 11.2.2,
+lines 10065–10077, for compact `M` in a closed manifold; Lee, *Introduction to Riemannian
+Manifolds*, Ch. 5, "Tubular Neighborhoods and Fermi Coordinates", pp. 133–136, and Ch. 6 for the
+Gauss lemma):
 
 - `E` restricted to `{(q, r) ∈ ∂M × ℝ : 0 ≤ r < ε(q)}` is a diffeomorphism onto the open
   neighbourhood `W ∩ M` of `∂M` in `M`, a smooth collar of `∂M` in the sense of GeometricTopology
@@ -1311,12 +1312,24 @@ uses no regular-value hypothesis away from `q`. Then:
   is positive for `ε < 1`, `dx̃_q = 2q = (0, −2) = −dρ_q`, and `K_c ⊆ {ε|z − q|² ≤ c}`.
 - For the exterior of the unit disc the same formula gives `Hess x̃ = −(2 + 2ε) g`: the hypothesis
   of strict convexity at `q` is what makes the construction work.
-- `−ρ` itself is not a convexity function at `q`: on the closed unit disc, with `U` the open disc
-  of radius `1/2` about `q = (0, −1)` and `x̃ = −ρ = |z|² − 1`, every clause holds except
-  compactness, since `K_0 = {y ∈ U : |y| = 1}` is an open arc of the unit circle and
-  `K_c = {y ∈ U : 1 − c ≤ |y|² ≤ 1}` reaches the frontier of `U` for every `c > 0`. The term
-  `−ε|z − q|²` bends the level sets so that, for `c ≤ c₀` small, `K_c` lies in the compact disc
-  `{ε|z − q|² ≤ c}` inside `U`.
+- `−ρ` need not be a convexity function, and the term `−ε|z|²` is what makes `K_c` compact. On
+  the Euclidean plane `N = ℝ²` take the parabola epigraph `M = {y ≥ x²}`, `ρ = y − x²` and
+  `q = 0`: `dρ_q = dy`, `ker dρ_q = ℝ e_x` and `Hess(−ρ)(e_x, e_x) = 2 > 0`, so the hypothesis
+  holds at `q`. For `x̃ = −ρ` and any open `U ∋ q`, `K_0 = U ∩ {y = x²}` is a nonempty open subset
+  of the parabola, which is connected and not compact; a compact `K_0` would also be closed in the
+  parabola, hence all of it, so no `U` and no `c₀` work. For `x̃ = −ρ − ε(x² + y²)` with
+  `0 < ε ≤ 1/2`, `U` the open disc of radius `1/2` about `q` and `c₀ = ε/8`:
+  `dx̃ = (2(1 − ε)x, −1 − 2εy) ≠ 0` on `U`, its kernel is spanned by `v = (1 + 2εy, 2(1 − ε)x)`
+  with `Hess x̃(v, v) = 2(1 − ε)((1 + 2εy)² − 4ε(1 − ε)x²) > 0` on `U` (there
+  `(1 + 2εy)² > 1/4 > 4ε(1 − ε)x²`), and on `{ρ ≥ 0}` the inequality `x̃ ≥ −c` gives
+  `ε(x² + y²) ≤ c − ρ ≤ c`; so for `0 ≤ c ≤ c₀`, `K_c` is the closed set `{x̃ ≥ −c, ρ ≥ 0}` of
+  `ℝ²`, inside the disc of radius `√(c/ε) ≤ 1/√8 < 1/2`, and compact.
+- The open set `U` is part of the data: on the closed unit disc, `x̃ = −ρ = |z|² − 1` is a
+  convexity function at `q = (0, −1)` with `U = ℝ² ∖ {0}` and `c₀ = 1/2`, since `dx̃ = 2z ≠ 0` on
+  `U`, `Hess x̃ = 2g`, `dx̃_q = 2q = −dρ_q`, and `K_c = {1 − c ≤ |z|² ≤ 1}` is compact for
+  `0 ≤ c ≤ 1/2` (the unit circle for `c = 0`). With `U` the open disc of radius `1/2` about `q`
+  instead, `K_0` is an open arc of the circle and is not compact, so a failure for one `U` does not
+  show that a function is not a convexity function.
 - Dimension one, `M = [0, 1]`, `q = 0`, `ρ = x`: `ker dx̃ = 0`, concavity is vacuous, `x̃ = −x − εx²`,
   and `K_c = {x ∈ [0, 1] : x + εx² ≤ c}` is a compact interval.
 
@@ -1366,8 +1379,8 @@ compact, and `M ⊆ {ρ̂ > −δ} = int M_δ`.
 
 The ball, its exterior and the half-space for second-order contact and Fermi coordinates; the
 strip `[0, 1] × ℝ` with unequal tube radii (normal coordinate versus distance to `∂M`); the
-quartic `{y ≥ x⁴}` for leaving without strict convexity; the disc for the convexity function `x̃`;
-spherical caps in `S^{n+1}`, `n ≥ 1`, for enlargements.
+quartic `{y ≥ x⁴}` for leaving without strict convexity; the disc and the parabola epigraph
+`{y ≥ x²}` for the convexity function `x̃`; spherical caps in `S^{n+1}`, `n ≥ 1`, for enlargements.
 
 ### Dependencies
 
@@ -2018,8 +2031,8 @@ normal radii); 6.5 uses 1.4, 1.6,
 
 - G. P. Paternain, M. Salo, G. Uhlmann, *Geometric Inverse Problems with Emphasis on Two
   Dimensions*, Cambridge Studies in Advanced Mathematics 204, 2023 (`paternain-salo-uhlmann2023`):
-  Preface (lines 307–310), Section 2.5 (lines 2443–2530) and Chapter 3, Sections 3.1–3.3
-  (lines 2640–3127).
+  Preface (lines 307–310), Section 2.5 (lines 2443–2530), Chapter 3, Sections 3.1–3.3
+  (lines 2640–3127), and Section 11.2, Proposition 11.2.2 (lines 10065–10077).
 - P. Stefanov, G. Uhlmann, A. Vasy, *Local and global boundary rigidity and the geodesic X-ray
   transform in the normal gauge*, Ann. of Math. 194 (2021) (`stefanov-uhlmann-vasy2021`):
   abstract and Section 1 (condition (1.1), Theorems 1.1–1.4), lines 8–230.
