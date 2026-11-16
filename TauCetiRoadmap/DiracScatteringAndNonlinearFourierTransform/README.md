@@ -1560,8 +1560,10 @@ tail for `ρ₂`; equality with `ν(ℝ)` forces the singular part of the measur
 Prove that `‖q⌃* − (q_T)⌃*‖²_{L²(ℝ)} ≤ 4π ‖q‖²_{L²(T,∞)}`; hence `(q_T)⌃*` converges to `q⌃*` in `L²(ℝ)`,
 in measure on every bounded interval and in `Π`-measure (`MeasureTheory.TendstoInMeasure` for the
 finite measure `Π`); that `log|a(T, ·)| → log|a(∞, ·)|` in `L¹(ℝ)`; and that `a(T, ·) → a(∞, ·)` and
-`b(T, ·) → b(∞, ·)` in `Π`-measure on `ℝ` (poltoratski2024 line 518–544 and 577; mauth2022 Lemma 19
-line 711 for the measure-convergence pattern). With §5.4, this gives the form stated in `Suggested.lean`
+`b(T, ·) → b(∞, ·)` in `Π`-measure on `ℝ` (poltoratski2024 line 518–544 and 577, which state the convergence
+in `Π`-measure and that of `log|a(T, ·)|` in `L¹(Π)` without a rate, the bound with the constant `4π` and the
+convergence in `L¹(ℝ)` coming from the route below; mauth2022 Lemma 19 line 711 for the measure-convergence
+pattern). With §5.4, this gives the form stated in `Suggested.lean`
 as `exists_nonlinearFourier_plancherel`: for square-integrable `q` there is a measurable `F : ℝ → ℂ` with
 `|F| < 1` almost everywhere, `‖F − b(T, ·)/a(T, ·)‖²_{L²(ℝ)} ≤ 4π ‖q‖²_{L²(T,∞)}` for every `T ≥ 0` and
 `∫ −log(1 − |F|²) dx = π‖q‖²`. The bound makes `F` the `L²(ℝ)` limit of the truncations, so `F = q⌃*`
@@ -1911,9 +1913,10 @@ is `1/w` carried by `C`, `σ`-almost everywhere; changing variables along `C` gi
 
 ### 6.8 The Szegő condition for square-integrable potentials
 
-Let `q` be square-integrable. Prove that `∫ log w dΠ ≥ −2π log 2 − π‖q‖²` and the same for `w̃`; hence
-`log w, log w̃ ∈ L¹(Π)` and `w, w̃ > 0` almost everywhere (poltoratski2024 line 263–268; mauth2022
-Theorem 3 line 702–707; denisov2006 Theorem 11.1 line 3246 with the dictionary of §13). In
+Let `q` be square-integrable. Prove that `∫ log w dΠ ≥ −2π log 2 − π‖q‖²` and the same for `w̃`, with the
+constant that the route below gives; hence `log w, log w̃ ∈ L¹(Π)` and `w, w̃ > 0` almost everywhere. The
+cited passages state only this qualitative consequence, the Szegő condition (poltoratski2024 line 263–268;
+mauth2022 Theorem 3 line 702–707; denisov2006 Theorem 11.1 line 3246 with the dictionary of its §13). In
 `Suggested.lean` this is `szego_condition`, for the density `w = dμ/dx` (Mathlib
 `MeasureTheory.Measure.rnDeriv`) of either spectral measure, with `log w` integrable against `dx/(1 + x²)`.
 Route: for the
@@ -2230,7 +2233,8 @@ with `sup_{z ∈ Q(s, C(t)/t)} |E(t, z) − α(s, t) γ(t y(t)) sin(t(z − z(t)
 `T₁(s, C)`, `|α| = 1`, where for `t ∈ T₀(s, C)` the point `z(t)` can be any zero of `E(t, ·)` in
 `Q(s, C(t)/t)`, uniformly in the choice, and for `t ∉ T₀(s, C)` one can take `t y(t) = 2C(t)`; the same
 function `C(t)` gives the approximation of `Ẽ(t, ·)` of this form, with `w̃(s)`, `T̃₀(s, C)` and `T̃₁(s, C)` in
-place of `w(s)`, `T₀(s, C)` and `T₁(s, C)`, and so does every smaller function tending to infinity; (2) if
+place of `w(s)`, `T₀(s, C)` and `T₁(s, C)`; and every smaller function tending to infinity gives both
+approximations as well; (2) if
 the approximation of `E` in (1) holds at `s` for a function `C(t) → ∞` and `t ∉ T₀(s, C(t))` for all large `t`,
 then for every `D > 0`,
 `sup_{z ∈ Q(s, D/t)} |E(t, z) + iα(s, t) e^{−itz}/√w(s)| → 0`; (3) for almost every `s`: if `T₀(s, K)` is
@@ -2286,11 +2290,14 @@ the parameters are `δ`-close, `E` is within `O(δe^D) + o(1)` of `e^{itx₀} e^
   `e^{−itz} + i·i·e^{−itz} = 0`; in the route `M` is the identity, `a = 1`, `b = 0`, and at `s = 0`, with
   `C ≥ 4π`, one may take `x₀ = x₂ = 0`, `x₁ = π/(2t)` and `c₁ = c₂ = 1`; the two-term form is
   `cos tz − i sin tz = e^{−itz}` (with `−cos` in its first term it would be `−e^{itz}` instead).
-- (3) is not a consequence of the statements (1) and (2): they allow the function `C(t) = √t` in (1) together
-  with zeros of `E(t, ·)` at `s + (log t)/t − i/(2t)`. These satisfy the hypothesis of (3), since they leave
-  `Q(s, K/t)` for `t > e^K`, but they lie in `Q(s, √t/t)` above the height `−1/t` (`log t < √t`), so no large
-  `t` is in `T₁(s, C)`: (1) gives no approximation and the hypothesis of (2) fails. The route of (3) reaches
-  its contradiction inside `Q(s, K/t)` with `K` constant, whatever the function of (1) is.
+- (3) follows from (1) and (2) through the last clause of (1). If `T₀(s, K)` is bounded for every `K > 0`,
+  the construction of §9.4's first bullet, applied to the sets `T₀(s, k)` alone, gives `C′(t) → ∞` with
+  `t ∉ T₀(s, C′(t))` for all large `t`; then `min(C(t), C′(t))` keeps the approximation of (1) and, since
+  `T₀` increases with the box (§8.1), puts every large `t` outside `T₀`, so (2) applies. For zeros of
+  `E(t, ·)` at `s + (log t)/t − i/(2t)` and `C(t) = √t`, no large `t` is in `T₁(s, √t)`, since these zeros lie
+  in `Q(s, √t/t)` above the height `−1/t` (`log t < √t`); but `T₀(s, k) ⊆ (0, e^k]`, the construction gives
+  `C′(t) = k < log t` for `e^k < t ≤ e^{k+1}`, and no zero lies in `Q(s, C′(t)/t)`. The route of (3) above
+  does not pass through (1): it uses §8.5, §7.2 and Rouché's theorem on boxes of constant size.
 - With `A = t(z − x)` and `p = t y`, `γ(p) sin(A + ip) = i e^{−iA}(1 + O(e^{2|Im A| − 2p}))`, and
   `|Im A| ≤ D` on `Q(s, D/t)`; so (1) passes into (2), with `α` replaced by a unimodular multiple, when
   `t y(t) → ∞`.
