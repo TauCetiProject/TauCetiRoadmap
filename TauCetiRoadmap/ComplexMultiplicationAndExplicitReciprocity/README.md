@@ -890,6 +890,18 @@ Layers 0–4; ImaginaryQuadraticClassNumber §H3.1; EllipticCurves 1/3/4; Global
 
 ComplexMultiplicationAndExplicitReciprocityPartII consumes types, reflex orders, CM character realizations and polarized moduli comparisons for height and Colmez statements. Heegner-point and Gross–Zagier roadmaps consume the proper-order class action, ring-class Artin formula, reduction and level-pair quaternion comparison. Euler-system and `p`-converse roadmaps consume the canonical-character attachment, good reduction, Hodge/period and local-factor comparisons. CM theta-series applications use the induction comparison with AutomorphicGaloisRepresentations §§1.5 and 7.3, keeping the coefficient field and covariant/cohomological convention explicit.
 
+## Provenance
+
+This section is secondary; it maps targets to an existing formalization and prescribes nothing. [LeanPool/lean-pool](https://github.com/LeanPool/lean-pool) (Apache-2.0; Lean and Mathlib v4.35.0, earlier than our pin) holds under [`LeanPool/SingularModuli`](https://github.com/LeanPool/lean-pool/tree/f8b9b721d616a2cc0b22fc226e4a9e3dd6cea2d0/LeanPool/SingularModuli) thirteen files by Caleb L. Geiger, taken from his thesis formalization; they were read at commit `f8b9b72` and contain no `sorry`. It is not a dependency. Despite the directory name there are no singular moduli in it: no `j`-values, CM elliptic curves, class polynomials or reciprocity. Its carrier `QuadraticOrder d` is the ring `ℤ[X]/(X²−dX+(d²−d)/4)` for an arbitrary integer `d`, which is the order of discriminant `d` only when `d ≡ 0, 1 (mod 4)`; it is a standalone ring, not an order inside a number field, whereas the orders here are the embedded orders of GlobalNumberFields Layer 11 (CM.0.2, *Concrete input API*). Each overlap below is with a quadratic-order input this roadmap consumes, not with a target it owns.
+
+| Here | There | What it covers |
+| --- | --- | --- |
+| CM.0.2, the conductor-three Gaussian Check: the ideal `(2,1+3i)` of `ℤ+3ℤi` | `QuadraticOrder/CanonicalForm.lean` | Under admissibility, the ideal `⟨p^k, p^{m−k}(τ−A)⟩` equals the `ℤ`-span of its two generators; with `d=−36`, `τ=−18+3i` and `A=−19` this is `(2,1+3i)`. Its index, norm and invertibility are not proved there. |
+| CM.4.2, *Unramified CM residual Cartan normalizer*: `O/lO` split or nonsplit | `QuadraticOrder/Prime/` | `O/pO ≅ 𝔽_p[X]/(X²−dX+(d²−d)/4)`; for odd `p`, `(p)` is maximal iff `(d/p)=−1`, radical but not maximal iff `(d/p)=1`, and not radical iff `p∣d`. |
+| CM.5.1–5.2: split, inert and ramified primes, and the `1+(D_K/l)` horizontal kernels for `l∤f` | `QuadraticOrder/Prime/` | The same trichotomy for odd `p`. Prime ideals of norm `l` are not counted there, and `p=2` is excluded. |
+
+Its norm form, conjugate and discriminant identity (`Norm.lean`, `Discriminant.lean`) and its counts of square roots modulo prime powers (`RootCounting.lean`) have no counterpart here. Nothing there corresponds to CM.0.1, Layers 1–3, CM.4.1, CM.4.3 or CM.5.3–5.5, or to the rest of CM.0.2, CM.4.2 and CM.5.1–5.2.
+
 ## References
 
 Page numbers in the build are the source's printed pages, including author-copy pagination where stated. The cited preprints of BT, KS, Streng, CRT and Endo fix their theorem numbering; publication metadata does not assert that another version has identical statements. The primary sources support individual constructions and comparisons rather than determining this roadmap's layer order.
