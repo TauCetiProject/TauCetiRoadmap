@@ -106,6 +106,10 @@ and are not.
   fields `mw_rank`, `mw_gens`, `torsion`, `torsion_order` and `regulator` live there; this roadmap
   supplies the 2-torsion of Layer 5.1, the local data of Layer 4, `tamagawa_product` (5.6), and
   `real_period` and the BSD quotient `analytic_sha` (5.7).
+- **Chabauty–Coleman theory** — residue discs, annihilating differentials and the bounds on the
+  number of rational points of a curve whose Jacobian has rank below the genus: the
+  [effective Diophantine methods roadmap](../EffectiveDiophantineMethods/README.md), Layer 4
+  (Coleman's bound at a prime of good reduction is its §4.13).
 - **The global `L`-function of an abelian variety**, its continuation predicate, and the order and
   leading coefficient of `L(J, s)` at `s = 1` (`analytic_rank`, `leading_coeff`): the
   [periods roadmap](../PeriodsAndSpecialValues/README.md) PS.1.1, PS.1.8 (`Λ_1(A, s)`,
@@ -2460,22 +2464,24 @@ and not a gap in the parity theorem. Conductor `2⁴·3·7` (stored; the odd par
 
 This section is secondary: it maps milestones of this roadmap to existing Lean formalisations,
 which are consulted to check statements, hypotheses and proof structure, and it prescribes
-nothing; ownership, statements and routes are those above. The three repositories are released
+nothing; ownership, statements and routes are those above. The four repositories are released
 under the Apache-2.0 licence and build against Lean and Mathlib versions other than this
 repository's pins (formal-arithmetic-geometry/weil-conjectures on Lean `v4.33.1`, AxiomMath/Weil
-on `v4.34.0-rc2`, AxiomMath/Stacks on `v4.35.0`). A proof adapted from them rather than rewritten keeps that attribution, and
+on `v4.34.0-rc2`, AxiomMath/Stacks and LeanPool/lean-pool on `v4.35.0`). A proof adapted from them rather than rewritten keeps that attribution, and
 adapting one is coordinated with its authors. None of them uses `Model R g`, `𝒢_g` or Tau Ceti's
 function-field vocabulary, so each statement is compared with the milestone here before it is
 transported. The statements below are those of the declarations at the commits named.
 
-Most of the overlap is with inputs that 5.3 consumes rather than proves. The integrality, the
-degree `2g` and the symmetry of the `L`-polynomial come from FunctionFieldArithmetic §5.3, by
+In the first three, most of the overlap is with inputs that 5.3 consumes rather than proves. The
+integrality, the degree `2g` and the symmetry of the `L`-polynomial come from FunctionFieldArithmetic §5.3, by
 counting effective divisors, and the Euler factor of the Jacobian from
 NeronModelsAndSemistableAbelianVarieties §5.0c, through the Frobenius endomorphism; neither route
-passes through `ℓ`-adic cohomology. The hyperelliptic material among the three is in
+passes through `ℓ`-adic cohomology. The hyperelliptic material among those three is in
 AxiomMath/Stacks: the weighted double cover of 0.2 for `h = 0` and `f` split with nonzero roots,
-and one genus-one function field in characteristic 2.
-None of the three has invariants of binary forms, coordinate changes or minimal models of
+and one genus-one function field in characteristic 2. The fourth, LeanPool/lean-pool, overlaps
+Layer 0 for equations `y² = f(x)` with `2` invertible and, in odd degree, gives a divisor-class
+model of the group `J(K)` of 5.1–5.2; its count of rational points is not a milestone here.
+None of the four has the genus-2 invariants of Layer 2, coordinate changes or minimal models of
 hyperelliptic equations, cluster pictures, the inertia invariants `H¹_ét(C_K̄, ℚ_ℓ)^{I_K}` of a
 curve over a local field and the Artin conductors of 4.7–4.9 and 5.4, or the `x − T` descent of
 5.2. The inertia files of AxiomMath/Stacks and weil-conjectures treat the geometric counterpart:
@@ -2564,6 +2570,68 @@ concern the conductor ideal of a normalisation.
     quadratic over `RatFunc (ZMod 2)`, the shape of `W.FunctionField` in 0.4 at `g = 1`, with the
     involution `y ↦ y + 1` (convention 6 with `h = 1`) and the automorphism `x ↦ x + 1`,
     `y ↦ y + x`, whose square is that involution.
+- LeanPool/lean-pool, commit `f8b9b721d616a2cc0b22fc226e4a9e3dd6cea2d0`, directory
+  [`LeanPool/HyperellipticCurves/`](https://github.com/LeanPool/lean-pool/tree/f8b9b721d616a2cc0b22fc226e4a9e3dd6cea2d0/LeanPool/HyperellipticCurves):
+  189 modules adapted from Michael Stoll's repository MichaelStollBayreuth/HyperellipticCurves.
+  The directory's root module names M. Stoll, *Independence of rational points on twists of a
+  given curve*, Compositio Math. 142 (2006), 1201–1214, as the source and models the Jacobian by
+  an ideal class group rather than by a variety; no module imports Tau Ceti.
+  - [`ForMathlib/Resultant.lean`](https://github.com/LeanPool/lean-pool/blob/f8b9b721d616a2cc0b22fc226e4a9e3dd6cea2d0/LeanPool/HyperellipticCurves/ForMathlib/Resultant.lean):
+    `Polynomial.discrOfDegree f n`, the discriminant of `f` read as a binary form of degree `n`,
+    with compatibility with every ring homomorphism (`Polynomial.discrOfDegree_map`), the degree
+    drop `discrOfDegree f (n + 2) = (f.coeff (n + 1))² · discrOfDegree f (n + 1)` for
+    `natDegree f ≤ n + 1` (`Polynomial.discrOfDegree_add_two`), the value `1` at `n = 1` and the
+    vanishing for `natDegree f + 2 ≤ n`. For `natDegree f ≤ n` it is `formDiscr n f` of 0.1, both
+    being the degree-`n` universal discriminant evaluated at the coefficients; the covariance
+    `formDiscr_homogSubst` and the root formula of 0.1 are not there.
+  - [`Curve/Basic.lean`](https://github.com/LeanPool/lean-pool/blob/f8b9b721d616a2cc0b22fc226e4a9e3dd6cea2d0/LeanPool/HyperellipticCurves/Curve/Basic.lean):
+    `HyperellipticCurve R`, over a ring with `[Invertible (2 : R)]`, bundles a genus `g`, a
+    polynomial `f` with `natDegree f ≤ 2g + 2` and a unit `f.discrOfDegree (2g + 2)`. As
+    `Δ(f, 0) = 2^{4g} formDiscr (2g+2) f` (0.3) and `2` is a unit, this is a smooth `Model R g` with
+    `h = 0`. It has `HyperellipticCurve.map` along every ring homomorphism, and over a field
+    `HyperellipticCurve.separable_f`, `HyperellipticCurve.two_mul_genus_add_one_le` and the
+    constructor `HyperellipticCurve.ofSeparable` give the two directions of
+    `isSmooth_iff_separable` for `h = 0`. There is no cross term `h`, no weighted-projective
+    scheme (0.2) and no characteristic 2.
+  - [`Curve/HypRing.lean`](https://github.com/LeanPool/lean-pool/blob/f8b9b721d616a2cc0b22fc226e4a9e3dd6cea2d0/LeanPool/HyperellipticCurves/Curve/HypRing.lean)
+    and [`Curve/IntegralClosure.lean`](https://github.com/LeanPool/lean-pool/blob/f8b9b721d616a2cc0b22fc226e4a9e3dd6cea2d0/LeanPool/HyperellipticCurves/Curve/IntegralClosure.lean):
+    `ChabautyColeman.HypRing R f`, the ring `R[x][Y]/(Y² − f)`, and `ChabautyColeman.HypField K f`,
+    the algebra `K(x)[Y]/(Y² − f)`, as Mathlib `QuadraticAlgebra`s, with the involution `y ↦ −y`
+    (`ChabautyColeman.HypRing.iota`), irreducibility of `Y² − f` over `K(x)` for `f` of odd degree
+    (`ChabautyColeman.irreducible_Ysq_sub_f`), and, for `f` squarefree and `2 ≠ 0`, `HypRing K f`
+    as the integral closure of `K[x]` in `HypField K f`, Dedekind in odd degree. This is
+    `W.FunctionField` of 0.4 and its involution (0.6) for `h = 0` and odd degree; the genus there
+    is the integer `deg f / 2` (`ChabautyColeman.genus`), and 0.4's comparisons with
+    `TauCeti.IsFunctionField`, `TauCeti.genus` and `TauCeti.IsHyperellipticFunctionField` have no
+    counterpart.
+  - [`Curve/Jacobian.lean`](https://github.com/LeanPool/lean-pool/blob/f8b9b721d616a2cc0b22fc226e4a9e3dd6cea2d0/LeanPool/HyperellipticCurves/Curve/Jacobian.lean)
+    and [`Curve/MumfordReduction.lean`](https://github.com/LeanPool/lean-pool/blob/f8b9b721d616a2cc0b22fc226e4a9e3dd6cea2d0/LeanPool/HyperellipticCurves/Curve/MumfordReduction.lean):
+    for `f` of odd degree, `ChabautyColeman.HypJac K f := ClassGroup (HypRing K f)`, the class
+    `ChabautyColeman.aj` of the point ideal `(x − x₀, y − y₀)`, inverted by the involution
+    (`ChabautyColeman.aj_inv`), and in each class a unique reduced Mumford ideal `(u, y − v)` with
+    `u` monic, `u ∣ v² − f`, `deg v < deg u` and `2 deg u < deg f`
+    (`ChabautyColeman.exists_mk0_mumfordIdeal_reduced`,
+    `ChabautyColeman.mumfordIdeal_reduced_unique`). For `f` separable of degree `2g + 1` and
+    `2 ≠ 0` the unique point at infinity is rational, and `D ↦ D − (deg D)·∞` identifies this class
+    group with the group `J(K)` of degree-zero classes on which 5.1–5.2 are stated; that
+    identification, the two-torsion of 5.1 and the `x − T` map of 5.2 are not in the directory.
+  - Outside this roadmap: the reduction of points to residue discs
+    ([`Disks/Reduction.lean`](https://github.com/LeanPool/lean-pool/blob/f8b9b721d616a2cc0b22fc226e4a9e3dd6cea2d0/LeanPool/HyperellipticCurves/Disks/Reduction.lean)),
+    the reduction homomorphism on the class-group Jacobian (`RedJ/`), `p`-adic logarithms, formal
+    groups and zero counts on discs (`Log/`, `Series/`, `Specialization/`), and
+    `ChabautyColeman.chabauty_coleman_odd_hyperelliptic`
+    ([`Count/Main.lean`](https://github.com/LeanPool/lean-pool/blob/f8b9b721d616a2cc0b22fc226e4a9e3dd6cea2d0/LeanPool/HyperellipticCurves/Count/Main.lean)):
+    over a complete discrete valuation ring with algebraically closed residue field of
+    characteristic `p ≠ 2`, fraction field of characteristic 0 and ramification index at most `e`,
+    let `C` be an odd-degree curve with unit discriminant and `C₀` an odd-degree curve over a field
+    `K₀` of characteristic 0 mapping to the fraction field, with the same base change, whose
+    class-group Jacobian over `K₀` has rank at most `r < g`; if `2r + e + 1 < p`, a set of points
+    with coordinates in `K₀` whose reductions lie in a finite set `T` of residue points has at most
+    `#T + 2r` elements. That is Chabauty–Coleman theory (Scope and ownership), and its `2r`
+    replaces the `2g − 2` of Coleman's bound. The reduction `HyperellipticCurve.map` of the curve
+    itself along the residue map keeps the discriminant a unit (`Polynomial.discrOfDegree_map`),
+    the `h = 0`, odd residue characteristic case of the direction of 3.5 from `v(Δ) = 0` to a smooth
+    reduction.
 
 ## References
 
