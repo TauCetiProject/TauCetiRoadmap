@@ -500,6 +500,8 @@ The public laws are:
 
 For the proof, specialize the imported weighted theorem at weight 1. Each factor is a geometric series inverse. The native pentagonal product is the same constant-one product. Use the supplier formal-to-analytic theorem with the nonzero Euler product and its holomorphic Taylor coefficients.
 
+Prior work, not a supplier: the LeanPool file [PentagonalNumberTheorem/Partition.lean](https://github.com/LeanPool/lean-pool/blob/f8b9b721d616a2cc0b22fc226e4a9e3dd6cea2d0/LeanPool/PentagonalNumberTheorem/Partition.lean) (Weiyi Wang, Apache-2.0) proves (Σₙp(n)Xⁿ)·∏_(i≥1)(1−Xⁱ)=1, the product taken in the coefficientwise topology, over a commutative ring carrying a Hausdorff ring topology. This section states the same law as Π_K P̂₊(1;X)=1 on the native carriers above, over every commutative ring.
+
 *Needs:* Mathlib `Nat.Partition.genFun`; Mathlib `Nat.Partition.hasProd_genFun`; §1.4; §1.6; TauCetiRoadmap.ClassicalArithmeticCompletion §2.31.
 
 **Checks.**
