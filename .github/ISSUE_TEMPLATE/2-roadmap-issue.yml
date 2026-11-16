@@ -157,6 +157,7 @@ body:
         - MathematicalBilliards
         - MathematicalStatisticsAsymptotic
         - MathematicalStatisticsFoundations
+        - MathematicalStatisticsHighDimensional
         - MathematicalStatisticsNonparametric
         - MathematicalStatisticsSemiparametric
         - McKaySkewGroup
