@@ -314,14 +314,14 @@ API:
 
 For a finite group `G`, a separated finite-type DM stack `X` over `ℂ` with a `G`-action, define `e_c^G(X) = Σ_{i,w} (−1)^i [Gr^W_w H_c^i(X)]` in the Grothendieck group of rational mixed Hodge structures with `G`-action; in the `ℓ`-adic realization over a finite field use the Frobenius weights. When every contributing weight piece is a sum of Tate structures, write `e_c^G(X) = Σ_j a_j L^j` with `a_j` in the rational representation ring of `G`; for `G = S_n` identify `a_j` with its Frobenius characteristic, a degree-`n` symmetric function (BFP, §9, pp. 1351–1354, and Remark 1.6, p. 1326). No positivity or purity of individual groups of an open stack is asserted.
 
-*Needs:* `TauCeti.repRing`, `TauCeti.repRingCharacter`; SchurWeyl, Layer 7 (fixed-degree Frobenius characteristic); DeligneWeightsAndPurity §8.24 (Frobenius weights over finite fields); MixedHodgeModulesAndIrregularHodgeTheory, gap:dm-stack-mixed-hodge (weights, Hodge); WeilConjectures, WC.1 (Künneth and localization for compact supports).
+*Needs:* `TauCeti.repRing`, `TauCeti.repRingCharacter`; SchurWeyl, Layer 7 (fixed-degree Frobenius characteristic); DeligneWeightsAndPurity §8.24 (Frobenius weights over finite fields); MixedHodgeModulesAndIrregularHodgeTheory, gap:dm-stack-mixed-hodge (weights, Hodge); WeilConjectures, WC.1 (Künneth and localization for compact supports, and the stack compact-support trace formula).
 
 API:
 
 - For a closed `G`-stable substack `Z ⊂ X` with complement `U`, `e_c^G(X) = e_c^G(U) + e_c^G(Z)`.
 - `e_c` of a product is the tensor product, with Koszul signs in cohomological degree.
 - Evaluating characters at the identity recovers the nonequivariant weight Euler polynomial.
-- Under the trace hypotheses of WeilConjectures, WC.1 and WC.5, replacing `L` by `q` and the Adams operation by `ψ_r(q) = q^r` gives the twisted point counts of §1.1.
+- Under the hypotheses of the stack compact-support trace formula of WeilConjectures, WC.1, replacing `L` by `q` and the Adams operation by `ψ_r(q) = q^r` gives the twisted point counts of §1.1.
 - The coefficient of weight `w` is the alternating sum of the `Gr^W_w H_c^i` as virtual representations; it is not ordinary `H^i` for a nonproper stack.
 
 **Checks.**
@@ -367,7 +367,7 @@ In the completed ring of SchurWeyl, gap:completed-symmetric-functions, put `Ch(V
 
 Let `(g, n)` be stable and suppose `M̄_{g′,n′}` has polynomial point count for every `(g′, n′) ≼ (g, n)`. Prove that every Frobenius eigenvalue on `H_c^*(M_{g,n} ⊗ 𝔽̄_q, ℚ_ℓ)` is an integral power of `q`, that `M_{g,n}` and `∂M̄_{g,n}` have polynomial point counts, and that their weight-graded equivariant Euler characteristics determine all twisted counts (BFP, Proposition 4.2, pp. 1331–1332; Corollary 9.5, p. 1353). Route: the weight spectral sequence of normalized closed strata with orientation characters controls the eigenvalues; ordinary graph additivity of open strata (§§1.3–1.4) counts the boundary. Frobenius on `H_c^*` of the open stack is not asserted to be semisimple, and no semisimplicity is needed for the twisted counts: if `F` acts on a finite-dimensional space with every eigenvalue equal to `q^j` and commutes with an operator `σ` of finite order, then `F = q^j U` with `U` unipotent commuting with `σ`, `U` preserves the eigenspaces of `σ` and is unipotent on each, and `tr(σF) = q^j tr(σ)`; applied to the weight-graded pieces of `H_c^*`, this expresses each twisted count through the weight-graded equivariant Euler characteristic.
 
-*Needs:* §§1.1–1.4; §0.3; DeligneWeightsAndPurity §8.24; WeilConjectures, WC.5 (the local cutoff, which for an exact count gives the dimensions and Frobenius eigenvalues of each compact stratum) and WC.6 (smooth proper DM purity).
+*Needs:* §§1.1–1.4; §0.3; DeligneWeightsAndPurity §8.24; WeilConjectures, WC.1 (finite groupoid mass, the stack compact-support trace formula and smooth proper transport), WC.5 (the local cutoff, which for an exact count gives the dimensions and Frobenius eigenvalues of each compact stratum) and WC.6 (smooth proper DM purity).
 
 **Checks.**
 
@@ -474,7 +474,7 @@ For `n ≥ 3` prove that the cycle class map `A^*(M̄_{0,n}) → H^{2*}(M̄_{0,n
 
 Prove that `H^k(M̄_{g,n}) = 0` for `k ∈ {1, 3, 5}` and every stable pair (AC, Theorem (2.1); BFP, proof of Theorem 1.1 for `k = 7`, p. 1329). Route: the base cases of §2.5 for `k ≤ 5` are the pairs with `g ≥ 1` and `max(2g, 2g − 2 + n) ≤ 5`, each with polynomial point count by §1.6; apply §2.5, with §2.6 in genus zero.
 
-*Needs:* §§2.5, 2.6, 1.6; WeilConjectures, WC.5 (the local cutoff, applied to an exact count) and WC.6.
+*Needs:* §§2.5, 2.6, 1.6; WeilConjectures, WC.1 (finite groupoid mass, the stack compact-support trace formula and smooth proper transport), WC.5 (the local cutoff, applied to an exact count) and WC.6.
 
 **Checks.**
 
@@ -485,7 +485,7 @@ Prove that `H^k(M̄_{g,n}) = 0` for `k ∈ {1, 3, 5}` and every stable pair (AC,
 
 Prove that `H⁷(M̄_{g,n}) = 0` for every stable pair (BFP, Theorem 1.1 and its proof for `k = 7`, p. 1329). Route: the base cases with `g ≥ 1` and `max(2g, 2g − 2 + n) ≤ 7` lie in the ranges of §1.6, so their cohomology is even; apply §2.5 with §2.7, and with §2.6 in genus zero.
 
-*Needs:* §§2.5, 2.6, 2.7, 1.6; WeilConjectures, WC.5 and WC.6.
+*Needs:* §§2.5, 2.6, 2.7, 1.6; WeilConjectures, WC.1 (finite groupoid mass, the stack compact-support trace formula and smooth proper transport), WC.5 and WC.6.
 
 **Checks.**
 
@@ -496,7 +496,7 @@ Prove that `H⁷(M̄_{g,n}) = 0` for every stable pair (BFP, Theorem 1.1 and its
 
 Prove that `H^q(M̄_{g,n}) = 0` for every odd `q ≤ 9` and every stable pair with `g ≤ 3` (BFP, §2, pp. 1328–1329). Route: apply §2.5 with `h = 3`, with §2.6 in genus zero; its degree-nine base cases have `n ≤ 9, 7, 5` in genera one, two, three, which are the ranges of §1.6.
 
-*Needs:* §§2.5, 2.6, 1.6; WeilConjectures, WC.5.
+*Needs:* §§2.5, 2.6, 1.6; WeilConjectures, WC.1 (finite groupoid mass, the stack compact-support trace formula and smooth proper transport), WC.5 (the local cutoff, applied to an exact count) and WC.6.
 
 **Checks.**
 
@@ -701,7 +701,7 @@ Let `S` be an STE, `(g, n)` a stable pair and `k ≥ 0`. Suppose that `S^{k′}(
 
 For odd `n ≥ 1` and every `k ≥ 2` let the two-cusp boundary space `T^k_n ⊂ H^k(M̄_{2,n})` be the span of the clutching pushforwards `ξ_*(α ⊗ β)` along the separating clutchings `M̄_{1,A∪{p}} × M̄_{1,B∪{q}} → M̄_{2,n}`, `A ⊔ B = {1, …, n}`, of exterior products of odd-degree classes `α`, `β` with `deg α + deg β = k − 2`. Prove that the STE generated by `H^k(M̄_{2,n−1})`, `H^{k−2}(M̄_{2,n−1})`, `H^{k−2}(M̄_{1,m})` for `1 ≤ m ≤ n + 2`, and `T^k_n`, contains `H^k(M̄_{2,n})`; and that `T^k_n = 0` when `k` is odd or `k ≤ 23`, so that in these degrees the STE generated by the first three families alone contains `H^k(M̄_{2,n})`, which is CLP, Lemma 3.2, p. 10, in these degrees. For even `k ≥ 24` the printed lemma omits `T^k_n` from the generators; its proof does not show that `T^k_n` lies in the STE generated by the three families, and this roadmap neither asserts nor refutes that containment (Scope and ownership; Corrections to the sources). Route: by §4.2 the quotient by `Φ + Ψ` is pure cohomology of local systems of odd weight `n` on `M₂`, killed by the hyperelliptic involution (§3.1); `Φ` and `Ψ` come from `(2, n − 1)`; by §0.4 the rest of `H^k(M̄_{2,n})` is spanned by the Gysin images `ξ_*(γ)` of classes `γ ∈ H^{k−2}` of the normalized one-edge strata, and these are not generators as they stand. A loop stratum `(1, n + 2)` carries a generator. On a stratum `(0, n₁) × (2, n₂)`, `n₂ ≤ n − 1`, write the genus-zero factor as a combination of undecorated boundary strata classes (§2.6, with the excess intersection formula of §0.1 to rewrite products of boundary divisors), so the class is a sum of `ξ_{Γ*}(β ⊗ 1 ⊗ ⋯ ⊗ 1)` over trees `Γ` with one genus-two vertex and genus-zero vertices; re-associate the clutching so that the last clutching is along the edge `e` to a genus-zero leaf `w`: the class glued is a degree-`(k − 2)` class `γ` on the contraction `(2, m)` of `Γ − w`, with `m ≤ n − 1`, and `ξ_{e*}(γ ⊗ 1) = [D_e] · π^*γ` by the projection formula for the forgetful map `π` that contracts `w`, where `π^*γ` factors through `H^{k−2}(M̄_{2,n−1})`, a generator, since the STE is closed under forgetful pullback. On a separating stratum `(1, n₁) × (1, n₂)`, `n₁ + n₂ = n + 2`, write `γ` by Künneth as a sum of classes `α ⊗ β`. If both factors are odd the term lies in `T^k_n`; then `k` is even, and since odd genus-one cohomology vanishes through degree nine (§2.9), both degrees are at least eleven and `k ≥ 24`, which gives `T^k_n = 0` for odd `k` and for `k ≤ 23`. If both are even the term is tautological, an even genus-one class being a combination of boundary strata classes (§3.3). Otherwise expanding the even factor writes the term as a sum of `ξ_{Γ*}(α ⊗ 1 ⊗ ⋯ ⊗ 1)` over genus-two graphs `Γ` with one distinguished vertex. If `Γ` has a cycle, cut one of its edges, so that the last clutching is the loop clutching of a degree-`(k − 2)` class on `(1, n + 2)`, a generator; otherwise `Γ` is a tree with a leaf `w` other than the distinguished vertex, and `Γ − w` contracts to `(1, m)` with `m ≤ n + 1` if `w` has genus one, a generator, or to `(2, m)` with `m ≤ n − 1` if `w` has genus zero, the projection-formula case above.
 
-*Needs:* §§3.1, 4.2, 4.4; §0.4; §§0.1, 2.6, 2.9, 3.3 (strata expansions of tautological classes in genus at most one and the vanishing of odd genus-one classes through degree nine); StableReductionPartII §§3.1–3.2, 3.10 and 7.11 (forgetful and clutching morphisms and their composites on boundary strata); §1.6 with WeilConjectures, WC.5 and WC.6 (no odd cohomology on genus-one moduli with at most ten markings, for the vanishing of `T^k_n` when `n ≤ 19`).
+*Needs:* §§3.1, 4.2, 4.4; §0.4; §§0.1, 2.6, 2.9, 3.3 (strata expansions of tautological classes in genus at most one and the vanishing of odd genus-one classes through degree nine); StableReductionPartII §§3.1–3.2, 3.10 and 7.11 (forgetful and clutching morphisms and their composites on boundary strata); §1.6 with WeilConjectures, WC.1, WC.5 and WC.6 (no odd cohomology on genus-one moduli with at most ten markings, for the vanishing of `T^k_n` when `n ≤ 19`).
 
 API:
 
@@ -796,7 +796,7 @@ For `k = 13` the seeds of §4.9 in degree `k′ = 13` are the groups `H¹³(M̄_
 
 ### Dependencies
 
-Layers 0–3; StableReductionPartII §§2.248, 3.1–3.3, 3.10, 7.11, with gap:pointed-coarse-projectivity; PELModuli §M5.2; DeligneWeightsAndPurity §8.24 with gap:dm-stack-hard-lefschetz; MixedHodgeModulesAndIrregularHodgeTheory with gap:dm-stack-mixed-hodge; SchurWeyl, Layers 1, 3 and 9.
+Layers 0–3; StableReductionPartII §§2.248, 3.1–3.3, 3.10, 7.11, with gap:pointed-coarse-projectivity; PELModuli §M5.2; DeligneWeightsAndPurity §8.24 with gap:dm-stack-hard-lefschetz; WeilConjectures, WC.1, WC.5, WC.6; MixedHodgeModulesAndIrregularHodgeTheory with gap:dm-stack-mixed-hodge; SchurWeyl, Layers 1, 3 and 9.
 
 ## Layer 5: Chow–Künneth generation and pure algebraicity
 
@@ -1367,7 +1367,7 @@ For every `q` prove `#^{S₂}H_{4,2} = (q⁹ + q⁸ − 1)s_{(2)} + q⁸ s_{(1,1
 
 For `0 ≤ n ≤ 3`, if `#M̄_{4,n}(𝔽_{p^m}) = P(p^m) + o(p^{m(9+2n)/2})` for a fixed prime `p` and a polynomial `P ∈ ℚ[T]`, prove that `H^k(M̄_{4,n}) = 0` for every odd `k ≤ 9` (BFP, Corollary 3.2, p. 1330, whose printed conclusion names an arbitrary `M̄_{g,n}`; the conclusion is about `M̄_{4,n}`, and all genera follow only through §2.5). Route: apply the local cutoff of WeilConjectures, WC.5 to the smooth proper stack `M̄_{4,n}` of dimension `d = 9 + n` with `s = 9 + 2n ≥ d`: odd cohomology vanishes in degrees `k ≥ s`, and Poincaré duality turns this into degrees `k ≤ 2d − s = 9`. With the sharper error `o(q^{(9+n)/2})`, that is `s = d`, the same theorem gives all Betti numbers; this is the input of §9.5.
 
-*Needs:* WeilConjectures, WC.5 (the local cutoff) and WC.6 (smooth proper DM purity); DeligneWeightsAndPurity §8.24 (smooth proper DM duality); StableReductionPartII §2.248.
+*Needs:* WeilConjectures, WC.1 (finite groupoid mass, the stack compact-support trace formula and smooth proper transport), WC.5 (the local cutoff) and WC.6 (smooth proper DM purity); DeligneWeightsAndPurity §8.24 (smooth proper DM duality); StableReductionPartII §2.248.
 
 **Checks.**
 
@@ -1403,7 +1403,7 @@ For `0 ≤ n ≤ 3` and every finite field prove that `#M̄_{4,n}(𝔽_q)` is th
 | 2 | 1 + 11q + 76q² + 319q³ + 838q⁴ + 1362q⁵ + 1362q⁶ + 838q⁷ + 319q⁸ + 76q⁹ + 11q¹⁰ + q¹¹ |
 | 3 | 1 + 21q + 207q² + 1168q³ + 3977q⁴ + 8296q⁵ + 10605q⁶ + 8296q⁷ + 3977q⁸ + 1168q⁹ + 207q¹⁰ + 21q¹¹ + q¹² |
 
-*Needs:* §§8.3, 8.6, 8.9–8.11, 8.13, 9.1, 9.4; WeilConjectures, WC.5 and WC.6; DeligneWeightsAndPurity §8.24 (smooth proper DM duality); StableReduction, Layer 3 (stability, and the absence of infinitesimal automorphisms on a stable geometric fibre, for `IsStableOfGenus`); StableReductionPartII §0.4 (the groupoid of `𝔽_q`-points of `M̄_{4,n}`, for `stableMass`).
+*Needs:* §§8.3, 8.6, 8.9–8.11, 8.13, 9.1, 9.4; WeilConjectures, WC.1 (finite groupoid mass, the stack compact-support trace formula and smooth proper transport), WC.5 and WC.6; DeligneWeightsAndPurity §8.24 (smooth proper DM duality); StableReduction, Layer 3 (stability, and the absence of infinitesimal automorphisms on a stable geometric fibre, for `IsStableOfGenus`); StableReductionPartII §0.4 (the groupoid of `𝔽_q`-points of `M̄_{4,n}`, for `stableMass`).
 
 API:
 
