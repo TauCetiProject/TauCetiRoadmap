@@ -337,18 +337,20 @@ of the universe machinery the cohomological applications need.
 This section is secondary: it maps existing Lean code to targets and prescribes nothing. The
 Apache-2.0 repository AxiomMath, *The Stacks Project in Lean* (References), formalizes the Stacks
 Project on Mathlib. Its `StacksFrontier` tier is written by AI agents and builds without `sorry`;
-the repository records it as unreviewed by humans, and it is built on Lean and Mathlib v4.35.0,
-earlier than our pin. It is not a dependency: a statement read there is compared with the target
-here before it is used, adaptation is agreed with its maintainers first, and adapted code keeps its
-Apache-2.0 notices.
+the repository keeps it apart from its human-reviewed `StacksCore` tier, and it is built on Lean and
+Mathlib v4.35.0, earlier than our pin. It is not a dependency: a statement read there is compared
+with the target here before it is used, adaptation is agreed with its maintainers first, and adapted
+code keeps its Apache-2.0 notices.
 
 `StacksFrontier/SetTheory` follows the Stacks chapter *Set Theory*: the reflection principle for
-formulas of set theory (Tag 000G, `ZFC/Reflection.lean`), ordinals of large cofinality above a given
-cardinal (Tags 05N2 and 05N3, `Cardinal/Cofinality.lean`), strong limit cardinals of large
-cofinality (`Cardinal/StrongPrelimitCofinality.lean`) and size bounds. The Stacks Project uses these
-partial universes `V_α` in place of Grothendieck universes. They border on 1.3 and 2.3, but no file
-name or tag there defines Grothendieck universes, inaccessible stages or the universe axiom, and
-Layers 0–2 have no counterpart there.
+formulas of set theory (Tag 000G, `ZFC/Reflection.lean`), ordinals whose cofinality exceeds a given
+cardinal (Tag 05N3) and the factorisation through one stage of a map from a set of cardinality `<
+cf(β)` into a colimit indexed by the ordinals below `β` (Tag 05N2), both in
+`Cardinal/Cofinality.lean`, strong limit cardinals of large cofinality
+(`Cardinal/StrongPrelimitCofinality.lean`) and size bounds. The Stacks Project uses these partial
+universes `V_α` in place of Grothendieck universes. They border on 1.3 and 2.3, but no file name or
+tag there defines Grothendieck universes, inaccessible stages or the universe axiom, and Layers 0–2
+have no counterpart there.
 
 In LeanPool, *lean-pool* (References), `LeanPool/SetTheory` treats ordinals, elementary embeddings
 and Kunen's inconsistency, and `LeanPool/PCFTheory` cofinality and club guessing; neither defines
