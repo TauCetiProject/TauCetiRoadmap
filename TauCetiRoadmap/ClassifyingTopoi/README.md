@@ -1411,13 +1411,18 @@ earlier than our pin. It is not a dependency: a statement read there is compared
 here before it is used, adaptation is agreed with its maintainers first, and adapted code keeps its
 Apache-2.0 notices.
 
-`StacksFrontier/CategoryTheory/Sites/Topos` defines morphisms of topoi (Tag 00XC,
-`MorphismOfTopoi.lean`), the morphism of sheaf topoi of a morphism of sites (Tag 00XA,
-`ToposDefs.lean`) and 2-morphisms (Tag 04I9, `TwoMorphismOfTopoi.lean`). This roadmap takes these
-from GrothendieckTopoi 2.1, 2.2 and 2.4, whose provenance section maps the same files. No file name
-or tag there treats geometric logic or its semantics (Layer 1), classifying sites or topoi (Layer
-2), Diaconescu's theorem, theories of presheaf type (Layer 3), or the classifying topoi of rings and
-local rings (Layer 4).
+`StacksFrontier/CategoryTheory/Sites/Topos` defines morphisms of topoi and their composition, in
+particular between sheaf topoi (Tag 00XA, `MorphismOfTopoi.lean`, `ToposDefs.lean`), the morphism of
+sheaf topoi of a morphism of sites (Tag 00XC, `MorphismOfTopoi.lean`) and 2-morphisms (Tag 04I9,
+`TwoMorphismOfTopoi.lean`). This roadmap takes these from GrothendieckTopoi 2.1, 2.2 and 2.4, whose
+provenance section maps the same files. `MorphismOfTopoiRing.lean` carries sheaves of commutative
+rings along the inverse and direct images of a morphism of topoi (Tag 00YV), and
+`InverseImageCommRingObj.lean` identifies that inverse image with the ring object transported along
+a functor that preserves finite products. Together they give 1.4 for the theory of commutative
+rings, without the local-ring sequent of the Examples of Layer 1. No file name or tag there treats
+geometric formulas or their interpretation in a topos for an arbitrary theory (Layer 1), classifying
+sites or topoi (Layer 2), Diaconescu's theorem, theories of presheaf type (Layer 3), or the
+classifying topoi of rings and local rings (Layer 4).
 
 In LeanPool, *lean-pool* (References), `LeanPool/InfinitaryLogic` treats the model theory of
 `L_{ω₁ω}` (Morley–Hanf numbers, Erdős–Rado, descriptive set theory), which is not geometric logic;
