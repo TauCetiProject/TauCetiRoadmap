@@ -324,9 +324,27 @@ supplier's sections.
   inertial graded characters and genericity when identifying `H¹_g` with `H¹_f`. Adjoint Selmer
   vanishing is imported from ModularityAndLanglandsExtensions §4.1.
 
-What PotentialAutomorphyInfrastructurePartII must provide (gap:dyadic-definite-unitary-forms): the Layer 3 constructions for `l = 2` used by Newton–Thorne II §2 and Newton–Thorne 2026 §4 at `p = 2`: algebraic modular forms on the definite unitary group, exactness and group-ring freeness at sufficiently small level, Taylor–Wiles level structures, and the Hecke-valued determinant of the localized Hecke algebra (the `𝒢_n`-valued lift is not needed).
-
 What PotentialAutomorphyInfrastructurePartII must provide (gap:auxiliary-place-reducible-lifting): beside §8.16 (Layer 8), the lifting form of its auxiliary-place variant (Thorne 2024 Theorem 7.5, th24 p. 44, proof p. 45): under the hypotheses of ModularityAndLanglandsExtensions §4.2 with its clause `F(ζ_l) ⊄ F̄^{ker ad(ρ̄^{ss})}` replaced by a place `w ∤ l` of `F` at which `ρ̄^{ss}` is unramified and `H⁰(G_{F_w}, ad ρ̄^{ss}(1)) = 0`, with weak primitivity tested over `k̄` and with `ρ̄^{ss}(G_{F(ζ_l)})` without nontrivial quotient of `l`-power order (the added hypothesis of §8.16), `ρ` is the Galois representation of an ι-ordinary RACSDC automorphic representation of `GL_n(𝔸_F)`; the finiteness of §8.16 and the route of ModularityAndLanglandsExtensions §4.2 are its inputs, and only this lifting conclusion is requested.
+
+### From TauCetiRoadmap.AutomorphicFormsOnReductiveGroups and OrdinaryAutomorphicFormsAndModularityLiftingPartII
+
+Used at `p = 2` in §§9.4 and 12.4, where the Layer 3 statements of
+PotentialAutomorphyInfrastructurePartII, stated for odd `l`, do not apply.
+
+- AutomorphicFormsOnReductiveGroups §7.4 (algebraic modular forms `S(J, M)` of level `J` with
+  coefficients in a finite module over an arbitrary commutative `𝒪`-algebra, restriction, trace
+  and double coset operators) and §7.5 (the stabilizers `Γ_i` are finite and
+  `S(J, M) ≅ ⊕_i M^{Γ_i}`; sufficiently small level, base change of coefficients, and the
+  realization in automorphic forms), with no condition on the residue characteristic.
+- OrdinaryAutomorphicFormsAndModularityLiftingPartII §2.1 (the forms `S_{λ,{χ_v}}(U, A)` on the
+  definite unitary group of PotentialAutomorphyInfrastructurePartII §3.1 at `l = 2`) and §2.3 (every
+  irreducible constituent `π` of `S_{λ,{χ_v}}(ℚ̄₂)` has a continuous semisimple
+  `r_2(π) : G_K → GL_n(ℚ̄₂)`, unique up to isomorphism, compatible up to semisimplification with
+  `π` at every split place prime to `2` outside `R`, so that at a split place where `π` is
+  unramified the characteristic polynomial of Frobenius is the Hecke polynomial). That roadmap's
+  Layer 2 assumes that the CM extension is unramified at every finite place, that every place above
+  `2` splits in it, and that `4 | n[F : ℚ]` for the totally real base `F`; §9.1 (reductions (6) and
+  (11)) and §12.1 (reductions (11) and (14), with `n = 2r` even) arrange these.
 
 ### From TauCetiRoadmap.AdicSpacesPartII, AdicSpacesPartIII and AdicSpacesPartV
 
@@ -351,7 +369,11 @@ is a product of determinants with the prescribed residual products exactly when 
 the factors are unique; so reducibility of type `P` is the Zariski closed condition `V(I_P)` and
 the decomposition of a residually multiplicity-free determinant is unique), §1.5 (universal
 algebras; base change to an absolutely irreducible point is a matrix algebra, after chen14 §1.22
-and Proposition 1.23).
+and Proposition 1.23), §4.1 (compact coefficient-ring gluing: given a compact Hausdorff ring
+`A`, jointly injective continuous maps from `A` to Hausdorff rings `B_i` and continuous determinants `D_i` over
+the `B_i` such that, at each element of a dense subset of the group, each characteristic coefficient
+of all the `D_i` is the image of one element of `A`, there is a unique continuous determinant over
+`A` whose coefficient change to each `B_i` is `D_i`).
 
 ### From TauCetiRoadmap.LocalGaloisDeformationRings
 
@@ -3346,8 +3368,10 @@ Barsotti–Tate) at every `v | p`, `r̄_{π,ι} ≅ r̄_{π′,ι}`, `π_v` a tw
 is for every `v ∤ p`, and for some `a ≥ 1` with `p^a > max(5, 2n − 1)`,
 `PSL_2(𝔽_{p^a}) ⊂ Proj r̄_{π,ι}(G_F) ⊂ PGL_2(𝔽_{p^a})` up to conjugacy (ModularityAndLanglandsExtensions
 §1.7). Prove that after a soluble totally real base change, which preserves the hypotheses and from
-which the conclusion of §9.8 descends, one may assume: (6) `[F : ℚ]` even; (7)
-`det r_{π,ι} = det r_{π′,ι} = ε^{−1}`; (8) `π`, `π′` unramified at `p`; (9) Iwahori-spherical away
+which the conclusion of §9.8 descends, one may assume: (6) `4 | [F : ℚ]` (nt21b asks only that
+`[F : ℚ]` be even; divisibility by `4` gives `4 | n[F : ℚ]` for every `n`, the standing hypothesis of
+the `p = 2` supplier of §9.4); (7) `det r_{π,ι} = det r_{π′,ι} = ε^{−1}`; (8) `π`, `π′` unramified
+at `p`; (9) Iwahori-spherical away
 from `p` with an even number of ramified places; (10) `r̄` trivial on `S = S_p ∪ Σ`, with
 `q_v ≡ 1` modulo `p` and `π_v`, `π′_v` Steinberg on `Σ`; (11) an everywhere unramified CM quadratic
 `K/F` in which `S` splits (nt21b §2, setting and Theorem 2.1, p. 5; reductions (6)–(11), p. 6).
@@ -3372,6 +3396,8 @@ sandwich hypothesis is stable under base change disjoint from the residual field
 - For `n = 2` the bound is `p^a > 5`, so `𝔽_7` qualifies and `𝔽_5` does not; for `n = 10` it is
   `p^a > 19`, so `𝔽_{23}` and `𝔽_{25}` qualify and `𝔽_{19}` does not.
 - A pair with `r_{π,ι}|_{G_{F_v}}` ordinary at some `v | p` is not in the setting.
+- Evenness of `[F : ℚ]` alone is too weak at `p = 2`: for `n = 3` and `[F : ℚ] = 2`,
+  `n[F : ℚ] = 6 ≢ 0` modulo `4`, while after (6) `n[F : ℚ]` is a multiple of `4` for every `n`.
 - For `n = 1`, `Sym^0 r` is the trivial character and the conclusion of §9.8 is tautological; for
   `n = 2` the setting is a rank-two modularity lifting problem in weight two.
 
@@ -3483,8 +3509,24 @@ freeness (PotentialAutomorphyInfrastructurePartII Layer 3) give a free module wh
 `H_G(V_0)_{𝔪_G}` by the trace. Support of `𝔪_G`: Labesse's descent of `Sym^{n−1}` of the automorphic
 `π′_K` to `G` (EndoscopicTransferAndUnitaryTraceComparison §6.29). The `P_Q`-module structure: the
 Hecke-valued determinant restricted at `ṽ ∈ Q` decomposes into characters by uniqueness, matching
-the definition of `P_Q`. Lemma 2.4: Hilbert 90 for `0 → 𝔾_m → Res_{K/F} 𝔾_m → U_1 → 0`. For `p = 2`
-the constructions of Layer 3 are used in the dyadic case (supplier contracts).
+the definition of `P_Q`. Lemma 2.4: Hilbert 90 for `0 → 𝔾_m → Res_{K/F} 𝔾_m → U_1 → 0`.
+
+For `p = 2`, where PotentialAutomorphyInfrastructurePartII Layer 3 is stated only for odd `l`, the
+inputs are replaced as follows (supplier contracts). `H_G(V)` is the weight-`0` space of
+OrdinaryAutomorphicFormsAndModularityLiftingPartII §2.1, the carrier of
+AutomorphicFormsOnReductiveGroups §7.4 with trivial coefficients: `𝒪`-valued functions on a finite
+set, so exactness is automatic, and freeness is the free action of the deck group above, the
+stabilizers being finite (§7.5 there). The Hecke algebra generated by the `T_w^{(i)}` is finite free
+over `𝒪` and reduced, because by the automorphic realization of §7.5 there it acts on each
+constituent through the scalars of its spherical vectors; the determinants of the Galois
+representations of the constituents (OrdinaryAutomorphicFormsAndModularityLiftingPartII §2.3) have
+the Hecke polynomials as characteristic polynomials at the split Frobenius elements, which are dense
+(Chebotarev Layer 10), so they glue to the Hecke-valued determinant over the localized Hecke algebra
+(IntegralHeckeAndGaloisDeterminants §4.1); no `𝒢_n`-valued lift is needed. The comparison of the
+levels `V_0(Q)` and `V_0` at `𝔪_{G,Q}` takes place at the places of `Q`, which are prime to `p`, and
+uses the Iwahori invariants of SmoothRepresentationsOfLocalGroups SR.1.5, SR.2.3 and SR.3.4 with
+local–global compatibility at `Q` (OrdinaryAutomorphicFormsAndModularityLiftingPartII §2.3); the
+parity of `p` plays no role in it.
 
 **API.**
 
@@ -3509,7 +3551,9 @@ the constructions of Layer 3 are used in the dyadic case (supplier contracts).
 definite unitary group"; "Exactness and group-ring freeness at level without `l`-torsion"; "Residual
 and `𝒢_n`-valued Galois representations of Hecke maximal ideals"; "Base change and descent between
 definite unitary groups and `GL_n`"), Layer 4 ("Taylor–Wiles level structures and the parahoric
-projection"); PotentialAutomorphyInfrastructurePartII (gap:dyadic-definite-unitary-forms);
+projection"); for `p = 2`, AutomorphicFormsOnReductiveGroups §§7.4–7.5,
+OrdinaryAutomorphicFormsAndModularityLiftingPartII §§2.1, 2.3, IntegralHeckeAndGaloisDeterminants
+§4.1, SmoothRepresentationsOfLocalGroups SR.1.5, SR.2.3, SR.3.4 and Chebotarev Layer 10;
 EndoscopicTransferAndUnitaryTraceComparison §6.29.
 
 ### 9.5 Patching for symmetric powers, p > 2
@@ -3688,9 +3732,11 @@ and `GL_n`"); EndoscopicTransferAndUnitaryTraceComparison §6.29.
 ### Dependencies
 
 ModularityAndLanglandsExtensions §§0.2, 1.7; PotentialAutomorphyInfrastructurePartII Layers 0, 3,
-4, 9 (gap:dyadic-definite-unitary-forms); PotentialAutomorphyInfrastructure §2.5;
+4, 9; AutomorphicFormsOnReductiveGroups §§7.4–7.5; OrdinaryAutomorphicFormsAndModularityLiftingPartII
+§§2.1, 2.3; SmoothRepresentationsOfLocalGroups SR.1.5, SR.2.3, SR.3.4;
+PotentialAutomorphyInfrastructure §2.5;
 PotentialModularityAndCompatibleSystems §2.16; GlobalGaloisDeformations §§4.6, 4.11, 5.3–5.5, 5.7, 8.5; FiniteFlatGroupsAndIntegralPadicHodgeTheory
-Layer R07.4; LocalGaloisDeformationRings §8.14; IntegralHeckeAndGaloisDeterminants §1.4;
+Layer R07.4; LocalGaloisDeformationRings §8.14; IntegralHeckeAndGaloisDeterminants §§1.4, 4.1;
 GL2ModularityLifting Layers 2, 3, 6; DeformationAndDerivedPatchingAlgebra §§5.4, 5.5, 5.6, 6.1, 6.7;
 EndoscopicTransferAndUnitaryTraceComparison §§6.24, 6.29; ArithmeticGaloisRepresentations §§7.1,
 7.6, 7.10; PadicHodgeTheory §4.4; ArithmeticGaloisDuality §R02.3.5; Chebotarev Layer 10.
@@ -4665,7 +4711,8 @@ the trace identifies the coinvariants (PotentialAutomorphyInfrastructurePartII L
 from Labesse's descent of the automorphic `T` (EndoscopicTransferAndUnitaryTraceComparison §6.29).
 The ordered cumulative products `η_1 ⋯ η_i` define `𝔪_{G,Q}`, and the multiplicity-free
 decomposition of the Hecke determinant gives the `P_Q`-action. Lemma 4.5 by Hilbert 90. For `p = 2`
-the dyadic forms of Layer 3 are used (supplier contracts).
+the inputs are those of §9.4 at `p = 2`; their supplier's hypothesis `4 | n[F : ℚ]` holds because
+`n = 2r` and `[F : ℚ]` is even by (11) of §12.1.
 
 **API.**
 
@@ -4699,8 +4746,10 @@ the dyadic forms of Layer 3 are used (supplier contracts).
 
 *Needs:* §§9.4, 12.3; PotentialAutomorphyInfrastructurePartII Layer 3 ("Algebraic modular forms on a
 definite unitary group"; "Exactness and group-ring freeness at level without `l`-torsion"; "Base
-change and descent between definite unitary groups and `GL_n`") (gap:dyadic-definite-unitary-forms);
-EndoscopicTransferAndUnitaryTraceComparison §6.29.
+change and descent between definite unitary groups and `GL_n`"); for `p = 2`,
+AutomorphicFormsOnReductiveGroups §§7.4–7.5, OrdinaryAutomorphicFormsAndModularityLiftingPartII
+§§2.1, 2.3, IntegralHeckeAndGaloisDeterminants §4.1 and SmoothRepresentationsOfLocalGroups SR.1.5,
+SR.2.3, SR.3.4; EndoscopicTransferAndUnitaryTraceComparison §6.29.
 
 ### 12.5 The tensor image is enormous
 
@@ -4815,9 +4864,12 @@ ModularityAndLanglandsExtensions §§0.2, 4.1.
 
 ### Dependencies
 
-Layer 9; PotentialAutomorphyInfrastructurePartII Layers 0, 3, 9; PotentialAutomorphyInfrastructure
-§2.5; PotentialModularityAndCompatibleSystems §2.16; GlobalGaloisDeformations §§4.11, 8.5; LocalGaloisDeformationRings §§8.12, 8.14;
-FiniteFlatGroupsAndIntegralPadicHodgeTheory Layer R07.4; IntegralHeckeAndGaloisDeterminants §1.4;
+Layer 9; PotentialAutomorphyInfrastructurePartII Layers 0, 3, 9; AutomorphicFormsOnReductiveGroups
+§§7.4–7.5; OrdinaryAutomorphicFormsAndModularityLiftingPartII §§2.1, 2.3;
+SmoothRepresentationsOfLocalGroups SR.1.5, SR.2.3, SR.3.4; PotentialAutomorphyInfrastructure §2.5;
+PotentialModularityAndCompatibleSystems §2.16; GlobalGaloisDeformations §§4.11, 8.5;
+LocalGaloisDeformationRings §§8.12, 8.14;
+FiniteFlatGroupsAndIntegralPadicHodgeTheory Layer R07.4; IntegralHeckeAndGaloisDeterminants §§1.4, 4.1;
 GL2ModularityLifting Layers 2, 3, 6; DeformationAndDerivedPatchingAlgebra §5.6;
 EndoscopicTransferAndUnitaryTraceComparison §6.29; ArithmeticGaloisRepresentations §§7.6, 7.10;
 PadicHodgeTheory §4.4; ModularityAndLanglandsExtensions §§0.2, 4.1.
