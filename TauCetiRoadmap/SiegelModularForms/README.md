@@ -2206,7 +2206,8 @@ its columns only.
 ### 7.1 The Hecke pair `(Γ_g, GSp⁺_{2g}(ℚ))`
 
 Prove that `Γ_g` and `GSp⁺_{2g}(ℚ)` form a Hecke pair in Mathlib's sense
-(`IsHeckeTriple`/`HeckeRing` of `Mathlib/NumberTheory/HeckeRing/Defs.lean`: `Γ_g` is
+(`IsHeckeTriple`/`HeckeRing` of `Mathlib/NumberTheory/HeckeRing/Defs.lean`, with the whole group
+`GSp⁺_{2g}(ℚ)` as the submonoid and `Γ_g` as both subgroups, `isHeckeTriple_gammaGSp`: `Γ_g` is
 commensurable with each conjugate `γ Γ_g γ⁻¹`, `γ ∈ GSp⁺_{2g}(ℚ)`), so that
 `H(Γ_g, GSp⁺_{2g}(ℚ))` is Mathlib's `HeckeRing` (formal sums of double cosets) with the
 convolution product and ring structure that Tau Ceti's `TauCeti.NumberTheory.HeckeRing.Multiplication`,
@@ -2217,7 +2218,8 @@ Prove: `O_g(m)` (0.2) is a finite union of right cosets `Γ_g γ_i` with represe
 Lemma 16.1); the elementary-divisor theorem: every double coset `Γ_g γ Γ_g` with `γ`
 integral has a unique representative `diag(a₁, …, a_g, d₁, …, d_g)` with `a_i d_i = μ(γ)`,
 `a_i ∣ a_{i+1}`, `a_g ∣ d_g` (Proposition 16.2); the anti-involution `γ ↦ γ^∨` fixes every
-double coset, so the Hecke ring is **commutative** by Shimura's criterion (Tau Ceti's
+double coset, so the Hecke ring with coefficients in any commutative semiring is **commutative**
+(`heckeRing_mul_comm`) by Shimura's criterion (Tau Ceti's
 `HeckeCosetModule.mul_comm_of_antiInvolution`, with `γ ↦ γ^∨` as a `HeckeAntiInvolution`); the local algebras `H_p` and the
 decomposition `H = ⨂_p H_p`; and the generation of the integral local algebra `H_p⁰` by
 `T(p)` and `T_i(p²)`, `1 ≤ i ≤ g` (Theorem 16.3). Define `T(m) := ∑` of the double cosets in
@@ -2432,8 +2434,9 @@ In `Suggested.lean` the Hecke operators are `heckeT` and `heckeTi`, the coset su
 `integralSimilitudes` and to `heckeDoubleCoset` (with `heckeDiag` and `gammaGSp`), with the
 obligations `finite_rightCosetsOf_integralSimilitudes`, `finite_rightCosetsOf_heckeDoubleCoset`,
 `heckeTFun_mem` and `heckeTiFun_mem`; the eigenforms are `IsHeckeEigenform`. Its headline
-statements are 7.2's `exists_eigenform_basis` and 7.5's coefficient formula `coeffTriple_heckeT`,
-on the coordinate `coeffTriple`.
+statements are 7.1's `isHeckeTriple_gammaGSp` (an instance) and `heckeRing_mul_comm`, 7.2's
+`exists_eigenform_basis` and 7.5's coefficient formula `coeffTriple_heckeT`, on the coordinate
+`coeffTriple`.
 
 ### Examples
 

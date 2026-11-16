@@ -38,8 +38,9 @@ Headline theorems not statable at the pins, and what each lacks:
   are stated, as `finrank_cusp_tsushima`, `finrank_cusp_paramodular` and
   `finrank_cusp_paramodular_four`);
 * the Satake isomorphism and the Satake parameters (7.4): the Satake transform
-  `H_p ⊗ ℚ → ℚ[Y]^W` (the Hecke ring itself is at the pins: Mathlib's `HeckeRing` with Tau Ceti's
-  ring structure `HeckeCosetModule.instRingHeckeRing`);
+  `H_p ⊗ ℚ → ℚ[Y]^W` (the Hecke ring itself is at the pins, Mathlib's `HeckeRing` with Tau Ceti's
+  ring structure `HeckeCosetModule.instRingHeckeRing`, and 7.1's Hecke pair and commutativity
+  are stated below as `isHeckeTriple_gammaGSp` and `heckeRing_mul_comm`);
 * the spinor and standard `L`-functions as Euler products, their functional equations and the
   data-model export (8.2–8.5): the Satake parameters;
 * the Fourier–Jacobi expansion and the Jacobi-side statements of 9.1–9.2, 9.5–9.6: the Jacobi
@@ -1316,6 +1317,24 @@ def integralSimilitudes (g m : ℕ) : Set (GSpPos g ℚ) :=
 
 /-- `Γ_g` inside `GSp⁺_{2g}(ℚ)`, whose right cosets index the Hecke sums (7.1). -/
 def gammaGSp (g : ℕ) : Subgroup (GSpPos g ℚ) := (Sp.toGSpPos.comp Sp.intToRat).range
+
+/-- `(Γ_g, GSp⁺_{2g}(ℚ))` is a **Hecke pair** in Mathlib's sense (7.1): every element of
+`GSp⁺_{2g}(ℚ)` commensurates `Γ_g`, so each double coset `Γ_g γ Γ_g` is a finite union of right
+cosets (van der Geer §16, Lemma 16.1). As an instance it gives Mathlib's `HeckeRing` of the pair
+Tau Ceti's convolution product and ring structure. -/
+theorem isHeckeTriple_gammaGSp (g : ℕ) :
+    IsHeckeTriple (⊤ : Submonoid (GSpPos g ℚ)) (gammaGSp g) (gammaGSp g) := sorry
+
+attribute [instance] isHeckeTriple_gammaGSp
+
+/-- The Hecke ring of `(Γ_g, GSp⁺_{2g}(ℚ))` with coefficients in a commutative semiring is
+**commutative** (7.1): the anti-involution `γ ↦ γ^∨ = μ(γ) γ⁻¹` fixes every double coset, since
+`(cγ)^∨ = c γ^∨` for a positive integer `c` making `cγ` integral and, by the elementary-divisor
+theorem, the double coset of an integral matrix contains a diagonal `α` with `α^∨ = J α J⁻¹` and
+`J ∈ Γ_g`; Shimura's criterion
+`HeckeCosetModule.mul_comm_of_antiInvolution` applies (van der Geer §16, Proposition 16.2). -/
+theorem heckeRing_mul_comm (g : ℕ) (R : Type*) [CommSemiring R]
+    (a b : HeckeRing (⊤ : Submonoid (GSpPos g ℚ)) (gammaGSp g) R) : a * b = b * a := sorry
 
 /-- The right cosets `Γ_g γ` meeting a subset of `GSp⁺_{2g}(ℚ)` (7.1). -/
 def rightCosetsOf (S : Set (GSpPos g ℚ)) : Set (Quotient (QuotientGroup.rightRel (gammaGSp g))) :=
