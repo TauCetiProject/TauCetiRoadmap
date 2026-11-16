@@ -75,6 +75,11 @@ classifying topos `B G` of a group (Layer 1, Examples) is not the topological cl
 ClassifyingSpaces. The Grothendieck topoi in which `u`-small products of epimorphisms are
 epimorphisms and `u`-small products distribute over `u`-small coproducts, the two properties of
 presheaf topoi stated in 6.5, are characterized by TotallyDistributiveTopoi §§2.4–2.5 and 3.5.
+The n- and ∞-categorical theory of topoi is InfinityCategoryTheory, InfinityTopoi: its
+n-categorical Giraud theorem (§§17.5, 19.2, 19.4), 0-topoi and the covering topology of a locale
+(§18.3), and the localic reflection for 0 ≤ m ≤ n ≤ ∞ (§20.2). This roadmap owns the
+1-categorical statements and supplies them there: target 1.4 to the case n = 1 of its §19.4,
+target 7.1 to its §18.3.1, and target 7.2 to the case m = 0, n = 1 of its §20.2.
 
 **Abelian sheaves: the boundary.** Layer 9 states the topos-level abelian statements, for an
 arbitrary small site, an object `c` and the open subtopos of a subterminal `ℓ c`; the following
