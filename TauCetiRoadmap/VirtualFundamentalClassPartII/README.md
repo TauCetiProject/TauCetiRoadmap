@@ -212,12 +212,17 @@ ImplicitAtlases.
    dimension that of VirtualFundamentalClass §0.2. `A_i(ℳ)_ℚ := A_i(ℳ) ⊗_ℤ ℚ`; for separated `ℳ`
    this is VirtualFundamentalClass's `A_i(ℳ)_ℚ` (2.3), so every rational statement below is a
    statement about that roadmap's groups. On a smooth stack of pure dimension `n`,
-   `A^c := A_{n−c}`, and the two gradings are not mixed on a singular stack. A statement is integral
-   exactly when it is in Layers 2–3: cycles, rational equivalence, flat pullback, pushforward along
-   proper representable morphisms, push–pull for representable morphisms, localisation, exterior
-   products, homotopy invariance on algebraic spaces and Gysin maps with algebraic-space sources.
-   Non-representable pushforward, Gysin maps and Chern classes acting on stacks, homotopy
-   invariance on stacks, products on stacks, the comparisons and virtual classes are rational.
+   `A^c := A_{n−c}`, and the two gradings are not mixed on a singular stack. The integral groups and
+   operations of this roadmap are those of Layers 2–3 (cycles, rational equivalence, flat pullback,
+   pushforward along proper representable morphisms, push–pull for representable morphisms,
+   localisation, exterior products, homotopy invariance on algebraic spaces and Gysin maps with
+   algebraic-space sources) and those of 8.1, which forms no Chow group: the cycles and rational
+   equivalences `Z_*`, `W_*` of algebraic stacks, the `P`-divisor operations and the canonical
+   rational equivalence `β`, with the elements of `W_*` that 8.2–8.3 descend from it. A statement of
+   another layer may use them, as 5.4's API uses 3.2's pushforward. On schemes, 9.5 uses the integral
+   pushforward, Chern classes and degree of SchemeAndStackFoundations §§5.2–5.4. Non-representable
+   pushforward, Gysin maps and Chern classes acting on stacks, homotopy invariance on stacks,
+   products on stacks, the comparisons of Layer 5 and virtual classes are rational.
    Witness: `A_0([𝔸¹/μ₂]) ≅ ℤ/2` while
    `A_0([𝔸¹/μ₂])_ℚ = 0 = A_0(𝔸¹)_ℚ` (2.2, 5.2), so the moduli-space comparison is false integrally.
 
