@@ -1039,12 +1039,16 @@ This section is secondary: it maps existing Lean code to targets and prescribes 
 repository LeanPool, *lean-pool* (References), keeps Lean 4 formalizations that do not fit Mathlib,
 each project permissively licensed (Apache-2.0 or MIT) and bumped to Lean and Mathlib v4.35.0,
 earlier than our pin. It is not a dependency: a statement read there is compared with the target
-here before it is used, adaptation is agreed with its maintainers first, and adapted code keeps its
-license notices.
+here before it is used, adaptation is agreed first with the authors of the code (named in each
+file's header and in LeanPool's NOTICE), and adapted code keeps its license notices.
 
-`LeanPool/EilenbergZilber` proves the Eilenberg–Zilber theorem for bisimplicial objects, with the
-shuffle map and the normalized comparison, a tool of the simplicial computations around Layer 1.
-Nothing there treats cyclic homology, the Loday–Quillen–Tsygan theorem or quasi-free algebras.
+`LeanPool/EilenbergZilber` proves the Eilenberg–Zilber theorem for a bisimplicial object of an
+abelian category: a chain homotopy equivalence between the total complex and the complex of the
+diagonal, built from the shuffle and Alexander–Whitney maps on normalized complexes. That theorem is
+DerivedModuleAlgebra §0.2.2 (bisimplicial module diagonal comparison), stated on Tau Ceti's
+`CategoryTheory.SimplicialObject.diag`, `CategoryTheory.SimplicialObject.doubleComplex` and
+`CategoryTheory.SimplicialObject.diagAlexanderWhitney`; no target of this roadmap uses it. Nothing
+there treats cyclic homology, the Loday–Quillen–Tsygan theorem or quasi-free algebras.
 
 ## References
 
