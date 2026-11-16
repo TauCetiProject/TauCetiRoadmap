@@ -389,7 +389,7 @@ algebraic (Katz–Messing 1974, Theorem 2, 1)). An element of `𝒜(X)` preservi
 as its degree-`0` part, a cycle `Z = Z′/m` with `Z′` integral and `m ≥ 1`; the characteristic
 polynomial of `Z′` on `H^i(X)` has integer coefficients (ibid., Theorem 2, 2)), so that of `Z`,
 `m^{−b} det(mT − Z′)` with `b = dim H^i(X)`, lies in `ℚ[T]`. So for such `X`, `B_H(X)` holds iff
-for each `i ≤ d` some element of `𝒜(X)` maps `H^{2d−i}(X)` bijectively onto `H^i(X)` (for the
+for each `i ≤ d` some element of `𝒜(X)` maps `H^(2d−i)(X)` bijectively onto `H^i(X)` (for the
 converse, `Λ^{d−i}` is one).
 
 ### 1.4 Algebraic `Λ` and positivity give nondegeneracy
@@ -562,15 +562,16 @@ None known.
 This section is secondary: it maps existing Lean code to targets and prescribes nothing. The
 Apache-2.0 repository AxiomMath, *The Stacks Project in Lean* (References), formalizes the Stacks
 Project on Mathlib. Its `StacksFrontier` tier is written by AI agents and builds without `sorry`;
-the repository records it as unreviewed by humans, and it is built on Lean and Mathlib v4.35.0,
-earlier than our pin. It is not a dependency: a statement read there is compared with the target
-here before it is used, adaptation is agreed with its maintainers first, and adapted code keeps its
-Apache-2.0 notices.
+the repository keeps it apart from its human-reviewed `StacksCore` tier, and it is built on Lean and
+Mathlib v4.35.0, earlier than our pin. It is not a dependency: a statement read there is compared
+with the target here before it is used, adaptation is agreed with its maintainers first, and adapted
+code keeps its Apache-2.0 notices.
 
 `StacksFrontier/AlgebraicGeometry/WeilCohomology` follows the Stacks chapter *Weil Cohomology
 Theories*. `ClassicalTheory.lean` defines classical Weil cohomology theories over abstract Chow
-cycle data, with the Künneth map, cycle classes of external products and the projection formula (Tag
-0FGV); `Correspondences/` builds correspondences, their composition, graphs, transposes and the
+cycle data (Tag 0FGV), with the Künneth map and cycle classes of external products;
+`ProjectionFormula/Formula.lean` proves the projection formula for the Poincaré-dual pushforward
+(Tag 0FGT); `Correspondences/` builds correspondences, their composition, graphs, transposes and the
 graded category of correspondences; `Motives/` builds Chow motives as a Karoubi envelope (Tag 0FGA),
 with duality and Manin's identity principle. These are the objects of 2.1 and 2.2, which this
 roadmap takes from MotivesAndAlgebraicCycles. No file name or tag there treats Lefschetz structures,
@@ -578,32 +579,34 @@ primitive decompositions or the Lefschetz inverse (Layer 0), the conditional the
 the comparison of 2.4, and weak and hard Lefschetz are not among the axioms of 0FGV.
 
 A second AxiomMath project on the same library, *The Weil conjectures in Lean* (References), proves
-Poincaré duality for the étale cohomology of smooth projective varieties with ℓ-adic and rational
-coefficients, the skew-symmetry of the cup pairing in odd degrees and the action of Frobenius in top
-degree (`Weil/AlgebraicGeometry/EtaleCohomology/Duality/`, 11 files, labelled by Freitag–Kiehl's
-numbering rather than Stacks tags). These are the Poincaré pairings of 0.5 and the duality axiom of
-2.1 for ℓ-adic cohomology; nothing there concerns the Lefschetz operator.
+the following for `X` proper and smooth over a finite field `k`, with `X_k̄` connected and `ℓ ≠ char
+k`. For each `i ≤ 2d` some perfect pairing `H^i(X_k̄, ℚ_ℓ) × H^(2d−i)(X_k̄, ℚ_ℓ) → ℚ_ℓ` is
+multiplied by `q^d` under Frobenius. Cup products in odd degree anticommute. Frobenius acts on
+`H^(2d)(X_k̄, ℚ_ℓ)` by `q^d`. These results are in `Weil/AlgebraicGeometry/EtaleCohomology/Duality/`
+(11 files, one with a Freitag–Kiehl label). The pairing is asserted to exist and is not identified
+with `Tr(a ∪ b)`. So it gives neither the compatibility `⟨L x, y⟩ = ⟨x, L y⟩` of a Poincaré pairing
+(0.5) nor the perfectness of the cup-product pairing that 2.1's duality axiom requires. Nothing
+there concerns the Lefschetz operator.
 
 ## References
 
-All checked on zbMATH.
+The publications are checked on zbMATH; the two formalizations are cited by repository and commit.
 
 - N. M. Katz, W. Messing, « Some consequences of the Riemann hypothesis for varieties over finite
   fields », *Invent. Math.* 23 (1974), 73–77: Theorem 2, pp. 76–77. Zbl 0275.14011.
-- A. Grothendieck, « Standard conjectures on algebraic cycles », in *Algebraic Geometry
-  (Internat. Colloq., Tata Inst. Fund. Res., Bombay, 1968)*, Oxford Univ. Press, 1969, 193–199.
-  Zbl 0201.23301.
+- A. Grothendieck, « Standard conjectures on algebraic cycles », in *Algebraic Geometry (Internat.
+  Colloq., Tata Inst. Fund. Res., Bombay, 1968)*, Oxford Univ. Press, 1969, 193–199. Zbl 0201.23301.
 - S. L. Kleiman, « Algebraic cycles and the Weil conjectures », in *Dix exposés sur la cohomologie
   des schémas*, Adv. Stud. Pure Math. 3, North-Holland, 1968, 359–386. Zbl 0198.25902.
 - S. L. Kleiman, « The standard conjectures », in U. Jannsen, S. Kleiman, J.-P. Serre (eds.),
   *Motives*, Proc. Sympos. Pure Math. 55, Part 1, AMS, 1994, 3–20. Zbl 0820.14006.
-- D. I. Lieberman, « Numerical and homological equivalence of algebraic cycles on Hodge
-  manifolds », *Amer. J. Math.* 90 (1968), 366–374. Zbl 0159.50501.
+- D. I. Lieberman, « Numerical and homological equivalence of algebraic cycles on Hodge manifolds »,
+  *Amer. J. Math.* 90 (1968), 366–374. Zbl 0159.50501.
 - Y. André, *Une introduction aux motifs*, Panoramas et Synthèses 17, SMF, 2004. Zbl 1060.14001.
-- D. Arapura, « Motivation for Hodge cycles », *Adv. Math.* 207 (2006), no. 2, 762–781.
-  Zbl 1109.14012. arXiv:math/0501348 (v3 read; numbering as there).
-- A. Beilinson, « Remarks on Grothendieck's standard conjectures », in *Regulators*, Contemp.
-  Math. 571, AMS, 2012, 25–32. Zbl 1268.14007. arXiv:1006.1116 (v2 read; numbering as there).
+- D. Arapura, « Motivation for Hodge cycles », *Adv. Math.* 207 (2006), no. 2, 762–781. Zbl
+  1109.14012. arXiv:math/0501348 (v3 read; numbering as there).
+- A. Beilinson, « Remarks on Grothendieck's standard conjectures », in *Regulators*, Contemp. Math.
+  571, AMS, 2012, 25–32. Zbl 1268.14007. arXiv:1006.1116 (v2 read; numbering as there).
 - AxiomMath, *The Stacks Project in Lean*. Lean 4 formalization at commit
   c496df0d9beea9deaeabcea8492605f9a0a2313b, Apache-2.0, built on Lean and Mathlib v4.35.0;
   directories `StacksFrontier/AlgebraicGeometry/WeilCohomology`.
