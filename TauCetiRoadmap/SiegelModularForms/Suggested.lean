@@ -37,8 +37,9 @@ Headline theorems not statable at the pins, and what each lacks:
   Tsushima's formula for `S_{k,j}(Γ₂)` (6.4) and Ibukiyama's formulas for `S_k(K(p))` (10.1)
   are stated, as `finrank_cusp_tsushima`, `finrank_cusp_paramodular` and
   `finrank_cusp_paramodular_four`);
-* the Satake isomorphism and the Satake parameters (7.4): the Hecke algebra as a ring with its
-  characters;
+* the Satake isomorphism and the Satake parameters (7.4): the Satake transform
+  `H_p ⊗ ℚ → ℚ[Y]^W` (the Hecke ring itself is at the pins: Mathlib's `HeckeRing` with Tau Ceti's
+  ring structure `HeckeCosetModule.instRingHeckeRing`);
 * the spinor and standard `L`-functions as Euler products, their functional equations and the
   data-model export (8.2–8.5): the Satake parameters;
 * the Fourier–Jacobi expansion and the Jacobi-side statements of 9.1–9.2, 9.5–9.6: the Jacobi

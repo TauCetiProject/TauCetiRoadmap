@@ -273,8 +273,12 @@ operator on Siegel modular forms, and no paramodular group.
   unipotent subgroups `upperUnipotent`/`lowerUnipotent` and the generation theorems of
   `TauCeti.LinearAlgebra.Matrix.GeneralLinearGroup.Symplectic.*`; the symplectic multiplier
   lemma `Matrix.transpose_mul_J_mul_eq_det_smul` of
-  `TauCeti.LinearAlgebra.Matrix.SymplecticMultiplier`; the degree-one Hecke theory of
-  `TauCeti.NumberTheory.HeckeRing.*` and `TauCeti.NumberTheory.ModularForms.HeckeSlash.*`; the
+  `TauCeti.LinearAlgebra.Matrix.SymplecticMultiplier`; the abstract Hecke ring of
+  `TauCeti.NumberTheory.HeckeRing.*` for every Hecke pair (`HeckeCosetModule.instRingHeckeRing`,
+  `HeckeAntiInvolution`, `HeckeCosetModule.mul_comm_of_antiInvolution`); the `GL_n` and `GL₂`
+  double-coset theory of `TauCeti.NumberTheory.HeckeRing.GLn.*` and
+  `TauCeti.NumberTheory.HeckeRing.GL2.*`; the degree-one Hecke operators of
+  `TauCeti.NumberTheory.ModularForms.HeckeSlash.*`; the
   newforms `HeckeRing.GL2.Newform` with their Satake parameters
   `HeckeRing.GL2.Newform.satakeParameters` (`TauCeti.NumberTheory.ModularForms.Newforms.Satake`),
   their `L`-functions (`TauCeti.NumberTheory.ModularForms.LFunction.*`), the level-one graded
@@ -298,8 +302,15 @@ operator on Siegel modular forms, and no paramodular group.
   `Mᵀ J M = μ • J` gives `(det M − μ) • J = 0`, hence `det M = μ` since `J` has the entry `−1`.
   This is the `g = 1` bridge check of 0.2's `det M = μ(M)^g`, which 0.2 owns for every `g`.
 - `TauCeti.Topology.Algebra.SymplecticGroup`: `isClosed_symplecticGroup`, `isClosed_GLSymplectic`.
-- The degree-one theory at the pin: `TauCeti.NumberTheory.HeckeRing.*` (the abstract Hecke
-  ring with its convolution product, the `GL_n` and `GL₂` double-coset theory),
+- The abstract Hecke ring at the pin, for a Hecke pair `(Δ, H)` in any group: Mathlib's
+  `HeckeRing` carries no product at the pin; `TauCeti.NumberTheory.HeckeRing.Multiplication`,
+  `.One` and `.Associativity` give it the convolution product and the ring structure
+  (`HeckeCosetModule.instRingHeckeRing`, for `[IsHeckeTriple Δ H H]` and a ring of coefficients),
+  and `.Commutativity` gives Shimura's criterion: an anti-involution of `Δ` preserving `H` and
+  fixing every double coset makes the ring over a commutative coefficient ring commutative
+  (`HeckeCosetModule.mul_comm_of_antiInvolution`). 7.1 consumes these for every `g`.
+- The `GL_n` and `GL₂` double-coset theory `TauCeti.NumberTheory.HeckeRing.GLn.*` and
+  `TauCeti.NumberTheory.HeckeRing.GL2.*`, and the degree-one theory at the pin:
   `TauCeti.NumberTheory.ModularForms.HeckeSlash.*` (`Tₙ` on `M_k(Γ₁(N))`),
   `…ModularForms.Newforms.Newform` (`HeckeRing.GL2.Newform`, `EigenformAwayFromLevel`),
   `…Newforms.Satake` (`satakeParameters`, `satakeAngle`), `…ModularForms.LFunction.*`
@@ -468,7 +479,7 @@ with `gaussian` and
 
 ## How to read the build
 
-The layers are in build order; each layer's *Dependencies* lists what its *Needs:* lines name. Layer 0 (groups, half-space, action, automorphy factor, arithmetic and paramodular groups) rests on Mathlib, Tau Ceti's `GLSymplectic` and `SymplecticMultiplier`, `ClassicalGroupsPartII` CG.0.1 and, for the comparisons of 0.2 and 0.3, `AutomorphicFormsOnReductiveGroups` §6.4 and `MetaplecticAutomorphicForms` 8.10; Layer 1 (weights, slash operators, bundled forms) needs Layer 0; Layer 2 (half-integral matrices, Fourier expansion, Koecher, bounds, singular forms) needs Layers 0–1 and `IntegralLattices` *Layer 2* for 2.1, and 2.1 itself is independent of Layers 0–1; Layer 3 (`Φ`, cusp forms, fundamental domain, Petersson, finite dimensionality) needs Layers 0–2 and `IntegralLattices` *Layer 2* for 3.3, with `LevelOneAutomorphicFormsForClassicalGroups` §6.1 and `AutomorphicBundles` §11.9 for the level-one comparison of 3.2; Layer 4 (Eisenstein series) needs Layers 0–3 and the Jacobi suppliers; 4.2 first constructs the Jacobi Eisenstein series and general Maass lift and then derives the Siegel coefficient formula, which anchors Layer 6; Layer 5 (theta series, theta constants) needs Layers 0–3 and the theta-series roadmap, with `LevelOneAutomorphicFormsForClassicalGroups` §§6.4, 6.7, `MetaplecticAutomorphicForms` 8.18 and `LatticePackingsAndPerfectForms` 5.6 for comparisons, and is independent of Layer 4; Layer 6 (degree-two rings) needs Layers 0–5, `PELModuli` M5 for 6.9 and `LevelOneAutomorphicFormsForClassicalGroups` §7.9 for the odd degree-four weights of 6.9; Layer 7 (Hecke operators, Satake parameters) needs Layers 0–3 and Mathlib's `HeckeRing` for 7.1–7.5, while 7.6 needs Layers 4 and 6 and `LevelOneAutomorphicFormsForClassicalGroups` §6.1; Layer 8 (`L`-functions) needs Layers 2–7, the modular-forms roadmap's *Layer 7*, `LFunctions` *Layer 0*, and for the standard `L`-function `AutomorphicLFunctionsAndLocalFactorsPartII` §§9.1–9.3, `AdelicAlgebraicGroups` §§2.2–2.3 and `AutomorphicFormsOnReductiveGroups` §§3.1–3.2, and nothing of Layer 9; Layer 9 (Fourier–Jacobi, Maass lift, Saito–Kurokawa and the analytic statements on the Maass space, lifts) needs Layers 0–8 and the Jacobi suppliers; Layer 10 (paramodular) needs Layers 0–3 and 7–9, `SmoothRepresentationsOfLocalGroups`, `LFunctions` *Layer 0* and the abelian-surface suppliers; Layer 11 (LMFDB invariants) needs everything above. After Layer 3, Layer 5 is independent of Layer 4 and 7.1–7.5 are independent of Layers 4–6; Layer 6 joins Layers 4 and 5, 7.6 and Layer 8 join Layers 4–7, Layer 9 joins everything through Layer 8, and Layers 10–11 close. What each layer delivers: The positive similitude group and the Siegel upper half-space with its action; holomorphic weights and slash operators; Siegel modular forms of degree `g ≥ 2` with and without character; Fourier expansions over half-integral matrices, Koecher's principle, the coefficient bounds and singular forms; the `Φ`-operator, cusp forms, the Petersson product, Siegel's fundamental domain and finite dimensionality; Siegel and Klingen Eisenstein series and the degree-two Maass–Cohen coefficient formula; degree-`g` theta series of lattices, pluriharmonic theta series and theta constants; `ψ₄, ψ₆, χ₁₀, χ₁₂, χ₃₅` and Igusa's theorem; Satoh's module, Tsushima's formula and the `Γ(2)`, `Γ₀(2)`, `Γ₀(3)`, `Γ₀(4)` rings; the Hecke algebra of `(Γ_g, GSp⁺_{2g}(ℚ))`, its action, eigenforms, Satake parameters and the degree-two coefficient formula; spinor and standard `L`-functions; the Fourier–Jacobi expansion, the Jacobi Eisenstein series and `V_l`, the Maass lift and the Saito–Kurokawa theorem, and the statements of the Gritsenko, Ikeda and Miyawaki lifts; paramodular groups, forms, level raising, newforms, the Roberts–Schmidt and Poor–Yuen statements and the paramodular conjecture; the LMFDB invariants.
+The layers are in build order; each layer's *Dependencies* lists what its *Needs:* lines name. Layer 0 (groups, half-space, action, automorphy factor, arithmetic and paramodular groups) rests on Mathlib, Tau Ceti's `GLSymplectic` and `SymplecticMultiplier`, `ClassicalGroupsPartII` CG.0.1 and, for the comparisons of 0.2 and 0.3, `AutomorphicFormsOnReductiveGroups` §6.4 and `MetaplecticAutomorphicForms` 8.10; Layer 1 (weights, slash operators, bundled forms) needs Layer 0; Layer 2 (half-integral matrices, Fourier expansion, Koecher, bounds, singular forms) needs Layers 0–1 and `IntegralLattices` *Layer 2* for 2.1, and 2.1 itself is independent of Layers 0–1; Layer 3 (`Φ`, cusp forms, fundamental domain, Petersson, finite dimensionality) needs Layers 0–2 and `IntegralLattices` *Layer 2* for 3.3, with `LevelOneAutomorphicFormsForClassicalGroups` §6.1 and `AutomorphicBundles` §11.9 for the level-one comparison of 3.2; Layer 4 (Eisenstein series) needs Layers 0–3 and the Jacobi suppliers; 4.2 first constructs the Jacobi Eisenstein series and general Maass lift and then derives the Siegel coefficient formula, which anchors Layer 6; Layer 5 (theta series, theta constants) needs Layers 0–3 and the theta-series roadmap, with `LevelOneAutomorphicFormsForClassicalGroups` §§6.4, 6.7, `MetaplecticAutomorphicForms` 8.18 and `LatticePackingsAndPerfectForms` 5.6 for comparisons, and is independent of Layer 4; Layer 6 (degree-two rings) needs Layers 0–5, `PELModuli` M5 for 6.9 and `LevelOneAutomorphicFormsForClassicalGroups` §7.9 for the odd degree-four weights of 6.9; Layer 7 (Hecke operators, Satake parameters) needs Layers 0–3 and Mathlib's `HeckeRing` with Tau Ceti's ring structure on it for 7.1–7.5, while 7.6 needs Layers 4 and 6 and `LevelOneAutomorphicFormsForClassicalGroups` §6.1; Layer 8 (`L`-functions) needs Layers 2–7, the modular-forms roadmap's *Layer 7*, `LFunctions` *Layer 0*, and for the standard `L`-function `AutomorphicLFunctionsAndLocalFactorsPartII` §§9.1–9.3, `AdelicAlgebraicGroups` §§2.2–2.3 and `AutomorphicFormsOnReductiveGroups` §§3.1–3.2, and nothing of Layer 9; Layer 9 (Fourier–Jacobi, Maass lift, Saito–Kurokawa and the analytic statements on the Maass space, lifts) needs Layers 0–8 and the Jacobi suppliers; Layer 10 (paramodular) needs Layers 0–3 and 7–9, `SmoothRepresentationsOfLocalGroups`, `LFunctions` *Layer 0* and the abelian-surface suppliers; Layer 11 (LMFDB invariants) needs everything above. After Layer 3, Layer 5 is independent of Layer 4 and 7.1–7.5 are independent of Layers 4–6; Layer 6 joins Layers 4 and 5, 7.6 and Layer 8 join Layers 4–7, Layer 9 joins everything through Layer 8, and Layers 10–11 close. What each layer delivers: The positive similitude group and the Siegel upper half-space with its action; holomorphic weights and slash operators; Siegel modular forms of degree `g ≥ 2` with and without character; Fourier expansions over half-integral matrices, Koecher's principle, the coefficient bounds and singular forms; the `Φ`-operator, cusp forms, the Petersson product, Siegel's fundamental domain and finite dimensionality; Siegel and Klingen Eisenstein series and the degree-two Maass–Cohen coefficient formula; degree-`g` theta series of lattices, pluriharmonic theta series and theta constants; `ψ₄, ψ₆, χ₁₀, χ₁₂, χ₃₅` and Igusa's theorem; Satoh's module, Tsushima's formula and the `Γ(2)`, `Γ₀(2)`, `Γ₀(3)`, `Γ₀(4)` rings; the Hecke algebra of `(Γ_g, GSp⁺_{2g}(ℚ))`, its action, eigenforms, Satake parameters and the degree-two coefficient formula; spinor and standard `L`-functions; the Fourier–Jacobi expansion, the Jacobi Eisenstein series and `V_l`, the Maass lift and the Saito–Kurokawa theorem, and the statements of the Gritsenko, Ikeda and Miyawaki lifts; paramodular groups, forms, level raising, newforms, the Roberts–Schmidt and Poor–Yuen statements and the paramodular conjecture; the LMFDB invariants.
 
 ---
 
@@ -2197,14 +2208,17 @@ its columns only.
 Prove that `Γ_g` and `GSp⁺_{2g}(ℚ)` form a Hecke pair in Mathlib's sense
 (`IsHeckeTriple`/`HeckeRing` of `Mathlib/NumberTheory/HeckeRing/Defs.lean`: `Γ_g` is
 commensurable with each conjugate `γ Γ_g γ⁻¹`, `γ ∈ GSp⁺_{2g}(ℚ)`), so that
-`H(Γ_g, GSp⁺_{2g}(ℚ))` is Mathlib's Hecke ring with its convolution product (the knowl
-`mf.siegel.hecke_operator`, and Tau Ceti's `TauCeti.NumberTheory.HeckeRing.*` for `g = 1`).
+`H(Γ_g, GSp⁺_{2g}(ℚ))` is Mathlib's `HeckeRing` (formal sums of double cosets) with the
+convolution product and ring structure that Tau Ceti's `TauCeti.NumberTheory.HeckeRing.Multiplication`,
+`.One` and `.Associativity` give every Hecke pair in any group (`HeckeCosetModule.instRingHeckeRing`;
+the knowl `mf.siegel.hecke_operator`).
 Prove: `O_g(m)` (0.2) is a finite union of right cosets `Γ_g γ_i` with representatives
 `[[A, B], [0, D]]`, `AᵀD = m·1`, `A` upper triangular, `B` reduced modulo `D` (van der Geer,
 Lemma 16.1); the elementary-divisor theorem: every double coset `Γ_g γ Γ_g` with `γ`
 integral has a unique representative `diag(a₁, …, a_g, d₁, …, d_g)` with `a_i d_i = μ(γ)`,
 `a_i ∣ a_{i+1}`, `a_g ∣ d_g` (Proposition 16.2); the anti-involution `γ ↦ γ^∨` fixes every
-double coset, so the Hecke ring is **commutative**; the local algebras `H_p` and the
+double coset, so the Hecke ring is **commutative** by Shimura's criterion (Tau Ceti's
+`HeckeCosetModule.mul_comm_of_antiInvolution`, with `γ ↦ γ^∨` as a `HeckeAntiInvolution`); the local algebras `H_p` and the
 decomposition `H = ⨂_p H_p`; and the generation of the integral local algebra `H_p⁰` by
 `T(p)` and `T_i(p²)`, `1 ≤ i ≤ g` (Theorem 16.3). Define `T(m) := ∑` of the double cosets in
 `O_g(m)` (Definition 16.4), so `T(p)` is one double coset and `T(p²) = ∑_{i=0}^{g} T_i(p²)`,
@@ -2214,7 +2228,8 @@ type): `#Γ₂\T(p) = (p+1)(p²+1)`, `#Γ₂\T₀(p²) = p³(p+1)(p²+1)`, `#Γ�
 `#Γ₂\T₂(p²) = 1`, so `#Γ₂\O₂(p²) = (p+1)(p²+1)(p³+p) + 1`; acceptance values `15, 120, 30, 1`
 (total `151`) for `p = 2` and `40, 1080, 120, 1` (total `1201`) for `p = 3`.
 
-*Needs:* 0.2, 0.6; Mathlib `IsHeckeTriple`, `HeckeRing`, `Subgroup.Commensurable`.
+*Needs:* 0.2, 0.6; Mathlib `IsHeckeTriple`, `HeckeRing`, `Subgroup.Commensurable`; Tau Ceti
+`HeckeCosetModule.instRingHeckeRing`, `HeckeAntiInvolution`, `HeckeCosetModule.mul_comm_of_antiInvolution`.
 
 **Checks.**
 
@@ -2433,8 +2448,10 @@ on the coordinate `coeffTriple`.
 
 7.1–7.5 need Layers 0–3 (0.2, 0.6, 0.7, 1.2, 1.3, 2.2, 3.2, 3.4, 3.5) and Mathlib's
 `IsHeckeTriple`, `HeckeRing`, `Subgroup.Commensurable` and `MvPolynomial.esymm`; Tau Ceti's
-`HeckeSlash`, `satakeParameters` and the modular-forms roadmap's *Layer 2* for the `g = 1`
-comparisons. 7.6 needs Layers 4 and 6, `LevelOneAutomorphicFormsForClassicalGroups` §6.1 and
+ring structure on `HeckeRing` and Shimura's commutativity criterion
+(`HeckeCosetModule.instRingHeckeRing`, `HeckeCosetModule.mul_comm_of_antiInvolution`) for 7.1 in
+every degree; Tau Ceti's `HeckeSlash`, `satakeParameters` and the modular-forms roadmap's
+*Layer 2* for the `g = 1` comparisons. 7.6 needs Layers 4 and 6, `LevelOneAutomorphicFormsForClassicalGroups` §6.1 and
 `AutomorphicBundles` §11.9. 7.1–7.5 are independent of Layers 4–6.
 
 ## Layer 8: spinor and standard `L`-functions
