@@ -10,9 +10,10 @@ normalisation gives the normalisation theorem over every `k`. The low degrees ar
 and `HH²` as the classes of `k`-split square-zero extensions); the bar resolution identifies
 `HH^n(A,M)`, for `k`-projective `A`, with Mathlib's `Ext^n` over the enveloping algebra
 `Aᵉ = A ⊗_k Aᵐᵒᵖ`, and `HH_n(A,M)`, for `k`-flat `A`, with `Tor_n^{Aᵉ}(M,A)`. The cup product makes
-`HH^•(A,A)` a graded `k`-algebra, equal up to sign to the Yoneda algebra. An explicit sign dictionary
-identifies these complexes with the Hochschild cochains and chains of DGAInfinity Layer 8 for
-`A` in degree zero; Gerstenhaber's homotopy formula, proved on the classical complex, gives graded
+`HH^•(A,A)` a graded `k`-algebra, equal up to sign to the Yoneda algebra. For `A` in degree zero,
+an explicit sign dictionary identifies `C^•(A,A)` with the Hochschild cochains of DGAInfinity
+Layer 8, and signs `ν_n` determined by Layer 8's chain differential identify `C_•(A,A)` with its
+Hochschild chains; Gerstenhaber's homotopy formula, proved on the classical complex, gives graded
 commutativity, and the antisymmetrisation map of RefinedTraceMethods §1.9 acts on the classical
 complex. The end
 theorems are: for `R` smooth and projective over an arbitrary commutative ring `k`, the map
@@ -45,9 +46,9 @@ This roadmap owns:
 - the cup product on `C^•(A,A)`, the Leibniz rule, the graded algebra `HH^•(A,A)`, the
   computation of Yoneda products from cocycles on projective resolutions and the comparison of the
   cup product with the Yoneda product (Layer 5);
-- the comparison, with an explicit sign dictionary, between the ungraded complexes and the
-  Hochschild cochains and chains of DGAInfinity Layer 8 for an algebra in degree zero,
-  Gerstenhaber's homotopy formula and graded commutativity of `HH^•(A,A)`, and the
+- the comparison between the ungraded complexes and DGAInfinity Layer 8's Hochschild cochains
+  (with an explicit sign dictionary) and chains (with the signs `ν_n` of §6.3) for an algebra in
+  degree zero, Gerstenhaber's homotopy formula and graded commutativity of `HH^•(A,A)`, and the
   description of the antisymmetrisation and projection maps of RefinedTraceMethods §1.9 on the
   classical complex (Layer 6);
 - the duality between cochains and chains of a commutative algebra, the bijectivity of the
@@ -722,7 +723,8 @@ canonical map, and the determinant map is identified as `n!` times it.
   `TauCeti.AInfinityAlgebra.hochschildDifferential`, and the arity-zero cochains (elements of
   `sA`) extend them with the same Koszul signs; for an algebra in degree zero the chain
   differential is, termwise, the suspended classical boundary up to a sign depending only on the
-  degree; §6.3 fixes the resulting signs.
+  degree; §6.3 proves that the comparison then holds with signs `ν_n`, which these degree signs
+  determine.
 
 ### From TauCetiRoadmap.DerivedModuleAlgebra
 
@@ -2484,7 +2486,8 @@ Jacobian cocycle of `(X₁, X₂, X₃)` represents `6` times it.
 
 ### Dependencies
 
-Layers 1–7 (§6.4(a) for the antisymmetrisation map, not §6.4(d)); DerivedModuleAlgebra §0.K.1,
+Layers 1–5; §§6.2 and 6.4(a) (the antisymmetrisation map); §§7.1, 7.4 and 7.5 (not §6.4(d) or
+§7.6, which carry the smooth HKR input); DerivedModuleAlgebra §0.K.1,
 consumed through its pinned form, Tau Ceti's Koszul complex `TauCeti.koszulComplex` with its
 zeroth homology and its acyclicity for weakly regular sequences (§8.2); Tau Ceti's weak
 regularity of distinct variables `MvPolynomial.isWeaklyRegular_map_X` (§8.1) and
