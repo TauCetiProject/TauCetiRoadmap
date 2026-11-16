@@ -21,10 +21,10 @@ The headline theorems and the carrier each lacks:
   their normalized integral Hecke actions, the selected cuspidal Hecke algebra, the universal
   fixed-multiplier symplectic deformation ring and Siegel cusp forms with their Galois
   representations.
-* The two Hasse-projection injections (§4.8), the scalar and vector theta operators with
-  their injectivity (§4.2) and the secondary Hasse section (§3.2): the mod `p` Siegel
-  threefold, its Hasse invariants, automorphic bundles, Gauss–Manin connection and
-  `q`-expansions.
+* The two Hasse-projection injections (§4.8): the mod `p` Siegel threefold, its Hasse
+  invariants, automorphic bundles and `q`-expansions. The theta operators with their
+  injectivity and the secondary Hasse section that this argument uses are headlines of
+  AlgebraicModularFormsAndSerreWeightsPartII, imported by README §§3.2 and 4.2.
 * All-degree characteristic-zero interpolation and qualified crystalline specialization
   (§§2.3–2.4): coherent eigensystems of the Siegel threefold and the crystalline period
   functors.
