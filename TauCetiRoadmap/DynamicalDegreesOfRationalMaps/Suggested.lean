@@ -203,31 +203,6 @@ theorem mixedDegree_boundary (K : Type u) [Field K] {X Y : Scheme.{u}}
         (topologicalDegree f : ℝ) * realIntersection K Y (fun _ : Fin d ↦ M) := by
   sorry
 
-/-- **The degrees over an extension of the field** (README §4.3). For a dominant `K`-rational map
-`f : X ⤏ Y` between projective varieties of dimension `d`, real classes `L` on `X` and `M` on `Y`,
-`p + q = d` and every field extension `K'/K`, the mixed degree `deg(f; L^p | M^q)` over `K` is the
-intersection number over `K'`, on the base change `(Γ_f)_{K'} = Γ_f ×_K Spec K'` of the graph, of
-`p` copies of the pullback of `L` and `q` copies of the pullback of `M`. The graph is a `K`-scheme
-through `π_1` (the instance binders: a structure morphism for which `π_1` is a `K`-morphism, so
-`Γ_f → Spec K` is `π_1` followed by `X → Spec K`), and the fibre product is a `K'`-scheme through
-its second projection (Mathlib's `AlgebraicGeometry.Scheme.canonicallyOverPullback`). No
-geometric integrality is assumed: `(Γ_f)_{K'}` may be reducible. -/
-theorem mixedDegree_baseChange (K K' : Type u) [Field K] [Field K'] [Algebra K K']
-    {X Y : Scheme.{u}} [X.Over (Spec (.of K))] [Y.Over (Spec (.of K))] [IsIntegral X]
-    [IsIntegral Y] [X.IsProjectiveOver K] [Y.IsProjectiveOver K] {d : ℕ}
-    (hX : topologicalKrullDim X = d) (hY : topologicalKrullDim Y = d) (f : X ⤏ Y)
-    [f.IsDominant] [f.IsOver (Spec (.of K))] [(graph f).Over (Spec (.of K))]
-    [(graphFst f).IsOver (Spec (.of K))] (L : LineBundleClass X →₀ ℝ)
-    (M : LineBundleClass Y →₀ ℝ) (p q : ℕ) (hpq : p + q = d) :
-    mixedDegree K f L M p q =
-      realIntersection K' (pullback (graph f ↘ Spec (.of K))
-          (Spec.map (CommRingCat.ofHom (algebraMap K K'))))
-        (Fin.append
-          (fun _ : Fin p ↦ L.mapDomain (LineBundleClass.pullback (pullback.fst _ _ ≫ graphFst f)))
-          (fun _ : Fin q ↦
-            M.mapDomain (LineBundleClass.pullback (pullback.fst _ _ ≫ graphSnd f)))) := by
-  sorry
-
 /-- **Sub-multiplicativity of the degrees** (README §4.4). Let `f_1 : X_1 ⤏ X_2` and
 `f_2 : X_2 ⤏ X_3` be dominant `K`-rational maps between projective varieties of dimension `d`
 and `L_1`, `L_2`, `L_3` nef real classes. For `p + q = d`,
