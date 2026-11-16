@@ -4613,7 +4613,7 @@ Mathlib's Weierstrass reduction predicates and `IsPGroup` fixed-point theorems.
 
 ## Provenance
 
-This section is secondary; it maps targets to an existing formalisation outside Tau Ceti and
+This section is secondary; it maps targets to existing formalisations outside Tau Ceti and
 prescribes nothing. The Apache-2.0 Lean repository
 [AxiomMath/Mordell](https://github.com/AxiomMath/Mordell/tree/82a30cb7857f6e3cfdb1be91f5533c0ccb57d493),
 read at commit `82a30cb7`, formalises Faltings' theorem by the Bombieri–Vojta method. It is not a
@@ -4657,6 +4657,45 @@ differential lattice (1.1–1.7, the gluing half of 1.9, and 1.9a–1.11), and L
 and 6 have no counterpart there. Its other twelve files (rigidity, the theorem of the square,
 `Pic⁰`, and even, odd and ample classes in the Picard group) are abelian-variety theory over a
 field, outside this roadmap.
+
+The Apache-2.0 Lean repository
+[LeanPool/lean-pool](https://github.com/LeanPool/lean-pool/tree/f8b9b721d616a2cc0b22fc226e4a9e3dd6cea2d0),
+read at commit `f8b9b721`, collects Lean formalisations outside Mathlib's scope. It is not a
+dependency: it itself requires Tau Ceti at a pinned commit and is built against Mathlib
+`v4.35.0`, so a statement read there is compared with the target here before it is used, and a
+proof adapted from it keeps the Apache-2.0 attribution. Its directory
+[`LeanPool/EcTateLean/`](https://github.com/LeanPool/lean-pool/tree/f8b9b721d616a2cc0b22fc226e4a9e3dd6cea2d0/LeanPool/EcTateLean)
+(nine files) is the foundational layer of a formalisation of Tate's algorithm, without the
+algorithm itself: Weierstrass equations over a commutative ring (`Model`) with their invariants,
+discriminant and coordinate changes (`Model.urstTransform`), which duplicate Mathlib's
+`WeierstrassCurve` and `WeierstrassCurve.VariableChange` used here; the singular point of a
+singular cubic; and enumerations of reduction types. It is prior art for three sections.
+
+- **2.8.** `Kodaira` (`KodairaTypes.lean`) lists the symbols of Tate's table together with those
+  that arise over imperfect residue fields of characteristic `2` or `3`, as bare data: no fibre
+  configuration, component group or discriminant value is attached to a symbol, and nothing
+  assigns a symbol to an equation. The symbol that 2.8–2.9 and 6.7 consume is EllipticCurves
+  Layer 4's `ReductionSymbol`, over a perfect residue field.
+- **6.5.** `Model.discr_in_jacobian_ideal` (`Model.lean`) writes the discriminant, over any
+  commutative ring, as an explicit combination of the Weierstrass polynomial and its two partial
+  derivatives at an arbitrary point, so a unit discriminant leaves no singular point on the affine
+  chart of any fibre; Mathlib's `WeierstrassCurve.Affine.equation_iff_nonsingular_of_Δ_ne_zero`
+  already gives that pointwise consequence. Conversely, `Model.Field.isSingularPoint_singularPoint`
+  produces a singular point of a cubic with `Δ = 0` over a perfect field, such as an algebraic
+  closure of the residue field. Neither is stated for the projective integral model or for an
+  abelian-scheme model.
+- **6.6.** `Model.Field.move_singularPoint_to_origin` translates that singular point to the
+  origin, which is the translation step of `nodal_normalization_descent` when the residue field is
+  perfect. The uniqueness of the double point, its being ordinary when `c₄ ≠ 0`, the tangent
+  algebra, the normalisation and the imperfect case are not there. `Int.quadRootInZpZ`
+  (`Kronecker.lean`) tests a quadratic for a root modulo a prime, with no correctness proof; it is
+  not the splitting of `nodePolynomial` over an arbitrary residue field.
+
+Nothing in that directory runs Tate's algorithm or constructs a model over a base, a Néron model,
+a minimal regular model or a component group. Layers 1–5 apart from the symbols of 2.8, and Layer
+6 apart from the algebraic inputs to 6.5–6.6, have no counterpart there; in particular the fibre
+configurations and component groups of 2.8, the wild comparison 2.9 and the discriminant and
+Tamagawa comparisons 6.7–6.8 need the algorithm, which EllipticCurves Layer 4 supplies.
 
 ## References
 
