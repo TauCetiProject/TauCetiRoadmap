@@ -25,8 +25,10 @@ is built on these layers.
 This roadmap owns: the principal-bundle mixin on Mathlib's fibre-bundle data and its smooth
 atlas (B1.1); the regular fibre of a smooth map at a point where its derivative is surjective, the
 transverse fibre product of smooth maps, and the kernel distribution of a submersion, all without a
-Hausdorff hypothesis on the total space (B1.0); generic smooth descent along a principal
-projection, the fibre product `P ×_M P` and the division map (B1.1); the slice theorem for proper
+Hausdorff hypothesis on the total space (B1.0); the presentation of a principal bundle by a given
+total space, its converse for free actions whose orbits are the fibres of a submersion, generic
+smooth descent along a principal projection, the fibre product `P ×_M P` and the division map
+(B1.1); the slice theorem for proper
 actions, free proper quotients, homogeneous spaces `G/H` and the properness of the principal right
 action (B1.4); Ehresmann connections and Ehresmann's fibration theorem (B1.5); associated,
 frame, tensor, dual, Hom and complexified bundles, reductions and extensions of the structure group,
@@ -196,7 +198,7 @@ exponential connecting class is `β(h)`; B6.4 proves this dictionary and B7 test
 | Supplier | Exact interface consumed |
 | --- | --- |
 | Mathlib, at the pin | `FiberBundle`, `FiberBundleCore`, `Trivialization` (with `Bundle.Trivialization.restrictPreimage`, `Bundle.Trivialization.localFrame`), `Bundle.TotalSpace`, `VectorBundle`, `ContMDiffVectorBundle`; `GroupLieAlgebra`, `LieGroup`; `Manifold.IsSubmersionAt`, `Manifold.IsSubmersion`, `Manifold.IsSmoothEmbedding`; `MulAction.instChartedSpaceQuotient` (properly discontinuous actions only); `CovariantDerivative`, `CovariantDerivative.addOneForm`, `CovariantDerivative.difference`, `CovariantDerivative.leviCivitaConnection`; `IsContinuousRiemannianBundle`, `Bundle.ContinuousRiemannianMetric`, `EMetricSpace.ofRiemannianMetric` (which requires `T3Space`); `Circle`, `Circle.exp`, `FundamentalGroupoid`, `FundamentalGroup`; `MeasureTheory.Lp`, `MeasureTheory.L2.inner_def`, `MeasureTheory.Lp.dense_hasCompactSupport_contDiff`, `MeasureTheory.MemLp.exists_hasCompactSupport_eLpNorm_sub_le`, `MeasurableEmbedding.subtype_coe`, `map_comap_subtype_coe`; `InnerProductSpace.toDual`, `InnerProductSpace.ofCoreOfTopology`; `Matrix.GeneralLinearGroup`, `Matrix.linftyOpNormedRing`, `CFC.sqrt` with `Matrix.PosSemidef.inv_sqrt` and `Matrix.PosSemidef.det_sqrt`; `CategoryTheory.constantSheaf`, `CategoryTheory.constantSheafAdj`, `CategoryTheory.cechComplexFunctor`, `CategoryTheory.Limits.isTerminalTop`, `CategoryTheory.Sheaf.H`; `smoothSheafCommGroup`, `smoothSheafAddCommGroup` and `smoothSheafAddCommGroup.compLeft`. |
-| Tau Ceti, at the pin | `TauCeti.sectionZeroChartedSpace`, `TauCeti.isManifold_sectionZero`, `TauCeti.exists_isManifold_sectionZero_of_contMDiff`, `TauCeti.hasMFDerivAt_coe_sectionZero`, `TauCeti.isImmersionOfComplement_coe_sectionZero`, `TauCeti.sectionLinearization_trivial` (regular zero sets of smooth sections); `TauCeti.IsContMDiffDistribution`, `TauCeti.IsDistributionFrameOn`; `TauCeti.leftInvariantDerivationLieEquivGroupLieAlgebra`, `TauCeti.mulInvariantExp`, `TauCeti.lieExp_eq_mulInvariantExp`, `TauCeti.extChartPartialDiffeomorph`, `TauCeti.isLocalDiffeomorphAt_of_mfderiv_eq`; `CovariantDerivative.curvatureOperator` and its Bianchi and linearity results; `TauCeti.Manifold.contMDiffOn_maximalIntegralCurve`, `ODE.exists_contDiffAt_localFlow`, `ODE.exists_contDiffAt_picard_solution` (whose zero-field base-parameter hypothesis is honoured in B5.0); `TauCeti.riemannianLog`, `TauCeti.Manifold.IsNormalDomain` and `TauCeti.Manifold.IsNormalDomain.contMDiffOn_riemannianLog`; `TauCeti.riemannianVolume`; `Matrix.linftyOpTopologicalSpace` (Tau Ceti's `L∞`-operator topology on matrices); `TauCeti.UniversalCover` with its `ChartedSpace` and `IsManifold` instances; `TauCeti.LensSpace`, `TauCeti.LensSpace.fundamentalGroupMulEquiv`; `TauCeti.CategoryTheory.cechAugmentation` and `TauCeti.CategoryTheory.cechAugmentation_f_zero_comp_π`, `TauCeti.CategoryTheory.quasiIsoAt_cechAugmentation_zero_iff`; `TauCeti.singularSubdivisionHomotopy`, `TauCeti.smallSingularChainHomotopyEquiv`; the smooth quotient construction for discrete actions in `Geometry/Manifold/Instances/Quotient.lean`. |
+| Tau Ceti, at the pin | `TauCeti.sectionZeroChartedSpace`, `TauCeti.isManifold_sectionZero`, `TauCeti.exists_isManifold_sectionZero_of_contMDiff`, `TauCeti.hasMFDerivAt_coe_sectionZero`, `TauCeti.isImmersionOfComplement_coe_sectionZero`, `TauCeti.sectionLinearization_trivial` (regular zero sets of smooth sections); `TauCeti.IsContMDiffDistribution`, `TauCeti.IsDistributionFrameOn`; `TauCeti.fundamentalVectorField` and `TauCeti.isMIntegralCurve_mulInvariantExp_smul_smul` (`Geometry/Lie/FundamentalVectorField.lean`); `TauCeti.leftInvariantDerivationLieEquivGroupLieAlgebra`, `TauCeti.mulInvariantExp`, `TauCeti.lieExp_eq_mulInvariantExp`, `TauCeti.extChartPartialDiffeomorph`, `TauCeti.isLocalDiffeomorphAt_of_mfderiv_eq`; `CovariantDerivative.curvatureOperator` and its Bianchi and linearity results; `TauCeti.Manifold.contMDiffOn_maximalIntegralCurve`, `ODE.exists_contDiffAt_localFlow`, `ODE.exists_contDiffAt_picard_solution` (whose zero-field base-parameter hypothesis is honoured in B5.0); `TauCeti.riemannianLog`, `TauCeti.Manifold.IsNormalDomain` and `TauCeti.Manifold.IsNormalDomain.contMDiffOn_riemannianLog`; `TauCeti.riemannianVolume`; `Matrix.linftyOpTopologicalSpace` (Tau Ceti's `L∞`-operator topology on matrices); `TauCeti.UniversalCover` with its `ChartedSpace` and `IsManifold` instances; `TauCeti.LensSpace`, `TauCeti.LensSpace.fundamentalGroupMulEquiv`; `TauCeti.CategoryTheory.cechAugmentation` and `TauCeti.CategoryTheory.cechAugmentation_f_zero_comp_π`, `TauCeti.CategoryTheory.quasiIsoAt_cechAugmentation_zero_iff`; `TauCeti.singularSubdivisionHomotopy`, `TauCeti.smallSingularChainHomotopyEquiv`; the smooth quotient construction for discrete actions in `Geometry/Manifold/Instances/Quotient.lean`. |
 | DifferentialGeometry | Layer 0 (`SmoothBundleForm`, its fixed-coefficient specialization, the paired wedge and `CurvatureForm`), Layer 1 (`mextDeriv`, pullback), 2.3 (smooth structures on covering spaces), 3.5 (time-dependent flows), 4.1–4.3 (distributions, integral manifolds and the local Frobenius theorem on the native carriers), 5.2–5.5 (integration of top forms, Stokes, the homotopy operator `homotopyOperator` on `M × Icc 0 1`, densities and `integralDensity`), Layer 6 (the de Rham complex and cohomology), 8.3 (`SmoothSimplex`, smooth chains, `smoothToSingular` and the smoothing theorem with its chain homotopies, under T2, σ-compact, finite-dimensional hypotheses), 8.4 (`fullSimplex`, `simplexFace`, `chainIntegral`, `SmoothSimplex.integral_mextDeriv`, `deRhamHom`), 8.5 (`deRhamEquiv`), 9.1 (`poincarePairing`), 12.1 (`nonempty_contMDiffRiemannianMetric`), 12.4 (`riemannianVolumeForm`, `riemannianDensity`). |
 | LieGroups | Layer 0 (`lieExp`, one-parameter subgroups), Layer 1 (`Ad`, `ad`), Layer 2 (the closed-subgroup theorem and embedded Lie subgroups), Layer 4 (`integralSubgroup`, `IsImmersedLieSubgroup`). |
 | AlgebraicTopology | Stage 3.2 (the small-chain theorem for an open cover), Stage 4 (cellular chains and the cellular-to-singular comparison as a chain-homotopy equivalence), Stage 6.1 (absolute and relative singular cochains, the coefficient long exact sequence and the Bockstein for `0→ℤ→ℝ→ℝ/ℤ→0` and `0→ℤ→[×2]ℤ→F₂→0`, universal coefficients), Stage 6.3 (the integral orientation local system, the tangent-orientation comparison and the fundamental class of a closed oriented manifold). |
@@ -331,9 +333,7 @@ in one fibre. Prove the projection is a smooth surjective submersion in the sens
 `Manifold.IsSubmersion`/`IsSubmersionAt`, directly from the product form of the local
 trivializations. Construct `P×_M P` as B1.0's fibre product of the projection with itself; identify
 its inherited topology and charts with the principal local model `M×G×G`. Division is smooth on
-this manifold, not a function on unrelated pairs. Conversely, a surjective submersion with a free
-right action whose orbits are exactly the fibres is a principal bundle (Kolář–Michor–Slovák, Lemma
-10.3).
+this manifold, not a function on unrelated pairs.
 
 Prove generic smooth descent along a principal projection: a map from the base to any smooth
 manifold is smooth iff its composite with the projection is smooth. Every invariant smooth map on
@@ -344,11 +344,54 @@ trivializations prove `ker(dπ_p)=range(d(g↦p·g)_1)`, with the orbit map a di
 fibre; the vertical distribution is B1.0's kernel distribution of π. Isomorphisms have inverses,
 composition, restriction, transport and extensionality APIs.
 
+Prove the presentation theorem for a given total space. The data are a smooth manifold `P`, a
+smooth map `π : P → M`, a smooth right action of G on `P` that preserves each fibre of π, and a
+cover of M by open sets U with diffeomorphisms `π⁻¹(U) ≃ U × G` over U that intertwine the action
+with right multiplication on the second factor (Kobayashi–Nomizu I, Ch. I §5). Put `P_b = π⁻¹(b)`
+with its subspace topology, and give `Bundle.TotalSpace G P_•` the topology of `P` transported
+along the bijection `⟨b,p⟩ ↦ p`; this is its only topology. Prove that the given trivializations
+generate a `FiberBundle G P_•` atlas, that the restricted action makes it a principal bundle with
+smooth overlap maps on the product model in the sense above, and that the map sending x to the
+fibre point of its image under the canonical homeomorphism to `Bundle.TotalSpace`, read in `P`, is
+a G-equivariant diffeomorphism from the principal-total-space type synonym of `P_•` onto `P`
+carrying the bundle projection to π.
+Its two sides have different models, `IB.prod IG` and the model of `P`. Transport along this
+diffeomorphism gives the division map, the fibre product, descent and the vertical distribution on
+`P` itself: a map from M to a smooth manifold is smooth iff its composite with π is, and an
+invariant smooth map on `P` descends uniquely to a smooth map on M. Groupoid actions and
+Hamiltonian reduction consume these on their given total spaces.
+
+Conversely, a surjective submersion `π : P → M` from a boundaryless Hausdorff manifold, with a
+smooth free right action of G whose orbits are exactly the fibres, has such trivializations, the
+maps `Φ(x,g) = s(x)·g` for smooth local sections s of π, and is therefore a principal bundle
+(Kolář–Michor–Slovák, Lemma 10.3, whose proof asserts without argument that the tangent map of Φ
+is invertible). Prove that invertibility in three steps. First, the orbit map `o_p : g ↦ p·g` has
+injective derivative at 1. The left action `g • q = q·g⁻¹` has orbit map `o_p` composed with
+inversion of G, so the same kernel at 1; for A in that kernel, `t ↦ exp(tA) • p` is an integral
+curve of the fundamental vector field `TauCeti.fundamentalVectorField` of A
+(`TauCeti.isMIntegralCurve_mulInvariantExp_smul_smul`) through a zero of that field, hence constant
+by Mathlib's `isMIntegralCurve_eq_of_contMDiff`, so `exp(tA)` fixes p, freeness gives `exp(tA)=1`
+for all t, and `A=0`. Since `o_p(gh)=o_p(g)·h`, the derivative is injective at every point.
+Second, `o_p` is a bijective immersion onto the regular fibre `π⁻¹(π p)` of B1.0, of dimension
+`dim P − dim M`. As G
+is second countable it is a countable union of compact sets that `o_p` embeds; if
+`dim G < dim P − dim M` their images are closed with empty interior, which the Baire category
+theorem (`BaireSpace.of_t2Space_locallyCompactSpace`) excludes in the locally compact Hausdorff
+fibre. So the dimensions agree and `o_p` is a diffeomorphism onto the fibre. Third, `dπ ∘ dΦ` at
+`(x,g)` is the projection onto `T_x U`, and on `T_g G` the map dΦ is `d(o_(s x))_g`, an isomorphism
+onto `ker dπ`; so dΦ is invertible, and the bijection Φ is a diffeomorphism onto `π⁻¹(U)`.
+
 - Every principal trivialization intertwines the right action and the projection, and each fibre
   is a G-torsor; bundle isomorphisms admit composition, inverse and restriction.
 - For points p,q in a common fibre, division is smooth on `P×_M P` and is the unique g with `p·g=q`.
 - Smooth maps from the base are exactly maps whose composites with the principal projection are
   smooth; invariant total-space maps descend uniquely, compatibly with restriction and composition.
+- A manifold `P` with a projection, a fibre-preserving smooth right action and equivariant local
+  product diffeomorphisms presents a principal bundle on its fibre family, by an equivariant
+  diffeomorphism of the charted total space onto `P` over the base; a surjective submersion with a
+  smooth free right action whose orbits are the fibres is one.
+- On a presented bundle, maps from the base are smooth iff their composites with π are, and
+  invariant smooth maps on `P` descend uniquely to the base.
 
 **Checks.**
 
@@ -360,8 +403,28 @@ composition, restriction, transport and extensionality APIs.
 - `ker dπ_p` has dimension `dim G`, and for G finite (a covering) the vertical distribution is zero.
 - For a non-free action (the trivial action of a nontrivial G on M) the division map is not
   defined: the fibrewise torsor axiom excludes it.
+- For `P = M × G` with the first projection and the action `(x,h)·g = (x,hg)`, the fibre over x is
+  `{x} × G`, the presented bundle is isomorphic to the trivial bundle, and the comparison
+  diffeomorphism is `⟨x,(x,h)⟩ ↦ (x,h)`.
+- The squaring map `S¹ → S¹` with `ℤ/2` acting by `z ↦ −z` is a surjective submersion with a free
+  action whose orbits are its fibres; it presents the nontrivial principal `ℤ/2`-bundle over `S¹`.
+- For nontrivial G acting on the last factor of `M × G × G`, the action is free and preserves the
+  fibres of the first projection, but each fibre `G × G` is more than one orbit, so the hypothesis
+  that orbits are exactly the fibres cannot be dropped.
+- The additive group ℝ with the discrete topology, a 0-dimensional Lie group that is not second
+  countable, acts on `ℝ²` by `(x,y)·g = (x,y+g)` freely, with orbits the fibres `{x} × ℝ` of the
+  surjective submersion `(x,y) ↦ x`; but `Φ(x,g) = (x,g)` from `ℝ × ℝ_discrete` has rank 1 < 2 and
+  the fibre ℝ is connected while G is discrete, so the converse fails. The second countability of
+  structure groups in the Conventions excludes this action.
+- For `π(x) = x³` on ℝ and G trivial, the action is free, its orbits are the fibres and π is a
+  bijection, but `dπ(0) = 0` and the inverse `y ↦ ∛y` is not smooth at 0, so π is not a principal
+  bundle (a principal bundle for the trivial group is a diffeomorphism); the submersion hypothesis
+  is used.
 
-*Needs:* Mathlib `FiberBundle`, `Trivialization`, `Manifold.IsSubmersionAt`; B1.0.
+*Needs:* Mathlib `FiberBundle`, `Trivialization`, `Manifold.IsSubmersionAt`,
+`isMIntegralCurve_eq_of_contMDiff`, `BaireSpace.of_t2Space_locallyCompactSpace`; Tau Ceti
+`TauCeti.fundamentalVectorField`, `TauCeti.isMIntegralCurve_mulInvariantExp_smul_smul`,
+`mulInvariantExp`; B1.0.
 
 ### B1.2 Trivial bundles, restrictions, pullbacks and products
 
