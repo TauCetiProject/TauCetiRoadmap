@@ -173,7 +173,7 @@ The following are suppliers, not requests to rebuild their objects.
 | Tau Ceti, `ModelTheory/BackAndForth/` (InfinitaryLogic Layer 1) | `TauCeti.BFEquiv` (for relational `L`) with `refl`, `symm`, `trans` (across three structures), `mono`, `comp`, the successor and limit laws `add_one` and `limit`, `Language.Equiv.bfEquiv`, `potentialIso_iff_bfEquiv_all`, `countable_potentialIso_iff_iso`, `SameAtomicType` |
 | Tau Ceti, `ModelTheory/Scott/` (InfinitaryLogic Layers 2–3) | `SelfStabilizesCompletely` with `bfEquiv_of_le`, `exists_complete_self_stabilization`, `selfStabilizationOrdinal` with its attainment and its bound below `ω₁`, `scottFormula` with `realize_scottFormula_iff_bfEquiv`, `scottSentence` with `realize_scottSentence_iff` and `scott_isomorphism`, `orbitRank`, `internalScottRank`, `selfStabilizationOrdinal_le_internalScottRank`, `internalScottRank_le_succ_selfStabilizationOrdinal`, `internalScottRank_empty` |
 | Tau Ceti, `ModelTheory/Scott/Height.lean` (most of Layer 4.2 here) | `StabilizesCompletely` with `bfEquiv_of_le` and `mono`; `scottHeight` with `stabilizesCompletely_scottHeight`, `scottHeight_lt_omega_one`, `Language.Equiv.scottHeight_eq`, `scottHeight_le_selfStabilizationOrdinal_add_omega0`, `scottHeight_le_internalScottRank_add_omega0` and `nonempty_equiv_of_bfEquiv_of_scottHeight_le` (with `N` in any universe); the countable constant-chain case `SelfStabilizesCompletely.stabilizesCompletely_add_omega0` |
-| Tau Ceti, `ModelTheory/RelationalConfiguration/` (most of Layers 0, 1.2, 2 and 4.1 here) | `RelationalConfiguration` with `Atom`, `atom` and `eval`, its topology, σ-algebra, compactness and, for countably many relation symbols and a countable carrier, its Polish and Borel instances, `isClopen_setOf_eval`, `mk_le_continuum`; `toStructure` and `ofStructure` with both round trips; `Equiv.encodeVia` with `nonempty_equiv_encodeVia`, `encodeVia_trans` and `realize_encodeVia`; the action of `Equiv.Perm α` with `eval_perm_smul`; `isoSetoid` with `isoSetoid_eq_orbitRel` and `analyticSet_setOf_isoSetoid`; `IsomorphismInvariant` with its lattice API and `analyticSet_iUnion_smul`; `modelsOf` with its constructor equations, `measurableSet_setOf_realize`, `measurableSet_modelsOf` and `standardBorelSpace_modelsOf`; `measurableSet_setOf_bfEquiv`; `bfEquivSetoid` with `measurableSet_setOf_bfEquivSetoid` and `isoSetoid_le_bfEquivSetoid`; in `LanguageMap.lean`, `LHom.reductConfiguration` with `measurable_reductConfiguration`, `reductConfiguration_perm_smul` and `realize_sentenceInf_reductConfiguration`. In `Combinatorics/SimpleGraph/RelationalConfiguration.lean`: `SimpleGraph.toRelationalConfiguration` with `measurable_toRelationalConfiguration` and `measurableEmbedding_toRelationalConfiguration` (not the identity of its decoded structure with `G.structure`, which is a target of Layer 0). The orbit, saturation and isomorphism-invariance results there assume `[L.IsRelational]`; the targets here that are stated for every language stay targets |
+| Tau Ceti, `ModelTheory/RelationalConfiguration/` (most of Layers 0, 1.2, 2 and 4.1 here) | `RelationalConfiguration` with `Atom`, `atom` and `eval`, its topology, σ-algebra, compactness and, for countably many relation symbols and a countable carrier, its Polish and Borel instances, `isClopen_setOf_eval`, `mk_le_continuum`; `toStructure` and `ofStructure` with both round trips; `Equiv.encodeVia` with `nonempty_equiv_encodeVia`, `encodeVia_trans` and `realize_encodeVia`; the action of `Equiv.Perm α` with `eval_perm_smul`; `isoSetoid` with `isoSetoid_eq_orbitRel` and `analyticSet_setOf_isoSetoid`; `IsomorphismInvariant` with its lattice API and `analyticSet_iUnion_smul`; `modelsOf` with its constructor equations, `measurableSet_setOf_realize`, `measurableSet_modelsOf` and `standardBorelSpace_modelsOf`; `measurableSet_setOf_bfEquiv`; `bfEquivSetoid` with `measurableSet_setOf_bfEquivSetoid` and `isoSetoid_le_bfEquivSetoid`; in `LanguageMap.lean`, `LHom.reductConfiguration` with `continuous_reductConfiguration`, `measurable_reductConfiguration`, `reductConfiguration_perm_smul` and `realize_sentenceInf_reductConfiguration`. In `Combinatorics/SimpleGraph/RelationalConfiguration.lean`: `SimpleGraph.toRelationalConfiguration` with `measurable_toRelationalConfiguration` and `measurableEmbedding_toRelationalConfiguration` (not the identity of its decoded structure with `G.structure`, which is a target of Layer 0). The orbit, saturation and isomorphism-invariance results there assume `[L.IsRelational]`; the targets here that are stated for every language stay targets |
 | Tau Ceti, `Topology/Algebra/Group/Perm.lean` (most of Layer 1.1 here) | the topology on `Equiv.Perm α`, `Equiv.Perm.hasBasis_nhds_one_fixingSubgroup` (indexed by finite sets), the topological-group instance and, for countable `α`, the Polish instance |
 | BorelEquivalenceRelations, as implemented at the pin | `IsGδ.polishSpace` (Mathlib's declaration) and `IsGδ.standardBorelSpace` (a Gδ subset of a Polish space is Polish, resp. standard Borel, in the subspace structures), `MeasureTheory.AnalyticSet.prod`, and `Setoid.exists_invariant_measurableSet_separating` (for an analytic equivalence relation `E` on a Hausdorff space whose open sets are measurable, and analytic `A`, `B` with disjoint `E`-saturations, some `E`-saturated Borel `C` contains `A` and is disjoint from `B`; for `B` saturated, disjointness of the saturations is disjointness of `A` and `B`). Nothing else |
 | InfinitaryModelExistence, PC classes and Craig interpolation | `LHom.PCMem`, Tau Ceti's implementation of that roadmap's projective-class predicate (`ModelTheory/Interpolation/PCClass.lean`), and the single theorem `pcSeparation` stated below, which is that roadmap's contract and is not at the pin; nothing else |
@@ -873,24 +873,49 @@ reducts.
 
 ### 6.1 Invariant separation
 
-- `invariant_analytic_separation`: for a language with countably many relation symbols, if `A`
-  and `B` are analytic, `B` is action invariant and `A` and `B` are disjoint, there is an
-  invariant Borel `C ⊇ A` disjoint from `B`. This is
-  `Setoid.exists_invariant_measurableSet_separating` (BorelEquivalenceRelations, implemented in
-  Tau Ceti) for the orbit relation,
-  whose graph is analytic (Layer 1.2), once action invariance is identified with saturation for
-  the orbit relation (the saturation of `B` under the quotient map is `B` exactly when `B` is a
-  fixed block, for every language; Tau Ceti's
-  `isomorphismInvariant_iff_preimage_image_quotientMk` is the relational case).
-- `exists_sentence_separating`: for relational `L` with countably many relation symbols, by
-  López–Escobar, the separator is `modelsOf θ` for a single sentence `θ`.
+- `exists_countable_sublanguage_separating`: for every language, if `A` and `B` are disjoint
+  analytic classes of codes, some countable `R : Set (Σ n, L.Relations n)` makes the images
+  `g.reductConfiguration '' A` and `g.reductConfiguration '' B` disjoint, for
+  `g := symbSublangIncl ∅ R`. If `A` or `B` is empty take `R = ∅`. Otherwise `A = range f` and
+  `B = range f'` for continuous `f`, `f'` on Baire space (Mathlib's `AnalyticSet`). For each atom
+  `a` the pairs `(p, q)` with `(f p).eval a ≠ (f' q).eval a` form an open subset of the square of
+  Baire space; these sets cover it because `A` and `B` are disjoint, and the square is second
+  countable, so countably many of them cover it (`TopologicalSpace.isOpen_iUnion_countable`). `R`
+  is the set of the symbols of those atoms.
+- `invariant_analytic_separation`: for every language, if `A` and `B` are analytic, `B` is action
+  invariant and `A` and `B` are disjoint, there is an invariant Borel `C ⊇ A` disjoint from `B`.
+  Take `R` and `g` as above; `L₀ := symbSublang ∅ R` has countably many relation symbols
+  (`countable_relations_symbSublang`, with `Set.Countable.to_subtype`). The images
+  `A₀ := g.reductConfiguration '' A` and `B₀ := g.reductConfiguration '' B` are analytic
+  (`continuous_reductConfiguration`) and disjoint, and `B₀` is invariant
+  (`reductConfiguration_perm_smul`). In `L₀`, `Setoid.exists_invariant_measurableSet_separating`
+  (BorelEquivalenceRelations, implemented in Tau Ceti) for the orbit relation, whose graph is
+  analytic (Layer 1.2), gives the separator `C₀`, once action invariance is identified with
+  saturation for the orbit relation (the saturation of `B₀` under the quotient map is `B₀` exactly
+  when `B₀` is a fixed block, for every language; Tau Ceti's
+  `isomorphismInvariant_iff_preimage_image_quotientMk` is the relational case). Then
+  `C := g.reductConfiguration ⁻¹' C₀` is Borel (`measurable_reductConfiguration`), invariant
+  (`reductConfiguration_perm_smul`), contains `A` and is disjoint from `B`.
+- `exists_sentence_separating`: for every relational `L`, by López–Escobar
+  (`lopezEscobar_action_iff`), the separator is `modelsOf θ` for a single sentence `θ`.
+  Equivalently, a sentence `θ₀` of `L₀` with `C₀ = modelsOf θ₀` gives
+  `θ := g.onBoundedFormulaInf θ₀` (`realize_sentenceInf_reductConfiguration`).
+
+The countable sublanguage separates the two classes; it need not describe either. Neither class
+need depend on countably many symbols: with uncountably many unary predicates, the code with every
+predicate empty is an invariant analytic singleton that no single sentence defines (§5.4). For the
+same reason `analyticSet_iff_exists_pc` keeps its countability hypothesis.
 
 Vaught 1974, statement (10), p. 281, and Marker's notes, Corollary 4.25, p. 51, separate two
 disjoint invariant analytic sets by an invariant Borel set. Here only `B` need be invariant:
 the saturation of `A` is analytic (Layer 1.2) and, `B` being invariant, still disjoint from `B`.
 
 *Needs:* L1.2; L5.4; BorelEquivalenceRelations `Setoid.exists_invariant_measurableSet_separating`;
-TC `isomorphismInvariant_iff_preimage_image_quotientMk`.
+TC `isomorphismInvariant_iff_preimage_image_quotientMk`, `symbSublang`, `symbSublangIncl`,
+`countable_relations_symbSublang`, `LHom.reductConfiguration` with `continuous_reductConfiguration`,
+`measurable_reductConfiguration`, `reductConfiguration_perm_smul` and
+`realize_sentenceInf_reductConfiguration`; M `AnalyticSet`, `AnalyticSet.image_of_continuous`,
+`TopologicalSpace.isOpen_iUnion_countable`.
 
 ### 6.2 The coded well-order class
 
@@ -949,7 +974,8 @@ non-analyticity, non-Borelness and coded undefinability from the bound is this r
 
 Layers 0–5: `exists_sentence_separating` uses Layer 5, the well-order results only Layers 0–3 and
 5.1. `Setoid.exists_invariant_measurableSet_separating` of BorelEquivalenceRelations, implemented in
-Tau Ceti.
+Tau Ceti; for 6.1, Mathlib's second countability of Baire space and Tau Ceti's symbol sublanguages
+and reducts.
 
 ## Worked examples
 
