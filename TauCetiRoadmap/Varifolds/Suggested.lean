@@ -43,11 +43,12 @@ Not statable at the pins, and not stated:
 * the forms of §7.4 and §7.6 for metrics `g_i → g` in `C²`. A metric given as data is at the
   pins (`Bundle.ContMDiffRiemannianMetric`), with the copy `TauCeti.WithMetric g` of `M` that
   carries it as its `RiemannianBundle` instance, and with its Levi-Civita connection
-  (`TauCeti.Manifold.ContMDiffNondegenerateMetric.leviCivitaConnection`). Missing are an
-  `EMetricSpace` instance on these copies, over which the definitions of this file are stated (the
-  Riemannian distance of `IsRiemannianManifold`, the balls of `HasDensity`, the Hausdorff measure
-  of `IsRectifiable`), and the identification of §1.2 between the Grassmann bundles of two
-  metrics, through which `V_i → V` is read;
+  (`TauCeti.Manifold.ContMDiffNondegenerateMetric.leviCivitaConnection`). On each copy,
+  `EMetricSpace.ofRiemannianMetric` gives the Riemannian extended distance with
+  `IsRiemannianManifold` (its `T3Space` hypothesis transported from `M` along
+  `TauCeti.WithMetric.homeomorph`), and `C²` convergence of metrics is
+  `Bundle.ContMDiffRiemannianMetric.chartC2Topology`. What is missing is the identification of
+  §1.2 between the Grassmann bundles of two metrics, through which `V_i → V` is read;
 * the comparison §5.2 for an embedded `M ⊆ ℝ^L`: the push-forward `ι_#` of §3.1 into
   `W × G(ℝ^L, k)` (the image-plane map `P ↦ dι P dι*`) and the second fundamental form of `M` as a
   tensor on `TM` are not at the pins (`TauCeti.secondFundamentalForm` is the form of a map out of
@@ -176,7 +177,7 @@ def IsIntegral (V : Measure (W × grassmannian F k)) : Prop :=
     ∀ᵐ p ∂V, ∃ j, ∃ t ∈ U j, f j t = p.1 ∧
       Set.range (p.2 : F →L[ℝ] F) = Set.range (fderiv ℝ (f j) t)
 
-/-! ## Layer 3: dilations -/
+/-! ## Layer 3: push-forward, blow-ups and tangent spaces -/
 
 /-- The **dilation** `V_{x,λ} = (η_{x,λ})_# V` of a varifold on `W ⊆ F` by
 `η_{x,λ}(y) = λ⁻¹(y − x)`: the image of `V` under `(y, P) ↦ (λ⁻¹(y − x), P)` multiplied by
