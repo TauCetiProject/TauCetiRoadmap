@@ -321,9 +321,10 @@ earlier than our pin. It is not a dependency: a statement read there is compared
 here before it is used, adaptation is agreed with its maintainers first, and adapted code keeps its
 license notices.
 
-`LeanPool/ClassicalGraphColouring/Galvin/GaleShapley.lean` proves, by induction on the number of
-men, that stable matchings exist on finite markets, as a step of Galvin's list-colouring theorem:
-the content of 1.2 without deferred acceptance. It has nothing on 1.1, 1.3 or Layers 2–3.
+`LeanPool/ClassicalGraphColouring/Galvin/GaleShapley.lean` proves, by strong induction on the number
+of acceptable pairs, that stable matchings exist on finite markets whose acceptable pairs form one
+relation for both sides, as a step of Galvin's list-colouring theorem: the content of 1.2 without
+deferred acceptance. It has nothing on 1.1, 1.3 or Layers 2–3.
 
 ## References
 
