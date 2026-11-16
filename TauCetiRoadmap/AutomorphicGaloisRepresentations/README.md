@@ -3858,6 +3858,27 @@ supplies the shared raw compatible-system carrier and operations; AG2.P supplies
 rank-two period input has the scope stated above.
 
 
+## Provenance
+
+This section is secondary and prescribes nothing. The Apache-2.0 Lean project
+[`LeanModularForms` in LeanPool/lean-pool, read at `f8b9b72`](https://github.com/LeanPool/lean-pool/tree/f8b9b721d616a2cc0b22fc226e4a9e3dd6cea2d0/LeanPool/LeanModularForms)
+(189 files), treats classical modular forms for `SL₂(ℤ)`: Eisenstein series and
+their `q`-expansions, `E₂`, `Δ=η²⁴` with the eta transformation, a generalized
+residue theorem giving the valence formula, the level-one dimension formulas and
+generation by `E₄` and `E₆`, and abstract and `GL₂` Hecke rings acting on
+level-one forms. It is not a dependency, and no target here is among its results.
+It is prior art only for analytic inputs this roadmap consumes: the `Δ` and `E₄`
+facts used by the Hodge example in Conventions, the §1.7 Checks and the Layer 1
+Examples, and the Hecke rings beneath `HeckeRing.GL2.EigenformAwayFromLevel` in
+Scope and ownership. Those inputs are taken from Mathlib and Tau Ceti at the pin,
+which already have `Δ`, the `E₄` expansion, the level-one dimension formulas and
+the Hecke rings at levels `Γ₀(N)` and `Γ₁(N)`, and from TauCetiRoadmap.ModularForms
+as its supplier subsection specifies. Layers 0–7 have no counterpart there: its
+forms have level one and trivial character, and it has no Galois
+representations, étale or parabolic cohomology, Hilbert or quaternionic forms, or
+`p`-adic families.
+
+
 ## References
 
 Citations above use printed journal pages for the published scans and internal pages for the specified author or arXiv versions. Those are different from the published page ranges when an author version is used.
