@@ -1,4 +1,4 @@
-# Spectral steepest descent: polar factors, Newton–Schulz iterations and Muon
+# Roadmap: spectral steepest descent, polar factors, Newton–Schulz iterations and Muon
 
 **Summary.** Develop the variational theory of the polar factor of a linear map between
 finite-dimensional inner product spaces, and the polynomial iterations that approximate it.
