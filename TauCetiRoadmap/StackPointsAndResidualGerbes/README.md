@@ -226,6 +226,15 @@ Declarations and line numbers are those of the pinned revision
   It gives the finiteness of `k` over `κ(x)` in 5.5 and, with `isField_of_isIntegral_of_isField`
   (`Mathlib/RingTheory/IntegralClosure/IsIntegralClosure/Basic.lean:675`: a ring with an injective
   integral map to a field is a field), the Check of 1.1 on the generic point of `𝔸¹_k`.
+- `AlgebraicGeometry.FormallyUnramified` (`Mathlib/AlgebraicGeometry/Morphisms/FormallyUnramified.lean:54`:
+  the ring maps between affine opens are formally unramified),
+  `Algebra.FormallyUnramified.finite_of_free` (`Mathlib/RingTheory/Unramified/Finite.lean:167`: a
+  formally unramified algebra essentially of finite type over `R` and free as an `R`-module is finite
+  over `R`; over a field every module is free) and
+  `Algebra.FormallyUnramified.bijective_of_isAlgClosed_of_isLocalRing`
+  (`Mathlib/RingTheory/Unramified/Field.lean:61`: a local, formally unramified algebra essentially of
+  finite type over an algebraically closed field `K` is `K`). They make `G_x` finite and constant in
+  6.4's API bullet.
 - `AlgebraicGeometry.LocallyOfFinitePresentation.iff_locallyOfFiniteType`
   (`Mathlib/AlgebraicGeometry/Noetherian.lean:271`): over a locally Noetherian target a morphism
   of schemes is locally of finite presentation iff it is locally of finite type. With the
@@ -1850,9 +1859,14 @@ of `𝒳` (neither 4.1 nor 4.5 assumes it), nor algebraic closedness of `k` is u
 3.1, 3.2, 3.4, 4.1, 4.5, 6.3; gap:stack-morphism-permanence (cancellation of local finite type for
 the section `x`; a stack locally of finite type over `k` is locally Noetherian, Lemma 101.17.5, as
 4.5 requires); for the API bullet, also 0.3, 0.5, 1.2, 1.4 and 3.3, Mathlib
-`finite_of_finite_type_of_isJacobsonRing` (a field of finite type over `K` is finite over `K`) and
-gap:stack-separation-axioms (a Deligne–Mumford stack is quasi-DM, and its inertia is quasi-compact
-when its diagonal is).
+`finite_of_finite_type_of_isJacobsonRing` (a field of finite type over `K` is finite over `K`),
+Mathlib `AlgebraicGeometry.FormallyUnramified`, `Algebra.FormallyUnramified.finite_of_free` and
+`Algebra.FormallyUnramified.bijective_of_isAlgClosed_of_isLocalRing` (on each affine open `Spec A`
+of the `K`-scheme `G_x`, unramified over `K`, the `K`-algebra `A` is formally unramified and of
+finite type, hence finite over `K` with every local factor equal to `K`; so the quasi-compact `G_x`
+is a finite disjoint union of copies of `Spec K`), and gap:stack-separation-axioms (a
+Deligne–Mumford stack is quasi-DM and has unramified inertia, Lemma 101.6.1, and its inertia is
+quasi-compact when its diagonal is).
 
 The API consists of the following fact.
 
@@ -1893,7 +1907,9 @@ points `0` and `1` of `[𝔸¹/𝔾_m]` with `𝒵_0 = B𝔾_m` and `𝒵_1 = B1
 
 Layers 0–5; SchemeAndStackFoundations §§1.14, 1.20–1.21; Mathlib
 `AlgebraicGeometry.LocallyOfFinitePresentation.iff_locallyOfFiniteType`,
-`finite_of_finite_type_of_isJacobsonRing`; gap:flat-groupoid-quotients,
+`finite_of_finite_type_of_isJacobsonRing`, `AlgebraicGeometry.FormallyUnramified`,
+`Algebra.FormallyUnramified.finite_of_free`,
+`Algebra.FormallyUnramified.bijective_of_isAlgClosed_of_isLocalRing`; gap:flat-groupoid-quotients,
 gap:stack-morphism-permanence, gap:stack-separation-axioms.
 
 ## Layer 7: infinitesimal neighbourhoods, normal and tangent spaces
@@ -2169,9 +2185,11 @@ the residual gerbe `𝒵_x` (3.3, 4.5). A closed point of a stack of finite type
 representative `x` with `p ∘ x = id` for the structure morphism `p : 𝒳 → Spec K` (a closed point is
 a finite type point (1.2), and a finite type representative `Spec k → 𝒳` has `k` finite over `K`
 through `p`, so `K → k` is an isomorphism, and composing with its inverse gives `x`), so
-`𝒵_x ≃ BG_x` (the main statement of 6.4), and `G_x` is finite étale over `K` (1.4; unramified, and
-quasi-compact because the diagonal is), hence constant. Thus `𝒳_red ≃ ⊔_x BG_x` with finite groups
-`G_x`. The diagonal hypothesis is needed (the `Bℤ` Check of 6.4).
+`𝒵_x ≃ BG_x` (the main statement of 6.4), and `G_x` is a scheme (1.4), unramified over `K` (the
+inertia of a Deligne–Mumford stack is), and quasi-compact because the diagonal is, hence, by the
+Mathlib lemmas of 6.4, a finite disjoint union of copies of `Spec K`: a finite constant group. Thus
+`𝒳_red ≃ ⊔_x BG_x` with finite groups `G_x`. The diagonal hypothesis is needed (the `Bℤ` Check of
+6.4).
 
 **The stack `[𝔸¹/𝔾_m]`.** Points `0` (closed, finite type) and `1` (open, finite type);
 `G_0 = 𝔾_m`, `G_1 = 1`; `𝒵_0 = B𝔾_m` closed with ideal `(t)`, `𝒵_1 = Spec k` open; the dense open
