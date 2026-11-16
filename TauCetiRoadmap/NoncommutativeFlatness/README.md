@@ -328,8 +328,7 @@ Suggested homes in Tau Ceti: `TauCeti/CategoryTheory/Preadditive/ModCat/` (0.1, 
    results for right modules, and [Lam-FC] §§23–24 is right-handed; [Lam-FC, (4.14)] is left-handed.
 
 **Sources and locators.** Citations use the keys of the section "Sources and locators". Pages are
-printed pages. A locator that has not been read in a local copy of the source says "(not checked
-here)".
+printed pages.
 
 ## Exact supplier contracts
 
@@ -351,8 +350,9 @@ here)".
   `CategoryTheory.IsSeparator` (`Mathlib/CategoryTheory/Generator/Presheaf.lean` as the pattern),
   `CategoryTheory.EnoughInjectives`, `CategoryTheory.Injective`, and the instance
   `IsGrothendieckAbelian.wellPowered`.
-- Subobject lattices (0.1, 4.2): `CategoryTheory.Subobject` with its lattice instances,
-  `CategoryTheory.WellPowered`, `IsModularLattice`, `IsCompactlyGenerated`, `IsAtomistic`,
+- Subobject lattices (0.1, 4.2): `CategoryTheory.Subobject` with its order and lattice instances,
+  `IsCoatom`, `zorn_le_nonempty₀`, `CategoryTheory.WellPowered`, `IsModularLattice`,
+  `IsCompactlyGenerated`, `IsAtomistic`,
   `exists_sSupIndep_of_sSup_atoms`, `CategoryTheory.subobject_simple_iff_isAtom`,
   `CategoryTheory.Simple`, `ComplementedLattice`.
 - Linearity: `CategoryTheory.Linear` with `Linear.preadditiveIntLinear`,
@@ -404,12 +404,13 @@ here)".
   `IsCardinalPure` with `exists_colimitsOfShape_splitMonomorphisms_of_isCardinalPure`
   (`Mathlib/CategoryTheory/Presentable/CardinalPure.lean`) and `Cardinal.fact_isRegular_aleph0`;
   `ObjectProperty.IsCardinalFilteredGenerator` with
-  `ObjectProperty.IsCardinalFilteredGenerator.isPresentable_eq_retractClosure`,
   `ObjectProperty.IsStrongGenerator.isDense_colimitsCardinalClosure_ι`,
+  `IsStrongGenerator.colimitsCardinalClosure_eq_isCardinalPresentable`,
+  `ObjectProperty.colimitsCardinalClosure`,
   `IsCardinalLocallyPresentable.iff_exists_isStrongGenerator` and
   `ObjectProperty.isStrongGenerator_iff_exists_extremalEpi`
   (`Mathlib/CategoryTheory/Presentable/`, `Mathlib/CategoryTheory/Generator/StrongGenerator.lean`);
-  `ObjectProperty.IsStableUnderRetracts` with `ObjectProperty.retractClosure_eq_self`,
+  `ObjectProperty.IsStableUnderRetracts`,
   `ObjectProperty.IsClosedUnderFiniteCoproducts`, `ObjectProperty.inverseImage`,
   `AdditiveFunctor.forget`; `ShortComplex.exact_iff_mono_cokernel_desc`;
   `IsFiltered`, `IsCofiltered`, `CostructuredArrow`, `Functor.Elements`,
@@ -508,8 +509,8 @@ here)".
   `TauCeti.jacobsonRadicalIdeal` and `TauCeti.jacobsonRadical_self_eq_jacobson`
   (`TauCeti.CategoryTheory.Preadditive.Radical.Basic`);
   `TauCeti.exists_jacobsonRadicalIdeal_pow_eq_bot` (`...Radical.Nilpotent`).
-- Essential epimorphisms and covers (Layer 4): `TauCeti.IsEssentialEpi`
-  (`TauCeti.CategoryTheory.Projective.Cover`);
+- Essential epimorphisms and covers (Layer 4): `TauCeti.IsEssentialEpi` and its rigidity
+  `TauCeti.IsEssentialEpi.isIso_of_comp_eq` (`TauCeti.CategoryTheory.Projective.Cover`);
   `TauCeti.isProjectiveCover_iff_forall_surjective`
   (`TauCeti.Algebra.Module.ProjectiveCover.Basic`).
 - Finitely generated projective modules (0.8): `TauCeti.finiteProjectiveModules`
@@ -635,8 +636,17 @@ Throughout, `C : Type u` is preadditive with `Category.{v} C`, modules take valu
   `IsGrothendieckAbelian.wellPowered`; instances `IsModularLattice (Subobject M)` and
   `IsCompactlyGenerated (Subobject M)`). With well-poweredness, Mathlib makes `Subobject M` a
   complete lattice; it is modular because it is computed objectwise, and compactly generated, the
-  compact elements being the finitely generated subobjects. 4.1 and 4.2 use these. Neither Mathlib
+  compact elements being the finitely generated subobjects. 4.2 uses these. Neither Mathlib
   nor Tau Ceti has them for functor categories.
+- **Maximal subobjects** (`TauCeti.ModCat.exists_isCoatom_of_isFinitelyGeneratedFunctor`), for any
+  `C` and with no smallness: a nonzero finitely generated module `M` has a maximal proper
+  subobject, a coatom of `Subobject M` (a partial order with `⊤` in any category). Route: Zorn's
+  lemma (`zorn_le_nonempty₀`) on the additive subfunctors of `M` other than `M` (objectwise
+  subgroups stable under the maps `M(f)`), ordered by inclusion and starting from `0`. The union of
+  a nonempty chain is formed objectwise and is again an additive subfunctor; it is not `M`, since a
+  union equal to `M` would contain the finitely many generators at one member of the chain. The
+  unions are formed in the subgroups of the `M(c)`, so no well-poweredness enters. A maximal
+  subfunctor gives the coatom. 4.1 uses this for Nakayama's lemma for finitely generated modules.
 - **`R`-linear structure** (`TauCeti.Functor.objModule`, `TauCeti.Functor.toModuleCat`, and an
   instance `Linear R (ModCat C)`). For `Linear R C`, `r` acts on `F(c)` by `F(r • 𝟙 c)`; every
   `F(f)` is then `R`-linear, so `F` becomes a functor to `ModuleCat R`, and every natural
@@ -664,7 +674,7 @@ Throughout, `C : Type u` is preadditive with `Category.{v} C`, modules take valu
 `ObjectProperty.IsClosedUnderFiniteCoproducts` and `ObjectProperty.IsStableUnderRetracts`) and the
 full-subcategory abelian instance, `preadditiveYoneda`, `Linear`, `Linear.oppositeCategory`,
 `EssentiallySmall`, `IsGrothendieckAbelian`, `IsGrothendieckAbelian.wellPowered`, `WellPowered`,
-`IsModularLattice`, `IsCompactlyGenerated`.
+`IsModularLattice`, `IsCompactlyGenerated`, `IsCoatom`, `zorn_le_nonempty₀`.
 
 ### 0.2 Rings as one-object categories
 
@@ -777,8 +787,7 @@ this to `Cᵒᵖ`). API:
   (`TauCeti.MorphismIdeal.toLeftMorphismIdeal` and `TauCeti.MorphismIdeal.toRightMorphismIdeal`,
   coercions); the field names `comp_mem_left` and `comp_mem_right` are Tau Ceti's. Neither notion
   is in Mathlib or Tau Ceti; Mathlib's `Sieve` has the closure of a left ideal but is not additive.
-  M. and G. Weidenfeld's work on ideals of a preadditive category (see "Sources and locators") was
-  not obtained. **Rings**
+  **Rings**
   (`TauCeti.idealOrderIsoLeftMorphismIdeal A : Ideal A ≃o LeftMorphismIdeal (SingleObj Aᵐᵒᵖ)`,
   `TauCeti.submoduleOrderIsoRightMorphismIdeal A :
   Submodule Aᵐᵒᵖ A ≃o RightMorphismIdeal (SingleObj Aᵐᵒᵖ)`), both by `J ↦ {f | unop f ∈ J}`. By
@@ -807,13 +816,14 @@ this to `Cᵒᵖ`). API:
   `TauCeti.MorphismIdeal.restrictModCat_essImage_iff`;
   `TauCeti.MorphismIdeal.quotientSmulFunctor : ModCat C ⥤ ModCat (C ⧸ I)`,
   `TauCeti.MorphismIdeal.quotientSmulAdjunction`,
-  `TauCeti.MorphismIdeal.restrictModCatQuotientSmulFunctorIso`): a module over Tau Ceti's quotient
+  `TauCeti.MorphismIdeal.restrictModCatQuotientSmulFunctorIso`,
+  `TauCeti.MorphismIdeal.quotientSmulAdjunction_unit_app_comp`): a module over Tau Ceti's quotient
   category `C ⧸ I` is a `C`-module through `TauCeti.MorphismIdeal.quotientFunctor`, the essential
   image consists of the modules with `I · M = 0`, and `M ↦ M ⧸ I · M` is a functor to modules over
-  `C ⧸ I`, left adjoint to restriction, with unit the quotient map `M ⟶ M ⧸ I · M`. So reduction
-  preserves colimits (sums and epimorphisms in particular), and the counit is an isomorphism since
-  restriction is fully faithful. For `I = J(C)` this gives the modules over the semisimple
-  `C ⧸ J(C)` of 4.4 and 4.5.
+  `C ⧸ I`, left adjoint to restriction, with unit the quotient map `M ⟶ M ⧸ I · M` (a simp lemma).
+  So reduction preserves colimits (sums and epimorphisms in particular), and the counit is an
+  isomorphism since restriction is fully faithful. For `I = J(C)` this gives the modules over the
+  semisimple `C ⧸ J(C)` of 4.4 and 4.5.
 - **quotients and tensor products** (`TauCeti.MorphismIdeal.quotientYoneda`,
   `TauCeti.ModCat.tensorObjCokernelIso`, `TauCeti.ModCat.tensorObjQuotientYonedaIso`): for a
   subfunctor `S ⊆ Hom(X, -)`, a right ideal at `X`,
@@ -1002,13 +1012,15 @@ covariant functors are `proj Cᵒᵖ`. For `C = SingleObj Aᵐᵒᵖ`, `proj C` 
   (`TauCeti.isFinitelyPresentedFunctor_iff_finitePresentation`, through 0.2, and Mathlib's form
   `TauCeti.ModuleCat.isFinitelyPresentable_iff_finitePresentation` in `ModuleCat A`). For additive
   `C`, (2) is the single-representable form (0.1). Route: (1) ⇔ (2) by the retracts above (add the
-  complementary summands to both terms); (2) ⇒ (3) since representables are finitely presentable
-  (Yoneda: `Hom(Hom(-, X), colim D) ≅ (colim D)(X)`, colimits computed objectwise) and finitely
-  presentable objects are closed under finite colimits; (3) ⇒ (2): by the filtered generator
-  below and Mathlib's `ObjectProperty.IsCardinalFilteredGenerator.isPresentable_eq_retractClosure`,
-  a finitely presentable `F` is a retract of a finitely presented module (split the identity
-  through a stage of the filtered colimit), and finitely presented modules are closed under
-  retracts (0.1, through `coker(𝟙 - e)`), so `ObjectProperty.retractClosure_eq_self` concludes.
+  complementary summands to both terms); (2) ⇔ (3) by Mathlib's
+  `IsStrongGenerator.colimitsCardinalClosure_eq_isCardinalPresentable`, applied to the
+  representables: they are finitely presentable (Yoneda: `Hom(Hom(-, X), colim D) ≅ (colim D)(X)`,
+  colimits computed objectwise) and form a strong generator (as in the filtered generator below),
+  so the finitely presentable modules are the closure of the representables under finite colimits
+  (`ObjectProperty.colimitsCardinalClosure` at `ℵ₀`). This closure is the class of finitely
+  presented modules: they contain the representables and are closed under finite colimits (finite
+  sums and cokernels, 0.1), and each is the cokernel of a map between finite sums of
+  representables.
 - **Finite generation** (`TauCeti.ModCat.isFinitelyGeneratedFunctor_iff_exists_epi_proj`): a
   quotient of a finite sum of representables is a quotient of an object of `proj C`, and
   conversely; for rings this is `Module.Finite` (`TauCeti.isFinitelyGeneratedFunctor_iff_finite`).
@@ -1052,7 +1064,9 @@ endomorphism rings (ArtinAlgebras §0.3). Over `ℤ`, `ℤ²` satisfies all four
 *Needs:* 0.1–0.3, 0.5; Mathlib `Mat_`, `CategoryTheory.Idempotents.Karoubi`,
 `IsIdempotentComplete`, `ObjectProperty.lift`, `Retract`, `IsFinitelyPresentable`,
 `IsLocallyFinitelyPresentable`, `IsCardinalPresentable`, `Module.FinitePresentation`,
-`ObjectProperty.IsCardinalFilteredGenerator`, `ObjectProperty.retractClosure_eq_self`,
+`ObjectProperty.IsCardinalFilteredGenerator`,
+`IsStrongGenerator.colimitsCardinalClosure_eq_isCardinalPresentable`,
+`ObjectProperty.colimitsCardinalClosure`,
 `ObjectProperty.IsStrongGenerator.isDense_colimitsCardinalClosure_ι`,
 `ObjectProperty.isStrongGenerator_iff_exists_extremalEpi`; Tau Ceti
 `TauCeti.finiteProjectiveModules`; ArtinAlgebras §0.3 (check).
@@ -1570,8 +1584,11 @@ flatness:
 
 Route: the factorization follows from the first item: a map from a finitely presented
 `X = coker d` to `F` is a map `f : V → F` with `f ∘ d = 0`, and `a` descends through the cokernel;
-conversely, the factorization at a map from one representable modulo one relation is the
-definition. The factorization makes the category of elements filtered: it is nonempty through
+conversely, a relation `∑_j F(β_j)(y_j) = 0` gives a map to `F` from the cokernel of the map
+`Hom(-, X) → Hom(-, Y_1) ⊕ ⋯ ⊕ Hom(-, Y_n)` with components the `β_j`; it factors through a finite
+sum `W` of representables, the composite `Hom(-, Y_1) ⊕ ⋯ ⊕ Hom(-, Y_n) → W` kills the relation,
+and Yoneda turns this into the data that make the relation trivial. The factorization makes the
+category of elements filtered: it is nonempty through
 `0`, sums give common targets, and two parallel arrows are equalized by the first item applied to
 their difference. `F` is the colimit over it (the pattern of Tau Ceti's `flatModuleFilteredFree`).
 A filtered colimit of finite sums of representables is flat (2.6). Purity is the factorization
@@ -2237,14 +2254,16 @@ the case used in 4.3–4.6.
 (`TauCeti.ModCat.isSuperfluous_jacobson_smul_of_isFinitelyGeneratedFunctor`), for any `C`, with no
 T-nilpotence: `J(C) · M` is superfluous in every finitely generated module `M` (0.1). Route: if
 `J(C) · M ⊔ N = M` with `N ≠ M`, then `M ⧸ N` is nonzero and finitely generated, so it has a maximal
-subobject (`⊤` is compact in the subobject lattice, 0.1), with a simple quotient `S`; and
-`J(C) · S = 0`: for `f ∈ J(C)(c, d)` and `x ∈ S(d)` with `S(f)(x) ≠ 0`, the subobject generated by
-`S(f)(x)` is `S`, so `x = S(g ≫ f)(x)` for some `g : d → c`, and `x = 0` since `𝟙 - g ≫ f` is
-invertible. So `J(C) · M` lies in the maximal subobject over `N`, a contradiction. A consequence,
-used in 4.2: **rigidity** of a finite sum `Q` of representables: an endomorphism of `Q` that is the
-identity modulo `J(C) · Q` is an isomorphism (it is onto by the lemma, it splits since `Q` is
-projective, and its kernel `K` is a finitely generated summand inside `J(C) · Q`, so `K = J(C) · K`
-and `K = 0`).
+subobject (`TauCeti.ModCat.exists_isCoatom_of_isFinitelyGeneratedFunctor`, 0.1), with a simple
+quotient `S`; and `J(C) · S = 0`: for `f ∈ J(C)(c, d)` and `x ∈ S(d)` with `S(f)(x) ≠ 0`, the
+subobject generated by `S(f)(x)` is `S`, so `x = S(g ≫ f)(x)` for some `g : d → c`, and
+`x = 0` since `𝟙 - g ≫ f` is invertible. So `J(C) · M` lies in the maximal subobject over `N`, a
+contradiction. A consequence,
+used in 4.2: **rigidity** of a finite sum `Q` of representables: an endomorphism `u` of `Q` that is
+the identity modulo `J(C) · Q` is an isomorphism. The quotient map `q : Q → Q ⧸ J(C) · Q` is an
+essential epimorphism by the lemma (its kernel is superfluous, 0.3), `u ≫ q = q`, and `Q` is
+projective, so Tau Ceti's rigidity of projective covers, `TauCeti.IsEssentialEpi.isIso_of_comp_eq`,
+applies.
 
 **Rings** (`TauCeti.IsLeftTNilpotent (S : Set A)`): for every `a : ℕ → A` with values in `S` there
 is `n` with `(List.ofFn fun i : Fin n ↦ a i).prod = 0`. API: monotone in `S`
@@ -2272,8 +2291,10 @@ the `eᵢ - X • eᵢ₊₁` satisfies `G + X • F = F` and `G ≠ F` (`F ⧸ 
 series field), so `X • F` is not superfluous, as the last item predicts. The categorical check is
 the linear `A_∞` category of the Layer 4 checks.
 
-*Needs:* 0.1 (finite generation, subobject lattices), 0.3 (one-sided ideals, `I · M`), 2.5; Tau Ceti
-`TauCeti.jacobsonRadicalIdeal`, `TauCeti.MorphismIdeal`,
+*Needs:* 0.1 (finite generation, maximal subobjects), 0.3 (one-sided ideals, `I · M`, superfluous
+subobjects), 2.5; Tau Ceti `TauCeti.jacobsonRadicalIdeal`,
+`TauCeti.IsEssentialEpi.isIso_of_comp_eq`,
+`TauCeti.MorphismIdeal`,
 `TauCeti.MorphismIdeal.op`, the monoid of ideals
 (`TauCeti.CategoryTheory.Preadditive.MorphismIdeal.Mul`),
 `TauCeti.Ring.mem_jacobson_mulOpposite_iff`; Mathlib `Functor.ofSequence`.
@@ -2363,11 +2384,14 @@ and the summand `{g ≫ eᵢ}` of `Hom(-, X)` (for rings, `A eᵢ`), projective 
 ring `eᵢ (End X) eᵢ`, maps onto `S`; a surjection from a projective with local endomorphism ring
 onto a nonzero module is a cover (as for rings).
 
-**Representable covers** (`TauCeti.ModCat.isEssentialEpi_iff_forall_isIso`). For an epimorphism
-`p : Hom(-, P) → F` in `Mod C`, `p` is essential exactly when it is right minimal: every
-endomorphism `φ` of `Hom(-, P)` with `φ ≫ p = p` is invertible. Tau Ceti's representable projective
-covers in Krull–Schmidt categories, defined by right minimality, are therefore the covers here with
-representable source; their existence is the Krull–Schmidt case of (3) above, and the covers of the
+**Covers by right minimality** (`TauCeti.isEssentialEpi_iff_forall_isIso`), for a projective object
+`P` of any category: an epimorphism `p : P → F` is essential exactly when it is right minimal: every
+endomorphism `φ` of `P` with `φ ≫ p = p` is invertible. Forward by Tau Ceti's rigidity
+`TauCeti.IsEssentialEpi.isIso_of_comp_eq`; backward, if `g ≫ p` is epic, projectivity gives `t`
+with `t ≫ g ≫ p = p`, so `t ≫ g` is invertible and `g` is epic. For `P = Hom(-, X)` in `Mod C`,
+Tau Ceti's representable projective covers in Krull–Schmidt categories, defined by right
+minimality, are therefore the covers here with representable source; their existence is the
+Krull–Schmidt case of (3) above, and the covers of the
 simple modules `Hom(-, X) ⧸ J(-, X)` for local `End X` are those of the next items.
 
 **The radical of a projective module** (`TauCeti.ModCat.jacobson_smul_ne_top_of_projective`,
@@ -2378,14 +2402,15 @@ superfluous subobject of a projective `P`, in particular the kernel of a project
 [Bass, Prop. 2.7, p. 474]; [Sandomierski, Prop. 1 (d), p. 205]), and they hold without the
 T-nilpotence that 4.1 would need.
 
-- Route of `J(C) · P ≠ P`, Bass's finite-matrix argument ([Bass, Prop. 2.7, p. 474]): take
-  `s : P → F`, `r : F → P` with `r ∘ s = 1`, `F` a sum of representables, and suppose
-  `J(C) · P = P`. A map `f : Hom(-, c) → P` (an element of `P(c)`) has `s ∘ f = j ∘ g` for a finite
-  subsum `j : Q → F` (finite support), with projection `π : F → Q`. The endomorphism
-  `a = π ∘ s ∘ r ∘ j` of `Q` factors through `P`, and `P ⧸ J(C) · P = 0`, so `a` is `0` modulo
-  `J(C) · Q` (reduction modulo `J(C)` is a functor, 0.3); hence `1 - a` is the identity modulo
-  `J(C) · Q` and is invertible by the rigidity of 4.1. Since `a ∘ g = π ∘ s ∘ r ∘ s ∘ f = g`, we
-  get `g = 0`, so `f = 0`; hence `P = 0`. Theorem P (2′ ⇒ 1) uses this.
+- Route of `J(C) · P ≠ P`, the finite-support proof with cover rigidity ([Bass, Prop. 2.7,
+  p. 474] and [Lam-FC, (24.7), p. 360] are the ring precedents): take `s : P → F`, `r : F → P`
+  with `r ∘ s = 1`, `F` a sum of representables, and suppose `J(C) · P = P`. A map
+  `f : Hom(-, c) → P` (an element of `P(c)`) has `s ∘ f = j ∘ g` for a finite subsum `j : Q → F`
+  (finite support), with projection `π : F → Q`. The endomorphism `a = π ∘ s ∘ r ∘ j` of `Q` has
+  `a(Q) ⊆ π s(P) = π s(J(C) · P) ⊆ J(C) · Q`, since maps send `J(C) · -` into `J(C) · -`; hence
+  `1 - a` is the identity modulo `J(C) · Q` and is invertible by the rigidity of 4.1. Since
+  `a ∘ g = π ∘ s ∘ r ∘ s ∘ f = g`, we get `g = 0`, so `f = 0`; hence `P = 0`. Theorem P (2′ ⇒ 1)
+  uses this.
 - Route of the second item: `J(C)(-, X)` is the intersection of the maximal subobjects of
   `Hom(-, X)`; this passes to sums and summands, so `J(C) · P` is the intersection of the maximal
   subobjects of `P`, and a superfluous subobject lies in every maximal subobject. 4.4 and 4.6 use
@@ -2446,7 +2471,7 @@ with Tau Ceti's `TauCeti.finiteProjectiveModules R` identified with `proj (Singl
   equivalent ([Sandomierski, Thm. 4, p. 206], which generalizes Koh's commutative case, cited on
   p. 205: "every simple right module has a projective cover"; [Krause, Prop. 4.1]; [Lam-FC, (24.16),
   p. 364], whose item (3) is "every cyclic right module has a projective cover"; [Müller, §3,
-  pp. 465–467], a short proof of the simple-cover criterion):
+  p. 465], a short proof of the simple-cover criterion):
   1. `R` is semiperfect;
   2. `R`, as a left module over itself, is a finite product of projective modules with local
      endomorphism rings;
@@ -2485,7 +2510,8 @@ with Tau Ceti's `TauCeti.finiteProjectiveModules R` identified with `proj (Singl
 
 *Needs:* 0.1, 0.3, 0.8, 4.1; ArtinAlgebras §0.2 (`IsKrullSchmidt` and Krause's criterion); Tau Ceti
 `TauCeti.IsSemiperfectRing`, the idempotent results listed in "From Tau Ceti",
-`TauCeti.IsEssentialEpi`, `TauCeti.IsProjectiveCover` and its API,
+`TauCeti.IsEssentialEpi` with `TauCeti.IsEssentialEpi.isIso_of_comp_eq`, `TauCeti.IsProjectiveCover`
+and its API,
 `TauCeti.FiniteProjectivePresentation`, `TauCeti.IsMinimalProjectivePresentation`,
 `TauCeti.MorphismIdeal.Quotient`, `TauCeti.jacobsonRadical_self_eq_jacobson`,
 `TauCeti.Ring.isSemisimpleRing_quotient_jacobson_mulOpposite_iff`; Mathlib `IsCompactElement`,
@@ -2535,26 +2561,34 @@ projective cover. The other side is `IsPerfectCategory Cᵒᵖ`. The name carrie
   products are in the reverse order, and their right T-nilpotence is left T-nilpotence here. The
   steps are targets:
   1. *nil implies T-nilpotent* (`TauCeti.Module.End.isLeftTNilpotent_of_isArtinian`,
-     `TauCeti.Module.End.isLeftTNilpotent_op_of_isNoetherian`): a nil one-sided ideal `I` of `S` is
-     left T-nilpotent when `M` is Artinian (in every sequence `a₀, a₁, …` in `I` some
-     `a₀ ∘ ⋯ ∘ aₙ₋₁` vanishes), and right T-nilpotent when `M` is Noetherian (some
-     `aₙ₋₁ ∘ ⋯ ∘ a₀` vanishes), that is, its image in `Sᵐᵒᵖ` is left T-nilpotent. Artinian case
-     [AF, Thm. 29.2, proof, pp. 323–324]: among the sequences with no vanishing product, choose
-     the terms one by one with minimal image, and compare kernels and images of the partial
-     products. Noetherian case, which [AF] omit as dual: the same with maximal kernels, so that
-     the image of a partial product meets the kernel of the next term in `0` and the products of
-     later terms with earlier ones vanish, and with the ascending chain condition on sums of
-     images;
+     `TauCeti.Module.End.isLeftTNilpotent_op_of_isNoetherian`): a set `I` of nilpotent elements of
+     `S` closed under products (`∀ a ∈ I, ∀ b ∈ I, a * b ∈ I`) is left T-nilpotent when `M` is
+     Artinian (in every sequence `a₀, a₁, …` in `I` some `a₀ ∘ ⋯ ∘ aₙ₋₁` vanishes), and right
+     T-nilpotent when `M` is Noetherian (some `aₙ₋₁ ∘ ⋯ ∘ a₀` vanishes), that is, its image in
+     `Sᵐᵒᵖ` is left T-nilpotent. [Fisher-Nil] states this for nil subrings and [AF] for nil
+     one-sided ideals; the proofs use only products of elements of `I`. Artinian case
+     [Fisher-Nil, Thm. 1.5, pp. 76–77], Fisher's theorem, in the exposition of [AF, Thm. 29.2,
+     proof, pp. 323–324]: among the sequences with no vanishing product, choose the terms one by
+     one with minimal image, and compare kernels and images of the partial products. Noetherian
+     case [Fisher-Nil, Thm. 2.1, p. 77], due to L. Small, with the proof "Dualize the proof of
+     Theorem 1.5"; [AF] omit it as dual: the same with maximal kernels, so that, for the chosen
+     terms `s₁, s₂, …` and `pₙ = sₙ ∘ ⋯ ∘ s₁`, the image of `pₙ` meets the kernel of `sₙ₊₁` in `0`
+     and `sₘ ∘ pₙ = 0` for `n ≥ m`, and with the ascending chain condition on sums of images;
   2. *T-nilpotent implies nilpotent* (`TauCeti.Module.End.exists_prod_eq_zero_of_isLeftTNilpotent`,
      `TauCeti.Module.End.exists_prod_eq_zero_of_isLeftTNilpotent_op`): for Artinian `M`, the
      submodules `Iʳ M` generated by the images of products of `r` elements of `I` stabilize at some
      `N` with `I N = N`, and left T-nilpotence gives `N = 0`, by the argument of 4.1, (1) ⇒ (2); for
      Noetherian `M`, the annihilators `ann_M(Iʳ)` stabilize at some `L`, and if `L ≠ M`, every
      `x ∉ L` has some `a ∈ I` with `a x ∉ L`, which gives a sequence with no vanishing
-     `aₙ₋₁ ∘ ⋯ ∘ a₀`. [AF, Prop. 29.1, p. 323] is the form through right annihilators;
-  3. *the theorem of Small and Fisher* (`TauCeti.Module.End.exists_prod_eq_zero_of_isNilpotent`;
-     [AF, Thm. 29.2, p. 323]): for `M` Artinian or Noetherian, every nil one-sided ideal of `S` is
-     nilpotent; steps 1 and 2;
+     `aₙ₋₁ ∘ ⋯ ∘ a₀`. [AF, Prop. 29.1, p. 323] is the form through right annihilators, and
+     [Fisher-Nil, Lemmas 1.1–1.2, pp. 75–76] the Artinian form for subrings, through left
+     annihilators in `S`;
+  3. *the theorem of Small and Fisher* (`TauCeti.Module.End.exists_prod_eq_zero_of_isNilpotent`,
+     with the wrappers `TauCeti.Module.End.exists_prod_eq_zero_of_ideal` and
+     `TauCeti.Module.End.exists_prod_eq_zero_of_rightIdeal`; [Fisher-Nil, Thms. 1.5 and 2.1,
+     pp. 76–77]; [AF, Thm. 29.2, p. 323]): for `M` Artinian or Noetherian, a set of nilpotent
+     elements of `S` closed under products is nilpotent, in particular every nil one-sided ideal
+     of `S`; steps 1 and 2;
   4. *finite length* ([AF, Cor. 29.3, p. 324]): `S` is semiperfect, since `M` is a finite direct
      sum of modules with local endomorphism rings ([Lam-FC, (23.8), p. 348]); its radical is nil
      by Fitting's lemma (for `a` in the radical and large `n`, `M = Im aⁿ ⊕ Ker aⁿ` and `a` is an
@@ -2599,8 +2633,9 @@ left module, in every universe, has a projective cover, in the form of Tau Ceti'
 ### 4.5 Bass's Theorem P
 
 **Pure superfluous subobjects of projectives**
-(`TauCeti.ModCat.eq_bot_of_isSuperfluous_of_isPureEpi`), a standalone target, for any `C`: a
-subobject `K` of a projective `P` that is superfluous and pure (the quotient map `P → P ⧸ K` is a
+(`TauCeti.ModCat.eq_bot_of_isSuperfluous_of_isPureEpi`), a standalone target, for essentially
+small `C`, with no hypothesis on the radical: a subobject `K` of a projective `P` that is
+superfluous and pure (the quotient map `P → P ⧸ K` is a
 pure epimorphism, 2.3) is zero ([Wisbauer, 36.3, p. 306], for a projective in `σ[M]` generated by
 finitely presented modules). Route, as Wisbauer's: for `x ∈ K(c)`, purity gives `θ : P → P` with
 image in `K` and `θ(x) = x`. In detail, choose a split inclusion `s : P → F` into a sum of
@@ -2615,10 +2650,11 @@ summand of `P` inside `K`, hence zero ([Mares, Thm. 2.4, proof step (i), p. 349]
 `(1 - θ)(x) = 0`, so `x = 0`.
 
 **Flat modules with a projective cover** (`TauCeti.ModCat.Flat.projective_of_isEssentialEpi`): a
-flat module with a projective cover is projective, for any `C` and with no hypothesis on the
-radical ([Wisbauer, 36.4 (1), p. 306]). Route: an epimorphism onto a flat module is pure (2.3), so
-the kernel of the cover is pure and superfluous, hence zero. Credits: Wisbauer for rings, statement
-and proof; [Simson, Thm. 5.4, (9′) ⇒ (1′), pp. 109–110], on `Cᵒᵖ`, for categories; [Mares, Thm. 2.4,
+flat module with a projective cover is projective, for essentially small `C` and with no
+hypothesis on the radical ([Wisbauer, 36.4 (1), p. 306]). Route: an epimorphism onto a flat module
+is pure (2.3), so the kernel of the cover is pure and superfluous, hence zero. Credits: Wisbauer
+for rings, statement and proof; [Simson, Thm. 5.4, (9′) ⇒ (1′), pp. 109–110], on `Cᵒᵖ`, for
+categories; [Mares, Thm. 2.4,
 proof step (i), p. 349], for the endomorphism argument; [Chase 1960, Prop. 2.2, p. 458], where
 Chase publishes Villamayor's lemma with proof, noting that it had not yet appeared. The earlier
 ring proof of "perfect ⇒ flat modules are projective" through `K ≤ J · P` ([Lam-FC, (24.25)]) is
@@ -2916,7 +2952,7 @@ only Mathlib and Tau Ceti); 4.3 needs 4.1 and 4.2; 4.4 needs 4.1–4.3; 4.5 need
 - [Auslander78] M. Auslander, *Functors and morphisms determined by objects*, in *Representation
   Theory of Algebras* (Philadelphia, 1976), Lecture Notes in Pure and Applied Mathematics 37,
   Dekker (1978), 1–244. I, Prop. 3.2 (`stable Hom(X, Y) ≅ Tor_1(Tr X, Y)` for finitely presented
-  `X`), read in a retyped version (its pp. 12–14), not in the printed pages.
+  `X`), pp. 12–14 of a retyped version, not the printed pagination.
 - [Au] M. Auslander, *On the dimension of modules and algebras III. Global dimension*, Nagoya Math.
   J. 9 (1955), 67–77. Thm. 1, p. 68; weak dimensions, Thm. 4 and Cor. 5, p. 70; Cor. 8, p. 72;
   Cor. 9, p. 73.
@@ -2941,8 +2977,8 @@ only Mathlib and Tau Ceti); 4.3 needs 4.1 and 4.2; 4.4 needs 4.1–4.3; 4.5 need
   Theorem, p. 1645 (`(𝒞ᵒᵖ, Ab)` is locally finitely presented: its finitely presented objects are
   the cokernels of maps between representables, and every functor is the direct limit of these);
   §1.3, Theorem, pp. 1645–1646 (flat functors; the proof of (1) ⇒ (2) uses
-  `stable Hom(X, Y) ≅ Tor_1(Tr X, Y)`, with the stable `Hom` underlined on p. 1646 and lost in text
-  extraction); §1.4, Theorem and Corollary, pp. 1646–1648 (representation theorem); §2.1, Theorem,
+  `stable Hom(X, Y) ≅ Tor_1(Tr X, Y)`, with the stable `Hom` underlined on p. 1646); §1.4, Theorem
+  and Corollary, pp. 1646–1648 (representation theorem); §2.1, Theorem,
   p. 1648; §2.2, pp. 1649–1651 (flat = left exact); §2.3, Theorem, p. 1651; §3.1, pp. 1653–1654;
   §3.2, Theorem, p. 1655. His `𝒞` is skeletally small and additive, with finite biproducts (p.
   1642), and his "locally finitely presented" means finitely accessible additive. His functors are
@@ -2960,8 +2996,8 @@ only Mathlib and Tau Ceti); 4.3 needs 4.1 and 4.2; 4.4 needs 4.1–4.3; 4.5 need
   credited to him as not yet in the literature), and its Corollary, p. 459 (a finitely related flat
   module is projective); Prop. 2.3, p. 459 (the equational criterion). Right modules.
 - [CI] M. Cortés-Izurdiaga, *Flatness in finitely accessible additive categories*,
-  arXiv:2505.07742v1: the definitions before Proposition `p:CharacterizationFlats` (flat modules
-  versus flat objects inside the category of flat modules). No published numbering.
+  arXiv:2505.07742v1, §5, Definition 5.2 and Proposition 5.3, p. 21 (flat modules versus flat
+  objects inside the category of flat modules).
 - [CPT] S. Crivei, M. Prest, B. Torrecillas, *Covers in finitely accessible categories*, Proc. Amer.
   Math. Soc. 138 (2010), 1213–1221. pp. 1214 and 1218 (finitely accessible versus locally finitely
   presented); Cor. 3.3, p. 1218 (flat covers in `Mod C`).
@@ -2981,15 +3017,24 @@ only Mathlib and Tau Ceti); 4.3 needs 4.1 and 4.2; 4.4 needs 4.1–4.3; 4.5 need
   p. 284 (for a left exact `G : 𝒞° → Ab`, `⊗ G` is exact); Cor. 2.9, p. 285 (a covariant
   `F : 𝒞 → 𝒟` is left exact exactly when `F ⊗` is exact; our statement of it is over `Cᵒᵖ`). Fisher
   does not use the word "flat"; [OR, Cor. 3.4] cites 2.4 and 2.9 for "flat = left exact".
+- [Fisher-Nil] J. W. Fisher, *Nil subrings of endomorphism rings of modules*, Proc. Amer. Math. Soc.
+  34 (1972), 75–78. Lemma 1.1, p. 75, with proof to p. 76 (for an Artinian `M`, `End_R(M)` has the
+  ascending chain condition on left annihilators); Lemma 1.2, p. 76 (under the ascending chain
+  condition on left (right) annihilators, a subring is nilpotent exactly when it is left (right)
+  T-nilpotent); Theorem 1.5, p. 76, with proof on p. 77 (for an Artinian `M`, every nil subring of
+  `End_R(M)` is nilpotent; Fisher's theorem); Theorem 2.1, p. 77 (the same for a Noetherian `M`,
+  "due to Lance Small" and appearing in Goldie–Small, with the proof "Dualize the proof of Theorem
+  1.5"). `M` is a right module and endomorphisms act on the left, so products are in Mathlib's
+  order. A different author from [Fisher].
 - [Govorov] V. E. Govorov, *On flat modules*, Sibirsk. Mat. Zh. 6 (1965), 300–304 (Russian): a flat
-  module is a direct limit of free modules. Read in the original.
+  module is a direct limit of free modules.
 - [Harada] M. Harada, *Perfect categories I*, Osaka J. Math. 10 (1973), 329–341. Introduction,
   pp. 329–330: perfect Grothendieck categories, and Theorem P for the functor category `(C, Ab)` of
   an amenable additive small category `C`; Lemma 6, p. 337, and Theorems 3–4, pp. 337–338; Theorem
   5 and Remark 1, pp. 339–340 (for the finitely induced category `C_f` of a set of completely
-  indecomposable objects; Bass's module over the ring with enough idempotents of a category;
-  p. 339 checked on the page image, the rest through a reading of the text extraction). Part I,
-  Theorems 3–4, and Part II use the contravariant `(C⁰, Ab)`, as here; Theorem 5 is covariant,
+  indecomposable objects; Bass's module over the ring with enough idempotents of a category).
+  Part I, Theorems 3–4, and Part II use the contravariant `(C⁰, Ab)`, as here; Theorem 5 is
+  covariant,
   with the remark that the same holds for `(C_f⁰, Ab)`. A functor category, not the small
   category, is called perfect. *Perfect categories II*, ibid., 343–355: Theorem 2′, p. 346,
   stated without proof. Parts III–IV have no flatness.
@@ -3015,18 +3060,17 @@ only Mathlib and Tau Ceti); 4.3 needs 4.1 and 4.2; 4.4 needs 4.1–4.3; 4.5 need
   `D δ^*(X) = D Coker Hom_R(X, ψ) ≅ D Ker(φ ⊗_R Tr X)` on p. 269, with the contravariant defect
   `δ^*`), for an algebra over a commutative ring, right modules and finitely presented `X`.
 - [Krause-FlatCovers] H. Krause, *Morphisms determined by objects and flat covers*, Forum Math. 28
-  (2016), 425–435. Theorems 1.1 and 2.2, read in arXiv:1403.6039v2 (numbering of v2). Pointer
-  only.
+  (2016), 425–435. Theorems 1.1 and 2.2, in the numbering of arXiv:1403.6039v2. Pointer only.
 - [Krause-Smashing] H. Krause, *Smashing subcategories and the telescope conjecture — an algebraic
   approach*, Invent. Math. 139 (2000), 99–133. §2.3, p. 115: `Flat C = Ind C`, and Lemma 2.7 (for
   a skeletally small triangulated `C`: flat, cohomological and fp-injective agree, for additive
   `M : Cᵒᵖ → Ab`, as here), with Lemma 1.6.
 - [Lam-FC] T. Y. Lam, *A First Course in Noncommutative Rings*, Graduate Texts in Mathematics 131,
-  Springer (1991), first edition, the edition of the local copy, to which all pages refer. (4.14),
+  Springer (1991), first edition, to which all pages refer. (4.14),
   pp. 57–58 (a ring is semisimple exactly when it is J-semisimple and left Artinian, exactly when it
   is J-semisimple with the descending chain condition on principal left ideals; the proof splits off
-  minimal left ideals through a maximal left ideal missing them and uses no Brauer lemma), read in
-  the derivative of §4; (23.6), p. 347 (a ring is semiperfect exactly when `1` is a sum of
+  minimal left ideals through a maximal left ideal missing them and uses no Brauer lemma); (23.6),
+  p. 347 (a ring is semiperfect exactly when `1` is a sum of
   orthogonal local idempotents); (23.8), p. 348, with proof to p. 349 (a module is a finite direct
   sum of modules with local endomorphism rings exactly when its endomorphism ring is semiperfect);
   (23.11), p. 350 (commutative semiperfect rings); (23.13)–(23.16), pp. 351–352; (23.19), p. 353;
@@ -3047,7 +3091,7 @@ only Mathlib and Tau Ceti); 4.3 needs 4.1 and 4.2; 4.4 needs 4.1–4.3; 4.5 need
   p. 241.
 - [Lazard] D. Lazard, *Autour de la platitude*, Bull. Soc. Math. France 97 (1969), 81–128. Ch. I
   (noncommutative rings, p. 83): Lemme 1.1 and Thm. 1.2, p. 84; Cor. 1.3–1.4, p. 85; Thm. 3.2,
-  p. 89. The 1964 announcement (C. R. Acad. Sci. Paris 258, 6313–6316) was not obtained.
+  p. 89.
 - [Mares] E. A. Mares, *Semi-perfect modules*, Math. Z. 82 (1963), 347–360 (volume 82; Simson's
   bibliography has 83). Theorem 2.4, proof step (i), p. 349 (an endomorphism of a projective with
   small image has invertible `1 - s`); added-in-proof note, p. 360. For Layer 4.
@@ -3076,18 +3120,18 @@ only Mathlib and Tau Ceti); 4.3 needs 4.1 and 4.2; 4.4 needs 4.1–4.3; 4.5 need
   pp. 49–50 (Jensen's countable case, Osofsky's `ℵ_n` case, and "a slightly erroneous, but simpler
   proof" by Lazard, corrected in a communication to Mitchell); §11, pp. 50–52: `K`-categories,
   `K`-linear functors to `K`-modules as additive functors to abelian groups (p. 51), the tensor
-  product over `K` and its independence of `K` (p. 52). Pages 57–161 were searched for flatness,
-  weak dimension and Auslander's theorems: the weak dimension of a functor is defined on p. 59 and
+  product over `K` and its independence of `K` (p. 52). Pages 57–161, on flatness, weak dimension
+  and Auslander's theorems: the weak dimension of a functor is defined on p. 59 and
   then set aside (p. 60); Thm. 16.1 (Osofsky), p. 69, bounds the projective dimension of a directed
   colimit over a directed set of cardinality `ℵ_n` by `n + 1` plus the supremum; §36, Thm. 36.8,
   p. 149, gives directed functors of projective dimension exactly `n + 1` (the examples of p. 50);
   p. 152 recalls Auslander's theorem that the right global dimension is the supremum over cyclic
-  functors. No categorical form of Auslander's Noetherian comparison of weak and global dimension
-  was found there. Mitchell writes morphisms on the right; his modules in general are covariant
+  functors; they contain no categorical form of Auslander's Noetherian comparison of weak and
+  global dimension. Mitchell writes morphisms on the right; his modules in general are covariant
   functors and are applied to `Cᵒᵖ`, while the projective and flat functors of §10 are contravariant
   (`G ∈ Ab^{𝒞*}`), as here.
 - [Müller] B. J. Müller, *On semi-perfect rings*, Illinois J. Math. 14 (1970), 464–467. §3,
-  pp. 465–467 (a short proof of the simple-cover criterion); a pointer.
+  p. 465 (a short proof of the simple-cover criterion); a pointer.
 - [Nicholson] W. K. Nicholson, *On semiperfect modules*, Canad. Math. Bull. 18 (1975), 77–80. Cor.
   2, p. 79 (a finitely generated projective module is semiperfect exactly when each simple quotient
   has a projective cover).
@@ -3111,26 +3155,24 @@ only Mathlib and Tau Ceti); 4.3 needs 4.1 and 4.2; 4.4 needs 4.1–4.3; 4.5 need
   generated by at most `ℵ_n` elements); p. 319 (Pierce's free Boolean rings: R. S. Pierce, *The
   global dimension of Boolean rings*, J. Algebra 7 (1967), 91–99, cited here as [Pierce]).
 - [PR] A. Pillay, P. Rothmaler, *Bass modules and embeddings into free modules*, J. Algebra 670
-  (2025), 1–12 (publisher record, not checked here); read in arXiv:2501.04174v1, §3, Definition 4
-  and Lemma 5 (numbering of the HTML version of v1, not compared with the published version); the
-  pp-formula view of the Bass obstruction, credited there to G. Puninski, P. Rothmaler,
+  (2025), 1–12; §3, Definition 4 and Lemma 5, p. 4, in the numbering of arXiv:2501.04174v1 (PDF and
+  TeX); the pp-formula view of the Bass obstruction, credited there to G. Puninski, P. Rothmaler,
   *Pure-projective modules*, J. London Math. Soc. (2) 71 (2005), 304–320: §4, Thm. 4.2
-  (Bass–Björk), with Lemma 3.6, read in an author preprint (numbering and pages of the preprint,
-  not compared with the published version); the preprint, §4, p. 11, says that its proof of
-  Thm. 4.2 uses an idea of I. Sakhayev (I. Sakhayev, *Bass's perfect rings and their
-  generalizations*, Abelian Groups and Modules (Tomsk) 10 (1991), 106–124, as listed there; not
-  obtained). An alternative only.
+  (Bass–Björk), with Lemma 3.6 (numbering and pages of the author preprint); the preprint, §4,
+  p. 11, says that its proof of Thm. 4.2 uses an idea of I. Sakhayev (I. Sakhayev, *Bass's perfect
+  rings and their generalizations*, Abelian Groups and Modules (Tomsk) 10 (1991), 106–124, as
+  listed there). An alternative only.
 - [Pierce] R. S. Pierce, *The global dimension of Boolean rings*, J. Algebra 7 (1967), 91–99.
   Cor. 2.2, p. 92 (a regular ring of cardinality at most `ℵ_n` has global dimension `≤ n + 1`);
   Thm. 5.1, p. 96, and Cor. 5.2, p. 97 (the free Boolean ring on `ℵ_n` generators has global
   dimension `n + 1`). Left modules.
 - [Rowen] L. H. Rowen, *Ring Theory*, vol. I, Academic Press (1988). Thm. 2.7.7 (ii), pp. 213–214,
   and Thm. 2.7.33, pp. 222–223 (Rentschler's direct proof that a perfect ring has the descending
-  chain condition on principal ideals, in Rowen's conventions); read for the route comparison, not
-  re-read here. [Lam-FC, p. 370] names R. Rentschler and points to Rowen; the paper's title and
-  place are in 4.5.
+  chain condition on principal ideals, in Rowen's conventions). [Lam-FC, p. 370] names R.
+  Rentschler and points to "Rowen [88], Vol. II, p. 222"; the locators here are in volume I. The
+  paper's title and place are in 4.5.
 - [Rump] W. Rump, *Flat covers in abelian and in non-abelian categories*, Adv. Math. 225 (2010),
-  1589–1615. Theorem 2 and Corollary 2, pp. 1603–1604, read in a transcription. Pointer only.
+  1589–1615. §5, Theorem 2 and its Corollary 2, pp. 1603–1604. Pointer only.
 - [Sandomierski] F. L. Sandomierski, *On semiperfect and perfect rings*, Proc. Amer. Math. Soc. 21
   (1969), 205–207. Credit to Koh's commutative case (K. Koh, *On a semi-primary ring*, Proc. Amer.
   Math. Soc. 19 (1968), 205–208, Thm. 2, p. 205: a commutative ring has projective covers of all
@@ -3148,16 +3190,13 @@ only Mathlib and Tau Ceti); 4.3 needs 4.1 and 4.2; 4.4 needs 4.1–4.3; 4.5 need
   coproducts and cokernels, then `Cᵒᵖ`-module `F` is flat iff `F` is a left exact functor"); Thm.
   2.12 (c), p. 98 (`ℵ_n`-presented flat functors); Def. 3.1, p. 99 (factorizable inverse systems);
   left T-nilpotence of `J(C)` and Lemma 5.3 (Bass's Nakayama lemma, for `J(C)`, "the arguments of
-  Bass generalize"), p. 108; Thm. 5.4, p. 108 (statement checked on the page image), with the
-  proofs of (3′) ⇒ (4), (7) ⇒ (8) and (9′) ⇒ (1′), pp. 108–110; Thm. 5.6, p. 110 (three items). The
-  pages come from a scan of two-page spreads. The steps through Thm. 3.16 and (5) ⇒ (4) were not
-  fully read. Simson's modules are covariant functors; his statements are applied here to `Cᵒᵖ`,
-  except Thm. 2.1 (b). The earlier paper *Functor categories in which every flat object is
-  projective*, Bull. Acad. Polon. Sci. 22 (1974), 375–380, was not obtained.
+  Bass generalize"), p. 108; Thm. 5.4, p. 108, with the proofs of (3′) ⇒ (4), (7) ⇒ (8) and
+  (9′) ⇒ (1′), pp. 108–110; Thm. 5.6, p. 110 (three items). Simson's modules are covariant
+  functors; his statements are applied here to `Cᵒᵖ`, except Thm. 2.1 (b).
 - [Stacks] The Stacks Project authors, *The Stacks Project*, Tag 058D (characterizing flatness: for
   a flat module over a commutative ring, a map from a finite free module factors through a finite
   free module killing a given finitely generated submodule of its kernel, by induction on the
-  number of generators); read online.
+  number of generators).
 - [St] B. Stenström, *Purity in functor categories*, J. Algebra 8 (1968), 352–361. §2 and
   Lemmas 7–8, pp. 353–354 (Lemma 7 (ii): finitely presented flat objects are projective; Lemma 8
   (c): a map from a finitely presented object to a flat one factors through a projective object);
@@ -3175,16 +3214,12 @@ only Mathlib and Tau Ceti); 4.3 needs 4.1 and 4.2; 4.4 needs 4.1–4.3; 4.5 need
   modules have local endomorphism rings); 36.3, p. 306 (a pure and superfluous submodule of a
   projective module in `σ[M]` generated by finitely presented modules is zero) and 36.4 (1),
   p. 306 (a flat module with a projective cover is projective), in `σ[M]`.
-- M. and G. Weidenfeld, *Idéaux d'une catégorie préadditive, application aux catégories
-  semi-parfaites*, C. R. Acad. Sci. Paris Sér. A 270 (1970), 1569–1571, as listed in [Simson],
-  ref. [39]. A search found only the thesis M. Weidenfeld, *Idéaux d'une catégorie préadditive*,
-  Esquisses Math. 3, Paris (1970). Neither was obtained or read.
 - [Ho] M. Hoshino, *On dominant dimension of Noetherian rings*, Osaka J. Math. 26 (1989), 275–280.
   Theorem, p. 275: for a left and right Noetherian ring, the first `n` terms of the minimal
   injective resolutions of `R_R` and `_R R` are flat together (Hoshino calls this dominant
   dimension).
-  [Xi] C. Xi, *Frobenius bimodules and flat-dominant dimensions*, Sci. China Math. 64 (2021), 33–44,
-  read in the published version (author's PDF) and in arXiv:1903.07921v1: §1, p. 34, the left
+  [Xi] C. Xi, *Frobenius bimodules and flat-dominant dimensions*, Sci. China Math. 64 (2021), 33–44
+  (also arXiv:1903.07921v1): §1, p. 34, the left
   flat-dominant dimension, following [Ho], and its left-right symmetry for Noetherian rings,
   credited to [Ho]. Cited for the consumer only, as in ArtinAlgebras.
 
