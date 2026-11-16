@@ -1023,8 +1023,11 @@ suspension homomorphism commutes, retaining the interval-last orientation and de
 Apply GeneralizedCohomology G2 item 5 to the `(n−1)`-connected CW complex `Sⁿ`,
 with `n ≥ 2`. Under the comparisons the suspension
 `π_q(Sⁿ) → π_(q+1)(S^(n+1))` is an isomorphism for `1 ≤ q ≤ 2n−2` and is
-surjective for `q = 2n−1` (Hatcher, Corollary 4.24, p. 360). Deduce that the
-colimit map from `π_(n+k)(Sⁿ)` is an isomorphism for `n ≥ k+2`.
+surjective for `q = 2n−1` (Hatcher, Corollary 4.24, p. 360). G2's comparison with
+the sphere-only theorem uses RiemannianGeometry R3.4 and the map square above.
+Construct that square from the earlier pointed comparisons independently of the
+general theorem. Deduce that the colimit map from `π_(n+k)(Sⁿ)` is an isomorphism
+for `n ≥ k+2`.
 
 The pointed cone and cofiber API consists of quotient evaluation, based universal
 properties, induced maps and homotopies, the co-H structure on reduced suspension and the
@@ -2446,9 +2449,11 @@ closure under connected sum and orientation reversal.
 Kervaire–Milnor, Lemmas 4.2–4.5 and the last paragraph of the proof of Theorem 4.1
 (pp. 510–512), identify the kernel of the classical framing-coset map with the
 parallelizable-boundary subgroup. Levine, Appendix, pp. 91–93, gives the exact sequence
-of almost-framed manifolds with arc defects and parallelizable fillings. Compare its
-models with the disc defects, normalized framings and actual deletion, extension and
-gluing witnesses of 6A–6B before identifying the sequences.
+of almost-framed manifolds and parallelizable fillings. On a closed cycle the framing
+has a point defect, while on a bordism the framing has an arc defect joining the marked
+points. Compare with disc defects by taking compatible regular neighbourhoods of the
+point and arc and transporting the exterior framings as in 6A–6B. Check the three
+maps on these representatives before identifying the sequences.
 
 The deletion, inclusion and boundary maps, and the subgroup bP, have the following API.
 
