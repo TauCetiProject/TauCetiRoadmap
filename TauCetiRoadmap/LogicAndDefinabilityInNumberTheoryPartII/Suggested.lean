@@ -63,11 +63,11 @@ def IsGeometricPrimeDivisor {K : Type u} [Field K] (O : ValuationSubring K) : Pr
     ringChar (IsLocalRing.ResidueField O) = ringChar K ∧
     kroneckerDimension (IsLocalRing.ResidueField O) + 1 = kroneckerDimension K
 
-/-- **Rumely's uniform valuation rings** (Rumely, Introduction and §2; Poonen, Theorem 2.2): there
-are an arity `m` and a ring formula `φ(x; y₁, …, y_m)` such that, in every global field (a
-finitely generated field of Kronecker dimension one), every fibre of `φ` is empty or a valuation
-subring other than the field, and every such valuation subring, the ring of a nonarchimedean place,
-is a fibre (README §0.7(1)). -/
+/-- **Rumely's uniform valuation rings** (Rumely, Introduction I, p. 195, and §2, Theorem 1,
+p. 204): there are an arity `m` and a ring formula `φ(x; y₁, …, y_m)` such that, in every global
+field (a finitely generated field of Kronecker dimension one), every fibre of `φ` is empty or a
+valuation subring other than the field, and every such valuation subring, the ring of a
+nonarchimedean place, is a fibre (README §0.7(1)). -/
 theorem exists_formula_valuationSubring_ne_top :
     ∃ (m : ℕ) (φ : Language.ring.Formula (Fin (m + 1))),
       ∀ (K : Type u) [Field K] [Field.FG K] [FirstOrder.Ring.CompatibleRing K],
