@@ -832,61 +832,69 @@ not effective, so a positive answer would not give effectivity. For the finite s
 
 This section is secondary: it maps existing Lean code to targets and prescribes nothing. The
 Apache-2.0 repository AxiomMath, *The Stacks Project in Lean* (References), formalizes the Stacks
-Project on Mathlib. Its `StacksFrontier` tier is written by AI agents and builds without `sorry`;
-the repository records it as unreviewed by humans, and it is built on Lean and Mathlib v4.35.0,
-earlier than our pin. It is not a dependency: a statement read there is compared with the target
-here before it is used, adaptation is agreed with its maintainers first, and adapted code keeps its
-Apache-2.0 notices.
+Project on Mathlib. Its `StacksFrontier` tier builds without `sorry`; the repository describes it as
+written by AI agents and keeps it apart from its human-reviewed tier `StacksCore`, and it is built
+on Lean and Mathlib v4.35.0, earlier than our pin. It is not a dependency: a statement read there is
+compared with the target here before it is used, adaptation is agreed with its maintainers first,
+and adapted code keeps its Apache-2.0 notices.
 
-`StacksFrontier/AlgebraicGeometry/GroupScheme/Relations/PreRelations.lean` defines pre-relations and
-equivalence relations of schemes and characterizes them on points (Tags 022Q and 02V8), and
-`GroupScheme/OverField/GroupoidOfEquivalenceRelation.lean` gives the groupoid scheme of an
-equivalence relation (Tags 0232 and 0233): the scheme-theoretic side of 0.3.
-`AlgebraicGeometry/Groupoids/FiniteFlatAffine/` proves that a groupoid with finite locally free
-source and target acting on an affine scheme has an affine quotient by its invariants, compatible
-with base change (Tag 03BM, `AffineQuotient.lean`), and that the ring is integral over its
-invariants (Tag 03BJ, `IntegralInvariants.lean`): the flat case of 2.1, and the integrality used in
-1.1, for groupoids in general. `Groupoids/FiniteFlatQuotient/` builds the fppf quotient sheaf (Tag
-07S6, `FppfQuotient.lean`) and descent of arrows (`ArrowDescentEffective.lean`).
+`StacksFrontier/AlgebraicGeometry/GroupScheme/Relations/PreRelations.lean` identifies Mathlib's
+`IsEquivalenceRelation` with a monic pre-relation that is an equivalence relation on `T`-points, and
+shows that it induces an equivalence relation on underlying points (Tag 022Q). With
+`GroupScheme/OverField/GroupoidOfEquivalenceRelation.lean`, which gives the groupoid scheme of an
+equivalence relation (Tags 0232 and 0233), this is the scheme-theoretic side of 0.3. The same file
+restricts pre-relations and equivalence relations along any `U′ → U` (Tag 02V8): the
+scheme-theoretic side of 0.2. `AlgebraicGeometry/Groupoids/FiniteFlatAffine/` proves, for a groupoid
+with affine objects and arrows and finite locally free source and target, that the ring is integral
+over its invariants (Tag 03BJ, `IntegralInvariants.lean`); 1.2 needs no such input: there `A` is
+integral over `A^R` because it is finite over `k ⊆ A^R`, with no flatness. When in addition `(t, s)`
+is an equivalence relation, it proves that the map to the spectrum of the invariants is finite
+locally free, has the relation as its kernel pair and represents the fppf quotient sheaf (Tag 03BM,
+`AffineQuotient.lean`): the flat case of 2.1. `InvariantBaseChange.lean` base-changes the groupoid
+along an extension of its invariant ring (Tag 03BK). `Groupoids/FiniteFlatQuotient/` proves that the
+fppf quotient sheaf of an equivalence relation with finite locally free projections is a scheme when
+the invariant affine opens cover (Tag 07S6, `FppfQuotient.lean`), and proves descent of arrows
+(`ArrowDescentEffective.lean`).
 
-For modules, `ModuleCat.isEffectiveDescentMorphismForModules_iff_universallyInjective` (Tag 08XA)
-identifies effective descent for all modules with universal injectivity, which is the theorem of
-4.2. Non-flat relations, the effectivity criterion of 1.3, the examples of Layer 3 and the descent
-along the quotient map of 4.3–4.4 are not there.
+For modules, `ModuleCat.isDescentMorphismForModules_iff_universallyInjective` and
+`ModuleCat.isEffectiveDescentMorphismForModules_iff_universallyInjective` (Tag 08XA,
+`Descent/Modules/EffectiveDescent.lean`) identify descent and effective descent for all modules with
+universal injectivity: the second and third theorems of 4.2. Tag 0EUA, the step of 4.4's route, is
+`AlgebraicGeometry.quasicoherentSectionsEqualizer_iff_isUniversalEffectiveEpiFamily`
+(`Descent/EffectiveEpi/QuasicoherentSectionsEqualizer/UniversalEffectiveEpi.lean`). It is stated for
+AxiomMath's own universal effective epimorphic families, not for Mathlib's
+`MorphismProperty.universally`. Non-flat relations, the effectivity criterion of 1.3, the examples
+of Layer 3 and the descent along the quotient map of 4.3 are not there.
 
 ## References
 
-- A. Grothendieck, « Techniques de construction et théorèmes d'existence en géométrie algébrique
-  III : préschémas quotients », Séminaire Bourbaki 6 (1960/61), exp. 212, 99–118 (FGA III): §2,
-  pp. 212-04 and 212-05; §5, Théorème 5.1, p. 212-12.
-  http://www.numdam.org/item/SB_1960-1961__6__99_0
+- A. Grothendieck, « Techniques de construction et théorèmes d'existence en géométrie algébrique III
+  : préschémas quotients », Séminaire Bourbaki 6 (1960/61), exp. 212, 99–118 (FGA III): §2, pp.
+  212-04 and 212-05; §5, Théorème 5.1, p. 212-12. http://www.numdam.org/item/SB_1960-1961__6__99_0
 - A. Grothendieck, « Technique de descente et théorèmes d'existence en géométrie algébrique I :
-  généralités, descente par morphismes fidèlement plats », Séminaire Bourbaki 5 (1958/60),
-  exp. 190, 299–327 (FGA I): §A, n° 2, b and c; §B, Théorème 1 and Lemme 1.1.
+  généralités, descente par morphismes fidèlement plats », Séminaire Bourbaki 5 (1958/60), exp. 190,
+  299–327 (FGA I): §A, n° 2, b and c; §B, Théorème 1 and Lemme 1.1.
   http://www.numdam.org/item/SB_1958-1960__5__299_0; Zbl 0229.14007.
-- M. Demazure, A. Grothendieck (eds.), *Schémas en groupes (SGA 3)*, tome I, Exp. V (P. Gabriel),
-  « Construction de schémas quotients », Théorème 4.1; Lecture Notes in Math. 151, Springer,
-  1970; re-edition by P. Gille and P. Polo, Documents Mathématiques 7, Soc. Math. France, 2011.
+- M. Demazure, A. Grothendieck (eds.), *Schémas en groupes (SGA 3)*, tome I, Exp. V (P. Gabriel), «
+  Construction de schémas quotients », Théorème 4.1; Lecture Notes in Math. 151, Springer, 1970;
+  re-edition by P. Gille and P. Polo, Documents Mathématiques 7, Soc. Math. France, 2011.
 - J. Kollár, « Quotients by finite equivalence relations », with an appendix by C. Raicu, in
-  *Current Developments in Algebraic Geometry*, MSRI Publ. 59, Cambridge Univ. Press, 2012,
-  227–256: Example 3, Definition 4, Theorem 6, Question 8, §2 and Example 9, appendix ¶50,
-  Theorem 51
-  (numbering of arXiv:0812.3608).
-  Zbl 1271.14002.
+  *Current Developments in Algebraic Geometry*, MSRI Publ. 59, Cambridge Univ. Press, 2012, 227–256:
+  Example 3, Definition 4, Theorem 6, Question 8, §2 and Example 9, appendix ¶50, Theorem 51
+  (numbering of arXiv:0812.3608). Zbl 1271.14002.
 - C. Raicu, « Affine toric equivalence relations are effective », *Proc. Amer. Math. Soc.* 138
   (2010), 3835–3847: §1, Definition; §2.1; Example 2.1; Theorems 3.1 and 4.1 (numbering of
   arXiv:0905.4805). doi:10.1090/S0002-9939-2010-10416-1; Zbl 1203.14005.
-- The Stacks Project Authors, *The Stacks Project*, chapter « Groupoid Schemes »: Definition
-  39.3.1 (Tag 022P), Section 39.23 (Tag 03BE), Lemma 39.23.4 (Tag 03BJ), Proposition 39.23.9
-  (Tag 03BM); chapter « Descent »: Definition 35.3.1 (Tag 023G), Section 35.4 (Tag 08WE),
-  Definition 35.4.5 (Tag 08WL), Examples 35.4.6 and 35.4.7 (Tags 08WM, 08WN), Lemma 35.4.8
-  (Tag 08WP), Definition 35.4.15 (Tag 08WY), Lemma 35.4.20 (Tag 08X7), Theorems 35.4.22 and
-  35.4.25 (Tags 08XA, 08XD), Lemma 35.13.2 (Tag 0EUA); chapter « Commutative Algebra »:
-  Lemma 10.82.4 (Tag 058L), Lemma 10.110.9 (Tag 00OF).
+- The Stacks Project Authors, *The Stacks Project*, chapter « Groupoid Schemes »: Definition 39.3.1
+  (Tag 022P), Section 39.23 (Tag 03BE), Lemma 39.23.4 (Tag 03BJ), Proposition 39.23.9 (Tag 03BM);
+  chapter « Descent »: Definition 35.3.1 (Tag 023G), Section 35.4 (Tag 08WE), Definition 35.4.5 (Tag
+  08WL), Examples 35.4.6 and 35.4.7 (Tags 08WM, 08WN), Lemma 35.4.8 (Tag 08WP), Definition 35.4.15
+  (Tag 08WY), Lemma 35.4.20 (Tag 08X7), Theorems 35.4.22 and 35.4.25 (Tags 08XA, 08XD), Lemma
+  35.13.2 (Tag 0EUA); chapter « Commutative Algebra »: Lemma 10.82.4 (Tag 058L), Lemma 10.110.9 (Tag
+  00OF).
 - B. Mesablishvili, « Pure morphisms of commutative rings are effective descent morphisms for
-  modules — a new proof », *Theory Appl. Categ.* 7 (2000), no. 3, 38–42: Lemma 1, Propositions 2
-  and 3, Theorem 4, pp. 38–41. http://www.tac.mta.ca/tac/volumes/7/n3/7-03abs.html;
-  Zbl 0937.13002.
+  modules — a new proof », *Theory Appl. Categ.* 7 (2000), no. 3, 38–42: Lemma 1, Propositions 2 and
+  3, Theorem 4, pp. 38–41. http://www.tac.mta.ca/tac/volumes/7/n3/7-03abs.html; Zbl 0937.13002.
 - B. Mesablishvili, « On some properties of pure morphisms of commutative rings », *Theory Appl.
   Categ.* 10 (2002), no. 9, 180–186: Theorems 1.1 and 3.2.
   http://www.tac.mta.ca/tac/volumes/10/9/10-09abs.html; Zbl 1044.18006.
@@ -903,5 +911,5 @@ along the quotient map of 4.3–4.4 are not there.
 - AxiomMath, *The Stacks Project in Lean*. Lean 4 formalization at commit
   c496df0d9beea9deaeabcea8492605f9a0a2313b, Apache-2.0, built on Lean and Mathlib v4.35.0;
   directories `StacksFrontier/AlgebraicGeometry/GroupScheme/Relations`,
-  `StacksFrontier/AlgebraicGeometry/Groupoids`.
+  `StacksFrontier/AlgebraicGeometry/Groupoids`, `StacksFrontier/AlgebraicGeometry/Descent`.
   https://github.com/AxiomMath/Stacks/tree/c496df0d9beea9deaeabcea8492605f9a0a2313b/StacksFrontier
