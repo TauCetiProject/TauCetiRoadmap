@@ -66,8 +66,10 @@ noncomputable abbrev hermitianMatrices (𝕜 : Type*) [RCLike 𝕜] (n : ℕ) :
     Submodule ℝ (Matrix (Fin n) (Fin n) 𝕜) :=
   selfAdjoint.submodule ℝ (Matrix (Fin n) (Fin n) 𝕜)
 
-/-- The eigenvalue vector `λ(A) ∈ ℝⁿ` of a Hermitian matrix, sorted decreasingly (Mathlib's
-eigenvalues of the associated symmetric operator on `EuclideanSpace 𝕜 (Fin n)`). -/
+/-- The eigenvalue vector `λ(A) ∈ ℝⁿ` of a Hermitian matrix, sorted decreasingly: Mathlib's
+`Matrix.IsHermitian.eigenvalues₀`, the eigenvalues of the associated symmetric operator on
+`EuclideanSpace 𝕜 (Fin n)`, reindexed from `Fin (Fintype.card (Fin n))` to `Fin n` along
+`Fintype.card_fin n`. -/
 noncomputable def eigenvalueVector (A : hermitianMatrices 𝕜 n) : Fin n → ℝ :=
   (Matrix.isSymmetric_toEuclideanLin_iff.mpr A.2).eigenvalues finrank_euclideanSpace_fin
 
