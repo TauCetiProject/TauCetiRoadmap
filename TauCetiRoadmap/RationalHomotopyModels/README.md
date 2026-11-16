@@ -1232,12 +1232,25 @@ This section is secondary: it maps existing Lean code to targets and prescribes 
 repository LeanPool, *lean-pool* (References), keeps Lean 4 formalizations that do not fit Mathlib,
 each project permissively licensed (Apache-2.0 or MIT) and bumped to Lean and Mathlib v4.35.0,
 earlier than our pin. It is not a dependency: a statement read there is compared with the target
-here before it is used, adaptation is agreed with its maintainers first, and adapted code keeps its
-license notices.
+here before it is used, adaptation is agreed first with the authors of the code (named in each
+file's header and in LeanPool's NOTICE), and adapted code keeps its license notices.
 
 `LeanPool/WhiteheadTheorem` proves Whitehead's theorem for CW complexes, with cofibrations and the
-homotopy extension property. Scope takes the Whitehead theorem from AlgebraicTopology §§8.3 and 8.5;
-nothing there treats Sullivan algebras, minimal models, polynomial forms or Quillen's functors.
+homotopy extension property. Whitehead's theorem for spaces of CW type is already proved at the
+pinned Tau Ceti (`ContinuousMap.IsWeakHomotopyEquivalence.homotopyEquiv`). AlgebraicTopology §8.5
+consumes it, and this roadmap takes it from there (Exact supplier contracts). The project maps to no
+target of this roadmap, and nothing in it treats Sullivan algebras, minimal models, polynomial forms
+or Quillen's functors.
+
+`apellis/dg-lean` (References), Apache-2.0, is a Lean 4 library of differential graded algebra. It
+is built on its own `DGRing` classes, not on Tau Ceti's `TauCeti.IsDGAlgebra`. Its
+`DG.IsFreeGradedCommAlgebra` is free graded-commutative by the universal property, over a
+commutative ring. That is the object of 1.1, where the universal property is the theorem
+`IsFreeGradedCommutative.existsUnique_algHom`. Its `DG.IsFormal` is a zigzag of quasi-isomorphisms
+of DG rings to the cohomology. It differs from 7.1's `IsFormal`, which needs a graded-commutative
+middle term: `M₂(K)` in degree `0` with `d = 0` is formal there and not here.
+`DG.isFormal_of_isFreeGradedCommAlgebra` (free cohomology implies formal) bears on 7.1. dg-lean has
+no Sullivan algebras, polynomial homotopies, `A_PL` or topology.
 
 ## References
 
@@ -1258,12 +1271,12 @@ nothing there treats Sullivan algebras, minimal models, polynomial forms or Quil
 - K. Hess, « Rational homotopy theory: a brief introduction », in *Interactions between homotopy
   theory and algebra*, Contemp. Math. 436, Amer. Math. Soc., 2007, 175–202. arXiv:math/0604626
   (numbering of arXiv version 1).
-- S. Halperin, *Lectures on minimal models*, Mém. Soc. Math. France (N.S.) 9–10 (1983).
-  Zbl 0536.55003.
+- S. Halperin, *Lectures on minimal models*, Mém. Soc. Math. France (N.S.) 9–10 (1983). Zbl
+  0536.55003.
 - P. Griffiths, J. Morgan, *Rational homotopy theory and differential forms*, Progress in
   Mathematics 16, Birkhäuser, 1981; 2nd ed. 2013. doi:10.1007/978-1-4614-8468-4.
-- Y. Félix, J. Oprea, D. Tanré, *Algebraic models in geometry*, Oxford Graduate Texts in
-  Mathematics 17, Oxford University Press, 2008. doi:10.1093/oso/9780199206513.001.0001.
+- Y. Félix, J. Oprea, D. Tanré, *Algebraic models in geometry*, Oxford Graduate Texts in Mathematics
+  17, Oxford University Press, 2008. doi:10.1093/oso/9780199206513.001.0001.
 - Y. Félix, S. Halperin, « Formal spaces with finite-dimensional rational homotopy », *Trans. Amer.
   Math. Soc.* 270 (1982), 575–588. doi:10.1090/S0002-9947-1982-0645331-9.
 - Y. Félix, S. Halperin, « Rational LS category and its applications », *Trans. Amer. Math. Soc.*
@@ -1286,8 +1299,8 @@ nothing there treats Sullivan algebras, minimal models, polynomial forms or Quil
   Math. Pures Appl.* 173 (2023), 43–95. doi:10.1016/j.matpur.2023.02.002; arXiv:1910.04746.
 - M. E. Walker, « Total Betti numbers of modules of finite projective dimension », *Ann. of Math.*
   (2) 186 (2017), 641–646. doi:10.4007/annals.2017.186.2.6.
-- S. B. Iyengar, M. E. Walker, « Examples of finite free complexes of small rank and small
-  homology », *Acta Math.* 221 (2018), 143–158. doi:10.4310/ACTA.2018.v221.n1.a4.
+- S. B. Iyengar, M. E. Walker, « Examples of finite free complexes of small rank and small homology
+  », *Acta Math.* 221 (2018), 143–158. doi:10.4310/ACTA.2018.v221.n1.a4.
 - G. Lupton, « Variations on a conjecture of Halperin », in *Homotopy and geometry* (Warsaw, 1997),
   Banach Center Publ. 45, 1998, 115–135. Zbl 0931.55007; arXiv:math/0010124.
 - L. Kennard, Y. Wu, « Halperin's conjecture in formal dimensions up to 20 », *Comm. Algebra* 51
@@ -1302,8 +1315,8 @@ nothing there treats Sullivan algebras, minimal models, polynomial forms or Quil
   doi:10.1007/978-1-4939-1106-6_2; Zbl 1322.55004.
 - S. Cattalani, A. Milivojević, « Verifying the Hilali conjecture up to formal dimension twenty »,
   *J. Homotopy Relat. Struct.* 15 (2020), 323–331. Zbl 1444.55005; arXiv:2210.00607.
-- K. Grove, S. Halperin, « Contributions of rational homotopy theory to global problems in
-  geometry », *Publ. Math. IHÉS* 56 (1982), 171–177. Zbl 0508.55013.
+- K. Grove, S. Halperin, « Contributions of rational homotopy theory to global problems in geometry
+  », *Publ. Math. IHÉS* 56 (1982), 171–177. Zbl 0508.55013.
 - D. Gromoll, W. Meyer, « Periodic geodesics on compact Riemannian manifolds », *J. Differential
   Geom.* 3 (1969), 493–510. doi:10.4310/jdg/1214429070.
 - M. Vigué-Poirrier, D. Sullivan, « The homology theory of the closed geodesic problem », *J.
@@ -1312,8 +1325,8 @@ nothing there treats Sullivan algebras, minimal models, polynomial forms or Quil
   Systems* 41 (2021), 641–684. doi:10.1017/etds.2019.73; arXiv:1308.5417.
 - R. Bott, H. Samelson, « On the Pontryagin product in spaces of paths », *Comment. Math. Helv.* 27
   (1953), 320–337. doi:10.1007/BF02564566.
-- J. Barge, « Structures différentiables sur les types d'homotopie rationnelle simplement
-  connexes », *Ann. Sci. ÉNS* (4) 9 (1976), 469–501. doi:10.24033/asens.1315.
+- J. Barge, « Structures différentiables sur les types d'homotopie rationnelle simplement connexes
+  », *Ann. Sci. ÉNS* (4) 9 (1976), 469–501. doi:10.24033/asens.1315.
 - T. Kadeishvili, « Cohomology C∞-algebra and rational homotopy type », in *Algebraic topology—old
   and new*, Banach Center Publ. 85, 2009, 225–240. doi:10.4064/bc85-0-16.
 - D. Crowley, J. Nordström, « The rational homotopy type of (n−1)-connected manifolds of dimension
@@ -1323,8 +1336,9 @@ nothing there treats Sullivan algebras, minimal models, polynomial forms or Quil
   731–777. doi:10.4007/annals.2010.171.731; arXiv:math/0507514.
 - B. Toën, « Champs affines », *Selecta Math. (N.S.)* 12 (2006), 39–134.
   doi:10.1007/s00029-006-0019-z.
-- M. Amann, « Counter-examples to a generalised toral rank conjecture », preprint,
-  arXiv:2011.13411.
+- M. Amann, « Counter-examples to a generalised toral rank conjecture », preprint, arXiv:2011.13411.
 - LeanPool, *lean-pool*. Lean 4 formalizations at commit f8b9b721d616a2cc0b22fc226e4a9e3dd6cea2d0,
   Lean and Mathlib v4.35.0; projects `LeanPool/WhiteheadTheorem`.
   https://github.com/LeanPool/lean-pool/tree/f8b9b721d616a2cc0b22fc226e4a9e3dd6cea2d0/LeanPool
+- *dg-lean*, Lean 4 library of differential graded algebra, at commit
+  161db4ede65f2dd359263a301c33ec39036988eb. https://github.com/apellis/dg-lean
