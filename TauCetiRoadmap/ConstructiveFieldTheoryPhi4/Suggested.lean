@@ -145,7 +145,8 @@ theorem isingBlock_laplace_ne_zero {η : Measure ℝ} (hη : IsIsingBlock η) {h
 /-- **2.1, the product formula.** The Laplace transform of an Ising-block measure with ferromagnetic
 coupling and nonnegative weights is `Π_j (1 + h² x_j)` with `x_j = a_j⁻² ≥ 0` summable and
 `Σ_j x_j = ½ ∫ φ² dη`; padding by `x_j = 0` covers finitely many zeros. In particular the fourth
-cumulant of `η` is `−12 Σ_j x_j² ≤ 0` (Sokal, property (i) and (2.26); README §2.1). -/
+cumulant of `η` is `−12 Σ_j x_j² ≤ 0` (Newman's inequalities, which Sokal, property (i) and (2.26),
+states for the infinite-volume φ⁴ state; README §2.1). -/
 theorem isingBlock_laplace_hasProd {η : Measure ℝ} (hη : IsIsingBlock η) :
     ∃ x : ℕ → ℝ, (∀ j, 0 ≤ x j) ∧ HasSum x (2⁻¹ * ∫ φ, φ ^ 2 ∂η) ∧
       ∀ h : ℂ, HasProd (fun j ↦ 1 + h ^ 2 * (x j : ℂ)) (∫ φ, Complex.exp (h * φ) ∂η) := by
@@ -193,15 +194,17 @@ variable {V : Type*} [Fintype V] [DecidableEq V]
 
 /-- **3.1, Griffiths' first inequality.** For a ferromagnetic coupling and an even admissible
 single-site probability measure, every moment `⟨φ_A⟩ = ⟨Π_x φ_x^{A(x)}⟩` is nonnegative
-(Peled–Spinka, Theorem 2.1; Sokal (2.19); README §3.1). -/
+(Peled–Spinka, Theorem 2.1, for Ising spins; Sokal (2.19), for the infinite-volume φ⁴ state;
+README §3.1). -/
 theorem griffiths_first (J : Sym2 V → ℝ) (hJ : 0 ≤ J) (ρ : Measure ℝ) [IsProbabilityMeasure ρ]
     [ρ.IsNegInvariant] (hρ : IsAdmissible ρ) (A : V → ℕ) :
     0 ≤ ∫ φ, ∏ x, φ x ^ A x ∂gibbsMeasure J ρ := by
   sorry
 
 /-- **3.1, Griffiths' second inequality.** Under the same hypotheses,
-`⟨φ_A φ_B⟩ ≥ ⟨φ_A⟩ ⟨φ_B⟩` for all multi-indices `A`, `B` (Peled–Spinka, Theorem 2.3;
-Sokal (2.20); README §3.1). -/
+`⟨φ_A φ_B⟩ ≥ ⟨φ_A⟩ ⟨φ_B⟩` for all multi-indices `A`, `B` (Peled–Spinka, Theorem 2.3, for products
+of two spins in the spin O(n) model with `n ∈ {1, 2}`; Sokal (2.20), for the infinite-volume φ⁴
+state; README §3.1). -/
 theorem griffiths_second (J : Sym2 V → ℝ) (hJ : 0 ≤ J) (ρ : Measure ℝ) [IsProbabilityMeasure ρ]
     [ρ.IsNegInvariant] (hρ : IsAdmissible ρ) (A B : V → ℕ) :
     (∫ φ, ∏ x, φ x ^ A x ∂gibbsMeasure J ρ) * (∫ φ, ∏ x, φ x ^ B x ∂gibbsMeasure J ρ) ≤
@@ -210,7 +213,8 @@ theorem griffiths_second (J : Sym2 V → ℝ) (hJ : 0 ≤ J) (ρ : Measure ℝ) 
 
 /-- **3.3, the FKG inequality.** For a ferromagnetic coupling and an admissible single-site
 probability measure (not necessarily even), bounded measurable functions non-decreasing in each
-coordinate are positively correlated (Sokal (2.25); README §3.3). -/
+coordinate are positively correlated (Sokal (2.25), for the infinite-volume φ⁴ state;
+README §3.3). -/
 theorem fkg_gibbs (J : Sym2 V → ℝ) (hJ : 0 ≤ J) (ρ : Measure ℝ) [IsProbabilityMeasure ρ]
     (hρ : IsAdmissible ρ) (F G : (V → ℝ) → ℝ) (hF : Monotone F) (hG : Monotone G)
     (hFm : Measurable F) (hGm : Measurable G) (hFb : ∃ C, ∀ φ, |F φ| ≤ C)
@@ -275,7 +279,8 @@ variable {V : Type*} [Fintype V] [DecidableEq V]
 /-- **3.5, the Gaussian inequality** (whose case `n = 2` is the Lebowitz inequality `U₄ ≤ 0`).
 For a ferromagnetic coupling, `ρ` in the Griffiths–Simon class and sites `x₁, …, x_{2n}`,
 repetitions allowed, `⟨φ_{x₁} ⋯ φ_{x_{2n}}⟩` is at most the sum over pairings of the products of
-two-point functions (Aizenman–Duminil-Copin (3.11) and Section 7.1; Sokal (2.23)–(2.24);
+two-point functions (Aizenman–Duminil-Copin (3.11), for the Lebowitz inequality of Ising spins in
+infinite volume, and Section 7.1; Sokal (2.23)–(2.24), for the infinite-volume φ⁴ state;
 README §3.5). -/
 theorem gaussian_inequality (J : Sym2 V → ℝ) (hJ : 0 ≤ J) (ρ : ProbabilityMeasure ℝ)
     (hρ : ρ ∈ griffithsSimonClass) (n : ℕ) (x : Fin (2 * n) → V) :
@@ -303,8 +308,9 @@ theorem simon_lieb (J : Sym2 V → ℝ) (hJ : 0 ≤ J) (ρ : ProbabilityMeasure 
 `R(P) ∩ P = ∅` such that every site lies in `P`, in `R(P)` or is fixed by `R`; let `J` be
 ferromagnetic, `R`-invariant, and satisfy `J_{x,Ry} ≤ J_{xy}` for distinct `x, y ∈ P`. For an even
 admissible single-site probability measure and multi-indices `A`, `B` vanishing on `R(P)`,
-`⟨φ_A φ_{B∘R}⟩ ≤ ⟨φ_A φ_B⟩` (Sokal (2.29)–(2.30) and the Remark after them;
-Aizenman–Duminil-Copin (5.2); README §3.6). -/
+`⟨φ_A φ_{B∘R}⟩ ≤ ⟨φ_A φ_B⟩` (Sokal (2.29)–(2.30) and the Remark after them, for the
+infinite-volume φ⁴ state; Aizenman–Duminil-Copin (5.2), for single-site measures with their growth
+condition (2.2); README §3.6). -/
 theorem messager_miracleSole (J : Sym2 V → ℝ) (hJ : 0 ≤ J) (ρ : Measure ℝ)
     [IsProbabilityMeasure ρ] [ρ.IsNegInvariant] (hρ : IsAdmissible ρ) (R : Equiv.Perm V)
     (hR : Function.Involutive R) (P : Finset V) (hPR : ∀ x ∈ P, R x ∉ P)
@@ -318,8 +324,8 @@ theorem messager_miracleSole (J : Sym2 V → ℝ) (hJ : 0 ≤ J) (ρ : Measure �
 /-- **3.7, the uniform second-moment bound.** For `λ > 0`, `b ∈ ℝ` and any coupling whose row sums
 `Σ_{y ≠ x} |J_{xy}|` are at most `K`, every `⟨φ_x²⟩` under the φ⁴ Gibbs measure is at most
 `[(2b₊ + K) + √((2b₊ + K)² + 16λ)] / (8λ)`, independently of `V` (derived from the
-integration-by-parts identity of Sokal, Section 3.1, (3.4)–(3.5), by Jensen's and the
-Cauchy–Schwarz inequalities; README §3.7). -/
+integration-by-parts identity, which Sokal, Section 3.1, (3.4)–(3.5), states for the
+nearest-neighbour φ⁴ model, by Jensen's and the Cauchy–Schwarz inequalities; README §3.7). -/
 theorem phi4_secondMoment_le {lam : ℝ} (hlam : 0 < lam) (b : ℝ) (J : Sym2 V → ℝ) (K : ℝ)
     (hK : ∀ x, ∑ y ∈ Finset.univ.erase x, |J s(x, y)| ≤ K) (x : V) :
     ∫ φ, φ x ^ 2 ∂gibbsMeasure J (phi4Measure lam b) ≤
@@ -329,7 +335,7 @@ theorem phi4_secondMoment_le {lam : ℝ} (hlam : 0 < lam) (b : ℝ) (J : Sym2 V 
 /-- **3.7, Newman's exponential bound.** For a ferromagnetic coupling, `ρ` in the Griffiths–Simon
 class and complex coefficients `z`,
 `|⟨exp (Σ_x z_x φ_x)⟩| ≤ exp (½ Σ_{x,y} |Re z_x| |Re z_y| ⟨φ_x φ_y⟩)` (Sokal, property (j),
-(2.27); README §3.7). -/
+(2.27), for the infinite-volume φ⁴ state; README §3.7). -/
 theorem newman_bound (J : Sym2 V → ℝ) (hJ : 0 ≤ J) (ρ : ProbabilityMeasure ℝ)
     (hρ : ρ ∈ griffithsSimonClass) (z : V → ℂ) :
     ‖∫ φ, Complex.exp (∑ x, z x * φ x) ∂gibbsMeasure J (ρ : Measure ℝ)‖ ≤
@@ -379,8 +385,8 @@ finite-range ferromagnetic coupling on `ℤ^d` and `ρ` an even admissible singl
 measure with uniformly bounded exponential moments `⟨exp (a |φ_x|)⟩_{V_R}`. Then the box Gibbs
 measures converge weakly on `ℝ^{ℤ^d}` (product topology, equivalently in finite-dimensional
 distributions) to a probability measure whose moments are the limits of the box moments and which
-is invariant under translations and under `φ ↦ −φ` (Sokal, properties (a)–(b) and (2.18);
-README §4.2). -/
+is invariant under translations and under `φ ↦ −φ` (Sokal, properties (a)–(b) and (2.18), for the
+nearest-neighbour φ⁴ model; README §4.2). -/
 theorem exists_infiniteVolume_limit (d : ℕ) (J : Sym2 (Fin d → ℤ) → ℝ) (hJ : 0 ≤ J)
     (hJt : ∀ (a : Fin d → ℤ) (e : Sym2 (Fin d → ℤ)), J (e.map (· + a)) = J e)
     (hJr : ∃ r : ℝ, ∀ x y : Fin d → ℤ, r < ‖x - y‖ → J s(x, y) = 0)
@@ -423,7 +429,8 @@ theorem criticalPoint_ising_ge (d : ℕ) :
 /-- **4.4, axis monotonicity of the two-point function.** For the nearest-neighbour coupling of
 strength `J ≥ 0` and an even admissible single-site probability measure: `S(n e_i)` is
 non-increasing in `n`; `S(‖x‖₁ e_i) ≤ S(x) ≤ S(‖x‖∞ e_i)`; and `S(y) ≤ S(x)` whenever
-`‖y‖∞ ≥ d ‖x‖∞` (Aizenman–Duminil-Copin, Proposition 5.1 and (5.3)–(5.4); README §4.4). -/
+`‖y‖∞ ≥ d ‖x‖∞` (Aizenman–Duminil-Copin, Proposition 5.1 and (5.3)–(5.4), for single-site measures
+with their growth condition (2.2); README §4.4). -/
 theorem twoPoint_reflection_monotone (d : ℕ) {J : ℝ} (hJ : 0 ≤ J) (ρ : Measure ℝ)
     [IsProbabilityMeasure ρ] [ρ.IsNegInvariant] (hρ : IsAdmissible ρ) (i : Fin d) :
     Antitone (fun n : ℕ ↦ twoPoint d (fun e ↦ J * nnCoupling d e) ρ (Pi.single i (n : ℤ))) ∧
@@ -498,8 +505,8 @@ theorem chessboard (d L : ℕ) (hd : 1 ≤ d) [NeZero L] {J : ℝ} (hJ : 0 ≤ J
 /-- **5.3, Gaussian domination.** For `J ≥ 0`, an admissible single-site probability measure `ρ` and
 every `h ∈ ℝ^{T_L}`, `Z(h) ≤ Z(0)`, where
 `Z(h) = ∫ exp (−(J/2) Σ_x Σ_j (φ_x + h_x − φ_{x+e_j} − h_{x+e_j})²) Π_x ρ̃(dφ_x)` and
-`ρ̃(dφ) = exp (d J φ²) ρ(dφ)` (Peled–Spinka (43)–(48); Simon, Twelve Tales (5.19)–(5.21);
-README §5.3). -/
+`ρ̃(dφ) = exp (d J φ²) ρ(dφ)` (Peled–Spinka (43)–(48) and Simon, Twelve Tales (5.19)–(5.21), for
+the spin O(n) model; README §5.3). -/
 theorem gaussian_domination (d L : ℕ) [NeZero L] {J : ℝ} (hJ : 0 ≤ J) (ρ : Measure ℝ)
     [IsProbabilityMeasure ρ] (hρ : IsAdmissible ρ) (h : (Fin d → ZMod (2 * L)) → ℝ) :
     ∫⁻ φ, ENNReal.ofReal (Real.exp (-(J / 2) * ∑ x, ∑ j,
@@ -512,9 +519,10 @@ theorem gaussian_domination (d L : ℕ) [NeZero L] {J : ℝ} (hJ : 0 ≤ J) (ρ 
   sorry
 
 /-- **5.4, the infrared bound.** For `J > 0` and an admissible single-site probability measure,
-`E(p) Ŝ_L(p) ≤ 1/J` at every nonzero dual point `p = (π/L) k` (Peled–Spinka (49)–(52);
-Fröhlich–Simon–Spencer 1976, Theorem 1; Aizenman–Duminil-Copin (5.9) with the constant corrected
-as in the README Conventions; README §5.4). -/
+`E(p) Ŝ_L(p) ≤ 1/J` at every nonzero dual point `p = (π/L) k` (Peled–Spinka (49)–(52), for the
+spin O(n) model; Fröhlich–Simon–Spencer 1976, Theorem 1; Aizenman–Duminil-Copin (5.9), for
+single-site measures with their growth condition (2.2), with the constant corrected as in the
+README Conventions; README §5.4). -/
 theorem infrared_bound (d L : ℕ) [NeZero L] {J : ℝ} (hJ : 0 < J) (ρ : Measure ℝ)
     [IsProbabilityMeasure ρ] (hρ : IsAdmissible ρ) (k : Fin d → ZMod (2 * L)) (hk : k ≠ 0) :
     torusSymbol L k * structureFactor d L J ρ k ≤ 1 / J := by
