@@ -3513,7 +3513,9 @@ the monodromy period orbit (§3.1) and its parabolic stabilizer (§3.2).
 
 ## Source corrections
 
-The following corrections to the sources are used throughout; each is fixed by an explicit instance.
+The following corrections to the sources are used throughout. A correction that changes a statement or a
+step of a proof is fixed by an explicit instance, in its bullet or in the Checks of a section that uses it;
+the others correct misprints, and their bullets give the corrected formula.
 
 - **LV, printed p. 971, parameter dimension before (10.8).** The printed dimension
   `binomial(n + d, d − 1) − 1` grows like `d^(n+1)`; the correct dimension is `binomial(n + d, d) − 1 ∼ d^n/n!`,
@@ -3595,8 +3597,8 @@ The following corrections to the sources are used throughout; each is fixed by a
   polynomials in `ℤ[t]`; integral Frobenius eigenvalues only give algebraic-integer coefficients. §1.9
   supplies rationality for the orbit systems, and this roadmap uses that stronger hypothesis.
 - **LS, proof of Lemma A.5, p. 91.** The tail comparison is `<`, giving the upper bound `3/2` (LS line 4303).
-- **LS, proof of Lemma A.4, p. 91.** The propagated geometric bound at index `i` has denominator `3^i`
-  (LS line 4280).
+- **LS, proof of Lemma A.4, p. 91.** The bound that log-concavity propagates to a later index `i` is
+  `1/(2·3^i)`, with the exponent `i` of that index (LS line 4280).
 - **LS, paragraph after the GO computation in Lemma A.1, p. 90.** The descent count has variance
   `(n + 1)/12`, standard deviation `∼ √(n/12)`, not variance `√n/12`.
 - **LS, Lemma A.1, pp. 89–90.** The strict inequality holds for the geometric parity choices (`GL` always,
