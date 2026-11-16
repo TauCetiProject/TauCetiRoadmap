@@ -10,8 +10,7 @@ the zero-section Gysin map in rational Chow theory. This roadmap builds all thre
 that the resulting class is independent of every local embedding and global resolution used to
 construct it.
 
-The first summit follows the hypotheses of the original paper rather than silently importing a
-broader generalization. Thus `X` is a separated Deligne–Mumford stack, locally of finite type over
+The Chow-valued construction assumes that `X` is a separated Deligne–Mumford stack of finite type over
 a field; the perfect obstruction theory has amplitude `[-1, 0]`, constant virtual rank, and a
 global two-term resolution by finite-rank vector bundles. Work on stacks with the resolution
 property for the global comparison, and place the answer in the
@@ -49,7 +48,7 @@ Fix a field `k`.
    `𝔑_X ↪ h¹/h⁰(E∨)` and the square-zero deformation interpretation. Define perfectness by
    perfect amplitude in `[-1, 0]`; keep the existence of a global resolution as a separate
    hypothesis.
-3. **The virtual fundamental class.** If `X` is separated, `φ` is perfect of constant rank
+3. **The virtual fundamental class.** If `X` is separated and of finite type over `k`, `φ` is perfect of constant rank
    `n`, and `X` has the resolution property and `E` a global resolution, construct
    `[X, φ]vir ∈ A_n(X)_ℚ`. The class depends on the obstruction theory in the derived category,
    not on a chosen complex, chart, presentation of a cone stack, or global resolution.
@@ -96,7 +95,10 @@ normal cone, obstruction theories, and the virtual fundamental class. The layers
 extensions and then assemble the displayed formula. In particular, this roadmap supplies the
 rational Chow groups, proper pushforward and Chern classes on separated smooth Deligne–Mumford
 stacks used in StableReductionPartII. SchemeAndStackFoundations owns the underlying scheme
-intersection theory.
+intersection theory. [EquivariantIntersectionTheory](../EquivariantIntersectionTheory/README.md)
+Layer 2 owns the integral Edidin–Graham groups `A^G_*(U)` of quotient stacks `[U/G]`.
+Layer 2 here constructs Vistoli’s rational Chow groups for separated Deligne–Mumford stacks.
+The comparison with the rationalized Edidin–Graham groups is outside this roadmap’s scope.
 
 This roadmap constructs the classical Chow-valued Behrend–Fantechi class and its relative
 version. It does not construct a particular moduli stack of stable maps or sheaves, prove that
@@ -210,6 +212,15 @@ scheme-level versions.
   as well as `SchPseudofunctor` and `Spaces.IsAlgebraicSpace`. The remaining scheme Chow and
   Gysin theory is owned by `SchemeAndStackFoundations` Layer 5.
 
+- For schemes, use `TauCeti.AlgebraicGeometry.relativeSpec` with `relativeSpecHomIso`
+  and `relativeSpecBaseChangeIso` from `RelativeSpec/Functor.lean`,
+  `RelativeSpec/UniversalProperty.lean` and `RelativeSpec/BaseChange.lean`.
+  Use `gradedRelativeSpecEquiv` from `RelativeSpec/Graded.lean` and
+  `gradedSymmetricAlgebra` from `Modules/Quasicoherent/GradedAlgebra/SymmetricAlgebra/Basic.lean`.
+- Use `FiniteLocallyFreeSheaf` and `GeometricVectorBundle` from
+  `VectorBundle/FiniteLocallyFree.lean` and `VectorBundle/Geometric.lean`.
+  Use `AlgebraicGeometry.Scheme.IdealSheafData.blowup` from `Blowup/IdealSheaf.lean`.
+
 ### From other Tau Ceti roadmaps
 
 - [`SchemeAndStackFoundations`](../SchemeAndStackFoundations/README.md) Layer 1 owns descent,
@@ -218,17 +229,17 @@ scheme-level versions.
   owns dimension-graded cycle groups, rational equivalence, Chow groups, Chern classes, normal
   cones, deformation to the normal cone, and refined Gysin maps for schemes locally of finite
   type over a field.
-- [`AlgebraicVectorBundles`](../AlgebraicVectorBundles/README.md) owns finite locally free sheaves,
-  their tensor, dual, symmetric and exterior operations, relative spectra of quasi-coherent
-  algebras, and geometric vector bundles on schemes. The scheme instances in this roadmap use
-  those carriers and comparison theorems.
+- [`AlgebraicVectorBundles`](../AlgebraicVectorBundles/README.md) Layers 1–3 supply
+  stalk comparisons and strong monoidality of module pullback, flat base change for internal Hom,
+  and pullback comparisons for symmetric and exterior powers. Its L1A–L2B refer to the
+  Tau Ceti declarations above.
 - [`DerivedModuleAlgebra`](../DerivedModuleAlgebra/README.md) §§0.1–0.17 and 0.25 own module
   derived tensor, the full cotangent complex of rings, transitivity, base change, localization,
   smooth and regular-quotient computations, and square-zero obstruction classes.
 - [`EnhancedDerivedSheaves`](../EnhancedDerivedSheaves/README.md) Layers 0 and E1 own derived
   tensor and internal Hom on ringed sites, enhanced quasicoherent derived sheaves, and perfect
   complexes on schemes. This roadmap uses those constructions on the stack sites supplied below.
-- [`DerivedDeRhamCohomology` §5.8](https://github.com/TauCetiProject/TauCetiRoadmap/pull/868)
+- [`DerivedDeRhamCohomology`](../DerivedDeRhamCohomology/README.md) §5.8
   supplies the scheme cotangent complex. Layer 3 identifies its étale realization and supplies
   the algebraic space and stack extensions.
 - The [Jacobian challenge](../JacobianChallenge/README.md) owns the line-bundle and divisor lane.
@@ -413,7 +424,7 @@ algebraic spaces and stacks by smooth descent. Prove flat base change, products,
 
 Develop exact sequences of cones under a smooth ambient morphism and the action of
 `T_M|_X` on `C_{X/M}`. Prove that these actions and sequences commute with smooth refinement of
-the ambient presentation.
+the ambient presentation (Behrend–Fantechi Prop. 3.1 and Lemma 3.2, pp. 23–24).
 
 *Needs:* §§1.4–1.5 and SchemeAndStackFoundations §5.5.
 
@@ -462,11 +473,23 @@ Source: Vistoli (3.1)–(3.4), pp. 632–634, and p. 620 for the degree of a cla
 
 ### 2.2 Chow operations
 
-Extend proper pushforward, flat pullback, localization, and exterior products to these rational
-stack Chow groups. State representability, relative-dimension, separation, and properness
-hypotheses on the morphisms, and prove agreement with the scheme operations.
+For separated finite-type Deligne–Mumford stacks, extend the scheme operations as follows.
+
+**API.**
+
+- For flat `f : X → Y` of pure relative dimension `e`, define
+  `f^* : A_k(Y)_ℚ → A_{k+e}(X)_ℚ`.
+- For proper `f : X → Y`, define `f_* : A_k(X)_ℚ → A_k(Y)_ℚ` with stabilizer weights.
+  For representable proper maps also define the integral operation (Vistoli (3.6)–(3.7), p. 635).
+- Give localization for a closed substack and its open complement, and the exterior product
+  with its dimension grading. Identify each operation with the scheme operation on schemes.
 
 *Needs:* §2.1 and SchemeAndStackFoundations Layer 5.
+
+**Checks.**
+
+- For `q : BC₂ → Spec k`, `q_*[BC₂]=½[pt]`.
+- For the atlas `p : Spec k → BC₂`, `p^*[BC₂]=[pt]` and `p_*[pt]=2[BC₂]`.
 
 ### 2.3 Homotopy invariance and Chern classes
 
@@ -477,6 +500,10 @@ prove Whitney sum, pullback, the top-Chern formula, and
 
 *Needs:* §§1.2, 2.1–2.2 and SchemeAndStackFoundations Layer 5.
 
+**Checks.**
+
+- For the sign character `χ` in characteristic different from two, `c₁(𝒪(1) ⊠ χ) ∩ [ℙ¹ × BC₂]=[pt × BC₂]`. The character term is killed by two and vanishes rationally.
+
 ### 2.4 Refined Gysin maps
 
 Extend refined Gysin pullback to representable regular local immersions of
@@ -486,6 +513,10 @@ self-intersection formula.
 
 *Needs:* §§1.5, 2.2–2.3 and SchemeAndStackFoundations Layer 5.
 
+**Checks.**
+
+- For `i : pt ↪ 𝔸¹`, `i^![𝔸¹]=[pt]` and `i^![pt]=0` by the dimension shift.
+
 ### 2.5 Bivariant orientations and comparison
 
 Build the rational bivariant groups for morphisms of relative Deligne–Mumford type
@@ -494,12 +525,12 @@ the regular-local-immersion orientation for representable morphisms of algebraic
 acting on rational Chow groups after base change to separated finite-type Deligne–Mumford
 test stacks whose pullbacks are separated. Prove compatibility with the scheme orientations.
 Construct Vistoli’s canonical rational equivalence by deformation to the normal cone
-(Behrend–Fantechi Props. 3.3–3.4). In the regular-immersion square with embedded base
-`Y′ ↪ Y` and pullback `X′ → Y′`, prove invariance under the restricted tangent action
-`T_{Y′}|_{X′}` of Kresch, Theorem 3.1. It acts trivially on the normal bundle of the
-regular immersion and by the induced action on the pulled-back normal cone. Prove
-compatibility with smooth refinement. As a negative check, transverse translation
-in the plane with a coordinate axis and the origin need not preserve the rational equivalence.
+(Kresch Prop. 2.3, p. 7), with smooth base change (Behrend–Fantechi Props. 3.3–3.4,
+pp. 25–26). For a regular local immersion `Y′ ↪ Y` of smooth Deligne–Mumford stacks
+and `X′ = X ×_Y Y′`, prove invariance under `T_{Y′}|_{X′}`. Its action on
+`N_{Y′/Y}|_{X′}` is trivial and its action on `C_{X/Y}|_{X′}` is induced by
+Behrend–Fantechi Lemma 3.2. Extend this restricted invariance to smooth algebraic bases by
+smooth pullback (Kresch Thm. 3.1, pp. 10–12).
 
 For proper `f : X → Y` between separated Deligne–Mumford stacks, operational `c` on
 `Y` and `α ∈ A_*(X)_ℚ`, construct the cap action and prove
@@ -508,6 +539,11 @@ For proper `f : X → Y` between separated Deligne–Mumford stacks, operational
 Use the bivariant pullback for operational classes and the flat and regular-immersion orientations above.
 
 *Needs:* §§2.1–2.4 and §1.5.
+
+**Checks.**
+
+- For `q : ℙ¹ × BC₂ → ℙ¹` and `c=c₁(𝒪(1))`, both sides of the projection formula are `½[pt]`.
+- For the origin in `𝔸²` and the base immersion `Y′={t=0}`, the comparison lives on `𝔸³` with coordinates `(n,a,b)`. Its boundary is `[n=0]−[b=0]` and its rational function is `c·n/b` with `c∈kˣ`. Translation of `a` fixes it, while `b ↦ b+1` gives `c·n/(b+1)`. The nodal divisor `{xy=0}` has tangent fibre dimensions two at the origin and one off it, so the smooth tangent-bundle argument does not apply to that regular immersion.
 
 **Gate.** For every rank-`r` vector bundle `E → X` on a separated Deligne–Mumford stack, there is
 a grading-correct map `0_E^! : A_{i+r}(E)_ℚ → A_i(X)_ℚ`, invariant under bundle isomorphism and
@@ -537,6 +573,10 @@ categories by descent and site comparison; do not assume arbitrary stack morphis
 morphisms of lisse-étale topoi (Stacks Project, Tags 07BF and 0GR1).
 
 *Needs:* Layer 1, DerivedModuleAlgebra, EnhancedDerivedSheaves and DerivedDeRhamCohomology §5.8.
+
+**Checks.**
+
+- On the classifying stack of the constant cyclic group `C_p`, `Ext¹(𝒪,𝒪)` is zero in characteristic zero and is `k` in characteristic `p`, by the cyclic group cochain complex with trivial coefficients.
 
 ### 3.2 Perfectness and global resolutions
 
@@ -573,9 +613,11 @@ Here the two smooth relative complexes are the corresponding sheaves of differen
 Construct the comparison maps under refinements and descend in the quasi-coherent derived
 category, with the transitivity triangle `f*L_Y → L_X → L_{X/Y} →` and flat base change.
 For morphisms of relative Deligne–Mumford type prove vanishing in positive degrees and
-coherence in degrees zero and minus one. Use the smooth-presentation cotangent construction in Halpern-Leistner,
-[*Moduli theory*](https://pi.math.cornell.edu/~danielhl/moduli_theory_notes.pdf), and
-Behrend–Fantechi §7 for the relative Deligne–Mumford case.
+coherence in degrees zero and minus one. For the construction by smooth descent use
+Laumon–Moret-Bailly, *Champs algébriques*, §17, and the simplicial étale construction in
+Webb, [*The moduli of sections has a canonical obstruction theory*](https://doi.org/10.1017/fms.2022.61),
+Appendix B, Example B.8 and the paragraph following it. Use Behrend–Fantechi §7 for
+the relative Deligne–Mumford case.
 
 **API.**
 
@@ -619,12 +661,13 @@ model agrees with the Kähler presentation complex, and all comparisons commute 
 **Checks.**
 
 - A finite locally free sheaf in degree zero has perfect amplitude [0,0].
-- A perfect two-term complex has virtual rank equal to degree-zero rank minus degree-minus-one rank.
+- The complex `[𝒪³ → 𝒪]` on the affine line has virtual rank `−2` for every differential.
 - The cotangent complex of Spec k over the classifying stack of the multiplicative group is one-dimensional in degree zero.
 
 ### Dependencies
 
-Layer 1, DerivedModuleAlgebra, EnhancedDerivedSheaves and DerivedDeRhamCohomology §5.8.
+Layer 1, DerivedModuleAlgebra, EnhancedDerivedSheaves, SchemeAndStackFoundations §1.10
+and DerivedDeRhamCohomology §§0.20 and 5.8.
 
 ## Layer 4: cone stacks and the `h¹/h⁰` construction
 
@@ -710,7 +753,7 @@ Behrend–Fantechi Prop. 2.4, p. 20, supplies the construction.
 ### 4.5 Maps and triangles
 
 Prove the cohomological criterion for a morphism `φ : E → L` to induce a representable map,
-closed immersion, or equivalence of the dual `h¹/h⁰` stacks. For a distinguished triangle `E → F → G → E[1]` with `E,F` satisfying §4.4’s coherence and vanishing conditions and `G` perfect of Tor amplitude `[−1,0]`, prove that the dual cone stacks of `G,F,E` in that order form a short exact sequence (Behrend–Fantechi Prop. 2.7, p. 22).
+closed immersion, or equivalence of the dual `h¹/h⁰` stacks (Behrend–Fantechi Props. 2.5–2.6, pp. 21–22). For a distinguished triangle `E → F → G → E[1]` with `E,F` satisfying §4.4’s coherence and vanishing conditions and `G` perfect of Tor amplitude `[−1,0]`, prove that the dual cone stacks of `G,F,E` in that order form a short exact sequence (Behrend–Fantechi Prop. 2.7, p. 22).
 
 *Needs:* §§3.2, 4.2–4.4.
 
@@ -765,6 +808,10 @@ Define the category of local embeddings and common refinements. Prove that under
 
 *Needs:* §§1.1, 1.5–1.6, 5.1.
 
+**Checks.**
+
+- Refine an embedding using `M×𝔸¹` with the new coordinate zero. The cone becomes `C_{U/M}×𝔸¹`, and quotient by translation in the new normal direction recovers `C_{U/M}`.
+
 ### 5.3 Intrinsic normal cone
 
 Glue `[C_{U/M}/T_M|_U]` inside the already intrinsic `𝔑_X`; prove cocycle coherence and
@@ -784,7 +831,7 @@ Behrend–Fantechi Cor. 3.9 and Def. 3.10, p. 29, give the descent comparison an
 
 - For a smooth scheme, the cone equals its intrinsic normal sheaf.
 - For a regular hypersurface, its ordinary normal cone is the normal bundle before the tangent quotient.
-- For `k[x,y]/(x²,xy)`, equality with the normal sheaf is compatible with failure of the local complete intersection condition.
+- For `I=(x²,xy)` in the plane, the Rees relation `y(x²)−x(xy)=0` gives the linear relation `yT₁−xT₂=0`; the normal cone fibre at the origin is the plane with coordinates `T₁,T₂`.
 
 ### 5.4 Dimension and basic properties
 
@@ -823,7 +870,7 @@ existing noncanonically.
 
 ### Dependencies
 
-Layers 0, 1 and 4.
+Layers 0, 1, 3 and 4.
 
 ## Layer 6: obstruction theories and their deformation meaning
 
@@ -840,7 +887,7 @@ Def. 4.4 and Thm. 4.5).
 - Construct the cohomological tests on `H⁰` and `H⁻¹` for a map to the cotangent complex.
 - Transport the tests under isomorphism of theories and compare them with the square-zero lifting criterion.
 
-*Needs:* §§3.1–3.4.
+*Needs:* §§3.1–3.4, 4.4–4.5, 5.1.
 
 **Checks.**
 
@@ -904,7 +951,8 @@ use a compatible theory with the relative tangent term as in §8.1.
 ### 6.5 Global two-term resolutions
 
 Define existence of a global two-term resolution and show it is stable under the pullbacks,
-external sums, and comparison constructions used below. Do not make it part of perfectness.
+external sums, and comparison constructions used below (Behrend–Fantechi Def. 5.2,
+p. 38, Props. 5.7 and 7.2, pp. 41, 50). Keep global resolvability separate from perfectness.
 
 **API.**
 
@@ -921,10 +969,11 @@ external sums, and comparison constructions used below. Do not make it part of p
 
 ### 6.6 Curvilinear obstructions
 
-At a geometric point, identify the coarse intrinsic normal space as a universal obstruction
-space and prove the curvilinear-obstruction characterization by the fibre of `𝔠_X`. This is the
-local check that the intrinsic cone records actual obstructions rather than only tangent-space
-dimensions.
+At `p ∈ X(k)`, prove that the coarse space `N_p` of `p^*𝔑_X` is a universal
+obstruction space for deformations over local Artinian `k`-algebras with residue field `k`.
+A vector `v ∈ N_p` occurs as the obstruction to lifting some such deformation along
+`k[t]/(t^(m+1)) → k[t]/(t^m)` exactly when it lies in the coarse cone `C_p` of
+`p^*𝔠_X` (Behrend–Fantechi Lemma 4.6 and Prop. 4.7, pp. 36–37).
 
 *Needs:* §§5.3, 6.2–6.3.
 
@@ -971,6 +1020,11 @@ dimension `rank F₀`. Define
 `[X,φ]vir = 0_F₁^![C(F•)]` and verify that its dimension is
 `rank F₀-rank F₁ = rank E = n` (Behrend–Fantechi Def. 5.2).
 
+**API.**
+
+- Identify the relative dimension of the projection of the resolved cone to the intrinsic cone.
+- Apply zero-section Gysin and compute the output degree as the rank difference.
+
 *Needs:* §§0.2, 2.4, 5.4, 7.1.
 
 **Checks.**
@@ -1005,6 +1059,10 @@ intrinsic definition using any supplied resolution, so downstream proofs can cal
 
 *Needs:* §§7.1–7.3.
 
+**Checks.**
+
+- For the dual numbers with their cotangent theory, the zero-dimensional class is `2[pt]` using any global resolution.
+
 ### 7.5 Obstruction sheaf formulas
 
 Prove the no-obstruction theorem: if `H⁻¹(E)=0` and `H⁰(E)` is locally free, then `X` is
@@ -1025,9 +1083,14 @@ and gives the ordinary fundamental class. Prove the product formula for external
 ### 7.7 Virtual degree
 
 For proper `X` and virtual dimension zero, define `deg [X,φ]vir ∈ ℚ` and prove invariance under
-equivalence of proper Deligne–Mumford stacks. Keep this numerical operation downstream of the class construction.
+equivalence of proper Deligne–Mumford stacks (Vistoli (3.6)(ii)–(3.7), p. 635, for
+pushforward along `X → Spec k`).
 
 *Needs:* §§2.1–2.2, 7.4.
+
+**Checks.**
+
+- The dual numbers with their cotangent theory have virtual degree two. For `BC₂` the canonical theory gives degree `½`.
 
 ### Examples
 
@@ -1057,6 +1120,10 @@ cone comparison.
 
 *Needs:* §§3.3–3.4, 4.5, 6.4.
 
+**Checks.**
+
+- The identity square has comparison maps `(id,id,0)` on the base, total and zero relative terms.
+
 ### 8.2 Smooth pullback
 
 For a smooth base morphism, identify the pulled-back intrinsic and obstruction cones and prove
@@ -1076,7 +1143,10 @@ Factor a morphism between smooth bases through its graph and a projection to obt
 Behrend–Fantechi functoriality statement under compatible perfect obstruction theories
 (Prop. 5.10).
 
-For the graph factorization construct the intermediate theory and verify both comparison triangles before composing pullbacks. Check the triangle for the graph of a smooth conic in the plane, using the conormal line of the graph and the cotangent sequence for the projection.
+For the graph factorization construct the intermediate theory and verify both comparison triangles before composing pullbacks. For a smooth conic `C ↪ ℙ²`, the graph `C ↪ C × ℙ²` has conormal
+`Ω_{ℙ²}|_C` of rank two. The projection `C × ℙ² → ℙ²` has relative cotangent bundle
+pulled back from `Ω_C` of rank one. The triangle gives virtual rank `1−2=−1` for the
+composite and recovers the conormal line `𝒪_C(−2)` in degree minus one.
 
 *Needs:* §§3.3, 8.1–8.3.
 
@@ -1093,7 +1163,7 @@ theorem can safely serve downstream moduli constructions.
 **Checks.**
 
 - Flat extension of the ground field commutes with the class.
-- For a compatible pullback to a regular divisor between smooth bases, compute the result both from the pulled-back theory and from its Gysin class.
+- For the origin `i : pt ↪ 𝔸¹` and canonical smooth theories, the adjusted pullback theory is zero and the virtual class is `[pt]`, agreeing with `i^![𝔸¹]`.
 - Two successive compatible smooth pullbacks agree with the composite.
 
 ### Dependencies
@@ -1147,9 +1217,20 @@ construct `[X/Y,φ]vir ∈ A_{d+rank E}(X)_ℚ`.
 
 For a cartesian base change `Y' → Y`, construct
 `𝔠_{X'/Y'} → 𝔠_{X/Y} ×_Y Y'`; prove it is a closed immersion in general and an equivalence
-for flat base change. Deduce the flat virtual-pullback theorem (Behrend–Fantechi Prop. 7.1).
+for flat base change (Behrend–Fantechi Prop. 7.1).
 
-*Needs:* §§2.2–2.4, 6.4, 9.1–9.2.
+Let `u : X′ → X` be the projection and let `v : Y′ → Y` be representable and flat
+of pure relative dimension. Assume that `Y′` is pure-dimensional and that `X′` is
+separated, finite type, Deligne–Mumford and has the resolution property. Pull the global
+resolution back along `u` and prove
+`v^![X/Y,φ]vir = [X′/Y′,u^*φ]vir` using the flat bivariant orientation of §2.5
+(Behrend–Fantechi Prop. 7.2(1), p. 50).
+
+*Needs:* §§2.2–2.5, 6.4, 9.1–9.2.
+
+**Checks.**
+
+- The flat morphism `B𝔾_m → Spec k` has base change `X′=B𝔾_m` for `X=Spec k`; the resulting source is Artin and the virtual Chow-class formula does not apply.
 
 ### 9.4 Regular base change and formulas
 
@@ -1238,9 +1319,10 @@ the distinction between actual and virtual dimension.
 
 ## Downstream consumers
 
-[Algebraic Gromov–Witten theory](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1998)
-uses the relative class over the prestable-curve stack. [StableReductionPartII](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1841) uses rational
-Chow operations on smooth Deligne–Mumford stacks.
+[AlgebraicGromovWittenTheory](../AlgebraicGromovWittenTheory/README.md) uses Layer 9
+over the prestable-curve stack. [StableReductionPartII](../StableReductionPartII/README.md)
+uses §§2.1–2.3 and the cap action and projection formula of §2.5 on smooth
+Deligne–Mumford stacks.
 
 ## References
 
