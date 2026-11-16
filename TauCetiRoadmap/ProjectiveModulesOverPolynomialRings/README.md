@@ -814,21 +814,27 @@ Conclusion: a few conjectures, p. 936). The Hermite ring conjecture, that `A[X]`
 This section is secondary: it maps existing Lean code to targets and prescribes nothing. The
 Apache-2.0 repository AxiomMath, *The Stacks Project in Lean* (References), formalizes the Stacks
 Project on Mathlib. Its `StacksFrontier` tier is written by AI agents and builds without `sorry`;
-the repository records it as unreviewed by humans, and it is built on Lean and Mathlib v4.35.0,
-earlier than our pin. It is not a dependency: a statement read there is compared with the target
-here before it is used, adaptation is agreed with its maintainers first, and adapted code keeps its
-Apache-2.0 notices.
+the repository keeps it apart from its human-reviewed `StacksCore` tier, and it is built on Lean and
+Mathlib v4.35.0, earlier than our pin. It is not a dependency: a statement read there is compared
+with the target here before it is used, adaptation is agreed with its maintainers first, and adapted
+code keeps its Apache-2.0 notices.
 
-`StacksFrontier/Algebra/Module/StablyFree.lean` defines stable isomorphism and stably free modules,
-with their basic closure properties (Tags 0BC3–0BC5): the notion of Layer 2 and 5.1, which this
-roadmap takes from Mathlib. `StacksFrontier/RingTheory/MilnorPatching` proves Milnor patching, the
-equivalence between finite projective modules over a fibre product of rings and patching data (Tags
-08KJ and 0D2J, `MilnorPatching/ProjectiveModules.lean`); Scope leaves it to AlgebraicKTheory Layer
-6. `StacksFrontier/RingTheory/Module/Kaplansky.lean` proves Kaplansky's theorem that projective
-modules are direct sums of countably generated ones (Tags 0591–0593), which this roadmap does not
-use. No file name or tag there treats Suslin's `r!` theorem (Layer 1), Quillen's dilation lemma, the
-Quillen ideal or Quillen patching (Layer 3), Horrocks' theorem (Layer 4) or the Quillen–Suslin
-theorem (Layer 5).
+`StacksFrontier/Algebra/Module/StablyFree.lean` defines stable isomorphism, characterises Mathlib's
+`Module.IsStablyFree` by it, and proves two out of three and the lifting of stably free modules
+along an ideal in the Jacobson radical (Tags 0BC3–0BC5); stable freeness is the notion of 2.1 and
+5.4, which this roadmap takes from Mathlib. `StacksFrontier/RingTheory/MilnorPatching` proves Milnor
+patching, the equivalence between finite projective modules over a fibre product of rings and
+patching data (Tag 0D2J, `MilnorPatching/ProjectiveModules.lean`, proved through the relative
+situation of Tag 08KK); Scope leaves it to AlgebraicKTheory Layer 6.
+`StacksFrontier/RingTheory/Module/Kaplansky.lean` proves Kaplansky's theorem that every projective
+module over a local ring is free, with no finiteness hypothesis (Tags 0591–0593); 4.3 needs only the
+finitely generated case, which it takes from Mathlib (`Module.free_of_flat_of_isLocalRing`).
+`StacksFrontier/RingTheory/Polynomial/MonicLocalization.lean` defines the monic submonoid and
+`R⟨X⟩`, the objects of 4.1. It proves that `R⟨X⟩` is a domain, or Noetherian, when `R` is, and that
+`p[X]` contains no monic polynomial for a prime `p` of `R`, the step used in 4.1's faithful
+flatness. It states neither Quillen's Lemma 2 nor the faithful flatness of `R⟨X⟩`. No file name or
+tag there treats Suslin's `r!` theorem (Layer 1), Quillen's dilation lemma, the Quillen ideal or
+Quillen patching (Layer 3), Horrocks' theorem (Layer 4) or the Quillen–Suslin theorem (Layer 5).
 
 ## References
 
@@ -836,55 +842,53 @@ theorem (Layer 5).
   doi:10.1007/BF01390008. GDZ: PPN356556735_0036.
 - A. A. Suslin, « Projective modules over polynomial rings are free », *Dokl. Akad. Nauk SSSR* 229
   (1976), no. 5, 1063–1066; *Soviet Math. Dokl.* 17 (1976), 1160–1164.
-- A. A. Suslin, « On stably free modules », *Mat. Sb.* 102(144) (1977), no. 4, 537–550;
-  *Math. USSR Sb.* 31 (1977), no. 4, 479–491. doi:10.1070/SM1977v031n04ABEH003717.
-- G. Horrocks, « Projective modules over an extension of a local ring », *Proc. London Math.
-  Soc.* (3) 14 (1964), 714–718. doi:10.1112/plms/s3-14.4.714.
+- A. A. Suslin, « On stably free modules », *Mat. Sb.* 102(144) (1977), no. 4, 537–550; *Math. USSR
+  Sb.* 31 (1977), no. 4, 479–491. doi:10.1070/SM1977v031n04ABEH003717.
+- G. Horrocks, « Projective modules over an extension of a local ring », *Proc. London Math. Soc.*
+  (3) 14 (1964), 714–718. doi:10.1112/plms/s3-14.4.714.
 - H. Lombardi, C. Quitté, *Commutative Algebra: Constructive Methods. Finite Projective Modules*,
-  Algebra and Applications 20, Springer, 2015. doi:10.1007/978-94-017-9944-7. arXiv:1605.04832
-  (page numbers of the arXiv version).
-- S. Lang, *Algebra*, third edition, Addison-Wesley, 1993; revised third edition, Graduate Texts
-  in Mathematics 211, Springer, 2002. doi:10.1007/978-1-4613-0041-0.
+  Algebra and Applications 20, Springer, 2015. doi:10.1007/978-94-017-9944-7. arXiv:1605.04832 (page
+  numbers of the arXiv version).
+- S. Lang, *Algebra*, third edition, Addison-Wesley, 1993; revised third edition, Graduate Texts in
+  Mathematics 211, Springer, 2002. doi:10.1007/978-1-4613-0041-0.
 - K. S. Kedlaya, « Full faithfulness for overconvergent F-isocrystals », in *Geometric Aspects of
-  Dwork Theory*, de Gruyter, 2004, 819–835. arXiv:math/0110125 (page numbers of the arXiv
-  version).
+  Dwork Theory*, de Gruyter, 2004, 819–835. arXiv:math/0110125 (page numbers of the arXiv version).
 - R. G. Swan, « Vector bundles and projective modules », *Trans. Amer. Math. Soc.* 105 (1962),
   264–277. doi:10.1090/S0002-9947-1962-0143225-6.
 - R. G. Swan, J. Towber, « A class of projective modules which are nearly free », *J. Algebra* 36
   (1975), 427–434. doi:10.1016/0021-8693(75)90143-X.
-- H. Lindel, « On the Bass–Quillen conjecture concerning projective modules over polynomial
-  rings », *Invent. Math.* 65 (1981), 319–323. doi:10.1007/BF01389017.
+- H. Lindel, « On the Bass–Quillen conjecture concerning projective modules over polynomial rings »,
+  *Invent. Math.* 65 (1981), 319–323. doi:10.1007/BF01389017.
 - T. Y. Lam, *Serre's Problem on Projective Modules*, Springer Monographs in Mathematics, Springer,
   2006. doi:10.1007/978-3-540-34575-6.
 - J.-P. Serre, « Faisceaux algébriques cohérents », *Ann. of Math.* (2) 61 (1955), 197–278.
   doi:10.2307/1969915.
 - M. P. Murthy, « Projective A[x]-modules », *J. London Math. Soc.* 41 (1966), 453–456.
   doi:10.1112/jlms/s1-41.1.453.
-- H. Bass, « Some problems in "classical" algebraic K-theory », in *"Classical" Algebraic
-  K-Theory, and Connections with Arithmetic*, Lecture Notes in Mathematics 342, Springer, 1973,
-  1–73. doi:10.1007/BFb0073718.
+- H. Bass, « Some problems in "classical" algebraic K-theory », in *"Classical" Algebraic K-Theory,
+  and Connections with Arithmetic*, Lecture Notes in Mathematics 342, Springer, 1973, 1–73.
+  doi:10.1007/BFb0073718.
 - N. Mohan Kumar, « Stably free modules », *Amer. J. Math.* 107 (1985), no. 6, 1439–1444.
   doi:10.2307/2374411.
 - J. Fasel, R. A. Rao, R. G. Swan, « On stably free modules over affine algebras », *Publ. Math.
-  IHÉS* 116 (2012), 223–243. doi:10.1007/s10240-012-0041-y. arXiv:1107.1051v2 (page numbers of
-  this arXiv version).
-- D. Popescu, « General Néron desingularization and approximation », *Nagoya Math. J.* 104
-  (1986), 85–115. doi:10.1017/S0027763000022698. Letter to the editor, *ibid.* 118 (1990),
-  45–53. doi:10.1017/S0027763000002981.
-- R. G. Swan, « Néron–Popescu desingularization », in *Lectures in Algebra and Geometry*
-  (Taipei, 1995), International Press, Cambridge, MA, 1998, 135–192. Zbl 0954.13003.
-- Y. Lequain, A. Simis, « Projective modules over R[X₁, …, Xₙ], R a Prüfer domain », *J. Pure
-  Appl. Algebra* 18 (1980), 165–171. doi:10.1016/0022-4049(80)90127-9.
+  IHÉS* 116 (2012), 223–243. doi:10.1007/s10240-012-0041-y. arXiv:1107.1051v2 (page numbers of this
+  arXiv version).
+- D. Popescu, « General Néron desingularization and approximation », *Nagoya Math. J.* 104 (1986),
+  85–115. doi:10.1017/S0027763000022698. Letter to the editor, *ibid.* 118 (1990), 45–53.
+  doi:10.1017/S0027763000002981.
+- R. G. Swan, « Néron–Popescu desingularization », in *Lectures in Algebra and Geometry* (Taipei,
+  1995), International Press, Cambridge, MA, 1998, 135–192. Zbl 0954.13003.
+- Y. Lequain, A. Simis, « Projective modules over R[X₁, …, Xₙ], R a Prüfer domain », *J. Pure Appl.
+  Algebra* 18 (1980), 165–171. doi:10.1016/0022-4049(80)90127-9.
 - R. G. Swan, « Projective modules over Laurent polynomial rings », *Trans. Amer. Math. Soc.* 237
   (1978), 111–120. doi:10.1090/S0002-9947-1978-0469906-4.
 - K. Česnavičius, « Problems about torsors over regular rings », *Acta Math. Vietnam.* 47 (2022),
-  39–107. doi:10.1007/s40306-022-00477-y. arXiv:2201.06424v4 (page numbers of this arXiv
-  version).
+  39–107. doi:10.1007/s40306-022-00477-y. arXiv:2201.06424v4 (page numbers of this arXiv version).
 - A. Asok, M. Hoyois, M. Wendt, « Affine representability results in A¹-homotopy theory, II:
   principal bundles and homogeneous spaces », *Geom. Topol.* 22 (2018), 1181–1225.
   doi:10.2140/gt.2018.22.1181.
 - AxiomMath, *The Stacks Project in Lean*. Lean 4 formalization at commit
   c496df0d9beea9deaeabcea8492605f9a0a2313b, Apache-2.0, built on Lean and Mathlib v4.35.0;
   directories `StacksFrontier/RingTheory/MilnorPatching`, `StacksFrontier/Algebra/Module`,
-  `StacksFrontier/RingTheory/Module`.
+  `StacksFrontier/RingTheory/Module`, `StacksFrontier/RingTheory/Polynomial`.
   https://github.com/AxiomMath/Stacks/tree/c496df0d9beea9deaeabcea8492605f9a0a2313b/StacksFrontier
