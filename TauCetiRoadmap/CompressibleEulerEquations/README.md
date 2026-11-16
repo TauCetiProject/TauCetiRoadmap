@@ -182,8 +182,31 @@ data domains are open subsets `S ⊆ E`, placed at `{t₀} × S`.
 Closed domains are never used: with a closed domain the domain-of-dependence condition does not
 see data entering from outside (Check in §3.3). A map on a domain `D` is `C¹` when it is
 `ContDiffOn ℝ 1` on `D` in Mathlib's sense; derivatives are `fderivWithin` on `D`, which is a
-uniquely differentiable set because `H_{t₀}` is convex with nonempty interior. `C¹` up to
-`t = t₀` is therefore part of every regularity hypothesis.
+uniquely differentiable set (first bullet below). `C¹` up to `t = t₀` is therefore part of every
+regularity hypothesis.
+
+- Every domain `D` is a uniquely differentiable set (`UniqueDiffOn ℝ D`): near each of its
+  points it coincides with `H_{t₀}`, which is convex with nonempty interior (Mathlib
+  `uniqueDiffOn_convex` and `uniqueDiffWithinAt_inter`).
+- For a fixed `t₀`, the empty set, every union of domains and every intersection of finitely many
+  domains are domains.
+- Each slice `{x : (t, x) ∈ D}` of a domain is open in `E` for `t ≥ t₀`, and empty for `t < t₀`.
+- A domain is a neighbourhood in `𝔐` of each of its points with `t > t₀`.
+
+**Checks.**
+
+- `H_{t₀}` (with `W = 𝔐`) is a domain, and so is `{t ≥ 0, |x| < 1 + t}` for `t₀ = 0` (with
+  `W = {|x| < 1 + t}`).
+- The closed set `{t ≥ 0, |x| ≤ 1 + t}` with `n = 1`, `t₀ = 0` is not a domain: an open `W`
+  containing its point `(0, 1)` contains `(0, 1 + δ)` for small `δ > 0`, which lies in `H₀` but
+  not in the set.
+- `(t₀, ∞) × E` is a domain whose slice at `t₀` is empty, while `[t₀ − 1, ∞) × E` is not a domain
+  for `t₀`, since it is not contained in `H_{t₀}`. An intersection of infinitely many domains
+  need not be a domain: with `n = 1`, that of the domains `{t ≥ 0, |x| < 1 + 1/m}`, `m ≥ 1`, is
+  `{t ≥ 0, |x| ≤ 1}`, which fails at `(0, 1)` as the closed set above does.
+- The plausible wrong definition "open in `𝔐` and contained in `H_{t₀}`" rejects `H_{t₀}`
+  itself: every set it admits misses `Σ_{t₀}`, so no development of data on a nonempty `S`, whose
+  slice at `t₀` must be `{t₀} × S`, would exist.
 
 **States.** A barotropic state is `(ρ, v)` with `ρ` in the open interval `I ⊆ (0, ∞)` of an
 equation of state; a full state is `(ρ, v, s)` with `(ρ, s)` in the open set `𝒪 ⊆ (0, ∞) × ℝ` of
@@ -228,8 +251,11 @@ condition `1 ≥ 1` holds and the symbol is `1 − 3 = −2`).
 
 ### From Mathlib
 
-- `ContDiffOn`, `fderivWithin`, `UniqueDiffOn` and the convexity criterion for unique
-  differentiability: the meaning of `C¹` on a domain and of the equations at `t = t₀`.
+- `ContDiffOn`, `fderivWithin`, `UniqueDiffOn`, the convexity criterion for unique
+  differentiability `uniqueDiffOn_convex` (`Mathlib/Analysis/Calculus/TangentCone/Real.lean:80`)
+  and its localisation `uniqueDiffWithinAt_inter`
+  (`Mathlib/Analysis/Calculus/TangentCone/Basic.lean:128`): the meaning of `C¹` on a domain and of
+  the equations at `t = t₀`.
 - `Matrix.PosDef`, `Matrix.PosSemidef` (`Mathlib/LinearAlgebra/Matrix/PosDef.lean:176,62`):
   the definiteness conditions on `A⁰` and on the symbol.
 - `Matrix.IsHermitian` (`Mathlib/LinearAlgebra/Matrix/Hermitian.lean:45`), `Matrix.IsSymm`
@@ -544,8 +570,8 @@ systems with its continuation criterion (§7.1 `QuasilinearSystem.localWellPosed
 Euler with its continuation criterion (§7.2 `EquationOfState.localWellPosedness`,
 `EquationOfState.exists_extension_of_lintegral_lt_top`); the theory of developments (§8.2
 `EquationOfState.maximalCommonDevelopment`, `EquationOfState.compatible_iff`,
-`EquationOfState.exists_maximal_development`, `EquationOfState.isGreatest_development_of_solution`
-and the counterexample `exists_incompatible_developments`; §8.3
+`EquationOfState.exists_maximal_development` and
+`EquationOfState.isGreatest_development_of_solution`; §8.3
 `EquationOfState.isDevelopment_slab` and `EquationOfState.slab_subset_of_maximal`); and the causal
 character and nullity of the boundary of a development (§8.4
 `EquationOfState.boundary_futureCausal`, `EquationOfState.boundary_null`). The Euler statements are made for the full system; the
@@ -568,8 +594,8 @@ function `p : ℝ → ℝ` that is smooth on `I` with `p′(ρ) > 0` for every `
 speed `c(ρ, s) = √(∂_ρP(ρ, s))` (`EquationOfState.soundSpeed`; ChristodoulouMiao2014 line 606,
 eq. (1.24); AbbresciaSpeck2022 lines 165–170, eq. (1.3)). The polytropic laws `p = k₀ρ^γ` on
 `(0, ∞)` with `k₀ > 0`, `γ ≥ 1` (LuoYu2023a line 88, where `1 < γ < 3`) and the ideal-gas law
-`P(ρ, s) = k₀ e^s ρ^γ` are instances, and so is the law `P(ρ, s) = ρ²` on `(0, ∞) × ℝ`
-(`quadraticLaw`), with `c = √(2ρ)`.
+`P(ρ, s) = k₀ e^s ρ^γ` are instances, and so is the law `P(ρ, s) = ρ²` on `(0, ∞) × ℝ`,
+with `c = √(2ρ)`.
 
 - The sound speed is smooth and strictly positive on `I` (on `𝒪`), and `c² = p′` (`c² = ∂_ρP`).
 - A barotropic equation of state on `I` is an equation of state on `I × ℝ` independent of `s`,
@@ -2039,9 +2065,11 @@ Bona–Smith regularisation of the data; continuation by the tame estimate of §
 - Constant data `U₀ ≡ Ū` give the constant solution with `T* = ∞`.
 - Continuity of the data is needed for `U(0) = U₀` everywhere: for `N = n = 1`, `A⁰ = 1`,
   `A¹ = 0`, `F = 0`, `Ū = 0`, `Λ = 2πℤ`, the datum equal to `1` on `2πℤ` and `0` elsewhere has
-  `‖U₀ − Ū‖_{Hᵏ_Λ} = 0` (it is `0` almost everywhere, and the zero family is a family of weak
-  derivatives), yet the only candidate solution, `U(t, x) = U₀(x)`, is not continuous. Its
-  continuous representative `0` has the solution `0`.
+  `‖U₀ − Ū‖_{Hᵏ_Λ} = 0` (the family with `g_0 = U₀ − Ū` and `g_α = 0` for `α ≠ 0` is a family of
+  iterated weak derivatives because `U₀ − Ū` vanishes almost everywhere, and each `∫_F |g_α|²` is
+  `0`; the zero family is not one, its `g_0 = 0` differing from `U₀` on `2πℤ`), yet the only
+  candidate solution, `U(t, x) = U₀(x)`, is not continuous. Its continuous representative `0` has
+  the solution `0`.
 
 *Needs:* §2.1 (the system and the dominating cone map `κ`), §§4.1–4.4, §§5.1–5.4, §6.2; Tau Ceti
 `TauCeti.le_mul_exp_of_le_add_mul_integral`.
@@ -2321,10 +2349,9 @@ Prove, for developments `(D₁, U₁)`, `(D₂, U₂)` of the same data:
   for quasilinear wave equations). No bound on the acoustical field of `U_*` is needed: a past
   causal curve of `U_*` from a point of a development `D` cannot leave `D` at a time `> t₀`, by
   the first-exit argument.
-- *Failure of uniqueness* (`exists_incompatible_developments`). For the law `P(ρ, s) = ρ²` on
-  `(0, ∞) × ℝ` (`quadraticLaw`), `n = 1`, `t₀ = 0`, `Λ = 0` and the data
-  `(ρ, v, s) = (1/2, 2, 0)` on `x < −1` and `(1/2, −2, 0)` on `x > 1`, there are two
-  developments that are not compatible; the developments and the computation are the first
+- *Failure of uniqueness.* For the law `P(ρ, s) = ρ²` on `(0, ∞) × ℝ`, `n = 1`, `t₀ = 0`,
+  `Λ = 0` and the data `(ρ, v, s) = (1/2, 2, 0)` on `x < −1` and `(1/2, −2, 0)` on `x > 1`, there
+  are two developments that are not compatible; the developments and the computation are the first
   Check below.
 
 The classical statement that any two developments agree on `D₁ ∩ D₂`, so that the union of all

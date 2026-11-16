@@ -40,9 +40,8 @@ Headline theorems stated here:
 * the theory of developments (§8.2): the maximal common development of two developments
   (`EquationOfState.maximalCommonDevelopment`), compatibility exactly when a common upper bound
   exists (`EquationOfState.compatible_iff`), existence of maximal developments
-  (`EquationOfState.exists_maximal_development`), the uniqueness criterion for data extending to
-  the whole future half-space (`EquationOfState.isGreatest_development_of_solution`), and the
-  failure of uniqueness in general (`exists_incompatible_developments`);
+  (`EquationOfState.exists_maximal_development`), and the uniqueness criterion for data extending
+  to the whole future half-space (`EquationOfState.isGreatest_development_of_solution`);
 * existence of developments inside a slab of existence, and the slab inside every maximal
   development of full Cauchy data (`EquationOfState.isDevelopment_slab`,
   `EquationOfState.slab_subset_of_maximal`, §8.3);
@@ -474,31 +473,6 @@ theorem EquationOfState.isGreatest_development_of_solution [NeZero n] (P : Equat
       ∀ (D : Set (ℝ × 𝔼 n)) (U' : ℝ × 𝔼 n → ℝ × 𝔼 n × ℝ), P.IsDevelopment t₀ Λ S Ū D U' →
         D ⊆ futureDomainOfDependence (P.acousticalCone U) (Ici t₀ ×ˢ univ) ({t₀} ×ˢ S) ∧
           EqOn U U' D := by
-  sorry
-
-/-- The law `P(ρ, s) = ρ²` on `(0, ∞) × ℝ`, with sound speed `√(2ρ)`: the equation of state of the
-counter-flow example of §8.2. -/
-noncomputable def quadraticLaw : EquationOfState where
-  states := Ioi 0 ×ˢ univ
-  isOpen_states := isOpen_Ioi.prod isOpen_univ
-  states_subset := subset_rfl
-  pressure q := q.1 ^ 2
-  contDiffOn_pressure := by fun_prop
-  deriv_pressure_pos q hq := by
-    simp only [mem_prod, mem_Ioi, mem_univ, and_true] at hq
-    simp [hq]
-
-/-- **Developments are not unique** (§8.2, the supersonic counter-flow). For `P = ρ²`, `n = 1`,
-`t₀ = 0`, trivial period group, and the data `(ρ, v, s) = (1/2, 2, 0)` on `x < −1` and
-`(1/2, −2, 0)` on `x > 1` (sound speed `1`), there are two developments whose solutions differ at a
-common point, so the data have at least two maximal developments. -/
-theorem exists_incompatible_developments :
-    ∃ (D₁ D₂ : Set (ℝ × 𝔼 1)) (U₁ U₂ : ℝ × 𝔼 1 → ℝ × 𝔼 1 × ℝ),
-      quadraticLaw.IsDevelopment 0 ⊥ {x | x 0 < -1 ∨ 1 < x 0}
-          (fun x => (1 / 2, EuclideanSpace.single 0 (if x 0 < 0 then 2 else -2), 0)) D₁ U₁ ∧
-        quadraticLaw.IsDevelopment 0 ⊥ {x | x 0 < -1 ∨ 1 < x 0}
-          (fun x => (1 / 2, EuclideanSpace.single 0 (if x 0 < 0 then 2 else -2), 0)) D₂ U₂ ∧
-        ¬ EqOn U₁ U₂ (D₁ ∩ D₂) := by
   sorry
 
 /-- **Existence of developments** (§8.3). Let `U` be a classical solution on the slab
