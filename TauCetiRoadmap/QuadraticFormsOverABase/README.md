@@ -1015,46 +1015,62 @@ This section is secondary: it maps existing Lean code to targets and prescribes 
 repository LeanPool, *lean-pool* (References), keeps Lean 4 formalizations that do not fit Mathlib,
 each project permissively licensed (Apache-2.0 or MIT) and bumped to Lean and Mathlib v4.35.0,
 earlier than our pin. It is not a dependency: a statement read there is compared with the target
-here before it is used, adaptation is agreed with its maintainers first, and adapted code keeps its
-license notices.
+here before it is used, adaptation is agreed first with the authors of the code (named in each
+file's header and in LeanPool's NOTICE), and adapted code keeps its license notices.
 
 `LeanPool/HasseMinkowski` proves the Hasse–Minkowski theorem for quadratic forms over `ℚ`, with
-Hilbert symbols over `ℚ_p` and `ℝ`, their reciprocity and the Hasse invariant. These are forms over
-fields with `2` invertible, which Scope leaves to other roadmaps; nothing there treats forms over a
-base, half-discriminants or the orthogonal group scheme.
+Hilbert symbols over `ℚ_p` and `ℝ`, their reciprocity and the Hasse invariant. Its main theorems
+concern forms over `ℚ`, `ℚ_p` and `ℝ`, which Scope leaves to QuadraticFormInvariants. Its
+`Prod.lean` also shows, over a commutative ring `R` in which `2` is invertible, that the matrix of
+`QuadraticForm.baseChange A Q` in the base-changed basis is the matrix of `Q` mapped into `A`
+(`baseChange_toMatrix`, `baseChange_discr`). This is a matrix form of 0.2's
+`mapCoeffs_eq_baseChange`. Nothing there concerns half-discriminants or the orthogonal group scheme.
+
+`LeanPool/CompositionAlgebrasOverRings` treats quadratic forms on finitely generated projective
+modules over any commutative ring without dividing by `2`. It defines base change through a bilinear
+representative and shows that it agrees with `QuadraticForm.baseChange` when `2` is invertible
+(`QuadraticForm/BaseChangeProjective.lean`; compare 0.2's `mapCoeffs_eq_baseChange`). It defines
+`QuadraticForm.IsGPRNonsingular`, the vanishing of the radical after every base change to a field,
+and compares it with `QuadraticMap.Nondegenerate` over a field (`QuadraticForm/Regularity.lean`,
+`QuadraticForm/NonsingularOverFields.lean`; compare 2.1's `IsSmooth`). It also proves that the norm
+of a free quadratic algebra is regular exactly when `t² − 4n₀` is a unit
+(`Composition/QuadraticEtale.lean`; compare Tau Ceti's `QuadraticAlgebra.etale_iff_isUnit_discr`,
+used in 2.4 and 5.1). `LeanPool/HyperellipticCurves/ForMathlib/Resultant.lean` defines the
+discriminant at formal degree, `Polynomial.discrOfDegree`, with its compatibility with ring maps and
+its degree-drop formula (compare HyperellipticCurves §0.1's `formDiscr` and 6.1).
 
 ## References
 
-- A. Auel, O. Biesel, J. Voight, « Stickelberger's discriminant theorem for algebras », *Amer.
-  Math. Monthly* 130 (2023), 656–670. doi:10.1080/00029890.2023.2206326; Zbl 1522.11116;
-  arXiv:2208.06138.
+- A. Auel, O. Biesel, J. Voight, « Stickelberger's discriminant theorem for algebras », *Amer. Math.
+  Monthly* 130 (2023), 656–670. doi:10.1080/00029890.2023.2206326; Zbl 1522.11116; arXiv:2208.06138.
 - W. Bichsel, M.-A. Knus, « Quadratic forms with values in line bundles », in *Recent advances in
-  real algebraic geometry and quadratic forms*, Contemp. Math. 155, Amer. Math. Soc., 1994,
-  293–306. doi:10.1090/conm/155/01386; Zbl 0810.11023.
+  real algebraic geometry and quadratic forms*, Contemp. Math. 155, Amer. Math. Soc., 1994, 293–306.
+  doi:10.1090/conm/155/01386; Zbl 0810.11023.
 - O. Biesel, A. Gioia, « A new discriminant algebra construction », *Doc. Math.* 21 (2016),
   1051–1088. doi:10.4171/dm/552; Zbl 1365.13010; arXiv:1503.05318.
 - P.-E. Chaput, M. Romagny, « On the adjoint quotient of Chevalley groups over arbitrary base
-  schemes », *J. Inst. Math. Jussieu* 9 (2010), 673–704. doi:10.1017/S1474748010000125;
-  Zbl 1202.13004; arXiv:0805.2140.
-- B. Conrad, « Reductive group schemes », in *Autour des schémas en groupes*, vol. I, Panoramas
-  et Synthèses 42–43, Soc. Math. France, 2014, 93–444. Zbl 1349.14151. Author's version:
-  https://math.stanford.edu/~conrad/papers/luminysga3.pdf (Appendix C, pp. 302–325); page
-  numbers above are those of this version.
-- K. Česnavičius, « Problems about torsors over regular rings », with an appendix by Y. Zhao,
-  *Acta Math. Vietnam.* 47 (2022), 39–107. doi:10.1007/s40306-022-00477-y; arXiv:2201.06424
-  (numbering of v4).
-- J. Dieudonné, « Pseudo-discriminant and Dickson invariant », *Pacific J. Math.* 5 (1955),
-  907–910. doi:10.2140/pjm.1955.5.907; Zbl 0067.00705.
+  schemes », *J. Inst. Math. Jussieu* 9 (2010), 673–704. doi:10.1017/S1474748010000125; Zbl
+  1202.13004; arXiv:0805.2140.
+- B. Conrad, « Reductive group schemes », in *Autour des schémas en groupes*, vol. I, Panoramas et
+  Synthèses 42–43, Soc. Math. France, 2014, 93–444. Zbl 1349.14151. Author's version:
+  https://math.stanford.edu/~conrad/papers/luminysga3.pdf (Appendix C, pp. 302–325); page numbers
+  above are those of this version.
+- K. Česnavičius, « Problems about torsors over regular rings », with an appendix by Y. Zhao, *Acta
+  Math. Vietnam.* 47 (2022), 39–107. doi:10.1007/s40306-022-00477-y; arXiv:2201.06424 (numbering of
+  v4).
+- J. Dieudonné, « Pseudo-discriminant and Dickson invariant », *Pacific J. Math.* 5 (1955), 907–910.
+  doi:10.2140/pjm.1955.5.907; Zbl 0067.00705.
 - M.-A. Knus, *Quadratic and Hermitian Forms over Rings*, Grundlehren der mathematischen
   Wissenschaften 294, Springer, 1991. doi:10.1007/978-3-642-75401-2.
 - S. Parimala, « Failure of a quadratic analogue of Serre's conjecture », *Amer. J. Math.* 100
   (1978), no. 5, 913–924. doi:10.2307/2373953.
-- J. Voight, « Characterizing quaternion rings over an arbitrary base », *J. reine angew. Math.*
-  657 (2011), 113–134. doi:10.1515/crelle.2011.054; Zbl 1229.11146; arXiv:0904.4310.
+- J. Voight, « Characterizing quaternion rings over an arbitrary base », *J. reine angew. Math.* 657
+  (2011), 113–134. doi:10.1515/crelle.2011.054; Zbl 1229.11146; arXiv:0904.4310.
 - J. Voight, « Discriminants and the monoid of quadratic rings », *Pacific J. Math.* 283 (2016),
   483–510. doi:10.2140/pjm.2016.283.483; Zbl 1410.11032; arXiv:1504.05228.
 - M. M. Wood, « Gauss composition over an arbitrary base », *Adv. Math.* 226 (2011), 1756–1771.
   doi:10.1016/j.aim.2010.08.018; Zbl 1262.11049; arXiv:1007.5285.
 - LeanPool, *lean-pool*. Lean 4 formalizations at commit f8b9b721d616a2cc0b22fc226e4a9e3dd6cea2d0,
-  Lean and Mathlib v4.35.0; projects `LeanPool/HasseMinkowski`.
+  Lean and Mathlib v4.35.0; projects `LeanPool/HasseMinkowski`,
+  `LeanPool/CompositionAlgebrasOverRings`, `LeanPool/HyperellipticCurves`.
   https://github.com/LeanPool/lean-pool/tree/f8b9b721d616a2cc0b22fc226e4a9e3dd6cea2d0/LeanPool
