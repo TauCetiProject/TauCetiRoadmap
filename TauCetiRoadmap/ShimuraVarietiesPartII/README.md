@@ -350,7 +350,7 @@ At hyperspecial GL₂ level the normalization is the smooth modular curve. At no
 
 **Theorem.** For p>2 and a geometric point x of the normalized Hodge model, choose a lift over O_K, with K a finite totally ramified extension of Q̆_p, and the prescribed smooth full-fixer integral tensor stabilizer. Apply the integral tensor comparison to the abelian fibre: the canonical tensors at x are integral in its contravariant Dieudonné module, the W(k)-frame transports the chosen lattice dual and tensors to that module, and the lift filtration is induced by a G-cocharacter conjugate to μ_h⁻¹. This is the Shimura point specialization of the imported comparison; the general crystalline tensor theorem and torsor triviality are stated in FiniteFlatGroupsAndIntegralPadicHodgeTheoryPartII §§4.3–4.4.
 
-(KZ, §4.1.7, pp.30–31, especially (4.1.7.1)).
+(KZ, Proposition 3.3.2, p.25, for a p-divisible group over O_K whose étale tensors have as stabilizer the full fixer of a point of the building; at a point of the model, KZ §4.1.7, pp.30–31, especially (4.1.7.1), under its §4.1.3 (A′)–(B′), that is G^fix=G° and a good embedding, and KPZ, proof of Theorem 7.1.3, p.73, in the very-good Hodge setup, where G^fix may be disconnected).
 
 *Proof sketch.* Identify the p-adic absolute Hodge tensors of the abelian lift and apply the integral tensor comparison. Transport the integral frame to crystalline and de Rham evaluation as in KZ §4.1.7.
 
@@ -384,11 +384,11 @@ At hyperspecial GL₂ level the normalization is the smooth modular curve. At no
 
 ### 1.4 Hodge local-model diagram
 
-**Construction.** In the very-good Hodge setup, let A be the universal abelian scheme over S, H¹_dR(A/S) its first de Rham cohomology and s_α,dR the de Rham realizations of the defining absolute Hodge tensors, sections of H¹_dR^⊗ over the generic fibre defined over E. These extend to sections of H¹_dR(A/S)^⊗ over S: as S is normal it suffices that their pullback to every O_K-point is integral, and at a point through the special fibre this is the comparison of §1.1 (KP Proposition 4.2.6 and its proof, p.186). The scheme S̃ of integral de Rham tensor frames, the trivializations Hom(Λ,O_S)≅H¹_dR(A/S), Λ the lattice of the very-good integral embedding, carrying each s_α to s_α,dR, is a G^fix-torsor π:S̃→S. Sending a frame to the Hodge filtration gives an equivariant smooth map q:S̃→M_loc(G,{μ_h}) of relative dimension dim G. The local model is the imported canonical flat closure. The smooth action morphism G^fix×M_loc→M_loc is not asserted to be a torsor.
+**Construction.** In the very-good Hodge setup, let A be the universal abelian scheme over S, H¹_dR(A/S) its first de Rham cohomology and s_α,dR the de Rham realizations of the defining absolute Hodge tensors, sections of H¹_dR^⊗ over the generic fibre defined over E. These extend to sections of H¹_dR(A/S)^⊗ over S: as S is normal it suffices that their pullback to every O_K-point is integral, and at a point through the special fibre this is the comparison of §1.1 (KP Proposition 4.2.6 and its proof, p.186, for G_Qp split by a tame extension; KPZ, proof of Theorem 7.1.3, p.73, in the very-good Hodge setup). The scheme S̃ of integral de Rham tensor frames, the trivializations Hom(Λ,O_S)≅H¹_dR(A/S), Λ the lattice of the very-good integral embedding, carrying each s_α to s_α,dR, is a G^fix-torsor π:S̃→S. Sending a frame to the Hodge filtration gives an equivariant smooth map q:S̃→M_loc(G,{μ_h}) of relative dimension dim G. The local model is the imported canonical flat closure. The smooth action morphism G^fix×M_loc→M_loc is not asserted to be a torsor.
 
 Assume the very-good Hodge setup of Conventions.
 
-(KPZ, Theorem 7.1.3, pp.72–73; §7.3.1(1), p.85; KP Proposition 4.2.6, p.186, for the extension of the de Rham tensors).
+(KPZ, Theorem 7.1.3, pp.72–73; §7.3.1(1), p.85; KP Proposition 4.2.6, p.186, for the extension of the de Rham tensors when G_Qp splits over a tame extension).
 
 *Proof sketch.* KPZ proves the tensor-compatible local-model comparison under very-goodness, with smoothness of the frame-to-filtration map. Glue local tensor frames and identify the deformation map with the local-model action chart using the very-good trivialization.
 
