@@ -383,6 +383,8 @@ projection `e` within `1/2` by a self-adjoint `x ∈ 𝔪_{τ_n}`, so that `e/2 
   `a, b ∈ 𝔫_τ`, while `xx*` has the single nonzero entry `aa* + bb*`.
 - For `B = ℂ` and `τ = id`, `τ_n` is `Tr` on `M_n(ℂ)`, and the projection
   `[[1/2, 1/2], [1/2, 1/2]]` has `τ₂ = 1` although neither diagonal entry is `1`.
+- On `B = ℂ`, `x = [[1, 1], [1, 1]] ≥ 0` has `τ₂(x) = 2`; summing all entries instead gives `4`,
+  which is not invariant under the unitary carrying `x` to `diag(2, 0)`, whose entries sum to `2`.
 
 ### Examples
 
@@ -456,10 +458,12 @@ conjugate-linear isometric involution `J_τΛ(x) = Λ(x*)` with `J_τπ_τ(a)J_�
   semicontinuous trace, `τ̄(π_τ(x)) = τ(x)` for every `x ∈ B₊` (Dixmier 1963, Lemme 7, pp. 231–232,
   and Proposition 2 (i), p. 233). Consequently `τ` is faithful iff `π_τ` is injective.
 - Uniqueness (`IsTrace.eq_of_normal_extension`): if `τ` is densely defined and lower semicontinuous,
-  `τ̄` is the only normal semifinite trace `θ` on `M_τ` with `θ ∘ π_τ = τ` on `B₊`, and more
-  generally two normal semifinite traces on `π(B)''` that agree with `τ` along a nondegenerate
-  representation `π` agree on `π(B)''₊`. Route: C1.5's net `e_{F,δ}` inside `𝔪_τ⁺` increases with
-  `F` and as `δ` decreases (`t ↦ t(δ + t)⁻¹` is operator monotone and decreasing in `δ`) and is an
+  `τ̄` is the only normal semifinite trace `θ` on `M_τ` with `θ ∘ π_τ = τ` on `B₊`; more generally,
+  for a densely defined trace `τ`, two normal semifinite traces on `π(B)''` that agree with `τ`
+  along a nondegenerate representation `π` agree on `π(B)''₊` (such a `τ` is then lower
+  semicontinuous, `θ ∘ π` being a supremum of the bounded functionals `x ↦ θ(eπ(x)e)` over the
+  finite-trace projections `e` of V6). Route: C1.5's net `e_{F,δ}` inside `𝔪_τ⁺` increases with `F`
+  and as `δ` decreases (`t ↦ t(δ + t)⁻¹` is operator monotone and decreasing in `δ`) and is an
   approximate unit of `B`, so `π_τ(e) ↑ 1` strongly; normality and the trace property give
   `θ(T) = sup_e θ(π_τ(e)^{1/2}Tπ_τ(e)^{1/2})` for `T ∈ M_τ₊`; for fixed `e` the functionals
   `T ↦ θ(π_τ(e)^{1/2}Tπ_τ(e)^{1/2})` and `T ↦ τ̄(π_τ(e)^{1/2}Tπ_τ(e)^{1/2})` are normal, bounded by
@@ -517,6 +521,21 @@ and `(π', θ')` are quasi-equivalent if a star isomorphism `Φ : π(B)'' → π
 
 - The amplification `(π_τ ⊕ π_τ, T ⊕ T ↦ τ̄(T))` is quasi-equivalent to `(π_τ, τ̄)` and induces
   `τ`, while `(π_τ, 2τ̄)` induces `2τ` and is not quasi-equivalent to `(π_τ, τ̄)` when `τ ≠ 0`.
+- The identity representation of `K(ℓ²)` on `ℓ²` with the canonical trace `Tr` of `B(ℓ²)` is a
+  normal representation inducing `Tr`; it is quasi-equivalent to `(π_Tr, τ̄)` on the
+  Hilbert–Schmidt operators, an infinite multiple of it, and not unitarily equivalent to it.
+- Evaluation at a point `x₀` of `X` on `C₀(X)`, with the faithful normal trace `θ(λ) = ∞·λ` on
+  `ℂ`, is not a normal representation, since `𝔪_θ = 0`; `θ ∘ π` is the non-semifinite trace of
+  Tr1.2, which is why the bijection is restricted to semifinite traces.
+
+### Examples
+
+- `(K(ℓ²), Tr)`: `H_Tr` is the Hilbert–Schmidt operators, `M_Tr = B(ℓ²)` and `τ̄` is the canonical
+  trace on `B(ℓ²)₊` (Tr2.2).
+- `(C₀(X), τ_μ)`: `H = L²(X, μ)`, `M_τ` is the multiplication algebra of `L^∞(X, μ)` and
+  `τ̄(g) = ∫ g dμ`; for Lebesgue measure on `ℝ`, `M_τ = L^∞(ℝ)`.
+- Tracial states: `(π_τ, τ̄)` is the GNS representation with its vector trace
+  (AmenableTracesOnCStarAlgebras §1.4).
 
 ### Dependencies
 
@@ -561,8 +580,9 @@ Throughout, `τ` is a semifinite lower semicontinuous trace and `1 ≤ p < ∞`.
   (`CFC.abs_nnrpow_two`); `J₁ = 𝔪_τ` (`IsTrace.traceIdeal_one`), with `|τ(b)| ≤ ‖b‖_{τ,1}` for the
   linear extension. Route for `J₁ ⊆ 𝔪_τ`: `J₁` is self-adjoint, so the real and imaginary parts of
   `b ∈ J₁` lie in `J₁`, and a self-adjoint `h ∈ J₁` has `τ(h₊) + τ(h₋) = τ(|h|) < ∞`.
-- Cyclicity: `τ(ab) = τ(ba)` for `a ∈ J_p`, `b ∈ J_q`, `1/p + 1/q = 1` (NoncommutativeIntegration
-  §2.1 through Tr3.1), and for `a ∈ J₁`, `b ∈ B^†` (Tr1.1).
+- Cyclicity: `τ(ab) = τ(ba)` for `a ∈ J_p`, `b ∈ J_q`, `1/p + 1/q = 1`
+  (`IsTrace.linearMap_mul_comm_of_mem_traceIdeal`; NoncommutativeIntegration §2.1 through Tr3.1),
+  and for `a ∈ J₁`, `b ∈ B^†` (Tr1.1).
 
 *Needs:* Tr3.1; VonNeumannAlgebras V10.TracialLp; NoncommutativeIntegration §§1.4, 2.1.
 
@@ -601,7 +621,7 @@ Throughout, `τ` is a semifinite lower semicontinuous trace and `1 ≤ p < ∞`.
   `⟪a₀*, a₁⟫`. The bound `p ≤ m + 1` is needed: `a₀ = a₁ = diag(n^{−1/2})` lies in `S_3`, and
   `a₀a₁ = diag(1/n)` is not trace class.
 
-### 3.4 Examples (Tr3.4)
+### 3.4 The compact, commutative and τ-compact cases (Tr3.4)
 
 - Compact operators: for `B = K(H)` and `τ = Tr`, `M_τ = B(H)`, `τ̄ = Tr`, and `J_p = S_p`
   (NoncommutativeIntegration §1.5; OperatorIdeals Part B), with `J₁` the trace class and `J₂` the
@@ -622,6 +642,21 @@ Throughout, `τ` is a semifinite lower semicontinuous trace and `1 ≤ p < ∞`.
 
 *Needs:* Tr3.1–Tr3.3; VonNeumannAlgebras V1, V6, V10.TracialLp; NoncommutativeIntegration §1.5;
 OperatorTheory/OperatorIdeals Part B.
+
+**Checks.**
+
+- For `N = B(H)` and `Tr`, `K_N = K(H)`.
+- For `N = L^∞(ℝ)` and Lebesgue measure, `K_N = {f : |{|f| > ε}| < ∞ for all ε > 0}`, which
+  contains `(1 + t²)^{−1/2}` and not `1`.
+- If `τ(1) < ∞`, then `K_N = N`.
+
+### Examples
+
+- `(K(H), Tr)`: `J_p = S_p`, the Schatten classes (Tr3.4).
+- `(C₀(X), τ_μ)`: `J_p = C₀(X) ∩ Lᵖ(μ)` (Tr3.4).
+- `(K_N, τ)` for a semifinite von Neumann algebra: `J_p = N ∩ Lᵖ(N, τ)`, and `J₁` is the trace
+  ideal of Hochs–Kaad–Schemaitat (Tr3.4).
+- Bounded traces: `J_p = B` (Tr3.4).
 
 ### Dependencies
 
@@ -718,6 +753,14 @@ the bijection restricts, under `τ_*[1] = 1`, to CStarClassification §3.4's
   homomorphisms `x ↦ cx`, `c ≥ 0`, are the pairings of the multiples of `τ_CAR ⊗ Tr`.
 - Outside AF algebras injectivity fails, by the `C₀(ℝ)` check of Tr4.2.
 
+### Examples
+
+- `(K, Tr)`: `K₀(J_p) = K₀(S_p) ≅ ℤ` and `Tr_*` is the inclusion `ℤ ⊆ ℝ` (Tr4.1–Tr4.2).
+- `(C₀(ℝ²), Lebesgue)`: `τ_*` vanishes on the Bott class (Tr4.2).
+- Dixmier traces on `K`: densely defined traces with `τ_* = 0` (Tr4.2).
+- `M_{2^∞} ⊗ K`: the traces `c·τ_CAR ⊗ Tr` correspond to the positive homomorphisms
+  `ℤ[1/2] → ℝ` (Tr4.3).
+
 ### Dependencies
 
 Tr1–Tr3; OperatorKTheory K1–K2, K1.5, K2.3, K3.5; NoncommutativeGeometry N2, N4;
@@ -758,11 +801,12 @@ roadmaps whose statements this one extends, and which can consume it.
   [arXiv:2204.01125](https://arxiv.org/abs/2204.01125), version of December 2023: Theorem 1.1.1,
   Combes's theorem (Tr1.2); Appendix D.1.2, Lemmas D.1.14–D.1.15, traces on AF algebras (Tr4.3).
 - Johan Kustermans and Stefaan Vaes, *Weight theory for C*-algebraic quantum groups*,
-  [arXiv:math/9901063](https://arxiv.org/abs/math/9901063): Theorem 1.6, Combes's theorem
-  (Tr1.2); Proposition 1.7, closedness of the GNS map and nondegeneracy of the GNS representation
-  of a lower semicontinuous weight (Tr2.1); Definition 2.10 and Proposition 2.22,
-  the normal extension of a weight, faithful for KMS weights, of which traces are the case of the
-  trivial flow (Tr2.2).
+  [arXiv:math/9901063](https://arxiv.org/abs/math/9901063): Theorem 1.6, Combes's theorem (Tr1.2);
+  Proposition 1.7, closedness of the GNS map and nondegeneracy of the GNS representation of a lower
+  semicontinuous weight (Tr2.1); Definition 2.10 and Proposition 2.22, the normal semifinite
+  extension of a proper (nonzero, densely defined, lower semicontinuous) weight, faithful for KMS
+  weights; densely defined lower semicontinuous traces are the case of the trivial flow, and the
+  semifinite case without density is Dixmier's (Tr2.2).
 - Peter Hochs, Jens Kaad and André Schemaitat, *Algebraic K-theory and a semifinite
   Fuglede–Kadison determinant*, Ann. K-Theory 3 (2018), 193–206,
   [arXiv:1608.07395](https://arxiv.org/abs/1608.07395): §6.2, the trace ideal `L¹_τ(N)` of a

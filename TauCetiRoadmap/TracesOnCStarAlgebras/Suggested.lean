@@ -37,7 +37,8 @@ Headline theorems of the README that are not statable at the pins, and the carri
   classification of Tr4.3. Neither Mathlib nor Tau Ceti has `K₀` or `K₁` of a C*-algebra or of a
   Banach algebra.
 
-The examples of Tr1 and Tr3.4 and the multilinear trace forms of Tr3.3 are not stated here.
+The examples of Tr1 and Tr3.4 are not stated here; of the multilinear trace forms of Tr3.3 the
+bilinear cyclicity of Tr3.2 is stated, from which the others follow by Hölder's inequality.
 -/
 
 @[expose] public section
@@ -214,11 +215,10 @@ theorem IsTrace.exists_normal_extension {τ : B → ℝ≥0∞} (hτ : IsTrace �
       (IsFaithful τ ↔ Function.Injective π) := by
   sorry
 
-/-- **Uniqueness of the normal extension** for a densely defined lower semicontinuous trace: two
-normal semifinite traces on `π(B)''` that agree with `τ` along a nondegenerate `π` agree on the
-positive cone (README, Tr2.2). -/
-theorem IsTrace.eq_of_normal_extension {τ : B → ℝ≥0∞} (hτ : IsTrace τ)
-    (hlsc : LowerSemicontinuousOn τ {x : B | 0 ≤ x}) (hd : IsDenselyDefined τ)
+/-- **Uniqueness of the normal extension** for a densely defined trace: two normal semifinite
+traces on `π(B)''` that agree with `τ` along a nondegenerate `π` agree on the positive cone
+(README, Tr2.2). Lower semicontinuity of `τ` is not assumed: it follows, since `θ₁ ∘ π = τ`. -/
+theorem IsTrace.eq_of_normal_extension {τ : B → ℝ≥0∞} (hτ : IsTrace τ) (hd : IsDenselyDefined τ)
     {H : Type u} [NormedAddCommGroup H] [InnerProductSpace ℂ H] [CompleteSpace H]
     (π : B →⋆ₙₐ[ℂ] (H →L[ℂ] H)) (hπ : π.IsNondegenerate) {θ₁ θ₂ : (H →L[ℂ] H) → ℝ≥0∞}
     (h₁ : IsNormalSemifiniteTrace (VonNeumannAlgebra.adjoin (Set.range π)) θ₁)
@@ -282,6 +282,17 @@ theorem IsTrace.traceGauge_mul_le {τ : B → ℝ≥0∞} (hτ : IsTrace τ)
     (hlsc : LowerSemicontinuousOn τ {x : B | 0 ≤ x}) (hsf : IsSemifinite τ) {p q r : ℝ≥0}
     (hr : 1 ≤ r) (hp : 0 < p) (hq : 0 < q) (hpqr : (r : ℝ)⁻¹ = (p : ℝ)⁻¹ + (q : ℝ)⁻¹) (a b : B) :
     traceGauge τ r (a * b) ≤ traceGauge τ p a * traceGauge τ q b := by
+  sorry
+
+/-- **Cyclicity** of the trace pairing: `τ (a b) = τ (b a)` for `a ∈ J_p`, `b ∈ J_q`,
+`1 / p + 1 / q = 1`, where `τ` is the linear extension `f` to `𝔪_τ` and `a b, b a ∈ 𝔪_τ` by
+Hölder's inequality and `J₁ = 𝔪_τ` (README, Tr3.2). -/
+theorem IsTrace.linearMap_mul_comm_of_mem_traceIdeal {τ : B → ℝ≥0∞} (hτ : IsTrace τ)
+    (hlsc : LowerSemicontinuousOn τ {x : B | 0 ≤ x}) (hsf : IsSemifinite τ) {p q : ℝ≥0}
+    (hp : 1 < p) (hpq : (p : ℝ)⁻¹ + (q : ℝ)⁻¹ = 1) (f : domain τ →ₗ[ℂ] ℂ)
+    (hf : ∀ x (hx : x ∈ finitePart τ), f ⟨x, Submodule.subset_span hx⟩ = ((τ x).toReal : ℂ))
+    {a b : B} (ha : a ∈ traceIdeal τ p) (hb : b ∈ traceIdeal τ q) :
+    ∃ (hab : a * b ∈ domain τ) (hba : b * a ∈ domain τ), f ⟨a * b, hab⟩ = f ⟨b * a, hba⟩ := by
   sorry
 
 /-- **Completeness** of `J_p` for `‖b‖ + ‖b‖_{τ,p}`: a sequence of `J_p` that is Cauchy for both
