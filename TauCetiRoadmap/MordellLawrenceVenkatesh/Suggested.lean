@@ -8,15 +8,15 @@ import TauCeti.AlgebraicGeometry.Cohomology.Genus
 `README.md`. This file states the roadmap’s headline theorems against the pinned APIs;
 discharging them finishes neither a layer nor the roadmap.
 
-The statements are the semilinear centralizer dimension bound (§0.4, LV20 Lemma 2.1), the
-Jordan–Schönflies extension theorem (§5.2), S-unit finiteness (§6.10, LV20 Theorem 4.1), and
-Mordell finiteness (§11.6, LV20 Theorem 5.4). The latter two specify the Lawrence–Venkatesh
-proofs of the statements owned by DiophantineApproximationAndTranscendence §2.4 and
+The statements are the semilinear centralizer dimension bound (§0.4, LV20 Lemma 2.1), S-unit
+finiteness (§6.10, LV20 Theorem 4.1), and Mordell finiteness (§11.6, LV20 Theorem 5.4). The
+latter two specify the Lawrence–Venkatesh proofs of the statements owned by
+DiophantineApproximationAndTranscendence §2.4 and
 HeightsRationalPointsAndObstructions §§5.12, 6.4. They use native S-unit subgroups and
 morphisms over `Spec K`; the native scheme genus requires finite-dimensional H¹(𝒪).
 
-The other headline statements need interfaces absent from Mathlib `6b7abb3` and Tau Ceti
-`a91d3aa`. Faltings's representation finiteness and friendly-place Hodge-weight identities
+The other headline statements need interfaces absent from Mathlib `1b1ccf4` and Tau Ceti
+`2fd255d`. Faltings's representation finiteness and friendly-place Hodge-weight identities
 (§§1.2, 1.11, 1.13, 1.15) need continuous arithmetic representations with ramification,
 purity, integral Frobenius polynomials and de Rham realizations. Frobenius-compatible
 Gauss–Manin transport (§2.11), period-image density and finite preimages (§§3.18–3.19),
@@ -56,7 +56,7 @@ def semilinearCentralizer (σ : E →+* E) (hσ : ∀ a : F, σ (algebraMap F E 
     rw [hf v, hg v, map_add]
   algebraMap_mem' := by
     intro a v
-    simp only [Algebra.algebraMap_eq_smul_one, LinearMap.smul_apply, Module.End.one_apply]
+    simp only [Algebra.algebraMap_eq_smul_one, LinearMap.smul_apply, one_apply_eq_self]
     rw [← IsScalarTower.algebraMap_smul E a v, φ.map_smulₛₗ, hσ,
       IsScalarTower.algebraMap_smul]
 
@@ -70,18 +70,6 @@ theorem finrank_semilinearCentralizer_le [FiniteDimensional E V] (σ : E →+* E
   sorry
 
 end SemilinearCentralizer
-
-/-! ## Layer 5: Surfaces, mapping class groups and lifted twists -/
-
-/-- Every homeomorphism between two embedded plane circles extends to the whole plane.
-README 5.2; Gallier–Xu, Appendix E, Theorem E.1, p. 160. -/
-theorem schoenflies_extension
-    (c₁ c₂ : Circle → EuclideanSpace ℝ (Fin 2))
-    (h₁ : Topology.IsEmbedding c₁) (h₂ : Topology.IsEmbedding c₂)
-    (f : Set.range c₁ ≃ₜ Set.range c₂) :
-    ∃ F : EuclideanSpace ℝ (Fin 2) ≃ₜ EuclideanSpace ℝ (Fin 2),
-      ∀ x : Set.range c₁, F x = (f x : EuclideanSpace ℝ (Fin 2)) := by
-  sorry
 
 /-! ## Layer 6: The S-unit theorem -/
 

@@ -51,7 +51,11 @@ This roadmap owns:
    their classification, homology and intersection forms, simple closed curves, mapping class groups,
    Dehn twists and their action on homology, point-pushing and the Birman exact sequence, capping,
    surjectivity of the symplectic representation, configuration fibrations, and lifts of twists and
-   point-pushes to finite covers.
+   point-pushes to finite covers. Its mapping class groups and Dehn twists are those of topological
+   surfaces with punctures and marked points, built from homeomorphisms as point-pushing and covers
+   require; GeometricTopology Layer 1.7.2 owns the mapping class groups of compact smooth surfaces,
+   built from diffeomorphisms, and their Dehn twists, and its twist `T_c` is the inverse of the
+   twist of 5.11.
 7. **The Kodaira–Parshin family** (Layers LV.8–LV.10): surjections onto a centre-free group that are
    nontrivial on a peripheral class, Hurwitz spaces of covers branched at one point and their descent,
    the idempotents of `ℚ[Aff(q)]`, the reduced relative Prym, `Aff(q)`-covers of surfaces with their
@@ -82,7 +86,7 @@ It uses, and does not redevelop:
 - The Legendre coefficient model over every commutative ring, with its discriminant, `c₄`, ellipticity
   criterion and `j`-invariant (EllipticLegendreCharacterInterfaces §§0.1, 0.4);
 - The one-dimensional affine group `TauCeti.AffineGroup F = F ⋊ F^×` with its translation and linear
-  subgroups, its order and its Frobenius-group structure (Tau Ceti at `a91d3aa`,
+  subgroups, its order and its Frobenius-group structure (Tau Ceti at `2fd255d`,
   `TauCeti/GroupTheory/SpecificGroups/Affine/Basic.lean`); this roadmap adds the permutation-group statements
   about `Aff(q)` that the covers need;
 - Chebotarev density, global and local Artin reciprocity and the unramified local theory
@@ -191,7 +195,7 @@ numbers `k.n` refer to this document; `LV20` is the paper of Lawrence and Venkat
 
 ## Exact supplier contracts
 
-### From Mathlib (pinned at `6b7abb3`)
+### From Mathlib (pinned at `1b1ccf4`)
 
 - Fields and Galois theory: `Field.exists_primitive_element`, `IsGalois.of_fixed_field`, `FixedPoints.finrank_eq_card`,
   `InfiniteGalois.fixedField_fixingSubgroup`, `InfiniteGalois.fixingSubgroup_fixedField`, the Kummer-theory results
@@ -209,7 +213,7 @@ numbers `k.n` refer to this document; `LV20` is the paper of Lawrence and Venkat
   `LinearMap.BilinForm.finrank_orthogonal`, `LinearMap.transvection`, `LinearEquiv.transvection` (for a form `f` and a vector
   `v` with `f v = 0`), `Matrix.SL2.transvection_induction` (over a field, not integral symplectic generation),
   `Module.finrank_baseChange`, `Module.Flat.ker_lTensor_eq`, `Ideal.quotientInfRingEquivPiQuotient`,
-  `Submodule.le_of_le_smul_of_le_jacobson_bot` (Nakayama), `IsSemisimpleRing.exists_algEquiv_pi_matrix_divisionRing`
+  `Submodule.le_of_le_smul_of_le_jacobson` (Nakayama), `IsSemisimpleRing.exists_algEquiv_pi_matrix_divisionRing`
   (Wedderburn–Artin), `Representation` and `Representation.asModule`, `AffineEquiv`, `CharacterModule` with
   `CharacterModule.dual_surjective_of_injective`, and `AddChar.card_eq`.
 - Grassmannians: `Module.Grassmannian` (submodules with finite projective quotient of constant rank — the quotient
@@ -231,7 +235,7 @@ numbers `k.n` refer to this document; `LV20` is the paper of Lawrence and Venkat
   `AlgebraicTopology.singularHomologyFunctor`, `CategoryTheory.PreGaloisCategory.IsFundamentalGroup`, and
   `Subgroup.closure_mul_image_eq` (Schreier).
 
-### From Tau Ceti (pinned at `a91d3aa`)
+### From Tau Ceti (pinned at `2fd255d`)
 
 - Number fields: `NumberField.artinSymbol`, `NumberField.exists_isArithFrobAt`, `NumberField.Chebotarev.frobeniusPrimeSet`,
   `NumberField.Chebotarev.mem_frobeniusPrimeSet_galEquivProd_symm_iff`, `IsCyclotomicExtension.galEquivProd` (for `L/K`
@@ -251,6 +255,13 @@ numbers `k.n` refer to this document; `LV20` is the paper of Lawrence and Venkat
   path-connected, semilocally simply connected space are functors on the fundamental groupoid),
   `TauCeti.FiniteCoveringSpace.instProfiniteCompletionIsFundamentalGroup`, and
   `TauCeti.LocalCoefficientSystem.monodromyRepresentation` with its transport API.
+- Plane topology, for §5.2: the Schoenflies theorem
+  `TauCeti.IsJordanCurve.exists_homeomorph_image_sphere`
+  (`TauCeti/Analysis/Complex/Conformal/Jordan/Schoenflies.lean`: for a Jordan curve `C ⊆ ℂ`, a
+  homeomorphism of `ℂ` carrying the unit circle onto `C` and the closed unit disk onto
+  `filledHull C`), and the cone `Homeomorph.sphereCone σ : ℂ ≃ₜ ℂ` over a homeomorphism `σ` of
+  the unit circle, which agrees with `σ` on the circle (`Homeomorph.sphereCone_apply_coe`,
+  `TauCeti/Analysis/Normed/Module/Ball/Radial/Cone.lean`).
 - At this pin: symplectic bases over any field (`LinearAlgebra/BilinearForm/SymplecticBasis`,
   used in 3.2 and 0.17); the tower compatibility of local Frobenius
   `frobeniusAlgEquiv_restrictScalars_restrictNormal` with `orderOf_frobeniusAlgEquiv` (used in
@@ -283,8 +294,6 @@ numbers `k.n` refer to this document; `LV20` is the paper of Lawrence and Venkat
 ### From TauCetiRoadmap roadmaps
 
 - **HeightsAndUnits** §4.2 owns the S-unit API; §6.1 consumes its pinned finite-generation result.
-- **ConformalMapping** L5 supplies Jordan separation and filled-hull topology on `TauCeti.IsJordanCurve`,
-  including the two complementary components and their frontiers, for §5.2.
 - **ReductiveGroups** Layers 2, 3, 6 and 7: Lie algebras of smooth affine groups and the adjoint representation; closed
   subgroup schemes, quotients and identity components; centres and semisimple groups; split structure theory.
   §§3A.1–3A.2 supply geometric orbit maps, stabilizer fibres, reduced locally closed orbits and
@@ -837,7 +846,7 @@ proves this extension; the direct image-algebra proof below fixes the test-set u
 
 **Theorem.** Let `K` be a number field, `T` a finite set of finite places, `p` a prime and `d ≥ 1`. There is a finite set `T′` disjoint from `T` such that, for any two continuous representations `ρ₁, ρ₂ : G_K → GL_d(ℚ_p)` unramified outside `T`, equality of their traces on arithmetic Frobenius at every `v ∈ T′` implies equality of their traces on every `g ∈ G_K`. If the two representations are semisimple, they are isomorphic. Frobenius traces are independent of the chosen lift because inertia acts trivially.
 
-*Proof sketch.* Hermite–Minkowski makes the set of Galois extensions of `K` of degree at most `p^{2d²}`, unramified outside `T`, finite. For each such extension and each conjugacy class choose a Frobenius place outside `T` by Chebotarev. Their union is `T′`. Choose stable `ℤ_p`-lattices for the two representations, possible because their images are compact. Let `M` be the `ℤ_p`-span of the image of `ρ₁ × ρ₂` in `M_d(ℤ_p) × M_d(ℤ_p)`. It is a finite free algebra of rank at most `2d²`. The finite image in `(M/pM)^×` has order at most `p^{2d²}`, and its corresponding extension is unramified outside `T`. Every element of that image is conjugate to a chosen Frobenius image. Take all `G_K`-conjugates of the chosen Frobenius lifts, not just one lift per conjugacy class. The trace difference vanishes on them by conjugation invariance, and their classes span `M/pM` because group images span `M`. Nakayama shows that these lifts span `M`. The trace difference therefore vanishes on `M` and on every Galois element. Apply the semisimple trace criterion for the final assertion. (Del85, Théorème 3.1 and proof, printed p. 40, PDF p. 17; Fal83, §6, proof of Satz 5, printed pp. 362–363.) *Needs:* ArithmeticGaloisRepresentations §§1.6, 1.8; ArithmeticGaloisDuality §R02.3.1; TauCetiRoadmap Chebotarev Layer 10; compact-image stable lattices from ArithmeticGaloisRepresentations; Mathlib `Submodule.le_of_le_smul_of_le_jacobson_bot`.
+*Proof sketch.* Hermite–Minkowski makes the set of Galois extensions of `K` of degree at most `p^{2d²}`, unramified outside `T`, finite. For each such extension and each conjugacy class choose a Frobenius place outside `T` by Chebotarev. Their union is `T′`. Choose stable `ℤ_p`-lattices for the two representations, possible because their images are compact. Let `M` be the `ℤ_p`-span of the image of `ρ₁ × ρ₂` in `M_d(ℤ_p) × M_d(ℤ_p)`. It is a finite free algebra of rank at most `2d²`. The finite image in `(M/pM)^×` has order at most `p^{2d²}`, and its corresponding extension is unramified outside `T`. Every element of that image is conjugate to a chosen Frobenius image. Take all `G_K`-conjugates of the chosen Frobenius lifts, not just one lift per conjugacy class. The trace difference vanishes on them by conjugation invariance, and their classes span `M/pM` because group images span `M`. Nakayama shows that these lifts span `M`. The trace difference therefore vanishes on `M` and on every Galois element. Apply the semisimple trace criterion for the final assertion. (Del85, Théorème 3.1 and proof, printed p. 40, PDF p. 17; Fal83, §6, proof of Satz 5, printed pp. 362–363.) *Needs:* ArithmeticGaloisRepresentations §§1.6, 1.8; ArithmeticGaloisDuality §R02.3.1; TauCetiRoadmap Chebotarev Layer 10; compact-image stable lattices from ArithmeticGaloisRepresentations; Mathlib `Submodule.le_of_le_smul_of_le_jacobson`.
 
 **Checks.**
 
@@ -1728,9 +1737,9 @@ family of branched covers over a configuration space with lifted point-pushing.
 
 ### 5.2 The Jordan–Schönflies theorem
 
-**Theorem.** Every homeomorphism between two simple closed curves in the plane `ℝ²` extends to a homeomorphism of `ℝ²`. In particular the closure of the bounded complementary component of a simple closed curve is homeomorphic to the closed disk (`schoenflies_extension`). The signature uses embeddings of Mathlib’s `Circle` into the real plane, their range homeomorphism, and its extension to a plane homeomorphism.
+**Theorem.** Every homeomorphism between two simple closed curves in the plane `ℝ²` extends to a homeomorphism of `ℝ²`. In particular the closure of the bounded complementary component of a simple closed curve is homeomorphic to the closed disk.
 
-*Proof sketch.* Consume Jordan separation to identify the bounded and unbounded complementary components and their common frontier. Thomassen's extension proof extends the boundary homeomorphism over these components, giving a homeomorphism of the whole plane. (GX13, Appendix `E`, Theorem `E`.1, p. 160, referring to Thomassen, Theorem 3.1.) *Needs:* ConformalMapping L5, Jordan separation and filled-hull topology on `TauCeti.IsJordanCurve`.
+*Proof sketch.* Identify `ℝ²` with `ℂ`, so that the two curves `C₁, C₂` are Jordan curves and `f : C₁ → C₂` is the given homeomorphism. The pinned Schoenflies theorem gives homeomorphisms `e₁, e₂` of `ℂ` with `eᵢ(S¹) = Cᵢ`; the map `σ = e₂⁻¹ ∘ f ∘ e₁` is then a homeomorphism of the unit circle `S¹`, and its cone `Homeomorph.sphereCone σ` is a homeomorphism of `ℂ` that agrees with `σ` on `S¹`. Hence `e₂ ∘ Homeomorph.sphereCone σ ∘ e₁⁻¹` restricts to `f` on `C₁`. For the closed-disk statement, the pinned theorem's `eᵢ` also carries the closed unit disk onto `filledHull Cᵢ`, the union of `Cᵢ` and its bounded complementary component. (GX13, Appendix `E`, Theorem `E`.1, p. 160.) *Needs:* Tau Ceti `TauCeti.IsJordanCurve.exists_homeomorph_image_sphere`, `Homeomorph.sphereCone`, `Homeomorph.sphereCone_apply_coe`.
 
 **Checks.**
 
