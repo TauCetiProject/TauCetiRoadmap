@@ -80,7 +80,9 @@ error.
 - Tau Ceti: the isometric embedding `LinearMap.polarIsometry` of an injective map
   (`Polar/Isometry.lean`), `LinearMap.exists_linearIsometryEquiv_eq_polarFactor` for an
   injective map between spaces of equal dimension (`Polar/Finite.lean`), the Hermitian dilation
-  `LinearMap.hermitianDilation` (`HermitianDilation/Basic.lean`), and the unitary factor
+  `LinearMap.hermitianDilation` (`HermitianDilation/Basic.lean`) with the multiplicities of its
+  eigenvalues `LinearMap.finrank_eigenspace_hermitianDilation_eq_adjoint_comp_self`
+  (`HermitianDilation/Spectrum.lean`), and the unitary factor
   `Units.polarUnitary` of a unit of a star-ordered algebra with a
   real functional calculus (`TauCeti/Analysis/SpecialFunctions/ContinuousFunctionalCalculus/Polar`),
   applied to `Matrix n n 𝕜`, and the real continuous functional calculus on `E →L[𝕜] E`
@@ -222,7 +224,10 @@ For `A, B : E →ₗ[𝕜] F` and every `k`, the sum of the `k` largest values o
 invariant seminorm `N`, `N` of any map with singular values `|σᵢ(A) − σᵢ(B)|` is at most
 `N(A − B)`. Tau Ceti's `LinearMap.abs_singularValues_sub_singularValues_le` (OI-A50) is the
 case `k = 1`. (Proved here by applying Lidskii's inequality to the Hermitian dilations
-`LinearMap.hermitianDilation` of `A` and `B`, whose eigenvalues are `±σᵢ`.)
+`LinearMap.hermitianDilation` of `A` and `B`: the nonzero eigenvalues of the dilation of `A`
+are `±σᵢ(A)` for `i < rank A`, with multiplicity
+(`LinearMap.finrank_eigenspace_hermitianDilation_eq_adjoint_comp_self`), so its `i`-th largest
+eigenvalue is `σᵢ(A)` and its `i`-th smallest `−σᵢ(A)` for `i < min(finrank E, finrank F)`.)
 
 **Checks.**
 
@@ -287,8 +292,8 @@ p. 5.)
 
 ### Dependencies
 
-2.1 uses OI-A50 and Majorization; 2.2 uses 1.3, 2.1 and Fan dominance; 2.3 uses 1.1–1.3 and
-PD-B19.
+2.1 uses PD-A52, the Hermitian dilation and Majorization; 2.2 uses 1.3, 2.1, the Ky Fan triangle
+inequality and Fan dominance; 2.3 uses 1.1–1.3 and PD-B19.
 
 ## Layer 3: odd polynomial iterations
 
