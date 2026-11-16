@@ -1195,10 +1195,13 @@ places of §3.1. For a nondegenerate Hermitian form `H` on a free `E`-module `U`
 a free right `B`-module `X` of rank `m` with a nondegenerate skew-Hermitian form,
 `⟨xβ, yγ⟩ = β*⟨x, y⟩γ` and `⟨y, x⟩ = −⟨x, y⟩*`, define `GU_B(X)` in the same way inside
 `GL_{B⊗_F R}(X ⊗_F R) × R^×`, put `U_B(X) = ker ν`, and let `GU_B(X)°` be its identity component
-(ReductiveGroups Layer 3). Prove that `N_{E/F}(det g) = ν(g)^n` for `g ∈ GU_E(U)`, and that the
-induced Hermitian form on `⋀^rU` is a similitude for `⋀^r g` with multiplier `ν(g)^r` (IP23, §5.1
-and Proposition 5.1, pp. 25–26, with (5.1)–(5.3); the dimensions are those of the proof of
-Proposition 5.6, p. 31).
+(ReductiveGroups Layer 3). For `U ≠ 0` put `PGU_E(U) = GU_E(U)/Res_{E/F}𝔾_m`, the quotient by the
+central subgroup of `E`-scalars `α ↦ (α, N_{E/F}(α))`, and for `X ≠ 0` put
+`PGU_B(X)° = GU_B(X)°/𝔾_m`, the quotient by the central subgroup of `F`-scalars `t ↦ (t, t²)`
+(quotients by normal closed subgroups, ReductiveGroups Layer 3; IP23, §5.2, p. 27). Prove that
+`N_{E/F}(det g) = ν(g)^n` for `g ∈ GU_E(U)`, and that the induced Hermitian form on `⋀^rU` is a
+similitude for `⋀^r g` with multiplier `ν(g)^r` (IP23, §5.1 and Proposition 5.1, pp. 25–26, with
+(5.1)–(5.3); the dimensions are those of the proof of Proposition 5.6, p. 31).
 
 - Each functor is a closed subgroup scheme of `GL_F(U) × 𝔾_m`, resp. `GL_F(X) × 𝔾_m`, with `U` and
   `X` regarded as `F`-spaces, cut out by `E`- or `B`-linearity and the multiplier equation; its
@@ -1210,11 +1213,14 @@ Proposition 5.6, p. 31).
   into isotropic subspaces paired perfectly by `H`, and `(g, ν) ↦ (g|_{U₁}, ν)` identifies `GU_E(U)`
   with `GL_n × 𝔾_m`, `U_E(U)` with `GL_n` and, for `n = 4`, `GSU_E(U)` with
   `{(g₁, ν) : det g₁ = ν²}`. So these groups are smooth and connected, of dimensions `n² + 1`, `n²`
-  and `16`.
+  and `16`. An `E`-scalar with components `(a, b)` acts on `U₁` by `a` with multiplier `ab`, so for
+  `n ≥ 1` the `E`-scalars become the centre `𝔾_m × 𝔾_m` of `GL_n × 𝔾_m` and `PGU_E(U)` is smooth and
+  connected of dimension `n² − 1`.
 - Over a field `F′ ⊃ F` splitting `B`, a primitive idempotent `e` of `B ⊗_F F′ ≅ M₂(F′)` identifies
   `GU_B(X)` with the similitude group of a nondegenerate symmetric bilinear form on the
   `2m`-dimensional space `(X ⊗_F F′)e`. So `U_B(X)` has dimension `m(2m − 1)` and, for `m ≥ 1`,
-  `GU_B(X)` has dimension `m(2m − 1) + 1` and two geometric components.
+  `GU_B(X)` has dimension `m(2m − 1) + 1` and two geometric components; the `F`-scalars become the
+  scalar similitudes, of multiplier `t²`, so `PGU_B(X)°` has dimension `m(2m − 1)`.
 
 **Checks.**
 
@@ -1227,6 +1233,12 @@ Proposition 5.6, p. 31).
   when `t² = 1`.
 - For `U = 0` every `ν ∈ R^×` is a multiplier of the identity, so `GU_E(0) = 𝔾_m` and `U_E(0)` is
   trivial: the multiplier is part of the point, and only in rank zero is it not determined by `g`.
+  There `α ↦ (α, N(α))` has the norm-one torus as kernel, and on `GU_B(0) = 𝔾_m` the map
+  `t ↦ (1, t²)` has kernel `μ₂`; neither map embeds the scalars as a subgroup, so the projective
+  quotients are formed for `U ≠ 0`, resp. `X ≠ 0`.
+- For `n = 4` and the rank-three space of §1.6,
+  `dim PGU_E(U) = 17 − 2 = 15 = 16 − 1 = dim PGU_B(X)°`, as §1.8 requires; dividing `GU_E(U)` by
+  the `F`-scalars alone would give `16`.
 - For the rank-three space of §1.6, `dim U_B(X) = 15` and `dim GU_B(X)° = 16 = dim GSU_E(U)`, and
   `GU_B(X)` has two geometric components; for `m = 1`, `GU_B(X)°` has dimension `2`, as
   `GU_B(W₀)° ≃ E^×` of §2.5 requires.
