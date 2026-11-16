@@ -858,9 +858,14 @@ refined automorphic `(π_n, χ_n)` of `G_n` with `(σ_n ∘ i_2)(z_2) = i_n(z_n)
 closure of `r_{π_2,ι}(G_F)` contains `SL_2`. Prove that every irreducible component `𝒞` of
 `ℰ_2(τ̄_2)_{ℂ_p}` through `z_2` satisfies `(σ_n ∘ i_2)(𝒞) ⊂ i_n(ℰ_n(τ̄_n)_{ℂ_p})` (nt21 Theorem 2.27
 and proof, pp. 42–43). Ordinary means that the normalized `U_p`-eigenvalues are `p`-adic units. The
-printed proof uses the chosen neighbourhood as if regularity and irreducibility held throughout
-it; the argument here first shrinks `U` into `𝒳^{irr}_{ps,n} × (𝒯^{reg}_n ∩ 𝒯^{HT-reg}_n)`, which is
-Zariski open and contains `δ_n`.
+printed proof takes `U` inside the product `𝒳^{irr}_{ps,n} × 𝒯^{reg}_n` of the absolutely
+irreducible locus and the regular parameter locus, and then uses that the labelled Hodge–Tate
+weights of the parameter are pairwise distinct at every point of `U`, which that choice does not
+give (nt21 p. 43). Let `𝒯^{HT-reg}_n ⊂ 𝒯_n` be the Zariski open locus of parameters `δ` whose
+labelled weights `wt_τ(δ_{v,i})`, `1 ≤ i ≤ n`, are pairwise distinct for every `v ∈ S_p` and every
+embedding `τ`; the argument here first shrinks `U` into
+`𝒳^{irr}_{ps,n} × (𝒯^{reg}_n ∩ 𝒯^{HT-reg}_n)`, which contains `z_n` because `π_n` is regular
+algebraic.
 
 *Proof sketch.* Replace the trianguline locus by the closed subspace `𝒵^{ord}` of the flag variety
 of `G_{F_ṽ}`-stable flags in the universal representation over `U` whose graded pieces are the
