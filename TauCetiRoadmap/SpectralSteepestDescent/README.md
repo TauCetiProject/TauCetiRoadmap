@@ -462,9 +462,8 @@ per-target *Needs:* lines are authoritative.
 
 ## Downstream consumers
 
-[ManifoldOptimization](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1506), as proposed,
-uses the Frobenius nearest-point property of the polar factor (2.3) and the Euclidean descent
-lemma (5.1); this roadmap owns both.
+The proposed ManifoldOptimization roadmap uses the Frobenius nearest-point property of the
+polar factor (2.3) and the Euclidean descent lemma (5.1); this roadmap owns both.
 
 ## Provenance
 
