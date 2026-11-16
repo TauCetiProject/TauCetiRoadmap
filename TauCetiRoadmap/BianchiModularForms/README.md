@@ -200,9 +200,10 @@ coefficient ring and the group in one universe and `ℂ : Type`; nothing else pi
   `Matrix.ProjectiveSpecialLinearGroup`, `Matrix.GeneralLinearGroup.toLin`, `Projectivization`
   with its `MulAction` instance for any group acting linearly (so for `GL (Fin 2) K` and its
   subgroups), `MulAction.stabilizer`,
-  `MulAction.orbitRel.Quotient`, `Subgroup.relIndex`, `Doset`, and the Hecke ring carrier
-  `HeckeRing Δ H R` (notation `𝕋 Δ H R`, the finitely supported `R`-combinations of double
-  cosets `H\Δ/H`) of `Mathlib/NumberTheory/HeckeRing/Defs.lean`.
+  `MulAction.orbitRel.Quotient`, `Subgroup.relIndex`, the double coset `DoubleCoset.doubleCoset`
+  and its relation `DoubleCoset.setoid` (`Mathlib/GroupTheory/DoubleCoset.lean`),
+  and the Hecke ring carrier `HeckeRing Δ H R` (notation `𝕋 Δ H R`, the finitely supported
+  `R`-combinations of double cosets `H\Δ/H`) of `Mathlib/NumberTheory/HeckeRing/Defs.lean`.
 - `groupCohomology` with `H1`, `H1π`, `H1IsoOfIsTrivial : H1 A ≅ (Additive G →+ A)` for a
   trivial representation, `Rep.trivial`, and the functoriality `groupCohomology.map`.
 - `LSeries`, `LSeries.abscissaOfAbsConv`, `analyticOrderNatAt`, `Complex.Gamma`.
