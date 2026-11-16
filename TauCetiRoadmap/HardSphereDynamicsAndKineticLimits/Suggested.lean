@@ -30,14 +30,14 @@ Stated here:
 
 Every headline theorem of the roadmap is statable at the pins. Lanford's theorem itself is not
 a theorem of this roadmap: it is the proposition `HardSphere.LanfordStatement d`, defined here
-for every `d`; for `d ≥ 2` it is the statement of BGSS2023 Theorem 1 (the grand canonical gas on
-the torus), for `d = 0` it is false (README §10.4), and its proof (the BBGKY and Boltzmann
-hierarchies) is outside this roadmap. The flat position space structure of the flat torus
-`FlatTorus L` (README §1.3) is not declared here: its fields (the lift and injectivity axioms at
-the injectivity radius and the local measure axiom) are theorems of §1.3, and an instance with
-unproved fields is excluded. So `HardSphere.LanfordStatement` and its corollary take a structure
-`[FlatPositionSpace d (UnitFlatTorus d)]` as an instance argument; every such structure gives the
-same proposition (README §10.4).
+for every `d`; for `d ≥ 2` it is BGSS2023 Theorem 1 (the grand canonical gas on the torus)
+restricted to continuous data, for `d = 0` it is false (README §10.4), and its proof (the BBGKY
+and Boltzmann hierarchies) is outside this roadmap. The flat position space structure of the flat
+torus `FlatTorus L` (README §1.3) is not declared here: its fields (the lift and injectivity
+axioms at the injectivity radius and the local measure axiom) are theorems of §1.3, and an
+instance with unproved fields is excluded. So `HardSphere.LanfordStatement` and its corollary
+take a structure `[FlatPositionSpace d (UnitFlatTorus d)]` as an instance argument; every such
+structure gives the same proposition (README §10.4).
 -/
 
 namespace TauCetiRoadmap.HardSphereDynamicsAndKineticLimits
@@ -475,14 +475,17 @@ probability density `f⁰` on `𝕋^d × E` with `f⁰(x, v) ≤ C₀ exp(−β�
 datum `f⁰` such that, in the scaling `μ_ε = ε^{−(d−1)}`, at every `t ∈ [0, T₀]`: the correlation
 functions `F^ε_n(t)`, `n ≥ 1`, converge to `f(t)^{⊗n}` against every bounded continuous function and
 almost everywhere along every sequence `ε_k → 0⁺`, and `F^ε_1(t) → f(t)` in essential supremum on
-every compact set. For `d ≥ 2` it is the statement of BGSS2023 Theorem 1 (lines 316–321), the
-grand canonical form on the torus of Lanford's theorem, which that source attributes to Lanford1975
-and refers to other works to prove (lines 313–315 and 322), recovering only the convergence of
-`F^ε_1(t)` in the sense of measures (BGSS2023 Proposition 5.4.1, lines 2874–2895). GST2013 Theorem 8
-(lines 2069–2080) is the counterpart on `ℝᵈ` for a fixed number `N` of particles with
-`N ε^{d−1} = 1` (GST2013 lines 672 and 833), and Lanford1975 is likewise the fixed-`N` (canonical)
-statement (BGSS2023 lines 313–315). Its proof is outside this roadmap; for `d = 0` it is false
-(README §10.4). -/
+every compact set. For `d ≥ 2` it is BGSS2023 Theorem 1 (lines 316–321), the grand canonical
+form on the torus of Lanford's theorem, restricted to continuous data: of the probability density
+`f⁰` that theorem assumes only the bound (1.1.5) on `|f⁰| + |∇_x f⁰|` (lines 167–168), which
+implies the two bounds above and follows from them almost everywhere with `2C₀` in place of `C₀`,
+while continuity is assumed in GST2013 Theorem 4 (line 668). BGSS2023 attributes the theorem to
+Lanford1975 and refers to other works to prove it (lines 313–315 and 322), recovering only the
+convergence of `F^ε_1(t)` in the sense of measures (BGSS2023 Proposition 5.4.1, lines 2874–2895).
+GST2013 Theorem 8 (lines 2069–2080) is the counterpart on `ℝᵈ` for a fixed number `N` of
+particles with `N ε^{d−1} = 1` (GST2013 lines 672 and 833), and Lanford1975 is likewise the
+fixed-`N` (canonical) statement (BGSS2023 lines 313–315). Its proof is outside this roadmap;
+for `d = 0` it is false (README §10.4). -/
 def LanfordStatement (d : ℕ) [FlatPositionSpace d (UnitFlatTorus d)] : Prop :=
   ∀ C₀ β₀ : ℝ, 1 ≤ C₀ → 0 < β₀ → ∃ T₀ : ℝ, 0 < T₀ ∧
     ∀ f₀ : UnitFlatTorus d × EuclideanSpace ℝ (Fin d) → ℝ, Continuous f₀ → (∀ z, 0 ≤ f₀ z) →
