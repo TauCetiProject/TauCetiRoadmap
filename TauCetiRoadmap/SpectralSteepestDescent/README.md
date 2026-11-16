@@ -4,13 +4,13 @@
 finite-dimensional inner product spaces, and the polynomial iterations that approximate it. The
 polar factor is the steepest-ascent direction for the operator norm: the trace pairing puts the
 operator and nuclear norms in duality, and the polar factor is the maximizer. It is also the
-single-step Shampoo preconditioned gradient and the nearest isometry in every unitarily
-invariant norm. Odd polynomial iterations of Newton–Schulz type act on singular values alone, so
-their convergence to the polar factor is a scalar question; the roadmap settles it for the
-classical cubic and quintic iterations and gives an explicit invariant band of the quintic used
-by the Muon optimizer and the number of steps needed to enter it. It ends with a one-step
-descent guarantee for steepest descent under the operator norm, both with the exact polar factor
-and with Muon's five-step approximation.
+single-step Shampoo preconditioned gradient, and every isometric extension of it is a nearest
+isometric embedding in every unitarily invariant seminorm. Odd polynomial iterations of
+Newton–Schulz type act on singular values alone, so their convergence to the polar factor is a
+scalar question; the roadmap settles it for the classical cubic and quintic iterations and gives
+an explicit invariant band of the quintic used by the Muon optimizer and the number of steps
+needed to enter it. It ends with a one-step descent guarantee for steepest descent under the
+operator norm, both with the exact polar factor and with Muon's five-step approximation.
 
 ## Scope and ownership
 
@@ -53,29 +53,35 @@ error.
 - An **odd polynomial step** has real coefficients `c₀, …, cₙ`. It is the map
   `N_c(X) = Σⱼ cⱼ • X ∘ₗ (X† ∘ₗ X)ʲ` with scalar map `p_c(t) = Σⱼ cⱼ t^(2j+1)`. The cubic
   Newton–Schulz step is `c = (3/2, -1/2)`, `g(t) = (3t − t³)/2`. The quintic is
-  `c = (15/8, -5/4, 3/8)`, `q(t) = (15t − 10t³ + 3t⁵)/8`.
+  `c = (15/8, -5/4, 3/8)` (`quinticCoeffs`), `q(t) = (15t − 10t³ + 3t⁵)/8`.
 - **Muon's quintic** is `c = (3.4445, -4.7750, 2.0315)`, read as the exact rationals
-  `34445/10000`, `-4775/1000`, `20315/10000`, with `m(t) = 3.4445t − 4.775t³ + 2.0315t⁵`.
-  The **Muon band** is `J = [17/25, 5/4]`.
+  `34445/10000`, `-4775/1000`, `20315/10000` (`muonCoeffs`), with
+  `m(t) = 3.4445t − 4.775t³ + 2.0315t⁵`. The **Muon band** is `J = [17/25, 5/4]`.
 - The **Muon direction** with `k` steps is `muonDirection k A := N_m^[k](‖A‖_F⁻¹ • A)`, which
   is `0` at `A = 0`. The implementation constant `ε` added to `‖A‖_F` is not modelled.
 - `f^[k]` is the `k`-th iterate.
 
 ## Exact supplier contracts
 
-- [OperatorTheory/PolarDecomposition](../OperatorTheory/PolarDecomposition/README.md): PD-B11
-  to PD-B16 (the modulus `LinearMap.operatorAbs`, the canonical polar factor
-  `LinearMap.polarFactor` with `A = U |A|`, its kernel, range and partial-isometry API), PD-B19
+- [OperatorTheory/PolarDecomposition](../OperatorTheory/PolarDecomposition/README.md): PD-A29
+  (the modulus `LinearMap.operatorAbs`), PD-A52 (eigenvalue monotonicity), PD-B11 to PD-B16
+  (the canonical polar factor `LinearMap.polarFactor` with `A = U |A|`, its kernel, range and
+  partial-isometry API), PD-B19
   (`polarFactor_adjoint`), PD-B20 (`exists_linearIsometryEquiv_eqOn_polarFactor`), and PD-C28
   (the singular values of the modulus).
 - [OperatorTheory/Majorization](../OperatorTheory/Majorization/README.md): MAJ-A26
-  (`LinearMap.kyFanSum`), MAJ-A28 (`norm_sum_inner_le_kyFanSum`), MAJ-B01
+  (`LinearMap.kyFanSum`), MAJ-A28 (`norm_sum_inner_le_kyFanSum`), MAJ-A31 (the Ky Fan triangle
+  inequality `LinearMap.kyFanSum_add_le`), MAJ-B01
   (`TauCeti.UnitarilyInvariantSeminorm`), MAJ-B21 (Fan dominance `map_le_of_kyFanSum_le`), and
   MAJ-B30 to MAJ-B37 (the `opNorm`, `frobenius`, `nuclear` and `kyFan` instances and the
   nuclear singular-value formula).
 - [OperatorTheory/OperatorIdeals](../OperatorTheory/OperatorIdeals/README.md): OI-A50
   (`LinearMap.abs_singularValues_sub_singularValues_le`, the Weyl perturbation bound).
-- Tau Ceti: the unitary factor `Units.polarUnitary` of a unit of a star-ordered algebra with a
+- Tau Ceti: the isometric embedding `LinearMap.polarIsometry` of an injective map
+  (`Polar/Isometry.lean`), `LinearMap.exists_linearIsometryEquiv_eq_polarFactor` for an
+  injective map between spaces of equal dimension (`Polar/Finite.lean`), the Hermitian dilation
+  `LinearMap.hermitianDilation` (`HermitianDilation/Basic.lean`), and the unitary factor
+  `Units.polarUnitary` of a unit of a star-ordered algebra with a
   real functional calculus (`TauCeti/Analysis/SpecialFunctions/ContinuousFunctionalCalculus/Polar`),
   applied to `Matrix n n 𝕜`, and the real continuous functional calculus on `E →L[𝕜] E`
   (`TauCeti/Analysis/InnerProductSpace/ContinuousFunctionalCalculus`).
@@ -109,11 +115,12 @@ under `A, B ↦ W ∘ A ∘ V` for linear isometric equivalences `W`, `V`, and
 
 ### 1.2 Operator–nuclear duality
 
-- `|⟪D, A⟫| ≤ ‖D‖_op · N₁(A)` for all `D, A : E →ₗ[𝕜] F`.
-- `⟪U_A, A⟫ = N₁(A)`, and `‖U_A‖_op = 1` when `A ≠ 0`.
+- `|⟪D, A⟫| ≤ ‖D‖_op · N₁(A)` for all `D, A : E →ₗ[𝕜] F` (`abs_traceInner_le`).
+- `⟪U_A, A⟫ = N₁(A)` (`traceInner_polarFactor`), and `‖U_A‖_op = 1` when `A ≠ 0`.
 - Hence `N₁(A)` is the greatest value of `⟪D, A⟫` over `‖D‖_op ≤ 1`, attained at `U_A`
-  (`IsGreatest`).
-- **Maximizers.** For `‖D‖_op ≤ 1`, `⟪D, A⟫ = N₁(A)` holds if and only if `D ∘ₗ |A| = A`,
+  (`isGreatest_traceInner`).
+- **Maximizers.** For `‖D‖_op ≤ 1`, `⟪D, A⟫ = N₁(A)` holds if and only if `D ∘ₗ |A| = A`
+  (`traceInner_eq_nuclear_iff`),
   equivalently `D x = U_A x` for every `x ∈ (ker A)ᗮ`. The maximizer is unique if and only if
   `A` is injective or surjective. If `ker A ≠ ⊥` and `range A ≠ ⊤`, the maximizers are exactly
   the maps `U_A + T ∘ P`, where `P` is the orthogonal projection onto `ker A` and
@@ -141,11 +148,14 @@ maximizer; the description of all maximizers is proved here.)
 ### 1.3 Polar factor API
 
 - For `z : 𝕜` with `z ≠ 0`, `|z • A| = ‖z‖ • |A|` and `U_(z • A) = (z / ‖z‖) • U_A`. In
-  particular `U_(c • A) = U_A` for real `c > 0`, and `U_(-A) = -U_A`.
+  particular `U_(c • A) = U_A` for real `c > 0`, and `U_(-A) = -U_A` (`polarFactor_smul`).
 - The singular values of `U_A` are `1` with multiplicity `rank A` and `0` afterwards. So
   `N₁(U_A) = rank A` and `‖U_A‖_F² = rank A`.
-- `U_A` is an isometric embedding exactly when `A` is injective, and a linear isometric
-  equivalence exactly when `A` is bijective.
+- For injective `A`, `U_A` is the isometric embedding `LinearMap.polarIsometry`, and for
+  bijective `A` a linear isometric equivalence
+  (`LinearMap.exists_linearIsometryEquiv_eq_polarFactor`). Conversely, if `U_A` is an isometric
+  embedding then `A` is injective, and if it is an isometric equivalence then `A` is bijective
+  (proved here, from PD-B12 and PD-B13).
 - If `finrank E ≤ finrank F`, some `W : E →ₗᵢ[𝕜] F` agrees with `U_A` on `(ker A)ᗮ`: extend
   `U_A` by an isometry `ker A → (range A)ᗮ`, which exists since
   `finrank (ker A) ≤ finrank (range A)ᗮ`.
@@ -153,7 +163,7 @@ maximizer; the description of all maximizers is proved here.)
   `Matrix.toEuclideanLin` with the unitary factor `Units.polarUnitary` of the unit `A` of the
   star-ordered algebra `Matrix n n 𝕜`.
 
-(Proved here from PD-B11 to PD-B16 and PD-C28.)
+(Proved here from PD-A29, PD-B11 to PD-B16 and PD-C28, except the two cited declarations.)
 
 **Checks.**
 
@@ -167,16 +177,17 @@ maximizer; the description of all maximizers is proved here.)
 
 ### 1.4 The Shampoo identity
 
-Let `φ(t) = t^(-1/4)` for `t > 0` and `φ(t) = 0` for `t ≤ 0`, and `ψ(t) = t^(-1/2)` for `t > 0`
-and `ψ(t) = 0` for `t ≤ 0`. Prove, for every `A`,
+Let `φ(t) = t^(-1/4)` for `t > 0` and `φ(t) = 0` for `t ≤ 0` (`shampooWeight`), and
+`ψ(t) = t^(-1/2)` for `t > 0` and `ψ(t) = 0` for `t ≤ 0`. Prove, for every `A`,
 
 `cfc φ (A ∘ A†) ∘ A ∘ cfc φ (A† ∘ A) = U_A`, `cfc ψ (A ∘ A†) ∘ A = U_A`,
 `A ∘ cfc ψ (A† ∘ A) = U_A`.
 
-The first identity is the single-step Shampoo update. No invertibility is assumed: on the kernel
-the functions vanish. (Bernstein–Newhouse, Equations (15)–(16), p. 5, and Appendix A, Equation
-(35), p. 15, for invertible `A`; the general case is proved here. Gupta–Koren–Singer, Algorithm
-1, p. 3, give the update with accumulated preconditioners.)
+The first identity is the single-step Shampoo update (`shampoo_eq_polarFactor`). No
+invertibility is assumed: on the kernel the functions vanish. (Bernstein–Newhouse, Equations
+(15)–(16), p. 5, and Appendix A, Equation (35), p. 15, for invertible `A`; the general case is
+proved here. Gupta–Koren–Singer, Algorithm 1, p. 3, give the update with accumulated
+preconditioners.)
 
 **Checks.**
 
@@ -200,11 +211,18 @@ PolarDecomposition; 1.4 uses 1.3 and `cfc`.
 
 ### 2.1 Singular-value perturbation in Ky Fan norms
 
+- **Lidskii's inequality.** For symmetric `S`, `T` on a finite-dimensional space and every set
+  `J` of `k` indices, `Σ_{j∈J} (λⱼ(S) − λⱼ(T))` is at most the sum of the `k` largest
+  eigenvalues of `S − T`. (Proved here: shift `S − T` by its `k`-th eigenvalue, replace it by
+  its positive part using PD-A52, and compare traces.)
+
 For `A, B : E →ₗ[𝕜] F` and every `k`, the sum of the `k` largest values of
-`|σᵢ(A) − σᵢ(B)|` is at most `kyFanSum (A − B) k`. Consequently, for every unitarily
+`|σᵢ(A) − σᵢ(B)|` is at most `kyFanSum (A − B) k`
+(`sum_abs_singularValues_sub_le_kyFanSum`). Consequently, for every unitarily
 invariant seminorm `N`, `N` of any map with singular values `|σᵢ(A) − σᵢ(B)|` is at most
 `N(A − B)`. Tau Ceti's `LinearMap.abs_singularValues_sub_singularValues_le` (OI-A50) is the
-case `k = 1`. (Proved here from MAJ-A28.)
+case `k = 1`. (Proved here by applying Lidskii's inequality to the Hermitian dilations
+`LinearMap.hermitianDilation` of `A` and `B`, whose eigenvalues are `±σᵢ`.)
 
 **Checks.**
 
@@ -212,8 +230,10 @@ case `k = 1`. (Proved here from MAJ-A28.)
   sides are `2, 4`.
 - `B = 0`: both sides equal `kyFanSum A k`.
 - `A = 2 • 1`, `B = 1` on `ℝ²`: every difference is `1`, and the bound is attained.
+- Lidskii with `S = diag(2, 0)`, `T = diag(0, 1)` and `J = {1}, {2}, {1, 2}`: `1 ≤ 2`,
+  `0 ≤ 2`, `1 ≤ 1`.
 
-*Needs:* OI-A50, MAJ-A26, MAJ-A28, MAJ-B21.
+*Needs:* PD-A52, `LinearMap.hermitianDilation`, MAJ-A26, MAJ-B21.
 
 ### 2.2 The Fan–Hoffman theorem
 
@@ -221,11 +241,12 @@ Let `W : E →ₗᵢ[𝕜] F` agree with `U_A` on `(ker A)ᗮ`; one exists whene
 `finrank E ≤ finrank F`, by 1.3. For every linear isometry `Q : E →ₗᵢ[𝕜] F` and every unitarily
 invariant seminorm `N`,
 
-`N(A − W) ≤ N(A − Q) ≤ N(A + W)`.
+`N(A − W) ≤ N(A − Q) ≤ N(A + W)` (`map_sub_le_map_sub_of_eqOn_polarFactor`).
 
 The singular values of `A − W` are the values `|σᵢ(A) − 1|`, reordered, and those of `A + W`
 are `σᵢ(A) + 1`, for `i < finrank E`. The proof uses `W† ∘ A = |A|`, so that
-`(A − W)† (A − W) = (|A| − 1)²`, together with 2.1 applied to `A` and `Q`. (Fan–Hoffman,
+`(A − W)† (A − W) = (|A| − 1)²`, together with 2.1 applied to `A` and `Q` for the lower bound, and
+`Kₖ(A − Q) ≤ Kₖ(A) + Kₖ(Q) = Kₖ(A + W)` (MAJ-A31) for the upper bound (Fan–Hoffman,
 Theorem 1, p. 112, for square matrices and unitary `W`, `Q`; the rectangular and seminorm form
 is proved here by the same argument.)
 
@@ -237,7 +258,7 @@ is proved here by the same argument.)
   `‖A − U_A‖_op = 1 ≤ √(5 − 4 cos θ) = ‖A − Q‖_op ≤ 3 = ‖A + U_A‖_op`.
 - `A = 0`: every isometry `W` qualifies, and all three terms equal `N` of an isometry.
 
-*Needs:* 1.3, 2.1, MAJ-B21.
+*Needs:* 1.3, 2.1, MAJ-A31, MAJ-B21.
 
 ### 2.3 The nearest isometric embedding in Frobenius norm
 
@@ -293,7 +314,7 @@ coefficients. The cubic, quintic and Muon steps are instances. Give the three-te
 ### 3.2 Spectral form
 
 - `oddStep c X = U_X ∘ cfc (oddScalar c) |X|`.
-- `(oddStep c)^[k] X = U_X ∘ cfc ((oddScalar c)^[k]) |X|` for every `k`.
+- `(oddStep c)^[k] X = U_X ∘ cfc ((oddScalar c)^[k]) |X|` for every `k` (`oddStep_iterate_eq`).
 - The singular values of `(oddStep c)^[k] X` are the values `|(oddScalar c)^[k] (σᵢ(X))|` over
   `i < rank X`, sorted, followed by zeros.
 - If `(oddScalar c)^[k] s > 0` for every nonzero singular value `s` of `X`, then
@@ -333,7 +354,7 @@ For `X ≠ 0` and `Y = (oddStep c)^[k] X`:
 ### 3.4 Convergence and normalization
 
 - If `(oddScalar c)^[k] s → 1` for every nonzero singular value `s` of `X`, then
-  `(oddStep c)^[k] X → U_X`.
+  `(oddStep c)^[k] X → U_X` (`tendsto_oddStep_iterate`).
 - For `A ≠ 0`, `X₀ = ‖A‖_F⁻¹ • A` has `U_X₀ = U_A`, `σᵢ(X₀) = σᵢ(A) / ‖A‖_F`, and every
   nonzero singular value of `X₀` lies in `(0, 1]`. The same holds with `‖A‖_op` in place of
   `‖A‖_F`.
@@ -361,8 +382,8 @@ For `X ≠ 0` and `Y = (oddStep c)^[k] X`:
 ### 4.1 The cubic
 
 - `1 − g(t) = (1 − t)² (2 + t) / 2`.
-- For `s ∈ (0, √3)`, `g^[k] s → 1`. On `(0, 1]` the orbit is nondecreasing, and `(1, √3)`
-  is mapped into `(0, 1)`.
+- For `s ∈ (0, √3)`, `g^[k] s → 1` (`tendsto_cubic_iterate`). On `(0, 1]` the orbit is
+  nondecreasing, and `(1, √3)` is mapped into `(0, 1)`.
 - With `eₖ = 1 − g^[k] s`, `eₖ₊₁ = eₖ² (3 − eₖ) / 2`. So the convergence is quadratic, and
   `0 ≤ eₖ₊₁ ≤ (3/2) eₖ²` once `s ∈ (0, 1]`.
 - `g(√3) = 0`, so the orbit from `√3` is constant `0` after one step.
@@ -382,8 +403,8 @@ the boundary behaviour are proved here.)
 ### 4.2 The quintic
 
 - `1 − q(t) = (1 − t)³ (3t² + 9t + 8) / 8`, and `q'(t) = 15 (1 − t²)² / 8`.
-- For `s ∈ (0, 1]`, `q^[k] s → 1`, nondecreasingly, and `0 ≤ 1 − q(t) ≤ (5/2) (1 − t)³` on
-  `[0, 1]`.
+- For `s ∈ (0, 1]`, `q^[k] s → 1` (`tendsto_quintic_iterate`), nondecreasingly, and
+  `0 ≤ 1 − q(t) ≤ (5/2) (1 − t)³` on `[0, 1]`.
 
 (Proved here.)
 
@@ -399,14 +420,15 @@ the boundary behaviour are proved here.)
 
 - `m(1) = 701/1000`, and the positive fixed points of `m` are the two positive roots of
   `2.0315 t⁴ − 4.775 t² + 2.4445`, approximately `0.868` and `1.264`. So `1` is not a fixed
-  point, and for no `s` does `m^[k] s → 1`.
-- **Invariant band.** `m` maps `J = [17/25, 5/4]` into itself. `m` has its critical points in
-  `(0, 5/4]` at about `0.5545`, a local maximum, and `1.0501`, a local minimum. The image of `J`
-  lies in `[0.6818, 1.1791]`, the upper end being `m(5/4) = 1.17909912109375`.
+  point, and for no `s` does `m^[k] s → 1` (`not_tendsto_muon_iterate`).
+- **Invariant band.** `m` maps `J = [17/25, 5/4]` into itself (`mapsTo_muon_band`). `m` has its
+  critical points in `(0, 5/4]` at about `0.5545`, a local maximum, and `1.0501`, a local
+  minimum. The image of `J` lies in `[0.6818, 1.1791]`, the upper end being
+  `m(5/4) = 1.17909912109375`.
 - **Entry time.** For `s ∈ (0, 5/4]`, `m^[k] s ∈ J` for every `k ≥ K(s)`, where `K(s) = 1` for
   `s ≥ 3/10` and `K(s) = 1 + ⌈log₃ (3 / (10 s))⌉` for `s < 3/10`. The proof uses three facts:
   `m(t) ≥ 3t` and `m(t) ≤ m(3/10)` on `(0, 3/10]`, and `m([3/10, 17/25]) ⊆ J`.
-- **Five steps.** For `s ∈ [1/270, 5/4]`, `m^[5] s ∈ J`.
+- **Five steps.** For `s ∈ [1/270, 5/4]`, `m^[5] s ∈ J` (`muon_iterate_five_mem_band`).
 
 (The coefficients are Jordan et al., section *Tuning the coefficients*, which gives only the
 empirical target `[0.7, 1.3]`. The band, the entry time and the threshold `1/270` are
@@ -434,8 +456,8 @@ Layer 4 is real analysis on polynomials and uses nothing above it.
 
 Let `V` be a real normed space and `f : V → ℝ` differentiable on the segment `[x, x + h]` with
 `‖fderiv ℝ f y − fderiv ℝ f x‖ ≤ L ‖y − x‖` there. Then
-`f (x + h) ≤ f x + fderiv ℝ f x h + (L / 2) ‖h‖²`. Mathlib has no such statement at the pin;
-it is a target of this layer. (Proved here.)
+`f (x + h) ≤ f x + fderiv ℝ f x h + (L / 2) ‖h‖²` (`le_add_fderiv_add_of_lipschitz`). Mathlib
+has no such statement at the pin; it is a target of this layer. (Proved here.)
 
 **Checks.**
 
@@ -447,13 +469,13 @@ it is a target of this layer. (Proved here.)
 
 ### 5.2 Spectral steepest descent
 
-Take `𝕜 = ℝ`, and give `E →L[ℝ] F` its operator norm. For `f : (E →L[ℝ] F) → ℝ`
-differentiable at `W`, let `G` be the gradient for the trace pairing:
-`fderiv ℝ f W Z = ⟪G, Z⟫` for all `Z`. Prove that `‖fderiv ℝ f W‖ = N₁(G)`, the dual norm of
-the operator norm. Under the hypothesis of 5.1 with constant `L ≥ 0`, every `D` with
+Take `𝕜 = ℝ`, and give `E →L[ℝ] F` its operator norm. For `f : (E →L[ℝ] F) → ℝ` differentiable
+at `W`, let `G` be the gradient for the trace pairing: `fderiv ℝ f W Z = ⟪G, Z⟫` for all `Z`.
+Prove that `‖fderiv ℝ f W‖ = N₁(G)`, the dual norm of the operator norm
+(`norm_fderiv_eq_nuclear`). Under the hypothesis of 5.1 with constant `L ≥ 0`, every `D` with
 `‖D‖_op ≤ ρ` and `⟪G, D⟫ ≥ κ N₁(G)` satisfies, for `η ≥ 0`,
 
-`f (W − η D) ≤ f W − η κ N₁(G) + (L / 2) η² ρ²`.
+`f (W − η D) ≤ f W − η κ N₁(G) + (L / 2) η² ρ²` (`spectral_descent`).
 
 (Bernstein–Newhouse, Proposition 5, pp. 5–6, for the steepest direction; the bound is proved
 here.)
@@ -464,7 +486,7 @@ Instances:
   `f (W − η U_G) ≤ f W − N₁(G)² / (2L)`.
 - `D = muonDirection 5 G`, when every nonzero singular value of `G` is at least
   `‖G‖_F / 270`, with `κ = 17/25` and `ρ = 5/4`, by 3.3, 3.4 and 4.3. Also prove
-  `‖D − U_G‖_op ≤ 8/25` and `U_D = U_G` there.
+  `‖D − U_G‖_op ≤ 8/25` and `U_D = U_G` there (`muonDirection_five`).
 - The `k`-step cubic and quintic directions `Dₖ` from the Frobenius normalization:
   `⟪Dₖ, G⟫ → N₁(G)` and `‖Dₖ‖_op → 1` as `k → ∞` for `G ≠ 0`, and `‖Dₖ‖_op ≤ 1` and
   `⟪Dₖ, G⟫ ≤ N₁(G)` for every `k`.
@@ -492,9 +514,10 @@ Instances:
 ### 6.1 Matrix interface
 
 For `A : Matrix m n 𝕜`, define the matrix polar factor `U_A` by transport along
-`Matrix.toEuclideanLin`. Prove `U_Aᴴ * U_A = 1` when `A` has full column rank, the compact singular value decomposition form `U Vᴴ`, and the matrix
-forms of 1.2, 1.4, 3.2 and 5.2. Use the trace pairing `re (trace (Aᴴ * B))`, the
-`Matrix.Norms.L2Operator` norm and the Frobenius norm. (Proved here.)
+`Matrix.toEuclideanLin`. Prove `U_Aᴴ * U_A = 1` when `A` has full column rank, the compact
+singular value decomposition form `U Vᴴ`, and the matrix forms of 1.2, 1.4, 3.2 and 5.2. Use the
+trace pairing `re (trace (Aᴴ * B))`, the `Matrix.Norms.L2Operator` norm and the Frobenius norm.
+(Proved here.)
 
 **Checks.**
 
