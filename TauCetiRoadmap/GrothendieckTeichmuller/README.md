@@ -686,19 +686,20 @@ needed. None of this is a target.
 This section is secondary: it maps existing Lean code to targets and prescribes nothing. The
 Apache-2.0 repository AxiomMath, *The Stacks Project in Lean* (References), formalizes the Stacks
 Project on Mathlib. Its `StacksFrontier` tier is written by AI agents and builds without `sorry`;
-the repository records it as unreviewed by humans, and it is built on Lean and Mathlib v4.35.0,
-earlier than our pin. It is not a dependency: a statement read there is compared with the target
-here before it is used, adaptation is agreed with its maintainers first, and adapted code keeps its
-Apache-2.0 notices.
+the repository keeps it apart from its human-reviewed `StacksCore` tier, and it is built on Lean and
+Mathlib v4.35.0, earlier than our pin. It is not a dependency: a statement read there is compared
+with the target here before it is used, adaptation is agreed with its maintainers first, and adapted
+code keeps its Apache-2.0 notices.
 
-`StacksFrontier/AlgebraicGeometry/FundamentalGroup` builds the étale fundamental group of a scheme
-through Galois categories: finite étale covers form a Galois category with the fibre functor at a
-geometric point (Tag 0BNB, `FiniteEtaleGaloisCategory.lean`), and over a field the fundamental group
-is the absolute Galois group (`GaloisCategory/FieldFundamentalGroup.lean`). That is the setting of
-the outer action of `Gal(ℚ̄/ℚ)` on the profinite fundamental group of `ℙ¹ ∖ {0, 1, ∞}`, which Scope
-leaves to BelyiMaps §12.8. No file name or tag there treats free profinite groups of finite rank
-(Layer 0; only the profinite integers appear), the profinite braid groups of Layer 2, Drinfeld's
-relations or `GT̂` (Layers 1, 3 and 4).
+`StacksFrontier/AlgebraicGeometry/FundamentalGroup` builds the étale fundamental group of a
+connected scheme through Galois categories: for a connected scheme `X`, the finite étale covers of
+`X` form a Galois category with the fibre functor at a geometric point (Tag 0BNB,
+`FiniteEtaleGaloisCategory.lean`), and over a field the fundamental group is the absolute Galois
+group (`GaloisCategory/FieldFundamentalGroup.lean`). That is the setting of the outer action of
+`Gal(ℚ̄/ℚ)` on the profinite fundamental group of `ℙ¹ ∖ {0, 1, ∞}`, which Scope leaves to BelyiMaps
+§12.8. No file name or tag there treats free profinite groups of finite rank (Layer 0; only the
+profinite integers appear), the profinite braid groups of Layer 2, Drinfeld's relations or `GT̂`
+(Layers 1, 3 and 4).
 
 ## References
 
