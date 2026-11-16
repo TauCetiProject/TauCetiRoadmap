@@ -202,7 +202,7 @@ Their generic theories remain in the supplying roadmaps.
 | UnboundedOperators UO-B04/B05, UO-E03 | Strongly commuting joint PVM and multiparameter Stone theorem; Nelson's criterion that a symmetric operator, or a pairwise commuting finite family, with a dense invariant domain of analytic vectors (factorial bounds on every mixed word) is essentially self-adjoint, strongly commuting in the family case | M0’s analytic-vector and central closures; M4’s joint translation spectrum |
 | [RepresentationTheory/SchurWeyl Layers 3–5](../RepresentationTheory/SchurWeyl/README.md) | Complete complex Specht models and dimensions; Tau Ceti's `ContRepresentation.exists_isUnitary_congr`, `ContRepresentation.schur_orthogonality_self` and `ContRepresentation.schur_orthogonality` supply unitarization and coefficient orthogonality; M6 owns the arbitrary-Hilbert tensor bridge | M6.FiniteTree Young fields |
 | MetaplecticAutomorphicForms Layer 0, 0.1–0.13 | Bilinear Heisenberg extension `E_B` of a scalar-valued bilinear form, its inverse, commutator and centre formulas, the half-alternating specialization, the isometry action on `E_B` and its joint continuity | M5.AffineG5’s scalar-centre η-Heisenberg group |
-| LaguerreJacobi A/B contract | Weighted Laguerre polynomials and complete normalized radial basis, with M5’s explicit parameter/unitary adapter | M5’s conformal radial model |
+| LaguerreJacobi Layers 1–2 | Weighted Laguerre polynomials and complete normalized radial basis, with M5’s explicit parameter/unitary adapter | M5’s conformal radial model |
 
 ## How to read the build
 
@@ -6262,7 +6262,7 @@ consume the Peter–Weyl basis `TauCeti.stdPeterWeylBasis` on SU(2) and project 
 specified U(1)-covariant sections. Separate the actual H₀ radial equation,
 compute its change of variable, parameter and normalization, and identify
 its eigenfunctions with the Laguerre function basis from
-LaguerreJacobi A–B.
+LaguerreJacobi Layers 1–2.
 That required supplier owns the polynomials, Rodrigues/orthogonality,
 finite exponential moment and Hilbert-basis comparison. Use radial
 `x=2E` and the unitary `g(x)=f(x/2)√x/2` from L²(E dE) to L²(dx),
