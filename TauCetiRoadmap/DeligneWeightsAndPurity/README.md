@@ -373,7 +373,7 @@ The arithmetic/geometric exact sequence for geometrically connected finite-field
 
 #### EtaleCohomologyFoundations §F.3a and LefschetzPencilsAndVanishingCycles §§0.2–0.8 (boundary traits and nearby cycles)
 
-Boundary local traits, Weil representations, tame character and branch sign lines. Uses: [5.11](#511-the-local-weightmonodromy-theorem-on-a-curve), [5.20](#520-weights-of-the-inertia-invariants-at-a-missing-point).
+Boundary local traits, Weil representations, tame character and branch sign lines. Uses: [5.11](#511-the-local-weightmonodromy-theorem-on-a-curve), [5.12](#512-boundary-mixedness-and-extension-of-purity), [5.20](#520-weights-of-the-inertia-invariants-at-a-missing-point).
 
 #### LefschetzPencilsAndVanishingCycles §§0.6–0.8 (specialization and nearby-cycle functoriality)
 
@@ -1183,7 +1183,7 @@ Its API includes:
 
 *Needs:* [FourierDeligneTransform §§3.2, 3.4, 3.7, 3.8, 4.1–4.2](#from-fourierdelignetransform), [5.2](#52-weil-sheaves-and-étale-descent), [5.7](#57-unipotent-radical-and-central-degree-in-weil-monodromy), [8.1](#81-mixed-complexes-and-complexes-of-weights--w), [EtaleCohomologyFoundations §§F.0–F.4, F.10.1–F.10.5 and InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T1–IG.0.T4 (finite cohomology, base change and geometric trace formulas)](#etalecohomologyfoundations-f0f4-f101f105-and-inversegaloisandarithmeticfundamentalgroups-ig0t1ig0t4-finite-cohomology-base-change-and-geometric-trace-formulas), [EtaleCohomologyFoundations §§F.0.3, F.10.1–F.10.2b (Tate twists and Frobenius)](#etalecohomologyfoundations-f03-f101f102b-tate-twists-and-frobenius).
 
-(Sources: [Lau](#references), Théorème (1.2.1.2), p. 141; Théorème (1.2.2.1), p. 141; Théorème (1.3.2.3), p. 147; [WII](#references), §1.1, (1.1.10)–(1.1.14), pp. 150–153.)
+(Sources: [Lau](#references), Théorème (1.2.1.2), p. 141; Théorème (1.2.2.1), p. 141; Théorème (1.3.2.3), p. 147; [WII](#references), §1.1, (1.1.10)–(1.1.14), pp. 151–153.)
 
 ### 2.13. Weights of character sheaves and Gauss-sum lines
 
@@ -1221,9 +1221,9 @@ Prove the first assertion from the trace identity §2.12(iv) and §2.13: complex
 
 ### 2.15. The `L²`-weight of a pure lisse sheaf on a curve
 
-For a Weil complex `K` on a scheme `X₀` of finite type over `𝔽_q` and `n ≥ 1`, put `E_n(K) = Σ_{x ∈ X₀(𝔽_{qⁿ})} |ι t_{K,n}(x)|²`. On a curve the `L²`-weight `‖K‖ ∈ {−∞} ∪ ℝ ∪ {+∞}` is `limsup_n (1/n) log_q E_n(K) − 1`, and `‖K‖ = −∞` when `E_n(K)` vanishes for all large `n`. Prove: (i) `‖K[1]‖ = ‖K‖` and `‖K ⊕ K′‖ = max(‖K‖, ‖K′‖)`; (ii) for a nonzero lisse Weil sheaf `𝒢` on a smooth geometrically connected affine curve `U₀`, punctually `ι`-pure of real weight `w`, `‖𝒢‖ = w`: there are `C > 0` and `ε > 0` with `E_n(𝒢) ≤ C q^{n(w+1)}` for all `n` and `E_n(𝒢) ≥ ε q^{n(w+1)}` for infinitely many `n`; (iii) for `𝒢` as in (ii) and a dense open immersion `j : U₀ → C₀` into a smooth curve, `‖j_*𝒢‖ = w`.
+For a Weil complex `K` on a scheme `X₀` of finite type over `𝔽_q` and `n ≥ 1`, put `E_n(K) = Σ_{x ∈ X₀(𝔽_{qⁿ})} |ι t_{K,n}(x)|²`. On a curve the `L²`-weight `‖K‖ ∈ {−∞} ∪ ℝ ∪ {+∞}` is `limsup_n (1/n) log_q E_n(K) − 1`, and `‖K‖ = −∞` when `E_n(K)` vanishes for all large `n`. Prove: (i) `‖K[1]‖ = ‖K‖`, and `‖K ⊕ K′‖ ≤ max(‖K‖, ‖K′‖)` with equality when `‖K‖ ≠ ‖K′‖`; (ii) for a nonzero lisse Weil sheaf `𝒢` on a smooth geometrically connected affine curve `U₀`, punctually `ι`-pure of real weight `w`, `‖𝒢‖ = w`: there are `C > 0` and `ε > 0` with `E_n(𝒢) ≤ C q^{n(w+1)}` for all `n` and `E_n(𝒢) ≥ ε q^{n(w+1)}` for infinitely many `n`; (iii) for `𝒢` as in (ii) and a dense open immersion `j : U₀ → C₀` into a smooth curve, `‖j_*𝒢‖ = w`.
 
-For (ii) let `ι(c) = q^w` and `H = 𝒢 ⊗ 𝒢^∨ ⊗ L_c`, lisse and `ι`-pure of weight `2w`, with `ι t_{H,n}(x) = |ι t_{𝒢,n}(x)|²`. The trace formula gives `E_n(𝒢) = ι Tr(Fⁿ | H²_c(U, H)) − ι Tr(Fⁿ | H¹_c(U, H))`, since `H⁰_c` vanishes on an affine curve. `H²_c(U, H)` is the twisted coinvariants, so its eigenvalues have modulus `q^{w+1}` under `ι`. Then prove the positivity lemma: if `a_n = Σ_i m_i γ_iⁿ ≥ 0` for all `n ≥ 1`, with finitely many distinct nonzero `γ_i ∈ ℂ` and nonzero integers `m_i`, then `ρ = max |γ_i|` is one of the `γ_i` with `m_i > 0`, and `a_n ≥ m_i ρⁿ/2` for infinitely many `n`. The Cesàro means of `a_n ρ^{−n}` tend to that multiplicity and those of its squared modulus to the sum of the `m_i²` over `|γ_i| = ρ`, so nonnegativity forces the multiplicity to be positive. Since `H¹_c` enters with negative multiplicities, `ρ` is an eigenvalue on `H²_c`, so `ρ = q^{w+1}`. Here `E_n(𝒢)` is not identically zero, because at a closed point the Frobenius is invertible on a nonzero stalk and its power traces cannot all vanish (§0.10). For (iii), the stalks of `j_*𝒢` at the finitely many missing points have `ι`-weights `≤ w` (§5.10) and add `O(q^{nw})`.
+For (i), the traces of `K[1]` are those of `K` negated; the bound for `K ⊕ K′` follows from `|a + b|² ≤ 2|a|² + 2|b|²`, and when `‖K‖ > ‖K′‖` the inequality `E_n(K ⊕ K′)^{1/2} ≥ E_n(K)^{1/2} − E_n(K′)^{1/2}`, taken along a sequence of `n` on which `(1/n) log_q E_n(K)` tends to `‖K‖ + 1`, gives equality. For (ii) let `ι(c) = q^w` and `H = 𝒢 ⊗ 𝒢^∨ ⊗ L_c`, lisse and `ι`-pure of weight `2w`, with `ι t_{H,n}(x) = |ι t_{𝒢,n}(x)|²`. The trace formula gives `E_n(𝒢) = ι Tr(Fⁿ | H²_c(U, H)) − ι Tr(Fⁿ | H¹_c(U, H))`, since `H⁰_c` vanishes on an affine curve. `H²_c(U, H)` is the twisted coinvariants, so its eigenvalues have modulus `q^{w+1}` under `ι`. Then prove the positivity lemma: if `a_n = Σ_i m_i γ_iⁿ ≥ 0` for all `n ≥ 1`, with finitely many distinct nonzero `γ_i ∈ ℂ` and nonzero integers `m_i`, then `ρ = max |γ_i|` is one of the `γ_i` with `m_i > 0`, and `a_n ≥ m_i ρⁿ/2` for infinitely many `n`. The Cesàro means of `a_n ρ^{−n}` tend to that multiplicity and those of its squared modulus to the sum of the `m_i²` over `|γ_i| = ρ`, so nonnegativity forces the multiplicity to be positive. Since `H¹_c` enters with negative multiplicities, `ρ` is an eigenvalue on `H²_c`, so `ρ = q^{w+1}`. Here `E_n(𝒢)` is not identically zero, because at a closed point the Frobenius is invertible on a nonzero stalk and its power traces cannot all vanish (§0.10). For (iii), the stalks of `j_*𝒢` at the finitely many missing points have `ι`-weights `≤ w` (§5.10) and add `O(q^{nw})`.
 
 #### Checks
 - `𝒢 = E` on `𝔾_m`, `w = 0`: `E_n = qⁿ − 1` and `‖𝒢‖ = 0`; here `H²_c = E(−1)` and `H¹_c = E` enters with a negative sign.
@@ -1231,6 +1231,8 @@ For (ii) let `ι(c) = q^w` and `H = 𝒢 ⊗ 𝒢^∨ ⊗ L_c`, lisse and `ι`-p
 - A skyscraper `i_{0*}E` on `𝔸¹` has `E_n = 1` and `L²`-weight `−1`, one less than its weight: punctual objects lose one, which is why the missing points in (iii) do not count.
 
 - `𝒢 = 0` has `L²`-weight `−∞`, although it is pure of every weight; (ii) needs `𝒢 ≠ 0`.
+
+- `K = E` and `K′ = E[1]` on `𝔸¹`: the traces `1` and `−1` cancel, so `E_n(K ⊕ K′) = 0` for every `n` and `‖K ⊕ K′‖ = −∞`, while `‖K‖ = ‖K′‖ = 0`. When the two `L²`-weights are equal the direct-sum bound in (i) can be strict, so `max` is not an identity.
 
 *Needs:* [5.3](#53-punctual-purity-and-finite-mixed-filtrations), [5.4](#54-totally-real-and-ι-real-sheaves), [5.10](#510-initial-cohomological-and-boundary-weight-bounds), [0.4](#04-ι-weights-of-nonzero-elements-of-a-coefficient-field), [0.10](#010-the-characteristic-power-series-det1--tf-and-traces-of-powers), [EtaleCohomologyFoundations §§F.0–F.4, F.10.1–F.10.5 and InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T1–IG.0.T4 (finite cohomology, base change and geometric trace formulas)](#etalecohomologyfoundations-f0f4-f101f105-and-inversegaloisandarithmeticfundamentalgroups-ig0t1ig0t4-finite-cohomology-base-change-and-geometric-trace-formulas), [EtaleCohomologyFoundations §§F.3, F.5–F.6 (extreme-degree curve cohomology)](#etalecohomologyfoundations-f3-f5f6-extreme-degree-curve-cohomology).
 
@@ -1814,11 +1816,11 @@ The weights of the inertia invariants at the missing point, graded by `M`, are �
 
 ### 5.12. Boundary mixedness and extension of purity
 
-For an `ι`-mixed local system on a smooth curve, the relative monodromy filtration exists and agrees with the local weight filtration on pure graded pieces. Along a smooth divisor, the relative construction is lisse and compatible with transverse curves and fibres under the tame hypotheses of (1.8.6)–(1.8.7). For an open immersion of finite-type `𝔽_q` schemes, underived `j_*` takes `ι`-mixed sheaves with weights `≤β` to `ι`-mixed sheaves with weights `≤β`. A lisse sheaf pure on a dense open is pure everywhere; on normal `X` a lisse `ι`-mixed sheaf has a finite filtration by lisse pure sheaves. On connected `X` an `ι`-mixed lisse sheaf pure of weight `β` at one closed point is pure of weight `β` everywhere.
+Let `U₀` be a dense open subscheme of a smooth curve `X₀` over `𝔽_q` and `ℱ₀` a lisse sheaf on `U₀` with a finite increasing filtration `W` by lisse subsheaves such that each `Gr^W_i ℱ₀` is punctually `ι`-pure of weight `i`. Then `ℱ₀` is `ι`-mixed with integer weights, and at each point of `X₀ − U₀` the monodromy filtration of the local Weil representation relative to `W` exists and equals its weight filtration, the unique Weil-stable filtration whose `i`-th graded piece is `ι`-pure of weight `i`. Let `X₀` be smooth over `𝔽_q`, `D₀ ⊂ X₀` a smooth divisor and `ℱ₀` a lisse sheaf on `X₀ − D₀`, tamely ramified along `D₀`, with a filtration `W` as before. Then the local monodromy filtration around `D₀` relative to `W` exists on the nearby-cycle sheaf of `ℱ₀` along `D₀`, which is lisse on `D₀` and carries the tame monodromy action, and its graded pieces are lisse and punctually `ι`-pure of weight `i`; this is the curve case applied on curves transverse to `D₀`. For an open immersion of finite-type `𝔽_q` schemes, underived `j_*` takes `ι`-mixed sheaves with weights `≤β` to `ι`-mixed sheaves with weights `≤β`. A lisse sheaf pure on a dense open is pure everywhere; on normal `X` a lisse `ι`-mixed sheaf has a finite filtration by lisse pure sheaves. On connected `X` an `ι`-mixed lisse sheaf pure of weight `β` at one closed point is pure of weight `β` everywhere.
 
-*Needs:* [5.11](#511-the-local-weightmonodromy-theorem-on-a-curve), [5.3](#53-punctual-purity-and-finite-mixed-filtrations), [LefschetzPencilsAndVanishingCycles §§1.1–1.6 (inertia, monodromy and relative filtrations)](#lefschetzpencilsandvanishingcycles-1116-inertia-monodromy-and-relative-filtrations), [EtaleCohomologyFoundations §§F.0–F.4 (constructible derived coefficients, base change and finiteness)](#etalecohomologyfoundations-f0f4-constructible-derived-coefficients-base-change-and-finiteness), [EtaleCohomologyFoundations §§F.0–F.4, F.10.1–F.10.5 and InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T1–IG.0.T4 (finite cohomology, base change and geometric trace formulas)](#etalecohomologyfoundations-f0f4-f101f105-and-inversegaloisandarithmeticfundamentalgroups-ig0t1ig0t4-finite-cohomology-base-change-and-geometric-trace-formulas), [EtaleCohomologyFoundations §§F.0.3, F.10.1–F.10.2b (Tate twists and Frobenius)](#etalecohomologyfoundations-f03-f101f102b-tate-twists-and-frobenius).
+*Needs:* [5.11](#511-the-local-weightmonodromy-theorem-on-a-curve), [5.3](#53-punctual-purity-and-finite-mixed-filtrations), [LefschetzPencilsAndVanishingCycles §§1.1–1.6 (inertia, monodromy and relative filtrations)](#lefschetzpencilsandvanishingcycles-1116-inertia-monodromy-and-relative-filtrations), [EtaleCohomologyFoundations §F.3a and LefschetzPencilsAndVanishingCycles §§0.2–0.8 (boundary traits and nearby cycles)](#etalecohomologyfoundations-f3a-and-lefschetzpencilsandvanishingcycles-0208-boundary-traits-and-nearby-cycles), [EtaleCohomologyFoundations §§F.0–F.4 (constructible derived coefficients, base change and finiteness)](#etalecohomologyfoundations-f0f4-constructible-derived-coefficients-base-change-and-finiteness), [EtaleCohomologyFoundations §§F.0–F.4, F.10.1–F.10.5 and InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T1–IG.0.T4 (finite cohomology, base change and geometric trace formulas)](#etalecohomologyfoundations-f0f4-f101f105-and-inversegaloisandarithmeticfundamentalgroups-ig0t1ig0t4-finite-cohomology-base-change-and-geometric-trace-formulas), [EtaleCohomologyFoundations §§F.0.3, F.10.1–F.10.2b (Tate twists and Frobenius)](#etalecohomologyfoundations-f03-f101f102b-tate-twists-and-frobenius).
 
-(Sources: [WII](#references), §1.8 Corollaires (1.8.5)–(1.8.12), pp. 176–179.)
+(Sources: [WII](#references), §1.8 Corollaires (1.8.5)–(1.8.12), pp. 176–178.)
 
 ### 5.13. Newton polygons of Frobenius stalks
 
@@ -2599,7 +2601,9 @@ Require `f` separated and of finite type for `Rf_!`.
 
 ### 8.9. Purity on a smooth scheme is pointwise purity of lisse cohomology sheaves
 
-Let `X₀` be of finite type over `𝔽_q`. (a) For every `N ∈ ℤ`, `K` is mixed of weights `≤ w` iff `K(N)[2N]` is; hence in the definition of purity the dualizing complex may be replaced by any complex locally isomorphic to `K_{X₀}(N)[2N]`. (b) If `X₀` is smooth, `K` has weights `≥ w` iff `RHom(K, ℚ̄_ℓ)` has weights `≤ −w`. If moreover every `ℋ^iK` is lisse, `K` is pure of weight `w` iff every `ℋ^iK` is punctually pure of weight `w + i`. (c) Consequently, for `X₀` smooth and `ℱ₀` lisse and punctually pure of weight `w`, the complex `ℱ₀[m](r)` is pure of weight `w + m − 2r`. The `ι`-variants hold.
+Let `X₀` be smooth over `𝔽_q` and `K ∈ D^b_c(X₀)`. (a) If every cohomology sheaf `ℋ^iK` is lisse, then `K` is pure of weight `w` if and only if each `ℋ^iK` is punctually pure of weight `w + i`. (b) For arbitrary `K`, `K` has weights `≥ w` if and only if `RHom(K, ℚ̄_ℓ)` has weights `≤ −w`. (c) For `ℱ₀` lisse and punctually pure of weight `w`, the complex `ℱ₀[m](r)` is pure of weight `w + m − 2r`. The `ι`-variants hold with real weights.
+
+The route starts from a fact valid on every `X₀` of finite type over `𝔽_q`: for `N ∈ ℤ`, the complex `K(N)[2N]` has `ℋ^{i+2N}K` in degree `i`, with punctual weights lowered by `2N`, so it has weights `≤ w` exactly when `K` does. On a connected component of `X₀` of dimension `d` the dualizing complex is `ℚ̄_ℓ(d)[2d]` (EtaleCohomologyFoundations §F.6), so there `RHom(K, ℚ̄_ℓ) = (DK)(−d)[−2d]`, and the definition of weights `≥ w` in [8.2](#82-complexes-of-weights--w-and-pure-complexes) gives (b). For (a), lisse sheaves have no higher local `Ext` into `ℚ̄_ℓ`, so `ℋ^{−i}RHom(K, ℚ̄_ℓ)` is the dual of `ℋ^iK`, with negated punctual weights; the bound `≤ w + i` of [8.1](#81-mixed-complexes-and-complexes-of-weights--w) and the bound `≥ w + i` that (b) gives on these stalks together say that `ℋ^iK` is punctually pure of weight `w + i`. For (c), the only nonzero cohomology sheaf is `ℋ^{−m} = ℱ₀(r)`, of punctual weight `w − 2r = (w + m − 2r) + (−m)`.
 
 *Needs:* [8.2](#82-complexes-of-weights--w-and-pure-complexes), [8.1](#81-mixed-complexes-and-complexes-of-weights--w), [EtaleCohomologyFoundations §F.5 (exceptional inverse image and Verdier duality)](#etalecohomologyfoundations-f5-exceptional-inverse-image-and-verdier-duality), [EtaleCohomologyFoundations §§F.5–F.6 (smooth purity and Poincaré duality)](#etalecohomologyfoundations-f5f6-smooth-purity-and-poincaré-duality), [0.13](#013-eigenvalues-of-tensor-products-contragredients-and-hom-spaces), [7.1](#71-weil-ii-12-weight-conventions-for-dwp7dwp9-imported-from-dwp5).
 
@@ -2607,13 +2611,13 @@ Let `X₀` be of finite type over `𝔽_q`. (a) For every `N ∈ ℤ`, `K` is mi
 
 ### 8.10. `j_*` of a pure lisse sheaf across a smooth divisor is pure
 
-(c) Let `X₀` be a smooth curve over `𝔽_q`, `j : U₀ → X₀` a dense open and `ℱ₀` a lisse sheaf on `U₀`, punctually pure of weight `w` (equivalently, by [8.9](#89-purity-on-a-smooth-scheme-is-pointwise-purity-of-lisse-cohomology-sheaves), `ℱ₀` is pure of weight `w` as a sheaf). Then `j_*ℱ₀` is pure of weight `w`. (d) Let `X₀` be smooth, `D₀ ⊂ X₀` a smooth divisor, `j : U₀ = X₀ − D₀ → X₀`, and `ℱ₀` lisse on `U₀`, punctually pure of weight `w` and tamely ramified along `D₀`. Then `j_*ℱ₀` is pure of weight `w`. The `ι`-variants hold.
+Let `X₀` be smooth over `𝔽_q`, `j : U₀ → X₀` the inclusion of a dense open subscheme, and `ℱ₀` a lisse sheaf on `U₀`, punctually pure of weight `w` (so pure of weight `w` as a sheaf, by [8.9](#89-purity-on-a-smooth-scheme-is-pointwise-purity-of-lisse-cohomology-sheaves)). Suppose that `X₀` is a curve, or that `X₀ − U₀` is a smooth divisor along which `ℱ₀` is tamely ramified. Then the sheaf `j_*ℱ₀`, the underived direct image placed in degree zero, is pure of weight `w`. The `ι`-variants hold.
 
-Use the underived `j_*` placed in degree zero, with lisse source sheaf.
+Both bounds come from the boundary estimate of [5.12](#512-boundary-mixedness-and-extension-of-purity): applied to `ℱ₀` it gives weights `≤ w` for `j_*ℱ₀`, and applied to the dual `ℱ₀^∨`, of weight `−w`, it gives weights `≤ −w` for `j_*(ℱ₀^∨)`, which on a curve, and along a smooth divisor of tame ramification, is `RHom(j_*ℱ₀, ℚ̄_ℓ)`; then [8.9](#89-purity-on-a-smooth-scheme-is-pointwise-purity-of-lisse-cohomology-sheaves) (b) gives weights `≥ w`.
 
 *Needs:* [8.2](#82-complexes-of-weights--w-and-pure-complexes), [8.9](#89-purity-on-a-smooth-scheme-is-pointwise-purity-of-lisse-cohomology-sheaves), [5.11](#511-the-local-weightmonodromy-theorem-on-a-curve), [5.12](#512-boundary-mixedness-and-extension-of-purity), [EtaleCohomologyFoundations §F.5 (exceptional inverse image and Verdier duality)](#etalecohomologyfoundations-f5-exceptional-inverse-image-and-verdier-duality), [EtaleCohomologyFoundations §§F.5–F.6 (smooth purity and Poincaré duality)](#etalecohomologyfoundations-f5f6-smooth-purity-and-poincaré-duality).
 
-(Sources: [WII](#references), §6, Exemples (6.2.5) c), p. 248.)
+(Sources: [WII](#references), §6, Exemples (6.2.5) c), d), p. 248.)
 
 ### 8.11. Weight estimates for the six operations
 
@@ -2927,7 +2931,7 @@ which together preserve complex weight. No such comparison is asserted
 for arbitrary constructible complexes or arbitrary unchanged witnesses.
 
 *Needs:* §8.9; §8.13; §8.20 (potential properties); SchemeAndStackFoundations §0.9 (spreading geometry and embeddings); EtaleCohomologyFoundations §§F.0–F.4 (constructibility and descent of lissity), F.5–F.6 (duality and smooth purity); LefschetzPencilsAndVanishingCycles §7b.7 (geometric-generic model carrier).
-(Sources: [WII](#references), (3.4.10)–(3.4.11), p. 210; (6.2.5)(a)–(b), pp. 247–248; (6.2.7)–(6.2.8), p. 248.)
+(Sources: [WII](#references), (3.4.10)–(3.4.11), p. 210; (6.2.5)(a)–(b), p. 247; (6.2.7)–(6.2.8), p. 248.)
 
 **Checks.**
 
@@ -2974,7 +2978,7 @@ Retain the orientation sheaf even for non-strict normal crossings. The ordinary-
 
 *Needs:* [7.15](#715-purity-for-proper-smooth-varieties-and-rational-homology-manifolds-over-a-finite-field), [smooth proper DM purity](#824-the-weight-spectral-sequence-of-a-normal-crossings-compactification) below, [0.17](#017-disjoint-spectra-no-nonzero-frobenius-equivariant-maps-between-different-weights), [0.18](#018-decomposition-of-a-frobenius-module-by-weights), [EtaleCohomologyFoundations §§F.0–F.4 (constructible derived coefficients, base change and finiteness)](#etalecohomologyfoundations-f0f4-constructible-derived-coefficients-base-change-and-finiteness), [EtaleCohomologyFoundations §§F.0–F.4, F.10.1–F.10.5 and InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T1–IG.0.T4 (finite cohomology, base change and geometric trace formulas)](#etalecohomologyfoundations-f0f4-f101f105-and-inversegaloisandarithmeticfundamentalgroups-ig0t1ig0t4-finite-cohomology-base-change-and-geometric-trace-formulas), [SchemeAndStackFoundations §§1.19–1.20 (Deligne–Mumford stacks) and the coefficient descent target of §8.24 here](#schemeandstackfoundations-119120-delignemumford-stacks-and-the-coefficient-descent-target-of-824-here).
 
-(Sources: [BFP](#references), proof of Proposition 4.2, p. 7.)
+(Sources: [PW](#references), §2.3, pp. 8–9, for the sequence with the orientation local systems `ε_m` and its degeneration at `E₂`, recalled there for `M_{g,n} ⊂ M̄_{g,n}` together with the `det E(G)` form; [Pet](#references), Example 3.5, p. 7, for its Galois equivariance in `ℓ`-adic cohomology when the divisor has strict normal crossings; [BFP](#references), proof of Proposition 4.2, p. 7, for its use in `ℓ`-adic cohomology on `M̄_{g,n}` over `𝔽_p`, where display (3) omits the factor `det E(G)`.)
 
 For the stack clause of §8.24 construct rational étale cohomology of Deligne–Mumford stacks: for a
 finite-type Deligne–Mumford stack over `𝔽_q` with `ℓ≠p`, construct its rational
@@ -2991,7 +2995,7 @@ atlases and stabilizers), EtaleCohomologyFoundations §§F.1–F.4 (coherent
 derived diagrams, finite descent and cohomology), and the smooth proper DM
 purity target below. These are constructions on the supplied stack
 carriers, with rational coefficients; no new stack carrier is introduced.
-(Source: [BFP](#references), proof of Proposition 4.2, p. 7.)
+(Sources: [Sun](#references), §§2.1–2.3, preprint pp. 5–6, for the `ℓ`-adic derived category of an algebraic stack over `𝔽_q`, built there on the lisse-étale site; [PW](#references), §2.3, pp. 8–9, for the normalised boundary strata of `M̄_{g,n}` as smooth proper Deligne–Mumford stacks with their orientation local systems.)
 
 Its API includes the atlas descent equivalence, independence of the atlas with
 composition coherence, pullback and Frobenius functoriality, and finite-dimensionality
@@ -3538,6 +3542,10 @@ All page numbers in the targets are printed page numbers of the specified editio
 - **[Lef]** Pierre Deligne, [Théorème de Lefschetz et critères de dégénérescence de suites spectrales](https://www.numdam.org/article/PMIHES_1968__35__107_0.pdf). Publ. Math. IHÉS 35 (1968), 107–126. Printed pagination.
 
 - **[BFP]** Jonas Bergström, Carel Faber, Sam Payne, [Polynomial point counts and odd cohomology vanishing on moduli spaces of stable curves](https://arxiv.org/pdf/2206.07759v2). arXiv:2206.07759v2, 17 October 2023. Page locators refer to this preprint.
+
+- **[PW]** Sam Payne, Thomas Willwacher, [Weight two compactly supported cohomology of moduli spaces of curves](https://arxiv.org/pdf/2110.05711v3). arXiv:2110.05711v3. Page locators refer to this preprint.
+
+- **[Pet]** Dan Petersen, [A spectral sequence for stratified spaces and configuration spaces of points](https://arxiv.org/pdf/1603.01137v2). Geom. Topol. 21 (2017), 2527–2555. Example and page locators refer to the arXiv preprint, arXiv:1603.01137v2.
 
 - **[Int]** Nicholas M. Katz; §5 appendix by Pierre Deligne, SGA 7 II, Exposé XXI: Le niveau de la cohomologie des intersections complètes; §5 Appendix on integrality. SGA 7 II, Lecture Notes in Mathematics 340 (1973), Exposé XXI, §5, 384–387.
 
