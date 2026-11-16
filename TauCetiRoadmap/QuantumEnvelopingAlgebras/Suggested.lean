@@ -22,11 +22,6 @@ presentations of `f` and of `U` (1.3a); the rank-one embedding from `TauCeti.UqS
 the existence of the braid automorphisms with their generator formulas and the braid relations
 (Layer 2).
 
-`QuantumPlaneLattice` states the integral matrix comparisons of Layer 8: the Weyl-to-monomial
-and Hopf-dual comparisons, and the specialized comparison's kernel and range. These use
-`gaussian` and `specialize` from Layer 0; the full comparisons as modules over the specialized
-integral algebra remain README targets.
-
 Not statable at the pins:
 
 * the braided tensor product algebras `T ⊗_χ T`, `f ⊗_χ f` and `U⁺ ⊗_χ U⁺`, the nilpotent and
@@ -575,120 +570,6 @@ theorem braid_relation (hq : q ≠ 0)
   sorry
 
 end Presentation
-
-/-! ## Layer 8: quantum-plane integral lattices, as native matrices -/
-
-section QuantumPlaneLattice
-
-/-!
-Use the monomial basis `w_j = y^j x^(n-j)`, the Weyl basis `b_j = F^(j)b_0`, and its dual
-basis `φ_j`. The Gaussian binomial `gaussian` and the specialization map `specialize` are
-those of Layer 0.
--/
-
-open LaurentPolynomial
-
-/-- The Laurent polynomial coefficient ring of the integral quantum plane. -/
-abbrev A := LaurentPolynomial ℤ
-
-/-- Column j is the image of the jth divided-power Weyl vector. -/
-def comparison (n : ℕ) : Matrix (Fin (n + 1)) (Fin (n + 1)) A :=
-  Matrix.diagonal fun j => gaussian n j.val
-
-/-- The matrix of `E^(r)` on the monomial basis `w_j = y^j x^(n-j)`. -/
-def monomialE (n r : ℕ) : Matrix (Fin (n + 1)) (Fin (n + 1)) A :=
-  fun i j => if j.val = i.val + r then gaussian j.val r else 0
-
-/-- The matrix of `F^(r)` on the monomial basis `w_j = y^j x^(n-j)`. -/
-def monomialF (n r : ℕ) : Matrix (Fin (n + 1)) (Fin (n + 1)) A :=
-  fun i j => if i.val = j.val + r then gaussian (n - j.val) r else 0
-
-/-- The matrix of `E^(r)` on the Weyl basis `b_j = F^(j)b_0` of highest weight `n`. -/
-def weylE (n r : ℕ) : Matrix (Fin (n + 1)) (Fin (n + 1)) A :=
-  fun i j => if j.val = i.val + r then gaussian (n - j.val + r) r else 0
-
-/-- The matrix of `F^(r)` on the Weyl basis `b_j = F^(j)b_0` of highest weight `n`. -/
-def weylF (n r : ℕ) : Matrix (Fin (n + 1)) (Fin (n + 1)) A :=
-  fun i j => if i.val = j.val + r then gaussian (j.val + r) r else 0
-
-/-- The matrix of `K^sign` on a basis whose `j`th vector has weight `n - 2j`. -/
-def torus (n : ℕ) (sign : ℤ) : Matrix (Fin (n + 1)) (Fin (n + 1)) A :=
-  Matrix.diagonal fun j => T (sign * ((n : ℤ) - 2 * (j.val : ℤ)))
-
-/-- All divided-power intertwiners, including r = 0 and r > n. -/
-theorem comparison_intertwines (n r : ℕ) :
-    comparison n * weylE n r = monomialE n r * comparison n ∧
-    comparison n * weylF n r = monomialF n r * comparison n ∧
-    comparison n * torus n 1 = torus n 1 * comparison n := by
-  sorry
-
-/-- Injectivity is an integral assertion; it is not asserted after arbitrary base change. -/
-theorem comparison_injective (n : ℕ) :
-    Function.Injective (comparison n).mulVecLin := by
-  sorry
-
-/-- Coordinates in the dual Weyl basis, with QEA1's actual antipode. -/
-def hopfDualComparison (n : ℕ) : Matrix (Fin (n + 1)) (Fin (n + 1)) A :=
-  fun i j => if i.val + j.val = n then
-    (-1 : A) ^ j.val * T ((j.val : ℤ) * ((j.val : ℤ) + 1 - (n : ℤ))) else 0
-
-/-- E and F on the left Hopf dual are transposes of the actual antipode matrices. -/
-def dualE (n : ℕ) : Matrix (Fin (n + 1)) (Fin (n + 1)) A :=
-  (-(torus n (-1) * weylE n 1)).transpose
-
-/-- The matrix of `F` on the left Hopf dual, using `S(F) = -FK`. -/
-def dualF (n : ℕ) : Matrix (Fin (n + 1)) (Fin (n + 1)) A :=
-  (-(weylF n 1 * torus n 1)).transpose
-
-/-- The Weyl-dual comparison is invertible over the Laurent polynomial coefficient ring. -/
-theorem hopfDualComparison_bijective (n : ℕ) :
-    Function.Bijective (hopfDualComparison n).mulVecLin := by
-  sorry
-
-/-- The Weyl-dual comparison intertwines `E`, `F` and `K` with their contragredient actions. -/
-theorem hopfDualComparison_intertwines (n : ℕ) :
-    hopfDualComparison n * monomialE n 1 = dualE n * hopfDualComparison n ∧
-    hopfDualComparison n * monomialF n 1 = dualF n * hopfDualComparison n ∧
-    hopfDualComparison n * torus n 1 =
-      (torus n (-1)).transpose * hopfDualComparison n := by
-  sorry
-
-section Specialization
-
-variable {k : Type*} [Field k] [CharZero k]
-
-/-- The Weyl-to-monomial comparison after specializing the Laurent parameter to `z`. -/
-def specializedComparison (n : ℕ) (z : kˣ) :
-    Matrix (Fin (n + 1)) (Fin (n + 1)) k :=
-  fun i j => specialize z (comparison n i j)
-
-/-- At parameter one, the Gaussian coefficients specialize to ordinary binomial coefficients. -/
-theorem gaussian_at_one (n j : ℕ) :
-    specialize (1 : kˣ) (gaussian n j) = (Nat.choose n j : k) := by
-  sorry
-
-/-- At a primitive odd root of order `ell`, row `ell` has only its two endpoint coefficients. -/
-theorem gaussian_first_root (ell : ℕ) (hell : 3 ≤ ell) (hodd : Odd ell)
-    (z : kˣ) (hz : IsPrimitiveRoot (z : k) ell) (j : Fin (ell + 1)) :
-    specialize z (gaussian ell j.val) =
-      if j.val = 0 ∨ j.val = ell then 1 else 0 := by
-  sorry
-
-/-- Actual kernel and range, expressed in the native coordinate module.
-The endpoint spans remain distinct from the interior kernel. -/
-theorem specializedComparison_ker_range (ell : ℕ) (hell : 3 ≤ ell)
-    (hodd : Odd ell) (z : kˣ) (hz : IsPrimitiveRoot (z : k) ell) :
-    LinearMap.ker (specializedComparison ell z).mulVecLin =
-      Submodule.span k {f | ∃ j : Fin (ell + 1),
-        0 < j.val ∧ j.val < ell ∧ f = Pi.single j 1} ∧
-    LinearMap.range (specializedComparison ell z).mulVecLin =
-      Submodule.span k {f | ∃ j : Fin (ell + 1),
-        (j.val = 0 ∨ j.val = ell) ∧ f = Pi.single j 1} := by
-  sorry
-
-end Specialization
-
-end QuantumPlaneLattice
 
 end TauCetiRoadmap.QuantumEnvelopingAlgebras
 
