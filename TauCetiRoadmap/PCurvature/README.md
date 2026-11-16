@@ -741,10 +741,10 @@ DerivedDeRhamCohomology §3.6.1; algorithms deciding algebraicity by `p`-curvatu
 This section is secondary: it maps existing Lean code to targets and prescribes nothing. The
 Apache-2.0 repository AxiomMath, *The Stacks Project in Lean* (References), formalizes the Stacks
 Project on Mathlib. Its `StacksFrontier` tier is written by AI agents and builds without `sorry`;
-the repository records it as unreviewed by humans, and it is built on Lean and Mathlib v4.35.0,
-earlier than our pin. It is not a dependency: a statement read there is compared with the target
-here before it is used, adaptation is agreed with its maintainers first, and adapted code keeps its
-Apache-2.0 notices.
+the repository keeps it apart from its human-reviewed `StacksCore` tier, and it is built on Lean and
+Mathlib v4.35.0, earlier than our pin. It is not a dependency: a statement read there is compared
+with the target here before it is used, adaptation is agreed with its maintainers first, and adapted
+code keeps its Apache-2.0 notices.
 
 `StacksFrontier/RingTheory/DeRham/Cartier` constructs the Frobenius-twisted de Rham complex and the
 inverse Cartier map and proves it bijective when `B` has Frobenius coordinates over `A`, for
