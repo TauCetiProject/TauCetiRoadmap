@@ -31,22 +31,37 @@ This roadmap owns:
 - positive-semidefiniteness certificates by rational `LDLᵀ` factorizations, and their transfer
   from `ℚ` to `ℝ`.
 
-It consumes, and does not re-prove:
-
-- [Neuromanifolds](../Neuromanifolds/README.md), as implemented in Tau Ceti under
-  `TauCeti/Geometry/Neuromanifold`: the specification `TauCeti.Neuromanifold.MLPSpec`, its
-  parameters, its prefix evaluation `evalPrefix`, its realization `realize`, the dense layer
-  and the ReLU and tanh activations;
-- Mathlib: `LipschitzWith`, `EuclideanSpace`, the sup norm on `Fin n → ℝ`, `Matrix.PosSemidef`
-  with the Schur-complement lemmas `Matrix.PosDef.fromBlocks₁₁` and
-  `Matrix.PosDef.fromBlocks₂₂`, and the `ℓ²` operator norm on matrices
-  (`Matrix.Norms.L2Operator`).
+It consumes, and does not re-prove, the items listed under
+[Exact supplier contracts](#exact-supplier-contracts).
 
 Out of scope: randomized smoothing and other probabilistic certificates, which need Gaussian
-measure and binomial confidence bounds; attacks and lower bounds on the robust radius;
+measure and binomial confidence bounds and belong to
+[RandomizedSmoothing](https://github.com/TauCetiProject/TauCetiRoadmap/pull/2428); attacks and
+lower bounds on the robust radius;
 complexity results (computing the exact Lipschitz constant of a ReLU network is NP-hard);
 convolutional, residual and attention layers beyond what `MLPSpec` covers; training methods;
 and floating-point error in evaluating a network.
+
+## Exact supplier contracts
+
+- [Neuromanifolds](../Neuromanifolds/README.md), Milestone 2, as implemented in Tau Ceti under
+  `TauCeti/Geometry/Neuromanifold`: the specification `TauCeti.Neuromanifold.MLPSpec`, its
+  parameters `MLPSpec.Parameters`, its prefix evaluation `MLPSpec.evalPrefix` with
+  `evalPrefix_succ`, its realization `MLPSpec.realize`, its layer activation
+  `MLPSpec.layerActivation`, the dense layer `TauCeti.Neuromanifold.dense` and the activation
+  layers `reluActivation` and `tanhActivation`.
+- Mathlib: `LipschitzWith`, `EuclideanSpace` and `WithLp.equiv`, the sup norm on `Fin n → ℝ`,
+  `Matrix.PosSemidef` with the Schur-complement lemmas `Matrix.PosDef.fromBlocks₁₁` and
+  `Matrix.PosDef.fromBlocks₂₂`, and the `ℓ²` operator norm on matrices
+  (`Matrix.Norms.L2Operator`).
+
+## How to read the build
+
+Each layer opens with its definitions. Each numbered target ends with its source locator in
+parentheses, or says that it is proved here, then lists its **Checks** (three or more
+discriminating tests that a wrong convention would fail) and a *Needs:* line naming the targets
+and suppliers it uses. `Suggested.lean` states the headline theorems of Layers 1–6 against the
+pinned APIs.
 
 ## Conventions
 
@@ -81,6 +96,17 @@ closed under unions of sets, and that a certificate on `Metric.ball x r` for `r 
 that `f` predicts `i` at `x`. Transported along `WithLp.equiv`, an `ℓ∞` certificate of radius
 `r` implies an `ℓ²` certificate of radius `r`, since `‖v‖_∞ ≤ ‖v‖₂`.
 
+(Proved here.)
+
+**Checks.**
+
+- The constant classifier `f x = (1, 0)` is certified on every set with class `0`, and with
+  class `1` only on `∅`.
+- At a tie `f x = (0, 0)`, `f` is not certified on `{x}` with any class.
+- `CertifiedOn f ∅ i` holds for every `f` and `i`.
+
+*Needs:* none.
+
 ### 1.2 Lipschitz-margin certificates
 
 Let `X` be a seminormed additive group and `f : X → EuclideanSpace ℝ (Fin k)`.
@@ -96,6 +122,18 @@ Let `X` be a seminormed additive group and `f : X → EuclideanSpace ℝ (Fin k)
 - **Output norms.** For logits measured in the sup norm, the constant `√2` becomes `2`, and
   equality is attained.
 
+(Tsuzuku–Sato–Sugiyama, Proposition 1, p. 3, for the global constant; the per-pair and
+sup-norm forms are proved here.)
+
+**Checks.**
+
+- `v = e_i - e_j` attains `|v i - v j| = √2 ‖v‖₂`.
+- The identity of `EuclideanSpace ℝ (Fin 2)`, with `L = 1`, `x = (1, 0)` and `i = 0`, has margin
+  `1`, certified radius `1/√2`, and exact radius `1/√2`: the global certificate is sharp here.
+- A constant `f` with every gap at least `m > 0` is `0`-Lipschitz and certified on every ball.
+
+*Needs:* 1.1.
+
 ### 1.3 Affine classifiers
 
 Let `X` be a real normed space and `f x j = φ_j x + b_j` with `φ_j ∈ X →L[ℝ] ℝ`, and write
@@ -110,6 +148,18 @@ given by the row `W_i - W_j` in the two instances:
 So the certified radius of an affine classifier is exactly `min_{j ≠ i} g_{ij}(x) / ‖a_j‖_*`,
 with the convention that a term with `a_j = 0` and `g_{ij}(x) > 0` imposes no constraint.
 
+(Proved here.)
+
+**Checks.**
+
+- The identity of `ℝ²` at `x = (1, 0)` with class `0`: the radius is `1/√2` in `ℓ²` and `1/2` in
+  `ℓ∞`.
+- A constant classifier with positive gaps has `a_j = 0` for all `j`, so every radius is
+  certified.
+- At a point with `g_{ij}(x) = 0` no radius `r > 0` is certified.
+
+*Needs:* 1.1; Mathlib operator norm of `X →L[ℝ] ℝ`.
+
 ## Layer 2: Lipschitz bounds for networks
 
 ### 2.1 Layers
@@ -123,6 +173,17 @@ with the convention that a term with `a_j = 0` and `g_{ij}(x) > 0` imposes no co
 - A coordinatewise activation built from a `K`-Lipschitz `σ : ℝ → ℝ` is `K`-Lipschitz on
   `EuclideanSpace ℝ (Fin n)` and on `Fin n → ℝ`. ReLU and tanh are `1`-Lipschitz.
 
+(Szegedy et al., §4.3, p. 8, for the layerwise operator-norm bounds; the semidefinite form and
+the `ℓ∞` constant are proved here.)
+
+**Checks.**
+
+- `W = diag(3, 1)`: `‖W‖₂ = 3`; `9 • 1 - WᵀW = diag(0, 8) ⪰ 0`, while `8 • 1 - WᵀW` is not.
+- `W = [[1, 1]]`: `‖W‖₂ = √2` and `‖W‖_∞ = 2`.
+- ReLU is `1`-Lipschitz and not `K`-Lipschitz for any `K < 1`.
+
+*Needs:* Mathlib `Matrix.Norms.L2Operator`; Neuromanifolds Milestone 2.
+
 ### 2.2 Multilayer perceptrons
 
 For `A : MLPSpec ℝ L` with `K_i`-Lipschitz activations and parameters `θ`, the realization
@@ -132,6 +193,18 @@ constant is `‖W₂ W₁‖₂`, which equals the product when `W₂ = W₁ᵀ`
 constant in general: the
 worked example of 6.2 has product constant `φ √2` for its first and second layers, where `φ` is
 the golden ratio, while its realization is `√2`-Lipschitz.
+
+(Szegedy et al., §4.3, p. 8, and Table 5, p. 9, for the product of layerwise bounds; the
+statements for `MLPSpec` are proved here.)
+
+**Checks.**
+
+- Depth `2`, identity activation, `W₂ = W₁ᵀ = W`: the least constant is `‖WᵀW‖₂ = ‖W‖₂²`, the
+  product.
+- The example of 6.2: product constant `φ √2`, true constant `√2`.
+- Changing the biases leaves the product constant unchanged.
+
+*Needs:* 2.1; Neuromanifolds Milestone 2.
 
 ## Layer 3: LipSDP
 
@@ -145,6 +218,18 @@ the golden ratio, while its realization is `√2`-Lipschitz.
   with `t ≥ 0`, then for all `u, u'` with `Δu = u - u'` and `Δy = σ(u) - σ(u')`,
 
   `0 ≤ Σ_p 2 t_p (Δy_p - α Δu_p) (β Δu_p - Δy_p)`.
+
+(Fazlyab et al., Definition 1, p. 3, and Lemma 1, p. 4.)
+
+**Checks.**
+
+- ReLU is slope-restricted in `[0, 1]` but not in `[0, 1/2]`: at `a = 1`, `b = 0` the product is
+  `1 · (1/2 - 1) < 0`.
+- The leaky ReLU with `c = 1/2` is slope-restricted in `[1/2, 1]` but not in `[3/5, 1]`: at
+  `a = -1`, `b = 0` the product is `(1/10)(-1/2) < 0`.
+- `t ↦ 2t` is slope-restricted in `[2, 2]` and hence `2`-Lipschitz.
+
+*Needs:* none.
 
 ### 3.2 One hidden layer
 
@@ -163,6 +248,18 @@ and `t ≥ 0` the symmetric block matrix
 - **Per-pair form.** Replacing `W₂` by the row `W₂,ᵢ - W₂,ⱼ` gives a Lipschitz constant for the
   gap `g_{ij}`, to be used in the per-pair certificate of 1.2.
 
+(Fazlyab et al., Theorem 1, p. 5, for soundness; the Schur form, the comparison with the
+product bound and the per-pair form are proved here.)
+
+**Checks.**
+
+- The example of 6.2: at `ρ = 2` and `t = (2, 1)` the Schur matrix is `diag(1, 0) ⪰ 0`.
+- `W₂ = 0`: `M(0, 0) = 0 ⪰ 0`, and `f` is constant.
+- `n = h = k = 1`, `W₁ = W₂ = 1`, ReLU: `M(1, 1) = [[1, -1], [-1, 1]] ⪰ 0`, and no `ρ < 1` is
+  feasible, since `f = relu` is not `K`-Lipschitz for `K < 1`.
+
+*Needs:* 2.1, 3.1; Mathlib Schur-complement lemmas.
+
 ### 3.3 Multilayer perceptrons
 
 For `A : MLPSpec ℝ L` whose hidden activations are all slope-restricted in `[α, β]`, write the
@@ -176,6 +273,16 @@ If, for some `ρ ≥ 0` and diagonal `T ⪰ 0` of the total hidden width,
 then `A.realize θ` is `√ρ`-Lipschitz in `ℓ²`. For `L = 2` this is `M(ρ, t)`. For `α = 0`,
 `β = 1` the product bound is feasible: take `ρ = ∏ₘ ‖Wₘ‖₂²` and `T = (∏_{m > ℓ} ‖Wₘ‖₂²) I` on
 hidden layer `ℓ`. The proof uses `2‖y‖² - 2 y · W x ≥ ‖y‖² - ‖W‖₂² ‖x‖²`, which telescopes.
+
+(Fazlyab et al., Theorem 2, p. 6; the feasibility of the product point is proved here.)
+
+**Checks.**
+
+- For `L = 2` the matrix is `M(ρ, t)` of 3.2.
+- Depth `3`, all widths `1`, all weights `1`, ReLU: `ρ = 1` with `t = (1, 1)` is feasible.
+- `W_L = 0`: `ρ = 0` and `T = 0` are feasible.
+
+*Needs:* 3.1, 3.2; Neuromanifolds Milestone 2.
 
 ## Layer 4: interval bound propagation
 
@@ -194,6 +301,19 @@ Boxes are `Set.Icc l u` in `Fin n → ℝ`, with center `c = (l + u)/2` and radi
   `A.evalPrefix θ x i` lies in the `i`-th box whenever `x` lies in the input box. Composed
   bounds are not exact in general: the example of 6.2 shows a strict loss.
 
+(Gowal et al., Equations (6)–(7), p. 4, for the center–radius affine step and monotone
+activations; exactness per layer is proved here.)
+
+**Checks.**
+
+- `W = [[1, -1]]`, `b = 0`, box `[0, 1]²`: the bounds are `[-1, 1]`, attained at `(0, 1)` and
+  `(1, 0)`.
+- A degenerate box `l = u` gives the bounds `W l + b` on both sides.
+- `x ↦ x - x` as two layers `[[1], [1]]` then `[[1, -1]]`, with identity activation, on `[0, 1]`:
+  the composed bounds are `[-1, 1]` while the function is `0`.
+
+*Needs:* 1.1; Neuromanifolds Milestone 2.
+
 ### 4.2 Margin certificates
 
 - **Elementary criterion.** If the output box `Icc lo hi` satisfies `hi j < lo i` for all
@@ -201,6 +321,19 @@ Boxes are `Set.Icc l u` in `Fin n → ℝ`, with center `c = (l + u)/2` and radi
 - **Specification layer.** Bounding the gap directly, by applying 4.1 to the last affine layer
   with the row `W_{L,i} - W_{L,j}` and bias `b_{L,i} - b_{L,j}`, gives a lower bound on
   `g_{ij}` that is at least `lo i - hi j`, because `|a - a'| ≤ |a| + |a'|` entrywise.
+
+(Gowal et al., §3, p. 4, for eliding the last layer into the specification; the comparison is
+proved here.)
+
+**Checks.**
+
+- `f(x) = (x + 1, x)` on the box `[0, 1]`: the elementary criterion fails (`hi 1 = 1 = lo 0`),
+  while the specification layer gives the gap lower bound `1 > 0`.
+- For a constant network both criteria agree.
+- The activation `t ↦ t²`, which is not monotone, maps the box `[-1, 1]` to the bounds `[1, 1]`,
+  which miss the value `0`: monotonicity cannot be dropped from 4.1.
+
+*Needs:* 4.1.
 
 ## Layer 5: linear relaxation
 
@@ -213,6 +346,16 @@ Let `l < 0 < u` and `s = u / (u - l)`.
 - **Lower lines.** `α z ≤ max z 0` for all `z` and every `α ∈ [0, 1]`. These are exactly the
   affine lower bounds of ReLU on `[l, u]` with zero intercept.
 - For `0 ≤ l` ReLU is the identity on `[l, u]`, and for `u ≤ 0` it is zero.
+
+(Zhang et al., §3.2, p. 5.)
+
+**Checks.**
+
+- `l = -1`, `u = 1`: `s = 1/2`, and the chord `(z + 1)/2` equals ReLU at `±1` and is `1/2` at `0`.
+- `α = 1` gives `z ≤ max z 0`; `α = 2` fails at `z = 1`.
+- `crownRelax a l u α` is `(1, 0)` for `0 ≤ l` and `(0, 0)` for `u ≤ 0`, whatever `a` and `α`.
+
+*Needs:* none.
 
 ### 5.2 One hidden layer
 
@@ -228,6 +371,17 @@ as `(s_p, -s_p l_p)` with `s_p = u_p / (u_p - l_p)` if `a_p < 0`. Then
 - **`ℓ∞` minimum.** `min_{‖x - x₀‖_∞ ≤ ε} (Λ · x + κ) = Λ · x₀ + κ - ε Σ_q |Λ_q|`.
 - **Certificate.** With `c = e_i - e_j` for every `j ≠ i`, a positive minimum certifies the box.
 
+(Zhang et al., Theorem 3.2 and Corollary 3.3, p. 4; Wong–Kolter treat the same relaxation as a
+convex outer bound.)
+
+**Checks.**
+
+- The example of 6.2: `Λ = (1/2, -1/2)` and minimum `1 - 2ε`.
+- If every hidden neuron is active (`0 ≤ l`), then `Λ · x + κ = c · f(x)` on `S`.
+- `c = 0` gives `Λ = 0` and `κ = 0`.
+
+*Needs:* 4.1, 5.1.
+
 ## Layer 6: exact certificates and a worked example
 
 ### 6.1 Rational semidefiniteness certificates
@@ -237,6 +391,16 @@ as `(s_p, -s_p l_p)` with `s_p = u_p / (u_p - l_p)` if `a_p < 0`. Then
 - Give a decidable check that a rational `M` equals `L diag d Lᵀ` with `L` lower unitriangular
   and `d ≥ 0`, and prove it sound for `M ⪰ 0`. Use it to discharge the LipSDP condition of
   6.2 by computation.
+
+(Proved here.)
+
+**Checks.**
+
+- `L = [[1, 0], [1, 1]]`, `d = (1, 0)`: `L diag d Lᵀ = [[1, 1], [1, 1]] ⪰ 0`.
+- `[[2, 1], [1, 1]] = L diag(2, 1/2) Lᵀ` with `L = [[1, 0], [1/2, 1]]`.
+- `d = (1, -1)` with `L = 1` gives `diag(1, -1)`, which the check rejects.
+
+*Needs:* Mathlib `Matrix.PosSemidef`.
 
 ### 6.2 Worked example
 
@@ -260,11 +424,20 @@ margin `1`. Prove each of the following.
 
 The certified radii are thus `1/(2φ) < 1/√2 < 1` in `ℓ²` and `1/3 < 1/2 < 1` in `ℓ∞`.
 
+(Proved here.)
+
+*Needs:* 1.2, 2.2, 3.2, 4.2, 5.2, 6.1.
+
 ## Dependencies and order
 
 Layer 1 uses only Mathlib. Layer 2 uses 1.2 and `MLPSpec`. Layer 3 uses Layer 2 and the
 Schur-complement lemmas. Layer 4 uses `MLPSpec` and 1.1. Layer 5 uses Layer 4. Layer 6 uses
-all of them; 6.1 is independent and can be done at any time.
+all of them; 6.1 is independent and can be done at any time. The per-target *Needs:* lines are
+authoritative.
+
+## Downstream consumers
+
+None at present.
 
 ## Provenance
 

@@ -1,16 +1,16 @@
-/-
-# Certified robustness: suggested interfaces
+import Mathlib
+import TauCeti.Geometry.Neuromanifold.MLP.Basic
+
+/-!
+# Certified robustness: target signatures
 
 **This file is not the roadmap, and it is not exhaustive.** The definitive document is
-`README.md`. These statements suggest Lean forms for selected milestones; discharging them
-finishes neither a milestone nor the roadmap. The `sorry` proofs are targets, not completed results.
+`README.md`. This file states the headline theorems of Layers 1–6 against the pinned Mathlib and
+Tau Ceti APIs; discharging them finishes neither a milestone nor the roadmap. The `sorry` proofs
+are targets, not completed results. The multilayer LipSDP condition of §3.3, the `ℓ∞` minimum of
+§5.2, the decidable `LDLᵀ` check of §6.1 and the worked example of §6.2 are README targets not
+stated here.
 -/
-
-import Mathlib.Analysis.CStarAlgebra.Matrix
-import Mathlib.Analysis.InnerProductSpace.PiL2
-import Mathlib.LinearAlgebra.Matrix.PosDef
-import Mathlib.Topology.EMetricSpace.Lipschitz
-import TauCeti.Geometry.Neuromanifold.MLP.Basic
 
 noncomputable section
 
@@ -24,6 +24,7 @@ namespace TauCetiRoadmap.RobustnessCertificates
 def CertifiedOn {X : Type*} {k : ℕ} (f : X → Fin k → ℝ) (S : Set X) (i : Fin k) : Prop :=
   ∀ x ∈ S, ∀ j, j ≠ i → f x j < f x i
 
+/-- Certification is antitone in the set. -/
 theorem CertifiedOn.mono {X : Type*} {k : ℕ} {f : X → Fin k → ℝ} {S T : Set X} {i : Fin k}
     (h : CertifiedOn f T i) (hST : S ⊆ T) : CertifiedOn f S i := sorry
 
@@ -87,9 +88,11 @@ end L2Operator
 def SlopeRestricted (α β : ℝ) (σ : ℝ → ℝ) : Prop :=
   ∀ a b, 0 ≤ (σ a - σ b - α * (a - b)) * (β * (a - b) - (σ a - σ b))
 
+/-- A monotone `K`-Lipschitz function is slope-restricted in `[0, K]`. -/
 theorem slopeRestricted_of_monotone_of_lipschitzWith {σ : ℝ → ℝ} {K : NNReal}
     (hm : Monotone σ) (hl : LipschitzWith K σ) : SlopeRestricted 0 K σ := sorry
 
+/-- ReLU is slope-restricted in `[0, 1]`. -/
 theorem slopeRestricted_relu : SlopeRestricted 0 1 (fun t => max t 0) := sorry
 
 /-- The LipSDP matrix of a one-hidden-layer network. -/
@@ -139,6 +142,7 @@ def ibpAffine {m n : ℕ} (W : Matrix (Fin m) (Fin n) ℝ) (b : Fin m → ℝ) (
   let r := (1 / 2 : ℝ) • (u - l)
   (W *ᵥ c + b - W.map abs *ᵥ r, W *ᵥ c + b + W.map abs *ᵥ r)
 
+/-- Soundness of interval bounds through an affine layer. -/
 theorem mulVec_add_mem_ibpAffine {m n : ℕ} (W : Matrix (Fin m) (Fin n) ℝ) (b : Fin m → ℝ)
     {l u x : Fin n → ℝ} (hx : x ∈ Set.Icc l u) :
     W *ᵥ x + b ∈ Set.Icc (ibpAffine W b l u).1 (ibpAffine W b l u).2 := sorry
@@ -156,11 +160,13 @@ def ibpBounds {L : ℕ} (A : TauCeti.Neuromanifold.MLPSpec ℝ L) (θ : A.Parame
     (A.layerActivation i ∘ (ibpAffine (θ i).1 (θ i).2 B.1 B.2).1,
       A.layerActivation i ∘ (ibpAffine (θ i).1 (θ i).2 B.1 B.2).2)
 
+/-- Soundness of interval bound propagation through every prefix of an MLP. -/
 theorem evalPrefix_mem_ibpBounds {L : ℕ} (A : TauCeti.Neuromanifold.MLPSpec ℝ L)
     (θ : A.Parameters) (hσ : ∀ j, Monotone (A.activation j)) {l u x : Fin (A.width 0) → ℝ}
     (hx : x ∈ Set.Icc l u) (i : Fin (L + 1)) :
     A.evalPrefix θ x i ∈ Set.Icc (ibpBounds A θ l u i).1 (ibpBounds A θ l u i).2 := sorry
 
+/-- The elementary interval-bound margin certificate. -/
 theorem certifiedOn_Icc_of_ibpBounds {L : ℕ} (A : TauCeti.Neuromanifold.MLPSpec ℝ L)
     (θ : A.Parameters) (hσ : ∀ j, Monotone (A.activation j)) {l u : Fin (A.width 0) → ℝ}
     {i : Fin (A.width (Fin.last L))}
@@ -170,9 +176,11 @@ theorem certifiedOn_Icc_of_ibpBounds {L : ℕ} (A : TauCeti.Neuromanifold.MLPSpe
 
 /-! ## Layer 5: linear relaxation -/
 
+/-- The upper chord of ReLU on `[l, u]` with `l < 0 < u`. -/
 theorem max_le_chord {l u z : ℝ} (hl : l < 0) (hu : 0 < u) (hz : z ∈ Set.Icc l u) :
     max z 0 ≤ u / (u - l) * (z - l) := sorry
 
+/-- The lower lines of ReLU through the origin. -/
 theorem mul_le_max {α : ℝ} (h₀ : 0 ≤ α) (h₁ : α ≤ 1) (z : ℝ) : α * z ≤ max z 0 := sorry
 
 /-- The slope and intercept of the CROWN relaxation of one hidden neuron. -/
@@ -195,9 +203,11 @@ theorem crown_sound {n h k : ℕ} (W₁ : Matrix (Fin h) (Fin n) ℝ) (b₁ : Fi
 
 /-! ## Layer 6: exact certificates -/
 
+/-- An `LDLᵀ` factorization with nonnegative `d` certifies semidefiniteness. -/
 theorem posSemidef_mul_diagonal_mul_transpose {n : ℕ} (L : Matrix (Fin n) (Fin n) ℝ)
     {d : Fin n → ℝ} (hd : 0 ≤ d) : (L * diagonal d * Lᵀ).PosSemidef := sorry
 
+/-- Rational semidefiniteness transfers to the real cast. -/
 theorem PosSemidef.map_ratCast {n : ℕ} {M : Matrix (Fin n) (Fin n) ℚ} (hM : M.PosSemidef) :
     (M.map ((↑) : ℚ → ℝ)).PosSemidef := sorry
 
