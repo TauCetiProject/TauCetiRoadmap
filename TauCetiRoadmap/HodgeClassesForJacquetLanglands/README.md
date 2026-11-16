@@ -18,7 +18,8 @@ with `ℚ(π) = ℚ`, the rational correspondence on `H^{2d}(X₁ × X₂, ℚ)(
 
 ## Scope and ownership
 
-This roadmap owns: the Hermitian exterior construction and its block restrictions (Layers 1–2);
+This roadmap owns: the Hermitian exterior construction and its block restrictions (Layers 1–2),
+with the unitary and quaternionic unitary similitude group schemes they act through (§1.2);
 the explicit local torus, weight and signature computations of the exceptional maps (Layer 3);
 the harmonic Schwartz forms on real quadratic spaces of even signature, their polynomial Fock
 description, with the generator formulas of the real Weil representation it uses, and their
@@ -33,7 +34,14 @@ infinite central kernel of a neat level), the same realizations for the definite
 `G(ℝ)/Z(ℝ)` compact, which are not Shimura data, and their pullbacks and normalized traces (§§0.2–0.3),
 the Hodge-type criterion for coefficient cohomology of compact unitary similitude Shimura varieties
 (§8.6) and the local fact that de Rham additive characters are unramified (§9.3); no earlier
-roadmap states these, and they are needed here first.
+roadmap states these in this generality, and they are needed here first. For a quaternion algebra
+split at exactly one real place, HilbertModularVarietiesAndShimuraCurves states the coefficient
+systems on the Shimura curve and their descent through the effective central kernel (§R18.4.1), the
+comparison of its cohomology with the arithmetic quotient and the compact automorphic comparison
+(§§R18.4.24b and R18.4.25a) and the Hecke multiplicity spaces of its `H¹` (§R18.4.25), with integral and
+`ℓ`-adic coefficients over a splitting field; §§0.2–0.5 differ in treating every compact datum of
+abelian type, the definite pairs and every `d`, with `L`-rational Hodge and `ℓ`-adic realizations in
+`M_E^L`.
 
 It leaves the following to the named roadmaps and does not state them again.
 
@@ -166,8 +174,8 @@ quaternion algebra `B`, split at every real place. A CM quadratic `E/F` embedded
 fixed, `B_i = E ⊕ Ej_i` with `j_i² = J_i ∈ F^×`, and `U = B₁ ⊥ B₂` with its mixed summand
 `W = B₁ ⊗_E B₂` of `B`-rank two and diagonal summand `W₀` of `B`-rank one. The group
 `(B₁^× × B₂^×)/{(t,t⁻¹)}` uses the anti-diagonal scalar quotient. The exterior map squares the
-similitude multiplier; its kernel `μ₂` is scheme-theoretic, and an isogeny of algebraic groups is
-never taken to be surjective on `F`-points.
+similitude multiplier; its scheme-theoretic kernel is `Res_{E/F}μ₂`, whose `F`-points are `±1`
+(§1.7), and an isogeny of algebraic groups is never taken to be surjective on `F`-points.
 
 Theta integrals use the convention `θ(f) = ∫ Θ(g,h) f(h) dh`, linear in the automorphic input.
 MetaplecticAutomorphicForms §5.6 integrates the complex conjugate of its input, so its lift of
@@ -725,11 +733,16 @@ sufficiently small neat compact open `K ⊂ G(𝔸_f)`:
   comparison for their cohomology (ComplexComparisonPartII §C6.6), so that `H^i(Sh_K, 𝕍)` with its
   `ℓ`-adic realizations is an object of `M_E^L` (MotivesAndAlgebraicCycles §7.15) on which the Hecke
   algebra `H(G(𝔸_f), K)` acts by morphisms;
-- for an irreducible cohomological `Π`, the isotypic part
-  `H^i(Sh, 𝕍)_Π = Hom_{H(G(𝔸_f),K)}(Π_f^K, H^i(Sh_K, 𝕍))`, independent of `K` small, with the
-  Matsushima description `H^i(Sh_K(ℂ), 𝕍_ℂ)_Π ≃ ⊕_{π_f^K ≃ Π_f^K} m(π) H^i(𝔤, K_h; π_∞ ⊗ V_ℂ)`,
-  relative to `K_h` and so with the real central directions divided out
-  (gap:shimura-matsushima-comparison).
+- for an irreducible cohomological `Π`, the complex isotypic part
+  `H^i(Sh, 𝕍_ℂ)_Π = Hom_{H(G(𝔸_f),K)}(Π_f^K, H^i(Sh_K(ℂ), 𝕍_ℂ))`, `𝕍_ℂ = 𝕍 ⊗_L ℂ`, independent of
+  `K` small, with the Matsushima description
+  `H^i(Sh_K(ℂ), 𝕍_ℂ)_Π ≃ ⊕_{π_f^K ≃ Π_f^K} m(π) H^i(𝔤, K_h; π_∞ ⊗ V_ℂ)`, relative to `K_h` and so
+  with the real central directions divided out (gap:shimura-matsushima-comparison); and, when `Π_f`
+  has a `G(𝔸_f)`-stable model `Π_f(L)` over `L`, the `L`-rational isotypic part
+  `H^i(Sh, 𝕍)_Π = Hom_{H_ℚ(G(𝔸_f),K)}(Π_f(L)^K, H^i(Sh_K, 𝕍))` of `L`-linear maps commuting with the
+  rational Hecke algebra of the Conventions, formed in each realization and independent of `K`
+  small: an object of `M_E^L` whose complexification along `L ⊂ ℂ` is the complex isotypic part.
+  Without such a model only the complex part is defined (Checks).
 
 (IP23, §2.2.2, pp. 16–17, including the comparison (2.1).) *Proof route:* the étale realizations are
 unramified outside a finite set by spreading out a smooth proper model of the canonical model and
@@ -822,6 +835,14 @@ compact covers. The statements below hold in both cases.
   system on the point `Sh_{K(3)}` is the line `V`, with `dim H⁰ = 1`.
 - The isotypic part is a multiplicity space, not the whole `Π`-isotypic summand: for
   `dim Π_f^K = r` the summand of `H^i` is `r` copies of it.
+- The `L`-rational part needs a model of `Π_f` over `L`. Take the definite pair of the quaternion
+  algebra over `ℚ` ramified at `{23, ∞}`, trivial coefficients, `L = ℚ`, and `Π` the transfer of one
+  of the two newforms of weight two and level `Γ₀(23)`, which are conjugate under `√5 ↦ −√5`. At a
+  neat level `K` with `Π_f^K ≠ 0`, some `T_p` with `p` prime to the level acts on `Π_f^K` by an
+  irrational `a ∈ ℚ(√5)`; an `H_ℚ(G(𝔸_f),K)`-stable `ℚ`-structure of dimension `r` would give `T_p`
+  the rational characteristic polynomial `(x − a)^r`, whose coefficient `−ra` is irrational. So the
+  complex part is a line and the `ℚ`-rational part is not defined; over `L = ℚ(√5)` the model
+  exists (gap:quaternionic-rational-model) and the `L`-rational part is a line.
 - Replacing `ρ` by its dual exchanges degrees `i` and `2D − i` under Poincaré duality, with the twist
   `(D)`.
 - The de Rham argument is made component by component: `Sh_K` has `π₀(Sh_K ⊗_E ℚ̄)` in bijection with
@@ -874,9 +895,11 @@ representation of `H` as in §0.2, viewed on `G` through `f`. Construct the pull
 `f^* : H^i(Sh_H, 𝕍) → H^i(Sh_G, 𝕍)` in Betti and `ℓ`-adic realizations as a morphism of `M_E^L`, by
 pulling the local system and the étale sheaf back along the map of Shimura varieties and of their
 canonical models (ShimuraVarieties §§1.6, 8.5; AlgebraicTopology §2.6). If `G → H` is surjective with
-central kernel `Z` and `G(𝔸) → H(𝔸)` is surjective, prove that `f^*` identifies the
-`Π_H`-isotypic part with the `Π_G`-isotypic part for the corresponding automorphic representations on
-which `Z` acts trivially.
+central kernel `Z` and `G(𝔸) → H(𝔸)` is surjective, prove that `f^*` identifies the complex
+`Π_H`-isotypic part with the complex `Π_G`-isotypic part for the corresponding automorphic
+representations on which `Z` acts trivially, and, when `Π_{H,f}` has a model over `L` and `Π_{G,f}`
+carries the model obtained through `f`, the `L`-rational parts of §0.2, as an isomorphism in `M_E^L`
+(IP23, §2.2.3, pp. 16–17).
 
 For a Shimura datum `(G, X)` with centre `Z`, let `Z(ℚ)⁻` be the closure of `Z(ℚ)` in `Z(𝔸_f)`. It
 acts trivially on the tower: `Z(ℚ)⁻K = Z(ℚ)K` for every compact open `K`, and
@@ -1160,11 +1183,38 @@ Definition 5.2, p. 28). For any basis `b` of `U`, `vol(H, d_U) = det[H(b_i, b_j)
 `Module.Basis.topVector`, `exteriorPower.isUnit_apply_topVector`; Tau Ceti
 `Module.Basis.exteriorPowerTopEquiv`.
 
-### 1.2 The determinant norm identity
+### 1.2 Unitary similitude groups and the determinant norm identity
 
-For `σ² = id`, `H` nondegenerate Hermitian of dimension `n` and `g ∈ GU_E(U)` with multiplier
-`ν(g) ∈ F^×`, prove `N_{E/F}(det g) = ν(g)^n`, and that the induced Hermitian form on `⋀^rU` is a
-similitude for `⋀^r g` with multiplier `ν(g)^r` (IP23, Proposition 5.1, pp. 25–26, with (5.1)–(5.3)).
+Let `F` be a field of characteristic zero and `E` a quadratic étale `F`-algebra with nontrivial
+involution `σ`: a quadratic field extension, or `F × F` with the swap, which enters at the split
+places of §3.1. For a nondegenerate Hermitian form `H` on a free `E`-module `U` of rank `n`, define
+`GU_E(U)` as the `F`-group functor sending an `F`-algebra `R` to the pairs
+`(g, ν) ∈ GL_{E⊗_F R}(U ⊗_F R) × R^×` with `H(gx, gy) = ν·H(x, y)` for all `x, y`, with multiplier
+`ν(g) = ν`; put `U_E(U) = ker ν` and, for `n = 4`, let `GSU_E(U)` be the subfunctor on which
+`det_{E⊗R} g = ν²` in `(E ⊗_F R)^×`. For a quaternion algebra `B` over `F` with main involution `*` and
+a free right `B`-module `X` of rank `m` with a nondegenerate skew-Hermitian form,
+`⟨xβ, yγ⟩ = β*⟨x, y⟩γ` and `⟨y, x⟩ = −⟨x, y⟩*`, define `GU_B(X)` in the same way inside
+`GL_{B⊗_F R}(X ⊗_F R) × R^×`, put `U_B(X) = ker ν`, and let `GU_B(X)°` be its identity component
+(ReductiveGroups Layer 3). Prove that `N_{E/F}(det g) = ν(g)^n` for `g ∈ GU_E(U)`, and that the
+induced Hermitian form on `⋀^rU` is a similitude for `⋀^r g` with multiplier `ν(g)^r` (IP23, §5.1
+and Proposition 5.1, pp. 25–26, with (5.1)–(5.3); the dimensions are those of the proof of
+Proposition 5.6, p. 31).
+
+- Each functor is a closed subgroup scheme of `GL_F(U) × 𝔾_m`, resp. `GL_F(X) × 𝔾_m`, with `U` and
+  `X` regarded as `F`-spaces, cut out by `E`- or `B`-linearity and the multiplier equation; its
+  formation commutes with extension of `F`.
+- For `U ≠ 0`, resp. `X ≠ 0`, the multiplier is determined by `g` over every `R`: for `x, y` with
+  `c = H(x, y) ≠ 0`, resp. `c = ⟨x, y⟩ ≠ 0`, the image of `(x, y)` under `g` pairs to `ν·c`, and some
+  coordinate of `c` in an `F`-basis of `E`, resp. `B`, lies in `F^×`.
+- Over a field `F′ ⊃ F` splitting `E`, the two idempotents of `E ⊗_F F′` split `U ⊗_F F′ = U₁ ⊕ U₂`
+  into isotropic subspaces paired perfectly by `H`, and `(g, ν) ↦ (g|_{U₁}, ν)` identifies `GU_E(U)`
+  with `GL_n × 𝔾_m`, `U_E(U)` with `GL_n` and, for `n = 4`, `GSU_E(U)` with
+  `{(g₁, ν) : det g₁ = ν²}`. So these groups are smooth and connected, of dimensions `n² + 1`, `n²`
+  and `16`.
+- Over a field `F′ ⊃ F` splitting `B`, a primitive idempotent `e` of `B ⊗_F F′ ≅ M₂(F′)` identifies
+  `GU_B(X)` with the similitude group of a nondegenerate symmetric bilinear form on the
+  `2m`-dimensional space `(X ⊗_F F′)e`. So `U_B(X)` has dimension `m(2m − 1)` and, for `m ≥ 1`,
+  `GU_B(X)` has dimension `m(2m − 1) + 1` and two geometric components.
 
 **Checks.**
 
@@ -1172,9 +1222,17 @@ similitude for `⋀^r g` with multiplier `ν(g)^r` (IP23, Proposition 5.1, pp. 2
 - For `n = 4` and a non-scalar similitude of a non-diagonal Hermitian form over `ℚ(i)`,
   `N(det g) = ν⁴`.
 - `det g` itself need not equal `ν^{n/2}`; only its norm is determined.
+- For `n = 4`, `dim GU_E(U) = 17` and `dim GSU_E(U) = dim U_E(U) = 16`, yet `GSU_E(U) ≠ U_E(U)`: a
+  scalar `t ∈ F^×` has `ν = t²` and `det g = t⁴ = ν²`, so it lies in `GSU_E(U)`, and in `U_E(U)` only
+  when `t² = 1`.
+- For `U = 0` every `ν ∈ R^×` is a multiplier of the identity, so `GU_E(0) = 𝔾_m` and `U_E(0)` is
+  trivial: the multiplier is part of the point, and only in rank zero is it not determined by `g`.
+- For the rank-three space of §1.6, `dim U_B(X) = 15` and `dim GU_B(X)° = 16 = dim GSU_E(U)`, and
+  `GU_B(X)` has two geometric components; for `m = 1`, `GU_B(X)°` has dimension `2`, as
+  `GU_B(W₀)° ≃ E^×` of §2.5 requires.
 
-*Needs:* §1.1; Tau Ceti `LinearMap.map_exteriorPower_finrank_eq_det_smul`; Mathlib
-`exteriorPower.map`.
+*Needs:* §1.1; ReductiveGroups Layer 3; Mathlib `QuaternionAlgebra`; Tau Ceti
+`LinearMap.map_exteriorPower_finrank_eq_det_smul`; Mathlib `exteriorPower.map`.
 
 ### 1.3 The exterior operator
 
@@ -1294,9 +1352,10 @@ action and form.
 
 ### 1.7 The exceptional exterior isogeny
 
-Under the hypotheses of §1.6 let `GSU_E(U) = {g ∈ GU_E(U) : det_E g = ν(g)²}`. Prove that `g ↦ ⋀²g` is
-an isogeny of algebraic `F`-groups `GSU_E(U) → GU_B(⋀²U)°` with scheme-theoretic kernel `μ₂` and
-multiplier `ν(g)²` on the target (IP23, Proposition 5.6, pp. 30–31). The point-level identity is
+Under the hypotheses of §1.6 let `GSU_E(U) = {g ∈ GU_E(U) : det_E g = ν(g)²}` (§1.2). Prove that
+`g ↦ ⋀²g` is an isogeny of algebraic `F`-groups `GSU_E(U) → GU_B(⋀²U)°` with multiplier `ν(g)²` on the
+target, whose scheme-theoretic kernel is `Res_{E/F}μ₂`, the `E`-scalars `c` with `c² = 1`, of order
+four with `F`-points `±1` (IP23, Proposition 5.6, pp. 30–31). The point-level identity is
 `IsExteriorStar.map_similitude`: for every `E`-linear automorphism `g` with `H(gx, gy) = ν·H(x, y)`,
 `L ∘ ⋀²g = (ν²/det g)·(⋀²g ∘ L)`, for every sesquilinear `H` (IP23, (5.10), from (5.7)–(5.9)).
 *Proof route:* compute the kernel on geometric points and the differential, and use connectedness and
@@ -1309,6 +1368,9 @@ RepresentationTheory/SpinRepresentations Layer 6.
 - For random similitudes of non-diagonal Hermitian forms over `ℚ(i)`, the factor `ν²/det g` makes the
   identity hold, while its conjugate `σ(ν²/det g)` does not.
 - `⋀²g = id` for `g = −1`, which lies in `GSU`; the kernel is not trivial.
+- The kernel is not `μ₂`. Over `F̄`, `E ⊗_F F̄ = F̄ × F̄` and the `E`-scalar `c = (1, −1)` has
+  `ν = σ(c)c = −1` and `det c = c⁴ = 1 = ν²`, so it lies in `GSU_E(U)`, and `⋀²c = c² = 1`; it is not
+  an `F`-point when `E` is a field.
 
 *Needs:* §§1.2, 1.3, 1.6; Tau Ceti `LinearMap.map_exteriorPower_finrank_eq_det_smul`; ReductiveGroups
 Layers 3, 6;
@@ -1402,7 +1464,8 @@ of equal-multiplier pairs acts compatibly (IP23, (5.11) and Proposition 5.10, p.
 
 Let `H = GSU_E(U) ∩ G(U_E(U₁) × U_E(U₂))`, where `G(·)` means equal similitude multipliers. Prove that
 the exterior isogeny of §1.7 restricts to a central isogeny `H → G(U_B(W) × U_B(W₀))°` with kernel
-`μ₂`, between connected groups of dimension eight (IP23, Proposition 5.10, (5.12), p. 32).
+`Res_{E/F}μ₂` (§1.7), between connected groups of dimension eight (IP23, Proposition 5.10, (5.12),
+p. 32).
 
 **Checks.**
 
@@ -1485,7 +1548,7 @@ For `U = B₁ ⊥ B₂` put `Ũ = GU_E(U)`, `H̃ = G(U_E(B₁) × U_E(B₂))`, `
 `H̃_B = G(U_B(W) × U_B(W₀))°`. Construct the inclusions `H̃ → Ũ`, `H̃_B → G̃`, the central quotients
 `Ũ/E^×`, `G̃/F^×` and the projective isomorphisms of §§1.8 and 2.4; with §2.5 write
 `H̃_B = {(g, α) ∈ G × E^× : ν(g) = N(α)}` where `G = (B₁^× × B₂^×)/{(t, t⁻¹)}`. Prove that the diagram
-commutes as algebraic `F`-groups, and after `Res_{F/ℚ}` and localization (IP23, §4.1, pp. 20–22;
+commutes as algebraic `F`-groups, and after `Res_{F/ℚ}` and localization (IP23, §4.1, pp. 20–23;
 Propositions 5.7 and 5.11, pp. 31–32). Every arrow carries its kernel and the component of its source.
 
 - Block inclusion followed by projectivization equals the exceptional projective map followed by the
@@ -2789,7 +2852,7 @@ normalized central trace to the projective quaternionic block group, with the vo
 taken for the fixed rational Haar measures of §0.3 on the effective groups, and the level average
 (§§0.3, 7.3); pullback from `G` to `B₁^× × B₂^×`; the `L`-rational `π₁ ⊠ π₂` projector; and
 contraction with chosen nonzero vectors of the `L`-models of §0.5 (IP23, §§12.2.5–12.2.11,
-pp. 96–98; proof of Theorem 12.4, p. 99). Prove that it is `ℚ(k)`-linear in the source and
+pp. 97–98; proof of Theorem 12.4, p. 99). Prove that it is `ℚ(k)`-linear in the source and
 `ℚ`-linear in `c`, with values in the `L`-structure, and that for `Gal(ℚ̄/F_Σ)`-invariant `c` it is a
 morphism in every realization over `F_Σ`; the rationality of the Haar measures is what puts the
 normalized trace, and so `Res_c`, in the `L`-structure (§0.3).
@@ -2814,8 +2877,10 @@ gap:quaternionic-rational-model; MotivesAndAlgebraicCycles §§2.3, 7.15.
 
 ### 10.4 Invertibility of the theta correspondence
 
-Assume `d ≥ 1` and `B₁ ≄ B₂`. Prove that there are auxiliary data
-`(E, τ̃, φ, φ̃, η, K, K₁, K₂, v₁, v₂)` for which `Res_{c_η}(ξ_τ(d)) : V₁ ⊗ ℂ → V₂ ⊗ ℂ` is an
+Assume `d ≥ 1` and `B₁ ≄ B₂`. Prove that there are auxiliary data, namely the CM field `E` and
+place `v₀` of §10.2, the Hilbert representation of §10.1 with its constituent `τ`, a minimal-type
+vector `φ ∈ τ` and the Schwartz data of §7.1, the character `η` of §7.7, and the levels and the
+vectors of the `L`-models chosen in §10.3, for which `Res_{c_η}(ξ_τ(d)) : V₁ ⊗ ℂ → V₂ ⊗ ℂ` is an
 isomorphism; in the sign bases of §0.6 it has a nonzero entry on each matching pair of lines and no
 other entries, so its rank is `2^d` (IP23, Proposition 12.3, p. 98). *Proof route:* §10.2 supplies `E`
 and `v₀`; Matsushima reduces to relative Lie algebra cohomology; §7.10 gives the nonzero pairings for
@@ -3030,6 +3095,8 @@ matrix would not.
   - §3.2, p. 19: the model of `π_{B,f}` over `L` itself rests on the trivial central character, through
     the division-place case of Wal85, §II.1, pp. 147–148 (§0.5).
   - The rotated diagram, p. 22: the rank-one group on the quaternionic side is `U_B` (§2.5).
+  - Proposition 5.6, p. 31: the kernel `{±1}` is read as the group of `F`-points; the scheme-theoretic
+    kernel is `Res_{E/F}μ₂` (§1.7).
   - §4.3, p. 24: the component set is not identified with the torus Shimura variety; only the morphism to
     the torus datum and pullback of its functions are used (§§5.2–5.3), since the derived group is not
     simply connected.

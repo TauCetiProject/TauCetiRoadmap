@@ -31,7 +31,7 @@ Headline theorems that are not statable at the pins, and what each lacks:
 * The conditional all-`ℓ` Galois statement (§10.8; Theorem 3.2(ii), Theorem 12.4(ii)):
   additionally lacks étale cohomology of canonical models with `ℓ`-adic coefficient systems and
   Galois action, and the degree-`2d` Kottwitz hypothesis of §9.2 that it assumes.
-* The exceptional isogeny `GSU_E(U) → GU_B(⋀²U)°` with kernel `μ₂` and the exceptional
+* The exceptional isogeny `GSU_E(U) → GU_B(⋀²U)°` with kernel `Res_{E/F}μ₂` and the exceptional
   isomorphism `PGU_E(U) ≃ PGU_B(⋀²U)°` (§§1.7–1.8; Propositions 5.6–5.7) as statements about
   algebraic groups: unitary and quaternionic skew-Hermitian similitude group schemes over `F` are
   absent (Tau Ceti's affine algebraic groups have isogenies, identity components, and the quotient
