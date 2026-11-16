@@ -22,7 +22,8 @@ The headline targets are:
 * Layer 4: the Jacobi measure, its finite exponential moment, the orthogonality relation with a
   uniformly positive norm sequence (including the case `n = 0`, `α + β = -1`), and the two
   Hilbert bases of `L²`;
-* Layer 5: the tensor Laguerre and Jacobi bases;
+* Layer 5: the tensor Laguerre and Jacobi bases, in the weighted-measure and in the `√w`
+  normalization;
 * Layer 6: Legendre orthogonality and the shifted Legendre transport, the Gegenbauer polynomials
   with their degree, Jacobi relation and orthogonality, and the Chebyshev consistency check
   against Mathlib's `Polynomial.Chebyshev.measureT`.
@@ -30,8 +31,8 @@ The headline targets are:
 Conventions: the base ring is `[CommRing R] [Algebra ℚ R]`, every rational coefficient enters as
 a `ℚ`-scalar, and no division in `R` is used. Measures are built in the shape of
 `TauCeti.hilbertBasisOfWeightedMeasure`, namely `(volume.restrict s).withDensity` of
-`ENNReal.ofReal` of the weight. The roadmap's own declarations live in the namespaces
-`Polynomial` and `ProbabilityTheory`, in which Mathlib has no declaration of the same name.
+`ENNReal.ofReal` of the weight. The roadmap's own declarations live in the namespace
+`Polynomial`, in which Mathlib has no declaration of the same name.
 
 All headline targets of the roadmap are statable at the pins.
 -/
@@ -125,11 +126,12 @@ theorem tendsto_nhdsGT_zero_iteratedDeriv_laguerreWeight {α : ℝ} (hα : -1 < 
       (𝓝 0) :=
   sorry
 
-/-- **Layer 2.** The boundary terms of the integration by parts at infinity: for every `j` the
-`j`-th derivative of `e^{-t} t^{n+α}` tends to `0` as `t → ∞`. -/
-theorem tendsto_atTop_iteratedDeriv_laguerreWeight (α : ℝ) (j n : ℕ) :
-    Tendsto (iteratedDeriv j (fun t : ℝ => Real.exp (-t) * t ^ ((n : ℝ) + α))) atTop
-      (𝓝 0) :=
+/-- **Layer 2.** The boundary terms of the integration by parts at infinity: for every polynomial
+`q` and every `j`, `q(t)` times the `j`-th derivative of `e^{-t} t^{n+α}` tends to `0` as
+`t → ∞`. The polynomial factor is a derivative of some `Lₘ^{(α)}`, which is unbounded at `∞`. -/
+theorem tendsto_atTop_eval_mul_iteratedDeriv_laguerreWeight (q : ℝ[X]) (α : ℝ) (j n : ℕ) :
+    Tendsto (fun t : ℝ => q.eval t * iteratedDeriv j (fun t : ℝ => Real.exp (-t) * t ^ ((n : ℝ) + α)) t)
+      atTop (𝓝 0) :=
   sorry
 
 /-- **Layer 2.** The Laguerre orthogonality relation (DLMF Table 18.3.1):
@@ -341,6 +343,38 @@ theorem exists_hilbertBasis_pi_jacobiMeasure {𝕜 : Type*} [RCLike 𝕜] {ι : 
       ∀ k : ι → ℕ, (b k : (ι → ℝ) → 𝕜) =ᵐ[Measure.pi fun _ : ι => jacobiMeasure α β]
         fun x => ∏ i, algebraMap ℝ 𝕜
           ((jacobi α β (k i)).eval (x i) / Real.sqrt (jacobiNormSq α β (k i))) :=
+  sorry
+
+/-- **Layer 5.** The multi-index Laguerre basis of the unweighted `L²` of a product of copies of
+`(0, ∞)`, with its pin: the vector of index `k` is the product over `i` of the normalized
+Laguerre functions `Lₖᵢ^{(α)}(xᵢ) √(xᵢ^α e^{-xᵢ}) / √(Γ(kᵢ+α+1)/kᵢ!)`. It is
+`TauCeti.piHilbertBasis` applied to the `√w` basis of `exists_hilbertBasis_laguerreFunction`
+(§2.4); `MeasureTheory.Measure.restrict_pi_pi` identifies the measure with
+`volume.restrict (Set.univ.pi fun _ => Set.Ioi 0)`. -/
+theorem exists_hilbertBasis_pi_laguerreFunction {𝕜 : Type*} [RCLike 𝕜] {ι : Type*} [Fintype ι]
+    {α : ℝ} (hα : -1 < α) :
+    ∃ b : HilbertBasis (ι → ℕ) 𝕜
+        (Lp 𝕜 2 (Measure.pi fun _ : ι => volume.restrict (Set.Ioi (0 : ℝ)))),
+      ∀ k : ι → ℕ,
+        (b k : (ι → ℝ) → 𝕜) =ᵐ[Measure.pi fun _ : ι => volume.restrict (Set.Ioi (0 : ℝ))]
+        fun x => ∏ i, algebraMap ℝ 𝕜
+          ((laguerre α (k i)).eval (x i) * Real.sqrt ((x i) ^ α * Real.exp (-(x i))) /
+            Real.sqrt (Real.Gamma (k i + α + 1) / (k i).factorial)) :=
+  sorry
+
+/-- **Layer 5.** The multi-index Jacobi basis of the unweighted `L²` of a product of copies of
+`(-1, 1)`, with its pin: the vector of index `k` is the product over `i` of the normalized Jacobi
+functions `Pₖᵢ^{(α,β)}(xᵢ) √((1-xᵢ)^α (1+xᵢ)^β) / √(hₖᵢ)`. It is `TauCeti.piHilbertBasis`
+applied to the `√w` basis of `exists_hilbertBasis_jacobiFunction` (§4.4). -/
+theorem exists_hilbertBasis_pi_jacobiFunction {𝕜 : Type*} [RCLike 𝕜] {ι : Type*} [Fintype ι]
+    {α β : ℝ} (hα : -1 < α) (hβ : -1 < β) :
+    ∃ b : HilbertBasis (ι → ℕ) 𝕜
+        (Lp 𝕜 2 (Measure.pi fun _ : ι => volume.restrict (Set.Ioo (-1 : ℝ) 1))),
+      ∀ k : ι → ℕ,
+        (b k : (ι → ℝ) → 𝕜) =ᵐ[Measure.pi fun _ : ι => volume.restrict (Set.Ioo (-1 : ℝ) 1)]
+        fun x => ∏ i, algebraMap ℝ 𝕜
+          ((jacobi α β (k i)).eval (x i) * Real.sqrt ((1 - x i) ^ α * (1 + x i) ^ β) /
+            Real.sqrt (jacobiNormSq α β (k i))) :=
   sorry
 
 /-! ## Layer 6: Legendre, Gegenbauer and the Chebyshev consistency check -/

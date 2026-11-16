@@ -28,7 +28,8 @@ Mathlib carries three classical orthogonal polynomial families as algebraic obje
 family-agnostic `L²` Hilbert-basis layer that turns an orthogonality relation
 `∫ pₘ pₙ w = cₙ δₘₙ` into a complete orthonormal basis. Mathlib has no Laguerre polynomial (no
 declaration mentions `Laguerre`), no declaration is a Jacobi polynomial (the occurrences of
-`jacobi` are `jacobiSum`, `jacobiTheta`, the Jacobi identity and Jacobian determinants), and there
+`jacobi` are `jacobiSym`, `jacobiSum`, `jacobiTheta`, the Jacobi identity, and Jacobian matrices
+and determinants), and there
 is no Gegenbauer polynomial. `OrthogonalL2Bases`
 ([Completed](../../Completed/OrthogonalL2Bases/README.md)) leaves the Laguerre and Jacobi families
 to a separate roadmap, since Mathlib defines neither; this is that roadmap, and it consumes that
@@ -212,13 +213,12 @@ bases) depends only on Layers 2 and 4. Layer 6 depends on Layers 3 and 4; its Ch
 (§6.3) belongs with Layer 4 in practice, since it is how the Layer 4 constant is known to be right.
 The Legendre export (§6.1) is the highest-value single item for existing Mathlib users.
 
-A name in code font that is qualified by `Polynomial` or `ProbabilityTheory` and is not a Mathlib
+A name in code font that is qualified by `Polynomial` and is not a Mathlib
 or Tau Ceti declaration is a declaration of `Suggested.lean`, with the signature given there. The
 API facts that the text states in prose are targets too; a contributor names them in the same
 namespace.
 
-Earlier drafts of this roadmap, and the roadmaps that cite it, number the targets in six parts A–F.
-The correspondence with the sections below is:
+Roadmaps that cite these targets by the ids A1–F3 read them as follows:
 
 | Former id | Section |
 |---|---|
@@ -372,15 +372,18 @@ finite; at `a = 1` the integral `∫ x^α` diverges, so the bound `a < 1` is sha
 The proof is Rodrigues (§1.3) plus `MeasureTheory.integral_Ioi_mul_deriv_eq_deriv_mul`, `n` times:
 the `n`-fold integration by parts moves all derivatives onto the lower-degree factor and kills the
 off-diagonal case by `Polynomial.iterate_derivative_eq_zero_of_degree_lt`, and the diagonal
-constant is `Real.Gamma_eq_integral`. The boundary terms vanish because `exp (-t) * t ^ (n+α)`
-and its derivatives of order below `n` tend to `0` at both ends. That is a target in its own right,
-since it is the step an implementor otherwise waves at:
+constant is `Real.Gamma_eq_integral`. The boundary terms are a polynomial times a derivative of
+order below `n` of `exp (-t) * t ^ (n+α)`; they tend to `0` at `0⁺`, where the polynomial is bounded,
+and at `∞`, where the exponential dominates. That is a target in its own right, since it is the
+step an implementor otherwise waves at:
 
 - `Polynomial.tendsto_nhdsGT_zero_iteratedDeriv_laguerreWeight`: for `-1 < α` and `j < n`, the
   `j`-th derivative of `t ↦ exp (-t) * t ^ (n + α)` tends to `0` as `t → 0⁺` (its order of
   vanishing is `n + α - j > 0`);
-- `Polynomial.tendsto_atTop_iteratedDeriv_laguerreWeight`: for every `j`, it tends to `0` as
-  `t → ∞`.
+- `Polynomial.tendsto_atTop_eval_mul_iteratedDeriv_laguerreWeight`: for every polynomial `q` and
+  every `j`, `q(t)` times that derivative tends to `0` as `t → ∞` (the factor `q` is a derivative
+  of some `Lₘ^{(α)}`, unbounded at `∞`; at `m = 1`, `j = 0` the boundary term is
+  `(1 + α - t) e^{-t} t^{n+α}`).
 
 *Needs:* §§1.1, 1.3, 2.1; Mathlib `MeasureTheory.integral_Ioi_mul_deriv_eq_deriv_mul`,
 `Polynomial.iterate_derivative_eq_zero_of_degree_lt`, `Real.Gamma_eq_integral`.
@@ -436,8 +439,8 @@ Layer 1; Mathlib `Real.Gamma`, `integrableOn_rpow_mul_exp_neg_mul_rpow`, integra
 
 ## Layer 3: the Jacobi polynomials
 
-Suggested home: `TauCeti/RingTheory/Polynomial/Jacobi/`. Names live in the namespaces
-`Polynomial` and `ProbabilityTheory`.
+Suggested home: `TauCeti/RingTheory/Polynomial/Jacobi/`. Names live in the namespace
+`Polynomial`.
 
 ### 3.1 The real Beta integral
 
@@ -686,10 +689,21 @@ so that "immediate" is recorded as work:
 
 - `Polynomial.exists_hilbertBasis_pi_laguerreMeasure` (`-1 < α`): for a finite index type `ι`, a
   `HilbertBasis (ι → ℕ) 𝕜 (Lp 𝕜 2 (Measure.pi fun _ => laguerreMeasure α))` whose vector at `k` is
-  a.e. the product over `i` of the normalized one-variable Laguerre functions at `k i`;
-- `Polynomial.exists_hilbertBasis_pi_jacobiMeasure` (`-1 < α`, `-1 < β`): likewise for Jacobi.
+  a.e. the product over `i` of the normalized Laguerre polynomials `Lₖᵢ^{(α)}(xᵢ) / √(Γ(kᵢ+α+1)/kᵢ!)`, the vectors of the first basis of §2.4;
+- `Polynomial.exists_hilbertBasis_pi_jacobiMeasure` (`-1 < α`, `-1 < β`): likewise for Jacobi;
+- `Polynomial.exists_hilbertBasis_pi_laguerreFunction` (`-1 < α`): a
+  `HilbertBasis (ι → ℕ) 𝕜 (Lp 𝕜 2 (Measure.pi fun _ : ι => volume.restrict (Set.Ioi 0)))` whose vector
+  at `k` is a.e. `fun x => ∏ i, algebraMap ℝ 𝕜 (Lₖᵢ^{(α)}(xᵢ) √(xᵢ^α e^{-xᵢ}) / √(Γ(kᵢ+α+1)/kᵢ!))`,
+  the `√w` normalization of §2.4;
+- `Polynomial.exists_hilbertBasis_pi_jacobiFunction` (`-1 < α`, `-1 < β`): likewise over
+  `Measure.pi fun _ : ι => volume.restrict (Set.Ioo (-1) 1)`, with vector
+  `Pₖᵢ^{(α,β)}(xᵢ) √((1-xᵢ)^α (1+xᵢ)^β) / √hₖᵢ` in each factor (§4.4).
 
-*Needs:* §§2.4, 4.4; Tau Ceti `TauCeti.piHilbertBasis`, `TauCeti.coeFn_piHilbertBasis`.
+`MeasureTheory.Measure.restrict_pi_pi` identifies `Measure.pi fun _ => volume.restrict (Set.Ioi 0)`
+with `volume.restrict (Set.univ.pi fun _ => Set.Ioi 0)`, so the last two are bases of the unweighted
+`L²` of the orthant and of the cube.
+
+*Needs:* §§2.4, 4.4; Mathlib `MeasureTheory.Measure.restrict_pi_pi`; Tau Ceti `TauCeti.piHilbertBasis`, `TauCeti.coeFn_piHilbertBasis`.
 *Locator:* Tau Ceti `TauCeti/Analysis/InnerProductSpace/L2/Pi.lean` (the product basis).
 
 **Checks.** `ι` a singleton: the basis is the one-variable basis of §2.4 (resp. §4.4) up to the
@@ -698,7 +712,8 @@ identification `(ι → ℕ) ≃ ℕ`; for `ι = Fin 2`, `α = 0`, the vector at
 
 ### Examples
 
-The two-dimensional Laguerre functions `Lₘ(x) Lₙ(y) e^{-(x+y)/2}` form a basis of
+At `α = 0` the functions `Lₘ(x) Lₙ(y) e^{-(x+y)/2}` are the vectors of
+`Polynomial.exists_hilbertBasis_pi_laguerreFunction` for `ι = Fin 2`; they form a basis of
 `L²((0, ∞)²)`.
 
 ### Dependencies
@@ -841,11 +856,12 @@ as its case `m = 0`.
 
 ## References
 
-- DLMF, *NIST Digital Library of Mathematical Functions*, <https://dlmf.nist.gov>, Chapter 18
+- DLMF, *NIST Digital Library of Mathematical Functions*, <https://dlmf.nist.gov>, Chapters 5, 14 and 18
   (open access). Locators used above: Table 18.3.1 (weights, `hₙ`, `kₙ`); 18.5.5 with Table 18.5.1
   (Rodrigues); 18.5.8, 18.5.10, 18.5.12 (the explicit sums); 18.6.1 and Table 18.6.1 (special
-  values and reflection); 18.7.1, 18.7.3 and 18.7.10 (Gegenbauer, Chebyshev and shifted Legendre in terms of Jacobi); 18.9.2,
-  18.9.13, 18.9.15, 18.9.23 (recurrences and derivatives); §14.17 (Legendre orthogonality).
+  values and reflection); 18.7.1, 18.7.3 and 18.7.10 (Gegenbauer, Chebyshev and shifted Legendre in terms of Jacobi); 18.9.1 with Table 18.9.1, 18.9.2,
+  18.9.13, 18.9.15, 18.9.23 (recurrences and derivatives); 14.17.6 (Legendre orthogonality); 5.12.1
+  (the Beta integral).
 - G. Szegő, *Orthogonal Polynomials*, AMS Colloquium Publications 23, Ch. IV (Jacobi) and Ch. V
   (Laguerre and Hermite); §4.3 is the Jacobi orthogonality relation including the `α + β + 1 = 0`
   remark.
