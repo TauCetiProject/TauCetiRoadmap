@@ -3923,6 +3923,49 @@ in its proof of Federer's main conjecture for totally real abelian fields.
 Kato's Euler system and the other arithmetic applications apply the generic
 Euler-system theory directly; the cyclotomic units here are its worked example.
 
+## Provenance
+
+This section is secondary: it records an existing formalisation outside Tau Ceti
+and prescribes nothing. [LeanPool/lean-pool](https://github.com/LeanPool/lean-pool/tree/f8b9b721d616a2cc0b22fc226e4a9e3dd6cea2d0),
+read at commit `f8b9b721`, is an Apache-2.0 collection of Lean projects
+maintained outside Mathlib. It is not a dependency: it is built with Lean
+`v4.35.0` against an earlier Mathlib, so a statement read there is compared
+with the target here before it is used, and a proof adapted from it keeps its
+attribution.
+
+Its folder [`LeanPool/FltRegular/`](https://github.com/LeanPool/lean-pool/tree/f8b9b721d616a2cc0b22fc226e4a9e3dd6cea2d0/LeanPool/FltRegular)
+(19 files, packaged from `leanprover-community/flt-regular` at commit `94a1d78`)
+formalises Kummer's proof of Fermat's Last Theorem for odd regular prime
+exponents. It has no Euler system, Kolyvagin derivative, Iwasawa module or
+characteristic ideal, and no section owned here has a counterpart there. What
+it shares with this roadmap is supplier material.
+
+- **Units of `ℚ(μ_p)`.** For an odd prime `p` and every unit `u`, its
+  `unit_inv_conj_is_root_of_unity` writes `u/ū` as the square of a power of
+  `ζ_p`, so `[E:μE⁺]=1` for `ℚ(μ_p)`. This is the prime-level case of the CM
+  Hasse index one that §F.9 consumes from CyclotomicClassGroupsAndStickelberger
+  §3.4; Mathlib at the pin has only the dichotomy
+  `NumberField.IsCMField.indexRealUnits_eq_one_or_two`.
+- **Hilbert's Theorems 92 and 94.** In a cyclic extension of odd prime degree
+  `Hilbert92` gives a unit of norm one not of the form `ε/σ(ε)`; for an
+  unramified such extension, `exists_not_isPrincipal_and_isPrincipal_map` and
+  `dvd_card_classGroup_of_unramified_isCyclic` deduce a capitulating ideal and
+  divisibility of the class number by the degree. Here the class-group side of
+  §1.3 is reciprocity for the Hilbert class field (ClassFieldTheory Layer 13),
+  and the capitulation in step 2 of §4.10 is the IntegralIwasawaTheory §2.8
+  bound for `S`-class groups in a `ℤ_p`-tower ramified above `p`; neither is the
+  unramified prime-degree statement.
+- **No use here.** This roadmap uses none of `IsRegularPrime`, Kummer's lemma
+  `eq_pow_prime_of_unit_of_congruent` (for regular `p`, a unit of `ℚ(μ_p)`
+  congruent to a rational integer modulo `p` is a `p`-th power), `isUnramified`
+  (`K(u^{1/p})/K` is unramified for a unit `u≡1 mod (ζ_p−1)^p` that is not a
+  `p`-th power) or the two cases of the theorem. The odd-prime endpoint §3.5
+  assumes neither regularity nor Vandiver's conjecture, and the irregular prime
+  37 enters only as a Check of §4.14. The folder's facts about `1−ζ_p` in the
+  ring `ℤ[X]/(Φ_p)` are prime-exponent cases of Mathlib lemmas at the pin on
+  `𝓞(ℚ(μ_p))`, such as `IsCyclotomicExtension.Rat.eq_span_zeta_sub_one_of_liesOver`,
+  which §0.23 cites.
+
 ## References
 
 - **SHARIFI-IWASAWA** — Romyar Sharifi, *Iwasawa Theory*, 189-page author notes.
