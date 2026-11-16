@@ -3218,7 +3218,7 @@ of 4.3 and 7.2, with the integral hypotheses as stated there: 4.3 needs a free r
 τ-quotient and residual irreducibility, 7.2 needs the `SL₂(ℤ_p)` image, and 7.4 and 7.8 need
 surjectivity. `RankZeroOneBSDPartII` can use the reciprocity and interpolation statements through 5.3 and
 7.1–7.2, the elliptic bounds of 7.4 and 7.8, and the finiteness of `Sel_(p^∞)(E/ℚ)` at every p
-when `L(E,1) ≠ 0` from 7.9. `HeegnerPointEulerSystems` §6.9 uses 6.6, 7.4 and 7.7 for its rank-zero route.
+when `L(E,1) ≠ 0` from 7.9.
 
 `PadicFamilies` and `EulerSystemsAndKolyvaginSystems` are suppliers of this roadmap and import
 nothing from it: the Hida-family classes of `PadicFamilies` §4.5 interpolate the geometric
