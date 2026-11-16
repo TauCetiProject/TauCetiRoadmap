@@ -2334,10 +2334,53 @@ count the points of proper curves, not of the affine equations of Layer 4. The o
   `‖∑_i α_i^m‖ ≤ C B^m` for every `m ≥ m₀` divisible by `d ≠ 0`, with `B > 0`, forces
   `‖α_i‖ ≤ B`; at `d = 1` this is 4.4, proved by a sector argument.
 - **Layers 0–2, 4.5 and 5–7.** Multiplicative characters and their Kummer sheaves, and Gauss,
-  Jacobi and Kloosterman sums, have no counterpart in the modules above.
+  Jacobi and Kloosterman sums, have no counterpart in these three repositories.
 
-A proof adapted from any of the three repositories keeps its Apache-2.0 attribution. The
-statements of this roadmap are specified independently of all three.
+The Apache-2.0 [`LeanPool/lean-pool`](https://github.com/LeanPool/lean-pool) at commit `f8b9b72`
+(Lean `v4.35.0`, Mathlib `56a0058`) carries, in the 38 files of `LeanPool/KloostermanWeil/`
+(adapted from the Apache-2.0
+[`charliedorsey/weil-bounds-toolkit`](https://github.com/charliedorsey/weil-bounds-toolkit) at
+commit `7adcd23`), Weil's bound for untwisted Kloosterman sums to a prime modulus, proved by
+Stepanov's method and Carlitz's lifting of these sums to `𝔽_{p^n}`. It is not a supplier: its
+Kloosterman sums carry no multiplicative character, those over a finite field have their parameters
+in `𝔽_p`, and its Stepanov estimate is for `y² = f(x)` only. The paths below are relative to that
+directory.
+
+- **4.1, 4.2 and 4.4.** `Stepanov/Algebra.lean` proves the multiplicity criterion in divisibility
+  form, `(X − x)^l ∣ h` exactly when the Hasse derivatives of `h` of order `< l` vanish at `x`, the
+  root count `l · #S ≤ deg h` for `h ≠ 0` divisible by `(X − x)^l` at every `x ∈ S`, and, in
+  characteristic `p`, the vanishing of the Hasse derivatives of order `0 < k < p^e` on `X^{j p^e}`
+  (4.1).
+  `Stepanov/Defect.lean` proves, over a field with `q = p^e` elements, `p` odd, for `f ≠ 0` of
+  degree `m ≥ 4` with `f(0) ≠ 0` that is not a nonzero constant times a square in `F[X]`, and for
+  `100(m + 1)(⌊√q⌋ + 1) < q`, the estimate
+  `|#{(x, y) ∈ F² : y² = f(x)} − q| < 80(m + 1)(⌊√q⌋ + 1) + 1`: the case `d = 2` of 4.2, with
+  constants depending on `m` alone, under the two further hypotheses `f(0) ≠ 0` and `m ≥ 4`.
+  `Stepanov/PowerSumSpectral.lean` proves 4.4 with `C ≥ 1`, which loses nothing, through Newton's
+  identities and Cauchy's root bound.
+- **5.1 and 5.4–5.6 at `χ = 1` over `𝔽_p`.** `Weil/PrimeFoundation.lean` proves the symmetry
+  `S(m, n; p) = S(n, m; p)`, the scaling `S(m, n; p) = S(1, m n; p)` for `m ≠ 0`, and the
+  degenerate values `S(m, 0; p) = −1` for `m ≠ 0` and `S(0, 0; p) = p − 1`. For `t ∈ 𝔽_p`, the
+  `Carlitz/` files define, on monic polynomials over `𝔽_p`, the weight that is the `κ` of 5.4 at
+  `χ = 1`, `a = 1`, `b = t`, prove that its coefficient sums in degrees `1`, `2` and `≥ 3` are
+  `K(1; 1, t)`, `p` (for `t ≠ 0`) and `0`, and derive Carlitz's generating identity; with
+  `Stepanov/CarlitzRoots.lean` this is the lifting relation `K_{𝔽_{p^n}}(1; 1, t) = −(α^n + β^n)`,
+  with `α + β = −K(1; 1, t)` and `α β = p`, for `t ≠ 0`. `Stepanov/PrimeWeil.lean` proves
+  `|α| = |β| = √p` for odd `p` without 4.3 (ii): the curve `y² = (x^p − x)² − 4t` over `𝔽_{p^n}`
+  has `p^n − 1 + ∑_{s ∈ 𝔽_p^×} K_{𝔽_{p^n}}(1; 1, s² t)` points (`Stepanov/CurveTrace.lean`,
+  `Stepanov/PointCountBridge.lean`), and the Stepanov estimate above bounds that count.
+  `Weil/PrimeKloosterman.lean` concludes `|S(m, n; p)| ≤ 2√p` for `m, n ∈ 𝔽_p^×` and every prime
+  `p`, the case `p = 2` by the trivial bound. Twisted sums, a base field `𝔽_q` with `q ≠ p`, the
+  Kloosterman angle, 5.2 and 5.3 have no counterpart there.
+- **7.4 and 7.6 at `χ = 1`.** `Weil/ChineseRemainderAndCompletion.lean` proves, for `N = c₁ c₂`
+  with coprime factors, the Chinese-remainder factorization of `S(m, n; N)` with the multipliers
+  `c̄₂ mod c₁` and `c̄₁ mod c₂`, the untwisted case of 7.4. `Weil/Contracts.lean` gives
+  `|S(m, n; N)| ≤ 2^{ω(N)} √N` for squarefree `N` and `n` a unit modulo `N`: the case of 7.6 in
+  which `τ(N) = 2^{ω(N)}` and `(m, n, N) = 1`. The estimates for incomplete sums over intervals in
+  these two files are outside this roadmap (*Not owned here*).
+
+A proof adapted from any of these repositories keeps its Apache-2.0 attribution. The statements
+of this roadmap are specified independently of all of them.
 
 ## References
 
