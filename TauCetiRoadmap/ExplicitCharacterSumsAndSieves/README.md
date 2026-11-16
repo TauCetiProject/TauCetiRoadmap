@@ -1833,6 +1833,38 @@ theorem of this roadmap. The consumers are §3.4 and §3.5 (6.1), §4.4 (6.5, 6.
   `W₂(2) = 1 + 16 + 16 + 1 = 34`; the five patterns of §4.1 contribute `2 · 6 = 12` (`aaaa`),
   `6 · 5 = 30` (`aabb`) and `8 · (−1) = −8` (`aaab`), total `34`.
 
+## Provenance: existing formalizations outside Tau Ceti
+
+This section is secondary: it maps existing Lean code to targets and prescribes nothing. The
+repository LeanPool, *lean-pool* (References), keeps Lean 4 formalizations that do not fit Mathlib,
+each project permissively licensed (Apache-2.0 or MIT); at the commit cited it is on Lean v4.35.0,
+earlier than the pins here. It is not a supplier: nothing is imported from it, a statement read
+there is compared with the target here before it is used, adaptation is agreed with its maintainers
+first, and adapted code keeps its licence notices.
+
+`LeanPool/SelbergSieve4` works on its own carrier `Sieve`, whose fields are those of Mathlib's
+`BoundingSieve`. It proves Selberg's upper-bound sieve at level `D`, with weights supported on
+`d² ≤ D` and remainder `Σ_{d | P, d ≤ D} 3^{ω(d)} |r_d|` (`fundamental_theorem_simple`): the
+theorem of SieveMethodsAndPrimePatterns §1.3, which cuts the weights off strictly at `d < z`,
+consumed by §5.3 here. For the integers of `[x, x + y]` sifted by the primes `p ≤ z` at level `z`,
+with `x, y > 0` and `z > 1`, it proves the diagonal bound `S(√z) ≥ (log z)/2`
+(`BrunTitchmarsh.boudingSum_ge`), the non-strict form at `u = √z` of `S(u) > log u` of
+ExplicitPrimeCounting §0.1; the sifted count `≤ 2y/log z + 5z(1 + log z)³`
+(`BrunTitchmarsh.siftedSum_le`); and the prime count
+`#{p prime : x ≤ p ≤ x + y} ≤ 2y/log z + 6z(1 + log z)³` (`BrunTitchmarsh.primesBetween_le`).
+The two counts are unweighted, of modulus one, with leading term `2y/log z`, against `2y/log y`
+for the primes in the corollary of §5.4 and `x/log z` for the sifted integers of `[1, x]` in
+Fan's bound (§5.6). Nothing there treats a weight `f`, a modulus `k > 1`, the weight mass `H₁`,
+Greaves's density sum (§5.2) or the weighted arithmetic large sieve (§5.5).
+
+`LeanPool/IwaniecLinearSieve` treats Rosser's linear sieve for the density `1/p` of the integers,
+after Iwaniec: the supports of the upper and lower Rosser weights with the sieve inequality from
+Buchstab's identity (`rosserSieve_le_siftIndicator_le`), the bounds for the Rosser main terms and
+the size of the lower support (`theorem4`, `linearSieveEstimate`), and an application to
+Jacobsthal's problem (`iwaniecBound`); every error constant there is shown only to exist. That is
+the material of SieveMethodsAndPrimePatterns §5.2, which Scope leaves to it; no layer here treats
+the linear sieve, and its explicit form of Bordignon–Johnston–Starichkova is in Part II.
+
 ## References
 
 - **ariasdereyna2024** — J. Arias de Reyna, *Explicit van der Corput's d-th derivative estimate*,
@@ -1877,6 +1909,10 @@ theorem of this roadmap. The consumers are §3.4 and §3.5 (6.1), §4.4 (6.5, 6.
   p²*, arXiv:1908.11497: Lemmas 2 and 3.
 - **lapkova2018** — K. Lapkova, *Correction to: Explicit upper bound for the average number of
   divisors of irreducible quadratic polynomials*, Monatsh. Math. 186 (2018), 675–678: Lemma 3A.
+- LeanPool, *lean-pool*. Lean 4 formalizations at commit f8b9b721d616a2cc0b22fc226e4a9e3dd6cea2d0,
+  Lean v4.35.0; projects `LeanPool/SelbergSieve4` (A. Mellendijk) and
+  `LeanPool/IwaniecLinearSieve` (J. Davies).
+  https://github.com/LeanPool/lean-pool/tree/f8b9b721d616a2cc0b22fc226e4a9e3dd6cea2d0/LeanPool
 - **mcgown2012** — K. J. McGown, *Norm-Euclidean cyclic fields of prime degree*, Int. J. Number
   Theory 8 (2012), 227–254; arXiv:1011.4501 ("Norm-Euclidean Galois fields"): Theorems A.1, A.9,
   Lemmas A.5–A.8.
