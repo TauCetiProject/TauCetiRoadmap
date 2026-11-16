@@ -594,7 +594,7 @@ Divide by `e(f_1)`, a positive integer because `dim X_1 = dim X_2` (§1.1, finit
 
 ### Dependencies
 
-Layers 1–3; CyclotomicClassGroupsAndStickelberger §4.3; SchemeAndStackFoundations §§5.2–5.3; Mathlib `Scheme.PartialIso.symm`, `Scheme.RationalMap.comp_assoc`.
+Layers 1–3; CyclotomicClassGroupsAndStickelberger §4.3; SchemeAndStackFoundations §§5.2–5.3; Mathlib `AlgebraicGeometry.GeometricallyIntegral` (§4.3), `Scheme.PartialIso.symm`, `Scheme.RationalMap.comp_assoc`; Tau Ceti `TauCeti.AlgebraicGeometry.finrank_cohomology_pullback_eq_of_isPullback` (§4.3).
 
 ## Layer 5: Dynamical degrees and algebraic entropy
 
@@ -690,7 +690,7 @@ Morphisms of projective space, the Cremona involution, the Fibonacci map, Froben
 
 ### Dependencies
 
-Layers 1, 3 and 4; AlgebraicModuliForArithmeticGeometryPartII §1.5 and CyclotomicClassGroupsAndStickelberger §4.3 (extension of the field); Mathlib `Submultiplicative` and its lemmas, `Scheme.RationalMap.comp_assoc`.
+Layers 1, 3 and 4; AlgebraicModuliForArithmeticGeometryPartII §1.5 and CyclotomicClassGroupsAndStickelberger §4.3 (extension of the field); Mathlib `Filter.limUnder`, `Submultiplicative` and its lemmas, `Scheme.RationalMap.comp`, `Scheme.RationalMap.comp_assoc` (§5.1) and `AlgebraicGeometry.GeometricallyIntegral` (§§5.3–5.4).
 
 ## Layer 6: Projective space and affine space
 
@@ -783,7 +783,7 @@ The Cremona involutions of `ℙ²` and `ℙ³`, the Fibonacci map, Frobenius, `(
 
 ### Dependencies
 
-Layers 1, 3, 4 and 5; CyclotomicClassGroupsAndStickelberger §4.3; SchemeAndStackFoundations §0.3; StableReduction Layer 2; ArithmeticDynamics §§0.18, 0.26 (Checks); Mathlib `Proj` with `Proj.fromOfGlobalSections`, `MvPolynomial` and its unique factorization, `IsFinite.iff_isProper_and_isAffineHom`, `Nat.fib`, `Real.goldenRatio`; Tau Ceti `Scheme.RationalMap.toHom` and `Scheme.RationalMap.toRationalMap_toHom`, `TauCeti.ProjectiveSpectrum.fromOfGlobalSections_eq_of_unit_rescaling` and `AlgebraicGeometry.Proj.fromOfGlobalSections_naturality` (§6.1), and the twisting sheaf `AlgebraicGeometry.Proj.twistingSheaf` with `AlgebraicGeometry.Proj.isInvertible_twistingSheaf_of_iSup_eq_top` and `AlgebraicGeometry.Proj.lineBundleClass_twistingSheaf_eq_zpow` (§6.2).
+Layers 1, 3, 4 and 5; CyclotomicClassGroupsAndStickelberger §4.3; SchemeAndStackFoundations §0.3; StableReduction Layer 2; ArithmeticDynamics §§0.18, 0.26 (Checks); Mathlib `Proj` with `Proj.fromOfGlobalSections`, `MvPolynomial` and its unique factorization, `IsFinite.iff_isProper_and_isAffineHom`, `Nat.fib`, `Real.goldenRatio`, and `Scheme.RationalMap.equivFunctionFieldOver`, `Scheme.RationalMap.comp`, `Scheme.RationalMap.IsDominant` and `Scheme.RationalMap.compHom` (§6.1); Tau Ceti `Scheme.RationalMap.toHom` and `Scheme.RationalMap.toRationalMap_toHom`, `TauCeti.ProjectiveSpectrum.fromOfGlobalSections_eq_of_unit_rescaling` and `AlgebraicGeometry.Proj.fromOfGlobalSections_naturality` (§6.1), and the twisting sheaf `AlgebraicGeometry.Proj.twistingSheaf` with `AlgebraicGeometry.Proj.isInvertible_twistingSheaf_of_iSup_eq_top` and `AlgebraicGeometry.Proj.lineBundleClass_twistingSheaf_eq_zpow`, and `AlgebraicGeometry.Scheme.IdealSheafData.IsEffectiveCartier` (§6.2).
 
 ## Downstream consumers
 
