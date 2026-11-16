@@ -6,11 +6,11 @@
 
 This roadmap owns the cohomology theory of the curve moduli stacks built from their tautological operations: tautological rings and kappa classes, the stable-pair order, the boundary exact sequences and the Arbarello–Cornalba induction, the marking filtration and local-system quotient, semi-tautological extensions and their finite generation, the Chow–Künneth generation property and its permanence, the genus-seven gonality stratification with its tetragonal and Mukai models, the hyperelliptic and genus-four quadric point counts, marking twists, the weight-graded equivariant Euler characteristic, the stable-graph transform and the Getzler–Kapranov formula applied to curve moduli, the cusp-decorated graph calculations, and every end theorem listed in the summary. StableReductionPartII §7.11 supplies the domain stacks and algebraic maps only and assigns tautological rings, motivic and cohomological structures, cycle maps, graph complexes and push–pull theorems on curve moduli to this roadmap.
 
-Five families of inputs that no roadmap owns are owned here because their only consumer is this cohomology theory: the mapping-class-group inputs (the identification of the rational cohomology of the moduli stack with that of the pure mapping class group, Harer's virtual cohomological dimension, its top-degree vanishing, homological stability and the stable cohomology of Madsen–Weiss and Looijenga, §§2.1–2.2 and 3.4); the classification of quadric surfaces over finite fields with their stabilizer orders (§8.4); the character-sum evaluations over binary forms that give the hyperelliptic moments (§8.2); the genus-two inputs, namely the Torelli identification of the compact-type moduli of genus two with the moduli stack `A₂` of principally polarized abelian surfaces (§3.6), Petersen's computation of the semisimplified compactly supported cohomology of the symplectic local systems `V_{a,b}` on `A₂` (Petersen, abelian surfaces, Theorem 2.1), used for their Euler characteristics with `a + b ≤ 12` in §3.6 and for the pure cohomology of weights thirteen and fifteen of `M_{2,n}` in §11.1, where local systems with `a + b ≤ 14` enter, and Petersen's decomposition of the cohomology of the pointed compact-type moduli `M^{ct}_{2,n}` into cohomology of local systems on `M^{ct}_2` and on `Sym² M_{1,1}`, with his theorem that the even cohomology of `M̄_{2,n}` is tautological for `n < 20` (Petersen, genus two, Theorems 2.1 and 3.8), used in §§4.3 and 11.1; and the tautological classes of special loci in the Chow–Künneth ranges of §5.4, namely the loci of pointed curves with a cover of `ℙ¹` with marked ramification, among them the hyperelliptic loci (Faber–Pandharipande, recalled in Canning–Larson, Lemma 8.1, p. 26, and proof of Corollary 7.5, p. 22), and the plane-quintic locus in genus six (Faber, recalled in Canning–Larson, proof of Lemma 10.14, p. 39).
+Five families of inputs that no roadmap owns are owned here because their only consumer is this cohomology theory: the mapping-class-group inputs (the identification of the rational cohomology of the moduli stack with that of the pure mapping class group, Harer's virtual cohomological dimension, its top-degree vanishing, homological stability and the stable cohomology of Madsen–Weiss and Looijenga, §§2.1–2.2 and 3.4); the classification of quadric surfaces over finite fields with their stabilizer orders (§8.4); the character-sum evaluations over binary forms that give the hyperelliptic moments (§8.2); the genus-two inputs, namely the Torelli identification of the compact-type moduli of genus two with the moduli stack `A₂` of principally polarized abelian surfaces (§3.6), Petersen's computation of the semisimplified compactly supported cohomology of the symplectic local systems `V_{a,b}` on `A₂` (Petersen, abelian surfaces, Theorem 2.1), used for their Euler characteristics with `a + b ≤ 12` in §3.6 and for the pure cohomology of weights thirteen and fifteen of `M_{2,n}` in §11.1, where local systems with `a + b ≤ 14` enter, and Petersen's decomposition of the cohomology of the pointed compact-type moduli `M^{ct}_{2,n}` into cohomology of local systems on `M^{ct}_2` and on `Sym² M_{1,1}`, with his theorem that the even cohomology of `M̄_{2,n}` is tautological for `n < 20` (Petersen, genus two, Theorems 2.1 and 3.8), used in §§4.3 and 11.1; and the tautological classes of special loci in the Chow–Künneth ranges of §§5.4 and 6.9, namely the loci of pointed curves with a cover of `ℙ¹` with marked ramification, among them the hyperelliptic loci (Faber–Pandharipande, recalled in Canning–Larson, Lemma 8.1, p. 26, and proof of Corollary 7.5, p. 22), and the plane-quintic locus in genus six (Faber, recalled in Canning–Larson, proof of Lemma 10.14, p. 39).
 
 The following are imported, not planned here.
 
-- The stacks `M̄_{g,n}` and `M_{g,n}`, their forgetful morphism and normal-crossings boundary are SchemeAndStackFoundations §4.15, on the stack foundations of §§1.18–1.23. Their realization as pointed moduli groupoids, the universal curve, clutching morphisms, relabelling, the normalized boundary strata with graph automorphisms, the marking cotangent lines with their forgetful correction, and the Hodge bundle are StableReductionPartII §0.4, §2.248, §§3.1–3.3, 3.7, 3.10–3.11, §§5.1, 5.10–5.11 and the export §7.11. Dual graphs of nodal curves and their genus formula are StableReduction, Layer 1.
+- The stacks `M̄_{g,n}` and `M_{g,n}`, their forgetful morphism and normal-crossings boundary are SchemeAndStackFoundations §4.15, on the stack foundations of §§1.18–1.23. Their realization as pointed moduli groupoids, the universal curve, clutching morphisms, relabelling, the normalized boundary strata with graph automorphisms, the marking cotangent lines with their forgetful correction, and the Hodge bundle are StableReductionPartII §0.4, §2.248, §§3.1–3.3, 3.7, 3.10–3.11, §§5.1, 5.10–5.11 and the export §7.11. Dual graphs of nodal curves and their genus formula are StableReduction, Layer 1; stability of pointed prestable curves, and the absence of infinitesimal automorphisms on a stable geometric fibre, are its Layer 3.
 - Vistoli's rational Chow groups of separated Deligne–Mumford stacks, with proper pushforward, flat pullback, exterior products, Chern classes and refined Gysin maps, are VirtualFundamentalClass §§2.1–2.4; the tautological rings of §§0.1–0.2 are formed in them, and `ψᵢ = c₁(Lᵢ)` for the cotangent lines of StableReductionPartII §3.3 is the first Chern class of VirtualFundamentalClass §2.3, the Chow theory StableReductionPartII itself consumes. The Edidin–Graham equivariant Chow groups of quotient stacks `[X/G]`, with their operations and `A^*_{GL_n} = ℤ[c₁, …, c_n]`, are EquivariantIntersectionTheory §§2.1–2.3, and their rational comparison with Vistoli's groups on Deligne–Mumford quotient stacks is StableReductionPartII §5.15. Rational Chow groups of finite-type algebraic stacks stratified by quotient stacks, on which Layer 5 defines the Chow–Künneth generation property, are requested from SchemeAndStackFoundations (gap:stack-rational-chow); §0.6 identifies them with the two theories above where these apply.
 - The quotient presentation of the stack of smooth hyperelliptic curves of genus `g ≥ 2` over a field of characteristic not dividing `4(g + 1)` is EquivariantIntersectionTheory §3.3; §8.1 owns only its extension over `ℤ[1/2]`, which covers the odd characteristics dividing `g + 1`, and the point count.
 - Finite groupoid mass, stack point counts and traces, twisted counts, signed Frobenius configurations, inverse zeta functions, termination for proper even cohomology, the Hasse–Weil sieve, exact and approximate polynomial counts, the local cutoff, and smooth proper DM purity are WeilConjectures, WC.1, WC.5 and WC.6. This roadmap applies them to the curve families and moduli stacks; it does not restate them.
@@ -50,6 +50,7 @@ Each contract states the output consumed and what is assumed of it. Where a supp
 - `IsPrimePow` (`Mathlib/Algebra/IsPrimePow.lean`) fixes the quantifier of every polynomial-count statement through WeilConjectures, WC.5.
 - `quadraticChar` and `quadraticChar_sum_zero` (`Mathlib/NumberTheory/LegendreSymbol/QuadraticChar/Basic.lean`) supply the quadratic character of a finite field of odd characteristic for §8.2.
 - `Polynomial`, `Equiv.Perm.cycleType`, `Nat.Partition`, `Representation` and `FDRep` are used with their library meanings.
+- `CategoryTheory.Skeleton` (`Mathlib/CategoryTheory/Skeletal.lean`), the isomorphism classes of a category with the automorphism groups of chosen representatives, and `CategoryTheory.ObjectProperty.FullSubcategory` (`Mathlib/CategoryTheory/ObjectProperty/FullSubcategory.lean`) carry the groupoid mass of §9.5, a `finsum` over that skeleton.
 
 ### From Tau Ceti
 
@@ -58,7 +59,8 @@ Each contract states the output consumed and what is assumed of it. Where a supp
 - `TauCeti.finrank_periodPolynomials_eq_finrank_modularForm_add_finrank_cuspForm` (`TauCeti/NumberTheory/ModularForms/LevelOne/PeriodPolynomial/Finrank.lean`): the level-one period-polynomial dimension count used in the rational Eichler–Shimura comparison of §0.5.
 - The `TauCeti.Hodge` library (`TauCeti/Geometry/Hodge/`, including `Mixed/` and `Tate/`): pure, mixed and polarizable Hodge structures, morphisms, strictness and Tate twists, as the carriers of Hodge realizations.
 - `TauCeti.DualGraph`, `TauCeti.DualGraph.arithmeticGenus`, `TauCeti.DualGraph.IsStable`, `TauCeti.DualGraph.clutch`, `TauCeti.DualGraph.selfClutch`, `TauCeti.DualGraph.smoothing` and `TauCeti.DualGraph.Iso` (`TauCeti/AlgebraicGeometry/Curves/DualGraph/{Basic,Clutching,Smoothing,Iso}.lean`): the dual graph of a pointed nodal curve with vertex genera and the components carrying the markings, its arithmetic genus `Σ_v g_v + b₁`, stability as positivity of every log-canonical degree, external and self clutching, the smoothing of a set of nodes, which for one edge `e` is the contraction `Γ′ → Γ′/e` of §10.7, and isomorphisms of dual graphs; these implement the dual graphs of StableReduction, Layer 1. Assumed: an isomorphism in `TauCeti.DualGraph.Iso` carries the unordered pair of endpoints of each edge and so does not record the exchange of the two branches of a self-node; the graph automorphism groups of §§1.3, 10.7 and 12.6 act on flags, as in the boundary normalization of StableReductionPartII §3.10, where the one-loop graph of type `(1, 1)` has the branch exchange as an automorphism of order two.
-- `TauCeti.AlgebraicGeometry.PointedPrestableFamily` (`TauCeti/AlgebraicGeometry/Curves/PointedPrestable/Basic.lean`): prestable families of curves over a scheme with ordered disjoint markings in the smooth locus, with pullback and reindexing; no stability condition is part of it, and the moduli stacks are those of SchemeAndStackFoundations §4.15.
+- `TauCeti.AlgebraicGeometry.PointedPrestableFamily` (`TauCeti/AlgebraicGeometry/Curves/PointedPrestable/Basic.lean`): prestable families of curves over a scheme with ordered disjoint markings in the smooth locus, with pullback and reindexing; no stability condition is part of it, and the moduli stacks are those of SchemeAndStackFoundations §4.15. Its morphisms (`TauCeti/AlgebraicGeometry/Curves/PointedPrestable/Category.lean`) are morphisms of total spaces over the base that carry each marking to the marking of the same index, so over `Spec k` its isomorphisms and automorphism groups are those of the groupoid `M̄_{g,n}(k)` once stability is imposed (§9.5).
+- `TauCeti.AlgebraicGeometry.PrestableMap.const` and `TauCeti.AlgebraicGeometry.PrestableMap.infinitesimalAut` (`TauCeti/AlgebraicGeometry/Curves/StableMaps/{Basic,Automorphism}.lean`): the constant prestable map of a pointed prestable family through a section of the target, and, over `Spec R`, the automorphisms of the base change of a prestable map to the dual numbers `R[ε]` that restrict to the identity modulo `ε`, which fix every marking. `AlgebraicGeometry.Scheme.genus` (`TauCeti/AlgebraicGeometry/Cohomology/Genus.lean`): `dim_k H¹(X, 𝒪_X)` for a scheme over a field `k` with finite-dimensional `H¹`. They state stability and genus over a field in §9.5.
 - `IsQuotientCoveringMap.singularCohomologyIsoGroupCohomology` (`TauCeti/AlgebraicTopology/Cohomology/GroupCohomology.lean`): for the quotient covering map `p : E → B` of an action of a group `G` with contractible total space `E`, the singular cohomology `Hⁿ(B; M)` with coefficients in a module `M` over a commutative ring is Mathlib's `groupCohomology` of the trivial representation `M`, in every degree. Used with `M = ℚ` in §2.1; it is a statement about topological spaces, and the identification of the cohomology of the analytic stack with that of its Borel construction is Orbifolds O4, applied in §2.1.
 
 ### From TauCetiRoadmap.SchemeAndStackFoundations
@@ -91,7 +93,7 @@ Consumed: O1, item 1 (the Hausdorff proper étale presentations, including the a
 
 ### From TauCetiRoadmap.StableReduction
 
-Consumed: Layer 1 (the dual graph of a proper geometric nodal curve, with component genera, special flags, valence counting a loop twice, and the genus formula `pₐ = Σ_v g_v + b₁(Γ)`). Assumed: these are the stable graphs of the boundary strata of `M̄_{g,n}`, legs recording the markings.
+Consumed: Layer 1 (the dual graph of a proper geometric nodal curve, with component genera, special flags, valence counting a loop twice, and the genus formula `pₐ = Σ_v g_v + b₁(Γ)`); Layer 3 (stability of pointed prestable families, and the theorem that a stable geometric fibre has no infinitesimal automorphisms). Assumed: these are the stable graphs of the boundary strata of `M̄_{g,n}`, legs recording the markings.
 
 ### From StableReductionPartII
 
@@ -162,7 +164,7 @@ Consumed: §M5.2 (the Siegel moduli `A_{g,D,n}`, at `g = 2`, principal type and 
 
 ## How to read the build
 
-Layer 0 sets up the tautological rings, kappa classes, the stable-pair order, the boundary exact sequences and the cusp realizations, and identifies the rational Chow theories of stacks that the later layers use. Layer 1 builds the equivariant counting machinery on curve moduli (marking twists, the weight-graded equivariant Euler characteristic, the stable-graph transform and the Getzler–Kapranov formula) and the low-genus polynomial counts. Layer 2 proves the dimension bounds and odd vanishing through degree seven and, for genus at most three, through degree nine. Layer 3 treats genus one, symplectic local systems and the stable range, and computes the cusp multiplicities of genus-one and genus-two moduli beyond the polynomial range that the graphical bases of Layer 11 use. Layer 4 constructs semi-tautological extensions and proves finite generation. Layer 5 develops the Chow–Künneth generation property, which Layers 6 and 7 establish for `M_{7,n}`, `n ≤ 3`, through its gonality strata; its known ranges (§5.4) use, in genera five and six, the tetragonal Hurwitz stack and the Casnati–Ekedahl pushforwards of §§6.3 and 6.5, which are stated for every genus and need nothing from Layer 5. Layers 8 and 9 compute the hyperelliptic and genus-four point counts and prove odd vanishing through degree nine in all genera; they are independent of Layers 4–7, except that §9.7 uses the Chow–Künneth ranges of §5.4. Layer 10 treats even cohomology and homology and, through the oriented boundary complex, proves that `H¹¹` vanishes outside genus one; Layer 11 the exceptional genus-one and genus-two cusp bases, and Layer 12 proves the generation and classification theorems in degrees thirteen to fifteen. Each target's *Needs* line lists the inputs of its statement and of the route given; another route may need less.
+Layer 0 sets up the tautological rings, kappa classes, the stable-pair order, the boundary exact sequences and the cusp realizations, and identifies the rational Chow theories of stacks that the later layers use. Layer 1 builds the equivariant counting machinery on curve moduli (marking twists, the weight-graded equivariant Euler characteristic, the stable-graph transform and the Getzler–Kapranov formula) and the low-genus polynomial counts. Layer 2 proves the dimension bounds and odd vanishing through degree seven and, for genus at most three, through degree nine. Layer 3 treats genus one, symplectic local systems and the stable range, and computes the cusp multiplicities of genus-one and genus-two moduli beyond the polynomial range that the graphical bases of Layer 11 use. Layer 4 constructs semi-tautological extensions and proves finite generation. Layer 5 develops the Chow–Künneth generation property and its known ranges in genus at most four and on the hyperelliptic and trigonal loci (§5.4). Layers 6 and 7 establish it for `M_{7,n}`, `n ≤ 3`, through its gonality strata, and Layer 6 also gives the ranges in genera five and six (§6.9) from the tetragonal Hurwitz stack and the Casnati–Ekedahl pushforwards (§§6.3, 6.5). Layers 8 and 9 compute the hyperelliptic and genus-four point counts and prove odd vanishing through degree nine in all genera; they are independent of Layers 4–7, except that §9.7 uses the Chow–Künneth ranges of §5.4. Layer 10 treats even cohomology and homology and, through the oriented boundary complex, proves that `H¹¹` vanishes outside genus one; Layer 11 the exceptional genus-one and genus-two cusp bases, and Layer 12 proves the generation and classification theorems in degrees thirteen to fifteen. Each target's *Needs* line lists the inputs of its statement and of the route given; another route may need less.
 
 ## Layer 0: Tautological operations and cusp realizations
 
@@ -371,7 +373,7 @@ Let `(g, n)` be stable and suppose `M̄_{g′,n′}` has polynomial point count 
 
 ### 1.6 Polynomial point counts in low genus
 
-Prove that `M̄_{g,n}` has polynomial point count over every finite field, with `S_n`-equivariant polynomial counts, for `g = 0` and all `n`, for `g = 1` and `n ≤ 10`, for `g = 2` and `n ≤ 7`, and for `g = 3` and `n ≤ 5` (BFP, §2, p. 1329, recalling Getzler for genus one, Bergström's equivariant hyperelliptic counts §11.2 for genus two, and Bergström's genus-three counts Theorems 2.1–2.4; BFP §9, p. 1353, for the equivariant ranges `g′ ≤ 3`, `(g′, n′) ≺ (4, 3)`). Route: count the open strata `M_{g,n}^σ` for every cycle type, through hyperelliptic equations in genus two and plane quartics together with hyperelliptic curves in genus three, and assemble the compact counts by §§1.4–1.5.
+Prove that `M̄_{g,n}` has polynomial point count over every finite field, with `S_n`-equivariant polynomial counts, for `g = 0` and all `n`, for `g = 1` and `n ≤ 10`, for `g = 2` and `n ≤ 7`, and for `g = 3` and `n ≤ 5` (BFP, §2, p. 1329, recalling Getzler for genus one, Bergström's equivariant hyperelliptic counts §11.2 for genus two, and Bergström's genus-three counts Theorems 2.1–2.4; BFP, §9.3, proof of Proposition 9.6, p. 1354, for the equivariant ranges `g′ ≤ 3`, `(g′, n′) ≺ (4, 3)`). Route: count the open strata `M_{g,n}^σ` for every cycle type, through hyperelliptic equations in genus two and plane quartics together with hyperelliptic curves in genus three, and assemble the compact counts by §§1.4–1.5.
 
 *Needs:* §§1.1–1.5 (with the trace identity of §1.5 for the equivariant counts); WeilConjectures, WC.1 (stack mass, quotients by connected groups via Lang) and WC.5 (exact polynomial point count and the local cutoff); StableReductionPartII §0.4.
 
@@ -443,9 +445,9 @@ Let `(g, n)` be stable with `H_c^k(M_{g,n}) = 0`. Prove that pullback to the nor
 
 ### 2.5 The Arbarello–Cornalba odd-degree induction
 
-Let `k ≥ 1` be odd. Suppose `H^q(M̄_{g,n}) = 0` for every odd `q ≤ k` and every stable pair with `g ≥ 1` and `max(2g, 2g − 2 + n) ≤ q`. Then `H^q(M̄_{g,n}) = 0` for every odd `q ≤ k` and every stable pair (AC, Lemma (2.9); BFP, §2, pp. 1328–1329). Route: induct on `q` and on the stable-pair order; outside the base region §2.3 gives `H_c^q(M_{g,n}) = 0`, so §2.4 injects `H^q` into the cohomology of boundary products, in which Künneth produces an odd factor of smaller degree or smaller pair; genus zero has no odd cohomology by §2.6.
+Let `k ≥ 1` be odd and `h ≥ 0`. Suppose that `H^q(M̄_{0,n}) = 0` for every odd `q ≤ k` and every `n ≥ 3`, and that `H^q(M̄_{g,n}) = 0` for every odd `q ≤ k` and every stable pair with `1 ≤ g ≤ h` and `max(2g, 2g − 2 + n) ≤ q`. Then `H^q(M̄_{g,n}) = 0` for every odd `q ≤ k` and every stable pair with `g ≤ h`; if the second hypothesis holds for every `h`, the conclusion holds for every stable pair (AC, Lemma (2.9); BFP, §2, pp. 1328–1329). Route: induct on `q` and on the stable-pair order; outside the base region §2.3 gives `H_c^q(M_{g,n}) = 0`, so §2.4 injects `H^q` into the cohomology of boundary products, whose vertices have genus at most `g`, and in which Künneth produces an odd factor of smaller degree or smaller pair; genus-zero factors are covered by the first hypothesis.
 
-*Needs:* §§2.3, 2.4, 2.6; §0.3.
+*Needs:* §§2.3, 2.4; §0.3.
 
 **Checks.**
 
@@ -466,7 +468,7 @@ For `n ≥ 3` prove that the cycle class map `A^*(M̄_{0,n}) → H^{2*}(M̄_{0,n
 
 ### 2.7 Vanishing in degrees one, three and five
 
-Prove that `H^k(M̄_{g,n}) = 0` for `k ∈ {1, 3, 5}` and every stable pair (AC, Theorem (2.1); BFP, proof of Theorem 1.1 for `k = 7`, p. 1329). Route: the base cases of §2.5 for `k ≤ 5` are the pairs with `g ≥ 1` and `max(2g, 2g − 2 + n) ≤ 5`, each with polynomial point count by §1.6; apply §2.5.
+Prove that `H^k(M̄_{g,n}) = 0` for `k ∈ {1, 3, 5}` and every stable pair (AC, Theorem (2.1); BFP, proof of Theorem 1.1 for `k = 7`, p. 1329). Route: the base cases of §2.5 for `k ≤ 5` are the pairs with `g ≥ 1` and `max(2g, 2g − 2 + n) ≤ 5`, each with polynomial point count by §1.6; apply §2.5, with §2.6 in genus zero.
 
 *Needs:* §§2.5, 2.6, 1.6; WeilConjectures, WC.5 (the local cutoff, applied to an exact count) and WC.6.
 
@@ -477,9 +479,9 @@ Prove that `H^k(M̄_{g,n}) = 0` for `k ∈ {1, 3, 5}` and every stable pair (AC,
 
 ### 2.8 Vanishing in degree seven
 
-Prove that `H⁷(M̄_{g,n}) = 0` for every stable pair (BFP, Theorem 1.1 and its proof for `k = 7`, p. 1329). Route: the base cases with `g ≥ 1` and `max(2g, 2g − 2 + n) ≤ 7` lie in the ranges of §1.6, so their cohomology is even; apply §2.5 with §2.7.
+Prove that `H⁷(M̄_{g,n}) = 0` for every stable pair (BFP, Theorem 1.1 and its proof for `k = 7`, p. 1329). Route: the base cases with `g ≥ 1` and `max(2g, 2g − 2 + n) ≤ 7` lie in the ranges of §1.6, so their cohomology is even; apply §2.5 with §2.7, and with §2.6 in genus zero.
 
-*Needs:* §§2.5, 2.7, 1.6; WeilConjectures, WC.5 and WC.6.
+*Needs:* §§2.5, 2.6, 2.7, 1.6; WeilConjectures, WC.5 and WC.6.
 
 **Checks.**
 
@@ -488,7 +490,7 @@ Prove that `H⁷(M̄_{g,n}) = 0` for every stable pair (BFP, Theorem 1.1 and its
 
 ### 2.9 Odd vanishing through nine in genus at most three
 
-Prove that `H^q(M̄_{g,n}) = 0` for every odd `q ≤ 9` and every stable pair with `g ≤ 3` (BFP, §2, pp. 1328–1329). Route: run §2.5 restricted to `g ≤ 3`; its degree-nine base cases have `n ≤ 9, 7, 5` in genera one, two, three, which are the ranges of §1.6.
+Prove that `H^q(M̄_{g,n}) = 0` for every odd `q ≤ 9` and every stable pair with `g ≤ 3` (BFP, §2, pp. 1328–1329). Route: apply §2.5 with `h = 3`, with §2.6 in genus zero; its degree-nine base cases have `n ≤ 9, 7, 5` in genera one, two, three, which are the ranges of §1.6.
 
 *Needs:* §§2.5, 2.6, 1.6; WeilConjectures, WC.5.
 
@@ -839,16 +841,16 @@ Let `X` be an open substack of a smooth proper Deligne–Mumford stack `X̄` ove
 
 ### 5.4 Known ranges of the Chow–Künneth generation property
 
-For `g = 0` and every `n`, and for `g = 1, 2, 3, 4, 5, 6` with `n ≤ 10, 10, 11, 11, 7, 5` respectively, prove that `M_{g,n}` has the CKgP and `A^*(M_{g,n}) = R^*(M_{g,n})`; consequently `W_k H^k(M_{g,n}) = RH^k(M_{g,n})` and, for odd `k`, `W_k H^k(M_{g,n}) = 0` and `Gr^W_k H_c^k(M_{g,n}) = 0` (Canning–Larson, Theorem 1.4; CLP, Table 1 and Proposition 4.5, pp. 12–13). Prove also, for every `g ≥ 2` and `n ≤ 2g + 6`, that the closed substack `H_{g,n}` of pointed hyperelliptic curves has the CKgP and that every class on `M_{g,n}` supported on it is tautological, and, for every `g ≥ 4` and `n ≤ g + 7`, that the closed locus `M^{≤3}_{g,n}` of curves of gonality at most three has the same two properties (Canning–Larson, Theorem 6.1, p. 17, and Lemma 9.9, p. 33). The genus-seven range `n ≤ 3` is §7.7. Route, each step a part of this target, every case concluding by §5.2 (open substacks, finite stratifications, descent along proper surjective maps) and, for supported classes, by the push-pull formula. Genus zero: `M_{0,n}` is the complement of hyperplanes in `𝔸^{n−3}` (Canning–Larson, §5.1, p. 16). Genus one, `n ≤ 10`: `A^*(M_{1,n}) = R^*(M_{1,n}) = ℚ` (Belorousski, recalled as Canning–Larson, Theorem 5.1, p. 17), and the CKgP by induction on `n` through Belorousski's divisors, each isomorphic to an open substack of `M_{1,n−1}`, whose complement is the image under a proper map of an open subset of a product of projective spaces (Canning–Larson, §5.2, pp. 16–17). Hyperelliptic loci, and genus two, where `M_{2,n} = H_{2,n}`: for `n ≤ 2g + 6` the stack `H_{g,n}` has the CKgP and its Chow ring is generated by psi classes, by Canning–Larson's computation for pointed hyperelliptic curves on the binary-form presentation of EquivariantIntersectionTheory §3.3 (Canning–Larson, Theorem 6.1 and §6, p. 17), and the class of the hyperelliptic locus is tautological (Scope and ownership; Canning–Larson, proof of Corollary 7.5, p. 22). Genus three, `n ≤ 11`: the complement of `H_{3,n}` is the stack of `n`-pointed smooth plane quartics, the canonical models of non-hyperelliptic genus-three curves; for `d ≥ 4` and `n ≤ 3d − 1` the `SL₃`-lift of the stack of `n`-pointed smooth plane curves of degree `d`, a `μ₃`-gerbe over it, is an open substack of a projective bundle over an open substack of the fibre power `(ℙV)^n` over `BSL₃`, so it has the CKgP, and its Chow ring is generated by `c₂(V)`, `c₃(V)` and hyperplane classes, which restrict to polynomials in the `λ` and `ψ` classes (Canning–Larson, §7.1, p. 19, Lemmas 7.1–7.4, pp. 20–21, and Corollary 7.5, p. 22). The trigonal locus, and genus four, `n ≤ 11`: for `g ≥ 4` and `n ≤ g + 7` the Hurwitz stack `H_{3,g,n}` of pointed degree-three covers of `ℙ¹` is an open substack of a vector bundle over an open substack of the fibre power `(ℙE^∨)^n` over the stack of rank-two bundles `E` of degree `g + 2` on `ℙ¹`-bundles, so it has the CKgP, and its Chow ring is generated over the subring generated by `κ₁` and the psi classes by the monomials in the classes `ζ_i` of the loci where the `i`-th marking is a ramification point (Canning–Larson, §9.2 and Lemmas 9.1–9.7, pp. 29–32), whose pushforwards are classes of loci with marked ramification and so are tautological (Scope and ownership; Canning–Larson, Lemma 9.8, p. 33, through Lemma 8.1, p. 26); with the hyperelliptic step this gives the trigonal clause (Lemma 9.9), and every genus-four curve has gonality at most three (Lemma 9.11, p. 33). Genera five and six, `n ≤ 7` and `n ≤ 5`: in the tetragonal Hurwitz stack of §6.3, the union of the Casnati–Ekedahl strata on which the smaller summand of `F` has degree at least four is, for `n ≤ 17 − 2g`, an open substack of a vector bundle over an open substack of `(ℙE^∨)^n`, so it has the CKgP and its Chow ring is the image of `A^*((ℙE^∨)^n)` (Canning–Larson, Lemmas 10.11–10.12, p. 39); it is the complement of the trigonal locus in genus five and of the trigonal and plane-quintic loci in genus six (Lemmas 10.9–10.10, p. 38); §6.5 makes the pushforwards of its classes tautological; and the plane-quintic locus, the image of the stack of pointed smooth plane quintics, is the plane-curve step with `d = 5` and `n ≤ 14`, its class being tautological (Scope and ownership; Lemmas 10.13–10.14, p. 39). Finally §5.3 gives the cohomological consequence, and by the complementary-degree duality of the Conventions, `Gr^W_k H_c^k(M_{g,n})` is dual to `W_{2d−k} H^{2d−k}(M_{g,n})(d)`, which vanishes because `2d − k` is odd as well.
+For `g = 0` and every `n`, and for `g = 1, 2, 3, 4` with `n ≤ 10, 10, 11, 11` respectively, prove that `M_{g,n}` has the CKgP and `A^*(M_{g,n}) = R^*(M_{g,n})`; consequently `W_k H^k(M_{g,n}) = RH^k(M_{g,n})` and, for odd `k`, `W_k H^k(M_{g,n}) = 0` and `Gr^W_k H_c^k(M_{g,n}) = 0` (Canning–Larson, Theorem 1.4; CLP, Table 1 and Proposition 4.5, pp. 12–13). Prove also, for every `g ≥ 2` and `n ≤ 2g + 6`, that the closed substack `H_{g,n}` of pointed hyperelliptic curves has the CKgP and that every class on `M_{g,n}` supported on it is tautological, and, for every `g ≥ 4` and `n ≤ g + 7`, that the closed locus `M^{≤3}_{g,n}` of curves of gonality at most three has the same two properties (Canning–Larson, Theorem 6.1, p. 17, and Lemma 9.9, p. 33). The ranges `n ≤ 7` in genus five and `n ≤ 5` in genus six are §6.9, and the genus-seven range `n ≤ 3` is §7.7. Route, each step a part of this target, every case concluding by §5.2 (open substacks, finite stratifications, descent along proper surjective maps) and, for supported classes, by the push-pull formula. Genus zero: `M_{0,n}` is the complement of hyperplanes in `𝔸^{n−3}` (Canning–Larson, §5.1, p. 16). Genus one, `n ≤ 10`: `A^*(M_{1,n}) = R^*(M_{1,n}) = ℚ` (Belorousski, recalled as Canning–Larson, Theorem 5.1, p. 17), and the CKgP by induction on `n` through Belorousski's divisors `D_i ⊂ M_{1,n}`: each `D_i` is identified with an open substack of `M_{1,n−1}`, and a proper morphism from an open subscheme of a product of projective spaces maps onto `M_{1,n} − ⋃_i D_i` (Canning–Larson, §5.2, pp. 16–17). Hyperelliptic loci, and genus two, where `M_{2,n} = H_{2,n}`: for `n ≤ 2g + 6` the stack `H_{g,n}` has the CKgP and its Chow ring is generated by psi classes, by Canning–Larson's computation for pointed hyperelliptic curves on the binary-form presentation of EquivariantIntersectionTheory §3.3 (Canning–Larson, Theorem 6.1 and §6, p. 17), and the class of the hyperelliptic locus is tautological (Scope and ownership; Canning–Larson, proof of Corollary 7.5, p. 22). Genus three, `n ≤ 11`: the complement of `H_{3,n}` is the stack of `n`-pointed smooth plane quartics, the canonical models of non-hyperelliptic genus-three curves; for `d ≥ 4` and `n ≤ 3d − 1` the `SL₃`-lift of the stack of `n`-pointed smooth plane curves of degree `d`, a `μ₃`-gerbe over it, is an open substack of a projective bundle over an open substack of the fibre power `(ℙV)^n` over `BSL₃`, so it has the CKgP, and its Chow ring is generated by `c₂(V)`, `c₃(V)` and hyperplane classes, which restrict to polynomials in the `λ` and `ψ` classes (Canning–Larson, §7.1, p. 19, Lemmas 7.1–7.4, pp. 20–21, and Corollary 7.5, p. 22). The trigonal locus, and genus four, `n ≤ 11`: for `g ≥ 4` and `n ≤ g + 7` the Hurwitz stack `H_{3,g,n}` of pointed degree-three covers of `ℙ¹` is an open substack of a vector bundle over an open substack of the fibre power `(ℙE^∨)^n` over the stack of rank-two bundles `E` of degree `g + 2` on `ℙ¹`-bundles, so it has the CKgP, and its Chow ring is generated over the subring generated by `κ₁` and the psi classes by the monomials in the classes `ζ_i` of the loci where the `i`-th marking is a ramification point (Canning–Larson, §9.2 and Lemmas 9.1–9.7, pp. 29–32), whose pushforwards are classes of loci with marked ramification and so are tautological (Scope and ownership; Canning–Larson, Lemma 9.8, p. 33, through Lemma 8.1, p. 26); with the hyperelliptic step this gives the trigonal clause (Lemma 9.9), and every genus-four curve has gonality at most three (Lemma 9.11, p. 33). Finally §5.3 gives the cohomological consequence, and by the complementary-degree duality of the Conventions, `Gr^W_k H_c^k(M_{g,n})` is dual to `W_{2d−k} H^{2d−k}(M_{g,n})(d)`, which vanishes because `2d − k` is odd as well.
 
-*Needs:* §§5.2, 5.3; §§0.1, 0.6; §§6.3 and 6.5 (the tetragonal Hurwitz stack and its tautological pushforwards, for genera five and six); EquivariantIntersectionTheory §§2.1–2.3 (equivariant Chow groups of the quotient presentations) and §3.3 (the binary-form presentation of the hyperelliptic stack); CanonicalModelsAndGonality §§3.4 and 9.1 (the canonical model of a non-hyperelliptic curve of genus three); WeilConjectures, gap:open-dm-stack-duality; MixedHodgeModulesAndIrregularHodgeTheory, gap:dm-stack-mixed-hodge (the complementary-degree duality in both realizations).
+*Needs:* §§5.2, 5.3; §§0.1, 0.6; EquivariantIntersectionTheory §§2.1–2.3 (equivariant Chow groups of the quotient presentations) and §3.3 (the binary-form presentation of the hyperelliptic stack); CanonicalModelsAndGonality §§3.4 and 9.1 (the canonical model of a non-hyperelliptic curve of genus three); WeilConjectures, gap:open-dm-stack-duality; MixedHodgeModulesAndIrregularHodgeTheory, gap:dm-stack-mixed-hodge (the complementary-degree duality in both realizations).
 
 **Checks.**
 
-- The bounds are not uniform in the genus: `c(3) = 11`, `c(5) = 7`, `c(6) = 5`; and `c(1) = 10` because `H¹¹(M̄_{1,11}) ≠ 0` forces `W₁₁H¹¹(M_{1,11}) ≠ 0`.
+- The bounds are not uniform in the genus: `c(2) = 10` while `c(3) = c(4) = 11`; and `c(1) = 10` because `H¹¹(M̄_{1,11}) ≠ 0` forces `W₁₁H¹¹(M_{1,11}) ≠ 0`.
 - At `(1, 11)` the conclusion fails, consistent with the bound: `W₁₁H¹¹(M_{1,11}) = S₁₂` is not algebraic.
 - The compact-support clause uses the complementary degree: at `(1, 10)`, `d = 10`, `Gr^W_{11} H_c^{11}` is dual to `W₉H⁹(M_{1,10})(10) = 0`; at `(1, 11)`, `d = 11` and `2d − 11 = 11`, so `Gr^W_{11} H_c^{11}(M_{1,11}) ≅ (W₁₁H¹¹(M_{1,11}))^∨(−11) ≅ S₁₂`, of rank two, the pair lying outside the CKgP range.
-- Each bound is the one its construction allows: `2g + 6 = 10` for pointed hyperelliptic curves of genus two, `3d − 1 = 11` for pointed plane quartics, `g + 7 = 11` for pointed trigonal covers in genus four, and `17 − 2g = 7` and `5` for the tetragonal strata in genera five and six. In genus five the trigonal clause alone would allow `g + 7 = 12` markings, but the tetragonal stratum limits `c(5)` to seven.
+- Each bound is the one its construction allows: `2g + 6 = 10` for pointed hyperelliptic curves of genus two, `3d − 1 = 11` for pointed plane quartics, and `g + 7 = 11` for pointed trigonal covers in genus four.
 - The trigonal clause at `g = 7` allows `n ≤ 14`, the range of §6.2, and the hyperelliptic clause there allows `n ≤ 20`; at `g = 4` the trigonal clause covers all of `M_{4,n}`, every genus-four curve having gonality at most three.
 
 ### Examples
@@ -857,11 +859,11 @@ For `g = 0` and every `n`, and for `g = 1, 2, 3, 4, 5, 6` with `n ≤ 10, 10, 11
 
 ### Dependencies
 
-Layer 0; Layer 6, §§6.3 and 6.5 (for genera five and six in §5.4); SchemeAndStackFoundations, gap:stack-rational-chow; EquivariantIntersectionTheory §§2.1–2.3 and 3.3; CanonicalModelsAndGonality §§3.4 and 9.1; MotivesAndAlgebraicCycles §0.6 with gap:dm-stack-cycle-class; WeilConjectures, gap:open-dm-stack-duality.
+Layer 0; SchemeAndStackFoundations, gap:stack-rational-chow; EquivariantIntersectionTheory §§2.1–2.3 and 3.3; CanonicalModelsAndGonality §§3.4 and 9.1; MotivesAndAlgebraicCycles §0.6 with gap:dm-stack-cycle-class; WeilConjectures, gap:open-dm-stack-duality.
 
-## Layer 6: The tetragonal and low-gonality loci in genus seven
+## Layer 6: The tetragonal and low-gonality loci
 
-The complement of the pentagonal locus in `M_{7,n}` is covered by the low-gonality and tetragonal strata. A class being algebraic is not enough: its pushforward to `M_{7,n}` must be tautological.
+The complement of the pentagonal locus in `M_{7,n}` is covered by the low-gonality and tetragonal strata. A class being algebraic is not enough: its pushforward to `M_{7,n}` must be tautological. The tetragonal Hurwitz stack (§6.3) and its tautological pushforwards (§6.5) are stated for every genus; in genera five and six they give the Chow–Künneth ranges of §6.9.
 
 ### 6.1 Gonality strata in genus seven
 
@@ -981,13 +983,25 @@ For `n ≤ 3` prove that `H^◇_{4,7,n}` and `M^4_{7,n}` have the CKgP, that `A^
 - Surjectivity on each stratum is not enough: the fundamental classes of the closed strata must themselves be restrictions from `(ℙE^∨)^n`.
 - Proper surjective maps are surjective on rational Chow groups, which is how classes supported on `M^4_{7,n}` come from `H^◇_{4,7,n}`.
 
+### 6.9 Chow–Künneth generation in genera five and six
+
+For `g = 5` and `n ≤ 7`, and for `g = 6` and `n ≤ 5`, prove that `M_{g,n}` has the CKgP and `A^*(M_{g,n}) = R^*(M_{g,n})`; consequently `W_k H^k(M_{g,n}) = RH^k(M_{g,n})` and, for odd `k`, `W_k H^k(M_{g,n}) = 0` and `Gr^W_k H_c^k(M_{g,n}) = 0` (Canning–Larson, Theorem 1.4, and Lemmas 10.13–10.14, p. 39; CLP, Table 1 and Proposition 4.5, pp. 12–13). Route: every case concludes by §5.2 (open substacks, finite stratifications, descent along proper surjective maps) and, for supported classes, by the push-pull formula. In the tetragonal Hurwitz stack of §6.3, the union of the Casnati–Ekedahl strata on which the smaller summand of `F` has degree at least four is, for `n ≤ 17 − 2g`, an open substack of a vector bundle over an open substack of `(ℙE^∨)^n`, so it has the CKgP and its Chow ring is the image of `A^*((ℙE^∨)^n)` (Canning–Larson, Lemmas 10.11–10.12, p. 39); it is the complement of the trigonal locus in genus five and of the trigonal and plane-quintic loci in genus six (Lemmas 10.9–10.10, p. 38); and §6.5 makes the pushforwards of its classes tautological. The trigonal locus is the trigonal clause of §5.4, valid for `n ≤ g + 7`. The plane-quintic locus, the image of the stack of pointed smooth plane quintics, is the plane-curve step of §5.4 with `d = 5` and `n ≤ 14`, its class being tautological (Scope and ownership; Lemmas 10.13–10.14, p. 39). Finally §5.3 and the complementary-degree duality of the Conventions give the cohomological consequence, as in §5.4.
+
+*Needs:* §§5.2–5.4 (permanence, the cohomological consequence, and the trigonal clause and plane-curve step); §§6.3 and 6.5 (the tetragonal Hurwitz stack and its tautological pushforwards); §§0.1, 0.6; WeilConjectures, gap:open-dm-stack-duality; MixedHodgeModulesAndIrregularHodgeTheory, gap:dm-stack-mixed-hodge (the complementary-degree duality in both realizations).
+
+**Checks.**
+
+- The tetragonal strata, not the trigonal clause, set the bounds: with `f = 4` the bound `4f − 2g + 1` of Canning–Larson, Lemma 10.11, is `17 − 2g`, which is `7` at `g = 5` and `5` at `g = 6`, while the trigonal clause alone would allow `g + 7 = 12` and `13` markings.
+- The method gives at most seven markings in every genus: the smaller summand of `F` has degree `f₁ ≤ (g + 3)/2`, so `4f₁ − 2g + 1 ≤ 7` (Canning–Larson, Remark 10.7, p. 38); at `(5, 8)` no conclusion is drawn.
+- The plane-quintic locus occurs in genus six only, a smooth plane quintic having genus `(5 − 1)(5 − 2)/2 = 6`, and its step allows `3·5 − 1 = 14 ≥ 5` markings, so it does not limit `c(6)`; in genus five the image of those strata is the complement of the trigonal locus alone.
+
 ### Examples
 
 For `n = 0`, `X_0` is an open subset of a vector bundle over the substack of `B` of bundle pairs of types `(3,3,4)` and `(5,5)` or `(4,6)`; its Chow ring is generated by Chern classes of `E` and `F`.
 
 ### Dependencies
 
-Layers 0 and 5; StableReductionPartII §§0.4, 2.248, 7.11; SchemeAndStackFoundations §§1.18–1.23, §§3.2 and 4.14, with gap:stack-rational-chow; EquivariantIntersectionTheory with gap:equivariant-grr; CanonicalModelsAndGonality §5.4; AlgebraicCurves Layer 12; AlgebraicModuliForArithmeticGeometry §1.3.
+Layers 0 and 5; StableReductionPartII §§0.4, 2.248, 7.11; SchemeAndStackFoundations §§1.18–1.23, §§3.2 and 4.14, with gap:stack-rational-chow; EquivariantIntersectionTheory with gap:equivariant-grr; CanonicalModelsAndGonality §5.4; AlgebraicCurves Layer 12; AlgebraicModuliForArithmeticGeometry §1.3; WeilConjectures, gap:open-dm-stack-duality; MixedHodgeModulesAndIrregularHodgeTheory with gap:dm-stack-mixed-hodge.
 
 ## Layer 7: The orthogonal Grassmannian and the Mukai model of pentagonal genus-seven curves
 
@@ -1084,7 +1098,7 @@ For `0 ≤ n ≤ 4` prove that `M°_{7,n}` has the CKgP and `A^*(M°_{7,n}) = R^
 
 - `n = 4` is a statement about the pentagonal locus only; `M_{7,4}` is not claimed, since §6.8 is limited to `n ≤ 3`.
 - For `n = 0` the division by `κ₀ = 2·7 − 2 = 12` is legitimate over `ℚ`.
-- The conclusion feeds §5.4's table at `c(7) = 3`.
+- The conclusion extends the ranges of §§5.4 and 6.9 to genus seven, `c(7) = 3`.
 
 ### Examples
 
@@ -1358,7 +1372,7 @@ For `0 ≤ n ≤ 3`, if `#M̄_{4,n}(𝔽_{p^m}) = P(p^m) + o(p^{m(9+2n)/2})` for
 
 ### 9.4 Point counts of the boundary of `M̄_{4,n}`
 
-For `0 ≤ n ≤ 3` and every `q` prove that `#∂M̄_{4,n}(𝔽_q)` is the polynomial of the following table, of degree `8 + n` (BFP, Proposition 9.6, pp. 1353–1354). Route: apply §1.4 to the equivariant counts of open strata of smaller pairs (§1.6 and §§9.6, 9.9); compute in the order boundary `n = 0` from lower genus, then closed and open `n = 0`, boundary `n = 1`, closed and open `n = 1`, boundary `n = 2`, and so on; for `n = 3` the only genus-four graph needed has trivial automorphisms, so no `S₂`-equivariant unknown enters.
+Let `0 ≤ n ≤ 3`. If `n ≥ 2`, suppose that `#M_{4,1}(𝔽_q) = q¹⁰ + 2q⁹ + 2q⁸ − q⁷ − q⁶ − q²` for every `q`, and, if `n = 3`, also that `#M_{4,2}(𝔽_q) = q¹¹ + 3q¹⁰ + 4q⁹ − 2q⁸ − 4q⁷ − 2q³ − 2q²` for every `q`. Prove that `#∂M̄_{4,n}(𝔽_q)` is then, for every `q`, the polynomial of the following table, of degree `8 + n` (BFP, Proposition 9.6, pp. 1353–1354). Route: apply §1.4 to the counts of the open strata of smaller pairs. Those of genus at most three are the equivariant counts of §1.6. A vertex of genus four occurs only for `n ≥ 2`, as the vertex `(4, 1)` or `(4, 2)` of a graph with one edge to a rational vertex carrying the remaining legs; such a graph has no nontrivial automorphism, so the ordinary counts of the hypothesis suffice and no `S₂`-equivariant genus-four count enters (BFP, proof of Proposition 9.6, p. 1354). The hypothesis is discharged in §9.5, which proves the rows in the order of `n`.
 
 | n | Polynomial |
 | --- | --- |
@@ -1367,7 +1381,7 @@ For `0 ≤ n ≤ 3` and every `q` prove that `#∂M̄_{4,n}(𝔽_q)` is the poly
 | 2 | 1 + 11q + 78q² + 321q³ + 838q⁴ + 1362q⁵ + 1362q⁶ + 842q⁷ + 321q⁸ + 72q⁹ + 8q¹⁰ |
 | 3 | 2 + 19q + 205q² + 1179q³ + 3977q⁴ + 8296q⁵ + 10606q⁶ + 8292q⁷ + 3990q⁸ + 1172q⁹ + 200q¹⁰ + 17q¹¹ |
 
-*Needs:* §§1.4–1.6; §§9.6, 9.9 for the smaller genus-four pairs.
+*Needs:* §§1.4–1.6.
 
 **Checks.**
 
@@ -1376,7 +1390,7 @@ For `0 ≤ n ≤ 3` and every `q` prove that `#∂M̄_{4,n}(𝔽_q)` is the poly
 
 ### 9.5 Polynomial counts of `M̄_{4,n}`
 
-For `0 ≤ n ≤ 3` and every finite field prove that `#M̄_{4,n}(𝔽_q)` is the polynomial of the following table, of degree `d = 9 + n`, with nonnegative coefficients satisfying `a_i = a_{d−i}` (BFP, Theorem 1.4, p. 1325; §10.1, p. 1355). Route: add the cone, non-split and split counts of §§8.6, 8.9–8.11 and 8.13, the hyperelliptic counts of §8.3 and the boundary counts of §9.4; this determines `#M̄_{4,n}` up to `o(q^{(9+n)/2})` for `n ≤ 2` and up to `B q⁶ + o(q⁶)` for `n = 3`; WeilConjectures, WC.5 (approximate counts and Tate semisimplification, with the stack trace, comparison, purity and duality inputs) recognizes an exact palindromic polynomial, and for `n = 3` the coefficient of `q⁶` is fixed by `χ(M_{4,3}) = −10` (§9.1).
+For `0 ≤ n ≤ 3` and every finite field prove that `#M̄_{4,n}(𝔽_q)` is the polynomial of the following table, of degree `d = 9 + n`, with nonnegative coefficients satisfying `a_i = a_{d−i}` (BFP, Theorem 1.4, p. 1325; §10.1, p. 1355). The count is the groupoid mass of the Conventions, `stableMass`: the sum of `1/#Aut` over the isomorphism classes of stable `n`-pointed curves of genus four over `𝔽_q`, which are the pointed prestable curves satisfying `IsStableOfGenus`; the table is `stableMass_genus_four`. `IsStableOfGenus` expresses stability as the absence of infinitesimal automorphisms, which over a field `k` is equivalent to it: a stable curve has none (StableReduction, Layer 3); an unstable connected prestable pointed curve has, after extension to an algebraic closure, a smooth rational component with at most two special points, or is a smooth genus-one curve without markings, and so carries a nonzero vector field vanishing at the markings; and the infinitesimal automorphisms over `k` form the `k`-space of such vector fields, whose formation commutes with extension of the field. Route: prove the rows in the order `n = 0, 1, 2, 3`, discharging the hypothesis of §9.4 at `n` by the open counts `#M_{4,n′} = #M̄_{4,n′} − #∂M̄_{4,n′}` of the rows `n′ < n` already proved. Add the cone, non-split and split counts of §§8.6, 8.9–8.11 and 8.13, the hyperelliptic counts of §8.3 and the boundary counts of §9.4; this determines `#M̄_{4,n}` up to `o(q^{(9+n)/2})` for `n ≤ 2` and up to `B q⁶ + o(q⁶)` for `n = 3`; WeilConjectures, WC.5 (approximate counts and Tate semisimplification, with the stack trace, comparison, purity and duality inputs) recognizes an exact palindromic polynomial, and for `n = 3` the coefficient of `q⁶` is fixed by `χ(M_{4,3}) = −10` (§9.1).
 
 | n | Polynomial |
 | --- | --- |
@@ -1385,7 +1399,7 @@ For `0 ≤ n ≤ 3` and every finite field prove that `#M̄_{4,n}(𝔽_q)` is th
 | 2 | 1 + 11q + 76q² + 319q³ + 838q⁴ + 1362q⁵ + 1362q⁶ + 838q⁷ + 319q⁸ + 76q⁹ + 11q¹⁰ + q¹¹ |
 | 3 | 1 + 21q + 207q² + 1168q³ + 3977q⁴ + 8296q⁵ + 10605q⁶ + 8296q⁷ + 3977q⁸ + 1168q⁹ + 207q¹⁰ + 21q¹¹ + q¹² |
 
-*Needs:* §§8.3, 8.6, 8.9–8.11, 8.13, 9.1, 9.4; WeilConjectures, WC.5 and WC.6; DeligneWeightsAndPurity §8.24 (smooth proper DM duality).
+*Needs:* §§8.3, 8.6, 8.9–8.11, 8.13, 9.1, 9.4; WeilConjectures, WC.5 and WC.6; DeligneWeightsAndPurity §8.24 (smooth proper DM duality); StableReduction, Layer 3 (stability, and the absence of infinitesimal automorphisms on a stable geometric fibre, for `IsStableOfGenus`).
 
 **Checks.**
 
@@ -1395,7 +1409,7 @@ For `0 ≤ n ≤ 3` and every finite field prove that `#M̄_{4,n}(𝔽_q)` is th
 
 ### 9.6 Polynomial counts of `M_{4,n}`
 
-For `0 ≤ n ≤ 3` and every `q` prove that `#M_{4,n}(𝔽_q)` is the polynomial of the following table, the difference of §9.5 and §9.4 (BFP, Theorem 1.5, p. 1326; §10.1, p. 1355). In the `n = 3` row the coefficient `−11` belongs to `q³`; the display in BFP §10.1 places it at `q⁴`, contrary to Theorem 1.5 and to the subtraction.
+For `0 ≤ n ≤ 3` and every `q` prove that `#M_{4,n}(𝔽_q)` is the polynomial of the following table, the difference of §9.5 and §9.4, whose hypothesis at `n` is the rows `n′ < n` of this table (BFP, Theorem 1.5, p. 1326; §10.1, p. 1355). In the `n = 3` row the coefficient `−11` belongs to `q³`; the display in BFP §10.1 places it at `q⁴`, contrary to Theorem 1.5 and to the subtraction.
 
 | n | Polynomial |
 | --- | --- |
@@ -1427,9 +1441,9 @@ For `n ≤ 3` prove that `H^*(M̄_{4,n}) = RH^*(M̄_{4,n})`, and hence that `H^{
 
 ### 9.8 Odd cohomology vanishes through degree nine
 
-For every stable pair prove `H^k(M̄_{g,n}) = 0` for odd `k ≤ 9` (BFP, Theorem 1.1, p. 1324; §2, pp. 1328–1329). The bound is sharp uniformly in `(g, n)`, since `dim H¹¹(M̄_{1,11}) = 2`. Route: §2.5 with `k = 9`; the base region consists of the pairs of §2.9 and of `(4, n)`, `n ≤ 3`, where §9.7 applies; §2.2 keeps genus five out of the region.
+For every stable pair prove `H^k(M̄_{g,n}) = 0` for odd `k ≤ 9` (BFP, Theorem 1.1, p. 1324; §2, pp. 1328–1329). The bound is sharp uniformly in `(g, n)`, since `dim H¹¹(M̄_{1,11}) = 2`. Route: §2.5 with `k = 9`; genus zero is §2.6, and the base region consists of the pairs of §2.9 and of `(4, n)`, `n ≤ 3`, where §9.7 applies; §2.2 keeps genus five out of the region.
 
-*Needs:* §§2.2, 2.5, 2.8, 2.9, 9.7; §0.5.
+*Needs:* §§2.2, 2.5, 2.6, 2.8, 2.9, 9.7; §0.5.
 
 **Checks.**
 
@@ -1488,7 +1502,7 @@ For each partition `λ` with `|λ| ≤ 3` listed below, prove that the alternati
 
 ### Dependencies
 
-Layers 0–3 and 8; Layer 5 (§5.4, for §9.7); StableReductionPartII §§0.4, 2.248 and 3.10; WeilConjectures, WC.1, WC.5, WC.6; DeligneWeightsAndPurity §8.24; MixedHodgeModulesAndIrregularHodgeTheory with gap:dm-stack-mixed-hodge; MotivesAndAlgebraicCycles with gap:dm-stack-cycle-class; SchurWeyl, Layer 7.
+Layers 0–3 and 8; Layer 5 (§5.4, for §9.7); StableReduction, Layer 3; StableReductionPartII §§0.4, 2.248 and 3.10; WeilConjectures, WC.1, WC.5, WC.6; DeligneWeightsAndPurity §8.24; MixedHodgeModulesAndIrregularHodgeTheory with gap:dm-stack-mixed-hodge; MotivesAndAlgebraicCycles with gap:dm-stack-cycle-class; SchurWeyl, Layer 7.
 
 ## Layer 10: Even cohomology, even homology and the eleventh cohomology group
 
@@ -1508,14 +1522,14 @@ For every stable pair prove `H^k(M̄_{g,n}) = RH^k(M̄_{g,n})` for `0 ≤ k ≤ 
 
 ### 10.2 All degree-four cohomology is tautological
 
-For every stable pair prove `H⁴(M̄_{g,n}) = RH⁴(M̄_{g,n})` (CLP, Theorem 1.5(1), p. 2; §6.1, p. 22). Route: §4.9 with `k = 4` reduces to `g < 7` and `n ≤ 4`, where §5.4 makes the pure open quotient tautological; apply §4.5 to `RH^*`, including the same-degree triples with fewer markings, with §10.1 for lower degrees.
+For every stable pair prove `H⁴(M̄_{g,n}) = RH⁴(M̄_{g,n})` (CLP, Theorem 1.5(1), p. 2; §6.1, p. 22). Route: §4.9 with `k = 4` reduces to `g < 7` and `n ≤ 4`, where §§5.4 and 6.9 make the pure open quotient tautological; apply §4.5 to `RH^*`, including the same-degree triples with fewer markings, with §10.1 for lower degrees.
 
-*Needs:* §§4.5, 4.9, 5.3, 5.4, 10.1.
+*Needs:* §§4.5, 4.9, 5.3, 5.4, 6.9, 10.1.
 
 **Checks.**
 
 - Genus seven does not occur in the seed region: the genus bound `g′ < 3·4/2 + 1 = 7` is strict.
-- For `(g, n) = (6, 4)`, `n = 4 ≤ c(6) = 5`, so §5.4 applies.
+- For `(g, n) = (6, 4)`, `n = 4 ≤ c(6) = 5`, so §6.9 applies.
 
 ### 10.3 Degree-six cohomology in genus at least ten
 
@@ -1530,9 +1544,9 @@ For `g ≥ 10` and every `n` prove `H⁶(M̄_{g,n}) = RH⁶(M̄_{g,n})` (CLP, Th
 
 ### 10.4 Tautological even homology through degree fourteen
 
-For every stable pair and every even `0 ≤ k ≤ 14` prove that `H^{2d−k}(M̄_{g,n})` is tautological, equivalently that `H_k(M̄_{g,n})` is spanned by tautological cycles; groups of negative cohomological degree are zero (CLP, Theorem 1.5(3), p. 2; §6.2, p. 23). Route: induct on `k` and on the stable-pair order with §0.4. By §2.3, `H_k^{BM}(M_{g,n}) = 0` unless `n ≤ 1, 2g ≤ k` or `n ≥ 2, 2g − 2 + n ≤ k`; for `g ≥ 3` and `k ≤ 14` all those pairs lie in the ranges of §§5.4 and 7.7, so the pure Borel–Moore classes are tautological by §5.3; genus one is §3.3 and genus two §4.3; boundary Künneth factors have even homological degree, because by §9.8 and Poincaré duality odd homology vanishes below degree eleven and two odd degrees at least eleven cannot sum to at most fourteen. The first sentence of the proof in CLP §6.2 writes the range as `k ≥ 14`; the theorem and the argument use `k ≤ 14`.
+For every stable pair and every even `0 ≤ k ≤ 14` prove that `H^{2d−k}(M̄_{g,n})` is tautological, equivalently that `H_k(M̄_{g,n})` is spanned by tautological cycles; groups of negative cohomological degree are zero (CLP, Theorem 1.5(3), p. 2; §6.2, p. 23). Route: induct on `k` and on the stable-pair order with §0.4. By §2.3, `H_k^{BM}(M_{g,n}) = 0` unless `n ≤ 1, 2g ≤ k` or `n ≥ 2, 2g − 2 + n ≤ k`; for `g ≥ 3` and `k ≤ 14` all those pairs lie in the ranges of §§5.4, 6.9 and 7.7, so the pure Borel–Moore classes are tautological by §5.3; genus one is §3.3 and genus two §4.3; boundary Künneth factors have even homological degree, because by §9.8 and Poincaré duality odd homology vanishes below degree eleven and two odd degrees at least eleven cannot sum to at most fourteen. The first sentence of the proof in CLP §6.2 writes the range as `k ≥ 14`; the theorem and the argument use `k ≤ 14`.
 
-*Needs:* §§0.4, 2.3, 2.6, 3.3, 4.3, 5.3, 5.4, 7.7, 9.8.
+*Needs:* §§0.4, 2.3, 2.6, 3.3, 4.3, 5.3, 5.4, 6.9, 7.7, 9.8.
 
 **Checks.**
 
@@ -1598,9 +1612,9 @@ For every `n ≥ 0` prove `H¹¹(M̄_{2,n}) = 0` (CLP-H11, §4.3, pp. 11–14, a
 
 ### 10.9 The eleventh cohomology group in all genera
 
-Prove that `H¹¹(M̄_{g,n}) ≠ 0` if and only if `g = 1` and `n ≥ 11`, and that the STE `S_ω` generated by `H¹¹(M̄_{1,11})` contains `H¹¹(M̄_{g,n})` for every stable pair (CLP-H11, Theorem 1.1, p. 1, and §4.2, p. 11; recalled in CLP, §2.2, p. 7). Route: genus zero is §2.6, genus one §§4.7–4.8, genus two §10.8. For `g ≥ 3` induct on `g` and then on `n`. The pairs with `max(2g, 2g − 2 + n) ≤ 11` and `g ≥ 3` are `(3, n ≤ 7)`, `(4, n ≤ 5)` and `(5, n ≤ 3)`; each `M_{g,n}` there has the CKgP (§5.4), so `W₁₁H¹¹(M_{g,n}) = 0`, and the boundary term of degree nine vanishes by §9.8, so `H¹¹(M̄_{g,n}) = 0` by §0.4. Otherwise §2.3 gives `H_c^{11}(M_{g,n}) = 0` and `α` is injective (§10.7). By Künneth and §9.8, `H¹¹` of a product of vertex spaces is the sum of their `H¹¹`; by induction the only nonzero summands of `C¹_{11}(g, n)` come from separating edges joining a vertex of genus `g − 1 ≥ 2` to a genus-one vertex with at least eleven flags, a graph `Γ` with trivial automorphism group. Adding a loop at the genus-`(g − 1)` vertex gives a two-edge graph `Γ′` whose `H¹¹` contains the same genus-one summand; the other contraction of `Γ′` is the one-vertex loop graph of type `(g − 1, n + 2)`, whose `H¹¹` vanishes by induction, and distinct `Γ` give distinct `Γ′`, so `β` is injective. Then `β α = 0` gives `H¹¹(M̄_{g,n}) = 0`.
+Prove that `H¹¹(M̄_{g,n}) ≠ 0` if and only if `g = 1` and `n ≥ 11`, and that the STE `S_ω` generated by `H¹¹(M̄_{1,11})` contains `H¹¹(M̄_{g,n})` for every stable pair (CLP-H11, Theorem 1.1, p. 1, and §4.2, p. 11; recalled in CLP, §2.2, p. 7). Route: genus zero is §2.6, genus one §§4.7–4.8, genus two §10.8. For `g ≥ 3` induct on `g` and then on `n`. The pairs with `max(2g, 2g − 2 + n) ≤ 11` and `g ≥ 3` are `(3, n ≤ 7)`, `(4, n ≤ 5)` and `(5, n ≤ 3)`; each `M_{g,n}` there has the CKgP (§§5.4, 6.9), so `W₁₁H¹¹(M_{g,n}) = 0`, and the boundary term of degree nine vanishes by §9.8, so `H¹¹(M̄_{g,n}) = 0` by §0.4. Otherwise §2.3 gives `H_c^{11}(M_{g,n}) = 0` and `α` is injective (§10.7). By Künneth and §9.8, `H¹¹` of a product of vertex spaces is the sum of their `H¹¹`; by induction the only nonzero summands of `C¹_{11}(g, n)` come from separating edges joining a vertex of genus `g − 1 ≥ 2` to a genus-one vertex with at least eleven flags, a graph `Γ` with trivial automorphism group. Adding a loop at the genus-`(g − 1)` vertex gives a two-edge graph `Γ′` whose `H¹¹` contains the same genus-one summand; the other contraction of `Γ′` is the one-vertex loop graph of type `(g − 1, n + 2)`, whose `H¹¹` vanishes by induction, and distinct `Γ` give distinct `Γ′`, so `β` is injective. Then `β α = 0` gives `H¹¹(M̄_{g,n}) = 0`.
 
-*Needs:* §§0.4, 2.3, 2.6, 4.7, 4.8, 5.3, 5.4, 9.8, 10.7, 10.8.
+*Needs:* §§0.4, 2.3, 2.6, 4.7, 4.8, 5.3, 5.4, 6.9, 9.8, 10.7, 10.8.
 
 **Checks.**
 
@@ -1758,9 +1772,9 @@ The final induction uses the finite cusp bases and the oriented weight-fifteen c
 
 ### 12.1 Cusp generation of degree-thirteen homology
 
-For every stable pair prove that the STE generated by `H¹¹(M̄_{1,11})` contains `H^{2d−13}(M̄_{g,n})`, the cohomological form of `H₁₃` (CLP, Theorem 1.6, p. 2; proof, pp. 23–24). Route: genus zero has no odd cohomology. For `g ≥ 1`, §2.3 and §0.4 reduce to the pairs with `13 ≥ 2g, n ≤ 1` or `13 ≥ 2g − 2 + n, n ≥ 2`; all of them except `(2, 11), (1, 11), (1, 12), (1, 13)` have the CKgP (§5.4), so their pure Borel–Moore homology in degree thirteen vanishes by §5.3; `(2, 11)` follows from §11.10 and hard Lefschetz; genus one follows from §3.2 by induction on `n`. In the Künneth decomposition of the boundary term `H₁₃(D̃)` of §0.4 exactly one factor has odd homological degree, eleven or thirteen, since odd homology `H_a(M̄_v) ≅ H^a(M̄_v)^∨` vanishes for `a ≤ 9` by §9.8 and duality, and the other factor, when the stratum has two vertices, has homological degree two or zero, tautological by §10.4. A factor `H₁₃` is in `S_ω` by induction on the stable-pair order. A factor `H₁₁(M̄_v) = H^{2d_v−11}(M̄_v)(d_v)` is zero if `d_v < 11`, being dual to `H¹¹(M̄_v)`, which by §10.9 is nonzero only for `g_v = 1`, `n_v ≥ 11`, where `d_v = n_v ≥ 11`; and for `d_v ≥ 11` it is `a^{d_v−11} · H¹¹(M̄_v)` by hard Lefschetz with a tautological ample class `a` (§4.12), hence in `S_ω` by §10.9.
+For every stable pair prove that the STE generated by `H¹¹(M̄_{1,11})` contains `H^{2d−13}(M̄_{g,n})`, the cohomological form of `H₁₃` (CLP, Theorem 1.6, p. 2; proof, pp. 23–24). Route: genus zero has no odd cohomology. For `g ≥ 1`, §2.3 and §0.4 reduce to the pairs with `13 ≥ 2g, n ≤ 1` or `13 ≥ 2g − 2 + n, n ≥ 2`; all of them except `(2, 11), (1, 11), (1, 12), (1, 13)` have the CKgP (§§5.4, 6.9), so their pure Borel–Moore homology in degree thirteen vanishes by §5.3; `(2, 11)` follows from §11.10 and hard Lefschetz; genus one follows from §3.2 by induction on `n`. In the Künneth decomposition of the boundary term `H₁₃(D̃)` of §0.4 exactly one factor has odd homological degree, eleven or thirteen, since odd homology `H_a(M̄_v) ≅ H^a(M̄_v)^∨` vanishes for `a ≤ 9` by §9.8 and duality, and the other factor, when the stratum has two vertices, has homological degree two or zero, tautological by §10.4. A factor `H₁₃` is in `S_ω` by induction on the stable-pair order. A factor `H₁₁(M̄_v) = H^{2d_v−11}(M̄_v)(d_v)` is zero if `d_v < 11`, being dual to `H¹¹(M̄_v)`, which by §10.9 is nonzero only for `g_v = 1`, `n_v ≥ 11`, where `d_v = n_v ≥ 11`; and for `d_v ≥ 11` it is `a^{d_v−11} · H¹¹(M̄_v)` by hard Lefschetz with a tautological ample class `a` (§4.12), hence in `S_ω` by §10.9.
 
-*Needs:* §§0.4, 2.3, 3.2, 4.4, 4.12, 5.3, 5.4, 9.8, 10.4, 10.9, 11.10; DeligneWeightsAndPurity, gap:dm-stack-hard-lefschetz; MixedHodgeModulesAndIrregularHodgeTheory, gap:dm-stack-mixed-hodge; StableReductionPartII, gap:pointed-coarse-projectivity.
+*Needs:* §§0.4, 2.3, 3.2, 4.4, 4.12, 5.3, 5.4, 6.9, 9.8, 10.4, 10.9, 11.10; DeligneWeightsAndPurity, gap:dm-stack-hard-lefschetz; MixedHodgeModulesAndIrregularHodgeTheory, gap:dm-stack-mixed-hodge; StableReductionPartII, gap:pointed-coarse-projectivity.
 
 **Checks.**
 
@@ -1771,9 +1785,9 @@ For every stable pair prove that the STE generated by `H¹¹(M̄_{1,11})` contai
 
 ### 12.2 Two-cusp generation of degree-fifteen homology
 
-For every stable pair prove that the STE generated by `H¹¹(M̄_{1,11})` and `H¹⁵(M̄_{1,15})` contains `H^{2d−15}(M̄_{g,n})` (CLP, Theorem 1.7, p. 2; proof, p. 27). Route: as in §12.1; the base cases with `g ≥ 3` have the CKgP; the remaining ones are `g = 1`, `11 ≤ n ≤ 14` (and `n = 15`, which is a generator), by §3.2, and `g = 2`, `11 ≤ n ≤ 13`, by §11.10, §11.9 and hard Lefschetz; in the Künneth decomposition of the boundary term `H₁₅(D̃)` one factor has odd homological degree `11`, `13` or `15`, `H₁₁` treated as in §12.1, `H₁₃` by §12.1 and `H₁₅` by induction on the stable-pair order, and the other, when the stratum has two vertices, has even homological degree at most four, tautological by §10.4.
+For every stable pair prove that the STE generated by `H¹¹(M̄_{1,11})` and `H¹⁵(M̄_{1,15})` contains `H^{2d−15}(M̄_{g,n})` (CLP, Theorem 1.7, p. 2; proof, p. 27). Route: as in §12.1; the base cases with `g ≥ 3` have the CKgP (§§5.4, 6.9, 7.7); the remaining ones are `g = 1`, `11 ≤ n ≤ 14` (and `n = 15`, which is a generator), by §3.2, and `g = 2`, `11 ≤ n ≤ 13`, by §11.10, §11.9 and hard Lefschetz; in the Künneth decomposition of the boundary term `H₁₅(D̃)` one factor has odd homological degree `11`, `13` or `15`, `H₁₁` treated as in §12.1, `H₁₃` by §12.1 and `H₁₅` by induction on the stable-pair order, and the other, when the stratum has two vertices, has even homological degree at most four, tautological by §10.4.
 
-*Needs:* §§12.1, 11.9, 11.10, 11.6, 2.3, 7.7, 5.4, 3.2, 4.12, 9.8, 10.4, 10.9; DeligneWeightsAndPurity, gap:dm-stack-hard-lefschetz; StableReductionPartII, gap:pointed-coarse-projectivity.
+*Needs:* §§12.1, 11.9, 11.10, 11.6, 2.3, 7.7, 5.4, 6.9, 3.2, 4.12, 9.8, 10.4, 10.9; DeligneWeightsAndPurity, gap:dm-stack-hard-lefschetz; StableReductionPartII, gap:pointed-coarse-projectivity.
 
 **Checks.**
 
@@ -1834,9 +1848,9 @@ API:
 
 ### 12.7 Injectivity in the weight-fifteen row
 
-For `g ≥ 3` and every `n` prove that `α : H¹⁵(M̄_{g,n}) → C¹_{15}(g, n)` is injective (CLP, Lemma 8.2, p. 28). Route: `α` is injective when `Gr^W_{15} H_c^{15}(M_{g,n}) = 0`; by §2.3 this holds if `n ≤ 1` and `2g > 15`, or `n ≥ 2` and `2g − 2 + n > 15`; the remaining pairs with `g ≥ 3` have the CKgP (§§5.4, 7.7), and §5.3 with the complementary-degree duality of the Conventions, as in §5.4, gives the vanishing, `Gr^W_{15} H_c^{15}(M_{g,n})` being dual to `W_{2d−15} H^{2d−15}(M_{g,n})(d)` of odd degree. The printed proof uses only the bound `2g − 2 + n > 15`, which would leave `(8, 0)` and `(8, 1)` needing a CKgP that is not available; the bound `2g > 15` for `n ≤ 1` covers them.
+For `g ≥ 3` and every `n` prove that `α : H¹⁵(M̄_{g,n}) → C¹_{15}(g, n)` is injective (CLP, Lemma 8.2, p. 28). Route: `α` is injective when `Gr^W_{15} H_c^{15}(M_{g,n}) = 0`; by §2.3 this holds if `n ≤ 1` and `2g > 15`, or `n ≥ 2` and `2g − 2 + n > 15`; the remaining pairs with `g ≥ 3` have the CKgP (§§5.4, 6.9, 7.7), and §5.3 with the complementary-degree duality of the Conventions, as in §5.4, gives the vanishing, `Gr^W_{15} H_c^{15}(M_{g,n})` being dual to `W_{2d−15} H^{2d−15}(M_{g,n})(d)` of odd degree. The printed proof uses only the bound `2g − 2 + n > 15`, which would leave `(8, 0)` and `(8, 1)` needing a CKgP that is not available; the bound `2g > 15` for `n ≤ 1` covers them.
 
-*Needs:* §§12.6, 2.3, 5.3, 5.4, 7.7; WeilConjectures, gap:open-dm-stack-duality; MixedHodgeModulesAndIrregularHodgeTheory, gap:dm-stack-mixed-hodge (duality on `M_{g,n}`).
+*Needs:* §§12.6, 2.3, 5.3, 5.4, 6.9, 7.7; WeilConjectures, gap:open-dm-stack-duality; MixedHodgeModulesAndIrregularHodgeTheory, gap:dm-stack-mixed-hodge (duality on `M_{g,n}`).
 
 **Checks.**
 

@@ -1,14 +1,15 @@
 module
 
 import Mathlib
+import TauCeti.AlgebraicGeometry.Curves.StableMaps.Automorphism
+import TauCeti.AlgebraicGeometry.Cohomology.Genus
 
 /-!
 # Tautological rings and motivic structures in the cohomology of moduli of stable curves: target signatures
 
 The roadmap is `README.md`; this file is not the roadmap. It is the acceptance test: it states,
 against the pinned Mathlib and Tau Ceti, those headline theorems of the roadmap that are statable
-there. At the pins none is, so the file states nothing; this docstring records each headline
-theorem and what it lacks.
+there, and this docstring records each headline theorem that is not and what it lacks.
 
 The headline theorems are:
 
@@ -33,19 +34,72 @@ The headline theorems are:
 * the cohomology of `M̄_{3,n}` for `n ≤ 11` is a polynomial in `L` and `S₁₂` (README §12.10;
   Canning–Larson–Payne, Theorem 1.9).
 
-None of these is statable at the pins. Each needs the moduli stacks `M̄_{g,n}` and `M_{g,n}` of
-stable pointed curves. Mathlib has the descent condition for stacks on a site
-(`CategoryTheory.Pseudofunctor.IsStack`) but no algebraic or Deligne–Mumford stacks; Tau Ceti has pointed prestable families of curves over a scheme
-(`TauCeti.AlgebraicGeometry.PointedPrestableFamily`) and their dual graphs (`TauCeti.DualGraph`),
-but no stack of stable curves. The cohomological statements also need the rational Betti
-cohomology of these stacks with its mixed Hodge structure and their `ℓ`-adic cohomology with its
-Galois action, together with the forgetful and clutching morphisms acting on them; the point
-counts need the groupoid of rational points of a stack over a finite field; and the Chow
-statements need rational Chow groups of stacks and the tautological classes `ψ_i`, `κ_a`. None of
-these carriers exists at the pins, and stating the theorems through stand-ins for them would not
-test the roadmap.
+The point counts of `M̄_{4,n}`, `n ≤ 3`, are stated below (`stableMass_genus_four`). The groupoid
+of rational points of `M̄_{g,n}` over a field `k` is the groupoid of stable `n`-pointed curves of
+genus `g` over `k` with their isomorphisms over `k`, so its mass needs no stack: Tau Ceti has
+pointed prestable families over `Spec k` with these isomorphisms
+(`TauCeti.AlgebraicGeometry.PointedPrestableFamily`), their infinitesimal automorphisms
+(`TauCeti.AlgebraicGeometry.PrestableMap.infinitesimalAut`, through the constant map to `Spec k`)
+and the genus `dim_k H¹(C, 𝒪_C)` (`AlgebraicGeometry.Scheme.genus`), and Mathlib has the set of
+isomorphism classes (`CategoryTheory.Skeleton`).
+
+The other headline theorems, and the pure Tate cohomology of `M̄_{4,n}`, are not statable at the
+pins. Each needs the moduli stacks `M̄_{g,n}` and `M_{g,n}` of stable pointed curves themselves,
+with their cohomology. Mathlib has the descent condition for stacks on a site
+(`CategoryTheory.Pseudofunctor.IsStack`) but no algebraic or Deligne–Mumford stacks, and Tau Ceti
+has pointed prestable families and their dual graphs (`TauCeti.DualGraph`) but no stack of stable
+curves. The cohomological statements also need the rational Betti cohomology of these stacks with
+its mixed Hodge structure and their `ℓ`-adic cohomology with its Galois action, together with the
+forgetful and clutching morphisms acting on them; and the Chow statements need rational Chow
+groups of stacks and the tautological classes `ψ_i`, `κ_a`. None of these carriers exists at the
+pins, and stating the theorems through stand-ins for them would not test the roadmap.
 -/
 
+open CategoryTheory AlgebraicGeometry TauCeti.AlgebraicGeometry Polynomial
+
 namespace TauCetiRoadmap.MotivicStructuresInModuliOfCurves
+
+universe u
+
+/-! ## Layer 9: Genus-four point counts and odd vanishing through degree nine -/
+
+/-- An `n`-pointed prestable curve `P` over a field `k` is **stable of genus `g`** when it has no
+infinitesimal automorphisms, that is, no automorphism of its base change to `k[ε]` that fixes every
+marking and restricts to the identity modulo `ε` other than the identity (taken through the
+constant prestable map to `Spec k`), and `dim_k H¹(P, 𝒪_P) = g`. Over a field the first condition
+is stability of the pointed curve (README §9.5): a stable curve has no infinitesimal automorphisms,
+and an unstable connected prestable pointed curve carries a nonzero vector field vanishing at its
+markings. -/
+def IsStableOfGenus (k : Type u) [Field k] (g : ℕ) {n : ℕ}
+    (P : PointedPrestableFamily (Spec (.of k)) n) : Prop :=
+  (PrestableMap.const (q := 𝟙 (Spec (.of k))) P (𝟙 _) (by simp)).infinitesimalAut = ⊥ ∧
+    ∃ _ : FiniteDimensional k
+        (Scheme.Modules.Cohomology (InvertibleSheaf.trivial P.total).obj 1),
+      P.total.genus k = g
+
+/-- The point count `#M̄_{g,n}(k)` as a groupoid mass: the sum, over the isomorphism classes of
+stable `n`-pointed curves of genus `g` over `k`, of the reciprocal of the order of the automorphism
+group (README, Conventions, **Point counts**; Bergström–Faber–Payne, §1, p. 1324). Over a finite
+field there are finitely many classes, each with a finite automorphism group. -/
+noncomputable def stableMass (k : Type u) [Field k] (g n : ℕ) : ℚ :=
+  ∑ᶠ C : Skeleton (ObjectProperty.FullSubcategory (IsStableOfGenus k g (n := n))),
+    ((Nat.card (Aut C) : ℚ))⁻¹
+
+/-- **Point counts of `M̄_{4,n}`** for `n ≤ 3`: over every finite field with `q` elements,
+`#M̄_{4,n}(𝔽_q)` is the palindromic polynomial of degree `9 + n` of README §9.5
+(Bergström–Faber–Payne, Theorem 1.4, p. 1325). -/
+theorem stableMass_genus_four (k : Type u) [Field k] [Finite k] :
+    stableMass k 4 0 = (1 + 4 * X + 13 * X ^ 2 + 32 * X ^ 3 + 50 * X ^ 4 + 50 * X ^ 5
+        + 32 * X ^ 6 + 13 * X ^ 7 + 4 * X ^ 8 + X ^ 9 : ℚ[X]).eval (Nat.card k : ℚ) ∧
+      stableMass k 4 1 = (1 + 6 * X + 30 * X ^ 2 + 93 * X ^ 3 + 191 * X ^ 4 + 240 * X ^ 5
+        + 191 * X ^ 6 + 93 * X ^ 7 + 30 * X ^ 8 + 6 * X ^ 9 + X ^ 10 : ℚ[X]).eval
+          (Nat.card k : ℚ) ∧
+      stableMass k 4 2 = (1 + 11 * X + 76 * X ^ 2 + 319 * X ^ 3 + 838 * X ^ 4 + 1362 * X ^ 5
+        + 1362 * X ^ 6 + 838 * X ^ 7 + 319 * X ^ 8 + 76 * X ^ 9 + 11 * X ^ 10
+        + X ^ 11 : ℚ[X]).eval (Nat.card k : ℚ) ∧
+      stableMass k 4 3 = (1 + 21 * X + 207 * X ^ 2 + 1168 * X ^ 3 + 3977 * X ^ 4
+        + 8296 * X ^ 5 + 10605 * X ^ 6 + 8296 * X ^ 7 + 3977 * X ^ 8 + 1168 * X ^ 9
+        + 207 * X ^ 10 + 21 * X ^ 11 + X ^ 12 : ℚ[X]).eval (Nat.card k : ℚ) := by
+  sorry
 
 end TauCetiRoadmap.MotivicStructuresInModuliOfCurves
