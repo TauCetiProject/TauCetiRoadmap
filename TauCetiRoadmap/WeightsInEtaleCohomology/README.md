@@ -105,7 +105,7 @@ For finite-dimensional `ρ` and a group element g, the consumed duality identity
 ### From weights and modular realizations
 
 * RepresentationTheory/CharacterTheory Layer 3 supplies finite-group character projectors and their idempotence. R34.5 applies this supplied averaging identity to the torsion-translation, inversion and permutation correspondences on its actual equivariant compactification.
-* DeligneWeightsAndPurity §§0.1–0.19 (DWP.0) supplies Weil numbers, ordinary and chosen-embedding endomorphism weights, embeddings, spectral operations, power criteria and the comparison with arithmetic graded purity. Sections 1.1–1.10 (DWP.1) supplies the independent curve/abelian estimates and point counts. Sections 2–4 supplies the fundamental estimate, rational pencil factors and smooth projective purity; §§5.1–5.19, 7.1–7.15, 8.1–8.24 supplies sheaf/complex weights, integrality, direct-image bounds and duality; §§9.1–9.12 supplies absolute hard Lefschetz; §§10.1–10.4 supplies transport to arithmetic subquotients. Numerical weight predicates are consumed from this roadmap; only the exceptional-set representation predicates are defined here.
+* DeligneWeightsAndPurity §§0.1–0.19 (DWP.0) supplies Weil numbers, ordinary and chosen-embedding endomorphism weights, embeddings, spectral operations, power criteria and the comparison with arithmetic graded purity. Sections 1.1–1.10 (DWP.1) supplies the independent curve/abelian estimates and point counts. Sections 2.9, 3.1, 3.10 and 4.3 supply the symplectic fundamental estimate, the arithmetic descent of the pencil radical quotient, rational pencil factors and smooth projective purity; §§5.1–5.19, 7.1–7.15, 8.1–8.24 supplies sheaf/complex weights, integrality, direct-image bounds and duality; §§9.1–9.12 supplies absolute hard Lefschetz; §§10.1–10.4 supplies transport to arithmetic subquotients. Numerical weight predicates are consumed from this roadmap; only the exceptional-set representation predicates are defined here.
 * ModularCurvesPartII Layer 11 supplies its specified regular/semistable bad-prime models with geometric thicknesses, stabilizers, level maps and coefficient data. Layer 12 supplies modular degeneration applications. Sections 14.1–14.4a supply the universal symmetric-power local system, support map, parabolic image and finite/adic/characteristic-zero comparisons; §14.11 supplies its pairing within the stated coefficient domain; §§16.1–16.4 supply the weight-two modular abelian quotient and dimension. These inputs do not assert a Kuga–Sato compactification or a Hilbert–Shimura model.
 * AlgebraicModularFormsAndSerreWeights R15.5A.1–R15.5A.2 supplies the primitive rank-two classical cohomological multiplicity, coefficient descent at every `λ`, independence of auxiliary full level and the geometric Hecke polynomial without using R34.6 purity. Its pairing/transpose identity, including the odd-weight character transport, fixes trace and determinant even for scalar Frobenius. R34.5 constructs and compares the classical Scholl realization rather than constructing a second primitive eigenprojector.
 * StableReduction Layers 4, 5, 7 and 8 supply nodal resolution, minimal regular models, semistable reduction and stable-model existence/uniqueness, applied componentwise in geometric genus greater than one. R34.3 constructs the compatible ramified refinement to strictly semistable models and adds Saito’s abelian schemes, level maps, correspondences and descent data; the minimal regular semistable model and its stable contraction are distinct.
@@ -535,7 +535,7 @@ Good reduction has no vanishing-cycle contribution; a split nodal genus-one fibr
 
 ## Layer 4: Descended pencils and original-coefficient monodromy (R34.4)
 
-This layer verifies the arithmetic inputs to the pencil arguments in DWP.2–4. The geometry comes from LPV.3–5 and EtaleCohomologyFoundations §§F.5–F.7. Finite-extension descent, removal of the radical, and openness in the original coefficient group are independent conditions; none can be replaced by a numerical example of a symplectic matrix.
+This layer verifies, on a chosen pencil, the hypotheses of the pencil statements DWP §§3.1 and 3.10 and of the symplectic estimate DWP §2.9; none of them is a step in DWP's proof of purity. The geometry comes from LPV.3–5 and EtaleCohomologyFoundations §§F.5–F.7. Finite-extension descent, removal of the radical, and openness in the original coefficient group are independent conditions; none can be replaced by a numerical example of a symplectic matrix.
 
 ### 4.1 A pencil over a common finite extension
 
@@ -545,7 +545,7 @@ Consume LPV §3.5’s common finite-field descent of the chosen axis, incidence 
 
 If the model is further extended by degree `e`, Frobenius becomes `F^e` and the residue size becomes `q^{de}`. Transport cohomology with those precise operators and cardinalities. When an eigenvalue `α^d` is a Weil `q^d`-number of weight `w`, the DWP.0 power criterion shows that `α` is a Weil `q`-number of weight `w`. This descends a cohomological weight assertion for an already defined arithmetic action. It does not descend the chosen pencil itself to `𝔽_q`. Purely inseparable field extensions use étale invariance; the finite extensions of finite fields in this construction are separable.
 
-Sources are [Deligne I, (5.6)–(5.7), pp. 291–292, and (6.1), pp. 294–295][WI]. Prerequisites are LPV.3 pencil data (§3.1), pencil existence (§3.4), common finite-field pencil/incidence descent (§3.5); EtaleCohomologyFoundations §F.7 weak Lefschetz (§F.7), the axis blowup (§F.7, applied to the LPV.3 incidence family); DWP.0 the power criterion (§0.12); and SchemeAndStackFoundations §§0.9, 2.15 for common finite-residue-field descent. This target verifies the hypotheses of the supplied descent on the chosen pencil; the weight induction remains in DWP.4.
+Sources are [Deligne I, (5.6)–(5.7), pp. 291–292, and (6.1), pp. 294–295][WI]. Prerequisites are LPV.3 pencil data (§3.1), pencil existence (§3.4), common finite-field pencil/incidence descent (§3.5); EtaleCohomologyFoundations §F.7 weak Lefschetz (§F.7), the axis blowup (§F.7, applied to the LPV.3 incidence family); DWP.0 the power criterion (§0.12); and SchemeAndStackFoundations §§0.9, 2.15 for common finite-residue-field descent. This target verifies the hypotheses of the supplied descent on the chosen pencil.
 
 ### 4.2 The arithmetic vanishing quotient and its parity
 
@@ -567,7 +567,7 @@ Sources are [Deligne I, (5.8)–(5.9), pp. 292–293][WI]. Prerequisites are the
 
 In odd middle degree, for the nonzero quotient `V` over its original `ℚ_ℓ`-model, instantiate LPV.5's absolute irreducibility and Kazhdan–Margulis open-image theorems. The geometric monodromy image must be **open in the original symplectic `ℚ_ℓ`-group**. Zariski density is weaker, and scalar extension to a larger coefficient field does not preserve an assertion of openness in the required larger local group.
 
-Use DWP.3 rational pencil factors (§3.10) on the actual descended local factors of `V`. Rationality is an independent hypothesis for the DWP.2 fundamental estimate and cannot be supplied by the desired purity conclusion. Together with the nondegenerate alternating pairing into `ℚ_ℓ(−n)`, these verifications instantiate the fundamental estimate with pairing weight `n`. Keep all local factors and residue-degree powers in the arithmetic field of definition. This target verifies the application hypotheses; DWP.2 owns the estimate and DWP.4 owns the ensuing Weil-bound induction.
+Use DWP.3 rational pencil factors (§3.10) on the actual descended local factors of `V`; DWP derives them from purity (§7.15(ii)) and hard Lefschetz (§9.12). Rationality is a hypothesis of the DWP.2 fundamental estimate (§2.9). Together with the nondegenerate alternating pairing into `ℚ_ℓ(−n)`, these verifications instantiate the fundamental estimate with pairing weight `n`. Keep all local factors and residue-degree powers in the arithmetic field of definition. This target verifies the application hypotheses; DWP §2.9 owns the estimate.
 
 Handle `V = 0` separately, with characteristic polynomial `1`, rather than using a nonzero irreducibility or open-monodromy premise. For even degree the pairing is symmetric and the symplectic estimate does not apply. These parity, zero-rank and coefficient restrictions are part of the theorem's interface, not choices to be suppressed in a generic monodromy assertion.
 
@@ -579,7 +579,7 @@ A nonempty parameter open can have no `F_q` point but has a point over a finite 
 
 ### Dependencies
 
-*Needs:* R34.1; LefschetzPencilsAndVanishingCycles §§3.1–5.11; EtaleCohomologyFoundations §§F.5–F.7; SchemeAndStackFoundations §§0.9, 2.15; DeligneWeightsAndPurity DWP.0, DWP.2–DWP.4. R34.4 verifies the arithmetic inputs; the numerical estimates remain with their suppliers.
+*Needs:* R34.1; LefschetzPencilsAndVanishingCycles §§3.1–5.11; EtaleCohomologyFoundations §§F.5–F.7; SchemeAndStackFoundations §§0.9, 2.15; DeligneWeightsAndPurity DWP.0, §§2.9, 3.1, 3.10. R34.4 verifies the arithmetic inputs; the numerical estimates remain with their suppliers.
 
 ## Layer 5: Parabolic realizations, projectors and hard Lefschetz (R34.5)
 
@@ -607,7 +607,7 @@ For the classical branch, take a fine modular curve `Y(M)`, with `M ≥ 3`, its 
 
 `H^{r+1}(W_{r,K̄}, ℚ_ℓ).`
 
-At a prime of actual smooth proper reduction, away from the level, coefficient characteristic and required model denominators, the projector must extend as a correspondence and commute with Frobenius. DWP.4 smooth-projective purity makes its image pure of weight `r + 1`. A twist by `(b)` gives weight `r + 1 − 2b`. The point is the specified degree `r + 1`, not just the total dimension of a fibre power. Weight two, where `r = 0`, is the separate Jacobian target below.
+At a prime of actual smooth proper reduction, away from the level, coefficient characteristic and required model denominators, the projector must extend as a correspondence and commute with Frobenius. DWP §4.3 smooth-projective purity makes its image pure of weight `r + 1`. A twist by `(b)` gives weight `r + 1 − 2b`. The point is the specified degree `r + 1`, not just the total dimension of a fibre power. Weight two, where `r = 0`, is the separate Jacobian target below.
 
 Construct `W_r` and its good-prime extension here, comparing its parabolic coefficient system with ModularCurvesPartII §§14.1–14.4a, with the correspondence's denominator and boundary hypotheses. A rational algebraic projector does not automatically extend integrally at its denominator primes, give a saturated integral eigensummand, or establish unrestricted freeness. A CM-product construction `W_r×A^r` has total degree `2r + 1`; it does not replace the classical degree-`r + 1` comparison needed here.
 
@@ -685,7 +685,7 @@ Weight two gives parabolic weight one and the Jacobian branch; weight twelve giv
 
 ### Dependencies
 
-*Needs:* R34.1–R34.3; DeligneWeightsAndPurity DWP.0, DWP.4, DWP.7–DWP.9; EtaleCohomologyFoundations §§F.5–F.7; ModularCurvesPartII §§14.1–14.4a, 14.11, 16.1–16.4; AlgebraicModularFormsAndSerreWeights R15.5A.1–R15.5A.2. The classical compactification, Scholl correspondence and Hilbert projector comparisons are R34.5 targets with the detailed contracts in §§3.9, 5.5–5.7.
+*Needs:* R34.1–R34.3; DeligneWeightsAndPurity DWP.0, §4.3, DWP.7–DWP.9; EtaleCohomologyFoundations §§F.5–F.7; ModularCurvesPartII §§14.1–14.4a, 14.11, 16.1–16.4; AlgebraicModularFormsAndSerreWeights R15.5A.1–R15.5A.2. The classical compactification, Scholl correspondence and Hilbert projector comparisons are R34.5 targets with the detailed contracts in §§3.9, 5.5–5.7.
 
 ## Layer 6: Eigenform purity, compatibility and the restricted local export (R34.6)
 
