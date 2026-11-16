@@ -355,8 +355,10 @@ theorem exists_titsSystem_linear (G : Subgroup (GL (Fin n) ℝ))
 /-- **§7.4. `⁰G` and the split component.** For a self-adjoint linear group `G`, let `F` be the set
 of symmetric elements of `linearLieAlgebra G` that commute with `linearLieAlgebra G` and with every
 element of `G`. Every `g ∈ G` is `l·exp(X)` for a unique `l ∈ ⁰G` and a unique `X ∈ F`; the
-components of `G` may move the split centre, and only its `G`-fixed part `F` splits off
-(Knapp 2002, Ch. VII §2; Wallach 1988, Ch. 2 §2.2). -/
+components of `G` may move the split centre, and only its `G`-fixed part `F` splits off.
+Knapp 2002, Ch. VII §2, and Wallach 1988, Ch. 2 §2.2, treat the groups whose components fix the
+split centre, where `F` is all of it; the general case is proved by averaging over the component
+group (README §5.1). -/
 theorem positiveCharacterKernel_mul_exp (G : Subgroup (GL (Fin n) ℝ))
     (hG : IsSelfAdjointLinearGroup G) :
     ∀ g ∈ G, ∃! p : GL (Fin n) ℝ × Matrix (Fin n) (Fin n) ℝ,
