@@ -349,7 +349,8 @@ variable {k : Type u} [Field k] {G : Type u} [Group G]
 /-- **The induced class function** `Ind_H^G f : G → k` of `f : H → k`, the linearization of the
 induced-character formula (`character_ind` computes it on genuine characters); the map turning `R(H) → R(G)`
 into a module homomorphism over `R(G)` by the projection formula (Layer 0). -/
-noncomputable def indClassFun {H : Subgroup G} [Fintype G] (f : H → k) : G → k := TauCeti.indClassFun H f
+noncomputable def indClassFun {H : Subgroup G} [Fintype G] (f : H → k) : G → k :=
+  Subgroup.indClassFun H f
 
 /-- **The virtual-character lattice** in the class functions: the additive subgroup of `G → k` spanned by
 the characters of `FDRep k G` (closed under the tensor-product product `char_tensor`). The primary object
@@ -357,7 +358,7 @@ is the Grothendieck ring `R(G)` of `FDRep k G` under direct sum and tensor produ
 characteristic-`0` splitting field the character map embeds `R(G)` into `G → k` with this lattice as image.
 An `AddSubgroup` (not a raw `Subring (G → k)`), which over positive characteristic would not record the
 lattice structure. -/
-def virtualCharacters : AddSubgroup (G → k) := TauCeti.virtualCharacters k G
+noncomputable def virtualCharacters : AddSubgroup (G → k) := TauCeti.virtualCharacters k G
 
 /-- **Elementary subgroups.** `IsElementary H` holds when `H` is `p`-elementary for some prime `p`, i.e. a
 direct product `C × P` of a cyclic group of order prime to `p` and a `p`-group. Use the native underlying-group `TauCeti.IsElementary` predicate; the local call shape takes a subgroup. -/
@@ -395,7 +396,7 @@ statement about the index of the integral image is a separate lattice-determinan
 theorem artin_induction [Fintype G] [CharZero k] [IsAlgClosed k] (V : FDRep k G) :
     Nat.card G • V.character ∈ AddSubgroup.closure
       { f : G → k | ∃ C : Subgroup G, IsCyclic C ∧ ∃ ψ : FDRep k C, f = indClassFun ψ.character } := by
-  letI : Invertible (Nat.card G : k) :=
+  let : Invertible (Nat.card G : k) :=
     invertibleOfNonzero (Nat.cast_ne_zero.mpr Nat.card_pos.ne')
   exact nativeIndCharacterSpan_le_raw (fun C ↦ IsCyclic C)
     (TauCeti.ClassFunction.natCard_nsmul_mem_indCharacterSpanInt_isCyclic
@@ -536,14 +537,15 @@ underlying set `kˣ × G` with twisted multiplication `(a, g)(b, h) = (a * b * �
 identity `hα` and the normalization `hα₁` are data, not decoration: without them the multiplication is
 neither associative nor unital. `H²(G, k^×)` classifies these central extensions up to equivalence. -/
 def centralExtensionOfFactorSet (α : G × G → kˣ)
-    (hα : ∀ g h j : G, α (g * h, j) * α (g, h) = α (h, j) * α (g, h * j))
-    (hα₁ : ∀ g : G, α (1, g) = 1 ∧ α (g, 1) = 1) : Type := kˣ × G
+    (_hα : ∀ g h j : G, α (g * h, j) * α (g, h) = α (h, j) * α (g, h * j))
+    (_hα₁ : ∀ g : G, α (1, g) = 1 ∧ α (g, 1) = 1) : Type := kˣ × G
 
 /-- Native division commutant. Its multiplication is categorical End multiplication, hence
 composition in the order (ab)(v)=a(b(v)); it need not equal k. -/
 abbrev cliffordCommutant {N : Subgroup G} (V : FDRep k N) := CategoryTheory.End V
 
 /-- General-field Schur supplies the native division structure, without scalar Schur. -/
+@[instance_reducible]
 noncomputable def cliffordCommutantDivisionRing {N : Subgroup G}
     (V : FDRep k N) [Simple V] : DivisionRing (cliffordCommutant V) := inferInstance
 
