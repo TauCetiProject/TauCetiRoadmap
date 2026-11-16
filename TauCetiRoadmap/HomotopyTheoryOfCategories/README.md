@@ -1589,12 +1589,14 @@ This section is secondary: it maps existing Lean code to targets and prescribes 
 repository LeanPool, *lean-pool* (References), keeps Lean 4 formalizations that do not fit Mathlib,
 each project permissively licensed (Apache-2.0 or MIT) and bumped to Lean and Mathlib v4.35.0,
 earlier than our pin. It is not a dependency: a statement read there is compared with the target
-here before it is used, adaptation is agreed with its maintainers first, and adapted code keeps its
-license notices.
+here before it is used, adaptation is agreed first with the authors of the code (named in each
+file's header and in LeanPool's NOTICE), and adapted code keeps its license notices.
 
 `LeanPool/WhiteheadTheorem` proves Whitehead's theorem for CW complexes, which Scope lists as not
-used; `LeanPool/FactorizationSystems` treats orthogonal factorization systems. Nothing there treats
-basic localizers, test categories, Thomason equivalences or derivators.
+used; `LeanPool/FactorizationSystems` treats orthogonal factorization systems, with (epi, mono) on
+`Type u` as its one example; no target here uses one: the epi–mono factorizations of `Δ` in 7.5 and
+8.3 are those of Mathlib's `SimplexCategory.reedyStructure`. Nothing there treats basic localizers,
+test categories, Thomason equivalences or derivators.
 
 ## References
 
