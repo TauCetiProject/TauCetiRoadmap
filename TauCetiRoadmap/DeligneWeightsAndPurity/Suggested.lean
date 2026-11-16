@@ -20,12 +20,13 @@ supplied by SchemeAndStackFoundations §5.11 (`weil_bound`) and is not restated 
 spectral formulations of DWP.1 (Frobenius on the Tate module and on `H¹` of the Jacobian, the
 Weil numbers among the roots of the Jacobian's Frobenius polynomial, and the §1.6 point-count
 and zeta formulas in those roots, which need the Tate-module carrier),
-the symplectic coefficient estimate (DWP.2), pencil-factor rationality (DWP.3), smooth
-projective purity (DWP.4), local weight–monodromy and generalized majoration (DWP.5), sharp
-curve purity (DWP.6), and the general direct-image and integrality theorems (DWP.7) need
-Frobenius on rational adic étale cohomology and constructible Weil sheaves. Those coefficient
-objects and their six operations are absent at the pins. The coefficient L-function clause of
-§1.10 needs the same sheaf objects.
+the weights through the Fourier–Deligne transform and the symplectic coefficient estimate
+(DWP.2), pencil-factor rationality (DWP.3), Laumon's estimate and smooth projective purity
+(DWP.4), local weight–monodromy and generalized majoration (DWP.5), curve purity (DWP.6), and
+the general direct-image and integrality theorems (DWP.7) need Frobenius on rational adic étale
+cohomology, constructible Weil sheaves and, for DWP.2 and DWP.4, the Fourier–Deligne transform.
+Those coefficient objects, their six operations and the transform are absent at the pins. The
+coefficient L-function clause of §1.10 needs the same sheaf objects.
 
 Mixed-complex estimates, the lisse weight filtration, geometric semisimplicity, potential
 purity and the normal-crossings spectral sequence (DWP.8) also need these sheaves and complexes,
