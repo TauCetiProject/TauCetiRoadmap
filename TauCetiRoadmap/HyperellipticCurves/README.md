@@ -2601,14 +2601,16 @@ concern the conductor ideal of a normalisation.
     (`ChabautyColeman.irreducible_Ysq_sub_f`), and, for `f` squarefree and `2 ≠ 0`, `HypRing K f`
     as the integral closure of `K[x]` in `HypField K f`, Dedekind in odd degree. This is
     `W.FunctionField` of 0.4 and its involution (0.6) for `h = 0` and odd degree; the genus there
-    is the integer `deg f / 2` (`ChabautyColeman.genus`), and 0.4's comparisons with
+    is the integer `deg f / 2` (`ChabautyColeman.genus`, in
+    [`Disks/CurvePoint.lean`](https://github.com/LeanPool/lean-pool/blob/f8b9b721d616a2cc0b22fc226e4a9e3dd6cea2d0/LeanPool/HyperellipticCurves/Disks/CurvePoint.lean)), and 0.4's comparisons with
     `TauCeti.IsFunctionField`, `TauCeti.genus` and `TauCeti.IsHyperellipticFunctionField` have no
     counterpart.
   - [`Curve/Jacobian.lean`](https://github.com/LeanPool/lean-pool/blob/f8b9b721d616a2cc0b22fc226e4a9e3dd6cea2d0/LeanPool/HyperellipticCurves/Curve/Jacobian.lean)
     and [`Curve/MumfordReduction.lean`](https://github.com/LeanPool/lean-pool/blob/f8b9b721d616a2cc0b22fc226e4a9e3dd6cea2d0/LeanPool/HyperellipticCurves/Curve/MumfordReduction.lean):
-    for `f` of odd degree, `ChabautyColeman.HypJac K f := ClassGroup (HypRing K f)`, the class
-    `ChabautyColeman.aj` of the point ideal `(x − x₀, y − y₀)`, inverted by the involution
-    (`ChabautyColeman.aj_inv`), and in each class a unique reduced Mumford ideal `(u, y − v)` with
+    for `f` of odd degree, `ChabautyColeman.HypJac K f := ClassGroup (HypRing K f)`; for `f`
+    moreover squarefree and `2 ≠ 0`, the class `ChabautyColeman.aj` of the point ideal
+    `(x − x₀, y − y₀)`, inverted by the involution when `y₀² = f(x₀)` (`ChabautyColeman.aj_inv`),
+    and in each class a unique reduced Mumford ideal `(u, y − v)` with
     `u` monic, `u ∣ v² − f`, `deg v < deg u` and `2 deg u < deg f`
     (`ChabautyColeman.exists_mk0_mumfordIdeal_reduced`,
     `ChabautyColeman.mumfordIdeal_reduced_unique`). For `f` separable of degree `2g + 1` and
