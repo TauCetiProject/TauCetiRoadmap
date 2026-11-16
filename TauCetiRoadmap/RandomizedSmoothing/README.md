@@ -25,17 +25,8 @@ This roadmap owns:
 - rational bounds for `Φ` and `Φ⁻¹` sufficient to state certified radii as rational numbers;
 - the Monte Carlo certification procedure and its error guarantee.
 
-It consumes, and does not re-prove:
-
-- [StandardDistributions](../StandardDistributions/README.md), as implemented in Tau Ceti: the
-  quantile `MeasureTheory.Measure.quantile` (`TauCeti/Probability/Quantile`), the Gaussian
-  quantile `TauCeti.Probability.quantile_gaussianReal`, the binomial tail identity
-  `TauCeti.Probability.binomial_tail_eq_regularizedIncompleteBeta`, the Beta cdf
-  `TauCeti.Probability.cdf_betaMeasure_eq`, and the law of a sum of independent Bernoulli
-  variables `TauCeti.Probability.iIndepFun.hasLaw_sum_bernoulli`;
-- Mathlib: `gaussianReal`, `cdf`, `stdGaussian` on finite-dimensional real inner product
-  spaces with `stdGaussian_eq_map_pi_orthonormalBasis`, `ProbabilityTheory.binomial` with the
-  notation `Bin(n, p)`, `betaMeasure`, and `Measure.pi`.
+It consumes, and does not re-prove, the items listed under
+[Exact supplier contracts](#exact-supplier-contracts).
 
 The Neyman–Pearson lemma for general laws belongs to
 [MathematicalStatisticsFoundations](../MathematicalStatisticsFoundations/README.md), 6.2, and
@@ -43,7 +34,28 @@ general confidence sets to its 1.4. This roadmap needs only the Gaussian shift c
 directly. Out of scope: smoothing with non-Gaussian noise and certificates in norms other than
 `ℓ²`; Hoeffding-type and other non-exact confidence bounds; the abstaining prediction
 procedure and its binomial test; training with noise; and deterministic certificates, which
-belong to [RobustnessCertificates](../RobustnessCertificates/README.md).
+belong to [RobustnessCertificates](https://github.com/TauCetiProject/TauCetiRoadmap/pull/2426).
+
+## Exact supplier contracts
+
+- [StandardDistributions](../StandardDistributions/README.md), Layers 1, 7 and 13, as
+  implemented in Tau Ceti: the quantile `MeasureTheory.Measure.quantile` with
+  `Measure.quantile_le_iff` (`TauCeti/Probability/Quantile`), the Gaussian quantile
+  `TauCeti.Probability.quantile_gaussianReal`, the binomial tail identity
+  `TauCeti.Probability.binomial_tail_eq_regularizedIncompleteBeta`, the Beta cdf
+  `TauCeti.Probability.cdf_betaMeasure_eq`, and the law of a sum of independent Bernoulli
+  variables `TauCeti.Probability.iIndepFun.hasLaw_sum_bernoulli`.
+- Mathlib: `gaussianReal`, `cdf`, `stdGaussian` on finite-dimensional real inner product
+  spaces with `stdGaussian_eq_map_pi_orthonormalBasis`, `ProbabilityTheory.binomial` with the
+  notation `Bin(n, p)`, `betaMeasure`, and `Measure.pi`.
+
+## How to read the build
+
+Each layer opens with its definitions. Each numbered target ends with its source locator in
+parentheses, or says that it is proved here, then lists its **Checks** (three or more
+discriminating tests that a wrong convention would fail) and a *Needs:* line naming the targets
+and suppliers it uses. `Suggested.lean` states the headline theorems of Layers 1–6 against the
+pinned APIs.
 
 ## Conventions
 
@@ -76,6 +88,16 @@ belong to [RobustnessCertificates](../RobustnessCertificates/README.md).
   `smooth σ f x ∈ (0, 1)` for every `x`. The proof uses that all translates of `γ` are
   mutually absolutely continuous.
 
+(Proved here.)
+
+**Checks.**
+
+- `f ≡ 1/2`: `smooth σ f ≡ 1/2`, in the third case.
+- `f` the indicator of `{0}`: `f = 0` almost everywhere, so `smooth σ f ≡ 0` although `f ≠ 0`.
+- A constant classifier `C ≡ A`: `P_A ≡ 1` and `P_c ≡ 0` for `c ≠ A`.
+
+*Needs:* Mathlib `stdGaussian`.
+
 ### 1.2 The Gaussian shift inequality
 
 Let `g : E → ℝ` be measurable with `0 ≤ g ≤ 1`, let `t ∈ ℝ` and `δ ∈ E`.
@@ -90,6 +112,17 @@ The lower form is the Neyman–Pearson lemma for the pair `γ` and `γ` shifted 
 likelihood ratio is monotone in `⟪z, δ⟫`. It reduces to one dimension along an orthonormal
 basis whose first vector is `u`.
 
+(Cohen et al., Lemmas 3 and 4, p. 12.)
+
+**Checks.**
+
+- The halfspace indicator of `{z | ⟪z, u⟫ ≤ t}` attains the lower form.
+- `δ = 0` gives the hypothesis back.
+- `g ≡ 1/2`, `t = 0`: the hypothesis holds with equality, and the conclusion
+  `Φ(-‖δ‖) ≤ 1/2` is strict for `δ ≠ 0`.
+
+*Needs:* 1.1; Mathlib `stdGaussian_eq_map_pi_orthonormalBasis`, `gaussianReal`, `cdf`.
+
 ### 1.3 Lipschitz consequences
 
 - **Probit.** If `smooth σ f x ∈ (0, 1)` for every `x`, then `x ↦ Φ⁻¹ (smooth σ f x)` is
@@ -97,6 +130,18 @@ basis whose first vector is `u`.
 - **Smoothing.** `smooth σ f` is `(σ √(2π))⁻¹`-Lipschitz, since `Φ` is `(√(2π))⁻¹`-Lipschitz.
   When `E` is nontrivial this constant is the least one valid for all such `f`: it is attained
   by a halfspace indicator at its boundary.
+
+(Salman et al., Lemma 2, p. 13, for the probit with `σ = 1`. Their Lemma 1, p. 13, gives the
+weaker constant `√(2/π)/σ` for the smoothing; the sharp constant is proved here.)
+
+**Checks.**
+
+- On `ℝ`, the indicator of `(-∞, 0]` has `smooth σ f x = Φ(-x/σ)`, whose probit `-x/σ` is
+  exactly `σ⁻¹`-Lipschitz.
+- The same function has derivative `-(σ √(2π))⁻¹` at `x = 0`, attaining the smoothing constant.
+- `f ≡ 1/2` has constant probit `0`.
+
+*Needs:* 1.1, 1.2; the Gaussian quantile.
 
 ## Layer 2: the certified radius
 
@@ -112,14 +157,37 @@ Let `C` be a base classifier, `x ∈ E`, `A : Fin k`, and `p̲_A, p̄_B ∈ (0, 
 - **One-sided form.** If `p̲_A ∈ (1/2, 1)` and `p̲_A ≤ P_A(x)`, take `p̄_B = 1 - p̲_A`. Then the
   radius is `σ Φ⁻¹ p̲_A`.
 
+(Cohen et al., Theorem 1, p. 4, including its remark on lower and upper bounds, and Theorem 1
+(binary case), p. 4; the formulation with `p̲_A, p̄_B ∈ (0, 1)` and without hypotheses on the
+true probabilities is proved here.)
+
+**Checks.**
+
+- `p̲_A = p̄_B`: `R = 0`, so nothing is certified.
+- `p̲_A = 9/10`, `p̄_B = 1/10`: `R = σ Φ⁻¹(9/10)`, the same as the one-sided radius.
+- The halfspace classifiers of 2.3 meet the radius exactly.
+
+*Needs:* 1.1, 1.2; the Gaussian quantile.
+
 ### 2.2 Sharpness
 
 Let `E` be nontrivial, `0 < p_B ≤ p_A < 1`, `p_A + p_B ≤ 1`, and
 `k ≥ 2 + ⌈(1 - p_A - p_B) / p_B⌉`. For every `r > (σ / 2) (Φ⁻¹ p_A - Φ⁻¹ p_B)` there are a
-base classifier `C` and `δ` with `‖δ‖ < r` such that `P_A(x) = p_A`, `P_B(x) = p_B`, `P_c(x) ≤ p_B` for all
-`c ≠ A`, and `P_A(x + δ) < P_B(x + δ)`. The construction assigns `A` and `B` to two parallel
+base classifier `C` and `δ` with `‖δ‖ < r` such that `P_A(x) = p_A`, `P_B(x) = p_B`,
+`P_c(x) ≤ p_B` for all `c ≠ A`, and `P_A(x + δ) < P_B(x + δ)`. The construction assigns `A` and `B` to two parallel
 halfspaces, and splits the slab between them into parallel slabs of probability at most `p_B`,
 one for each remaining class used.
+
+(Cohen et al., Theorem 2, pp. 4–5, with its halfspace construction, p. 15; the count of classes
+needed is proved here.)
+
+**Checks.**
+
+- `p_A = 3/4`, `p_B = 1/4`: two classes suffice.
+- `p_A = 1/2`, `p_B = 1/4`: three classes are needed.
+- `p_A = 2/5`, `p_B = 1/10`: seven classes are needed, five of them in the slab.
+
+*Needs:* 2.1, 1.2.
 
 ### 2.3 Halfspace classifiers
 
@@ -127,6 +195,16 @@ For a unit vector `u`, `b ∈ ℝ` and `C x = A` exactly when `⟪x, u⟫ ≤ b`
 elsewhere, `P_A(x) = Φ ((b - ⟪x, u⟫) / σ)`. So when `⟪x, u⟫ < b` the one-sided radius of 2.1
 with the exact `p̲_A = P_A(x)` equals the distance `b - ⟪x, u⟫` from `x` to the decision
 boundary, and it is the exact certified radius.
+
+(Cohen et al., Propositions 3 and 5, pp. 17–18.)
+
+**Checks.**
+
+- On `ℝ` with `C x = A` exactly when `x ≤ 0`, the radius at `x = -2` is `2` for every `σ`.
+- `P_A(x) = 1/2` on the boundary, where no radius is certified.
+- Reflecting `u` and `b` swaps the two classes and leaves the radius unchanged.
+
+*Needs:* 2.1, 2.2.
 
 ## Layer 3: exact binomial confidence bounds
 
@@ -136,6 +214,16 @@ boundary, and it is the exact certified radius.
   to `1`.
 - `k ↦ tail N k q` is antitone, and so `k ↦ cpLower α N k` is monotone.
 
+(Proved here.)
+
+**Checks.**
+
+- `tail N 1 q = 1 - (1 - q)^N`.
+- `tail N 0 q = 1`, and `tail N k q = 0` for `k > N`.
+- `tail 2 1 (1/2) = 3/4` and `tail 2 2 (1/2) = 1/4`.
+
+*Needs:* Mathlib `ProbabilityTheory.binomial`.
+
 ### 3.2 Coverage
 
 For `0 ≤ α` and every `p ∈ unitInterval`,
@@ -144,6 +232,17 @@ For `0 ≤ α` and every `p ∈ unitInterval`,
 
 The proof shows that `{k | p < cpLower α N k}` is an upper set `{k | k₀ ≤ k}` with
 `tail N k₀ p ≤ α`.
+
+(Proved here. `cpLower` is the lower end of the exact interval of Clopper and Pearson (1934), as
+used by Cohen et al., Appendix, p. 22.)
+
+**Checks.**
+
+- `N = 1`: `cpLower α 1 1 = α`, and the coverage event has probability `p · 1[p < α] ≤ α`.
+- `α = 0`: `cpLower 0 N k = 0` for `k ≤ N`, so the event is empty.
+- `N = 0`: `cpLower α 0 0 = 0` for `α < 1`.
+
+*Needs:* 3.1.
 
 ### 3.3 Closed forms
 
@@ -155,6 +254,16 @@ The proof shows that `{k | p < cpLower α N k}` is an upper set `{k | k₀ ≤ k
 - **Upper bound.** The upper bound `cpUpper α N k = 1 - cpLower α N (N - k)` satisfies
   `Bin(N, p).real {k | cpUpper α N k < p} ≤ α`.
 
+(Proved here, the Beta form from the binomial tail identity and the Beta cdf.)
+
+**Checks.**
+
+- `N = k = 1`: `Beta(1, 1)` is uniform, and `cpLower α 1 1 = α = α^(1/1)`.
+- `cpLower (1/20) 10 10 = (1/20)^(1/10) ≈ 0.7411`.
+- `cpUpper α N 0 = 1 - α^(1/N)`.
+
+*Needs:* 3.1, 3.2; `binomial_tail_eq_regularizedIncompleteBeta`, `cdf_betaMeasure_eq`.
+
 ### 3.4 Rational certificates
 
 - For rational `q ∈ [0, 1]`, `tail N k q` is the rational number
@@ -162,6 +271,16 @@ The proof shows that `{k | p < cpLower α N k}` is an upper set `{k | k₀ ≤ k
 - If `q ∈ [0, 1]` and `tail N k q ≤ α`, then `q ≤ cpLower α N k`. Give a decidable check of
   `tail N k q ≤ α` for rational `q` and `α`, by exact natural-number arithmetic on a common
   denominator, and prove it sound.
+
+(Proved here.)
+
+**Checks.**
+
+- `tail 2 2 (1/2) = 1/4 ≤ 1/4` certifies `1/2 ≤ cpLower (1/4) 2 2 = 1/2`, with equality.
+- `tail 3 3 (1/2) = 1/8`.
+- `tail 2 1 (1/2) = 3/4 > 1/2`, so the check does not certify `1/2 ≤ cpLower (1/2) 2 1`.
+
+*Needs:* 3.1.
 
 ## Layer 4: rational bounds for the probit
 
@@ -176,6 +295,17 @@ The proof shows that `{k | p < cpLower α N k}` is an upper set `{k | k₀ ≤ k
 - Hence a rational `t` and a rational upper bound `U` with `Φ t ≤ U ≤ p̲` certify the radius
   `σ t ≤ σ Φ⁻¹ p̲`.
 
+(Proved here.)
+
+**Checks.**
+
+- `Φ 0 = 1/2`, so `Φ⁻¹ (1/2) = 0`.
+- One grid step on `[0, 1]`: `Φ 1 ≤ 1/2 + φ(0) ≈ 0.899` and `Φ 1 ≥ 1/2 + φ(1) ≈ 0.742`; the true
+  value is `0.8413`.
+- `Φ t < p` with `t = 0`, `p = 3/4` gives `0 < Φ⁻¹ (3/4)`.
+
+*Needs:* the Gaussian quantile, Mathlib `Real.exp` series bounds.
+
 ## Layer 5: Monte Carlo certification
 
 ### 5.1 The estimation stage
@@ -189,6 +319,16 @@ Fix a base classifier `C`, `x ∈ E`, a class `A`, `N ∈ ℕ` and `α ∈ [0, 1
   `σ Φ⁻¹ p̲(ω)`. It is measurable and has probability at most `α`. The proof combines 3.2 with
   the one-sided form of 2.1.
 
+(Cohen et al., the CERTIFY pseudocode and Proposition 2, p. 6, with the proof on p. 23.)
+
+**Checks.**
+
+- `N = 0`: `p̲ = 0`, and nothing is ever certified.
+- `C ≡ A`: `K = N` almost surely, `p̲ = α^(1/N)`, and the certificate is true.
+- `α = 0`: `p̲ = 0` for every sample, and the failure event is empty.
+
+*Needs:* 2.1, 3.2; `iIndepFun.hasLaw_sum_bernoulli`.
+
 ### 5.2 Selection
 
 Let `N₀`, `N` be sample sizes, and let `s : (Fin N₀ → E) → Fin k` be measurable. Draw
@@ -196,10 +336,31 @@ Let `N₀`, `N` be sample sizes, and let `s : (Fin N₀ → E) → Fin k` be mea
 run 5.1 with this `A`. The probability of the failure event is still at most `α`. The proof
 conditions on `ω₀` by Fubini.
 
+(Cohen et al., the CERTIFY pseudocode, p. 6, which draws the selection sample separately.)
+
+**Checks.**
+
+- A constant selection rule `s` reduces 5.2 to 5.1.
+- `N₀ = 0` forces `s` to be constant.
+- A selection rule that reads the estimation sample is not covered, and the README does not
+  claim it.
+
+*Needs:* 5.1; Mathlib `Measure.pi` and Fubini.
+
 ### 5.3 Limits of the procedure
 
 With `N` samples and level `α`, every radius returned by 5.1 is at most `σ Φ⁻¹ (α ^ (1 / N))`,
 by 3.3.
+
+(Proved here.)
+
+**Checks.**
+
+- `N = 10`, `α = 1/20`: no radius above `0.647 σ`.
+- `N = 100`, `α = 1/1000`: no radius above `1.501 σ`.
+- `N = 100 000`, `α = 1/1000`: no radius above `3.82 σ`.
+
+*Needs:* 3.3, 4, 5.1.
 
 ## Layer 6: checks
 
@@ -214,12 +375,22 @@ by 3.3.
   normal `u` has `P_B(x + s u) > P_A(x + s u)` for every `s > σ Φ⁻¹ (3/4)`, while 2.1 certifies
   the radius `σ Φ⁻¹ (3/4)`.
 
+(Proved here.)
+
+*Needs:* Layers 1–5.
+
 ## Dependencies and order
 
 Layer 1 uses Mathlib's `stdGaussian` and the Gaussian quantile. Layer 2 uses Layer 1. Layer 3
 uses the binomial tail identity and the Beta cdf, and is independent of Layers 1 and 2. Layer 4
 uses only the Gaussian cdf. Layer 5 uses Layers 2 and 3 and the Bernoulli-sum law. Layer 6 uses
 all of them.
+
+The per-target *Needs:* lines are authoritative.
+
+## Downstream consumers
+
+None at present.
 
 ## Provenance
 

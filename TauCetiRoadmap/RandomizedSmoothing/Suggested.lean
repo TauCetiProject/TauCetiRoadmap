@@ -1,18 +1,19 @@
-/-
-# Randomized smoothing: suggested interfaces
-
-**This file is not the roadmap, and it is not exhaustive.** The definitive document is
-`README.md`. These statements suggest Lean forms for selected milestones; discharging them
-finishes neither a milestone nor the roadmap. The `sorry` proofs are targets, not completed results.
--/
-
-import Mathlib.Probability.Distributions.Beta
-import Mathlib.Probability.Distributions.Binomial
-import Mathlib.Probability.Distributions.Gaussian.Multivariate
+import Mathlib
 import TauCeti.Probability.Distributions.Beta.Cdf
 import TauCeti.Probability.Distributions.Binomial.Tail
 import TauCeti.Probability.Distributions.Gaussian.Quantile
 import TauCeti.Probability.Quantile
+
+/-!
+# Randomized smoothing: target signatures
+
+**This file is not the roadmap, and it is not exhaustive.** The definitive document is
+`README.md`. This file states the headline theorems of Layers 1–6 against the pinned Mathlib and
+Tau Ceti APIs; discharging them finishes neither a milestone nor the roadmap. The `sorry` proofs
+are targets, not completed results. The sharpness construction of §2.2, the upper bound
+`cpUpper` of §3.3, the decidable tail check of §3.4, the grid bounds of Layer 4 and the selection
+stage of §5.2 are README targets not stated here.
+-/
 
 noncomputable section
 
@@ -96,6 +97,7 @@ def tail (N k : ℕ) (q : unitInterval) : ℝ :=
 def cpLower (α : ℝ) (N k : ℕ) : ℝ :=
   sSup (Subtype.val '' {q : unitInterval | tail N k q ≤ α})
 
+/-- The Clopper–Pearson bound is monotone in the number of successes. -/
 theorem monotone_cpLower (α : ℝ) (N : ℕ) : Monotone (cpLower α N) := sorry
 
 /-- Coverage of the Clopper–Pearson lower bound. -/
@@ -117,9 +119,11 @@ theorem le_cpLower_of_tail_le {α : ℝ} {N k : ℕ} (q : unitInterval) (hq : ta
 
 /-! ## Layer 4: rational bounds for the probit -/
 
+/-- A rational upper bound for `Φ` gives a lower bound for `Φ⁻¹`. -/
 theorem le_probit_of_stdNormalCDF_le {p t : ℝ} (hp : p ∈ Ioo 0 1) (ht : stdNormalCDF t ≤ p) :
     t ≤ probit p := sorry
 
+/-- A rational lower bound for `Φ` gives an upper bound for `Φ⁻¹`. -/
 theorem probit_le_of_le_stdNormalCDF {p t : ℝ} (hp : p ∈ Ioo 0 1) (ht : p ≤ stdNormalCDF t) :
     probit p ≤ t := sorry
 
@@ -139,9 +143,12 @@ theorem certify_failure_le {k : ℕ} {σ : ℝ} (hσ : 0 < σ) {C : E → Fin k}
 
 /-! ## Layer 6: checks -/
 
+/-- The Clopper–Pearson bound after `10` successes in `10` trials at `α = 1/20`. -/
 theorem cpLower_twentieth_ten_ten : cpLower (1 / 20) 10 10 = (1 / 20 : ℝ) ^ ((1 : ℝ) / 10) :=
   sorry
 
+/-- The maximal certifiable radius with `100 000` samples at `α = 1/1000` lies in
+`(3.81 σ, 3.82 σ)`. -/
 theorem probit_maximal_radius_bounds :
     (381 / 100 : ℝ) < probit ((1 / 1000 : ℝ) ^ ((1 : ℝ) / 100000)) ∧
       probit ((1 / 1000 : ℝ) ^ ((1 : ℝ) / 100000)) < 382 / 100 := sorry
