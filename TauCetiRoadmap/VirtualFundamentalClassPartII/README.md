@@ -518,8 +518,8 @@ independent of the Chow lane: it needs only VirtualFundamentalClass Layers 3–5
 DerivedModuleAlgebra §§0.7 and 0.25 and SchemeAndStackFoundations §4.1. Layer 8 extends the cycles
 and rational equivalences of Layer 2 to algebraic stacks by smooth descent and the deformation to the
 normal cone to local immersions, adds the intersection with `P`-divisors that builds the canonical
-rational equivalence, and combines them with Layers 3–6 and VirtualFundamentalClass §2.5
-for base change, functoriality and deformation invariance over bases of pure dimension, and Layer 9
+rational equivalence, and combines them with Layers 3–6 for base change, functoriality and
+deformation invariance over bases of pure dimension, and Layer 9
 combines Layers 6–7 with StableReduction and
 SchemeAndStackFoundations duality for spaces of maps from curves; its virtual class is Layer 6's.
 Each target's *Needs:* line lists what its statement and its route use, item by item; where a
@@ -1875,9 +1875,11 @@ those of 2.1–2.2. Prove:
   202–204), is taken on each irreducible component of the double deformation space that dominates
   `ℙ¹ × ℙ¹`, with its reduced structure, and the results are summed with the multiplicities of these
   components, so that no reducedness of `Y` is used and its multiplicities enter `β`; on a smooth
-  ambient it is the rational equivalence to which VirtualFundamentalClass §2.5 applies kresch1999b
-  Theorem 3.1 (lines 334–336 name the rational equivalence of this proof), and on a reduced equidimensional scheme vistoli1989 Lemmas 3.16 and 4.6 (lines 1172–1174 and
-  1451–1470) give one with the same boundary by normalising a blow-up;
+  ambient kresch1999b Theorem 3.1 is a statement about `β` (lines 334–336 name the rational
+  equivalence of this proof). VirtualFundamentalClass §2.5's rational equivalence is Vistoli's
+  (behrend-fantechi1997 Propositions 3.3–3.4), which vistoli1989 Lemmas 3.16 and 4.6 (lines 1172–1174
+  and 1451–1470) build on a reduced equidimensional scheme by normalising a blow-up; there it has the
+  same boundary as `β`, and no statement here uses that the two agree in `W_*`;
 - `β(Y′, X)` commutes with smooth base change `Y_1 → Y` (kresch1999b Proposition 2.1, lines 205–207, and
   lines 202–204: the formation of the rational equivalence commutes with smooth pullback) and with
   smooth factorisations `X → Ỹ → Y`, `Ỹ → Y` smooth of Deligne–Mumford type: under the
@@ -1910,19 +1912,20 @@ images of `Y′` in `Y × Y` differ). For the fourth statement, generators `f_1,
 étale locally have differentials independent in `Ω_{Y/𝔐}` along `Y′`, so `(f_1, …, f_c) : Y → 𝔸^c × 𝔐` is
 smooth along `Y′`, `Y′` is pulled back from `{0} × 𝔐`, and the third statement applies over
 `𝔅 = 𝔸^c × 𝔐` with `T_{Y/𝔅}|_{Y′} = T_{Y′/𝔐}`. For `𝔐 = Spec k` this is kresch1999b Theorem 3.1 (lines
-334–343), owned by VirtualFundamentalClass §2.5, whose statement prints the acting bundle as `T_{Y′}` in
-its own notation while its proof (lines 390–405) translates along the regularly embedded smooth stack.
-No step uses reducedness or pure dimension of `Y`, `𝔅` or `𝔐`. This extends VirtualFundamentalClass
-§2.5's invariance from smooth ambients over `k` to relative tangent directions, on ambients that need
-be neither smooth nor reduced. *Needs:* for the groups `Z_*`, `W_*` of algebraic stacks, 2.1, 2.2 and
+334–343) for `β`, the restricted invariance that VirtualFundamentalClass §2.5 states for Vistoli's
+rational equivalence; Kresch's statement prints the acting bundle as `T_{Y′}` in its own notation
+while its proof (lines 390–405) translates along the regularly embedded smooth stack.
+No step uses reducedness or pure dimension of `Y`, `𝔅` or `𝔐`. This extends kresch1999b Theorem 3.1
+from smooth ambients over `k` to relative tangent directions, on ambients that need be neither smooth
+nor reduced. *Needs:* for the groups `Z_*`, `W_*` of algebraic stacks, 2.1, 2.2 and
 3.1 (flat pullback of cycles and of rational equivalences on schemes), VirtualFundamentalClass §0.2 and
 StackPointsAndResidualGerbes §0.3; for the deformation space, SchemeAndStackFoundations §5.5,
 VirtualFundamentalClass §1.5 and gap:normal-cones-of-local-immersions; for the `P`-divisor operations,
 2.1, 2.2, 3.1, 3.2 (the norm formula for the pushforward from the normalisation), Mathlib
 `AlgebraicGeometry.Scheme.ord`, `AlgebraicGeometry.Scheme.Hom.normalization`,
 `AlgebraicGeometry.Scheme.Hom.fromNormalization` and `AlgebraicGeometry.Scheme.Hom.normalizationPullback`,
-and Tau Ceti `TauCeti.AlgebraicGeometry.isFinite_fromNormalization_of_isJapanese`; for `β`, all of these
-and VirtualFundamentalClass §2.5; for the compatibility with smooth factorisations and the two invariance
+and Tau Ceti `TauCeti.AlgebraicGeometry.isFinite_fromNormalization_of_isJapanese`; for `β`, all of these;
+for the compatibility with smooth factorisations and the two invariance
 statements, also VirtualFundamentalClass §§1.6, 9.1.
 
 **API.**
@@ -2217,7 +2220,7 @@ Conventions 1 and 7, separated or not; and 5.4's degree is taken on `X_b`, which
 
 ### Dependencies
 
-Layers 2–6; VirtualFundamentalClass §§0.2, 1.5–1.6, 2.5, 5.5, 6.4–6.5, 8.1, 9.1, 9.3, 9.5;
+Layers 2–6; VirtualFundamentalClass §§0.2, 1.5–1.6, 5.5, 6.4–6.5, 8.1, 9.1, 9.3, 9.5;
 gap:normal-cones-of-local-immersions; StackPointsAndResidualGerbes §0.3; SchemeAndStackFoundations §5.5;
 Mathlib's normalisation of schemes and Tau Ceti's finiteness of it (8.1).
 Within 8.1, the groups `Z_*`, `W_*` of algebraic stacks, the deformation space and the `P`-divisor
@@ -2257,7 +2260,8 @@ SchemeAndStackFoundations §1.19; for the second API statement, also SchemeAndSt
 - The condition is stable under restriction to open substacks of `M` and under étale morphisms `M′ → M`
   from a stack `M′` (Convention 1), with the map `𝒞_{M′} → 𝒞_M → X`: extensions of `g′ : T → M′` correspond
   to extensions of its composite to `M` (7.1, `M′ → M` being étale).
-- For `𝔅 = Spec k`, a fixed projective curve `C` and `X` an open subscheme of a projective `k`-scheme `X̄`,
+- For `𝔅 = Spec k`, a fixed projective curve `C` with `C → Spec k` a prestable family (9.1's setting:
+  geometrically connected and at worst nodal) and `X` an open subscheme of a projective `k`-scheme `X̄`,
   every open subscheme of finite type of the scheme of morphisms `Mor(C, X)`, with its universal map,
   satisfies it. Here `Mor(C, X̄)` is the open subscheme of a Hilbert scheme of `C × X̄` of
   SchemeAndStackFoundations §4.14 (behrend-fantechi1997 lines 1583–1584 for projective `X`), and
@@ -2361,8 +2365,8 @@ separated or not, and every field the obstruction theory of AlgebraicGromovWitte
 
 **API.**
 
-- For `𝔅 = Spec k` and a fixed curve `C`, at a point `[F]` of `M`, `H⁰(φ)` is dual to the tangent map
-  `H⁰(C, F^*T_X) → T_{[F]}M`.
+- For `𝔅 = Spec k` and a fixed curve `C` prestable over `k`, at a point `[F]` of `M`, `H⁰(φ)` is dual to
+  the tangent map `H⁰(C, F^*T_X) → T_{[F]}M`.
 - `e` and `φ` commute with base change along morphisms `u : M′ → M` from a stack `M′` (Convention 1), with
   the pulled-back family and map: under `Lu^*E ≅ E′` (9.2), `φ′` is `Lu^*φ` followed by the functoriality
   map `Lu^*L_{M/𝔅} → L_{M′/𝔅}`.
@@ -2461,8 +2465,8 @@ also SchemeAndStackFoundations §§5.2–5.4.
 
 ### Examples
 
-- The space of morphisms from a fixed curve to a smooth projective variety, with the obstruction theory of
-  behrend-fantechi1997 Proposition 6.2.
+- The space of morphisms from a fixed prestable curve to a smooth projective variety, with the
+  obstruction theory of behrend-fantechi1997 Proposition 6.2.
 - Over the stack of prestable curves, an open substack of a relative space of maps whose points are stable
   maps carries Behrend's Gromov–Witten obstruction theory.
 
