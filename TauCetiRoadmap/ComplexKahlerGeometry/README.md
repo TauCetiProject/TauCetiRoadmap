@@ -104,9 +104,11 @@ It leaves to named roadmaps and to the pins:
 - SmoothBundlesConnections: real smooth bundles with complex structure, tensor, dual, Hom and
   complexification, Hermitian fibre metrics and square-integrable sections, connections,
   curvature, parallel transport and their principal-bundle comparisons; its B6.1 owns the manifold
-  good-cover/sheaf/singular comparison and B6.2 the circle-bundle classification by `H²(M;ℤ)`,
+  good-cover/sheaf/singular comparison, B6.2 the circle-bundle classification by `H²(M;ℤ)`,
   which B2's associated-bundle comparison turns into the smooth complex-line classification
-  consumed in K4.P.
+  consumed in K4.P, and B6.3 the rank-one Chern–Weil comparison of the real first Chern class
+  with the curvature class, consumed in K4.P and in 7.3's comparison of the hyperplane class with
+  `[ω_FS]`.
 - PDE: scalar real-domain Sobolev, Hölder, embedding, Rellich and elliptic estimates, not system
   estimates. PseudodifferentialOperators P1.0: differential-operator carriers, jets, symbols and
   formal density adjoints, after K5a's initial density-line construction and before its analytic
@@ -321,8 +323,8 @@ with model `𝓘(ℝ,ℂ)`, is the exterior derivative of a smooth complex-value
 B1 (principal bundles, for K8's torus bundles), B2 (associated bundles, complexification, the
 RCLike square-integrable sections and B2.2's continuous fibre metrics h with
 `h.inner x : E x →L⋆[𝕜] E x →L[𝕜] 𝕜`), B3–B4 (connections, curvature, gauge), B5 (parallel
-transport and holonomy) and B6.1–B6.2 (the manifold sheaf/singular comparison and the circle-bundle
-classification).
+transport and holonomy) and B6.1–B6.3 (the manifold sheaf/singular comparison, the circle-bundle
+classification and the rank-one Chern–Weil comparison).
 
 ### From TauCetiRoadmap.PDE
 
@@ -1154,6 +1156,21 @@ group and gauge applications. K4 does not construct algebraic analytification.
 *Needs:* ComplexManifolds Milestone 7; SmoothBundlesConnections B2; 3.1's `smoothSheafCommRing`;
 Mathlib's `SheafOfModules` and `Opens.overPullbackSheafEquivOver`.
 
+**Checks.**
+
+- The trivial line on ℂP¹ (model F=ℂ): its section sheaf is R itself, free of rank 1, and its
+  global sections are the constants, since holomorphic functions on a compact connected complex
+  manifold are constant; sections defined by smooth frame coordinates would give the
+  infinite-dimensional `C^∞(ℂP¹,ℂ)`.
+- The model F=0: the section sheaf is the zero R-module, locally free of rank 0, and
+  reconstruction returns the zero bundle; over the empty manifold every sheaf of modules is zero
+  and reconstructs the empty F-bundle for every F.
+- Local freeness is needed: on ℂ² the ideal sheaf of the origin has rank 1 off the origin, but its
+  stalk at 0 is the maximal ideal `𝔪=(z,w)` of the germ ring, which needs `dim_ℂ 𝔪/𝔪²=2`
+  generators by Nakayama's lemma, so it is free of no rank there and is the section sheaf of no
+  bundle; on ℂ the ideal sheaf of the origin is `z·R`, isomorphic to R by `f↦zf`, the section
+  sheaf of the trivial line.
+
 ### 4.2 Chern connections and Koszul–Malgrange
 
 Prove existence and uniqueness of the Chern connection on a Hermitian holomorphic bundle,
@@ -1413,7 +1430,7 @@ and is neither an input nor a consumer of K4.P.
 
 *Needs:* K2's local ∂̄/Dolbeault resolution, Čech/derived comparison and
 fine-implies-acyclic theorem; K3's function sheaf; K4's line bundles;
-SmoothBundlesConnections B6.1–B6.2; AlgebraicTopology's singular cochains;
+SmoothBundlesConnections B6.1–B6.3; AlgebraicTopology's singular cochains;
 Mathlib `Sheaf.H.δ`, `Additive`, `PartitionOfUnity.exists_isSubordinate`,
 `Complex.isCoveringMap_exp` and `IsCoveringMap.existsUnique_continuousMap_lifts`.
 
@@ -1670,6 +1687,22 @@ either topology by notation.
 
 *Needs:* 5.1; Mathlib's `MontelSpace` and `ContinuousLinearEquiv.toCompactConvergenceCLM`; the
 Arzelà–Ascoli theorem.
+
+**Checks.**
+
+- On S¹ with the trivial line, `f_n(θ)=sin(nθ)` has sup norm 1 and first-derivative sup norm n,
+  so `{f_n}` is bounded for the sup norm but not in the Fréchet topology. It has no uniformly
+  convergent subsequence: a uniform limit would be a weak L² limit, hence 0, as
+  `∫sin(nθ)g(θ)dθ→0` for every g∈L² by Bessel's inequality, while `‖f_n‖_∞=1`. So the sup-norm
+  topology alone is not Montel; the derivative seminorms of every order are needed.
+- The dual: on ℝ with the trivial line, `φ|dx|↦Σ_(n∈ℤ)φ(n)` is a distribution bounded by no finite
+  family of the seminorms above: for R>0 and an integer n>R+1, a bump supported in `(n−½,n+½)`
+  with value 1 at n pairs to 1, while every derivative seminorm on `[−R,R]` vanishes on it. So it
+  is not in the continuous dual of all smooth sections, its support ℤ being noncompact; `δ₀` is,
+  with support `{0}`.
+- A finite discrete M with a rank-r bundle: the section space is `𝕜^(r·|M|)` with its Euclidean
+  topology, in which closed bounded sets are compact by Heine–Borel; for the empty M or the zero
+  bundle it is 0.
 
 ### 5.4 The compact-bundle Sobolev scale (K5a)
 
@@ -2219,6 +2252,17 @@ K4 retains its unbounded-rank componentwise scope there.
   when `s<−n/2`, since its Fourier transform has modulus 1 and `∫(1+‖ζ‖²)^s dζ` is finite
   exactly then (`s<−1/2` on `S¹`); a weight `(1+‖ζ‖²)^(2s)` would move the threshold to
   `s<−n/4`. Smooth sections lie in every BundleSobolev E s.
+- Componentwise eigenbasis: on `M=S¹⊔S¹`, both circles of length 2π, with trivial complex bundles
+  of ranks 1 and 2 and `P=−d²/dθ²` on each, the eigenvalue 0 has multiplicity `1+2=3` and each
+  `n²`, n≥1, multiplicity `2+4=6`, the index being the disjoint union of the component indices;
+  an eigenbasis indexed by one component would give 1 or 2 for the kernel.
+- Componentwise distributions: on the same M, for x in the first circle the delta `δ_x` has
+  components `(δ_x,0)` and `u(φ)=Σ_C u_C(φ|C)=φ(x)`; its assembled `H^s` norm, the square root of
+  the sum of the squared component norms, is the first component's, finite exactly for `s<−1/2`.
+- Ranks `(0,1)` on `S¹⊔S¹`: the first component contributes the zero Hilbert space and the empty
+  eigenbasis, so the spectrum is the second circle's, 0 with multiplicity 1 and each `n²` with
+  multiplicity 2; for the empty M every section, test, distribution and Hilbert space is 0 and the
+  eigenbasis is empty.
 
 ### 5.9 Local Hermitian identities on arbitrary complex manifolds (K5b, K5b.0)
 
@@ -2975,7 +3019,8 @@ GeometricQuantization, whose scaled symplectic forms use k≥1.
 *Needs:* 7.1's comparison; Tau Ceti's `TauCeti.ComplexProjectiveSpace.cwComplex`, its cellular
 computations (`TauCeti.AlgebraicTopology.Cellular.ComplexProjective`) and integral cup product
 `TopCat.integralCup`; AlgebraicTopology Stage 6; 5.10 and 6.3 for the Hodge numbers;
-SmoothBundlesConnections B6.2 for the Hopf circle bundle.
+SmoothBundlesConnections B6.2 for the Hopf circle bundle and B6.3 for its Chern–Weil comparison
+with `[ω_FS]`.
 
 **Checks.**
 
@@ -3360,8 +3405,9 @@ model, whose instances it transports, repeats on Mathlib's instance the proofs o
 affine atlas and Riemann-sphere comparison, and precedes 2.5's ℂP¹ acceptance.
 7.3's CW structure and additive groups
 are Tau Ceti's on the sphere-quotient model, transported by 7.1's comparison; its cup calculation
-uses AlgebraicTopology Stage 6, independently of Layers 2–6; the bundle, form and Hodge applications
-of 7.2–7.5 use Layers 4–6. 7.5's embedding uses 7.1 and its section comparisons use 7.2's twists.
+uses AlgebraicTopology Stage 6, independently of Layers 2–6, and its comparison with `[ω_FS]` uses
+SmoothBundlesConnections B6.2–B6.3; the bundle, form and Hodge applications of 7.2–7.5 use
+Layers 4–6. 7.5's embedding uses 7.1 and its section comparisons use 7.2's twists.
 7.6 uses the pinned lattice quotient and 5.10, 6.3. 7.7 uses 1.1, Tau Ceti's integral fundamental
 class, universal-coefficient sequence and cup product, AlgebraicTopology Stages 6.3–6.5 and Stage 8,
 item 7, and 6.3, and no classification of surfaces. 7.8 uses Layer 4, 4.5, 5.7's Green operator and
