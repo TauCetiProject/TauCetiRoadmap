@@ -14,22 +14,30 @@ body:
     attributes:
       label: Roadmap area
       options:
+        - AbelianSchemesAndArithmeticModuli
         - AbhyankarLemma
         - AdelicAlgebraicGroups
         - AdicEtaleGeometry
         - AdicSpacesPartII
         - AdicSpacesPartIII
         - AdicSpacesPartIV
+        - AdicSpacesPartV
         - AffineLieAlgebras
         - AffineMorseLefschetz
         - AlgebraicCurves
         - AlgebraicKTheory
+        - AlgebraicModuliForArithmeticGeometry
+        - AlgebraicModuliForArithmeticGeometryPartII
         - AlgebraicTopology
         - AlgebraicVectorBundles
         - AmenableGroups
+        - AmenableTracesOnCStarAlgebras
         - AnalyticNumberTheoryPartI
         - AnalyticNumberTheoryPartII
+        - AnalyticNumberTheoryPartIII
+        - ArithmeticDirichletSeriesPartII
         - ArithmeticInterpolationDeterminants
+        - ArithmeticLocallySymmetricSpaces
         - AsymptoticExpansions
         - BanachAlgebras
         - BanachSpaceTheory
@@ -51,16 +59,21 @@ body:
         - CoboundaryExpansion
         - CombinatorialHeegaardFloer
         - CompactOperators
+        - ComplexComparisonPartII
         - ComplexCurveModuli
         - ComplexKahlerGeometry
         - ComplexManifolds
         - ComplexTori
         - ComputabilityTheory
         - ConformalMappingPartII
+        - ConvexLifting
         - CountableModelCounting
+        - CrystallineCohomology
+        - CyclotomicClassGroupsAndStickelberger
         - DGAInfinity
         - DGFloer
         - DeRhamCohomologyAndDuality
+        - DerivedDeRhamCohomology
         - DerivedModuleAlgebra
         - DiagrammaticCoherence
         - DiamondsAndVStacks
@@ -75,6 +88,9 @@ body:
         - EquivariantIntersectionTheory
         - EtaleCohomologyFoundations
         - EtaleMassFormula
+        - ExplicitPrimeCounting
+        - ExplicitZetaBounds
+        - ExponentialCone
         - FactorRigidity
         - FinancialMathematics
         - FiniteGroupExtensionSplitting
@@ -86,8 +102,10 @@ body:
         - FreeProbability
         - FuchsianOrbifolds
         - GeneralizedCohomology
+        - GenericDoublePointInterpolation
         - GeometricCurrents
         - GeometricMeasureTheory
+        - GeometricQuantization
         - GeometricRepresentationCategories
         - GeometricTopology
         - GlobalHolomorphicFunctions
@@ -104,18 +122,23 @@ body:
         - ImaginaryQuadraticClassNumber
         - IndexTheory
         - InfinitaryModelExistence
+        - IntegralHeckeAndGaloisDeterminants
+        - IntegralIwasawaTheory
         - IntegralLattices
         - Isoperimetry
         - JacobianChallenge
         - KacMoody
         - KhovanovHomology
         - LFunctions
+        - LefschetzPencilsAndVanishingCyclesPartII
         - LieGroupoidsPoisson
         - LinearFormsInLogarithms
         - LocalPurity
         - LocalVariationalFieldTheory
         - MarkovChainsAndRenewal
         - MassFormula
+        - MathematicalBilliards
+        - MathematicalStatisticsFoundations
         - McKaySkewGroup
         - ModularCurves
         - ModularForms
@@ -137,7 +160,10 @@ body:
         - PadicExtensionFamilies
         - PadicFunctionalAnalysis
         - PadicMeasuresIwasawaAlgebras
+        - PadicPeriodRings
+        - PerfectoidQuotients
         - PerfectoidSpaces
+        - PerfectoidTowers
         - PivotalSpherical
         - Poincare3D
         - PolylogarithmFunctions
@@ -145,6 +171,8 @@ body:
         - PositiveScalarCurvature
         - PresentationsOfMonoidalCategories
         - PrimitivePrimeDivisors
+        - ProbabilisticAndMetricNumberTheory
+        - ProbabilisticAndMetricNumberTheoryPartII
         - ProfiniteCohomology
         - PseudodifferentialOperators
         - PseudoholomorphicCurveAnalysis
@@ -154,6 +182,7 @@ body:
         - QuantumEnvelopingAlgebras
         - QuantumGroups
         - QuaternionicAnalysis
+        - QuiverRepresentationsPartII
         - RamificationOfCompleteDiscretelyValuedFields
         - RandomMatrices
         - Rank24LatticeConstructions
@@ -174,6 +203,7 @@ body:
         - SchemeAndStackFoundations
         - SchubertGeometry
         - SeibergWittenTheory
+        - SieveMethodsAndPrimePatterns
         - SmoothBundlesConnections
         - SmoothRepresentationsOfLocalGroups
         - SobolevMapsBetweenManifolds
@@ -182,6 +212,7 @@ body:
         - SpecialFunctionsEiLiErfIncompleteGamma
         - SpecialFunctionsHypergeometric
         - SpecialFunctionsParabolicCylinder
+        - SpectralSequencesAndConvergence
         - SpinGeometry
         - SporadicOrders
         - StableHomotopyKTheory
@@ -208,6 +239,7 @@ body:
         - VariationalMethods
         - VonNeumannAlgebras
         - Yamabe
+        - YangMillsConnectionsAndCaloricGauge
         - ZerosOfLFunctions
         - ZigzagPreprojective
     validations:
