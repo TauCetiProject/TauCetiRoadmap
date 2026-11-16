@@ -31,7 +31,8 @@ projection of a presented bundle, the fibre product `P ×_M P` with smooth divis
 restriction of bundle isomorphisms (B1.1); products of principal bundles and the conversion of left
 actions into right actions (B1.2); the classification of principal bundles by their cocycles and
 nonabelian Čech H¹ (B1.3); the slice theorem for proper
-actions, free proper quotients, homogeneous spaces `G/H` and the properness of the principal right
+actions, free proper quotients, the characterization of principal bundles given by their total
+space as such quotients, homogeneous spaces `G/H` and the properness of the principal right
 action (B1.4); Ehresmann connections and Ehresmann's fibration theorem (B1.5); associated,
 frame, tensor, dual, Hom and complexified bundles, reductions and extensions of the structure group,
 and the adjoint bundle (B2); fibre metrics and the Hilbert space `L²(E,h,μ)` of sections of a
@@ -647,6 +648,25 @@ presented by the total space G through B1.1, and its tangent quotient descriptio
 construction for discrete actions (`Geometry/Manifold/Instances/Quotient.lean`) in that
 specialization.
 
+As a corollary, characterize principal bundles given by their total space. Let a left
+`MulAction G P` satisfy the hypotheses of `exists_freeProperQuotient_isSubmersion` (smooth, free,
+proper, with P for its M), give the orbit space `P/G` an atlas from that theorem, for which
+`q = Quotient.mk''` is a submersion, and let `π : P → M` be a map to a base. Prove that these are
+equivalent: (a) P, with π and the right action `p·g = g⁻¹ • p` of B1.2's conversion, is a principal
+G-bundle in the classical form, that is, it carries the data of B1.1's presentation theorem: the
+action preserves each fibre of π, and M is covered by open sets U with diffeomorphisms
+`π⁻¹(U) ≃ U × G` over U intertwining it with right multiplication; (b) some diffeomorphism
+`φ : P/G → M`, unique as q is onto, has `φ ∘ q = π`; (c) π is a surjective submersion whose fibres
+are exactly the orbits. That π is smooth and constant on orbits is part of each condition, not a
+hypothesis. (b) gives (a): the quotient theorem presents q through B1.1, by local products
+`q⁻¹(V) ≃ V × G` from B1.1's converse; as `π⁻¹(φ(V)) = q⁻¹(V)`, composing with `φ × id_G` gives
+those of π. (a) gives (c): π is locally `U × G → U`, with fibre `{x} × G`, one orbit. (c) gives
+(b): π and q are presented by B1.1's converse with the same fibres, so by B1.1's descent each
+descends along the other to a smooth map, and the two are inverse. Every principal bundle given by
+its total space is covered, since (a) forces the hypotheses for `g • p = p·g⁻¹`: its fibres are
+torsors, the preceding paragraph's argument makes the action proper, and P is Hausdorff, second
+countable and boundaryless, being locally `U × G` over a base.
+
 - Compact-group averaging preserves smoothness and positive definiteness and produces an invariant
   metric; it fixes invariant metrics when Haar measure has total mass one.
 - The equivariant exponential chart fixes the origin and has identity derivative there.
@@ -655,6 +675,9 @@ specialization.
 - For the Hopf action, the quotient smooth structure on `TauCeti.ComplexProjectiveSpace 1` is the
   real structure underlying Tau Ceti's homogeneous-ratio atlas: the identity is a diffeomorphism
   between them.
+- Under the quotient theorem's hypotheses, P with π is a principal bundle for `p·g = g⁻¹ • p` iff a
+  diffeomorphism of the orbit manifold onto the base carries the orbit projection to π, iff π is a
+  surjective submersion with the orbits as fibres; every principal bundle meets these hypotheses.
 
 **Checks.**
 
@@ -695,6 +718,19 @@ specialization.
 - The weighted action `λ·(z₁,z₂) = (λz₁, λ²z₂)` on `S³` is proper and locally free with stabilizer
   `ℤ/2` on the circle `z₁ = 0`; the slice there has a nontrivial finite isotropy action.
 - `SO(3)/SO(2) ≅ S²` with `SO(3) → S²` the principal `SO(2)`-bundle of oriented orthonormal frames.
+- For `G = SO(3)`, `H = SO(2)` the rotations fixing `e₃` and `π(g) = ge₃` onto `S² ⊂ ℝ³`, π is
+  onto, `dπ_g(gX) = gXe₃` fills `T_(ge₃)S²` for skew X, and its fibres are the orbits gH of
+  `h • g = gh⁻¹`, not the cosets Hg (`hge₃ = ge₃` for h ≠ 1 only if `ge₃ = ±e₃`); so condition (c)
+  of the characterization gives the diffeomorphism `gH ↦ ge₃` and, for `g·h = gh`, the preceding
+  Check's bundle.
+- For the Hopf action and `π = TauCeti.ComplexProjectiveSpace.mk 1` onto `ℂP¹` with its
+  homogeneous-ratio structure, condition (c) holds (the submersion argument above), and φ is the
+  identity on orbits. Over `z₁ ≠ 0` the local product `(z₁,z₂) ↦ ([z₁:z₂], z₁/|z₁|)`, inverse to
+  `([1:z],λ) ↦ λ(1,z)/√(1+|z|²)`, carries `z·λ = λz` to right multiplication by λ, but Mathlib's
+  scalar action, converted to `z·λ = λ̄z`, to multiplication by `λ̄`.
+- Freeness cannot be dropped: `ℤ/2` acting trivially on `S¹` is smooth and proper, q is a
+  diffeomorphism for the atlas transported from `S¹`, and `π = id` satisfies (b) and (c), but not
+  (a): over each x ∈ U, `U × ℤ/2` has two points and `π⁻¹(U) = U` has one.
 
 *Needs:* B1.1, B1.2; LieGroups Layer 2; Tau Ceti `Geometry/Manifold/Instances/Quotient.lean`,
 `TauCeti.PrincipalBundle`, `TauCeti.ContMDiffFiberBundle`, `TauCeti.ManifoldTotalSpace`;
