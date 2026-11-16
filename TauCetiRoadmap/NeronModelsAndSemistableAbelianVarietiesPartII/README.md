@@ -10223,6 +10223,28 @@ its equation comparison and invariant transport give the form of equivalence and
 The eleven nonzero-j and three zero-j class counts are §7.7. The nonrational-fibre conclusions remain
 §§6.2–6.3.
 
+## Provenance
+
+This section is secondary: it records outside work related to the targets above and prescribes nothing.
+
+The directory
+[`LeanPool/EcTateLean`](https://github.com/LeanPool/lean-pool/tree/f8b9b721d616a2cc0b22fc226e4a9e3dd6cea2d0/LeanPool/EcTateLean)
+of the LeanPool repository, read at commit `f8b9b72` (Apache-2.0; code by Alex J. Best and contributors),
+holds nine Lean files supporting a formalization of Tate's algorithm. It is not a dependency of this roadmap.
+On its own Weierstrass record it has the b- and c-invariants with the discriminant identities, the group of
+(u,r,s,t) coordinate changes with their coefficient formulas, enumerations of Kodaira symbols (with the extra
+symbols for imperfect residue fields of characteristic two and three) and of coarse reduction types, a
+Kronecker symbol, and the singular point of a singular equation over a perfect field with the translation
+moving it to the origin. At that commit it has neither the steps of the algorithm nor a correctness theorem,
+and no schemes, regular or Néron models, or fibred surfaces.
+
+Its Kodaira symbols and singular-point translation are prior art for EllipticCurves Layer 4, which supplies the
+symbol type imported in §2.3 and Tate's algorithm, used in §§2.3 and 7.3. Its coordinate-change formulas
+are prior art for the coefficient computations of §7.1 and the admissible changes of §§7.2–7.3, which are
+stated here on Mathlib's `WeierstrassCurve.VariableChange`, not on that record. Layers 1 and 3–6, every
+target of Layer 2 (including the geometric realization of §2.3) and §§7.4–7.7 have no counterpart there, nor
+do the Néron models this roadmap takes from NeronModelsAndSemistableAbelianVarieties.
+
 ## References
 
 The geometric arguments and tables use Schröer's arXiv v3, with its own printed pagination, rather than
