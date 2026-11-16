@@ -2251,7 +2251,8 @@ extensions of `g` to `T̄` (7.1) onto the extensions of `F ∘ 𝒞_g : 𝒞_T �
 Where a stack of morphisms `Mor_𝔅(𝒞, X)` exists, every open substack of it that is a stack in the
 sense of Convention 1 is one, by its universal property; for `X` smooth and projective over `k` and
 `𝔅` a stack of prestable curves it exists, is algebraic and is representable over `𝔅`, and the stack
-of stable maps is such an open substack (behrend1997 lines 129–138 and Proposition 4, lines 139–141).
+of stable maps of a given class, which is proper, is such an open substack (behrend1997 lines 129–138
+and Proposition 4, lines 139–141).
 *Needs:* 7.1; Tau Ceti `TauCeti.AlgebraicGeometry.PrestableFamily`; StableReduction Layer 3;
 SchemeAndStackFoundations §1.19; for the second API statement, also SchemeAndStackFoundations §4.14.
 
@@ -2365,8 +2366,11 @@ separated or not, and every field the obstruction theory of AlgebraicGromovWitte
 
 **API.**
 
-- For `𝔅 = Spec k` and a fixed curve `C` prestable over `k`, at a point `[F]` of `M`, `H⁰(φ)` is dual to
-  the tangent map `H⁰(C, F^*T_X) → T_{[F]}M`.
+- For `𝔅 = Spec k`, a fixed curve `C` prestable over `k` and a point `[F] : Spec κ → M` with `κ` a field,
+  `H⁰(φ) ⊗ κ : H⁰(C_κ, F^*T_X)^∨ → Ω_{M/k} ⊗ κ` is dual to the tangent map
+  `T_{[F]}M → H⁰(C_κ, F^*T_X)` that sends a first-order deformation `Spec κ[ε] → M` of `[F]` to the
+  induced first-order deformation of `F` on `C_κ`; this map is bijective when `(M, F)` is a relative
+  space of maps.
 - `e` and `φ` commute with base change along morphisms `u : M′ → M` from a stack `M′` (Convention 1), with
   the pulled-back family and map: under `Lu^*E ≅ E′` (9.2), `φ′` is `Lu^*φ` followed by the functoriality
   map `Lu^*L_{M/𝔅} → L_{M′/𝔅}`.
@@ -2465,8 +2469,9 @@ also SchemeAndStackFoundations §§5.2–5.4.
 
 ### Examples
 
-- The space of morphisms from a fixed prestable curve to a smooth projective variety, with the
-  obstruction theory of behrend-fantechi1997 Proposition 6.2.
+- An open subscheme of finite type of the space of morphisms from a fixed prestable curve to a smooth
+  projective variety `V`, such as the maps `F` with `deg F^*L = d` for an ample `L` on `V`, with the
+  obstruction theory of behrend-fantechi1997 Proposition 6.2 restricted to it.
 - Over the stack of prestable curves, an open substack of a relative space of maps whose points are stable
   maps carries Behrend's Gromov–Witten obstruction theory.
 
