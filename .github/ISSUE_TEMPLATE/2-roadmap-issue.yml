@@ -64,6 +64,7 @@ body:
         - ColemanPowerSeries
         - CombinatorialHeegaardFloer
         - CompactOperators
+        - CompactQuantumMetricSpaces
         - ComplexComparisonPartII
         - ComplexCurveModuli
         - ComplexKahlerGeometry
@@ -156,6 +157,7 @@ body:
         - MathematicalBilliards
         - MathematicalStatisticsAsymptotic
         - MathematicalStatisticsFoundations
+        - MathematicalStatisticsNonparametric
         - MathematicalStatisticsSemiparametric
         - McKaySkewGroup
         - ModularCurves
