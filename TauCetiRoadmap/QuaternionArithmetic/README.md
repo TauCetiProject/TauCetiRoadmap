@@ -228,7 +228,9 @@ milestone under *Scope and ownership*.
   norm under algebra equivalences: `map_star_of_algEquiv`, `reducedTrace_eq_of_algEquiv` and
   `normForm_eq_of_algEquiv`, with 2 regular (`Algebra/Quaternion/AlgEquiv.lean`, lines 106, 93, 114); base change
   `baseChangeTwoParams` (`Algebra/Quaternion/BaseChange.lean`); centrality and simplicity
-  (`Algebra/Quaternion/CentralSimple.lean`); the Brauer class `quaternionClass` with its relations
+  (`Algebra/Quaternion/CentralSimple.lean`); the splitting of a central simple algebra by a
+  subfield whose degree is the degree of the algebra, `TauCeti.Algebra.isSplittingField_of_finrank_eq_deg`
+  (`Algebra/CentralSimple/Subfield.lean`; used in 0.6); the Brauer class `quaternionClass` with its relations
   (`Algebra/Quaternion/BrauerClass.lean`); the norm-equation Hilbert symbol `TauCeti.hilbertSymbol`
   with `hilbertSymbol_eq_one_iff_nonempty_algEquiv_matrix`, `hilbertSymbol_comm`,
   `hilbertSymbol_congr_sq` (`NumberTheory/HilbertSymbol/Basic.lean`), its real value
@@ -608,8 +610,11 @@ For a quadratic field extension K/F, prove that an F-algebra embedding K → B e
 no ramified place of B splits in K, that is, iff `K_v = K ⊗_F F_v` is a field for every
 `v ∈ Ram B` ([V, 14.6.7], p. 224). The route has three steps.
 
-- A quadratic field extension `L/E` embeds in a quaternion algebra over `E` iff it splits it
-  ([V, 5.4.7], p. 73), proved here. Over `F`, this reduces the theorem to `B ⊗_F K ≅ M₂(K)`.
+- For a field `E` of characteristic not `2`, a quadratic field extension `L/E` embeds in a
+  quaternion algebra over `E` iff it splits it ([V, 5.4.7], p. 73). That an embedded `L` splits it is Tau Ceti's
+  `TauCeti.Algebra.isSplittingField_of_finrank_eq_deg`, for a subfield whose degree `2` is the
+  degree of the algebra; the converse, that a splitting `L` embeds, is proved here. Over `F`, this
+  reduces the theorem to `B ⊗_F K ≅ M₂(K)`.
 - Necessity is local. If `v ∈ Ram B` and `K_v ≅ F_v × F_v`, then `K_v` has zero divisors, so it
   cannot embed in the division algebra `B_v` (0.2).
 - Sufficiency is a local splitting followed by global uniqueness over `K`. At a place `w | v` of
@@ -623,7 +628,8 @@ no ramified place of B splits in K, that is, iff `K_v = K ⊗_F F_v` is a field 
   is split at every place of `K`. So `nonempty_quaternionAlgEquiv_of_localSplitting`, applied over
   `K` to `ℍ[K,a,b]` and `ℍ[K,1,1]`, gives `B ⊗_F K ≅ ℍ[K,1,1] ≅ M₂(K)` (`oneEquivMatrix`).
 
-*Needs:* 0.2–0.5; Tau Ceti `baseChangeTwoParams`, `oneEquivMatrix`, the restriction square
+*Needs:* 0.2–0.5; Tau Ceti `baseChangeTwoParams`, `oneEquivMatrix`,
+`TauCeti.Algebra.isSplittingField_of_finrank_eq_deg` (`Algebra/CentralSimple/Subfield.lean`), the restriction square
 `TauCeti.ClassFieldTheory.invMap_brRes` (`NumberTheory/ClassFieldTheory/Brauer/Invariant.lean`),
 `TauCeti.BrauerGroup.invMap_brauerGroupEquivBr_quaternionClass_eq_half_iff` over `K_w`, and the
 naturality of the Brauer–cohomology comparison under scalar extension,
