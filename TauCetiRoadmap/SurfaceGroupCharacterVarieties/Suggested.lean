@@ -45,8 +45,10 @@ Headline theorems not statable at the pins:
   orientation-preserving homeomorphisms of one (Tau Ceti's orientations are those of smooth
   manifolds with corners);
 * the non-descent theorem for the based action of the marked-point mapping class group
-  `Mod(S*)` of `S = Σ_{g,n}` on `Hom(π₁(S, x), H)` (Layer 3.5): it needs the same missing genus and
-  orientation of a topological surface; its group-theoretic core is the Layer 1.3 statement here;
+  `Mod(S*)` of `S = Σ_{g,n}` on `Hom(π₁(S, x), H)` (Layer 3.5): it holds for every `(g, n)`, so no
+  genus enters, but `Mod(S*)` consists of classes of orientation-preserving homeomorphisms, which
+  the pins lack for a topological surface; its group-theoretic core is the Layer 1.3 statement
+  here;
 * the clauses of Layer 6.7 on the Zariski closure of `ρ(Γ)` (reductive identity component and
   `G`-complete reducibility): the pins have no Zariski closure of a set of points of an affine group
   as a closed subgroup scheme and no `G`-complete reducibility of subgroups;
@@ -333,12 +335,13 @@ theorem characterVariety_t2_locallyCompact_secondCountable {H : Type} [CommRing 
       SecondCountableTopology (CharacterVariety Γ G) := by
   sorry
 
-/-- **The universal Hausdorff quotient** (Layer 7.2; Sikora2012, §11). For a connected reductive
-group `G` over `ℂ` and a finitely generated group `Γ`, the character variety `𝒳(Γ, G(ℂ))` is
-Hausdorff, and sending a homomorphism to the class of the unique closed orbit in its orbit closure
-is a continuous map from `Hom(Γ, G(ℂ))` to it, constant on conjugation orbits and equal to the
-quotient map on reductive homomorphisms, through which every continuous conjugation-invariant map
-to a Hausdorff space factors uniquely and continuously. -/
+/-- **The universal Hausdorff quotient** (Layer 7.2, which proves the topological statement;
+Sikora2012 lines 835–837 for the unique closed orbit in each fibre of the affine quotient). For a
+connected reductive group `G` over `ℂ` and a finitely generated group `Γ`, the character variety
+`𝒳(Γ, G(ℂ))` is Hausdorff, and sending a homomorphism to the class of the unique closed orbit in its
+orbit closure is a continuous map from `Hom(Γ, G(ℂ))` to it, constant on conjugation orbits and
+equal to the quotient map on reductive homomorphisms, through which every continuous
+conjugation-invariant map to a Hausdorff space factors uniquely and continuously. -/
 theorem characterVariety_universalHausdorffQuotient {H : Type} [CommRing H] [HopfAlgebra ℂ H]
     [Algebra.FiniteType ℂ H]
     (hH : reductiveCommHopfAlgProperty ℂ (FiniteTypeCommHopfAlgCat.of ℂ H))

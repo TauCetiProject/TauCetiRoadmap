@@ -174,8 +174,16 @@ It leaves to named owners, never planned again here; the sections a target uses 
   treats the full fixed group `H(ℂ)^τ`;
 - the Cartan decomposition and the `K A K` decomposition, and the global matrix models of real
   reductive Lie groups (closed transpose-stable subgroups of `GL_N(ℝ)` with finitely many
-  components, with a finite central covering): LieGroups Layer 9; §5.4's real reductive linear
-  groups are a kept variant, the polar condition `G = K exp(𝔭)` on a subgroup of `GL(V)`;
+  components, with a finite central covering): LieGroups Layer 9;
+- the self-adjoint linear groups `IsSelfAdjointLinearGroup` (closed transpose-stable subgroups of
+  `GL_n(ℝ)` with finitely many components, LieGroups Layer 9's global matrix models with the
+  identity covering), their Lie algebra `linearLieAlgebra`, their unique polar decomposition, and
+  the real points of a connected reductive `ℝ`-group in a transpose-stable embedding, and their
+  identity component, as self-adjoint linear groups: LieGroupsPartII §§7.1, 8.1, from which §5.3
+  derives the polar decompositions of every open subgroup `G^ℝ ⊆ 𝐆(ℝ)` and of `G(ℂ)`. §5.4's real
+  reductive linear groups are a kept variant: subgroups of `GL(V)` for a real inner product space
+  `V`, with the polar condition `G = K exp(𝔭)` as their definition; §5.4 proves that for
+  finite-dimensional `V` they are the self-adjoint linear groups;
 - flat connections on a closed surface modulo gauge for compact `K` and their comparison with
   `Hom(π₁Σ, K)/K`: SymplecticGeometry/HamiltonianReduction R5, used here only as a Check.
 
@@ -655,6 +663,18 @@ involution), and its paragraph **Restricted roots and KAK** (for a maximal abeli
 `Ad(K)𝔞 = 𝔭` and `G = K exp(𝔞₊) K` for the closed positive chamber `𝔞₊ ⊆ 𝔞`, `kakDecomposition`),
 both for the global matrix models of that layer: a closed transpose-stable subgroup of `GL_N(ℝ)` with
 finitely many components, with Cartan involution `g ↦ (gᵀ)⁻¹`, and its finite central covers.
+
+### From TauCetiRoadmap.LieGroupsPartII
+
+§7.1 (for a subgroup `G` of `GL (Fin n) ℝ`: `IsSelfAdjointLinearGroup G`, that `G` is closed, stable
+under transposition and has finitely many connected components; `linearLieAlgebra G`, the matrices
+`X` such that `NormedSpace.exp (t • X)` is the matrix of an element of `G` for every real `t`; for a
+self-adjoint linear group, `K = G ∩ O(n)` is compact and every `g ∈ G` is uniquely `k exp(X)` with
+`k ∈ K` and `X` a symmetric element of `linearLieAlgebra G`, by LieGroups Layer 9 with the identity
+covering), §8.1 (for a connected reductive `ℝ`-group `𝐇` embedded in `GL_n` with transpose-stable
+image, `𝐇(ℝ)` and `𝐇(ℝ)⁰` are self-adjoint linear groups). Used in §5.3, for the polar
+decompositions of `G^ℝ` and `G(ℂ)`, and in §5.4, for the comparison of real reductive linear groups
+with self-adjoint linear groups.
 
 ### From TauCetiRoadmap.SymplecticGeometry/HamiltonianReduction
 
@@ -1447,8 +1467,9 @@ involutive automorphism of `H(ℂ)` commuting with `τ` with `H(ℂ)^{στ}` com
 475–481), that `σ` is the complexification of a Cartan involution of `𝐆_τ` in the sense of
 ArithmeticLocallySymmetricSpaces §ALS.0.1 and that `K = H(ℂ)^τ ∩ H(ℂ)^σ` is a maximal compact
 subgroup of `𝐆_τ(ℝ)`. So `(𝐆_τ, 𝐆_τ(ℝ))` and `(𝐆_τ, 𝐆_τ(ℝ)°)` are real reductive data (§5.1).
-Prove the two statements that make `τ ↦ (𝐆_τ, φ_τ)` a bijection (BCGGO2024 lines 466–481; Knapp2002,
-Ch. VI, §§1–2):
+Prove the two statements that make `τ ↦ (𝐆_τ, φ_τ)` a bijection (Galois descent along `ℂ/ℝ`, as in
+the proof sketch below; real forms as fixed groups of antiholomorphic involutions: BCGGO2024 lines
+467–470):
 
 - *Uniqueness.* Two `ℝ`-forms `(𝐆₁, φ₁)` and `(𝐆₂, φ₂)` of `H` with the same conjugation are
   isomorphic by exactly one isomorphism `α : 𝐆₁ ≅ 𝐆₂` of `ℝ`-groups with `φ₂ ∘ α_ℂ = φ₁`. In
@@ -1514,12 +1535,16 @@ hermitian extension) satisfies the hypothesis of a real reductive linear group i
 BohmLafuente2021 lines 52–62: the image is closed, `K` (`U`) acts orthogonally (unitarily) and `𝔭`
 (`i𝔲`) acts by symmetric (hermitian) endomorphisms.
 
-*Proof sketch.* If `exp(S) ∈ 𝐆(ℝ)` with `S` symmetric, then `exp(tS) ∈ 𝐆(ℝ)` for all real `t`: in an
-eigenbasis of `S` the defining polynomials of `𝐆` evaluated on `exp(tS)` are exponential polynomials
-in `t` with real exponents vanishing at all integers, hence identically. Combined with
-ArithmeticLocallySymmetricSpaces §ALS.F.1's polar decomposition this gives `G^ℝ = K exp(𝔭)`; the
-complex case applies the same to `Res_{ℂ/ℝ} G` (LieGroups Layer 9). For `X ∈ 𝔭`, `ad X` is symmetric
-for the trace form.
+*Proof sketch.* Take the embedding of ArithmeticLocallySymmetricSpaces §ALS.F.1 in which `𝐆` is
+transpose-stable. By LieGroupsPartII §8.1, `𝐆(ℝ)` is a self-adjoint linear group, so by its §7.1
+every element of `𝐆(ℝ)` is uniquely `k exp(X)` with `k ∈ 𝐆(ℝ) ∩ O(N)` and `X` a symmetric element of
+`linearLieAlgebra 𝐆(ℝ)`, which is `𝔤^ℝ` (§ALS.F.1), that is `X ∈ 𝔭`. The set `exp(𝔭)` is connected
+and contains `1`, so it lies in `𝐆(ℝ)⁰ ⊆ G^ℝ`; hence `g = k exp(X) ∈ G^ℝ` forces `k ∈ G^ℝ`, which
+gives `G^ℝ = K exp(𝔭)` with uniqueness, and `G^ℝ` is transpose-stable, `(k exp X)ᵀ = exp(X) k⁻¹`.
+The complex case applies the same to `Res_{ℂ/ℝ} G` (ReductiveGroupsPartII §RG2.0a.2), realified in
+`GL_{2N}`, where transposition restricts to the conjugate transposition of `GL_N(ℂ)`, under which
+`G(ℂ)` is stable because `𝐆` is transpose-stable and defined over `ℝ`. For `X ∈ 𝔭`, `ad X` is
+symmetric for the trace form.
 
 **Checks.**
 
@@ -1537,8 +1562,8 @@ for the trace form.
   norm `2`. Conjugating `SL₂(ℝ)` by the same `u` gives no non-example: `u ∈ SL₂(ℝ)`, so the image is
   `SL₂(ℝ)` itself, transpose-stable with `K = SO(2)`.
 
-*Needs:* §5.1; ArithmeticLocallySymmetricSpaces §ALS.F.1; LieGroups Layer 9; ReductiveGroupsPartII
-§RG2.0a.2.
+*Needs:* §5.1; ArithmeticLocallySymmetricSpaces §ALS.F.1; LieGroupsPartII §7.1; LieGroupsPartII
+§8.1; ReductiveGroupsPartII §RG2.0a.2.
 
 ### 5.4 The real Kempf–Ness theorem
 
@@ -1550,14 +1575,11 @@ endomorphisms `A` (`LinearMap.IsSymmetric`) with `exp(tA) ∈ G` for every real 
 this is `𝔭 = 𝔤 ∩ Sym(V)`, the Lie algebra of `G` being `𝔤 = {A : exp(tA) ∈ G for all t}`. Call `G`
 a real reductive linear group, `IsRealReductiveLinearGroup G`, when `G` is closed in `GL(V)` and every
 `g ∈ G` is `k exp(A)` with `k ∈ K = G ∩ O(V)` and `A ∈ 𝔭` (BohmLafuente2021 lines 52–62, condition
-(1)). This is a kept variant of LieGroups Layer 9's global matrix models, which that roadmap owns as
-data of an abstract Lie group with a finite central covering: for finite-dimensional `V`, in an
-orthonormal basis a real reductive linear group is closed, stable under transpose
-(BohmLafuente2021 lines 1021–1022) and has
-finitely many components (it is the image of `K × 𝔭` with `K` compact), so it is a global matrix
-model with the identity covering; the variant is the polar condition on a subgroup of `GL(V)`, the
-form in which the Kempf–Ness theorem is stated. Define the minimal vectors `minimalVectors G = {v : ⟨A v, v⟩ = 0 for all A ∈ 𝔭}` and the orbit
-`linearOrbit G v = {g v : g ∈ G}`.
+(1)). This is a kept variant of LieGroupsPartII §7.1's self-adjoint linear groups, which are
+LieGroups Layer 9's global matrix models with the identity covering: it is made on `GL(V)` for a
+real inner product space `V`, with the polar condition as its definition, the form in which the
+Kempf–Ness theorem is stated. Define the minimal vectors
+`minimalVectors G = {v : ⟨A v, v⟩ = 0 for all A ∈ 𝔭}` and the orbit `linearOrbit G v = {g v : g ∈ G}`.
 
 The definitions have the following API.
 
@@ -1579,6 +1601,17 @@ The definitions have the following API.
 - Closedness is needed: on `V = ℂ² = ℝ⁴`, the line `{diag(e^{it}, e^{i√2 t})}` satisfies
   `G = K exp(𝔭)` with `K = G` and `𝔭 = 0`, but it is not closed in `GL(V)`, and its orbit of
   `(1, 1)` is a dense non-closed curve in the torus, although every vector is minimal.
+
+Prove that for finite-dimensional `V`, in an orthonormal basis `e_1, …, e_n` of `V`, which
+identifies `GL(V)` with `GL (Fin n) ℝ` and `O(V)` with `O(n)`, a subgroup `G` is a real reductive
+linear group exactly when its image is a self-adjoint linear group of LieGroupsPartII §7.1
+(`IsSelfAdjointLinearGroup`); under this identification `symmetricPart G` is, by the two
+definitions, the set of symmetric elements of `linearLieAlgebra G`, for every subgroup `G`. A real
+reductive linear group is closed, stable under transpose, `(k exp A)ᵀ = exp(A) k⁻¹`
+(BohmLafuente2021 lines 1021–1022), and has finitely many components, being the image of `K × 𝔭`
+with `K` compact and `𝔭` connected (it is stable under real scalars); conversely, the unique polar
+decomposition of a self-adjoint linear group (LieGroupsPartII §7.1) is the second clause of real
+reductivity.
 
 Let `G ⊆ GL(V)` be a closed subgroup of a real finite-dimensional inner product space with
 `G = K exp(𝔭)`, `K = G ∩ O(V)`, `𝔭 = 𝔤 ∩ Sym(V)`. Prove: (i) the set
@@ -1603,11 +1636,10 @@ RichardsonSlodowy1990). The decomposition `G = K T K` used throughout is LieGrou
 
 *Proof sketch.* Along `t ↦ exp(tA) v` with `A ∈ 𝔭` the squared norm is
 `Σ e^{2tλ_i} ‖v_i‖²` in an eigenbasis of `A`, convex with derivative `2⟨A v, v⟩` at `0`; this gives (i)
-with `G = K exp(𝔭)`. In an orthonormal basis of `V`, `G` is a global matrix model of LieGroups
-Layer 9 with covering `π = id`: it is closed in `GL(V)`, transpose-stable because
-`(k exp X)ᵀ = exp(X) k⁻¹` for `k ∈ K`, `X ∈ 𝔭`, and has finitely many components, being the image of
-`K × 𝔭` with `K = G ∩ O(V)` compact and `𝔭` connected; its Cartan involution `g ↦ (gᵀ)⁻¹` has fixed
-group `K` and `−1`-eigenspace `𝔭` on `𝔤`, which is how Layer 9 gives `G = K T K`. For an abelian `T`,
+with `G = K exp(𝔭)`. In an orthonormal basis of `V`, `G` is a self-adjoint linear group (the
+comparison above), a global matrix model of LieGroups Layer 9 with covering `π = id`; its Cartan
+involution `g ↦ (gᵀ)⁻¹` has fixed group `K` and `−1`-eigenspace `𝔭` on `𝔤`, which is how Layer 9
+gives `G = K T K`. For an abelian `T`,
 choose an orthonormal basis `e_1, …, e_N` of `V` of simultaneous eigenvectors of `𝔱` and write
 `α_i(λ)` for the eigenvalue of `λ ∈ 𝔱` on `e_i`, a linear form on `𝔱`; then `exp(λ)` multiplies the
 `i`-th coordinate by `e^{α_i(λ)} > 0`, so a `T`-orbit is the image of the vector group `𝔱` under
@@ -1668,7 +1700,7 @@ is not closed. The same separation gives the uniqueness in (iv).
   only for a limit outside the orbit would accept `diag(−1, 0)`.
 
 *Needs:* Mathlib inner product spaces, `Matrix.orthogonalGroup`, compactness; LieGroups Layer 9,
-**Restricted roots and KAK**.
+**Restricted roots and KAK**; LieGroupsPartII §7.1.
 
 ### Examples
 
@@ -1678,8 +1710,8 @@ is not closed. The same separation gives the uniqueness in (iv).
 ### Dependencies
 
 Tau Ceti's reductive groups, groups of points and adjoint action; ReductiveGroupsPartII §RG2.0a.2;
-ArithmeticLocallySymmetricSpaces §§ALS.F.1, ALS.0.1; RealSemisimpleLieGroups §2.5; LieGroups Layer 9.
-Layer 5 supplies Layers 6 and 7.
+ArithmeticLocallySymmetricSpaces §§ALS.F.1, ALS.0.1; RealSemisimpleLieGroups §2.5; LieGroups Layer 9;
+LieGroupsPartII §§7.1, 8.1. Layer 5 supplies Layers 6 and 7.
 
 ## Layer 6: Reductive representations
 
