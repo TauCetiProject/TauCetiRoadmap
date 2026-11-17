@@ -726,16 +726,39 @@ equivalence `graphRelationsEquiv` of the graph relation symbols with `Unit`. Tha
 diagram is a classical finite
 conjunction and is noncomputable, so it supplies the semantics but not the algorithm.
 
-The two endpoints are computability theorems on codes of formulas.
-**Computable quantifier elimination** (`exists_computable_quantifierElimination`): there is a
-`Computable₂` map taking `m` and a code such that, for every formula over `Fin m`, the output is
-the code of a quantifier-free formula over the same context with the same realizations in every
-model of `T_R`. **Decidability** (`exists_computable_decide_rado`): there is a `Computable` map on
-codes of sentences answering truth in the Rado graph. This roadmap requires explicit Lean
-definitions of both maps, with computability and correctness proofs. Existence statements alone
-do not discharge this implementation requirement. That each formula has some quantifier-free
-equivalent modulo `T_R` discharges neither theorem, since it gives no computable map on codes.
-The proof goes through finite equality-and-adjacency patterns; build:
+The two endpoints are explicit computable maps on codes of formulas, the construction targets
+`radoQE` and `decideRado`:
+
+- **Computable quantifier elimination**, `radoQE : ℕ → ℕ → ℕ`: `Computable₂ radoQE`, and for every
+  `m` and every formula `φ` over `Fin m`, `radoQE m (boundedCode φ)` is the code of a
+  quantifier-free formula over `Fin m` with the same realizations as `φ` in every model of `T_R`.
+  Its values on numbers that are not formula codes are unconstrained.
+- **Decidability**, `decideRado : ℕ → Bool`: `Computable decideRado`, and for every sentence `φ`,
+  `decideRado (boundedCode φ) = true` exactly when the Rado graph satisfies `φ`.
+
+```lean
+-- Construction targets: explicit executable definitions, by pattern elimination (below).
+def radoQE : ℕ → ℕ → ℕ := …
+def decideRado : ℕ → Bool := …
+
+theorem computable_radoQE : Computable₂ radoQE
+theorem radoQE_spec (m : ℕ) (φ : Language.graph.Formula (Fin m)) :
+    ∃ ψ : Language.graph.Formula (Fin m), radoQE m (boundedCode φ) = boundedCode ψ ∧ ψ.IsQF ∧
+      ∀ (M : Type w) [Language.graph.Structure M], M ⊨ radoAxioms →
+        ∀ a : Fin m → M, ψ.Realize a ↔ φ.Realize a
+theorem computable_decideRado : Computable decideRado
+theorem decideRado_spec (φ : Language.graph.Sentence) :
+    decideRado (boundedCode φ) = true ↔ Satisfies TauCeti.radoGraph φ
+```
+
+This roadmap requires both maps as explicit executable Lean definitions, with these computability
+and correctness proofs. Existence statements alone do not discharge this requirement, and neither
+does a definition through `Classical.choose` or with an admitted body. The existence theorems
+`exists_computable_quantifierElimination` and `exists_computable_decide_rado`, which
+`Suggested.lean` states, are consequences, with `radoQE` and `decideRado` as witnesses.
+That each formula has some quantifier-free equivalent modulo `T_R` gives neither map, since it
+gives no computable map on codes. The proof goes through finite equality-and-adjacency patterns;
+build:
 
 - the **effective coding of first-order formulas**, the input and output format of the two
   maps, owned by this roadmap for a general language `L` (`FormulaAlphabet`, `boundedCode`,
