@@ -428,7 +428,10 @@ codes on `Fin 1` are the points of `ℕ → Bool`; every one is a model; the onl
 `Fin 1` is the identity, so isomorphism is equality. The whole code space is therefore a perfect set
 of pairwise non-isomorphic models: `HasPerfectSetOfNonisoModelsOn (Fin 1) φ`, so continuum many
 pairwise non-isomorphic one-element structures. There are no models on `ℕ` or on `Fin n` for
-`n ≠ 1` (the empty structure fails `∃ x`), and `countableModelCount φ = 𝔠`. Every isolating rank is
+`n ≠ 1` (the empty structure fails `∃ x`), and `countableModelCount φ = 𝔠`. With unary `P_r`
+(`r ∈ ℝ`) instead, the codes on `Fin 1` are the points of `ℝ → Bool`, isomorphism is again
+equality, and the same sentence has `2^𝔠` pairwise non-isomorphic one-element models: the upper
+bound `𝔠` needs countably many relation symbols. Every isolating rank is
 vacuously bounded on the (empty) models on `ℕ`, so the bounded-rank dichotomy of Layer 2 applies,
 and its perfect alternative holds only at the tier `Fin 1`; likewise Morley's theorem. This is why
 the finite tiers are part of `HasPerfectlyManyCountableModels`.
