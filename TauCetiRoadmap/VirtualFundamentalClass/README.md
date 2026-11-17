@@ -281,6 +281,11 @@ smooth scheme atlas with the relative-dimension correction. Prove independence o
 invariance under stack equivalence, and compatibility with open substacks, products, smooth
 maps, and base-field extension.
 
+The atlas formula and its independence are given in Stacks Project Tags
+[0AFM](https://stacks.math.columbia.edu/tag/0AFM),
+[0AFN](https://stacks.math.columbia.edu/tag/0AFN) and
+[0AFP](https://stacks.math.columbia.edu/tag/0AFP).
+
 **API.**
 
 - Compute dimension on a smooth chart by subtracting the relative dimension at each point.
@@ -500,7 +505,7 @@ For separated finite-type Deligne–Mumford stacks, extend the scheme operations
 - For proper `f : X → Y`, define `f_* : A_k(X)_ℚ → A_k(Y)_ℚ` with stabilizer weights.
   For representable proper maps also define the integral operation. Use the proper scheme
   covers of §2.1 to verify descent to rational equivalence and push–pull
-  (Vistoli (3.6)–(3.7), p. 635, and Lemmas (3.8)–(3.9), pp. 637–638).
+  (Vistoli (3.6)–(3.7), p. 635, and Lemmas (3.8)–(3.9), pp. 636–638).
 - Give localization for a closed substack and its open complement, and the exterior product
   with its dimension grading. Identify each operation with the scheme operation on schemes.
 
@@ -522,7 +527,7 @@ weighted generic degree. Lift rational equivalences by pulling back rational
 functions along those components and using the pushforward of principal divisors.
 For two lifts of the same integral cycle, use a component of their fibre product
 dominating both and compare its two degree-normalized pushforwards
-(Vistoli Lemma (3.8), pp. 637–638, for surjectivity and lifting rational equivalence).
+(Vistoli Lemma (3.8), pp. 636–637, for surjectivity and lifting rational equivalence).
 The fibre product of the cover with itself is a scheme because the diagonal of
 `X` is finite.
 
@@ -533,7 +538,7 @@ a rational section there, and pushing down divided by the weighted degree.
 Use the scheme projection formula on the fibre products of covers to prove
 independence. This also treats line bundles with nontrivial generic stabilizer
 action. Apply the same cokernel presentation to the pullbacks of the cover to
-the vector or projective bundle. Flat push–pull (Vistoli Lemma (3.9), p. 638)
+the vector or projective bundle. Flat push–pull (Vistoli Lemma (3.9), pp. 637–638)
 makes the scheme homotopy and projective-bundle isomorphisms descend.
 Prove the Chern pullback, Whitney sum and top-Chern laws using the descended
 operations, and obtain `0_E^! 0_{E*}[X] = c_top(E) ∩ [X]` from the
@@ -701,6 +706,8 @@ For an lci morphism of Deligne–Mumford stacks, prove relative perfect Tor ampl
 Globalize `DerivedModuleAlgebra` §0.25 to square-zero extensions of schemes and stacks. For
 `g : T → X`, put the obstruction in `Ext¹(g*L_X,J)`, characterize its vanishing, and describe
 lifts and automorphisms by the adjacent Ext groups. State the result for the lifting groupoid.
+Behrend–Fantechi §4, pp. 32–34, describes the obstruction in `Ext¹` and the
+torsor of isomorphism classes of lifts under `Ext⁰` for Deligne–Mumford stacks.
 
 *Needs:* §§3.1, 3.3 and DerivedModuleAlgebra §0.25.
 
@@ -770,6 +777,11 @@ For a two-term complex of abelian sheaves `E⁰ → E¹`, construct the strictly
 `h¹/h⁰(E) = [E¹/E⁰]`. Show that a chain homotopy induces a specified 2-isomorphism and a
 quasi-isomorphism induces an equivalence. Extend the construction to derived objects by
 truncation and prove independence of resolutions.
+
+Use Behrend–Fantechi §2, pp. 16–19, following Deligne in SGA 4, Exposé XVIII,
+§1.4. The quotient and the chain-homotopy 2-isomorphism are on p. 16,
+quasi-isomorphism invariance is Prop. 2.1, and the derived comparison of maps
+and their automorphisms is Lemma 2.2.
 
 **API.**
 
@@ -1026,11 +1038,24 @@ p. 38, Props. 5.7 and 7.2, pp. 41, 50). Keep global resolvability separate from 
 
 At `p ∈ X(k)`, prove that the coarse space `N_p` of `p^*𝔑_X` is a universal
 obstruction space for deformations over local Artinian `k`-algebras with residue field `k`.
-A vector `v ∈ N_p` occurs as the obstruction to lifting some such deformation along
-`k[t]/(t^(m+1)) → k[t]/(t^m)` exactly when it lies in the coarse cone `C_p` of
-`p^*𝔠_X` (Behrend–Fantechi Lemma 4.6 and Prop. 4.7, pp. 36–37).
+Assume `k` is algebraically closed for the curvilinear criterion. There is a
+deformation centred at `p` over `k[t]/(t^m)` with obstruction `v ⊗ t^m`
+to lifting along `k[t]/(t^(m+1)) → k[t]/(t^m)` for some `m ≥ 1` exactly when
+`v` belongs to the coarse cone `C_p` of `p^*𝔠_X`. Here the obstruction lies
+in `N_p ⊗ₖ (t^m)/(t^(m+1))` (Behrend–Fantechi Lemma 4.6 and Prop. 4.7,
+pp. 36–37).
 
 *Needs:* §§5.3, 6.2–6.3.
+
+**Checks.**
+
+- At the origin of `Spec k[x,y]/(x²+y², x³)`, the two equations form a
+  regular sequence with zero linear terms, so `C_p = N_p = k²` in their
+  coordinates. Over `ℂ`, the arc `(t, it + t³)` gives `x²+y² = 2it⁴ + t⁶`
+  and `x³ = t³`, so the obstruction at `m = 3` is `(0,1) ⊗ t³`.
+  Over `ℝ`, a deformation represented by `(α,β)` with
+  `ord(α²+β²) = 2 min(ord α, ord β) ≥ m` has `ord(α³) ≥ 3m/2 > m`.
+  Every curvilinear obstruction over `ℝ` has second coordinate zero.
 
 ### Examples
 
