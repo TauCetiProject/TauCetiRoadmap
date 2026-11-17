@@ -22,34 +22,6 @@ comparison with Verity or Garner presentations, general strictification
 equivalences for all bicategories, or the other examples of doubly weak double
 categories. No general equipment construction is a prerequisite.
 
-## How to read the build
-
-The build order is M1 → M2 → M3 → M4. M2 tests the foundations on
-ordinary strict double categories before the general mates construction. M3
-proves the general mates theorem; M4 specializes it. The mathematical
-dependencies are smaller than this chosen execution order:
-
-| Target | Local prerequisites |
-| --- | --- |
-| M1.1: strict double categories and maps | none |
-| M1.2: implicit double categories and representations | M1.1 |
-| M1.3: implicit 2-categories and adjunctions | M1.1 and the horizontal constructions of M1.2 |
-| M1.4: walking adjunction and its four hom-categories | M1.3; Mathlib simplex categories |
-| M2.1: expansion | M1.1–M1.2 |
-| M2.2: extraction | M1.1–M1.2 |
-| M2.3: comparison | M2.1–M2.2 |
-| M3.1: path evaluation | M1.3 |
-| M3.2: the two adjunction double categories | M1.1–M1.2, M3.1 |
-| M3.3: mates isomorphism | M3.2 |
-| M4: strict specialization | M2 and M3 |
-
-Each target lists its library inputs below. M3 has no mathematical dependency on
-M2 or the M1.4 example. M1.4 tests the one-directional interface; M2 is the
-first double-category comparison test. `Suggested.lean` prototypes selected
-foundational interfaces and points to the Mathlib equivalence fixing the mate
-orientation. Its admitted theorem is an M1.2 target; it does not implement the
-headline isomorphisms.
-
 ## Conventions
 
 Objects, horizontal generators, vertical generators, and cells have independent
@@ -103,6 +75,88 @@ directions; avoid competing global instances on the shared object type. Reuse
 `Quiver.Path`/`CategoryTheory.Paths`, `Category`, `Functor`, `Iso`, `Bicategory`,
 and the existing adjunction and mates APIs. Supply named transport and
 extensionality lemmas so users need not manipulate heterogeneous equalities.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- `Mathlib/CategoryTheory/Bicategory/Adjunction/Mate.lean` supplies the general
+  bicategory mate equivalence, both pasting theorems, the square interchange
+  theorem, conjugate equivalences and computable isomorphisms, mixed pasting,
+  and coherence comparisons. Its pasting names follow its displayed axes;
+  match their types to this roadmap's convention rather than their names alone.
+- `Mathlib/CategoryTheory/Bicategory/Adjunction/Adj.lean` supplies specified
+  adjunction arrows, conjugate pairs of 2-cells, and their bicategory structure.
+- `Mathlib/CategoryTheory/Bicategory/Opposites.lean` supplies the 1-cell dual,
+  preserving the direction of 2-cells. It does not supply the 2-cell dual;
+  M3.2 constructs that bicategory and its strictness transfer for the vertical
+  globular comparisons with `Bicategory.Adj`.
+- `Mathlib/CategoryTheory/Bicategory/Coherence.lean`,
+  `Mathlib/CategoryTheory/PathCategory/Basic.lean`, and
+  `Mathlib/CategoryTheory/Bicategory/Strict/Basic.lean` supply the coherence,
+  free path, and strictness vocabulary.
+- `Mathlib/CategoryTheory/Bicategory/Free.lean` supplies `FreeBicategory`, whose
+  1-cells are unquotiented formal composites. M2.2 uses it to distinguish an
+  associator isomorphism from equality of the underlying 1-cells.
+- `Mathlib/CategoryTheory/Bicategory/Adjunction/Cat.lean` supplies the comparison
+  with ordinary adjunctions and mates.
+- `Mathlib/AlgebraicTopology/SimplexCategory/Defs.lean`, `Basic.lean`, and
+  `GeneratorsRelations/` supply simplex morphisms, faces, degeneracies, and
+  their relations. `Augmented/Basic.lean` supplies `AugmentedSimplexCategory`
+  as `WithInitial SimplexCategory`; `Augmented/Monoidal.lean` supplies ordinal
+  sum. M1.4 builds its endpoint subcategories and comparisons using these APIs.
+- `Mathlib/AlgebraicTopology/SimplicialObject/II.lean` supplies
+  `SimplexCategory.II : SimplexCategory ⥤ SimplexCategoryᵒᵖ`, with object
+  `[n] ↦ [n+1]ᵒᵖ`, and its cut map `II.map'`. The endpoint lemmas
+  `II.map'_zero` and `II.map'_last` and functoriality lemmas `II.map'_id` and
+  `II.map'_map'` supply the nonempty-ordinal part of M1.4's cut duality.
+  M1.4 adds the endpoint-subcategory factorization, empty-ordinal extension,
+  inverse functor, and comparison identities.
+- `Mathlib/CategoryTheory/Widesubcategory.lean` supplies wide subcategories;
+  `Bicategory/Functor/StrictPseudofunctor.lean` supplies the strict functors
+  used in M1.4's universal property.
+
+### From Tau Ceti
+
+- `TauCeti/CategoryTheory/Adjunction/Mates.lean` adds ordinary-category identity
+  mates, transpose/conjugate naturality, and transfer of identity/composition
+  comparisons across mates. Reuse those declarations for ordinary-category
+  comparisons; add general bicategory counterparts only for the operations
+  required by M3. In particular, M3.3 proves the identity-adjunction mate formula
+  with unitors, corresponding to `CategoryTheory.mateEquiv_adjunction_id`.
+  Their existing proofs do not package a double category.
+
+All missing infrastructure specified above is Tau Ceti work. Adopt any matching
+Mathlib interface that exists at implementation time and remove duplication
+when Mathlib absorbs it. No target requires opening a Mathlib PR.
+
+## How to read the build
+
+The build order is M1 → M2 → M3 → M4. M2 tests the foundations on
+ordinary strict double categories before the general mates construction. M3
+proves the general mates theorem; M4 specializes it. The mathematical
+dependencies are smaller than this chosen execution order:
+
+| Target | Local prerequisites |
+| --- | --- |
+| M1.1: strict double categories and maps | none |
+| M1.2: implicit double categories and representations | M1.1 |
+| M1.3: implicit 2-categories and adjunctions | M1.1 and the horizontal constructions of M1.2 |
+| M1.4: walking adjunction and its four hom-categories | M1.3; Mathlib simplex categories |
+| M2.1: expansion | M1.1–M1.2 |
+| M2.2: extraction | M1.1–M1.2 |
+| M2.3: comparison | M2.1–M2.2 |
+| M3.1: path evaluation | M1.3 |
+| M3.2: the two adjunction double categories | M1.1–M1.2, M3.1 |
+| M3.3: mates isomorphism | M3.2 |
+| M4: strict specialization | M2 and M3 |
+
+Each target lists its library inputs below. M3 has no mathematical dependency on
+M2 or the M1.4 example. M1.4 tests the one-directional interface; M2 is the
+first double-category comparison test. `Suggested.lean` prototypes selected
+foundational interfaces and points to the Mathlib equivalence fixing the mate
+orientation. Its admitted theorem is an M1.2 target; it does not implement the
+headline isomorphisms.
 
 ## M1: strict and represented implicit double categories
 
@@ -393,6 +447,17 @@ singleton, and concatenated paths and the resulting cell and pasting formulas.
 - Strictness of both induced bicategories, including their coherence fields.
 - Expansion of strict double functors and preservation of identity and composition.
 
+**Checks.**
+
+- Expansion evaluates `[]` to an identity arrow.
+- Expansion evaluates `[f,g]` to `f ≫ g`.
+- The horizontal comparison `[f,g] ≅ [f ≫ g]` is the vertical identity
+  cell of `f ≫ g` after evaluation transport.
+- The paths `[]` and `[𝟙]` remain distinct, with the chosen nullary comparison
+  between them.
+- In the terminal strict double category, restricting generators to nonidentity
+  arrows leaves no generators, so the empty path has no representation.
+
 *Needs:* M1.1–M1.2; Mathlib paths and `Bicategory.Strict`.
 
 ### M2.2 — Extract squares
@@ -413,7 +478,23 @@ for the extracted cells, identities, both pastings, and maps on squares.
 - Extraction of represented strict functors and isomorphisms, formulas on
   squares, and preservation of identity and composition.
 
-*Needs:* M1.1–M1.2; strictness of both induced bicategories as hypotheses.
+**Checks.**
+
+- The extracted horizontal identity square on a vertical generator `f` is the
+  horizontal path identity on `[f]`, with its two empty horizontal boundaries
+  replaced by the chosen singleton identity generators through the nullary
+  comparisons.
+- The extracted horizontal composite of squares with top generators `f,g`
+  has top `f ⋆ g`, obtained from the pasted cell with top path `[f,g]`.
+- The strictness hypothesis supplies actual equalities of 1-cells: in Mathlib's
+  `FreeBicategory` on a quiver with one loop `e`, let `f` be its generating
+  1-cell. Then `(f ≫ f) ≫ f ≠ f ≫ (f ≫ f)` as terms of the inductive 1-cell
+  type, although the associator is an isomorphism between them. Thus a
+  bicategory's given 1-cell composition need not define an ordinary category.
+  This check uses the existing free bicategory directly, without M3's constructions.
+
+*Needs:* M1.1–M1.2; strictness of both induced bicategories as hypotheses;
+Mathlib `FreeBicategory` for the strictness check.
 
 ### M2.3 — Compare in both directions
 
@@ -434,8 +515,6 @@ just establish bijections of their carriers.
 
 **Checks.**
 
-- Expansion evaluates `[]` to an identity arrow.
-- Expansion evaluates `[f,g]` to `f ≫ g`.
 - Extraction after expansion recovers each original square.
 - Extraction after expansion recovers horizontal pasting.
 - Extraction after expansion recovers vertical pasting.
@@ -458,7 +537,8 @@ a middle-four grid to exercise interchange.
 
 ### Dependencies
 
-- M2.1 and M2.2 use M1.1–M1.2; M2.2 assumes strictness of both induced bicategories.
+- M2.1 and M2.2 use M1.1–M1.2; M2.2 assumes strictness of both induced bicategories
+  and uses Mathlib's `FreeBicategory` for its strictness check.
 - M2.3 uses M2.1–M2.2. The quintet example uses Mathlib's strict bicategories.
 
 ## M3: mates for an arbitrary bicategory
@@ -531,19 +611,34 @@ right-adjoint comparisons. Identify the horizontal globular bicategory with
 `F` to `F'` corresponds to `Bicategory.Adj.Hom₂ F' F`: its left component is
 `F'.l ⟶ F.l`, and its right component is `F.r ⟶ F'.r`. Record and prove this
 reversal explicitly when comparing vertical composition and coherence with
-Mathlib's `Bicategory.Adj`. If a packaged local-opposite construction is needed
-for that comparison, build its bicategory instance here.
+Mathlib's `Bicategory.Adj`.
+
+Define the 2-cell dual of a bicategory: it has the same objects and 1-cells,
+and each hom-category is replaced by its opposite. Construct its `Bicategory`
+instance, with reversed vertical composition of 2-cells and the inverse
+associators and unitors of the original bicategory. Give conversion and
+extensionality lemmas for its cells, whiskering, and coherence, and transfer
+`Bicategory.Strict` from the original bicategory. Mathlib's
+`Bicategory/Opposites.lean` supplies only the 1-cell dual; the 2-cell dual is
+a target here. Identify the vertical globular bicategories of `L(K)` and `R(K)`
+with the 2-cell dual of `Bicategory.Adj K`, including composition and coherence.
 
 **API.**
 
 - The `L(K)` and `R(K)` cell types, identities, pasting formulas, and strict
   implicit double-category axioms.
 - All four binary/nullary representation families and their derived comparisons.
+- The 2-cell dual, its bicategory instance, cell conversions and their inverse
+  laws, extensionality, identity/composition and whiskering formulas, coherence
+  formulas, and transfer of strictness.
 - Horizontal and vertical globular identifications, including the reversal in
   `Bicategory.Adj.Hom₂` and its effect on composition and coherence.
 
 **Checks.**
 
+- A horizontal globular cell given by `σ : S ⟶ T` is
+  `(ρ_ S).hom ≫ σ ≫ (λ_ T).inv` in `L` and
+  `(λ_ S).hom ≫ σ ≫ (ρ_ T).inv` in `R`.
 - For a vertical globular cell from `F` to `F'`, its left component is
   `τ : F'.l ⟶ F.l` and its right component is
   `Bicategory.conjugateEquiv F.adj F'.adj τ : F.r ⟶ F'.r`, after the unitor
@@ -554,6 +649,12 @@ for that comparison, build its bicategory instance here.
 - The horizontal identity square on `F` in `R` is
   `(ρ_ F.r).hom ≫ (λ_ F.r).inv`, including for empty boundary paths.
 - The right adjoint of a binary vertical composite is `G₂ ≫ G₁`, in that order.
+- For composable 2-cells `α,β` in a bicategory, their composite becomes the
+  reversed composite of their images in its 2-cell dual.
+- The hom of an associator in the 2-cell dual is the original associator's inv,
+  read as a reversed 2-cell; unitors follow the same convention.
+- When the original bicategory is strict, these dual coherence maps are the
+  corresponding `eqToHom` maps.
 
 *Needs:* M1.1–M1.2, M3.1; Mathlib `Bicategory.Adj.Hom`,
 `Bicategory.Adj.Hom₂`, and `Adjunction.comp`/`Adjunction.id` in the bicategory
@@ -575,9 +676,16 @@ underlying coherence. The headline result is a represented double
 Supply named compatibility lemmas for changing horizontal boundary 2-cells
 and for changing adjunctions by conjugate 2-cells, including their invertible
 and coherence cases. Use existing mate-pasting and conjugation theorems wherever
-they apply. Additional unit/counit characterizations belong in the general
-bicategory API when needed for these boundary operations; do not duplicate
-the ordinary-category theory wholesale.
+they apply. In the general bicategory adjunction API, prove explicitly that for
+`S,T : a ⟶ b` and `σ : S ⟶ T`,
+`Bicategory.mateEquiv (Bicategory.Adjunction.id a) (Bicategory.Adjunction.id b)`
+sends `(ρ_ S).hom ≫ σ ≫ (λ_ T).inv` to
+`(λ_ S).hom ≫ σ ≫ (ρ_ T).inv`. This is the bicategory counterpart of Tau Ceti's
+ordinary-category `CategoryTheory.mateEquiv_adjunction_id`. Use it to identify
+the action on horizontal globular cells and prove preservation of the
+horizontal representation families. Additional unit/counit characterizations
+needed for the stated boundary operations also belong in the general bicategory
+API; do not duplicate the ordinary-category theory wholesale.
 
 **API.**
 
@@ -586,6 +694,8 @@ the ordinary-category theory wholesale.
 - Cell formulas on singleton and arbitrary path boundaries, inverse formulas,
   and preservation of identities, pastings, and chosen representations.
 - Preservation of derived path comparisons and underlying bicategory coherence.
+- The identity-adjunction mate formula above, with its horizontal globular and
+  representation-preservation consequences.
 - Compatibility with horizontal boundary 2-cells and conjugate changes of
   adjunctions, including invertible and coherence cases.
 
@@ -594,7 +704,9 @@ silently add strictness.
 
 - Singleton-boundary action reduces to the existing mate equivalence after
   the stated boundary identifications.
-- Empty-boundary action agrees with the globular formulas of M3.2.
+- The mate of the horizontal globular `L` cell of `σ` is the horizontal
+  globular `R` cell of the same `σ`.
+- On vertical globular cells, the mate agrees with M3.2's conjugate formula.
 - The mate of M3.2's horizontal identity square is its displayed `R` identity
   square, by `Bicategory.mateEquiv_leftUnitor_hom_rightUnitor_inv`.
 - The vertical identity square maps to the corresponding `R` identity square.
@@ -622,7 +734,8 @@ laws is part of M3.2–M3.3.
 ### Dependencies
 
 - M3.1 uses M1.3 and Mathlib bicategory coherence and adjunctions.
-- M3.2 uses M1.1–M1.2, M3.1, and the specified-adjunction API in `Bicategory.Adj`.
+- M3.2 uses M1.1–M1.2, M3.1, and the specified-adjunction API in `Bicategory.Adj`;
+  it constructs the 2-cell dual and its strictness transfer here.
 - M3.3 uses M3.2 and Mathlib's mate, pasting, and conjugate equivalences.
 - Neither M2 nor the walking-adjunction example M1.4 is a prerequisite for M3.
 
@@ -686,51 +799,6 @@ Cheng–Gurski–Riehl, Definition 1.1 and Theorem 1.2.
 
 - M4 uses the comparison from M2 and the general mates isomorphism from M3.
 - Library inputs are Mathlib `Bicategory.Strict` and `Bicategory/Adjunction/Cat.lean`.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- `Mathlib/CategoryTheory/Bicategory/Adjunction/Mate.lean` supplies the general
-  bicategory mate equivalence, both pasting theorems, the square interchange
-  theorem, conjugate equivalences and computable isomorphisms, mixed pasting,
-  and coherence comparisons. Its pasting names follow its displayed axes;
-  match their types to this roadmap's convention rather than their names alone.
-- `Mathlib/CategoryTheory/Bicategory/Adjunction/Adj.lean` supplies specified
-  adjunction arrows, conjugate pairs of 2-cells, and their bicategory structure.
-- `Mathlib/CategoryTheory/Bicategory/Coherence.lean`,
-  `Mathlib/CategoryTheory/PathCategory/Basic.lean`, and
-  `Mathlib/CategoryTheory/Bicategory/Strict/Basic.lean` supply the coherence,
-  free path, and strictness vocabulary.
-- `Mathlib/CategoryTheory/Bicategory/Adjunction/Cat.lean` supplies the comparison
-  with ordinary adjunctions and mates.
-- `Mathlib/AlgebraicTopology/SimplexCategory/Defs.lean`, `Basic.lean`, and
-  `GeneratorsRelations/` supply simplex morphisms, faces, degeneracies, and
-  their relations. `Augmented/Basic.lean` supplies `AugmentedSimplexCategory`
-  as `WithInitial SimplexCategory`; `Augmented/Monoidal.lean` supplies ordinal
-  sum. M1.4 builds its endpoint subcategories and comparisons using these APIs.
-- `Mathlib/AlgebraicTopology/SimplicialObject/II.lean` supplies
-  `SimplexCategory.II : SimplexCategory ⥤ SimplexCategoryᵒᵖ`, with object
-  `[n] ↦ [n+1]ᵒᵖ`, and its cut map `II.map'`. The endpoint lemmas
-  `II.map'_zero` and `II.map'_last` and functoriality lemmas `II.map'_id` and
-  `II.map'_map'` supply the nonempty-ordinal part of M1.4's cut duality.
-  M1.4 adds the endpoint-subcategory factorization, empty-ordinal extension,
-  inverse functor, and comparison identities.
-- `Mathlib/CategoryTheory/Widesubcategory.lean` supplies wide subcategories;
-  `Bicategory/Functor/StrictPseudofunctor.lean` supplies the strict functors
-  used in M1.4's universal property.
-
-### From Tau Ceti
-
-- `TauCeti/CategoryTheory/Adjunction/Mates.lean` adds ordinary-category identity
-  mates, transpose/conjugate naturality, and transfer of identity/composition
-  comparisons across mates. Reuse those declarations for ordinary-category
-  comparisons; add general bicategory counterparts only for the operations
-  required by M3. Their existing proofs do not package a double category.
-
-All missing infrastructure specified above is Tau Ceti work. Adopt any matching
-Mathlib interface that exists at implementation time and remove duplication
-when Mathlib absorbs it. No target requires opening a Mathlib PR.
 
 ## Related formalizations
 

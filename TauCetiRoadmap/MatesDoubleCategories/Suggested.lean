@@ -24,7 +24,8 @@ but not constructed in this prototype:
   expansion, and extraction (M1.1--M2.2).
 * M3.3's represented double isomorphism `L(K) ≅ R(K)` requires represented
   strict double functors, implicit 2-categories, coherent path evaluation, and
-  the two implicit double categories with their proved axioms (M1.2--M3.2).
+  the two implicit double categories with their proved axioms and globular
+  comparisons, including the 2-cell dual of the adjunction bicategory (M1.2--M3.2).
 * M4's strict mates isomorphism requires those constructions and the proofs
   that both induced bicategories of `L(K)` and `R(K)` are strict.
 
