@@ -83,6 +83,7 @@ body:
         - DGAInfinity
         - DGFloer
         - DeRhamCohomologyAndDuality
+        - DeformationAndDerivedPatchingAlgebraPartII
         - DerivedDeRhamCohomology
         - DerivedModuleAlgebra
         - DiagrammaticCoherence
@@ -104,6 +105,7 @@ body:
         - FactorRigidity
         - FinancialMathematics
         - FiniteAffineBoundTightening
+        - FiniteFlatGroupsAndIntegralPadicHodgeTheory
         - FiniteGroupExtensionSplitting
         - FiniteSamplingDiscrepancy
         - FlagVarieties
