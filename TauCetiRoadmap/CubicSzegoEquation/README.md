@@ -1,380 +1,396 @@
 # Roadmap: the cubic Szegő equation
 
-**Summary.** Develop the Hamiltonian evolution
-
-\[
-  i\partial_t u = \Pi(|u|^2u)
-\]
-
-on the nonnegative-frequency Hardy space of the circle. Starting from the global
-\(H^{1/2}\) Cauchy theory, build the antilinear Hankel operator and its Lax pair,
-the commuting spectral invariants and invariant finite-rank rational manifolds.
-On the three-complex-dimensional constrained manifold \(\widetilde M(1)\),
-derive the explicit flow and the high-Sobolev norm-growth example. The roadmap
-specifies the cubic Szegő equation, not a general theory of nonlinear
-Schrödinger equations.
+**Summary.** Develop the Hamiltonian evolution `i ∂ₜ u = Π(|u|² u)` on the nonnegative-frequency
+Hardy space of the circle. Starting from the global `H^(1/2)` Cauchy theory (Theorem 2.1 of
+Gérard–Grellier: for every `u₀ ∈ H^(1/2)₊` there is a unique solution `u ∈ C(ℝ, H^(1/2)₊)`, with
+`Q + M` conserved), build the antilinear Hankel operator `H_u` and its Lax pair, the commuting
+spectral invariants `J_n(u) = ⟨1, H_uⁿ 1⟩`, and the invariant finite-rank rational manifolds
+`M(N)`. On the three-complex-dimensional constrained manifold `M̃(1)`, derive the explicit flow
+and the high-Sobolev norm growth of `u₀ = z + ε` at times `π / (ε √(4 + ε²))`. The roadmap
+specifies the cubic Szegő equation, not a general theory of nonlinear Schrödinger equations.
+[Suggested.lean](Suggested.lean) states the global well-posedness theorem, the conservation of
+`Q + M`, the Hilbert–Schmidt identity of the Hankel matrix and the norm-growth theorem; its
+docstring records the targets whose carriers the pins lack.
 
 ## Scope and ownership
 
-The primary source is Gérard and Grellier's *The cubic Szegő equation*. This
-roadmap formalizes its global \(H^{1/2}\) flow, the Hankel-operator Lax
-representation, the finite-rank completely integrable hierarchy, and the
-explicit \(\widetilde M(1)\) dynamics and instability. The specified targets
-are the mathematical content of those results, not a transcription of the
-paper's proofs.
+The primary source is Gérard and Grellier, *The cubic Szegő equation*. This roadmap owns its
+global `H^(1/2)` flow, the Hankel-operator Lax representation, the finite-rank completely
+integrable hierarchy, and the explicit `M̃(1)` dynamics and instability.
 
-The [Toeplitz operators roadmap](../OperatorTheory/ToeplitzOperators/README.md)
-owns the Hardy and Toeplitz operator calculus. Its current Tau Ceti suppliers
-include the boundary Hardy subspace and projection; this roadmap consumes that
-carrier and constructs the cubic equation's antilinear Hankel operator. The
-two Hankel operators must not be conflated: Tau Ceti's
-\(H_a=(1-\Pi)M_a|_{H^2}\) is complex-linear with negative-frequency codomain,
-whereas the source's
-\[
-  H_u h = \Pi(u\overline h)
-\]
-is antilinear, has \(H^2\) codomain, and has Fourier matrix
-\(\widehat u(j+k)\). Construct the conjugation/Hardy identification explicitly;
-do not claim that one operator is already the other.
+Left to other roadmaps:
 
-The [operator ideals roadmap](../OperatorTheory/OperatorIdeals/README.md)
-supplies the Hilbert–Schmidt and trace-class interfaces. Use the existing Tau
-Ceti Hilbert–Schmidt and Hardy APIs where their carriers and hypotheses match.
-The Hilbert–Schmidt identity for \(H_u\), its antilinear operator algebra, and
-the Lax generator are this roadmap's adapters and targets.
+- **OperatorTheory/ToeplitzOperators** owns the Hardy and Toeplitz operator calculus: the Hardy
+  subspace, its Fourier unitary, the projection, and Toeplitz operators. This roadmap consumes that
+  carrier and constructs the cubic equation's antilinear Hankel operator. The two Hankel operators
+  must not be conflated: Tau Ceti's `TauCeti.hankel`, `H_a = (1 − Π) M_a` restricted to `H²`, is
+  complex-linear with negative-frequency codomain, whereas the source's `H_u h = Π(u conj(h))` is
+  antilinear, has codomain `H²`, and has Fourier matrix `û(j + k)`. The conjugation and Hardy
+  identification is constructed explicitly in 3.1.
+- **OperatorTheory/OperatorIdeals** owns the Hilbert–Schmidt and trace-class theory. The
+  Hilbert–Schmidt identity for `H_u`, its antilinear operator algebra and the Lax generator are
+  adapters and targets here.
+- **DiracScatteringAndNonlinearFourierTransform** is not a prerequisite: the equation is posed on
+  the circle, and its Hardy projection is the circle Fourier projection. No Dirac scattering or
+  nonlinear Fourier transform is built here.
 
-The half-line Dirac and SU(1,1) nonlinear Fourier transform in
-[DiracScatteringAndNonlinearFourierTransform](../DiracScatteringAndNonlinearFourierTransform/README.md)
-is not a prerequisite: the cubic Szegő equation is posed on the circle and its
-Hardy projection is the circle Fourier projection. It is not a target here to
-build Dirac scattering or a nonlinear Fourier transform.
-
-The wiki-linked talks are adjacent context, not sources for cubic Szegő
-theorems. Gérard's [Benjamin–Ono talk](https://www.youtube.com/watch?v=oAvOP4vjnAc)
-has English-original automatic captions; it defines a real-line Hardy space and
-Szegő/Cauchy projection (28:48–30:12), then gives a Benjamin–Ono Lax identity
-(33:22–35:08) and unitary equivalence (46:11–46:17). These are methodological
-analogies only, concerning Benjamin–Ono rather than this circle flow. Gérard's
-[half-wave talk](https://www.youtube.com/watch?v=oRIE7DcO_bs) has no YouTube
-caption track; its description concerns high-Sobolev growth from interacting
-small-mass solitons for the focusing cubic half-wave equation. This is distinct
-from the explicit \(\widetilde M(1)\) family construction in Layer 5. Neither
-talk adds a theorem-level target here.
-
-This roadmap does not cover the cubic nonlinear Schrödinger equation, the
-Grushin equation, the complete classification of traveling waves, inverse
-spectral/action-angle coordinates, or a flow on \(BMO_+\). It makes no claim
-that a bounded orbit has unbounded Sobolev norm: the norm-growth target is a
-family of smooth initial data and times tending to infinity.
+This roadmap does not cover the cubic nonlinear Schrödinger equation, the Grushin equation, the
+classification of traveling waves, inverse spectral or action-angle coordinates, or a flow on
+`BMO₊`. It makes no claim that a bounded orbit has unbounded Sobolev norm: the norm-growth target
+is a family of smooth initial data and times tending to infinity.
 
 ## Conventions
 
-- Identify \(S^1\) with `AddCircle (1 : ℝ)` and use the normalized Haar
-  probability measure. Write \(z(t)=\exp(2\pi i t)\), \(e_n=z^n\), and
-  \(\widehat u(n)=\int_{S^1}u\overline{e_n}\). This is the period-one
-  convention in `OperatorTheory/ToeplitzOperators`.
-- \(H^2_+\) is the closed span of \(e_n\), \(n\geq0\), in circle \(L^2\);
-  \(\Pi\) is the orthogonal projection onto it. Every projection and Fourier
-  coefficient in this roadmap uses that normalization.
-- Represent \(H^{1/2}_+\) by sequences \((\widehat u(n))_{n\geq0}\) with
-  \[
-    \|u\|_{H^{1/2}}^2
-      = \sum_{n\geq0}(n+1)|\widehat u(n)|^2 < \infty.
-  \]
-  Equivalently, use the \(\ell^2\) sequence
-  \((\sqrt{n+1}\,\widehat u(n))_{n\geq0}\). This is the norm \(Q(u)+M(u)\)
-  in the source.
-- The \(L^2\) inner product is conjugate-linear in its first argument. The
-  operator \(H_u\) is complex-antilinear and real-linear; \(H_u^2\) is
-  complex-linear. State all operator domains and codomains explicitly.
-- For \(s\geq0\), use
-  \(\|u\|_{H^s}^2=\sum_{n\geq0}(n+1)^{2s}|\widehat u(n)|^2\). Translate the
-  paper's linear-in-the-first inner product to Mathlib's convention; in
-  particular its symplectic form is
-  \(\omega(u,v)=-4\,\operatorname{Im}\langle u,v\rangle\) here.
-- The conserved mass and momentum are
-  \(Q(u)=\sum_{n\geq0}|\widehat u(n)|^2\) and
-  \(M(u)=\sum_{n\geq0}n|\widehat u(n)|^2\). Use \(D e_n=n e_n\).
-- The source's \(M(N)\) consists of reduced \(A/B\) with
-  \(\deg A\leq N-1\), \(\deg B\leq N\), \(B(0)=1\), and either
-  \(\deg A=N-1\) or \(\deg B=N\); \(A,B\) are coprime and \(B\) has no zero
-  on the closed unit disk. The rank is the complex dimension of the range
-  of the antilinear Hankel operator. The constrained manifold
-  \(\widetilde M(N)\) has the source's definition
-  \(\{u\in M(N+1):1\in\operatorname{range}(H_u)\}\).
-- A solution is continuous with values in \(H^{1/2}_+\), and its time
-  derivative in the equation is an \(L^2\)-valued derivative. Do not silently
-  assert differentiability in \(H^{1/2}\).
+- Identify `S¹` with `AddCircle (1 : ℝ)` and use the normalized Haar probability measure. Write
+  `z(t) = exp(2π i t)`, `eₙ = zⁿ` and `û(n) = ∫ u conj(eₙ)`. This is the period-one convention of
+  `OperatorTheory/ToeplitzOperators`.
+- `H²₊` is the closed span of `eₙ`, `n ≥ 0`, in circle `L²`, and `Π` is the orthogonal projection
+  onto it. Every projection and Fourier coefficient uses that normalization.
+- `H^s₊`, for `s ≥ 0`, has the norm `‖u‖² = ∑ₙ (n + 1)^(2s) |û(n)|²`, and `H^(1/2)₊` is the case
+  `s = 1/2`, with norm squared `∑ₙ (n + 1) |û(n)|²` (over `n ≥ 0`); this is `Q(u) + M(u)` in the
+  source. Equivalently, `u ↦ (√(n + 1) û(n))ₙ` identifies `H^(1/2)₊` with `ℓ²`.
+- The `L²` inner product is conjugate-linear in its first argument, so the source's symplectic form
+  is `ω(u, v) = −4 Im ⟨u, v⟩` here. The operator `H_u` is complex-antilinear and real-linear, and
+  `H_u²` is complex-linear. All operator domains and codomains are stated explicitly.
+- The conserved mass and momentum are `Q(u) = ∑ₙ |û(n)|²` and `M(u) = ∑ₙ n |û(n)|²` (over
+  `n ≥ 0`), and the Hamiltonian is `E(u) = ∫ |u|⁴`. Write `D eₙ = n eₙ`.
+- The source's `M(N)` consists of the reduced fractions `A/B` with `deg A ≤ N − 1`, `deg B ≤ N`,
+  `B(0) = 1`, and either `deg A = N − 1` or `deg B = N`, with `A`, `B` coprime and `B` without
+  zero on the closed unit disk. The rank is the complex dimension of the range of `H_u`.
+  `M̃(N) = {u ∈ M(N + 1) : 1 ∈ range(H_u)}`.
+- A solution is continuous with values in `H^(1/2)₊`, and its time derivative in the equation is an
+  `L²`-valued derivative. Differentiability in `H^(1/2)` is never asserted.
 
 ## Exact supplier contracts
 
-### Mathlib
+**From Mathlib.** `fourier`, `fourierCoeff`, `fourierBasis` and `span_fourierLp_closure_eq_top` in
+`Mathlib/Analysis/Fourier/AddCircle.lean` supply the normalized Fourier coefficients and the
+circle basis. `Lp ℂ 2`, `lp` at exponent `2`, Parseval and the Hilbert-space inner product supply
+the circle and sequence carriers. `Submodule.orthogonalProjectionOnto` supplies the projection onto
+the Hardy subspace. `ContinuousLinearMap.holderL` supplies only the products whose `L^p` exponents
+meet its hypotheses; it does not prove the endpoint `H^(1/2)` estimates.
 
-- `fourier`, `fourierCoeff`, `fourierBasis`, and
-  `span_fourierLp_closure_eq_top` in
-  `Mathlib/Analysis/Fourier/AddCircle.lean` supply normalized Fourier
-  coefficients, the circle basis and density.
-- `Lp ℂ 2`, `lp` at exponent \(2\), Parseval and the Hilbert-space inner
-  product supply the circle and sequence carriers. The weighted coefficient
-  equivalence above is constructed here.
-- `Submodule.orthogonalProjectionOnto` supplies projection onto the closed
-  Hardy subspace. `ContinuousLinearMap.holderL` supplies only those products
-  whose stated \(L^p\) exponents meet its hypotheses; it does not by itself
-  prove the endpoint \(H^{1/2}\) estimates.
+**From Tau Ceti.** `TauCeti/Analysis/Fourier/Hardy/Basic.lean` supplies `TauCeti.hardySubmodule`,
+`TauCeti.HardySpace`, `TauCeti.hardyBasis`, `TauCeti.hardyBasis_repr` and the orthogonal
+projection. `TauCeti.hankel` in `TauCeti/Analysis/Fourier/Hardy/Hankel.lean` is complex-linear into
+the negative-frequency complement, and is not the source's `H_u`. `TauCeti.toeplitz`,
+`TauCeti.norm_toeplitz` and `TauCeti.isCompactOperator_toeplitz_comp_sub_toeplitz_toLp` are
+consumed only for the symbols and operator types they state. The operator-ideal API supplies the
+Hilbert–Schmidt and trace-class families, including `TauCeti.OperatorIdealFamily.hilbertSchmidt`,
+adjoints, ideal bounds and compactness.
 
-### Tau Ceti and roadmap dependencies
+**From ToeplitzOperators and OperatorIdeals.** Nothing beyond the Tau Ceti declarations above: this
+roadmap depends on those contracts and on no change to Mathlib.
 
-- The current Tau Ceti Fourier/Hardy implementation supplies circle Fourier
-  and Hardy operations: `TauCeti.hardySubmodule`, `TauCeti.HardySpace`,
-  `TauCeti.hardyBasis`, and its orthogonal projection are in
-  `TauCeti/Analysis/Fourier/Hardy/Basic.lean`. Its `TauCeti.hankel` in
-  `TauCeti/Analysis/Fourier/Hardy/Hankel.lean` is complex-linear into the
-  negative-frequency complement, not the source's antilinear \(H_u\).
-  `TauCeti.toeplitz`, `TauCeti.norm_toeplitz`, and
-  `TauCeti.isCompactOperator_toeplitz_comp_sub_toeplitz_toLp` are part of the
-  existing `TauCeti/Analysis/Fourier/Hardy` API. Consume them only for the
-  symbols and operator types they state.
-- The current operator-ideal API supplies Hilbert–Schmidt and trace-class
-  families, including `TauCeti.OperatorIdealFamily.hilbertSchmidt`, adjoints,
-  ideal bounds and compactness. Use the Hilbert–Schmidt family for the
-  column-energy formula below; the source-specific antilinear \(H_u\) still
-  needs its own real-linear construction and comparison.
-- `OperatorTheory/ToeplitzOperators` owns the Hardy subspace, Fourier unitary,
-  projection and Toeplitz operators. `OperatorTheory/OperatorIdeals` owns the
-  general Hilbert–Schmidt and trace-class theory. This roadmap depends on those
-  contracts, not on changes to Mathlib.
-- No dependency is placed on the open Dirac/scattering PR: its upper-half-plane
-  Hardy and scattering carriers do not supply the circle equation.
+## How to read the build
 
-## Layer 1: the circle Hardy and \(H^{1/2}\) carriers
+Layer 1 builds the weighted `H^(1/2)` carrier, the Trudinger estimate and the cubic vector field.
+Layer 2 proves the Cauchy theory and the global flow, with the conservation laws. Layer 3 builds
+the antilinear Hankel operator, its Hilbert–Schmidt identity, the Lax equation and the invariants
+`J_n`. Layer 4 proves the finite-rank manifolds `M(N)` invariant and the hierarchy completely
+integrable there. Layer 5 solves the flow on `M̃(1)` explicitly and proves the Sobolev norm
+growth.
 
-Build the weighted coefficient representation and its continuous inclusion
-into \(H^2_+\). Prove the coefficient formula for \(\Pi\), Parseval, completeness
-and compatibility with the native circle \(L^2\) carrier. Prove the
-Trudinger-type estimate
-\[
-  \|u\|_{L^p(S^1)} \leq C\sqrt p\,\|u\|_{H^{1/2}}
-  \qquad(2\leq p<\infty),
-\]
-with a constant independent of \(p\). Establish the multiplication and
-projection bounds needed to interpret \(u\mapsto\Pi(|u|^2u)\) as an \(L^2\)
-vector field on \(H^{1/2}_+\), and its local Lipschitz estimates in \(H^s_+\)
-for \(s>1/2\).
+## Layer 1: the circle Hardy and `H^(1/2)` carriers
+
+### 1.1 The weighted carrier
+
+Define `IsH12 u` and `h12NormSq u` on the Hardy space as the convergence and the value of
+`∑ₙ (n + 1) |û(n)|²`, with `û(n)` the Hardy coefficient `TauCeti.hardyBasis.repr u n`. Prove the
+continuous inclusion of `H^(1/2)₊` into `H²₊`, completeness, and compatibility with the native
+circle `L²` carrier `CircleL2`. The coefficient formula for `Π` and Parseval come from the
+suppliers.
+
+*Needs:* Mathlib Fourier basis; `TauCeti.hardyBasis`, `TauCeti.hardyBasis_repr`.
 
 **Checks.**
 
-- \(e_n\) has \(H^{1/2}\)-norm squared \(n+1\); in particular \(e_0\) and
-  \(e_1\) have squared norms \(1\) and \(2\).
-- \(\Pi(e_{-1})=0\), \(\Pi(e_0)=e_0\), and \(\Pi(e_1)=e_1\).
-- The cubic term is \(L^2\)-valued for every \(H^{1/2}\) input; do not infer
-  that it is \(H^{1/2}\)-valued.
+- `eₙ` has `h12NormSq` equal to `n + 1`; in particular `e₀` and `e₁` have `1` and `2`.
+- `Π(e₋₁) = 0`, `Π(e₀) = e₀` and `Π(e₁) = e₁`.
+- A function with `û(n) = 1 / (n + 1)` has `h12NormSq = ∑ 1 / (n + 1)`, which diverges, so
+  it is in `H²₊` and not in `H^(1/2)₊`.
 
-*Source:* Gérard–Grellier, §2, pp. 768–770 and Appendix 3, §10.3,
-pp. 808–809.
+### 1.2 The Trudinger estimate
+
+Prove `‖u‖_(L^p) ≤ C √p ‖u‖_(H^(1/2))` for `2 ≤ p < ∞`, with `C` independent of `p`
+(Gérard–Grellier, Appendix 3, §10.3, pp. 808–809).
+
+*Needs:* §1.1; Mathlib `Lp` interpolation and Hölder.
+
+**Checks.**
+
+- On `u = eₙ` the `L^p` norm is `1`, so the bound holds with room, as `√(n + 1) ≥ 1`.
+- For `u = c e₀` both sides are proportional to `|c|`: the estimate is homogeneous of degree one.
+
+### 1.3 The cubic vector field
+
+Define the relation `IsCubicField u v`, that `v` is the Hardy projection of `|u|² u`, by equality of
+all Fourier coefficients, so that no product in `L²` has to be formed. Prove that every
+`u ∈ H^(1/2)₊`
+has such a `v ∈ H²₊`, that the field is `L²`-valued and not `H^(1/2)`-valued, and that it is locally
+Lipschitz on `H^s₊` for `s > 1/2`.
+
+*Needs:* §1.2; `Lp` product bounds.
+
+**Checks.**
+
+- `u = e₀` gives `v = e₀`, and `u = eₙ` gives `v = eₙ` since `Π(|eₙ|² eₙ) = eₙ`.
+- `u = c e₀` gives `v = |c|² c e₀`.
+- `u = e₀ + e₁` has `|u|² u = 3 + 3z + z² + z̄`, since `|1 + z|² = 2 + z + z̄`; the projection drops
+  `z̄` and gives `v = 3 e₀ + 3 e₁ + e₂`.
+
+### Examples
+
+The single-mode data `c e₀` and `eₙ`, whose fields are computed in §1.3.
+
+### Dependencies
+
+Mathlib circle Fourier basis; `TauCeti.hardyBasis`; ToeplitzOperators for the normalized `H²₊`.
 
 ## Layer 2: the Cauchy problem and global flow
 
-For \(s>1/2\), prove local well-posedness in \(H^s_+\) by the locally
-Lipschitz cubic vector field. Prove conservation of \(Q\), \(M\), and the
-Hamiltonian
-\[
-  E(u)=\int_{S^1}|u|^4.
-\]
-Use \(Q+M=\|u\|_{H^{1/2}}^2\), the Brezis–Gallouët estimate and Grönwall to
-continue every \(H^s\) solution globally.
+### 2.1 Local well-posedness in `H^s₊`, `s > 1/2`
 
-For initial data in \(H^{1/2}_+\), construct global weak solutions by
-approximation from \(H^s_+\), prove uniqueness using the Trudinger estimate,
-and show strong continuity and continuous dependence in \(H^{1/2}_+\).
-Prove the group law and time reversal for the resulting global flow. The
-headline target is the source's Theorem 2.1: for every \(u_0\in H^{1/2}_+\)
-there is a unique \(u\in C(\mathbb R,H^{1/2}_+)\) solving the equation with
-\(u(0)=u_0\); the flow map is continuous, and \(H^s_+\) regularity persists
-for \(s>1/2\).
+Prove local well-posedness by the locally Lipschitz cubic vector field of §1.3
+(Gérard–Grellier, §2, pp. 768–770).
+
+*Needs:* §1.3.
 
 **Checks.**
 
-- For \(u_0=c e_0\), \(u(t)=c\,e^{-i|c|^2t}e_0\).
-- For \(u_0=e_n\), \(u(t)=e^{-it}e_n\), since \(\Pi(|e_n|^2e_n)=e_n\).
-- \(Q+M\) is preserved. Use this equality, not \(Q\) alone, as the
-  \(H^{1/2}\) bound.
-- State the \(H^{1/2}\) uniqueness argument for weak solutions; a uniqueness
-  proof only for \(s>1/2\) does not discharge the headline theorem.
+- For `u₀ = c e₀`, `u(t) = c e^(−i |c|² t) e₀`.
+- For `u₀ = eₙ`, `u(t) = e^(−i t) eₙ`.
 
-*Source:* Gérard–Grellier, Theorem 2.1, pp. 768–770; the Brezis–Gallouët
-estimate is Appendix 2, §10.2, pp. 807–808.
+### 2.2 Conservation laws and global flow in `H^s₊`
+
+Prove the conservation of `Q`, `M` and `E`. Use `Q + M = ‖u‖²_(H^(1/2))`, the Brezis–Gallouët
+estimate (Appendix 2, §10.2, pp. 807–808) and Grönwall to continue every `H^s₊` solution, `s > 1/2`,
+globally.
+
+*Needs:* §2.1.
+
+**Checks.**
+
+- `Q + M` is preserved; use this equality, not `Q` alone, as the `H^(1/2)` bound.
+- For `u₀ = e₁`, `Q = 1`, `M = 1` and `E = 1` stay constant along `e^(−i t) e₁`.
+
+### 2.3 The global flow in `H^(1/2)₊`
+
+For every `u₀ ∈ H^(1/2)₊` there is a unique `u ∈ C(ℝ, H^(1/2)₊)` solving the equation with
+`u(0) = u₀` (`IsSolution`, `existsUnique_solution`); the flow map is continuous, `H^s₊` regularity
+persists for `s > 1/2`, and `Q + M` is constant (`h12NormSq_solution`). Construct weak solutions by
+approximation from `H^s₊`, prove uniqueness using the Trudinger estimate, and prove strong
+continuity and continuous dependence (Gérard–Grellier, Theorem 2.1, pp. 768–770).
+
+*Needs:* §§1.2, 2.2.
+
+**Checks.**
+
+- State the `H^(1/2)` uniqueness argument for weak solutions: a uniqueness proof only for
+  `s > 1/2` does not discharge the theorem.
+- For `u₀ = eₙ` the unique solution is `e^(−i t) eₙ`, with `h12NormSq = n + 1` constant.
+- The flow is a group: `Φ_(t + s) = Φ_t ∘ Φ_s`, and `Φ_(−t)` is the inverse of `Φ_t`.
+
+### Examples
+
+`c e₀` and `eₙ` of §2.1 are the global solutions with data in every `H^s₊`.
+
+### Dependencies
+
+§§1.3 and 1.2; the Gérard–Grellier Cauchy theory.
 
 ## Layer 3: analytic Hankel operators and the Lax pair
 
-For \(u\in H^{1/2}_+\), define the real-linear operator
-\[
-  H_u:H^2_+\to H^2_+,\qquad H_u(h)=\Pi(u\overline h).
-\]
-Prove complex-antilinearity, symmetry for the real inner product, and the
-Fourier formula
-\[
-  \widehat{H_u h}(k)=\sum_{\ell\geq0}\widehat u(k+\ell)
-       \overline{\widehat h(\ell)}.
-\]
-Show that \(H_u\) is Hilbert–Schmidt and
-\[
-  \|H_u\|_{\mathrm{HS}}^2
-    =\sum_{n\geq0}(n+1)|\widehat u(n)|^2=Q(u)+M(u).
-\]
-Prove the product identity, with the exact operator order,
-\[
-  H_{\Pi(|u|^2u)}
-    =T_{|u|^2}H_u+H_uT_{|u|^2}-H_u^3.
-\]
-For \(u\in C(\mathbb R,H^s_+)\), \(s>1/2\), prove the Lax equation
-\[
-  \partial_tH_u=[B_u,H_u],\qquad
-  B_u=\frac{i}{2}H_u^2-iT_{|u|^2},
-\]
-and prove \(B_u\) is skew-adjoint in the real Hilbert-space formulation.
-Integrate the operator equation to unitary equivalence of \(H_{u(t)}\) and
-\(H_{u(0)}\). Define
-\[
-  J_n(u)=\langle 1,H_u^n1\rangle
-\]
-in Mathlib's conjugate-linear-first convention, and derive the source's
-identities \(dJ_{2k}/dt=0\) and \(i\,dJ_{2k-1}/dt=J_{2k+1}\) from the Lax
-commutator and \(B_u(1)=-\frac{i}{2}H_u^2(1)\). Use isospectrality for
-singular-value and trace consequences, not as the sole proof of conservation
-of \(J_{2k}\). Specify the real/complex scalar structures at each step; the
-antilinear \(H_u\) is not a complex-linear operator on \(H^2_+\).
+### 3.1 The antilinear Hankel operator
+
+For `u ∈ H^(1/2)₊` define the real-linear operator `H_u : H²₊ → H²₊`, `H_u h = Π(u conj(h))`.
+Prove complex-antilinearity, symmetry for the real inner product, and the Fourier formula
+`(H_u h)^(k) = ∑_(ℓ ≥ 0) û(k + ℓ) conj(ĥ(ℓ))`. Specify the real and complex scalar structures at
+each
+step; `H_u` is not a complex-linear operator on `H²₊`.
+
+*Needs:* §1.1; `TauCeti.hankel` (compared, not reused).
 
 **Checks.**
 
-- For \(u=e_0\), \(H_u\) has rank one and Hilbert–Schmidt norm squared \(1\).
-- For \(u=e_1\), \(H_u\) has rank two and Hilbert–Schmidt norm squared \(2\).
-- The source identity has the order
-  \(T_{|u|^2}H_u+H_uT_{|u|^2}-H_u^3\); changing the order or the last sign
-  fails on finite Fourier sums.
-- Along smooth solutions the singular values are constant by isospectrality;
-  the even \(J_{2n}\) are constant by the Lax identity and the evolution of
-  \(1\).
-- \(J_2=Q\) and \(J_4=(E+Q^2)/2\).
+- `H_u` for `u = e₀` has rank one, and for `u = e₁` rank two.
+- `H_u(e₀) = u` for every `u`, since `conj(e₀) = 1` and `Π u = u`; in the matrix `û(j + k)` this is
+  the first column.
+- Tau Ceti's `TauCeti.hankel` is complex-linear in its argument `h`, while here
+  `H_u(i h) = −i H_u(h)` and `H_(i u)(h) = i H_u(h)`.
 
-*Source:* Gérard–Grellier, Theorem 3.1, pp. 770–772; Corollaries 1–3,
-pp. 772–773.
+### 3.2 The Hilbert–Schmidt identity
+
+Show that `H_u` is Hilbert–Schmidt with `‖H_u‖²_HS = ∑ₙ (n + 1) |û(n)|² = Q(u) + M(u)`; the matrix
+form is `hankel_summable_sq`: the sum of `|û(j + k)|²` over `(j, k) ∈ ℕ²` is `h12NormSq u`, because
+exactly `n + 1` pairs have `j + k = n`.
+
+*Needs:* §3.1; `TauCeti.OperatorIdealFamily.hilbertSchmidt`.
+
+**Checks.**
+
+- For `u = e₀` the value is `1`, and for `u = e₁` it is `2`.
+- For `û(n) = 1 / (n + 1)` the sum over pairs is `∑ 1 / (n + 1)`, which diverges, matching `1.1`.
+
+### 3.3 The product identity and the Lax equation
+
+Prove, with the exact operator order, `H_(Π(|u|² u)) = T_(|u|²) H_u + H_u T_(|u|²) − H_u³`. For
+`u ∈ C(ℝ, H^s₊)`, `s > 1/2`, prove `∂ₜ H_u = [B_u, H_u]` with `B_u = (i/2) H_u² − i T_(|u|²)`, and
+that `B_u` is skew-adjoint in the real Hilbert-space formulation (Gérard–Grellier, Theorem 3.1,
+pp. 770–772).
+
+*Needs:* §§2.2, 3.1, 3.2; `TauCeti.toeplitz`.
+
+**Checks.**
+
+- Changing the order or the last sign of the product identity fails on finite Fourier sums.
+- For `u = e₀`, `u(t) = e^(−i t) e₀`, so `∂ₜ H_u = −i H_u`; and `H_u² = P₀` (the projection onto
+  the constants), `B_u = (i/2) P₀ − i`, which is skew-adjoint, and `[B_u, H_u] = −i H_u`.
+
+### 3.4 Isospectrality and the invariants `J_n`
+
+Integrate the Lax equation to the unitary equivalence of `H_(u(t))` and `H_(u(0))`. Define
+`J_n(u) = ⟨1, H_uⁿ 1⟩` and derive `dJ_(2k)/dt = 0` and `i dJ_(2k−1)/dt = J_(2k+1)` from the
+Lax commutator and `B_u(1) = −(i/2) H_u²(1)`. Use isospectrality for singular-value and trace
+consequences, not as the sole proof of the conservation of `J_(2k)` (Corollaries 1–3, pp. 772–773).
+
+*Needs:* §3.3.
+
+**Checks.**
+
+- `J₂ = Q` and `J₄ = (E + Q²) / 2`.
+- Along smooth solutions the singular values are constant, and the even `J_(2n)` are constant.
+
+### Examples
+
+`u = e₀` (rank one, `Q = 1`, `M = 0`) and `u = e₁` (rank two, `Q = 1`, `M = 1`) of §3.1.
+
+### Dependencies
+
+§§2.2, 3.1–3.3; ToeplitzOperators and OperatorIdeals.
 
 ## Layer 4: finite-rank manifolds and commuting Hamiltonians
 
-For \(N\geq1\), define \(M(N)\) by the rational functions in the conventions.
-Prove that \(M(N)\) is a smooth complex manifold of dimension \(2N\) and that
-its elements are exactly the symbols for which \(H_u\) has complex rank \(N\).
-Prove invariance of \(M(N)\) under the cubic flow from the Lax equation.
-Write the reduced ODE in rational coordinates on the locus of distinct poles,
-and prove compatibility across the charts where poles collide.
+### 4.1 The manifolds `M(N)`
 
-Define the sequence \(J_n(u)=\langle 1,H_u^n1\rangle\), translating the
-paper's inner product to Mathlib's conjugate-linear-first convention. Prove
-that for \(s>1\) the Hamiltonian vector fields of \(J_{2n}\) generate global
-flows on \(H^s_+\), their Hankel operators have Lax equations, and
-\[
-  \{J_{2n},J_{2p}\}=0.
-\]
-Prove the source's genericity statements: outside closed measure-zero subsets,
-\(J_2,J_4,\ldots,J_{4N}\) are independent on \(M(N)\), and the restricted
-Hamiltonian flow is Liouville integrable. Prove that \(\widetilde M(N)\) is
-the corresponding complex manifold of dimension \(2N+1\), and that outside a
-closed measure-zero subset \(J_2,J_4,\ldots,J_{4N+2}\) are independent there,
-the separate \(2N+1\)-integral count. Deduce quasi-periodicity for generic
-initial data in both manifolds; do not conflate the two dimension counts.
+Prove that `M(N)` is a smooth complex manifold of dimension `2N` whose elements are exactly the
+symbols for which `H_u` has complex rank `N` (Kronecker's theorem; its converse accounts for zero
+poles and repeated poles, not only the generic chart), and that `M(N)` is invariant under the
+cubic flow by the Lax equation (Theorem 4.1, pp. 773–775). Write the reduced ODE in rational
+coordinates on the locus of distinct poles and prove compatibility across the pole collisions.
 
-The rank criterion uses the finite-rank Hankel/Kronecker theorem. Its converse
-must account for zero poles and repeated poles, not only the generic chart.
-The invariant manifold and integrability targets are the source's Theorems
-4.1 and 1.2, with the commuting and independence proofs in §8. The global
-hierarchy flows and Poisson commutation are Corollary 8; generic independence
-and quasi-periodicity are Corollary 9.
+*Needs:* §§3.3, 3.4.
 
 **Checks.**
 
-- \(M(1)\) contains the nonzero constants and has Hankel rank one.
-- Rank \(N\) means complex rank \(N\), not real rank \(N\); the operator is
-  antilinear over \(\mathbb C\).
-- The rank-two symbol \(z\) lies in \(M(2)\), not \(M(1)\).
-- On the generic rational chart
-  \(u(z)=\sum_{j=1}^N\alpha_j/(1-p_jz)\), the reduced equations preserve
-  distinct-pole coordinates' rational-function class and all source
-  invariants.
+- `M(1)` contains the nonzero constants and has Hankel rank one.
+- Rank `N` means complex rank `N`, not real rank `N`.
+- The symbol `z` has Hankel rank two, so it lies in `M(2)` and not in `M(1)`.
 
-*Source:* Gérard–Grellier, Theorem 4.1, pp. 773–775; Theorem 1.2, p. 766;
-§8, pp. 788–791; Proposition 11, Appendix 4, pp. 809–810.
+### 4.2 The commuting hierarchy
 
-## Layer 5: explicit \(\widetilde M(1)\) dynamics and Sobolev norm growth
+For `s > 1` prove that the Hamiltonian vector fields of `J_(2n)` generate global flows on `H^s₊`,
+have
+Lax equations, and that `{J_(2n), J_(2p)} = 0` (Corollary 8, §8, pp. 788–791).
 
-Define \(\widetilde M(1)\) using the preceding invariant-manifold layer and
-prove that its elements have the source's form
-\[
-  u(z)=\frac{az+b}{1-pz},\qquad a,b,p\in\mathbb C,\quad
-  a\ne0,\quad |p|<1,\quad a+bp\ne0.
-\]
-Derive the finite-dimensional ODE and its conserved quantities. Solve it
-explicitly, including the stationary case and the oscillation of \(|p(t)|\)
-in the nonstationary case. Prove the exact extrema of \(|p(t)|\) from the
-invariants and use them to bound the \(H^s\) norm on each fixed trajectory
-for \(s>1/2\).
-
-Then prove the source's instability statement: there are smooth initial data
-\(u_0^\epsilon\in\widetilde M(1)\), \(0<\epsilon<1\), converging in
-\(C^\infty(S^1)\) to \(z\) and times \(t_\epsilon\to\infty\) such that, for
-every \(s>1/2\),
-\[
-  \|u^\epsilon(t_\epsilon)\|_{H^s}\longrightarrow\infty
-  \quad\text{as }\epsilon\to0.
-\]
-Establish the source's explicit example \(u_0^\epsilon=z+\epsilon\), the
-time \(t_\epsilon=\pi/(\epsilon\sqrt{4+\epsilon^2})\), and the bound
-\(\|u^\epsilon(t_\epsilon)\|_{H^s}\geq K_s t_\epsilon^{2s-1}\) for each fixed
-\(s>1/2\) and sufficiently small \(\epsilon\), with the source's quantifiers.
-This is growth across a family of trajectories; also prove the source's bound
-on each individual trajectory so the two assertions are not confused.
+*Needs:* §§3.4, 4.1.
 
 **Checks.**
 
-- For the stationary branch \(u_0=a(z-p)/(1-\overline p z)\), \(a\ne0\), the
-  solution is \(e^{-iQt}u_0\) and \(|u_0|^2=Q\) on the circle.
-- For \(u_0^\epsilon=z+\epsilon\), the data converge to \(z\) in every
-  \(C^k\) norm, while the selected times tend to infinity and the \(H^s\)
-  norms tend to infinity for each fixed \(s>1/2\).
-- Do not conclude that one initial datum has an unbounded \(H^s\) orbit from
-  this family statement.
+- `{J₂, J₄} = 0`, matching the conservation of `Q` and `E` of §2.2.
 
-*Source:* Gérard–Grellier, Theorem 1.3, pp. 766–767; Proposition 7 and
-Corollary 5, §6, pp. 783–785.
+### 4.3 Genericity and Liouville integrability
 
-## Dependencies and ordering
+Prove that outside closed measure-zero subsets `J₂, J₄, …, J_(4N)` are independent on `M(N)` and the
+restricted flow is Liouville integrable; that `M̃(N)` is a complex manifold of dimension `2N + 1`
+and that outside a closed measure-zero subset `J₂, …, J_(4N+2)` are independent there. Deduce
+quasi-periodicity for generic initial data in both manifolds, without conflating the two dimension
+counts (Theorem 1.2, p. 766; Corollary 9).
 
-1. Use Mathlib's circle Fourier basis and projection, and
-   `OperatorTheory/ToeplitzOperators`'s normalized \(H^2_+\) carrier before
-   the weighted \(H^{1/2}\) construction.
-2. The \(H^{1/2}\) estimates and global Cauchy theorem precede the
-   Hilbert–Schmidt formula and the flow-level Lax equation.
-3. The Hankel rank criterion precedes rational manifolds; Lax isospectrality
-   proves their invariance.
-4. The conserved hierarchy and symplectic structure precede finite-dimensional
-   Liouville integrability.
-5. The \(\widetilde M(1)\) chart and reduced ODE precede explicit dynamics and
-   Sobolev norm growth.
+*Needs:* §4.2.
 
-Every item above is a required target. No target is conditional on upstream
-Mathlib work; use Mathlib's existing carriers and vocabulary, and keep Tau
-Ceti's implementation in Tau Ceti.
+**Checks.**
+
+- On `M(1)`, of real dimension `4`, there are `2` independent integrals `J₂` and `J₄`, as in a
+  Liouville-integrable system.
+- On the generic chart `u(z) = ∑_(j=1..N) αⱼ / (1 − pⱼ z)` the reduced equations preserve the
+  rational-function class and all source invariants.
+
+### Examples
+
+`M(1)`, whose elements are `α / (1 − p z)`.
+
+### Dependencies
+
+§§3.3, 3.4 and the manifold structure of `M(N)`.
+
+## Layer 5: explicit `M̃(1)` dynamics and Sobolev norm growth
+
+### 5.1 The manifold `M̃(1)` and its ODE
+
+Define `M̃(1)` through Layer 4 and prove that its elements are `u(z) = (a z + b) / (1 − p z)` with
+`a, b, p ∈ ℂ`, `a ≠ 0`, `|p| < 1` and `a + b p ≠ 0`. Derive the finite-dimensional ODE and its
+conserved quantities.
+
+*Needs:* §§4.1, 4.3.
+
+**Checks.**
+
+- `M̃(1)` has complex dimension `3`, with coordinates `(a, b, p)`.
+- For `a + b p = 0` the symbol is a constant, which is in `M(1)`, not in `M̃(1)`.
+- The numerator root `−b / a` and the denominator root `1 / p` coincide exactly when `a + b p = 0`,
+  so for `a + b p ≠ 0` the fraction is reduced of degree `(1, 1)` and lies in `M(2)`.
+
+### 5.2 Explicit solutions
+
+Solve the ODE explicitly, including the stationary case and the oscillation of `|p(t)|` in the
+nonstationary case. Prove the exact extrema of `|p(t)|` from the invariants and use them to bound
+the `H^s₊` norm on each fixed trajectory, `s > 1/2` (Proposition 7, §6, pp. 783–785).
+
+*Needs:* §5.1.
+
+**Checks.**
+
+- For the stationary branch `u₀ = a (z − p) / (1 − conj(p) z)`, `a ≠ 0`, the solution is
+  `e^(−i Q t) u₀` and `|u₀|² = Q` on the circle.
+
+### 5.3 Sobolev norm growth
+
+Prove the source's statement: there are smooth data `u₀^ε ∈ M̃(1)`, `0 < ε < 1`, converging in
+`C^∞(S¹)` to `z`, and times `t_ε → ∞` such that `‖u^ε(t_ε)‖_(H^s) → ∞` as `ε → 0` for every
+`s > 1/2`. The explicit example is `u₀^ε = z + ε`, `t_ε = π / (ε √(4 + ε²))`, with
+`‖u^ε(t_ε)‖_(H^s) ≥ K_s t_ε^(2s − 1)` for each fixed `s > 1/2` and sufficiently small `ε`
+(`norm_growth`; Theorem 1.3, pp. 766–767, Corollary 5, §6.2, pp. 784–785). This is growth across a
+family of trajectories; the bound on each individual trajectory of §5.2 is proved separately so
+the two assertions are not confused.
+
+*Needs:* §§2.3, 5.2.
+
+**Checks.**
+
+- For `u₀^ε = z + ε` the data converge to `z` in every `C^k` norm, while `t_ε → ∞` and the `H^s`
+  norms tend to infinity for each fixed `s > 1/2`.
+- Do not conclude that one initial datum has an unbounded `H^s₊` orbit from this family statement.
+- For `s = 1/2` the exponent `2s − 1` is `0`, and the bound is trivial, since `‖u(t)‖_(H^(1/2))` is
+  conserved.
+
+### Examples
+
+`z + ε`, the data of §5.3.
+
+### Dependencies
+
+§§2.3, 4.3, 5.1 and 5.2.
+
+## Downstream consumers
+
+None known on main or in the open pull requests.
 
 ## References
 
 - P. Gérard and S. Grellier, [*The cubic Szegő equation*](https://doi.org/10.24033/asens.2133),
-  *Annales scientifiques de l'École Normale Supérieure*, Série 4, 43(5)
-  (2010), 761–810. The article and PDF are available from
-  [Numdam](https://www.numdam.org/articles/10.24033/asens.2133/). Theorem
-  locators in this roadmap refer to the published pagination: Theorem 2.1,
-  pp. 768–770; Theorem 3.1, pp. 770–772; Theorem 4.1, pp. 773–775;
-  Theorem 1.2, p. 766 and §8, pp. 788–791; Theorem 1.3, pp. 766–767 and
-  §6.2, pp. 784–785.
-- Theorems using the Hardy, Toeplitz, Fourier or operator-ideal carriers also
-  consume the supplier contracts named under [Exact supplier contracts](#exact-supplier-contracts);
-  the paper's conventions for \(H_u\), the circle Fourier coefficients and
-  the \(H^{1/2}\) norm control every adapter.
+  *Annales scientifiques de l'École Normale Supérieure*, Série 4, 43(5) (2010), 761–810; available
+  from [Numdam](https://www.numdam.org/articles/10.24033/asens.2133/). Locators refer to the
+  published pagination: Theorem 2.1, pp. 768–770; Theorem 3.1, pp. 770–772; Theorem 4.1,
+  pp. 773–775; Theorem 1.2, p. 766, and §8, pp. 788–791; Theorem 1.3, pp. 766–767, and §6.2,
+  pp. 784–785.
