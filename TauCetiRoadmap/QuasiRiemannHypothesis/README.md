@@ -13,14 +13,14 @@ half-planes and the continuation principle for an abstract family of Euler produ
 symbols as ray class characters over any number field containing `μ_n`, reciprocity and Gauss sums
 at composite moduli of `ℤ[ω]`; smooth Mellin and Fourier kernels; uniform analytic bounds and zero
 detection for the finite-order Hecke `L`-functions of any number field; large sieves over number
-fields (additive, quadratic and `n`-th order); Kubota's character, Eisenstein series with a
-unitary character on `ℍ³` and their theta residues, with Patterson's cubic theta function of `ℚ(ω)`;
-and the transfer of half-planes from the Hecke `L`-functions of an abelian field to all Dirichlet
-`L`-functions. The end theorems are the `11/12` half-plane, the zero strip `1/12 ≤ Re ρ ≤ 11/12`
-for primitive characters, the conditional bound `(log q)^(1/(1−θ))` for the least character value
-different from `0` and `1` under a zero-free half-plane `Re s > θ`, and its instance: the least
-quadratic nonresidue modulo an odd prime `p` is at most `C (log p)^12`, which proves Vinogradov's
-conjecture `n(p) ≪_δ p^δ`.
+fields (additive, quadratic and `n`-th order); Eisenstein series with a unitary character on `ℍ³`,
+Kubota's character among them, and their theta residues, with Patterson's cubic theta function of
+`ℚ(ω)`; and the transfer of half-planes from the Hecke `L`-functions of an abelian field to all
+Dirichlet `L`-functions. The end theorems are the `11/12` half-plane, the zero strip
+`1/12 ≤ Re ρ ≤ 11/12` for primitive characters, the conditional bound `(log q)^(1/(1−θ))` for the
+least character value different from `0` and `1` under a zero-free half-plane `Re s > θ`, and its
+instance: the least quadratic nonresidue modulo an odd prime `p` is at most `C (log p)^12`, which
+proves Vinogradov's conjecture `n(p) ≪_δ p^δ`.
 
 Suggested home: `TauCeti/NumberTheory/QuasiRiemann/`, divided into `ZeroFree/`, `PowerResidue/`,
 `GaussSum/`, `SmoothProfile/`, `HeckeAnalytic/`, `LargeSieve/`, `ZeroDetection/`, `Kubota/`,
@@ -58,8 +58,11 @@ numerical constant of Layer 10 is a closed-form rational inequality stated with 
 - finite Euler products at the primes of a squarefree ideal, the strip bound `(Q (3 + |t|)^d)^(3/5)`
   (the instance of ExplicitZetaBounds §3.2 at the Hecke records, with the pole of `ζ_K` cleared) and
   bounds for `L`, `1/L` and `L'/L` in a zero-free disc for the finite-order Hecke `L`-functions of any
-  number field, the norm-composed characters of an abelian field, the base-change factorization and the
-  transfer of zero-free half-planes to Dirichlet `L`-functions (Layer 5); LFunctions Layer 4 factors
+  number field, the norm-composed characters of an abelian field, the `S`-deleted base-change
+  factorization over an abelian `K` (AnalyticNumberTheoryPartI §2.18a's induction identity for the
+  restriction `σ` of `χ` to `Gal(ℚ̄/K)`, split by `Ind σ = ⊕_{ψ ∈ X(K)} χψ` and read on
+  `heckeLFunctionC` and Mathlib's Dirichlet `L`-functions) and the transfer of zero-free half-planes
+  to Dirichlet `L`-functions (Layer 5); LFunctions Layer 4 factors
   `ζ_K` itself over quadratic and cyclotomic `K`, and §5.4 here is the factorization of the twist by
   `χ ∘ N_{K/ℚ}` over every abelian `K`;
 - large sieves over number fields: the additive large sieve on a torus `ℝ^d/Λ`, the quadratic large
@@ -68,11 +71,11 @@ numerical constant of Layer 10 is a closed-form rational inequality stated with 
 - zero detection for finite-order Hecke `L`-functions: zero-free rectangles with a margin, chosen by
   pigeonhole, upper bounds for the detecting polynomials in them, and the lower bounds that a zero
   forces on those polynomials (Layer 7);
-- the Kubota character on congruence subgroups of `SL₂(𝓞_K)` for a totally imaginary `K ⊇ μ_n`,
-  automorphic functions on `ℍ³` with a unitary character, their Eisenstein series, continuation
-  and functional equations, the theta functions as residues, the Gauss-sum Dirichlet series of the
-  Kubota Eisenstein coefficients, Patterson's converse theorem and the cubic theta function of
-  `ℚ(ω)` with its expansions at three cusps (Layer 8);
+- Patterson's character `κ_P` of `Γ₂ ⊂ SL₂(𝓞_F)`, automorphic functions on `ℍ³` with a unitary
+  character, their Eisenstein series, continuation and functional equations, the theta functions as
+  residues, the Gauss-sum Dirichlet series of the Kubota Eisenstein coefficients, Patterson's
+  converse theorem and the cubic theta function of `ℚ(ω)` with its expansions at three cusps
+  (Layer 8);
 - the reflection of the completed Gauss-sum series through the cubic theta function, and their mean
   square over the frequencies (Layer 9);
 - the probe at `11/12` and the `11/12` half-plane (Layer 10);
@@ -95,13 +98,16 @@ numerical constant of Layer 10 is a closed-form rational inequality stated with 
 - Rademacher's convexity bound on records of finite-order type:
   [ExplicitZetaBounds](../ExplicitZetaBounds/README.md) §3.2; §5.2 here is its instance at the
   Hecke records `heckeData ψ`, written in `Q (3 + |t|)^d` with the pole of `ζ_K` cleared.
-- The `n`-th power residue symbol at primes and ideals, the Frobenius action on `n`-th roots, the
-  `n`-th Hilbert symbol at a place not dividing `n` and Hilbert's product formula, primary associates,
-  prime cubic reciprocity and the supplement at `1 − ω`:
+- The `n`-th power residue symbol at primes and ideals, the Frobenius action on `n`-th roots,
+  primary associates, prime cubic reciprocity and the supplement at `1 − ω`:
   [ClassicalArithmeticCompletion](../ClassicalArithmeticCompletion/README.md)
-  §§1.12, 1.23, 1.33, 1.34, 1.38, 1.43, 1.52, 1.72, 1.75, as Tau Ceti realizes them
+  §§1.12, 1.23, 1.33, 1.34, 1.38, 1.72, 1.75, as Tau Ceti realizes them
   (`Ideal.powerResidueSymbol`, `Ideal.powerResidueSymbolIdeal`,
   `TauCeti.IsPrimaryEisenstein.cubic_reciprocity`).
+- Mennicke symbols, Kubota's homomorphism `σ ↦ [b/a]` on `GL₂(A, I)` over a Dedekind domain, the
+  exponent `r(I)` and the power-residue Mennicke symbol `[b/a] = (b/a)_{r(I)}` of a totally imaginary
+  field: [KTheoryLowDegrees](../KTheoryLowDegrees/README.md) §§10.1–10.2, 11.1–11.2; §8.1 here reads
+  Kubota's normalization `(c/d)_n` as its `r(N)/n`-th power.
 - Global Artin reciprocity and ray class fields: [ClassFieldTheory](../ClassFieldTheory/README.md)
   Layers 11 and 13. Moduli, ray class groups and characters, conductors: Tau Ceti
   `TauCeti.GlobalNumberFields` ([GlobalNumberFields](../../Completed/GlobalNumberFields/README.md)
@@ -131,7 +137,9 @@ numerical constant of Layer 10 is a closed-form rational inequality stated with 
 - The characters of an abelian field: for `K ⊆ ℚ(ζ_f)` abelian over `ℚ`, the primitive characters
   inducing the `[K : ℚ]` Dirichlet characters modulo `f` trivial on the subgroup of `(ℤ/f)ˣ` fixing
   `K`, with `ζ_K(s) = ∏ L(s, χ*)`: [AnalyticNumberTheoryPartI](../AnalyticNumberTheoryPartI/README.md)
-  §2.42. §5.4 here calls this set `X(K)` and twists it by `χ ∘ N_{K/ℚ}`.
+  §2.42. §5.4 here calls this set `X(K)` and twists it by `χ ∘ N_{K/ℚ}`. Artin induction at every
+  finite place and the one-dimensional comparison with primitive Hecke `L`-functions:
+  AnalyticNumberTheoryPartI §2.18a.
 
 ### Not owned here
 
@@ -154,9 +162,9 @@ numerical constant of Layer 10 is a closed-form rational inequality stated with 
 - Theta functions and Eisenstein series with a Kubota character on `(ℍ³)^r` for totally imaginary
   fields of degree `2r > 2`: forms with a Kubota character are not automorphic forms of a reductive
   group, so their continuation is outside AutomorphicSpectralTheory §§1.15a–1.15c (Eisenstein series
-  of connected reductive groups), and no roadmap plans it; this roadmap states the Kubota character
-  for every totally imaginary `K ⊇ μ_n` and the analysis on `ℍ³` (imaginary quadratic `K`), which
-  is all the cubic theta function needs.
+  of connected reductive groups), and no roadmap plans it; this roadmap reads the Kubota character
+  for every totally imaginary `K ⊇ μ_n` off KTheoryLowDegrees §§10.2 and 11.2 (§8.1) and states the
+  analysis on `ℍ³` (imaginary quadratic `K`), which is all the cubic theta function needs.
 - Consequences for the counting of primes (`ψ(x) − x ≪ x^(11/12+ε)`, power savings in ray classes
   and abelian Chebotarev over `F`, `N(σ, T, χ) = 0` for `σ > 11/12`): Part IIs of
   ExplicitPrimeCounting, AnalyticNumberTheoryPartIII and ZerosOfLFunctions (Downstream consumers).
@@ -331,11 +339,20 @@ at `1` and `P(s) = 1` otherwise. Consumed in §5.2 at `η = 1/10` and the Hecke 
 
 §1.12 (primary Eisenstein integers, `≡ 2 mod 3`), §1.23 and §1.33 (the symbol at primes and at
 ideals prime to `n`), §1.34 (an arithmetic Frobenius acts on `n`-th roots by the symbol), §1.38 (every
-Eisenstein prime of norm other than `3` has exactly one primary associate), §1.43 (the degree-`n`
-Hilbert symbol `(a, b)_v = Art_v(a)(ⁿ√b)/ⁿ√b` at a finite place `v ∤ n` is
-`((−1)^(v(a)v(b)) b^(v(a)) a^(−v(b)) mod 𝔭_v / 𝔭_v)_n`), §1.52 (Hilbert's product formula
-`∏_v (a, b)_v = 1` for `a, b ∈ K^×`, complex places contributing `1`), §1.72 (cubic reciprocity at
-primes), §1.75 (Eisenstein's supplement at `1 − ω`).
+Eisenstein prime of norm other than `3` has exactly one primary associate), §1.72 (cubic reciprocity
+at primes), §1.75 (Eisenstein's supplement at `1 − ω`).
+
+### From TauCetiRoadmap.KTheoryLowDegrees
+
+§10.1 (a Mennicke symbol `[b/a] = s(a, b)` on the pairs with `a ≡ 1`, `b ≡ 0` modulo `I` and
+`aA + bA = A`: invariance under `b ↦ b + ta` for `t ∈ I` and under `a ↦ a + tb` for `t ∈ A`,
+multiplicativity in the numerator and in the denominator on such pairs, and the value `1` when the
+first entry is a unit), §10.2 (for a Dedekind domain `A`, `κ(g) = [b/a]`, read off the first row
+`(a, b)` of `g`, is a homomorphism on `GL₂(A, I)`, trivial on `E₂(A, I)` and on the congruence
+diagonal matrices, with `κ(gᵀ) = κ(g)⁻¹`), §11.1 (the exponent `r(I) = ∏_{p ∣ m} p^(j(I, p))` of a
+nonzero ideal `I` of the integers of a totally imaginary field with `m` roots of unity) and §11.2
+(`(b/a)_{r(I)}` is a Mennicke symbol at level `I`, surjective onto `μ_{r(I)}`), used in §8.1 through
+the first-row value `[b/a]`.
 
 ### From TauCetiRoadmap.ClassFieldTheory
 
@@ -395,7 +412,10 @@ prime `p`, and `0` otherwise.
 §2.42 (for `K/ℚ` abelian and `K ⊆ ℚ(ζ_f)`, with `H ⊆ (ℤ/f)ˣ` the `a` whose automorphism
 `ζ_f ↦ ζ_f^a` fixes `K`: the `[K : ℚ]` Dirichlet characters modulo `f` trivial on `H`, their primitive
 characters `χ*`, `Gal(K/ℚ) ≅ (ℤ/f)ˣ/H`, and `ζ_K(s) = ∏_χ L(s, χ*)` as meromorphic functions), used in
-§5.4 to name the set `X(K)`.
+§5.4 to name the set `X(K)`; §2.18a (for a finite extension `M/F` and a finite-image character `σ` of
+`Gal(F̄/M)`, `L_F(s, Ind σ) = L_M(s, σ)` on `Re s > 1`, with local factors on inertia invariants at
+every finite place; a one-dimensional Artin `L`-function is the primitive Hecke `L`-function of the
+character attached by global reciprocity), used in §5.4.
 
 ### From TauCetiRoadmap.AnalyticNumberTheoryPartIII
 
@@ -414,10 +434,11 @@ field to Dirichlet `L`-functions, and uses Layer 1 (§§1.1–1.2). Layers 6 (la
 (Kubota's character and theta functions) are self-contained supplier blocks: of this roadmap's
 layers, Layer 6 needs Layers 2–4 and Layer 8 needs Layers 2 and 4; beyond them Layer 6 uses the
 Hecke functional equation of LFunctions Layer 5 and Poisson summation (ThetaSeries Layer 1), and
-Layer 8 the Bianchi groups, the Laplacian on `ℍ³`, the `K`-Bessel function and analytic Fredholm
-continuation (BianchiModularForms, MaassForms, AutomorphicFormsOnReductiveGroups,
-AutomorphicSpectralTheory); neither needs Layers 7 or 9–11. Layer 7 detects zeros of Hecke
-`L`-functions by large values of short Dirichlet polynomials and needs Layers 1 (§1.2), 3 and 5.
+Layer 8 Kubota's homomorphism, the Bianchi groups, the Laplacian on `ℍ³`, the `K`-Bessel function
+and analytic Fredholm continuation (KTheoryLowDegrees, BianchiModularForms, MaassForms,
+AutomorphicFormsOnReductiveGroups, AutomorphicSpectralTheory); neither needs Layers 7 or 9–11.
+Layer 7 detects zeros of Hecke `L`-functions by large values of short Dirichlet polynomials and
+needs Layers 1 (§1.2), 3 and 5.
 Layer 9 transforms the completed sum of cubic Gauss coefficients by the cubic theta function and
 bounds its mean square; it needs Layers 2, 3, 4, 6 and 8. Layer 10 assembles the probe at `11/12`:
 the direct estimate (Layers 6 and 9), the Poisson representation with its Euler factors (Layers
@@ -1099,8 +1120,9 @@ bound passes to the removable value of `ℒ` at `s = 1` by continuity.
   `3 (0.9/(2π))^(3/5) ζ(11/10) = 9.895`, with `ζ(11/10) = 10.5844`, and the stated bound is
   `C_ℚ 3^(3/5) = 3 · 10.5844 · 1.9332 = 61.385`. Without the clearing factor the bound for `ζ` alone
   would carry the unbounded `|(1 + s)/(1 − s)|` near `s = 1`.
-- `K = F` (`d = 2`): the edge bound `Q^(3/5) (3 + |t|)^(6/5)` is `openai2026quasiRH` (4.14)'s line
-  `Re s = −1/10`, and the statement improves its strip factor `(3 + |t|)²` to `(3 + |t|)^(6/5)`.
+- `K = F` (`d = 2`): the edge bound `Q^(3/5) (3 + |t|)^(6/5)` is the bound on `Re s = −1/10` proved in
+  the proof of `openai2026quasiRH` Lemma 4.8, p. 21, and the statement improves the strip factor
+  `(3 + |t|)²` of its (4.14) to `(3 + |t|)^(6/5)`.
 - At `σ = 11/10` the bound `(Q (3 + |t|)^d)^(3/5) ≥ 1` is weak but true, `|ℒ| ≤ ζ_K(11/10)` being
   uniform in `Q`; at `s = 1` for `ψ = 1` the removable value `Res_{s=1} ζ_K/2` is finite, so the
   clearing factor `(s − 1)` is needed.
@@ -1176,14 +1198,19 @@ Define the *norm-composed character* `χ ∘ N_{K/ℚ}`: the ray class character
 
 Prove the base-change factorization: with `S` the primes dividing `q d_K`,
 `L^S_K(s, χ ∘ N) = ∏_{ψ ∈ X(K)} L^S(s, χψ)` on `Re s > 1`, as germs at every point, and pointwise
-away from `s = 1`, the superscript deleting the Euler factors at `S` on both sides. Route: at an
-unramified `p` with residue degree `f` and `g = [K : ℚ]/f` primes above it, `ψ(p)` runs over the
-`f`-th roots of unity, each `g` times, so `∏_ψ (1 − χ(p)ψ(p) p^(−s)) = (1 − χ(p)^f p^(−fs))^g`; then
+away from `s = 1`, the superscript deleting the Euler factors at `S` on both sides. Route: on
+`Re s > 1`, away from `S`, this is the induction identity of AnalyticNumberTheoryPartI §2.18a for
+`K/ℚ` and the restriction `σ` of `χ` (read through global reciprocity) to `Gal(ℚ̄/K)`, with
+`Ind σ = ⊕_{ψ ∈ X(K)} χψ` and the one-dimensional comparison, under which `σ` gives `χ ∘ N`; or
+directly, at an unramified `p` with residue degree `f` and `g = [K : ℚ]/f` primes above it, `ψ(p)`
+runs over the `f`-th roots of unity, each `g` times, so
+`∏_ψ (1 − χ(p)ψ(p) p^(−s)) = (1 − χ(p)^f p^(−fs))^g`; then
 uniqueness of meromorphic continuation (`TauCeti.eventuallyEq_of_meromorphic_of_eqOn_halfPlane`)
 (`openai2026quasiRH` (11.2), p. 85, for `K = F`: `L^S_F(s, χ ∘ N) = L^S(s, χ) L^S(s, χχ₋₃)`).
 
 *Needs:* ClassFieldTheory Layer 11 and §13.1 (`TauCeti.ClassFieldTheory.kroneckerWeber`, the conductor
-of `K`); AnalyticNumberTheoryPartI §2.42 (the characters of an abelian field); the splitting of
+of `K`); AnalyticNumberTheoryPartI §2.42 (the characters of an abelian field) and, for the first
+route, §2.18a (induction at every finite place, with the one-dimensional comparison); the splitting of
 unramified primes in cyclotomic fields (LFunctions Layer 4, cyclotomic factorization with level
 characters); Tau Ceti `TauCeti.GlobalNumberFields.RayClassCharacter`, `heckeLFunctionC`; Mathlib
 `DirichletCharacter.LFunction`.
@@ -1232,8 +1259,8 @@ non-abelian `K` the cofactor is an Artin `L`-function whose holomorphy is not kn
 ### Dependencies
 
 ExplicitZetaBounds §3.2; ZerosOfLFunctions §§1.6, 3.1; LFunctions Layers 4–6 and 8; ClassFieldTheory
-§13.1; AnalyticNumberTheoryPartIII §8.2; Mathlib Borel–Carathéodory and three-lines; Tau Ceti Hecke
-`L`-functions and Euler corrections; Layer 1.
+§13.1; AnalyticNumberTheoryPartI §§2.18a, 2.42; AnalyticNumberTheoryPartIII §8.2; Mathlib
+Borel–Carathéodory and three-lines; Tau Ceti Hecke `L`-functions and Euler corrections; Layer 1.
 
 ## Layer 6: large sieves over number fields
 
@@ -1548,18 +1575,22 @@ Layer 5 (§§5.1–5.3); Layer 3 (§3.2); Layer 1 (§1.2); LFunctions Layers 5 a
 
 ### 8.1 The Kubota character
 
-Let `K` be a totally imaginary number field containing `μ_n` and `N` a natural number divisible by
+Let `K` be a totally imaginary number field containing `μ_n` and `N` a positive integer divisible by
 `n²`. For `σ = (a b; c d)` in the principal congruence subgroup `Γ(N) = {σ ∈ GL₂(𝓞_K) : σ ≡ 1 (mod N)}`
-define `κ(σ) = (c/d)_n` if `c ≠ 0` and `κ(σ) = 1` if `c = 0`. Prove that `κ` is a homomorphism
-`Γ(N) → μ_n` (`kubota1969` §3, Propositions 1–2, pp. 24–25), and that on `Γ(N) ∩ SL₂(𝓞_K)` it is also
-`κ(σ) = (c/a)_n⁻¹` for `c ≠ 0`. Route for the second statement: `ad = 1 + bc`, so
-`(c/a)_n (c/d)_n = (c/(1 + bc))_n`, and Hilbert's product formula `∏_v (c, 1 + bc)_v = 1` gives
-`(c/(1 + bc))_n = 1`, place by place: at `v ∣ 1 + bc` (so `v ∤ nc`) the tame formula gives
-`(c/𝔭_v)_n^(−v(1+bc))`, whose product is `(c/(1 + bc))_n⁻¹`; at `v ∣ c`, `v ∤ n`, the tame symbol is
-`((1 + bc)/𝔭_v)_n^(v(c)) = 1`, because `1 + bc ≡ 1 (mod c)`; at `v ∣ n` the symbol is `1` because
-`1 + bc ≡ 1 (mod N²)`, hence `≡ 1 (mod n⁴)`, is a local `n`-th power (Hensel's lemma, `4 v(n) ≥ 2 v(n) + 1`);
-at the other finite places both entries are units, and the places at infinity are complex. The
-pairwise-coprime reciprocity law does not apply, since `n ∣ c`.
+define `κ(σ) = (c/d)_n` if `c ≠ 0` and `κ(σ) = 1` if `c = 0`. Prove that `κ` is the `(r(N)/n)`-th
+power of Kubota's homomorphism `σ ↦ [b/a]` of KTheoryLowDegrees §10.2 at the power-residue Mennicke
+symbol `[b/a] = (b/a)_{r(N)}` of its §11.2 at level `N𝓞_K`, `r(N)` being the exponent of its §11.1,
+hence a homomorphism `Γ(N) → μ_n` (`kubota1969` §3, Propositions 1–2, pp. 24–25), and that on
+`Γ(N) ∩ SL₂(𝓞_K)` it is also `κ(σ) = (c/a)_n⁻¹` for `c ≠ 0`. Route: `n ∣ r(N)`, because for
+`p^e ∥ n` and every prime `P` above `p` the hypothesis `n² ∣ N` gives
+`ord_P(N)/ord_P(p) − 1/(p − 1) ≥ 2e − 1 ≥ e`, and `p^e` divides `|μ(K)|`;
+`(x/𝔞)_n = (x/𝔞)_{r(N)}^(r(N)/n)` for `𝔞` prime to `r(N)`; and with `u = ad − bc`, a unit
+`≡ 1 (mod N)`, the Mennicke relations of KTheoryLowDegrees §10.1 give
+`[b/a][c/a] = [bc/a] = [(a − u)/a] = [(a − u)/u] = 1` (numerator multiplicativity, `bc ≡ a − u`
+modulo `aN`, subtracting the second entry from the first, and a unit first entry) and
+`[c/d][c/a] = [c/(u + bc)] = [c/u] = 1` (denominator multiplicativity at `ad = u + bc`, then
+subtracting `b` times the second entry from the first), so `[c/d] = [b/a] = [c/a]⁻¹`; at `c = 0`, `a`
+is a unit and `[b/a] = 1`.
 
 For `K = F` and `n = 3` the cubic theta function uses Patterson's character `κ_P`, a different
 object: on `Γ₁(3) = {γ ∈ SL₂(𝓞) : γ ≡ I (mod 3)}`, of level `3`, which `n² = 9` does not divide,
@@ -1585,14 +1616,18 @@ not instances of Kubota's.
   (`(9/10)_3 = 1` for rational integers, then cubic reciprocity), while
   `κ(γ) = (c/d)_3 = ((1 + 3ω)/d)_3 = (d/(1 + 3ω))_3 = 5² ≡ ω²` (`c = λ⁴(1 + 3ω)` and `(λ/d)_3 = 1` by the
   supplement of §2.5 at `d ≡ 1 (mod 9)`); reading
-  `κ_P` as the case `n = 3` of `κ` gives the conjugate character.
+  `κ_P` as the case `n = 3` of `κ` gives the conjugate character. With `b = −486 − 459ω` and
+  `d = 802 − 486ω` the first-row symbol is `(b/10)_3 = (b/2)_3 (b/5)_3 = ω · ω = ω²` (`b ≡ ω (mod 2)`;
+  `b ≡ 4 + ω (mod 5)` and `(4 + ω)⁸ ≡ ω` in `𝓞/5`), equal to `κ(γ)`, as `r(9) = 3 = n`; the inverse
+  `(c/d)_3⁻¹ = ω` is `κ_P(γ)`, not `κ(γ)`.
 - `κ_P((1 0; 3 1)) = (3/1)_3 = 1`: the symbol at the unit ideal is `1`.
 - `κ_P(T) = 1` for `T = (1 1; 0 1)`, and `κ_P((0 −1; 1 0)) = 1` since it lies in `SL₂(ℤ)`; a definition
   by `(c/a)_3` on all of `Γ₂` would be undefined there (`a = 0`).
 
 *Needs:* §2.3; §2.5 (cubic reciprocity, for `κ_P = (b/d)_3` on `Γ₁(3)`); Tau Ceti
-`Ideal.powerResidueSymbolIdeal`, `Ideal.powerResidueSymbolIdeal_mul_right`; ClassicalArithmeticCompletion
-§1.52 (Hilbert's product formula) and §1.43 (the symbol at a place not dividing `n`).
+`Ideal.powerResidueSymbolIdeal`, `Ideal.powerResidueSymbolIdeal_mul_right`; KTheoryLowDegrees §10.1
+(the Mennicke relations), §10.2 (Kubota's homomorphism), §11.1 (the exponent `r(I)`) and §11.2 (the
+power-residue Mennicke symbol).
 
 ### 8.2 Automorphic functions on `ℍ³` with a unitary character
 
@@ -1817,8 +1852,9 @@ squarefree primary `c` and `r` prime to `c`.
 
 ### Dependencies
 
-Layer 2 (§§2.3, 2.5), Layer 4 (§§4.1–4.3); BianchiModularForms §§0.3–0.4; MaassForms §7.1;
-AutomorphicFormsOnReductiveGroups §4.5; AutomorphicSpectralTheory §§0.15–0.16.
+Layer 2 (§§2.3, 2.5), Layer 4 (§§4.1–4.3); KTheoryLowDegrees §§10.1–10.2, 11.1–11.2;
+BianchiModularForms §§0.3–0.4; MaassForms §7.1; AutomorphicFormsOnReductiveGroups §4.5;
+AutomorphicSpectralTheory §§0.15–0.16.
 
 ## Layer 9: completed Gauss-sum series and their reflection by the cubic theta function
 
@@ -1919,14 +1955,18 @@ expansion.
 Prove: (sectors of twisted characters) for a fixed finite family of base characters, the twisted
 characters `A ↦ χ_A(m) Ψ_base(A)` of the nonzero elements `m` fall, after fixing the `S`-valuations of
 `m` modulo `6`, its unit and the ray class of `m_good`, into finitely many sectors on each of which one
-pair `(𝔈, L)` of §9.2 and one choice of `d_t`, `ϑ_t` serve; (uniform smoothness of the transforms `V♯`)
-the transforms `V♯` of the annular pieces of a common profile form a uniformly smooth family with
-seminorms bounded by `𝓜_{A,J}`; (lattice sums of decaying kernels) for the lattice `Λ = 𝓞` or `λ⁻⁴𝓞` and
+pair `(𝔈, L)` of §9.2 and one choice of `d_t`, `ϑ_t` serve; (common kernel profiles) for `V` as in
+§9.2, `d ≥ 1`, a compact `Ω ⊂ ℝ^d`, real exponents `a_1, …, a_d`, a profile `W` with logarithmic
+support in `Ω` (§3.1) and `Y > 0`, put `h(y) = ∏ y_i^(a_i)` and `F_Y(y) = W(y) V♯(Y h(y))`; then for
+`A ≥ 0` and integers `j, J ≥ 0`, uniformly in `Y`,
+`p_j(F_Y) ≪_{A,j,d,Ω,a} min{Y^(1/4), (1 + Y)^(−A)} p_j(W) 𝓜_{A,⌈4A⌉+j+2}(V)` and
+`‖F_Y‖_{J,sep} ≪_{A,J,d,Ω,a} min{Y^(1/4), (1 + Y)^(−A)} p_{J+d+2}(W) 𝓜_{A,⌈4A⌉+J+d+4}(V)`;
+(lattice sums of decaying kernels) for the lattice `Λ = 𝓞` or `λ⁻⁴𝓞` and
 `|K(x)| ≤ C_A x^(−A)` on `x ≥ 1` with `A > 1`,
 `Σ_{μ ∈ Λ, a q_μ > U} |K(a q_μ)| ≪_A C_A (1 + a⁻¹) U^(1−A)` for `a > 0`, `U ≥ 1`, and
 `C_A ≪ 𝓜_{A,⌈4A⌉+2}(V)` for `K = V♯` (`openai2026quasiRH` Lemmas 5.2–5.4, pp. 34–36).
 
-*Needs:* for the sectors, §§2.4, 4.5 and 9.2; for the transforms `V♯`, §§3.2 and 9.2; for the lattice
+*Needs:* for the sectors, §§2.4, 4.5 and 9.2; for the kernel profiles, §§3.2 and 9.2; for the lattice
 sums, §3.5, and §9.2 for `K = V♯`.
 
 ### 9.4 A large sieve for cubed symbols of products, and the mean square of the completed sums
