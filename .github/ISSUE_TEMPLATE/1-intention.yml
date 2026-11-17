@@ -78,6 +78,7 @@ body:
         - ConformalMappingPartII
         - ConvexLifting
         - CountableModelCounting
+        - CountableStructureSpaces
         - CrystallineCohomology
         - CyclotomicClassGroupsAndStickelberger
         - DGAInfinity
