@@ -23,10 +23,12 @@ and headline theorems; it is not an exhaustive checklist, and discharging every 
 finishes neither a milestone nor the roadmap. The `sorry` forms are proposed targets, not
 established proofs.
 
-Every predicate and definition below has an actual body. Quantifier elimination and decidability
-are stated as existence of computable maps on a fixed structural coding of formulas, with their
-correctness specifications; these computability theorems are the targets, and the README gives the
-pattern-elimination route to them. No proposition-valued placeholder names an unstated condition.
+Every predicate and definition below has an actual body. For quantifier elimination and
+decidability this file prototypes the mathematical contracts, as existence of computable maps on a
+fixed structural coding of formulas with their correctness specifications. The README additionally
+requires the implementations: explicit executable definitions of the two maps (`radoQE`,
+`decideRado`) by its pattern-elimination route, of which these existence theorems are consequences.
+No proposition-valued placeholder names an unstated condition.
 
 Implement general Fraïssé/first-order lemmas in the shared native namespaces, and graph lemmas in
 `SimpleGraph` as appropriate.
@@ -489,7 +491,7 @@ context size `m` as input, that sends the code of each formula over `Fin m` to t
 quantifier-free formula with the same realizations in every model of `radoAxioms`. Its
 correctness yields the theory-level `HasQuantifierElimination` of the Mathlib
 quantifier-elimination proposal. The values on numbers that are not formula codes are
-unconstrained. -/
+unconstrained. A consequence of the README's construction target `radoQE`, its witness. -/
 theorem exists_computable_quantifierElimination :
     ∃ Q : ℕ → ℕ → ℕ, Computable₂ Q ∧
       ∀ (m : ℕ) (φ : Language.graph.Formula (Fin m)),
@@ -506,7 +508,8 @@ theorem radoAxioms_hasQuantifierElimination :
   sorry
 
 /-- **Decidability of the Rado theory.** A computable test on codes of sentences that answers
-truth in the Rado graph. -/
+truth in the Rado graph. A consequence of the README's construction target `decideRado`, its
+witness. -/
 theorem exists_computable_decide_rado :
     ∃ D : ℕ → Bool, Computable D ∧
       ∀ φ : Language.graph.Sentence, D (boundedCode φ) = true ↔ Satisfies TauCeti.radoGraph φ := by
