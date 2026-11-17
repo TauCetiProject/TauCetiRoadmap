@@ -85,6 +85,7 @@ body:
         - DGAInfinity
         - DGFloer
         - DeRhamCohomologyAndDuality
+        - DeformationAndDerivedPatchingAlgebra
         - DeformationAndDerivedPatchingAlgebraPartII
         - DerivedDeRhamCohomology
         - DerivedModuleAlgebra
@@ -94,6 +95,7 @@ body:
         - DimerModelsAndLozengeTilings
         - DiophantineApproximationAndTranscendence
         - DiophantineApproximationAndTranscendencePartII
+        - DirectSummandsAndBigCohenMacaulay
         - DysonBrownianMotion
         - ECM
         - EllipticCohomology
@@ -159,6 +161,7 @@ body:
         - KacMoody
         - KhovanovHomology
         - LFunctions
+        - LanglandsParameterStacks
         - LefschetzPencilsAndVanishingCyclesPartII
         - LieGroupoidsPoisson
         - LieGroupsPartII
@@ -166,6 +169,7 @@ body:
         - LocalPurity
         - LocalVariationalFieldTheory
         - LocallyAnalyticDistributions
+        - LocallyAnalyticDistributionsPartII
         - MarkovChainsAndRenewal
         - MassFormula
         - MathematicalBilliards
@@ -203,6 +207,7 @@ body:
         - PainleveEquations
         - PerfectoidQuotients
         - PerfectoidSpaces
+        - PerfectoidSpacesPartII
         - PerfectoidTowers
         - PhiGammaModulesAndIwasawaCohomology
         - PivotalSpherical
@@ -240,6 +245,7 @@ body:
         - RestrictedPowerSeries
         - RicciFlow
         - RiemannianGeometry
+        - RiemannianManifoldsWithConvexBoundary
         - RigidAnalyticGeometry
         - RootSystemsPartII
         - SNumbers
@@ -285,6 +291,7 @@ body:
         - TopologicalSheafCohomology
         - TypeAHeckeAlgebras
         - VariationalMethods
+        - Varifolds
         - VonNeumannAlgebras
         - Yamabe
         - YangMillsConnectionsAndCaloricGauge
