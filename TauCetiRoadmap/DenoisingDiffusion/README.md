@@ -106,7 +106,7 @@ is consumed.
 
 ## How to read the build
 
-Layer 1 proves the two Gaussian facts everything else uses: the divergence between isotropic
+Layer 1 proves the two Gaussian facts that Layers 2 and 4 use: the divergence between isotropic
 Gaussian laws and the Bayes update. Layer 2 builds the forward chain on them: the noising kernels,
 the path law, its marginals and the posterior. Layer 3 is independent of Layers 1 and 2: the
 smoothed density, Tweedie's formula and score matching. Layer 4 combines the three into the
