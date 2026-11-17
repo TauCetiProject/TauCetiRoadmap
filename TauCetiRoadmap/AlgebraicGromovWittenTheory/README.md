@@ -154,6 +154,14 @@ and `exists_iso_of_reflTransGen_of_isStable` from
 `single_mul_single`, `periodFiltration`, topological ring and completeness instances, and
 `degreeDerivation` with `continuous_degreeDerivation`.
 
+For the field-extension comparisons of §§4.5 and 8.1, the map
+`NE(X_K) → NE(X)` restricts curve functionals to the ground-field divisors and
+preserves the period for the pulled-back ample class. Use `NovikovSeries.mapRingHom`
+and `NovikovSeries.continuous_mapRingHom` with period scale one. Use
+`NovikovSeries.rescaleContinuousAlgEquiv` to rescale the period by a positive
+constant in §1.2. In §8.4 use `NovikovSeries.gradeBy` and
+`NovikovSeries.gradeBy.gradedMonoid` for the degree `β ↦ 2c₁(T_X)·β`.
+
 ### From other Tau Ceti roadmaps
 
 - [SchemeAndStackFoundations](../SchemeAndStackFoundations/README.md) Layer 1 supplies the
@@ -241,7 +249,7 @@ Source: VirtualFundamentalClass §§2.2, 2.5.
 
 ### Dependencies
 
-MotivesAndAlgebraicCycles and SchemeAndStackFoundations Layer 5.
+MotivesAndAlgebraicCycles §§0.5, 3.1 and VirtualFundamentalClass §§2.2, 2.5.
 
 ## Layer 1: effective classes and the Novikov ring
 
@@ -274,7 +282,8 @@ evaluation pushforwards are defined over `k`.
 **Checks.**
 
 - On `ℙ¹×ℙ¹` with `A=(1,1)`, exactly six classes have ample degree at most two. The nef class `(1,0)` has the infinite zero-degree slice `{(0,m):m≥0}`.
-- For a quadric surface with nonsquare discriminant over `ℚ`, the rulings are exchanged over the algebraic closure. Both line classes have `H`-degree one, so `NE(X)=ℕ` in that degree. With `s=Q¹` and `p=H²/2`, base change to the split quadric and specialize both ruling monomials to `s`. This gives `H⋆H=2p+2s`, `H⋆p=sH`, `p⋆p=s²`, and both associations of `H,H,p` equal `2s²+2sp`.
+- For a quadric surface with nonsquare discriminant over `ℚ`, the rulings are exchanged over the algebraic closure. Both line classes have `H`-degree one, so `NE(X)=ℕ` in that degree. With `s=Q¹` and `p=H²/2`, base change to the split quadric and send both ruling monomials `Q^(1,0)` and `Q^(0,1)` to `s`. This gives `H⋆H=2p+2s`, `H⋆p=sH`, `p⋆p=s²`, and both associations of `H,H,p` equal `2s²+2sp`.
+- On `ℙ¹` with `A=𝒪(2)`, the period is `2β`, so precisely the classes `0,1` have period at most three.
 
 ### 1.2 Novikov series
 
@@ -295,7 +304,7 @@ Source: Kontsevich–Manin 1998 §2.1 and Tau Ceti’s `NovikovSeries` topology 
 
 - On the projective line, `δ_H(Q²) = 2Q²`.
 - For the projective line and its degree-one ample class, the ring is `ℚ⟦Q⟧`.
-- Replacing the ample degree by a positive multiple gives the same convergent series.
+- Use `NovikovSeries.rescaleContinuousAlgEquiv` for a positive rescaling of the ample degree.
 
 ### 1.3 Independence of ample class
 
@@ -393,6 +402,8 @@ of the prestable stack use Prop. 2 of the same source.
 **Checks.**
 
 - A rational curve with two components and markings `1,2` on one and `3` on the other stabilizes by contracting the second component. Its image is the point `Mbar 0 3`.
+- A smooth genus-one component with a rational tail carrying the only marking stabilizes to the genus-one component marked at the attachment point. Forgetting that marking leaves unstable type `(1,0)`.
+- The rational chain with markings `1,2 | ∅ | 3,4` stabilizes to the boundary point `12|34` of `Mbar 0 4`.
 
 ### Examples
 
@@ -466,6 +477,8 @@ Source: Behrend–Manin Def. 3.13 and the functoriality in §3.
 **Checks.**
 
 - On `MbarMap 0 1 ℙ¹ 1`, evaluation at the marking is an isomorphism onto `ℙ¹`.
+- In class zero in the stable range, the evaluations on `Mbar g n × X` are the projection to `X` and stabilization is the projection to `Mbar g n`.
+- On `MbarMap 0 3 ℙ¹ 1`, the three evaluations are birational onto `(ℙ¹)³`. Both spaces have dimension three and the general target triple determines the degree-one map with its marks up to unique isomorphism. Stabilization maps to the point `Mbar 0 3`.
 
 ### 3.5 Forgetting and gluing
 
@@ -489,6 +502,8 @@ diagonal and raises genus by one.
 **Checks.**
 
 - Self-gluing the last two markings of `MbarMap 0 3 X 0 ≅ X` gives the constant-map boundary in `MbarMap 1 1 X 0`, of generic stack degree two.
+- External gluing in class zero with partition `12|34` identifies `X` with the corresponding closed boundary in `Mbar 0 4 × X`, of degree one.
+- Gluing the markings of the two factors of `MbarMap 1 1 X 0 ×_X MbarMap 1 1 X 0` gives the genus-two separating boundary of class zero. The map has generic degree two from ordering the elliptic components.
 
 ### Examples
 
@@ -520,11 +535,14 @@ of a map with its source curve fixed.
 - Give the map from the dual universal pushforward to the relative cotangent complex.
 - Compute its pullback in a family and identify the tangent and obstruction sheaves.
 
-*Needs:* §§2.1, 3.4 and VirtualFundamentalClass §§3.3, 6.1.
+*Needs:* §§2.1, 3.4, VirtualFundamentalClass §§3.3, 6.1, EnhancedDerivedSheaves
+§0.3 and E1.8, and DerivedModuleAlgebra §§0.4, 0.25.
 
 **Checks.**
 
-- A genus-zero degree-one map to `ℙ¹` has relative deformation complex `H⁰(𝒪(2))` of rank three in degree zero. At a genus-one constant map to an elliptic curve, the two cohomology spaces of `Rπ_*f^*T_X` each have rank one.
+- A genus-zero degree-one map to `ℙ¹` has relative deformation complex `H⁰(𝒪(2))` of rank three in degree zero.
+- At a genus-one constant map to an elliptic curve, the two cohomology spaces of `Rπ_*f^*T_X` each have rank one.
+- At a genus-two constant map to a curve, the cohomology of the displayed pushforward has ranks one and two, giving virtual rank `−1`.
 
 ### 4.2 Global resolution
 
@@ -534,7 +552,7 @@ Prop. 5). Construct the presentation as a quotient of a quasi-projective paramet
 with an ample linearized line bundle, and deduce the resolution property used for independence
 in VirtualFundamentalClass §7.3.
 
-*Needs:* §§3.2, 4.1 and VirtualFundamentalClass §7.3.
+*Needs:* §§3.2, 4.1, AlgebraicVectorBundles L1A–L2B and VirtualFundamentalClass §7.3.
 
 ### 4.3 Construction and virtual dimension
 
@@ -561,6 +579,8 @@ Source: Behrend 1997, pp. 6–7.
 **Checks.**
 
 - For an elliptic curve `E`, the class-zero genus-one one-marked virtual class is `−λ₁ ∩ [Mbar 1 1 × E]`. A point insertion gives `−1/24` while the ordinary fundamental class has dimension two and the virtual class dimension one.
+- `MbarMap 0 0 ℙ² 1` is the dual plane. Its virtual dimension is `−1+3=2` and its virtual class is its fundamental class.
+- For a threefold with `c₁=0` and no markings, the virtual dimension is zero for all genera and classes. At genus two and class zero the stack `Mbar 2 0 × X` has dimension six.
 
 ### 4.4 Point target and class zero
 
@@ -600,7 +620,8 @@ Source: Behrend 1997, Props. 6–9, and Behrend’s product formula, Thm. 1.
 
 ### Dependencies
 
-Layers 2–3 and VirtualFundamentalClass Layers 2, 3 and 6–9.
+Layers 2–3, VirtualFundamentalClass Layers 2, 3 and 6–9, AlgebraicVectorBundles
+L1A–L2B, DerivedModuleAlgebra §§0.4, 0.25, and EnhancedDerivedSheaves §0.3 and E1.8.
 
 ## Layer 5: tautological classes, Gromov–Witten classes, and invariants
 
@@ -698,6 +719,7 @@ has dimension eleven and the virtual dimension is ten.
 
 - For the point target, the primary class with all unit insertions is the unit of `CH^*(Mbar g n)_ℚ`. For degree one on `ℙ¹`, three point insertions give the unit on `Mbar 0 3`.
 - On `ℙ¹` in degree one, the comparison with insertions `τ₁(H), H, 1` gives descendant minus ancestor `1−0=1`. The glued term has two-point degree-one value one and three-point degree-zero value one, paired by the `H,1` entry of the inverse metric.
+- For an elliptic target in genus one and class zero, the single point insertion gives the stabilized class `−λ₁` on `Mbar 1 1`. It has codimension one and degree `−1/24`.
 
 ### 5.5 Basic formulas
 
@@ -915,8 +937,8 @@ the characterizing identity
 `(a ⋆small b,c)=Σ_βQ^β⟨a,b,c⟩_{0,β}`. Prove continuity, `Λ_X`-bilinearity, grading,
 commutativity, the Frobenius identity, and that `1_X` is its unit.
 
-Under field extension with a finer curve lattice, group the resulting Novikov
-monomials by their functional on the original divisor lattice. On classes pulled
+Under field extension with a finer curve lattice, apply the continuous ring map
+`NovikovSeries.mapRingHom` for restriction of curve functionals to ground-field divisors. On classes pulled
 back from the ground field, identify the resulting product with the base change of
 the product above, by §4.5 and flat base change for proper pushforward.
 
@@ -1080,6 +1102,8 @@ The horizontal equation is Iritani (2.8), p. 8. This solution is normalized at `
 **Checks.**
 
 - For the point, the `t^m` coefficient of the normalized solution is `(−1)^m z^(−m)/m!`.
+- For `ℙ¹`, the coefficient of `t_H` in the normalized matrix is `−z⁻¹[[0,Q],[1,0]]` in the basis `(1,H)`.
+- On the unit axis the solution is `exp(−t⁰/z)·id` because multiplication by the unit is the identity.
 
 ### Examples
 
@@ -1161,6 +1185,8 @@ Source: Iritani Def. 2.2, p. 7, the operators `ℏQ_a∂_{Q_a} + p_a∗`.
 **Checks.**
 
 - On `ℙ¹`, `∇^small_H(Q·1)=Q·1+z⁻¹Q·H`. Unweighted Novikov differentiation would give `1+z⁻¹Q·H`.
+- On `ℙ¹`, `∇^small_H(H)=z⁻¹Q·1`.
+- On `ℙ¹×ℙ¹`, with `h₁⋆h₁=Q₁`, both `∇^small_{h₁}∇^small_{h₂}h₁` and `∇^small_{h₂}∇^small_{h₁}h₁` equal `z⁻²Q₁h₂`. The Novikov derivative `δ_{h₂}(Q₁)=0`, while `δ_{h₁}(Q₁)=Q₁`.
 
 ### 10.4 The small quantum module
 
