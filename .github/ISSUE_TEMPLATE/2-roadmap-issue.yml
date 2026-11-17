@@ -90,6 +90,7 @@ body:
         - DerivedModuleAlgebra
         - DiagrammaticCoherence
         - DiamondEtaleCohomology
+        - DiamondSixOperations
         - DiamondsAndVStacks
         - DifferentialGeometry
         - DimerModelsAndLozengeTilings
@@ -152,7 +153,9 @@ body:
         - ImaginaryQuadraticClassNumber
         - ImplicitAtlases
         - IndexTheory
+        - InductionRestrictionPartII
         - InfinitaryModelExistence
+        - InstantonFloerTheory
         - IntegralHeckeAndGaloisDeterminants
         - IntegralIwasawaTheory
         - IntegralLattices
@@ -192,6 +195,7 @@ body:
         - MorseTheory
         - NashBlowups
         - NeronModelsAndSemistableAbelianVarieties
+        - NeronModelsAndSemistableAbelianVarietiesPartII
         - Neuromanifolds
         - NewtonPolygons
         - NilpotentOrbits
@@ -263,6 +267,7 @@ body:
         - SchemeKTheoryOperationsPartII
         - SchubertGeometry
         - SeibergWittenTheory
+        - SelmerIwasawaCohomology
         - SieveMethodsAndPrimePatterns
         - SmoothBundlesConnections
         - SmoothRepresentationsOfLocalGroups
