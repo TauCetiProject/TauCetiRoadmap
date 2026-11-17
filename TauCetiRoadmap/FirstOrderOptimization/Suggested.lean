@@ -8,11 +8,9 @@ import TauCeti.Analysis.GradientFlow.MoreauYosida.Basic
 /-!
 # Convergence of first-order optimization methods: target signatures
 
-**This file is not the roadmap, and it is not exhaustive.** The definitive document is
-`README.md`, and this file is read as suggested forms, never as a checklist. It states every
-named target of the README against the pinned Mathlib and Tau Ceti APIs; discharging them
-finishes neither a milestone nor the roadmap. The `sorry` proofs are targets, not completed
-results. `LipschitzSmoothWith` is stated here in the shape of Mathlib PR #39574
+This file is not the roadmap: the roadmap is `README.md`. It states the roadmap's headline
+theorems against the pinned Mathlib and Tau Ceti APIs, each with `sorry`. Every headline theorem
+is statable at the pins. `LipschitzSmoothWith` is stated here in the shape of Mathlib PR #39574
 (`fderiv_descent_le`) and is replaced by Mathlib's declaration when that lands.
 
 Suppliers used by the README and not restated here: SpectralSteepestDescent 5.1
@@ -24,7 +22,7 @@ Suppliers used by the README and not restated here: SpectralSteepestDescent 5.1
 `norm_eq_iInf_iff_real_inner_le_zero`, `LinearMap.IsSymmetric.eigenvectorBasis`,
 `LinearMap.singularValues`, `Nat.iterate`, `Submartingale.ae_tendsto_limitProcess` and
 `Submartingale.exists_ae_tendsto_of_bdd`; MathematicalStatisticsNonparametric 6.4
-(`softThreshold`).
+(`softThreshold`) and 6.5 (`metricProj`).
 -/
 
 noncomputable section
@@ -46,27 +44,9 @@ structure LipschitzSmoothWith (𝕜 : Type*) [NontriviallyNormedField 𝕜] {F G
   differentiable : Differentiable 𝕜 f
   fderiv_norm_le : ∀ x y, ‖f y - f x - fderiv 𝕜 f x (y - x)‖ ≤ K / 2 * dist x y ^ 2
 
-/-- 1.1: the upper quadratic bound in gradient form. -/
-theorem LipschitzSmoothWith.le_add_inner_gradient {K : ℝ≥0} {f : E → ℝ}
-    (hf : LipschitzSmoothWith ℝ K f) (x y : E) :
-    f y ≤ f x + ⟪∇ f x, y - x⟫ + K / 2 * ‖y - x‖ ^ 2 :=
-  sorry
-
-/-- 1.1: the lower quadratic bound in gradient form. -/
-theorem LipschitzSmoothWith.add_inner_gradient_le {K : ℝ≥0} {f : E → ℝ}
-    (hf : LipschitzSmoothWith ℝ K f) (x y : E) :
-    f x + ⟪∇ f x, y - x⟫ - K / 2 * ‖y - x‖ ^ 2 ≤ f y :=
-  sorry
-
 /-- 1.1: a Lipschitz gradient gives smoothness (from SpectralSteepestDescent 5.1). -/
 theorem LipschitzSmoothWith.of_lipschitzWith_gradient {K : ℝ≥0} {f : E → ℝ}
     (hd : Differentiable ℝ f) (hL : LipschitzWith K (∇ f)) : LipschitzSmoothWith ℝ K f :=
-  sorry
-
-/-- 1.1: sufficient decrease of a gradient step. -/
-theorem LipschitzSmoothWith.apply_sub_smul_gradient_le {K : ℝ≥0} {f : E → ℝ}
-    (hf : LipschitzSmoothWith ℝ K f) (x : E) (η : ℝ) :
-    f (x - η • ∇ f x) ≤ f x - η * (1 - K * η / 2) * ‖∇ f x‖ ^ 2 :=
   sorry
 
 /-- 1.1: the gradient bound at a lower bound. -/
@@ -88,10 +68,10 @@ theorem ConvexOn.norm_gradient_sub_sq_le_inner {K : ℝ≥0} {f : E → ℝ} (hK
     ‖∇ f x - ∇ f y‖ ^ 2 / K ≤ ⟪∇ f x - ∇ f y, x - y⟫ :=
   sorry
 
-/-- 1.2: for convex differentiable functions, smoothness is a Lipschitz gradient. -/
-theorem ConvexOn.lipschitzSmoothWith_iff_lipschitzWith_gradient {K : ℝ≥0} {f : E → ℝ}
-    (hc : ConvexOn ℝ Set.univ f) (hd : Differentiable ℝ f) :
-    LipschitzSmoothWith ℝ K f ↔ LipschitzWith K (∇ f) :=
+/-- 1.2: the gradient of a `K`-smooth function on a Hilbert space is `K`-Lipschitz, with no
+convexity hypothesis (the Baillon–Haddad theorem applied to `f + K / 2 * ‖·‖ ^ 2`). -/
+theorem LipschitzSmoothWith.lipschitzWith_gradient {K : ℝ≥0} {f : E → ℝ}
+    (hf : LipschitzSmoothWith ℝ K f) : LipschitzWith K (∇ f) :=
   sorry
 
 /-- 1.3: the strongly convex and smooth gradient inequality (Nesterov, Theorem 2.1.12). -/
@@ -159,8 +139,7 @@ theorem tendsto_gradientDescent_of_convex [FiniteDimensional ℝ E] {K : ℝ≥0
 
 /-- 2.3: the linear rate under the Polyak–Łojasiewicz condition. -/
 theorem gradientDescent_polyakLojasiewicz_rate {K : ℝ≥0} {μ : ℝ} {f : E → ℝ} (hK : 0 < K)
-    (hμ : 0 < μ) (hf : LipschitzSmoothWith ℝ K f) (hpl : PolyakLojasiewicz μ f) (x₀ : E)
-    (k : ℕ) :
+    (hf : LipschitzSmoothWith ℝ K f) (hpl : PolyakLojasiewicz μ f) (x₀ : E) (k : ℕ) :
     f (gradientDescent f (1 / K) x₀ k) - ⨅ y, f y ≤ (1 - μ / K) ^ k * (f x₀ - ⨅ y, f y) :=
   sorry
 
@@ -182,7 +161,9 @@ structure ClosedProperConvex (g : E → EReal) : Prop where
   ne_bot : ∀ x, g x ≠ ⊥
   exists_ne_top : ∃ x, g x ≠ ⊤
 
-/-- The projection onto a set: the unique nearest point when it exists, and `x` otherwise. -/
+/-- The projection onto a set: the unique nearest point when it exists, and `x` otherwise. On a
+nonempty closed convex set it is `metricProj` of MathematicalStatisticsNonparametric 6.5, whose
+value where no nearest point exists is `0`. -/
 def convexProjection (C : Set E) (x : E) : E := by
   classical
   exact if h : ∃! p, p ∈ C ∧ ∀ z ∈ C, ‖x - p‖ ≤ ‖x - z‖ then h.choose else x
@@ -220,9 +201,9 @@ theorem eq_prox_iff {g : E → EReal} (hg : ClosedProperConvex g) {η : ℝ}
     p = prox g η x ↔ η⁻¹ • (x - p) ∈ subdifferential (innerₗ E) g p :=
   sorry
 
-/-- 3.3: the rate of the subgradient method. -/
+/-- 3.3: the rate of the subgradient method. A function with a subgradient at every point is
+convex, so convexity is not a separate hypothesis. -/
 theorem subgradientMethod_rate {f : E → ℝ} {s : E → E} {G : ℝ} {xstar : E} (η : ℕ → ℝ)
-    (hc : ConvexOn ℝ Set.univ f)
     (hs : ∀ x, s x ∈ subdifferential (innerₗ E) (fun z ↦ (f z : EReal)) x)
     (hG : ∀ x, ‖s x‖ ≤ G) (hη : ∀ i, 0 < η i) (hmin : ∀ y, f xstar ≤ f y)
     (x : ℕ → E) (hx : ∀ i, x (i + 1) = x i - η i • s (x i)) (k : ℕ) :
@@ -326,7 +307,7 @@ theorem robbinsSiegmund_integrable {ℱ : Filtration ℕ m₀} {V β ζ : ℕ �
     (hV : StronglyAdapted ℱ V) (hβ : StronglyAdapted ℱ β) (hζ : StronglyAdapted ℱ ζ)
     (hV0 : ∀ n ω, 0 ≤ V n ω) (hβ0 : ∀ n ω, 0 ≤ β n ω) (hζ0 : ∀ n ω, 0 ≤ ζ n ω)
     (hVi : ∀ n, Integrable (V n) P) (hβi : ∀ n, Integrable (β n) P)
-    (hζi : ∀ n, Integrable (ζ n) P) (ha0 : ∀ n, 0 ≤ a n) (ha : Summable a)
+    (ha0 : ∀ n, 0 ≤ a n) (ha : Summable a)
     (hβs : Summable fun n ↦ ∫ ω, β n ω ∂P)
     (hrec : ∀ n, P[V (n + 1) | ℱ n] ≤ᵐ[P] fun ω ↦ (1 + a n) * V n ω + β n ω - ζ n ω) :
     (∀ᵐ ω ∂P, Summable (β · ω)) ∧ BddAbove (Set.range fun n ↦ ∫ ω, V n ω ∂P) ∧
@@ -386,13 +367,6 @@ theorem sgd_convex_ae_tendsto [FiniteDimensional ℝ E] {ℱ : Filtration ℕ m�
 end Stochastic
 
 /-! ## Layer 6: adaptive methods -/
-
-/-- 6.1: one preconditioned step decreases `f` by half the preconditioned squared gradient. -/
-theorem preconditioned_descent {K : ℝ≥0} {f : E → ℝ} (hf : LipschitzSmoothWith ℝ K f)
-    (P : E ≃L[ℝ] E) {p η : ℝ} (hp : 0 < p) (hP : ∀ v, p * ‖v‖ ^ 2 ≤ ⟪P v, v⟫) (hη : 0 < η)
-    (hηK : η * K ≤ p) (x : E) :
-    f (x - η • P.symm (∇ f x)) ≤ f x - η / 2 * ⟪∇ f x, P.symm (∇ f x)⟫ :=
-  sorry
 
 /-- 6.1: summability of preconditioned squared gradients. -/
 theorem preconditioned_sum_le {K : ℝ≥0} {f : E → ℝ} {m : ℝ} (hf : LipschitzSmoothWith ℝ K f)

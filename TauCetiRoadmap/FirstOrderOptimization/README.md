@@ -4,9 +4,9 @@
 optimization on real Hilbert spaces. It starts from the inequalities that make these
 methods work: the descent lemma in gradient form, cocoercivity of convex smooth gradients, strong
 monotonicity, and the Polyak–Łojasiewicz inequality. It proves the rates of gradient descent in the
-nonconvex, convex, strongly convex and Polyak–Łojasiewicz regimes. It builds the projection onto a
-closed convex set and the proximal map, and proves the rates of the subgradient method and of
-proximal gradient descent. It treats momentum: Polyak's heavy ball on quadratics, and Nesterov
+nonconvex, convex, strongly convex and Polyak–Łojasiewicz regimes. It develops the theory of the
+projection onto a closed convex set, builds the proximal map, and proves the rates of the
+subgradient method and of proximal gradient descent. It treats momentum: Polyak's heavy ball on quadratics, and Nesterov
 acceleration in its proximal form (FISTA) with the `O(1/k²)` rate and the accelerated linear rate.
 In the stochastic setting it proves the Robbins–Siegmund almost-supermartingale theorem and from it
 the expected and almost-sure convergence of stochastic gradient descent. It ends with adaptive
@@ -21,8 +21,10 @@ This roadmap owns:
   quadratic bounds, and their convex and strongly convex refinements;
 - the Polyak–Łojasiewicz condition;
 - gradient descent with a fixed step size, and its rates;
-- the projection onto a closed convex subset of a real Hilbert space and the proximal map of a
-  closed proper convex function, with their basic theory;
+- the theory of the nearest-point map onto a closed convex subset of a real Hilbert space (the
+  variational inequality and firm nonexpansiveness; the map itself is owned by
+  MathematicalStatisticsNonparametric 6.5), and the proximal map of a closed proper convex
+  function with its basic theory;
 - the subgradient method and proximal gradient descent (forward–backward splitting), and their
   rates;
 - the heavy-ball method on quadratics, FISTA, and FISTA with constant momentum;
@@ -91,7 +93,9 @@ Out of scope:
 ## Exact supplier contracts
 
 - [MathematicalStatisticsNonparametric](../MathematicalStatisticsNonparametric/README.md) 6.4: the
-  soft-threshold map `softThreshold λ y = sign y · (|y| − λ)₊`.
+  soft-threshold map `softThreshold λ y = sign y · (|y| − λ)₊`; and 6.5: the nearest-point map
+  `metricProj s x`, a point of `s` at distance `infDist x s` from `x`, and `0` where there is
+  none.
 - [SpectralSteepestDescent](../SpectralSteepestDescent/README.md) 5.1: the descent lemma
   `le_add_fderiv_add_of_lipschitz` for a real normed space: if `f` is differentiable on the
   segment `[x, x + h]` and `‖fderiv ℝ f y − fderiv ℝ f x‖ ≤ L ‖y − x‖` there, then
@@ -141,8 +145,7 @@ here. `Suggested.lean` states the headline theorems of each layer against the pi
 Define `LipschitzSmoothWith ℝ K f` as in [Conventions](#conventions), and prove:
 
 - the gradient forms of the two quadratic bounds: `f y ≤ f x + ⟪∇f x, y − x⟫ + K/2 ‖y − x‖²` and
-  `f x + ⟪∇f x, y − x⟫ − K/2 ‖y − x‖² ≤ f y` (`LipschitzSmoothWith.le_add_inner_gradient`,
-  `LipschitzSmoothWith.add_inner_gradient_le`);
+  `f x + ⟪∇f x, y − x⟫ − K/2 ‖y − x‖² ≤ f y`;
 - `LipschitzWith K (gradient f)` and differentiability imply `LipschitzSmoothWith ℝ K f`
   (`LipschitzSmoothWith.of_lipschitzWith_gradient`), from the supplier 5.1 applied to `f` and to
   `−f`;
@@ -150,7 +153,7 @@ Define `LipschitzSmoothWith ℝ K f` as in [Conventions](#conventions), and prov
   `(‖c‖₊ K)`-smooth; `x ↦ ⟪A x, x⟫ / 2` is `‖A‖₊`-smooth for `A : E →L[ℝ] E` symmetric
   (`IsSymmetric`), with gradient `A x`;
 - **sufficient decrease:** for every `η`,
-  `f (x − η ∇f x) ≤ f x − η (1 − K η / 2) ‖∇f x‖²` (`LipschitzSmoothWith.apply_sub_smul_gradient_le`);
+  `f (x − η ∇f x) ≤ f x − η (1 − K η / 2) ‖∇f x‖²`;
 - **gradient bound at a lower bound:** if `∀ y, m ≤ f y`, then `‖∇f x‖² ≤ 2 K (f x − m)`
   (`LipschitzSmoothWith.norm_gradient_sq_le`).
 
@@ -173,19 +176,26 @@ Let `f` be convex and `K`-smooth with `K > 0`. Prove, for all `x`, `y`:
 
 - `f x + ⟪∇f x, y − x⟫ + ‖∇f y − ∇f x‖² / (2K) ≤ f y` (`ConvexOn.add_inner_gradient_add_le`);
 - **cocoercivity:** `‖∇f x − ∇f y‖² / K ≤ ⟪∇f x − ∇f y, x − y⟫`
-  (`ConvexOn.norm_gradient_sub_sq_le_inner`);
-- `LipschitzWith K (gradient f)`, so that for convex differentiable `f` the two notions coincide
-  (`ConvexOn.lipschitzSmoothWith_iff_lipschitzWith_gradient`, the Baillon–Haddad theorem in
-  finite and infinite dimension).
+  (`ConvexOn.norm_gradient_sub_sq_le_inner`).
 
-(Nesterov 2018, Theorem 2.1.5; proved here.)
+Prove also, for every `K : ℝ≥0` and every `K`-smooth `f`, convex or not, that
+`LipschitzWith K (gradient f)` (`LipschitzSmoothWith.lipschitzWith_gradient`; for convex `f` this
+is the Baillon–Haddad theorem, in finite and infinite dimension), so that with 1.1 a
+differentiable `f` is `K`-smooth exactly when its gradient is `K`-Lipschitz. For convex `f` and
+`K > 0` it follows from cocoercivity and the Cauchy–Schwarz inequality. In general, for `K > 0`,
+the function `h = f + K/2 ‖·‖²` is convex and `2K`-smooth by the two bounds of 1.1, and
+cocoercivity of `∇h x = ∇f x + K • x` with constant `2K` gives `‖∇f x − ∇f y‖ ≤ K ‖x − y‖`; for
+`K = 0`, `f` is affine.
+
+(Nesterov 2018, Theorem 2.1.5, for convex `f`; the statement without convexity is proved here.)
 
 **Checks.**
 
 - `f x = K/2 ‖x‖²`: cocoercivity is an equality.
 - `f = log (1 + exp ·)` on `ℝ` with `K = 1/4`: `f` is convex and `1/4`-smooth, and cocoercivity
   holds with constant `4`.
-- `f x = −‖x‖²/2` is `1`-smooth but not convex, and cocoercivity fails at `x ≠ y`.
+- `f x = −‖x‖²/2` is `1`-smooth but not convex, and cocoercivity fails at `x ≠ y`, while its
+  gradient `−x` is `1`-Lipschitz.
 
 *Needs:* 1.1; Tau Ceti `StrongConvexOn.add_add_le_of_hasFDerivWithinAt`; Mathlib
 `strongConvexOn_zero`.
@@ -195,10 +205,14 @@ Let `f` be convex and `K`-smooth with `K > 0`. Prove, for all `x`, `y`:
 Let `f` be `μ`-strongly convex and differentiable with `μ > 0`. Prove:
 
 - **strong monotonicity:** `μ ‖x − y‖² ≤ ⟪∇f x − ∇f y, x − y⟫`;
-- if `f` is continuous, it has a unique minimizer `x⋆` (`StrongConvexOn.existsUnique_isMinOn`),
-  and `μ/2 ‖x − x⋆‖² ≤ f x − f⋆` (quadratic growth);
+- a continuous `μ`-strongly convex `f` with `μ > 0`, differentiable or not, has a unique
+  minimizer `x⋆` (`StrongConvexOn.existsUnique_isMinOn`); `f` is bounded below, because it is
+  bounded on a ball around `0` and the strong convexity inequality on the segment from `0` to `y`
+  gives `f y ≥ c₀ − c₁ ‖y‖ + μ/4 ‖y‖²` for large `‖y‖`;
+- `μ/2 ‖x − x⋆‖² ≤ f x − f⋆` (quadratic growth);
 - `2μ (f x − f⋆) ≤ ‖∇f x‖²`;
-- if moreover `f` is `K`-smooth and `E` is nontrivial, `μ ≤ K`, and for all `x`, `y`:
+- if moreover `f` is `K`-smooth, then `μ ≤ K` when `E` is nontrivial, and, in every `E`, for all
+  `x`, `y`:
   `μK/(μ + K) ‖x − y‖² + 1/(μ + K) ‖∇f x − ∇f y‖² ≤ ⟪∇f x − ∇f y, x − y⟫`
   (`StrongConvexOn.inner_gradient_sub_ge`).
 
@@ -213,6 +227,8 @@ proved here.)
 - `f x = (x₁² + 4 x₂²)/2` on `ℝ²` with `μ = 1`, `K = 4`: at `x = (1, 0)`, `y = 0` the last
   inequality is `4/5 + 1/5 = 1 ≤ 1`, an equality; at `x = (0, 1)` it is `4/5 + 16/5 = 4 ≤ 4`.
 - `μ = 0`: uniqueness of the minimizer fails for `f = 0`, and existence fails for `f = exp` on `ℝ`.
+- `f x = |x| + x²/2` on `ℝ` is continuous and `1`-strongly convex, not differentiable at `0`, and
+  has the unique minimizer `0`.
 
 *Needs:* 1.1, 1.2; Mathlib `StrongConvexOn`, `strongConvexOn_iff_convex`; Tau Ceti
 `StrongConvexOn.add_add_le_of_hasFDerivWithinAt`.
@@ -224,10 +240,11 @@ Define `PolyakLojasiewicz μ f` as a structure with fields `bddBelow : BddBelow 
 
 - a differentiable `μ`-strongly convex function with `μ > 0` is `PolyakLojasiewicz μ`;
 - under `PolyakLojasiewicz μ f` with `μ > 0`, every `x` with `∇f x = 0` is a global minimizer;
-- **least squares:** for `A : E →ₗ[ℝ] F` between finite-dimensional real inner product spaces
-  with `A ≠ 0` and `b : F`, the function `x ↦ ‖A x − b‖² / 2` is `PolyakLojasiewicz σ²` with `σ`
-  the smallest nonzero singular value of `A` (`polyakLojasiewicz_leastSquares`), whatever the
-  rank of `A`.
+- **least squares:** for `A : E →ₗ[ℝ] F` between finite-dimensional real inner product spaces,
+  `b : F`, and `σ > 0` at most every nonzero singular value of `A`, the function
+  `x ↦ ‖A x − b‖² / 2` is `PolyakLojasiewicz σ²` (`polyakLojasiewicz_leastSquares`), whatever the
+  rank of `A`. For `A ≠ 0` the largest such `σ` is the smallest nonzero singular value; for
+  `A = 0` the function is constant and every `σ > 0` is allowed.
 
 (Karimi, Nutini and Schmidt 2016, Section 2.3 and Appendix B; proved here.)
 
@@ -247,8 +264,9 @@ Define `PolyakLojasiewicz μ f` as a structure with fields `bddBelow : BddBelow 
 
 ### Dependencies
 
-Layer 1 uses SpectralSteepestDescent 5.1 and the Tau Ceti and Mathlib convexity suppliers. The
-per-target *Needs:* lines are authoritative.
+Layer 1 uses SpectralSteepestDescent 5.1, Tau Ceti's
+`StrongConvexOn.add_add_le_of_hasFDerivWithinAt`, and Mathlib's gradient, convexity and
+singular-value declarations named in the *Needs:* lines.
 
 ## Layer 2: gradient descent
 
@@ -257,12 +275,13 @@ Define `gradientStep f η x = x − η • ∇f x` and the iterates
 
 ### 2.1 Nonconvex smooth functions
 
-Let `f` be `K`-smooth with `K > 0` and `∀ y, m ≤ f y`, and `0 < η ≤ 1/K`. Prove
+Let `f` be `K`-smooth with `∀ y, m ≤ f y`, and `η > 0` with `η K ≤ 1` (that is, `η ≤ 1/K` when
+`K > 0`). Prove
 `f x_{k+1} ≤ f x_k − η/2 ‖∇f x_k‖²`,
 `Σ_{i < k} ‖∇f x_i‖² ≤ 2 (f x₀ − m) / η`, hence
 `min_{i < k} ‖∇f x_i‖² ≤ 2 (f x₀ − m) / (η k)` for `k ≥ 1`, and `∇f x_k → 0`
 (`gradientDescent_sum_norm_gradient_sq_le`, `tendsto_gradient_gradientDescent`). For
-`0 < η < 2/K` prove `Σ_{i < k} ‖∇f x_i‖² ≤ (f x₀ − m) / (η (1 − Kη/2))`.
+`η > 0` with `η K < 2` prove `Σ_{i < k} ‖∇f x_i‖² ≤ (f x₀ − m) / (η (1 − Kη/2))`.
 
 (Nesterov 2018, (1.2.20)–(1.2.22); proved here.)
 
@@ -277,7 +296,7 @@ Let `f` be `K`-smooth with `K > 0` and `∀ y, m ≤ f y`, and `0 < η ≤ 1/K`.
 
 ### 2.2 Convex smooth functions
 
-Let `f` be convex and `K`-smooth with `K > 0`, `x⋆` a minimizer, and `0 < η ≤ 1/K`. Prove:
+Let `f` be convex and `K`-smooth, `x⋆` a minimizer, and `η > 0` with `η K ≤ 1`. Prove:
 
 - `f x_k` is nonincreasing and `‖x_k − x⋆‖` is nonincreasing;
 - `f x_k − f⋆ ≤ ‖x₀ − x⋆‖² / (2 η k)` for `k ≥ 1` (`gradientDescent_convex_rate`);
@@ -298,8 +317,9 @@ convergence of the iterates is proved here from Fejér monotonicity.)
 
 ### 2.3 Polyak–Łojasiewicz functions
 
-Let `f` be `K`-smooth and `PolyakLojasiewicz μ f` with `0 < μ`, `K > 0`, and `f⋆ = ⨅ y, f y`.
+Let `f` be `K`-smooth with `K > 0` and `PolyakLojasiewicz μ f`, and `f⋆ = ⨅ y, f y`.
 For `η = 1/K`, `f x_k − f⋆ ≤ (1 − μ/K)^k (f x₀ − f⋆)` (`gradientDescent_polyakLojasiewicz_rate`).
+The bound holds for every real `μ`; it is a linear rate when `μ > 0`.
 
 (Karimi, Nutini and Schmidt 2016, Theorem 1; proved here.)
 
@@ -307,7 +327,8 @@ For `η = 1/K`, `f x_k − f⋆ ≤ (1 − μ/K)^k (f x₀ − f⋆)` (`gradient
 
 - The least-squares function of 1.4 with `A = [[1, 0], [0, 0]]`, `b = (0, 1)`, `K = μ = 1`:
   `x_1 = (0, x₀₂)` reaches the infimum `1/2` in one step, as the factor `0` predicts.
-- `μ ≤ K` whenever `f` is not constant, so the factor lies in `[0, 1)`.
+- For `μ > 0`, `μ ≤ K` whenever `f` is not constant, so the factor lies in `[0, 1)`; for
+  `μ ≤ 0` the factor is at least `1` and the bound follows from `f x_k ≤ f x₀`.
 - `f x = x² + 3 sin² x` on `ℝ` is `8`-smooth, not convex, and `PolyakLojasiewicz (1/32)`
   (Karimi, Nutini and Schmidt 2016, Section 2), so the factor is `1 − 1/256`.
 
@@ -346,9 +367,10 @@ Layer 2 uses Layer 1.
 
 ### 3.1 Projection onto a closed convex set
 
-Let `C : Set E` be nonempty, closed and convex. Define
-`convexProjection C x` as the unique point of `C` nearest to `x` (from
-`exists_norm_eq_iInf_of_complete_convex`; on other sets it returns `x`). Prove:
+Let `C : Set E` be nonempty, closed and convex. The nearest-point map onto `C` is `metricProj C`
+of MathematicalStatisticsNonparametric 6.5. `convexProjection C` is that map with junk value `x`
+in place of `0`; the two agree for nonempty closed convex `C`, where the nearest point exists by
+`exists_norm_eq_iInf_of_complete_convex` and is unique. Prove:
 
 - the variational inequality: `p = convexProjection C x ↔ p ∈ C ∧ ∀ z ∈ C, ⟪x − p, z − p⟫ ≤ 0`;
 - **firm nonexpansiveness:**
@@ -364,8 +386,11 @@ Let `C : Set E` be nonempty, closed and convex. Define
 - `C = closedBall 0 1`: `P x = x / max 1 ‖x‖`.
 - `C = {x | 0 ≤ x}` in `EuclideanSpace ℝ ι`: `P x = max x 0` coordinatewise.
 - `C = Set.Icc (−1) 1` in `ℝ`: `P x = max (−1) (min 1 x)`.
+- `C = ∅`: `convexProjection ∅ x = x` and `metricProj ∅ x = 0`; the two maps differ only outside
+  the hypothesis that `C` is nonempty, closed and convex.
 
-*Needs:* Mathlib `exists_norm_eq_iInf_of_complete_convex`, `norm_eq_iInf_iff_real_inner_le_zero`.
+*Needs:* MathematicalStatisticsNonparametric 6.5; Mathlib `exists_norm_eq_iInf_of_complete_convex`,
+`norm_eq_iInf_iff_real_inner_le_zero`.
 
 ### 3.2 The proximal map
 
@@ -401,8 +426,9 @@ MathematicalStatisticsNonparametric 6.4.
 
 ### 3.3 The subgradient method
 
-Let `f : E → ℝ` be convex with a minimizer `x⋆`, and `s : E → E` with
-`s x ∈ subdifferential (innerₗ E) (fun z ↦ (f z : EReal)) x` and `‖s x‖ ≤ G` for all `x`. For a
+Let `f : E → ℝ` have a minimizer `x⋆`, and `s : E → E` with
+`s x ∈ subdifferential (innerₗ E) (fun z ↦ (f z : EReal)) x` and `‖s x‖ ≤ G` for all `x`; such an
+`f` is convex, being the supremum of the affine functions `f x + ⟪s x, · − x⟫`. For a
 schedule `η` with `η i > 0`, let `x_{i+1} = x_i − η i • s x_i`. Prove
 
 `min_{i ≤ k} f x_i − f⋆ ≤ (‖x₀ − x⋆‖² + G² Σ_{i ≤ k} (η i)²) / (2 Σ_{i ≤ k} η i)`
@@ -424,15 +450,15 @@ schedule `η` with `η i > 0`, let `x_{i+1} = x_i − η i • s x_i`. Prove
 
 ### 3.4 Proximal gradient descent
 
-Let `f` be convex and `K`-smooth with `K > 0`, `g : E → EReal` closed proper convex, and
+Let `f` be convex and `K`-smooth, `g : E → EReal` closed proper convex, and
 `F x = (f x : EReal) + g x` with a minimizer `x⋆`. Define
 `proxGradientStep f g η x = prox g η (x − η • ∇f x)` and its iterates `x_k`. For
-`0 < η ≤ 1/K`, prove:
+`η > 0` with `η K ≤ 1`, prove:
 
 - `F x_{k+1} ≤ F x_k` for all `k`, and `F x_k ≠ ⊤` for `k ≥ 1`;
 - `F x_k ≤ F x⋆ + ‖x₀ − x⋆‖² / (2ηk)` for `k ≥ 1` (`proxGradient_rate`);
 - if `f` is `μ`-strongly convex with `μ > 0`, then for every `0 < η ≤ 2/(μ + K)` (not only
-  `η ≤ 1/K`): `‖x_k − x⋆‖² ≤ (1 − 2ημK/(μ + K))^k ‖x₀ − x⋆‖²`, since the gradient step contracts
+  `η K ≤ 1`): `‖x_k − x⋆‖² ≤ (1 − 2ημK/(μ + K))^k ‖x₀ − x⋆‖²`, since the gradient step contracts
   by 1.3 and `prox g η` is nonexpansive with fixed point `x⋆ − η ∇f x⋆ ↦ x⋆`.
 
 With `g = ι_C` the iteration is projected gradient descent, and with `g = 0` it is
@@ -457,7 +483,7 @@ lasso.
 ### Dependencies
 
 Layer 3 uses 1.1–1.3, the Tau Ceti subdifferential, Moreau–Yosida and Fenchel–Moreau suppliers,
-and MathematicalStatisticsNonparametric 6.4.
+Mathlib's two nearest-point lemmas, and MathematicalStatisticsNonparametric 6.4 and 6.5.
 
 ## Layer 4: momentum and acceleration
 
@@ -487,7 +513,7 @@ Theorem 1; proved here.)
 
 ### 4.2 FISTA
 
-Let `f`, `g`, `F`, `x⋆` be as in 3.4 and `0 < η ≤ 1/K`. Define FISTA with the state
+Let `f`, `g`, `F`, `x⋆` be as in 3.4 and `η > 0` with `η K ≤ 1`. Define FISTA with the state
 `(x_k, x_{k−1}, t_k)` (one step is `fistaStep`): `y₁ = x₀`, `t₁ = 1`, and for `k ≥ 1`
 `x_k = prox g η (y_k − η ∇f y_k)`, `t_{k+1} = (1 + √(1 + 4 t_k²))/2`,
 `y_{k+1} = x_k + ((t_k − 1)/t_{k+1}) (x_k − x_{k−1})`. Prove `t_k ≥ (k + 1)/2` and
@@ -530,7 +556,7 @@ The heavy-ball and accelerated rates on `diag(1, 100)`, and FISTA on the lasso.
 
 ### Dependencies
 
-Layer 4 uses Layers 1 and 3.
+Layer 4 uses Layers 1 and 3 and Mathlib's `LinearMap.IsSymmetric.eigenvectorBasis`.
 
 ## Layer 5: stochastic approximation
 
@@ -545,14 +571,18 @@ suppose `P[V (n+1) | ℱ n] ≤ᵐ (1 + a n) V n + β n − ζ n` for all `n`. P
 - **the theorem:** for almost every `ω` with `Σ_n a n ω < ∞` and `Σ_n β n ω < ∞`, `V n ω`
   converges to a real limit and `Σ_n ζ n ω < ∞` (`ae_tendsto_of_robbinsSiegmund`,
   `ae_summable_of_robbinsSiegmund`);
-- **the integrable form:** if moreover `a` is deterministic with `Σ a n < ∞`, `β n` and `ζ n` are
+- **the integrable form:** if moreover `a` is deterministic with `Σ a n < ∞`, `β n` is
   integrable and `Σ_n ∫ β n ∂P < ∞`, then the hypotheses of the theorem hold almost surely, and
-  `sup_n ∫ V n ∂P < ∞` and `Σ_n ∫ ζ n ∂P < ∞` (`robbinsSiegmund_integrable`).
+  `sup_n ∫ V n ∂P < ∞` and `Σ_n ∫ ζ n ∂P < ∞` (`robbinsSiegmund_integrable`). Each `ζ n` is then
+  integrable, since `0 ≤ ζ n ≤ (1 + a n) V n + β n` almost surely.
 
 In the integrable form, `V n / Π_{i<n} (1 + a i) − Σ_{i<n} (β i − ζ i)/Π_{j≤i} (1 + a j)` is a
 supermartingale bounded in `L¹`, and the supplier convergence theorem applies to its negative. The
-theorem reduces to it by stopping at the first `n` with `Σ_{k≤n} (a k + β k) > K`, for each
-`K : ℕ`. (Robbins and Siegmund 1971, Theorem 1; Combettes and Pesquet 2015, Lemma 2.2; proved
+theorem reduces to it: dividing by the `ℱ n`-measurable product `Π_{i≤n} (1 + a i) ≥ 1` gives the
+recursion with `a = 0` for `V n / Π_{i<n} (1 + a i)`; then stop at the first `n` with
+`Σ_{k≤n} β k > K`, for each `K : ℕ`. The stopped `β` is bounded by `K` and the stopped `ζ` by
+`V n + β n`, so both are integrable; on `{Σ a < ∞}` the product converges, and the conclusions
+transfer. (Robbins and Siegmund 1971, Theorem 1; Combettes and Pesquet 2015, Lemma 2.2; proved
 here.)
 
 **Checks.**
@@ -564,7 +594,8 @@ here.)
 - Random `a n = ξ/(n + 1)²` with `ξ ≥ 0` `ℱ 0`-measurable and unbounded is covered by the theorem
   and not by the integrable form.
 
-*Needs:* Mathlib `condExp`, `Supermartingale`, `Submartingale.ae_tendsto_limitProcess`.
+*Needs:* Mathlib `condExp`, `Supermartingale`, `Submartingale.ae_tendsto_limitProcess`,
+`Submartingale.exists_ae_tendsto_of_bdd`.
 
 ### 5.2 Stochastic gradient descent
 
@@ -595,12 +626,14 @@ non-integrable functions. Prove, for `K`-smooth `f`, deterministic `x 0` and `0 
 
 Let `IsSGD ℱ P f η σ x g` with `x 0 = fun _ ↦ x₀`. Prove:
 
-- **nonconvex:** for `f` `K`-smooth with `∀ y, m ≤ f y` and constant `η n = η ∈ (0, 1/K]`,
+- **nonconvex:** for `f` `K`-smooth with `∀ y, m ≤ f y`, constant `η n = η > 0` with `η K ≤ 1`,
+  and `N ≥ 1`,
   `(1/N) Σ_{n<N} ∫ ‖∇f (x n)‖² ∂P ≤ 2 (f x₀ − m)/(η N) + K η σ²` (`sgd_nonconvex_rate`);
-- **strongly convex, constant step:** for `f` `μ`-strongly convex and `K`-smooth with minimizer
-  `x⋆` and `η n = η ∈ (0, 1/K]`,
+- **strongly convex, constant step:** for `f` `μ`-strongly convex with `μ > 0` and `K`-smooth,
+  with minimizer `x⋆`, and `η n = η > 0` with `η K ≤ 1`,
   `∫ ‖x n − x⋆‖² ∂P ≤ (1 − ημ)^n ‖x₀ − x⋆‖² + η σ²/μ` (`sgd_strongConvex_constant_rate`);
-- **strongly convex, decreasing step:** for `η n = 2/(μ (n + n₀))` with `n₀ ≥ 2K/μ`,
+- **strongly convex, decreasing step:** for the same `f` and `η n = 2/(μ (n + n₀))` with
+  `n₀ : ℕ`, `n₀ ≥ 2K/μ`,
   `∫ ‖x n − x⋆‖² ∂P ≤ max (n₀ ‖x₀ − x⋆‖²) (4σ²/μ²) / (n + n₀)` (`sgd_strongConvex_rate`).
 
 The strongly convex recursions use `⟪∇f x, x − x⋆⟫ ≥ μ/2 ‖x − x⋆‖² + 1/(2K) ‖∇f x‖²`, the average
@@ -661,7 +694,7 @@ Layer 5 uses Layer 1 and Mathlib's martingale theory.
 
 Let `f` be `K`-smooth and `P : E ≃L[ℝ] E` with `⟪P v, v⟫ ≥ p ‖v‖²` for all `v`, with `p > 0`. Write `d x = P.symm (∇f x)`. Prove
 `f (x − η d x) ≤ f x − η ⟪∇f x, d x⟫ + K η²/2 ‖d x‖²` and `‖d x‖² ≤ ⟪∇f x, d x⟫ / p`, so for
-`0 < η ≤ p/K`: `f (x − η d x) ≤ f x − η/2 ⟪∇f x, d x⟫` (`preconditioned_descent`). For the iterates
+`η > 0` with `η K ≤ p`: `f (x − η d x) ≤ f x − η/2 ⟪∇f x, d x⟫`. For the iterates
 `x_{i+1} = x_i − η d x_i` and `∀ y, m ≤ f y`, prove
 `Σ_{i < k} ⟪∇f x_i, d x_i⟫ ≤ 2 (f x₀ − m)/η` (`preconditioned_sum_le`).
 
@@ -765,7 +798,7 @@ Adam and RMSProp on constant gradients, and the Reddi–Kale–Kumar sequence fo
 
 ### Dependencies
 
-Layer 6 uses 1.1.
+Layer 6 uses 1.1 and Mathlib's `EuclideanSpace`.
 
 ## Downstream consumers
 
