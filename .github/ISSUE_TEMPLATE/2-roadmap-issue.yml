@@ -150,6 +150,7 @@ body:
         - IntegralHeckeAndGaloisDeterminants
         - IntegralIwasawaTheory
         - IntegralLattices
+        - InverseGaloisAndArithmeticFundamentalGroups
         - Isoperimetry
         - JacobianChallenge
         - K2SymbolsBrauer
@@ -180,6 +181,7 @@ body:
         - MorseNovikov
         - MorseTheory
         - NashBlowups
+        - NeronModelsAndSemistableAbelianVarieties
         - Neuromanifolds
         - NewtonPolygons
         - NilpotentOrbits
