@@ -2,6 +2,8 @@ module
 
 public import Mathlib
 public import TauCeti.GroupTheory.Coxeter.Geometric
+public import TauCeti.GroupTheory.Coxeter.Graph
+public import TauCeti.LinearAlgebra.RootSystem.Coxeter.DynkinType
 public import TauCeti.LinearAlgebra.RootSystem.Coxeter.Presentation
 public import TauCeti.LinearAlgebra.RootSystem.Inversions.Basic
 public import TauCeti.LinearAlgebra.RootSystem.FiniteType.Classification
@@ -15,9 +17,11 @@ The roadmap is README.md; this file is not the roadmap. It states the roadmap's
 headline theorems against the pinned Mathlib and Tau Ceti APIs: geometric root
 signs, faithfulness and the integral realization of the geometric action, the
 inversion length on the presented Weyl group, the type A Weyl group over
-characteristic-zero domains, the root-string characterization of the highest
-root, the Weyl/based complement with the based diagram identification, and the
-invariant metric scale.
+characteristic-zero domains, the finiteness criterion for Coxeter groups, their
+splitting along a commuting partition of the generators, the classification of
+the connected positive definite Coxeter matrices and of the finite Coxeter
+groups, the root-string characterization of the highest root, the Weyl/based
+complement with the based diagram identification, and the invariant metric scale.
 
 Tits' theorem, the marked Coxeter system on the Weyl group and its length formula,
 base independence of the Cartan type, the rational classification up to
@@ -112,6 +116,86 @@ theorem nonempty_weylGroup_mulEquiv_perm_of_typeA {ι R V U : Type*}
     [P.IsCrystallographic] [P.IsReduced] (b : P.Base) {n : ℕ}
     (h : TauCeti.HasCartanType P b (.A n)) :
     Nonempty (P.weylGroup ≃* Equiv.Perm (Fin (n + 1))) := sorry
+
+/-- A Coxeter group is finite exactly when its index type is finite and its geometric
+form is positive definite; the index type is arbitrary (Davis, Theorem 6.12.9). -/
+theorem finite_iff_geometricForm_posDef {I W : Type*} [Group W]
+    {M : CoxeterMatrix I} (cs : CoxeterSystem M W) :
+    Finite W ↔ Finite I ∧ M.geometricForm.toQuadraticMap.PosDef := sorry
+
+/-- When every generator indexed by `J` commutes with every generator outside `J`, the
+two standard parabolic subgroups commute elementwise and each element of the group is
+a product of one element of each in exactly one way (Davis, Proposition 4.1.7). -/
+theorem isComplement'_parabolic_compl {I W : Type*} [Group W]
+    {M : CoxeterMatrix I} (cs : CoxeterSystem M W) (J : Set I)
+    (h : ∀ i ∈ J, ∀ j ∉ J, M i j = 2) :
+    (cs.parabolic J).IsComplement' (cs.parabolic Jᶜ) ∧
+      ∀ u ∈ cs.parabolic J, ∀ v ∈ cs.parabolic Jᶜ, Commute u v := sorry
+
+/-- The types of the irreducible finite Coxeter systems. Type G₂ is `I 6`, and types
+B₂ and A₂ are not repeated among the dihedral types. -/
+inductive FiniteCoxeterType where
+  | A (n : ℕ) | B (n : ℕ) | D (n : ℕ)
+  | E6 | E7 | E8 | F4 | H3 | H4
+  | I (m : ℕ)
+
+namespace FiniteCoxeterType
+
+/-- The number of generators of a finite Coxeter type. -/
+def rank : FiniteCoxeterType → ℕ
+  | A n | B n => n
+  | D n => (TauCeti.DynkinType.D n).rank
+  | E6 => 6 | E7 => 7 | E8 => 8
+  | F4 => 4 | H3 => 3 | H4 => 4
+  | I _ => 2
+
+/-- The parameter ranges in which the listed types are pairwise distinct. -/
+def Valid : FiniteCoxeterType → Prop
+  | A n => 1 ≤ n
+  | B n => 2 ≤ n
+  | D n => 4 ≤ n
+  | I m => 5 ≤ m
+  | _ => True
+
+/-- The standard Coxeter matrix of a finite Coxeter type. Type Dₙ uses the Coxeter matrix
+of the native Dynkin type, with the fork at the last three nodes. -/
+def coxeterMatrix : (t : FiniteCoxeterType) → CoxeterMatrix (Fin t.rank)
+  | A n => CoxeterMatrix.A n
+  | B n => CoxeterMatrix.B n
+  | D n => (TauCeti.DynkinType.D n).coxeterMatrix
+  | E6 => CoxeterMatrix.E₆
+  | E7 => CoxeterMatrix.E₇
+  | E8 => CoxeterMatrix.E₈
+  | F4 => CoxeterMatrix.F₄
+  | H3 => CoxeterMatrix.H₃
+  | H4 => CoxeterMatrix.H₄
+  | I m => CoxeterMatrix.I (m - 2)
+
+/-- Every valid finite Coxeter type has connected Coxeter graph and positive definite
+geometric form (Davis, Lemma C.2.1). -/
+theorem connected_graph_and_posDef (t : FiniteCoxeterType) (ht : t.Valid) :
+    t.coxeterMatrix.graph.Connected ∧
+      t.coxeterMatrix.geometricForm.toQuadraticMap.PosDef := sorry
+
+end FiniteCoxeterType
+
+/-- A Coxeter matrix on a finite index type with connected Coxeter graph and positive
+definite geometric form is, after relabelling, the standard matrix of exactly one valid
+finite Coxeter type (Davis, Theorem C.1.2). -/
+theorem existsUnique_finiteCoxeterType {I : Type*} [Finite I] (M : CoxeterMatrix I)
+    (hconn : M.graph.Connected) (hpos : M.geometricForm.toQuadraticMap.PosDef) :
+    ∃! t : FiniteCoxeterType, t.Valid ∧
+      ∃ e : I ≃ Fin t.rank, ∀ i j, M i j = t.coxeterMatrix (e i) (e j) := sorry
+
+/-- The classification of finite Coxeter groups: a Coxeter group is finite exactly when
+it has finitely many generators and the Coxeter matrix restricted to each connected
+component of the Coxeter graph is the standard matrix of a valid finite Coxeter type. -/
+theorem finite_iff_forall_connectedComponent {I W : Type*} [Group W]
+    {M : CoxeterMatrix I} (cs : CoxeterSystem M W) :
+    Finite W ↔ Finite I ∧ ∀ K : M.graph.ConnectedComponent,
+      ∃ t : FiniteCoxeterType, t.Valid ∧
+        ∃ e : K.supp ≃ Fin t.rank, ∀ i j : K.supp, M i j = t.coxeterMatrix (e i) (e j) :=
+  sorry
 
 /-! ## Layer 4: coefficient reflections and the greatest root -/
 

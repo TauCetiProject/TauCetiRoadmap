@@ -7,6 +7,9 @@ faithful geometric representation of arbitrary Coxeter systems, including
 infinite rank and infinite exponents. The end results are geometric faithfulness
 and its integral form, the length formula on the presented Weyl group, the
 symmetric-group Weyl group of type A over every characteristic-zero domain,
+the criterion that a Coxeter group is finite exactly when its generating set
+is finite and its geometric form is positive definite, the classification of
+the finite Coxeter groups,
 walks to the greatest root, the semidirect decomposition of root automorphisms
 with its oriented-diagram and integral-lattice forms, and componentwise
 invariant metrics.
@@ -15,8 +18,9 @@ invariant metrics.
 
 This roadmap owns the general Coxeter geometric sign and faithfulness theorems
 (Layer 1), the consumer interface of the marked Weyl presentation (Layer 2), the
-type A Weyl group over characteristic-zero domains (Layer 3), coefficient
-reflections and greatest-root walks (Layer 4),
+type A Weyl group over characteristic-zero domains, the finiteness criterion
+for Coxeter groups and the classification of the finite Coxeter groups
+(Layer 3), coefficient reflections and greatest-root walks (Layer 4),
 root automorphisms and the based complement (Layer 5), and the irreducible
 components with their invariant metrics (Layer 6).
 
@@ -25,7 +29,8 @@ abstract Coxeter systems and the two-length theorem for invariant forms. Tau Cet
 supplies positive roots, lowering, inversions, root and abstract exchange, Tits'
 theorem with the length–inversion formula, Matsumoto, Bruhat order, Poincaré
 polynomials, parabolic restriction, the geometric action of a Coxeter system,
-chambers, simple transitivity on bases, the longest element, the finite Cartan
+its Coxeter graph, the Coxeter matrix of each Dynkin type, chambers, simple
+transitivity on bases, the longest element, the finite Cartan
 classification, its base independence and the rational classification up to
 isomorphism, Cartan rigidity, the highest root, the rank-two dihedral and
 rational type A Weyl groups, and the numbered simply
@@ -52,8 +57,11 @@ lattice theory.
 [ReflectionInvariantTheory, §4](../../ReflectionInvariantTheory/README.md#4-crystallographic-weylcoxeter-dictionary)
 owns exponents, invariant degrees and their root-height comparison; its §3 owns
 the hyperplane arrangements of general finite real reflection groups, whereas
-the chambers here are the native algebraic cones. RootSystemsPartII, Layers 1–4,
-owns integral dominance, the Stembridge step, finite diagram folding and
+the chambers here are the native algebraic cones. §§3.3–3.5 here own the
+classification of the finite Coxeter groups by their Coxeter matrices,
+including the noncrystallographic types H₃, H₄ and I₂(m) for m=5 and m≥7;
+they state nothing about invariants, degrees or exponents. RootSystemsPartII,
+Layers 1–4, owns integral dominance, the Stembridge step, finite diagram folding and
 invariant dominance. [ReductiveGroups, §9A.1a-L](../../ReductiveGroups/README.md)
 owns kernel-fixing ADE cover lifts, and
 [ZigzagPreprojective, Layer 0](../../ZigzagPreprojective/README.md) owns affine
@@ -97,13 +105,18 @@ negative by w. The forward cocharacter map of a root-pairing equivalence is the
 inverse of its contravariant `RootPairing.Equiv.coweightEquiv`.
 
 For a general Coxeter system `cs : CoxeterSystem M W`, the index type I and group
-W have arbitrary universes. There is no finiteness hypothesis. Work on the free
-real vector space `I →₀ ℝ`, writing αᵢ for `Finsupp.single i 1` and ρ for the
-native geometric representation. The Coxeter entry 0 means infinite order,
+W have arbitrary universes. There is no standing finiteness hypothesis. Work on
+the free real vector space `I →₀ ℝ`, writing αᵢ for `Finsupp.single i 1` and ρ
+for the native geometric representation. The Coxeter entry 0 means infinite order,
 not order zero; diagonal entries are 1. The Gram form B has diagonal 1 and
 B(αᵢ,αⱼ)=−cos(π/mᵢⱼ), with value −1 at an infinite entry. A simple reflection is
 x ↦ x−2B(αᵢ,x)αᵢ. The form may be degenerate or indefinite. Positivity means
 coordinatewise nonnegativity and nonzero vector, not positive squared norm.
+Finiteness of W and positive definiteness of B occur only in §§3.3–3.5, as
+stated hypotheses or conclusions; before them, finiteness of I enters only the
+coordinate transport to `I → ℝ` of §1.3 and the integral Gram matrix of §1.4.
+The Coxeter graph joins distinct i,j with mᵢⱼ≠2, infinite entries included,
+and the label of an edge is its entry.
 
 Products act on the left, with the rightmost factor acting first. A right descent
 of w is an i with ℓ(wsᵢ)<ℓ(w). `CoxeterSystem.alternatingWord i j k` ends in j
@@ -203,6 +216,23 @@ Paths in this subsection are relative to Mathlib.
   equations are `CoxeterMatrix.reindexGroupEquiv_apply_simple` and
   `CoxeterMatrix.reindexGroupEquiv_symm_apply_simple`; the inverse sends the
   generator at i to the generator at e(i).
+- `CoxeterMatrix.A`, `CoxeterMatrix.B`, `CoxeterMatrix.I`, `CoxeterMatrix.E₆`,
+  `CoxeterMatrix.E₇`, `CoxeterMatrix.E₈`, `CoxeterMatrix.F₄`, `CoxeterMatrix.H₃`
+  and `CoxeterMatrix.H₄` in `Mathlib/GroupTheory/Coxeter/Matrix.lean` are the
+  named matrices of §3.5; `CoxeterMatrix.I m` has off-diagonal entry m+2.
+  `QuadraticMap.PosDef` in `Mathlib/LinearAlgebra/QuadraticForm/Basic.lean` is
+  strict positivity at every nonzero vector, and `Matrix.PosDef` in
+  `Mathlib/LinearAlgebra/Matrix/PosDef.lean` is its matrix form.
+  `SimpleGraph.Connected`, `SimpleGraph.ConnectedComponent` and
+  `SimpleGraph.ConnectedComponent.supp` in
+  `Mathlib/Combinatorics/SimpleGraph/Connectivity/Connected.lean` give
+  connectedness, which includes a vertex, the components and their vertex
+  sets. `MeasureTheory.Measure.addHaar_image_linearMap` in
+  `Mathlib/MeasureTheory/Measure/Lebesgue/EqHaar.lean` scales the measure of
+  the image of a set under a linear map by the absolute value of the
+  determinant. `Real.cos_pi_div_five` in
+  `Mathlib/Analysis/SpecialFunctions/Trigonometric/Basic.lean` gives
+  cos(π/5)=(1+√5)/4.
 - `Finsupp.lmapDomain` and `Finsupp.linearEquivFunOnFinite` in
   `Mathlib/LinearAlgebra/Finsupp/Defs.lean` give coordinate transport.
   `MulAction.stabilizer`, `Subgroup.comap` and `Subgroup.IsComplement'` supply
@@ -279,11 +309,19 @@ keep their native hypotheses.
   `CoxeterMatrix.geometricReflection`, `CoxeterMatrix.geometricReflection_apply`,
   `CoxeterSystem.geometricRepresentation`,
   `CoxeterSystem.geometricRepresentation_simple`,
-  `CoxeterSystem.geometricForm_geometricRepresentation`, and
-  `CoxeterSystem.orderOf_simple_mul_simple` in
+  `CoxeterSystem.geometricForm_geometricRepresentation`,
+  `CoxeterSystem.orderOf_simple_mul_simple`, and
+  `CoxeterSystem.simple_injective` in
   `TauCeti/GroupTheory/Coxeter/Geometric.lean` supply the form, action, generator
-  formula, form invariance and exact pairwise orders. These require neither
-  nondegeneracy nor finite rank. They do not assert faithfulness.
+  formula, form invariance, exact pairwise orders and distinctness of the
+  generators. These require neither nondegeneracy nor finite rank. They do not
+  assert faithfulness.
+- `CoxeterMatrix.graph`, `CoxeterMatrix.graph_adj` and
+  `CoxeterSystem.commute_simple_of_not_adj` in
+  `TauCeti/GroupTheory/Coxeter/Graph.lean` supply the Coxeter graph, whose edges
+  are the pairs of distinct nodes with entry different from 2, and commutation
+  of generators that are not joined; `CoxeterSystem.commute_simple_of_eq_two`
+  in `Basic.lean` is the entrywise form.
 - `RootPairing.dominantChamber` and `RootPairing.openDominantChamber` in
   `TauCeti/LinearAlgebra/RootSystem/Chamber.lean` are the simple-coroot weak and
   strict sign cones. `TauCeti.existsUnique_mem_orbit_inter_dominantChamber` in
@@ -323,6 +361,35 @@ keep their native hypotheses.
   make the type independent of the base and the Weyl group an invariant of the
   type. `TauCeti.nonempty_equiv_of_hasCartanType` in `Isomorphism.lean` supplies
   rigidity for two bases of the same type, over the same ring.
+- `TauCeti.isFiniteType_of` in `FiniteType/Basic.lean` proves finite type, on
+  a finite index type, from diagonal 2, nonpositive off-diagonal entries and a
+  positive rational symmetrizer with positive definite symmetrized matrix.
+  `TauCeti.diagramGraph` in `FiniteType/Diagram.lean` joins distinct i,j with
+  both Cartan entries nonzero, and `TauCeti.IsFiniteType.existsUnique_dynkinType`
+  in `FiniteType/Classification.lean` relabels a finite-type matrix with
+  connected diagram graph as the Cartan matrix of exactly one valid Dynkin
+  type; no root system enters.
+  `TauCeti.isFiniteType_cartanMatrix_A`,
+  `TauCeti.isFiniteType_cartanMatrix_B`, `TauCeti.isFiniteType_cartanMatrix_C`
+  and `TauCeti.isFiniteType_cartanMatrix_D` in `FiniteType/Classical.lean`, and
+  `TauCeti.DynkinType.isFiniteType_cartanMatrix_E6`, with its analogues for E7,
+  E8, F4 and G2, in `FiniteType/Dynkin.lean`, give finite type of the standard
+  Cartan matrices.
+- `TauCeti.DynkinType.coxeterMatrix` and `TauCeti.DynkinType.coxeterMatrix_apply`
+  in `TauCeti/LinearAlgebra/RootSystem/Coxeter/DynkinType.lean` supply the
+  Coxeter matrix of a Dynkin type, with entry `TauCeti.coxeterOrder` of the
+  product of the two Cartan entries; `TauCeti.coxeterOrder` in
+  `Coxeter/Matrix.lean` sends 0, 1, 2, 3 to 2, 3, 4, 6.
+  `TauCeti.DynkinType.coxeterMatrix_A`, `TauCeti.DynkinType.coxeterMatrix_B`,
+  `TauCeti.DynkinType.coxeterMatrix_C`, `TauCeti.DynkinType.coxeterMatrix_E6`,
+  `TauCeti.DynkinType.coxeterMatrix_E7`, `TauCeti.DynkinType.coxeterMatrix_E8`,
+  `TauCeti.DynkinType.coxeterMatrix_F4` and
+  `TauCeti.DynkinType.coxeterMatrix_G2` identify it with Mathlib's named matrix
+  in every type except D, where `TauCeti.DynkinType.coxeterMatrix_D_apply`
+  gives the entries.
+  `TauCeti.IsTree.nonempty_iso_pathGraph_of_degree_le_two` in
+  `TauCeti/Combinatorics/SimpleGraph/PathGraph.lean` makes a finite tree with
+  all degrees at most 2 a path.
 - `RootPairing.existsUnique_nonempty_equiv_rationalRootSystem` and
   `RootPairing.Base.nonempty_equiv_rationalRootSystem_iff` in
   `FiniteType/RationalClassification.lean` are the rational classification up
@@ -409,15 +476,24 @@ keep their native hypotheses.
   Thus uniqueness of a dominant representative does not imply a trivial wall
   stabilizer. The longest element is reflection, has one inversion and squares
   to 1; in rank zero it is the identity and has zero inversions.
+- `CoxeterMatrix.I 3` has off-diagonal entry 5, and `CoxeterMatrix.I 0` has
+  entry 2, two commuting nodes. `CoxeterMatrix.B 3` has its entry 4 at the
+  last two nodes 1,2. Mathlib's `CoxeterMatrix.D 4` has entry 3 at each of the
+  pairs (1,2), (2,3) and (1,3), so its geometric form has value 0 at
+  (0,1,1,1). The native `(TauCeti.DynkinType.D 4).coxeterMatrix` has entry 2 at
+  (2,3) and a positive definite form, and
+  `TauCeti.DynkinType.coxeterMatrix_D_ne_coxeterMatrix_D` records the
+  difference for n≥4. Type D in §3.5 is therefore the native matrix.
 
 ## How to read the build
 
 Layer 1 develops geometric signs from the public rank-two reflection formulas and
 abstract parabolic theory, then proves faithfulness and integral comparison; it
 uses no finite root system. Layer 2 builds the consumer interface of the native
-marked presentation. Layer 3 consumes the native rational classification and
-extends the type A Weyl group to characteristic-zero domains. Layer 4 uses native
-integral
+marked presentation. Layer 3 consumes the native rational classification,
+extends the type A Weyl group to characteristic-zero domains, and classifies
+the finite Coxeter groups from the signs of Layer 1 and the native
+classification of Cartan matrices of finite type. Layer 4 uses native integral
 coordinates, root strings and the highest root for greatest-root walks. Layer 5
 uses native simple transitivity on bases for automorphism complements and then
 retains the full integral lattices. Layer 6 develops components and metrics
@@ -773,6 +849,307 @@ rational Weyl equivalence and its simple-reflection equations; Cartan
 relabelling; Mathlib permutation multiplication, adjacent transpositions and
 inversion counts.
 
+### 3.3 Finite Coxeter groups and positive definite forms
+
+For a Coxeter system `cs : CoxeterSystem M W` on an arbitrary index type I, the
+geometric form is positive definite when B(x,x)>0 for every nonzero x in
+`I →₀ ℝ`; this is `M.geometricForm.toQuadraticMap.PosDef`. Prove
+`finite_iff_geometricForm_posDef`: W is finite if and only if I is finite and
+the geometric form is positive definite (Davis, Theorem 6.12.9, p. 119, for a
+finite generating set; a finite W has finite I by
+`CoxeterSystem.simple_injective`).
+
+One route to finiteness: let I be finite and B positive definite, so that B is
+an inner product. Let C be the set of x with B(x,αᵢ)>0 for every i. It is open,
+closed under positive scaling and nonempty, since it contains the sum of the
+basis dual to the αᵢ under B. For w≠1 the sets ρ(w)C and C are disjoint: w⁻¹
+has a right descent i by `CoxeterSystem.exists_rightDescent_of_ne_one`, so
+`geometric_sign_criterion` gives ρ(w⁻¹)αᵢ=−Σcⱼαⱼ with every cⱼ≥0 and some
+cⱼ>0, and for x in C form invariance gives
+B(ρ(w)x,αᵢ)=B(x,ρ(w⁻¹)αᵢ)=−ΣcⱼB(x,αⱼ)<0. Hence the sets ρ(w)C, for w in W, are
+pairwise disjoint. Let D be the open unit ball of B. Each ρ(w) maps D onto
+itself and is a product of reflections of determinant −1, so after the
+transport to `I → ℝ` of §1.3 it preserves Lebesgue measure. The sets ρ(w)(C∩D)
+are then pairwise disjoint subsets of D of one common measure, which is positive
+because C∩D is open and nonempty. The measure of D is finite, so W is finite.
+
+One route to positive definiteness: let W be finite, so that I is finite.
+Summing the coordinate dot product over the group gives a W-invariant inner
+product B′(x,y)=Σ_w ⟨ρ(w)x,ρ(w)y⟩ (Davis, Lemma 6.6.1, p. 88). The reflection
+σᵢ=ρ(sᵢ) preserves B′, negates αᵢ and fixes every x with B(x,αᵢ)=0, so for
+such x one has B′(x,αᵢ)=B′(σᵢx,σᵢαᵢ)=−B′(x,αᵢ)=0. Since B(αᵢ,αᵢ)=1, this gives
+B′(x,αᵢ)=cᵢB(x,αᵢ) for all x, with cᵢ=B′(αᵢ,αᵢ)>0. Symmetry of both forms gives
+(cᵢ−cⱼ)B(αᵢ,αⱼ)=0, so B(αᵢ,αⱼ)=B′(αᵢ,αⱼ)/√(cᵢcⱼ) for all i,j. Therefore
+B(x,y)=B′(Δx,Δy) for the invertible map Δ with Δαᵢ=cᵢ^(−1/2)αᵢ, and B is
+positive definite. Connectedness of the Coxeter graph is not used.
+
+- Positive definiteness is invariant under the reindexing T of §1.3 and passes
+  to every restricted matrix, because the extension by zero E of §1.3 is
+  injective and preserves the forms.
+- For finite I it is equivalent to `Matrix.PosDef` of the real matrix with
+  entries B(αᵢ,αⱼ), through `Finsupp.linearEquivFunOnFinite`.
+- A positive definite form has no infinite entry: at an infinite entry the
+  value at αᵢ+αⱼ is 1+1−2=0. In particular every entry of the matrix of a finite
+  Coxeter group is finite, which is also the exact order statement
+  `CoxeterSystem.orderOf_simple_mul_simple`.
+
+**Checks.**
+
+- In rank one the Gram matrix is [1], C=(0,∞) and D=(−1,1); the two translates
+  of C∩D are (0,1) and (−1,0), and the bound vol(D)/vol(C∩D)=2 is the group
+  order. For empty I the space is zero, positivity is vacuous and W is trivial.
+- For two nodes with m=5 the Gram determinant is sin²(π/5)=(5−√5)/8>0 and
+  the group has order 10. Here C∩D is a sector of angle π/5 of the unit disc,
+  so the bound is 2π/(π/5)=10.
+- For two nodes with infinite entry the value at (1,1) is 0 and all other
+  values are nonnegative; the group is infinite. Semidefinite must not replace
+  definite.
+- For the chain of three nodes with labels 3 and 7 the Gram determinant is
+  3/4−cos²(π/7)≈−0.0617: the form is nondegenerate and indefinite, and the group
+  is infinite. Nondegenerate must not replace positive definite.
+- For three nodes with all entries 3 the value at (1,1,1) is 3−3=0, and the
+  group is infinite.
+- For I=ℕ with entry 3 at consecutive nodes and 2 otherwise, the form is
+  positive on every nonzero finitely supported vector, since a segment of n
+  nodes has det(2B)=n+1 and positive leading minors. The group contains the
+  symmetric groups on n+1 letters for every n and is infinite, so finiteness
+  of I cannot be dropped from the criterion.
+
+*Needs:* §1.2's sign criterion; §1.3's transports;
+`CoxeterSystem.exists_rightDescent_of_ne_one`;
+`CoxeterSystem.geometricForm_geometricRepresentation`;
+`CoxeterSystem.simple_injective`; Mathlib's
+`MeasureTheory.Measure.addHaar_image_linearMap`, determinants of reflections
+and finite sums over a group.
+
+### 3.4 Components of the Coxeter graph and products
+
+The Coxeter graph `M.graph` joins distinct i,j with mᵢⱼ≠2, so an infinite entry
+is an edge (Davis, Definition 3.5.1, p. 42). Distinct nodes that are not joined
+have B(αᵢ,αⱼ)=−cos(π/2)=0. For a connected component K write M_K for the
+restricted matrix on K, B_K for its form and x_K for the restriction of x.
+Prove that B(x,x)=Σ_K B_K(x_K,x_K), a finite sum over the components meeting
+the support of x, and that B is positive definite if and only if B_K is
+positive definite for every component K (Davis, §C.1, p. 433, for a finite
+index set). The Coxeter graph of M_K is the induced graph on K and is
+connected.
+
+Prove `isComplement'_parabolic_compl`: for J⊆I with mᵢⱼ=2 whenever i∈J and
+j∉J, every element of the standard parabolic subgroup on J commutes with every
+element of the one on the complement, and every element of W is a product uv
+of an element u of the first and an element v of the second for exactly one
+pair (u,v) (Davis, Proposition 4.1.7, p. 46). Multiplication is then a group
+isomorphism from the product of the two parabolic subgroups onto W, and each
+factor is the Coxeter group of its restricted matrix by
+`CoxeterSystem.parabolicHom_injective` and `CoxeterSystem.range_parabolicHom`.
+For finite I, induction on the number of components makes W isomorphic to the
+product of the Coxeter groups of the matrices M_K, and |W| is the product of
+their orders when W is finite.
+
+One route: let W₁ and W₂ be the Coxeter groups of the restricted matrices on J
+and on its complement, with the maps f₁,f₂ into W given by
+`CoxeterSystem.parabolicHom`. The generators in the two images commute by
+`CoxeterSystem.commute_simple_of_eq_two`, so (u,v)↦f₁(u)f₂(v) is a homomorphism
+from W₁×W₂ to W. In the other direction `CoxeterSystem.lift` sends sᵢ to
+(sᵢ,1) for i∈J and to (1,sᵢ) otherwise: the relations inside J and inside its
+complement hold in the factors, and a mixed pair has m=2 and commuting images
+of order 2. Both composites fix the generators, so the two maps are inverse to
+each other. This gives the factorization and its uniqueness without the
+intersection theorem for parabolic subgroups.
+
+**Checks.**
+
+- For two nodes with m=2 and J one node, W is the Klein four-group, the Gram
+  matrix is the identity, the graph has two components and the four elements
+  are 1, s₁, s₂ and s₁s₂, each with one factorization.
+- In A₂ with J one node the hypothesis fails, since m=3. The two parabolic
+  subgroups have order 2, and the products uv are 1, s₁, s₂ and s₁s₂ only:
+  s₂s₁ and s₁s₂s₁ are missing from a group of order 6. Disjointness of J and
+  its complement must not replace the hypothesis on the entries.
+- Two nodes with infinite entry are joined, because the entry 0 differs from
+  2; the graph is connected and the form is not positive definite. A reading
+  of adjacency as 3≤mᵢⱼ on the stored natural number would disconnect them.
+- For I=ℕ with every off-diagonal entry 2, every component is one node with
+  form [1] and group of order 2, B is the dot product, and W is an infinite
+  elementary abelian 2-group. Componentwise finiteness does not give
+  finiteness of W without finiteness of I.
+- For J empty the first parabolic subgroup is trivial and the second is W; the
+  hypothesis is vacuous and the factorization is w=1·w.
+
+*Needs:* `CoxeterMatrix.graph_adj`; `CoxeterSystem.commute_simple_of_eq_two`;
+`CoxeterSystem.lift`; `CoxeterSystem.parabolicHom` with its range, injectivity
+and generator formula; §1.3's extension by zero.
+
+### 3.5 The finite Coxeter types
+
+Define `FiniteCoxeterType`, the type with constructors A n, B n, D n, E6, E7,
+E8, F4, H3, H4 and I m, for natural numbers n and m, together with:
+
+- `FiniteCoxeterType.rank`: n for A n, B n and D n; 6, 7, 8, 4, 3, 4 for E6,
+  E7, E8, F4, H3, H4; and 2 for I m.
+- `FiniteCoxeterType.Valid`: 1≤n for A n, 2≤n for B n, 4≤n for D n, 5≤m for
+  I m, and no condition on the other six types.
+- `FiniteCoxeterType.coxeterMatrix`, a Coxeter matrix on `Fin t.rank`:
+  Mathlib's `CoxeterMatrix.A n`, `CoxeterMatrix.B n`, `CoxeterMatrix.E₆`,
+  `CoxeterMatrix.E₇`, `CoxeterMatrix.E₈`, `CoxeterMatrix.F₄`, `CoxeterMatrix.H₃`
+  and `CoxeterMatrix.H₄`; `CoxeterMatrix.I (m - 2)` for I m, whose off-diagonal
+  entry is m when 2≤m; and the native `(TauCeti.DynkinType.D n).coxeterMatrix`
+  for D n, in which the nodes n−2 and n−1 are both joined to the node n−3.
+
+Its API:
+
+- The graph of A n is the chain on n nodes with all labels 3; B n is that chain
+  with label 4 on its last edge; F4 is the chain with labels 3,4,3; H3 and H4
+  are the chains with labels 3,5 and 3,3,5; I m is one edge with label m; D n
+  and the three E types are trees with all labels 3 and one node of degree 3.
+- The dictionary from Dynkin types sends A n, D n, E6, E7, E8 and F4 to the
+  types of the same name, both B n and C n to B n, and G2 to I 6. It preserves
+  rank and validity, and the Coxeter matrix of the image has the entries of
+  `TauCeti.DynkinType.coxeterMatrix`, by
+  `TauCeti.DynkinType.coxeterMatrix_A`, `TauCeti.DynkinType.coxeterMatrix_B`,
+  `TauCeti.DynkinType.coxeterMatrix_C`, `TauCeti.DynkinType.coxeterMatrix_E6`,
+  `TauCeti.DynkinType.coxeterMatrix_E7`, `TauCeti.DynkinType.coxeterMatrix_E8`,
+  `TauCeti.DynkinType.coxeterMatrix_F4` and
+  `TauCeti.DynkinType.coxeterMatrix_G2`. Through §2.1 the Weyl group of a
+  base of Dynkin type t is thereby a Coxeter group with the matrix of the
+  image of t.
+- A valid type is the image of a valid Dynkin type exactly when it is not H3,
+  H4, I 5 or I m with 7≤m: the entries of a Dynkin Coxeter matrix are the
+  values 2, 3, 4, 6 of `TauCeti.coxeterOrder` at the Cartan products 0, 1, 2, 3.
+
+Prove `FiniteCoxeterType.connected_graph_and_posDef`: the Coxeter matrix of
+every valid type has connected Coxeter graph and positive definite geometric
+form (Davis, Lemma C.2.1, p. 435, with Table C.1, p. 436). Prove
+`existsUnique_finiteCoxeterType`: a Coxeter matrix on a finite index type with
+connected Coxeter graph and positive definite geometric form is, after a
+relabelling of the nodes, the matrix of exactly one valid type (Davis,
+Theorem C.1.2, p. 433, with Table 6.1, p. 104). Prove
+`finite_iff_forall_connectedComponent`: W is finite if and only if I is finite
+and, for every connected component K of the Coxeter graph, the restricted
+matrix M_K is, after relabelling, the matrix of a valid type (Davis, §C.1,
+p. 433, with Theorem 6.12.9, p. 119, and Theorem C.1.2, p. 433). In
+particular a Coxeter system with connected graph is finite exactly when its
+matrix is that of a valid type, and the type is then unique. The last theorem follows from
+§3.3, the decomposition of the form in §3.4 and the first two theorems.
+
+Write c(m)=4cos²(π/m), so that c(3)=1, c(4)=2, c(5)=(3+√5)/2, c(6)=3, and put
+c=4 at an infinite entry. One route to the classification uses a comparison
+and seven explicit vectors.
+
+*Comparison.* Let J⊆I and let M′ be a Coxeter matrix on J with m′ᵢⱼ≤mᵢⱼ for
+all i,j in J, an infinite entry counting as largest. If x≠0 has B′(x,x)≤0
+and |x| is its vector of absolute values, then
+B(E|x|,E|x|)≤B′(|x|,|x|)≤B′(x,x)≤0, because the off-diagonal Gram entries are
+nonpositive and −cos(π/m) decreases in m. So B is not positive definite (a
+weak form of Davis, Lemma C.3.1, pp. 436–437).
+
+*Vectors.* Each of the following matrices M′ has B′(x,x)≤0 at the stated x.
+
+- A cycle on k≥3 nodes with all labels 3: the all-ones vector, with value 0.
+- Two nodes with infinite entry: (1,1), with value 0.
+- A chain on three nodes with labels a,b: (cos(π/a),1,cos(π/b)), with value
+  (4−c(a)−c(b))/4, which is at most 0 exactly when c(a)+c(b)≥4.
+- A chain on k+1 nodes, k≥2, with label 4 on both end edges and 3 between:
+  (1,√2,…,√2,1), with value 0.
+- A chain on r+1 nodes, r≥1, with label 4 on its last edge and 3 before, and
+  two further nodes joined to its first node with label 3: value 1 at the two
+  further nodes, 2 on the first r nodes of the chain and √2 at its last node,
+  with value 0.
+- The chain with labels 3,5,3: (1,2,2,1), with value 4−2√5.
+- The chain with labels 5,3,3,3: (3,4,3,2,1), with value 13−6√5.
+
+*Cases.* Let M be connected and positive definite on a finite index type,
+which is nonempty by connectedness. One node gives A 1. For two nodes the
+entry m differs from 2 by connectedness and is finite by the second vector:
+m=3 gives A 2, m=4 gives B 2 and m≥5 gives I m. With at least three nodes
+every edge shares a node with another edge, so the third vector gives
+c(a)+c(b)<4 for two edges at a common node: all labels lie in {3,4,5} and two
+edges with labels at least 4 share no node. The first vector makes the graph a
+tree. Two edges with labels at least 4, chosen at the least distance from each
+other, would be joined by a path of edges with label 3, against the fourth
+vector, so at most one edge has label at least 4.
+
+If all labels are 3 or 4, let A be the integer matrix with diagonal 2, entry
+0 at pairs that are not joined, entries −1,−1 at an edge with label 3, and
+entries A_pq=−2, A_qp=−1 at the edge {p,q} with label 4, if there is one.
+Removing that edge splits the tree in two; put d=1 on the side of p and d=2
+on the side of q, or d=1 everywhere if no label is 4. Then
+dᵢAᵢⱼ=√(dᵢdⱼ)·2B(αᵢ,αⱼ) for all i,j, so the symmetrized matrix is positive
+definite and `TauCeti.isFiniteType_of` makes A of finite type. Its diagram
+graph `TauCeti.diagramGraph A` is the Coxeter graph of M, so
+`TauCeti.IsFiniteType.existsUnique_dynkinType` relabels A as the Cartan matrix
+of a valid Dynkin type t. Since mᵢⱼ is `TauCeti.coxeterOrder` of AᵢⱼAⱼᵢ for
+i≠j, `TauCeti.DynkinType.coxeterMatrix_apply` identifies M with the Coxeter
+matrix of t and hence with the matrix of the image of t under the dictionary
+from Dynkin types.
+
+If one label is 5, the fifth vector excludes a node of degree at least 3:
+such a node, two of its neighbours off the path to the edge with label 5, and
+that path would give the fifth configuration with 4 replaced by 5. A finite
+tree with all degrees at most 2 is a path, by
+`TauCeti.IsTree.nonempty_iso_pathGraph_of_degree_le_two`. The label 5 is not on
+an interior edge, by the sixth vector, and the path has at most four nodes, by
+the seventh. What remains is H3 and H4.
+
+*Positivity of the list.* For a valid Dynkin type the native theorems
+`TauCeti.isFiniteType_cartanMatrix_A`, `TauCeti.isFiniteType_cartanMatrix_B`,
+`TauCeti.isFiniteType_cartanMatrix_D`,
+`TauCeti.DynkinType.isFiniteType_cartanMatrix_E6`, and their analogues for E7,
+E8 and F4 give a positive rational symmetrizer d with (dᵢAᵢⱼ) positive
+definite over ℚ, hence over ℝ, and again dᵢAᵢⱼ=√(dᵢdⱼ)·2B(αᵢ,αⱼ): both sides
+are nonpositive off the diagonal and their squares are dᵢdⱼAᵢⱼAⱼᵢ and
+dᵢdⱼc(mᵢⱼ). For I m the Gram determinant
+is sin²(π/m)>0 and the trace is 2. For H3 and H4 complete squares along the
+chain: in Mathlib's numbering the leading minors of the Gram matrix are 1,
+3/4, (3−√5)/8 for H3 and 1, 3/4, 1/2, (7−3√5)/32 for H4.
+
+*Uniqueness.* Relabellings preserve the number of nodes, the largest entry,
+the degrees in the graph and the position of the labelled edges. Largest
+entry 3 separates A (no node of degree 3), D (a node of degree 3 with at least
+two leaves as neighbours) and E (a node of degree 3 with exactly one).
+Largest entry 4 gives B if the edge with label 4 has a leaf and F4 if not.
+The number of nodes is n in types A, B and D and separates E6, E7 and E8.
+Largest entry 5 gives I 5, H3 or H4 by the number of nodes, and a largest
+entry m≥6 gives I m.
+
+**Checks.**
+
+- The values of det(2B) are n+1 for A n, 2 for B n, 4 for D n, 3, 2, 1 for
+  E6, E7, E8, 1 for F4, 3−√5≈0.764 for H3, (7−3√5)/2≈0.146 for H4 and
+  4sin²(π/m) for I m (Davis, Table C.1, p. 436, for the types other than
+  I m).
+- I 5 has matrix [[1,5],[5,1]], which is `CoxeterMatrix.I 3`, and Gram
+  determinant (5−√5)/8. I 6 is the matrix of G₂. I 3 and I 4 are the matrices
+  of A 2 and B 2, so validity needs 5≤m for uniqueness. For m≤2 the truncated
+  subtraction gives `CoxeterMatrix.I 0`, two commuting nodes with a
+  disconnected graph.
+- The chain on three nodes with labels 3,6 has value 0 at (1/2,1,√3/2), while
+  I 6 is positive definite with Gram determinant 1/4. A label at least 6
+  occurs only for two nodes.
+- The chain with labels 3,4,3 is F4, with det(2B)=1. The chains with labels
+  3,4,3,3 and 4,3,4 have det(2B)=0, with null vectors (1,2,3√2/2,√2,√2/2) and
+  (1,√2,√2,1). The chain with labels 3,3,3,5 has det(2B)=4−2√5<0, so the
+  chain of H4 cannot be lengthened at the end away from the label 5.
+- In D 4 the node 1 is joined to the nodes 0, 2 and 3, and det(2B)=4. The
+  tree on five nodes with one node joined to the other four has value 0 at
+  the vector with 2 at the centre and 1 at the leaves.
+- B n and C n have the same image B n: the Coxeter matrix forgets the
+  orientation of the double edge. For n=3 the two root systems are not
+  isomorphic, while their Weyl groups are the same Coxeter group.
+- Two commuting nodes have positive definite form and no type, since the
+  graph is disconnected. The empty index type has no type either: a connected
+  graph has a node, and A 0 is not valid. B 1 has the matrix [1] of A 1 and is
+  not valid.
+
+*Needs:* §3.3 and §3.4; §1.3's extension by zero for the comparison; the
+native `TauCeti.isFiniteType_of`, `TauCeti.diagramGraph`,
+`TauCeti.IsFiniteType.existsUnique_dynkinType`, the finite-type theorems for
+the standard Cartan matrices, `TauCeti.DynkinType.coxeterMatrix` with its entry
+and identification lemmas, and
+`TauCeti.IsTree.nonempty_iso_pathGraph_of_degree_le_two`; Mathlib's named
+Coxeter matrices, `Real.cos_pi_div_five` and the values of cosine at π/3, π/4
+and π/6.
+
 ### Examples
 
 The supplied numbered A₁ integral datum has roots ±2, coroots ±1 and dot pairing.
@@ -794,10 +1171,19 @@ coefficients, not of the group. The B₂ long simple node is 0, the G₂ long no
 is 1, and F₄ has long nodes 0,1; these native conventions also fix the CFSG
 indices (Bourbaki, Ch. VI §4, types A, B, F, G; Milne Appendix C(g), p. 622).
 
+The Coxeter system of type H₃ has Gram entries −1/2 and −(1+√5)/4 on its two
+edges and leading Gram minors 1, 3/4 and (3−√5)/8, so the group is finite by
+§3.3. Its matrix is the Coxeter matrix of no Dynkin type, since no Cartan
+product gives the entry 5. Replacing the label 5 by 7 gives Gram determinant
+3/4−cos²(π/7)<0 and an infinite group.
+
 ### Dependencies
 
 Native classification, rigidity, base transitivity, positive-root combinatorics
-and numbered models. The type A group comparison uses Layer 2. Integral
+and numbered models. The type A group comparison uses Layer 2. §§3.3–3.5 use
+the sign criterion and transports of §§1.2–1.3, the native Coxeter graph,
+parabolic restriction and classification of Cartan matrices of finite type,
+and Mathlib's Lebesgue measure on finite-dimensional real spaces. Integral
 dominance, folding, Lie representations, invariant degrees and reductive groups
 are not prerequisites.
 
@@ -1180,6 +1566,14 @@ These are consumers, not prerequisites for the root-system proofs.
   §1.4 Theorem and proof p.10; §1.7 Corollary p.14; §1.9 Theorem pp.16–18;
   §2.9 p.39; §2.10, type A, p.41; §5.1 p.106; §5.3 pp.109–110;
   §5.4 Theorem pp.111–113 and Corollary p.113; §5.5.
+- M. W. Davis, *The Geometry and Topology of Coxeter Groups*, London
+  Mathematical Society Monographs Series 32, Princeton University Press, 2008;
+  source id davis08,
+  [author's copy](https://people.math.osu.edu/davis.12/davisbook.pdf). Page
+  numbers are those printed in the author's copy. Definition 3.5.1 p. 42;
+  Proposition 4.1.7 p. 46; Lemma 6.6.1 p. 88; Table 6.1 p. 104;
+  Theorem 6.12.9 p. 119; Theorem C.1.2 p. 433; Lemma C.2.1 p. 435;
+  Table C.1 p. 436; Lemma C.3.1 pp. 436–437.
 - N. Bourbaki, *Lie Groups and Lie Algebras, Chapters 4–6*, Springer (2002),
   Ch. IV §1, Ch. VI §1, nos. 3, 5, 6, 8, and §4, Planches I–IX,
   DOI 10.1007/978-3-540-34491-9.
