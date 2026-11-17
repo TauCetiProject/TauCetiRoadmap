@@ -123,6 +123,7 @@ body:
         - FormalConnectionsOpers
         - FormalLaurentPuiseux
         - FourManifolds
+        - FourierDeligneTransform
         - FreeGroupsAndLimitGroups
         - FreeProbability
         - FuchsianOrbifolds
