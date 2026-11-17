@@ -194,6 +194,7 @@ body:
         - PadicLocalLanglandsForGL2Qp
         - PadicMeasuresIwasawaAlgebras
         - PadicPeriodRings
+        - PainleveEquations
         - PerfectoidQuotients
         - PerfectoidSpaces
         - PerfectoidTowers
