@@ -829,6 +829,14 @@ Prove, for `L` with countably many relation symbols and with exactly the further
   * `∅` fails: `β = 0` bounds `ρ` on it.
   * For an isolating rank `ρ`, a nonempty set inside the isomorphism class of `c` fails: `ρ c + 1`
     bounds `ρ` on it.
+  * Without an isolating rank it can hold on a single isomorphism class. With one unary `P`, let
+    `K` be the isomorphism class of the code in which `P` is the even numbers (`𝔠` codes, all
+    infinite coinfinite `P`; `K = modelsOf σ` for its Scott sentence `σ`), and let `ρ` take values
+    cofinal in `ω₁` on `K` (possible as `K` has at least `ℵ₁` members; no CH is used). Then `ρ` is
+    unbounded on `K`, and every `modelsOf θ` contains `K` or misses it, so one side of each
+    sentence cut is empty and `β = 0` bounds `ρ` there. As `K` meets one class, it is not
+    minimally uncountable: `minimallyUncountableOn_modelsOf_iff_minimallyUnboundedOn` needs `ρ`
+    isolating.
 * The generic engine: for a smallness predicate closed under subsets and countable unions, if `K`
   is not small, every sentence cut has a small side, and `K` meets countably many classes at level
   `α < ω₁`, then some level-`α` class of a member of `K` is not small and its complement in `K` is.
