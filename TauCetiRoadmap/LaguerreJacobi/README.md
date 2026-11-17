@@ -166,6 +166,10 @@ It does not own:
   derivatives at the endpoints, which the Jacobi weight lacks for noninteger exponents).
 - `MeasureTheory.restrict_withDensity`: `(μ.withDensity f).restrict s = (μ.restrict s).withDensity f`
   for measurable `s`, the bridge between Mathlib's `measureT` shape and ours.
+- `MeasureTheory.Measure.restrict_pi_pi` (`Mathlib/MeasureTheory/Constructions/Pi.lean`): for
+  σ-finite `μ i`, `(Measure.pi μ).restrict (Set.univ.pi s) = Measure.pi fun i => (μ i).restrict (s i)`;
+  with `MeasureTheory.volume_pi` it identifies the measures of the last two targets of Layer 5 with
+  Lebesgue measure restricted to the orthant and to the cube.
 
 ### From Tau Ceti
 
@@ -699,11 +703,12 @@ so that "immediate" is recorded as work:
   `Measure.pi fun _ : ι => volume.restrict (Set.Ioo (-1) 1)`, with vector
   `Pₖᵢ^{(α,β)}(xᵢ) √((1-xᵢ)^α (1+xᵢ)^β) / √hₖᵢ` in each factor (§4.4).
 
-`MeasureTheory.Measure.restrict_pi_pi` identifies `Measure.pi fun _ => volume.restrict (Set.Ioi 0)`
-with `volume.restrict (Set.univ.pi fun _ => Set.Ioi 0)`, so the last two are bases of the unweighted
+`MeasureTheory.Measure.restrict_pi_pi`, with `MeasureTheory.volume_pi`, identifies
+`Measure.pi fun _ => volume.restrict (Set.Ioi 0)` with
+`volume.restrict (Set.univ.pi fun _ => Set.Ioi 0)`, so the last two are bases of the unweighted
 `L²` of the orthant and of the cube.
 
-*Needs:* §§2.4, 4.4; Mathlib `MeasureTheory.Measure.restrict_pi_pi`; Tau Ceti `TauCeti.piHilbertBasis`, `TauCeti.coeFn_piHilbertBasis`.
+*Needs:* §§2.4, 4.4; Mathlib `MeasureTheory.Measure.restrict_pi_pi`, `MeasureTheory.volume_pi`; Tau Ceti `TauCeti.piHilbertBasis`, `TauCeti.coeFn_piHilbertBasis`.
 *Locator:* Tau Ceti `TauCeti/Analysis/InnerProductSpace/L2/Pi.lean` (the product basis).
 
 **Checks.** `ι` a singleton: the basis is the one-variable basis of §2.4 (resp. §4.4) up to the
@@ -718,7 +723,7 @@ At `α = 0` the functions `Lₘ(x) Lₙ(y) e^{-(x+y)/2}` are the vectors of
 
 ### Dependencies
 
-Layers 2 and 4; Tau Ceti `TauCeti.piHilbertBasis`.
+Layers 2 and 4; Mathlib `MeasureTheory.Measure.restrict_pi_pi`; Tau Ceti `TauCeti.piHilbertBasis`.
 
 ## Layer 6: the classical specializations and the consistency check
 

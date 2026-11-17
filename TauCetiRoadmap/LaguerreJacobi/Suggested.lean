@@ -349,8 +349,8 @@ theorem exists_hilbertBasis_pi_jacobiMeasure {𝕜 : Type*} [RCLike 𝕜] {ι : 
 `(0, ∞)`, with its pin: the vector of index `k` is the product over `i` of the normalized
 Laguerre functions `Lₖᵢ^{(α)}(xᵢ) √(xᵢ^α e^{-xᵢ}) / √(Γ(kᵢ+α+1)/kᵢ!)`. It is
 `TauCeti.piHilbertBasis` applied to the `√w` basis of `exists_hilbertBasis_laguerreFunction`
-(§2.4); `MeasureTheory.Measure.restrict_pi_pi` identifies the measure with
-`volume.restrict (Set.univ.pi fun _ => Set.Ioi 0)`. -/
+(§2.4); `MeasureTheory.Measure.restrict_pi_pi`, with `MeasureTheory.volume_pi`, identifies the
+measure with `volume.restrict (Set.univ.pi fun _ => Set.Ioi 0)`. -/
 theorem exists_hilbertBasis_pi_laguerreFunction {𝕜 : Type*} [RCLike 𝕜] {ι : Type*} [Fintype ι]
     {α : ℝ} (hα : -1 < α) :
     ∃ b : HilbertBasis (ι → ℕ) 𝕜
