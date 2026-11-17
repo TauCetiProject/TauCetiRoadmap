@@ -18,6 +18,7 @@ body:
       label: Roadmap area
       description: Which roadmap does this intention sit in?
       options:
+        - AInfCohomology
         - AbelianSchemesAndArithmeticModuli
         - AbhyankarLemma
         - AdelicAlgebraicGroups
@@ -94,6 +95,7 @@ body:
         - DerivedModuleAlgebra
         - DiagrammaticCoherence
         - DiamondEtaleCohomology
+        - DiamondSixOperations
         - DiamondsAndVStacks
         - DifferentialGeometry
         - DimerModelsAndLozengeTilings
@@ -105,6 +107,7 @@ body:
         - EllipticCohomology
         - EllipticCurves
         - EllipticIntegrals
+        - EllipticLegendreCharacterInterfaces
         - EnhancedDerivedSheaves
         - Equidistribution
         - EquivariantIntersectionTheory
@@ -148,6 +151,7 @@ body:
         - HabiroCyclotomicCompletions
         - HamiltonianFloerOperations
         - HeegaardFloer
+        - HermitianKTheoryOfPoincareCategories
         - HilbertModules
         - HomologicalStabilityOfGeneralLinearGroups
         - HomotopySpheres
@@ -156,7 +160,9 @@ body:
         - ImaginaryQuadraticClassNumber
         - ImplicitAtlases
         - IndexTheory
+        - InductionRestrictionPartII
         - InfinitaryModelExistence
+        - InstantonFloerTheory
         - IntegralHeckeAndGaloisDeterminants
         - IntegralIwasawaTheory
         - IntegralLattices
@@ -169,6 +175,7 @@ body:
         - KacMoody
         - KhovanovHomology
         - LFunctions
+        - LaguerreJacobi
         - LanglandsParameterStacks
         - LefschetzPencilsAndVanishingCycles
         - LefschetzPencilsAndVanishingCyclesPartII
@@ -195,6 +202,7 @@ body:
         - MorseTheory
         - NashBlowups
         - NeronModelsAndSemistableAbelianVarieties
+        - NeronModelsAndSemistableAbelianVarietiesPartII
         - Neuromanifolds
         - NewtonPolygons
         - NilpotentOrbits
@@ -232,6 +240,7 @@ body:
         - ProbabilisticAndMetricNumberTheory
         - ProbabilisticAndMetricNumberTheoryPartII
         - ProfiniteCohomology
+        - ProfiniteCohomologyPartII
         - PseudodifferentialOperators
         - PseudoholomorphicCurveAnalysis
         - PurityOfBranchLocus
@@ -251,6 +260,7 @@ body:
         - ReductiveGroupsPartII
         - ReflectionInvariantTheory
         - Regularity
+        - RelativeJacobiansAndIntegralCurveModels
         - RepresentationTheory
         - ResolutionOfSingularitiesCharacteristicZero
         - RestrictedPowerSeries
@@ -266,6 +276,7 @@ body:
         - SchemeKTheoryOperationsPartII
         - SchubertGeometry
         - SeibergWittenTheory
+        - SelmerIwasawaCohomology
         - SieveMethodsAndPrimePatterns
         - SmoothBundlesConnections
         - SmoothRepresentationsOfLocalGroups
@@ -303,6 +314,7 @@ body:
         - TypeAHeckeAlgebras
         - VariationalMethods
         - Varifolds
+        - VirtualFundamentalClass
         - VonNeumannAlgebras
         - Yamabe
         - YangMillsConnectionsAndCaloricGauge
