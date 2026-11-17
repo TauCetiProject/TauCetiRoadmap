@@ -180,6 +180,7 @@ body:
         - JacobianChallengePartII
         - K2SymbolsBrauer
         - K3Surfaces
+        - K3SurfacesAndSymplecticBoundedness
         - KTheoryFiniteLocalFields
         - KTheoryLowDegrees
         - KacMoody
