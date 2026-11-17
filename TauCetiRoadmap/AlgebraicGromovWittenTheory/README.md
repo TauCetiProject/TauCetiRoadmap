@@ -304,7 +304,10 @@ Source: Kontsevich–Manin 1998 §2.1 and Tau Ceti’s `NovikovSeries` topology 
 
 - On the projective line, `δ_H(Q²) = 2Q²`.
 - For the projective line and its degree-one ample class, the ring is `ℚ⟦Q⟧`.
-- Use `NovikovSeries.rescaleContinuousAlgEquiv` for a positive rescaling of the ample degree.
+- On `ℙ¹`, changing the ample line bundle from `𝒪(1)` to `𝒪(2)` changes the period
+  of `Qⁿ` from `n` to `2n` and leaves its exponent and coefficient fixed. Truncation
+  at period `B` for `𝒪(1)` gives the same polynomial as truncation at `2B` for
+  `𝒪(2)`. In particular, the bounds `3/2` and `3` both retain just `a₀ + a₁Q`.
 
 ### 1.3 Independence of ample class
 
