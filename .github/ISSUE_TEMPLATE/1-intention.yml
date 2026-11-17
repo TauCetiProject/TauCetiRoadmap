@@ -30,6 +30,7 @@ body:
         - AffineMorseLefschetz
         - AlgebraicCurves
         - AlgebraicKTheory
+        - AlgebraicModularFormsAndSerreWeights
         - AlgebraicModuliForArithmeticGeometry
         - AlgebraicModuliForArithmeticGeometryPartII
         - AlgebraicTopology
@@ -39,10 +40,14 @@ body:
         - AnalyticNumberTheoryPartI
         - AnalyticNumberTheoryPartII
         - AnalyticNumberTheoryPartIII
+        - AnalyticStableMaps
         - ArithmeticDirichletSeriesPartII
+        - ArithmeticGaloisDuality
+        - ArithmeticGaloisRepresentations
         - ArithmeticInterpolationDeterminants
         - ArithmeticLocallySymmetricSpaces
         - AsymptoticExpansions
+        - AutomorphicFormsOnReductiveGroups
         - BanachAlgebras
         - BanachSpaceTheory
         - BelyiMaps
@@ -57,14 +62,18 @@ body:
         - CharacteristicClasses
         - ChevalleyGroups
         - ClassFieldTheory
+        - ClassicalAdicEtaleCohomology
         - ClassicalArithmeticCompletion
         - ClassifyingSpaces
         - ClusterAlgebras
         - CoboundaryExpansion
+        - ColemanPowerSeries
         - CombinatorialHeegaardFloer
         - CompactOperators
+        - CompactQuantumMetricSpaces
         - ComplexComparisonPartII
         - ComplexCurveModuli
+        - ComplexHessianEquations
         - ComplexKahlerGeometry
         - ComplexManifolds
         - ComplexTori
@@ -72,23 +81,30 @@ body:
         - ConformalMappingPartII
         - ConvexLifting
         - CountableModelCounting
+        - CountableStructureSpaces
         - CrystallineCohomology
         - CyclotomicClassGroupsAndStickelberger
         - DGAInfinity
         - DGFloer
         - DeRhamCohomologyAndDuality
+        - DeformationAndDerivedPatchingAlgebra
+        - DeformationAndDerivedPatchingAlgebraPartII
         - DerivedDeRhamCohomology
         - DerivedModuleAlgebra
         - DiagrammaticCoherence
         - DiamondsAndVStacks
         - DifferentialGeometry
+        - DimerModelsAndLozengeTilings
         - DiophantineApproximationAndTranscendence
+        - DiophantineApproximationAndTranscendencePartII
+        - DirectSummandsAndBigCohenMacaulay
         - DysonBrownianMotion
         - ECM
         - EllipticCohomology
         - EllipticCurves
         - EllipticIntegrals
         - EnhancedDerivedSheaves
+        - Equidistribution
         - EquivariantIntersectionTheory
         - EtaleCohomologyFoundations
         - EtaleMassFormula
@@ -97,14 +113,22 @@ body:
         - ExponentialCone
         - FactorRigidity
         - FinancialMathematics
+        - FiniteAffineBoundTightening
+        - FiniteFlatGroupsAndIntegralPadicHodgeTheory
         - FiniteGroupExtensionSplitting
         - FiniteSamplingDiscrepancy
         - FlagVarieties
         - Foams
+        - FormalConnectionsOpers
         - FormalLaurentPuiseux
+        - FourManifolds
         - FreeGroupsAndLimitGroups
         - FreeProbability
         - FuchsianOrbifolds
+        - FukayaTheory
+        - GaugeQuiltFieldTheory
+        - GaussianIsoperimetryAndClusters
+        - GeneralAlgebraicKTheory
         - GeneralizedCohomology
         - GenericDoublePointInterpolation
         - GeometricCurrents
@@ -112,45 +136,65 @@ body:
         - GeometricQuantization
         - GeometricRepresentationCategories
         - GeometricTopology
+        - GeometryOfNumbersAndQuadraticArithmetic
         - GlobalHolomorphicFunctions
         - GlobalQuadraticForms
         - GraphConnectivityAndFlows
         - GroebnerGeometry
+        - GromovWittenTheory
         - GrothendieckEulerForms
+        - HabiroCyclotomicCompletions
         - HamiltonianFloerOperations
         - HeegaardFloer
         - HilbertModules
+        - HomologicalStabilityOfGeneralLinearGroups
         - HomotopySpheres
         - HopfologicalAlgebra
         - Hyperfunctions
         - ImaginaryQuadraticClassNumber
+        - ImplicitAtlases
         - IndexTheory
         - InfinitaryModelExistence
         - IntegralHeckeAndGaloisDeterminants
         - IntegralIwasawaTheory
         - IntegralLattices
+        - InverseGaloisAndArithmeticFundamentalGroups
         - Isoperimetry
         - JacobianChallenge
+        - K2SymbolsBrauer
+        - KTheoryLowDegrees
         - KacMoody
         - KhovanovHomology
         - LFunctions
+        - LanglandsParameterStacks
         - LefschetzPencilsAndVanishingCyclesPartII
         - LieGroupoidsPoisson
+        - LieGroupsPartII
         - LinearFormsInLogarithms
         - LocalPurity
         - LocalVariationalFieldTheory
+        - LocallyAnalyticDistributions
+        - LocallyAnalyticDistributionsPartII
         - MarkovChainsAndRenewal
         - MassFormula
         - MathematicalBilliards
+        - MathematicalStatisticsAsymptotic
         - MathematicalStatisticsFoundations
+        - MathematicalStatisticsHighDimensional
+        - MathematicalStatisticsNonparametric
+        - MathematicalStatisticsSemiparametric
         - McKaySkewGroup
         - ModularCurves
+        - ModularCurvesPartII
         - ModularForms
         - MorseNovikov
         - MorseTheory
+        - NashBlowups
+        - NeronModelsAndSemistableAbelianVarieties
         - Neuromanifolds
         - NewtonPolygons
         - NilpotentOrbits
+        - NoncommutativeAndEquivariantIwasawa
         - NoncommutativeGeometry
         - NoncommutativeIntegration
         - NoncongruenceModularForms
@@ -160,17 +204,23 @@ body:
         - OperatorTheory
         - OptimalTransport
         - Orbifolds
+        - PCurvature
         - PDE
         - PadicExtensionFamilies
         - PadicFunctionalAnalysis
+        - PadicLocalLanglandsForGL2Qp
         - PadicMeasuresIwasawaAlgebras
         - PadicPeriodRings
+        - PainleveEquations
         - PerfectoidQuotients
         - PerfectoidSpaces
+        - PerfectoidSpacesPartII
         - PerfectoidTowers
+        - PhiGammaModulesAndIwasawaCohomology
         - PivotalSpherical
         - Poincare3D
         - PolylogarithmFunctions
+        - PolynomialGaloisGroupsPartIII
         - PositiveMass
         - PositiveScalarCurvature
         - PresentationsOfMonoidalCategories
@@ -190,7 +240,9 @@ body:
         - RamificationOfCompleteDiscretelyValuedFields
         - RandomMatrices
         - Rank24LatticeConstructions
+        - RationalHomotopyModels
         - RealAnalyticGeometry
+        - RealSemisimpleLieGroups
         - ReductiveGroups
         - ReductiveGroupsPartII
         - ReflectionInvariantTheory
@@ -200,11 +252,14 @@ body:
         - RestrictedPowerSeries
         - RicciFlow
         - RiemannianGeometry
+        - RiemannianManifoldsWithConvexBoundary
         - RigidAnalyticGeometry
         - RootSystemsPartII
         - SNumbers
         - ScatteringDiagrams
         - SchemeAndStackFoundations
+        - SchemeKTheoryOperations
+        - SchemeKTheoryOperationsPartII
         - SchubertGeometry
         - SeibergWittenTheory
         - SieveMethodsAndPrimePatterns
@@ -217,11 +272,13 @@ body:
         - SpecialFunctionsHypergeometric
         - SpecialFunctionsParabolicCylinder
         - SpectralSequencesAndConvergence
+        - SpectralSequencesAndConvergencePartII
         - SpinGeometry
         - SporadicOrders
         - StableHomotopyKTheory
         - StablePeriodicCurved
         - StableReduction
+        - StackPointsAndResidualGerbes
         - StandardDistributions
         - StochasticCalculus
         - StringOrientation
@@ -241,6 +298,7 @@ body:
         - TopologicalSheafCohomology
         - TypeAHeckeAlgebras
         - VariationalMethods
+        - Varifolds
         - VonNeumannAlgebras
         - Yamabe
         - YangMillsConnectionsAndCaloricGauge
