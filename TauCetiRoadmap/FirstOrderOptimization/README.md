@@ -108,11 +108,10 @@ Out of scope:
   - `exists_affine_le_of_lt` (`TauCeti/Analysis/Convex/FenchelMoreau.lean`): a closed proper
     convex `g : E → EReal` has a continuous affine minorant;
   - `subdifferential` (`TauCeti/Analysis/Convex/Subdifferential.lean`) with the pairing
-    `innerₗ E`, and `gradient_toReal_mem_subdifferential`
-    (`TauCeti/Analysis/Convex/Differentiability.lean`);
+    `innerₗ E`;
   - `moreauYosidaResolvent` (`TauCeti/Analysis/GradientFlow/MoreauYosida/Basic.lean`).
 - Mathlib: `gradient` and `toDual_gradient`; `ConvexOn`, `StrongConvexOn`, `strongConvexOn_zero`
-  and `strongConvexOn_iff_convex`; `Convex.norm_image_sub_le_of_norm_hasFDerivWithin_le`;
+  and `strongConvexOn_iff_convex`;
   `exists_norm_eq_iInf_of_complete_convex` and `norm_eq_iInf_iff_real_inner_le_zero`;
   `LinearMap.IsSymmetric.eigenvectorBasis`; `LinearMap.singularValues`; `condExp`, `Filtration`,
   `Supermartingale`, `Submartingale.ae_tendsto_limitProcess` and
@@ -368,9 +367,10 @@ Layer 2 uses Layer 1.
 ### 3.1 Projection onto a closed convex set
 
 Let `C : Set E` be nonempty, closed and convex. The nearest-point map onto `C` is `metricProj C`
-of MathematicalStatisticsNonparametric 6.5. `convexProjection C` is that map with junk value `x`
-in place of `0`; the two agree for nonempty closed convex `C`, where the nearest point exists by
-`exists_norm_eq_iInf_of_complete_convex` and is unique. Prove:
+of MathematicalStatisticsNonparametric 6.5. `convexProjection C x` is the nearest point of `C` to
+`x` when exactly one exists, and `x` otherwise; for nonempty closed convex `C` it equals
+`metricProj C x`, since the nearest point exists by `exists_norm_eq_iInf_of_complete_convex` and
+is unique. Prove:
 
 - the variational inequality: `p = convexProjection C x ↔ p ∈ C ∧ ∀ z ∈ C, ⟪x − p, z − p⟫ ≤ 0`;
 - **firm nonexpansiveness:**
@@ -386,7 +386,7 @@ in place of `0`; the two agree for nonempty closed convex `C`, where the nearest
 - `C = closedBall 0 1`: `P x = x / max 1 ‖x‖`.
 - `C = {x | 0 ≤ x}` in `EuclideanSpace ℝ ι`: `P x = max x 0` coordinatewise.
 - `C = Set.Icc (−1) 1` in `ℝ`: `P x = max (−1) (min 1 x)`.
-- `C = ∅`: `convexProjection ∅ x = x` and `metricProj ∅ x = 0`; the two maps differ only outside
+- `C = ∅`: `convexProjection ∅ x = x` and `metricProj ∅ x = 0`; the two maps can differ only outside
   the hypothesis that `C` is nonempty, closed and convex.
 
 *Needs:* MathematicalStatisticsNonparametric 6.5; Mathlib `exists_norm_eq_iInf_of_complete_convex`,

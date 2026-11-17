@@ -1,7 +1,4 @@
 import Mathlib
-import TauCeti.Analysis.Convex.Differentiability
-import TauCeti.Analysis.Convex.FenchelMoreau
-import TauCeti.Analysis.Convex.Strong
 import TauCeti.Analysis.Convex.Subdifferential
 import TauCeti.Analysis.GradientFlow.MoreauYosida.Basic
 
@@ -15,10 +12,9 @@ is statable at the pins. `LipschitzSmoothWith` is stated here in the shape of Ma
 
 Suppliers used by the README and not restated here: SpectralSteepestDescent 5.1
 (`le_add_fderiv_add_of_lipschitz`); Tau Ceti `StrongConvexOn.add_add_le_of_hasFDerivWithinAt`,
-`exists_affine_le_of_lt` (`FenchelMoreau.lean`), `subdifferential`,
-`gradient_toReal_mem_subdifferential` and `moreauYosidaResolvent`; Mathlib `toDual_gradient`,
-`strongConvexOn_zero`, `strongConvexOn_iff_convex`,
-`Convex.norm_image_sub_le_of_norm_hasFDerivWithin_le`, `exists_norm_eq_iInf_of_complete_convex`,
+`exists_affine_le_of_lt` (`FenchelMoreau.lean`), `subdifferential` and
+`moreauYosidaResolvent`; Mathlib `toDual_gradient`, `strongConvexOn_zero`,
+`strongConvexOn_iff_convex`, `exists_norm_eq_iInf_of_complete_convex`,
 `norm_eq_iInf_iff_real_inner_le_zero`, `LinearMap.IsSymmetric.eigenvectorBasis`,
 `LinearMap.singularValues`, `Nat.iterate`, `Submartingale.ae_tendsto_limitProcess` and
 `Submartingale.exists_ae_tendsto_of_bdd`; MathematicalStatisticsNonparametric 6.4
