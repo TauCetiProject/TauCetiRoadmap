@@ -386,7 +386,7 @@ and abelian hulls over algebraic spaces and stacks. For coherent `ℱ`, construc
 `C(ℱ) = Spec_X Sym(ℱ)`. Identify the finite-locally-free case with the supplier's geometric
 vector bundle on schemes and its descended stack version.
 
-Source: Behrend–Fantechi §1, p. 5.
+Source: Behrend–Fantechi §1, pp. 5–7.
 
 **API.**
 
@@ -469,6 +469,11 @@ for pushforward. Prove atlas independence and agreement with the supplied scheme
 For `X` pure of dimension `n`, define `A^c(X)_ℚ = A_{n−c}(X)_ℚ`. For a finite constant group
 `G`, verify the `1/|G|` degree of `BG`.
 
+Prove that every separated finite-type Deligne–Mumford stack over `k` admits a
+proper surjective cover by a scheme of finite type. Use the finite scheme cover
+of Laumon–Moret-Bailly, Thm. 16.6, which supplies the standing cover hypothesis
+of Vistoli §3 (see also Deligne–Mumford, Thm. 4.12 and Vistoli, p. 626).
+
 Source: Vistoli (3.1)–(3.4), pp. 632–634, and p. 620 for the degree of a classifying stack.
 
 **API.**
@@ -493,11 +498,13 @@ For separated finite-type Deligne–Mumford stacks, extend the scheme operations
 - For flat `f : X → Y` of pure relative dimension `e`, define
   `f^* : A_k(Y)_ℚ → A_{k+e}(X)_ℚ`.
 - For proper `f : X → Y`, define `f_* : A_k(X)_ℚ → A_k(Y)_ℚ` with stabilizer weights.
-  For representable proper maps also define the integral operation (Vistoli (3.6)–(3.7), p. 635).
+  For representable proper maps also define the integral operation. Use the proper scheme
+  covers of §2.1 to verify descent to rational equivalence and push–pull
+  (Vistoli (3.6)–(3.7), p. 635, and Lemmas (3.8)–(3.9), pp. 637–638).
 - Give localization for a closed substack and its open complement, and the exterior product
   with its dimension grading. Identify each operation with the scheme operation on schemes.
 
-*Needs:* §2.1 and SchemeAndStackFoundations Layer 5.
+*Needs:* §2.1, including the proper scheme cover, and SchemeAndStackFoundations Layer 5.
 
 **Checks.**
 
@@ -506,15 +513,35 @@ For separated finite-type Deligne–Mumford stacks, extend the scheme operations
 
 ### 2.3 Homotopy invariance and Chern classes
 
-Prove homotopy invariance for vector bundles on Deligne–Mumford stacks and define the zero-
-section Gysin inverse. Descend the supplier's Chern classes and projective-bundle formula and
-prove Whitney sum, pullback, the top-Chern formula, and
-`0_E^! 0_{E*}[X] = c_top(E) ∩ [X]`. Use Kresch, *Cycle groups for Artin stacks*,
-§2.5, in particular Prop. 2.5.6 and Cor. 2.5.7, for the Chern and projective-bundle
-constructions and affine-bundle invariance, transferring these operations along the rational comparison with the
-cycle groups of §2.1.
+Use the rational groups of §2.1. For a finite surjective scheme cover
+`g : S → X` of a separated Deligne–Mumford stack, prove that
+`A_*(S×_X S)_ℚ → A_*(S)_ℚ → A_*(X)_ℚ → 0` is a cokernel presentation,
+with first map the difference of the projection pushforwards and second map
+`g_*`. Lift each integral cycle by dividing a dominating component by its
+weighted generic degree. Lift rational equivalences by pulling back rational
+functions along those components and using the pushforward of principal divisors.
+For two lifts of the same integral cycle, use a component of their fibre product
+dominating both and compare its two degree-normalized pushforwards
+(Vistoli Lemma (3.8), pp. 637–638, for surjectivity and lifting rational equivalence).
+The fibre product of the cover with itself is a scheme because the diagonal of
+`X` is finite.
 
-*Needs:* §§1.2, 2.1–2.2 and SchemeAndStackFoundations Layer 5.
+Descend the scheme Chern operations along this presentation. For a line bundle
+`L` and an integral substack `V`, compute `c₁(L) ∩ [V]` by pulling `L|_V`
+to an integral scheme finite and dominant over `V`, taking the divisor of
+a rational section there, and pushing down divided by the weighted degree.
+Use the scheme projection formula on the fibre products of covers to prove
+independence. This also treats line bundles with nontrivial generic stabilizer
+action. Apply the same cokernel presentation to the pullbacks of the cover to
+the vector or projective bundle. Flat push–pull (Vistoli Lemma (3.9), p. 638)
+makes the scheme homotopy and projective-bundle isomorphisms descend.
+Prove the Chern pullback, Whitney sum and top-Chern laws using the descended
+operations, and obtain `0_E^! 0_{E*}[X] = c_top(E) ∩ [X]` from the
+zero-section inverse to vector-bundle pullback. Kresch, *Cycle groups for Artin
+stacks*, §3.6 and Thm. 2.1.12(vi)–(viii), gives the corresponding statements
+for his cycle groups.
+
+*Needs:* §§1.2, 2.1 (proper scheme cover), 2.2 and SchemeAndStackFoundations Layer 5.
 
 **Checks.**
 
@@ -525,7 +552,12 @@ cycle groups of §2.1.
 Extend refined Gysin pullback to representable regular local immersions of
 Deligne–Mumford stacks using Layer 1 and the supplied scheme deformation. Prove base change,
 excess intersection, composition, proper-pushforward and flat-pullback compatibility, and the
-self-intersection formula (Vistoli (3.10)–(3.13), pp. 638–639, and Lemma (3.20)).
+self-intersection formula. Use Vistoli (3.10)–(3.13), pp. 638–639, for the
+construction, and Lemma (3.20), p. 641, for the compatibility formulas it
+proves. For excess intersection, composition and self-intersection use
+SchemeAndStackFoundations §5.5 on the test schemes of (3.10), and prove
+compatibility with the passage from those tests to the stack operations.
+Vistoli sets aside excess intersection on p. 614.
 
 *Needs:* §§1.5, 2.2–2.3 and SchemeAndStackFoundations Layer 5.
 
@@ -536,10 +568,12 @@ self-intersection formula (Vistoli (3.10)–(3.13), pp. 638–639, and Lemma (3.
 ### 2.5 Bivariant orientations and comparison
 
 Build the rational bivariant groups for morphisms of relative Deligne–Mumford type
-to algebraic stacks, in the range of Behrend–Fantechi §7. Construct the flat orientation and
-the regular-local-immersion orientation for representable morphisms of algebraic stacks,
-acting on rational Chow groups after base change to separated finite-type Deligne–Mumford
-test stacks whose pullbacks are separated and of finite type. Form the orientation of an
+to algebraic stacks, in the range of Behrend–Fantechi §7. Construct the flat
+orientation from §2.2 for flat morphisms of pure relative dimension with finite
+unramified diagonal. Construct the regular-local-immersion orientation for the
+representable regular local immersions of §2.4. Both act on rational Chow groups
+of separated finite-type Deligne–Mumford test stacks with separated finite-type
+Deligne–Mumford pullbacks. Form the orientation of an
 lci morphism admitting a factorization by composing the regular-local-immersion and
 smooth orientations. Prove independence of the factorization, the composition law
 and compatibility with the scheme orientations (Vistoli (3.10)–(3.13) and §5).
@@ -693,8 +727,10 @@ and DerivedDeRhamCohomology §§0.20 and 5.8.
 
 Define an action of a vector bundle `E` on a cone `C`, the quotient stack `[C/E]`, and its
 vertex and `𝔸¹`-action. Develop equivariant morphisms, homotopies, quotient 2-morphisms, and
-the cartesian/surjectivity criterion for two quotient presentations to define equivalent cone
-stacks.
+the equivalence criterion for a map of presentations `[C/E] → [D/F]`:
+the square of `E → C` over `F → D` is cartesian and the action map
+`F × C → D` is surjective (Behrend–Fantechi, `E`-cones, p. 9, quotient,
+p. 12, and Prop. 1.7, p. 13).
 
 **API.**
 
@@ -950,16 +986,14 @@ Source: Behrend–Fantechi Thm. 4.5.
 
 Define perfect obstruction theories by amplitude `[-1,0]`, prove their obstruction targets
 are vector-bundle stacks, and define virtual rank. Prove étale pullback of absolute theories and external direct sum over the field.
-For a cartesian base change of a relative theory, construct the map from the
-derived pullback of the theory to the new relative cotangent complex. Prove the
-obstruction-theory conditions using the isomorphism on degree zero and surjection
-in degree minus one for the cotangent base-change map. For smooth absolute pullback
-use a compatible theory with the relative tangent term as in §8.1.
+For smooth absolute pullback use a compatible theory with the relative tangent
+term as in §8.1. The perfectness, cone and product inputs are Behrend–Fantechi
+Def. 5.1, p. 37, Prop. 2.4, p. 20, and Prop. 5.7, p. 41.
 
 **API.**
 
 - Identify the abelian cone stack with a vector-bundle stack for a perfect theory.
-- Pull back along an étale morphism and compare relative theories in cartesian base change by the cotangent comparison.
+- Pull back absolute perfect obstruction theories along étale morphisms.
 
 *Needs:* §§3.2–3.4, 4.4, 6.1.
 
@@ -1040,6 +1074,8 @@ Prove `C(F•) → 𝔠_X` is smooth of relative dimension `rank F₀`, hence `C
 dimension `rank F₀`. Define
 `[X,φ]vir = 0_F₁^![C(F•)]` and verify that its dimension is
 `rank F₀-rank F₁ = rank E = n` (Behrend–Fantechi Def. 5.2).
+Write `cl_X(F•)` for this expression with the two-term resolution specified.
+Section 7.3 supplies independence of the resolution for the public class.
 
 **API.**
 
@@ -1109,8 +1145,15 @@ is perfect, is globally resolvable whenever a global smooth embedding supplies t
 and gives the ordinary fundamental class (Behrend–Fantechi, example following Prop. 5.3).
 For `(X,E)` and `(Y,F)` as in §7.3, form the external sum perfect obstruction theory
 `E ⊞ F → L_{X×Y}` with the external sum resolution. The product has the resolution
-property by taking products of the quasi-affine quotient presentations in Gross,
-*Tensor generators on schemes and stacks*, Theorem B. Prove
+property by Gross, *Tensor generators on schemes and stacks*, Theorem A
+(i) ⇔ (iii). In the quotient presentations `[U/GL_n]` and `[V/GL_m]`,
+induce the action along the block embedding `GL_n × GL_m ↪ GL_(n+m)`.
+The resulting presentation is `[(U×V) ×^(GL_n×GL_m) GL_(n+m) / GL_(n+m)]`.
+Over the torsor `GL_(n+m) → GL_(n+m)/(GL_n×GL_m)`, the associated bundle
+with fibre `U×V` is a product. Quasi-affineness descends along this torsor.
+The base is affine: identify an ordered complementary decomposition with its
+projection onto the first summand and take the open and closed rank-`n`
+locus in the affine scheme of idempotent matrices. Prove
 `[X×Y,E⊞F]vir = [X,E]vir × [Y,F]vir` in `A_{rk E + rk F}(X×Y)_ℚ`
 (Behrend–Fantechi Prop. 5.7).
 
@@ -1145,8 +1188,11 @@ Layers 2 and 6.
 ### 8.1 Compatible theories
 
 Let `X′ = X ×_Y Y′`, `u : X′ → X`, `g : X′ → Y′`, and let `v : Y′ → Y` be a
-representable lci morphism of constant virtual relative dimension. Require both
-`(X,E)` and `(X′,F)` to satisfy the class hypotheses of §7.3. A compatibility
+lci morphism with finite unramified diagonal and constant virtual relative
+dimension. Take separated finite-type Deligne–Mumford endpoints `X,X′` with
+perfect theories `E,F` of constant rank and two-term resolutions `E•,F•`.
+Use §7.2 for evaluation on these resolutions and §7.3 for the public
+classes when the endpoints have the resolution property. A compatibility
 datum over `v` is a morphism of distinguished triangles from
 `u^*E → F → g^*L_{Y′/Y} → u^*E[1]` to
 `u^*L_X → L_{X′} → L_{X′/X} → u^*L_X[1]` that extends the obstruction-theory
@@ -1158,7 +1204,7 @@ Derive the exact sequence of vector-bundle stacks used in the cone comparison.
 - Give the three comparison maps and their commutative triangle squares.
 - Pass to the exact sequence of vector-bundle stacks by duality and the amplitude criterion.
 
-*Needs:* §§3.3–3.4, 4.5, 6.4.
+*Needs:* §§3.3–3.4, 4.5, 6.4–6.5.
 
 **Checks.**
 
@@ -1166,9 +1212,12 @@ Derive the exact sequence of vector-bundle stacks used in the cone comparison.
 
 ### 8.2 Smooth pullback
 
-Under §8.1, if `v` is smooth, prove `v^![X,E]vir = [X′,F]vir` using the
-flat orientation of §2.5. Identify the pulled-back intrinsic and obstruction
-cones and commute flat pullback with zero-section Gysin (Behrend–Fantechi
+Under §8.1, if `v` is smooth, use the flat orientation of §2.5. On given
+two-term resolutions `E•,F•`, identify the pulled-back intrinsic and obstruction
+cones and commute flat pullback with zero-section Gysin to prove
+`v^! cl_X(E•) = cl_X′(F•)`. This includes the direct sum resolution of the
+canonical smooth pullback theory in §8.4. By §7.3 this gives
+`v^![X,E]vir = [X′,F]vir` for the public classes (Behrend–Fantechi
 Prop. 5.10(1), p. 42).
 
 *Needs:* §§2.2–2.5, 5.5, 7.1–7.4, 8.1.
@@ -1176,19 +1225,29 @@ Prop. 5.10(1), p. 42).
 ### 8.3 Regular-immersion pullback
 
 Under §8.1, if `v` is a regular local immersion of smooth stacks, prove
-`v^![X,E]vir = [X′,F]vir` using the rational equivalence and the restricted
-tangent invariance of §2.5. Descend the actual cycle and rational-function data
-through the tangent and resolution bundle actions, then compare the classes on the
-global resolutions (Behrend–Fantechi Prop. 5.10(2), pp. 42–44).
+`v^! cl_X(E•) = cl_X′(F•)` on the supplied resolutions using the rational
+equivalence and restricted tangent invariance of §2.5. Descend the actual
+cycle and rational-function data through the tangent and resolution bundle
+actions, then compare the resolved cones and apply zero-section Gysin as
+in §7.2. Under §7.3, identify these evaluations with the public virtual
+classes (Behrend–Fantechi Prop. 5.10(2), pp. 42–44).
 
 *Needs:* §§2.4–2.5, 5.3, 7.1–7.3, 8.1.
 
 ### 8.4 Functoriality
 
-Under §8.1, assume that `Y′` and `Y` are smooth with finite unramified diagonals
-over `k`. Use the regular local immersion of the graph followed by smooth projection
-to define `v^!`, and prove `v^![X,E]vir = [X′,F]vir` (Behrend–Fantechi Prop. 5.10(2),
-pp. 42–44).
+Under §8.1, assume that `Y′` and `Y` are smooth with finite unramified
+diagonals over `k`, and that `Y′` is of finite type. Factor `v` by its graph
+and the smooth projection, and write `M = Y′ × X` for the middle space after
+base change. It is separated, finite type and Deligne–Mumford. Work on the
+open and closed loci of constant smooth relative dimension of the projection
+and combine the evaluations using the direct sum of their Chow groups. For the
+smooth projection evaluate §7.2 on the resolution
+`[pr_X^*E⁻¹ → pr_X^*E⁰ ⊕ pr_{Y′}^*Ω_{Y′}]` of the direct sum theory on `M`,
+using zero in the new summand of the differential. Apply §8.2 and the
+regular-immersion comparison of §8.3 to this fixed evaluation.
+Use §7.3 at the endpoints to conclude `v^![X,E]vir = [X′,F]vir`
+(Behrend–Fantechi Prop. 5.10(2), pp. 42–44).
 
 The graph comparison is made on affine étale charts of `X′`. Set
 `P = g^*Ω_{Y′}` and `K = fib(u^*E → u^*L_X)`. The obstruction to lifting
@@ -1207,13 +1266,13 @@ For a smooth conic `C ↪ ℙ²`, the graph `C ↪ C × ℙ²` has conormal
 pulled back from `Ω_C` of rank one. The composite has virtual rank `1−2=−1`
 and conormal line `𝒪_C(−2)` in degree minus one.
 
-*Needs:* §§2.5, 3.1, 3.3, 6.1, 8.1–8.3.
+*Needs:* §§2.5, 3.1, 3.3, 6.1, 7.2–7.3, 8.1–8.3.
 
 ### 8.5 Coherence
 
 For successive squares over `v : Y′ → Y` and `w : Y″ → Y′`, take compatible
-data for `E,F` over `v` and for `F,G` over `w`. When each square satisfies
-§8.2 or §8.4, use the bivariant composition law
+data for `E,F` over `v` and for `F,G` over `w`. Assume all three endpoints
+satisfy §7.3. When each square satisfies §8.2 or §8.4, use the bivariant composition law
 `(v∘w)^! = w^!v^!` to obtain `(v∘w)^![X,E]vir = [X″,G]vir`.
 For products of such squares prove agreement with the exterior-product formula of
 §7.6. Transport these equalities when a square or a compatibility triangle is
@@ -1227,7 +1286,12 @@ replaced by an isomorphic one.
 
 - Flat extension of the ground field commutes with the class.
 - For the origin `i : pt ↪ 𝔸¹` and canonical smooth theories, the adjusted pullback theory is zero and the virtual class is `[pt]`, agreeing with `i^![𝔸¹]`.
-- Two successive compatible smooth pullbacks agree with the composite.
+- The projection `BC₂ × BC₂ → BC₂` has fibre `BC₂`, so it is a smooth
+  morphism with finite unramified diagonal. Its flat orientation takes
+  `[BC₂]` to `[BC₂ × BC₂]`, of degree `1/4`.
+- For the successive smooth projections `𝔸² → 𝔸¹ → pt`, the two flat
+  pullbacks take `[pt]` first to `[𝔸¹]` and then to `[𝔸²]`, the same
+  value as pullback along the composite.
 
 ### Dependencies
 
@@ -1259,14 +1323,23 @@ cone along their common refinements. For `Y` pure of dimension `d`, prove purity
 ### 9.2 Relative virtual class
 
 Define relative obstruction theories `E → L_{X/Y}`, perfectness, global resolution, and
-constant virtual rank exactly as in the absolute case. For separated finite-type
-Deligne–Mumford `X` with the resolution property and a global resolution of `E`,
-construct `[X/Y,φ]vir ∈ A_{d+rank E}(X)_ℚ`.
+constant virtual rank as in the absolute case. For separated finite-type
+Deligne–Mumford `X`, evaluate the relative cone on a supplied resolution of `E`
+by the same zero-section Gysin formula as §7.2, with grading `d + rank E`.
+With the resolution property, apply the relative version of §7.3 to obtain
+`[X/Y,φ]vir ∈ A_{d+rank E}(X)_ℚ`.
+
+For a cartesian base change of a relative theory, construct the map from the
+derived pullback of the theory to the new relative cotangent complex. Prove the
+obstruction-theory conditions using the isomorphism on degree zero and surjection
+in degree minus one for the cotangent base-change map. Behrend–Fantechi
+Prop. 7.2, p. 50, treats the flat and regular-immersion applications.
 
 **API.**
 
 - Evaluate the relative class by a resolved cone and zero-section Gysin.
 - Compare evaluations under change of resolution and identify the absolute class over the field.
+- Construct the relative theory under cartesian base change and compare its cotangent map.
 
 *Needs:* §§6.1–6.5, 7.1–7.4, 9.1.
 
@@ -1282,9 +1355,10 @@ For a cartesian base change `Y' → Y`, construct
 `𝔠_{X'/Y'} → 𝔠_{X/Y} ×_Y Y'`; prove it is a closed immersion in general and an equivalence
 for flat base change (Behrend–Fantechi Prop. 7.1).
 
-Let `u : X′ → X` be the projection and let `v : Y′ → Y` be representable and flat
-of pure relative dimension. Assume that `Y′` is pure-dimensional and that `X′` is
-separated, finite type, Deligne–Mumford and has the resolution property. Pull the global
+Let `u : X′ → X` be the projection and let `v : Y′ → Y` be flat of pure relative
+dimension with finite unramified diagonal. Assume that `Y′` is pure-dimensional
+and that `X′` is separated, finite type, Deligne–Mumford and has the resolution
+property. Pull the global
 resolution back along `u` and prove
 `v^![X/Y,φ]vir = [X′/Y′,u^*φ]vir` using the flat bivariant orientation of §2.5
 (Behrend–Fantechi Prop. 7.2(1), p. 50).
@@ -1310,25 +1384,29 @@ base and the product formula (Props. 7.3–7.4).
 
 ### 9.5 Relative functoriality
 
-Over a pure-dimensional algebraic base `Y` let `v : Z′ → Z` be a representable
-lci morphism of constant virtual relative dimension between `Y`-stacks with finite
-unramified diagonals over `Y`. Write `X′ = X ×_Z Z′`, `u : X′ → X`,
+Over a pure-dimensional algebraic base `Y` let `v : Z′ → Z` be lci with finite
+unramified diagonal and constant virtual relative dimension. Assume `Z′` and `Z`
+have finite unramified diagonals over `Y`. Write `X′ = X ×_Z Z′`, `u : X′ → X`,
 and `g : X′ → Z′`. Let `E,F` be relative perfect obstruction theories for
-`X/Y,X′/Y` respectively, satisfying the class hypotheses of §9.2. Define
+`X/Y,X′/Y` respectively, with resolutions `E•,F•` satisfying the class
+hypotheses of §9.2. Define
 compatibility over `v` by a morphism from the distinguished triangle
 `u^*E → F → g^*L_{Z′/Z} → u^*E[1]` to
 `u^*L_{X/Y} → L_{X′/Y} → L_{X′/X} → u^*L_{X/Y}[1]`, with the relative cotangent
 map as its third component.
 
 Prove `v^![X/Y,E]vir = [X′/Y,F]vir` when `v` is smooth, using the relative cone
-comparison. When `Y` is smooth over `k` and both `Z,Z′` are smooth over `Y`,
-prove the same formula by factoring through the graph over `Y` and smooth
-projection, using the local comparison of §8.4 with `g^*Ω_{Z′/Y}`. These cases
-use Behrend–Fantechi Prop. 7.5, p. 51, with smooth `Y` in the graph case to ensure
-the tangent invariance of §2.5. Over `Y = Spec k` identify the relative class with
-the absolute class.
+comparison. When `Y` is smooth over `k`, both `Z,Z′` are smooth over `Y`,
+and `Z′ → Y` is of finite type, prove the same formula by factoring through the
+graph over `Y` and smooth projection. The intermediate `Z′ ×_Y X` is separated
+finite type Deligne–Mumford. Evaluate its class on the direct sum resolution
+formed from the pullback of `E•` and the pullback of `Ω_{Z′/Y}` in degree zero.
+Apply the fixed-resolution comparison of §8.4 with `g^*Ω_{Z′/Y}` and the
+relative formula of §9.2. These cases use Behrend–Fantechi Prop. 7.5, p. 51,
+with smooth `Y` in the graph case for the tangent action of §2.5. Over
+`Y = Spec k` identify the relative class with the absolute class.
 
-*Needs:* §§8.1–8.5, 9.2–9.4.
+*Needs:* §§2.5, 8.1–8.5, 9.2–9.4.
 
 ### 9.6 Pullback from smooth stacks
 
@@ -1411,10 +1489,11 @@ Deligne–Mumford stacks.
   Forum Math. Sigma 10 (2022), e78, Appendix B, Example B.8 and the following paragraph
   for the representable cotangent complex.
 - A. Kresch, [*Cycle groups for Artin stacks*](https://arxiv.org/abs/math/9810166),
-  Invent. Math. 138 (1999), 495–536, §2.5 for Chern classes, projective bundles and
-  affine-bundle invariance, and Theorem 2.1.12 for rational comparison.
+  Invent. Math. 138 (1999), 495–536. See §3.6, Prop. 3.6.3, Cor. 3.6.4, and
+  Thm. 2.1.12(vi)–(viii) (arXiv v1 numbering) for the corresponding operations
+  on Kresch's groups.
 - P. Gross, [*Tensor generators on schemes and stacks*](https://arxiv.org/abs/1306.5418),
-  Algebraic Geometry 4 (2017), 501–522, Theorem B for the resolution property.
+  Algebraic Geometry 4 (2017), 501–522, Theorem A (i) ⇔ (iii) for the resolution property.
 
 - A. Kresch, [*Canonical rational equivalence of intersections of divisors*](https://arxiv.org/abs/alg-geom/9710011), Theorem 3.1 for the restricted tangent action.
 
@@ -1434,7 +1513,10 @@ Deligne–Mumford stacks.
   Lecture Notes in Mathematics 239 and 283, for the cotangent complex, transitivity, perfect
   amplitude, and square-zero deformation theory.
 - G. Laumon and L. Moret-Bailly, *Champs algébriques*, Ergebnisse der Mathematik 39,
-  Springer, 2000, for algebraic stacks, quotient presentations, sites, and sheaves.
+  Springer, 2000, §17 for the cotangent complex and Thm. 16.6 for finite scheme
+  covers of Deligne–Mumford stacks.
+- P. Deligne and D. Mumford, [*The irreducibility of the space of curves of given genus*](https://doi.org/10.1007/BF02684599),
+  Publ. Math. IHÉS 36 (1969), Thm. 4.12, for the scheme cover used by Vistoli.
 - The Stacks Project: [algebraic stacks](https://stacks.math.columbia.edu/tag/026N),
   [properties of algebraic stacks](https://stacks.math.columbia.edu/tag/04X8),
   [lisse-étale and flat-fppf sites](https://stacks.math.columbia.edu/tag/08MZ),
