@@ -54,8 +54,8 @@ Out of scope:
 ## Conventions
 
 - `E` is a real Hilbert space (`[NormedAddCommGroup E] [InnerProductSpace ℝ E]
-  [CompleteSpace E]`); completeness is what Mathlib's `gradient` requires. Layer 5 assumes
-  moreover `[FiniteDimensional ℝ E]`, `[MeasurableSpace E]` and `[BorelSpace E]`.
+  [CompleteSpace E]`); completeness is what Mathlib's `gradient` requires. Finite dimension is
+  assumed only where a statement says so.
 - `f : E → ℝ`. Its gradient is Mathlib's `gradient f x`, written `∇f x`, so that
   `fderiv ℝ f x h = ⟪∇f x, h⟫` (`toDual_gradient`).
 - **Smoothness.** `LipschitzSmoothWith ℝ K f`, with `K : ℝ≥0`, means that `f` is differentiable
@@ -69,13 +69,16 @@ Out of scope:
 - **Optimal values.** A rate that needs a minimizer takes `x⋆` with `∀ y, f x⋆ ≤ f y`, and writes
   `f⋆ = f x⋆`. A rate that needs only a lower bound takes `m` with `∀ y, m ≤ f y`.
 - **Condition number.** With `0 < μ ≤ K`, `κ = K / μ`.
-- **Extended-valued functions.** `g : E → EReal` is **closed proper convex** when its real
+- **Extended-valued functions.** `g : E → EReal` is **closed proper convex**
+  (`ClosedProperConvex g`) when its real
   epigraph `{p : E × ℝ | g p.1 ≤ p.2}` is convex, `g` is lower semicontinuous, `g x ≠ ⊥` for all
   `x`, and `g x ≠ ⊤` for some `x`, the convention of Tau Ceti's `FenchelMoreau.lean`. Its
   subdifferential is Tau Ceti's `subdifferential (innerₗ E) g x`. The indicator of `C : Set E`
   is `ι_C x = 0` for `x ∈ C` and `⊤` otherwise. For `F = f + g` the value `(f x : EReal) + g x` is
   used, and rates for `F` are stated as upper bounds `F x ≤ F x⋆ + r`, never with a subtraction in
-  `EReal`.
+  `EReal`. Checks: `ι_C` of a nonempty closed convex `C` is closed proper convex; the constant `⊤`
+  fails the last condition; `x ↦ −‖x‖²` (with `E` nontrivial) fails the convexity of the
+  epigraph.
 - **Iterations** are total functions iterated with `Nat.iterate`. A method with memory iterates on
   the tuple of its state, and the iterate `x_k` is a projection of the `k`-th state. Step sizes are
   real numbers; a step-size schedule is `η : ℕ → ℝ`.
@@ -87,21 +90,25 @@ Out of scope:
 
 ## Exact supplier contracts
 
+- [MathematicalStatisticsNonparametric](../MathematicalStatisticsNonparametric/README.md) 6.4: the
+  soft-threshold map `softThreshold λ y = sign y · (|y| − λ)₊`.
 - [SpectralSteepestDescent](../SpectralSteepestDescent/README.md) 5.1: the descent lemma
   `le_add_fderiv_add_of_lipschitz` for a real normed space: if `f` is differentiable on the
   segment `[x, x + h]` and `‖fderiv ℝ f y − fderiv ℝ f x‖ ≤ L ‖y − x‖` there, then
   `f (x + h) ≤ f x + fderiv ℝ f x h + L / 2 ‖h‖²`.
 - Tau Ceti:
-  - `ConvexOn.inner_gradient_sub_le` (`TauCeti/Analysis/Convex/Differentiability.lean`): for
-    convex `u` differentiable at `x`, `⟪∇u x, y − x⟫ ≤ u y − u x`;
   - `StrongConvexOn.add_add_le_of_hasFDerivWithinAt` (`TauCeti/Analysis/Convex/Strong.lean`):
-    `f x + f' (y − x) + μ / 2 ‖y − x‖² ≤ f y`;
+    `f x + f' (y − x) + μ / 2 ‖y − x‖² ≤ f y`; at `μ = 0`, through Mathlib's
+    `strongConvexOn_zero`, it is the first-order inequality `f x + ⟪∇f x, y − x⟫ ≤ f y` of a
+    convex differentiable `f`;
+  - `exists_affine_le_of_lt` (`TauCeti/Analysis/Convex/FenchelMoreau.lean`): a closed proper
+    convex `g : E → EReal` has a continuous affine minorant;
   - `subdifferential` (`TauCeti/Analysis/Convex/Subdifferential.lean`) with the pairing
     `innerₗ E`, and `gradient_toReal_mem_subdifferential`
     (`TauCeti/Analysis/Convex/Differentiability.lean`);
   - `moreauYosidaResolvent` (`TauCeti/Analysis/GradientFlow/MoreauYosida/Basic.lean`).
-- Mathlib: `gradient` and `toDual_gradient`; `ConvexOn`, `StrongConvexOn` and
-  `strongConvexOn_iff_convex`; `Convex.norm_image_sub_le_of_norm_hasFDerivWithin_le`;
+- Mathlib: `gradient` and `toDual_gradient`; `ConvexOn`, `StrongConvexOn`, `strongConvexOn_zero`
+  and `strongConvexOn_iff_convex`; `Convex.norm_image_sub_le_of_norm_hasFDerivWithin_le`;
   `exists_norm_eq_iInf_of_complete_convex` and `norm_eq_iInf_iff_real_inner_le_zero`;
   `LinearMap.IsSymmetric.eigenvectorBasis`; `LinearMap.singularValues`; `condExp`, `Filtration`,
   `Supermartingale`, `Submartingale.ae_tendsto_limitProcess` and
@@ -180,7 +187,8 @@ Let `f` be convex and `K`-smooth with `K > 0`. Prove, for all `x`, `y`:
   holds with constant `4`.
 - `f x = −‖x‖²/2` is `1`-smooth but not convex, and cocoercivity fails at `x ≠ y`.
 
-*Needs:* 1.1; Tau Ceti `ConvexOn.inner_gradient_sub_le`.
+*Needs:* 1.1; Tau Ceti `StrongConvexOn.add_add_le_of_hasFDerivWithinAt`; Mathlib
+`strongConvexOn_zero`.
 
 ### 1.3 Strongly convex smooth functions
 
@@ -214,14 +222,14 @@ proved here.)
 Define `PolyakLojasiewicz μ f` as a structure with fields `bddBelow : BddBelow (Set.range f)` and
 `le : ∀ x, 2 μ (f x − ⨅ y, f y) ≤ ‖∇f x‖²`. Prove:
 
-- a differentiable `μ`-strongly convex function is `PolyakLojasiewicz μ`;
+- a differentiable `μ`-strongly convex function with `μ > 0` is `PolyakLojasiewicz μ`;
 - under `PolyakLojasiewicz μ f` with `μ > 0`, every `x` with `∇f x = 0` is a global minimizer;
 - **least squares:** for `A : E →ₗ[ℝ] F` between finite-dimensional real inner product spaces
   with `A ≠ 0` and `b : F`, the function `x ↦ ‖A x − b‖² / 2` is `PolyakLojasiewicz σ²` with `σ`
   the smallest nonzero singular value of `A` (`polyakLojasiewicz_leastSquares`), whatever the
   rank of `A`.
 
-(Karimi, Nutini and Schmidt 2016, Section 2 and Appendix; proved here.)
+(Karimi, Nutini and Schmidt 2016, Section 2.3 and Appendix B; proved here.)
 
 **Checks.**
 
@@ -236,6 +244,11 @@ Define `PolyakLojasiewicz μ f` as a structure with fields `bddBelow : BddBelow 
 ### Examples
 
 `K/2 ‖x‖²`, `(x₁² + 4x₂²)/2`, the logistic loss `log (1 + exp ·)`, and least squares.
+
+### Dependencies
+
+Layer 1 uses SpectralSteepestDescent 5.1 and the Tau Ceti and Mathlib convexity suppliers. The
+per-target *Needs:* lines are authoritative.
 
 ## Layer 2: gradient descent
 
@@ -325,6 +338,10 @@ Let `f` be `μ`-strongly convex and `K`-smooth with `0 < μ`, and `x⋆` its min
 Gradient descent on the quadratic `(x₁² + 4x₂²)/2` with the step sizes `1/4`, `2/5` and `1/2`, and
 on the least-squares problem of 1.4.
 
+### Dependencies
+
+Layer 2 uses Layer 1.
+
 ## Layer 3: projections, proximal maps and nonsmooth methods
 
 ### 3.1 Projection onto a closed convex set
@@ -335,7 +352,8 @@ Let `C : Set E` be nonempty, closed and convex. Define
 
 - the variational inequality: `p = convexProjection C x ↔ p ∈ C ∧ ∀ z ∈ C, ⟪x − p, z − p⟫ ≤ 0`;
 - **firm nonexpansiveness:**
-  `‖P x − P y‖² ≤ ⟪P x − P y, x − y⟫` for `P = convexProjection C`, hence `LipschitzWith 1 P`;
+  `‖P x − P y‖² ≤ ⟪P x − P y, x − y⟫` for `P = convexProjection C`, hence `LipschitzWith 1 P`
+  (`convexProjection_firmlyNonexpansive`);
 - `P x = x ↔ x ∈ C`, and `P ∘ P = P`;
 - for a closed subspace, `convexProjection` agrees with Mathlib's orthogonal projection.
 
@@ -357,15 +375,17 @@ minimizer exists). Prove:
 
 - existence and uniqueness of the minimizer (`existsUnique_prox`);
 - `moreauYosidaResolvent g η.toNNReal x = {prox g η x}`, identifying `prox` with Tau Ceti's metric
-  resolvent;
+  resolvent (`moreauYosidaResolvent_eq_prox`);
 - the subdifferential characterization:
-  `p = prox g η x ↔ η⁻¹ • (x − p) ∈ subdifferential (innerₗ E) g p`;
+  `p = prox g η x ↔ η⁻¹ • (x − p) ∈ subdifferential (innerₗ E) g p` (`eq_prox_iff`);
 - firm nonexpansiveness in the sense of 3.1, hence `LipschitzWith 1 (prox g η)`;
 - `prox ι_C η = convexProjection C`;
-- on `EuclideanSpace ℝ ι`, with `g x = λ Σᵢ |xᵢ|` and `λ ≥ 0`: `(prox g η x)ᵢ =
-  sign xᵢ · max (|xᵢ| − ηλ) 0` (soft thresholding).
+- on `EuclideanSpace ℝ ι`, with `g x = λ Σᵢ |xᵢ|` and `λ ≥ 0`:
+  `(prox g η x)ᵢ = softThreshold (η λ) (x i)`, the soft-threshold map of
+  MathematicalStatisticsNonparametric 6.4.
 
-Existence: a minimizing sequence of the penalized function is Cauchy by the parallelogram law and
+Existence: the infimum of the penalized function is finite because `g` has a continuous affine
+minorant (`exists_affine_le_of_lt`); a minimizing sequence is Cauchy by the parallelogram law and
 the convexity of the real epigraph of `g`, and its limit is a minimizer by lower semicontinuity.
 Uniqueness follows from the same parallelogram estimate. (Bauschke and Combettes 2017,
 Definition 12.23 and Propositions 12.28 and 16.44; proved here.)
@@ -376,7 +396,8 @@ Definition 12.23 and Propositions 12.28 and 16.44; proved here.)
 - `g x = ‖x‖²/2`: `prox g η x = x / (1 + η)`.
 - `g = |·|` on `ℝ`, `η = 1`: `prox g 1 3 = 2`, `prox g 1 (1/2) = 0`, `prox g 1 (−3) = −2`.
 
-*Needs:* 3.1; Tau Ceti `subdifferential`, `moreauYosidaResolvent`.
+*Needs:* 3.1; Tau Ceti `subdifferential`, `moreauYosidaResolvent`, `exists_affine_le_of_lt`;
+MathematicalStatisticsNonparametric 6.4.
 
 ### 3.3 The subgradient method
 
@@ -433,6 +454,11 @@ gradient descent, so 2.2 and the first item of 2.4 are the cases `g = 0`.
 Projection onto a ball, the nonnegative orthant and an interval; soft thresholding; ISTA for the
 lasso.
 
+### Dependencies
+
+Layer 3 uses 1.1–1.3, the Tau Ceti subdifferential, Moreau–Yosida and Fenchel–Moreau suppliers,
+and MathematicalStatisticsNonparametric 6.4.
+
 ## Layer 4: momentum and acceleration
 
 ### 4.1 The heavy-ball method on quadratics
@@ -462,7 +488,7 @@ Theorem 1; proved here.)
 ### 4.2 FISTA
 
 Let `f`, `g`, `F`, `x⋆` be as in 3.4 and `0 < η ≤ 1/K`. Define FISTA with the state
-`(x_k, x_{k−1}, t_k)`: `y₁ = x₀`, `t₁ = 1`, and for `k ≥ 1`
+`(x_k, x_{k−1}, t_k)` (one step is `fistaStep`): `y₁ = x₀`, `t₁ = 1`, and for `k ≥ 1`
 `x_k = prox g η (y_k − η ∇f y_k)`, `t_{k+1} = (1 + √(1 + 4 t_k²))/2`,
 `y_{k+1} = x_k + ((t_k − 1)/t_{k+1}) (x_k − x_{k−1})`. Prove `t_k ≥ (k + 1)/2` and
 `F x_k ≤ F x⋆ + 2 ‖x₀ − x⋆‖² / (η (k + 1)²)` for `k ≥ 1` (`fista_rate`). With `g = 0` this is
@@ -483,7 +509,7 @@ Nesterov's accelerated gradient method.
 
 Let moreover `f` be `μ`-strongly convex with `0 < μ ≤ K`, `η = 1/K`, and
 `q = (√κ − 1)/(√κ + 1)`. Define `x_{−1} = x₀`, `y_k = x_k + q (x_k − x_{k−1})`,
-`x_{k+1} = prox g η (y_k − η ∇f y_k)`. Prove
+`x_{k+1} = prox g η (y_k − η ∇f y_k)` (one step is `fistaConstantMomentumStep`). Prove
 `F x_k ≤ F x⋆ + (1 − 1/√κ)^k ((F x₀).toReal − (F x⋆).toReal + μ/2 ‖x₀ − x⋆‖²)` for `x₀` with
 `F x₀ ≠ ⊤`, the last term a real number cast to `EReal` (`fistaConstantMomentum_rate`). With `g = 0` this is Nesterov's constant-momentum scheme.
 
@@ -502,24 +528,32 @@ Let moreover `f` be `μ`-strongly convex with `0 < μ ≤ K`, `η = 1/K`, and
 
 The heavy-ball and accelerated rates on `diag(1, 100)`, and FISTA on the lasso.
 
+### Dependencies
+
+Layer 4 uses Layers 1 and 3.
+
 ## Layer 5: stochastic approximation
 
-Conventions of this layer: `E` finite-dimensional with its Borel σ-algebra, `(Ω, P)` a
-probability space, `ℱ : Filtration ℕ m₀`.
+Conventions of this layer: `(Ω, P)` a probability space and `ℱ : Filtration ℕ m₀`.
+Measurability of `E`-valued processes is strong measurability, so no σ-algebra on `E` is used.
 
 ### 5.1 The Robbins–Siegmund theorem
 
-Let `V`, `β`, `ζ : ℕ → Ω → ℝ` be nonnegative, adapted to `ℱ` and integrable, and `a : ℕ → ℝ`
-nonnegative with `Σ a n < ∞`. Suppose
-`P[V (n+1) | ℱ n] ≤ᵐ (1 + a n) V n + β n − ζ n` for all `n` and `Σ_n ∫ β n ∂P < ∞`. Then:
+Let `V`, `a`, `β`, `ζ : ℕ → Ω → ℝ` be nonnegative and adapted to `ℱ`, with `V n` integrable, and
+suppose `P[V (n+1) | ℱ n] ≤ᵐ (1 + a n) V n + β n − ζ n` for all `n`. Prove:
 
-- `V n` converges almost surely to a real-valued limit (`ae_tendsto_of_robbinsSiegmund`);
-- `Σ_n ζ n ω < ∞` for almost every `ω` (`ae_summable_of_robbinsSiegmund`);
-- `sup_n ∫ V n ∂P < ∞` and `Σ_n ∫ ζ n ∂P < ∞`.
+- **the theorem:** for almost every `ω` with `Σ_n a n ω < ∞` and `Σ_n β n ω < ∞`, `V n ω`
+  converges to a real limit and `Σ_n ζ n ω < ∞` (`ae_tendsto_of_robbinsSiegmund`,
+  `ae_summable_of_robbinsSiegmund`);
+- **the integrable form:** if moreover `a` is deterministic with `Σ a n < ∞`, `β n` and `ζ n` are
+  integrable and `Σ_n ∫ β n ∂P < ∞`, then the hypotheses of the theorem hold almost surely, and
+  `sup_n ∫ V n ∂P < ∞` and `Σ_n ∫ ζ n ∂P < ∞` (`robbinsSiegmund_integrable`).
 
-The process `V n / Π_{i<n} (1 + a i) − Σ_{i<n} (β i − ζ i)/Π_{j≤i} (1 + a j)` is a supermartingale
-bounded in `L¹`, and the supplier convergence theorem applies to its negative.
-(Robbins and Siegmund 1971, Theorem 1, in the integrable form; proved here.)
+In the integrable form, `V n / Π_{i<n} (1 + a i) − Σ_{i<n} (β i − ζ i)/Π_{j≤i} (1 + a j)` is a
+supermartingale bounded in `L¹`, and the supplier convergence theorem applies to its negative. The
+theorem reduces to it by stopping at the first `n` with `Σ_{k≤n} (a k + β k) > K`, for each
+`K : ℕ`. (Robbins and Siegmund 1971, Theorem 1; Combettes and Pesquet 2015, Lemma 2.2; proved
+here.)
 
 **Checks.**
 
@@ -527,6 +561,8 @@ bounded in `L¹`, and the supplier convergence theorem applies to its negative.
 - Deterministic `V n = Π_{i<n} (1 + a i)` with `β = ζ = 0`: the recursion holds with equality and
   `V` converges to `Π (1 + a i) < ∞`.
 - `Σ a n = ∞` fails: `V n = 2^n` satisfies the recursion with `a n = 1` and diverges.
+- Random `a n = ξ/(n + 1)²` with `ξ ≥ 0` `ℱ 0`-measurable and unbounded is covered by the theorem
+  and not by the integrable form.
 
 *Needs:* Mathlib `condExp`, `Supermartingale`, `Submartingale.ae_tendsto_limitProcess`.
 
@@ -588,8 +624,9 @@ Let `IsSGD ℱ P f η σ x g` with deterministic `x 0`, `η n > 0`, `Σ η n = �
 
 - **nonconvex:** for `K`-smooth `f` bounded below, `Σ η n ‖∇f (x n ω)‖² < ∞` and
   `liminf ‖∇f (x n ω)‖ = 0` for almost every `ω`;
-- **convex:** for convex `K`-smooth `f` with a minimizer, `Σ η n (f (x n ω) − f⋆) < ∞`, and
-  `x n ω` converges to a minimizer of `f`, for almost every `ω` (`sgd_convex_ae_tendsto`);
+- **convex:** for convex `K`-smooth `f` with a minimizer, `Σ η n (f (x n ω) − f⋆) < ∞` for almost
+  every `ω`, and, when `E` is finite-dimensional, `x n ω` converges to a minimizer of `f` for
+  almost every `ω` (`sgd_convex_ae_tendsto`);
 - **strongly convex:** for `μ`-strongly convex `K`-smooth `f` with `μ > 0`, `x n → x⋆` almost
   surely.
 
@@ -614,18 +651,21 @@ Pesquet 2015, Proposition 2.3; proved here.)
 
 SGD on `x²/2` with Rademacher noise, and on least squares with sampled rows.
 
+### Dependencies
+
+Layer 5 uses Layer 1 and Mathlib's martingale theory.
+
 ## Layer 6: adaptive methods
 
 ### 6.1 Preconditioned gradient descent
 
-Let `f` be `K`-smooth and `P : E ≃L[ℝ] E` with `⟪P u, v⟫ = ⟪u, P v⟫` and `⟪P v, v⟫ ≥ p ‖v‖²` for
-all `u`, `v`, with `p > 0`. Write `d x = P.symm (∇f x)`. Prove
+Let `f` be `K`-smooth and `P : E ≃L[ℝ] E` with `⟪P v, v⟫ ≥ p ‖v‖²` for all `v`, with `p > 0`. Write `d x = P.symm (∇f x)`. Prove
 `f (x − η d x) ≤ f x − η ⟪∇f x, d x⟫ + K η²/2 ‖d x‖²` and `‖d x‖² ≤ ⟪∇f x, d x⟫ / p`, so for
 `0 < η ≤ p/K`: `f (x − η d x) ≤ f x − η/2 ⟪∇f x, d x⟫` (`preconditioned_descent`). For the iterates
 `x_{i+1} = x_i − η d x_i` and `∀ y, m ≤ f y`, prove
 `Σ_{i < k} ⟪∇f x_i, d x_i⟫ ≤ 2 (f x₀ − m)/η` (`preconditioned_sum_le`).
 
-(Proved here.)
+(Bertsekas 1999, Section 1.2, scaled gradient methods; the bounds stated here are proved here.)
 
 **Checks.**
 
@@ -648,7 +688,7 @@ Let `f` be `K`-smooth with `∀ y, m ≤ f y`, `η > 0`, `b₀ > 0`, and define
 After `k₀` the step is at most `1/K`, sufficient decrease gives
 `Σ_{k ≥ k₀} ‖∇f x_k‖²/b_{k+1} ≤ 2 (f x_{k₀} − m)/η`, and
 `‖∇f x_k‖²/b_{k+1} = (b_{k+1}² − b_k²)/b_{k+1} ≥ b_{k+1} − b_k`. (Ward, Wu and Bottou 2019,
-Section 2; the bound stated here is proved here.)
+Theorem 2.2; the bound stated here is proved here.)
 
 **Checks.**
 
@@ -664,7 +704,8 @@ Section 2; the bound stated here is proved here.)
 On `EuclideanSpace ℝ ι`, define, with `β₁, β₂ ∈ [0, 1)`, `ε > 0`, `m₀ = v₀ = 0` and gradients
 `g_t` for `t ≥ 1`:
 
-- `m_t = β₁ m_{t−1} + (1 − β₁) g_t`, `v_t = β₂ v_{t−1} + (1 − β₂) g_t²`;
+- `m_t = β₁ m_{t−1} + (1 − β₁) g_t`, `v_t = β₂ v_{t−1} + (1 − β₂) g_t²` (`adamFirstMoment`,
+  `adamSecondMoment`);
 - the bias corrections `m̂_t = m_t/(1 − β₁^t)` and `v̂_t = v_t/(1 − β₂^t)`;
 - the Adam step `x_t = x_{t−1} − α m̂_t / (√v̂_t + ε)`, and the RMSProp step
   `x_t = x_{t−1} − α g_t / (√v_t + ε)`.
@@ -692,7 +733,7 @@ finite geometric sum `Σ_{j<t} r^j`.
 ### 6.4 The Reddi–Kale–Kumar counterexample
 
 On `ℝ` with feasible set `[−1, 1]`, let `C > 2` and `f_t x = C x` if `t % 3 = 1` and `f_t x = −x`
-otherwise. Let `β₂ = 1/(1 + C²)`, `0 < α < √(1 − β₂)`, `x₁ = 1`, `v₀ = 0`, `g_t = f_t'`,
+otherwise (`reddiLoss C t x`, with derivative `reddiGrad C t`). Let `β₂ = 1/(1 + C²)`, `0 < α < √(1 − β₂)`, `x₁ = 1`, `v₀ = 0`, `g_t = f_t'`,
 `v_t = β₂ v_{t−1} + (1 − β₂) g_t²`, and
 `x_{t+1} = max (−1) (min 1 (x_t − (α/√t) g_t/√v_t))`: Adam with `β₁ = 0`, without bias
 correction and `ε`, projected onto `[−1, 1]`. Prove:
@@ -702,7 +743,12 @@ correction and `ε`, projected onto `[−1, 1]`. Prove:
   the average regret does not tend to `0`, while the minimizer of `Σ_t f_t` on `[−1, 1]` is
   `−1` (`reddi_regret`).
 
-(Reddi, Kale and Kumar 2018, Theorem 1 and its proof in Appendix A; proved here.)
+For `s ≥ 1` the step `x_{3s+4} = 1` follows as in Reddi, Kale and Kumar 2018, Appendix A. Their
+estimate fails for the first block, which is handled exactly: `v₁ = (1 − β₂) C²`,
+`v₂ = (1 − β₂)(2 − β₂)` and `v₃ = (1 − β₂)(1 + 2β₂ − β₂²)`, and
+`1/√(2(2 − β₂)) + 1/√(3(1 + 2β₂ − β₂²)) ≥ 1` on `0 < β₂ < 1/5` (its minimum there is about
+`1.022`, at `β₂ = 1/5`), which is what `x₄ = 1` requires. (Reddi, Kale and Kumar 2018, Theorem 1
+and Appendix A; proved here.)
 
 **Checks.**
 
@@ -717,12 +763,9 @@ correction and `ε`, projected onto `[−1, 1]`. Prove:
 
 Adam and RMSProp on constant gradients, and the Reddi–Kale–Kumar sequence for `C = 3`.
 
-## Dependencies
+### Dependencies
 
-Layer 1 uses SpectralSteepestDescent 5.1 and the Tau Ceti and Mathlib convexity suppliers.
-Layer 2 uses Layer 1. Layer 3 uses 1.1–1.3 and the Tau Ceti subdifferential and Moreau–Yosida
-suppliers. Layer 4 uses Layers 1 and 3. Layer 5 uses Layer 1 and Mathlib's martingale theory.
-Layer 6 uses 1.1. The per-target *Needs:* lines are authoritative.
+Layer 6 uses 1.1.
 
 ## Downstream consumers
 
@@ -744,6 +787,7 @@ reference material, not the specification.
 
 ## References
 
+- D. P. Bertsekas, *Nonlinear programming*, 2nd ed., Athena Scientific, 1999.
 - H. H. Bauschke and P. L. Combettes, *Convex analysis and monotone operator theory in Hilbert
   spaces*, 2nd ed., Springer, 2017.
 - A. Beck, *First-order methods in optimization*, SIAM, 2017.
