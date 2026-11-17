@@ -177,8 +177,7 @@ The division of ownership is as follows.
   owns the general coefficient and stable framed Pontryagin–Thom theorem and the
   normalized third sphere stem `π_(n+3)(Sⁿ) ≅ ℤ/24` for `n ≥ 5`, with generator `ν`
   from the quaternionic Hopf map and `J₃ : π₃(SO) → π₃^S` onto with kernel `24ℤ`.
-  [GeneralizedCohomology G2 item 5](../GeneralizedCohomology/README.md) supplies general
-  Freudenthal for connected pointed CW complexes. Section 9.1 retains the EHP/framed-fibre generator comparison; Section 5 retains
+  Section 9.1 retains the EHP/framed-fibre generator comparison; Section 5 retains
   the distinct smooth tangent/normal dictionary, honest-framing cancellation and generator comparisons.
 - [TopologicalKTheory T1.5a](../TopologicalKTheory/README.md) owns finite Stiefel
   connectivity, the normalized sphere-bundle boundary and the finite π₁SO calculation.
@@ -323,10 +322,9 @@ These conventions apply throughout the layers.
 - **Smooth recognition has honest hypotheses.**  The oriented recognition theorem states
   compactness, Hausdorffness, second countability, boundarylessness, the six-dimensional
   manifold model, a homotopy equivalence and both oriented atlases as its own hypotheses.  The
-  unoriented corollary concludes Mathlib's smooth Poincaré predicate at n = 6, which quantifies
-  over the six-dimensional smooth structure and the homotopy equivalence on a Hausdorff space,
-  and keeps compactness and second countability as explicit hypotheses because the route of
-  Sections 10.1–10.3 uses them.
+  unoriented corollary is Mathlib's smooth Poincaré predicate at `n = 6` on a Hausdorff
+  space. Section 10.1 derives compactness and second countability from the homotopy
+  equivalence and the smooth chart structure.
 
 ## Exact supplier contracts
 
@@ -412,6 +410,10 @@ line 108) has the weights on the diagonal and 1 at each edge, so it is the negat
 Cartan matrix, and `TauCeti.e8Plumbing_isNegativeDefinite` (line 199) proves it negative
 definite. It is a lattice datum, not a manifold: Section 6B constructs the plumbed manifolds in
 every dimension 4k and identifies their middle intersection form with it.
+
+Use `CliffordAlgebra.monomialGroup` and `CliffordAlgebra.finite_monomialGroup`
+from `TauCeti/LinearAlgebra/CliffordAlgebra/MonomialGroup/Basic.lean` for the
+finite signed monomial group of an orthogonal basis with squares ±1 (3C.5).
 
 **From TauCetiRoadmap.GeometricTopology.** §1.1 supplies smooth collars as data and §1.2 the
 complement of an embedded closed ball with its radial collar. §1.3 supplies gluing along the
@@ -516,6 +518,16 @@ theorem on all components and at all basepoints. Section 3B transports this map 
 pointed compactly generated spaces. C6.2–C6.3 give the normalized multiplicative
 Chern character; C7.3 gives the native sphere tangent/hyperplane comparison; C7 gives
 formal L and Â polynomials. These polynomials alone assert no equality with a geometric index.
+C2.0 supplies the disc/sphere bundle relative CW pair for the pointed Thom model of 5.1.3.
+
+**From TauCetiRoadmap.IntegralLattices.** 1I gives `8 ∣ t₊ − t₋` for an even unimodular
+lattice. 6A determines an even indefinite unimodular lattice by its signature
+`(t₊, t₋)`. Section 7C.2 applies 6A after adding a hyperbolic plane.
+
+**From TauCetiRoadmap.MorseTheory.** M3 supplies Morse approximation relative to a
+protected collar (1.2, 2.2, 6B.3). M5 supplies the Morse–Bott normal Hessian and
+negative-bundle attachment (4B.4–4B.5).
+
 **From TauCetiRoadmap.SpinRepresentations.** L7 supplies the real Clifford algebra table
 with its native signature convention. **From TauCetiRoadmap.SpinGeometry.** G4 gives
 Spin lifts and G6 item 5 their circle and torus conventions.
@@ -552,6 +564,7 @@ S^(4r+3) → HPʳ with fibre Sp(1), the comparison of Sp(1) with unit quaternion
 and HP¹ ≃ S⁴ with positive reference class fixed by the (1,i,j,k) chart.
 Use its last-coordinate line basepoint and repeated (1,i,j,k) real-coordinate blocks;
 Section 5.0b compares the resulting based maps with its finite framed fibres.
+G4 item 2 supplies the Thom suspension and compact-base comparisons used in 5.1.3.
 G5 item 6 supplies π⁽S⁾ᵢ⊗ℚ=0 for i>0
 and π⁽S⁾₀⊗ℚ=ℚ. G2 item 4 supplies the stable category with invertible suspension and
 coproducts, and G2 item 5 the derived suspension spectrum Σ∞, left adjoint to derived
@@ -563,13 +576,12 @@ connected spheres, then the finite-to-stable comparison of 3A.4, to get finitely
 Mathlib's `ContinuousMap.HomotopyEquiv.NonemptyDiffeomorphSphere M n`
 (`Mathlib/Geometry/Manifold/PoincareConjecture.lean`, line 41) says, for a Hausdorff space M
 homotopy equivalent to Sⁿ, that every boundaryless smooth n-dimensional structure on M admits
-a diffeomorphism onto Sⁿ. Layer 10's unoriented corollary is this
-predicate at n = 6 for compact second-countable M. Neither hypothesis narrows it: a homotopy
-equivalence with S⁶ makes M connected with H₆(M;ℤ) ≅ ℤ, a connected noncompact n-manifold
-has Hₙ = 0 (Hatcher, *Algebraic Topology*, Proposition 3.29, p.239, for manifolds that are
-only Hausdorff and locally Euclidean), and a compact charted space is second countable
-(`ChartedSpace.secondCountable_of_sigmaCompact`, `Mathlib/Geometry/Manifold/ChartedSpace.lean`,
-line 236). Both are kept because the route of Sections 10.1–10.3 uses them.
+a diffeomorphism onto Sⁿ. Layer 10's unoriented corollary specializes this predicate to `n = 6`.
+In its proof, the homotopy equivalence makes `M` connected with
+`H₆(M;ℤ/2) ≅ ℤ/2`. A connected noncompact manifold has zero top homology
+(Hatcher, *Algebraic Topology*, Proposition 3.29, p. 239). Apply
+`ChartedSpace.secondCountable_of_sigmaCompact` from
+`Mathlib/Geometry/Manifold/ChartedSpace.lean` to the resulting compact charted space.
 
 ## How to read the build
 
@@ -592,7 +604,10 @@ Stage kX is Section kX, so Stage 4B is Section 4B and Stage 3C is Section 3C.
 `sphere_homotopyGroup_fourthStem`, `sphere_homotopyGroup_fifthStem`,
 `nonempty_sphere_homotopyGroup_sixthStem`, `nonempty_sphere_homotopyGroup_seventhStem`,
 `exists_homeomorph_isEmpty_diffeomorph_sphere`,
-`smoothPoincareSix_oriented` and `nonempty_diffeomorph_sphere_six`.
+`smoothPoincareSix_oriented`, `nonempty_diffeomorph_sphere_six`,
+`nonempty_evenWallGroup_two_mul_addEquiv_int`,
+`nonempty_evenWallGroup_two_mul_add_one_addEquiv_zmod_two` and
+`oddWallGroup_subsingleton`.
 The h-cobordism theorem is stated on the native compact manifold with boundary and the
 boundary manifold structure of `TauCeti.boundaryChartedSpace`, not on the collared carrier
 of Layer 1, which is a target.
@@ -1014,20 +1029,16 @@ independence of the starting representative.
 
 #### 3A.4 Freudenthal comparison
 
-*Needs:* 3A.2–3; GeneralizedCohomology G2 item 5; RiemannianGeometry R3.4's normalized
-round-sphere suspension; AlgebraicTopology Stage 4 item 4's raw sphere suspension.
+*Needs:* 3A.2–3; RiemannianGeometry R3.4's normalized sphere suspension and comparison
+range; AlgebraicTopology Stage 4 item 4's raw sphere suspension.
 
 Transport RiemannianGeometry R3 item 4's normalized sphere suspension along the based
 ordinary-to-convenient comparisons of AlgebraicTopology Stage 4 item 8. Prove that the square with this roadmap's
 suspension homomorphism commutes, retaining the interval-last orientation and degree +1.
-Apply GeneralizedCohomology G2 item 5 to the `(n−1)`-connected CW complex `Sⁿ`,
-with `n ≥ 2`. Under the comparisons the suspension
-`π_q(Sⁿ) → π_(q+1)(S^(n+1))` is an isomorphism for `1 ≤ q ≤ 2n−2` and is
-surjective for `q = 2n−1` (Hatcher, Corollary 4.24, p. 360). G2's comparison with
-the sphere-only theorem uses RiemannianGeometry R3.4 and the map square above.
-Construct that square from the earlier pointed comparisons independently of the
-general theorem. Deduce that the colimit map from `π_(n+k)(Sⁿ)` is an isomorphism
-for `n ≥ k+2`.
+The normalized sphere range therefore applies to the same map
+`π_q(Sⁿ) → π_(q+1)(S^(n+1))` for `n ≥ 2`. It is an isomorphism for
+`1 ≤ q ≤ 2n−2` and surjective for `q = 2n−1` (Hatcher, Corollary 4.24, p. 360).
+The colimit map from `π_(n+k)(Sⁿ)` is an isomorphism for `n ≥ k+2`.
 
 The pointed cone and cofiber API consists of quotient evaluation, based universal
 properties, induced maps and homotopies, the co-H structure on reduced suspension and the
@@ -1136,7 +1147,8 @@ Prove the attaching and connectivity estimates needed for passage to the union.
 Construct the James map `J X -> Omega Sigma X` by concatenating the adjoints of suspended
 letters and prove multiplicativity up to homotopy. State the Bott–Samelson tensor-algebra
 calculation over a field, or over a commutative coefficient ring when the reduced homology
-of `X` is free over that ring. For arbitrary integral coefficients use the chain-level
+of `X` is free over that ring (Hatcher, Proposition 3C.8, p. 288). For arbitrary integral
+coefficients use the chain-level
 filtration and smash-power homology with its Künneth/Tor terms. Prove compatibility with
 the James map; connectedness alone does not remove these terms.
 
@@ -1148,7 +1160,8 @@ Prove the full path-connected James theorem in the literal and derived senses ju
 `pi_1(J X) -> pi_1(Omega Sigma X)`, construct the induced map of universal covers, and lift
 the word filtration to prove an integral homology isomorphism on those covers.  Apply the
 algebraic-topology roadmap's simply connected homological Whitehead theorem upstairs, then
-descend the equivariant homotopy inverse to obtain `J X ~=_h Omega Sigma X`.  Equivalently,
+descend the equivariant homotopy inverse to obtain `J X ~=_h Omega Sigma X` (Hatcher, Theorem 4J.1, p. 471, for the
+weak equivalence of connected CW complexes). Equivalently,
 one may prove the same argument through Whitehead with local coefficients, but ordinary
 homology alone is insufficient.  Include `X = S^1`, where both fundamental groups are
 `Z`, as a comparison theorem.  This connected theorem supplies the low-dimensional EHP
@@ -1457,9 +1470,11 @@ with Cliff(p,q)=CliffordAlgebra (TauCeti.realCliffordForm p q).
 Use Cliff(0,1)≅ℂ, Cliff(0,3)≅ℍ×ℍ and
 Cliff(0,7)≅M₈(ℝ)×M₈(ℝ) to construct real modules of dimensions 2,4,8.
 For their generator actions A_i prove
-squares −I and anticommutation. Average a positive inner product over
-the finite signed monomial group generated by the A_i, proving its
-finiteness and the invariance of this metric; then A_i is skew-adjoint.
+squares −I and anticommutation. Average a positive inner product over the image
+of `CliffordAlgebra.monomialGroup` under the module action. Its finiteness follows
+from `CliffordAlgebra.finite_monomialGroup` applied to the orthogonal generators
+with square −1. Prove metric invariance under this group and deduce that each
+A_i is skew-adjoint.
 Choose an orthonormal basis to transport to the standard Euclidean model.
 On its unit sphere prove the vectors A_i x are a smooth orthonormal
 basis of x^⊥ and construct the resulting actual tangent trivialization
@@ -1467,13 +1482,14 @@ and inverse by inner-product coordinates. The finite-module metric
 adapter is part of this target; the abstract algebra table alone does
 not supply it. Algebraic Clifford classification retains its L7 owner.
 
-James, *Reduced Product Spaces*, Annals of Mathematics 62 (1955), Sections 1--6, supplies the
-filtered reduced product and equivalence with `Omega Sigma X`.  Whitehead, *Elements of Homotopy
+James, *Reduced Product Spaces*, Annals of Mathematics 62 (1955), Theorems 1.11–1.12
+and 5.6, gives the filtered multiplication, integral homology and homotopy comparison for
+his special complexes.  Whitehead, *Elements of Homotopy
 Theory*, Chapters VII--XI, supplies Whitehead-product and EHP background. The precise
 primary composition identities are Gray, Propositions 2.1–2.4, pp.132–133, as stated in
 3C.4; the secondary-operation definition uses the Hatcher locators in 3C.3.
 The low-stem proofs use Toda, Propositions 5.8, 5.9 and 5.11, pp.43–46,
-cited as uncertified and distinguished from the integral group table in 9.2–9.3.
+distinguished from the integral group table in 9.2–9.3.
 
 Adams and Atiyah, [*K-theory and the Hopf invariant*](https://doi.org/10.1093/qmath/17.1.31),
 Quarterly Journal of Mathematics 17 (1966), 31–38, supplies the integral Adams-operation
@@ -2912,7 +2928,7 @@ Here is a route with its actual substitutions. Write η_j=E^(j−2)η₂ for j�
 E²ν′=2ν₅ and Hν′=η₅. Prove η₃ν₄=ν′η₆ and
 η₅ν₆=2ν₅η₈=0 by the composition and interchange laws
 (Gray, Proposition 2.3 and its fourth-stem calculation, pp.132–133;
-Toda, Lemma 5.4, p.41, and Proposition 5.6, p.42, uncertified).
+Toda, Lemma 5.4, p.41, and Proposition 5.6, p.42).
 These are unstable comparisons, not a second construction of the supplied third stem.
 
 For (α,β)=(η₂,ν₄), the two terms of C lie in π₉(S⁵)_(2) and are
@@ -2926,7 +2942,7 @@ The n=4 EHP sequence kills a and sends b to the generator c=ν₅η₈ of
 π₉(S⁵)_(2)=ℤ/2; its H is zero since its target π₉(S⁹)_(2)=ℤ_(2)
 is torsion-free. The n=5 sequence has Pι₁₁=c and π₁₀(S¹¹)_(2)=0,
 hence π₁₀(S⁶)_(2)=0 (Gray, pp.132–133, calculation after Proposition 2.3;
-Toda, Proposition 5.8, p.43, uncertified).
+Toda, Proposition 5.8, p.43).
 
 For the fifth stem, prove π₉(S⁴)_(2)=ℤ/2{aη₈}⊕ℤ/2{bη₈}.
 Apply P(α E²β)=(Pα)β to (α,β)=(η₉,η₈) and (ι₁₁,η₉):
@@ -2934,7 +2950,7 @@ P(η₉η₁₀)=aη₈ and Pη₁₁=cη₉. The successive EHP quotients give
 π₁₀(S⁵)_(2)=ℤ/2{d}, d=cη₉, and then π₁₁(S⁶)_(2)=ℤ_(2){[ι₆,ι₆]},
 whose H embeds it as 2ℤ_(2) in π₁₁(S¹¹)_(2)=ℤ_(2).
 Finally Pι₁₃=[ι₆,ι₆] and π₁₂(S¹³)_(2)=0 give π₁₂(S⁷)_(2)=0
-(Toda, Proposition 5.9, p.44, uncertified). This calculation uses primary
+(Toda, Proposition 5.9, p.44). This calculation uses primary
 composition identities, not a choice of representative in a Toda bracket.
 
 For the integral passage prove finite generation of stable sphere groups from
@@ -2994,7 +3010,7 @@ each named generator to the generator of the same name one dimension up. The ent
 theorems of 9.1 (k = 1, 2, and the sign of ν), StringOrientation S2.3 (the order 24),
 9.2 (k = 4, 5) and 9.3 (k = 6); the range n ≥ k+2 is the Freudenthal range of 3A.4
 (n+k ≤ 2n−2). Kervaire–Milnor, p.512, table, records the orders for 1 ≤ k ≤ 6; Toda,
-Chapter XIV, pp.186–191, records the generators (uncertified).
+Chapter XIV, pp.186–191, records the generators.
 
 **Checks.**
 
@@ -3500,8 +3516,8 @@ smooth recognition theorem of Layer 10.
 - John Milnor, *Morse Theory*, Annals of Mathematics Studies 51, Princeton University Press,
   1963: the path-space Morse theory and Bott periodicity argument cited in 4B.9.
 - Andrew Ranicki, [*Foundations of algebraic surgery*](https://arxiv.org/abs/math/0111315),
-  lectures at the Trieste summer school on high-dimensional manifold topology, 2001, §2, p.5
-  (forms, formations and their stable equivalence), cited in 7B.3 and 7B.8.
+  lectures at the Trieste summer school on high-dimensional manifold topology, 2001, §2, pp. 5–7
+  (forms on p. 5, Lagrangians on p. 6, formations and stable equivalence on pp. 6–7), cited in 7B.3 and 7B.8.
 
 - Victor Snaith, [*The Arf–Kervaire invariant of framed manifolds*](https://arxiv.org/abs/1001.4751),
   Definition 3.1 and §3.1 for compact-source collapse, and Example 8.3 for the Arf-one product.
