@@ -28,15 +28,15 @@ The roadmap is complete when Tau Ceti proves the following connected development
 1. The shared collared-cobordism and handle APIs support Morse handle decompositions, Whitney
    moves, cancellation, and the simply connected smooth h-cobordism theorem in cobordism
    dimension at least six.
-2. A Type-0 finite-atlas and handle code gives a small skeleton of compact second-countable
-   smooth manifolds.  Every manifold in an arbitrary universe has a coded realization
+2. A Type-0 finite-atlas and handle code gives a small skeleton of compact Hausdorff second-countable
+   smooth manifolds, with or without boundary. Every such manifold in an arbitrary universe has a coded realization
    diffeomorphic to it, and changing the code does not change any geometric quotient class.
 3. Oriented smooth homotopy `n`-spheres form the geometric group Θₙ for n ≥ 1 under
    connected sum, with inverse given by orientation reversal and an explicit inverse
    h-cobordism.
 4. Stable sphere homotopy groups are constructed from suspension in compactly generated spaces.
    The James construction with its splitting after one suspension,
-   Freudenthal theorem, EHP sequence, composition, and Toda brackets provide a reproducible
+   supplied Freudenthal theorem, EHP sequence, composition, and Toda brackets provide a reproducible
    calculation route rather than a table oracle.
 5. Stable `O`/`SO`, the loop comparison with the shared `BSO` classifier, real Bott periodicity,
    and stable `J` are constructed in the same convenient category. The fixed-rank/stable
@@ -171,11 +171,13 @@ The division of ownership is as follows.
   ordinary `TopCat` products or limits where compact generation is required for an
   exponential law.
 
-- [TangentialBordism B1, B3.2(b–c), B5.2](../TangentialBordism/README.md) owns
+- [TangentialBordism B1, B3.2(b–c), B5.2 and B5.5](../TangentialBordism/README.md) owns
   relative facewise transversality, the Spin-surface refinement and filling criterion, and
-  honest-rank finite Pontryagin–Thom. [StringOrientation S2.2–S2.3](../StringOrientation/README.md)
+  honest-rank finite Pontryagin–Thom. TangentialBordism B5.5 supplies its stable framed map. [StringOrientation S2.2–S2.3](../StringOrientation/README.md)
   owns the general coefficient and stable framed Pontryagin–Thom theorem and the
-  normalized third sphere stem. Section 9.1 retains the EHP/framed-fibre generator comparison; Section 5 retains
+  normalized third sphere stem `π_(n+3)(Sⁿ) ≅ ℤ/24` for `n ≥ 5`, with generator `ν`
+  from the quaternionic Hopf map and `J₃ : π₃(SO) → π₃^S` onto with kernel `24ℤ`.
+  Section 9.1 retains the EHP/framed-fibre generator comparison; Section 5 retains
   the distinct smooth tangent/normal dictionary, honest-framing cancellation and generator comparisons.
 - [TopologicalKTheory T1.5a](../TopologicalKTheory/README.md) owns finite Stiefel
   connectivity, the normalized sphere-bundle boundary and the finite π₁SO calculation.
@@ -197,12 +199,18 @@ These conventions apply throughout the layers.
   from points to linear orientations is not an orientation.  Do not introduce a bundled manifold
   record whose fields assert these properties.  On a collared manifold, the boundary orientation
   is determined from the ambient orientation by the collar derivative and the outward-normal-first
-  convention; an unrelated orientation on the boundary carrier is insufficient.
+  convention; the orientation on the actual boundary is induced by that convention.
+  `Sphere n` in the Lean statements is the unit sphere in `EuclideanSpace ℝ (Fin (n+1))`.
 - **Geometric quotients use a small skeleton.**  A smooth atlas code of dimension `n` consists of finitely many
-  charts on `EuclideanSpace R (Fin n)`, transition maps in the smooth groupoid, finite
-  triangulation or handle data, and the exact cover and cocycle laws.  Its realization is the
+  charts in the fixed model of the manifold being coded. For boundaryless manifolds use
+  `EuclideanSpace ℝ (Fin n)` and for manifolds with boundary use `EuclideanHalfSpace n`
+  with model `𝓡∂ n`. In the half-space model the charts of interior points take values in
+  the open interior. Require transition maps in the smooth groupoid of the chosen model,
+  finite triangulation or handle data, and the exact cover and cocycle laws.  Its realization is the
   quotient of the disjoint union of chart domains.  Prove that every compact Hausdorff
-  second-countable smooth manifold in `Type u` is diffeomorphic to a realization and that two
+  second-countable smooth manifold with either model in `Type u` is diffeomorphic to a
+  realization. For the half-space model its intrinsic boundary is realized by the points in
+  the boundary hyperplane in its half-space charts. Prove that two
   codes for the same manifold represent the same bordism class.  Thus the cycle and quotient
   carriers live in Type 0 without quantifying over all types in a universe.
   Source and target equations, identity, inverse, cocycle, cover/surjectivity, and separation laws
@@ -280,10 +288,10 @@ These conventions apply throughout the layers.
   missing width-one end of a half-open collar. A smaller positive width keeps the same boundary
   or lateral frame; reparametrizing by `c_ε(s,b) = c(εs,b)` multiplies the collar normal by the
   positive factor `ε`, and every framing comparison carries that factor.
-- **Pontryagin--Thom is constructed in both directions.**  The collapse map uses a chosen
-  tubular neighbourhood and a normal framing; independence is a theorem.  The inverse uses
-  smooth approximation, a regular value, and the induced framed submanifold.  The two bordisms
-  witnessing inverse laws are required.  Collapse and Thom-space augmentation are continuous
+- **Smooth framing comparisons for Pontryagin–Thom.** Use the finite collapse and
+  regular-value inverse of TangentialBordism B5.2, its stable framed map from B5.5 and
+  the stable inverse laws of StringOrientation S2.3. Match their normal framing and
+  tubular neighbourhood with the explicit sphere-source formulas in Layer 5.  Collapse and Thom-space augmentation are continuous
   pointed maps with the collapsed complement and sphere basepoints displayed.  Pointed convenient
   spaces and maps use the under-category of `CompactlyGenerated`, the normal rank `k` is the
   codimension of the displayed embedding `M -> R^(n+k)`, the collapse is the map determined by the
@@ -314,10 +322,9 @@ These conventions apply throughout the layers.
 - **Smooth recognition has honest hypotheses.**  The oriented recognition theorem states
   compactness, Hausdorffness, second countability, boundarylessness, the six-dimensional
   manifold model, a homotopy equivalence and both oriented atlases as its own hypotheses.  The
-  unoriented corollary concludes Mathlib's smooth Poincaré predicate at n = 6, which quantifies
-  over the six-dimensional smooth structure and the homotopy equivalence on a Hausdorff space,
-  and keeps compactness and second countability as explicit hypotheses because the route of
-  Sections 10.1–10.3 uses them.
+  unoriented corollary is Mathlib's smooth Poincaré predicate at `n = 6` on a Hausdorff
+  space. Section 10.1 derives compactness and second countability from the homotopy
+  equivalence and the smooth chart structure.
 
 ## Exact supplier contracts
 
@@ -403,6 +410,10 @@ line 108) has the weights on the diagonal and 1 at each edge, so it is the negat
 Cartan matrix, and `TauCeti.e8Plumbing_isNegativeDefinite` (line 199) proves it negative
 definite. It is a lattice datum, not a manifold: Section 6B constructs the plumbed manifolds in
 every dimension 4k and identifies their middle intersection form with it.
+
+Use `CliffordAlgebra.monomialGroup` and `CliffordAlgebra.finite_monomialGroup`
+from `TauCeti/LinearAlgebra/CliffordAlgebra/MonomialGroup/Basic.lean` for the
+finite signed monomial group of an orthogonal basis with squares ±1 (3C.5).
 
 **From TauCetiRoadmap.GeometricTopology.** §1.1 supplies smooth collars as data and §1.2 the
 complement of an embedded closed ball with its radial collar. §1.3 supplies gluing along the
@@ -507,6 +518,16 @@ theorem on all components and at all basepoints. Section 3B transports this map 
 pointed compactly generated spaces. C6.2–C6.3 give the normalized multiplicative
 Chern character; C7.3 gives the native sphere tangent/hyperplane comparison; C7 gives
 formal L and Â polynomials. These polynomials alone assert no equality with a geometric index.
+C2.0 supplies the disc/sphere bundle relative CW pair for the pointed Thom model of 5.1.3.
+
+**From TauCetiRoadmap.IntegralLattices.** 1I gives `8 ∣ t₊ − t₋` for an even unimodular
+lattice. 6A determines an even indefinite unimodular lattice by its signature
+`(t₊, t₋)`. Section 7C.2 applies 6A after adding a hyperbolic plane.
+
+**From TauCetiRoadmap.MorseTheory.** M3 supplies Morse approximation relative to a
+protected collar (1.2, 2.2, 6B.3). M5 supplies the Morse–Bott normal Hessian and
+negative-bundle attachment (4B.4–4B.5).
+
 **From TauCetiRoadmap.SpinRepresentations.** L7 supplies the real Clifford algebra table
 with its native signature convention. **From TauCetiRoadmap.SpinGeometry.** G4 gives
 Spin lifts and G6 item 5 their circle and torus conventions.
@@ -543,6 +564,7 @@ S^(4r+3) → HPʳ with fibre Sp(1), the comparison of Sp(1) with unit quaternion
 and HP¹ ≃ S⁴ with positive reference class fixed by the (1,i,j,k) chart.
 Use its last-coordinate line basepoint and repeated (1,i,j,k) real-coordinate blocks;
 Section 5.0b compares the resulting based maps with its finite framed fibres.
+G4 item 2 supplies the Thom suspension and compact-base comparisons used in 5.1.3.
 G5 item 6 supplies π⁽S⁾ᵢ⊗ℚ=0 for i>0
 and π⁽S⁾₀⊗ℚ=ℚ. G2 item 4 supplies the stable category with invertible suspension and
 coproducts, and G2 item 5 the derived suspension spectrum Σ∞, left adjoint to derived
@@ -554,13 +576,12 @@ connected spheres, then the finite-to-stable comparison of 3A.4, to get finitely
 Mathlib's `ContinuousMap.HomotopyEquiv.NonemptyDiffeomorphSphere M n`
 (`Mathlib/Geometry/Manifold/PoincareConjecture.lean`, line 41) says, for a Hausdorff space M
 homotopy equivalent to Sⁿ, that every boundaryless smooth n-dimensional structure on M admits
-a diffeomorphism onto Sⁿ. Layer 10's unoriented corollary is this
-predicate at n = 6 for compact second-countable M. Neither hypothesis narrows it: a homotopy
-equivalence with S⁶ makes M connected with H₆(M;ℤ) ≅ ℤ, a connected noncompact n-manifold
-has Hₙ = 0 (Hatcher, *Algebraic Topology*, Proposition 3.29, p.239, for manifolds that are
-only Hausdorff and locally Euclidean), and a compact charted space is second countable
-(`ChartedSpace.secondCountable_of_sigmaCompact`, `Mathlib/Geometry/Manifold/ChartedSpace.lean`,
-line 236). Both are kept because the route of Sections 10.1–10.3 uses them.
+a diffeomorphism onto Sⁿ. Layer 10's unoriented corollary specializes this predicate to `n = 6`.
+In its proof, the homotopy equivalence makes `M` connected with
+`H₆(M;ℤ/2) ≅ ℤ/2`. A connected noncompact manifold has zero top homology
+(Hatcher, *Algebraic Topology*, Proposition 3.29, p. 239). Apply
+`ChartedSpace.secondCountable_of_sigmaCompact` from
+`Mathlib/Geometry/Manifold/ChartedSpace.lean` to the resulting compact charted space.
 
 ## How to read the build
 
@@ -583,7 +604,10 @@ Stage kX is Section kX, so Stage 4B is Section 4B and Stage 3C is Section 3C.
 `sphere_homotopyGroup_fourthStem`, `sphere_homotopyGroup_fifthStem`,
 `nonempty_sphere_homotopyGroup_sixthStem`, `nonempty_sphere_homotopyGroup_seventhStem`,
 `exists_homeomorph_isEmpty_diffeomorph_sphere`,
-`smoothPoincareSix_oriented` and `nonempty_diffeomorph_sphere_six`.
+`smoothPoincareSix_oriented`, `nonempty_diffeomorph_sphere_six`,
+`nonempty_evenWallGroup_two_mul_addEquiv_int`,
+`nonempty_evenWallGroup_two_mul_add_one_addEquiv_zmod_two` and
+`oddWallGroup_subsingleton`.
 The h-cobordism theorem is stated on the native compact manifold with boundary and the
 boundary manifold structure of `TauCeti.boundaryChartedSpace`, not on the collared carrier
 of Layer 1, which is a target.
@@ -604,11 +628,13 @@ named in the supplier contracts, and the Heegaard-Floer trajectory and Morse–S
 *Needs:* TangentialBordism B1.1–B1.2 oriented witnesses; AlgebraicTopology homotopy equivalences.
 
 On the existing oriented collared-cobordism carrier, define an h-cobordism W by requiring
-both boundary inclusions to be homotopy equivalences.  Prove invariance under equivalence,
+both boundary inclusions to be homotopy equivalences. The collared boundary carrier and
+gluing correspond to Milnor, Definition 1.3, Theorem 1.4 and Definition 1.5, p. 2, and
+Corollary 3.5, p. 23. Prove invariance under equivalence,
 reversal, composition, and boundary connected sum.  Prove that h-cobordism induces an
 equivalence relation on closed oriented manifolds (Milnor, Definition 9.2, p.107;
 the collared boundary inclusions are cofibrations, so the homotopy-equivalence and
-deformation-retract formulations agree).
+deformation-retract formulations agree; Kervaire–Milnor, p. 504, for the sphere relation).
 
 ### 1.2 Morse handles
 
@@ -653,7 +679,7 @@ Prove the local Whitney move.  If two transverse intersections of opposite sign 
 an embedded framed Whitney disc whose interior misses both submanifolds, construct an ambient
 isotopy removing the pair and prove its support and framing properties
 (Milnor, Theorem 6.6, p.71, and the isotopy built on the standard model of Lemma 6.7 in its
-proof, pp.73–74).
+proof, pp.73–84).
 
 ### 1.5 Whitney discs in codimension at least three
 
@@ -774,8 +800,18 @@ boundary and total dimension n+1≥6; no such dimension bound is imposed on the 
 Build the finite-atlas/handle skeleton fixed above and its realization functor.  Define an
 oriented smooth homotopy `n`-sphere code as a coded closed oriented smooth `n`-manifold with
 a homotopy equivalence to Mathlib's standard metric sphere.  Prove essential surjectivity for
-arbitrary `M : Type u`, code-change invariance, compactness, connectedness for n≥1, simple
-connectivity for `n>=2`, integral homology, and finite CW type from the cited dependencies.
+the compact Hausdorff second-countable manifolds of either model above, code-change
+invariance, compactness, connectedness for sphere codes with n≥1, simple
+connectivity for sphere codes with `n ≥ 2`, integral homology, and finite CW type from the
+cited dependencies.
+
+**Checks.**
+
+- The chart of an open interval realizes the interval with empty intrinsic boundary.
+- The half-space code for the closed disc `D⁷` uses one interior chart and two boundary
+  charts, each covering a closed hemisphere of `S⁶` with a collar. A Euclidean-model code
+  has empty intrinsic boundary, so it cannot give this disc as a manifold with boundary.
+- With zero charts the disjoint union and its realization are both empty.
 
 ### 2.2 Connected sum
 
@@ -993,14 +1029,16 @@ independence of the starting representative.
 
 #### 3A.4 Freudenthal comparison
 
-*Needs:* 3A.2–3; RiemannianGeometry R3 item 4; AlgebraicTopology Stage 4 item 4's raw sphere suspension.
+*Needs:* 3A.2–3; RiemannianGeometry R3.4's normalized sphere suspension and comparison
+range; AlgebraicTopology Stage 4 item 4's raw sphere suspension.
 
 Transport RiemannianGeometry R3 item 4's normalized sphere suspension along the based
 ordinary-to-convenient comparisons of AlgebraicTopology Stage 4 item 8. Prove that the square with this roadmap's
 suspension homomorphism commutes, retaining the interval-last orientation and degree +1.
-Thus for n≥2 the same map π_q(Sⁿ)→π_(q+1)(S^(n+1)) is an isomorphism for
-q≤2n−2 and a surjection for q=2n−1; the k-th stem is represented by π_(n+k)(Sⁿ)
-for n≥k+2. The new target is the comparison with the chosen colimit maps.
+The normalized sphere range therefore applies to the same map
+`π_q(Sⁿ) → π_(q+1)(S^(n+1))` for `n ≥ 2`. It is an isomorphism for
+`1 ≤ q ≤ 2n−2` and surjective for `q = 2n−1` (Hatcher, Corollary 4.24, p. 360).
+The colimit map from `π_(n+k)(Sⁿ)` is an isomorphism for `n ≥ k+2`.
 
 The pointed cone and cofiber API consists of quotient evaluation, based universal
 properties, induced maps and homotopies, the co-H structure on reduced suspension and the
@@ -1035,6 +1073,12 @@ Puppe maps.
 - The reduced mapping cylinder of id_* is a point; the raw cylinder is an interval before its marked meridian is collapsed.
 - For id_(S⁰) it is a point disjoint from an interval, so π₀ has two elements and the target retraction is bijective on π₀.
 - For S⁰→* it is an interval and contractible, while the corresponding mapping cone has H₁=ℤ; collapsing its free end as well would confuse these two constructions.
+
+For the ordinary compact-open comparison, take the locally compact factor `[0,1]` and
+the Hausdorff factor `ℚ`. Hatcher, Proposition A.16, p. 531, identifies the compact-open
+mapping space out of the product with the curried mapping space even though `ℚ` is
+non-locally compact. Use AlgebraicTopology’s convenient comparison for arbitrary
+compactly generated inputs.
 
 The stable-stem API includes suspension maps, colimit inclusions, composition products,
 basepoint transport and the stable-range comparison.
@@ -1103,7 +1147,8 @@ Prove the attaching and connectivity estimates needed for passage to the union.
 Construct the James map `J X -> Omega Sigma X` by concatenating the adjoints of suspended
 letters and prove multiplicativity up to homotopy. State the Bott–Samelson tensor-algebra
 calculation over a field, or over a commutative coefficient ring when the reduced homology
-of `X` is free over that ring. For arbitrary integral coefficients use the chain-level
+of `X` is free over that ring (Hatcher, Proposition 3C.8, p. 288). For arbitrary integral
+coefficients use the chain-level
 filtration and smash-power homology with its Künneth/Tor terms. Prove compatibility with
 the James map; connectedness alone does not remove these terms.
 
@@ -1115,7 +1160,8 @@ Prove the full path-connected James theorem in the literal and derived senses ju
 `pi_1(J X) -> pi_1(Omega Sigma X)`, construct the induced map of universal covers, and lift
 the word filtration to prove an integral homology isomorphism on those covers.  Apply the
 algebraic-topology roadmap's simply connected homological Whitehead theorem upstairs, then
-descend the equivariant homotopy inverse to obtain `J X ~=_h Omega Sigma X`.  Equivalently,
+descend the equivariant homotopy inverse to obtain `J X ~=_h Omega Sigma X` (Hatcher, Theorem 4J.1, p. 471, for the
+weak equivalence of connected CW complexes). Equivalently,
 one may prove the same argument through Whitehead with local coefficients, but ordinary
 homology alone is insufficient.  Include `X = S^1`, where both fundamental groups are
 `Z`, as a comparison theorem.  This connected theorem supplies the low-dimensional EHP
@@ -1424,9 +1470,11 @@ with Cliff(p,q)=CliffordAlgebra (TauCeti.realCliffordForm p q).
 Use Cliff(0,1)≅ℂ, Cliff(0,3)≅ℍ×ℍ and
 Cliff(0,7)≅M₈(ℝ)×M₈(ℝ) to construct real modules of dimensions 2,4,8.
 For their generator actions A_i prove
-squares −I and anticommutation. Average a positive inner product over
-the finite signed monomial group generated by the A_i, proving its
-finiteness and the invariance of this metric; then A_i is skew-adjoint.
+squares −I and anticommutation. Average a positive inner product over the image
+of `CliffordAlgebra.monomialGroup` under the module action. Its finiteness follows
+from `CliffordAlgebra.finite_monomialGroup` applied to the orthogonal generators
+with square −1. Prove metric invariance under this group and deduce that each
+A_i is skew-adjoint.
 Choose an orthonormal basis to transport to the standard Euclidean model.
 On its unit sphere prove the vectors A_i x are a smooth orthonormal
 basis of x^⊥ and construct the resulting actual tangent trivialization
@@ -1434,13 +1482,14 @@ and inverse by inner-product coordinates. The finite-module metric
 adapter is part of this target; the abstract algebra table alone does
 not supply it. Algebraic Clifford classification retains its L7 owner.
 
-James, *Reduced Product Spaces*, Annals of Mathematics 62 (1955), Sections 1--6, supplies the
-filtered reduced product and equivalence with `Omega Sigma X`.  Whitehead, *Elements of Homotopy
+James, *Reduced Product Spaces*, Annals of Mathematics 62 (1955), Theorems 1.11–1.12
+and 5.6, gives the filtered multiplication, integral homology and homotopy comparison for
+his special complexes.  Whitehead, *Elements of Homotopy
 Theory*, Chapters VII--XI, supplies Whitehead-product and EHP background. The precise
 primary composition identities are Gray, Propositions 2.1–2.4, pp.132–133, as stated in
 3C.4; the secondary-operation definition uses the Hatcher locators in 3C.3.
 The low-stem proofs use Toda, Propositions 5.8, 5.9 and 5.11, pp.43–46,
-cited as uncertified and distinguished from the integral group table in 9.2–9.3.
+distinguished from the integral group table in 9.2–9.3.
 
 Adams and Atiyah, [*K-theory and the Hopf invariant*](https://doi.org/10.1093/qmath/17.1.31),
 Quarterly Journal of Mathematics 17 (1966), 31–38, supplies the integral Adams-operation
@@ -1552,8 +1601,8 @@ for `n>=2`, compare pointed and unpointed classes from `S^n`
 and construct the clutching equivalences
 `[S^n,BSO]_* ~= pi_n(BSO) ~= pi_(n-1)(SO)`.
 
-Steenrod, *The Topology of Fibre Bundles*, Chapters 5--7 and 12, and Husemoller, *Fibre
-Bundles*, Chapters 3--4 and 8--9, supply the universal-bundle and clutching proof spine.
+Use TopologicalKTheory T1.5–T1.6 for the universal-bundle diagrams and Hatcher,
+*Vector Bundles and K-Theory*, Proposition 1.14, p. 25, for oriented real clutching over spheres.
 
 #### 4A early finite orthogonal and sphere-loop comparisons
 
@@ -1786,8 +1835,10 @@ MorseTheory M5; the algebraic Clifford comparison from SpinRepresentations L7.
 
 *Needs:* Native SO matrix action on spheres; AlgebraicTopology Stage 4 item 8 suspension–loop adjunction.
 
-From the action of `SO(r)` on `S^(r-1)`, construct the unstable clutching map into
-self-equivalences of the sphere and its adjoint homomorphism on homotopy groups.
+Use the `SO(r)` action on the one-point compactification `S^r` of `ℝ^r` for the
+based sphere action. Compare its unstable homomorphism with the disk-boundary
+construction on `∂(D^(i+1) × D^r)` in Hatcher, *Vector Bundles and K-Theory*,
+§4.1, Proposition 4.1 (p. 108).
 
 #### 4C.2 Stable J
 
@@ -1808,8 +1859,10 @@ and the change-of-framing action proved after the smooth PT comparison in Layer 
 
 **Checks.**
 
-- The constant identity gauge gives J(0)=0; it changes no framing class.
-- The nontrivial stable rotation loop gives η∈π⁽S⁾₁=ℤ/2; its double gives 0.
+- The bounding framing on `S¹` has class zero. Twisting it by the generator of
+  `π₁(SO)` gives `J₁(1)=η`, the nonzero element of `π₁^S`.
+- StringOrientation S2.3 gives `J₃ : ℤ → ℤ/24` onto with kernel `24ℤ`.
+- The source of `J₆` is zero, so `coker J₆=π₆^S`.
 - The degree-seven Bott generator has e-invariant ±1/240 in Layer 9A, whereas its realified complex counterpart 2b has ±1/120. Halving an equality in ℚ/ℤ is not a unique operation.
 
 ### Examples
@@ -1973,7 +2026,9 @@ to the tangent-framed model used for almost-framed cycles.
 
 #### 5.1.3 Comparison of collapse representatives
 
-*Needs:* 5.0; 5.1 items 1–2; the supplied finite normal tubes and augmentation.
+*Needs:* 5.0; 5.1 items 1–2; the supplied finite normal tubes and augmentation;
+CharacteristicClasses C2.0 and GeneralizedCohomology G4 item 2 for the pointed Thom model
+and its suspension and compact-base comparisons.
 
 Compare its collapse on a fixed normal frame φ with the finite collapse of 5.0:
 the framed Thom equivalence sends a finite normal vector v to
@@ -2032,7 +2087,7 @@ and low-dimensional comparisons precede stable Bott and Layer 9's higher-stem co
 
 *Needs:* GeometricTopology Layer 1; TangentialBordism B1.1–B1.2 oriented witnesses; Sections 4A and 5.1.
 
-In the Kervaire–Milnor range `n ≥ 5`, define a geometric almost-framed `n`-cycle as a
+For `n ≥ 5`, define a geometric almost-framed `n`-cycle as a
 connected closed oriented smooth manifold `M`, an embedded defect disc, and a stable
 tangent framing of the punctured manifold which is product-
 compatible near the new boundary. Require this punctured framing to induce the restriction
@@ -2136,8 +2191,8 @@ of Kervaire–Milnor Part I; no absent named supplier carrier is assumed.
 
 *Needs:* Native boundary subtype; 6A exterior adapter; 5.1 stable frames and the supplied collar.
 
-Define a stably framed filling cycle of dimension `n` as a compact connected oriented smooth `n`-manifold whose
-boundary is identified orientation-preservingly with a homotopy `(n-1)`-sphere, together with a
+Define a stably framed filling cycle of dimension `n` as a compact connected oriented smooth `n`-manifold
+realized by a finite half-space code of §2.1. Identify its intrinsic boundary orientation-preservingly with a homotopy `(n-1)`-sphere and equip the filling with a
 stable tangent framing product-compatible on a returned proper subcollar of the supplied
 collar. Call this carrier stably framed or s-parallelizable, not parallelizable.  The boundary carrier is identified with the actual
 Mathlib boundary subtype of the filling, and the collar restricts at zero to that
@@ -2407,11 +2462,14 @@ Define `bP_(n+1)` as the subgroup of `Theta_n` represented by homotopy spheres b
 parallelizable manifolds.  Prove it is precisely the image of the boundary map and prove
 closure under connected sum and orientation reversal.
 
-Kervaire–Milnor §4, pp.510–512, defines the parallelizable-boundary subgroup and
-proves its framing-coset criterion; §§5–6, pp.512–526, supply the surgery inputs.
-The almost-framed and filling quotient presentations and their exact sequence in 6C.2
-are comparison targets here, with the actual deletion, extension and gluing witnesses
-of 6A–6B, rather than quotations of a sequence written in those sections.
+Kervaire–Milnor, Lemmas 4.2–4.5 and the last paragraph of the proof of Theorem 4.1
+(pp. 510–512), identify the kernel of the classical framing-coset map with the
+parallelizable-boundary subgroup. Levine, Appendix, pp. 91–93, gives the exact sequence
+of almost-framed manifolds and parallelizable fillings. On a closed cycle the framing
+has a point defect, while on a bordism the framing has an arc defect joining the marked
+points. Compare with disc defects by taking compatible regular neighbourhoods of the
+point and arc and transporting the exterior framings as in 6A–6B. Check the three
+maps on these representatives before identifying the sequences.
 
 The deletion, inclusion and boundary maps, and the subgroup bP, have the following API.
 
@@ -2506,7 +2564,8 @@ homology, normal data, and stable framing.
 *Needs:* 7A.2–3; finite generation of the kernels; Wall Theorem 1.2.
 
 Iterate this operation to make a simply connected normal map `k`-connected below the middle
-dimension, keeping boundary and collar data fixed.  Prove termination from finite CW type.
+dimension, keeping boundary and collar data fixed. Prove termination from finite CW type
+(Ranicki, *Foundations of algebraic surgery*, §2, p. 5).
 
 The degree-one normal-map and normal-bordism API includes the stable normal bundle map,
 relative fundamental-class degree, boundary restrictions, composition and the surgery-kernel maps.
@@ -2540,18 +2599,29 @@ invariance, orthogonal-sum behavior, and invariance under normal bordism.
 
 For `n=2*q`, define the even-dimensional obstruction carrier to be nonsingular
 `(-1)^q`-quadratic forms on finite free `Z`-modules, modulo isometry and hyperbolic
-stabilization.  Define its addition and inverse by orthogonal sum and sign reversal.
+stabilization. Define its addition and inverse by orthogonal sum and sign reversal.
+Use `WallLattice` for the free integral module in a chosen basis and
+`WallQuadraticValue` for the refinement target, integral for even `q` and mod two
+for odd `q`. In `EvenWallForm` the reduced integral pairing is the polar form
+of Mathlib’s `QuadraticMap`. `EvenWallForm.Isometry` preserves both structures.
+`EvenWallForm.Lagrangian`, `EvenWallForm.SumIsometry` and
+`EvenWallForm.IsHyperbolicPlane` express the vanishing, orthogonal sum and
+hyperbolic relations.
 
 #### 7B.3 Odd obstruction formations
 
 *Needs:* 7B.1; displayed q-zero Lagrangians; Ranicki §2 elementary-zero relations.
 
 For `n=2*q+1`, define instead a `(-1)^q`-quadratic formation: the surgery kernel together with
-the two lagrangians coming from the two boundary/handle presentations.  Quotient formations by
+the two Lagrangians in `OddWallFormation` coming from the boundary/handle presentations.
+`OddWallFormation.Isometry` and `OddWallFormation.SumIsometry` track both ordered
+Lagrangians; `OddWallFormation.IsTrivial` covers the complementary and common-complement cases.
+Quotient formations by
 isomorphism, elementary modification, and hyperbolic stabilization.  Prove addition and inverse
 on this quotient.  Do not encode an odd obstruction as the Witt class of a form.
 In both parity branches the pairing and quadratic refinement are functions on the whole finite
-free module.  Their symmetry, polarization, scalar, nonsingularity, and parity laws are data;
+free module.  Use Mathlib’s quadratic scalar law. The integral pairing satisfies symmetry,
+unimodularity and the parity-dependent diagonal identity;
 each displayed lagrangian is isotropic, a direct summand, equal to its orthogonal complement,
 and a zero locus for the quadratic refinement.  Define stable equivalence as the equivalence
 relation generated by form/formation isometries, addition of displayed hyperbolic summands, and
@@ -2566,8 +2636,11 @@ not use a freely chosen setoid.
 
 *Needs:* 7B.2–3; Wall Theorems 5.6 and 6.4.
 
-Define `L_n(Z)` by the parity split above and prove that both presentations agree with Wall's
-simply connected surgery obstruction in their respective dimensions.
+Define `L_n(Z)` by the parity split above. Compare the stabilization quotients with the
+additive presentations `EvenWallGroup` and `OddWallGroup` on form and formation generators.
+Their relations `evenWallRelations` and `oddWallRelations` impose isometry and direct sum,
+and kill hyperbolic planes in the even case and elementary formations in the odd case.
+Prove agreement with Wall’s simply connected surgery obstruction in the respective dimensions.
 
 #### 7B.5 Even-dimensional vanishing
 
@@ -2637,16 +2710,20 @@ Wall Theorems 5.6, 5.8, 6.4 and 6.5; Ranicki §2 for the formation presentation.
 First prove that both `(H(ℤ);L,L*)` and `(H(ℤ);L,L)` represent zero, using the
 complementary and common-complement relations respectively. In odd dimensions over
 the simply connected coefficient ring `Z`, prove every relevant
-quadratic formation is elementary after hyperbolic stabilization and obtain `P_n=0` for odd
-`n>=5`.
+quadratic formation is elementary after hyperbolic stabilization
+(`oddWallGroup_subsingleton`) and obtain `P_n=0` for odd `n ≥ 5`.
 
 #### 7C.2 Signature coordinate
 
-*Needs:* 7B forms and realization; 6B E₈ plumbing; Wall Theorem 13A.1, p.172; k≥2.
+*Needs:* 7B forms and realization; 6B E₈ plumbing; IntegralLattices 1I and 6A;
+Wall Theorem 13A.1, p. 172; k ≥ 2 for the geometric calculation.
 
 In dimension `4k`, identify the obstruction with the signature of the even unimodular middle
-form divided by eight.  Prove divisibility by eight, classify the Witt group, construct the
-`E_8` plumbing realization, and obtain `P_(4k) ~= Z` for `k>=2` with the stated normalization.
+form divided by eight. Use [IntegralLattices](../IntegralLattices/README.md) 1I for
+divisibility by eight and 6A after adding a hyperbolic plane to apply indefinite
+classification. The signature coordinate gives the even Witt group isomorphism
+`nonempty_evenWallGroup_two_mul_addEquiv_int`. Use 6B’s `E₈` plumbing realization
+to obtain `P_(4k) ≅ ℤ` for `k ≥ 2` with this normalization.
 
 #### 7C.3 Arf coordinate
 
@@ -2656,7 +2733,8 @@ Consume [GeometricTopology §4.3.1](../GeometricTopology/README.md)'s finite qua
 algebra: the Arf invariant, its basis independence, the hyperbolic/anisotropic decomposition and
 the zero-Arf/zero-quadratic-Lagrangian criterion, including dimension zero. Own the
 integral Wall-form reduction to that shared `F₂` refinement and its comparison here.
-Realize both classes geometrically and obtain `P_(4k+2) ~= Z/2` for `k>=1`.
+The algebraic Arf isomorphism is `nonempty_evenWallGroup_two_mul_add_one_addEquiv_zmod_two`.
+Realize both classes geometrically and obtain `P_(4k+2) ≅ ℤ/2` for `k ≥ 1`.
 This calculation uses GeometricTopology §4.3.1's algebra, the same algebra TangentialBordism B3.2(a) consumes; Section 5 separately consumes B5.2's finite PT and B3.2(b–c)'s Spin geometry.
 
 #### 7C.4 Defect map and surgery
@@ -2685,10 +2763,18 @@ The simply connected obstruction groups have coordinates σ/8 in dimensions 4k, 
 and on the hyperbolic plane 0; the anisotropic 𝔽₂ plane has Arf 1. These distinguish both
 normalizations and the two parity presentations (Wall Theorem 13A.1, p.172).
 
+**Checks for the Wall forms and formations.**
+
+- The integral form `⟨1⟩` fails the even-parity diagonal condition, since one is odd.
+- In the standard hyperbolic plane with odd `q`, the line `ℤ(e+f)` is an isotropic
+  direct summand equal to its orthogonal complement, but its refinement is `μ(e+f)=1`.
+- The ordered formations with complementary axes and with both axes equal represent
+  zero by the complementary and common-complement relations, respectively.
+
 ### Dependencies
 
 *Needs:* Sections 7A–7B; GeometricTopology §4.3.1's finite quadratic Arf algebra;
-Section 6B plumbing and framings. The odd Pₙ vanishing is for odd n≥5, the integral
+IntegralLattices 1I and 6A; Section 6B plumbing and framings. The odd Pₙ vanishing is for odd n≥5, the integral
 signature coordinate for 4k has k≥2, and the Arf coordinate for 4k+2 has k≥1.
 
 ## Layer 8: the Kervaire--Milnor comparison with stable homotopy
@@ -2718,7 +2804,7 @@ obstruction with `coker J_n`.
 
 Construct the extension obstruction `A_n → π_(n-1)(SO)` from the framing on the defect
 sphere, with its orientation and stabilization conventions (Kervaire–Milnor, proof of
-Theorem 3.1, p.508: for a homotopy sphere the obstruction to trivializing `τ ⊕ ε` is a class
+Theorem 3.1, pp. 508–509: for a homotopy sphere the obstruction to trivializing `τ ⊕ ε` is a class
 in `H^n(Σ; π_(n−1)(SO)) ≅ π_(n−1)(SO)`). Prove the exact sequence
 `π_n(SO) →^J π_n^S → A_n → π_(n-1)(SO)` at its intermediate terms. A cycle in the
 obstruction kernel admits an extension across its defect; only for such cycles apply PT
@@ -2736,7 +2822,9 @@ cycles, not only for homotopy spheres, is a target of this section.
 If `π_(n-1)(SO)=0`, identify all of `A_n` with that kernel and hence with `coker J_n`
 (Kervaire–Milnor, p.508, Case 1: `π_(n−1)(SO) = 0` exactly for `n ≡ 3, 5, 6, 7 (mod 8)`).
 Transport Layer 6's exact segment through this isomorphism and identify both boundary
-images with the corresponding `bP` subgroups. The sixth-dimensional application uses
+images with the corresponding `bP` subgroups. The embedding
+`Θ_n/bP_(n+1) ↪ coker J_n` in the last paragraph of the proof of Kervaire–Milnor’s
+Theorem 4.1 uses Lemmas 4.2 and 4.5, and `p(Sⁿ)=im J_n` by their Remark on p. 512. The sixth-dimensional application uses
 the independently proved `π_5(SO)=0`; no arbitrary almost-framed cycle receives a
 preferred element of `π_n^S`.
 
@@ -2815,7 +2903,8 @@ with the based and framing comparisons of 5.0b, to construct the stable Hopf cla
 fibrations. Use 5.0b's framed calculations and their suspension comparisons to obtain
 π₁⁽S⁾≅ℤ/2{η} and π₂⁽S⁾≅ℤ/2{η²} (Hatcher, Corollary 4J.4, p.474, and
 §4.J, pp.474–475, using Proposition 4L.11 for nonvanishing of η²). Import π₃⁽S⁾≅ℤ/24{ν} from
-StringOrientation S2.3. Compare its quaternionic Hopf generator with the chosen EHP
+StringOrientation S2.3, including `π_(n+3)(Sⁿ) ≅ ℤ/24` for `n ≥ 5` and the stable
+`J₃` kernel `24ℤ`. Compare its quaternionic Hopf generator with the chosen EHP
 representative and the normal derivative framing of a Hopf regular fibre, preserving
 the sphere orientation and PT product convention. This comparison fixes the sign of ν
 used in 9.3 and 9.5; a second computation of the third-stem group is not a target here.
@@ -2839,7 +2928,7 @@ Here is a route with its actual substitutions. Write η_j=E^(j−2)η₂ for j�
 E²ν′=2ν₅ and Hν′=η₅. Prove η₃ν₄=ν′η₆ and
 η₅ν₆=2ν₅η₈=0 by the composition and interchange laws
 (Gray, Proposition 2.3 and its fourth-stem calculation, pp.132–133;
-Toda, Lemma 5.4, p.41, and Proposition 5.6, p.42, uncertified).
+Toda, Lemma 5.4, p.41, and Proposition 5.6, p.42).
 These are unstable comparisons, not a second construction of the supplied third stem.
 
 For (α,β)=(η₂,ν₄), the two terms of C lie in π₉(S⁵)_(2) and are
@@ -2853,7 +2942,7 @@ The n=4 EHP sequence kills a and sends b to the generator c=ν₅η₈ of
 π₉(S⁵)_(2)=ℤ/2; its H is zero since its target π₉(S⁹)_(2)=ℤ_(2)
 is torsion-free. The n=5 sequence has Pι₁₁=c and π₁₀(S¹¹)_(2)=0,
 hence π₁₀(S⁶)_(2)=0 (Gray, pp.132–133, calculation after Proposition 2.3;
-Toda, Proposition 5.8, p.43, uncertified).
+Toda, Proposition 5.8, p.43).
 
 For the fifth stem, prove π₉(S⁴)_(2)=ℤ/2{aη₈}⊕ℤ/2{bη₈}.
 Apply P(α E²β)=(Pα)β to (α,β)=(η₉,η₈) and (ι₁₁,η₉):
@@ -2861,7 +2950,7 @@ P(η₉η₁₀)=aη₈ and Pη₁₁=cη₉. The successive EHP quotients give
 π₁₀(S⁵)_(2)=ℤ/2{d}, d=cη₉, and then π₁₁(S⁶)_(2)=ℤ_(2){[ι₆,ι₆]},
 whose H embeds it as 2ℤ_(2) in π₁₁(S¹¹)_(2)=ℤ_(2).
 Finally Pι₁₃=[ι₆,ι₆] and π₁₂(S¹³)_(2)=0 give π₁₂(S⁷)_(2)=0
-(Toda, Proposition 5.9, p.44, uncertified). This calculation uses primary
+(Toda, Proposition 5.9, p.44). This calculation uses primary
 composition identities, not a choice of representative in a Toda bracket.
 
 For the integral passage prove finite generation of stable sphere groups from
@@ -2921,7 +3010,7 @@ each named generator to the generator of the same name one dimension up. The ent
 theorems of 9.1 (k = 1, 2, and the sign of ν), StringOrientation S2.3 (the order 24),
 9.2 (k = 4, 5) and 9.3 (k = 6); the range n ≥ k+2 is the Freudenthal range of 3A.4
 (n+k ≤ 2n−2). Kervaire–Milnor, p.512, table, records the orders for 1 ≤ k ≤ 6; Toda,
-Chapter XIV, pp.186–191, records the generators (uncertified).
+Chapter XIV, pp.186–191, records the generators.
 
 **Checks.**
 
@@ -2979,11 +3068,11 @@ zero.  Conclude `Theta_6=0`.
 The low-stem proof locators are Toda, Propositions 5.8, 5.9 and 5.11,
 pp.43–46, for the fourth, fifth and sixth 2-primary diagonals respectively;
 Lemma 5.4 and equation (5.8), pp.41–43, fix the quaternionic Hopf and
-Whitehead-square comparison. These Toda locators are cited as uncertified.
+Whitehead-square comparison.
 Kervaire–Milnor's p.512 table records the integral group orders and does not
 identify ν² or prove these suspension and generator comparisons.  Kervaire–Milnor, Theorem
-5.1, p.512, proved in §§5–6, pp.512–526, gives bP₇ = 0, and Theorem 4.1 with the Remarks after
-it, pp.510–512, embeds Θ₆/bP₇ in Π₆/p(S⁶) = coker J₆. Their quadratic function and Arf
+5.1, p.512, gives bP₇ = 0. Lemmas 4.2 and 4.5 and the last paragraph of the proof
+of Theorem 4.1, with the remark on p. 512, embed Θ₆/bP₇ in Π₆/p(S⁶) = coker J₆. Their quadratic function and Arf
 invariant c(M) of §8, pp.534–535, are defined only for odd k other than 1, 3 and 7 (p.534),
 and in dimension six every embedded 3-sphere in an s-parallelizable manifold has trivial
 normal bundle (§7, Case 1, p.528), so they do not reach S³ × S³. The framed quadratic
@@ -3223,9 +3312,12 @@ and I7.5 for signature and untwisted Spin index integrality. The order bound is
 
 *Needs:* Native sphere simple connectivity; AlgebraicTopology top homology; DifferentialGeometry Layer 2.
 
-Let `M` be a compact Hausdorff second-countable boundaryless smooth six-manifold and
-`h : M ~=_h S^6`.  Use `h` to prove connectedness and simple connectivity and to transport a
-chosen generator of top integral homology to an orientation of `M`.
+Let `M` be a Hausdorff boundaryless smooth six-manifold and `h : M ≃ₕ S⁶`.
+Deduce connectedness, simple connectivity and `H₆(M;ℤ/2) ≅ ℤ/2`. The top homology
+vanishes on connected noncompact six-manifolds (Hatcher, Proposition 3.29, p. 239),
+so `M` is compact. Choose a finite subcover of the Euclidean charts and combine
+their countable bases to obtain second countability. Transport a chosen generator
+of top integral homology to an orientation of `M`.
 This is the orientation/local-fundamental-class comparison from DifferentialGeometry
 Layer 2 and AlgebraicTopology Stage 6, applied to H₆(M;ℤ)≅ℤ; it is not a separate
 orientation theorem attributed to Milnor.
@@ -3246,8 +3338,9 @@ to a diffeomorphism in 10.3 uses Milnor, Theorem 9.1, p.107.
 
 *Needs:* Layer 1 product theorem in total dimension 7; 10.2; native coordinate reflection.
 
-Apply Layer 1's six-dimensional-boundary case of the h-cobordism theorem to obtain a
-diffeomorphism `e : M ~=_m S^6`.  Package orientation preservation as the condition that at
+Apply Layer 1’s product theorem in total dimension seven, using §1.6’s
+index-two cancellation, to get a diffeomorphism `e : M ≃ₘ S⁶`
+(Milnor, Theorems 9.1–9.2, pp. 107–108).  Package orientation preservation as the condition that at
 every point the manifold derivative of `e` carries the chosen `TauCeti.Manifold.Orientation` of
 `M` to the standard orientation of `S⁶` (`TauCeti.Manifold.Orientation.IsOrientationPreservingAt`).
 If the condition fails, then, `M` being connected, the derivative of `e` reverses the two
@@ -3264,11 +3357,12 @@ visible and prove that a diffeomorphism satisfying that derivative equation exis
 h-Cobordism Theorem*, §9, Proposition B, p.109, whose proof on p.110 combines Proposition A
 with the Kervaire–Milnor–Wall theorem that a closed simply connected homology six-sphere
 bounds a contractible manifold; Kervaire–Milnor, p.504, lists the order of Θ₆ as one.  State the
-unoriented result only as a separate corollary (`nonempty_diffeomorph_sphere_six`): for a compact
-Hausdorff second-countable space M it concludes Mathlib's
-`ContinuousMap.HomotopyEquiv.NonemptyDiffeomorphSphere M 6`. For each smooth structure and
-homotopy equivalence in that predicate, take the oriented atlas of 10.1 and any oriented atlas
-of S⁶, apply `smoothPoincareSix_oriented` and forget the equation.
+unoriented result only as a separate corollary (`nonempty_diffeomorph_sphere_six`): for a Hausdorff
+space `M` it concludes Mathlib’s
+`ContinuousMap.HomotopyEquiv.NonemptyDiffeomorphSphere M 6`. For each smooth structure
+and homotopy equivalence in that predicate, derive compactness and second countability
+as in §10.1, take the oriented atlas there and an oriented atlas of `S⁶`, apply
+`smoothPoincareSix_oriented` and forget the equation.
 
 The atlas-preservation predicate has the following API: transport by identity preserves
 an oriented atlas, composition preserves positive transition determinants, and reversing exactly
@@ -3358,7 +3452,7 @@ of the invariant and an actual h-cobordism to turn that equality into a diffeomo
 
 For the sixth-sphere calculation the exact segment has left term 0 and right map the
 identity on ℤ/2. Both the left image and right kernel are zero, giving Θ₆=0 and the
-compact smooth recognition theorem of Layer 10.
+smooth recognition theorem of Layer 10.
 
 ## References
 
@@ -3384,6 +3478,8 @@ compact smooth recognition theorem of Layer 10.
   modifications, Theorem 5.1), pp.512–526; §7 (Case 1 and Lemma 7.2, p.528; Lemma 7.3 and
   Theorem 7.5, pp.528–530); §8 (the operation ψ, its restriction to odd k other than 1, 3
   and 7, the Arf invariant c(M) and Lemma 8.4), pp.531–536.
+- J. P. Levine, [*Lectures on groups of homotopy spheres*](https://math.mit.edu/juvitop/old/notes/2014_Fall/JPLEVINElectures.pdf#page=31),
+  Appendix, pp. 91–93: almost-framed and filling relations, the exact sequence and the coker-`J` comparison.
 - Allen Hatcher, [*Algebraic Topology*](https://pi.math.cornell.edu/~hatcher/AT/AT.pdf),
   2002, §4.2, p.387 and Exercise 39, p.392 (Toda brackets); §4.J, pp.474–475
   (integral metastable EHP), Corollary 4J.4, p.474 (the first sphere stem);
@@ -3401,21 +3497,12 @@ compact smooth recognition theorem of Layer 10.
 - Norman Steenrod, [*A Convenient Category of Topological
   Spaces*](https://doi.org/10.1307/mmj/1028999711), Michigan Mathematical Journal 14 (1967),
   133--152.
-- Lev Pontryagin, *Smooth Manifolds and Their Applications in Homotopy Theory*, American
-  Mathematical Society Translations, Series 2, 11 (1959), 1--114, Chapter II §§1--4.
-- René Thom, [*Quelques propriétés globales des variétés
-  différentiables*](https://doi.org/10.1007/BF02566923), Commentarii Mathematici Helvetici 28
-  (1954), 17--86, Chapters I--II.
 - George W. Whitehead, *Elements of Homotopy Theory*, Springer GTM 61, 1978.
 - Hirosi Toda, *Composition Methods in Homotopy Groups of Spheres*, Princeton University Press,
   1962, Lemma 5.4 and equation (5.8), pp.41–43; Propositions 5.8, 5.9, 5.11,
-  pp.43–46; Chapter XIV, pp.186–191, for tables. These locators are uncertified.
+  pp.43–46; Chapter XIV, pp.186–191, for tables.
 - Raoul Bott, [*The Stable Homotopy of the Classical
   Groups*](https://doi.org/10.2307/1970106), Annals of Mathematics 70 (1959), 313--337.
-- Norman Steenrod, *The Topology of Fibre Bundles*, Princeton University Press, 1951, and Dale
-  Husemoller, *Fibre Bundles*, 3rd ed., Springer GTM 20, 1994.
-- Morris Hirsch, *Differential Topology*, Springer GTM 33, 1976, and Antoni Kosinski,
-  *Differential Manifolds*, Academic Press, 1993.
 - C. T. C. Wall, *Surgery on Compact Manifolds*, 2nd ed., AMS, 1999, Theorems 5.6, 5.8, 6.4, 6.5 and 13A.1, pp.50, 54, 68–69, 172.
 - William Browder, [*The Kervaire Invariant of Framed Manifolds and its
   Generalization*](https://doi.org/10.2307/1970686), Annals of Mathematics 90 (1969), 157--186.
@@ -3429,8 +3516,8 @@ compact smooth recognition theorem of Layer 10.
 - John Milnor, *Morse Theory*, Annals of Mathematics Studies 51, Princeton University Press,
   1963: the path-space Morse theory and Bott periodicity argument cited in 4B.9.
 - Andrew Ranicki, [*Foundations of algebraic surgery*](https://arxiv.org/abs/math/0111315),
-  lectures at the Trieste summer school on high-dimensional manifold topology, 2001, §2, p.5
-  (forms, formations and their stable equivalence), cited in 7B.3 and 7B.8.
+  lectures at the Trieste summer school on high-dimensional manifold topology, 2001, §2, pp. 5–7
+  (forms on p. 5, Lagrangians on p. 6, formations and stable equivalence on pp. 6–7), cited in 7B.3 and 7B.8.
 
 - Victor Snaith, [*The Arf–Kervaire invariant of framed manifolds*](https://arxiv.org/abs/1001.4751),
   Definition 3.1 and §3.1 for compact-source collapse, and Example 8.3 for the Arf-one product.
