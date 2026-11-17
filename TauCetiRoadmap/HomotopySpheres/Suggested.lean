@@ -27,8 +27,8 @@ Stated here:
 * the standard sphere `S^n`, `n ≥ 1`, is smoothly parallelizable exactly for `n ∈ {1, 3, 7}`
   (Section 3C.5);
 * smooth recognition in dimension six, oriented (Layer 10), and unoriented as Mathlib's
-  `ContinuousMap.HomotopyEquiv.NonemptyDiffeomorphSphere` at `n = 6` for compact
-  second-countable `M`.
+  `ContinuousMap.HomotopyEquiv.NonemptyDiffeomorphSphere` at `n = 6`;
+* the even and odd simply connected Wall groups through their additive presentations (Layer 7).
 
 The group isomorphisms among these are stated as existence (`nonempty_*`): the canonical maps
 that the README makes isomorphisms (the Bott periodicity map, the generators `ν²` and `σ` of the
@@ -44,9 +44,8 @@ Not statable at the pins:
   h-cobordism relation nor the quotient, which is a construction of the roadmap (the
   h-cobordism class content of `Theta_6 = 0` is implied by the six-dimensional recognition
   theorem below);
-* the stable stems as colimits, stable `J` and the Pontryagin--Thom isomorphism (Layer 3,
-  Section 4C and Layer 5): there is no suspension homomorphism on `HomotopyGroup` and no
-  framed bordism group;
+* the stable stems as colimits and stable `J` (Layer 3 and Section 4C): the pins
+  do not supply a suspension homomorphism on `HomotopyGroup`;
 * the connected James equivalence, the James splitting after one suspension and the EHP exact
   sequence (Sections 3B–3C): the pins lack the reduced word space, reduced pointed suspension
   and James–Hopf map, and the stable form of the splitting also needs a stable category of
@@ -54,9 +53,8 @@ Not statable at the pins:
 * Hopf-invariant-one exclusion (Section 3C.5): the pins lack the pointed topological mapping
   cone and its integral cup-product Hopf invariant. The sphere-framing consequence is stated
   below on the native smooth tangent bundle;
-* the almost-framed groups, `P_n`, the Wall groups `L_n` and the Kervaire--Milnor exact sequence
-  (Layers 6 to 8): these need framed and almost-framed bordism and Wall forms and formations,
-  none of which exists at the pins;
+* the almost-framed groups, `P_n`, their comparison with the Wall groups and the geometric
+  exact sequence (Layers 6 to 8): these need geometric bordism quotients and surgery traces;
 * `Theta_7 ≅ ℤ/28`, the Eells–Kuiper comparison of the negative E8 boundary with the
   quaternionic sphere-bundle model, and nonstandardness of the E8 plumbing boundary itself in
   dimension `4k-1`, `k > 1`, as a statement about that boundary (Layer 9A): these need the
@@ -185,6 +183,121 @@ theorem nonempty_orthogonalGroup_eighthHomotopyGroup (n : ℕ) (hn : 10 ≤ n) :
     Nonempty (HomotopyGroup.Pi 8 (OrthogonalGroup n) 1 ≃* Multiplicative (ZMod 2)) := by
   sorry
 
+/-! ## Layer 7: Wall surgery groups -/
+
+/-- The free integral surgery kernel in a chosen basis. -/
+abbrev WallLattice (rank : ℕ) := Fin rank → ℤ
+
+/-- The sign-dependent target of the quadratic refinement (Ranicki, §2). -/
+abbrev WallQuadraticValue (q : ℕ) := ZMod (if Even q then 0 else 2)
+
+/-- A nonsingular integral quadratic surgery form in dimension `2 * q` (Ranicki, §2). -/
+structure EvenWallForm (q : ℕ) where
+  rank : ℕ
+  pairing : LinearMap.BilinForm ℤ (WallLattice rank)
+  quadratic : QuadraticMap ℤ (WallLattice rank) (WallQuadraticValue q)
+  pairing_symmetry : ∀ x y,
+    pairing x y = (-1 : ℤ) ^ q * pairing y x
+  polar_eq : ∀ x y, QuadraticMap.polar quadratic x y = (pairing x y : WallQuadraticValue q)
+  diagonal : ∀ x, (pairing x x : WallQuadraticValue q) =
+    quadratic x + ((-1 : ℤ) ^ q : WallQuadraticValue q) * quadratic x
+  unimodular : Function.Bijective pairing
+
+/-- A self-annihilating direct summand on which the quadratic refinement vanishes. -/
+structure EvenWallForm.Lagrangian {q : ℕ} (form : EvenWallForm q) where
+  carrier : Submodule ℤ (WallLattice form.rank)
+  isotropic : ∀ x ∈ carrier, ∀ y ∈ carrier, form.pairing x y = 0
+  quadratic_zero : ∀ x ∈ carrier, form.quadratic x = 0
+  self_orthogonal : form.pairing.orthogonal carrier = carrier
+  directSummand : ∃ complement, IsCompl carrier complement
+
+/-- An odd-dimensional quadratic surgery formation with two Lagrangians (Ranicki, §2). -/
+structure OddWallFormation (q : ℕ) where
+  form : EvenWallForm q
+  firstLagrangian : form.Lagrangian
+  secondLagrangian : form.Lagrangian
+
+/-- A quadratic isometry preserving the integral pairing. -/
+structure EvenWallForm.Isometry {q : ℕ} (F G : EvenWallForm q) where
+  quadraticIsometry : F.quadratic.IsometryEquiv G.quadratic
+  pairing_eq : ∀ x y,
+    G.pairing (quadraticIsometry x) (quadraticIsometry y) = F.pairing x y
+
+/-- A form isometry carrying each Lagrangian to its corresponding Lagrangian. -/
+structure OddWallFormation.Isometry {q : ℕ} (F G : OddWallFormation q) where
+  formIsometry : F.form.Isometry G.form
+  first_eq : Submodule.map formIsometry.quadraticIsometry.toLinearEquiv.toLinearMap
+    F.firstLagrangian.carrier = G.firstLagrangian.carrier
+  second_eq : Submodule.map formIsometry.quadraticIsometry.toLinearEquiv.toLinearMap
+    F.secondLagrangian.carrier = G.secondLagrangian.carrier
+
+
+/-- Witness the direct sum by an isometry from the product lattice. -/
+structure EvenWallForm.SumIsometry {q : ℕ} (F G K : EvenWallForm q) where
+  toLinearEquiv : (WallLattice F.rank × WallLattice G.rank) ≃ₗ[ℤ] WallLattice K.rank
+  pairing_eq : ∀ x y, K.pairing (toLinearEquiv x) (toLinearEquiv y) =
+    F.pairing x.1 y.1 + G.pairing x.2 y.2
+  quadratic_eq : ∀ x, K.quadratic (toLinearEquiv x) = F.quadratic x.1 + G.quadratic x.2
+
+/-- The integral hyperbolic plane in hyperbolic coordinates. -/
+def EvenWallForm.IsHyperbolicPlane {q : ℕ} (F : EvenWallForm q) : Prop :=
+  ∃ e : WallLattice 2 ≃ₗ[ℤ] WallLattice F.rank,
+    (∀ x y, F.pairing (e x) (e y) = x 0 * y 1 + (-1 : ℤ) ^ q * x 1 * y 0) ∧
+    (∀ x, F.quadratic (e x) = ((x 0 * x 1 : ℤ) : WallQuadraticValue q))
+
+/-- An isometry from the direct sum preserving the two ordered Lagrangians. -/
+structure OddWallFormation.SumIsometry {q : ℕ} (F G K : OddWallFormation q) where
+  formSum : F.form.SumIsometry G.form K.form
+  first_eq : Submodule.map formSum.toLinearEquiv.toLinearMap
+    (F.firstLagrangian.carrier.prod G.firstLagrangian.carrier) = K.firstLagrangian.carrier
+  second_eq : Submodule.map formSum.toLinearEquiv.toLinearMap
+    (F.secondLagrangian.carrier.prod G.secondLagrangian.carrier) = K.secondLagrangian.carrier
+
+/-- The elementary cases with complementary Lagrangians or a common complement. -/
+def OddWallFormation.IsTrivial {q : ℕ} (F : OddWallFormation q) : Prop :=
+  IsCompl F.firstLagrangian.carrier F.secondLagrangian.carrier ∨
+    ∃ L : F.form.Lagrangian,
+      IsCompl F.firstLagrangian.carrier L.carrier ∧
+      IsCompl F.secondLagrangian.carrier L.carrier
+
+/-- The isometry, sum and hyperbolic-plane relations of the even surgery group. -/
+def evenWallRelations (q : ℕ) : Set (FreeAbelianGroup (EvenWallForm q)) :=
+  {r | (∃ F G : EvenWallForm q, Nonempty (F.Isometry G) ∧
+      r = FreeAbelianGroup.of F - FreeAbelianGroup.of G) ∨
+    (∃ F G K : EvenWallForm q, Nonempty (F.SumIsometry G K) ∧
+      r = FreeAbelianGroup.of K - (FreeAbelianGroup.of F + FreeAbelianGroup.of G)) ∨
+    (∃ F : EvenWallForm q, F.IsHyperbolicPlane ∧ r = FreeAbelianGroup.of F)}
+
+/-- The isometry, sum and elementary formation relations of the odd surgery group. -/
+def oddWallRelations (q : ℕ) : Set (FreeAbelianGroup (OddWallFormation q)) :=
+  {r | (∃ F G : OddWallFormation q, Nonempty (F.Isometry G) ∧
+      r = FreeAbelianGroup.of F - FreeAbelianGroup.of G) ∨
+    (∃ F G K : OddWallFormation q, Nonempty (F.SumIsometry G K) ∧
+      r = FreeAbelianGroup.of K - (FreeAbelianGroup.of F + FreeAbelianGroup.of G)) ∨
+    (∃ F : OddWallFormation q, F.IsTrivial ∧ r = FreeAbelianGroup.of F)}
+
+/-- The additive presentation of the even Wall group in dimension `2*q`. -/
+abbrev EvenWallGroup (q : ℕ) :=
+  FreeAbelianGroup (EvenWallForm q) ⧸ AddSubgroup.closure (evenWallRelations q)
+
+/-- The additive presentation of the odd Wall group in dimension `2*q+1`. -/
+abbrev OddWallGroup (q : ℕ) :=
+  FreeAbelianGroup (OddWallFormation q) ⧸ AddSubgroup.closure (oddWallRelations q)
+
+/-- Signature divided by eight computes the group in dimensions divisible by four. -/
+theorem nonempty_evenWallGroup_two_mul_addEquiv_int (k : ℕ) :
+    Nonempty (EvenWallGroup (2 * k) ≃+ ℤ) := by
+  sorry
+
+/-- The Arf invariant computes the group in dimensions congruent to two modulo four. -/
+theorem nonempty_evenWallGroup_two_mul_add_one_addEquiv_zmod_two (k : ℕ) :
+    Nonempty (EvenWallGroup (2 * k + 1) ≃+ ZMod 2) := by
+  sorry
+
+/-- The simply connected Wall obstruction groups vanish in odd dimensions. -/
+theorem oddWallGroup_subsingleton (q : ℕ) : Subsingleton (OddWallGroup q) := by
+  sorry
+
 /-! ## Layer 9: the fourth through sixth stable stems -/
 
 /-- The fourth stable stem vanishes: for `n ≥ 6`, `π_{n+4}(S^n, x) = 0`
@@ -201,8 +314,7 @@ theorem sphere_homotopyGroup_fifthStem (n : ℕ) (hn : 7 ≤ n) (x : Sphere n) :
 
 /-- The sixth stem is cyclic of order two: for `n ≥ 8`, in the Freudenthal stable range,
 `π_{n+6}(S^n) ≅ ℤ/2`, generated by the suspension of `ν²` (Toda, *Composition methods in homotopy
-groups of spheres*, Proposition 5.11, p.46, for the 2-primary generator, cited as
-uncertified; Kervaire--Milnor, p.512, for the integral order; README Section 9.3). -/
+groups of spheres*, Proposition 5.11, p.46, for the 2-primary generator; Kervaire--Milnor, p.512, for the integral order; README Section 9.3). -/
 theorem nonempty_sphere_homotopyGroup_sixthStem (n : ℕ) (hn : 8 ≤ n) (x : Sphere n) :
     Nonempty (HomotopyGroup.Pi (n + 6) (Sphere n) x ≃* Multiplicative (ZMod 2)) := by
   sorry
@@ -210,7 +322,7 @@ theorem nonempty_sphere_homotopyGroup_sixthStem (n : ℕ) (hn : 8 ≤ n) (x : Sp
 /-! ## Layer 9A: the seventh stable stem -/
 
 /-- The seventh stem is cyclic of order 240: for `n ≥ 9`, in the Freudenthal stable range,
-`π_{n+7}(S^n) ≅ ℤ/240` (Toda, Chapter XIV, stable-stem table, pp.186–191, cited as uncertified;
+`π_{n+7}(S^n) ≅ ℤ/240` (Toda, Chapter XIV, stable-stem table, pp.186–191;
 README Section 9A.1). -/
 theorem nonempty_sphere_homotopyGroup_seventhStem (n : ℕ) (hn : 9 ≤ n) (x : Sphere n) :
     Nonempty (HomotopyGroup.Pi (n + 7) (Sphere n) x ≃* Multiplicative (ZMod 240)) := by
@@ -250,16 +362,12 @@ theorem smoothPoincareSix_oriented
     ∃ f : M ≃ₘ⟮𝓡 6, 𝓡 6⟯ Sphere 6, PreservesOrientedAtlases f A B := by
   sorry
 
-/-- Smooth recognition of `S⁶`, unoriented, as Mathlib's smooth Poincaré predicate in dimension
-six: if a compact Hausdorff second-countable space `M` is homotopy equivalent to `S⁶`, every
-boundaryless smooth six-dimensional structure on `M` admits a diffeomorphism onto `S⁶`
-(Milnor, *Lectures on the h-cobordism theorem*, §9, Proposition B, p.109; README Section 10.4).
-For a Hausdorff space with a six-dimensional chart structure, compactness and second
-countability already follow from the homotopy equivalence (Hatcher, *Algebraic Topology*,
-Proposition 3.29, p.239); they are hypotheses because the route of Sections 10.1–10.3 uses
-them. -/
+/-- Smooth recognition of homotopy six-spheres as Mathlib's smooth Poincaré predicate
+in dimension six (Milnor, *Lectures on the h-cobordism theorem*, §9, Proposition B, p. 109;
+README §10.4). Compactness and second countability follow once the predicate supplies the
+smooth structure and the homotopy equivalence (Hatcher, Proposition 3.29, p. 239). -/
 theorem nonempty_diffeomorph_sphere_six
-    (M : Type u) [TopologicalSpace M] [T2Space M] [SecondCountableTopology M] [CompactSpace M] :
+    (M : Type u) [TopologicalSpace M] [T2Space M] :
     ContinuousMap.HomotopyEquiv.NonemptyDiffeomorphSphere M 6 := by
   sorry
 
