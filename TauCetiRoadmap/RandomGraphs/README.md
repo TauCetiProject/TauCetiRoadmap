@@ -731,10 +731,11 @@ The two endpoints are computability theorems on codes of formulas.
 `Computable₂` map taking `m` and a code such that, for every formula over `Fin m`, the output is
 the code of a quantifier-free formula over the same context with the same realizations in every
 model of `T_R`. **Decidability** (`exists_computable_decide_rado`): there is a `Computable` map on
-codes of sentences answering truth in the Rado graph. A computability proof needs an explicit
-witness: define both maps in Lean and prove these theorems for them. That each formula has some
-quantifier-free equivalent modulo `T_R` discharges neither theorem, since it gives no computable
-map on codes. The proof goes through finite equality-and-adjacency patterns; build:
+codes of sentences answering truth in the Rado graph. This roadmap requires explicit Lean
+definitions of both maps, with computability and correctness proofs. Existence statements alone
+do not discharge this implementation requirement. That each formula has some quantifier-free
+equivalent modulo `T_R` discharges neither theorem, since it gives no computable map on codes.
+The proof goes through finite equality-and-adjacency patterns; build:
 
 - the **effective coding of first-order formulas**, the input and output format of the two
   maps, owned by this roadmap for a general language `L` (`FormulaAlphabet`, `boundedCode`,
