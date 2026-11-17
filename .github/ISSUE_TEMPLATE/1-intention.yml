@@ -98,6 +98,7 @@ body:
         - EllipticCurves
         - EllipticIntegrals
         - EnhancedDerivedSheaves
+        - Equidistribution
         - EquivariantIntersectionTheory
         - EtaleCohomologyFoundations
         - EtaleMassFormula
