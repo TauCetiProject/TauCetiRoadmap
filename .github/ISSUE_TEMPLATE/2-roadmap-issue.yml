@@ -145,6 +145,7 @@ body:
         - GroebnerGeometry
         - GromovWittenTheory
         - GrothendieckEulerForms
+        - GroupSchemesOverABase
         - HabiroCyclotomicCompletions
         - HamiltonianFloerOperations
         - HeegaardFloer
@@ -168,6 +169,7 @@ body:
         - JacobianChallenge
         - JacobianChallengePartII
         - K2SymbolsBrauer
+        - K3Surfaces
         - KTheoryLowDegrees
         - KacMoody
         - KhovanovHomology
