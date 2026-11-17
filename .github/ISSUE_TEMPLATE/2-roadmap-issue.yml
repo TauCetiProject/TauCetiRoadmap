@@ -67,6 +67,7 @@ body:
         - CompactQuantumMetricSpaces
         - ComplexComparisonPartII
         - ComplexCurveModuli
+        - ComplexHessianEquations
         - ComplexKahlerGeometry
         - ComplexManifolds
         - ComplexTori
@@ -260,6 +261,7 @@ body:
         - StableHomotopyKTheory
         - StablePeriodicCurved
         - StableReduction
+        - StackPointsAndResidualGerbes
         - StandardDistributions
         - StochasticCalculus
         - StringOrientation
