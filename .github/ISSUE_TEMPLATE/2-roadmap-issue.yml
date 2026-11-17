@@ -45,6 +45,7 @@ body:
         - ArithmeticLocallySymmetricSpaces
         - AsymptoticExpansions
         - AutomorphicFormsOnReductiveGroups
+        - AutomorphicLFunctionsAndLocalFactors
         - AutomorphicSpectralTheory
         - BanachAlgebras
         - BanachSpaceTheory
@@ -188,6 +189,7 @@ body:
         - LieGroupsPartII
         - LinearFormsInLogarithms
         - LocalFieldsRamificationPartII
+        - LocalGaloisDeformationRings
         - LocalPurity
         - LocalVariationalFieldTheory
         - LocallyAnalyticDistributions
