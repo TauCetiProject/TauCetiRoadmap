@@ -1,21 +1,21 @@
 module
 
-import Mathlib
-import TauCeti.LinearAlgebra.TensorProduct.Balanced.Basic
-import TauCeti.Algebra.Category.ModuleCat.Flat.FilteredFree
-import TauCeti.Algebra.Category.ModuleCat.Projective.TensorHom
-import TauCeti.Algebra.Module.AuslanderReiten.TensorCokernel
-import TauCeti.RingTheory.GlobalDimension
-import TauCeti.RingTheory.Jacobson.Semiperfect
-import TauCeti.Algebra.Module.ProjectiveCover.Basic
-import TauCeti.Algebra.Module.Projective.FinitePresentation
-import TauCeti.Algebra.Module.MinimalProjectivePresentation.Basic
-import TauCeti.Algebra.Category.ModuleCat.CartanMap.Basic
-import TauCeti.CategoryTheory.Preadditive.MorphismIdeal.Mul
-import TauCeti.CategoryTheory.Preadditive.MorphismIdeal.Opposite
-import TauCeti.CategoryTheory.Preadditive.Radical.Nilpotent
-import TauCeti.CategoryTheory.Projective.Cover
-import TauCeti.RingTheory.Jacobson.MulOpposite
+public import Mathlib
+public import TauCeti.LinearAlgebra.TensorProduct.Balanced.Basic
+public import TauCeti.Algebra.Category.ModuleCat.Flat.FilteredFree
+public import TauCeti.Algebra.Category.ModuleCat.Projective.TensorHom
+public import TauCeti.Algebra.Module.AuslanderReiten.TensorCokernel
+public import TauCeti.RingTheory.GlobalDimension
+public import TauCeti.RingTheory.Jacobson.Semiperfect
+public import TauCeti.Algebra.Module.ProjectiveCover.Basic
+public import TauCeti.Algebra.Module.Projective.FinitePresentation
+public import TauCeti.Algebra.Module.MinimalProjectivePresentation.Basic
+public import TauCeti.Algebra.Category.ModuleCat.CartanMap.Basic
+public import TauCeti.CategoryTheory.Preadditive.MorphismIdeal.Mul
+public import TauCeti.CategoryTheory.Preadditive.MorphismIdeal.Opposite
+public import TauCeti.CategoryTheory.Preadditive.Radical.Nilpotent
+public import TauCeti.CategoryTheory.Projective.Cover
+public import TauCeti.RingTheory.Jacobson.MulOpposite
 
 /-!
 # Flatness and homological dimensions of noncommutative rings: target signatures
@@ -45,10 +45,10 @@ enters as `SingleObj Aᵐᵒᵖ`, whose `Mod` is equivalent to `ModuleCat A` (le
 of `(SingleObj Aᵐᵒᵖ)ᵒᵖ` is equivalent to `ModuleCat Aᵐᵒᵖ` (right modules). Right `A`-modules are
 written as left `Aᵐᵒᵖ`-modules and right ideals as `Submodule Aᵐᵒᵖ A`.
 
-**Finite presentation and finitely generated projectives** (0.1, 0.8). A functor is finitely
-generated (respectively finitely presented) when it is a quotient (respectively cokernel of a map)
-between finite coproducts of representables, refactoring Tau Ceti's single-representable
-`TauCeti.IsFinitelyGeneratedFunctor` and `TauCeti.IsFinitelyPresentedFunctor`. Section 0.8
+**Finite presentation and finitely generated projectives** (0.1, 0.9). A functor is finitely
+generated if it is a quotient of a finite coproduct of representables, and finitely presented if
+it is the cokernel of a map between two such coproducts, refactoring Tau Ceti's single-representable
+`TauCeti.IsFinitelyGeneratedFunctor` and `TauCeti.IsFinitelyPresentedFunctor`. Section 0.9
 introduces the finitely generated projective modules `proj C` with duality
 `Hom(-, C) : (proj C)ᵒᵖ ≌ proj Cᵒᵖ`, and proves equivalence of finite presentation with cokernels in
 `proj C`, Mathlib's `IsFinitelyPresentable`, and (for rings) `Module.FinitePresentation`.
@@ -59,15 +59,16 @@ two-sided ideals (`TauCeti.MorphismIdeal`) coerce to both, and at `SingleObj A�
 and right ideals of `A`. For a left ideal `I`, `I · M` is a subobject of `M`, and superfluousness
 uses the lattice predicate `IsSuperfluous` (refactoring `TauCeti.IsSuperfluous` from submodules).
 
-**Base ring, tensor products, and `Tor`** (0.3, 0.6, 1.1). Both `G ⊗_C F` and `Tor^C_n(G, F)` take
+**Base ring, tensor products, and `Tor`** (0.4, 0.7, 1.1). Both `G ⊗_C F` and `Tor^C_n(G, F)` take
 values in `AddCommGrpCat` and acquire `Module R` instances when `C` is `R`-linear (with `r` acting
-via `r • 𝟙` in either argument, modeled on `Abelian.Ext` and `Abelian.Ext.smul_eq_comp_mk₀`); `R`
-appears as a parameter only when the underlying object depends on it, namely in `Hom_R(G(-), X)`
-and the duals of 0.7. For `G : Mod Cᵒᵖ` and `F : Mod C`, `G ⊗_C F` is a coend (constructed under
-`EssentiallySmall.{w} C`) placing the covariant factor first to match `M ⊗_A N`, and `Tor^C_n(G, F)`
-is the left derived functor of `F ↦ G ⊗_C F` (`Functor.leftDerived`). Ring-level definitions remain
-native—`TauCeti.BalancedTensorProduct R A M N` and `BalancedTor R A n`—and are compared with the
-categorical constructions over `SingleObj Aᵐᵒᵖ` at `R = ℤ`.
+via `r • 𝟙` in either argument, modeled on `Abelian.Ext` and `Abelian.Ext.smul_eq_comp_mk₀`), and
+are packaged as bifunctors into `ModuleCat R` (`ModCat.linearTensor`, `ModCat.linearTor`); `R`
+appears as a parameter only when the underlying object depends on it, namely in `Hom_R(G(-), X)`,
+the duals of 0.8 and these bifunctors. For `G : Mod Cᵒᵖ` and `F : Mod C`, `G ⊗_C F` is a coend
+(constructed under `EssentiallySmall.{w} C`) placing the covariant factor first to match `M ⊗_A N`,
+and `Tor^C_n(G, F)` is the left derived functor of `F ↦ G ⊗_C F` (`Functor.leftDerived`). Ring-level
+definitions remain native—`TauCeti.BalancedTensorProduct R A M N` and `BalancedTor R A n`—and are
+compared with the categorical constructions over `SingleObj Aᵐᵒᵖ` at `R = ℤ`.
 
 **Layers 2–4.** In Layer 2, categorical flatness (`ModCat.Flat`) is defined by the equational
 criterion (every relation `∑_j F(β_j)(y_j) = 0` is trivial), requiring no coend, smallness, or
@@ -92,9 +93,11 @@ colimits. Tensor products and `Tor` assume `EssentiallySmall.{w} C` for modules 
 setting `w = v` whenever representables also enter (Yoneda isomorphisms, Lazard's theorem, flat
 dimension, and Theorem P). From the ArtinAlgebras roadmap (§0.2), `IsKrullSchmidt` is restated here
 with the identical definition for use in 4.2. The transfer lemmas of 0.2, naturality in suppressed
-variables (such as in `Tor`–`Ext` duality), and prose-only checks outside the final section are
-omitted here and specified in prose in `README.md`.
+variables (stated for `Tor`–`Ext` duality by `ModCat.torExtDualityNatIso`, but not elsewhere), and
+prose-only checks outside the final section are omitted here and specified in prose in `README.md`.
 -/
+
+@[expose] public section
 
 open CategoryTheory CategoryTheory.Limits
 
@@ -274,6 +277,15 @@ def ModCat.yoneda : C ⥤ ModCat.{v} C :=
   ObjectProperty.lift _ preadditiveYoneda fun X ↦
     (inferInstance : (preadditiveYoneda.obj X).Additive)
 
+variable {C} in
+/-- **0.1** The map `⊕_j Hom(-, Y j) → ⊕_i Hom(-, Z i)` of a matrix `α j i : Y j ⟶ Z i`, as a map
+of `Mod C`: the map `matrixMap α`, between the finite sums formed in `Mod C` (used in 1.4). -/
+noncomputable def ModCat.matrixMap {p q : ℕ} {Y : Fin q → C} {Z : Fin p → C}
+    (α : ∀ j i, Y j ⟶ Z i) :
+    (∐ fun j ↦ (ModCat.yoneda C).obj (Y j)) ⟶ ∐ fun i ↦ (ModCat.yoneda C).obj (Z i) :=
+  Limits.Sigma.desc fun j ↦
+    ∑ i, (ModCat.yoneda C).map (α j i) ≫ Limits.Sigma.ι (fun i ↦ (ModCat.yoneda C).obj (Z i)) i
+
 /-- **0.1** Representable modules are projective. -/
 instance (X : C) : Projective ((ModCat.yoneda C).obj X) := sorry
 
@@ -398,7 +410,7 @@ noncomputable def moduleCatEquivModCatToModuleCatIso (R : Type*) [CommRing R]
 
 end OneObject
 
-/-! ### 0.3 The tensor product over `C` -/
+/-! ### 0.3 Ideals of `C` and their action on modules -/
 
 section OneSidedIdeal
 
@@ -429,6 +441,16 @@ structure RightMorphismIdeal where
 
 variable {C}
 
+@[ext]
+theorem LeftMorphismIdeal.ext {I J : LeftMorphismIdeal C}
+    (h : ∀ ⦃X Y : C⦄ (f : X ⟶ Y), f ∈ I.hom X Y ↔ f ∈ J.hom X Y) : I = J := by
+  cases I; cases J; congr; funext X Y; exact AddSubgroup.ext (h (X := X) (Y := Y))
+
+@[ext]
+theorem RightMorphismIdeal.ext {I J : RightMorphismIdeal C}
+    (h : ∀ ⦃X Y : C⦄ (f : X ⟶ Y), f ∈ I.hom X Y ↔ f ∈ J.hom X Y) : I = J := by
+  cases I; cases J; congr; funext X Y; exact AddSubgroup.ext (h (X := X) (Y := Y))
+
 instance : PartialOrder (LeftMorphismIdeal C) :=
   PartialOrder.lift LeftMorphismIdeal.hom fun | ⟨_, _⟩, ⟨_, _⟩, rfl => rfl
 
@@ -442,6 +464,26 @@ theorem LeftMorphismIdeal.le_def {I J : LeftMorphismIdeal C} :
 theorem RightMorphismIdeal.le_def {I J : RightMorphismIdeal C} :
     I ≤ J ↔ ∀ ⦃X Y : C⦄ (f : X ⟶ Y), f ∈ I.hom X Y → f ∈ J.hom X Y :=
   Iff.rfl
+
+/-- **0.3** The zero ideal `⊥` and the ideal `⊤` of all morphisms, as for
+`TauCeti.MorphismIdeal`. -/
+instance : OrderBot (LeftMorphismIdeal C) where
+  bot := { hom _ _ := ⊥, comp_mem_left _ _ h := by rw [AddSubgroup.mem_bot] at h ⊢; simp [h] }
+  bot_le _ := LeftMorphismIdeal.le_def.mpr fun _ _ f hf ↦ by
+    rw [AddSubgroup.mem_bot] at hf; subst hf; exact zero_mem _
+
+instance : OrderTop (LeftMorphismIdeal C) where
+  top := { hom _ _ := ⊤, comp_mem_left _ _ _ := AddSubgroup.mem_top _ }
+  le_top _ := LeftMorphismIdeal.le_def.mpr fun _ _ _ _ ↦ AddSubgroup.mem_top _
+
+instance : OrderBot (RightMorphismIdeal C) where
+  bot := { hom _ _ := ⊥, comp_mem_right _ h := by rw [AddSubgroup.mem_bot] at h ⊢; simp [h] }
+  bot_le _ := RightMorphismIdeal.le_def.mpr fun _ _ f hf ↦ by
+    rw [AddSubgroup.mem_bot] at hf; subst hf; exact zero_mem _
+
+instance : OrderTop (RightMorphismIdeal C) where
+  top := { hom _ _ := ⊤, comp_mem_right _ _ := AddSubgroup.mem_top _ }
+  le_top _ := RightMorphismIdeal.le_def.mpr fun _ _ _ _ ↦ AddSubgroup.mem_top _
 
 /-- **0.3** A two-sided ideal is a left ideal. -/
 @[coe]
@@ -467,6 +509,23 @@ left ideal. -/
 def RightMorphismIdeal.op (I : RightMorphismIdeal C) : LeftMorphismIdeal Cᵒᵖ where
   hom X Y := (I.hom Y.unop X.unop).comap (CategoryTheory.unopHom X Y)
   comp_mem_left f _ hg := I.comp_mem_right f.unop hg
+
+/-- **0.3** A left ideal of `Cᵒᵖ` is a right ideal of `C`, inverse to `RightMorphismIdeal.op`. -/
+def LeftMorphismIdeal.unop (I : LeftMorphismIdeal Cᵒᵖ) : RightMorphismIdeal C where
+  hom X Y := (I.hom (Opposite.op Y) (Opposite.op X)).comap (CategoryTheory.opHom X Y)
+  comp_mem_right g hf := I.comp_mem_left g.op hf
+
+variable (C) in
+/-- **0.3** Right ideals of `C` are the left ideals of `Cᵒᵖ`, as ordered sets (`op` and `unop`), so
+order statements on right ideals transfer from left ideals of `Cᵒᵖ`. -/
+def RightMorphismIdeal.opOrderIso : RightMorphismIdeal C ≃o LeftMorphismIdeal Cᵒᵖ where
+  toFun := RightMorphismIdeal.op
+  invFun := LeftMorphismIdeal.unop
+  left_inv I := by ext X Y f; rfl
+  right_inv I := by ext X Y f; rfl
+  map_rel_iff' :=
+    ⟨fun h X Y _ hf ↦ h (Opposite.op Y) (Opposite.op X) hf,
+     fun h X Y _ hf ↦ h Y.unop X.unop hf⟩
 
 /-- **0.3** Left ideals are the families of subfunctors `I(-, Y) ⊆ Hom(-, Y)` in `Mod C`. -/
 noncomputable def LeftMorphismIdeal.orderIsoSubobject :
@@ -549,35 +608,6 @@ noncomputable def submoduleOrderIsoRightMorphismIdeal :
 
 end OneSidedIdeal
 
-section Tensor
-
-section Bifunctor
-
-variable {D : Type u} [Category.{v} D]
-
-/-- **0.3** The bifunctor `(x, y) ↦ G(x) ⊗_ℤ F(y)` of abelian groups on `Dᵒᵖ × D`, whose coend is
-the tensor product. `ModCat.tensorObj` uses it at `D = Cᵒᵖ`, where `G` is a covariant functor on
-`C` and `F` a `C`-module. -/
-def tensorBifunctor (G : Dᵒᵖ ⥤ AddCommGrpCat.{w}) (F : D ⥤ AddCommGrpCat.{w}) :
-    Dᵒᵖ ⥤ D ⥤ AddCommGrpCat.{w} where
-  obj x :=
-    { obj y := AddCommGrpCat.of (G.obj x ⊗[ℤ] F.obj y)
-      map g := AddCommGrpCat.ofHom ((F.map g).hom.toIntLinearMap.lTensor _).toAddMonoidHom
-      map_id := sorry
-      map_comp := sorry }
-  map f :=
-    { app y := AddCommGrpCat.ofHom ((G.map f).hom.toIntLinearMap.rTensor _).toAddMonoidHom
-      naturality := sorry }
-  map_id := sorry
-  map_comp := sorry
-
-/-- **0.3** The coend exists when `D` is `w`-small. -/
-instance [EssentiallySmall.{w} D] (G : Dᵒᵖ ⥤ AddCommGrpCat.{w}) (F : D ⥤ AddCommGrpCat.{w}) :
-    HasCoend (tensorBifunctor G F) :=
-  sorry
-
-end Bifunctor
-
 section Superfluous
 
 /-- **0.3, superfluous elements of a lattice**: an element `a` is superfluous if `a ⊔ b = ⊤` implies
@@ -591,14 +621,34 @@ variable {α : Type*} [Lattice α] [OrderTop α]
 theorem IsSuperfluous.mono {a b : α} (hb : IsSuperfluous b) (h : a ≤ b) : IsSuperfluous a :=
   sorry
 
-/-- **0.3** Finite suprema of superfluous elements are superfluous. -/
+/-- **0.3** The supremum of two superfluous elements is superfluous. -/
 theorem IsSuperfluous.sup {a b : α} (ha : IsSuperfluous a) (hb : IsSuperfluous b) :
     IsSuperfluous (a ⊔ b) :=
   sorry
 
+@[simp]
+theorem isSuperfluous_sup_iff {a b : α} :
+    IsSuperfluous (a ⊔ b) ↔ IsSuperfluous a ∧ IsSuperfluous b :=
+  ⟨fun h ↦ ⟨h.mono le_sup_left, h.mono le_sup_right⟩, fun h ↦ h.1.sup h.2⟩
+
+/-- **0.3** A superfluous element lies below every coatom (used in 4.2 for `K ≤ J(C) · P`). -/
+theorem IsSuperfluous.le_coatom {a m : α} (ha : IsSuperfluous a) (hm : IsCoatom m) : a ≤ m := by
+  by_contra hle
+  exact hm.1 (ha m (hm.2 (a ⊔ m) (lt_of_le_of_ne le_sup_right fun heq ↦ hle (heq ▸ le_sup_left))))
+
+@[simp]
+theorem isSuperfluous_bot {β : Type*} [Lattice β] [BoundedOrder β] : IsSuperfluous (⊥ : β) :=
+  fun b hb ↦ by simpa using hb
+
 /-- **0.3** A complemented superfluous element is `⊥`. -/
 theorem IsSuperfluous.eq_bot_of_isCompl {β : Type*} [Lattice β] [BoundedOrder β] {a b : β}
     (ha : IsSuperfluous a) (h : IsCompl a b) : a = ⊥ :=
+  sorry
+
+/-- **0.3** Finite suprema of superfluous elements of a complete lattice are superfluous (used in
+4.2 for covers built from covers of simple quotients). -/
+theorem isSuperfluous_iSup {γ : Type*} [CompleteLattice γ] {ι : Type*} [Finite ι] {f : ι → γ}
+    (hf : ∀ i, IsSuperfluous (f i)) : IsSuperfluous (⨆ i, f i) :=
   sorry
 
 /-- **0.3** In an abelian category, an epimorphism is essential (Tau Ceti's
@@ -609,6 +659,8 @@ theorem isEssentialEpi_iff_isSuperfluous_kernelSubobject {𝒜 : Type*} [Categor
   sorry
 
 end Superfluous
+
+section IdealAction
 
 variable {C : Type u} [Category.{v} C] [Preadditive C]
 
@@ -636,8 +688,9 @@ theorem LeftMorphismIdeal.smul_mono {I I' : LeftMorphismIdeal C} (h : I ≤ I')
   sorry
 
 /-- **0.3** `I · (⊕ Pᵢ) = ⊕ I · Pᵢ`, since `M(f)` acts componentwise on coproducts (used in 4.4 on
-sums of projective covers). -/
-theorem LeftMorphismIdeal.smul_sigma (I : LeftMorphismIdeal C) {ι : Type w}
+sums of projective covers), for any `w`-small index type `ι` (such as `Fin n`, `ℕ` or any
+`ι : Type w`). -/
+theorem LeftMorphismIdeal.smul_sigma (I : LeftMorphismIdeal C) {ι : Type*} [Small.{w} ι]
     (P : ι → ModCat.{w} C) :
     I.smul (∐ P) = imageSubobject (Limits.Sigma.map fun i ↦ (I.smul (P i)).arrow) :=
   sorry
@@ -698,7 +751,42 @@ theorem MorphismIdeal.quotientSmulAdjunction_unit_app_comp (I : TauCeti.Morphism
       cokernel.π ((I : LeftMorphismIdeal C).smul M).arrow :=
   sorry
 
-/-- **0.3, ideals** The module `(C ⧸ I)(-, X) = Hom_{C ⧸ I}(-, X)` in `Mod C`, through Tau Ceti's
+end IdealAction
+
+/-! ### 0.4 The tensor product over `C` -/
+
+section Tensor
+
+section Bifunctor
+
+variable {D : Type u} [Category.{v} D]
+
+/-- **0.4** The bifunctor `(x, y) ↦ G(x) ⊗_ℤ F(y)` of abelian groups on `Dᵒᵖ × D`, whose coend is
+the tensor product. `ModCat.tensorObj` uses it at `D = Cᵒᵖ`, where `G` is a covariant functor on
+`C` and `F` a `C`-module. -/
+def tensorBifunctor (G : Dᵒᵖ ⥤ AddCommGrpCat.{w}) (F : D ⥤ AddCommGrpCat.{w}) :
+    Dᵒᵖ ⥤ D ⥤ AddCommGrpCat.{w} where
+  obj x :=
+    { obj y := AddCommGrpCat.of (G.obj x ⊗[ℤ] F.obj y)
+      map g := AddCommGrpCat.ofHom ((F.map g).hom.toIntLinearMap.lTensor _).toAddMonoidHom
+      map_id := sorry
+      map_comp := sorry }
+  map f :=
+    { app y := AddCommGrpCat.ofHom ((G.map f).hom.toIntLinearMap.rTensor _).toAddMonoidHom
+      naturality := sorry }
+  map_id := sorry
+  map_comp := sorry
+
+/-- **0.4** The coend exists when `D` is `w`-small. -/
+instance [EssentiallySmall.{w} D] (G : Dᵒᵖ ⥤ AddCommGrpCat.{w}) (F : D ⥤ AddCommGrpCat.{w}) :
+    HasCoend (tensorBifunctor G F) :=
+  sorry
+
+end Bifunctor
+
+variable {C : Type u} [Category.{v} C] [Preadditive C]
+
+/-- **0.4, quotients** The module `(C ⧸ I)(-, X) = Hom_{C ⧸ I}(-, X)` in `Mod C`, through Tau Ceti's
 quotient functor. The covariant `(C ⧸ I)(X, -)` is `quotientYoneda I.op (op X)`, with Tau Ceti's
 `TauCeti.MorphismIdeal.op`; for `I = J(C)` it is the covariant module `C ⧸ J` at `X` of 4.6. -/
 noncomputable def MorphismIdeal.quotientYoneda (I : TauCeti.MorphismIdeal C) (X : C) :
@@ -708,20 +796,20 @@ noncomputable def MorphismIdeal.quotientYoneda (I : TauCeti.MorphismIdeal C) (X 
 
 namespace ModCat
 
-/-- **0.3** `Hom_ℤ(G(-), X)` as a `C`-module, for a covariant `G` (a module over `Cᵒᵖ`), functorial
+/-- **0.4** `Hom_ℤ(G(-), X)` as a `C`-module, for a covariant `G` (a module over `Cᵒᵖ`), functorial
 in `G` and `X`: the right adjoint of `G ⊗_C -`. -/
 noncomputable def homBifunctor : (ModCat.{w} Cᵒᵖ)ᵒᵖ ⥤ AddCommGrpCat.{w} ⥤ ModCat.{w} C :=
   sorry
 
-/-- **0.3** `Hom_ℤ(F(-), X)` as a covariant functor (a module over `Cᵒᵖ`), for `F` in `Mod C`. -/
+/-- **0.4** `Hom_ℤ(F(-), X)` as a covariant functor (a module over `Cᵒᵖ`), for `F` in `Mod C`. -/
 noncomputable def homOpBifunctor : (ModCat.{w} C)ᵒᵖ ⥤ AddCommGrpCat.{w} ⥤ ModCat.{w} Cᵒᵖ :=
   sorry
 
-/-- **0.3** `X ↦ Hom_ℤ(G(-), X)`, the right adjoint of `G ⊗_C -`. -/
+/-- **0.4** `X ↦ Hom_ℤ(G(-), X)`, the right adjoint of `G ⊗_C -`. -/
 noncomputable abbrev homFunctor (G : ModCat.{w} Cᵒᵖ) : AddCommGrpCat.{w} ⥤ ModCat.{w} C :=
   (homBifunctor (C := C)).obj (op G)
 
-/-- **0.3** `X ↦ Hom_ℤ(F(-), X)`, the right adjoint of `- ⊗_C F`. -/
+/-- **0.4** `X ↦ Hom_ℤ(F(-), X)`, the right adjoint of `- ⊗_C F`. -/
 noncomputable abbrev homOpFunctor (F : ModCat.{w} C) : AddCommGrpCat.{w} ⥤ ModCat.{w} Cᵒᵖ :=
   (homOpBifunctor (C := C)).obj (op F)
 
@@ -729,13 +817,13 @@ section LinearHom
 
 variable (R : Type*) [CommRing R] [Linear R C]
 
-/-- **0.3** `Hom_R(G(-), X)` for an `R`-module `X`, with the derived `R`-structure of `G` (0.1),
+/-- **0.4** `Hom_R(G(-), X)` for an `R`-module `X`, with the derived `R`-structure of `G` (0.1),
 functorial in `G` and `X`: `R` changes the result here, so it is part of the definition (the
-pattern of Mathlib's `linearYoneda`). The duals of 0.7 are its values at `E`. -/
+pattern of Mathlib's `linearYoneda`). The duals of 0.8 are its values at `E`. -/
 noncomputable def linearHomBifunctor : (ModCat.{w} Cᵒᵖ)ᵒᵖ ⥤ ModuleCat.{w} R ⥤ ModCat.{w} C :=
   sorry
 
-/-- **0.3** `Hom_R(F(-), X)` as a covariant functor, for `F` in `Mod C`. -/
+/-- **0.4** `Hom_R(F(-), X)` as a covariant functor, for `F` in `Mod C`. -/
 noncomputable def linearHomOpBifunctor : (ModCat.{w} C)ᵒᵖ ⥤ ModuleCat.{w} R ⥤ ModCat.{w} Cᵒᵖ :=
   sorry
 
@@ -743,38 +831,40 @@ end LinearHom
 
 variable [EssentiallySmall.{w} C]
 
-/-- **0.3** `G ⊗_C F`, for a covariant `G` (a module over `Cᵒᵖ`) and `F` in `Mod C`: the coend of
+/-- **0.4** `G ⊗_C F`, for a covariant `G` (a module over `Cᵒᵖ`) and `F` in `Mod C`: the coend of
 abelian groups of `G(c) ⊗_ℤ F(c)`. The order is that of `M ⊗_A N`: the right module first. For an
 `R`-linear `C` it is an `R`-module by instance (below). -/
 noncomputable def tensorObj (G : ModCat.{w} Cᵒᵖ) (F : ModCat.{w} C) : AddCommGrpCat.{w} :=
   coend (tensorBifunctor G.obj F.obj)
 
-/-- **0.3** The element `x ⊗ y` of `G ⊗_C F` for `x ∈ G(c)` and `y ∈ F(c)`. -/
+/-- **0.4** The element `x ⊗ y` of `G ⊗_C F` for `x ∈ G(c)` and `y ∈ F(c)`. -/
 noncomputable def tmul {G : ModCat.{w} Cᵒᵖ} {F : ModCat.{w} C} (c : C)
     (x : G.obj.obj (op (op c))) (y : F.obj.obj (op c)) : tensorObj G F :=
   (coend.ι (tensorBifunctor G.obj F.obj) (op c)).hom (x ⊗ₜ[ℤ] y)
 
-/-- **0.3, balancing**: for `f : c ⟶ c'`, `x ⊗ F(f) y = G(f) x ⊗ y`. -/
+/-- **0.4, balancing**: for `f : c ⟶ c'`, `x ⊗ F(f) y = G(f) x ⊗ y`. -/
 theorem tmul_balance {G : ModCat.{w} Cᵒᵖ} {F : ModCat.{w} C} {c c' : C} (f : c ⟶ c')
     (x : G.obj.obj (op (op c))) (y : F.obj.obj (op c')) :
     tmul c x ((F.obj.map f.op).hom y) = tmul c' ((G.obj.map f.op.op).hom x) y :=
   sorry
 
-/-- **0.3, induction** on `G ⊗_C F` by pure tensors and sums. -/
+/-- **0.4, induction** on `G ⊗_C F` by pure tensors and sums. -/
+@[elab_as_elim]
 theorem tensorObj_induction_on {G : ModCat.{w} Cᵒᵖ} {F : ModCat.{w} C}
     {P : tensorObj G F → Prop} (z : tensorObj G F) (h₀ : P 0)
     (ht : ∀ (c : C) (x : G.obj.obj (op (op c))) (y : F.obj.obj (op c)), P (tmul c x y))
     (ha : ∀ a b, P a → P b → P (a + b)) : P z :=
   sorry
 
-/-- **0.3** Maps out of `G ⊗_C F` agree when they agree on pure tensors. -/
+/-- **0.4** Maps out of `G ⊗_C F` agree when they agree on pure tensors. -/
+@[ext]
 theorem tensorObj_hom_ext {G : ModCat.{w} Cᵒᵖ} {F : ModCat.{w} C} {X : AddCommGrpCat.{w}}
     {φ ψ : tensorObj G F ⟶ X}
     (h : ∀ (c : C) (x : G.obj.obj (op (op c))) (y : F.obj.obj (op c)),
       φ.hom (tmul c x y) = ψ.hom (tmul c x y)) : φ = ψ :=
   sorry
 
-/-- **0.3** A balanced family of biadditive maps lifts to `G ⊗_C F`. -/
+/-- **0.4** A balanced family of biadditive maps lifts to `G ⊗_C F`. -/
 noncomputable def tensorLift {G : ModCat.{w} Cᵒᵖ} {F : ModCat.{w} C} {X : AddCommGrpCat.{w}}
     (φ : ∀ c : C, G.obj.obj (op (op c)) →+ F.obj.obj (op c) →+ X)
     (hφ : ∀ ⦃c c' : C⦄ (f : c ⟶ c') (x : G.obj.obj (op (op c))) (y : F.obj.obj (op c')),
@@ -790,7 +880,7 @@ theorem tensorLift_tmul {G : ModCat.{w} Cᵒᵖ} {F : ModCat.{w} C} {X : AddComm
     (tensorLift φ hφ).hom (tmul c x y) = φ c x y :=
   sorry
 
-/-- **0.3** The tensor product as a bifunctor to abelian groups, covariant functors first. -/
+/-- **0.4** The tensor product as a bifunctor to abelian groups, covariant functors first. -/
 noncomputable def tensor : ModCat.{w} Cᵒᵖ ⥤ ModCat.{w} C ⥤ AddCommGrpCat.{w} where
   obj G :=
     { obj F := tensorObj G F
@@ -815,21 +905,21 @@ instance (G : ModCat.{w} Cᵒᵖ) : (tensor.obj G).Additive := sorry
 
 instance (F : ModCat.{w} C) : (tensor.flip.obj F).Additive := sorry
 
-/-- **0.3, adjunction** in the `Mod C` variable:
+/-- **0.4, adjunction** in the `Mod C` variable:
 `Hom(G ⊗_C F, X) ≅ Hom_{Mod C}(F, Hom_ℤ(G(-), X))`. -/
 noncomputable def tensorAdjunction (G : ModCat.{w} Cᵒᵖ) : tensor.obj G ⊣ homFunctor G :=
   sorry
 
-/-- **0.3, adjunction** in the covariant variable: `Hom(G ⊗_C F, X) ≅ Hom(G, Hom_ℤ(F(-), X))`. -/
+/-- **0.4, adjunction** in the covariant variable: `Hom(G ⊗_C F, X) ≅ Hom(G, Hom_ℤ(F(-), X))`. -/
 noncomputable def tensorAdjunction' (F : ModCat.{w} C) : tensor.flip.obj F ⊣ homOpFunctor F :=
   sorry
 
-/-- **0.3, right exactness**: `G ⊗_C -` preserves colimits, from the adjunction. -/
+/-- **0.4, right exactness**: `G ⊗_C -` preserves colimits, from the adjunction. -/
 theorem preservesColimits_tensor_obj (G : ModCat.{w} Cᵒᵖ) :
     PreservesColimitsOfSize.{w, w} (tensor.obj G) :=
   (tensorAdjunction G).leftAdjoint_preservesColimits
 
-/-- **0.3, right exactness** in the covariant variable. -/
+/-- **0.4, right exactness** in the covariant variable. -/
 theorem preservesColimits_tensor_flip_obj (F : ModCat.{w} C) :
     PreservesColimitsOfSize.{w, w} (tensor.flip.obj F) :=
   (tensorAdjunction' F).leftAdjoint_preservesColimits
@@ -838,44 +928,89 @@ section Linear
 
 variable (R : Type*) [CommRing R] [Linear R C]
 
-/-- **0.3, derived `R`-structure**: for an `R`-linear `C`, `G ⊗_C F` is an `R`-module with `r`
+/-- **0.4, derived `R`-structure**: for an `R`-linear `C`, `G ⊗_C F` is an `R`-module with `r`
 acting via `G ⊗_C (r • 𝟙 F)` (equivalently `(r • 𝟙 G) ⊗_C F`), modeled on `Module R (Ext X Y n)`
 (`Mathlib/Algebra/Homology/DerivedCategory/Ext/Linear.lean`), where `R` likewise stays out of the
 underlying definition. -/
 noncomputable instance (G : ModCat.{w} Cᵒᵖ) (F : ModCat.{w} C) : Module R (tensorObj G F) :=
   sorry
 
-/-- **0.3** The action of `r` is the image of `r • 𝟙 F`, as Mathlib's
+/-- **0.4** The action of `r` is the image of `r • 𝟙 F`, as Mathlib's
 `Abelian.Ext.smul_eq_comp_mk₀`. -/
 theorem smul_eq_tensor_obj_map {G : ModCat.{w} Cᵒᵖ} {F : ModCat.{w} C} (r : R)
     (z : tensorObj G F) : r • z = ((tensor.obj G).map (r • 𝟙 F)).hom z :=
   sorry
 
-/-- **0.3** The action of `r` is also the image of `r • 𝟙 G`. -/
+/-- **0.4** The action of `r` is also the image of `r • 𝟙 G`. -/
 theorem smul_eq_tensor_map_app {G : ModCat.{w} Cᵒᵖ} {F : ModCat.{w} C} (r : R)
     (z : tensorObj G F) : r • z = ((tensor.map (r • 𝟙 G)).app F).hom z :=
   sorry
 
-/-- **0.3** `r • (x ⊗ y) = (r x) ⊗ y`, with `r x = G(r • 𝟙 c) x`. -/
+/-- **0.4** `r • (x ⊗ y) = (r x) ⊗ y`, with `r x = G(r • 𝟙 c) x`. -/
 theorem smul_tmul {G : ModCat.{w} Cᵒᵖ} {F : ModCat.{w} C} (r : R) (c : C)
     (x : G.obj.obj (op (op c))) (y : F.obj.obj (op c)) :
     r • tmul c x y = tmul c ((G.obj.map (r • 𝟙 c).op.op).hom x) y :=
   sorry
 
-/-- **0.3** `x ⊗ (r y) = r • (x ⊗ y)`, with `r y = F(r • 𝟙 c) y`. -/
+/-- **0.4** `x ⊗ (r y) = r • (x ⊗ y)`, with `r y = F(r • 𝟙 c) y`. -/
 theorem tmul_smul {G : ModCat.{w} Cᵒᵖ} {F : ModCat.{w} C} (r : R) (c : C)
     (x : G.obj.obj (op (op c))) (y : F.obj.obj (op c)) :
     tmul c x ((F.obj.map (r • 𝟙 c).op).hom y) = r • tmul c x y :=
   sorry
 
-/-- **0.3, adjunction over `R`**: `Hom_R(G ⊗_C F, X) ≃ Hom_{Mod C}(F, Hom_R(G(-), X))`,
+/-- **0.4, the `R`-linear tensor bifunctor**: `G ⊗_C F` with its derived `R`-structure, as a
+bifunctor into `ModuleCat R`. It is assembled from `tensor` by `smul_eq_tensor_obj_map` and
+`smul_eq_tensor_map_app`, on the pattern of Mathlib's `Abelian.linearExtFunctor`. -/
+noncomputable def linearTensor : ModCat.{w} Cᵒᵖ ⥤ ModCat.{w} C ⥤ ModuleCat.{w} R where
+  obj G :=
+    { obj F := ModuleCat.of R (tensorObj G F)
+      map {F₁ F₂} f := ModuleCat.ofHom
+        { toFun := fun z : tensorObj G F₁ ↦ (((tensor.obj G).map f).hom z : tensorObj G F₂)
+          map_add' := map_add ((tensor.obj G).map f).hom
+          map_smul' r z := by
+            have hz := smul_eq_tensor_obj_map (R := R) r z
+            have hw := smul_eq_tensor_obj_map (R := R) r
+              (((tensor.obj G).map f).hom z : tensorObj G F₂)
+            have hmid : (((tensor.obj G).map (r • 𝟙 F₁) ≫ (tensor.obj G).map f)).hom z =
+                (((tensor.obj G).map f ≫ (tensor.obj G).map (r • 𝟙 F₂))).hom z := by
+              rw [← Functor.map_comp, ← Functor.map_comp, Linear.smul_comp, Linear.comp_smul,
+                Category.id_comp, Category.comp_id]
+            dsimp only [RingHom.id_apply]
+            exact (congrArg ((tensor.obj G).map f).hom hz).trans (hmid.trans hw.symm) }
+      map_id F := ModuleCat.hom_ext (LinearMap.ext fun z ↦
+        ConcreteCategory.congr_hom ((tensor.obj G).map_id F) z)
+      map_comp f g := ModuleCat.hom_ext (LinearMap.ext fun z ↦
+        ConcreteCategory.congr_hom ((tensor.obj G).map_comp f g) z) }
+  map {G₁ G₂} g :=
+    { app F := ModuleCat.ofHom
+        { toFun := fun z : tensorObj G₁ F ↦ (((tensor.map g).app F).hom z : tensorObj G₂ F)
+          map_add' := map_add ((tensor.map g).app F).hom
+          map_smul' r z := by
+            have hz := smul_eq_tensor_map_app (R := R) r z
+            have hw := smul_eq_tensor_map_app (R := R) r
+              (((tensor.map g).app F).hom z : tensorObj G₂ F)
+            have hmid : (((tensor.map (r • 𝟙 G₁)).app F ≫ (tensor.map g).app F)).hom z =
+                (((tensor.map g).app F ≫ (tensor.map (r • 𝟙 G₂)).app F)).hom z := by
+              rw [← NatTrans.comp_app, ← NatTrans.comp_app, ← Functor.map_comp,
+                ← Functor.map_comp, Linear.smul_comp, Linear.comp_smul, Category.id_comp,
+                Category.comp_id]
+            dsimp only [RingHom.id_apply]
+            exact (congrArg ((tensor.map g).app F).hom hz).trans (hmid.trans hw.symm) }
+      naturality {_ _} f := ModuleCat.hom_ext (LinearMap.ext fun z ↦
+        ConcreteCategory.congr_hom ((tensor.map g).naturality f) z) }
+  map_id G := NatTrans.ext (funext fun F ↦ ModuleCat.hom_ext (LinearMap.ext fun z ↦
+    ConcreteCategory.congr_hom (NatTrans.congr_app (tensor.map_id G) F) z))
+  map_comp g₁ g₂ := NatTrans.ext (funext fun F ↦ ModuleCat.hom_ext (LinearMap.ext fun z ↦
+    ConcreteCategory.congr_hom (NatTrans.congr_app (tensor.map_comp g₁ g₂) F) z))
+
+/-- **0.4, adjunction over `R`**: `Hom_R(G ⊗_C F, X) ≃ Hom_{Mod C}(F, Hom_R(G(-), X))`,
 `R`-linearly ([Mitchell, §6, p. 26, (2)], over a commutative base ring in [OR, (1.1), p. 93]). -/
 noncomputable def tensorLinearHomEquiv (G : ModCat.{w} Cᵒᵖ) (F : ModCat.{w} C)
     (X : ModuleCat.{w} R) :
     (tensorObj G F →ₗ[R] X) ≃ₗ[R] (F ⟶ ((linearHomBifunctor R).obj (op G)).obj X) :=
   sorry
 
-/-- **0.3, adjunction over `R`** in the covariant variable:
+/-- **0.4, adjunction over `R`** in the covariant variable:
 `Hom_R(G ⊗_C F, X) ≃ Hom(G, Hom_R(F(-), X))`. -/
 noncomputable def tensorLinearHomEquiv' (G : ModCat.{w} Cᵒᵖ) (F : ModCat.{w} C)
     (X : ModuleCat.{w} R) :
@@ -884,20 +1019,20 @@ noncomputable def tensorLinearHomEquiv' (G : ModCat.{w} Cᵒᵖ) (F : ModCat.{w}
 
 end Linear
 
-/-- **0.3, Yoneda**: `G ⊗_C Hom(-, X) ≅ G(X)` ([Mitchell, §6, p. 26, (1)]); `R`-linear for an
+/-- **0.4, Yoneda**: `G ⊗_C Hom(-, X) ≅ G(X)` ([Mitchell, §6, p. 26, (1)]); `R`-linear for an
 `R`-linear `C`. -/
 noncomputable def tensorObjYonedaIso {C : Type u} [Category.{v} C] [Preadditive C]
     [EssentiallySmall.{v} C] (G : ModCat.{v} Cᵒᵖ) (X : C) :
     tensorObj G ((ModCat.yoneda C).obj X) ≅ G.obj.obj (op (op X)) :=
   sorry
 
-/-- **0.3, Yoneda**: `Hom(X, -) ⊗_C F ≅ F(X)`. -/
+/-- **0.4, Yoneda**: `Hom(X, -) ⊗_C F ≅ F(X)`. -/
 noncomputable def yonedaTensorObjIso {C : Type u} [Category.{v} C] [Preadditive C]
     [EssentiallySmall.{v} C] (X : C) (F : ModCat.{v} C) :
     tensorObj ((ModCat.yoneda Cᵒᵖ).obj (op X)) F ≅ F.obj.obj (op X) :=
   sorry
 
-/-- **0.3** `tensorObjYonedaIso` on pure tensors: `x ⊗ f ↦ G(f) x` for `f : c ⟶ X`. -/
+/-- **0.4** `tensorObjYonedaIso` on pure tensors: `x ⊗ f ↦ G(f) x` for `f : c ⟶ X`. -/
 @[simp]
 theorem tensorObjYonedaIso_hom_tmul {C : Type u} [Category.{v} C] [Preadditive C]
     [EssentiallySmall.{v} C] (G : ModCat.{v} Cᵒᵖ) (X c : C) (x : G.obj.obj (op (op c)))
@@ -906,7 +1041,7 @@ theorem tensorObjYonedaIso_hom_tmul {C : Type u} [Category.{v} C] [Preadditive C
       (G.obj.map f.op.op).hom x :=
   sorry
 
-/-- **0.3** `yonedaTensorObjIso` on pure tensors: `f ⊗ y ↦ F(f) y` for `f : X ⟶ c`. -/
+/-- **0.4** `yonedaTensorObjIso` on pure tensors: `f ⊗ y ↦ F(f) y` for `f : X ⟶ c`. -/
 @[simp]
 theorem yonedaTensorObjIso_hom_tmul {C : Type u} [Category.{v} C] [Preadditive C]
     [EssentiallySmall.{v} C] (X : C) (F : ModCat.{v} C) (c : C) (f : X ⟶ c)
@@ -915,7 +1050,7 @@ theorem yonedaTensorObjIso_hom_tmul {C : Type u} [Category.{v} C] [Preadditive C
       (F.obj.map f.op).hom y :=
   sorry
 
-/-- **0.3, quotients by a right ideal at one object** ([OR, Lemma 1.2, p. 94], stated covariantly
+/-- **0.4, quotients by a right ideal at one object** ([OR, Lemma 1.2, p. 94], stated covariantly
 and applied to `Cᵒᵖ`): for a subfunctor `S ⊆ Hom(X, -)`, right exactness and Yoneda give
 `(Hom(X, -) ⧸ S) ⊗_C M ≅ M(X) ⧸ (S · M)(X)`, where `(S · M)(X)` is generated by `M(f)(x)` for
 `f ∈ S` (used in 2.3 when `S` is generated by finitely many morphisms `β_j`). -/
@@ -928,7 +1063,7 @@ noncomputable def tensorObjCokernelIso {C : Type u} [Category.{v} C] [Preadditiv
           (x : M.obj.obj (op d)), (M.obj.map f.op).hom x = y}) :=
   sorry
 
-/-- **0.3, quotients by a two-sided ideal**: `(C ⧸ I)(X, -) ⊗_C M ≅ (M ⧸ I · M)(X)`, specializing
+/-- **0.4, quotients by a two-sided ideal**: `(C ⧸ I)(X, -) ⊗_C M ≅ (M ⧸ I · M)(X)`, specializing
 `tensorObjCokernelIso` to the component of `I` at `X` (used in 4.6). -/
 noncomputable def tensorObjQuotientYonedaIso {C : Type u} [Category.{v} C] [Preadditive C]
     [EssentiallySmall.{v} C] (I : TauCeti.MorphismIdeal C) (X : C) (M : ModCat.{v} C) :
@@ -936,23 +1071,23 @@ noncomputable def tensorObjQuotientYonedaIso {C : Type u} [Category.{v} C] [Prea
       ((I : LeftMorphismIdeal C).quotientSmul M).obj.obj (op X) :=
   sorry
 
-/-! ### 0.4 Projective factors -/
+/-! ### 0.5 Projective factors -/
 
-/-- **0.4** Tensoring with a projective covariant functor preserves monomorphisms. -/
+/-- **0.5** Tensoring with a projective covariant functor preserves monomorphisms. -/
 theorem mono_tensor_obj_map_of_projective (G : ModCat.{w} Cᵒᵖ) [Projective G]
     {F F' : ModCat.{w} C} (f : F ⟶ F') [Mono f] : Mono ((tensor.obj G).map f) :=
   sorry
 
-/-- **0.4** Tensoring with a projective module of `Mod C` preserves monomorphisms. -/
+/-- **0.5** Tensoring with a projective module of `Mod C` preserves monomorphisms. -/
 theorem mono_tensor_map_app_of_projective (F : ModCat.{w} C) [Projective F]
     {G G' : ModCat.{w} Cᵒᵖ} (g : G ⟶ G') [Mono g] : Mono ((tensor.map g).app F) :=
   sorry
 
 end ModCat
 
-/-! ### 0.5 The swap -/
+/-! ### 0.6 The swap -/
 
-/-- **0.5** `Mod C ≌ Mod Cᵒᵖᵒᵖ`, induced by Mathlib's `opOpEquivalence` (viewing a `C`-module as a
+/-- **0.6** `Mod C ≌ Mod Cᵒᵖᵒᵖ`, induced by Mathlib's `opOpEquivalence` (viewing a `C`-module as a
 covariant functor on `Cᵒᵖ`). Being an equivalence, it preserves and reflects exactness,
 projectivity, and homological dimensions, and identifies suprema over `Mod Cᵒᵖᵒᵖ` with suprema over
 `Mod C`. -/
@@ -960,7 +1095,7 @@ noncomputable def ModCat.opOpEquiv (C : Type u) [Category.{v} C] [Preadditive C]
     ModCat.{w} C ≌ ModCat.{w} Cᵒᵖᵒᵖ :=
   sorry
 
-/-- **0.5, swap**: `G ⊗_C F ≅ F ⊗_{Cᵒᵖ} G`, with `G` a module over `Cᵒᵖ` as it stands and `F` a
+/-- **0.6, swap**: `G ⊗_C F ≅ F ⊗_{Cᵒᵖ} G`, with `G` a module over `Cᵒᵖ` as it stands and `F` a
 covariant functor on `Cᵒᵖ` through `ModCat.opOpEquiv`; `R`-linear for an `R`-linear `C`. -/
 noncomputable def ModCat.tensorObjSwapIso [EssentiallySmall.{w} C]
     (G : ModCat.{w} Cᵒᵖ) (F : ModCat.{w} C) :
@@ -969,14 +1104,14 @@ noncomputable def ModCat.tensorObjSwapIso [EssentiallySmall.{w} C]
 
 end Tensor
 
-/-! ### 0.6 Rings: the balanced tensor product -/
+/-! ### 0.7 Rings: the balanced tensor product -/
 
 section MatlisDual
 
 variable (R : Type u) [CommRing R] (E : Type v) [AddCommGroup E] [Module R E]
   (N : Type w) [AddCommGroup N] [Module R N]
 
-/-- **0.6, duals** The Matlis dual `Hom_R(N, E)` of an `R`-module `N`, a type synonym of
+/-- **0.7, duals** The Matlis dual `Hom_R(N, E)` of an `R`-module `N`, a type synonym of
 `N →ₗ[R] E`, so that the action of `A` on `N` by precomposition is kept apart from the action on
 the values. For a left `A`-module `N` it is a right `A`-module. With `R = ℤ` and
 `E = AddCircle (1 : ℚ)` (that is, `ℚ ⧸ ℤ`) it is the character module `N⁺`, with its right
@@ -987,7 +1122,7 @@ instance : AddCommGroup (MatlisDual R E N) := inferInstanceAs (AddCommGroup (N �
 
 instance : Module R (MatlisDual R E N) := inferInstanceAs (Module R (N →ₗ[R] E))
 
-/-- **0.6** The dual of a left `A`-module is a right `A`-module, `(φ a)(n) = φ (a n)`; of low
+/-- **0.7** The dual of a left `A`-module is a right `A`-module, `(φ a)(n) = φ (a n)`; of low
 priority, so that the action of `R` on the values is preferred when `A = R`. -/
 instance (priority := low) {A : Type t} [Ring A] [Algebra R A] [Module A N] [IsScalarTower R A N] :
     Module Aᵐᵒᵖ (MatlisDual R E N) :=
@@ -1012,7 +1147,7 @@ variable (R : Type t) [CommRing R] {A : Type u} [Ring A] [Algebra R A]
   [AddCommGroup N''] [Module A N''] [Module R N''] [IsScalarTower R A N'']
 
 variable (N) in
-/-- **0.6** `f ⊗ N : M ⊗_A N → M' ⊗_A N`, `R`-linear, named after Mathlib's
+/-- **0.7** `f ⊗ N : M ⊗_A N → M' ⊗_A N`, `R`-linear, named after Mathlib's
 `LinearMap.rTensor`. -/
 def rTensor (f : M →ₗ[Aᵐᵒᵖ] M') :
     TauCeti.BalancedTensorProduct R A M N →ₗ[R] TauCeti.BalancedTensorProduct R A M' N :=
@@ -1020,7 +1155,7 @@ def rTensor (f : M →ₗ[Aᵐᵒᵖ] M') :
     (fun a m ↦ f.map_smul (op a) m) (fun _ _ ↦ rfl)
 
 variable (M) in
-/-- **0.6** `M ⊗ g : M ⊗_A N → M ⊗_A N'`, `R`-linear, named after Mathlib's
+/-- **0.7** `M ⊗ g : M ⊗_A N → M ⊗_A N'`, `R`-linear, named after Mathlib's
 `LinearMap.lTensor`. -/
 def lTensor (g : N →ₗ[A] N') :
     TauCeti.BalancedTensorProduct R A M N →ₗ[R] TauCeti.BalancedTensorProduct R A M N' :=
@@ -1063,54 +1198,63 @@ theorem rTensor_comp_lTensor (f : M →ₗ[Aᵐᵒᵖ] M') (g : N →ₗ[A] N') 
     rTensor R N' f ∘ₗ lTensor R M g = lTensor R M' g ∘ₗ rTensor R N f :=
   TauCeti.BalancedTensorProduct.hom_ext fun _ _ ↦ by simp
 
-/-- **0.6, right exactness** in the right-module variable. -/
+/-- **0.7, right exactness** in the right-module variable. -/
 theorem rTensor_exact {f : M →ₗ[Aᵐᵒᵖ] M'} {g : M' →ₗ[Aᵐᵒᵖ] M''} (hfg : Function.Exact f g)
     (hg : Function.Surjective g) : Function.Exact (rTensor R N f) (rTensor R N g) :=
   sorry
 
-/-- **0.6** Tensoring preserves surjections in the right-module variable. -/
+/-- **0.7** Tensoring preserves surjections in the right-module variable. -/
 theorem rTensor_surjective {g : M' →ₗ[Aᵐᵒᵖ] M''} (hg : Function.Surjective g) :
     Function.Surjective (rTensor R N g) :=
   sorry
 
-/-- **0.6, right exactness** in the left-module variable. -/
+/-- **0.7, right exactness** in the left-module variable. -/
 theorem lTensor_exact {f : N →ₗ[A] N'} {g : N' →ₗ[A] N''} (hfg : Function.Exact f g)
     (hg : Function.Surjective g) : Function.Exact (lTensor R M f) (lTensor R M g) :=
   sorry
 
-/-- **0.6** Tensoring preserves surjections in the left-module variable. -/
+/-- **0.7** Tensoring preserves surjections in the left-module variable. -/
 theorem lTensor_surjective {g : N' →ₗ[A] N''} (hg : Function.Surjective g) :
     Function.Surjective (lTensor R M g) :=
   sorry
 
-/-- **0.6** Tensoring with a projective right module preserves injections (0.4). -/
+/-- **0.7** Tensoring with a projective right module preserves injections (0.5). -/
 theorem lTensor_injective_of_projective [Module.Projective Aᵐᵒᵖ M] {g : N →ₗ[A] N'}
     (hg : Function.Injective g) : Function.Injective (lTensor R M g) :=
   sorry
 
-/-- **0.6** Tensoring with a projective left module preserves injections (0.4). -/
+/-- **0.7** Tensoring with a projective left module preserves injections (0.5). -/
 theorem rTensor_injective_of_projective [Module.Projective A N] {f : M →ₗ[Aᵐᵒᵖ] M'}
     (hf : Function.Injective f) : Function.Injective (rTensor R N f) :=
   sorry
 
 variable (M N) in
-/-- **0.6, independence of `R`**: the `ℤ`- and `R`-balanced tensor products have the same
+/-- **0.7, independence of `R`**: the `ℤ`- and `R`-balanced tensor products have the same
 underlying group, `m ⊗ n ↦ m ⊗ n`. -/
 noncomputable def intAddEquiv :
     TauCeti.BalancedTensorProduct ℤ A M N ≃+ TauCeti.BalancedTensorProduct R A M N :=
   sorry
 
 variable (M N) in
-/-- **0.6, change of base** along `R → R'` for `R'`-modules: `m ⊗ n ↦ m ⊗ n`, `R`-linear (stated
-here on underlying groups). -/
+/-- **0.7, change of base** along `R → R'` for `R'`-modules: `m ⊗ n ↦ m ⊗ n`, an `R`-linear
+equivalence onto the `R'`-balanced tensor product with scalars restricted to `R`. -/
+noncomputable def changeBaseLinearEquiv (R' : Type*) [CommRing R'] [Algebra R R'] [Algebra R' A]
+    [IsScalarTower R R' A] [Module R' M] [IsScalarTower R' Aᵐᵒᵖ M] [IsScalarTower R R' M]
+    [Module R' N] [IsScalarTower R' A N] [IsScalarTower R R' N] :
+    TauCeti.BalancedTensorProduct R A M N ≃ₗ[R]
+      RestrictScalars R R' (TauCeti.BalancedTensorProduct R' A M N) :=
+  sorry
+
+variable (M N) in
+/-- **0.7, change of base** on underlying groups, from `changeBaseLinearEquiv`. -/
 noncomputable def changeBaseAddEquiv (R' : Type*) [CommRing R'] [Algebra R R'] [Algebra R' A]
     [IsScalarTower R R' A] [Module R' M] [IsScalarTower R' Aᵐᵒᵖ M] [IsScalarTower R R' M]
     [Module R' N] [IsScalarTower R' A N] [IsScalarTower R R' N] :
     TauCeti.BalancedTensorProduct R A M N ≃+ TauCeti.BalancedTensorProduct R' A M N :=
-  sorry
+  (changeBaseLinearEquiv R M N R').toAddEquiv.trans (RestrictScalars.addEquiv R R' _)
 
 variable (M N) in
-/-- **0.6, swap**: `M ⊗_A N ≃ N ⊗_{Aᵐᵒᵖ} M`, `m ⊗ n ↦ n ⊗ m`, with `N` a right
+/-- **0.7, swap**: `M ⊗_A N ≃ N ⊗_{Aᵐᵒᵖ} M`, `m ⊗ n ↦ n ⊗ m`, with `N` a right
 `Aᵐᵒᵖ`-module through `RingEquiv.opOp A`. -/
 noncomputable def comm :
     letI : Module Aᵐᵒᵖᵐᵒᵖ N := Module.compHom N (RingEquiv.opOp A).symm.toRingHom
@@ -1118,7 +1262,7 @@ noncomputable def comm :
   sorry
 
 variable (M N) in
-/-- **0.6, duals** (0.7 for rings): `Hom_R(M ⊗_A N, E) ≃ Hom_{Aᵐᵒᵖ}(M, Hom_R(N, E))`, with
+/-- **0.7, duals** (0.8 for rings): `Hom_R(M ⊗_A N, E) ≃ Hom_{Aᵐᵒᵖ}(M, Hom_R(N, E))`, with
 `MatlisDual R E N` as the right module `Hom_R(N, E)`. -/
 noncomputable def homEquiv (E : Type*) [AddCommGroup E] [Module R E] :
     (TauCeti.BalancedTensorProduct R A M N →ₗ[R] E) ≃ₗ[R]
@@ -1133,7 +1277,7 @@ variable {A : Type u} [Ring A]
   {M M' : Type*} [AddCommGroup M] [Module Aᵐᵒᵖ M] [AddCommGroup M'] [Module Aᵐᵒᵖ M']
   {N : Type*} [AddCommGroup N] [Module A N]
 
-/-- **0.7 for rings, Lambek's criterion for one map** (`R = ℤ`, `E = ℚ ⧸ ℤ`): `f ⊗ N` is
+/-- **0.8 for rings, Lambek's criterion for one map** (`R = ℤ`, `E = ℚ ⧸ ℤ`): `f ⊗ N` is
 injective exactly when composition with `f` is onto on maps into the right module
 `N⁺ = MatlisDual ℤ (AddCircle (1 : ℚ)) N`. -/
 theorem rTensor_injective_iff_surjective_comp (f : M →ₗ[Aᵐᵒᵖ] M') :
@@ -1143,7 +1287,7 @@ theorem rTensor_injective_iff_surjective_comp (f : M →ₗ[Aᵐᵒᵖ] M') :
 
 end CharacterModule
 
-/-- **0.6, commutative rings**: for a commutative ring, with `M` a right module through the same
+/-- **0.7, commutative rings**: for a commutative ring, with `M` a right module through the same
 action (`IsCentralScalar`), the balanced tensor product is Mathlib's tensor product. -/
 noncomputable def equivTensorProduct {R : Type u} [CommRing R] (M N : Type*) [AddCommGroup M]
     [Module R M] [Module Rᵐᵒᵖ M] [IsCentralScalar R M] [AddCommGroup N] [Module R N] :
@@ -1157,7 +1301,7 @@ theorem equivTensorProduct_tmul {R : Type u} [CommRing R] {M N : Type*} [AddComm
     equivTensorProduct M N (TauCeti.BalancedTensorProduct.tmul R R m n) = m ⊗ₜ[R] n :=
   sorry
 
-/-- **0.6** The `R`-module structure of a bundled module over an `R`-algebra `B`, through
+/-- **0.7** The `R`-module structure of a bundled module over an `R`-algebra `B`, through
 `algebraMap R B`: a local instance for the bifunctor below. -/
 abbrev moduleOfAlgebra (R : Type u) [CommRing R] {B : Type v} [Ring B] [Algebra R B]
     (M : ModuleCat.{w} B) : Module R M :=
@@ -1174,7 +1318,7 @@ attribute [local instance] moduleOfAlgebra isScalarTower_moduleOfAlgebra
 
 variable (R : Type t) [CommRing R] (A : Type u) [Ring A] [Algebra R A]
 
-/-- **0.6** The balanced tensor product as a bifunctor
+/-- **0.7** The balanced tensor product as a bifunctor
 `ModuleCat Aᵐᵒᵖ ⥤ ModuleCat A ⥤ ModuleCat R`; the `R`-actions on bundled modules are the actions
 through `algebraMap` (`moduleOfAlgebra`). -/
 noncomputable def functor : ModuleCat.{v} Aᵐᵒᵖ ⥤ ModuleCat.{v} A ⥤ ModuleCat.{v} R where
@@ -1189,28 +1333,28 @@ noncomputable def functor : ModuleCat.{v} Aᵐᵒᵖ ⥤ ModuleCat.{v} A ⥤ Mod
   map_id _ := NatTrans.ext (funext fun _ ↦ ModuleCat.hom_ext (rTensor_id R))
   map_comp f g := NatTrans.ext (funext fun _ ↦ ModuleCat.hom_ext (rTensor_comp R f.hom g.hom))
 
-/-- **0.6** The bifunctor is additive in the left-module variable. -/
+/-- **0.7** The bifunctor is additive in the left-module variable. -/
 instance (M : ModuleCat.{v} Aᵐᵒᵖ) : ((functor R A).obj M).Additive :=
   sorry
 
-/-- **0.6** The bifunctor is additive in the right-module variable. -/
+/-- **0.7** The bifunctor is additive in the right-module variable. -/
 instance (N : ModuleCat.{v} A) : ((functor R A).flip.obj N).Additive :=
   sorry
 
-/-- **0.6** `X ↦ Hom_R(N, X)` as a right `A`-module (`MatlisDual R X N`). -/
+/-- **0.7** `X ↦ Hom_R(N, X)` as a right `A`-module (`MatlisDual R X N`). -/
 noncomputable def homRight (N : ModuleCat.{v} A) : ModuleCat.{v} R ⥤ ModuleCat.{v} Aᵐᵒᵖ where
   obj X := ModuleCat.of Aᵐᵒᵖ (MatlisDual R X N)
   map _ := sorry
   map_id := sorry
   map_comp := sorry
 
-/-- **0.6, adjunction**: `- ⊗_A N ⊣ Hom_R(N, -)`; right exactness follows. -/
+/-- **0.7, adjunction**: `- ⊗_A N ⊣ Hom_R(N, -)`; right exactness follows. -/
 noncomputable def adjunction (N : ModuleCat.{v} A) : (functor R A).flip.obj N ⊣ homRight R A N :=
   sorry
 
 end Functor
 
-/-- **0.6, comparison**: the categorical tensor product over `SingleObj Aᵐᵒᵖ` (0.3) of the modules
+/-- **0.7, comparison**: the categorical tensor product over `SingleObj Aᵐᵒᵖ` (0.4) of the modules
 of 0.2 is the balanced tensor product over `ℤ`, in the same order; for an `R`-algebra `A` it is
 `R`-linear, with `intAddEquiv` and the agreement of the derived `R`-structures (0.2). -/
 noncomputable def tensorObjSingleObjIso {A : Type u} [Ring A] [Small.{v} A]
@@ -1222,34 +1366,34 @@ noncomputable def tensorObjSingleObjIso {A : Type u} [Ring A] [Small.{v} A]
 
 end BalancedTensorProduct
 
-/-! ### 0.7 Duals with respect to an `R`-module `E` -/
+/-! ### 0.8 Duals with respect to an `R`-module `E` -/
 
 section Dual
 
 variable (R : Type*) [CommRing R] {C : Type u} [Category.{v} C] [Preadditive C] [Linear R C]
   (E : ModuleCat.{w} R)
 
-/-- **0.7** `F ↦ F^E = Hom_R(F(-), E)`, from `Mod C` to covariant functors (modules over `Cᵒᵖ`). -/
+/-- **0.8** `F ↦ F^E = Hom_R(F(-), E)`, from `Mod C` to covariant functors (modules over `Cᵒᵖ`). -/
 noncomputable abbrev ModCat.dual : (ModCat.{w} C)ᵒᵖ ⥤ ModCat.{w} Cᵒᵖ :=
   (ModCat.linearHomOpBifunctor R).flip.obj E
 
-/-- **0.7** `G ↦ G^E = Hom_R(G(-), E)`, from covariant functors to `Mod C`. -/
+/-- **0.8** `G ↦ G^E = Hom_R(G(-), E)`, from covariant functors to `Mod C`. -/
 noncomputable abbrev ModCat.dualOp : (ModCat.{w} Cᵒᵖ)ᵒᵖ ⥤ ModCat.{w} C :=
   (ModCat.linearHomBifunctor R).flip.obj E
 
 instance : (ModCat.dual R E (C := C)).Additive := sorry
 
-/-- **0.7** For an injective `E`, the dual is exact. -/
+/-- **0.8** For an injective `E`, the dual is exact. -/
 theorem ModCat.dual_shortExact [Injective E] {S : ShortComplex (ModCat.{w} C)}
     (hS : S.ShortExact) : (S.op.map (ModCat.dual R E)).ShortExact :=
   sorry
 
-/-- **0.7** For a cogenerator `E`, the dual detects zero objects. -/
+/-- **0.8** For a cogenerator `E`, the dual detects zero objects. -/
 theorem ModCat.isZero_of_isZero_dual (hE : IsCoseparator E) (F : ModCat.{w} C)
     (h : IsZero ((ModCat.dual R E).obj (op F))) : IsZero F :=
   sorry
 
-/-- **0.7, one-map form of Lambek's criterion**: for an injective cogenerator `E`, `i ⊗_C F` is a
+/-- **0.8, one-map form of Lambek's criterion**: for an injective cogenerator `E`, `i ⊗_C F` is a
 monomorphism exactly when every map `G ⟶ F^E` extends along `i`. Through `tensorLinearHomEquiv'`
 the right side is surjectivity of `Hom_R(i ⊗_C F, E)`: injectivity of `E` gives the forward
 implication and the cogenerator property the converse. With a cogenerator alone the statement is
@@ -1262,10 +1406,10 @@ theorem ModCat.mono_tensor_map_app_iff [EssentiallySmall.{w} C] [Injective E]
 
 end Dual
 
-/-! ### 0.8 Finitely generated projective modules, duality and finite presentation -/
+/-! ### 0.9 Finitely generated projective modules, duality and finite presentation -/
 
 /-- `ℵ₁` is regular (Mathlib's `Cardinal.isRegular_aleph_one`): the local instance that
-`IsCardinalPresentable` needs for the countably presented modules of 0.8, 2.5, 3.5 and 4.5, so that
+`IsCardinalPresentable` needs for the countably presented modules of 0.9, 2.5, 3.5 and 4.5, so that
 their statements carry no `Fact` binder. -/
 local instance fact_isRegular_aleph_one : Fact (Cardinal.aleph.{t} 1).IsRegular :=
   ⟨Cardinal.isRegular_aleph_one⟩
@@ -1277,37 +1421,37 @@ section Proj
 variable {C : Type u} [Category.{v} C] [Preadditive C]
 
 variable (C) in
-/-- **0.8** `proj C`: the finitely generated (0.1) projective modules of `Mod C`, so that
+/-- **0.9** `proj C`: the finitely generated (0.1) projective modules of `Mod C`, so that
 `C ⊆ proj C` covariantly by Yoneda. For `C = SingleObj Aᵐᵒᵖ` these are Tau Ceti's
 `TauCeti.finiteProjectiveModules A` (`finiteProjectiveModulesEquivProj`). The finitely generated
 projective covariant functors are `proj Cᵒᵖ`. -/
 def ModCat.proj : ObjectProperty (ModCat.{v} C) :=
   fun F ↦ Projective F ∧ IsFinitelyGeneratedFunctor F.obj
 
-/-- **0.8** Finitely generated projective modules are closed under finite biproducts. -/
+/-- **0.9** Finitely generated projective modules are closed under finite biproducts. -/
 instance : HasFiniteBiproducts (ModCat.proj C).FullSubcategory := sorry
 
-/-- **0.8** Idempotents split in `proj C`: a retract of a finitely generated projective module is
+/-- **0.9** Idempotents split in `proj C`: a retract of a finitely generated projective module is
 finitely generated projective. -/
 instance : IsIdempotentComplete (ModCat.proj C).FullSubcategory := sorry
 
-/-- **0.8** Representable modules are finitely generated projective. -/
+/-- **0.9** Representable modules are finitely generated projective. -/
 theorem ModCat.proj_yoneda_obj (X : C) : ModCat.proj C ((ModCat.yoneda C).obj X) :=
   sorry
 
-/-- **0.8** Finite sums of representables are finitely generated projective. -/
+/-- **0.9** Finite sums of representables are finitely generated projective. -/
 theorem ModCat.proj_sigma_yoneda {q : ℕ} (Y : Fin q → C) :
     ModCat.proj C (∐ fun j ↦ (ModCat.yoneda C).obj (Y j)) :=
   sorry
 
-/-- **0.8** `proj C` consists of the retracts of finite sums of representables. -/
+/-- **0.9** `proj C` consists of the retracts of finite sums of representables. -/
 theorem ModCat.proj_iff_exists_retract (P : ModCat.{v} C) :
     ModCat.proj C P ↔ ∃ (n : ℕ) (Y : Fin n → C),
       Nonempty (Retract P (∐ fun i ↦ (ModCat.yoneda C).obj (Y i))) :=
   sorry
 
 variable (C) in
-/-- **0.8, Yoneda** `C ⥤ proj C`, `X ↦ Hom(-, X)`; fully faithful, so `End Hom(-, X) = End X`. Over
+/-- **0.9, Yoneda** `C ⥤ proj C`, `X ↦ Hom(-, X)`; fully faithful, so `End Hom(-, X) = End X`. Over
 `Cᵒᵖ` it gives `X ↦ Hom(X, -)` in `proj Cᵒᵖ`. -/
 def ModCat.projYoneda : C ⥤ (ModCat.proj C).FullSubcategory :=
   ObjectProperty.lift _ (ModCat.yoneda C) ModCat.proj_yoneda_obj
@@ -1317,7 +1461,7 @@ instance : (ModCat.projYoneda C).Full := sorry
 instance : (ModCat.projYoneda C).Faithful := sorry
 
 variable (C) in
-/-- **0.8** `proj C ≌ Karoubi (Mat_ C)`: every finitely generated projective module is a summand of
+/-- **0.9** `proj C ≌ Karoubi (Mat_ C)`: every finitely generated projective module is a summand of
 a finite sum of representables, and Yoneda is fully faithful. The
 one-object case is the comparison of `add M` with the finitely generated projective
 `End M`-modules. -/
@@ -1325,33 +1469,33 @@ noncomputable def ModCat.projEquivKaroubiMat :
     (ModCat.proj C).FullSubcategory ≌ CategoryTheory.Idempotents.Karoubi (Mat_ C) :=
   sorry
 
-/-- **0.8** For an additive, idempotent-complete `C`, Yoneda `C ⥤ proj C` is an equivalence. -/
+/-- **0.9** For an additive, idempotent-complete `C`, Yoneda `C ⥤ proj C` is an equivalence. -/
 instance [HasFiniteBiproducts C] [IsIdempotentComplete C] : (ModCat.projYoneda C).IsEquivalence :=
   sorry
 
 variable (C) in
-/-- **0.8, projective duality** `(-)^∨ = Hom(-, C) : (proj C)ᵒᵖ ≌ proj Cᵒᵖ`, sending `Hom(-, X)` to
+/-- **0.9, projective duality** `(-)^∨ = Hom(-, C) : (proj C)ᵒᵖ ≌ proj Cᵒᵖ`, sending `Hom(-, X)` to
 `Hom(X, -)`, constructed from the two Karoubi equivalences and matrix transposition
 `(Mat_ C)ᵒᵖ ≌ Mat_ Cᵒᵖ`. -/
 noncomputable def ModCat.projDual :
     (ModCat.proj C).FullSubcategoryᵒᵖ ≌ (ModCat.proj Cᵒᵖ).FullSubcategory :=
   sorry
 
-/-- **0.8** The dual of `Hom(-, X)` is `Hom(X, -)`. -/
+/-- **0.9** The dual of `Hom(-, X)` is `Hom(X, -)`. -/
 noncomputable def ModCat.projDualYonedaIso (X : C) :
     (ModCat.projDual C).functor.obj (op ((ModCat.projYoneda C).obj X)) ≅
       (ModCat.projYoneda Cᵒᵖ).obj (op X) :=
   sorry
 
-/-- **0.8, universal property of projective duality**: `Hom(P, F) ≅ P^∨ ⊗_C F`, natural in
-`P ∈ proj C` and `F ∈ Mod C`, reducing at `P = Hom(-, X)` to Yoneda on both sides (0.3) and used in
+/-- **0.9, universal property of projective duality**: `Hom(P, F) ≅ P^∨ ⊗_C F`, natural in
+`P ∈ proj C` and `F ∈ Mod C`, reducing at `P = Hom(-, X)` to Yoneda on both sides (0.4) and used in
 1.4. -/
 noncomputable def ModCat.homAddEquivTensorObjProjDual [EssentiallySmall.{v} C]
     (P : (ModCat.proj C).FullSubcategory) (F : ModCat.{v} C) :
     (P.obj ⟶ F) ≃+ ModCat.tensorObj ((ModCat.projDual C).functor.obj (op P)).obj F :=
   sorry
 
-/-- **0.8, equivalence of finite-presentation notions**. Under `EssentiallySmall.{v} C`, the
+/-- **0.9, equivalence of finite-presentation notions**. Under `EssentiallySmall.{v} C`, the
 following on `F : ModCat.{v} C` are equivalent: (1) `F` is the cokernel of a map in `proj C`;
 (2) `F` is finitely presented in the sense of 0.1 (via finite sums of representables); (3) `F`
 satisfies Mathlib's `IsFinitelyPresentable` (`Hom(F, -)` commutes with filtered colimits). For
@@ -1367,14 +1511,14 @@ theorem ModCat.isFinitelyPresentedFunctor_tfae [EssentiallySmall.{v} C] (F : Mod
         IsFinitelyPresentable.{v} F] :=
   sorry
 
-/-- **0.8, finite generation**: a quotient of a finite sum of representables is a quotient of a
+/-- **0.9, finite generation**: a quotient of a finite sum of representables is a quotient of a
 finitely generated projective, and conversely. -/
 theorem ModCat.isFinitelyGeneratedFunctor_iff_exists_epi_proj (F : ModCat.{v} C) :
     IsFinitelyGeneratedFunctor F.obj ↔
       ∃ (P : (ModCat.proj C).FullSubcategory) (p : P.obj ⟶ F), Epi p :=
   sorry
 
-/-- **0.8** Finitely presented modules form an `ℵ₀`-filtered generator of `Mod C`: every module is
+/-- **0.9** Finitely presented modules form an `ℵ₀`-filtered generator of `Mod C`: every module is
 a filtered colimit of finitely presented (and hence finitely presentable) modules ([CB, §1.2,
 Theorem, p. 1645] for additive `C`). Indeed, representables are finitely presentable (by Yoneda and
 objectwise colimits) and form a strong generator since every epimorphism in `Mod C` is extremal
@@ -1386,13 +1530,13 @@ theorem ModCat.isCardinalFilteredGenerator_isFinitelyPresentedFunctor [Essential
       ).IsCardinalFilteredGenerator Cardinal.aleph0.{v} :=
   sorry
 
-/-- **0.8** `Mod C` is locally finitely presentable, a corollary of
+/-- **0.9** `Mod C` is locally finitely presentable, a corollary of
 `isCardinalFilteredGenerator_isFinitelyPresentedFunctor` (the generator is essentially small, and
 `Mod C` is cocomplete). -/
 instance [EssentiallySmall.{v} C] : IsLocallyFinitelyPresentable.{v} (ModCat.{v} C) :=
   sorry
 
-/-- **0.8, countable presentations**: `F` is `ℵ₁`-presentable exactly when it is the cokernel of a
+/-- **0.9, countable presentations**: `F` is `ℵ₁`-presentable exactly when it is the cokernel of a
 map between countable sums of representables. Bass's modules (2.5) are of this form; Theorem P
 (3′) and Jensen's theorem (3.5) use it. -/
 theorem ModCat.isCardinalPresentable_aleph_one_iff [EssentiallySmall.{v} C] (F : ModCat.{v} C) :
@@ -1404,19 +1548,19 @@ theorem ModCat.isCardinalPresentable_aleph_one_iff [EssentiallySmall.{v} C] (F :
 
 end Proj
 
-/-- **0.8, rings** Finitely generated projective modules have finite biproducts. -/
+/-- **0.9, rings** Finitely generated projective modules have finite biproducts. -/
 instance (A : Type u) [Ring A] :
     HasFiniteBiproducts (TauCeti.finiteProjectiveModules A).FullSubcategory :=
   sorry
 
-/-- **0.8, rings** Tau Ceti's finitely generated projective left modules are `proj` of
+/-- **0.9, rings** Tau Ceti's finitely generated projective left modules are `proj` of
 `SingleObj Aᵐᵒᵖ`, through 0.2: the ring case of `proj C`, used by the ring items of 4.2. -/
 noncomputable def finiteProjectiveModulesEquivProj (A : Type u) [Ring A] :
     (TauCeti.finiteProjectiveModules A).FullSubcategory ≌
       (ModCat.proj (SingleObj Aᵐᵒᵖ)).FullSubcategory :=
   sorry
 
-/-- **0.8, rings** `Hom_A(-, A)` from finitely generated projective left modules to finitely
+/-- **0.9, rings** `Hom_A(-, A)` from finitely generated projective left modules to finitely
 generated projective right modules (Tau Ceti's `TauCeti.finiteProjectiveModules`); the ring case of
 `ModCat.projDual`. Mathlib's `Module.Dual A P` is defined over any semiring, but its API is
 commutative; Tau Ceti's `TauCeti.AuslanderReitenTranspose` already uses it as a right module. -/
@@ -1425,7 +1569,7 @@ noncomputable def finiteProjectiveModulesDual (A : Type u) [Ring A] :
       (TauCeti.finiteProjectiveModules Aᵐᵒᵖ).FullSubcategory :=
   sorry
 
-/-- **0.8, rings: the bridge, item (4)**: over `SingleObj Aᵐᵒᵖ`, finite presentation in the sense
+/-- **0.9, rings: the bridge, item (4)**: over `SingleObj Aᵐᵒᵖ`, finite presentation in the sense
 of 0.1 is `Module.FinitePresentation`. -/
 theorem isFinitelyPresentedFunctor_iff_finitePresentation (A : Type u) [Ring A]
     (M : ModuleCat.{u} A) :
@@ -1433,13 +1577,13 @@ theorem isFinitelyPresentedFunctor_iff_finitePresentation (A : Type u) [Ring A]
       Module.FinitePresentation A M :=
   sorry
 
-/-- **0.8, rings** Finite generation in the sense of 0.1 is `Module.Finite`. -/
+/-- **0.9, rings** Finite generation in the sense of 0.1 is `Module.Finite`. -/
 theorem isFinitelyGeneratedFunctor_iff_finite (A : Type u) [Ring A] (M : ModuleCat.{u} A) :
     IsFinitelyGeneratedFunctor ((moduleCatEquivModCat.{u} A).functor.obj M).obj ↔
       Module.Finite A M :=
   sorry
 
-/-- **0.8, rings** Every module is a filtered colimit of finitely presented modules: the
+/-- **0.9, rings** Every module is a filtered colimit of finitely presented modules: the
 finitely presented modules form an `ℵ₀`-filtered generator of `ModuleCat A`
 (`isCardinalFilteredGenerator_isFinitelyPresentedFunctor` at `SingleObj Aᵐᵒᵖ`, through 0.2). -/
 theorem ModuleCat.isCardinalFilteredGenerator_finitePresentation (A : Type u) [Ring A]
@@ -1448,7 +1592,7 @@ theorem ModuleCat.isCardinalFilteredGenerator_finitePresentation (A : Type u) [R
       (fun M : ModuleCat.{v} A ↦ Module.FinitePresentation A M) Cardinal.aleph0.{v} :=
   sorry
 
-/-- **0.8, rings** Mathlib's categorical finite presentability in `ModuleCat A` is
+/-- **0.9, rings** Mathlib's categorical finite presentability in `ModuleCat A` is
 `Module.FinitePresentation`. -/
 theorem ModuleCat.isFinitelyPresentable_iff_finitePresentation (A : Type u) [Ring A]
     [Small.{v} A] (M : ModuleCat.{v} A) :
@@ -1460,8 +1604,8 @@ theorem ModuleCat.isFinitelyPresentable_iff_finitePresentation (A : Type u) [Rin
 `Tor` is category-primary. `Tor^C_n(G, -)` is Mathlib's classical `Functor.leftDerived` of
 `F ↦ G ⊗_C F`, derived in the `Mod C` variable, as Mathlib's `CategoryTheory.Tor`; it takes values
 in abelian groups, with `Module R` instances for an `R`-linear `C`. There is one `Tor`: the version
-that resolves the covariant functor `G` is `Tor` over `Cᵒᵖ` through the swap of 0.5. For rings,
-`BalancedTor R A n` is the left derived functor of the ring bifunctor of 0.6, compared with `Tor`
+that resolves the covariant functor `G` is `Tor` over `Cᵒᵖ` through the swap of 0.6. For rings,
+`BalancedTor R A n` is the left derived functor of the ring bifunctor of 0.7, compared with `Tor`
 over `SingleObj Aᵐᵒᵖ` at `R = ℤ`. For finitely presented `X`, the stable `Hom(X, N)` is
 `Tor_1(Tr X, N)` (1.4). -/
 
@@ -1481,7 +1625,7 @@ noncomputable def tor (n : ℕ) : ModCat.{w} Cᵒᵖ ⥤ ModCat.{w} C ⥤ AddCom
   map g := NatTrans.leftDerived (tensor.map g) n
 
 /-- **1.1** `Tor₀` is the tensor product: `Functor.leftDerivedZeroIsoSelf` and right exactness
-(0.3). -/
+(0.4). -/
 noncomputable def torZeroIso :
     (tor (C := C) 0 : ModCat.{w} Cᵒᵖ ⥤ ModCat.{w} C ⥤ AddCommGrpCat.{w}) ≅ tensor :=
   sorry
@@ -1525,6 +1669,50 @@ theorem smul_eq_tor_map_app {n : ℕ} {G : ModCat.{w} Cᵒᵖ} {F : ModCat.{w} C
     (z : ((tor n).obj G).obj F) : r • z = (((tor n).map (r • 𝟙 G)).app F).hom z :=
   sorry
 
+/-- **1.1, the `R`-linear `Tor` bifunctor**: `Tor^C_n(G, F)` with its derived `R`-structure, as a
+bifunctor into `ModuleCat R`. It is assembled from `tor` by `smul_eq_tor_obj_map` and
+`smul_eq_tor_map_app`, on the pattern of Mathlib's `Abelian.linearExtFunctor`. -/
+noncomputable def linearTor (n : ℕ) : ModCat.{w} Cᵒᵖ ⥤ ModCat.{w} C ⥤ ModuleCat.{w} R where
+  obj G :=
+    { obj F := ModuleCat.of R (((tor n).obj G).obj F)
+      map {F₁ F₂} f := ModuleCat.ofHom
+        { toFun := (((tor n).obj G).map f).hom
+          map_add' := map_add _
+          map_smul' r z := by
+            calc (((tor n).obj G).map f).hom (r • z)
+              _ = ((((tor n).obj G).map (r • 𝟙 F₁) ≫ ((tor n).obj G).map f)).hom z := by
+                  rw [smul_eq_tor_obj_map (R := R) r z]; rfl
+              _ = ((((tor n).obj G).map f ≫ ((tor n).obj G).map (r • 𝟙 F₂))).hom z := by
+                  rw [← Functor.map_comp, ← Functor.map_comp, Linear.smul_comp, Linear.comp_smul,
+                    Category.id_comp, Category.comp_id]
+              _ = (RingHom.id R) r • (((tor n).obj G).map f).hom z := by
+                  dsimp only [RingHom.id_apply]
+                  exact (smul_eq_tor_obj_map (R := R) r ((((tor n).obj G).map f).hom z)).symm }
+      map_id F := by ext z; exact ConcreteCategory.congr_hom (((tor n).obj G).map_id F) z
+      map_comp f g := by
+        ext z; exact ConcreteCategory.congr_hom (((tor n).obj G).map_comp f g) z }
+  map {G₁ G₂} g :=
+    { app F := ModuleCat.ofHom
+        { toFun := (((tor n).map g).app F).hom
+          map_add' := map_add _
+          map_smul' r z := by
+            calc (((tor n).map g).app F).hom (r • z)
+              _ = ((((tor n).map (r • 𝟙 G₁)).app F ≫ ((tor n).map g).app F)).hom z := by
+                  rw [smul_eq_tor_map_app (R := R) r z]; rfl
+              _ = ((((tor n).map g).app F ≫ ((tor n).map (r • 𝟙 G₂)).app F)).hom z := by
+                  rw [← NatTrans.comp_app, ← NatTrans.comp_app, ← Functor.map_comp,
+                    ← Functor.map_comp, Linear.smul_comp, Linear.comp_smul, Category.id_comp,
+                    Category.comp_id]
+              _ = (RingHom.id R) r • (((tor n).map g).app F).hom z := by
+                  dsimp only [RingHom.id_apply]
+                  exact (smul_eq_tor_map_app (R := R) r ((((tor n).map g).app F).hom z)).symm }
+      naturality {_ _} f := ModuleCat.hom_ext (LinearMap.ext fun z ↦
+        ConcreteCategory.congr_hom (((tor n).map g).naturality f) z) }
+  map_id G := NatTrans.ext (funext fun F ↦ ModuleCat.hom_ext (LinearMap.ext fun z ↦
+    ConcreteCategory.congr_hom (NatTrans.congr_app ((tor n).map_id G) F) z))
+  map_comp g₁ g₂ := NatTrans.ext (funext fun F ↦ ModuleCat.hom_ext (LinearMap.ext fun z ↦
+    ConcreteCategory.congr_hom (NatTrans.congr_app ((tor n).map_comp g₁ g₂) F) z))
+
 end Linear
 
 end Tor
@@ -1535,7 +1723,7 @@ section BalancedTor
 
 variable (R : Type t) [CommRing R] (A : Type u) [Ring A] [Algebra R A] [Small.{v} A]
 
-/-- **1.1, rings** `Tor_n^A(M, N)`: the left derived functor of the ring bifunctor of 0.6 in the
+/-- **1.1, rings** `Tor_n^A(M, N)`: the left derived functor of the ring bifunctor of 0.7 in the
 left-module variable `N`, the shape of Mathlib's `CategoryTheory.Tor`. -/
 noncomputable def BalancedTor (n : ℕ) :
     ModuleCat.{v} Aᵐᵒᵖ ⥤ ModuleCat.{v} A ⥤ ModuleCat.{v} R where
@@ -1577,8 +1765,8 @@ variable {C : Type u} [Category.{v} C] [Preadditive C]
 
 /-- **1.2** The connecting map `Tor_{n+1}(G₃, F) → Tor_n(G₁, F)` of a short exact sequence
 `0 → G₁ → G₂ → G₃ → 0` of covariant functors: the homology connecting map of the short exact
-sequence of complexes `Gᵢ ⊗_C Q`, `Q` a projective resolution of `F` (exact termwise by 0.3 and
-0.4). -/
+sequence of complexes `Gᵢ ⊗_C Q`, `Q` a projective resolution of `F` (exact termwise by 0.4 and
+0.5). -/
 noncomputable def _root_.CategoryTheory.ShortComplex.ShortExact.torδ (hS : S.ShortExact)
     (F : ModCat.{w} C) (n : ℕ) : ((tor (n + 1)).obj S.X₃).obj F ⟶ ((tor n).obj S.X₁).obj F :=
   sorry
@@ -1645,7 +1833,7 @@ section Balance
 variable {C : Type u} [Category.{v} C] [Preadditive C] [EssentiallySmall.{w} C]
 
 /-- **1.3, balance**: `Tor^C_n(G, F) ≅ Tor^{Cᵒᵖ}_n(F, G)`, viewing `F` in `Mod Cᵒᵖᵒᵖ` via
-`ModCat.opOpEquiv` (0.5). This is proved from the bicomplex `P ⊗_C Q` of projective resolutions by
+`ModCat.opOpEquiv` (0.6). This is proved from the bicomplex `P ⊗_C Q` of projective resolutions by
 applying `HomologicalComplex₂.quasiIso_totalAugmentation_of_rows` to both `P ⊗_C Q` and its
 flip. -/
 noncomputable def torBalanceIso (n : ℕ) :
@@ -1752,16 +1940,8 @@ section Transpose
 
 variable {C : Type u} [Category.{v} C] [Preadditive C]
 
-/-- **1.4** The map `⊕_j Hom(-, Y j) → ⊕_i Hom(-, Z i)` of a matrix `α j i : Y j ⟶ Z i`, as a map
-of `Mod C`: the map `matrixMap α` of 0.1, between the finite sums formed in `Mod C`. -/
-noncomputable def ModCat.matrixMap {p q : ℕ} {Y : Fin q → C} {Z : Fin p → C}
-    (α : ∀ j i, Y j ⟶ Z i) :
-    (∐ fun j ↦ (ModCat.yoneda C).obj (Y j)) ⟶ ∐ fun i ↦ (ModCat.yoneda C).obj (Z i) :=
-  Limits.Sigma.desc fun j ↦
-    ∑ i, (ModCat.yoneda C).map (α j i) ≫ Limits.Sigma.ι (fun i ↦ (ModCat.yoneda C).obj (Z i)) i
-
 /-- **1.4** The Auslander–Bridger transpose of a map `f : P₁ ⟶ P₀` in `proj C`:
-`Tr = coker (P₀^∨ → P₁^∨)`, with the duality `(-)^∨ = Hom(-, C)` of 0.8; a covariant functor (a
+`Tr = coker (P₀^∨ → P₁^∨)`, with the duality `(-)^∨ = Hom(-, C)` of 0.9; a covariant functor (a
 module over `Cᵒᵖ`), as `Tr X` is a right module for a left module `X` over a ring. -/
 noncomputable def ModCat.transpose {P₁ P₀ : (ModCat.proj C).FullSubcategory} (f : P₁ ⟶ P₀) :
     ModCat.{v} Cᵒᵖ :=
@@ -1779,8 +1959,8 @@ noncomputable def ModCat.matrixTranspose {p q : ℕ} {Y : Fin q → C} {Z : Fin 
     ∑ j, (ModCat.yoneda Cᵒᵖ).map (α j i).op ≫
       Limits.Sigma.ι (fun j ↦ (ModCat.yoneda Cᵒᵖ).obj (op (Y j))) j)
 
-/-- **1.4, the matrix description**: the transpose of `matrixMap α` is the cokernel of the
-transposed matrix, since the dual of `Hom(-, X)` is `Hom(X, -)` (0.8). -/
+/-- **1.4, the matrix description**: the transpose of `matrixMap α` (0.1) is the cokernel of the
+transposed matrix, since the dual of `Hom(-, X)` is `Hom(X, -)` (0.9). -/
 noncomputable def ModCat.transposeMatrixIso {p q : ℕ} {Y : Fin q → C} {Z : Fin p → C}
     (α : ∀ j i, Y j ⟶ Z i) :
     ModCat.transpose
@@ -1794,9 +1974,9 @@ variable [EssentiallySmall.{v} C]
 two-sided Noetherian rings): for a finitely presented module `X = coker f` in `Mod C` and any
 `N : Mod C`, `stable Hom(X, N)` in Tau Ceti's projective stable category is isomorphic to
 `Tor_1(Tr X, N)`. Following [Krause-Defect, pp. 268–269], for `0 → ΩN → P → N → 0` with `P`
-projective, the snake lemma identifies `coker(Hom(X, P) → Hom(X, N))` with `ker(H(ΩN) → H(P))`,
-where `H(M) = coker(Hom(P₀, M) → Hom(P₁, M)) ≅ Tr X ⊗_C M` (0.8), which equals `Tor_1(Tr X, N)` by
-the long exact sequence of 1.3. -/
+projective, the snake lemma identifies `coker(Hom(X, P) → Hom(X, N))` with `ker(H(ΩN) → H(P))`.
+Here `H(M) = coker(Hom(P₀, M) → Hom(P₁, M)) ≅ Tr X ⊗_C M` by 0.9. The long exact sequence of 1.3
+identifies `ker(H(ΩN) → H(P))` with `Tor_1(Tr X, N)`. -/
 noncomputable def ModCat.stableHomEquivTorTranspose {P₁ P₀ : (ModCat.proj C).FullSubcategory}
     (f : P₁ ⟶ P₀) (N : ModCat.{v} C) :
     ((TauCeti.ExactStructure.projectiveStableFunctor
@@ -1828,7 +2008,7 @@ variable (R : Type t) [CommRing R] {A : Type u} [Ring A] [Algebra R A]
 /-- **1.4, rings: `Tor` of the transpose** ([Auslander78, I, Prop. 3.2]): given a finite projective
 presentation `P₁ → P₀ → X → 0`, `stable Hom_A(X, N)` is isomorphic to `Tor_1^A(Tr X, N)` for
 `TauCeti.AuslanderReitenTranspose`. This follows either from `ModCat.stableHomEquivTorTranspose` at
-`SingleObj Aᵐᵒᵖ` (via 0.2, 0.8, and 1.1) or directly by the snake-lemma step ([Krause-Defect,
+`SingleObj Aᵐᵒᵖ` (via 0.2, 0.9, and 1.1) or directly by the snake-lemma step ([Krause-Defect,
 pp. 268–269]) using `LinearMap.auslanderReitenTransposeTensorEquivCokernel` on `0 → ΩN → P → N → 0`
 and the long exact sequence of 1.3. -/
 noncomputable def stableHomEquivBalancedTorTranspose {X : ModuleCat.{u} A} {f : P₁ →ₗ[A] P₀}
@@ -1856,15 +2036,30 @@ separate instance. -/
 example : HasExt.{w} (ModCat.{w} C) := inferInstance
 
 /-- **1.5, `Tor`–`Ext` duality**: for an `R`-linear `C` and an injective `R`-module `E`,
-`Hom_R(Tor_n^C(G, F), E) ≅ Ext^n(G, F^E)` `R`-linearly, using the derived `R`-structure on `Tor`
-(1.1) and Mathlib's `Abelian.Ext` on `Mod Cᵒᵖ` ([CE, VI, Prop. 5.1, p. 120]). This is proved by
-resolving `G` via balance (1.3) and applying `tensorLinearHomEquiv'` (0.3) termwise together with
+`Hom_R(Tor_n^C(G, F), E) ≅ Ext^n(G, F^E)`, as one natural isomorphism of bifunctors
+`(Mod Cᵒᵖ)ᵒᵖ ⥤ (Mod C)ᵒᵖ ⥤ ModuleCat R`, natural in both `G` and `F`. The left side is
+`linearTor` (1.1) followed by Mathlib's `linearYoneda` for `Hom_R(-, E)`, and the right side is
+Mathlib's `Abelian.linearExtFunctor` on `Mod Cᵒᵖ` composed with the dual `F ↦ F^E` (0.8)
+([CE, VI, Prop. 5.1, p. 120]). This is proved by resolving `G` via balance (1.3) and applying
+`tensorLinearHomEquiv'` (0.4) termwise together with
 `ProjectiveResolution.extEquivCohomologyClass`. -/
+noncomputable def torExtDualityNatIso (R : Type*) [CommRing R] [Linear R C]
+    (E : ModuleCat.{w} R) [Injective E] (n : ℕ) :
+    (linearTor (C := C) R n).op ⋙ Functor.opHom (ModCat.{w} C) (ModuleCat.{w} R) ⋙
+        (Functor.whiskeringRight _ _ _).obj ((linearYoneda R (ModuleCat.{w} R)).obj E) ≅
+      Abelian.linearExtFunctor R (ModCat.{w} Cᵒᵖ) n ⋙
+        (Functor.whiskeringLeft _ _ _).obj (ModCat.dual (C := C) R E) :=
+  sorry
+
+/-- **1.5, `Tor`–`Ext` duality at `G` and `F`**: the component of `torExtDualityNatIso`, as an
+`R`-linear equivalence `Hom_R(Tor_n^C(G, F), E) ≃ₗ[R] Ext^n(G, F^E)`. -/
 noncomputable def torExtDualityEquiv (R : Type*) [CommRing R] [Linear R C]
     (E : ModuleCat.{w} R) [Injective E] (G : ModCat.{w} Cᵒᵖ) (F : ModCat.{w} C) (n : ℕ) :
     ((((tor n).obj G).obj F) →ₗ[R] E) ≃ₗ[R]
       Abelian.Ext.{w} G ((ModCat.dual R E).obj (op F)) n :=
-  sorry
+  (ModuleCat.homLinearEquiv (M := ModuleCat.of R (((tor n).obj G).obj F)) (N := E)
+      (S := R)).symm ≪≫ₗ
+    (((torExtDualityNatIso R E n).app (op G)).app (op F)).toLinearEquiv
 
 end Duality
 
@@ -1965,6 +2160,12 @@ noncomputable instance : Ring (CategoryAlgebra C) :=
 noncomputable instance (R : Type*) [CommRing R] [Linear R C] : Algebra R (CategoryAlgebra C) :=
   sorry
 
+/-- **1.7** With finitely many objects and `w`-small Hom-sets, the category algebra is `w`-small,
+so `BalancedTor` over it needs no separate smallness hypothesis. -/
+instance [LocallySmall.{w} C] : Small.{w} (CategoryAlgebra C) := by
+  unfold CategoryAlgebra
+  infer_instance
+
 /-- **1.7** `C`-modules are left modules over the category algebra, `F ↦ ⊕_x F(x)`, with `a`
 acting through the maps `F(a (x, y)) : F(y) → F(x)` ([Mitchell, Thm. 7.1, pp. 33–35, for covariant
 functors, with the contravariant case on p. 37]; the pattern of Tau Ceti's `quiverRepEquivalence`).
@@ -1991,8 +2192,7 @@ noncomputable def tensorObjCategoryAlgebraIso [EssentiallySmall.{w} C] (G : ModC
 
 /-- **1.7** The equivalences carry `Tor` over `C` to `Tor` over the category algebra
 ([Mitchell, §7, p. 37, (1)]). -/
-noncomputable def torCategoryAlgebraIso [EssentiallySmall.{w} C]
-    [Small.{w} (CategoryAlgebra C)] (n : ℕ) :
+noncomputable def torCategoryAlgebraIso [EssentiallySmall.{w} C] (n : ℕ) :
     (ModCat.tor (C := C) n : ModCat.{w} Cᵒᵖ ⥤ ModCat.{w} C ⥤ AddCommGrpCat.{w}) ≅
       (modCatOpEquivCategoryAlgebra.{w} C).functor ⋙
         (BalancedTor ℤ (CategoryAlgebra C) n ⋙
@@ -2001,6 +2201,12 @@ noncomputable def torCategoryAlgebraIso [EssentiallySmall.{w} C]
   sorry
 
 end CategoryAlgebra
+
+/-- **1.7, the one-object case**: the category algebra of `SingleObj Aᵐᵒᵖ` is `A` as a ring. This
+checks the multiplication order of `CategoryAlgebra`, since `f ≫ g = op (unop f * unop g)` there. -/
+noncomputable def categoryAlgebraSingleObjRingEquiv (A : Type u) [Ring A] :
+    CategoryAlgebra (SingleObj Aᵐᵒᵖ) ≃+* A :=
+  sorry
 
 /-! ## Layer 2: flat modules and flat functors
 
@@ -2057,6 +2263,19 @@ class ModCat.Flat (F : ModCat.{w} C) : Prop where
   isTrivialRelation ⦃X : C⦄ ⦃n : ℕ⦄ ⦃Y : Fin n → C⦄ (β : ∀ j, X ⟶ Y j)
     (y : ∀ j, F.obj.obj (op (Y j))) :
     ∑ j, (F.obj.map (β j).op).hom (y j) = 0 → F.IsTrivialRelation β y
+
+/-- **2.1** Representables are flat, for any preadditive `C` and with no smallness hypothesis: a
+relation `∑_j β_j ≫ y_j = 0` with `y_j : Y_j ⟶ X` is trivial with one term, `z = 𝟙 X` and
+`α_j = y_j`. With `ModCat.Flat.of_isColimit` (2.6) this makes Bass's module (2.5) flat without
+smallness. -/
+instance ModCat.flat_yoneda_obj (X : C) : ((ModCat.yoneda C).obj X).Flat where
+  isTrivialRelation {_ _ _} β y hy := by
+    refine ⟨1, fun _ ↦ X, fun _ ↦ (𝟙 X : X ⟶ X), fun _ j ↦ y j, ?_, ?_⟩
+    · intro j
+      rw [Fin.sum_univ_one]
+      exact (Category.comp_id (y j)).symm
+    · intro _
+      exact hy
 
 end FlatDef
 
@@ -2152,7 +2371,7 @@ theorem ModCat.isTrivialRelation_tfae (F : ModCat.{v} C) {X : C} {n : ℕ} {Y : 
   sorry
 
 /-- **2.2, Lambek's criterion** for an `R`-linear `C` and any injective cogenerator `E` of
-`R`-modules, proved from the adjunction of 0.3 and the monomorphism criterion of 0.7. -/
+`R`-modules, proved from the adjunction of 0.4 and the monomorphism criterion of 0.8. -/
 theorem ModCat.flat_iff_injective_dual (R : Type*) [CommRing R] [Linear R C]
     (E : ModuleCat.{v} R) [Injective E] (hE : IsCoseparator E) (F : ModCat.{v} C) :
     F.Flat ↔ Injective ((ModCat.dual R E).obj (op F)) :=
@@ -2165,7 +2384,7 @@ theorem ModCat.Flat.mono_tensor_map_app (F : ModCat.{v} C) [F.Flat] {G G' : ModC
   sorry
 
 /-- **2.2** Tensoring with a flat covariant functor (flat as a module over `Cᵒᵖ`) preserves
-monomorphisms of `Mod C` (the swap, 0.5). -/
+monomorphisms of `Mod C` (the swap, 0.6). -/
 theorem ModCat.Flat.mono_tensor_obj_map (G : ModCat.{v} Cᵒᵖ) [ModCat.Flat G]
     {F F' : ModCat.{v} C} (f : F ⟶ F') [Mono f] : Mono ((tensor.obj G).map f) :=
   sorry
@@ -2186,7 +2405,7 @@ theorem ModCat.Flat.projective_of_isFinitelyPresentedFunctor (F : ModCat.{v} C) 
   sorry
 
 /-- **2.2, `Tor` commutes with filtered colimits** in the `Mod C` variable: compute `Tor` from a
-projective resolution `P` of `G` (1.3); `P_p ⊗_C -` preserves colimits (0.3), and filtered colimits
+projective resolution `P` of `G` (1.3); `P_p ⊗_C -` preserves colimits (0.4), and filtered colimits
 are exact in `AddCommGrpCat`. -/
 instance ModCat.preservesFilteredColimits_tor_obj (G : ModCat.{v} Cᵒᵖ) (n : ℕ) :
     PreservesFilteredColimitsOfSize.{v, v} ((tor n).obj G) :=
@@ -2234,8 +2453,6 @@ end BalancedFlatTests
 /-! ### 2.3 The Lazard block -/
 
 section Lazard
-
-attribute [local instance] Cardinal.fact_isRegular_aleph0
 
 variable {C : Type u} [Category.{v} C] [Preadditive C]
 
@@ -2552,11 +2769,12 @@ theorem ModCat.bassTelescope_shortExact :
     (ShortComplex.mk _ _ (ModCat.bassTelescope_comp_bassπ c f)).ShortExact :=
   sorry
 
-/-- **2.5** Bass's module is flat: a filtered colimit of representables (2.6). -/
+/-- **2.5** Bass's module is flat, with no smallness hypothesis: a filtered colimit of
+representables (`ModCat.flat_yoneda_obj`, 2.1, and `ModCat.Flat.of_isColimit`, 2.6). -/
 instance : (ModCat.bassModule c f).Flat :=
   sorry
 
-/-- **2.5** Bass's module is countably presented, by the telescope (0.8): the `ℵ₁`-presentability
+/-- **2.5** Bass's module is countably presented, by the telescope (0.9): the `ℵ₁`-presentability
 that Theorem P (3′) uses. -/
 instance [EssentiallySmall.{v} C] :
     IsCardinalPresentable (ModCat.bassModule c f) (Cardinal.aleph.{v} 1) :=
@@ -2606,8 +2824,9 @@ theorem ModCat.Flat.of_retract {F F' : ModCat.{w} C} (r : Retract F' F) [F.Flat]
     F'.Flat :=
   sorry
 
-/-- **2.6** A direct sum is flat exactly when every summand is. -/
-theorem ModCat.flat_sigma_iff {ι : Type w} (F : ι → ModCat.{w} C) :
+/-- **2.6** A direct sum is flat exactly when every summand is, for any `w`-small index type `ι`
+(such as `Fin n`, `ℕ` or any `ι : Type w`). -/
+theorem ModCat.flat_sigma_iff {ι : Type*} [Small.{w} ι] (F : ι → ModCat.{w} C) :
     (∐ F).Flat ↔ ∀ i, (F i).Flat :=
   sorry
 
@@ -2620,7 +2839,7 @@ theorem ModCat.Flat.of_isColimit {J : Type w} [SmallCategory J] [IsFiltered J]
 
 variable [EssentiallySmall.{v} C]
 
-/-- **2.6** Projective modules are flat (0.4). -/
+/-- **2.6** Projective modules are flat (0.5). -/
 instance ModCat.Flat.of_projective (F : ModCat.{v} C) [Projective F] : F.Flat :=
   sorry
 
@@ -2645,8 +2864,8 @@ variable {A : Type u} [Ring A]
   {M M₁ M₂ M₃ : Type v} [AddCommGroup M] [Module A M] [AddCommGroup M₁] [Module A M₁]
   [AddCommGroup M₂] [Module A M₂] [AddCommGroup M₃] [Module A M₃]
 
-/-- **2.6, rings** Projective modules are flat (an instance in Tau Ceti). -/
-theorem Module.BalancedFlat.of_projective [Module.Projective A M] : Module.BalancedFlat A M :=
+/-- **2.6, rings** Projective modules are flat, as an instance. -/
+instance Module.BalancedFlat.of_projective [Module.Projective A M] : Module.BalancedFlat A M :=
   sorry
 
 /-- **2.6, rings** Flatness is invariant under linear equivalence. -/
@@ -3171,7 +3390,7 @@ theorem ModCat.hasProjectiveDimensionLE_one_colimit (D : ℕ ⥤ ModCat.{v} C)
 /-- **3.5, Jensen's lemma**: every countably presented (`ℵ₁`-presentable) flat module `F` has
 projective dimension at most `1` ([Jensen, Lemma 2, pp. 98–100] over rings with countably generated
 left ideals; [Osofsky-Nagoya, Lemma 1.2, p. 316]; [Mitchell, p. 49]). Express `F` as a filtered
-colimit of finite sums of representables (2.3) and, given a countable presentation (0.8), build a
+colimit of finite sums of representables (2.3) and, given a countable presentation (0.9), build a
 sequence `D_0 → D_1 → ⋯` of stages recursively: at step `n`, lift the `n`-th generator and any
 not-yet-lifted generators in the `n`-th relation to a common stage receiving all earlier lifts
 (fixing each lift once chosen and pushing it forward along transition maps), and advance to a stage
@@ -3195,8 +3414,9 @@ matching Nakayama's lemma on `Mod C` (two-sided ideals such as `J(C)` enter via 
 `SingleObj Aᵐᵒᵖ` the composite of `op a₀, …, op aₙ₋₁` is Bass's left product `op (a₀ ⋯ aₙ₋₁)`).
 Projective covers are essential epimorphisms (`TauCeti.IsEssentialEpi`) from projectives. Milestone
 signatures here are stated in the morphism universe `v` (where representables and Bass modules live,
-2.5), whereas `README.md` also notes the `EssentiallySmall.{w} C` form; ring theorems use native
-classes and are derived from the categorical ones via `SingleObj Aᵐᵒᵖ`. -/
+2.5), under `EssentiallySmall.{v} C` where needed; a category that is `EssentiallySmall.{w}` for
+another universe `w` is first replaced by its small model (`README.md`, Convention 3). Ring
+theorems use native classes and are derived from the categorical ones via `SingleObj Aᵐᵒᵖ`. -/
 
 /-! ### 4.1 T-nilpotence and Nakayama's lemma for all modules -/
 
@@ -3231,8 +3451,9 @@ theorem MorphismIdeal.isTNilpotent_op_of_pow_eq_bot {I : TauCeti.MorphismIdeal C
 /-- **4.1, Bass's Nakayama lemma** in every universe ([Simson, Lemma 5.3, p. 108] states this for
 `J(C)` on `Cᵒᵖ`, remarking that Bass's arguments generalize; [Bass, pp. 473–474] uses König's graph
 theorem): for any T-nilpotent left ideal `I`, `I · M = M` implies `M = 0`. This is proved by
-dependent choice, choosing `f_n ∈ I(c_n, c_{n+1})` and `x_{n+1} ∈ M(c_{n+1})` inductively so that
-`M(q_n)(x_n) ≠ 0` for `q_n = f 0 ≫ ⋯ ≫ f (n - 1)`. -/
+dependent choice: starting from a nonzero `x_0 ∈ M(c_0)`, choose `f_n ∈ I(c_n, c_{n+1})` and
+`x_{n+1} ∈ M(c_{n+1})` inductively so that each step keeps `M(q_{n+1})(x_{n+1}) ≠ 0`, where
+`q_n = f 0 ≫ ⋯ ≫ f (n - 1)`. -/
 theorem LeftMorphismIdeal.IsTNilpotent.isZero_of_smul_eq_top {I : LeftMorphismIdeal C}
     (hI : I.IsTNilpotent) (M : ModCat.{w} C) (h : I.smul M = ⊤) : IsZero M :=
   sorry
@@ -3261,13 +3482,15 @@ theorem LeftMorphismIdeal.isTNilpotent_tfae (I : LeftMorphismIdeal C) :
 /-- **4.1, Nakayama's lemma for finitely generated modules**, for any `C`: `J(C) · M` is superfluous
 in every finitely generated module `M`. Indeed, if `J(C) · M ⊔ N = ⊤` with `N ≠ ⊤`, the nonzero
 finitely generated quotient `M ⧸ N` admits a maximal proper subobject
-(`ModCat.exists_isCoatom_of_isFinitelyGeneratedFunctor`, 0.1) with simple quotient `S`, and
-`J(C) · S = 0` (if `S(f)(x) ≠ 0` for `f ∈ J(C)(c, d)`, simplicity gives `x = S(g ≫ f)(x)`, so
-`x = 0` because `𝟙 - g ≫ f` is invertible), a contradiction. Consequently (**rigidity on finite
-sums of representables**, used in 4.2), any endomorphism `u` of a finite sum `Q` of representables
-equal to `𝟙` modulo `J(C) · Q` satisfies `u ≫ q = q` for the essential epimorphism
-`q : Q ⟶ Q ⧸ J(C) · Q` (`isEssentialEpi_iff_isSuperfluous_kernelSubobject`) and is therefore an
-isomorphism by `TauCeti.IsEssentialEpi.isIso_of_comp_eq`. -/
+(`ModCat.exists_isCoatom_of_isFinitelyGeneratedFunctor`, 0.1) with simple quotient `S`. Then
+`J(C) · S = 0`: if `S(f)(x) ≠ 0` for `f ∈ J(C)(c, d)` and `x ∈ S(d)`, simplicity of `S` generates
+`x` from `S(f)(x)`, so `x = S(g ≫ f)(x)` for some `g : d ⟶ c`, and `x = 0` because `𝟙 d - g ≫ f` is
+invertible. But the hypothesis `J(C) · M ⊔ N = ⊤` forces `J(C) · S = S`, contradicting `S ≠ 0`.
+Consequently (**rigidity on finite sums of representables**, used in 4.2), any endomorphism `u` of
+a finite sum `Q` of representables equal to `𝟙` modulo `J(C) · Q` satisfies `u ≫ q = q` for the
+essential epimorphism `q : Q ⟶ Q ⧸ J(C) · Q` (`isEssentialEpi_iff_isSuperfluous_kernelSubobject`)
+and is therefore an isomorphism by `TauCeti.IsEssentialEpi.isIso_of_comp_eq`, which applies since
+`Q` is projective. -/
 theorem ModCat.isSuperfluous_jacobson_smul_of_isFinitelyGeneratedFunctor (M : ModCat.{v} C)
     (hM : IsFinitelyGeneratedFunctor M.obj) :
     IsSuperfluous ((TauCeti.jacobsonRadicalIdeal C : LeftMorphismIdeal C).smul M) :=
@@ -3442,8 +3665,9 @@ variable {C} in
 /-- **4.2, semisimple modules**: a module with complemented subobjects is a direct sum of simple
 modules. The subobject lattice is modular and compactly generated (0.1), so Mathlib's
 `IsAtomistic` and `exists_sSupIndep_of_sSup_atoms` give independent atoms with supremum `⊤`; atoms
-are simple subobjects (Mathlib's `subobject_simple_iff_isAtom`), and the sum map is a monomorphism
-(AB4). -/
+are simple subobjects (Mathlib's `subobject_simple_iff_isAtom`). The sum map of each finite
+subfamily is a monomorphism by independence, and passing to the filtered colimit over finite
+subfamilies gives a monomorphism from the whole coproduct (AB5, 0.1). -/
 theorem ModCat.isSemisimple_iff_exists_iso_sigma [EssentiallySmall.{w} C] (M : ModCat.{w} C) :
     M.IsSemisimple ↔
       ∃ (ι : Type w) (S : ι → ModCat.{w} C), (∀ i, Simple (S i)) ∧ Nonempty (M ≅ ∐ S) :=
@@ -3515,7 +3739,7 @@ variable (C : Type u) [Category.{v} C] [Preadditive C]
 covariant modules, applied to `Cᵒᵖ`; [Krause, Prop. 4.1]): (1) `C` is semiperfect; (2) every
 `Hom(-, X)` is a finite sum of projective modules with local endomorphism rings; (3) every finitely
 generated module has a projective cover; (4) every simple module has one; (5) `proj C` is
-Krull–Schmidt. For (5): `proj C` has finite biproducts and split idempotents (0.8), so Krause's
+Krull–Schmidt. For (5): `proj C` has finite biproducts and split idempotents (0.9), so Krause's
 criterion applies, with `End Hom(-, X) = End X`, finite sums and corners. -/
 theorem isSemiperfectCategory_tfae :
     List.TFAE
@@ -3530,10 +3754,10 @@ theorem isSemiperfectCategory_tfae :
 variable {C}
 
 /-- **4.2** Over a semiperfect `C`, every simple module `S` admits a projective cover by a summand
-of some `Hom(-, X)` (needed alongside (1) in Theorem P): choose `X` with `S(X) ≠ 0`, decompose
-`1 = e₁ + ⋯ + eₙ` in `End X` with local corners, pick `i` and `x ∈ S(X)` with `S(eᵢ)(x) ≠ 0`, and
-map the projective summand `{g ≫ eᵢ}` of `Hom(-, X)` (`A eᵢ` for rings, with local endomorphism
-ring) onto `S`. -/
+of some `Hom(-, X)` (Theorem P uses only this and (1) of `isSemiperfectCategory_tfae`): choose `X`
+with `S(X) ≠ 0`, decompose `1 = e₁ + ⋯ + eₙ` in `End X` with local corners, pick `i` and `x ∈ S(X)`
+with `S(eᵢ)(x) ≠ 0`, and map the projective summand `{g ≫ eᵢ}` of `Hom(-, X)` (`A eᵢ` for rings,
+with local endomorphism ring) onto `S`. -/
 theorem ModCat.hasProjectiveCover_of_simple [IsSemiperfectCategory C] (S : ModCat.{v} C)
     [Simple S] : HasProjectiveCover S :=
   sorry
@@ -3590,11 +3814,12 @@ section Semiperfect
 
 variable {R : Type u} [Ring R]
 
-/-- **4.2** A projective cover of a projective module is an isomorphism. -/
+/-- **4.2** A projective cover of a projective module is an isomorphism, by comparison with the
+identity cover (`TauCeti.isProjectiveCover_id`). -/
 theorem IsProjectiveCover.bijective_of_projective {M P : Type*} [AddCommGroup M] [Module R M]
     [AddCommGroup P] [Module R P] [Module.Projective R M] {f : P →ₗ[R] M}
     (hf : TauCeti.IsProjectiveCover f) : Function.Bijective f :=
-  sorry
+  hf.bijective_of_comp_eq TauCeti.isProjectiveCover_id (LinearMap.id_comp f)
 
 /-- **4.2** A surjection from a projective module with local endomorphism ring onto a nonzero
 module is a projective cover. -/
@@ -3630,14 +3855,16 @@ theorem jacobson_ne_top_of_projective (P : Type v) [AddCommGroup P] [Module R P]
   sorry
 
 /-- **4.2, covers from covers of simple quotients**: if every simple quotient of a finitely
-generated module `M` has a projective cover, then `M` has one whose source is a finite product of
-covers `pᵢ : Pᵢ → M ⧸ Nᵢ` of simple quotients, the `i`-th component lifting `pᵢ`. -/
+generated module `M` has a projective cover (in the form of `TauCeti.exists_isProjectiveCover`),
+then `M` has one whose source is a finite product of covers `pᵢ : Pᵢ → M ⧸ Nᵢ` of simple quotients,
+the `i`-th component lifting `pᵢ`. -/
 theorem exists_isProjectiveCover_pi_of_forall_isCoatom_exists_isProjectiveCover {M : Type v}
     [AddCommGroup M] [Module R M] [Module.Finite R M]
-    (h : ∀ N : Submodule R M, IsCoatom N → ∃ (P : Type w) (_ : AddCommGroup P) (_ : Module R P)
-      (p : P →ₗ[R] M ⧸ N), TauCeti.IsProjectiveCover p) :
-    ∃ (n : ℕ) (P : Fin n → Type w) (_ : ∀ i, AddCommGroup (P i)) (_ : ∀ i, Module R (P i))
-      (N : Fin n → Submodule R M) (p : ∀ i, P i →ₗ[R] M ⧸ N i) (f : (∀ i, P i) →ₗ[R] M),
+    (h : ∀ N : Submodule R M, IsCoatom N → ∃ P : Submodule R ((M ⧸ N) →₀ R),
+      TauCeti.IsProjectiveCover (Finsupp.linearCombination R id ∘ₗ P.subtype)) :
+    ∃ (n : ℕ) (P : Fin n → Type (max u v)) (_ : ∀ i, AddCommGroup (P i))
+      (_ : ∀ i, Module R (P i)) (N : Fin n → Submodule R M) (p : ∀ i, P i →ₗ[R] M ⧸ N i)
+      (f : (∀ i, P i) →ₗ[R] M),
       (∀ i, IsCoatom (N i)) ∧ (∀ i, TauCeti.IsProjectiveCover (p i)) ∧
         (∀ i, (N i).mkQ ∘ₗ f ∘ₗ LinearMap.single R P i = p i) ∧ TauCeti.IsProjectiveCover f :=
   sorry
@@ -3646,8 +3873,8 @@ theorem exists_isProjectiveCover_pi_of_forall_isCoatom_exists_isProjectiveCover 
 cover. -/
 theorem exists_isProjectiveCover_of_isSemiperfectRing [TauCeti.IsSemiperfectRing R] (M : Type v)
     [AddCommGroup M] [Module R M] [Module.Finite R M] :
-    ∃ (P : Type u) (_ : AddCommGroup P) (_ : Module R P) (p : P →ₗ[R] M),
-      TauCeti.IsProjectiveCover p :=
+    ∃ P : Submodule R (M →₀ R),
+      TauCeti.IsProjectiveCover (Finsupp.linearCombination R id ∘ₗ P.subtype) :=
   sorry
 
 /-- **4.2** A ring that is, as a left module over itself, a finite product of modules with local
@@ -3667,10 +3894,12 @@ theorem isSemiperfectRing_tfae :
         ∃ (n : ℕ) (P : Fin n → Type u) (_ : ∀ i, AddCommGroup (P i)) (_ : ∀ i, Module R (P i)),
           (∀ i, Module.Projective R (P i)) ∧ (∀ i, IsLocalRing (Module.End R (P i))) ∧
             Nonempty (R ≃ₗ[R] ∀ i, P i),
-        ∀ (M : Type u) [AddCommGroup M] [Module R M] [Module.Finite R M], ∃ (P : Type u)
-          (_ : AddCommGroup P) (_ : Module R P) (p : P →ₗ[R] M), TauCeti.IsProjectiveCover p,
-        ∀ (S : Type u) [AddCommGroup S] [Module R S] [IsSimpleModule R S], ∃ (P : Type u)
-          (_ : AddCommGroup P) (_ : Module R P) (p : P →ₗ[R] S), TauCeti.IsProjectiveCover p,
+        ∀ (M : Type u) [AddCommGroup M] [Module R M] [Module.Finite R M],
+          ∃ P : Submodule R (M →₀ R),
+            TauCeti.IsProjectiveCover (Finsupp.linearCombination R id ∘ₗ P.subtype),
+        ∀ (S : Type u) [AddCommGroup S] [Module R S] [IsSimpleModule R S],
+          ∃ P : Submodule R (S →₀ R),
+            TauCeti.IsProjectiveCover (Finsupp.linearCombination R id ∘ₗ P.subtype),
         IsKrullSchmidt (TauCeti.finiteProjectiveModules R).FullSubcategory] :=
   sorry
 
@@ -3907,10 +4136,12 @@ a pure epimorphism, then `K = ⊥`. Given `x ∈ K(c)`, choose `s : P ⟶ F` and
 `s(x)` as `x_L`, and projection `π_L : F ⟶ L` (`j ≫ π_L = 𝟙`). Because `L ⟶ P ⧸ K` factors through
 the finitely presented quotient `L ⧸ (x_L)`, purity lifts it to `g : L ⟶ P`; then
 `δ = j - g ≫ s : L ⟶ F` sends `x_L` to `s(x)` while `δ ≫ r` vanishes in `P ⧸ K`, so
-`θ = s ≫ π_L ≫ δ ≫ r : P ⟶ P` has image in `K` and satisfies `θ(x) = x`. Since `K` is superfluous
-and contains the image of `θ`, the endomorphism `𝟙 - θ` is epic, splits, and has kernel a summand
-inside `K` and hence zero ([Mares, Thm. 2.4, proof step (i), p. 349]), so `(𝟙 - θ)(x) = 0` implies
-`x = 0`. -/
+`θ = s ≫ π_L ≫ δ ≫ r : P ⟶ P` has image in `K` and satisfies `θ(x) = x`. So the quotient map
+`q : P ⟶ P ⧸ K` satisfies `θ ≫ q = 0`, hence `(𝟙 - θ) ≫ q = q`. As `K` is superfluous, `q` is an
+essential epimorphism (`isEssentialEpi_iff_isSuperfluous_kernelSubobject`, 0.3), and since `P` is
+projective, `TauCeti.IsEssentialEpi.isIso_of_comp_eq` makes `𝟙 - θ` an isomorphism. ([Mares,
+Thm. 2.4, proof step (i), p. 349] shows instead that `𝟙 - θ` is a split epimorphism whose kernel, a
+summand inside `K`, is zero.) Hence `(𝟙 - θ)(x) = 0` implies `x = 0`. -/
 theorem ModCat.eq_bot_of_isSuperfluous_of_isPureEpi {P : ModCat.{v} C} [Projective P]
     {K : Subobject P} (hK : IsSuperfluous K) (hpure : ModCat.IsPureEpi (cokernel.π K.arrow)) :
     K = ⊥ :=
@@ -3985,10 +4216,12 @@ chain condition on principal right ideals and 4′ Bass's chain `a₀A ⊇ a₀a
 theorem isLeftPerfectRing_tfae :
     List.TFAE
       [IsLeftPerfectRing A,
-        ∀ (M : Type u) [AddCommGroup M] [Module A M], ∃ (P : Type u) (_ : AddCommGroup P)
-          (_ : Module A P) (p : P →ₗ[A] M), TauCeti.IsProjectiveCover p,
-        ∀ (M : Type u) [AddCommGroup M] [Module A M] [IsSemisimpleModule A M], ∃ (P : Type u)
-          (_ : AddCommGroup P) (_ : Module A P) (p : P →ₗ[A] M), TauCeti.IsProjectiveCover p,
+        ∀ (M : Type u) [AddCommGroup M] [Module A M],
+          ∃ P : Submodule A (M →₀ A),
+            TauCeti.IsProjectiveCover (Finsupp.linearCombination A id ∘ₗ P.subtype),
+        ∀ (M : Type u) [AddCommGroup M] [Module A M] [IsSemisimpleModule A M],
+          ∃ P : Submodule A (M →₀ A),
+            TauCeti.IsProjectiveCover (Finsupp.linearCombination A id ∘ₗ P.subtype),
         ∀ (M : Type u) [AddCommGroup M] [Module A M], Module.BalancedFlat A M →
           Module.Projective A M,
         ∀ M : ModuleCat.{u} A, Module.BalancedFlat A M →
@@ -4027,7 +4260,7 @@ theorem ModCat.globalDimension_op_eq_of_isPerfectCategory
 `C`, `pd M ≤ n` if and only if `Tor_{n+1}((C ⧸ J)(X, -), M) = 0` for every `X`, giving
 `pd M = sup {n : Tor_n(C ⧸ J, M) ≠ 0}`. Indeed, a minimal resolution built from projective covers
 (4.4) has differentials landing in `J · P_n` (4.2), so
-`Tor_n((C ⧸ J)(X, -), M) ≅ P_n(X) ⧸ (J · P_n)(X)` (0.3), and `J · P_n ≠ P_n` for `P_n ≠ 0` by
+`Tor_n((C ⧸ J)(X, -), M) ≅ P_n(X) ⧸ (J · P_n)(X)` (0.4), and `J · P_n ≠ P_n` for `P_n ≠ 0` by
 T-nilpotence of `J(C)` (4.1). -/
 theorem ModCat.hasProjectiveDimensionLE_iff_isZero_tor [IsPerfectCategory C]
     (M : ModCat.{v} C) (n : ℕ) :
@@ -4080,8 +4313,8 @@ theorem balancedFlat_rat_and_not_projective :
 theorem not_isSemiperfectRing_int : ¬ TauCeti.IsSemiperfectRing ℤ :=
   sorry
 
-/-- The ideal `(X)` of a power series ring is not left T-nilpotent, so `PowerSeries k` is local,
-hence semiperfect, and not left perfect. -/
+/-- The ideal `(X)` of `PowerSeries k` is not left T-nilpotent, so the local (hence semiperfect)
+ring `PowerSeries k` is not left perfect. -/
 theorem not_isLeftTNilpotent_span_X (k : Type u) [Field k] :
     ¬ IsLeftTNilpotent
       ((Ideal.span {PowerSeries.X} : Ideal (PowerSeries k)) : Set (PowerSeries k)) :=
