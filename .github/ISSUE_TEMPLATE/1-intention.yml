@@ -48,6 +48,7 @@ body:
         - ArithmeticLocallySymmetricSpaces
         - AsymptoticExpansions
         - AutomorphicFormsOnReductiveGroups
+        - AutomorphicSpectralTheory
         - BanachAlgebras
         - BanachSpaceTheory
         - BelyiMaps
@@ -92,6 +93,7 @@ body:
         - DerivedDeRhamCohomology
         - DerivedModuleAlgebra
         - DiagrammaticCoherence
+        - DiamondEtaleCohomology
         - DiamondsAndVStacks
         - DifferentialGeometry
         - DimerModelsAndLozengeTilings
@@ -161,12 +163,14 @@ body:
         - InverseGaloisAndArithmeticFundamentalGroups
         - Isoperimetry
         - JacobianChallenge
+        - JacobianChallengePartII
         - K2SymbolsBrauer
         - KTheoryLowDegrees
         - KacMoody
         - KhovanovHomology
         - LFunctions
         - LanglandsParameterStacks
+        - LefschetzPencilsAndVanishingCycles
         - LefschetzPencilsAndVanishingCyclesPartII
         - LieGroupoidsPoisson
         - LieGroupsPartII
