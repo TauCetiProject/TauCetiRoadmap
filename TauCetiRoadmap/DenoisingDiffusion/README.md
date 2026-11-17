@@ -106,6 +106,12 @@ is consumed.
 
 ## How to read the build
 
+Layer 1 proves the two Gaussian facts everything else uses: the divergence between isotropic
+Gaussian laws and the Bayes update. Layer 2 builds the forward chain on them: the noising kernels,
+the path law, its marginals and the posterior. Layer 3 is independent of Layers 1 and 2: the
+smoothed density, Tweedie's formula and score matching. Layer 4 combines the three into the
+variational bound, its surrogate and the noise-prediction closed form.
+
 Each layer opens with its definitions. Each numbered target ends with a **Checks** list of tests
 that a wrong convention or constant would fail, and a *Needs:* line naming the targets and
 suppliers it uses. Every claim carries a source locator in parentheses, or says that it is proved
@@ -357,8 +363,8 @@ Prove `MemLp (fun ω ↦ noisyScore μ₀ c s (Y ω)) 2 P` with
   for the law of `Y` (`noisePrediction_minimizer`).
 
 The last two items are the `L²`-orthogonality of the conditional expectation. (Hyvärinen 2005,
-equation (2), for the explicit objective; Vincent 2011, Section 4.2, equation (11), and the
-Appendix, for the equivalence; proved here.)
+equation (2), for the explicit objective; Vincent 2011 (technical report numbering),
+Section 4.2, equation (11), and the Appendix, for the equivalence; proved here.)
 
 **Checks.**
 
@@ -407,9 +413,10 @@ Let `rev t : Kernel E E` be reverse kernels of the forward chain, `IsReverseKern
   `klDiv μ₀ ((modelPath π κ T).map (eval 0)) ≤ klDiv (forwardPath μ₀ β T) (modelPath π κ T)`,
   by `klDiv_map_le` for `eval 0` (`klDiv_le_klDiv_forwardPath`).
 
-These three statements hold for every `β : ℕ → ℝ`: they use only that `forwardPath μ₀ β T` is
-the path law of a Markov chain started at `μ₀`, and `noiseKernel a` is a Markov kernel for every
-real `a`.
+The variational bound holds for every `β : ℕ → ℝ`: `noiseKernel a` is a Markov kernel for every
+real `a`, and the time-`0` marginal of `forwardPath μ₀ β T` is `μ₀`. The reverse Markov property
+and the chain rule assume a schedule, for which `qₜ` is the time-`t` marginal of the path law
+(2.2).
 
 (Ho, Jain and Abbeel 2020, equation (3) for the bound and equation (16) for the chain rule, both
 written there with entropies; proved here.)
@@ -538,5 +545,5 @@ and `modelPath`, and the statements `noiseKernel_comp` (2.1), `forwardPath_map_e
   Statist. Probab. **1** (1956), 157–163.
 - J. Sohl-Dickstein, E. Weiss, N. Maheswaranathan and S. Ganguli, *Deep unsupervised learning
   using nonequilibrium thermodynamics*, ICML 2015, arXiv:1503.03585.
-- P. Vincent, *A connection between score matching and denoising autoencoders*, Neural Comput.
-  **23** (2011), 1661–1674.
+- P. Vincent, *A connection between score matching and denoising autoencoders*, Technical Report
+  1358, DIRO, Université de Montréal, 2010; published in Neural Comput. **23** (2011), 1661–1674.

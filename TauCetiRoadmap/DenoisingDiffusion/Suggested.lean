@@ -241,19 +241,19 @@ def IsReverseKernel (μ₀ : Measure E) (β : ℕ → ℝ) (T : ℕ) (rev : ℕ 
     (forwardPath μ₀ β T).map (fun x ↦ (pathEval t htT x, pathEval (t - 1) (by omega) x)) =
       forwardMarginal μ₀ β t ⊗ₘ rev t
 
-/-- 4.1: read backwards, the forward chain is the Markov chain with kernels `rev t`; this holds
-for every `β`. -/
-theorem forwardPath_reverse [∀ t, IsMarkovKernel (rev t)] (hrev : IsReverseKernel μ₀ β T rev) :
+/-- 4.1: read backwards, the forward chain is the Markov chain with kernels `rev t`. -/
+theorem forwardPath_reverse (hβ : ∀ t, 1 ≤ t → 0 < β t ∧ β t < 1) [∀ t, IsMarkovKernel (rev t)]
+    (hrev : IsReverseKernel μ₀ β T rev) :
     (forwardPath μ₀ β T).map (reverseIndex T) =
       Kernel.partialTraj (X := fun _ ↦ E)
           (fun n ↦ (rev (T - n)).comap (pathEval n le_rfl) (measurable_pathEval n le_rfl)) 0 T ∘ₘ
         (forwardMarginal μ₀ β T).map (fun x (_ : Iic 0) ↦ x) :=
   sorry
 
-/-- 4.1: the chain rule for the path divergence; this holds for every `β`. -/
+/-- 4.1: the chain rule for the path divergence. -/
 theorem klDiv_forwardPath_eq (prior : Measure E)
     [IsProbabilityMeasure prior] [∀ t, IsMarkovKernel (rev t)] [∀ t, IsMarkovKernel (κ t)]
-    (hrev : IsReverseKernel μ₀ β T rev) :
+    (hβ : ∀ t, 1 ≤ t → 0 < β t ∧ β t < 1) (hrev : IsReverseKernel μ₀ β T rev) :
     klDiv (forwardPath μ₀ β T) (modelPath prior κ T) =
       klDiv (forwardMarginal μ₀ β T) prior +
         ∑ t ∈ Icc 1 T, klDiv (forwardMarginal μ₀ β t ⊗ₘ rev t) (forwardMarginal μ₀ β t ⊗ₘ κ t) :=
