@@ -144,6 +144,7 @@ body:
         - GeometricRepresentationCategories
         - GeometricTopology
         - GeometryOfNumbersAndQuadraticArithmetic
+        - GlobalGaloisDeformations
         - GlobalHolomorphicFunctions
         - GlobalQuadraticForms
         - GraphConnectivityAndFlows
@@ -209,6 +210,7 @@ body:
         - ModularForms
         - MorseNovikov
         - MorseTheory
+        - MotivesAndAlgebraicCycles
         - NashBlowups
         - NeronModelsAndSemistableAbelianVarieties
         - NeronModelsAndSemistableAbelianVarietiesPartII
@@ -228,6 +230,7 @@ body:
         - Orbifolds
         - PCurvature
         - PDE
+        - PELModuli
         - PadicExtensionFamilies
         - PadicFunctionalAnalysis
         - PadicLocalLanglandsForGL2Qp
@@ -287,6 +290,7 @@ body:
         - SchubertGeometry
         - SeibergWittenTheory
         - SelmerIwasawaCohomology
+        - ShimuraVarieties
         - SieveMethodsAndPrimePatterns
         - SmoothBundlesConnections
         - SmoothRepresentationsOfLocalGroups
