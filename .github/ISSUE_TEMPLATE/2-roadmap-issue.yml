@@ -165,6 +165,7 @@ body:
         - KacMoody
         - KhovanovHomology
         - LFunctions
+        - LaguerreJacobi
         - LanglandsParameterStacks
         - LefschetzPencilsAndVanishingCycles
         - LefschetzPencilsAndVanishingCyclesPartII
