@@ -51,6 +51,9 @@ section Types
 
 variable {L : FirstOrder.Language.{u, v}}
 
+-- Tau Ceti's countability of the generated fragment, cited in README §1.2 (not restated).
+#check @FirstOrder.Language.Fragment.generated_countable
+
 /-- **Layer 4, the arity-`n` slice of a fragment**: the formulas with `n` bound positions whose
 tagged form `⟨n, φ⟩` belongs to `A`. A realized truth assignment is a map
 `Fragment.slice A n → Prop`. -/
