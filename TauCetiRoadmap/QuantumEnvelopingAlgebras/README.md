@@ -13,18 +13,22 @@ at `ζ` and `−ζ`, and the half-algebra Frobenius sequences at the small order
 root datum changes type); the quantum Lucas theorem for
 signed arguments; root-of-unity Weyl modules, simple heads, Frobenius pullbacks and the Steinberg
 tensor-product theorem; Frobenius contraction; and the quantum plane as a worked integral model.
-The end theorems are the Hopf structure on the full-`Y` presentation, the braid relations, the
-integral PBW theorem, the integral `v = 1` comparisons, the Frobenius maps for all orders and the
-contraction comparisons. It is built from KacMoody Layer 0, RootSystems, LieHighestWeight,
-ReductiveGroups Layer 9 §9A and QuantumGroups Q8.
+The end theorems are the Serre presentation theorem, the Hopf structure on the full-`Y` algebra,
+the braid relations, the integral PBW theorem, the integral `v = 1` comparisons, the Frobenius
+maps for all orders and the contraction comparisons. It is built from KacMoody Layers 0, 1, 2 and 4,
+RootSystems, LieHighestWeight, ReductiveGroups Layer 9 §9A, QuantumGroups Q8 and
+HopfologicalAlgebra Layer 7 §7.3.
 
 ## Scope and ownership
 
 This roadmap owns:
 
-- the generic algebra `U_v(A, X, Y)` for every finite-rank symmetrizable datum on a full lattice
-  pair, its Hopf structure, triangular decomposition, braided halves, nilpotent and Borel pairings,
-  the torus-amalgamated double, and the rank-one comparison with QuantumGroups Q8 (Layer 1);
+- the algebra `f` and the generic algebra `U_v(A, X, Y)` for every finite-rank symmetrizable
+  datum on a full lattice pair, its Hopf structure, triangular decomposition and Serre
+  presentation, braided halves, nilpotent and Borel pairings, the torus-amalgamated double, and
+  the rank-one comparison with QuantumGroups Q8 (Layer 1);
+- the category `O` of `U`, its Verma modules, the quantum Casimir and the character formula for
+  integrable highest-weight modules, over every `(k, q)` of the Conventions (§2.3);
 - the braid automorphisms `Tᵢ` and the braid relations for every symmetrizable datum, and in
   finite type the root vectors attached to reduced expressions of the longest element (Layer 2);
 - the full-`Y` integral form `U_A`, its toral basis, the finite-type integral PBW basis, base
@@ -55,8 +59,13 @@ It leaves to named roadmaps:
   modules and their simple heads: ReductiveGroups Layer 10 §10B;
 - the complex rank-one algebra `U_q(sl₂)` with its PBW basis and Hopf structure: QuantumGroups Q8
   item 1;
-- type-1 integrable modules of the generic algebra, the quantum Casimir, Kashiwara operators,
-  crystal bases and the path-crystal comparison: KacMoody, Part II, which consumes Layers 1–4;
+- the `χ`-braided category of `G`-graded vector spaces, braided tensor products of algebras and
+  Yetter–Drinfeld modules: HopfologicalAlgebra Layer 7 §7.3; Layer 1 instantiates it at `G = Q`
+  and constructs `f` in it;
+- the further theory of type-1 integrable modules of the generic algebra, complete reducibility
+  of quantum `O_int`, Kashiwara operators, crystal bases and the path-crystal comparison:
+  KacMoody, Part II, which consumes Layers 1–4, including the category `O`, Verma modules,
+  quantum Casimir and character formula of §2.3;
 - finite LS chains, section indices and the Chevalley divisor formula: SchubertGeometry S4 and S7.
 
 Already in the libraries, consumed and not restated: Mathlib's `FreeAlgebra`, `RingQuot`,
@@ -75,16 +84,19 @@ negative upper arguments and its root-of-unity evaluations do not live in `ℕ[t
 - `I` is a finite index type, `A = (aᵢⱼ)` a symmetrizable generalized Cartan matrix with the row
   convention `aᵢⱼ = ⟨αⱼ, hᵢ⟩`, and `dᵢ` positive integers with `dᵢ aᵢⱼ = dⱼ aⱼᵢ`. `X` and `Y` are
   free of finite rank with a perfect pairing `⟨−, −⟩ : X × Y → ℤ`, simple roots `αᵢ ∈ X` and simple
-  coroots `hᵢ ∈ Y`, each family linearly independent. `Y` is never replaced by the coroot lattice
+  coroots `hᵢ ∈ Y`, each family linearly independent. The positive degree monoid is
+  `Q⁺ = I →₀ ℕ` and its group completion is `Q = I →₀ ℤ`; the independent roots identify `Q`
+  with its image in `X`. Write `κ(αᵢ) = dᵢhᵢ` and `χ(αᵢ, αⱼ) = q^(dᵢaᵢⱼ)`, so
+  `χ(β, γ) = q^⟨β,κ(γ)⟩` is symmetric. `Y` is never replaced by the coroot lattice
   nor `X` by the root lattice, and no splitting of a central sublattice is assumed.
 - `vᵢ = v^dᵢ`, `Kᵢ = K_(dᵢhᵢ)`. Symmetric quantum integers `[m]ᵢ = (vᵢ^m − vᵢ^(−m))/(vᵢ − vᵢ⁻¹)`;
   divided powers `Eᵢ^(n) = Eᵢⁿ/[n]ᵢ!` use `vᵢ`, never `v`. `aᵢⱼ` and `aⱼᵢ` are never
   interchanged.
 - The generic theorems of Layers 1–2 are stated over an arbitrary field `k` with `q ∈ k`, `q ≠ 0`,
   and `[n]_(qᵢ)! ≠ 0` for all `i`, `n` (equivalently, no `qᵢ` is a root of unity). `U_v(A, X, Y)` is
-  the case `k = ℚ(v)`, `q = v`. Evaluation `v ↦ q` is a ring map `ℚ(v) → k` only for `q`
-  transcendental over the prime field, so these theorems are proved over `(k, q)` directly or over
-  `A` and base changed, never transported from `ℚ(v)` by scalar extension.
+  the case `k = ℚ(v)`, `q = v`. Evaluation `v ↦ q` is a ring map `ℚ(v) → k` only in
+  characteristic zero with `q` transcendental over `ℚ`, so these theorems are proved over `(k, q)`
+  directly or by specialization from the ring `R` of 1.3a, never transported from `ℚ(v)` by scalar extension.
 - One Hopf structure, that of QuantumGroups Q8: `Δ(K_y) = K_y ⊗ K_y`, `Δ(Eᵢ) = Eᵢ ⊗ 1 + Kᵢ ⊗ Eᵢ`,
   `Δ(Fᵢ) = Fᵢ ⊗ Kᵢ⁻¹ + 1 ⊗ Fᵢ`, `ε(K_y) = 1`, `ε(Eᵢ) = ε(Fᵢ) = 0`, `S(K_y) = K_(−y)`,
   `S(Eᵢ) = −Kᵢ⁻¹Eᵢ`, `S(Fᵢ) = −FᵢKᵢ`. Lentner2014 (line 427) uses the opposite tensor-factor order
@@ -118,11 +130,18 @@ negative upper arguments and its root-of-unity evaluations do not live in `ℕ[t
   §2.1 for the Weyl group of the datum.
 - `AlgEquiv`, `LinearIndependent`, `Algebra.adjoin`, `TensorProduct.map`, `LinearMap.mul'`.
 
-No q-binomial, quantum integer, Drinfeld–Jimbo algebra, Nichols algebra or Yetter–Drinfeld
-category exists at the pinned Mathlib or Tau Ceti.
-
 ### From Tau Ceti
 
+- `TauCeti.IsGenericQuantumParameter`, `TauCeti.quantumInteger`,
+  `TauCeti.quantumInteger_natCast_eq_sum` and `TauCeti.quantumInteger_ne_zero`
+  (`TauCeti/QuantumGroups/QuantumInteger/Basic.lean`): symmetric quantum integers over a field,
+  their geometric sum and nonvanishing at a nonzero parameter of infinite multiplicative order.
+- `TauCeti.quantumBinomial` (`QuantumInteger/Binomial.lean`) and
+  `TauCeti.laurentQuantumInteger` (`QuantumInteger/Laurent.lean`): the symmetric Pascal recurrence
+  and Laurent quantum integers, used in 0.3.
+- `TauCeti.UqSl2`, its generators `e`, `f`, `k`, `kInv` and its Hopf structure
+  (`TauCeti/QuantumGroups/UqSl2/Basic.lean`, `UqSl2/Hopf.lean`): the carrier and structure for the
+  rank-one comparison of 1.1 and QuantumGroups Q8.
 - `TauCeti.UniversalEnvelopingAlgebra.kostantForm`
   (`TauCeti/Algebra/Lie/UniversalEnveloping/Kostant/Form.lean`): for families `e : ι → L` and
   `h : κ → L` in a rational Lie algebra `L`, the subring of `UniversalEnvelopingAlgebra ℚ L`
@@ -148,6 +167,11 @@ category exists at the pinned Mathlib or Tau Ceti.
   coweight lattices and the root-annihilating directions.
 - Layer 2 §2.1: the simple reflections and the Weyl group as a Coxeter group, with the lengths
   `mᵢⱼ = 2, 3, 4, 6` for `aᵢⱼ aⱼᵢ = 0, 1, 2, 3`.
+- Layer 1 §1.4 and Layer 4 §§4.1, 4.3–4.4: the classical PBW dimensions,
+  the cone-supported character completion, the Verma Euler product and the Weyl–Kac denominator
+  identity, used in 2.3.
+  The completion is used over the auxiliary rational realization; its integer coefficients
+  record dimensions over `k`, including when `k` has positive characteristic.
 
 ### From TauCetiRoadmap.RootSystems
 
@@ -180,9 +204,16 @@ category exists at the pinned Mathlib or Tau Ceti.
 
 ### From TauCetiRoadmap.QuantumGroups
 
-- Q8 item 1: the complex algebra `U_q(sl₂)` for `q` not a root of unity, presented as a `RingQuot`
+- Q8 item 1: the complex algebra `TauCeti.UqSl2` for `q` not a root of unity, presented as a `RingQuot`
   on `E, F, K, K⁻¹`, its PBW basis and its native Hopf structure with
   `ΔE = E ⊗ 1 + K ⊗ E`, `ΔF = F ⊗ K⁻¹ + 1 ⊗ F`, `S(E) = −K⁻¹E`, `S(F) = −FK`.
+
+### From TauCetiRoadmap.HopfologicalAlgebra
+
+- Layer 7 §7.3: the category of `G`-graded vector spaces with bicharacter braiding, braided tensor
+  multiplication, Hopf objects and their graded equations, Yetter–Drinfeld modules and
+  bosonization. Sections 1.0 and 1.4 use `G = Q`; 5.4 uses the Yetter–Drinfeld ambient for the
+  Frobenius sequences.
 
 ### From TauCetiRoadmap.SchubertGeometry
 
@@ -193,9 +224,11 @@ category exists at the pinned Mathlib or Tau Ceti.
 ## How to read the build
 
 Layer 0 fixes the datum and the quantum integers, and proves the quantum Lucas theorem on the
-Laurent Gaussians. Layer 1 builds the generic algebra on the full lattice and all its Hopf,
-triangular and pairing structure over an arbitrary field with generic parameter. Layer 2 adds the
-braid automorphisms in every symmetrizable type and, in finite type, root vectors. Layer 3 builds
+Laurent Gaussians. Layer 1 constructs `f` as a free algebra modulo the radical of its bilinear
+form (1.0), then `U` with its Hopf structure and triangular decomposition (1.1–1.3), and proves
+the Serre presentation theorem (1.3a). The pairings and double follow in 1.4–1.5. Layer 2 adds the
+braid automorphisms, the category `O`, quantum Casimir and character formula in every symmetrizable
+type, and root vectors in finite type. Layer 3 builds
 the integral form `U_A`, its toral basis and PBW basis, and compares it at `v = 1` with the
 Kostant form. Layer 4 builds integral highest-weight lattices and specializes them at `v = 1`.
 Layer 5 constructs quantum Frobenius at every root of unity. Layer 6 develops root-of-unity
@@ -242,31 +275,30 @@ as `2, 3, 4, 6` according as `aᵢⱼaⱼᵢ = 0, 1, 2, 3`.
 
 ### 0.2 Quantum integers in a field
 
-Define `qInt q r = (q^r − q^(−r))/(q − q⁻¹)` and `qFactorial q r = [1]_q ⋯ [r]_q` in a field `K`.
-At `q = ±1` the denominator vanishes and `qInt` is `0` by the field convention; every theorem using
+Use `[r]_q = TauCeti.quantumInteger q r = (q^r − q^(−r))/(q − q⁻¹)` and define
+`qFactorial q r = [1]_q ⋯ [r]_q` in a field `K`.
+At `q = ±1` the denominator vanishes and `[r]_q` is `0` by the field convention; every theorem using
 them assumes `qFactorial (q ^ dᵢ) n ≠ 0` for all `i` and `n`.
-*Needs:* Mathlib `Field`, `Finset.prod`.
+*Needs:* Tau Ceti's quantum-integer API; Mathlib `Field`, `Finset.prod`.
 
-- For `q² ≠ 1`, `qInt q r = q^(r−1) + q^(r−3) + ⋯ + q^(1−r)`, it is invariant under `q ↦ q⁻¹`, and
-  `qInt q (r + 1) = q · qInt q r + q^(−r)`.
-- `qFactorial q n ≠ 0` for all `n` if and only if `q` is not a root of unity.
-- For `q` not a root of unity, `qInt q r` is the specialization at `q` of the Laurent Gaussian
+- For `q ≠ 0`, `qFactorial q n ≠ 0` for all `n` if and only if `q` is not a root of unity.
+- For `q ≠ 0` not a root of unity, `[r]_q` is the specialization at `q` of the Laurent Gaussian
   `[r choose 1]_v` of 0.3, and `qFactorial q n` that of `∏_(j ≤ n) [j choose 1]_v`.
 
 **Checks.**
 
-- Over `ℚ` with `q = 2`: `qInt 2 3 = (8 − 1/8)/(2 − 1/2) = 21/4` and `qFactorial 2 3 = 1 · 5/2 · 21/4
+- Over `ℚ` with `q = 2`: `[3]_2 = (8 − 1/8)/(2 − 1/2) = 21/4` and `qFactorial 2 3 = 1 · 5/2 · 21/4
   = 105/8 ≠ 0`.
-- `qInt 1 1 = 0/0 = 0` by the field convention, whereas the Laurent Gaussian `[1 choose 1]_v`
-  specializes to `1` at `v = 1`: the field-valued `qInt` is used only under the genericity
+- `[1]_1 = 0/0 = 0` by the field convention, whereas the Laurent Gaussian `[1 choose 1]_v`
+  specializes to `1` at `v = 1`: the field-valued quantum integer is used only under the genericity
   hypothesis, and the root-of-unity theory uses the Laurent Gaussians.
-- At `q = i` in `ℂ`, `qInt i 2 = i + i⁻¹ = 0`, so `qFactorial i 2 = 0` and the genericity hypothesis
+- At `q = i` in `ℂ`, `[2]_i = i + i⁻¹ = 0`, so `qFactorial i 2 = 0` and the genericity hypothesis
   excludes `q = i`; the non-symmetric integer `1 + q²` would give `0` as well but differs from
-  `qInt` at `q = 2` (`5` against `5/2`).
+  `[2]_q` at `q = 2` (`5` against `5/2`).
 
 ### 0.3 Laurent Gaussian binomials and the quantum Lucas theorem
 
-Define `gaussian n r ∈ ℤ[v, v⁻¹]` by the Pascal recurrence
+Define `gaussian n r ∈ ℤ[v, v⁻¹]`, the Laurent form of `TauCeti.quantumBinomial`, by the Pascal recurrence
 `[n+1 choose r+1] = v^(−(r+1)) [n choose r+1] + v^(n−r) [n choose r]`, `[n choose 0] = 1`,
 `[0 choose r+1] = 0`, and `signedGaussian m r` for `m ∈ ℤ` by `gaussian m r` for `m ≥ 0` and
 `(−1)^r [a+r−1 choose r]` for `m = −a < 0`; this is the Laurent polynomial extending
@@ -287,7 +319,8 @@ integral weights in Layers 5–8.
   `r ≤ n`, invariance under `v ↦ v⁻¹`, and the second Pascal recurrence with the exponents
   interchanged.
 - `gaussian n r · ∏_(j ≤ r)[j]_v · ∏_(j ≤ n−r)[j]_v = ∏_(j ≤ n)[j]_v` in `ℤ[v, v⁻¹]`, with
-  `[j]_v = gaussian j 1`; hence over `ℚ(v)` it is the quotient of quantum factorials.
+  `[j]_v = TauCeti.laurentQuantumInteger j = gaussian j 1`; hence over `ℚ(v)` it is the quotient
+  of quantum factorials.
 - `specialize 1 (gaussian n r) = binom(n, r)` and `specialize 1 (signedGaussian m r) =
   Ring.choose m r`.
 - `[m choose r]` satisfies the Vandermonde identity
@@ -322,19 +355,84 @@ KacMoody Layer 0 and Layer 2 §2.1; Mathlib.
 
 ## Layer 1: the generic Drinfeld–Jimbo algebra and its Hopf structure (QEA1)
 
+### 1.0 The algebra f
+
+For a field `k`, form `T = k⟨θᵢ : i ∈ I⟩` (`HalfWordAlgebra`), with basis words `halfWord`, graded by
+`Q⁺ = I →₀ ℕ`, with augmentation `ε(θᵢ) = 0`. For a symmetric bicharacter
+`χ : Q × Q → kˣ`, give `T ⊗ T` the multiplication
+
+    (x ⊗ y)(x′ ⊗ y′) = χ(|y|, |x′|) xx′ ⊗ yy′
+
+on homogeneous elements. Construct the algebra map `r : T → T ⊗_χ T`, defined on words by
+`halfDeltaWord` and extended linearly as `freeHalfDelta`, with
+`r(θᵢ) = θᵢ ⊗ 1 + 1 ⊗ θᵢ`, and prove coassociativity and both counit identities.
+Construct the unique bilinear form `B`, whose rows on words are `pairingRow`, with distinct
+multidegrees orthogonal and
+
+    B(1,1) = 1,    B(θᵢ,θⱼ) = δᵢⱼ,
+    B(xy,z) = (B ⊗ B)(x ⊗ y,r(z)).
+
+Prove its symmetry (`freePairing`, `freePairing_characterisation`), define its radical `J`
+(`halfRadical`), and prove that `J` is a homogeneous
+two-sided ideal with `ε(J)=0` and `r(J) ⊆ J ⊗ T + T ⊗ J`. Define `f = T/J` (`Half`), the quotient
+map `halfMk` and generator images `halfGenerator`, and descend the grading, pairing, coproduct
+and counit. For `q≠0`, the Cartan datum gives `χ(αᵢ,αⱼ) = q^(dᵢaᵢⱼ)` (`cartanBraiding`);
+assume each `qᵢ` generic for divided powers and Lusztig's normalization.
+(Lusztig1993 §1.2 and Chapter 3; McGerty2006 §2; HeckenbergerDoubles2010 §5.)
+*Needs:* 0.1–0.3; HopfologicalAlgebra Layer 7 §7.3; Mathlib free algebras, bilinear maps,
+tensor products and algebra quotients.
+
+- Each homogeneous component of `T` and `f` is finite-dimensional, `f₀=k`, and the descended
+  pairing is perfect in each degree. Algebra maps killing `J` factor uniquely through `f`.
+- The braiding `x⊗y ↦ χ(|x|,|y|)y⊗x` and the twisted tensor multiplication descend. Construct
+  the bijective braided antipode with `S(θᵢ)=−θᵢ`,
+  `S(xy)=χ(|x|,|y|)S(y)S(x)` and both convolution identities.
+- Construct skew derivatives adjoint to left and right multiplication by `θᵢ`, respectively
+  (`removeWord` on words and `freeRemove` for the left derivative), with
+  `Lᵢ(θⱼ)=Rᵢ(θⱼ)=δᵢⱼ` and, on homogeneous elements,
+
+      Lᵢ(xy) = Lᵢ(x)y + χ(αᵢ,|x|) xLᵢ(y),
+      Rᵢ(xy) = χ(αᵢ,|y|) Rᵢ(x)y + xRᵢ(y).
+
+  These are the coproduct skew derivatives of HeckenbergerDoubles2010 Lemma 4.15,
+  (4.35)–(4.36), and Lemma 4.20. Both preserve `J` and descend to `f`; `LᵢRⱼ=RⱼLᵢ`
+  (Lemma 4.16, (4.39)), and the common kernel of the `Lᵢ` on `f` consists of the scalars.
+- For every `y∈Y`, the diagonal scaling `t_y(θᵢ)=q^⟨αᵢ,y⟩θᵢ` (`freeHalfScale`) preserves `J`
+  and defines an algebra action of the full torus on `f`, compatible with the grading and skew derivatives.
+- Replacing the generator norms by any units `cᵢ` leaves `J` unchanged; in particular
+  `cᵢ=(1−qᵢ⁻²)⁻¹` gives Lusztig's normalization. Word reversal preserves `J`, and the forms
+  for `χ` and `χ⁻¹` have the same radical.
+- For every `i≠j`, with `m=1−aᵢⱼ` and `θᵢ^(r)=θᵢʳ/[r]_(qᵢ)!`, prove
+  that `Sᵢⱼ=Σ_(r=0)^m (−1)^r θᵢ^(r)θⱼθᵢ^(m−r)` (`halfSerre`) lies in `J`. The ideal
+  `I_S` generated by these elements is preserved by both skew derivatives, word reversal
+  and the torus, and `T/I_S→f` is surjective. The reverse inclusion is the theorem of 1.3a.
+- The construction commutes with field extensions.
+
+**Checks.**
+
+- Empty `I`: `J=0`, `f=k`, and `r(1)=1⊗1`.
+- Rank one: `B(θⁿ,θⁿ)=qᵢ^(n(n−1)/2)[n]ᵢ!`, so `J=0` and `f=k[θ]` at a generic parameter.
+  In degree two, `r(θ²)=θ²⊗1+(1+qᵢ²)θ⊗θ+1⊗θ²`; both derivatives are `(1+qᵢ²)θ`.
+- For distinct `i,j`, the Gram matrix on `θᵢθⱼ,θⱼθᵢ` is `[[1,χᵢⱼ],[χᵢⱼ,1]]`.
+  If `aᵢⱼ=0`, its radical is the commutator line; in `B₂` at `q=2`, its determinant is `15/16`.
+- The Serre lengths in `B₂` are 3 and 2, with parameters `q` and `q²`; in `A₁^(1)` both
+  lengths are 3. For `aᵢⱼ=−4`, the same statement has length 5, without a finite-type assumption.
+
 ### 1.1 The presentation
 
 Define `Generator ι Y` with constructors `E i`, `F i`, `K y` for every `y ∈ Y`; on the free algebra
-define `genE`, `genF`, `genK`, `simpleK i = K_(dᵢhᵢ)`, `dividedPower q x r = x^r/[r]_q!`,
-`serreLength i j = 1 − aᵢⱼ`, and the Serre elements `serreE`, `serreF` with `qᵢ`-divided powers.
-Define `Relation` as the relation with `K_0 = 1`, `K_yK_z = K_(y+z)`,
+define `genE`, `genF`, `genK`, `simpleK i = K_(dᵢhᵢ)`, `dividedPower q x r = x^r/[r]_q!` (in any
+algebra), `serreLength i j = 1 − aᵢⱼ`, and the maps `positiveFree`, `negativeFree` from `T`
+sending `θᵢ` to `Eᵢ`, respectively `Fᵢ`. For a set `H ⊆ T`, define
+`PresentationRelation H` as the relation with `K_0 = 1`, `K_yK_z = K_(y+z)`,
 `K_yEᵢK_(−y) = q^⟨αᵢ,y⟩Eᵢ`, `K_yFᵢK_(−y) = q^(−⟨αᵢ,y⟩)Fᵢ`,
-`EᵢFⱼ − FⱼEᵢ = δᵢⱼ(Kᵢ − Kᵢ⁻¹)/(qᵢ − qᵢ⁻¹)` and, for `i ≠ j`,
-`Σ_(r+s=1−aᵢⱼ)(−1)^rEᵢ^(r)EⱼEᵢ^(s) = 0` and its `F` analogue. Define `U` as `RingQuot Relation`
-over `K`, with `generator`, `E`, `F`, `Ktorus`, `Ki`, `KiInv`, and its universal property `lift`
-(Lentner2014 Definition 3.2, line 387, for intermediate lattices in finite type; the
-divided-power Serre form is equivalent to Lusztig's definition by McGerty2006 line 106).
-*Needs:* Mathlib `FreeAlgebra`, `RingQuot`; 0.1, 0.2.
+`EᵢFⱼ − FⱼEᵢ = δᵢⱼ(Kᵢ − Kᵢ⁻¹)/(qᵢ − qᵢ⁻¹)` and the vanishing of the images of `H`
+under `positiveFree` and `negativeFree`. `Relation` is the case `H = J`. Define `U` as
+`RingQuot Relation` over `K`, with `generator`, `E`, `F`, `Ktorus`, `Ki`, `KiInv`, and its universal property `lift`
+(Lusztig1993 §3.1; McGerty2006 §2). Let `Ũ` denote the quotient imposing only the torus
+and mixed relations. Then `U` is `Ũ` modulo the images of the two radicals; the maps
+`f⁺→U`, `f⁻→U` and `K[Y]→U` characterize its universal property.
+*Needs:* Mathlib `FreeAlgebra`, `RingQuot`; 0.1, 0.2, 1.0.
 
 - `lift f h` is the unique algebra map with `lift f h (generator g) = f g`; two algebra maps out of
   `U` agreeing on generators are equal.
@@ -345,11 +443,18 @@ divided-power Serre form is equivalent to Lusztig's definition by McGerty2006 li
 - For `i ≠ j` with `aᵢⱼ = 0`, `EᵢEⱼ = EⱼEᵢ` and `FᵢFⱼ = FⱼFᵢ`.
 - For a root-annihilating `c ∈ Y` (`⟨αᵢ, c⟩ = 0` for all `i`), `K_c` is central.
 - Over `(ℂ, q)` with `q` not a root of unity, for each `i` the assignment `E ↦ Eᵢ`, `F ↦ Fᵢ`,
-  `K^(±1) ↦ K_(±dᵢhᵢ)` is an injective Hopf algebra map from QuantumGroups Q8's algebra with
-  parameter `qᵢ`, with image the subalgebra generated by `Eᵢ, Fᵢ, K_(±dᵢhᵢ)`; the relations hold
+  `K^(±1) ↦ K_(±dᵢhᵢ)` is an injective algebra map from `TauCeti.UqSl2` with parameter `qᵢ`
+  (`exists_rankOne_algHom`), compatible with the Hopf structure of QuantumGroups Q8, with image
+  the subalgebra generated by `Eᵢ, Fᵢ, K_(±dᵢhᵢ)`; the relations hold
   because `⟨αᵢ, dᵢhᵢ⟩ = 2dᵢ`. Every `K_y` with `y ∉ ℤdᵢhᵢ` lies outside the image, and no splitting
   of `Y` along `ℤhᵢ` is assumed. The comparison is made over `(ℂ, q)`, not by extending scalars
   from `ℚ(v)`.
+- For `x∈T` and its negative image `x⁻`, prove
+  `[Eᵢ,x⁻]=(KᵢLᵢ(x)⁻−Rᵢ(x)⁻Kᵢ⁻¹)/(qᵢ−qᵢ⁻¹)`, and its positive analogue
+  (HeckenbergerDoubles2010 Lemma 4.15 and Proposition 4.9(6), with the source's second
+  torus specialized to `Kᵢ⁻¹` and the mixed relation normalized as above).
+- The construction is functorial for field extensions and root-data maps preserving the
+  roots, coroots, pairing and symmetrizer.
 
 **Checks.**
 
@@ -368,7 +473,9 @@ divided-power Serre form is equivalent to Lusztig's definition by McGerty2006 li
 
 Define `comulGenerator` and `counitGenerator` with the Q8 values of the Conventions, prove
 `comul_relations` and `counit_relations` (the generator values respect `Relation`, the former
-under `q ≠ 0` and genericity), and define `comulAlgHom` and `counitAlgHom` by `lift`. Prove
+under the parameter hypotheses of the Conventions), using the coideal and torus-stability
+results of 1.0 for the radical relations (HeckenbergerDoubles2010 Corollary 4.21 and Proposition 5.6). Define
+`comulAlgHom` and `counitAlgHom` by `lift`. Prove
 `comul_coassoc`, `counit_comul_left` and `counit_comul_right`, giving the Mathlib bialgebra
 `bialgebra` through `Bialgebra.ofAlgHom`, and `exists_antipode`: a two-sided convolution inverse
 `S` of the identity, bijective, with `S(Eᵢ) = −Kᵢ⁻¹Eᵢ`, `S(Fᵢ) = −FᵢKᵢ`, `S(K_y) = K_(−y)`
@@ -388,7 +495,7 @@ operators `eᵢ = Kᵢ⁻¹Eᵢ`, `fᵢ = FᵢKᵢ` with `Δ(eᵢ) = eᵢ ⊗ K�
 `Δ(fᵢ) = fᵢ ⊗ 1 + Kᵢ ⊗ fᵢ` for KacMoody, Part II, which proves the Kashiwara-lattice transport for
 this coproduct (or an explicit rescaling or tensor-factor reversal) and does not infer it from
 another convention.
-*Needs:* 1.1; Mathlib `Bialgebra.ofAlgHom`, `Algebra.TensorProduct`.
+*Needs:* 1.0, 1.1; Mathlib `Bialgebra.ofAlgHom`, `Algebra.TensorProduct`.
 
 - `Δ` and `ε` are algebra maps with the generator values above; `Δ(K_y)` is group-like.
 - `S` is an algebra anti-automorphism and a coalgebra anti-automorphism, with inverse
@@ -413,9 +520,18 @@ another convention.
 Prove `triangular_bijective`: multiplication `U⁻ ⊗ U⁰ ⊗ U⁺ → U` is bijective, with `U⁻`, `U⁰`,
 `U⁺` the subalgebras generated by the `Fᵢ`, the `K_y` and the `Eᵢ`; and `Ktorus_linearIndependent`:
 the `K_y`, `y ∈ Y`, are linearly independent, so `U⁰` is the group algebra `K[Y]` (Lentner2014
-Theorem 3.3, line 433, for intermediate lattices). Define `U_v^±` as the q-Serre quotients of the
-free algebras on the `Eᵢ`, respectively `Fᵢ`, and prove that they map isomorphically onto `U^±`.
-*Needs:* 1.1, 1.2.
+Theorem 3.3, line 433, for intermediate lattices). Define `U_v^±` as the positive and negative
+copies of `f` from 1.0 and prove that they map isomorphically onto `U^±`
+(`exists_triangularDecomposition`).
+
+First prove that multiplication `T⁻⊗K[Y]⊗T⁺→Ũ` is an isomorphism of vector spaces. For homogeneous ideals
+`H⁺,H⁻` in the augmentation kernels, stable under the torus and both skew derivatives,
+prove that the ideal they generate in `Ũ` corresponds exactly to
+`H⁻⊗K[Y]⊗T⁺ + T⁻⊗K[Y]⊗H⁺`. Apply this to `J` to obtain the triangular decomposition of `U`,
+and to `I_S` to obtain the triangular decomposition for the Serre presentation
+(HeckenbergerDoubles2010 Propositions 4.14, 4.17 and Remark 4.19, extended by the given
+characters to the full `Y`). Neither application uses the equality `I_S=J`.
+*Needs:* 1.0–1.2; exactness of tensor products over a field.
 
 - The `Q_A`-grading restricts to `U^±`, each graded piece finite-dimensional, `U^+_0 = K`.
 - `U^0 ≅ K[Y]` as Hopf algebras.
@@ -430,32 +546,100 @@ free algebras on the `Eᵢ`, respectively `Fᵢ`, and prove that they map isomor
 - For the empty-root datum with `Y = ℤ`, `U⁻ = U⁺ = K` and the triangular map is the identity of
   `K[Y]`.
 
+### 1.3a The Serre presentation theorem
+
+Under the parameter hypotheses of the Conventions, prove `J=I_S` (`halfRadical_eq_serreKernel`),
+so the map `T/I_S→f` of 1.0 is an isomorphism compatible with the grading, coproduct, pairing, skew
+derivatives and torus. Define `DJPresentation` as `RingQuot DJRelation`, where `DJRelation` is
+`PresentationRelation H` of 1.1 for the set `H` of Serre elements `Sᵢⱼ`, `i ≠ j`: the torus and
+mixed relations together with the positive and negative Serre relations. Prove
+`exists_drinfeldJimbo_equiv`: its generator map to `U` is an algebra isomorphism matching the
+generators, hence a Hopf algebra isomorphism for the transported coproduct. The positive Serre
+presentation is `RingQuot HalfSerreRelation`.
+*Needs:* 1.0–1.3. For the presentation over `ℚ(v)`, see Lusztig1993 Theorem 33.1.3 and
+HeckenbergerDoubles2010 Example 7.4. Prove the statement over every field by the following argument.
+
+For empty `I`, identify `f=k` and `U=k[Y]` for every `q≠0`. For nonempty `I`, `q` has infinite
+multiplicative order. Put `H=T/I_S` and `(αᵢ,αⱼ)=dᵢaᵢⱼ` on `Q`.
+
+- Prove directly that the Serre elements are braided primitive, so `I_S` is a homogeneous
+  braided Hopf ideal. In the coproduct of `(ad_χ θᵢ)^m θⱼ`, `m=1−aᵢⱼ`, every intermediate
+  coefficient contains `1−qᵢ^(2(m−1))χ(αᵢ,αⱼ)²=0`
+  (HeckenbergerDoubles2010 Lemma 4.23(ii)). Both skew derivatives descend to `H`, with
+  `LᵢRⱼ=RⱼLᵢ` (Lemma 4.16, equation (4.39)).
+- For each `i`, let `Cᵢ` be generated in `H` by `(ad_χ θᵢ)^r θⱼ`, `j≠i`, `0≤r≤−aᵢⱼ`.
+  Prove `H=⊕_(n≥0) Cᵢθᵢⁿ` and `Cᵢ=ker Rᵢ`: move `θᵢ` to the right by the braided commutator,
+  and apply successive `Rᵢ` to prove directness, using the nonzero quantum factorials.
+  The Serre relations truncate these adjoint strings, so `ad_χ θᵢ` is locally nilpotent on
+  `Cᵢ` by its skew Leibniz rule (HeckenbergerDoubles2010 Lemmas 4.30–4.31 and 6.5).
+  On its degree-`β` part put `t=qᵢ`, `m=⟨β,hᵢ⟩`,
+
+      kᵢx=t^m x,    eᵢx=θᵢx−t^m xθᵢ,    fᵢx=t^(2−m)/(t−t⁻¹) Lᵢx.
+
+  Prove the rank-one relations from `Lᵢeᵢx−t²eᵢLᵢx=(1−t^(2m))x`. For `fᵢx=0` and maximal
+  `r` with `eᵢ^r x≠0`, they give `0=−[r+1]_t[m+r]_t eᵢ^r x`, hence `m=−r≤0`.
+- A nonzero homogeneous element `x` of least height in `J/I_S`, if one exists, is primitive
+  and has height at least two. Thus `Lᵢx=Rᵢx=0` and the previous calculation gives
+  `⟨β,hᵢ⟩≤0` for every `i`. For `β=Σ nᵢαᵢ`, braided antimultiplicativity gives
+  `S_H²x=q^((β,β)−Σ 2dᵢnᵢ)x`, whereas primitivity gives `S_H²x=x`. Infinite order of `q`
+  forces `(β,β)=Σ 2dᵢnᵢ>0`, contradicting `(β,β)=Σ nᵢdᵢ⟨β,hᵢ⟩≤0`. This proves `J=I_S`
+  in every characteristic, using no division by ordinary positive integers.
+
+Now put `R=ℤ[v,v⁻¹,(vⁿ−1)⁻¹:n>0]` and let `f_R` be the `R`-subalgebra of `f_ℚ(v)` generated
+by the `θᵢ`; quantum factorials are units in `R`. Prove that `R` is a principal ideal domain:
+it is a localization of the factorial ring `ℤ[v]`, and every height-two prime meets the
+inverted set, since its residue field is finite. Inside `U_ℚ(v)`, let `U_R` be generated by
+`f_R⁻`, `R[Y]`, `f_R⁺`. Prove the following consequences of the field presentation.
+
+- Each `f_(R,ν)` is finitely generated and torsion-free, hence free of rank
+  `d=dim_ℚ(v) f_ν`. Multiplication identifies `U_R` with `f_R⁻⊗_R R[Y]⊗_R f_R⁺` inside `U_ℚ(v)`.
+- The surjection `(T_R/I_(S,R))_ν→f_(R,ν)` is an isomorphism. Over each residue field `κ`,
+  the field theorem identifies the source dimension with the rank of the normalized word Gram
+  matrix, at most its generic rank `d`. The free target gives the opposite inequality.
+  The structure theorem over `R` therefore eliminates all torsion in the source.
+- The pairing on `f_(R,ν)` is perfect over every residue field, so its determinant is a unit;
+  parameter reversal and normalization units give the integral Drinfeld pairing. Thus
+  `k⊗_R f_R≅f_k` and `k⊗_R U_R≅U` for every nonempty datum and `(k,q)` of the Conventions.
+  Compare Tanisaki2016 Theorems 5.4 and 5.7, which concern the specialized integral form.
+
+**Checks.**
+
+- Rank one gives `I_S=J=0`; for `aᵢⱼ=0` the first relation is the commutator.
+- In `A₁^(1)` over `𝔽₂(t)` with `q=t`, `δ=α₀+α₁` has `(δ,δ)=0` and `Σ 2dᵢnᵢ=4`;
+  a nonzero primitive of degree `δ` would satisfy `S_H²x=t⁻⁴x=x`, which is impossible.
+- In `B₂`, the two Serre degrees are `3α₁+α₂` and `α₁+2α₂`.
+- `R→𝔽_p(t)`, `v↦t`, exists for every prime `p`, and `R→ℚ`, `v↦2`, exists; neither
+  specialization comes from a field map `ℚ(v)→k`. At a root of unity, specialization uses
+  the unlocalized integral form of Layer 3.
+
 ### 1.4 Braided halves and the nilpotent pairing
 
-Let `Q_A = ⊕ℤαᵢ`, `χ(αᵢ, αⱼ) = v^(dᵢaᵢⱼ)` extended bilinearly. Give `U_v^+ ⊗ U_v^+` the braided
+Transport the structures of 1.0 to `U_v^±` through 1.3, with
+`χ(αᵢ, αⱼ) = q^(dᵢaᵢⱼ)`. Give `U_v^+ ⊗ U_v^+` the braided
 multiplication `(a ⊗ b)(c ⊗ d) = χ(|b|, |c|) ac ⊗ bd` and `r₊ : U_v^+ → U_v^+ ⊗_χ U_v^+`,
 `r₊(Eᵢ) = Eᵢ ⊗ 1 + 1 ⊗ Eᵢ` (McGerty2006 line 85); give `U_v^-` the multiplication with `χ⁻¹` and
-`r₋(Fᵢ) = Fᵢ ⊗ 1 + 1 ⊗ Fᵢ`. Prove that each map descends through its q-Serre ideal and is
-braided coassociative and counital; construct the braided antipodes, with `S₋(1) = 1`,
+`r₋(Fᵢ) = Fᵢ ⊗ 1 + 1 ⊗ Fᵢ`, using the equality of the `χ` and `χ⁻¹` radicals. The maps
+are braided coassociative and counital; transport the braided antipodes, with `S₋(1) = 1`,
 `S₋(Fᵢ) = −Fᵢ`, `S₋(ab) = χ(|a|, |b|)⁻¹S₋(b)S₋(a)`, `m(S₋ ⊗ id)r₋ = ηε = m(id ⊗ S₋)r₋`, and the
 χ-braided positive identities. Reconstruct the Borel coproducts by
 `Δ_(B₊)(x) = Σ x₁K_(κ(|x₂|)) ⊗ x₂` and `Δ_(B₋)(y) = Σ y₁ ⊗ K_(κ(|y₁|))y₂`, `κ(αᵢ) = dᵢhᵢ`. Define the
-pairing `p` on `U_v^+ × U_v^-` with `p(Eᵢ, Fⱼ) = δᵢⱼcᵢ`, `cᵢ = (vᵢ − vᵢ⁻¹)⁻¹`,
+pairing `p` on `U_v^+ × U_v^-` with `p(Eᵢ, Fⱼ) = δᵢⱼcᵢ`, `cᵢ = (qᵢ − qᵢ⁻¹)⁻¹`,
 `p(xx′, y) = Σ p(x, y₁)p(x′, y₂)`, `p(x, yy′) = χ(|y|, |y′|)⁻¹ Σ p(x₁, y′)p(x₂, y)`, zero unless the
-degrees are opposite; prove it descends through both Serre ideals and is nondegenerate in each
-degree (McGerty2006 lines 88–95 for the form on `f` whose radical is the Serre ideal, after
+degrees are opposite. Construct it from the form of 1.0 with parameter `q⁻¹` and norms `cᵢ`,
+and prove these identities and degreewise nondegeneracy (McGerty2006 lines 88–95, after
 Lusztig1993 §1.2; HeckenbergerDoubles2010 Proposition 4.3, line 821, for the skew-Hopf pairing
 of the two Borel halves, normalized there by `η(Eᵢ, Fⱼ) = −δᵢⱼ`, and Remark 4.4, line 866, for
 the rescaling `η(Eᵢ, Fⱼ) = aᵢδᵢⱼ` that gives `cᵢ`).
-*Needs:* 1.3.
+*Needs:* 1.0, 1.2–1.3; HopfologicalAlgebra Layer 7 §7.3; 1.3a for the comparison with the Serre presentation.
 
 - `r₊` is an algebra map for the braided multiplication and is coassociative.
-- `p` is nondegenerate on `U^+_β × U^-_(−β)` for every `β ∈ Q_A^+`.
+- `p` is nondegenerate on `U^+_β × U^-_(−β)` for every `β ∈ Q_A^+`
+  (HeckenbergerDoubles2010 Theorem 5.8).
 - The Borel coproducts reconstructed from `r₊`, `r₋` are the restrictions of 1.2's `Δ`.
 
 **Checks.**
 
-- Rank one: `p(Eᵢ², Fᵢ²) = (1 + vᵢ⁻²)cᵢ²`, which fixes the negative `χ⁻¹` convention.
+- Rank one: `p(Eᵢ², Fᵢ²) = (1 + qᵢ⁻²)cᵢ²`, which fixes the negative `χ⁻¹` convention.
 - From `r₋(Fᵢ) = Fᵢ ⊗ 1 + 1 ⊗ Fᵢ` and `κ(−αᵢ) = −dᵢhᵢ`, `Δ_(B₋)(Fᵢ) = Fᵢ ⊗ Kᵢ⁻¹ + 1 ⊗ Fᵢ`, the
   coproduct of 1.2; putting the torus factor on the first tensor factor, `Σ y₁K_(κ(|y₂|)) ⊗ y₂`,
   would give `Fᵢ ⊗ 1 + Kᵢ⁻¹ ⊗ Fᵢ`. Likewise `Δ_(B₊)(Eᵢ) = Eᵢ ⊗ 1 + Kᵢ ⊗ Eᵢ`.
@@ -507,9 +691,9 @@ root-lattice torus there, `η(Kᵢ, Lⱼ) = qᵢⱼ`, is the restriction of `β_
 
 ### Dependencies
 
-Layer 0; QuantumGroups Q8 item 1; KacMoody Layer 0; Mathlib.
+Layer 0; QuantumGroups Q8 item 1; KacMoody Layer 0; HopfologicalAlgebra Layer 7 §7.3; Mathlib.
 
-## Layer 2: braid operators and root vectors (QEA2)
+## Layer 2: braid operators, root vectors and highest-weight characters (QEA2)
 
 ### 2.1 The braid automorphisms
 
@@ -536,16 +720,19 @@ simply-laced case). Prove that the inverse-generator values define the inverse a
 composites being the identity. Define `braidWord T i j n = Tᵢ ∘ Tⱼ ∘ Tᵢ ∘ ⋯`
 (`n` factors) and prove `braid_relation`: for `i ≠ j` with `aᵢⱼaⱼᵢ ≤ 3`,
 `braidWord T i j mᵢⱼ = braidWord T j i mᵢⱼ` with `mᵢⱼ = braidLength i j`, with no isolated-entry
-shortcut (Lusztig1993 Chapter 39). The proof route is Lusztig's: verify the relations on
-generators by identities in `U_A` among divided powers with coefficients in `A`, which hold over
-`(k, q)` because the divided powers exist there.
-*Needs:* 1.1–1.3; 0.1 (`CartanDatum.reflect`, `CartanDatum.braidLength`); KacMoody Layer 2 §2.1.
+shortcut (Lusztig1993 Chapter 39). Prove the identities on generators over `ℚ(v)` and show
+that their terms lie in `U_R` of 1.3a. Its injection into `U_ℚ(v)` gives the identities over
+`R`; specialize `v↦q` and use 1.3a. Preservation of the integral form `U_A` is proved in Layer 3.
+*Needs:* 1.1–1.3a; 0.1 (`CartanDatum.reflect`, `CartanDatum.braidLength`); KacMoody Layer 2 §2.1.
 
 - `Tᵢ(K_μ) = K_(sᵢμ)` on all of `Y`, hence `Tᵢ(Kⱼ) = KⱼKᵢ^(−aᵢⱼ)` in every symmetrizable type.
 - `Tᵢ` maps `U_β` to `U_(sᵢβ)` for the `Q_A`-grading, where `sᵢβ = β − ⟨β, hᵢ⟩αᵢ`.
-- `Tᵢ` preserves the integral form `U_A` of Layer 3 and commutes with base change.
-- `Tᵢ` intertwines the actions on integrable modules with the Weyl group action on weights
-  (consumed by KacMoody, Part II).
+- `Tᵢ` commutes with generic base change; Layer 3 proves that it preserves the full integral
+  form `U_A` and gives its integral base-change compatibility.
+- With `U_R^± = f_R^±`, prove the multiplication isomorphisms of `R`-modules
+  `U_R^+ ≅ (U_R^+ ∩ Tᵢ(U_R^+)) ⊗_R R[Eᵢ] ≅ R[Eᵢ] ⊗_R (U_R^+ ∩ Tᵢ⁻¹(U_R^+))`,
+  and the analogous formulas with `U_R^-` and `Fᵢ`. Identify the intersection factors after
+  specialization `R → k`, `v ↦ q` (Tanisaki2016 Lemmas 3.1–3.2).
 
 **Checks.**
 
@@ -596,6 +783,45 @@ theorem, RootSystems Layer 3), not by equality of ordered monomials.
 - In finite type the number of PBW monomials of degree `β` equals the Kostant partition function
   of `β`; a list omitting `E_(α₁+α₂)` in `A₂` gives one monomial in degree `α₁ + α₂` instead of two.
 
+### 2.3 Category O, the quantum Casimir and the character formula
+
+Using the automorphisms `Tᵢ` and simple-root factorizations of 2.1 and an auxiliary finite-rank
+realization for the character arguments, prove the following for `U` for every symmetrizable
+datum and every `(k,q)` of the Conventions (Lusztig1993 Chapters 5, 37–38; Tanisaki2016 Lemma 4.2
+and Propositions 4.4 and 5.1–5.2). The case `λ=0` of the character formula, with the classical
+denominator identity, gives `dim f_γ=dim U(n⁻)_(−γ)`.
+*Needs:* 1.3a–1.4, 2.1; KacMoody §§1.4, 2.1, 4.1 and 4.3–4.4.
+
+- The category `O(U)`: `U`-modules `V = ⊕_(λ∈X) V_λ` with `K_y` acting on `V_λ` by
+  `q^⟨λ,y⟩`, `Eᵢ V_λ ⊆ V_(λ+αᵢ)` and `Fᵢ V_λ ⊆ V_(λ−αᵢ)`, every `V_λ` finite-dimensional,
+  and weights in finitely many cones `λ_k − Q⁺`. The Verma module `M(λ) = U ⊗_(U^≥0) k_λ` lies
+  in `O(U)`, with `ch M(λ) = e(λ) Σ_(γ∈Q⁺) dim f_γ e(−γ)` in the completion of KacMoody §4.1.
+- The quantum Casimir. For a coset `C = μ + Q` fix `f_C : C → ℤ` with
+  `f_C(λ) − f_C(λ − αᵢ) = 2⟨λ, dᵢhᵢ⟩`; it exists by symmetrizability and is unique up to a
+  constant. Construct elements `Ω_γ ∈ U⁻_(−γ) U⁰ U⁺_γ`, `Ω_0 = 1`, from the canonical elements
+  of the perfect pairings between `U⁺_γ` and `U⁻_(−γ)` (Tanisaki2016 §4, after Lusztig1993
+  §6.1). On every `V ∈ O(U)` with weights in `C`, `Ω v = q^(f_C(λ)) Σ_γ Ω_γ v` (`v ∈ V_λ`)
+  commutes with `U` and acts on every highest-weight module of highest weight `λ ∈ C` by
+  `q^(f_C(λ))`.
+- The operators `Tᵢ` on integrable modules in `O(U)`, those on which every `Eᵢ` and `Fᵢ` acts
+  locally nilpotently; they intertwine the `U`-action with the algebra automorphisms of 2.1 and
+  induce the simple reflections on weights. The character of such a module is invariant under
+  the Weyl group `W` (consumed by KacMoody, Part II).
+- The character formula: for `λ` with `⟨λ, hᵢ⟩ ≥ 0` for all `i` and every integrable
+  highest-weight module `V` of highest weight `λ`, `ch V = Σ_(w∈W) sgn(w) ch M(w∘λ)`, where
+  `w∘λ = w(λ + ρ) − ρ` for any `ρ ∈ X ⊗ ℚ` with `⟨ρ, hᵢ⟩ = 1`. For `λ = 0`, KacMoody §4.4
+  gives `dim f_γ = dim U(n⁻)_(−γ)` for every `γ ∈ Q⁺`.
+
+**Checks.**
+
+- `A₁` with `X = ℤω`: on the coset of `n₀ ∈ {0, 1}`, `f_C(nω) = ((n+1)² − (n₀+1)²)/2`. Since
+  `f_C(nω) = f_C(−(n+2)ω)`, `Ω` has the same scalar on `M(nω)`, `n ≥ 0`, and on its submodule
+  `M(−(n+2)ω)`.
+- In `A₁`, for `λ = 0` the character formula reads `1 = (1 − e(−α)) Σ_m dim f_(mα) e(−mα)`,
+  so `dim f_(mα) = 1`.
+- `A₁^(1)`: `dim f_(α₀+α₁) = 2` and `dim f_(2α₀+α₁) = 3`, the numbers of partitions of these
+  degrees into positive roots counted with multiplicity, as in `U(n⁻)`.
+
 ### Examples
 
 - `G₂` braid relation of length six on generators, recomputed from 2.1's formulas.
@@ -604,7 +830,7 @@ theorem, RootSystems Layer 3), not by equality of ordered monomials.
 
 ### Dependencies
 
-Layers 0–1; KacMoody Layer 2 §2.1; RootSystems Layers 1, 3 and 4.
+Layers 0–1; KacMoody §§1.4, 2.1, 4.1 and 4.3–4.4; RootSystems Layers 1, 3 and 4.
 
 ## Layer 3: the full-`Y` integral form and the finite-type PBW basis (QEA3)
 
@@ -622,7 +848,7 @@ part). For a ℤ-basis `y₁, …, y_r` of `Y` prove that the elements
 the toral part `U_A^0` (Lentner2014 Theorem 3.8, line 549, for the simple-coroot directions of an
 intermediate lattice), that every simple-coroot and full-`Y` binomial lies in this span, and the
 integral change-of-basis formulas for every other basis of `Y`.
-*Needs:* Layer 1; 0.3.
+*Needs:* Layer 1; 0.3; 2.1 for preservation under braid operators.
 
 - `U_A` is stable under `Δ`, `ε`, `S`, and under every `Tᵢ`.
 - `K ⊗_A U_A → U_v` is an isomorphism.
@@ -848,13 +1074,14 @@ isogenies. Construct the positive and negative divided-power splittings `Fr′^�
 *Needs:* 5.1, 3.3, 0.3 (`quantumLucas`).
 
 - `Fr` is surjective, determined by its generator values, and `Fr ∘ Fr′^± = id` on `U_ℤ^± ⊗ R`.
-- `Fr` vanishes on `Eᵢ`, `Fᵢ` and `K_μ − 1`, hence on the augmentation ideal of the subalgebra they
+- For `L > 1`, `Fr` vanishes on `Eᵢ`, `Fᵢ` and `K_μ − 1`, hence on the augmentation ideal of the subalgebra they
   generate.
 - `Fr′^±` are algebra maps; neither is a unital section of all of `U_ℤ ⊗ R`.
 
 **Checks.**
 
-- `Fr(Eᵢ^(L)) = Xᵢ`, `Fr(Eᵢ) = 0`, and the relation `Eᵢ^L = [L]ᵢ! Eᵢ^(L) = 0` in `U_ζ` is consistent.
+- `Fr(Eᵢ^(L)) = Xᵢ`; for `L > 1`, `Fr(Eᵢ) = 0` and `Eᵢ^L = [L]ᵢ! Eᵢ^(L) = 0` in `U_ζ`.
+  For `L = 1`, `Fr(Eᵢ) = Xᵢ`.
 - `Fr([Kᵢ; 0 choose L]) = Hᵢ`: on a weight `Lν` the source acts by `[L⟨ν, hᵢ⟩ choose L]_(ζᵢ)`, which
   `quantumLucas` (with `l = L`, `m₀ = r₀ = 0`, `r₁ = 1`, power `ζᵢ^((⟨ν,hᵢ⟩+1)L²) = 1`) evaluates to
   `binom(⟨ν, hᵢ⟩, 1)`.
@@ -890,9 +1117,11 @@ that `R` is an `A_(L′)`-algebra via `v ↦ ζ^c` (McGerty2006 Theorem 2.6, lin
 parity of `L′`); (ii) the datum satisfying Lusztig's conditions at `L′` (Lusztig1993 Chapter 35,
 Theorem 35.1.9; McGerty2006 lines 332–339; Lentner2014 line 1110 cites it for large orders with
 small prime divisors), for `R` an `A_(L′)`-algebra. Through the sign comparison below, both
-settings reach every `ζ` whose square has order `L`: for `ζ^c` of odd order `L′`, `R` is an
-`A_(L′)`-algebra via `v ↦ −ζ^c`, and the map at `ζ^c` is the map at `−ζ^c` composed with `Ψ`. For
-the normalized symmetrizer `c = 1` and `L′ = L`. Prove the
+settings reach every `ζ` whose square has order `L`: for `η = ζ^c` of odd order `L′`, `R` is an
+`A_(L′)`-algebra via `v ↦ −η`. On the reduced datum define
+`Fr_η = θ ∘ Ψ* ∘ Fr_(−η) ∘ Ψ⁻¹`, using the source and target sign comparisons and the
+automorphism `θ` below, then transport through 5.1. This gives the displayed unsigned generator
+formulas. For the normalized symmetrizer `c = 1` and `L′ = L`. Prove the
 full-`Y` multiplier laws: `K_y` acts on `1_λ` by `ζ^⟨λ,y⟩`, its toral binomial `C_y(c, n)` by
 `[⟨λ, y⟩ + c choose n]_ζ`, and for `λ ∈ X*` the target laws `K*_(y*)1_λ = ζ^⟨λ,y*⟩1_λ`,
 `C*_(y*)(c, n)1_λ = [⟨λ, y*⟩ + c choose n]_ζ1_λ` with `y* = y|_(X*)`, using `quantumLucas`. Under no
@@ -929,7 +1158,10 @@ form and no isomorphism `U_(−ζ) ≅ U_ζ` of the unital algebras is asserted 
 - Uniqueness: `Fr` is determined by its values on the generators.
 - No unital Hopf map is inferred from this modified-algebra homomorphism.
 - `Ψ` is an isomorphism of `R`-algebras with `Ψ(1_λ) = 1_λ`, natural in `R`, and `Ψ ∘ Ψ′ = id`
-  for the comparison `Ψ′` in the other direction; it is compatible with `Fr` on both sides.
+  for the comparison `Ψ′` in the other direction. Let `Ψ*` be the same comparison on the modified
+  datum, with `dᵢ* = dᵢℓᵢ²`. Prove `Fr_ζ ∘ Ψ = θ ∘ Ψ* ∘ Fr_(−ζ)`, where `θ` fixes the weight
+  idempotents and multiplies both `eᵢ^(k)1_λ` and `fᵢ^(k)1_λ` by
+  `(−1)^(dᵢ k ℓᵢ(ℓᵢ−1)/2)`. After reduction in 5.1 use `d_norm` and its modified datum.
 
 **Checks.**
 
@@ -939,9 +1171,10 @@ form and no isomorphism `U_(−ζ) ≅ U_ζ` of the unital algebras is asserted 
   `ζ` on both sides. Without the weight sign on `E` the two sides agree only for `⟨λ,h⟩` even.
 - `G₂` with `ζ` of order `9` (`L = 9`, `ℓ = (9, 3)`): `L` is divisible by `d₂ = 3`, Lusztig's
   conditions hold (`ℓ₂ = 3 ≥ 2 = 1 − a₂₁`, `ℓ₁ = 9 ≥ 4 = 1 − a₁₂`), `ζ` is not a root of
-  `Φ₁₈` but `−ζ` is, and the Frobenius at `ζ` is `Fr` at `−ζ` composed with `Ψ`; the target
-  datum is the dual `G₂` of 5.1 with `d* = (81, 27)`.
-
+  `Φ₁₈` but `−ζ` is. The target datum is the dual `G₂` of 5.1 with `d* = (81, 27)`;
+  `θ(e₁) = e₁`, `θ(e₂) = −e₂`, and likewise for `f₁, f₂`, since the sign exponents are `36` and `9`.
+- `A₁`, `d = 1`, `L = 2`, `ζ = i`, with the simple root in `I₀`: on `E^(2)1_0`,
+  `Fr_i ∘ Ψ` gives `−e1_0`, while `Ψ* ∘ Fr_(−i)` gives `+e1_0`; `θ(e1_0) = −e1_0`.
 - The presentation needs the integral halves: in `A₁ × A₁` at `L = 2`, `ζ = i`,
   `F₁^(2)F₂^(2) = F₂^(2)F₁^(2)` holds in `U_A^-`, but follows from `F₁F₂ = F₂F₁` only after dividing
   by `[2]₁![2]₂! = (v + v⁻¹)²`, whose image `(i + i⁻¹)²` is `0`; a presentation with only the
@@ -987,7 +1220,7 @@ asserted at these orders. `G₂` at `𝓁 = 4` is covered by 5.3 (nondivisible) 
 exceptional kernel of type `A₃`. For a decomposable datum the hypotheses of 5.3 are imposed on
 the whole datum, so a datum whose components need different branches of 5.3 has, as its
 Frobenius theorem, this sequence alone.
-*Needs:* 5.1, 3.2; Lentner2014 §§5–6; KacMoody §0.1.
+*Needs:* 5.1, 3.2; Lentner2014 §§5–6; KacMoody §0.1; HopfologicalAlgebra Layer 7 §7.3.
 
 - The quotient `U_ζ^L(g, Λ)⁺ // u_ζ⁺` is generated by primitive elements and has the (braided)
   commutator relations of `U(g(𝓁))⁺`.
@@ -1004,7 +1237,8 @@ Frobenius theorem, this sequence alone.
 - `G₂` with `ζ` of order `9` (`𝓁 = 9`, `3 ∣ 𝓁 ≠ 3, 6`): Lentner2014 line 1135 gives kernel of type
   `G₂` and quotient of type `G₂`, the quotient generated by the primitive images of `E₁^(9)` and
   `E₂^(3)`, of the dual type as in 5.1's `A*`; this pair is also covered by 5.3 (Lusztig's
-  conditions, through the sign comparison), and the two maps agree on the positive half.
+  conditions, through the sign comparison). With the `θ` correction in 5.3 the two maps agree
+  on the positive half; the conjugate using only `Ψ` and `Ψ*` differs by `θ`.
 - `B₂` with `d = (2, 4)` and `ζ` of order `8` (`ζ²` of order `L = 4`): `c = 2`, `ζ^c` has order
   `4`, `L′ = 2`, so the sequence is Lentner's `B₂` at `𝓁 = 4` (line 1130): kernel `A₁ × A₁` on the
   short roots, quotient of type `C₂`, matching 5.1's `A* = [[2, −1], [−2, 2]]` for `ℓ = (2, 1)`;
@@ -1017,12 +1251,13 @@ Frobenius theorem, this sequence alone.
 - `A₁` at `L = 3`: `Fr(E^(3)) = X`, `Fr(E^(4)) = 0`, and `Fr(E^(6)) = X^(2) = X²/2`.
 - `A₂` at `L = 2` through 5.3 with target the classical modified algebra of `(X*, Y*)`.
 - `A₁` with `ζ` of order `3` (`L = 3`): 5.2 gives the unital map; 5.3 gives the modified map
-  as `Fr` at `−ζ` (of order `6`) composed with `Ψ`.
+  as `θ ∘ Ψ* ∘ Fr_(−ζ) ∘ Ψ⁻¹`. At weight `0`, the conjugate without `θ` sends `E^(3)1_0`
+  to `−e1_0`, and `θ` restores `+e1_0`.
 
 ### Dependencies
 
-Layers 0–3; KacMoody §0.1; McGerty2006 §2; Lentner2014 §§3–6; GrosKaneda2013 §1; Lusztig1990
-Theorem 8.10; Lusztig1993 Chapters 33 and 35.
+Layers 0–3; KacMoody §0.1; HopfologicalAlgebra Layer 7 §7.3; McGerty2006 §2; Lentner2014 §§3–6;
+GrosKaneda2013 §1; Lusztig1990 Theorem 8.10; Lusztig1993 Chapters 33 and 35.
 
 ## Layer 6: root-of-unity modules, heads and Frobenius pullback (QEA6)
 
@@ -1031,12 +1266,14 @@ Theorem 8.10; Lusztig1993 Chapters 33 and 35.
 Separate four objects: the integral Weyl lattice `V_A(λ)`, its specialization `Δ_ζ(λ) = R ⊗ V_A(λ)`,
 its simple head `L_ζ(λ)`, and the Frobenius pullback `Fr^*V` of a classical module. After an
 embedding `R → ℂ` construct the finite-dimensional type-1 modules, the surjection
-`Δ_ζ(λ) → L_ζ(λ)`, and prove `Fr^*L(λ) ≅ L_ζ(Lλ)` in the odd nondivisible case of 5.2: ordinary
-`Eᵢ, Fᵢ` act by `0`, `Eᵢ^(L), Fᵢ^(L)` as `Xᵢ, Yᵢ`, and the highest weight is `Lλ`. Derive toral
+`Δ_ζ(λ) → L_ζ(λ)`, and prove `Fr^*L(λ) ≅ L_ζ(Lλ)` in the odd nondivisible case of 5.2:
+`Eᵢ^(L), Fᵢ^(L)` act as `Xᵢ, Yᵢ`, the highest weight is `Lλ`, and for `L > 1` ordinary
+`Eᵢ, Fᵢ` act by `0`. Surjectivity of `Fr` makes the pullback simple; its highest weight identifies
+it with `L_ζ(Lλ)` for the full lattice. Derive toral
 eigenvalues on highest-weight vectors from `quantumLucas`; never conclude from a nonzero
 `⟨λ, hᵢ⟩` that `Fᵢv_λ` is not a highest vector without testing every positive divided power.
 Dualize with the antipode of 1.2.
-*Needs:* Layers 4–5; 0.3.
+*Needs:* Layers 4–5; 0.3; AndersenWen1992 §1.10, pp. 40–41 (the case with zero restricted weight).
 
 - `Δ_ζ(λ)` has the character of `V(λ)` and `L_ζ(λ)` is its unique simple quotient.
 - `Fr^*` is exact and monoidal on classical modules.
@@ -1055,10 +1292,10 @@ Dualize with the antipode of 1.2.
 For the simply connected semisimple root datum, where every dominant weight is `λ₀ + Lλ₁` with
 `0 ≤ ⟨λ₀, hᵢ⟩ < L`, prove `L_ζ(λ₀ + Lλ₁) ≅ L_ζ(λ₀) ⊗ Fr^*L(λ₁)`; for other root data state the
 extension only with its lattice hypotheses. This is independent of the construction of `Fr`
-(AndersenWen1992 §1.9, the theorem at line 206, printed p. 40, for the simply connected datum
+(AndersenWen1992 §1.10, proof, pp. 40–41, for the simply connected datum
 over a field containing a primitive root of unity of the order of `ζ`, where the restricted
 simple `L_k(λ⁰)` stays simple over the small quantum group and `L_k(λ) ≅ L_k(λ⁰) ⊗ L(λ¹)^([1])`;
-line 209 attributes the characteristic-zero case to Lusztig).
+§1.10 cites Lusztig for the characteristic-zero case).
 *Needs:* 6.1.
 
 - The decomposition `λ = λ₀ + Lλ₁` is unique.
@@ -1192,7 +1429,7 @@ it with `ker C_L`, `a_k ↦ (−1)^k(w_(k+1) + W)` with `M_ζ(L)/W`, and the non
 are compared by `T_L`. The Chevalley divisor formula is SchubertGeometry S7's; this layer provides
 no quantum flag variety, quantum cohomology ring or quantum Schubert product.
 (AndersenPoloWen1991 Proposition 1.22, line 500, for the Weyl lattice `Δ_A(n)` and Proposition
-3.3, line 571, for the induced module `H⁰(λ)` as the dual of a Weyl module, of which the monomial
+3.3, p. 23, for the induced module `H⁰(λ)` as the dual of a Weyl module, of which the monomial
 lattice `M_A(n)` with `T_n` is the rank-one integral instance; the root-of-unity computations
 follow from `quantumLucas` of 0.3.)
 *Needs:* 8.1, Layers 3–7, 0.3.
@@ -1232,10 +1469,13 @@ Layers 0–7; SchubertGeometry S4, S7.
 ## References
 
 - Lusztig1993: George Lusztig, *Introduction to Quantum Groups*, Progress in Mathematics 110,
-  Birkhäuser, 1993 (reprinted 2010). Cited by chapter: §1.2 (the form on `f`), §33.2
+  Birkhäuser, 1993 (reprinted 2010). Cited by section: §1.2 (free braided algebra, pairing,
+  radical and skew derivatives), §3.1 (the construction of `U`), §33.1 and Theorem 33.1.3
+  (classical comparison and Serre presentation over `ℚ(v)`), §33.2
   (quasiclassical specializations), Chapter 34 (Gaussian binomials at roots of unity), Chapter 35
   (quantum Frobenius, Theorem 35.1.9), Chapters 37 (§37.1.3) and 39 (braid automorphisms and
-  relations), Chapter 41 (PBW bases), §23.2 and §31.1.3 (modified form and its presentation).
+  relations), Lemma 38.1.2 and Proposition 38.2.1 (factorizations of `f` and pairing invariance),
+  Chapter 41 (PBW bases), §23.2 and §31.1.3 (modified form and its presentation).
 - LusztigJAMS1990: George Lusztig, *Finite dimensional Hopf algebras arising from quantized
   universal enveloping algebras*, J. Amer. Math. Soc. 3 (1990), 257–296 (simply-laced, simply
   connected): §1 (line 179, braid group action), Proposition 4.1 (line 1098, root vectors),
@@ -1245,15 +1485,29 @@ Layers 0–7; SchubertGeometry S4, S7.
   Theorem 8.10 (the unital Frobenius map at odd orders).
 - AndersenPoloWen1991: Henning Haahr Andersen, Patrick Polo and Wen Kexin, *Representations of
   quantum algebras*, Invent. Math. 104 (1991), 1–59: §1.20 and Proposition 1.22 (lines 457–510,
-  Weyl lattices, freeness and characters), Proposition 3.3 (line 571, induced modules as duals).
+  Weyl lattices, freeness and characters), Proposition 3.3 (p. 23, induced modules as duals).
 - AndersenWen1992: Henning Haahr Andersen and Wen Kexin, *Representations of quantum algebras.
   The mixed case*, J. reine angew. Math. 427 (1992), 35–50: §1.2 (line 129, `U_A` at `v = 1`),
-  §1.9 (line 206, the tensor-product theorem).
+  §1.10, proof, pp. 40–41 (the tensor-product theorem).
 - HeckenbergerDoubles2010: István Heckenberger, *Lusztig isomorphisms for Drinfel'd doubles of
   bosonizations of Nichols algebras of diagonal type*, J. Algebra 323 (2010), arXiv 0710.4521
   (v2): §4.1 (lines 739–741), Proposition 4.3 (line 821), Remark 4.4 (line 866),
-  Definition 4.5 (line 874), Proposition 4.6 (line 898), Proposition 4.14 (line 1039), Theorem
-  5.8 (line 1578).
+  Definition 4.5 (line 874), Proposition 4.6 (line 898), Proposition 4.9(6) (exchange of the
+  positive and negative generators), Propositions 4.14 and 4.17 and
+  Remark 4.19 (triangular decomposition and quotients), Lemmas 4.15 and 4.20
+  (skew derivatives), Lemma 4.16, equation (4.39) (commuting skew derivatives),
+  Lemma 4.23(ii) (the coproduct of adjoint strings), Lemmas 4.30–4.31 and 6.5 (rank-one
+  decompositions and local nilpotence), Corollary 4.21 and Proposition 5.6 (Hopf ideals), Theorem 5.8
+  (pairing of the positive and negative parts); Example 7.4 (Serre relations for symmetrizable
+  Kac–Moody data over `ℚ(q)`).
+  https://arxiv.org/abs/0710.4521
+- Tanisaki2016: Toshiyuki Tanisaki, *Characters of integrable highest weight modules over a
+  quantum group*, arXiv 1506.00826 (v3, 2016):
+  §§2–3 (the integral forms, localization, ranks and braid automorphisms), Lemmas 3.1–3.2 and 4.2
+  (factorizations of positive and negative parts and of pairing radicals), Proposition 4.4 and
+  Propositions 5.1–5.2 (Casimir and character arguments), Theorem 5.4 (the pairing at generic
+  parameters over arbitrary fields), Theorem 5.7 (its localized determinant is a unit).
+  https://arxiv.org/abs/1506.00826
 - Kassel1995: Christian Kassel, *Quantum Groups*, Graduate Texts in Mathematics 155, Springer,
   1995: Chapter VII §3 (the quantum plane as a `U_q(sl₂)`-module algebra).
 - McGerty2006: Kevin McGerty, *Hall algebras and quantum Frobenius*, arXiv math/0601150 (v4):
