@@ -18,6 +18,7 @@ body:
         - AbelianSchemesAndArithmeticModuli
         - AbhyankarLemma
         - AdelicAlgebraicGroups
+        - AdicCoefficientsAndComparisons
         - AdicEtaleGeometry
         - AdicSpacesPartII
         - AdicSpacesPartIII
@@ -111,6 +112,7 @@ body:
         - Equidistribution
         - EquivariantIntersectionTheory
         - EtaleCohomologyFoundations
+        - EtaleDualityAndPerverseSheaves
         - EtaleMassFormula
         - EulerSystemsAndKolyvaginSystems
         - ExplicitPrimeCounting
