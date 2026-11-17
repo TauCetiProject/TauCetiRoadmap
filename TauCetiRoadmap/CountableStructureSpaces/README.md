@@ -927,9 +927,11 @@ need depend on countably many symbols: with uncountably many unary predicates, t
 predicate empty is an invariant analytic singleton that no single sentence defines (§5.4). For the
 same reason `analyticSet_iff_exists_pc` keeps its countability hypothesis.
 
-Vaught 1974, statement (10), p. 281, and Marker's notes, Corollary 4.25, p. 51, separate two
-disjoint invariant analytic sets by an invariant Borel set. Here only `B` need be invariant:
-the saturation of `A` is analytic (Layer 1.2) and, `B` being invariant, still disjoint from `B`.
+Vaught 1974, statement (10), p. 281, for a Polish group acting on a Polish space, and Marker's
+notes, Corollary 4.25, p. 51, for a countable vocabulary, separate two disjoint invariant
+analytic sets by an invariant Borel set. Here only `B` need be invariant: the saturation of `A` is
+analytic (Layer 1.2) and, `B` being invariant, still disjoint from `B`. The form for every
+language follows from these by the countable-sublanguage reduction above.
 
 *Needs:* L1.2; L5.4; BorelEquivalenceRelations `Setoid.exists_invariant_measurableSet_separating`;
 TC `isomorphismInvariant_iff_preimage_image_quotientMk`, `symbSublang`, `symbSublangIncl`,
