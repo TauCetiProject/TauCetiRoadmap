@@ -67,7 +67,7 @@ freeness criterion (`free_of_endomorphisms_iso_pi`, §7.2) and factoriality of r
 (`isRegularLocalRing_uniqueFactorizationMonoid`, §7.4). The local headlines are stated on Tau Ceti's
 punctured spectrum of a local ring and its restriction functor on finite étale schemes.
 The theory of groups of multiplicative type over an arbitrary base scheme on which §§7.13–7.15 and
-Layer 8 rest is GroupSchemesOverABase's (its §§0.1, 1.1–1.5, 2.1–2.3, 2.7), cited in §§7.12a–7.12e,
+Layer 8 rest is GroupSchemesOverABase's (its §§0.1, 1.1–1.5, 2.1–2.3, 2.7), cited in §§7.12a, 7.12c–7.12e,
 which state only the comparisons and consequences used here; of it, `Suggested.lean` states only the
 torus predicate that §§8.3 and 8.6 need.
 The flat-cohomological headline theorems are specified in this README; the module docstring of
@@ -93,7 +93,7 @@ torsors and gerbes, factoriality of regular local rings, parafactorial local rin
 Picard and Brauer conjectures, the Brauer comparison of Gabber and de Jong; the comparison of
 diagonalizable groups with Tau Ceti's `𝔾_m` and `μ_n`, the Cartier-dual criterion for finite groups of
 multiplicative type, the type of a group of multiplicative type, and kernels, closedness of subgroups
-and `m`-torsion of such groups (§§7.12a–7.12e, on GroupSchemesOverABase's theory), the kernel-of-tori
+and `m`-torsion of such groups (§§7.12a, 7.12c–7.12e, on GroupSchemesOverABase's theory), the kernel-of-tori
 presentation of a group of multiplicative type and purity for such groups ([CS24] §7); and purity for the Brauer group and for tori with the codimension-one and residue
 descriptions ([C19] §§2, 5, 6 and Appendix A).
 
@@ -139,7 +139,7 @@ descriptions ([C19] §§2, 5, 6 and Appendix A).
   the anti-equivalence with twisted constant sheaves, cocharacters, subgroups of multiplicative type,
   quotients and the largest subtorus: GroupSchemesOverABase §§0.1, 1.1–1.5, 2.1–2.3, 2.7, whose
   notions agree over a field with Tau Ceti's `TauCeti.MultiplicativeTypeAffineGroupSchemeCat` and
-  `TauCeti.TorusAffineGroupSchemeCat`. §§7.12a–7.12e here cite it, and state only the comparison with
+  `TauCeti.TorusAffineGroupSchemeCat`. §§7.12a, 7.12c–7.12e here cite it, and state only the comparison with
   Tau Ceti's `𝔾_m` and `μ_n`, the Cartier-dual criterion for finite groups, the Lean form `IsTorus` of
   tori, the type, and kernels, closedness of subgroups and `m`-torsion. *Closed immersions from
   monomorphisms of a group of multiplicative type into an affine group of finite presentation over an
@@ -588,11 +588,11 @@ Ceti group, and for finite `M` to the group `Spec_S 𝒪_S[M]` of ModularCurves 
 homomorphisms `D_S(M) → D_S(N)`; for every `S` these are the locally constant functions
 `S → Hom(N, M)`, and their sheaf is represented by the constant group `Hom(N, M)_S` (§§7.12a, 7.12d,
 7.12e). §1.3 `D_S(M)` is smooth over `S` iff the order of the torsion subgroup of `M` is invertible
-on `S`, and, for nonempty `S`, étale iff moreover `M` is finite (§7.12b). §1.4 for every
+on `S`, and, for nonempty `S`, étale iff moreover `M` is finite (§7.13). §1.4 for every
 `φ : N → M`, the kernel of `D_S(φ)` is `D_S(M/φ(N))`, embedded by `D_S` of the quotient map; for
 injective `φ`, `D_S(φ)` is faithfully flat, and a short exact sequence of finitely generated groups
 gives a short exact sequence of sheaves on the big fppf site; `D_S(ℤ)` and `D_S(ℤ/n)` are the sheaves
-`𝔾_m` and `μ_n` of SchemeAndStackFoundations §2.9 (§§7.12a, 7.12b, 7.12e, 7.13). §1.5 for finite
+`𝔾_m` and `μ_n` of SchemeAndStackFoundations §2.9 (§§7.12a, 7.12e, 7.13). §1.5 for finite
 `M`, `D_S(M)` is the Cartier dual of the constant group `M_S` of ModularCurves 0B, with no
 invertibility of `|M|` (§§7.12a, 7.12c). §2.1 the predicates diagonalizable (`G ≅ D_S(M)`), of
 multiplicative type (diagonalizable on the members of an fppf cover) and torus (the same with free
@@ -2201,7 +2201,7 @@ SchemeAndStackFoundations §2.10; Mathlib `AlgebraicGeometry.Scheme.Etale`,
 This layer deduces from Layer 6 global purity for finite flat coefficients, Moret-Bailly's purity for
 torsors and gerbes, Gabber's conjectures on the local Picard and Brauer groups of complete
 intersections, and purity for groups of multiplicative type ([CS24] §7, pp. 86–93). For the last,
-§§7.12a–7.12e cite GroupSchemesOverABase for diagonalizable groups, groups of multiplicative type and
+§§7.12a, 7.12c–7.12e cite GroupSchemesOverABase for diagonalizable groups, groups of multiplicative type and
 tori over an arbitrary base scheme, with their character sheaves, subgroups, quotients and largest
 subtori (SGA 3 VIII–X), and state the comparisons and consequences used here; they use none of
 §§7.1–7.12, and §§7.13–7.15 and Layer 8 rest on them.
@@ -2619,17 +2619,6 @@ API (each a target):
   `AlgebraicGeometry.Scheme.mu S p` holds although `p` is not invertible on `S` and `μ_p` is not
   étale.
 
-### 7.12b Smoothness, exactness and kernels of diagonalizable groups
-
-GroupSchemesOverABase §1.3 proves that `D_S(M)` is smooth over `S` iff the order of the torsion
-subgroup of `M` is invertible on `S`, and, for nonempty `S`, étale iff moreover `M` is finite.
-GroupSchemesOverABase §1.4 proves that, for every homomorphism `φ : N → M`, the kernel of
-`D_S(φ) : D_S(M) → D_S(N)` is `D_S(M/φ(N))`, embedded by `D_S` of the quotient map; that `D_S(φ)` is
-faithfully flat when `φ` is injective; and hence that a short exact sequence `1 → N → M → M″ → 1` of
-finitely generated commutative groups gives an exact sequence `1 → D_S(M″) → D_S(M) → D_S(N) → 1` of
-sheaves on the big fppf site of `S`, which for the `n`-th power map of `ℤ` is
-`1 → μ_n → 𝔾_m → 𝔾_m → 1`.
-
 ### 7.12c Groups of multiplicative type and tori over a base
 
 GroupSchemesOverABase §2.1 defines, for a group `G` over a scheme `S`, when `G` is **diagonalizable**
@@ -2716,6 +2705,11 @@ of `S_i`.
   constant.
 - For the norm-one torus over `ℝ` the type is `ℤ`, although `X^*` is not the constant sheaf `ℤ`:
   complex conjugation acts on it by `−1`, and its sections over `ℝ` are `0`.
+- `𝔾_m × μ_4 = D_ℤ(ℤ × ℤ/4)` over `Spec ℤ` has type `ℤ × ℤ/4` at every point, `(2)` included: its
+  character sheaf is the constant sheaf `ℤ × ℤ/4` (GroupSchemesOverABase §1.2). Over `𝔽̄_2` the factor
+  `μ_4` is infinitesimal, so the reduced geometric fibre at `(2)` is `𝔾_m`, with character group `ℤ`; a
+  type read off the reduced geometric fibre would be `ℤ` at `(2)` and `ℤ × ℤ/4` at the generic point,
+  which lies in every open neighbourhood of `(2)`, so it would not be locally constant.
 
 ### 7.12e Subgroups of multiplicative type, quotients and the largest subtorus
 
@@ -2777,9 +2771,9 @@ with kernel `T[m] = D(X^*(T)/m)`, which is finite locally free (§7.12e(c)), and
 onto the largest subtorus `D(X^*(T)/torsion)` (GroupSchemesOverABase §2.7), closed by §7.12e(b):
 the inclusion `m·X^*(T) ⊂ X^*(T)`
 and the surjection `X^*(T) → m·X^*(T)`, `x ↦ mx`, with kernel the torsion, compose to multiplication by
-`m`. (c) Tori are smooth over `X` (étale locally `D(ℤ^r)`, GroupSchemesOverABase §§2.1–2.2), so their
+`m`. (c) Tori are smooth over `X` (étale locally `D(ℤ^r)`, GroupSchemesOverABase §§1.3, 2.1–2.2), so their
 fppf and étale cohomology agree (SchemeAndStackFoundations §2.10).
-*Needs:* §§7.12c–7.12e; GroupSchemesOverABase §§1.4, 2.1–2.3, 2.7; SchemeAndStackFoundations
+*Needs:* §§7.12c–7.12e; GroupSchemesOverABase §§1.3, 1.4, 2.1–2.3, 2.7; SchemeAndStackFoundations
 §§1.18, 2.9, 2.10; Tau Ceti `TauCeti.MultiplicativeTypeAffineGroupSchemeCat`,
 `TauCeti.TorusAffineGroupSchemeCat`.
 
