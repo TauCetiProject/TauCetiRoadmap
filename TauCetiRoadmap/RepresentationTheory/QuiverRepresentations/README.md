@@ -338,9 +338,10 @@ Paths below are relative to `TauCeti/`.
   `CategoryTheory.ShortComplex.IsAlmostSplit`, in `CategoryTheory/AlmostSplit/Sequence.lean`,
   combines short exactness with left and right almost-split conditions in the chosen category.
   `CategoryTheory.ShortComplex.IsAlmostSplit.exists_iso_τ₃_eq`, in `Uniqueness.lean`, extends
-  a specified endpoint isomorphism to an isomorphism of complexes when both left-end
-  endomorphism rings are local, and `CategoryTheory.ShortComplex.IsAlmostSplit.nonempty_iso_X₁`
-  there compares the left ends. Finite-length locality discharges that condition here.
+  a specified endpoint isomorphism to an isomorphism of complexes in any preadditive balanced
+  category, with no locality hypothesis (the left end of an almost-split sequence always has a
+  local endomorphism ring), and `CategoryTheory.ShortComplex.IsAlmostSplit.nonempty_iso_X₁`
+  there compares the left ends.
 - `ModuleCat.arTranslate`, in `Algebra/Category/ModuleCat/AuslanderReiten/Translate.lean`, is D Tr
   of a chosen finite minimal projective presentation of a finitely generated module over a
   finite-dimensional algebra, over any field. `ModuleCat.nonempty_iso_arTranslate` compares it with
