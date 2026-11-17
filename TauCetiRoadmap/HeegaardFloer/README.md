@@ -203,7 +203,9 @@ ordinary splitting theory; neither supplier asserts these smooth identifications
 The analytic foundation is PDE/domain Sobolev theory and F1's linear estimates,
 then F0's nonlinear sections and genericity. M.0a's local dynamics and λ-lemma
 precede F0.4, the sole owner of metric existence/genericity. M.0b consumes
-that theorem; comparison with arbitrary Morse–Smale metrics is in M.5. Ordinary M.1–M.5 then precede Bott
+that theorem; comparison with arbitrary Morse–Smale metrics is in M.5. M.0c's Euclidean function-perturbation genericity
+consumes only Tau Ceti's native Euclidean Morse–Smale, perturbation and Sard
+modules and F0.S, independently of F0.4. Ordinary M.1–M.5 then precede Bott
 M.6's conditional trajectory/normal-bundle constructions then precede
 F0.7's Bott genericity, which precedes M.7 gluing/complex/continuation and
 M.8–M.10 comparisons. F0.5 follows F1's surface estimates and precedes
@@ -296,6 +298,64 @@ smooth automatically.
 - The metric 2(dx²+dy²) gives rates ±1 and therefore fails the prescribed Euclidean-germ condition, despite agreeing in index.
 
 *Needs:* F0.4's smooth relative Morse–Smale residual theorem; MorseTheory M1's normalized charts; M.0a's local dynamics; Wehrheim, Definition 1.1 and Theorem 2.6(iv) (source).
+
+### 1.0c Euclidean Morse–Smale genericity by function perturbation (M.0c)
+
+Work on a finite-dimensional real inner product space E with a C^r
+function f whose gradient is globally Lipschitz, whose critical points are
+nondegenerate and whose sublevel sets {f≤c} are compact. These are the
+trapping hypotheses of the compact-band versions above; they make the
+negative-gradient flow global and the critical set finite in each band.
+Consume Tau Ceti's `TauCeti.IsMorseSmale f hf`, the admissible families
+`TauCeti.IsAdmissiblePerturbation f h` (finitely many C² functions with
+compact support away from the critical points), the perturbed function
+`TauCeti.perturb f h s = f + Σᵢ sᵢhᵢ` with its jointly C^(n+1) perturbed
+flow, and universal transversality (`Morse/MorseSmale/Surjective.lean`).
+Perturb the function, not the metric; this theorem is independent of
+F0.4.
+
+Prove three results, with the index difference truncated at0 in ℕ.
+
+- **Single pair on a slab.** Let p≠q be critical points, c₁<c₂ regular
+  values with no critical value in [c₁,c₂], C a compact subset of
+  W^u(p)∩{f=c₂}, and h admissible and C^r with
+  r≥max(ind p−ind q,0)+2. If every trajectory of W^u(p)∩W^s(q) passes
+  through C and lies below c₁ after a fixed time T, and the parameter
+  derivatives of s↦φ^(f_s)_T at s=0 together with the tangent cone of
+  W^s(q) span E along φ_T(C), then for some ε>0 and almost every s with
+  ‖s‖<ε, W^u(p) and W^s(q) of f_s are transverse at every point of
+  φ^(f_s)_T(C). Apply sharp finite-dimensional Sard to the projection of
+  the universal space {(s,x) : x∈C, φ^(f_s)_T(x)∈W^s(q)} to the
+  parameter, whose fiber dimension is ind p−ind q−1.
+- **All pairs.** If r≥dim E+2, there is an admissible C^r family h such
+  that, for some ε>0 and almost every s with ‖s‖<ε, f_s has the same
+  critical points as f and is Morse–Smale. Order the critical values,
+  apply the single-pair step in a slab just below each of them, and use
+  that a perturbation supported above f(p) leaves W^u(p) unchanged and that
+  transversality along compact pieces is open in s.
+- **Corollary.** Every C^∞ function f as above has, in every
+  neighbourhood of 0 in the C^∞ topology of compactly supported
+  functions, a perturbation g with f+g Morse–Smale.
+
+**Checks.**
+
+- For f=x²−y² on ℝ², −∇f=(−2x,2y); at p=q=0, W^s is the x-axis and W^u
+  the y-axis, which span ℝ². This is the case p=q of `IsMorseSmale`.
+- Two different saddles p,q in ℝ² have ind p=ind q=1. Along a connecting
+  trajectory both W^u(p) and W^s(q) are curves containing the flow
+  direction, so their tangent lines coincide and do not span ℝ²; a
+  Morse–Smale f on ℝ² has no saddle–saddle trajectory. The threshold for
+  this pair is r≥max(0,0)+2=2.
+- For ind p=0 and ind q=1 the threshold is max(−1,0)+2=2, not
+  −1+2=1: the perturbed flow and its parameter derivative need C².
+- On an infinite-dimensional Hilbert space a continuous compactly
+  supported function is0
+  (`HasCompactSupport.eq_zero_or_finiteDimensional`), so every admissible
+  family is trivial there; the finite-dimensional hypothesis is essential.
+
+*Needs:* Tau Ceti's `Analysis/Calculus/Morse/MorseSmale/{Basic,Perturbation,Surjective}.lean`,
+`Analysis/Calculus/Morse/{CompactSublevel,LocalInvariantManifold}.lean` and
+`Analysis/Calculus/Sard/`; F0.S's sharp finite-dimensional Sard; MorseTheory M1's Hessian index.
 
 ### 1.1 Parametrized and unparametrized trajectories (M.1)
 
