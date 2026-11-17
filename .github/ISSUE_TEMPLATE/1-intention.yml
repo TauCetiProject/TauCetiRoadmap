@@ -211,6 +211,7 @@ body:
         - NoncommutativeGeometry
         - NoncommutativeIntegration
         - NoncongruenceModularForms
+        - NumberFieldEnumeration
         - OcneanuRigidity
         - OperatorAlgebraDynamics
         - OperatorKTheory
