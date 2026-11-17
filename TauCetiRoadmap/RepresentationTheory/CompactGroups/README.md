@@ -304,7 +304,7 @@ layer makes the next layer's *types* expressible, its milestones go into `Sugges
     indices is convention-sensitive. State the basis-level identity `schur_orthogonality_basis`
     (`⟪matrixCoeffLp π (e j) (e i), matrixCoeffLp π (e l) (e k)⟫ = d⁻¹ · δ_{jl} · δ_{ik}`) in Mathlib's
     exact convention, **verify it against `fourierBasis` on `AddCircle`**, and derive the coordinate-free
-    `schur_orthogonality_self` (`= d⁻¹ · ⟪v₁,v₂⟫ · conj⟪w₁,w₂⟫`) from it, rather than stating the
+    `schur_orthogonality_self` (`= d⁻¹ · conj⟪v₁,v₂⟫ · ⟪w₁,w₂⟫`) from it, rather than stating the
     classical formula informally.
 - **Second orthogonality (distinct irreducibles).** For **inequivalent** unitary irreducibles `π, ρ`,
   every matrix coefficient of `π` is orthogonal in `L²(G)` to every matrix coefficient of `ρ`, by
