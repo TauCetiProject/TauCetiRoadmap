@@ -89,8 +89,7 @@ Out of scope:
     (`Mathlib/Analysis/Matrix/Normed.lean`), a `def` used as a local instance;
     `NormedRing.inverse_one_sub` (`Mathlib/Analysis/Normed/Ring/Units.lean`): in a normed ring
     with summable geometric series, `‖t‖ < 1` gives `Ring.inverse (1 − t) = (1 − t)⁻¹` as a unit;
-  - `PMF`, `PMF.toMeasure`, `PMF.bind`, `Kernel`, `IsMarkovKernel`, `Kernel.ofFunOfCountable`
-    and `Kernel.compProd`;
+  - `PMF`, `PMF.bind`, `Kernel`, `IsMarkovKernel` and `Kernel.compProd`;
   - `Kernel.traj`, `Kernel.trajMeasure`, `Kernel.integral_traj_partialTraj` (for `a ≤ b` and `f`
     integrable for `traj κ a x₀`) and `Kernel.condDistrib_trajMeasure` (for a probability measure
     `μ₀` and `X (a + 1)` standard Borel and nonempty, the conditional law of the coordinate
@@ -113,8 +112,10 @@ Out of scope:
     (`TauCeti/Probability/MarkovChain/MarkovProperty.lean`): for finite `ν` and `f` integrable for
     `markovChainLaw ((κ ^ n) ∘ₘ ν) κ`, the conditional expectation of `f` of the path shifted by
     `n`, given the first `n + 1` coordinates, is `∫ f ∂(markovChainLaw (dirac (x n)) κ)`;
-  - `Kernel.ofPMF` and `Kernel.ofPMF_apply` (`TauCeti/Probability/Kernel/PMF.lean`), the Markov
-    kernel of a family of `PMF`s on a countable space; `Kernel.toMatrix`, `Kernel.toMatrix_pow`
+  - `Kernel.ofPMF p` (`TauCeti/Probability/Kernel/PMF.lean`): for a family `p : α → PMF β` on a
+    countable `α` with measurable singletons, the kernel whose row at `a` is the measure of
+    `p a`, with its instance `IsMarkovKernel (Kernel.ofPMF p)`; every kernel of this roadmap
+    built from `PMF`s is this one; `Kernel.toMatrix`, `Kernel.toMatrix_pow`
     and `Kernel.comp_apply_singleton_eq_vecMul` (`TauCeti/Probability/Kernel/Matrix.lean`): the
     `ℝ≥0`-valued transition matrix of a kernel on a finite type, its compatibility with powers,
     and propagation of an initial law as a row-vector product.
@@ -141,15 +142,14 @@ the action at time `0` from the initial state, kernels
 `next n : Kernel ((Π i : Iic n, S × A) × S) A` choosing the action at time `n + 1` from the
 history up to time `n` and the state at time `n + 1`, and the proofs `isMarkovKernel_first` and
 `isMarkovKernel_next` that these are Markov kernels. For a Markov policy `π`, `ofMarkov π` has
-`first s = π 0 s` and `next n (h, s') = π (n + 1) s'`, each `PMF` read as a measure by
-`PMF.toMeasure` and the family made a kernel by `Kernel.ofFunOfCountable`; for a randomized
-stationary `π`, `ofStationary π = ofMarkov (fun _ ↦ π)`.
+`first = Kernel.ofPMF (π 0)` and `next n = Kernel.ofPMF (fun (h, s') ↦ π (n + 1) s')`, with
+Tau Ceti's `Kernel.ofPMF`; for a randomized stationary `π`,
+`ofStationary π = ofMarkov (fun _ ↦ π)`.
 
-Let `transKernel : Kernel (S × A) S` be the kernel `(s, a) ↦ (trans s a).toMeasure`, and for a
-randomized stationary `π` let `stationaryKernel π : Kernel S S` be the kernel
-`s ↦ ((π s).bind (trans s)).toMeasure`, whose mass at `s'` is `Σ_a π s a · trans s a s'`. Both
-are Markov kernels (`isMarkovKernel_transKernel`, `isMarkovKernel_stationaryKernel`) and agree
-row by row with Tau Ceti's `Kernel.ofPMF` of the same families (`Kernel.ofPMF_apply`), so the
+Let `transKernel : Kernel (S × A) S` be `Kernel.ofPMF (fun (s, a) ↦ trans s a)`, and for a
+randomized stationary `π` let `stationaryKernel π : Kernel S S` be
+`Kernel.ofPMF (fun s ↦ (π s).bind (trans s))`, whose mass at `s'` is
+`Σ_a π s a · trans s a s'`. Both are Markov kernels by the instance of `Kernel.ofPMF`, and the
 Tau Ceti lemmas on `Kernel.ofPMF` and `Kernel.toMatrix` apply to them.
 
 For `π : HistoryPolicy S A` and `s : S`, the **trajectory law**
@@ -189,12 +189,12 @@ statements are proved here.)
   Markov `π`, the state at time `n + 1` is the action at time `n`, and the action at time `n + 1`
   is `π (n + 1)` of that state; a kernel `next n` built from `π n` would repeat the rule of time
   `0` at time `1`.
-- `stationaryKernel (ofDet d) s = (trans s (d s)).toMeasure`, and every row of
+- `stationaryKernel (ofDet d) s` is the measure of `trans s (d s)`, and every row of
   `stationaryKernel π` has total mass `1`.
 
-*Needs:* Mathlib `PMF.toMeasure`, `PMF.bind`, `Kernel.ofFunOfCountable`, `Kernel.compProd`,
-`Kernel.trajMeasure`, `Kernel.condDistrib_trajMeasure`; Tau Ceti `markovChainLaw`,
-`MeasureTheory.Measure.eq_markovChainLaw` (for `trajLaw_ofStationary` only).
+*Needs:* Mathlib `PMF.bind`, `Kernel.compProd`, `Kernel.trajMeasure`,
+`Kernel.condDistrib_trajMeasure`; Tau Ceti `Kernel.ofPMF`; for `trajLaw_ofStationary` only,
+Tau Ceti `markovChainLaw` and `MeasureTheory.Measure.eq_markovChainLaw`.
 
 ### 1.2 Bellman operators
 
@@ -272,7 +272,8 @@ A one-state MDP, the deterministic two-state alternation, and the two-state, two
 ### Dependencies
 
 Layer 1 uses Mathlib's kernels, `PMF`, the Ionescu-Tulcea construction and contractions, and
-Tau Ceti's `markovChainLaw` with its uniqueness and Markov property.
+Tau Ceti's `Kernel.ofPMF`, `Kernel.toMatrix` and `markovChainLaw` with its uniqueness and Markov
+property.
 
 ## Layer 2: finite horizon
 

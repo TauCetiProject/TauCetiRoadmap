@@ -1,4 +1,5 @@
 import Mathlib
+import TauCeti.Probability.Kernel.PMF
 import TauCeti.Probability.Process.MarkovChain
 
 /-!
@@ -14,11 +15,11 @@ Suppliers used by the README and not restated here: Mathlib `ContractingWith.fix
 `ContractingWith.tendsto_iterate_fixedPoint`, `ContractingWith.dist_fixedPoint_le`,
 `ContractingWith.apriori_dist_iterate_fixedPoint_le`, `pi_norm_le_iff_of_nonneg`,
 `Matrix.linftyOpNormedRing` (a `def`, used as a local instance), `NormedRing.inverse_one_sub`,
-`PMF.toMeasure`, `PMF.bind`, `Kernel.ofFunOfCountable`, `Kernel.compProd`, `Kernel.traj`,
-`Kernel.trajMeasure`, `Kernel.integral_traj_partialTraj`, `Kernel.condDistrib_trajMeasure`,
-`StronglyAdapted`, `Submartingale.exists_ae_tendsto_of_bdd`, `MeasureTheory.IsStoppingTime`,
-`MeasureTheory.stoppedProcess` and `MeasureTheory.hittingAfter`; Tau Ceti `Kernel.ofPMF`,
-`Kernel.ofPMF_apply`, `Kernel.toMatrix`, `Kernel.toMatrix_pow`,
+`PMF.bind`, `Kernel.compProd`, `Kernel.traj`, `Kernel.trajMeasure`,
+`Kernel.integral_traj_partialTraj`, `Kernel.condDistrib_trajMeasure`, `StronglyAdapted`,
+`Submartingale.exists_ae_tendsto_of_bdd`, `MeasureTheory.IsStoppingTime`,
+`MeasureTheory.stoppedProcess` and `MeasureTheory.hittingAfter`; Tau Ceti `Kernel.ofPMF` (used
+below for every kernel built from a family of `PMF`s), `Kernel.toMatrix`, `Kernel.toMatrix_pow`,
 `Kernel.comp_apply_singleton_eq_vecMul`, `TauCeti.Probability.markovChainLaw`,
 `MeasureTheory.Measure.eq_markovChainLaw`, `MeasureTheory.Measure.markovChainLaw_map_eval` and
 `MeasureTheory.Measure.condExp_shift_iterate_markovChainLaw`.
@@ -60,20 +61,15 @@ variable [MeasurableSpace S] [DiscreteMeasurableSpace S] [MeasurableSpace A]
   [DiscreteMeasurableSpace A]
 
 /-- 1.1: the transition kernel `(s, a) ↦ trans s a`. -/
-def transKernel : Kernel (S × A) S :=
-  Kernel.ofFunOfCountable fun sa ↦ (M.trans sa.1 sa.2).toMeasure
-
-/-- 1.1: the transition kernel is a Markov kernel. -/
-instance isMarkovKernel_transKernel : IsMarkovKernel M.transKernel :=
-  ⟨fun sa ↦ inferInstanceAs (IsProbabilityMeasure (M.trans sa.1 sa.2).toMeasure)⟩
+abbrev transKernel : Kernel (S × A) S :=
+  Kernel.ofPMF fun sa ↦ M.trans sa.1 sa.2
 
 /-- 1.1: the history-dependent policy of a Markov policy. -/
 def ofMarkov (π : ℕ → S → PMF A) : HistoryPolicy S A where
-  first := Kernel.ofFunOfCountable fun s ↦ (π 0 s).toMeasure
-  next n := Kernel.ofFunOfCountable fun hs ↦ (π (n + 1) hs.2).toMeasure
-  isMarkovKernel_first := ⟨fun s ↦ inferInstanceAs (IsProbabilityMeasure (π 0 s).toMeasure)⟩
-  isMarkovKernel_next n :=
-    ⟨fun hs ↦ inferInstanceAs (IsProbabilityMeasure (π (n + 1) hs.2).toMeasure)⟩
+  first := Kernel.ofPMF (π 0)
+  next n := Kernel.ofPMF fun hs ↦ π (n + 1) hs.2
+  isMarkovKernel_first := inferInstance
+  isMarkovKernel_next _ := inferInstance
 
 /-- 1.1: the history-dependent policy of a randomized stationary policy. -/
 def ofStationary (π : S → PMF A) : HistoryPolicy S A := ofMarkov fun _ ↦ π
@@ -97,13 +93,8 @@ def finiteReturn (γ : ℝ≥0) (N : ℕ) (g : S → ℝ) (π : HistoryPolicy S 
     ∂(M.trajLaw π s)
 
 /-- 1.1: the state kernel `s ↦ Σ a, π s a • trans s a` of a randomized stationary policy. -/
-def stationaryKernel (π : S → PMF A) : Kernel S S :=
-  Kernel.ofFunOfCountable fun s ↦ ((π s).bind (M.trans s)).toMeasure
-
-/-- 1.1: the state kernel of a randomized stationary policy is a Markov kernel. -/
-instance isMarkovKernel_stationaryKernel (π : S → PMF A) :
-    IsMarkovKernel (M.stationaryKernel π) :=
-  ⟨fun s ↦ inferInstanceAs (IsProbabilityMeasure ((π s).bind (M.trans s)).toMeasure)⟩
+abbrev stationaryKernel (π : S → PMF A) : Kernel S S :=
+  Kernel.ofPMF fun s ↦ (π s).bind (M.trans s)
 
 /-- 1.1: under a stationary policy the state process is the Markov chain of `stationaryKernel`. -/
 theorem trajLaw_ofStationary (π : S → PMF A) (s : S) :
