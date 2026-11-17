@@ -10,7 +10,8 @@ import TauCeti.CategoryTheory.Monoidal.TensorPow
 # Logarithmic pluricanonical forms: target signatures
 
 `README.md` is definitive; this file is not the roadmap and is not exhaustive. It states the
-negative-fiber headline on native sheaves, effective Cartier ideals and cartesian fiber squares.
+negative-fiber headline over a nonempty open of the base, on native sheaves, effective Cartier
+ideals and cartesian fiber squares.
 The definitions have real bodies; only the target theorem has an admitted proof.
 
 Two other headline interfaces require constructions specified in the README:
@@ -54,19 +55,11 @@ def NegLogKodaira (X : Scheme.{0}) [X.Over (Spec (.of ℂ))]
     {E : X.IdealSheafData} (hE : E.IsEffectiveCartier) : Prop :=
   ∀ m : ℕ, 0 < m → ∀ s : pluriformSections X hE m, s = 0
 
-/-- A property of complex points holds very generally in `V` if it holds off a countable
-union of proper closed subsets of the ambient scheme `Y`. No point-existence assertion is made. -/
-def VeryGeneral {Y : Scheme.{0}} [Y.Over (Spec (.of ℂ))]
-    (V : Y.Opens) (P : (Spec (.of ℂ) ⟶ Y) → Prop) : Prop :=
-  ∃ Z : ℕ → Set Y, (∀ j, IsClosed (Z j) ∧ Z j ≠ Set.univ) ∧
-    ∀ y : Spec (.of ℂ) ⟶ Y, y ≫ (Y ↘ Spec (.of ℂ)) = 𝟙 _ →
-      Set.range y.base ⊆ (V : Set Y) \ ⋃ j, Z j → P y
-
 /-- The negative-fiber implication for supplied smooth proper integral fiber models, with the
-effective Cartier boundary pulled back as an ideal. This is the negative-infinity argument of
-OpenAI, *The reverse logarithmic Kodaira inequality and additivity*, §2.2, first paragraph, p. 5,
-in its effective-Cartier form. -/
-theorem negLogKodaira_of_veryGeneral_fiber
+effective Cartier boundary pulled back as an ideal, over a nonempty open of the base. This is
+the negative-infinity argument of OpenAI, *The reverse logarithmic Kodaira inequality and
+additivity*, §2.2, first paragraph, p. 5, in its effective-Cartier form. -/
+theorem negLogKodaira_of_general_fiber
     (X Y : Scheme.{0}) [X.Over (Spec (.of ℂ))] [Y.Over (Spec (.of ℂ))]
     [IsIntegral X] [IsIntegral Y]
     [Smooth (X ↘ Spec (.of ℂ))] [Smooth (Y ↘ Spec (.of ℂ))]
@@ -74,12 +67,14 @@ theorem negLogKodaira_of_veryGeneral_fiber
     (f : X ⟶ Y) [f.IsOver (Spec (.of ℂ))] (hf : Function.Surjective f)
     (V : Y.Opens) (hV : (V : Set Y).Nonempty) [Smooth (f ∣_ V)]
     (E : X.IdealSheafData) (hE : E.IsEffectiveCartier) :
-    VeryGeneral V (fun y ↦
+    ∃ U : Y.Opens, U ≤ V ∧ (U : Set Y).Nonempty ∧
+      ∀ y : Spec (.of ℂ) ⟶ Y, y ≫ (Y ↘ Spec (.of ℂ)) = 𝟙 _ →
+        Set.range y.base ⊆ (U : Set Y) →
       ∀ (F : Scheme.{0}) [F.Over (Spec (.of ℂ))] [IsIntegral F]
         [Smooth (F ↘ Spec (.of ℂ))] [IsProper (F ↘ Spec (.of ℂ))]
         (i : F ⟶ X), IsPullback i (F ↘ Spec (.of ℂ)) f y →
         ∀ (EF : F.IdealSheafData) (hEF : EF.IsEffectiveCartier),
-          EF = E.comap i → NegLogKodaira F hEF → NegLogKodaira X hE) := by
+          EF = E.comap i → NegLogKodaira F hEF → NegLogKodaira X hE := by
   sorry
 
 end TauCetiRoadmap.LogPluricanonicalForms
