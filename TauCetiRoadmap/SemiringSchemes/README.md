@@ -643,10 +643,14 @@ in namespace `TauCeti.OpenImmersionSite`:
   schemes are schemes and the characterization of open immersions between schemes
   (Proposition 2.17); stability under coproducts and fibre products and the presentation by
   equivalence relations, that is, gluing (Proposition 2.18).
-- `IsOpenImmersion P J` for a morphism into a representable agrees with
-  `MorphismProperty.presheaf P` composed with relative representability
-  (`Functor.relativelyRepresentable`), the form used by
-  `Scheme.LocalRepresentability.isRepresentable`.
+- Distinguish an open immersion of sheaves from relative representability by affines.
+  An open subfunctor of an affine is covered by representable `P`-pieces but need not
+  itself be affine: already over a field, `𝔸² \ {0}` is an open non-affine subscheme.
+  For representable source and target, prove the comparison with `P` under
+  `HasDescent`; for a general open source, use the covering-by-`P`-pieces statement.
+  In the ring comparison, extend to the site of schemes and use the scheme-level
+  `IsOpenImmersion.presheaf` in `Scheme.LocalRepresentability.isRepresentable`.
+  Do not impose `Functor.relativelyRepresentable` by affine objects on every open immersion.
 
 The proofs are Toën–Vaquié's and use only the listed properties of `(C, J, P)`, except Lemma 2.14,
 whose proof uses descent of `P`-morphisms and finite presentation; state it with those two
