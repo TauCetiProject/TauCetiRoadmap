@@ -30,6 +30,7 @@ body:
         - AffineMorseLefschetz
         - AlgebraicCurves
         - AlgebraicKTheory
+        - AlgebraicModularFormsAndSerreWeights
         - AlgebraicModuliForArithmeticGeometry
         - AlgebraicModuliForArithmeticGeometryPartII
         - AlgebraicTopology
@@ -61,6 +62,7 @@ body:
         - CharacteristicClasses
         - ChevalleyGroups
         - ClassFieldTheory
+        - ClassicalAdicEtaleCohomology
         - ClassicalArithmeticCompletion
         - ClassifyingSpaces
         - ClusterAlgebras
@@ -119,6 +121,7 @@ body:
         - Foams
         - FormalConnectionsOpers
         - FormalLaurentPuiseux
+        - FourManifolds
         - FreeGroupsAndLimitGroups
         - FreeProbability
         - FuchsianOrbifolds
@@ -133,6 +136,7 @@ body:
         - GeometricQuantization
         - GeometricRepresentationCategories
         - GeometricTopology
+        - GeometryOfNumbersAndQuadraticArithmetic
         - GlobalHolomorphicFunctions
         - GlobalQuadraticForms
         - GraphConnectivityAndFlows
@@ -181,6 +185,7 @@ body:
         - MathematicalStatisticsSemiparametric
         - McKaySkewGroup
         - ModularCurves
+        - ModularCurvesPartII
         - ModularForms
         - MorseNovikov
         - MorseTheory
