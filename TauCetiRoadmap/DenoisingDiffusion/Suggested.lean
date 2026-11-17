@@ -1,9 +1,5 @@
 import Mathlib
 import TauCeti.Probability.Distributions.Gaussian.Density
-import TauCeti.Probability.Distributions.Gaussian.Sum
-import TauCeti.Probability.Distributions.Gaussian.Affine
-import TauCeti.Probability.Distributions.Gaussian.Conditional.Basic
-import TauCeti.InformationTheory.KullbackLeibler.ChainRule
 
 /-!
 # Gaussian denoising diffusion: target signatures
@@ -14,7 +10,7 @@ definitions they need. Every headline theorem of the README is statable at the p
 here.
 
 Suppliers: MathematicalStatisticsNonparametric 1.3 (`klDiv_multivariateGaussian`); Tau Ceti
-`multivariateGaussianPDFReal`, `multivariateGaussian_eq_withDensity`, `stdGaussian_eq_withDensity`,
+`multivariateGaussianPDFReal`, `multivariateGaussian_eq_withDensity`,
 `multivariateGaussian_conv_multivariateGaussian`, `map_affine_multivariateGaussian`,
 `condDistrib_multivariateGaussian`, `EuclideanSpace.gaussianCondKernel`,
 `EuclideanSpace.map_snd_fst_multivariateGaussian`, `TauCeti.klDiv_compProd_right`,

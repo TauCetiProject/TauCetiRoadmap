@@ -75,9 +75,8 @@ is consumed.
   `klDiv_multivariateGaussian`, for `a, b : EuclideanSpace ℝ (Fin d)` and `v > 0`,
   `klDiv (multivariateGaussian a (v • 1)) (multivariateGaussian b (v • 1)) = ofReal (‖a − b‖²/(2v))`.
 - Tau Ceti, at the roadmap pin:
-  - `multivariateGaussianPDFReal`, `multivariateGaussian_eq_withDensity` (for a positive
-    definite covariance) and `stdGaussian_eq_withDensity`
-    (`TauCeti/Probability/Distributions/Gaussian/Density.lean`);
+  - `multivariateGaussianPDFReal` and `multivariateGaussian_eq_withDensity` (for a positive
+    definite covariance) (`TauCeti/Probability/Distributions/Gaussian/Density.lean`);
   - `TauCeti.heatKernel`, `TauCeti.contDiff_heatKernel` and, for `t > 0`,
     `TauCeti.exists_one_add_norm_pow_mul_norm_iteratedFDeriv_heatKernel_le`
     (`TauCeti/Analysis/PDE/HeatKernel/Basic.lean`, `Bounds.lean`), with
