@@ -1,25 +1,27 @@
 # Roadmap: Markov decision processes, dynamic programming and Q-learning
 
-**Summary.** Develop the theory of finite Markov decision processes with discounted reward. The
-Bellman evaluation and optimality operators are monotone `γ`-contractions of the sup norm; their
-fixed points are the value of a policy and the optimal value, and a policy that is greedy for the
-optimal value is optimal among all history-dependent randomized policies, whose returns are defined
-through the Ionescu-Tulcea trajectory law. The roadmap solves finite-horizon problems by backward
-induction, proves the optimality of greedy policies, the policy improvement theorem and the
-performance difference lemma, proves the convergence and error bounds of value iteration and
-policy iteration, and characterizes the optimal value and the occupancy measures by a pair of
-linear programs. It ends with stochastic approximation: Tsitsiklis's boundedness and convergence
-theorems for asynchronous iterations, with delays, of a map that contracts towards its fixed point
-in a weighted max norm under martingale-difference noise, and their consequences, the almost-sure
-convergence of tabular Q-learning and of tabular TD(0).
+**Summary.** Develop the theory of Markov decision processes with discounted reward, on a
+countable state space with finitely many actions and bounded rewards. The Bellman evaluation and
+optimality operators are monotone `γ`-contractions of the bounded functions with the sup norm;
+their fixed points are the value of a policy and the optimal value, and a policy that is greedy
+for the optimal value is optimal among all history-dependent randomized policies, whose returns
+are defined through the Ionescu-Tulcea trajectory law. The roadmap solves finite-horizon problems
+by backward induction, proves the optimality of greedy policies, the policy improvement theorem
+and the performance difference lemma, proves the convergence and error bounds of value iteration
+and policy iteration, and, on a finite state space, characterizes the optimal value and the
+occupancy measures by a pair of linear programs. It ends with stochastic approximation:
+Tsitsiklis's boundedness and convergence theorems for asynchronous iterations, with delays, of a
+map that contracts towards its fixed point in a weighted max norm under martingale-difference
+noise, and their consequences, the almost-sure convergence of tabular Q-learning and of tabular
+TD(0).
 
 ## Scope and ownership
 
 This roadmap owns:
 
-- finite Markov decision processes, their policies (deterministic and randomized, stationary,
-  Markov and history-dependent), the trajectory law of a policy and its expected discounted
-  return;
+- Markov decision processes with countably many states, finitely many actions and bounded
+  rewards, their policies (deterministic and randomized, stationary, Markov and
+  history-dependent), the trajectory law of a policy and its expected discounted return;
 - the Bellman operators, their contraction and monotonicity, the value of a policy and the optimal
   value, Q-functions, greedy policies and the existence of optimal deterministic stationary
   policies;
@@ -27,7 +29,7 @@ This roadmap owns:
 - the policy improvement theorem, the discounted occupancy measure and the performance difference
   lemma;
 - value iteration and policy iteration;
-- the primal and dual linear programs of a discounted MDP;
+- the primal and dual linear programs of a discounted MDP with finitely many states;
 - the scalar noise lemma with random step sizes, the boundedness and convergence theorems for
   asynchronous stochastic approximation, tabular Q-learning and tabular TD(0).
 
@@ -36,7 +38,7 @@ It consumes, and does not re-prove, the items listed under
 
 Out of scope:
 
-- countable and general state or action spaces, and measurable selection;
+- uncountable state spaces, infinite action sets, unbounded rewards, and measurable selection;
 - average-reward and total-reward criteria, undiscounted problems, and constrained MDPs;
 - partially observable MDPs, stochastic games, and optimal stopping as a separate theory;
 - continuous-time control and the Hamilton–Jacobi–Bellman equation;
@@ -53,26 +55,33 @@ Out of scope:
 
 ## Conventions
 
-- `S` and `A` are nonempty finite types (`[Fintype S] [Nonempty S] [Fintype A] [Nonempty A]`).
-  Where a measurable structure is needed it is the discrete one
-  (`[MeasurableSpace S] [DiscreteMeasurableSpace S]`, and the same for `A`); decidable equality
-  of `S` is assumed where the identity matrix on `S` occurs.
-- A **finite MDP** is a structure `FiniteMDP S A` with fields `trans : S → A → PMF S` and
-  `reward : S → A → ℝ`. Layers 1 to 5 use only the mean reward `reward s a`; Layer 6 allows
-  sampled rewards with this mean.
+- **States and actions.** `S` is a nonempty countable type with a measurable structure in which
+  singletons are measurable
+  (`[Countable S] [Nonempty S] [MeasurableSpace S] [MeasurableSingletonClass S]`), so every subset
+  of `S` and every function on `S` is measurable. `A` is a nonempty finite type
+  (`[Fintype A] [Nonempty A]`), with a measurable structure of the same kind where the trajectory
+  law is used. A statement assumes `[Fintype S]` exactly when it says "on a finite state space":
+  the matrix statements of 1.2 and 3.3, the eventual optimality of 4.1, the termination of 4.2,
+  Layer 5, and 6.3 and 6.4; decidable equality of `S` is assumed where the identity matrix occurs.
+- An **MDP** is a structure `MDP S A` with fields `trans : S → A → PMF S`, `reward : S → A → ℝ`,
+  a real number `rewardBound` and the proof `abs_reward_le` that `|reward s a| ≤ rewardBound` for
+  all `s`, `a`. The letter `R` denotes `rewardBound`. Layers 1 to 5 use only the mean reward
+  `reward s a`; Layer 6 allows sampled rewards with this mean.
 - The **discount factor** is `γ : ℝ≥0`, coerced to `ℝ` inside the operators; every statement that
   needs `γ < 1` says so, and `ContractingWith` takes its constant in `ℝ≥0`.
-- **Value functions** are `S → ℝ` with Mathlib's sup norm `‖v‖ = max_s |v s|`; Q-functions are
-  `S × A → ℝ` with the same norm. The order on functions is pointwise.
-- The letter `P` is reserved for probability measures (Layers 1 and 6); `R` is any real number
-  with `|reward s a| ≤ R` for all `s`, `a`.
+- **Value functions** are bounded functions `S → ℝ` with the sup norm `‖v‖ = sup_s |v s|`: the
+  Banach space `BoundedFn S`, which is Mathlib's `lp (fun _ : S ↦ ℝ) ∞`. Q-functions are elements
+  of `BoundedFn (S × A)`. Inequalities between functions are pointwise. On a finite type every
+  function is bounded, and in Layers 5 and 6 value functions and Q-functions are plain functions.
+- The letter `P` is reserved for probability measures (Layers 1 and 6).
 - **Policies.** A deterministic stationary policy is `π : S → A`; a randomized stationary policy
   is `π : S → PMF A`; a Markov policy is `π : ℕ → S → PMF A`; history-dependent randomized
   policies are defined in 1.1.
 - **Operators.** `T^π` is the Bellman evaluation operator of a randomized stationary policy `π`
   and `T` the Bellman optimality operator; `V^π` and `V⋆` are the value of `π` and the optimal
-  value; `P^π` is the transition matrix of `π` and `r^π s = Σ_a π s a · reward s a` its mean
-  reward; `Q^π (s, a) = reward s a + γ M.expect V^π s a`. All are defined in 1.2.
+  value; `r^π s = Σ_a π s a · reward s a` is the mean reward of `π`, `κ^π` its state kernel and,
+  on a finite state space, `P^π` its transition matrix;
+  `Q^π (s, a) = reward s a + γ M.expect V^π s a`. All are defined in 1.1 and 1.2.
 - A randomized stationary `π` is **optimal** if `V^π = V⋆`.
 - **Probability.** `(Ω, P)` is a probability space with filtration `ℱ : Filtration ℕ m₀`;
   conditional expectation is Mathlib's `P[· | ℱ n]`, and almost-sure statements are `∀ᵐ ω ∂P`.
@@ -85,11 +94,18 @@ Out of scope:
     the fixed point, in a complete nonempty metric space), `ContractingWith.dist_fixedPoint_le`
     and `ContractingWith.apriori_dist_iterate_fixedPoint_le`
     (`Mathlib/Topology/MetricSpace/Contracting.lean`);
-  - the sup norm on `S → ℝ` (`pi_norm_le_iff_of_nonneg`); `Matrix.linftyOpNormedRing`
+  - `lp` with exponent `∞` (`Mathlib/Analysis/Normed/Lp/lpSpace.lean`): `memℓp_infty` (a family
+    with bounded norms is in `lp ∞`), `lp.norm_eq_ciSup` (the norm is the supremum of the norms
+    of the entries), `lp.norm_apply_le_norm` and `lp.completeSpace`;
+    `norm_integral_le_of_norm_le_const` (`Mathlib/MeasureTheory/Integral/Bochner/Basic.lean`): on
+    a finite measure, `‖f‖ ≤ C` almost everywhere gives `‖∫ f‖ ≤ C · μ.real univ`;
+  - `Matrix.linftyOpNormedRing`
     (`Mathlib/Analysis/Matrix/Normed.lean`), a `def` used as a local instance;
     `NormedRing.inverse_one_sub` (`Mathlib/Analysis/Normed/Ring/Units.lean`): in a normed ring
     with summable geometric series, `‖t‖ < 1` gives `Ring.inverse (1 − t) = (1 − t)⁻¹` as a unit;
-  - `PMF`, `PMF.bind`, `Kernel`, `IsMarkovKernel` and `Kernel.compProd`;
+  - `PMF`, `PMF.bind`, `Kernel`, `IsMarkovKernel`, `Kernel.compProd`, the monoid structure on
+    `Kernel α α` given by composition (`Mathlib/Probability/Kernel/Composition/Comp.lean`), whose
+    powers are the `n`-step kernels, and `Measure.sum`;
   - `Kernel.traj`, `Kernel.trajMeasure`, `Kernel.integral_traj_partialTraj` (for `a ≤ b` and `f`
     integrable for `traj κ a x₀`) and `Kernel.condDistrib_trajMeasure` (for a probability measure
     `μ₀` and `X (a + 1)` standard Borel and nonempty, the conditional law of the coordinate
@@ -122,21 +138,23 @@ Out of scope:
 
 ## How to read the build
 
-Layer 1 constructs the trajectory law of a policy and the Bellman operators and identifies the
+Layer 1 constructs the trajectory law of a policy and the Bellman operators on the bounded
+functions and identifies the
 value of a stationary policy with its expected return. Layer 2 solves the finite-horizon problem,
 which Layer 3 uses, with the tail bound of Layer 1, to prove that the fixed point of the optimality
 operator dominates every policy; Layer 3 also contains the Q-function, policy improvement and the
 performance difference lemma. Layer 4 gives the rates of value iteration and policy iteration and
-Layer 5 the two linear programs; both use Layers 1 and 3 only. Layer 6 proves the
-stochastic-approximation theorems from Mathlib's martingale convergence alone and applies them to
-the operators of 1.2 and 3.2. Each numbered target ends with **Checks** and a *Needs:* line, and
-every claim carries a source locator in parentheses or says that it is proved here.
+Layer 5, on a finite state space, the two linear programs; both use Layers 1 and 3 only. Layer 6
+proves the stochastic-approximation theorems from Mathlib's martingale convergence alone and
+applies them to the operators of 1.2 and 3.2. Each numbered target ends with **Checks** and a
+*Needs:* line, and every claim carries a source locator in parentheses or says that it is proved
+here.
 
 ## Layer 1: MDPs, policies and Bellman operators
 
 ### 1.1 Policies and trajectories
 
-Define the structure `FiniteMDP` of the [Conventions](#conventions). Define a **history-dependent
+Define the structure `MDP` of the [Conventions](#conventions). Define a **history-dependent
 randomized policy** as a structure `HistoryPolicy S A` with a kernel `first : Kernel S A` choosing
 the action at time `0` from the initial state, kernels
 `next n : Kernel ((Π i : Iic n, S × A) × S) A` choosing the action at time `n + 1` from the
@@ -163,12 +181,16 @@ applied to the history and that state. Define the **expected discounted return**
 `trajLaw M π s` of `Σ_{n<N} γ ^ n * reward (ω n).1 (ω n).2 + γ ^ N * g (ω N).1`. Prove that:
 
 - `trajLaw M π s` is a probability measure under which the state at time `0` is `s`, the action
-  at time `0` has law `π.first s`, and the state at time `n + 1` has conditional law
-  `trans sₙ aₙ` given the history up to time `n` (`Kernel.condDistrib_trajMeasure`);
+  at time `0` has law `π.first s`, the state at time `n + 1` has conditional law `trans sₙ aₙ`
+  given the history up to time `n`, and the action at time `n + 1` has conditional law
+  `π.next n (h, sₙ₊₁)` given the history `h` up to time `n` and the state `sₙ₊₁`
+  (`Kernel.condDistrib_trajMeasure` and the definition of `Kernel.compProd`); for `ofMarkov π`
+  this law is `π (n + 1) sₙ₊₁`;
 - for a randomized stationary `π`, the state process under `trajLaw M (ofStationary π) s` has law
   `markovChainLaw (dirac s) (stationaryKernel π)` (`trajLaw_ofStationary`), by
   `MeasureTheory.Measure.eq_markovChainLaw`;
-- for `γ < 1`, the integrand of `expectedReturn` is measurable and bounded by `R / (1 − γ)`, so
+- for `γ < 1`, the integrand of `expectedReturn` is measurable and bounded by `R / (1 − γ)`,
+  for bounded `g` the integrand of `finiteReturn` is bounded, so
   `|expectedReturn M γ π s| ≤ R / (1 − γ)`, and the **tail bound**
   `|expectedReturn M γ π s − finiteReturn M γ N 0 π s| ≤ γ^N R / (1 − γ)` holds for every `N`
   (`abs_expectedReturn_sub_finiteReturn_le`).
@@ -183,6 +205,8 @@ statements are proved here.)
 - `N = 0`: `finiteReturn M γ 0 g π s = g s`, which fixes the initial state as `s`; at `N = 0` the
   tail bound is the bound on `expectedReturn`.
 - `γ = 0`: `expectedReturn M 0 π s = Σ_a (π.first s {a}) · reward s a`, with `0 ^ 0 = 1`.
+- `S = ℕ`, one action, `trans n a = pure (n + 1)`: the state at time `n` is `s + n`, and
+  `finiteReturn M γ N g π s = Σ_{n<N} γ^n reward (s + n) a + γ^N g (s + N)`.
 - Two states, one action, `trans s a = pure (swap s)`: the state process alternates, and
   `finiteReturn M γ N g π s = Σ_{n<N} γ^n reward (swap^n s) a + γ^N g (swap^N s)`.
 - `S = A` with two elements and `trans s a = pure a`: under `ofMarkov π` for a deterministic
@@ -198,30 +222,34 @@ Tau Ceti `markovChainLaw` and `MeasureTheory.Measure.eq_markovChainLaw`.
 
 ### 1.2 Bellman operators
 
-Define the expected next value `M.expect v s a = Σ_{s'} (trans s a s').toReal * v s'` (`expect`);
-the operators `T^π v s = Σ_a π s a · (reward s a + γ M.expect v s a)` (`bellmanEval`) and
-`T v s = max_a (reward s a + γ M.expect v s a)` (`bellman`); the values
-`V^π = lim_k (T^π)^k 0` (`value`) and `V⋆ = lim_k T^k 0` (`optimalValue`), limits in `S → ℝ`;
-`ofDet π = fun s ↦ PMF.pure (π s)`; the predicate `IsGreedy γ v π`, saying that `π s` maximizes
-`a ↦ reward s a + γ M.expect v s a` for every `s`; and the matrix
-`P^π s s' = Σ_a π s a · trans s a s'` (`policyMatrix`). Prove, for every randomized stationary
-`π`:
+Define the expected next value `M.expect v s a = ∫ v ∂(trans s a)` (`expect`), which is
+`Σ_{s'} trans s a s' · v s'` when `v` is bounded or `S` is finite. Prove the one-step bound
+`|reward s a + γ M.expect v s a| ≤ R + γ ‖v‖` for bounded `v` (`abs_reward_add_expect_le`, by
+`norm_integral_le_of_norm_le_const`). Define on `BoundedFn S`, for every `γ`, the operators
+`T^π v s = Σ_a π s a · (reward s a + γ M.expect v s a)` (`bellmanEval`) and
+`T v s = max_a (reward s a + γ M.expect v s a)` (`bellman`), which are bounded by `R + γ ‖v‖`
+by the one-step bound; the values `V^π = lim_k (T^π)^k 0` (`value`) and `V⋆ = lim_k T^k 0`
+(`optimalValue`), limits in `BoundedFn S`; `ofDet π = fun s ↦ PMF.pure (π s)`; the predicate
+`IsGreedy γ v π`, saying that `π s` maximizes `a ↦ reward s a + γ M.expect v s a` for every `s`;
+and, on a finite state space, the matrix `P^π s s' = Σ_a π s a · trans s a s'` (`policyMatrix`).
+Prove, for every randomized stationary `π`:
 
-- `T^π v = r^π + γ P^π v`; `T^π` and `T` are monotone, and `T (v + c) = T v + γ c` and
-  `T^π (v + c) = T^π v + γ c` for a constant `c`;
-- `policyMatrix π` is row-stochastic and is the real coercion of
-  `(stationaryKernel π).toMatrix` (Tau Ceti `Kernel.toMatrix`);
-- for `γ < 1`, `T` and `T^π` are `ContractingWith γ` on `S → ℝ` with the sup norm
+- `T^π v s = r^π s + γ ∫ v ∂(κ^π s)` with `κ^π = stationaryKernel π`; `T^π` and `T` are monotone,
+  and `T (v + c) = T v + γ c` and `T^π (v + c) = T^π v + γ c` for a constant `c`;
+- for `γ < 1`, `T` and `T^π` are `ContractingWith γ` on `BoundedFn S`
   (`contractingWith_bellman`, `contractingWith_bellmanEval`); hence the two limits exist, `V^π`
   is the unique fixed point of `T^π` (`bellmanEval_value`, the policy evaluation equation) and
   `V⋆` is the unique fixed point of `T` (`bellman_optimalValue`, the Bellman optimality
   equation), by `ContractingWith.tendsto_iterate_fixedPoint` and
-  `ContractingWith.fixedPoint_unique'`;
+  `ContractingWith.fixedPoint_unique'` in the complete space `BoundedFn S`;
 - for `γ < 1`, `‖V^π‖ ≤ R / (1 − γ)` (`norm_value_le`), and likewise `‖V⋆‖ ≤ R / (1 − γ)`;
-- for `γ < 1`, `V^π = (1 − γ P^π)⁻¹ r^π`, the inverse being `Ring.inverse` in the matrix ring and
+- every `v` has a greedy policy, because `A` is finite and no measurability is required of a
+  function on `S`; and `T^(ofDet π) v = T v` if and only if `π` is greedy for `v`;
+- on a finite state space, `policyMatrix π` is row-stochastic and is the real coercion of
+  `(stationaryKernel π).toMatrix` (Tau Ceti `Kernel.toMatrix`), `T^π v = r^π + γ P^π v`, and for
+  `γ < 1`, `V^π = (1 − γ P^π)⁻¹ r^π`, the inverse being `Ring.inverse` in the matrix ring and
   given by the Neumann series in the normed ring `Matrix.linftyOpNormedRing`, in which
-  `‖γ P^π‖ = γ` (`value_eq_inverse`);
-- every `v` has a greedy policy, and `T^(ofDet π) v = T v` if and only if `π` is greedy for `v`.
+  `‖γ P^π‖ = γ` (`value_eq_inverse`).
 
 (Puterman 1994, Theorem 6.1.1 for the evaluation equation and the inverse, Proposition 6.2.4 for
 the contractions and Theorem 6.2.5 for the optimality equation; proved here.)
@@ -232,8 +260,14 @@ the contractions and Theorem 6.2.5 for the optimality equation; proved here.)
 - `γ = 0`: `T v s = max_a reward s a` for every `v`, `V⋆ = T 0` and `V^π = r^π`.
 - The contraction constant is exactly `γ` on a one-state, one-action MDP:
   `T v − T w = γ (v − w)`; there `V^π = V⋆ = reward / (1 − γ)`.
-- `γ = 1` on that MDP with reward `1`: `T^k 0 = k` has no limit, so `optimalValue` is defined for
-  every `γ` but is meaningful only for `γ < 1`, which every statement about it assumes.
+- An infinite state space: `S = ℕ`, one action, `trans n a = pure (n + 1)` and
+  `reward n a = (−1)^n`. Then `T v n = (−1)^n + γ v (n + 1)`, `T` is a `γ`-contraction of
+  `BoundedFn ℕ`, and its fixed point is `V⋆ n = (−1)^n/(1 + γ)`, of norm `1/(1 + γ) ≤ 1/(1 − γ)`.
+- `γ = 1` on the one-state MDP with reward `1`: `T^k 0 = k` has no limit, so `optimalValue` is
+  defined for every `γ` but is meaningful only for `γ < 1`, which every statement about it
+  assumes.
+- Unbounded rewards are excluded by `abs_reward_le`: with `S = ℕ` and `reward n a = n`, `T 0` is
+  not bounded and `T` does not act on `BoundedFn ℕ`.
 - `T^π ≤ T` pointwise; on the two-state MDP with `trans s a = pure a` and
   `reward s a = if a = 1 then 1 else 0`, the only policy greedy for `v = 0` is `π s = 1`, while
   for a constant reward and `γ = 0` every policy is greedy for every `v`.
@@ -241,16 +275,18 @@ the contractions and Theorem 6.2.5 for the optimality equation; proved here.)
   permutation matrix of the swap, and `(1 − γ P^π)⁻¹` has rows `(1, γ)/(1 − γ²)` and
   `(γ, 1)/(1 − γ²)`.
 
-*Needs:* Mathlib `ContractingWith`, `ContractingWith.tendsto_iterate_fixedPoint`,
-`ContractingWith.fixedPoint_unique'`, `pi_norm_le_iff_of_nonneg`; for `value_eq_inverse` also
-`Matrix.linftyOpNormedRing` and `NormedRing.inverse_one_sub`; for the coercion of
-`Kernel.toMatrix`, 1.1.
+*Needs:* Mathlib `lp`, `memℓp_infty`, `lp.norm_eq_ciSup`, `lp.norm_apply_le_norm`,
+`lp.completeSpace`, `norm_integral_le_of_norm_le_const`, `ContractingWith`,
+`ContractingWith.tendsto_iterate_fixedPoint`, `ContractingWith.fixedPoint_unique'`; for
+`value_eq_inverse` also `Matrix.linftyOpNormedRing` and `NormedRing.inverse_one_sub`; for the
+coercion of `Kernel.toMatrix`, 1.1.
 
 ### 1.3 Values of stationary policies
 
 Prove that for `γ < 1`, every randomized stationary `π` and every `s`,
 `expectedReturn M γ (ofStationary π) s = V^π s` (`expectedReturn_eq_value`): by 1.1 the action at
-time `n` has conditional law `π sₙ` given the states, so the return is the expectation of
+time `n` has conditional law `π sₙ` given the history and the state `sₙ`, so the return is the
+expectation of
 `Σ' n, γ^n r^π (sₙ)` under `markovChainLaw (dirac s) (stationaryKernel π)`, and the Markov
 property at time `1` shows that this function of `s` is a fixed point of `T^π`. (Puterman 1994,
 Theorem 6.1.1; proved here.)
@@ -261,17 +297,20 @@ Theorem 6.1.1; proved here.)
 - A two-state chain alternating deterministically with rewards `1, 0`:
   `V^π = (1/(1 − γ²), γ/(1 − γ²))`.
 - `γ = 0`: both sides are `r^π s`.
+- The MDP on `ℕ` of 1.2: both sides are `Σ_k γ^k (−1)^(n+k) = (−1)^n/(1 + γ)`.
 
 *Needs:* 1.1, 1.2; Tau Ceti `MeasureTheory.Measure.condExp_shift_iterate_markovChainLaw`.
 
 ### Examples
 
-A one-state MDP, the deterministic two-state alternation, and the two-state, two-action MDP with
-`trans s a = pure a` (the action chooses the next state).
+A one-state MDP, the deterministic two-state alternation, the two-state, two-action MDP with
+`trans s a = pure a` (the action chooses the next state), and the shift on `ℕ` with alternating
+rewards.
 
 ### Dependencies
 
-Layer 1 uses Mathlib's kernels, `PMF`, the Ionescu-Tulcea construction and contractions, and
+Layer 1 uses Mathlib's kernels, `PMF`, the Ionescu-Tulcea construction, `lp` with exponent `∞`
+and contractions, and
 Tau Ceti's `Kernel.ofPMF`, `Kernel.toMatrix` and `markovChainLaw` with its uniqueness and Markov
 property.
 
@@ -279,7 +318,8 @@ property.
 
 ### 2.1 Backward induction
 
-For every `γ : ℝ≥0` (also `γ ≥ 1`), every horizon `N` and every terminal value `g : S → ℝ`, prove
+For every `γ : ℝ≥0` (also `γ ≥ 1`), every horizon `N` and every bounded terminal value
+`g : BoundedFn S`, prove
 (`backwardInduction`) that `finiteReturn M γ N g π s ≤ T^N g s` for every history-dependent
 randomized policy `π` and every `s`, and that for every deterministic Markov policy `π` such that
 `π n` is greedy for `T^(N−n−1) g` at each time `n < N`, the policy
@@ -293,6 +333,8 @@ using `Kernel.integral_traj_partialTraj` to split the trajectory after the first
 - `N = 0`: `T^0 g = g = finiteReturn M γ 0 g π` for every policy.
 - `N = 1`: `T g s = max_a (reward s a + γ M.expect g s a)`, attained by a first action greedy
   for `g`.
+- The terminal value must be bounded: with `S = ℕ`, `g n = n` and a law `trans s a` of infinite
+  mean, `g` is not integrable for `trans s a` and `T g s` is not given by the formula of 1.2.
 - On the two-state MDP with `trans s a = pure a` and `reward s a = if a = 1 then 1 else 0`, take
   `γ = 1`, `N = 2` and `g = (2, 0)`: `T g = 2` and `T² g = 3` at both states, attained by the
   action `1` at time `0` (greedy for `T g`) and the action `0` at time `1` (greedy for `g`);
@@ -337,43 +379,52 @@ For `γ < 1`, prove:
 - For `0 < γ`, the Markov policy that alternates the actions `1, 0, 1, …` does worse there: its
   return is `1/(1 − γ²) < 1/(1 − γ)`.
 - `γ = 0`: the optimal deterministic policies are the maximizers of `reward s ·` at every `s`.
+- `S = ℕ` with two actions, `trans n a = pure (n + 1)` and `reward n a = if a = 1 then 1 else 0`:
+  `V⋆ = 1/(1 − γ)` at every state, and the only optimal deterministic policy is `π n = 1`, a
+  choice at infinitely many states that needs no measurable selection.
 
 *Needs:* 1.1, 1.2, 1.3, 2.1.
 
 ### 3.2 Q-functions
 
-Define `Q⋆ (s, a) = reward s a + γ M.expect V⋆ s a` (`optimalQ`) and the operator
-`H q (s, a) = reward s a + γ Σ_{s'} trans s a s' · max_b q (s', b)` (`qBellman`). For `γ < 1`,
-prove that `V⋆ s = max_a Q⋆ (s, a)`, that `H` is `ContractingWith γ` on `S × A → ℝ`
-(`contractingWith_qBellman`) with unique fixed point `Q⋆` (`qBellman_optimalQ`), and that a
-deterministic `π` is optimal if and only if `π s` maximizes `a ↦ Q⋆ (s, a)` for every `s`.
-(Watkins and Dayan 1992, Section 2, for `Q⋆` and its equation; Tsitsiklis 1994, Section 7, for the
-contraction; proved here.)
+For a bounded Q-function `q`, define `maxQ q s = max_b q (s, b)` (`maxQ`), an element of
+`BoundedFn S` of norm at most `‖q‖`, the operator
+`H q (s, a) = reward s a + γ M.expect (maxQ q) s a` on `BoundedFn (S × A)` (`qBellman`), bounded
+by `R + γ ‖q‖` by the one-step bound of 1.2, and `Q⋆ = lim_k H^k 0` (`optimalQ`). For `γ < 1`,
+prove that `H` is `ContractingWith γ` (`contractingWith_qBellman`) with unique fixed point `Q⋆`
+(`qBellman_optimalQ`), that `Q⋆ (s, a) = reward s a + γ M.expect V⋆ s a` (`optimalQ_apply`), that
+`V⋆ s = max_a Q⋆ (s, a)` (`maxQ_optimalQ`), and that a deterministic `π` is optimal if and only
+if `π s` maximizes `a ↦ Q⋆ (s, a)` for every `s`. (Watkins and Dayan 1992, Section 2, for `Q⋆`
+and its equation; Tsitsiklis 1994, Section 7, for the contraction; proved here.)
 
 **Checks.**
 
 - One state, one action, reward `c`: `Q⋆ = c / (1 − γ)`.
-- `H (q + c) = H q + γ c` for a constant `c`, and `H q (s, a) = reward s a + γ M.expect v s a`
-  with `v s' = max_b q (s', b)`.
+- `H (q + c) = H q + γ c` for a constant `c`; `maxQ` of a `q` that does not depend on the action
+  is `q` itself, and `‖maxQ q‖ ≤ ‖q‖` with equality when `q ≥ 0`.
 - `γ = 0`: `H q = reward` for every `q`, and `Q⋆ = reward`.
 - On the two-state MDP of 3.1, `Q⋆ (s, 1) = 1/(1 − γ)` and `Q⋆ (s, 0) = γ/(1 − γ)`: the gap
   between the two actions is `1`.
+- A minimum in place of the maximum in `maxQ` would give `Q⋆ (s, 1) = 1` and `Q⋆ (s, 0) = 0`
+  there.
 
 *Needs:* 1.2, 3.1.
 
 ### 3.3 Policy improvement and performance difference
 
-Define the **discounted occupancy measure**
-`occupancy M γ π s = (1 − γ) e_s (1 − γ P^π)⁻¹`, a row vector indexed by `S`. For `γ < 1` and
+Define the **discounted occupancy measure** of a randomized stationary `π` from `s`, a measure on
+`S`, by `occupancy M γ π s = (1 − γ) Σ_n γ^n • (κ^π)^n s`, where `(κ^π)^n` is the `n`-th power of
+`stationaryKernel π` in Mathlib's monoid of kernels and the sum is `Measure.sum`. For `γ < 1` and
 randomized stationary `π`, `π'`, prove:
 
 - **policy improvement** (`value_le_of_improve`): if `T^(π') V^π ≥ V^π` then `V^(π') ≥ V^π`, and
   `V^(π') s > V^π s` at every state `s` where `T^(π') V^π s > V^π s`;
-- `occupancy M γ π s` is a probability vector on `S`, and its entry at `s'` is
-  `(1 − γ) Σ_n γ^n` times the probability that the state at time `n` is `s'` under
-  `trajLaw M (ofStationary π) s`;
-- **performance difference** (`performanceDifference`):
-  `V^(π') s − V^π s = 1/(1 − γ) Σ_{s'} occupancy M γ π' s s' Σ_a π' s' a · (Q^π (s', a) − V^π s')`.
+- `occupancy M γ π s` is a probability measure, and its mass at `s'` is `(1 − γ) Σ_n γ^n` times
+  the probability that the state at time `n` is `s'` under `trajLaw M (ofStationary π) s`;
+- on a finite state space, `occupancy M γ π s {s'}` is the entry at `s'` of the row vector
+  `(1 − γ) e_s (1 − γ P^π)⁻¹` (`occupancy_real_singleton`);
+- **performance difference** (`performanceDifference`): `V^(π') s − V^π s` is `1/(1 − γ)` times
+  the integral against `occupancy M γ π' s` of `s' ↦ Σ_a π' s' a · (Q^π (s', a) − V^π s')`.
 
 (Howard 1960, Chapter 7, and Puterman 1994, Proposition 6.4.1, for policy improvement; Kakade and
 Langford 2002, Lemma 6.1, for the performance difference; proved here.)
@@ -381,17 +432,19 @@ Langford 2002, Lemma 6.1, for the performance difference; proved here.)
 **Checks.**
 
 - `π' = π`: the right side is `0`, since `Σ_a π s a Q^π (s, a) = V^π s`.
-- `γ = 0`: `occupancy M 0 π s = e_s` and the identity reads `r^(π') s − r^π s`.
-- On the alternating two-state chain,
-  `occupancy M γ π s₀ = ((1 − γ)/(1 − γ²), γ(1 − γ)/(1 − γ²))`, which sums to `1`; without the
-  factor `1 − γ` the sum would be `1/(1 − γ)`.
+- `γ = 0`: `occupancy M 0 π s` is the Dirac measure at `s` (the term `n = 0`, with `0 ^ 0 = 1`)
+  and the identity reads `r^(π') s − r^π s`.
+- On the alternating two-state chain, `occupancy M γ π s₀` has masses
+  `((1 − γ)/(1 − γ²), γ(1 − γ)/(1 − γ²))`, which sum to `1`; without the factor `1 − γ` the total
+  mass would be `1/(1 − γ)`.
+- On the shift on `ℕ` of 1.2, `occupancy M γ π 0 {n} = (1 − γ) γ^n`, the geometric law.
 - On the two-state MDP of 3.1 with `π s = 0` and `π' s = 1`: `V^π = 0`, `V^(π') = 1/(1 − γ)`,
   and the right side is `1/(1 − γ) · 1`.
 
-*Needs:* 1.2 for policy improvement and the performance difference; for the description of
-`occupancy` by the trajectory law, also 1.1 and Tau Ceti
-`MeasureTheory.Measure.markovChainLaw_map_eval`, `Kernel.toMatrix_pow` and
-`Kernel.comp_apply_singleton_eq_vecMul`.
+*Needs:* 1.1 and 1.2; for the description of `occupancy` by the trajectory law, also Tau Ceti
+`MeasureTheory.Measure.markovChainLaw_map_eval`; for `occupancy_real_singleton`, also Tau Ceti
+`Kernel.toMatrix_pow` and `Kernel.comp_apply_singleton_eq_vecMul` and Mathlib
+`NormedRing.inverse_one_sub`.
 
 ### Examples
 
@@ -400,22 +453,25 @@ strictly at one state.
 
 ### Dependencies
 
-Layer 3 uses Layers 1 and 2.
+Layer 3 uses Layers 1 and 2, Mathlib's kernel powers and, for the matrix form of the occupancy
+measure, Tau Ceti's `Kernel.toMatrix`.
 
 ## Layer 4: value iteration and policy iteration
 
 ### 4.1 Value iteration
 
-Let `γ < 1` and `v_k = T^k v₀`. By 1.2, Mathlib's `ContractingWith.dist_fixedPoint_le` and
+Let `γ < 1`, `v₀` a bounded function and `v_k = T^k v₀`. By 1.2, Mathlib's
+`ContractingWith.dist_fixedPoint_le` and
 `ContractingWith.apriori_dist_iterate_fixedPoint_le` give `‖v_k − V⋆‖ ≤ γ^k ‖v₀ − T v₀‖/(1 − γ)`
 and `‖v_k − V⋆‖ ≤ γ/(1 − γ) ‖v_k − v_{k−1}‖` for `k ≥ 1`, and `‖v_k − V⋆‖ ≤ γ^k ‖v₀ − V⋆‖`
 follows from the Lipschitz bound. Prove:
 
-- **greedy suboptimality** (`value_greedy_le`): if `π` is greedy for `v`, then
+- **greedy suboptimality** (`value_greedy_le`): if `π` is greedy for a bounded `v`, then
   `‖V^(ofDet π) − V⋆‖ ≤ 2γ/(1 − γ) ‖v − V⋆‖`;
-- there is `k₀` such that every policy greedy for `v_k` with `k ≥ k₀` is optimal
-  (`eventually_optimal_greedy_valueIteration`): an action `a` with `Q⋆ (s, a) < V⋆ s` stops being
-  greedy at `s` once `2γ ‖v_k − V⋆‖` is below the least positive gap `V⋆ s − Q⋆ (s, a)`.
+- on a finite state space, there is `k₀` such that every policy greedy for `v_k` with `k ≥ k₀`
+  is optimal (`eventually_optimal_greedy_valueIteration`): an action `a` with
+  `Q⋆ (s, a) < V⋆ s` stops being greedy at `s` once `2γ ‖v_k − V⋆‖` is below the least positive
+  gap `V⋆ s − Q⋆ (s, a)`, a minimum over the finitely many pairs `(s, a)`.
 
 (Puterman 1994, Theorem 6.3.1, for the rate and the stopping bound; Singh and Yee 1994, Main
 Theorem, for the greedy bound; the last item is proved here.)
@@ -428,6 +484,12 @@ Theorem, for the greedy bound; the last item is proved here.)
 - On the two-state MDP of 3.1 with `v₀ = 0`: `v_k = (1 − γ^k)/(1 − γ)` at both states,
   `‖v_k − V⋆‖ = γ^k/(1 − γ)`, and every `v_k` already has the optimal policy as its only greedy
   policy, so `k₀ = 0`.
+- Eventual optimality needs a finite state space. Take `S = ℕ` and two actions, the states `0`
+  and `1` absorbing with reward `0`, and at `n ≥ 2` let the action `0` move to the state `0`
+  with reward `1/n` and the action `1` move to the state `1` with reward `0`. The optimal action
+  at `n ≥ 2` is `0`. From `v₀` equal to `1` at the state `1` and `0` elsewhere, `v_k 1 = γ^k`,
+  so at every `n > γ^(−k−1)` the only greedy action for `v_k` is `1`: for `0 < γ` no `v_k` has an
+  optimal greedy policy.
 
 *Needs:* 1.2, 3.1; for the last item also 3.2; Mathlib
 `ContractingWith.apriori_dist_iterate_fixedPoint_le`, `ContractingWith.dist_fixedPoint_le`.
@@ -436,8 +498,8 @@ Theorem, for the greedy bound; the last item is proved here.)
 
 Let `γ < 1` and let `π_k` be deterministic stationary policies with `π_{k+1}` greedy for
 `V^(π_k)` for every `k`. Prove that `V^(π_{k+1}) ≥ V^(π_k)`, and that
-`‖V^(π_k) − V⋆‖ ≤ γ^k ‖V^(π₀) − V⋆‖` (`policyIteration_rate`). If moreover
-`π_{k+1} s = π_k s` at every state `s` where `π_k s` is itself a maximizer, prove that
+`‖V^(π_k) − V⋆‖ ≤ γ^k ‖V^(π₀) − V⋆‖` (`policyIteration_rate`). If moreover the state space is
+finite and `π_{k+1} s = π_k s` at every state `s` where `π_k s` is itself a maximizer, prove that
 `π_{k+1} = π_k` and `π_k` is optimal for every `k ≥ |A|^|S|` (`policyIteration_terminates`): the
 values increase strictly until an optimal policy is reached, so the policies before it are
 distinct, and an optimal policy is greedy for its own value.
@@ -468,8 +530,9 @@ Layer 4 uses Layers 1 and 3.
 
 ### 5.1 The primal program
 
-Let `γ < 1`. Prove that every `v : S → ℝ` with `v s ≥ reward s a + γ M.expect v s a` for all `s`,
-`a` satisfies `v ≥ V⋆` (`optimalValue_le_of_feasible`), and hence that for every `μ : S → ℝ` with
+Let `S` be finite and `γ < 1`. Prove that every `v : S → ℝ` with
+`v s ≥ reward s a + γ M.expect v s a` for all `s`, `a` satisfies `v ≥ V⋆`
+(`optimalValue_le_of_feasible`), and hence that for every `μ : S → ℝ` with
 `μ s > 0` for all `s`, `V⋆` is the unique minimizer of `Σ_s μ s v s` over this set
 (`optimalValue_isLeast_primal`). (Puterman 1994, Theorem 6.2.2(a) and Section 6.9.1; proved
 here.)
@@ -485,10 +548,11 @@ here.)
 
 ### 5.2 The dual program and occupancy measures
 
-For `μ : S → ℝ`, say that `x : S × A → ℝ` is a **feasible occupancy** (`IsFeasibleOccupancy`) if
+Let `S` be finite. For `μ : S → ℝ`, say that `x : S × A → ℝ` is a **feasible occupancy**
+(`IsFeasibleOccupancy`) if
 `x ≥ 0` and `Σ_a x (s', a) − γ Σ_{s,a} trans s a s' · x (s, a) = μ s'` for every `s'`. For a
 randomized stationary `π`, define the **state-action occupancy** `x^π` (`stateActionOccupancy`)
-by `x^π (s, a) = (Σ_{s₀} μ s₀ · occupancy M γ π s₀ s / (1 − γ)) · π s a`. For `γ < 1`, prove:
+by `x^π (s, a) = (Σ_{s₀} μ s₀ · occupancy M γ π s₀ {s} / (1 − γ)) · π s a`. For `γ < 1`, prove:
 
 - `x^π` satisfies the equality constraints for every `μ`, and for `μ ≥ 0` it is a feasible
   occupancy (`isFeasibleOccupancy_stateActionOccupancy`);
@@ -619,7 +683,7 @@ surely; proved here.)
 
 ### 6.3 Q-learning
 
-Let `γ < 1`. For every pair `(s, a)` and time `t` let `α t (s, a)` be a step size,
+Let `S` be finite and `γ < 1`. For every pair `(s, a)` and time `t` let `α t (s, a)` be a step size,
 `snext t (s, a) : Ω → S` a sampled next state and `rew t (s, a) : Ω → ℝ` a sampled reward, such
 that:
 
@@ -644,7 +708,8 @@ Learning along one trajectory is the case in which `ℱ t`-measurable pairs `(s 
 `(s, a)`: the conditions on the event `α t (s, a) ≠ 0` then say that the next state has
 conditional law `trans (s t) (a t)` and the reward conditional mean `reward (s t) (a t)`.
 
-The iteration is 6.2 with `ι = S × A`, `F = qBellman`, `ξ = 1`, `β = γ`, no delays, and noise
+The iteration is 6.2 with `ι = S × A`, `F = qBellman` read on `S × A → ℝ`, `ξ = 1`, `β = γ`, no
+delays, and noise
 
     w t (s, a) = rew t (s, a) − reward s a
       + γ (max_b q t (snext t (s, a), b) − M.expect (fun s' ↦ max_b q t (s', b)) s a)
@@ -671,7 +736,8 @@ Jordan and Singh 1994, Theorem 2; proved here.)
 
 ### 6.4 Tabular TD(0)
 
-Let `γ < 1` and let `π` be a randomized stationary policy. For every state `s` and time `t` let
+Let `S` be finite, `γ < 1` and `π` a randomized stationary policy. For every state `s` and time
+`t` let
 `α t s`, `snext t s : Ω → S` and `rew t s : Ω → ℝ` satisfy the conditions of 6.3 with `s` in place
 of `(s, a)`, the conditions on the event `α t s ≠ 0` being
 `P(snext t s = s' | ℱ t) = P^π s s'`, `P[rew t s | ℱ t] = r^π s` and `P[(rew t s)² | ℱ t] ≤ C`.
