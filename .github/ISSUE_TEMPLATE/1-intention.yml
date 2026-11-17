@@ -18,6 +18,7 @@ body:
       label: Roadmap area
       description: Which roadmap does this intention sit in?
       options:
+        - AInfCohomology
         - AbelianSchemesAndArithmeticModuli
         - AbhyankarLemma
         - AdelicAlgebraicGroups
@@ -106,6 +107,7 @@ body:
         - EllipticCohomology
         - EllipticCurves
         - EllipticIntegrals
+        - EllipticLegendreCharacterInterfaces
         - EnhancedDerivedSheaves
         - Equidistribution
         - EquivariantIntersectionTheory
@@ -149,6 +151,7 @@ body:
         - HabiroCyclotomicCompletions
         - HamiltonianFloerOperations
         - HeegaardFloer
+        - HermitianKTheoryOfPoincareCategories
         - HilbertModules
         - HomologicalStabilityOfGeneralLinearGroups
         - HomotopySpheres
@@ -237,6 +240,7 @@ body:
         - ProbabilisticAndMetricNumberTheory
         - ProbabilisticAndMetricNumberTheoryPartII
         - ProfiniteCohomology
+        - ProfiniteCohomologyPartII
         - PseudodifferentialOperators
         - PseudoholomorphicCurveAnalysis
         - PurityOfBranchLocus
@@ -310,6 +314,7 @@ body:
         - TypeAHeckeAlgebras
         - VariationalMethods
         - Varifolds
+        - VirtualFundamentalClass
         - VonNeumannAlgebras
         - Yamabe
         - YangMillsConnectionsAndCaloricGauge
