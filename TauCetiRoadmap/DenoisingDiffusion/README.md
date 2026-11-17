@@ -75,19 +75,34 @@ is consumed.
   `klDiv_multivariateGaussian`, for `a, b : EuclideanSpace ℝ (Fin d)` and `v > 0`,
   `klDiv (multivariateGaussian a (v • 1)) (multivariateGaussian b (v • 1)) = ofReal (‖a − b‖²/(2v))`.
 - Tau Ceti, at the roadmap pin:
-  - `multivariateGaussianPDFReal`, `multivariateGaussian_eq_withDensity` and
-    `stdGaussian_eq_withDensity` (`TauCeti/Probability/Distributions/Gaussian/Density.lean`);
-  - `multivariateGaussian_conv_multivariateGaussian`
+  - `multivariateGaussianPDFReal`, `multivariateGaussian_eq_withDensity` (for a positive
+    definite covariance) and `stdGaussian_eq_withDensity`
+    (`TauCeti/Probability/Distributions/Gaussian/Density.lean`);
+  - `TauCeti.heatKernel`, `TauCeti.contDiff_heatKernel` and, for `t > 0`,
+    `TauCeti.exists_one_add_norm_pow_mul_norm_iteratedFDeriv_heatKernel_le`
+    (`TauCeti/Analysis/PDE/HeatKernel/Basic.lean`, `Bounds.lean`), with
+    `φ_{s²} = heatKernel (s²/2)`;
+  - `multivariateGaussian_conv_multivariateGaussian`, for positive semidefinite covariances
     (`TauCeti/Probability/Distributions/Gaussian/Sum.lean`);
-  - `map_affine_multivariateGaussian` (`TauCeti/Probability/Distributions/Gaussian/Affine.lean`);
-  - `condDistrib_multivariateGaussian` and `EuclideanSpace.gaussianCondKernel`
+  - `map_affine_multivariateGaussian` and `map_comp_multivariateGaussian`, for a positive
+    semidefinite covariance (`TauCeti/Probability/Distributions/Gaussian/Affine.lean`);
+  - `indepFun_sumEquivProd_multivariateGaussian_iff`, for a positive semidefinite covariance
+    (`TauCeti/Probability/Distributions/Gaussian/Multivariate.lean`);
+  - `EuclideanSpace.gaussianCondKernel`, `EuclideanSpace.gaussianCondMean_of_posDef` and
+    `Matrix.gaussianCondCov_of_posDef` (for a positive definite observed block),
+    `EuclideanSpace.map_snd_fst_multivariateGaussian` and `condDistrib_multivariateGaussian`
+    (for a positive semidefinite covariance)
     (`TauCeti/Probability/Distributions/Gaussian/Conditional/Basic.lean`);
-  - `TauCeti.klDiv_compProd_right` and `TauCeti.klDiv_compProd_eq_add_lintegral`
+  - `TauCeti.klDiv_compProd_right` (finite measure, finite kernels) and
+    `TauCeti.klDiv_compProd_eq_add_lintegral` (finite measures, Markov kernels)
     (`TauCeti/InformationTheory/KullbackLeibler/ChainRule.lean`).
-- Mathlib: `multivariateGaussian`, `stdGaussian`, `EuclideanSpace.sumEquivProd`; `klDiv`,
-  `klDiv_map_le` and `klDiv_compProd_eq_add`; `Measure.compProd`, `Measure.bind`, `Kernel.comp`,
-  `Kernel.comap`, `Kernel.prodMkLeft`, `Kernel.partialTraj`; `Measure.ext_of_charFunDual`;
-  `condExp`, `condDistrib`, `IndepFun`, `HasLaw`, `MemLp`; `gradient`, `Laplacian.laplacian`;
+- Mathlib: `multivariateGaussian`, `stdGaussian`, `integral_id_multivariateGaussian`,
+  `covariance_eval_multivariateGaussian` (positive semidefinite covariance),
+  `EuclideanSpace.sumEquivProd`; `klDiv`, `klDiv_map_le` and `klDiv_compProd_eq_add` (finite
+  measures, Markov kernels); `Measure.compProd`, `Measure.bind`, `Measure.condKernel`,
+  `Kernel.comp`, `Kernel.comap`, `Kernel.prodMkLeft`, `Kernel.prodMkRight`,
+  `Kernel.partialTraj`; `condExp`, `eLpNorm_condExp_le_eLpNorm`, `condDistrib`, `IndepFun`,
+  `HasLaw`, `MemLp`; `gradient`, `Laplacian.laplacian`;
   `hasFDerivAt_integral_of_dominated_of_fderiv_le`.
 
 ## How to read the build
@@ -105,7 +120,8 @@ For `a, b : E` and `u, v > 0`, prove
 `klDiv N(a, u) N(b, v) = ofReal (d/2 · (u/v − 1 − log (u/v)) + ‖a − b‖²/(2v))`
 (`klDiv_multivariateGaussian_smul_one`). Its case `u = v` is the supplier
 MathematicalStatisticsNonparametric 1.3, used as is; the new content is the case `u ≠ v`, proved
-from the densities of `multivariateGaussian_eq_withDensity` and the second moments of `N(a, u)`.
+from the densities of `multivariateGaussian_eq_withDensity` and the mean and second moments of
+`N(a, u)` (`integral_id_multivariateGaussian`, `covariance_eval_multivariateGaussian`).
 Also prove, for `d ≥ 1`, `klDiv N(a, u) N(b, 0) = ∞` and `klDiv N(a, 0) N(b, v) = ∞`: one law is a
 Dirac mass and the other has a density.
 
@@ -118,7 +134,7 @@ Dirac mass and the other has a density.
 - `d = 0`: `E` is a point, both laws are `dirac 0`, and both sides are `0`.
 
 *Needs:* MathematicalStatisticsNonparametric 1.3; Tau Ceti `multivariateGaussian_eq_withDensity`;
-Mathlib `klDiv`.
+Mathlib `klDiv`, `integral_id_multivariateGaussian`, `covariance_eval_multivariateGaussian`.
 
 ### 1.2 The isotropic Gaussian Bayes update
 
@@ -130,12 +146,23 @@ be `x ↦ N(c • x, v)`. Prove that the joint law of `(X, Y)` with `X ~ N(m, u)
 `N(m, u) ⊗ₘ gaussianKernel c v = ((N(c • m, w)) ⊗ₘ K).map Prod.swap` with
 `K y = N(m + (c u / w) • (y − c • m), u v / w)` (`compProd_gaussianKernel_eq_swap`).
 
-Proof route, all part of the target: transport both sides along
-`EuclideanSpace.sumEquivProd : EuclideanSpace ℝ (Fin d ⊕ Fin d) ≃ E × E`; show that each is then a
-`multivariateGaussian` with the block mean `(m, c m)` and block covariance
-`[[u, c u], [c u, c² u + v]] ⊗ 1` (by computing its characteristic function); and conclude by
-`Measure.ext_of_charFunDual`. The supplier `condDistrib_multivariateGaussian` gives the same
-kernel `K` as a conditional distribution and serves as a cross-check. (Proved here.)
+Proof route, all part of the target. Let `G` be the `multivariateGaussian` on
+`EuclideanSpace ℝ (Fin d ⊕ Fin d)` with block mean `(m, 0)` and block covariance
+`[[u, 0], [0, v]] ⊗ 1`. Its two blocks are independent
+(`indepFun_sumEquivProd_multivariateGaussian_iff`) with laws `N(m, u)` and `N(0, v)`
+(`map_comp_multivariateGaussian` along the two inclusions), so `G` transported along
+`EuclideanSpace.sumEquivProd : EuclideanSpace ℝ (Fin d ⊕ Fin d) ≃ E × E` is the product of these
+laws. The image of `G` under the linear map `(x, e) ↦ (x, c • x + e)` is, by
+`map_affine_multivariateGaussian`, the `multivariateGaussian` with block mean `(m, c • m)` and
+block covariance `S = [[u, c u], [c u, c² u + v]] ⊗ 1`, and transported along
+`EuclideanSpace.sumEquivProd` it is the left side. The supplier
+`EuclideanSpace.map_snd_fst_multivariateGaussian` factors this Gaussian law, with the observed
+block first, as `N(c • m, w) ⊗ₘ EuclideanSpace.gaussianCondKernel _ S`, which is the right side
+once the kernel is evaluated: the observed block `w • 1` is positive definite, so
+`EuclideanSpace.gaussianCondMean_of_posDef` and `Matrix.gaussianCondCov_of_posDef` give the mean
+`m + (c u / w) • (y − c • m)` and the covariance `(u − c² u² / w) • 1 = (u v / w) • 1`. The
+supplier `condDistrib_multivariateGaussian` states the same kernel as a conditional distribution.
+(Proved here from these suppliers.)
 
 **Checks.**
 
@@ -143,12 +170,20 @@ kernel `K` as a conditional distribution and serves as a cross-check. (Proved he
 - `u = 0`: `K y = N(m, 0) = dirac m`.
 - `d = 1`, `m = 0`, `u = v = c = 1`: `w = 2`, `K y = N(y/2, 1/2)`.
 
-*Needs:* Tau Ceti `map_affine_multivariateGaussian`, `condDistrib_multivariateGaussian`;
-Mathlib `EuclideanSpace.sumEquivProd`, `Measure.ext_of_charFunDual`, `Measure.compProd`.
+*Needs:* Tau Ceti `map_affine_multivariateGaussian`, `map_comp_multivariateGaussian`,
+`indepFun_sumEquivProd_multivariateGaussian_iff`,
+`EuclideanSpace.map_snd_fst_multivariateGaussian`, `EuclideanSpace.gaussianCondKernel`,
+`EuclideanSpace.gaussianCondMean_of_posDef`, `Matrix.gaussianCondCov_of_posDef`; Mathlib
+`EuclideanSpace.sumEquivProd`, `Measure.compProd`.
 
 ### Examples
 
 `klDiv N(0, 1) N(0, 2)` in `ℝ` and the Bayes update with `u = v = c = 1`.
+
+### Dependencies
+
+MathematicalStatisticsNonparametric 1.3 (for 1.1), the Tau Ceti Gaussian suppliers (the density
+for 1.1; the affine image, block independence and the conditional kernel for 1.2) and Mathlib.
 
 ## Layer 2: the forward noising chain
 
@@ -163,7 +198,8 @@ For `a ∈ [0, 1]` define `noiseKernel a : Kernel E E` by
   (`noiseKernel_comp`);
 - `noiseKernel 1 = Kernel.id` and `noiseKernel 0 = Kernel.const E N(0, 1)`.
 
-(Ho, Jain and Abbeel 2020, Section 2; proved here from the supplier convolution law.)
+(Ho, Jain and Abbeel 2020, equation (2), for the kernel; proved here from the supplier
+convolution law.)
 
 **Checks.**
 
@@ -235,6 +271,12 @@ This is 1.2 with `m = √ᾱ(t − 1) • x₀`, `u = 1 − ᾱ (t − 1)`, `c =
 
 The constant schedule `β t = 1/10`, and the forward chain started at `dirac x₀`.
 
+### Dependencies
+
+Layer 1 (1.1 for 2.2, 1.2 for 2.3); the Tau Ceti convolution and affine-image laws (2.1); Tau
+Ceti `TauCeti.klDiv_compProd_right` and Mathlib's `klDiv_map_le`, `Kernel.partialTraj` and
+`Kernel.comap` (2.2).
+
 ## Layer 3: Tweedie's formula and score matching
 
 ### 3.1 The smoothed density and its score
@@ -244,10 +286,17 @@ In the Gaussian observation model, prove that `Y` has the law
 `smoothedDensity μ₀ c s y = ∫ φ_{s²} (y − c • x) ∂μ₀ x` (`hasLaw_smoothedDensity`), that this
 density `p` is positive and `C^∞`, and that
 `∇p y = −(1/s²) ∫ (y − c • x) φ_{s²} (y − c • x) ∂μ₀ x`, with all derivatives taken under the
-integral. No moment assumption on `μ₀` is needed: `‖y − c x‖^k φ_{s²}(y − c x)` is bounded in
-`x` for each `k`. Define `noisyScore μ₀ c s y = ∇ log p y = ∇p y / p y`.
+integral. No moment assumption on `μ₀` is needed: every derivative of `φ_{s²}` is bounded, by
+the suppliers named in the next item. Define `noisyScore μ₀ c s y = ∇ log p y = ∇p y / p y`.
 
-(Proved here.)
+- For `s > 0`, `multivariateGaussianPDFReal 0 (s² • 1) = TauCeti.heatKernel (s²/2)` on `E`: both
+  are `y ↦ (2πs²)^{−d/2} exp(−‖y‖²/(2s²))`. Hence `φ_{s²}` is `C^∞`
+  (`TauCeti.contDiff_heatKernel`) and, for each `k`, `‖D^k φ_{s²}‖` is bounded
+  (`TauCeti.exists_one_add_norm_pow_mul_norm_iteratedFDeriv_heatKernel_le` with `t = s²/2` and
+  weight exponent `0`, whose right side `C · heatKernel s²` is bounded); these bounds are the
+  dominating functions for differentiation under the integral.
+
+(Efron 2011, equation (1.3), for the density when `d = 1` and `c = 1`; proved here.)
 
 **Checks.**
 
@@ -255,7 +304,9 @@ integral. No moment assumption on `μ₀` is needed: `‖y − c x‖^k φ_{s²}
 - `μ₀ = N(0, τ²)`: `Y` has law `N(0, c² τ² + s²)` and `noisyScore μ₀ c s y = −y/(c² τ² + s²)`.
 - `c = 0`: `p = φ_{s²}` whatever `μ₀` is.
 
-*Needs:* Tau Ceti `multivariateGaussianPDFReal`, `multivariateGaussian_eq_withDensity`; Mathlib
+*Needs:* Tau Ceti `multivariateGaussianPDFReal`, `multivariateGaussian_eq_withDensity`,
+`TauCeti.heatKernel`, `TauCeti.contDiff_heatKernel`,
+`TauCeti.exists_one_add_norm_pow_mul_norm_iteratedFDeriv_heatKernel_le`; Mathlib
 `hasFDerivAt_integral_of_dominated_of_fderiv_le`, `gradient`.
 
 ### 3.2 Tweedie's formula
@@ -274,8 +325,9 @@ Prove, in the Gaussian observation model:
 
 The noise form follows from 3.1 by computing `∫ ψ(y) ∇p(y) dy` for bounded measurable `ψ`. The
 first order follows from `X = c⁻¹ (Y − s Z)`, and the second from `W = −(s/c)(Z − P[Z | Y])`, so
-only `Z`'s moments enter. (Robbins 1956, who credits the formula to Tweedie; Efron 2011, Section 2;
-proved here.)
+only `Z`'s moments enter. (Robbins 1956, equations (44)–(46), p. 162, for an exponential family,
+credited there to Tweedie; Efron 2011, equations (1.4) and (2.8), for `d = 1` and `c = 1`; proved
+here.)
 
 **Checks.**
 
@@ -291,8 +343,9 @@ proved here.)
 ### 3.3 Score matching
 
 Prove `MemLp (fun ω ↦ noisyScore μ₀ c s (Y ω)) 2 P` with
-`∫ ‖noisyScore μ₀ c s (Y ω)‖² ∂P ≤ d / s²` (`memLp_noisyScore`), by Jensen's inequality for 3.2's
-noise form. For measurable `f : E → E` with `‖f (Y ω)‖²` integrable, define
+`∫ ‖noisyScore μ₀ c s (Y ω)‖² ∂P ≤ d / s²` (`memLp_noisyScore`), by 3.2's noise form and the
+`L²` contraction of the conditional expectation (`eLpNorm_condExp_le_eLpNorm`), since
+`∫ ‖Z‖² ∂P = d`. For measurable `f : E → E` with `‖f (Y ω)‖²` integrable, define
 `J_ESM f = ∫ ‖f (Y ω) − noisyScore μ₀ c s (Y ω)‖² ∂P` and
 `J_DSM f = ∫ ‖f (Y ω) + s⁻¹ • Z ω‖² ∂P`. Prove:
 
@@ -305,7 +358,8 @@ noise form. For measurable `f : E → E` with `‖f (Y ω)‖²` integrable, def
   for the law of `Y` (`noisePrediction_minimizer`).
 
 The last two items are the `L²`-orthogonality of the conditional expectation. (Hyvärinen 2005,
-equation (2), for the explicit objective; Vincent 2011, Section 4 and Appendix; proved here.)
+equation (2), for the explicit objective; Vincent 2011, Section 4.2, equation (11), and the
+Appendix, for the equivalence; proved here.)
 
 **Checks.**
 
@@ -314,11 +368,16 @@ equation (2), for the explicit objective; Vincent 2011, Section 4 and Appendix; 
 - `μ₀ = N(0, τ²)`, `d = 1`: the constant is `1/s² − 1/(c² τ² + s²) ≥ 0`.
 - `f = 0`: `J_DSM 0 = d/s²` and `J_ESM 0 = ∫ ‖noisyScore‖²`, matching the constant.
 
-*Needs:* 3.1, 3.2; Mathlib `condExp`, `MemLp`.
+*Needs:* 3.1, 3.2; Mathlib `condExp`, `eLpNorm_condExp_le_eLpNorm`, `MemLp`.
 
 ### Examples
 
 Tweedie's formula for a Gaussian prior and for a two-component Gaussian mixture.
+
+### Dependencies
+
+The Tau Ceti Gaussian density and heat-kernel bounds (3.1) and Mathlib's parametric
+differentiation, conditional expectation and its `L²` contraction. No other layer is used.
 
 ## Layer 4: the variational bound
 
@@ -349,13 +408,19 @@ Let `rev t : Kernel E E` be reverse kernels of the forward chain, `IsReverseKern
   `klDiv μ₀ ((modelPath π κ T).map (eval 0)) ≤ klDiv (forwardPath μ₀ β T) (modelPath π κ T)`,
   by `klDiv_map_le` for `eval 0` (`klDiv_le_klDiv_forwardPath`).
 
-(Ho, Jain and Abbeel 2020, equivalent to equation (3); proved here.)
+These three statements hold for every `β : ℕ → ℝ`: they use only that `forwardPath μ₀ β T` is
+the path law of a Markov chain started at `μ₀`, and `noiseKernel a` is a Markov kernel for every
+real `a`.
+
+(Ho, Jain and Abbeel 2020, equation (3) for the bound and equation (16) for the chain rule, both
+written there with entropies; proved here.)
 
 **Checks.**
 
 - `κ t = rev t` for all `t` and `π = q_T`: the path divergence is `0` and the model reproduces
   `μ₀` at time `0`.
 - `T = 1`: the chain rule reads `klDiv q₁ π + klDiv (q₁ ⊗ₘ rev 1) (q₁ ⊗ₘ κ 1)`.
+- `T = 0`: the sum is empty, `q₀ = μ₀`, and both sides of the chain rule are `klDiv μ₀ π`.
 - The bound is the data-processing inequality and holds when both sides are `∞`.
 
 *Needs:* 2.2; Mathlib `klDiv_compProd_eq_add`, `klDiv_map_le`, `condDistrib`,
@@ -368,17 +433,28 @@ Prove, for `1 ≤ t ≤ T`:
 - the law of `((x 0, x t), x (t − 1))` under `forwardPath μ₀ β T` is `ρₜ ⊗ₘ postKernel β t`
   (`forwardPath_map_posterior`), from 2.2 and 2.3; hence
   `(ρₜ ⊗ₘ postKernel β t).map (fun p ↦ (p.1.2, p.2)) = qₜ ⊗ₘ rev t`;
-- **the conditional mutual information is finite:** for `t ≥ 2`, with no moment assumption on
-  `μ₀`,
+- **the surrogate identity:** for a probability measure `ρ` on `E × E` and Markov kernels
+  `post : Kernel (E × E) E`, `rev, κ : Kernel E E` with
+  `(ρ ⊗ₘ post).map (fun p ↦ (p.1.2, p.2)) = ρ.map Prod.snd ⊗ₘ rev`,
+  `klDiv (ρ ⊗ₘ post) (ρ ⊗ₘ Kernel.prodMkLeft E κ) = klDiv (ρ.map Prod.snd ⊗ₘ rev) (ρ.map Prod.snd ⊗ₘ κ) + klDiv (ρ ⊗ₘ post) (ρ ⊗ₘ Kernel.prodMkLeft E rev)`
+  in `ℝ≥0∞` (`klDiv_posterior_eq_add`); with `ρ = ρₜ`, `post = postKernel β t` and the first
+  bullet this is the identity for `1 ≤ t ≤ T`. Proof: reorder the three coordinates as
+  `((x_t, x_{t−1}), x₀)`, which preserves `klDiv` (`klDiv_map_le` for the reordering and for its
+  inverse). With `c` a conditional kernel of `x₀` given `x_t` under `ρ` (`Measure.condKernel` of
+  `ρ.map Prod.swap`), the second law becomes
+  `(ρ.map Prod.snd ⊗ₘ κ) ⊗ₘ Kernel.prodMkRight E c`, whatever `κ` is, and the first is
+  disintegrated over its marginal `ρ.map Prod.snd ⊗ₘ rev`. By
+  `TauCeti.klDiv_compProd_eq_add_lintegral` the left side is
+  `klDiv (ρ.map Prod.snd ⊗ₘ rev) (ρ.map Prod.snd ⊗ₘ κ)` plus a term that does not depend on `κ`;
+  taking `κ = rev` identifies that term with the last divergence;
+- **the conditional mutual information is finite:** for `2 ≤ t ≤ T`, with no moment assumption
+  on `μ₀`,
   `Iₜ := klDiv (ρₜ ⊗ₘ postKernel β t) (ρₜ ⊗ₘ Kernel.prodMkLeft E (rev t)) ≤ ofReal ((d/2) log ((1 − ᾱ t)/(α t (1 − ᾱ (t − 1)))))`
-  (`klDiv_posterior_rev_le`). By the variational characterization of mutual information,
-  `Iₜ` is at most the divergence from any kernel of `x_t`; with
-  `Q x = N(x/√α t, β t/α t)` that divergence is computed by 1.1 and equals the right side, the
-  linear terms cancelling because `α t (1 − ᾱ (t − 1)) + β t = 1 − ᾱ t`;
-- **the surrogate identity:** for `t ≥ 2`,
-  `klDiv (ρₜ ⊗ₘ postKernel β t) (ρₜ ⊗ₘ Kernel.prodMkLeft E (κ t)) = klDiv (qₜ ⊗ₘ rev t) (qₜ ⊗ₘ κ t) + Iₜ`
-  in `ℝ≥0∞` (`klDiv_posterior_eq_add`), the chain rule applied to `ρₜ ⊗ₘ postKernel β t` in the two
-  orders `(x₀, x_t, x_{t−1})` and `(x_t, x_{t−1}, x₀)`.
+  (`klDiv_posterior_rev_le`). By the surrogate identity with `κ = Q`, `Iₜ` is at most
+  `klDiv (ρₜ ⊗ₘ postKernel β t) (ρₜ ⊗ₘ Kernel.prodMkLeft E Q)` for every Markov kernel `Q`; with
+  `Q x = N(x/√α t, β t/α t)` that divergence is the `ρₜ`-average of the pointwise divergences
+  (`TauCeti.klDiv_compProd_right`), which 1.1 computes, and it equals the right side, the
+  linear terms cancelling because `α t (1 − ᾱ (t − 1)) + β t = 1 − ᾱ t`.
 
 Hence, with the surrogate
 `L(κ, π) = klDiv q_T π + Σ_{t=2}^T klDiv (ρₜ ⊗ₘ postKernel β t) (ρₜ ⊗ₘ Kernel.prodMkLeft E (κ t)) + klDiv (q₁ ⊗ₘ rev 1) (q₁ ⊗ₘ κ 1)`,
@@ -386,8 +462,8 @@ Hence, with the surrogate
 does not depend on the model. Minimizing `L` over models is minimizing the path divergence.
 
 (Sohl-Dickstein et al. 2015, equation (14) and Appendix B, and Ho, Jain and Abbeel 2020,
-equation (5) and Appendix A, for the surrogate; the identity with the exact finite constant is
-proved here.)
+equation (5) and Appendix A, equations (17)–(22), for the surrogate; the identity with the exact
+finite constant is proved here.)
 
 **Checks.**
 
@@ -398,22 +474,25 @@ proved here.)
 - `μ₀ = N(0, τ²)`, `d = 1`, `ᾱ (t − 1) = α t = 9/10`, `τ² = 1`: `Iₜ = 0.3209` and the bound is
   `(1/2) log (0.19/0.09) = 0.3736`; as `τ² → ∞`, `Iₜ` tends to the bound.
 
-*Needs:* 1.1, 2.2, 2.3, 4.1; Mathlib `klDiv_compProd_eq_add`.
+*Needs:* 1.1, 2.2, 2.3, 4.1; Tau Ceti `TauCeti.klDiv_compProd_eq_add_lintegral`,
+`TauCeti.klDiv_compProd_right`; Mathlib `klDiv_map_le`, `Measure.condKernel`,
+`Kernel.prodMkRight`.
 
 ### 4.3 The Gaussian closed form
 
 Let `κ t = epsModelKernel β t (σ t) (ε̂ t)`, that is `κ t x = N(m t x, σ t²)` with `σ t > 0` and
 `m t x = (1/√α t) • (x − (β t/√(1 − ᾱ t)) • ε̂ t x)` for a measurable `ε̂ t : E → E`, and let
-`wₜ = β t² / (2 σ t² α t (1 − ᾱ t))`. For `t ≥ 2`, prove:
+`wₜ = β t² / (2 σ t² α t (1 − ᾱ t))`. Prove:
 
-- pointwise, for `x₀ : E` and `x = √ᾱ t • x₀ + √(1 − ᾱ t) • ε`:
+- for `t ≥ 2`, pointwise, for `x₀ : E` and `x = √ᾱ t • x₀ + √(1 − ᾱ t) • ε`:
   `klDiv (postKernel β t (x₀, x)) (κ t x) = ofReal (d/2 · (β̃ t/σ t² − 1 − log (β̃ t/σ t²)) + wₜ ‖ε − ε̂ t x‖²)`
   (`klDiv_postKernel_gaussian`);
-- integrated, if `‖ε̂ t (x t)‖²` is integrable under `ρₜ`, with the recovered noise
+- for `t ≥ 2`, integrated, if `‖ε̂ t (x t)‖²` is integrable under `ρₜ`, with the recovered noise
   `ε(x₀, x) = noiseOf β t (x₀, x) = (x − √ᾱ t • x₀)/√(1 − ᾱ t)`:
   `klDiv (ρₜ ⊗ₘ postKernel β t) (ρₜ ⊗ₘ Kernel.prodMkLeft E (κ t)) = ofReal (d/2 · (β̃ t/σ t² − 1 − log (β̃ t/σ t²)) + wₜ ∫ ‖ε p − ε̂ t p.2‖² ∂ρₜ)`
   (`klDiv_posterior_gaussian_integral`);
-- among such `ε̂ t`, the integrated term is minimized exactly by
+- for `t ≥ 1`, among measurable `ε̂ t` with `‖ε̂ t (x t)‖²` integrable under `ρₜ`, the integral
+  `∫ ‖ε p − ε̂ t p.2‖² ∂ρₜ` is minimized exactly by
   `ε̂ t = −√(1 − ᾱ t) • noisyScore μ₀ (√ᾱ t) (√(1 − ᾱ t))` almost everywhere for `qₜ`
   (`posteriorLoss_minimizer`), which is 3.3's noise prediction with `c = √ᾱ t`, `s = √(1 − ᾱ t)`.
 
@@ -425,17 +504,28 @@ Let `κ t = epsModelKernel β t (σ t) (ε̂ t)`, that is `κ t x = N(m t x, σ 
 - `σ t² = β̃ t`: the variance term is `0` and the divergence is `wₜ ‖ε − ε̂‖²`.
 - `β t = 1/10` for all `t`, `t = 2`, `σ 2² = 1/19`: `w₂ = (1/100)/(2 · (1/19) · (9/10) · (19/100)) = 5/9`.
 
-*Needs:* 1.1, 2.3, 3.2, 3.3, 4.2.
+*Needs:* 1.1, 2.3, 3.2, 3.3, 4.2; Tau Ceti `TauCeti.klDiv_compProd_right`.
 
 ### Examples
 
 The two-step chain `T = 2` with the constant schedule `1/10`, and the Dirac initial law.
 
-## Dependencies
+### Dependencies
 
-Layer 1 uses MathematicalStatisticsNonparametric 1.3 and the Tau Ceti Gaussian suppliers. Layer 2
-uses Layer 1. Layer 3 uses the Tau Ceti Gaussian density. Layer 4 uses Layers 1–3 and the Mathlib
-and Tau Ceti chain rules. The per-target *Needs:* lines are authoritative.
+Layers 1–3: 1.1 (4.2, 4.3), 2.2 (4.1, 4.2), 2.3 (4.2, 4.3), 3.2 and 3.3 (4.3). Tau Ceti
+`TauCeti.klDiv_compProd_eq_add_lintegral` and `TauCeti.klDiv_compProd_right`; Mathlib
+`klDiv_compProd_eq_add`, `klDiv_map_le`, `condDistrib`, `Measure.condKernel` and
+`Kernel.partialTraj`.
+
+## Downstream consumers
+
+No roadmap on main consumes this one. The names offered to consumers are the definitions
+`noiseKernel`, `forwardPath`, `forwardMarginal`, `postKernel`, `smoothedDensity`, `noisyScore`
+and `modelPath`, and the statements `noiseKernel_comp` (2.1), `forwardPath_map_eval` (2.2),
+`ddpm_posterior` (2.3), `tweedie_noise`, `tweedie` and `tweedie_covariance` (3.2),
+`dsm_eq_esm_add` and `noisePrediction_minimizer` (3.3), `klDiv_forwardPath_eq` and
+`klDiv_le_klDiv_forwardPath` (4.1), `klDiv_posterior_eq_add` (4.2) and
+`klDiv_posterior_gaussian_integral` (4.3).
 
 ## References
 

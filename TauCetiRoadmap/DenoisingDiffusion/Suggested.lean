@@ -8,19 +8,21 @@ import TauCeti.InformationTheory.KullbackLeibler.ChainRule
 /-!
 # Gaussian denoising diffusion: target signatures
 
-**This file is not the roadmap, and it is not exhaustive.** The definitive document is
-`README.md`. This file declares every roadmap-owned name the README uses and states its headline
-theorems against the pinned Mathlib and Tau Ceti APIs; discharging them finishes neither a
-milestone nor the roadmap. The `sorry` proofs are targets, not completed results.
+**This file is not the roadmap.** The roadmap is `README.md`. This file states the roadmap's
+headline theorems against the pinned Mathlib and Tau Ceti, each with `sorry`, together with the
+definitions they need. Every headline theorem of the README is statable at the pins and is stated
+here.
 
 Suppliers: MathematicalStatisticsNonparametric 1.3 (`klDiv_multivariateGaussian`); Tau Ceti
 `multivariateGaussianPDFReal`, `multivariateGaussian_eq_withDensity`, `stdGaussian_eq_withDensity`,
 `multivariateGaussian_conv_multivariateGaussian`, `map_affine_multivariateGaussian`,
 `condDistrib_multivariateGaussian`, `EuclideanSpace.gaussianCondKernel`,
-`TauCeti.klDiv_compProd_right`, `TauCeti.klDiv_compProd_eq_add_lintegral`; Mathlib
+`EuclideanSpace.map_snd_fst_multivariateGaussian`, `TauCeti.klDiv_compProd_right`,
+`TauCeti.klDiv_compProd_eq_add_lintegral`, `TauCeti.heatKernel`, `TauCeti.contDiff_heatKernel`,
+`TauCeti.exists_one_add_norm_pow_mul_norm_iteratedFDeriv_heatKernel_le`; Mathlib
 `multivariateGaussian`, `stdGaussian`, `EuclideanSpace.sumEquivProd`, `klDiv`, `klDiv_map_le`,
-`klDiv_compProd_eq_add`, `Kernel.partialTraj`, `Measure.ext_of_charFunDual`, `condExp`,
-`condDistrib`, `gradient`, `Laplacian.laplacian`, `hasFDerivAt_integral_of_dominated_of_fderiv_le`.
+`klDiv_compProd_eq_add`, `Kernel.partialTraj`, `condExp`, `condDistrib`, `gradient`,
+`Laplacian.laplacian`, `hasFDerivAt_integral_of_dominated_of_fderiv_le`.
 -/
 
 noncomputable section
@@ -77,6 +79,7 @@ def alphaBar (β : ℕ → ℝ) (t : ℕ) : ℝ := ∏ s ∈ Icc 1 t, (1 - β s)
 /-- Evaluation of a path at time `i`. -/
 def pathEval {n : ℕ} (i : ℕ) (hi : i ≤ n) (x : Π _ : Iic n, E) : E := x ⟨i, mem_Iic.2 hi⟩
 
+/-- Evaluation of a path at a fixed time is measurable. -/
 theorem measurable_pathEval {n : ℕ} (i : ℕ) (hi : i ≤ n) :
     Measurable (pathEval (d := d) (n := n) i hi) :=
   measurable_pi_apply _
@@ -154,7 +157,8 @@ def noisyScore (μ₀ : Measure E) (c s : ℝ) (y : E) : E :=
 section Observation
 
 variable {Ω : Type*} [MeasurableSpace Ω] {P : Measure Ω} [IsProbabilityMeasure P]
-  {μ₀ : Measure E} [IsProbabilityMeasure μ₀] {X Z : Ω → E} {c s : ℝ}
+  {μ₀ : Measure (EuclideanSpace ℝ (Fin d))} [IsProbabilityMeasure μ₀]
+  {X Z : Ω → EuclideanSpace ℝ (Fin d)} {c s : ℝ}
 
 /-- 3.1: the smoothed density is a density of the observation. -/
 theorem hasLaw_smoothedDensity (hXm : Measurable X) (hZm : Measurable Z) (hX : HasLaw X μ₀ P)
@@ -232,7 +236,8 @@ def modelPath (prior : Measure E) (κ : ℕ → Kernel E E) (T : ℕ) : Measure 
       (fun n ↦ (κ (T - n)).comap (pathEval n le_rfl) (measurable_pathEval n le_rfl)) 0 T ∘ₘ
     prior.map (fun x (_ : Iic 0) ↦ x)).map (reverseIndex T)
 
-variable {μ₀ : Measure E} [IsProbabilityMeasure μ₀] {T : ℕ} {rev κ : ℕ → Kernel E E}
+variable {μ₀ : Measure (EuclideanSpace ℝ (Fin d))} [IsProbabilityMeasure μ₀] {T : ℕ}
+  {rev κ : ℕ → Kernel (EuclideanSpace ℝ (Fin d)) (EuclideanSpace ℝ (Fin d))}
 
 /-- The defining property of reverse kernels of the forward chain. -/
 def IsReverseKernel (μ₀ : Measure E) (β : ℕ → ℝ) (T : ℕ) (rev : ℕ → Kernel E E) : Prop :=
@@ -240,17 +245,17 @@ def IsReverseKernel (μ₀ : Measure E) (β : ℕ → ℝ) (T : ℕ) (rev : ℕ 
     (forwardPath μ₀ β T).map (fun x ↦ (pathEval t htT x, pathEval (t - 1) (by omega) x)) =
       forwardMarginal μ₀ β t ⊗ₘ rev t
 
-/-- 4.1: read backwards, the forward chain is the Markov chain with kernels `rev t`. -/
-theorem forwardPath_reverse (hβ : ∀ t, 1 ≤ t → 0 < β t ∧ β t < 1)
-    [∀ t, IsMarkovKernel (rev t)] (hrev : IsReverseKernel μ₀ β T rev) :
+/-- 4.1: read backwards, the forward chain is the Markov chain with kernels `rev t`; this holds
+for every `β`. -/
+theorem forwardPath_reverse [∀ t, IsMarkovKernel (rev t)] (hrev : IsReverseKernel μ₀ β T rev) :
     (forwardPath μ₀ β T).map (reverseIndex T) =
       Kernel.partialTraj (X := fun _ ↦ E)
           (fun n ↦ (rev (T - n)).comap (pathEval n le_rfl) (measurable_pathEval n le_rfl)) 0 T ∘ₘ
         (forwardMarginal μ₀ β T).map (fun x (_ : Iic 0) ↦ x) :=
   sorry
 
-/-- 4.1: the chain rule for the path divergence. -/
-theorem klDiv_forwardPath_eq (hβ : ∀ t, 1 ≤ t → 0 < β t ∧ β t < 1) (prior : Measure E)
+/-- 4.1: the chain rule for the path divergence; this holds for every `β`. -/
+theorem klDiv_forwardPath_eq (prior : Measure E)
     [IsProbabilityMeasure prior] [∀ t, IsMarkovKernel (rev t)] [∀ t, IsMarkovKernel (κ t)]
     (hrev : IsReverseKernel μ₀ β T rev) :
     klDiv (forwardPath μ₀ β T) (modelPath prior κ T) =
@@ -258,8 +263,8 @@ theorem klDiv_forwardPath_eq (hβ : ∀ t, 1 ≤ t → 0 < β t ∧ β t < 1) (p
         ∑ t ∈ Icc 1 T, klDiv (forwardMarginal μ₀ β t ⊗ₘ rev t) (forwardMarginal μ₀ β t ⊗ₘ κ t) :=
   sorry
 
-/-- 4.1: the variational bound. -/
-theorem klDiv_le_klDiv_forwardPath (hβ : ∀ t, 1 ≤ t → 0 < β t ∧ β t < 1) (prior : Measure E)
+/-- 4.1: the variational bound; this holds for every `β`. -/
+theorem klDiv_le_klDiv_forwardPath (prior : Measure E)
     [IsProbabilityMeasure prior] [∀ t, IsMarkovKernel (κ t)] :
     klDiv μ₀ ((modelPath prior κ T).map (pathEval 0 (Nat.zero_le T))) ≤
       klDiv (forwardPath μ₀ β T) (modelPath prior κ T) :=
