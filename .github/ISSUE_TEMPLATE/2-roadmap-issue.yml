@@ -86,6 +86,7 @@ body:
         - DiagrammaticCoherence
         - DiamondsAndVStacks
         - DifferentialGeometry
+        - DimerModelsAndLozengeTilings
         - DiophantineApproximationAndTranscendence
         - DiophantineApproximationAndTranscendencePartII
         - DysonBrownianMotion
@@ -116,6 +117,7 @@ body:
         - FuchsianOrbifolds
         - FukayaTheory
         - GaugeQuiltFieldTheory
+        - GaussianIsoperimetryAndClusters
         - GeneralAlgebraicKTheory
         - GeneralizedCohomology
         - GenericDoublePointInterpolation
@@ -154,6 +156,7 @@ body:
         - LFunctions
         - LefschetzPencilsAndVanishingCyclesPartII
         - LieGroupoidsPoisson
+        - LieGroupsPartII
         - LinearFormsInLogarithms
         - LocalPurity
         - LocalVariationalFieldTheory
@@ -171,6 +174,7 @@ body:
         - ModularForms
         - MorseNovikov
         - MorseTheory
+        - NashBlowups
         - Neuromanifolds
         - NewtonPolygons
         - NilpotentOrbits
@@ -250,6 +254,7 @@ body:
         - SpecialFunctionsHypergeometric
         - SpecialFunctionsParabolicCylinder
         - SpectralSequencesAndConvergence
+        - SpectralSequencesAndConvergencePartII
         - SpinGeometry
         - SporadicOrders
         - StableHomotopyKTheory
