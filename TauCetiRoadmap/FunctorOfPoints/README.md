@@ -24,7 +24,7 @@ citable equivalence: schemes over `Spec R` are the locally representable Zariski
   subschemes, open immersions, ideal sheaves and closed immersions (Layer 1);
 - the predicate *locally representable* and the equivalence of categories between schemes
   over `Spec R` and locally representable Zariski sheaves, with its absolute case
-  `R = ℤ` (Layer 2);
+  `R = ULift.{u} ℤ` (Layer 2);
 - the tangent space `T_x F` of a functor via `A[ε]`, the tangent-bundle functor and its
   representing scheme, and the points form of formal smoothness, unramifiedness and
   étaleness (Layer 3);
@@ -83,9 +83,9 @@ must agree.
 **Outside this roadmap.** Algebraic spaces, stacks and their quasi-coherent modules
 (SchemeAndStackFoundations Layer 1); formal schemes and formal moduli; derived and spectral
 functors of points; representability theorems of Artin type; representability of Hilbert and
-Quot functors (SchemeAndStackFoundations §4.14). The generic layer of this roadmap (a site with
-a class of open subfunctors and a locally representable full subcategory) is instantiated for commutative semirings in the sense of Toën–Vaquié, "Au-dessous de
-Spec ℤ"; that is the subject of the SemiringSchemes roadmap and is not a target here.
+Quot functors (SchemeAndStackFoundations §4.14). The generic theory of open subfunctors and
+schemes over a site with a class of basic open immersions (Toën–Vaquié) is owned by
+SemiringSchemes §4.1; this roadmap states the commutative-ring case only.
 
 ## Conventions
 
@@ -103,18 +103,18 @@ Spec ℤ"; that is the subject of the SemiringSchemes roadmap and is not a targe
 3. **Work over a base ring `R` throughout.** Test objects are `CommAlgCat.{u} R`, with
    `R : Type u` a commutative ring. Schemes over `R` are objects of
    `Over (Spec (CommRingCat.of R))`, which is the codomain of Mathlib's `algSpec`. The absolute
-   case is `R = ℤ`, reached through the equivalences of Layer 2.4; no absolute statement is
-   proved separately when it is the case `R = ℤ` of a relative one.
+   case uses `R = ULift.{u} ℤ`, reached through the equivalences of §2.4; absolute
+   statements are transported from this relative case. At universe zero this recovers the
+   usual base `ℤ`.
 4. **Universes.** Rings, algebras and schemes live in one universe `u`. Presheaves are
    `(CommAlgCat.{u} R)ᵒᵖᵒᵖ ⥤ Type u`: the points `Spec A ⟶ X` of a scheme `X : Scheme.{u}` form
    a `Type u`. Tau Ceti's `TauCeti.CommAlgCat.pointsSheaf` lifts its values to `Type (u + 1)`
    to meet fppf quotient sheaves; the comparison `pointsFunctor X ⋙ uliftFunctor ≅
-   (pointsSheaf X).obj` is a Layer 0 target, and no other universe lift is introduced. The
-   site `(CommAlgCat.{u} R)ᵒᵖ` is large; constructions that need small index categories (Kan
+   (pointsSheaf X).obj` is a Layer 0 target. The absolute base in §2.4 additionally
+   uses `ULift.{u} ℤ`. The site `(CommAlgCat.{u} R)ᵒᵖ` is large; constructions that need small index categories (Kan
    extensions, sheafification) are either avoided by explicit formulas (the extension from
    affines to all schemes uses the small poset of affine opens of a scheme) or stated with
-   the cardinality hypotheses Mathlib requires. Contributors must not change universes to
-   make an instance fire.
+   the cardinality hypotheses Mathlib requires.
 Presheaf notation is on the affine site `Aff_R := (CommAlgCat R)ᵒᵖ`: a
    presheaf has type `Aff_Rᵒᵖ ⥤ Type u`. Thus its evaluation at the algebra `A` is
    `F.obj (op (op A))`, and an algebra map `φ` acts by `F.map φ.op.op`.
@@ -140,6 +140,7 @@ Files go under `TauCeti/AlgebraicGeometry/FunctorOfPoints/`.
 The existing interfaces used by the Lean prototype are Mathlib's `algSpec`, `yoneda`,
 `GrothendieckTopology`, `Sheaf`, `Subfunctor`, `Functor.IsRepresentable`, scheme open
 immersions and affine-space points, together with Tau Ceti's
+`algSpecHomEquivAlgHom` (`AlgebraicGeometry/Scheme/SpecOver.lean`) for affine points and
 `TauCeti.CommAlgCat.fppfTopology` and `pointsSheaf`
 (`TauCeti/Algebra/Category/CommAlgCat/Fppf.lean`). The latter is a sheaf valued in
 `Type (u + 1)`; its underlying presheaf is the restriction of the Yoneda presheaf of a
@@ -163,8 +164,9 @@ than requesting a second independent proof.
 ## How to read the build
 
 Layer 0 (sites and points) precedes everything. Layer 1 (subfunctors) precedes Layer 2 (the
-front door). Layers 3, 4 and 5 depend on Layers 0–2 and are independent of each other.
-Layer 6 depends on Layers 0–2 and, for §6.6, on §3.1b's relative-spectrum interface. Within
+front door). Layers 3 and 4 depend on Layers 0–2 and are independent of each other.
+Layer 5 depends on Layers 0–2 and, for §5.3's properness statement, on §4.1; its tangent-space
+check uses §3.1. Layer 6 depends on Layers 0–2, on §3.1b for §6.6, and on §5.3 for §6.5. Within
 each layer the numbered sections are in build order. Difficulty is marked
 **[easy]** (a few hundred lines, direct from the supplier API), **[medium]** (requires a
 gluing or descent argument), **[hard]** (a multi-file development).
@@ -235,7 +237,8 @@ determined by, and can be glued from, its restrictions to affine opens; Mathlib
 `Scheme.Cover`, `Scheme.Hom.ext` on covers); `pointsFunctor_preservesLimits` (limits in
 `Over (Spec R)` go to pointwise limits). For `X = algSpec B`, `pointsFunctor (algSpec B) ≅
 yoneda.obj (op B)` naturally in `B`, so `(pointsFunctor (algSpec B)).obj (op (op A)) ≃ (B →ₐ[R] A)`
-(`pointsFunctorAlgSpecIso`, `pointsFunctorAlgSpecEquiv`). For a commutative Hopf algebra `H`,
+(`pointsFunctorAlgSpecIso`); its pointwise equivalence is Tau Ceti's existing
+`algSpecHomEquivAlgHom` (`AlgebraicGeometry/Scheme/SpecOver.lean`). For a commutative Hopf algebra `H`,
 compose with `HopfAlgebra.pointsPresheaf` to identify the type-valued points of `Spec H` with
 the carrier of Tau Ceti's convolution points (`pointsFunctorHopfIso`).
 
@@ -262,9 +265,9 @@ noncomputable def TauCeti.CommAlgCat.zariskiSheafEquiv (R : Type u) [CommRing R]
 whose functor is restriction along `ι_R` (Mathlib's `Functor.sheafPushforwardContinuous`)
 and whose inverse sends `F` to `X ↦ lim_{U ∈ X.affineOpens} F(Γ(X, U))`, the limit taken over the
 small poset of affine opens of `X`. State the same for `fpqcTopology` and `fppfTopology`
-(`fpqcSheafEquiv`, `fppfSheafEquiv`). If Mathlib's `Functor.IsDenseSubsite.sheafEquiv` applies
-at these universes, use it and record the hypotheses it needed; if it does not, the explicit
-inverse above is the construction. Prove that `zariskiSheafEquiv.functor` applied to the
+(`fpqcSheafEquiv`, `fppfSheafEquiv`). The explicit inverse above is the construction: its
+limits use the small affine-open index category, rather than all structured arrows of the
+large affine site. Prove that `zariskiSheafEquiv.functor` applied to the
 Yoneda sheaf of `X` is `pointsFunctor X` (`zariskiSheafEquiv_yoneda`).
 *Needs:* §§0.1–0.2; Mathlib `Functor.sheafPushforwardContinuous`, `Scheme.affineOpens`.
 
@@ -362,7 +365,7 @@ For `X : Over (Spec R)`:
   surjectivity; over a general `A` it is not (check below).
 
 *Needs:* §§1.1–1.2; Mathlib `Scheme.Opens`, `IdealSheafData`, `IsOpenImmersion`,
-`IsClosedImmersion`; Tau Ceti `IsoLocus`, `Immersion` (`Morphisms/`).
+`IsClosedImmersion`; Tau Ceti `Immersion` (`Morphisms/`).
 
 **Checks.**
 - `ℙ¹` is covered by the charts `U₀, U₁` (§5.3). For `A = k[x]`, the `A`-point given by the
@@ -403,7 +406,8 @@ noncomputable def TauCeti.FunctorOfPoints.schemeEquiv (R : Type u) [CommRing R] 
     Over (Spec (CommRingCat.of R)) ≌ LocallyRepresentable R
 ```
 
-whose functor is `pointsFunctor` (with §0.2's sheaf property) and whose inverse assigns a
+whose functor is `pointsFunctor` (with §0.2's sheaf property and
+`pointsFunctor_isLocallyRepresentable`) and whose inverse assigns a
 representing scheme. Proof: full faithfulness is §0.2. Essential surjectivity: transport `F`
 along `zariskiSheafEquiv.inverse` (§0.3) to a Zariski sheaf on `Over (Spec R)`, push forward
 along `Over.forget` to `Scheme`, check that the open representable subfunctors give
@@ -437,9 +441,11 @@ affine.
 
 ### 2.4 The absolute case and `CommRingCat` **[easy]**
 
-Prove `CommAlgCat.intEquiv : CommAlgCat.{u} ℤ ≌ CommRingCat.{u}` (every ring is uniquely a
-`ℤ`-algebra; build it if Mathlib has none) and `overSpecIntEquiv : Over (Spec (CommRingCat.of ℤ)) ≌ Scheme.{u}`
-from `specZIsTerminal` (build it if Mathlib has no `Over` equivalence for a terminal object).
+Construct both equivalences
+`CommAlgCat.intEquiv : CommAlgCat.{u} (ULift.{u} ℤ) ≌ CommRingCat.{u}`
+(every ring in `Type u` is uniquely a `ULift.{u} ℤ`-algebra) and
+`overSpecIntEquiv : Over (Spec (CommRingCat.of (ULift.{u} ℤ))) ≌ Scheme.{u}`,
+using Mathlib's `specULiftZIsTerminal` (`AlgebraicGeometry/Limits.lean`) for the latter.
 Transport the Zariski topology to `CommRingCat.{u}ᵒᵖ` and state the absolute front door
 
 ```lean
@@ -490,10 +496,9 @@ with functoriality. Prove:
   `tangentSpace (pointsFunctor X) x ≃ₗ[A] (x^* Ω_{X/R}) ⟶ 𝒪` on `Spec A`, i.e.
   `Hom_A(Γ(Spec A, x^* Ω_{X/R}), A)` (`tangentSpaceEquivDifferentials`), using Tau Ceti's
   sheaf of differentials and `tildeEquiv`.
-- **Zariski tangent space.** For `k` a field, `X` locally of finite type over `k` and a rational
-  point `x`, `tangentSpace (pointsFunctor X) x ≃ₗ[k] Module.Dual k (CotangentSpace (X.presheaf.stalk x))`
-  (`tangentSpaceEquivZariski`; Eisenbud–Harris VI.1, Stacks Section 33.16 for the scheme
-  form; use the scheme statement of that section).
+- **Zariski tangent space.** For `k` a field, `X` any `k`-scheme and `x` a `k`-rational
+  point, `tangentSpace (pointsFunctor X) x ≃ₗ[k] Module.Dual k (CotangentSpace (X.presheaf.stalk x))`
+  (`tangentSpaceEquivZariski`; [Stacks Lemma 33.16.5, 0B2E](https://stacks.math.columbia.edu/tag/0B2E)).
 
 **Checks.**
 - `T_0 𝔸¹_k = k`, `T_1 𝔾_m = k`, and `T_1 μ_p = k` over `𝔽_p` while `μ_p(k) = {1}` for a
@@ -571,9 +576,12 @@ versions. The `R`-algebra structure on `V` in a `ValuativeCommSq` is induced by 
 
 ### 4.2 Discrete valuation rings suffice over a Noetherian base **[hard]**
 
-For `f` of finite type, `Y` locally Noetherian, `f` quasi-separated: `f` is universally closed
-iff `valuativeMap f V K` is surjective for every discrete valuation ring `V` (EGA II,
-Théorème 7.3.8; [Stacks, Section 32.15](https://stacks.math.columbia.edu/tag/0CM1)); likewise for separatedness with injectivity, and properness. The proof reduces to
+Let `Y` be locally Noetherian. For `f` of finite type, `f` is universally closed iff
+`valuativeMap f V K` is surjective for every discrete valuation ring `V`
+([Stacks Lemma 32.15.4, 05JY](https://stacks.math.columbia.edu/tag/05JY)); it is proper iff
+these maps are bijective ([Lemma 32.15.3, 0208](https://stacks.math.columbia.edu/tag/0208);
+EGA II, Théorème 7.3.8). For `f` locally of finite type, it is separated iff these maps
+are injective ([Lemma 32.15.2, 0207](https://stacks.math.columbia.edu/tag/0207)). The proof reduces to
 Mathlib's criterion through the existence of a dominating discrete valuation ring for a
 specialization of points of a Noetherian scheme (Stacks 00PH for the algebra).
 *Needs:* §4.1; Mathlib `ValuationRing`, `IsDiscreteValuationRing`, Noetherian dimension theory.
@@ -669,13 +677,14 @@ no separate statement.
 
 ## Layer 6: modules, quasi-coherent sheaves and descent
 
-This layer is Demazure–Gabriel I.2.5 and Jantzen I.2.8–I.2.11 in Mathlib's language: a
-quasi-coherent module on a functor `F` is a rule assigning an `A`-module to each `A`-point,
-compatible with base change. The scheme-level theory (Tau Ceti's `QuasicoherentSheaf`,
-`qcohPseudofunctor`, its fpqc prestack property, and SchemeAndStackFoundations §1.1's stack
+A quasi-coherent module on a functor `F` is a rule assigning an `A`-module to each
+`A`-point, compatible with base change. The scheme-level theory (Tau Ceti's `QuasicoherentSheaf`,
+`qcohPseudofunctor`, and SchemeAndStackFoundations §1.1's stack
 property) is consumed and compared, not rebuilt.
 
 ### 6.1 Modules over a functor **[medium]**
+
+The point-indexed module definition is [Strickland §2.6, Definition 2.42](https://arxiv.org/pdf/math/0011121).
 
 ```lean
 structure TauCeti.FunctorOfPoints.Module (F : (CommAlgCat.{u} R)ᵒᵖᵒᵖ ⥤ Type u) where
@@ -707,7 +716,8 @@ compatible with pullback along `B → B'` (extension of scalars).
 
 ### 6.3 Comparison with quasi-coherent sheaves **[hard]**
 
-For `X : Over (Spec R)`, construct
+For `X : Over (Spec R)`, construct the equivalence between point-indexed modules and
+quasi-coherent sheaves ([Strickland §3, Proposition 3.3](https://arxiv.org/pdf/math/0011121)):
 
 ```lean
 noncomputable def TauCeti.FunctorOfPoints.moduleEquivQuasicoherent (X : Over (Spec (CommRingCat.of R))) :
@@ -715,47 +725,43 @@ noncomputable def TauCeti.FunctorOfPoints.moduleEquivQuasicoherent (X : Over (Sp
 ```
 
 Inverse direction: `E ↦ (x ↦ Γ(Spec A, x^* E))`, with
-`baseChange` from `tildeEquivFunctorCompPullbackIso` and `QuasicoherentSheaf.pullbackComp`.
+`baseChange` from `tildeFunctorCompPullbackIso` and `QuasicoherentSheaf.pullbackComp`.
 Forward direction: restrict to the affine opens of `X` (each an `A`-point), apply §6.2 there
 to get `tilde` modules, and glue with Tau Ceti's `Modules/Gluing.lean`. Prove compatibility
 with pullback along morphisms of schemes, with tensor products, and with `𝒪`, and
 `moduleEquivQuasicoherent_bigPresheaf`: the affine restriction of the big-site module
 construction of SchemeAndStackFoundations §2.9 recovers the presheaf of §6.1.
 Construct the natural comparison as part of this target, using that supplier once.
-No big-site module API absent from the pin is assumed to exist in Tau Ceti. Equivalently (and this is a check, not a second target),
-`Module (pointsFunctor X)` is the category of *cartesian* objects of
-`SheafOfModules (bigRingCatSheaf X)` restricted to affines, matching SchemeAndStackFoundations
-§2.9's `bigSheaf_fullyFaithful`.
+No big-site module API absent from the pin is assumed to exist in Tau Ceti. The big-site
+comparison uses SchemeAndStackFoundations §2.9's `bigSheaf_fullyFaithful`; no separate
+big-site structure sheaf carrier is introduced here.
 *Needs:* §§0.2, 6.1–6.2; Mathlib `tildeEquiv`; Tau Ceti `QuasicoherentSheaf`,
 `Modules/Quasicoherent/Affine.lean`, `Modules/Gluing.lean`;
 SchemeAndStackFoundations §2.9 for the big-site comparison.
 
 ### 6.4 fpqc invariance: descent in presheaf form **[hard]**
 
-Prove `Module.isEquivalence_pullback_of_isLocallyBijective`: if `α : F ⟶ G` becomes an
-isomorphism after fpqc sheafification (equivalently: `α` is fpqc-locally surjective and
-fpqc-locally injective in the sense of Mathlib's `Presheaf.IsLocallySurjective` and
-`IsLocallyInjective` for `fpqcTopology R`), then `Module.pullback α` is an equivalence.
+Prove `Module.isEquivalence_pullback_of_isLocallyBijective`: if `α : F ⟶ G` is an
+fpqc-local isomorphism (both fpqc-locally surjective and fpqc-locally injective in the
+sense of Mathlib's `Presheaf.IsLocallySurjective` and `IsLocallyInjective` for
+`fpqcTopology R`), then `Module.pullback α` is an equivalence.
 The affine input is: for faithfully flat `A → B`, `ModuleCat A` is equivalent to descent data
 on `ModuleCat B` relative to `B ⇉ B ⊗_A B` (Mathlib's `comonadicExtendScalars` together with
 `DescentDataAsCoalgebra.coalgebraEquivalence`; transport along Tau Ceti's affine
 quasi-coherent equivalence identifies this with descent on `Spec`). Consequences, each stated:
 
-- `Module.sheafification`: `Module F ≌ Module (F^♯)` for `F^♯` the Zariski, fppf or fpqc
-  sheafification (where it exists at these universes; otherwise state the theorem for a given
-  locally bijective `α`, which is what applications need);
 - `moduleCatExtendScalarsPseudofunctor_isStack`: Mathlib's
   `CommRingCat.moduleCatExtendScalarsPseudofunctor`, restricted to `CommAlgCat R`, is a stack
   for `fpqcTopology R` (the TODO in Mathlib's `ModuleCat/Descent.lean` docstring, here in the
   form needed on affine test objects);
-- `qcoh_fpqc_descent_iff`: via §6.3 and §0.3, the presheaf statement above is equivalent to
-  SchemeAndStackFoundations §1.1's `qcoh_fpqc_descent` on schemes over `Spec R`. Use SchemeAndStackFoundations §1.1 as the supplier of scheme-level descent and
-  prove the presheaf formulation by transport through §§0.3 and 6.3; there is one
-  proof of descent and a one-way dependency.
+- Deduce `moduleCatExtendScalarsPseudofunctor_isStack` from SchemeAndStackFoundations §1.1's
+  `qcoh_fpqc_descent` by restricting `Descent.qcohPseudofunctor` along `algSpec` and applying
+  §6.2 on each affine, with the comparison of §6.3. This is the single proof of the stack
+  property; fpqc-local bijectivity then gives the pullback equivalence above.
 
 **Checks.**
 - For `ℝ → ℂ`, a `ℂ`-vector space with a semilinear involution descends to a real form; the
-  descent datum is the involution (compare Tau Ceti `ModuleCat/RealDescent.lean`).
+  descent datum is the involution.
 - For the fpqc cover `ℤ → ℤ[1/2] × ℤ_(2)`, descent data live over
   `ℤ[1/2] ⊗ ℤ_(2) = ℚ`; the modules `ℤ` and `2ℤ` have isomorphic restrictions and
   compatible descent data, and the isomorphism `ℤ ≅ 2ℤ` descends.
@@ -783,7 +789,8 @@ and for `F = pointsFunctor X` its comparison with Tau Ceti's
 `CategoryTheory.CommMon.relativeSpec` and `TauCeti.AlgebraicGeometry.relativeSpec`.
 Corollary (fpqc descent of affine morphisms in presheaf form, from §6.4): affine morphisms to
 `F` depend only on the fpqc sheafification of `F`; compare with Tau Ceti's
-`TauCeti.DescentDatum.exists_isAffineHom_baseChange_hom_isIso_of_quasiCompact` and
+`TauCeti.DescentDatum.exists_isAffine_baseChange_hom_isIso`
+(`AlgebraicGeometry/Descent/Affine.lean`, for flat morphisms of affine schemes) and
 `TauCeti.Algebra.DescentDatum.baseChangeEquiv`. Closed subfunctors (§1.2) are the affine
 morphisms whose algebra is a quotient of `𝒪`; record this case.
 
@@ -799,12 +806,8 @@ morphisms whose algebra is a quotient of `𝒪`; record this case.
 
 ## Downstream consumers
 
-ReductiveGroups and ReductiveGroupsPartII (functor-of-points phrasing of group schemes;
-they do not depend on this roadmap), FlagVarieties and SchubertGeometry (Grassmannian and flag
-functors), AlgebraicModuliForArithmeticGeometry (Weil restriction and projective bundles,
-which may use §§5.3–5.4 and §6.5 as their affine interface), ModularCurves (moduli problems
-on `(CommAlgCat R)ᵒᵖ`), and the SemiringSchemes roadmap (as the ring-theoretic model for the
-semiring version of Layers 0–2).
+SemiringSchemes (the ring case of its §4.1 and §5.3), and FlagVarieties and
+SchubertGeometry (Grassmannian and flag functors).
 
 ## References
 
@@ -821,15 +824,15 @@ semiring version of Layers 0–2).
 - J. S. Milne, *Algebraic Groups*, Cambridge University Press (2017), Chapter 1 and
   Appendix A (functors of points of affine schemes, Yoneda, faithfully flat descent).
 - N. P. Strickland, *Formal schemes and formal groups*, in *Homotopy invariant algebraic
-  structures*, Contemp. Math. 239 (1999), §§2–4 (schemes as functors, open and closed
-  subfunctors, modules over functors).
+  structures*, Contemp. Math. 239 (1999), §2.1 (schemes as functors), §2.3 (subschemes),
+  §§2.6–2.7 (modules and faithfully flat descent), §3 (non-affine schemes).
 - B. Toën and M. Vaquié, *Au-dessous de Spec ℤ*, J. K-Theory 3 (2009) (relative schemes over
   a symmetric monoidal category; cited only for the out-of-scope semiring extension).
 - A. Grothendieck, *EGA II*, Publ. Math. IHÉS 8 (1961), §7.3 (valuative criteria, 7.3.8).
 - S. Bosch, W. Lütkebohmert, M. Raynaud, *Néron Models*, Springer (1990), §7.6 (Weil
   restriction).
 - The Stacks Project: Tag 01JJ (representability from an open cover, the source of Mathlib's
-  `LocalRepresentability`), 01BG (pullback of modules is a pseudofunctor), 023T (descent of
+  `LocalRepresentability`), 01BG (pullback preserves quasi-coherence), 023T (descent of
   quasi-coherent modules), 03O1 (fpqc sheaf criterion; cited for the scheme statement), 0GN7
   (big-site modules), 01KE, 01KF, 01KZ, 01L0, 0BX5 (valuative criteria, as tagged in Mathlib),
   02H0, 02HG (formally smooth and formally étale morphisms), 089R (Grassmannian).

@@ -14,8 +14,14 @@ than by admitting a data-valued definition.
 
 The affine site is `(CommAlgCat R)ᵒᵖ`; its presheaves have domain
 `(CommAlgCat R)ᵒᵖᵒᵖ`. This records covariance in test algebras explicitly.
-The lifting criteria and coherent module-family category are specified in the README;
-they require the earlier formal-morphism and module-coherence interfaces, respectively.
+The following targets require carriers built in the README before they can be stated:
+* §3.1: `tangentSpaceEquivDifferentials` and `tangentSpaceEquivZariski` require the
+  `tangentSpace` module structure;
+* §3.2: `formallySmooth_iff_points` requires the scheme-level `FormallySmooth` predicate
+  supplied by SchemeAndStackFoundations §4.1;
+* §6.3: `moduleEquivQuasicoherent` and §6.4
+  `Module.isEquivalence_pullback_of_isLocallyBijective` require the coherent `Module F`
+  carrier and its pullback functor from §6.1.
 -/
 
 public section
@@ -70,9 +76,15 @@ abbrev LocallyRepresentable :=
   ObjectProperty.FullSubcategory fun F : Sheaf (zariskiTopology R) (Type u) =>
     IsLocallyRepresentable F.obj
 
-/-- The front door: existence of the equivalence specified in README §2.2. -/
-theorem schemeEquiv_exists :
-    Nonempty (Over (Spec (CommRingCat.of R)) ≌ LocallyRepresentable R) := by
+/-- Every scheme gives a locally representable presheaf through the actual points functor. -/
+theorem pointsFunctor_isLocallyRepresentable (X : Over (Spec (CommRingCat.of R))) :
+    IsLocallyRepresentable ((pointsFunctor R).obj X) := by
+  sorry
+
+/-- Local representability characterizes the essential image of the actual points functor. -/
+theorem isLocallyRepresentable_iff (F : (CommAlgCat.{u} R)ᵒᵖᵒᵖ ⥤ Type u) :
+    IsLocallyRepresentable F ↔
+      ∃ X : Over (Spec (CommRingCat.of R)), Nonempty ((pointsFunctor R).obj X ≅ F) := by
   sorry
 
 /-- The comparison must identify the actual morphism with the subfunctor inclusion. -/
@@ -81,6 +93,29 @@ theorem isOpenImmersion_iff_points {X Y : Over (Spec (CommRingCat.of R))} (f : Y
       ∃ G : Subfunctor ((pointsFunctor R).obj X), IsOpenSubfunctor G ∧
         ∃ e : (pointsFunctor R).obj Y ≅ G.toFunctor,
           (pointsFunctor R).map f = e.hom ≫ G.ι := by
+  sorry
+
+/-- Closed immersions are exactly the inclusions of closed subfunctors, with the map fixed. -/
+theorem isClosedImmersion_iff_points {X Y : Over (Spec (CommRingCat.of R))} (f : Y ⟶ X) :
+    IsClosedImmersion f.left ↔
+      ∃ G : Subfunctor ((pointsFunctor R).obj X), IsClosedSubfunctor G ∧
+        ∃ e : (pointsFunctor R).obj Y ≅ G.toFunctor,
+          (pointsFunctor R).map f = e.hom ≫ G.ι := by
+  sorry
+
+/-- Over a locally Noetherian base, discrete valuation rings detect universal closedness
+for finite type morphisms. -/
+theorem universallyClosed_iff_dvr {X Y : Scheme.{u}} (f : X ⟶ Y)
+    [IsLocallyNoetherian Y] [LocallyOfFiniteType f] [QuasiCompact f] :
+    UniversallyClosed f ↔
+      ∀ (S : ValuativeCommSq f) [IsDiscreteValuationRing S.R], S.commSq.HasLift := by
+  sorry
+
+/-- The Grassmannian of finite projective quotients is locally representable. -/
+theorem grassmannian_isLocallyRepresentable (M : Type u) [AddCommGroup M] [Module R M]
+    [Module.Finite R M] (k : ℕ) :
+    IsLocallyRepresentable
+      (unopUnop (CommAlgCat.{u} R) ⋙ Module.Grassmannian.functor (R := R) (M := M) k) := by
   sorry
 
 theorem pointsFunctor_full : (pointsFunctor R).Full := by
