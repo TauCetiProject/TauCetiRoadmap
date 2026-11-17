@@ -17,6 +17,9 @@ against Mathlib's API. It does not implement the roadmap.
 The following headline signatures require infrastructure specified in README.md
 but not constructed in this prototype:
 
+* M1.4's universal property and four hom-category isomorphisms require the
+  walking-adjunction path 2-category with its generators and relations, and
+  the endpoint-preserving simplex subcategories (M1.3--M1.4).
 * M2.3's comparison isomorphisms require strict double functors and isomorphisms,
   expansion, and extraction (M1.1--M2.2).
 * M3.3's represented double isomorphism `L(K) ≅ R(K)` requires represented
@@ -36,7 +39,7 @@ transport of the four boundaries; the implementation must supply a usable
 transport API. It is not an isomorphism or a weak associativity axiom.
 -/
 
-universe u h v s w
+universe u h v s
 
 namespace TauCetiRoadmap.MatesDoubleCategories
 
@@ -166,17 +169,7 @@ theorem representable_of_representation (R : D.Representation) : D.Representable
 
 end ImplicitDoubleCategory
 
-section ConventionCheck
-
-variable {K : Type u} [Bicategory.{w, v} K]
-
--- Check the README's boundary orientation against the existing API.
--- This is a type check, not a new target or a proof of the double isomorphism.
-example {a b c d : K} (S : a ⟶ b) (T : c ⟶ d)
-    (F₁ : Bicategory.Adj.Hom a c) (F₂ : Bicategory.Adj.Hom b d) :
-    (S ≫ F₂.l ⟶ F₁.l ≫ T) ≃ (F₁.r ≫ S ⟶ T ≫ F₂.r) :=
-  Bicategory.mateEquiv F₁.adj F₂.adj
-
-end ConventionCheck
+-- The library equivalence fixing the L ≃ R direction of the README conventions.
+#check @CategoryTheory.Bicategory.mateEquiv
 
 end TauCetiRoadmap.MatesDoubleCategories

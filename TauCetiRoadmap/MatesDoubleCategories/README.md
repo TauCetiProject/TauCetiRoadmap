@@ -24,7 +24,7 @@ categories. No general equipment construction is a prerequisite.
 
 ## How to read the build
 
-The pilot's development order is M1 → M2 → M3 → M4. M2 tests the foundations on
+The build order is M1 → M2 → M3 → M4. M2 tests the foundations on
 ordinary strict double categories before the general mates construction. M3
 proves the general mates theorem; M4 specializes it. The mathematical
 dependencies are smaller than this chosen execution order:
@@ -46,9 +46,9 @@ dependencies are smaller than this chosen execution order:
 Each target lists its library inputs below. M3 has no mathematical dependency on
 M2 or the M1.4 example. M1.4 tests the one-directional interface; M2 is the
 first double-category comparison test. `Suggested.lean` prototypes selected
-foundational interfaces and checks the
-mate orientation against Mathlib. Its admitted theorem is an M1.2 target; it
-does not implement the headline isomorphisms.
+foundational interfaces and points to the Mathlib equivalence fixing the mate
+orientation. Its admitted theorem is an M1.2 target; it does not implement the
+headline isomorphisms.
 
 ## Conventions
 
@@ -134,12 +134,14 @@ only functor identities.
 - For double isomorphisms: identity, inverse, composition, evaluation of both
   inverse laws, and the constructor from boundary-preserving cell equivalences.
 
-**Checks.** On a grid of four cells, both orders of pasting have boundary
-`(p ≫ q, x ≫ y, l ≫ l', n ≫ n')` and equal cell values by interchange.
-The two identity assignments at an object both give a cell with four identity
-boundaries and agree. A double isomorphism followed by its inverse fixes every
-cell after the stated boundary transports, including a cell with nonidentity
-boundary arrows.
+**Checks.**
+
+- On a grid of four cells, both orders of pasting have boundary
+  `(p ≫ q, x ≫ y, l ≫ l', n ≫ n')` and equal cell values by interchange.
+- The two identity assignments at an object both give a cell with four identity
+  boundaries and agree.
+- A double isomorphism followed by its inverse fixes every cell after the stated
+  boundary transports, including a cell with nonidentity boundary arrows.
 
 *Needs:* Mathlib `Category`, `Functor`, `Iso`, and equality transport.
 
@@ -183,13 +185,16 @@ derived comparisons for arbitrary paths and the induced bicategory coherence.
 - For represented strict functors: preservation of the chosen and derived
   comparisons, identity, composition, inverses, and extensionality.
 
-**Checks.** The recursive comparison for a singleton is its identity; for an
-empty path it is the chosen nullary comparison. The two binary reductions of
-`[f,g,h]` yield singleton composites `(f ⋆ g) ⋆ h` and `f ⋆ (g ⋆ h)` whose
-comparison is the induced associator. On one object with empty generating
-quivers, the empty path exists but no singleton does: `Representable` is false
-and there is no `Representation`. In any represented example, `[]` and `[1]`
-remain distinct paths, related by the nullary comparison. Verify both directions.
+**Checks.**
+
+- The recursive comparison for a singleton is its identity.
+- The recursive comparison for an empty path is the chosen nullary comparison.
+- The two binary reductions of `[f,g,h]` yield singleton composites
+  `(f ⋆ g) ⋆ h` and `f ⋆ (g ⋆ h)` whose comparison is the induced associator.
+- On one object with empty generating quivers, the empty path exists but no
+  singleton does: `Representable` is false and there is no `Representation`.
+- In any represented example, `[]` and `[1]` remain distinct paths. Verify the
+  nullary comparison and its inverse in both directions.
 
 *Needs:* M1.1; Mathlib quivers, `Quiver.Path`/`CategoryTheory.Paths`, and
 `Bicategory`. *Reference:* Fairbanks–Shulman, Definitions 3.1–3.3 and Remark 3.5.
@@ -232,11 +237,14 @@ for units, counits, and triangle identities.
   inverse laws on the full specified adjunction data, and compatibility with
   identity and composite adjunctions under the chosen path comparisons.
 
-**Checks.** For a represented example, the underlying bicategory's unit at `a`
-is the chosen generator `1ₐ`, while the strict path identity is `[]`.
-The two triangle composites on `[f]` and `[g]` are their identity 2-cells.
-Transferring an adjunction to generators and back recovers its unit and counit,
-not merely its left and right adjoints.
+**Checks.**
+
+- For a represented example, the underlying bicategory's unit at `a` is the
+  chosen generator `1ₐ`, while the strict path identity is `[]`.
+- The triangle composite on `[f]` is its identity 2-cell.
+- The triangle composite on `[g]` is its identity 2-cell.
+- Transferring an adjunction to generators and back recovers its unit and counit,
+  not merely its left and right adjoints.
 
 *Needs:* M1.1 and the horizontal constructions of M1.2; Mathlib
 `Bicategory.Strict` and `Bicategory.Adjunction`, including identity and composite
@@ -245,7 +253,7 @@ Proposition 2.7.
 
 ### M1.4 — The Schanuel–Street walking adjunction
 
-Construct an implicit 2-category `WalkingAdjunction` with objects `+,-` and
+Construct the *walking adjunction* as an implicit 2-category with objects `+,-` and
 generating quiver consisting of `f : + → -` and `g : - → +`. Its path
 2-category is the free strict 2-category containing an adjunction `f ⊣ g`:
 the generating 2-cells are `η : []₊ ⟶ [f,g]` and
@@ -256,7 +264,7 @@ by these under identities and both pastings, subject only to the strict
 
 Prove the universal property: for every strict 2-category `K` and fully
 specified adjunction `F ⊣ G` in it, there is a unique strict 2-functor from the
-path 2-category of `WalkingAdjunction` taking `+,-,f,g,η,ε` to the specified
+path 2-category of the walking adjunction taking `+,-,f,g,η,ε` to the specified
 objects, arrows, unit, and counit. Use Mathlib's `StrictPseudofunctor` for strict
 2-functors. Export evaluation on the generators, an extension operation,
 extensionality from those images, and the resulting correspondence with
@@ -276,8 +284,15 @@ and degeneracies, using Mathlib's simplex morphisms and wide-subcategory API.
 Prove the finite-ordinal duality `Δ₊ᵒᵖ ≅ Δ_∂`. Pin its object convention by
 sending the ordinal with `n` elements to `[n]`, its chain of `n+1` cuts. For a
 monotone map `α : Fin n →o Fin m`, the contravariant map on cuts sends
-`j ∈ {0,…,m}` to `#{i < n | α(i) < j}`. Prove the inverse, functoriality, and
-endpoint laws. In particular, the empty ordinal maps to `[0]`. Also provide
+`j ∈ {0,…,m}` to `#{i < n | α(i) < j}`. On nonempty ordinals reuse
+`SimplexCategory.II : Δ ⥤ Δᵒᵖ`, which sends `[k]` to `[k+1]ᵒᵖ`:
+its `II.map'` is this cut map, expressed as the least index whose image is
+at least the given cut, with the final index as sentinel. Use `II.map'_zero`,
+`II.map'_last`, `II.map'_id`, and `II.map'_map'` for the endpoint and functor
+laws. With the opposites arranged as `Δᵒᵖ ⥤ Δ`, factor this existing functor
+through `Δ_∂`. Extend it to the empty ordinal, which maps to `[0]`, and prove
+the inverse functor and the two comparison identities. These factorization,
+extension, and inverse constructions are new targets. Also provide
 `Δ_topᵒᵖ ≅ Δ_bot` via left/right adjoints of the endpoint-preserving order maps.
 
 **Hom-category theorem.** For the four hom-categories of the path 2-category,
@@ -287,10 +302,10 @@ Paths below are written in diagrammatic order;
 
 | Hom-category | Simplex model | Image of the indicated path |
 | --- | --- | --- |
-| `WalkingAdjunction(+,+)` | `Δ₊` | `(fg)^n ↦ [n-1]`, with `n=0` giving `∅` |
-| `WalkingAdjunction(-,-)` | `Δ₊ᵒᵖ` | `(gf)^n ↦ [n-1]ᵒᵖ`, or `[n]` in `Δ_∂` |
-| `WalkingAdjunction(-,+)` | `Δ_top` | `(gf)^n g ↦ [n]` |
-| `WalkingAdjunction(+,-)` | `Δ_bot` | `(fg)^n f ↦ [n]` |
+| `hom(+,+)` | `Δ₊` | `(fg)^n ↦ [n-1]`, with `n=0` giving `∅` |
+| `hom(-,-)` | `Δ₊ᵒᵖ` | `(gf)^n ↦ [n-1]ᵒᵖ`, or `[n]` in `Δ_∂` |
+| `hom(-,+)` | `Δ_top` | `(gf)^n g ↦ [n]` |
+| `hom(+,-)` | `Δ_bot` | `(fg)^n f ↦ [n]` |
 
 Identify vertical composition with composition in these categories. Give the
 formulas for all eight horizontal composition functors using ordinal sum and
@@ -300,28 +315,62 @@ whiskered units and counits on finite ordinals, and a generation/normal-form
 result that shows the hom descriptions have exactly the stipulated relations.
 The construction and universal property must describe the same 2-category.
 
-**Checks.** The empty endopaths correspond to `∅` in the two augmented
-hom-categories, and the empty endopath at `-` corresponds to `[0]` in the
-interval model. The unit is `∅ → [0]` in `Δ₊`; the counit is that arrow in
-`Δ₊ᵒᵖ`. The cell `g ◁ η` is the top-preserving map `[0] → [1]` taking `0` to
-`1`, while `η ▷ f` is the bottom-preserving map taking `0` to `0`. Their
-composites with the respective counit whiskerings give the two identity maps
-on `[0]`. The two unit insertions `(fg) → (fg)^2` give the two distinct maps
-`[0] → [1]` in `Δ₊`. The universal extension into `K` recovers the full unit
-and counit of its chosen adjunction.
+**API.**
 
-With this generating quiver `WalkingAdjunction` is not representable: there
-is no generator from `+` to itself, or from `-` to itself, to represent even
-the empty paths. Verify this explicitly. The example tests M1.3 before any
-representation is chosen; it must not impose a representation as a hypothesis.
+- For the walking adjunction: its generating paths and 2-cells, generation and
+  relations, universal extension, evaluation on generators, and extensionality.
+- For the endpoint subcategories: inclusion functors, identity and composition,
+  map extensionality, endpoint formulas, and restricted faces and degeneracies.
+- For the cut duality: factorization of the existing `SimplexCategory.II` with
+  opposites arranged as above, empty-ordinal extension, inverse, and comparison
+  identities; for the top/bottom duality, the adjoint order maps and inverse laws.
+- For the four hom-category isomorphisms: forward and inverse functors, path
+  and generator formulas, and compatibility with vertical composition and all
+  eight horizontal composition functors.
 
-*Needs:* M1.3; Mathlib `SimplexCategory`, `AugmentedSimplexCategory`, ordinal
-sum, category opposites, wide subcategories, `StrictPseudofunctor`, and
-bicategorical adjunctions. The endpoint subcategories, finite-ordinal dualities,
-walking adjunction, and hom-category comparisons are targets here.
+**Checks.**
+
+- The empty endopaths correspond to `∅` in the two augmented hom-categories.
+- The empty endopath at `-` corresponds to `[0]` in the interval model.
+- The unit is `∅ → [0]` in `Δ₊`.
+- The counit is that arrow in `Δ₊ᵒᵖ`.
+- The cell `g ◁ η` is the top-preserving map `[0] → [1]` taking `0` to `1`.
+- The cell `η ▷ f` is the bottom-preserving map `[0] → [1]` taking `0` to `0`.
+- Each of these maps composed with its respective counit whiskering gives the
+  identity map on `[0]`.
+- The two unit insertions `(fg) → (fg)^2` give the two distinct maps
+  `[0] → [1]` in `Δ₊`.
+- The universal extension into `K` recovers the full unit and counit of its
+  chosen adjunction.
+- With this generating quiver the walking adjunction is not representable:
+  there is no generator from `+` to itself, or from `-` to itself, to represent
+  even the empty paths. The example must not assume a representation.
+
+*Needs:* M1.3; Mathlib `SimplexCategory`, `AugmentedSimplexCategory`,
+`SimplexCategory.II`, ordinal sum, category opposites, wide subcategories,
+`StrictPseudofunctor`, and bicategorical adjunctions. The endpoint subcategories,
+the cut functor's factorization, empty-ordinal extension and inverse, the
+top/bottom duality, walking adjunction, and hom-category comparisons are targets
+here.
 *References:* Schanuel–Street, pp. 81–83; Riehl–Verity, Proposition 3.3.4,
 Observation 3.3.6, and Remark 3.3.8. The latter fixes the `+,-` and top/bottom
 conventions used in this table.
+
+### Examples
+
+- The one-object example with empty generating quivers distinguishes a strict
+  path double category from a representable one (M1.2).
+- The walking adjunction computes all four hom-categories and tests the
+  one-directional interface without a representation (M1.4).
+
+### Dependencies
+
+- M1.1 uses Mathlib categories, functors, isomorphisms, and equality transport.
+- M1.2 uses M1.1 and Mathlib paths and bicategories.
+- M1.3 uses M1.1, the horizontal constructions of M1.2, and Mathlib strict
+  bicategories and adjunctions.
+- M1.4 uses M1.3 and the simplex, cut-functor, wide-subcategory, and strict-functor
+  APIs listed above. It is not a prerequisite for M2 or M3.
 
 ## M2: the strict comparison as the first structural test
 
@@ -337,6 +386,13 @@ sense of Mathlib's `Bicategory.Strict` including the coherence-isomorphism field
 Extend this expansion to strict double functors. Export evaluation on empty,
 singleton, and concatenated paths and the resulting cell and pasting formulas.
 
+**API.**
+
+- Path evaluation on empty, singleton, and concatenated paths.
+- Expanded cells, identities, pastings, and chosen binary/nullary representations.
+- Strictness of both induced bicategories, including their coherence fields.
+- Expansion of strict double functors and preservation of identity and composition.
+
 *Needs:* M1.1–M1.2; Mathlib paths and `Bicategory.Strict`.
 
 ### M2.2 — Extract squares
@@ -350,6 +406,13 @@ comparisons. Prove the full strict axioms, including interchange. Extend this
 construction to represented strict functors and isomorphisms. Export formulas
 for the extracted cells, identities, both pastings, and maps on squares.
 
+**API.**
+
+- Extracted squares, identities, and both pastings through representation comparisons.
+- All strict double-category laws, including interchange.
+- Extraction of represented strict functors and isomorphisms, formulas on
+  squares, and preservation of identity and composition.
+
 *Needs:* M1.1–M1.2; strictness of both induced bicategories as hypotheses.
 
 ### M2.3 — Compare in both directions
@@ -362,20 +425,41 @@ chosen representations, naturality in strict functors, and compatibility with
 functor composition. These comparisons must identify square operations, not
 just establish bijections of their carriers.
 
-**Checks and examples for M2.** Evaluate both comparisons on objects, generators,
-empty-boundary cells, squares, and horizontally and vertically pasted pairs.
-Use a concrete strict double category with nontrivial cells, for example the
-quintet double category of a strict 2-category; construct that test example as
-part of this milestone. It must exercise interchange. Expansion evaluates `[]`
-to an identity arrow and `[f,g]` to `f ≫ g`. Extraction after expansion recovers
-each original square and both of its original pasting operations. In the other
-direction, a cell with a length-three boundary is recovered after conjugation
-by the derived representation comparisons, with the inverse conjugations
-cancelling.
+**API.**
+
+- Both comparison double isomorphisms, their inverse laws, and formulas on
+  objects, generators, and arbitrary path cells.
+- Preservation of the chosen representations and both square operations.
+- Naturality in strict functors and compatibility with functor composition.
+
+**Checks.**
+
+- Expansion evaluates `[]` to an identity arrow.
+- Expansion evaluates `[f,g]` to `f ≫ g`.
+- Extraction after expansion recovers each original square.
+- Extraction after expansion recovers horizontal pasting.
+- Extraction after expansion recovers vertical pasting.
+- Both comparisons recover the indicated objects and generators.
+- Both comparisons on an arbitrary cell with empty boundaries give the
+  corresponding cell after the specified boundary identifications.
+- In the other direction, a cell with a length-three boundary is recovered
+  after conjugation by the derived representation comparisons, with the
+  inverse conjugations cancelling.
 
 *Needs:* M2.1–M2.2. The quintet test uses Mathlib's strict bicategories.
 *Reference:* Fairbanks–Shulman, Definition 3.12 and Corollary 3.14,
 using the construction in the proof of Proposition 3.13.
+
+### Examples
+
+Construct the quintet double category of a strict 2-category with nontrivial
+2-cells. Apply expansion, extraction, and both comparisons to it, and compute
+a middle-four grid to exercise interchange.
+
+### Dependencies
+
+- M2.1 and M2.2 use M1.1–M1.2; M2.2 assumes strictness of both induced bicategories.
+- M2.3 uses M2.1–M2.2. The quintet example uses Mathlib's strict bicategories.
 
 ## M3: mates for an arbitrary bicategory
 
@@ -399,13 +483,25 @@ correspondence between specified adjunctions in `K` and adjunctions between
 singleton paths in this implicit 2-category, with the unit/counit and composite
 comparison formulas. No quotient of the genuine 2-cells of `K` is allowed.
 
-**API and checks.** Export evaluation and concatenation-comparison formulas,
-their naturality, and the comparison with `K` on objects, 1-cells, 2-cells,
-coherence, and adjunctions. Evaluation of `[]`, `[f]`, `[f,g]`, and `[f,g,h]`
-is respectively `𝟙`, `f`, `f ≫ g`, and `(f ≫ g) ≫ h`. The comparison
-`eval ([f] ++ [g,h]) ≅ eval [f] ≫ eval [g,h]` is the associator
-`(f ≫ g) ≫ h ≅ f ≫ (g ≫ h)`; empty-factor cases are inverse unitors.
-For singleton paths the recovered 2-cell type is exactly `f ⟶ g` in `K`.
+**API.**
+
+- Evaluation and concatenation-comparison formulas, naturality, and
+  associativity compatibility, including change of bracketing.
+- Strict path 2-cell composition and whiskering, and binary/nullary representations.
+- Comparison with `K` on objects, 1-cells, 2-cells, and coherence.
+- Adjunction transfer and inverse laws, with unit, counit, and composite formulas.
+
+**Checks.**
+
+- Evaluation of `[]` is `𝟙`.
+- Evaluation of `[f]` is `f`.
+- Evaluation of `[f,g]` is `f ≫ g`.
+- Evaluation of `[f,g,h]` is `(f ≫ g) ≫ h`.
+- The comparison `eval ([f] ++ [g,h]) ≅ eval [f] ≫ eval [g,h]` is the
+  associator `(f ≫ g) ≫ h ≅ f ≫ (g ≫ h)`.
+- An empty left factor gives the inverse left unitor.
+- An empty right factor gives the inverse right unitor.
+- For singleton paths the recovered 2-cell type is exactly `f ⟶ g` in `K`.
 
 *Needs:* M1.3; Mathlib `Bicategory/Coherence.lean` and bicategorical adjunctions.
 *Reference:* Fairbanks–Shulman, Proposition 2.5 and comparisons 2.7, 2.9–2.10.
@@ -438,18 +534,26 @@ reversal explicitly when comparing vertical composition and coherence with
 Mathlib's `Bicategory.Adj`. If a packaged local-opposite construction is needed
 for that comparison, build its bicategory instance here.
 
-**API and checks.** Export the `L(K)` and `R(K)` cell types, identity and
-pasting formulas, all four binary/nullary representation families, and the
-horizontal and vertical globular identifications. For a vertical globular cell
-from `F` to `F'`, compute the left component as `τ : F'.l ⟶ F.l` and the right
-component as `Bicategory.conjugateEquiv F.adj F'.adj τ : F.r ⟶ F'.r`, after
-the unitor identifications of the globular cell types.
-For `F = F'` and `τ = 𝟙`, the latter is `𝟙` by `conjugateEquiv_id`.
-For the horizontal identity square on `F`, the `L` formula is
-`(λ_ F.l).hom ≫ (ρ_ F.l).inv` and the `R` formula is
-`(ρ_ F.r).hom ≫ (λ_ F.r).inv`; these include the necessary unitors even when
-the boundary paths are empty. Evaluate a binary vertical composite to verify
-that its right adjoint is `G₂ ≫ G₁`, in that order.
+**API.**
+
+- The `L(K)` and `R(K)` cell types, identities, pasting formulas, and strict
+  implicit double-category axioms.
+- All four binary/nullary representation families and their derived comparisons.
+- Horizontal and vertical globular identifications, including the reversal in
+  `Bicategory.Adj.Hom₂` and its effect on composition and coherence.
+
+**Checks.**
+
+- For a vertical globular cell from `F` to `F'`, its left component is
+  `τ : F'.l ⟶ F.l` and its right component is
+  `Bicategory.conjugateEquiv F.adj F'.adj τ : F.r ⟶ F'.r`, after the unitor
+  identifications of the globular cell types.
+- For `F = F'` and `τ = 𝟙`, the right component is `𝟙` by `conjugateEquiv_id`.
+- The horizontal identity square on `F` in `L` is
+  `(λ_ F.l).hom ≫ (ρ_ F.l).inv`, including for empty boundary paths.
+- The horizontal identity square on `F` in `R` is
+  `(ρ_ F.r).hom ≫ (λ_ F.r).inv`, including for empty boundary paths.
+- The right adjoint of a binary vertical composite is `G₂ ≫ G₁`, in that order.
 
 *Needs:* M1.1–M1.2, M3.1; Mathlib `Bicategory.Adj.Hom`,
 `Bicategory.Adj.Hom₂`, and `Adjunction.comp`/`Adjunction.id` in the bicategory
@@ -475,20 +579,52 @@ they apply. Additional unit/counit characterizations belong in the general
 bicategory API when needed for these boundary operations; do not duplicate
 the ordinary-category theory wholesale.
 
-**Checks.** State the construction with only `[Bicategory K]`.
-Verify empty boundaries, both identity cells, binary and triple pasting, a
-middle-four grid, a nontrivial change of bracketing, and both inverse laws.
-Singleton-boundary action must reduce to the existing mate equivalence after
-the stated boundary identifications. In particular, compute the mate of M3.2's
-horizontal identity square using
-`Bicategory.mateEquiv_leftUnitor_hom_rightUnitor_inv`: it is the displayed
-`R` identity square. Tests must not silently add strictness.
+**API.**
+
+- The represented strict double functor of mates, its inverse, and the two
+  equalities of composite functors with identities.
+- Cell formulas on singleton and arbitrary path boundaries, inverse formulas,
+  and preservation of identities, pastings, and chosen representations.
+- Preservation of derived path comparisons and underlying bicategory coherence.
+- Compatibility with horizontal boundary 2-cells and conjugate changes of
+  adjunctions, including invertible and coherence cases.
+
+**Checks.** State the construction with only `[Bicategory K]`; tests must not
+silently add strictness.
+
+- Singleton-boundary action reduces to the existing mate equivalence after
+  the stated boundary identifications.
+- Empty-boundary action agrees with the globular formulas of M3.2.
+- The mate of M3.2's horizontal identity square is its displayed `R` identity
+  square, by `Bicategory.mateEquiv_leftUnitor_hom_rightUnitor_inv`.
+- The vertical identity square maps to the corresponding `R` identity square.
+- Horizontal pasting agrees with pasting of the mates.
+- Vertical pasting agrees with pasting of the mates.
+- Triple pasting respects the concatenation comparisons.
+- The two orders of a middle-four grid give the same mate.
+- A nontrivial change of bracketing commutes with taking mates.
+- The inverse functor after the mates functor fixes each path cell.
+- The mates functor after the inverse functor fixes each path cell.
 
 *Needs:* M3.2; Mathlib `Bicategory.mateEquiv`, `mateEquiv_vcomp`,
 `mateEquiv_hcomp`, `mateEquiv_square`, and `conjugateEquiv`.
 *Reference:* Fairbanks–Shulman, Example 3.10. Its brief construction specifies
 the mathematical example; proving its pasting, representation, and preservation
 laws is part of M3.2–M3.3.
+
+### Examples
+
+- Evaluate the construction on singleton adjunctions and empty horizontal
+  boundaries to recover the conjugate equivalence, with the unitors of M3.2.
+- Use a length-three path in an arbitrary bicategory to test the associator
+  comparison and its compatibility with mates before imposing strictness.
+
+### Dependencies
+
+- M3.1 uses M1.3 and Mathlib bicategory coherence and adjunctions.
+- M3.2 uses M1.1–M1.2, M3.1, and the specified-adjunction API in `Bicategory.Adj`.
+- M3.3 uses M3.2 and Mathlib's mate, pasting, and conjugate equivalences.
+- Neither M2 nor the walking-adjunction example M1.4 is a prerequisite for M3.
 
 ## M4: strict specialization and the Kelly–Street isomorphism
 
@@ -513,17 +649,43 @@ This is a consistency test. Preserve the existing ordinary-category API with
 independent universe levels for its four categories; do not replace it by the
 fixed-universe global construction or claim that it has the same generality.
 
-**API and checks.** Export strictness of both induced bicategories, the strict
-double isomorphism and its square formula, and compatibility with the M2
-comparisons. Check both double inverse laws, both pasting directions, and
-identity cells. For three specified adjunctions, compare the units and counits
-of the two parenthesized composites, as well as their left and right adjoints.
-In fixed `Cat`, the square map is the ordinary mate under
-`Bicategory.toNatTrans_mateEquiv`.
+**API.**
+
+- Strictness of both induced bicategories, including the full specified
+  adjunction structures and coherence isomorphisms in the vertical direction.
+- The strict double isomorphism and its square formula as `Bicategory.mateEquiv`.
+- Compatibility with M2's expansion/extraction comparisons.
+- The fixed-`Cat` comparison through `Bicategory.toNatTrans_mateEquiv`.
+
+**Checks.**
+
+- The inverse after the strict mates functor is the identity double functor.
+- The strict mates functor after its inverse is the identity double functor.
+- The square map preserves horizontal pasting.
+- The square map preserves vertical pasting.
+- The square map preserves horizontal identity cells.
+- The square map preserves vertical identity cells.
+- Composing with an identity adjunction recovers the full specified adjunction.
+- For three specified adjunctions, the two parenthesized composites have equal
+  units and counits, as well as equal left and right adjoints.
+- In fixed `Cat`, the square map is the ordinary mate under
+  `Bicategory.toNatTrans_mateEquiv`.
 
 *Needs:* M2 and M3; Mathlib `Bicategory.Strict` and
 `Bicategory/Adjunction/Cat.lean`. *References:* Kelly–Street, Proposition 2.2;
 Cheng–Gurski–Riehl, Definition 1.1 and Theorem 1.2.
+
+### Examples
+
+- Specialize to a strict 2-category and compute the Kelly–Street isomorphism
+  on a square and its two pastings.
+- Use fixed `Cat.{v,u}` for the ordinary-category consistency test, retaining
+  the independent universe levels of the existing local mates API.
+
+### Dependencies
+
+- M4 uses the comparison from M2 and the general mates isomorphism from M3.
+- Library inputs are Mathlib `Bicategory.Strict` and `Bicategory/Adjunction/Cat.lean`.
 
 ## Exact supplier contracts
 
@@ -547,6 +709,13 @@ Cheng–Gurski–Riehl, Definition 1.1 and Theorem 1.2.
   their relations. `Augmented/Basic.lean` supplies `AugmentedSimplexCategory`
   as `WithInitial SimplexCategory`; `Augmented/Monoidal.lean` supplies ordinal
   sum. M1.4 builds its endpoint subcategories and comparisons using these APIs.
+- `Mathlib/AlgebraicTopology/SimplicialObject/II.lean` supplies
+  `SimplexCategory.II : SimplexCategory ⥤ SimplexCategoryᵒᵖ`, with object
+  `[n] ↦ [n+1]ᵒᵖ`, and its cut map `II.map'`. The endpoint lemmas
+  `II.map'_zero` and `II.map'_last` and functoriality lemmas `II.map'_id` and
+  `II.map'_map'` supply the nonempty-ordinal part of M1.4's cut duality.
+  M1.4 adds the endpoint-subcategory factorization, empty-ordinal extension,
+  inverse functor, and comparison identities.
 - `Mathlib/CategoryTheory/Widesubcategory.lean` supplies wide subcategories;
   `Bicategory/Functor/StrictPseudofunctor.lean` supplies the strict functors
   used in M1.4's universal property.
