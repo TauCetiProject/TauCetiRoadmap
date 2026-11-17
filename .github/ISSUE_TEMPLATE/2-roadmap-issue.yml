@@ -87,6 +87,7 @@ body:
         - DeRhamCohomologyAndDuality
         - DeformationAndDerivedPatchingAlgebra
         - DeformationAndDerivedPatchingAlgebraPartII
+        - DeligneWeightsAndPurity
         - DerivedDeRhamCohomology
         - DerivedModuleAlgebra
         - DiagrammaticCoherence
@@ -97,6 +98,7 @@ body:
         - DimerModelsAndLozengeTilings
         - DiophantineApproximationAndTranscendence
         - DiophantineApproximationAndTranscendencePartII
+        - DiracScatteringAndNonlinearFourierTransform
         - DirectSummandsAndBigCohenMacaulay
         - DysonBrownianMotion
         - ECM
@@ -109,6 +111,7 @@ body:
         - EquivariantIntersectionTheory
         - EtaleCohomologyFoundations
         - EtaleMassFormula
+        - EulerSystemsAndKolyvaginSystems
         - ExplicitPrimeCounting
         - ExplicitZetaBounds
         - ExponentialCone
@@ -128,6 +131,7 @@ body:
         - FreeProbability
         - FuchsianOrbifolds
         - FukayaTheory
+        - GL2AutomorphicRepresentationsAndTransfer
         - GaugeQuiltFieldTheory
         - GaussianIsoperimetryAndClusters
         - GeneralAlgebraicKTheory
@@ -171,6 +175,7 @@ body:
         - JacobianChallengePartII
         - K2SymbolsBrauer
         - K3Surfaces
+        - KTheoryFiniteLocalFields
         - KTheoryLowDegrees
         - KacMoody
         - KhovanovHomology
