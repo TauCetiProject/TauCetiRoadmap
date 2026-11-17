@@ -71,11 +71,11 @@ numerical constant of Layer 10 is a closed-form rational inequality stated with 
 - zero detection for finite-order Hecke `L`-functions: zero-free rectangles with a margin, chosen by
   pigeonhole, upper bounds for the detecting polynomials in them, and the lower bounds that a zero
   forces on those polynomials (Layer 7);
-- Patterson's character `κ_P` of `Γ₂ ⊂ SL₂(𝓞_F)`, automorphic functions on `ℍ³` with a unitary
-  character, their Eisenstein series, continuation and functional equations, the theta functions as
-  residues, the Gauss-sum Dirichlet series of the Kubota Eisenstein coefficients, Patterson's
-  converse theorem and the cubic theta function of `ℚ(ω)` with its expansions at three cusps
-  (Layer 8);
+- Patterson's character `κ_P` of `Γ₂ ⊂ SL₂(𝓞_F)`, the cusps and cusp stabilizers of a discrete
+  subgroup of `SL₂(ℂ)` of finite type, automorphic functions on `ℍ³` with a unitary character, their
+  Eisenstein series, continuation and functional equations, the theta functions as residues, the
+  Gauss-sum Dirichlet series of the Kubota Eisenstein coefficients, Patterson's converse theorem and
+  the cubic theta function of `ℚ(ω)` with its expansions at three cusps (Layer 8);
 - the reflection of the completed Gauss-sum series through the cubic theta function, and their mean
   square over the frequencies (Layer 9);
 - the probe at `11/12` and the `11/12` half-plane (Layer 10);
@@ -124,10 +124,13 @@ numerical constant of Layer 10 is a closed-form rational inequality stated with 
   `TauCeti.GlobalNumberFields.isBigO_rayClassIdealCountingFunction_sub`; the residue itself:
   Mathlib `NumberField.Ideal.tendsto_norm_le_div_atTop`. §3.5 reads the ideal count of `ℤ[ω]` off
   them.
-- Bianchi groups, the hyperbolic quotient and cusps: BianchiModularForms §§0.3–0.4; the Laplacian
-  on `ℍ³`: MaassForms §7.1. MaassForms §7.3 states the Fourier–Bessel expansion for `PSL₂(ℤ[i])` with
-  trivial character; §8.2 here is the expansion for a cofinite `Γ` with a unitary character at an
-  essential cusp, and agrees with it under `μ = n/2`. The `K`-Bessel function:
+- The Möbius action of `SL₂(ℂ)` on `ℍ³`, discrete and cofinite subgroups, fundamental domains and
+  Dirichlet domains: KleinianGroups Layers 0–2. Bianchi groups, the hyperbolic quotient and the cusps
+  of a subgroup of `GL₂(K)`: BianchiModularForms §§0.3–0.4; §8.2 here defines the cusps of every
+  discrete subgroup of `SL₂(ℂ)` and agrees with §0.4 on the finite-index subgroups of `SL₂(𝓞_K)`. The
+  Laplacian on `ℍ³`: MaassForms §7.1. MaassForms §7.3 states the Fourier–Bessel expansion for
+  `PSL₂(ℤ[i])` with trivial character; §8.2 here is the expansion for a `Γ` of finite type with a
+  unitary character at an essential cusp, and agrees with it under `μ = n/2`. The `K`-Bessel function:
   [AutomorphicFormsOnReductiveGroups](../AutomorphicFormsOnReductiveGroups/README.md) §4.5;
   analytic Fredholm continuation: AutomorphicSpectralTheory §0.16.
 - The least quadratic nonresidue `SieveApplications.leastNonresidue`:
@@ -379,6 +382,14 @@ order, used in Checks); §3.4 (the
 duplication formula `g(χ) g(χη) = χ(4)⁻¹ g(χ²) g(η)` in odd characteristic, `η` the quadratic
 character, for every `χ`).
 
+### From TauCetiRoadmap.KleinianGroups
+
+Layer 0 (the Möbius action of `SL₂(ℂ)`, through `PSL₂(ℂ)`, on `ℍ³` by isometries preserving the
+volume `v⁻³ dx dy dv`), Layer 1 (a discrete subgroup of `PSL₂(ℂ)` acts properly discontinuously and
+has a measurable fundamental domain; a subgroup is cofinite when it is discrete and of finite
+covolume) and Layer 2 (the Dirichlet domain of a discrete subgroup, centred at a point with trivial
+stabilizer, is a fundamental domain), used in §§8.2 and 8.4.
+
 ### From TauCetiRoadmap.BianchiModularForms
 
 §0.3 (discreteness and finite covolume of the image of `Γ₀(𝔫, 𝔞)`, and of `PSL₂(𝓞_K)`, acting on
@@ -434,8 +445,9 @@ field to Dirichlet `L`-functions, and uses Layer 1 (§§1.1–1.2). Layers 6 (la
 (Kubota's character and theta functions) are self-contained supplier blocks: of this roadmap's
 layers, Layer 6 needs Layers 2–4 and Layer 8 needs Layers 2 and 4; beyond them Layer 6 uses the
 Hecke functional equation of LFunctions Layer 5 and Poisson summation (ThetaSeries Layer 1), and
-Layer 8 Kubota's homomorphism, the Bianchi groups, the Laplacian on `ℍ³`, the `K`-Bessel function
-and analytic Fredholm continuation (KTheoryLowDegrees, BianchiModularForms, MaassForms,
+Layer 8 Kubota's homomorphism, the Möbius action and fundamental domains on `ℍ³`, the Bianchi
+groups, the Laplacian on `ℍ³`, the `K`-Bessel function and analytic Fredholm continuation
+(KTheoryLowDegrees, KleinianGroups, BianchiModularForms, MaassForms,
 AutomorphicFormsOnReductiveGroups, AutomorphicSpectralTheory); neither needs Layers 7 or 9–11.
 Layer 7 detects zeros of Hecke `L`-functions by large values of short Dirichlet polynomials and
 needs Layers 1 (§1.2), 3 and 5.
@@ -1631,10 +1643,26 @@ power-residue Mennicke symbol).
 
 ### 8.2 Automorphic functions on `ℍ³` with a unitary character
 
-Let `Γ ⊂ SL₂(ℂ)` be a discrete group of finite type (cofinite, with every boundary point of a
-fundamental domain a cusp) and `χ` a unitary character of `Γ`. A cusp `c` is *essential* for `χ`
-when `χ` is trivial on its stabilizer `Γ_c`. Define the automorphic functions of `(Γ, χ)`: smooth
-`f` on `ℍ³` with `f(γw) = χ(γ) f(w)` (`kubota1968` §§2–3, pp. 262–264).
+Let `Γ ⊂ SL₂(ℂ)` be a discrete subgroup, acting on `ℍ³` by the Möbius action of KleinianGroups
+Layer 0 and on `ℙ¹(ℂ) = ℂ ∪ {∞}` by fractional linear maps. A parabolic element `γ` (trace `±2`,
+`γ ≠ ±1`) fixes exactly one `c ∈ ℙ¹(ℂ)`, and `σ⁻¹ γ σ = ±(1 x; 0 1)` with `x ≠ 0` for each
+`σ ∈ SL₂(ℂ)` with `σ ∞ = c`; another such `σ` multiplies every such `x` by one common nonzero factor.
+A *cusp* of `Γ` is a point `c ∈ ℙ¹(ℂ)` fixed by two parabolic elements of `Γ` whose `x` are
+`ℝ`-linearly independent, and `Γ_c` is its stabilizer in `Γ`. `Γ` is *of finite type* when its image
+in `PSL₂(ℂ)` is cofinite (discrete, of finite covolume; KleinianGroups Layer 1) and `Γ` has a
+fundamental domain whose closure in `ℍ³ ∪ ℙ¹(ℂ)` meets `ℙ¹(ℂ)` only in cusps of `Γ` (`kubota1968`
+§2, pp. 262–263). Prove, for `Γ` of finite type: `Γ` has finitely many orbits of cusps; and for a
+cusp `c` and `σ_c ∈ SL₂(ℂ)` with `σ_c ∞ = c`, every element of `σ_c⁻¹ Γ_c σ_c` is `(u x; 0 u⁻¹)` with
+`u` in a finite group `U_c` of roots of unity, and the elements with `u = 1` form a subgroup
+isomorphic to `ℤ²`, the translations by a lattice `Λ_c ⊂ ℂ`, of index `|U_c|` in `σ_c⁻¹ Γ_c σ_c`
+(`kubota1968` §2, pp. 262–263, which takes the fundamental domain to be a finite-sided Dirichlet
+polyhedron, KleinianGroups Layer 2, and §4, p. 265). A finite-index subgroup of `SL₂(𝓞_K)`, for
+`K` imaginary quadratic embedded in `ℂ`, is of finite type (BianchiModularForms §0.3), its cusps are
+the points of `ℙ¹(K)`, and its cusp orbits and stabilizers are those of BianchiModularForms §0.4.
+
+Let `Γ` be of finite type and `χ` a unitary character of `Γ`. A cusp `c` is *essential* for `χ`
+when `χ` is trivial on `Γ_c`, a property of the `Γ`-orbit of `c`. Define the automorphic functions
+of `(Γ, χ)`: smooth `f` on `ℍ³` with `f(γw) = χ(γ) f(w)` (`kubota1968` §§2–3, pp. 262–264).
 
 - At an essential cusp with `σ_c ∞ = c` and translation lattice of `σ_c⁻¹ Γ_c σ_c` of covolume one, a
   `Δ₃`-eigenfunction `f` with eigenvalue `s(2 − s)` and moderate growth has the expansion
@@ -1646,16 +1674,25 @@ when `χ` is trivial on its stabilizer `Γ_c`. Define the automorphic functions 
 **Checks.**
 
 - `Γ = SL₂(𝓞)`, `χ = 1`: every cusp is essential, and the constant function has `α = 1`, `s = 0`.
+- `Γ = SL₂(ℤ[i])`, `c = ∞`, `σ_c = 1`: `Γ_∞` is the set of `(u x; 0 u⁻¹)` with `u ∈ {±1, ±i}` and
+  `x ∈ ℤ[i]`, so `U_∞ = {±1, ±i}` and `Λ_∞ = ℤ[i]`, of index `4`. The parabolic elements of `Γ_∞`
+  with `1` are not a group, since `−(1 1; 0 1) · (1 −1; 0 1) = −1` is not parabolic: the lattice
+  is the subgroup `u = 1`, not the set of parabolic elements.
+- For `T = (1 π; 0 1)` the group `T SL₂(ℤ[i]) T⁻¹` is of finite type, contains
+  `T (1 0; 1 1) T⁻¹ = (1 + π, −π²; 1, 1 − π)`, whose entries lie in no number field, and its cusps
+  are `∞` and the points of `π + ℚ(i)`, none of which lies in `ℙ¹(K)` for a number field `K`: the
+  definition of a cusp presupposes no field.
 - `Γ₂` with `κ_P`: `∞` is essential (`κ_P = 1` on the upper triangular elements of `Γ₂`).
 - `Δ₃ (v K_{1/3}(4π|μ|v) ě(μz)) = (8/9) · (v K_{1/3}(4π|μ|v) ě(μz))`: order `s − 1 = 1/3` gives
   `s(2 − s) = 8/9`; the order `1/3` with eigenvalue `1 − 1/9` is the theta eigenvalue of §8.5.
-- `Γ = PSL₂(ℤ[i])`, `χ = 1`, the cusp `∞`: the translation lattice is `ℤ[i]`, of covolume one, and its
+- `Γ = SL₂(ℤ[i])`, `χ = 1`, the cusp `∞`: the translation lattice is `ℤ[i]`, of covolume one, and its
   dual `{μ : Tr(μb) ∈ ℤ for all b ∈ ℤ[i]}` is `(1/2)ℤ[i]`; at `μ = n/2` with `n ∈ ℤ[i]`,
   `ě(μz) = exp(4πi Re(nz/2)) = e(Re(nz))` and `4π|μ| = 2π|n|`, and `K_{s−1} = K_{ir}` at `s = 1 + ir`, so
   the expansion is MaassForms §7.3's `y K_{ir}(2π|n|y) e(Re(n x))`; taking the dual lattice to be `ℤ[i]`
   would keep only the even frequencies `n ∈ 2ℤ[i]`.
 
-*Needs:* BianchiModularForms §§0.3–0.4; MaassForms §7.1; AutomorphicFormsOnReductiveGroups §4.5.
+*Needs:* KleinianGroups Layers 0–2; BianchiModularForms §§0.3–0.4; MaassForms §7.1;
+AutomorphicFormsOnReductiveGroups §4.5.
 
 ### 8.3 Eisenstein series at essential cusps
 
@@ -1693,12 +1730,12 @@ p. 129).
 
 ### 8.4 Continuation and functional equations
 
-For `(Γ, χ)` as in §8.2 with `h` essential cusps, prove: each `E_i(w, s, χ)` continues to a meromorphic
-function of `s ∈ ℂ`; with `ℰ = (E_1, …, E_h)` and `Φ(s, χ) = (φ_ij(s, χ))`, `ℰ` and `Φ` are holomorphic on
-`Re s ≥ 1` except for finitely many simple poles in `(1, 2]`, the point `2` being a pole exactly when
-`χ` is trivial (residue a constant), `Φ(1 + it, χ)` is unitary, `Φ(s, χ) Φ(2 − s, χ) = I` and
-`ℰ(w, s, χ) = Φ(s, χ) ℰ(w, 2 − s, χ)`; the residue of `ℰ` at a pole in `(1, 2]` is square integrable on
-`Γ \ ℍ³` and a `Δ₃`-eigenfunction with eigenvalue `s(2 − s)` (`kubota1968` §3, p. 265, and §4, (28)–(29), p. 268;
+For `(Γ, χ)` as in §8.2 with `h` orbits of essential cusps, represented by `κ_1, …, κ_h`, prove: each
+`E_i(w, s, χ)` continues to a meromorphic function of `s ∈ ℂ`; with `ℰ = (E_1, …, E_h)` and
+`Φ(s, χ) = (φ_ij(s, χ))`, `ℰ` and `Φ` are holomorphic on `Re s ≥ 1` except for finitely many simple
+poles in `(1, 2]`, the point `2` being a pole exactly when `χ` is trivial (residue a constant),
+`Φ(1 + it, χ)` is unitary, `Φ(s, χ) Φ(2 − s, χ) = I` and `ℰ(w, s, χ) = Φ(s, χ) ℰ(w, 2 − s, χ)`; the
+residue of `ℰ` at a pole in `(1, 2]` is square integrable on `Γ \ ℍ³` and a `Δ₃`-eigenfunction with eigenvalue `s(2 − s)` (`kubota1968` §3, p. 265, and §4, (28)–(29), p. 268;
 `patterson1977` §3, (3.9)–(3.11), pp. 130–131; `kubota1968` p. 265 writes the open interval `1 < s < 2`,
 and the pole at `s = 2` for trivial `χ` is the one of §8.3's example, where `ζ_K(s − 1)` has its pole).
 Route: the Maass–Selberg relations for truncated Eisenstein series (`patterson1977` (3.9)–(3.10)) and
@@ -1715,7 +1752,8 @@ Kubota character, whose kernel is not a congruence subgroup, it is not covered t
 - `(Γ₂, κ_P)`: the pole of interest is at `4/3` (§8.7), inside `(1, 2)`, with eigenvalue `8/9`.
 - On `Re s = 1` there is no pole and `|φ_ii(1 + it)| ≤ 1` by unitarity.
 
-*Needs:* §§8.2–8.3; MaassForms §7.1; BianchiModularForms §0.3; AutomorphicSpectralTheory §§0.15–0.16.
+*Needs:* §§8.2–8.3; KleinianGroups Layer 1; MaassForms §7.1; BianchiModularForms §0.3;
+AutomorphicSpectralTheory §§0.15–0.16.
 
 ### 8.5 Theta functions as residues
 
@@ -1853,8 +1891,8 @@ squarefree primary `c` and `r` prime to `c`.
 ### Dependencies
 
 Layer 2 (§§2.3, 2.5), Layer 4 (§§4.1–4.3); KTheoryLowDegrees §§10.1–10.2, 11.1–11.2;
-BianchiModularForms §§0.3–0.4; MaassForms §7.1; AutomorphicFormsOnReductiveGroups §4.5;
-AutomorphicSpectralTheory §§0.15–0.16.
+KleinianGroups Layers 0–2; BianchiModularForms §§0.3–0.4; MaassForms §7.1;
+AutomorphicFormsOnReductiveGroups §4.5; AutomorphicSpectralTheory §§0.15–0.16.
 
 ## Layer 9: completed Gauss-sum series and their reflection by the cubic theta function
 
