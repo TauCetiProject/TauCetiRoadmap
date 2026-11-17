@@ -49,6 +49,18 @@ is not a prerequisite: the cubic Szegő equation is posed on the circle and its
 Hardy projection is the circle Fourier projection. It is not a target here to
 build Dirac scattering or a nonlinear Fourier transform.
 
+The wiki-linked talks are adjacent context, not sources for cubic Szegő
+theorems. Gérard's [Benjamin–Ono talk](https://www.youtube.com/watch?v=oAvOP4vjnAc)
+has English-original automatic captions; it defines a real-line Hardy space and
+Szegő/Cauchy projection (28:48–30:12), then gives a Benjamin–Ono Lax identity
+(33:22–35:08) and unitary equivalence (46:11–46:17). These are methodological
+analogies only, concerning Benjamin–Ono rather than this circle flow. Gérard's
+[half-wave talk](https://www.youtube.com/watch?v=oRIE7DcO_bs) has no YouTube
+caption track; its description concerns high-Sobolev growth from interacting
+small-mass solitons for the focusing cubic half-wave equation. This is distinct
+from the explicit \(\widetilde M(1)\) family construction in Layer 5. Neither
+talk adds a theorem-level target here.
+
 This roadmap does not cover the cubic nonlinear Schrödinger equation, the
 Grushin equation, the complete classification of traveling waves, inverse
 spectral/action-angle coordinates, or a flow on \(BMO_+\). It makes no claim
