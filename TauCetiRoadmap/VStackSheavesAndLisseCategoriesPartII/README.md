@@ -4,26 +4,9 @@
 
 The base roadmap *Artin v-stacks, solid and lisse coefficient categories* (`VStackSheavesAndLisseCategories`) stops at the following point. It defines Artin v-stacks, descends étale coefficients along smooth charts, constructs exceptional pullback for cohomologically smooth stacky maps together with its left adjoint f_! on that smooth class, and partial compact-support functors (its VS0), and develops universally locally acyclic (ULA) sheaves with their duality theory (its VS1). It constructs no exceptional pushforward for maps that are neither representable nor cohomologically smooth, such as the structure map [T_S/G_S] → S for a geometric point S, the profinite set T = Z_p with the trivial action of G = C₂ and Λ = F_ℓ: this map is fine (VS10.10) and has C₂-stabilisers, and pulled back along the finite étale chart T_S → [T_S/G_S] its dualizing complex becomes K_(T_S/S), which is not invertible (VS7.9), so it is not cohomologically smooth (VS7.8). Here the exceptional functors are constructed for all fine maps of decent v-stacks, agreeing with the base roadmap's pair on the smooth class (VS7.8), and the Lefschetz–Verdier trace formalism is built on them through Lu–Zheng's symmetric monoidal 2-category of cohomological correspondences. The end theorems are the relative Lefschetz–Verdier trace formula for v-stacks (VS9.1) with its proper-pushforward form (VS9.2), the identification of the characteristic class of an admissible object on a classifying stack with its trace distribution (VS11.4), the Künneth formula for characteristic classes (VS11.9), and the identification of characteristic classes on quotient stacks [X/G] with universal local terms (VS11.12); the deep input theorem is the existence of the exceptional functors for fine maps (VS7.5) and the identification of dualizable objects with ULA objects (VS8.9).
 
-## Scope and ownership
+## How to read the build
 
-This roadmap owns: decent v-stacks, fine, proper fine and proper nice maps, and classifying and quotient stacks of group diamonds as v-stacks (Layer VS6); the exceptional functors Rf_!, Rf^! for fine maps, the six-functor identities, the comparison of exceptional and ordinary pushforward for proper fine maps and cohomologically proper maps, relative dualizing complexes and integration (Layer VS7); dualizable objects and categorical traces in symmetric monoidal 2-categories, the 2-categories of correspondences and of cohomological correspondences of decent v-stacks, trace classes and characteristic classes (Layer VS8); the Lefschetz–Verdier trace formula, local terms, their base change and the perfect-scheme comparison (Layer VS9); the description of sheaves on constant locally profinite diamonds and on classifying stacks of locally pro-p groups, with their four operations, distributions and the module of Haar measures (Layer VS10); admissibility on classifying stacks, trace distributions, based cohomological correspondences, the Künneth formula and universal local terms (Layer VS11).
-
-It imports the following from other roadmaps, and states none of it again:
-
-- Artin v-stacks, smooth descent of D_ét, exceptional pullback for smooth stacky maps with its left adjoint on that class, ULA sheaves and their duality (Fargues–Scholze IV.1–IV.2), and the identification of sheaves on [∗/G] with smooth representations (Fargues–Scholze V.1.1): *Artin v-stacks, solid and lisse coefficient categories*, §§VS0.1–VS0.2, VS1.1–VS1.2, VS4.2 and VS5.2. The exceptional functors of Layer VS7 differ by being defined for all fine maps of decent v-stacks; on cohomologically smooth fine maps they are that pair (VS7.8).
-- Scholze's six operations for maps representable in locally spatial diamonds, cohomological smoothness, dualizing complexes and Haar-normalised averaging for profinite quotients: *Six operations, cohomological smoothness and biduality* (`DiamondSixOperations`), Layers S0–S5.
-- Diamonds, small v-stacks, proper maps of v-stacks (with their 0-truncatedness, permanence and the valuative criterion), spatial and locally spatial diamonds, relative representability, the maximal Hausdorff quotient with the comparison of its cohomology with that of a qcqs separated diamond, and the diamond of an analytic adic space: *Diamonds and v-stacks* (`DiamondsAndVStacks`), Layers D4–D6, in particular §D4.11 for properness and §D5.15 for the cohomology comparison. VS6.11 defines proper fine and proper nice maps inside that notion of properness.
-- The bound of the cohomological dimension of a spectral space by its Krull dimension: *Étale cohomology of diamonds and its four operations* (`DiamondEtaleCohomology`), §C8.44.
-- Quasicategories, derived ∞-categories of sheaves, hypercover descent, coherent diagrams, mates and adjoint functor theorems, and symmetric monoidal ∞-categories: *Enhanced derived categories of sheaves* (`EnhancedDerivedSheaves`), §§E1.4, E2.6, E3.2, E3.4 and E5:abstract.1.
-- Smooth representations, the derived smooth category, derived invariants, derived smooth duality and admissible complexes, compact generation by compact induction, locally constant compactly supported functions, ring-valued Haar measures, integration and convolution, smooth and compact induction, and the modulus character: *Smooth representations of local groups* (`SmoothRepresentationsOfLocalGroups`), §§SR.0.3, SR.0d.2, SR.1.1, SR.2.1 and SR.2.2. In particular §SR.0d.2 supplies admissibility and §SR.1.1 the ring-valued Haar measures and integration; VS10.5 equips the supplied Haar measures with the module and modulus identifications used by the geometric operations.
-- Cohomological correspondences of schemes, their trace maps and local terms, for finite ℓ-power-torsion coefficient rings and bounded constructible complexes of finite Tor dimension: *Étale duality, cycle classes and perverse sheaves* (`EtaleDualityAndPerverseSheaves`), §§6.1–6.3. The extension to arbitrary prime-to-p torsion coefficient rings, arbitrary complexes for correspondences and f-ULA complexes for local terms is required of that roadmap through the two supplier gaps stated in its contract below; VS9.7–VS9.8 keep that generality. The adic coefficient ranges of §§6.1–6.3 lie outside this roadmap's torsion convention.
-- The functor from perfect schemes to v-sheaves and Scholze's comparison c_X^* (Scholze §27): *Adic coefficients and comparison with schemes* (`AdicCoefficientsAndComparisons`), Layers L1 and L3; perfection as a universal homeomorphism with étale topological invariance: *Scheme, stack, cohomology and intersection foundations* (`SchemeAndStackFoundations`), §§0.24 and 0.23a.
-- The trace of an endomorphism of a dualizable object in a symmetric monoidal category, with cyclicity, multiplicativity, the unit value and the comparison with linear traces: `PivotalSpherical`, Layers 2 and 7. The trace of an endomorphism of a finite projective module is Tau Ceti's `LinearMap.projectiveTrace`, equal to Mathlib's `LinearMap.trace` on finite free modules; its equality with the categorical trace: `AdicSpacesPartIII` §R3.8 (target *projective-trace-realization*). The equivalence of compact and perfect objects in the derived category of a ring: `DGAInfinity` Layer 5. The identification of the perfect complexes over a commutative ring with the dualizable objects of its derived category, and of the categorical trace of an endomorphism of a perfect complex with its Lefschetz number, the alternating sum of the projective traces on a bounded finite-projective representative: *Étale cohomology foundations* (`EtaleCohomologyFoundations`), §F.10.3. VS8.1–VS8.3 own only the bicategorical extension of the trace, its trace morphisms and the symmetric monoidal Grothendieck construction (Lu–Zheng §1); VS8.4 owns only the biduality criteria for dualizability in D(Λ) (Hansen–Kaletha–Weinstein, Lemma B.1.2(2)), the form in which dualizability enters VS8.8.
-- Reflexive modules: Mathlib's `Module.IsReflexive`, with the finite projective instance `Module.instIsReflexiveOfFiniteOfProjective` (Mathlib/LinearAlgebra/Dual/Lemmas.lean, line 262) and `Module.instFiniteDimensionalOfIsReflexive` (line 284) covering the projective and residue-field cases. VS8.5 differs from these by treating arbitrary modules over truncated discrete valuation rings.
-
-This roadmap also owns the Λ-valued distribution character of VS11.3: for a smooth representation M placed in degree 0 whose invariants M^K are finite projective over Λ (for instance Λ a field and M admissible), tr.dist(M) is h ⊗ μ ↦ tr(I_(h,μ) | M^K). No other roadmap defines it; the complex Harish-Chandra characters of the automorphic roadmaps lie outside the torsion coefficient convention.
-
-Outside this roadmap: the computation of local terms of Satake sheaves on affine Grassmannians and the Kottwitz conjecture (Hansen–Kaletha–Weinstein §§5–6), which consume this roadmap; ℓ-adic sheaf theory on algebraic stacks; and the general ∞-categorical machinery of Liu–Zheng, which is required of `EnhancedDerivedSheaves` through the four supplier gaps stated in its contract below. The elliptic local trace of *Igusa varieties and torsion concentration* (`IgusaVarietiesAndTorsionConcentration`, §7.9b) is a consumer: for coefficient rings killed by an integer prime to p, the category of cohomological correspondences, its trace maps, the relative Lefschetz–Verdier identity and the base change of local terms that it uses for the local Shimura Hecke correspondence are CoCorr_S (VS8.7), the trace class (VS8.10), VS9.1 and VS9.6 here; the passage to rational coefficients, the identification of fixed-locus components through elliptic elements and the computation of the local terms belong to that roadmap.
+Layer VS6 fixes the geometric objects: decent v-stacks; fine, smooth, proper fine and proper nice maps; classifying and quotient stacks. Layer VS7 constructs the exceptional functors on them: prespatial diamonds make canonical compactifications available, an enhanced operation map is built on coproducts of qcqs v-sheaves and extended to decent v-stacks by three iterations of Liu–Zheng's descent theorem, and the resulting functors satisfy the full six-functor calculus, with the comparison of exceptional and ordinary pushforward for proper fine maps, relative dualizing complexes and integration. Layer VS8 is partly general category theory (traces in symmetric monoidal 2-categories, after Lu–Zheng; VS8.1–VS8.5 need nothing geometric) and partly geometric (the 2-categories Corr_S and CoCorr_S, dualizability as ULA-ness, trace classes and characteristic classes). Layer VS9 proves the relative Lefschetz–Verdier trace formula, the universal trace statement, and develops local terms. Layer VS10 realises the formalism on the two basic locally profinite examples, constant locally profinite diamonds and classifying stacks of locally pro-p groups, where the operations become operations on smooth modules and smooth representations twisted by Haar measures; it needs only VS6 and VS7, and VS8 and VS9 do not use it. Layer VS11 combines VS8, VS9 and VS10 on classifying stacks (admissibility and trace distributions) and on quotient stacks (Künneth formula and universal local terms).
 
 ## Conventions
 
@@ -39,115 +22,6 @@ Outside this roadmap: the computation of local terms of Satake sheaves on affine
 - For a locally profinite set T and a discrete ring Λ, C(T, Λ) is the ring of locally constant functions and C_c(T, Λ) its ideal of compactly supported ones. For a locally profinite group G, Haar(G, Λ) is the module of left Haar measures, with the right-translation action specified below. G_S and T_S are constant diamonds over S, and S denotes a geometric point Spd C or Spd k (C an algebraically closed perfectoid field, k an algebraically closed discrete field of characteristic p) when Layer VS10 or VS11, or a Check about [S/G_S] or [T_S/G_S], says so.
 - The Haar action is (g·μ)(E) = μ(Eg); when a compact open subgroup has invertible pro-order, it has a coefficient-valued character χ_G(g) = (g·μ)/μ. Write δ_G(g) = μ(Eg⁻¹)/μ(E) for the modular character of G; by uniqueness of Haar measures, for a compact open subgroup K of invertible pro-order, δ_G(g) = μ(gKg⁻¹)/μ(K) = [gKg⁻¹ : gKg⁻¹ ∩ K]·[K : gKg⁻¹ ∩ K]⁻¹, a unit of Λ. Then χ_G = δ_G⁻¹, and every Haar twist below uses χ_G. When G = P = M ⋉ N is a parabolic subgroup of a reductive group (M unimodular), δ_G is the modulus δ_P of *Smooth representations of local groups* §SR.2.2 (*modulus-character*); that δ_P is the conjugation modulus of N, so for a presentation with N = 1 it is trivial and differs from δ_G when G is not unimodular. Witness: for the affine group {(a, b)} over ℚ_p with left Haar measure |a|⁻² da db and g = diag(p, 1), μ(Eg) = |p|⁻¹μ(E) = pμ(E), so χ_G(g) = p and δ_G(g) = p⁻¹; for the pro-p subgroup K = (1 + pZ_p) ⋉ Z_p one has gKg⁻¹ = (1 + pZ_p) ⋉ pZ_p of index p in K, giving δ_G(g) = 1/p again. Conjugation by g scales N = {(1, b)} by |p| = p⁻¹, the conjugation modulus for M = {(a, 0)}, while for N = 1 it is 1 ≠ p⁻¹.
 - For a locally profinite set T with a continuous left G-action, G acts on C(T, Λ) and C_c(T, Λ) by (g·h)(t) = h(g⁻¹·t). In particular G acts on C_c(G, Λ) through its conjugation action g·x = gxg⁻¹ on G, by (g·h)(x) = h(g⁻¹xg), so g·1_K = 1_(gKg⁻¹). With the Haar action above this is the direction under which the trace distribution of VS11.3 is invariant. Witness: for the affine group over ℚ₂ (so p = 2), Λ = F_5, g = diag(2, 1) (so χ_G(g) = 2), a compact open pro-2 subgroup K, the Haar measure normalised by μ(K) = 1 and h = 1_K, one has μ(gKg⁻¹) = χ_G(g)⁻¹μ(K) = 2⁻¹ = 3 in F_5, so ∫ g·h d(g·μ) = χ_G(g)·μ(gKg⁻¹) = 2·3 = 1 = μ(K), while the other direction (g·h)(x) = h(gxg⁻¹) gives χ_G(g)·μ(g⁻¹Kg) = 2·2 = 4 ≠ 1. Over ℚ_p with p odd, |2|_p = 1 and both directions give μ(K), so the witness needs p = 2 and μ(K) ≠ 0.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- `CategoryTheory.MonoidalCategory` (Mathlib/CategoryTheory/Monoidal/Category.lean) and `CategoryTheory.SymmetricCategory` (Mathlib/CategoryTheory/Monoidal/Braided/Basic.lean): monoidal categories and symmetric monoidal categories, a braiding whose square is the identity.
-- `CategoryTheory.ExactPairing`, with `CategoryTheory.ExactPairing.coevaluation` (notation η_) and `CategoryTheory.ExactPairing.evaluation` (notation ε_), and `CategoryTheory.HasRightDual` (Mathlib/CategoryTheory/Monoidal/Rigid/Basic.lean): an exact pairing of X and Y is coevaluation 𝟙 ⟶ X ⊗ Y and evaluation Y ⊗ X ⟶ 𝟙 with the two triangle identities; it is the 1-categorical duality datum of Lu–Zheng, Definition 1.1, with Y the dual of X.
-- `CategoryTheory.Bicategory` (Mathlib/CategoryTheory/Bicategory/Basic.lean): bicategories, the carrier of Lu–Zheng's 2-categories, without monoidal structure at the pin. `CategoryTheory.Bicategory.Adjunction` (Mathlib/CategoryTheory/Bicategory/Adjunction/Basic.lean): adjunctions between 1-morphisms, with unit 𝟙 ⟶ f ≫ g, counit g ≫ f ⟶ 𝟙 and the triangle identities; this is Lu–Zheng's right adjointability (§1.2). `CategoryTheory.Pseudofunctor` (Mathlib/CategoryTheory/Bicategory/Functor/Pseudofunctor.lean), for the pseudo-functoriality of the exceptional functors.
-- `LocallyConstant` (Mathlib/Topology/LocallyConstant/Basic.lean): with values in a ring Λ, `LocallyConstant T Λ` is the ring C(T, Λ). `LocallyConstant.charFn` (Mathlib/Topology/LocallyConstant/Algebra.lean): the characteristic function 1_U of a clopen set U. `TopologicalSpace.CompactOpens` (Mathlib/Topology/Sets/Compacts.lean): compact open subsets.
-- `Module.Dual` and `Module.Dual.eval` (Mathlib/LinearAlgebra/Dual/Defs.lean): the dual module and the canonical map M → M**; `Module.IsReflexive` (same file, line 203): bijectivity of that map, with the instances listed under *Scope and ownership*.
-- `IsDiscreteValuationRing` (Mathlib/RingTheory/DiscreteValuationRing/Basic.lean), `IsLocalRing.maximalIdeal` (Mathlib/RingTheory/LocalRing/MaximalIdeal/Defs.lean) and `Module.Finite` (Mathlib/RingTheory/Finiteness/Defs.lean).
-- `LinearMap.trace` (Mathlib/LinearAlgebra/Trace.lean): the trace of an endomorphism of a module with a finite basis, and zero otherwise; only its value on finite free modules is used.
-- `FGModuleCat` with its `RightRigidCategory (FGModuleCat K)` instance over a field K (Mathlib/Algebra/Category/FGModuleCat/Basic.lean, line 265): finite-dimensional vector spaces form a right rigid monoidal category, the dual being the linear dual.
-- `DerivedCategory` (Mathlib/Algebra/Homology/DerivedCategory/Basic.lean): the derived category of an abelian category, the 1-categorical carrier of D(Λ); it carries no monoidal structure at the pin, which is supplied by `EnhancedDerivedSheaves` §E1.4.
-
-### From Tau Ceti
-
-- `TauCeti.IsSmoothDiscrete` (TauCeti/RepresentationTheory/Homological/ContCohomology/SmoothDiscrete/Basic.lean): a representation of a topological group on a discrete module with open stabilisers, the carrier that the smooth-representation layers of *Smooth representations of local groups* use.
-- `LinearMap.projectiveTrace` (TauCeti/LinearAlgebra/Trace/Projective.lean): for a finite projective module M over a commutative semiring, the trace End(M) → R obtained from the contraction Dual(M) ⊗ M → R through `dualTensorHomEquiv`; `LinearMap.projectiveTrace_eq_trace` identifies it with Mathlib's `LinearMap.trace` on finite free modules, and `LinearMap.projectiveTrace_cyclic` gives cyclicity. Used by VS8.4.
-
-### From TauCetiRoadmap.VStackSheavesAndLisseCategories
-
-- §VS0.1 (*artin-v-stack-definition*): Artin v-stacks in the sense of Fargues–Scholze, Definition IV.1.1. Used by VS6.3.
-- §VS0.2 (*enhanced-smooth-descent*, *shriek-pullback-for-smooth-stacky-maps*, and the Check that the point of [∗/ℤ_p] is not a smooth atlas): enhanced smooth descent of D_ét, the exceptional pullback f^! for cohomologically smooth stacky maps, its left adjoint f_! on that smooth class (the API identity Map(f_!B, A) = Map(B, f^!A)), and the failure of smoothness of the point of [∗/ℤ_p], the model case of an infinite compact open K. Used by VS6.8, VS6.10, VS7.5 and VS7.8.
-- §VS1.1 (*ula-definition-with-constructibility*, *ula-descent-and-smooth-locality*, *ula-dualizability-criterion*, and the sub-target *Relative adjoints and ULA calculus*) and §VS1.2 (*smooth-ula-criterion*, *ula-for-artin-v-stacks*): ULA objects, their descent and smooth locality, their dualizability criterion and relative calculus, the smooth criterion and ULA objects on Artin v-stacks. Used by VS7.8, VS8.9, VS8.12, VS11.1 and VS11.11.
-- §VS4.2 (*classifying-stack-equivalence*): D_ét([∗/G], Λ) is the derived category of smooth representations, with derived invariants and the derived smooth dual. Used by VS10.7, VS10.9 and VS11.1.
-- §VS5.2 (sub-target *Torsion ULA and perfect invariants*): an object of D_ét(Bun_G, Λ) is ULA over the point iff every stratum restriction has perfect derived pro-p invariants; VS11.1 adapts the argument to [S/G_S]. Used by VS11.1.
-
-### From TauCetiRoadmap.DiamondSixOperations
-
-- §§S0.1–S0.2: compactifiable maps, their canonical factorisation and permanence; §S0.4: eligible maps.
-- §§S1.1–S1.5: compactification dimension, exceptional pushforward over locally spatial bases, the dimension-zero classification and topological comparison, amplitude bounds, base change, composition and projection formula.
-- §§S2.3–S2.4: the hypercover construction of the exceptional pushforward, base change, projection formula and coherent exchange maps.
-- §§S3.1–S3.4: exceptional pullback, formal Verdier duality, internal Hom, exceptional base change and adjunction calculus.
-- §§S4.1–S4.5: twisted pullback criteria, cohomological smoothness, dualizing objects, permanence, smooth base change and smooth exceptional base change.
-- §S5.4: free quotients and the exceptional pullback for profinite projections; §S5.5: smooth analytic maps are cohomologically smooth.
-
-### From TauCetiRoadmap.DiamondsAndVStacks
-
-- §D4.1 (*diamond*), §D4.6 (*compact-hausdorff-diamonds*), §D4.7 (*small-v-sheaves-and-small-v-stacks*) and §D4.10 (*small-quotients-and-underlying-spaces*): diamonds, compact Hausdorff spaces as diamonds, small v-sheaves and v-stacks, and small quotients. Used by VS6.1, VS6.2, VS6.9, VS6.10, VS7.1 and VS10.4.
-- §D5.1 (*spatial-diamond*), §D5.2 (*injection-and-finite-etale-permanence*), §D5.5 (*quasi-pro-etale-and-fibre-product-permanence*), §D5.11 (*spatial-v-sheaf-criterion*), §D5.12 (*relative-representability*) and §D5.14 (*berkovich-quotient*): spatial v-sheaves and spatial diamonds, quasicompact injections, fibre products of locally spatial diamonds, the criterion that a spatial v-sheaf whose points are hit by quasi-pro-étale maps from geometric points is a spatial diamond, relative representability and the maximal Hausdorff quotient. Used by VS6.1, VS6.2, VS6.9, VS6.11, VS7.1 and VS7.2.
-- §D4.11 (Proper maps of v-stacks): a map of v-stacks is proper if it is quasicompact, separated (its diagonal is a closed immersion) and universally closed; closed immersions are proper; proper maps compose and are stable under base change; a map is proper iff it is 0-truncated, quasicompact, quasiseparated and satisfies the valuative criterion. Used by VS6.11 and VS7.7.
-- §D5.15 (*reduction-to-spatial-and-hausdorff-cohomology*): for a quasicompact quasiseparated diamond Y separated over the terminal v-sheaf and the map f : |Y| → |Y|_B to its maximal Hausdorff quotient, Hⁱ(|Y|_B, F) ≅ Hⁱ(|Y|, f^*F) for every abelian sheaf F on |Y|_B. Used by VS7.2.
-- §D6.4 (*gluing-and-the-diamond-functor*) and §D6.5 (*etale-site-comparison*): the diamond of an analytic adic space and the étale-site comparison. Used by VS6.5.
-
-### From TauCetiRoadmap.DiamondEtaleCohomology
-
-- §C8.44 (Spectral-space cohomological dimension): for a spectral space X with topological Krull dimension at most a natural number d and any abelian sheaf F on X, Hⁱ(X, F) = 0 for i > d. Used by VS7.2.
-
-### From TauCetiRoadmap.EnhancedDerivedSheaves
-
-- §E1.4: derived tensor product and internal Hom; §E2.6: enhanced hypercover descent; §E3.2: the adjoint functor theorem and localisations; §E3.4: coherent ringed diagrams and coherent mates with their pasting law; §E5:abstract.1: symmetric monoidal ∞-categories.
-
-What EnhancedDerivedSheaves must provide (gap:vs-pii-enhanced-operation-map): in §E3.4, an enhanced operation map on restricted multisimplicial nerves encoding tensor products, pullbacks and exceptional pushforwards with their coherent exchange transformations (Liu–Zheng, *Enhanced six operations*, §§2.3 and 3.4).
-
-What EnhancedDerivedSheaves must provide (gap:vs-pii-partial-adjoints): in §E3.4, partial adjoints in selected simplicial directions under edge adjointability and mixed-square Beck–Chevalley hypotheses (Liu–Zheng, *Enhanced six operations*, arXiv v4, Proposition 2.2.4, pp. 79–80).
-
-What EnhancedDerivedSheaves must provide (gap:vs-pii-restricted-nerves): in §E3.4, the comparison of restricted nerves as a categorical equivalence under the admissibility, factorisation and truncation hypotheses of Liu–Zheng, *Gluing restricted nerves*, arXiv v4, Theorem 5.4, with its Corollary 0.4 as the scheme instance.
-
-What EnhancedDerivedSheaves must provide (gap:vs-pii-descent): in §E3.4, the extension of an input satisfying the hypotheses P0–P5bis to an output with those properties, in the abstract setting of Liu–Zheng, *Enhanced six operations*, Theorem 4.1.8(1), and its specialisation Gulotta–Hansen–Weinstein, Theorem 4.9.
-
-These four are extensions of §E3.4 beyond ringed diagrams; VS7.4 and VS7.5 depend on them.
-
-### From TauCetiRoadmap.EtaleDualityAndPerverseSheaves
-
-- §6.1 (scheme correspondences and fixed schemes), §6.2 (cohomological correspondences and their composition, pullback along morphisms of correspondences and restriction to open subschemes) and §6.3 (trace maps and local terms), for separated finite-type schemes over a field k with ℓ invertible, finite rings Λ killed by a power of ℓ and bounded constructible complexes of finite Tor dimension. Used by VS9.7 and VS9.8.
-
-What EtaleDualityAndPerverseSheaves must provide (gap:vs-pii-scheme-correspondences): in §6.2, for every commutative ring Λ with nΛ = 0 for an integer n invertible in k, cohomological correspondences between arbitrary objects of D(X_ét, Λ) on separated finite-type k-schemes, with composition, pullback along morphisms of correspondences and restriction to opens.
-
-What EtaleDualityAndPerverseSheaves must provide (gap:vs-pii-scheme-local-terms): in §6.3, for every commutative ring Λ with nΛ = 0 for an integer n invertible in k and k separably closed, trace classes Tr_c(u) ∈ H⁰(Fix(c), K_(Fix(c))) and local terms of cohomological correspondences between f-ULA complexes on separated finite-type k-schemes, compatible with base change along extensions of separably closed fields.
-
-VS9.7 and VS9.8 depend on the first gap and VS9.8 also on the second. The passage from perfect schemes to their finite-type models is VS9.8's own step, from `SchemeAndStackFoundations` §§0.24 and 0.23a.
-
-### From TauCetiRoadmap.AdicCoefficientsAndComparisons
-
-- Layer L1, targets *L1/char-p-scheme-diamond-and-comparison-functor* and *L1/comparison-pullback*: the v-sheaf of a perfect scheme and the comparison pullback c_X^*. Used by VS9.7.
-- Layer L3, targets *L3/commutation-and-adjoints-27-1-27-3*, *L3/full-faithfulness-27-2*, *L3/internal-Hom-right-adjoint* and *L3/rf-shriek-comparison-27-4*: compatibility of c_X^* with tensor products and pullback, its full faithfulness, its right adjoint and its compatibility with Rf_! (Scholze, Theorems 27.1–27.4). Used by VS9.7 and VS9.8.
-
-### From TauCetiRoadmap.SchemeAndStackFoundations
-
-- §0.24 (perfect schemes, perfection and `perfection_universalHomeomorphism`) and §0.23a (étale topological invariance). Used by VS9.8.
-
-### From TauCetiRoadmap.SmoothRepresentationsOfLocalGroups
-
-- §SR.0.3 (*compact-open-invariants*, *averaging-projector*, *unit-pro-order*): invariants under compact open subgroups, the averaging projector for subgroups of invertible pro-order. Used by VS10.5 and VS11.3.
-- §SR.0d.2 (*derived-invariants*, *derived-smooth-dual*, *compact-generation*): derived invariants, the derived smooth dual, admissible complexes and compact generation by compact inductions. Used by VS10.9 and VS11.1.
-- §SR.1.1 (*locally-constant-compact-support*, *a-valued-haar-measure*, *integration*, *convolution-algebra*): C_c^∞(G, Λ), Λ-valued Haar measures, integration and the convolution algebra. Used by VS10.1, VS10.3, VS10.5 and VS11.3.
-- §SR.2.1 (*smooth-induction*, *compact-induction*, *frobenius-reciprocity*): smooth and compact induction and Frobenius reciprocity. Used by VS10.7 and VS10.8.
-- §SR.2.2 (*modulus-character*): the modulus δ_P of a parabolic subgroup P = M ⋉ N of a reductive group, the conjugation modulus of N; when G = P it is the modular character δ_G of the Conventions, since M is unimodular. Used by VS10.5 for that comparison only; the Haar character χ_G itself comes from §SR.1.1.
-
-### From TauCetiRoadmap.PivotalSpherical
-
-- Layers 2 and 7: the symmetric rigid trace, cyclicity, multiplicativity, unit value and comparison with linear traces. Used by VS8.1.
-
-### From TauCetiRoadmap.AdicSpacesPartIII
-
-- §R3.8 (*projective-trace-realization*): the finite-projective trace `LinearMap.projectiveTrace` is the categorical trace of the symmetric monoidal category of finite projective modules. Used by VS8.4.
-
-### From TauCetiRoadmap.DGAInfinity
-
-- Layer 5: compact objects of the derived category of a ring, regarded as a DG algebra in degree zero, are the perfect complexes (Stacks07LT, Tag 07LT). Used by VS8.4.
-
-### From TauCetiRoadmap.EtaleCohomologyFoundations
-
-- §F.10.3 (Perfect-complex traces and coherent additivity): for a commutative ring R, the perfect objects of the derived category of R-modules (bounded finite-projective representatives) are exactly its dualizable objects for the derived tensor product; the Lefschetz number of an endomorphism of a perfect complex is the alternating sum of the projective traces on a bounded finite-projective representative with a lifted chain endomorphism, independent of the representative and the lift, and it is the categorical trace. Used by VS8.4.
-
-## How to read the build
-
-Layer VS6 fixes the geometric objects: decent v-stacks; fine, smooth, proper fine and proper nice maps; classifying and quotient stacks. Layer VS7 constructs the exceptional functors on them: prespatial diamonds make canonical compactifications available, an enhanced operation map is built on coproducts of qcqs v-sheaves and extended to decent v-stacks by three iterations of Liu–Zheng's descent theorem, and the resulting functors satisfy the full six-functor calculus, with the comparison of exceptional and ordinary pushforward for proper fine maps, relative dualizing complexes and integration. Layer VS8 is partly general category theory (traces in symmetric monoidal 2-categories, after Lu–Zheng; VS8.1–VS8.5 need nothing geometric) and partly geometric (the 2-categories Corr_S and CoCorr_S, dualizability as ULA-ness, trace classes and characteristic classes). Layer VS9 proves the relative Lefschetz–Verdier trace formula, the universal trace statement, and develops local terms. Layer VS10 realises the formalism on the two basic locally profinite examples, constant locally profinite diamonds and classifying stacks of locally pro-p groups, where the operations become operations on smooth modules and smooth representations twisted by Haar measures; it needs only VS6 and VS7, and VS8 and VS9 do not use it. Layer VS11 combines VS8, VS9 and VS10 on classifying stacks (admissibility and trace distributions) and on quotient stacks (Künneth formula and universal local terms).
 
 ## Layer VS6: decent v-stacks and fine morphisms
 
@@ -2067,6 +1941,132 @@ The statements above use corrected versions of the following points of the sourc
 - The elliptic local trace of `IgusaVarietiesAndTorsionConcentration` §7.9b uses, for torsion coefficients, CoCorr_S (VS8.7), the trace class (VS8.10), the relative Lefschetz–Verdier formula (VS9.1) and the local terms of VS9.4–VS9.6.
 - Hecke and excursion operators on Bun_G built from stacky Hecke correspondences use the exceptional functors of Layer VS7 and the cohomological correspondences of Layer VS8.
 - Relative trace formalisms for schemes over a general base can import the generic trace formalism of VS8.1–VS8.3 (dualizable objects and traces in symmetric monoidal 2-categories, functoriality of traces, the symmetric monoidal Grothendieck construction).
+
+## Scope and ownership
+
+This roadmap owns: decent v-stacks, fine, proper fine and proper nice maps, and classifying and quotient stacks of group diamonds as v-stacks (Layer VS6); the exceptional functors Rf_!, Rf^! for fine maps, the six-functor identities, the comparison of exceptional and ordinary pushforward for proper fine maps and cohomologically proper maps, relative dualizing complexes and integration (Layer VS7); dualizable objects and categorical traces in symmetric monoidal 2-categories, the 2-categories of correspondences and of cohomological correspondences of decent v-stacks, trace classes and characteristic classes (Layer VS8); the Lefschetz–Verdier trace formula, local terms, their base change and the perfect-scheme comparison (Layer VS9); the description of sheaves on constant locally profinite diamonds and on classifying stacks of locally pro-p groups, with their four operations, distributions and the module of Haar measures (Layer VS10); admissibility on classifying stacks, trace distributions, based cohomological correspondences, the Künneth formula and universal local terms (Layer VS11).
+
+It imports the following from other roadmaps, and states none of it again:
+
+- Artin v-stacks, smooth descent of D_ét, exceptional pullback for smooth stacky maps with its left adjoint on that class, ULA sheaves and their duality (Fargues–Scholze IV.1–IV.2), and the identification of sheaves on [∗/G] with smooth representations (Fargues–Scholze V.1.1): *Artin v-stacks, solid and lisse coefficient categories*, §§VS0.1–VS0.2, VS1.1–VS1.2, VS4.2 and VS5.2. The exceptional functors of Layer VS7 differ by being defined for all fine maps of decent v-stacks; on cohomologically smooth fine maps they are that pair (VS7.8).
+- Scholze's six operations for maps representable in locally spatial diamonds, cohomological smoothness, dualizing complexes and Haar-normalised averaging for profinite quotients: *Six operations, cohomological smoothness and biduality* (`DiamondSixOperations`), Layers S0–S5.
+- Diamonds, small v-stacks, proper maps of v-stacks (with their 0-truncatedness, permanence and the valuative criterion), spatial and locally spatial diamonds, relative representability, the maximal Hausdorff quotient with the comparison of its cohomology with that of a qcqs separated diamond, and the diamond of an analytic adic space: *Diamonds and v-stacks* (`DiamondsAndVStacks`), Layers D4–D6, in particular §D4.11 for properness and §D5.15 for the cohomology comparison. VS6.11 defines proper fine and proper nice maps inside that notion of properness.
+- The bound of the cohomological dimension of a spectral space by its Krull dimension: *Étale cohomology of diamonds and its four operations* (`DiamondEtaleCohomology`), §C8.44.
+- Quasicategories, derived ∞-categories of sheaves, hypercover descent, coherent diagrams, mates and adjoint functor theorems, and symmetric monoidal ∞-categories: *Enhanced derived categories of sheaves* (`EnhancedDerivedSheaves`), §§E1.4, E2.6, E3.2, E3.4 and E5:abstract.1.
+- Smooth representations, the derived smooth category, derived invariants, derived smooth duality and admissible complexes, compact generation by compact induction, locally constant compactly supported functions, ring-valued Haar measures, integration and convolution, smooth and compact induction, and the modulus character: *Smooth representations of local groups* (`SmoothRepresentationsOfLocalGroups`), §§SR.0.3, SR.0d.2, SR.1.1, SR.2.1 and SR.2.2. In particular §SR.0d.2 supplies admissibility and §SR.1.1 the ring-valued Haar measures and integration; VS10.5 equips the supplied Haar measures with the module and modulus identifications used by the geometric operations.
+- Cohomological correspondences of schemes, their trace maps and local terms, for finite ℓ-power-torsion coefficient rings and bounded constructible complexes of finite Tor dimension: *Étale duality, cycle classes and perverse sheaves* (`EtaleDualityAndPerverseSheaves`), §§6.1–6.3. The extension to arbitrary prime-to-p torsion coefficient rings, arbitrary complexes for correspondences and f-ULA complexes for local terms is required of that roadmap through the two supplier gaps stated in its contract below; VS9.7–VS9.8 keep that generality. The adic coefficient ranges of §§6.1–6.3 lie outside this roadmap's torsion convention.
+- The functor from perfect schemes to v-sheaves and Scholze's comparison c_X^* (Scholze §27): *Adic coefficients and comparison with schemes* (`AdicCoefficientsAndComparisons`), Layers L1 and L3; perfection as a universal homeomorphism with étale topological invariance: *Scheme, stack, cohomology and intersection foundations* (`SchemeAndStackFoundations`), §§0.24 and 0.23a.
+- The trace of an endomorphism of a dualizable object in a symmetric monoidal category, with cyclicity, multiplicativity, the unit value and the comparison with linear traces: `PivotalSpherical`, Layers 2 and 7. The trace of an endomorphism of a finite projective module is Tau Ceti's `LinearMap.projectiveTrace`, equal to Mathlib's `LinearMap.trace` on finite free modules; its equality with the categorical trace: `AdicSpacesPartIII` §R3.8 (target *projective-trace-realization*). The equivalence of compact and perfect objects in the derived category of a ring: `DGAInfinity` Layer 5. The identification of the perfect complexes over a commutative ring with the dualizable objects of its derived category, and of the categorical trace of an endomorphism of a perfect complex with its Lefschetz number, the alternating sum of the projective traces on a bounded finite-projective representative: *Étale cohomology foundations* (`EtaleCohomologyFoundations`), §F.10.3. VS8.1–VS8.3 own only the bicategorical extension of the trace, its trace morphisms and the symmetric monoidal Grothendieck construction (Lu–Zheng §1); VS8.4 owns only the biduality criteria for dualizability in D(Λ) (Hansen–Kaletha–Weinstein, Lemma B.1.2(2)), the form in which dualizability enters VS8.8.
+- Reflexive modules: Mathlib's `Module.IsReflexive`, with the finite projective instance `Module.instIsReflexiveOfFiniteOfProjective` (Mathlib/LinearAlgebra/Dual/Lemmas.lean, line 262) and `Module.instFiniteDimensionalOfIsReflexive` (line 284) covering the projective and residue-field cases. VS8.5 differs from these by treating arbitrary modules over truncated discrete valuation rings.
+
+This roadmap also owns the Λ-valued distribution character of VS11.3: for a smooth representation M placed in degree 0 whose invariants M^K are finite projective over Λ (for instance Λ a field and M admissible), tr.dist(M) is h ⊗ μ ↦ tr(I_(h,μ) | M^K). No other roadmap defines it; the complex Harish-Chandra characters of the automorphic roadmaps lie outside the torsion coefficient convention.
+
+Outside this roadmap: the computation of local terms of Satake sheaves on affine Grassmannians and the Kottwitz conjecture (Hansen–Kaletha–Weinstein §§5–6), which consume this roadmap; ℓ-adic sheaf theory on algebraic stacks; and the general ∞-categorical machinery of Liu–Zheng, which is required of `EnhancedDerivedSheaves` through the four supplier gaps stated in its contract below. The elliptic local trace of *Igusa varieties and torsion concentration* (`IgusaVarietiesAndTorsionConcentration`, §7.9b) is a consumer: for coefficient rings killed by an integer prime to p, the category of cohomological correspondences, its trace maps, the relative Lefschetz–Verdier identity and the base change of local terms that it uses for the local Shimura Hecke correspondence are CoCorr_S (VS8.7), the trace class (VS8.10), VS9.1 and VS9.6 here; the passage to rational coefficients, the identification of fixed-locus components through elliptic elements and the computation of the local terms belong to that roadmap.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- `CategoryTheory.MonoidalCategory` (Mathlib/CategoryTheory/Monoidal/Category.lean) and `CategoryTheory.SymmetricCategory` (Mathlib/CategoryTheory/Monoidal/Braided/Basic.lean): monoidal categories and symmetric monoidal categories, a braiding whose square is the identity.
+- `CategoryTheory.ExactPairing`, with `CategoryTheory.ExactPairing.coevaluation` (notation η_) and `CategoryTheory.ExactPairing.evaluation` (notation ε_), and `CategoryTheory.HasRightDual` (Mathlib/CategoryTheory/Monoidal/Rigid/Basic.lean): an exact pairing of X and Y is coevaluation 𝟙 ⟶ X ⊗ Y and evaluation Y ⊗ X ⟶ 𝟙 with the two triangle identities; it is the 1-categorical duality datum of Lu–Zheng, Definition 1.1, with Y the dual of X.
+- `CategoryTheory.Bicategory` (Mathlib/CategoryTheory/Bicategory/Basic.lean): bicategories, the carrier of Lu–Zheng's 2-categories, without monoidal structure at the pin. `CategoryTheory.Bicategory.Adjunction` (Mathlib/CategoryTheory/Bicategory/Adjunction/Basic.lean): adjunctions between 1-morphisms, with unit 𝟙 ⟶ f ≫ g, counit g ≫ f ⟶ 𝟙 and the triangle identities; this is Lu–Zheng's right adjointability (§1.2). `CategoryTheory.Pseudofunctor` (Mathlib/CategoryTheory/Bicategory/Functor/Pseudofunctor.lean), for the pseudo-functoriality of the exceptional functors.
+- `LocallyConstant` (Mathlib/Topology/LocallyConstant/Basic.lean): with values in a ring Λ, `LocallyConstant T Λ` is the ring C(T, Λ). `LocallyConstant.charFn` (Mathlib/Topology/LocallyConstant/Algebra.lean): the characteristic function 1_U of a clopen set U. `TopologicalSpace.CompactOpens` (Mathlib/Topology/Sets/Compacts.lean): compact open subsets.
+- `Module.Dual` and `Module.Dual.eval` (Mathlib/LinearAlgebra/Dual/Defs.lean): the dual module and the canonical map M → M**; `Module.IsReflexive` (same file, line 203): bijectivity of that map, with the instances listed under *Scope and ownership*.
+- `IsDiscreteValuationRing` (Mathlib/RingTheory/DiscreteValuationRing/Basic.lean), `IsLocalRing.maximalIdeal` (Mathlib/RingTheory/LocalRing/MaximalIdeal/Defs.lean) and `Module.Finite` (Mathlib/RingTheory/Finiteness/Defs.lean).
+- `LinearMap.trace` (Mathlib/LinearAlgebra/Trace.lean): the trace of an endomorphism of a module with a finite basis, and zero otherwise; only its value on finite free modules is used.
+- `FGModuleCat` with its `RightRigidCategory (FGModuleCat K)` instance over a field K (Mathlib/Algebra/Category/FGModuleCat/Basic.lean, line 265): finite-dimensional vector spaces form a right rigid monoidal category, the dual being the linear dual.
+- `DerivedCategory` (Mathlib/Algebra/Homology/DerivedCategory/Basic.lean): the derived category of an abelian category, the 1-categorical carrier of D(Λ); it carries no monoidal structure at the pin, which is supplied by `EnhancedDerivedSheaves` §E1.4.
+
+### From Tau Ceti
+
+- `TauCeti.IsSmoothDiscrete` (TauCeti/RepresentationTheory/Homological/ContCohomology/SmoothDiscrete/Basic.lean): a representation of a topological group on a discrete module with open stabilisers, the carrier that the smooth-representation layers of *Smooth representations of local groups* use.
+- `LinearMap.projectiveTrace` (TauCeti/LinearAlgebra/Trace/Projective.lean): for a finite projective module M over a commutative semiring, the trace End(M) → R obtained from the contraction Dual(M) ⊗ M → R through `dualTensorHomEquiv`; `LinearMap.projectiveTrace_eq_trace` identifies it with Mathlib's `LinearMap.trace` on finite free modules, and `LinearMap.projectiveTrace_cyclic` gives cyclicity. Used by VS8.4.
+
+### From TauCetiRoadmap.VStackSheavesAndLisseCategories
+
+- §VS0.1 (*artin-v-stack-definition*): Artin v-stacks in the sense of Fargues–Scholze, Definition IV.1.1. Used by VS6.3.
+- §VS0.2 (*enhanced-smooth-descent*, *shriek-pullback-for-smooth-stacky-maps*, and the Check that the point of [∗/ℤ_p] is not a smooth atlas): enhanced smooth descent of D_ét, the exceptional pullback f^! for cohomologically smooth stacky maps, its left adjoint f_! on that smooth class (the API identity Map(f_!B, A) = Map(B, f^!A)), and the failure of smoothness of the point of [∗/ℤ_p], the model case of an infinite compact open K. Used by VS6.8, VS6.10, VS7.5 and VS7.8.
+- §VS1.1 (*ula-definition-with-constructibility*, *ula-descent-and-smooth-locality*, *ula-dualizability-criterion*, and the sub-target *Relative adjoints and ULA calculus*) and §VS1.2 (*smooth-ula-criterion*, *ula-for-artin-v-stacks*): ULA objects, their descent and smooth locality, their dualizability criterion and relative calculus, the smooth criterion and ULA objects on Artin v-stacks. Used by VS7.8, VS8.9, VS8.12, VS11.1 and VS11.11.
+- §VS4.2 (*classifying-stack-equivalence*): D_ét([∗/G], Λ) is the derived category of smooth representations, with derived invariants and the derived smooth dual. Used by VS10.7, VS10.9 and VS11.1.
+- §VS5.2 (sub-target *Torsion ULA and perfect invariants*): an object of D_ét(Bun_G, Λ) is ULA over the point iff every stratum restriction has perfect derived pro-p invariants; VS11.1 adapts the argument to [S/G_S]. Used by VS11.1.
+
+### From TauCetiRoadmap.DiamondSixOperations
+
+- §§S0.1–S0.2: compactifiable maps, their canonical factorisation and permanence; §S0.4: eligible maps.
+- §§S1.1–S1.5: compactification dimension, exceptional pushforward over locally spatial bases, the dimension-zero classification and topological comparison, amplitude bounds, base change, composition and projection formula.
+- §§S2.3–S2.4: the hypercover construction of the exceptional pushforward, base change, projection formula and coherent exchange maps.
+- §§S3.1–S3.4: exceptional pullback, formal Verdier duality, internal Hom, exceptional base change and adjunction calculus.
+- §§S4.1–S4.5: twisted pullback criteria, cohomological smoothness, dualizing objects, permanence, smooth base change and smooth exceptional base change.
+- §S5.4: free quotients and the exceptional pullback for profinite projections; §S5.5: smooth analytic maps are cohomologically smooth.
+
+### From TauCetiRoadmap.DiamondsAndVStacks
+
+- §D4.1 (*diamond*), §D4.6 (*compact-hausdorff-diamonds*), §D4.7 (*small-v-sheaves-and-small-v-stacks*) and §D4.10 (*small-quotients-and-underlying-spaces*): diamonds, compact Hausdorff spaces as diamonds, small v-sheaves and v-stacks, and small quotients. Used by VS6.1, VS6.2, VS6.9, VS6.10, VS7.1 and VS10.4.
+- §D5.1 (*spatial-diamond*), §D5.2 (*injection-and-finite-etale-permanence*), §D5.5 (*quasi-pro-etale-and-fibre-product-permanence*), §D5.11 (*spatial-v-sheaf-criterion*), §D5.12 (*relative-representability*) and §D5.14 (*berkovich-quotient*): spatial v-sheaves and spatial diamonds, quasicompact injections, fibre products of locally spatial diamonds, the criterion that a spatial v-sheaf whose points are hit by quasi-pro-étale maps from geometric points is a spatial diamond, relative representability and the maximal Hausdorff quotient. Used by VS6.1, VS6.2, VS6.9, VS6.11, VS7.1 and VS7.2.
+- §D4.11 (Proper maps of v-stacks): a map of v-stacks is proper if it is quasicompact, separated (its diagonal is a closed immersion) and universally closed; closed immersions are proper; proper maps compose and are stable under base change; a map is proper iff it is 0-truncated, quasicompact, quasiseparated and satisfies the valuative criterion. Used by VS6.11 and VS7.7.
+- §D5.15 (*reduction-to-spatial-and-hausdorff-cohomology*): for a quasicompact quasiseparated diamond Y separated over the terminal v-sheaf and the map f : |Y| → |Y|_B to its maximal Hausdorff quotient, Hⁱ(|Y|_B, F) ≅ Hⁱ(|Y|, f^*F) for every abelian sheaf F on |Y|_B. Used by VS7.2.
+- §D6.4 (*gluing-and-the-diamond-functor*) and §D6.5 (*etale-site-comparison*): the diamond of an analytic adic space and the étale-site comparison. Used by VS6.5.
+
+### From TauCetiRoadmap.DiamondEtaleCohomology
+
+- §C8.44 (Spectral-space cohomological dimension): for a spectral space X with topological Krull dimension at most a natural number d and any abelian sheaf F on X, Hⁱ(X, F) = 0 for i > d. Used by VS7.2.
+
+### From TauCetiRoadmap.EnhancedDerivedSheaves
+
+- §E1.4: derived tensor product and internal Hom; §E2.6: enhanced hypercover descent; §E3.2: the adjoint functor theorem and localisations; §E3.4: coherent ringed diagrams and coherent mates with their pasting law; §E5:abstract.1: symmetric monoidal ∞-categories.
+
+What EnhancedDerivedSheaves must provide (gap:vs-pii-enhanced-operation-map): in §E3.4, an enhanced operation map on restricted multisimplicial nerves encoding tensor products, pullbacks and exceptional pushforwards with their coherent exchange transformations (Liu–Zheng, *Enhanced six operations*, §§2.3 and 3.4).
+
+What EnhancedDerivedSheaves must provide (gap:vs-pii-partial-adjoints): in §E3.4, partial adjoints in selected simplicial directions under edge adjointability and mixed-square Beck–Chevalley hypotheses (Liu–Zheng, *Enhanced six operations*, arXiv v4, Proposition 2.2.4, pp. 79–80).
+
+What EnhancedDerivedSheaves must provide (gap:vs-pii-restricted-nerves): in §E3.4, the comparison of restricted nerves as a categorical equivalence under the admissibility, factorisation and truncation hypotheses of Liu–Zheng, *Gluing restricted nerves*, arXiv v4, Theorem 5.4, with its Corollary 0.4 as the scheme instance.
+
+What EnhancedDerivedSheaves must provide (gap:vs-pii-descent): in §E3.4, the extension of an input satisfying the hypotheses P0–P5bis to an output with those properties, in the abstract setting of Liu–Zheng, *Enhanced six operations*, Theorem 4.1.8(1), and its specialisation Gulotta–Hansen–Weinstein, Theorem 4.9.
+
+These four are extensions of §E3.4 beyond ringed diagrams; VS7.4 and VS7.5 depend on them.
+
+### From TauCetiRoadmap.EtaleDualityAndPerverseSheaves
+
+- §6.1 (scheme correspondences and fixed schemes), §6.2 (cohomological correspondences and their composition, pullback along morphisms of correspondences and restriction to open subschemes) and §6.3 (trace maps and local terms), for separated finite-type schemes over a field k with ℓ invertible, finite rings Λ killed by a power of ℓ and bounded constructible complexes of finite Tor dimension. Used by VS9.7 and VS9.8.
+
+What EtaleDualityAndPerverseSheaves must provide (gap:vs-pii-scheme-correspondences): in §6.2, for every commutative ring Λ with nΛ = 0 for an integer n invertible in k, cohomological correspondences between arbitrary objects of D(X_ét, Λ) on separated finite-type k-schemes, with composition, pullback along morphisms of correspondences and restriction to opens.
+
+What EtaleDualityAndPerverseSheaves must provide (gap:vs-pii-scheme-local-terms): in §6.3, for every commutative ring Λ with nΛ = 0 for an integer n invertible in k and k separably closed, trace classes Tr_c(u) ∈ H⁰(Fix(c), K_(Fix(c))) and local terms of cohomological correspondences between f-ULA complexes on separated finite-type k-schemes, compatible with base change along extensions of separably closed fields.
+
+VS9.7 and VS9.8 depend on the first gap and VS9.8 also on the second. The passage from perfect schemes to their finite-type models is VS9.8's own step, from `SchemeAndStackFoundations` §§0.24 and 0.23a.
+
+### From TauCetiRoadmap.AdicCoefficientsAndComparisons
+
+- Layer L1, targets *L1/char-p-scheme-diamond-and-comparison-functor* and *L1/comparison-pullback*: the v-sheaf of a perfect scheme and the comparison pullback c_X^*. Used by VS9.7.
+- Layer L3, targets *L3/commutation-and-adjoints-27-1-27-3*, *L3/full-faithfulness-27-2*, *L3/internal-Hom-right-adjoint* and *L3/rf-shriek-comparison-27-4*: compatibility of c_X^* with tensor products and pullback, its full faithfulness, its right adjoint and its compatibility with Rf_! (Scholze, Theorems 27.1–27.4). Used by VS9.7 and VS9.8.
+
+### From TauCetiRoadmap.SchemeAndStackFoundations
+
+- §0.24 (perfect schemes, perfection and `perfection_universalHomeomorphism`) and §0.23a (étale topological invariance). Used by VS9.8.
+
+### From TauCetiRoadmap.SmoothRepresentationsOfLocalGroups
+
+- §SR.0.3 (*compact-open-invariants*, *averaging-projector*, *unit-pro-order*): invariants under compact open subgroups, the averaging projector for subgroups of invertible pro-order. Used by VS10.5 and VS11.3.
+- §SR.0d.2 (*derived-invariants*, *derived-smooth-dual*, *compact-generation*): derived invariants, the derived smooth dual, admissible complexes and compact generation by compact inductions. Used by VS10.9 and VS11.1.
+- §SR.1.1 (*locally-constant-compact-support*, *a-valued-haar-measure*, *integration*, *convolution-algebra*): C_c^∞(G, Λ), Λ-valued Haar measures, integration and the convolution algebra. Used by VS10.1, VS10.3, VS10.5 and VS11.3.
+- §SR.2.1 (*smooth-induction*, *compact-induction*, *frobenius-reciprocity*): smooth and compact induction and Frobenius reciprocity. Used by VS10.7 and VS10.8.
+- §SR.2.2 (*modulus-character*): the modulus δ_P of a parabolic subgroup P = M ⋉ N of a reductive group, the conjugation modulus of N; when G = P it is the modular character δ_G of the Conventions, since M is unimodular. Used by VS10.5 for that comparison only; the Haar character χ_G itself comes from §SR.1.1.
+
+### From TauCetiRoadmap.PivotalSpherical
+
+- Layers 2 and 7: the symmetric rigid trace, cyclicity, multiplicativity, unit value and comparison with linear traces. Used by VS8.1.
+
+### From TauCetiRoadmap.AdicSpacesPartIII
+
+- §R3.8 (*projective-trace-realization*): the finite-projective trace `LinearMap.projectiveTrace` is the categorical trace of the symmetric monoidal category of finite projective modules. Used by VS8.4.
+
+### From TauCetiRoadmap.DGAInfinity
+
+- Layer 5: compact objects of the derived category of a ring, regarded as a DG algebra in degree zero, are the perfect complexes (Stacks07LT, Tag 07LT). Used by VS8.4.
+
+### From TauCetiRoadmap.EtaleCohomologyFoundations
+
+- §F.10.3 (Perfect-complex traces and coherent additivity): for a commutative ring R, the perfect objects of the derived category of R-modules (bounded finite-projective representatives) are exactly its dualizable objects for the derived tensor product; the Lefschetz number of an endomorphism of a perfect complex is the alternating sum of the projective traces on a bounded finite-projective representative with a lifted chain endomorphism, independent of the representative and the lift, and it is the categorical trace. Used by VS8.4.
 
 ## References
 
