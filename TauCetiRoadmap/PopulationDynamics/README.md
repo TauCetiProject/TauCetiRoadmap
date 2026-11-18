@@ -360,9 +360,14 @@ the open quadrant is `(γ/δ, α/β)`. Prove:
 
 For `r₁, r₂, K₁, K₂, a, b > 0` define `competitionField r₁ r₂ K₁ K₂ a b (x, y)` as
 `(r₁ x (1 − (x + a y)/K₁), r₂ y (1 − (y + b x)/K₂))`. Its equilibria in the closed quadrant are
-`(0, 0)`, `(K₁, 0)`, `(0, K₂)` and, when the two numbers below are positive, the interior
-equilibrium `((K₁ − a K₂)/(1 − a b), (K₂ − b K₁)/(1 − a b))`. For a solution on `[0, ∞)` with
-`x(0), y(0) > 0` prove:
+`(0, 0)`, `(K₁, 0)`, `(0, K₂)` and the points of the quadrant on both lines `x + a y = K₁` and
+`b x + y = K₂`. For `a b ≠ 1` the lines meet in the single point
+`((K₁ − a K₂)/(1 − a b), (K₂ − b K₁)/(1 − a b))`, the interior equilibrium when both numbers are
+positive, and one of the three points above when one of them is `0`. For `a b = 1` the lines are
+parallel: they are disjoint unless `K₁ = a K₂`, and then they coincide and every point of the
+segment `x + a y = K₁`, `x, y ≥ 0`, is an equilibrium. Each of the three convergence statements
+below assumes two strict inequalities that exclude this last case. For a solution on `[0, ∞)`
+with `x(0), y(0) > 0` prove:
 
 - `x` and `y` stay positive, `x ≤ max (x(0)) K₁` and `y ≤ max (y(0)) K₂`; from every point of
   the closed quadrant there is exactly one solution on `[0, ∞)`, by 2.1;
@@ -476,7 +481,7 @@ transmits one of its two alleles with probability `½` each, so a parent of geno
 the genotype distribution of the offspring. Prove that it sends `(u, v, w)` to
 `(p², 2 p (1 − p), (1 − p)²)`, that it preserves the frequency of `A`, and that it is
 idempotent: the genotype frequencies are in Hardy–Weinberg proportions after one generation and
-do not change afterwards. (Proved here; the law is due to Hardy and to Weinberg, 1908.)
+do not change afterwards. (Proved here; the law is named after Hardy and Weinberg.)
 
 **Checks.**
 
