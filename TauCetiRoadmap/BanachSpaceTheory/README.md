@@ -20,95 +20,19 @@ finite dimension John's bound `d(E, ℓ₂ⁿ) ≤ √n`, the Kadec–Snobar and
 theorems and Dvoretzky's theorem. The roadmap is this README; `Suggested.lean` states the
 headline theorems whose carriers exist at the pins.
 
-## Scope and ownership
+## How to read the build
 
-This roadmap owns the targets of its seven layers. The layer ids `B1`–`B7`, and the target ids
-`B4.0`, `B4.1`, `B4.C`, `B5.LocalHaarDual` and `B6.Cotype2`, are kept in the headings below,
-since other roadmaps cite them. The layer anchors used by other roadmaps' links map to the layer
-headings as follows:
-
-- `#b1-duality-and-weak-topologies` → Layer 1 (B1),
-  `#layer-1-duality-and-weak-topologies-b1`.
-- `#b2-weak-compactness-and-reflexivity` → Layer 2 (B2),
-  `#layer-2-weak-compactness-and-reflexivity-b2`.
-- `#b3-schauder-bases-and-classical-spaces` → Layer 3 (B3),
-  `#layer-3-schauder-bases-and-classical-spaces-b3`.
-- `#b4-approximation-and-banach-tensor-products` → Layer 4 (B4),
-  `#layer-4-approximation-and-banach-tensor-products-b4`.
-- `#b5-function-spaces-and-weak-compactness` → Layer 5 (B5),
-  `#layer-5-function-spaces-and-weak-compactness-b5`.
-- `#b6-summing-operators-and-grothendiecks-inequality` → Layer 6 (B6),
-  `#layer-6-cotype-and-grothendiecks-theorem-b6`.
-- `#b7-local-theory-and-euclidean-sections` → Layer 7 (B7),
-  `#layer-7-local-theory-and-euclidean-sections-b7`.
-
-Already in the library at the pins, consumed and not restated (the supplier contracts give names
-and files):
-
-- From B1: the double-annihilator theorems for subspaces of `E` and of `E*`, the isometries
-  `(E/F)* ≅ Fᗮ` and `F* ≅ E*/Fᗮ`, the kernel and range identities of the adjoint, the
-  closed-range theorem with the `c₀₀ ⊂ ℓ²` counterexample, Goldstine's theorem, the bipolar
-  theorem, Mazur's lemma and the compatible weak-star metric on a dual ball of a separable space.
-- From B2: Eberlein–Šmulian (absolute and relative forms), reflexivity as weak compactness of
-  the ball with its invariance and inheritance by closed subspaces, quotients and duals,
-  Milman–Pettis, Clarkson's inequalities and uniform convexity of `Lᵖ`, Krein–Šmulian for convex
-  sets and subspaces, Bishop–Phelps for functionals, support points and support functionals, and
-  weakly compact operators with Gantmacher's theorem.
-- From B3: the small perturbation theorem for bases, subsequence bases, monotone renorming,
-  unconditional-basis criteria and multipliers, the dualities `c₀* = ℓ¹` and `(ℓᵖ)* = ℓᑫ`
-  (including `(ℓ¹)* = ℓ∞`), Schur's theorem for `ℓ¹`, the reflexivity examples, shrinking and
-  boundedly complete bases with James's basis criterion, and Burkholder's function with its
-  Bellman estimates.
-- From B4: the approximation, bounded and metric approximation properties with their transport
-  and projection inheritance, the metric approximation property of `ℓᵖ` and `c₀`, the bounded
-  approximation property of a space with a basis, Grothendieck's compact-operator
-  characterization of the approximation property, the projective and injective tensor norms
-  with their completions, universal property, functoriality, symmetry, unit and associativity
-  isometries, the injective tensor product of isometric embeddings, the projective tensor
-  product of metric quotient maps, series representations of completed projective tensors,
-  `E* ⊗̂ε F` as the approximable operators, nuclear operators with the nuclear norm, and integral
-  bilinear forms as the dual of the injective tensor product.
-- From B5: the scalar-measure integration layer. Its five items, cited by id elsewhere, are
-  Tau Ceti's at the pin, and this roadmap and SelfAdjointSpectralTheory both consume them there:
-  - B5.ScalarIntegral (scalar vector-integral linearity and signed parts):
-    `TauCeti/MeasureTheory/VectorMeasure/ScalarIntegral.lean`.
-  - B5.ScalarDensity (integral against a scalar density):
-    `TauCeti/MeasureTheory/VectorMeasure/WithDensity.lean`.
-  - B5.AbsContRegular (absolute-continuity regularity):
-    `TauCeti/MeasureTheory/Measure/Regular.lean` and
-    `TauCeti/MeasureTheory/VectorMeasure/Variation/Regular.lean`.
-  - B5.ScalarUniqueness (scalar-measure uniqueness on continuous tests):
-    `TauCeti/MeasureTheory/VectorMeasure/Uniqueness.lean`.
-  - B5.BoundedApprox (bounded continuous approximation in `L¹`, simultaneously for finitely many
-    measures): `TauCeti/MeasureTheory/Function/ContinuousApproximation.lean`.
-  Also from B5: the transport of a Hilbert basis along a unitary, the finite-measure `L¹`–`L∞`
-  duality, the isometry of the integral pairing `L^q → (L^q')*` for σ-finite measures, the
-  Riesz–Markov–Kakutani representation of order-bounded real functionals by differences of
-  regular measures, Dunford–Pettis operators and the Dunford–Pettis property with its sequence
-  criterion, its passage from the dual, and its examples `ℓ¹`, `c₀` and the infinite-dimensional
-  Hilbert space.
-- From B6: the weak `p`-norm, the absolutely `p`-summing gauge and the Banach ideal `Πₚ(E,F)`
-  with all its laws, Pietsch domination and factorization, and Grothendieck's inequality for
-  matrices and for one bounded bilinear form on `C(K, 𝕜) × C(L, 𝕜)` evaluated on finite families
-  with square functions at most one, with the constants `8` over `ℝ` and `16` over `𝕜`.
-- From B7: the Banach–Mazur distance with symmetry, the multiplicative triangle inequality and
-  distance one exactly for isometric spaces, finite representability, local reflexivity, finite
-  representability of `E**` in `E`, covering numbers of spheres, the Gaussian-maximum estimate,
-  the uniform probability on the sphere with its isometry invariance and its description as the
-  law of the direction of a standard Gaussian, independent of the radius, and the Rademacher
-  convexity inequality.
-
-Owned elsewhere: [Operator ideals](../OperatorTheory/OperatorIdeals/README.md) owns approximation
-numbers, finite-rank approximability, Hilbert-space Schatten ideals, trace norms and singular
-values (OI-A01, OI-A25–OI-A28, OI-B29–OI-B30); this roadmap owns the comparison of the Banach
-nuclear norm with that trace-class gauge. [Operator theory](../OperatorTheory/README.md) owns
-Hilbert-space spectral theory. C*-tensor norms are outside this Banach-space scope. The
-spectral and invariant-subspace consequences of the scalar-plus-compact theorem are BanachAlgebras
-A8's. The Hilbert matrix-coefficient WOT and the ultraweak and ultrastrong topologies are
-VonNeumannAlgebras V1's; the generic operator topologies of Layer 1 are this roadmap's. The
-absolutely continuous representative of an interval Sobolev class is PDE Layer 1 §1.1 (A1);
-Layer 5 consumes it. AmenableGroups Layer 7 works on the native global `Lp ℝ ∞ μ`; the local-null
-Haar carrier is this roadmap's.
+Layer 1 completes the duality theory of normed spaces around the pinned annihilator, adjoint,
+Goldstine and bipolar results. Layer 2 proves James's theorem. Layer 3 adds block bases, the
+ambient perturbation of basic sequences and the Haar basis of `Lᵖ[0,1]`. Layer 4 is the
+approximation and tensor layer: Grothendieck's tensor characterization, the Hilbert comparisons,
+the real–complex comparisons, Grothendieck's reflexive theorem with Enflo's counterexample, and
+the Argyros–Haydon construction. Layer 5 is function spaces and measure duality, from `ℓ²(S)`
+and Hilbert dimension through `C(K)*`, the `Lᵖ` dualities, the Dunford–Pettis theory and the
+local-null Haar endpoint. Layer 6 is cotype and Grothendieck's theorem, and Layer 7 the local
+theory. Layers 1–3 depend only on the suppliers; Layer 4 needs Layers 1–3; Layer 5 needs
+Layers 1–3, and inside it §5.4's density construction comes first and §5.7's property of
+`L¹(μ)` last, after §5.9; Layer 6 needs Layer 5; Layer 7 needs Layers 1, 4 and 6.
 
 ## Conventions
 
@@ -129,263 +53,6 @@ dual of `C(K, 𝕜)` pairs through `ContinuousLinearMap.mul ℝ 𝕜`. The adjoi
 conjugate-linear twist. The trace pairing of `X* ⊗ X` with `L(X)` sends `f ⊗ x` and `T` to
 `f(T x)`. Rademacher averages are over the uniform sign cube `{±1}ⁿ` and Gaussians are standard
 real ones.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- `StrongDual`, `NormedSpace.inclusionInDoubleDual`, `toWeakSpace`, `WeakDual`, Hahn–Banach
-  (`exists_extension_norm_eq`), Banach–Alaoglu (`WeakDual.isCompact_polar`), uniform boundedness,
-  the open mapping theorem, `PointwiseConvergenceCLM` and `ContinuousLinearMapWOT`.
-- `SchauderBasis`, `UnconditionalSchauderBasis`, `SchauderBasis.nnnormProjBound` and
-  `UnconditionalSchauderBasis.nnnormProjBound` (`Mathlib/Analysis/Normed/Module/Bases.lean`),
-  `SummationFilter`, `lp`, `lp.single`, `lp.hasSum_single`, `lp.completeSpace`, `lp.dualPairing`,
-  `ZeroAtInftyContinuousMap`, `UniformConvexSpace`.
-- `TensorProduct`, `PiTensorProduct`, `UniformSpace.Completion`, `IsCompactOperator`,
-  `ContinuousLinearMap.orthogonalComplement_iSup_eigenspaces_eq_bot`.
-- `HilbertBasis`, `HilbertBasis.repr`, `exists_hilbertBasis`, `HilbertBasis.toOrthonormalBasis`,
-  `Orthonormal`, `Cardinal.lift`, `Cardinal.mk`, `fourierBasis`.
-- `MeasureTheory.Lp`, `ContinuousLinearMap.lpPairing`, `ENNReal.HolderConjugate`,
-  `MeasureTheory.VectorMeasure` with `VectorMeasure.variation`, `VectorMeasure.mapRangeL` and the
-  vector integral `∫ᵛ x, f x ∂[B; μ]`, `Measure.variation_withDensityᵥ`,
-  `SignedMeasure.totalVariation_eq_variation`, signed and complex Radon–Nikodym derivatives,
-  `RealRMK.rieszMeasure`, `RealRMK.integral_rieszMeasure` and its `IsFiniteMeasure` instance on a
-  compact space, `CompactlySupportedContinuousMap.continuousMapEquiv`,
-  `ContinuousMap.toLp_denseRange`, `Measure.Regular`, `Measure.haar`, `OnePoint`,
-  `MeasureTheory.AddContent`, `UnifIntegrable`, `UniformIntegrable`, `gelfandStarTransform`.
-- `ConvexBody`, `EuclideanSpace`, `Measure.toSphere`, `gaussianReal`, `ProbabilityTheory.stdGaussian`
-  (`Mathlib/Probability/Distributions/Gaussian/Multivariate.lean`), `ZMod`, `Nat.choose`,
-  Bochner integration.
-
-### From Tau Ceti
-
-Layer 1:
-- `Submodule.orthogonalBilin_orthogonalBilin_topDualPairing_eq_topologicalClosure`
-  (`Analysis/Normed/Module/Annihilator.lean:128`) and
-  `Submodule.map_orthogonalBilin_flip_orthogonalBilin_eq_topologicalClosure`
-  (`Analysis/LocallyConvex/WeakDual/Annihilator.lean:63`): the norm and weak-star double
-  annihilators.
-- `Submodule.quotientDualEquivAnnihilator` (`Analysis/Normed/Module/Dual/Quotient.lean:38`) and
-  `Submodule.quotientAnnihilatorEquivDual` (`Analysis/Normed/Module/Dual/Submodule.lean:78`).
-- `ContinuousLinearMap.ker_precomp_eq_orthogonalBilin_range`,
-  `ContinuousLinearMap.range_precomp_eq_orthogonalBilin_ker` and the closed-range theorem
-  `ContinuousLinearMap.isClosed_range_precomp_iff` (`Analysis/Normed/Module/Dual/Adjoint.lean:68,
-  106,234`; both spaces complete for the last); `TauCeti.finiteSupportL2` and
-  `TauCeti.not_isClosed_finiteSupportL2`
-  (`Analysis/Normed/Module/Dual/ClosedRangeCounterexample.lean:40,78`).
-- `NormedSpace.closure_image_inclusionInDoubleDualWeak_closedBall`
-  (`Analysis/Normed/Module/Dual/Goldstine.lean:50`), `AbsConvex.bipolar_eq_closure` and
-  `StrongDual.bipolar_eq_closedAbsConvexHull` (`Analysis/LocallyConvex/Bipolar.lean:71,87`),
-  `TauCeti.exists_sum_smul_norm_sub_lt_of_tendsto_weak` (`Analysis/Normed/Module/Mazur.lean:82`).
-- `WeakDual.metricSpaceOfDenseSeq` and `StrongDual.weakStarClosedBallMetricSpace`
-  (`Analysis/Normed/Module/WeakDual/Metric.lean:73,115`; separable predual for the second).
-
-Layer 2:
-- `TauCeti.isCompact_toWeakSpace_iff_isSeqCompact` and `TauCeti.isCompact_closure_toWeakSpace_iff`
-  (`Analysis/Normed/Module/WeakSpace/EberleinSmulian.lean:153,137`).
-- `TauCeti.surjective_inclusionInDoubleDual_iff_isCompact_toWeakSpace_closedBall`
-  (`Analysis/Normed/Module/Dual/Reflexive/WeakCompact.lean:99`),
-  `ContinuousLinearEquiv.surjective_inclusionInDoubleDual_iff` and
-  `TauCeti.surjective_inclusionInDoubleDual_strongDual_iff`
-  (`Analysis/Normed/Module/Dual/Reflexive/Basic.lean:112,94`),
-  `Submodule.surjective_inclusionInDoubleDual` and
-  `Submodule.surjective_inclusionInDoubleDual_quotient`
-  (`Analysis/Normed/Module/Dual/Reflexive/Submodule.lean:41,67`).
-- `TauCeti.surjective_inclusionInDoubleDual_of_uniformConvexSpace`
-  (`Analysis/Convex/Uniform/Basic.lean:147`, Milman–Pettis); `TauCeti.norm_add_rpow_add_norm_sub_rpow_le`
-  (`Analysis/InnerProductSpace/Clarkson.lean:45`); `MeasureTheory.Lp.norm_add_rpow_add_norm_sub_rpow_le`,
-  `MeasureTheory.Lp.uniformConvexSpace` and `MeasureTheory.Lp.surjective_inclusionInDoubleDual`
-  (`MeasureTheory/Function/Lp/UniformConvex.lean:75,123,157`, for `1 < p < ∞`).
-- `Convex.isClosed_iff_forall_isClosed_inter_closedBall` and
-  `Submodule.isClosed_iff_isClosed_inter_closedBall_zero_one`
-  (`Analysis/Normed/Module/Dual/KreinSmulian.lean:272,305`).
-- `TauCeti.dense_setOf_exists_norm_apply_eq_norm`, `Convex.dense_setOf_ne_zero_isMaxOn_re` and
-  `Convex.frontier_subset_closure_setOf_isMaxOn_re`
-  (`Analysis/Normed/Module/Dual/BishopPhelps.lean:319,243,282`).
-- `ContinuousLinearMap.IsWeaklyCompact`, `ContinuousLinearMap.isWeaklyCompact_iff_range_subset`,
-  `ContinuousLinearMap.isWeaklyCompact_precomp_iff`, `IsCompactOperator.isWeaklyCompact` and
-  `ContinuousLinearMap.isWeaklyCompact_id_and_not_isCompactOperator_id`
-  (`Analysis/Normed/Operator/WeaklyCompact.lean:60,190,304,154,179`).
-
-Layer 3:
-- `SchauderBasis.IsShrinking`, `SchauderBasis.IsBoundedlyComplete` and
-  `SchauderBasis.surjective_inclusionInDoubleDual_iff`
-  (`Analysis/Normed/Module/Bases/Reflexive.lean:49,60,199`).
-- `GeneralSchauderBasis.smallPerturbationEquiv` and `GeneralSchauderBasis.perturb`
-  (`Analysis/Normed/Module/Bases/Perturbation.lean:60,133`), `SchauderBasis.subsequence`
-  (`Analysis/Normed/Module/Bases/Subsequence.lean:55`), `SchauderBasis.monotoneBasis`
-  (`Analysis/Normed/Module/Bases/Monotone.lean:159`),
-  `GeneralSchauderBasis.exists_forall_norm_proj_le_iff` and `UnconditionalSchauderBasis.multiplier`
-  (`Analysis/Normed/Module/Bases/Unconditional.lean:120,178`).
-- `ZeroAtInftyContinuousMap.dualEquiv` (`Topology/ContinuousMap/ZeroAtInfty/Dual.lean:129`),
-  `lp.dualEquiv` (`Analysis/Normed/Lp/Dual.lean:175`, `q ≠ ∞`), `lp.tendsto_of_tendsto_toWeakSpace_one`
-  (`Analysis/Normed/Lp/Schur.lean:155`), `lp.surjective_inclusionInDoubleDual` and
-  `lp.not_surjective_inclusionInDoubleDual_one` (`Analysis/Normed/Lp/Reflexive.lean:66,44`),
-  `ZeroAtInftyContinuousMap.not_surjective_inclusionInDoubleDual`
-  (`Topology/ContinuousMap/ZeroAtInfty/Reflexive.lean:68`).
-- `TauCeti.burkholderPhi`, `TauCeti.mul_burkholderPhi_le` and `TauCeti.convexOn_burkholderPhi_abs_add`
-  (`Analysis/SpecialFunctions/Pow/Burkholder.lean:59,204,357`, for `p ≥ 2`);
-  `TauCeti.unitInterval.tendsto_eLpNorm_condExp_dyadicFiltration`
-  (`MeasureTheory/Constructions/UnitInterval/Dyadic.lean:141`).
-
-Layer 4:
-- `TauCeti.HasApproximationProperty`, `TauCeti.HasBoundedApproximationPropertyWith`,
-  `TauCeti.HasBoundedApproximationProperty` and `TauCeti.HasMetricApproximationProperty`
-  (`Analysis/Normed/Module/ApproximationProperty/Basic.lean:47,52,58,62`); their transport
-  `ContinuousLinearEquiv.hasApproximationProperty_iff`,
-  `ContinuousLinearEquiv.hasBoundedApproximationPropertyWith`,
-  `TauCeti.HasApproximationProperty.of_projection` and
-  `TauCeti.HasBoundedApproximationPropertyWith.of_projection`
-  (`Analysis/Normed/Module/ApproximationProperty/Transport.lean:129,136,92,99`);
-  `TauCeti.hasMetricApproximationProperty_lp` and `TauCeti.hasMetricApproximationProperty_zeroAtInfty`
-  (`Analysis/Normed/Module/ApproximationProperty/SequenceSpace.lean:35,43`);
-  `SchauderBasis.hasBoundedApproximationPropertyWith` and `SchauderBasis.hasBoundedApproximationProperty`
-  (`Analysis/Normed/Module/Bases/Approximation.lean:59,64`);
-  `TauCeti.hasApproximationProperty_iff_forall_isCompactOperator`
-  (`Analysis/Normed/Module/ApproximationProperty/CompactOperator.lean:178`).
-- `TensorProduct.projectiveSeminorm`, `TauCeti.ProjectiveTensor`
-  (`Analysis/Normed/Module/TensorProduct/ProjectiveSeminorm.lean:123,236`);
-  `TensorProduct.injectiveSeminorm`, `TauCeti.InjectiveTensor`,
-  `TensorProduct.injectiveSeminorm_le_projectiveSeminorm` and
-  `TensorProduct.injectiveSeminorm_le_iff_forall_norm_le_one`
-  (`Analysis/Normed/Module/TensorProduct/InjectiveSeminorm.lean:109,330,151,203`; the classical
-  injective norm over `ℝ` and `ℂ`); `TauCeti.CompletedProjectiveTensor`,
-  `TauCeti.CompletedInjectiveTensor`, `TauCeti.CompletedProjectiveTensor.toCompletedInjectiveTensor`
-  and `TauCeti.CompletedProjectiveTensor.liftIsometry`
-  (`Analysis/Normed/Module/TensorProduct/Completion.lean:76,81,170,196`); the symmetry, unit and
-  associativity isometries (`Analysis/Normed/Module/TensorProduct/Associator.lean`);
-  `TauCeti.CompletedInjectiveTensor.mapIsometry` (`Analysis/Normed/Module/TensorProduct/Isometry.lean:125`);
-  `TauCeti.CompletedProjectiveTensor.image_mapL_ball`
-  (`Analysis/Normed/Module/TensorProduct/Quotient.lean:132`);
-  `TauCeti.CompletedProjectiveTensor.norm_lt_iff_exists_hasSum_tmul`
-  (`Analysis/Normed/Module/TensorProduct/Series.lean:148`);
-  `TauCeti.CompletedInjectiveTensor.toOperator` with its range
-  (`Analysis/Normed/Module/TensorProduct/Approximable.lean:172,188`).
-- `TauCeti.CompletedProjectiveTensor.toContinuousLinearMap`, `TauCeti.nuclearOperators`,
-  `TauCeti.nuclearGauge` and `TauCeti.NuclearOperator` (`Analysis/Normed/Operator/Nuclear.lean:84,
-  129,173,304`; complete target).
-- `ContinuousLinearMap.integralENorm`, `TauCeti.IntegralBilinearForm` and
-  `TauCeti.IntegralBilinearForm.liftIsometry`
-  (`Analysis/Normed/Module/TensorProduct/IntegralBilinearForm.lean:76,239,296`).
-- `TauCeti.Complexification` with `ofRealLI`, `reCLM`, `imCLM`, `equivProd` and
-  `ContinuousLinearMap.complexify` (`Analysis/Normed/Module/Complexification.lean`).
-- `exists_hilbertBasis_forall_hasEigenvector` (`Analysis/InnerProductSpace/Spectrum.lean:152`),
-  `IsCompactOperator.finiteDimensional_eigenspace`
-  (`Analysis/Normed/Operator/Compact/Eigenspace.lean:56`).
-
-Layer 5:
-- The scalar-measure layer listed under Scope and ownership, in particular
-  `MeasureTheory.VectorMeasure.scalarMeasureRealPart`, `scalarMeasureImagPart`,
-  `scalarMeasureOfReal`, `scalarMeasureOfReal_realPart_add_I_smul_imagPart`,
-  `variation_scalarMeasureRealPart_le`, `integral_const_mul`, `re_integral_ofReal`,
-  `integral_mul_eq_integral_posPart_sub_integral_negPart`
-  (`MeasureTheory/VectorMeasure/ScalarIntegral.lean`);
-  `MeasureTheory.VectorMeasure.integral_mul_withDensityᵥ` and `integral_withDensityᵥ_congr_ae`
-  (`MeasureTheory/VectorMeasure/WithDensity.lean:155,83`);
-  `MeasureTheory.Measure.AbsolutelyContinuous.regular` (`MeasureTheory/Measure/Regular.lean:234`);
-  `MeasureTheory.VectorMeasure.ext_of_integral_eq_on_continuousMap`
-  (`MeasureTheory/VectorMeasure/Uniqueness.lean:122`);
-  `MeasureTheory.exists_continuous_norm_le_forall_integral_norm_sub_le` and
-  `MeasureTheory.exists_seq_continuous_norm_le_tendsto_integral_norm_sub`
-  (`MeasureTheory/Function/ContinuousApproximation.lean`, finitely many finite weakly regular
-  measures on a normal Borel space).
-- `TauCeti.RealRMK.posPart`, `TauCeti.RealRMK.posPart_apply_of_nonneg`,
-  `TauCeti.RealRMK.negPart`, `TauCeti.RealRMK.negPart_apply` and
-  `TauCeti.RealRMK.integral_rieszMeasure_posPart_sub_integral_rieszMeasure_negPart`
-  (`MeasureTheory/Integral/RieszMarkovKakutani/Signed.lean:160,188,205,211,262`; the last states
-  only the integral identity, on `C_c(X, ℝ)`, with measures that need not be finite), used also by
-  §4.4.
-- `MeasureTheory.Lp.dualOneEquiv` (`MeasureTheory/Function/L1Space/Dual.lean:102`, finite
-  measure) and `MeasureTheory.Lp.toDual` (`MeasureTheory/Function/Lp/Duality.lean:431`, an
-  isometry for σ-finite measures; surjectivity is not asserted there).
-- `ContinuousLinearMap.IsDunfordPettis`, `ContinuousLinearMap.isDunfordPettis_iff_forall_isCompact_image`,
-  `TauCeti.HasDunfordPettisProperty` and `TauCeti.hasDunfordPettisProperty_iff`
-  (`Analysis/Normed/Operator/DunfordPettis/Basic.lean:86,172,247,296`);
-  `TauCeti.HasDunfordPettisProperty.of_dual`, `ZeroAtInftyContinuousMap.hasDunfordPettisProperty`
-  and `ZeroAtInftyContinuousMap.not_forall_tendsto_apply_of_tendsto_toWeakDual`
-  (`Analysis/Normed/Operator/DunfordPettis/Dual.lean:75,97,115`);
-  `TauCeti.hasDunfordPettisProperty_iff_finiteDimensional_of_innerProductSpace`
-  (`Analysis/Normed/Operator/DunfordPettis/Reflexive.lean:63`).
-- `PositiveLinearMap.addContentLpTopEquiv` (`MeasureTheory/Function/Lp/AddContent.lean:254`,
-  positive functionals on `L∞` as finitely additive contents).
-- `TauCeti.radialRetraction` (`Analysis/Normed/Module/Ball/Retraction.lean:85`).
-- `TauCeti.W1p` with its completeness (`Analysis/Sobolev/W1p/Basic.lean:372,376`).
-- `HilbertBasis.mapₗᵢ` (`Analysis/InnerProductSpace/HilbertBasis/Map.lean:32`), the transport of a
-  Hilbert basis along a linear isometric equivalence, with `HilbertBasis.mapₗᵢ_apply`.
-
-Layer 6:
-- `TauCeti.weakLpNorm` (`Analysis/Normed/Lp/Weak.lean:78`), `ContinuousLinearMap.summingENorm`
-  and `TauCeti.AbsolutelySumming` (`Analysis/Normed/Operator/AbsolutelySumming/Basic.lean:99,591`).
-- `ContinuousLinearMap.summingENorm_le_ofReal_iff_exists_isProbabilityMeasure`
-  (`Analysis/Normed/Operator/AbsolutelySumming/Pietsch.lean:329`, Pietsch domination) and
-  `ContinuousLinearMap.summingENorm_le_ofReal_iff_exists_eq_comp_rangeRestrict` and
-  `ContinuousLinearMap.summingENorm_le_ofReal_iff_exists_eq_comp_codRestrict_topologicalClosure`
-  (`Analysis/Normed/Operator/AbsolutelySumming/Factorization.lean:129,143`, Pietsch factorization
-  through the canonical image, and through its closure for a complete target).
-- `Matrix.abs_sum_sum_mul_inner_le_eight_mul` and `Matrix.norm_sum_sum_mul_inner_le_sixteen_mul`
-  (`Analysis/Matrix/Grothendieck.lean:169,207`).
-- `LinearMap.norm_sum_apply_apply_le_sixteen_mul` and `LinearMap.abs_sum_apply_apply_le_eight_mul`
-  (`Topology/ContinuousMap/Grothendieck.lean:157,169`; compact normal `K, L`): Grothendieck's
-  inequality for a bounded bilinear form on `C(K, 𝕜) × C(L, 𝕜)` and finite families with square
-  functions at most one.
-
-Layer 7:
-- `TauCeti.banachMazurDist`, `TauCeti.banachMazurDist_comm`, `TauCeti.banachMazurDist_triangle`,
-  `TauCeti.banachMazurDist_eq_one_iff` (`Analysis/Normed/Module/BanachMazur.lean:69,119,126,268`).
-- `TauCeti.FinitelyRepresentable` and `TauCeti.finitelyRepresentable_iff_banachMazurDist_lt`
-  (`Analysis/Normed/Module/FinitelyRepresentable.lean:67,221`).
-- `LinearIsometry.exists_continuousLinearMap_of_doubleDual` and
-  `TauCeti.finitelyRepresentable_doubleDual` (`Analysis/Normed/Module/Dual/LocalReflexivity.lean:228,320`).
-- `TauCeti.exists_finset_isCover_sphere` (`Analysis/Normed/Module/CoveringNumber.lean:168`) and
-  `TauCeti.Probability.sqrt_log_card_div_le_integral_sup'_abs`
-  (`Probability/Distributions/Gaussian/Maximum.lean:83`).
-- `TauCeti.Probability.uniformSphereMeasure`, the normalized surface measure `volume.toSphere` on
-  the unit sphere of a finite-dimensional real inner product space, a probability measure in
-  positive dimension, with its isometry invariance `LinearIsometryEquiv.map_uniformSphereMeasure`,
-  the law of direction and radius of a standard Gaussian
-  `TauCeti.Probability.stdGaussian_map_sphereDirection_prod_norm`, the spherical law of the
-  direction `TauCeti.Probability.stdGaussian_map_sphereDirection` and the independence of
-  direction and radius `ProbabilityTheory.HasLaw.indepFun_sphereDirection_norm_stdGaussian`
-  (`Probability/Distributions/Uniform/Sphere/Basic.lean:77,138,237,251,277`).
-- `Finset.sup'_norm_le_integral_norm_sum_smul_rademacher`
-  (`Probability/Distributions/Rademacher/Norm.lean:98`), the Rademacher convexity inequality
-  `max_j ‖v_j‖ ≤ 𝔼 ‖Σ ε_j v_j‖` for pairwise independent Rademacher signs, with no completeness or
-  dimension hypothesis.
-
-### From TauCetiRoadmap.OperatorTheory/OperatorIdeals
-
-OI-A01 (approximation numbers), OI-A25–OI-A28 (finite-rank approximability) and OI-B29–OI-B30
-(the Hilbert trace-class gauge), consumed by §4.2 for the nuclear/trace-class comparison.
-
-### From TauCetiRoadmap.AmenableGroups
-
-Layer 7, item 1: the raw Haar support/localization and Baire/null-envelope contract, with its
-locally finite and finite-set compact-inner-regular hypotheses, consumed by §5.8. Its later
-global-`L∞` means, smoothing conclusion and amenability theorem are not consumed.
-
-### From TauCetiRoadmap.PDE
-
-Layer 1 §1.1 (A1): the absolutely continuous representative of a `W^{1,p}(a,b)` class, consumed
-by §5.3 at `p = 1`.
-
-### From TauCetiRoadmap.PseudodifferentialOperators
-
-Layer 5 (P5): the boundaryless Hölder carriers, compared with the interval little Hölder space of
-§5.3 only where their hypotheses apply.
-
-## How to read the build
-
-Layer 1 completes the duality theory of normed spaces around the pinned annihilator, adjoint,
-Goldstine and bipolar results. Layer 2 proves James's theorem. Layer 3 adds block bases, the
-ambient perturbation of basic sequences and the Haar basis of `Lᵖ[0,1]`. Layer 4 is the
-approximation and tensor layer: Grothendieck's tensor characterization, the Hilbert comparisons,
-the real–complex comparisons, Grothendieck's reflexive theorem with Enflo's counterexample, and
-the Argyros–Haydon construction. Layer 5 is function spaces and measure duality, from `ℓ²(S)`
-and Hilbert dimension through `C(K)*`, the `Lᵖ` dualities, the Dunford–Pettis theory and the
-local-null Haar endpoint. Layer 6 is cotype and Grothendieck's theorem, and Layer 7 the local
-theory. Layers 1–3 depend only on the suppliers; Layer 4 needs Layers 1–3; Layer 5 needs
-Layers 1–3, and inside it §5.4's density construction comes first and §5.7's property of
-`L¹(μ)` last, after §5.9; Layer 6 needs Layer 5; Layer 7 needs Layers 1, 4 and 6.
 
 ## Layer 1: duality and weak topologies (B1)
 
@@ -1997,6 +1664,339 @@ contract. Within the roadmap: Layer 1, §4.4 (for §7.1), §6.1 (Gaussian model)
 - LocallyConvexDuality, NoncommutativeGeometry N1, SmoothBanachRepresentations and
   AutomorphicSpectralTheoryPartII consume Layer 4's Banach tensor products and nuclear operators,
   which are the pinned Tau Ceti carriers named in the supplier contract.
+
+## Scope and ownership
+
+This roadmap owns the targets of its seven layers. The layer ids `B1`–`B7`, and the target ids
+`B4.0`, `B4.1`, `B4.C`, `B5.LocalHaarDual` and `B6.Cotype2`, are kept in the headings below,
+since other roadmaps cite them. The layer anchors used by other roadmaps' links map to the layer
+headings as follows:
+
+- `#b1-duality-and-weak-topologies` → Layer 1 (B1),
+  `#layer-1-duality-and-weak-topologies-b1`.
+- `#b2-weak-compactness-and-reflexivity` → Layer 2 (B2),
+  `#layer-2-weak-compactness-and-reflexivity-b2`.
+- `#b3-schauder-bases-and-classical-spaces` → Layer 3 (B3),
+  `#layer-3-schauder-bases-and-classical-spaces-b3`.
+- `#b4-approximation-and-banach-tensor-products` → Layer 4 (B4),
+  `#layer-4-approximation-and-banach-tensor-products-b4`.
+- `#b5-function-spaces-and-weak-compactness` → Layer 5 (B5),
+  `#layer-5-function-spaces-and-weak-compactness-b5`.
+- `#b6-summing-operators-and-grothendiecks-inequality` → Layer 6 (B6),
+  `#layer-6-cotype-and-grothendiecks-theorem-b6`.
+- `#b7-local-theory-and-euclidean-sections` → Layer 7 (B7),
+  `#layer-7-local-theory-and-euclidean-sections-b7`.
+
+Already in the library at the pins, consumed and not restated (the supplier contracts give names
+and files):
+
+- From B1: the double-annihilator theorems for subspaces of `E` and of `E*`, the isometries
+  `(E/F)* ≅ Fᗮ` and `F* ≅ E*/Fᗮ`, the kernel and range identities of the adjoint, the
+  closed-range theorem with the `c₀₀ ⊂ ℓ²` counterexample, Goldstine's theorem, the bipolar
+  theorem, Mazur's lemma and the compatible weak-star metric on a dual ball of a separable space.
+- From B2: Eberlein–Šmulian (absolute and relative forms), reflexivity as weak compactness of
+  the ball with its invariance and inheritance by closed subspaces, quotients and duals,
+  Milman–Pettis, Clarkson's inequalities and uniform convexity of `Lᵖ`, Krein–Šmulian for convex
+  sets and subspaces, Bishop–Phelps for functionals, support points and support functionals, and
+  weakly compact operators with Gantmacher's theorem.
+- From B3: the small perturbation theorem for bases, subsequence bases, monotone renorming,
+  unconditional-basis criteria and multipliers, the dualities `c₀* = ℓ¹` and `(ℓᵖ)* = ℓᑫ`
+  (including `(ℓ¹)* = ℓ∞`), Schur's theorem for `ℓ¹`, the reflexivity examples, shrinking and
+  boundedly complete bases with James's basis criterion, and Burkholder's function with its
+  Bellman estimates.
+- From B4: the approximation, bounded and metric approximation properties with their transport
+  and projection inheritance, the metric approximation property of `ℓᵖ` and `c₀`, the bounded
+  approximation property of a space with a basis, Grothendieck's compact-operator
+  characterization of the approximation property, the projective and injective tensor norms
+  with their completions, universal property, functoriality, symmetry, unit and associativity
+  isometries, the injective tensor product of isometric embeddings, the projective tensor
+  product of metric quotient maps, series representations of completed projective tensors,
+  `E* ⊗̂ε F` as the approximable operators, nuclear operators with the nuclear norm, and integral
+  bilinear forms as the dual of the injective tensor product.
+- From B5: the scalar-measure integration layer. Its five items, cited by id elsewhere, are
+  Tau Ceti's at the pin, and this roadmap and SelfAdjointSpectralTheory both consume them there:
+  - B5.ScalarIntegral (scalar vector-integral linearity and signed parts):
+    `TauCeti/MeasureTheory/VectorMeasure/ScalarIntegral.lean`.
+  - B5.ScalarDensity (integral against a scalar density):
+    `TauCeti/MeasureTheory/VectorMeasure/WithDensity.lean`.
+  - B5.AbsContRegular (absolute-continuity regularity):
+    `TauCeti/MeasureTheory/Measure/Regular.lean` and
+    `TauCeti/MeasureTheory/VectorMeasure/Variation/Regular.lean`.
+  - B5.ScalarUniqueness (scalar-measure uniqueness on continuous tests):
+    `TauCeti/MeasureTheory/VectorMeasure/Uniqueness.lean`.
+  - B5.BoundedApprox (bounded continuous approximation in `L¹`, simultaneously for finitely many
+    measures): `TauCeti/MeasureTheory/Function/ContinuousApproximation.lean`.
+  Also from B5: the transport of a Hilbert basis along a unitary, the finite-measure `L¹`–`L∞`
+  duality, the isometry of the integral pairing `L^q → (L^q')*` for σ-finite measures, the
+  Riesz–Markov–Kakutani representation of order-bounded real functionals by differences of
+  regular measures, Dunford–Pettis operators and the Dunford–Pettis property with its sequence
+  criterion, its passage from the dual, and its examples `ℓ¹`, `c₀` and the infinite-dimensional
+  Hilbert space.
+- From B6: the weak `p`-norm, the absolutely `p`-summing gauge and the Banach ideal `Πₚ(E,F)`
+  with all its laws, Pietsch domination and factorization, and Grothendieck's inequality for
+  matrices and for one bounded bilinear form on `C(K, 𝕜) × C(L, 𝕜)` evaluated on finite families
+  with square functions at most one, with the constants `8` over `ℝ` and `16` over `𝕜`.
+- From B7: the Banach–Mazur distance with symmetry, the multiplicative triangle inequality and
+  distance one exactly for isometric spaces, finite representability, local reflexivity, finite
+  representability of `E**` in `E`, covering numbers of spheres, the Gaussian-maximum estimate,
+  the uniform probability on the sphere with its isometry invariance and its description as the
+  law of the direction of a standard Gaussian, independent of the radius, and the Rademacher
+  convexity inequality.
+
+Owned elsewhere: [Operator ideals](../OperatorTheory/OperatorIdeals/README.md) owns approximation
+numbers, finite-rank approximability, Hilbert-space Schatten ideals, trace norms and singular
+values (OI-A01, OI-A25–OI-A28, OI-B29–OI-B30); this roadmap owns the comparison of the Banach
+nuclear norm with that trace-class gauge. [Operator theory](../OperatorTheory/README.md) owns
+Hilbert-space spectral theory. C*-tensor norms are outside this Banach-space scope. The
+spectral and invariant-subspace consequences of the scalar-plus-compact theorem are BanachAlgebras
+A8's. The Hilbert matrix-coefficient WOT and the ultraweak and ultrastrong topologies are
+VonNeumannAlgebras V1's; the generic operator topologies of Layer 1 are this roadmap's. The
+absolutely continuous representative of an interval Sobolev class is PDE Layer 1 §1.1 (A1);
+Layer 5 consumes it. AmenableGroups Layer 7 works on the native global `Lp ℝ ∞ μ`; the local-null
+Haar carrier is this roadmap's.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- `StrongDual`, `NormedSpace.inclusionInDoubleDual`, `toWeakSpace`, `WeakDual`, Hahn–Banach
+  (`exists_extension_norm_eq`), Banach–Alaoglu (`WeakDual.isCompact_polar`), uniform boundedness,
+  the open mapping theorem, `PointwiseConvergenceCLM` and `ContinuousLinearMapWOT`.
+- `SchauderBasis`, `UnconditionalSchauderBasis`, `SchauderBasis.nnnormProjBound` and
+  `UnconditionalSchauderBasis.nnnormProjBound` (`Mathlib/Analysis/Normed/Module/Bases.lean`),
+  `SummationFilter`, `lp`, `lp.single`, `lp.hasSum_single`, `lp.completeSpace`, `lp.dualPairing`,
+  `ZeroAtInftyContinuousMap`, `UniformConvexSpace`.
+- `TensorProduct`, `PiTensorProduct`, `UniformSpace.Completion`, `IsCompactOperator`,
+  `ContinuousLinearMap.orthogonalComplement_iSup_eigenspaces_eq_bot`.
+- `HilbertBasis`, `HilbertBasis.repr`, `exists_hilbertBasis`, `HilbertBasis.toOrthonormalBasis`,
+  `Orthonormal`, `Cardinal.lift`, `Cardinal.mk`, `fourierBasis`.
+- `MeasureTheory.Lp`, `ContinuousLinearMap.lpPairing`, `ENNReal.HolderConjugate`,
+  `MeasureTheory.VectorMeasure` with `VectorMeasure.variation`, `VectorMeasure.mapRangeL` and the
+  vector integral `∫ᵛ x, f x ∂[B; μ]`, `Measure.variation_withDensityᵥ`,
+  `SignedMeasure.totalVariation_eq_variation`, signed and complex Radon–Nikodym derivatives,
+  `RealRMK.rieszMeasure`, `RealRMK.integral_rieszMeasure` and its `IsFiniteMeasure` instance on a
+  compact space, `CompactlySupportedContinuousMap.continuousMapEquiv`,
+  `ContinuousMap.toLp_denseRange`, `Measure.Regular`, `Measure.haar`, `OnePoint`,
+  `MeasureTheory.AddContent`, `UnifIntegrable`, `UniformIntegrable`, `gelfandStarTransform`.
+- `ConvexBody`, `EuclideanSpace`, `Measure.toSphere`, `gaussianReal`, `ProbabilityTheory.stdGaussian`
+  (`Mathlib/Probability/Distributions/Gaussian/Multivariate.lean`), `ZMod`, `Nat.choose`,
+  Bochner integration.
+
+### From Tau Ceti
+
+Layer 1:
+- `Submodule.orthogonalBilin_orthogonalBilin_topDualPairing_eq_topologicalClosure`
+  (`Analysis/Normed/Module/Annihilator.lean:128`) and
+  `Submodule.map_orthogonalBilin_flip_orthogonalBilin_eq_topologicalClosure`
+  (`Analysis/LocallyConvex/WeakDual/Annihilator.lean:63`): the norm and weak-star double
+  annihilators.
+- `Submodule.quotientDualEquivAnnihilator` (`Analysis/Normed/Module/Dual/Quotient.lean:38`) and
+  `Submodule.quotientAnnihilatorEquivDual` (`Analysis/Normed/Module/Dual/Submodule.lean:78`).
+- `ContinuousLinearMap.ker_precomp_eq_orthogonalBilin_range`,
+  `ContinuousLinearMap.range_precomp_eq_orthogonalBilin_ker` and the closed-range theorem
+  `ContinuousLinearMap.isClosed_range_precomp_iff` (`Analysis/Normed/Module/Dual/Adjoint.lean:68,
+  106,234`; both spaces complete for the last); `TauCeti.finiteSupportL2` and
+  `TauCeti.not_isClosed_finiteSupportL2`
+  (`Analysis/Normed/Module/Dual/ClosedRangeCounterexample.lean:40,78`).
+- `NormedSpace.closure_image_inclusionInDoubleDualWeak_closedBall`
+  (`Analysis/Normed/Module/Dual/Goldstine.lean:50`), `AbsConvex.bipolar_eq_closure` and
+  `StrongDual.bipolar_eq_closedAbsConvexHull` (`Analysis/LocallyConvex/Bipolar.lean:71,87`),
+  `TauCeti.exists_sum_smul_norm_sub_lt_of_tendsto_weak` (`Analysis/Normed/Module/Mazur.lean:82`).
+- `WeakDual.metricSpaceOfDenseSeq` and `StrongDual.weakStarClosedBallMetricSpace`
+  (`Analysis/Normed/Module/WeakDual/Metric.lean:73,115`; separable predual for the second).
+
+Layer 2:
+- `TauCeti.isCompact_toWeakSpace_iff_isSeqCompact` and `TauCeti.isCompact_closure_toWeakSpace_iff`
+  (`Analysis/Normed/Module/WeakSpace/EberleinSmulian.lean:153,137`).
+- `TauCeti.surjective_inclusionInDoubleDual_iff_isCompact_toWeakSpace_closedBall`
+  (`Analysis/Normed/Module/Dual/Reflexive/WeakCompact.lean:99`),
+  `ContinuousLinearEquiv.surjective_inclusionInDoubleDual_iff` and
+  `TauCeti.surjective_inclusionInDoubleDual_strongDual_iff`
+  (`Analysis/Normed/Module/Dual/Reflexive/Basic.lean:112,94`),
+  `Submodule.surjective_inclusionInDoubleDual` and
+  `Submodule.surjective_inclusionInDoubleDual_quotient`
+  (`Analysis/Normed/Module/Dual/Reflexive/Submodule.lean:41,67`).
+- `TauCeti.surjective_inclusionInDoubleDual_of_uniformConvexSpace`
+  (`Analysis/Convex/Uniform/Basic.lean:147`, Milman–Pettis); `TauCeti.norm_add_rpow_add_norm_sub_rpow_le`
+  (`Analysis/InnerProductSpace/Clarkson.lean:45`); `MeasureTheory.Lp.norm_add_rpow_add_norm_sub_rpow_le`,
+  `MeasureTheory.Lp.uniformConvexSpace` and `MeasureTheory.Lp.surjective_inclusionInDoubleDual`
+  (`MeasureTheory/Function/Lp/UniformConvex.lean:75,123,157`, for `1 < p < ∞`).
+- `Convex.isClosed_iff_forall_isClosed_inter_closedBall` and
+  `Submodule.isClosed_iff_isClosed_inter_closedBall_zero_one`
+  (`Analysis/Normed/Module/Dual/KreinSmulian.lean:272,305`).
+- `TauCeti.dense_setOf_exists_norm_apply_eq_norm`, `Convex.dense_setOf_ne_zero_isMaxOn_re` and
+  `Convex.frontier_subset_closure_setOf_isMaxOn_re`
+  (`Analysis/Normed/Module/Dual/BishopPhelps.lean:319,243,282`).
+- `ContinuousLinearMap.IsWeaklyCompact`, `ContinuousLinearMap.isWeaklyCompact_iff_range_subset`,
+  `ContinuousLinearMap.isWeaklyCompact_precomp_iff`, `IsCompactOperator.isWeaklyCompact` and
+  `ContinuousLinearMap.isWeaklyCompact_id_and_not_isCompactOperator_id`
+  (`Analysis/Normed/Operator/WeaklyCompact.lean:60,190,304,154,179`).
+
+Layer 3:
+- `SchauderBasis.IsShrinking`, `SchauderBasis.IsBoundedlyComplete` and
+  `SchauderBasis.surjective_inclusionInDoubleDual_iff`
+  (`Analysis/Normed/Module/Bases/Reflexive.lean:49,60,199`).
+- `GeneralSchauderBasis.smallPerturbationEquiv` and `GeneralSchauderBasis.perturb`
+  (`Analysis/Normed/Module/Bases/Perturbation.lean:60,133`), `SchauderBasis.subsequence`
+  (`Analysis/Normed/Module/Bases/Subsequence.lean:55`), `SchauderBasis.monotoneBasis`
+  (`Analysis/Normed/Module/Bases/Monotone.lean:159`),
+  `GeneralSchauderBasis.exists_forall_norm_proj_le_iff` and `UnconditionalSchauderBasis.multiplier`
+  (`Analysis/Normed/Module/Bases/Unconditional.lean:120,178`).
+- `ZeroAtInftyContinuousMap.dualEquiv` (`Topology/ContinuousMap/ZeroAtInfty/Dual.lean:129`),
+  `lp.dualEquiv` (`Analysis/Normed/Lp/Dual.lean:175`, `q ≠ ∞`), `lp.tendsto_of_tendsto_toWeakSpace_one`
+  (`Analysis/Normed/Lp/Schur.lean:155`), `lp.surjective_inclusionInDoubleDual` and
+  `lp.not_surjective_inclusionInDoubleDual_one` (`Analysis/Normed/Lp/Reflexive.lean:66,44`),
+  `ZeroAtInftyContinuousMap.not_surjective_inclusionInDoubleDual`
+  (`Topology/ContinuousMap/ZeroAtInfty/Reflexive.lean:68`).
+- `TauCeti.burkholderPhi`, `TauCeti.mul_burkholderPhi_le` and `TauCeti.convexOn_burkholderPhi_abs_add`
+  (`Analysis/SpecialFunctions/Pow/Burkholder.lean:59,204,357`, for `p ≥ 2`);
+  `TauCeti.unitInterval.tendsto_eLpNorm_condExp_dyadicFiltration`
+  (`MeasureTheory/Constructions/UnitInterval/Dyadic.lean:141`).
+
+Layer 4:
+- `TauCeti.HasApproximationProperty`, `TauCeti.HasBoundedApproximationPropertyWith`,
+  `TauCeti.HasBoundedApproximationProperty` and `TauCeti.HasMetricApproximationProperty`
+  (`Analysis/Normed/Module/ApproximationProperty/Basic.lean:47,52,58,62`); their transport
+  `ContinuousLinearEquiv.hasApproximationProperty_iff`,
+  `ContinuousLinearEquiv.hasBoundedApproximationPropertyWith`,
+  `TauCeti.HasApproximationProperty.of_projection` and
+  `TauCeti.HasBoundedApproximationPropertyWith.of_projection`
+  (`Analysis/Normed/Module/ApproximationProperty/Transport.lean:129,136,92,99`);
+  `TauCeti.hasMetricApproximationProperty_lp` and `TauCeti.hasMetricApproximationProperty_zeroAtInfty`
+  (`Analysis/Normed/Module/ApproximationProperty/SequenceSpace.lean:35,43`);
+  `SchauderBasis.hasBoundedApproximationPropertyWith` and `SchauderBasis.hasBoundedApproximationProperty`
+  (`Analysis/Normed/Module/Bases/Approximation.lean:59,64`);
+  `TauCeti.hasApproximationProperty_iff_forall_isCompactOperator`
+  (`Analysis/Normed/Module/ApproximationProperty/CompactOperator.lean:178`).
+- `TensorProduct.projectiveSeminorm`, `TauCeti.ProjectiveTensor`
+  (`Analysis/Normed/Module/TensorProduct/ProjectiveSeminorm.lean:123,236`);
+  `TensorProduct.injectiveSeminorm`, `TauCeti.InjectiveTensor`,
+  `TensorProduct.injectiveSeminorm_le_projectiveSeminorm` and
+  `TensorProduct.injectiveSeminorm_le_iff_forall_norm_le_one`
+  (`Analysis/Normed/Module/TensorProduct/InjectiveSeminorm.lean:109,330,151,203`; the classical
+  injective norm over `ℝ` and `ℂ`); `TauCeti.CompletedProjectiveTensor`,
+  `TauCeti.CompletedInjectiveTensor`, `TauCeti.CompletedProjectiveTensor.toCompletedInjectiveTensor`
+  and `TauCeti.CompletedProjectiveTensor.liftIsometry`
+  (`Analysis/Normed/Module/TensorProduct/Completion.lean:76,81,170,196`); the symmetry, unit and
+  associativity isometries (`Analysis/Normed/Module/TensorProduct/Associator.lean`);
+  `TauCeti.CompletedInjectiveTensor.mapIsometry` (`Analysis/Normed/Module/TensorProduct/Isometry.lean:125`);
+  `TauCeti.CompletedProjectiveTensor.image_mapL_ball`
+  (`Analysis/Normed/Module/TensorProduct/Quotient.lean:132`);
+  `TauCeti.CompletedProjectiveTensor.norm_lt_iff_exists_hasSum_tmul`
+  (`Analysis/Normed/Module/TensorProduct/Series.lean:148`);
+  `TauCeti.CompletedInjectiveTensor.toOperator` with its range
+  (`Analysis/Normed/Module/TensorProduct/Approximable.lean:172,188`).
+- `TauCeti.CompletedProjectiveTensor.toContinuousLinearMap`, `TauCeti.nuclearOperators`,
+  `TauCeti.nuclearGauge` and `TauCeti.NuclearOperator` (`Analysis/Normed/Operator/Nuclear.lean:84,
+  129,173,304`; complete target).
+- `ContinuousLinearMap.integralENorm`, `TauCeti.IntegralBilinearForm` and
+  `TauCeti.IntegralBilinearForm.liftIsometry`
+  (`Analysis/Normed/Module/TensorProduct/IntegralBilinearForm.lean:76,239,296`).
+- `TauCeti.Complexification` with `ofRealLI`, `reCLM`, `imCLM`, `equivProd` and
+  `ContinuousLinearMap.complexify` (`Analysis/Normed/Module/Complexification.lean`).
+- `exists_hilbertBasis_forall_hasEigenvector` (`Analysis/InnerProductSpace/Spectrum.lean:152`),
+  `IsCompactOperator.finiteDimensional_eigenspace`
+  (`Analysis/Normed/Operator/Compact/Eigenspace.lean:56`).
+
+Layer 5:
+- The scalar-measure layer listed under Scope and ownership, in particular
+  `MeasureTheory.VectorMeasure.scalarMeasureRealPart`, `scalarMeasureImagPart`,
+  `scalarMeasureOfReal`, `scalarMeasureOfReal_realPart_add_I_smul_imagPart`,
+  `variation_scalarMeasureRealPart_le`, `integral_const_mul`, `re_integral_ofReal`,
+  `integral_mul_eq_integral_posPart_sub_integral_negPart`
+  (`MeasureTheory/VectorMeasure/ScalarIntegral.lean`);
+  `MeasureTheory.VectorMeasure.integral_mul_withDensityᵥ` and `integral_withDensityᵥ_congr_ae`
+  (`MeasureTheory/VectorMeasure/WithDensity.lean:155,83`);
+  `MeasureTheory.Measure.AbsolutelyContinuous.regular` (`MeasureTheory/Measure/Regular.lean:234`);
+  `MeasureTheory.VectorMeasure.ext_of_integral_eq_on_continuousMap`
+  (`MeasureTheory/VectorMeasure/Uniqueness.lean:122`);
+  `MeasureTheory.exists_continuous_norm_le_forall_integral_norm_sub_le` and
+  `MeasureTheory.exists_seq_continuous_norm_le_tendsto_integral_norm_sub`
+  (`MeasureTheory/Function/ContinuousApproximation.lean`, finitely many finite weakly regular
+  measures on a normal Borel space).
+- `TauCeti.RealRMK.posPart`, `TauCeti.RealRMK.posPart_apply_of_nonneg`,
+  `TauCeti.RealRMK.negPart`, `TauCeti.RealRMK.negPart_apply` and
+  `TauCeti.RealRMK.integral_rieszMeasure_posPart_sub_integral_rieszMeasure_negPart`
+  (`MeasureTheory/Integral/RieszMarkovKakutani/Signed.lean:160,188,205,211,262`; the last states
+  only the integral identity, on `C_c(X, ℝ)`, with measures that need not be finite), used also by
+  §4.4.
+- `MeasureTheory.Lp.dualOneEquiv` (`MeasureTheory/Function/L1Space/Dual.lean:102`, finite
+  measure) and `MeasureTheory.Lp.toDual` (`MeasureTheory/Function/Lp/Duality.lean:431`, an
+  isometry for σ-finite measures; surjectivity is not asserted there).
+- `ContinuousLinearMap.IsDunfordPettis`, `ContinuousLinearMap.isDunfordPettis_iff_forall_isCompact_image`,
+  `TauCeti.HasDunfordPettisProperty` and `TauCeti.hasDunfordPettisProperty_iff`
+  (`Analysis/Normed/Operator/DunfordPettis/Basic.lean:86,172,247,296`);
+  `TauCeti.HasDunfordPettisProperty.of_dual`, `ZeroAtInftyContinuousMap.hasDunfordPettisProperty`
+  and `ZeroAtInftyContinuousMap.not_forall_tendsto_apply_of_tendsto_toWeakDual`
+  (`Analysis/Normed/Operator/DunfordPettis/Dual.lean:75,97,115`);
+  `TauCeti.hasDunfordPettisProperty_iff_finiteDimensional_of_innerProductSpace`
+  (`Analysis/Normed/Operator/DunfordPettis/Reflexive.lean:63`).
+- `PositiveLinearMap.addContentLpTopEquiv` (`MeasureTheory/Function/Lp/AddContent.lean:254`,
+  positive functionals on `L∞` as finitely additive contents).
+- `TauCeti.radialRetraction` (`Analysis/Normed/Module/Ball/Retraction.lean:85`).
+- `TauCeti.W1p` with its completeness (`Analysis/Sobolev/W1p/Basic.lean:372,376`).
+- `HilbertBasis.mapₗᵢ` (`Analysis/InnerProductSpace/HilbertBasis/Map.lean:32`), the transport of a
+  Hilbert basis along a linear isometric equivalence, with `HilbertBasis.mapₗᵢ_apply`.
+
+Layer 6:
+- `TauCeti.weakLpNorm` (`Analysis/Normed/Lp/Weak.lean:78`), `ContinuousLinearMap.summingENorm`
+  and `TauCeti.AbsolutelySumming` (`Analysis/Normed/Operator/AbsolutelySumming/Basic.lean:99,591`).
+- `ContinuousLinearMap.summingENorm_le_ofReal_iff_exists_isProbabilityMeasure`
+  (`Analysis/Normed/Operator/AbsolutelySumming/Pietsch.lean:329`, Pietsch domination) and
+  `ContinuousLinearMap.summingENorm_le_ofReal_iff_exists_eq_comp_rangeRestrict` and
+  `ContinuousLinearMap.summingENorm_le_ofReal_iff_exists_eq_comp_codRestrict_topologicalClosure`
+  (`Analysis/Normed/Operator/AbsolutelySumming/Factorization.lean:129,143`, Pietsch factorization
+  through the canonical image, and through its closure for a complete target).
+- `Matrix.abs_sum_sum_mul_inner_le_eight_mul` and `Matrix.norm_sum_sum_mul_inner_le_sixteen_mul`
+  (`Analysis/Matrix/Grothendieck.lean:169,207`).
+- `LinearMap.norm_sum_apply_apply_le_sixteen_mul` and `LinearMap.abs_sum_apply_apply_le_eight_mul`
+  (`Topology/ContinuousMap/Grothendieck.lean:157,169`; compact normal `K, L`): Grothendieck's
+  inequality for a bounded bilinear form on `C(K, 𝕜) × C(L, 𝕜)` and finite families with square
+  functions at most one.
+
+Layer 7:
+- `TauCeti.banachMazurDist`, `TauCeti.banachMazurDist_comm`, `TauCeti.banachMazurDist_triangle`,
+  `TauCeti.banachMazurDist_eq_one_iff` (`Analysis/Normed/Module/BanachMazur.lean:69,119,126,268`).
+- `TauCeti.FinitelyRepresentable` and `TauCeti.finitelyRepresentable_iff_banachMazurDist_lt`
+  (`Analysis/Normed/Module/FinitelyRepresentable.lean:67,221`).
+- `LinearIsometry.exists_continuousLinearMap_of_doubleDual` and
+  `TauCeti.finitelyRepresentable_doubleDual` (`Analysis/Normed/Module/Dual/LocalReflexivity.lean:228,320`).
+- `TauCeti.exists_finset_isCover_sphere` (`Analysis/Normed/Module/CoveringNumber.lean:168`) and
+  `TauCeti.Probability.sqrt_log_card_div_le_integral_sup'_abs`
+  (`Probability/Distributions/Gaussian/Maximum.lean:83`).
+- `TauCeti.Probability.uniformSphereMeasure`, the normalized surface measure `volume.toSphere` on
+  the unit sphere of a finite-dimensional real inner product space, a probability measure in
+  positive dimension, with its isometry invariance `LinearIsometryEquiv.map_uniformSphereMeasure`,
+  the law of direction and radius of a standard Gaussian
+  `TauCeti.Probability.stdGaussian_map_sphereDirection_prod_norm`, the spherical law of the
+  direction `TauCeti.Probability.stdGaussian_map_sphereDirection` and the independence of
+  direction and radius `ProbabilityTheory.HasLaw.indepFun_sphereDirection_norm_stdGaussian`
+  (`Probability/Distributions/Uniform/Sphere/Basic.lean:77,138,237,251,277`).
+- `Finset.sup'_norm_le_integral_norm_sum_smul_rademacher`
+  (`Probability/Distributions/Rademacher/Norm.lean:98`), the Rademacher convexity inequality
+  `max_j ‖v_j‖ ≤ 𝔼 ‖Σ ε_j v_j‖` for pairwise independent Rademacher signs, with no completeness or
+  dimension hypothesis.
+
+### From TauCetiRoadmap.OperatorTheory/OperatorIdeals
+
+OI-A01 (approximation numbers), OI-A25–OI-A28 (finite-rank approximability) and OI-B29–OI-B30
+(the Hilbert trace-class gauge), consumed by §4.2 for the nuclear/trace-class comparison.
+
+### From TauCetiRoadmap.AmenableGroups
+
+Layer 7, item 1: the raw Haar support/localization and Baire/null-envelope contract, with its
+locally finite and finite-set compact-inner-regular hypotheses, consumed by §5.8. Its later
+global-`L∞` means, smoothing conclusion and amenability theorem are not consumed.
+
+### From TauCetiRoadmap.PDE
+
+Layer 1 §1.1 (A1): the absolutely continuous representative of a `W^{1,p}(a,b)` class, consumed
+by §5.3 at `p = 1`.
+
+### From TauCetiRoadmap.PseudodifferentialOperators
+
+Layer 5 (P5): the boundaryless Hölder carriers, compared with the interval little Hölder space of
+§5.3 only where their hypotheses apply.
 
 ## References
 
