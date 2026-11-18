@@ -25,70 +25,16 @@ quotient of a modular Jacobian. It proves the equivalence of the newform, quotie
 parametrisation formulations without using the existence theorem. Separating this theory
 makes it usable when modularity is already known from a geometric construction.
 
-## Scope and ownership
+## How to read the build
 
-The modularity and geometric comparisons have base field ℚ. Elliptic coefficient
-summability in R29.6 is proved over every number field K, using the native
-`WeierstrassCurve.LFunction` with coefficients grouped by ideal norm. The curves over ℚ may have complex
-multiplication over ℚ̄; the constructions and theorems include that case. The endomorphisms used in the proofs are
-defined over ℚ. In particular,
-
-`End_ℚ(E)=ℤ,`
-
-including for a curve whose geometric endomorphism ring is larger. The Tate module over
-a field containing the CM field has different irreducibility properties and must not be
-substituted for the representation over ℚ.
-
-This roadmap begins after the elementary theory of elliptic curves, local reduction,
-modular forms, and modular curves. It imports those objects and their general theorems
-and supplies the arithmetic comparisons specific to elliptic curves over ℚ. The
-following divisions of responsibility determine the interfaces.
-
-* Tau Ceti **EllipticCurves**, Layers 1–4, provides Weierstrass equations,
-  isogenies, torsion and Tate modules, finite-field traces, local reduction and
-  the Tate curve. ArithmeticGaloisRepresentations **§§6.1–6.3** supplies the
-  arithmetic Galois representation, its determinant and Frobenius polynomial.
-  NeronModelsAndSemistableAbelianVarieties **§§5.3a and 5.3g–5.3i** supplies
-  the comparison of the elliptic conductor with Artin conductors.
-* Tau Ceti **ModularForms**, Layers 4, 5, 7 and 8G, supplies newforms,
-  finiteness at fixed weight and level, the old/new decomposition, strong
-  multiplicity one across levels, L-functions, and Galois conjugation of
-  coefficients. The general theory of those constructions stays there.
-* ClassicalSerreModularity **§R27.6, Serre’s modularity conjecture, strong form**,
-  supplies unconditional global residual modularity. Its **finite-flat weight-two
-  export** supplies a weight-two newform of exact residual conductor and trivial
-  character. SerreWeightAndLevelOptimisation §4.8 supplies the corresponding
-  optimization for an already modular residual representation.
-* FiniteFlatGroupsAndIntegralPadicHodgeTheory
-  **§R07.6.1** and
-  AlgebraicModularFormsAndSerreWeights
-  **§4.9, The weight-two criterion** supply the integral and weight
-  comparisons. Eigenvalue lifting belongs to
-  **§5.10, Deligne–Serre eigenvalue lifting**.
-* AutomorphicGaloisRepresentations **§1.5**, **§6.4** and **§§6.1–6.2** supplies
-  the representations of newforms, their full local compatibility, and their
-  realization in the Tate modules of modular quotients.
-* FaltingsFinitenessAndIsogenyTheorems **R28.4** and **R28.6** supplies
-  semisimplicity, the Tate–Hom comparison, isogeny criteria, finiteness of
-  elliptic isogeny classes, and the cyclic-Hom theorem with its endomorphism hypothesis.
-* Tau Ceti **ModularCurves** supplies the curve and scheme dictionaries;
-  ModularCurvesPartII **§§16.2–16.7** and **§17.3** supplies the quotients of the
-  modular Jacobians, their differentials, the rational cusp and Abel–Jacobi
-  map. Tau Ceti **JacobianChallenge**, Layer F, supplies its universal
-  property. Degree and the passage between function fields and projective
-  curves use Tau Ceti **AlgebraicCurves**, Layers 6 and 12.
-
-R29.6 owns elliptic coefficient summability over number fields;
-EllipticCurvePeriodsAndModularParametrizations §3.1 consumes this result. The general
-norm-fibre and convergence theory is supplied by ArithmeticDirichletSeries Layers 1,
-2 and 5, including its pinned Tau Ceti implementations. The rational divisor bound
-is the specialization to ℚ.
-
-The analytic output is continuation and a functional equation for `L(E,s)`. Its
-consumers include EllipticCurves Layer 7 and RankZeroOneBSD. The rank formula,
-special-value formula, Tate–Shafarevich group, and the arithmetic parts of
-Birch–Swinnerton-Dyer belong to those further theories. The real-multiplication extension
-is motivation for a separate roadmap, as described at the end.
+Layer R29.1 isolates the residual characteristics with the correct irreducibility and
+conductor. Layer R29.2 constructs witnesses using ClassicalSerreModularity §R27.6.
+Layer R29.3 turns infinitely many congruences into one characteristic-zero form;
+its attachment predicate also starts an independent conditional comparison. Layer R29.4
+identifies every local factor, R29.5 constructs the chosen parametrisation, and R29.6
+proves the geometric converse and transfers the analytic continuation. Definitions that
+involve choices of new objects have their full mathematical specification below even
+when their carriers are not available to the representative Lean file.
 
 ## Conventions
 
@@ -162,267 +108,6 @@ The quotient `A_F^1` of `J₁(M)` has a compatible `K_F`-action and is ℚ-isoge
 `A_F` below. Isogeny of these two quotients suffices for comparing Tate modules but does
 not identify their elliptic models. At level 11, this distinction separates 11a1 and
 11a3.
-
-## Exact supplier contracts
-
-The library reference points are Mathlib `1b1ccf4` and Tau Ceti `2fd255d`. The following existing declarations
-are used with their stated generality.
-
-| Declaration | Input supplied here |
-| --- | --- |
-| `WeierstrassCurve.j` | `j_E=c_4³/Δ` for a nonsingular model |
-| `Set.Finite`, `Set.Infinite` | finite and infinite sets, using their subtype cardinality |
-| `CuspForm` | bundled cusp forms for a subgroup of `GL₂(ℝ)`, holomorphic and vanishing at all cusps |
-| `IsPrimitiveRoot` | a root of unity with specified exact order |
-| `Nat.totient` | the cardinality of the unit group modulo the level |
-| `Finite.exists_infinite_fiber` | an infinite type mapping to a finite type has an infinite fibre |
-| `NumberField.RingOfIntegers` | the integral closure of ℤ in a number field |
-| `Algebra.norm` | determinant of multiplication in a finite free extension |
-| `Algebra.norm_eq_zero_iff` | in a finite free extension of domains, norm zero is equivalent to element zero |
-| `Int.eq_zero_of_abs_lt_dvd` | `m∣ x` and `abs(x) < m` force `x=0` |
-| `HeckeRing.GL2.Newform` | normalized newforms at a fixed positive level and weight |
-| `Newform.eq_of_forall_notMem_eigenvalue_eq` | equality at a fixed level and character from agreement at all good indices outside a finite set |
-| `Newform.level_eq_and_coe_eq_of_forall_notMem_prime_eigenvalue_eq` | Tau Ceti `Newforms/StrongMultiplicityOne.lean`: newforms of levels N, M and equal weight whose characters induce the same character modulo `lcm N M`, with equal eigenvalues at every prime `p ∤ NM` outside a finite set, have N = M and are the same function |
-| `WeierstrassCurve.localPolynomial` | the integer polynomial in the four reduction cases above |
-| `WeierstrassCurve.IsSemistable` | Tau Ceti `MinimalModel/Semistable.lean`: good or multiplicative reduction at every prime of the base ring `O` |
-| `WeierstrassCurve.LFunction`, `WeierstrassCurve.LSeries` | the formal coefficients and their complex Dirichlet series |
-
-For the number-field convergence target, Tau Ceti supplies
-`TauCeti.normCoeff_eq_sum_normFiber` in
-`TauCeti/NumberTheory/ArithmeticDirichletSeries/NormCoeff.lean`,
-`TauCeti.normCoeff_convolution` in the corresponding `Convolution/Basic.lean`, and
-`TauCeti.summable_absNorm_rpow_ideal_iff` in the corresponding `Convergence.lean`.
-These are the implementations of ArithmeticDirichletSeries Layers 1, 2 and 5:
-finite norm fibres of nonzero integral ideals, transport of ideal convolution,
-and summability of `(N𝔞)^(-t)` exactly for t>1 over every number field.
-Mathlib `WeierstrassCurve.LFunction` uses all height-one primes of the ring of
-integers and their completions; it neither restricts to rational primes nor
-asserts summability by its definition.
-
-The fixed-level multiplicity-one theorem in this table takes agreement at all indices
-coprime to the level outside a finite set. The cross-level theorem below it is Tau
-Ceti's implementation of ModularForms Layer 5 (Miyake, Theorem 4.6.19); cross-level
-uniqueness of an attached form uses it with both characters trivial. The fixed-level
-row follows from its equal-level case, since agreement at all good indices includes
-agreement at the good primes.
-
-The native elliptic substrate is supplied by
-`TauCeti.AlgebraicGeometry.EllipticCurve.Affine.Point.Galois`:
-`WeierstrassCurve.pointGaloisAction` acts on geometric points and
-`WeierstrassCurve.torsionGaloisAction` restricts it to Mathlib's `AddSubgroup.torsionBy`.
-The action preserves addition and the point at infinity, and its restriction agrees with
-the point action under the torsion inclusion. No second point action or torsion carrier
-is part of this roadmap. Mathlib's `Field.absoluteGaloisGroup ℚ` is the acting group,
-abbreviated `GQ` in `Suggested.lean`. There `GQ` is written as
-`AlgebraicClosure ℚ ≃ₐ[ℚ] AlgebraicClosure ℚ`, the unfolded automorphism group, so
-the native point and torsion actions apply directly. The Krull topology is transported
-from the absolute Galois group.
-
-`TauCeti.AlgebraicGeometry.EllipticCurve.TateModule.Galois` supplies
-`WeierstrassCurve.tateModuleGaloisRepresentation` on the existing
-`TateModule r (E.baseChange (AlgebraicClosure ℚ)).toAffine.Point`.
-`WeierstrassCurve.nonempty_linearEquiv_tateModule`, in the corresponding `Basic` module,
-identifies this integral module with `Fin 2 → ℤ_[r]` over a separably closed field in
-which r is nonzero. `TauCeti.det_tateModuleGaloisRepresentation`, in the corresponding
-`Determinant` module, gives its cyclotomic determinant. Rational coefficients mean
-scalar extension along `ℤ_[r] → ℚ_[r]`, using Mathlib's tensor product and
-`LinearMap.baseChange`; they do not introduce another Tate-module carrier.
-
-The residual determinant is the mod-p cyclotomic character, by the supplied Weil pairing
-and reduction of the integral determinant. ArithmeticGaloisRepresentations §6.2,
-*Determinant and oddness*, supplies the arithmetic adapter, including complex conjugation
-with determinant −1. Its §§6.1–6.3 supply the continuous, residual and rational adapters,
-the good-prime Frobenius polynomial, and the Tate-curve local comparison. In §6.1,
-[Basis-free elliptic residual representation](../ArithmeticGaloisRepresentations/README.md#elliptic-residual-representation),
-use `TateModule.residualRep E p`, abbreviated `residualRep E p` below. It is the basis-free
-representation on the native geometric p-torsion, with its `ZMod p`-linear action.
-After finite coefficient extension and a choice of basis it gives the representation
-on `Fin 2 → k` used by AlgebraicModularFormsAndSerreWeights; further extension to
-`𝔽̄_p` gives the classical Serre spelling. Attachment, trace, determinant and
-irreducibility are independent of the basis. Layer 3 supplies
-Artin and Swan conductors, prime-to-p residual conductors and coefficient-extension
-invariance. NeronModelsAndSemistableAbelianVarieties §§5.3a, 5.3g–5.3i and 6.5–6.6
-supply the elliptic conductor, residual conductor formulas, equation/scheme reduction
-comparisons and the comparison with Mathlib's local polynomial, retaining the wild
-terms at 2 and 3. In particular the conductor is positive, good reduction is equivalent
-to prime-to-conductor, and multiplicative reduction is equivalent to conductor exponent
-one. The actual residual module and its semisimplification have different conductor
-contracts; the equality formula here uses the actual module, which is absolutely
-irreducible outside the exceptional set.
-
-FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.6.1 supplies finite-flat torsion of
-the good-reduction abelian scheme. AlgebraicModularFormsAndSerreWeights §4.9,
-*The weight-two criterion*, supplies the extension-sensitive weight recipe, and
-§5.10, *Deligne–Serre eigenvalue lifting*, supplies a characteristic-zero
-eigencharacter after finite fraction-field extension and a dominating DVR. It does not
-lift a prescribed eigenvector. ClassicalSerreModularity §R27.6,
-*The finite-flat weight-two export*, supplies a normalized weight-two newform of
-trivial character at the exact prime-to-p residual conductor for a continuous odd
-absolutely irreducible representation finite flat at p ≥ 5 with cyclotomic determinant.
-At a prime outside Σ_E, residual conductor equality identifies this level with N_E.
-SerreWeightAndLevelOptimisation §4.8, *Finite-flat weight-two optimisation*, also
-supplies this optimization when residual modularity is given directly.
-
-AlgebraicModularFormsAndSerreWeights §§6.1–6.2 supply the classical rank-two newform
-representation. AutomorphicGaloisRepresentations §§1.5, 6.1–6.2 and 6.4 supply its
-geometric realization, residual representation and full classical conductor/local-factor
-compatibility. Its §6.1 identifies the actual weight-two quotient Tate module, with the
-coefficient-field action; its §6.4 retains bad-place monodromy and coefficient-prime
-restrictions. ArithmeticGaloisRepresentations §5.3 supplies recognition by good Frobenius
-polynomials for continuous semisimple representations, using Chebotarev and
-Brauer–Nesbitt. Continuity and semisimplicity are hypotheses of that recognition theorem.
-
-ModularCurvesPartII §§3.1–6.3 supply the rational modular curves and the rational Γ₀
-cusp. Its §§13.1 and 16.2 supply the Jacobians and quotient maps, §16.3 the
-dimension and Tate realization, and §16.4 the differential comparison. Section 16.5
-supplies the actual Γ₀ quotient and its explicit isogeny with the Γ₁ quotient,
-§16.6 the oldform factors, §16.7 the nonconstant Abel–Jacobi composite, and §17.3
-the cusp-normalised map
-`abelJacobiInfty`. The Γ₀ quotient is taken with its connected image-generated kernel
-and Albanese Hecke action. For primitive weight-two forms its stated `N ≥ 5`
-hypothesis causes no gap: ModularForms Layer 10C's dimension formula gives zero cusp
-space at levels 1, 2, 3 and 4, so any such newform has `N ≥ 5`.
-R29.6 assembles the exhaustive Γ₀ old/new decomposition from these orbit factors
-with all degeneracy maps and divisor multiplicities and the complete modular-form decomposition; rational Tate-module
-surjectivity for a surjective abelian-variety homomorphism is also a target there.
-It uses Poincaré complete reducibility from
-AbelianSchemesAndArithmeticModuli A6.5 and the additive Tate-module functor of A4.1,
-with the rational isogeny and product deductions in R29.6, following
-ModularCurvesPartII §16.3.
-ModularCurvesPartII §§7.1–7.4 supplies the regular-differential/cusp-form dictionary. AlgebraicCurves Layers 6 and 12 supply
-projective curve/function-field degree. JacobianChallenge Layer F supplies the
-Abel–Jacobi universal property over the stated ground field.
-
-FaltingsFinitenessAndIsogenyTheorems §§R28.4.5–R28.4.7 supply semisimplicity,
-Tate–Hom and the isogeny criterion for abelian varieties. Its §§R28.6.1–R28.6.6
-supply the elliptic bridge, semisimplicity, Tate–Hom, isogeny criterion, finiteness of
-the elliptic isogeny class, and the infinite-cyclic Hom statement under
-`End_ℚ(E′) = ℤ`. That last hypothesis is not an automatic consequence of Faltings's
-Tate–Hom theorem. The ℚ-endomorphism assertion is established as the first target of
-Layer R29.1 below, including geometric CM curves.
-
-### Classical Serre theorem for existence
-
-ClassicalSerreModularity §R27.6, **Serre’s modularity conjecture, strong form**
-(`R27.6/full-classical-serre-theorem`), supplies the unconditional theorem: for every
-prime p, every continuous odd absolutely irreducible
-`ρ̄ : G_ℚ → GL₂(𝔽̄_p)` arises from a normalized newform of Serre weight `k(ρ̄)`
-and prime-to-p conductor `N(ρ̄)`, with character lifting the predicted residual character.
-Its **finite-flat weight-two export** (`R27.6/finite-flat-weight-two-export`) gives
-weight two, exact level `N(ρ̄)` and trivial character when p ≥ 5, the actual local
-representation is finite flat at p, and `det ρ̄ = χ̄_p`. It includes a coefficient
-prime above p, residual isomorphism and trace congruences away from `pN(ρ̄)`.
-
-For `E[p]` with p outside Σ_E, R29.1 and finite-flat torsion supply all these
-hypotheses. Thus witness existence and the resulting modularity of E have no residual
-modularity assumption. The global theorem is owned by ClassicalSerreModularity;
-this roadmap owns its elliptic deduction, as in Serre §4.6, Theorem 4.
-Khare–Wintenberger, *Serre’s modularity conjecture (I)*, Theorems 1.2 and 9.1,
-author pp. 2–3 and 18–19, with the modularity-lifting theorem supplying (H), is the
-source ([author manuscript](https://www.math.ucla.edu/~shekhar/papers/results.pdf)).
-
-The reusable exact-coefficient existence theorem instead takes an infinite family of
-exact-level witnesses with character and trace comparisons. These are curve-specific
-congruence data, weaker than a theorem for all odd irreducible residual representations;
-its proof needs no global modularity theorem. The attached-form comparison theorems
-likewise start with an attached form rather than the existence construction.
-
-### Finite witness range
-
-For an infinite set `P⊆ℕ`, a finite type `I`, and a map `u:P→ I`,
-there is an `i∈ I` such that `u^(-1)(i)` is infinite. The supplied theorem permits restriction to the subtype of P and gives the infinite set `{p ∈ P | u(p) = i}`. It is a direct specialization of Mathlib `Finite.exists_infinite_fiber`
-to the subtype of `P`. The finite type can be equipped with a `Finite` instance; there
-is no need to choose a particular enumeration.
-
-For use with modular forms, the finite type consists of normalized newforms of fixed
-weight and level with the relevant character. The finite-dimensional space alone does
-not make all of its vectors a finite set. It is the normalized Hecke eigenforms in its
-new subspace that form a finite collection. Normalization removes the infinitely many
-scalar multiples of a nonzero eigenvector.
-
-*Source and prerequisites.* This is the finite-choice step of Serre, §4.6, p. 208. Its
-set-theoretic content imports Mathlib `Finite.exists_infinite_fiber` and `Set.Infinite`.
-The modular finiteness theorem is supplied by Tau Ceti ModularForms **Layer 4:
-Eigenforms, newforms, primitive forms, the conductor**
-([ModularForms roadmap](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ModularForms/README.md#layer-4-eigenforms-newforms-primitive-forms-the-conductor)).
-Tau Ceti supplies `Finite (Newform M k)` in
-`TauCeti.NumberTheory.ModularForms.Newforms.OrthogonalBasis`, derived from
-`HeckeRing.GL2.Newform.basis`. Restrict it to the trivial-character subtype for the witness range.
-
-
-### Residual conductor contract
-
-For every prime `p`, the supplied residual conductor comparison asserts
-
-`N(ρ̄_(E,p))∣ N_E.`
-
-At ℓ different from `p`, reduction of a stable lattice can enlarge the inertia-fixed
-subspace, so the tame conductor contribution cannot increase. The wild inertia image is
-a finite ℓ-group. Since its order is prime to `p`, averaging preserves the relevant
-dimensions and the Swan contribution under reduction. At `p` the residual conductor has
-no factor. These local comparisons give the global divisibility, including small
-residual characteristics; they do not assert equality there.
-
-For `p≥5`, the supplied local conductor formulas give
-
-`N(ρ̄_(E,p))=N_E ↔ p∤ N_E and p∤ v_ℓ(j_E) for every multiplicative prime ℓ.`
-
-The condition at `p` is necessary because the left side is prime to `p`. At a
-multiplicative prime ℓ different from `p`, pass through at most an unramified quadratic
-twist to a Tate curve with parameter `q_E`. Its inertia extension class on `E[p]` is
-controlled by `v_ℓ(q_E)=-v_ℓ(j_E)`. The extension becomes trivial precisely when
-`p` divides this integer. Its residual conductor exponent is then zero; otherwise it is
-one, matching the characteristic-zero exponent. The unramified twist changes the split
-sign but does not change this inertia criterion.
-
-At additive primes, the finite potentially good inertia action has order dividing 24,
-and its fixed-space and wild contributions survive reduction for `p≥5`. In the
-potentially multiplicative additive case, the ramified quadratic character retains the
-zero fixed-space contribution; the wild contribution is also unchanged. Thus the
-additive places impose no additional excluded primes beyond the small characteristics
-already listed. These assertions require the full local-reduction interface, especially
-at ℓ equal to 2 or 3.
-
-Serre states this conductor criterion for `p>5`. The formulation at `p=5` uses the same
-local argument, since 5 is prime to 24 and to the quadratic character's order. The
-existence proof below uses only `p∉Σ_E`, and hence only `p≥7`. Keeping that
-distinction visible prevents a source locator for the stricter statement from serving as
-the proof of the endpoint.
-
-*Sources and prerequisites.* Both conductor assertions come from Serre, §4.6, p. 207,
-the discussion between Lemma 5 and its application. The divisibility assertion imports ArithmeticGaloisRepresentations §§3.3 and 3.6
-and NeronModelsAndSemistableAbelianVarieties §5.3h, including the prime-to-p residual
-conductor comparison. The equality criterion also uses that local formula and Tau Ceti
-EllipticCurves **Layer 4: Elliptic curves over local fields — reduction, Tate's
-algorithm, the Tate curve**
-([EllipticCurves roadmap](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/EllipticCurves/README.md#layer-4-elliptic-curves-over-local-fields--reduction-tates-algorithm-the-tate-curve-aec-vii-ataec-ivv)).
-
-
-Names below are in the namespace `TauCetiRoadmap.EllipticCurveModularity`. The accompanying
-`Suggested.lean` states headline theorems on the pinned native carriers; it is not an
-exhaustive checklist. It defines `GQ`, `lCoeff`, `coeff`, `HasGoodReductionAt`,
-`HasMultiplicativeReductionAt`, `HasRationalCyclicSubgroup`, `exceptionalPrimes` and
-`IsNewformOf` to state those theorems. The remaining APIs are specified in mathematical prose.
-
-The Artin conductor of a two-dimensional ℓ-adic or residual Galois representation, the
-Serre weight and the shared residual attachment API are absent at the pins, as are
-rational modular curves, their Jacobians and modular quotients. Tau Ceti's
-`WeierstrassCurve.algorithmicConductor`, computed by Tate's algorithm, is not identified
-there with the conductor `N_E` of R29.4. The conductor-dependent and geometric targets
-are specified below. The newform modularity and completed L-series statements in
-`Suggested.lean` exhibit a positive level; the exact-conductor identification is the
-target of R29.4.
-
-## How to read the build
-
-Layer R29.1 isolates the residual characteristics with the correct irreducibility and
-conductor. Layer R29.2 constructs witnesses using ClassicalSerreModularity §R27.6.
-Layer R29.3 turns infinitely many congruences into one characteristic-zero form;
-its attachment predicate also starts an independent conditional comparison. Layer R29.4
-identifies every local factor, R29.5 constructs the chosen parametrisation, and R29.6
-proves the geometric converse and transfers the analytic continuation. Definitions that
-involve choices of new objects have their full mathematical specification below even
-when their carriers are not available to the representative Lean file.
 
 ## Coefficient and local-reduction notation
 
@@ -2054,6 +1739,321 @@ endomorphisms are multiplications by integers
 transcendental over ℚ, which no curve over ℚ has. The Eichler–Shimura relation
 `F²-T_ℓF+ℓ=0` enters only as the hypothesis predicate `ModularCurve.FrobeniusQuadratic`, and
 its group-cohomology Eichler–Shimura isomorphism for `Γ₀(N)` is not used here.
+
+## Scope and ownership
+
+The modularity and geometric comparisons have base field ℚ. Elliptic coefficient
+summability in R29.6 is proved over every number field K, using the native
+`WeierstrassCurve.LFunction` with coefficients grouped by ideal norm. The curves over ℚ may have complex
+multiplication over ℚ̄; the constructions and theorems include that case. The endomorphisms used in the proofs are
+defined over ℚ. In particular,
+
+`End_ℚ(E)=ℤ,`
+
+including for a curve whose geometric endomorphism ring is larger. The Tate module over
+a field containing the CM field has different irreducibility properties and must not be
+substituted for the representation over ℚ.
+
+This roadmap begins after the elementary theory of elliptic curves, local reduction,
+modular forms, and modular curves. It imports those objects and their general theorems
+and supplies the arithmetic comparisons specific to elliptic curves over ℚ. The
+following divisions of responsibility determine the interfaces.
+
+* Tau Ceti **EllipticCurves**, Layers 1–4, provides Weierstrass equations,
+  isogenies, torsion and Tate modules, finite-field traces, local reduction and
+  the Tate curve. ArithmeticGaloisRepresentations **§§6.1–6.3** supplies the
+  arithmetic Galois representation, its determinant and Frobenius polynomial.
+  NeronModelsAndSemistableAbelianVarieties **§§5.3a and 5.3g–5.3i** supplies
+  the comparison of the elliptic conductor with Artin conductors.
+* Tau Ceti **ModularForms**, Layers 4, 5, 7 and 8G, supplies newforms,
+  finiteness at fixed weight and level, the old/new decomposition, strong
+  multiplicity one across levels, L-functions, and Galois conjugation of
+  coefficients. The general theory of those constructions stays there.
+* ClassicalSerreModularity **§R27.6, Serre’s modularity conjecture, strong form**,
+  supplies unconditional global residual modularity. Its **finite-flat weight-two
+  export** supplies a weight-two newform of exact residual conductor and trivial
+  character. SerreWeightAndLevelOptimisation §4.8 supplies the corresponding
+  optimization for an already modular residual representation.
+* FiniteFlatGroupsAndIntegralPadicHodgeTheory
+  **§R07.6.1** and
+  AlgebraicModularFormsAndSerreWeights
+  **§4.9, The weight-two criterion** supply the integral and weight
+  comparisons. Eigenvalue lifting belongs to
+  **§5.10, Deligne–Serre eigenvalue lifting**.
+* AutomorphicGaloisRepresentations **§1.5**, **§6.4** and **§§6.1–6.2** supplies
+  the representations of newforms, their full local compatibility, and their
+  realization in the Tate modules of modular quotients.
+* FaltingsFinitenessAndIsogenyTheorems **R28.4** and **R28.6** supplies
+  semisimplicity, the Tate–Hom comparison, isogeny criteria, finiteness of
+  elliptic isogeny classes, and the cyclic-Hom theorem with its endomorphism hypothesis.
+* Tau Ceti **ModularCurves** supplies the curve and scheme dictionaries;
+  ModularCurvesPartII **§§16.2–16.7** and **§17.3** supplies the quotients of the
+  modular Jacobians, their differentials, the rational cusp and Abel–Jacobi
+  map. Tau Ceti **JacobianChallenge**, Layer F, supplies its universal
+  property. Degree and the passage between function fields and projective
+  curves use Tau Ceti **AlgebraicCurves**, Layers 6 and 12.
+
+R29.6 owns elliptic coefficient summability over number fields;
+EllipticCurvePeriodsAndModularParametrizations §3.1 consumes this result. The general
+norm-fibre and convergence theory is supplied by ArithmeticDirichletSeries Layers 1,
+2 and 5, including its pinned Tau Ceti implementations. The rational divisor bound
+is the specialization to ℚ.
+
+The analytic output is continuation and a functional equation for `L(E,s)`. Its
+consumers include EllipticCurves Layer 7 and RankZeroOneBSD. The rank formula,
+special-value formula, Tate–Shafarevich group, and the arithmetic parts of
+Birch–Swinnerton-Dyer belong to those further theories. The real-multiplication extension
+is motivation for a separate roadmap, as described at the end.
+
+## Exact supplier contracts
+
+The library reference points are Mathlib `1b1ccf4` and Tau Ceti `2fd255d`. The following existing declarations
+are used with their stated generality.
+
+| Declaration | Input supplied here |
+| --- | --- |
+| `WeierstrassCurve.j` | `j_E=c_4³/Δ` for a nonsingular model |
+| `Set.Finite`, `Set.Infinite` | finite and infinite sets, using their subtype cardinality |
+| `CuspForm` | bundled cusp forms for a subgroup of `GL₂(ℝ)`, holomorphic and vanishing at all cusps |
+| `IsPrimitiveRoot` | a root of unity with specified exact order |
+| `Nat.totient` | the cardinality of the unit group modulo the level |
+| `Finite.exists_infinite_fiber` | an infinite type mapping to a finite type has an infinite fibre |
+| `NumberField.RingOfIntegers` | the integral closure of ℤ in a number field |
+| `Algebra.norm` | determinant of multiplication in a finite free extension |
+| `Algebra.norm_eq_zero_iff` | in a finite free extension of domains, norm zero is equivalent to element zero |
+| `Int.eq_zero_of_abs_lt_dvd` | `m∣ x` and `abs(x) < m` force `x=0` |
+| `HeckeRing.GL2.Newform` | normalized newforms at a fixed positive level and weight |
+| `Newform.eq_of_forall_notMem_eigenvalue_eq` | equality at a fixed level and character from agreement at all good indices outside a finite set |
+| `Newform.level_eq_and_coe_eq_of_forall_notMem_prime_eigenvalue_eq` | Tau Ceti `Newforms/StrongMultiplicityOne.lean`: newforms of levels N, M and equal weight whose characters induce the same character modulo `lcm N M`, with equal eigenvalues at every prime `p ∤ NM` outside a finite set, have N = M and are the same function |
+| `WeierstrassCurve.localPolynomial` | the integer polynomial in the four reduction cases above |
+| `WeierstrassCurve.IsSemistable` | Tau Ceti `MinimalModel/Semistable.lean`: good or multiplicative reduction at every prime of the base ring `O` |
+| `WeierstrassCurve.LFunction`, `WeierstrassCurve.LSeries` | the formal coefficients and their complex Dirichlet series |
+
+For the number-field convergence target, Tau Ceti supplies
+`TauCeti.normCoeff_eq_sum_normFiber` in
+`TauCeti/NumberTheory/ArithmeticDirichletSeries/NormCoeff.lean`,
+`TauCeti.normCoeff_convolution` in the corresponding `Convolution/Basic.lean`, and
+`TauCeti.summable_absNorm_rpow_ideal_iff` in the corresponding `Convergence.lean`.
+These are the implementations of ArithmeticDirichletSeries Layers 1, 2 and 5:
+finite norm fibres of nonzero integral ideals, transport of ideal convolution,
+and summability of `(N𝔞)^(-t)` exactly for t>1 over every number field.
+Mathlib `WeierstrassCurve.LFunction` uses all height-one primes of the ring of
+integers and their completions; it neither restricts to rational primes nor
+asserts summability by its definition.
+
+The fixed-level multiplicity-one theorem in this table takes agreement at all indices
+coprime to the level outside a finite set. The cross-level theorem below it is Tau
+Ceti's implementation of ModularForms Layer 5 (Miyake, Theorem 4.6.19); cross-level
+uniqueness of an attached form uses it with both characters trivial. The fixed-level
+row follows from its equal-level case, since agreement at all good indices includes
+agreement at the good primes.
+
+The native elliptic substrate is supplied by
+`TauCeti.AlgebraicGeometry.EllipticCurve.Affine.Point.Galois`:
+`WeierstrassCurve.pointGaloisAction` acts on geometric points and
+`WeierstrassCurve.torsionGaloisAction` restricts it to Mathlib's `AddSubgroup.torsionBy`.
+The action preserves addition and the point at infinity, and its restriction agrees with
+the point action under the torsion inclusion. No second point action or torsion carrier
+is part of this roadmap. Mathlib's `Field.absoluteGaloisGroup ℚ` is the acting group,
+abbreviated `GQ` in `Suggested.lean`. There `GQ` is written as
+`AlgebraicClosure ℚ ≃ₐ[ℚ] AlgebraicClosure ℚ`, the unfolded automorphism group, so
+the native point and torsion actions apply directly. The Krull topology is transported
+from the absolute Galois group.
+
+`TauCeti.AlgebraicGeometry.EllipticCurve.TateModule.Galois` supplies
+`WeierstrassCurve.tateModuleGaloisRepresentation` on the existing
+`TateModule r (E.baseChange (AlgebraicClosure ℚ)).toAffine.Point`.
+`WeierstrassCurve.nonempty_linearEquiv_tateModule`, in the corresponding `Basic` module,
+identifies this integral module with `Fin 2 → ℤ_[r]` over a separably closed field in
+which r is nonzero. `TauCeti.det_tateModuleGaloisRepresentation`, in the corresponding
+`Determinant` module, gives its cyclotomic determinant. Rational coefficients mean
+scalar extension along `ℤ_[r] → ℚ_[r]`, using Mathlib's tensor product and
+`LinearMap.baseChange`; they do not introduce another Tate-module carrier.
+
+The residual determinant is the mod-p cyclotomic character, by the supplied Weil pairing
+and reduction of the integral determinant. ArithmeticGaloisRepresentations §6.2,
+*Determinant and oddness*, supplies the arithmetic adapter, including complex conjugation
+with determinant −1. Its §§6.1–6.3 supply the continuous, residual and rational adapters,
+the good-prime Frobenius polynomial, and the Tate-curve local comparison. In §6.1,
+[Basis-free elliptic residual representation](../ArithmeticGaloisRepresentations/README.md#elliptic-residual-representation),
+use `TateModule.residualRep E p`, abbreviated `residualRep E p` below. It is the basis-free
+representation on the native geometric p-torsion, with its `ZMod p`-linear action.
+After finite coefficient extension and a choice of basis it gives the representation
+on `Fin 2 → k` used by AlgebraicModularFormsAndSerreWeights; further extension to
+`𝔽̄_p` gives the classical Serre spelling. Attachment, trace, determinant and
+irreducibility are independent of the basis. Layer 3 supplies
+Artin and Swan conductors, prime-to-p residual conductors and coefficient-extension
+invariance. NeronModelsAndSemistableAbelianVarieties §§5.3a, 5.3g–5.3i and 6.5–6.6
+supply the elliptic conductor, residual conductor formulas, equation/scheme reduction
+comparisons and the comparison with Mathlib's local polynomial, retaining the wild
+terms at 2 and 3. In particular the conductor is positive, good reduction is equivalent
+to prime-to-conductor, and multiplicative reduction is equivalent to conductor exponent
+one. The actual residual module and its semisimplification have different conductor
+contracts; the equality formula here uses the actual module, which is absolutely
+irreducible outside the exceptional set.
+
+FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.6.1 supplies finite-flat torsion of
+the good-reduction abelian scheme. AlgebraicModularFormsAndSerreWeights §4.9,
+*The weight-two criterion*, supplies the extension-sensitive weight recipe, and
+§5.10, *Deligne–Serre eigenvalue lifting*, supplies a characteristic-zero
+eigencharacter after finite fraction-field extension and a dominating DVR. It does not
+lift a prescribed eigenvector. ClassicalSerreModularity §R27.6,
+*The finite-flat weight-two export*, supplies a normalized weight-two newform of
+trivial character at the exact prime-to-p residual conductor for a continuous odd
+absolutely irreducible representation finite flat at p ≥ 5 with cyclotomic determinant.
+At a prime outside Σ_E, residual conductor equality identifies this level with N_E.
+SerreWeightAndLevelOptimisation §4.8, *Finite-flat weight-two optimisation*, also
+supplies this optimization when residual modularity is given directly.
+
+AlgebraicModularFormsAndSerreWeights §§6.1–6.2 supply the classical rank-two newform
+representation. AutomorphicGaloisRepresentations §§1.5, 6.1–6.2 and 6.4 supply its
+geometric realization, residual representation and full classical conductor/local-factor
+compatibility. Its §6.1 identifies the actual weight-two quotient Tate module, with the
+coefficient-field action; its §6.4 retains bad-place monodromy and coefficient-prime
+restrictions. ArithmeticGaloisRepresentations §5.3 supplies recognition by good Frobenius
+polynomials for continuous semisimple representations, using Chebotarev and
+Brauer–Nesbitt. Continuity and semisimplicity are hypotheses of that recognition theorem.
+
+ModularCurvesPartII §§3.1–6.3 supply the rational modular curves and the rational Γ₀
+cusp. Its §§13.1 and 16.2 supply the Jacobians and quotient maps, §16.3 the
+dimension and Tate realization, and §16.4 the differential comparison. Section 16.5
+supplies the actual Γ₀ quotient and its explicit isogeny with the Γ₁ quotient,
+§16.6 the oldform factors, §16.7 the nonconstant Abel–Jacobi composite, and §17.3
+the cusp-normalised map
+`abelJacobiInfty`. The Γ₀ quotient is taken with its connected image-generated kernel
+and Albanese Hecke action. For primitive weight-two forms its stated `N ≥ 5`
+hypothesis causes no gap: ModularForms Layer 10C's dimension formula gives zero cusp
+space at levels 1, 2, 3 and 4, so any such newform has `N ≥ 5`.
+R29.6 assembles the exhaustive Γ₀ old/new decomposition from these orbit factors
+with all degeneracy maps and divisor multiplicities and the complete modular-form decomposition; rational Tate-module
+surjectivity for a surjective abelian-variety homomorphism is also a target there.
+It uses Poincaré complete reducibility from
+AbelianSchemesAndArithmeticModuli A6.5 and the additive Tate-module functor of A4.1,
+with the rational isogeny and product deductions in R29.6, following
+ModularCurvesPartII §16.3.
+ModularCurvesPartII §§7.1–7.4 supplies the regular-differential/cusp-form dictionary. AlgebraicCurves Layers 6 and 12 supply
+projective curve/function-field degree. JacobianChallenge Layer F supplies the
+Abel–Jacobi universal property over the stated ground field.
+
+FaltingsFinitenessAndIsogenyTheorems §§R28.4.5–R28.4.7 supply semisimplicity,
+Tate–Hom and the isogeny criterion for abelian varieties. Its §§R28.6.1–R28.6.6
+supply the elliptic bridge, semisimplicity, Tate–Hom, isogeny criterion, finiteness of
+the elliptic isogeny class, and the infinite-cyclic Hom statement under
+`End_ℚ(E′) = ℤ`. That last hypothesis is not an automatic consequence of Faltings's
+Tate–Hom theorem. The ℚ-endomorphism assertion is established as the first target of
+Layer R29.1 below, including geometric CM curves.
+
+### Classical Serre theorem for existence
+
+ClassicalSerreModularity §R27.6, **Serre’s modularity conjecture, strong form**
+(`R27.6/full-classical-serre-theorem`), supplies the unconditional theorem: for every
+prime p, every continuous odd absolutely irreducible
+`ρ̄ : G_ℚ → GL₂(𝔽̄_p)` arises from a normalized newform of Serre weight `k(ρ̄)`
+and prime-to-p conductor `N(ρ̄)`, with character lifting the predicted residual character.
+Its **finite-flat weight-two export** (`R27.6/finite-flat-weight-two-export`) gives
+weight two, exact level `N(ρ̄)` and trivial character when p ≥ 5, the actual local
+representation is finite flat at p, and `det ρ̄ = χ̄_p`. It includes a coefficient
+prime above p, residual isomorphism and trace congruences away from `pN(ρ̄)`.
+
+For `E[p]` with p outside Σ_E, R29.1 and finite-flat torsion supply all these
+hypotheses. Thus witness existence and the resulting modularity of E have no residual
+modularity assumption. The global theorem is owned by ClassicalSerreModularity;
+this roadmap owns its elliptic deduction, as in Serre §4.6, Theorem 4.
+Khare–Wintenberger, *Serre’s modularity conjecture (I)*, Theorems 1.2 and 9.1,
+author pp. 2–3 and 18–19, with the modularity-lifting theorem supplying (H), is the
+source ([author manuscript](https://www.math.ucla.edu/~shekhar/papers/results.pdf)).
+
+The reusable exact-coefficient existence theorem instead takes an infinite family of
+exact-level witnesses with character and trace comparisons. These are curve-specific
+congruence data, weaker than a theorem for all odd irreducible residual representations;
+its proof needs no global modularity theorem. The attached-form comparison theorems
+likewise start with an attached form rather than the existence construction.
+
+### Finite witness range
+
+For an infinite set `P⊆ℕ`, a finite type `I`, and a map `u:P→ I`,
+there is an `i∈ I` such that `u^(-1)(i)` is infinite. The supplied theorem permits restriction to the subtype of P and gives the infinite set `{p ∈ P | u(p) = i}`. It is a direct specialization of Mathlib `Finite.exists_infinite_fiber`
+to the subtype of `P`. The finite type can be equipped with a `Finite` instance; there
+is no need to choose a particular enumeration.
+
+For use with modular forms, the finite type consists of normalized newforms of fixed
+weight and level with the relevant character. The finite-dimensional space alone does
+not make all of its vectors a finite set. It is the normalized Hecke eigenforms in its
+new subspace that form a finite collection. Normalization removes the infinitely many
+scalar multiples of a nonzero eigenvector.
+
+*Source and prerequisites.* This is the finite-choice step of Serre, §4.6, p. 208. Its
+set-theoretic content imports Mathlib `Finite.exists_infinite_fiber` and `Set.Infinite`.
+The modular finiteness theorem is supplied by Tau Ceti ModularForms **Layer 4:
+Eigenforms, newforms, primitive forms, the conductor**
+([ModularForms roadmap](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ModularForms/README.md#layer-4-eigenforms-newforms-primitive-forms-the-conductor)).
+Tau Ceti supplies `Finite (Newform M k)` in
+`TauCeti.NumberTheory.ModularForms.Newforms.OrthogonalBasis`, derived from
+`HeckeRing.GL2.Newform.basis`. Restrict it to the trivial-character subtype for the witness range.
+
+
+### Residual conductor contract
+
+For every prime `p`, the supplied residual conductor comparison asserts
+
+`N(ρ̄_(E,p))∣ N_E.`
+
+At ℓ different from `p`, reduction of a stable lattice can enlarge the inertia-fixed
+subspace, so the tame conductor contribution cannot increase. The wild inertia image is
+a finite ℓ-group. Since its order is prime to `p`, averaging preserves the relevant
+dimensions and the Swan contribution under reduction. At `p` the residual conductor has
+no factor. These local comparisons give the global divisibility, including small
+residual characteristics; they do not assert equality there.
+
+For `p≥5`, the supplied local conductor formulas give
+
+`N(ρ̄_(E,p))=N_E ↔ p∤ N_E and p∤ v_ℓ(j_E) for every multiplicative prime ℓ.`
+
+The condition at `p` is necessary because the left side is prime to `p`. At a
+multiplicative prime ℓ different from `p`, pass through at most an unramified quadratic
+twist to a Tate curve with parameter `q_E`. Its inertia extension class on `E[p]` is
+controlled by `v_ℓ(q_E)=-v_ℓ(j_E)`. The extension becomes trivial precisely when
+`p` divides this integer. Its residual conductor exponent is then zero; otherwise it is
+one, matching the characteristic-zero exponent. The unramified twist changes the split
+sign but does not change this inertia criterion.
+
+At additive primes, the finite potentially good inertia action has order dividing 24,
+and its fixed-space and wild contributions survive reduction for `p≥5`. In the
+potentially multiplicative additive case, the ramified quadratic character retains the
+zero fixed-space contribution; the wild contribution is also unchanged. Thus the
+additive places impose no additional excluded primes beyond the small characteristics
+already listed. These assertions require the full local-reduction interface, especially
+at ℓ equal to 2 or 3.
+
+Serre states this conductor criterion for `p>5`. The formulation at `p=5` uses the same
+local argument, since 5 is prime to 24 and to the quadratic character's order. The
+existence proof below uses only `p∉Σ_E`, and hence only `p≥7`. Keeping that
+distinction visible prevents a source locator for the stricter statement from serving as
+the proof of the endpoint.
+
+*Sources and prerequisites.* Both conductor assertions come from Serre, §4.6, p. 207,
+the discussion between Lemma 5 and its application. The divisibility assertion imports ArithmeticGaloisRepresentations §§3.3 and 3.6
+and NeronModelsAndSemistableAbelianVarieties §5.3h, including the prime-to-p residual
+conductor comparison. The equality criterion also uses that local formula and Tau Ceti
+EllipticCurves **Layer 4: Elliptic curves over local fields — reduction, Tate's
+algorithm, the Tate curve**
+([EllipticCurves roadmap](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/EllipticCurves/README.md#layer-4-elliptic-curves-over-local-fields--reduction-tates-algorithm-the-tate-curve-aec-vii-ataec-ivv)).
+
+
+Names below are in the namespace `TauCetiRoadmap.EllipticCurveModularity`. The accompanying
+`Suggested.lean` states headline theorems on the pinned native carriers; it is not an
+exhaustive checklist. It defines `GQ`, `lCoeff`, `coeff`, `HasGoodReductionAt`,
+`HasMultiplicativeReductionAt`, `HasRationalCyclicSubgroup`, `exceptionalPrimes` and
+`IsNewformOf` to state those theorems. The remaining APIs are specified in mathematical prose.
+
+The Artin conductor of a two-dimensional ℓ-adic or residual Galois representation, the
+Serre weight and the shared residual attachment API are absent at the pins, as are
+rational modular curves, their Jacobians and modular quotients. Tau Ceti's
+`WeierstrassCurve.algorithmicConductor`, computed by Tate's algorithm, is not identified
+there with the conductor `N_E` of R29.4. The conductor-dependent and geometric targets
+are specified below. The newform modularity and completed L-series statements in
+`Suggested.lean` exhibit a positive level; the exact-conductor identification is the
+target of R29.4.
 
 ## References
 
