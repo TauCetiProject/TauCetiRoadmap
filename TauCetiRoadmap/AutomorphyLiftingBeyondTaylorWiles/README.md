@@ -2,17 +2,9 @@
 
 **Summary.** Build the conditional integral automorphy-lifting argument for GLₙ over an arbitrary number field, using the cohomology of Res PGLₙ in a range of defect ℓ₀, the local character deformation at trivial residual places, and two simultaneous Taylor–Wiles patching data. The arithmetic conclusions are the near faithfulness of the lowest-degree cohomology dual over the minimal deformation ring, and integral R = T with freeness when the local conditions are smooth. The construction gives the strengthened hypotheses and the support-to-eigenclass deduction used in conditional automorphy lifting. Conjecture B remains an explicit hypothesis. The roadmap is this README. None of its headline theorems is statable on the pinned Mathlib and Tau Ceti carriers, so `Suggested.lean` states none of them and its docstring names the carrier each one lacks.
 
-## Scope and ownership
+## How to read the build
 
-PotentialAutomorphyInfrastructure Layers 3–5 carry out the unconditional automorphy lifting argument for GLₙ over CM fields; the present construction retains arbitrary number fields and an explicit Hecke–Galois hypothesis. It owns the simultaneous character and unipotent arithmetic data, their local-ring comparison, the numerical coincidence, the rank-two level comparison at arbitrary number-field components, the finite data attached to these quotients, and the application of patching to their support.
-
-Generic arithmetic quotients, local systems, Betti and boundary complexes, Hecke correspondences and duality are stated by ArithmeticLocallySymmetricSpaces ALS.0–ALS.6. Only their Res PGLₙ instantiations occur here. IntegralHeckeAndGaloisDeterminants §§2.1–2.3 and 3a.1–3b.2 owns image Hecke algebras, factorial localization and the Galois-type predicate; the variant here takes one simultaneous image on every intermediate cover and every finite coefficient quotient. LocalGaloisDeformationRings §§1.6, 1.13, 2.8, 2.15–2.16 and 2.21 owns the local deformation conditions and component calculations. GlobalGaloisDeformations §§3.3–3.7 and 7.2–7.4 owns representability, framing and global presentations. Their representing objects are specialized here.
-
-DeformationAndDerivedPatchingAlgebra §§6.1–6.8, 7.3, 8.6 and 9.1–9.2 owns near faithfulness, minimal representatives, generic patching, codimension concentration and support descent; Layer 5 applies them to the particular finite data of Layer 4. ReductiveGroupsPartII RG2.2.4 owns the local tree and amalgam, and FreeGroupsAndLimitGroups §§4.5 and 4.8 own the structure theorem presenting a group acting on a tree as the fundamental group of its quotient graph of groups. ModularCurvesPartII §15.4 states the Lyndon sequence only for its principal-level amalgam over ℚ; the sequence of §3.4 is a kept variant for the number-field amalgam of §3.2, and the global component and operator comparison below differs by allowing all number fields and the actual character coefficients. SmoothRepresentationsOfLocalGroups SR.5.3 owns the distinct-root local block and its derived comparison. KTheoryLowDegrees §11.6 owns factorization of arithmetic-lattice characters through congruence quotients; the Hecke-localized cohomology consequence uses the supplier contract below.
-
-ModularityAndLanglandsExtensions §2.7 states a GLₙ form of Conjecture B and its §2.8 the conditional weight-zero lifting endpoint. Layer 2 states the Res PGLₙ package of CG18 §9 independently, as a kept variant that adds all intermediate covers and the inertia–diamond clause; §5.8 is a kept variant of that §2.8 under this package, with balanced oddness and the split ramification set. Its §2.8 names the CG18 §9.5 patching verification and Theorem 9.19 in the proof route of that endpoint and keeps those arithmetic verifications for its own §2.7 hypothesis, without stating separate targets for them; they remain there. The finite patching data, their verification and the near-faithfulness theorem stated here (§§4.1–4.4 and 5.1–5.4) are for the Res PGLₙ package of Layer 2, whose Hecke algebras are the simultaneous images over all intermediate covers and finite coefficients of §0.3 and whose clause (6) that proof route does not assume; they are owned here. Apart from the variant §5.8, nothing of §2.8 is restated. The minimal-level residual condition is used in the precise cohomological sense of §0.6. The CM-only cuspidal-range theorem of ArithmeticLocallySymmetricSpaces ALS.5b.8 does not cover the arbitrary-number-field, big-image recognition in §5.6. AutomorphicSpectralTheory §§4.14a and 5.12–5.14 supplies the spectral objects used there.
-
-ClassFieldTheory Layers 7 and 11 supplies reciprocity, including the rank-one example; Chebotarev Layer 10 supplies Frobenius density. The rank-one example is an application of those results, not another class field theory target. GL2ModularityLifting Layers 4–5 own unconditional modularity lifting for GL₂ over totally real fields, including the Fontaine–Laffaille-range theorem with Ihara avoidance that §5.10 recovers conditionally. The defect-one GL₂ part of CG18 (balanced modules, weight-one forms and their complements, and the Conjecture A treatment of imaginary quadratic fields, §§2–5) is outside this roadmap: Hecke operators on torsion coherent cohomology of modular curves in its fine-curve setting are AlgebraicModularFormsAndSerreWeights §2.12, the CG18 Theorem 4.8 finiteness application is PotentialModularityAndCompatibleSystems §8.8, and the integral coherent-cohomology complexes of CG18 §7.2 are AutomorphicBundlesPartII §1.4 and Layer 2. §5.9 recovers the imaginary-quadratic GL₂ statement only as a specialization of Layers 4–5 under Conjecture B.
+Layer 0 specializes the supplied local systems, correspondences and image algebras and fixes the selected-root summand. Layer 1 fixes the two arithmetic local/global problems and obtains the presentation count. Layer 2 states the Res PGLₙ Conjecture B package of CG18 §9, strengthened precisely where patching needs compatibility. Layer 3 proves the rank-two comparison and the distinct-root global comparison, keeping the PGLₙ descent as a separate target. Layer 4 constructs the actual bounded data, including all finite coefficient and framing quotients. Layer 5 applies supplied patching and support algebra, recognizes characteristic-zero eigenclasses, and identifies the resulting automorphy application. Each Needs line lists the statement and proof inputs; a different proof can replace that route without changing the stated theorem.
 
 ## Conventions
 
@@ -31,118 +23,6 @@ Let R = R_triv ⊔ R_reg be disjoint from Sₚ. At R_triv the entire residual lo
 - For diag(−1,1), positive and negative eigenspace dimensions are (1,1). For the identity in characteristic 3 they are (2,0), although its trace 2 equals −1: balanced oddness excludes it.
 - A two-term homological complex in degrees 1 and 2 becomes cohomological in degrees 1 and 0 respectively. Reflection makes its top term the dual of H¹, not H².
 - With χ(g)=ζₚ the dual coefficient action is ζₚ⁻¹, and their product in the evaluation pairing is 1. Using χ on both sides gives ζₚ², which is not 1 for odd p.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-Use `Field.absoluteGaloisGroup` in `Mathlib/FieldTheory/AbsoluteGaloisGroup.lean` for automorphisms of the algebraic closure, with its profinite topology. Use `Representation` in `Mathlib/RepresentationTheory/Basic.lean` for linear representations; its algebraic definition does not impose continuity. Continuity, the topology and the local conditions must be carried separately. Use native matrix characteristic polynomials, group algebras, ideals, modules, homological complexes and derived categories. For abstract double cosets use `IsHeckeTriple`, `HeckeCoset` and `HeckeRing` in `Mathlib/NumberTheory/HeckeRing/Defs.lean`; the latter is a finitely supported double-coset coefficient carrier, whose algebra structure requires the separate convolution instances. `Module.support_eq_zeroLocus` in `Mathlib/RingTheory/Support.lean` is used with finite-generation hypotheses for support and annihilators, rather than defining another support object. Use `Monoid.PushoutI` in `Mathlib/GroupTheory/PushoutI.lean` for amalgamated products of groups, and Shapiro's isomorphism `groupCohomology.coindIso` in `Mathlib/RepresentationTheory/Homological/GroupCohomology/Shapiro.lean`, which identifies Hⁿ(G, Coind_S^G A) with Hⁿ(S, A) for a subgroup S ≤ G and an S-representation A over a commutative ring; it carries no finiteness or index hypothesis.
-
-### From Tau Ceti
-
-Use `TauCeti.MonoidAlgebra.augmentation` in `TauCeti/Algebra/MonoidAlgebra/Exactness.lean` for O[Δ]→O, sending each group element to 1. Generic group rings and Hecke double cosets retain their native carriers. Arithmetic automorphic quotients, Fontaine–Laffaille deformation conditions and the required universal arithmetic rings are roadmap suppliers, not assumed library declarations.
-
-### From TauCetiRoadmap.ArithmeticLocallySymmetricSpaces
-
-Consume ALS.0.7–ALS.0.10 for components and standard levels, with ALS.0.7 taken for the connected variant of ALS.0.4 (its component groups G(F)⁺ ∩ gKg⁻¹, G(F)⁺ the stabilizer of a component of G(F_∞)/K∞⁰, rather than the full-maximal-compact groups G(F) ∩ gKg⁻¹); ALS.1.1–ALS.1.8 for local systems, arithmetic-group cohomology, finite models, coefficient change and pullback; ALS.2.2–ALS.2.4 for Borel–Serre compactification and finiteness; ALS.3.3–ALS.3.9 for derived correspondences and trace, and ALS.3.14 for the two degeneracy maps and their Gram matrix. Consume ALS.4.1 and ALS.4.9–ALS.4.12 for the boundary triangle and localization, ALS.5a.2–ALS.5a.6 for duality with its orientation and stabilizer hypotheses, ALS.5b.4–ALS.5b.6 for characteristic-zero and cuspidal comparison, and ALS.6.1–ALS.6.3 for finite-cover descent. At p-torsion stabilizers the unlocalized finite free model of ALS.1.6 is not applicable.
-
-What ArithmeticLocallySymmetricSpaces must provide (gap:localized-orbifold-range-duality): For Res PGLₙ arithmetic groupoid quotients Y(K), including levels with p-torsion stabilizers, and a non-Eisenstein maximal ideal m of Galois type with big residual image, prove H^i(Y(K), O/ϖᵃ)_m = 0 for i outside 0 ≤ i ≤ dim Y and every a ≥ 1, and finite-level Poincaré duality localized at m with the adjoint Hecke action, without assuming vanishing outside [q₀, q₀+ℓ₀].
-
-What ArithmeticLocallySymmetricSpaces must provide (gap:localized-orbifold-perfect-models): For a Galois cover of Res PGLₙ arithmetic groupoid quotients with finite abelian p-group Δ, including levels with p-torsion stabilizers, given vanishing of the m-localized cohomology with every O/ϖᵃ coefficient outside [q₀, q₀+ℓ₀] and of the m-localized boundary cohomology on every intermediate cover, prove that the m-localized Betti complex of the top cover is a perfect O[Δ]-complex whose base change along O[Δ] → O[Δ′]/ϖᵃ computes the localized cohomology and homology of the intermediate cover with group Δ′, compatibly with coefficient change and Hecke action.
-
-What ArithmeticLocallySymmetricSpaces must provide (gap:congruence-character-localized-h1): Using the character-factorization theorem of KTheoryLowDegrees §11.6, prove H⁰(Y(K),k)_m=H¹(Y(K),k)_m=0 for PGL₃/ℚ and PGL₂ over CM quartic fields at every level, for p>n unramified in F and a non-Eisenstein ideal of Galois type, retaining compatibility with the dual ideal and Hecke action.
-
-### From TauCetiRoadmap.DerivedModuleAlgebra
-
-Consume §1.E.0 for perfect module complexes and their closure under retracts, shifts and derived scalar change; §4.1 uses it for the summand cut out by a factorial idempotent.
-
-### From TauCetiRoadmap.CompletedCohomologyPartII
-
-Consume §§0.1–0.3 and 1.1 for coherent level systems and the fixed-exponent smooth colimit, and §6.2 for continuous fixed-exponent descent in its p-level setting. The tame-place version required in §§3.6–3.7 is the following contract; ALS.6.2 remains its finite-cover input. Its §3.8 forms colimits at varying tame level only at neat levels and identifies level invariants only for compact opens of pro-order invertible in O; at a place x with N(x) ≡ 1 mod p the order of PGLₙ(k_x) is divisible by N(x)² − 1, hence by p, so a hyperspecial subgroup at x has pro-order divisible by p and derived continuous invariants replace invariants.
-
-What CompletedCohomologyPartII must provide (gap:tame-place-fixed-exponent-descent): Extend fixed-exponent descent of §6.2 to x∤p for GLₙ and PGLₙ arithmetic groupoid level systems with fixed level and local system away from x: for each b≥1 construct the discrete smooth pullback colimit Mʲ_b=colim_t Hʲ(Z(xᵗ),O(ψ)⊗O/ϖᵇ), using principal x-levels cofinal inside each hyperspecial or line-parahoric U, and convergent first-quadrant spectral sequences Hⁱ_cts(U,Mʲ_b)⇒Hⁱ⁺ʲ(Z(U),O(ψ)⊗O/ϖᵇ), natural for the hyperspecial-to-parahoric comparison, coefficient maps, away-from-x Hecke operators and localization; prove the required regular-cover or groupoid descent comparisons retaining all arithmetic stabilizers rather than assuming faithful deck quotients.
-
-### From TauCetiRoadmap.IntegralHeckeAndGaloisDeterminants
-
-Consume §§2.1–2.3 for finite Hecke action images, operator localization by factorial powers (§2.3; its telescope comparison needs actual nilpotence on the complement and is not applied to topologically nilpotent operators on integral complexes), and (§2.2, finite local factors and specified idempotent summands) the decomposition of a finite commutative algebra over a complete Noetherian local ring into its complete local factors, with the corresponding summands of every module it acts on; §3a.1 for the unnormalized polynomial `sum_i (-1)^iN(v)^{i(i-1)/2}T_{v,i}X^{n-i}`; §§3b.1–3b.2 for Galois-type and dual residual ideals; §§1.2–1.3 for semisimple reconstruction and absolutely irreducible lifting. A relation valid on the full cover alone is not assumed to hold on intermediate covers; the simultaneous image of §0.3 includes them in its definition.
-
-What IntegralHeckeAndGaloisDeterminants must provide (gap:simultaneous-orbifold-hecke-finiteness): Prove finite O-generation of the commutative image of the specified unnormalized operators on every degree and every O/ϖᵃ coefficient of the finite family of intermediate arithmetic groupoid levels, including stabilizer cohomology, and prove that this image acts compatibly on cohomology with every finite O-module coefficient.
-
-### From TauCetiRoadmap.LocalGaloisDeformationRings
-
-Consume §§F.1–F.3 for strict deformation and local-problem carriers, §§1.6 and 1.13 for the Fontaine–Laffaille condition and its smooth dimension, applied to the dual lift (§1.6 realizes a labelled jump i with Hodge–Tate weight −i, so the positive-weight problem of §1.2 is the image of the §1.6 problem under r ↦ r^∨), §1.10 for fixed determinant, §§2.8 and 2.21 for minimal regular-unipotent ramification, §2.15 for literal character-polynomial quotients and their components, and §2.16 for the fixed-determinant two-scalar Taylor–Wiles condition and tangent contribution 1 when residual Frobenius is semisimple; §2.23 instead requires an unramified complementary block and is not this condition. In §2.15 the generic component statements concern characteristic-zero minimal primes; they do not imply coefficient flatness of the literal quotient. Determinant fixing uses p∤n and the unramified n-th-root twist.
-
-What LocalGaloisDeformationRings must provide (gap:nonsemisimple-two-scalar-taylor-wiles): For ℓ≠p, p>n≥2, residue norm q≡1 modulo p, an arbitrary unramified rank-n residual representation with a specified simple generalized Frobenius eigenline and its complementary generalized eigenspaces, and an unramified determinant ξ lifting the residual determinant, extend the two-scalar condition of §2.16 without semisimplicity: construct its framed representing quotient and coefficient-natural block projectors, scalar inertia characters θ on the line and η on the complement with θηⁿ⁻¹=1 and θ^(q−1)=η^(q−1)=1, prove dim L−h⁰(ad⁰r̄)=1, and identify augmentation of its inertia group-algebra map with the fixed-determinant unramified local problem.
-
-### From TauCetiRoadmap.GlobalGaloisDeformations
-
-Consume §§3.3–3.7 for global data, representability, the local-to-global map and relative tangent presentation; §§4.3–4.4 for enlarging ramification and twisting; §5.5 for inertia and augmentation; §5.6 for Chebotarev selection with a padding class; §§7.2–7.4 for framing and fixed-versus-variable determinant. Fixed-determinant local rings and the trace reconstruction come from LocalGaloisDeformationRings §§F.2.7–F.2.9.
-
-What GlobalGaloisDeformations must provide (gap:big-image-rank-n-taylor-wiles): For the standing rank-n datum with big cyclotomic residual image and ζₚ outside the adjoint fixed field, every q at least the relative dual-Selmer dimension and every N≥1 admit exactly q auxiliary places outside any fixed finite avoidance set with norms 1 modulo pᴺ, a chosen simple Frobenius line, and zero new relative dual Selmer group.
-
-### From TauCetiRoadmap.ArithmeticGaloisRepresentations
-
-Consume §§7.2 and 7.4 for adjoints, trace pairing and balanced real involutions, and §§7.7–7.12 for image conditions without identifying big, adequate and enormous. The big-image predicate used here is the simple-eigenvalue detector condition, not the rank-two SL₂ containment condition.
-
-What ArithmeticGaloisRepresentations must provide (gap:cht-big-image): Define the big-subgroup condition for finite H⊂GLₙ(k) by absence of p-power quotients, vanishing H⁰(H,ad⁰)=H¹(H,ad⁰)=0 and the nonzero simple-eigenprojector trace detector on every irreducible submodule of End(kⁿ), and prove coefficient-extension invariance and existence of a simple eigenvalue.
-
-### From TauCetiRoadmap.ArithmeticGaloisDuality
-
-Consume R02.5.1 for Greenberg–Wiles with exact annihilator local conditions, R02.5.2 for the rank-one difference −(r₁+r₂−1), and R02.6.1–R02.6.2 for archimedean and auxiliary-prime counts. At T the tangent condition is zero and the dual is unrestricted; at Q use the specified block tangent condition and its exact annihilator. All dimensions are over k.
-
-### From TauCetiRoadmap.DeformationAndDerivedPatchingAlgebra
-
-Consume §1.12 for the complete-local tensor coproduct, §4.6 and §§6.7–6.8 for components, §3.10 for finite abelian group-ring quotients, §7.3 for minimal finite free representatives, and §7.6 for signed coefficient duality. Consume §§6.1–6.5 for near faithfulness, support, quotient and augmentation descent; §§3.1–3.4 for depth and regular-source freeness. The finite data use the cohomology-action theorem of §8.6, with every finite framing-quotient action and reduction diagram, and §§9.1–9.2 for codimension concentration. Cohomology actions alone are not promoted to strict derived actions.
-
-What DeformationAndDerivedPatchingAlgebra must provide (gap:character-ring-completed-products): For the literal local character-polynomial quotients of LocalGaloisDeformationRings §2.15 and the smooth factors used here, prove the completed-product equidimensionality and characteristic-zero-minimal-prime dimension formula and preservation of a unique generic component under each special component after geometric splitting of components.
-
-What DeformationAndDerivedPatchingAlgebra must provide (gap:paired-cohomology-action-patching): Extend §8.6 to two finite-cutoff cohomology-action data with identified residual rings and top cohomology at every coefficient and framing quotient, all action and augmentation diagrams commuting, to obtain simultaneously patched top modules whose reductions modulo ϖ are linear over the common residual deformation and scalar actions and agree after augmentation.
-
-### From TauCetiRoadmap.ReductiveGroupsPartII
-
-Consume RG2.2.4, “Ihara's theorem: SL₂ as an amalgam”, on adjacent lattice vertices and its PSL₂ quotient; the second vertex is represented by diag(1,ϖ). The diagonal element diag(ϖ,ϖ⁻¹) translates distance two and is used for the squared operator, not for the edge gluing.
-
-### From TauCetiRoadmap.FreeGroupsAndLimitGroups
-
-Consume §4.8, the structure theorem: a group acting on a tree without inversion is the fundamental group of the quotient graph of groups formed by vertex and edge stabilizers; and §4.5, which identifies the fundamental group of a one-edge (segment) graph of groups with Mathlib's `Monoid.PushoutI` of its two vertex groups over the edge group. With the one-edge quotient of §3.2 these present the S-arithmetic group as an amalgam.
-
-### From TauCetiRoadmap.ModularCurvesPartII
-
-Consume §15.4, the correctly graded Lyndon sequence for the principal-level amalgam `Gamma_N(Z[1/p])` (N ≥ 3) of its §15.2 over ℚ, only for that case of §3.4 (F = ℚ and Γ¹ the principal congruence subgroup of level N ≥ 3); the number-field amalgam of §3.2 lies outside its statement, and §3.4 derives that sequence from the tree and Shapiro's isomorphism. The rank-two modular-curve root theorem of §15.8 is a specialization, not the arbitrary-number-field theorem here.
-
-### From TauCetiRoadmap.SmoothRepresentationsOfLocalGroups
-
-Consume SR.5.3, “The distinct-eigenvalue local block” and “Derived hyperspecial–parahoric comparison”: over O/ϖᵃ, residue norm 1 modulo p and distinct residual unramified characters, every simple subquotient lies in the specified principal-series block, and projected parahoric derived invariants agree with hyperspecial derived invariants. The invariants are those of GLₙ; their PGLₙ comparison is the target of §3.7.
-
-### From TauCetiRoadmap.AutomorphicFormsOnReductiveGroups
-
-Consume Layers 4–6 for automorphic forms and unnormalized Hecke conventions, the split-centre convention, the PGLₙ degree invariants, purity and the tempered cohomological range. In characteristic zero the infinity type and the nonzero finite-level invariants are retained when passing from an automorphic representation to its degree-q₀ eigenclass.
-
-### From TauCetiRoadmap.AutomorphicSpectralTheory
-
-Consume §4.14a for number-field residual blocks Speh(σ,b), with ordered exponents (b−1)/2−j, and §§5.12–5.14 for the cuspidal-support decomposition, isobaric realization and its weights. The residual classification includes all number fields; it is not restricted to unramified function-field forms.
-
-What AutomorphicSpectralTheory must provide (gap:proper-support-boundary-or-residual): For Res PGLₙ over a number field with algebraic complex coefficients, prove that an ordinary-cohomology Hecke eigensystem in proper cuspidal support either occurs on Borel–Serre boundary cohomology or is the eigensystem of a residual discrete automorphic representation, with the same central and unramified Hecke conventions.
-
-### From TauCetiRoadmap.KTheoryLowDegrees
-
-Consume §11.6 for prime-to-p finite congruence-kernel factorization of additive k-valued characters, including one common congruence neighborhood for a finite-dimensional character space; do not assume the stronger strict congruence subgroup property. The geometric H¹ vanishing is the ArithmeticLocallySymmetricSpaces contract above.
-
-### From TauCetiRoadmap.PadicHodgeTheory
-
-Consume §6.1 for the rational Fontaine–Laffaille sign dictionary and the integral comparison it imports. For an unramified local field and p>n, the contravariant convention with jumps 0,…,n−1 produces crystalline lattices with the native positive weights; it is not applied beyond [0,p−2]. The contravariant realization is the dual of the covariant realization of LocalGaloisDeformationRings §1.6, which is how §1.2 transports that supplier's problem to positive weights.
-
-### From TauCetiRoadmap.AdelicAlgebraicGroups
-
-Consume §4.2 for strong approximation for SL₂ with a noncompact local factor, and §5.1 for the GL₁ components and unit-rank dimension. These identify the actual arithmetic component stabilizers and the one-edge quotient in §3.2.
-
-### From TauCetiRoadmap.ClassFieldTheory and TauCetiRoadmap.Chebotarev
-
-ClassFieldTheory Layer 7 fixes Art_v from F_vˣ to the abelianized local Galois group, sending a uniformizer to arithmetic Frobenius; Layer 11 supplies global Artin reciprocity and the unramified class-group quotient. Chebotarev Layer 10 realizes finite-quotient conjugacy classes outside finite avoidance sets. In the cyclotomic-kernel argument primes have norm 1 modulo p; equality of semisimple characteristic polynomials is tested on those finite quotients and then on all unramified Frobenius classes as appropriate.
-
-## How to read the build
-
-Layer 0 specializes the supplied local systems, correspondences and image algebras and fixes the selected-root summand. Layer 1 fixes the two arithmetic local/global problems and obtains the presentation count. Layer 2 states the Res PGLₙ Conjecture B package of CG18 §9, strengthened precisely where patching needs compatibility. Layer 3 proves the rank-two comparison and the distinct-root global comparison, keeping the PGLₙ descent as a separate target. Layer 4 constructs the actual bounded data, including all finite coefficient and framing quotients. Layer 5 applies supplied patching and support algebra, recognizes characteristic-zero eigenclasses, and identifies the resulting automorphy application. Each Needs line lists the statement and proof inputs; a different proof can replace that route without changing the stated theorem.
 
 ## Layer 0: Hecke data at Taylor–Wiles level
 
@@ -1405,6 +1285,126 @@ Earlier layers 0–4; TauCetiRoadmap.DeformationAndDerivedPatchingAlgebra §§1.
 ## Downstream consumers
 
 The near-faithfulness and smooth R=T conclusions supply conditional arbitrary-number-field arithmetic applications. The smooth case (§5.5), under the strengthened inertia–diamond hypothesis, together with the conditional PGLₙ comparison of §3.7 under its principal-series block hypothesis at every successive base level, supplies the corresponding inputs to the Betti-cohomology argument for adjoint Bloch–Kato Selmer vanishing in CGH20 Theorem 1.2. This use retains those additional hypotheses. The rank-two specializations of the strengthened hypothesis and of §3.5 serve conditional GL₂ automorphy lifting over number fields of positive defect, at minimal and at nonminimal level. These applications consume this roadmap; none of them is an input to any layer.
+
+## Scope and ownership
+
+PotentialAutomorphyInfrastructure Layers 3–5 carry out the unconditional automorphy lifting argument for GLₙ over CM fields; the present construction retains arbitrary number fields and an explicit Hecke–Galois hypothesis. It owns the simultaneous character and unipotent arithmetic data, their local-ring comparison, the numerical coincidence, the rank-two level comparison at arbitrary number-field components, the finite data attached to these quotients, and the application of patching to their support.
+
+Generic arithmetic quotients, local systems, Betti and boundary complexes, Hecke correspondences and duality are stated by ArithmeticLocallySymmetricSpaces ALS.0–ALS.6. Only their Res PGLₙ instantiations occur here. IntegralHeckeAndGaloisDeterminants §§2.1–2.3 and 3a.1–3b.2 owns image Hecke algebras, factorial localization and the Galois-type predicate; the variant here takes one simultaneous image on every intermediate cover and every finite coefficient quotient. LocalGaloisDeformationRings §§1.6, 1.13, 2.8, 2.15–2.16 and 2.21 owns the local deformation conditions and component calculations. GlobalGaloisDeformations §§3.3–3.7 and 7.2–7.4 owns representability, framing and global presentations. Their representing objects are specialized here.
+
+DeformationAndDerivedPatchingAlgebra §§6.1–6.8, 7.3, 8.6 and 9.1–9.2 owns near faithfulness, minimal representatives, generic patching, codimension concentration and support descent; Layer 5 applies them to the particular finite data of Layer 4. ReductiveGroupsPartII RG2.2.4 owns the local tree and amalgam, and FreeGroupsAndLimitGroups §§4.5 and 4.8 own the structure theorem presenting a group acting on a tree as the fundamental group of its quotient graph of groups. ModularCurvesPartII §15.4 states the Lyndon sequence only for its principal-level amalgam over ℚ; the sequence of §3.4 is a kept variant for the number-field amalgam of §3.2, and the global component and operator comparison below differs by allowing all number fields and the actual character coefficients. SmoothRepresentationsOfLocalGroups SR.5.3 owns the distinct-root local block and its derived comparison. KTheoryLowDegrees §11.6 owns factorization of arithmetic-lattice characters through congruence quotients; the Hecke-localized cohomology consequence uses the supplier contract below.
+
+ModularityAndLanglandsExtensions §2.7 states a GLₙ form of Conjecture B and its §2.8 the conditional weight-zero lifting endpoint. Layer 2 states the Res PGLₙ package of CG18 §9 independently, as a kept variant that adds all intermediate covers and the inertia–diamond clause; §5.8 is a kept variant of that §2.8 under this package, with balanced oddness and the split ramification set. Its §2.8 names the CG18 §9.5 patching verification and Theorem 9.19 in the proof route of that endpoint and keeps those arithmetic verifications for its own §2.7 hypothesis, without stating separate targets for them; they remain there. The finite patching data, their verification and the near-faithfulness theorem stated here (§§4.1–4.4 and 5.1–5.4) are for the Res PGLₙ package of Layer 2, whose Hecke algebras are the simultaneous images over all intermediate covers and finite coefficients of §0.3 and whose clause (6) that proof route does not assume; they are owned here. Apart from the variant §5.8, nothing of §2.8 is restated. The minimal-level residual condition is used in the precise cohomological sense of §0.6. The CM-only cuspidal-range theorem of ArithmeticLocallySymmetricSpaces ALS.5b.8 does not cover the arbitrary-number-field, big-image recognition in §5.6. AutomorphicSpectralTheory §§4.14a and 5.12–5.14 supplies the spectral objects used there.
+
+ClassFieldTheory Layers 7 and 11 supplies reciprocity, including the rank-one example; Chebotarev Layer 10 supplies Frobenius density. The rank-one example is an application of those results, not another class field theory target. GL2ModularityLifting Layers 4–5 own unconditional modularity lifting for GL₂ over totally real fields, including the Fontaine–Laffaille-range theorem with Ihara avoidance that §5.10 recovers conditionally. The defect-one GL₂ part of CG18 (balanced modules, weight-one forms and their complements, and the Conjecture A treatment of imaginary quadratic fields, §§2–5) is outside this roadmap: Hecke operators on torsion coherent cohomology of modular curves in its fine-curve setting are AlgebraicModularFormsAndSerreWeights §2.12, the CG18 Theorem 4.8 finiteness application is PotentialModularityAndCompatibleSystems §8.8, and the integral coherent-cohomology complexes of CG18 §7.2 are AutomorphicBundlesPartII §1.4 and Layer 2. §5.9 recovers the imaginary-quadratic GL₂ statement only as a specialization of Layers 4–5 under Conjecture B.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+Use `Field.absoluteGaloisGroup` in `Mathlib/FieldTheory/AbsoluteGaloisGroup.lean` for automorphisms of the algebraic closure, with its profinite topology. Use `Representation` in `Mathlib/RepresentationTheory/Basic.lean` for linear representations; its algebraic definition does not impose continuity. Continuity, the topology and the local conditions must be carried separately. Use native matrix characteristic polynomials, group algebras, ideals, modules, homological complexes and derived categories. For abstract double cosets use `IsHeckeTriple`, `HeckeCoset` and `HeckeRing` in `Mathlib/NumberTheory/HeckeRing/Defs.lean`; the latter is a finitely supported double-coset coefficient carrier, whose algebra structure requires the separate convolution instances. `Module.support_eq_zeroLocus` in `Mathlib/RingTheory/Support.lean` is used with finite-generation hypotheses for support and annihilators, rather than defining another support object. Use `Monoid.PushoutI` in `Mathlib/GroupTheory/PushoutI.lean` for amalgamated products of groups, and Shapiro's isomorphism `groupCohomology.coindIso` in `Mathlib/RepresentationTheory/Homological/GroupCohomology/Shapiro.lean`, which identifies Hⁿ(G, Coind_S^G A) with Hⁿ(S, A) for a subgroup S ≤ G and an S-representation A over a commutative ring; it carries no finiteness or index hypothesis.
+
+### From Tau Ceti
+
+Use `TauCeti.MonoidAlgebra.augmentation` in `TauCeti/Algebra/MonoidAlgebra/Exactness.lean` for O[Δ]→O, sending each group element to 1. Generic group rings and Hecke double cosets retain their native carriers. Arithmetic automorphic quotients, Fontaine–Laffaille deformation conditions and the required universal arithmetic rings are roadmap suppliers, not assumed library declarations.
+
+### From TauCetiRoadmap.ArithmeticLocallySymmetricSpaces
+
+Consume ALS.0.7–ALS.0.10 for components and standard levels, with ALS.0.7 taken for the connected variant of ALS.0.4 (its component groups G(F)⁺ ∩ gKg⁻¹, G(F)⁺ the stabilizer of a component of G(F_∞)/K∞⁰, rather than the full-maximal-compact groups G(F) ∩ gKg⁻¹); ALS.1.1–ALS.1.8 for local systems, arithmetic-group cohomology, finite models, coefficient change and pullback; ALS.2.2–ALS.2.4 for Borel–Serre compactification and finiteness; ALS.3.3–ALS.3.9 for derived correspondences and trace, and ALS.3.14 for the two degeneracy maps and their Gram matrix. Consume ALS.4.1 and ALS.4.9–ALS.4.12 for the boundary triangle and localization, ALS.5a.2–ALS.5a.6 for duality with its orientation and stabilizer hypotheses, ALS.5b.4–ALS.5b.6 for characteristic-zero and cuspidal comparison, and ALS.6.1–ALS.6.3 for finite-cover descent. At p-torsion stabilizers the unlocalized finite free model of ALS.1.6 is not applicable.
+
+What ArithmeticLocallySymmetricSpaces must provide (gap:localized-orbifold-range-duality): For Res PGLₙ arithmetic groupoid quotients Y(K), including levels with p-torsion stabilizers, and a non-Eisenstein maximal ideal m of Galois type with big residual image, prove H^i(Y(K), O/ϖᵃ)_m = 0 for i outside 0 ≤ i ≤ dim Y and every a ≥ 1, and finite-level Poincaré duality localized at m with the adjoint Hecke action, without assuming vanishing outside [q₀, q₀+ℓ₀].
+
+What ArithmeticLocallySymmetricSpaces must provide (gap:localized-orbifold-perfect-models): For a Galois cover of Res PGLₙ arithmetic groupoid quotients with finite abelian p-group Δ, including levels with p-torsion stabilizers, given vanishing of the m-localized cohomology with every O/ϖᵃ coefficient outside [q₀, q₀+ℓ₀] and of the m-localized boundary cohomology on every intermediate cover, prove that the m-localized Betti complex of the top cover is a perfect O[Δ]-complex whose base change along O[Δ] → O[Δ′]/ϖᵃ computes the localized cohomology and homology of the intermediate cover with group Δ′, compatibly with coefficient change and Hecke action.
+
+What ArithmeticLocallySymmetricSpaces must provide (gap:congruence-character-localized-h1): Using the character-factorization theorem of KTheoryLowDegrees §11.6, prove H⁰(Y(K),k)_m=H¹(Y(K),k)_m=0 for PGL₃/ℚ and PGL₂ over CM quartic fields at every level, for p>n unramified in F and a non-Eisenstein ideal of Galois type, retaining compatibility with the dual ideal and Hecke action.
+
+### From TauCetiRoadmap.DerivedModuleAlgebra
+
+Consume §1.E.0 for perfect module complexes and their closure under retracts, shifts and derived scalar change; §4.1 uses it for the summand cut out by a factorial idempotent.
+
+### From TauCetiRoadmap.CompletedCohomologyPartII
+
+Consume §§0.1–0.3 and 1.1 for coherent level systems and the fixed-exponent smooth colimit, and §6.2 for continuous fixed-exponent descent in its p-level setting. The tame-place version required in §§3.6–3.7 is the following contract; ALS.6.2 remains its finite-cover input. Its §3.8 forms colimits at varying tame level only at neat levels and identifies level invariants only for compact opens of pro-order invertible in O; at a place x with N(x) ≡ 1 mod p the order of PGLₙ(k_x) is divisible by N(x)² − 1, hence by p, so a hyperspecial subgroup at x has pro-order divisible by p and derived continuous invariants replace invariants.
+
+What CompletedCohomologyPartII must provide (gap:tame-place-fixed-exponent-descent): Extend fixed-exponent descent of §6.2 to x∤p for GLₙ and PGLₙ arithmetic groupoid level systems with fixed level and local system away from x: for each b≥1 construct the discrete smooth pullback colimit Mʲ_b=colim_t Hʲ(Z(xᵗ),O(ψ)⊗O/ϖᵇ), using principal x-levels cofinal inside each hyperspecial or line-parahoric U, and convergent first-quadrant spectral sequences Hⁱ_cts(U,Mʲ_b)⇒Hⁱ⁺ʲ(Z(U),O(ψ)⊗O/ϖᵇ), natural for the hyperspecial-to-parahoric comparison, coefficient maps, away-from-x Hecke operators and localization; prove the required regular-cover or groupoid descent comparisons retaining all arithmetic stabilizers rather than assuming faithful deck quotients.
+
+### From TauCetiRoadmap.IntegralHeckeAndGaloisDeterminants
+
+Consume §§2.1–2.3 for finite Hecke action images, operator localization by factorial powers (§2.3; its telescope comparison needs actual nilpotence on the complement and is not applied to topologically nilpotent operators on integral complexes), and (§2.2, finite local factors and specified idempotent summands) the decomposition of a finite commutative algebra over a complete Noetherian local ring into its complete local factors, with the corresponding summands of every module it acts on; §3a.1 for the unnormalized polynomial `sum_i (-1)^iN(v)^{i(i-1)/2}T_{v,i}X^{n-i}`; §§3b.1–3b.2 for Galois-type and dual residual ideals; §§1.2–1.3 for semisimple reconstruction and absolutely irreducible lifting. A relation valid on the full cover alone is not assumed to hold on intermediate covers; the simultaneous image of §0.3 includes them in its definition.
+
+What IntegralHeckeAndGaloisDeterminants must provide (gap:simultaneous-orbifold-hecke-finiteness): Prove finite O-generation of the commutative image of the specified unnormalized operators on every degree and every O/ϖᵃ coefficient of the finite family of intermediate arithmetic groupoid levels, including stabilizer cohomology, and prove that this image acts compatibly on cohomology with every finite O-module coefficient.
+
+### From TauCetiRoadmap.LocalGaloisDeformationRings
+
+Consume §§F.1–F.3 for strict deformation and local-problem carriers, §§1.6 and 1.13 for the Fontaine–Laffaille condition and its smooth dimension, applied to the dual lift (§1.6 realizes a labelled jump i with Hodge–Tate weight −i, so the positive-weight problem of §1.2 is the image of the §1.6 problem under r ↦ r^∨), §1.10 for fixed determinant, §§2.8 and 2.21 for minimal regular-unipotent ramification, §2.15 for literal character-polynomial quotients and their components, and §2.16 for the fixed-determinant two-scalar Taylor–Wiles condition and tangent contribution 1 when residual Frobenius is semisimple; §2.23 instead requires an unramified complementary block and is not this condition. In §2.15 the generic component statements concern characteristic-zero minimal primes; they do not imply coefficient flatness of the literal quotient. Determinant fixing uses p∤n and the unramified n-th-root twist.
+
+What LocalGaloisDeformationRings must provide (gap:nonsemisimple-two-scalar-taylor-wiles): For ℓ≠p, p>n≥2, residue norm q≡1 modulo p, an arbitrary unramified rank-n residual representation with a specified simple generalized Frobenius eigenline and its complementary generalized eigenspaces, and an unramified determinant ξ lifting the residual determinant, extend the two-scalar condition of §2.16 without semisimplicity: construct its framed representing quotient and coefficient-natural block projectors, scalar inertia characters θ on the line and η on the complement with θηⁿ⁻¹=1 and θ^(q−1)=η^(q−1)=1, prove dim L−h⁰(ad⁰r̄)=1, and identify augmentation of its inertia group-algebra map with the fixed-determinant unramified local problem.
+
+### From TauCetiRoadmap.GlobalGaloisDeformations
+
+Consume §§3.3–3.7 for global data, representability, the local-to-global map and relative tangent presentation; §§4.3–4.4 for enlarging ramification and twisting; §5.5 for inertia and augmentation; §5.6 for Chebotarev selection with a padding class; §§7.2–7.4 for framing and fixed-versus-variable determinant. Fixed-determinant local rings and the trace reconstruction come from LocalGaloisDeformationRings §§F.2.7–F.2.9.
+
+What GlobalGaloisDeformations must provide (gap:big-image-rank-n-taylor-wiles): For the standing rank-n datum with big cyclotomic residual image and ζₚ outside the adjoint fixed field, every q at least the relative dual-Selmer dimension and every N≥1 admit exactly q auxiliary places outside any fixed finite avoidance set with norms 1 modulo pᴺ, a chosen simple Frobenius line, and zero new relative dual Selmer group.
+
+### From TauCetiRoadmap.ArithmeticGaloisRepresentations
+
+Consume §§7.2 and 7.4 for adjoints, trace pairing and balanced real involutions, and §§7.7–7.12 for image conditions without identifying big, adequate and enormous. The big-image predicate used here is the simple-eigenvalue detector condition, not the rank-two SL₂ containment condition.
+
+What ArithmeticGaloisRepresentations must provide (gap:cht-big-image): Define the big-subgroup condition for finite H⊂GLₙ(k) by absence of p-power quotients, vanishing H⁰(H,ad⁰)=H¹(H,ad⁰)=0 and the nonzero simple-eigenprojector trace detector on every irreducible submodule of End(kⁿ), and prove coefficient-extension invariance and existence of a simple eigenvalue.
+
+### From TauCetiRoadmap.ArithmeticGaloisDuality
+
+Consume R02.5.1 for Greenberg–Wiles with exact annihilator local conditions, R02.5.2 for the rank-one difference −(r₁+r₂−1), and R02.6.1–R02.6.2 for archimedean and auxiliary-prime counts. At T the tangent condition is zero and the dual is unrestricted; at Q use the specified block tangent condition and its exact annihilator. All dimensions are over k.
+
+### From TauCetiRoadmap.DeformationAndDerivedPatchingAlgebra
+
+Consume §1.12 for the complete-local tensor coproduct, §4.6 and §§6.7–6.8 for components, §3.10 for finite abelian group-ring quotients, §7.3 for minimal finite free representatives, and §7.6 for signed coefficient duality. Consume §§6.1–6.5 for near faithfulness, support, quotient and augmentation descent; §§3.1–3.4 for depth and regular-source freeness. The finite data use the cohomology-action theorem of §8.6, with every finite framing-quotient action and reduction diagram, and §§9.1–9.2 for codimension concentration. Cohomology actions alone are not promoted to strict derived actions.
+
+What DeformationAndDerivedPatchingAlgebra must provide (gap:character-ring-completed-products): For the literal local character-polynomial quotients of LocalGaloisDeformationRings §2.15 and the smooth factors used here, prove the completed-product equidimensionality and characteristic-zero-minimal-prime dimension formula and preservation of a unique generic component under each special component after geometric splitting of components.
+
+What DeformationAndDerivedPatchingAlgebra must provide (gap:paired-cohomology-action-patching): Extend §8.6 to two finite-cutoff cohomology-action data with identified residual rings and top cohomology at every coefficient and framing quotient, all action and augmentation diagrams commuting, to obtain simultaneously patched top modules whose reductions modulo ϖ are linear over the common residual deformation and scalar actions and agree after augmentation.
+
+### From TauCetiRoadmap.ReductiveGroupsPartII
+
+Consume RG2.2.4, “Ihara's theorem: SL₂ as an amalgam”, on adjacent lattice vertices and its PSL₂ quotient; the second vertex is represented by diag(1,ϖ). The diagonal element diag(ϖ,ϖ⁻¹) translates distance two and is used for the squared operator, not for the edge gluing.
+
+### From TauCetiRoadmap.FreeGroupsAndLimitGroups
+
+Consume §4.8, the structure theorem: a group acting on a tree without inversion is the fundamental group of the quotient graph of groups formed by vertex and edge stabilizers; and §4.5, which identifies the fundamental group of a one-edge (segment) graph of groups with Mathlib's `Monoid.PushoutI` of its two vertex groups over the edge group. With the one-edge quotient of §3.2 these present the S-arithmetic group as an amalgam.
+
+### From TauCetiRoadmap.ModularCurvesPartII
+
+Consume §15.4, the correctly graded Lyndon sequence for the principal-level amalgam `Gamma_N(Z[1/p])` (N ≥ 3) of its §15.2 over ℚ, only for that case of §3.4 (F = ℚ and Γ¹ the principal congruence subgroup of level N ≥ 3); the number-field amalgam of §3.2 lies outside its statement, and §3.4 derives that sequence from the tree and Shapiro's isomorphism. The rank-two modular-curve root theorem of §15.8 is a specialization, not the arbitrary-number-field theorem here.
+
+### From TauCetiRoadmap.SmoothRepresentationsOfLocalGroups
+
+Consume SR.5.3, “The distinct-eigenvalue local block” and “Derived hyperspecial–parahoric comparison”: over O/ϖᵃ, residue norm 1 modulo p and distinct residual unramified characters, every simple subquotient lies in the specified principal-series block, and projected parahoric derived invariants agree with hyperspecial derived invariants. The invariants are those of GLₙ; their PGLₙ comparison is the target of §3.7.
+
+### From TauCetiRoadmap.AutomorphicFormsOnReductiveGroups
+
+Consume Layers 4–6 for automorphic forms and unnormalized Hecke conventions, the split-centre convention, the PGLₙ degree invariants, purity and the tempered cohomological range. In characteristic zero the infinity type and the nonzero finite-level invariants are retained when passing from an automorphic representation to its degree-q₀ eigenclass.
+
+### From TauCetiRoadmap.AutomorphicSpectralTheory
+
+Consume §4.14a for number-field residual blocks Speh(σ,b), with ordered exponents (b−1)/2−j, and §§5.12–5.14 for the cuspidal-support decomposition, isobaric realization and its weights. The residual classification includes all number fields; it is not restricted to unramified function-field forms.
+
+What AutomorphicSpectralTheory must provide (gap:proper-support-boundary-or-residual): For Res PGLₙ over a number field with algebraic complex coefficients, prove that an ordinary-cohomology Hecke eigensystem in proper cuspidal support either occurs on Borel–Serre boundary cohomology or is the eigensystem of a residual discrete automorphic representation, with the same central and unramified Hecke conventions.
+
+### From TauCetiRoadmap.KTheoryLowDegrees
+
+Consume §11.6 for prime-to-p finite congruence-kernel factorization of additive k-valued characters, including one common congruence neighborhood for a finite-dimensional character space; do not assume the stronger strict congruence subgroup property. The geometric H¹ vanishing is the ArithmeticLocallySymmetricSpaces contract above.
+
+### From TauCetiRoadmap.PadicHodgeTheory
+
+Consume §6.1 for the rational Fontaine–Laffaille sign dictionary and the integral comparison it imports. For an unramified local field and p>n, the contravariant convention with jumps 0,…,n−1 produces crystalline lattices with the native positive weights; it is not applied beyond [0,p−2]. The contravariant realization is the dual of the covariant realization of LocalGaloisDeformationRings §1.6, which is how §1.2 transports that supplier's problem to positive weights.
+
+### From TauCetiRoadmap.AdelicAlgebraicGroups
+
+Consume §4.2 for strong approximation for SL₂ with a noncompact local factor, and §5.1 for the GL₁ components and unit-rank dimension. These identify the actual arithmetic component stabilizers and the one-edge quotient in §3.2.
+
+### From TauCetiRoadmap.ClassFieldTheory and TauCetiRoadmap.Chebotarev
+
+ClassFieldTheory Layer 7 fixes Art_v from F_vˣ to the abelianized local Galois group, sending a uniformizer to arithmetic Frobenius; Layer 11 supplies global Artin reciprocity and the unramified class-group quotient. Chebotarev Layer 10 realizes finite-quotient conjugacy classes outside finite avoidance sets. In the cyclotomic-kernel argument primes have norm 1 modulo p; equality of semisimple characteristic polynomials is tested on those finite quotients and then on all unramified Frobenius classes as appropriate.
 
 ## References
 
