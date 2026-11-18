@@ -1,51 +1,55 @@
 # Roadmap: explicit multiplicative functions
 
-**Summary.** This roadmap builds the numerically explicit layer of multiplicative number theory on
-Mathlib's `ArithmeticFunction` carrier: inequalities with stated constants and thresholds for the
-summatory functions of the Möbius function `M(x) = Σ_{n ≤ x} μ(n)`, `m(x) = Σ_{n ≤ x} μ(n)/n` and
-`m̌(x) = Σ_{n ≤ x} μ(n) log(x/n)/n`, with and without coprimality restrictions and character twists,
-and of the Liouville function through `M`; the general conversion theorems behind those numbers
-(Meissel's and MacLeod's identities, Balazard's
-passage from `M` to `m` and `m̌`, Ramaré's transfer from explicit prime estimates to explicit Möbius
-estimates, the comparison theorem of the convolution method, the explicit Levin–Fainleib theorem);
-explicit upper bounds for averages of nonnegative multiplicative functions; the explicit averages of
-`μ²`, `μ²/φ`, `τ`, `τ_k`, `τ²`, `2^ω`, `φ` and the Piltz remainders `Δ_k`; explicit finite Euler
-products over primes; and pointwise bounds for `ω(n)`, `τ_k(n)`, `σ(n)`, `σ*(n)` and `n/φ(n)`, with
-highly abundant numbers and the least common multiple of `1, …, n`. Every
-result is proved once in a general form whose analytic inputs (a Chebyshev bound of a given shape, a
-Möbius table, a finite verification, a computed sum over the zeros of `ζ` up to a height) are
-explicit parameters or named propositions, and the published constants are then instances. The end
-theorems are Ramaré's transfer theorem with every computation it rests on named, and its instance
-`|M(D)| ≤ (0.0130/log D − 0.118/log² D) D` for `D ≥ 1 078 853` (analytic from `2 161 205`, a direct
-verification below); the unconditional `L_λ(x) = o(x)` for the summatory function
-`L_λ(x) = Σ_{n ≤ x} λ(n)` of the Liouville function, through Davenport's bound for `M` and the
-transfer of bounds from `M` to `L_λ`; Tao's bound
-`|Σ_{n ∈ ⟨S⟩, n ≤ x} μ(n)/n| ≤ 1` for every set `S` of primes; Balazard's inequality
-`|m(x)| ≤ |M(x)|/x + x^{−2} ∫_1^x |M(t)| dt + 8/(3x)` and Ramaré's companion
-`|m̌(x) − 1| ≤ ((7/4 − γ)/x²) ∫_1^x |M(t)| dt + 2/x`; the comparison theorem of the convolution
-method for a general exponent, with the Dirichlet-divisor model
-`Σ_{n ≤ t} τ(n)/n = ½ log² t + 2γ log t + γ² − 2γ₁ + O*(1.16 t^{−1/3})` for `t ≥ 1` (analytic from
-`236`, a direct verification below; with `1.641` in place of `1.16` for every `t > 0`, the form the
-comparison theorem consumes); the Hall–Tenenbaum
-inequality; the explicit Mertens product
-`e^γ log x ∏_{p ≤ x}(1 − 1/p) ∈ [1 − 1/log² x, 1 + 1/(2 log² x)]` with Axler's refinement
-`e^γ log x ∏_{p ≤ x}(1 − 1/p) < 1 + 0.07/log³ x` and Dusart's two-sided cubic form, in which both
-`e^γ log x ∏_{p ≤ x}(1 − 1/p)` and its reciprocal lie strictly between `1 − 0.2/log³ x` and
-`1 + 0.2/log³ x` for every real `x ≥ 2 278 382` (from `2 278 383` by the transfer, a direct
-verification on the unit interval below); Robin's `ω(n) ≤ 1.3841 log n/log log n`, the
-Nicolas–Robin maximum `τ(n) ≤ n^{1.538 log 2/log log n}` and Rosser–Schoenfeld's
-`n/φ(n) < e^γ log log n + 2.50637/log log n`, all for `n ≥ 3`; and a criterion in terms of six
-primes in `(√n, n)` for `lcm(1, …, n)` not to be highly abundant, with its consequence that
-`lcm(1, …, n)` is not highly abundant for any `n ≥ X₀²` once `log X₀ ≥ 5` and every real `y ≥ X₀`
-has a prime in `(y, y(1 + 1/log³ y)]`, so, from Dusart's primes in short intervals, for any
-`n ≥ 89 693²`. Robin's
-`σ(n)/n < e^γ log log n + 0.6483/log log n` for `n ≥ 3` is stated by its locator beside Nicolas'
-proved bounds for `σ(n)/n` (9.3), not as an end theorem: the inputs of its proof are fixed only in
-its source. Beside each refereed statement the
-layers carry the sharper statements of later work that improve it: Ramaré–Zuniga Alterman's
-`|M(D)| ≤ (0.006688 log D − 0.039) D/log² D` for `D ≥ 1 798 118`, Chirre–Helfgott's linear bound
-`|M(x)| ≤ (3/(π·10^{10})) x + 11.39 √x` for every `x ≥ 1` from the zeros of `ζ` up to a finite height,
-and the constants of Daval, Johnston–Leong–Tudzi, Zuniga Alterman, Platt–Trudgian and Tudzi.
+**Summary.** That the Mertens function `M(x) = Σ_{n ≤ x} μ(n)` is `o(x)` is a form of the prime
+number theorem. Explicit work, such as bounding class numbers, needs more: inequalities with every
+constant and every range written down. This roadmap builds that numerically explicit layer of
+multiplicative number theory on Mathlib's arithmetic functions. Its main objects are the summatory
+functions of the Möbius function: `M(x)`, `m(x) = Σ_{n ≤ x} μ(n)/n` and
+`m̌(x) = Σ_{n ≤ x} μ(n) log(x/n)/n`, for real `x`. It then treats explicit averages and Euler
+products over primes, and pointwise bounds for the classical arithmetic functions.
+
+Every result is proved once in a general form, and the published constants are its instances. Two
+kinds of input are hypotheses, never proved here. Explicit prime estimates enter in exactly the
+shape the proof uses. The finite computations a source relies on, such as tables and checks on an
+initial interval, are named propositions with their range and constant as data.
+
+The central theorem for `M` is Ramaré's transfer from explicit prime estimates to explicit bounds
+for `M`. Its 2013 instance gives `|M(D)| ≤ (0.0130/log D − 0.118/log² D) D` for every real
+`D ≥ 2 161 205`. Its hypotheses are explicit estimates for primes in stated ranges, a table of `M`
+up to `10¹²`, and a few further explicit bounds and finite computations. One more recorded check
+extends the bound to every `D ≥ 1 078 853`.
+
+For the logarithmic sum the roadmap proves Tao's theorem: for every set `S` of primes and every
+real `x`, the sum of `μ(n)/n` over the integers `n ≤ x` whose prime factors all lie in `S` has
+absolute value at most `1`. For all primes this is Gram's `|m(x)| ≤ 1`; for `S = {2, 3}` and
+`x = 6` the sum is `1/3`. Balazard's inequality,
+`|m(x)| ≤ |M(x)|/x + x⁻² ∫_1^x |M(t)| dt + 8/(3x)` for every real `x ≥ 1`, carries bounds for `M`
+over to `m`, and a companion inequality of Ramaré does the same for `m̌`.
+
+The convolution method transports an explicit asymptotic from a model `k` to a Dirichlet
+convolution `h ⋆ k` with `h` small. Let `α > 0` with `Σ |h(n)| n^α` finite, and suppose that
+`Σ_{n ≤ t} k(n)` is within `D t^{−α}` of `A log² t + B log t + C` for every real `t > 0`. Then for
+every real `t > 0`, the sum of `h ⋆ k` up to `t` is within `D t^{−α} Σ |h(n)| n^α` of a polynomial
+of degree at most two in `log t`, with coefficients explicit in `A`, `B`, `C` and `h`. The main
+model is `Σ_{n ≤ t} τ(n)/n`. Given `|Δ(x)| ≤ 0.961 √x` for `x ≥ 1`, where `Δ` is the remainder in
+Dirichlet's divisor problem, it is within `1.16 t^{−1/3}` of `½ log² t + 2γ log t + γ² − 2γ₁` for
+every real `t ≥ 236`; `γ₁` is the first Stieltjes constant.
+
+Rosser and Schoenfeld's explicit Mertens product says that
+`e^γ log x ∏_{p ≤ x}(1 − 1/p)` lies between `1 − 1/log² x` and `1 + 1/(2 log² x)` for every real
+`x > 1`, given an explicit estimate for `Σ_{p ≤ x} 1/p` and a recorded check below `24 284`. Among
+the pointwise bounds is `n/φ(n) < e^γ log log n + 2.50637/log log n` for every `n ≥ 3`, from
+explicit prime estimates and a finite check over primorials.
+
+The roadmap builds on Mathlib's arithmetic functions and on Tau Ceti's Abel summation formulas and
+Mertens constant. AnalyticNumberTheoryPartI supplies qualitative statements that are made explicit
+here, and ExplicitPrimeCounting proves the prime estimates taken here as hypotheses.
+ExplicitNumberFields uses the divisor bounds for class-number and discriminant estimates. The
+second part of ExplicitCharacterSumsAndSieves uses the pointwise bounds in its Burgess bounds for
+character sums.
+
+Layers 1 to 3 treat `M`, `m` and `m̌` in turn, and Layer 5 is the convolution method. Layers 6 to
+9 give the averages, Euler products and pointwise bounds; the next section describes the build.
 
 Suggested home: `TauCeti/NumberTheory/Explicit/MultiplicativeFunctions/`, divided into `Moebius/`,
 `Convolution/`, `Averages/`, `EulerProducts/` and `Pointwise/`.
