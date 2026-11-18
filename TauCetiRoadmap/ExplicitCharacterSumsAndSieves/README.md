@@ -1,62 +1,59 @@
 # Roadmap: explicit exponential sums, character sums and sieve bounds
 
-**Summary.** This roadmap builds the numerically explicit inequalities of analytic number theory
-that the later explicit roadmaps quote as tools: Arias de Reyna's iterated van der Corput
-inequality for exponential sums `Σ e(f(n))` of a real function, with his real-part form of the
-normalised van der Corput inequality; counts of integers `n` at which `f(n)` lies within `δ` of an
-integer; explicit Pólya–Vinogradov inequalities
-for Dirichlet characters, from the Gauss-sum expansion to the constants of Pomerance, Lapkova and
-Frolenkov–Soundararajan; explicit Burgess inequalities for characters to a prime modulus, with
-Burgess's moment bound and the constants of McGown and Treviño; and explicit sieve upper bounds:
-Montgomery–Vaughan's weighted arithmetic large sieve and their sifted form of the Brun–Titchmarsh
-inequality with the prime-power sums of Ramaré–Viswanadham, Büthe's weighted Brun–Titchmarsh
-inequalities, Greaves's lower bound for Selberg's density sum and Fan's bounds for integers free
-of small prime factors. Everything rests on Mathlib's Dirichlet characters, Gauss sums, quadratic
-character, Selberg-sieve carrier and Fourier character, on Tau Ceti's Gauss-sum norm and
-partial-sum lemmas, on the forbidden-residue large sieve and Selberg's weights of
-SieveMethodsAndPrimePatterns, the finite van der Corput inequality and the weighted large sieve of
-ExplicitZetaBounds, Weil's bound of CharacterSumsOverFiniteFields, the explicit prime-number
-estimates of AnalyticNumberTheoryPartI, and the Brun–Titchmarsh inequality and
-Montgomery–Vaughan's lower bound for the diagonal sum `Σ_{q ≤ u} μ²(q)/φ(q)` of
-ExplicitPrimeCounting. Every result that rests on a table or on a finite verification takes that
-verification as a named hypothesis, listed in Layer 6, and the analytic argument is proved from it.
+**Summary.** Many estimates for exponential sums, character sums and sieves hold with constants only
+shown to exist; an argument that ends in a number needs them written down. This roadmap builds the
+numerically explicit inequalities that the later explicit roadmaps quote as tools. Its objects are
+exponential sums `Σ e(f(n))` of a real function `f` over an interval, with `e(x) = exp(2πix)`, and
+interval sums of Dirichlet characters. Every result that rests on a table or on a finite
+verification takes that verification as a named hypothesis, listed in Layer 6, and the analytic
+argument is proved from it. The roadmap proves none of these hypotheses, and none is about
+characters or primes in general.
 
-The end theorems are:
+The first main theorem is Arias de Reyna's iterated van der Corput inequality, which assumes no
+bound on the derivatives of `f`. Take `d ≥ 1` and integers `H₁, …, H_d ≥ 1` whose sum is at most the
+length `Y` of the interval. Then `|Y⁻¹ Σ_{X < n ≤ X+Y} e(f(n))|` is at most `2 + 2√2` times the
+largest of `H₁^{−1/2}, …, H_d^{−1/2^d}` and a second term. That term is a constant times the
+`2^d`-th root of a normalised sum of the absolute values of the exponential sums of the `d`-fold
+differences of `f`, such as `f(x + a) − f(x)` for `d = 1`.
 
-- Arias de Reyna's iterated van der Corput inequality with the constant `2 + 2√2` (Layer 1);
-- the first and second derivative tests for integers near a curve (Layer 2);
-- the Pólya–Vinogradov inequalities `M_χ < (2/π)√q (log q + log(4/π) + π²/(12q²))` for primitive
-  `χ`, Pomerance's and Lapkova's parity-dependent constants, and
-  `|S_χ| ≤ (1/(π√2))√q (log q + 6) + √q` for every nonprincipal `χ` modulo `q ≥ 1000` (Layer 3);
-- Burgess's moment bound `Σ_x |Σ_{b ≤ B} χ(x + b)|^{2r} ≤ (2r − 1)!! B^r p + (2r − 1) B^{2r} √p`
-  for every `r ≥ 1`, and the Burgess inequalities of McGown (parametric and tabulated) and of
-  Treviño (tabulated, and uniform with the constant `2.74`) (Layer 4);
-- Greaves's density-sum bound, Büthe's weighted Brun–Titchmarsh inequalities, the
-  Ramaré–Viswanadham prime-power sum `≤ 2B/(φ(d) log(B/d))` and Fan's `Φ(x, z) < x/log z`
-  (Layer 5).
+A nonprincipal character modulo `q` sums to zero over a full period, so its interval sums are at
+most `q` in absolute value. The Pólya–Vinogradov inequality replaces `q` by a multiple of `√q log q`
+plus lower-order terms. In its classical explicit form, for a primitive `χ` modulo `q ≥ 2` and
+integers `M` and `N ≥ 0`, `|Σ_{M < n ≤ M+N} χ(n)| < (2/π)√q (log q + log(4/π) + π²/(12q²))`. For the
+quadratic character modulo `5`, whose largest interval sum is `2`, the right side is `2.682`.
+Assuming a finite verification for the moduli up to `25`, Pomerance and Lapkova replace the leading
+constant `2/π` by `2/π²` for even and `1/(2π)` for odd primitive characters.
 
-[`Suggested.lean`](Suggested.lean) states these headline theorems against the pinned libraries,
-with the few definitions their statements need; it is not the roadmap.
+The third main theorem is Burgess's moment bound: for a nonprincipal `χ` modulo a prime `p`, every
+integer `r ≥ 1` and every real `B > 0`,
+`Σ_{x mod p} |Σ_{1 ≤ b ≤ B} χ(x + b)|^{2r} ≤ (2r − 1)!! B^r p + (2r − 1) B^{2r} √p`. It feeds
+Treviño's uniform Burgess inequality, which assumes a certificate for his first table. For a prime
+`p ≥ 10⁷`, a nonprincipal `χ` modulo `p` and every `r ≥ 1`, a sum of `χ` over `N ≥ 1` consecutive
+integers is at most `2.74 N^{1−1/r} p^{(r+1)/(4r²)} (log p)^{1/r}` in absolute value.
 
-## How to read the build
+The fourth is Büthe's weighted prime count. Let `f ≥ 0` be absolutely continuous on
+`I = [x, x + y]`, `x ≥ 0`, and put `ρ_I(f) = ‖f‖₁/(‖f‖_∞ + ‖f′‖₁)`, which equals `y` for `f ≡ 1`.
+Under two computational hypotheses, if `ρ_I(f) > 1` then `Σ_{p ∈ I} f(p) < 2‖f‖₁/log ρ_I(f)`. Taking
+`f ≡ 1`: when `y > 1`, `[x, x + y]` contains fewer than `2y/log y` primes.
 
-Layer 0 fixes the carriers (the exponential sum over the integers of an interval, the distance to
-the nearest integer and the near-integer count, the character interval sum and its maximum),
-proves the real-part form of the normalised van der Corput inequality from the finite inequality
-of ExplicitZetaBounds, and the elementary identities for character sums (periodicity, the
-symmetry of even characters, the reduction to the primitive character). Layer 1 proves Arias de
-Reyna's iterated van der Corput inequality from the normalised form of ExplicitZetaBounds §4.2.
-Layer 2 counts integer points near curves by the mean value theorem,
-by Huxley's reduction and by Fejér's kernel. Layer 3 expands character sums in Gauss sums and
-proves the explicit Pólya–Vinogradov inequalities. Layer 4 proves Burgess's moment bound and its
-`r = 2` refinements from Weil's bound, the multiplicative-energy counts and Burgess's
-amplification inequality, and derives the tabulated Burgess constants from the Layer 6
-propositions. Layer 5 proves the explicit
-bounds for Selberg diagonal sums that the sieves need beyond those of ExplicitPrimeCounting, the
-weighted arithmetic large sieve and the explicit sieve upper bounds. Layer 6 lists the
-computational hypotheses: numerical inequalities over explicitly bounded ranges, and, for
-Treviño's two tables, inequalities between explicit functions of `p ≥ p₀`; none is a statement
-about characters or primes in general. Read each claim with its hypotheses and its *Needs:* line.
+The roadmap builds on ExplicitZetaBounds for the finite van der Corput inequality and
+Montgomery–Vaughan's weighted large sieve. CharacterSumsOverFiniteFields supplies Weil's bound, the
+input to Burgess's moment bound. ExplicitPrimeCounting supplies lower bounds and Büthe's asymptotic
+for Selberg's diagonal sum `Σ_{q ≤ u} μ²(q)/φ(q)`. ExplicitNumberFields uses the Pólya–Vinogradov
+and Burgess inequalities for least primitive roots and norm-Euclidean fields. A sequel,
+ExplicitCharacterSumsAndSieves, Part II, builds on this one, with higher derivative tests and
+Burgess inequalities for composite moduli.
+
+Layer 0 defines the interval sums and proves elementary identities for character sums. Layer 1
+proves the iterated van der Corput inequality. Layer 2 counts the integers `n` with `f(n)` within
+`δ` of an integer, by first and second derivative tests. Layer 3 expands character sums in Gauss
+sums and proves the Pólya–Vinogradov inequalities. Layer 4 proves Burgess's moment bound and
+amplification inequality, then McGown's and Treviño's inequalities. Layer 5 proves bounds for
+Selberg's diagonal sums and a weighted arithmetic large sieve, then the sieve upper bounds. Layer 6
+lists the computational hypotheses.
+
+[`Suggested.lean`](Suggested.lean) states the headline theorems in Lean, with the few definitions
+their statements need; it is not the roadmap.
 
 ## Conventions
 
