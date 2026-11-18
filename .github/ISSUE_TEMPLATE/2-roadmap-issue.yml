@@ -49,6 +49,8 @@ body:
         - ArithmeticKTheory
         - ArithmeticLocallySymmetricSpaces
         - ArithmeticStatisticsPartI
+        - ArithmeticStatisticsPartII
+        - ArithmeticStatisticsPartIV
         - AsymptoticExpansions
         - AutomorphicFormsOnReductiveGroups
         - AutomorphicLFunctionsAndLocalFactors
@@ -269,6 +271,7 @@ body:
         - PresentationsOfMonoidalCategories
         - PrimitivePrimeDivisors
         - PrismaticCohomology
+        - PrismaticCohomologyPartII
         - ProbabilisticAndMetricNumberTheory
         - ProbabilisticAndMetricNumberTheoryPartII
         - ProfiniteCohomology
