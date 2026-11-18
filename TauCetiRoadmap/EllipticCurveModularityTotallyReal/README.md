@@ -1,32 +1,50 @@
 # Roadmap: modularity of elliptic curves over totally real fields
 
-**Summary.** Every elliptic curve over every totally real number field is modular, with its
-entire compatible system and every local factor. This roadmap builds the totally real branch of
-the geometric prime switch. The cyclic covers of a family of quadratic twists, their integral
-regular-module lattices, their character systems and the integral congruences between them are
-imported from EllipticCurveModularityImaginaryQuadratic, which states them over arbitrary
-number fields. For totally real K, those character systems are available only over the CM field
-`M = K(μ_{3p})`. Once the cover is twisted by its reflection, they come down to the real subfield
-`L = K(ζ_{3p} + ζ_{3p}⁻¹)` as totally odd systems of rank two, with lattices and congruences
-unchanged. Modularity is then propagated along the chain `W_η ≡_p W_χ ≡_3 W_ψ ≡_p W_1` by the
-modularity lifting theorems over totally real fields; these require no local matching at the
-lifting prime. The chain starts from an auxiliary elliptic curve made modular by
-the Freitas–Le Hung–Siksek mod-five criterion and ends at a quadratic twist of the original
-curve. Descent along the abelian extension `L/K` and removal of the two quadratic twists finish
-the argument.
+**Summary.** An elliptic curve over a totally real number field is modular when its ℓ-adic
+cohomology is the Galois representation attached to a Hilbert modular form of parallel weight
+two. This roadmap proves that every elliptic curve over every totally real number field is
+modular, by Le Hung's geometric prime switch.
 
-The endpoint is the **totally real modularity theorem** (§4.4): for every totally real number
-field K and every elliptic curve E/K there is a cuspidal automorphic representation `π_E` of
-`GL₂(𝔸_K)` of parallel weight two (type `(2,0)`) with trivial central character, unique up to
-isomorphism, whose attached representation is `H¹_ét(E_K̄, ℚ̄_ℓ)` for every ℓ and every
-coefficient isomorphism. At every finite place `v∤ℓ` the Frobenius-semisimple Weil–Deligne
-representation of `H¹(E)` is `rec(π_{E,v} ⊗ |det|_v^{−1/2})`, monodromy included. At `v|ℓ` the
-same holds for the potentially semistable Weil–Deligne representation. Consequently
-`L(E/K,s) = L(π_E, s−1/2)`, and the Hilbert newform of `π_E` has rational Hecke eigenvalues and
-exact level the conductor of E. Geometrically CM curves are included. Their CM field is never
-contained in K, and `π_E` is the cuspidal quadratic automorphic induction from KT. This is
-[LeHung26](#references), Theorem 1.1, p.2 (LeHung26 line 86), with the geometric inputs proved
-by the imported layers rather than assumed.
+The main theorem says the following. Let K be a totally real number field and E an elliptic
+curve over K. Then there is a cuspidal automorphic representation `π_E` of `GL₂(𝔸_K)` of
+parallel weight two, with trivial central character and unique up to isomorphism, whose
+attached representation is `H¹_ét(E_K̄, ℚ̄_ℓ)` for every prime ℓ and every coefficient
+isomorphism. At every finite place the Weil–Deligne representation of `H¹(E)`, monodromy
+included, is the local Langlands parameter of the corresponding component of `π_E`, also at
+the places above ℓ. Consequently `L(E/K,s) = L(π_E, s−1/2)`, and the Hilbert newform of `π_E`
+has rational Hecke eigenvalues and exact level the conductor of E. There is no further
+hypothesis: curves with complex multiplication are included, and so is the field `K = ℚ`.
+For a curve with complex multiplication, `π_E` is the automorphic induction from the
+quadratic extension KT, where T is the CM field, which never lies in K.
+
+The proof for a curve without complex multiplication runs as follows. A family of quadratic
+twists of E carries cyclic covers whose Jacobians split under the cyclic group into pieces
+labelled by characters. Over the CM field `M = K(μ_{3p})` these pieces give compatible
+systems. Twisting the covers by a reflection brings the systems down to the totally real
+field `L = K(ζ_{3p} + ζ_{3p}⁻¹)` as totally odd systems of rank two, with the same integral
+lattices and congruences. One parameter of the family is chosen so that every residual
+representation in sight is irreducible on the relevant cyclotomic extension. Modularity then
+travels along a chain of three congruences, modulo p, 3 and p, starting from an auxiliary
+elliptic curve made modular by the mod-five criterion of Freitas, Le Hung and Siksek, and
+ending at a quadratic twist of E. The lifting theorems used over totally real fields impose
+no condition at the places above the lifting prime. Descent along the abelian extension `L/K`
+and removal of the two quadratic twists finish the argument.
+
+The covers, their character systems, the congruences between them and the specialization
+with all residual conditions come from EllipticCurveModularityImaginaryQuadratic, which
+states them over arbitrary number fields. GL2ModularityLifting provides the weight-two
+lifting theorem over totally real fields, GL2AutomorphicRepresentationsAndTransfer provides
+residual modularity of solvable representations and quadratic automorphic induction, and
+PotentialAutomorphyInfrastructure provides soluble descent. EllipticCurveModularity derives
+from the case `K = ℚ` the newform of an elliptic curve over ℚ, its modular parametrisation and
+its L-function.
+
+The first layer constructs the real cyclotomic subfield, the reflection twist and the
+descended systems with their lattices and congruences. The second proves the tools over
+totally real fields: change of coefficient prime, lifting for rank-two pieces of abelian
+varieties, and the elliptic seeds modulo three and five. The third chooses the parameter and
+performs the three lifts, and the fourth descends to K, compares all local factors, treats
+curves with complex multiplication and states the theorem.
 
 ## How to read the build
 
@@ -1072,7 +1090,8 @@ automorphic representation `π_E` of `GL₂(𝔸_K)` of type `(2,0)`, with trivi
 and unique up to isomorphism, such that `ρ_{π_E,ι} ≅ H¹_ét(E_K̄, ℚ̄_ℓ)` for every ℓ and every ι,
 and all the local statements of §4.2 hold. In particular `L(E/K,s) = L(π_E, s−1/2)`, and the
 Hilbert newform of `π_E` has rational Hecke eigenvalues and exact level `𝔫_E`. If E is
-geometrically CM, `π_E` is the cuspidal induction of §4.3.
+geometrically CM, `π_E` is the cuspidal induction of §4.3. In particular the statement holds
+for `K = ℚ` and every elliptic curve E over ℚ, with no hypothesis on E.
 
 For non-CM E use §4.1, for CM E use §4.3, and then §4.2.
 
@@ -1083,8 +1102,11 @@ EllipticCurveModularityImaginaryQuadratic Layers 1–4 and §7.4.)
 
 **Checks.**
 
-- K = ℚ recovers [BCDT01](#references), Theorem A (BCDT01 line 15), and the endpoint of
-  EllipticCurveModularity; the route here uses neither.
+- For K = ℚ there is no hypothesis on E: §4.1 applies to every geometrically non-CM curve,
+  with `p > 100` in §3.1 since `d = 1`, and §4.3 to every CM curve. This case is
+  [BCDT01](#references), Theorem A (BCDT01 line 15), which the route here does not use.
+  EllipticCurveModularity derives from it the newform of an elliptic curve over ℚ, its
+  modular parametrisation and its L-function.
 - Every real quadratic field ([FLHS15](#references), Theorem 1, FLHS15 line 87), every totally real
   cubic and quartic field, including quartic fields containing `√5`, and fields of every degree are
   covered without exclusions.
@@ -1117,6 +1139,9 @@ action on endomorphisms and Layers 4 and 4.5a for the reduction types.
 - ModularityAndLanglandsExtensions and its Part II consume elliptic modularity in their
   compatible-system, L-function and symmetric-power applications; §4.4 removes degree
   restrictions on the base field there.
+- EllipticCurveModularity uses §4.4 with `K = ℚ` for the existence of the newform of an
+  elliptic curve over ℚ, from which it derives the classical modularity statements, the
+  modular parametrisation and the analytic continuation of `L(E,s)`.
 - EllipticCurveModularityImaginaryQuadraticPartII treats CM bases with the same parent; the two
   roadmaps together cover every totally real and every CM field.
 - The descended systems of Layer 1 and the summand lifting statement §2.2 apply to other families of
@@ -1199,8 +1224,9 @@ specified under [Exact supplier contracts](#exact-supplier-contracts).
 
 **Outside this roadmap.** CM base fields (EllipticCurveModularityImaginaryQuadratic and its
 Part II), number fields that are neither totally real nor CM, abelian varieties of higher
-dimension and computational questions. The rational case K = ℚ is a Check of the general
-statement, not a new proof of EllipticCurveModularity's endpoint.
+dimension and computational questions. The classical formulations over ℚ (the newform of
+level the conductor, the modular parametrisation and the analytic continuation of the
+L-function) are derived from the case K = ℚ of §4.4 in EllipticCurveModularity.
 
 **The Lean file.** [`Suggested.lean`](Suggested.lean) accompanies this document; the roadmap is
 this README. The file states, against the pinned Mathlib and Tau Ceti, the headline theorems whose
