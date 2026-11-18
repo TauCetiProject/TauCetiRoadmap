@@ -1,35 +1,59 @@
 # Roadmap: virtual fundamental classes, part II: integral and non-separated Chow theory of Deligne–Mumford stacks and virtual classes over general bases
 
-**Summary.** This is the second part of VirtualFundamentalClass. That roadmap builds Vistoli's
-rational Chow groups of *separated* Deligne–Mumford stacks, the Behrend–Fantechi intrinsic normal
-cone and obstruction theories, and the virtual fundamental class of a separated stack *with the
-resolution property*, with pullback and functoriality over *smooth* bases. This part starts from
-its sections, from the closed substacks, residual gerbes and residue fields of
-StackPointsAndResidualGerbes and from the scheme intersection theory of SchemeAndStackFoundations
-Layer 5, and widens them in three directions. First, it builds the integral Chow groups `A_i(ℳ)` of
-Deligne–Mumford stacks of finite type over an arbitrary field whose diagonal is quasi-compact and
-separated (Convention 1), with no separatedness of the stack assumed, with their degrees, integral operations (flat pullback, proper representable pushforward,
-localisation, exterior products and refined Gysin maps with algebraic-space sources), and,
-through the finite cover by a scheme that every such stack has, the rational pushforward along
-every proper morphism, Gysin maps acting on stacks, homotopy invariance and Chern classes
-(Layers 1–4). It
-identifies `A_i(ℳ) ⊗ ℚ` with VirtualFundamentalClass's group for separated `ℳ`, and the integral
-groups of algebraic spaces with those of the Stacks Project. Second, it proves the comparisons:
-the intersection ring of a smooth stack with Poincaré duality for bivariant classes, the
-isomorphism `p_* : A_*(ℳ)_ℚ ≅ A_*(M)_ℚ` for a moduli space `M` that is an algebraic space, the
-ring structure of the Edidin–Graham comparison for Deligne–Mumford quotient stacks, and the
-degree `∫[𝒢_x] = [κ(x) : k]/|Aut(x̄)|` of the residual gerbe at a closed point (Layer 5). Third,
-it frees the virtual class from the resolution property and from separatedness (any stack whose obstruction
-theory has one global resolution), proves the relative obstruction class and the relative
-characterisation of obstruction theories, the no-obstruction and obstruction-bundle formulas
-over any base of pure dimension, invariance of the canonical rational equivalence along
-relative tangent directions on ambients that need be neither smooth nor reduced,
-regular-immersion pullback and functoriality over bases of pure dimension, deformation
-invariance of virtual counts in families over a curve, and the perfect relative obstruction
-theory `(Rπ_* F^*T_X)^∨ → L_{M/𝔅}` of every relative space of maps from a family of prestable
-curves over a pure-dimensional algebraic stack to a smooth `k`-scheme, separated or not, with its
-global resolutions and virtual dimension `b + δ + dim X · (1 − g)` for a target of pure
-dimension (Layers 6–9).
+**Summary.** Vistoli's intersection theory gives Deligne–Mumford stacks rational Chow groups, and
+Behrend and Fantechi build on it the virtual fundamental class of a stack with a perfect obstruction
+theory. The first part, VirtualFundamentalClass, works with separated stacks, needs the resolution
+property for the virtual class, and proves pullback and functoriality over smooth bases. This part
+removes these restrictions and adds integral coefficients. Throughout, `k` is an arbitrary field,
+and a stack is a Deligne–Mumford stack of finite type over `k` whose diagonal is representable by
+schemes, quasi-compact and separated. The stack need not be separated.
+
+For every such stack `ℳ` the roadmap defines integral Chow groups `A_i(ℳ)`, cycles of dimension `i`
+modulo rational equivalence. For a scheme they are Tau Ceti's Chow groups, and for a separated stack
+`A_i(ℳ) ⊗ ℚ` is the rational group of the first part. Through the finite surjective morphism from a
+scheme that every stack has (Rydh), the roadmap obtains, rationally, pushforward along every proper
+morphism, Gysin maps and Chern classes.
+
+Rationally, a stack and its moduli space have the same Chow groups: if `p : ℳ → M` is a proper
+morphism to a quasi-separated algebraic space of finite type over `k`, bijective on isomorphism
+classes of points over every algebraically closed field, then `p_* : A_*(ℳ)_ℚ ≅ A_*(M)_ℚ`. The
+comparison fails integrally: for `μ₂` acting on the line by `x ↦ −x` (`char k ≠ 2`),
+`A_0([𝔸¹/μ₂]) ≅ ℤ/2`, while its coarse space has `A_0(𝔸¹) = 0`. On a stack proper over `k`, the
+residual gerbe `𝒢_x` at a closed point `x`, the reduced closed substack on it, has degree
+`∫[𝒢_x] = [κ(x) : k]/|Aut(x̄)|`: the residue degree divided by the order of the automorphism group
+of a geometric point over `x`.
+
+For virtual classes, let `𝔜` be an algebraic stack of pure dimension `d`, locally of finite type and
+quasi-separated over `k`, and `X → 𝔜` a morphism of Deligne–Mumford type from a stack. Let
+`E → L_{X/𝔜}` be a perfect relative obstruction theory of constant rank `r` with a global resolution
+by a two-term complex of locally free sheaves. The roadmap defines `[X/𝔜, E]^vir` in `A_{d+r}(X)_ℚ`
+and proves it independent of the resolution. It is the first part's class when `X` is separated with
+the resolution property. Its Gysin pullback along a regular local immersion `𝔜′ → 𝔜` of bases of
+pure dimension, reduced or not, is the class of `X ×_𝔜 𝔜′` with the pulled-back theory.
+
+Virtual counts are deformation invariant. Let `B` be a regular connected curve over `k`, separated
+or not, `𝔐` a base as above, and `X → 𝔐 × B` of Deligne–Mumford type with `X` proper over `B`. Give
+`X` such a theory over `𝔐 × B`, with fibres of virtual dimension zero. Then the degree over `κ(b)`
+of the virtual class of the fibre over a closed point `b` of `B` does not depend on `b`. For
+instance (`char k ≠ 2`), the zeros of `x² − b·y²` on `ℙ¹` count `2` for every `b`.
+
+For spaces of maps from curves, let `𝔅` be a base of pure dimension `b` as above, `𝒞 → 𝔅` étale
+locally a family of prestable curves, and `X` a smooth `k`-scheme. Let `M` be a stack of
+Deligne–Mumford type over `𝔅`, with a map `F` to `X` from the pulled-back family `π : 𝒞_M → M`.
+Assume that over square-zero thickenings of affine schemes over `𝔅`, extensions of a morphism to `M`
+correspond bijectively to extensions of the corresponding map from the curve to `X`. Then
+`(Rπ_* F^*T_X)^∨ → L_{M/𝔅}` is a perfect relative obstruction theory. For `X` of pure dimension,
+curves of arithmetic genus `g` and `F^*T_X` of fibre degree `δ`, its virtual dimension is
+`b + δ + dim X · (1 − g)`.
+
+The roadmap builds on VirtualFundamentalClass for Vistoli's groups and the Behrend–Fantechi
+construction. StackPointsAndResidualGerbes provides residual gerbes, SchemeAndStackFoundations
+stacks and the intersection theory of schemes, and StableReduction prestable families.
+AlgebraicGromovWittenTheory takes from this roadmap its stable-map obstruction theory and the
+deformation invariance of its invariants.
+
+Layers 1 to 5 build the Chow theory and its comparisons, Layers 6 to 8 the virtual class over
+general bases, and Layer 9 the spaces of maps.
 
 ## How to read the build
 
