@@ -12,48 +12,15 @@ It continues PolynomialGaloisGroups, whose Layer 5 uses factorization/cycle-type
 equality at primes not dividing the polynomial discriminant; bounded merging
 extends that comparison to every prime.
 
-## Scope and ownership
+## How to read the build
 
-This continuation owns equal-part merging, the ramified specialization comparison,
-ordered-root higher irreducibility, the three-premise partition law, five anatomy
-events, minimum-support estimates, and the resulting group exclusions. Its arithmetic
-comparison allows every prime and records collisions of distinct integral roots.
-Its probability criterion applies to a measure on partitions without choosing a
-polynomial coefficient distribution.
-
-The prerequisites and boundaries are as follows.
-
-- **PolynomialGaloisGroups, Layers 0 and 1** own faithful root actions, the
-  orbit/factor dictionary, blocks, block-stabilizer correspondence, and the
-  imprimitivity grid and wreath embedding. The grid supplies an equivariant
-  quotient of a transitive imprimitive action into equal blocks.
-  NumberFieldArithmetic, §3.10, owns the factorization/cycle-type equality
-  for monic integral polynomials at primes not dividing their polynomial
-  discriminant. PolynomialGaloisGroups, Layer 5, imports that equality and
-  owns the factor-degree carrier and polynomial membership adapter; its Layer 9
-  supplies the surrounding polynomial symmetric-group context. The equality is
-  implemented by `TauCeti.NumberField.exists_gal_fullCycleType_eq_factorizationType`
-  in `TauCeti/NumberTheory/NumberField/Frobenius/CycleType.lean`; this continuation
-  extends its prime range by allowing collisions and bounded merging.
-- **Mathlib and Tau Ceti** own the partition carrier, full permutation cycle
-  type, reduction factor degrees, arithmetic Frobenius lifts, finite-field
-  Frobenius orbits, and the simple-root stabilizer and double-transitivity
-  quotient adapter. Tau Ceti also owns single-cycle fibre arithmetic
-  for equivariant maps. This continuation assembles its occurrence-block witness
-  and its invariant unions of whole blocks.
-- **AnalyticNumberTheoryPartI, §0.26**, supplies the reciprocal prime product
-  with its Euler-constant coefficient
-  and constant-identification proof. **ErdosProgressionPowers, §0.9**, owns
-  the eventual divisor-subpower bound. The unspecified-constant Euler-product bound
-  does not suffice for the large-prime harmonic mass.
-- Concrete coefficient laws, bounds for repeated reduction factors and quantitative
-  irreducibility for random polynomials of growing degree are outside this roadmap.
-  They consume 6.1 and 6.2 and motivate a continuation of ArithmeticStatistics;
-  their distribution estimates are not prerequisites of the arbitrary-law theorem.
-
-The suggested namespace is `TauCetiRoadmap.PolynomialGaloisGroupsPartII`.
-`Suggested.lean` states the headline acceptance theorems and the simple definitions
-needed to express them; this README specifies the complete API and proof obligations.
+Layer 0 establishes occurrence-sensitive merging and assembles the global
+cycle-type witness over a cyclic quotient. Layer 1 applies it to ramified reduction.
+Layer 2 builds the independent ordered-root interface. Layer 3 obtains five
+anatomy estimates from the partition law. Layer 4 supplies the primitive
+minimum-support obstruction, and Layer 5 combines it with block arithmetic
+to exclude both kinds of proper transitive groups. Layer 6 takes a finite
+union of exceptional events and attaches the arithmetic certificate.
 
 ## Conventions
 
@@ -127,160 +94,6 @@ multiplicity or fibre size; in Layer 3 it is a harmonic cutoff; in Layer 4 it
 is a minimum support. `r` is a map in 0.4 and 1.2 and a block count elsewhere.
 `D` is a constant in the analytic contracts and a distinguisher set in Layer 4.
 Each subsection fixes the meaning it uses.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-The library pin is Mathlib `6b7abb3c7686292736be2955bd3eb9ebf63b456a`.
-The following are the interfaces consumed, with their required hypotheses.
-
-- `Mathlib.Combinatorics.Enumerative.Partition.Basic`: `Nat.Partition`, with
-  `parts`, positivity, `parts_sum`, extensionality, and a finite partition type.
-- `Mathlib.FieldTheory.PolynomialGaloisGroup`: `Polynomial.Gal.galActionHom`
-  and `galActionHom_injective` for a field extension in which the polynomial
-  splits, recorded by the required `Fact`; `Polynomial.Gal.restrict_surjective`
-  for a normal extension in which it splits. The intrinsic action on the roots
-  in its own splitting field is also available. A quotient's splitting extension
-  need not be its minimal splitting field.
-- `Mathlib.RingTheory.Ideal.GoingUp`:
-  `Ideal.exists_maximal_ideal_liesOver_of_isIntegral`, for an integral faithful
-  algebra and a maximal base ideal. Apply it to the ring of integers above `(p)`.
-- `Mathlib.Algebra.Polynomial.RingDivision`:
-  `Polynomial.rootMultiplicity_mul`, over an integral domain with nonzero
-  product, and `Polynomial.rootMultiplicity_X_sub_C`, whose value at `z`
-  is `1` when the removed root equals `z` and `0` otherwise. Products of the
-  monic linear factors used here are nonzero.
-- `Mathlib.FieldTheory.IntermediateField.Adjoin.Defs`:
-  `IntermediateField.adjoin`, `subset_adjoin`, `adjoin_le_iff`,
-  `adjoin_empty`, and `IntermediateField.adjoin.mono`. These give the actual generated
-  intermediate field, its generator inclusions and universal property.
-- `Mathlib.GroupTheory.GroupAction.MultipleTransitivity`:
-  `MulAction.isMultiplyPretransitive_iff` characterizes transport between
-  embeddings of `Fin k`; `SubMulAction.ofStabilizer.isMultiplyPretransitive`
-  gives the point-stabilizer recursion for an already pretransitive action;
-  `MulAction.isMultiplyPretransitive_of_le` needs `l ≤ k ≤ Nat.card Ω`.
-  `IsMultiplyPretransitive.alternatingGroup_le` recognizes the alternating
-  subgroup at `card Ω − 2`, and `alternatingGroup.isMultiplyPretransitive`
-  supplies the reverse implication. Passing from an action to its image does
-  not change the orbits on tuples.
-- `Mathlib.GroupTheory.GroupAction.Primitive`: `MulAction.IsPreprimitive`
-  includes pretransitivity and triviality of all blocks. The multiple-transitivity
-  module provides `MulAction.isPreprimitive_of_is_two_pretransitive`.
-- `Mathlib.GroupTheory.GroupAction.Jordan`:
-  `Equiv.Perm.subgroup_eq_top_of_isPreprimitive_of_isSwap_mem` and
-  `Equiv.Perm.alternatingGroup_le_of_isPreprimitive_of_isThreeCycle_mem`.
-  They recognize a primitive subgroup containing a transposition or a 3-cycle.
-  These pinned forms include the degrees needed here, in particular degree five.
-- `Mathlib.NumberTheory.Harmonic.Bounds`: `harmonic_le_one_add_log` and
-  `log_add_one_le_harmonic`, after casting the harmonic sum to `ℝ`.
-  `Mathlib.NumberTheory.Harmonic.EulerMascheroni` provides
-  `Real.eulerMascheroniConstant_lt_two_thirds`. Together with
-  `2/3 < log 2`, which follows from `Real.log_two_gt_d9` in
-  `Mathlib.Analysis.Complex.ExponentialBounds`, it gives `exp γ < 2`.
-
-### From Tau Ceti
-
-The signatures use Tau Ceti `a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039`.
-
-- `TauCeti.GroupTheory.Perm.Partition`: `Equiv.Perm.fullCycleType`,
-  `sum_fullCycleType`, `fullCycleType_eq_of_isConj`, and
-  `fullCycleType_permCongr`. Their contracts include the `1`-parts and preserve
-  the full multiset under conjugacy and relabeling.
-- `TauCeti.RingTheory.Polynomial.FactorDegrees`: `Polynomial.factorDegrees`
-  for an integral polynomial and prime `p`, and
-  `Polynomial.Monic.sum_factorDegrees`. A monic reduction is nonzero and has
-  the same degree, so its factor degrees form a partition of that degree.
-- `TauCeti.NumberTheory.NumberField.Frobenius`:
-  `NumberField.exists_isArithFrobAt_int_of_liesOver`. A Galois number field,
-  a prime `p`, and a prime ideal of its integers lying over `(p)` give an
-  arithmetic Frobenius lift. There is no unramifiedness premise.
-- `TauCeti.FieldTheory.GaloisGroups.FrobeniusOrbits`:
-  `TauCeti.FiniteField.exists_orbit_eq_rootSet_factor`, for a nonzero
-  finite-field polynomial splitting in an algebraic field extension. The roots
-  of an irreducible factor form one Frobenius orbit of cardinality its degree.
-- `TauCeti.FieldTheory.GaloisGroups.Orbits`:
-  `TauCeti.isPretransitive_iff_irreducible`, for a separable positive-degree
-  polynomial in a splitting extension. Without separability this equivalence
-  is false: `(X²−2)²` has a transitive action on its two distinct roots but
-  is reducible.
-- `TauCeti.FieldTheory.GaloisGroups.Stabilizer`:
-  `TauCeti.stabilizer_eq_fixingSubgroup_adjoin_simple`, identifying the
-  stabilizer of one root with the fixing subgroup of its simple root field.
-- `TauCeti.FieldTheory.GaloisGroups.MultipleTransitivity`:
-  `TauCeti.is_two_pretransitive_iff_irreducible_divByMonic`. It requires an
-  irreducible separable polynomial of degree greater than one and a chosen
-  root, and tests the quotient over the field generated by that root.
-- `TauCeti.RingTheory.Polynomial.Roots`:
-  `Polynomial.rootSet_divByMonic_X_sub_C`. Over a field, division by
-  `X - C a` at a simple base-field root removes exactly that root from
-  the root set in an extension field.
-- `TauCeti.GroupTheory.Perm.CyclePower`:
-  `Equiv.Perm.IsCycle.pow_apply_eq_self_iff`. At a point moved by a cycle,
-  a power fixes it exactly when the cycle order divides the exponent.
-
-### From Tau Ceti, cycle-fibre arithmetic
-
-`TauCeti.GroupTheory.Perm.Semiconj` supplies the single-cycle arithmetic:
-`Function.Semiconj.minimalPeriod_dvd`,
-`Function.Semiconj.setOf_sameCycle_and_eq`, and
-`Function.Semiconj.ncard_sameCycle_and_eq_mul_minimalPeriod`.
-For finite carriers and `r ∘ σ = ψ ∘ r`, the latter says
-
-```text
-#{y : σ.SameCycle x y and r y = r x} · minimalPeriod ψ (r x)
-  = minimalPeriod σ x.
-```
-
-The set identity identifies this fibre intersection with the return orbit of
-`σ^(minimalPeriod ψ (r x))`. Thus the bottom period divides the top period,
-and every fibre intersection along that bottom orbit has the same cardinality.
-The existing `TauCeti.orbitCount_le_mul_orbitCount_of_semiconj` also bounds the
-number of top cycles by a fibre-size bound times the number of bottom cycles.
-These interfaces are suppliers: Layer 0 assembles a global equal-part-merging
-witness, while Layer 5 builds invariant unions of whole fibres and compares
-those unions for different cycles. Neither layer asks to re-prove the
-single-cycle formula.
-
-### From PolynomialGaloisGroups, Layer 1
-
-For a faithful transitive imprimitive action on `n` points, the imprimitivity
-wreath-embedding target supplies `r,s > 1`, `n = rs`, and an equivariant
-identification with `Fin r × Fin s` under which each element permutes rows.
-Projection gives a surjection to `Fin r` with fibres of cardinality `s`.
-Consequently `r ∣ n` and `1 < r < n`. The continuation requires precisely
-this quotient, not a new construction of the general wreath product.
-See [PolynomialGaloisGroups, Layer 1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/Completed/PolynomialGaloisGroups/README.md#layer-1-permutation-groups-blocks-and-wreath-products).
-
-### From ErdosProgressionPowers, §0.9
-
-ErdosProgressionPowers, §0.9, supplies, for every real `η > 0`, the bound
-`τ(n) ≤ n^η` for all sufficiently large positive integers, including
-nonsquarefree integers. Enlarging a constant over the finitely many positive
-exceptions gives `D_η ≥ 1` with `τ(n) ≤ D_η n^η` for every `n ≥ 1`.
-The application uses `η = δ/4` and retains its dependence on `δ`.
-
-### From AnalyticNumberTheoryPartI, §0.26
-
-AnalyticNumberTheoryPartI, §0.26, Mertens's third theorem, supplies the following bound:
-there exist real `D ≥ 0` and `x₀ ≥ 2` such that, for every real `x ≥ x₀`,
-`|∏_{p prime, p ≤ x}(1−1/p)⁻¹ − exp(Real.eulerMascheroniConstant) log x| ≤ D`.
-
-Prime endpoints are inclusive. Only the upper half is used in 3.4.
-The supplier owns the constant-identification proof, including its analytic
-Euler-product and Euler-constant comparison inputs. The need for this precise
-coefficient is visible in BSKK, Lemma 12.5, pp.60–61. This contract requests
-the general estimate rather than an unspecified multiple of `log x`.
-
-## How to read the build
-
-Layer 0 establishes occurrence-sensitive merging and assembles the global
-cycle-type witness over a cyclic quotient. Layer 1 applies it to ramified reduction.
-Layer 2 builds the independent ordered-root interface. Layer 3 obtains five
-anatomy estimates from the partition law. Layer 4 supplies the primitive
-minimum-support obstruction, and Layer 5 combines it with block arithmetic
-to exclude both kinds of proper transitive groups. Layer 6 takes a finite
-union of exceptional events and attaches the arithmetic certificate.
 
 ## Layer 0: bounded equal-part merging
 
@@ -1439,6 +1252,193 @@ Any other finite partition model satisfying the same three bounds can use 6.1
 directly. The criterion recognizes alternating or symmetric image; separating
 the two requires an additional invariant such as the discriminant in the
 parent polynomial roadmap.
+
+## Scope and ownership
+
+This continuation owns equal-part merging, the ramified specialization comparison,
+ordered-root higher irreducibility, the three-premise partition law, five anatomy
+events, minimum-support estimates, and the resulting group exclusions. Its arithmetic
+comparison allows every prime and records collisions of distinct integral roots.
+Its probability criterion applies to a measure on partitions without choosing a
+polynomial coefficient distribution.
+
+The prerequisites and boundaries are as follows.
+
+- **PolynomialGaloisGroups, Layers 0 and 1** own faithful root actions, the
+  orbit/factor dictionary, blocks, block-stabilizer correspondence, and the
+  imprimitivity grid and wreath embedding. The grid supplies an equivariant
+  quotient of a transitive imprimitive action into equal blocks.
+  NumberFieldArithmetic, §3.10, owns the factorization/cycle-type equality
+  for monic integral polynomials at primes not dividing their polynomial
+  discriminant. PolynomialGaloisGroups, Layer 5, imports that equality and
+  owns the factor-degree carrier and polynomial membership adapter; its Layer 9
+  supplies the surrounding polynomial symmetric-group context. The equality is
+  implemented by `TauCeti.NumberField.exists_gal_fullCycleType_eq_factorizationType`
+  in `TauCeti/NumberTheory/NumberField/Frobenius/CycleType.lean`; this continuation
+  extends its prime range by allowing collisions and bounded merging.
+- **Mathlib and Tau Ceti** own the partition carrier, full permutation cycle
+  type, reduction factor degrees, arithmetic Frobenius lifts, finite-field
+  Frobenius orbits, and the simple-root stabilizer and double-transitivity
+  quotient adapter. Tau Ceti also owns single-cycle fibre arithmetic
+  for equivariant maps. This continuation assembles its occurrence-block witness
+  and its invariant unions of whole blocks.
+- **AnalyticNumberTheoryPartI, §0.26**, supplies the reciprocal prime product
+  with its Euler-constant coefficient
+  and constant-identification proof. **ErdosProgressionPowers, §0.9**, owns
+  the eventual divisor-subpower bound. The unspecified-constant Euler-product bound
+  does not suffice for the large-prime harmonic mass.
+- Concrete coefficient laws, bounds for repeated reduction factors and quantitative
+  irreducibility for random polynomials of growing degree are outside this roadmap.
+  They consume 6.1 and 6.2 and motivate a continuation of ArithmeticStatistics;
+  their distribution estimates are not prerequisites of the arbitrary-law theorem.
+
+The suggested namespace is `TauCetiRoadmap.PolynomialGaloisGroupsPartII`.
+`Suggested.lean` states the headline acceptance theorems and the simple definitions
+needed to express them; this README specifies the complete API and proof obligations.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+The library pin is Mathlib `6b7abb3c7686292736be2955bd3eb9ebf63b456a`.
+The following are the interfaces consumed, with their required hypotheses.
+
+- `Mathlib.Combinatorics.Enumerative.Partition.Basic`: `Nat.Partition`, with
+  `parts`, positivity, `parts_sum`, extensionality, and a finite partition type.
+- `Mathlib.FieldTheory.PolynomialGaloisGroup`: `Polynomial.Gal.galActionHom`
+  and `galActionHom_injective` for a field extension in which the polynomial
+  splits, recorded by the required `Fact`; `Polynomial.Gal.restrict_surjective`
+  for a normal extension in which it splits. The intrinsic action on the roots
+  in its own splitting field is also available. A quotient's splitting extension
+  need not be its minimal splitting field.
+- `Mathlib.RingTheory.Ideal.GoingUp`:
+  `Ideal.exists_maximal_ideal_liesOver_of_isIntegral`, for an integral faithful
+  algebra and a maximal base ideal. Apply it to the ring of integers above `(p)`.
+- `Mathlib.Algebra.Polynomial.RingDivision`:
+  `Polynomial.rootMultiplicity_mul`, over an integral domain with nonzero
+  product, and `Polynomial.rootMultiplicity_X_sub_C`, whose value at `z`
+  is `1` when the removed root equals `z` and `0` otherwise. Products of the
+  monic linear factors used here are nonzero.
+- `Mathlib.FieldTheory.IntermediateField.Adjoin.Defs`:
+  `IntermediateField.adjoin`, `subset_adjoin`, `adjoin_le_iff`,
+  `adjoin_empty`, and `IntermediateField.adjoin.mono`. These give the actual generated
+  intermediate field, its generator inclusions and universal property.
+- `Mathlib.GroupTheory.GroupAction.MultipleTransitivity`:
+  `MulAction.isMultiplyPretransitive_iff` characterizes transport between
+  embeddings of `Fin k`; `SubMulAction.ofStabilizer.isMultiplyPretransitive`
+  gives the point-stabilizer recursion for an already pretransitive action;
+  `MulAction.isMultiplyPretransitive_of_le` needs `l ≤ k ≤ Nat.card Ω`.
+  `IsMultiplyPretransitive.alternatingGroup_le` recognizes the alternating
+  subgroup at `card Ω − 2`, and `alternatingGroup.isMultiplyPretransitive`
+  supplies the reverse implication. Passing from an action to its image does
+  not change the orbits on tuples.
+- `Mathlib.GroupTheory.GroupAction.Primitive`: `MulAction.IsPreprimitive`
+  includes pretransitivity and triviality of all blocks. The multiple-transitivity
+  module provides `MulAction.isPreprimitive_of_is_two_pretransitive`.
+- `Mathlib.GroupTheory.GroupAction.Jordan`:
+  `Equiv.Perm.subgroup_eq_top_of_isPreprimitive_of_isSwap_mem` and
+  `Equiv.Perm.alternatingGroup_le_of_isPreprimitive_of_isThreeCycle_mem`.
+  They recognize a primitive subgroup containing a transposition or a 3-cycle.
+  These pinned forms include the degrees needed here, in particular degree five.
+- `Mathlib.NumberTheory.Harmonic.Bounds`: `harmonic_le_one_add_log` and
+  `log_add_one_le_harmonic`, after casting the harmonic sum to `ℝ`.
+  `Mathlib.NumberTheory.Harmonic.EulerMascheroni` provides
+  `Real.eulerMascheroniConstant_lt_two_thirds`. Together with
+  `2/3 < log 2`, which follows from `Real.log_two_gt_d9` in
+  `Mathlib.Analysis.Complex.ExponentialBounds`, it gives `exp γ < 2`.
+
+### From Tau Ceti
+
+The signatures use Tau Ceti `a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039`.
+
+- `TauCeti.GroupTheory.Perm.Partition`: `Equiv.Perm.fullCycleType`,
+  `sum_fullCycleType`, `fullCycleType_eq_of_isConj`, and
+  `fullCycleType_permCongr`. Their contracts include the `1`-parts and preserve
+  the full multiset under conjugacy and relabeling.
+- `TauCeti.RingTheory.Polynomial.FactorDegrees`: `Polynomial.factorDegrees`
+  for an integral polynomial and prime `p`, and
+  `Polynomial.Monic.sum_factorDegrees`. A monic reduction is nonzero and has
+  the same degree, so its factor degrees form a partition of that degree.
+- `TauCeti.NumberTheory.NumberField.Frobenius`:
+  `NumberField.exists_isArithFrobAt_int_of_liesOver`. A Galois number field,
+  a prime `p`, and a prime ideal of its integers lying over `(p)` give an
+  arithmetic Frobenius lift. There is no unramifiedness premise.
+- `TauCeti.FieldTheory.GaloisGroups.FrobeniusOrbits`:
+  `TauCeti.FiniteField.exists_orbit_eq_rootSet_factor`, for a nonzero
+  finite-field polynomial splitting in an algebraic field extension. The roots
+  of an irreducible factor form one Frobenius orbit of cardinality its degree.
+- `TauCeti.FieldTheory.GaloisGroups.Orbits`:
+  `TauCeti.isPretransitive_iff_irreducible`, for a separable positive-degree
+  polynomial in a splitting extension. Without separability this equivalence
+  is false: `(X²−2)²` has a transitive action on its two distinct roots but
+  is reducible.
+- `TauCeti.FieldTheory.GaloisGroups.Stabilizer`:
+  `TauCeti.stabilizer_eq_fixingSubgroup_adjoin_simple`, identifying the
+  stabilizer of one root with the fixing subgroup of its simple root field.
+- `TauCeti.FieldTheory.GaloisGroups.MultipleTransitivity`:
+  `TauCeti.is_two_pretransitive_iff_irreducible_divByMonic`. It requires an
+  irreducible separable polynomial of degree greater than one and a chosen
+  root, and tests the quotient over the field generated by that root.
+- `TauCeti.RingTheory.Polynomial.Roots`:
+  `Polynomial.rootSet_divByMonic_X_sub_C`. Over a field, division by
+  `X - C a` at a simple base-field root removes exactly that root from
+  the root set in an extension field.
+- `TauCeti.GroupTheory.Perm.CyclePower`:
+  `Equiv.Perm.IsCycle.pow_apply_eq_self_iff`. At a point moved by a cycle,
+  a power fixes it exactly when the cycle order divides the exponent.
+
+### From Tau Ceti, cycle-fibre arithmetic
+
+`TauCeti.GroupTheory.Perm.Semiconj` supplies the single-cycle arithmetic:
+`Function.Semiconj.minimalPeriod_dvd`,
+`Function.Semiconj.setOf_sameCycle_and_eq`, and
+`Function.Semiconj.ncard_sameCycle_and_eq_mul_minimalPeriod`.
+For finite carriers and `r ∘ σ = ψ ∘ r`, the latter says
+
+```text
+#{y : σ.SameCycle x y and r y = r x} · minimalPeriod ψ (r x)
+  = minimalPeriod σ x.
+```
+
+The set identity identifies this fibre intersection with the return orbit of
+`σ^(minimalPeriod ψ (r x))`. Thus the bottom period divides the top period,
+and every fibre intersection along that bottom orbit has the same cardinality.
+The existing `TauCeti.orbitCount_le_mul_orbitCount_of_semiconj` also bounds the
+number of top cycles by a fibre-size bound times the number of bottom cycles.
+These interfaces are suppliers: Layer 0 assembles a global equal-part-merging
+witness, while Layer 5 builds invariant unions of whole fibres and compares
+those unions for different cycles. Neither layer asks to re-prove the
+single-cycle formula.
+
+### From PolynomialGaloisGroups, Layer 1
+
+For a faithful transitive imprimitive action on `n` points, the imprimitivity
+wreath-embedding target supplies `r,s > 1`, `n = rs`, and an equivariant
+identification with `Fin r × Fin s` under which each element permutes rows.
+Projection gives a surjection to `Fin r` with fibres of cardinality `s`.
+Consequently `r ∣ n` and `1 < r < n`. The continuation requires precisely
+this quotient, not a new construction of the general wreath product.
+See [PolynomialGaloisGroups, Layer 1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/Completed/PolynomialGaloisGroups/README.md#layer-1-permutation-groups-blocks-and-wreath-products).
+
+### From ErdosProgressionPowers, §0.9
+
+ErdosProgressionPowers, §0.9, supplies, for every real `η > 0`, the bound
+`τ(n) ≤ n^η` for all sufficiently large positive integers, including
+nonsquarefree integers. Enlarging a constant over the finitely many positive
+exceptions gives `D_η ≥ 1` with `τ(n) ≤ D_η n^η` for every `n ≥ 1`.
+The application uses `η = δ/4` and retains its dependence on `δ`.
+
+### From AnalyticNumberTheoryPartI, §0.26
+
+AnalyticNumberTheoryPartI, §0.26, Mertens's third theorem, supplies the following bound:
+there exist real `D ≥ 0` and `x₀ ≥ 2` such that, for every real `x ≥ x₀`,
+`|∏_{p prime, p ≤ x}(1−1/p)⁻¹ − exp(Real.eulerMascheroniConstant) log x| ≤ D`.
+
+Prime endpoints are inclusive. Only the upper half is used in 3.4.
+The supplier owns the constant-identification proof, including its analytic
+Euler-product and Euler-constant comparison inputs. The need for this precise
+coefficient is visible in BSKK, Lemma 12.5, pp.60–61. This contract requests
+the general estimate rather than an unspecified multiple of `log x`.
 
 ## References
 
