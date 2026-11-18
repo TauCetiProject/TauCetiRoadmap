@@ -126,6 +126,7 @@ body:
         - EllipticCohomology
         - EllipticCurves
         - EllipticIntegrals
+        - EllipticKTheory
         - EllipticLegendreCharacterInterfaces
         - EndoscopicTransferAndUnitaryTraceComparison
         - EnhancedDerivedSheaves
@@ -168,6 +169,7 @@ body:
         - GeometricMeasureTheory
         - GeometricQuantization
         - GeometricRepresentationCategories
+        - GeometricSatakeAndFusion
         - GeometricTopology
         - GeometryOfNumbersAndQuadraticArithmetic
         - GeometryOfNumbersAndQuadraticArithmeticPartII
@@ -313,6 +315,7 @@ body:
         - RealSemisimpleLieGroups
         - ReductiveGroups
         - ReductiveGroupsPartII
+        - ReductiveGroupsPartIII
         - ReflectionInvariantTheory
         - RegretMinimizationAndEquilibria
         - Regularity
@@ -334,6 +337,7 @@ body:
         - SchubertGeometry
         - SeibergWittenTheory
         - SelmerIwasawaCohomology
+        - SerreWeightAndLevelOptimisation
         - ShimuraData
         - ShimuraVarieties
         - SieveMethodsAndPrimePatterns
@@ -375,6 +379,7 @@ body:
         - TopologicalKTheory
         - TopologicalSheafCohomology
         - TypeAHeckeAlgebras
+        - VStackSheavesAndLisseCategories
         - VariationalMethods
         - Varifolds
         - VectorBundlesAndIsocrystals
