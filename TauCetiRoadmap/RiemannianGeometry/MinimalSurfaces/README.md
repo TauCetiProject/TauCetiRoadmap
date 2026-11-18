@@ -1185,7 +1185,7 @@ normal connection.
 
 ### 6.1 Morse index on compact minimal submanifolds and negative eigenvalues of `−J^⊥`
 
-*Sources:* [Simons]; [CM, §1.8]; [Chodosh, §24].
+*Sources:* [Simons]; [CM, §1.8]; [Chodosh, Theorem 23.2, p. 60], for the index form.
 
 Let Σ be compact: when Σ is closed (`∂Σ = ∅`), take `Γ(ν_f) = C^∞(Σ;ν_f)` as the space of
 admissible normal sections; when Σ has nonempty smooth boundary `∂Σ`, impose homogeneous
@@ -1660,17 +1660,17 @@ embedded minimal surfaces in U with locally bounded area have a subsequence conv
 ### 7.8 Stability across a singular set, strict stability and minimal cones
 
 *Sources:* [Simon23, §1, pp. 3–4, and 4.12, pp. 21–22]; [Simon21, §1, 1.1–1.5, pp. 2–3,
-and §3, pp. 6–8].
+and §3, pp. 6–8]; [Chodosh, Proposition 26.1, p. 64].
 
 Let U be an open subset of a Riemannian `(n+1)`-manifold `(N,g)`, `n ≥ 2`, and Σ ⊂ U a smooth
-embedded two-sided hypersurface, not necessarily closed in U, with unit normal ν and measure μ
-of the induced metric. Its singular set is `sing Σ = (Σ̄ ∩ U) ∖ Σ`, with the convention that
-every point of `Σ̄ ∩ U` near which `Σ̄` is a smooth embedded hypersurface lies in Σ (otherwise
-replace Σ by that regular part) [Simon23, p. 3]. Assume locally finite area,
-`μ(Σ ∩ K) < ∞` for every compact `K ⊂ U`. Σ need not be minimal. The test functions are
-`ζ ∈ C^∞_c(U)`, functions on the ambient set that need not vanish near `sing Σ`; ∇ζ is the
-gradient on Σ of the restriction of ζ. Then `∫_Σ |∇ζ|²` and `∫_Σ Ric_g(ν,ν)ζ²` are finite,
-while `∫_Σ |A|²ζ² ∈ [0,∞]`. Define:
+embedded two-sided hypersurface without boundary, not necessarily closed in U, with unit normal
+ν and measure μ of the induced metric. Its singular set is `sing Σ = (Σ̄ ∩ U) ∖ Σ`, with the
+convention that every point of `Σ̄ ∩ U` near which `Σ̄` is a smooth embedded hypersurface
+without boundary lies in Σ (otherwise replace Σ by that regular part) [Simon23, p. 3]. Assume
+locally finite area, `μ(Σ ∩ K) < ∞` for every compact `K ⊂ U`. Σ need not be minimal. The
+test functions are `ζ ∈ C^∞_c(U)`, functions on the ambient set that need not vanish near
+`sing Σ`; ∇ζ is the gradient on Σ of the restriction of ζ. Then `∫_Σ |∇ζ|²` and
+`∫_Σ Ric_g(ν,ν)ζ²` are finite, while `∫_Σ |A|²ζ² ∈ [0,∞]`. Define:
 
 - Σ is *stable in U* if `∫_Σ |A|²ζ² dμ + ∫_Σ Ric_g(ν,ν)ζ² dμ ≤ ∫_Σ |∇ζ|² dμ` for every such
   ζ: this is `Q(ζ) ≥ 0` with the Q of this layer, read without `∞ − ∞`.
@@ -1701,7 +1701,7 @@ than the stability of 6.3 (Checks); the definitions therefore assume two-sidedne
   other. In Euclidean space with a weight homogeneous of degree one, every dilate of a strictly
   stable Σ is strictly stable with the same constant, all terms scaling by `t^(n−2)`.
 - Reduction [Simon23, 4.12 and the lines after it, pp. 21–22]. If `|A|² + Ric_g(ν,ν) ≤ c₀ w⁻²`
-  on Σ, then Σ is strictly stable with weight w iff there is `λ > 0` with
+  on Σ for some `c₀ ≥ 0`, then Σ is strictly stable with weight w iff there is `λ > 0` with
   `∫_Σ (|A|² + Ric_g(ν,ν))ζ² + λ ∫_Σ w⁻²ζ² ≤ ∫_Σ |∇ζ|²` for every ζ, and then
   `κ = ½ min(λ, (1 + c₀/λ)⁻¹)` works. Route: the weaker inequality gives
   `∫|∇ζ|² ≤ Q(ζ) + c₀∫w⁻²ζ² ≤ (1 + c₀/λ) Q(ζ)`; average it with `Q(ζ) ≥ λ∫w⁻²ζ²`.
@@ -1711,7 +1711,7 @@ than the stability of 6.3 (Checks); the definitions therefore assume two-sidedne
   convention); C is minimal iff Γ is minimal in Sⁿ (R5a.2 of the parent). Then
   `|A_C|²(tω) = t⁻²|A_Γ|²(ω)`. Let `λ₁` be the lowest eigenvalue of `−Δ_Γ − |A_Γ|²` on Γ
   (MS1 (a)). Prove: C is strictly stable with weight |X| iff `λ₁ + ((n−2)/2)² > 0`, and stable
-  iff `λ₁ + ((n−2)/2)² ≥ 0`. Route: in polar coordinates
+  iff `λ₁ + ((n−2)/2)² ≥ 0` [Chodosh, Proposition 26.1, p. 64]. Route: in polar coordinates
   `Q(ζ) = ∫_0^∞ ∫_Γ (ζ_r² + r⁻²(|∇_Γζ|² − |A_Γ|²ζ²)) r^(n−1) dμ_Γ dr`; expanding `ζ(r,·)` in the
   eigenbasis of `−Δ_Γ − |A_Γ|²` (MS1 (a)) reduces both statements to the weighted Hardy
   inequality `∫_0^∞ f′² r^(n−1) dr ≥ ((n−2)/2)² ∫_0^∞ f² r^(n−3) dr` for `f ∈ C¹_c([0,∞))`, which
