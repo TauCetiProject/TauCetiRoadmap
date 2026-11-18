@@ -10,7 +10,7 @@ import TauCeti.AlgebraicGeometry.AbelianVariety.End.Basic
 The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's
 headline theorems against the pinned Mathlib and Tau Ceti APIs.
 
-The statements cover rational endomorphisms and finiteness of exceptional primes
+The statements cover rational endomorphisms
 and the rational 3-, 5- and 15-isogeny classifications
 (R29.1), rationality of attached newforms (R29.3), every local factor and Dirichlet
 coefficient (R29.4), and unconditional modularity, absolute irreducibility of the
@@ -21,12 +21,12 @@ The small-isogeny conclusions use native j-invariants and geometric point subgro
 they require no modular-curve carrier in their statements.
 
 At Mathlib `1b1ccf4` and Tau Ceti `2fd255d`, the Artin conductor of a two-dimensional
-ℓ-adic or residual Galois representation, Serre weight and finite-flat residual
+ℓ-adic or residual Galois representation and the residual
 attachment API are absent; Tau Ceti has Artin conductor exponents only for characters of
 finite Galois extensions of local fields. Its `WeierstrassCurve.algorithmicConductor`,
 computed by Tate's algorithm, is not identified there with the conductor `N_E` of the
-README. Thus the exact-conductor refinements, R29.2's Serre witness family and R29.3's
-theorem with a family of residual attachments cannot be stated here. Modularity and
+README. Thus the exact-conductor refinements and R29.2's residual attachment cannot be
+stated here. Modularity and
 completion use a positive newform level; R29.4 specifies its identification with the
 conductor.
 
@@ -71,19 +71,11 @@ def HasRationalCyclicSubgroup (E : WeierstrassCurve ℚ) [E.IsElliptic] (p : ℕ
 def coeff {N : ℕ} [NeZero N] {k : ℤ} (F : Newform N k) (n : ℕ) : ℂ :=
   (UpperHalfPlane.qExpansion 1 F.toCuspForm).coeff n
 
-/-- The four exceptional-prime clauses of R29.1, using minimal local models. -/
-def exceptionalPrimes (E : WeierstrassCurve ℚ) [E.IsElliptic] : Set ℕ :=
-  {p | ∃ hp : p.Prime, haveI : Fact p.Prime := ⟨hp⟩
-    p ≤ 5 ∨ ¬ HasGoodReductionAt E p ∨
-      (∃ (ℓ : ℕ) (hℓ : ℓ.Prime), haveI : Fact ℓ.Prime := ⟨hℓ⟩
-        HasMultiplicativeReductionAt E ℓ ∧ (p : ℤ) ∣ padicValRat ℓ E.j) ∨
-      HasRationalCyclicSubgroup E p}
-
 /-- Attachment at any positive level: trivial character and agreement at almost all primes. -/
 def IsNewformOf (E : WeierstrassCurve ℚ) {M : ℕ} [NeZero M] (F : Newform M 2) : Prop :=
   F.χ = 1 ∧ ∀ᶠ ℓ : ℕ in Filter.cofinite, ℓ.Prime → coeff F ℓ = (lCoeff E ℓ : ℂ)
 
-/-! ## Layer R29.1: rational endomorphisms and exceptional primes -/
+/-! ## Layer R29.1: rational endomorphisms and rational isogenies -/
 
 /-- Every endomorphism over ℚ of a dimension-one abelian variety is integer multiplication:
 the canonical ring map `n ↦ [n]` from ℤ is bijective.
@@ -92,9 +84,6 @@ theorem rationalEndomorphisms_eq_int
     (A : TauCeti.AlgebraicGeometry.AbelianVariety ℚ) (hA : A.dim = 1) :
     Function.Bijective (Int.castRingHom (TauCeti.AlgebraicGeometry.AbelianVariety.End A)) :=
   sorry
-
-/-- The four exceptional-prime clauses exclude only finitely many primes, including for geometric CM. -/
-theorem exceptionalPrimes_finite (E : WeierstrassCurve ℚ) [E.IsElliptic] : (exceptionalPrimes E).Finite := sorry
 
 /-- A rational cyclic 3-isogeny gives a noncuspidal rational Hauptmodul parameter.
 Barrios, Theorem 2.3 and Table 1, arXiv:2208.05603v1. -/

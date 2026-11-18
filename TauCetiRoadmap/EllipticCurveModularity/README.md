@@ -1,40 +1,71 @@
 # Roadmap: modularity and modular parametrisations of elliptic curves over ℚ
 
-**Summary.** An elliptic curve over ℚ determines local point counts, Galois representations, and an
-Euler product. Modularity identifies this arithmetic with the Fourier expansion of a
-weight-two newform and realizes the curve as a quotient of a modular Jacobian. This
-roadmap builds the comparison in both directions and constructs the resulting map from a
-modular curve. The main objects are the finite exceptional set of residual
-characteristics, Serre witnesses, the predicate that a newform is attached to an
-elliptic curve, its unique newform, and a modular parametrisation with a chosen quotient
-isogeny.
+**Summary.** An elliptic curve over ℚ carries two kinds of arithmetic: the numbers of points
+of its reductions modulo primes, which are the coefficients of its L-function, and its ℓ-adic
+Galois representations. Modularity says that the same numbers are the Fourier coefficients of
+a weight-two newform, and that the curve is a quotient of the Jacobian of a modular curve.
+This roadmap states modularity of every elliptic curve over ℚ in its three classical forms,
+deduces it from the modularity theorem over totally real fields, and develops the comparison
+between a curve and its newform.
 
-The existence theorem uses the unconditional classical Serre modularity theorem supplied by
-ClassicalSerreModularity §R27.6, including its finite-flat weight-two export, and applies
-to every elliptic curve over ℚ without a residual-modularity hypothesis. For infinitely many
-primes `p`, the representation on `E[p]` has the conductor of `E`, weight two, and
-trivial residual character. Serre modularity produces forms whose good coefficients
-agree with the traces of `E` modulo primes above `p`. Finiteness of the forms and an
-algebraic-integer norm argument turn these congruences into exact equalities. Galois
-conjugation gives rational integral coefficients, local compatibility supplies the
-conductor and bad factors, and Faltings's isogeny theorem produces the geometric
-quotient and parametrisation.
+The main theorem says that for every elliptic curve E over ℚ, of conductor `N_E`, there is a
+normalized newform of weight two, level exactly `N_E` and trivial character whose n-th
+coefficient equals the n-th coefficient of the L-function of E for every n; these
+coefficients are integers. Equivalently, there is a surjective homomorphism over ℚ from the
+modular Jacobian `J₀(N_E)` onto E, and there is a nonconstant morphism over ℚ from the
+modular curve `X₀(N_E)` to E sending the cusp ∞ to the origin. Curves with complex
+multiplication over ℚ̄ are included. As a consequence the completed L-function
+`N_E^(s/2)(2π)^(−s)Γ(s)L(E,s)` extends to an entire function and is carried to itself, up to a
+sign ±1, by `s ↦ 2 − s`.
 
-The reusable comparison theory takes an attached newform or a
-quotient of a modular Jacobian. It proves the equivalence of the newform, quotient, and
-parametrisation formulations without using the existence theorem. Separating this theory
-makes it usable when modularity is already known from a geometric construction.
+The existence of the newform is the case of the rational field in the theorem that every
+elliptic curve over a totally real field is modular, proved in
+EllipticCurveModularityTotallyReal. The description of newforms over ℚ by cuspidal
+automorphic representations, from GL2AutomorphicRepresentationsAndTransfer, turns the
+automorphic representation given there into a classical newform. Everything else here holds
+for any newform attached to E, meaning a newform of trivial character whose Hecke eigenvalues
+agree with the Frobenius traces of E at almost all primes. Such a form is unique, has integer
+coefficients and level `N_E`, and has the Euler factor of E at every prime, bad primes
+included. Faltings's isogeny theorem then gives an isogeny over ℚ from the elliptic quotient
+of `J₀(N_E)` attached to the form onto E, and through it a modular parametrisation that pulls
+the invariant differential of E back to a nonzero rational multiple of `2πi f(z) dz`.
+Conversely, a surjective homomorphism from `J₀(N′)` onto E, at any level `N′`, produces an
+attached newform, and its level `N_E` divides `N′`. These comparisons apply equally when the
+modularity of a particular curve comes from a geometric construction.
+
+The roadmap also proves that every endomorphism of E defined over ℚ is multiplication by an
+integer, curves with complex multiplication included; together with Faltings's theorems this
+makes the rational Tate modules of E absolutely irreducible. It records the relations
+satisfied by the j-invariant of a curve with a rational cyclic 3- or 5-isogeny, and the four
+j-invariants of curves with both. Over every number field it proves that the Dirichlet series
+of an elliptic curve converges absolutely for `Re s > 3/2`.
+
+Besides those two roadmaps, it builds on ModularForms for newforms, strong multiplicity one
+and their L-functions, on ModularCurvesPartII for modular Jacobians and their quotients, and on
+FaltingsFinitenessAndIsogenyTheorems for semisimplicity and the isogeny criterion. Modularity
+of abelian varieties of GL₂-type over ℚ, which contains the case of dimension one, is the
+subject of EllipticCurveModularityPartIIGL2TypeAbelianVarieties.
+
+The first layer treats rational endomorphisms and rational isogenies, and the second
+residual attachment of a curve to a newform at a prime. The third defines attachment, proves
+uniqueness and rationality, obtains an attached newform for every curve and selects the newform
+of the curve. The fourth compares Tate modules, conductors and Euler factors, the fifth
+constructs the isogeny and the modular parametrisation, and the sixth proves the converse, the
+equivalence of the three formulations and the functional equation of the L-function.
 
 ## How to read the build
 
-Layer R29.1 isolates the residual characteristics with the correct irreducibility and
-conductor. Layer R29.2 constructs witnesses using ClassicalSerreModularity §R27.6.
-Layer R29.3 turns infinitely many congruences into one characteristic-zero form;
-its attachment predicate also starts an independent conditional comparison. Layer R29.4
-identifies every local factor, R29.5 constructs the chosen parametrisation, and R29.6
-proves the geometric converse and transfers the analytic continuation. Definitions that
-involve choices of new objects have their full mathematical specification below even
-when their carriers are not available to the representative Lean file.
+Layer R29.1 proves that every endomorphism of an elliptic curve over ℚ defined over ℚ is an
+integer and treats rational cyclic subgroups and the rational 3-, 5- and 15-isogenies. Layer
+R29.2 defines residual attachment of a curve to a newform at a prime and derives it from
+attachment. Layer R29.3 defines the attachment predicate and proves its uniqueness and
+rationality without any existence input; its existence theorem is the case `K=ℚ` of
+EllipticCurveModularityTotallyReal §4.4, read through the classical newform dictionary of
+GL2AutomorphicRepresentationsAndTransfer, and it selects the newform `F_E`. Layer R29.4
+identifies every local factor, R29.5 constructs the chosen parametrisation, and R29.6 proves
+the geometric converse and transfers the analytic continuation. Definitions that involve
+choices of new objects have their full mathematical specification below even when their
+carriers are not available to the representative Lean file.
 
 ## Conventions
 
@@ -144,12 +175,11 @@ not define a new reduction theory (EllipticCurves Layer 4; Silverman, AEC VII.5)
   still has good reduction at 7 when 11a1 does; the raw equation's discriminant is not
   the good-reduction predicate.
 
-## Layer R29.1: Exceptional primes and the residual conductor
+## Layer R29.1: Rational endomorphisms and rational isogenies
 
-The first layer produces infinitely many residual characteristics for which the
-representation of `E` is absolutely irreducible and has conductor `N`. The set discarded
-has four clauses. Keeping them separate makes the definition reusable and permits tests
-that detect loss of a local or global condition.
+This layer proves that every endomorphism of an elliptic curve over ℚ that is defined over ℚ
+is multiplication by an integer, defines Galois-stable cyclic subgroups, and records the
+j-invariant relations of rational cyclic 3-, 5- and 15-isogenies.
 
 ### Rational endomorphisms, including geometric complex multiplication
 
@@ -202,8 +232,10 @@ but rationality of a chosen generator does not.
   isogeny applications require p prime.
 - The given order-5 rational point on 11a1 generates a stable cyclic subgroup; the
   given Frobenius polynomial irreducible over 𝔽₇ excludes a stable order-7 subgroup.
-- The order-7 subgroup in the 162b1 Check has a Galois orbit of x-coordinates of
-  degree three. It is stable even though it has no rational nonzero generator:
+- For 162b1, `y²+xy+y=x³−x²−5x+5`, the irreducible cubic `x³−3x²+3` divides the
+  7-division polynomial and its roots are permuted by duplication, giving the three
+  pairs of nonzero points of an order-7 subgroup. That subgroup has a Galois orbit of
+  x-coordinates of degree three. It is stable even though it has no rational nonzero generator:
   the rational point group of `y²+xy+y=x³−x²−5x+5` has no nonzero seven-torsion.
   Its good reduction at 5 has six points, excluding rational seven-torsion.
   This Check asserts the stable order-7 subgroup and the absence of rational
@@ -229,8 +261,7 @@ these three isogeny targets follows the Imperial College London FLT project.
 - In the 3-isogeny relation, `u=−3` and `u=−27` give `j=0`; this case is included.
   In the 5-isogeny relation, `v²+10v+5` has no rational zero, so `j=0` is excluded.
 - For 11a1 the stable order-5 subgroup gives v=−1/11 in the 5-isogeny
-  relation: both sides equal 122023936/1771561. Its bad reduction at 11 remains part of
-  its exceptional set.
+  relation: both sides equal 122023936/1771561.
   The 3-isogeny relation does not apply: at 2 its Frobenius polynomial is irreducible
   over `𝔽₃`, excluding a stable order-3 subgroup.
 - The parameters 0 and ∞ are cusps, not nonsingular elliptic curves. In the displayed
@@ -267,90 +298,6 @@ Layers 2 and 6. EllipticCurves Layer 4 supplies the valuation criteria.
 - The remaining three j-values have 5-adic valuations `2,1,1`, so the same local
   obstruction excludes each; the four-value theorem itself retains all four.
 
-### The exceptional set
-
-Define `HasRationalCyclicSubgroup E p` to mean that `E(ℚ̄)` has a
-cyclic subgroup of order `p` stable under `G_(ℚ)`. When `p` is prime this is
-equivalently the existence of a ℚ-rational cyclic isogeny of degree `p`. The generator
-need not be a rational point: a subgroup may be defined over ℚ while its nonzero points
-are not. In the point-group description, stability means that every Galois automorphism
-sends the subgroup onto itself.
-
-Define `exceptionalPrimes E`, denoted `Σ_E`, to be the set of primes `p` satisfying
-at least one of the following conditions:
-
-1. `p≤5`.
-2. `E` has bad reduction at `p`, equivalently `p∣ N`.
-3. There is a multiplicative prime ℓ such that `p∣ v_ℓ(j_E)`.
-4. `HasRationalCyclicSubgroup E p` holds.
-
-The valuation in the third clause is a negative integer. Divisibility is ordinary
-divisibility in ℤ; changing its sign does not change the clause. There are only finitely
-many multiplicative primes and each has nonzero `v_ℓ(j_E)`. The clause does not
-quantify over every prime at which the displayed model has a denominator, nor over all
-bad reduction types.
-
-The headline statement `exceptionalPrimes_finite` in `Suggested.lean` asserts that
-`Σ_E` is finite. Consequently, `{p : ℕ | p.Prime ∧ p ∉ exceptionalPrimes E}` is
-infinite. For a prime `p∉Σ_E`, every Galois-stable subgroup of the native geometric
-p-torsion is zero or the whole group. In the
-supplier's linear packaging this says
-`Representation.IsIrreducible (residualRep E p)` over `𝔽_p`: every additive subgroup
-of a group killed by p is a `𝔽_p`-subspace. Good reduction holds at p, equivalently
-`p∤N_E`. Users of these consequences need not unfold the exceptional set or the
-rational-subgroup predicate.
-
-For finiteness of the last clause, use the finite ℚ-isogeny class of `E` from
-FaltingsFinitenessAndIsogenyTheorems
-**§R28.6.5**. For each representative
-`E_i` of that class, `Hom_ℚ(E,E_i)` is infinite cyclic, by
-**§R28.6.6**, together with the
-**R29.1** assertion `End_ℚ(E_i)=ℤ`. If a generator has
-degree `d_i`, every nonzero homomorphism has degree `d_i n²` for a nonzero integer `n`.
-A prime degree in this family can occur only with `n=±1` and `d_i` prime. A finite set
-of representatives therefore gives a finite set of prime degrees. This proof includes
-the CM case over ℚ and supplies precisely the qualitative finiteness needed in the
-modularity argument.
-
-An invariant line in `E[p]` is a stable cyclic subgroup of order `p`. Its absence gives
-irreducibility. It also explains why replacing the last clause by rational `p`-torsion
-would give a weaker and unsuitable exceptional set. Rational torsion implies a rational
-cyclic subgroup, but the converse does not hold.
-
-*Sources and prerequisites.* The role of the exceptional set is Serre, §4.6, Lemma 5,
-p. 207. The qualitative finiteness proof uses the FaltingsFinitenessAndIsogenyTheorems §§R28.6.5–R28.6.6 and the ℚ-endomorphism assertion in this layer, rather
-than the numerical rational-isogeny bound mentioned there. The other direct inputs are
-ArithmeticGaloisRepresentations **§§6.1–6.3**, Mathlib `WeierstrassCurve.j` and
-`Set.Finite`, and the local reduction definitions of EllipticCurves Layer 4. No uniform
-numerical bound on the elements of `Σ_E` is needed or asserted.
-
-### The residual representation outside the exceptional set
-
-For a prime p outside Σ_E, prove absolute irreducibility and conductor equality:
-
-`residualRep E p is absolutely irreducible, N(residualRep E p)=N_E.`
-
-Use ArithmeticGaloisRepresentations §1.7's `ContinuousRep.IsAbsolutelyIrreducible`
-on the continuous packaging of its §6.1 residual representation. The conductor here is the prime-to-p conductor
-of the actual residual module, with the convention fixed above.
-
-Absolute irreducibility means irreducibility after extension from `𝔽_p` to every
-field containing it. The step from irreducibility over `𝔽_p` to absolute
-irreducibility relies on oddness. Suppose that, over an algebraic closure, an
-irreducible two-dimensional representation broke up as a sum of two characters. Each
-of the two lines would be stable under complex conjugation and so would be an
-eigenline of it. The representation would then fail to be irreducible over `𝔽_p`,
-since those eigenlines are defined over `𝔽_p` already: as `p` is odd, the eigenvalues
-`1,-1` of complex conjugation are distinct. This argument uses
-the base field ℚ and the oddness hypothesis; it is not a statement about every
-two-dimensional representation of every group over a finite field.
-
-*Sources and prerequisites.* Serre, §4.6, (4.6.1), Lemma 5 and (4.6.2)–(4.6.3), p.
-207, gives the determinant, irreducibility and conductor conclusions. The oddness
-argument is §3.3, p. 198. Import it from ArithmeticGaloisRepresentations **Layer 4**, and
-the Weil pairing and determinant from **§§6.1–6.3**. The other inputs are the
-exceptional-set API and the residual conductor supplier contract.
-
 ### Concrete models used in the Checks
 
 The worked Checks use the following coefficient tuples, in the order
@@ -382,112 +329,24 @@ lookup or classification is a target. The formulas are those of Silverman, AEC I
   `j = c₄³/Δ`. This distinguishes isogenous models at level 11 and checks that the
   twist has the same j-invariant as 11a1 despite a different discriminant.
 
-### Checks of all four exceptional-set clauses
-
-The valuation-only and isogeny-only Checks establish membership together with good
-reduction at 7 and the absence of the competing clause: no rational 7-isogeny in the first case, and
-no multiplicative valuation divisible by 7 in the second. The remaining Checks assume
-the displayed reduction, point and subgroup data for the concrete nonsingular equations.
-They distinguish the small-prime, bad-reduction, valuation, and rational-isogeny clauses; membership alone in
-an example satisfying two clauses does not test either one separately.
-
-* For 11a1:
-  `E: y²+y=x³-x²-10x-20`, both 5 and 11 lie in `Σ_E`.
-  Here `Δ=-11^5`, `c_4=496`, and (`5,5`) has order 5. The prime
-  11 is bad, while 5 is also included by the small-prime clause.
-* For every `E`, the primes 2, 3
-  and 5 are included. The statement has no hypothesis on the reduction
-  type at those primes.
-* For `E:y²=x³-x`, with
-  `Δ=2^6` and geometric CM by ℤ[i], the set remains finite and
-  contains 2. The finiteness theorem is not restricted to non-CM curves.
-* The prime 7 is outside the exceptional set of
-  11a1. It is good at 7, its only multiplicative prime is 11, and
-  `v_(11)(j_E)=-5`. There is no rational cyclic subgroup of order 7:
-  the good reduction count `#E(𝔽_3)=5` gives `a_3=-1`, and
-  `a_3²-4·3≡3 (mod 7)` is a nonsquare. A globally stable
-  `𝔽_7`-line would force that Frobenius polynomial to split.
-* For 26b1:
-  `y²+xy+y=x³-x²-3x+3`, 7 is exceptional despite good reduction
-  at 7. The point (`1,0`) has order 7, with multiples giving
-  `x=1,-1,3`, and `Δ=-2^7·13, c_4=129` give
-  `v_2(j_E)=-7`. The isogeny and valuation clauses both apply.
-* In the valuation-only case:
-  `y²+xy=x³-7x+9`, `Δ=-2^7·137, c_4=337`. At the
-  multiplicative prime 2, `v_2(j_E)=-7`, so 7 is exceptional. It is
-  good at 7 and has no rational 7-isogeny: `#E(𝔽_3)=6`,
-  `a_3=-2`, and the Frobenius discriminant is the nonsquare 6 modulo
-  7. This test detects deletion of the valuation clause.
-* In the isogeny-only case:
-  `y²+xy+y=x³-x²-5x+5`, `Δ=-2³·3^4, c_4=225`.
-  It is good at 7, additive at 3, and multiplicative only at 2, where
-  `v_2(j_E)=-3`. Nevertheless 7 is exceptional through a rational
-  cyclic subgroup. The irreducible cubic `x³-3x²+3` divides the
-  7-division polynomial and its roots are permuted by duplication,
-  giving the three pairs of nonzero points of that subgroup. This
-  test detects deletion of the rational-isogeny clause, and also
-  distinguishes a rational subgroup from a rational generator.
-
-Apart from the valuation-only and isogeny-only assertions, the displayed arithmetic
-values are explicit hypotheses of these worked Checks.
-The roadmap does not ask for tables, point-enumeration procedures or an algorithm for
-recognizing modular curves. Their mathematical interpretation uses the curve invariant
-and point-group APIs. The
-interpretation of their results uses the definition in this layer, the good-reduction
-Frobenius polynomial from ArithmeticGaloisRepresentations §§6.1–6.3, and the local reduction tests from EllipticCurves Layer
-4. The finite-set and residual conclusions use Layer R29.1 and the conductor supplier
-contracts, and do not assume modularity of the curves being tested.
-
 ### Examples
 
-The small-prime inclusion and the separate valuation-only and isogeny-only Checks above
-distinguish the four clauses; the CM example fixes the ground-field scope.
+The CM curve `y² = x³ − x` fixes the ground-field scope of the endomorphism theorem, and
+the 162b1 subgroup separates a rational subgroup from a rational generator.
 
 ### Dependencies
 
 *Needs:* EllipticCurves Layers 1, 2 and 4; FaltingsFinitenessAndIsogenyTheorems
-§§R28.6.1 and R28.6.5–R28.6.6; AbelianSchemesAndArithmeticModuli A0.2 and A1.6;
-ModularCurves Layer 1.3; ArithmeticGaloisRepresentations §§3.3, 3.6, 4.1 and 6.1–6.3;
-NeronModelsAndSemistableAbelianVarieties §§5.3a, 5.3g–5.3i.
+§R28.6.1; AbelianSchemesAndArithmeticModuli A0.2 and A1.6; ModularCurves Layer 1.3;
+ArithmeticGaloisRepresentations §§6.1–6.3.
 
-## Layer R29.2: Finite-flat weight two and Serre witnesses
+## Layer R29.2: Residual attachment
 
-Fix a prime `p∉Σ_E`. ClassicalSerreModularity §R27.6 supplies the finite-flat
-weight-two export since p ≥ 7. The first layer gives `p≥7`, good reduction at `p`,
-absolute irreducibility of `E[p]`, cyclotomic determinant, and residual conductor `N_E`.
-This layer determines its Serre weight and constructs the characteristic-zero modular
-data used in the infinite-congruence argument.
+This layer defines residual attachment of an elliptic curve to a weight-two newform at a
+prime and proves that a newform attached to the curve is residually attached to it at
+every prime.
 
-### Finite flatness determines the weight
-
-Prove the weight identity
-
-`k(ρ̄_(E,p))=2 (p∉Σ_E).`
-
-The good-reduction model is an abelian scheme over ℤₚ. Its `p`-torsion is a finite flat
-group scheme, and its generic fibre realizes the local representation on `E[p]`. The
-determinant on inertia at `p` is the mod-`p` cyclotomic character. Together these give
-weight two under Serre's recipe. A congruence `k ≡ 2 (mod (p−1))` alone is
-insufficient: finite flatness selects the actual weight, not just its congruence class.
-This distinction also excludes the multiplicative-at-`p` cases with weight `p+1`.
-
-The determinant identity also fixes the residual tame character. In Serre's convention
-the determinant is the product of that character and the cyclotomic character to the
-power `k-1`. At weight two this leaves the tame character equal to 1. Thus all the
-hypotheses of the trivial-character weight-two export of classical Serre modularity are
-available before a modular form for `E` is constructed.
-
-*Sources and prerequisites.* Serre, §2.8, Proposition 4, pp. 189–190, identifies
-weight two with the cyclotomic determinant and finite flatness; §2.9, Proposition 5`i`,
-p. 191, applies this to good elliptic reduction. The specialization to trivial character
-is §3.3, p. 198. Import finite-flat torsion from
-FiniteFlatGroupsAndIntegralPadicHodgeTheory
-**§R07.6.1**, the weight equivalence from
-AlgebraicModularFormsAndSerreWeights **§4.9, The weight-two criterion**, and the
-determinant interface from ArithmeticGaloisRepresentations **§§6.1–6.3**. The remaining
-hypotheses are the residual conclusions of Layer R29.1.
-
-### The witness at a residual characteristic
+### Residual attachment of a curve to a newform
 
 **Curve-level residual attachment.** For a prime p and a weight-two newform F of
 positive level N, say that E is residually attached to F at p if there exist a finite
@@ -510,16 +369,14 @@ is built into this condition. The coefficient-map interface follows the Imperial
 College London FLT project.
 
 Prove that `IsNewformOf E F` gives residual attachment to F at every prime p,
-including 2, 3 and primes in Σ_E. Prove also that a Galois-equivariant 𝔽ₚ-linear
+including 2, 3, primes of bad reduction and primes at which `E[p]` is reducible. Prove also that a Galois-equivariant 𝔽ₚ-linear
 equivalence E[p] ≃ E′[p] transports residual attachment. Neither assertion needs
 residual irreducibility. For reducible representations the shared predicate's
 integral-model interpretation identifies semisimplifications; it does not identify a
 nonsplit extension with its semisimplification. The first theorem uses the exact level
-and all-coefficient comparison of R29.4. Witness existence below uses the global Serre
-export directly, without this attached-form theorem.
+and all-coefficient comparison of R29.4.
 
-*Source and prerequisites.* Serre §3.3, (3.3.1), p. 198, and §4.6, pp. 207–208,
-with the unconditional theorem supplied by ClassicalSerreModularity §R27.6.
+*Source and prerequisites.* Serre §3.3, (3.3.1), p. 198.
 The coefficient-prime and integral-model equivalences are supplied by
 AlgebraicModularFormsAndSerreWeights §7.5. Good Frobenius traces and cyclotomic
 determinants use ArithmeticGaloisRepresentations §§6.1–6.2.
@@ -527,7 +384,7 @@ determinants use ArithmeticGaloisRepresentations §§6.1–6.2.
 **Checks.**
 
 - For 11a1, residual attachment at p=5 to the level-11 form holds although E[5] is
-  reducible and 5 belongs to Σ_E. Its semisimplification is 1 ⊕ χ̄₅; Frobenius 2
+  reducible. Its semisimplification is 1 ⊕ χ̄₅; Frobenius 2
   has trace 3 and determinant 2, giving X²−3X+2. Rational integral coefficients
   permit k=𝔽₅, and extension to 𝔽₂₅ preserves attachment.
 - At p=3 the level-11 form gives trace −2=1 and determinant 2 at Frobenius 2.
@@ -536,141 +393,28 @@ determinants use ArithmeticGaloisRepresentations §§6.1–6.2.
   p≠5, so transport applies. At p=5 its torsion map is not an equivalence;
   attachment of both curves instead follows from their attached characteristic-zero form.
 
-For E elliptic over ℚ, positive N and prime p, define a **Serre witness** to consist
-of a normalized newform of weight two and primitive level N, trivial character,
-and residual attachment of E to that form at p. A maximal ideal above p in the
-algebraic integers in ℂ, with a compatible residue embedding realizing the single
-coefficient map, follows from AlgebraicModularFormsAndSerreWeights §7.5's
-coefficient-prime equivalence after embedding k into 𝔽̄ₚ. These are derived data.
-For every p outside Σ_E, prove existence of a Serre witness at N_E, and choose
-one, with form gₚ. ClassicalSerreModularity §R27.6 supplies this existence without
-any residual modularity assumption on E.
-
-The ClassicalSerreModularity §R27.6 export uses newforms and `𝔽̄_p` coefficients.
-The witness-existence theorem includes passage to the finite-field predicate:
-restrict the full coefficient reduction to its finite image in `𝔽̄_p`, take the
-finite subfield k that it generates, and extend `E[p]` from `𝔽_p` to k in a chosen
-basis. Finiteness follows because the coefficient ring lies in the integers of the
-coefficient number field and is a finite ℤ-module (ModularForms Layers 4 and 8G).
-The Frobenius identities descend along the injective map `k → 𝔽̄_p`.
-The supplier's coefficient-extension theorem then carries them to any larger finite field. Descent of
-this coefficient map to `𝔽_p` requires its full image to lie there.
-
-The character and comparison properties are accessed through the API:
-
-* The chosen form gives trivial nebentypus. Weight two and exact level
-  N_E are part of the form's type.
-* The trace comparison gives `A_ℓ(g_p)−a_ℓ(E)∈λ_p` at every prime `ℓ∤N_Ep`,
-  using the prime `λ_p` and residue embedding derived from the shared coefficient map.
-* The residual comparison gives
-  `ρ̄_(g_p,λ_p) ≃ ρ̄_(E,p)⊗_(𝔽_p)k_(λ_p)` after compatible coefficient extension.
-  Absolute irreducibility outside `Σ_E` upgrades the semisimple comparison to an
-  isomorphism of representations. The actual Galois-stable lattice of the form is
-  retained in this comparison.
-
-The newform is primitive at the exact level `N_E`, rather than merely an eigenform in a
-space at that level. This property is what lets the next layer take its finite range
-inside the normalized newforms of level `N_E`. In a formulation passing first through
-characteristic `p`, the integral Hecke lattice and eigenvalue lifting supply the
-characteristic-zero form. The residual representation is compared after
-semisimplification as in the automorphic residual interface. Absolute irreducibility of
-`E[p]` ensures that this comparison is adequate.
-
-The ring of all algebraic integers used in the witness is convenient for choosing a
-prime before choosing one coefficient field. In the norm argument it is restricted to
-the finite field generated by a particular newform's coefficients. The prime ideals then
-lie in its ring of integers, where the norm is defined by a finite free ℤ-module. No
-norm of the entire ring of algebraic integers in ℂ is used.
-
-*Sources and prerequisites.* Serre, §3.3, (3.3.1 with its conjectural marker), p. 198,
-and its application in §4.6, p. 207, give the weight-two residual modular data. The
-input is ClassicalSerreModularity §R27.6, *Serre’s modularity conjecture, strong form*,
-and *The finite-flat weight-two export*, at each prime outside Σ_E.
-The other inputs are finite-flat weight two in this layer, the residual irreducibility
-and conductor in R29.1, Mathlib `CuspForm`, and Tau Ceti `HeckeRing.GL2.Newform`. The
-automorphic residual representation is the interface of AutomorphicGaloisRepresentations
-**§6.2**. The export supplies the characteristic-zero newform directly; its use
-requires neither residual modularity as an input nor an attached form for E.
-
-### Trivial character from reduction
-
-A separate elementary assertion explains how to recover the characteristic-zero trivial
-character from a congruence. Suppose `K` is a number field, `p` is prime, `𝔭⊂𝓞_K` is a prime above `p`, and `ζ∈𝓞_K` satisfies
-
-`ζ^m=1, p∤ m, ζ-1∈𝔭.`
-
-Then `ζ=1`. Reduction is injective on
-roots of unity of order prime to `p`. One proof uses the factorization of `ζ^m-1`:
-if `ζ≠1`, the sum of the `m` powers is zero, but its reduction is `m`, which is
-nonzero in characteristic `p`. This proof also makes the prime-to-`p` condition
-explicit.
-
-The character consequence holds for any
-finite group G: an algebraic-integer-valued unit character reducing to 1 at a prime
-above p is trivial if p does not divide `#G`.
-Consequently, if a character `ε` of `(ℤ/Nℤ)^×` takes
-algebraic-integer root-of-unity values, reduces to 1 at a prime above `p`, and
-`p∤φ(N)`, then `ε=1`. The order of every value divides `φ(N)`.
-The condition on `φ(N)` is used in this reduction argument; the chosen Serre
-witness already has trivial character by the weight-two export and does not need this
-additional exclusion.
-
-The coprimality hypothesis is essential. At level 5 and residual prime 2, a quadratic
-character has values `±1`, both reducing to 1. Thus a character may reduce to the
-trivial character without being trivial when its order is divisible by `p`. Primality of
-the rational integer called `p` is also a genuine hypothesis: an ideal containing a
-composite integer need not have that characteristic.
-
-*Source and prerequisites.* This isolates the character reasoning in Serre, §3.3, p.
-198, with the determinant convention of §1.3, p. 181. Mathlib `IsPrimitiveRoot` and
-`Nat.totient` provide the root-order and unit-group vocabulary. The proof is an
-algebraic-integer reduction argument and assumes a proper prime ideal above the
-specified rational prime.
-
-### Examples and witness Checks
-
-For p=7 the witness construction uses ClassicalSerreModularity §R27.6 and the
-nonexceptionality Check. Three controls also apply to a Serre witness for E at level N_E and prime p: the first coefficient
-is 1, the maximal ideal contains p but excludes 1, and the zero ideal cannot serve as
-a prime above a nonzero rational prime in the algebraic-integer domain.
+### Examples
 
 At level 11 the normalized weight-two form is
 
 `f_(11)(z)=η(z)²η(11z)² =q∏_(n≥1)(1-q^n)²(1-q^(11n))².`
 
 Assume its eta-product identity, newness and first coefficients
-`A_1=1, A_2=-2, A_3=-1` as the explicit level-11 data for these Checks. The one-dimensional newform space
-means that the witness's selected prime may vary while its form at `p=7` is fixed.
-
-* The level-11 example asserts that the form of the witness of 11a1 at
-  7 is `f_(11)`, as a function on the upper half-plane. The preceding
-  nonexceptionality Check at 7 supplies the domain condition.
-* The Frobenius-2 example asserts the exact values
-  `A_2(g_7)=-2=a_2(11a1)`. In particular the congruence API must
-  specialize correctly at a good prime distinct from 7.
-* The exceptional-prime example asserts `5∈Σ_(11a1)`
-  and reducibility of `E[5]`. Its rational point (`5,5`) spans an
-  invariant line. A witness with the irreducible Serre hypotheses is
-  therefore not supplied at 5.
-
-These tests use the eta function and its q-expansion, finite-field point counts, and the
-torsion action. Their mathematical role is to test the exact level, normalization, trace
-convention, and domain of the witness construction, not merely to exhibit a cusp form
-congruent to `E`.
+`A_1=1, A_2=-2, A_3=-1` as the explicit level-11 data for the Checks of this layer and
+the next. The residual Checks above at 3 and 5 use this form.
 
 ### Dependencies
 
-*Needs:* Layer R29.1; FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.6.1;
-AlgebraicModularFormsAndSerreWeights §§4.9 and 5.10;
-ClassicalSerreModularity §R27.6, Serre’s modularity conjecture, strong form, and
-The finite-flat weight-two export; AutomorphicGaloisRepresentations §6.2.
+*Needs:* Layer R29.4 for the attached-form theorem; AlgebraicModularFormsAndSerreWeights
+§7.5; ModularForms Layer 4; ArithmeticGaloisRepresentations §§6.1–6.2;
+AutomorphicGaloisRepresentations §6.2.
 
 ## Layer R29.3: One newform with exact coefficients
 
-Congruences at infinitely many rational primes can be used one coefficient at a time.
-The key is to choose a single form on an infinite set of residual characteristics before
-taking norms. This layer also defines the attachment predicate independently of
-existence, proves its uniqueness, and determines the coefficient field.
+This layer defines the attachment predicate independently of existence, proves its
+uniqueness, and determines the coefficient field. It then obtains an attached newform for
+every elliptic curve over ℚ, as the case `K=ℚ` of the modularity theorem over totally real
+fields, and selects the newform of the curve.
 
 ### Vanishing of an algebraic integer
 
@@ -695,14 +439,12 @@ The number-field form does require infinitely many different rational characteri
 single congruence is inadequate: `2∈(2)`, yet `2≠0`. A finite extension has only
 finitely many primes above a fixed rational prime, so an assertion phrased merely as
 repeated membership at one characteristic cannot establish the conclusion. The element
-must also be integral. The comparison applies to `A_ℓ(F)-a_ℓ(E)`, whose two
-summands are integral, without clearing a denominator that depends on `p`.
+must also be integral.
 
 *Source and prerequisites.* This supplies the algebraic justification of Serre, §4.6,
 (4.6.4), p. 208. Its direct library inputs are `NumberField.RingOfIntegers`,
 `Algebra.norm`, `Algebra.norm_eq_zero_iff`, and `Int.eq_zero_of_abs_lt_dvd`, with the
-finite free integral-basis structure of a number field's integers. The number-field norm
-is taken after fixing the form and its field.
+finite free integral-basis structure of a number field's integers.
 
 Small checks distinguish the hypotheses: no infinite set of natural numbers can all
 divide 6; the infinite set of primes has an infinite fibre under a map to two congruence
@@ -762,62 +504,50 @@ The defining predicate has three Checks:
   This test follows from the explicit character clause, regardless
   of any sample coefficient agreement.
 
-### From infinitely many congruences to one exact form
+### Existence of an attached newform
 
-Given an infinite set P of prime characteristics and forms `F_p : Newform N 2`
-with trivial character and residual attachment of E to Fₚ at p for each p in P,
-prove that there is a normalized newform `F` of weight two,
-level N, and trivial character with
+For every elliptic curve E over ℚ, prove that there is a normalized newform `F` of weight
+two, level `N_E` and trivial character with
 
-`A_ℓ(F)=a_ℓ(E) for every prime ℓ∤ N.`
+`A_ℓ(F)=a_ℓ(E) for every prime ℓ∤ N_E,`
 
-Start with the infinite set of primes outside the finite set `Σ_E`. Apply the
-unconditional witness construction of R29.2, using ClassicalSerreModularity §R27.6, to
-each. The finite collection of normalized forms at level `N_E`
-has an infinite fibre, so one form `F` occurs for infinitely many distinct residual
-primes `p`. The prime above `p` is allowed to vary. The target takes the infinite prime
-domain, the form family, trivial character and shared attachment predicates as explicit hypotheses at a fixed positive level N;
-the elliptic application uses `N=N_E`. The coefficient-prime comparison in
-R29.2 derives all trace congruences from these predicates. At a general level N,
-these hypotheses also imply good reduction at every `ℓ∤N`: choose a p in P outside
-`Σ_E` and different from ℓ. Attachment gives residual unramifiedness at ℓ, while R29.1
-identifies its conductor with `N_E`, so `ℓ∤N_E`. Thus the coefficient argument applies
-at every `ℓ∤N` without assuming the level-conductor equality in advance.
-Fix such a prime ℓ and remove
-`p=ℓ` from this infinite set. The witness trace congruence puts `A_ℓ(F)-a_ℓ(E)`
-in a prime above every remaining `p`. Restrict those ideals to `𝓞_(K_F)`; they
-remain primes above their respective rational characteristics. Norm vanishing gives the
-exact equality for this ℓ. Repeat for each good ℓ using the same form `F`, while
-allowing the infinite subset with `p≠ℓ` to depend on ℓ.
+so that `IsNewformOf E F`. This is the case `K=ℚ` of EllipticCurveModularityTotallyReal §4.4,
+which holds for every totally real field and every elliptic curve over it, with no further
+hypothesis. For `K=ℚ` it gives a cuspidal automorphic representation `π_E` of `GL₂(𝔸_ℚ)` of
+type `(2,0)`, with trivial central character, whose attached representation is
+`H¹_ét(E_ℚ̄, ℚ̄_ℓ)` for every ℓ and every coefficient isomorphism; its newvector has exact
+level the conductor of E, and at every good prime ℓ its Hecke eigenvalue is
+`t_ℓ=a_ℓ(E)` (§4.2 there, items 6 and 7). The conductor there is the Artin conductor of the
+ℓ-adic representations of E for ℓ prime to the place, which is `N_E` of R29.4. Over ℚ the
+dictionary of GL2AutomorphicRepresentationsAndTransfer R16.6.1–R16.6.2 identifies `π_E` with
+the cuspidal representation of a normalized newform `F` of weight two, trivial character and
+level the conductor of `π_E`, whose eigenvalue at a good prime is that of `π_E`; by the
+classical specialization of AutomorphicGaloisRepresentations §3.10 the representations of `F`
+are those of `π_E`. Hence `A_ℓ(F)=a_ℓ(E)` at every good ℓ.
 
-No uniform choice of one residual prime works for all ℓ, and none is needed. The object
-held fixed throughout the coefficient argument is the form in the infinite fibre.
-Conversely, allowing the form itself to vary with `p` while taking a norm would compare
-elements in different coefficient fields and would not establish equality of any one
-form's coefficients.
+Attachment does not need the exact level: R29.4 identifies the level of every attached form
+with `N_E`. The existence proof uses no residual representation of E; geometric CM curves are
+included, through the CM case of §4.4 there.
 
-The exact level here follows from the exact-level witness. The historical argument can
-first produce a primitive form at a divisor of `N_E`, then use local compatibility to
-show that the divisor is `N_E`. The conditional exact-conductor theorem in R29.4 retains
-that useful comparison for any attached form; it does not need the witness construction
-as a hypothesis.
+*Source and prerequisites.* EllipticCurveModularityTotallyReal §4.4 with `K=ℚ` and its §4.2
+for the eigenvalues and the level; GL2AutomorphicRepresentationsAndTransfer R16.6.1–R16.6.2
+for newforms and cuspidal representations of `GL₂(𝔸_ℚ)`; AutomorphicGaloisRepresentations
+§3.10 for the classical specialization of the Hilbert attachment.
 
-*Sources and prerequisites.* This is Serre, §4.6, proof of Theorem 4, pp. 207–208. The
-eigenvalue lifting used on the way to the characteristic-zero form is Serre (3.1.6), pp.
-194–195, and Deligne–Serre, Lemme 6.11, p. 522. Import the latter from
-AlgebraicModularFormsAndSerreWeights **§5.10, Deligne–Serre eigenvalue lifting**.
-Lifting preserves the eigenvalues after a finite extension; it does not promise that an
-arbitrarily specified eigenvector itself lifts. The direct inputs in this roadmap are
-the Serre witnesses in R29.2, the infinite-fibre and norm-vanishing assertions above,
-and the attachment predicate. Finiteness of the forms is ModularForms Layer 4.
+**Checks.**
+
+- For 11a1, `π_E` has `t₃ = a₃ = −1` and `s₃ = 1`, and the newform is `f_(11)`, with
+  `A_3=-1`.
+- A weight-two newform with nontrivial character cannot arise: the central character of
+  `π_E` is trivial.
 
 ### Rationality of the whole coefficient field
 
 For any attached newform `F` of any level, the headline statement
 `IsNewformOf.coeff_int` in `Suggested.lean` asserts that each
 `A_n(F)` is a rational integer. In particular `K_F=ℚ`. This conclusion applies
-to an attached form provided by a geometric construction as well as to the form just
-constructed by congruences.
+to an attached form provided by a geometric construction as well as to the form given
+by the existence theorem above.
 
 For every embedding `σ:K_F↪ℂ`, the conjugate form `F^σ`
 is a normalized newform of the same level, with coefficients `σ(A_n(F))`. Its
@@ -846,10 +576,8 @@ input, as in Cremona §2.6, pp. 24–25.
 
 For every elliptic E over ℚ, define F_E to be an attached normalized newform of
 weight two and level N_E, with positivity supplied by the conductor contract.
-Choose it from the unconditional existence
-theorem: ClassicalSerreModularity §R27.6 supplies the witnesses of R29.2, and
-the exact-coefficient existence theorem gives exact good coefficients. Attachment uniqueness proves
-independence from the selected witness. The selected-form API and its isogeny and twist
+Choose it from the existence theorem above. Attachment uniqueness proves
+independence from that choice. The selected-form API and its isogeny and twist
 Checks require no existence input for the curves. The API is:
 
 * Attachment: `IsNewformOf E F_E`.
@@ -865,9 +593,8 @@ first as equality of levels and coefficients, and then transported to the common
 type. This avoids concealing a level-identification requirement inside an untyped
 equation.
 
-*Source and prerequisites.* Serre, §4.6, p. 208, supplies the existence and
-rationality conclusion. The direct inputs are the exact good-coefficient existence
-theorem, attachment and uniqueness, the rational-coefficient-field assertion, and Tau
+*Source and prerequisites.* The direct inputs are the existence theorem above,
+attachment and uniqueness, the rational-coefficient-field assertion, and Tau
 Ceti `HeckeRing.GL2.Newform`. ModularForms Layer 4 supplies the new/old distinction
 needed in the following tests.
 
@@ -901,15 +628,16 @@ residual characteristics.
 
 ### Dependencies
 
-*Needs:* Layers R29.1–R29.2 and ClassicalSerreModularity §R27.6, The finite-flat
-weight-two export, for existence; ModularForms Layers 4, 5 and 8G;
-Mathlib `Finite.exists_infinite_fiber`, `Algebra.norm` and `Algebra.norm_eq_zero_iff`.
+*Needs:* EllipticCurveModularityTotallyReal §§4.2 and 4.4,
+GL2AutomorphicRepresentationsAndTransfer R16.6.1–R16.6.2 and
+AutomorphicGaloisRepresentations §3.10, for existence; ModularForms Layers 4, 5 and 8G;
+Mathlib `Algebra.norm` and `Algebra.norm_eq_zero_iff`.
 Attachment uniqueness and rationality use only the attached-form hypothesis.
 
 ## Layer R29.4: Tate modules, exact conductor and every Euler factor
 
 This layer starts with an arbitrary attached newform `F` of level `M`. Its hypotheses do
-not include a Serre witness or the existence construction of `F_E`. All its coefficients
+not include the existence theorem of R29.3 or the choice of `F_E`. All its coefficients
 are integers by R29.3, so its Galois representations can be compared with `V_r(E)` over
 `ℚ_r`. The comparison is global first, then local, with the bad-place monodromy
 retained.
@@ -1261,7 +989,7 @@ The geometric converse starts with a surjective homomorphism `J_0(N')→ E`, whe
 is an arbitrary positive integer. It recovers an attached primitive form at a divisor of
 `N'`. The conditional comparisons of R29.3–R29.5 then force that divisor to be `N_E`.
 This proves the equivalence of the modularity formulations separately from their
-unconditional truth from ClassicalSerreModularity §R27.6, and prevents a geometric
+unconditional truth, which comes from the existence theorem of R29.3, and prevents a geometric
 presentation at a larger level from being mistaken for the conductor.
 
 ### Absolute irreducibility of the rational Tate module
@@ -1304,8 +1032,7 @@ FaltingsFinitenessAndIsogenyTheorems **§R28.6.3**,
 **R29.1** assertion `End_ℚ(E)=ℤ`, together with
 ArithmeticGaloisRepresentations **§§6.1–6.3** for the representation. The matrix-algebra
 step uses RepresentationTheory/SemisimpleAlgebras Layer 3, finite-dimensional density and the double-centralizer
-theorem for semisimple modules, in the faithful simple-module/scalar-commutant case. None of the residual
-Serre witnesses is an input.
+theorem for semisimple modules, in the faithful simple-module/scalar-commutant case.
 
 ### Surjectivity on rational Tate modules
 
@@ -1344,7 +1071,7 @@ Let `N'≥1` and let `π:J_0(N')→ E` be a surjective homomorphism over ℚ. Th
 the Jacobian-quotient converse gives a divisor `M∣ N'` and a normalized weight-two
 newform `f` of level `M` and trivial character attached to `E`. It follows that `M=N_E`,
 `N_E∣ N'`, all coefficients of `f` are integers, and `A_ℓ(f)=a_ℓ(E)` for every
-prime ℓ. The geometric hypothesis alone supplies this result; classical Serre modularity
+prime ℓ. The geometric hypothesis alone supplies this result; the existence theorem of R29.3
 is not used in its proof.
 
 The old/new decomposition over ℚ has the form
@@ -1466,14 +1193,14 @@ For every elliptic curve `E/ℚ` of conductor
 The statement `modularity` in `Suggested.lean` presents the newform formulation.
 The first assertion is R29.3 and R29.4 for `F_E`; the second composes the
 quotient map with the isogeny in R29.5; the third is the parametrisation there.
-ClassicalSerreModularity §R27.6 supplies the witness existence used in their proofs,
-so all three conclusions are unconditional. The Lean target `modularity` exhibits a
+The existence theorem of R29.3, the case `K=ℚ` of EllipticCurveModularityTotallyReal
+§4.4, makes all three conclusions unconditional. The Lean target `modularity` exhibits a
 positive level with an attached form and the all-coefficient identity. The exact-level
 refinement at level N_E is the selected form F_E; the
 exact-conductor comparison identifies the existential level with the conductor. The residual corollary gives attachment at level N_E for every prime p,
-by the attached-form-to-residual-attachment theorem of R29.2. It has no nonexceptionality or residual
+by the attached-form-to-residual-attachment theorem of R29.2. It has no residual
 irreducibility hypothesis; it does not assert that the residual conductor equals `N_E`
-at those excluded primes.
+at primes of bad reduction or at primes where `E[p]` is reducible.
 
 For an individual curve, there is also an equivalence without that existence input: an
 attached newform at some positive level, a surjective homomorphism `J_0(N')→ E` at
@@ -1627,22 +1354,6 @@ the functional equation. The extension of the Mellin comparison uses
 `LFunction_LSeriesSummable`, Mathlib `NumberTheory/LSeries/Deriv.lean` and the analytic
 identity theorem.
 
-### Theorem 4 and the real multiplication boundary
-
-The modularity assertion above is the conclusion of Serre's Theorem 4, §4.6, p. 207: the
-weight-two trivial-character case of classical Serre modularity implies modularity of
-every elliptic curve over ℚ. Its deduction is exactly the chain R29.1–R29.5 and the
-formulation theorem in this layer. It uses residual representations at infinitely many
-distinct primes and then Faltings's isogeny criterion; it does not assume that the
-starting elliptic curve is modular.
-
-The real-multiplication extension of Serre §4.7, Theorem 5, pp. 208–210 is
-motivation for a separate roadmap, rather than an implementation target here. Its
-compatible-system, conductor-power and residual-comparison development in
-(4.7.1)–(4.7.6), and the repeated-witness and isogeny argument in dimension n,
-lie outside this elliptic roadmap. Theorem 4 does not assert general GL₂-type
-modularity over other fields or a Birch–Swinnerton-Dyer special-value formula.
-
 ### Examples
 
 The old multiplicity two at level 22, the quadratic coefficient field at level 23,
@@ -1651,9 +1362,8 @@ nonvanishing example tests the normalization of the completed L-function.
 
 ### Dependencies
 
-*Needs:* Layers R29.1–R29.5 as specified for each implication; ClassicalSerreModularity
-§R27.6, Serre’s modularity conjecture, strong form, and The finite-flat weight-two export,
-for existence; ModularCurvesPartII §§16.3–16.7 and §17.3;
+*Needs:* Layers R29.1–R29.5 as specified for each implication, with the existence
+theorem of R29.3 for the unconditional statements; ModularCurvesPartII §§16.3–16.7 and §17.3;
 FaltingsFinitenessAndIsogenyTheorems §§R28.6.2–R28.6.3; ArithmeticGaloisRepresentations
 §6.1; AbelianSchemesAndArithmeticModuli A4.1 and A6.5; RepresentationTheory/SemisimpleAlgebras Layer 3;
 ModularForms Layers 4, 7 and 8G; JacobianChallenge Layer F; EllipticCurves Layer 3
@@ -1663,22 +1373,18 @@ norm fibres, convolution and convergence; Mathlib `NumberTheory/LSeries/Convolut
 
 ## Downstream consumers
 
-The construction of `F_E` uses R29.1, then R29.2, then the finite-range and norm
-arguments in R29.3. The finite witness range and infinitude of distinct residual
-characteristics must be available before one coefficient field is fixed for the norm.
-This order is what turns residual congruences into a characteristic-zero object.
-
-Within R29.3, attachment and uniqueness are defined before any selected `F_E`.
+Within R29.3, attachment and uniqueness are defined before any selected `F_E`, and
+the existence of an attached newform is the case `K=ℚ` of
+EllipticCurveModularityTotallyReal §4.4.
 Rationality applies to every attached form. The conditional comparison chain starts
 there, passes through R29.4 to the isogeny theorem of R29.5, and supplies the geometric
 equivalence in R29.6. The Jacobian-quotient converse also uses absolute irreducibility
 from Faltings and the exhaustive old/new decomposition. It has no dependency on the
-Serre witnesses or on the definition of a selected `F_E`. The unconditional existence
-assertion uses ClassicalSerreModularity §R27.6 and the Serre witnesses to establish
-the equivalent formulations.
+existence theorem or on the definition of a selected `F_E`. The existence theorem
+establishes the equivalent formulations unconditionally.
 
-The reusable outputs are the finite exceptional set with its local and global clauses;
-residual witness data at its complement; the attachment predicate and cross-level
+The reusable outputs are the rational endomorphism theorem and the rational isogeny
+relations; residual attachment of an attached form at every prime; the attachment predicate and cross-level
 uniqueness; the newform `F_E` and all-coefficient identity; an isogeny from the J₀
 quotient; the chosen parametrisation with its cusp, degree and differential properties;
 and the entire completed L-function with its functional equation. Each uses the general
@@ -1731,8 +1437,7 @@ variety over ℚ, so the overlap is small.
   there: no curve is proved modular in the folder. `IsNewformOf` and `modularity` ask for a
   newform of trivial character, and `modularity` for agreement of every coefficient.
 
-These are the only points of contact. `rationalEndomorphisms_eq_int`, the exceptional set
-and the residual representation of R29.1, R29.2, the theorems of R29.3, the conductor and
+These are the only points of contact. `rationalEndomorphisms_eq_int`, R29.2, the theorems of R29.3, the conductor and
 bad Euler factors of R29.4, R29.5 and R29.6 have no counterpart there. Its theorem that
 endomorphisms are multiplications by integers
 (`WeierstrassCurve.isogenyEnd_eq_zsmul_of_transcendental_j`) assumes a `j`-invariant
@@ -1769,17 +1474,13 @@ following divisions of responsibility determine the interfaces.
   finiteness at fixed weight and level, the old/new decomposition, strong
   multiplicity one across levels, L-functions, and Galois conjugation of
   coefficients. The general theory of those constructions stays there.
-* ClassicalSerreModularity **§R27.6, Serre’s modularity conjecture, strong form**,
-  supplies unconditional global residual modularity. Its **finite-flat weight-two
-  export** supplies a weight-two newform of exact residual conductor and trivial
-  character. SerreWeightAndLevelOptimisation §4.8 supplies the corresponding
-  optimization for an already modular residual representation.
-* FiniteFlatGroupsAndIntegralPadicHodgeTheory
-  **§R07.6.1** and
-  AlgebraicModularFormsAndSerreWeights
-  **§4.9, The weight-two criterion** supply the integral and weight
-  comparisons. Eigenvalue lifting belongs to
-  **§5.10, Deligne–Serre eigenvalue lifting**.
+* EllipticCurveModularityTotallyReal **§4.4**, the modularity theorem over totally
+  real fields, supplies at `K=ℚ` the cuspidal automorphic representation of every
+  elliptic curve over ℚ. GL2AutomorphicRepresentationsAndTransfer **R16.6.1–R16.6.2**
+  supply the dictionary between normalized newforms and cuspidal representations of
+  `GL₂(𝔸_ℚ)` that turns it into a classical newform.
+* AlgebraicModularFormsAndSerreWeights **§7.5** supplies the residual attachment
+  predicate.
 * AutomorphicGaloisRepresentations **§1.5**, **§6.4** and **§§6.1–6.2** supplies
   the representations of newforms, their full local compatibility, and their
   realization in the Tate modules of modular quotients.
@@ -1802,8 +1503,8 @@ is the specialization to ℚ.
 The analytic output is continuation and a functional equation for `L(E,s)`. Its
 consumers include EllipticCurves Layer 7 and RankZeroOneBSD. The rank formula,
 special-value formula, Tate–Shafarevich group, and the arithmetic parts of
-Birch–Swinnerton-Dyer belong to those further theories. The real-multiplication extension
-is motivation for a separate roadmap, as described at the end.
+Birch–Swinnerton-Dyer belong to those further theories. Modularity of abelian varieties
+of GL₂-type over ℚ belongs to EllipticCurveModularityPartIIGL2TypeAbelianVarieties.
 
 ## Exact supplier contracts
 
@@ -1815,9 +1516,6 @@ are used with their stated generality.
 | `WeierstrassCurve.j` | `j_E=c_4³/Δ` for a nonsingular model |
 | `Set.Finite`, `Set.Infinite` | finite and infinite sets, using their subtype cardinality |
 | `CuspForm` | bundled cusp forms for a subgroup of `GL₂(ℝ)`, holomorphic and vanishing at all cusps |
-| `IsPrimitiveRoot` | a root of unity with specified exact order |
-| `Nat.totient` | the cardinality of the unit group modulo the level |
-| `Finite.exists_infinite_fiber` | an infinite type mapping to a finite type has an infinite fibre |
 | `NumberField.RingOfIntegers` | the integral closure of ℤ in a number field |
 | `Algebra.norm` | determinant of multiplication in a finite free extension |
 | `Algebra.norm_eq_zero_iff` | in a finite free extension of domains, norm zero is equivalent to element zero |
@@ -1888,22 +1586,7 @@ supply the elliptic conductor, residual conductor formulas, equation/scheme redu
 comparisons and the comparison with Mathlib's local polynomial, retaining the wild
 terms at 2 and 3. In particular the conductor is positive, good reduction is equivalent
 to prime-to-conductor, and multiplicative reduction is equivalent to conductor exponent
-one. The actual residual module and its semisimplification have different conductor
-contracts; the equality formula here uses the actual module, which is absolutely
-irreducible outside the exceptional set.
-
-FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.6.1 supplies finite-flat torsion of
-the good-reduction abelian scheme. AlgebraicModularFormsAndSerreWeights §4.9,
-*The weight-two criterion*, supplies the extension-sensitive weight recipe, and
-§5.10, *Deligne–Serre eigenvalue lifting*, supplies a characteristic-zero
-eigencharacter after finite fraction-field extension and a dominating DVR. It does not
-lift a prescribed eigenvector. ClassicalSerreModularity §R27.6,
-*The finite-flat weight-two export*, supplies a normalized weight-two newform of
-trivial character at the exact prime-to-p residual conductor for a continuous odd
-absolutely irreducible representation finite flat at p ≥ 5 with cyclotomic determinant.
-At a prime outside Σ_E, residual conductor equality identifies this level with N_E.
-SerreWeightAndLevelOptimisation §4.8, *Finite-flat weight-two optimisation*, also
-supplies this optimization when residual modularity is given directly.
+one.
 
 AlgebraicModularFormsAndSerreWeights §§6.1–6.2 supply the classical rank-two newform
 representation. AutomorphicGaloisRepresentations §§1.5, 6.1–6.2 and 6.4 supply its
@@ -1936,118 +1619,37 @@ projective curve/function-field degree. JacobianChallenge Layer F supplies the
 Abel–Jacobi universal property over the stated ground field.
 
 FaltingsFinitenessAndIsogenyTheorems §§R28.4.5–R28.4.7 supply semisimplicity,
-Tate–Hom and the isogeny criterion for abelian varieties. Its §§R28.6.1–R28.6.6
-supply the elliptic bridge, semisimplicity, Tate–Hom, isogeny criterion, finiteness of
-the elliptic isogeny class, and the infinite-cyclic Hom statement under
-`End_ℚ(E′) = ℤ`. That last hypothesis is not an automatic consequence of Faltings's
-Tate–Hom theorem. The ℚ-endomorphism assertion is established as the first target of
-Layer R29.1 below, including geometric CM curves.
+Tate–Hom and the isogeny criterion for abelian varieties. Its §§R28.6.1–R28.6.4
+supply the elliptic bridge, semisimplicity, Tate–Hom and the isogeny criterion. The
+ℚ-endomorphism assertion is established as the first target of Layer R29.1, including
+geometric CM curves.
 
-### Classical Serre theorem for existence
+### Totally real modularity for existence
 
-ClassicalSerreModularity §R27.6, **Serre’s modularity conjecture, strong form**
-(`R27.6/full-classical-serre-theorem`), supplies the unconditional theorem: for every
-prime p, every continuous odd absolutely irreducible
-`ρ̄ : G_ℚ → GL₂(𝔽̄_p)` arises from a normalized newform of Serre weight `k(ρ̄)`
-and prime-to-p conductor `N(ρ̄)`, with character lifting the predicted residual character.
-Its **finite-flat weight-two export** (`R27.6/finite-flat-weight-two-export`) gives
-weight two, exact level `N(ρ̄)` and trivial character when p ≥ 5, the actual local
-representation is finite flat at p, and `det ρ̄ = χ̄_p`. It includes a coefficient
-prime above p, residual isomorphism and trace congruences away from `pN(ρ̄)`.
+EllipticCurveModularityTotallyReal §4.4 supplies, for every totally real number field K and
+every elliptic curve E over K, a cuspidal automorphic representation `π_E` of `GL₂(𝔸_K)` of
+type `(2,0)`, with trivial central character and unique up to isomorphism, whose attached
+representation is `H¹_ét(E_K̄, ℚ̄_ℓ)` for every ℓ and every coefficient isomorphism, with all
+the local statements of its §4.2: the newvector has exact level the conductor, and at a good
+place the Hecke eigenvalue is the Frobenius trace of E. It has no hypothesis on E, and
+geometric CM curves are included. This roadmap uses the case `K=ℚ`.
 
-For `E[p]` with p outside Σ_E, R29.1 and finite-flat torsion supply all these
-hypotheses. Thus witness existence and the resulting modularity of E have no residual
-modularity assumption. The global theorem is owned by ClassicalSerreModularity;
-this roadmap owns its elliptic deduction, as in Serre §4.6, Theorem 4.
-Khare–Wintenberger, *Serre’s modularity conjecture (I)*, Theorems 1.2 and 9.1,
-author pp. 2–3 and 18–19, with the modularity-lifting theorem supplying (H), is the
-source ([author manuscript](https://www.math.ucla.edu/~shekhar/papers/results.pdf)).
-
-The reusable exact-coefficient existence theorem instead takes an infinite family of
-exact-level witnesses with character and trace comparisons. These are curve-specific
-congruence data, weaker than a theorem for all odd irreducible residual representations;
-its proof needs no global modularity theorem. The attached-form comparison theorems
-likewise start with an attached form rather than the existence construction.
-
-### Finite witness range
-
-For an infinite set `P⊆ℕ`, a finite type `I`, and a map `u:P→ I`,
-there is an `i∈ I` such that `u^(-1)(i)` is infinite. The supplied theorem permits restriction to the subtype of P and gives the infinite set `{p ∈ P | u(p) = i}`. It is a direct specialization of Mathlib `Finite.exists_infinite_fiber`
-to the subtype of `P`. The finite type can be equipped with a `Finite` instance; there
-is no need to choose a particular enumeration.
-
-For use with modular forms, the finite type consists of normalized newforms of fixed
-weight and level with the relevant character. The finite-dimensional space alone does
-not make all of its vectors a finite set. It is the normalized Hecke eigenforms in its
-new subspace that form a finite collection. Normalization removes the infinitely many
-scalar multiples of a nonzero eigenvector.
-
-*Source and prerequisites.* This is the finite-choice step of Serre, §4.6, p. 208. Its
-set-theoretic content imports Mathlib `Finite.exists_infinite_fiber` and `Set.Infinite`.
-The modular finiteness theorem is supplied by Tau Ceti ModularForms **Layer 4:
-Eigenforms, newforms, primitive forms, the conductor**
-([ModularForms roadmap](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ModularForms/README.md#layer-4-eigenforms-newforms-primitive-forms-the-conductor)).
-Tau Ceti supplies `Finite (Newform M k)` in
-`TauCeti.NumberTheory.ModularForms.Newforms.OrthogonalBasis`, derived from
-`HeckeRing.GL2.Newform.basis`. Restrict it to the trivial-character subtype for the witness range.
-
-
-### Residual conductor contract
-
-For every prime `p`, the supplied residual conductor comparison asserts
-
-`N(ρ̄_(E,p))∣ N_E.`
-
-At ℓ different from `p`, reduction of a stable lattice can enlarge the inertia-fixed
-subspace, so the tame conductor contribution cannot increase. The wild inertia image is
-a finite ℓ-group. Since its order is prime to `p`, averaging preserves the relevant
-dimensions and the Swan contribution under reduction. At `p` the residual conductor has
-no factor. These local comparisons give the global divisibility, including small
-residual characteristics; they do not assert equality there.
-
-For `p≥5`, the supplied local conductor formulas give
-
-`N(ρ̄_(E,p))=N_E ↔ p∤ N_E and p∤ v_ℓ(j_E) for every multiplicative prime ℓ.`
-
-The condition at `p` is necessary because the left side is prime to `p`. At a
-multiplicative prime ℓ different from `p`, pass through at most an unramified quadratic
-twist to a Tate curve with parameter `q_E`. Its inertia extension class on `E[p]` is
-controlled by `v_ℓ(q_E)=-v_ℓ(j_E)`. The extension becomes trivial precisely when
-`p` divides this integer. Its residual conductor exponent is then zero; otherwise it is
-one, matching the characteristic-zero exponent. The unramified twist changes the split
-sign but does not change this inertia criterion.
-
-At additive primes, the finite potentially good inertia action has order dividing 24,
-and its fixed-space and wild contributions survive reduction for `p≥5`. In the
-potentially multiplicative additive case, the ramified quadratic character retains the
-zero fixed-space contribution; the wild contribution is also unchanged. Thus the
-additive places impose no additional excluded primes beyond the small characteristics
-already listed. These assertions require the full local-reduction interface, especially
-at ℓ equal to 2 or 3.
-
-Serre states this conductor criterion for `p>5`. The formulation at `p=5` uses the same
-local argument, since 5 is prime to 24 and to the quadratic character's order. The
-existence proof below uses only `p∉Σ_E`, and hence only `p≥7`. Keeping that
-distinction visible prevents a source locator for the stricter statement from serving as
-the proof of the endpoint.
-
-*Sources and prerequisites.* Both conductor assertions come from Serre, §4.6, p. 207,
-the discussion between Lemma 5 and its application. The divisibility assertion imports ArithmeticGaloisRepresentations §§3.3 and 3.6
-and NeronModelsAndSemistableAbelianVarieties §5.3h, including the prime-to-p residual
-conductor comparison. The equality criterion also uses that local formula and Tau Ceti
-EllipticCurves **Layer 4: Elliptic curves over local fields — reduction, Tate's
-algorithm, the Tate curve**
-([EllipticCurves roadmap](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/EllipticCurves/README.md#layer-4-elliptic-curves-over-local-fields--reduction-tates-algorithm-the-tate-curve-aec-vii-ataec-ivv)).
+GL2AutomorphicRepresentationsAndTransfer R16.6.1, *Primitive newforms and holomorphic
+cuspidal classes*, and R16.6.2, *The complete level and Hecke dictionary*, supply over ℚ the
+correspondence between normalized newforms of weight k ≥ 2 on `Γ₁(N)` and cuspidal
+representations of `GL₂(𝔸_ℚ)` of conductor N, with the good-prime Hecke comparison.
+AutomorphicGaloisRepresentations §3.10 identifies, for `F=ℚ`, the representation attached to
+the automorphic representation of a newform with that of the newform.
 
 
 Names below are in the namespace `TauCetiRoadmap.EllipticCurveModularity`. The accompanying
 `Suggested.lean` states headline theorems on the pinned native carriers; it is not an
 exhaustive checklist. It defines `GQ`, `lCoeff`, `coeff`, `HasGoodReductionAt`,
-`HasMultiplicativeReductionAt`, `HasRationalCyclicSubgroup`, `exceptionalPrimes` and
+`HasMultiplicativeReductionAt`, `HasRationalCyclicSubgroup` and
 `IsNewformOf` to state those theorems. The remaining APIs are specified in mathematical prose.
 
-The Artin conductor of a two-dimensional ℓ-adic or residual Galois representation, the
-Serre weight and the shared residual attachment API are absent at the pins, as are
+The Artin conductor of a two-dimensional ℓ-adic or residual Galois representation and
+the shared residual attachment API are absent at the pins, as are
 rational modular curves, their Jacobians and modular quotients. Tau Ceti's
 `WeierstrassCurve.algorithmicConductor`, computed by Tate's algorithm, is not identified
 there with the conductor `N_E` of R29.4. The conductor-dependent and geometric targets
@@ -2057,25 +1659,17 @@ target of R29.4.
 
 ## References
 
-For the global Serre theorem supplied by ClassicalSerreModularity §R27.6, see Khare–Wintenberger,
-[*Serre’s modularity conjecture (I)*](https://www.math.ucla.edu/~shekhar/papers/results.pdf),
-Theorems 1.2 and 9.1, author pp. 2–3 and 18–19, and the Kisin modularity-lifting
-input (H) identified in §9. The elliptic deduction uses only residual modularity
-at infinitely many primes outside Σ_E.
+The existence of the automorphic representation of an elliptic curve over ℚ is supplied by
+EllipticCurveModularityTotallyReal §4.4, whose references give its sources.
 
 The proof is organized around the comparisons it needs. The main references and their
 roles are:
 
 * [J.-P. Serre, *Sur les représentations modulaires de degré 2 de
-  Gal`ℚ̄/ℚ`*, Duke Math. J. 54 (1987), 179–230][serre]. Proposition 4 in
-  §2.8, pp. 189–190, gives the finite-flat weight-two criterion; Proposition
-  5 in §2.9, pp. 191–192, treats elliptic torsion in the good and
-  multiplicative cases. The lifting discussion is §3.1, especially (3.1.6),
-  pp. 194–195. The weight-two specialization is §3.3, p. 198. Theorem 4,
-  Lemma 5, and (4.6.1)–(4.6.4) in §4.6, pp. 207–208, provide the modularity
-  argument; Theorem 5 in §4.7, pp. 208–210 (the theorem on p. 209), specifies
-  the real multiplication companion. The modularity input in the 1987 paper is
-  conjectural; ClassicalSerreModularity §R27.6 supplies it as a theorem.
+  Gal`ℚ̄/ℚ`*, Duke Math. J. 54 (1987), 179–230][serre]. The residual
+  attachment of §3.3, (3.3.1), p. 198, is used in R29.2. In §4.6, pp. 207–208,
+  the coefficient relation (4.6.4) is the attachment predicate of R29.3, and
+  Theorem 4 states the newform and quotient formulations of R29.6.
 * G. Faltings, *Endlichkeitssätze für abelsche Varietäten über Zahlkörpern*,
   Invent. Math. 73 (1983), 349–366. In §5, Satz 3 and Satz 4,
   p. 360, give semisimplicity and the endomorphism comparison. Korollar 1
@@ -2088,12 +1682,6 @@ roles are:
   §0.7, pp. 410–411, lead to the conductor and L-function corollary in
   §0.8, p. 411. Its specialization to a rational weight-two classical
   newform gives the full local comparison required here.
-* [P. Deligne and J.-P. Serre, *Formes modulaires de poids 1*, Ann. Sci.
-  École Norm. Sup. (4) 7 (1974), 507–530][deligne-serre]. Lemme 6.11,
-  p. 522, lifts an eigenvalue system for commuting endomorphisms of a
-  finite free module over a discrete valuation ring after a finite
-  extension. Its linear algebra statement is applicable to the integral
-  Hecke module used here, regardless of the title's weight-one setting.
 * J. E. Cremona, *Algorithms for modular elliptic curves*, second edition
   (1997), Chapter II. Section 2.6, pp. 24–25, gives the
   newform/elliptic-curve and coefficient conventions; §2.7 and Lemma
@@ -2155,7 +1743,7 @@ The other works cited in the layers are:
 
 All page numbers refer to printed pagination. In the Serre PDF printed page 179 is PDF
 page 1. In the Faltings PDF printed page 349 is PDF page 1. The Numdam PDFs include a
-cover page: Carayol p. 409 is PDF page 2 and Deligne–Serre p. 507 is PDF page 2. In
+cover page: Carayol p. 409 is PDF page 2. In
 Cremona's Chapter II PDF, subtract 6 from the printed page to obtain the one-based PDF
 page. Serre's 1970 exposé is numbered 19-01 to 19-15 after a Numdam cover page, so
 p. 19-09 is PDF page 10. Milne's pages are those of the Storrs volume, as in the linked
@@ -2165,4 +1753,3 @@ are those of the 2007 revision.
 
 [serre]: https://www.college-de-france.fr/media/jean-pierre-serre/UPL5835292064138487263_Serre_Repr.modulaires_Galois.pdf
 [carayol]: https://www.numdam.org/article/ASENS_1986_4_19_3_409_0.pdf
-[deligne-serre]: https://www.numdam.org/article/ASENS_1974_4_7_4_507_0.pdf
