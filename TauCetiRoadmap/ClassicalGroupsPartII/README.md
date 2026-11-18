@@ -25,85 +25,24 @@ input for counting applications as well as the representation interpretation.
 The local-system counting theorems themselves belong to the function-field
 Langlands and counting roadmaps.
 
-## Scope and ownership
+## How to read the build
 
-This is Part II of
-[ClassicalGroups](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/RepresentationTheory/ClassicalGroups/README.md).
-That roadmap owns the standard complex classical-group actions, their tensor,
-exterior and symmetric constructions, formal characters and the Weyl dimension
-formula. Its Layer 3A owns the complex Sp₂g theory: the maximal torus, Borel
-subgroup and dominant weights (§3A.1), the group–Lie comparison (§3A.2), and in §3A.3
-contraction with the form, the inverse-form wedge map and their commutator in
-every degree, surjectivity of contraction in every degree k≤g+1, the highest weight ω_k,
-simplicity and dimension binom(2g,k)−binom(2g,k−2) of its kernel, and the
-classification by Cartan components. This roadmap consumes those Sp
-statements. Here the new
-work is the independent multiplier coordinate of the diagonal torus, its
-central lattice and parity condition, explicit primitive-tensor rational forms and their comparison with the supplied split highest-weight modules,
-and the two integral GSp character-ring presentations. Of the §3A.3 blocks,
-CG.1.4–CG.1.5 own only the GSp form, which differs in having a ν-valued,
-GSp-equivariant contraction over every characteristic-zero field: they
-transport the §3A.3 identities to the form J=−JFin, descend them from ℂ
-through their integer matrices, and transfer simplicity from Sp₂g to GSp₂g.
-CG.1.7 owns the rational form of the §3A.3 Cartan component inside the GSp
-primitive tensor product.
-
-[ReductiveGroups](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ReductiveGroups/README.md)
-owns the Hopf-algebra/affine-group dictionary (Layer 0), representations and
-comodules (Layer 1), subgroup quotients and descent (Layer 3), connected
-reductivity and characteristic-zero semisimplicity (Layer 6), maximal
-tori and root data (Layer 7), rational scalar extension and torus formal
-characters (§10A), and split highest-weight classification with absolute
-simplicity, scalar endomorphisms and field extension (§10B). Those interfaces are used at the layers listed
-below; they are not rebuilt here. Where Tau Ceti already declares part of that
-theory, this roadmap consumes the declaration from the Tau Ceti table below: the
-point-representation/comodule equivalence, point stability of subcomodules and
-subspace stabilizers, the fppf first isomorphism theorem and the cokernel
-property of fppf quotients, the central-isogeny, reductivity and maximal-torus
-predicates, the split-to-exact Grothendieck comparison with its linear-reductivity
-splitting criterion, the corestricted standard comodule, and the Sp₂g diagonal
-torus with its root datum, base and Weyl group. The abstract semisimple Lie classification
-is already in Tau Ceti
-(`TauCeti.existsUnique_isDominantIntegral_highestWeight_of_finiteDimensional_irreducible`,
-`TauCeti.finiteDimensional_iff_isDominantIntegral_of_isHighestWeightVector`)
-and reaches this roadmap only through ClassicalGroups §3A.3.
-The GSp-specific comparison of the tensor-generated Cartan component with
-ReductiveGroups §10B uses its one-dimensional top line and semisimplicity.
-
-The finite-comodule category compatibility and vector-generated
-subcomodule/base-change theory belong to ReductiveGroups Layer 1; finite-central-quotient
-representation descent belongs to its Layer 3. The exact supplier contracts
-below specify the additional requirements consumed by CG.1.1, CG.1.7 and
-CG.0.6, respectively. These sections own their GSp specializations and
-comparison maps. The generic split highest-weight and torus-character
-statements remain with ReductiveGroups §10A–10B; CG.1.8 and CG.2.1 transport
-them to the explicit GSp objects and lattice.
-
-The group GSp₂g itself belongs to ArithmeticGaloisRepresentations. Its §7.3
-builds, over every commutative ring, the similitude group scheme of a Gram
-matrix as a closed subgroup scheme of GL×G_m, with its multiplier, which the
-matrix determines when the form is perfect of positive rank; its
-`SimilitudeGroup.GSp` uses the Gram matrix −`Matrix.J`, the J of the
-Conventions below, and its multiplier-one points form Mathlib's
-`Matrix.symplecticGroup`. PELModuli §M0.8 proves the similitude group of a
-rational PEL datum of type A or C connected reductive; for the Siegel datum of
-genus g (§M0.5), rationalized by §M0.6, the §M0.7 group has the same points
-over Q-algebras as GSp₂g, so GSp₂g over Q is connected reductive with derived
-group Sp₂g. This roadmap owns
-only the specialization to a characteristic-zero field K: the coordinate Hopf
-algebra O_g(K), its comparison with the presentation of the subfunctor of
-Mathlib's `Matrix.GeneralLinearGroup` cut out by hJhᵀ=sJ and with field
-extension (CG.0.1), the transfer of connected reductivity from Q to K, and the
-central isogeny from Sp₂g×G_m with its μ₂ kernel and fppf lifts (CG.0.2).
-This is a characteristic-zero coordinate and representation development, not
-another matrix-group foundation.
-
-Suggested homes are `TauCeti/Algebra/AlgebraicGroup/SymplecticSimilitude/`
-for the coordinate and torus interfaces, and
-`TauCeti/RepresentationTheory/ClassicalGroups/` for rational models and
-characters. The names in [Suggested.lean](Suggested.lean) are suggested forms.
-This README states the mathematical requirements, including the scheme
-quotient and representation descent statements.
+Layer CG.0 specializes ArithmeticGaloisRepresentations' similitude group
+GSp₂g to every characteristic-zero field, compares it with the matrix
+presentation, transfers PELModuli's connected reductivity from Q and
+constructs the central isogeny before using the
+split-pair interface, then identifies the torus, lattice, Weyl action and
+central parity. Layer CG.1 builds primitive-tensor
+models and compares them with the supplied split highest-weight theory.
+Layer CG.2 proves the integral full invariant presentation and the rational
+character isomorphism. Layer CG.3 proves the support criterion, positive
+invariant presentation, tensor-occurrence criterion and the constituent
+character isomorphism with multiplier localization. The statable headlines
+in Suggested.lean are `fullInvariantPresentation`, `mem_positiveSubring`
+and `positiveInvariantPresentation`. The remaining headlines need the GSp
+coordinate Hopf algebra (ArithmeticGaloisRepresentations §7.3, specialized in CG.0.1) and its
+finite-comodule objects (CG.1); neither is in the pinned libraries, and the
+module docstring records these missing carriers.
 
 ## Conventions
 
@@ -160,254 +99,6 @@ Names declared in [Suggested.lean](Suggested.lean) use the namespace
 `TauCetiRoadmap.ClassicalGroupsPartII`. All other interface bullets describe
 mathematical requirements in prose. Checks specify values and counterexamples
 for the eventual library; they do not claim additional Lean declarations.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-| Declaration | Interface used here |
-| --- | --- |
-| [`Matrix.GeneralLinearGroup`](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/LinearAlgebra/Matrix/GeneralLinearGroup/Defs.lean) | Units of the square-matrix algebra over a semiring with a finite decidable index type. For commutative K-algebras this supplies the native invertible matrix carrier. |
-| [`MonoidAlgebra.domCongr`](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/Algebra/MonoidAlgebra/Basic.lean) | A multiplicative equivalence of the indexing monoids induces an algebra equivalence of their monoid algebras. |
-| [`LaurentPolynomial`, `LaurentPolynomial.T`](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/Algebra/Polynomial/Laurent.lean) | `LaurentPolynomial ℤ` is ℤ[T,T⁻¹], the additive monoid algebra of ℤ over ℤ, and `T n` is its monomial of exponent n, with T 0=1 and T(m+n)=T m·T n; it is the coefficient ring of `fullInvariantPresentation`. |
-| [`MvPolynomial.esymmAlgEquiv`](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/RingTheory/MvPolynomial/Symmetric/FundamentalTheorem.lean) | For any commutative ring R and a finite variable set of cardinality n, elementary symmetric polynomials give an R-algebra equivalence with the symmetric subalgebra; no denominators. |
-
-### From Tau Ceti
-
-Finite-comodule tensor instances use matching coefficient and module universes,
-as in `FGComoduleCat.{u,u,u}` over a field in Type u. The native finite-comodule
-category requires finite generation, not semisimplicity or an algebraic closure.
-
-| Declaration | Interface used here |
-| --- | --- |
-| [`TauCeti.FGComoduleCat`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/Algebra/Coalgebra/Comodule/Finite/Basic.lean) | Full subcategory of right comodules with Module.Finite; over a field this is the finite-dimensional algebraic representation category. |
-| [`TauCeti.FGComoduleCat.instMonoidalCategory`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/Algebra/Coalgebra/Comodule/Finite/Monoidal.lean) | Diagonal tensor product and trivial tensor unit on finite comodules over a bialgebra, in matching universes. |
-| [`TauCeti.FGComoduleCat.instBraidedCategory`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/Algebra/Coalgebra/Comodule/Finite/Symmetric.lean) | Tensor swap is a braiding for finite comodules over a commutative bialgebra. |
-| [`TauCeti.FGComoduleCat.hasBinaryBiproducts`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/Algebra/Coalgebra/Comodule/Finite/Product.lean) | Binary biproducts of finite comodules. |
-| [`TauCeti.SplitK0`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/CategoryTheory/GrothendieckGroup/Split.lean) | Split Grothendieck group of an essentially small category with zero morphisms and binary biproducts. |
-| [`TauCeti.SplitK0.of`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/CategoryTheory/GrothendieckGroup/Split.lean) | Class of an object, invariant under isomorphism. |
-| [`TauCeti.SplitK0.liftRingHom`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/CategoryTheory/GrothendieckGroup/Monoidal/Basic.lean) | Lift a biproduct-additive invariant taking the tensor unit to 1 and tensor products to products to a ring homomorphism. |
-| [`TauCeti.SplitK0.of_mul_of`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/CategoryTheory/GrothendieckGroup/Monoidal/Basic.lean) | [X][Y]=[X⊗Y] for an essentially small monoidal preadditive category with binary biproducts. |
-| [`TauCeti.SplitK0.mapRingHom`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/CategoryTheory/GrothendieckGroup/Monoidal/Basic.lean) | An additive strong monoidal functor induces a ring homomorphism on the SplitK0. |
-| [`TauCeti.DiagonalizableGroup.weightSpace`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/Algebra/AlgebraicGroup/DiagonalizableGroup/Weight.lean) | Weight submodule of a right C-comodule corestricted along C→R[X], indexed by x∈X. |
-| [`TauCeti.DiagonalizableGroup.isInternal_weightSpace`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/Algebra/AlgebraicGroup/DiagonalizableGroup/Weight.lean) | All these weight submodules form an internal direct sum. |
-| [`TauCeti.DiagonalizableGroup.finite_setOf_weightSpace_ne_bot`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/Algebra/AlgebraicGroup/DiagonalizableGroup/Weight.lean) | A Module.Finite comodule has finitely many nonzero weight submodules after corestriction. |
-| [`TauCeti.Comodule.baseChange`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/Algebra/Coalgebra/Comodule/BaseChange.lean) | Actual base change: an R,H-comodule M becomes an A,A⊗[R]H-comodule on A⊗[R]M. This is stronger than the finite scalar-extension functor whose target is only SemimoduleCat. |
-| [`TauCeti.Comodule.matrixCoefficientSubcoalgebra`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/Algebra/Coalgebra/Comodule/MatrixCoefficient/Subcoalgebra.lean) | For a finite free right comodule M over a coalgebra C over a commutative semiring R, the matrix coefficients span a subcoalgebra of C. Over a field every finite-dimensional M is free. |
-| [`TauCeti.Comodule.matrixCoefficientSubcoalgebra_finite`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/Algebra/Coalgebra/Comodule/MatrixCoefficient/Subcoalgebra.lean) | The underlying R-module of the matrix-coefficient subcoalgebra of a finite free comodule is finite. |
-| [`TauCeti.Symplectic.coordinateHopfAlgebra`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/Algebra/AlgebraicGroup/Symplectic/Basic.lean) | O(Sp₂g), the Hopf quotient of the general-linear coordinate ring by XJXᵀ−J. |
-| [`TauCeti.GeneralLinear.coordinateHopfAlgebra`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/Algebra/AlgebraicGroup/GeneralLinear/Coordinate/HopfAlgebra.lean) | O(GL_n), with its determinant localization and matrix-inverse Hopf structure. |
-| [`TauCeti.char_extPowerRep_diagonal`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/RepresentationTheory/ClassicalGroups/ExteriorPower.lean) | Over a field, the abstract exterior-power standard GL_n character on diag(t_i) is the elementary symmetric polynomial in the t_i. It supplies the underlying trace computation, not the GSp comodule itself. |
-| [`TauCeti.Comodule.Hom.ker`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/Algebra/Coalgebra/Subcomodule/Comap.lean) | Over a commutative ring R with Module.Flat R C, the kernel of a comodule morphism is a Subcomodule whose underlying submodule is the linear kernel. Flatness is automatic for the field coefficients used here. |
-| [`TauCeti.Comodule.Hom.ker_finite`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/Algebra/Coalgebra/Subcomodule/Comap.lean) | With the same Module.Flat R C hypothesis as ker, the kernel of a comodule map out of an IsNoetherian R M module is Module.Finite. Finite-dimensional modules over the coefficient field satisfy the Noetherian hypothesis. |
-| `TauCeti.Comodule.exteriorPower` | Exterior-power coaction on the native exterior power over a commutative bialgebra; selected explicitly, with no coalgebra-flatness hypothesis (`TauCeti/Algebra/Coalgebra/Comodule/ExteriorAlgebra/Power.lean`, line 73). |
-| `TauCeti.Comodule.Hom.exteriorPowerMap` | The comodule morphism whose underlying linear map is the exterior-power map (same file, line 110). |
-| `TauCeti.Comodule.baseChange_subtype_endOfPoint_ιMulti` | Pure-wedge point-action formula after scalar extension, for every commutative value algebra, including nonreduced ones (same file, line 166). |
-| `Matrix.transpose_mul_J_mul_eq_det_smul` | For a singleton index type l and a commutative ring, every matrix A on l ⊕ l satisfies Aᵀ(`Matrix.J`)A=det(A)·`Matrix.J`; this is the rank-one multiplier of CG.0.1 (`TauCeti/LinearAlgebra/Matrix/SymplecticMultiplier.lean`). |
-| `TauCeti.JFin`, `TauCeti.JFin_two_eq` | The transported `Matrix.J` has upper-right block −I and lower-left block I; our pairing uses its negative (`TauCeti/LinearAlgebra/Matrix/GeneralLinearGroup/Symplectic/Basic.lean`, lines 245, 271). |
-| `TauCeti.GLSymplecticFin.diagonal` | For a commutative ring R, the monoid homomorphism from (Fin g→Rˣ) to GLSymplecticFin g R with diagonal entries z_i,z_i⁻¹; the t=1 specialization of our torus (`TauCeti/LinearAlgebra/Matrix/GeneralLinearGroup/Symplectic/Diagonal/Basic.lean`, line 95). |
-| `TauCeti.GLSymplecticFin.differenceShortRootWeylElement`, `TauCeti.GLSymplecticFin.positiveLongRootWeylElement`, `TauCeti.GLSymplecticFin.negativeLongRootWeylElement` | Over a commutative ring, the first takes distinct indices and represents a pair transposition; the latter two take one index and represent a reciprocal flip. They normalize the symplectic diagonal torus (`TauCeti/LinearAlgebra/Matrix/GeneralLinearGroup/Symplectic/Weyl.lean`, lines 79, 422, 428). |
-| `TauCeti.repRing` | For a field k and a monoid G, the split ring SplitK0 (FDRep k G); point evaluation induces a map to this abstract representation ring (`TauCeti/RepresentationTheory/RepresentationRing/Basic.lean`, line 106). |
-| `TauCeti.smoothCommHopfAlgProperty_of_charZero`, `TauCeti.HopfAlgebra.isReduced_of_charZero` | Finite-type commutative Hopf algebras over characteristic-zero fields are smooth and reduced, also after field extension (`TauCeti/Algebra/AlgebraicGroup/Smooth/CharZero.lean`, lines 151, 169). |
-| `TauCeti.CommHopfAlgCat.isIso_kernelFppfQuotientHom`, `TauCeti.CommHopfAlgCat.kernelFppfQuotientIso` | The fppf first isomorphism theorem: for a morphism f:H⟶K of commutative Hopf algebras over a commutative ring whose coordinate map is faithfully flat and of finite presentation, the fppf quotient of Spec K by the kernel of the represented homomorphism Spec K→Spec H is isomorphic, as a group object in fppf sheaves, to the fppf points of Spec H (`TauCeti/Algebra/AlgebraicGroup/Fppf/Quotient/Kernel.lean`, lines 194, 204). |
-| `TauCeti.CommHopfAlgCat.isColimitFppfQuotientCokernel` | The projection to the fppf quotient by a closed normal subgroup is the cokernel of the subgroup inclusion among group objects in fppf sheaves, so a group-sheaf morphism killing the subgroup descends uniquely to the quotient (`TauCeti/Algebra/AlgebraicGroup/Fppf/Quotient/Cokernel.lean`, line 68). |
-| `TauCeti.CommHopfAlgCat.IsCentralIsogeny` | A morphism of commutative Hopf algebras whose coordinate map is finite and faithfully flat and whose kernel Hopf ideal is central (`TauCeti/Algebra/AlgebraicGroup/Isogeny/Basic.lean`, line 78). |
-| `TauCeti.reductiveCommHopfAlgProperty` | Reductivity of a finite-type commutative Hopf algebra over a field: smooth, geometrically connected, and without nontrivial connected normal smooth unipotent closed subgroups after extension to an algebraic closure. It is the definition of ReductiveGroups Layer 6 (`TauCeti/Algebra/AlgebraicGroup/Reductive/Basic.lean`, line 71). |
-| `TauCeti.HopfIdeal.IsMaximalTorus` | Over a field, a Hopf ideal of a finite-type commutative Hopf algebra cuts out a maximal torus when its quotient is a torus and it is minimal among the Hopf ideals with torus quotient (`TauCeti/Algebra/AlgebraicGroup/Torus/Maximal.lean`, line 50). |
-| `TauCeti.ExactStructure.abelian`, `TauCeti.ExactK0.fromSplitEquiv` | The short exact sequences of an abelian category form an exact structure. For an essentially small preadditive category with a zero object and binary biproducts, the canonical map from `TauCeti.SplitK0` to the exact K₀ of an exact structure is an additive equivalence taking [M] to [M] when every conflation splits (`TauCeti/CategoryTheory/Exact/Abelian.lean`, line 124; `TauCeti/CategoryTheory/GrothendieckGroup/Exact.lean`, line 755). The native `Abelian` instance on `TauCeti.FGComoduleCat` over a Noetherian ring with flat coalgebra supplies the abelian structure (`TauCeti/Algebra/Coalgebra/Comodule/Finite/Abelian.lean`, line 68). |
-| `TauCeti.Coalgebra.isLinearlyReductive_iff_forall_nonempty_splitting` | Over a field, a coalgebra is linearly reductive exactly when every short exact sequence of finite comodules in the field's universe splits (`TauCeti/Algebra/Coalgebra/Comodule/Finite/LinearlyReductive.lean`, line 123). |
-| `TauCeti.GeneralLinear.corestrictStandardComodule`, `TauCeti.GeneralLinear.standardCoact_apply_basisFun` | The standard comodule of O(GL_n) on R^n, corestricted along a Hopf-algebra morphism out of O(GL_n); the standard coaction sends e_j to Σ_i e_i⊗x_ij (`TauCeti/Algebra/AlgebraicGroup/GeneralLinear/StandardComodule.lean`, lines 190, 77). |
-| `TauCeti.Comodule.basePointsRepresentation`, `TauCeti.Comodule.basePointsRepresentation_mem` | The action of the base-valued points of H on an H-comodule M, contracting the coefficient leg of the coaction; every subcomodule is stable under it (`TauCeti/Algebra/AlgebraicGroup/Representation/PointsAction/Basic.lean`, lines 102, 120). |
-| `Submodule.stabilizerHopfIdeal`, `Submodule.stabilizerHopfIdeal_eq_bot_iff`, `Submodule.stabilizerHopfIdeal_le_ker_iff` | For a comodule M over a commutative Hopf algebra over a field and a subspace W, the Hopf ideal of the stabilizer of W. It is zero exactly when W is a subcomodule, and an A-valued point lies in the stabilizer exactly when its action carries A⊗W onto itself (`TauCeti/Algebra/AlgebraicGroup/Representation/Stabilizer.lean`, lines 193, 238, 278). |
-| `TauCeti.fgPointRepresentationCategoryEquivalence` | Finitely generated natural point representations of the affine group of a commutative Hopf algebra form a category equivalent to `TauCeti.FGComoduleCat`; this is the rational-action/comodule dictionary on objects and morphisms (`TauCeti/Algebra/AlgebraicGroup/Representation/Comodule/Equivalence.lean`, line 231). |
-| `TauCeti.Symplectic.diagonalTorusCoordinateMap`, `TauCeti.Symplectic.diagonalTorus` | Over every commutative ring, the coordinate Hopf map from O(Sp₂m) to the group algebra of ULift(Fin m)→₀ℤ of the diagonal torus diag(t₀,…,t_(m−1),t₀⁻¹,…,t_(m−1)⁻¹), and the group-scheme morphism from the split torus that it represents (`TauCeti/Algebra/AlgebraicGroup/Symplectic/DiagonalTorus/Basic.lean`, lines 189, 423). |
-| `TauCeti.Symplectic.isMaximalTorus_diagonalTorusDefiningIdeal` | Over every field the diagonal torus of Sp₂m is a maximal torus (`TauCeti/Algebra/AlgebraicGroup/Symplectic/DiagonalTorus/Maximal.lean`, line 181). |
-| `TauCeti.Symplectic.diagonalRootDatum`, `TauCeti.Symplectic.diagonalRootBase` | The type C_m root datum of Sp₂m on the character lattice of its diagonal torus, and its base e_i−e_(i+1) (0≤i<m−1), 2e_(m−1), with simple coroots e_i−e_(i+1) and e_(m−1) and positive roots 2e_i, e_i+e_j and e_i−e_j for i<j (`TauCeti/Algebra/AlgebraicGroup/Symplectic/DiagonalTorus/RootDatum.lean`, line 260; `Base.lean` in the same folder, line 225). |
-| `TauCeti.Symplectic.diagonalWreathProductMulEquivWeylGroup`, `TauCeti.GLSymplecticFin.diagonalNormalizerQuotientMulEquivWreathProduct` | The Weyl group of that type C_m root datum is the hyperoctahedral group Sym(Bool)≀Sym(m) for every m; over a field with a unit different from its inverse, the normalizer quotient N(T)/T of the diagonal torus T in Sp₂m(k) is the same group (`TauCeti/Algebra/AlgebraicGroup/Symplectic/DiagonalTorus/WeylGroup.lean`, line 265; `TauCeti/LinearAlgebra/Matrix/GeneralLinearGroup/Symplectic/Diagonal/WeylGroup.lean`, line 273). |
-
-The kernel interface assumes `Module.Flat K O_g(K)` and a Noetherian source;
-a field and a finite-dimensional source provide both. Matrix-coefficient
-subcoalgebras require finite freeness, also automatic here. Native
-`TauCeti.Comodule.baseChange` changes both the coalgebra and the module;
-transport through the GSp coordinate comparison is part of the specialization.
-Native preadditivity is transferred from the ambient comodule category
-(`TauCeti/Algebra/Coalgebra/Comodule/Finite/Preadditive.lean`, lines 48–62).
-The exterior trace theorem computes an abstract GL trace; the GSp comparison
-is a separate target below.
-
-### From TauCetiRoadmap.ReductiveGroups
-
-Consume Layer 0's Hopf/affine-group/represented-functor dictionary; Layer 1's
-finite-comodule-category and generated-vector-base-change contracts below;
-Layer 3's finite-central-quotient representation descent below; Layer 6's
-characteristic-zero equivalence of reductivity with linear reductivity; and
-Layer 7's split-pair, root-datum, normalizer-Weyl and ordered
-root-subgroup/Bruhat coordinates, including §7C's all-field split charts.
-The parts of Layers 1, 3, 6 and 7 that Tau Ceti declares are consumed
-from the table above: the rational-action/comodule equivalence and subspace
-stabilizers (Layer 1), the represented fppf quotient through the fppf first
-isomorphism theorem and its cokernel property (Layer 3), the central-isogeny
-and reductivity predicates (Layer 6), and the maximal-torus predicate with the
-Sp₂g diagonal root datum and Weyl group (Layer 7).
-Use §10A, “The rational category and actual torus lattice”, for scalar extension,
-finite torus-weight decompositions and formal characters, and §10B, “Induction,
-Weyl modules and simple heads”, for classification of split-group rational
-simples, absolute simplicity, End=K and arbitrary-field extension. Match the
-actual lattice and Borel conventions before transporting any such result.
-
-What ReductiveGroups must provide (gap:generated-vector-base-change):
-Layer 1's least vector-generated subcomodule and its field-extension comparison,
-consumed in CG.1.7.
-
-For a finite-dimensional right H-comodule M over any field F, where H
-is a commutative Hopf F-algebra, and v∈M, construct the least subcomodule
-containing v. Use the span of (id_M⊗φ)δ(v) for φ in the F-linear dual of H;
-coassociativity makes this span a subcomodule, the counit puts v in it, and
-any subcomodule containing v contains all these coefficients (Milne,
-Chapter 4 §c, Proposition 4.7 and its proof, p.86). For every field
-extension K/F prove that its scalar extension is the least subcomodule
-containing 1⊗v. The coefficients of δ(v) lie in a finite-dimensional
-coefficient subcoalgebra; dualizing that finite space commutes with field
-extension. Thus the coefficient span, its inclusion and its universal
-property base-change, without any classification or semisimplicity premise.
-The interface includes containment of v and the equivalence that this span
-is contained in a subcomodule U exactly when v∈U. For every comodule map
-f:M→N, prove that the image of the span of v is the span of f(v); give
-its natural inclusion in M and the equality after field extension above.
-
-What ReductiveGroups must provide (gap:central-quotient-representations):
-Layer 3's finite-central-quotient representation descent, consumed in CG.0.6.
-
-For a faithfully flat quotient q:G→Q of affine finite-type group schemes
-over a field F with finite central kernel N, construct the pullback
-equivalence between finite rational Q-representations and the full subcategory
-of finite rational G-representations whose restriction to N is trivial as a
-group-scheme action. This is a representation-descent theorem, beyond the
-represented quotient itself (Milne, Chapter 5 §b, Lemma 5.9 and Proposition 5.10, p.100,
-and §c, Proposition 5.21, p.104;
-Complement 22.12, p.466, for its highest-weight specialization).
-The map G→GL(M) of an N-trivial representation is constant on the fibres of
-q after every value-algebra extension. Factor it uniquely through Q: as a
-morphism of fppf group sheaves it kills N, so it descends along the cokernel
-`TauCeti.CommHopfAlgCat.isColimitFppfQuotientCokernel` to the fppf quotient,
-which `TauCeti.CommHopfAlgCat.kernelFppfQuotientIso` identifies with the fppf
-points of Q because q is faithfully flat and finitely presented. The Layer 0
-dictionary for represented sheaves makes the descended map a Hopf-algebra map,
-so regularity and the group law hold. Apply the same descent to intertwiners
-to prove full faithfulness. This construction uses all value algebras,
-including nonreduced ones.
-
-Its interface records the pullback functor, the N-triviality criterion for
-its essential image, the inverse descended action on the same vector space,
-and natural unit/counit isomorphisms preserving tensor products and dimension.
-
-What ReductiveGroups must provide (gap:finite-comodule-category):
-Layer 1's compatibility of the native finite-comodule category with linear and
-monoidal structures, consumed in CG.1.1.
-
-For every field F and commutative Hopf F-algebra H in the same universe,
-equip the native finite-comodule category with compatible essential
-smallness, monoidal preadditivity, F-linearity and finite-dimensional Hom
-spaces (Milne, Chapter 4 §a, coaction identities (24)–(25), p.84, and
-§i, Exercise 4-4(a,b), p.97, for the rational category and its morphisms). These are compatibility targets, using
-the existing tensor, braiding and preadditive structures. Identify each Hom
-with the linear subspace of Hom_F(M,N) satisfying the coaction equation;
-this gives finite dimension and linearity, with
-dim_F Hom_H(M,N)≤dim_F M · dim_F N. For essential smallness, transport
-every finite-dimensional object to F^n with its actual coaction: the coactions
-on these spaces form an F-universe set of representatives. Prove tensoring
-on either side preserves zero morphisms and sums by the native tensor-map
-formula, giving monoidal preadditivity. No new category carrier is introduced.
-
-### From TauCetiRoadmap.ClassicalGroups
-
-Consume Layer 0's standard GL complex representation, symplectic inclusion
-and invariant alternating form. The GSp point comparison below identifies
-these with evaluation of the constructed comodule. Layer 1 supplies the
-abstract tensor/exterior/symmetric representations and traces; Layer 2's
-column Schur functor identifies ΛᵏV with the alternating image in V^⊗k.
-The rational alternating projector gives the K-form of that splitting.
-Layer 4 supplies the complex classical character comparison.
-
-Layer 3A is stated for `Matrix.symplecticGroup (Fin g) ℂ` acting on
-(Fin g ⊕ Fin g)→ℂ, with the native form `Matrix.J`=[[0,−I],[I,0]].
-Consume §3A.1's maximal torus diag(t,t⁻¹) on the two summands, its character
-lattice Z^g, its Borel subgroup of block matrices [[A,B],[0,(Aᵀ)⁻¹]] with A
-upper triangular, whose positive roots are ε_i−ε_j and ε_i+ε_j (i<j) and
-2ε_i, and the dominant tuples λ₁≥⋯≥λ_g≥0; §3A.2's identification,
-for a smooth connected group over an algebraically closed field of
-characteristic zero, of group-stable with Lie-stable subspaces and of group
-with Lie intertwiners; and from §3A.3 the following. Contraction κ with the
-form and the inverse-form wedge map L, which multiplies by the bivector
-Σ_i a_i∧b_i of any basis with ω(a_i,b_j)=δ_ij and ω(a_i,a_j)=ω(b_i,b_j)=0,
-satisfy `κ_(k+2) ∘ L_k − L_(k−2) ∘ κ_k = (g−k) id` on ΛᵏV for every k≥0;
-in degree zero this says κ₂(Σ_i a_i∧b_i)=g. Contraction κ_k is surjective
-for every k≤g+1, and for 1≤k≤g its kernel in ΛᵏV has highest weight
-ω_k=(1^k,0^(g−k)) with highest vector e₁∧⋯∧e_k, is
-simple as a rational Sp₂g-module and has dimension
-binom(2g,k)−binom(2g,k−2). The Cartan component generated by the highest
-tensor of a tensor product of these kernels is the simple module of the summed
-weight, and these components exhaust the rational simples.
-Passing to J=−JFin negates the form, hence negates both the contraction and
-the bivector, and leaves their kernels and their commutator unchanged. Both
-maps have integer matrices in the standard exterior bases, so an identity or
-a surjectivity over ℂ holds over Q and then over every characteristic-zero K;
-no embedding of K into ℂ is used.
-The comparison of a specified tensor top line with the supplied simple is
-GSp-specific work here, not another classification.
-
-### From TauCetiRoadmap.ArithmeticGaloisRepresentations
-
-Consume §7.3, “Similitude groups”. For a commutative ring R and a Gram
-matrix J, `SimilitudeGroup.groupScheme` J is the closed subgroup scheme of
-GL×G_m over R whose points over a commutative R-algebra R′ are the pairs
-(h,r) with h invertible, r∈R′^× and hᵀJh=rJ, multiplied componentwise.
-`SimilitudeGroup.multiplier` is (h,r)↦r, and h determines r when the form is
-perfect on a module of constant positive rank. `SimilitudeGroup.GSp` is the
-case J=−`Matrix.J`=[[0,I],[−I,0]] on Fin g ⊕ Fin g, which is the J of this
-roadmap; it is perfect of rank 2g>0 for g≥1. Its Checks give GSp₂=GL₂ with
-multiplier det, and multiplier-one points equal to Mathlib's
-`Matrix.symplecticGroup`. CG.0.1 takes R=K and reads the coordinate Hopf
-algebra of this affine group scheme through ReductiveGroups Layer 0. Nothing
-in §7.3 uses this roadmap.
-
-### From TauCetiRoadmap.PELModuli
-
-Consume the Siegel datum `IntegralPELDatum.siegel` of genus g≥1, a Check of
-§M0.5: the lattice ℤ^(2g), indexed by Fin g ⊕ Fin g, with order ℤ and Gram
-matrix −`Matrix.J`=[[0,I],[−I,0]], which is the J of this roadmap. §M0.6's
-`IntegralPELDatum.toRational` rationalizes it; this needs the rationalized
-action of Q on Q^(2g) to be faithful, which holds exactly when g≥1. §M0.7's
-rational similitude group `PELDatum.similitudeGroup` of the result is
-represented by the Hopf algebra `RationalPELDatum.coordinate`; through
-`RationalPELDatum.coordinatePoints` its points over a Q-algebra R are the
-pairs (h,r) with h∈GL_2g(R), r∈R^× and hᵀJh=rJ, multiplied componentwise,
-since linearity over the order ℤ is automatic. These are the points of
-`SimilitudeGroup.GSp` over Q, so CG.0.2 identifies the two coordinate Hopf
-algebras over Q by Yoneda. Consume §M0.8's `similitudeGroupStructure` in
-Case C, with its Check `similitudeGroupStructure_siegel`: over Q this group is
-connected reductive in the sense of ReductiveGroups Layer 6, its derived group
-Sp₂g is simply connected and G/G^der=G_m. Nothing in §§M0.5–M0.8 uses this
-roadmap.
-
-## How to read the build
-
-Layer CG.0 specializes ArithmeticGaloisRepresentations' similitude group
-GSp₂g to every characteristic-zero field, compares it with the matrix
-presentation, transfers PELModuli's connected reductivity from Q and
-constructs the central isogeny before using the
-split-pair interface, then identifies the torus, lattice, Weyl action and
-central parity. Layer CG.1 builds primitive-tensor
-models and compares them with the supplied split highest-weight theory.
-Layer CG.2 proves the integral full invariant presentation and the rational
-character isomorphism. Layer CG.3 proves the support criterion, positive
-invariant presentation, tensor-occurrence criterion and the constituent
-character isomorphism with multiplier localization. The statable headlines
-in Suggested.lean are `fullInvariantPresentation`, `mem_positiveSubring`
-and `positiveInvariantPresentation`. The remaining headlines need the GSp
-coordinate Hopf algebra (ArithmeticGaloisRepresentations §7.3, specialized in CG.0.1) and its
-finite-comodule objects (CG.1); neither is in the pinned libraries, and the
-module docstring records these missing carriers.
 
 ## Layer CG.0: Algebraic similitudes, diagonal torus and central weights
 
@@ -1668,6 +1359,315 @@ criterion without representation theory. Representation-theoretic consumers
 use the rational character equivalence, primitive characters, exact tensor
 occurrence and multiplier localization. Local-system counting theorems retain
 their own function-field scope.
+
+## Scope and ownership
+
+This is Part II of
+[ClassicalGroups](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/RepresentationTheory/ClassicalGroups/README.md).
+That roadmap owns the standard complex classical-group actions, their tensor,
+exterior and symmetric constructions, formal characters and the Weyl dimension
+formula. Its Layer 3A owns the complex Sp₂g theory: the maximal torus, Borel
+subgroup and dominant weights (§3A.1), the group–Lie comparison (§3A.2), and in §3A.3
+contraction with the form, the inverse-form wedge map and their commutator in
+every degree, surjectivity of contraction in every degree k≤g+1, the highest weight ω_k,
+simplicity and dimension binom(2g,k)−binom(2g,k−2) of its kernel, and the
+classification by Cartan components. This roadmap consumes those Sp
+statements. Here the new
+work is the independent multiplier coordinate of the diagonal torus, its
+central lattice and parity condition, explicit primitive-tensor rational forms and their comparison with the supplied split highest-weight modules,
+and the two integral GSp character-ring presentations. Of the §3A.3 blocks,
+CG.1.4–CG.1.5 own only the GSp form, which differs in having a ν-valued,
+GSp-equivariant contraction over every characteristic-zero field: they
+transport the §3A.3 identities to the form J=−JFin, descend them from ℂ
+through their integer matrices, and transfer simplicity from Sp₂g to GSp₂g.
+CG.1.7 owns the rational form of the §3A.3 Cartan component inside the GSp
+primitive tensor product.
+
+[ReductiveGroups](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ReductiveGroups/README.md)
+owns the Hopf-algebra/affine-group dictionary (Layer 0), representations and
+comodules (Layer 1), subgroup quotients and descent (Layer 3), connected
+reductivity and characteristic-zero semisimplicity (Layer 6), maximal
+tori and root data (Layer 7), rational scalar extension and torus formal
+characters (§10A), and split highest-weight classification with absolute
+simplicity, scalar endomorphisms and field extension (§10B). Those interfaces are used at the layers listed
+below; they are not rebuilt here. Where Tau Ceti already declares part of that
+theory, this roadmap consumes the declaration from the Tau Ceti table below: the
+point-representation/comodule equivalence, point stability of subcomodules and
+subspace stabilizers, the fppf first isomorphism theorem and the cokernel
+property of fppf quotients, the central-isogeny, reductivity and maximal-torus
+predicates, the split-to-exact Grothendieck comparison with its linear-reductivity
+splitting criterion, the corestricted standard comodule, and the Sp₂g diagonal
+torus with its root datum, base and Weyl group. The abstract semisimple Lie classification
+is already in Tau Ceti
+(`TauCeti.existsUnique_isDominantIntegral_highestWeight_of_finiteDimensional_irreducible`,
+`TauCeti.finiteDimensional_iff_isDominantIntegral_of_isHighestWeightVector`)
+and reaches this roadmap only through ClassicalGroups §3A.3.
+The GSp-specific comparison of the tensor-generated Cartan component with
+ReductiveGroups §10B uses its one-dimensional top line and semisimplicity.
+
+The finite-comodule category compatibility and vector-generated
+subcomodule/base-change theory belong to ReductiveGroups Layer 1; finite-central-quotient
+representation descent belongs to its Layer 3. The exact supplier contracts
+below specify the additional requirements consumed by CG.1.1, CG.1.7 and
+CG.0.6, respectively. These sections own their GSp specializations and
+comparison maps. The generic split highest-weight and torus-character
+statements remain with ReductiveGroups §10A–10B; CG.1.8 and CG.2.1 transport
+them to the explicit GSp objects and lattice.
+
+The group GSp₂g itself belongs to ArithmeticGaloisRepresentations. Its §7.3
+builds, over every commutative ring, the similitude group scheme of a Gram
+matrix as a closed subgroup scheme of GL×G_m, with its multiplier, which the
+matrix determines when the form is perfect of positive rank; its
+`SimilitudeGroup.GSp` uses the Gram matrix −`Matrix.J`, the J of the
+Conventions below, and its multiplier-one points form Mathlib's
+`Matrix.symplecticGroup`. PELModuli §M0.8 proves the similitude group of a
+rational PEL datum of type A or C connected reductive; for the Siegel datum of
+genus g (§M0.5), rationalized by §M0.6, the §M0.7 group has the same points
+over Q-algebras as GSp₂g, so GSp₂g over Q is connected reductive with derived
+group Sp₂g. This roadmap owns
+only the specialization to a characteristic-zero field K: the coordinate Hopf
+algebra O_g(K), its comparison with the presentation of the subfunctor of
+Mathlib's `Matrix.GeneralLinearGroup` cut out by hJhᵀ=sJ and with field
+extension (CG.0.1), the transfer of connected reductivity from Q to K, and the
+central isogeny from Sp₂g×G_m with its μ₂ kernel and fppf lifts (CG.0.2).
+This is a characteristic-zero coordinate and representation development, not
+another matrix-group foundation.
+
+Suggested homes are `TauCeti/Algebra/AlgebraicGroup/SymplecticSimilitude/`
+for the coordinate and torus interfaces, and
+`TauCeti/RepresentationTheory/ClassicalGroups/` for rational models and
+characters. The names in [Suggested.lean](Suggested.lean) are suggested forms.
+This README states the mathematical requirements, including the scheme
+quotient and representation descent statements.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+| Declaration | Interface used here |
+| --- | --- |
+| [`Matrix.GeneralLinearGroup`](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/LinearAlgebra/Matrix/GeneralLinearGroup/Defs.lean) | Units of the square-matrix algebra over a semiring with a finite decidable index type. For commutative K-algebras this supplies the native invertible matrix carrier. |
+| [`MonoidAlgebra.domCongr`](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/Algebra/MonoidAlgebra/Basic.lean) | A multiplicative equivalence of the indexing monoids induces an algebra equivalence of their monoid algebras. |
+| [`LaurentPolynomial`, `LaurentPolynomial.T`](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/Algebra/Polynomial/Laurent.lean) | `LaurentPolynomial ℤ` is ℤ[T,T⁻¹], the additive monoid algebra of ℤ over ℤ, and `T n` is its monomial of exponent n, with T 0=1 and T(m+n)=T m·T n; it is the coefficient ring of `fullInvariantPresentation`. |
+| [`MvPolynomial.esymmAlgEquiv`](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/RingTheory/MvPolynomial/Symmetric/FundamentalTheorem.lean) | For any commutative ring R and a finite variable set of cardinality n, elementary symmetric polynomials give an R-algebra equivalence with the symmetric subalgebra; no denominators. |
+
+### From Tau Ceti
+
+Finite-comodule tensor instances use matching coefficient and module universes,
+as in `FGComoduleCat.{u,u,u}` over a field in Type u. The native finite-comodule
+category requires finite generation, not semisimplicity or an algebraic closure.
+
+| Declaration | Interface used here |
+| --- | --- |
+| [`TauCeti.FGComoduleCat`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/Algebra/Coalgebra/Comodule/Finite/Basic.lean) | Full subcategory of right comodules with Module.Finite; over a field this is the finite-dimensional algebraic representation category. |
+| [`TauCeti.FGComoduleCat.instMonoidalCategory`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/Algebra/Coalgebra/Comodule/Finite/Monoidal.lean) | Diagonal tensor product and trivial tensor unit on finite comodules over a bialgebra, in matching universes. |
+| [`TauCeti.FGComoduleCat.instBraidedCategory`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/Algebra/Coalgebra/Comodule/Finite/Symmetric.lean) | Tensor swap is a braiding for finite comodules over a commutative bialgebra. |
+| [`TauCeti.FGComoduleCat.hasBinaryBiproducts`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/Algebra/Coalgebra/Comodule/Finite/Product.lean) | Binary biproducts of finite comodules. |
+| [`TauCeti.SplitK0`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/CategoryTheory/GrothendieckGroup/Split.lean) | Split Grothendieck group of an essentially small category with zero morphisms and binary biproducts. |
+| [`TauCeti.SplitK0.of`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/CategoryTheory/GrothendieckGroup/Split.lean) | Class of an object, invariant under isomorphism. |
+| [`TauCeti.SplitK0.liftRingHom`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/CategoryTheory/GrothendieckGroup/Monoidal/Basic.lean) | Lift a biproduct-additive invariant taking the tensor unit to 1 and tensor products to products to a ring homomorphism. |
+| [`TauCeti.SplitK0.of_mul_of`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/CategoryTheory/GrothendieckGroup/Monoidal/Basic.lean) | [X][Y]=[X⊗Y] for an essentially small monoidal preadditive category with binary biproducts. |
+| [`TauCeti.SplitK0.mapRingHom`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/CategoryTheory/GrothendieckGroup/Monoidal/Basic.lean) | An additive strong monoidal functor induces a ring homomorphism on the SplitK0. |
+| [`TauCeti.DiagonalizableGroup.weightSpace`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/Algebra/AlgebraicGroup/DiagonalizableGroup/Weight.lean) | Weight submodule of a right C-comodule corestricted along C→R[X], indexed by x∈X. |
+| [`TauCeti.DiagonalizableGroup.isInternal_weightSpace`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/Algebra/AlgebraicGroup/DiagonalizableGroup/Weight.lean) | All these weight submodules form an internal direct sum. |
+| [`TauCeti.DiagonalizableGroup.finite_setOf_weightSpace_ne_bot`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/Algebra/AlgebraicGroup/DiagonalizableGroup/Weight.lean) | A Module.Finite comodule has finitely many nonzero weight submodules after corestriction. |
+| [`TauCeti.Comodule.baseChange`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/Algebra/Coalgebra/Comodule/BaseChange.lean) | Actual base change: an R,H-comodule M becomes an A,A⊗[R]H-comodule on A⊗[R]M. This is stronger than the finite scalar-extension functor whose target is only SemimoduleCat. |
+| [`TauCeti.Comodule.matrixCoefficientSubcoalgebra`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/Algebra/Coalgebra/Comodule/MatrixCoefficient/Subcoalgebra.lean) | For a finite free right comodule M over a coalgebra C over a commutative semiring R, the matrix coefficients span a subcoalgebra of C. Over a field every finite-dimensional M is free. |
+| [`TauCeti.Comodule.matrixCoefficientSubcoalgebra_finite`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/Algebra/Coalgebra/Comodule/MatrixCoefficient/Subcoalgebra.lean) | The underlying R-module of the matrix-coefficient subcoalgebra of a finite free comodule is finite. |
+| [`TauCeti.Symplectic.coordinateHopfAlgebra`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/Algebra/AlgebraicGroup/Symplectic/Basic.lean) | O(Sp₂g), the Hopf quotient of the general-linear coordinate ring by XJXᵀ−J. |
+| [`TauCeti.GeneralLinear.coordinateHopfAlgebra`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/Algebra/AlgebraicGroup/GeneralLinear/Coordinate/HopfAlgebra.lean) | O(GL_n), with its determinant localization and matrix-inverse Hopf structure. |
+| [`TauCeti.char_extPowerRep_diagonal`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/RepresentationTheory/ClassicalGroups/ExteriorPower.lean) | Over a field, the abstract exterior-power standard GL_n character on diag(t_i) is the elementary symmetric polynomial in the t_i. It supplies the underlying trace computation, not the GSp comodule itself. |
+| [`TauCeti.Comodule.Hom.ker`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/Algebra/Coalgebra/Subcomodule/Comap.lean) | Over a commutative ring R with Module.Flat R C, the kernel of a comodule morphism is a Subcomodule whose underlying submodule is the linear kernel. Flatness is automatic for the field coefficients used here. |
+| [`TauCeti.Comodule.Hom.ker_finite`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/Algebra/Coalgebra/Subcomodule/Comap.lean) | With the same Module.Flat R C hypothesis as ker, the kernel of a comodule map out of an IsNoetherian R M module is Module.Finite. Finite-dimensional modules over the coefficient field satisfy the Noetherian hypothesis. |
+| `TauCeti.Comodule.exteriorPower` | Exterior-power coaction on the native exterior power over a commutative bialgebra; selected explicitly, with no coalgebra-flatness hypothesis (`TauCeti/Algebra/Coalgebra/Comodule/ExteriorAlgebra/Power.lean`, line 73). |
+| `TauCeti.Comodule.Hom.exteriorPowerMap` | The comodule morphism whose underlying linear map is the exterior-power map (same file, line 110). |
+| `TauCeti.Comodule.baseChange_subtype_endOfPoint_ιMulti` | Pure-wedge point-action formula after scalar extension, for every commutative value algebra, including nonreduced ones (same file, line 166). |
+| `Matrix.transpose_mul_J_mul_eq_det_smul` | For a singleton index type l and a commutative ring, every matrix A on l ⊕ l satisfies Aᵀ(`Matrix.J`)A=det(A)·`Matrix.J`; this is the rank-one multiplier of CG.0.1 (`TauCeti/LinearAlgebra/Matrix/SymplecticMultiplier.lean`). |
+| `TauCeti.JFin`, `TauCeti.JFin_two_eq` | The transported `Matrix.J` has upper-right block −I and lower-left block I; our pairing uses its negative (`TauCeti/LinearAlgebra/Matrix/GeneralLinearGroup/Symplectic/Basic.lean`, lines 245, 271). |
+| `TauCeti.GLSymplecticFin.diagonal` | For a commutative ring R, the monoid homomorphism from (Fin g→Rˣ) to GLSymplecticFin g R with diagonal entries z_i,z_i⁻¹; the t=1 specialization of our torus (`TauCeti/LinearAlgebra/Matrix/GeneralLinearGroup/Symplectic/Diagonal/Basic.lean`, line 95). |
+| `TauCeti.GLSymplecticFin.differenceShortRootWeylElement`, `TauCeti.GLSymplecticFin.positiveLongRootWeylElement`, `TauCeti.GLSymplecticFin.negativeLongRootWeylElement` | Over a commutative ring, the first takes distinct indices and represents a pair transposition; the latter two take one index and represent a reciprocal flip. They normalize the symplectic diagonal torus (`TauCeti/LinearAlgebra/Matrix/GeneralLinearGroup/Symplectic/Weyl.lean`, lines 79, 422, 428). |
+| `TauCeti.repRing` | For a field k and a monoid G, the split ring SplitK0 (FDRep k G); point evaluation induces a map to this abstract representation ring (`TauCeti/RepresentationTheory/RepresentationRing/Basic.lean`, line 106). |
+| `TauCeti.smoothCommHopfAlgProperty_of_charZero`, `TauCeti.HopfAlgebra.isReduced_of_charZero` | Finite-type commutative Hopf algebras over characteristic-zero fields are smooth and reduced, also after field extension (`TauCeti/Algebra/AlgebraicGroup/Smooth/CharZero.lean`, lines 151, 169). |
+| `TauCeti.CommHopfAlgCat.isIso_kernelFppfQuotientHom`, `TauCeti.CommHopfAlgCat.kernelFppfQuotientIso` | The fppf first isomorphism theorem: for a morphism f:H⟶K of commutative Hopf algebras over a commutative ring whose coordinate map is faithfully flat and of finite presentation, the fppf quotient of Spec K by the kernel of the represented homomorphism Spec K→Spec H is isomorphic, as a group object in fppf sheaves, to the fppf points of Spec H (`TauCeti/Algebra/AlgebraicGroup/Fppf/Quotient/Kernel.lean`, lines 194, 204). |
+| `TauCeti.CommHopfAlgCat.isColimitFppfQuotientCokernel` | The projection to the fppf quotient by a closed normal subgroup is the cokernel of the subgroup inclusion among group objects in fppf sheaves, so a group-sheaf morphism killing the subgroup descends uniquely to the quotient (`TauCeti/Algebra/AlgebraicGroup/Fppf/Quotient/Cokernel.lean`, line 68). |
+| `TauCeti.CommHopfAlgCat.IsCentralIsogeny` | A morphism of commutative Hopf algebras whose coordinate map is finite and faithfully flat and whose kernel Hopf ideal is central (`TauCeti/Algebra/AlgebraicGroup/Isogeny/Basic.lean`, line 78). |
+| `TauCeti.reductiveCommHopfAlgProperty` | Reductivity of a finite-type commutative Hopf algebra over a field: smooth, geometrically connected, and without nontrivial connected normal smooth unipotent closed subgroups after extension to an algebraic closure. It is the definition of ReductiveGroups Layer 6 (`TauCeti/Algebra/AlgebraicGroup/Reductive/Basic.lean`, line 71). |
+| `TauCeti.HopfIdeal.IsMaximalTorus` | Over a field, a Hopf ideal of a finite-type commutative Hopf algebra cuts out a maximal torus when its quotient is a torus and it is minimal among the Hopf ideals with torus quotient (`TauCeti/Algebra/AlgebraicGroup/Torus/Maximal.lean`, line 50). |
+| `TauCeti.ExactStructure.abelian`, `TauCeti.ExactK0.fromSplitEquiv` | The short exact sequences of an abelian category form an exact structure. For an essentially small preadditive category with a zero object and binary biproducts, the canonical map from `TauCeti.SplitK0` to the exact K₀ of an exact structure is an additive equivalence taking [M] to [M] when every conflation splits (`TauCeti/CategoryTheory/Exact/Abelian.lean`, line 124; `TauCeti/CategoryTheory/GrothendieckGroup/Exact.lean`, line 755). The native `Abelian` instance on `TauCeti.FGComoduleCat` over a Noetherian ring with flat coalgebra supplies the abelian structure (`TauCeti/Algebra/Coalgebra/Comodule/Finite/Abelian.lean`, line 68). |
+| `TauCeti.Coalgebra.isLinearlyReductive_iff_forall_nonempty_splitting` | Over a field, a coalgebra is linearly reductive exactly when every short exact sequence of finite comodules in the field's universe splits (`TauCeti/Algebra/Coalgebra/Comodule/Finite/LinearlyReductive.lean`, line 123). |
+| `TauCeti.GeneralLinear.corestrictStandardComodule`, `TauCeti.GeneralLinear.standardCoact_apply_basisFun` | The standard comodule of O(GL_n) on R^n, corestricted along a Hopf-algebra morphism out of O(GL_n); the standard coaction sends e_j to Σ_i e_i⊗x_ij (`TauCeti/Algebra/AlgebraicGroup/GeneralLinear/StandardComodule.lean`, lines 190, 77). |
+| `TauCeti.Comodule.basePointsRepresentation`, `TauCeti.Comodule.basePointsRepresentation_mem` | The action of the base-valued points of H on an H-comodule M, contracting the coefficient leg of the coaction; every subcomodule is stable under it (`TauCeti/Algebra/AlgebraicGroup/Representation/PointsAction/Basic.lean`, lines 102, 120). |
+| `Submodule.stabilizerHopfIdeal`, `Submodule.stabilizerHopfIdeal_eq_bot_iff`, `Submodule.stabilizerHopfIdeal_le_ker_iff` | For a comodule M over a commutative Hopf algebra over a field and a subspace W, the Hopf ideal of the stabilizer of W. It is zero exactly when W is a subcomodule, and an A-valued point lies in the stabilizer exactly when its action carries A⊗W onto itself (`TauCeti/Algebra/AlgebraicGroup/Representation/Stabilizer.lean`, lines 193, 238, 278). |
+| `TauCeti.fgPointRepresentationCategoryEquivalence` | Finitely generated natural point representations of the affine group of a commutative Hopf algebra form a category equivalent to `TauCeti.FGComoduleCat`; this is the rational-action/comodule dictionary on objects and morphisms (`TauCeti/Algebra/AlgebraicGroup/Representation/Comodule/Equivalence.lean`, line 231). |
+| `TauCeti.Symplectic.diagonalTorusCoordinateMap`, `TauCeti.Symplectic.diagonalTorus` | Over every commutative ring, the coordinate Hopf map from O(Sp₂m) to the group algebra of ULift(Fin m)→₀ℤ of the diagonal torus diag(t₀,…,t_(m−1),t₀⁻¹,…,t_(m−1)⁻¹), and the group-scheme morphism from the split torus that it represents (`TauCeti/Algebra/AlgebraicGroup/Symplectic/DiagonalTorus/Basic.lean`, lines 189, 423). |
+| `TauCeti.Symplectic.isMaximalTorus_diagonalTorusDefiningIdeal` | Over every field the diagonal torus of Sp₂m is a maximal torus (`TauCeti/Algebra/AlgebraicGroup/Symplectic/DiagonalTorus/Maximal.lean`, line 181). |
+| `TauCeti.Symplectic.diagonalRootDatum`, `TauCeti.Symplectic.diagonalRootBase` | The type C_m root datum of Sp₂m on the character lattice of its diagonal torus, and its base e_i−e_(i+1) (0≤i<m−1), 2e_(m−1), with simple coroots e_i−e_(i+1) and e_(m−1) and positive roots 2e_i, e_i+e_j and e_i−e_j for i<j (`TauCeti/Algebra/AlgebraicGroup/Symplectic/DiagonalTorus/RootDatum.lean`, line 260; `Base.lean` in the same folder, line 225). |
+| `TauCeti.Symplectic.diagonalWreathProductMulEquivWeylGroup`, `TauCeti.GLSymplecticFin.diagonalNormalizerQuotientMulEquivWreathProduct` | The Weyl group of that type C_m root datum is the hyperoctahedral group Sym(Bool)≀Sym(m) for every m; over a field with a unit different from its inverse, the normalizer quotient N(T)/T of the diagonal torus T in Sp₂m(k) is the same group (`TauCeti/Algebra/AlgebraicGroup/Symplectic/DiagonalTorus/WeylGroup.lean`, line 265; `TauCeti/LinearAlgebra/Matrix/GeneralLinearGroup/Symplectic/Diagonal/WeylGroup.lean`, line 273). |
+
+The kernel interface assumes `Module.Flat K O_g(K)` and a Noetherian source;
+a field and a finite-dimensional source provide both. Matrix-coefficient
+subcoalgebras require finite freeness, also automatic here. Native
+`TauCeti.Comodule.baseChange` changes both the coalgebra and the module;
+transport through the GSp coordinate comparison is part of the specialization.
+Native preadditivity is transferred from the ambient comodule category
+(`TauCeti/Algebra/Coalgebra/Comodule/Finite/Preadditive.lean`, lines 48–62).
+The exterior trace theorem computes an abstract GL trace; the GSp comparison
+is a separate target below.
+
+### From TauCetiRoadmap.ReductiveGroups
+
+Consume Layer 0's Hopf/affine-group/represented-functor dictionary; Layer 1's
+finite-comodule-category and generated-vector-base-change contracts below;
+Layer 3's finite-central-quotient representation descent below; Layer 6's
+characteristic-zero equivalence of reductivity with linear reductivity; and
+Layer 7's split-pair, root-datum, normalizer-Weyl and ordered
+root-subgroup/Bruhat coordinates, including §7C's all-field split charts.
+The parts of Layers 1, 3, 6 and 7 that Tau Ceti declares are consumed
+from the table above: the rational-action/comodule equivalence and subspace
+stabilizers (Layer 1), the represented fppf quotient through the fppf first
+isomorphism theorem and its cokernel property (Layer 3), the central-isogeny
+and reductivity predicates (Layer 6), and the maximal-torus predicate with the
+Sp₂g diagonal root datum and Weyl group (Layer 7).
+Use §10A, “The rational category and actual torus lattice”, for scalar extension,
+finite torus-weight decompositions and formal characters, and §10B, “Induction,
+Weyl modules and simple heads”, for classification of split-group rational
+simples, absolute simplicity, End=K and arbitrary-field extension. Match the
+actual lattice and Borel conventions before transporting any such result.
+
+What ReductiveGroups must provide (gap:generated-vector-base-change):
+Layer 1's least vector-generated subcomodule and its field-extension comparison,
+consumed in CG.1.7.
+
+For a finite-dimensional right H-comodule M over any field F, where H
+is a commutative Hopf F-algebra, and v∈M, construct the least subcomodule
+containing v. Use the span of (id_M⊗φ)δ(v) for φ in the F-linear dual of H;
+coassociativity makes this span a subcomodule, the counit puts v in it, and
+any subcomodule containing v contains all these coefficients (Milne,
+Chapter 4 §c, Proposition 4.7 and its proof, p.86). For every field
+extension K/F prove that its scalar extension is the least subcomodule
+containing 1⊗v. The coefficients of δ(v) lie in a finite-dimensional
+coefficient subcoalgebra; dualizing that finite space commutes with field
+extension. Thus the coefficient span, its inclusion and its universal
+property base-change, without any classification or semisimplicity premise.
+The interface includes containment of v and the equivalence that this span
+is contained in a subcomodule U exactly when v∈U. For every comodule map
+f:M→N, prove that the image of the span of v is the span of f(v); give
+its natural inclusion in M and the equality after field extension above.
+
+What ReductiveGroups must provide (gap:central-quotient-representations):
+Layer 3's finite-central-quotient representation descent, consumed in CG.0.6.
+
+For a faithfully flat quotient q:G→Q of affine finite-type group schemes
+over a field F with finite central kernel N, construct the pullback
+equivalence between finite rational Q-representations and the full subcategory
+of finite rational G-representations whose restriction to N is trivial as a
+group-scheme action. This is a representation-descent theorem, beyond the
+represented quotient itself (Milne, Chapter 5 §b, Lemma 5.9 and Proposition 5.10, p.100,
+and §c, Proposition 5.21, p.104;
+Complement 22.12, p.466, for its highest-weight specialization).
+The map G→GL(M) of an N-trivial representation is constant on the fibres of
+q after every value-algebra extension. Factor it uniquely through Q: as a
+morphism of fppf group sheaves it kills N, so it descends along the cokernel
+`TauCeti.CommHopfAlgCat.isColimitFppfQuotientCokernel` to the fppf quotient,
+which `TauCeti.CommHopfAlgCat.kernelFppfQuotientIso` identifies with the fppf
+points of Q because q is faithfully flat and finitely presented. The Layer 0
+dictionary for represented sheaves makes the descended map a Hopf-algebra map,
+so regularity and the group law hold. Apply the same descent to intertwiners
+to prove full faithfulness. This construction uses all value algebras,
+including nonreduced ones.
+
+Its interface records the pullback functor, the N-triviality criterion for
+its essential image, the inverse descended action on the same vector space,
+and natural unit/counit isomorphisms preserving tensor products and dimension.
+
+What ReductiveGroups must provide (gap:finite-comodule-category):
+Layer 1's compatibility of the native finite-comodule category with linear and
+monoidal structures, consumed in CG.1.1.
+
+For every field F and commutative Hopf F-algebra H in the same universe,
+equip the native finite-comodule category with compatible essential
+smallness, monoidal preadditivity, F-linearity and finite-dimensional Hom
+spaces (Milne, Chapter 4 §a, coaction identities (24)–(25), p.84, and
+§i, Exercise 4-4(a,b), p.97, for the rational category and its morphisms). These are compatibility targets, using
+the existing tensor, braiding and preadditive structures. Identify each Hom
+with the linear subspace of Hom_F(M,N) satisfying the coaction equation;
+this gives finite dimension and linearity, with
+dim_F Hom_H(M,N)≤dim_F M · dim_F N. For essential smallness, transport
+every finite-dimensional object to F^n with its actual coaction: the coactions
+on these spaces form an F-universe set of representatives. Prove tensoring
+on either side preserves zero morphisms and sums by the native tensor-map
+formula, giving monoidal preadditivity. No new category carrier is introduced.
+
+### From TauCetiRoadmap.ClassicalGroups
+
+Consume Layer 0's standard GL complex representation, symplectic inclusion
+and invariant alternating form. The GSp point comparison below identifies
+these with evaluation of the constructed comodule. Layer 1 supplies the
+abstract tensor/exterior/symmetric representations and traces; Layer 2's
+column Schur functor identifies ΛᵏV with the alternating image in V^⊗k.
+The rational alternating projector gives the K-form of that splitting.
+Layer 4 supplies the complex classical character comparison.
+
+Layer 3A is stated for `Matrix.symplecticGroup (Fin g) ℂ` acting on
+(Fin g ⊕ Fin g)→ℂ, with the native form `Matrix.J`=[[0,−I],[I,0]].
+Consume §3A.1's maximal torus diag(t,t⁻¹) on the two summands, its character
+lattice Z^g, its Borel subgroup of block matrices [[A,B],[0,(Aᵀ)⁻¹]] with A
+upper triangular, whose positive roots are ε_i−ε_j and ε_i+ε_j (i<j) and
+2ε_i, and the dominant tuples λ₁≥⋯≥λ_g≥0; §3A.2's identification,
+for a smooth connected group over an algebraically closed field of
+characteristic zero, of group-stable with Lie-stable subspaces and of group
+with Lie intertwiners; and from §3A.3 the following. Contraction κ with the
+form and the inverse-form wedge map L, which multiplies by the bivector
+Σ_i a_i∧b_i of any basis with ω(a_i,b_j)=δ_ij and ω(a_i,a_j)=ω(b_i,b_j)=0,
+satisfy `κ_(k+2) ∘ L_k − L_(k−2) ∘ κ_k = (g−k) id` on ΛᵏV for every k≥0;
+in degree zero this says κ₂(Σ_i a_i∧b_i)=g. Contraction κ_k is surjective
+for every k≤g+1, and for 1≤k≤g its kernel in ΛᵏV has highest weight
+ω_k=(1^k,0^(g−k)) with highest vector e₁∧⋯∧e_k, is
+simple as a rational Sp₂g-module and has dimension
+binom(2g,k)−binom(2g,k−2). The Cartan component generated by the highest
+tensor of a tensor product of these kernels is the simple module of the summed
+weight, and these components exhaust the rational simples.
+Passing to J=−JFin negates the form, hence negates both the contraction and
+the bivector, and leaves their kernels and their commutator unchanged. Both
+maps have integer matrices in the standard exterior bases, so an identity or
+a surjectivity over ℂ holds over Q and then over every characteristic-zero K;
+no embedding of K into ℂ is used.
+The comparison of a specified tensor top line with the supplied simple is
+GSp-specific work here, not another classification.
+
+### From TauCetiRoadmap.ArithmeticGaloisRepresentations
+
+Consume §7.3, “Similitude groups”. For a commutative ring R and a Gram
+matrix J, `SimilitudeGroup.groupScheme` J is the closed subgroup scheme of
+GL×G_m over R whose points over a commutative R-algebra R′ are the pairs
+(h,r) with h invertible, r∈R′^× and hᵀJh=rJ, multiplied componentwise.
+`SimilitudeGroup.multiplier` is (h,r)↦r, and h determines r when the form is
+perfect on a module of constant positive rank. `SimilitudeGroup.GSp` is the
+case J=−`Matrix.J`=[[0,I],[−I,0]] on Fin g ⊕ Fin g, which is the J of this
+roadmap; it is perfect of rank 2g>0 for g≥1. Its Checks give GSp₂=GL₂ with
+multiplier det, and multiplier-one points equal to Mathlib's
+`Matrix.symplecticGroup`. CG.0.1 takes R=K and reads the coordinate Hopf
+algebra of this affine group scheme through ReductiveGroups Layer 0. Nothing
+in §7.3 uses this roadmap.
+
+### From TauCetiRoadmap.PELModuli
+
+Consume the Siegel datum `IntegralPELDatum.siegel` of genus g≥1, a Check of
+§M0.5: the lattice ℤ^(2g), indexed by Fin g ⊕ Fin g, with order ℤ and Gram
+matrix −`Matrix.J`=[[0,I],[−I,0]], which is the J of this roadmap. §M0.6's
+`IntegralPELDatum.toRational` rationalizes it; this needs the rationalized
+action of Q on Q^(2g) to be faithful, which holds exactly when g≥1. §M0.7's
+rational similitude group `PELDatum.similitudeGroup` of the result is
+represented by the Hopf algebra `RationalPELDatum.coordinate`; through
+`RationalPELDatum.coordinatePoints` its points over a Q-algebra R are the
+pairs (h,r) with h∈GL_2g(R), r∈R^× and hᵀJh=rJ, multiplied componentwise,
+since linearity over the order ℤ is automatic. These are the points of
+`SimilitudeGroup.GSp` over Q, so CG.0.2 identifies the two coordinate Hopf
+algebras over Q by Yoneda. Consume §M0.8's `similitudeGroupStructure` in
+Case C, with its Check `similitudeGroupStructure_siegel`: over Q this group is
+connected reductive in the sense of ReductiveGroups Layer 6, its derived group
+Sp₂g is simply connected and G/G^der=G_m. Nothing in §§M0.5–M0.8 uses this
+roadmap.
 
 ## References
 
