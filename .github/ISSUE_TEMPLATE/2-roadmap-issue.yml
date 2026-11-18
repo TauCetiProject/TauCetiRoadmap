@@ -53,6 +53,7 @@ body:
         - ArithmeticStatisticsPartII
         - ArithmeticStatisticsPartIII
         - ArithmeticStatisticsPartIV
+        - ArithmeticStatisticsPartV
         - AsymptoticExpansions
         - AutomorphicFormsOnReductiveGroups
         - AutomorphicGaloisRepresentationsPartII
@@ -129,6 +130,7 @@ body:
         - EllipticLegendreCharacterInterfaces
         - EndoscopicTransferAndUnitaryTraceComparison
         - EnhancedDerivedSheaves
+        - EnriquesSurfaces
         - Equidistribution
         - EquivariantIntersectionTheory
         - EtaleCohomologyFoundations
@@ -292,6 +294,7 @@ body:
         - PrismaticCohomology
         - PrismaticCohomologyPartII
         - PrismaticCohomologyPartIII
+        - PrismaticCohomologyPartIV
         - ProbabilisticAndMetricNumberTheory
         - ProbabilisticAndMetricNumberTheoryPartII
         - ProfiniteCohomology
@@ -299,6 +302,7 @@ body:
         - PseudodifferentialOperators
         - PseudoholomorphicCurveAnalysis
         - PurityOfBranchLocus
+        - QSeriesPartitionsAndMockModularForms
         - QWittVectors
         - QuadraticCharactersAndReduction
         - QuadraticFormInvariants
@@ -338,6 +342,7 @@ body:
         - SeibergWittenTheory
         - SelmerIwasawaCohomology
         - SerreWeightAndLevelOptimisation
+        - ShimuraCompactifications
         - ShimuraData
         - ShimuraVarieties
         - SieveMethodsAndPrimePatterns
