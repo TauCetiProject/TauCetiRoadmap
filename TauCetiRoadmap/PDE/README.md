@@ -295,6 +295,13 @@ branch is built against.
   `TauCeti.Wkp0.extendByZeroₗᵢ` (`Analysis/Sobolev/W1p/Extension.lean:220`,
   `Analysis/Sobolev/Wkp/Extension.lean:112`): restriction to a smaller open set and zero
   extension of zero-boundary functions, isometric in every order.
+- `TauCeti.W1p.denseRange_restrictL_ofTestFunctionₗ_top`
+  (`Analysis/Sobolev/LipschitzDomain/GlobalExtension.lean:142`, hypothesis `p ≠ ∞`): on a
+  bounded open set of `WithLp 2 (ℝ × E)` satisfying Tau Ceti's `IsLipschitzDomainWith`, the
+  restrictions of whole-space test functions are dense in `W^{1,p}(Ω)`; §1.8's `Γ = ∅` case.
+  `TauCeti.W1p.compL` (`Analysis/Sobolev/W1p/ChangeOfVariables.lean:274`): precomposition with
+  an injective differentiable map with bounded derivative and Jacobian bounded below is bounded
+  on `W^{1,p}` for finite `p`; §1.8's Lipschitz shears.
 - `TauCeti.W1p.dense_contDiffOn_representatives`
   (`Analysis/Sobolev/W1p/MeyersSerrin.lean:216`, hypothesis `p ≠ ⊤`): order-one Meyers–Serrin
   on an arbitrary open set; `TauCeti.Wkp.dense_contDiff_representatives`
@@ -1098,28 +1105,45 @@ For an open `Ω`, a set `Γ ⊆ ℝ^{n+1}` and `1 ≤ p ≤ ∞`, define `W^{1,p
   (`w1pVanishingOnSubmodule_frontier`): a test function on `Ω` extends by zero to one whose
   support misses the frontier, and conversely a `φ` whose support misses the frontier restricts
   on `Ω` to a function supported in a compact subset of `Ω`.
-- `W^{1,p}_∅(Ω) = W^{1,p}(Ω)` for bounded Lipschitz `Ω` and finite `p`
-  (`w1pVanishingOnSubmodule_empty`): extend by §1.6's extension operator, approximate on
-  `ℝ^{n+1}` by the pinned whole-space density of §1.2, and restrict.
+- `W^{1,p}_∅(Ω) = W^{1,p}(Ω)` for bounded Lipschitz `Ω` and finite `p`: this is the pinned
+  `TauCeti.W1p.denseRange_restrictL_ofTestFunctionₗ_top`, stated for Tau Ceti's
+  `IsLipschitzDomainWith` on `WithLp 2 (ℝ × E)`; transport it along the linear isometry
+  `ℝ^{n+1} ≃ ℝ × ℝⁿ` that moves the last coordinate first, under which §1.6's predicate gives
+  Tau Ceti's.
+- **Lipschitz shears.** For a Lipschitz `γ : ℝⁿ → ℝ`, the shear `Φ(x, t) = (x, t − γ(x))` and
+  its inverse are bi-Lipschitz with Jacobian determinant `1`. For finite `p` and open `U`,
+  `V = Φ(U)`, prove that `u ↦ u ∘ Φ` is a bounded map `W^{1,p}(V) → W^{1,p}(U)` with
+  `∇(u ∘ Φ) = DΦᵀ(∇u ∘ Φ)` almost everywhere. Route: the mollified shears `Φ_ε` built from
+  `γ * ρ_ε` are smooth, have determinant `1` and `‖DΦ_ε‖ ≤ 1 + Lip γ`, so the pinned
+  `TauCeti.W1p.compL` gives uniformly bounded operators; pass to `ε → 0` on smooth `u` and
+  conclude by density, with Rademacher's theorem for `DΦ`. The same holds for the shear of the
+  base that moves one coordinate by a Lipschitz function of the other `n − 1`, extended
+  trivially in `t`.
 - The **trace characterization**: for bounded Lipschitz `Ω`, admissible `Γ` and finite `p`,
   `W^{1,p}_Γ(Ω) = {u ∈ W^{1,p}(Ω) | T u = 0 μHE[n]-a.e. on Γ}`. For `Γ = frontier Ω` this is
   §1.6's kernel theorem. Bauer–Pauly–Schomburg prove the case `p = 2`, `n + 1 = 3` (Lemma 3.1,
   p. 7; proof in Appendix A); the general case is a target here. Route: by a partition of unity
-  subordinate to the charts and a bi-Lipschitz flattening, reduce to a half-space with `Γ` the
+  subordinate to the charts and two Lipschitz shears (the graph of `γ`, then the interface in the
+  base), reduce to a half-space with `Γ` the
   half-hyperplane `{s < 0}`; translate by `t > 0` in `s`, so that the trace vanishes on
   `{s < t}`; split with a cutoff in `s` into a part with zero trace on the whole hyperplane, which
   lies in `W^{1,p}_0` by §1.6's kernel theorem, and a part supported in `{s > 0}`, approximated
   through the `Γ = ∅` case; mollify in the original coordinates.
-- **Poincaré–Friedrichs**: for a connected bounded Lipschitz `Ω`, an admissible `Γ` with
-  `μHE[n] Γ > 0` and finite `p`, there is `C(Ω, Γ, p)` with `‖u‖_p ≤ C‖∇u‖_p` on `W^{1,p}_Γ(Ω)`.
-  Route: as for Poincaré–Wirtinger in §1.5, a normalized contradiction sequence, §1.6's Rellich
-  compactness, closedness of `W^{1,p}_Γ(Ω)` and the constancy of functions with zero weak
-  gradient on a connected open set; a constant `c` in `W^{1,p}_Γ(Ω)` has trace `c` and vanishing
-  trace on `Γ`, so `c · μHE[n] Γ = 0` forces `c = 0`. The constant is an existence statement,
-  not an explicit one.
+- **Poincaré–Friedrichs**: for a connected bounded Lipschitz `Ω`, any `Γ ⊆ frontier Ω` with
+  `μHE[n] Γ > 0` and finite `p`, there is `C(Ω, Γ, p)` with `‖u‖_p ≤ C‖∇u‖_p` on `W^{1,p}_Γ(Ω)`
+  (`exists_poincare_friedrichs`; Bauer–Pauly–Schomburg, Theorem 4.8, p. 16, for `p = 2` in
+  dimension three). Admissibility is not needed: every generator of `W^{1,p}_Γ(Ω)` vanishes near
+  `closure Γ`, so by continuity of `T` every `u ∈ W^{1,p}_Γ(Ω)` has `T u = 0` almost everywhere
+  on `Γ`. Route: as for Poincaré–Wirtinger in §1.5, a normalized contradiction sequence, §1.6's
+  Rellich compactness, closedness of `W^{1,p}_Γ(Ω)` and the constancy of functions with zero
+  weak gradient on a connected open set; a constant `c` in `W^{1,p}_Γ(Ω)` has trace `c` and
+  vanishing trace on `Γ`, so `c · μHE[n] Γ = 0` forces `c = 0`. The constant is an existence
+  statement, not an explicit one.
 
-- `W^{1,p}_Γ(Ω)` is a closed submodule containing `W^{1,p}_0(Ω)`, and `Γ ⊆ Γ'` gives
-  `W^{1,p}_{Γ'}(Ω) ⊆ W^{1,p}_Γ(Ω)`; it depends on `Γ` only through `closure Γ`.
+- For every `Γ`, `W^{1,p}_Γ(Ω)` is a closed submodule, `Γ ⊆ Γ'` gives
+  `W^{1,p}_{Γ'}(Ω) ⊆ W^{1,p}_Γ(Ω)`, and it depends on `Γ` only through `closure Γ`. For `Γ`
+  disjoint from `Ω` (in particular `Γ ⊆ frontier Ω`), `closure Γ ∩ Ω = ∅`, every test function on
+  `Ω` is a generator, and `W^{1,p}_Γ(Ω)` contains `W^{1,p}_0(Ω)`.
 - Multiplication by a smooth `ψ` with `ψ, ∇ψ` bounded preserves `W^{1,p}_Γ(Ω)`, as the pinned
   `TauCeti.W1p.contDiffSMul_mem_w1p0Submodule` does for `W^{1,p}_0(Ω)`.
 - Admissibility and `W^{1,p}_Γ` are invariant under rigid motions and dilations of the pair
@@ -1133,6 +1157,19 @@ For an open `Ω`, a set `Γ ⊆ ℝ^{n+1}` and `1 ≤ p ≤ ∞`, define `W^{1,p
 - On the same square, `Γ = {0} × ⋃ₖ (1/(2k+1), 1/(2k))` is relatively open and not admissible:
   over every chart at `(0,0)` it alternates infinitely often, so it lies over neither all, nor
   none, nor one side of a point of the base.
+- On the same square, `Γ = {0} × ((0,1) ∖ {1/2})` is relatively open, has the closure of the
+  admissible `{0} × (0,1)` and hence the same `W^{1,p}_Γ`, but is not admissible: at `(0, 1/2)`
+  it lies over both sides of the base point. Admissibility is not a property of `closure Γ`.
+- On `(0, 1)` with `Γ = {0}` and finite `p`: `x ∈ W^{1,p}_Γ`, since the mollified `(x − ε)⁺`
+  converge to it, and `1 − x ∉ W^{1,p}_Γ`, since evaluation at `0` is continuous on `W^{1,p}`
+  (§1.1) and is `0` on every generator but `1` on `1 − x`.
+- At `p = ∞` on the same data, `x ∉ W^{1,∞}_Γ`: every generator has derivative `0` near `0`, at
+  distance `1` from `u' = 1`. So `W^{1,∞}_Γ` is strictly smaller than `{u | u = 0 on Γ}`, and the
+  trace characterization is for finite `p` only.
+- On `(0, 1)` with `Γ = {1/2}`, which meets `Ω`: every generator vanishes near `1/2`, so
+  `W^{1,p}_Γ ⊆ {u(1/2) = 0}` for finite `p`, and a bump in `C_c^∞(0,1)` with value `1` at `1/2`
+  lies in `W^{1,p}_0` but not in `W^{1,p}_Γ`; the containment of `W^{1,p}_0` needs `Γ` disjoint
+  from `Ω`.
 - On `(0, 1)` with `Γ = {0}` (so `n = 0` and `μHE[0]` is counting measure):
   `|u(x)| ≤ x^{1−1/p}‖u'‖_p`, so the Poincaré–Friedrichs constant is at most `1`; with `Γ = ∅`
   the constant `1` has zero gradient and nonzero norm, so the hypothesis `μHE[n] Γ > 0` is
@@ -1145,11 +1182,13 @@ For an open `Ω`, a set `Γ ⊆ ℝ^{n+1}` and `1 ≤ p ≤ ∞`, define `W^{1,p
 
 *Needs:* for admissibility: §1.6's predicate; for `W^{1,p}_Γ`: Tau Ceti `TauCeti.W1p`,
 `W1p.restrictL`, Mathlib `ContDiff` and `HasCompactSupport`; for the frontier case: Tau Ceti
-`TauCeti.w1p0Submodule`; for the empty case: §1.6's extension operator and §1.2's whole-space
-density (pinned `TauCeti.Wkp.dense_contDiff_representatives`); for the trace characterization:
-§1.6's trace and kernel theorem, the empty case, and Tau Ceti `TauCeti.W1p.contDiffSMulL` for
-the cutoffs; for Poincaré–Friedrichs: §1.6's Rellich compactness and trace, and the constancy
-input of §1.5.
+`TauCeti.w1p0Submodule`; for the empty case: Tau Ceti
+`TauCeti.W1p.denseRange_restrictL_ofTestFunctionₗ_top` and §1.6's predicate; for Lipschitz
+shears: Tau Ceti `TauCeti.W1p.compL`, Mathlib convolution, `ContDiffBump` and
+`LipschitzWith.ae_differentiableAt`; for the trace characterization: §1.6's trace and kernel
+theorem, the empty case, the Lipschitz shears, and Tau Ceti `TauCeti.W1p.contDiffSMulL` for the
+cutoffs; for Poincaré–Friedrichs: §1.6's Rellich compactness and trace, and the constancy input
+of §1.5.
 
 ### Examples
 
@@ -1896,20 +1935,21 @@ vocabulary and §4.2.
 
 ### 4.5 Mixed and Neumann problems (D20)
 
-Let `Ω ⊆ ℝ^{n+1}` be a bounded Lipschitz domain, `Γ` an admissible boundary part (§1.8) and `B`
-the energy form of §4.1 on `H¹(Ω)` (pinned `TauCeti.PDE.energyFormH1L`). For `g ∈ H¹(Ω)`,
+Let `Ω ⊆ ℝ^{n+1}` be a bounded Lipschitz domain, `Γ ⊆ frontier Ω` any boundary part and `B` the
+energy form of §4.1 on `H¹(Ω)` (pinned `TauCeti.PDE.energyFormH1L`). For `g ∈ H¹(Ω)`,
 `f ∈ L²(Ω)` and `h ∈ L²(frontier Ω \ Γ, μHE[n])`, a weak solution of the mixed problem is a
 `u ∈ H¹(Ω)` with `u − g ∈ H¹_Γ(Ω)` and
 `B(u, v) = ∫_Ω f v + ∫_{frontier Ω \ Γ} h · T v dμHE[n]` for every `v ∈ H¹_Γ(Ω)`, with `T` the
-trace of §1.6; more generally the right side is any `ℓ ∈ (H¹_Γ(Ω))*`. By §1.8's trace
-characterization, `u − g ∈ H¹_Γ(Ω)` is the Dirichlet condition `T u = T g` on `Γ`; the Neumann
-datum `h` is the conormal derivative in the weak sense this identity defines, and no pointwise
-conormal derivative is constructed. `Γ = frontier Ω` is §4.2's Dirichlet problem and `Γ = ∅` is
-the Neumann problem. Prove:
+trace of §1.6; more generally the right side is any `ℓ ∈ (H¹_Γ(Ω))*`. For admissible `Γ`,
+§1.8's trace characterization makes `u − g ∈ H¹_Γ(Ω)` the Dirichlet condition `T u = T g` on
+`Γ`; the Neumann datum `h` is the conormal derivative in the weak sense this identity defines,
+and no pointwise conormal derivative is constructed. `Γ = frontier Ω` is §4.2's Dirichlet
+problem and `Γ = ∅` is the Neumann problem. Prove:
 
 - **Coercive case.** For a bounded form coercive on `H¹_Γ(Ω)`, every `g` and every
   `ℓ ∈ (H¹_Γ(Ω))*` there is exactly one weak solution, by Lax–Milgram on the closed subspace
-  `H¹_Γ(Ω)` after the lifting of §4.2. Coercivity holds for inverse-coercive `a`, `b = 0` and
+  `H¹_Γ(Ω)` after the lifting of §4.2 (`existsUnique_weakSolution_mixed` in `Suggested.lean` for
+  `g = 0`, `b = 0`, `c = 0`). Coercivity holds for inverse-coercive `a`, `b = 0` and
   `c ≥ 0` when `Ω` is connected and `μHE[n] Γ > 0`, with constant `λ/(1 + C²)` for `C` the
   `p = 2` Poincaré–Friedrichs constant of §1.8, and for every `Γ` when `c ≥ c₀ > 0` almost
   everywhere, with constant `min(λ, c₀)`.
@@ -1952,7 +1992,7 @@ input of §1.5.
 
 ### 4.6 Mixed and Neumann spectra (D21)
 
-For a connected bounded Lipschitz `Ω` and an admissible `Γ`, let `−Δ_Γ` be the Laplacian with
+For a connected bounded Lipschitz `Ω` and any `Γ ⊆ frontier Ω`, let `−Δ_Γ` be the Laplacian with
 the form `∫ ∇u · ∇v` on `H¹_Γ(Ω)`. The resolvent `(−Δ_Γ + 1)⁻¹ : L²(Ω) → L²(Ω)` is the
 Lax–Milgram solution operator of §4.5 for the form `∫ ∇u · ∇v + ∫ u v`, which is the `H¹` inner
 product and so coercive with constant `1`; it is compact by §1.6's Rellich compactness, and
@@ -3319,13 +3359,11 @@ Mathlib Arzelà–Ascoli. Layer 8 is not used.
   Poisson-kernel constant.
 - P. Grisvard, *Elliptic Problems in Nonsmooth Domains*, Pitman, 1985: Lipschitz domains
   (Definition 1.2.1.1).
-- K. Gröger, *A `W^{1,p}`-estimate for solutions to mixed boundary value problems for second
-  order elliptic differential equations*, Math. Ann. 283 (1989), 679–687: mixed boundary
-  conditions and the spaces `W^{1,p}_Γ`.
 - S. Bauer, D. Pauly, M. Schomburg, *The Maxwell compactness property in bounded weak Lipschitz
   domains with mixed boundary conditions*, SIAM J. Math. Anal. 48 (2016), 2912–2943,
   arXiv:1511.06697 (page numbers refer to the arXiv version): strong and weak Lipschitz pairs,
-  the trace characterization of §1.8 for `p = 2` in dimension three (Lemma 3.1).
+  the trace characterization of §1.8 for `p = 2` in dimension three (Lemma 3.1) and
+  Poincaré–Friedrichs (Theorem 4.8).
 - M. Giaquinta, L. Martinazzi, *An Introduction to the Regularity Theory for Elliptic Systems,
   Harmonic Maps and Minimal Graphs*, 2nd ed., Edizioni della Normale, 2012: Campanato spaces
   (Chapter 5), Gehring's lemma (Chapter 6).

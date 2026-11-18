@@ -21,11 +21,11 @@ every API bullet and every Check, lives in the README.
 Headline theorems stated here: Meyers–Serrin density in every order on an arbitrary open set
 (§1.2); the Poincaré–Wirtinger inequality on connected bounded Lipschitz domains (§1.5); the
 trace theorem with its kernel, the extension operator and Rellich compactness on bounded
-Lipschitz domains (§1.6); `W^{1,p}_Γ(Ω)` at `Γ = frontier Ω` and at `Γ = ∅` (§1.8);
+Lipschitz domains (§1.6); `W^{1,p}_Γ(Ω)` at `Γ = frontier Ω` and Poincaré–Friedrichs (§1.8);
 Calderón–Zygmund `Lᵖ` and weak-`(1,1)` bounds (§2.3); the classical Hopf boundary-point lemma
 (§3.2); the Dirichlet problem with an `H¹` lifting and `H⁻¹` forcing (§4.2); the Fredholm
-compatibility condition for Gårding forms (§4.3); the compatibility condition of the pure
-Neumann problem (§4.5); interior `H²` regularity for Lipschitz coefficients (§5.1); De Giorgi–Nash–Moser Hölder continuity and the Harnack
+compatibility condition for Gårding forms (§4.3); the coercive mixed problem and the
+compatibility condition of the pure Neumann problem (§4.5); interior `H²` regularity for Lipschitz coefficients (§5.1); De Giorgi–Nash–Moser Hölder continuity and the Harnack
 inequality in every dimension for non-symmetric inverse-coercive coefficients (§5.4); the
 Krylov–Safonov Hölder estimate and Harnack inequality for strong solutions (§5.5); and the
 interior Schauder estimate (§5.6). The strong-type maximal inequality of §2.1 is a theorem at
@@ -43,10 +43,11 @@ Headline theorems not statable at the pins, and what each lacks:
   `Lᵖ`, has no carrier at the pins beyond tempered distributions.
 * §4.4 (the Dirichlet spectrum): proved at the pin for symmetric coercive forms; its
   remaining targets are Checks and corollaries of §5.1, not new headlines.
-* §1.8 (the trace characterization of `W^{1,p}_Γ(Ω)` and Poincaré–Friedrichs), §4.5 (the mixed
-  problem with Neumann data) and §4.6 (the mixed and Neumann spectra): the admissibility
-  predicate for boundary parts is a target of §1.8, and §1.6's trace exists at the pins only
-  inside the statement `exists_trace`, not as an operator these statements could name.
+* §1.8 (the trace characterization): the admissibility predicate is a target of §1.8.
+* §4.5 (the mixed problem with a Neumann datum `h`): the pinned trace `TauCeti.W1p.frontierTrace`
+  lives on `Opens (WithLp 2 (ℝ × E))` with `volume`, the pinned energy form on
+  `EuclideanSpace ℝ ι`, and no statement can name both.
+* §4.6: the realization `−Δ_Γ` is a target.
 * §6.2 (Galerkin existence for parabolic equations) and §6.3 (the heat semigroup and its
   generator on `Lᵖ` and `BUC`): the Bochner Sobolev space `H¹(0,T;V*)` with its embedding
   into `C([0,T];H)`, and a bounded convolution operator on `Lᵖ`, are themselves targets of
@@ -205,13 +206,19 @@ theorem w1pVanishingOnSubmodule_frontier (Ω : Opens (EuclideanSpace ℝ (Fin (n
       w1p0Submodule mu Ω p := by
   sorry
 
-/-- With no boundary part, `W^{1,p}_Γ(Ω)` is all of `W^{1,p}(Ω)`, for a bounded Lipschitz domain
-and finite `p` (§1.8): extend by §1.6's extension operator, approximate on `ℝ^(n+1)` and
-restrict. -/
-theorem w1pVanishingOnSubmodule_empty (hp : p ≠ ⊤) (Ω : Opens (EuclideanSpace ℝ (Fin (n + 1))))
+/-- **Poincaré–Friedrichs** (§1.8). On a connected bounded Lipschitz domain, for a boundary part
+`Γ ⊆ frontier Ω` of positive `μHE[n]` measure and finite `p`, `‖u‖_p ≤ C‖∇u‖_p` on
+`W^{1,p}_Γ(Ω)` (Bauer–Pauly–Schomburg, Theorem 4.8, for `p = 2` in dimension three). No
+admissibility is needed: every element of `W^{1,p}_Γ(Ω)` has vanishing trace on `Γ`. -/
+theorem exists_poincare_friedrichs (hp : p ≠ ⊤) (Ω : Opens (EuclideanSpace ℝ (Fin (n + 1))))
     (hΩ : IsLipschitzDomain (Ω : Set (EuclideanSpace ℝ (Fin (n + 1)))))
-    (hb : Bornology.IsBounded (Ω : Set (EuclideanSpace ℝ (Fin (n + 1))))) :
-    w1pVanishingOnSubmodule mu Ω p ∅ = ⊤ := by
+    (hb : Bornology.IsBounded (Ω : Set (EuclideanSpace ℝ (Fin (n + 1)))))
+    (hc : IsConnected (Ω : Set (EuclideanSpace ℝ (Fin (n + 1)))))
+    {Γ : Set (EuclideanSpace ℝ (Fin (n + 1)))}
+    (hΓ : Γ ⊆ frontier (Ω : Set (EuclideanSpace ℝ (Fin (n + 1)))))
+    (hpos : (μHE[n] : Measure (EuclideanSpace ℝ (Fin (n + 1)))) Γ ≠ 0) :
+    ∃ C : ℝ, ∀ u ∈ w1pVanishingOnSubmodule mu Ω p Γ,
+      ‖W1p.value u‖ ≤ C * ‖W1p.gradient u‖ := by
   sorry
 
 end BoundaryParts
@@ -343,9 +350,29 @@ theorem fredholm_compatibility
 
 end Layer4
 
-section Neumann
+section MixedAndNeumann
 
 variable {n : ℕ} {mu : Measure (EuclideanSpace ℝ (Fin (n + 1)))} [mu.IsAddHaarMeasure]
+
+/-- **The coercive mixed problem** (§4.5), with zero Dirichlet datum. On a connected bounded
+Lipschitz domain, for a boundary part `Γ ⊆ frontier Ω` of positive `μHE[n]` measure and
+inverse-coercive `a` with `b = 0` and `c = 0`, the energy form is coercive on `H¹_Γ(Ω)` by
+Poincaré–Friedrichs, and `B(u, ·) = ℓ` has exactly one solution `u ∈ H¹_Γ(Ω)` for every
+`ℓ ∈ (H¹_Γ(Ω))*`. -/
+theorem existsUnique_weakSolution_mixed (Ω : Opens (EuclideanSpace ℝ (Fin (n + 1))))
+    (hΩ : IsLipschitzDomain (Ω : Set (EuclideanSpace ℝ (Fin (n + 1)))))
+    (hb : Bornology.IsBounded (Ω : Set (EuclideanSpace ℝ (Fin (n + 1)))))
+    (hc : IsConnected (Ω : Set (EuclideanSpace ℝ (Fin (n + 1)))))
+    {Γ : Set (EuclideanSpace ℝ (Fin (n + 1)))}
+    (hΓ : Γ ⊆ frontier (Ω : Set (EuclideanSpace ℝ (Fin (n + 1)))))
+    (hpos : (μHE[n] : Measure (EuclideanSpace ℝ (Fin (n + 1)))) Γ ≠ 0)
+    {a : EuclideanSpace ℝ (Fin (n + 1)) → Matrix (Fin (n + 1)) (Fin (n + 1)) ℝ} {lam Lam : ℝ}
+    (ha : IsUniformlyEllipticAE mu Ω a lam Lam)
+    (hcoeff : MemLp (fun x => energyIntegrand (a x) 0 0) ⊤ (mu.restrict Ω))
+    (ℓ : StrongDual ℝ (w1pVanishingOnSubmodule mu Ω 2 Γ)) :
+    ∃! u : w1pVanishingOnSubmodule mu Ω 2 Γ, ∀ v : w1pVanishingOnSubmodule mu Ω 2 Γ,
+      energyFormH1 a 0 0 (u : W1p mu Ω 2) (v : W1p mu Ω 2) = ℓ v := by
+  sorry
 
 /-- **The pure Neumann problem** (§4.5), with zero Neumann datum. On a connected bounded Lipschitz
 domain, for inverse-coercive `a` with `b = 0` and `c = 0`, the weak Neumann problem
@@ -364,7 +391,7 @@ theorem neumann_solvable_iff (Ω : Opens (EuclideanSpace ℝ (Fin (n + 1))))
       ∫ x in (Ω : Set _), f x ∂mu = 0 := by
   sorry
 
-end Neumann
+end MixedAndNeumann
 
 /-! ## Layer 5: elliptic regularity -/
 
