@@ -532,14 +532,19 @@ theorem hasSum_appellF4Fibre (a b : ℂ) {c c' x y : ℂ} (hc : ∀ k : ℕ, c �
     HasSum (fun m : ℕ => poch(a, m) * poch(b, m) / (poch(c, m) * m !) * x ^ m *
         gaussHypergeometric (a + m) (b + m) c' y) (appellF4 a b c c' x y) := sorry
 
-/-- **6.4** The fibre sum is analytic for large `y`. -/
-theorem analyticOnNhd_appellF4Fibre (a b : ℂ) {c c' : ℂ} (hc : ∀ k : ℕ, c ≠ -k) :
+/-- **6.4** The fibre sum converges absolutely and is analytic for large `y`. -/
+theorem analyticOnNhd_appellF4Fibre (a b : ℂ) {c c' : ℂ} (hc : ∀ k : ℕ, c ≠ -k)
+    (hc' : ∀ k : ℕ, c' ≠ -k) :
+    (∀ p ∈ {p : ℂ × ℂ | -p.2 ∈ slitPlane ∧ √‖p.1‖ + 1 < √‖p.2‖},
+      Summable fun m : ℕ => ‖poch(a, m) * poch(b, m) / (poch(c, m) * m !) * p.1 ^ m *
+        gaussHypergeometric (a + m) (b + m) c' p.2‖) ∧
     AnalyticOnNhd ℂ (fun p : ℂ × ℂ => appellF4Fibre a b c c' p.1 p.2)
       {p | -p.2 ∈ slitPlane ∧ √‖p.1‖ + 1 < √‖p.2‖} := sorry
 
 /-- **6.4** The fibre sum converges and is analytic on an open set containing the segment from
 `(0, 0)` to `(0, −2)`, which joins the series domain to the domain of the connection formula. -/
-theorem exists_isOpen_analyticOnNhd_appellF4Fibre (a b : ℂ) {c c' : ℂ} (hc : ∀ k : ℕ, c ≠ -k) :
+theorem exists_isOpen_analyticOnNhd_appellF4Fibre (a b : ℂ) {c c' : ℂ} (hc : ∀ k : ℕ, c ≠ -k)
+    (hc' : ∀ k : ℕ, c' ≠ -k) :
     ∃ V : Set (ℂ × ℂ), IsOpen V ∧ (∀ t ∈ Icc (0 : ℝ) 2, ((0 : ℂ), -(t : ℂ)) ∈ V) ∧
       (∀ p ∈ V, Summable fun m : ℕ => poch(a, m) * poch(b, m) / (poch(c, m) * m !) * p.1 ^ m *
         gaussHypergeometric (a + m) (b + m) c' p.2) ∧

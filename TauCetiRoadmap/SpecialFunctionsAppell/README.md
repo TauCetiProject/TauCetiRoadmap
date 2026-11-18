@@ -87,7 +87,7 @@ nor SpecialFunctionsHypergeometric provides:
 - the sum of `F₄` over fibres of Gauss functions of `y`, and its convergence for large `y` (6.4).
 
 **What it does not own:**
-- The Gauss function (SpecialFunctionsHypergeometric), whose results 1.2–1.4, 4.2 and 5.1 it
+- The Gauss function (SpecialFunctionsHypergeometric), whose results 1.1–1.4, 4.2 and 5.1 it
   consumes.
 - The generalized hypergeometric functions `ₚF_q` and the Meijer `G`-function.
 - The other Horn functions, the large-parameter asymptotics, the double Mellin–Barnes integrals,
@@ -193,6 +193,8 @@ SpecialFunctionsHypergeometric.
 - [Its Conventions](../SpecialFunctionsHypergeometric/README.md#conventions):
   `Complex.regularizedGaussHypergeometric a b c z` and `Complex.gaussHypergeometric a b c z`, the
   principal branches on the cut plane `1 − z ∈ slitPlane`, with the junk value `0` off it.
+- Its 1.1: Euler's integral `E(a, b, c, z)` for `0 < Re b < Re c`, its holomorphy on the cut
+  plane and its agreement with the series on the unit disk, for the Euler integral of `F₄` in 6.3.
 - Its 1.2–1.4: Euler's integral (DLMF 15.6.1), the shift relations in `c` and in `b`, the
   agreement with Mathlib's series `Complex.regularizedGaussHGFun` on the unit disk, the joint
   holomorphy in `(a, b, c, z)` and the symmetry in `a` and `b`. They are the fibres of 1.5 and the
@@ -383,6 +385,27 @@ For all parameters, as identities of the series on their domains, coefficient by
 
 all at `(x, y)`, with the relations in `γ′`, `β′` of `𝐅₂` and in `β′` of `𝐅₃` by the symmetries.
 They follow from `1/Γ(c + k) = (c + k)/Γ(c + k + 1)` and `(a + 1)ₖ − (a)ₖ = k (a + 1)_{k−1}`.
+
+In each relation in `γ` above, one term keeps `γ − α` (for `𝐅₁`), `γ − β` (for `𝐅₂`) or
+`γ − β − β′` (for `𝐅₃`). The existence constructions of 3.1, 4.1 and 5.1 need relations that
+raise that difference in every term, and these are targets as well, for all parameters, as
+identities of the series on their domains:
+
+```text
+𝐅₁(α; β, β′; γ) = γ 𝐅₁(α; β, β′; γ + 1) + α β x 𝐅₁(α + 1; β + 1, β′; γ + 2)
+                    + α β′ y 𝐅₁(α + 1; β, β′ + 1; γ + 2)
+𝐅₂(α; β, β′; γ, γ′) = γ 𝐅₂(α; β, β′; γ + 1, γ′) + α β x 𝐅₂(α + 1; β + 1, β′; γ + 2, γ′)
+𝐅₃(α, α′; β, β′; γ) = (γ − α − α′) 𝐅₃(α, α′; β, β′; γ + 1) + α 𝐅₃(α + 1, α′; β, β′; γ + 1)
+                        + α′ 𝐅₃(α, α′ + 1; β, β′; γ + 1)
+```
+
+all at `(x, y)`, with the relation in `γ′` of `𝐅₂` by the symmetry. By
+`(α)_{m+n} = α (α + 1)_{m+n−1}` and `(β)ₘ = β (β + 1)_{m−1}`, the coefficient of `xᵐyⁿ` on the
+right of the first is `γ + m + n` times that of `𝐅₁(α; β, β′; γ + 1)`, and on the right of the
+second `γ + m` times that of `𝐅₂(α; β, β′; γ + 1, γ′)`; the first is also the third operator
+relation below at `γ + 1`, with the derivatives of 1.4. The third is the relation in `γ` of `𝐅₃`
+above after the symmetries `α ↔ β`, `α′ ↔ β′` of 1.3.
+
 The contiguity relations with first-order operators of `𝐅₁` are targets as well, on
 `appellBidisc` and for all parameters (Matsumoto, Thm. 3.8.1, pp. 91–92, for `F_D`):
 
@@ -399,6 +422,10 @@ the poles because it is stated for `𝐅₁`.
 - At the parameters and point of 1.1 the two sides of each relation agree; for instance both sides
   of the first are `𝐅₁(0.3; 0.45, 0.7; 1.6; 0.2 + 0.1i, −0.25 + 0.15i)`, and both sides of the
   first operator relation, in the classical form, are `0.28222 90123 515… + 0.03217 60057 464… i`.
+- At `α = 0.3`, `β = 1`, `β′ = 0.7`, `γ = ½`, `γ′ = 1.25` and the point of 1.1, where
+  `Re(γ − β) < 0`, both sides of the relation of `𝐅₂` that raises `γ − β` in every term are
+  `0.66395 75399 510… + 0.06269 19795 279… i`; there the relation in `γ` above has the term
+  `β 𝐅₂(α; β + 1, β′; γ + 1, γ′)` with `γ − β` unchanged.
 
 *Needs:* 1.1–1.4.
 
@@ -491,10 +518,15 @@ Targets:
   the binomial series of the powers and `Complex.Gamma_mul_Gamma_eq_betaIntegral`;
 - **existence** (`exists_isAppellContinuation_F1`): the contiguous relations of 1.6 express the
   series at any parameters, on `appellSimplex`, as a finite combination with polynomial
-  coefficients in `(x, y)` of series at parameters in the Euler region. As in
-  SpecialFunctionsHypergeometric 1.2, the construction with fixed shift counts is analytic on
-  `appellDomain1` where its last step lies in the Euler region, equals the series on
-  `appellSimplex`, and two constructions agree where both are defined;
+  coefficients in `(x, y)` of series at parameters in the Euler region. The relation in `α`
+  raises `α` by one in every term and lowers `γ − α` by at most one; the relation of 1.6 that
+  raises `γ − α`, `𝐅₁(γ) = γ 𝐅₁(γ + 1) + …`, raises it by one in every term and keeps `α` or
+  raises it by one. So `p` steps in `α` followed by `q` steps of the second kind end in the Euler
+  region when `Re α > −p` and `Re(γ − α) > p − q`. The relation in `γ` of the first display of
+  1.6 does not serve, since its second term keeps `γ − α`. As in SpecialFunctionsHypergeometric
+  1.2, the construction with fixed shift counts is analytic on `appellDomain1` where its last
+  step lies in the Euler region, equals the series on `appellSimplex`, and two constructions
+  agree where both are defined;
 - **the Euler integral**: `𝐅₁ = E₁` on `appellDomain1` for `Re γ > Re α > 0`
   (`regularizedAppellF1_eq_eulerIntegral`), and the classical form with `Γ(γ)` in the numerator;
 - **agreement**: `𝐅₁` equals its series on `appellBidisc` (`regularizedAppellF1_eq_series`).
@@ -627,7 +659,12 @@ Targets, as in 3.1–3.2:
   `Re(γ − β − β′) > 0`, jointly in the parameters;
 - **agreement with the series** on `appellSimplex` in that region, by termwise integration and
   the Dirichlet integral over `Δ`, reduced to two Beta integrals by `v = (1 − u) t`;
-- **existence** (`exists_isAppellContinuation_F3`) by the contiguous relations of 1.6;
+- **existence** (`exists_isAppellContinuation_F3`) by the contiguous relations of 1.6: the
+  relations in `β` and in `β′` raise that parameter by one in every term and lower
+  `γ − β − β′` by at most one, and the relation of 1.6 that raises `γ − β − β′` (the relation
+  in `γ` after the symmetries `α ↔ β`, `α′ ↔ β′`) raises it by one in every term and keeps `β`
+  and `β′`. So `p` and `p′` steps in `β` and `β′` followed by `q` steps of the third kind end
+  in the Euler region when `Re β > −p`, `Re β′ > −p′` and `Re(γ − β − β′) > p + p′ − q`;
 - **the Euler integral**: `𝐅₃ = E₃` on `appellDomain1` in that region
   (`regularizedAppellF3_eq_eulerIntegral`), and the classical form;
 - **the properties on `appellDomain1`**: agreement with the series on `appellBidisc`, joint
@@ -705,7 +742,13 @@ Targets, as in 3.1–3.2:
   `Re γ′ > Re β′ > 0`, jointly in the parameters;
 - **agreement with the series** on `appellSimplex` in that region, by termwise integration of the
   binomial series and two Beta integrals;
-- **existence** (`exists_isAppellContinuation_F2`) by the contiguous relations of 1.6;
+- **existence** (`exists_isAppellContinuation_F2`) by the contiguous relations of 1.6: the
+  relation in `β` raises `β` by one in every term and lowers `γ − β` by at most one, and the
+  relation of 1.6 that raises `γ − β`, `𝐅₂(γ) = γ 𝐅₂(γ + 1) + …`, raises it by one in every
+  term and keeps `β` or raises it by one; the same holds in `(β′, γ′)`. So `p` steps in `β`
+  followed by `q` steps of the second kind end in the Euler region of `(β, γ)` when
+  `Re β > −p` and `Re(γ − β) > p − q`, and likewise in `(β′, γ′)`. The relation in `γ` of the
+  first display of 1.6 does not serve, since its second term keeps `γ − β`;
 - **the Euler integral**: `𝐅₂ = E₂` on `appellDomain2` in that region
   (`regularizedAppellF2_eq_eulerIntegral`), and the classical form;
 - **the properties on `appellDomain2`**: agreement with the series on `appellSimplex`, joint
