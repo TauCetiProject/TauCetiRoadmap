@@ -56,11 +56,12 @@ functions, Kummer's second transformation and the integral of `J₀` are consume
 [SpecialFunctionsParabolicCylinder](../SpecialFunctionsParabolicCylinder/README.md), `K_ν` on
 `(0, ∞)` and `Y_ν` on `Re z > 0` from
 [AnalyticNumberTheoryPartI](../AnalyticNumberTheoryPartI/README.md), `I_ν` at real argument from
-AutomorphicSpectralTheory (its §0.25), the exponential, sine and cosine integrals, the error
-functions, the incomplete Gamma functions and Pincherle's theorem from
+[AutomorphicSpectralTheory](../AutomorphicSpectralTheory/README.md) (its §0.25), the exponential,
+sine and cosine integrals, the error functions, the incomplete Gamma functions and Pincherle's
+theorem from
 [SpecialFunctionsEiLiErfIncompleteGamma](../SpecialFunctionsEiLiErfIncompleteGamma/README.md),
-Gegenbauer's polynomials from LaguerreJacobi (its F1–F2), and the principal branch of the
-regularized Gauss function on `ℂ \ [1, ∞)` from
+Gegenbauer's polynomials from [LaguerreJacobi](../LaguerreJacobi/README.md) (its §§6.1–6.2),
+and the principal branch of the regularized Gauss function on `ℂ \ [1, ∞)` and Gauss's sum from
 [SpecialFunctionsHypergeometric](../SpecialFunctionsHypergeometric/README.md). This roadmap builds
 the removable singularity in the order behind the integer orders of `Y_ν` and `K_ν`, Neumann's
 polynomials, the facts that Gegenbauer's addition theorem needs about Gegenbauer's polynomials,
@@ -146,7 +147,7 @@ consumed roadmap provides:
 - Debye's polynomials `U_k`, `V_k` (9.1);
 - the explicit error bound of the Liouville–Green Case I expansion on `(ξ, ∞)` for real `ξ`
   (9.1; Olver Ch. 10, Theorem 3.1, p. 366);
-- the variation of `t^{−ℓ}` along the paths `P(z)` of 6.3, bounded as in DLMF 10.17.15 and
+- the variation of `t^{−ℓ}` along the paths `P_R(z)` of 6.3, bounded as in DLMF 10.17.15 and
   10.40.12 (6.3).
 
 **What it does not own:**
@@ -166,12 +167,13 @@ consumed roadmap provides:
   Gamma functions and Pincherle's theorem, consumed from SpecialFunctionsEiLiErfIncompleteGamma.
 - The principal branch of the regularized Gauss function `𝐅(α, β; γ; x)` on `ℂ \ [1, ∞)`, its
   holomorphy and its agreement with Mathlib's series on the unit disc, consumed from
-  SpecialFunctionsHypergeometric 1.2–1.4 for DLMF 10.22.49.
+  SpecialFunctionsHypergeometric 1.2–1.4 for DLMF 10.22.49, and Gauss's sum, consumed from its
+  4.2 for DLMF 10.22.57.
 - The formulas through the Struve, Whittaker, Kummer `U` and Legendre functions, which neither
   Mathlib, Tau Ceti nor a consumed roadmap defines, and the formulas through the Gauss
   hypergeometric function other than DLMF 10.22.49 and 10.22.64 (DLMF 10.16.6–10.16.8, 10.16.10,
-  10.22.2, 10.22.50, 10.22.56–10.22.58, 10.22.66, 10.22.71–10.22.72, 10.39.6–10.39.8, 10.39.10,
-  10.43.2, 10.43.22, 10.43.26, and 9.6.21–9.6.24).
+  10.22.2, 10.22.50, 10.22.56, 10.22.58, 10.22.66, 10.22.71–10.22.72, 10.39.6–10.39.8, 10.39.10,
+  10.43.2, 10.43.22, 10.43.26, 10.54.4–10.54.5, and 9.6.21–9.6.24).
 - Values off the principal sheet: the parts of DLMF 10.17.5–10.17.6, 10.17.11–10.17.12, 10.40.2,
   10.40.4–10.40.5 with `|ph z| ≥ π`.
 - The uniform expansions for large order in terms of Airy functions and everything that rests on
@@ -376,22 +378,23 @@ The following are consumed with the hypotheses and conventions stated there.
   - the first-kind API on `(0, ∞)`: the series, the equation, 10.6.1 and `J_{1/2}`, which are the
     positive-axis cases of 1.1, 1.5, 2.1 and 2.3.
 
-### From AutomorphicSpectralTheory
+### From [AutomorphicSpectralTheory](../AutomorphicSpectralTheory/README.md)
 
 - `I_ν(y) = (y/2)^ν 𝐅(ν + 1, y²/4)` for complex `ν` and real `y`, with its series, the modified
   equation, `I_{ν−1}(y) − I_{ν+1}(y) = (2ν/y) I_ν(y)` and `I_{−n}(y) = I_n(y)` for `y > 0`
   (its §0.25), the real-argument cases of 1.3–1.5.
 
-### From LaguerreJacobi
+### From [LaguerreJacobi](../LaguerreJacobi/README.md)
 
 - Gegenbauer's polynomial `Polynomial.gegenbauer (lam : R) (n : ℕ) : R[X]`, defined by the
   explicit sum `∑ₖ (−1)ᵏ (λ)ₙ₋ₖ/(k! (n − 2k)!) (2X)^{n−2k}` of DLMF 18.5.10, with
   `gegenbauer lam 0 = 1`, `gegenbauer lam 1 = C (2*lam) * X` and its relation to the Jacobi
-  family (its F2), for 4.3. Over `ℂ`, `(Polynomial.gegenbauer ν n).eval x` is the sum
+  family (its §6.2), for 4.3. Over `ℂ`, `(Polynomial.gegenbauer ν n).eval x` is the sum
   `∑ₖ (−1)ᵏ (ν)ₙ₋ₖ/(k! (n − 2k)!) (2x)^{n−2k}` term for term; `Complex.gegenbauerC` in
   `Suggested.lean` is that sum, a roadmap-local copy.
-- The Legendre polynomial `P_n = jacobi 0 0 n` and `Polynomial.shiftedLegendre_eq_jacobi_comp`
-  (its F1), for `C_n^{(1/2)} = P_n` in 4.3.
+- The Legendre polynomial `P_n = jacobi 0 0 n` and its identification with Mathlib's
+  `Polynomial.shiftedLegendre` by `P̃_n(y) = P_n(1 − 2y)` (its §6.1), for `C_n^{(1/2)} = P_n` in
+  4.3.
 
 ### From [SpecialFunctionsAiry](../SpecialFunctionsAiry/README.md)
 
@@ -434,6 +437,9 @@ The following are consumed with the hypotheses and conventions stated there.
   `Complex.regularizedGaussHypergeometric a b c x`, the principal branch of `𝐅(a, b; c; x)` on
   `1 − x ∈ slitPlane` for all parameters; it is holomorphic in `x` there (1.4) and equals Mathlib's
   `Complex.regularizedGaussHGFun a b c x` for `‖x‖ < 1` (1.3). For 10.22.49 in 11.2.
+- [§4.2](../SpecialFunctionsHypergeometric/README.md#42-unit-argument): Gauss's sum 15.4.20 in
+  regularized form, `𝐅(a, b; c; 1) = Γ(c − a − b)/(Γ(c − a) Γ(c − b))` for `Re(c − a − b) > 0`,
+  as the value of Mathlib's series at `1`. For 10.22.57 in 11.2.
 
 ### From Tau Ceti
 
@@ -892,7 +898,7 @@ the generating function 18.12.4 at `x = cos α` has radius of convergence `min |
   `(π/(2v))^{1/2} J_{k+1/2}(v) = 𝗃_k(v)`.
 - `C_2^{(ν)}(x) = 2ν(ν + 1)x² − ν` and `C_4^{(1/2)}(0.3) = P_4(0.3) = 0.0729375`.
 
-*Needs:* 2.1, 4.2; 1.2, 1.4; LaguerreJacobi F1–F2.
+*Needs:* 2.1, 4.2; 1.2, 1.4; LaguerreJacobi §§6.1–6.2.
 
 ### 4.4 Neumann series of holomorphic functions
 
@@ -992,8 +998,20 @@ the substitution `t ↦ 2t`.
 
 ### 5.4 Spherical functions: Legendre-kernel integrals, Lambert's fraction, generating functions
 
-DLMF 10.54.1–10.54.5, 10.55.1 and 10.56.1–10.56.5. 10.54.2–10.54.3 use `P_n(x)`, written as
+DLMF 10.54.1–10.54.3 and 10.56.1–10.56.5. 10.54.2–10.54.3 use `P_n(x)`, written as
 `Polynomial.shiftedLegendre n` at `(1 − x)/2`, since Mathlib's `P̃_n(y)` is `P_n(1 − 2y)`.
+
+Lambert's fraction (DLMF §10.55): for `n ≥ 0`, `z ≠ 0` and `𝗃_n(z) ≠ 0`,
+`𝗃_{n+1}(z)/𝗃_n(z) = 1/((2n + 3) z⁻¹ − 1/((2n + 5) z⁻¹ − ⋯))`, the case `ν = n + 3/2` of 10.10.1
+(4.5), and for `𝗂⁽¹⁾_n(z) ≠ 0`,
+`𝗂⁽¹⁾_{n+1}(z)/𝗂⁽¹⁾_n(z) = 1/((2n + 3) z⁻¹ + 1/((2n + 5) z⁻¹ + ⋯))`, the same case of 10.33.1,
+each as the limit of the convergents.
+
+**Checks.**
+- `n = 0`, `z = 1`: `𝗃₁(1)/𝗃₀(1) = 1 − cot 1 = 0.35790 73840…`, and the fourth convergent
+  `1/(3 − 1/(5 − 1/(7 − 1/9)))` is `0.35790 72532…`.
+- `n = 0`, `z = 1`: `𝗂⁽¹⁾₁(1)/𝗂⁽¹⁾₀(1) = coth 1 − 1 = 0.31303 52854…`, and the fourth convergent
+  `1/(3 + 1/(5 + 1/(7 + 1/9)))` is `0.31303 52045…`.
 
 *Needs:* 3.1, 5.1, 4.5.
 
@@ -1091,35 +1109,42 @@ imaginary parts.
 
 *Complex argument and order* (DLMF §§10.17(iv), 10.40(iii)), for complex `ν` and every
 `ℓ ≥ 1`: the remainders `R^±_ℓ(ν, z)` of 10.17.13 and `R_ℓ(ν, z)` of 10.40.10 satisfy 10.17.14
-and 10.40.11. The variation `𝒱` (DLMF 2.3.6) is taken along an explicit path `P(z)` that
-avoids `0`, along which `Im t` (respectively `Re t`) is nondecreasing. DLMF's condition is that
-`|Im t|` changes monotonically, which no path from the lower half-plane to `+i∞` meets; the
-estimate holds along the paths below. For `R⁺`, with `y = |Im z|`:
-- for `0 ≤ ph z ≤ π`, `P(z)` is the ray `z + is`, `s ≥ 0`;
-- for `−π/2 ≤ ph z < 0`, it is the arc of `|t| = |z|` from `z` to `i|z|` through the right
-  half-plane, then the ray up the imaginary axis;
-- for `−π < ph z < −π/2`, it is the horizontal segment from `z` to `−iy`, then the arc of
-  `|t| = y` from `−iy` to `iy` through the right half-plane, then the ray.
+and 10.40.11, with `𝒱` the limit as `R → ∞` of the variation (DLMF 2.3.6) of `t^{−ℓ}` along a
+path `P_R(z)` that avoids `0` and along which `Im t` (respectively `Re t`) is nondecreasing.
+DLMF's condition is that `|Im t|` changes monotonically, which no path from the lower half-plane
+to `+i∞` meets; the estimate holds along the paths below. For `R⁺`, `P_R(z)` follows a ray `L(z)`
+from `z` until `|t| = R`, then the shorter arc of `|t| = R` to `iR`, then the imaginary axis to
+`+i∞`. The arc and the final ray contribute `O(R^{−ℓ})`, so `𝒱` is the variation along `L(z)`:
+- for `0 ≤ ph z ≤ π`, `L(z)` is the radial ray `t = zs`, `s ≥ 1`, with variation exactly
+  `|z|^{−ℓ}`;
+- for `−π < ph z < 0`, it is the horizontal ray `t = z + s`, `s ≥ 0`. For `Re z ≥ 0`,
+  `|z + s|² ≥ |z|² + s²` bounds its variation by `ℓ ∫₀^∞ (|z|² + s²)^{−(ℓ+1)/2} ds = χ(ℓ)|z|^{−ℓ}`;
+  for `Re z < 0` it is at most the variation along the whole line `Im t = Im z`, which is
+  `2χ(ℓ)|Im z|^{−ℓ}`.
 
-`R⁻` uses the conjugate paths, towards `−i∞`. For `K` the paths go to `+∞` and are rotated by
-`−π/2`:
-- for `|ph z| ≤ π/2`, the ray `z + s`;
-- for `π/2 < |ph z| < π`, the arc of `|t| = |z|` from `z` to `|z|`, then the ray.
+`R⁻` uses the conjugate paths, towards `−i∞`. For `K` the paths go to `+∞` and are those for `R⁺`
+rotated by `−π/2`: the radial ray for `|ph z| ≤ π/2`, with variation `|z|^{−ℓ}`, and for
+`π/2 < |ph z| < π` the vertical ray `t = z − is` (for `Im z < 0`) or `t = z + is` (for
+`Im z > 0`), moving away from the real axis, with variation at most `χ(ℓ)|z|^{−ℓ}`; each is
+followed by the shorter arc of `|t| = R` to `R` and the real axis.
 
-The bounds 10.17.15 and 10.40.12 are stated for these paths, in the sectors that lie in
-`|ph z| < π`. `χ(ℓ)` comes from the arcs, as in DLMF §9.7(i). Route: the Volterra equation for
-the remainder (Olver Ch. 7, §7.13.1, (13.01)–(13.05), pp. 266–267, and Ex. 13.2, p. 269, for
-`K_ν`), with the error-control function integrated along
-`P(z)`.
+These are the bounds 10.17.15 and 10.40.12 in the sectors that lie in `|ph z| < π`. Route: the
+Volterra equation for the remainder (Olver Ch. 7, §7.13.1, (13.01)–(13.05), pp. 266–267, and
+Ex. 13.2, p. 269, for `K_ν`), with the error-control function integrated along `P_R(z)`, and
+`R → ∞`.
 
 **Checks.**
 - At `ν = ½` every remainder vanishes, and `a_ℓ(½) = 0` makes the bound `0`.
-- For `R⁺` the bound 10.17.15 is `|z|^{−ℓ}` on `0 ≤ ph z < π` and `χ(ℓ)|z|^{−ℓ}` on
-  `−π/2 ≤ ph z ≤ 0`, with `χ(ℓ) = π^{1/2} Γ(ℓ/2 + 1)/Γ(ℓ/2 + ½)`.
+- For `R⁺` the bound 10.17.15 is `|z|^{−ℓ}` on `0 ≤ ph z ≤ π`, `χ(ℓ)|z|^{−ℓ}` on
+  `−π/2 ≤ ph z < 0` and `2χ(ℓ)|Im z|^{−ℓ}` on `−π < ph z < −π/2`, with
+  `χ(ℓ) = π^{1/2} Γ(ℓ/2 + 1)/Γ(ℓ/2 + ½)`; `χ(1) = π/2` and `χ(2) = 2`.
 - For `ν = 0`, `ℓ = 1`, `z = 10i`: `|R⁺_1| ≤ 2 |a_1(0)| 10^{−1} exp(¼ · 10^{−1})`.
 - At `z = −i` the straight vertical path to `+i∞` passes through `0`, where the variation of
-  `t^{−ℓ}` is infinite. `P(−i)` is the right half of the unit circle followed by the ray, and
-  10.17.15 gives `χ(ℓ)`.
+  `t^{−ℓ}` is infinite. The horizontal ray `t = −i + s` gives exactly `χ(ℓ)`, the bound of
+  10.17.15.
+- At `z = −1 − i`, `ℓ = 1`, the horizontal ray gives `3π/4 = 2.35619…`, within `2χ(1) = π`.
+- Negative control: at `z = 1`, `ℓ = 1`, the vertical ray `t = 1 + is` has variation
+  `π/2 > 1 = |z|^{−1}`, so 10.17.15 on `0 ≤ ph z ≤ π` needs the radial ray.
 - `K_0(10)`: the remainder after `ℓ = 1` term is negative, and at most `|a_1(0)|/10 = 1/80` in
   absolute value, with `a_1(0) = −1/8`.
 
@@ -1201,10 +1226,10 @@ Ex. 10.6, p. 61, and Beals–Wong Exercise 7.32, p. 252.
 Throughout, `ν` is real and `x > 0`, and `(f_ν, g_ν)` is any of the ordered pairs
 `(ber_ν, bei_ν)`, `(bei_ν, −ber_ν)`, `(ker_ν, kei_ν)`, `(kei_ν, −ker_ν)` (10.63.1).
 
-- Recurrences, 10.63.2–10.63.4: `f_{ν−1} + f_{ν+1} = −(ν√2/x)(f_ν − g_ν)`,
-  `√2 f′_ν = f_{ν+1} + g_{ν+1} − (ν/x)(f_ν − g_ν) = −f_{ν−1} − g_{ν−1} + (ν/x)(f_ν − g_ν)`
-  (10.63.2–10.63.3), and the order-zero cases `√2 ber′ x = ber₁ x + bei₁ x`,
-  `√2 bei′ x = −ber₁ x + bei₁ x` and their `ker`, `kei` analogues (10.63.4).
+- Recurrences, 10.63.2–10.63.4: `f_{ν−1} + f_{ν+1} = −(ν√2/x)(f_ν − g_ν)` and
+  `√2 f′_ν = f_{ν+1} + g_{ν+1} + (ν√2/x) f_ν = −f_{ν−1} − g_{ν−1} − (ν√2/x) f_ν` (10.63.2), and
+  the order-zero cases `√2 ber′ x = ber₁ x + bei₁ x`, `√2 bei′ x = −ber₁ x + bei₁ x` (10.63.3)
+  and `√2 ker′ x = ker₁ x + kei₁ x`, `√2 kei′ x = −ker₁ x + kei₁ x` (10.63.4).
 - Quadratic combinations, 10.63.5–10.63.7: with `p_ν = ber_ν² + bei_ν²`,
   `q_ν = ber_ν bei′_ν − ber′_ν bei_ν`, `r_ν = ber_ν ber′_ν + bei_ν bei′_ν` and
   `s_ν = (ber′_ν)² + (bei′_ν)²`, the recurrences 10.63.6 and `p_ν s_ν = r_ν² + q_ν²` (10.63.7); and
@@ -1233,7 +1258,11 @@ or directly from the series; 10.66.2 from `J_n(u + v) = ∑_{k∈ℤ} J_{n−k}(
 `J_k(ix) = i^k I_k(x)` and `−x + ix = x√2 e^{3πi/4}`.
 
 **Checks.**
-- 10.63.4 at `x = 1`: `√2 ber′ 1 = ber₁ 1 + bei₁ 1 = −0.08831 16296…`.
+- 10.63.3 at `x = 1`: `√2 ber′ 1 = ber₁ 1 + bei₁ 1 = −0.08831 16296…`.
+- 10.63.2 for `(ber, bei)` at `ν = 1`, `x = 1`: `√2 ber′₁ 1`, `ber₂ 1 + bei₂ 1 + √2 ber₁ 1` and
+  `−ber₀ 1 − bei₀ 1 − √2 ber₁ 1` all equal `−0.67410 55576…`. The term `−(ν/x)(f_ν − g_ν)` in
+  place of `+(ν√2/x) f_ν` gives `0.58916 15984…`; for `(ker, kei)` at `ν = 0.7`, `x = 1.1` both
+  forms of 10.63.2 give `0.27178 51554…`.
 - 10.64.1 at `n = 0`, `x = 1`: `ber √2 = (1/π) ∫₀^π cos(sin t) cosh(sin t) dt = 0.93760 84768…`.
 - 10.71.5 for `(ber, bei)` at `ν = 0`: the derivative of `x(ber bei′ − ber′ bei)` at `x = 1` is
   `ber² 1 + bei² 1 = 1.03129 06995…`.
@@ -1271,7 +1300,7 @@ Layers 1–6; AsymptoticExpansions Layer 2.
 
 DLMF 10.16.3–10.16.5 and 10.39.3–10.39.5:
 - the parabolic cylinder forms 10.16.3–10.16.4 for `z = x > 0`, through `W(0, ±2x^{1/2})` and its
-  derivative, and 10.39.3–10.39.4 through `U(a, 2z^{1/2})` on `|ph z| < π/2`;
+  derivative, and 10.39.3–10.39.4 through `U(a, 2z^{1/2})` for `z` in the slit plane;
 - the Kummer forms 10.16.5 and 10.39.5 with `M = Γ(b) 𝐌` and `2ν ∉ {−1, −2, …}`
   (`besselJ_eq_kummer`; Andrews–Askey–Roy (4.5.3), p. 200; Lebedev (9.13.11) and (9.13.14), p. 274;
   Beals–Wong (7.3.2), p. 231), from Kummer's second transformation (SpecialFunctionsAiry 1.7,
@@ -1310,7 +1339,11 @@ Sources for the Bessel forms of `Ai` and `Bi`: Temme Exercise 9.13, pp. 254–25
 ### 8.3 Parabolic cylinder functions through `K_{1/4}` and `K_{3/4}`
 
 DLMF 12.7.8–12.7.11: `U(a, z)` for `a = −2, −1, 0, 1` through `K_{1/4}`, `K_{3/4}`, `K_{5/4}` at
-`z²/4`, for `|ph z| < π/4`.
+`z²/4`, for `|ph z| < π/2`, where `z²/4` lies in the slit plane.
+
+**Checks.**
+- 12.7.10 at `z = 1.2 e^{0.4πi}`, outside `|ph z| < π/4`: both sides equal
+  `0.99841 59474… − 0.71362 92986… i`.
 
 *Needs:* 1.3–1.4, 8.1; SpecialFunctionsParabolicCylinder.
 
@@ -1620,8 +1653,8 @@ Whittaker–Watson Misc. Ex. 23, p. 382.
 
 ### 11.2 Integrals over the half-line: Mellin, Laplace, Weber and Weber–Schafheitlin
 
-DLMF 10.22.41–10.22.49, 10.22.51–10.22.55, 10.22.59–10.22.65 and 10.22.67–10.22.70, as
-improper or Bochner integrals according to absolute convergence, with the conditions stated
+DLMF 10.22.41–10.22.49, 10.22.51–10.22.55, 10.22.57, 10.22.59–10.22.65 and 10.22.67–10.22.70,
+as improper or Bochner integrals according to absolute convergence, with the conditions stated
 there. In particular `∫₀^∞ J_ν(t) dt = 1` for `Re ν > −1` as an improper integral (10.22.41;
 `tendsto_integral_besselJ`; Olver Ch. 7, Ex. 5.8, p. 244; Temme Exercise 9.9, pp. 251–252), and
 the discontinuous integrals 10.22.59–10.22.64 with each case stated separately. Sources for the
@@ -1678,6 +1711,17 @@ gives `Re μ > −n`; the strip `−n − 1 < Re μ ≤ −n` follows by the ide
 improper integral is holomorphic in `μ` there: integrate the tail by parts once with 6.2, which
 makes the convergence locally uniform.
 
+10.22.57, the case `b = a` of Weber–Schafheitlin's integral 10.22.56, is owned for `a > 0` and
+`Re(μ + ν + 1) > Re λ > 0`, where the integral is a Bochner integral:
+`∫₀^∞ J_μ(at) J_ν(at) t^{−λ} dt` equals
+`(a/2)^{λ−1} Γ(λ) Γ(A) / (2 Γ(D) Γ((λ + μ + ν + 1)/2) Γ((λ + μ − ν + 1)/2))`, with
+`A = (μ + ν − λ + 1)/2`, `D = (λ + ν − μ + 1)/2` and `1/Γ` read as entire. Route: the
+Mellin–Parseval formula (5.3) with the Mellin transforms of `J_μ(a·)` and `J_ν(a·)` (10.22.43).
+Closing the contour to the left leaves the residues at the poles of `Γ((μ + s)/2)`, which sum to
+a multiple of `𝐅(A, 1 − D; μ + 1; 1)`, with `(μ + 1) − A − (1 − D) = λ`; Gauss's sum
+(SpecialFunctionsHypergeometric 4.2) evaluates it. This gives the formula on an open set of
+parameters, and the identity theorem in `(μ, ν, λ)` gives the rest.
+
 **Checks.**
 - 10.22.49 at `μ = 1`, `ν = 0`, `a = 1`, `b = 2`, outside the disc:
   `∫₀^∞ e^{−t} J_0(2t) dt = 5^{−1/2} = 0.44721 35954…`, and `𝐅(½, 1; 1; −4) = 5^{−1/2}`.
@@ -1689,9 +1733,12 @@ makes the convergence locally uniform.
   Chu–Vandermonde `𝐅(−n, μ + n + 1; μ + 1; 1) = (−1)ⁿ n!/Γ(μ + n + 1)`. Numerically,
   `∫₀^∞ J_{7/2}(t) J_{1/2}(t) dt = −½` and `∫₀^∞ J_{6.3}(t) J_{1.3}(t) dt = ½`.
 - 10.22.64 at `μ = ½`, `n = 1`, `a = 2`, `b = 1`: both sides equal `0.30935 92167…`.
+- 10.22.57 at `μ = ν = λ = a = 1`: `∫₀^∞ J_1(t)² dt/t = ½`; at `μ = 0`, `ν = λ = a = 1`:
+  `∫₀^∞ J_0(t) J_1(t) dt/t = 2/π`.
 
 *Needs:* 11.1, 6.2, 5.3, 1.5; for 10.22.49 and 10.22.64, 2.1 and Mathlib
-`Complex.regularizedGaussHGFun`; for 10.22.49, SpecialFunctionsHypergeometric 1.2–1.4.
+`Complex.regularizedGaussHGFun`; for 10.22.49, SpecialFunctionsHypergeometric 1.2–1.4; for
+10.22.57, SpecialFunctionsHypergeometric 4.2.
 
 ### 11.3 Integrals of three Bessel functions
 
@@ -1760,8 +1807,8 @@ the odd case being `0`), which is 10.22.43 at `ν = n + ½`, `μ = −½`.
 
 ### Dependencies
 
-Layers 1–10; SpecialFunctionsHypergeometric 1.2–1.4; SpecialFunctionsEiLiErfIncompleteGamma; Mathlib
-`Polynomial.shiftedLegendre`.
+Layers 1–10; SpecialFunctionsHypergeometric 1.2–1.4, 4.2; SpecialFunctionsEiLiErfIncompleteGamma;
+Mathlib `Polynomial.shiftedLegendre`.
 
 ## Downstream consumers
 
@@ -1798,11 +1845,11 @@ under this roadmap.
   10.40.4–10.40.5 with `|ph z| ≥ π`, which need the functions in logarithmic coordinates, and the
   Stokes phenomenon for `H⁽¹⁾_ν` (Olver Ch. 7, (4.15)–(4.16), pp. 239–240).
 - **Formulas through Struve, Whittaker, Kummer `U`, Legendre and Gauss functions**: DLMF
-  10.16.6–10.16.8, 10.16.10, 10.22.2, 10.22.50, 10.22.56–10.22.58, 10.22.66,
-  10.22.71–10.22.72, 10.39.6–10.39.8, 10.39.10, 10.43.2, 10.43.22, 10.43.26, and DLMF
-  9.6.21–9.6.24 and 12.7.14. They belong to the Struve, confluent hypergeometric and Legendre
-  roadmaps, and those through the Gauss function to SpecialFunctionsHypergeometricPartII, which
-  consumes SpecialFunctionsHypergeometric, SpecialFunctionsConfluent and this roadmap.
+  10.16.6–10.16.8, 10.16.10, 10.22.2, 10.22.50, 10.22.56, 10.22.58, 10.22.66,
+  10.22.71–10.22.72, 10.39.6–10.39.8, 10.39.10, 10.43.2, 10.43.22, 10.43.26, 10.54.4–10.54.5,
+  and DLMF 9.6.21–9.6.24 and 12.7.14. They belong to the Struve, confluent hypergeometric and
+  Legendre roadmaps, and those through the Gauss function to SpecialFunctionsHypergeometricPartII,
+  which consumes SpecialFunctionsHypergeometric, SpecialFunctionsConfluent and this roadmap.
 - **Bessel functions as limits of orthogonal polynomials and Legendre functions**: Laguerre
   expansions (DLMF 8.7.6), the Mehler–Heine limits (Andrews–Askey–Roy Theorem 4.11.6, p. 220, and
   (6.2.34), p. 290; Whittaker–Watson §17.4, pp. 367–368), and the Legendre functions as integrals
