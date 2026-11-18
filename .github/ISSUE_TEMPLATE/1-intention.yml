@@ -81,6 +81,7 @@ body:
         - ClassifyingSpaces
         - ClusterAlgebras
         - CoboundaryExpansion
+        - ColemanIntegration
         - ColemanPowerSeries
         - CombinatorialHeegaardFloer
         - CompactOperators
@@ -132,6 +133,7 @@ body:
         - EquivariantIntersectionTheory
         - EtaleCohomologyFoundations
         - EtaleDualityAndPerverseSheaves
+        - EtaleDualityAndPerverseSheavesPartII
         - EtaleMassFormula
         - EulerSystemsAndKolyvaginSystems
         - EulerSystemsCyclotomicMainConjecture
@@ -181,6 +183,7 @@ body:
         - HamiltonianFloerOperations
         - HeegaardFloer
         - HermitianKTheoryOfPoincareCategories
+        - HilbertModularVarietiesAndShimuraCurves
         - HilbertModules
         - HomologicalStabilityOfGeneralLinearGroups
         - HomotopySpheres
@@ -294,6 +297,7 @@ body:
         - PseudodifferentialOperators
         - PseudoholomorphicCurveAnalysis
         - PurityOfBranchLocus
+        - QWittVectors
         - QuadraticCharactersAndReduction
         - QuadraticFormInvariants
         - QuadraticFormInvariantsPartII
@@ -312,6 +316,7 @@ body:
         - ReflectionInvariantTheory
         - RegretMinimizationAndEquilibria
         - Regularity
+        - RelativeFarguesFontaine
         - RelativeJacobiansAndIntegralCurveModels
         - RepresentationTheory
         - ResolutionOfSingularitiesCharacteristicZero
@@ -372,6 +377,7 @@ body:
         - TypeAHeckeAlgebras
         - VariationalMethods
         - Varifolds
+        - VectorBundlesAndIsocrystals
         - VirtualFundamentalClass
         - VonNeumannAlgebras
         - WeightsInEtaleCohomology
