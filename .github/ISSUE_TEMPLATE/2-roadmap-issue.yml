@@ -365,6 +365,7 @@ body:
         - SobolevMapsBetweenManifolds
         - SobolevPolynomialApproximation
         - SpecialFunctionsAiry
+        - SpecialFunctionsAppell
         - SpecialFunctionsBessel
         - SpecialFunctionsEiLiErfIncompleteGamma
         - SpecialFunctionsGeneralizedHypergeometric
