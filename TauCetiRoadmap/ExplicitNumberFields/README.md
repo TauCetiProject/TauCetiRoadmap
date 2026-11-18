@@ -31,181 +31,27 @@ the zero-free regions and real-zero gaps for `ζ_K`, the bounds `g(p) < p^{5/8}`
 Mertens theorems for number fields and the explicit Chebotarev, least-prime-ideal and
 Brun–Titchmarsh theorems.
 
-## Scope and ownership
+## How to read the build
 
-**Owned here.**
-
-- Layer 0: the Minkowski constant and the real Minkowski bound `b_K`, the local Euler factors
-  `Π_K(p)` and their products over finite sets of primes, the class-number lemma
-  `h_K ≤ Σ_{m ≤ b} τ_n(m)` for every real `b` such that every ideal class contains a nonzero
-  integral ideal of norm at most `b` (`b_K` among them) with the Nicolas–Tenenbaum bound
-  `Σ_{m ≤ x} τ_n(m) ≤ (x/(n−1)!)(log x + n − 1)^{n−1}` (which is not among the Piltz bounds of
-  ExplicitMultiplicativeFunctions §7.5, and which only the class-number bounds of 5.3 use), the
-  quadratic Hecke
-  character `η_K` of a CM-field, the relative class number `relativeClassNumber` as a natural
-  number with the divisibility `h(K⁺) ∣ h(K)` and the relative class-number formula, the Euler
-  product of an abelian field as an identity of continued functions (whose form on `Re s > 1` is
-  CyclotomicClassGroupsAndStickelberger's), the predicates *DedekindConjecture*, *CMPositivity*,
-  `GRHMod`, *QuadraticRealZeroGap*, *ImaginaryQuadraticRealZeroGap*, *UniformQuadraticZeroGap*
-  and `HasNormalTower`, and the least primitive root and least prime primitive root modulo an
-  integer.
-- The named propositions of *Computational hypotheses*, which the theorems carry as hypotheses;
-  none of them is proved here.
-- Layer 1: Rademacher's convexity bound for `ζ_K`, as the Dedekind instance of the general bound;
-  the series for the digamma and trigamma functions on `Re z > 0` and their explicit remainders
-  `digamma_series_remainder` and `trigamma_series_remainder`.
-- Layer 2: the explicit Lipschitz lattice-point count with Widmer's constant, the explicit ideal
-  counts of Sunley, Lee, Debaene, Gun–Ramaré–Sivaraman and Fehnker, and Ramaré's count for
-  imaginary quadratic fields.
-- Layer 3: the explicit residue bounds beyond Louboutin's first bound (which is consumed): the
-  zero-dependent bound, the bound taking the prime `2` into account, Friedman's unconditional
-  lower bound, Louboutin's zero-dependent lower bounds for totally imaginary fields, Garcia–Lee's
-  extension of Schoenfeld's second Mertens theorem to `x ≥ 1.048`, the explicit short-sum theorem
-  of Duke on unit-disc Euler-product records, and the conditional two-sided bounds of
-  Garcia–Grenié–Lee–Molteni, Palojärvi–Simonič and Garcia–Lee.
-- Layer 4: the explicit zero-counting formulae for `ζ_K` (Trudgian, Hasanalizade–Shen–Wong),
-  Stark's one-zero lemma, the real-zero counting lemmas, Louboutin's Stark-like regions,
-  the explicit zero-free regions of Kadiri, Lee and Das–Gaba–Lee–Savalia–Wong, Stark's lower
-  bound for the residue in terms of the possible real zero near `1` with a constant independent
-  of the degree, Stark's explicit lower bound for the residue, the field form of the uniform
-  real-zero gap for quadratic fields
-  with its consequences for every `ζ_K`, and the explicit zero repulsion theorems.
-- Layer 5: the `h_K R_K` bounds, Bordellès' regulator-free class-number bounds, the cubic and
-  quartic bounds, the upper and lower bounds for relative class numbers of CM-fields, and the
-  effective Brauer–Siegel bound for Galois fields under the uniform real-zero gap.
-- Layer 6: Vinogradov's sieve identity for generators of a finite cyclic group, the interval
-  counts behind the Burgess-type argument, the explicit bounds on the least primitive root modulo
-  `p` and `p²` (including `g(p) < p^{5/8}` for `p > 3` and `h(p) < p^{2/3}` for odd `p`), and
-  Grosswald's conjecture under `GRHMod p`.
-- Layer 7: the explicit Mertens theorems for number fields, the explicit Chebotarev density
-  theorem under the generalized Riemann hypothesis and unconditionally, the least prime ideal with
-  a given Frobenius class, and the explicit Brun–Titchmarsh inequality for the Chebotarev density
-  theorem.
-
-**Consumed, not restated** (by section, in *Exact supplier contracts*).
-
-- Louboutin's first residue bound `κ_K ≤ (e log d_K/(2n−2))^{n−1}`: AnalyticNumberTheoryPartI
-  §2.15, with its positive Mellin comparison and the coefficient bound `0 ≤ a_K(m) ≤ τ_n(m)`
-  of §2.15a; the quadratic factorization
-  `ζ_E = ζ_F L(s, η)` and the residue quotient `L(1, η) = κ_E/κ_F`: its §2.7 and §2.17a; the
-  Aramata entire quotient `ζ_K/ζ_E` for Galois `K/E`: its §2.39b; `DedekindERH` and
-  `DirichletGRH`: its §2.42 and §1.6; normal-closure discriminant bounds: its §2.31d; Heilbronn's
-  theorem that a simple real zero of `ζ_N` for Galois `N` comes from a quadratic subfield, and
-  Stark's near-one form of it without normality: its §2.39 and §2.31e; the
-  qualitative uniform exclusion of Landau–Siegel zeros with an effective absolute constant: its
-  §0.34.
-- The continued Dedekind zeta function, its completion, functional equation and residues:
-  LFunctions Layer 3; the quadratic and cyclotomic factorizations: LFunctions Layer 4;
-  finite-order Hecke L-functions with their completions and entirety: LFunctions Layer 5; their
-  nonvanishing on `Re s = 1`: LFunctions Layer 7; the series
-  `γ + log κ_K + Σ_𝔭 (1/N𝔭 + log(1 − 1/N𝔭))` for the Mertens constant of `K`: LFunctions
-  Layer 8; the zero count, `N(T)` and the symmetric count, Hadamard's factorization, the shape
-  of the zero-free regions, the argument principle on a rectangle and the generalized Riemann
-  hypothesis over the two families: ZerosOfLFunctions Layers 4, 5, 6, 7 and 9.
-- Ideal counting with an existential power saving, ray class groups and their ideal counts: Tau
-  Ceti's `TauCeti.isBigO_card_idealsLE_sub`, `rayClassIdealCountingFunction`,
-  `rayClassIdealMainTerm_eq`, realizing Completed/GlobalNumberFields Layer 3; successive minima and
-  Minkowski's second theorem: Tau Ceti's `ZLattice.successiveMin` and
-  `ZLattice.prod_successiveMin_mul_measure_le_two_pow_mul_covolume`, realizing SuccessiveMinima
-  Layer 1; the Frobenius prime sets and the Frobenius-restricted Chebyshev functions: Tau Ceti's
-  `NumberField.Chebotarev.frobeniusPrimeSet`, `frobeniusPsi` and `frobeniusPrimeCount`, realizing
-  Completed/Chebotarev; the Mertens constant of a number field: Tau Ceti's
-  `TauCeti.LFunctions.mertensConstant`; the least primitive root modulo `p²`: Tau Ceti's
-  `TauCeti.conreyGenerator`.
-- Bordellès' Piltz divisor sums, Cully-Hugill–Trudgian's quartic divisor asymptotic and Tudzi's
-  remainder for `τ_3`: ExplicitMultiplicativeFunctions §§7.5 and 7.9; Robin's bound for `ω(n)` and
-  the Rosser–Schoenfeld bound for `n/φ(n)`: its §§9.1 and 9.4; Ramaré's bound for
-  `Σ_{d ≤ X} μ(d)/d`, the tail of `Σ μ(d)/d²`, Cipu's squarefree remainder and the bound for
-  `Σ μ²(n)/n`: its §§2.3, 2.5 and 7.1; the lower bound for Mertens' product under the Riemann
-  hypothesis: its §8.1.
-- Schoenfeld's bound for `ψ(x) − x` under the Riemann hypothesis: ExplicitPrimeCounting §2.2; the
-  real-zero gap for quadratic Dirichlet L-functions as a hypothesis, *RealZeroGap*: its §1.7.
-- Rademacher's convexity bound for records of finite-order type: ExplicitZetaBounds §3.2;
-  Stieltjes' sector bound for the Stirling remainder of `log Γ` and the two-sided bound for `|Γ|`
-  on vertical lines: its §§2.1 and 2.5; Backlund's argument lemma: its §5.1; admissible cosine
-  polynomials: its §0.5; Landau's iterated Perron identity: its §6.1a; Lu–Zaman–Zhao's computation
-  `LuZamanZhaoRecord`: its §0.4b; the numerical Landau–Siegel gaps of Guo and of Banks: its §7.9;
-  Ramaré's bounds for `|L(1, χ)|`: its §9.1.
-- Burgess's moment bound with its shifted form and its refinements at `r = 2`:
-  ExplicitCharacterSumsAndSieves §4.1; Lapkova's Pólya–Vinogradov inequality for initial sums with
-  one constant `A(q₀)`, under the finite verification of its §6.1: its §3.5.
-- The global Artin map, its compatibility in towers and its agreement with the ideal-theoretic
-  Artin map: ClassFieldTheory Layer 11, with the abstract norm diagram `artinMap_groundNorm` of
-  its Layer 4; the abelian conductor: Tau Ceti's `TauCeti.ClassFieldTheory.abelianConductor`,
-  realizing ClassFieldTheory Layer 12; the Hilbert class field and its Galois group,
-  Kronecker–Weber and the conductor–discriminant formula: its Layer 13; the Legendre character is
-  primitive: ClassicalArithmeticCompletion §1.5.
-- The primitive character group `X(F)` of an abelian field, its Euler product
-  `ζ_F = ∏_{χ ∈ X(F)} L(s, χ)` on `Re s > 1` with the residue comparison at `s = 1`, the Gauss-sum
-  product and the relative class-number character product of an abelian CM field:
-  CyclotomicClassGroupsAndStickelberger §3.4.
-
-**Already in the library or stated by an earlier roadmap, and how the targets here differ.**
-
-- Tau Ceti's `NumberField.classNumber_le_bound` (`h_K ≤ |d_K| · 4ⁿ`,
-  `TauCeti/NumberTheory/EffectiveBounds/ClassNumber/Basic.lean`) and
-  `NumberField.card_ideal_absNorm_le` (at most `X² 2ⁿ` nonzero integral ideals of norm at most
-  `X`, for `X ≥ 1`, `TauCeti/NumberTheory/EffectiveBounds/IdealCount/Basic.lean`), realizing
-  Completed/EffectiveBounds: the bounds of 5.3 replace `|d_K| 4ⁿ` by `√|d_K| (log |d_K|)^{n−1}` up
-  to a factor depending on `n`, and 2.2–2.7 replace the upper bound `X² 2ⁿ` by the asymptotic
-  `κ_K X` with an explicit error term.
-- Tau Ceti's `TauCeti.isBigO_card_idealsLE_sub` (`#idealsLE K x = κ_K x + O(x^{1−1/n})` with an
-  existential constant): Layer 2 makes the constant explicit.
-- AnalyticNumberTheoryPartI §2.43(ii), Zaman's one-zero region (for `|d_K| nⁿ` beyond an absolute
-  threshold, at most one zero in `σ ≥ 1 − 0.0875/log(|d_K| nⁿ)`, `|t| ≤ 1`): the regions of
-  4.5–4.6 and 4.8 are zero-free for `|t| ≥ 1` with explicit coefficients of `log |d_K|` and
-  `n log|t|`, and their one-zero regions near the real axis have denominators in `log |d_K|`
-  alone.
-- AnalyticNumberTheoryPartI §2.49, the effective Chebotarev density theorem with effective
-  absolute constants `C₁, C₂, B`, and ZerosOfLFunctions 8.5, the effective prime ideal theorem
-  with existential constants: 7.2–7.4 give numerical constants.
-- ZerosOfLFunctions 6.2 and 7.5, the Dedekind zero-free region and the Riemann–von Mangoldt formula
-  for `ζ_K` with existential constants: 4.1–4.8 give numerical constants; ZerosOfLFunctions
-  Layer 3, convexity in vertical strips with existential constants: 1.1 is Rademacher's numerical
-  form for `ζ_K`.
-- LFunctions Layer 8, Mertens' first theorem and Mertens' product for a number field as
-  asymptotics (`tendsto_prod_one_sub_inv_absNorm_div_log`), and Tau Ceti's Mertens' second theorem
-  with an `O(1/log x)` error: 7.1 gives the three with explicit error terms for every `x ≥ 2`.
-- Explicit lower bounds for discriminants are not restated here: Odlyzko's unconditional bound
-  `r₁ log 60 + 2 r₂ log 22 ≤ log d_K` for `d_K` beyond an absolute threshold (`odlyzko1976`
-  Theorem 1, in the form quoted as Theorem 2.3 of `kadiringwong2019`) is the discriminant input
-  of AnalyticNumberTheoryPartI §2.9a, which derives it from the explicit form
-  `log d_K ≥ r₁ log 60.1 + 2 r₂ log 22.2 − 254` of Odlyzko's second paper; and Poitou's bound
-  `P(n, r₁, b) ≤ log d_K` for every `b > 0`, with its totally complex consequences in fixed
-  degrees, is SmallRamificationAndAbelianVarietyBaseCases §1.7.
-- CyclotomicClassGroupsAndStickelberger §3.4, the relative class number `h(F)/h(F⁺)` of an
-  abelian CM field as a positive rational number with its character product, integral at the
-  prime-power cyclotomic conductors: 0.4 proves `h(K⁺) ∣ h(K)` for every CM field `K` and defines
-  `relativeClassNumber` as a natural number, which agrees with that ratio for abelian `K`; and its
-  Euler product on `Re s > 1`, which 0.4a extends to the continued functions.
-- AnalyticNumberTheoryPartI §2.31e, Stark's lower bound `κ_K ≥ c min(1/log d_K, 1 − β_K)` in terms
-  of the possible real zero near `1`, stated in its section on fields of a fixed degree, with a
-  constant it does not say is independent of the degree: 4.7 states it with an effective constant
-  that is the same for every number field, the form 5.7 needs.
-- AnalyticNumberTheoryPartI §0.34, the uniform exclusion of Landau–Siegel zeros with an effective
-  but unspecified constant `c_LS`, and ExplicitPrimeCounting §1.7, its numerical hypothesis
-  *RealZeroGap*: 0.5 restates the latter on quadratic fields as *UniformQuadraticZeroGap*, the
-  form in which the number-field statements of 4.7, 4.9, 5.6 and 5.7 use it.
-
-**Not owned here.** Explicit bounds for the number `N_K(σ, T)` of zeros with real part at least
-`σ` (only zero repulsion, 4.10, is stated); subconvexity; every explicit inequality about `ζ` and
-Dirichlet L-functions, primes and arithmetic functions (the four explicit roadmaps above),
-including the uniform gap for real zeros of quadratic Dirichlet L-functions, which is consumed
-from ExplicitZetaBounds §7.9 (the instances of Guo and of Banks), and the bounds for `L(1, χ)`
-under the generalized Riemann hypothesis (Lamzouri–Li–Soundararajan,
-`lamzourilisoundararajan2015`); the ineffective Brauer–Siegel theorem and
-every ineffective residue bound (AnalyticNumberTheoryPartI §§2.31e, 2.32, 2.46), while the
-effective bound for Galois fields under the uniform real-zero gap is 5.7; the imaginary quadratic
-class-number formula (ImaginaryQuadraticClassNumber H2.2) and the Goldfeld–Oesterlé lower bounds
-for imaginary quadratic class numbers, which nothing here uses; the explicit Burgess inequalities
-and their tabulated constants (Treviño, McGown, Booker: ExplicitCharacterSumsAndSieves);
-algorithms and certified computation, which nothing here uses: every computation a theorem rests
-on is a named hypothesis (Conventions).
-Louboutin's explicit Li-type residue bound (`louboutin2015mmj`), which makes the residue bounds of
-Layer 3 depend on the explicit Li coefficients of `ζ_K`, Amberger's zero count (`amberger2026`
-Theorem 1), whose proof rests on a numerical majorant for the auxiliary function of its Lemma 3,
-and Chen's estimates behind the criterion of 6.5 in their own right, extend Layers 3, 4 and 6 in
-their direction and belong to ExplicitNumberFields, Part II.
+Layer 0 fixes the invariants and predicates every later statement mentions: the Minkowski
+constant, the local Euler factors, the quadratic Hecke character and relative class number of a
+CM-field, the Euler product of an abelian field as continued functions, the conjectural and gap
+predicates, and the least primitive roots. Layer 1 is
+the one convexity bound for `ζ_K`, an instance of the general bound, and the digamma and trigamma
+series with explicit remainders, which bound the gamma terms of `Λ'_K/Λ_K` in Layers 4 and 7.
+Layer 2 proves the explicit lattice-point count and the explicit ideal counts; it needs Layers 0 and
+1 only. Layer 3 proves the residue bounds that need no zero-free region, from the positive Mellin
+comparison, Friedman's regulator bound and, for the conditional bounds, an explicit Duke theorem on
+Euler-product records.
+Layer 4 proves the explicit zero counts, the real-zero lemmas and the zero-free regions, Stark's
+residue lower bound, which needs the one-zero lemma, the consequences of the uniform real-zero gap
+for quadratic fields, and zero repulsion. Layer 5 turns the residue bounds into class-number bounds
+through the class-number formula, adds Bordellès' elementary bounds, and uses the real-zero lemmas
+of 4.3 and 4.9 for the lower bounds of relative class numbers and for the effective Brauer–Siegel
+bound. Layer 6 is independent of Layers 1–5 and proves the primitive-root theorems from the sieve
+identity and the character-sum inputs. Layer 7 consumes the ideal counts of Layer 2 (Mertens,
+Brun–Titchmarsh), the residue (Layer 3) and the zero-free regions, zero counts and repulsion of
+Layer 4 (Chebotarev, least prime ideal).
 
 ## Conventions
 
@@ -426,410 +272,6 @@ Imported, as their owners state them:
   Cipu's `Σ_{d ≤ X} μ²(d) ≤ 6X/π² + 0.679091 √X`; and *SquarefreeReciprocalRangeVerified*
   `0.578 1.166 1 14 831`, under which it states `Σ_{d ≤ X} μ²(d)/d ≤ (6/π²) log X + 1.166`
   (ExplicitMultiplicativeFunctions Layer 0.7 and §7.1).
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- `NumberField.dedekindZeta` (the Dirichlet series `Σ_𝔞 N𝔞^{−s}`, junk off `Re s > 1`),
-  `NumberField.dedekindZeta_residue` (with `dedekindZeta_residue_def`,
-  `dedekindZeta_residue_pos`), and the class-number formula
-  `NumberField.tendsto_sub_one_mul_dedekindZeta_nhdsGT`.
-- `NumberField.classNumber` (`classNumber_pos`), `NumberField.Units.regulator`
-  (`regulator_pos`), `NumberField.Units.torsionOrder` (`torsionOrder_pos`), `NumberField.discr`
-  (`discr_ne_zero`), `InfinitePlace.nrRealPlaces`, `InfinitePlace.nrComplexPlaces`,
-  `card_add_two_mul_card_eq_rank` (`r₁ + 2r₂ = n`), `Units.rank` (`= r₁ + r₂ − 1`),
-  `abs_discr_ge'` (the Minkowski discriminant bound `n^{2n}/((4/π)^{2r₂} (n!)²) ≤ d_K`) and
-  `abs_discr_ge` (for `n ≥ 2`).
-- `NumberField.exists_ideal_in_class_of_norm_le`: every class contains a nonzero integral ideal of
-  norm at most `(4/π)^{r₂} (n!/nⁿ) √d_K`; this bound is Mathlib's local notation `M K`, and it is
-  not `NumberField.mixedEmbedding.minkowskiBound K 1`, whose value by
-  `volume_fundamentalDomain_latticeBasis` is the covolume threshold `2^{r₁+r₂} √d_K`.
-  `Ideal.absNorm`, `Ideal.absNorm_dvd_absNorm_of_le`, `ClassGroup.mk0`,
-  `NumberField.mixedEmbedding.idealLattice`.
-- `NumberField.IsCMField` (totally complex and quadratic over `maximalRealSubfield K`, a
-  `Subfield K` with the instance `NumberField.of_subfield`), `IsCMField.complexConj`,
-  `IsCMField.indexRealUnits`, `indexRealUnits_eq_one_or_two`, `indexRealUnits_eq_two_iff`, and
-  `regulator_div_regulator_eq_two_pow_mul_indexRealUnits_inv`: `R_K/R_{K⁺} = 2^{rank K}/Q_K` with
-  `rank K = n − 1` for `[K:ℚ] = 2n`; `isTotallyReal_maximalRealSubfield`.
-- `ZMod.isCyclic_units_prime`, `ZMod.isCyclic_units_of_prime_pow` (odd `p`), `orderOf`,
-  `Nat.totient`, `Nat.primeFactors`, `ArithmeticFunction.cardDistinctFactors`, `DirichletCharacter`,
-  `DirichletCharacter.LFunction` (the continued L-function of a Dirichlet character),
-  `ArithmeticFunction.moebius`, `ArithmeticFunction.zeta` (so that `τ_n = ζ ^ n` in the Dirichlet
-  ring), `riemannZeta`, `RiemannHypothesis`, `Real.eulerMascheroniConstant`, `Real.posLog`,
-  `Nat.infinite_setOfPred_prime_and_eq_mod` (Dirichlet's theorem,
-  `Mathlib/NumberTheory/LSeries/PrimesInAP.lean`).
-- `Complex.Gammaℝ`, `Complex.Gammaℂ`, `Complex.Gammaℝ_mul_Gammaℝ_add_one`, `Complex.digamma`,
-  `MeromorphicOn.divisor`, `IsGalois`, `IsAbelianGalois`, `normalClosure`,
-  `IntermediateField.extendScalars`, `Real.geom_mean_le_arith_mean_weighted`.
-- `IsArithFrobAt` (arithmetic Frobenius elements at a prime of a Galois extension of Dedekind
-  domains), `ArithmeticFunction.vonMangoldt`, for Layer 7.
-- For 1.1a: `Complex.digamma` (`logDeriv Gamma`) with `Complex.digamma_one`,
-  `Complex.digamma_nat_add_one`, `Complex.digamma_apply_add_nat` and `Complex.digamma_one_sub`;
-  `Real.BohrMollerup.tendsto_log_gamma` (with `logGammaSeq`), `Real.tendsto_harmonic_sub_log`,
-  `Complex.Gamma_ofReal`, `Complex.differentiableAt_Gamma`, `Complex.Gamma_ne_zero`,
-  `hasDerivAt_of_tendstoLocallyUniformlyOn`, `HasDerivAt.real_of_complex`,
-  `Complex.differentiableOn_tsum_of_summable_norm`, `Complex.hasSum_deriv_of_summable_norm` and
-  `AnalyticOnNhd.eqOn_of_preconnected_of_frequently_eq`.
-- For 0.4a: `IsCyclotomicExtension.Rat.intermediateFieldEquivSubgroupChar` (the character group of
-  an intermediate field of a cyclotomic field, the carrier of the products of
-  CyclotomicClassGroupsAndStickelberger §3.4), `DirichletCharacter.primitiveCharacter`,
-  `DirichletCharacter.LFunction` with `DirichletCharacter.differentiable_LFunction` (entire for a
-  nontrivial character) and `riemannZeta`.
-
-### From Tau Ceti
-
-- `TauCeti.idealsLE K x` (the finset of nonzero integral ideals of norm at most `x`) and
-  `TauCeti.primesLE K x` (the finset of height-one primes of norm at most `x`), with
-  `TauCeti.isBigO_card_idealsLE_sub` (`#idealsLE K x = κ_K x + O(x^{1 − 1/n})`,
-  `TauCeti/NumberTheory/NumberField/DedekindZeta.lean`), realizing
-  Completed/ArithmeticDirichletSeries and Completed/GlobalNumberFields Layer 3.
-- `TauCeti.GlobalNumberFields.Modulus K` (finite part a nonzero ideal, infinite part a finset of
-  real places), `Modulus.one K`, `narrowModulus K` (unit finite part, every real place),
-  `RayClassGroup 𝔪`, `integralIdealsPrimeTo 𝔪`, `idealClass 𝔪`,
-  `rayClassIdealCountingFunction 𝔪 c x` (the number of integral ideals prime to `𝔪` in the class
-  `c` with norm at most `x`), `rayClassIdealMainTerm 𝔪` with
-  `rayClassIdealMainTerm_eq : rayClassIdealMainTerm 𝔪 = κ_K / #RayClassGroup 𝔪 · ∏_{𝔭 ∣ 𝔪₀} (1 − N𝔭⁻¹)`,
-  `rayClassIdealCount` (existential exponent). The ray class group of `Modulus.one K` is the class
-  group, and that of `narrowModulus K` the narrow class group.
-- `ZLattice.successiveMin L K i` (the real-valued successive minima of a `ℤ`-submodule `L`
-  with respect to a convex body `K`, indexed from `0`, with junk value `0` when no dilate of `K`
-  contains `i + 1` independent vectors of `L`; `TauCeti/Algebra/Module/ZLattice/SuccessiveMinima.lean`),
-  `ZLattice.prod_successiveMin_mul_measure_le_two_pow_mul_covolume` (Minkowski's second theorem,
-  upper half, for a full lattice and a convex body symmetric about `0`,
-  `TauCeti/NumberTheory/GeometryOfNumbers/MinkowskiSecond.lean`),
-  `IsLipschitzParametrizable`, `abs_ncard_inter_mul_sub_measureReal_le` (the cell count with the
-  boundary term identified) and `exists_abs_ncard_smul_inter_vadd_sub_le` (the Lipschitz count with
-  an existential constant, `TauCeti/NumberTheory/GeometryOfNumbers/LatticePointCount.lean`),
-  realizing SuccessiveMinima Layer 1.
-- `NumberField.Chebotarev.frobeniusPrimeSet K L C` (the primes of `K` unramified in `L` with
-  Artin class `C`), `frobeniusPsi K L C x`, `frobeniusTheta K L C x` and
-  `frobeniusPrimeCount K L C x`, with `tendsto_frobeniusPrimeCount`
-  (`TauCeti/NumberTheory/Chebotarev/`), realizing Completed/Chebotarev.
-- `TauCeti.ClassFieldTheory.abelianConductor K L` (`K`, `L : Type`; the least admissible modulus
-  of `L/K`, that is, the conductor of the idele-class norm group, with
-  `isAdmissibleModulus_iff_abelianConductor_dvd`; for abelian `L/K` it is the conductor of class
-  field theory, and its finite part is the conductor ideal `𝔣` of 7.5;
-  `TauCeti/NumberTheory/ClassFieldTheory/Global/AdmissibleModulus/Basic.lean`), realizing
-  ClassFieldTheory Layer 12.
-- `TauCeti.LFunctions.mertensConstant K` (the limit of `Σ_{N𝔭 ≤ x} 1/N𝔭 − log log x`,
-  `TauCeti/NumberTheory/LFunctions/Mertens.lean`); at `K = ℚ` it is the Meissel–Mertens constant
-  `M = 0.2614972…`.
-- `TauCeti.conreyGenerator p` (the least natural number that is a primitive root modulo `p²`, `0`
-  if there is none), with `TauCeti.orderOf_conreyGenerator` (for an odd prime `p` it is a
-  primitive root modulo every power of `p`), `TauCeti.conreyGenerator_le` and
-  `TauCeti.conreyGenerator_three` (`TauCeti/NumberTheory/DirichletCharacter/Conrey.lean`): the
-  least primitive root `h(p)` modulo `p²` of 0.6 and 6.5.
-- `TauCeti.Contour.argumentPrinciple_nullHomologous` through ZerosOfLFunctions 7.2.
-- For 0.4a: `TauCeti.eventuallyEq_of_meromorphic_of_eqOn_halfPlane`
-  (`TauCeti/Analysis/Meromorphic/Continuation.lean`), uniqueness of meromorphic continuation from a
-  right half-plane.
-- `NumberField.classNumber_le_bound` and `NumberField.card_ideal_absNorm_le`
-  (`TauCeti/NumberTheory/EffectiveBounds/`), realizing Completed/EffectiveBounds, as comparisons.
-
-### From TauCetiRoadmap.LFunctions
-
-Layer 3: `dedekindZetaC`, `completedDedekindZeta`, `dedekindZetaData` (degree `n`, conductor
-`d_K`, root number `1`), agreement with `dedekindZeta` on `Re s > 1`, `analyticAt_dedekindZetaC`,
-`meromorphicOrderAt_dedekindZetaC_one`, `tendsto_sub_one_mul_dedekindZetaC` (residue `κ_K`),
-`completedDedekindZeta_one_sub` and the germ functional equation. Layer 4:
-`dedekindZetaC_quadratic`, `dedekindZetaC_cyclotomic`, `dirichletData`. Layer 5:
-`PrimitiveRayClassCharacter`, `heckeLFunctionC`, `completedHeckeLFunction`,
-`differentiable_completedHeckeLFunction`, the functional equation `Λ(χ, s) = W(χ) Λ(χ⁻¹, 1 − s)`,
-`heckeData`. Layer 0: `AnalyticLFunctionData`, `ofSeries`, `HasDirichletAgreement`,
-`HasMeromorphicContinuation`, `HasFunctionalEquation`. Layer 7: the nonvanishing of a primitive
-finite-order Hecke L-function on `Re s = 1`. Layer 8: Mertens' product for `K`
-(`tendsto_prod_one_sub_inv_absNorm_div_log`) and, from its route, the expression of the constant
-`B_K` of Mertens' second theorem for `K` (Tau Ceti's `mertensConstant K`) as
-`γ + log κ_K + Σ_𝔭 (1/N𝔭 + log(1 − 1/N𝔭))`; used in 7.1 and as its comparison.
-
-### From TauCetiRoadmap.ZerosOfLFunctions
-
-Layer 2 (`arithmeticConductor (dedekindZetaData K) = d_K`, `analyticConductorAt`); Layer 4
-(`zeroCount`, `N(T)` and `N±(T)` with their finiteness and additivity, 4.2 the divisor of a
-record, 4.3 Jensen's bound); Layer 5 (5.5 Hadamard's theorem at order at most one, 5.6 the
-L-function corollaries: the partial-fraction expansion of `Λ'_K/Λ_K` over the zeros); Layer 6
-(6.2 the shape of the Dedekind zero-free region, 6.3 `IsExceptionalZero`, 6.4(4d) the
-logarithmic-derivative inequality with the pole terms, 6.5 no zeros on `Re s ∈ {0, 1}`); Layer 7
-(7.1 `rectBoundary`, 7.2 the argument principle on a rectangle in divisor form, 7.3 the argument
-variation, 7.5 the Riemann–von Mangoldt formula with existential constants); Layer 9
-(*AllOnCriticalLine*, and *GRH* over the two families: every zero of the completion has real
-part `1/2`).
-
-### From TauCetiRoadmap.AnalyticNumberTheoryPartI
-
-§0.34 (`landau_siegel_exclusion`, the qualitative uniform gap); §1.6 `DirichletGRH χ` (every zero
-`s` of `DirichletCharacter.LFunction χ` with `Re s > 0`, other than the pole value of the
-principal character, has `Re s = 1/2`) and `GRH`; §2.5 (the complex residue of the continued
-`ζ_K` is `dedekindZeta_residue K`); §2.7 (for a quadratic extension `E/F` the canonical primitive
-quadratic Hecke character `η` with `ζ_E = ζ_F L(s, η)` including the ramified factors) and §2.17a
-(`L(1, η) = κ_E/κ_F > 0`); §2.15 `dedekindZeta_residue_le` (`κ_K ≤ (e log d_K/(2(n−1)))^{n−1}`
-for `n ≥ 2`) and §2.15a (the positive Mellin comparison:
-`F_K(s) = λ/(s(s−1)) + ∫_1^∞ S_K(x)(x^{s−1} + x^{−s}) dx` with `S_K ≥ 0`, the coefficient bound `0 ≤ a_K(m) ≤ τ_n(m)`, and the
-log-convexity of `g`); §2.18 (the unit-disc coefficient construction of an Euler-product record);
-§2.22 (the completion
-`Q^{s/2} Γ_ℝ(s+1)^g L(s, η)` of the CM character with `Q = d_E/d_F`); §2.31d (`d_N ≤ d_K^{[N:ℚ]}`,
-`[N:ℚ] ≤ n!` for the normal closure `N`, and `d_F ≤ d_K^{1/[K:F]}` for a subfield `F`); §2.31e
-(Stark's Lemma 8: for `K ≠ ℚ` of degree `n`, a real zero `β` of `ζ_K` with
-`1 − β < 1/(4 n! log d_K)` is a zero of `ζ_F` for a quadratic subfield `F ⊆ K`, without
-normality; for Galois `N` the character computation of that argument gives, at a simple
-real zero `β` of `ζ_N` with quadratic subfield `F`, `ζ_E(β) = 0` iff `F ⊆ E` for every
-intermediate field `E`; used in 4.7. The fixed-degree residue bounds of §2.31e, and Stark's
-Lemmas 2–4 as that fixed-degree section states them, with a constant it does not say is
-independent of the degree, are not used here: 4.7 states the degree-uniform form that 5.7 needs);
-§2.39 (Heilbronn's theorem: a simple real zero `β ∈ (0, 1)` of
-`ζ_N` for Galois `N/ℚ` is a zero of `ζ_F` for a quadratic subfield `F ⊆ N`); §2.39b (the Aramata
-entire quotient `ζ_K/ζ_E` for finite Galois `K/E`); §2.42 `DedekindERH K` (every zero of `ζ_K` with
-`0 < Re s < 1` has `Re s = 1/2`) with its abelian case (for `K/ℚ` abelian, `DirichletGRH` for the
-primitive characters of `K` gives `DedekindERH K`); §§2.43, 2.49 as comparisons.
-
-### From TauCetiRoadmap.ClassFieldTheory
-
-Layer 4 (the abstract Artin map with its norm diagram `artinMap_groundNorm`), Layer 11 (the
-global Artin map of a finite Galois extension, its compatibility in towers, and its agreement
-`globalArtinMap_ideal` with the ideal-theoretic Artin map at unramified primes), Layer 12
-(the abelian conductor, realized by Tau Ceti's `TauCeti.ClassFieldTheory.abelianConductor` of the
-Tau Ceti contract above) and Layer 13 (`hilbertClassField`,
-`gal_hilbertClassField_equiv_classGroup`, the Hilbert class field is unramified at every place
-including the real ones, Kronecker–Weber, and the abelian conductor–discriminant formula
-`d_F = ∏_{χ ∈ X(F)} f_χ`).
-
-What ClassFieldTheory must provide (gap:artin-norm-compatibility): for an abelian extension `H/F`
-of number fields and a finite extension `K/F`, the Artin symbol for `HK/K` of a fractional ideal
-`𝔞` of `K` prime to the conductor restricts on `H` to the Artin symbol of `N_{K/F} 𝔞` for `H/F`
-(the ideal-theoretic norm functoriality of the global Artin map under a change of base field).
-Required location: Layer 11.
-
-### From TauCetiRoadmap.ClassicalArithmeticCompletion
-
-§1.5 (the Legendre character is primitive), for the character-sum inputs of Layer 6.
-
-### From TauCetiRoadmap.ImaginaryQuadraticClassNumber
-
-H2.2 (the imaginary quadratic class-number formula with its exact constants), the degree-two case
-of the relative class-number formula of 0.4.
-
-### From TauCetiRoadmap.CyclotomicClassGroupsAndStickelberger
-
-§3.4: the primitive character group `X(F)` of an abelian number field `F`, realized for an
-intermediate field `F` of a cyclotomic field `ℚ(ζ_m)` by the characters modulo `m` of
-`IsCyclotomicExtension.Rat.intermediateFieldEquivSubgroupChar m K ℂ F`, each taken at its primitive
-character; the Euler-product identity `ζ_F(s) = ∏_{χ ∈ X(F)} L(s, χ)` on `Re s > 1` and its
-residue comparison `κ_F = ∏_{1 ≠ χ ∈ X(F)} L(1, χ)` with `dedekindZeta_residue`;
-the Gauss-sum product `∏_{χ ∈ X(F)} τ(χ) = i^{r₂(F)} √d_F`; and, for abelian CM `F`, the rational
-ratio `h(F)/h(F⁺)` with its odd-character Bernoulli product
-`h(F)/h(F⁺) = Q_F w_F ∏_{χ ∈ X(F) odd} (−B_{1,χ}/2)`, with which Layer 0's natural number agrees.
-Used in 0.4, 0.4a, 5.2 and 5.6.
-
-### From TauCetiRoadmap.SuccessiveMinima
-
-Layer 1 (`successiveMin`, attainment, monotonicity, scaling, the upper half of Minkowski's second
-theorem), through the Tau Ceti declarations above.
-
-### From TauCetiRoadmap.ExplicitZetaBounds
-
-§3.2: Rademacher's convexity bound for a record `d` of LFunctions Layer 0 of *finite-order type*
-(Dirichlet agreement, meromorphic continuation and functional equation; every element of
-`d.gammaR` in `{0, 1}` and every element of `d.gammaC` equal to `0`; polar divisor supported in
-`{0, 1}` with order at most `1`; ZerosOfLFunctions *IsFiniteOrder* `d`; and the coefficient
-majorant `Σ_k |d.coeff k| k^{−σ} ≤ ζ(σ)^m` for every real `σ > 1`, with `m = d.degree`): for
-`0 < η ≤ 1/2`, `−η ≤ σ = Re s ≤ 1 + η` and `s ≠ 1`,
-`‖continuedL d s‖ ≤ P(s) (N (|1+s|/(2π))^m)^{(1+η−σ)/2} ζ(1+η)^m` with `N = d.conductor`,
-`P(s) = 3|(1+s)/(1−s)|` when `d` has a pole at `1` and `P = 1` otherwise. The record
-`dedekindZetaData K` is of finite-order type: ZerosOfLFunctions 3.1 gives *IsFiniteOrder*, and the
-majorant is `ζ_K(σ) ≤ ζ(σ)ⁿ`, from `0 ≤ a_K(k) ≤ τ_n(k)` (0.3) and `Σ_k τ_n(k) k^{−σ} = ζ(σ)ⁿ`. The
-size of the majorant is what the bound needs: a nonnegative majorant of another size does not
-suffice. Used in 1.1.
-
-§§2.1 and 2.5: Stieltjes' sector bound at its first term, for `0 < δ ≤ π` and `|arg s| ≤ π − δ`,
-`Γ(s) = √(2π) exp((s − 1/2) Log s − s + ξ(s))` with `|ξ(s)| ≤ 1/(12 sin²(δ/2)|s|)` (§2.1); and the
-two-sided bound on vertical lines, for `σ > 0` and real `t ≠ 0`,
-`√(2π) |s|^{σ−1/2} e^{−π|t|/2} e^{−σ³/(3t²)} < |Γ(s)| ≤ √(2π) |s|^{σ−1/2} e^{−π|t|/2} e^{1/(6|s|)}`
-(§2.5; on the real axis its §2.6). Used for the explicit gamma factors of 2.2, 2.3, 3.5, 3.6, 4.1
-and 4.2.
-
-§5.1: Backlund's argument lemma: for real `T`, `σ₁ < a`, `r > a − σ₁` and `f` holomorphic on an
-open set containing the closed disc of radius `r` about `a + iT`, with `Re f(a + iT) ≠ 0` and
-`f(σ + iT) ≠ 0` for `σ₁ ≤ σ ≤ a`, every continuous argument of `σ ↦ f(σ + iT)` varies on `[σ₁, a]`
-by at most `π (1 + log(M/|Re f(a + iT)|)/log(r/(a − σ₁)))`, `M` the maximum of `|f|` on the
-boundary circle. The form normalised by `|f(a + iT)|` follows by applying it to `u f` with
-`u = conj f(a + iT)/|f(a + iT)|`, which has the same argument variation and
-`Re (u f)(a + iT) = |f(a + iT)|`. Used in 4.1 and 4.2.
-
-§0.5: *IsAdmissibleCosinePolynomial* `n a` (`0 ≤ a_k` for `k ≤ n`, `a_k = 0` for `k > n`,
-`a₀ < a₁`, and `Σ_{k ≤ n} a_k cos(kθ) ≥ 0` for every real `θ`); the vanishing clause makes `a` the
-coefficient vector of the polynomial, so the vector of a certificate is the literal coefficients
-extended by zero, and `(3, 4, 1, 0, 0, 1, 0, …)` at `n = 4` is not admissible although its first
-five entries are; a *polynomial certificate* is this proposition at literal rational
-coefficients. Used in the certificates of *Computational hypotheses* that 4.5, 4.6 and 4.8 carry.
-
-§0.4b: `LuZamanZhaoRecord` (for every `q ≤ 10¹⁰` and every quadratic character `χ` modulo `q`,
-primitive or not, `L(σ, χ) ≠ 0` for every real `σ ≥ 1 − 1/(5 log q)`; `luzamanzhao2026`
-Theorem 1.1), a named computation that every statement using it carries. Used in 4.9.
-
-§7.9: *HasLandauSiegelGap* `c Q` (for every primitive real nonprincipal Dirichlet character `χ` of
-conductor `q` with `3 ≤ q ≤ Q` and every real zero `β ∈ (0, 1)` of `L(s, χ)`,
-`(1 − β) log q ≥ c`), the proposition of ExplicitPrimeCounting §1.7's *RealZeroGap*, with two of
-its instances as that section states them. Guo's: *HasLandauSiegelGap* `(1/100) ∞`, with the
-strict inequality `(1 − β) log q > 1/100` for every conductor `q ≥ 3` (`guo2026` Theorem 1.1, an
-unrefereed preprint, with no computation). Banks's: given `LuZamanZhaoRecord`,
-*HasLandauSiegelGap* `(3.0·10⁻³) ∞` (`banks2026siegel` Theorem 1.1, an unrefereed preprint, for
-`q ≥ 10¹⁰`, whose Remark 7.1 computes the constant `3.069…·10⁻³`; below `10¹⁰` from the instance
-*HasLandauSiegelGap* `(1/5) 10¹⁰` that the record gives, with the strict inequality). Used in 4.9,
-whose Banks instance carries `LuZamanZhaoRecord`.
-
-§7.7: Ralaivaosaona and Razakarinoro's bound: for `−d` a fundamental discriminant with
-`d > 3·10⁸`, `L(s, χ_{−d})` has no real zero `β ≥ 1 − 6.035/√d`. Used in the Checks of 0.5.
-
-§9.1: Ramaré's bounds: for a primitive Dirichlet character `χ` of conductor `q > 1`,
-`|L(1, χ)| ≤ (1/2) log q` if `χ` is even and `|L(1, χ)| ≤ (1/2) log q + 5/2 − log 6` if `χ` is
-odd (`ramare2001` Corollary 1). Used in 5.2 and 5.6.
-
-§6.1a: Landau's iterated Perron identity. For `F(s) = Σ_{k ≥ 1} a_k k^{−s}` absolutely
-convergent on `Re s > κ_a`, an integer `j ≥ 1`, a real `c > max(κ_a, 0)` and `x > 0`, the integral
-`(1/2πi) ∫_{c−i∞}^{c+i∞} F(s) x^{s+j} ds/(s(s+1)⋯(s+j))` converges absolutely and equals
-`(1/j!) Σ_{k ≤ x} a_k (x − k)^j`, which is also the `j`-fold iterated integral
-`∫_0^x ∫_0^{y_j} ⋯ ∫_0^{y_2} Σ_{k ≤ y_1} a_k dy_1 ⋯ dy_j` (the kernel integral is
-`(1 − 1/y)^j/j!` for `y ≥ 1` and `0` for `0 < y ≤ 1`). This is the form 2.2 and 2.3 use with
-`j = n` and 3.6 with `j = 1`; the truncated and averaged Perron formulas of its §§6.1–6.2, and
-Tau Ceti's `truncatedPerron_LSeries`, are other forms and are not needed.
-
-### From TauCetiRoadmap.ExplicitCharacterSumsAndSieves
-
-§4.1: Burgess's moment bound in its shifted form: for `χ` non-principal modulo a prime `p` and
-integers `r, h ≥ 1`,
-`Σ_{x ∈ 𝔽_p} |Σ_{m=0}^{h−1} χ(x + m)|^{2r} ≤ ((2r)!/(2^r r!)) p h^r + (2r − 1) √p h^{2r}`, and for
-`r = 2` the refinements `< (3h² − 2h)p + 2(h⁴ − 3h² + 2h)√p` for `χ` of order `2` and
-`< (2h² − h)p + 3(h⁴ − 2h² + h)√p` otherwise (`mcgowntrudgian2020` lines 120–126, Proposition 1).
-Used in 6.3.
-
-§3.5 with §6.1: Lapkova's inequality for initial sums with one constant: under
-*LapkovaSmallModuliVerified* (§6.1, the small moduli `2 ≤ q ≤ 25` of Lapkova's Lemma 3A), for real
-`q₀ > 1`, every primitive Dirichlet character `χ` modulo `q ≥ q₀`, even or odd, and every real
-`M`, `|Σ_{1 ≤ n ≤ M} χ(n)| ≤ A(q₀) √q log q` with
-`A(q₀) = 1/(2π) + 0.8204/log q₀ + 1.0285/(√q₀ log q₀)`: the odd case of Lapkova's Lemma 3A divided
-by `√q log q`, the even case being halved by Pomerance's observation. `kerrmcgowntrudgian2020`
-Lemma 3 (lines 121–122) prints the middle term as `0.8204/√q₀`, which does not follow from Lemma 3A
-and gives the value `0.16` of its line 278 at `q₀ = 10¹²`. `A(q₀)` decreases in `q₀`. At a prime
-modulus every non-principal character is primitive, which is the case 6.5 uses. Every theorem of 6.5
-that uses this bound carries *LapkovaSmallModuliVerified*.
-
-### From TauCetiRoadmap.ExplicitMultiplicativeFunctions
-
-Each statement below is consumed as the named section states it, with the finite verifications it
-carries there (Conventions, *Computations as hypotheses*).
-
-§7.5: Bordellès' bounds `Σ_{m ≤ x} τ_k(m) ≤ x (log x + γ + 1/x)^{k−1}` for `k ≥ 1`, `x ≥ 1`;
-`≤ 2x (log x)^{k−1}` for `x ≥ 6` under its *PiltzRangeVerified* `k`; and
-`≤ (x/(k−1)!) (log x + k − 2)^{k−1}` for `k ≥ 3`, `x ≥ 13` under its
-*BordellesPiltzRangeVerified*; and Cully-Hugill–Trudgian's `Σ_{m ≤ x} τ_4(m) ≤ (1/3) x log³ x`
-for `x ≥ 193` under its *DivisorPowerRangeVerified* `7560² (6·10⁵)`, together with the real-argument
-divisor row of its §7.4 and the third form of its §5.2, on which that bound rests. Used in 5.3 and
-5.4.
-
-§7.9: Tudzi's `|Σ_{m ≤ x} τ_3(m) − x P₃(log x)| < 2.968 x^{2/3} (log x)^{1/3}` for every real
-`x ≥ 2`, with `P₃(y) = y²/2 + (3γ − 1)y + 3γ² − 3γ − 3γ₁ + 1` the polynomial for which
-`x P₃(log x)` is the residue of `ζ(s)³ xˢ/s` at `s = 1` and `γ₁ = −0.0728158…` the first Stieltjes
-constant, under its *PiltzRemainderRangeVerified* `3 2 (1.1·10¹⁰)` and the inputs of its §§7.4 and
-5.2. Used in 5.4.
-
-§9.1: Robin's `ω(m) ≤ 1.3841 log m/log log m` for every natural `m ≥ 3`, under its
-*PrimorialTableVerified* `26` and the lower bound `p_k ≥ k(log k + log log k − 1)` for `k ≥ 2` of
-ExplicitPrimeCounting §5.3. Used in 6.3, 6.4 and 6.5.
-
-§9.4: Rosser–Schoenfeld's `m/φ(m) < e^γ log log m + 2.50637/log log m` for every natural `m ≥ 3`,
-with `5/2` in place of `2.50637` except at `m = 223092870`, under its
-*PrimorialTotientTableVerified* `24284` and the bounds of ExplicitPrimeCounting §§3.2 and 4.3 it
-consumes; it gives the form with `2.51` that 6.5 uses. Used in 6.5.
-
-§§2.3, 2.5 and 7.1: Ramaré's `|Σ_{d ≤ X} μ(d)/d| ≤ 1/10` for every real `X ≥ 7` (§2.3), the tail
-bound `|Σ_{d > X} μ(d)/d²| ≤ 1/X` for every real `X ≥ 1` (§2.5), Cipu's
-`Σ_{d ≤ X} μ²(d) ≤ 6X/π² + 0.679091 √X` for every real `X ≥ 1` and the bound
-`Σ_{d ≤ X} μ²(d)/d ≤ (6/π²) log X + 1.166` for every real `X ≥ 1` (§7.1), each under the finite
-verifications that section names: *MoebiusDivRangeVerified* at the row `x ↦ 1/10` on `[7, 463 421]`
-and at `(x ↦ 0.0144/log x − 0.1/log² x) 463 421 (3·10⁷)`, with *MoebiusAbsIntegralLE*
-`1 078 853 113 556 832` and the hypotheses of its §§1.5 and 1.7 (§2.3); *MoebiusRangeVerified*
-`(x ↦ x/80) 1119 2087` and `(x ↦ (x + 1)/80 + 11/2) 0 1119` with `MoebiusTableVerified 0.571 10¹²`,
-through MacLeod's bounds of its §1.2 (§2.5); *SquarefreeRangeVerified* and
-*SquarefreeRangeVerifiedNat* (Cipu's bound) and *SquarefreeReciprocalRangeVerified*
-`0.578 1.166 1 14 831` (§7.1), all of its Layer 0.7. They are the inputs of McGown–Trudgian's
-estimates for `S(X)` and `T(X)` in the ranges `X ≥ 38` and `X ≥ 1000` (`mcgowntrudgian2020` lines
-300–353). Used in 6.2.
-
-§8.1: Mertens' product under the Riemann hypothesis (`leenosal2026` Corollary 1.3, quoted as
-Lemma 2.2 of `gglm2026`): under `RiemannHypothesis` and the Mertens estimate
-`|Σ_{p ≤ x} 1/p − log log x − B| ≤ ε_RH(x) = 3 log x/(8π√x)` for every real `x ≥ 24.4` of
-ExplicitPrimeCounting §4.7, with the finite verifications that section carries (*ButheVerified*,
-*LeeNosalMertensRange*, `LeeNosalRange`, `ZetaZeroReciprocalSum`, `ZetaZeroCountLowRange` and
-*PsiThetaUpper* or the inputs of its §3.7 that discharge it), for every real `x ≥ 24.4`,
-`e^{−ε_RH(x)} < e^γ (log x) ∏_{p ≤ x} (1 − 1/p)`; since `e^{−ε} ≥ 1 − ε`, this gives
-`∏_{p ≤ x} (1 − 1/p) ≥ (e^{−γ}/log x)(1 − 3 log x/(8π√x))`, the form 3.6 uses at `x ≥ 5·10⁵`.
-Used in 3.6.
-
-Every theorem here that uses one of these statements carries the named finite verifications as
-hypotheses.
-
-### From TauCetiRoadmap.ExplicitPrimeCounting
-
-§2.2: Schoenfeld's `|ψ(x) − x| < √x (log x)²/(8π)` for every real `x > 73.2`, under
-`RiemannHypothesis` and the finite verifications *ButheVerified* and *Schoenfeld1976Range* of its
-§1.3 (`schoenfeld-1976` Theorem 10). Used in 3.6 and 7.2, each of which carries the two predicates.
-Its two-sided form starts at `73.2`; below, its lower side alone holds from `59`.
-
-§1.3: `Buthe2016Range`, whose first clause is `|ψ(x) − x| ≤ √x (log x)²/(8π)` for every real
-`59 < x < 5000` (Büthe's computation, as that section states and locates it), a named finite
-verification. Used in 7.2 for `L = ℚ` on `59 < x ≤ 73.2`, between the small cases of
-*GrenieMolteniSmallCases* and Schoenfeld's range.
-
-§1.7: *RealZeroGap* `c Q` (every real zero `β ∈ (0, 1)` of
-`DirichletCharacter.LFunction χ`, for every primitive real nonprincipal character `χ` of
-conductor `3 ≤ q ≤ Q`, has `(1 − β) log q ≥ c`), its name for ExplicitZetaBounds §7.9's
-*HasLandauSiegelGap* `c Q`, whose instances are consumed from that section; used in 0.5.
-
-§4.7: Lee–Nosal's second Mertens theorem under the Riemann hypothesis,
-`|Σ_{p ≤ x} 1/p − log log x − B| ≤ 3 log x/(8π√x)` for every real `x ≥ 24.4`, with
-`B = mertensConstant ℚ`, under `RiemannHypothesis`, *ButheVerified*, *LeeNosalMertensRange*,
-`ZetaZeroReciprocalSum`, *PsiThetaUpper* (or the inputs of its §3.7 that discharge it) and the other
-inputs of its §2.2 (`LeeNosalRange`, `ZetaZeroCountLowRange`); it is the estimate that
-ExplicitMultiplicativeFunctions §8.1 turns into Mertens' product, and 3.6 carries its finite
-verifications with that product.
-
-What ExplicitPrimeCounting must provide (gap:explicit-mertens-second): Schoenfeld's second Mertens
-theorem under the Riemann hypothesis from `x = 13.5`: under `RiemannHypothesis`, for every real
-`x ≥ 13.5`, `|Σ_{p ≤ x} 1/p − log log x − M| < (3 log x + 4)/(8π√x)`, with `M` the Meissel–Mertens
-constant `mertensConstant ℚ` (`schoenfeld-1976` lines 127–136, Corollary 2, (6.21)), beside
-Lee–Nosal's sharper bound of that section, which starts at `x = 24.4`. Used in 3.5 (both sides)
-and 3.6 (the upper side). Required location: §4.7.
-
-What ExplicitPrimeCounting must provide (gap:bach-grh-smoothed-sum): Bach's lemma: for a
-non-principal Dirichlet character `χ` modulo a prime `p` with `DirichletGRH χ` and real `x ≥ 1`,
-`|Σ_{n < x} Λ(n) χ(n) (1 − n/x)| ≤ c(p, x) √x log p` with
-`c(p, x) = (2/3)(1 + 2/√x + 3/x^{3/2})(1 + 5/(3 log p)) + (log x + 2)/(√x log p)`, and the
-principal case `|Σ_{n < x} Λ(n)(1 − n/x) − x/2| ≤ √x/20 + 3` under `RiemannHypothesis`
-(`mcgowntrevinotrudgian2016` lines 70–76), beside that section's conditional results for primes
-in progressions. Required location: §6.5.
-
-## How to read the build
-
-Layer 0 fixes the invariants and predicates every later statement mentions: the Minkowski
-constant, the local Euler factors, the quadratic Hecke character and relative class number of a
-CM-field, the Euler product of an abelian field as continued functions, the conjectural and gap
-predicates, and the least primitive roots. Layer 1 is
-the one convexity bound for `ζ_K`, an instance of the general bound, and the digamma and trigamma
-series with explicit remainders, which bound the gamma terms of `Λ'_K/Λ_K` in Layers 4 and 7.
-Layer 2 proves the explicit lattice-point count and the explicit ideal counts; it needs Layers 0 and
-1 only. Layer 3 proves the residue bounds that need no zero-free region, from the positive Mellin
-comparison, Friedman's regulator bound and, for the conditional bounds, an explicit Duke theorem on
-Euler-product records.
-Layer 4 proves the explicit zero counts, the real-zero lemmas and the zero-free regions, Stark's
-residue lower bound, which needs the one-zero lemma, the consequences of the uniform real-zero gap
-for quadratic fields, and zero repulsion. Layer 5 turns the residue bounds into class-number bounds
-through the class-number formula, adds Bordellès' elementary bounds, and uses the real-zero lemmas
-of 4.3 and 4.9 for the lower bounds of relative class numbers and for the effective Brauer–Siegel
-bound. Layer 6 is independent of Layers 1–5 and proves the primitive-root theorems from the sieve
-identity and the character-sum inputs. Layer 7 consumes the ideal counts of Layer 2 (Mertens,
-Brun–Titchmarsh), the residue (Layer 3) and the zero-free regions, zero counts and repulsion of
-Layer 4 (Chebotarev, least prime ideal).
 
 ## Layer 0: invariants and predicates
 
@@ -3489,6 +2931,564 @@ through Tau Ceti; AnalyticNumberTheoryPartI §§2.39, 2.42; ExplicitPrimeCountin
   of Layer 6 (norm-Euclidean and primitive-root problems), and the explicit Chebotarev,
   least-prime-ideal and Brun–Titchmarsh theorems of Layer 7 (for instance for torsion in class
   groups).
+
+## Scope and ownership
+
+**Owned here.**
+
+- Layer 0: the Minkowski constant and the real Minkowski bound `b_K`, the local Euler factors
+  `Π_K(p)` and their products over finite sets of primes, the class-number lemma
+  `h_K ≤ Σ_{m ≤ b} τ_n(m)` for every real `b` such that every ideal class contains a nonzero
+  integral ideal of norm at most `b` (`b_K` among them) with the Nicolas–Tenenbaum bound
+  `Σ_{m ≤ x} τ_n(m) ≤ (x/(n−1)!)(log x + n − 1)^{n−1}` (which is not among the Piltz bounds of
+  ExplicitMultiplicativeFunctions §7.5, and which only the class-number bounds of 5.3 use), the
+  quadratic Hecke
+  character `η_K` of a CM-field, the relative class number `relativeClassNumber` as a natural
+  number with the divisibility `h(K⁺) ∣ h(K)` and the relative class-number formula, the Euler
+  product of an abelian field as an identity of continued functions (whose form on `Re s > 1` is
+  CyclotomicClassGroupsAndStickelberger's), the predicates *DedekindConjecture*, *CMPositivity*,
+  `GRHMod`, *QuadraticRealZeroGap*, *ImaginaryQuadraticRealZeroGap*, *UniformQuadraticZeroGap*
+  and `HasNormalTower`, and the least primitive root and least prime primitive root modulo an
+  integer.
+- The named propositions of *Computational hypotheses*, which the theorems carry as hypotheses;
+  none of them is proved here.
+- Layer 1: Rademacher's convexity bound for `ζ_K`, as the Dedekind instance of the general bound;
+  the series for the digamma and trigamma functions on `Re z > 0` and their explicit remainders
+  `digamma_series_remainder` and `trigamma_series_remainder`.
+- Layer 2: the explicit Lipschitz lattice-point count with Widmer's constant, the explicit ideal
+  counts of Sunley, Lee, Debaene, Gun–Ramaré–Sivaraman and Fehnker, and Ramaré's count for
+  imaginary quadratic fields.
+- Layer 3: the explicit residue bounds beyond Louboutin's first bound (which is consumed): the
+  zero-dependent bound, the bound taking the prime `2` into account, Friedman's unconditional
+  lower bound, Louboutin's zero-dependent lower bounds for totally imaginary fields, Garcia–Lee's
+  extension of Schoenfeld's second Mertens theorem to `x ≥ 1.048`, the explicit short-sum theorem
+  of Duke on unit-disc Euler-product records, and the conditional two-sided bounds of
+  Garcia–Grenié–Lee–Molteni, Palojärvi–Simonič and Garcia–Lee.
+- Layer 4: the explicit zero-counting formulae for `ζ_K` (Trudgian, Hasanalizade–Shen–Wong),
+  Stark's one-zero lemma, the real-zero counting lemmas, Louboutin's Stark-like regions,
+  the explicit zero-free regions of Kadiri, Lee and Das–Gaba–Lee–Savalia–Wong, Stark's lower
+  bound for the residue in terms of the possible real zero near `1` with a constant independent
+  of the degree, Stark's explicit lower bound for the residue, the field form of the uniform
+  real-zero gap for quadratic fields
+  with its consequences for every `ζ_K`, and the explicit zero repulsion theorems.
+- Layer 5: the `h_K R_K` bounds, Bordellès' regulator-free class-number bounds, the cubic and
+  quartic bounds, the upper and lower bounds for relative class numbers of CM-fields, and the
+  effective Brauer–Siegel bound for Galois fields under the uniform real-zero gap.
+- Layer 6: Vinogradov's sieve identity for generators of a finite cyclic group, the interval
+  counts behind the Burgess-type argument, the explicit bounds on the least primitive root modulo
+  `p` and `p²` (including `g(p) < p^{5/8}` for `p > 3` and `h(p) < p^{2/3}` for odd `p`), and
+  Grosswald's conjecture under `GRHMod p`.
+- Layer 7: the explicit Mertens theorems for number fields, the explicit Chebotarev density
+  theorem under the generalized Riemann hypothesis and unconditionally, the least prime ideal with
+  a given Frobenius class, and the explicit Brun–Titchmarsh inequality for the Chebotarev density
+  theorem.
+
+**Consumed, not restated** (by section, in *Exact supplier contracts*).
+
+- Louboutin's first residue bound `κ_K ≤ (e log d_K/(2n−2))^{n−1}`: AnalyticNumberTheoryPartI
+  §2.15, with its positive Mellin comparison and the coefficient bound `0 ≤ a_K(m) ≤ τ_n(m)`
+  of §2.15a; the quadratic factorization
+  `ζ_E = ζ_F L(s, η)` and the residue quotient `L(1, η) = κ_E/κ_F`: its §2.7 and §2.17a; the
+  Aramata entire quotient `ζ_K/ζ_E` for Galois `K/E`: its §2.39b; `DedekindERH` and
+  `DirichletGRH`: its §2.42 and §1.6; normal-closure discriminant bounds: its §2.31d; Heilbronn's
+  theorem that a simple real zero of `ζ_N` for Galois `N` comes from a quadratic subfield, and
+  Stark's near-one form of it without normality: its §2.39 and §2.31e; the
+  qualitative uniform exclusion of Landau–Siegel zeros with an effective absolute constant: its
+  §0.34.
+- The continued Dedekind zeta function, its completion, functional equation and residues:
+  LFunctions Layer 3; the quadratic and cyclotomic factorizations: LFunctions Layer 4;
+  finite-order Hecke L-functions with their completions and entirety: LFunctions Layer 5; their
+  nonvanishing on `Re s = 1`: LFunctions Layer 7; the series
+  `γ + log κ_K + Σ_𝔭 (1/N𝔭 + log(1 − 1/N𝔭))` for the Mertens constant of `K`: LFunctions
+  Layer 8; the zero count, `N(T)` and the symmetric count, Hadamard's factorization, the shape
+  of the zero-free regions, the argument principle on a rectangle and the generalized Riemann
+  hypothesis over the two families: ZerosOfLFunctions Layers 4, 5, 6, 7 and 9.
+- Ideal counting with an existential power saving, ray class groups and their ideal counts: Tau
+  Ceti's `TauCeti.isBigO_card_idealsLE_sub`, `rayClassIdealCountingFunction`,
+  `rayClassIdealMainTerm_eq`, realizing Completed/GlobalNumberFields Layer 3; successive minima and
+  Minkowski's second theorem: Tau Ceti's `ZLattice.successiveMin` and
+  `ZLattice.prod_successiveMin_mul_measure_le_two_pow_mul_covolume`, realizing SuccessiveMinima
+  Layer 1; the Frobenius prime sets and the Frobenius-restricted Chebyshev functions: Tau Ceti's
+  `NumberField.Chebotarev.frobeniusPrimeSet`, `frobeniusPsi` and `frobeniusPrimeCount`, realizing
+  Completed/Chebotarev; the Mertens constant of a number field: Tau Ceti's
+  `TauCeti.LFunctions.mertensConstant`; the least primitive root modulo `p²`: Tau Ceti's
+  `TauCeti.conreyGenerator`.
+- Bordellès' Piltz divisor sums, Cully-Hugill–Trudgian's quartic divisor asymptotic and Tudzi's
+  remainder for `τ_3`: ExplicitMultiplicativeFunctions §§7.5 and 7.9; Robin's bound for `ω(n)` and
+  the Rosser–Schoenfeld bound for `n/φ(n)`: its §§9.1 and 9.4; Ramaré's bound for
+  `Σ_{d ≤ X} μ(d)/d`, the tail of `Σ μ(d)/d²`, Cipu's squarefree remainder and the bound for
+  `Σ μ²(n)/n`: its §§2.3, 2.5 and 7.1; the lower bound for Mertens' product under the Riemann
+  hypothesis: its §8.1.
+- Schoenfeld's bound for `ψ(x) − x` under the Riemann hypothesis: ExplicitPrimeCounting §2.2; the
+  real-zero gap for quadratic Dirichlet L-functions as a hypothesis, *RealZeroGap*: its §1.7.
+- Rademacher's convexity bound for records of finite-order type: ExplicitZetaBounds §3.2;
+  Stieltjes' sector bound for the Stirling remainder of `log Γ` and the two-sided bound for `|Γ|`
+  on vertical lines: its §§2.1 and 2.5; Backlund's argument lemma: its §5.1; admissible cosine
+  polynomials: its §0.5; Landau's iterated Perron identity: its §6.1a; Lu–Zaman–Zhao's computation
+  `LuZamanZhaoRecord`: its §0.4b; the numerical Landau–Siegel gaps of Guo and of Banks: its §7.9;
+  Ramaré's bounds for `|L(1, χ)|`: its §9.1.
+- Burgess's moment bound with its shifted form and its refinements at `r = 2`:
+  ExplicitCharacterSumsAndSieves §4.1; Lapkova's Pólya–Vinogradov inequality for initial sums with
+  one constant `A(q₀)`, under the finite verification of its §6.1: its §3.5.
+- The global Artin map, its compatibility in towers and its agreement with the ideal-theoretic
+  Artin map: ClassFieldTheory Layer 11, with the abstract norm diagram `artinMap_groundNorm` of
+  its Layer 4; the abelian conductor: Tau Ceti's `TauCeti.ClassFieldTheory.abelianConductor`,
+  realizing ClassFieldTheory Layer 12; the Hilbert class field and its Galois group,
+  Kronecker–Weber and the conductor–discriminant formula: its Layer 13; the Legendre character is
+  primitive: ClassicalArithmeticCompletion §1.5.
+- The primitive character group `X(F)` of an abelian field, its Euler product
+  `ζ_F = ∏_{χ ∈ X(F)} L(s, χ)` on `Re s > 1` with the residue comparison at `s = 1`, the Gauss-sum
+  product and the relative class-number character product of an abelian CM field:
+  CyclotomicClassGroupsAndStickelberger §3.4.
+
+**Already in the library or stated by an earlier roadmap, and how the targets here differ.**
+
+- Tau Ceti's `NumberField.classNumber_le_bound` (`h_K ≤ |d_K| · 4ⁿ`,
+  `TauCeti/NumberTheory/EffectiveBounds/ClassNumber/Basic.lean`) and
+  `NumberField.card_ideal_absNorm_le` (at most `X² 2ⁿ` nonzero integral ideals of norm at most
+  `X`, for `X ≥ 1`, `TauCeti/NumberTheory/EffectiveBounds/IdealCount/Basic.lean`), realizing
+  Completed/EffectiveBounds: the bounds of 5.3 replace `|d_K| 4ⁿ` by `√|d_K| (log |d_K|)^{n−1}` up
+  to a factor depending on `n`, and 2.2–2.7 replace the upper bound `X² 2ⁿ` by the asymptotic
+  `κ_K X` with an explicit error term.
+- Tau Ceti's `TauCeti.isBigO_card_idealsLE_sub` (`#idealsLE K x = κ_K x + O(x^{1−1/n})` with an
+  existential constant): Layer 2 makes the constant explicit.
+- AnalyticNumberTheoryPartI §2.43(ii), Zaman's one-zero region (for `|d_K| nⁿ` beyond an absolute
+  threshold, at most one zero in `σ ≥ 1 − 0.0875/log(|d_K| nⁿ)`, `|t| ≤ 1`): the regions of
+  4.5–4.6 and 4.8 are zero-free for `|t| ≥ 1` with explicit coefficients of `log |d_K|` and
+  `n log|t|`, and their one-zero regions near the real axis have denominators in `log |d_K|`
+  alone.
+- AnalyticNumberTheoryPartI §2.49, the effective Chebotarev density theorem with effective
+  absolute constants `C₁, C₂, B`, and ZerosOfLFunctions 8.5, the effective prime ideal theorem
+  with existential constants: 7.2–7.4 give numerical constants.
+- ZerosOfLFunctions 6.2 and 7.5, the Dedekind zero-free region and the Riemann–von Mangoldt formula
+  for `ζ_K` with existential constants: 4.1–4.8 give numerical constants; ZerosOfLFunctions
+  Layer 3, convexity in vertical strips with existential constants: 1.1 is Rademacher's numerical
+  form for `ζ_K`.
+- LFunctions Layer 8, Mertens' first theorem and Mertens' product for a number field as
+  asymptotics (`tendsto_prod_one_sub_inv_absNorm_div_log`), and Tau Ceti's Mertens' second theorem
+  with an `O(1/log x)` error: 7.1 gives the three with explicit error terms for every `x ≥ 2`.
+- Explicit lower bounds for discriminants are not restated here: Odlyzko's unconditional bound
+  `r₁ log 60 + 2 r₂ log 22 ≤ log d_K` for `d_K` beyond an absolute threshold (`odlyzko1976`
+  Theorem 1, in the form quoted as Theorem 2.3 of `kadiringwong2019`) is the discriminant input
+  of AnalyticNumberTheoryPartI §2.9a, which derives it from the explicit form
+  `log d_K ≥ r₁ log 60.1 + 2 r₂ log 22.2 − 254` of Odlyzko's second paper; and Poitou's bound
+  `P(n, r₁, b) ≤ log d_K` for every `b > 0`, with its totally complex consequences in fixed
+  degrees, is SmallRamificationAndAbelianVarietyBaseCases §1.7.
+- CyclotomicClassGroupsAndStickelberger §3.4, the relative class number `h(F)/h(F⁺)` of an
+  abelian CM field as a positive rational number with its character product, integral at the
+  prime-power cyclotomic conductors: 0.4 proves `h(K⁺) ∣ h(K)` for every CM field `K` and defines
+  `relativeClassNumber` as a natural number, which agrees with that ratio for abelian `K`; and its
+  Euler product on `Re s > 1`, which 0.4a extends to the continued functions.
+- AnalyticNumberTheoryPartI §2.31e, Stark's lower bound `κ_K ≥ c min(1/log d_K, 1 − β_K)` in terms
+  of the possible real zero near `1`, stated in its section on fields of a fixed degree, with a
+  constant it does not say is independent of the degree: 4.7 states it with an effective constant
+  that is the same for every number field, the form 5.7 needs.
+- AnalyticNumberTheoryPartI §0.34, the uniform exclusion of Landau–Siegel zeros with an effective
+  but unspecified constant `c_LS`, and ExplicitPrimeCounting §1.7, its numerical hypothesis
+  *RealZeroGap*: 0.5 restates the latter on quadratic fields as *UniformQuadraticZeroGap*, the
+  form in which the number-field statements of 4.7, 4.9, 5.6 and 5.7 use it.
+
+**Not owned here.** Explicit bounds for the number `N_K(σ, T)` of zeros with real part at least
+`σ` (only zero repulsion, 4.10, is stated); subconvexity; every explicit inequality about `ζ` and
+Dirichlet L-functions, primes and arithmetic functions (the four explicit roadmaps above),
+including the uniform gap for real zeros of quadratic Dirichlet L-functions, which is consumed
+from ExplicitZetaBounds §7.9 (the instances of Guo and of Banks), and the bounds for `L(1, χ)`
+under the generalized Riemann hypothesis (Lamzouri–Li–Soundararajan,
+`lamzourilisoundararajan2015`); the ineffective Brauer–Siegel theorem and
+every ineffective residue bound (AnalyticNumberTheoryPartI §§2.31e, 2.32, 2.46), while the
+effective bound for Galois fields under the uniform real-zero gap is 5.7; the imaginary quadratic
+class-number formula (ImaginaryQuadraticClassNumber H2.2) and the Goldfeld–Oesterlé lower bounds
+for imaginary quadratic class numbers, which nothing here uses; the explicit Burgess inequalities
+and their tabulated constants (Treviño, McGown, Booker: ExplicitCharacterSumsAndSieves);
+algorithms and certified computation, which nothing here uses: every computation a theorem rests
+on is a named hypothesis (Conventions).
+Louboutin's explicit Li-type residue bound (`louboutin2015mmj`), which makes the residue bounds of
+Layer 3 depend on the explicit Li coefficients of `ζ_K`, Amberger's zero count (`amberger2026`
+Theorem 1), whose proof rests on a numerical majorant for the auxiliary function of its Lemma 3,
+and Chen's estimates behind the criterion of 6.5 in their own right, extend Layers 3, 4 and 6 in
+their direction and belong to ExplicitNumberFields, Part II.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- `NumberField.dedekindZeta` (the Dirichlet series `Σ_𝔞 N𝔞^{−s}`, junk off `Re s > 1`),
+  `NumberField.dedekindZeta_residue` (with `dedekindZeta_residue_def`,
+  `dedekindZeta_residue_pos`), and the class-number formula
+  `NumberField.tendsto_sub_one_mul_dedekindZeta_nhdsGT`.
+- `NumberField.classNumber` (`classNumber_pos`), `NumberField.Units.regulator`
+  (`regulator_pos`), `NumberField.Units.torsionOrder` (`torsionOrder_pos`), `NumberField.discr`
+  (`discr_ne_zero`), `InfinitePlace.nrRealPlaces`, `InfinitePlace.nrComplexPlaces`,
+  `card_add_two_mul_card_eq_rank` (`r₁ + 2r₂ = n`), `Units.rank` (`= r₁ + r₂ − 1`),
+  `abs_discr_ge'` (the Minkowski discriminant bound `n^{2n}/((4/π)^{2r₂} (n!)²) ≤ d_K`) and
+  `abs_discr_ge` (for `n ≥ 2`).
+- `NumberField.exists_ideal_in_class_of_norm_le`: every class contains a nonzero integral ideal of
+  norm at most `(4/π)^{r₂} (n!/nⁿ) √d_K`; this bound is Mathlib's local notation `M K`, and it is
+  not `NumberField.mixedEmbedding.minkowskiBound K 1`, whose value by
+  `volume_fundamentalDomain_latticeBasis` is the covolume threshold `2^{r₁+r₂} √d_K`.
+  `Ideal.absNorm`, `Ideal.absNorm_dvd_absNorm_of_le`, `ClassGroup.mk0`,
+  `NumberField.mixedEmbedding.idealLattice`.
+- `NumberField.IsCMField` (totally complex and quadratic over `maximalRealSubfield K`, a
+  `Subfield K` with the instance `NumberField.of_subfield`), `IsCMField.complexConj`,
+  `IsCMField.indexRealUnits`, `indexRealUnits_eq_one_or_two`, `indexRealUnits_eq_two_iff`, and
+  `regulator_div_regulator_eq_two_pow_mul_indexRealUnits_inv`: `R_K/R_{K⁺} = 2^{rank K}/Q_K` with
+  `rank K = n − 1` for `[K:ℚ] = 2n`; `isTotallyReal_maximalRealSubfield`.
+- `ZMod.isCyclic_units_prime`, `ZMod.isCyclic_units_of_prime_pow` (odd `p`), `orderOf`,
+  `Nat.totient`, `Nat.primeFactors`, `ArithmeticFunction.cardDistinctFactors`, `DirichletCharacter`,
+  `DirichletCharacter.LFunction` (the continued L-function of a Dirichlet character),
+  `ArithmeticFunction.moebius`, `ArithmeticFunction.zeta` (so that `τ_n = ζ ^ n` in the Dirichlet
+  ring), `riemannZeta`, `RiemannHypothesis`, `Real.eulerMascheroniConstant`, `Real.posLog`,
+  `Nat.infinite_setOfPred_prime_and_eq_mod` (Dirichlet's theorem,
+  `Mathlib/NumberTheory/LSeries/PrimesInAP.lean`).
+- `Complex.Gammaℝ`, `Complex.Gammaℂ`, `Complex.Gammaℝ_mul_Gammaℝ_add_one`, `Complex.digamma`,
+  `MeromorphicOn.divisor`, `IsGalois`, `IsAbelianGalois`, `normalClosure`,
+  `IntermediateField.extendScalars`, `Real.geom_mean_le_arith_mean_weighted`.
+- `IsArithFrobAt` (arithmetic Frobenius elements at a prime of a Galois extension of Dedekind
+  domains), `ArithmeticFunction.vonMangoldt`, for Layer 7.
+- For 1.1a: `Complex.digamma` (`logDeriv Gamma`) with `Complex.digamma_one`,
+  `Complex.digamma_nat_add_one`, `Complex.digamma_apply_add_nat` and `Complex.digamma_one_sub`;
+  `Real.BohrMollerup.tendsto_log_gamma` (with `logGammaSeq`), `Real.tendsto_harmonic_sub_log`,
+  `Complex.Gamma_ofReal`, `Complex.differentiableAt_Gamma`, `Complex.Gamma_ne_zero`,
+  `hasDerivAt_of_tendstoLocallyUniformlyOn`, `HasDerivAt.real_of_complex`,
+  `Complex.differentiableOn_tsum_of_summable_norm`, `Complex.hasSum_deriv_of_summable_norm` and
+  `AnalyticOnNhd.eqOn_of_preconnected_of_frequently_eq`.
+- For 0.4a: `IsCyclotomicExtension.Rat.intermediateFieldEquivSubgroupChar` (the character group of
+  an intermediate field of a cyclotomic field, the carrier of the products of
+  CyclotomicClassGroupsAndStickelberger §3.4), `DirichletCharacter.primitiveCharacter`,
+  `DirichletCharacter.LFunction` with `DirichletCharacter.differentiable_LFunction` (entire for a
+  nontrivial character) and `riemannZeta`.
+
+### From Tau Ceti
+
+- `TauCeti.idealsLE K x` (the finset of nonzero integral ideals of norm at most `x`) and
+  `TauCeti.primesLE K x` (the finset of height-one primes of norm at most `x`), with
+  `TauCeti.isBigO_card_idealsLE_sub` (`#idealsLE K x = κ_K x + O(x^{1 − 1/n})`,
+  `TauCeti/NumberTheory/NumberField/DedekindZeta.lean`), realizing
+  Completed/ArithmeticDirichletSeries and Completed/GlobalNumberFields Layer 3.
+- `TauCeti.GlobalNumberFields.Modulus K` (finite part a nonzero ideal, infinite part a finset of
+  real places), `Modulus.one K`, `narrowModulus K` (unit finite part, every real place),
+  `RayClassGroup 𝔪`, `integralIdealsPrimeTo 𝔪`, `idealClass 𝔪`,
+  `rayClassIdealCountingFunction 𝔪 c x` (the number of integral ideals prime to `𝔪` in the class
+  `c` with norm at most `x`), `rayClassIdealMainTerm 𝔪` with
+  `rayClassIdealMainTerm_eq : rayClassIdealMainTerm 𝔪 = κ_K / #RayClassGroup 𝔪 · ∏_{𝔭 ∣ 𝔪₀} (1 − N𝔭⁻¹)`,
+  `rayClassIdealCount` (existential exponent). The ray class group of `Modulus.one K` is the class
+  group, and that of `narrowModulus K` the narrow class group.
+- `ZLattice.successiveMin L K i` (the real-valued successive minima of a `ℤ`-submodule `L`
+  with respect to a convex body `K`, indexed from `0`, with junk value `0` when no dilate of `K`
+  contains `i + 1` independent vectors of `L`; `TauCeti/Algebra/Module/ZLattice/SuccessiveMinima.lean`),
+  `ZLattice.prod_successiveMin_mul_measure_le_two_pow_mul_covolume` (Minkowski's second theorem,
+  upper half, for a full lattice and a convex body symmetric about `0`,
+  `TauCeti/NumberTheory/GeometryOfNumbers/MinkowskiSecond.lean`),
+  `IsLipschitzParametrizable`, `abs_ncard_inter_mul_sub_measureReal_le` (the cell count with the
+  boundary term identified) and `exists_abs_ncard_smul_inter_vadd_sub_le` (the Lipschitz count with
+  an existential constant, `TauCeti/NumberTheory/GeometryOfNumbers/LatticePointCount.lean`),
+  realizing SuccessiveMinima Layer 1.
+- `NumberField.Chebotarev.frobeniusPrimeSet K L C` (the primes of `K` unramified in `L` with
+  Artin class `C`), `frobeniusPsi K L C x`, `frobeniusTheta K L C x` and
+  `frobeniusPrimeCount K L C x`, with `tendsto_frobeniusPrimeCount`
+  (`TauCeti/NumberTheory/Chebotarev/`), realizing Completed/Chebotarev.
+- `TauCeti.ClassFieldTheory.abelianConductor K L` (`K`, `L : Type`; the least admissible modulus
+  of `L/K`, that is, the conductor of the idele-class norm group, with
+  `isAdmissibleModulus_iff_abelianConductor_dvd`; for abelian `L/K` it is the conductor of class
+  field theory, and its finite part is the conductor ideal `𝔣` of 7.5;
+  `TauCeti/NumberTheory/ClassFieldTheory/Global/AdmissibleModulus/Basic.lean`), realizing
+  ClassFieldTheory Layer 12.
+- `TauCeti.LFunctions.mertensConstant K` (the limit of `Σ_{N𝔭 ≤ x} 1/N𝔭 − log log x`,
+  `TauCeti/NumberTheory/LFunctions/Mertens.lean`); at `K = ℚ` it is the Meissel–Mertens constant
+  `M = 0.2614972…`.
+- `TauCeti.conreyGenerator p` (the least natural number that is a primitive root modulo `p²`, `0`
+  if there is none), with `TauCeti.orderOf_conreyGenerator` (for an odd prime `p` it is a
+  primitive root modulo every power of `p`), `TauCeti.conreyGenerator_le` and
+  `TauCeti.conreyGenerator_three` (`TauCeti/NumberTheory/DirichletCharacter/Conrey.lean`): the
+  least primitive root `h(p)` modulo `p²` of 0.6 and 6.5.
+- `TauCeti.Contour.argumentPrinciple_nullHomologous` through ZerosOfLFunctions 7.2.
+- For 0.4a: `TauCeti.eventuallyEq_of_meromorphic_of_eqOn_halfPlane`
+  (`TauCeti/Analysis/Meromorphic/Continuation.lean`), uniqueness of meromorphic continuation from a
+  right half-plane.
+- `NumberField.classNumber_le_bound` and `NumberField.card_ideal_absNorm_le`
+  (`TauCeti/NumberTheory/EffectiveBounds/`), realizing Completed/EffectiveBounds, as comparisons.
+
+### From TauCetiRoadmap.LFunctions
+
+Layer 3: `dedekindZetaC`, `completedDedekindZeta`, `dedekindZetaData` (degree `n`, conductor
+`d_K`, root number `1`), agreement with `dedekindZeta` on `Re s > 1`, `analyticAt_dedekindZetaC`,
+`meromorphicOrderAt_dedekindZetaC_one`, `tendsto_sub_one_mul_dedekindZetaC` (residue `κ_K`),
+`completedDedekindZeta_one_sub` and the germ functional equation. Layer 4:
+`dedekindZetaC_quadratic`, `dedekindZetaC_cyclotomic`, `dirichletData`. Layer 5:
+`PrimitiveRayClassCharacter`, `heckeLFunctionC`, `completedHeckeLFunction`,
+`differentiable_completedHeckeLFunction`, the functional equation `Λ(χ, s) = W(χ) Λ(χ⁻¹, 1 − s)`,
+`heckeData`. Layer 0: `AnalyticLFunctionData`, `ofSeries`, `HasDirichletAgreement`,
+`HasMeromorphicContinuation`, `HasFunctionalEquation`. Layer 7: the nonvanishing of a primitive
+finite-order Hecke L-function on `Re s = 1`. Layer 8: Mertens' product for `K`
+(`tendsto_prod_one_sub_inv_absNorm_div_log`) and, from its route, the expression of the constant
+`B_K` of Mertens' second theorem for `K` (Tau Ceti's `mertensConstant K`) as
+`γ + log κ_K + Σ_𝔭 (1/N𝔭 + log(1 − 1/N𝔭))`; used in 7.1 and as its comparison.
+
+### From TauCetiRoadmap.ZerosOfLFunctions
+
+Layer 2 (`arithmeticConductor (dedekindZetaData K) = d_K`, `analyticConductorAt`); Layer 4
+(`zeroCount`, `N(T)` and `N±(T)` with their finiteness and additivity, 4.2 the divisor of a
+record, 4.3 Jensen's bound); Layer 5 (5.5 Hadamard's theorem at order at most one, 5.6 the
+L-function corollaries: the partial-fraction expansion of `Λ'_K/Λ_K` over the zeros); Layer 6
+(6.2 the shape of the Dedekind zero-free region, 6.3 `IsExceptionalZero`, 6.4(4d) the
+logarithmic-derivative inequality with the pole terms, 6.5 no zeros on `Re s ∈ {0, 1}`); Layer 7
+(7.1 `rectBoundary`, 7.2 the argument principle on a rectangle in divisor form, 7.3 the argument
+variation, 7.5 the Riemann–von Mangoldt formula with existential constants); Layer 9
+(*AllOnCriticalLine*, and *GRH* over the two families: every zero of the completion has real
+part `1/2`).
+
+### From TauCetiRoadmap.AnalyticNumberTheoryPartI
+
+§0.34 (`landau_siegel_exclusion`, the qualitative uniform gap); §1.6 `DirichletGRH χ` (every zero
+`s` of `DirichletCharacter.LFunction χ` with `Re s > 0`, other than the pole value of the
+principal character, has `Re s = 1/2`) and `GRH`; §2.5 (the complex residue of the continued
+`ζ_K` is `dedekindZeta_residue K`); §2.7 (for a quadratic extension `E/F` the canonical primitive
+quadratic Hecke character `η` with `ζ_E = ζ_F L(s, η)` including the ramified factors) and §2.17a
+(`L(1, η) = κ_E/κ_F > 0`); §2.15 `dedekindZeta_residue_le` (`κ_K ≤ (e log d_K/(2(n−1)))^{n−1}`
+for `n ≥ 2`) and §2.15a (the positive Mellin comparison:
+`F_K(s) = λ/(s(s−1)) + ∫_1^∞ S_K(x)(x^{s−1} + x^{−s}) dx` with `S_K ≥ 0`, the coefficient bound `0 ≤ a_K(m) ≤ τ_n(m)`, and the
+log-convexity of `g`); §2.18 (the unit-disc coefficient construction of an Euler-product record);
+§2.22 (the completion
+`Q^{s/2} Γ_ℝ(s+1)^g L(s, η)` of the CM character with `Q = d_E/d_F`); §2.31d (`d_N ≤ d_K^{[N:ℚ]}`,
+`[N:ℚ] ≤ n!` for the normal closure `N`, and `d_F ≤ d_K^{1/[K:F]}` for a subfield `F`); §2.31e
+(Stark's Lemma 8: for `K ≠ ℚ` of degree `n`, a real zero `β` of `ζ_K` with
+`1 − β < 1/(4 n! log d_K)` is a zero of `ζ_F` for a quadratic subfield `F ⊆ K`, without
+normality; for Galois `N` the character computation of that argument gives, at a simple
+real zero `β` of `ζ_N` with quadratic subfield `F`, `ζ_E(β) = 0` iff `F ⊆ E` for every
+intermediate field `E`; used in 4.7. The fixed-degree residue bounds of §2.31e, and Stark's
+Lemmas 2–4 as that fixed-degree section states them, with a constant it does not say is
+independent of the degree, are not used here: 4.7 states the degree-uniform form that 5.7 needs);
+§2.39 (Heilbronn's theorem: a simple real zero `β ∈ (0, 1)` of
+`ζ_N` for Galois `N/ℚ` is a zero of `ζ_F` for a quadratic subfield `F ⊆ N`); §2.39b (the Aramata
+entire quotient `ζ_K/ζ_E` for finite Galois `K/E`); §2.42 `DedekindERH K` (every zero of `ζ_K` with
+`0 < Re s < 1` has `Re s = 1/2`) with its abelian case (for `K/ℚ` abelian, `DirichletGRH` for the
+primitive characters of `K` gives `DedekindERH K`); §§2.43, 2.49 as comparisons.
+
+### From TauCetiRoadmap.ClassFieldTheory
+
+Layer 4 (the abstract Artin map with its norm diagram `artinMap_groundNorm`), Layer 11 (the
+global Artin map of a finite Galois extension, its compatibility in towers, and its agreement
+`globalArtinMap_ideal` with the ideal-theoretic Artin map at unramified primes), Layer 12
+(the abelian conductor, realized by Tau Ceti's `TauCeti.ClassFieldTheory.abelianConductor` of the
+Tau Ceti contract above) and Layer 13 (`hilbertClassField`,
+`gal_hilbertClassField_equiv_classGroup`, the Hilbert class field is unramified at every place
+including the real ones, Kronecker–Weber, and the abelian conductor–discriminant formula
+`d_F = ∏_{χ ∈ X(F)} f_χ`).
+
+What ClassFieldTheory must provide (gap:artin-norm-compatibility): for an abelian extension `H/F`
+of number fields and a finite extension `K/F`, the Artin symbol for `HK/K` of a fractional ideal
+`𝔞` of `K` prime to the conductor restricts on `H` to the Artin symbol of `N_{K/F} 𝔞` for `H/F`
+(the ideal-theoretic norm functoriality of the global Artin map under a change of base field).
+Required location: Layer 11.
+
+### From TauCetiRoadmap.ClassicalArithmeticCompletion
+
+§1.5 (the Legendre character is primitive), for the character-sum inputs of Layer 6.
+
+### From TauCetiRoadmap.ImaginaryQuadraticClassNumber
+
+H2.2 (the imaginary quadratic class-number formula with its exact constants), the degree-two case
+of the relative class-number formula of 0.4.
+
+### From TauCetiRoadmap.CyclotomicClassGroupsAndStickelberger
+
+§3.4: the primitive character group `X(F)` of an abelian number field `F`, realized for an
+intermediate field `F` of a cyclotomic field `ℚ(ζ_m)` by the characters modulo `m` of
+`IsCyclotomicExtension.Rat.intermediateFieldEquivSubgroupChar m K ℂ F`, each taken at its primitive
+character; the Euler-product identity `ζ_F(s) = ∏_{χ ∈ X(F)} L(s, χ)` on `Re s > 1` and its
+residue comparison `κ_F = ∏_{1 ≠ χ ∈ X(F)} L(1, χ)` with `dedekindZeta_residue`;
+the Gauss-sum product `∏_{χ ∈ X(F)} τ(χ) = i^{r₂(F)} √d_F`; and, for abelian CM `F`, the rational
+ratio `h(F)/h(F⁺)` with its odd-character Bernoulli product
+`h(F)/h(F⁺) = Q_F w_F ∏_{χ ∈ X(F) odd} (−B_{1,χ}/2)`, with which Layer 0's natural number agrees.
+Used in 0.4, 0.4a, 5.2 and 5.6.
+
+### From TauCetiRoadmap.SuccessiveMinima
+
+Layer 1 (`successiveMin`, attainment, monotonicity, scaling, the upper half of Minkowski's second
+theorem), through the Tau Ceti declarations above.
+
+### From TauCetiRoadmap.ExplicitZetaBounds
+
+§3.2: Rademacher's convexity bound for a record `d` of LFunctions Layer 0 of *finite-order type*
+(Dirichlet agreement, meromorphic continuation and functional equation; every element of
+`d.gammaR` in `{0, 1}` and every element of `d.gammaC` equal to `0`; polar divisor supported in
+`{0, 1}` with order at most `1`; ZerosOfLFunctions *IsFiniteOrder* `d`; and the coefficient
+majorant `Σ_k |d.coeff k| k^{−σ} ≤ ζ(σ)^m` for every real `σ > 1`, with `m = d.degree`): for
+`0 < η ≤ 1/2`, `−η ≤ σ = Re s ≤ 1 + η` and `s ≠ 1`,
+`‖continuedL d s‖ ≤ P(s) (N (|1+s|/(2π))^m)^{(1+η−σ)/2} ζ(1+η)^m` with `N = d.conductor`,
+`P(s) = 3|(1+s)/(1−s)|` when `d` has a pole at `1` and `P = 1` otherwise. The record
+`dedekindZetaData K` is of finite-order type: ZerosOfLFunctions 3.1 gives *IsFiniteOrder*, and the
+majorant is `ζ_K(σ) ≤ ζ(σ)ⁿ`, from `0 ≤ a_K(k) ≤ τ_n(k)` (0.3) and `Σ_k τ_n(k) k^{−σ} = ζ(σ)ⁿ`. The
+size of the majorant is what the bound needs: a nonnegative majorant of another size does not
+suffice. Used in 1.1.
+
+§§2.1 and 2.5: Stieltjes' sector bound at its first term, for `0 < δ ≤ π` and `|arg s| ≤ π − δ`,
+`Γ(s) = √(2π) exp((s − 1/2) Log s − s + ξ(s))` with `|ξ(s)| ≤ 1/(12 sin²(δ/2)|s|)` (§2.1); and the
+two-sided bound on vertical lines, for `σ > 0` and real `t ≠ 0`,
+`√(2π) |s|^{σ−1/2} e^{−π|t|/2} e^{−σ³/(3t²)} < |Γ(s)| ≤ √(2π) |s|^{σ−1/2} e^{−π|t|/2} e^{1/(6|s|)}`
+(§2.5; on the real axis its §2.6). Used for the explicit gamma factors of 2.2, 2.3, 3.5, 3.6, 4.1
+and 4.2.
+
+§5.1: Backlund's argument lemma: for real `T`, `σ₁ < a`, `r > a − σ₁` and `f` holomorphic on an
+open set containing the closed disc of radius `r` about `a + iT`, with `Re f(a + iT) ≠ 0` and
+`f(σ + iT) ≠ 0` for `σ₁ ≤ σ ≤ a`, every continuous argument of `σ ↦ f(σ + iT)` varies on `[σ₁, a]`
+by at most `π (1 + log(M/|Re f(a + iT)|)/log(r/(a − σ₁)))`, `M` the maximum of `|f|` on the
+boundary circle. The form normalised by `|f(a + iT)|` follows by applying it to `u f` with
+`u = conj f(a + iT)/|f(a + iT)|`, which has the same argument variation and
+`Re (u f)(a + iT) = |f(a + iT)|`. Used in 4.1 and 4.2.
+
+§0.5: *IsAdmissibleCosinePolynomial* `n a` (`0 ≤ a_k` for `k ≤ n`, `a_k = 0` for `k > n`,
+`a₀ < a₁`, and `Σ_{k ≤ n} a_k cos(kθ) ≥ 0` for every real `θ`); the vanishing clause makes `a` the
+coefficient vector of the polynomial, so the vector of a certificate is the literal coefficients
+extended by zero, and `(3, 4, 1, 0, 0, 1, 0, …)` at `n = 4` is not admissible although its first
+five entries are; a *polynomial certificate* is this proposition at literal rational
+coefficients. Used in the certificates of *Computational hypotheses* that 4.5, 4.6 and 4.8 carry.
+
+§0.4b: `LuZamanZhaoRecord` (for every `q ≤ 10¹⁰` and every quadratic character `χ` modulo `q`,
+primitive or not, `L(σ, χ) ≠ 0` for every real `σ ≥ 1 − 1/(5 log q)`; `luzamanzhao2026`
+Theorem 1.1), a named computation that every statement using it carries. Used in 4.9.
+
+§7.9: *HasLandauSiegelGap* `c Q` (for every primitive real nonprincipal Dirichlet character `χ` of
+conductor `q` with `3 ≤ q ≤ Q` and every real zero `β ∈ (0, 1)` of `L(s, χ)`,
+`(1 − β) log q ≥ c`), the proposition of ExplicitPrimeCounting §1.7's *RealZeroGap*, with two of
+its instances as that section states them. Guo's: *HasLandauSiegelGap* `(1/100) ∞`, with the
+strict inequality `(1 − β) log q > 1/100` for every conductor `q ≥ 3` (`guo2026` Theorem 1.1, an
+unrefereed preprint, with no computation). Banks's: given `LuZamanZhaoRecord`,
+*HasLandauSiegelGap* `(3.0·10⁻³) ∞` (`banks2026siegel` Theorem 1.1, an unrefereed preprint, for
+`q ≥ 10¹⁰`, whose Remark 7.1 computes the constant `3.069…·10⁻³`; below `10¹⁰` from the instance
+*HasLandauSiegelGap* `(1/5) 10¹⁰` that the record gives, with the strict inequality). Used in 4.9,
+whose Banks instance carries `LuZamanZhaoRecord`.
+
+§7.7: Ralaivaosaona and Razakarinoro's bound: for `−d` a fundamental discriminant with
+`d > 3·10⁸`, `L(s, χ_{−d})` has no real zero `β ≥ 1 − 6.035/√d`. Used in the Checks of 0.5.
+
+§9.1: Ramaré's bounds: for a primitive Dirichlet character `χ` of conductor `q > 1`,
+`|L(1, χ)| ≤ (1/2) log q` if `χ` is even and `|L(1, χ)| ≤ (1/2) log q + 5/2 − log 6` if `χ` is
+odd (`ramare2001` Corollary 1). Used in 5.2 and 5.6.
+
+§6.1a: Landau's iterated Perron identity. For `F(s) = Σ_{k ≥ 1} a_k k^{−s}` absolutely
+convergent on `Re s > κ_a`, an integer `j ≥ 1`, a real `c > max(κ_a, 0)` and `x > 0`, the integral
+`(1/2πi) ∫_{c−i∞}^{c+i∞} F(s) x^{s+j} ds/(s(s+1)⋯(s+j))` converges absolutely and equals
+`(1/j!) Σ_{k ≤ x} a_k (x − k)^j`, which is also the `j`-fold iterated integral
+`∫_0^x ∫_0^{y_j} ⋯ ∫_0^{y_2} Σ_{k ≤ y_1} a_k dy_1 ⋯ dy_j` (the kernel integral is
+`(1 − 1/y)^j/j!` for `y ≥ 1` and `0` for `0 < y ≤ 1`). This is the form 2.2 and 2.3 use with
+`j = n` and 3.6 with `j = 1`; the truncated and averaged Perron formulas of its §§6.1–6.2, and
+Tau Ceti's `truncatedPerron_LSeries`, are other forms and are not needed.
+
+### From TauCetiRoadmap.ExplicitCharacterSumsAndSieves
+
+§4.1: Burgess's moment bound in its shifted form: for `χ` non-principal modulo a prime `p` and
+integers `r, h ≥ 1`,
+`Σ_{x ∈ 𝔽_p} |Σ_{m=0}^{h−1} χ(x + m)|^{2r} ≤ ((2r)!/(2^r r!)) p h^r + (2r − 1) √p h^{2r}`, and for
+`r = 2` the refinements `< (3h² − 2h)p + 2(h⁴ − 3h² + 2h)√p` for `χ` of order `2` and
+`< (2h² − h)p + 3(h⁴ − 2h² + h)√p` otherwise (`mcgowntrudgian2020` lines 120–126, Proposition 1).
+Used in 6.3.
+
+§3.5 with §6.1: Lapkova's inequality for initial sums with one constant: under
+*LapkovaSmallModuliVerified* (§6.1, the small moduli `2 ≤ q ≤ 25` of Lapkova's Lemma 3A), for real
+`q₀ > 1`, every primitive Dirichlet character `χ` modulo `q ≥ q₀`, even or odd, and every real
+`M`, `|Σ_{1 ≤ n ≤ M} χ(n)| ≤ A(q₀) √q log q` with
+`A(q₀) = 1/(2π) + 0.8204/log q₀ + 1.0285/(√q₀ log q₀)`: the odd case of Lapkova's Lemma 3A divided
+by `√q log q`, the even case being halved by Pomerance's observation. `kerrmcgowntrudgian2020`
+Lemma 3 (lines 121–122) prints the middle term as `0.8204/√q₀`, which does not follow from Lemma 3A
+and gives the value `0.16` of its line 278 at `q₀ = 10¹²`. `A(q₀)` decreases in `q₀`. At a prime
+modulus every non-principal character is primitive, which is the case 6.5 uses. Every theorem of 6.5
+that uses this bound carries *LapkovaSmallModuliVerified*.
+
+### From TauCetiRoadmap.ExplicitMultiplicativeFunctions
+
+Each statement below is consumed as the named section states it, with the finite verifications it
+carries there (Conventions, *Computations as hypotheses*).
+
+§7.5: Bordellès' bounds `Σ_{m ≤ x} τ_k(m) ≤ x (log x + γ + 1/x)^{k−1}` for `k ≥ 1`, `x ≥ 1`;
+`≤ 2x (log x)^{k−1}` for `x ≥ 6` under its *PiltzRangeVerified* `k`; and
+`≤ (x/(k−1)!) (log x + k − 2)^{k−1}` for `k ≥ 3`, `x ≥ 13` under its
+*BordellesPiltzRangeVerified*; and Cully-Hugill–Trudgian's `Σ_{m ≤ x} τ_4(m) ≤ (1/3) x log³ x`
+for `x ≥ 193` under its *DivisorPowerRangeVerified* `7560² (6·10⁵)`, together with the real-argument
+divisor row of its §7.4 and the third form of its §5.2, on which that bound rests. Used in 5.3 and
+5.4.
+
+§7.9: Tudzi's `|Σ_{m ≤ x} τ_3(m) − x P₃(log x)| < 2.968 x^{2/3} (log x)^{1/3}` for every real
+`x ≥ 2`, with `P₃(y) = y²/2 + (3γ − 1)y + 3γ² − 3γ − 3γ₁ + 1` the polynomial for which
+`x P₃(log x)` is the residue of `ζ(s)³ xˢ/s` at `s = 1` and `γ₁ = −0.0728158…` the first Stieltjes
+constant, under its *PiltzRemainderRangeVerified* `3 2 (1.1·10¹⁰)` and the inputs of its §§7.4 and
+5.2. Used in 5.4.
+
+§9.1: Robin's `ω(m) ≤ 1.3841 log m/log log m` for every natural `m ≥ 3`, under its
+*PrimorialTableVerified* `26` and the lower bound `p_k ≥ k(log k + log log k − 1)` for `k ≥ 2` of
+ExplicitPrimeCounting §5.3. Used in 6.3, 6.4 and 6.5.
+
+§9.4: Rosser–Schoenfeld's `m/φ(m) < e^γ log log m + 2.50637/log log m` for every natural `m ≥ 3`,
+with `5/2` in place of `2.50637` except at `m = 223092870`, under its
+*PrimorialTotientTableVerified* `24284` and the bounds of ExplicitPrimeCounting §§3.2 and 4.3 it
+consumes; it gives the form with `2.51` that 6.5 uses. Used in 6.5.
+
+§§2.3, 2.5 and 7.1: Ramaré's `|Σ_{d ≤ X} μ(d)/d| ≤ 1/10` for every real `X ≥ 7` (§2.3), the tail
+bound `|Σ_{d > X} μ(d)/d²| ≤ 1/X` for every real `X ≥ 1` (§2.5), Cipu's
+`Σ_{d ≤ X} μ²(d) ≤ 6X/π² + 0.679091 √X` for every real `X ≥ 1` and the bound
+`Σ_{d ≤ X} μ²(d)/d ≤ (6/π²) log X + 1.166` for every real `X ≥ 1` (§7.1), each under the finite
+verifications that section names: *MoebiusDivRangeVerified* at the row `x ↦ 1/10` on `[7, 463 421]`
+and at `(x ↦ 0.0144/log x − 0.1/log² x) 463 421 (3·10⁷)`, with *MoebiusAbsIntegralLE*
+`1 078 853 113 556 832` and the hypotheses of its §§1.5 and 1.7 (§2.3); *MoebiusRangeVerified*
+`(x ↦ x/80) 1119 2087` and `(x ↦ (x + 1)/80 + 11/2) 0 1119` with `MoebiusTableVerified 0.571 10¹²`,
+through MacLeod's bounds of its §1.2 (§2.5); *SquarefreeRangeVerified* and
+*SquarefreeRangeVerifiedNat* (Cipu's bound) and *SquarefreeReciprocalRangeVerified*
+`0.578 1.166 1 14 831` (§7.1), all of its Layer 0.7. They are the inputs of McGown–Trudgian's
+estimates for `S(X)` and `T(X)` in the ranges `X ≥ 38` and `X ≥ 1000` (`mcgowntrudgian2020` lines
+300–353). Used in 6.2.
+
+§8.1: Mertens' product under the Riemann hypothesis (`leenosal2026` Corollary 1.3, quoted as
+Lemma 2.2 of `gglm2026`): under `RiemannHypothesis` and the Mertens estimate
+`|Σ_{p ≤ x} 1/p − log log x − B| ≤ ε_RH(x) = 3 log x/(8π√x)` for every real `x ≥ 24.4` of
+ExplicitPrimeCounting §4.7, with the finite verifications that section carries (*ButheVerified*,
+*LeeNosalMertensRange*, `LeeNosalRange`, `ZetaZeroReciprocalSum`, `ZetaZeroCountLowRange` and
+*PsiThetaUpper* or the inputs of its §3.7 that discharge it), for every real `x ≥ 24.4`,
+`e^{−ε_RH(x)} < e^γ (log x) ∏_{p ≤ x} (1 − 1/p)`; since `e^{−ε} ≥ 1 − ε`, this gives
+`∏_{p ≤ x} (1 − 1/p) ≥ (e^{−γ}/log x)(1 − 3 log x/(8π√x))`, the form 3.6 uses at `x ≥ 5·10⁵`.
+Used in 3.6.
+
+Every theorem here that uses one of these statements carries the named finite verifications as
+hypotheses.
+
+### From TauCetiRoadmap.ExplicitPrimeCounting
+
+§2.2: Schoenfeld's `|ψ(x) − x| < √x (log x)²/(8π)` for every real `x > 73.2`, under
+`RiemannHypothesis` and the finite verifications *ButheVerified* and *Schoenfeld1976Range* of its
+§1.3 (`schoenfeld-1976` Theorem 10). Used in 3.6 and 7.2, each of which carries the two predicates.
+Its two-sided form starts at `73.2`; below, its lower side alone holds from `59`.
+
+§1.3: `Buthe2016Range`, whose first clause is `|ψ(x) − x| ≤ √x (log x)²/(8π)` for every real
+`59 < x < 5000` (Büthe's computation, as that section states and locates it), a named finite
+verification. Used in 7.2 for `L = ℚ` on `59 < x ≤ 73.2`, between the small cases of
+*GrenieMolteniSmallCases* and Schoenfeld's range.
+
+§1.7: *RealZeroGap* `c Q` (every real zero `β ∈ (0, 1)` of
+`DirichletCharacter.LFunction χ`, for every primitive real nonprincipal character `χ` of
+conductor `3 ≤ q ≤ Q`, has `(1 − β) log q ≥ c`), its name for ExplicitZetaBounds §7.9's
+*HasLandauSiegelGap* `c Q`, whose instances are consumed from that section; used in 0.5.
+
+§4.7: Lee–Nosal's second Mertens theorem under the Riemann hypothesis,
+`|Σ_{p ≤ x} 1/p − log log x − B| ≤ 3 log x/(8π√x)` for every real `x ≥ 24.4`, with
+`B = mertensConstant ℚ`, under `RiemannHypothesis`, *ButheVerified*, *LeeNosalMertensRange*,
+`ZetaZeroReciprocalSum`, *PsiThetaUpper* (or the inputs of its §3.7 that discharge it) and the other
+inputs of its §2.2 (`LeeNosalRange`, `ZetaZeroCountLowRange`); it is the estimate that
+ExplicitMultiplicativeFunctions §8.1 turns into Mertens' product, and 3.6 carries its finite
+verifications with that product.
+
+What ExplicitPrimeCounting must provide (gap:explicit-mertens-second): Schoenfeld's second Mertens
+theorem under the Riemann hypothesis from `x = 13.5`: under `RiemannHypothesis`, for every real
+`x ≥ 13.5`, `|Σ_{p ≤ x} 1/p − log log x − M| < (3 log x + 4)/(8π√x)`, with `M` the Meissel–Mertens
+constant `mertensConstant ℚ` (`schoenfeld-1976` lines 127–136, Corollary 2, (6.21)), beside
+Lee–Nosal's sharper bound of that section, which starts at `x = 24.4`. Used in 3.5 (both sides)
+and 3.6 (the upper side). Required location: §4.7.
+
+What ExplicitPrimeCounting must provide (gap:bach-grh-smoothed-sum): Bach's lemma: for a
+non-principal Dirichlet character `χ` modulo a prime `p` with `DirichletGRH χ` and real `x ≥ 1`,
+`|Σ_{n < x} Λ(n) χ(n) (1 − n/x)| ≤ c(p, x) √x log p` with
+`c(p, x) = (2/3)(1 + 2/√x + 3/x^{3/2})(1 + 5/(3 log p)) + (log x + 2)/(√x log p)`, and the
+principal case `|Σ_{n < x} Λ(n)(1 − n/x) − x/2| ≤ √x/20 + 3` under `RiemannHypothesis`
+(`mcgowntrevinotrudgian2016` lines 70–76), beside that section's conditional results for primes
+in progressions. Required location: §6.5.
 
 ## References
 
