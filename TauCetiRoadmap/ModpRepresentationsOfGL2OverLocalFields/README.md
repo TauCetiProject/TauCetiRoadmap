@@ -1,37 +1,63 @@
 # Roadmap: smooth mod p representations of GL₂ over a local field
 
-**Summary.** Build the finiteness theory and the local structure theory of smooth representations
-of `GL₂(F)`, `F/ℚ_p` finite, on `p`-power torsion modules over the integers `𝒪_L` of a finite
-extension `L/ℚ_p`. The first half develops finite presentation in the smooth category through the
-augmented Iwasawa algebra `𝒪_L[H] ⊗_{𝒪_L[U]} 𝒪_L[[U]]`, proves Shotton's coherence theorem for
-`GL₂(F)/ϖ^ℤ`, the `ℚ_p` finite-length criteria of Colmez–Dospinescu–Nizioł (finite type implies
-finite presentation, finite cosocle implies finite length, finite length is detected by smooth
-vectors in the dual), the finite length of admissible finitely presented representations for every
-`F` (Hu, Vignéras), and Emerton's ordinary parts with their finite-error counit for `F ≠ ℚ_p`. The
-second half, for `F` unramified of degree `f`, develops the tame Serre-weight coordinates, the
-graded algebra of the pro-`p` Iwahori subgroup and its crossing quotient, the Diamond boxes and
-their multiplicity-preserving first-order enlargements, and reaches the two endpoints of
-Breuil–Herzig–Hu–Morra–Schraen: the local Gelfand–Kirillov bound `dim_{GL₂(F)} π ≤ f` under the
-socle, first-thickening and Iwahori-socle multiplicity hypotheses, and an integral lattice whose
-reduction is `Proj_{K/Z₁} σ / 𝔪_{K₁}²`, with commutative endomorphism ring and relatively projective
-quotients.
+**Summary.** Let `F/ℚ_p` be finite. Smooth representations of `GL₂(F)` in characteristic `p` are
+hard to keep finite: the compact induction to `GL₂(F)` of a Serre weight, an irreducible
+representation of `GL₂` of the residue field, already has infinite length. This roadmap builds
+well-behaved finiteness conditions and, for `F` unramified, the local structure theory behind the
+Gelfand–Kirillov dimension bound of Breuil, Herzig, Hu, Morra and Schraen. Coefficients are mostly
+`p`-power torsion modules over the integers `𝒪_L` of a second finite extension `L/ℚ_p`, or a finite
+field `k` of characteristic `p`. "Finite length" means as a representation, never over `𝒪_L`.
 
-## How to read the build
+Finite presentation is meant in the smooth sense: a cokernel of a map between compact inductions,
+from compact open subgroups, of smooth representations of finite length over `𝒪_L`. This is not
+finite presentation over the abstract group algebra. The first main theorem is Shotton's coherence
+theorem: for every `F`, with uniformiser `ϖ`, the kernel of a map between finitely presented
+representations of `GL₂(F)/ϖ^ℤ` is finitely presented. Subrepresentations, by contrast, can
+fail to be finitely presented when `F ≠ ℚ_p`.
 
-Layer 0 sets up the finiteness notions for smooth torsion representations of a `p`-adic Lie group
-and proves coherence for `GL₂(F)/ϖ^ℤ`. Layer 1 specialises to `F = ℚ_p` and proves the three
-finite-length criteria, using the `GL₂(ℚ_p)` classification. Layer 2 treats admissible finitely
-presented representations for every `F`, and for `F ≠ ℚ_p` approximates them by inductions of
-their ordinary parts. Layers 3–9 assume `F` unramified. Layer 3 fixes the weight coordinates, the
-tame weight set and the Diamond modules. Layer 4 defines Gelfand–Kirillov dimension, computes the
-graded algebra of the pro-`p` Iwahori subgroup and proves the Iwahori dimension criterion.
-Layers 5 and 6 compute finite and first-order extensions and build the multiplicity-preserving
-enlargements of Diamond boxes. Layer 7 proves multiplicity one through the third Iwahori layer and
-the local dimension bound. Layers 8 and 9 build the gluing lattice from a projective cover of the
-finite group, identify its reduction with the first-order projective truncation, and compute
-its endomorphisms. Layers 0–2 and Layers 3–9 are independent except for §0.1, used in §4.1, and
-§0.6, used in §9.1; inside Layers 3–9 the Gelfand–Kirillov chain (Layers 4, 6, 7) and the lattice
-chain (Layers 8–9) share Layers 3 and 5.
+Over `ℚ_p` more holds. Let `V` be a smooth `k`-representation of `GL₂(ℚ_p)/p^ℤ`, finitely
+generated over the group algebra. By three theorems of Colmez, Dospinescu and Nizioł, such a `V` is
+finitely presented. It has finite length as soon as its semisimple quotients have bounded length.
+And it has finite length exactly when the smooth vectors of its full linear dual span a
+finite-dimensional space.
+
+For general `F` one adds admissibility. A torsion representation is torsion-admissible when, for
+every compact open subgroup `U` and every `j`, the vectors fixed by `U` and killed by `p^j` form an
+`𝒪_L`-module of finite length. For every `F`, a torsion-admissible, finitely presented
+representation of `GL₂(F)` has finite length (Hu, Vignéras), and its subrepresentations are again
+finitely presented. When `F ≠ ℚ_p`, such a `V` is induced up to finite error: for Emerton's ordinary
+part `Ord_B(V)`, a representation of the diagonal torus, the natural map `Ind_{B̄}^G Ord_B(V) → V`
+from the lower Borel has kernel and cokernel finite over `𝒪_L`. A limit version treats Banach
+lattices whose reduction is of this kind.
+
+The second part takes `F` unramified of degree `f` and `k` large enough. Gelfand–Kirillov dimension
+measures how fast the invariants of an admissible representation grow along shrinking open
+subgroups. Let `p > 3`, `ρ̄ : G_F → GL₂(k)` tame with an 8-deep inertial presentation (Layer 3), and
+`π` an admissible smooth `k`-representation of `GL₂(F)` with a central character. Assume three
+multiplicity conditions on the `GL₂(𝒪_F)`-socle of `π`, its first-order thickening `π[𝔪_{K₁}²]`
+and its pro-`p` Iwahori invariants, expressed through the Serre weights `W(ρ̄)` of `ρ̄` and a module
+built from them. Then `π` has Gelfand–Kirillov dimension at most `f`; only this upper bound is claimed.
+
+The roadmap also builds, for a 3-deep Serre weight `σ` and `𝒪_L = W(k)` with `L` unramified, a
+lattice whose reduction is `Proj_{K/Z₁} σ / 𝔪_{K₁}²`, a truncated projective cover of `σ`. Under
+stronger depth bounds this truncation has a commutative endomorphism ring, and each of its
+quotients is projective relative to its own subquotients.
+
+The roadmap builds on SmoothRepresentationsOfLocalGroups for the smooth category and its
+inductions, on PadicLocalLanglandsForGL2Qp for the classification of irreducible mod `p`
+representations of `GL₂(ℚ_p)`, and on NoncommutativeAndEquivariantIwasawa for the dimension theory
+of Iwasawa algebras. HilbertModularVarietiesAndShimuraCurvesPartII uses the second part for its
+Gelfand–Kirillov dimension theorem for mod `p` quaternionic cohomology.
+
+Layer 0 sets up the finiteness notions and proves coherence, Layer 1 proves the `ℚ_p` criteria,
+and Layer 2 treats admissibility and ordinary parts. The second part begins at Layer 3, which fixes
+the weight coordinates, the tame weight set and the Diamond modules. Layer 4 defines
+Gelfand–Kirillov dimension and proves an Iwahori criterion bounding it by `f`. Layers 5 and 6
+compute finite and first-order extensions and enlarge Diamond boxes preserving multiplicities.
+Layer 7 proves multiplicity one and the local bound; Layers 8 and 9 build the lattice and compute
+its endomorphisms. The parts are independent except that Layer 4 uses torsion admissibility from
+Layer 0 and Layer 9 its Hom base change. Within the second part, the dimension chain (Layers 4, 6,
+7) and the lattice chain (Layers 8–9) share Layers 3 and 5.
 
 ## Conventions
 
