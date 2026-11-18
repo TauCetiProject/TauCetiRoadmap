@@ -7,7 +7,12 @@ automorphic representation of `GL_n(𝔸_F)`, with the expected local component 
 every prime `p` its `p`-adic Galois representation is `Sym^{n−1}` of that of `π`. The statement
 `SP_n` and its cases `n ≤ 5`, from which the induction starts, come from
 ModularityAndLanglandsExtensions; the theorem for every `n`, with its proof and its consequences over
-`ℚ`, is stated and proved here.
+`ℚ`, is stated and proved here. The existence of `Sym^{n−1}π`, with the expected local component at
+every place, extends to every non-CM cuspidal `π` that is a twist of a discrete series representation
+at each infinite place, whatever the parities of its weights, and to conjugate self-dual
+representations of `GL_2` over CM fields that are not induced from a quadratic extension; it makes
+`L(s, Sym^n π)` entire for these Hilbert modular forms and every `n ≥ 1`, and over `ℚ` it makes the
+completed symmetric power `L`-functions of non-CM elliptic curves entire.
 
 The proof is Newton–Thorne's induction on `n`. Write `n = p + r` with `p` a prime in the range
 `n/2 < p < n`. Modulo `p`, the residual representation of `Sym^{n−1}` has, after semisimplification,
@@ -46,8 +51,8 @@ witnesses and runs the induction. Layer 14 draws the consequences over `ℚ`.
 | 9 | Automorphy lifting for symmetric powers | simultaneous patching of the rank-two deformation ring and the symmetric-power pseudodeformation ring, regularity at an automorphic point |
 | 11 | The untwisted tensor | automorphy of `r_π ⊗ Sym^{r−1} r_σ` by congruent special fibres and generic primes |
 | 12 | Tensor functoriality lifting | automorphy lifting for `r_π ⊗ r_σ` with `σ` fixed, by simultaneous patching |
-| 13 | Residual twisted tensors and the induction | large image from tamely dihedral places, residual witnesses for the coefficient-Frobenius twisted tensor, lifting from two ordinary blocks, `SP_n` for all `n` |
-| 14 | Endpoints over `ℚ` | Theorems A, B, E, symmetric power functoriality for every non-CM newform, holomorphy of `L(s, Sym^n f)` in level one and, away from the level, for non-CM newforms of weight at least `2` |
+| 13 | Residual twisted tensors and the induction | large image from tamely dihedral places, residual witnesses for the coefficient-Frobenius twisted tensor, lifting from two ordinary blocks, `SP_n` for all `n`, the all-place lift for Hilbert modular forms of any parity and over CM fields, holomorphy of `L(s, Sym^n π)` for Hilbert modular forms |
+| 14 | Endpoints over `ℚ` | Theorems A, B, E, symmetric power functoriality for every non-CM newform, holomorphy of `L(s, Sym^n f)` in level one and, away from the level, for non-CM newforms of weight at least `2`, entireness of the completed `Λ(Sym^n E, s)` for non-CM elliptic curves |
 
 ## How to read the build
 
@@ -59,6 +64,9 @@ fixed factor. Layer 11 proves automorphy of the untwisted tensor `r_π ⊗ Sym^{
 Layer 6 supplying a Steinberg seed. Layer 13 combines Layers 6, 11 and 12 into ordinary residual
 witnesses for the two blocks of `Sym^{p+r−1}` modulo `p` and proves `SP_n` for all `n` over every
 totally real field, by induction from the cases `n ≤ 5` of ModularityAndLanglandsExtensions.
+With the reductions of that roadmap it then gives the all-place lift for every non-CM Hilbert
+modular form and for conjugate self-dual representations over CM fields, and the holomorphy of the
+symmetric power `L`-functions of Hilbert modular forms.
 Layer 14 specialises `SP_n` to `ℚ` and deduces the holomorphy of symmetric power `L`-functions.
 Each target's `*Needs:*` line lists what its statement and its route use, so an implementer who
 proves it another way is not blocked behind an unrelated layer. Layer and section numbers are
@@ -1419,6 +1427,10 @@ and §12 by propagation over the Galois group of the coefficient field (§§13.3
 of the two auxiliary splitting conditions (nt26 Lemma 5.3) is ArithmeticGaloisDuality §R02.3.5. For
 `r = 1` the twisted tensor is a coefficient conjugate of `π` and no `SP_0` occurs. The modular
 two-block decomposition is an identity of semisimplifications, not a splitting of `Sym^{p+r−1} r̄`.
+§§13.11–13.13 deduce from `SP_n` and the reductions of ModularityAndLanglandsExtensions §4.22 the
+all-place lift for every non-CM Hilbert modular form, whatever the parity of its weights, the
+symmetric powers of conjugate self-dual representations over CM fields (nt26 Theorem 6.5, p. 50),
+and the holomorphy of `L(s, Sym^n π)` for Hilbert modular forms.
 
 ### 13.1 Large image at every prime from two tamely dihedral places
 
@@ -1830,6 +1842,55 @@ ordinary since `π′` is Steinberg at `p`. §13.8 gives `Sym^{p+r−1} r_{π′
 *Needs:* §§13.7, 13.8; ModularityAndLanglandsExtensions §§1.12, 1.15, 4.15; Mathlib
 `Nat.exists_prime_lt_and_le_two_mul`.
 
+### 13.11 Symmetric power functoriality for Hilbert modular forms (Newton–Thorne 2026 Theorem A = Theorem 6.5(1))
+
+Prove that for every totally real `F`, every non-CM cuspidal `π` of `GL_2(𝔸_F)` that is essentially
+square-integrable at every infinite place (weights `k_v ≥ 2`, including mixed parity) and every
+`n ≥ 2`, there is a cuspidal `Π_n` of `GL_n(𝔸_F)` with `rec(Π_{n,v}) ≅ Sym^{n−1} rec(π_v)` at **every**
+place `v` (nt26 Theorem A, p. 1 = Theorem 6.5(1) and proof, p. 50; th24 Theorem 8.1 and proof,
+pp. 48–50).
+
+*Proof sketch.* Same parity uses §13.10 after a twist, with the all-place lift of
+ModularityAndLanglandsExtensions §4.15; mixed parity uses th24 Theorem 8.1 and Proposition 8.3 as
+specified in ModularityAndLanglandsExtensions §4.22, including infinity.
+
+*Needs:* §13.10; ModularityAndLanglandsExtensions §§4.15, 4.22; AutomorphicGaloisRepresentations
+§§3.10–3.14, 4.3–4.7.
+
+### 13.12 Symmetric powers of conjugate self-dual `GL_2` representations over CM fields (Newton–Thorne 2026 Theorem 6.5(2))
+
+Let `E` be a CM field and `π` a RAECSDC automorphic representation of `GL_2(𝔸_E)` not automorphically
+induced from a quadratic extension. Prove that for every `n ≥ 2`, `Sym^{n−1}π` exists: there is a
+cuspidal `Π_n` of `GL_n(𝔸_E)` with `rec(Π_{n,w}) ≅ Sym^{n−1} ∘ rec(π_w)` for every place `w` (nt26
+Theorem 6.5(2) and proof, p. 50).
+
+*Proof sketch.* Clozel–Thorne Proposition 7.6 (ModularityAndLanglandsExtensions §4.22), an auxiliary
+character and an odd extension, §13.10, then base change.
+
+General Bianchi forms instead use the potential route of ModularityAndLanglandsExtensions §4.42.
+
+*Needs:* §13.10; ModularityAndLanglandsExtensions §4.22; EndoscopicTransferAndUnitaryTraceComparison
+§§6.24, 6.26–6.29.
+
+### 13.13 Holomorphy of `L(s, Sym^n π)` for Hilbert modular forms
+
+Let `F` be totally real and `π` a non-CM cuspidal representation of `GL_2(𝔸_F)`, essentially
+square-integrable at every infinite place, as in §13.11. Prove that for every `n ≥ 1` the completed
+`L(s, Sym^n π)`, the product over all places `v` of `L(s, Sym^n rec(π_v))`, is entire with the expected
+functional equation (nt26 Theorem A, p. 1 = Theorem 6.5(1), p. 50, with Godement–Jacquet).
+
+*Proof sketch.* §13.11 gives a cuspidal `Π` on `GL_{n+1}(𝔸_F)` with `rec(Π_v) ≅ Sym^n rec(π_v)` at
+every place, so `L(s, Sym^n π) = L(s, Π)`; apply Godement–Jacquet (AutomorphicLFunctionsAndLocalFactors
+AL.2.4.1) to `Π`, which is cuspidal on `GL_{n+1}` with `n + 1 ≥ 2`.
+
+**Checks.**
+
+- Degree one gives the original cuspidal standard `L`-function.
+- Degree zero gives `ζ_F(s)` with its pole at `1`, including for `π` attached to `Δ`; the entireness
+  conclusion excludes it.
+
+*Needs:* §13.11; AutomorphicLFunctionsAndLocalFactors AL.2.4.1 (global Godement–Jacquet theory).
+
 ### Examples
 
 - `SP_6` over `ℚ`: `p = 5`, `r = 1`; witnesses for `Sym³ r̄` (from `SP_4`) and for `φ_5 r̄` (a coefficient
@@ -1841,10 +1902,11 @@ ordinary since `π′` is Steinberg at `p`. §13.8 gives `Sym^{p+r−1} r_{π′
 
 Layers 6, 11, 12; ArithmeticGaloisRepresentations §§4.4, 7.6, 7.8, 7.9; ArithmeticGaloisDuality
 §R02.3.5; GL2AutomorphicRepresentationsAndTransfer §§R16.3.7, R16.3.8; FiniteFlatGroupsAndIntegralPadicHodgeTheory
-§R07.5.11; AutomorphicGaloisRepresentations §7.4; AutomorphicGaloisRepresentationsPartII AG2.6;
+§R07.5.11; AutomorphicGaloisRepresentations §§3.10–3.14, 4.3–4.7, 7.4; AutomorphicGaloisRepresentationsPartII AG2.6;
 PotentialModularityAndCompatibleSystems §§9.2, 10.10; SerreWeightAndLevelOptimisation §6.11;
 PotentialAutomorphyInfrastructurePartII Layers 0, 1, 5–8 (gap:auxiliary-place-reducible-lifting); LocalGaloisDeformationRings §2.15; ModularityAndLanglandsExtensions §§1.12, 1.15, 2.1, 2.16, 2.25,
-4.15, 4.22; ClassFieldTheory Layers 12–14; Chebotarev Layer 10; Mathlib `NumberField.abs_discr_gt_two`,
+4.15, 4.22; EndoscopicTransferAndUnitaryTraceComparison §§6.24, 6.26–6.29;
+AutomorphicLFunctionsAndLocalFactors AL.2.4.1; ClassFieldTheory Layers 12–14; Chebotarev Layer 10; Mathlib `NumberField.abs_discr_gt_two`,
 `Nat.exists_prime_lt_and_le_two_mul`.
 
 ## Layer 14: endpoints over ℚ
@@ -1852,7 +1914,8 @@ PotentialAutomorphyInfrastructurePartII Layers 0, 1, 5–8 (gap:auxiliary-place-
 This layer specialises §13.10 to `F = ℚ`: it proves Newton–Thorne's Theorems A, B and E and
 symmetric power functoriality for every non-CM newform, and deduces the holomorphy of symmetric power
 `L`-functions of level-one eigenforms and of non-CM newforms away from their level, which are the
-statements of this roadmap's Lean file.
+statements of this roadmap's Lean file. §14.6 specialises §13.13 to the completed symmetric power
+`L`-functions of non-CM elliptic curves.
 
 ### 14.1 Theorem E in every rank
 
@@ -2054,6 +2117,32 @@ GL2AutomorphicRepresentationsAndTransfer §§R16.4.4, R16.4.6; Tau Ceti `HeckeRi
 `HeckeRing.GL2.Newform.satakeParameters`; Mathlib `DirichletCharacter`,
 `DirichletCharacter.changeLevel`, `UpperHalfPlane.qExpansion`, `HasProd`, `Differentiable`.
 
+### 14.6 Entireness of the completed `Λ(Sym^n E, s)` for non-CM elliptic curves (Newton–Thorne II Corollary B)
+
+Prove that for every elliptic curve `E/ℚ` without CM and every `n ≥ 2`, the completed symmetric power
+`L`-function `Λ(Sym^n E, s)` of ModularityAndLanglandsExtensions §4.17, built from the `Sym^n`
+Weil–Deligne factors at all primes, its conductor and its archimedean factor, is entire (nt21b
+Corollary B, p. 2). A semistable `E/ℚ` is non-CM, so this contains Newton–Thorne I Corollary C
+(nt21 Corollary C, p. 2).
+
+*Proof sketch.* Modularity (EllipticCurveModularity Layer R29.6) gives the cuspidal `π_E` of
+`GL_2(𝔸_ℚ)`, of weight `2` and non-CM since `E` is. By ModularityAndLanglandsExtensions §4.17,
+`Λ(Sym^n E, s) = N_n^{s/2} Λ_AL(Sym^n π_E, s − n/2)`, where `Λ_AL` is the all-place completion, and
+§13.13 at `F = ℚ` makes it entire; the conductor factor `N_n^{s/2}` is entire and has no zeros.
+
+**Checks.**
+
+- `n = 0` is excluded: `Λ(Sym⁰E, s) = π^{−s/2}Γ(s/2)ζ(s)` is not entire
+  (ModularityAndLanglandsExtensions §4.17).
+- `n = 1` is the entire continuation of the completed `L`-function of `E`, stated in
+  EllipticCurveModularity Layer R29.6; Corollary B is stated for `n ≥ 2`.
+- The statement keeps the ramified Euler factors. §14.5 for the newform of `E` gives the Euler product
+  away from the conductor, and agreement away from the bad primes does not identify `Λ(Sym^n E, s)`
+  (ModularityAndLanglandsExtensions §4.17).
+
+*Needs:* §13.13; ModularityAndLanglandsExtensions §4.17; EllipticCurveModularity Layer R29.6 (the
+cuspidal `π_E`).
+
 ### Examples
 
 - `Δ`, `n = 2`: `L(s, Sym² Δ)` is entire; its Euler factor at `2` is computed in §14.4.
@@ -2065,14 +2154,16 @@ GL2AutomorphicRepresentationsAndTransfer §§R16.4.4, R16.4.6; Tau Ceti `HeckeRi
 
 Layer 13; AutomorphicGaloisRepresentations §7.5;
 AutomorphicLFunctionsAndLocalFactors AL.2.4.1, AL.3.3.8, AL.3.6.1, AL.3.7.1;
-GL2AutomorphicRepresentationsAndTransfer §§R16.4.4, R16.4.6;
-ModularityAndLanglandsExtensions §§1.10, 1.15, 4.13, 4.15; Tau Ceti `HeckeRing.GL2.Newform`; Mathlib
+GL2AutomorphicRepresentationsAndTransfer §§R16.4.4, R16.4.6; EllipticCurveModularity Layer R29.6;
+ModularityAndLanglandsExtensions §§1.10, 1.15, 4.13, 4.15, 4.17; Tau Ceti `HeckeRing.GL2.Newform`; Mathlib
 `DirichletCharacter`, `UpperHalfPlane.qExpansion`.
 
 ## Downstream consumers
 
 - Roadmaps on the cuspidal cohomology of `GL_n(ℤ)` and level-one change of weight consume §§13.10 and
   14.2.
+- Automorphic `L`-function applications consume the all-place symmetric power lifts of §§13.11–13.12
+  and the holomorphy statements of §§13.13 and 14.6.
 - The technique of Layer 9 and Layer 12 (patching a pseudodeformation ring against a rank-two
   deformation ring) is reused wherever functoriality lifting is proved without residual adequacy of the
   target.
@@ -2087,9 +2178,11 @@ ModularityAndLanglandsExtensions §§1.10, 1.15, 4.13, 4.15; Tau Ceti `HeckeRing
 This roadmap owns the statements and the proofs of Thorne's level raising to Steinberg (§6.9), the
 automorphy of the untwisted tensor (§11.10), tensor-product functoriality lifting with one factor
 fixed (§12.7), the residual twisted-tensor witnesses (§§13.5–13.6), `SP_n` for every `n` over every
-totally real field (§13.10), and the endpoints over `ℚ` of Layer 14: Newton–Thorne's Theorems A, B
+totally real field (§13.10), its consequences over totally real and CM fields (§§13.11–13.13:
+Newton–Thorne 2026 Theorem 6.5 and the holomorphy of `L(s, Sym^n π)` for non-CM Hilbert modular
+forms), and the endpoints over `ℚ` of Layer 14: Newton–Thorne's Theorems A, B
 and E, symmetric power functoriality for every non-CM newform and the holomorphy statements of
-§§14.4–14.5. ModularityAndLanglandsExtensions, a supplier, formulates `SP_n` (§1.12) and proves it
+§§14.4–14.6. ModularityAndLanglandsExtensions, a supplier, formulates `SP_n` (§1.12) and proves it
 for `n ≤ 5` (§1.15); no section of that roadmap is proved here. This roadmap also owns every
 intermediate object of those proofs that no earlier roadmap states: the deformation data of Layers
 9, 11 and 12, the companion forms of Newton–Thorne 2026 Lemmas 5.6 and 5.7 and the hypotheses
@@ -2102,8 +2195,10 @@ It imports, by section and never re-plans:
   tensor and low-rank lifts (§§1.11, 1.15), Moret–Bailly with Galois control (§2.13),
   characteristic-zero enormous image and adjoint Selmer vanishing (§4.1), potential
   diagonalizability and its criteria (§2.1), potentially diagonalizable lifting (§2.16), ordinary
-  lifting with several residual constituents (§4.2), the one-prime criterion (§4.15) and the
-  Clozel–Thorne reductions with Newton–Thorne 2026 Proposition 6.1 and Thorne 2024 §8 (§4.22);
+  lifting with several residual constituents (§4.2), the one-prime criterion (§4.15), the completed
+  symmetric power `L`-function `Λ(Sym^n E, s)` of an elliptic curve and its comparison with the
+  automorphic completion (§4.17) and the Clozel–Thorne reductions with Newton–Thorne 2026
+  Proposition 6.1 and Thorne 2024 §8 (§4.22);
 - from PotentialAutomorphyInfrastructurePartII: ι-ordinarity, soluble descent and auxiliary
   characters (Layer 0), connection of local lifts (Layer 1), the determinant subring (Layer 2),
   definite unitary groups, algebraic modular forms, Hecke algebras and ordinary deformation data
@@ -2197,8 +2292,12 @@ here is a specialisation of §13.10.
   extensions), §4.1 (enormous image and adjoint Selmer vanishing), §4.2 (ordinary lifting with several
   residual constituents, Allen–Newton–Thorne, the template of the auxiliary-place variant requested
   from PotentialAutomorphyInfrastructurePartII below), §4.13 (symmetric powers of CM and weight-one
-  forms, the case that §14.2(2) excludes), §4.15 (one prime suffices), §4.22 (Clozel–Thorne
-  reductions, Newton–Thorne 2026 Proposition 6.1, Thorne 2024 §8). These are used as stated there.
+  forms, the case that §14.2(2) excludes), §4.15 (one prime suffices), §4.17 (the completed
+  `Λ(Sym^n E, s)` with the `Sym^n` Weil–Deligne factors at all primes, and its identity with the
+  shifted all-place automorphic completion of `Sym^n π_E` when that lift exists, used in §14.6),
+  §4.22 (Clozel–Thorne reductions, Newton–Thorne 2026 Proposition 6.1, Thorne 2024 §8, including the
+  passage to all-place lifts in mixed parity and to conjugate self-dual representations over CM
+  fields used in §§13.11–13.12). These are used as stated there.
 
 ### From TauCetiRoadmap.PotentialAutomorphyInfrastructure
 
@@ -2374,7 +2473,10 @@ class-field rank `d₀` and Maire's lower bound.
 
 ### From TauCetiRoadmap.AutomorphicGaloisRepresentations and AutomorphicGaloisRepresentationsPartII
 
-AutomorphicGaloisRepresentations §7.4 (Dimitrov's residual large image), §7.5 (Ribet–Momose large
+AutomorphicGaloisRepresentations §§3.10–3.14 (the Galois representations of Hilbert modular forms,
+their Hodge–Tate property, determinant, total oddness and absolute irreducibility) and §§4.3–4.7 (Hecke
+versus Langlands normalization and local-global compatibility for Hilbert modular forms), used in
+§13.11; §7.4 (Dimitrov's residual large image), §7.5 (Ribet–Momose large
 image). AutomorphicGaloisRepresentationsPartII AG2.6 ("Complex and local coefficient conjugation";
 "Coefficient independence of tensor automorphy", for untwisted tensors of two RAESDC factors).
 
@@ -2385,10 +2487,18 @@ image). AutomorphicGaloisRepresentationsPartII AG2.6 ("Complex and local coeffic
 multiplicity one), §R16.4.6 (the non-CM self-twist condition on cuspidal classes of `GL_2`, whose
 coefficient form on newforms is the predicate of §14.5).
 
+### From TauCetiRoadmap.EllipticCurveModularity
+
+Layer R29.6 (modularity of elliptic curves over `ℚ`: the weight-two newform attached to `E`, hence
+the cuspidal `π_E` of `GL_2(𝔸_ℚ)`, and the entire continuation of the completed `L`-function of
+`E`), used in §14.6.
+
 ### From TauCetiRoadmap.EndoscopicTransferAndUnitaryTraceComparison
 
 §6.24 (strong cyclic base change for `GL_n`), §6.29 (Labesse's cohomological weak base change and
-descent).
+descent); with §6.26 (cyclic automorphic induction for `GL_n`), §6.27 (base change and descent
+between unitary groups and `GL_n` over CM fields) and §6.28 (the worked checks of the stable and
+twisted formulas) these are the base change inputs of §13.12.
 
 ### From TauCetiRoadmap.SmoothRepresentationsOfLocalGroups
 
@@ -2404,7 +2514,8 @@ completed standard `L`-function is entire, its Euler product converging in some 
 AL.3.3.8 (the Jacquet–Shalika bound: an unramified Satake parameter `α` of a unitary generic
 representation satisfies `q^{−1/2} < |α| < q^{1/2}`) and AL.3.6.1 (after the Rankin–Selberg pole
 criterion, the finite standard Euler product of a unitary cuspidal `π` of `GL_n`, `n ≥ 2`, converges
-absolutely for `Re s > 1`), used in §§14.4–14.5; AL.3.7.1 (strong multiplicity one: cuspidal representations of `GL_n` whose
+absolutely for `Re s > 1`), used in §§14.4–14.5, and AL.2.4.1 also in §13.13 for the entireness and
+functional equation of the completed standard `L`-function; AL.3.7.1 (strong multiplicity one: cuspidal representations of `GL_n` whose
 unramified components agree outside a finite set are isomorphic), used in §14.5 for the
 comparison of the self-twist predicate with the non-CM condition.
 
