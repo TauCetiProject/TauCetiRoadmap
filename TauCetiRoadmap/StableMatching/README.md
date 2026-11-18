@@ -322,35 +322,65 @@ and resource allocation.
 
 ## Open problems
 
-- **Stable matching with ties**: Extending the current model to allow for ties in preference
-  lists (non-strict preferences) remains an active area. While the existence of stable matchings
-  is preserved, the lattice structure and uniqueness properties may not hold. The algorithmic
-  aspects also become more complex, as the deferred acceptance algorithm needs modification.
-- **Three-sided matching**: Generalizing the two-sided stable matching problem to three or more
-  sides (e.g., students, colleges, and professors) presents significant challenges. Known results
-  are partial, and no complete analogue of the Gale–Shapley algorithm exists.
-- **Dynamic matching markets**: When agents arrive and depart over time, maintaining stability
-  becomes non-trivial. The notion of stability itself needs to be redefined for dynamic settings.
-- **Matching with externalities**: When an agent's preferences depend on the matches of others
-  (positive or negative externalities), the stable matching problem becomes significantly more
-  complex. Existence results are known only for special cases.
-- **Approximate stability**: In large markets, finding exactly stable matchings may be computationally
-  infeasible. Understanding the properties of approximately stable matchings and developing
-  efficient algorithms to find them is an open direction.
-- **Fairness in stable matching**: Beyond stability and individual rationality, incorporating
-  additional fairness constraints (e.g., envy-freeness, proportionality) while maintaining
-  computational tractability is a current research challenge.
-- **Random matching markets**: Analyzing the properties of stable matchings in random preference
-  models, including the distribution of the number of stable matchings and their structural
-  properties, remains an active area of research.
-- **Strategy-proofness beyond deferred acceptance**: Characterizing all strategy-proof mechanisms
-  for the stable matching problem, or understanding the trade-offs between strategy-proofness
-  and other desirable properties, is an open question.
-- **Stable matching in infinite markets**: Extending the current finite model to countably infinite
-  markets with appropriate topological or measure-theoretic conditions is a natural generalization.
-- **Quantum matching**: Exploring whether quantum algorithms can provide speedups for computing
-  stable matchings in large markets is an emerging direction at the intersection of theoretical
-  computer science and quantum computing.
+### Specific mathematical problem statements
+
+1. **Irving's conjecture on maximum stable matchings**: Prove or disprove that for any instance of the
+   stable marriage problem with `n` men and `n` women, the maximum size of a stable matching is at
+   least `n - 1`. Irving conjectured this in 1994; the best known bound is `n - O(log n)` (McDermid 2010).
+
+2. **Stable matching with ties existence**: Given a market where preferences may have ties,
+   does there always exist a stable matching that is Pareto optimal among all stable matchings?
+
+3. **Roth's conjecture on lattice structure**: Prove that the set of stable matchings in the
+   college admissions problem (many-to-one) forms a distributive lattice under the natural
+   dominance order. This is known for the marriage problem (Gusfield 1987).
+
+4. **Strategy-proofness characterization**: Characterize all mechanism that are strategy-proof
+   (truth-telling is dominant) and produce stable matchings. Dubins and Freedman (1981) proved
+   deferred acceptance is strategy-proof for men; the complete characterization remains open.
+
+5. **Pareto efficiency and stability**: Prove or disprove: Every Pareto efficient matching in a
+   marriage market with strict preferences is stable. (This is false without strict preferences.)
+
+6. **Unique stable matching characterization**: Given a market, provide a necessary and sufficient
+   condition on the preference lists for there to exist exactly one stable matching. For the
+   marriage problem, this is equivalent to the absence of a pair `(m, w)` such that `m` prefers `w`
+   to his match and `w` prefers `m` to her match in every stable matching.
+
+7. **McVitie-Wilson for college admissions**: Extend the McVitie-Wilson theorem (same agents are
+   single at every stable matching) to the college admissions problem with capacities.
+
+8. **Stable matching with couples**: Given a market where agents may form couples (pairs that
+   must be matched together or remain single), does there always exist a stable matching?
+   This is known as the "stable couples problem" and is NP-hard to decide.
+
+9. **Random stable matching size**: For a random instance of the stable marriage problem with
+   `n` men and `n` women (uniformly random preferences), what is the expected number of
+   stable matchings? What is the distribution of their sizes?
+
+10. **Stable matching with incomplete lists**: Given a market where each agent ranks only a
+    subset of the other side (incomplete preference lists), characterize when a stable matching
+    exists. The "rural hospitals theorem" (Roth 1986) provides partial results.
+
+11. **Stable matching and core**: Prove that the set of stable matchings coincides with the core
+    of the associated cooperative game. This is known for the marriage problem; extensions to
+    other matching models are open.
+
+12. **Minimal blocking pairs**: Given a market and a matching, define the minimal number of
+    blocking pairs. What is the complexity of finding a matching that minimizes this number?
+    For stable matchings, this number is zero.
+
+13. **Stable matching with constraints**: Given a market with additional constraints (e.g.,
+    "at most `k` men can be matched to women in set `S`"), does a stable matching always exist?
+    Provide an algorithm to find one if it does.
+
+14. **Stable matching dynamics**: Given an unstable matching, define a natural dynamics where
+    blocking pairs are resolved. Does this process always converge to a stable matching?
+    Under what conditions?
+
+15. **Stable matching and graph properties**: Characterize the preference graphs (bipartite
+    graphs where edges represent acceptable pairs) for which there exists a unique stable
+    matching. Relate this to graph-theoretic properties (matching covered, etc.).
 
 ## Provenance: existing formalizations outside Tau Ceti
 
