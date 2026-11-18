@@ -385,7 +385,27 @@ Layer 4.
 
 ## Research context
 
-Lanford proved the short-time validity of the Boltzmann equation in 1975. The time `T₀` is a
+Lanford proved the short-time validity of the Boltzmann equation in 1975.
+
+The Boltzmann-Grad limit is a cornerstone of kinetic theory.
+
+## Open problems
+
+- **Long-time validity**: Extend to time scales comparable to or exceeding mean free time
+- **Global existence**: Prove for physically realistic initial data
+- **Boundary conditions**: Develop rigorous theory with physical boundary conditions
+- **Long-range potentials**: Extend to Coulomb and other long-range interactions
+- **Quantum systems**: Develop analogue for quantum mechanical systems
+- **Fluctuations**: Understand beyond law of large numbers
+- **Hydrodynamic limits**: Derive Navier-Stokes and Euler from Boltzmann
+- **Gas mixtures**: Extend to multi-species systems
+- **External forces**: Study with gravity and electromagnetic fields
+- **Non-equilibrium**: Understand far-from-equilibrium behavior
+- **Relativistic gases**: Extend to relativistic systems
+- **Granular gases**: Study inelastic collision systems
+- **Turbulence**: Understand connection to turbulence
+- **Active matter**: Extend to self-propelled systems
+- **Numerical verification**: Develop numerical verification methods The time `T₀` is a
 fraction of the mean free time, and the validity on long time intervals remains open in general;
 this roadmap establishes the short-time result, not a long-time extension. Laure Saint-Raymond's
 four-part IHÉS course, [*Hard Sphere Dynamics in the Low Density Limit*]
@@ -412,3 +432,29 @@ The introductory video [*Boltzmann and the Bridge Between Two Worlds*]
   arXiv:2008.10403.
 - Lanford1975: O. E. Lanford III, *Time evolution of large classical systems*, in *Dynamical
   systems, theory and applications*, Lecture Notes in Physics 38, Springer (1975), 1–111.
+
+## Additional bibliography
+
+- C. Cercignani, *The Boltzmann equation and its applications*, Springer (1988).
+- C. Cercignani, R. Illner, M. Pulvirenti, *The Mathematical Theory of Dilute Gases*, Springer (1994).
+- R. J. DiPerna, P. L. Lions, *On the Cauchy problem for Boltzmann equations*, Ann. of Math. 130 (1989).
+- L. Arkeryd, *On the Boltzmann equation*, Arch. Rational Mech. Anal. 69 (1979) and 77 (1981).
+- H. Grad, *On the kinetic theory of rarefied gases*, Comm. Pure Appl. Math. 2 (1949).
+- C. Villani, *A review of mathematical topics in collisional kinetic theory*, Handbook of Mathematical Fluid Dynamics (2002).
+- L. Saint-Raymond, *Hydrodynamic limits of the Boltzmann equation*, in An Introduction to the Mathematical Theory of the Boltzmann Equation (2010).
+- F. Golse, *From the Boltzmann equation to fluid mechanics in the low density limit*, Kinetic Theory (2000).
+- F. Bouchut, F. Golse, C. Percoll, *Kinetic equations as asymptotics of particle systems*, Handbook of Mathematical Fluid Dynamics (2008).
+- N. Masmoudi, L. Saint-Raymond, *From the Boltzmann equation to the incompressible Navier-Stokes equations*, Arch. Rational Mech. Anal. 192 (2009) and J. Amer. Math. Soc. 25 (2012).
+- T. Bodineau, I. Gallagher, L. Saint-Raymond, *Statistical mechanics of a dilute gas of hard spheres*, arXiv:1804.09439 (2018).
+- E. Carlen, E. Lu, *Entropy production and convergence to equilibrium for the Boltzmann equation*, Arch. Rational Mech. Anal. 209 (2013).
+- S. Ukai, *On the existence of global solutions of mixed problems for non-linear Boltzmann equations*, Proc. Japan Acad. 55 (1979).
+- T. Nishida, *Global existence for nonlinear Boltzmann equations*, Math. Z. 174 (1980).
+- Y. Brenier, *Decompositions of Boltzmann entropy dissipation*, Comm. Partial Differential Equations 35 (2010).
+- E. Carlen, E. Lu, *Non-Gaussian fluctuations for the Boltzmann equation*, Comm. Math. Phys. 311 (2012).
+- F. Filbet, L. Laurent, *Asymptotic analysis of the Boltzmann equation for small Knudsen numbers*, SIAM J. Math. Anal. 38 (2006).
+- R. Alexandre, Y. Morimoto, S. Ukai, C. Xu, *The Boltzmann equation with a long-range interaction potential*, Arch. Rational Mech. Anal. 211 (2014).
+- R. Alexandre, J. Villani, *On the Boltzmann equation for long-range interactions*, Comm. Partial Differential Equations 32 (2007).
+- A. V. Bobylev, *On the Cauchy problem for the Boltzmann equation*, J. Statist. Phys. 25 (1981).
+- K. Hamdache, *Existence and uniqueness for the Boltzmann equation*, Comm. Partial Differential Equations 18 (1993).
+- G. Spiga, *On the well-posedness of the Cauchy problem for the Boltzmann equation*, Arch. Rational Mech. Anal. 143 (1998).
+- L. Saint-Raymond, *From the Boltzmann equation to hydrodynamics in the low-density limit*, Proc. ICM Madrid 2006, Vol. III (2006).
