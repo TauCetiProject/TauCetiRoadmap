@@ -6,7 +6,7 @@ Its headline theorems are the following. If E is an elliptic curve over ℚ with
 
 The roadmap builds on PotentialModularityAndCompatibleSystems (compatible systems, their L-functions and potential modularity), AutomorphicGaloisRepresentationsPartII (the Galois representations of polarized regular algebraic cuspidal representations), GL2AutomorphicRepresentationsAndTransfer (rank-two base change and soluble Artin modularity) and EndoscopicTransferAndUnitaryTraceComparison (the endoscopic classification of classical and unitary groups). ModularityAndLanglandsExtensionsPartII consumes its symmetric-power reductions and proves the symmetric-power lifts in every rank.
 
-Layer 0 below compares the L-functions and Hodge data of automorphic and Galois realizations. Layer 1 treats weight one, Artin representations and the low-rank transfers that give symmetric powers up to rank five. Layer 2 proves potential automorphy of polarized compatible systems and modularity of elliptic curves over some imaginary quadratic fields. Layer 3 builds packets of classical groups and of `GSp₄` on the imported endoscopic classification. Layer 4 proves purity, Ramanujan and Sato–Tate theorems through symmetric powers. Layer 5 states generic transfer and the frontier Langlands conjectures.
+Layer 0 below compares the L-functions and Hodge data of automorphic and Galois realizations. Layer 1 treats weight one, Artin representations and the low-rank transfers that give symmetric powers up to rank five. Layer 2 proves potential automorphy of polarized compatible systems. Layer 3 builds packets of classical groups and of `GSp₄` on the imported endoscopic classification. Layer 4 proves purity, Ramanujan and Sato–Tate theorems through symmetric powers. Layer 5 states generic transfer and the frontier Langlands conjectures.
 
 ## How to read the build
 
@@ -14,7 +14,7 @@ The layer numbers organize the targets; the following dependencies fix the const
 
 API bullets state the mathematical properties to prove. The acceptance statement in `Suggested.lean` is the elliptic Sato–Tate theorem in §4.34; its module documentation identifies the missing carriers for the other headline statements.
 
-Supplier abbreviations in the build (their contracts and hypotheses are in the supplier contracts below): AG2 = AutomorphicGaloisRepresentationsPartII; AG = AutomorphicGaloisRepresentations; AF = AutomorphicFormsOnReductiveGroups; AL = AutomorphicLFunctionsAndLocalFactors; PMCS = PotentialModularityAndCompatibleSystems; PAI = PotentialAutomorphyInfrastructure; ET = EndoscopicTransferAndUnitaryTraceComparison; GL2T = GL2AutomorphicRepresentationsAndTransfer; GL2ML = GL2ModularityLifting; SMC = SerreModularityByCompatibleSystems; SWLO = SerreWeightAndLevelOptimisation; LGD = LocalGaloisDeformationRings; GGD = GlobalGaloisDeformations; ALS = ArithmeticLocallySymmetricSpaces; HMV = HilbertModularVarietiesAndShimuraCurves; SR = SmoothRepresentationsOfLocalGroups; PH = PadicHodgeTheory; CR = CrystallineCohomology; LAD = LocallyAnalyticDistributions; RAG = RigidAnalyticGeometry; IG = InverseGaloisAndArithmeticFundamentalGroups. Local links use the target’s section number.
+Supplier abbreviations in the build (their contracts and hypotheses are in the supplier contracts below): AG2 = AutomorphicGaloisRepresentationsPartII; AG = AutomorphicGaloisRepresentations; AF = AutomorphicFormsOnReductiveGroups; AL = AutomorphicLFunctionsAndLocalFactors; PMCS = PotentialModularityAndCompatibleSystems; PAI = PotentialAutomorphyInfrastructure; ET = EndoscopicTransferAndUnitaryTraceComparison; GL2T = GL2AutomorphicRepresentationsAndTransfer; GL2ML = GL2ModularityLifting; SMC = SerreModularityByCompatibleSystems; SWLO = SerreWeightAndLevelOptimisation; LGD = LocalGaloisDeformationRings; GGD = GlobalGaloisDeformations; ALS = ArithmeticLocallySymmetricSpaces; HMV = HilbertModularVarietiesAndShimuraCurves; SR = SmoothRepresentationsOfLocalGroups; PH = PadicHodgeTheory; CR = CrystallineCohomology; LAD = LocallyAnalyticDistributions; RAG = RigidAnalyticGeometry. Local links use the target’s section number.
 
 ## Conventions
 
@@ -692,7 +692,7 @@ Proof route: intersect/quotient the flag. For a stable lattice use intersections
 
 ### 2.13 Moret–Bailly with prescribed local Galois extensions (Proposition 3.1.1)
 
-For finite Galois extensions `K/K₀` and `K^avoid/K`, finite S⊂places(`K₀`), equivariant finite Galois completions `L′_v/K_v` `(L′_{σv}=σL′_v)`, smooth geometrically connected T/K and nonempty `Gal(L′_v/K_v)`-invariant opens `Ω_v⊂T(L′_v)`, obtain finite Galois L/K and `P∈T(L)`, with `L/K₀` Galois, L disjoint from `K^avoid/K`, and `L_w≅L′_v`,`P∈Ω_v` for `w|v∈S_K`.
+For finite Galois extensions `K/K₀` and `K^avoid/K`, finite S⊂places(`K₀`), equivariant finite Galois completions `L′_v/K_v` `(L′_{σv}=σL′_v)`, smooth geometrically connected T/K and nonempty `Gal(L′_v/K_v)`-invariant opens `Ω_v⊂T(L′_v)`, obtain finite Galois L/K and `P∈T(L)`, with `L/K₀` Galois, L disjoint from `K^avoid/K`, and `L_w≅L′_v`,`P∈Ω_v` for `w|v∈S_K`. This is the form over an arbitrary Galois base `K/K₀`; PMCS §2.20 is the case `K₀=ℚ` with K imaginary CM, where it also makes L CM and a given finite quotient of `π₁^ét(T)` surjective at P.
 
 Proof route: enlarge S to force disjointness from every simple avoidance subextension; prescribed-completion soluble extension (CHT 4.1.2), Moret–Bailly 1.3 and normal closure over `K₀`.
 
@@ -886,7 +886,7 @@ Proof route: [§2.5] at p (seed `S_UA`, (13),(15)–(16)), then at r ((14),(17),
 
 ([BCGNT], Prop. 6.2.3 and proof, §6.2, pp. 61–63 (published pp. 54–57) PDF p.62.)
 
-*Needs:* [all-place cyclic automorphic induction and descent](#automorphic-induction-and-its-cuspidality-criterion); ET §§6.24, 6.26–6.29 (the exact lifting targets of Layer 2); AL.3 (strong multiplicity one); AL.3 (Rankin–Selberg boundary nonvanishing); §2.5.
+*Needs:* [all-place cyclic automorphic induction and descent](#automorphic-induction-and-its-cuspidality-criterion); AutomorphicSpectralTheory §7.1 (cyclic base change and descent); ET §§6.24, 6.26–6.29 (the exact lifting targets of Layer 2); AL.3 (strong multiplicity one); AL.3 (Rankin–Selberg boundary nonvanishing); §2.5.
 
 ### 2.25 Lifts with potentially diagonalizable local conditions (Theorem 4.3.1)
 
@@ -946,7 +946,7 @@ For imaginary CM F, `p=3` or 5, continuous decomposed-generic `r̄:G_F→GL₂(�
 
 This comparison transports the same A and its modular realization to the conventions here: `H¹(A)=V_A∨` has residual representation `r̄∨` and determinant `ε̄_p⁻¹`; for an inverse-cyclotomic input apply the construction to its dual. Use the owner's `modular_elliptic_all_coefficients` and `auxiliary_local_types` for the same weight-zero cuspidal π, with `r_{π,ι}≅H¹(A)`, ordinary at the multiplicative places and unramified at both good-reduction types. At the coefficient prime the good-reduction representations are crystalline with `N=0`; the supersingular branch remains nonordinary. ([AKT](#reference-akt), Lemma 9.7 pp.75–76 and Props. 9.12–9.13 pp.79–80; [Caraiani–Newton], Props. 6.1.5–6.1.6 and Lemma 6.1.7 pp.88–90.)
 
-The elliptic residual criterion is consumed from EllipticCurveModularityImaginaryQuadratic §5.3 `cm_modularity`: when `ζ₅∉F`, an elliptic E/F is modular if E[3] or E[5] is decomposed generic and absolutely irreducible on the corresponding cyclotomic subgroup. Duality preserves both residual properties and gives the cohomological realization for non-CM E; CM E retains the character branch. Over imaginary quadratic F, cyclotomic absolute irreducibility implies genericity (CN 6.2.2 Goursat/Chebotarev). For CM Galois `F/ℚ`, `ζ₅∉F`, mod-5 image containing `SL₂(𝔽₅)` has density one among integral Weierstrass equations in CN's height ordering: IG §IG.2.5 quantitative HIT (ArithmeticStatisticsPartI, Exact supplier contracts) plus CN's conjugate-constituent argument gives 6.1.2. This height-density argument is a target here and concerns equations, not a measure on isomorphism classes.
+The elliptic residual criterion is consumed from EllipticCurveModularityImaginaryQuadratic §5.3 `cm_modularity`: when `ζ₅∉F`, an elliptic E/F is modular if E[3] or E[5] is decomposed generic and absolutely irreducible on the corresponding cyclotomic subgroup. Duality preserves both residual properties and gives the cohomological realization for non-CM E; CM E retains the character branch. Over imaginary quadratic F, cyclotomic absolute irreducibility implies genericity (CN 6.2.2 Goursat/Chebotarev).
 
 **Checks.**
 
@@ -957,69 +957,19 @@ The elliptic residual criterion is consumed from EllipticCurveModularityImaginar
 - For `p=3` the `ζ₅` exclusion remains.
 - Equality of j-invariants identifies quadratic twists, not necessarily the curves themselves.
 
-([AKT](#reference-akt), Lemma 9.7 pp.75–76 and Props. 9.12–9.13 pp.79–80; [Caraiani–Newton], Thm. 6.1 and Cors. 6.1.1–6.1.3 pp.87–88, Lemmas 6.1.4–6.1.7 pp.88–90 and Lemma 6.2.2 pp.90–91.)
+([AKT](#reference-akt), Lemma 9.7 pp.75–76 and Props. 9.12–9.13 pp.79–80; [Caraiani–Newton], Thm. 6.1, Cor. 6.1.1 and Lemma 6.1.3 pp.87–88, Lemmas 6.1.4–6.1.7 pp.88–90 and Lemma 6.2.2 pp.90–91.)
 
-*Needs:* EllipticCurveModularityImaginaryQuadratic §0.3 `switch_five`, `switch_three`, `modular_elliptic_all_coefficients`, `auxiliary_local_types`, fixed-pairing point and base-change contract, and §5.3 `cm_modularity`; IG §IG.2.5, quantitative Hilbert irreducibility; ArithmeticStatisticsPartI §0.1, relative density in the specified height ordering; Chebotarev.
-
-### 2.30 Exceptional modular curves and their arithmetic
-
-For `p=3,5`, write `b_p,s_p,ns_p` for the Borel, split normalizer and nonsplit normalizer in `GL₂(𝔽_p)`, and `ns3°` for the Cartan. Prove the normalization identifications, j-maps, divisor and group equalities, residue exclusions and exceptional elliptic modularity statements below for `X(b3,b5),X(s3,b5),X(ns3°,b5),X(b3,ns5),X(ns3°,ns5),X(s3,ns5)`. These are arithmetic targets for the specified curves, proved using the general suppliers below before applying §2.52. The density-one theorem of §2.29 has its independent hypotheses.
-
-**Models and API.** Construct isomorphisms from the smooth projective normalizations to the displayed models, inverse function-field maps and commutativity with the modular j-functions. Component and cusp data include the points at poles of affine coordinates. The j-functions are
-`j_b3(t)=(t+27)(t+3)³/t`, `j_b5(t)=(t²+250t+3125)³/t⁵`, `j_ns3(t)=t³`, `j_ns5(t)=125t(2t+1)³(2t²+7t+8)³/(t²+t−1)⁵` and `j_s3(t)=27(t+1)³(t−3)³/t³`. The double cover `X(ns3°)→X(ns3)` has equation `z²=−3(t²+12t+144)`. The first two fibre products have models `y²=x(x+16)(x+25)` and `y²=x(x+1)(x+16)` respectively. Prove the following four model and involution identifications:
-
-| Curve | Smooth projective model (affine chart `z=1`) | Involution / quotient |
-| --- | --- | --- |
-| `X(ns3°,b5)` | `y²=−3(x⁴+2x³−x²+10x+25)` | `w₅:x↦5/x` on the quotient coordinate |
-| `X(b3,ns5)` | `y²=9x⁶−6x⁵−35x⁴+40x²+12x−8` | `w₃` is the hyperelliptic involution |
-| `X(ns3°,ns5)=C₁` | `9x⁴+19x²y²+y⁴+9x³+19x²y+22xy²+2y³+10x²+22xy+13y²+7x+12y+11=0` | `(x,y)↦(x,−y−1)` |
-| `X(s3,ns5)=C₂` | `−x⁴+2x³y+x²y²+8x³+2x²y−2xy²−y³−3x²−3xy+3y²+2x−3y+1=0` | `(x,y)↦((3x+y+2)/(4x−2y+1),(8x+y−8)/(4x−2y+1))` |
-
-Prove that both quartic quotients are `D:y²−y=x³+1`, with `D(ℚ)≅ℤ`, and that the rational involution on `C₂` extends to the projective curve. The genus-one quartic uses weighted projective space `ℙ(1,2,1)`. Its quotient j-function is `(x⁶+250x³+3125)³/x¹⁵`, with `3125=5⁵`; the branch divisor and cusp field specify the twist `−3` of the double cover.
-
-Determine exact divisors and Riemann–Roch bases on these curves, prove the principal-divisor relations, rank/torsion bounds and finite-index inclusions, and establish good reduction and the following finite residue equalities. EffectiveDiophantineMethods §§3.21–3.22, 4.20–4.22, 5.24 and 5.27–5.28 supplies the general Mordell–Weil and relative Chabauty implications used to deduce the quadratic-point classifications from these curve-specific theorems.
-
-- **Genus one (CN Proposition 7.2.2).** Prove `Jac(C)(ℚ)≅(ℤ/2)²` for `v²=u³+3u²−720u−8100` and `C(ℚ₃)=∅`. Over `a²=−3`, put `∞±=(1:±a:0)` and prove that the classes of `(0:5a:1)`, `(−2:−a:1)` and `(−5/2:5a/4:1)` relative to `∞−` give the three nonzero Jacobian classes, and their Brauer obstructions leave exactly `ℤ/2` rational degree-zero divisor classes modulo rational principals. Prove the Riemann–Roch spaces after adding `∞++∞−` have bases 1 and CN (7.2.1)–(7.2.3)'s functions. For `α=α₀+aα₁`, their rationality equations are `α₀²+3α₁²+6α₁+c=0`, with `c=−33,15,12`; the last two have no `ℚ₃`-points, and the first quadratic has constant coefficient five times its leading coefficient. Deduce that a quadratic point P away from infinity has `x(P)∈ℚ` or `x(P)x(P^σ)=5`; handle the two points at infinity separately as cusps; the second case gives the degree-five `ℚ`-curve isogeny (7.2.5).
-- **Genus two (CN Proposition 7.3.3).** Prove rank zero, `#J(𝔽₇)=40`, `#J(𝔽₁₃)=180`, the exhibited torsion and `J(ℚ)=ℤ/2⊕ℤ/10`. The effective representatives of all 19 nonzero reduced Mumford classes translated by infinity's rational degree-two divisor are to be determined explicitly: nine rational-x, two at infinity, six real quadratic, and two with `x=(−5+√−11)/6,y=±(17−√−11)/6`. Zero gives the hyperelliptic pencil. Retain real, imaginary and cusp conditions. For a rational-x quadratic P, `w₃` equals conjugation, giving a degree-three geometric `ℚ`-curve, possibly with nonrational j (7.3.4, p.98).
-- **Plane quartic rank and saturation (CN Proposition 7.4.4).** Prove the Chen isogenies, rank one and a generator of `D(ℚ)` with pullback `G_i`. Reductions at 7,11,13 give torsion bounds 4/20; `C₁`'s 2-primary reduction at 13 is `(2,2)`; `C₂` has independent order-10/order-2 torsion. Prove the norm/pullback inclusions `4J₁(ℚ)⊂⟨2G₁⟩` and `10J₂(ℚ)⊂⟨5G₂,J₂[2]⟩`. Prove algebraic rank and the multiplier inclusions; an analytic-rank value alone does not establish them.
-- **Plane quartic residue exclusions (CN Proposition 7.4.5).** For `C₁`, prove `I=4`, subgroup `⟨2G₁⟩`, reduction prime 43, reduced subgroup order 7 and seven scaled degree-two Abel–Jacobi preimage classes. Prove that eight pullbacks cover them, each with nonzero relative differential; EffectiveDiophantineMethods §4.22 then puts every divisor in the pullback of `D(ℚ)`. For `C₂`, prove `I=10`, subgroup `⟨5G₂,J₂[2]⟩`, primes 11,43, sixteen nonpullback candidates (eight rational sums/eight quadratic divisors), the local uniqueness/pullback hypotheses and empty simultaneous cosets for every remaining reduction preimage outside these candidates and the pullback locus (§5.24). Six quadratic candidates are real; two over `a²=−55` have representatives `((1+a)/28,(27−a)/56)`, `((3−a)/4,(3+3a)/4)` and conjugates, with `j=−32768`. The resulting imaginary quadratic points give `ℚ`-curves or rational j.
-
-Prove modularity of the exceptional curve over ℚ(√−11) by establishing the following explicit facts. Over `K=ℚ(a)`, `a²−a+3=0`, the remaining genus-two twist class has coefficients `[a,0,1+a,−24−6a,56+13a]` and `j=(11155375a+3126750)/32`. Its `X(b3,ns5)`-point gives nonsplit-normalizer containment. Prove `#E(𝔽₃₇)=42` at `a≡14` and `#E(𝔽₈₉)=75` at `a≡37`, yielding mod-5 order 24 and a nonscalar split involution (trace 0, determinant 4, eigenvalues `±1`). The image is then the full order-48 normalizer, whose order-12 determinant-one subgroup is absolutely irreducible; §2.29 gives modularity and transports it to quadratic twists.
-
-Prove modularity of the curve `E₀:y²+i xy+y=x³+x²+(6+i)x+10−15i` over `K=ℚ(i)`. Prove its conductor is `(63i−9)`, of norm 4050, and its j-invariant is `(−47709+15363i)/256`. Construct an actual rational-Hecke-field cuspidal weight-two Bianchi form of that level and prove its exact cuspidal-cohomology Hecke eigenvalue comparisons (CN §7.1, identifier 2.0.4.1-4050.1-c). Attach AG2's realization. Establish common finite coefficients `A/ℚ₂` with residue `𝔽₂`, stable lattices and common determinant `ε₂`/trivial finite centre for `T₂(E₀)` and the dual cohomological realization, evaluated at arithmetic Frobenius. Rational eigenvalues alone do not give coefficient descent; DGP Remark 5, p.6 gives the sufficient two-root-field residue-degree-one/containment condition.
-
-Prove DGP's finite comparison conditions for this particular pair: the specified residual branch of the 2-division polynomial, ray-class generators/evaluations, finite prime set and exact trace/point equalities. Determine a finite comparison set and prove its spanning conditions and the trace equalities at every member, using the actual 2-division field of E₀; these are conclusions of this arithmetic target. In the general comparison criterion, the ray moduli have support at 2,3,5 and the conjugate level, with exponents `2e(𝔭|2)+1` at 2, `⌊3e(𝔭|3)/2⌋+1` at 3 and 1 elsewhere. For residual `S₃`, the comparison set detects every `S₃×C₂/S₄` obstruction extension over the torsion field (§2.1); for trivial/`C₂`, require even-trace recognition and the noncubic Livné condition (§2.2); for `C₃`, require the cubic-field identification and even-trace comparison there with descent (§2.3). Prove equality of the remaining bad local factors for E₀ and this form. DGP §5 gives the Galois comparison; the specified isogeny, conjugation and twist identifications cover the eight extra `X₀(15)(ℚ(i))` points.
-
-Finally prove the first two genus-one curves are isogenous with rational torsion `ℤ/2⊕ℤ/4`, CN 7.1.2's eight extra imaginary-quadratic points on `X₀(15)` all lie over `ℚ(i)`, and the split-normalizer curve's torsion grows only over real `ℚ(√5)`. Finite `X₀(15)(F)` consists of torsion, so the proved lists exhaust it. Rational j uses twists of base-changed rational modular curves; degree-3/5 `ℚ`-curves use the modularity supplier; CM points use Hecke characters. The residual alternatives and the proved classifications give the individual modularity endpoint of §2.52, without an additional arithmetic premise.
-
-**Checks.**
-
-- The isogenous genus-one models `x(x+16)(x+25)` and `x(x+1)(x+16)` have different torsion-growth lists.
-- Replacing 3125 by 55 changes j. Replacing rational divisor classes by `J(ℚ)` loses the Brauer obstruction. The first conic has `(α₀,α₁)=(3,2)`; the other two fail at 3.
-- Zero in the genus-two Jacobian gives a pencil; all nineteen nonzero classes are needed for the finite list.
-- At `√−11`, order 24 alone permits a Cartan; the nonscalar split involution forces the full normalizer. A scalar involution fails.
-- If G₂ is nonzero in the free part, G₂ does not belong to ⟨5G₂,J₂[2]⟩: the free coefficients would require 1=5k for an integer k. The target asserts the multiplier inclusion 10J₂(ℚ)⊂⟨5G₂,J₂[2]⟩.
-- At the points at infinity of the genus-one quartic, x has a pole; the finite-coordinate product formula is not asserted there.
-- For `C₁`, eight divisors cover seven classes because distinct pullbacks can reduce equally. The Chabauty implication requires the relative differential hypotheses.
-- `C₂`'s `√−55` points are nonrational with rational j. Every candidate and multiplier inclusion is a theorem about these particular curves.
-- A rational-x quadratic genus-two point gives a degree-three `ℚ`-curve, possibly with nonrational j.
-- For the displayed E₀ over ℚ(i), the result supplies the Bianchi form and Galois comparison, rather than taking either as input; §2.52 applies once finiteness of X₀(15)(ℚ(i)) is established.
-- At the displayed √−11 curve, the point counts 42 at 37 and 75 at 89 give traces −4 and 15. Their mod-5 polynomials are `X²−X+2` and `X²−1`, respectively.
-- DGP needs common cyclotomic determinant, residue-`𝔽₂` models and lattices, the spanning/noncubic conditions and bad-factor comparison. Residual agreement alone does not give the 2-adic comparison.
-
-([Caraiani–Newton], Thm. 7.1, Lemma 7.1.1 and Cor. 7.1.2 pp.92–94; Prop. 7.1.3 p.94; Props. 7.2.1–7.2.4 and Cor. 7.2.5 pp.95–97; Props. 7.3.1, 7.3.3 and Cor. 7.3.4 pp.97–98; Props. 7.4.3–7.4.5 and Cor. 7.4.6 pp.98–102. [Dieulefait–Guerberoff–Pacetti](https://arxiv.org/pdf/0804.2302v2), §§2.1–2.3 pp.2–5, Galois realization Thm. 3.1 p.6, finite comparison §4 pp.6–8, soundness §5 pp.8–16. [Box](https://arxiv.org/pdf/1906.05206v3), Thms. 2.1, 2.4 and 2.6, pp.4–7, Prop. 3.1 pp.8–9; general implications supplied by EffectiveDiophantineMethods.)
-
-*Needs:* ModularCurvesPartII, Cartan/normalizer moduli and j-maps; EffectiveDiophantineMethods §§3.21–3.22, 4.20–4.22, 5.24, 5.27–5.28; ArithmeticGaloisRepresentations Layer 5, finite-image recognition; ClassFieldTheory Layers 7 and 11, ray-class characters; ALS.3 and ALS.5b, cohomological Hecke data; AG2.4–AG2.7, imaginary-quadratic realization; GL2T R17.4, soluble base change; EllipticCurveModularityPartIIGL2TypeAbelianVarieties GT.6, quadratic-q-curves-modular. This section owns the explicit models, group orders, ranks, residue exclusions and exceptional comparisons; the suppliers provide their general mathematical theory.
+*Needs:* EllipticCurveModularityImaginaryQuadratic §0.3 `switch_five`, `switch_three`, `modular_elliptic_all_coefficients`, `auxiliary_local_types`, fixed-pairing point and base-change contract, and §5.3 `cm_modularity`; Chebotarev.
 
 ### 2.31 Conditional potential modularity of odd symmetric powers of elliptic curves (Calegari–Geraghty §10)
 
-Assume Conjecture B. For non-CM elliptic A/K, `r=Sym^{2n−1}ρ_{A,p}` is potentially modular. Special case: p totally split in K,`p+1` divisible by `N₂>2n+1` prime to conductor,surjective residual image,good reduction at p,and `ρ̄_A|G_{ℚ_p}≅Ind` `ω₂`. BLGHT II 6.2’s Dwork point links r̄ to an induction; CG 5.16 twice gives modularity. Generally choose A′[q]≅A[q] on [§2.23](#223-the-twisted-modular-curve-x_eq) satisfying that special case.
+Assume Conjecture B. For non-CM elliptic A/K, `r=Sym^{2n−1}ρ_{A,p}` is potentially modular. Special case: p totally split in K,`p+1` divisible by `N₂>2n+1` prime to conductor (BLGHT II Thm. 6.4 needs `N₂>m+1` for a representation of rank m, here `m=2n`),surjective residual image,good reduction at p,and `ρ̄_A|G_{ℚ_p}≅Ind` `ω₂`. BLGHT II 6.2’s Dwork point links r̄ to an induction; CG 5.16 twice gives modularity. Generally choose A′[q]≅A[q] on [§2.23](#223-the-twisted-modular-curve-x_eq) satisfying that special case.
 
 The auxiliary construction retains the local/coefficient conditions of BLGHT II Prop. 6.2.
 
 Proof route: [§2.9], [§2.11], Moret–Bailly and CG 5.16 twice; Moret–Bailly on `X_A(q)` reduces the general case to the special case.
 
-([Calegari–Geraghty](#reference-cg-2018), §10, proof of Thm. 1.1, 'extra hypothesis' bullet, p. 97 = Invent. p. 428; §10, general case, pp. 97–98 = Invent. p. 429.)
+([Calegari–Geraghty](#reference-cg-2018), §10, proof of Thm. 1.1, 'extra hypothesis' bullet, p. 97 = Invent. p. 428; §10, general case, pp. 97–98 = Invent. p. 429; [BLGHT](#reference-blght-2011) II, Thm. 6.4, p. 47 of the authors' final version.)
 
 *Needs:* [§2.13] (the exact lifting targets of Layer 2); §§2.8, 2.9, 2.11 and 2.23.
 
@@ -1291,18 +1241,6 @@ Proof route: [§2.50](#250-residual-potential-ordinary-automorphy-over-cm-fields
 
 *Needs:* [C-LOCAL-DEFORMATION] (the exact lifting targets of Layer 2); PAI 5, §5.23 (ordinary automorphy lifting); §2.50.
 
-### 2.52 Modularity of elliptic curves over imaginary quadratic fields with `X₀(15)(F)` finite (Caraiani–Newton)
-
-If F is imaginary quadratic with finite `X₀(15)(F)`,e.g. `ℚ(√−d)`,`d=1`,2,3,5,every E/F is modular: parallel-weight-two cuspidal `GL₂` `π` with `L(E,s)=L(π,s−1/2)`,or `ψ⊞ψ^c` with the two Hecke factors when CM embeds in F. Separately,for CM Galois `F/ℚ`,`ζ₅∉F`,100% of height-ordered Weierstrass equations define modular elliptic curves.
-
-The individual theorem uses the arithmetic theorems proved in §2.30; its only field hypotheses are that F is imaginary quadratic and X₀(15)(F) is finite. The density-one branch is independent of that finiteness hypothesis.
-
-Proof route: [§2.6], the soluble residual seed [§2.29], and [§2.30] for the exceptional individual cases; [§2.29] also supplies the height-density argument.
-
-([Caraiani–Newton], §1, Thm. 1.1 (Cor. 7.1.2), p. 2; §1, Thm. 1.2 (Cor. 6.1.2), p. 3.)
-
-*Needs:* [C-LOCAL-DEFORMATION] (the exact lifting targets of Layer 2); PMCS §§2.8–2.10 and 2.23; §§2.6, 2.29 and 2.30.
-
 ### Examples
 
 For a finite collection of polarized systems the extension in simultaneous potential automorphy must be common to all members and disjoint from the one prescribed avoidance field. Separate extensions with no disjointness control cannot be substituted. In the elliptic seed `H_{E,ℓ}` has determinant `ε_ℓ⁻¹`; `Sym²` H has determinant `ε_ℓ⁻³` and Hodge numbers {0,1,2}. Qian’s determinant twists and the Dwork realization must be compared in this same convention.
@@ -1393,7 +1331,7 @@ Throughout §§3.3–3.4, 3.9 and 3.14, S is a finite set of places containing e
 
 For number field F,`m≥1`,unitary cuspidal `GL_m` `π`,unitary Hecke `χ` and finite admissible S,continue `L^S(s,π,Sym²⊗χ)`,`L^S(s,π,∧²⊗χ)` meromorphically,matching AL§4’s unramified factors. Shahidi1.1 gives no zeros on `Re s=1`,allowing poles (order`≤0`),for arbitrary m,`χ`,even quadratic `χ` without a Hecke square root.
 
-For `m=2n` and `π≅π∨⊗χ⁻¹`, factor `L^S(s,π×π⊗χ)` into these two square factors. Their nonpositive orders sum to `−1`, hence exactly one has a simple pole at 1 and the other is holomorphic/nonzero there. For `m=4` this is BCGP 8.3.2 p.247.
+For `m=2n` and `π≅π∨⊗χ⁻¹`, factor `L^S(s,π×π⊗χ)` into these two square factors. Their nonpositive orders sum to `−1`, hence exactly one has a simple pole at 1 and the other is holomorphic/nonzero there. For `m=4` this is the proof of BCGP Lemma 8.3.2, p.247.
 
 Route: Belt5.2/6.2’s exterior integral/local nonzero choices (2.2),entire in odd rank/1 in rank one; divide Rankin–Selberg for symmetric continuation and identify on the initial half-plane. Shahidi gives boundary nonvanishing; division alone gives no holomorphy at denominator zeros.
 
@@ -1412,7 +1350,7 @@ Route: Belt5.2/6.2’s exterior integral/local nonzero choices (2.2),entire in o
 - A nonsquare quadratic `χ` must not be silently rewritten as a twist `π⊗χ₀`.
 - Taking S to be all places makes both products 1, so it is excluded even for a unitary elliptic cuspidal representation with trivial centre.
 
-([Shahidi 1997](#reference-shahidi-1997), Thm. 1.1 p.312, even-rank proof §2 pp.313–317, odd-rank reduction §3 pp.317–320 and the completed functional equation Thm. 4.1 p.321; [Belt](#reference-belt-square), Thm. 2.2 p.5, proofs pp.30–32 and 36–37; Thm. 5.2 and proof pp.41–42, Thm. 6.2 p.45; [BCGP], proof of Prop. 8.3.2 p.247.)
+([Shahidi 1997](#reference-shahidi-1997), Thm. 1.1 p.312, even-rank proof §2 pp.313–317, odd-rank reduction §3 pp.317–320 and the completed functional equation Thm. 4.1 p.321; [Belt](#reference-belt-square), Thm. 2.2 p.5, proofs pp.30–32 and 36–37; Thm. 5.2 and proof pp.41–42, Thm. 6.2 p.45; [BCGP], proof of Lemma 8.3.2, p.247.)
 
 *Needs:* AL.4, unramified L-group factors, and AL.3, Rankin–Selberg continuation/poles; SR, normalized induction and meromorphic intertwiners; AutomorphicSpectralTheory, Eisenstein-series functional equations. The integral continuation comparison is owned here; AL.4 supplies its unramified Euler factors.
 
@@ -1639,7 +1577,7 @@ Belt 5.2 supplies even-rank meromorphic continuation and at-most-simple poles, r
 
 Proof route: [§3.3], Rankin–Selberg factorization/self-duality and unramified cyclic factorization; [§3.9] gives the pole criterion.
 
-This is the descent input of BCGP 8.3.2, p.247.
+This is the descent input of BCGP Lemma 8.3.2, p.247.
 
 **Checks.**
 
@@ -1967,7 +1905,7 @@ Thus an absolutely irreducible residual realization is symplectic.
 
 ([Calegari–Geraghty](#reference-cg-2020), Lemma 6.4 and its Hecke-equivariant injection, arXiv v1 pp.27–28; Proposition 6.8, pp.29–30; Lemma 6.9 and proof, p.30, publ. p.840. [Bellaïche–Chenevier, The sign of Galois representations attached to automorphic forms for unitary groups](https://arxiv.org/pdf/0804.2860v1), Theorem 1.2, p.2, and the sign comparison on p.3.)
 
-*Needs:* [§3.26]; ET §§6.24, 11.0d–11.0e and 11.1 with the symplectic classification contract of §§11.0g–11.0h; AG2.2; AlgebraicModularFormsAndSerreWeights §5.10, Deligne–Serre eigenvalue lifting. The imaginary-quadratic unitary descent and pairing transport have the field scope specified in this target.
+*Needs:* [§3.26]; AutomorphicSpectralTheory §7.1 (cyclic base change and descent); ET §§6.24, 11.0d–11.0e and 11.1 with the symplectic classification contract of §§11.0g–11.0h; AG2.2; AlgebraicModularFormsAndSerreWeights §5.10, Deligne–Serre eigenvalue lifting. The imaginary-quadratic unitary descent and pairing transport have the field scope specified in this target.
 
 ### 3.31 Global packets with a holomorphic limit of discrete series at infinity are of general, Yoshida or Saito–Kurokawa type
 
@@ -2269,7 +2207,7 @@ Proof route: ET §§6.24–6.29/PAI Layer 2’s soluble comparisons, [§2.16], [
 
 ([NT Hilbert],6.1 pp.45–49 and6.5 p.50;[CT17],7.1 p.46,7.4 pp.47–48,7.6 p.49;[Thorne 2024],8.1/8.2/8.3 pp.47–50.)
 
-*Needs:* ET §§6.24, 6.26–6.29; PAI Layer 2, soluble automorphy comparisons; [§2.2]; [§4.15]; §§2.16, 2.32 and 2.43; PMCS §§2.8–2.10 (Moret–Bailly).
+*Needs:* AutomorphicSpectralTheory §7.1 (cyclic base change and descent); ET §§6.24, 6.26–6.29; PAI Layer 2, soluble automorphy comparisons; [§2.2]; [§4.15]; §§2.16, 2.32 and 2.43; PMCS §§2.8–2.10 (Moret–Bailly).
 
 ### 4.24 Purity and analytic continuation for rank-two systems of weight zero over CM fields (ACC+, Corollary 7.1.13)
 
@@ -2362,7 +2300,7 @@ Proof route: BCGNT 7.1.1’s rank-one determinant normalization, finite-order sq
 
 ([BCGNT], Thm. 7.2.1 and proof, §7.2, p. 69 (published pp. 61–62); Thm. C, §1, arXiv p. 4 (published p. 4).)
 
-*Needs:* ET §§6.24, 6.26–6.29; §4.21.
+*Needs:* AutomorphicSpectralTheory §7.1 (cyclic base change and descent); ET §§6.24, 6.26–6.29; §4.21.
 
 ### 4.34 The Sato–Tate theorem for elliptic curves over `ℚ`
 
@@ -2818,7 +2756,7 @@ Proof route: Jacquet–Shalika on unitary constituents and local symmetric-power
 
 ([ACC+], §1, paragraph after Thm. 1.0.2, p. 3.)
 
-*Needs:* [§5.2]; [§1.10]; AL.3, Whittaker realizations and parameter estimates; [EndoscopicTransferAndUnitaryTraceComparison §6.24, cyclic base change](../EndoscopicTransferAndUnitaryTraceComparison/README.md).
+*Needs:* [§5.2]; [§1.10]; AL.3, Whittaker realizations and parameter estimates; AutomorphicSpectralTheory §7.1, cyclic base change; [EndoscopicTransferAndUnitaryTraceComparison §6.24, its all-place compatibility](../EndoscopicTransferAndUnitaryTraceComparison/README.md).
 
 ### Examples
 
@@ -2842,7 +2780,7 @@ SerreModularityByCompatibleSystems/EllipticCurveModularity own rational modulari
 
 Layer 3 imports those classifications and states only what they leave out, among them the co-tempered intertwining relations (§3.2), the nongeneric and non-pure inner-form unitary statement (§3.16), the unbounded localizations, exact multiplicities and transfer consequences of Arthur's formula (§3.17), and the `GSp₄`, Xu, Adams–Johnson, Mœglin–Renard and Gan–Ichino targets. The section numbers 3.12 and 3.15 are not used: Mok's classification is ET §§11.0d–11.0e and Arthur's local classification is ET §11.0g. Section 1.11 strengthens ET §11.0h's weak tensor transfer to every finite place, and §1.14 builds the symmetric fourth power on ET's exterior square.
 
-Layer2 owns Dwork projectors,coefficient-prime ordinarity and ordinary-prime density/progression arguments. EllipticCurveModularityImaginaryQuadratic §§0.3, 5.1 and 5.3 owns the typed elliptic seed, general non-CM large-prime theorem and geometric prime switch; §§2.18 and 2.29 here give specialization and normalization comparisons on its outputs. Own polarized-lifting, theta and Whittaker extensions over lower inputs. AutomorphicGaloisRepresentationsPartII AG2.6 owns the shared relative curves, bundle/Hecke categories, parameter stack and geometric spectral action; LanglandsParameterStacks LP1 supplies that stack's LCI, cotangent and singular-support package. §§5.7–5.9 compare these objects and specialize their support categories for the Whittaker adjunction. PadicHodgeTheory§3.6 owns labelled ordinary flags,crystalline characters,consecutive-weight/maximal-monodromy criteria/finite-extension descent;CrystallineCohomology§§CR.6.1–3 log boundary/Hyodo–Kato/one-parameter comparisons;here add `H₀`-equivariant Dwork specialization. Extend PotentialModularityAndCompatibleSystems§8.6’s rank-two ordinary lifting/finiteness to higher polarized rank.
+Layer2 owns Dwork projectors,coefficient-prime ordinarity and ordinary-prime density/progression arguments. EllipticCurveModularityImaginaryQuadratic §§0.3, 5.1 and 5.3 owns the typed elliptic seed, general non-CM large-prime theorem and geometric prime switch; §§2.18 and 2.29 here give specialization and normalization comparisons on its outputs. Its §8.6, `imaginary_quadratic_modularity`, proves that every elliptic curve over an imaginary quadratic field is modular; this contains Caraiani–Newton's theorem for the fields F with `X₀(15)(F)` finite. EllipticCurveModularityImaginaryQuadraticPartII §2.5 proves the same over every CM field not containing `ζ₅`; since singular equations have density zero, this contains Caraiani–Newton's theorem that, over such a field Galois over ℚ, 100% of Weierstrass equations ordered by height define modular elliptic curves. Modularity of elliptic curves over these fields is therefore not a target here, and neither is Caraiani–Newton's arithmetic of exceptional modular curves, which serves only their first theorem; the section numbers 2.30 and 2.52 are not used. Own polarized-lifting, theta and Whittaker extensions over lower inputs. AutomorphicGaloisRepresentationsPartII AG2.6 owns the shared relative curves, bundle/Hecke categories, parameter stack and geometric spectral action; LanglandsParameterStacks LP1 supplies that stack's LCI, cotangent and singular-support package. §§5.7–5.9 compare these objects and specialize their support categories for the Whittaker adjunction. PadicHodgeTheory§3.6 owns labelled ordinary flags,crystalline characters,consecutive-weight/maximal-monodromy criteria/finite-extension descent;CrystallineCohomology§§CR.6.1–3 log boundary/Hyodo–Kato/one-parameter comparisons;here add `H₀`-equivariant Dwork specialization. Extend PotentialModularityAndCompatibleSystems§8.6’s rank-two ordinary lifting/finiteness to higher polarized rank.
 
 For symmetric powers of `GL₂` over totally real fields this roadmap owns the statement `SP_n` (§1.12), its cases `n≤5` (§1.15), the one-prime criterion (§4.15) and the reductions of §4.22, which also pass from `SP_n` to all-place lifts in mixed parity and to conjugate self-dual representations over CM fields. The theorem that `SP_n` holds for every n ([NT Hilbert], Theorem 6.4), with the tensor-product functoriality lifting and residual witnesses its induction uses (Theorems 4.1, 5.5 and 5.9 there) and its specialisations over ℚ (Theorems A, B and E of [NT I] and Theorem A of [NT II]), is stated and proved by ModularityAndLanglandsExtensionsPartII (§§12.7, 13.5–13.6, 13.10 and 14.1–14.3), which consumes the sections just named; no target here uses it. Its further consequences through §§4.17 and 4.22 ([NT Hilbert], Theorem 6.5; the holomorphy of `L(s, Sym^n π)` for non-CM Hilbert modular forms; the entireness of the completed `Λ(Sym^nE,s)` of §4.17 for non-CM `E/ℚ`) are not targets of this roadmap.
 
@@ -2990,7 +2928,7 @@ Import `ResidualImage.IsEnormousCharZero`, its eigenprojection and trace-detecti
 
 #### From EllipticCurveModularityImaginaryQuadratic, §§0.3, 5.1 and 5.3
 
-Import §0.3 `switch_five`, `switch_three`, `auxiliary_local_types` and `modular_elliptic_all_coefficients`, retaining the fixed symplectic pairing, arbitrary finite Galois avoidance field, every place above the prescribed reduction partition, decomposed genericity and the non-CM witness from the retained Tate places. Only `switch_three` requires `ζ₅∉F`. Import §5.1 `nonCM_elliptic_large_residual_primes` over any number field, with geometric non-CM and its finite exceptional set, and §5.3 `cm_modularity` with `ζ₅∉F` and the chosen mod-3 or mod-5 representation decomposed generic and absolutely irreducible on the cyclotomic subgroup. Sections 2.18 and 2.29 retain the rational-curve full-image corollary and the cohomological normalization adapter; their ordinary-prime and height-density arguments belong here. CrystallineLocalGlobalCompatibilityCM retains the CN integral local–global and prepared lifting machinery.
+Import §0.3 `switch_five`, `switch_three`, `auxiliary_local_types` and `modular_elliptic_all_coefficients`, retaining the fixed symplectic pairing, arbitrary finite Galois avoidance field, every place above the prescribed reduction partition, decomposed genericity and the non-CM witness from the retained Tate places. Only `switch_three` requires `ζ₅∉F`. Import §5.1 `nonCM_elliptic_large_residual_primes` over any number field, with geometric non-CM and its finite exceptional set, and §5.3 `cm_modularity` with `ζ₅∉F` and the chosen mod-3 or mod-5 representation decomposed generic and absolutely irreducible on the cyclotomic subgroup. Sections 2.18 and 2.29 retain the rational-curve full-image corollary and the cohomological normalization adapter; the ordinary-prime arguments of §2.18 belong here. CrystallineLocalGlobalCompatibilityCM retains the CN integral local–global and prepared lifting machinery.
 
 #### From PotentialAutomorphyInfrastructure, §§2.12 and 2.26
 
@@ -3004,7 +2942,7 @@ Use [SmoothRepresentationsOfLocalGroups with the ReductiveGroupsPartII conventio
 
 #### From EndoscopicTransferAndUnitaryTraceComparison, §§6.24, 6.26–6.27
 
-Import strong cyclic base change and descent from §6.24, and weak cyclic automorphic induction with its orbit criterion from §6.26. The [induction comparison](#automorphic-induction-and-its-cuspidality-criterion) specifies the additional all-place requirement. Labesse's unitary base change is consumed with its stated local conditions in the unitary-descent arguments.
+Cyclic prime-degree base change, its descent and its fibres are AutomorphicSpectralTheory §7.1 (on its §§7.0a–7.0c); import from §6.24 their compatibility with the local base-change maps at every place, and weak cyclic automorphic induction with its orbit criterion from §6.26. The [induction comparison](#automorphic-induction-and-its-cuspidality-criterion) specifies the additional all-place requirement. Labesse's unitary base change is consumed with its stated local conditions in the unitary-descent arguments.
 
 #### From GL2AutomorphicRepresentationsAndTransfer, Layer R16.3
 
@@ -3106,11 +3044,11 @@ NT§1.2/BLGGT share geometric Frobenius,`HT(ε)=−1`,`recᵀ=rec(π|det|^{(1−
 
 #### Field and weight boundaries
 
-SerreModularityByCompatibleSystems, Layer S7, supplies rational weight-one descent and odd Artin modularity; GL2AutomorphicRepresentationsAndTransfer, Layer R17.5, supplies the soluble cases. Its R17.4 supplies rank-two base change. EllipticCurveModularity supplies elliptic modularity over `ℚ` and its Galois comparison. The retained results extend to totally real weight one, irregular compatible systems, non-solvable residual representations, and the stated imaginary-quadratic modularity criterion. Over an arbitrary number field the elliptic conclusion is potential modularity, with Calegari–Geraghty’s Conjecture B kept as a hypothesis where required.
+SerreModularityByCompatibleSystems, Layer S7, supplies rational weight-one descent and odd Artin modularity; GL2AutomorphicRepresentationsAndTransfer, Layer R17.5, supplies the soluble cases. Its R17.4 supplies rank-two base change. EllipticCurveModularity supplies elliptic modularity over `ℚ` and its Galois comparison. The retained results extend to totally real weight one, irregular compatible systems and non-solvable residual representations. Over an arbitrary number field the elliptic conclusion is potential modularity, with Calegari–Geraghty’s Conjecture B kept as a hypothesis where required.
 
 ([KW09], §10.1, paragraph after Thm. 10.1, p. 20 (author copy results.pdf).)
 
-*Needs:* [SerreModularityByCompatibleSystems `S7/odd-artin-weight-one-modularity`, rational odd Artin modularity](../SerreModularityByCompatibleSystems/README.md); [§1.9]; [§2.52](#252-modularity-of-elliptic-curves-over-imaginary-quadratic-fields-with-x₀15f-finite-caraianinewton); [§1.3](#13-irregular-odd-compatible-systems-arise-from-weight-one-newforms-kharewintenberger-theorem-101ii); [§1.4].
+*Needs:* [SerreModularityByCompatibleSystems `S7/odd-artin-weight-one-modularity`, rational odd Artin modularity](../SerreModularityByCompatibleSystems/README.md); [§1.9]; [§1.3](#13-irregular-odd-compatible-systems-arise-from-weight-one-newforms-kharewintenberger-theorem-101ii); [§1.4].
 
 #### Trace formula and intertwining inputs
 
@@ -3149,7 +3087,7 @@ For `ψ_w=ψ_v∘Tr_{L_w/F_v}`,`L_ind=∏_{w|v}L(s,recσ_w)`,`ε_ind=∏_{w|v}λ
 
 ([AC89](#reference-arthur-clozel-1989), III §6, pp.214–219; [Henniart, global induction], §§1.12,2.6–2.7,3, pp.6,11–16.)
 
-*Needs:* EndoscopicTransferAndUnitaryTraceComparison §§6.24, 6.26 and 13.3; AutomorphicLFunctionsAndLocalFactors, strong multiplicity one and local functional equations; GL2AutomorphicRepresentationsAndTransfer R17.4–R17.5.
+*Needs:* AutomorphicSpectralTheory §7.1; EndoscopicTransferAndUnitaryTraceComparison §§6.24, 6.26 and 13.3; AutomorphicLFunctionsAndLocalFactors, strong multiplicity one and local functional equations; GL2AutomorphicRepresentationsAndTransfer R17.4–R17.5.
 
 ## References
 
@@ -3554,7 +3492,6 @@ Unless marked journal/published or otherwise, locators use the linked edition be
 [§2.17]: #217-potential-ordinary-automorphy-of-polarized-mod-l-representations-proposition-331
 [§2.16]: #216-potentially-diagonalizable-polarized-lifting
 [FKP22]: #reference-fkp-2022
-[§2.29]: #229-residual-modularity-with-prescribed-p-adic-elliptic-types
 [§2.25]: #225-lifts-with-potentially-diagonalizable-local-conditions-theorem-431
 [§2.26]: #226-potential-automorphy-of-potentially-diagonalizable-polarized-representations-theorem-451
 [§2.31]: #231-conditional-potential-modularity-of-odd-symmetric-powers-of-elliptic-curves-calegarigeraghty-10
@@ -3571,7 +3508,6 @@ Unless marked journal/published or otherwise, locators use the linked edition be
 [§2.12]: #212-ordinary-subquotients-global-semisimplification-and-residual-lattices
 [§2.44]: #244-an-automorphic-symmetric-power-seed-for-the-auxiliary-elliptic-curve-qian-proposition-41-acc-corollary-724
 [§2.28]: #228-residual-potential-automorphy-with-a-steinberg-place-fakhruddinkharepatrikis-proof-of-proposition-91
-[§2.30]: #230-exceptional-modular-curves-and-their-arithmetic
 [Gan–Ichino]: #reference-gan-ichino-2018
 [Gan–Takeda, GSp₄]: #reference-gan-takeda-2011
 [§3.7]: #37-the-l-packet-lρ-of-a-gsp₄-valued-local-galois-representation-and-nπ

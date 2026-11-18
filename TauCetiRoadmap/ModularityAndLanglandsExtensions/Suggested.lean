@@ -16,7 +16,7 @@ The two definitions supply the good primes up to a bound and their Frobenius ang
 The other headline signatures are deferred until their mathematical carriers exist at
 the library pins. The compatible-system L-function comparison and singular-weight
 expectation (Layer 0), Artin modularity and low-rank transfers (Layer 1), and potential
-automorphy and imaginary-quadratic modularity (Layer 2) need compatible systems,
+automorphy (Layer 2) need compatible systems,
 automorphic representations, their Galois realizations and p-adic Hodge/deformation
 objects. The packet classifications (Layer 3) need admissible L- and Arthur parameters,
 local packets and normalized trace distributions. Symmetric-power functoriality,
