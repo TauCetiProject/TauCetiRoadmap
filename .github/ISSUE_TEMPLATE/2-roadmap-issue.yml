@@ -14,123 +14,351 @@ body:
     attributes:
       label: Roadmap area
       options:
+        - AInfCohomology
+        - AbelianSchemesAndArithmeticModuli
+        - AbhyankarLemma
+        - AdelicAlgebraicGroups
+        - AdicCoefficientsAndComparisons
+        - AdicCoefficientsAndComparisonsPartII
         - AdicEtaleGeometry
-        - AdicSpaces
         - AdicSpacesPartII
         - AdicSpacesPartIII
         - AdicSpacesPartIV
+        - AdicSpacesPartV
         - AffineLieAlgebras
         - AffineMorseLefschetz
         - AlgebraicCurves
+        - AlgebraicKTheory
+        - AlgebraicModularFormsAndSerreWeights
+        - AlgebraicModuliForArithmeticGeometry
+        - AlgebraicModuliForArithmeticGeometryPartII
         - AlgebraicTopology
+        - AlgebraicTopologyPartII
         - AlgebraicVectorBundles
         - AmenableGroups
-        - AnalyticToricGeometry
+        - AmenableTracesOnCStarAlgebras
+        - AnalyticNumberTheoryPartI
+        - AnalyticNumberTheoryPartII
+        - AnalyticNumberTheoryPartIII
+        - AnalyticStableMaps
+        - ArakelovGeometryAndAbelianHeights
+        - ArithmeticDirichletSeriesPartII
+        - ArithmeticGaloisDuality
+        - ArithmeticGaloisRepresentations
+        - ArithmeticInterpolationDeterminants
+        - ArithmeticKTheory
+        - ArithmeticLocallySymmetricSpaces
+        - ArithmeticStatisticsPartI
+        - ArithmeticStatisticsPartII
+        - ArithmeticStatisticsPartIV
+        - AsymptoticExpansions
+        - AutomorphicFormsOnReductiveGroups
+        - AutomorphicLFunctionsAndLocalFactors
+        - AutomorphicSpectralTheory
         - BanachAlgebras
         - BanachSpaceTheory
         - BelyiMaps
         - BordismFormalGroups
+        - BorelEquivalenceRelations
+        - CFSGBasicProperties
         - CFSGStatement
-        - Chebotarev
+        - CStarAlgebras
+        - CStarClassification
+        - CalibratedGeometry
+        - CategoricalOperatorAlgebras
+        - CharacteristicClasses
+        - ChevalleyGroups
         - ClassFieldTheory
+        - ClassicalAdicEtaleCohomology
         - ClassicalArithmeticCompletion
         - ClassifyingSpaces
+        - ClusterAlgebras
+        - CoboundaryExpansion
+        - ColemanPowerSeries
         - CombinatorialHeegaardFloer
         - CompactOperators
+        - CompactQuantumMetricSpaces
+        - ComplexComparisonPartII
         - ComplexCurveModuli
+        - ComplexHessianEquations
         - ComplexKahlerGeometry
         - ComplexManifolds
         - ComplexTori
-        - ConformalMapping
+        - ComputabilityTheory
+        - ConformalMappingPartII
+        - CongruenceSpectralGap
+        - ConvexLifting
+        - CountableModelCounting
+        - CountableStructureSpaces
+        - CrystallineCohomology
+        - CyclotomicClassGroupsAndStickelberger
         - DGAInfinity
         - DGFloer
-        - DenseGraphLimits
+        - DeRhamCohomologyAndDuality
+        - DeformationAndDerivedPatchingAlgebra
+        - DeformationAndDerivedPatchingAlgebraPartII
+        - DeligneWeightsAndPurity
+        - DenoisingDiffusion
+        - DerivedDeRhamCohomology
         - DerivedModuleAlgebra
+        - DiagrammaticCoherence
+        - DiamondEtaleCohomology
+        - DiamondSixOperations
+        - DiamondsAndVStacks
         - DifferentialGeometry
+        - DimerModelsAndLozengeTilings
         - DiophantineApproximationAndTranscendence
+        - DiophantineApproximationAndTranscendencePartII
+        - DiracScatteringAndNonlinearFourierTransform
+        - DirectSummandsAndBigCohenMacaulay
+        - DirichletPadicLFunctions
+        - DysonBrownianMotion
+        - ECM
+        - EllipticCohomology
         - EllipticCurves
+        - EllipticIntegrals
+        - EllipticLegendreCharacterInterfaces
+        - EndoscopicTransferAndUnitaryTraceComparison
         - EnhancedDerivedSheaves
+        - Equidistribution
+        - EquivariantIntersectionTheory
         - EtaleCohomologyFoundations
-        - Exchangeability
+        - EtaleDualityAndPerverseSheaves
+        - EtaleMassFormula
+        - EulerSystemsAndKolyvaginSystems
+        - ExplicitPrimeCounting
+        - ExplicitZetaBounds
+        - ExponentialCone
+        - FactorRigidity
+        - FarguesFontaineDiamonds
         - FinancialMathematics
+        - FiniteAffineBoundTightening
+        - FiniteFlatGroupsAndIntegralPadicHodgeTheory
+        - FiniteGroupExtensionSplitting
+        - FiniteSamplingDiscrepancy
+        - FlagVarieties
+        - Foams
+        - FormalConnectionsOpers
         - FormalLaurentPuiseux
+        - FourManifolds
+        - FourierDeligneTransform
         - FreeGroupsAndLimitGroups
         - FreeProbability
         - FuchsianOrbifolds
+        - FukayaTheory
+        - GL2AutomorphicRepresentationsAndTransfer
+        - GaloisActionOnEtaleCohomology
+        - GaugeQuiltFieldTheory
+        - GaussianIsoperimetryAndClusters
+        - GeneralAlgebraicKTheory
         - GeneralizedCohomology
+        - GenericDoublePointInterpolation
         - GeometricCurrents
         - GeometricMeasureTheory
+        - GeometricQuantization
         - GeometricRepresentationCategories
         - GeometricTopology
-        - GlobalNumberFields
+        - GeometryOfNumbersAndQuadraticArithmetic
+        - GlobalGaloisDeformations
+        - GlobalHolomorphicFunctions
         - GlobalQuadraticForms
         - GraphConnectivityAndFlows
+        - GroebnerGeometry
+        - GromovWittenTheory
         - GrothendieckEulerForms
+        - GroupSchemesOverABase
+        - HabiroCyclotomicCompletions
         - HamiltonianFloerOperations
         - HeegaardFloer
-        - HeightsAndUnits
-        - HopfRinow
+        - HermitianKTheoryOfPoincareCategories
+        - HilbertModules
+        - HomologicalStabilityOfGeneralLinearGroups
+        - HomotopySpheres
+        - HopfologicalAlgebra
         - Hyperfunctions
         - ImaginaryQuadraticClassNumber
-        - InfinitaryLogic
+        - ImplicitAtlases
+        - IndexTheory
+        - InductionRestrictionPartII
+        - InfinitaryModelExistence
+        - InstantonFloerTheory
+        - IntegralHeckeAndGaloisDeterminants
+        - IntegralIwasawaTheory
         - IntegralLattices
+        - InverseGaloisAndArithmeticFundamentalGroups
+        - InverseGaloisAndArithmeticFundamentalGroupsPartII
         - Isoperimetry
         - JacobianChallenge
+        - JacobianChallengePartII
+        - K2SymbolsBrauer
+        - K3Surfaces
+        - K3SurfacesAndSymplecticBoundedness
+        - KTheoryFiniteLocalFields
+        - KTheoryLowDegrees
+        - KacMoody
         - KhovanovHomology
-        - LocalFieldsRamification
-        - LocalGaloisGroups
+        - LFunctions
+        - LaguerreJacobi
+        - LanglandsParameterStacks
+        - LefschetzPencilsAndVanishingCycles
+        - LefschetzPencilsAndVanishingCyclesPartII
+        - LieGroupoidsPoisson
+        - LieGroupsPartII
+        - LinearFormsInLogarithms
+        - LocalFieldsRamificationPartII
+        - LocalGaloisDeformationRings
         - LocalPurity
+        - LocalVariationalFieldTheory
+        - LocallyAnalyticDistributions
+        - LocallyAnalyticDistributionsPartII
         - MarkovChainsAndRenewal
         - MassFormula
+        - MathematicalBilliards
+        - MathematicalStatisticsAsymptotic
+        - MathematicalStatisticsFoundations
+        - MathematicalStatisticsHighDimensional
+        - MathematicalStatisticsNonparametric
+        - MathematicalStatisticsSemiparametric
+        - McKaySkewGroup
         - ModularCurves
+        - ModularCurvesPartII
         - ModularForms
+        - ModularSymbolsPadicLFunctions
         - MorseNovikov
         - MorseTheory
+        - MotivesAndAlgebraicCycles
+        - MotivicEtaleKTheory
+        - NashBlowups
+        - NeronModelsAndSemistableAbelianVarieties
+        - NeronModelsAndSemistableAbelianVarietiesPartII
+        - Neuromanifolds
         - NewtonPolygons
         - NilpotentOrbits
+        - NoncommutativeAndEquivariantIwasawa
         - NoncommutativeGeometry
-        - OneParameterSemigroups
+        - NoncommutativeIntegration
+        - NoncongruenceModularForms
+        - NumberFieldEnumeration
+        - OcneanuRigidity
         - OperatorAlgebraDynamics
+        - OperatorKTheory
         - OperatorTheory
         - OptimalTransport
         - Orbifolds
-        - OrthogonalSpinGroups
+        - PCurvature
         - PDE
+        - PELModuli
+        - PadicDifferentialEquationsAndRigidCohomology
+        - PadicDifferentialEquationsAndRigidCohomologyPartII
+        - PadicExtensionFamilies
         - PadicFunctionalAnalysis
+        - PadicHodgeTheory
+        - PadicLocalLanglandsForGL2Qp
         - PadicMeasuresIwasawaAlgebras
+        - PadicPeriodRings
+        - PainleveEquations
+        - PerfectoidQuotients
         - PerfectoidSpaces
-        - PeripheralActions
+        - PerfectoidSpacesPartII
+        - PerfectoidTowers
+        - PhiGammaModulesAndIwasawaCohomology
         - PivotalSpherical
-        - PolynomialGaloisGroups
+        - Poincare3D
+        - PolylogarithmFunctions
+        - PolynomialGaloisGroupsPartIII
+        - PositiveMass
         - PositiveScalarCurvature
-        - ProfiniteArithmetic
+        - PresentationsOfMonoidalCategories
+        - PrimitivePrimeDivisors
+        - PrismaticCohomology
+        - PrismaticCohomologyPartII
+        - ProbabilisticAndMetricNumberTheory
+        - ProbabilisticAndMetricNumberTheoryPartII
         - ProfiniteCohomology
-        - ProfiniteProPGroups
+        - ProfiniteCohomologyPartII
+        - PseudodifferentialOperators
+        - PseudoholomorphicCurveAnalysis
+        - PurityOfBranchLocus
+        - QuadraticCharactersAndReduction
         - QuadraticFormInvariants
+        - QuantumEnvelopingAlgebras
         - QuantumGroups
+        - QuaternionicAnalysis
+        - QuiverRepresentationsPartII
+        - RamificationOfCompleteDiscretelyValuedFields
+        - RandomMatrices
         - Rank24LatticeConstructions
-        - RealAlgebraicGeometry
+        - RationalHomotopyModels
         - RealAnalyticGeometry
+        - RealSemisimpleLieGroups
         - ReductiveGroups
+        - ReductiveGroupsPartII
         - ReflectionInvariantTheory
         - Regularity
+        - RelativeJacobiansAndIntegralCurveModels
         - RepresentationTheory
+        - ResolutionOfSingularitiesCharacteristicZero
         - RestrictedPowerSeries
+        - RicciFlow
         - RiemannianGeometry
+        - RiemannianManifoldsWithConvexBoundary
         - RigidAnalyticGeometry
+        - RootSystemsPartII
+        - SNumbers
+        - ScatteringDiagrams
         - SchemeAndStackFoundations
+        - SchemeKTheoryOperations
+        - SchemeKTheoryOperationsPartII
         - SchubertGeometry
         - SeibergWittenTheory
+        - SelmerIwasawaCohomology
+        - ShimuraData
+        - ShimuraVarieties
+        - SieveMethodsAndPrimePatterns
+        - SmallRamificationAndAbelianVarietyBaseCases
+        - SmoothBundlesConnections
+        - SmoothRepresentationsOfLocalGroups
+        - SobolevMapsBetweenManifolds
+        - SobolevPolynomialApproximation
+        - SpecialFunctionsAiry
+        - SpecialFunctionsEiLiErfIncompleteGamma
+        - SpecialFunctionsHypergeometric
+        - SpecialFunctionsParabolicCylinder
+        - SpectralManifolds
+        - SpectralSequencesAndConvergence
+        - SpectralSequencesAndConvergencePartII
         - SpinGeometry
+        - SporadicOrders
+        - StableHomotopyKTheory
         - StablePeriodicCurved
         - StableReduction
+        - StackPointsAndResidualGerbes
         - StandardDistributions
+        - StochasticCalculus
+        - StringOrientation
+        - Subfactors
+        - SubspaceTheorem
+        - SuccessiveMinima
+        - SymplecticFieldTheory
         - SymplecticGeometry
+        - TangentialBordism
         - TauberianBoundaryConvergence
         - TaubesGromov
+        - TemperleyLieb
+        - TemperleyLiebOperatorAlgebras
+        - TensorProductCombinatorics
         - ThetaSeries
+        - TopologicalKTheory
+        - TopologicalSheafCohomology
         - TypeAHeckeAlgebras
+        - VariationalMethods
+        - Varifolds
+        - VirtualFundamentalClass
+        - VonNeumannAlgebras
+        - WeightsInEtaleCohomology
         - Yamabe
+        - YangMillsConnectionsAndCaloricGauge
+        - ZerosOfLFunctions
         - ZigzagPreprojective
     validations:
       required: true

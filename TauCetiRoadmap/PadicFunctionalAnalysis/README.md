@@ -25,7 +25,7 @@ and `TauCeti/NumberTheory/Padics/` for measures, analytic stages and characters.
 
 | Area | Supplied here | Supplied elsewhere |
 | --- | --- | --- |
-| Banach–Tate analysis | Multiplicative pseudo-uniformisers, seminorm gauges, norm comparisons, ring-scalar operator norms and quantitative mapping theorems | Huber rings, pairs of definition and topological open mapping: [AdicSpaces](../AdicSpaces/README.md), Layer 0 |
+| Banach–Tate analysis | Multiplicative pseudo-uniformisers, seminorm gauges, norm comparisons, ring-scalar operator norms and quantitative mapping theorems | Huber rings, pairs of definition and topological open mapping: [AdicSpaces](../../Completed/AdicSpaces/README.md), Layer 0 |
 | Model spaces | Native `C₀`, bounded-family extension, bases, (Pr), matrices, finite coordinates and countable-type splitting | Complete continuity, Fredholm determinants, Riesz theory and spectral transforms: compact operator theory; geometric uses in [LocallyAnalyticDistributions, PR #854](https://github.com/TauCetiProject/TauCetiRoadmap/pull/854), Layer 4 |
 | Restricted series | Their use as analytic charts and coefficient spaces | Carriers, norms, coefficient-model comparisons, evaluation, substitution, translation, Hasse derivatives and Strassmann: [RestrictedPowerSeries][RestrictedPowerSeries] ([PR #919](https://github.com/TauCetiProject/TauCetiRoadmap/pull/919)), Layers 0–2 and §7 |
 | Valuations | Logarithmic gauges on Banach rings and comparison with field valuations | Additive normalisations, `ℂ_p` value group and polygons: [NewtonPolygons][NewtonPolygons] ([PR #926](https://github.com/TauCetiProject/TauCetiRoadmap/pull/926)), Layer 1; local-field arithmetic: LocalFieldsRamification |

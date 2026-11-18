@@ -1,0 +1,12 @@
+# Progress log: HopfologicalAlgebra
+
+An append-only record of what landed on the HopfologicalAlgebra roadmap, one section per window of
+merged pull requests, oldest first. Generated; the prose is not security-validated.
+For a current snapshot instead, read `STATUS.md` beside this file.
+
+<!--tauceti-progress:v1 {"from_sha":"0ef487c40708846a9f59219945b6da4e33d90d0a","prs":[28771],"roadmap":"HopfologicalAlgebra","to_sha":"7ca783d4c8d324c9c74efaacd641c8a40f69f284"}-->
+## HopfologicalAlgebra: 2026-11-06 to 2026-11-09 (`0ef487c` to `7ca783d`)
+
+The first work on this roadmap lays the opening definition of Layer 1: the [left](https://taucetiproject.org/docs/TauCeti/Algebra/HopfAlgebra/Integral/Basic.html#TauCeti.leftIntegral) and [right](https://taucetiproject.org/docs/TauCeti/Algebra/HopfAlgebra/Integral/Basic.html#TauCeti.rightIntegral) integral submodules of a bialgebra, defined over any commutative semiring, containing zero, and with no normalization of the counit (TauCeti#28771). They come with the transport lemmas the roadmap asks for. Bialgebra isomorphisms [restrict to the integral spaces](https://taucetiproject.org/docs/TauCeti/Algebra/HopfAlgebra/Integral/Basic.html#BialgEquiv.leftIntegralEquiv). The antipode [sends left integrals to right ones](https://taucetiproject.org/docs/TauCeti/Algebra/HopfAlgebra/Integral/Basic.html#TauCeti.antipode_mem_rightIntegral) and back without any bijectivity hypothesis, and when it is bijective it [identifies the two spaces](https://taucetiproject.org/docs/TauCeti/Algebra/HopfAlgebra/Integral/Basic.html#TauCeti.integralAntipodeEquiv).
+
+The group algebra is worked out as the first example. An element is an integral exactly when [its coefficients are constant](https://taucetiproject.org/docs/TauCeti/Algebra/HopfAlgebra/Integral/MonoidAlgebra.html#MonoidAlgebra.mem_leftIntegral_iff_coeff), so left and right integrals [agree even for a noncommutative group](https://taucetiproject.org/docs/TauCeti/Algebra/HopfAlgebra/Integral/MonoidAlgebra.html#MonoidAlgebra.leftIntegral_eq_rightIntegral). A finite group algebra [has nonzero integrals](https://taucetiproject.org/docs/TauCeti/Algebra/HopfAlgebra/Integral/MonoidAlgebra.html#MonoidAlgebra.leftIntegral_ne_bot) even when the group order vanishes in the coefficients. This covers the roadmap's characteristic-two check for `k[C₂]`, where the integral `1 + g` has counit zero. The window contains no existence or dimension theorem for integrals of a general finite-dimensional Hopf algebra.
