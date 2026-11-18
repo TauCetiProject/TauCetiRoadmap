@@ -23,171 +23,17 @@ hypersurfaces in abelian varieties of dimension at least 4, of dimension 3 away 
 exceptional set of degrees, and of dimension 2 (Lawrence–Sawin, Theorem 9.2, Corollary 9.3,
 Theorems 9.4–9.6).
 
-## Scope and ownership
+## How to read the build
 
-This roadmap owns:
-
-1. **Hodge–Deligne systems** (Layer 0): the category of compatible Betti, étale, de Rham and
-   crystalline realizations on a smooth model, its integral, polarized and integral-Frobenius
-   subcollections, its neutral Tannakian structure, constant systems, geometric cohomology systems
-   cut out by finite-group projectors, differential monodromy from a tensor generator, and the
-   constant Frobenius module on a residue disk.
-2. **Arithmetic coefficient systems** (Layer 1): H⁰-algebras and their finite étale operations,
-   coefficient modules, equidimensional modules, GL, GSp and GO structures over a coefficient
-   algebra, finite-order character systems, Galois-orbit cohomology systems of hypersurfaces in
-   abelian varieties, the inversion pairing of those whose hypersurface is inversion-symmetric up to
-   translation, and rationality of their Frobenius polynomials.
-3. **Semilinear groups and tensor filtrations** (Layer 2): the semilinear coefficient normalizer
-   and its Frobenius centralizer bound, the descent of semisimplification to a field of
-   characteristic zero in groups with reductive identity component (rational representatives,
-   finiteness of geometric classes inside one linear class, finiteness of rational classes over
-   p-adic fields, continuity), tensor G-structures and
-   G-filtrations, crystalline inner forms, adjoint
-   Hodge profiles and their top-weight sums, uniform filtrations, finiteness of global
-   coefficient-group types, finiteness of semisimplification geometries, finiteness of local
-   nonabelian Galois cohomology and the bijection `H¹(F, L ⋉ U) → H¹(F, L)` for unipotent `U` in
-   characteristic zero (EndoscopicTransferAndUnitaryTraceComparison §1.13a states it for a rational
-   parabolic of a connected reductive group; the form here also covers the Richardson parabolics of
-   disconnected groups).
-4. **Period orbits and transcendence transfer** (Layer 3): period maps in one monodromy orbit,
-   parabolic stabilizers, the codimension consequence of Ax–Schanuel (§3.3; Lawrence–Sawin,
-   Lemma 6.3) and its transfer to p-adic non-density over an arbitrary number field.
-5. **Balanced monodromy and balanced filtrations** (Layers 4–5): index classes of subdirect
-   products, strong balance, torsion-orbit balance, semisimple orbit codimension, central weights,
-   induced Levi filtrations, balance and semibalance, global purity over ℚ, bifiltered Frobenius
-   types, unipotent cocycles, Frobenius-stable Levi factors, local type finiteness, the root pairing,
-   and the fixed-graded and fixed-type codimension estimates.
-6. **The end theorems** (Layers 6–10): the coefficient non-density theorem, the higher-dimensional
-   Lawrence–Venkatesh theorem with its bounded-prime argument and finiteness clause, the corrected
-   point-count bound for Frobenius centralizers, the Eulerian numerical criteria, the projective
-   hypersurface application and hypersurface Shafarevich finiteness.
-
-It uses, and does not redevelop:
-
-- **MordellLawrenceVenkatesh.** Its Layer LV.0 supplies the centralizer of a semilinear
-  automorphism and its dimension (§§0.3–0.4) and Goursat's lemma for simple Lie algebras (§0.24);
-  Layer LV.1 supplies Faltings's finiteness lemma (§1.2) and the Hodge weight of a pure
-  representation (§§1.10, 1.12–1.13); Layer LV.2 supplies residue disks (§2.5), formal horizontal
-  sections (§2.6), their complex convergence (§2.8) and the crystalline Frobenius on fibres with its
-  Gauss–Manin compatibility for abelian-by-finite families (§2.11). That roadmap stops at the
-  one-dimensional S-unit and Mordell arguments of Lawrence–Venkatesh §§2–8 and leaves the
-  hypersurface sections and the Ax–Schanuel input to this one. Its period variety (§3.8) is the
-  Lagrangian case of the monodromy orbits of §3.1 here.
-- **SheafConvolutionOnAbelianVarieties.** It owns character sheaves, sheaf convolution and
-  convolution monodromy groups. This roadmap imports its origin-normalized rank-one character
-  sheaves (§0.2), the geometric extension comparison (§2.4), the Euler characteristics of a smooth
-  ample divisor (§3.1) and the Hodge–Tate row of a generic torsion twist (§3.3), inversion symmetry
-  and the classical form (§4.8), the exceptional Pell sequence and the exceptional threefold degrees
-  (§§5.2–5.3), classical convolution monodromy (§6.7), and the character generic in every
-  Galois conjugate with uniform big monodromy on its orbit (§§8.2–8.3). The exceptional degrees are
-  used exactly as that roadmap defines them: the pairs start at (1,5), (5,20), (20,76), and
-  `D_j = binomial(a_j + b_j, a_j)/6` for `j ≥ 1`, so `D_1 = 8855`.
-- **ClassicalArithmeticCompletion** §§2.18, 2.39 and 2.56 own Eulerian numbers, their basic
-  identities and unimodality.
-- **ReductiveGroups** owns algebraic groups, their closed subgroups, quotients and component groups
-  (Layer 3), orbits of algebraic actions (Layer 3A), their tori (Layer 4), unipotent radicals
-  (Layer 5), linear reductivity (Layer 6), characteristic-zero Levi complements (Layer 6A), root, Weyl,
-  parabolic and Bruhat theory
-  (Layer 7) and algebraic parabolics with Levi intersections (Layer 7b). The coefficient-normalizer
-  specializations and the remaining disconnected-group statements of Layer 2 (rational
-  semisimplification, semisimplification geometries) are owned here.
-- **ArithmeticGaloisRepresentations** §1.11, *Complete reducibility and closed tuples*, owns
-  G-complete reducibility, the closed-tuple criterion and Levi semisimplification for connected
-  reductive groups, and **LanglandsParameterStacks** §§2.3–2.4 extend them to groups with
-  reductive identity component and finite étale component group, testing all R-parabolics and
-  R-Levis, with Levi semisimplification unique up to `G°(k̄)`-conjugacy over an algebraically
-  closed field `k̄`. §2.3 here differs in owning only the descent to a field of characteristic zero
-  (parabolics and Levis defined over that field and a rational representative of the geometric
-  class), the finiteness of the classes of homomorphisms into `G` inside one linear class, the
-  finiteness of rational classes over p-adic fields and continuity; the characteristic-zero criterion
-  that a subgroup is G-completely reducible exactly when its identity component is reductive is asked
-  of LanglandsParameterStacks §2.3 in the supplier contracts.
-- **ReductiveGroupsPartII** §RG2.0.2 owns the analytic manifold structure on the points of a smooth
-  group over a characteristic-zero local field; Layer 9 uses it for the Zariski density of open
-  subgroups of `SO(E)(ℚ_ℓ)`.
-- **ShimuraData** owns variations of Hodge structure (§3.1), their morphisms, kernels and images
-  (§3.2), polarized rational and integral variations (§§3.3–3.4), the flat-bundle local comparison
-  (§3.5), the transversality criterion (§3.6), the parabolic of a Hodge filtration (§3.7) and
-  Mumford–Tate groups with their connectedness and reductivity (§§1.2–1.4). Tau Ceti supplies mixed
-  Hodge structures with their morphisms and the strictness of morphisms for `F` and `W`
-  (`TauCeti.Hodge.MixedHodgeStructure.Hom.range_inf_F_eq_map_F` and its weight-filtration companions);
-  §0.3 applies them fibrewise, and the systems, their local-system gluing and comparisons are owned
-  here.
-- **MotivesAndAlgebraicCycles** §§6.1–6.3 and 6.8 own neutral Tannakian reconstruction and the
-  affine faithfully flat torsor of tensor isomorphisms between two fibre functors; PadicHodgeTheory
-  §5.5 specializes that torsor to finite-type groups.
-- **PadicHodgeTheory** owns period rings, Fontaine's functors and their tensor exactness
-  (§§3.3–3.6), the Sen operator (§4.4), the local torsor theorem for connected reductive groups over
-  finite extensions of `ℚ_p` (§5.5), the rational Fontaine–Laffaille comparison (§6.1), the proper
-  smooth pushforward of de Rham local systems with its Gauss–Manin connection (§7.3) and the
-  rational comparison for proper smooth varieties with its functoriality (§§8.1–8.2);
-  CrystallineCohomology §CR.7.3 owns relative crystalline cohomology with its Gauss–Manin
-  connection.
-- **DeligneWeightsAndPurity** owns Weil numbers, weights and their linear algebra (§§0.1–0.2,
-  0.7, 0.9–0.10, 0.16), Zariski density of open subgroups of `Sp(V)(ℚ_ℓ)` (§2.2), purity for smooth
-  projective varieties (§§4.3–4.4) and the orthogonality of invariant and vanishing cohomology of a
-  hyperplane section (§9.12);
-  PadicDifferentialEquationsAndRigidCohomology §RD.7.7 owns the Katz–Messing agreement of
-  crystalline and ℓ-adic Weil factors; InverseGaloisAndArithmeticFundamentalGroups §IG.0.T4 owns the
-  constant-sheaf point-count trace formula; WeilConjectures Layer WC.5 and
-  EtaleDualityAndPerverseSheaves §4.3 own the cohomology and point counts of complete
-  intersections.
-- **LefschetzPencilsAndVanishingCycles** owns the Picard–Lefschetz formula (§2.8), existence of
-  Lefschetz pencils (§3.4), the vanishing quotient and its pairing (§4.4), the Kazhdan–Margulis
-  open-image theorem (§5.8) and the orthogonal open-or-finite alternative with the ADE description
-  of finite monodromy (§5.10).
-- **ComplexKahlerGeometry** K3 §3.4 owns Rückert's Nullstellensatz `I(V(𝔞)) = √𝔞` for convergent
-  power series (`ruckert_nullstellensatz`: a germ vanishing on the common zero set of finitely many
-  germs has a power in their ideal) and the locally finite decomposition of analytic sets into
-  irreducible components; the p-adic transfer (§3.4) applies both to the period ideal without
-  restating them;
-  **RestrictedPowerSeries** owns evaluation of restricted series (§2.1) and Noetherianity of Tate
-  algebras (§5.2); **ComplexComparisonPartII** owns the Gauss–Manin connection (§C5.2), geometric
-  Hodge theory (§C5.3), regular singular connections with Deligne's Riemann–Hilbert theory (§C5.6)
-  and the Artin comparison (§C6.6), and Griffiths's residue description of the Hodge filtration of a
-  smooth projective hypersurface is asked of it in the supplier contracts; §8.6 owns only the
-  resulting formula for the primitive Hodge numbers.
-- **SchemeAndStackFoundations** owns spreading out (§§0.8–0.9), torsors and torsor classes (§§1.15,
-  2.3), contracted products and twisted forms (§1.16) and Hilbert and Quot schemes (§4.14), and
-  **PELModuli** §M0.9 owns the description of torsor classes under a smooth affine group over a field
-  by continuous Galois cocycles; §2.11 owns only the finiteness of `H¹` over p-adic fields, the
-  classification of rational conjugacy classes it gives, and the unipotent-radical bijection.
-  **AlgebraicModuliForArithmeticGeometry** owns Hilbert families (§2.1) and the characteristic-zero
-  resolution preserving the regular locus (§9.4).
-- **AbelianSchemesAndArithmeticModuli** owns abelian schemes (§A0.1), rigidity (§A1.2), extension
-  of sections over Dedekind bases (§A1.8), ample cohomology and degrees (§A2.4), the Néron–Severi
-  group (§A2.10), multiplication maps and prime-to-characteristic torsion (§A3.2), quotients by
-  finite subgroups (§A3.3), theta groups and polarized descent
-  (§A3.6), finite rank of Hom (§A6.7), Rosati positivity (§A6.14) and Weil restriction
-  (§§A6.30–A6.32). Tau Ceti supplies abelian varieties over a field as
-  `TauCeti.AlgebraicGeometry.AbelianVariety`. **JacobianChallenge** Layer F owns the Abel–Jacobi map
-  of a pointed smooth proper curve and its Albanese universal property, used for curves in abelian
-  surfaces (§10.10).
-- **EtaleCohomologyFoundations** §F.3 owns lissity of the higher direct images of a smooth proper
-  morphism with finite invertible coefficients, and **ClassicalAdicEtaleCohomology** §8.2 owns
-  Huber's comparison of algebraic and analytic proper higher direct images; together they supply the
-  lisseness hypothesis of PadicHodgeTheory §7.3 for the smooth projective families of Layer 0.
-- **Chebotarev** Layer 10 owns the Chebotarev density theorem.
-- **HeightsRationalPointsAndObstructions** §§1.6–1.7 own weak Mordell–Weil and Mordell–Weil, and §5.2
-  owns the scheme-theoretic translation stabilizer of a closed subscheme of an abelian variety over a
-  field, as a subgroup functor on all test schemes (nilpotent ones included) with membership, action and
-  base change; `Stab(H)` of §10.1 is its specialization to a divisor `H`, while the finiteness of the
-  stabilizer of an ample divisor, good reduction, primitivity and the finite primitive quotients of §10.7
-  are owned here;
-  **FaltingsFinitenessAndIsogenyTheorems** §R28.5.15 owns Shafarevich finiteness for curves of
-  genus at least two.
-- **AbelianSchemesAndArithmeticModuliPartII** Layer B3 owns the o-minimal Ax–Schanuel machinery for
-  Kuga mixed Shimura varieties; the pure Ax–Schanuel theorem for period maps is asked of it in the
-  supplier contracts.
-- **MappingClassGroupsAndCanonicalRepresentations** §5.4 owns the limit theorem for polarizable real
-  variations on a punctured disc and the theorem of the fixed part for admissible graded-polarizable real
-  variations on a smooth quasi-projective variety; §3.1 applies the latter to polarized integral
-  variations, which are admissible.
-
-It leaves to other roadmaps: the general theory of variations of mixed Hodge structure and limiting
-Hodge structures; general relative p-adic Hodge theory beyond the good-reduction proper smooth
-families used here; any effective bound on integral points (the method is ineffective) and any
-finiteness for the quotient of the hypersurface parameter space by `PGL_(n+1)`.
+Layers 0–2 assemble the realizations and coefficients and identify the groups whose filtrations
+matter. Layer 3 proves the shared transfer from period codimension to p-adic non-density. Layer 4
+treats integral points with semisimple Galois representations and isolates strong balance; Layer 5
+handles the associated graded of nonsplit representations, which gives the all-points coefficient
+theorem of Layer 6. Layer 7 proves the higher-dimensional Lawrence–Venkatesh theorem through its own
+small-centralizer prime argument. Layer 8 is pure combinatorics and Hodge-number asymptotics and can
+be built alongside Layers 0–7; Layers 9 and 10 finish the projective and abelian applications. Inside a
+layer the subsections are grouped by topic and the `*Needs:*` lines give the order: §2.11 comes before
+§§2.3 and 2.9, and §§8.2–8.4 come before §8.1.
 
 ## Conventions
 
@@ -233,415 +79,6 @@ finiteness for the quotient of the hypersurface parameter space by `PGL_(n+1)`.
 - **Source versions.** Lawrence–Sawin locators refer to arXiv:2004.09046v5 (pages of that
   preprint); Lawrence–Venkatesh locators refer to printed pages 893–999 of the Inventiones article,
   with its non-strict published inequalities `A ≥ h⁰ + dim Y` and `A ≥ z + e`.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- `Finsupp` (`Mathlib/Data/Finsupp/Defs.lean`): finitely supported functions, used for
-  integer-indexed natural multiplicities `h^a`; `Finsupp.degree` (`Mathlib/Data/Finsupp/Weight.lean`)
-  for the total degree of a monomial exponent.
-- `Ideal.iInf_pow_eq_bot_of_isLocalRing` (`Mathlib/RingTheory/Filtration.lean`, line 432): in a
-  Noetherian local ring the intersection of the powers of a proper ideal is zero (Krull). It is
-  applied to localizations of quotients of Tate algebras in §3.4.
-- `MvPolynomial.IsHomogeneous`, `MvPolynomial.pderiv`, `MvPolynomial.aeval` and `AlgebraicClosure`:
-  the carriers of `IsSmoothHypersurface` and `integralHypersurfaces_not_zariskiDense`.
-- `RingTheory.Sequence.IsRegular` (`Mathlib/RingTheory/Regular/RegularSequence.lean`): regular
-  sequences, used for the Jacobian ring in §8.6.
-
-### From Tau Ceti
-
-- `TauCeti.Cocharacter.parabolic` (`TauCeti/Algebra/AlgebraicGroup/Dynamic/Parabolic.lean`,
-  line 154): the dynamic parabolic subgroup functor of a cocharacter, defined by the existence of
-  the conjugation limit on Hopf-algebra points. Every Richardson parabolic `P_λ` of Layers 2 and 5
-  is this functor; the Levi decompositions under `TauCeti/Algebra/AlgebraicGroup/Dynamic/LeviDecomposition`
-  are used with it.
-- `TauCeti.Tannaka.fgPointTensorIsoEquiv`
-  (`TauCeti/Algebra/AlgebraicGroup/Representation/Tannaka/Equivalence.lean`, line 188): for a
-  commutative Hopf algebra over a field, its points with values in an algebra are the tensor
-  automorphisms of the scalar-extended forgetful functor on finitely generated comodules. This is
-  reconstruction for a known group, not the torsor theorem for two arbitrary fibre functors.
-- `TauCeti.Hodge.MixedHodgeStructure` (`TauCeti/Geometry/Hodge/Mixed/Basic.lean`, line 72) and
-  `TauCeti.Hodge.MixedHodgeStructure.Hom` (`TauCeti/Geometry/Hodge/Mixed/Morphism.lean`, line 77): a
-  mixed Hodge structure on an integral carrier with rational and complex base-change models, a finite
-  rational weight filtration and a finite complex Hodge filtration whose weight-graded pieces are pure,
-  and morphisms as rational maps preserving `W` whose complexification preserves `F`. No finiteness of
-  the carriers and no polarization are included. Strictness
-  (`TauCeti/Geometry/Hodge/Mixed/Strictness.lean`):
-  `TauCeti.Hodge.MixedHodgeStructure.Hom.range_inf_F_eq_map_F` (line 110), `im f ∩ F'^p = f(F^p)`;
-  `TauCeti.Hodge.MixedHodgeStructure.Hom.range_inf_WC_eq_map_WC` (line 118), the same for the
-  complexified weight filtration; `TauCeti.Hodge.MixedHodgeStructure.Hom.range_inf_WQ_eq_map_WQ`
-  (line 131), `im f ∩ W'_k = f(W_k)` rationally. Mixed Hodge structures form an abelian category
-  (`TauCeti.Hodge.MixedHodgeStructureCat.abelian`, `TauCeti/Geometry/Hodge/Mixed/Abelian.lean`,
-  line 33). Applied fibrewise in §0.3; local systems, connections and comparisons are not part of it.
-- `TauCeti.AlgebraicGeometry.AbelianVariety` (`TauCeti/AlgebraicGeometry/AbelianVariety/Basic.lean`):
-  an abelian variety over a field, bundled as a proper geometrically integral group scheme, with
-  derived smoothness, geometric connectedness and commutativity. There is no abelian scheme over a
-  base other than a field at the pin, so the good-reduction model of Layer 10 is not available.
-- `TauCeti.AlgebraicGeometry.LineBundleClass.IsAmple` (`TauCeti/AlgebraicGeometry/LineBundle/Ample.lean`,
-  line 71), `TauCeti.AlgebraicGeometry.Scheme.CartierDivisor`
-  (`TauCeti/AlgebraicGeometry/CartierDivisor/Basic.lean`, line 127) and
-  `TauCeti.AlgebraicGeometry.Scheme.CartierDivisor.IsEffective`
-  (`TauCeti/AlgebraicGeometry/CartierDivisor/Effective/Basic.lean`, line 45): ampleness of a
-  line-bundle class on a scheme (quasi-compactness and, at every point, an affine nonvanishing locus of
-  a section of a positive power), Cartier divisors on an integral scheme as global sections of
-  `𝒦_X^× / 𝒪_X^×`, and their effectivity (every local equation regular at its point); the underlying
-  scheme of an abelian variety over a field is integral, so both apply to it. These are the
-  carriers of the ample effective divisors of Layer 10 on the abelian variety over `K`.
-  `TauCeti.AlgebraicGeometry.LineBundleClass.intersectionNumber`
-  (`TauCeti/AlgebraicGeometry/IntersectionNumber/Basic.lean`, line 111) pairs a class `a` on `X` with
-  any scheme `C` over a field `k` and morphism `ι : C → X`, as the Euler-characteristic degree
-  `TauCeti.AlgebraicGeometry.LineBundleClass.eulerDegree` (`TauCeti/AlgebraicGeometry/LineBundle/Degree.lean`,
-  line 130, built on the line-74 degree of an invertible sheaf) of `ι^* a`, computed with the truncation
-  `dim H⁰ − dim H¹`. When `C` is a proper curve it is the usual degree of the restriction; for
-  `C = X = Spec k` and `ι = id` it is defined and vanishes on the trivial class. It is not a
-  numerical-equivalence carrier: numerical equivalence classes of divisors and the top self-intersection
-  `φⁿ` are not at the pin.
-- `CategoryTheory.Sheaf.NonabelianH1` (`TauCeti/CategoryTheory/Sites/NonabelianCohomology/Torsor.lean`,
-  line 226): the pointed set of isomorphism classes of torsors under a sheaf of groups, based at the
-  trivial torsor. It is the carrier of `H¹(F, H)` in §2.11, through the torsor classes of
-  SchemeAndStackFoundations §§1.15 and 2.3; it carries no Galois-cocycle description and no finiteness.
-- `TauCeti.AlgebraicGeometry.projectivePlaneCurve` (`TauCeti/AlgebraicGeometry/Curves/PlaneCurve/Basic.lean`,
-  line 101) and `TauCeti.AlgebraicGeometry.projectivePlaneCurve.smoothOfRelativeDimension`
-  (`TauCeti/AlgebraicGeometry/Curves/PlaneCurve/Smooth.lean`, line 92): for a homogeneous `G` in three
-  variables over a field `k` and an algebraically closed extension `K`, if every nonzero zero of `G` in
-  `K³` has a nonzero partial derivative of `G`, then `Proj k[x₀, x₁, x₂]/(G)` is smooth of relative
-  dimension one over `k`, in every characteristic. For `n = 2` and `K` the algebraic closure of `k` this
-  hypothesis is `IsSmoothHypersurface G`; it is used only in the Checks of §9.1. There is no projective
-  hypersurface scheme in higher dimension at the pin.
-
-### From TauCetiRoadmap.MordellLawrenceVenkatesh
-
-- §§0.3–0.4: for a field `E` with an automorphism `σ` of finite order `e` and a σ-semilinear bijection
-  `φ` of a `d`-dimensional `E`-vector space, the centralizer `Z(φ)` as an algebra over `E^σ`, with
-  `dim_(E^σ) Z(φ) = dim_E Z(φ^e) ≤ d²` (Lawrence–Venkatesh Lemma 2.1); consumed in §2.2, which reduces a
-  finite étale algebra `E` over `E₀` with `E^σ = E₀` to this case: `σ` permutes the field factors of `E`
-  in one cycle of length `k`, and restriction to one factor `E₁` identifies `Z(φ)` with the centralizer of
-  the `σ^k`-semilinear map `φ^k` on that factor, where `σ^k` has fixed field `E₀` on `E₁`.
-- §0.24: Goursat's lemma for products of simple Lie algebras; consumed in §4.1.
-- §1.2: Faltings's finiteness lemma: for fixed `K`, `S`, rank and weight, finitely many semisimple
-  pure Galois representations with integral Frobenius polynomials up to isomorphism; consumed in
-  §§2.9 and 7.3, and through §2.9 in §§4.5, 6.1 and 7.6. Its hypotheses are integer characteristic
-  polynomials of Frobenius, which §1.9 supplies for the orbit systems.
-- §§1.10, 1.12–1.13: global purity forces the conjugation relation on Hodge–Tate exponents, the
-  weight of a filtration, and the Hodge weight `w/2` of a pure representation; consumed in §5.4,
-  §1.12 through §1.13, whose conclusion is stated in that weight.
-- §§2.5, 2.6, 2.8: residue disks with coordinates, formal horizontal sections with integral
-  coefficients, and their complex convergence; consumed in §§0.7 and 3.4.
-- §2.11: crystalline Frobenius on de Rham cohomology of fibres and its compatibility with
-  Gauss–Manin transport, for abelian-by-finite families; §0.7 extends it to the geometric systems
-  of §0.5 through CrystallineCohomology §CR.7.3.
-
-### From TauCetiRoadmap.SheafConvolutionOnAbelianVarieties
-
-- §0.2: the origin-normalized rank-one character sheaf `L_χ` of a finite-order character; consumed
-  in §1.6.
-- §2.4: comparison of convolution groups under extension of algebraically closed fields; consumed
-  in §4.3.
-- §3.1: for a smooth ample divisor `H` in a complex abelian variety of dimension `n ≥ 2` with
-  `d = [H]^n/n!`, `χ(H, Ω^q_H) = (−1)^(n−1−q)·d·A(n, q)` for `0 ≤ q < n` and
-  `e_top(H) = (−1)^(n−1)·n!·d`; so a rank-one twist whose cohomology is concentrated in degree
-  `n − 1` has rank `N = n!·d` there. §3.3: for such a twist over a p-adic field the Hodge–Tate
-  weight `−q` occurs with multiplicity `d·A(n, q)`, `0 ≤ q < n`. Consumed in §§1.7 and 8.1.
-- §4.8: inversion symmetry and the classical form on the twisted cohomology: the image is `SL_N`
-  unless the hypersurface is a translate of its inversion, in which case the pairing is alternating
-  for even `n` (`Sp_N`) and symmetric for odd `n` (`SO_N`); the standard `SL_N` module carries no
-  invariant form. Consumed in §1.8 and, for the branch choice, in §10.5.
-- §§5.2–5.3: the exceptional Pell pairs and exceptional degrees `D_j`; consumed in §§10.5, 10.6
-  and 10.9.
-- §6.7: classical convolution monodromy (`SL`, `Sp` or `SO`) for hypersurfaces outside the
-  exceptional degrees; consumed in §§4.3 and 10.5.
-- §§8.2–8.3: a torsion character of order prime to `p`, generic in every Galois conjugate, with
-  big monodromy uniformly on its orbit; consumed in §§1.7, 4.3 and 10.5.
-
-### From TauCetiRoadmap.ClassicalArithmeticCompletion
-
-- §2.18 (Eulerian numbers, `A(n, q)` counting permutations of `Fin n` with `q` descents), §2.39
-  (the factorial sum, symmetry, recurrence and Worpitzky's identity) and §2.56 (unimodality of the
-  rows); consumed in Layer 8.
-- What ClassicalArithmeticCompletion must provide (gap:eulerian-row-log-concavity): for every `n`, the row `q ↦ A(n, q)` is positive exactly on `0 ≤ q < n` when `n ≥ 1` and on `{0}` when `n = 0` (the empty permutation gives `A(0, 0) = 1`), and `A(n, q)² ≥ A(n, q − 1)·A(n, q + 1)` for every `q ≥ 1`.
-- What ClassicalArithmeticCompletion must provide (gap:log-concave-convolution): if `a, b : ℤ → ℝ` are nonnegative, finitely supported, supported on integer intervals and log-concave (`a_k² ≥ a_(k−1)·a_(k+1)` for every `k`), then the convolution `k ↦ Σ_j a_j·b_(k−j)` and the reflection `k ↦ a_(−k)` have the same four properties.
-- What ClassicalArithmeticCompletion must provide (gap:eulerian-descent-variance): for `n ≥ 2` the descent number of a uniformly random permutation of `Fin n` has mean `(n − 1)/2` and variance `(n + 1)/12`, that is `Σ_q q·A(n, q) = n!·(n − 1)/2` and `Σ_q (q − (n − 1)/2)²·A(n, q) = n!·(n + 1)/12`.
-- What ClassicalArithmeticCompletion must provide (gap:eulerian-central-limit): for a uniformly random permutation of `Fin n`, `(des − (n − 1)/2)/√n` converges in law to the centred normal law of variance `1/12` as `n → ∞`.
-
-### From TauCetiRoadmap.ReductiveGroups
-
-- Layer 3 (closed subgroup schemes and kernels, normal subgroups and their fppf quotients, the
-  identity component and its finite étale component group), Layer 3A (algebraic actions: an orbit is
-  locally closed and open in its closure, and the orbit of a reduced group is smooth), Layer 4 (Jordan
-  decomposition, diagonalizable groups and tori), Layer 5 (unipotent groups and the unipotent radical),
-  Layer 6 (reductive groups and linear reductivity: in characteristic zero an affine group of finite
-  type is linearly reductive exactly when its identity component is reductive), Layer 6A
-  (characteristic-zero Levi complements for general affine groups), Layer 7 (Borel and parabolic
-  subgroups, roots, Weyl group and Bruhat decomposition) and Layer 7b (algebraic parabolics and Levi
-  intersections), all over a field of characteristic zero. Layer 3 is consumed in §2.1, for the
-  normalizer as a group scheme and the exactness of `1 → B → G → Aut_(E₀)(E) → 1`; Layers 3A and 6 in
-  §2.3, for the geometric finiteness inside a linear class; the layers together are consumed in
-  Layers 2, 3, 4 and 5. Connected root theory is used only on identity
-  components; complete reducibility for disconnected groups is imported from LanglandsParameterStacks
-  §§2.3–2.4, and the other disconnected-group statements are targets here.
-
-### From TauCetiRoadmap.ReductiveGroupsPartII
-
-- §RG2.0.2 (analytic charts in characteristic zero): for a smooth affine finite-type group `G` over a
-  nondiscrete locally compact field `K` of characteristic zero, `G(K)` is an analytic manifold of
-  dimension `dim G` whose tangent space at the identity is the Lie algebra; used only to see that an open
-  subgroup of `SO(E)(ℚ_ℓ)` has full Lie algebra and is Zariski-dense in `SO(E)`. Consumed in §9.2.
-
-### From TauCetiRoadmap.ArithmeticGaloisRepresentations and TauCetiRoadmap.LanglandsParameterStacks
-
-- ArithmeticGaloisRepresentations §1.11, *Complete reducibility and closed tuples*: for a connected
-  reductive group over an algebraically closed field, G-complete reducibility of a closed subgroup
-  (every parabolic containing it has a Levi containing it), applied to a homomorphism through the
-  Zariski closure of its image and over a general field after extension to an algebraic closure;
-  conjugacy invariance; equivalence with semisimplicity for `GL(V)`; the closed-tuple criterion; and
-  Levi semisimplification from a minimal parabolic, independent of the choices up to conjugacy and a
-  cocharacter limit in the unique closed orbit. Consumed in §2.3 through LanglandsParameterStacks.
-- LanglandsParameterStacks §2.3: for a group `G` whose identity component is reductive and whose
-  component group is finite étale, the R-parabolics `P_λ = {g : lim_(t→0) λ(t) g λ(t)⁻¹ exists}` and
-  R-Levis `L_λ = Z_G(λ)` of the cocharacters `λ` of `G°`, and G-complete reducibility tested against all
-  of them, whether or not they surject onto the component group. §2.4: over an algebraically closed
-  field, the closed-tuple criterion for such `G` under `G°`-conjugation, Levi semisimplification
-  from a minimal containing R-parabolic, G-completely reducible and unique up to `G°(k̄)`-conjugacy,
-  and the equality of dimension and component count of all minimal containing R-parabolics. In
-  characteristic zero every finite component group is étale, so these apply to every group of
-  Conventions with reductive identity component. Consumed in §§2.3 and 2.11, and through §2.3 in
-  §§2.5, 2.9–2.10, 4.5, 5.2, 5.4–5.5, 5.7–5.8, 6.1, 7.2 and 7.5.
-- What LanglandsParameterStacks must provide (gap:complete-reducibility-reductive-criterion): for an algebraic group `G` over a field of characteristic zero whose identity component is reductive, a closed subgroup `H ⊂ G` is G-completely reducible, all R-parabolics of §2.3 being tested, exactly when its identity component `H°` is reductive (Serre for connected `G`; Bate–Martin–Röhrle for reductive identity component; LS, Lemma 5.37, p. 56, LS lines 2574–2577).
-
-### From TauCetiRoadmap.RestrictedPowerSeries and TauCetiRoadmap.ComplexKahlerGeometry
-
-- RestrictedPowerSeries §2.1 (evaluation and substitution of restricted series) and §5.2
-  (Noetherianity, factoriality and dimension of `K⟨T₁, …, T_m⟩` over a complete nonarchimedean
-  field); quotients and localizations of Tate algebras are then Noetherian. Consumed in §3.4.
-- ComplexKahlerGeometry K3 §3.4 (local algebra, the Nullstellensatz, coherence and singular loci):
-  Noetherianity of the convergent power-series ring and Rückert's Nullstellensatz `I(V(𝔞)) = √𝔞` for
-  every ideal of `ℂ{z₁, …, z_m}`, in the form `ruckert_nullstellensatz`: a germ vanishing near the
-  point on the common zero set of finitely many germs `f₁, …, f_k` has a power in `(f₁, …, f_k)`; and the
-  locally finite decomposition of a reduced analytic subset into irreducible components, so that a small
-  neighbourhood of a point meets only finitely many components, all passing through it. Consumed in
-  §3.4, where the germs are the period equations and the vanishing germ is the product of algebraic
-  functions vanishing on the finitely many components through the point; for `𝔞 = (z²)` it gives
-  `z² ∈ 𝔞` although `z ∉ 𝔞`.
-
-### From TauCetiRoadmap.ComplexComparisonPartII
-
-- §C5.2 (families, Ehresmann and the Gauss–Manin connection), §C5.3 (geometric Hodge theory:
-  Hodge decomposition and Hodge numbers of smooth projective varieties), §C5.6 (regular singular
-  connections and Deligne's Riemann–Hilbert equivalence) and §C6.6 (integral and rational Artin
-  comparison between étale and Betti cohomology). Consumed in Layer 0, §8.6 and §9.2.
-- What ComplexComparisonPartII must provide (gap:griffiths-residue-hodge-filtration): for a smooth hypersurface `X = {F = 0}` of degree `d` in `ℙ^(m+1)_ℂ`, `m ≥ 1`, and `0 ≤ q ≤ m`, the Poincaré residue of the forms `P·Ω₀/F^(q+1)`, with `Ω₀ = Σ_i (−1)^i X_i dX₀ ∧ ⋯ ∧ dX_i^ ∧ ⋯ ∧ dX_(m+1)` (the factor `dX_i` omitted) and `P` homogeneous of degree `(q + 1)d − m − 2`, induces an isomorphism from the degree-`((q + 1)d − m − 2)` piece of the Jacobian ring `ℂ[X₀, …, X_(m+1)]/(∂F/∂X₀, …, ∂F/∂X_(m+1))` onto `gr_F^(m−q) H^m(X, ℂ)_prim` (Griffiths; Batyrev–Cox, Theorem 10.13, PDF p. 34, BC line 1344, in the toric generality). Consumed in §8.6 with `m = n − 1`. For the quartic surface (`m = 2`, `d = 4`) the degrees `0, 4, 8` give the pieces `gr_F², gr_F¹, gr_F⁰` of dimensions `1, 19, 1`.
-
-### From TauCetiRoadmap.ShimuraData
-
-- §3.1 (variations of Hodge structure), §3.2 (morphisms of variations, with kernels and images as
-  subvariations whose Hodge ranks are locally constant), §3.3 (polarized rational variations), §3.4
-  (polarized integral variations), §3.5 (flat-bundle local comparison: local flat frames turn a
-  variation into a holomorphic flag map), §3.6 (Griffiths transversality as a tangent condition on
-  that flag map), §3.7 (the parabolic of a Hodge filtration), §1.2 (Mumford–Tate groups), §1.3 (the
-  Mumford–Tate group of a rational pure Hodge structure is connected) and §1.4 (that of a polarizable
-  one is reductive). §3.2 is consumed in §0.3 and §§1.3–1.4 in §3.1; all of them are consumed in
-  Layers 0 and 3.
-- What ShimuraData must provide (gap:andre-monodromy-normality): for a polarized integral variation of Hodge structure on a connected smooth complex algebraic variety, the identity component of the Zariski closure of its monodromy group is a normal subgroup of the derived group of its generic Mumford–Tate group (Deligne–André).
-
-### From TauCetiRoadmap.AbelianSchemesAndArithmeticModuliPartII
-
-- Layer B2 §B2.6 (semirational Pila–Wilkie block counting) and Layer B3 (definable uniformization
-  and the Ax–Schanuel theorem for Kuga mixed Shimura varieties) are the o-minimal machinery on
-  which the Ax–Schanuel request below rests.
-- What AbelianSchemesAndArithmeticModuliPartII must provide (gap:period-map-ax-schanuel): the Ax–Schanuel theorem for pure polarized integral variations of Hodge structure (Bakker–Tsimerman) in the monodromy-orbit form: for such a variation on a smooth irreducible complex algebraic variety `X`, with `D_mon` the orbit, in the flag variety of a reference fibre, of the identity component of the Zariski closure of monodromy through a Hodge filtration, every irreducible analytic component `U` of the intersection of an algebraic subvariety `W ⊂ X × D_mon` with the graph of a local lift of the period map satisfies `codim_(X×D_mon) U ≥ codim_(X×D_mon) W + codim_(X×D_mon)(graph)` unless the projection of `U` to `X` lies in a proper weakly special subvariety of `X`; all codimensions are taken in `X × D_mon`, not in the product with a larger compact dual.
-
-### From TauCetiRoadmap.MappingClassGroupsAndCanonicalRepresentations
-
-- §5.4 (the limit theorem and the theorem of the fixed part): for a polarizable complex variation of pure
-  Hodge structure on a punctured disc, the Hodge bundles extend to subbundles of the canonical extension
-  and the limit is a mixed Hodge structure with the monodromy weight filtration, with no
-  quasi-unipotence assumed; and for an admissible graded-polarizable real variation `W` on a smooth
-  quasi-projective complex variety `X`, `H⁰(X, W)` carries a real mixed Hodge structure for which
-  `H⁰(X, W) ⊗ ℝ → W` is a morphism of variations. A polarizable pure real variation is admissible: for a
-  one-step weight filtration the two conditions of admissibility are the extension of the Hodge bundles
-  and the existence of the monodromy weight filtration given by the limit theorem along each disc.
-  Applied to the real variation of a polarized integral variation `V`: the inclusion of the flat
-  sections into each fibre is an injective morphism into a pure Hodge structure, hence strict, so the
-  flat sections form a real sub-Hodge structure of each fibre, of the same weight; they are defined over
-  `ℚ`, so they form a rational sub-Hodge structure, the same in every fibre after parallel transport, and
-  a polarized integral variation with trivial monodromy is constant. On a smooth connected variety that
-  is not quasi-projective this is applied on a dense affine open subset, which has the same flat
-  sections because its fundamental group surjects onto that of the variety. Consumed in §3.1.
-
-### From TauCetiRoadmap.MotivesAndAlgebraicCycles
-
-- §§6.1–6.3: neutral fibre data over a field, reconstruction of the neutral group `G_ω = Aut^⊗(ω)`
-  with `C ≃ Rep_fd(G_ω)`, and finite type exactly when one object tensor-generates. Consumed in
-  §§0.3, 0.6, 2.4 and 7.1.
-- §6.8: for any neutral category and exact faithful tensor fibre `η` with values in finite
-  projective `R`-modules, `Isom^⊗(ω_R, η)` is an affine faithfully flat right `G_ω,R`-torsor,
-  finitely presented when `G_ω` is of finite type, and `Aut^⊗(η)` is its inner twist. Consumed in
-  §§0.6, 2.4, 2.6, 3.1 and 7.1. A finitely presented faithfully flat torsor over a field is a
-  nonempty scheme of finite type and so has a point over an algebraic closure.
-
-### From TauCetiRoadmap.PELModuli
-
-- §M0.9 (1) (`smoothAffineTorsor_galoisH1` and its inverse `galoisH1_equiv_torsorClasses`): for a
-  smooth affine group `G` of finite type over a field `k`, connected or not, the pointed bijection
-  between the torsor classes of SchemeAndStackFoundations §§1.15 and 2.3 and continuous cocycles
-  `Gal(k^sep/k) → G(k^sep)` modulo `c_σ ~ g⁻¹c_σ σ(g)`, natural in field extensions and compatible with
-  pushforward along homomorphisms. Consumed in §2.11, where the class of a subgroup `gMg⁻¹` defined
-  over `F` is the cocycle `σ ↦ g⁻¹σ(g)`; for `G = μ₂` over `ℚ₃` it gives the four classes of
-  `ℚ₃^×/ℚ₃^(×2)`.
-
-### From TauCetiRoadmap.PadicHodgeTheory
-
-- §§3.3–3.6: Fontaine's functors, admissibility, the crystalline and semistable classification and
-  group-valued filtered data; `D_cris` and `D_dR` are exact faithful tensor functors on crystalline
-  representations. Consumed in §§0.3, 1.2, 2.6, 7.1 and 7.5.
-- §4.4: the Sen operator on `C ⊗ V` of a finite-dimensional continuous `ℚ_p`-representation `V` of
-  `G_K`, whose eigenvalues are the generalized Hodge–Tate weights, with its tensor and dual formulas.
-  Consumed in §7.2, together with gap:hodge-tate-image-cocharacter.
-- §5.5: the finite-type specialization of the tensor-isomorphism torsor, and the local torsor
-  theorem: for a finite extension `F/ℚ_p` and a connected reductive group `G` over `F`, a pointed
-  bijection `H¹(F, G) ≃ (π₁(G)_(Γ_F))_tors`, natural in `G` (Kottwitz), so that `H¹(F, G)` is finite.
-  The torsor is consumed in §§2.6 and 7.1 and the local torsor theorem in §2.11.
-- §6.1: the rational Fontaine–Laffaille comparison with its signs. Consumed in §7.3.
-- §7.3: for a proper smooth morphism `f` of smooth rigid spaces and a de Rham local system `L` whose
-  higher direct images `Rⁱf_*L` are lisse in every degree used, including every degree entering a
-  pairing, `Rⁱf_*L` is de Rham, with associated bundle the relative de Rham cohomology, its Hodge
-  graded pieces and its Gauss–Manin connection; on a residue disk this is the horizontality of the
-  fibrewise de Rham comparisons. It is applied only to the constant coefficient `L = ℤ_p` (de Rham,
-  with trivial filtration) on the analytification of a smooth projective family of `K_v`-varieties,
-  where lisseness holds in every degree: `Rⁱf_*(ℤ/pᵐ)` is lisse on the algebraic base because `p` is
-  invertible there (EtaleCohomologyFoundations §F.3), and its analytification is the analytic higher
-  direct image (ClassicalAdicEtaleCohomology §8.2). For a constant family `Y₀ × X → X` this gives the
-  constant local system `Hⁱ(Y₀)`, zero Gauss–Manin connection and identity transport. Consumed in
-  §§0.1, 0.5 and 0.7 through gap:relative-crystalline-comparison.
-- §§8.1–8.2: for proper smooth `X` with good reduction at `p`, `D_cris(H^i_et(X_C, ℚ_p))` is
-  crystalline cohomology of the special fibre with its Frobenius and, over `K`, de Rham cohomology
-  with its Hodge filtration; the comparisons commute with pullback, cup product and Tate twists,
-  and a cohomological projector restricts them when it is given geometrically on both sides.
-  Consumed in §§0.1, 0.5, 0.7, 1.2 and 7.5.
-- What PadicHodgeTheory must provide (gap:relative-crystalline-comparison): for a smooth projective morphism `f : 𝒴 → 𝒳` of smooth `W(k)`-schemes with `k` finite and `p` unramified, the fibrewise crystalline comparisons of §8.1 at the points of a residue disk of `𝒳`, which are horizontal for the Gauss–Manin connection on `R^i f_* Ω^•` by the proper smooth pushforward of de Rham local systems of §7.3 applied to the constant coefficient `ℤ_p`, whose higher direct images are lisse, are compatible with the Frobenius of the convergent F-isocrystal `R^i f_crys,*` of CrystallineCohomology §CR.7.3, so that `R^i f_*ℚ_p` and that filtered F-isocrystal are associated in the sense of Faltings.
-- What PadicHodgeTheory must provide (gap:hodge-tate-image-cocharacter): for a Hodge–Tate representation `ρ : G_K → GL(V)` of a finite extension `K/ℚ_p` on a finite-dimensional `ℚ_p`-vector space, comparing the graded Hodge–Tate fibre functor with the forgetful fibre functor extended to `C_p`, on the tensor category generated by `V`, gives a cocharacter of the Zariski closure of `ρ(G_K)` over `C_p` that acts by `t^i` on the `C_p(i)`-isotypic part of `V ⊗ C_p`, so that its weights on `V ⊗ C_p` are the Hodge–Tate weights of `V` with their multiplicities (Serre; Sen; the step used in the proof of LS, Lemma 3.14, p. 26, LS lines 1191–1200).
-
-### From TauCetiRoadmap.CrystallineCohomology
-
-- §CR.7.3: relative crystalline cohomology of a proper smooth morphism, its base change and its
-  Gauss–Manin connection. Consumed in §§0.5 and 0.7.
-
-### From TauCetiRoadmap.EtaleCohomologyFoundations and ClassicalAdicEtaleCohomology
-
-- EtaleCohomologyFoundations §F.3 (`VanishingCycles.lisseDirectImageTransport`): for a smooth proper
-  morphism and finite lisse coefficients whose annihilator is invertible on the base, the higher direct
-  images are lisse, with the geometric fibre stalk formula. Consumed in §§0.1, 0.5 and 0.7, for the
-  coefficients `ℤ/pᵐ` on smooth projective families over a base on which `p` is invertible.
-- ClassicalAdicEtaleCohomology §8.2 (proper algebraic comparison): for a proper morphism of schemes
-  locally of finite type over a scheme and its analytification, and torsion
-  coefficients, the base-change map from the analytified algebraic higher direct images to the analytic
-  higher direct images is an isomorphism. Consumed in §§0.1, 0.5 and 0.7, to carry lisseness from the
-  algebraic family to its rigid analytification on a residue disk.
-
-### From TauCetiRoadmap.DeligneWeightsAndPurity, WeilConjectures and PadicDifferentialEquationsAndRigidCohomology
-
-- DeligneWeightsAndPurity §0.1 (Weil `q`-numbers of integer weight), §0.2 (products, inverses and
-  integrality of Weil numbers), §0.7 (eigenvalue weights of an endomorphism), §0.9 (purity under
-  subobjects, quotients and extensions), §0.10 (`det(1 − tF)` and traces of powers), §0.16
-  (eigenvalues under a Frobenius-equivariant perfect pairing), §4.3 (the Weil theorem for smooth
-  projective varieties), §4.4 (integral degree factors from distinct weights) and §9.12 (invariant
-  and vanishing cohomology of a hyperplane section are orthogonal complements). Consumed in Layers
-  0, 1, 5, 7 and 9; §9.12 in §9.1.
-- DeligneWeightsAndPurity §2.2: for a nondegenerate alternating form on a finite-dimensional
-  `ℚ_ℓ`-vector space `V`, every subgroup of `Sp(V)(ℚ_ℓ)` open for the ℓ-adic topology is Zariski dense
-  in `Sp(V)`. Consumed in §9.2.
-- WeilConjectures Layer WC.3 (separating integral factors by weight) and Layer WC.5, "Complete
-  intersections" (`|#X(k_r) − #ℙ^m(k_r)| ≤ b·q^(m·r/2)` with the primitive middle part the only
-  error term). Layer WC.3 is consumed in §0.5 and Layer WC.5 in §7.8.
-- PadicDifferentialEquationsAndRigidCohomology §RD.7.7 (Katz–Messing): for smooth projective `X`
-  over `𝔽_q` and `ℓ ≠ p`, `det(1 − tφ^f | H^i_crys ⊗ K₀) = det(1 − t·Frob_q | H^i(X_F̄_q, ℚ_ℓ))` in
-  `1 + tℤ[t]`. Consumed in §7.3.
-
-### From TauCetiRoadmap.InverseGaloisAndArithmeticFundamentalGroups and EtaleDualityAndPerverseSheaves
-
-- InverseGaloisAndArithmeticFundamentalGroups §IG.0.T4: the constant-sheaf point count
-  `#X(𝔽_(q^m)) = Σ_i (−1)^i tr(Frob^m | H^i_c)` for every finite extension. Consumed in §1.9.
-- EtaleDualityAndPerverseSheaves §4.3: the cohomology of smooth complete intersections (powers of
-  the hyperplane class outside the middle degree, the primitive decomposition in the middle degree,
-  Frobenius `q^j` on `H^(2j)`, and families). Consumed in §§7.8 and 9.1.
-
-### From TauCetiRoadmap.LefschetzPencilsAndVanishingCycles
-
-- §2.8 (the Picard–Lefschetz formula for a proper family), §3.4 (existence of Lefschetz pencils),
-  §4.4 (the radical quotient of the vanishing subspace and its pairing), §4.5 (cohomology of the
-  total space), §5.8 (the Kazhdan–Margulis open-image theorem in the symplectic case) and §5.10
-  (in even dimension, with nondegenerate vanishing space, the compact monodromy is open in `O(E)` or
-  finite, and finite monodromy is the Weyl group of a positive definite ADE root lattice).
-  Consumed in §9.2.
-
-### From TauCetiRoadmap.SchemeAndStackFoundations and AlgebraicModuliForArithmeticGeometry
-
-- SchemeAndStackFoundations §§0.8–0.9 (spreading out over Dedekind bases and Noetherian
-  approximation) and §4.14 (`hilbert_quot_schemes`: Hilbert and Quot schemes of a projective
-  morphism with a relatively very ample bundle). Consumed in Layers 7, 9 and 10.
-- SchemeAndStackFoundations §1.16 (contracted products and twisting: a torsor under the automorphism
-  group of `X` contracts to a form of `X`). Consumed in §1.9, for the twisted forms of a fibre of a
-  finite multiplication cover defined by a deck element composed with Frobenius.
-- SchemeAndStackFoundations §§1.15 and 2.3 (torsors and torsor classes: for a group scheme `G` over a
-  base, the pointed set of `G`-torsors on the big fppf site, `NonabelianH1` of the represented sheaf of
-  groups, with pushforward along homomorphisms). Consumed in §2.11, for `H¹(F, H)` over a p-adic field.
-- AlgebraicModuliForArithmeticGeometry §2.1 (Hilbert families as Quot functors, fixed Hilbert
-  polynomial subfunctors) and §9.4 (the characteristic-zero projective birational resolution with
-  smooth source preserving the entire regular locus, imported there from
-  ResolutionOfSingularitiesCharacteristicZero). §2.1 is consumed in §§9.1 and 10.2, §9.4 in §§7.7
-  and 10.4.
-
-### From TauCetiRoadmap.AbelianSchemesAndArithmeticModuli
-
-- §A0.1 (abelian schemes), §A1.2 (rigidity over arbitrary bases: a morphism of abelian schemes is a
-  translation followed by a homomorphism), §A1.8 (Weil extension over a connected Dedekind base),
-  §A2.4 (ample cohomology, Riemann–Roch and `deg φ_L`), §A2.10 (the Néron–Severi group), §A3.2 (for
-  `r ≠ 0` the multiplication `[r]` is finite locally free of rank `r^(2g)`, and `[r]` and `A[r]` are
-  finite étale over the locus where `r` is invertible, compatibly with base change), §A3.3
-  (quotients by finite locally free subgroups), §A3.6 (theta groups and polarized descent), §A6.7
-  (Hom is free of finite rank), §A6.14 (positivity of the Rosati involution) and §§A6.30–A6.32
-  (Weil restriction, its geometric splitting along separable extensions and Weil restriction of
-  abelian schemes along finite étale maps). Consumed in Layers 1, 2 and 10; §A3.2 in §1.6. §A1.2
-  applies only to morphisms between abelian schemes; it is not used for a curve mapping to an abelian
-  variety.
-
-### From TauCetiRoadmap.JacobianChallenge
-
-- Layer F (Abel–Jacobi and the universal property): for a smooth proper geometrically connected curve
-  `C` over a field `k` with a `k`-point `x₀`, the Abel–Jacobi morphism `a : C → Jac C`, `x ↦ 𝒪(x − x₀)`,
-  satisfies `a(x₀) = 0`, and every pointed morphism `(C, x₀) → (A, 0)` to an abelian variety factors
-  as `h ∘ a` for a unique homomorphism `h : Jac C → A`. Consumed in §10.10.
-
-### From TauCetiRoadmap.Chebotarev
-
-- Chebotarev Layer 10 (Dirichlet-density Chebotarev): every conjugacy class of a finite Galois group is the
-  Frobenius class of a set of primes of positive density. Consumed in §7.3.
-
-### From TauCetiRoadmap.HeightsRationalPointsAndObstructions and FaltingsFinitenessAndIsogenyTheorems
-
-- HeightsRationalPointsAndObstructions §1.6 (`A(K)/mA(K)` finite for `m ≥ 1`) and §1.7 (Mordell–Weil).
-  Consumed in §10.8.
-- HeightsRationalPointsAndObstructions §5.2 (scheme-theoretic stabilizers): for a closed subscheme `X` of
-  an abelian variety `A` over a field `k`, the subgroup functor `T ↦ {a ∈ A(T) : X_T + a = X_T}` on all
-  `k`-schemes `T`, nilpotent ones included, represented by a closed subgroup scheme of `A`, with
-  membership, translation action and base change; `Stab(A) = A` and `Stab({x}) = 0`. Consumed in §10.1,
-  with `X = H` a smooth ample divisor, and through it in §10.7.
-- FaltingsFinitenessAndIsogenyTheorems §R28.5.15 (`finite_curves_goodReduction`: finitely many
-  isomorphism classes of smooth projective geometrically connected curves of genus `g ≥ 2` over `K`
-  with good reduction outside `S`). Consumed in §10.10.
-
-## How to read the build
-
-Layers 0–2 assemble the realizations and coefficients and identify the groups whose filtrations
-matter. Layer 3 proves the shared transfer from period codimension to p-adic non-density. Layer 4
-treats integral points with semisimple Galois representations and isolates strong balance; Layer 5
-handles the associated graded of nonsplit representations, which gives the all-points coefficient
-theorem of Layer 6. Layer 7 proves the higher-dimensional Lawrence–Venkatesh theorem through its own
-small-centralizer prime argument. Layer 8 is pure combinatorics and Hodge-number asymptotics and can
-be built alongside Layers 0–7; Layers 9 and 10 finish the projective and abelian applications. Inside a
-layer the subsections are grouped by topic and the `*Needs:*` lines give the order: §2.11 comes before
-§§2.3 and 2.9, and §§8.2–8.4 come before §8.1.
 
 ## Layer 0: Compatible Hodge–Deligne realizations
 
@@ -3603,6 +3040,569 @@ the others correct misprints, and their bullets give the corrected formula.
   `(n + 1)/12`, standard deviation `∼ √(n/12)`, not variance `√n/12`.
 - **LS, Lemma A.1, pp. 89–90.** The strict inequality holds for the geometric parity choices (`GL` always,
   `GSp` for `n` even, `GO` for `n` odd); for `n = 2`, `d = 1` the nongeometric `GO₂` fails it.
+
+## Scope and ownership
+
+This roadmap owns:
+
+1. **Hodge–Deligne systems** (Layer 0): the category of compatible Betti, étale, de Rham and
+   crystalline realizations on a smooth model, its integral, polarized and integral-Frobenius
+   subcollections, its neutral Tannakian structure, constant systems, geometric cohomology systems
+   cut out by finite-group projectors, differential monodromy from a tensor generator, and the
+   constant Frobenius module on a residue disk.
+2. **Arithmetic coefficient systems** (Layer 1): H⁰-algebras and their finite étale operations,
+   coefficient modules, equidimensional modules, GL, GSp and GO structures over a coefficient
+   algebra, finite-order character systems, Galois-orbit cohomology systems of hypersurfaces in
+   abelian varieties, the inversion pairing of those whose hypersurface is inversion-symmetric up to
+   translation, and rationality of their Frobenius polynomials.
+3. **Semilinear groups and tensor filtrations** (Layer 2): the semilinear coefficient normalizer
+   and its Frobenius centralizer bound, the descent of semisimplification to a field of
+   characteristic zero in groups with reductive identity component (rational representatives,
+   finiteness of geometric classes inside one linear class, finiteness of rational classes over
+   p-adic fields, continuity), tensor G-structures and
+   G-filtrations, crystalline inner forms, adjoint
+   Hodge profiles and their top-weight sums, uniform filtrations, finiteness of global
+   coefficient-group types, finiteness of semisimplification geometries, finiteness of local
+   nonabelian Galois cohomology and the bijection `H¹(F, L ⋉ U) → H¹(F, L)` for unipotent `U` in
+   characteristic zero (EndoscopicTransferAndUnitaryTraceComparison §1.13a states it for a rational
+   parabolic of a connected reductive group; the form here also covers the Richardson parabolics of
+   disconnected groups).
+4. **Period orbits and transcendence transfer** (Layer 3): period maps in one monodromy orbit,
+   parabolic stabilizers, the codimension consequence of Ax–Schanuel (§3.3; Lawrence–Sawin,
+   Lemma 6.3) and its transfer to p-adic non-density over an arbitrary number field.
+5. **Balanced monodromy and balanced filtrations** (Layers 4–5): index classes of subdirect
+   products, strong balance, torsion-orbit balance, semisimple orbit codimension, central weights,
+   induced Levi filtrations, balance and semibalance, global purity over ℚ, bifiltered Frobenius
+   types, unipotent cocycles, Frobenius-stable Levi factors, local type finiteness, the root pairing,
+   and the fixed-graded and fixed-type codimension estimates.
+6. **The end theorems** (Layers 6–10): the coefficient non-density theorem, the higher-dimensional
+   Lawrence–Venkatesh theorem with its bounded-prime argument and finiteness clause, the corrected
+   point-count bound for Frobenius centralizers, the Eulerian numerical criteria, the projective
+   hypersurface application and hypersurface Shafarevich finiteness.
+
+It uses, and does not redevelop:
+
+- **MordellLawrenceVenkatesh.** Its Layer LV.0 supplies the centralizer of a semilinear
+  automorphism and its dimension (§§0.3–0.4) and Goursat's lemma for simple Lie algebras (§0.24);
+  Layer LV.1 supplies Faltings's finiteness lemma (§1.2) and the Hodge weight of a pure
+  representation (§§1.10, 1.12–1.13); Layer LV.2 supplies residue disks (§2.5), formal horizontal
+  sections (§2.6), their complex convergence (§2.8) and the crystalline Frobenius on fibres with its
+  Gauss–Manin compatibility for abelian-by-finite families (§2.11). That roadmap stops at the
+  one-dimensional S-unit and Mordell arguments of Lawrence–Venkatesh §§2–8 and leaves the
+  hypersurface sections and the Ax–Schanuel input to this one. Its period variety (§3.8) is the
+  Lagrangian case of the monodromy orbits of §3.1 here.
+- **SheafConvolutionOnAbelianVarieties.** It owns character sheaves, sheaf convolution and
+  convolution monodromy groups. This roadmap imports its origin-normalized rank-one character
+  sheaves (§0.2), the geometric extension comparison (§2.4), the Euler characteristics of a smooth
+  ample divisor (§3.1) and the Hodge–Tate row of a generic torsion twist (§3.3), inversion symmetry
+  and the classical form (§4.8), the exceptional Pell sequence and the exceptional threefold degrees
+  (§§5.2–5.3), classical convolution monodromy (§6.7), and the character generic in every
+  Galois conjugate with uniform big monodromy on its orbit (§§8.2–8.3). The exceptional degrees are
+  used exactly as that roadmap defines them: the pairs start at (1,5), (5,20), (20,76), and
+  `D_j = binomial(a_j + b_j, a_j)/6` for `j ≥ 1`, so `D_1 = 8855`.
+- **ClassicalArithmeticCompletion** §§2.18, 2.39 and 2.56 own Eulerian numbers, their basic
+  identities and unimodality.
+- **ReductiveGroups** owns algebraic groups, their closed subgroups, quotients and component groups
+  (Layer 3), orbits of algebraic actions (Layer 3A), their tori (Layer 4), unipotent radicals
+  (Layer 5), linear reductivity (Layer 6), characteristic-zero Levi complements (Layer 6A), root, Weyl,
+  parabolic and Bruhat theory
+  (Layer 7) and algebraic parabolics with Levi intersections (Layer 7b). The coefficient-normalizer
+  specializations and the remaining disconnected-group statements of Layer 2 (rational
+  semisimplification, semisimplification geometries) are owned here.
+- **ArithmeticGaloisRepresentations** §1.11, *Complete reducibility and closed tuples*, owns
+  G-complete reducibility, the closed-tuple criterion and Levi semisimplification for connected
+  reductive groups, and **LanglandsParameterStacks** §§2.3–2.4 extend them to groups with
+  reductive identity component and finite étale component group, testing all R-parabolics and
+  R-Levis, with Levi semisimplification unique up to `G°(k̄)`-conjugacy over an algebraically
+  closed field `k̄`. §2.3 here differs in owning only the descent to a field of characteristic zero
+  (parabolics and Levis defined over that field and a rational representative of the geometric
+  class), the finiteness of the classes of homomorphisms into `G` inside one linear class, the
+  finiteness of rational classes over p-adic fields and continuity; the characteristic-zero criterion
+  that a subgroup is G-completely reducible exactly when its identity component is reductive is asked
+  of LanglandsParameterStacks §2.3 in the supplier contracts.
+- **ReductiveGroupsPartII** §RG2.0.2 owns the analytic manifold structure on the points of a smooth
+  group over a characteristic-zero local field; Layer 9 uses it for the Zariski density of open
+  subgroups of `SO(E)(ℚ_ℓ)`.
+- **ShimuraData** owns variations of Hodge structure (§3.1), their morphisms, kernels and images
+  (§3.2), polarized rational and integral variations (§§3.3–3.4), the flat-bundle local comparison
+  (§3.5), the transversality criterion (§3.6), the parabolic of a Hodge filtration (§3.7) and
+  Mumford–Tate groups with their connectedness and reductivity (§§1.2–1.4). Tau Ceti supplies mixed
+  Hodge structures with their morphisms and the strictness of morphisms for `F` and `W`
+  (`TauCeti.Hodge.MixedHodgeStructure.Hom.range_inf_F_eq_map_F` and its weight-filtration companions);
+  §0.3 applies them fibrewise, and the systems, their local-system gluing and comparisons are owned
+  here.
+- **MotivesAndAlgebraicCycles** §§6.1–6.3 and 6.8 own neutral Tannakian reconstruction and the
+  affine faithfully flat torsor of tensor isomorphisms between two fibre functors; PadicHodgeTheory
+  §5.5 specializes that torsor to finite-type groups.
+- **PadicHodgeTheory** owns period rings, Fontaine's functors and their tensor exactness
+  (§§3.3–3.6), the Sen operator (§4.4), the local torsor theorem for connected reductive groups over
+  finite extensions of `ℚ_p` (§5.5), the rational Fontaine–Laffaille comparison (§6.1), the proper
+  smooth pushforward of de Rham local systems with its Gauss–Manin connection (§7.3) and the
+  rational comparison for proper smooth varieties with its functoriality (§§8.1–8.2);
+  CrystallineCohomology §CR.7.3 owns relative crystalline cohomology with its Gauss–Manin
+  connection.
+- **DeligneWeightsAndPurity** owns Weil numbers, weights and their linear algebra (§§0.1–0.2,
+  0.7, 0.9–0.10, 0.16), Zariski density of open subgroups of `Sp(V)(ℚ_ℓ)` (§2.2), purity for smooth
+  projective varieties (§§4.3–4.4) and the orthogonality of invariant and vanishing cohomology of a
+  hyperplane section (§9.12);
+  PadicDifferentialEquationsAndRigidCohomology §RD.7.7 owns the Katz–Messing agreement of
+  crystalline and ℓ-adic Weil factors; InverseGaloisAndArithmeticFundamentalGroups §IG.0.T4 owns the
+  constant-sheaf point-count trace formula; WeilConjectures Layer WC.5 and
+  EtaleDualityAndPerverseSheaves §4.3 own the cohomology and point counts of complete
+  intersections.
+- **LefschetzPencilsAndVanishingCycles** owns the Picard–Lefschetz formula (§2.8), existence of
+  Lefschetz pencils (§3.4), the vanishing quotient and its pairing (§4.4), the Kazhdan–Margulis
+  open-image theorem (§5.8) and the orthogonal open-or-finite alternative with the ADE description
+  of finite monodromy (§5.10).
+- **ComplexKahlerGeometry** K3 §3.4 owns Rückert's Nullstellensatz `I(V(𝔞)) = √𝔞` for convergent
+  power series (`ruckert_nullstellensatz`: a germ vanishing on the common zero set of finitely many
+  germs has a power in their ideal) and the locally finite decomposition of analytic sets into
+  irreducible components; the p-adic transfer (§3.4) applies both to the period ideal without
+  restating them;
+  **RestrictedPowerSeries** owns evaluation of restricted series (§2.1) and Noetherianity of Tate
+  algebras (§5.2); **ComplexComparisonPartII** owns the Gauss–Manin connection (§C5.2), geometric
+  Hodge theory (§C5.3), regular singular connections with Deligne's Riemann–Hilbert theory (§C5.6)
+  and the Artin comparison (§C6.6), and Griffiths's residue description of the Hodge filtration of a
+  smooth projective hypersurface is asked of it in the supplier contracts; §8.6 owns only the
+  resulting formula for the primitive Hodge numbers.
+- **SchemeAndStackFoundations** owns spreading out (§§0.8–0.9), torsors and torsor classes (§§1.15,
+  2.3), contracted products and twisted forms (§1.16) and Hilbert and Quot schemes (§4.14), and
+  **PELModuli** §M0.9 owns the description of torsor classes under a smooth affine group over a field
+  by continuous Galois cocycles; §2.11 owns only the finiteness of `H¹` over p-adic fields, the
+  classification of rational conjugacy classes it gives, and the unipotent-radical bijection.
+  **AlgebraicModuliForArithmeticGeometry** owns Hilbert families (§2.1) and the characteristic-zero
+  resolution preserving the regular locus (§9.4).
+- **AbelianSchemesAndArithmeticModuli** owns abelian schemes (§A0.1), rigidity (§A1.2), extension
+  of sections over Dedekind bases (§A1.8), ample cohomology and degrees (§A2.4), the Néron–Severi
+  group (§A2.10), multiplication maps and prime-to-characteristic torsion (§A3.2), quotients by
+  finite subgroups (§A3.3), theta groups and polarized descent
+  (§A3.6), finite rank of Hom (§A6.7), Rosati positivity (§A6.14) and Weil restriction
+  (§§A6.30–A6.32). Tau Ceti supplies abelian varieties over a field as
+  `TauCeti.AlgebraicGeometry.AbelianVariety`. **JacobianChallenge** Layer F owns the Abel–Jacobi map
+  of a pointed smooth proper curve and its Albanese universal property, used for curves in abelian
+  surfaces (§10.10).
+- **EtaleCohomologyFoundations** §F.3 owns lissity of the higher direct images of a smooth proper
+  morphism with finite invertible coefficients, and **ClassicalAdicEtaleCohomology** §8.2 owns
+  Huber's comparison of algebraic and analytic proper higher direct images; together they supply the
+  lisseness hypothesis of PadicHodgeTheory §7.3 for the smooth projective families of Layer 0.
+- **Chebotarev** Layer 10 owns the Chebotarev density theorem.
+- **HeightsRationalPointsAndObstructions** §§1.6–1.7 own weak Mordell–Weil and Mordell–Weil, and §5.2
+  owns the scheme-theoretic translation stabilizer of a closed subscheme of an abelian variety over a
+  field, as a subgroup functor on all test schemes (nilpotent ones included) with membership, action and
+  base change; `Stab(H)` of §10.1 is its specialization to a divisor `H`, while the finiteness of the
+  stabilizer of an ample divisor, good reduction, primitivity and the finite primitive quotients of §10.7
+  are owned here;
+  **FaltingsFinitenessAndIsogenyTheorems** §R28.5.15 owns Shafarevich finiteness for curves of
+  genus at least two.
+- **AbelianSchemesAndArithmeticModuliPartII** Layer B3 owns the o-minimal Ax–Schanuel machinery for
+  Kuga mixed Shimura varieties; the pure Ax–Schanuel theorem for period maps is asked of it in the
+  supplier contracts.
+- **MappingClassGroupsAndCanonicalRepresentations** §5.4 owns the limit theorem for polarizable real
+  variations on a punctured disc and the theorem of the fixed part for admissible graded-polarizable real
+  variations on a smooth quasi-projective variety; §3.1 applies the latter to polarized integral
+  variations, which are admissible.
+
+It leaves to other roadmaps: the general theory of variations of mixed Hodge structure and limiting
+Hodge structures; general relative p-adic Hodge theory beyond the good-reduction proper smooth
+families used here; any effective bound on integral points (the method is ineffective) and any
+finiteness for the quotient of the hypersurface parameter space by `PGL_(n+1)`.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- `Finsupp` (`Mathlib/Data/Finsupp/Defs.lean`): finitely supported functions, used for
+  integer-indexed natural multiplicities `h^a`; `Finsupp.degree` (`Mathlib/Data/Finsupp/Weight.lean`)
+  for the total degree of a monomial exponent.
+- `Ideal.iInf_pow_eq_bot_of_isLocalRing` (`Mathlib/RingTheory/Filtration.lean`, line 432): in a
+  Noetherian local ring the intersection of the powers of a proper ideal is zero (Krull). It is
+  applied to localizations of quotients of Tate algebras in §3.4.
+- `MvPolynomial.IsHomogeneous`, `MvPolynomial.pderiv`, `MvPolynomial.aeval` and `AlgebraicClosure`:
+  the carriers of `IsSmoothHypersurface` and `integralHypersurfaces_not_zariskiDense`.
+- `RingTheory.Sequence.IsRegular` (`Mathlib/RingTheory/Regular/RegularSequence.lean`): regular
+  sequences, used for the Jacobian ring in §8.6.
+
+### From Tau Ceti
+
+- `TauCeti.Cocharacter.parabolic` (`TauCeti/Algebra/AlgebraicGroup/Dynamic/Parabolic.lean`,
+  line 154): the dynamic parabolic subgroup functor of a cocharacter, defined by the existence of
+  the conjugation limit on Hopf-algebra points. Every Richardson parabolic `P_λ` of Layers 2 and 5
+  is this functor; the Levi decompositions under `TauCeti/Algebra/AlgebraicGroup/Dynamic/LeviDecomposition`
+  are used with it.
+- `TauCeti.Tannaka.fgPointTensorIsoEquiv`
+  (`TauCeti/Algebra/AlgebraicGroup/Representation/Tannaka/Equivalence.lean`, line 188): for a
+  commutative Hopf algebra over a field, its points with values in an algebra are the tensor
+  automorphisms of the scalar-extended forgetful functor on finitely generated comodules. This is
+  reconstruction for a known group, not the torsor theorem for two arbitrary fibre functors.
+- `TauCeti.Hodge.MixedHodgeStructure` (`TauCeti/Geometry/Hodge/Mixed/Basic.lean`, line 72) and
+  `TauCeti.Hodge.MixedHodgeStructure.Hom` (`TauCeti/Geometry/Hodge/Mixed/Morphism.lean`, line 77): a
+  mixed Hodge structure on an integral carrier with rational and complex base-change models, a finite
+  rational weight filtration and a finite complex Hodge filtration whose weight-graded pieces are pure,
+  and morphisms as rational maps preserving `W` whose complexification preserves `F`. No finiteness of
+  the carriers and no polarization are included. Strictness
+  (`TauCeti/Geometry/Hodge/Mixed/Strictness.lean`):
+  `TauCeti.Hodge.MixedHodgeStructure.Hom.range_inf_F_eq_map_F` (line 110), `im f ∩ F'^p = f(F^p)`;
+  `TauCeti.Hodge.MixedHodgeStructure.Hom.range_inf_WC_eq_map_WC` (line 118), the same for the
+  complexified weight filtration; `TauCeti.Hodge.MixedHodgeStructure.Hom.range_inf_WQ_eq_map_WQ`
+  (line 131), `im f ∩ W'_k = f(W_k)` rationally. Mixed Hodge structures form an abelian category
+  (`TauCeti.Hodge.MixedHodgeStructureCat.abelian`, `TauCeti/Geometry/Hodge/Mixed/Abelian.lean`,
+  line 33). Applied fibrewise in §0.3; local systems, connections and comparisons are not part of it.
+- `TauCeti.AlgebraicGeometry.AbelianVariety` (`TauCeti/AlgebraicGeometry/AbelianVariety/Basic.lean`):
+  an abelian variety over a field, bundled as a proper geometrically integral group scheme, with
+  derived smoothness, geometric connectedness and commutativity. There is no abelian scheme over a
+  base other than a field at the pin, so the good-reduction model of Layer 10 is not available.
+- `TauCeti.AlgebraicGeometry.LineBundleClass.IsAmple` (`TauCeti/AlgebraicGeometry/LineBundle/Ample.lean`,
+  line 71), `TauCeti.AlgebraicGeometry.Scheme.CartierDivisor`
+  (`TauCeti/AlgebraicGeometry/CartierDivisor/Basic.lean`, line 127) and
+  `TauCeti.AlgebraicGeometry.Scheme.CartierDivisor.IsEffective`
+  (`TauCeti/AlgebraicGeometry/CartierDivisor/Effective/Basic.lean`, line 45): ampleness of a
+  line-bundle class on a scheme (quasi-compactness and, at every point, an affine nonvanishing locus of
+  a section of a positive power), Cartier divisors on an integral scheme as global sections of
+  `𝒦_X^× / 𝒪_X^×`, and their effectivity (every local equation regular at its point); the underlying
+  scheme of an abelian variety over a field is integral, so both apply to it. These are the
+  carriers of the ample effective divisors of Layer 10 on the abelian variety over `K`.
+  `TauCeti.AlgebraicGeometry.LineBundleClass.intersectionNumber`
+  (`TauCeti/AlgebraicGeometry/IntersectionNumber/Basic.lean`, line 111) pairs a class `a` on `X` with
+  any scheme `C` over a field `k` and morphism `ι : C → X`, as the Euler-characteristic degree
+  `TauCeti.AlgebraicGeometry.LineBundleClass.eulerDegree` (`TauCeti/AlgebraicGeometry/LineBundle/Degree.lean`,
+  line 130, built on the line-74 degree of an invertible sheaf) of `ι^* a`, computed with the truncation
+  `dim H⁰ − dim H¹`. When `C` is a proper curve it is the usual degree of the restriction; for
+  `C = X = Spec k` and `ι = id` it is defined and vanishes on the trivial class. It is not a
+  numerical-equivalence carrier: numerical equivalence classes of divisors and the top self-intersection
+  `φⁿ` are not at the pin.
+- `CategoryTheory.Sheaf.NonabelianH1` (`TauCeti/CategoryTheory/Sites/NonabelianCohomology/Torsor.lean`,
+  line 226): the pointed set of isomorphism classes of torsors under a sheaf of groups, based at the
+  trivial torsor. It is the carrier of `H¹(F, H)` in §2.11, through the torsor classes of
+  SchemeAndStackFoundations §§1.15 and 2.3; it carries no Galois-cocycle description and no finiteness.
+- `TauCeti.AlgebraicGeometry.projectivePlaneCurve` (`TauCeti/AlgebraicGeometry/Curves/PlaneCurve/Basic.lean`,
+  line 101) and `TauCeti.AlgebraicGeometry.projectivePlaneCurve.smoothOfRelativeDimension`
+  (`TauCeti/AlgebraicGeometry/Curves/PlaneCurve/Smooth.lean`, line 92): for a homogeneous `G` in three
+  variables over a field `k` and an algebraically closed extension `K`, if every nonzero zero of `G` in
+  `K³` has a nonzero partial derivative of `G`, then `Proj k[x₀, x₁, x₂]/(G)` is smooth of relative
+  dimension one over `k`, in every characteristic. For `n = 2` and `K` the algebraic closure of `k` this
+  hypothesis is `IsSmoothHypersurface G`; it is used only in the Checks of §9.1. There is no projective
+  hypersurface scheme in higher dimension at the pin.
+
+### From TauCetiRoadmap.MordellLawrenceVenkatesh
+
+- §§0.3–0.4: for a field `E` with an automorphism `σ` of finite order `e` and a σ-semilinear bijection
+  `φ` of a `d`-dimensional `E`-vector space, the centralizer `Z(φ)` as an algebra over `E^σ`, with
+  `dim_(E^σ) Z(φ) = dim_E Z(φ^e) ≤ d²` (Lawrence–Venkatesh Lemma 2.1); consumed in §2.2, which reduces a
+  finite étale algebra `E` over `E₀` with `E^σ = E₀` to this case: `σ` permutes the field factors of `E`
+  in one cycle of length `k`, and restriction to one factor `E₁` identifies `Z(φ)` with the centralizer of
+  the `σ^k`-semilinear map `φ^k` on that factor, where `σ^k` has fixed field `E₀` on `E₁`.
+- §0.24: Goursat's lemma for products of simple Lie algebras; consumed in §4.1.
+- §1.2: Faltings's finiteness lemma: for fixed `K`, `S`, rank and weight, finitely many semisimple
+  pure Galois representations with integral Frobenius polynomials up to isomorphism; consumed in
+  §§2.9 and 7.3, and through §2.9 in §§4.5, 6.1 and 7.6. Its hypotheses are integer characteristic
+  polynomials of Frobenius, which §1.9 supplies for the orbit systems.
+- §§1.10, 1.12–1.13: global purity forces the conjugation relation on Hodge–Tate exponents, the
+  weight of a filtration, and the Hodge weight `w/2` of a pure representation; consumed in §5.4,
+  §1.12 through §1.13, whose conclusion is stated in that weight.
+- §§2.5, 2.6, 2.8: residue disks with coordinates, formal horizontal sections with integral
+  coefficients, and their complex convergence; consumed in §§0.7 and 3.4.
+- §2.11: crystalline Frobenius on de Rham cohomology of fibres and its compatibility with
+  Gauss–Manin transport, for abelian-by-finite families; §0.7 extends it to the geometric systems
+  of §0.5 through CrystallineCohomology §CR.7.3.
+
+### From TauCetiRoadmap.SheafConvolutionOnAbelianVarieties
+
+- §0.2: the origin-normalized rank-one character sheaf `L_χ` of a finite-order character; consumed
+  in §1.6.
+- §2.4: comparison of convolution groups under extension of algebraically closed fields; consumed
+  in §4.3.
+- §3.1: for a smooth ample divisor `H` in a complex abelian variety of dimension `n ≥ 2` with
+  `d = [H]^n/n!`, `χ(H, Ω^q_H) = (−1)^(n−1−q)·d·A(n, q)` for `0 ≤ q < n` and
+  `e_top(H) = (−1)^(n−1)·n!·d`; so a rank-one twist whose cohomology is concentrated in degree
+  `n − 1` has rank `N = n!·d` there. §3.3: for such a twist over a p-adic field the Hodge–Tate
+  weight `−q` occurs with multiplicity `d·A(n, q)`, `0 ≤ q < n`. Consumed in §§1.7 and 8.1.
+- §4.8: inversion symmetry and the classical form on the twisted cohomology: the image is `SL_N`
+  unless the hypersurface is a translate of its inversion, in which case the pairing is alternating
+  for even `n` (`Sp_N`) and symmetric for odd `n` (`SO_N`); the standard `SL_N` module carries no
+  invariant form. Consumed in §1.8 and, for the branch choice, in §10.5.
+- §§5.2–5.3: the exceptional Pell pairs and exceptional degrees `D_j`; consumed in §§10.5, 10.6
+  and 10.9.
+- §6.7: classical convolution monodromy (`SL`, `Sp` or `SO`) for hypersurfaces outside the
+  exceptional degrees; consumed in §§4.3 and 10.5.
+- §§8.2–8.3: a torsion character of order prime to `p`, generic in every Galois conjugate, with
+  big monodromy uniformly on its orbit; consumed in §§1.7, 4.3 and 10.5.
+
+### From TauCetiRoadmap.ClassicalArithmeticCompletion
+
+- §2.18 (Eulerian numbers, `A(n, q)` counting permutations of `Fin n` with `q` descents), §2.39
+  (the factorial sum, symmetry, recurrence and Worpitzky's identity) and §2.56 (unimodality of the
+  rows); consumed in Layer 8.
+- What ClassicalArithmeticCompletion must provide (gap:eulerian-row-log-concavity): for every `n`, the row `q ↦ A(n, q)` is positive exactly on `0 ≤ q < n` when `n ≥ 1` and on `{0}` when `n = 0` (the empty permutation gives `A(0, 0) = 1`), and `A(n, q)² ≥ A(n, q − 1)·A(n, q + 1)` for every `q ≥ 1`.
+- What ClassicalArithmeticCompletion must provide (gap:log-concave-convolution): if `a, b : ℤ → ℝ` are nonnegative, finitely supported, supported on integer intervals and log-concave (`a_k² ≥ a_(k−1)·a_(k+1)` for every `k`), then the convolution `k ↦ Σ_j a_j·b_(k−j)` and the reflection `k ↦ a_(−k)` have the same four properties.
+- What ClassicalArithmeticCompletion must provide (gap:eulerian-descent-variance): for `n ≥ 2` the descent number of a uniformly random permutation of `Fin n` has mean `(n − 1)/2` and variance `(n + 1)/12`, that is `Σ_q q·A(n, q) = n!·(n − 1)/2` and `Σ_q (q − (n − 1)/2)²·A(n, q) = n!·(n + 1)/12`.
+- What ClassicalArithmeticCompletion must provide (gap:eulerian-central-limit): for a uniformly random permutation of `Fin n`, `(des − (n − 1)/2)/√n` converges in law to the centred normal law of variance `1/12` as `n → ∞`.
+
+### From TauCetiRoadmap.ReductiveGroups
+
+- Layer 3 (closed subgroup schemes and kernels, normal subgroups and their fppf quotients, the
+  identity component and its finite étale component group), Layer 3A (algebraic actions: an orbit is
+  locally closed and open in its closure, and the orbit of a reduced group is smooth), Layer 4 (Jordan
+  decomposition, diagonalizable groups and tori), Layer 5 (unipotent groups and the unipotent radical),
+  Layer 6 (reductive groups and linear reductivity: in characteristic zero an affine group of finite
+  type is linearly reductive exactly when its identity component is reductive), Layer 6A
+  (characteristic-zero Levi complements for general affine groups), Layer 7 (Borel and parabolic
+  subgroups, roots, Weyl group and Bruhat decomposition) and Layer 7b (algebraic parabolics and Levi
+  intersections), all over a field of characteristic zero. Layer 3 is consumed in §2.1, for the
+  normalizer as a group scheme and the exactness of `1 → B → G → Aut_(E₀)(E) → 1`; Layers 3A and 6 in
+  §2.3, for the geometric finiteness inside a linear class; the layers together are consumed in
+  Layers 2, 3, 4 and 5. Connected root theory is used only on identity
+  components; complete reducibility for disconnected groups is imported from LanglandsParameterStacks
+  §§2.3–2.4, and the other disconnected-group statements are targets here.
+
+### From TauCetiRoadmap.ReductiveGroupsPartII
+
+- §RG2.0.2 (analytic charts in characteristic zero): for a smooth affine finite-type group `G` over a
+  nondiscrete locally compact field `K` of characteristic zero, `G(K)` is an analytic manifold of
+  dimension `dim G` whose tangent space at the identity is the Lie algebra; used only to see that an open
+  subgroup of `SO(E)(ℚ_ℓ)` has full Lie algebra and is Zariski-dense in `SO(E)`. Consumed in §9.2.
+
+### From TauCetiRoadmap.ArithmeticGaloisRepresentations and TauCetiRoadmap.LanglandsParameterStacks
+
+- ArithmeticGaloisRepresentations §1.11, *Complete reducibility and closed tuples*: for a connected
+  reductive group over an algebraically closed field, G-complete reducibility of a closed subgroup
+  (every parabolic containing it has a Levi containing it), applied to a homomorphism through the
+  Zariski closure of its image and over a general field after extension to an algebraic closure;
+  conjugacy invariance; equivalence with semisimplicity for `GL(V)`; the closed-tuple criterion; and
+  Levi semisimplification from a minimal parabolic, independent of the choices up to conjugacy and a
+  cocharacter limit in the unique closed orbit. Consumed in §2.3 through LanglandsParameterStacks.
+- LanglandsParameterStacks §2.3: for a group `G` whose identity component is reductive and whose
+  component group is finite étale, the R-parabolics `P_λ = {g : lim_(t→0) λ(t) g λ(t)⁻¹ exists}` and
+  R-Levis `L_λ = Z_G(λ)` of the cocharacters `λ` of `G°`, and G-complete reducibility tested against all
+  of them, whether or not they surject onto the component group. §2.4: over an algebraically closed
+  field, the closed-tuple criterion for such `G` under `G°`-conjugation, Levi semisimplification
+  from a minimal containing R-parabolic, G-completely reducible and unique up to `G°(k̄)`-conjugacy,
+  and the equality of dimension and component count of all minimal containing R-parabolics. In
+  characteristic zero every finite component group is étale, so these apply to every group of
+  Conventions with reductive identity component. Consumed in §§2.3 and 2.11, and through §2.3 in
+  §§2.5, 2.9–2.10, 4.5, 5.2, 5.4–5.5, 5.7–5.8, 6.1, 7.2 and 7.5.
+- What LanglandsParameterStacks must provide (gap:complete-reducibility-reductive-criterion): for an algebraic group `G` over a field of characteristic zero whose identity component is reductive, a closed subgroup `H ⊂ G` is G-completely reducible, all R-parabolics of §2.3 being tested, exactly when its identity component `H°` is reductive (Serre for connected `G`; Bate–Martin–Röhrle for reductive identity component; LS, Lemma 5.37, p. 56, LS lines 2574–2577).
+
+### From TauCetiRoadmap.RestrictedPowerSeries and TauCetiRoadmap.ComplexKahlerGeometry
+
+- RestrictedPowerSeries §2.1 (evaluation and substitution of restricted series) and §5.2
+  (Noetherianity, factoriality and dimension of `K⟨T₁, …, T_m⟩` over a complete nonarchimedean
+  field); quotients and localizations of Tate algebras are then Noetherian. Consumed in §3.4.
+- ComplexKahlerGeometry K3 §3.4 (local algebra, the Nullstellensatz, coherence and singular loci):
+  Noetherianity of the convergent power-series ring and Rückert's Nullstellensatz `I(V(𝔞)) = √𝔞` for
+  every ideal of `ℂ{z₁, …, z_m}`, in the form `ruckert_nullstellensatz`: a germ vanishing near the
+  point on the common zero set of finitely many germs `f₁, …, f_k` has a power in `(f₁, …, f_k)`; and the
+  locally finite decomposition of a reduced analytic subset into irreducible components, so that a small
+  neighbourhood of a point meets only finitely many components, all passing through it. Consumed in
+  §3.4, where the germs are the period equations and the vanishing germ is the product of algebraic
+  functions vanishing on the finitely many components through the point; for `𝔞 = (z²)` it gives
+  `z² ∈ 𝔞` although `z ∉ 𝔞`.
+
+### From TauCetiRoadmap.ComplexComparisonPartII
+
+- §C5.2 (families, Ehresmann and the Gauss–Manin connection), §C5.3 (geometric Hodge theory:
+  Hodge decomposition and Hodge numbers of smooth projective varieties), §C5.6 (regular singular
+  connections and Deligne's Riemann–Hilbert equivalence) and §C6.6 (integral and rational Artin
+  comparison between étale and Betti cohomology). Consumed in Layer 0, §8.6 and §9.2.
+- What ComplexComparisonPartII must provide (gap:griffiths-residue-hodge-filtration): for a smooth hypersurface `X = {F = 0}` of degree `d` in `ℙ^(m+1)_ℂ`, `m ≥ 1`, and `0 ≤ q ≤ m`, the Poincaré residue of the forms `P·Ω₀/F^(q+1)`, with `Ω₀ = Σ_i (−1)^i X_i dX₀ ∧ ⋯ ∧ dX_i^ ∧ ⋯ ∧ dX_(m+1)` (the factor `dX_i` omitted) and `P` homogeneous of degree `(q + 1)d − m − 2`, induces an isomorphism from the degree-`((q + 1)d − m − 2)` piece of the Jacobian ring `ℂ[X₀, …, X_(m+1)]/(∂F/∂X₀, …, ∂F/∂X_(m+1))` onto `gr_F^(m−q) H^m(X, ℂ)_prim` (Griffiths; Batyrev–Cox, Theorem 10.13, PDF p. 34, BC line 1344, in the toric generality). Consumed in §8.6 with `m = n − 1`. For the quartic surface (`m = 2`, `d = 4`) the degrees `0, 4, 8` give the pieces `gr_F², gr_F¹, gr_F⁰` of dimensions `1, 19, 1`.
+
+### From TauCetiRoadmap.ShimuraData
+
+- §3.1 (variations of Hodge structure), §3.2 (morphisms of variations, with kernels and images as
+  subvariations whose Hodge ranks are locally constant), §3.3 (polarized rational variations), §3.4
+  (polarized integral variations), §3.5 (flat-bundle local comparison: local flat frames turn a
+  variation into a holomorphic flag map), §3.6 (Griffiths transversality as a tangent condition on
+  that flag map), §3.7 (the parabolic of a Hodge filtration), §1.2 (Mumford–Tate groups), §1.3 (the
+  Mumford–Tate group of a rational pure Hodge structure is connected) and §1.4 (that of a polarizable
+  one is reductive). §3.2 is consumed in §0.3 and §§1.3–1.4 in §3.1; all of them are consumed in
+  Layers 0 and 3.
+- What ShimuraData must provide (gap:andre-monodromy-normality): for a polarized integral variation of Hodge structure on a connected smooth complex algebraic variety, the identity component of the Zariski closure of its monodromy group is a normal subgroup of the derived group of its generic Mumford–Tate group (Deligne–André).
+
+### From TauCetiRoadmap.AbelianSchemesAndArithmeticModuliPartII
+
+- Layer B2 §B2.6 (semirational Pila–Wilkie block counting) and Layer B3 (definable uniformization
+  and the Ax–Schanuel theorem for Kuga mixed Shimura varieties) are the o-minimal machinery on
+  which the Ax–Schanuel request below rests.
+- What AbelianSchemesAndArithmeticModuliPartII must provide (gap:period-map-ax-schanuel): the Ax–Schanuel theorem for pure polarized integral variations of Hodge structure (Bakker–Tsimerman) in the monodromy-orbit form: for such a variation on a smooth irreducible complex algebraic variety `X`, with `D_mon` the orbit, in the flag variety of a reference fibre, of the identity component of the Zariski closure of monodromy through a Hodge filtration, every irreducible analytic component `U` of the intersection of an algebraic subvariety `W ⊂ X × D_mon` with the graph of a local lift of the period map satisfies `codim_(X×D_mon) U ≥ codim_(X×D_mon) W + codim_(X×D_mon)(graph)` unless the projection of `U` to `X` lies in a proper weakly special subvariety of `X`; all codimensions are taken in `X × D_mon`, not in the product with a larger compact dual.
+
+### From TauCetiRoadmap.MappingClassGroupsAndCanonicalRepresentations
+
+- §5.4 (the limit theorem and the theorem of the fixed part): for a polarizable complex variation of pure
+  Hodge structure on a punctured disc, the Hodge bundles extend to subbundles of the canonical extension
+  and the limit is a mixed Hodge structure with the monodromy weight filtration, with no
+  quasi-unipotence assumed; and for an admissible graded-polarizable real variation `W` on a smooth
+  quasi-projective complex variety `X`, `H⁰(X, W)` carries a real mixed Hodge structure for which
+  `H⁰(X, W) ⊗ ℝ → W` is a morphism of variations. A polarizable pure real variation is admissible: for a
+  one-step weight filtration the two conditions of admissibility are the extension of the Hodge bundles
+  and the existence of the monodromy weight filtration given by the limit theorem along each disc.
+  Applied to the real variation of a polarized integral variation `V`: the inclusion of the flat
+  sections into each fibre is an injective morphism into a pure Hodge structure, hence strict, so the
+  flat sections form a real sub-Hodge structure of each fibre, of the same weight; they are defined over
+  `ℚ`, so they form a rational sub-Hodge structure, the same in every fibre after parallel transport, and
+  a polarized integral variation with trivial monodromy is constant. On a smooth connected variety that
+  is not quasi-projective this is applied on a dense affine open subset, which has the same flat
+  sections because its fundamental group surjects onto that of the variety. Consumed in §3.1.
+
+### From TauCetiRoadmap.MotivesAndAlgebraicCycles
+
+- §§6.1–6.3: neutral fibre data over a field, reconstruction of the neutral group `G_ω = Aut^⊗(ω)`
+  with `C ≃ Rep_fd(G_ω)`, and finite type exactly when one object tensor-generates. Consumed in
+  §§0.3, 0.6, 2.4 and 7.1.
+- §6.8: for any neutral category and exact faithful tensor fibre `η` with values in finite
+  projective `R`-modules, `Isom^⊗(ω_R, η)` is an affine faithfully flat right `G_ω,R`-torsor,
+  finitely presented when `G_ω` is of finite type, and `Aut^⊗(η)` is its inner twist. Consumed in
+  §§0.6, 2.4, 2.6, 3.1 and 7.1. A finitely presented faithfully flat torsor over a field is a
+  nonempty scheme of finite type and so has a point over an algebraic closure.
+
+### From TauCetiRoadmap.PELModuli
+
+- §M0.9 (1) (`smoothAffineTorsor_galoisH1` and its inverse `galoisH1_equiv_torsorClasses`): for a
+  smooth affine group `G` of finite type over a field `k`, connected or not, the pointed bijection
+  between the torsor classes of SchemeAndStackFoundations §§1.15 and 2.3 and continuous cocycles
+  `Gal(k^sep/k) → G(k^sep)` modulo `c_σ ~ g⁻¹c_σ σ(g)`, natural in field extensions and compatible with
+  pushforward along homomorphisms. Consumed in §2.11, where the class of a subgroup `gMg⁻¹` defined
+  over `F` is the cocycle `σ ↦ g⁻¹σ(g)`; for `G = μ₂` over `ℚ₃` it gives the four classes of
+  `ℚ₃^×/ℚ₃^(×2)`.
+
+### From TauCetiRoadmap.PadicHodgeTheory
+
+- §§3.3–3.6: Fontaine's functors, admissibility, the crystalline and semistable classification and
+  group-valued filtered data; `D_cris` and `D_dR` are exact faithful tensor functors on crystalline
+  representations. Consumed in §§0.3, 1.2, 2.6, 7.1 and 7.5.
+- §4.4: the Sen operator on `C ⊗ V` of a finite-dimensional continuous `ℚ_p`-representation `V` of
+  `G_K`, whose eigenvalues are the generalized Hodge–Tate weights, with its tensor and dual formulas.
+  Consumed in §7.2, together with gap:hodge-tate-image-cocharacter.
+- §5.5: the finite-type specialization of the tensor-isomorphism torsor, and the local torsor
+  theorem: for a finite extension `F/ℚ_p` and a connected reductive group `G` over `F`, a pointed
+  bijection `H¹(F, G) ≃ (π₁(G)_(Γ_F))_tors`, natural in `G` (Kottwitz), so that `H¹(F, G)` is finite.
+  The torsor is consumed in §§2.6 and 7.1 and the local torsor theorem in §2.11.
+- §6.1: the rational Fontaine–Laffaille comparison with its signs. Consumed in §7.3.
+- §7.3: for a proper smooth morphism `f` of smooth rigid spaces and a de Rham local system `L` whose
+  higher direct images `Rⁱf_*L` are lisse in every degree used, including every degree entering a
+  pairing, `Rⁱf_*L` is de Rham, with associated bundle the relative de Rham cohomology, its Hodge
+  graded pieces and its Gauss–Manin connection; on a residue disk this is the horizontality of the
+  fibrewise de Rham comparisons. It is applied only to the constant coefficient `L = ℤ_p` (de Rham,
+  with trivial filtration) on the analytification of a smooth projective family of `K_v`-varieties,
+  where lisseness holds in every degree: `Rⁱf_*(ℤ/pᵐ)` is lisse on the algebraic base because `p` is
+  invertible there (EtaleCohomologyFoundations §F.3), and its analytification is the analytic higher
+  direct image (ClassicalAdicEtaleCohomology §8.2). For a constant family `Y₀ × X → X` this gives the
+  constant local system `Hⁱ(Y₀)`, zero Gauss–Manin connection and identity transport. Consumed in
+  §§0.1, 0.5 and 0.7 through gap:relative-crystalline-comparison.
+- §§8.1–8.2: for proper smooth `X` with good reduction at `p`, `D_cris(H^i_et(X_C, ℚ_p))` is
+  crystalline cohomology of the special fibre with its Frobenius and, over `K`, de Rham cohomology
+  with its Hodge filtration; the comparisons commute with pullback, cup product and Tate twists,
+  and a cohomological projector restricts them when it is given geometrically on both sides.
+  Consumed in §§0.1, 0.5, 0.7, 1.2 and 7.5.
+- What PadicHodgeTheory must provide (gap:relative-crystalline-comparison): for a smooth projective morphism `f : 𝒴 → 𝒳` of smooth `W(k)`-schemes with `k` finite and `p` unramified, the fibrewise crystalline comparisons of §8.1 at the points of a residue disk of `𝒳`, which are horizontal for the Gauss–Manin connection on `R^i f_* Ω^•` by the proper smooth pushforward of de Rham local systems of §7.3 applied to the constant coefficient `ℤ_p`, whose higher direct images are lisse, are compatible with the Frobenius of the convergent F-isocrystal `R^i f_crys,*` of CrystallineCohomology §CR.7.3, so that `R^i f_*ℚ_p` and that filtered F-isocrystal are associated in the sense of Faltings.
+- What PadicHodgeTheory must provide (gap:hodge-tate-image-cocharacter): for a Hodge–Tate representation `ρ : G_K → GL(V)` of a finite extension `K/ℚ_p` on a finite-dimensional `ℚ_p`-vector space, comparing the graded Hodge–Tate fibre functor with the forgetful fibre functor extended to `C_p`, on the tensor category generated by `V`, gives a cocharacter of the Zariski closure of `ρ(G_K)` over `C_p` that acts by `t^i` on the `C_p(i)`-isotypic part of `V ⊗ C_p`, so that its weights on `V ⊗ C_p` are the Hodge–Tate weights of `V` with their multiplicities (Serre; Sen; the step used in the proof of LS, Lemma 3.14, p. 26, LS lines 1191–1200).
+
+### From TauCetiRoadmap.CrystallineCohomology
+
+- §CR.7.3: relative crystalline cohomology of a proper smooth morphism, its base change and its
+  Gauss–Manin connection. Consumed in §§0.5 and 0.7.
+
+### From TauCetiRoadmap.EtaleCohomologyFoundations and ClassicalAdicEtaleCohomology
+
+- EtaleCohomologyFoundations §F.3 (`VanishingCycles.lisseDirectImageTransport`): for a smooth proper
+  morphism and finite lisse coefficients whose annihilator is invertible on the base, the higher direct
+  images are lisse, with the geometric fibre stalk formula. Consumed in §§0.1, 0.5 and 0.7, for the
+  coefficients `ℤ/pᵐ` on smooth projective families over a base on which `p` is invertible.
+- ClassicalAdicEtaleCohomology §8.2 (proper algebraic comparison): for a proper morphism of schemes
+  locally of finite type over a scheme and its analytification, and torsion
+  coefficients, the base-change map from the analytified algebraic higher direct images to the analytic
+  higher direct images is an isomorphism. Consumed in §§0.1, 0.5 and 0.7, to carry lisseness from the
+  algebraic family to its rigid analytification on a residue disk.
+
+### From TauCetiRoadmap.DeligneWeightsAndPurity, WeilConjectures and PadicDifferentialEquationsAndRigidCohomology
+
+- DeligneWeightsAndPurity §0.1 (Weil `q`-numbers of integer weight), §0.2 (products, inverses and
+  integrality of Weil numbers), §0.7 (eigenvalue weights of an endomorphism), §0.9 (purity under
+  subobjects, quotients and extensions), §0.10 (`det(1 − tF)` and traces of powers), §0.16
+  (eigenvalues under a Frobenius-equivariant perfect pairing), §4.3 (the Weil theorem for smooth
+  projective varieties), §4.4 (integral degree factors from distinct weights) and §9.12 (invariant
+  and vanishing cohomology of a hyperplane section are orthogonal complements). Consumed in Layers
+  0, 1, 5, 7 and 9; §9.12 in §9.1.
+- DeligneWeightsAndPurity §2.2: for a nondegenerate alternating form on a finite-dimensional
+  `ℚ_ℓ`-vector space `V`, every subgroup of `Sp(V)(ℚ_ℓ)` open for the ℓ-adic topology is Zariski dense
+  in `Sp(V)`. Consumed in §9.2.
+- WeilConjectures Layer WC.3 (separating integral factors by weight) and Layer WC.5, "Complete
+  intersections" (`|#X(k_r) − #ℙ^m(k_r)| ≤ b·q^(m·r/2)` with the primitive middle part the only
+  error term). Layer WC.3 is consumed in §0.5 and Layer WC.5 in §7.8.
+- PadicDifferentialEquationsAndRigidCohomology §RD.7.7 (Katz–Messing): for smooth projective `X`
+  over `𝔽_q` and `ℓ ≠ p`, `det(1 − tφ^f | H^i_crys ⊗ K₀) = det(1 − t·Frob_q | H^i(X_F̄_q, ℚ_ℓ))` in
+  `1 + tℤ[t]`. Consumed in §7.3.
+
+### From TauCetiRoadmap.InverseGaloisAndArithmeticFundamentalGroups and EtaleDualityAndPerverseSheaves
+
+- InverseGaloisAndArithmeticFundamentalGroups §IG.0.T4: the constant-sheaf point count
+  `#X(𝔽_(q^m)) = Σ_i (−1)^i tr(Frob^m | H^i_c)` for every finite extension. Consumed in §1.9.
+- EtaleDualityAndPerverseSheaves §4.3: the cohomology of smooth complete intersections (powers of
+  the hyperplane class outside the middle degree, the primitive decomposition in the middle degree,
+  Frobenius `q^j` on `H^(2j)`, and families). Consumed in §§7.8 and 9.1.
+
+### From TauCetiRoadmap.LefschetzPencilsAndVanishingCycles
+
+- §2.8 (the Picard–Lefschetz formula for a proper family), §3.4 (existence of Lefschetz pencils),
+  §4.4 (the radical quotient of the vanishing subspace and its pairing), §4.5 (cohomology of the
+  total space), §5.8 (the Kazhdan–Margulis open-image theorem in the symplectic case) and §5.10
+  (in even dimension, with nondegenerate vanishing space, the compact monodromy is open in `O(E)` or
+  finite, and finite monodromy is the Weyl group of a positive definite ADE root lattice).
+  Consumed in §9.2.
+
+### From TauCetiRoadmap.SchemeAndStackFoundations and AlgebraicModuliForArithmeticGeometry
+
+- SchemeAndStackFoundations §§0.8–0.9 (spreading out over Dedekind bases and Noetherian
+  approximation) and §4.14 (`hilbert_quot_schemes`: Hilbert and Quot schemes of a projective
+  morphism with a relatively very ample bundle). Consumed in Layers 7, 9 and 10.
+- SchemeAndStackFoundations §1.16 (contracted products and twisting: a torsor under the automorphism
+  group of `X` contracts to a form of `X`). Consumed in §1.9, for the twisted forms of a fibre of a
+  finite multiplication cover defined by a deck element composed with Frobenius.
+- SchemeAndStackFoundations §§1.15 and 2.3 (torsors and torsor classes: for a group scheme `G` over a
+  base, the pointed set of `G`-torsors on the big fppf site, `NonabelianH1` of the represented sheaf of
+  groups, with pushforward along homomorphisms). Consumed in §2.11, for `H¹(F, H)` over a p-adic field.
+- AlgebraicModuliForArithmeticGeometry §2.1 (Hilbert families as Quot functors, fixed Hilbert
+  polynomial subfunctors) and §9.4 (the characteristic-zero projective birational resolution with
+  smooth source preserving the entire regular locus, imported there from
+  ResolutionOfSingularitiesCharacteristicZero). §2.1 is consumed in §§9.1 and 10.2, §9.4 in §§7.7
+  and 10.4.
+
+### From TauCetiRoadmap.AbelianSchemesAndArithmeticModuli
+
+- §A0.1 (abelian schemes), §A1.2 (rigidity over arbitrary bases: a morphism of abelian schemes is a
+  translation followed by a homomorphism), §A1.8 (Weil extension over a connected Dedekind base),
+  §A2.4 (ample cohomology, Riemann–Roch and `deg φ_L`), §A2.10 (the Néron–Severi group), §A3.2 (for
+  `r ≠ 0` the multiplication `[r]` is finite locally free of rank `r^(2g)`, and `[r]` and `A[r]` are
+  finite étale over the locus where `r` is invertible, compatibly with base change), §A3.3
+  (quotients by finite locally free subgroups), §A3.6 (theta groups and polarized descent), §A6.7
+  (Hom is free of finite rank), §A6.14 (positivity of the Rosati involution) and §§A6.30–A6.32
+  (Weil restriction, its geometric splitting along separable extensions and Weil restriction of
+  abelian schemes along finite étale maps). Consumed in Layers 1, 2 and 10; §A3.2 in §1.6. §A1.2
+  applies only to morphisms between abelian schemes; it is not used for a curve mapping to an abelian
+  variety.
+
+### From TauCetiRoadmap.JacobianChallenge
+
+- Layer F (Abel–Jacobi and the universal property): for a smooth proper geometrically connected curve
+  `C` over a field `k` with a `k`-point `x₀`, the Abel–Jacobi morphism `a : C → Jac C`, `x ↦ 𝒪(x − x₀)`,
+  satisfies `a(x₀) = 0`, and every pointed morphism `(C, x₀) → (A, 0)` to an abelian variety factors
+  as `h ∘ a` for a unique homomorphism `h : Jac C → A`. Consumed in §10.10.
+
+### From TauCetiRoadmap.Chebotarev
+
+- Chebotarev Layer 10 (Dirichlet-density Chebotarev): every conjugacy class of a finite Galois group is the
+  Frobenius class of a set of primes of positive density. Consumed in §7.3.
+
+### From TauCetiRoadmap.HeightsRationalPointsAndObstructions and FaltingsFinitenessAndIsogenyTheorems
+
+- HeightsRationalPointsAndObstructions §1.6 (`A(K)/mA(K)` finite for `m ≥ 1`) and §1.7 (Mordell–Weil).
+  Consumed in §10.8.
+- HeightsRationalPointsAndObstructions §5.2 (scheme-theoretic stabilizers): for a closed subscheme `X` of
+  an abelian variety `A` over a field `k`, the subgroup functor `T ↦ {a ∈ A(T) : X_T + a = X_T}` on all
+  `k`-schemes `T`, nilpotent ones included, represented by a closed subgroup scheme of `A`, with
+  membership, translation action and base change; `Stab(A) = A` and `Stab({x}) = 0`. Consumed in §10.1,
+  with `X = H` a smooth ample divisor, and through it in §10.7.
+- FaltingsFinitenessAndIsogenyTheorems §R28.5.15 (`finite_curves_goodReduction`: finitely many
+  isomorphism classes of smooth projective geometrically connected curves of genus `g ≥ 2` over `K`
+  with good reduction outside `S`). Consumed in §10.10.
 
 ## References
 
