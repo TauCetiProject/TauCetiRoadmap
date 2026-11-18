@@ -1423,6 +1423,13 @@ rings, without the local-ring sequent of the Examples of Layer 1. No file name o
 geometric formulas or their interpretation in a topos for an arbitrary theory (Layer 1), classifying
 sites or topoi (Layer 2), Diaconescu's theorem, theories of presheaf type (Layer 3), or the
 classifying topoi of rings and local rings (Layer 4).
+Layer 2 can rest on what is there for topoi of sites: besides `Topos/`, `Sites/Subtopos/` defines
+`IsSubtopos J P` for `P : ObjectProperty (Sheaf J (Type w))` (Tag 08LV, `Defs.lean`), embeddings
+`MorphismOfTopoi.IsEmbedding` (Tag 08LU, `Embedding.lean`), with
+`isEmbedding_iff_isIso_counit_app`, and `IsOpenSubtopos` and `IsClosedSubtopos`; it does not give
+the correspondence between subtopoi and finer topologies that 2.5 uses (GrothendieckTopoi 4.2).
+AxiomMath's sibling repositories Weil, Mordell and MMP (References) have no geometric theories or
+classifying topoi either, so Layers 1 and 2 are new.
 
 In LeanPool, *lean-pool* (References), `LeanPool/InfinitaryLogic` treats the model theory of
 `L_{ω₁ω}` (Morley–Hanf numbers, Erdős–Rado, descriptive set theory), which is not geometric logic;
@@ -1460,8 +1467,12 @@ it has no topoi. It is not a dependency either.
   (Algebra, Lemma 10.127.3).
 - AxiomMath, *The Stacks Project in Lean*. Lean 4 formalization at commit
   c496df0d9beea9deaeabcea8492605f9a0a2313b, Apache-2.0, built on Lean and Mathlib v4.35.0;
-  directories `StacksFrontier/CategoryTheory/Sites/Topos`.
+  directories `StacksFrontier/CategoryTheory/Sites/Topos` and `.../Sites/Subtopos`.
   https://github.com/AxiomMath/Stacks/tree/c496df0d9beea9deaeabcea8492605f9a0a2313b/StacksFrontier
+- AxiomMath, *Weil*, *Mordell* and *MMP*. Lean 4 formalizations at commits
+  27cdb2049be62ee2911429b47f54774078450e32, 82a30cb7857f6e3cfdb1be91f5533c0ccb57d493 and
+  1f9ade367087ec711a2ce1382bad279a5a0284c3. https://github.com/AxiomMath/Weil,
+  https://github.com/AxiomMath/Mordell, https://github.com/AxiomMath/MMP
 - LeanPool, *lean-pool*. Lean 4 formalizations at commit f8b9b721d616a2cc0b22fc226e4a9e3dd6cea2d0,
   Lean and Mathlib v4.35.0; projects `LeanPool/InfinitaryLogic`.
   https://github.com/LeanPool/lean-pool/tree/f8b9b721d616a2cc0b22fc226e4a9e3dd6cea2d0/LeanPool
