@@ -2,273 +2,6 @@
 
 **Summary.** Build the enhanced comparisons, restricted truncating invariants and chromatic arguments needed to prove two-height purity for algebraic K-theory of every associative ring spectrum. GeneralAlgebraicKTheory stops at exact, Waldhausen, Frobenius and differential graded models; RefinedTraceMethods supplies K on arbitrary small stable ∞-categories. This continuation proves Theorem A, the CMNN finite-sphere vanishing theorem and purity in that order, then establishes redshift, rational-transfer Galois descent, the height-one excision and homotopy-invariance theorems, high-height continuity and cyclic assembly. The coefficient examples include nonconnective rings, every prime, iterated K-theory, Morava K-theory, Brown–Peterson truncations, real and modular K-theory, and spherical Thom rings.
 
-## Scope and ownership
-
-This roadmap owns the additive and stable-envelope comparisons, acyclic-domain truncation and excision, continuous Witt operations on all NK degrees, the K-theoretic compact-kernel argument, telescopic purity and its consequences. Its chromatic groundwork extends the supplied p-local theory to the global convention T(0)=S[1/p], and supplies periodic-space detection, telescopic Tate vanishing, Hahn acyclicity and the Tate-height converse. It does not identify telescopic and Morava localizations on arbitrary spectra. Layer 4 §§4.1–4.34 and Layer 6’s Lubin–Tate covers (§6.1a) and chromatic field maps (§6.2) are owned here; ChromaticHomotopyTheory is downstream of this roadmap, owns its own chromatic developments and supplies nothing here. Sections 4.15–4.16 give an existential connectivity bound m. Its sharp value m=n+1 follows from them together with the consequence of ∞-semiadditivity of T(n)-local spectra that maps with π-finite n-connected fibers become T(n)-equivalences after Σ∞_+; that consequence is ChromaticHomotopyTheory §4.2, so the sharp value belongs to that roadmap and is not a target here (lmmt line 437, Remark 2.12, p.1020; csy line 3930, Theorem 5.3.5, pp.80–81). The positive-height real Bott comparison ko→KO and its base change to ko-algebras (§4.30a) are owned here. StableHomotopyKTheoryPartII §§4.4–4.5 own the general degree-zero power operation and transfer ideal used here.
-
-GeneralAlgebraicKTheory §§3.12–3.14, Layers 5–7, §§9.8–9.17, Layers 10–12 and §13.6 own classical plus/Q/S comparisons, products, transfers, Nil categories, Bass contraction, negative K-theory and enhanced-model invariance. RefinedTraceMethods §4.9 already states exact sequences in Cat∞perf, connective stable S-theory, the nonconnective suspension construction, K(Perf(A)) and global truncating invariants; §4.18 states the correction algebra and global truncating excision, while §4.10 supplies coherent multiplicative K. Their constructions, APIs and boundary tests are supplier obligations. RefinedTraceMethods §4.6 states relative localizing motives over a rigid monoidal base and §4.10 the tensor units of absolute finitary invariants; the A-linear weakly additive motives over an E∞-ring A, their tensor unit and the K₀ comparison (§8.1a) are different objects and are owned here, as is the all-cyclic THH assembly equivalence used in §5.9. AInfCohomology §AI.7.2 owns the circle Tate construction, Tate-orbit lemma and bounded-below residual comparison; RefinedTraceMethods §2.3 owns the bounded-above Tate fixpoint lemma. The restricted acyclic-domain predicates and consequences here add a condition on every auxiliary ring, rather than another global definition. The compact-kernel target adds its K-theory fiber sequence to EnhancedDerivedSheaves E5:presentability.3's categorical quotient. EnhancedDerivedSheaves E5:descent owns commutative finite-index Amitsur module descent; §8.2 allows associative algebras and proves the rational-unit criterion for ε-nilpotent towers.
-
-BordismFormalGroups F1–F3 and F6.1–F6.4 already state formal-group algebra, complex orientations, MU/BP/Morava coefficients, homological localization, nilpotence, type, periodicity, p-local finite localization and Hopkins–Ravenel smashing. GeneralizedCohomology G2, G4.5 and G5.1–5.4 supply spectra, orientations, finite duality, Thom diagrams and KU/KO models. TopologicalKTheory T4 and T7 own their geometric Bott and coefficient comparisons, including the eightfold real periodicity given by multiplication by b. The new variants here are the all-spectra finite-localization extension, the truncated-theory Bousfield classes, and their chromatic comparison consequences.
-
-EllipticCohomology E1–E4 and E6 state the generalized elliptic moduli, the height-one and height-two Morava realizations and automorphism actions, the sheaf Otop, tmf/Tmf/TMF, discriminant inversion and level sheaves. Their all-height realization and spectral affineness extensions are exact supplier contracts below. The modular chromatic input comparison and its K-theory applications here use those same spectra. The James reduced product with its word filtration and smash-power quotients, the James map and the connected James equivalence (§4.30b), and the stable James splitting (§4.30c) are owned here; §§4.32–4.33 and §7.7 use them. The combinatorial James–Hopf maps J(Y)→J(Y^∧j) belong to BordismFormalGroups F6.2 item 3; nothing here uses them. EllipticCohomology E5 owns the stable J-homomorphism that gives the sign Thom spectra of §§4.31–4.32. EllipticCohomology E5 owns the units spectrum gl₁(R) and coherent Thom orientation data; the identification of BGL₁R with the classifier of R-lines and the relative module-colimit interface are stated as supplier contracts below. The characteristic-p Thom theorem and its filtered families here are specializations of that shared construction.
-
-QWittVectors §§1.1–1.6 owns big Witt vectors, including arbitrary truncation sets, their topology and operations; HabiroRings consumes that theory and is not its owner. RefinedTraceMethods §6.1 (Spherical lifts of perfect δ-rings) owns the spherical lifts of perfect p-complete δ-rings with their mapping-space universal property; §6.1a here forms the Lubin–Tate ring of a perfect algebra from them by base change, and StableHomotopyKTheoryPartII §4.8 is their finite-field case. KTheoryLowDegrees §§1.1–1.3 owns projective K₀, and GeneralAlgebraicKTheory §§13.8a–13.8c owns the ordinary finite-field Brauer–Quillen theorem. KTheoryFiniteLocalFields §§1.1–1.6 supplies its normalized coefficient and completion refinements, and its §0.4 owns the odd-primary height-one functor `heightOneFromZeroSpace` on the pointed homotopy category; §4.11 here is the coherent Bousfield–Kuhn functor for every prime and every height n≥1, which agrees with that functor at n=1 and p odd (§4.20). SchemeKTheoryOperations Layers 1–5 owns enhanced scheme K-theory, descent geometry and Bass comparisons; its KH and Karoubi–Villamayor extension is stated as a supplier contract below. MotivicEtaleKTheory §7.2 concerns a Deligne regulator comparison, not finite-coefficient étale K-descent, so the latter interface is assigned to KTheoryFiniteLocalFields §6.5a.
-
-## Conventions
-
-Fix a rational prime p; none of the conclusions excludes p=2 or p=3. Rings and ring maps are unital, including the zero ring. E₁ means associative and E∞ means coherently commutative. Spectral tensors, fibers, cofibers, quotients and (co)limits are derived. Perf(A) consists of right perfect A-modules, the compact objects of Mod_A. The ordinary finite-projective exact structure uses left modules, so the comparison uses the opposite ring. Extension Perf(A)→Perf(B) along A→B requires no perfectness of B over A; restriction K(B)→K(A) requires B perfect over A. For the identity extension R→R, restriction sends [R²] to 2[R]. For a finite free extension B/R of rank d, transfer sends [B] to d[R], fixing its direction.
-
-Use homological grading: Σ raises the homotopy degree. A spectrum is d-connective if πᵢ vanishes for i<d; a map is d-connective if its fiber is d-connective. A space map is m-connective when each fiber is (m−1)-connected. Thus S¹→* has fiber S¹ and is 1-connective; ΣHℤ→0 has fiber ΣHℤ and is 1-connective. Under a cohomological complex model, ΣHk lies in degree −1. The cofiber sequence k→0→Σk has K₀ relation 0=[k]+[Σk], hence [Σk]=−[k]. Keep this same sign in the heart, localization and transfer comparisons.
-
-Write Hom for the full stable mapping spectrum and hom=τ≥0Hom for the connective additive mapping spectrum. For X=ΣHk and Y=Hk, π₋₁Hom(X,Y)=k while π₋₁hom(X,Y)=0. K means nonconnective K, Kconn its connective version and Kadd direct-sum group completion. The connected positive K-space is Ω∞τ≥1K; for a field K₀=ℤ is not part of that connected space. Universes are fixed before forming small categories, presheaves, Ind or κ-compact objects. A flasque enlargement uses sufficiently large uncountable regular κ in ordinary Ind; κ=ω does not supply the countable sums for the swindle.
-
-For n≥1 use the supplied telescope T(n); put T(0)=S[1/p] and K(0)=Hℚ. Define Lₙ^(p,f)=L_(T(0)∨⋯∨T(n)), Lₙ^f=L_(Hℚ∨T(1)∨⋯∨T(n)) and Lₙ=L_(K(0)∨⋯∨K(n)). The two finite towers agree on p-local spectra. At p=2 the spectrum H𝔽₃ survives T(0) and is killed by Hℚ; on Hℚ both bottom functors act as identity. Use L_(zero spectrum) for the zero reflector, reserving L₀ for rationalization. Height is the first vanishing threshold minus one, with values −1,0,1,…,∞. Redshift at height zero requires a nonzero rational part; p-local nonnegative-height input has this property. Empty support gives height −1, while ∞+1=∞. No theorem of purity at Morava height n≥2 is inferred from telescopic purity.
-
-Nil polynomial variables are central. NKⱼ(A) is the kernel of evaluation at x=0 in every integer degree. Write a(t)=χ(a) for the big Witt characteristic series ∏_(d≥1)(1−a_dt^d), with constant coefficient 1 and ghosts given by −tχ′/χ, in the convention in which its action on [1−νx] is [a(νx)]. For ν²=0 and a(t)=1−rt this gives [1−rνx], with value 1 at x=0. Setting x=1 would leave the NK kernel and is not this action. Division by χ means multiplication by its formal-power-series inverse, which exists because its constant coefficient is the unit 1. Amitsur cobar cofaces insert the unit, and codegeneracies multiply adjacent factors of the specified algebra. Homotopy-fixed-point comparison maps retain their order: L K(A)→L(K(B)^hG)→(L K(B))^hG. The second equivalence is proved by a uniform tower argument.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-Use `SSet.Quasicategory` in `Mathlib/AlgebraicTopology/Quasicategory/Basic.lean` for inner-horn filling, `CategoryTheory.Idempotents.Karoubi` in `Mathlib/CategoryTheory/Idempotents/Karoubi.lean` for ordinary idempotent completion, and `CategoryTheory.Triangulated.TStructure` with `CategoryTheory.Triangulated.TStructure.bounded` in `Mathlib/CategoryTheory/Triangulated/TStructure/Basic.lean` for t-structures on homotopy categories. The bounded predicate has object-dependent upper and lower bounds; it does not choose one common amplitude. Quasicategory supplies no stability or K-spectrum. Karoubi objects have an endomorphism whose square is itself, without automatically carrying an enhanced Verdier quotient. Use native rings, modules, matrices, polynomial rings, formal groups and integer grading for ordinary comparisons. For the James reduced product of §4.30b use `FreeMonoid` and `Submonoid` for its underlying monoid; `Topology.CWComplex`, `Topology.CWComplex.cell` and `Topology.RelCWComplex.Subcomplex` in `Mathlib/Topology/CWComplex/Classical/Basic.lean` for classical CW complexes in a Hausdorff ambient space and their subcomplexes; and `Topology.WithGeneratedByTopology` in `Mathlib/Topology/Convenient/GeneratedBy.lean`, with `DeltaGeneratedSpace` in `Mathlib/Topology/Compactness/DeltaGeneratedSpace.lean`, for the Δ-generated refinement of a topology, the topology coinduced by all continuous maps from the spaces `Fin n → ℝ`.
-
-### From Tau Ceti
-
-Use `TauCeti.ExactStructure` in `TauCeti/CategoryTheory/Exact/ExactStructure.lean`, with the zero-object and binary-biproduct assumptions in its actual signature. Use `TauCeti.finiteProjectiveModulesExactStructure` and `TauCeti.finiteProjectiveModulesExactStructure_eq_split` in `TauCeti/Algebra/Category/ModuleCat/CartanMap/Basic.lean`; the induced exact structure on finite projective left modules equals the split one. It is the ordinary comparison input, not a spectral module category. For degree-zero comparisons use `TauCeti.SplitK0` in `TauCeti/CategoryTheory/GrothendieckGroup/Split.lean`, `TauCeti.AbelianK0` in `TauCeti/CategoryTheory/GrothendieckGroup/Abelian.lean`, and `TauCeti.TriangulatedK0` in `TauCeti/CategoryTheory/GrothendieckGroup/Triangulated.lean`. Their ambient categories carry, respectively, binary biproducts and zero morphisms; an abelian structure; or a preadditive structure with zero object, additive integer shifts and a pretriangulated structure, with essential smallness for the quotient universe. Use `TauCeti.SplitK0.finrankEquiv` in `TauCeti/CategoryTheory/GrothendieckGroup/FiniteDimensionalVectorSpace.lean` for the additive equivalence with ℤ on `FGModuleCat` over a field, retaining its `Small` universe hypothesis; it sends a vector space to its dimension. These ordinary groups do not provide a K-spectrum. For §4.30b use `TauCeti.MooreLoopSpace` in `TauCeti/Topology/PathSpace/Moore.lean`, the Moore loops at a point, a topological monoid under strictly associative and strictly unital concatenation, compared with unit-interval loops by the homotopy equivalence `TauCeti.MooreLoopSpace.homotopyEquivPath` in `TauCeti/Topology/PathSpace/Moore/Comparison/Basic.lean`. Use `ContinuousMap.IsWeakHomotopyEquivalence` in `TauCeti/Topology/Homotopy/HomotopyGroup/WeakHomotopyEquivalence.lean` for maps inducing bijections on path components and on all homotopy groups at every basepoint, `TauCeti.CWType` in `TauCeti/Topology/CWComplex/Classical/CWType.lean` for spaces homotopy equivalent to a classical CW complex in the same universe, and Whitehead's theorem `ContinuousMap.IsWeakHomotopyEquivalence.homotopyEquiv` in `TauCeti/AlgebraicTopology/Homotopy/Whitehead.lean` for weak homotopy equivalences between spaces of CW type.
-
-### From TauCetiRoadmap.GeneralAlgebraicKTheory
-
-Consume §§3.12–3.14's positive plus/Q comparison and K₀/K₁ normalization; §§6.9 and 6.19's Gillet–Waldhausen comparison; §§7.1–7.7's products and transfers; §§9.8–9.17's Nil category and positive Fundamental Theorem; §§10.1–10.13's Bass contraction, nonconnective ring spectrum and regular negative vanishing; §§11.15–11.16's localization and exact-model spectra; §13.6's enhancement requirement; and §§13.8a–13.8c's Brauer lift and finite-field groups. On 𝔽_q, K₀=ℤ, and for every r≥1 one has K₂ᵣ=0 and K₂ᵣ₋₁=ℤ/(qʳ−1). At q=2 and r=1 the last group is zero, while at q=3 it has order 2. The value q=1 is excluded because a field has at least two elements; r=0 is excluded from the positive odd-degree formula. These are the finite-field values consumed here.
-
-### From TauCetiRoadmap.StableHomotopyKTheory
-
-Consume Layers 3–4's acyclic plus and group completion, Layer 5's spectrum smash/connectivity/operad comparisons, §§5.18–5.19's delooping recognition, §§6.1–6.3's coherent Waldhausen spectrum, and §§7.1–7.27's Moore coefficients, derived p-completion, filtered spectra and convergence. A mod-m coefficient is a Moore cofiber, not an unproved tensor with an E∞ Hℤ/m-algebra. The relevant plus map carries all local systems pulled back from its target; no plus construction on an arbitrary homotopy fiber is assumed. Space Postnikov towers use §§3.18–3.21 with the twisted local-coefficient clause.
-
-### From TauCetiRoadmap.StableHomotopyKTheoryPartII
-
-Consume §4.4 (Degree-zero power operation) and §4.5 (The transfer ideal for a prime power operation): the natural multiplicative unital operation P_p:π₀R→R⁰(BΣ_p) for every E∞ ring R, its basepoint value x^p, and additivity modulo the Young-subgroup transfer ideal. Restrict along BC_p→BΣ_p; the double-coset formula carries every mixed-summand transfer to a transfer from the trivial subgroup of C_p, giving additivity modulo that transfer ideal. At p=2, res P_p(2)=4, whereas res(P_p(1)+P_p(1))=2.
-
-### From TauCetiRoadmap.EnhancedDerivedSheaves
-
-What EnhancedDerivedSheaves must provide (gap:multiplicative-postnikov): For a connective E₁-ring R and k≥1, supply the E₁-ring structure on τ≤kR natural in R, with E₁ maps R→τ≤kR→τ≤(k−1)R; the derivation of τ≤(k−1)R into the bimodule Σ^(k+1)Hπ_kR whose RefinedTraceMethods §4.14 pullback algebra τ≤(k−1)R×_(τ≤(k−1)R⊕Σ^(k+1)Hπ_kR)τ≤(k−1)R is τ≤kR; and the bound that I⊗_A J is (a+b)-connective for an a-connective right module I and a b-connective left module J over a connective E₁-ring A. The split and derivation-pullback square-zero algebras themselves are RefinedTraceMethods §4.14, and the spectrum-level covers, truncations and the absolute smash bound are GeneralizedCohomology G3 item 8.
-
-Consume E0.4's stable enhancement, E5:abstract.1–4's algebra/module objects, monoidal structures and idempotent completion, E5:presentability.1–3's compact objects, Ind and stable quotients, E0.7's straightening and E3.1's Kan extension comparisons, and E5:presentability.3's coherent finite actions. For the commutative specialization of §8.2 use E5:descent's augmented Amitsur tower with its unit-inserting cofaces and multiplication codegeneracies; the associative ε-nilpotent extension is stated in §8.2. A quotient kernel is a retract closure. A compact-kernel localization gives compacts Idem(D/C), not an uncompleted quotient.
-
-### From TauCetiRoadmap.RefinedTraceMethods
-
-Consume §4.9's concrete connective and nonconnective K, exact sequences and weakly localizing invariants; §4.18's Land–Tamme correction algebra with underlying spectrum A′⊗_A B and its localizing pullback formula; §4.10's coherent multiplicative K; §§2.1–2.5's norms, Tate products and finite-action quotient, including §2.3's bounded-above Tate fixpoint lemma; §2.6's THH of E₁-rings and §§2.7–2.17's relative and categorical THH, its symmetric monoidal structure (§2.8), THH of spherical group rings (§2.10), cyclotomic TC and genuine/Borel comparison; §§4.11–4.17's trace, stable-K linearization, integral DGM and henselian rigidity of the trace with finite coefficients; §4.17 (TC modulo p and colimits), items (i)–(ii): X↦TC(X)/p preserves all small colimits, formed in CycSp, of cyclotomic spectra whose underlying spectra are connective, and A↦TC(A)/p preserves sifted colimits of connective E₁-rings; §4.19's The TC assembly map for C_p, with connective E₁ input, p-completed coefficients and cofiber ΣTHH(R;ℤ_p)_hT_p⊗(C_p,1). Integral DGM applies to connective rings and a surjective nilpotent-kernel π₀ map; its relative fiber includes rational information. For a correction square with one identity side the correction map is an equivalence. For a zero stable category, both K theories vanish; on bounded free (k×k)-complexes K₀=ℤ maps diagonally into K₀ of its completion, ℤ², so the connective completion comparison requires idempotent completeness. For the §4.19 cofiber, (C_p,1) contributes p−1 summands: one at p=2 and two at p=3. These are the supplied foundational Checks consumed here.
-
-Consume §6.1 (Spherical lifts of perfect δ-rings): for a perfect p-complete δ-ring B, its spherical lift S_B, a p-complete connective E∞-ring flat over S_p^∧ with a marked equivalence S_B⊗_(S_p^∧)Hℤ_p≃B, so that π_nS_B≅π_nS_p^∧⊗_(ℤ_p)B; its universal property Map_CAlg(S_B,R)≃Hom_Ring(B/p,π₀R/p) for every p-complete connective E∞-ring R; and the resulting functoriality in ring maps of perfect p-complete δ-rings, unique up to contractible choice. For a perfect 𝔽_p-algebra A write 𝕎(A)=S_(W(A)), using PrismaticCohomology §0.65. For every p-complete E∞-ring R, a map out of the connective ring 𝕎(A) factors uniquely through τ≥0R, which is p-complete with the same π₀, and, A being perfect, a ring map f:A→π₀R/p factors uniquely through the tilt (π₀R/p)♭→π₀R/p, by a↦(f(a^(1/p^k)))_(k≥0). So the universal property is the Witt–tilt adjunction Map_CAlg(𝕎(A),R)≃Hom(A,(π₀R/p)♭) used in §6.1a. For A=𝔽_p, 𝕎(A)=S_p^∧, whose π₁ is ℤ/2 at p=2 and zero at odd p; for A=0 it is zero. The E(k)-linear base change and the Lubin–Tate cover theorem are proved in §6.1a.
-
-The supplied perfect stable categories and localizing invariants interface guarantees the following (bgt line 1559, §5.1–5.2, Definitions 5.8 and 5.12, pp.775–779; §9.1, pp.806–808; lt line 193, Notation 1.1 and Definition 1.2, manuscript p.5).
-
-- Exactness is equivalent to full faithfulness, a zero composite, and E≃Idem(D/C).
-
-- A localizing invariant carries every exact sequence to a natural cofiber sequence.
-
-- For a split exact sequence C→D→E, F(D)≃F(C)⊕F(E).
-
-- Equivalences of perfect stable categories induce equivalences under F, coherently with composition.
-
-**Checks.**
-
-- C→C→0 with identity first arrow is exact.
-
-- A Verdier quotient by a stable subcategory need not have precisely that subcategory as its kernel before taking its retract closure.
-
-- For a discrete additive category, the homotopy-category idempotent completion agrees with CategoryTheory.Idempotents.Karoubi.
-
-The supplied perfect modules and K-theory of ring spectra interface guarantees the following (bgt line 1352, §4.3, Theorems 4.22–4.23, pp.770–771; §9.1, pp.806–808; lmmt line 231, Conventions, p.1015; line 614, proof of Proposition 3.6, pp.1023–1024; lt line 366, Lemma 1.10 and proof, manuscript p.9).
-
-- M is perfect exactly when it belongs to the stable retract closure of A.
-
-- A→B yields K(A)→K(B), with identity/composition equivalences from tensor associativity.
-
-- If B is perfect over A, restriction gives K(B)→K(A).
-
-- K(HR) agrees with GeneralAlgebraicKTheory’s nonconnective K-theory of R, naturally in ring maps.
-
-**Checks.**
-
-- Perf(S) is the category of finite spectra; K(S) is its K-theory.
-
-- Perf(0) and K(0) are zero.
-
-- For an ordinary ring R, HR⊕HR corresponds to the rank-two projective module under the comparison.
-
-- For an ordinary ring R, π₀K(HR) is the existing projective K₀(R), with the right/left-opposite convention explicit.
-
-The supplied stable S-construction interface guarantees the following (bgt line 2007, §7.1, pp.788–794; lmmt line 628, proof of Proposition 3.6, p.1024).
-
-- A filtration determines its compatible subquotients and hence an S_r object.
-
-- S_r(C)≃Fun([r−1],C) for r≥1, naturally in exact functors.
-
-- The three faces of a cofiber sequence X→Y→Z select Z,Y,X in the usual S2 order.
-
-- The S-construction assembles the same connective spectrum as GeneralAlgebraicKTheory’s Waldhausen model.
-
-**Checks.**
-
-- S0(C) is terminal and stable, hence zero.
-
-- An S2 object includes a specified cofiber identification, rather than just an arbitrary composable pair.
-
-- The split sequence X→X⊕Y→Y gives [X⊕Y]=[X]+[Y] in π₀Kconn(C).
-
-The supplied nonconnective K-theory of stable categories interface guarantees the following (bgt line 2664, Definitions 9.1 and 9.6, pp.806–808; Theorems 9.8 and 9.10 with proofs, §§9.2–9.3, pp.808–816).
-
-- τ≥0Knc(C)≃Kconn(C), naturally in exact functors.
-
-- Knc(ΣκC)≃ΣKnc(C).
-
-- Filtered colimits in Cat∞perf are carried to colimits in Sp.
-
-- An exact sequence C→D→E gives Knc(C)→Knc(D)→Knc(E) in all degrees.
-
-**Checks.**
-
-- If C admits an exact endofunctor T with id⊕T≃T, then Knc(C)=0.
-
-- For a field k, π₀Knc(Perf(Hk))=Z and the negative groups vanish by comparison with the parent.
-
-- Localization uses Idem(D/C); replacing it by an arbitrary underived categorical quotient does not give the comparison theorem.
-
-- A flasque stable category has zero Knc, and the suspension quotient deloops it in all integer degrees.
-
-The supplied Land–Tamme replacement algebra interface guarantees the following (lt line 218, Theorem 1.3 and proof, manuscript pp.6–14).
-
-- C→B′ has underlying map A′⊗_A B→B′.
-
-- The underlying (A′,B)-bimodule of C is A′⊗_A B.
-
-- The constructed replacement square is cartesian after any weakly localizing invariant.
-
-- Maps of pullback squares induce the replacement algebra maps coherently.
-
-**Checks.**
-
-- For the identity pullback square on A, C≃A.
-
-- If A′⊗_A B≃B′, the original invariant square is cartesian.
-
-- The construction applies to E₁-rings without an E2 structure on A; an ordinary commutative tensor product cannot be used as its definition.
-
-- If A′⊗_A B→B′ is an equivalence, every such invariant carries the original square to a pullback.
-
-The supplied products and coefficient actions on enhanced K-theory interface guarantees the following (bgt-mult line 1022, Theorem 5.8, Proposition 5.9 and Corollaries 5.10–5.11, manuscript p.23; lmmt line 614, Proof of Proposition 3.6, p.1023; Theorem B discussion, p.1014).
-
-- Connective and nonconnective K carry coherent external pairings K(C)⊗K(D)→K(C⊗D), with their unit and associativity compatibilities.
-- For commutative R and an associative R-algebra A, K(A) is a K(R)-module, naturally in R-linear exact functors.
-- Restriction along an algebra perfect over its base satisfies the projection formula with extension and the tensor action.
-
-**Checks.**
-
-- For finite projective modules over a discrete commutative ring, the product on K₀ is the existing tensor-product multiplication.
-
-- Over a field, tensoring ranks 2 and 3 gives rank 6, agreeing with 2·3 in K₀.
-- For the zero algebra the module K(0) is zero, so every scalar acts by the zero endomorphism.
-
-### From TauCetiRoadmap.AInfCohomology
-
-Consume §AI.7.2's circle norm ΣX_hS¹→X^hS¹, the Tate-orbit lemma for bounded-below C_(p²)-spectra, and the completed circle-Tate comparison (X^tS¹)^∧p≃(X^tC_p)^h(S¹/C_p) for bounded-below X, retaining its residual S¹/C_p action and canonical comparison map. RefinedTraceMethods §2.3 supplies the bounded-above Tate fixpoint lemma (X^hC_p)^t(C_(p²)/C_p)=0 with the induced quotient action. These two bounds are separate hypotheses; the bounded-below circle comparison is not applied to an arbitrary periodic or coconnective spectrum. For the trivial rational spectrum Hℚ every finite C_p Tate spectrum is zero (the norm is multiplication by p on π₀, invertible on ℚ) and so is the p-completed circle Tate spectrum, but the raw circle Tate spectrum is not: π_*(Hℚ^tS¹)=ℚ[t,t⁻¹] with |t|=−2, so π₀=ℚ; only its derived p-completion vanishes, and both sides of the completed comparison are then zero. The sphere's C_p Tate value is S_p^∧.
-
-### From TauCetiRoadmap.BordismFormalGroups
-
-Consume F1–F3's formal groups, orientations and MU/BP/Morava objects and coefficients, F6.1's homological reflector and its cardinal bounds, F6.2's smash/self-map/element nilpotence, F6.3's type classification, periodic self-maps, Bousfield-class independence and the inequality ⟨K(n)⟩≤⟨T(n)⟩, and F6.3–F6.4's p-local finite localization and Hopkins–Ravenel smashing theorem. F6.5 supplies general straightening, pointwise Kan extensions and their composition for arbitrary small quasicategorical bases, coherent stable quotient/Ind theory and K(n)-local finite-action Tate comparisons; the telescopic arbitrary-action theorem here is stronger in its specified local category. The supplied finite kernel is generated by type-(n+1) complexes in p-local spectra. The extension to all spectra here uses finite p-primary generators. F6.3 supplies ⟨BP[v_n⁻¹]⟩=⟨E(n)⟩=⟨K(0)∨⋯∨K(n)⟩, with v₀=p, and the p-local kernel ker(L_n^f)=Ind(C_(n+1)), its smashing property and compact-localization comparison; the BP truncation class with its HF_p summand is proved here.
-
-### From TauCetiRoadmap.GeneralizedCohomology
-
-Consume G2's concrete symmetric spectral model, derived smash and stable mapping objects, G3's integer homotopy and structured connective/Postnikov objects, G4.5's complex orientation, and G5.1–G5.4's finite duality, Thom diagrams, MU and coherent KU/KO. In particular π₀ko=ℤ, π₁ko=π₂ko=ℤ/2, π₃ko=0 and with GeneralizedCohomology's names a (degree 4), b (degree 8) and u for the degree-two complex Bott class, the real coefficients satisfy a²=4b, and complexification gives c(a)=2u² and c(b)=u⁴. The ko→KO map is b-inversion. Comparing the two degree-one sphere factors negates their degree-two class. G2.5 supplies suspension spectra of spaces, which §§4.30b–4.30c, 4.33 and 7.7 use.
-
-### From TauCetiRoadmap.TopologicalKTheory
-
-Consume T4's complex Bott comparison and T7.1's real coefficient and multiplicative comparisons with GeneralizedCohomology G5.4. T7.1 exports the real coefficient ring ℤ[η,a,b,b⁻¹]/(2η,η³,ηa,a²−4b) with η, a and b in homotopy degrees 1, 4 and 8; multiplication by b is the eightfold real periodicity in every degree. In the same names a, b of TopologicalKTheory T7 and u for the complex Bott class, the relation a²=4b and complexification c(a)=2u², c(b)=u⁴ agree with the conventions above; at p=2 the factor 4 is retained.
-
-### From TauCetiRoadmap.AlgebraicTopology
-
-Consume Stage 2's singular homology with coefficients; Stage 4's CW pairs, cellular chains, homotopy extension and cofibrations, and item 4's reduced suspension (X×I)/(X×∂I∪{x₀}×I) of a pointed Hausdorff CW complex; Stage 5 item 1's Künneth theorems for products, with the field and flat collapse and the Tor terms over ℤ; and Stage 8: relative homotopy groups with their long exact sequence and `relativeCWConnectivityOfCellDimension` (item 1), the Hurewicz theorem and the relative Hurewicz theorem for simply connected pairs (items 3–4), Whitehead's theorem and the homological Whitehead theorem for simply connected spaces, extended to spaces of CW type (item 5), relative obstruction cochains (item 9), and `basedLoopCWType` (item 11a), which gives the based loop space of a Hausdorff CW complex at a 0-cell CW type. §4.13 and §4.30b use them.
-
-### From TauCetiRoadmap.DGFloer
-
-Consume Layer 1 item 2: every space has a CW approximation, natural up to homotopy. Consume Layer 2 items 1–2: Moore path spaces with continuous, strictly associative and unital concatenation, Hurewicz fibrations, and the Moore-path replacement of an arbitrary map by a Hurewicz fibration with homotopy equivalent total space. §4.30b uses the CW approximation and the path fibration over a reduced suspension, which is the Moore-path replacement of the inclusion of its base point: its total space of Moore paths from the base point is contractible and its fiber is the Moore loop space.
-
-### From TauCetiRoadmap.EllipticCohomology
-
-What EllipticCohomology must provide (gap:spectral-units-and-lines): E5: For every E∞ ring R, identify BGL₁R=Ω∞bgl₁(R), with gl₁(R) the units spectrum of E5, with the classifier of R-lines equivalent to R, that is, with the path component of R in the Picard space of invertible R-modules, naturally in R.
-
-What EllipticCohomology must provide (gap:relative-thom-colimit): E5: For f:X→BGL₁R, supply its Thom R-module as colim_X L_f of the classified R-line local system, naturally in f and commutative R.
-
-What EllipticCohomology must provide (gap:multiplicative-thom-refinement): E5: For n≥1 and an n-fold loop map X→BGL₁R of group-like E_n spaces, prove the Thom colimit has its natural E_n R-algebra structure.
-
-What EllipticCohomology must provide (gap:elliptic-level-three-galois): E6: Supply the faithful GL₂(𝔽₃)-Galois extension TMF[1/3]→TMF(3), with its deck action.
-
-What EllipticCohomology must provide (gap:elliptic-supersingular-at-two): E2: Supply the GL₂(𝔽₃)-equivariant equivalence L_K(2)TMF(3)≃E₂ at p=2 for the supersingular formal group over 𝔽₄, identifying L_K(2)TMF→E₂ with the localized level-three Galois extension.
-
-What EllipticCohomology must provide (gap:elliptic-supersingular-at-three): E2: Supply L_K(2)TMF≃E₂^hG₂₄ at p=3 for the supersingular formal group over 𝔽₉, with G₂₄ the full semilinear automorphism group over 𝔽₃.
-
-What EllipticCohomology must provide (gap:elliptic-spectral-affineness): Prove the symmetric monoidal equivalence QCoh(X,Otop)≃Mod_(Γ(X,Otop)) for X=M̄_ell and M_ell, including colimit preservation of global sections and compatibility with tensoring by every spectrum.
-
-What EllipticCohomology must provide (gap:all-height-morava-realization): Extend the marked Goerss–Hopkins–Miller realization and coherent semilinear automorphism action to every finite height h≥1 over every perfect characteristic-p field, preserving the universal formal-group map and the chosen deformation identification.
-
-Consume E1's generalized elliptic compactification and formal neighborhoods, E2 items 2–3's height-one and height-two Morava E realizations and obstruction machinery, E3's Otop and tmf/Tmf/TMF, E4's surviving Δ²⁴ class of degree 576 and the comparison Tmf[(Δ²⁴)⁻¹]≃TMF, E5's units spectrum gl₁(R) of every E∞ ring R, with GL₁R=Ω∞gl₁(R), π₀GL₁R=(π₀R)^×, π_iGL₁R=π_iR for i≥1 and bgl₁(R)=Σgl₁(R), its Thom orientation data and its stable J-homomorphism bo→bgl₁(S), whose infinite loop map BO→BGL₁(S) classifies the universal stable spherical fibration, and E6's level sheaves and deck actions. On π₁ the J-homomorphism sends the Möbius class of π₁BO=ℤ/2 to −1∈π₀GL₁(S)=ℤˣ, since the one-point compactification of the Möbius line has monodromy of degree −1. The full semilinear residue-field actions are retained. Locally π₂ᵣOtop=ωʳ and π₂ᵣ₊₁Otop=0; global Tmf is not required to be even. The all-height and spectral-module refinements are specified below.
-
-### From TauCetiRoadmap.QWittVectors
-
-Consume §1.4a's big Witt power-series comparison γ_∞:(W_(ℕ>0)(R),+)≅U_∞(R), γ_∞((a_d))=∏_(d≥1)(1−a_dt^d)⁻¹, with its coefficient-naturality, restriction (ρ_(N,M)∘γ_N=γ_M∘res), Verschiebung-substitution and Teichmüller (γ_∞(τ(a))=(1−at)⁻¹) laws, together with §1.3's ring structure and inverse-limit topology and §1.4's multiplicative τ. The characteristic series of this roadmap is χ(a)=γ_∞(a)⁻¹, the inverse in R[[t]]; since inversion is an automorphism of the abelian group U_∞(R) commuting with every reduction modulo t^(N+1), χ is again a natural additive isomorphism compatible with the finite restrictions. Transporting §1.3's multiplication along χ gives (1−at)*(1−bt)=1−abt from τ(a)τ(b)=τ(ab), χ(0)=1 and χ(1)=χ(τ(1))=1−t. The ghost identity −tχ′/χ=∑_(n≥1)w_n(a)t^n is proved in §4.36.
-
-Consume §§1.1–1.6's big Witt ring W_S(R) for every divisor-closed positive truncation set S, its ghosts, restrictions, Frobenius, Verschiebung and restriction-limit topology. NK uses S=ℕ>0, with the kernels of initial-segment restriction giving its continuity ideals. The characteristic series χ=γ_∞⁻¹ has χ(0)=1 and χ(1)=1−t; it is the non-inverted series convention of Weibel §1 (weibel line 38, pp.467–468). For a nilpotent ν with ν²=0, the characteristic-series action gives a(νx)=1−a₁νx; its evaluation at x=0 is 1. The empty truncation set gives the zero ring, while W_({1})(R)=R. No p-typical substitution for the big ring is made.
-
-### From TauCetiRoadmap.PrismaticCohomology
-
-Consume §0.65's equivalence between perfect p-complete δ-rings and perfect 𝔽_p-algebras, B↦B/p with inverse A↦W(A), under which every ring map between perfect p-complete δ-rings is a δ-map. For A=𝔽_p it gives W(𝔽_p)=ℤ_p with identity Frobenius; for A=𝔽_p[t^(1/p^∞)] the Witt Frobenius of W(A) is bijective with reduction A. It is used only to view W(A) as a perfect δ-ring in §6.1a.
-
-### From TauCetiRoadmap.KTheoryLowDegrees
-
-What KTheoryLowDegrees must provide (gap:nilpotent-kzero): Prove that quotient by any nilpotent two-sided ideal of a unital ring induces an isomorphism on projective K₀ by lifting idempotents and their stable isomorphisms.
-
-Consume §§1.1–1.3's projective K₀ and its quotient-induced comparison, extended as specified below. The nilpotent lifting theorem concerns arbitrary two-sided ideals; no commutativity or regularity of the coefficient ring is added. Only its degree-zero part is imported; the Bass induction to negative degrees is a target here.
-
-### From TauCetiRoadmap.KTheoryFiniteLocalFields
-
-Consume §0.4 (Height-one localization and realization): for p odd, `heightOneLocalize X` is localization at KU∧M(ℤ/p), hence L_(K(1))X, and `heightOneFromZeroSpace` is a functor Φ_p from the pointed homotopy category of spaces to KU/p-local spectra with Φ_p(Ω∞₀X)≃`heightOneLocalize X` natural in spectra X. It is used only for the n=1, p odd comparison of §4.20 with the Bousfield–Kuhn functor of §4.11.
-
-For these spectral étale contracts use D₀=Hℚ and D_n=T(n) for n≥1; this detector leaves the global convention T(0)=S[1/p] intact.
-
-What KTheoryFiniteLocalFields must provide (gap:spectral-etale-descent): §6.5a: With D₀=Hℚ and D_n=T(n) for n≥1, for every E∞ ring R and n≥0 prove that Y↦L_D(n)K(Perf(Y)) is an étale sheaf on the spectral étale site of R (yuan line 310, Theorem 4.3, manuscript p.8).
-
-What KTheoryFiniteLocalFields must provide (gap:spectral-strict-henselian-detection): §6.5a: With D₀=Hℚ and D_n=T(n) for n≥1, for every E∞ ring R and n≥0 with L_D(n)K(R)≠0 prove that there exists a prime ideal 𝔭⊂π₀R for which L_D(n)K(R_𝔭^sh)≠0 (yuan line 326, Lemma 4.5, manuscript pp.8–9).
-
-What KTheoryFiniteLocalFields must provide (gap:suslin-algebraically-closed-comparison): §6.5a: Identify K(L)^∧p with ku^∧p as homotopy ring spectra, for every algebraically closed field L of characteristic zero and every prime p, by a map sending the §1.2 Bott class of a compatible system of p-power roots of unity to the Bott generator; the coefficient groups π_*K(L)^∧p=ℤ_p[β] in nonnegative degrees follow from §6.5a's separably closed case d=0 and §1.6's completion.
-
-Consume §§1.1–1.6's finite-field coefficient, product, Brauer and completion refinements, and §6.5a's periodic étale K-theory and field descent. The algebraically closed characteristic-zero and spectral strict-Henselian variants below extend those interfaces. Discrete-field descent does not by itself give descent for a periodic spectral ring.
-
-**Checks.**
-
-- At p=3, the finite étale C₂-torsor 𝔽₄/𝔽₂ has K(𝔽₂)^∧₂≃Hℤ₂≃K(𝔽₄)^∧₂: the positive groups have odd order and negative groups vanish. Inverting 3 leaves these completions unchanged. The equivariant rank map gives the trivial action on Hℤ₂, and H²(C₂,ℤ₂)=ℤ/2, so the proposed S[1/3]-descent comparison would have π₋₂ values 0 and ℤ/2. This excludes S[1/p] from the height-zero contract.
-- With D₀=Hℚ the same torsor has rational K-spectrum Hℚ on both fields; the cochain differentials alternate 0 and 2, giving H²(C₂,ℚ)=ℚ/2ℚ=0 and π₋₂=0 on both sides. Their derived 2-completions are zero.
-- For R=H𝔽₂ at n=0, the unique prime has strict henselization H𝔽̄₂ and both rational K₀ groups are ℚ, so detection is nonvacuous. For R=0 the nonvanishing hypothesis fails and no prime is asserted; at n≥1 the detector is exactly T(n).
-
-### From TauCetiRoadmap.SchemeKTheoryOperations
-
-What SchemeKTheoryOperations must provide (gap:kh-simplicial-model): §5.2: Supply the natural homotopy K-spectrum KH(A)=|K(A[Δ•])| for every associative unital discrete ring A, using central polynomial variables and A[Δ^r]=A[x₀,…,x_r]/(Σx_i−1).
-
-What SchemeKTheoryOperations must provide (gap:kh-regular-comparison): §5.2: Prove K(A)→KH(A) is an equivalence for regular noetherian discrete rings A.
-
-What SchemeKTheoryOperations must provide (gap:kv-relative-comparison): §5.6: Supply the convergent relative Karoubi–Villamayor polynomial-resolution spectral sequence from the simplicial relative K-groups to relative KH whenever the relative K-spectra have a uniform lower bound.
-
-What SchemeKTheoryOperations must provide (gap:kh-nilpotent-invariance): §5.6: Prove KH(A)→KH(A/I) is an equivalence for every nilpotent two-sided ideal I of a discrete associative unital ring A, in all integer degrees.
-
-What SchemeKTheoryOperations must provide (gap:localizing-nisnevich-descent): §4.12: Prove that X↦E(Perf(X)) satisfies Nisnevich descent on qcqs schemes for every localizing invariant E, with value zero on the empty scheme.
-
-What SchemeKTheoryOperations must provide (gap:localizing-derived-blowup): §5.7: Prove that every localizing invariant of perfect categories carries the derived blowup square associated to a finite sequence in a commutative ring to a pullback square (Land–Tamme Lemma A.1(iii)).
-
-What SchemeKTheoryOperations must provide (gap:abstract-blowup-noetherian-approximation): §5.7: Prove that an abstract blowup square of qcqs schemes with finitely presented proper modification and finitely presented center is pulled back from such a square of noetherian schemes.
-
-What SchemeKTheoryOperations must provide (gap:abstract-blowup-platification-domination): §5.7: For a proper modification of noetherian schemes that is an isomorphism on a schematically dense open U, prove domination by a blowup with center supported in the complement of U.
-
-Consume §§1.1–2.7's Perf(X), enhanced scheme K and continuity comparisons, §§3.1–3.5's localization, §§4.1–4.3 and 4.12's Nisnevich squares and descent, and §§5.2–5.9's ordinary homotopy invariance, Bass spectrum and regular blowups. The cdh extension below concerns qcqs schemes and finitely presented abstract blowup data. The KH carrier and relative Karoubi–Villamayor comparison are stated as supplier contracts above, as a precise extension rather than an inference from its regular-ring A¹ theorem.
-
 ## How to read the build
 
 Layers 0–3 compare the supplied enhanced K-theory with compact localization, additive/projective and plus models, restricted truncation, stable envelopes and bounded hearts. Layer 4 first supplies the chromatic interfaces and the James construction its proofs need, then proves acyclic truncation, categorical vanishing and both forms of Theorem A without using purity. Layer 5 obtains the high-height trace comparison before the CMNN induction and proves purity only after that induction. Its base n=2 uses Mitchell; the high-height trace is used only in positive induction steps. The same layer then derives what needs nothing beyond it: the additive comparison through the bounded-heart fiber (§5.1a, from §5.1), sifted-colimit continuity (§5.7, from §§5.2 and 5.5), and cyclic assembly, whose p-adic TC form (§§5.8–5.9) passes to telescopic K-theory through §5.2 (§5.10). Layer 6 combines the independent upper and lower bounds; the lower-bound route may use the preceding purity theorem. Layer 7 treats coefficient rings, ordered by the input that decides each computation: the connective nilpotent comparison of §5.6 (§§7.1–7.4); purity for a coefficient ring of known chromatic support, with Theorem B for the vanishing above it (§§7.5–7.9); and regular dévissage, which adds integral fiber sequences (§§7.10–7.11). Layer 8 proves rational-transfer descent and combines it with the tmf-algebra purity of §7.9 to describe the supersingular fixed points (§8.6). Layer 9 draws the height-one consequences of purity and, after redshift, the height-one obstructions for TC; it uses neither Layer 7 nor Layer 8. Within a layer, the explicit Needs lists specify mathematical dependencies rather than imposing one proof route. Suggested.lean states the James reduced product of §4.30b with its theorems against the pinned carriers; every other headline theorem requires spectral or enhanced categorical carriers beyond the pins, and its module documentation names them.
@@ -288,6 +21,18 @@ The table maps the former numbering of the sections of Layers 5, 7 and 8 to the 
 | §10.3 | §5.8 |
 | §10.4 | §5.9 |
 | §10.5 | §5.10 |
+
+## Conventions
+
+Fix a rational prime p; none of the conclusions excludes p=2 or p=3. Rings and ring maps are unital, including the zero ring. E₁ means associative and E∞ means coherently commutative. Spectral tensors, fibers, cofibers, quotients and (co)limits are derived. Perf(A) consists of right perfect A-modules, the compact objects of Mod_A. The ordinary finite-projective exact structure uses left modules, so the comparison uses the opposite ring. Extension Perf(A)→Perf(B) along A→B requires no perfectness of B over A; restriction K(B)→K(A) requires B perfect over A. For the identity extension R→R, restriction sends [R²] to 2[R]. For a finite free extension B/R of rank d, transfer sends [B] to d[R], fixing its direction.
+
+Use homological grading: Σ raises the homotopy degree. A spectrum is d-connective if πᵢ vanishes for i<d; a map is d-connective if its fiber is d-connective. A space map is m-connective when each fiber is (m−1)-connected. Thus S¹→* has fiber S¹ and is 1-connective; ΣHℤ→0 has fiber ΣHℤ and is 1-connective. Under a cohomological complex model, ΣHk lies in degree −1. The cofiber sequence k→0→Σk has K₀ relation 0=[k]+[Σk], hence [Σk]=−[k]. Keep this same sign in the heart, localization and transfer comparisons.
+
+Write Hom for the full stable mapping spectrum and hom=τ≥0Hom for the connective additive mapping spectrum. For X=ΣHk and Y=Hk, π₋₁Hom(X,Y)=k while π₋₁hom(X,Y)=0. K means nonconnective K, Kconn its connective version and Kadd direct-sum group completion. The connected positive K-space is Ω∞τ≥1K; for a field K₀=ℤ is not part of that connected space. Universes are fixed before forming small categories, presheaves, Ind or κ-compact objects. A flasque enlargement uses sufficiently large uncountable regular κ in ordinary Ind; κ=ω does not supply the countable sums for the swindle.
+
+For n≥1 use the supplied telescope T(n); put T(0)=S[1/p] and K(0)=Hℚ. Define Lₙ^(p,f)=L_(T(0)∨⋯∨T(n)), Lₙ^f=L_(Hℚ∨T(1)∨⋯∨T(n)) and Lₙ=L_(K(0)∨⋯∨K(n)). The two finite towers agree on p-local spectra. At p=2 the spectrum H𝔽₃ survives T(0) and is killed by Hℚ; on Hℚ both bottom functors act as identity. Use L_(zero spectrum) for the zero reflector, reserving L₀ for rationalization. Height is the first vanishing threshold minus one, with values −1,0,1,…,∞. Redshift at height zero requires a nonzero rational part; p-local nonnegative-height input has this property. Empty support gives height −1, while ∞+1=∞. No theorem of purity at Morava height n≥2 is inferred from telescopic purity.
+
+Nil polynomial variables are central. NKⱼ(A) is the kernel of evaluation at x=0 in every integer degree. Write a(t)=χ(a) for the big Witt characteristic series ∏_(d≥1)(1−a_dt^d), with constant coefficient 1 and ghosts given by −tχ′/χ, in the convention in which its action on [1−νx] is [a(νx)]. For ν²=0 and a(t)=1−rt this gives [1−rνx], with value 1 at x=0. Setting x=1 would leave the NK kernel and is not this action. Division by χ means multiplication by its formal-power-series inverse, which exists because its constant coefficient is the unit 1. Amitsur cobar cofaces insert the unit, and codegeneracies multiply adjacent factors of the specified algebra. Homotopy-fixed-point comparison maps retain their order: L K(A)→L(K(B)^hG)→(L K(B))^hG. The second equivalence is proved by a uniform tower argument.
 
 ## Layer 0: K-theory on supplied stable categories
 
@@ -2494,6 +2239,261 @@ For a prime p and r≥1, first use the quotient ℤ/pʳ→𝔽_p, whose nilpoten
 For the bottom-height boundary, take p odd and R=(HF₂)^tC₂. Its invertible degree-one class makes suspension of perfect modules equivalent to identity. Since suspension acts by −1 on K, multiplication by 2 on K(R) is zero. Hence every positive p-telescope kills K(R), while R[1/p]=R≠0 and R⊗Hℚ=0. This is the precise reason for the rationalization hypothesis at global height zero (bsy line 3929, Remark 9.13, p.90, evaluated at a different coefficient prime; lmmt line 175, Redshift Theorem, p.1014).
 
 For cyclic assembly take G=ℤ and R=KU. The object G/G is terminal in the family of all cyclic subgroups, so assembly is an identity. For G=S₃, the order-two and order-three cyclic subgroups and their conjugation maps form a coherent diagram without a terminal orbit; the theorem gives a T(n)-equivalence for every n≥2. Taking only finite cyclic subgroups would fail the ℤ terminal-object Check (lmmt line 1197, Proposition 4.33 and Corollary 4.34, p.1036).
+
+## Scope and ownership
+
+This roadmap owns the additive and stable-envelope comparisons, acyclic-domain truncation and excision, continuous Witt operations on all NK degrees, the K-theoretic compact-kernel argument, telescopic purity and its consequences. Its chromatic groundwork extends the supplied p-local theory to the global convention T(0)=S[1/p], and supplies periodic-space detection, telescopic Tate vanishing, Hahn acyclicity and the Tate-height converse. It does not identify telescopic and Morava localizations on arbitrary spectra. Layer 4 §§4.1–4.34 and Layer 6’s Lubin–Tate covers (§6.1a) and chromatic field maps (§6.2) are owned here; ChromaticHomotopyTheory is downstream of this roadmap, owns its own chromatic developments and supplies nothing here. Sections 4.15–4.16 give an existential connectivity bound m. Its sharp value m=n+1 follows from them together with the consequence of ∞-semiadditivity of T(n)-local spectra that maps with π-finite n-connected fibers become T(n)-equivalences after Σ∞_+; that consequence is ChromaticHomotopyTheory §4.2, so the sharp value belongs to that roadmap and is not a target here (lmmt line 437, Remark 2.12, p.1020; csy line 3930, Theorem 5.3.5, pp.80–81). The positive-height real Bott comparison ko→KO and its base change to ko-algebras (§4.30a) are owned here. StableHomotopyKTheoryPartII §§4.4–4.5 own the general degree-zero power operation and transfer ideal used here.
+
+GeneralAlgebraicKTheory §§3.12–3.14, Layers 5–7, §§9.8–9.17, Layers 10–12 and §13.6 own classical plus/Q/S comparisons, products, transfers, Nil categories, Bass contraction, negative K-theory and enhanced-model invariance. RefinedTraceMethods §4.9 already states exact sequences in Cat∞perf, connective stable S-theory, the nonconnective suspension construction, K(Perf(A)) and global truncating invariants; §4.18 states the correction algebra and global truncating excision, while §4.10 supplies coherent multiplicative K. Their constructions, APIs and boundary tests are supplier obligations. RefinedTraceMethods §4.6 states relative localizing motives over a rigid monoidal base and §4.10 the tensor units of absolute finitary invariants; the A-linear weakly additive motives over an E∞-ring A, their tensor unit and the K₀ comparison (§8.1a) are different objects and are owned here, as is the all-cyclic THH assembly equivalence used in §5.9. AInfCohomology §AI.7.2 owns the circle Tate construction, Tate-orbit lemma and bounded-below residual comparison; RefinedTraceMethods §2.3 owns the bounded-above Tate fixpoint lemma. The restricted acyclic-domain predicates and consequences here add a condition on every auxiliary ring, rather than another global definition. The compact-kernel target adds its K-theory fiber sequence to EnhancedDerivedSheaves E5:presentability.3's categorical quotient. EnhancedDerivedSheaves E5:descent owns commutative finite-index Amitsur module descent; §8.2 allows associative algebras and proves the rational-unit criterion for ε-nilpotent towers.
+
+BordismFormalGroups F1–F3 and F6.1–F6.4 already state formal-group algebra, complex orientations, MU/BP/Morava coefficients, homological localization, nilpotence, type, periodicity, p-local finite localization and Hopkins–Ravenel smashing. GeneralizedCohomology G2, G4.5 and G5.1–5.4 supply spectra, orientations, finite duality, Thom diagrams and KU/KO models. TopologicalKTheory T4 and T7 own their geometric Bott and coefficient comparisons, including the eightfold real periodicity given by multiplication by b. The new variants here are the all-spectra finite-localization extension, the truncated-theory Bousfield classes, and their chromatic comparison consequences.
+
+EllipticCohomology E1–E4 and E6 state the generalized elliptic moduli, the height-one and height-two Morava realizations and automorphism actions, the sheaf Otop, tmf/Tmf/TMF, discriminant inversion and level sheaves. Their all-height realization and spectral affineness extensions are exact supplier contracts below. The modular chromatic input comparison and its K-theory applications here use those same spectra. The James reduced product with its word filtration and smash-power quotients, the James map and the connected James equivalence (§4.30b), and the stable James splitting (§4.30c) are owned here; §§4.32–4.33 and §7.7 use them. The combinatorial James–Hopf maps J(Y)→J(Y^∧j) belong to BordismFormalGroups F6.2 item 3; nothing here uses them. EllipticCohomology E5 owns the stable J-homomorphism that gives the sign Thom spectra of §§4.31–4.32. EllipticCohomology E5 owns the units spectrum gl₁(R) and coherent Thom orientation data; the identification of BGL₁R with the classifier of R-lines and the relative module-colimit interface are stated as supplier contracts below. The characteristic-p Thom theorem and its filtered families here are specializations of that shared construction.
+
+QWittVectors §§1.1–1.6 owns big Witt vectors, including arbitrary truncation sets, their topology and operations; HabiroRings consumes that theory and is not its owner. RefinedTraceMethods §6.1 (Spherical lifts of perfect δ-rings) owns the spherical lifts of perfect p-complete δ-rings with their mapping-space universal property; §6.1a here forms the Lubin–Tate ring of a perfect algebra from them by base change, and StableHomotopyKTheoryPartII §4.8 is their finite-field case. KTheoryLowDegrees §§1.1–1.3 owns projective K₀, and GeneralAlgebraicKTheory §§13.8a–13.8c owns the ordinary finite-field Brauer–Quillen theorem. KTheoryFiniteLocalFields §§1.1–1.6 supplies its normalized coefficient and completion refinements, and its §0.4 owns the odd-primary height-one functor `heightOneFromZeroSpace` on the pointed homotopy category; §4.11 here is the coherent Bousfield–Kuhn functor for every prime and every height n≥1, which agrees with that functor at n=1 and p odd (§4.20). SchemeKTheoryOperations Layers 1–5 owns enhanced scheme K-theory, descent geometry and Bass comparisons; its KH and Karoubi–Villamayor extension is stated as a supplier contract below. MotivicEtaleKTheory §7.2 concerns a Deligne regulator comparison, not finite-coefficient étale K-descent, so the latter interface is assigned to KTheoryFiniteLocalFields §6.5a.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+Use `SSet.Quasicategory` in `Mathlib/AlgebraicTopology/Quasicategory/Basic.lean` for inner-horn filling, `CategoryTheory.Idempotents.Karoubi` in `Mathlib/CategoryTheory/Idempotents/Karoubi.lean` for ordinary idempotent completion, and `CategoryTheory.Triangulated.TStructure` with `CategoryTheory.Triangulated.TStructure.bounded` in `Mathlib/CategoryTheory/Triangulated/TStructure/Basic.lean` for t-structures on homotopy categories. The bounded predicate has object-dependent upper and lower bounds; it does not choose one common amplitude. Quasicategory supplies no stability or K-spectrum. Karoubi objects have an endomorphism whose square is itself, without automatically carrying an enhanced Verdier quotient. Use native rings, modules, matrices, polynomial rings, formal groups and integer grading for ordinary comparisons. For the James reduced product of §4.30b use `FreeMonoid` and `Submonoid` for its underlying monoid; `Topology.CWComplex`, `Topology.CWComplex.cell` and `Topology.RelCWComplex.Subcomplex` in `Mathlib/Topology/CWComplex/Classical/Basic.lean` for classical CW complexes in a Hausdorff ambient space and their subcomplexes; and `Topology.WithGeneratedByTopology` in `Mathlib/Topology/Convenient/GeneratedBy.lean`, with `DeltaGeneratedSpace` in `Mathlib/Topology/Compactness/DeltaGeneratedSpace.lean`, for the Δ-generated refinement of a topology, the topology coinduced by all continuous maps from the spaces `Fin n → ℝ`.
+
+### From Tau Ceti
+
+Use `TauCeti.ExactStructure` in `TauCeti/CategoryTheory/Exact/ExactStructure.lean`, with the zero-object and binary-biproduct assumptions in its actual signature. Use `TauCeti.finiteProjectiveModulesExactStructure` and `TauCeti.finiteProjectiveModulesExactStructure_eq_split` in `TauCeti/Algebra/Category/ModuleCat/CartanMap/Basic.lean`; the induced exact structure on finite projective left modules equals the split one. It is the ordinary comparison input, not a spectral module category. For degree-zero comparisons use `TauCeti.SplitK0` in `TauCeti/CategoryTheory/GrothendieckGroup/Split.lean`, `TauCeti.AbelianK0` in `TauCeti/CategoryTheory/GrothendieckGroup/Abelian.lean`, and `TauCeti.TriangulatedK0` in `TauCeti/CategoryTheory/GrothendieckGroup/Triangulated.lean`. Their ambient categories carry, respectively, binary biproducts and zero morphisms; an abelian structure; or a preadditive structure with zero object, additive integer shifts and a pretriangulated structure, with essential smallness for the quotient universe. Use `TauCeti.SplitK0.finrankEquiv` in `TauCeti/CategoryTheory/GrothendieckGroup/FiniteDimensionalVectorSpace.lean` for the additive equivalence with ℤ on `FGModuleCat` over a field, retaining its `Small` universe hypothesis; it sends a vector space to its dimension. These ordinary groups do not provide a K-spectrum. For §4.30b use `TauCeti.MooreLoopSpace` in `TauCeti/Topology/PathSpace/Moore.lean`, the Moore loops at a point, a topological monoid under strictly associative and strictly unital concatenation, compared with unit-interval loops by the homotopy equivalence `TauCeti.MooreLoopSpace.homotopyEquivPath` in `TauCeti/Topology/PathSpace/Moore/Comparison/Basic.lean`. Use `ContinuousMap.IsWeakHomotopyEquivalence` in `TauCeti/Topology/Homotopy/HomotopyGroup/WeakHomotopyEquivalence.lean` for maps inducing bijections on path components and on all homotopy groups at every basepoint, `TauCeti.CWType` in `TauCeti/Topology/CWComplex/Classical/CWType.lean` for spaces homotopy equivalent to a classical CW complex in the same universe, and Whitehead's theorem `ContinuousMap.IsWeakHomotopyEquivalence.homotopyEquiv` in `TauCeti/AlgebraicTopology/Homotopy/Whitehead.lean` for weak homotopy equivalences between spaces of CW type.
+
+### From TauCetiRoadmap.GeneralAlgebraicKTheory
+
+Consume §§3.12–3.14's positive plus/Q comparison and K₀/K₁ normalization; §§6.9 and 6.19's Gillet–Waldhausen comparison; §§7.1–7.7's products and transfers; §§9.8–9.17's Nil category and positive Fundamental Theorem; §§10.1–10.13's Bass contraction, nonconnective ring spectrum and regular negative vanishing; §§11.15–11.16's localization and exact-model spectra; §13.6's enhancement requirement; and §§13.8a–13.8c's Brauer lift and finite-field groups. On 𝔽_q, K₀=ℤ, and for every r≥1 one has K₂ᵣ=0 and K₂ᵣ₋₁=ℤ/(qʳ−1). At q=2 and r=1 the last group is zero, while at q=3 it has order 2. The value q=1 is excluded because a field has at least two elements; r=0 is excluded from the positive odd-degree formula. These are the finite-field values consumed here.
+
+### From TauCetiRoadmap.StableHomotopyKTheory
+
+Consume Layers 3–4's acyclic plus and group completion, Layer 5's spectrum smash/connectivity/operad comparisons, §§5.18–5.19's delooping recognition, §§6.1–6.3's coherent Waldhausen spectrum, and §§7.1–7.27's Moore coefficients, derived p-completion, filtered spectra and convergence. A mod-m coefficient is a Moore cofiber, not an unproved tensor with an E∞ Hℤ/m-algebra. The relevant plus map carries all local systems pulled back from its target; no plus construction on an arbitrary homotopy fiber is assumed. Space Postnikov towers use §§3.18–3.21 with the twisted local-coefficient clause.
+
+### From TauCetiRoadmap.StableHomotopyKTheoryPartII
+
+Consume §4.4 (Degree-zero power operation) and §4.5 (The transfer ideal for a prime power operation): the natural multiplicative unital operation P_p:π₀R→R⁰(BΣ_p) for every E∞ ring R, its basepoint value x^p, and additivity modulo the Young-subgroup transfer ideal. Restrict along BC_p→BΣ_p; the double-coset formula carries every mixed-summand transfer to a transfer from the trivial subgroup of C_p, giving additivity modulo that transfer ideal. At p=2, res P_p(2)=4, whereas res(P_p(1)+P_p(1))=2.
+
+### From TauCetiRoadmap.EnhancedDerivedSheaves
+
+What EnhancedDerivedSheaves must provide (gap:multiplicative-postnikov): For a connective E₁-ring R and k≥1, supply the E₁-ring structure on τ≤kR natural in R, with E₁ maps R→τ≤kR→τ≤(k−1)R; the derivation of τ≤(k−1)R into the bimodule Σ^(k+1)Hπ_kR whose RefinedTraceMethods §4.14 pullback algebra τ≤(k−1)R×_(τ≤(k−1)R⊕Σ^(k+1)Hπ_kR)τ≤(k−1)R is τ≤kR; and the bound that I⊗_A J is (a+b)-connective for an a-connective right module I and a b-connective left module J over a connective E₁-ring A. The split and derivation-pullback square-zero algebras themselves are RefinedTraceMethods §4.14, and the spectrum-level covers, truncations and the absolute smash bound are GeneralizedCohomology G3 item 8.
+
+Consume E0.4's stable enhancement, E5:abstract.1–4's algebra/module objects, monoidal structures and idempotent completion, E5:presentability.1–3's compact objects, Ind and stable quotients, E0.7's straightening and E3.1's Kan extension comparisons, and E5:presentability.3's coherent finite actions. For the commutative specialization of §8.2 use E5:descent's augmented Amitsur tower with its unit-inserting cofaces and multiplication codegeneracies; the associative ε-nilpotent extension is stated in §8.2. A quotient kernel is a retract closure. A compact-kernel localization gives compacts Idem(D/C), not an uncompleted quotient.
+
+### From TauCetiRoadmap.RefinedTraceMethods
+
+Consume §4.9's concrete connective and nonconnective K, exact sequences and weakly localizing invariants; §4.18's Land–Tamme correction algebra with underlying spectrum A′⊗_A B and its localizing pullback formula; §4.10's coherent multiplicative K; §§2.1–2.5's norms, Tate products and finite-action quotient, including §2.3's bounded-above Tate fixpoint lemma; §2.6's THH of E₁-rings and §§2.7–2.17's relative and categorical THH, its symmetric monoidal structure (§2.8), THH of spherical group rings (§2.10), cyclotomic TC and genuine/Borel comparison; §§4.11–4.17's trace, stable-K linearization, integral DGM and henselian rigidity of the trace with finite coefficients; §4.17 (TC modulo p and colimits), items (i)–(ii): X↦TC(X)/p preserves all small colimits, formed in CycSp, of cyclotomic spectra whose underlying spectra are connective, and A↦TC(A)/p preserves sifted colimits of connective E₁-rings; §4.19's The TC assembly map for C_p, with connective E₁ input, p-completed coefficients and cofiber ΣTHH(R;ℤ_p)_hT_p⊗(C_p,1). Integral DGM applies to connective rings and a surjective nilpotent-kernel π₀ map; its relative fiber includes rational information. For a correction square with one identity side the correction map is an equivalence. For a zero stable category, both K theories vanish; on bounded free (k×k)-complexes K₀=ℤ maps diagonally into K₀ of its completion, ℤ², so the connective completion comparison requires idempotent completeness. For the §4.19 cofiber, (C_p,1) contributes p−1 summands: one at p=2 and two at p=3. These are the supplied foundational Checks consumed here.
+
+Consume §6.1 (Spherical lifts of perfect δ-rings): for a perfect p-complete δ-ring B, its spherical lift S_B, a p-complete connective E∞-ring flat over S_p^∧ with a marked equivalence S_B⊗_(S_p^∧)Hℤ_p≃B, so that π_nS_B≅π_nS_p^∧⊗_(ℤ_p)B; its universal property Map_CAlg(S_B,R)≃Hom_Ring(B/p,π₀R/p) for every p-complete connective E∞-ring R; and the resulting functoriality in ring maps of perfect p-complete δ-rings, unique up to contractible choice. For a perfect 𝔽_p-algebra A write 𝕎(A)=S_(W(A)), using PrismaticCohomology §0.65. For every p-complete E∞-ring R, a map out of the connective ring 𝕎(A) factors uniquely through τ≥0R, which is p-complete with the same π₀, and, A being perfect, a ring map f:A→π₀R/p factors uniquely through the tilt (π₀R/p)♭→π₀R/p, by a↦(f(a^(1/p^k)))_(k≥0). So the universal property is the Witt–tilt adjunction Map_CAlg(𝕎(A),R)≃Hom(A,(π₀R/p)♭) used in §6.1a. For A=𝔽_p, 𝕎(A)=S_p^∧, whose π₁ is ℤ/2 at p=2 and zero at odd p; for A=0 it is zero. The E(k)-linear base change and the Lubin–Tate cover theorem are proved in §6.1a.
+
+The supplied perfect stable categories and localizing invariants interface guarantees the following (bgt line 1559, §5.1–5.2, Definitions 5.8 and 5.12, pp.775–779; §9.1, pp.806–808; lt line 193, Notation 1.1 and Definition 1.2, manuscript p.5).
+
+- Exactness is equivalent to full faithfulness, a zero composite, and E≃Idem(D/C).
+
+- A localizing invariant carries every exact sequence to a natural cofiber sequence.
+
+- For a split exact sequence C→D→E, F(D)≃F(C)⊕F(E).
+
+- Equivalences of perfect stable categories induce equivalences under F, coherently with composition.
+
+**Checks.**
+
+- C→C→0 with identity first arrow is exact.
+
+- A Verdier quotient by a stable subcategory need not have precisely that subcategory as its kernel before taking its retract closure.
+
+- For a discrete additive category, the homotopy-category idempotent completion agrees with CategoryTheory.Idempotents.Karoubi.
+
+The supplied perfect modules and K-theory of ring spectra interface guarantees the following (bgt line 1352, §4.3, Theorems 4.22–4.23, pp.770–771; §9.1, pp.806–808; lmmt line 231, Conventions, p.1015; line 614, proof of Proposition 3.6, pp.1023–1024; lt line 366, Lemma 1.10 and proof, manuscript p.9).
+
+- M is perfect exactly when it belongs to the stable retract closure of A.
+
+- A→B yields K(A)→K(B), with identity/composition equivalences from tensor associativity.
+
+- If B is perfect over A, restriction gives K(B)→K(A).
+
+- K(HR) agrees with GeneralAlgebraicKTheory’s nonconnective K-theory of R, naturally in ring maps.
+
+**Checks.**
+
+- Perf(S) is the category of finite spectra; K(S) is its K-theory.
+
+- Perf(0) and K(0) are zero.
+
+- For an ordinary ring R, HR⊕HR corresponds to the rank-two projective module under the comparison.
+
+- For an ordinary ring R, π₀K(HR) is the existing projective K₀(R), with the right/left-opposite convention explicit.
+
+The supplied stable S-construction interface guarantees the following (bgt line 2007, §7.1, pp.788–794; lmmt line 628, proof of Proposition 3.6, p.1024).
+
+- A filtration determines its compatible subquotients and hence an S_r object.
+
+- S_r(C)≃Fun([r−1],C) for r≥1, naturally in exact functors.
+
+- The three faces of a cofiber sequence X→Y→Z select Z,Y,X in the usual S2 order.
+
+- The S-construction assembles the same connective spectrum as GeneralAlgebraicKTheory’s Waldhausen model.
+
+**Checks.**
+
+- S0(C) is terminal and stable, hence zero.
+
+- An S2 object includes a specified cofiber identification, rather than just an arbitrary composable pair.
+
+- The split sequence X→X⊕Y→Y gives [X⊕Y]=[X]+[Y] in π₀Kconn(C).
+
+The supplied nonconnective K-theory of stable categories interface guarantees the following (bgt line 2664, Definitions 9.1 and 9.6, pp.806–808; Theorems 9.8 and 9.10 with proofs, §§9.2–9.3, pp.808–816).
+
+- τ≥0Knc(C)≃Kconn(C), naturally in exact functors.
+
+- Knc(ΣκC)≃ΣKnc(C).
+
+- Filtered colimits in Cat∞perf are carried to colimits in Sp.
+
+- An exact sequence C→D→E gives Knc(C)→Knc(D)→Knc(E) in all degrees.
+
+**Checks.**
+
+- If C admits an exact endofunctor T with id⊕T≃T, then Knc(C)=0.
+
+- For a field k, π₀Knc(Perf(Hk))=Z and the negative groups vanish by comparison with the parent.
+
+- Localization uses Idem(D/C); replacing it by an arbitrary underived categorical quotient does not give the comparison theorem.
+
+- A flasque stable category has zero Knc, and the suspension quotient deloops it in all integer degrees.
+
+The supplied Land–Tamme replacement algebra interface guarantees the following (lt line 218, Theorem 1.3 and proof, manuscript pp.6–14).
+
+- C→B′ has underlying map A′⊗_A B→B′.
+
+- The underlying (A′,B)-bimodule of C is A′⊗_A B.
+
+- The constructed replacement square is cartesian after any weakly localizing invariant.
+
+- Maps of pullback squares induce the replacement algebra maps coherently.
+
+**Checks.**
+
+- For the identity pullback square on A, C≃A.
+
+- If A′⊗_A B≃B′, the original invariant square is cartesian.
+
+- The construction applies to E₁-rings without an E2 structure on A; an ordinary commutative tensor product cannot be used as its definition.
+
+- If A′⊗_A B→B′ is an equivalence, every such invariant carries the original square to a pullback.
+
+The supplied products and coefficient actions on enhanced K-theory interface guarantees the following (bgt-mult line 1022, Theorem 5.8, Proposition 5.9 and Corollaries 5.10–5.11, manuscript p.23; lmmt line 614, Proof of Proposition 3.6, p.1023; Theorem B discussion, p.1014).
+
+- Connective and nonconnective K carry coherent external pairings K(C)⊗K(D)→K(C⊗D), with their unit and associativity compatibilities.
+- For commutative R and an associative R-algebra A, K(A) is a K(R)-module, naturally in R-linear exact functors.
+- Restriction along an algebra perfect over its base satisfies the projection formula with extension and the tensor action.
+
+**Checks.**
+
+- For finite projective modules over a discrete commutative ring, the product on K₀ is the existing tensor-product multiplication.
+
+- Over a field, tensoring ranks 2 and 3 gives rank 6, agreeing with 2·3 in K₀.
+- For the zero algebra the module K(0) is zero, so every scalar acts by the zero endomorphism.
+
+### From TauCetiRoadmap.AInfCohomology
+
+Consume §AI.7.2's circle norm ΣX_hS¹→X^hS¹, the Tate-orbit lemma for bounded-below C_(p²)-spectra, and the completed circle-Tate comparison (X^tS¹)^∧p≃(X^tC_p)^h(S¹/C_p) for bounded-below X, retaining its residual S¹/C_p action and canonical comparison map. RefinedTraceMethods §2.3 supplies the bounded-above Tate fixpoint lemma (X^hC_p)^t(C_(p²)/C_p)=0 with the induced quotient action. These two bounds are separate hypotheses; the bounded-below circle comparison is not applied to an arbitrary periodic or coconnective spectrum. For the trivial rational spectrum Hℚ every finite C_p Tate spectrum is zero (the norm is multiplication by p on π₀, invertible on ℚ) and so is the p-completed circle Tate spectrum, but the raw circle Tate spectrum is not: π_*(Hℚ^tS¹)=ℚ[t,t⁻¹] with |t|=−2, so π₀=ℚ; only its derived p-completion vanishes, and both sides of the completed comparison are then zero. The sphere's C_p Tate value is S_p^∧.
+
+### From TauCetiRoadmap.BordismFormalGroups
+
+Consume F1–F3's formal groups, orientations and MU/BP/Morava objects and coefficients, F6.1's homological reflector and its cardinal bounds, F6.2's smash/self-map/element nilpotence, F6.3's type classification, periodic self-maps, Bousfield-class independence and the inequality ⟨K(n)⟩≤⟨T(n)⟩, and F6.3–F6.4's p-local finite localization and Hopkins–Ravenel smashing theorem. F6.5 supplies general straightening, pointwise Kan extensions and their composition for arbitrary small quasicategorical bases, coherent stable quotient/Ind theory and K(n)-local finite-action Tate comparisons; the telescopic arbitrary-action theorem here is stronger in its specified local category. The supplied finite kernel is generated by type-(n+1) complexes in p-local spectra. The extension to all spectra here uses finite p-primary generators. F6.3 supplies ⟨BP[v_n⁻¹]⟩=⟨E(n)⟩=⟨K(0)∨⋯∨K(n)⟩, with v₀=p, and the p-local kernel ker(L_n^f)=Ind(C_(n+1)), its smashing property and compact-localization comparison; the BP truncation class with its HF_p summand is proved here.
+
+### From TauCetiRoadmap.GeneralizedCohomology
+
+Consume G2's concrete symmetric spectral model, derived smash and stable mapping objects, G3's integer homotopy and structured connective/Postnikov objects, G4.5's complex orientation, and G5.1–G5.4's finite duality, Thom diagrams, MU and coherent KU/KO. In particular π₀ko=ℤ, π₁ko=π₂ko=ℤ/2, π₃ko=0 and with GeneralizedCohomology's names a (degree 4), b (degree 8) and u for the degree-two complex Bott class, the real coefficients satisfy a²=4b, and complexification gives c(a)=2u² and c(b)=u⁴. The ko→KO map is b-inversion. Comparing the two degree-one sphere factors negates their degree-two class. G2.5 supplies suspension spectra of spaces, which §§4.30b–4.30c, 4.33 and 7.7 use.
+
+### From TauCetiRoadmap.TopologicalKTheory
+
+Consume T4's complex Bott comparison and T7.1's real coefficient and multiplicative comparisons with GeneralizedCohomology G5.4. T7.1 exports the real coefficient ring ℤ[η,a,b,b⁻¹]/(2η,η³,ηa,a²−4b) with η, a and b in homotopy degrees 1, 4 and 8; multiplication by b is the eightfold real periodicity in every degree. In the same names a, b of TopologicalKTheory T7 and u for the complex Bott class, the relation a²=4b and complexification c(a)=2u², c(b)=u⁴ agree with the conventions above; at p=2 the factor 4 is retained.
+
+### From TauCetiRoadmap.AlgebraicTopology
+
+Consume Stage 2's singular homology with coefficients; Stage 4's CW pairs, cellular chains, homotopy extension and cofibrations, and item 4's reduced suspension (X×I)/(X×∂I∪{x₀}×I) of a pointed Hausdorff CW complex; Stage 5 item 1's Künneth theorems for products, with the field and flat collapse and the Tor terms over ℤ; and Stage 8: relative homotopy groups with their long exact sequence and `relativeCWConnectivityOfCellDimension` (item 1), the Hurewicz theorem and the relative Hurewicz theorem for simply connected pairs (items 3–4), Whitehead's theorem and the homological Whitehead theorem for simply connected spaces, extended to spaces of CW type (item 5), relative obstruction cochains (item 9), and `basedLoopCWType` (item 11a), which gives the based loop space of a Hausdorff CW complex at a 0-cell CW type. §4.13 and §4.30b use them.
+
+### From TauCetiRoadmap.DGFloer
+
+Consume Layer 1 item 2: every space has a CW approximation, natural up to homotopy. Consume Layer 2 items 1–2: Moore path spaces with continuous, strictly associative and unital concatenation, Hurewicz fibrations, and the Moore-path replacement of an arbitrary map by a Hurewicz fibration with homotopy equivalent total space. §4.30b uses the CW approximation and the path fibration over a reduced suspension, which is the Moore-path replacement of the inclusion of its base point: its total space of Moore paths from the base point is contractible and its fiber is the Moore loop space.
+
+### From TauCetiRoadmap.EllipticCohomology
+
+What EllipticCohomology must provide (gap:spectral-units-and-lines): E5: For every E∞ ring R, identify BGL₁R=Ω∞bgl₁(R), with gl₁(R) the units spectrum of E5, with the classifier of R-lines equivalent to R, that is, with the path component of R in the Picard space of invertible R-modules, naturally in R.
+
+What EllipticCohomology must provide (gap:relative-thom-colimit): E5: For f:X→BGL₁R, supply its Thom R-module as colim_X L_f of the classified R-line local system, naturally in f and commutative R.
+
+What EllipticCohomology must provide (gap:multiplicative-thom-refinement): E5: For n≥1 and an n-fold loop map X→BGL₁R of group-like E_n spaces, prove the Thom colimit has its natural E_n R-algebra structure.
+
+What EllipticCohomology must provide (gap:elliptic-level-three-galois): E6: Supply the faithful GL₂(𝔽₃)-Galois extension TMF[1/3]→TMF(3), with its deck action.
+
+What EllipticCohomology must provide (gap:elliptic-supersingular-at-two): E2: Supply the GL₂(𝔽₃)-equivariant equivalence L_K(2)TMF(3)≃E₂ at p=2 for the supersingular formal group over 𝔽₄, identifying L_K(2)TMF→E₂ with the localized level-three Galois extension.
+
+What EllipticCohomology must provide (gap:elliptic-supersingular-at-three): E2: Supply L_K(2)TMF≃E₂^hG₂₄ at p=3 for the supersingular formal group over 𝔽₉, with G₂₄ the full semilinear automorphism group over 𝔽₃.
+
+What EllipticCohomology must provide (gap:elliptic-spectral-affineness): Prove the symmetric monoidal equivalence QCoh(X,Otop)≃Mod_(Γ(X,Otop)) for X=M̄_ell and M_ell, including colimit preservation of global sections and compatibility with tensoring by every spectrum.
+
+What EllipticCohomology must provide (gap:all-height-morava-realization): Extend the marked Goerss–Hopkins–Miller realization and coherent semilinear automorphism action to every finite height h≥1 over every perfect characteristic-p field, preserving the universal formal-group map and the chosen deformation identification.
+
+Consume E1's generalized elliptic compactification and formal neighborhoods, E2 items 2–3's height-one and height-two Morava E realizations and obstruction machinery, E3's Otop and tmf/Tmf/TMF, E4's surviving Δ²⁴ class of degree 576 and the comparison Tmf[(Δ²⁴)⁻¹]≃TMF, E5's units spectrum gl₁(R) of every E∞ ring R, with GL₁R=Ω∞gl₁(R), π₀GL₁R=(π₀R)^×, π_iGL₁R=π_iR for i≥1 and bgl₁(R)=Σgl₁(R), its Thom orientation data and its stable J-homomorphism bo→bgl₁(S), whose infinite loop map BO→BGL₁(S) classifies the universal stable spherical fibration, and E6's level sheaves and deck actions. On π₁ the J-homomorphism sends the Möbius class of π₁BO=ℤ/2 to −1∈π₀GL₁(S)=ℤˣ, since the one-point compactification of the Möbius line has monodromy of degree −1. The full semilinear residue-field actions are retained. Locally π₂ᵣOtop=ωʳ and π₂ᵣ₊₁Otop=0; global Tmf is not required to be even. The all-height and spectral-module refinements are specified below.
+
+### From TauCetiRoadmap.QWittVectors
+
+Consume §1.4a's big Witt power-series comparison γ_∞:(W_(ℕ>0)(R),+)≅U_∞(R), γ_∞((a_d))=∏_(d≥1)(1−a_dt^d)⁻¹, with its coefficient-naturality, restriction (ρ_(N,M)∘γ_N=γ_M∘res), Verschiebung-substitution and Teichmüller (γ_∞(τ(a))=(1−at)⁻¹) laws, together with §1.3's ring structure and inverse-limit topology and §1.4's multiplicative τ. The characteristic series of this roadmap is χ(a)=γ_∞(a)⁻¹, the inverse in R[[t]]; since inversion is an automorphism of the abelian group U_∞(R) commuting with every reduction modulo t^(N+1), χ is again a natural additive isomorphism compatible with the finite restrictions. Transporting §1.3's multiplication along χ gives (1−at)*(1−bt)=1−abt from τ(a)τ(b)=τ(ab), χ(0)=1 and χ(1)=χ(τ(1))=1−t. The ghost identity −tχ′/χ=∑_(n≥1)w_n(a)t^n is proved in §4.36.
+
+Consume §§1.1–1.6's big Witt ring W_S(R) for every divisor-closed positive truncation set S, its ghosts, restrictions, Frobenius, Verschiebung and restriction-limit topology. NK uses S=ℕ>0, with the kernels of initial-segment restriction giving its continuity ideals. The characteristic series χ=γ_∞⁻¹ has χ(0)=1 and χ(1)=1−t; it is the non-inverted series convention of Weibel §1 (weibel line 38, pp.467–468). For a nilpotent ν with ν²=0, the characteristic-series action gives a(νx)=1−a₁νx; its evaluation at x=0 is 1. The empty truncation set gives the zero ring, while W_({1})(R)=R. No p-typical substitution for the big ring is made.
+
+### From TauCetiRoadmap.PrismaticCohomology
+
+Consume §0.65's equivalence between perfect p-complete δ-rings and perfect 𝔽_p-algebras, B↦B/p with inverse A↦W(A), under which every ring map between perfect p-complete δ-rings is a δ-map. For A=𝔽_p it gives W(𝔽_p)=ℤ_p with identity Frobenius; for A=𝔽_p[t^(1/p^∞)] the Witt Frobenius of W(A) is bijective with reduction A. It is used only to view W(A) as a perfect δ-ring in §6.1a.
+
+### From TauCetiRoadmap.KTheoryLowDegrees
+
+What KTheoryLowDegrees must provide (gap:nilpotent-kzero): Prove that quotient by any nilpotent two-sided ideal of a unital ring induces an isomorphism on projective K₀ by lifting idempotents and their stable isomorphisms.
+
+Consume §§1.1–1.3's projective K₀ and its quotient-induced comparison, extended as specified below. The nilpotent lifting theorem concerns arbitrary two-sided ideals; no commutativity or regularity of the coefficient ring is added. Only its degree-zero part is imported; the Bass induction to negative degrees is a target here.
+
+### From TauCetiRoadmap.KTheoryFiniteLocalFields
+
+Consume §0.4 (Height-one localization and realization): for p odd, `heightOneLocalize X` is localization at KU∧M(ℤ/p), hence L_(K(1))X, and `heightOneFromZeroSpace` is a functor Φ_p from the pointed homotopy category of spaces to KU/p-local spectra with Φ_p(Ω∞₀X)≃`heightOneLocalize X` natural in spectra X. It is used only for the n=1, p odd comparison of §4.20 with the Bousfield–Kuhn functor of §4.11.
+
+For these spectral étale contracts use D₀=Hℚ and D_n=T(n) for n≥1; this detector leaves the global convention T(0)=S[1/p] intact.
+
+What KTheoryFiniteLocalFields must provide (gap:spectral-etale-descent): §6.5a: With D₀=Hℚ and D_n=T(n) for n≥1, for every E∞ ring R and n≥0 prove that Y↦L_D(n)K(Perf(Y)) is an étale sheaf on the spectral étale site of R (yuan line 310, Theorem 4.3, manuscript p.8).
+
+What KTheoryFiniteLocalFields must provide (gap:spectral-strict-henselian-detection): §6.5a: With D₀=Hℚ and D_n=T(n) for n≥1, for every E∞ ring R and n≥0 with L_D(n)K(R)≠0 prove that there exists a prime ideal 𝔭⊂π₀R for which L_D(n)K(R_𝔭^sh)≠0 (yuan line 326, Lemma 4.5, manuscript pp.8–9).
+
+What KTheoryFiniteLocalFields must provide (gap:suslin-algebraically-closed-comparison): §6.5a: Identify K(L)^∧p with ku^∧p as homotopy ring spectra, for every algebraically closed field L of characteristic zero and every prime p, by a map sending the §1.2 Bott class of a compatible system of p-power roots of unity to the Bott generator; the coefficient groups π_*K(L)^∧p=ℤ_p[β] in nonnegative degrees follow from §6.5a's separably closed case d=0 and §1.6's completion.
+
+Consume §§1.1–1.6's finite-field coefficient, product, Brauer and completion refinements, and §6.5a's periodic étale K-theory and field descent. The algebraically closed characteristic-zero and spectral strict-Henselian variants below extend those interfaces. Discrete-field descent does not by itself give descent for a periodic spectral ring.
+
+**Checks.**
+
+- At p=3, the finite étale C₂-torsor 𝔽₄/𝔽₂ has K(𝔽₂)^∧₂≃Hℤ₂≃K(𝔽₄)^∧₂: the positive groups have odd order and negative groups vanish. Inverting 3 leaves these completions unchanged. The equivariant rank map gives the trivial action on Hℤ₂, and H²(C₂,ℤ₂)=ℤ/2, so the proposed S[1/3]-descent comparison would have π₋₂ values 0 and ℤ/2. This excludes S[1/p] from the height-zero contract.
+- With D₀=Hℚ the same torsor has rational K-spectrum Hℚ on both fields; the cochain differentials alternate 0 and 2, giving H²(C₂,ℚ)=ℚ/2ℚ=0 and π₋₂=0 on both sides. Their derived 2-completions are zero.
+- For R=H𝔽₂ at n=0, the unique prime has strict henselization H𝔽̄₂ and both rational K₀ groups are ℚ, so detection is nonvacuous. For R=0 the nonvanishing hypothesis fails and no prime is asserted; at n≥1 the detector is exactly T(n).
+
+### From TauCetiRoadmap.SchemeKTheoryOperations
+
+What SchemeKTheoryOperations must provide (gap:kh-simplicial-model): §5.2: Supply the natural homotopy K-spectrum KH(A)=|K(A[Δ•])| for every associative unital discrete ring A, using central polynomial variables and A[Δ^r]=A[x₀,…,x_r]/(Σx_i−1).
+
+What SchemeKTheoryOperations must provide (gap:kh-regular-comparison): §5.2: Prove K(A)→KH(A) is an equivalence for regular noetherian discrete rings A.
+
+What SchemeKTheoryOperations must provide (gap:kv-relative-comparison): §5.6: Supply the convergent relative Karoubi–Villamayor polynomial-resolution spectral sequence from the simplicial relative K-groups to relative KH whenever the relative K-spectra have a uniform lower bound.
+
+What SchemeKTheoryOperations must provide (gap:kh-nilpotent-invariance): §5.6: Prove KH(A)→KH(A/I) is an equivalence for every nilpotent two-sided ideal I of a discrete associative unital ring A, in all integer degrees.
+
+What SchemeKTheoryOperations must provide (gap:localizing-nisnevich-descent): §4.12: Prove that X↦E(Perf(X)) satisfies Nisnevich descent on qcqs schemes for every localizing invariant E, with value zero on the empty scheme.
+
+What SchemeKTheoryOperations must provide (gap:localizing-derived-blowup): §5.7: Prove that every localizing invariant of perfect categories carries the derived blowup square associated to a finite sequence in a commutative ring to a pullback square (Land–Tamme Lemma A.1(iii)).
+
+What SchemeKTheoryOperations must provide (gap:abstract-blowup-noetherian-approximation): §5.7: Prove that an abstract blowup square of qcqs schemes with finitely presented proper modification and finitely presented center is pulled back from such a square of noetherian schemes.
+
+What SchemeKTheoryOperations must provide (gap:abstract-blowup-platification-domination): §5.7: For a proper modification of noetherian schemes that is an isomorphism on a schematically dense open U, prove domination by a blowup with center supported in the complement of U.
+
+Consume §§1.1–2.7's Perf(X), enhanced scheme K and continuity comparisons, §§3.1–3.5's localization, §§4.1–4.3 and 4.12's Nisnevich squares and descent, and §§5.2–5.9's ordinary homotopy invariance, Bass spectrum and regular blowups. The cdh extension below concerns qcqs schemes and finitely presented abstract blowup data. The KH carrier and relative Karoubi–Villamayor comparison are stated as supplier contracts above, as a precise extension rather than an inference from its regular-ring A¹ theorem.
 
 ## References
 
