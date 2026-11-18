@@ -2,22 +2,9 @@
 
 **Summary.** Build the finite-area Nielsen cores of arbitrary finitely generated nonelementary Fuchsian groups, including their genuine geodesic boundaries, finite signatures and Gauss–Bonnet formula. Apply that theory to all admissible minus-digit cycles, and compare the cores of primitive reduced minus periods of narrow classes with the real quadratic surfaces supplied by AutomorphicSpectralTheory. Reflected doubles and cusp-normalized conformal lifts recover the narrow ideal class. Multiplicity-preserving area measures give exact complementary and genus coverings; a cusp-flux version of Stokes includes height-truncated integrals and the completed Eisenstein endpoint.
 
-## Scope and ownership
+## How to read the build
 
-FuchsianOrbifolds stops at the effective projective action, ordinary quotient and cone charts, polygons, cusp charts and the compactification of cofinite quotients (Layers 0–6). This Part II owns limit sets, general second-kind convex cores and half-disc boundary charts, geometric finiteness, bordered signatures, the connected reflected double and conformal recovery. Its Ford-polygon theorem treats every admissible finite digit list, including repeated lists; this differs from the arithmetic construction indexed by primitive ideal-class periods.
-
-The following objects are supplied elsewhere and are not constructed again here.
-
-- Mathlib owns the curvature −1 metric and invariant measure, generated subgroups, coproduct groups and measurable pushforwards. The height-one distance expression below specializes that metric; it does not define another metric.
-- Tau Ceti owns the projective actions on the upper half-plane and ideal circle, proper discontinuity, cyclic elliptic stabilizers, geodesics, polygon area, modular fundamental-domain measure, ordinary covering lifts and deck conjugation. Completed/UniversalCovers Stage 2 owns the general covering interpretation.
-- AutomorphicSpectralTheory §4.17a owns the primitive reduced arithmetic cycle, Γ_A, the Nielsen surface F_A, its projection with multiplicities, area πℓ_A, primitive length 2log ε_D, and compact-part/finite-width-cusp decomposition. The arithmetic specialization in Layer 2 is a comparison of this supplied surface with the general construction here. Its signature and full oriented boundary-period comparison are stated by AnalyticNumberTheoryPartI §2.1. Those two results are consumed, rather than separate targets of this roadmap.
-- CongruenceSpectralGap §0.1 owns the hyperbolic quotient measure for congruence groups, its independence of the measurable fundamental domain and its level-one mass π/3. Layer 4 compares the DIT representative convention with that supplied measure and proves nullity of points and connectedness of the regular locus.
-- AnalyticNumberTheoryPartI §2.1 owns Stokes under absolute integrability and vanishing cusp flux, and its uncompleted critical-line Eisenstein application; its general identity with AutomorphicSpectralTheory §4.18 cusp-form decay gives the cusp-form case. Multiplying by Λ(1+2it) gives the completed identity for t≠0. Layer 5 adds existence of an improper height-truncated integral from flux alone, including λ=0. AutomorphicSpectralTheory §§2.17–2.18 own the completed Fourier expansion and continuation; §§4.18 and 4.20 own cusp decay and integrability for uncompleted Eisenstein series. Layer 5 deduces the C¹ bounds at the regular completed value E*(z,1/2) from that expansion and the Bessel estimates of §§0.27–0.28.
-- IntegralLattices Layer B, B2–B3 owns the oriented form/ideal-class dictionary and composition. GlobalNumberFields Layer 11 owns orders, Picard groups and narrow Picard groups. MultiquadraticPartII §§2.3–2.4 owns the two-square and distinguished-class square criteria; its §§3.1–3.2 own genus-character compatibility. No new narrow quotient, genus or genus-character construction is made here.
-- ComplexCurveModuli D0.1 and D0.4 own compact smooth surface normal forms and bordered uniformization by a conformal double; D6.2 owns the smooth geodesic-cut metric comparison. Layer 3 extends the reflection construction to finite-area cores with cusps and marked cone orders.
-- ConformalMapping L2 and L4 own disc automorphisms, Schwarz–Pick and reflection; AlgebraicTopology Stages 1 and 7 own van Kampen and finite-CW Euler characteristic; DifferentialGeometry §§5.3, 5.5 and 5.6.3 own ordinary/corners Stokes and its planar integration comparison.
-
-The limits of distribution theorems and spectral arithmetic remain with AutomorphicSpectralTheory Layer 4 and AnalyticNumberTheoryPartI Layer 2. Hyperbolic volumes and gonality of higher-dimensional arithmetic quotients are outside this roadmap. This roadmap supplies exact geometric identities and measures, without adding those asymptotic results.
+Layer 0 constructs the general convex core and bordered invariants. Layer 1 constructs raw admissible-cycle groups and proves their Ford geometry before using arithmetic periods. Layer 2 partitions a primitive boundary arc and compares the general core with the supplied arithmetic surface. Layer 3 doubles, lifts and normalizes conformal equivalences to recover cyclic gaps. Layer 4 pushes area with multiplicity and proves exact complementary and family coverings. Layer 5 uses compact height truncations to prove the improper Stokes extension and its completed spectral endpoint. Each *Needs:* line lists the statement's carriers and the inputs of the described route; another proof may use fewer inputs.
 
 ## Conventions
 
@@ -35,88 +22,6 @@ A primitive reduced minus period n₁,…,nℓ has nₖ≥2 and some nₖ>2. Set
 - With signature (0;2,3;1;0), 2π(−2+1+1/2+2/3)=π/3. Signature (0;2;1;1) instead gives π. A paired side contributes zero to t in both computations.
 - For F=log y on 0≤x≤1, 1≤y≤2, α_F=i∂zF dz=dz/(2y). Its positively oriented boundary integral is 1/2−1/4=1/4, equal to (1/2)∫ΔF dμ; Δ=−y²(F_xx+F_yy). On F=y², Δ gives −2y², while the inverse-square factor would give −2y⁻².
 - In D=12, Norm(2+√3)=1 and Norm(1+√3)=−2; the principal narrow class and J differ. In D=8 the norm −1 unit 1+√2 gives ε_D=(1+√2)²=3+2√2, so the primitive length is 2log(3+2√2).
-
-## Exact supplier contracts
-
-### From Mathlib
-
-Use Mathlib at `1b1ccf4b088b32fa3f23f2de1127433254a81e1e`. `UpperHalfPlane.volume_def` in `Mathlib/Analysis/Complex/UpperHalfPlane/Measure.lean` gives density y⁻²; `UpperHalfPlane.dist_eq` and `UpperHalfPlane.cosh_dist` in `Mathlib/Analysis/Complex/UpperHalfPlane/Metric.lean` give the curvature −1 metric. These definitions include positivity of height through the upper-half-plane subtype; they do not impose a finite-area quotient. `ModularGroup.S` and `ModularGroup.T` in `Mathlib/LinearAlgebra/Matrix/SpecialLinearGroup.lean` are determinant-one integral matrices, not projective order assertions. `ModularGroup.im_smul_eq_div_normSq` in `Mathlib/Analysis/Complex/UpperHalfPlane/MoebiusAction.lean` retains the nonzero denominator. `ModularGroup.fdo` in `Mathlib/NumberTheory/Modular.lean` uses both strict boundary inequalities.
-
-Use `Subgroup.closure` and `Subgroup.closure_le` in `Mathlib/Algebra/Group/Subgroup/Lattice.lean`; `Monoid.Coprod` and `Monoid.CoprodI` in `Mathlib/GroupTheory/Coprod/Basic.lean` and `Mathlib/GroupTheory/CoprodI.lean`; and `Subgroup.index_eq_zero_iff_infinite` in `Mathlib/GroupTheory/Index.lean`. Natural-valued index zero means an infinite coset space. `Monoid.CoprodI.lift_injective_of_ping_pong` in `Mathlib/GroupTheory/CoprodI.lean` requires nonempty pairwise disjoint ping-pong sets, the nonidentity factor-action inclusions and either at least three factors or a factor with at least three elements; the infinite translation factor supplies the latter in §1.3. Use `ProperlyDiscontinuousSMul.finite_stabilizer` in `Mathlib/Topology/Algebra/ConstMulAction.lean` under proper discontinuity. For `MeasureTheory.Measure.map_apply`, require a measurable target set and a measurable, or appropriately almost-everywhere measurable, map; for `MeasureTheory.integral_map`, require the almost-everywhere measurability and strong measurability hypotheses of the Bochner identity (`Mathlib/MeasureTheory/Measure/Map.lean` and `Mathlib/MeasureTheory/Integral/Bochner/Basic.lean`).
-
-`completedRiemannZeta_eq`, `differentiable_completedZeta₀` and `completedRiemannZeta_residue_one` in `Mathlib/NumberTheory/LSeries/RiemannZeta.lean` give Λ(s)=Λ₀(s)−1/s−1/(1−s), with Λ₀ entire and residue 1 at s=1. The constant c_Λ in §5.3 is Λ₀(1)−1; this fixes the logarithmic endpoint coefficient without evaluating Λ(1).
-
-`MeasureTheory.IsFundamentalDomain.quotientMeasure_eq` in `Mathlib/MeasureTheory/Group/FundamentalDomain.lean` identifies the pushforwards of restricted invariant measure for two almost-everywhere fundamental domains, with a countable acting group and measurable constant actions. It does not compute their total mass.
-
-`Complex.differentiableOn_update_limUnder_of_bddAbove` in `Mathlib/Analysis/Complex/RemovableSingularity.lean` extends a map holomorphic on a neighborhood of a point minus that point, with bounded norm there, holomorphically across the point by its punctured limit. Layer 3 applies it to a lift written in a disc coordinate around a removed cone lift, with values in the bounded Cayley disc.
-
-`IsCoveringMap.existsUnique_continuousMap_lifts_of_range_le` in `Mathlib/Topology/Homotopy/Lifting.lean` requires path-connected and locally path-connected source, compatible lifted basepoint and the inclusion of the induced fundamental-group ranges. Layer 3 proves that inclusion using cone meridian powers; it is not an extra conclusion assumed from the equivalence.
-
-### From Tau Ceti
-
-Use Tau Ceti at `2fd255d997f47c0b5d834ee416c7015d55444ce5`.
-
-- `UpperHalfPlane.pslMk_smul` and `UpperHalfPlane.psl2zToPSL2R_smul`, in `TauCeti/Analysis/Complex/UpperHalfPlane/PSL/Action.lean`, identify the effective actions and their measure-invariance instances. `psl2zToPSL2R_injective`, in `TauCeti/LinearAlgebra/Matrix/ProjectiveSpecialLinearGroup.lean`, identifies integral projective elements faithfully.
-- `OnePoint.instMulActionPSL` and `OnePoint.pslMk_smul`, in `TauCeti/Topology/Compactification/OnePoint/ProjectiveLine.lean`, give the ideal-boundary action. The Cayley compactification compatibility is proved in Layer 0.
-- `TauCeti.UpperHalfPlane.isProperMap_psl_smul_I`, in `TauCeti/Analysis/Complex/UpperHalfPlane/ProperAction.lean`, and the discrete-subgroup action instance in `TauCeti/Analysis/Complex/Fuchsian/ProperAction.lean` give proper discontinuity. `Subgroup.instIsCyclicStabilizer` in `TauCeti/Analysis/Complex/Fuchsian/Stabilizer.lean` gives cyclicity of point stabilizers for discrete subgroups.
-- `TauCeti.UpperHalfPlane.geodesicLine` and `TauCeti.UpperHalfPlane.dist_geodesicLine`, in `TauCeti/Analysis/Complex/UpperHalfPlane/Geodesic.lean`, supply actual complete unit-speed lines. Compact polygon convexity uses `TauCeti/Analysis/Complex/UpperHalfPlane/Polygon/Basic.lean`. The ideal-vertex area theorem is `TauCeti.UpperHalfPlane.ConvexPolygon.volume_carrier` in `TauCeti/Analysis/Complex/UpperHalfPlane/Polygon/Convex/GaussBonnet.lean`; free sides and quotient bookkeeping use the FuchsianOrbifolds contract below.
-- `ModularGroup.isFundamentalDomain_fdo`, in `TauCeti/NumberTheory/Modular.lean`, is for PSL₂(ℤ) and is almost everywhere. `ModularGroup.fd_ae_eq_fdo` in the same file identifies the closed and open domains almost everywhere, so any measurable intermediate representative set has the same area. `UpperHalfPlane.volume_preimage_coe_null`, in `TauCeti/Analysis/Complex/UpperHalfPlane/Measure.lean`, transfers planar-null boundaries. `UpperHalfPlane.volume_setOf_re_mem_and_lt_im` in the same module gives mass volume(X)·A⁻¹ to the points above height A>0 whose real part lies in a set X⊆ℝ; X=[0,m) gives the finite-width cusp-tail mass m/A. `Subgroup.exists_isFundamentalDomain` and `Subgroup.IsCofinite`, in `TauCeti/Analysis/Complex/Fuchsian/Covolume.lean`, give measurable quotient area and discrete finite-covolume groups, without finite generation in their definitions. The finite-index area input is `MeasureTheory.covolume_eq_card_mul_covolume` in `TauCeti/MeasureTheory/Group/FundamentalDomain.lean`, applied with the invariant measure and fundamental-domain hypotheses; equivalently use `Subgroup.isCofinite_iff_isCofinite_and_finiteIndex` in the Fuchsian covolume module for nested discrete subgroups. `TauCeti.ModularGroup.isCofinite_psl2zToPSL2RRange` in `TauCeti/Analysis/Complex/Fuchsian/LevelOne/Basic.lean` supplies finite covolume for the ambient effective modular group.
-- `NumberField.NarrowClassGroup`, `NumberField.NarrowClassGroup.mkPrincipal_sq` and `NumberField.NarrowClassGroup.instFinite`, in `TauCeti/NumberTheory/NumberField/NarrowClassGroup/Basic.lean` and `Finite.lean`, give the native finite narrow group and J²=1. Its square-subgroup quotient and cosets supply genera; no new quotient is implicit.
-- `TauCeti.Deck.conjMulEquiv`, in `TauCeti/AlgebraicTopology/UniversalCover/Deck/Conjugation.lean`, conjugates deck groups of an over-base homeomorphism h with q∘h=p. Rebase the target covering along the doubled equivalence before applying it.
-
-### From TauCetiRoadmap.FuchsianOrbifolds
-
-Consume Layer 0 (effective actions and proper discontinuity), Layer 1 (free quotient and finite cyclic cone charts), Layer 2, items 1–3 and 5 (geodesic polygons, local side/cycle theorem, angle defect, quotient signature bookkeeping and fundamental-domain area comparison), Layer 3 (full cusp stabilizers, scaling data and precisely invariant horodiscs), Layer 4, item 5 (cofinite signature and area), Layer 5, item 1 (topological genus), and Layer 6 (the effective level-one quotient M with signature (0;2,3;1;0) and cone charts). Restriction to CΓ uses those interior charts; this roadmap constructs its genuine half-disc boundary charts. The local polygon theorem is applied after the free-side tiling and local finiteness are proved in §1.3; the cofinite converse in Layer 2, item 4 is not an input for an infinite-area Ford polygon.
-
-### From TauCetiRoadmap.CongruenceSpectralGap
-
-Consume §0.1, “Hyperbolic quotient measure”, at Γ=SL₂(ℤ), identifying its effective quotient with M. Its measure μ_mod is the pushforward of invariant area restricted to any measurable almost-everywhere fundamental domain of PSL₂(ℤ), in particular (π_mod)₊(volume.restrict fdo). It is independent of that domain, is positive and finite, and has total mass π/3.
-
-### From TauCetiRoadmap.AutomorphicSpectralTheory
-
-Consume §§1.14–1.15 for E and E*=Λ(2s)E with Λ(s)=π^(−s/2)Γ(s/2)ζ(s), primitive-pair factor 1/2 and Fourier constant term. Consume §2.17, `completed_eisenstein_fourier`, for the full K-Bessel expansion, its local convergence and parameter continuation; §2.18 for meromorphic continuation with poles only at s=0,1 and residues −1/2,+1/2; and §§0.27–0.28 for the positive-argument K-Bessel comparison and large-argument decay, including derivative estimates. Layer 5 deduces the termwise C¹ endpoint bounds from these inputs. Consume §4.17a for the arithmetic period, surface F_A, subgroup, projection, area, length and finite-width cusp. Consume §§4.18 and 4.20 for smooth cusp decay and uncompleted Eisenstein integrability, including vanishing horizontal flux. For t≠0 the completed specialization follows by scalar multiplication.
-
-What AutomorphicSpectralTheory must provide (gap:primitive-minus-cycle-invariant): the primitive-period contract for AutomorphicSpectralTheory §4.17a requires that every narrow class has a primitive reduced minus period and that two narrow classes are equal exactly when their primitive reduced minus periods are cyclic rotations of each other.
-
-What AutomorphicSpectralTheory must provide (gap:primitive-pell-word): the Pell-word contract for AutomorphicSpectralTheory §4.17a requires that for a primitive reduced minus period of A with reduced root w, the word ∏ₖT^nₖS is the primitive hyperbolic automorph fixing w and wσ, with attracting fixed point w, corresponding to multiplication by the least unit ε_D>1 of norm +1.
-
-What AutomorphicSpectralTheory must provide (gap:narrow-dictionary-compatibility): the label-compatibility contract for AutomorphicSpectralTheory §4.17a requires identification of its narrow class group Cl⁺(K) and its form and ideal labels with the native `NumberField.NarrowClassGroup` through the IntegralLattices B2–B3 oriented dictionary specialized by GlobalNumberFields Layer 11, including the √D sign correction for a negative leading coefficient.
-
-What AutomorphicSpectralTheory must provide (gap:oriented-quadratic-cycle-reversal): the oriented-cycle contract for AutomorphicSpectralTheory §4.17a requires identification of the full primitive parametrized modular cycle C_(JA⁻¹) with C_A traversed in the opposite orientation.
-
-The first three contracts refine the period construction without adding another arithmetic reduction theory here: the class invariant, the Pell automorph and the label dictionary have different consumers. The last fixes the signed primitive boundary required for cancellation. The completed endpoint’s constant-term growth is deduced from §1.15 by cancellation of the two Laurent poles.
-
-### From TauCetiRoadmap.AnalyticNumberTheoryPartI
-
-Consume §2.1, “Stokes on supplied Nielsen surfaces and the CM-point adapter”: the arithmetic signature (0;2 repeated ℓ_A;1;1), the boundary-period comparison with the entire oriented parametrized C_A, and the Stokes formula under absolute integrability and vanishing top flux. Only its real quadratic branch is used. Its λ=s(1−s) convention is used as written; the flux-only extension in §5.2 treats arbitrary complex eigenvalue and proves existence separately at λ=0.
-
-### From TauCetiRoadmap.IntegralLattices and TauCetiRoadmap.GlobalNumberFields
-
-Consume IntegralLattices Layer B, B2–B3: proper classes of primitive forms of nonsquare positive discriminant map to the narrow Picard group of the appropriate order; a negative leading coefficient requires the √D sign correction, and composition agrees with multiplication. Consume GlobalNumberFields Layer 11 for the order, invertible proper ideals, narrow Picard group and maximal-order comparison. For the DIT label A of Q=[a,b,c], these B2–B3 rules give [a,−b,c]↦A⁻¹, [−a,b,−c]↦JA and −Q↦JA⁻¹, including the negative-leading-coefficient clause. Only the identification of the resulting oppositely oriented parametrized cycles is requested from §4.17a; no dictionary or order carrier is rebuilt here.
-
-### From TauCetiRoadmap.MultiquadraticPartII
-
-Consume §§2.3–2.4, especially `J_square_iff_sumTwoSquares`: for a positive fundamental discriminant with its quadratic presentation and prime-discriminant factorization, J is square exactly when no prime congruent to 3 modulo 4 divides D, equivalently D=x²+y² for integers x,y. Retain the fundamental-discriminant and narrow-class hypotheses. This is weaker than J=1 and weaker than existence of an integral norm −1 unit. Its §§3.1–3.2 transport the genus characters through the supplied oriented form dictionary when comparing class labels.
-
-### From TauCetiRoadmap.ConformalMapping
-
-Consume L2, “Schwarz lemma extensions”, for disc automorphisms and Schwarz–Pick equality, transported to the statement that biholomorphisms ℍ→ℍ are PSL₂(ℝ) transformations. Consume L4, “Analytic continuation and the reflection principle”, for analytic-arc reflection across genuine boundary charts. Reflection glues those charts; it does not forget cone orders. Removal of isolated lifted cone points is not an L4 input: it uses the Mathlib point-removability theorem in the Mathlib contract.
-
-### From TauCetiRoadmap.ComplexCurveModuli
-
-Consume D0.1 for compact oriented smooth surface normal forms with finite labelled boundary and collared capping, D0.4 for its compact smooth bordered conformal double and hyperbolic uniqueness, and D6.2, “Geodesic-cut metric”, for reflection of dr²+ℓ²cosh²(r)dθ² across a genuine geodesic boundary. Layer 3 proves the extension to cusped orbifolds, retaining cone orders and complete cusp ends; no general compact smooth surface classification is repeated. The finite-type exhaustion for arbitrary finitely generated Fuchsian groups remains a target of §0.3.
-
-### From TauCetiRoadmap.AlgebraicTopology
-
-Consume Stage 1, “van Kampen through the fundamental groupoid”, for finite-cover presentations, and Stage 7, “Euler characteristic and finite decompositions”, for Hausdorff finite-CW models, finite excisive/cofibration gluing and invariance. The finite-type orbifold exhaustion and incompressible-boundary argument in §0.3 is local work here; it is not an unstated surface-classification input from generic van Kampen. Capping and doubling use collared boundary circles and finite CW models.
-
-### From TauCetiRoadmap.DifferentialGeometry
-
-Consume §5.3 Stokes for compactly supported C¹ forms, §5.5 its manifold-with-corners version, and §5.6.3 the planar top-form/curve-integral comparison, with outward-first boundary orientation. Apply to real and imaginary parts after inserting a smooth cutoff equal to one near the compact polygon. The cutoff verifies the support hypothesis without changing the integrals. The log-height rectangle in Conventions gives the value 1/4 in these conventions too.
-
-## How to read the build
-
-Layer 0 constructs the general convex core and bordered invariants. Layer 1 constructs raw admissible-cycle groups and proves their Ford geometry before using arithmetic periods. Layer 2 partitions a primitive boundary arc and compares the general core with the supplied arithmetic surface. Layer 3 doubles, lifts and normalizes conformal equivalences to recover cyclic gaps. Layer 4 pushes area with multiplicity and proves exact complementary and family coverings. Layer 5 uses compact height truncations to prove the improper Stokes extension and its completed spectral endpoint. Each *Needs:* line lists the statement's carriers and the inputs of the described route; another proof may use fewer inputs.
 
 ## Layer 0: Nielsen regions and bordered signatures
 
@@ -811,6 +716,101 @@ Layer 2 for Q_A, its compact boundary and finite-width cusp; Layer 4 for project
 ## Downstream consumers
 
 The exports for arithmetic surface-distribution applications are the finite measures ν_A and ρ_S, their exact complementary-cover identities and their positive mass normalizations. Spectral period applications receive the completed surface-to-cycle identity, with its endpoint interpretation and full parametrized boundary. The general bordered-core and doubling theory applies to finitely generated second-kind groups without quadratic arithmetic. The earlier suppliers retain their own arithmetic surfaces and integrable Stokes applications; these exports introduce no reverse dependency on this roadmap.
+
+## Scope and ownership
+
+FuchsianOrbifolds stops at the effective projective action, ordinary quotient and cone charts, polygons, cusp charts and the compactification of cofinite quotients (Layers 0–6). This Part II owns limit sets, general second-kind convex cores and half-disc boundary charts, geometric finiteness, bordered signatures, the connected reflected double and conformal recovery. Its Ford-polygon theorem treats every admissible finite digit list, including repeated lists; this differs from the arithmetic construction indexed by primitive ideal-class periods.
+
+The following objects are supplied elsewhere and are not constructed again here.
+
+- Mathlib owns the curvature −1 metric and invariant measure, generated subgroups, coproduct groups and measurable pushforwards. The height-one distance expression below specializes that metric; it does not define another metric.
+- Tau Ceti owns the projective actions on the upper half-plane and ideal circle, proper discontinuity, cyclic elliptic stabilizers, geodesics, polygon area, modular fundamental-domain measure, ordinary covering lifts and deck conjugation. Completed/UniversalCovers Stage 2 owns the general covering interpretation.
+- AutomorphicSpectralTheory §4.17a owns the primitive reduced arithmetic cycle, Γ_A, the Nielsen surface F_A, its projection with multiplicities, area πℓ_A, primitive length 2log ε_D, and compact-part/finite-width-cusp decomposition. The arithmetic specialization in Layer 2 is a comparison of this supplied surface with the general construction here. Its signature and full oriented boundary-period comparison are stated by AnalyticNumberTheoryPartI §2.1. Those two results are consumed, rather than separate targets of this roadmap.
+- CongruenceSpectralGap §0.1 owns the hyperbolic quotient measure for congruence groups, its independence of the measurable fundamental domain and its level-one mass π/3. Layer 4 compares the DIT representative convention with that supplied measure and proves nullity of points and connectedness of the regular locus.
+- AnalyticNumberTheoryPartI §2.1 owns Stokes under absolute integrability and vanishing cusp flux, and its uncompleted critical-line Eisenstein application; its general identity with AutomorphicSpectralTheory §4.18 cusp-form decay gives the cusp-form case. Multiplying by Λ(1+2it) gives the completed identity for t≠0. Layer 5 adds existence of an improper height-truncated integral from flux alone, including λ=0. AutomorphicSpectralTheory §§2.17–2.18 own the completed Fourier expansion and continuation; §§4.18 and 4.20 own cusp decay and integrability for uncompleted Eisenstein series. Layer 5 deduces the C¹ bounds at the regular completed value E*(z,1/2) from that expansion and the Bessel estimates of §§0.27–0.28.
+- IntegralLattices Layer B, B2–B3 owns the oriented form/ideal-class dictionary and composition. GlobalNumberFields Layer 11 owns orders, Picard groups and narrow Picard groups. MultiquadraticPartII §§2.3–2.4 owns the two-square and distinguished-class square criteria; its §§3.1–3.2 own genus-character compatibility. No new narrow quotient, genus or genus-character construction is made here.
+- ComplexCurveModuli D0.1 and D0.4 own compact smooth surface normal forms and bordered uniformization by a conformal double; D6.2 owns the smooth geodesic-cut metric comparison. Layer 3 extends the reflection construction to finite-area cores with cusps and marked cone orders.
+- ConformalMapping L2 and L4 own disc automorphisms, Schwarz–Pick and reflection; AlgebraicTopology Stages 1 and 7 own van Kampen and finite-CW Euler characteristic; DifferentialGeometry §§5.3, 5.5 and 5.6.3 own ordinary/corners Stokes and its planar integration comparison.
+
+The limits of distribution theorems and spectral arithmetic remain with AutomorphicSpectralTheory Layer 4 and AnalyticNumberTheoryPartI Layer 2. Hyperbolic volumes and gonality of higher-dimensional arithmetic quotients are outside this roadmap. This roadmap supplies exact geometric identities and measures, without adding those asymptotic results.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+Use Mathlib at `1b1ccf4b088b32fa3f23f2de1127433254a81e1e`. `UpperHalfPlane.volume_def` in `Mathlib/Analysis/Complex/UpperHalfPlane/Measure.lean` gives density y⁻²; `UpperHalfPlane.dist_eq` and `UpperHalfPlane.cosh_dist` in `Mathlib/Analysis/Complex/UpperHalfPlane/Metric.lean` give the curvature −1 metric. These definitions include positivity of height through the upper-half-plane subtype; they do not impose a finite-area quotient. `ModularGroup.S` and `ModularGroup.T` in `Mathlib/LinearAlgebra/Matrix/SpecialLinearGroup.lean` are determinant-one integral matrices, not projective order assertions. `ModularGroup.im_smul_eq_div_normSq` in `Mathlib/Analysis/Complex/UpperHalfPlane/MoebiusAction.lean` retains the nonzero denominator. `ModularGroup.fdo` in `Mathlib/NumberTheory/Modular.lean` uses both strict boundary inequalities.
+
+Use `Subgroup.closure` and `Subgroup.closure_le` in `Mathlib/Algebra/Group/Subgroup/Lattice.lean`; `Monoid.Coprod` and `Monoid.CoprodI` in `Mathlib/GroupTheory/Coprod/Basic.lean` and `Mathlib/GroupTheory/CoprodI.lean`; and `Subgroup.index_eq_zero_iff_infinite` in `Mathlib/GroupTheory/Index.lean`. Natural-valued index zero means an infinite coset space. `Monoid.CoprodI.lift_injective_of_ping_pong` in `Mathlib/GroupTheory/CoprodI.lean` requires nonempty pairwise disjoint ping-pong sets, the nonidentity factor-action inclusions and either at least three factors or a factor with at least three elements; the infinite translation factor supplies the latter in §1.3. Use `ProperlyDiscontinuousSMul.finite_stabilizer` in `Mathlib/Topology/Algebra/ConstMulAction.lean` under proper discontinuity. For `MeasureTheory.Measure.map_apply`, require a measurable target set and a measurable, or appropriately almost-everywhere measurable, map; for `MeasureTheory.integral_map`, require the almost-everywhere measurability and strong measurability hypotheses of the Bochner identity (`Mathlib/MeasureTheory/Measure/Map.lean` and `Mathlib/MeasureTheory/Integral/Bochner/Basic.lean`).
+
+`completedRiemannZeta_eq`, `differentiable_completedZeta₀` and `completedRiemannZeta_residue_one` in `Mathlib/NumberTheory/LSeries/RiemannZeta.lean` give Λ(s)=Λ₀(s)−1/s−1/(1−s), with Λ₀ entire and residue 1 at s=1. The constant c_Λ in §5.3 is Λ₀(1)−1; this fixes the logarithmic endpoint coefficient without evaluating Λ(1).
+
+`MeasureTheory.IsFundamentalDomain.quotientMeasure_eq` in `Mathlib/MeasureTheory/Group/FundamentalDomain.lean` identifies the pushforwards of restricted invariant measure for two almost-everywhere fundamental domains, with a countable acting group and measurable constant actions. It does not compute their total mass.
+
+`Complex.differentiableOn_update_limUnder_of_bddAbove` in `Mathlib/Analysis/Complex/RemovableSingularity.lean` extends a map holomorphic on a neighborhood of a point minus that point, with bounded norm there, holomorphically across the point by its punctured limit. Layer 3 applies it to a lift written in a disc coordinate around a removed cone lift, with values in the bounded Cayley disc.
+
+`IsCoveringMap.existsUnique_continuousMap_lifts_of_range_le` in `Mathlib/Topology/Homotopy/Lifting.lean` requires path-connected and locally path-connected source, compatible lifted basepoint and the inclusion of the induced fundamental-group ranges. Layer 3 proves that inclusion using cone meridian powers; it is not an extra conclusion assumed from the equivalence.
+
+### From Tau Ceti
+
+Use Tau Ceti at `2fd255d997f47c0b5d834ee416c7015d55444ce5`.
+
+- `UpperHalfPlane.pslMk_smul` and `UpperHalfPlane.psl2zToPSL2R_smul`, in `TauCeti/Analysis/Complex/UpperHalfPlane/PSL/Action.lean`, identify the effective actions and their measure-invariance instances. `psl2zToPSL2R_injective`, in `TauCeti/LinearAlgebra/Matrix/ProjectiveSpecialLinearGroup.lean`, identifies integral projective elements faithfully.
+- `OnePoint.instMulActionPSL` and `OnePoint.pslMk_smul`, in `TauCeti/Topology/Compactification/OnePoint/ProjectiveLine.lean`, give the ideal-boundary action. The Cayley compactification compatibility is proved in Layer 0.
+- `TauCeti.UpperHalfPlane.isProperMap_psl_smul_I`, in `TauCeti/Analysis/Complex/UpperHalfPlane/ProperAction.lean`, and the discrete-subgroup action instance in `TauCeti/Analysis/Complex/Fuchsian/ProperAction.lean` give proper discontinuity. `Subgroup.instIsCyclicStabilizer` in `TauCeti/Analysis/Complex/Fuchsian/Stabilizer.lean` gives cyclicity of point stabilizers for discrete subgroups.
+- `TauCeti.UpperHalfPlane.geodesicLine` and `TauCeti.UpperHalfPlane.dist_geodesicLine`, in `TauCeti/Analysis/Complex/UpperHalfPlane/Geodesic.lean`, supply actual complete unit-speed lines. Compact polygon convexity uses `TauCeti/Analysis/Complex/UpperHalfPlane/Polygon/Basic.lean`. The ideal-vertex area theorem is `TauCeti.UpperHalfPlane.ConvexPolygon.volume_carrier` in `TauCeti/Analysis/Complex/UpperHalfPlane/Polygon/Convex/GaussBonnet.lean`; free sides and quotient bookkeeping use the FuchsianOrbifolds contract below.
+- `ModularGroup.isFundamentalDomain_fdo`, in `TauCeti/NumberTheory/Modular.lean`, is for PSL₂(ℤ) and is almost everywhere. `ModularGroup.fd_ae_eq_fdo` in the same file identifies the closed and open domains almost everywhere, so any measurable intermediate representative set has the same area. `UpperHalfPlane.volume_preimage_coe_null`, in `TauCeti/Analysis/Complex/UpperHalfPlane/Measure.lean`, transfers planar-null boundaries. `UpperHalfPlane.volume_setOf_re_mem_and_lt_im` in the same module gives mass volume(X)·A⁻¹ to the points above height A>0 whose real part lies in a set X⊆ℝ; X=[0,m) gives the finite-width cusp-tail mass m/A. `Subgroup.exists_isFundamentalDomain` and `Subgroup.IsCofinite`, in `TauCeti/Analysis/Complex/Fuchsian/Covolume.lean`, give measurable quotient area and discrete finite-covolume groups, without finite generation in their definitions. The finite-index area input is `MeasureTheory.covolume_eq_card_mul_covolume` in `TauCeti/MeasureTheory/Group/FundamentalDomain.lean`, applied with the invariant measure and fundamental-domain hypotheses; equivalently use `Subgroup.isCofinite_iff_isCofinite_and_finiteIndex` in the Fuchsian covolume module for nested discrete subgroups. `TauCeti.ModularGroup.isCofinite_psl2zToPSL2RRange` in `TauCeti/Analysis/Complex/Fuchsian/LevelOne/Basic.lean` supplies finite covolume for the ambient effective modular group.
+- `NumberField.NarrowClassGroup`, `NumberField.NarrowClassGroup.mkPrincipal_sq` and `NumberField.NarrowClassGroup.instFinite`, in `TauCeti/NumberTheory/NumberField/NarrowClassGroup/Basic.lean` and `Finite.lean`, give the native finite narrow group and J²=1. Its square-subgroup quotient and cosets supply genera; no new quotient is implicit.
+- `TauCeti.Deck.conjMulEquiv`, in `TauCeti/AlgebraicTopology/UniversalCover/Deck/Conjugation.lean`, conjugates deck groups of an over-base homeomorphism h with q∘h=p. Rebase the target covering along the doubled equivalence before applying it.
+
+### From TauCetiRoadmap.FuchsianOrbifolds
+
+Consume Layer 0 (effective actions and proper discontinuity), Layer 1 (free quotient and finite cyclic cone charts), Layer 2, items 1–3 and 5 (geodesic polygons, local side/cycle theorem, angle defect, quotient signature bookkeeping and fundamental-domain area comparison), Layer 3 (full cusp stabilizers, scaling data and precisely invariant horodiscs), Layer 4, item 5 (cofinite signature and area), Layer 5, item 1 (topological genus), and Layer 6 (the effective level-one quotient M with signature (0;2,3;1;0) and cone charts). Restriction to CΓ uses those interior charts; this roadmap constructs its genuine half-disc boundary charts. The local polygon theorem is applied after the free-side tiling and local finiteness are proved in §1.3; the cofinite converse in Layer 2, item 4 is not an input for an infinite-area Ford polygon.
+
+### From TauCetiRoadmap.CongruenceSpectralGap
+
+Consume §0.1, “Hyperbolic quotient measure”, at Γ=SL₂(ℤ), identifying its effective quotient with M. Its measure μ_mod is the pushforward of invariant area restricted to any measurable almost-everywhere fundamental domain of PSL₂(ℤ), in particular (π_mod)₊(volume.restrict fdo). It is independent of that domain, is positive and finite, and has total mass π/3.
+
+### From TauCetiRoadmap.AutomorphicSpectralTheory
+
+Consume §§1.14–1.15 for E and E*=Λ(2s)E with Λ(s)=π^(−s/2)Γ(s/2)ζ(s), primitive-pair factor 1/2 and Fourier constant term. Consume §2.17, `completed_eisenstein_fourier`, for the full K-Bessel expansion, its local convergence and parameter continuation; §2.18 for meromorphic continuation with poles only at s=0,1 and residues −1/2,+1/2; and §§0.27–0.28 for the positive-argument K-Bessel comparison and large-argument decay, including derivative estimates. Layer 5 deduces the termwise C¹ endpoint bounds from these inputs. Consume §4.17a for the arithmetic period, surface F_A, subgroup, projection, area, length and finite-width cusp. Consume §§4.18 and 4.20 for smooth cusp decay and uncompleted Eisenstein integrability, including vanishing horizontal flux. For t≠0 the completed specialization follows by scalar multiplication.
+
+What AutomorphicSpectralTheory must provide (gap:primitive-minus-cycle-invariant): the primitive-period contract for AutomorphicSpectralTheory §4.17a requires that every narrow class has a primitive reduced minus period and that two narrow classes are equal exactly when their primitive reduced minus periods are cyclic rotations of each other.
+
+What AutomorphicSpectralTheory must provide (gap:primitive-pell-word): the Pell-word contract for AutomorphicSpectralTheory §4.17a requires that for a primitive reduced minus period of A with reduced root w, the word ∏ₖT^nₖS is the primitive hyperbolic automorph fixing w and wσ, with attracting fixed point w, corresponding to multiplication by the least unit ε_D>1 of norm +1.
+
+What AutomorphicSpectralTheory must provide (gap:narrow-dictionary-compatibility): the label-compatibility contract for AutomorphicSpectralTheory §4.17a requires identification of its narrow class group Cl⁺(K) and its form and ideal labels with the native `NumberField.NarrowClassGroup` through the IntegralLattices B2–B3 oriented dictionary specialized by GlobalNumberFields Layer 11, including the √D sign correction for a negative leading coefficient.
+
+What AutomorphicSpectralTheory must provide (gap:oriented-quadratic-cycle-reversal): the oriented-cycle contract for AutomorphicSpectralTheory §4.17a requires identification of the full primitive parametrized modular cycle C_(JA⁻¹) with C_A traversed in the opposite orientation.
+
+The first three contracts refine the period construction without adding another arithmetic reduction theory here: the class invariant, the Pell automorph and the label dictionary have different consumers. The last fixes the signed primitive boundary required for cancellation. The completed endpoint’s constant-term growth is deduced from §1.15 by cancellation of the two Laurent poles.
+
+### From TauCetiRoadmap.AnalyticNumberTheoryPartI
+
+Consume §2.1, “Stokes on supplied Nielsen surfaces and the CM-point adapter”: the arithmetic signature (0;2 repeated ℓ_A;1;1), the boundary-period comparison with the entire oriented parametrized C_A, and the Stokes formula under absolute integrability and vanishing top flux. Only its real quadratic branch is used. Its λ=s(1−s) convention is used as written; the flux-only extension in §5.2 treats arbitrary complex eigenvalue and proves existence separately at λ=0.
+
+### From TauCetiRoadmap.IntegralLattices and TauCetiRoadmap.GlobalNumberFields
+
+Consume IntegralLattices Layer B, B2–B3: proper classes of primitive forms of nonsquare positive discriminant map to the narrow Picard group of the appropriate order; a negative leading coefficient requires the √D sign correction, and composition agrees with multiplication. Consume GlobalNumberFields Layer 11 for the order, invertible proper ideals, narrow Picard group and maximal-order comparison. For the DIT label A of Q=[a,b,c], these B2–B3 rules give [a,−b,c]↦A⁻¹, [−a,b,−c]↦JA and −Q↦JA⁻¹, including the negative-leading-coefficient clause. Only the identification of the resulting oppositely oriented parametrized cycles is requested from §4.17a; no dictionary or order carrier is rebuilt here.
+
+### From TauCetiRoadmap.MultiquadraticPartII
+
+Consume §§2.3–2.4, especially `J_square_iff_sumTwoSquares`: for a positive fundamental discriminant with its quadratic presentation and prime-discriminant factorization, J is square exactly when no prime congruent to 3 modulo 4 divides D, equivalently D=x²+y² for integers x,y. Retain the fundamental-discriminant and narrow-class hypotheses. This is weaker than J=1 and weaker than existence of an integral norm −1 unit. Its §§3.1–3.2 transport the genus characters through the supplied oriented form dictionary when comparing class labels.
+
+### From TauCetiRoadmap.ConformalMapping
+
+Consume L2, “Schwarz lemma extensions”, for disc automorphisms and Schwarz–Pick equality, transported to the statement that biholomorphisms ℍ→ℍ are PSL₂(ℝ) transformations. Consume L4, “Analytic continuation and the reflection principle”, for analytic-arc reflection across genuine boundary charts. Reflection glues those charts; it does not forget cone orders. Removal of isolated lifted cone points is not an L4 input: it uses the Mathlib point-removability theorem in the Mathlib contract.
+
+### From TauCetiRoadmap.ComplexCurveModuli
+
+Consume D0.1 for compact oriented smooth surface normal forms with finite labelled boundary and collared capping, D0.4 for its compact smooth bordered conformal double and hyperbolic uniqueness, and D6.2, “Geodesic-cut metric”, for reflection of dr²+ℓ²cosh²(r)dθ² across a genuine geodesic boundary. Layer 3 proves the extension to cusped orbifolds, retaining cone orders and complete cusp ends; no general compact smooth surface classification is repeated. The finite-type exhaustion for arbitrary finitely generated Fuchsian groups remains a target of §0.3.
+
+### From TauCetiRoadmap.AlgebraicTopology
+
+Consume Stage 1, “van Kampen through the fundamental groupoid”, for finite-cover presentations, and Stage 7, “Euler characteristic and finite decompositions”, for Hausdorff finite-CW models, finite excisive/cofibration gluing and invariance. The finite-type orbifold exhaustion and incompressible-boundary argument in §0.3 is local work here; it is not an unstated surface-classification input from generic van Kampen. Capping and doubling use collared boundary circles and finite CW models.
+
+### From TauCetiRoadmap.DifferentialGeometry
+
+Consume §5.3 Stokes for compactly supported C¹ forms, §5.5 its manifold-with-corners version, and §5.6.3 the planar top-form/curve-integral comparison, with outward-first boundary orientation. Apply to real and imaginary parts after inserting a smooth cutoff equal to one near the compact polygon. The cutoff verifies the support hypothesis without changing the integrals. The log-height rectangle in Conventions gives the value 1/4 in these conventions too.
 
 ## References
 
