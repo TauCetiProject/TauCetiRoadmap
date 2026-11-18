@@ -24,7 +24,7 @@ The following headline theorems are not statable at the pins.
   lack general abelian canonical heights, cycle heights and difference-map fibres.
 * The uniform count off the Ueno locus and uniform Mordell–Lang lack polarization
   degrees and the Ueno/coset interfaces on arbitrary abelian subvarieties.
-* The Gao–Habegger and Xie–Yuan geometric Bogomolov theorems lack geometric trace,
+* The Xie–Yuan geometric Bogomolov theorem lacks geometric trace,
   special subvarieties and canonical heights over polarized function fields.
 * Yamaki's reduction lacks nonarchimedean abelian uniformization, the maximal
   nowhere-degenerate subvariety and the geometric trace quotient.
@@ -34,9 +34,6 @@ The following headline theorems are not statable at the pins.
   the relative Jacobian maps and bigness over the field of constants.
 * Yuan's uniform Bogomolov theorem over all global fields lacks twice-theta heights,
   stable Faltings heights and the isotrivial-pair interface on general Jacobians.
-* Bielliptic uniform Bogomolov and unbounded torsion orders lack the
-  diagonal-lift polarization and the elliptic quotient maps; bielliptic uniform
-  Manin–Mumford is the genus-two case of the curve headline below.
 
 Euclidean packing and the linear core of subvariety descent are supporting results
 in README.md, rather than replacements for these headline statements.

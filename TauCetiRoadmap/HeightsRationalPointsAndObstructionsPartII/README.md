@@ -1,10 +1,24 @@
 # Roadmap: heights, rational points and obstructions, part II — uniform Bogomolov and Mordell–Lang
 
-**Summary.** Uniformity for small points and for Mordell–Lang on subvarieties of abelian varieties, extending HeightsRationalPointsAndObstructions where its Layer 5 stops (qualitative Mordell–Lang, Bogomolov over number fields, equidistribution). The construction follows Dimitrov–Gao–Habegger’s height inequality for non-degenerate subvarieties, Kühne’s equidistribution in families, Gao–Ge–Kühne’s gap principle, uniform Bogomolov and uniform Mordell–Lang via Rémond’s quantitative Vojta method, the geometric Bogomolov conjecture over function fields (Gao–Habegger in characteristic 0 over curves, Xie–Yuan in general), Yuan’s uniform Bogomolov-type theorem for curves over all global fields with the relative Bogomolov theorem for curve families, and DeMarco–Krieger–Ye’s bielliptic family as a worked case. Betti maps come from AbelianSchemesAndArithmeticModuliPartII, adelic line bundles, bigness and Moriwaki heights from ArakelovGeometryAndAbelianHeightsPartII, moduli from PELModuli, StableReductionPartII and JacobianChallengePartII.
+**Summary.** Let X be a subvariety of an abelian variety A. By the theorems of Manin–Mumford, Mordell–Lang and Bogomolov, the torsion points of X, its points in a subgroup of finite rank and its points of small height are governed by finitely many translates of abelian subvarieties contained in X. HeightsRationalPointsAndObstructions proves them on a fixed abelian variety. This roadmap makes them uniform, with bounds depending only on the dimension of A and the degree of X, and proves the geometric Bogomolov conjecture over function fields.
+
+Write X° for the complement in X of the union of the positive-dimensional translates of abelian subvarieties contained in X. The uniform Bogomolov theorem of Gao, Ge and Kühne gives, for positive integers g and d, constants c and N such that, for every polarized abelian variety (A, L) over ℚ̄ of dimension at most g and every irreducible closed X ⊆ A of degree at most d, fewer than N points of X° have canonical height at most c for L ⊗ [−1]*L. Their uniform Mordell–Lang theorem holds over every algebraically closed field F of characteristic zero: if A has dimension g, X is irreducible of degree d for an ample line bundle and Γ ⊆ A(F) has finite rank, the points of X in Γ lie on at most c(g, d)^(1 + rk Γ) translates of abelian subvarieties contained in X.
+
+For curves this is Kühne’s theorem. Let C be a smooth projective curve of genus g ≥ 2 over an algebraically closed field of characteristic zero, embedded in its Jacobian by a divisor class of degree one. At most c(g) points of C are torsion, and at most c(g)^(1 + ρ) lie in a subgroup of rank ρ. Over a number field K this gives #C(K) ≤ c(g)^(1 + r), with r the Mordell–Weil rank of the Jacobian and a constant independent of the degree of K. The Lean file states these three results.
+
+The proof starts from the Dimitrov–Gao–Habegger height inequality, which bounds the canonical height of the points of a non-degenerate subvariety of an abelian scheme from below by a positive multiple of the height of their image in the base, minus a constant, off a proper closed subset. With Kühne’s equidistribution in families it gives uniform Bogomolov and the new gap principle: when X generates A, the points of X° of height at most a fixed multiple of max{1, h_Fal(A)} lie in a proper closed subset of bounded degree. Rémond’s quantitative Vojta method counts the points of large height, and specialization passes from ℚ̄ to every algebraically closed field F of characteristic zero.
+
+Over function fields, let k be algebraically closed of any characteristic and K/k finitely generated of positive transcendence degree. The geometric Bogomolov conjecture, proved by Xie and Yuan, says that for an abelian variety A over K, a closed irreducible subvariety X of A over K̄ contains a dense set of points of small canonical height only if X is special: the sum of a torsion translate of an abelian subvariety and the image under the trace map of a subvariety of the K̄/k̄-trace defined over k̄. Special subvarieties do contain such sets, so this is an equivalence.
+
+Finally, following Yuan, adelic potential bigness gives a relative Bogomolov theorem for families of curves with maximal variation and a uniform bound for curves over every global field, in every characteristic. For C of genus g ≥ 2 and a divisor class α of degree one, at most c₂(g) points x have ĥ(x − α) below c₁(g) times the sum of the Faltings height of C (or a normalizing constant, if larger) and the height of (2g − 2)α − ω, where ω is the canonical class. Over function fields the pair (C, α) is assumed non-isotrivial.
+
+Besides its parent, the roadmap builds on AbelianSchemesAndArithmeticModuliPartII for Betti maps and on ArakelovGeometryAndAbelianHeightsPartII for adelic line bundles and potential bigness. JacobianChallengePartII provides Jacobians and Abel maps.
+
+Layers 0 to 6 follow this proof in order, from the height inequality to uniform Mordell–Lang. Layer 7 treats small points and special subvarieties over function fields, and Layer 9 is Xie–Yuan’s proof. Layers 10 and 11 follow Yuan.
 
 ## How to read the build
 
-Layers 0–2 develop degree bookkeeping, bounded Hilbert families and the geometric level-case height inequality. Layer 3 proves uniform Bogomolov; Layers 4–6 combine the gap principle with quantitative Vojta–Mumford estimates and specialization to prove uniform Mordell–Lang. Layers 7–9 establish geometric Bogomolov over polarized function fields in all characteristics. Layers 10–11 use adelic potential bigness to prove the relative theorem and the uniform curve bound over every global field. Layer 12 identifies the bielliptic genus-two case through its elliptic quotients. Each Needs line names both statement carriers and inputs to the displayed proof route.
+Layers 0–2 develop degree bookkeeping, bounded Hilbert families and the geometric level-case height inequality. Layer 3 proves uniform Bogomolov; Layers 4–6 combine the gap principle with quantitative Vojta–Mumford estimates and specialization to prove uniform Mordell–Lang. Layers 7 and 9 establish geometric Bogomolov over polarized function fields in all characteristics. Layers 10–11 use adelic potential bigness to prove the relative theorem and the uniform curve bound over every global field. Each Needs line names both statement carriers and inputs to the displayed proof route.
 
 ## Conventions
 
@@ -67,21 +81,6 @@ One proof route is the following. Induct on M; for M = 1 take X′ = Z. Split Z 
 - The lemma is stated for all subsets Σ, finite or not: an infinite Σ is forced into X′.
 
 *Needs:* §0.1; SchemeAndStackFoundations §§5.1–5.4, 5.12.
-
-### 0.3 Many points of a curve escape a proper subvariety of its power (DGH Lemma 6.3)
-
-Let C ⊆ ℙⁿ_k be an irreducible curve over an algebraically closed field and Z ⊆ (ℙⁿ_k)^M a closed subset with C^M ⊄ Z. There is B depending only on M, deg C and deg Z such that every Σ ⊆ C(k) with #Σ ≥ B satisfies Σ^M ⊄ Z(k). (dgh-2021, Lemma 6.3 and proof, p. 28 (arXiv v3)).
-
-Throughout this subsection, C irreducible curve in ℙⁿ_k, k algebraically closed; Z closed in (ℙⁿ)^M with C^M ⊄ Z; the power M is a positive integer; cardinality comparisons for infinite Σ mean that every sufficiently large finite subset is allowed.
-
-One proof route is the following. Apply the product-set lemma to X = C and Z ∩ C^M ⊊ C^M: a Σ with Σ^M ⊆ Z lies in a proper closed subset of C of bounded degree. A proper closed subset of an irreducible curve is finite with at most its degree many points, so B = c + 1 works with c from the product-set lemma.
-
-**Checks.**
-
-- For M = 1 the statement says a curve not contained in Z meets it in at most deg C · deg Z points (Bézout).
-- B does not depend on the field of definition of C or on the height of C.
-
-*Needs:* §0.2; §0.1.
 
 ### 0.4 Ball packing in Euclidean space (Rémond)
 
@@ -421,7 +420,7 @@ One proof route is the following. Import the general dynamical theorem from Arak
 
 **Checks.**
 
-- Theorem B.1 restricted to a curve S and a non-generically-special X recovers Gao–Habegger’s Theorem 1.4 on X* (see the geometric Bogomolov layer).
+- Theorem B.1 restricted to a curve S and a non-generically-special X recovers Gao–Habegger’s Theorem 1.4 on X*.
 - The Yuan–Zhang height inequality for non-degenerate subvarieties of polarized dynamical systems (ArakelovGeometryAndAbelianHeightsPartII §§5.1–5.3) specializes to this statement for A → S with f = [2]; the geometric intersection route through §2.7 and the supplied adelic theorem have the same specialization; the comparison route above uses that supplied theorem.
 - X need not be closed: a non-degenerate open subset of a closed X gives the same inequality on a smaller U.
 
@@ -533,7 +532,7 @@ Throughout this subsection, g ≥ 2; C smooth projective of genus g over an alge
 
 - `Suggested.lean` states `uniform_maninMumford_curves`, which uses a smooth proper geometrically integral one-dimensional scheme X over F, a rational base point x₀, an Albanese morphism a to an abelian variety J of dimension g, and an arbitrary translating point c. In the native multiplicative point group, (x ≫ a) * c represents [x]−D: c=[x₀]−D. Its bound B is a natural number with B≥1, independent of F and c.
 
-One proof route is the following. Over ℚ̄: X = ι_D(C) ⊆ J = Jac(C) is a curve of degree g for the theta polarization, generating J, with X° = X since a curve of genus ≥ 2 contains no positive-dimensional coset. Torsion points have Néron–Tate height 0 ≤ c₃, so the uniform Bogomolov theorem with (g, d) = (g, g) bounds their number by c₄(g, g). Over an arbitrary algebraically closed F of characteristic 0: any finite collection of torsion points of ι_D(C) is defined with the curve over a finitely generated field; specialize to ℚ̄ along a model keeping the curve smooth and these torsion points distinct (torsion injects under specialization in characteristic 0), as in the specialization step of the uniform Mordell–Lang layer. This also proves DGH Theorem 1.4 with a constant independent of d (DGH’s own constant depends on d), and gives a bound uniform in P₀ for the small-height step. Kühne states Theorem 2 over ℂ; the step over arbitrary F is the specialization argument above (Kühne Theorem 4 with Γ the torsion subgroup gives the same). For extension from ℚ̄ to an arbitrary algebraically closed characteristic-zero field, spread any finite configuration of torsion points with the curve and preserve distinctness and their finite orders on a suitable fibre. A putative violation of the uniform bound has such a finite witness; it is unnecessary to define all torsion points over one finitely generated field.
+One proof route is the following. Over ℚ̄: X = ι_D(C) ⊆ J = Jac(C) is a curve of degree g for the theta polarization, generating J, with X° = X since a curve of genus ≥ 2 contains no positive-dimensional coset. Torsion points have Néron–Tate height 0 ≤ c₃, so the uniform Bogomolov theorem with (g, d) = (g, g) bounds their number by c₄(g, g). Over an arbitrary algebraically closed F of characteristic 0: any finite collection of torsion points of ι_D(C) is defined with the curve over a finitely generated field; specialize to ℚ̄ along a model keeping the curve smooth and these torsion points distinct (torsion injects under specialization in characteristic 0), as in the specialization step of the uniform Mordell–Lang layer. This also proves DGH Theorem 1.4 with a constant independent of d (DGH’s own constant depends on d). Kühne states Theorem 2 over ℂ; the step over arbitrary F is the specialization argument above (Kühne Theorem 4 with Γ the torsion subgroup gives the same). For extension from ℚ̄ to an arbitrary algebraically closed characteristic-zero field, spread any finite configuration of torsion points with the curve and preserve distinctness and their finite orders on a suitable fibre. A putative violation of the uniform bound has such a finite witness; it is unnecessary to define all torsion points over one finitely generated field.
 
 **Checks.**
 
@@ -553,51 +552,6 @@ On a single abelian variety, torsion Galois orbits give the usual normalized Haa
 Layers 0–2; ArakelovGeometryAndAbelianHeightsPartII §§5.1–5.3; AbelianSchemesAndArithmeticModuliPartII B1,B4; HeightsRationalPointsAndObstructions §§5.2–5.4,5.18–5.19; native generic-sequence and Galois-orbit operations.
 
 ## Layer 4: The new gap principle
-
-### 4.1 Uniform degree and height of Abel–Jacobi curves (DGH Lemma 6.1)
-
-Fix g ≥ 2, a level ℓ ≥ 3, the fine moduli space M_g of smooth genus-g curves with level-ℓ structure over ℚ̄ with universal curve C_g, the Torelli map τ : M_g → A_g to the fine Siegel moduli space with universal abelian scheme 𝔄_g ⊆ ℙⁿ × A_g, and an ample M on a compactification of A_g. There is c such that for all s ∈ M_g(ℚ̄): (i) deg(C_s − P) ≤ c for every P ∈ `𝔄_{g,τ(s)}(ℚ̄)`; (ii) some P_s ∈ C_s(ℚ̄) satisfies h(C_s − P_s) ≤ c·max{1, `h_{A_g,M}(τ(s))`}, where h is the height of a subvariety of ℙⁿ. (dgh-2021, Lemma 6.1 and proof, pp. 25–26 (arXiv v3)).
-
-Throughout this subsection, g ≥ 2; level ℓ ≥ 3; fine moduli; projective immersion of the universal abelian scheme; M ample on a compactification.
-
-One proof route is the following. The curves C_s − P, s ∈ M_g, P ∈ `𝔄_{g,τ(s)}`, form one algebraic family over 𝔄_g `×_{A_g}` M_g; degrees of fibres of a family are bounded (constructibility and Bézout), giving (i). Choose an étale quasi-section of C_g → M_g (SchemeAndStackFoundations §0.8); over each piece of a finite stratification the point P_s is given by a morphism, so its height is ≤ c max{1, h(τ(s))} by the height machine. C_s − P_s is a component of an intersection of the universal family with fixed hypersurfaces through the moduli point; arithmetic Bézout (HeightsRationalPointsAndObstructions §5.9b) bounds its height linearly in the height of the point.
-
-**Checks.**
-
-- The constant does not depend on s; only (ii) depends on the moduli height.
-- For P arbitrary the height of C_s − P can be arbitrarily large (translate by points of large height), so (ii) chooses P_s.
-
-*Needs:* StableReductionPartII §§4.2, 4.4, 4.8, 6.3, 6.6–6.7, 7.13, 7.15; JacobianChallengePartII §§0.2–0.4, 2.1–2.7, 3.2–3.13, 5.1–5.6, 7.1–7.2; SchemeAndStackFoundations §§0.3, 0.8, 5.1–5.4; HeightsRationalPointsAndObstructions §5.9b; §0.1; HeightsRationalPointsAndObstructions §§0.16–0.35, 1.7–1.11, 5.1–5.19.
-
-### 4.2 Few base points force a proper subvariety (DGH Lemma 6.4)
-
-Let A be an abelian variety over ℚ̄, C ⊆ A a smooth curve of genus g ≥ 2, M ≥ 1, D_M : `C^{M+1}` → A^M the Faltings–Zhang map (P₀, …, P_M) ↦ (P₁ − P₀, …, P_M − P₀) and Z ⊊ `D_M(C^{M+1})` an irreducible proper closed subset. Then #{P ∈ C(ℚ̄) : (C − P)^M ⊆ Z} ≤ 84(g − 1). (dgh-2021, Lemma 6.4 and proof, pp. 28–29 (arXiv v3)).
-
-Throughout this subsection, C ⊆ A smooth curve of genus g ≥ 2; Z ⊊ `D_M(C^{M+1})` irreducible proper closed.
-
-One proof route is the following. The proper image `D_M(C^{M+1})` is irreducible of dimension at most M+1. Thus its proper irreducible subset Z has dimension at most M. If any (C−P)^M lies in Z, both have dimension M and are equal. There is no case dim Z > M. Then C − P₀ = C − P₁, so P₁ − P₀ stabilizes C − P₀, and translation by it is an automorphism of the curve. The stabilizer of a genus-≥ 2 curve is finite and embeds in Aut(C), of order at most 84(g − 1) (Hurwitz).
-
-**Checks.**
-
-- The bound is independent of A, M and Z.
-- For C=E₀+P₀ with E₀ an elliptic subgroup (g=1), D_M(C^(M+1))=(C−P)^M=E₀^M for every P∈C. No proper Z in that image contains (C−P)^M, so the counted set is empty: 0≤84(g−1)=0. Genus at least two makes the difference image (M+1)-dimensional and the stabilizer finite; genus ≥ 2 is used through finiteness of the stabilizer.
-
-*Needs:* HeightsRationalPointsAndObstructions §§0.16–0.35, 1.7–1.11, 5.1–5.19; AlgebraicCurves Layers 10–11.
-
-### 4.3 Néron–Tate distance between points on curves (DGH Proposition 7.1)
-
-With M_g, τ, 𝔄_g and M as in the Abel–Jacobi bounds, for each irreducible closed S ⊆ M_g over ℚ̄ there are c₁, c₂, c₃, c₄ > 0 such that for every s ∈ S(ℚ̄) with `h_{A_g,M}(τ(s))` ≥ c₁ there is a set Ξ_s ⊆ C_s(ℚ̄) with #Ξ_s ≤ c₂ such that every P ∈ C_s(ℚ̄) satisfies either P ∈ Ξ_s or #{Q ∈ C_s(ℚ̄) : ĥ(Q − P) ≤ `h_{A_g,M}(τ(s))`/c₃} < c₄. (dgh-2021, Proposition 7.1 and proof, pp. 29–31 (arXiv v3)).
-
-Throughout this subsection, S ⊆ M_g irreducible closed; s with large modular height.
-
-One proof route is the following. Induct on dim S. Gao’s theorem (AbelianSchemesAndArithmeticModuliPartII B4, DGH Theorem 6.2) makes `D_M(C_S^{[M+1]})` non-degenerate for M = 3g − 2; the height inequality gives c > 0 and a proper closed exceptional set Z_S with Σ ĥ(P_i − P₀) ≥ c h(τ(s)) − c′ off Z_S. If (C_s − P)^M ⊄ Z_s, at least one of M points close to P escapes Z_s once there are c₄ such points (the escape lemma); the inequality then forces ĥ(Q − P) > h(τ(s))/c₃ with c₃ = 2M/c for one of them. The base points P with (C_s − P)^M ⊆ Z_s number at most 84(g − 1) per component (the base-point bound): they form Ξ_s, of bounded size; the lower-dimensional part of Z_S over a proper closed subset of S is handled by induction.
-
-**Checks.**
-
-- The threshold h/c₃ grows with the modular height, unlike the uniform Bogomolov threshold, which is absolute.
-- Below the modular height bound c₁ the proposition says nothing; the uniform Bogomolov theorem covers that range.
-
-*Needs:* §2.8; AbelianSchemesAndArithmeticModuliPartII B0–B4; §4.2; §0.3; §4.1; StableReductionPartII §§4.2, 4.4, 4.8, 6.3, 6.6–6.7, 7.13, 7.15; JacobianChallengePartII §§0.2–0.4, 2.1–2.7, 3.2–3.13, 5.1–5.6, 7.1–7.2.
 
 ### 4.4 Height gap on the restricted Hilbert scheme (GGK Proposition 4.2)
 
@@ -687,7 +641,7 @@ One proof route is the following. X = C − y ⊆ J = Jac(C) is a curve of θ-de
 - Taking the threshold 0 recovers uniform Manin–Mumford for curves.
 - Yuan’s uniform Bogomolov for curves (the last layer) strengthens this by adding ĥ((2g − 2)α − ω) to the threshold and allowing α ∈ Pic¹ and all global fields.
 
-*Needs:* §4.8; JacobianChallengePartII §§0.2–0.4, 2.1–2.7, 3.2–3.13, 5.1–5.6, 7.1–7.2; §4.3.
+*Needs:* §4.8; JacobianChallengePartII §§0.2–0.4, 2.1–2.7, 3.2–3.13, 5.1–5.6, 7.1–7.2.
 
 ### Examples
 
@@ -695,7 +649,7 @@ For a k-dimensional exceptional component and n=l/g!, the quasi-inverse isogeny 
 
 ### Dependencies
 
-Layers 0–3; StableReductionPartII §§4.2,4.4,4.8,6.3,6.6–6.7,7.13,7.15; JacobianChallengePartII Layers 2–5; AlgebraicCurves Layer 11; ArakelovGeometryAndAbelianHeights §§4.2–4.4,5.5–5.8; HeightsRationalPointsAndObstructions §5.3.
+Layers 0–3; JacobianChallengePartII Layers 2–5; ArakelovGeometryAndAbelianHeights §§4.2–4.4,5.5–5.8; HeightsRationalPointsAndObstructions §5.3.
 
 ## Layer 5: Rémond’s quantitative Vojta method
 
@@ -900,25 +854,6 @@ One proof route is the following. Fix P₀ ∈ X(ℚ̄); apply the new gap princ
 
 *Needs:* §5.9; §4.8; §5.10; HeightsRationalPointsAndObstructions §§0.16–0.35, 1.7–1.11, 5.1–5.19.
 
-### 5.12 Rémond’s bound for one subvariety (David–Philippon form)
-
-For a subvariety X of a principally polarized abelian variety (A,M) over a number field k, of positive dimension g, using the Mumford embedding by L=M¹⁶, and a subgroup Γ ⊆ A(ℚ̄) of finite rank r, X(ℚ̄) ∩ Γ is a union of at most `(2^{34} h₀(A) deg_L X)^{(r+1) g^(5(dim X + 1)²)}` sets (x_i + B_i)(ℚ̄) ∩ Γ with x_i + B_i ⊆ X and B_i abelian subvarieties, where A is principally polarized by M over a number field k, L=M¹⁶, h(A) is the height of the origin in its Mumford theta embedding and h₀(A)=[k:Q]max{1,h(A)}. For arbitrary ample polarizations, the general counting theorem is §5.10; the displayed explicit numerical formula retains this principal theta setting. (dgh-2021, Proof of Theorem 1.1, p. 35, and Remark 8.3, p. 36 (arXiv v3), citing David–Philippon, Comment. Math. Helv. 77 (2002), p. 643; david-philippon-2002, p. 643; ggk-2026, §7.1, (7.3)–(7.6), pp. 220–222 (citing david-philippon-2007, Theorem 6.8 and (6.41))).
-
-The small-point input is the following quantitative count, owned here. In the same setting, with D = deg_L X, X° the complement of the Ueno locus and ĥ the Néron–Tate height for L in David–Philippon’s normalization, put `Q = (2^(16g) h₀(A)^(2/g) D)^((4g²)^(dim X))`. (a) At most Q points of X°(ℚ̄) have ĥ < 1/Q. (b) For every real a > 1 and every Γ ⊆ A(ℚ̄) of finite rank r, at most `Q (5aQ)^(r/2)` points of Γ ∩ X°(ℚ̄) have ĥ ≤ a. (david-philippon-2002, Théorèmes 1.2–1.4, p. 641; proof of Théorème 1.3, pp. 689–690.) The source states (a) and (b) with its quantity q(X) and proves q(X) ≤ Q in Théorème 1.4; both counts are monotone in the constant, so they hold with Q. The source deduces (b) from the non-strict form of (a) for its smaller constant (its Théorème 5.3): it covers the ellipsoid ĥ ≤ a in Γ_ℝ by translates, centred at points x′ of Γ ∩ X°, of a small ellipsoid whose quarter-size copies are pairwise disjoint, and counts each translate on X − x′, which has the same degree and Ueno complement X° − x′.
-
-Throughout this subsection, A,M and the chosen theta coordinates descend to k, L=M¹⁶ and h₀(A) includes [k:Q]; Γ has finite rank and X is defined over Q̄.
-
-One proof route is the following. Large points: the large-points bound (Rémond’s Vojta and Mumford inequalities), with c_NT and h₁ bounded by h₀(A). Small points: take a > 1 at least the large-point threshold of §5.8 and apply the quantitative small-point count stated above; the at most Q exceptional points of height below 1/Q, among them all torsion points of X°, are kept inside that count rather than excluded by a lower bound, and the points of height above a are the large points. Induction on dim X handles the exceptional subvarieties; David–Philippon p. 643 records the resulting explicit constant. The exponent is (r+1)g^(5(dim X+1)²), with the whole 5(dim X+1)² in the exponent of g (david-philippon-2002, p. 643).
-
-**Checks.**
-
-- The bound depends on the height of A, unlike the uniform theorems; it is the input for the finitely many curves of small modular height in DGH Theorem 1.1.
-- For r = 0 it is a bound, uniform in the base point, on torsion cosets: this supplies the small-height step of DGH Theorem 1.4.
-- Negative control for the small-point count: for a genus-two curve C with Weierstrass point w and X = C − w in its Jacobian, L = M¹⁶ gives D = 16·(Θ·C) = 32, dim X = 1, (4g²)^(dim X) = 16 and Q = (2³²·h₀(A)·32)¹⁶ = 2⁵⁹² h₀(A)¹⁶. X° = X contains the six 2-torsion points w_i − w of height 0, and 6 ≤ Q as (a) allows; a positive lower bound for ĥ on all of X° would be false.
-- In (b) with r = 0 and a = 2 the count is at most Q, independent of a, matching the rank-zero torsion count; with r = 2 the factor 5aQ enters to the first power, so replacing the exponent r/2 by r would square it and lose the square-root packing gain.
-
-*Needs:* §5.8; §0.4; §5.1; §5.3; HeightsRationalPointsAndObstructions §§0.16–0.35, 1.7–1.11, 5.1–5.19.
-
 ### Examples
 
 For rank zero the Néron–Tate space is zero. For a rank-one division group it is R although the subgroup is not finitely generated. Covering 3 balls with c₀=2 and rank one yields at most 3·2²=12 points, not 6. Taking c₁=1/4 and c₃=2 requires c₀≥4 in the reciprocal threshold. A coordinate swap on E² sends (P,0) to (0,P); it cannot preserve an arbitrary rank-one group.
@@ -1054,75 +989,13 @@ One proof route is the following. ι_D(C) ⊆ Jac(C) is an irreducible curve of 
 
 *Needs:* §6.7; §6.5; JacobianChallengePartII §§0.2–0.4, 2.1–2.7, 3.2–3.13, 5.1–5.6, 7.1–7.2.
 
-### 6.9 Counting on curves of large modular height (DGH Proposition 8.1)
-
-With M_g, τ, 𝔄_g and M as in the Abel–Jacobi bounds, there are c₁ ≥ 0 and c₂ ≥ 1 such that for every s ∈ M_g(ℚ̄) with `h_{A_g,M}(τ(s))` ≥ c₁, every finite-rank Γ ⊆ `𝔄_{g,τ(s)}(ℚ̄)` of rank ρ and every P₀ ∈ C_s(ℚ̄): #((C_s(ℚ̄) − P₀) ∩ Γ) ≤ `c₂^{1+ρ}`. (dgh-2021, Proposition 8.1 and proof, pp. 31–34 (arXiv v3)).
-
-Throughout this subsection, s with large modular height; Γ of finite rank; P₀ ∈ C_s.
-
-One proof route is the following. Choose P_s as in the Abel–Jacobi bounds, so h(C_s − P_s) ≤ c max{1, h(τ(s))}; replace Γ by Γ′ = ⟨Γ, P₀ − P_s⟩, of rank ≤ ρ + 1. Large points: Rémond’s bound (curve case of the large-points bound) with c_NT, h₁ ≤ c max{1, h(τ(s))}: at most `c^{ρ+1}` points have ĥ > c₀ max{1, h(τ(s))}. Small points: they lie in a ball of radius `(c₀ max{1, h})^{1/2}`; cover it by `(1 + 2(c₀c₃)^{1/2})^{ρ+1}` balls of radius `(max{1, h}/c₃)^{1/2}` centred at points of the set (ball packing); each ball holds fewer than c₄ points or its centre lies in the bounded exceptional set Ξ_s (the Néron–Tate distance proposition).
-
-**Checks.**
-
-- The bound does not depend on the height of the curve once that height is large.
-- Below the threshold c₁ the proposition gives nothing; the small-height curves are handled by Northcott and Rémond’s single bound.
-
-*Needs:* §4.3; §5.8; §5.3; §4.1; §0.4; §5.1.
-
-### 6.10 Uniform Mordell–Lang for curves of large modular height (DGH Theorem 1.2 and Corollary 1.3)
-
-For g ≥ 2 and an immersion ι of the coarse moduli space `A_{g,1}` into ℙ^m over ℚ̄ there are c₁ = c₁(g, ι) ≥ 0 and c₂ = c₂(g, ι) ≥ 1 such that for every smooth curve C of genus g over ℚ̄, P₀ ∈ C(ℚ̄) and finite-rank Γ ⊆ Jac(C)(ℚ̄) of rank ρ with h(ι([Jac(C)])) ≥ c₁: #((C(ℚ̄) − P₀) ∩ Γ) ≤ `c₂^{1+ρ}`. In particular (Γ = Jac(C)_tors) #((C(ℚ̄) − P₀) ∩ Jac(C)_tors) ≤ c₂. (dgh-2021, Theorem 1.2 and Corollary 1.3, p. 3; proof §8, pp. 35–36 (arXiv v3)).
-
-Throughout this subsection, g ≥ 2; ι an immersion of the coarse moduli space; Jacobians of large height.
-
-One proof route is the following. Choose a level-ℓ structure on C over ℚ̄, giving s ∈ M_g with τ(s) ↦ [Jac(C)] under the finite forgetful map ρ : `A_{g,ℓ}` → `A_{g,1}`. Compare heights along ρ: h(ι(ρ(t))) ≤ `c′h_{A_g,M}(t)` + c″ (height machine), so a large height of ι([Jac(C)]) forces large modular height. Apply the count for curves of large modular height; Γ = Jac(C)_tors has rank 0.
-
-**Checks.**
-
-- Corollary 1.3 is the case ρ = 0.
-- The constants depend on the immersion ι, which the uniform Mordell–Lang theorem for curves removes together with the large-height hypothesis.
-
-*Needs:* §6.9; StableReductionPartII §§4.2, 4.4, 4.8, 6.3, 6.6–6.7, 7.13, 7.15; ArakelovGeometryAndAbelianHeights §§3.4, 4.2–4.4, 5.5–5.8; HeightsRationalPointsAndObstructions §§0.16–0.35, 1.7–1.11, 5.1–5.19.
-
-### 6.11 Finitely many curves of small modular height and bounded degree
-
-Fix g ≥ 2, d ≥ 1 and c₁. The smooth genus-g curves C defined over a number field F with [F : ℚ] ≤ d and `h_{A_g,M}(τ(s))` < c₁ (for a level structure s over F′ ⊇ F) lie in finitely many ℚ̄-isomorphism classes, and the degree [F′ : F] of the field over which a level structure is defined is bounded in terms of g and the level. (dgh-2021, Proof of Theorem 1.1, pp. 34–35 (arXiv v3)).
-
-Throughout this subsection, [F : ℚ] ≤ d; modular height < c₁.
-
-One proof route is the following. A level-ℓ structure is defined over an extension F′ of degree at most #`GL_{2g}(ℤ/ℓ)`; so τ(s) has bounded degree and bounded height. Northcott on the moduli space (ArakelovGeometryAndAbelianHeights §§5.5–5.8) leaves finitely many τ(s); Torelli has finite fibres (StableReductionPartII §6.6), so finitely many s. Each s determines C over ℚ̄ up to isomorphism.
-
-**Checks.**
-
-- The field-degree bound is essential for Northcott: algebraic points of unbounded degree can have height zero (roots of unity in ℙ¹). Twists do not give distinct ℚ̄-isomorphism classes, so they are not a counterexample to this geometric finiteness statement.
-- The finite set depends on (g, d, c₁, ℓ).
-
-*Needs:* ArakelovGeometryAndAbelianHeights §§3.4, 4.2–4.4, 5.5–5.8; StableReductionPartII §§4.2, 4.4, 4.8, 6.3, 6.6–6.7, 7.13, 7.15.
-
-### 6.12 Uniform bound for rational points (Dimitrov–Gao–Habegger Theorem 1.1)
-
-For integers g ≥ 2 and d ≥ 1 there is c = c(g, d) ≥ 1 such that every smooth geometrically irreducible projective curve C of genus g over a number field F with [F : ℚ] ≤ d satisfies #C(F) ≤ `c^{1+ρ}`, ρ = rk Jac(C)(F). The constant can be chosen to grow at most polynomially in d. (dgh-2021, Theorem 1.1 and (1.1), pp. 1–2; proof §8 and the remark after it, pp. 34–35 (arXiv v3)).
-
-Throughout this subsection, g ≥ 2; [F : ℚ] ≤ d.
-
-- `Suggested.lean` states the degree-free bound of §6.8 as `uniform_rationalPoints_curves`. The degree-dependent DGH bound with polynomial growth in d is the prose target here.
-
-One proof route is the following. If C(F) = ∅ there is nothing to prove; otherwise take P₀ ∈ C(F) and Γ = Jac(C)(F), of rank ρ (Mordell–Weil, HeightsRationalPointsAndObstructions §1.7). Large modular height: the count for curves of large modular height. Small modular height: finitely many curves over ℚ̄; for each, Rémond’s single bound (David–Philippon form) gives a bound uniform in P₀ and exponential in ρ. Polynomial growth in d: in the small-height case h_Fal and the David–Philippon height are bounded (ArakelovGeometryAndAbelianHeights §§5.5–5.8), and Rémond’s bound is polynomial in D·max{1, h_DP} with D ≤ [F′ : F]d.
-
-**Checks.**
-
-- The uniform Mordell–Lang theorem for curves removes the dependence on d.
-- For ρ = 0, #C(F) is bounded in terms of g and d only (torsion constructions are bounded).
-
-*Needs:* §6.9; §6.11; §5.12; ArakelovGeometryAndAbelianHeights §§3.4, 4.2–4.4, 5.5–5.8; HeightsRationalPointsAndObstructions §§0.16–0.35, 1.7–1.11, 5.1–5.19.
-
 ### Examples
 
 When Γ={0}, an intersection off the Ueno locus has cardinality 0 or 1. An elliptic coset contributes one coset but no isolated points. Over a genus-two curve the theta degree is 2, so the general degree-and-dimension theorem gives a genus-only constant. Lifting Γ through an isogeny and projecting its lift preserves the required rank bound even when chosen complementary representatives are not in Γ.
 
 ### Dependencies
 
-Layers 0,4–5; HeightsRationalPointsAndObstructions §§1.7,5.4,5.13b–c; InverseGaloisAndArithmeticFundamentalGroups IG.2; ArakelovGeometryAndAbelianHeights §§5.5–5.8; StableReductionPartII §6.6.
+Layers 0,4–5; HeightsRationalPointsAndObstructions §§1.7,5.4,5.13b–c; InverseGaloisAndArithmeticFundamentalGroups IG.2.
 
 ## Layer 7: Small points over function fields
 
@@ -1234,108 +1107,6 @@ A non-torsion constant point has height zero and is special through the geometri
 ### Dependencies
 
 HeightsRationalPointsAndObstructions §§0.31–0.35,1.9–1.11; ArakelovGeometryAndAbelianHeightsPartII §§4.6–4.8,5.1; native algebraic closure and Zariski topology.
-
-## Layer 8: Geometric Bogomolov over function fields of curves in characteristic zero
-
-### 8.1 Torsion of bounded degree has bounded order (GH Proposition B.1)
-
-Let S be a smooth irreducible quasi-projective variety over an algebraically closed field k of characteristic 0, K = k(S), and A an abelian variety over K with `(A_{K̄})^{K̄/k}` = 0. For every D ≥ 1 the orders of the points of {P ∈ A(K̄)_tors : [K(P) : K] ≤ D} are bounded in terms of A and D. (gh-2019, Proposition B.1 and proof, p. 58; the case dim S = 1 is the claim (3.2), p. 14 (arXiv v3)).
-
-Throughout this subsection, S smooth irreducible quasi-projective over algebraically closed k of characteristic zero; A is defined over K=k(S) and has trivial geometric K̄/k-trace.
-
-One proof route is the following. Spread A to an abelian scheme over a dense open S° ⊆ S; the closure of a torsion point of order N is a component of 𝒜[N], finite étale over S°. Connected finite étale covers of S° of degree ≤ D are finitely many up to isomorphism (InverseGaloisAndArithmeticFundamentalGroups §IG.3.1, “Finitely many covers of bounded degree”, with locator gh-2019 Lemma B.2, p. 58), so the compositum of their function fields is a finite extension K_D of K. For S° = 𝔾_m the classes of degree ≤ D are z ↦ zⁿ, 1 ≤ n ≤ D, and K_D = k(z^(1/lcm(1,…,D))). All such torsion points lie in A(K_D)_tors, which is finite by Lang–Néron since the trace is zero (HeightsRationalPointsAndObstructions §1.10). The geometric trace hypothesis ensures the trace remains zero over the finite extension K_D.
-
-**Checks.**
-
-- For a constant abelian variety (non-zero trace) the statement fails: all torsion of A₀(k) is K-rational.
-- D = 1 gives finiteness of A(K)_tors for trace-free A.
-- An isotrivial twist with zero ordinary K/k-trace can acquire all constant torsion over a fixed finite extension, giving bounded-degree torsion of unbounded order. The geometric trace hypothesis excludes it.
-
-*Needs:* InverseGaloisAndArithmeticFundamentalGroups §IG.3.1; HeightsRationalPointsAndObstructions §§0.16–0.35, 1.7–1.11, 5.1–5.19; AbelianSchemesAndArithmeticModuli A1–A3, A6.
-
-### 8.2 Special points of V₀(k) × A_tors (GH Propositions 3.1 and B.3)
-
-Let k be algebraically closed of characteristic 0, S a smooth irreducible quasi-projective variety over k, K = k(S)‾, A an abelian variety over K with `A^{K/k}` = 0, V₀ an irreducible variety over k, V = V₀ ⊗_k K and Σ = V₀(k) × A_tors. (i) If Y ⊆ V × A is irreducible closed with Y(K) ∩ Σ Zariski dense in Y, then Y = (W₀ ⊗_k K) × (P + B) with W₀ ⊆ V₀ irreducible closed, P ∈ A_tors and B an abelian subvariety. (ii) A given Y contains only finitely many maximal subvarieties of this form. (gh-2019, Proposition 3.1 and proof, pp. 12–15 (curve base); Proposition B.3, p. 59 (any base) (arXiv v3)).
-
-Throughout this subsection, k algebraically closed, char 0; A over k(S)‾ of trivial trace; V₀ irreducible over k.
-
-One proof route is the following. Choose a finitely generated function field of definition F/k and a smooth model over which the geometric abelian variety, Y, and the finite set of subgroup types are defined. Apply the bounded-degree torsion theorem to that field F and its finite extensions; degrees over the already algebraically closed K̄ would carry no information. View Y as a family over V₀: for v ∈ V₀(k) the fibre Y_v ⊆ A meets A_tors densely only along torsion cosets; uniform Manin–Mumford in families (HeightsRationalPointsAndObstructions §5.8) gives finitely many directions B and a uniform bound on the number of cosets. The torsion points involved have bounded degree over K by a Galois-orbit count (k-points of V₀ are Galois-fixed), hence bounded order by the bounded-order proposition; apply [N] ∘ (A → A/B) to reduce to B = 0 and a finite set of torsion points. Fibre dimension then forces Y = (W₀ ⊗ K) × (P + B); finiteness of maximal ones follows from the finiteness of directions and of torsion orders. The argument uses degrees over the finitely generated field of definition, not over its algebraic closure.
-
-**Checks.**
-
-- For V₀ a point, (i) is Manin–Mumford over K for trace-free A.
-- Trivial trace is necessary: for constant A = A₀ ⊗ K, the diagonal of A₀ × A₀ meets V₀(k) × A_tors (V₀ = A₀) in a dense set without being a product.
-
-*Needs:* §8.1; HeightsRationalPointsAndObstructions §§0.16–0.35, 1.7–1.11, 5.1–5.19.
-
-### 8.3 Height inequality over a curve (Gao–Habegger Theorem 1.4)
-
-Let π : 𝒜 → S be an abelian scheme over a smooth irreducible curve S over ℚ̄, L a symmetric relatively ample line bundle and M ample on a compactification S̄. For every closed irreducible X ⊆ 𝒜 there is c > 0 with `h_{S̄,M}(π(P))` ≤ c(1 + `ĥ_{𝒜,L}(P)`) for all P ∈ X*(ℚ̄). With L′ = L ⊗ π^*M and a closed immersion ι : 𝒜 → ℙ^m × S over S arising from `(L′)^{⊗n}` (after removing finitely many points of S if needed), write ι(P) = (P′, π(P)) and define the naive height `h_ι(P)` = n⁻¹h(P′) + `h_{S̄,M}(π(P))`, with h the absolute logarithmic Weil height on ℙ^m and `h_{S̄,M}` ≥ 0. Then `h_{S̄,M}(π(P))` ≤ `h_ι(P)` ≤ c(1 + `ĥ_{𝒜,L}(P)`) on X*(ℚ̄) (Theorem 1.4′). The naive height is a function attached to ι; it is not the Weil height of L′ (Checks). (gh-2019, Theorem 1.4 and (1.1), p. 4; naive height and Theorem 1.4′, pp. 4–5; proof §10.2, p. 52 (arXiv v3); dgh-2021, Theorem B.1, p. 40 (arXiv v3)).
-
-Throughout this subsection, S smooth irreducible curve over ℚ̄; L symmetric relatively ample; M ample on S̄; X ⊆ 𝒜 closed irreducible.
-
-One proof route is the following. If X is generically special, X* = ∅. Otherwise X is non-degenerate: over a curve, degenerate implies generically special (Gao–Habegger Theorem 5.1, AbelianSchemesAndArithmeticModuliPartII B2). The height inequality for non-degenerate subvarieties gives a dense open U ⊆ X with ĥ(P) ≥ `c₁h_{S̄,M}(π(P))` − c₂ on U, i.e. h(π(P)) ≤ c(1 + ĥ(P)). Induct on dim X: the components Z_i of X ∖ U satisfy X* ⊆ U ∪ ⋃ Z_i* (GH (10.4)), and the induction hypothesis applies to each Z_i. Theorem 1.4′: the lower bound `h_{S̄,M}(π(P))` ≤ `h_ι(P)` is the definition of the naive height together with h(P′) ≥ 0 and needs no (1.1); for the upper bound, Silverman–Tate bounds n⁻¹h(P′) by ĥ(P) + c(1 + `h_{S̄,M}(π(P))`) on all of 𝒜(ℚ̄) (GH (10.2)), and (1.1) bounds the base height on X* by c(1 + ĥ(P)). No identity between `h_ι` and a Weil height of L′ is used. Gao–Habegger’s own proof of the inequality on a dense open (their §§6–10: auxiliary subvarieties, lattice points in Betti coordinates, many isolated division points, Habegger’s degree lemmas) is an alternative route, not used here. If X is vertical over S, π(X) is one point, its base height is bounded, and the inequality follows from ĥ ≥ 0 after enlarging c. The generic-fibre argument is only needed for X dominating S.
-
-**Checks.**
-
-- The inequality fails on torsion multisections: ĥ = 0 while h(π(P)) is unbounded, so X* cannot be enlarged to X.
-- For X = 𝒜 (generically special) the statement is empty.
-- The naive height is not the Weil height of L′: for the constant family 𝒜 = E × ℙ¹ → S = S̄ = ℙ¹ with L = pr₁^*O_E(3·0), M = O(1) and ι the Segre embedding ℙ² × ℙ¹ → ℙ⁵ in the first coordinate (n = 1, ι^*O(1) = L′), the point (0, [T:1]) with T a positive integer has h(P′) = h(0) + h([T:1]) = log T, hence `h_ι` = 2 log T, whereas the Weil height of L′ = O_E(3·0) ⊠ O(1) at that point is log T + O(1). The naive height counts the base height twice; only the two displayed inequalities hold, not an identity.
-
-*Needs:* §2.8; AbelianSchemesAndArithmeticModuliPartII §§B2.13, B2.21–B2.23; AbelianSchemesAndArithmeticModuliPartII B0–B4; HeightsRationalPointsAndObstructions §§0.16–0.35, 1.7–1.11, 5.1–5.19.
-
-### 8.4 Geometric Bogomolov over function fields of curves over ℚ̄ (Gao–Habegger Theorem 1.1)
-
-Let K be the function field of a smooth projective curve S over ℚ̄, A an abelian variety over K with symmetric ample L, and X ⊆ A irreducible closed with X ⊗_K K̄ irreducible and not special (not of the form B + (Z ⊗_ℚ̄ K̄) with Z ⊆ `A^{K̄/ℚ̄}` closed irreducible and B a torsion coset of A ⊗_K K̄). Then there is ε > 0 such that {x ∈ X(K̄) : `ĥ_{K,A,L}(x)` ≤ ε} is not Zariski dense in X. (gh-2019, Theorem 1.1, p. 2; proof §11, pp. 52–54 (arXiv v3)).
-
-Throughout this subsection, K = ℚ̄(S), S smooth projective curve; X ⊗ K̄ irreducible and not special.
-
-One proof route is the following. Spread A, L to π : 𝒜 → S° over a dense open and let 𝒳 be the closure of X; X ⊗ K̄ not special means 𝒳 is not generically special, so 𝒳* is open dense. For x ∈ X(K̄) with σ_x(S′) meeting 𝒳*, the height inequality gives h_S(ρ(t)) ≤ c(1 + ĥ(σ_x(t))) for t ∈ S′ with σ_x(t) ∈ 𝒳*. Silverman’s height limit (HeightsRationalPointsAndObstructions §0.29): ĥ(σ_x(t))/h_S(ρ(t)) → `ĥ_{K,A}(x)` as h_S(ρ(t)) → ∞; hence `ĥ_{K,A}(x)` ≥ 1/c, i.e. ≥ deg(S)/c in GH’s normalization. Small points therefore lie in the closed complement of 𝒳* restricted to the generic fibre, a proper closed subset of X.
-
-**Checks.**
-
-- A special X has dense small points (special-has-small-points), so the hypothesis is necessary.
-- Agrees with Xie–Yuan Theorem 1.1 for characteristic 0 and transcendence degree 1.
-
-*Needs:* §8.3; AbelianSchemesAndArithmeticModuliPartII §§B2.13, B2.21–B2.23; HeightsRationalPointsAndObstructions §§0.16–0.35, 1.7–1.11, 5.1–5.19; §7.4; §7.3.
-
-### 8.5 The height inequality with Moriwaki heights (GH Theorem A.3)
-
-Let k₀ be finitely generated over ℚ with a polarization B, 𝒜 → S an abelian scheme over a smooth irreducible quasi-projective curve over k₀, L symmetric relatively ample and M ample on S̄ (both over k₀), and X ⊆ 𝒜 closed irreducible over k₀ with X* as in the generically special locus for k = k̄₀. There is c > 0 depending on B, 𝒜/S, X, L, M with `h^B_{S̄,M}(π(P))` ≤ c(1 + `ĥ^B_{𝒜,L}(P)`) for all P ∈ X*(k̄₀). (gh-2019, Theorem A.3 and sketch, p. 56 (arXiv v3)).
-
-Throughout this subsection, k₀ finitely generated over ℚ with polarization B; S smooth irreducible curve over k₀.
-
-One proof route is the following. Reduce to k₀ ⊆ ℂ by a field isomorphism (Moriwaki heights transport, ArakelovGeometryAndAbelianHeightsPartII §§6.1–6.4). Rerun the proof of the height inequality: the Betti-form and intersection arguments are geometric over ℂ; only the height machine, Néron–Tate heights and Silverman–Tate are replaced by their Moriwaki versions: the height machine without Northcott (ArakelovGeometryAndAbelianHeightsPartII §§6.1–6.3, valid for every polarization) and the Silverman–Tate comparison for the given, possibly non-big, polarization B (ArakelovGeometryAndAbelianHeightsPartII §6.4(1), stated for every nef polarization). Bigness of B is not used here; it enters only through the specialization limit in §8.6. The left-hand side is the base height `h^B_{S̄,M}(π(P))`.
-
-**Checks.**
-
-- For k₀ a number field, Moriwaki heights are Weil heights and the statement is the height inequality over a curve.
-- For k₀ = ℚ(t) with B given by the trivially metrized trivial bundle on ℙ¹_ℤ (nef, volume 0, not big), every Moriwaki height vanishes, so the statement reads 0 ≤ c and holds; this polarization is covered by ArakelovGeometryAndAbelianHeightsPartII §6.4(1), stated for every nef polarization, and excluded from §6.4(2), whose Silverman limit keeps bigness.
-
-*Needs:* §8.3; ArakelovGeometryAndAbelianHeightsPartII §§3.1–3.3, 4.6–4.8, 5.1–5.4, 6.1–6.4, 8.4, 9.1–9.2, 12.1–12.6, 13.1, 13.7.
-
-### 8.6 Geometric Bogomolov over function fields of curves in characteristic zero
-
-Gao–Habegger’s Theorem 1.1 holds with ℚ̄ replaced by any algebraically closed field k of characteristic 0: for K the function field of a smooth projective curve over k, A/K abelian with symmetric ample L and X ⊆ A irreducible with X ⊗ K̄ irreducible and not special, the points of X(K̄) of small canonical height are not Zariski dense. (gh-2019, Appendix A, §A.3, pp. 56–57 (arXiv v3)).
-
-Throughout this subsection, k algebraically closed of characteristic 0; S smooth projective curve over k.
-
-One proof route is the following. Descend S, A, L, X to a finitely generated k₀ ⊆ k; with Moriwaki heights the height inequality and Silverman’s limit (ArakelovGeometryAndAbelianHeightsPartII §§6.1–6.4) give, as over ℚ̄, that X has no dense small points over k̄₀(S), i.e. `e₁(X_{k̄₀})` > 0. Choose a big Moriwaki polarization on k₀ so that the ample base height has the unboundedness needed in the specialization-limit argument; arbitrary degenerate polarizations need not supply it. By the Zhang–Gubler inequalities, e₁ > 0 iff ĥ(X) > 0; the canonical height of a subvariety is unchanged by extending the algebraically closed constant field from k̄₀ to k (HeightsRationalPointsAndObstructions §0.33). Hence ĥ(X_k) > 0 and e₁(X_k) ≥ ĥ(X_k) > 0. The two inputs are supplied by the cited height and extension contracts.
-
-**Checks.**
-
-- Contained in Xie–Yuan Theorem 1.1, which also covers positive characteristic and higher transcendence degree.
-- The constant field extension does not create new special structure: the trace does not grow under algebraically closed constant extension in characteristic 0.
-
-*Needs:* §8.4; §8.5; §7.2; HeightsRationalPointsAndObstructions §§0.16–0.35, 1.7–1.11, 5.1–5.19; ArakelovGeometryAndAbelianHeightsPartII §§3.1–3.3, 4.6–4.8, 5.1–5.4, 6.1–6.4, 8.4, 9.1–9.2, 12.1–12.6, 13.1, 13.7.
-
-### Examples
-
-For a geometrically trace-free curve-field variety, D=1 bounds rational torsion. A constant elliptic curve has rational torsion of every order over algebraically closed constants and violates that assertion. A non-torsion section outside the generically special locus is non-degenerate; a vertical integral curve has constant base height and satisfies the base-height bound after enlarging c.
-
-### Dependencies
-
-Layers 2,7; AbelianSchemesAndArithmeticModuliPartII §§B2.3,B2.13,B2.21–B2.23; ArakelovGeometryAndAbelianHeightsPartII §§6.1–6.4; InverseGaloisAndArithmeticFundamentalGroups §IG.3.1; HeightsRationalPointsAndObstructions §§0.29,1.10,5.8. The curve-base geometric theorem does not use Layer 9.
 
 ## Layer 9: The geometric Bogomolov conjecture in all characteristics
 
@@ -1666,7 +1437,7 @@ For the normalized pencil S=P², independent ratios y/x and z/x give different o
 
 ### Dependencies
 
-Layer 7; SchemeAndStackFoundations §§4.11,4.13,5.1–5.6,5.12 (the flat non-proper intersection contract); AbelianSchemesAndArithmeticModuli A1–A3,A6, specifically A2.7 and A2.9; NeronModelsAndSemistableAbelianVarieties §§1.1–1.10,3.10–3.14,5.1–5.2; TropicalAndBerkovichArithmetic §§6.2–6.4,7.0 (the abelian valuation map contract, the abelian canonical measure contract, the strict support dimension contract, the nonarchimedean small-point equidistribution contract); ClassicalArithmeticCompletion §3.19; HeightsRationalPointsAndObstructions §§1.9–1.11,5.7. The all-characteristic proof is independent of Betti maps and Layer 8.
+Layer 7; SchemeAndStackFoundations §§4.11,4.13,5.1–5.6,5.12 (the flat non-proper intersection contract); AbelianSchemesAndArithmeticModuli A1–A3,A6, specifically A2.7 and A2.9; NeronModelsAndSemistableAbelianVarieties §§1.1–1.10,3.10–3.14,5.1–5.2; TropicalAndBerkovichArithmetic §§6.2–6.4,7.0 (the abelian valuation map contract, the abelian canonical measure contract, the strict support dimension contract, the nonarchimedean small-point equidistribution contract); ClassicalArithmeticCompletion §3.19; HeightsRationalPointsAndObstructions §§1.9–1.11,5.7. The all-characteristic proof is independent of Betti maps.
 
 ## Layer 10: Adelic non-degeneracy and small points in curve families
 
@@ -1947,78 +1718,6 @@ Over R(t), the projective height of [1:1/(t²+1)] is 2. For a genus-two curve th
 
 Layer 10; StableReductionPartII §§4.2,4.4,4.8,6.3,6.6–6.7,7.13,7.15; JacobianChallengePartII Layers 0–3,5,7; ArakelovGeometryAndAbelianHeightsPartII §§5.4,12.5–12.6,13.1,13.7; HeightsRationalPointsAndObstructions §§0.10–0.12,0.31–0.35. The geometric extension argument in §11.6 covers every exceptional positive characteristic.
 
-## Layer 12: A bielliptic family: uniform Manin–Mumford by dynamics
-
-Sections 12.2 and 12.3 bound, uniformly in the curve and in the Weierstrass base point, the torsion points (over ℂ) and the points of small height (over ℚ̄) on the Abel–Jacobi image of a bielliptic genus-two curve. They are the bielliptic cases of §3.6 and §3.5 respectively; the routes given for them are dynamical and pass through the diagonal-lift model of §12.1.
-
-### 12.1 Bielliptic genus-two curves as lifts of the diagonal
-
-Every smooth genus-2 curve X over ℂ admitting a degree-2 map to an elliptic curve has a model y² = x⁶ − s₁x⁴ + s₂x² − 1 and is the normalization of the lift of the diagonal D ⊆ ℙ¹ × ℙ¹ under π₁ × π₂, for elliptic curves E₁, E₂ with standard projections π_i satisfying |π₁(E₁[2]) ∩ π₂(E₂[2])| = 3, the group laws taken with origins O_i over a common branch value r. There are a Weierstrass point Q of X and an isogeny Φ : J(X) → E₁ × E₂ of degree 4 with Φ(j_Q(X)) = `(π₁ × π₂)^{-1}(D)`; the non-zero elements of ker Φ are the differences of the two Weierstrass points over each common branch value. (dky-2020, Proposition 9.1, §§9.1–9.2, pp. 994–996).
-
-Throughout this subsection, X smooth genus 2 over ℂ with a degree-2 map to an elliptic curve.
-
-One proof route is the following. Construct the Jacobi model directly: the bielliptic involution descends through the hyperelliptic quotient to an involution of P¹. In characteristic zero diagonalize it to x↦−x; the invariant six-point branch divisor has three pairs {±a_i}, with every a_i nonzero and a_i² pairwise distinct. Rescale x and y over the algebraically closed field to write the separable even sextic as x⁶−s₁x⁴+s₂x²−1. The two lifts (x,y)↦(−x,±y) yield the two elliptic quotients. This supplies the model used in DKY §9.1. The quotient maps combine to J(X) → E₁ × E₂ with kernel the 2-torsion classes listed; the image of the Abel–Jacobi curve based at a Weierstrass point Q over the common branch value r is the preimage of the diagonal (the quotient calculation in DKY Proposition 9.1).
-
-**Checks.**
-
-- The bielliptic locus in M₂ is a surface (Jacobians with real multiplication by the order of discriminant 4).
-- Exactly three common branch values occur; two would not give a degree-4 isogeny of this shape.
-
-*Needs:* AlgebraicCurves Layers 10–11; JacobianChallenge Layer F; ArithmeticDynamics §§6.57–6.64, 6.93, 6.110–6.112.
-
-### 12.2 Uniform Manin–Mumford for bielliptic genus-two curves
-
-There is a uniform B such that |j_P(X) ∩ J(X)_tors| ≤ B for every smooth bielliptic genus-2 curve X over ℂ and every Weierstrass point P of X, where j_P is the Abel–Jacobi embedding based at P. (dky-2020, Theorem 1.1, p. 950; §9.3, p. 996).
-
-Throughout this subsection, X bielliptic of genus 2 over ℂ; P a Weierstrass point.
-
-One proof route is the following. A common x-coordinate has at most four lifts to E₁×E₂, and each point has at most four preimages under the degree-four isogeny Φ. Thus at most sixteen points of j_Q(X) lie above each common coordinate. The common torsion images are uniformly bounded (ArithmeticDynamics §§6.111–6.112, the three-common-branch-values bound). Any other Weierstrass point P differs from Q by a 2-torsion class, so j_P(X) is a 2-torsion translate of j_Q(X) and has the same number of torsion points. Consistency: the uniform Manin–Mumford theorem for curves gives the same conclusion with B = c(2); DKY’s proof is the independent dynamical one.
-
-**Checks.**
-
-- Stoll’s bielliptic genus-two curve (dky-2020, Remark 1.2, p. 950) has 34 torsion points on its Weierstrass Abel–Jacobi image, so B ≥ 34.
-- The bound is not explicit in DKY (Remark 1.2).
-
-*Needs:* §12.1; ArithmeticDynamics §§6.57–6.64, 6.93, 6.110–6.112; §3.6.
-
-### 12.3 Uniform Bogomolov for bielliptic genus-two curves
-
-There are B and b > 0 such that |{x ∈ j_P(X)(ℚ̄) : `ĥ_{L_X}(x)` ≤ b}| ≤ B for every smooth genus-2 curve X over ℚ̄ with a degree-2 map to an elliptic curve and every Weierstrass point P, where L_X = Φ^*L_D for the isogeny Φ : J(X) → E₁ × E₂ of the diagonal-lift proposition and D = {O₁} × E₂ + E₁ × {O₂}. (dky-2020, Theorem 1.10, p. 953; §9.4, p. 997).
-
-Throughout this subsection, X bielliptic of genus 2 over ℚ̄; P Weierstrass.
-
-One proof route is the following. Functoriality: `ĥ_{L_X}` = `½(ĥ_{t₁} ∘ π ∘ Φ₁ + ĥ_{t₂} ∘ π ∘ Φ₂)`, with Lattès heights of the two elliptic quotients (ArithmeticDynamics §§6.64, 6.110). A point of j_Q(X) of small `ĥ_{L_X}` maps to a point x of ℙ¹ with `ĥ_{t₁}(x)` + `ĥ_{t₂}(x)` small; the uniform joint small-points bound (DKY Theorem 8.1, ArithmeticDynamics §§6.64, 6.110) bounds such x, each with at most 16 preimages. For any Weierstrass P, the class P−Q is 2-torsion. Translation by torsion leaves the quadratic canonical height for the same symmetric L_X exactly unchanged. The bijection j_Q(X)→j_P(X) therefore preserves the small-point count and proves the bound for every Weierstrass base point.
-
-**Checks.**
-
-- A special case of the uniform Bogomolov theorem (Gao–Ge–Kühne Theorem 1.3) for X = j_P(X) in J(X) with the polarization L_X.
-- The threshold b is absolute, not scaled by the Faltings height.
-
-*Needs:* §12.1; ArithmeticDynamics §§6.57–6.64, 6.93, 6.110–6.112; §3.5.
-
-### 12.4 No uniform bound on torsion orders
-
-For every N > 0 there are a bielliptic genus-2 curve X over ℚ̄ and a Weierstrass point P ∈ X such that j_P(X) ∩ J(X)_tors contains a point of order ≥ N. (dky-2020, Proposition 9.2, §9.5, p. 997).
-
-Throughout this subsection, N > 0.
-
-One proof route is the following. Choose Legendre parameters t₁ ≠ t₂ with a common x-coordinate whose points have order ≥ N on both curves (ArithmeticDynamics §6.93, unbounded orders of common torsion images). By the diagonal-lift proposition this pair lies under a point w of j_Q(X) for the bielliptic curve with these quotients; the finite kernel of Φ makes w torsion of order at least the order of its image, so ≥ N.
-
-**Checks.**
-
-- Contrast with uniform Manin–Mumford: the number of torsion points is bounded, their orders are not.
-- Kühne makes the same remark for general curves (Theorem 2 and the comment after it).
-
-*Needs:* §12.1; ArithmeticDynamics §§6.57–6.64, 6.93, 6.110–6.112.
-
-### Examples
-
-Each common projected elliptic point has at most four lifts to E₁×E₂ and at most four further lifts under the degree-four isogeny, giving 16. Thus a common-image bound B₀ gives a curve bound 16B₀; the 34-point curve requires a curve bound at least 34 but only 16B₀≥34. Translation by the two-torsion difference of Weierstrass base points preserves every canonical height for the same symmetric L_X.
-
-### Dependencies
-
-Layer 3 for comparison with the general uniform theorems; ArithmeticDynamics §§6.57–6.64,6.93,6.110–6.112 for the independent dynamical proof; AlgebraicCurves Layer 10 and JacobianChallenge Layer F; AbelianSchemesAndArithmeticModuli A3 for quotient isogenies.
-
 ## Downstream consumers
 
 The uniform theorems supply height-independent finite-rank intersection bounds and bounded small-point sets for subvarieties of abelian varieties. Applications to a fixed curve use §6.8 and §11.7; the geometric theorem over arbitrary constants is §9.19.
@@ -2029,9 +1728,9 @@ HeightsRationalPointsAndObstructions ends Layer 5 with qualitative finite-rank M
 
 The following objects are supplied by earlier owners. HeightsRationalPointsAndObstructions §§5.9b, 5.17a–g owns cycle heights, the Chow coefficient comparison, arithmetic Bézout and minima; §§0.10–0.12, 0.31–0.35 owns the function-field projective height and its extension laws. JacobianChallengePartII §§3.2–3.13 owns the canonical twice-theta bundle. AbelianSchemesAndArithmeticModuliPartII §§B2.13, B2.21–B2.23 owns the generically special locus over a curve, its finite maximal members and its Betti-rank criterion. ClassicalArithmeticCompletion §3.19 owns existence and uniqueness of reduced row echelon forms. These constructions have no second definition here. Their interface facts and discriminating Checks are recorded in the contracts below. The total degree in §0.1 differs from the degree of a pure cycle by summing reduced components in every dimension.
 
-Betti maps and forms, degeneracy loci and geometric fibre-power criteria belong to AbelianSchemesAndArithmeticModuliPartII B0–B4. General adelic heights, invariant extensions, non-degenerate dynamical height inequalities, generic equidistribution, Moriwaki heights and potential bigness belong to ArakelovGeometryAndAbelianHeightsPartII §§3.1–3.3, 4.6–4.8, 5.1–5.4, 6.1–6.4, 8.4, 9.1–9.2, 12.1–12.6, 13.1, 13.7. Section 3.1 compares the supplied measure with Kühne's graph-degree normalization; §3.2 derives its uniform test-function form. Section 2.8 compares the general adelic export with this roadmap's geometric level case. Hilbert and Chow parameter spaces belong to AlgebraicModuliForArithmeticGeometry §§1.5–1.6, 2.1; §1.1 restricts them to fixed-degree geometrically integral subvarieties of an abelian variety. Relative Jacobians and all five Abel/difference/shift maps belong to JacobianChallengePartII Layers 0–7; Layer 10 proves their small-point consequences. Fine level moduli belongs to PELModuli M5–M6 and StableReductionPartII §§4.2, 4.4, 4.8, 6.3, 6.6–6.7, 7.13, 7.15. Néron models and semistable reduction belong to NeronModelsAndSemistableAbelianVarieties Layers 1–5. ArithmeticDynamics §§6.57–6.64, 6.93, 6.110–6.112 supplies the elliptic quotient dynamics used in Layer 12.
+Betti maps and forms, degeneracy loci and geometric fibre-power criteria belong to AbelianSchemesAndArithmeticModuliPartII B0–B4. General adelic heights, invariant extensions, non-degenerate dynamical height inequalities, generic equidistribution, Moriwaki heights and potential bigness belong to ArakelovGeometryAndAbelianHeightsPartII §§3.1–3.3, 4.6–4.8, 5.1–5.4, 6.1–6.4, 8.4, 9.1–9.2, 12.1–12.6, 13.1, 13.7. Section 3.1 compares the supplied measure with Kühne's graph-degree normalization; §3.2 derives its uniform test-function form. Section 2.8 compares the general adelic export with this roadmap's geometric level case. Hilbert and Chow parameter spaces belong to AlgebraicModuliForArithmeticGeometry §§1.5–1.6, 2.1; §1.1 restricts them to fixed-degree geometrically integral subvarieties of an abelian variety. Relative Jacobians and all five Abel/difference/shift maps belong to JacobianChallengePartII Layers 0–7; Layer 10 proves their small-point consequences. Fine level moduli belongs to PELModuli M5–M6 and StableReductionPartII §§4.2, 4.4, 4.8, 6.3, 6.6–6.7, 7.13, 7.15. Néron models and semistable reduction belong to NeronModelsAndSemistableAbelianVarieties Layers 1–5.
 
-Section 8.1 extends the curve-field bounded-degree torsion input of AbelianSchemesAndArithmeticModuliPartII §B2.3 to a smooth base of arbitrary dimension. Section 8.2 extends its §B2.21 product statement to those bases. Layer 9 owns descent through intersecting constant fields and the geometric Bogomolov proof; the linear-algebra argument is a supporting result. Hasse principles for random hypersurfaces or fibrations, homogeneous spaces, Massey products and zero-cycles are separate directions of the parent.
+Layer 9 owns descent through intersecting constant fields and the geometric Bogomolov proof; the linear-algebra argument is a supporting result. Hasse principles for random hypersurfaces or fibrations, homogeneous spaces, Massey products and zero-cycles are separate directions of the parent.
 
 ## Exact supplier contracts
 
@@ -2043,7 +1742,7 @@ Use `Projectivization.logHeight` from Mathlib/NumberTheory/Height/Projectivizati
 
 ### From Tau Ceti
 
-Use `TauCeti.AlgebraicGeometry.AbelianVariety` and `TauCeti.AlgebraicGeometry.AbelianVariety.baseChange` from TauCeti/AlgebraicGeometry/AbelianVariety/Basic.lean:95,281 and `TauCeti.AlgebraicGeometry.AbelianVariety.IsIsogeny` from TauCeti/AlgebraicGeometry/AbelianVariety/Isogeny.lean:61. The carrier bundles a group scheme, properness and geometric integrality; it does not bundle a polarization or any height. The isogeny predicate is finite surjectivity of the underlying scheme homomorphism, so it includes [p] in characteristic p. Native elliptic canonical heights use the full x-height and are twice the degree-one O(0) height; Layer 12 uses the geometric degree-one height and the dynamical projection identity specified below (the native normalization is read in TauCeti/AlgebraicGeometry/EllipticCurve/CanonicalHeight/Basic.lean and Limit.lean).
+Use `TauCeti.AlgebraicGeometry.AbelianVariety` and `TauCeti.AlgebraicGeometry.AbelianVariety.baseChange` from TauCeti/AlgebraicGeometry/AbelianVariety/Basic.lean:95,281 and `TauCeti.AlgebraicGeometry.AbelianVariety.IsIsogeny` from TauCeti/AlgebraicGeometry/AbelianVariety/Isogeny.lean:61. The carrier bundles a group scheme, properness and geometric integrality; it does not bundle a polarization or any height. The isogeny predicate is finite surjectivity of the underlying scheme homomorphism, so it includes [p] in characteristic p. Native elliptic canonical heights use the full x-height and are twice the degree-one O(0) height (the native normalization is read in TauCeti/AlgebraicGeometry/EllipticCurve/CanonicalHeight/Basic.lean and Limit.lean).
 
 
 Use `TauCeti.AlgebraicGeometry.AbelianVariety.IsAlbanese` from TauCeti/AlgebraicGeometry/AbelianVariety/Albanese.lean:84. It requires the chosen point to map to the identity and uniquely factors pointed morphisms through homomorphisms; it does not itself assert that X is a curve or that its map is an immersion. The headline signatures explicitly impose smoothness, properness, geometric integrality, dimension one and J.dim=g≥2. The point group is `CategoryTheory.MonObj.Hom.group` (Mathlib/CategoryTheory/Monoidal/Cartesian/Grp.lean:58), in the `CategoryTheory.MonObj` scope. Its multiplication writes the abelian-variety addition used in §§3.6, 6.8 and 6.12.
@@ -2088,7 +1787,7 @@ A1 supplies rigidification, the theorem of the cube and torsion restriction; A2 
 
 ### From TauCetiRoadmap.AbelianSchemesAndArithmeticModuliPartII
 
-B0.1–B0.2 supply period-coordinate Betti maps and generic-rank invariance; B1.1–B1.5 supply the descended semipositive form, pointwise kernel identity, non-degeneracy and its positive top-power witness. B3.7–B3.9 and B4.2–B4.6 supply degeneracy loci, quotient criteria, fibre powers and difference products. B2.13 and B2.21–B2.23 supply generically special subvarieties over a smooth curve, their finite maximal members, openness of X* and full-rank points outside the special locus. B2.3 supplies the bounded-degree torsion assertion over a curve field. Section 8.1's higher-dimensional-base extension retains geometric trace zero.
+B0.1–B0.2 supply period-coordinate Betti maps and generic-rank invariance; B1.1–B1.5 supply the descended semipositive form, pointwise kernel identity, non-degeneracy and its positive top-power witness. B3.7–B3.9 and B4.2–B4.6 supply degeneracy loci, quotient criteria, fibre powers and difference products. B2.13 and B2.21–B2.23 supply generically special subvarieties over a smooth curve, their finite maximal members, openness of X* and full-rank points outside the special locus.
 
 The supplied X* API is openness, emptiness exactly for a generically special dominant X, finite maximal special members and X*∩Z⊆Z* for integral closed Z⊆X. These statements use the GH dominant convention; vertical components are treated by the convention above (gh-2019 Definition 1.2, Proposition 1.3, §3.1 and equation (10.4)).
 
@@ -2151,7 +1850,7 @@ Section 3.19 supplies existence and uniqueness of the reduced row echelon form o
 
 ### From the remaining earlier roadmaps
 
-InverseGaloisAndArithmeticFundamentalGroups IG.2 supplies Hilbert irreducibility for finitely generated characteristic-zero models used in simultaneous specialization; §IG.3.1, “Finitely many covers of bounded degree”, supplies finiteness up to isomorphism of connected finite étale covers of bounded degree of a connected smooth quasi-projective variety over an algebraically closed field of characteristic zero, used in §8.1. AlgebraicCurves Layers 10–11 supplies hyperelliptic involutions, Weierstrass points and the characteristic-zero Hurwitz bound 84(g−1). JacobianChallenge Layer F supplies the pointed Abel–Jacobi universal property. ArithmeticDynamics §§6.57–6.64 supplies standard elliptic projections and translation by two-torsion, with §6.64 supplying the identity h_E=ĥ_Lattès/2 for the degree-one O(0) height; §6.93 supplies unbounded common torsion orders, §6.110 the joint small-point bound, and §§6.111–6.112 the three-common-branch-values bound. For a point of projection height 2a, h_E=a. Two elliptic factors therefore give h_(L_X)=(ĥ₁+ĥ₂)/2, which is the normalization in §12.3.
+InverseGaloisAndArithmeticFundamentalGroups IG.2 supplies Hilbert irreducibility for finitely generated characteristic-zero models used in simultaneous specialization.
 
 ## References
 
@@ -2169,8 +1868,6 @@ InverseGaloisAndArithmeticFundamentalGroups IG.2 supplies Hilbert irreducibility
 - David W. Masser, *Specializations of endomorphism rings of abelian varieties*. [masser-1996](https://www.numdam.org/item/BSMF_1996__124_3_457_0.pdf). Bull. Soc. Math. France 124 (1996), 457–476 (Numdam)
 - Laura DeMarco, Niki Myrto Mavraki, Hexi Ye, *Bounded geometry for PCF-special subvarieties*. [dmy-2026](https://arxiv.org/pdf/2405.17343v3). Forum Math. Pi 14 (2026) e4; read: arXiv 2405.17343v3
 - Gaël Rémond, *Décompte dans une conjecture de Lang*, Inventiones Mathematicae 142 (2000), 513–545. [remond-2000-decompte](https://doi.org/10.1007/s002220000095), Lemma 3.1, Propositions 3.3–3.4 and Lemma 6.1; cited by published locators, with GGK Appendix A providing the restated statements.
-- Sinnou David and Patrice Philippon, *Minorations des hauteurs normalisées des sous-variétés de variétés abéliennes II*, Commentarii Mathematici Helvetici 77 (2002), 639–700. [david-philippon-2002](https://ems.press/content/serial-article-files/42941), Théorèmes 1.2–1.4, p. 641; Rémond’s theorem, p. 643; proof of Théorème 1.3, pp. 689–690.
-- Sinnou David and Patrice Philippon, *Minorations des hauteurs normalisées des sous-variétés des puissances des courbes elliptiques*, International Mathematics Research Papers 2007, rpm006. [david-philippon-2007](https://doi.org/10.1093/imrp/rpm006), Theorem 6.8 and equation (6.41), cited by published locators.
 - David W. Masser, *Specializations of finitely generated subgroups of abelian varieties*, Transactions of the American Mathematical Society 311 (1989), 413–424. [masser-1989](https://www.ams.org/journals/tran/1989-311-01/S0002-9947-1989-0974783-6/S0002-9947-1989-0974783-6.pdf), Main Theorem and Scholium 1, p. 414.
 - Kazuhiko Yamaki, *Strict supports of canonical measures and applications to the geometric Bogomolov conjecture*. [yamaki-strict-support](https://arxiv.org/abs/1211.0406v6). Compos. Math. 152 (2016), 997–1040; read: arXiv v6, Theorem E (= Corollary 7.22), pp. 3, 41; §§3.1–3.2, 5.3, Proposition 5.12, proof of Theorem 6.2, pp. 12–15, 25–31.
 
