@@ -16,153 +16,28 @@ lattice classification needs integral morphisms at every prime, including the
 characteristic prime. The counting statements use those interfaces rather than
 replacing them by finiteness assertions.
 
-## Scope and ownership
+## How to read the build
 
-The parent **AbelianSchemesAndArithmeticModuli** owns abelian schemes and their
-group laws (A1), duality, Picard and Poincaré geometry, polarizations (A2), isogenies, finite subgroup quotients and
-`Polarization.rosati` (A3.9), the universal vector extension `AbelianVectorExtension`
-(A4.2), relative de Rham
-cohomology, its Hodge sequence and Tate systems (A4), complex uniformization and
-the Hodge dictionary (A5), and finite-rank Hom groups, characteristic polynomials,
-semisimple endomorphism algebras and complete reducibility (A6). These objects
-are inputs here. **HeightsRationalPointsAndObstructions**, §§1.9–1.10, owns the
-primary-extension trace, its universal, base-change and tower API, and Lang–Néron
-modulo trace for every regular finitely generated extension in any characteristic,
-including the proof inputs in §§1.9a–1.9c.
-**InverseGaloisAndArithmeticFundamentalGroups**, IG.3 “Finitely many covers of
-bounded degree”, owns the characteristic-zero cover-finiteness input.
-**HeightsRationalPointsAndObstructions**, §§5.6,5.8–5.8a, also owns
-characteristic-zero Manin–Mumford and uniform torsion closures in families.
-B2 constructs bounded-degree torsion over characteristic-zero curve fields, the geometric
-constant-part comparison and the finite-maximal-special application.
-In particular, a second dual abelian scheme, Picard functor,
-polarization definition or quotient construction is outside this roadmap.
+The geometric branches run P0 → P1 → P2 → P3 and P4, and B0 → B1 → B2 → B3 → B4.
+The arithmetic branch starts with F0 and the independent polynomial layer F2,
+then runs F1 → F3 → F4 → F5 → F6. In particular, polynomial recognition precedes
+the characteristic-prime realization; Tate's theorem at every prime is imported from
+ArithmeticStatisticsPartI, and no counting theorem enters it. Each target gives its source and the interfaces it needs.
+References to targets within a layer refer to the construction order dictated
+by their stated dependencies.
 
-Use **AlgebraicVectorBundles** for finite locally free sheaves, symmetric and
-exterior powers, vector groups and relative Spec. Its locally free sheaf and
-vector-group conventions also fix the meaning of the vector kernel in P1.
-Use **DifferentialGeometry**, layers 0–1, for differential forms, wedge products
-and exterior derivatives; the new calculation in B1 is the particular Betti
-form and its kernel. **LieGroupoidsPoisson**, G0.1, owns the smooth boundaryless
-constant-rank theorem and its level-fibre API; B2.10 owns the finite C^k and
-real-analytic extension, its comparison with that smooth structure, and the Betti
-application. **SmoothBundlesConnections**, B6.0, owns metric convexity and generic
-good-cover refinements; B2.11 adds holomorphic-chart subordination and the disc
-consequence using **ConformalMapping**, L3. Invariance of domain is already in Tau Ceti,
-for spaces charted on finite-dimensional real normed spaces of equal dimension, open
-subsets of ℝ^m included; citations of B2.9 resolve to its
-`IsOpen.image_of_continuousOn_of_injOn` and `Continuous.isOpenEmbedding_of_injective`,
-which B2 consumes.
-
-**SchemeAndStackFoundations**, §2.6, §4.1 and §§4.8–4.9, supplies coherent direct images,
-thickenings, formal completion and the theorem on formal functions. **ComplexComparisonPartII**,
-C0, supplies analytic sheaf and bundle carriers; C1.1 `localDolbeault` supplies
-the bundle-valued Dolbeault comparison.
-**FiniteFlatGroupsAndIntegralPadicHodgeTheory**, R07.1 and R07.2, supplies the
-connected–étale decomposition, finite flat groups, their descent, p-divisible
-groups and the contravariant Dieudonné equivalence. The completed Poincaré,
-ordinary CM and abelian-variety realization adapters are constructed here.
-
-**PELModuli**, M3.5–M3.6, supplies period uniformization; M5 supplies the
-Siegel family and M6 the arithmetic coarse-moduli and level interfaces, including M6.11 `finiteFieldFiniteness`.
-**Completed/HodgeStructures**, L0–L3, supplies the linear Hodge carriers.
-**ShimuraVarieties**, §§3.5a–3.5d, supplies the real o-minimal and definable-Chow
-foundations; §5.2 supplies the algebraic weight −1 Hodge–Hom comparison and
-§§5.5–5.8 supply CM models, potential good reduction and the Shimura–Taniyama
-Frobenius formula. B2 owns fixed parts, their trace adapter, algebraic monodromy
-and abelian Ax–Lindemann; B3 owns mixed Kuga uniformization and its counting
-application and abelian-family adapters. F3 owns prescribed-slope CM existence
-and finite-field effectivity, using the parent's A5.1–A5.3 algebraization and
-A6.32–A6.33 Weil restriction. **JacobianChallengePartII**, §2.6 (curve difference
-morphism), §§5.3–5.4 and §7.2 (Faltings–Zhang for a curve family with full level),
-supplies differences for a given curve family. B4 constructs the fine full-level curve moduli and universal family. **JacobianChallenge** supplies the
-underlying Jacobian and curve Picard geometry.
-
-For arithmetic groups use **AdelicAlgebraicGroups**:
-AA.1 constructs adelic points and compact open levels, AA.3 supplies reduction
-theory and finite class sets, and AA.4 supplies approximation and level double
-quotients. F4 specializes these constructions to the units of an endomorphism
-algebra. **GeometryOfNumbersAndQuadraticArithmetic**, §2.5 and §3.3, supplies
-invariant-factor and quadratic genus-mass prerequisites. F4 owns semisimple stable-lattice bounds; F5 owns the unitary CM mass asymptotic. **ClassFieldTheory**,
-layers 5, 10 and 13, supplies Brauer invariants, their global compatibility and
-norm theorems. **RepresentationTheory/SemisimpleAlgebras**, layers 4–5, supplies
-central simplicity and centralizers. **Completed/EffectiveBounds**, layer 1,
-supplies number-field discriminant, class-number and unit-index bounds;
-**Chebotarev**, layer 14, supplies natural density;
-**ImaginaryQuadraticClassNumber**, H3.6, supplies the nine maximal-order
-class-number-one cases.
-**DeligneWeightsAndPurity**, DWP.0 targets 0.1–0.3 and DWP.1 targets 1.4–1.5,
-supplies pure algebraic numbers and the independent Rosati proof of the abelian
-Frobenius root bound and the extension-field point-count identity. F0 adds integrality and the finite-field classification adapter. None of these general theories
-is rebuilt here.
-
-The outputs are the completed-bundle and Betti-rank interfaces used in
-Eisenstein–Kronecker and Mordell–Lang arguments, and the finite-field
-classification and counting interfaces. This roadmap stops before constructing
-Eisenstein–Kronecker classes, proving height inequalities or deriving new
-Mordell–Lang bounds. The finite-field part does not claim a sharp unconditional
-numerical exponent for the number of unpolarized varieties.
-
-The invariant tensor comparison with the free divided power algebra is supplied by
-**DerivedModuleAlgebra**, §0.DP.2, “Free divided powers and symmetric tensors”; P0 owns the
-arbitrary-module comparison, shuffle-product compatibility and degree completion. Mathlib
-`Polynomial.lifts_and_natDegree_eq_and_monic` and `Polynomial.resultant_map_map` supply monic
-coefficient lifting and fixed-size resultant congruence, with arbitrary coefficient ideals.
-Their specializations are inputs to F2. AbelianSchemesAndArithmeticModuli A6.10–A6.11 owns
-integer characteristic polynomials, degree and prime independence; F0 adds reciprocity and
-finite-field product corollaries rather than a second integrality theorem. The integer-character theorem and its finite-equation
-consequence have one owner, B2's integer-character construction.
-
-The prerequisite extensions have the following ownership boundaries.
-
-- B2.4 owns polarized fixed parts, rational monodromy semisimplicity and the
-  abelian constant-part comparison. ShimuraVarieties §3.5b.1 supplies the
-  variation carrier and §5.2 the algebraic Hodge–Hom correspondence.
-- B2.6 owns parameter-uniform semirational block counting; B3.1 owns connected
-  Kuga data, their definable uniformization and normal-quotient dictionary.
-  These extend the pure data and definable foundations of ShimuraVarieties
-  P.1 and §§3.5a–3.5d.
-- B4.1 owns fine full-level curve moduli, its universal curve and quasi-finite
-  Torelli map. PELModuli M6 supplies abelian level and coarse-moduli interfaces;
-  JacobianChallengePartII §7.2 supplies differences for a given curve family.
-- F4.4 owns semisimple stable-lattice orbit and stabilizer-index bounds, both
-  with exponent 4Δ_ℓ. GeometryOfNumbersAndQuadraticArithmetic §2.5 supplies
-  DVR invariant factors, not these centralizer-orbit estimates.
-- F5.7 owns CM unitary mass and unweighted class asymptotics, with leading
-  term ½g²log g. GeometryOfNumbersAndQuadraticArithmetic §§2.7,3.3 supply
-  Hermitian carriers and weighted genus sums; its orthogonal mass formula
-  does not supply this unitary asymptotic.
-- B2.15 owns abelian Ax–Lindemann and its real-period adapter, independently
-  of B3's mixed Ax–Schanuel theorem, using ShimuraVarieties §3.5a's definable
-  foundations and the parent's A5.1–A5.3 complex uniformization.
-- HeightsRationalPointsAndObstructions §§5.6,5.8–5.8a own uniform torsion
-  closures in characteristic-zero families; B2.21 consumes that theorem.
-- HeightsRationalPointsAndObstructions §§1.9–1.10 own general trace and
-  Lang–Néron modulo trace. B2.3 owns the bounded-degree torsion consequence
-  for geometrically trace-free abelian varieties over characteristic-zero
-  curve fields, using InverseGaloisAndArithmeticFundamentalGroups IG.3's
-  finiteness of covers of bounded degree.
-
-**ArithmeticStatisticsPartI**, earlier in the build, states in its supporting constructions
-the four finite-field theorems its counting fibres need: the finiteness of Weil polynomials
-with the bound (4g+1)^g q^(g(g+1)/4), Tate's theorem over a finite field at every prime (on
-Tate modules for ℓ≠p and on contravariant Dieudonné modules for ℓ=p) with the isogeny criterion
-by Frobenius polynomials, the characteristic-prime order and the finiteness of an isogeny class
-and of unpolarized isomorphism classes (its §0.16). Its supporting construction
-“Finiteness of an isogeny class and of unpolarized classes” also owns the general
-finite-support all-prime lattice space, the marked quasi-isogeny correspondence
-and its rational-orbit quotient over every F_q. These are imported here.
-Its supporting constructions also own fixed-degree polarized finiteness, split-prime
-Tate surjectivity and the commutant dimensions at every prime. Integral Hom injectivity
-and saturation are consumed as consequences of its integral Tate isomorphisms.
-F0 retains the compact-lattice limit theorem and the isotropic-image lemma over arbitrary
-fields under Tate's finiteness hypothesis, beyond the finite-field theorem;
-F1 owns the characteristic-polynomial adapter, the explicit cyclic block algebra and
-its central simplicity (F1.4, F1.6), and the local invariant (F1.11). F3–F6 own
-Honda–Tate, the prime-field covariant linear-dual adapters (F3.5, F3.7 and F3.10),
-order realization (F3.8), adelic bounds and counting asymptotics. The adapters
-replace the contravariant p-lattice by its integral linear dual, retaining the
-same marked objects and rational orbits.
+The headline theorems are the shuffle-compatible divided-power comparison (P0.5),
+completed Poincaré cohomology (P2.8), logarithm and smooth comparisons (P3.3–P3.4),
+ordinary CM trivialization (P4.2–P4.3), the Betti-rank, specialness and degeneracy
+criteria and their fibre-power applications (B1.4, B2.3–B2.4, B2.21–B2.23, B3–B4),
+Honda–Tate, prime-field linear-dual lattice comparison and order realization
+(F3.2, F3.4–F3.5, F3.7–F3.8, F3.10), fixed-level isomorphism
+bounds (F4.8), CM mass and polarization growth
+(F5.7–F5.9), and the counting and proportion theorems (F6.3–F6.6). Resultant recognition
+(F2.2) is an independent algebraic endpoint used by the characteristic-prime realization.
+`Suggested.lean` states `resultantRecognition`,
+`isogenyClassAsymptotic` and `isomorphismClassCount`; its module docstring identifies
+the missing carriers for the other headlines. API facts and Checks remain in this README.
 
 ## Conventions
 
@@ -218,337 +93,6 @@ same marked objects and rational orbits.
   numbers are separate inputs. Constants in O_p and O_q may depend on the fixed
   prime or prime power; an error used uniformly across isogeny classes must be
   stated uniformly.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-Use Mathlib's `TensorPower`, `PiTensorProduct.reindex`, `reindex_tprod` and
-`map_reindex` for permutations and tensor functoriality. Form invariant
-submodules with `LinearMap.eqLocus` and `Submodule.mem_iInf`. The existing
-`DividedPowerAlgebra` is the source of the comparison in P0, rather than a new
-presentation of the divided power algebra.
-
-For F3's integral linear-dual adapter, use `LinearMap.dualMap` and
-`Module.evalEquiv` in `Mathlib/LinearAlgebra/Dual/Defs.lean`;
-`Module.IsReflexive.of_finite_of_free` in
-`Mathlib/LinearAlgebra/Dual/Lemmas.lean` supplies reflexivity for finite free
-ℤ_p-modules. The new comparison identifies the transported realization
-lattices under this duality.
-
-### From TauCetiRoadmap.DerivedModuleAlgebra
-
-Consume §0.DP.2, “Free divided powers and symmetric tensors”: for a commutative ring R and
-free R-module M, the natural map Γⁿ_R(M) → (M^(⊗n))^(S_n), γ_n(v) ↦ v^(⊗n), is a linear
-equivalence, natural in M. Consume §0.DP.2's Roby representability for all modules
-to construct the arbitrary-module natural comparison in P0.5; the free-module
-invertibility theorem remains the export of §0.DP.2.
-
-### From Mathlib: polynomial lifting and congruence
-
-`Polynomial.lifts_iff_coeff_lifts` and `Polynomial.lifts_and_natDegree_eq_and_monic` in
-`Mathlib/Algebra/Polynomial/Lifts.lean` provide lifts of monic polynomials with their natural
-degree retained. Apply them modulo a proper ideal I to a unital map D → O surjective modulo I:
-for monic P ∈ O[X] choose monic ψ ∈ D[X] of degree deg P with ψ ≡ P modulo I. For I=O the
-congruence imposes no condition and ψ=X^(deg P) suffices when D is nonzero; if D is zero,
-O is zero and P has natural degree zero. `Polynomial.resultant_map_map` in
-`Mathlib/RingTheory/Polynomial/Resultant/Basic.lean` commutes with every ring map at fixed
-Sylvester sizes m,n. Applied to O → O/I, it gives congruence of the two fixed-size resultants
-whenever Q ≡ Q′ modulo I, without a degree-preservation assumption. Default resultants require
-the actual degrees to agree. These inputs hold for arbitrary commutative coefficient rings.
-
-### From Tau Ceti
-
-Tau Ceti's `symmetricTensors` is the
-flip-fixed tensor square; P0 compares it with the degree-two instance of the
-all-degree construction.
-
-### From Mathlib: analytic and arithmetic carriers
-
-`AddCircle (1 : ℝ)` is the real circle used in Betti tori. It supplies a torus
-fibre, while the period charts and transition maps are constructed in B0.
-For resultants use `Polynomial.resultant`; its Sylvester degree arguments are
-retained in congruence statements. `PadicInt.appr_spec` supplies coefficient
-lifts modulo p^N. Mathlib's natural-valued `PadicInt.valuation` sends zero to
-zero, so recognition statements explicitly exclude zero resultants.
-For CM power effectivity use `NumberField.Embeddings.pow_eq_one_of_norm_eq_one`
-in `Mathlib/NumberTheory/NumberField/InfinitePlace/Embeddings.lean`: an integral
-number-field element whose complex conjugates all have norm one has a positive
-power equal to one. F3 proves integrality of the quotient before applying it.
-
-### From Tau Ceti: tensor, discriminant and abelian-variety carriers
-
-At `a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039`,
-`TauCeti/LinearAlgebra/TensorPower/Basic.lean` supplies
-`TauCeti.TensorPower.oneEquiv` and `TensorPower.splitAt`.
-`TauCeti/RingTheory/Polynomial/Resultant/Discriminant.lean` supplies
-`Polynomial.Monic.resultant_deriv`, `Polynomial.Monic.discr_eq_prod_roots_sub_sq`,
-`Polynomial.Monic.discr_mul` and `Algebra.discr_powerBasis_eq_minpoly_discr`.
-F4 compares the latter power-basis discriminant with the maximal-order
-number-field discriminant, retaining the square of the order index.
-`TauCeti/AlgebraicGeometry/AbelianVariety/Basic.lean`, `Isogeny.lean` and
-`End/Basic.lean` supply `TauCeti.AlgebraicGeometry.AbelianVariety`, its homomorphisms,
-`TauCeti.AlgebraicGeometry.AbelianVariety.IsIsogeny` and endomorphisms. The dimension used in F6 is
-`TauCeti.AlgebraicGeometry.AbelianVariety.dim`, defined by the topological Krull dimension;
-its finite-value subtype and native quotients require no realization functor. These field carriers do not
-supply the relative universal extensions, completed coefficient sheaves or
-Dieudonné functors required by P1–P4 and F1.
-
-### From Tau Ceti: invariance of domain
-
-Consume `IsOpen.image_of_continuousOn_of_injOn` and
-`Continuous.isOpenEmbedding_of_injective` in
-`TauCeti/AlgebraicTopology/Singular/InvarianceOfDomain.lean`. Let M and N be
-topological spaces charted on finite-dimensional real normed spaces E and F with
-`finrank ℝ E = finrank ℝ F`. The first theorem says that a map M→N which is
-continuous and injective on an open U⊆M sends U to an open set; the second says
-that a continuous injection M→N is an open embedding. Neither assumes a separation
-or countability axiom on M or N. With Mathlib's
-`TopologicalSpace.Opens.instChartedSpace` in
-`Mathlib/Geometry/Manifold/HasGroupoid.lean`, an open U⊆ℝ^m is charted on ℝ^m, so
-a continuous injection U→ℝ^m is an open embedding for every m≥0.
-
-### From TauCetiRoadmap.AbelianSchemesAndArithmeticModuli
-
-Consume A2's dual and rigidified Poincaré bundle, A3's isogeny/quotient and
-Tate-product maps, A3.9 `Polarization.rosati`, A4.2 `AbelianVectorExtension`
-with its connection-moduli representation and universal bundle, and A4.3
-`AbelianH1dR.hodgeSequence`, `baseChange` and `dualPairing`. In particular
-A♮ is `AbelianVectorExtension (A∨)`; neither representability nor its vector
-kernel is constructed here. Consume A5's complex Hodge dictionary and A6.2
-`homTateInjective`, A6.5 `poincareReducibility`, A6.7 `homFreeFinite`, A6.8
-`endQ_isSemisimple`, A6.10 `End.charpoly`, A6.11 `charpolyTate`, A6.14
-`rosatiPositivity`, A6.18 `polarizedAutomorphisms` and A6.21
-`frobeniusSemisimple`. F1 only transports the last theorem to its faithful
-contravariant realization and identifies the polynomial. Consume A5.1–A5.3 for
-lattice tori, positive Riemann forms and algebraization, and A6.32
-`weilRestrictionAbelian` and A6.33 `weilRestrictionTate` for finite separable
-extensions, with dimension multiplied by the extension degree and the induced
-prime-to-characteristic Tate module. F3 derives the finite-field Frobenius
-polynomial of that restriction.
-
-### From TauCetiRoadmap.ArithmeticStatisticsPartI
-
-Consume the supporting constructions "Finiteness of Weil polynomials" (for g≥1 and a prime
-power q, the monic integer polynomials of degree 2g with constant term q^g and all roots of
-absolute value √q number at most (4g+1)^g q^(g(g+1)/4)), "Tate's theorem over a finite field"
-(for A,B over F_q, `Hom(A,B)⊗ℤ_ℓ→Hom_Gal(T_ℓA,T_ℓB)` is an isomorphism for ℓ≠p and
-`Hom(A,B)⊗ℤ_p→Hom_{W(F_q),F,V}(D(B),D(A))` is an isomorphism for the contravariant Dieudonné
-modules at ℓ=p, with the commutant identifications after ⊗ℚ and the criterion that A and B are
-F_q-isogenous exactly when their Frobenius characteristic polynomials agree), "The
-characteristic-prime order" and "Finiteness of an isogeny class and of unpolarized classes",
-together with §0.16's unpolarized count B(k,g) and its finiteness over every finite field.
-Consume also the marked-lattice correspondence and rational-orbit quotient in
-“Finiteness of an isogeny class and of unpolarized classes”. For A₀/F_q, write
-X^p for tuples of Frobenius-stable full ℤ_ℓ-lattices in V_ℓ(A₀), ℓ≠p, equal to
-T_ℓ(A₀) almost everywhere, and X_p for full F,V-stable W(F_q)-lattices in
-C(A₀)[1/p]. A rational marking f:B→A₀ gives
-(f_ℓ(T_ℓB), C(f)⁻¹C(B)); two markings are equivalent exactly when f′u=f for
-an F_q-isomorphism u:B→B′. This gives an equivariant bijection with X_p×X^p,
-and forgetting the marking gives End⁰_Fq(A₀)^×∖(X_p×X^p).
-Here C is the supplier's contravariant D: C(uv)=C(v)C(u), so the left action
-at p is u↦C(u⁻¹); at ℓ≠p it is the covariant action u_ℓ. In dimension zero
-both tuple and class sets are singletons.
-
-Consume “Finiteness of polarized classes of fixed degree”: for g≥0 and d≥1,
-the F_q-isomorphism classes of g-dimensional pairs (A,λ) with deg λ=d² form a
-finite set. Consume the supporting proof of “Tate's theorem over a finite field”,
-including surjectivity at primes ℓ≠p splitting ℚ[π_A] and both commutant dimension
-calculations. If P_A=∏m_i^(e_i) over ℚ_ℓ, with distinct monic irreducibles m_i of
-degrees d_i, the ℚ_ℓ-linear Frobenius commutant for ℓ≠p has dimension Σ_i d_i e_i².
-At p this same formula is the ℚ_p-dimension of End_(L[F,F⁻¹])(C(A)[1/p]),
-where L=W(F_q)[1/p]; L-linearity is part of the condition. These dimensions are
-independent of the prime (Tate, (4)–(5), printed pp.138–139, Tate line 222;
-WM, Part II Theorem 1 proof, printed pp.60–61, WM line 311).
-For A,B/F_q, injectivity and p-saturation of
-Hom(A,B)⊗ℤ_p→Hom_(W,F,V)(C(B),C(A)) follow from the supplied integral
-isomorphism; its image is the whole target (WM, Part II Theorem 1, WM line 299).
-F1 uses its faithful rational action; F3 and F4 consume the integral Hom dictionary
-and commutant dimensions at every prime; F6 consumes class finiteness as the
-finiteness conjuncts of its headlines.
-
-**Checks.**
-
-- For E:y²=x³−x over 𝔽₅, P_E=X²+2X+5 has distinct roots 2 and 9 modulo 13,
-  with nonzero derivatives 6 and 7. The split commutant has dimension 1²+1²=2;
-  at 3 the irreducible quadratic gives dimension 2·1²=2.
-- For scalar Frobenius −3 over 𝔽₉, P_E=(X+3)² gives dimension 1·2²=4.
-  With L=ℚ₃(i), σ(i)=−i and F=[[0,−3],[1,0]]σ, the L-linear F-commutant
-  consists of [[a,−3σ(b)],[b,σ(a)]], a,b∈L, and has ℚ₃-dimension 4.
-  Dropping L-linearity gives dimension 8 and the wrong commutant.
-- In dimension zero both Hom modules are zero: the comparison has zero kernel
-  and cokernel, and the empty commutant dimension sum is 0.
-- For an elliptic curve with principal polarization λ, deg(nλ)=n² for n≥1.
-  The pairs (E,nλ) are pairwise non-isomorphic, so finiteness requires fixed d;
-  the imported comparison for E itself has image the whole realization Hom module,
-  hence zero saturation quotient.
-
-### From TauCetiRoadmap.HeightsRationalPointsAndObstructions
-
-Consume §1.9's trace for every primary extension K/k: an abelian variety T/k and
-τ:T_K→A inducing Hom_k(B,T)≃Hom_K(B_K,A) for every B/k. Retain its finite kernel,
-the closed immersion in characteristic zero, and primary towers. For a
-constant-field extension E/k, retain the trace comparison isomorphism when
-E/k is separable or K/k is regular. Both K=k(S) and Kbar/k
-with algebraically closed k are within this contract; their traces need not agree.
-Consume §§1.9a–1.9c's curve Kummer finiteness, bounded sections modulo trace and
-constant-extension/tower reduction, and §1.10's finite generation of
-A(K)/τ(T(k)) for every regular finitely generated K/k, in every characteristic
-(ConradTrace, Theorems 6.2, 6.4, 6.8 and 7.1, pp.20–23; ConradTrace line 971,
-ConradTrace line 1007, ConradTrace line 1036, ConradTrace line 1079). B2.3 applies the theorem on
-finite covers; B2.4 and B2.12 compare the trace with invariant homology.
-
-Consume §5.8 “Uniformity in families”, with §§5.6 and 5.8a's proof inputs,
-in characteristic zero: for an abelian variety A over an algebraically closed field Ω,
-an irreducible quasi-projective Ω-variety V and an irreducible closed Y⊂V×A,
-there are finitely many abelian subvarieties B_i⊂A and D≥0 such that every fibre's
-torsion closure is a union of at most D torsion translates of these B_i, including
-empty fibres (GH, Theorem 3.2, PDF p.13, GH line 546). B2.21 consumes this
-uniform-family conclusion together with B2.3's bounded-degree torsion theorem.
-
-**Checks.**
-
-- An empty fibre has empty torsion closure and needs zero cosets.
-- The family V×A has closure A in every fibre; D=1 and the single direction A suffice.
-- For V×{P}, torsion P gives one point in the closure and non-torsion P gives none;
-  allowing arbitrary translates would incorrectly include the latter.
-
-### From TauCetiRoadmap.InverseGaloisAndArithmeticFundamentalGroups
-
-Consume IG.3 “Finitely many covers of bounded degree”: for a connected smooth
-quasi-projective variety U over an algebraically closed characteristic-zero
-field and d≥1, its étale fundamental group is topologically finitely generated,
-and connected finite étale covers of U of degree at most d have finitely many
-isomorphism classes over U. B2.3 uses this for the good-reduction open curve
-(GH, Proposition 3.1 proof, GH line 640–650).
-
-### From TauCetiRoadmap.FiniteFlatGroupsAndIntegralPadicHodgeTheory
-
-Consume R07.1.2 `etaleGroupEquivContAction`, R07.2.10
-`dieudonnePDivisible` with its contravariant exactness and F,V conventions,
-and R07.2.19 `exists_padic_charpoly`: a Witt-integral matrix invariant under
-Frobenius conjugation over the isocrystal has its polynomial over ℤ_p.
-F1 applies this descent and proves agreement with the parent's integer polynomial.
-
-### From TauCetiRoadmap.ComplexComparisonPartII
-
-Consume C0's coherent analytic modules and holomorphic bundles, C1.1
-`localDolbeault`, and C5's relative de Rham–Betti comparison. The Dolbeault
-resolution includes holomorphic finite-rank bundle coefficients and its frame
-and pullback comparisons.
-
-### From TauCetiRoadmap.ShimuraVarieties and Completed/HodgeStructures
-
-Consume Completed/HodgeStructures L0–L3 for pure, mixed and polarized linear
-Hodge objects and their morphisms. Consume ShimuraVarieties §§3.5a–3.5d for
-`R_an,exp`, finite definable charts, polarized variation carriers and definable
-Chow. Consume ShimuraVarieties §5.2 `TauCeti.Shimura.weight_one_algebraization`:
-over a smooth finite-type complex scheme, integral flat morphisms of homological
-weight −1 Hodge variations correspond to algebraic abelian-scheme homomorphisms.
-Consume §§5.5–5.8 `TauCeti.Shimura.cm_number_field_model`,
-`TauCeti.Shimura.cm_potential_good_reduction`, `TauCeti.Shimura.cm_frobenius` and
-`TauCeti.Shimura.shimura_taniyama`. Retain a full maximal-order CM action, its
-number-field definition and a Galois field containing all CM conjugates when
-using the last two; at a good prime of residue cardinality q₀ they give arithmetic
-q₀-Frobenius π₀ and ord_w(π₀)/ord_w(q₀)=#(Φ∩H_w)/#H_w, also at ramified primes.
-B2 constructs fixed parts and their trace adapter, and B3 the mixed Kuga extension.
-
-### From TauCetiRoadmap.LieGroupoidsPoisson and SmoothBundlesConnections
-
-Consume LieGroupoidsPoisson G0.1's local smooth constant-rank normal form,
-tangent kernel, chart/restriction comparisons and level-fibre universal property
-on finite-dimensional boundaryless manifolds, with no Hausdorff assumption.
-B2.10 extends the regularity to finite C^k and real analytic maps and compares
-the induced smooth level-fibre structure when both apply. Consume only the early
-SmoothBundlesConnections B6.0 good-cover construction, before its bundle and
-connection applications: on a Hausdorff second-countable boundaryless manifold,
-a chosen smooth positive-definite metric, supplied by DifferentialGeometry
-12.1 when needed, gives locally finite subordinate strongly convex covers and contractions of every nonempty finite intersection.
-B2.11 applies it to the underlying real surface. ConformalMapping L3 supplies
-Riemann mapping for the bounded simply connected chart images of intersections.
-
-### From TauCetiRoadmap.GlobalNumberFields
-
-Consume Layer 0's place/completion and local-degree interfaces and Layer 1
-`GlobalNumberFields.weakApproximation_denseRange` for simultaneous
-finite-completion conditions and real-place signs. F3 uses it coefficientwise
-for a polynomial with prescribed local irreducibility and all roots real, and
-for a CM polarizing element with prescribed imaginary signs.
-
-### From TauCetiRoadmap.PELModuli and JacobianChallengePartII
-
-Consume PELModuli M3.5–M3.6's complex uniformization, M5's Siegel family and
-M6.11 `finiteFieldFiniteness`. Consume
-JacobianChallengePartII §2.6 (curve difference morphism) and §7.2 (Faltings–Zhang
-for a curve family with full level) with their section-free base-change maps
-for a supplied smooth projective genus-g family with full symplectic level.
-
-### From TauCetiRoadmap.GeometryOfNumbersAndQuadraticArithmetic
-
-Consume §2.5's DVR invariant factors, §2.7 `IntegralHermitianLattice.ofCarrier` and `.dual`,
-and §3.3's weighted genus sums. Its orthogonal mass formula is used only in its orthogonal scope. F4–F5 construct the semisimple-linear bounds and unitary mass asymptotic.
-
-### From TauCetiRoadmap.SchemeAndStackFoundations
-
-Consume §2.6 (quasi-coherent cohomology and higher direct images), §4.1 (thickenings),
-§4.8 (formal completion and coherent formal modules) and §4.9 (the theorem on formal
-functions); §1.18 `Stack.stackification` and §1.21 `Stack.quotient`, `actionQuotient`
-and `quotientStack_algebraic` for finite descent with isotropy; and §4.15 `StableCurves.Mbar`,
-`Mbar.smooth`, `Mbar.algebraicFiniteTypeDM` and `isom_stable_curves` for the finite-type smooth
-curve stack and its finite unramified isomorphism schemes. B4 constructs its full-level
-scheme and universal curve rather than assuming a universal curve on a coarse space.
-
-### From TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry
-
-Consume Layer 5 §5.2 `rigidLevelStructure`, `ArithmeticModuli.auxiliary_level_comparison`
-and the level quotient-recovery interface. A representable finite étale level cover changes
-objects and their automorphism stabilizers; trivial sheaf-valued inertia is required before
-calling the level moduli an algebraic space. B4 proves curve-specific full-level rigidity and
-schematicity on the curve stack.
-
-### From the remaining arithmetic and geometric suppliers
-
-Consume SchemeAndStackFoundations §2.6, §4.1 and §§4.8–4.9 for coherent direct images,
-unit thickenings, formal completion and formal functions; AlgebraicVectorBundles L0B and L2B for
-finite locally free sheaves, their tensor operations and vector groups;
-DifferentialGeometry Layers 0–1 for forms and exterior differentiation and
-12.1 for existence of smooth Riemannian metrics;
-AdelicAlgebraicGroups AA.1, AA.3 and AA.4 for restricted products, compact
-open levels, class-set finiteness and level double quotients with the group
-hypotheses retained; ReductiveGroupsPartII §RG2.3.7 for Lang's theorem and
-H¹(F_q,H)=1 for smooth connected groups H over F_q, specialized in F5.1 to an
-abelian variety; ClassFieldTheory Layers 5,10,13 for local Brauer invariants
-and norms; RepresentationTheory/SemisimpleAlgebras Layers 4–5 for central
-simple algebras and centralizers; Completed/EffectiveBounds Layer 1 for
-number-field bounds; Chebotarev Layer 14 for natural density; and
-ImaginaryQuadraticClassNumber H3.6 for the maximal-order class-number-one
-certificates of discriminants −4,−8,−3,−7,−11,−19,−43,−67,−163.
-Consume DeligneWeightsAndPurity DWP.0 targets 0.1–0.3 and DWP.1 targets
-1.4–1.5 for purity, root bounds and `#A(𝔽_(q^r))=det(1−π^r)` for every r≥1.
-F0 keeps only its isogeny and product corollaries.
-
-## How to read the build
-
-The geometric branches run P0 → P1 → P2 → P3 and P4, and B0 → B1 → B2 → B3 → B4.
-The arithmetic branch starts with F0 and the independent polynomial layer F2,
-then runs F1 → F3 → F4 → F5 → F6. In particular, polynomial recognition precedes
-the characteristic-prime realization; Tate's theorem at every prime is imported from
-ArithmeticStatisticsPartI, and no counting theorem enters it. Each target gives its source and the interfaces it needs.
-References to targets within a layer refer to the construction order dictated
-by their stated dependencies.
-
-The headline theorems are the shuffle-compatible divided-power comparison (P0.5),
-completed Poincaré cohomology (P2.8), logarithm and smooth comparisons (P3.3–P3.4),
-ordinary CM trivialization (P4.2–P4.3), the Betti-rank, specialness and degeneracy
-criteria and their fibre-power applications (B1.4, B2.3–B2.4, B2.21–B2.23, B3–B4),
-Honda–Tate, prime-field linear-dual lattice comparison and order realization
-(F3.2, F3.4–F3.5, F3.7–F3.8, F3.10), fixed-level isomorphism
-bounds (F4.8), CM mass and polarization growth
-(F5.7–F5.9), and the counting and proportion theorems (F6.3–F6.6). Resultant recognition
-(F2.2) is an independent algebraic endpoint used by the characteristic-prime realization.
-`Suggested.lean` states `resultantRecognition`,
-`isogenyClassAsymptotic` and `isomorphismClassCount`; its module docstring identifies
-the missing carriers for the other headlines. API facts and Checks remain in this README.
 
 ## Layer P0: Symmetric tensors and moment coefficients
 
@@ -3472,6 +3016,462 @@ Eisenstein–Kronecker constructions. Intrinsic Betti ranks, degeneracy loci and
 non-degeneracy supply height and Mordell–Lang applications. Finite-field realization and lattice
 classification supply polarized moduli, arithmetic point counting and integral isogeny arguments.
 All consumers use the complete maps and all-prime realization interfaces stated above.
+
+## Scope and ownership
+
+The parent **AbelianSchemesAndArithmeticModuli** owns abelian schemes and their
+group laws (A1), duality, Picard and Poincaré geometry, polarizations (A2), isogenies, finite subgroup quotients and
+`Polarization.rosati` (A3.9), the universal vector extension `AbelianVectorExtension`
+(A4.2), relative de Rham
+cohomology, its Hodge sequence and Tate systems (A4), complex uniformization and
+the Hodge dictionary (A5), and finite-rank Hom groups, characteristic polynomials,
+semisimple endomorphism algebras and complete reducibility (A6). These objects
+are inputs here. **HeightsRationalPointsAndObstructions**, §§1.9–1.10, owns the
+primary-extension trace, its universal, base-change and tower API, and Lang–Néron
+modulo trace for every regular finitely generated extension in any characteristic,
+including the proof inputs in §§1.9a–1.9c.
+**InverseGaloisAndArithmeticFundamentalGroups**, IG.3 “Finitely many covers of
+bounded degree”, owns the characteristic-zero cover-finiteness input.
+**HeightsRationalPointsAndObstructions**, §§5.6,5.8–5.8a, also owns
+characteristic-zero Manin–Mumford and uniform torsion closures in families.
+B2 constructs bounded-degree torsion over characteristic-zero curve fields, the geometric
+constant-part comparison and the finite-maximal-special application.
+In particular, a second dual abelian scheme, Picard functor,
+polarization definition or quotient construction is outside this roadmap.
+
+Use **AlgebraicVectorBundles** for finite locally free sheaves, symmetric and
+exterior powers, vector groups and relative Spec. Its locally free sheaf and
+vector-group conventions also fix the meaning of the vector kernel in P1.
+Use **DifferentialGeometry**, layers 0–1, for differential forms, wedge products
+and exterior derivatives; the new calculation in B1 is the particular Betti
+form and its kernel. **LieGroupoidsPoisson**, G0.1, owns the smooth boundaryless
+constant-rank theorem and its level-fibre API; B2.10 owns the finite C^k and
+real-analytic extension, its comparison with that smooth structure, and the Betti
+application. **SmoothBundlesConnections**, B6.0, owns metric convexity and generic
+good-cover refinements; B2.11 adds holomorphic-chart subordination and the disc
+consequence using **ConformalMapping**, L3. Invariance of domain is already in Tau Ceti,
+for spaces charted on finite-dimensional real normed spaces of equal dimension, open
+subsets of ℝ^m included; citations of B2.9 resolve to its
+`IsOpen.image_of_continuousOn_of_injOn` and `Continuous.isOpenEmbedding_of_injective`,
+which B2 consumes.
+
+**SchemeAndStackFoundations**, §2.6, §4.1 and §§4.8–4.9, supplies coherent direct images,
+thickenings, formal completion and the theorem on formal functions. **ComplexComparisonPartII**,
+C0, supplies analytic sheaf and bundle carriers; C1.1 `localDolbeault` supplies
+the bundle-valued Dolbeault comparison.
+**FiniteFlatGroupsAndIntegralPadicHodgeTheory**, R07.1 and R07.2, supplies the
+connected–étale decomposition, finite flat groups, their descent, p-divisible
+groups and the contravariant Dieudonné equivalence. The completed Poincaré,
+ordinary CM and abelian-variety realization adapters are constructed here.
+
+**PELModuli**, M3.5–M3.6, supplies period uniformization; M5 supplies the
+Siegel family and M6 the arithmetic coarse-moduli and level interfaces, including M6.11 `finiteFieldFiniteness`.
+**Completed/HodgeStructures**, L0–L3, supplies the linear Hodge carriers.
+**ShimuraVarieties**, §§3.5a–3.5d, supplies the real o-minimal and definable-Chow
+foundations; §5.2 supplies the algebraic weight −1 Hodge–Hom comparison and
+§§5.5–5.8 supply CM models, potential good reduction and the Shimura–Taniyama
+Frobenius formula. B2 owns fixed parts, their trace adapter, algebraic monodromy
+and abelian Ax–Lindemann; B3 owns mixed Kuga uniformization and its counting
+application and abelian-family adapters. F3 owns prescribed-slope CM existence
+and finite-field effectivity, using the parent's A5.1–A5.3 algebraization and
+A6.32–A6.33 Weil restriction. **JacobianChallengePartII**, §2.6 (curve difference
+morphism), §§5.3–5.4 and §7.2 (Faltings–Zhang for a curve family with full level),
+supplies differences for a given curve family. B4 constructs the fine full-level curve moduli and universal family. **JacobianChallenge** supplies the
+underlying Jacobian and curve Picard geometry.
+
+For arithmetic groups use **AdelicAlgebraicGroups**:
+AA.1 constructs adelic points and compact open levels, AA.3 supplies reduction
+theory and finite class sets, and AA.4 supplies approximation and level double
+quotients. F4 specializes these constructions to the units of an endomorphism
+algebra. **GeometryOfNumbersAndQuadraticArithmetic**, §2.5 and §3.3, supplies
+invariant-factor and quadratic genus-mass prerequisites. F4 owns semisimple stable-lattice bounds; F5 owns the unitary CM mass asymptotic. **ClassFieldTheory**,
+layers 5, 10 and 13, supplies Brauer invariants, their global compatibility and
+norm theorems. **RepresentationTheory/SemisimpleAlgebras**, layers 4–5, supplies
+central simplicity and centralizers. **Completed/EffectiveBounds**, layer 1,
+supplies number-field discriminant, class-number and unit-index bounds;
+**Chebotarev**, layer 14, supplies natural density;
+**ImaginaryQuadraticClassNumber**, H3.6, supplies the nine maximal-order
+class-number-one cases.
+**DeligneWeightsAndPurity**, DWP.0 targets 0.1–0.3 and DWP.1 targets 1.4–1.5,
+supplies pure algebraic numbers and the independent Rosati proof of the abelian
+Frobenius root bound and the extension-field point-count identity. F0 adds integrality and the finite-field classification adapter. None of these general theories
+is rebuilt here.
+
+The outputs are the completed-bundle and Betti-rank interfaces used in
+Eisenstein–Kronecker and Mordell–Lang arguments, and the finite-field
+classification and counting interfaces. This roadmap stops before constructing
+Eisenstein–Kronecker classes, proving height inequalities or deriving new
+Mordell–Lang bounds. The finite-field part does not claim a sharp unconditional
+numerical exponent for the number of unpolarized varieties.
+
+The invariant tensor comparison with the free divided power algebra is supplied by
+**DerivedModuleAlgebra**, §0.DP.2, “Free divided powers and symmetric tensors”; P0 owns the
+arbitrary-module comparison, shuffle-product compatibility and degree completion. Mathlib
+`Polynomial.lifts_and_natDegree_eq_and_monic` and `Polynomial.resultant_map_map` supply monic
+coefficient lifting and fixed-size resultant congruence, with arbitrary coefficient ideals.
+Their specializations are inputs to F2. AbelianSchemesAndArithmeticModuli A6.10–A6.11 owns
+integer characteristic polynomials, degree and prime independence; F0 adds reciprocity and
+finite-field product corollaries rather than a second integrality theorem. The integer-character theorem and its finite-equation
+consequence have one owner, B2's integer-character construction.
+
+The prerequisite extensions have the following ownership boundaries.
+
+- B2.4 owns polarized fixed parts, rational monodromy semisimplicity and the
+  abelian constant-part comparison. ShimuraVarieties §3.5b.1 supplies the
+  variation carrier and §5.2 the algebraic Hodge–Hom correspondence.
+- B2.6 owns parameter-uniform semirational block counting; B3.1 owns connected
+  Kuga data, their definable uniformization and normal-quotient dictionary.
+  These extend the pure data and definable foundations of ShimuraVarieties
+  P.1 and §§3.5a–3.5d.
+- B4.1 owns fine full-level curve moduli, its universal curve and quasi-finite
+  Torelli map. PELModuli M6 supplies abelian level and coarse-moduli interfaces;
+  JacobianChallengePartII §7.2 supplies differences for a given curve family.
+- F4.4 owns semisimple stable-lattice orbit and stabilizer-index bounds, both
+  with exponent 4Δ_ℓ. GeometryOfNumbersAndQuadraticArithmetic §2.5 supplies
+  DVR invariant factors, not these centralizer-orbit estimates.
+- F5.7 owns CM unitary mass and unweighted class asymptotics, with leading
+  term ½g²log g. GeometryOfNumbersAndQuadraticArithmetic §§2.7,3.3 supply
+  Hermitian carriers and weighted genus sums; its orthogonal mass formula
+  does not supply this unitary asymptotic.
+- B2.15 owns abelian Ax–Lindemann and its real-period adapter, independently
+  of B3's mixed Ax–Schanuel theorem, using ShimuraVarieties §3.5a's definable
+  foundations and the parent's A5.1–A5.3 complex uniformization.
+- HeightsRationalPointsAndObstructions §§5.6,5.8–5.8a own uniform torsion
+  closures in characteristic-zero families; B2.21 consumes that theorem.
+- HeightsRationalPointsAndObstructions §§1.9–1.10 own general trace and
+  Lang–Néron modulo trace. B2.3 owns the bounded-degree torsion consequence
+  for geometrically trace-free abelian varieties over characteristic-zero
+  curve fields, using InverseGaloisAndArithmeticFundamentalGroups IG.3's
+  finiteness of covers of bounded degree.
+
+**ArithmeticStatisticsPartI**, earlier in the build, states in its supporting constructions
+the four finite-field theorems its counting fibres need: the finiteness of Weil polynomials
+with the bound (4g+1)^g q^(g(g+1)/4), Tate's theorem over a finite field at every prime (on
+Tate modules for ℓ≠p and on contravariant Dieudonné modules for ℓ=p) with the isogeny criterion
+by Frobenius polynomials, the characteristic-prime order and the finiteness of an isogeny class
+and of unpolarized isomorphism classes (its §0.16). Its supporting construction
+“Finiteness of an isogeny class and of unpolarized classes” also owns the general
+finite-support all-prime lattice space, the marked quasi-isogeny correspondence
+and its rational-orbit quotient over every F_q. These are imported here.
+Its supporting constructions also own fixed-degree polarized finiteness, split-prime
+Tate surjectivity and the commutant dimensions at every prime. Integral Hom injectivity
+and saturation are consumed as consequences of its integral Tate isomorphisms.
+F0 retains the compact-lattice limit theorem and the isotropic-image lemma over arbitrary
+fields under Tate's finiteness hypothesis, beyond the finite-field theorem;
+F1 owns the characteristic-polynomial adapter, the explicit cyclic block algebra and
+its central simplicity (F1.4, F1.6), and the local invariant (F1.11). F3–F6 own
+Honda–Tate, the prime-field covariant linear-dual adapters (F3.5, F3.7 and F3.10),
+order realization (F3.8), adelic bounds and counting asymptotics. The adapters
+replace the contravariant p-lattice by its integral linear dual, retaining the
+same marked objects and rational orbits.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+Use Mathlib's `TensorPower`, `PiTensorProduct.reindex`, `reindex_tprod` and
+`map_reindex` for permutations and tensor functoriality. Form invariant
+submodules with `LinearMap.eqLocus` and `Submodule.mem_iInf`. The existing
+`DividedPowerAlgebra` is the source of the comparison in P0, rather than a new
+presentation of the divided power algebra.
+
+For F3's integral linear-dual adapter, use `LinearMap.dualMap` and
+`Module.evalEquiv` in `Mathlib/LinearAlgebra/Dual/Defs.lean`;
+`Module.IsReflexive.of_finite_of_free` in
+`Mathlib/LinearAlgebra/Dual/Lemmas.lean` supplies reflexivity for finite free
+ℤ_p-modules. The new comparison identifies the transported realization
+lattices under this duality.
+
+### From TauCetiRoadmap.DerivedModuleAlgebra
+
+Consume §0.DP.2, “Free divided powers and symmetric tensors”: for a commutative ring R and
+free R-module M, the natural map Γⁿ_R(M) → (M^(⊗n))^(S_n), γ_n(v) ↦ v^(⊗n), is a linear
+equivalence, natural in M. Consume §0.DP.2's Roby representability for all modules
+to construct the arbitrary-module natural comparison in P0.5; the free-module
+invertibility theorem remains the export of §0.DP.2.
+
+### From Mathlib: polynomial lifting and congruence
+
+`Polynomial.lifts_iff_coeff_lifts` and `Polynomial.lifts_and_natDegree_eq_and_monic` in
+`Mathlib/Algebra/Polynomial/Lifts.lean` provide lifts of monic polynomials with their natural
+degree retained. Apply them modulo a proper ideal I to a unital map D → O surjective modulo I:
+for monic P ∈ O[X] choose monic ψ ∈ D[X] of degree deg P with ψ ≡ P modulo I. For I=O the
+congruence imposes no condition and ψ=X^(deg P) suffices when D is nonzero; if D is zero,
+O is zero and P has natural degree zero. `Polynomial.resultant_map_map` in
+`Mathlib/RingTheory/Polynomial/Resultant/Basic.lean` commutes with every ring map at fixed
+Sylvester sizes m,n. Applied to O → O/I, it gives congruence of the two fixed-size resultants
+whenever Q ≡ Q′ modulo I, without a degree-preservation assumption. Default resultants require
+the actual degrees to agree. These inputs hold for arbitrary commutative coefficient rings.
+
+### From Tau Ceti
+
+Tau Ceti's `symmetricTensors` is the
+flip-fixed tensor square; P0 compares it with the degree-two instance of the
+all-degree construction.
+
+### From Mathlib: analytic and arithmetic carriers
+
+`AddCircle (1 : ℝ)` is the real circle used in Betti tori. It supplies a torus
+fibre, while the period charts and transition maps are constructed in B0.
+For resultants use `Polynomial.resultant`; its Sylvester degree arguments are
+retained in congruence statements. `PadicInt.appr_spec` supplies coefficient
+lifts modulo p^N. Mathlib's natural-valued `PadicInt.valuation` sends zero to
+zero, so recognition statements explicitly exclude zero resultants.
+For CM power effectivity use `NumberField.Embeddings.pow_eq_one_of_norm_eq_one`
+in `Mathlib/NumberTheory/NumberField/InfinitePlace/Embeddings.lean`: an integral
+number-field element whose complex conjugates all have norm one has a positive
+power equal to one. F3 proves integrality of the quotient before applying it.
+
+### From Tau Ceti: tensor, discriminant and abelian-variety carriers
+
+At `a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039`,
+`TauCeti/LinearAlgebra/TensorPower/Basic.lean` supplies
+`TauCeti.TensorPower.oneEquiv` and `TensorPower.splitAt`.
+`TauCeti/RingTheory/Polynomial/Resultant/Discriminant.lean` supplies
+`Polynomial.Monic.resultant_deriv`, `Polynomial.Monic.discr_eq_prod_roots_sub_sq`,
+`Polynomial.Monic.discr_mul` and `Algebra.discr_powerBasis_eq_minpoly_discr`.
+F4 compares the latter power-basis discriminant with the maximal-order
+number-field discriminant, retaining the square of the order index.
+`TauCeti/AlgebraicGeometry/AbelianVariety/Basic.lean`, `Isogeny.lean` and
+`End/Basic.lean` supply `TauCeti.AlgebraicGeometry.AbelianVariety`, its homomorphisms,
+`TauCeti.AlgebraicGeometry.AbelianVariety.IsIsogeny` and endomorphisms. The dimension used in F6 is
+`TauCeti.AlgebraicGeometry.AbelianVariety.dim`, defined by the topological Krull dimension;
+its finite-value subtype and native quotients require no realization functor. These field carriers do not
+supply the relative universal extensions, completed coefficient sheaves or
+Dieudonné functors required by P1–P4 and F1.
+
+### From Tau Ceti: invariance of domain
+
+Consume `IsOpen.image_of_continuousOn_of_injOn` and
+`Continuous.isOpenEmbedding_of_injective` in
+`TauCeti/AlgebraicTopology/Singular/InvarianceOfDomain.lean`. Let M and N be
+topological spaces charted on finite-dimensional real normed spaces E and F with
+`finrank ℝ E = finrank ℝ F`. The first theorem says that a map M→N which is
+continuous and injective on an open U⊆M sends U to an open set; the second says
+that a continuous injection M→N is an open embedding. Neither assumes a separation
+or countability axiom on M or N. With Mathlib's
+`TopologicalSpace.Opens.instChartedSpace` in
+`Mathlib/Geometry/Manifold/HasGroupoid.lean`, an open U⊆ℝ^m is charted on ℝ^m, so
+a continuous injection U→ℝ^m is an open embedding for every m≥0.
+
+### From TauCetiRoadmap.AbelianSchemesAndArithmeticModuli
+
+Consume A2's dual and rigidified Poincaré bundle, A3's isogeny/quotient and
+Tate-product maps, A3.9 `Polarization.rosati`, A4.2 `AbelianVectorExtension`
+with its connection-moduli representation and universal bundle, and A4.3
+`AbelianH1dR.hodgeSequence`, `baseChange` and `dualPairing`. In particular
+A♮ is `AbelianVectorExtension (A∨)`; neither representability nor its vector
+kernel is constructed here. Consume A5's complex Hodge dictionary and A6.2
+`homTateInjective`, A6.5 `poincareReducibility`, A6.7 `homFreeFinite`, A6.8
+`endQ_isSemisimple`, A6.10 `End.charpoly`, A6.11 `charpolyTate`, A6.14
+`rosatiPositivity`, A6.18 `polarizedAutomorphisms` and A6.21
+`frobeniusSemisimple`. F1 only transports the last theorem to its faithful
+contravariant realization and identifies the polynomial. Consume A5.1–A5.3 for
+lattice tori, positive Riemann forms and algebraization, and A6.32
+`weilRestrictionAbelian` and A6.33 `weilRestrictionTate` for finite separable
+extensions, with dimension multiplied by the extension degree and the induced
+prime-to-characteristic Tate module. F3 derives the finite-field Frobenius
+polynomial of that restriction.
+
+### From TauCetiRoadmap.ArithmeticStatisticsPartI
+
+Consume the supporting constructions "Finiteness of Weil polynomials" (for g≥1 and a prime
+power q, the monic integer polynomials of degree 2g with constant term q^g and all roots of
+absolute value √q number at most (4g+1)^g q^(g(g+1)/4)), "Tate's theorem over a finite field"
+(for A,B over F_q, `Hom(A,B)⊗ℤ_ℓ→Hom_Gal(T_ℓA,T_ℓB)` is an isomorphism for ℓ≠p and
+`Hom(A,B)⊗ℤ_p→Hom_{W(F_q),F,V}(D(B),D(A))` is an isomorphism for the contravariant Dieudonné
+modules at ℓ=p, with the commutant identifications after ⊗ℚ and the criterion that A and B are
+F_q-isogenous exactly when their Frobenius characteristic polynomials agree), "The
+characteristic-prime order" and "Finiteness of an isogeny class and of unpolarized classes",
+together with §0.16's unpolarized count B(k,g) and its finiteness over every finite field.
+Consume also the marked-lattice correspondence and rational-orbit quotient in
+“Finiteness of an isogeny class and of unpolarized classes”. For A₀/F_q, write
+X^p for tuples of Frobenius-stable full ℤ_ℓ-lattices in V_ℓ(A₀), ℓ≠p, equal to
+T_ℓ(A₀) almost everywhere, and X_p for full F,V-stable W(F_q)-lattices in
+C(A₀)[1/p]. A rational marking f:B→A₀ gives
+(f_ℓ(T_ℓB), C(f)⁻¹C(B)); two markings are equivalent exactly when f′u=f for
+an F_q-isomorphism u:B→B′. This gives an equivariant bijection with X_p×X^p,
+and forgetting the marking gives End⁰_Fq(A₀)^×∖(X_p×X^p).
+Here C is the supplier's contravariant D: C(uv)=C(v)C(u), so the left action
+at p is u↦C(u⁻¹); at ℓ≠p it is the covariant action u_ℓ. In dimension zero
+both tuple and class sets are singletons.
+
+Consume “Finiteness of polarized classes of fixed degree”: for g≥0 and d≥1,
+the F_q-isomorphism classes of g-dimensional pairs (A,λ) with deg λ=d² form a
+finite set. Consume the supporting proof of “Tate's theorem over a finite field”,
+including surjectivity at primes ℓ≠p splitting ℚ[π_A] and both commutant dimension
+calculations. If P_A=∏m_i^(e_i) over ℚ_ℓ, with distinct monic irreducibles m_i of
+degrees d_i, the ℚ_ℓ-linear Frobenius commutant for ℓ≠p has dimension Σ_i d_i e_i².
+At p this same formula is the ℚ_p-dimension of End_(L[F,F⁻¹])(C(A)[1/p]),
+where L=W(F_q)[1/p]; L-linearity is part of the condition. These dimensions are
+independent of the prime (Tate, (4)–(5), printed pp.138–139, Tate line 222;
+WM, Part II Theorem 1 proof, printed pp.60–61, WM line 311).
+For A,B/F_q, injectivity and p-saturation of
+Hom(A,B)⊗ℤ_p→Hom_(W,F,V)(C(B),C(A)) follow from the supplied integral
+isomorphism; its image is the whole target (WM, Part II Theorem 1, WM line 299).
+F1 uses its faithful rational action; F3 and F4 consume the integral Hom dictionary
+and commutant dimensions at every prime; F6 consumes class finiteness as the
+finiteness conjuncts of its headlines.
+
+**Checks.**
+
+- For E:y²=x³−x over 𝔽₅, P_E=X²+2X+5 has distinct roots 2 and 9 modulo 13,
+  with nonzero derivatives 6 and 7. The split commutant has dimension 1²+1²=2;
+  at 3 the irreducible quadratic gives dimension 2·1²=2.
+- For scalar Frobenius −3 over 𝔽₉, P_E=(X+3)² gives dimension 1·2²=4.
+  With L=ℚ₃(i), σ(i)=−i and F=[[0,−3],[1,0]]σ, the L-linear F-commutant
+  consists of [[a,−3σ(b)],[b,σ(a)]], a,b∈L, and has ℚ₃-dimension 4.
+  Dropping L-linearity gives dimension 8 and the wrong commutant.
+- In dimension zero both Hom modules are zero: the comparison has zero kernel
+  and cokernel, and the empty commutant dimension sum is 0.
+- For an elliptic curve with principal polarization λ, deg(nλ)=n² for n≥1.
+  The pairs (E,nλ) are pairwise non-isomorphic, so finiteness requires fixed d;
+  the imported comparison for E itself has image the whole realization Hom module,
+  hence zero saturation quotient.
+
+### From TauCetiRoadmap.HeightsRationalPointsAndObstructions
+
+Consume §1.9's trace for every primary extension K/k: an abelian variety T/k and
+τ:T_K→A inducing Hom_k(B,T)≃Hom_K(B_K,A) for every B/k. Retain its finite kernel,
+the closed immersion in characteristic zero, and primary towers. For a
+constant-field extension E/k, retain the trace comparison isomorphism when
+E/k is separable or K/k is regular. Both K=k(S) and Kbar/k
+with algebraically closed k are within this contract; their traces need not agree.
+Consume §§1.9a–1.9c's curve Kummer finiteness, bounded sections modulo trace and
+constant-extension/tower reduction, and §1.10's finite generation of
+A(K)/τ(T(k)) for every regular finitely generated K/k, in every characteristic
+(ConradTrace, Theorems 6.2, 6.4, 6.8 and 7.1, pp.20–23; ConradTrace line 971,
+ConradTrace line 1007, ConradTrace line 1036, ConradTrace line 1079). B2.3 applies the theorem on
+finite covers; B2.4 and B2.12 compare the trace with invariant homology.
+
+Consume §5.8 “Uniformity in families”, with §§5.6 and 5.8a's proof inputs,
+in characteristic zero: for an abelian variety A over an algebraically closed field Ω,
+an irreducible quasi-projective Ω-variety V and an irreducible closed Y⊂V×A,
+there are finitely many abelian subvarieties B_i⊂A and D≥0 such that every fibre's
+torsion closure is a union of at most D torsion translates of these B_i, including
+empty fibres (GH, Theorem 3.2, PDF p.13, GH line 546). B2.21 consumes this
+uniform-family conclusion together with B2.3's bounded-degree torsion theorem.
+
+**Checks.**
+
+- An empty fibre has empty torsion closure and needs zero cosets.
+- The family V×A has closure A in every fibre; D=1 and the single direction A suffice.
+- For V×{P}, torsion P gives one point in the closure and non-torsion P gives none;
+  allowing arbitrary translates would incorrectly include the latter.
+
+### From TauCetiRoadmap.InverseGaloisAndArithmeticFundamentalGroups
+
+Consume IG.3 “Finitely many covers of bounded degree”: for a connected smooth
+quasi-projective variety U over an algebraically closed characteristic-zero
+field and d≥1, its étale fundamental group is topologically finitely generated,
+and connected finite étale covers of U of degree at most d have finitely many
+isomorphism classes over U. B2.3 uses this for the good-reduction open curve
+(GH, Proposition 3.1 proof, GH line 640–650).
+
+### From TauCetiRoadmap.FiniteFlatGroupsAndIntegralPadicHodgeTheory
+
+Consume R07.1.2 `etaleGroupEquivContAction`, R07.2.10
+`dieudonnePDivisible` with its contravariant exactness and F,V conventions,
+and R07.2.19 `exists_padic_charpoly`: a Witt-integral matrix invariant under
+Frobenius conjugation over the isocrystal has its polynomial over ℤ_p.
+F1 applies this descent and proves agreement with the parent's integer polynomial.
+
+### From TauCetiRoadmap.ComplexComparisonPartII
+
+Consume C0's coherent analytic modules and holomorphic bundles, C1.1
+`localDolbeault`, and C5's relative de Rham–Betti comparison. The Dolbeault
+resolution includes holomorphic finite-rank bundle coefficients and its frame
+and pullback comparisons.
+
+### From TauCetiRoadmap.ShimuraVarieties and Completed/HodgeStructures
+
+Consume Completed/HodgeStructures L0–L3 for pure, mixed and polarized linear
+Hodge objects and their morphisms. Consume ShimuraVarieties §§3.5a–3.5d for
+`R_an,exp`, finite definable charts, polarized variation carriers and definable
+Chow. Consume ShimuraVarieties §5.2 `TauCeti.Shimura.weight_one_algebraization`:
+over a smooth finite-type complex scheme, integral flat morphisms of homological
+weight −1 Hodge variations correspond to algebraic abelian-scheme homomorphisms.
+Consume §§5.5–5.8 `TauCeti.Shimura.cm_number_field_model`,
+`TauCeti.Shimura.cm_potential_good_reduction`, `TauCeti.Shimura.cm_frobenius` and
+`TauCeti.Shimura.shimura_taniyama`. Retain a full maximal-order CM action, its
+number-field definition and a Galois field containing all CM conjugates when
+using the last two; at a good prime of residue cardinality q₀ they give arithmetic
+q₀-Frobenius π₀ and ord_w(π₀)/ord_w(q₀)=#(Φ∩H_w)/#H_w, also at ramified primes.
+B2 constructs fixed parts and their trace adapter, and B3 the mixed Kuga extension.
+
+### From TauCetiRoadmap.LieGroupoidsPoisson and SmoothBundlesConnections
+
+Consume LieGroupoidsPoisson G0.1's local smooth constant-rank normal form,
+tangent kernel, chart/restriction comparisons and level-fibre universal property
+on finite-dimensional boundaryless manifolds, with no Hausdorff assumption.
+B2.10 extends the regularity to finite C^k and real analytic maps and compares
+the induced smooth level-fibre structure when both apply. Consume only the early
+SmoothBundlesConnections B6.0 good-cover construction, before its bundle and
+connection applications: on a Hausdorff second-countable boundaryless manifold,
+a chosen smooth positive-definite metric, supplied by DifferentialGeometry
+12.1 when needed, gives locally finite subordinate strongly convex covers and contractions of every nonempty finite intersection.
+B2.11 applies it to the underlying real surface. ConformalMapping L3 supplies
+Riemann mapping for the bounded simply connected chart images of intersections.
+
+### From TauCetiRoadmap.GlobalNumberFields
+
+Consume Layer 0's place/completion and local-degree interfaces and Layer 1
+`GlobalNumberFields.weakApproximation_denseRange` for simultaneous
+finite-completion conditions and real-place signs. F3 uses it coefficientwise
+for a polynomial with prescribed local irreducibility and all roots real, and
+for a CM polarizing element with prescribed imaginary signs.
+
+### From TauCetiRoadmap.PELModuli and JacobianChallengePartII
+
+Consume PELModuli M3.5–M3.6's complex uniformization, M5's Siegel family and
+M6.11 `finiteFieldFiniteness`. Consume
+JacobianChallengePartII §2.6 (curve difference morphism) and §7.2 (Faltings–Zhang
+for a curve family with full level) with their section-free base-change maps
+for a supplied smooth projective genus-g family with full symplectic level.
+
+### From TauCetiRoadmap.GeometryOfNumbersAndQuadraticArithmetic
+
+Consume §2.5's DVR invariant factors, §2.7 `IntegralHermitianLattice.ofCarrier` and `.dual`,
+and §3.3's weighted genus sums. Its orthogonal mass formula is used only in its orthogonal scope. F4–F5 construct the semisimple-linear bounds and unitary mass asymptotic.
+
+### From TauCetiRoadmap.SchemeAndStackFoundations
+
+Consume §2.6 (quasi-coherent cohomology and higher direct images), §4.1 (thickenings),
+§4.8 (formal completion and coherent formal modules) and §4.9 (the theorem on formal
+functions); §1.18 `Stack.stackification` and §1.21 `Stack.quotient`, `actionQuotient`
+and `quotientStack_algebraic` for finite descent with isotropy; and §4.15 `StableCurves.Mbar`,
+`Mbar.smooth`, `Mbar.algebraicFiniteTypeDM` and `isom_stable_curves` for the finite-type smooth
+curve stack and its finite unramified isomorphism schemes. B4 constructs its full-level
+scheme and universal curve rather than assuming a universal curve on a coarse space.
+
+### From TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry
+
+Consume Layer 5 §5.2 `rigidLevelStructure`, `ArithmeticModuli.auxiliary_level_comparison`
+and the level quotient-recovery interface. A representable finite étale level cover changes
+objects and their automorphism stabilizers; trivial sheaf-valued inertia is required before
+calling the level moduli an algebraic space. B4 proves curve-specific full-level rigidity and
+schematicity on the curve stack.
+
+### From the remaining arithmetic and geometric suppliers
+
+Consume SchemeAndStackFoundations §2.6, §4.1 and §§4.8–4.9 for coherent direct images,
+unit thickenings, formal completion and formal functions; AlgebraicVectorBundles L0B and L2B for
+finite locally free sheaves, their tensor operations and vector groups;
+DifferentialGeometry Layers 0–1 for forms and exterior differentiation and
+12.1 for existence of smooth Riemannian metrics;
+AdelicAlgebraicGroups AA.1, AA.3 and AA.4 for restricted products, compact
+open levels, class-set finiteness and level double quotients with the group
+hypotheses retained; ReductiveGroupsPartII §RG2.3.7 for Lang's theorem and
+H¹(F_q,H)=1 for smooth connected groups H over F_q, specialized in F5.1 to an
+abelian variety; ClassFieldTheory Layers 5,10,13 for local Brauer invariants
+and norms; RepresentationTheory/SemisimpleAlgebras Layers 4–5 for central
+simple algebras and centralizers; Completed/EffectiveBounds Layer 1 for
+number-field bounds; Chebotarev Layer 14 for natural density; and
+ImaginaryQuadraticClassNumber H3.6 for the maximal-order class-number-one
+certificates of discriminants −4,−8,−3,−7,−11,−19,−43,−67,−163.
+Consume DeligneWeightsAndPurity DWP.0 targets 0.1–0.3 and DWP.1 targets
+1.4–1.5 for purity, root bounds and `#A(𝔽_(q^r))=det(1−π^r)` for every r≥1.
+F0 keeps only its isogeny and product corollaries.
 
 ## References
 
