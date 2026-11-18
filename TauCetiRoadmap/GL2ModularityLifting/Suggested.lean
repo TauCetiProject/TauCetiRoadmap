@@ -21,12 +21,13 @@ The other headline results require arithmetic objects absent from the pins:
 * Layers 1–4's arithmetic patching, support, finiteness and integral or generic-fibre `R = T`
   use global and local deformation rings, definite quaternionic Hecke modules and their
   Hecke–Galois datum.
-* Layers 5–6's Khare–Wintenberger, Kisin and Fontaine–Laffaille lifting theorems,
-  including KW I Theorem 4.1 and Hypothesis (H), need p-adic Hodge conditions and the Galois
-  representations attached to classical and Hilbert eigenforms.
+* Layers 5–6's Khare–Wintenberger, Kisin and Fontaine–Laffaille lifting theorems over
+  totally real fields, and the potentially semistable weight-two case of KW I Theorem 4.1(2),
+  need p-adic Hodge conditions and the Galois representations attached to classical and
+  Hilbert eigenforms.
 * Layers 7–11's regular de Rham, dyadic, residually reducible and ordinary-three lifting
   results additionally use the Breuil–Mézard cycles, completed cohomology and Pan's
-  pseudodeformation spaces needed to express their LL/CC/LC hypotheses.
+  pseudodeformation spaces needed to express their LL/CC hypotheses.
 * Layer 12's congruence and family transfer results need those lifting predicates, the
   automorphic Galois attachment and the shared raw compatible-system and `RankTwoFamily`
   carriers with their good Frobenius polynomials.
