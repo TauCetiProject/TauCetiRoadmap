@@ -32,212 +32,28 @@ Suggested homes:
 | 6–10 | `TauCeti/Geometry/Symplectic/Hamiltonian/` and `TauCeti/Geometry/Symplectic/Floer/` |
 | 11 | `TauCeti/Geometry/Manifold/LieGroup/` |
 
-## Scope and ownership
+## How to read the build
 
-**In scope.** Every numbered statement of §§1–6.2 of the source paper (Barraud, Damian,
-Humilière, Oancea, *Floer homology with DG coefficients. Applications to cotangent bundles*,
-arXiv:2404.07953) other than Definition 1.7 and Theorems B (Theorem 5.14), G, H and I, which the
-continuation roadmap DGFloerPartII owns, subject to the deferrals and exclusions below. The
-[source coverage](#source-coverage) section assigns each of them to a layer. Layer 7.C
-additionally builds the classical capped Hamiltonian Floer theory of closed positive
-spherically monotone and spherically `c₁`-zero targets in the contractible sector, with ordinary
-finite Laurent and completed Novikov coefficients, and its PSS comparison and Arnold bound;
-Layer 7.G builds the fixed-point Floer theory of an arbitrary symplectomorphism of a closed
-spherically aspherical target; Layer 7.T builds the Floer–Novikov torsion of a symplectomorphism
-in the w⁺-monotone range. None of these three classical branches extends Layer 8's
-all-dimensional DG-coefficient theory beyond that layer's own aspherical and atoroidal
-hypotheses.
-
-**Continuation.** The applications of this package to manifolds abundant with 2-spheres,
-knotted hypersurfaces and the multiple-realization criterion (the source's Definition 1.7,
-Theorems B, G, H and I, §§6.3–6.4 and §7), together with the homogeneous carriers, projective
-loop-space computations and explicit degree computations they rest on, are the subject of the
-continuation roadmap DGFloerPartII. DGFloerPartII consumes this roadmap and supplies nothing to it.
-
-**Owned here.** This roadmap owns everything it states that the deferrals below do not assign
-elsewhere. In particular it owns:
-
-- fundamental chains rel boundary of topological manifolds with corners in normalized cubical
-  chains (Layer 0);
-- the cubical and universe-polymorphic forms of the degree-one Hurewicz isomorphism
-  `π₁(X)ᵃᵇ ≅ H₁(X; ℤ)` (Layer 1 item 1), and the transport of AlgebraicTopology's homological
-  Serre spectral sequence over a CW base to normalized cubical chains (Layer 1 item 2);
-- the natural surjection `H₁(Z; ℤ) → H₁(Z; ℤ/2)`, the vanishing of `H̃_*(K(A, n); 𝔽₂)` for a
-  `ℤ[1/2]`-module `A`, the one-step lemma and the mod-2 vanishing theorem (Layer 1 item 4);
-- independence of the Pontryagin–Thom collapse of a framed submanifold from the tube, its effect
-  on fundamental classes and its compatibility with shriek maps (Layer 1 item 5);
-- local triviality of evaluation `Diff(M) → O` onto the orbit of a chosen point (Layer 1 item 6);
-- the positive-duration Moore loop maps of Hurewicz fibrations, Hurewicz fibrations from
-  numerable bundles and coverings, the compatibility of the Moore comparison with the fibre
-  actions, and the `π₀`-level shift of iterated loop spaces (Layer 2);
-- basepoint change of DG local systems by the derived tensor product, and the arbitrary-CW
-  Brown resolution (Layers 3–4);
-- the Barraud–Cornea construction, DG Morse homology, its fibration theorem and its free-loop
-  extension through broken geodesics (Layer 5);
-- the Hamiltonian formalism beyond what the pinned Tau Ceti states: Hamiltonian vector fields
-  of weakly nondegenerate forms, Hamiltonian functions and the Jacobi identity for their
-  brackets, the Poisson bracket of strongly nondegenerate forms and first integrals on Banach
-  manifolds, symplectic maps and symplectomorphisms between manifolds, the variational equation
-  of autonomous and time-dependent flows and the symplecticity of maximal Hamiltonian flows
-  (Layer 6 item 0);
-- the action functional on contractible and free loops, symplectic asphericity and
-  atoroidality, the completion of an abstract Liouville domain, the magnetic fibre translation as
-  a symplectomorphism, the contact-type step and the graph construction behind Corollary E, the
-  ambient `π₁`-sensitive capacity of a subdomain, and almost existence on almost every level from
-  a finite capacity (Layer 6);
-- Hamiltonian Floer homology of periodic orbits, symplectic homology, the capped classical
-  branch, the global-seam branch and the Floer–Novikov torsion (Layer 7);
-- the DG Floer toolset and the DG Viterbo isomorphism (Layers 8–9);
-- the criteria for almost existence and finiteness of `c°_HZ` and their cotangent applications
-  (Layer 10);
-- the negative semidefinite Killing form of the Lie algebra of a compact connected Lie group
-  with its kernel, the Cartan 3-form argument that `π₃` of a nontrivial compact simply connected
-  semisimple Lie group is nonzero, the finite cover `T × K → G` of a compact connected Lie group
-  and the torus criterion (Layer 11).
-
-**Already in the library.** The pinned Tau Ceti has much of the algebraic topology, DG algebra
-and Hamiltonian dynamics that this package rests on, and this roadmap consumes it by name and
-file (supplier contracts, From Tau Ceti) without restating it:
-
-- Massey-normalized cubical singular chains, the strictly associative and unital cubical cross
-  product with its cubical Eilenberg–Zilber and Künneth theorems, the natural chain homotopy
-  equivalence with simplicial singular chains by acyclic models with its relative,
-  cross-product and local-coefficient forms, and the DG algebra of chains on a topological monoid
-  with the DG module of a space carrying a right action;
-- the degree-one Hurewicz isomorphism for path-connected spaces in the smallest universe with its
-  naturality, CW approximation of path-connected spaces, the invariance of singular, twisted and
-  cubical homology under weak homotopy equivalences, Serre classes as Mathlib's
-  `ObjectProperty.IsSerreClass` with the torsion and power-torsion classes, the attachment of
-  cells killing higher homotopy groups, the first step of mod-2 vanishing, and the Pontryagin–Thom
-  collapse of a framed tube;
-- the Serre-fibration predicate `TauCeti.TopCat.serreFibrations` with its disc and cube
-  characterizations, its closure under composition, base change, retracts and products, the
-  covering-map, product-projection and locally-trivial-bundle instances, and lifting with a
-  prescribed lift on the bottom and sides of a cube; the Hurewicz-fibration predicate
-  `TauCeti.IsHurewiczFibration` with lifting functions, relative lifting for NDR pairs, fibre
-  transport, the fixed-interval mapping-path carriers and loop maps, and the comparison with
-  Serre fibrations; the spectral sequence of a filtered cochain complex, with its first page,
-  naturality and convergence for finite and for exhaustive filtrations, and the Milnor `lim¹`
-  sequence of a tower of complexes;
-- Moore paths, Moore loops as a topological monoid and free Moore loops, transitive Moore
-  lifting functions, the Moore-path replacement of an arbitrary map with its endpoint Hurewicz
-  fibration, its strict right action of the Moore loops on the fibre and its fibre homotopy
-  equivalence for a Hurewicz fibration, the homotopy equivalence of Moore and fixed-interval
-  paths and loops, and the canonical homeomorphisms of mapping spaces out of spheres;
-- DG local systems on a pointed space with their pullback, the DG local system of a map and
-  of a transitive lifting function with the transport quasi-isomorphism, classical local systems
-  as the DG local systems concentrated in degree zero, rank-one twisting, and the homology of a
-  DG local system as a representation of `π₁`; twisting cocycles, the twisted complex,
-  continuation and parametrized cocycles with their chain maps and homotopies, homologous
-  cocycles, the index filtration with its spectral sequence and second page, and the row-finite
-  twisted modules over an arbitrary graded basis;
-- the Lemma 3.41 of the source, that a path-connected space is aspherical exactly when its
-  double loop space has the integral homology of a point;
-- the cotangent bundle of a manifold with its Liouville form and canonical symplectic form
-  `ω = −dλ`, its codisc and cosphere bundles as a Liouville domain and its completion, fibre
-  translation by a one-form; Liouville domains, Liouville vector fields, contact type and exact
-  embeddings; periodic solutions of time-dependent vector fields and nondegenerate fixed points;
-  the characteristic line of a regular level and the independence of closed characteristics
-  from the defining function; the contractible almost existence property, the relative and the
-  `π₁`-sensitive Hofer–Zehnder capacities, and closed characteristics on a dense set of levels
-  below a finite capacity;
-- the algebraic period group, cap classes and Novikov ring of a capped Floer theory;
-- the local steps of Gromov compactness for pseudoholomorphic curves in a chart: energy
-  quantization, finitely many bubbling points under an energy bound, locally uniform convergence
-  away from them, and continuous removal of a finite-energy puncture.
-
-AlgebraicTopology Stage 5.5 consumes the same Serre-fibration predicate.
-
-**Numbering for citing roadmaps.** A citation of an item of this roadmap by number resolves as
-follows. Layer 0 items 1–3: the cubical chains of the pinned Tau Ceti (From Tau Ceti); Layer 0
-item 4: Layer 0 item 1. Layer 2 items 1–3 keep their numbers for what the pins lack about Moore
-paths, Hurewicz fibrations and the canonical homeomorphisms; the Moore paths, Moore lifting
-functions and Moore-path replacement are From Tau Ceti. Layer 3 item 1 keeps its number for
-basepoint change; Layer 3 items 2, 3 and 4: `TauCeti.fibrationLocalSystem`,
-`TauCeti.classicalDGLocalSystemEquivalence` and `TauCeti.RankOneLocalSystem`. Layer 4 items 1, 2,
-3 and 4: `TauCeti.TwistingCocycle`, `TauCeti.TwistingCocycle.twistedCochainComplex`,
-`TauCeti.ContinuationCocycle` with `TauCeti.ParametrizedCocycle`, and
-`TauCeti.TwistingCocycle.indexSpectralSequence`; Layer 4 item 5: Layer 4 item 1. The ordinary
-targets of Layer 1 items 2–4 are AlgebraicTopology's, and a citation of one of them resolves
-there:
-
-- Layer 1 item 2's CW approximation of arbitrary spaces and its connected-map homology
-  comparison (cited as connectedMapHomologyComparison): AlgebraicTopology §4.10.
-- Layer 1 item 2's relative-CW lifting, fibre transport and fibration homotopy exact sequence:
-  AlgebraicTopology Stage 5.5.
-- Layer 1 item 2's homological, cohomological and multiplicative Serre spectral sequences over
-  CW and arbitrary bases (cited as arbitraryCWSerreSpectralSequence and
-  arbitraryBaseSerreSpectralSequence) and its Serre preimage excision (cited as
-  serrePreimageSubcomplexExcision): AlgebraicTopology Stage 5.5.
-- Layer 1 item 3's homological regrading and its classical and complete convergence theorems:
-  AlgebraicTopology Stage 5.0.
-- Layer 1 item 4's Serre classes and Hurewicz modulo a Serre class: AlgebraicTopology Stage 8.8d.
-- Layer 1 item 4's functorial abelian Eilenberg–MacLane spaces `K(A, n)`, with their
-  presentation model, uniqueness and loop identification: AlgebraicTopology Stage 8.8c.
-
-Layer 1 item 2 keeps its number for the cubical transport, and Layer 1 item 4 for the mod-2
-chain comparison, the mod-2 vanishing of `K(A, n)`, the one-step lemma and the mod-2 vanishing
-theorem. A citation of Layer 1 item 3 for the spectral sequence of a filtered cochain complex
-itself, its first page, its naturality, its comparison theorem or its convergence for a finite
-or an exhaustive filtration resolves to Tau Ceti's `CochainComplex.spectralSequence` and the API
-listed with it (From Tau Ceti), which Layer 1 item 3 consumes.
-
-The following ids resolve outside their original numbering:
-
-- G0–G7, the global-seam application on closed spherically aspherical targets: Layer 7.G.
-- Layer 1 item 7, homogeneous examples on designated carriers (the matrix-group quotients, frames
-  and Stiefel manifolds, and the complex and quaternionic projective carriers with the complex
-  projective form comparison): DGFloerPartII §1.3.
-- Layer 1 item 8, degrees of explicit maps: DGFloerPartII §1.4.
-- Layer 5 item 7, based-loop Morse–Bott energy on `CPᵈ` and `HPᵈ`: DGFloerPartII Layer 2.
-- Layer 10 item 5 for Theorem B (the source's Theorem 5.14) and the Theorem B forms of
-  Corollaries D and E: DGFloerPartII §§3.2–3.3. Layer 10 item 5 keeps its number for Theorems A
-  and C.
-- Layer 11 items 1, 2, 4, 5 and 6 (abundance and Theorem H, fibered families of 2-spheres,
-  homogeneous spaces, projective spaces and Theorem I, knotted hypersurfaces and Theorem G):
-  DGFloerPartII §§4.1, 4.2, 4.4, 4.5 and 4.6.
-- Layer 11 item 3: covering by diffeomorphisms is DGFloerPartII §4.3. Layer 11 item 3 keeps its
-  number for the finite cover `T × K → G` of a compact connected Lie group and the torus
-  criterion (11.1–11.3).
-
-**Left to named roadmaps.** The following objects are built elsewhere; this roadmap consumes
-them by name and section (see the supplier contracts) and does not restate them.
-
-| Object | Owner | Relation to this roadmap |
-| --- | --- | --- |
-| Morse–Smale pairs, compactified trajectory spaces with corners, the Morse complex over `𝔽₂` and `ℤ` | HeegaardFloer Lane M | consumed by Layer 5 |
-| Local Sobolev maps on planar domains and half-discs, totally real boundary conditions, the Cauchy and Beurling operators, interior and boundary Cauchy–Riemann estimates, the similarity principle, the weak pseudoholomorphic equation with an inhomogeneous term (Floer's equation among its cases), elliptic bootstrapping and uniform estimates, real Cauchy–Riemann operators on compact bordered surfaces with their Fredholm theory, the Maslov index of a bundle pair and closed and bordered Riemann–Roch | PseudoholomorphicCurveAnalysis PH1–PH7 | consumed by Layer 7 |
-| Fredholm theory, the sharp Sard–Smale theorem with its Banach-manifold adapters, Sobolev norms on strips and cylindrical ends, spectral flow, the Robbin–Salamon and Conley–Zehnder indices, determinant lines, relative `c₁` and Riemann–Roch on punctured surfaces with weighted ends, the clutching Chern number | HeegaardFloer Lanes F0–F1 | consumed by Layers 7–9 |
-| Symplectic manifolds, the contraction inverse of a strongly nondegenerate two-form with its `df` specialization and the domain-local Moser lemma, almost complex structures, `J`-holomorphic curves, energy, local compactness, transversality and gluing | HeegaardFloer Lane F2 | consumed by Layers 6–9 |
-| Product curves with a general closed source `Σ`, the product `J` and the slice-image classification in `[Σ] × [z₀]` | HeegaardFloer F2.6c | not consumed here |
-| Stable maps of every genus with varying domain structure, their Hausdorff-graph topology, all-genus Gromov compactness, thickenings and implicit atlases | AnalyticStableMaps | its Layer 3 compactness at genus zero over compact tame families, with the evaluation maps of its §11.1, is consumed by Layer 7.C.2d through gap:genus-zero-stable-map-compactness (supplier contracts); thickenings and implicit atlases are not consumed |
-| The general smooth symplectic suspension `Y_φ = (ℝ × M)/((t, x) ∼ (t + 1, φ⁻¹x))`, its seam-compatible block structure, periodic-orbit images and the compact horizontal-image theorem | SymplecticGeometry S0–S2 | S0's mapping torus is instantiated by Layer 7.T.1 at monodromy `f⁻¹`; S1–S2 are not consumed |
-| The surface suspension, its vertical form, primitive orbit images and the point-count, product and zeta applications | TaubesGromov | not consumed here; TaubesGromov consumes SymplecticGeometry S0–S2, not this roadmap |
-| Global flux of symplectic paths, the Hamiltonian kernel, the endpoint quotient `Ham → Symp₀ → H¹_dR/Γ_ω`, the area-normalized torus lattice and compact-support flux | HamiltonianReduction R1a.0–R1a.4 | R1a.0–R1a.1 and R1a.3–R1a.4 are not consumed; R1a.2's identity component `Symp₀(M, ω)` with its `C^∞` topology is consumed by Layer 7.T item 9 |
-| The `Sp(2, ℝ)` polar factorization `A = PU ↦ P^{1−t}U` and its symplectic polar factors | CotangentLagrangian C2.0–C2.1 | not consumed here |
-| Period-controlled Novikov completions, finite-below convolution, total quotient rings and based torsion | MorseNovikov N1 and N4 | consumed by Layers 7.C and 7.T; N6's finite-dimensional bifurcation theorem is not a Floer theorem and is not consumed |
-| Singular and twisted chains, CW pairs, Eilenberg–Zilber and Künneth, fundamental classes and duality, relative Hurewicz and Whitehead, the Hurewicz map of Stage 8.3, the bar construction of Stage 8.8; CW approximation of arbitrary spaces and the connected-map homology comparison (§4.10); the adapters and convergence theorems of the filtered-complex spectral sequence (Stage 5.0); relative-CW lifting, the homotopy exact sequence and the homological, cohomological and multiplicative Serre spectral sequences of a Serre fibration over CW and arbitrary bases (Stage 5.5); the functorial abelian Eilenberg–MacLane spaces with their uniqueness (Stage 8.8c); Serre classes and Hurewicz modulo a Serre class (Stage 8.8d) | AlgebraicTopology Stages 2–8 | consumed by Layers 0–1, 5, 9 and 10 |
-| Collars and tubular neighbourhoods | GeometricTopology Layer 1 | consumed by Layer 1 item 5 and Layer 11 item 2; `Diff(M)` with its `C^∞` topology and the smooth-families map, which GeometricTopology Layer 3 plans, and the flow diffeotopies of complete vector fields on boundaryless finite-dimensional manifolds are already in Tau Ceti (`TauCeti.Diff`, `Diffeomorph.ofSmoothFamily`, `TauCeti.globalFlowDiffeotopy`), and the local triviality of evaluation `Diff(M) → O` is Layer 1 item 6 |
-| The Liouville collar of a hypersurface transverse to a Liouville field, with its contact form | ContactGeometry CG4 | consumed by the contact-type step of Layer 6 item 4; the contact form `λ_Z|_Σ` and the flow-out of a complete Liouville field are also in Tau Ceti, and the graph construction behind Corollary E is Layer 6 item 4 |
-| Jacobi fields, the index form and the finite broken-geodesic carriers | RiemannianGeometry R2–R3 | consumed by Layer 5 item 6 |
-| Compact Lie theory: Lie's third theorem and the integration of homomorphisms out of simply connected groups, universal covers and their central kernels, the `Ad`-invariant inner product with the orthogonal splitting `𝔤 = 𝔷 ⊕ [𝔤, 𝔤]`, the semisimplicity of `[𝔤, 𝔤]` and its negative-definite Killing form, maximal tori, the compact real roots and their rank-one representatives `SU(2) → G`, the Haar probability measure and averaging | LieGroups Layers 4, 5, 5A and 6, CompactGroups Layer 0 | consumed by Layer 11; the negative semidefinite Killing form of `𝔤` with kernel `𝔷`, the Cartan 3-form argument and the finite cover are Layer 11 items 1–2 |
-| Covering spaces and their induced maps on homotopy groups | UniversalCovers (completed) | consumed by Layer 11 item 2 |
-| The Lagrangian and polygon operations of the Fukaya category | FukayaTheory | not consumed; the graph and diagonal strip folding of Layer 7.G is the only Lagrangian construction here |
-
-**Out of scope**, so nobody mistakes them for targets:
-
-- **Conjecture 1.2** (every closed hypersurface in `T*Q` has the contractible almost existence
-  property when `Q` is not a `K(π, 1)`). It is open.
-- **Corollary F.** It consumes the Ginzburg–Niche theorem on uniquely ergodic Hamiltonian
-  structures, which nothing here builds.
-- Chain-level higher structures: `A∞` refinements of the DG Floer maps, products, and the BV
-  and loop-product structures on either side of the Viterbo isomorphism.
-- Floer homotopy theory, and Lagrangian Floer theory with DG coefficients.
-- All-dimensional compactifications in the monotone and `c₁`-zero branches of Layer 7.C: that
-  branch has the count dimensions of its classical identities only.
-- The virtual, implicit-atlas comparison of the autonomous `S¹`-invariant sector of Floer
-  cylinders with the regular time-dependent counts; the classical count and PSS branches of
-  Layer 7.C are independent of it.
+Layers 0–4 are reusable algebraic topology and algebra, in build order, on the cubical chains,
+Moore paths, DG local systems and twisted complexes of the pinned Tau Ceti: fundamental chains of
+manifolds with corners (0); the general facts of topology the later layers need, on
+AlgebraicTopology's Serre spectral sequences, filtered complexes and Eilenberg–MacLane spaces:
+the cubical degree-one Hurewicz isomorphism, the cubical transport of the Serre spectral
+sequence, mod-2 vanishing, the Pontryagin–Thom collapse and the evaluation bundle of `Diff(M)`
+(1); the positive-duration Moore loop maps of Hurewicz fibrations, Hurewicz fibrations from
+bundles and coverings, and the canonical homeomorphisms the pins lack (2); basepoint change of DG local systems (3); the Brown resolution (4). Layer 5 is DG Morse
+homology on closed manifolds and on the free loop space, with its fibration theorem. Layer
+6 is the Hamiltonian and Liouville dynamics the Floer layers need. Layer 7 is classical
+Hamiltonian Floer homology and symplectic homology on the analytic tower of HeegaardFloer, with
+three classical branches: the capped monotone and `c₁`-zero theory with its PSS comparison and
+Arnold bound (7.C), the fixed-point theory of an arbitrary symplectomorphism on a spherically
+aspherical target (7.G) and the Floer–Novikov torsion (7.T). Layer 8 twists Layer 7's
+all-dimensional moduli spaces into the DG Floer toolset, Layer 9 proves the DG Viterbo
+isomorphism for cotangent bundles, and Layer 10 derives the criteria and the theorems on almost
+existence and capacities. Layer 11, independent of Layers 2–10, decides when a compact connected
+Lie group is aspherical. Each layer ends with its examples and its dependencies; a `*Needs:*`
+line lists what a target's statement and route need, item by item, so that a different proof
+route is not blocked behind an unrelated layer.
 
 ## Conventions
 
@@ -384,574 +200,6 @@ them by name and section (see the supplier contracts) and does not restate them.
   built from a universal test object (AlgebraicTopology Stage 5.5's relative-CW lifting, Tau
   Ceti's lifting functions) the statement names the universe of the test object and transports
   along `ULift`.
-## Exact supplier contracts
-
-Every declaration below exists at the pinned Mathlib and Tau Ceti. What the pins lack is a target
-of this roadmap or of the named supplier; nothing listed here is restated as a target.
-
-### From Mathlib
-
-- Singular homology `AlgebraicTopology.singularHomologyFunctor` with coefficients in an abelian
-  category, and its homotopy invariance (`Mathlib/AlgebraicTopology/SingularHomology/`);
-  `ModuleCat` as the coefficient category. The mod-2 vanishing theorem of Layer 1 item 4 is
-  stated with coefficients in the `ℤ`-module `ZMod 2`.
-- Cubical homotopy groups `HomotopyGroup`, written `π_ n X x`, with their group structure for
-  `n ≥ 1` and commutative group structure for `n ≥ 2`; `SimplyConnectedSpace`; `Path`,
-  `unitInterval`.
-- The compact-open topology `ContinuousMap.compactOpen` on `C(X, Y)`, its evaluation and
-  currying laws for locally compact sources; `IsCoveringMap`.
-- `HomologicalComplex`, `Homotopy`, `CochainComplex`, and the abelian spectral-object API:
-  `CategoryTheory.Abelian.SpectralObject`, `SpectralObject.spectralSequence`,
-  `SpectralSequenceDataCore`, `coreE₂Cohomological`, `HasSpectralSequence`, `IsFirstQuadrant`
-  (`Mathlib/Algebra/Homology/SpectralObject/`), the index type `EInt`, and
-  `HomotopyCategory.spectralObjectMappingCone`
-  (`Mathlib/Algebra/Homology/HomotopyCategory/SpectralObject.lean`). What Layer 1 items 2–3
-  assume of them: a spectral object indexed by `EInt` has pages, differentials and an `E₂`
-  cohomological spectral sequence through `coreE₂Cohomological`, and the mapping-cone spectral
-  object of a functor into the homotopy category exists. Mathlib has no filtration functor on
-  cochain complexes and no convergence theorem; Tau Ceti has both (From Tau Ceti).
-- `DirectSum.Decomposition`, `DirectSum.decomposeLinearEquiv`, `DirectSum.lmap`,
-  `GradedAlgebra`, `Int.negOnePow`, `MulOpposite` (Layer 4).
-- `ModelWithCorners`, `ChartedSpace`, `LieGroup`, the scoped `ContDiff` notation `∞`, `Circle`,
-  `ContinuousMulEquiv` (written `≃ₜ*`), `Matrix.specialOrthogonalGroup` (Layer 11); integral
-  curves and flows of vector fields on manifolds (`Mathlib/Geometry/Manifold/IntegralCurve/`).
-- `Monotone.ae_differentiableAt` (`Mathlib/Analysis/Calculus/Monotone.lean`), for the
-  Hofer–Zehnder–Struwe argument of Layer 6 item 5.
-- For Layer 6 item 0: `mvfderiv` (the differential of a real function on a manifold),
-  `extChartAt`, the pullback of vector fields `VectorField.mpullback` and its chart form
-  `VectorField.mpullbackWithin` (`Mathlib/Geometry/Manifold/VectorField/Pullback.lean`),
-  `VectorField.mlieBracket`, `IsMIntegralCurveOn` with local existence of integral curves
-  `exists_isMIntegralCurveAt_of_contMDiffAt_boundaryless`, `ContinuousLinearMap.IsInvertible`,
-  the Hahn–Banach theorem `exists_dual_vector`, diffeomorphisms `M ≃ₘ^n⟮I, I'⟯ M'` with
-  `ContinuousLinearEquiv.toDiffeomorph`, and `LinearEquiv.toContinuousLinearEquiv` in finite
-  dimension.
-
-### From Tau Ceti
-
-- Cubical chains (`TauCeti/AlgebraicTopology/Singular/Cubical/`): singular cubes
-  `TauCeti.SingularCube` with Massey's degeneracy, the normalized chains
-  `TauCeti.NormalizedCubicalChain` and their functor `TauCeti.normalizedCubicalChainComplex`; the
-  cross product `TauCeti.NormalizedCubicalChain.crossProduct`, strictly associative and unital
-  (`TauCeti.NormalizedCubicalChain.crossProduct_assoc`) with the Koszul Leibniz rule
-  (`TauCeti.NormalizedCubicalChain.boundary_crossProduct`), its relative form on pairs, its chain
-  map `TauCeti.cubicalCrossProduct` with `TauCeti.quasiIso_cubicalCrossProduct` and the cubical
-  Künneth theorem `TauCeti.isIso_cubicalHomologyKunneth`; the natural chain homotopy equivalence
-  `TauCeti.cubicalSingularHomotopyEquiv` with simplicial chains (acyclic models; points to points
-  in degree zero), the homology isomorphism `TauCeti.singularCubicalHomologyIso`, the cross-product
-  homotopy `TauCeti.cubicalSingularCrossProductHomotopy`, the cubical long exact sequence of a pair
-  with `TopPair.cubicalHomologyδ` and excision, homotopy invariance
-  `ContinuousMap.HomotopyEquiv.normalizedCubicalChainComplexHomotopyEquiv`, and the comparison
-  with local coefficients `TauCeti.LocalCoefficientSystem.twistedCubicalToSingularMap`; for a
-  topological monoid `G`, the DG algebra `TauCeti.normalizedCubicalChainAlgebra` with
-  `TauCeti.cubicalChain_isDGAlgebra` (`C_n` in degree `−n`), and for a space with a strict right
-  `G`-action the DG right module `TauCeti.cubicalChainModule` with
-  `TauCeti.cubicalChainModule_isDGRightModule`, equivariant homotopy equivalences inducing
-  quasi-isomorphisms (`TauCeti.isQuasiIso_cubicalChainModuleMap`). What Layers 0, 3 and 5
-  assume: the chains are those of BDHO §5.2, and the comparison is used through these named maps.
-- Layer 1 inputs. The degree-one Hurewicz isomorphism
-  `TauCeti.HurewiczOne.hurewiczHomologyAddEquiv : π₁(X, x)ᵃᵇ ≃+ H₁(X; ℤ)` for path-connected
-  `X : TopCat.{0}` on simplicial singular chains
-  (`TauCeti/AlgebraicTopology/Homotopy/Hurewicz/One/`), natural
-  (`TauCeti.HurewiczOne.homologyMap_hurewiczHomologyAddEquiv`), and equal to minus the degree-one
-  relative-class Hurewicz map (`HomotopyGroup.hurewiczHom_hom_one_eq_neg_hurewicz₁`). CW
-  approximation of a path-connected space, `TauCeti.isWeakHomotopyEquivalence_cwApproximationMap`,
-  natural up to homotopy (`TauCeti/AlgebraicTopology/Homotopy/CWApproximation/`). Weak homotopy
-  equivalences induce isomorphisms on singular homology with coefficients in any ring
-  (`ContinuousMap.IsWeakHomotopyEquivalence.isIso_singularHomologyMap`), on homology with local
-  coefficients (`ContinuousMap.IsWeakHomotopyEquivalence.isIso_twistedHomologyMap`) and on
-  cubical chains (`TauCeti/AlgebraicTopology/Singular/Homotopy/WeakHomotopyEquivalence.lean`);
-  for a pair `(X, A)` with vanishing relative homotopy below `n`, relative homology vanishes below
-  `n` (`TauCeti.isZero_singularHomology_ofSubset_of_relHomotopyGroup`). Serre classes are
-  Mathlib's `CategoryTheory.ObjectProperty.IsSerreClass` (subobjects, quotients, extensions), with
-  the classes `AddCommGrpCat.isTorsion` and `AddCommGrpCat.isKilledBySomePower`, their closure
-  under `⊗` and `Tor`, and the `K(A, 1)` axiom for finite `A`
-  (`TauCeti/AlgebraicTopology/SerreClass/`,
-  `TauCeti/AlgebraicTopology/ClassifyingSpace/Torsion.lean`). Cell attachments killing the
-  homotopy groups above a degree, `TauCeti.killHomotopyGroups`
-  (`TauCeti/AlgebraicTopology/Homotopy/KillHomotopyGroups.lean`). The vanishing of positive
-  mod-`m` homology of the classifying space of a finite group of order prime to `m`,
-  `TauCeti.subsingleton_classifyingSpace_singularHomology_of_isUnit_natCard`, and of `ℤ[1/m]`,
-  `TauCeti.isZero_classifyingSpace_singularHomology_localizationAway`, on Milnor's classifying
-  space. The coefficient sequence `0 → ℤ → ℤ → ℤ/2 → 0` in singular homology, with
-  `TopCat.isUniquelyTwoDivisible_singularHomology_of_isZero_mod_two` (vanishing mod-2 homology in
-  degrees `i` and `i + 1` makes `H_i(−; ℤ)` uniquely 2-divisible), and the first step of mod-2
-  vanishing, `TauCeti.isUniquelyTwoDivisible_homotopyGroup_of_isZero_mod_two`, for spaces in
-  `Type` (`TauCeti/AlgebraicTopology/Homotopy/Hurewicz/TwoDivisible.lean`). The Pontryagin–Thom
-  collapse `TauCeti.pontryaginThomCollapseMap` of a framed tube `TauCeti.IsFramedTube`, its
-  homotopy class under an isotopy of tubes, and the existence of tubes for globally framed
-  embeddings `TauCeti.SmoothEmbedding.exists_isFramedTube`
-  (`TauCeti/Geometry/Manifold/PontryaginThom/`). The group `TauCeti.Diff` of a compact manifold
-  with the weak Whitney topology `Diffeomorph.weakWhitneyTopology`, a topological group with
-  continuous evaluation, and its transitivity on a connected manifold by diffeotopies
-  (`TauCeti/Geometry/Diffeomorphism/`). The smooth-families map
-  `ContMDiff.continuous_diffeomorphWeakWhitney`, bundled as `Diffeomorph.ofSmoothFamily`
-  (`TauCeti/Geometry/Diffeomorphism/Topology.lean`): for a compact source `M` and a parameter
-  manifold `P`, a family `P → Diff(M)` that is jointly `C^n` on `P × M` is continuous for the
-  weak Whitney topology; the converse is not claimed. The flow diffeotopy
-  `TauCeti.globalFlowDiffeotopy` of a complete `C^n` vector field, `1 ≤ n`, on a Hausdorff
-  boundaryless manifold with finite-dimensional model, possibly noncompact, whose motion is the
-  maximal integral curve at the rescaled time
-  (`TauCeti/Geometry/Diffeomorphism/Diffeotopy/Flow.lean`). The Milnor `lim¹` sequence of a
-  tower of complexes, `TauCeti.ComplexTower` (`TauCeti/Algebra/Category/ModuleCat/Tower/Milnor/`).
-- Moore paths (`TauCeti/Topology/PathSpace/Moore.lean` and `TauCeti/Topology/PathSpace/Moore/`):
-  `TauCeti.MoorePath`, topologized in `ℝ≥0 × C(ℝ≥0, X)`, with strictly associative and unital
-  concatenation `TauCeti.MoorePath.trans`, the paths from `A` to `B`
-  `TauCeti.MoorePath.pathsBetween`, the Moore loops `TauCeti.MooreLoopSpace` as a topological
-  monoid, and the free Moore loops `TauCeti.MooreFreeLoopSpace` with their constant loops (a
-  closed embedding onto the loops of duration `0`) and contractible loops; `MetrizableSpace`
-  instances for metrizable `X`. Moore lifting functions `TauCeti.MooreLiftingFunction`
-  (continuous, duration-preserving, sending length-zero paths to length-zero paths) and their
-  transitivity `TauCeti.MooreLiftingFunction.IsTransitive`; for an arbitrary map `p`, the
-  Moore-path replacement `TauCeti.MooreReplacement` with its endpoint Hurewicz fibration
-  `TauCeti.MooreReplacement.isHurewiczFibration_endpoint` and transitive lifting function by
-  concatenation, the strict continuous right action of `TauCeti.MooreLoopSpace` on its fibre
-  `TauCeti.MooreReplacement.Fiber`, transport `TauCeti.MooreLiftingFunction.transport`, strictly
-  equivariant for a transitive lifting function, and for a Hurewicz fibration the fibre homotopy
-  equivalence `TauCeti.MooreReplacement.fiberHomotopyEquiv`; the endpoint fibration
-  `TauCeti.MoorePath.isHurewiczFibration_target`, and restriction along a closed cofibration
-  `TauCeti.HasHomotopyExtensionProperty.isHurewiczFibration_restrict`. The comparison with fixed
-  intervals: `TauCeti.MoorePath.homotopyEquivUnitPath`, `TauCeti.MooreLoopSpace.homotopyEquivPath`
-  with its multiplicativity homotopies, `TauCeti.MoorePath.fiberHomotopyEquivPathsBetween`, and
-  `TauCeti.MooreLoopSpace.homotopyGroupMulEquiv : π_{n+1}(ΩᴹX) ≃* π_{n+2}(X)`.
-- Mapping spaces out of spheres (`TauCeti/Topology/MappingSpace/`):
-  `TauCeti.BasedTopologicalSpace.basedMapCircleHomeomorph` (`Map_*(S¹, Y) ≅ ΩY`),
-  `TauCeti.BasedTopologicalSpace.basedMapSphereHomeomorphIteratedLoopSpace`
-  (`Map_*(Sᵏ, X) ≅ Ωᵏ X`), `TauCeti.basedMapSphere2HomeomorphBasedContractibleConstLoopPath` and
-  `TauCeti.sphere2HomeomorphContractibleConstLoopPath` (`P_{⋆→Q}𝓛₀Q ≅ Map_*(S², Q)` and
-  `P_{Q→Q}𝓛₀Q ≅ Map(S², Q)`), `TauCeti.BasedTopologicalSpace.loopSpace2ToMapCircle`
-  (`Ω²X → Map(S¹, ΩX)`) with the degree-raising map `TauCeti.degreeRaising`
-  (`TauCeti/AlgebraicTopology/Homotopy/DegreeRaising.lean`), the section by constant maps
-  `TauCeti.mappingSpaceEval_comp_const'`, and for a topological group `G`,
-  `TauCeti.mappingSpaceGroupHomeomorph` (`G × Map_*(X, G) ≅ Map(X, G)`) with its Moore form
-  `TauCeti.sphere2GroupHomotopyEquivMoore`.
-- DG local systems (`TauCeti/AlgebraicTopology/DGLocalSystem/`): the loop DG algebra
-  `TauCeti.loopChainAlgebra` with `TauCeti.loopChain_isDGAlgebra`, its augmentation and
-  functoriality `TauCeti.loopChainMap`; DG local systems `TauCeti.DGLocalSystem` (right DG
-  modules over it, the source's Definition 1.8) with pullback `TauCeti.DGLocalSystem.pullback`,
-  and families over chosen basepoints `TauCeti.DGLocalSystemFamily`; the chain bimodule of Moore
-  paths between two basepoints `TauCeti.pathChain_isDGBimodule`; the DG local system of a map
-  `TauCeti.fibrationLocalSystem` (the chains of the fibre of its Moore-path replacement), that of
-  a transitive lifting function `TauCeti.liftingLocalSystem`, the transport quasi-isomorphism
-  `TauCeti.isQuasiIso_transportLocalSystemHom` and the comparison zigzag
-  `TauCeti.liftingLocalSystemRoof`; classical local systems as the DG local systems concentrated
-  in degree zero, `TauCeti.classicalDGLocalSystemEquivalence`; rank-one twisting
-  `TauCeti.RankOneLocalSystem` with `TauCeti.RankOneLocalSystem.twistedCochainComplexIso` (the
-  source's Lemma 2.1 and Proposition 2.2) and `H(𝓕 ⊗ L) ≅ H(𝓕) ⊗ L`; and the action of `π₁` on
-  the homology of a DG local system, `TauCeti.IsDGRightModule.cohomologyRepresentation`.
-- Twisted complexes (`TauCeti/Algebra/Homology/DG/Twisted/`): twisting cocycles
-  `TauCeti.TwistingCocycle` (the source's Definition 1.9, with
-  `d (m x y) = Σ_z (−1)^{ind x − ind z} m x z · m z y` and one-sidedness as data, automatic over a
-  cohomologically nonpositive algebra by `TauCeti.TwistingCocycle.one_sided_of_nonpos`); the
-  twisted differential `TauCeti.twistedDifferential` with `TauCeti.twistedDifferential_sq_zero` and
-  the twisted complex `TauCeti.TwistingCocycle.twistedCochainComplex`; continuation cocycles
-  `TauCeti.ContinuationCocycle` (Definition 1.10,
-  `d (ν x y) = Σ_z m⁺ x z · ν z y + Σ_z (−1)^{ind x − ind z − 1} ν x z · m⁻ z y`) with their chain
-  maps `TauCeti.ContinuationCocycle.continuationHom`; parametrized cocycles
-  `TauCeti.ParametrizedCocycle` (Definition 1.11) with their chain homotopies; homologous
-  cocycles `TauCeti.Homologous` with `TauCeti.Homologous.homotopyEquiv`; the index filtration with
-  its spectral sequence `TauCeti.TwistingCocycle.indexSpectralSequence`, finite convergence, first
-  page and second page `TauCeti.TwistingCocycle.indexSpectralSequenceSecondPageXIso` (the homology
-  of the classical complex with coefficients `H_q(𝓕)`), continuation maps of spectral sequences
-  `TauCeti.ContinuationCocycle.indexSpectralSequenceMap`; the classical twisted complex of a
-  classical local system `TauCeti.classicalTwistedCochainComplexIso`; and row-finite twisting
-  cocycles over an arbitrary graded basis `TauCeti.RowFiniteTwistingCocycle` with their free
-  modules, continuations, homotopies and cell filtration.
-- Lemma 3.41 of the source, `TauCeti.isAspherical_iff_doubleLoopSpace_singularHomology`, with its
-  cubical and Moore forms, for path-connected `X : Type`
-  (`TauCeti/AlgebraicTopology/Homotopy/LoopSpace/Aspherical.lean`), and the first homology of the
-  double loop space `TauCeti.MooreLoopSpace.doubleFirstCubicalHomologyAddEquiv`
-  (`H₁(Ω²X) ≅ π₃(X)` when `π₂(X) = 0`).
-- The integral fundamental class of a compact oriented topological manifold
-  `TauCeti.HomologicalOrientation.fundamentalClass` and its image under a map
-  `TauCeti.HomologicalOrientation.mapFundamentalClass`
-  (`TauCeti/AlgebraicTopology/Singular/LocalHomology/FundamentalClass.lean`); it needs an
-  orientation and has integer coefficients.
-- `TauCeti.IsDGAlgebra` (`TauCeti/Algebra/Homology/DG/Algebra/Defs.lean`): an internally
-  `ℤ`-graded `R`-algebra with an `R`-linear differential of degree `+1`, square zero and the
-  left graded Leibniz rule with sign `Int.negOnePow`. `TauCeti.IsDGRightModule`
-  (`TauCeti/Algebra/Homology/DG/Module/Right/Defs.lean`): degree `+1`, square zero and the
-  right graded Leibniz rule, under `[IsScalarTower R Aᵐᵒᵖ M]`, `[SetLike.GradedSMul …]` and
-  `[DirectSum.Decomposition ℳ]`. `DGRightModuleCat` and `DGAlgHom`
-  (`TauCeti/Algebra/Homology/DG/`) for restriction of scalars.
-- `HomotopyGroup.pathLoopSpaceMulEquiv : π_(m+1)(Ω X) ≃* π_(m+2)(X)`
-  (`TauCeti/Topology/Homotopy/HomotopyGroup/LoopSpace.lean`), the loop-space shift of Layer 2
-  item 3.
-- `TauCeti.IsAspherical X x` (`TauCeti/AlgebraicTopology/EilenbergMacLane/Basic.lean`):
-  `PathConnectedSpace X` and `Subsingleton (π_(n+2) X x)` for every `n`, with no Hausdorff or
-  CW condition; `IsEilenbergMacLaneSpaceOne` (same file), the degree-one Eilenberg–MacLane
-  property interface of Layer 1 item 4.
-- `LocalCoefficientSystem R X` (`TauCeti/AlgebraicTopology/LocalCoefficient.lean`), the functor
-  category from the fundamental groupoid, and twisted singular homology
-  (`TauCeti/AlgebraicTopology/Singular/Twisted/`), consumed by Layer 1 item 2 and Layer 3
-  item 3.
-- Cotangent bundles (`TauCeti/Geometry/Symplectic/Cotangent/Bundle/`): the cotangent bundle
-  `TauCeti.CotangentBundle I M` of a manifold, with or without boundary and in any dimension, its
-  Liouville form `TauCeti.CotangentBundle.liouvilleForm` (`λ_p(v) = p(dπ v)`, `Σ pᵢ dqᵢ` in
-  charts) and canonical form `TauCeti.CotangentBundle.symplecticForm = −dλ` (symplectic by
-  `TauCeti.CotangentBundle.isSymplectic_symplecticForm`; in charts the linear
-  `TauCeti.strongDualCotangentSymplecticForm`, so `ω(∂_q, ∂_p) = 1`), the fibrewise radial field
-  with `ι_{p∂_p} ω = −λ` (`TauCeti.CotangentBundle.symplecticForm_interior_vectorBundleEulerField`),
-  for a Riemannian metric the codisc and cosphere bundles `TauCeti.CotangentBundle.codiscBundle`
-  and `TauCeti.CotangentBundle.cosphereBundle`, with
-  `TauCeti.CotangentBundle.isLiouvilleDomain_codiscBundle` (for compact boundaryless `M` of
-  finite dimension, `(D*M, −λ)` is a Liouville domain) and
-  `TauCeti.CotangentBundle.isLiouvilleCompletion_codiscBundle`, and fibre translation by a
-  one-form `α`, `p ↦ p + α`, with
-  `TauCeti.CotangentBundle.mpullback_vectorBundleTranslateDiffeomorph_symplecticForm`
-  (`τ_α^* ω = ω − π^* dα`). The linear models `cotangentSymplecticForm` and
-  `cotangentLiouvilleForm` on `V × V^*` (`TauCeti/Geometry/Symplectic/Cotangent/`) with
-  `cotangentSymplecticForm_apply` and the fibre negation `TauCeti.cotangentFiberNeg`; the linear
-  `SymplecticForm` structure (`TauCeti/Geometry/Symplectic/AlmostComplex.lean`);
-  `SmoothAlmostComplexStructure` and `IsPseudoholomorphicAt`
-  (`TauCeti/Geometry/Symplectic/Manifold/`).
-- Liouville domains, periodic orbits, closed characteristics and capacities
-  (`TauCeti/Geometry/Symplectic/Liouville/`, `TauCeti/Geometry/Symplectic/Hamiltonian/`,
-  `TauCeti/Geometry/Symplectic/Capacity/`, `TauCeti/Geometry/Manifold/Flow/Periodic.lean`).
-  `TauCeti.IsLiouvilleDomain ω α W` for a compact subset `W` of an ambient manifold (`dα = ω`, a
-  Liouville field `ι_Z ω = α` transverse outward to `W = {f ≤ c}`), its completion inside the
-  ambient manifold `TauCeti.IsLiouvilleCompletion`, Liouville vector fields
-  `TauCeti.IsLiouvilleVectorField` (`L_Z ω = ω`), contact type and restricted contact type
-  `TauCeti.IsContactType` and `TauCeti.IsRestrictedContactType` (the latter with a primitive and a
-  transverse Liouville field defined on the whole manifold, with no completeness of the field),
-  Hamiltonians linear at infinity `TauCeti.IsLinearAtInfinity`, and exact embeddings
-  `TauCeti.IsExactLiouvilleEmbedding`. In `TauCeti/Geometry/Symplectic/Liouville/`: on a
-  hypersurface of contact type the primitive restricts to a contact form,
-  `TauCeti.IsContactType.isContactForm_mpullback` (`ContactType.lean`); for a complete Liouville
-  field the flow-out `(t, s) ↦ ψ_t(ι s)` of a smooth map `ι` pulls the primitive back to
-  `eᵗ ι^*α`, `TauCeti.mpullback_globalFlow_comp_eq_symplectization` (`Symplectization.lean`); and
-  the forward Liouville flow of a point outside the interior of a Liouville domain never enters
-  it, `TauCeti.IsLiouvilleDomain.flowOf_notMem`, so that for a complete field the trajectories
-  through the boundary are pairwise disjoint and meet it once,
-  `TauCeti.IsLiouvilleDomain.injOn_flowOf` (`Completion.lean`). Contact forms
-  `TauCeti.SmoothForm.IsContactForm`, Reeb vector fields `TauCeti.SmoothForm.reebVectorField`
-  with their rescaling `TauCeti.SmoothForm.IsContactForm.reebVectorField_smul` and sign
-  `TauCeti.SmoothForm.IsContactForm.reebVectorField_neg` (`TauCeti/Geometry/Contact/Reeb.lean`),
-  and the Reeb field of the restricted primitive on an energy level as a rescaled Hamiltonian
-  field, `TauCeti.SmoothTwoForm.IsNondegenerate.mfderiv_reebVectorField_mpullback`
-  (`TauCeti/Geometry/Symplectic/Hamiltonian/Reeb.lean`, for `dθ = −σ`). Periodic
-  solutions of a time-dependent vector field `TauCeti.periodicSolutions`, nondegenerate fixed points
-  `TauCeti.IsNondegenerateFixedPt`, and the finiteness of the 1-periodic orbits of a nondegenerate
-  Hamiltonian on a closed manifold
-  `TauCeti.SmoothTwoForm.IsNondegenerate.finite_periodicSolutions_hamiltonianVectorField`. The
-  characteristic line of a regular level and the independence of closed characteristics from the
-  defining function `TauCeti.SmoothTwoForm.IsNondegenerate.exists_homeomorph_isMIntegralCurve_comp`.
-  Closed characteristics contractible in `W`,
-  `TauCeti.SmoothTwoForm.HasContractibleClosedCharacteristic`, and the contractible almost existence
-  property `TauCeti.SmoothTwoForm.HasContractibleAlmostExistence` (the source's Definition 1.1:
-  almost every regular level near `c` carries one; properness and regularity of `c` are hypotheses
-  of the theorems, not of the definition). The `π₁`-sensitive Hofer–Zehnder capacity
-  `TauCeti.SmoothTwoForm.contractibleHZCapacity σ W`, whose admissible Hamiltonians may have fast
-  periodic orbits that are not contractible **in `W`** (so it is the source's `c°_HZ(W)` of
-  Definition 6.1 for the whole domain, conformal and invariant under symplectomorphisms, but not
-  monotone under inclusions), the relative capacity
-  `TauCeti.SmoothTwoForm.relContractibleHZCapacity` (Definition 5.3, contractibility tested in the
-  ambient manifold, with nonnegative Hamiltonians where the source uses their negatives), and the
-  existence of a closed characteristic on some level of every interval below a finite capacity,
-  `TauCeti.SmoothTwoForm.IsNondegenerate.exists_mem_Ioo_hasContractibleClosedCharacteristic`, a
-  dense set of levels, not almost every level. The action of a loop in a symplectic vector space,
-  `TauCeti.SymplecticForm.hamiltonianAction` (`∫ D^*ω + ∫ H dt` for the cone cap `D`).
-- Capped Floer algebra (`TauCeti/Geometry/Symplectic/Floer/`): for an abelian group `S` with area
-  `ω : S →+ ℝ` and Chern number `c : S →+ ℤ`, the period group
-  `TauCeti.Floer.PeriodGroup ω c = S / (ker ω ∩ ker c)`, the cap classes
-  `TauCeti.Floer.CapClass` of an `S`-torsor with their recapping laws, and the Novikov ring
-  `TauCeti.Floer.NovikovRing` with valuation `−ω`. These are algebraic: `S`, the torsor and the
-  homomorphisms are supplied by the caller.
-- Local compactness of pseudoholomorphic curves in a chart
-  (`TauCeti/Geometry/Symplectic/JHolomorphic/Energy/` and
-  `TauCeti/Geometry/Symplectic/JHolomorphic/RemovableSingularity.lean`), consumed by Layer
-  7.C.3. The structure is one `C²` matrix-valued `J : V → (V →L[ℝ] V)` on an open set `W` of a
-  real inner product space with `J(x)² = −1` on a compact `K ⊆ W`; curves are `C³` solutions of
-  `∂ₜu = J(u) ∂ₛu` on an open `Ω ⊆ ℂ` with image in `K`, and energy is `∫ ‖∂ₛu‖²`. Energy
-  quantization `TauCeti.exists_pos_forall_le_integral_norm_fderiv_one_sq_of_ne` (a nonconstant
-  plane has energy at least a threshold `δ > 0` depending on `J` and `K`); finitely many
-  bubbling points `TauCeti.exists_pos_forall_exists_strictMono_finset_norm_fderiv_le` (for a
-  sequence with energy at most `E`, a subsequence and a finite `Z ⊆ Ω` with `#Z · δ ≤ E`, energy
-  at least `δ` concentrating at each point of `Z`, and derivatives bounded on compact subsets of
-  `Ω ∖ Z`); locally uniform convergence off `Z` to a continuous limit with image in `K`,
-  `TauCeti.exists_pos_forall_tendstoLocallyUniformlyOn_subseq_off_finset`; and continuous removal
-  of a finite-energy puncture for a uniformly tamed structure,
-  `TauCeti.SymplecticForm.exists_continuousOn_update_of_finite_energy`. None of them lets `J`
-  vary along the sequence, constructs the rescaled bubbles, or gives smoothness of the limit or at
-  the puncture; for spheres those come with gap:genus-zero-stable-map-compactness (below), and
-  for Floer cylinders they are 7.C.3's, with PseudoholomorphicCurveAnalysis PH5 and HeegaardFloer
-  F2.3.
-- The Hamiltonian formalism on manifolds (`TauCeti/Geometry/Symplectic/Manifold/`,
-  `TauCeti/Geometry/Symplectic/Hamiltonian/`), consumed by Layer 6 item 0. Two-forms are the
-  degree-two smooth forms `TauCeti.SmoothTwoForm`, with evaluation
-  `TauCeti.SmoothBundleForm.eval₂`, the pullback `TauCeti.SmoothForm.mpullback` and
-  `TauCeti.SmoothForm.eval₂_mpullback`, the flat maps `TauCeti.SmoothTwoForm.flat` and
-  `TauCeti.SmoothTwoForm.isNondegenerate_iff_isInvertible_flat`, the predicates
-  `TauCeti.SmoothTwoForm.IsNondegenerate` (injective flat maps) and
-  `TauCeti.SmoothTwoForm.IsSymplectic`, and the restriction to open subsets
-  `TauCeti.SmoothTwoForm.IsSymplectic.mpullback_subtype_val` with
-  `TauCeti.Manifold.tangentSpaceOpenEquiv`. Hamiltonian vector fields:
-  `TauCeti.SmoothTwoForm.IsHamiltonianVectorField` (`ι_X ω = df`, with
-  `TauCeti.SmoothTwoForm.isHamiltonianVectorField_iff_interior_eq`), the field
-  `TauCeti.SmoothTwoForm.hamiltonianVectorField` (`(ω♭)⁻¹ df`, junk `0` where `ω♭_x` is not
-  invertible) with `TauCeti.SmoothTwoForm.hamiltonianVectorField_add`,
-  `TauCeti.SmoothTwoForm.hamiltonianVectorField_const_smul` and
-  `TauCeti.SmoothTwoForm.hamiltonianVectorField_comp`, and in finite dimension
-  `TauCeti.SmoothTwoForm.IsNondegenerate.isHamiltonianVectorField_iff_eq` and
-  `TauCeti.SmoothTwoForm.IsNondegenerate.contMDiff_hamiltonianVectorField_uncurry`;
-  `TauCeti.SmoothTwoForm.IsHamiltonianVectorField.mvfderiv_apply_self` and conservation of
-  energy `TauCeti.SmoothTwoForm.IsHamiltonianVectorField.apply_eq_of_isMIntegralCurveOn`. The
-  Poisson bracket `TauCeti.SmoothTwoForm.poissonBracket` (`{f, g} = ω(X_f, X_g)`) with
-  `TauCeti.SmoothTwoForm.neg_poissonBracket`, `TauCeti.SmoothTwoForm.poissonBracket_add_left`,
-  and in finite dimension `TauCeti.SmoothTwoForm.IsNondegenerate.poissonBracket_eq_mvfderiv`,
-  `TauCeti.SmoothTwoForm.IsNondegenerate.hamiltonianVectorField_poissonBracket` and
-  `TauCeti.SmoothTwoForm.IsNondegenerate.poissonBracket_jacobi`; the bracket of Hamiltonian
-  vector fields of a closed form `TauCeti.SmoothTwoForm.IsHamiltonianVectorField.mlieBracket`,
-  with the differential of `ω(X, Y)`,
-  `TauCeti.SmoothTwoForm.IsHamiltonianVectorField.mvfderiv_eval₂`;
-  first integrals `TauCeti.SmoothTwoForm.IsFirstIntegral` with
-  `TauCeti.SmoothTwoForm.IsFirstIntegral.apply_maximalIntegralCurve`. Naturality in finite
-  dimension: `TauCeti.SmoothTwoForm.IsNondegenerate.mfderiv_hamiltonianVectorField_comp`,
-  `TauCeti.SmoothTwoForm.IsNondegenerate.poissonBracket_comp` and
-  `TauCeti.SmoothTwoForm.IsNondegenerate.isMIntegralCurve_comp_hamiltonianVectorField`.
-  Complete Hamiltonian flows preserve a closed form,
-  `TauCeti.SmoothTwoForm.IsHamiltonianVectorField.mpullback_globalFlow`. The linear theory:
-  `TauCeti.SymplecticForm`, `TauCeti.SymplecticForm.IsSymplectomorphism`,
-  `TauCeti.SymplecticForm.constSmooth` and
-  `TauCeti.SymplecticForm.hamiltonianVectorField_constSmooth`. Flows: the maximal flow
-  `TauCeti.flowOf` on `TauCeti.flowDomain` with `TauCeti.contMDiffOn_flowOf`; the maximal
-  time-dependent flow `TauCeti.timeDependentFlowOf` of a time-dependent vector field, built from
-  its suspension `(t, x) ↦ (1, X_t x)` on `ℝ × M`, on `TauCeti.timeDependentFlowDomain`, with
-  `TauCeti.contMDiffOn_timeDependentFlowOf`, `TauCeti.hasMFDerivAt_timeDependentFlowOf` and
-  `TauCeti.timeDependentFlowOf_trans_of_mem`; on integral curves
-  `IsMIntegralCurveOn.apply_eq_of_mvfderiv_apply_eq_zero` and
-  `TauCeti.Manifold.hasDerivAt_comp_curve`; the vector-space variational equation
-  `TauCeti.hasDerivAt_fderiv_timeDependentFlow`. What the pins lack of this formalism, in
-  infinite dimension, for maps between manifolds and for incomplete or time-dependent flows, is
-  Layer 6 item 0's.
-- The Morse lemma `IsMorse.nonempty_morseChart` (`TauCeti/Geometry/Manifold/Morse/Lemma.lean`)
-  and the Morse index (`TauCeti/Geometry/Manifold/Morse/Index.lean`); finite-dimensional Sard
-  (`TauCeti/Analysis/Calculus/Sard/`). Sard–Smale for Fredholm maps on Banach spaces,
-  `TauCeti.isMeagre_image_criticalPoints_of_isFredholm`
-  (`TauCeti/Analysis/Fredholm/SardSmale.lean`), is at the pin; HeegaardFloer Lane F0 owns its
-  sharp finite-order bound and the Banach-manifold, bundle and Fredholm-section adapters through
-  which the Floer layers use it.
-- Serre fibrations (`TauCeti/Topology/Homotopy/SerreFibration/`, with the homotopy lifting
-  property `TauCeti.HasHomotopyLiftingProperty` in `TauCeti/Topology/Homotopy/Lifting/`):
-  `TauCeti.TopCat.serreFibrations`, the `MorphismProperty` of `TopCat.{u}` given by the right
-  lifting property against the bottom inclusions `Dⁿ → Dⁿ × I`; its characterizations
-  `TauCeti.TopCat.mem_serreFibrations_iff` (homotopy lifting for the closed unit ball of every
-  `ℝⁿ`) and `TauCeti.TopCat.mem_serreFibrations_iff_cube` (for every cube `Fin n → I`); the
-  instances `IsMultiplicative`, `RespectsIso`, `IsStableUnderBaseChange`,
-  `IsStableUnderRetracts` and `IsStableUnderProductsOfShape`;
-  `TauCeti.TopCat.mem_serreFibrations_pullbackFst`, `TauCeti.TopCat.mem_serreFibrations_fst`,
-  `IsCoveringMap.mem_serreFibrations` and
-  `TauCeti.TopCat.exists_path_lift_of_mem_serreFibrations`;
-  `TauCeti.TopCat.mem_serreFibrations_of_exists_trivialization` and
-  `TauCeti.TopCat.mem_serreFibrations_proj` (a locally trivial map, or the projection of a
-  `FiberBundle`, is a Serre fibration, with no paracompactness hypothesis on the base; Hatcher
-  Proposition 4.48); and `TauCeti.TopCat.exists_lift_openBox_of_mem_serreFibrations` (a lift
-  prescribed on the bottom face and the boundary cylinder of a finite cube `I × Iᴺ`, continuous on
-  that union only, extends to the whole cylinder; `N` may be empty). What Layer 1 item 2 assumes
-  of them: total space and base are objects of one `TopCat.{u}`, and the predicate builds in no
-  surjectivity. Lifting against arbitrary relative CW pairs and the fibration homotopy exact
-  sequence are not at the pin; they are AlgebraicTopology Stage 5.5's.
-- Hurewicz fibrations (`TauCeti/Topology/Homotopy/HurewiczFibration/`,
-  `TauCeti/Topology/Homotopy/MappingPath/`, `TauCeti/Topology/Homotopy/LoopSpaceFibration.lean`):
-  `TauCeti.IsHurewiczFibration.{w} p`, continuity and homotopy lifting for every test space in
-  the universe `w`, with `TauCeti.IsHurewiczFibration.mem_serreFibrations`,
-  `TauCeti.IsHurewiczFibration.comp`, `TauCeti.IsHurewiczFibration.pullback` and
-  `TauCeti.isHurewiczFibration_fst`; lifting functions `TauCeti.LiftingFunction p` on the
-  mapping-path space `TauCeti.MappingPathSpace p`, with
-  `TauCeti.isHurewiczFibration_iff_nonempty_liftingFunction`; relative lifting for NDR pairs,
-  `TauCeti.IsHurewiczFibration.exists_lift_of_ndrPair`; fibre transport
-  `TauCeti.LiftingFunction.transport`; the mapping-path fibres `TauCeti.MappingPathFiber`, the
-  homeomorphisms `TauCeti.mappingPathFiberConstHomeomorphPath` onto native `Path b k` and
-  `TauCeti.mappingPathFiberConstHomeomorphLoopSpace` onto native `LoopSpace K k`, the endpoint
-  fibration `TauCeti.MappingPathSpace.isHurewiczFibration_endpoint` and the contractibility of
-  the based path space; and `TauCeti.IsHurewiczFibration.loopMap` and
-  `TauCeti.IsHurewiczFibration.loopMap_loopMap` on fixed-interval loop spaces. The Moore-path
-  forms are in the Moore-path bullet above.
-- The spectral sequence of a filtered complex
-  (`TauCeti/Algebra/Homology/SpectralSequence/Filtered/`): for an increasing filtration
-  `F : ℤ → Subobject K` of a cochain complex in an abelian category, the `EInt`-indexed functor
-  `CochainComplex.filtrationFunctor`, its spectral sequence `CochainComplex.spectralSequence`
-  for Mathlib's `coreE₂Cohomological` (first page numbered `2`, object `H^{p+q}(F_{q+1}/F_q)`
-  at `(p, q)`, differential to `(p + 2, q − 1)`), the first-page identifications
-  `CochainComplex.spectralSequenceFirstPageXIsoCokernel` and
-  `CochainComplex.spectralSequence_first_page_d_eq`, the abutment
-  `CochainComplex.filtrationAbutmentIso`, strong convergence for a finite filtration
-  (`CochainComplex.filtrationSpectralSequencePageXIsoGradedOfFinite`) and, over `ModuleCat R`,
-  for an exhaustive one (`CochainComplex.filtrationSpectralSequencePageXIsoGradedOfExhaustive`),
-  naturality `CochainComplex.filtrationFunctorMap` and the comparison theorem
-  `CochainComplex.isIso_homologyMap_of_isIso_spectralSequence_page`; and its instance on singular
-  chains, `TauCeti.singularChainFiltration` with `TauCeti.filteredSpaceSpectralSequence`
-  (`TauCeti/AlgebraicTopology/Singular/FilteredSpace.lean`). Decreasing complete filtrations and
-  their convergence are not at the pin; they are AlgebraicTopology Stage 5.0's.
-
-### From TauCetiRoadmap.PseudoholomorphicCurveAnalysis
-
-- PH1–PH7: local `W^{k,p}` maps on planar domains and half-discs, totally real boundary
-  conditions (PH2.2, PH3.4), the Cauchy and Beurling operators (PH3.1), interior and boundary
-  estimates and the similarity principle (PH3), the weak pseudoholomorphic equation with an
-  inhomogeneous term, of which Floer's equation is a case (PH4.2), elliptic bootstrapping and
-  uniform estimates (PH5.1–PH5.2), real Cauchy–Riemann operators on compact bordered surfaces
-  with their Fredholm theory and cokernel identification (PH6.3), the Maslov index of a bundle
-  pair and closed and bordered Riemann–Roch (PH7.2). Consumed by Layer 7.
-
-### From TauCetiRoadmap.HeegaardFloer
-
-- Lane M: Morse–Smale pairs, compactified trajectory spaces with their corner structure and
-  gluing, and the Morse complex over `𝔽₂` and `ℤ`, with its MorseTheory M1–M6 prerequisites
-  (Layer 5, Layer 7.C.1a).
-- Lane F0: Fredholm theory and the sharp Sard–Smale theorem with its Banach-manifold and bundle
-  adapters, on Tau Ceti's Sard–Smale; Lane F1: Sobolev norms on strips and cylindrical ends,
-  determinant lines, relative `c₁` and Riemann–Roch on punctured surfaces with weighted ends,
-  F1.3's spectral flow, F1.4's Robbin–Salamon and Conley–Zehnder indices with `CZ = −μ_RS`,
-  and F1.5's clutching Chern number and its equality
-  with CharacteristicClasses C3.2's `c₁`.
-- Lane F2: symplectic manifolds, F2.1's contraction inverse of a strongly nondegenerate
-  two-form on arbitrary covectors with its smooth dependence on the base point, its `df`
-  specialization `ι_{X_f} ω = df` and its domain-local Moser lemma (Layer 6 item 0), almost
-  complex structures (F2.1's compatible-structure family
-  and tame-to-compatible contraction), `J`-holomorphic maps, energy, compactness (F2.2a and
-  F2.2c unique continuation and factorization; F2.3's interior mean-value and ε-regularity
-  estimates, monotonicity and smooth removal of finite-energy punctures under compact-image
-  hypotheses, for Layer 7.C.3), transversality and gluing; F2.6a–d sphere
-  domains, factorization, marked quotient and evaluation carriers and the smooth-`J` selection
-  route; F2.6c's minimal-area compactness retains its area hypothesis.
-
-### From TauCetiRoadmap.AlgebraicTopology
-
-- Stage 2: relative singular homology, local coefficient systems and their transport along
-  paths.
-- Stage 4: CW pairs, cellular approximation, cofibrations, 4.4's based circle and sphere models,
-  4.5's CW structure on `k(B × B)` and its product-cell filtration; §4.10's CW approximation of
-  every space and of pairs, its connected-map homology comparison with local coefficients and
-  the cohomology and pair forms of weak-equivalence invariance.
-- Stage 5.0: the homological and decreasing-cochain adapters of Tau Ceti's filtered-complex
-  spectral sequence, with Weibel's classical and complete convergence theorems. Stages 5.1–5.4:
-  Eilenberg–Zilber, the Künneth theorems and transfer. Stage 5.5: for Tau Ceti's
-  `TauCeti.TopCat.serreFibrations`, relative-CW lifting, fibre transport and the fibration
-  homotopy exact sequence, and the homological, cohomological and multiplicative Serre spectral
-  sequences over CW and arbitrary bases, with Serre preimage excision. What Layer 1 assumes of
-  them is stated in its item 2: strong convergence in each total degree, path-transport
-  monodromy and the Koszul sign `(−1)^{q p'}` of the `E₂` product.
-- Stage 6: 6.0–6.2's cochains and cup product, fundamental classes (6.3), the orientation local
-  system, cap products, Poincaré and Poincaré–Lefschetz duality, and 6.5's homological degree
-  `f_*[S] = deg(f) · [Q]`, the only degree this roadmap uses.
-- Stages 8.1–8.7: relative homotopy groups, 8.2's Kan and Moore comparison and the
-  cube-simplex orientation comparison, 8.3's Hurewicz map `h : π_n(X, x) → H_n(X; ℤ)` for every
-  `n ≥ 1` (of which Layer 1 item 1 proves the degree-one isomorphism), the absolute and relative
-  Hurewicz theorems in degrees `≥ 2`, 8.5's Whitehead theorem, 8.6's positive sphere
-  orientation; Stage 8.8 and 8.8a's bar construction `|nerve (SingleObj G)|` with its
-  contractible cover and fundamental-group normalization; 8.8c's functorial abelian
-  Eilenberg–MacLane spaces `K(A, n)` with the normalized identification `π_n ≅ A`, the
-  directed-union property, uniqueness and the loop identification `ΩK(A, n) ≃ K(A, n − 1)`; 8.8d's
-  `K(A, 1)` axiom for the torsion and power-torsion classes and Hurewicz modulo a Serre class.
-  Nothing from Stages 8.9–8.12 is consumed.
-
-### From other roadmaps
-
-- **DGAInfinity.** Layer 1: DG algebras, right DG modules, restriction of scalars, tensor
-  products, the opposite-algebra bridge. Layer 4: Maurer–Cartan elements in the strictly
-  upper-triangular regime. Layer 5: one-sided twisted complexes, semi-free modules and derived
-  tensor products.
-- **CharacteristicClasses.** C3.2's topological `c₁` (through HeegaardFloer F1.5), and `w₁`,
-  `w₂` for Layer 9 item 1.
-- **DifferentialGeometry.** Layers 0–1: smooth differential forms, pullback, the exterior
-  derivative `mextDeriv`, the Cartan calculus; item 0.4's migration of `SmoothTwoForm` onto the
-  generic form carrier, which this roadmap uses. Layer 3: flows of vector fields.
-- **GeometricTopology.** Layer 1: manifolds with boundary, collars, tubular neighbourhoods,
-  connected sum.
-- **ContactGeometry** CG4: for a hypersurface `Y` transverse to the Liouville field `Z` of an
-  exact symplectic manifold (CG4's sign `ω = −dλ`, `ι_Z ω = −λ`, so its `λ` is `−λ_Z` here), the
-  Liouville collar, a diffeomorphism `Φ(s, y) = φ_Z^s(y)` from a neighbourhood of `{0} × Y` in
-  `ℝ × Y` onto a neighbourhood of `Y` with `Φ^*(−λ) = eˢ α` and `Φ^*ω = d(eˢ α)` for
-  `α = ι_Z ω|_Y`, with no completeness of `Z`. Consumed by the contact-type step of Layer 6
-  item 4; the complete-field statements of that item's graph construction are Tau Ceti's.
-- **UniversalCovers** (completed): covering spaces and their induced maps on homotopy groups.
-- **LieGroups** Layers 4–6: Layer 4's Lie's third theorem and the bijection between Lie-group
-  homomorphisms out of a simply connected group and Lie-algebra homomorphisms; Layer 5's
-  universal cover of a connected Lie group with its discrete central kernel `≅ π₁(G)`; Layer
-  5A's `Ad`-invariant inner product on the Lie algebra of a compact connected Lie group,
-  obtained by Haar averaging, with the skew-adjointness of every `ad X`, the orthogonal
-  splitting `𝔤 = 𝔷 ⊕ [𝔤, 𝔤]`, the semisimplicity of the centreless ideal `[𝔤, 𝔤]` and the
-  negative definiteness of its Killing form; Layer 6's maximal tori with their maximal abelian
-  Lie algebras and the exhaustion of a compact connected group by its maximal tori, its compact
-  real roots spanning `𝔱_ss^*`, and its rank-one representatives: for each root `α` the compact
-  subalgebra `𝔰𝔲(2)_α` built from the real root plane and the coroot, and the homomorphism
-  `SU(2) → G` integrating it, normalized by `dφ(diag(i, −i)) = α^∨`. **CompactGroups** Layer 0:
-  the Haar probability measure of a compact group and averaging against it. Consumed by Layer
-  11 only.
-- **MorseNovikov.** N1: period-controlled completed group rings and modules, the support
-  condition, finite-below convolution, geometric-series inverses. N4: based chain torsion,
-  total quotient rings, determinant comparisons, finite-cyclic norms. N6's finite-dimensional
-  bifurcation theorem is not consumed.
-- **RiemannianGeometry.** R2: Jacobi fields and endpoint-exponential comparisons. R3: the
-  index form, finite node-value reduction, complete-manifold finite broken-geodesic carriers and
-  path-energy comparisons; its based-loop sphere calculation uses AlgebraicTopology Stage 5.5's
-  Serre spectral sequence and nothing of this roadmap.
-- **SmoothBundlesConnections** B6.0: uniform normal-radius and strong-convexity bounds on a
-  compact Riemannian manifold (Layer 5 item 6).
-- **MorseTheory** M4: the critical number `c(M)` (Layer 7.C.6h); M1–M6 through HeegaardFloer
-  Lane M.
-- **SymplecticGeometry** S0: the smooth mapping torus `Y_φ`, its quotient charts, descended
-  `∂_t` flow and vertical form, instantiated by Layer 7.T.1 at `φ = f⁻¹`.
-- **HamiltonianReduction** R1a.2: the identity component `Symp₀(M, ω)` of the symplectomorphism
-  group in its compact-open `C^∞` topology, with its characterization as the endpoints of smooth
-  symplectic paths from the identity, for the transport of `f` and of the component `C` under
-  symplectic isotopy in Layer 7.T item 9. Nothing of R1a.0–R1a.1 and R1a.3–R1a.4 (flux, the
-  Hamiltonian kernel, the quotient `H¹_dR/Γ_ω`) or of R2–R5 is consumed.
-
-### What AnalyticStableMaps must provide
-
-Layer 7.C.2d consumes one declared gap of AnalyticStableMaps: the genus-zero, compact-family case
-of its Layer 3 compactness theorem, which that roadmap proves in all genera (its §§3.2–3.4 and
-3.7, with the evaluation maps of §11.1). This roadmap derives none of it from the Floer theory it
-builds, and constructs no stable maps or stable-map topology of its own.
-
-What AnalyticStableMaps must provide (gap:genus-zero-stable-map-compactness): for a closed
-symplectic manifold `(X, ω)` of dimension `2n`, a compact metrizable space `P` and a continuous
-map `p ↦ J_p` from `P` to the smooth `ω`-tame almost complex structures on `X` with the `C^∞`
-topology, every class `A ∈ H₂(X; ℤ)` and every `k ≥ 0`:
-
-- the space `M̄_(0,k)(A; P)` of pairs `(p, [u])`, with `[u]` an isomorphism class of `k`-marked
-  genus-zero stable `J_p`-holomorphic maps of class `A` (no Hamiltonian term, components possibly
-  multiply covered, every constant component carrying at least three special points), in the
-  Hausdorff-graph topology, is compact, Hausdorff and second countable, hence metrizable, and its
-  projection to `P` is continuous and proper;
-- convergence in that topology is Gromov convergence, and every sequence `(p_ν, u^ν)` of
-  `k`-marked genus-zero stable `J_(p_ν)`-maps of arbitrary classes with `sup_ν E(u^ν) < ∞` has a
-  convergent subsequence (the form of Ivashkovich–Shevchishin, *Gromov compactness theorem for
-  stable curves*, Theorem 1.1 with Remark 2 for marked points, `ivashkovich-shevchishin` lines
-  299 and 314, whose area bound the energy bound gives through the uniformly equivalent metrics
-  of the compact family);
-- Gromov limits preserve the integral class and the energy, `[u^ν] = [u]` for all large `ν` and
-  `E(u) = ω([u])`;
-- there is `ħ > 0` with `E(v) ≥ ħ` for every nonconstant `J_p`-holomorphic sphere `v` and every
-  `p ∈ P`;
-- a stable map with `a` nonconstant components has at most `k − 2 + 2a` constant components and
-  at most `k − 3 + 3a` nodes;
-- the evaluation maps `ev_i(p, [u]) = u(z_i)` into `X`, `1 ≤ i ≤ k`, are continuous.
-
-## How to read the build
-
-Layers 0–4 are reusable algebraic topology and algebra, in build order, on the cubical chains,
-Moore paths, DG local systems and twisted complexes of the pinned Tau Ceti: fundamental chains of
-manifolds with corners (0); the general facts of topology the later layers need, on
-AlgebraicTopology's Serre spectral sequences, filtered complexes and Eilenberg–MacLane spaces:
-the cubical degree-one Hurewicz isomorphism, the cubical transport of the Serre spectral
-sequence, mod-2 vanishing, the Pontryagin–Thom collapse and the evaluation bundle of `Diff(M)`
-(1); the positive-duration Moore loop maps of Hurewicz fibrations, Hurewicz fibrations from
-bundles and coverings, and the canonical homeomorphisms the pins lack (2); basepoint change of DG local systems (3); the Brown resolution (4). Layer 5 is DG Morse
-homology on closed manifolds and on the free loop space, with its fibration theorem. Layer
-6 is the Hamiltonian and Liouville dynamics the Floer layers need. Layer 7 is classical
-Hamiltonian Floer homology and symplectic homology on the analytic tower of HeegaardFloer, with
-three classical branches: the capped monotone and `c₁`-zero theory with its PSS comparison and
-Arnold bound (7.C), the fixed-point theory of an arbitrary symplectomorphism on a spherically
-aspherical target (7.G) and the Floer–Novikov torsion (7.T). Layer 8 twists Layer 7's
-all-dimensional moduli spaces into the DG Floer toolset, Layer 9 proves the DG Viterbo
-isomorphism for cotangent bundles, and Layer 10 derives the criteria and the theorems on almost
-existence and capacities. Layer 11, independent of Layers 2–10, decides when a compact connected
-Lie group is aspherical. Each layer ends with its examples and its dependencies; a `*Needs:*`
-line lists what a target's statement and route need, item by item, so that a different proof
-route is not blocked behind an unrelated layer.
-
 ## Layer 0: cubical singular chains
 
 The chains of this roadmap are Tau Ceti's Massey-normalized cubical chains, with their strictly
@@ -1420,6 +668,7 @@ Layer 1. Source: Hatcher,
 Serre, *Homologie singulière des espaces fibrés*, Chapter II (item 2); BDHO §§9.2 and 11.3 (item
 5); Weibel §5.5; Serre, *Groupes d'homotopie et classes de groupes abéliens*; Palais, *Local
 triviality of the restriction map for embeddings*.
+
 ## Layer 2: path spaces, mapping spaces, and their fibrations
 
 The Moore paths, Moore loops and free Moore loops, the Moore lifting functions, the Moore-path
@@ -1621,7 +870,6 @@ Own the change of basepoint and the pullback along maps that do not preserve cho
 Tau Ceti's loop DG algebra, DG local systems, path bimodules, DG local system of a map, classical
 and rank-one local systems; DGAInfinity Layers 1 and 5. Source: BDHO Chapters 2, 5.1 and 7; the
 source paper §§1.4 and 2.3.
-
 ## Layer 4: twisting cocycles and the twisted complex
 
 Twisting cocycles on a finite graded set `P` (the source's Definition 1.9), with the twisting
@@ -1722,6 +970,7 @@ DGAInfinity Layer 5 (semi-free modules, derived tensor products).
 Tau Ceti `IsDGAlgebra`, `IsDGRightModule`, twisted complexes and row-finite twisted modules,
 `TauCeti.loopChainAlgebra`, Moore paths and cubical chains; DGAInfinity Layers 1, 4 and 5;
 AlgebraicTopology Stage 4. Source: the source paper §1.4; BDHO Chapters 3–4.
+
 ## Layer 5: Morse homology with DG coefficients
 
 This layer consumes Lane M of the Heegaard Floer roadmap for moduli spaces, compactness, gluing
@@ -3716,6 +2965,7 @@ Source: Salamon, *Lectures on Floer homology*, §§1.4–1.5, 2.4, 3.2–3.4 and
 Chapters 6–11; Seidel, *A biased
 view of symplectic cohomology*, §§3 and 7; Abouzaid, Chapter 1; Hofer–Salamon; Piunikhin–Salamon–Schwarz;
 Floer–Hofer–Salamon; Hutchings §§7.5–7.6 and 8.2; Lee I–II.
+
 ## Layer 8: the DG Floer toolset
 
 Items 1–5 build the DG Floer complex from representing chain systems for the Floer moduli spaces
@@ -3873,7 +3123,6 @@ or both are bounded above in the same sense (Theorem 3.49(ii), conditions (A) an
 
 Layer 7 items 2, 4 and 5 (all-dimensional compactifications, the Floer complex, symplectic
 homology); Layer 0 item 1; Layers 3–5 and Tau Ceti's DG local systems and twisted complexes. Source: the source paper §§3.3–3.7.
-
 ## Layer 9: the Viterbo isomorphism
 
 ### 9.1 The Viterbo twist and the canonical grading
@@ -4038,7 +3287,6 @@ Layers 5 (item 6), 7 (item 5) and 8 (item 7); Tau Ceti's classical and rank-one 
 AlgebraicTopology §4.10 (weak equivalences); AlgebraicTopology Stage 6 and CharacteristicClasses for `o_Q`, `w₁`, `w₂`.
 Source: the source paper §§1.5 and 4; Abouzaid Chapters 3–6; Abbondandolo–Schwarz, *On the Floer
 homology of cotangent bundles* and its corrigendum, for the untwisted case.
-
 ## Layer 10: the criteria and their applications to cotangent bundles
 
 ### 10.1 Theorem L
@@ -4662,6 +3910,758 @@ Material that is proved there and absent from Tau Ceti, and that this roadmap ca
 The Morse lemma and Sard's theorem are formalized there too, but Tau Ceti already has them, so
 they are not ported. Porting is ordinary Tau Ceti work: one claimed item at a time, adapted to
 Tau Ceti's Mathlib and conventions.
+
+## Scope and ownership
+
+**In scope.** Every numbered statement of §§1–6.2 of the source paper (Barraud, Damian,
+Humilière, Oancea, *Floer homology with DG coefficients. Applications to cotangent bundles*,
+arXiv:2404.07953) other than Definition 1.7 and Theorems B (Theorem 5.14), G, H and I, which the
+continuation roadmap DGFloerPartII owns, subject to the deferrals and exclusions below. The
+[source coverage](#source-coverage) section assigns each of them to a layer. Layer 7.C
+additionally builds the classical capped Hamiltonian Floer theory of closed positive
+spherically monotone and spherically `c₁`-zero targets in the contractible sector, with ordinary
+finite Laurent and completed Novikov coefficients, and its PSS comparison and Arnold bound;
+Layer 7.G builds the fixed-point Floer theory of an arbitrary symplectomorphism of a closed
+spherically aspherical target; Layer 7.T builds the Floer–Novikov torsion of a symplectomorphism
+in the w⁺-monotone range. None of these three classical branches extends Layer 8's
+all-dimensional DG-coefficient theory beyond that layer's own aspherical and atoroidal
+hypotheses.
+
+**Continuation.** The applications of this package to manifolds abundant with 2-spheres,
+knotted hypersurfaces and the multiple-realization criterion (the source's Definition 1.7,
+Theorems B, G, H and I, §§6.3–6.4 and §7), together with the homogeneous carriers, projective
+loop-space computations and explicit degree computations they rest on, are the subject of the
+continuation roadmap DGFloerPartII. DGFloerPartII consumes this roadmap and supplies nothing to it.
+
+**Owned here.** This roadmap owns everything it states that the deferrals below do not assign
+elsewhere. In particular it owns:
+
+- fundamental chains rel boundary of topological manifolds with corners in normalized cubical
+  chains (Layer 0);
+- the cubical and universe-polymorphic forms of the degree-one Hurewicz isomorphism
+  `π₁(X)ᵃᵇ ≅ H₁(X; ℤ)` (Layer 1 item 1), and the transport of AlgebraicTopology's homological
+  Serre spectral sequence over a CW base to normalized cubical chains (Layer 1 item 2);
+- the natural surjection `H₁(Z; ℤ) → H₁(Z; ℤ/2)`, the vanishing of `H̃_*(K(A, n); 𝔽₂)` for a
+  `ℤ[1/2]`-module `A`, the one-step lemma and the mod-2 vanishing theorem (Layer 1 item 4);
+- independence of the Pontryagin–Thom collapse of a framed submanifold from the tube, its effect
+  on fundamental classes and its compatibility with shriek maps (Layer 1 item 5);
+- local triviality of evaluation `Diff(M) → O` onto the orbit of a chosen point (Layer 1 item 6);
+- the positive-duration Moore loop maps of Hurewicz fibrations, Hurewicz fibrations from
+  numerable bundles and coverings, the compatibility of the Moore comparison with the fibre
+  actions, and the `π₀`-level shift of iterated loop spaces (Layer 2);
+- basepoint change of DG local systems by the derived tensor product, and the arbitrary-CW
+  Brown resolution (Layers 3–4);
+- the Barraud–Cornea construction, DG Morse homology, its fibration theorem and its free-loop
+  extension through broken geodesics (Layer 5);
+- the Hamiltonian formalism beyond what the pinned Tau Ceti states: Hamiltonian vector fields
+  of weakly nondegenerate forms, Hamiltonian functions and the Jacobi identity for their
+  brackets, the Poisson bracket of strongly nondegenerate forms and first integrals on Banach
+  manifolds, symplectic maps and symplectomorphisms between manifolds, the variational equation
+  of autonomous and time-dependent flows and the symplecticity of maximal Hamiltonian flows
+  (Layer 6 item 0);
+- the action functional on contractible and free loops, symplectic asphericity and
+  atoroidality, the completion of an abstract Liouville domain, the magnetic fibre translation as
+  a symplectomorphism, the contact-type step and the graph construction behind Corollary E, the
+  ambient `π₁`-sensitive capacity of a subdomain, and almost existence on almost every level from
+  a finite capacity (Layer 6);
+- Hamiltonian Floer homology of periodic orbits, symplectic homology, the capped classical
+  branch, the global-seam branch and the Floer–Novikov torsion (Layer 7);
+- the DG Floer toolset and the DG Viterbo isomorphism (Layers 8–9);
+- the criteria for almost existence and finiteness of `c°_HZ` and their cotangent applications
+  (Layer 10);
+- the negative semidefinite Killing form of the Lie algebra of a compact connected Lie group
+  with its kernel, the Cartan 3-form argument that `π₃` of a nontrivial compact simply connected
+  semisimple Lie group is nonzero, the finite cover `T × K → G` of a compact connected Lie group
+  and the torus criterion (Layer 11).
+
+**Already in the library.** The pinned Tau Ceti has much of the algebraic topology, DG algebra
+and Hamiltonian dynamics that this package rests on, and this roadmap consumes it by name and
+file (supplier contracts, From Tau Ceti) without restating it:
+
+- Massey-normalized cubical singular chains, the strictly associative and unital cubical cross
+  product with its cubical Eilenberg–Zilber and Künneth theorems, the natural chain homotopy
+  equivalence with simplicial singular chains by acyclic models with its relative,
+  cross-product and local-coefficient forms, and the DG algebra of chains on a topological monoid
+  with the DG module of a space carrying a right action;
+- the degree-one Hurewicz isomorphism for path-connected spaces in the smallest universe with its
+  naturality, CW approximation of path-connected spaces, the invariance of singular, twisted and
+  cubical homology under weak homotopy equivalences, Serre classes as Mathlib's
+  `ObjectProperty.IsSerreClass` with the torsion and power-torsion classes, the attachment of
+  cells killing higher homotopy groups, the first step of mod-2 vanishing, and the Pontryagin–Thom
+  collapse of a framed tube;
+- the Serre-fibration predicate `TauCeti.TopCat.serreFibrations` with its disc and cube
+  characterizations, its closure under composition, base change, retracts and products, the
+  covering-map, product-projection and locally-trivial-bundle instances, and lifting with a
+  prescribed lift on the bottom and sides of a cube; the Hurewicz-fibration predicate
+  `TauCeti.IsHurewiczFibration` with lifting functions, relative lifting for NDR pairs, fibre
+  transport, the fixed-interval mapping-path carriers and loop maps, and the comparison with
+  Serre fibrations; the spectral sequence of a filtered cochain complex, with its first page,
+  naturality and convergence for finite and for exhaustive filtrations, and the Milnor `lim¹`
+  sequence of a tower of complexes;
+- Moore paths, Moore loops as a topological monoid and free Moore loops, transitive Moore
+  lifting functions, the Moore-path replacement of an arbitrary map with its endpoint Hurewicz
+  fibration, its strict right action of the Moore loops on the fibre and its fibre homotopy
+  equivalence for a Hurewicz fibration, the homotopy equivalence of Moore and fixed-interval
+  paths and loops, and the canonical homeomorphisms of mapping spaces out of spheres;
+- DG local systems on a pointed space with their pullback, the DG local system of a map and
+  of a transitive lifting function with the transport quasi-isomorphism, classical local systems
+  as the DG local systems concentrated in degree zero, rank-one twisting, and the homology of a
+  DG local system as a representation of `π₁`; twisting cocycles, the twisted complex,
+  continuation and parametrized cocycles with their chain maps and homotopies, homologous
+  cocycles, the index filtration with its spectral sequence and second page, and the row-finite
+  twisted modules over an arbitrary graded basis;
+- the Lemma 3.41 of the source, that a path-connected space is aspherical exactly when its
+  double loop space has the integral homology of a point;
+- the cotangent bundle of a manifold with its Liouville form and canonical symplectic form
+  `ω = −dλ`, its codisc and cosphere bundles as a Liouville domain and its completion, fibre
+  translation by a one-form; Liouville domains, Liouville vector fields, contact type and exact
+  embeddings; periodic solutions of time-dependent vector fields and nondegenerate fixed points;
+  the characteristic line of a regular level and the independence of closed characteristics
+  from the defining function; the contractible almost existence property, the relative and the
+  `π₁`-sensitive Hofer–Zehnder capacities, and closed characteristics on a dense set of levels
+  below a finite capacity;
+- the algebraic period group, cap classes and Novikov ring of a capped Floer theory;
+- the local steps of Gromov compactness for pseudoholomorphic curves in a chart: energy
+  quantization, finitely many bubbling points under an energy bound, locally uniform convergence
+  away from them, and continuous removal of a finite-energy puncture.
+
+AlgebraicTopology Stage 5.5 consumes the same Serre-fibration predicate.
+
+**Numbering for citing roadmaps.** A citation of an item of this roadmap by number resolves as
+follows. Layer 0 items 1–3: the cubical chains of the pinned Tau Ceti (From Tau Ceti); Layer 0
+item 4: Layer 0 item 1. Layer 2 items 1–3 keep their numbers for what the pins lack about Moore
+paths, Hurewicz fibrations and the canonical homeomorphisms; the Moore paths, Moore lifting
+functions and Moore-path replacement are From Tau Ceti. Layer 3 item 1 keeps its number for
+basepoint change; Layer 3 items 2, 3 and 4: `TauCeti.fibrationLocalSystem`,
+`TauCeti.classicalDGLocalSystemEquivalence` and `TauCeti.RankOneLocalSystem`. Layer 4 items 1, 2,
+3 and 4: `TauCeti.TwistingCocycle`, `TauCeti.TwistingCocycle.twistedCochainComplex`,
+`TauCeti.ContinuationCocycle` with `TauCeti.ParametrizedCocycle`, and
+`TauCeti.TwistingCocycle.indexSpectralSequence`; Layer 4 item 5: Layer 4 item 1. The ordinary
+targets of Layer 1 items 2–4 are AlgebraicTopology's, and a citation of one of them resolves
+there:
+
+- Layer 1 item 2's CW approximation of arbitrary spaces and its connected-map homology
+  comparison (cited as connectedMapHomologyComparison): AlgebraicTopology §4.10.
+- Layer 1 item 2's relative-CW lifting, fibre transport and fibration homotopy exact sequence:
+  AlgebraicTopology Stage 5.5.
+- Layer 1 item 2's homological, cohomological and multiplicative Serre spectral sequences over
+  CW and arbitrary bases (cited as arbitraryCWSerreSpectralSequence and
+  arbitraryBaseSerreSpectralSequence) and its Serre preimage excision (cited as
+  serrePreimageSubcomplexExcision): AlgebraicTopology Stage 5.5.
+- Layer 1 item 3's homological regrading and its classical and complete convergence theorems:
+  AlgebraicTopology Stage 5.0.
+- Layer 1 item 4's Serre classes and Hurewicz modulo a Serre class: AlgebraicTopology Stage 8.8d.
+- Layer 1 item 4's functorial abelian Eilenberg–MacLane spaces `K(A, n)`, with their
+  presentation model, uniqueness and loop identification: AlgebraicTopology Stage 8.8c.
+
+Layer 1 item 2 keeps its number for the cubical transport, and Layer 1 item 4 for the mod-2
+chain comparison, the mod-2 vanishing of `K(A, n)`, the one-step lemma and the mod-2 vanishing
+theorem. A citation of Layer 1 item 3 for the spectral sequence of a filtered cochain complex
+itself, its first page, its naturality, its comparison theorem or its convergence for a finite
+or an exhaustive filtration resolves to Tau Ceti's `CochainComplex.spectralSequence` and the API
+listed with it (From Tau Ceti), which Layer 1 item 3 consumes.
+
+The following ids resolve outside their original numbering:
+
+- G0–G7, the global-seam application on closed spherically aspherical targets: Layer 7.G.
+- Layer 1 item 7, homogeneous examples on designated carriers (the matrix-group quotients, frames
+  and Stiefel manifolds, and the complex and quaternionic projective carriers with the complex
+  projective form comparison): DGFloerPartII §1.3.
+- Layer 1 item 8, degrees of explicit maps: DGFloerPartII §1.4.
+- Layer 5 item 7, based-loop Morse–Bott energy on `CPᵈ` and `HPᵈ`: DGFloerPartII Layer 2.
+- Layer 10 item 5 for Theorem B (the source's Theorem 5.14) and the Theorem B forms of
+  Corollaries D and E: DGFloerPartII §§3.2–3.3. Layer 10 item 5 keeps its number for Theorems A
+  and C.
+- Layer 11 items 1, 2, 4, 5 and 6 (abundance and Theorem H, fibered families of 2-spheres,
+  homogeneous spaces, projective spaces and Theorem I, knotted hypersurfaces and Theorem G):
+  DGFloerPartII §§4.1, 4.2, 4.4, 4.5 and 4.6.
+- Layer 11 item 3: covering by diffeomorphisms is DGFloerPartII §4.3. Layer 11 item 3 keeps its
+  number for the finite cover `T × K → G` of a compact connected Lie group and the torus
+  criterion (11.1–11.3).
+
+**Left to named roadmaps.** The following objects are built elsewhere; this roadmap consumes
+them by name and section (see the supplier contracts) and does not restate them.
+
+| Object | Owner | Relation to this roadmap |
+| --- | --- | --- |
+| Morse–Smale pairs, compactified trajectory spaces with corners, the Morse complex over `𝔽₂` and `ℤ` | HeegaardFloer Lane M | consumed by Layer 5 |
+| Local Sobolev maps on planar domains and half-discs, totally real boundary conditions, the Cauchy and Beurling operators, interior and boundary Cauchy–Riemann estimates, the similarity principle, the weak pseudoholomorphic equation with an inhomogeneous term (Floer's equation among its cases), elliptic bootstrapping and uniform estimates, real Cauchy–Riemann operators on compact bordered surfaces with their Fredholm theory, the Maslov index of a bundle pair and closed and bordered Riemann–Roch | PseudoholomorphicCurveAnalysis PH1–PH7 | consumed by Layer 7 |
+| Fredholm theory, the sharp Sard–Smale theorem with its Banach-manifold adapters, Sobolev norms on strips and cylindrical ends, spectral flow, the Robbin–Salamon and Conley–Zehnder indices, determinant lines, relative `c₁` and Riemann–Roch on punctured surfaces with weighted ends, the clutching Chern number | HeegaardFloer Lanes F0–F1 | consumed by Layers 7–9 |
+| Symplectic manifolds, the contraction inverse of a strongly nondegenerate two-form with its `df` specialization and the domain-local Moser lemma, almost complex structures, `J`-holomorphic curves, energy, local compactness, transversality and gluing | HeegaardFloer Lane F2 | consumed by Layers 6–9 |
+| Product curves with a general closed source `Σ`, the product `J` and the slice-image classification in `[Σ] × [z₀]` | HeegaardFloer F2.6c | not consumed here |
+| Stable maps of every genus with varying domain structure, their Hausdorff-graph topology, all-genus Gromov compactness, thickenings and implicit atlases | AnalyticStableMaps | its Layer 3 compactness at genus zero over compact tame families, with the evaluation maps of its §11.1, is consumed by Layer 7.C.2d through gap:genus-zero-stable-map-compactness (supplier contracts); thickenings and implicit atlases are not consumed |
+| The general smooth symplectic suspension `Y_φ = (ℝ × M)/((t, x) ∼ (t + 1, φ⁻¹x))`, its seam-compatible block structure, periodic-orbit images and the compact horizontal-image theorem | SymplecticGeometry S0–S2 | S0's mapping torus is instantiated by Layer 7.T.1 at monodromy `f⁻¹`; S1–S2 are not consumed |
+| The surface suspension, its vertical form, primitive orbit images and the point-count, product and zeta applications | TaubesGromov | not consumed here; TaubesGromov consumes SymplecticGeometry S0–S2, not this roadmap |
+| Global flux of symplectic paths, the Hamiltonian kernel, the endpoint quotient `Ham → Symp₀ → H¹_dR/Γ_ω`, the area-normalized torus lattice and compact-support flux | HamiltonianReduction R1a.0–R1a.4 | R1a.0–R1a.1 and R1a.3–R1a.4 are not consumed; R1a.2's identity component `Symp₀(M, ω)` with its `C^∞` topology is consumed by Layer 7.T item 9 |
+| The `Sp(2, ℝ)` polar factorization `A = PU ↦ P^{1−t}U` and its symplectic polar factors | CotangentLagrangian C2.0–C2.1 | not consumed here |
+| Period-controlled Novikov completions, finite-below convolution, total quotient rings and based torsion | MorseNovikov N1 and N4 | consumed by Layers 7.C and 7.T; N6's finite-dimensional bifurcation theorem is not a Floer theorem and is not consumed |
+| Singular and twisted chains, CW pairs, Eilenberg–Zilber and Künneth, fundamental classes and duality, relative Hurewicz and Whitehead, the Hurewicz map of Stage 8.3, the bar construction of Stage 8.8; CW approximation of arbitrary spaces and the connected-map homology comparison (§4.10); the adapters and convergence theorems of the filtered-complex spectral sequence (Stage 5.0); relative-CW lifting, the homotopy exact sequence and the homological, cohomological and multiplicative Serre spectral sequences of a Serre fibration over CW and arbitrary bases (Stage 5.5); the functorial abelian Eilenberg–MacLane spaces with their uniqueness (Stage 8.8c); Serre classes and Hurewicz modulo a Serre class (Stage 8.8d) | AlgebraicTopology Stages 2–8 | consumed by Layers 0–1, 5, 9 and 10 |
+| Collars and tubular neighbourhoods | GeometricTopology Layer 1 | consumed by Layer 1 item 5 and Layer 11 item 2; `Diff(M)` with its `C^∞` topology and the smooth-families map, which GeometricTopology Layer 3 plans, and the flow diffeotopies of complete vector fields on boundaryless finite-dimensional manifolds are already in Tau Ceti (`TauCeti.Diff`, `Diffeomorph.ofSmoothFamily`, `TauCeti.globalFlowDiffeotopy`), and the local triviality of evaluation `Diff(M) → O` is Layer 1 item 6 |
+| The Liouville collar of a hypersurface transverse to a Liouville field, with its contact form | ContactGeometry CG4 | consumed by the contact-type step of Layer 6 item 4; the contact form `λ_Z|_Σ` and the flow-out of a complete Liouville field are also in Tau Ceti, and the graph construction behind Corollary E is Layer 6 item 4 |
+| Jacobi fields, the index form and the finite broken-geodesic carriers | RiemannianGeometry R2–R3 | consumed by Layer 5 item 6 |
+| Compact Lie theory: Lie's third theorem and the integration of homomorphisms out of simply connected groups, universal covers and their central kernels, the `Ad`-invariant inner product with the orthogonal splitting `𝔤 = 𝔷 ⊕ [𝔤, 𝔤]`, the semisimplicity of `[𝔤, 𝔤]` and its negative-definite Killing form, maximal tori, the compact real roots and their rank-one representatives `SU(2) → G`, the Haar probability measure and averaging | LieGroups Layers 4, 5, 5A and 6, CompactGroups Layer 0 | consumed by Layer 11; the negative semidefinite Killing form of `𝔤` with kernel `𝔷`, the Cartan 3-form argument and the finite cover are Layer 11 items 1–2 |
+| Covering spaces and their induced maps on homotopy groups | UniversalCovers (completed) | consumed by Layer 11 item 2 |
+| The Lagrangian and polygon operations of the Fukaya category | FukayaTheory | not consumed; the graph and diagonal strip folding of Layer 7.G is the only Lagrangian construction here |
+
+**Out of scope**, so nobody mistakes them for targets:
+
+- **Conjecture 1.2** (every closed hypersurface in `T*Q` has the contractible almost existence
+  property when `Q` is not a `K(π, 1)`). It is open.
+- **Corollary F.** It consumes the Ginzburg–Niche theorem on uniquely ergodic Hamiltonian
+  structures, which nothing here builds.
+- Chain-level higher structures: `A∞` refinements of the DG Floer maps, products, and the BV
+  and loop-product structures on either side of the Viterbo isomorphism.
+- Floer homotopy theory, and Lagrangian Floer theory with DG coefficients.
+- All-dimensional compactifications in the monotone and `c₁`-zero branches of Layer 7.C: that
+  branch has the count dimensions of its classical identities only.
+- The virtual, implicit-atlas comparison of the autonomous `S¹`-invariant sector of Floer
+  cylinders with the regular time-dependent counts; the classical count and PSS branches of
+  Layer 7.C are independent of it.
+
+## Exact supplier contracts
+
+Every declaration below exists at the pinned Mathlib and Tau Ceti. What the pins lack is a target
+of this roadmap or of the named supplier; nothing listed here is restated as a target.
+
+### From Mathlib
+
+- Singular homology `AlgebraicTopology.singularHomologyFunctor` with coefficients in an abelian
+  category, and its homotopy invariance (`Mathlib/AlgebraicTopology/SingularHomology/`);
+  `ModuleCat` as the coefficient category. The mod-2 vanishing theorem of Layer 1 item 4 is
+  stated with coefficients in the `ℤ`-module `ZMod 2`.
+- Cubical homotopy groups `HomotopyGroup`, written `π_ n X x`, with their group structure for
+  `n ≥ 1` and commutative group structure for `n ≥ 2`; `SimplyConnectedSpace`; `Path`,
+  `unitInterval`.
+- The compact-open topology `ContinuousMap.compactOpen` on `C(X, Y)`, its evaluation and
+  currying laws for locally compact sources; `IsCoveringMap`.
+- `HomologicalComplex`, `Homotopy`, `CochainComplex`, and the abelian spectral-object API:
+  `CategoryTheory.Abelian.SpectralObject`, `SpectralObject.spectralSequence`,
+  `SpectralSequenceDataCore`, `coreE₂Cohomological`, `HasSpectralSequence`, `IsFirstQuadrant`
+  (`Mathlib/Algebra/Homology/SpectralObject/`), the index type `EInt`, and
+  `HomotopyCategory.spectralObjectMappingCone`
+  (`Mathlib/Algebra/Homology/HomotopyCategory/SpectralObject.lean`). What Layer 1 items 2–3
+  assume of them: a spectral object indexed by `EInt` has pages, differentials and an `E₂`
+  cohomological spectral sequence through `coreE₂Cohomological`, and the mapping-cone spectral
+  object of a functor into the homotopy category exists. Mathlib has no filtration functor on
+  cochain complexes and no convergence theorem; Tau Ceti has both (From Tau Ceti).
+- `DirectSum.Decomposition`, `DirectSum.decomposeLinearEquiv`, `DirectSum.lmap`,
+  `GradedAlgebra`, `Int.negOnePow`, `MulOpposite` (Layer 4).
+- `ModelWithCorners`, `ChartedSpace`, `LieGroup`, the scoped `ContDiff` notation `∞`, `Circle`,
+  `ContinuousMulEquiv` (written `≃ₜ*`), `Matrix.specialOrthogonalGroup` (Layer 11); integral
+  curves and flows of vector fields on manifolds (`Mathlib/Geometry/Manifold/IntegralCurve/`).
+- `Monotone.ae_differentiableAt` (`Mathlib/Analysis/Calculus/Monotone.lean`), for the
+  Hofer–Zehnder–Struwe argument of Layer 6 item 5.
+- For Layer 6 item 0: `mvfderiv` (the differential of a real function on a manifold),
+  `extChartAt`, the pullback of vector fields `VectorField.mpullback` and its chart form
+  `VectorField.mpullbackWithin` (`Mathlib/Geometry/Manifold/VectorField/Pullback.lean`),
+  `VectorField.mlieBracket`, `IsMIntegralCurveOn` with local existence of integral curves
+  `exists_isMIntegralCurveAt_of_contMDiffAt_boundaryless`, `ContinuousLinearMap.IsInvertible`,
+  the Hahn–Banach theorem `exists_dual_vector`, diffeomorphisms `M ≃ₘ^n⟮I, I'⟯ M'` with
+  `ContinuousLinearEquiv.toDiffeomorph`, and `LinearEquiv.toContinuousLinearEquiv` in finite
+  dimension.
+
+### From Tau Ceti
+
+- Cubical chains (`TauCeti/AlgebraicTopology/Singular/Cubical/`): singular cubes
+  `TauCeti.SingularCube` with Massey's degeneracy, the normalized chains
+  `TauCeti.NormalizedCubicalChain` and their functor `TauCeti.normalizedCubicalChainComplex`; the
+  cross product `TauCeti.NormalizedCubicalChain.crossProduct`, strictly associative and unital
+  (`TauCeti.NormalizedCubicalChain.crossProduct_assoc`) with the Koszul Leibniz rule
+  (`TauCeti.NormalizedCubicalChain.boundary_crossProduct`), its relative form on pairs, its chain
+  map `TauCeti.cubicalCrossProduct` with `TauCeti.quasiIso_cubicalCrossProduct` and the cubical
+  Künneth theorem `TauCeti.isIso_cubicalHomologyKunneth`; the natural chain homotopy equivalence
+  `TauCeti.cubicalSingularHomotopyEquiv` with simplicial chains (acyclic models; points to points
+  in degree zero), the homology isomorphism `TauCeti.singularCubicalHomologyIso`, the cross-product
+  homotopy `TauCeti.cubicalSingularCrossProductHomotopy`, the cubical long exact sequence of a pair
+  with `TopPair.cubicalHomologyδ` and excision, homotopy invariance
+  `ContinuousMap.HomotopyEquiv.normalizedCubicalChainComplexHomotopyEquiv`, and the comparison
+  with local coefficients `TauCeti.LocalCoefficientSystem.twistedCubicalToSingularMap`; for a
+  topological monoid `G`, the DG algebra `TauCeti.normalizedCubicalChainAlgebra` with
+  `TauCeti.cubicalChain_isDGAlgebra` (`C_n` in degree `−n`), and for a space with a strict right
+  `G`-action the DG right module `TauCeti.cubicalChainModule` with
+  `TauCeti.cubicalChainModule_isDGRightModule`, equivariant homotopy equivalences inducing
+  quasi-isomorphisms (`TauCeti.isQuasiIso_cubicalChainModuleMap`). What Layers 0, 3 and 5
+  assume: the chains are those of BDHO §5.2, and the comparison is used through these named maps.
+- Layer 1 inputs. The degree-one Hurewicz isomorphism
+  `TauCeti.HurewiczOne.hurewiczHomologyAddEquiv : π₁(X, x)ᵃᵇ ≃+ H₁(X; ℤ)` for path-connected
+  `X : TopCat.{0}` on simplicial singular chains
+  (`TauCeti/AlgebraicTopology/Homotopy/Hurewicz/One/`), natural
+  (`TauCeti.HurewiczOne.homologyMap_hurewiczHomologyAddEquiv`), and equal to minus the degree-one
+  relative-class Hurewicz map (`HomotopyGroup.hurewiczHom_hom_one_eq_neg_hurewicz₁`). CW
+  approximation of a path-connected space, `TauCeti.isWeakHomotopyEquivalence_cwApproximationMap`,
+  natural up to homotopy (`TauCeti/AlgebraicTopology/Homotopy/CWApproximation/`). Weak homotopy
+  equivalences induce isomorphisms on singular homology with coefficients in any ring
+  (`ContinuousMap.IsWeakHomotopyEquivalence.isIso_singularHomologyMap`), on homology with local
+  coefficients (`ContinuousMap.IsWeakHomotopyEquivalence.isIso_twistedHomologyMap`) and on
+  cubical chains (`TauCeti/AlgebraicTopology/Singular/Homotopy/WeakHomotopyEquivalence.lean`);
+  for a pair `(X, A)` with vanishing relative homotopy below `n`, relative homology vanishes below
+  `n` (`TauCeti.isZero_singularHomology_ofSubset_of_relHomotopyGroup`). Serre classes are
+  Mathlib's `CategoryTheory.ObjectProperty.IsSerreClass` (subobjects, quotients, extensions), with
+  the classes `AddCommGrpCat.isTorsion` and `AddCommGrpCat.isKilledBySomePower`, their closure
+  under `⊗` and `Tor`, and the `K(A, 1)` axiom for finite `A`
+  (`TauCeti/AlgebraicTopology/SerreClass/`,
+  `TauCeti/AlgebraicTopology/ClassifyingSpace/Torsion.lean`). Cell attachments killing the
+  homotopy groups above a degree, `TauCeti.killHomotopyGroups`
+  (`TauCeti/AlgebraicTopology/Homotopy/KillHomotopyGroups.lean`). The vanishing of positive
+  mod-`m` homology of the classifying space of a finite group of order prime to `m`,
+  `TauCeti.subsingleton_classifyingSpace_singularHomology_of_isUnit_natCard`, and of `ℤ[1/m]`,
+  `TauCeti.isZero_classifyingSpace_singularHomology_localizationAway`, on Milnor's classifying
+  space. The coefficient sequence `0 → ℤ → ℤ → ℤ/2 → 0` in singular homology, with
+  `TopCat.isUniquelyTwoDivisible_singularHomology_of_isZero_mod_two` (vanishing mod-2 homology in
+  degrees `i` and `i + 1` makes `H_i(−; ℤ)` uniquely 2-divisible), and the first step of mod-2
+  vanishing, `TauCeti.isUniquelyTwoDivisible_homotopyGroup_of_isZero_mod_two`, for spaces in
+  `Type` (`TauCeti/AlgebraicTopology/Homotopy/Hurewicz/TwoDivisible.lean`). The Pontryagin–Thom
+  collapse `TauCeti.pontryaginThomCollapseMap` of a framed tube `TauCeti.IsFramedTube`, its
+  homotopy class under an isotopy of tubes, and the existence of tubes for globally framed
+  embeddings `TauCeti.SmoothEmbedding.exists_isFramedTube`
+  (`TauCeti/Geometry/Manifold/PontryaginThom/`). The group `TauCeti.Diff` of a compact manifold
+  with the weak Whitney topology `Diffeomorph.weakWhitneyTopology`, a topological group with
+  continuous evaluation, and its transitivity on a connected manifold by diffeotopies
+  (`TauCeti/Geometry/Diffeomorphism/`). The smooth-families map
+  `ContMDiff.continuous_diffeomorphWeakWhitney`, bundled as `Diffeomorph.ofSmoothFamily`
+  (`TauCeti/Geometry/Diffeomorphism/Topology.lean`): for a compact source `M` and a parameter
+  manifold `P`, a family `P → Diff(M)` that is jointly `C^n` on `P × M` is continuous for the
+  weak Whitney topology; the converse is not claimed. The flow diffeotopy
+  `TauCeti.globalFlowDiffeotopy` of a complete `C^n` vector field, `1 ≤ n`, on a Hausdorff
+  boundaryless manifold with finite-dimensional model, possibly noncompact, whose motion is the
+  maximal integral curve at the rescaled time
+  (`TauCeti/Geometry/Diffeomorphism/Diffeotopy/Flow.lean`). The Milnor `lim¹` sequence of a
+  tower of complexes, `TauCeti.ComplexTower` (`TauCeti/Algebra/Category/ModuleCat/Tower/Milnor/`).
+- Moore paths (`TauCeti/Topology/PathSpace/Moore.lean` and `TauCeti/Topology/PathSpace/Moore/`):
+  `TauCeti.MoorePath`, topologized in `ℝ≥0 × C(ℝ≥0, X)`, with strictly associative and unital
+  concatenation `TauCeti.MoorePath.trans`, the paths from `A` to `B`
+  `TauCeti.MoorePath.pathsBetween`, the Moore loops `TauCeti.MooreLoopSpace` as a topological
+  monoid, and the free Moore loops `TauCeti.MooreFreeLoopSpace` with their constant loops (a
+  closed embedding onto the loops of duration `0`) and contractible loops; `MetrizableSpace`
+  instances for metrizable `X`. Moore lifting functions `TauCeti.MooreLiftingFunction`
+  (continuous, duration-preserving, sending length-zero paths to length-zero paths) and their
+  transitivity `TauCeti.MooreLiftingFunction.IsTransitive`; for an arbitrary map `p`, the
+  Moore-path replacement `TauCeti.MooreReplacement` with its endpoint Hurewicz fibration
+  `TauCeti.MooreReplacement.isHurewiczFibration_endpoint` and transitive lifting function by
+  concatenation, the strict continuous right action of `TauCeti.MooreLoopSpace` on its fibre
+  `TauCeti.MooreReplacement.Fiber`, transport `TauCeti.MooreLiftingFunction.transport`, strictly
+  equivariant for a transitive lifting function, and for a Hurewicz fibration the fibre homotopy
+  equivalence `TauCeti.MooreReplacement.fiberHomotopyEquiv`; the endpoint fibration
+  `TauCeti.MoorePath.isHurewiczFibration_target`, and restriction along a closed cofibration
+  `TauCeti.HasHomotopyExtensionProperty.isHurewiczFibration_restrict`. The comparison with fixed
+  intervals: `TauCeti.MoorePath.homotopyEquivUnitPath`, `TauCeti.MooreLoopSpace.homotopyEquivPath`
+  with its multiplicativity homotopies, `TauCeti.MoorePath.fiberHomotopyEquivPathsBetween`, and
+  `TauCeti.MooreLoopSpace.homotopyGroupMulEquiv : π_{n+1}(ΩᴹX) ≃* π_{n+2}(X)`.
+- Mapping spaces out of spheres (`TauCeti/Topology/MappingSpace/`):
+  `TauCeti.BasedTopologicalSpace.basedMapCircleHomeomorph` (`Map_*(S¹, Y) ≅ ΩY`),
+  `TauCeti.BasedTopologicalSpace.basedMapSphereHomeomorphIteratedLoopSpace`
+  (`Map_*(Sᵏ, X) ≅ Ωᵏ X`), `TauCeti.basedMapSphere2HomeomorphBasedContractibleConstLoopPath` and
+  `TauCeti.sphere2HomeomorphContractibleConstLoopPath` (`P_{⋆→Q}𝓛₀Q ≅ Map_*(S², Q)` and
+  `P_{Q→Q}𝓛₀Q ≅ Map(S², Q)`), `TauCeti.BasedTopologicalSpace.loopSpace2ToMapCircle`
+  (`Ω²X → Map(S¹, ΩX)`) with the degree-raising map `TauCeti.degreeRaising`
+  (`TauCeti/AlgebraicTopology/Homotopy/DegreeRaising.lean`), the section by constant maps
+  `TauCeti.mappingSpaceEval_comp_const'`, and for a topological group `G`,
+  `TauCeti.mappingSpaceGroupHomeomorph` (`G × Map_*(X, G) ≅ Map(X, G)`) with its Moore form
+  `TauCeti.sphere2GroupHomotopyEquivMoore`.
+- DG local systems (`TauCeti/AlgebraicTopology/DGLocalSystem/`): the loop DG algebra
+  `TauCeti.loopChainAlgebra` with `TauCeti.loopChain_isDGAlgebra`, its augmentation and
+  functoriality `TauCeti.loopChainMap`; DG local systems `TauCeti.DGLocalSystem` (right DG
+  modules over it, the source's Definition 1.8) with pullback `TauCeti.DGLocalSystem.pullback`,
+  and families over chosen basepoints `TauCeti.DGLocalSystemFamily`; the chain bimodule of Moore
+  paths between two basepoints `TauCeti.pathChain_isDGBimodule`; the DG local system of a map
+  `TauCeti.fibrationLocalSystem` (the chains of the fibre of its Moore-path replacement), that of
+  a transitive lifting function `TauCeti.liftingLocalSystem`, the transport quasi-isomorphism
+  `TauCeti.isQuasiIso_transportLocalSystemHom` and the comparison zigzag
+  `TauCeti.liftingLocalSystemRoof`; classical local systems as the DG local systems concentrated
+  in degree zero, `TauCeti.classicalDGLocalSystemEquivalence`; rank-one twisting
+  `TauCeti.RankOneLocalSystem` with `TauCeti.RankOneLocalSystem.twistedCochainComplexIso` (the
+  source's Lemma 2.1 and Proposition 2.2) and `H(𝓕 ⊗ L) ≅ H(𝓕) ⊗ L`; and the action of `π₁` on
+  the homology of a DG local system, `TauCeti.IsDGRightModule.cohomologyRepresentation`.
+- Twisted complexes (`TauCeti/Algebra/Homology/DG/Twisted/`): twisting cocycles
+  `TauCeti.TwistingCocycle` (the source's Definition 1.9, with
+  `d (m x y) = Σ_z (−1)^{ind x − ind z} m x z · m z y` and one-sidedness as data, automatic over a
+  cohomologically nonpositive algebra by `TauCeti.TwistingCocycle.one_sided_of_nonpos`); the
+  twisted differential `TauCeti.twistedDifferential` with `TauCeti.twistedDifferential_sq_zero` and
+  the twisted complex `TauCeti.TwistingCocycle.twistedCochainComplex`; continuation cocycles
+  `TauCeti.ContinuationCocycle` (Definition 1.10,
+  `d (ν x y) = Σ_z m⁺ x z · ν z y + Σ_z (−1)^{ind x − ind z − 1} ν x z · m⁻ z y`) with their chain
+  maps `TauCeti.ContinuationCocycle.continuationHom`; parametrized cocycles
+  `TauCeti.ParametrizedCocycle` (Definition 1.11) with their chain homotopies; homologous
+  cocycles `TauCeti.Homologous` with `TauCeti.Homologous.homotopyEquiv`; the index filtration with
+  its spectral sequence `TauCeti.TwistingCocycle.indexSpectralSequence`, finite convergence, first
+  page and second page `TauCeti.TwistingCocycle.indexSpectralSequenceSecondPageXIso` (the homology
+  of the classical complex with coefficients `H_q(𝓕)`), continuation maps of spectral sequences
+  `TauCeti.ContinuationCocycle.indexSpectralSequenceMap`; the classical twisted complex of a
+  classical local system `TauCeti.classicalTwistedCochainComplexIso`; and row-finite twisting
+  cocycles over an arbitrary graded basis `TauCeti.RowFiniteTwistingCocycle` with their free
+  modules, continuations, homotopies and cell filtration.
+- Lemma 3.41 of the source, `TauCeti.isAspherical_iff_doubleLoopSpace_singularHomology`, with its
+  cubical and Moore forms, for path-connected `X : Type`
+  (`TauCeti/AlgebraicTopology/Homotopy/LoopSpace/Aspherical.lean`), and the first homology of the
+  double loop space `TauCeti.MooreLoopSpace.doubleFirstCubicalHomologyAddEquiv`
+  (`H₁(Ω²X) ≅ π₃(X)` when `π₂(X) = 0`).
+- The integral fundamental class of a compact oriented topological manifold
+  `TauCeti.HomologicalOrientation.fundamentalClass` and its image under a map
+  `TauCeti.HomologicalOrientation.mapFundamentalClass`
+  (`TauCeti/AlgebraicTopology/Singular/LocalHomology/FundamentalClass.lean`); it needs an
+  orientation and has integer coefficients.
+- `TauCeti.IsDGAlgebra` (`TauCeti/Algebra/Homology/DG/Algebra/Defs.lean`): an internally
+  `ℤ`-graded `R`-algebra with an `R`-linear differential of degree `+1`, square zero and the
+  left graded Leibniz rule with sign `Int.negOnePow`. `TauCeti.IsDGRightModule`
+  (`TauCeti/Algebra/Homology/DG/Module/Right/Defs.lean`): degree `+1`, square zero and the
+  right graded Leibniz rule, under `[IsScalarTower R Aᵐᵒᵖ M]`, `[SetLike.GradedSMul …]` and
+  `[DirectSum.Decomposition ℳ]`. `DGRightModuleCat` and `DGAlgHom`
+  (`TauCeti/Algebra/Homology/DG/`) for restriction of scalars.
+- `HomotopyGroup.pathLoopSpaceMulEquiv : π_(m+1)(Ω X) ≃* π_(m+2)(X)`
+  (`TauCeti/Topology/Homotopy/HomotopyGroup/LoopSpace.lean`), the loop-space shift of Layer 2
+  item 3.
+- `TauCeti.IsAspherical X x` (`TauCeti/AlgebraicTopology/EilenbergMacLane/Basic.lean`):
+  `PathConnectedSpace X` and `Subsingleton (π_(n+2) X x)` for every `n`, with no Hausdorff or
+  CW condition; `IsEilenbergMacLaneSpaceOne` (same file), the degree-one Eilenberg–MacLane
+  property interface of Layer 1 item 4.
+- `LocalCoefficientSystem R X` (`TauCeti/AlgebraicTopology/LocalCoefficient.lean`), the functor
+  category from the fundamental groupoid, and twisted singular homology
+  (`TauCeti/AlgebraicTopology/Singular/Twisted/`), consumed by Layer 1 item 2 and Layer 3
+  item 3.
+- Cotangent bundles (`TauCeti/Geometry/Symplectic/Cotangent/Bundle/`): the cotangent bundle
+  `TauCeti.CotangentBundle I M` of a manifold, with or without boundary and in any dimension, its
+  Liouville form `TauCeti.CotangentBundle.liouvilleForm` (`λ_p(v) = p(dπ v)`, `Σ pᵢ dqᵢ` in
+  charts) and canonical form `TauCeti.CotangentBundle.symplecticForm = −dλ` (symplectic by
+  `TauCeti.CotangentBundle.isSymplectic_symplecticForm`; in charts the linear
+  `TauCeti.strongDualCotangentSymplecticForm`, so `ω(∂_q, ∂_p) = 1`), the fibrewise radial field
+  with `ι_{p∂_p} ω = −λ` (`TauCeti.CotangentBundle.symplecticForm_interior_vectorBundleEulerField`),
+  for a Riemannian metric the codisc and cosphere bundles `TauCeti.CotangentBundle.codiscBundle`
+  and `TauCeti.CotangentBundle.cosphereBundle`, with
+  `TauCeti.CotangentBundle.isLiouvilleDomain_codiscBundle` (for compact boundaryless `M` of
+  finite dimension, `(D*M, −λ)` is a Liouville domain) and
+  `TauCeti.CotangentBundle.isLiouvilleCompletion_codiscBundle`, and fibre translation by a
+  one-form `α`, `p ↦ p + α`, with
+  `TauCeti.CotangentBundle.mpullback_vectorBundleTranslateDiffeomorph_symplecticForm`
+  (`τ_α^* ω = ω − π^* dα`). The linear models `cotangentSymplecticForm` and
+  `cotangentLiouvilleForm` on `V × V^*` (`TauCeti/Geometry/Symplectic/Cotangent/`) with
+  `cotangentSymplecticForm_apply` and the fibre negation `TauCeti.cotangentFiberNeg`; the linear
+  `SymplecticForm` structure (`TauCeti/Geometry/Symplectic/AlmostComplex.lean`);
+  `SmoothAlmostComplexStructure` and `IsPseudoholomorphicAt`
+  (`TauCeti/Geometry/Symplectic/Manifold/`).
+- Liouville domains, periodic orbits, closed characteristics and capacities
+  (`TauCeti/Geometry/Symplectic/Liouville/`, `TauCeti/Geometry/Symplectic/Hamiltonian/`,
+  `TauCeti/Geometry/Symplectic/Capacity/`, `TauCeti/Geometry/Manifold/Flow/Periodic.lean`).
+  `TauCeti.IsLiouvilleDomain ω α W` for a compact subset `W` of an ambient manifold (`dα = ω`, a
+  Liouville field `ι_Z ω = α` transverse outward to `W = {f ≤ c}`), its completion inside the
+  ambient manifold `TauCeti.IsLiouvilleCompletion`, Liouville vector fields
+  `TauCeti.IsLiouvilleVectorField` (`L_Z ω = ω`), contact type and restricted contact type
+  `TauCeti.IsContactType` and `TauCeti.IsRestrictedContactType` (the latter with a primitive and a
+  transverse Liouville field defined on the whole manifold, with no completeness of the field),
+  Hamiltonians linear at infinity `TauCeti.IsLinearAtInfinity`, and exact embeddings
+  `TauCeti.IsExactLiouvilleEmbedding`. In `TauCeti/Geometry/Symplectic/Liouville/`: on a
+  hypersurface of contact type the primitive restricts to a contact form,
+  `TauCeti.IsContactType.isContactForm_mpullback` (`ContactType.lean`); for a complete Liouville
+  field the flow-out `(t, s) ↦ ψ_t(ι s)` of a smooth map `ι` pulls the primitive back to
+  `eᵗ ι^*α`, `TauCeti.mpullback_globalFlow_comp_eq_symplectization` (`Symplectization.lean`); and
+  the forward Liouville flow of a point outside the interior of a Liouville domain never enters
+  it, `TauCeti.IsLiouvilleDomain.flowOf_notMem`, so that for a complete field the trajectories
+  through the boundary are pairwise disjoint and meet it once,
+  `TauCeti.IsLiouvilleDomain.injOn_flowOf` (`Completion.lean`). Contact forms
+  `TauCeti.SmoothForm.IsContactForm`, Reeb vector fields `TauCeti.SmoothForm.reebVectorField`
+  with their rescaling `TauCeti.SmoothForm.IsContactForm.reebVectorField_smul` and sign
+  `TauCeti.SmoothForm.IsContactForm.reebVectorField_neg` (`TauCeti/Geometry/Contact/Reeb.lean`),
+  and the Reeb field of the restricted primitive on an energy level as a rescaled Hamiltonian
+  field, `TauCeti.SmoothTwoForm.IsNondegenerate.mfderiv_reebVectorField_mpullback`
+  (`TauCeti/Geometry/Symplectic/Hamiltonian/Reeb.lean`, for `dθ = −σ`). Periodic
+  solutions of a time-dependent vector field `TauCeti.periodicSolutions`, nondegenerate fixed points
+  `TauCeti.IsNondegenerateFixedPt`, and the finiteness of the 1-periodic orbits of a nondegenerate
+  Hamiltonian on a closed manifold
+  `TauCeti.SmoothTwoForm.IsNondegenerate.finite_periodicSolutions_hamiltonianVectorField`. The
+  characteristic line of a regular level and the independence of closed characteristics from the
+  defining function `TauCeti.SmoothTwoForm.IsNondegenerate.exists_homeomorph_isMIntegralCurve_comp`.
+  Closed characteristics contractible in `W`,
+  `TauCeti.SmoothTwoForm.HasContractibleClosedCharacteristic`, and the contractible almost existence
+  property `TauCeti.SmoothTwoForm.HasContractibleAlmostExistence` (the source's Definition 1.1:
+  almost every regular level near `c` carries one; properness and regularity of `c` are hypotheses
+  of the theorems, not of the definition). The `π₁`-sensitive Hofer–Zehnder capacity
+  `TauCeti.SmoothTwoForm.contractibleHZCapacity σ W`, whose admissible Hamiltonians may have fast
+  periodic orbits that are not contractible **in `W`** (so it is the source's `c°_HZ(W)` of
+  Definition 6.1 for the whole domain, conformal and invariant under symplectomorphisms, but not
+  monotone under inclusions), the relative capacity
+  `TauCeti.SmoothTwoForm.relContractibleHZCapacity` (Definition 5.3, contractibility tested in the
+  ambient manifold, with nonnegative Hamiltonians where the source uses their negatives), and the
+  existence of a closed characteristic on some level of every interval below a finite capacity,
+  `TauCeti.SmoothTwoForm.IsNondegenerate.exists_mem_Ioo_hasContractibleClosedCharacteristic`, a
+  dense set of levels, not almost every level. The action of a loop in a symplectic vector space,
+  `TauCeti.SymplecticForm.hamiltonianAction` (`∫ D^*ω + ∫ H dt` for the cone cap `D`).
+- Capped Floer algebra (`TauCeti/Geometry/Symplectic/Floer/`): for an abelian group `S` with area
+  `ω : S →+ ℝ` and Chern number `c : S →+ ℤ`, the period group
+  `TauCeti.Floer.PeriodGroup ω c = S / (ker ω ∩ ker c)`, the cap classes
+  `TauCeti.Floer.CapClass` of an `S`-torsor with their recapping laws, and the Novikov ring
+  `TauCeti.Floer.NovikovRing` with valuation `−ω`. These are algebraic: `S`, the torsor and the
+  homomorphisms are supplied by the caller.
+- Local compactness of pseudoholomorphic curves in a chart
+  (`TauCeti/Geometry/Symplectic/JHolomorphic/Energy/` and
+  `TauCeti/Geometry/Symplectic/JHolomorphic/RemovableSingularity.lean`), consumed by Layer
+  7.C.3. The structure is one `C²` matrix-valued `J : V → (V →L[ℝ] V)` on an open set `W` of a
+  real inner product space with `J(x)² = −1` on a compact `K ⊆ W`; curves are `C³` solutions of
+  `∂ₜu = J(u) ∂ₛu` on an open `Ω ⊆ ℂ` with image in `K`, and energy is `∫ ‖∂ₛu‖²`. Energy
+  quantization `TauCeti.exists_pos_forall_le_integral_norm_fderiv_one_sq_of_ne` (a nonconstant
+  plane has energy at least a threshold `δ > 0` depending on `J` and `K`); finitely many
+  bubbling points `TauCeti.exists_pos_forall_exists_strictMono_finset_norm_fderiv_le` (for a
+  sequence with energy at most `E`, a subsequence and a finite `Z ⊆ Ω` with `#Z · δ ≤ E`, energy
+  at least `δ` concentrating at each point of `Z`, and derivatives bounded on compact subsets of
+  `Ω ∖ Z`); locally uniform convergence off `Z` to a continuous limit with image in `K`,
+  `TauCeti.exists_pos_forall_tendstoLocallyUniformlyOn_subseq_off_finset`; and continuous removal
+  of a finite-energy puncture for a uniformly tamed structure,
+  `TauCeti.SymplecticForm.exists_continuousOn_update_of_finite_energy`. None of them lets `J`
+  vary along the sequence, constructs the rescaled bubbles, or gives smoothness of the limit or at
+  the puncture; for spheres those come with gap:genus-zero-stable-map-compactness (below), and
+  for Floer cylinders they are 7.C.3's, with PseudoholomorphicCurveAnalysis PH5 and HeegaardFloer
+  F2.3.
+- The Hamiltonian formalism on manifolds (`TauCeti/Geometry/Symplectic/Manifold/`,
+  `TauCeti/Geometry/Symplectic/Hamiltonian/`), consumed by Layer 6 item 0. Two-forms are the
+  degree-two smooth forms `TauCeti.SmoothTwoForm`, with evaluation
+  `TauCeti.SmoothBundleForm.eval₂`, the pullback `TauCeti.SmoothForm.mpullback` and
+  `TauCeti.SmoothForm.eval₂_mpullback`, the flat maps `TauCeti.SmoothTwoForm.flat` and
+  `TauCeti.SmoothTwoForm.isNondegenerate_iff_isInvertible_flat`, the predicates
+  `TauCeti.SmoothTwoForm.IsNondegenerate` (injective flat maps) and
+  `TauCeti.SmoothTwoForm.IsSymplectic`, and the restriction to open subsets
+  `TauCeti.SmoothTwoForm.IsSymplectic.mpullback_subtype_val` with
+  `TauCeti.Manifold.tangentSpaceOpenEquiv`. Hamiltonian vector fields:
+  `TauCeti.SmoothTwoForm.IsHamiltonianVectorField` (`ι_X ω = df`, with
+  `TauCeti.SmoothTwoForm.isHamiltonianVectorField_iff_interior_eq`), the field
+  `TauCeti.SmoothTwoForm.hamiltonianVectorField` (`(ω♭)⁻¹ df`, junk `0` where `ω♭_x` is not
+  invertible) with `TauCeti.SmoothTwoForm.hamiltonianVectorField_add`,
+  `TauCeti.SmoothTwoForm.hamiltonianVectorField_const_smul` and
+  `TauCeti.SmoothTwoForm.hamiltonianVectorField_comp`, and in finite dimension
+  `TauCeti.SmoothTwoForm.IsNondegenerate.isHamiltonianVectorField_iff_eq` and
+  `TauCeti.SmoothTwoForm.IsNondegenerate.contMDiff_hamiltonianVectorField_uncurry`;
+  `TauCeti.SmoothTwoForm.IsHamiltonianVectorField.mvfderiv_apply_self` and conservation of
+  energy `TauCeti.SmoothTwoForm.IsHamiltonianVectorField.apply_eq_of_isMIntegralCurveOn`. The
+  Poisson bracket `TauCeti.SmoothTwoForm.poissonBracket` (`{f, g} = ω(X_f, X_g)`) with
+  `TauCeti.SmoothTwoForm.neg_poissonBracket`, `TauCeti.SmoothTwoForm.poissonBracket_add_left`,
+  and in finite dimension `TauCeti.SmoothTwoForm.IsNondegenerate.poissonBracket_eq_mvfderiv`,
+  `TauCeti.SmoothTwoForm.IsNondegenerate.hamiltonianVectorField_poissonBracket` and
+  `TauCeti.SmoothTwoForm.IsNondegenerate.poissonBracket_jacobi`; the bracket of Hamiltonian
+  vector fields of a closed form `TauCeti.SmoothTwoForm.IsHamiltonianVectorField.mlieBracket`,
+  with the differential of `ω(X, Y)`,
+  `TauCeti.SmoothTwoForm.IsHamiltonianVectorField.mvfderiv_eval₂`;
+  first integrals `TauCeti.SmoothTwoForm.IsFirstIntegral` with
+  `TauCeti.SmoothTwoForm.IsFirstIntegral.apply_maximalIntegralCurve`. Naturality in finite
+  dimension: `TauCeti.SmoothTwoForm.IsNondegenerate.mfderiv_hamiltonianVectorField_comp`,
+  `TauCeti.SmoothTwoForm.IsNondegenerate.poissonBracket_comp` and
+  `TauCeti.SmoothTwoForm.IsNondegenerate.isMIntegralCurve_comp_hamiltonianVectorField`.
+  Complete Hamiltonian flows preserve a closed form,
+  `TauCeti.SmoothTwoForm.IsHamiltonianVectorField.mpullback_globalFlow`. The linear theory:
+  `TauCeti.SymplecticForm`, `TauCeti.SymplecticForm.IsSymplectomorphism`,
+  `TauCeti.SymplecticForm.constSmooth` and
+  `TauCeti.SymplecticForm.hamiltonianVectorField_constSmooth`. Flows: the maximal flow
+  `TauCeti.flowOf` on `TauCeti.flowDomain` with `TauCeti.contMDiffOn_flowOf`; the maximal
+  time-dependent flow `TauCeti.timeDependentFlowOf` of a time-dependent vector field, built from
+  its suspension `(t, x) ↦ (1, X_t x)` on `ℝ × M`, on `TauCeti.timeDependentFlowDomain`, with
+  `TauCeti.contMDiffOn_timeDependentFlowOf`, `TauCeti.hasMFDerivAt_timeDependentFlowOf` and
+  `TauCeti.timeDependentFlowOf_trans_of_mem`; on integral curves
+  `IsMIntegralCurveOn.apply_eq_of_mvfderiv_apply_eq_zero` and
+  `TauCeti.Manifold.hasDerivAt_comp_curve`; the vector-space variational equation
+  `TauCeti.hasDerivAt_fderiv_timeDependentFlow`. What the pins lack of this formalism, in
+  infinite dimension, for maps between manifolds and for incomplete or time-dependent flows, is
+  Layer 6 item 0's.
+- The Morse lemma `IsMorse.nonempty_morseChart` (`TauCeti/Geometry/Manifold/Morse/Lemma.lean`)
+  and the Morse index (`TauCeti/Geometry/Manifold/Morse/Index.lean`); finite-dimensional Sard
+  (`TauCeti/Analysis/Calculus/Sard/`). Sard–Smale for Fredholm maps on Banach spaces,
+  `TauCeti.isMeagre_image_criticalPoints_of_isFredholm`
+  (`TauCeti/Analysis/Fredholm/SardSmale.lean`), is at the pin; HeegaardFloer Lane F0 owns its
+  sharp finite-order bound and the Banach-manifold, bundle and Fredholm-section adapters through
+  which the Floer layers use it.
+- Serre fibrations (`TauCeti/Topology/Homotopy/SerreFibration/`, with the homotopy lifting
+  property `TauCeti.HasHomotopyLiftingProperty` in `TauCeti/Topology/Homotopy/Lifting/`):
+  `TauCeti.TopCat.serreFibrations`, the `MorphismProperty` of `TopCat.{u}` given by the right
+  lifting property against the bottom inclusions `Dⁿ → Dⁿ × I`; its characterizations
+  `TauCeti.TopCat.mem_serreFibrations_iff` (homotopy lifting for the closed unit ball of every
+  `ℝⁿ`) and `TauCeti.TopCat.mem_serreFibrations_iff_cube` (for every cube `Fin n → I`); the
+  instances `IsMultiplicative`, `RespectsIso`, `IsStableUnderBaseChange`,
+  `IsStableUnderRetracts` and `IsStableUnderProductsOfShape`;
+  `TauCeti.TopCat.mem_serreFibrations_pullbackFst`, `TauCeti.TopCat.mem_serreFibrations_fst`,
+  `IsCoveringMap.mem_serreFibrations` and
+  `TauCeti.TopCat.exists_path_lift_of_mem_serreFibrations`;
+  `TauCeti.TopCat.mem_serreFibrations_of_exists_trivialization` and
+  `TauCeti.TopCat.mem_serreFibrations_proj` (a locally trivial map, or the projection of a
+  `FiberBundle`, is a Serre fibration, with no paracompactness hypothesis on the base; Hatcher
+  Proposition 4.48); and `TauCeti.TopCat.exists_lift_openBox_of_mem_serreFibrations` (a lift
+  prescribed on the bottom face and the boundary cylinder of a finite cube `I × Iᴺ`, continuous on
+  that union only, extends to the whole cylinder; `N` may be empty). What Layer 1 item 2 assumes
+  of them: total space and base are objects of one `TopCat.{u}`, and the predicate builds in no
+  surjectivity. Lifting against arbitrary relative CW pairs and the fibration homotopy exact
+  sequence are not at the pin; they are AlgebraicTopology Stage 5.5's.
+- Hurewicz fibrations (`TauCeti/Topology/Homotopy/HurewiczFibration/`,
+  `TauCeti/Topology/Homotopy/MappingPath/`, `TauCeti/Topology/Homotopy/LoopSpaceFibration.lean`):
+  `TauCeti.IsHurewiczFibration.{w} p`, continuity and homotopy lifting for every test space in
+  the universe `w`, with `TauCeti.IsHurewiczFibration.mem_serreFibrations`,
+  `TauCeti.IsHurewiczFibration.comp`, `TauCeti.IsHurewiczFibration.pullback` and
+  `TauCeti.isHurewiczFibration_fst`; lifting functions `TauCeti.LiftingFunction p` on the
+  mapping-path space `TauCeti.MappingPathSpace p`, with
+  `TauCeti.isHurewiczFibration_iff_nonempty_liftingFunction`; relative lifting for NDR pairs,
+  `TauCeti.IsHurewiczFibration.exists_lift_of_ndrPair`; fibre transport
+  `TauCeti.LiftingFunction.transport`; the mapping-path fibres `TauCeti.MappingPathFiber`, the
+  homeomorphisms `TauCeti.mappingPathFiberConstHomeomorphPath` onto native `Path b k` and
+  `TauCeti.mappingPathFiberConstHomeomorphLoopSpace` onto native `LoopSpace K k`, the endpoint
+  fibration `TauCeti.MappingPathSpace.isHurewiczFibration_endpoint` and the contractibility of
+  the based path space; and `TauCeti.IsHurewiczFibration.loopMap` and
+  `TauCeti.IsHurewiczFibration.loopMap_loopMap` on fixed-interval loop spaces. The Moore-path
+  forms are in the Moore-path bullet above.
+- The spectral sequence of a filtered complex
+  (`TauCeti/Algebra/Homology/SpectralSequence/Filtered/`): for an increasing filtration
+  `F : ℤ → Subobject K` of a cochain complex in an abelian category, the `EInt`-indexed functor
+  `CochainComplex.filtrationFunctor`, its spectral sequence `CochainComplex.spectralSequence`
+  for Mathlib's `coreE₂Cohomological` (first page numbered `2`, object `H^{p+q}(F_{q+1}/F_q)`
+  at `(p, q)`, differential to `(p + 2, q − 1)`), the first-page identifications
+  `CochainComplex.spectralSequenceFirstPageXIsoCokernel` and
+  `CochainComplex.spectralSequence_first_page_d_eq`, the abutment
+  `CochainComplex.filtrationAbutmentIso`, strong convergence for a finite filtration
+  (`CochainComplex.filtrationSpectralSequencePageXIsoGradedOfFinite`) and, over `ModuleCat R`,
+  for an exhaustive one (`CochainComplex.filtrationSpectralSequencePageXIsoGradedOfExhaustive`),
+  naturality `CochainComplex.filtrationFunctorMap` and the comparison theorem
+  `CochainComplex.isIso_homologyMap_of_isIso_spectralSequence_page`; and its instance on singular
+  chains, `TauCeti.singularChainFiltration` with `TauCeti.filteredSpaceSpectralSequence`
+  (`TauCeti/AlgebraicTopology/Singular/FilteredSpace.lean`). Decreasing complete filtrations and
+  their convergence are not at the pin; they are AlgebraicTopology Stage 5.0's.
+
+### From TauCetiRoadmap.PseudoholomorphicCurveAnalysis
+
+- PH1–PH7: local `W^{k,p}` maps on planar domains and half-discs, totally real boundary
+  conditions (PH2.2, PH3.4), the Cauchy and Beurling operators (PH3.1), interior and boundary
+  estimates and the similarity principle (PH3), the weak pseudoholomorphic equation with an
+  inhomogeneous term, of which Floer's equation is a case (PH4.2), elliptic bootstrapping and
+  uniform estimates (PH5.1–PH5.2), real Cauchy–Riemann operators on compact bordered surfaces
+  with their Fredholm theory and cokernel identification (PH6.3), the Maslov index of a bundle
+  pair and closed and bordered Riemann–Roch (PH7.2). Consumed by Layer 7.
+
+### From TauCetiRoadmap.HeegaardFloer
+
+- Lane M: Morse–Smale pairs, compactified trajectory spaces with their corner structure and
+  gluing, and the Morse complex over `𝔽₂` and `ℤ`, with its MorseTheory M1–M6 prerequisites
+  (Layer 5, Layer 7.C.1a).
+- Lane F0: Fredholm theory and the sharp Sard–Smale theorem with its Banach-manifold and bundle
+  adapters, on Tau Ceti's Sard–Smale; Lane F1: Sobolev norms on strips and cylindrical ends,
+  determinant lines, relative `c₁` and Riemann–Roch on punctured surfaces with weighted ends,
+  F1.3's spectral flow, F1.4's Robbin–Salamon and Conley–Zehnder indices with `CZ = −μ_RS`,
+  and F1.5's clutching Chern number and its equality
+  with CharacteristicClasses C3.2's `c₁`.
+- Lane F2: symplectic manifolds, F2.1's contraction inverse of a strongly nondegenerate
+  two-form on arbitrary covectors with its smooth dependence on the base point, its `df`
+  specialization `ι_{X_f} ω = df` and its domain-local Moser lemma (Layer 6 item 0), almost
+  complex structures (F2.1's compatible-structure family
+  and tame-to-compatible contraction), `J`-holomorphic maps, energy, compactness (F2.2a and
+  F2.2c unique continuation and factorization; F2.3's interior mean-value and ε-regularity
+  estimates, monotonicity and smooth removal of finite-energy punctures under compact-image
+  hypotheses, for Layer 7.C.3), transversality and gluing; F2.6a–d sphere
+  domains, factorization, marked quotient and evaluation carriers and the smooth-`J` selection
+  route; F2.6c's minimal-area compactness retains its area hypothesis.
+
+### From TauCetiRoadmap.AlgebraicTopology
+
+- Stage 2: relative singular homology, local coefficient systems and their transport along
+  paths.
+- Stage 4: CW pairs, cellular approximation, cofibrations, 4.4's based circle and sphere models,
+  4.5's CW structure on `k(B × B)` and its product-cell filtration; §4.10's CW approximation of
+  every space and of pairs, its connected-map homology comparison with local coefficients and
+  the cohomology and pair forms of weak-equivalence invariance.
+- Stage 5.0: the homological and decreasing-cochain adapters of Tau Ceti's filtered-complex
+  spectral sequence, with Weibel's classical and complete convergence theorems. Stages 5.1–5.4:
+  Eilenberg–Zilber, the Künneth theorems and transfer. Stage 5.5: for Tau Ceti's
+  `TauCeti.TopCat.serreFibrations`, relative-CW lifting, fibre transport and the fibration
+  homotopy exact sequence, and the homological, cohomological and multiplicative Serre spectral
+  sequences over CW and arbitrary bases, with Serre preimage excision. What Layer 1 assumes of
+  them is stated in its item 2: strong convergence in each total degree, path-transport
+  monodromy and the Koszul sign `(−1)^{q p'}` of the `E₂` product.
+- Stage 6: 6.0–6.2's cochains and cup product, fundamental classes (6.3), the orientation local
+  system, cap products, Poincaré and Poincaré–Lefschetz duality, and 6.5's homological degree
+  `f_*[S] = deg(f) · [Q]`, the only degree this roadmap uses.
+- Stages 8.1–8.7: relative homotopy groups, 8.2's Kan and Moore comparison and the
+  cube-simplex orientation comparison, 8.3's Hurewicz map `h : π_n(X, x) → H_n(X; ℤ)` for every
+  `n ≥ 1` (of which Layer 1 item 1 proves the degree-one isomorphism), the absolute and relative
+  Hurewicz theorems in degrees `≥ 2`, 8.5's Whitehead theorem, 8.6's positive sphere
+  orientation; Stage 8.8 and 8.8a's bar construction `|nerve (SingleObj G)|` with its
+  contractible cover and fundamental-group normalization; 8.8c's functorial abelian
+  Eilenberg–MacLane spaces `K(A, n)` with the normalized identification `π_n ≅ A`, the
+  directed-union property, uniqueness and the loop identification `ΩK(A, n) ≃ K(A, n − 1)`; 8.8d's
+  `K(A, 1)` axiom for the torsion and power-torsion classes and Hurewicz modulo a Serre class.
+  Nothing from Stages 8.9–8.12 is consumed.
+
+### From other roadmaps
+
+- **DGAInfinity.** Layer 1: DG algebras, right DG modules, restriction of scalars, tensor
+  products, the opposite-algebra bridge. Layer 4: Maurer–Cartan elements in the strictly
+  upper-triangular regime. Layer 5: one-sided twisted complexes, semi-free modules and derived
+  tensor products.
+- **CharacteristicClasses.** C3.2's topological `c₁` (through HeegaardFloer F1.5), and `w₁`,
+  `w₂` for Layer 9 item 1.
+- **DifferentialGeometry.** Layers 0–1: smooth differential forms, pullback, the exterior
+  derivative `mextDeriv`, the Cartan calculus; item 0.4's migration of `SmoothTwoForm` onto the
+  generic form carrier, which this roadmap uses. Layer 3: flows of vector fields.
+- **GeometricTopology.** Layer 1: manifolds with boundary, collars, tubular neighbourhoods,
+  connected sum.
+- **ContactGeometry** CG4: for a hypersurface `Y` transverse to the Liouville field `Z` of an
+  exact symplectic manifold (CG4's sign `ω = −dλ`, `ι_Z ω = −λ`, so its `λ` is `−λ_Z` here), the
+  Liouville collar, a diffeomorphism `Φ(s, y) = φ_Z^s(y)` from a neighbourhood of `{0} × Y` in
+  `ℝ × Y` onto a neighbourhood of `Y` with `Φ^*(−λ) = eˢ α` and `Φ^*ω = d(eˢ α)` for
+  `α = ι_Z ω|_Y`, with no completeness of `Z`. Consumed by the contact-type step of Layer 6
+  item 4; the complete-field statements of that item's graph construction are Tau Ceti's.
+- **UniversalCovers** (completed): covering spaces and their induced maps on homotopy groups.
+- **LieGroups** Layers 4–6: Layer 4's Lie's third theorem and the bijection between Lie-group
+  homomorphisms out of a simply connected group and Lie-algebra homomorphisms; Layer 5's
+  universal cover of a connected Lie group with its discrete central kernel `≅ π₁(G)`; Layer
+  5A's `Ad`-invariant inner product on the Lie algebra of a compact connected Lie group,
+  obtained by Haar averaging, with the skew-adjointness of every `ad X`, the orthogonal
+  splitting `𝔤 = 𝔷 ⊕ [𝔤, 𝔤]`, the semisimplicity of the centreless ideal `[𝔤, 𝔤]` and the
+  negative definiteness of its Killing form; Layer 6's maximal tori with their maximal abelian
+  Lie algebras and the exhaustion of a compact connected group by its maximal tori, its compact
+  real roots spanning `𝔱_ss^*`, and its rank-one representatives: for each root `α` the compact
+  subalgebra `𝔰𝔲(2)_α` built from the real root plane and the coroot, and the homomorphism
+  `SU(2) → G` integrating it, normalized by `dφ(diag(i, −i)) = α^∨`. **CompactGroups** Layer 0:
+  the Haar probability measure of a compact group and averaging against it. Consumed by Layer
+  11 only.
+- **MorseNovikov.** N1: period-controlled completed group rings and modules, the support
+  condition, finite-below convolution, geometric-series inverses. N4: based chain torsion,
+  total quotient rings, determinant comparisons, finite-cyclic norms. N6's finite-dimensional
+  bifurcation theorem is not consumed.
+- **RiemannianGeometry.** R2: Jacobi fields and endpoint-exponential comparisons. R3: the
+  index form, finite node-value reduction, complete-manifold finite broken-geodesic carriers and
+  path-energy comparisons; its based-loop sphere calculation uses AlgebraicTopology Stage 5.5's
+  Serre spectral sequence and nothing of this roadmap.
+- **SmoothBundlesConnections** B6.0: uniform normal-radius and strong-convexity bounds on a
+  compact Riemannian manifold (Layer 5 item 6).
+- **MorseTheory** M4: the critical number `c(M)` (Layer 7.C.6h); M1–M6 through HeegaardFloer
+  Lane M.
+- **SymplecticGeometry** S0: the smooth mapping torus `Y_φ`, its quotient charts, descended
+  `∂_t` flow and vertical form, instantiated by Layer 7.T.1 at `φ = f⁻¹`.
+- **HamiltonianReduction** R1a.2: the identity component `Symp₀(M, ω)` of the symplectomorphism
+  group in its compact-open `C^∞` topology, with its characterization as the endpoints of smooth
+  symplectic paths from the identity, for the transport of `f` and of the component `C` under
+  symplectic isotopy in Layer 7.T item 9. Nothing of R1a.0–R1a.1 and R1a.3–R1a.4 (flux, the
+  Hamiltonian kernel, the quotient `H¹_dR/Γ_ω`) or of R2–R5 is consumed.
+
+### What AnalyticStableMaps must provide
+
+Layer 7.C.2d consumes one declared gap of AnalyticStableMaps: the genus-zero, compact-family case
+of its Layer 3 compactness theorem, which that roadmap proves in all genera (its §§3.2–3.4 and
+3.7, with the evaluation maps of §11.1). This roadmap derives none of it from the Floer theory it
+builds, and constructs no stable maps or stable-map topology of its own.
+
+What AnalyticStableMaps must provide (gap:genus-zero-stable-map-compactness): for a closed
+symplectic manifold `(X, ω)` of dimension `2n`, a compact metrizable space `P` and a continuous
+map `p ↦ J_p` from `P` to the smooth `ω`-tame almost complex structures on `X` with the `C^∞`
+topology, every class `A ∈ H₂(X; ℤ)` and every `k ≥ 0`:
+
+- the space `M̄_(0,k)(A; P)` of pairs `(p, [u])`, with `[u]` an isomorphism class of `k`-marked
+  genus-zero stable `J_p`-holomorphic maps of class `A` (no Hamiltonian term, components possibly
+  multiply covered, every constant component carrying at least three special points), in the
+  Hausdorff-graph topology, is compact, Hausdorff and second countable, hence metrizable, and its
+  projection to `P` is continuous and proper;
+- convergence in that topology is Gromov convergence, and every sequence `(p_ν, u^ν)` of
+  `k`-marked genus-zero stable `J_(p_ν)`-maps of arbitrary classes with `sup_ν E(u^ν) < ∞` has a
+  convergent subsequence (the form of Ivashkovich–Shevchishin, *Gromov compactness theorem for
+  stable curves*, Theorem 1.1 with Remark 2 for marked points, `ivashkovich-shevchishin` lines
+  299 and 314, whose area bound the energy bound gives through the uniformly equivalent metrics
+  of the compact family);
+- Gromov limits preserve the integral class and the energy, `[u^ν] = [u]` for all large `ν` and
+  `E(u) = ω([u])`;
+- there is `ħ > 0` with `E(v) ≥ ħ` for every nonconstant `J_p`-holomorphic sphere `v` and every
+  `p ∈ P`;
+- a stable map with `a` nonconstant components has at most `k − 2 + 2a` constant components and
+  at most `k − 3 + 3a` nodes;
+- the evaluation maps `ev_i(p, [u]) = u(z_i)` into `X`, `1 ≤ i ≤ k`, are continuous.
 
 ## References
 
