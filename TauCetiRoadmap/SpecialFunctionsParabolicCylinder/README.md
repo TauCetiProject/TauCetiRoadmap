@@ -1,8 +1,7 @@
 # Roadmap: Parabolic cylinder functions
 
-**Summary.** This roadmap builds the theory of the parabolic cylinder functions of Chapter 12 of
-the NIST *Digital Library of Mathematical Functions* (DLMF; see [References](#references)) as a
-library. These are the solutions of Weber's equation
+**Summary.** This roadmap builds the theory of the parabolic cylinder functions as a library.
+These are the solutions of Weber's equation
 
 ```text
 w″ − (z²/4 + a) w = 0                                              (DLMF 12.2.2)
@@ -11,6 +10,20 @@ w″ − (z²/4 + a) w = 0                                              (DLMF 12
 and of its oscillatory form `w″ + (z²/4 − a) w = 0` (DLMF 12.2.3). The standard solutions are
 Weber's functions `U(a, z)` and `V(a, z)`, Whittaker's `D_ν(z) = U(−ν − ½, z)`, and the real
 solutions `W(a, ±x)` of the oscillatory equation.
+
+The organization follows proof dependency rather than any one text. The regularized Kummer
+function gives the even and odd solutions and their uniqueness theorem; `U`, `V` and `D` are
+defined by their initial values, and their Wronskians, connection formulas and recurrences in
+the parameter follow algebraically. The Laplace integral of 6.1 is the main analytic input: the
+other integral representations, the large-argument expansions and the definite integrals are
+derived from it. The content is drawn from Whittaker–Watson (Ch. XVI), Lebedev
+(*Special Functions and Their Applications*, Ch. 10), Temme (*Special Functions*, Ch. 7), Olver
+(*Asymptotics and Special Functions*, Chs. 5–7), Beals–Wong (*Special Functions*, Chs. 2 and 6),
+Andrews–Askey–Roy (*Special Functions*, Ch. 4), Magnus–Oberhettinger–Soni (*Formulas and
+Theorems for the Special Functions of Mathematical Physics*, Ch. VIII) and the NIST *Digital
+Library of Mathematical Functions* (DLMF), which is the primary source of locators. Headlines cite
+DLMF and, where another of these texts contains the result, that text with its printed page; see
+[References](#references). The texts use three normalizations, which Conventions translates.
 
 The roadmap covers:
 - the definitions as entire functions of both the parameter and the variable;
@@ -48,43 +61,50 @@ The roadmap is complete when Tau Ceti proves all of the following.
    solution with given initial values.
 
 3. **`U`, `V` and `D`.** The definitions, the values at the origin, the Wronskians, the
-   connection formulas of DLMF §12.2, and the reduction of the general quadratic equation
-   DLMF 12.2.1.
+   reflection and rotation connection formulas, the solutions of the oscillatory equation, and
+   the reduction of `w″ + (αz² + βz + γ) w = 0` to Weber's equation.
 
-4. **Recurrences and derivatives** (DLMF §12.8).
+4. **Recurrences and derivatives.** The three-term recurrences in the parameter and the
+   derivative formulas for `U`, `V` and `D`, and the iterated derivatives of `e^{±z²/4} U` and
+   `e^{±z²/4} V`.
 
-5. **Hermite and error function cases** (DLMF 12.7.1–12.7.7). This includes the bridge to Tau
-   Ceti's `hermiteFunction` and `Real.erfc`.
+5. **Hermite and error function cases.** `D_n` and `V(n + ½, ·)` through Hermite polynomials,
+   `V(−½, ·)` through Dawson's integral, and `U(n + ½, ·)` through the repeated Gaussian integrals
+   and, for real argument, through `erfc`. This includes the bridge to Tau Ceti's `hermiteFunction`
+   and `Real.erfc`.
 
-6. **Integral representations** (DLMF 12.5.1–12.5.9) and the positivity of `U(a, x)` on the real
-   line for `a > −½`. This includes the Gamma residues and Barnes kernel bounds that support the
-   Barnes representations, and the Gamma product identities of 6.6(a).
+6. **Integral representations**: the Laplace integral and its variants on the half-line, the loop
+   and straight-line contour integrals and the Mellin–Barnes integrals; and the positivity of
+   `U(a, x)` on the real line for `a > −½`. This includes the Gamma residues and Barnes kernel
+   bounds that support the Barnes representations, and the Gamma product identities of 6.6(a).
 
-7. **Large-argument asymptotics** (DLMF 12.9.1–12.9.4), and the characterization of `U(a, ·)`
-   as the recessive solution on the positive real axis.
+7. **Large-argument asymptotics** of `U` and `V` in their principal sectors and in the adjacent
+   sectors, and the characterization of `U(a, ·)` as the recessive solution on the positive real
+   axis.
 
-8. **Integrals and addition theorems** (DLMF 12.12.1–12.12.4 and 12.13.1–12.13.5).
+8. **Integrals and addition theorems.** Three integrals of `U` against Gaussian weights and
+   the integral for `U² + Ū²`; the Taylor expansions of `U` and `V` in a shift of the
+   argument; and the rotational addition theorem.
 
-9. **The real solutions `W(a, ±x)`.** This covers DLMF 12.14.1–12.14.8, the power series and
-   Bessel cases DLMF 12.14.9–12.14.16, and the large-`x` expansions DLMF 12.14.17–12.14.23.
+9. **The real solutions `W(a, ±x)`.** Their initial values, Wronskian and connection with `U`,
+   their power series and Kummer forms, the Bessel case `a = 0`, and the large-`x` expansions.
 
 The numbers are those of the layers below, and `k.n` names subsection `n` of Layer `k`.
 
-**What this roadmap owns:** Weber's equation and the following DLMF formulas, with the
-hypotheses and conventions specified in the layers:
+**What this roadmap owns:** Weber's equation and the following results, with the hypotheses and
+conventions specified in the layers:
 
-| Formulas | Targets |
+| Results | Targets |
 |---|---|
-| 12.2.1–12.2.20 | Equations, initial values, Wronskians, reflections and connections (Layers 2–3). |
-| 12.2.21 | The abbreviation `Ū(a, z) = Γ(½ − a) V(a, z)` used in 8.1. |
-| 12.4.1–12.4.6 | Definitions and power series (Layers 2–3). |
-| 12.5.1–12.5.9 | Integral representations (Layer 6). |
-| 12.7.1–12.7.7 | Hermite, Dawson and repeated Gaussian integral identities; the `erfc` identities 12.7.5–12.7.6 have real argument (Layer 5). |
-| 12.7.12–12.7.13 | The Kummer definitions of the even and odd solutions (Layer 2). |
-| 12.8.1–12.8.12 | Recurrences and derivatives (Layer 4). |
-| 12.9.1–12.9.4 | Poincaré expansions with an `O`-remainder for every truncation order (Layer 7). |
-| 12.12.1–12.12.4, 12.13.1–12.13.5 | Integrals and addition theorems (Layer 8). |
-| 12.14.1–12.14.23 | The real solutions `W(a, ±x)`, including the large-variable expansions of §12.14(viii) (Layer 9). |
+| Weber's equation and its oscillatory form; the even and odd solutions in Kummer form and as power series | Layer 2 |
+| `U`, `V` and `D`: definitions, initial values, Wronskians, reflections, connections; the general quadratic equation | Layer 3 |
+| The abbreviation `Ū(a, z) = Γ(½ − a) V(a, z)` | 8.1 |
+| Recurrences in the parameter, derivative formulas and iterated derivatives | Layer 4 |
+| The Hermite, Dawson and repeated Gaussian integral identities; the `erfc` identities, for real argument | Layer 5 |
+| The Laplace, half-line, loop, straight-line and Mellin–Barnes representations | Layer 6 |
+| Poincaré expansions with an `O`-remainder for every truncation order, in the principal and the adjacent sectors | Layer 7 |
+| The Gaussian-weighted integrals of `U`, the integral for `U² + Ū²`, and the addition theorems | Layer 8 |
+| The real solutions `W(a, ±x)`, including their expansions for large variable | Layer 9 |
 
 It also owns the following auxiliary results, which the layers need and which neither Mathlib,
 Tau Ceti nor a consumed roadmap provides:
@@ -108,20 +128,17 @@ leaves to the special-function roadmaps, the product
   exponential Mellin inversion. They are consumed from AsymptoticExpansions; see
   [Exact supplier contracts](#exact-supplier-contracts).
 - Residues and the residue theorem, consumed from ContourIntegration.
-- Kummer's second function `U(a, b, z)` and the Whittaker functions, the confluent
-  hypergeometric theory of DLMF Chapter 13, beyond Layer 1.
+- Kummer's second function `U(a, b, z)` and the Whittaker functions: the confluent
+  hypergeometric theory beyond Layer 1.
 - The complex functions `erf`, `erfc` and the Faddeeva function `w(z)` (DLMF 7.2.1–7.2.3),
-  and the rest of Chapter 7 beyond the `F` and `Hh_n` theory specified in Layer 5. They belong
+  and the rest of the error-function theory beyond the `F` and `Hh_n` of Layer 5. They belong
   to the SpecialFunctionsEiLiErfIncompleteGamma roadmap.
-- DLMF 12.13.6, which uses complex `erfc`.
-- Modified Bessel functions (DLMF Chapter 10).
-- The uniform asymptotic expansions for large parameter and the zeros (DLMF §§12.10, 12.11,
-  12.14(ix)).
-- The modulus and phase functions (DLMF 12.2.22–12.2.23, 12.14(x)); the abbreviation of
-  12.2.21 is included as specified above.
-- The explicit remainder bounds and re-expansions of DLMF §12.9(ii), beyond the
-  `O`-remainders required in Layer 7.
-- The generalized equation of DLMF §12.15.
+- The finite expansion of `n! U(n + ½, z)` through complex `erfc` (DLMF 12.13.6).
+- Modified Bessel functions.
+- The uniform asymptotic expansions for large parameter and the zeros.
+- The modulus and phase functions; the abbreviation `Ū` is included as specified above.
+- Explicit remainder bounds and re-expansions, beyond the `O`-remainders required in Layer 7.
+- The generalized parabolic cylinder equation.
 
 See [Excluded material](#excluded-material) for these.
 
@@ -133,6 +150,12 @@ Bessel functions and complex `erf`, `erfc` and Faddeeva theory.
 
 ## Conventions
 
+- **Normalizations in the sources.** Temme and Olver write Weber's `U(a, z)` as here.
+  Whittaker–Watson, Andrews–Askey–Roy, Beals–Wong and Magnus–Oberhettinger–Soni write
+  Whittaker's `D_ν(z) = U(−ν − ½, z)`, so that their `ν` is `−a − ½`; Beals–Wong (6.6.1),
+  p. 202, is Weber's equation with `a = −ν − ½`. Lebedev writes the Hermite function
+  `H_ν(z) = 2^{ν/2} e^{z²/2} D_ν(z√2)`, a solution of `v″ − 2zv′ + 2νv = 0` (Lebedev (10.2.3),
+  p. 284). A locator into one of these texts refers to its statement after this translation.
 - **Names and argument order.** All functions take the parameter first:
   `parabolicCylinderU (a z : ℂ) : ℂ`, `parabolicCylinderV (a z : ℂ) : ℂ`,
   `parabolicCylinderD (ν z : ℂ) : ℂ`. They live in the namespace `TauCeti`. The real
@@ -314,7 +337,9 @@ Write `𝐌(a, b, z) = Complex.regularizedHGFun {a} {b} z`.
 Specialize Tau Ceti's `Complex.hasSum_regularizedHGFun` to singleton parameter multisets to obtain
 `HasSum (fun n ↦ regularizedHGFunCoeff {a} {b} n * z ^ n) (𝐌(a, b, z))` for all `a, b, z`
 with absolute convergence from the existing entire power series. The
-initial value `𝐌(a, b, 0) = Γ(b)⁻¹` is Mathlib's `Complex.regularizedHGFun_zero`.
+initial value `𝐌(a, b, 0) = Γ(b)⁻¹` is Mathlib's `Complex.regularizedHGFun_zero`. The series is
+Olver Ch. 7 §9.2, p. 255; unregularized, it is Temme (7.3), p. 172, and Beals–Wong (6.1.2),
+p. 190.
 
 *Needs:* Tau Ceti `Complex.hasSum_regularizedHGFun`; Mathlib `Complex.regularizedHGFun_zero`.
 
@@ -333,7 +358,9 @@ divided by `Γ(b)`, extended to every `b` through the regularized series.
 
 `z 𝐌″(a, b, z) + (b − z) 𝐌′(a, b, z) − a 𝐌(a, b, z) = 0`,
 
-stated with `deriv (deriv _)` and `deriv`. The proof route is termwise differentiation of
+stated with `deriv (deriv _)` and `deriv`. For the unregularized function this is Temme (7.4),
+p. 172, Olver Ch. 7 (9.02), p. 254, Beals–Wong (6.1.1), p. 190, and Andrews–Askey–Roy (4.1.3),
+p. 188. The proof route is termwise differentiation of
 the entire series and the coefficient recurrence `(k + 1)(b + k) c_{k+1} = (a + k) c_k` for
 `c_k = regularizedHGFunCoeff {a} {b} k`. Mathlib's `regularizedHGFunCoeff_add_one` gives it
 when `b + k ≠ 0`; when `b + k = 0` both sides vanish, because `Γ(0)⁻¹ = 0` gives `c_k = 0`.
@@ -343,6 +370,10 @@ when `b + k ≠ 0`; when `b + k = 0` both sides vanish, because `Γ(0)⁻¹ = 0`
 ### 1.4 Kummer's transformation
 
 DLMF 13.2.39: `𝐌(a, b, z) = e^z 𝐌(b − a, b, −z)` (`regularizedHGFun_singleton_eq_exp_mul`).
+For the unregularized function this is Kummer's first transformation: Temme (7.5), p. 173,
+Andrews–Askey–Roy (4.1.11), p. 191, Beals–Wong (6.1.10), p. 192, and Olver Ch. 7 §10.2, p. 257,
+which removes the restrictions on the parameters by analytic continuation; Whittaker–Watson
+§16.11, p. 338, states it for Whittaker's `M_{k,m}`.
 
 *Needs:* 1.1; Cauchy products of entire power series and Pochhammer identities.
 
@@ -352,7 +383,8 @@ DLMF 13.2.39: `𝐌(a, b, z) = e^z 𝐌(b − a, b, −z)` (`regularizedHGFun_si
 following 13.2.4. For fixed `b, z`, `a ↦ 𝐌(a, b, z)` is entire
 (`differentiable_regularizedHGFun_singleton_left`). For fixed
 `a, z`, `b ↦ 𝐌(a, b, z)` is entire. The function `(a, z) ↦ 𝐌(a, b, z)` is continuous on
-`ℂ × ℂ`. The proof route is locally uniform convergence of the series in `(a, b, z)`.
+`ℂ × ℂ`. The proof route is locally uniform convergence of the series in `(a, b, z)`. Olver
+Ch. 7 §9.2, p. 255, states the entirety in `a` and in `b` by the Weierstrass `M`-test.
 
 *Needs:* 1.1; Mathlib `TendstoLocallyUniformlyOn.differentiableOn`.
 
@@ -361,7 +393,8 @@ following 13.2.4. For fixed `b, z`, `a ↦ 𝐌(a, b, z)` is entire
 [DLMF §13.2(i)](https://dlmf.nist.gov/13.2#i), following 13.2.5.
 For `n : ℕ` and every `b`, including nonpositive integral `b`,
 `𝐌(−n, b, z) = ∑_{k≤n} (−n)_k z^k / (k! Γ(b + k))`, the finite sum of the regularized
-series 13.2.3; in particular it is a polynomial in `z` of degree at most `n`.
+series 13.2.3; in particular it is a polynomial in `z` of degree at most `n`. For `b` off the
+nonpositive integers this is the polynomial case of Beals–Wong §6.1, p. 190.
 
 *Needs:* 1.1; Mathlib `regularizedHGFunCoeff_eq_zero_right` and `ascPochhammer`.
 
@@ -391,6 +424,10 @@ Tau Ceti's `Complex.hasSum_regularizedHGFun`.
 - `u₁(a, z) = e^{z²/4} ∑ₖ (∏_{r<k} (a − ½ − 2r)) z^{2k} / (2k)!` (12.4.5);
 - `u₂(a, z) = e^{z²/4} ∑ₖ (∏_{r<k} (a − 3/2 − 2r)) z^{2k+1} / (2k+1)!` (12.4.6).
 
+The Kummer forms of the even and odd solutions are Temme §7.3.3, p. 179, in both the
+exponentially decreasing and increasing forms, which Kummer's transformation relates, and
+Beals–Wong §6.6, p. 203, in the decreasing form.
+
 **Checks.**
 - `u₁(−½, z) = e^{−z²/4}` and `u₂(−3/2, z) = z e^{−z²/4}`: the products in the first two series
   vanish from `k = 1` on; a sign error in `a + ½ + 2r` or `a + 3/2 + 2r` leaves an infinite series.
@@ -411,8 +448,9 @@ Tau Ceti's `Complex.hasSum_regularizedHGFun`.
 
 ### 2.3 Weber's equation
 
-DLMF 12.2.2. `u₁(a, ·)` and `u₂(a, ·)` solve it (`deriv_deriv_parabolicCylinderEven`,
-`deriv_deriv_parabolicCylinderOdd`), with initial values
+DLMF 12.2.2; Temme (7.20), p. 179, Whittaker–Watson §16.5, p. 347, Beals–Wong (6.6.1),
+p. 202, and Magnus–Oberhettinger–Soni §8.1.1, p. 324. `u₁(a, ·)` and `u₂(a, ·)` solve it
+(`deriv_deriv_parabolicCylinderEven`, `deriv_deriv_parabolicCylinderOdd`), with initial values
 `u₁(a, 0) = 1`, `u₁′(a, 0) = 0`, `u₂(a, 0) = 0`, `u₂′(a, 0) = 1`. Parity:
 `u₁(a, −z) = u₁(a, z)` and `u₂(a, −z) = −u₂(a, z)`.
 
@@ -433,7 +471,10 @@ Differentiate the Wronskian and use the equation to show its derivative is zero.
 write the Taylor coefficients of a solution at zero as `c_n`; they satisfy
 `(n + 2)(n + 1)c_{n+2} = a c_n + c_{n−2}/4`, where negative-index coefficients are zero. Zero
 initial values force every coefficient to vanish, and the identity theorem extends the equality to
-`ℂ`. This supplies a direct analytic proof without another ODE prerequisite.
+`ℂ`. This supplies a direct analytic proof without another ODE prerequisite. The coefficient
+recurrence is Beals–Wong (6.6.3), p. 202; Olver Ch. 5, Ex. 3.2, pp. 147–148, gives the Maclaurin
+solutions of Weber's equation, and Temme §7.3.3, p. 179, notes that the even and odd pair has
+Wronskian `1`.
 
 *Needs:* 2.2–2.3; Mathlib analytic Taylor series and
 `AnalyticOnNhd.eqOn_of_preconnected_of_eventuallyEq`.
@@ -443,7 +484,8 @@ initial values force every coefficient to vanish, and the identity theorem exten
 By the chain rule in [DLMF 12.2.2–12.2.3](https://dlmf.nist.gov/12.2#E2): if `f` solves DLMF 12.2.2
 with parameter `a`, then `z ↦ f (−z)` solves it with parameter `a`, and `z ↦ f (± i z)` solves it
 with parameter `−a`. The same holds for `z ↦ f (e^{±iπ/4} z)` relating DLMF 12.2.2 with parameter
-`∓ia` to DLMF 12.2.3 with parameter `a`.
+`∓ia` to DLMF 12.2.3 with parameter `a`. These symmetries are Whittaker–Watson §16.51, p. 347,
+and Beals–Wong §6.6, pp. 202 and 204 (the solutions (6.6.12)).
 
 *Needs:* 2.3 and the chain rule.
 
@@ -468,15 +510,21 @@ analytic Taylor series and the identity theorem. 2.3 follows by the chain rule f
 and `D_ν` solve DLMF 12.2.2 (DLMF 12.2.4 for
 `D_ν`). All three are entire in each variable separately and jointly continuous; for `U` the two
 entirety statements are `differentiable_parabolicCylinderU` and
-`differentiable_parabolicCylinderU_left`.
+`differentiable_parabolicCylinderU_left`. Temme (7.21), p. 179, defines `U` as this combination
+of the Kummer solutions and `V` through the reflection formula of 3.5. In terms of `D_ν` the
+combination is Magnus–Oberhettinger–Soni §8.1.1, p. 324, Beals–Wong (6.6.6), p. 203,
+Andrews–Askey–Roy Ch. 4, Ex. 7(a), p. 235, and, in Hermite-function form, Lebedev (10.2.8),
+p. 285, where entirety in both variables is noted.
 
 *Needs:* 2.2–2.3; Mathlib `Complex.differentiable_one_div_Gamma`.
 
-### 3.2 Values at the origin
+### 3.2 Initial values of `U` and `V`
 
 DLMF 12.2.6–12.2.9. These are `U(a, 0)` (`parabolicCylinderU_zero_right`), `U′(a, 0)`, `V(a, 0)`
 and `V′(a, 0)` in the pinned reciprocal-Gamma forms, valid for every `a` with Mathlib's
-totalized Gamma function.
+totalized Gamma function. In terms of `D_ν` these values are Magnus–Oberhettinger–Soni §8.1.1,
+p. 324, which characterizes `D_ν` by them, Beals–Wong (6.6.10), p. 204, and Lebedev (10.2.10),
+p. 285.
 
 **Checks.**
 - `U′(½, 0) = −1`; the opposite sign of the coefficient of `u₂` gives `+1`. (`U′(−½, 0) = 0` does
@@ -493,7 +541,7 @@ totalized Gamma function.
 
 *Needs:* 3.1 and the initial values of 2.3.
 
-### 3.3 Wronskians
+### 3.3 Wronskians of the standard solutions
 
 DLMF 12.2.10–12.2.12:
 - `𝒲{U(a, z), V(a, z)} = √(2/π)` (`parabolicCylinderU_mul_deriv_parabolicCylinderV_sub`);
@@ -506,7 +554,9 @@ DLMF 12.2.10–12.2.12:
   `𝒲{U(a, z), U(−a, iz)} = −i e^{iπ(a/2 + ¼)}`.
 
 Each holds for all `a` and `z`. In particular `U(a, ·)` and `V(a, ·)` are linearly
-independent for every `a`.
+independent for every `a`. The first Wronskian is Temme §7.3.3, p. 179. The second and third,
+in terms of `D_ν`, are Magnus–Oberhettinger–Soni §8.1.3, p. 327, and Beals–Wong (6.6.14)–(6.6.15),
+p. 205, and in Hermite-function form Lebedev (10.2.11) and (10.2.16), p. 286.
 
 *Needs:* 2.4, 2.5 and 3.2; Mathlib `Complex.Gamma_mul_Gamma_one_sub` and
 `Complex.Gamma_mul_Gamma_add_half`.
@@ -514,11 +564,12 @@ independent for every `a`.
 ### 3.4 Special parameters
 
 DLMF 12.2.13, 12.2.14: `U(−n − ½, −z) = (−1)ⁿ U(−n − ½, z)` and
-`V(n + ½, −z) = (−1)ⁿ V(n + ½, z)` for `n : ℕ`.
+`V(n + ½, −z) = (−1)ⁿ V(n + ½, z)` for `n : ℕ`. The first is the parity of the Hermite
+polynomials, Lebedev (10.2.13), p. 286.
 
 *Needs:* 2.3 and 3.2.
 
-### 3.5 Connection formulas
+### 3.5 Reflected and rotated solutions
 
 [DLMF 12.2.15–12.2.20](https://dlmf.nist.gov/12.2#v). In each
 formula the upper signs are chosen together, and the lower signs are chosen together.
@@ -550,6 +601,12 @@ Also prove the rearrangement of 12.2.15,
 `V(a, z) = Γ(½ + a)/π · (sin(πa) U(a, z) + U(a, −z))`, for
 `½ + a ∉ {0, −1, −2, …}`.
 
+Sources: Temme §7.3.3, p. 179, takes this rearrangement as the definition of `V`. In terms of
+`D_ν`, 12.2.18 is Whittaker–Watson §16.511, p. 348, Beals–Wong (6.6.13), p. 204, and
+Magnus–Oberhettinger–Soni §8.1.1, p. 325, and 12.2.19 is Whittaker–Watson §16.52, pp. 348–349,
+and Magnus–Oberhettinger–Soni §8.1.1, p. 325. In Hermite-function form they are Lebedev (10.3.4)
+and (10.3.6)–(10.3.7), pp. 287–288.
+
 *Needs:* 2.4, 2.5 and 3.2–3.3; Mathlib Gamma reflection and duplication.
 
 ### 3.6 The general quadratic equation
@@ -557,6 +614,8 @@ Also prove the rearrangement of 12.2.15,
 DLMF 12.2.1 and the prose of §12.2(i). For `α ≠ 0`
 and `s` with `s⁴ = −4α`, if `f` solves DLMF 12.2.2 with parameter `(β²/(4α) − γ)/s²`, then
 `z ↦ f (s (z + β/(2α)))` solves `w″ + (αz² + βz + γ) w = 0` (`quadratic_equation_of_weber`).
+Temme §7.3.3, p. 179, and Magnus–Oberhettinger–Soni §8.1.1, pp. 323–324, take the solutions of
+this general equation as the parabolic cylinder functions.
 
 *Needs:* The chain rule.
 
@@ -564,7 +623,9 @@ and `s` with `s⁴ = −4α`, if `f` solves DLMF 12.2.2 with parameter `(β²/(4
 
 DLMF 12.2.3. `z ↦ U(ia, z e^{−iπ/4})` and
 `z ↦ U(−ia, z e^{iπ/4})` solve DLMF 12.2.3. In Whittaker's notation the first is
-`D_{−½−ia}(z e^{−iπ/4})`.
+`D_{−½−ia}(z e^{−iπ/4})`. Magnus–Oberhettinger–Soni §8.1.1, p. 325, lists the solutions
+`D_{ia−½}(±z e^{iπ/4})`, and Beals–Wong §6.6, p. 202, the rotation that relates the two
+equations.
 
 *Needs:* 2.5 and 3.1.
 
@@ -579,7 +640,7 @@ DLMF 12.2.3. `z ↦ U(ia, z e^{−iπ/4})` and
 
 Layer 2; Mathlib Gamma reflection, duplication and reciprocal Gamma analyticity.
 
-## Layer 4: recurrences and derivatives
+## Layer 4: shifts of the parameter and differentiation
 
 ### 4.1 `U` recurrences
 
@@ -588,6 +649,8 @@ DLMF 12.8.1–12.8.4, for all `a, z`:
 - `U′(a, z) + (z/2) U(a, z) + (a + ½) U(a + 1, z) = 0` (`deriv_parabolicCylinderU`);
 - `U′(a, z) − (z/2) U(a, z) + U(a − 1, z) = 0`;
 - `2U′(a, z) + U(a − 1, z) + (a + ½) U(a + 1, z) = 0`.
+
+In terms of `D_ν` these are the four recurrences of Magnus–Oberhettinger–Soni §8.1.3, p. 327.
 
 *Needs:* 2.4 and 3.2; Mathlib `Complex.Gamma_add_one`.
 
@@ -611,7 +674,8 @@ DLMF 12.8.9–12.8.12. For `m : ℕ`:
 - `(d/dz)^m (e^{−z²/4} V(a, z)) = (−1)^m (½ − a)_m e^{−z²/4} V(a − m, z)`.
 
 The Pochhammer symbol is `(ascPochhammer ℂ m).eval (½ + a)`, and the iterated derivative is
-Mathlib's `iteratedDeriv`.
+Mathlib's `iteratedDeriv`. The two identities for `U` are, in terms of `D_ν`,
+Magnus–Oberhettinger–Soni §8.1.3, pp. 326–327.
 
 *Needs:* 4.1–4.2; Mathlib `iteratedDeriv_succ` and `ascPochhammer_succ_right`.
 
@@ -619,6 +683,8 @@ Mathlib's `iteratedDeriv`.
 
 The recurrences in Whittaker's notation:
 `D_{ν+1}(z) − z D_ν(z) + ν D_{ν−1}(z) = 0` and `D_ν′(z) + (z/2) D_ν(z) − ν D_{ν−1}(z) = 0`.
+These are Whittaker–Watson §16.61, p. 350, and Beals–Wong (6.6.18) and (6.6.16), p. 205; in
+Hermite-function form they are Lebedev (10.4.7) and (10.4.4), p. 289.
 
 *Needs:* 4.1.
 
@@ -646,6 +712,10 @@ DLMF 12.7.1–12.7.4. For `n : ℕ`:
 Here `He_n(z)` is `aeval z (Polynomial.hermite n)`, and `F` is Dawson's integral
 `F(z) = e^{−z²} ∫₀¹ z e^{(sz)²} ds`. This roadmap introduces `F` as `dawson`, an entire function
 (`differentiable_dawson`), with `F′ = 1 − 2zF` (`hasDerivAt_dawson`) and `F(0) = 0`.
+
+The Hermite case `D_n(z) = e^{−z²/4} He_n(z)` is Whittaker–Watson §16.7, p. 350, Beals–Wong
+(6.6.9), p. 204, Temme (7.22), p. 179, and Magnus–Oberhettinger–Soni §8.1.2, p. 326, and in
+Hermite-function form Lebedev (10.2.9), p. 285.
 
 **Checks.**
 - `F(z) = z − 2z³/3 + O(z⁵)` as `z → 0`.
@@ -704,6 +774,9 @@ DLMF 12.7.5, 12.7.6. For real `x`:
 - `U(n + ½, x) = √(π/2) (−1)ⁿ/n! · e^{−x²/4} (d/dx)ⁿ (e^{x²/2} erfc(x/√2))`.
 
 Here `erfc` is `TauCeti.Real.erfc`, and the second statement uses `iteratedDeriv` on `ℝ`.
+In terms of `D_ν` the second statement, which contains the first at `n = 0`, is
+Magnus–Oberhettinger–Soni §8.1.2, p. 326; in Hermite-function form both are Lebedev (10.5.3)
+and (10.5.4), p. 290.
 
 *Needs:* 4.3 and 5.3; Tau Ceti `TauCeti.Real.erfc`.
 
@@ -717,7 +790,7 @@ Here `erfc` is `TauCeti.Real.erfc`, and the second statement uses `iteratedDeriv
 Layers 2–4; the consumed Hermite polynomial/function and real error-function APIs;
 Gaussian integrability, differentiation under the integral and integration by parts from Mathlib.
 
-## Layer 6: integral representations
+## Layer 6: Laplace, contour and Mellin–Barnes forms
 
 ### 6.1 The Laplace form
 
@@ -726,6 +799,11 @@ DLMF 12.5.1. For `Re a > −½` and all `z`:
 `U(a, z) = e^{−z²/4} / Γ(½ + a) · ∫₀^∞ t^{a−½} e^{−t²/2 − zt} dt`,
 
 with the integral over `Set.Ioi 0` and absolutely convergent (`parabolicCylinderU_eq_integral`).
+In terms of `D_ν` this is Magnus–Oberhettinger–Soni §8.1.4, p. 328, and, after the substitution
+`t ↦ t²/2`, Beals–Wong (6.6.8), p. 203; in Hermite-function form it is Lebedev (10.5.2), p. 290.
+Olver Ch. 6, Ex. 6.1, p. 208, obtains it for real `a > −½` and real argument: differentiation
+under the integral sign gives the differential equation, and the behaviour at `+∞` identifies the
+solution.
 
 The proof route: the right side is entire in `z`, by differentiation under the integral sign
 with the dominating function `(1 + t) t^{Re a−½} e^{−t²/2 + Rt}` for `|z| < R`, which bounds both
@@ -742,7 +820,8 @@ duplication formula turns them into those of 3.2, so 2.4 identifies the right si
 ### 6.2 Positivity
 
 For real `a > −½` and real `x`, `U(a, x)` is real and positive (`parabolicCylinderU_ofReal_pos`).
-For real `a` and real `x`, `U(a, x)` and `V(a, x)` are real.
+For real `a` and real `x`, `U(a, x)` and `V(a, x)` are real. Magnus–Oberhettinger–Soni §8.1.1,
+p. 325, notes the reality of `D_ν(x)` for real `ν` and `x`.
 
 *Needs:* 3.2 and 6.1.
 
@@ -765,6 +844,9 @@ All three integrals converge absolutely under their stated hypotheses and are ex
 using `MeasureTheory.integral` over `Set.Ioi 0`; 12.5.4 is `parabolicCylinderU_eq_integral_cos`. In
 [DLMF 12.5.4](https://dlmf.nist.gov/12.5#E4), the condition `Re a < ½` ensures
 integrability at zero, and the Gaussian dominates the growth of the complex cosine at infinity.
+In terms of `D_ν`, Magnus–Oberhettinger–Soni §8.1.4, p. 328, gives 12.5.2–12.5.3 after the
+substitution `t ↦ z²t/2`, for `|ph z| ≤ π/4`, and 12.5.4; in Hermite-function form 12.5.4 is
+Lebedev (10.5.5), p. 290.
 
 *Needs:* 3.2 and 6.1; Mathlib changes of variables on `Set.Ioi 0` and
 `hasDerivAt_integral_of_dominated_loc_of_deriv_le`.
@@ -780,6 +862,8 @@ The lower lip runs from `−∞` to `−r` with phase `e^{−iπq}`; the circle 
 counterclockwise from angle `−π` to `π`; the upper lip runs from `−r` to `−∞` with phase
 `e^{iπq}`. This fixes both ray signs. The circle term is the parameterized `circleIntegral`
 with the principal power, split at the cut and read by its one-sided boundary values.
+In terms of `D_ν` the loop integral is Whittaker–Watson §16.6, p. 349, which identifies it through
+the values at the origin, and Magnus–Oberhettinger–Soni §8.1.4, p. 328.
 
 *Needs:* 6.1; Mathlib `circleIntegral`, `Complex.integral_boundary_rect_eq_zero_of_differentiableOn`
 and Gamma reflection.
@@ -796,6 +880,8 @@ The `U` contour is oriented upwards, with `dt = i dy` already absorbed in its pr
 Both `V` contours run from left to right, with `dt = ds`. All powers are principal: on
 the upper line the negative-real-end argument approaches `+π`, and on the lower line it
 approaches `−π`, giving respectively `e^{+iπ(a−½)}` and `e^{−iπ(a−½)}` at the cut.
+The integral for `U` is Temme, Ex. 7.9, p. 190, which also identifies it through the values at
+the origin.
 
 *Needs:* 2.4 and 6.1; Mathlib `integral_gaussian_complex` and
 `Complex.integral_boundary_rect_eq_zero_of_differentiableOn`.
@@ -816,13 +902,16 @@ Obtain it from `Complex.GammaSeq_tendsto_Gamma`. Prove its comparison in `x`, eq
 `|Γ(x + iy)| ≤ Γ(x)/Γ(x′) · |Γ(x′ + iy)|` for `0 < x ≤ x′`, and the reflection-formula value
 `|Γ(1 + iy)|² = πy / sinh(πy)` for `y ≠ 0` (`norm_Gamma_one_add_mul_I_sq`), with value `1` at
 `y = 0` ([DLMF 5.4.3–5.4.4](https://dlmf.nist.gov/5.4#E3), with Gamma recurrence). The product
-formula follows directly from the Euler limit; its comparison is termwise.
+formula follows directly from the Euler limit; its comparison is termwise. The product, the
+inequality `|Γ(x + iy)| ≤ |Γ(x)|` that it implies, and `|Γ(iy)|² = π/(y sinh(πy))` are Beals–Wong
+Ch. 2, Exercises 2.11–2.12, p. 44.
 
 *Needs:* Mathlib Gamma's Euler limit, reflection and recurrence.
 
 **(b) Gamma residues.** Prove `(z + n) Γ(z) → (−1)^n/n!` as `z → −n`, `z ≠ −n`
 (`tendsto_add_nat_mul_Gamma`), and extend the numerator holomorphically by assigning it the value
-`(−1)^n/n!` at `−n`. These follow from Gamma recurrence and the residue at zero already in Mathlib.
+`(−1)^n/n!` at `−n`. The residue of `Γ` at `−n` is Beals–Wong Theorem 2.1.1, p. 19. These
+follow from Gamma recurrence and the residue at zero already in Mathlib.
 Derive the affine-chain factor for `Γ(A − 2t)` at `t = (A + n)/2`, including its factor `−½`
 (`tendsto_sub_mul_Gamma_sub_two_mul`). These numerators are the local factors `φ` of the simple
 poles of the Barnes kernels in the form `F(t) = φ(t)/(t − p)` required by AsymptoticExpansions §8.2,
@@ -851,7 +940,7 @@ connector hypotheses of the line shift of AsymptoticExpansions §8.2 and the ana
 
 *Needs:* AsymptoticExpansions §8.6 for the two Gamma factors.
 
-### 6.7 Mellin–Barnes integrals
+### 6.7 Barnes line integrals and their residue corrections
 
 [DLMF 12.5.8–12.5.9](https://dlmf.nist.gov/12.5#iii).
 All statements require `z ≠ 0`. First prove the absolutely convergent straight-line forms,
@@ -867,7 +956,10 @@ oriented upwards along `t = c + iy`, `y : ℝ`:
   (`parabolicCylinderV_eq_barnes_integral`).
 
 Here `B` is the kernel specified in 6.6(c). The factor `i` in `dt = i dy` has
-already been absorbed into each prefactor.
+already been absorbed into each prefactor. In terms of `D_ν`, 12.5.8 is
+Magnus–Oberhettinger–Soni §8.1.4, pp. 328–329, on a separating contour, with the kernel written
+through the duplication formula, up to a constant factor, as
+`Γ(t) Γ(A/2 − t) Γ(A/2 + ½ − t) (z²/2)^t` with `A = ½ + a`.
 
 Insert the exponential Mellin inversion of AsymptoticExpansions §8.7 into the Laplace
 integral of 6.1. Prove absolute integrability of the resulting double integral to justify Fubini;
@@ -955,6 +1047,11 @@ subsection:
   Prove the corresponding identities for the coefficients and truncated sums, and
   propagate the remainder bounds downwards in integer shifts to every complex `a`.
 
+In terms of `D_ν`, 12.9.1 is Whittaker–Watson §16.5, p. 347, and Magnus–Oberhettinger–Soni
+§8.1.6, p. 331. Lebedev (10.6.6), p. 292, proves it in Hermite-function form by the route
+followed here: the Laplace integral for `Re ν < 0`, rotated rays (his footnote 7) for the full
+sector, and the recurrence (10.6.5) to reach every `ν`.
+
 *Needs:* 4.1 and 6.1; AsymptoticExpansions Layer 1 and §4.3; Mathlib's identity theorem.
 
 ### 7.2 `V` in its sector
@@ -1013,6 +1110,11 @@ Gamma and phase factors, are excluded from the comparison and are absorbed in th
 constant, which may depend on `a`, `σ`, `δ` and `N`. These statements apply at zeros of
 reciprocal Gamma as well. All powers inherited from `z` are expressed in `w` as above.
 
+For `U`, in terms of `D_ν`, Whittaker–Watson §16.52, pp. 348–349, derives the adjacent-sector
+expansions from the principal one by the connection formula 12.2.19, as here, and
+Magnus–Oberhettinger–Soni §8.1.6, p. 332, lists them; in Hermite-function form they are Lebedev
+(10.6.7) and (10.6.8), pp. 292–293.
+
 *Needs:* 3.5 and 7.1–7.2.
 
 ### 7.4 Consequences on the real line
@@ -1028,7 +1130,8 @@ reciprocal Gamma as well. All powers inherited from `z` are expressed in `w` as 
 If `f` solves DLMF 12.2.2 and `f(x) → 0` as `x → +∞` along the real axis, then
 `f = f(0)/U(a, 0) · U(a, ·)` when `U(a, 0) ≠ 0`, and in all cases `f` is a constant multiple of
 `U(a, ·)` (`exists_eq_const_mul_parabolicCylinderU`). Proof route: the Wronskian with `V(a, ·)` and
-the growth of `V` from 7.4.
+the growth of `V` from 7.4. Olver Ch. 6 §6.1, p. 207, specifies `U(a, x)` as the solution with
+`U(a, x) ∼ x^{−a−½} e^{−x²/4}` as `x → +∞`.
 
 *Needs:* 3.3 and 7.4.
 
@@ -1047,9 +1150,9 @@ Layers 3–4 and the Laplace representation of 6.1; AsymptoticExpansions Layer 1
 identity theorem, finite-cover compactness and `IsBigO` calculus. 7.1 supplies the parameter shifts;
 the connections of Layer 3 give 7.2–7.3; 7.4–7.5 use those expansions and the Wronskians.
 
-## Layer 8: integrals and addition theorems
+## Layer 8: definite integrals and shifts of the argument
 
-### 8.1 Integrals
+### 8.1 Definite integrals involving `U`
 
 DLMF 12.12.1–12.12.4:
 - For every `a : ℂ` and `Re μ > 0` (12.12.1, `integral_exp_mul_cpow_mul_parabolicCylinderU`):
@@ -1067,6 +1170,9 @@ DLMF 12.12.1–12.12.4:
 - For `Re a < ½` and every `z : ℂ` (12.12.4, `parabolicCylinderU_sq_add_sq_eq_integral`):
 
   `U(a, z)² + Ū(a, z)² = 2^{3/2}/π · Γ(½−a) · ∫₀^∞ e^{2at + z² tanh(t)/2}/√(sinh(2t)) dt`.
+
+In terms of `D_ν`, 12.12.1–12.12.3 are the second to fourth integrals of
+Magnus–Oberhettinger–Soni §8.1.5, p. 330.
 
 Here `Ū(a, z)` abbreviates `Complex.Gamma (½ − a) * V(a, z)` (12.2.21), using Mathlib's
 total Gamma. It is therefore `0` at `a = ½, 3/2, …`, where DLMF leaves it undefined.
@@ -1095,13 +1201,16 @@ put `λ = (e^{2t} − 1)/4`.
 `Complex.Gamma_mul_Gamma_eq_betaIntegral`, `Complex.Gamma_mul_Gamma_add_half` and the identity
 theorem.
 
-### 8.2 Addition theorems
+### 8.2 Taylor expansion in a shift of the argument
 
 DLMF 12.13.1–12.13.4, for all `a, x, y`, as `HasSum` statements:
 - `U(a, x + y) = e^{xy/2 + y²/4} ∑_m (−y)^m/m! · U(a − m, x)` (`hasSum_parabolicCylinderU_add`);
 - `U(a, x + y) = e^{−xy/2 − y²/4} ∑_m (−1)^m (½ + a)_m y^m/m! · U(a + m, x)`;
 - `V(a, x + y) = e^{xy/2 + y²/4} ∑_m (−1)^m (½ − a)_m y^m/m! · V(a − m, x)`;
 - `V(a, x + y) = e^{−xy/2 − y²/4} ∑_m y^m/m! · V(a + m, x)`.
+
+The two expansions of `U` are, in terms of `D_ν`, the Taylor expansions of
+Magnus–Oberhettinger–Soni §8.1.3, p. 327, which derives them from the iterated derivatives of 4.3.
 
 *Needs:* 4.3; Mathlib `DifferentiableOn.hasFPowerSeriesOnBall`.
 
@@ -1113,7 +1222,9 @@ DLMF 12.13.5, with the normalization below. For `a : ℂ` with `Re a ≤ −½`,
 `U(a, x cos t + y sin t) = (cos t)^{−a−½} e^{(x sin t − y cos t)²/4} ∑_{m≥0} (−1)^m (a+½)_m/m! · (tan t)^m U(a+m, x) U(−m−½, y)`.
 
 The factor `(cos t)^{−a−½}` is required by the Hermite cases; it is absent from the
-displayed DLMF formula. Its base is positive throughout `0 ≤ t ≤ π/4`.
+displayed DLMF formula. Its base is positive throughout `0 ≤ t ≤ π/4`. Magnus–Oberhettinger–Soni
+§8.1.7, p. 333, states the identity in terms of `D_ν` with this factor, for `Re ν ≥ 0` (that is,
+`Re a ≤ −½`), positive `x` and `y`, and `0 < t < π/4`.
 At `t = π/4`, require absolute convergence as `HasSum` when `x > 0`, when `x = 0` and
 `Re a < −½`, and for every real `x` in the terminating cases `a = −n − ½`, `n : ℕ`.
 For all real `x, y`, the endpoint identity is an Abel limit: multiply the endpoint
@@ -1199,7 +1310,7 @@ This includes `Γ(½ + ia) = |Γ(½ + ia)| e^{iφ₂(a)}` (`Gamma_one_half_add_m
 
 *Needs:* 3.5, 3.7 and 9.1; Mathlib `Complex.digamma` and Gamma reflection.
 
-### 9.4 Power series
+### 9.4 Maclaurin series of the rotated solutions
 
 DLMF 12.14.9–12.14.12. Write
 `w₁(a, x) = Re u₁(−ia, e^{iπ/4}x)` and
@@ -1292,17 +1403,20 @@ continuous phase; 9.4 uses the ODE coefficient recurrence; 9.7 uses the rotated 
 
 The following material is not part of this roadmap; the scope is stated in
 [Scope and ownership](#scope-and-ownership).
-- **Uniform expansions for large parameter** (DLMF §12.10, §12.14(ix)): Olver's expansions in
-  elementary functions and in Airy functions, Temme's expansions, and their error bounds. They
-  need the Airy functions (DLMF Chapter 9) and Olver's turning-point theory.
-- **Zeros** (DLMF §12.11): the real and complex zeros of `U(a, z)` and their asymptotics.
-- **Modulus and phase functions** (DLMF 12.2.22–12.2.23, 12.14(x)) with continuous phases.
+- **Uniform expansions for large parameter**: Olver's expansions in elementary functions and in
+  Airy functions, Temme's expansions, and their error bounds (DLMF §12.10 and §12.14(ix); for
+  real `x` and large positive `a`, Olver Ch. 6 §6, pp. 206–208). They need the Airy functions and
+  Olver's turning-point theory.
+- **Zeros**: the real and complex zeros of `U(a, z)` and their asymptotics (DLMF §12.11;
+  Magnus–Oberhettinger–Soni §8.1.7, p. 332).
+- **Modulus and phase functions** with continuous phases (DLMF 12.2.22–12.2.23 and §12.14(x)).
   The abbreviation `Ū = Γ(½ − a) V` of 12.2.21 is already part of 8.1.
 - **Explicit remainder bounds and re-expansions** (DLMF §12.9(ii)), including exponential
   improvement beyond the Poincaré `O`-remainders of Layer 7.
 - **Relations to Kummer's `U`, the Whittaker functions and the modified Bessel functions**
-  (DLMF 12.7.8–12.7.11 and 12.7.14). These belong to a confluent hypergeometric roadmap (DLMF
-  Chapter 13) and a Bessel roadmap (DLMF Chapter 10).
+  (DLMF 12.7.8–12.7.11 and 12.7.14; Beals–Wong (6.6.6) and (6.6.11), pp. 203–204; Olver Ch. 7,
+  Ex. 10.4, p. 259; Magnus–Oberhettinger–Soni §§8.1.1–8.1.2, pp. 324–326). These belong to a
+  confluent hypergeometric roadmap and a Bessel roadmap.
 - **The complex forms of DLMF 12.7.5–12.7.6 and the finite identity
   [12.13.6](https://dlmf.nist.gov/12.13#E6)**, which need complex `erfc`. Complex `erf`, `erfc`
   and the Faddeeva function are outside this roadmap; the `F` and `Hh_n` theory specified in
@@ -1324,7 +1438,9 @@ The source's initial Barnes representation passes through Kummer's second functi
 Here exponential Mellin inversion and the Laplace representation of 6.1 give a direct
 construction, within the stated scope.
 
-This roadmap specifies the mathematics intrinsically. It keeps that formalization's names
+This roadmap specifies the mathematics intrinsically, from the sources listed in
+[References](#references); `lean-DLMF` is source material, not a specification. It keeps that
+formalization's names
 (`parabolicCylinderU`, `parabolicCylinderV`, `parabolicCylinderD`, argument order `(a, z)`) so
 that the two developments stay interoperable. `lean-DLMF` supplies prior proofs and implementation
 references; reused code carries attribution under the repository's porting guidance. The following
@@ -1347,12 +1463,29 @@ dependencies are those of the layers.
 
 ## References
 
+- G. E. Andrews, R. Askey and R. Roy, *Special Functions*, Encyclopedia of Mathematics and its
+  Applications 71, Cambridge University Press, 1999, Chapter 4 (§4.1, §4.4 and Exercise 7):
+  Kummer's equation and transformation, Weber's equation and `D_n`.
+- R. Beals and R. Wong, *Special Functions: A Graduate Text*, Cambridge Studies in Advanced
+  Mathematics 126, Cambridge University Press, 2010, Chapter 2 (Theorem 2.1.1 and Exercises
+  2.11–2.12: Gamma residues and products) and Chapter 6 (§6.1 and §6.6: Kummer functions and
+  parabolic cylinder functions).
+- N. N. Lebedev, *Special Functions and Their Applications*, revised English edition, translated
+  and edited by R. A. Silverman, Prentice-Hall, 1965 (reprinted Dover, 1972), Chapter 10
+  (§§10.2–10.6: the Hermite functions `H_ν`, their connections, recurrences, integrals and
+  asymptotics).
+- W. Magnus, F. Oberhettinger and R. P. Soni, *Formulas and Theorems for the Special Functions of
+  Mathematical Physics*, 3rd ed., Grundlehren 52, Springer, 1966, Chapter VIII (§8.1).
 - NIST *Digital Library of Mathematical Functions*, Chapter 12 (N. M. Temme), Chapter 13 (A. B.
   Olde Daalhuis), [§2.3(ii)](https://dlmf.nist.gov/2.3#ii) and
   [§2.4(i)](https://dlmf.nist.gov/2.4#i) (F. W. J. Olver, R. Wong), <https://dlmf.nist.gov/12>.
-- F. W. J. Olver, *Asymptotics and Special Functions*, Academic Press, 1974, Chapters 3 and 7.
+  The primary source of locators.
+- F. W. J. Olver, *Asymptotics and Special Functions*, Academic Press, 1974; reprinted A K Peters,
+  1997, Chapter 5 (Exercise 3.2), Chapter 6 (§6 and Exercise 6.1: the recessive solution `U(a, x)`
+  and its Laplace integral) and Chapter 7 (§§9–10: Kummer's equation, the regularized function and
+  Kummer's transformation).
 - N. M. Temme, *Special Functions: An Introduction to the Classical Functions of Mathematical
-  Physics*, Wiley, 1996, Chapter 10.
-- E. T. Whittaker and G. N. Watson, *A Course of Modern Analysis*, Chapter XVI.
-- J. C. P. Miller, *Tables of Weber Parabolic Cylinder Functions*, H.M. Stationery Office, 1955
-  (introduction: the definitions of `U`, `V` and `W`).
+  Physics*, Wiley, 1996, Chapter 7 (§7.1, §7.3.3 and Exercise 7.9: Kummer's function, Weber's
+  equation, `U`, `V` and `D`).
+- E. T. Whittaker and G. N. Watson, *A Course of Modern Analysis*, 4th ed., Cambridge University
+  Press, 1927 (reissued 1996), Chapter XVI (§16.11 and §§16.5–16.7: Kummer's formula and `D_n`).
