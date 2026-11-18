@@ -49,15 +49,6 @@ Stated here:
   quaternionic projective spaces `TauCeti.ComplexProjectiveSpace` and
   `TauCeti.QuaternionicProjectiveSpace`, the quotients of unit spheres by the unit complex numbers
   and the unit quaternions;
-* on the carrier `SO n = Matrix.specialOrthogonalGroup (Fin n) ℝ` with the subtype topology of
-  the matrix space and Mathlib's cubical homotopy groups `π_ n X x`: the finite-to-stable range of
-  the block inclusion `SO(n) → SO(n+1)` (README 4.2a), through Tau Ceti's induced map
-  `HomotopyGroup.map`; real Bott periodicity and the stable homotopy groups of `SO` (README 4.2c),
-  in the finite ranks where `π_i(SO(n))` is already stable; and the torsion group
-  `π_(n−1)(SO(n))` of Lemma 6.35 (README 4.3), with its seven low-rank values, the
-  stable-plus-Stiefel splitting for odd `n ≥ 17`, its stable term read in the finite rank
-  `SO(n+1)` and its Stiefel term on Tau Ceti's `TauCeti.stiefel`, and the torsion statement for
-  every odd `n ≥ 3`;
 * Theorem G, Theorem 7.1 of the source (README 4.6), on the carriers of Theorem B, with the
   embedded sphere and the transverse submanifold given by Tau Ceti's `TauCeti.SmoothEmbedding`,
   transversality by their tangent ranges `TauCeti.SmoothEmbedding.tangentRange`, and the
@@ -73,17 +64,6 @@ Not statable at the pins, and stated in the README only:
 * Theorem I for products with an abundant factor (README 4.1, 4.5): its hypothesis is abundance
   itself. The homogeneous spaces of Proposition 6.36 (README 4.4) need the smooth structure of
   `G/H` for a closed subgroup `H`, absent at the pins.
-* The stable orthogonal group `O` of README 4.2a, a colimit of the `O(r)` in compactly generated
-  spaces, has no named carrier at the pins, so its Bott equivalences (README 4.2c) are not stated
-  here; its homotopy groups are stated in the finite ranks where they are already stable. The
-  Clifford chain and the index bounds of README 4.2b–4.2c, the route to these statements, concern
-  geodesics in the members `Ω_k(n)`, `k ≥ 1`, of the chain, sets of orthogonal complex structures
-  that are not subgroups of `O(n)`. The pins put no manifold structure on them: Tau Ceti's
-  closed-subgroup theorem charts closed subgroups, so of the chain only `Ω₀ = O(n)`, as the
-  unitary subgroup of the units (`TauCeti.Lie.isEmbeddedLieSubgroup_unitarySubgroup`). Tau Ceti's
-  energy of curves
-  `TauCeti.Manifold.energy` and conjugate points `TauCeti.Manifold.IsConjugateOn` apply to them
-  once they are Riemannian manifolds.
 -/
 
 @[expose] public section
@@ -328,120 +308,6 @@ theorem contractibleHZCapacity_codiscBundle_quaternionicProjectiveSpace_lt_top (
         (QuaternionicProjectiveSpace d)).contractibleHZCapacity
       (CotangentBundle.codiscBundle 𝓘(ℝ, Fin d → ℍ) (QuaternionicProjectiveSpace d)) < ⊤ :=
   sorry
-
-/-! ## Layer 4: stable orthogonal groups and real Bott periodicity -/
-
-/-- `SO(n)`: the special orthogonal group of real `n × n` matrices, with the subspace topology of
-the matrix space. -/
-abbrev SO (n : ℕ) : Type := Matrix.specialOrthogonalGroup (Fin n) ℝ
-
-/-- The block inclusion `A ↦ diag(A, 1)` of `SO(n)` into `SO(n+1)`, with the new coordinate last
-(README 4.2a). -/
-def soBlockInclusion (n : ℕ) : C(SO n, SO (n + 1)) where
-  toFun A := ⟨Matrix.reindex finSumFinEquiv finSumFinEquiv
-      (Matrix.fromBlocks (A : Matrix (Fin n) (Fin n) ℝ) 0 0 (1 : Matrix (Fin 1) (Fin 1) ℝ)), by
-    obtain ⟨hO, hdet⟩ := Matrix.mem_specialOrthogonalGroup_iff.mp A.2
-    refine Matrix.mem_specialOrthogonalGroup_iff.mpr ⟨?_, ?_⟩
-    · rw [Matrix.mem_orthogonalGroup_iff] at hO ⊢
-      simp only [Matrix.reindex_apply, Matrix.transpose_submatrix, Matrix.submatrix_mul_equiv,
-        Matrix.fromBlocks_transpose, Matrix.fromBlocks_multiply]
-      simp [hO]
-    · rw [Matrix.det_reindex_self, Matrix.det_fromBlocks_zero₂₁]
-      simp [hdet]⟩
-  continuous_toFun := (Continuous.matrix_reindex (Continuous.matrix_fromBlocks
-    continuous_subtype_val continuous_const continuous_const continuous_const) _ _).subtype_mk _
-
-/-- The block inclusion is based: it sends the identity to the identity. -/
-theorem soBlockInclusion_one (n : ℕ) : soBlockInclusion n 1 = 1 := by
-  ext : 1
-  simp [soBlockInclusion, Matrix.fromBlocks_one]
-
-/-- The finite-to-stable range: the block inclusion `SO(n) → SO(n+1)` induces a bijection on
-`π_i` for `i ≤ n − 2`, from the exact sequence of the fibration `SO(n) → SO(n+1) → Sⁿ`
-(README 4.2a). In degree `0` this is a statement about path components. -/
-theorem bijective_map_soBlockInclusion (n i : ℕ) (h : i + 2 ≤ n) :
-    Function.Bijective
-      (HomotopyGroup.map (N := Fin i) (soBlockInclusion n) (soBlockInclusion_one n)) :=
-  sorry
-
-/-- The block inclusion `SO(n) → SO(n+1)` induces a surjection on `π_i` for `i ≤ n − 1`
-(README 4.2a). -/
-theorem surjective_map_soBlockInclusion (n i : ℕ) (h : i + 1 ≤ n) :
-    Function.Surjective
-      (HomotopyGroup.map (N := Fin i) (soBlockInclusion n) (soBlockInclusion_one n)) :=
-  sorry
-
-/-- Real Bott periodicity in finite rank: for `i = j + 1 ≥ 1` and `m ≥ i + 10`, so that both
-groups are stable, `π_(i+8)(SO(m)) ≅ π_i(SO(m))` (README 4.2c). -/
-theorem nonempty_pi_add_eight_SO_mulEquiv (j m : ℕ) (hm : j + 11 ≤ m) :
-    Nonempty (π_ (j + 9) (SO m) 1 ≃* π_ (j + 1) (SO m) 1) :=
-  sorry
-
-/-- `π_i(SO(m)) = 0` for `i ≡ 2, 4, 5, 6 (mod 8)` in the stable range `m ≥ i + 2`, with
-`i = j + 1` (README 4.2c). -/
-theorem subsingleton_pi_SO_of_stable (j m : ℕ)
-    (hj : j % 8 = 1 ∨ j % 8 = 3 ∨ j % 8 = 4 ∨ j % 8 = 5) (hm : j + 3 ≤ m) :
-    Subsingleton (π_ (j + 1) (SO m) 1) :=
-  sorry
-
-/-- `π_i(SO(m)) ≅ ℤ/2` for `i ≡ 0, 1 (mod 8)`, `i ≥ 1`, in the stable range `m ≥ i + 2`, with
-`i = j + 1` (README 4.2c). -/
-theorem nonempty_pi_SO_mulEquiv_zmod_two (j m : ℕ) (hj : j % 8 = 0 ∨ j % 8 = 7)
-    (hm : j + 3 ≤ m) : Nonempty (π_ (j + 1) (SO m) 1 ≃* Multiplicative (ZMod 2)) :=
-  sorry
-
-/-- `π_i(SO(m)) ≅ ℤ` for `i ≡ 3, 7 (mod 8)` in the stable range `m ≥ i + 2`, with `i = j + 1`
-(README 4.2c). -/
-theorem nonempty_pi_SO_mulEquiv_int (j m : ℕ) (hj : j % 8 = 2 ∨ j % 8 = 6) (hm : j + 3 ≤ m) :
-    Nonempty (π_ (j + 1) (SO m) 1 ≃* Multiplicative ℤ) :=
-  sorry
-
-/-! ## Layer 4: the torsion group `π_(n−1)(SO(n))` -/
-
-/-- `π₂(SO(3)) = 0`, the first low-rank value of Lemma 6.35 (README 4.3): the double cover
-`S³ ≅ Spin(3) → SO(3)` induces an isomorphism on `π₂`, and `π₂(S³) = 0`. -/
-theorem subsingleton_pi2_SO3 : Subsingleton (π_ 2 (SO 3) 1) := sorry
-
-/-- `π₄(SO(5)) ≅ ℤ/2` (README 4.3). -/
-theorem nonempty_pi4_SO5_mulEquiv : Nonempty (π_ 4 (SO 5) 1 ≃* Multiplicative (ZMod 2)) := sorry
-
-/-- `π₆(SO(7)) = 0` (README 4.3). -/
-theorem subsingleton_pi6_SO7 : Subsingleton (π_ 6 (SO 7) 1) := sorry
-
-/-- `π₈(SO(9)) ≅ (ℤ/2)²`: the stabilization `π₈(SO(9)) → π₈(SO) = ℤ/2` is split with kernel
-`ℤ/2` (Crowley–Schick–Steimle, proof of Lemma 2.2; README 4.3). -/
-theorem nonempty_pi8_SO9_mulEquiv :
-    Nonempty (π_ 8 (SO 9) 1 ≃* Multiplicative (ZMod 2 × ZMod 2)) := sorry
-
-/-- `π₁₀(SO(11)) ≅ ℤ/2` (README 4.3). -/
-theorem nonempty_pi10_SO11_mulEquiv :
-    Nonempty (π_ 10 (SO 11) 1 ≃* Multiplicative (ZMod 2)) := sorry
-
-/-- `π₁₂(SO(13)) ≅ ℤ/2` (README 4.3). -/
-theorem nonempty_pi12_SO13_mulEquiv :
-    Nonempty (π_ 12 (SO 13) 1 ≃* Multiplicative (ZMod 2)) := sorry
-
-/-- `π₁₄(SO(15)) ≅ ℤ/2` (README 4.3). -/
-theorem nonempty_pi14_SO15_mulEquiv :
-    Nonempty (π_ 14 (SO 15) 1 ≃* Multiplicative (ZMod 2)) := sorry
-
-/-- The stable-plus-Stiefel splitting behind Lemma 6.35 for odd `n = k + 3 ≥ 17` (README 4.3):
-`π_(n−1)(SO(n)) ≅ π_(n−1)(O) × π_n(V_(n+2,2)(ℝ))`, with the stable term read in the finite rank
-`SO(n+1)`, where `π_(n−1)` is already stable by the range of README 4.2a, and `V_(n+2,2)(ℝ)` Tau
-Ceti's Stiefel manifold `TauCeti.stiefel` of orthonormal `2`-frames in `ℝⁿ⁺²`, at any base frame
-`v`. The Stiefel term is `ℤ/2`, the Euler number of `Sⁿ⁺¹` being `2`; the stable term is `ℤ/2` for
-`n ≡ 1 (mod 8)` and trivial for the other odd `n`. -/
-theorem nonempty_pi_SO_mulEquiv_prod_stiefel (k : ℕ) (hk : Odd (k + 3)) (h : 14 ≤ k)
-    (v : stiefel (EuclideanSpace ℝ (Fin (k + 5))) 2) :
-    Nonempty (π_ (k + 2) (SO (k + 3)) 1 ≃*
-      π_ (k + 2) (SO (k + 4)) 1 × π_ (k + 3) (stiefel (EuclideanSpace ℝ (Fin (k + 5))) 2) v) :=
-  sorry
-
-/-- Lemma 6.35: for every odd `n ≥ 3`, written `n = k + 3`, the group `π_(n−1)(SO(n))` is torsion:
-for `n ≤ 15` by the seven low-rank values, and for `n ≥ 17` by
-`nonempty_pi_SO_mulEquiv_prod_stiefel`, both of whose factors are finite (README 4.3). -/
-theorem isOfFinOrder_pi_SO (k : ℕ) (hk : Odd (k + 3))
-    (x : π_ (k + 2) (SO (k + 3)) 1) : IsOfFinOrder x := sorry
 
 /-! ## Layer 4: knotted hypersurfaces -/
 
