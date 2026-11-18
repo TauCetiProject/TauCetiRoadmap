@@ -36,121 +36,18 @@ The end theorems are Satz 1 (R28.1.11), the corrected Satz 2 (R28.3.4), Satz 3 a
 | R28.5 | Finiteness of isogeny classes and the Shafarevich conjecture | finiteness of Weil polynomials, the finite Frobenius test set, `finite_isogenyClasses`, Raynaud’s determinant identity, `finite_stableLattices`, the polarized Shafarevich theorem, Zarhin’s trick, `shafarevich_unpolarized`, rational Torelli, `finite_curves_goodReduction` |
 | R28.6 | Elliptic curves and the integral commutant | the elliptic-to-abelian comparison, `elliptic_semisimple`, `elliptic_tate_hom_iso`, `elliptic_isogenous_iff_ap`, `finite_ellipticIsogenyClass`, the cyclic Hom theorem, integral commutant generation at almost all primes |
 
-## Scope and ownership
+## How to read the build
 
-This roadmap owns:
-
-1. **Modular heights and Satz 1** (Layer R28.1): the adapter identifying the supplied Hodge line of a
-   stable Picard scheme with the curve Hodge line of JacobianChallengePartII Layer 6, the uniqueness of semiabelian models (a consequence of Faltings' Lemma 1, the extension
-   theorem for homomorphisms, which ArakelovGeometryAndAbelianHeights §2.0 owns), Faltings' correspondence stack of stable curves over `ℤ` dominating the Siegel moduli
-   space (Lemma 2), the comparison of the Hodge and modular line bundles with a uniform constant
-   (Korollar to Lemma 2), adapters to the supplied degree, semistable height in Faltings' normalisation and
-   logarithmic-metric results, the fixed-degree adapter to supplied Hermite–Minkowski
-   finiteness with prescribed ramification (Lemma 4), the descent from geometric to `K`-isomorphism
-   classes, polarization descent along isotropic kernels, the polarization reduction with a uniform field
-   extension, and Satz 1.
-2. **Isogenies and heights** (Layer R28.2): aliases of the supplied isogeny height formula (Lemma 5) and
-   valuation bounds, the triviality of inertia on `T_l(A)/T_l(H_i)` (Lemma 6), the count of
-   invariant differentials of the levels of an `l`-divisible group, the Hodge–Tate determinant at a
-   place above `l`, the description of `l`-adic characters of `Gal(ℚ̄/ℚ)`, the determinant of the
-   induced Tate module at `l`, the Frobenius weights of the induced Tate module, and the determinant
-   identity `Σ m_i d_i = mh/2`.
-3. **The erratum** (Layer R28.3): the toric-intersection shift and the comparison of the supplied
-   local closure shift with the global quotient tower of the 1984 erratum, the corrected Satz 2 (heights along
-   an `l`-divisible tower become stationary), the polarization reduction to a principally polarized
-   semiabelian model, powers of principally polarized models, the invariance of Satz 3 and Satz 4
-   under finite extension and isogeny, and the infinitely many isomorphic quotients along a maximal
-   isotropic tower.
-4. **The Tate conjecture** (Layer R28.4): Zarhin's quaternion construction, `−1` as a sum of four squares
-   in `ℤ_l`, Zarhin's idempotent lemma, Satz 3 and Satz 4, Korollar 1 (Hom form), Korollar 2 (the
-   isogeny criterion) and Korollar 3.
-5. **Finiteness** (Layer R28.5): the specialization of Mathlib's polynomial finiteness to a fixed
-   root radius, the Frobenius test set, Satz 5, the
-   auxiliary polynomials `P_h` and the bound `N`, the twisted determinant character and its
-   unramifiedness, mod `l` characters of `Gal(ℚ̄/ℚ)` unramified outside `l`, Raynaud's determinant
-   computation in this setting, heights along isogenies of large prime-power degree, the finiteness
-   of stable lattices up to isomorphism in a semisimple `ℚ_l`-representation, the small-prime bound,
-   Satz 6, the local maximal-order lattice classification, integral idempotent orbit finiteness and
-   the finiteness of direct factors, using the supplied Zarhin trick, the unpolarized Shafarevich theorem,
-   the field specialization of JacobianChallengePartII's canonical polarization, the uniqueness
-   part of strong Torelli with the perfect-field descent giving the rational Torelli theorem,
-   Korollar 1 to Satz 6.
-6. **Exports** (Layer R28.6): the identification of Weierstrass elliptic curves with one-dimensional
-   abelian varieties as this roadmap uses it, semisimplicity, the Tate Hom comparison, the isogeny criterion and the
-   finiteness of isogeny classes for elliptic curves over number fields, the rank-one Hom lemma, the
-   integral commutant at almost all primes (Bemerkung 2).
-
-Several general statements are stated here because none of the roadmaps this one builds on
-states them: the specialization of Mathlib's polynomial finiteness theorem to a fixed root radius and
-the finite Frobenius test set (in the generality the roadmaps building on this one use them), the
-descent of polarizations along isotropic subgroups, the
-finiteness of direct factors and its integral-order orbit input, the finiteness of stable lattices in a semisimple `l`-adic
-representation, the rational Torelli theorem as used here, and the bridge from Weierstrass curves to
-abelian varieties of dimension one. The arithmetic degree and height here are the explicit
-Faltings-1983 specialization of ArakelovGeometryAndAbelianHeights Layers 1–3; the
-fractional-ideal degree formula uses the existing fractional-ideal carrier rather than constructing
-another arithmetic intersection theory. R28.1.5 is an adapter to that supplied degree and semistable
-height. R28.1.6–R28.1.8 use ArakelovGeometryAndAbelianHeights §§5.1–5.4, and R28.2.1–R28.2.2
-use its §§4.1–4.4: the names here are aliases or specializations in the same Faltings normalization,
-not separately owned metric, height or isogeny theorems. R28.1.9 specializes
-Tau Ceti's `TauCeti.NumberField.finite_of_finrank_le_of_ramifiedSupport_subset` to fixed degree in the
-chosen algebraic closure; the generic restricted-ramification theorem is already in the library.
-Zarhin's trick, including graph descent, is supplied by PadicDifferentialEquationsAndRigidCohomology §RD.5.116 over `Spec(k)`;
-R28.5.12 owns its direct-factor application and the stated order-theoretic auxiliaries.
-The invariant-differential bundle and its determinant are supplied by
-SchemeAndStackFoundations §3.8 and AlgebraicVectorBundles Layers L0B–L0C.
-Its arbitrary base-change comparison and, for proper geometrically connected fibres,
-`ω_{A/S} ≅ p_*Ω^g_{A/S}`, are used through those suppliers and
-AbelianSchemesAndArithmeticModuli §A1.3; they are not additional definitions here.
-
-The rational-point and integral-point applications of Faltings 1983, §6, Satz 7 and
-Bemerkung 1, p. 365, are illustrated in the worked Parshin example. Its covering and
-de Franchis hypotheses are stated there explicitly. They are not new unconditional
-Mordell or Siegel declarations in this roadmap.
-
-This roadmap does not own, and cites:
-
-- **Mathlib**: schemes, morphism properties, the valuative criterion, relative normalisation, group
-  objects, number fields with their infinite places, discriminants, the different, the product
-  formula, heights on projective space and Northcott for number fields, `p`-adic numbers with
-  Hensel's lemma, semisimple rings and modules, bilinear forms and orthogonal complements, induced
-  representations, the transfer, determinants and traces, the `l`-adic and mod-`n` cyclotomic
-  characters, Galois groups of cyclotomic extensions of `ℚ`, Weierstrass curves.
-- **Tau Ceti**: `QuadraticMap.euler_four_squares` in `LinearAlgebra/QuadraticForm/FourSquares`
-  already proves the four-square identity for quadratic maps. R28.4.2 keeps the matrix-transpose
-  identity and the two-graph construction for an alternating form, which are different statements.
-  Abelian varieties over a field with homomorphisms, endomorphisms, products, base
-  change and isogenies; homomorphisms of Weierstrass curves with degree and composition; the double
-  centralizer theorem; finite locally free commutative group schemes; the ramified support of an
-  extension of number fields and Hermite's finiteness theorem for extensions of bounded degree
-  ramified only inside a finite set of finite places.
-- **TauCetiRoadmap roadmaps**: ClassFieldTheory (Kronecker–Weber), Chebotarev (Frobenius classes),
-  GlobalNumberFields (ramification in cyclotomic fields), NumberFieldArithmetic (the bound on the
-  different exponent), EllipticCurves (dual isogenies, Tate modules, reduction of elliptic curves),
-  JacobianChallenge (Jacobians and their principal polarization).
-- **Roadmaps this one builds on**: AbelianSchemesAndArithmeticModuli (abelian schemes,
-  polarizations, Weil pairings, the arithmetic of Hom), JacobianChallengePartII (relative
-  Jacobians, their canonical principal polarization, and the stable Picard Lie and Hodge
-  comparisons), AbelianSchemesAndArithmeticModuliPartII (geometric strong Torelli), NeronModelsAndSemistableAbelianVarieties
-  (Néron models, semistable reduction, the monodromy criterion, Néron–Ogg–Shafarevich),
-  ArithmeticGaloisRepresentations (Tate modules with their Frobenius polynomials, induction and
-  determinants), WeightsInEtaleCohomology (the Weil bound), FiniteFlatGroupsAndIntegralPadicHodgeTheory
-  (`p`-divisible groups, Tate's and Raynaud's local theorems), PadicPeriodRings §2 (Tate–Sen),
-  PELModuli (the Siegel moduli stack, its coarse space and level rigidity), ShimuraVarieties (the
-  Baily–Borel compactification), ArakelovGeometryAndAbelianHeights (semiabelian families, Siegel compactifications,
-  the arithmetic degree, semistable height, logarithmic metrics and isogeny variation),
-  PadicDifferentialEquationsAndRigidCohomology (Zarhin's trick with graph descent),
-  ClassicalArithmeticCompletion (orders and containing maximal orders), AdelicAlgebraicGroups
-  (closed-orbit reduction theory),
-  ComplexComparisonPartII (analytification), AlgebraicModuliForArithmeticGeometry (Deligne–Mumford
-  stacks).
-  The exact statements consumed are listed under *Exact supplier contracts*.
-
-This roadmap gives no effective global height bound in Satz 6: that bound comes from a finiteness
-argument. Auxiliary constants such as the auxiliary bound have explicit values in worked Checks. It does not prove the
-Mordell conjecture by the Vojta–Bombieri or Lawrence–Venkatesh methods, nor Siegel's theorem by
-Diophantine approximation; it does not develop Arakelov intersection theory beyond the degree of a
-metrized line bundle on `Spec(O_K)`; and it does not treat abelian varieties over function fields.
+R28.1 defines the modular height of a semistable abelian variety and proves Satz 1, the finiteness of
+principally polarized abelian varieties of bounded height over a fixed number field; the proof
+compares the height with a projective height through the correspondence stack and the logarithmic
+singularities of the Hodge metric. R28.2 computes heights along isogenies and proves the determinant
+identity `Σ m_i d_i = mh/2`. R28.3 repairs Satz 2 with the erratum, proves that the heights along an
+`l`-divisible tower become stationary, and builds the principally polarized towers. R28.4 proves Satz 3
+and Satz 4 by Zarhin's argument and the quaternion construction, with Korollare 1–3. R28.5 proves Satz 5
+and Satz 6, removes the polarization, and deduces the finiteness of curves with good reduction outside
+`S`, the input to Parshin's implication. R28.6 exports the results to elliptic curves and proves the
+integral commutant statement at almost all primes. Subsections are in dependency order within each layer; some Checks and applications point forward.
 
 ## Conventions
 
@@ -240,249 +137,6 @@ metrized line bundle on `Spec(O_K)`; and it does not treat abelian varieties ove
   commutative group structure for abelian varieties. The rational elliptic representation
   is the scalar extension of the integral Tate action. The other targets are specified
   in this README.
-
-## Exact supplier contracts
-
-Each supplier statement is consumed with its own hypotheses; where a target needs more than a
-supplier states, the additional statement is part of that target here.
-
-### From Mathlib (pinned)
-
-- Schemes: `AlgebraicGeometry.Scheme`, `Scheme.Hom`, `IsProper`, `IsSeparated`, `Smooth`, `IsFinite`,
-  the valuative criterion `IsProper.eq_valuativeCriterion`, relative normalisation
-  `Scheme.Hom.normalization`, and Zariski's main theorem in the form
-  `IsFinite.of_isProper_of_locallyQuasiFinite` (proper and locally quasi-finite morphisms are finite).
-  Group objects `CategoryTheory.GrpObj` and homomorphisms `IsMonHom`.
-- Number fields: `NumberField.RingOfIntegers`, `InfinitePlace` with `InfinitePlace.mult` (the weights
-  `ε_v`), the product formula `NumberField.prod_abs_eq_one`, `IsDedekindDomain.HeightOneSpectrum`,
-  `FractionalIdeal.absNorm`, discriminants `NumberField.discr`, Hermite's theorem
-  `NumberField.finite_of_discr_bdd`, the different (`not_dvd_differentIdeal_iff`,
-  `NumberField.natAbs_discr_eq_absNorm_differentIdeal_mul_natAbs_discr_pow`), cyclotomic fields
-  (`IsCyclotomicExtension.Rat.galEquivZMod`, `IsCyclotomicExtension.Rat.ramificationIdxIn_eq_of_prime_pow`).
-- Heights: `Projectivization.logHeight`, `Projectivization.mulHeight`,
-  `NumberField.finite_setOfPred_mulHeight₁_le` (Northcott over a number field), `Height.mulHeight_comp_le`,
-  `Height.mulHeight₁_div_eq_mulHeight`.
-- `p`-adic numbers: `PadicInt` with `PadicInt.compactSpace`, Hensel's lemma `hensels_lemma`,
-  `ZMod.sq_add_sq`, `Nat.sum_four_squares`.
-- Algebra: `IsSemisimpleModule`, `IsSemisimpleRing` with `IsSemisimpleRing.ideal_eq_span_idempotent`,
-  `Algebra.traceForm`, `LinearMap.BilinForm.IsAlt`, `LinearMap.BilinForm.orthogonal`,
-  `LinearMap.BilinForm.finrank_add_finrank_orthogonal`, `LinearMap.det`, `LinearMap.trace`, `Matrix`,
-  `Polynomial` (with `Polynomial.roots` and Vieta's formulas), `Polynomial.finite_mahlerMeasure_le`
-  (bounded degree and Mahler measure over `ℤ`),
-  `Polynomial.mahlerMeasure_eq_leadingCoeff_mul_prod_roots`, `Submodule.IsLattice`, Nakayama's lemma.
-- Galois theory and representations: `Field.absoluteGaloisGroup`, `cyclotomicCharacter`,
-  `modularCyclotomicCharacter`, `Representation.ind`, the transfer `MonoidHom.transfer` with
-  `MonoidHom.transfer_eq_prod_quotient_orbitRel_zpowers_quot`.
-- Elliptic curves: `WeierstrassCurve`, `WeierstrassCurve.IsElliptic`, `WeierstrassCurve.VariableChange`.
-- `Matrix.Module.matrixModule` (scoped): matrices act on `V^n` through their coefficients, with
-  `one_smul`, `zero_smul`, `mul_smul` and `Matrix.Module.smul_apply`.
-
-### From Tau Ceti (pinned)
-
-The abelian-variety modules are `TauCeti.AlgebraicGeometry.AbelianVariety.Basic`,
-`.MorphismGroup`, `.End.Basic`, `.Product` and `.Isogeny`. Their namespace is
-`TauCeti.AlgebraicGeometry.AbelianVariety`; the short names below refer to it.
-The Weierstrass Hom modules are `TauCeti.AlgebraicGeometry.EllipticCurve.Isogeny.Hom.Basic`,
-`.Hom.Add` and `.MulByInt.Hom`, with namespace `TauCeti.Isogeny.Hom`.
-
-- `TauCeti.AlgebraicGeometry.AbelianVariety` over a field, with `AbelianVariety.Hom` (a commutative group,
-  written multiplicatively), `AbelianVariety.End` (a ring), `AbelianVariety.prod`,
-  `AbelianVariety.baseChange` and `AbelianVariety.IsIsogeny` (finite and surjective).
-- `TauCeti.Isogeny.Hom W₁ W₂` for Weierstrass curves: the zero map and the isogenies, an additive group
-  (`Isogeny.Hom.add_comp`), with composition, `Isogeny.Hom.degree`, `Isogeny.Hom.comp_eq_zero_iff` and
-  `Isogeny.Hom.degree_zsmul` (`deg(n • f) = n²·deg f` on elliptic targets).
-- `AlgHom.centralizer_centralizer_range` in `TauCeti.RingTheory.Semisimple.DoubleCentralizer`
-  (the double centralizer theorem for a semisimple algebra acting
-  on a finite module) and `TauCeti.finiteLocallyFreeCommAffineGroupSchemeProperty` (finite locally free
-  commutative group schemes with Cartier duality).
-- `LinearMap.BilinForm.prod` in `TauCeti.LinearAlgebra.BilinearForm.Prod` gives the
-  block-diagonal sum of two bilinear forms. The orthogonal-sum form evaluates it on the two coordinatewise
-  sums over `Fin 4`; those coordinatewise forms have no dedicated pinned carrier.
-- `TauCeti.NumberField.ramifiedSupport K L` in
-  `TauCeti.NumberTheory.NumberField.Discriminant.RamifiedSupport.Basic`: the finite places of `K`
-  dividing the relative discriminant of `L/K`, with `TauCeti.NumberField.mem_ramifiedSupport_iff_exists`
-  (a place lies in it exactly when some prime of `L` above it has ramification index greater than one).
-  `TauCeti.NumberField.finite_of_finrank_le_of_ramifiedSupport_subset` in
-  `TauCeti.NumberTheory.NumberField.Discriminant.RamifiedSupport.Hermite`: inside a field `A`
-  containing `K`, only finitely many finite extensions of `K` have degree at most `d` and ramified
-  support inside a given finite set of finite places. Used in R28.1.9.
-
-### From TauCetiRoadmap roadmaps
-
-- *ClassFieldTheory, Layer 13*: `kroneckerWeber` (every finite abelian extension of `ℚ` lies in a cyclotomic
-  field). Used in R28.2.6 and R28.5.6.
-- *Chebotarev, Layer 10*: `hasDirichletDensity_frobeniusPrimeSet`, with the consequence that every
-  conjugacy class of a finite Galois group is the Frobenius class of infinitely many primes. Used in
-  R28.4.7 and R28.5.2.
-- *GlobalNumberFields, Layer 10*: ramification in cyclotomic fields. Used in R28.5.6.
-- *NumberFieldArithmetic, Layer 6.4* and *LocalFieldsRamification, Layer 3*
-  and Tau Ceti `TauCeti.differentExponent_le_ramificationIndex_sub_one_add_natCastValuation`
-  in `TauCeti.NumberTheory.LocalField.Different.Wild`: in the wild case, `e ≤ v_𝔓(𝔇) ≤ e − 1 + v_𝔓(e)`;
-  in the tame case, `v_𝔓(𝔇) = e − 1`. Thus the upper bound holds in both cases. Used in R28.1.9.
-- *EllipticCurves, Layers 1, 2 and 4*: the dual isogeny over `K`, the Tate module of a Weierstrass curve with
-  its Galois action, reduction types and `a_v`. Used in Layer R28.6.
-- *JacobianChallenge, Layers D and E*: Picard representability and the principal polarization
-  of a pointed curve's Jacobian by the theta divisor, independent of translation of theta.
-  R28.5.14 obtains the field specialization of the canonical Jacobian polarization on the unpointed Jacobian of
-  SchemeAndStackFoundations §3.6 by specializing JacobianChallengePartII §1.4 to `S = Spec(k)`.
-
-### From the roadmaps this one builds on
-
-- *SchemeAndStackFoundations*: §2.20 `RelativeDualizingComplex`, `relativeDualizingModule` and
-  `curve_dualizing_comparison` (over a field), for the relative dualising sheaf of a stable curve; §3.8 `invariant_differentials`; §4.15 `StableCurves.Mbar`,
-  `Mbar_algebraic_proper_DM` and `level_structure_cover`; §4.17 normal-crossings divisors.
-  **AlgebraicVectorBundles** Layers L0B–L0C supplies `determinantObj` with pullback and product
-  compatibility. Together these supply the Hodge line `det(e^*Ω¹)` on a smooth group scheme.
-  On an abelian scheme its proper pushforward description is
-  AbelianSchemesAndArithmeticModuli §A1.3 `relativeInvariantForms` and §A6.38 `AbelianHodgeLine`.
-  Section 3.5 supplies `lineBundleNorm`, `lineBundleNorm_pullback` and
-  `lineBundleNorm_baseChange` for R28.1.3, with §3.2 `scheme_riemann_hurwitz`.
-  Section 3.6 supplies `jacobian` and `jacobian_dim` without a rational-point hypothesis;
-  §1.1 supplies descent of sheaf morphisms for R28.5.14. Sections 1.18–1.20 supply
-  effective descent, finite-presentation and proper-stack carriers, and the groupoid
-  of lifts with a specified generic identification for R28.1.4; §§0.20–0.21 supply
-  finite normalization over excellent bases.
-- *AlgebraicModuliForArithmeticGeometry*: §5.4 `ArithmeticModuli.DMSchematicClosure.stack`,
-  `ArithmeticModuli.DMNormalization.stack`, `ArithmeticModuli.DMNormalization.finite`.
-- *JacobianChallengePartII*: §1.2 the relative Jacobian `J(X/S) = Pic⁰_{X/S}`, which over a field
-  base is JacobianChallenge Layer D's Jacobian, and §1.3 its base change; §1.4 the canonical
-  principal polarization `λ_X`, defined without a degree-one bundle, compatible with every base
-  change and equal to `φ_{O(θ_α)}` on a field fibre with a degree-one divisor `α`. For a stable
-  family of genus `g ≥ 2` over an integral Noetherian base, §6.1 the Lie comparison
-  `Lie(Pic⁰_{C/S}) ≅ R¹q_*O_C`, §6.2 the rank-`g` comparison `q_*ω_{C/S} ≅ e^*Ω¹_{Pic⁰/S}` and
-  §6.3 its determinant, each compatible with base change. R28.1.1 adapts §§6.1–6.3 to Faltings'
-  Hodge line; R28.5.14 specializes §§1.2–1.4 to a field. The analytic metric stays here.
-- *AbelianSchemesAndArithmeticModuliPartII*: B4.1, geometric strong Torelli: for smooth
-  projective connected curves of genus `g ≥ 2` over an algebraically closed field, Abel
-  embeddings `j`, `j′` and an isomorphism `β` of canonically polarized Jacobians, there are a
-  curve isomorphism `α`, a sign `ε` and a point `c` with `j′ ∘ α = ε β ∘ j + c`. R28.5.14 adds the
-  uniqueness of `(α, ε, c)` and the descent to a perfect field.
-- *ComplexComparisonPartII*: C0.3 `holomorphicBundleDictionary` and C0.4 `CoherentAnalytification`
-  are direct prerequisites of Layer R28.1. They identify holomorphic bundles with finite locally free
-  analytic sheaves on complex manifolds and analytify coherent sheaves on schemes locally of finite
-  type over `ℂ`, compatibly with tensor products. ArakelovGeometryAndAbelianHeights also uses coherent
-  analytification in supplying the height and metric comparisons.
-- *AbelianSchemesAndArithmeticModuli*: A0.2 `fieldAndEllipticBoundary`; A1.3 `relativeInvariantForms`; A1.6
-  `relativeEllipticEquivalence`; A2.2 `AbelianScheme.dual` (with the duality of products); A2.5 `Polarization`
-  (`Polarization.degree`: the kernel has rank `d²` for a polarization of their degree `d`); A3.3
-  `AbelianQuotient`; A3.6 `ThetaGroup` (`ThetaGroup.commutator`, `ThetaGroup.descend`); A3.7
-  `polarizedWeilPairing`; A6.1 `Hom.deg` (with the function-field degree); A6.2 `homTateInjective`; A6.5
-  `poincareReducibility`; A6.7 `homFreeFinite` (Hom free of finite rank, `Hom ⊗ ℤ_l → Hom(T_l, T_l)` injective
-  with torsion-free cokernel); A6.8 `endQ_isSemisimple` (with `End(A^n) = M_n(End A)` compatibly with `T_l`);
-  A6.13 `polarizedIsogenyDegree`; A6.14 Rosati positivity; A6.18 `polarizedAutomorphisms` (finiteness of
-  `Aut(A, λ)` and level-`n ≥ 3` rigidity); A6.20 `homDescentFullLevel`; A6.33 `weilRestrictionTate`; A6.38
-  `AbelianHodgeLine`. Their "polarization of degree `d`" is a polarization of degree `d²` in the convention
-  here.
-- *ArithmeticGaloisRepresentations*: §1.3 “The Mackey decomposition”, using pinned
-  `Rep.mackeyDecomposition` for the abstract isomorphism, and the prose targets
-  “The Mackey decomposition” and “The determinant of an induced representation”. Induction is from an open subgroup of a compact group on a finite-rank
-  free module; the Mackey restriction subgroup is closed. §1.6
-  stable lattices; §1.8 Brauer–Nesbitt (`ContinuousRep.iso_of_charpoly_eq`) in its trace form:
-  semisimple representations of dimension `d` with equal traces are isomorphic when `d!` is
-  invertible, in particular in characteristic `0`; §5.1 density of `GaloisRep.frobeniusSet` and its
-  finite-quotient consequence; §5.3 recognition on a dense subset, both from Frobenius
-  polynomials (`GaloisRep.iso_of_frobenius_charpoly_eq`) and from traces when `n!` is invertible; §6.1
-  `TateModule.tateModule`, `TateModule.tateModuleRep`, “The elliptic comparison” and
-  “Functoriality of the arithmetic adapter”. These use AbelianSchemesAndArithmeticModuli
-  §A4.1 `AbelianTate.map` and `AbelianTate.baseChange`; an isogeny induces an injection of Tate
-  lattices with cokernel of order its degree's `l`-part, and products give direct sums.
-  Section 6.2 transports the supplied alternating pairings into the cyclotomic target,
-  perfect when `l ∤ deg λ`, with the supplied product comparison. Section 6.3
-  `TateModule.localEulerFactor` uses geometric Frobenius on the inertia invariants of `H¹`,
-  equivalently arithmetic Frobenius on the Tate coinvariants; it includes isogeny invariance,
-  products and agreement with the Weil–Deligne factor. Section 7.1 supplies
-  `ContinuousRep.extPower`. Integral good-reduction polynomials independent of `l` and their
-  all-conjugates Weil bounds are WeightsInEtaleCohomology R34.2, “Frobenius on the Tate module
-  and first cohomology” and “Purity and integral polynomials at good reduction”, using
-  AbelianSchemesAndArithmeticModuli §A6.11 `charpolyTate` and DeligneWeightsAndPurity §1.4.
-- *NeronModelsAndSemistableAbelianVarieties*: §3.1 `SemistableReduction` (`toric_zero`); §3.2
-  `SemistabilityIsogeny`; §3.3 `SemistableIdentityBasechange`; §3.5 `ToricFiniteFiltration`,
-  `FiniteFlatToricFiltration`; §3.6 `Orthogonality`, `FiniteFlatOrthogonality`; §3.7 `InertiaSquareZero`; §3.8–§3.9
-  `PicardNeronIdentity`; §3.10 `JacobianIsogenyFactor` (positive dimension over an infinite field) and
-  `FiniteSeparableSemistableExtension`; §3.11 `MonodromyCriterion`; §3.12
-  `FiniteTorsionSemistability` (semistable over `K(A[n])` at places prime to `n ≥ 3`); §3.13
-  `RaynaudExtensionComparison`; §2.4 `ToricCharacter`; §4.13 `StableFamilyPicard`; §5.1 `NeronOggShafarevich`;
-  §5.2 `GoodIsogeny`; §6.4 `IsogenyDifferentialExport`; §6.5 `EquationGoodComparison`. These are local
-  statements over excellent (henselian) discrete valuation rings; the number-field forms used here apply them
-  at each place.
-- *HeightsAndUnits*: §1.1 `instNorthcottProjectivizationMulHeight` and
-  `instNorthcottProjectivizationLogHeight`; *DiophantineApproximationAndTranscendence*: §§0.2–0.3
-  `absoluteProjectiveTupleHeight`, `mulHeight_pow_finrank` and `finite_setOf_absMulHeight₁_le`.
-  For a finite extension `L/K` of number fields and a finite tuple `x` over `K`,
-  `mulHeight_pow_finrank` in §0.2 states `H_rel,K(x)^[L:K] = H_rel,L(x)`
-  for a tuple indexed by any finite type; reversing this equality gives the orientation used here,
-  with coordinates mapped along the number-field algebra map `K → L`;
-  the zero tuple has height `1`. Applying this to `(x,1)` gives the scalar comparison.
-  The absolute tuple height is `H_abs(x) = H_rel,K(x)^(1/[K:ℚ])` and is invariant under
-  extension, since `[L:ℚ] = [L:K][K:ℚ]` cancels the relative-height power
-  ([Wu, *Arithmetic heights*](https://www.math.columbia.edu/~xiaorunw/diop/08.pdf),
-  §2, Lemma 2.5 and Definition 2.7, p. 4).
-  These supply the normalization, extension comparisons and projective Northcott used here.
-
-  **Checks.**
-
-  - The tuple `(2,1)` has relative height `2` over `ℚ` and `4` over `ℚ(i)`.
-  - Its absolute height is `2` over both fields.
-  - The zero tuple has height `1` over both fields, consistent with `1^[L:K] = 1`.
-- *DeligneWeightsAndPurity*: DWP.0 §0.14 (eigenvalues of exterior powers), DWP.1 §1.4 (the Weil estimate for
-  abelian varieties over `𝔽_q`).
-- *FiniteFlatGroupsAndIntegralPadicHodgeTheory*: R07.1.3 `finitePart`; R07.1.8 `BarsottiTate.tateModule`;
-  R07.1.14 `BarsottiTate.dim`; R07.1.16 `BarsottiTate.discr_level`; R07.1.17
-  `invariantDifferentialsAndAbsoluteDifferent` (`ω_{G[p^v]} ≅ (R/p^vR)^d`; `v_R(𝔇(𝒢)) = length_R ω_𝒢`); R07.1.19 `BarsottiTate.hodgeTate` (the determinant consequence); R07.1.20 `schematicClosure_flat`;
-  R07.1.20a `BarsottiTate.quotientFiniteFlatSubgroup` (quotients by finite flat subgroups);
-  R07.1.21 `BarsottiTate.exists_of_tateModule_summand` (Tate's Proposition 12); R07.1.33
-  `raynaudDeterminantTameDifferent` (Raynaud's Théorème 4.1.1, over a strictly henselian base with `e ≤ p − 1`).
-- *WeightsInEtaleCohomology*: R34.2 (Frobenius on the Tate module at good reduction, weights of exterior
-  powers).
-- *PELModuli*: M2.1 `rigidity`; M6.3 `siegelStack`; M6.5 `coarseModuli`; M6.7 `descentObstruction` (`K`-forms
-  split by `K'` ↔ `H^1(Gal(K'/K), Aut_{K'})`); M6.9 `hodgeLine`; M6.10 `moduliPoint`.
-- *ShimuraVarieties*: §2.7 `TauCeti.Shimura.baily_borel`; §8.18 `CanonicalModel.minimal_defined_over_reflex`.
-- *PadicPeriodRings*: §2 `tateSen` and `tateSen_character` (Tate's theorems on `C(ψ)`: `C(ψ) ≅ C` exactly when `ψ` has finite
-  image on inertia; representations with finite image on inertia are `C`-trivial).
-- *ArakelovGeometryAndAbelianHeights*: §§1.3–1.6, 1.12–1.14 (the arithmetic degree of a hermitian line bundle on `Spec(O_K)`
-  and its comparison with projective heights, including §1.3
-  `HermitianBundle.arakelovDegree_ofFractionalIdeal`, `HermitianBundle.arakelovDegree_eq_infinitePlace`
-  and `HermitianBundle.arakelovDegree_rescale`), §§2.1–2.8 (the Hodge bundle with its integration metric), §§3.1–3.4
-  (the height of a semiabelian model and its base-change invariance), §§4.1–4.4 (the isogeny variation:
-  flatness of an isogeny of semiabelian models, its quasi-finite flat kernel, the inclusion of Hodge lattices
-  with cokernel `s^*(Ω^1_{G/R})`, the archimedean scaling by `deg φ`, and the bound
-  `|v_p(exp(2m(h(B) − h(A))))| ≤ m·v_p(deg φ)`), §§5.1–5.4
-  (`HermitianMetric.HasLogSingularities`, its local and tensor API, logarithmic Northcott,
-  Hodge growth and `SiegelModuli.modularMetric_logSing`). R28.1.5–R28.1.8 and R28.2.1–R28.2.2
-  use aliases and specializations of these objects and results in Faltings' normalization.
-- *PadicDifferentialEquationsAndRigidCohomology*: §RD.5.116, Zarhin's trick with its finite-flat
-  graph quotient and principal-polarization descent, specialized to `Spec(k)` with a `k`-polarization.
-- *ClassicalArithmeticCompletion*: §7.4 `IntegralOrder.IsOrder` (an order is a subalgebra which
-  is a full lattice), §7.21 `IntegralOrder.IsMaximalOrder`, §7.56 (every order in a
-  finite-dimensional characteristic-zero semisimple algebra lies in a maximal order).
-- *AdelicAlgebraicGroups*: AA.3.3, “Reduction for reductive subgroups of GL_n”,
-  “Closed-orbit lattice finiteness” and “Rational points on closed orbits”. R28.5.12 constructs
-  the arithmetic closed-conjugacy-orbit adapter from these reduction results.
-
-The semiabelian-family carrier and dense-open homomorphism extension are
-ArakelovGeometryAndAbelianHeights §2.0 `GroupScheme.IsSemiAbelianFamily` and
-`GroupScheme.semiAbelianHom_extend`. The integral principal Siegel compactifications are its
-§§5.0a–5.0b `SiegelModuli.ToroidalCompactification`, `SiegelModuli.toroidalFamily`,
-`SiegelModuli.MinimalCompactification`, `SiegelModuli.toroidalToMinimal` and
-`SiegelModuli.minimalHodgePower_pullback`. They include smooth complex normal-crossings charts,
-a proper toroidal stack over all of `ℤ`, a normal projective minimal coarse scheme over `ℤ`,
-and a positive Hodge power pulled back from an ample line on that scheme. The integral
-base and all primes are retained; a space over `ℤ[1/n]` alone does not provide this contract.
-This roadmap's correspondence stack adds a stable-curve family and a saturated
-Hodge subline over an integral proper correspondence, rather than a second Siegel compactification.
-
-## How to read the build
-
-R28.1 defines the modular height of a semistable abelian variety and proves Satz 1, the finiteness of
-principally polarized abelian varieties of bounded height over a fixed number field; the proof
-compares the height with a projective height through the correspondence stack and the logarithmic
-singularities of the Hodge metric. R28.2 computes heights along isogenies and proves the determinant
-identity `Σ m_i d_i = mh/2`. R28.3 repairs Satz 2 with the erratum, proves that the heights along an
-`l`-divisible tower become stationary, and builds the principally polarized towers. R28.4 proves Satz 3
-and Satz 4 by Zarhin's argument and the quaternion construction, with Korollare 1–3. R28.5 proves Satz 5
-and Satz 6, removes the polarization, and deduces the finiteness of curves with good reduction outside
-`S`, the input to Parshin's implication. R28.6 exports the results to elliptic curves and proves the
-integral commutant statement at almost all primes. Subsections are in dependency order within each layer; some Checks and applications point forward.
 
 ## Layer R28.1: Semiabelian models, modular heights and finiteness of bounded height
 
@@ -2968,6 +2622,352 @@ connected curve over a field is projective and geometrically integral), with the
 AxiomMath's own cohomology rather than Tau Ceti's. No target of Layers R28.1–R28.6 has a counterpart
 in this directory: it has no modular height, isogeny estimate, Tate module, good reduction of curves
 or finiteness of curves.
+
+## Scope and ownership
+
+This roadmap owns:
+
+1. **Modular heights and Satz 1** (Layer R28.1): the adapter identifying the supplied Hodge line of a
+   stable Picard scheme with the curve Hodge line of JacobianChallengePartII Layer 6, the uniqueness of semiabelian models (a consequence of Faltings' Lemma 1, the extension
+   theorem for homomorphisms, which ArakelovGeometryAndAbelianHeights §2.0 owns), Faltings' correspondence stack of stable curves over `ℤ` dominating the Siegel moduli
+   space (Lemma 2), the comparison of the Hodge and modular line bundles with a uniform constant
+   (Korollar to Lemma 2), adapters to the supplied degree, semistable height in Faltings' normalisation and
+   logarithmic-metric results, the fixed-degree adapter to supplied Hermite–Minkowski
+   finiteness with prescribed ramification (Lemma 4), the descent from geometric to `K`-isomorphism
+   classes, polarization descent along isotropic kernels, the polarization reduction with a uniform field
+   extension, and Satz 1.
+2. **Isogenies and heights** (Layer R28.2): aliases of the supplied isogeny height formula (Lemma 5) and
+   valuation bounds, the triviality of inertia on `T_l(A)/T_l(H_i)` (Lemma 6), the count of
+   invariant differentials of the levels of an `l`-divisible group, the Hodge–Tate determinant at a
+   place above `l`, the description of `l`-adic characters of `Gal(ℚ̄/ℚ)`, the determinant of the
+   induced Tate module at `l`, the Frobenius weights of the induced Tate module, and the determinant
+   identity `Σ m_i d_i = mh/2`.
+3. **The erratum** (Layer R28.3): the toric-intersection shift and the comparison of the supplied
+   local closure shift with the global quotient tower of the 1984 erratum, the corrected Satz 2 (heights along
+   an `l`-divisible tower become stationary), the polarization reduction to a principally polarized
+   semiabelian model, powers of principally polarized models, the invariance of Satz 3 and Satz 4
+   under finite extension and isogeny, and the infinitely many isomorphic quotients along a maximal
+   isotropic tower.
+4. **The Tate conjecture** (Layer R28.4): Zarhin's quaternion construction, `−1` as a sum of four squares
+   in `ℤ_l`, Zarhin's idempotent lemma, Satz 3 and Satz 4, Korollar 1 (Hom form), Korollar 2 (the
+   isogeny criterion) and Korollar 3.
+5. **Finiteness** (Layer R28.5): the specialization of Mathlib's polynomial finiteness to a fixed
+   root radius, the Frobenius test set, Satz 5, the
+   auxiliary polynomials `P_h` and the bound `N`, the twisted determinant character and its
+   unramifiedness, mod `l` characters of `Gal(ℚ̄/ℚ)` unramified outside `l`, Raynaud's determinant
+   computation in this setting, heights along isogenies of large prime-power degree, the finiteness
+   of stable lattices up to isomorphism in a semisimple `ℚ_l`-representation, the small-prime bound,
+   Satz 6, the local maximal-order lattice classification, integral idempotent orbit finiteness and
+   the finiteness of direct factors, using the supplied Zarhin trick, the unpolarized Shafarevich theorem,
+   the field specialization of JacobianChallengePartII's canonical polarization, the uniqueness
+   part of strong Torelli with the perfect-field descent giving the rational Torelli theorem,
+   Korollar 1 to Satz 6.
+6. **Exports** (Layer R28.6): the identification of Weierstrass elliptic curves with one-dimensional
+   abelian varieties as this roadmap uses it, semisimplicity, the Tate Hom comparison, the isogeny criterion and the
+   finiteness of isogeny classes for elliptic curves over number fields, the rank-one Hom lemma, the
+   integral commutant at almost all primes (Bemerkung 2).
+
+Several general statements are stated here because none of the roadmaps this one builds on
+states them: the specialization of Mathlib's polynomial finiteness theorem to a fixed root radius and
+the finite Frobenius test set (in the generality the roadmaps building on this one use them), the
+descent of polarizations along isotropic subgroups, the
+finiteness of direct factors and its integral-order orbit input, the finiteness of stable lattices in a semisimple `l`-adic
+representation, the rational Torelli theorem as used here, and the bridge from Weierstrass curves to
+abelian varieties of dimension one. The arithmetic degree and height here are the explicit
+Faltings-1983 specialization of ArakelovGeometryAndAbelianHeights Layers 1–3; the
+fractional-ideal degree formula uses the existing fractional-ideal carrier rather than constructing
+another arithmetic intersection theory. R28.1.5 is an adapter to that supplied degree and semistable
+height. R28.1.6–R28.1.8 use ArakelovGeometryAndAbelianHeights §§5.1–5.4, and R28.2.1–R28.2.2
+use its §§4.1–4.4: the names here are aliases or specializations in the same Faltings normalization,
+not separately owned metric, height or isogeny theorems. R28.1.9 specializes
+Tau Ceti's `TauCeti.NumberField.finite_of_finrank_le_of_ramifiedSupport_subset` to fixed degree in the
+chosen algebraic closure; the generic restricted-ramification theorem is already in the library.
+Zarhin's trick, including graph descent, is supplied by PadicDifferentialEquationsAndRigidCohomology §RD.5.116 over `Spec(k)`;
+R28.5.12 owns its direct-factor application and the stated order-theoretic auxiliaries.
+The invariant-differential bundle and its determinant are supplied by
+SchemeAndStackFoundations §3.8 and AlgebraicVectorBundles Layers L0B–L0C.
+Its arbitrary base-change comparison and, for proper geometrically connected fibres,
+`ω_{A/S} ≅ p_*Ω^g_{A/S}`, are used through those suppliers and
+AbelianSchemesAndArithmeticModuli §A1.3; they are not additional definitions here.
+
+The rational-point and integral-point applications of Faltings 1983, §6, Satz 7 and
+Bemerkung 1, p. 365, are illustrated in the worked Parshin example. Its covering and
+de Franchis hypotheses are stated there explicitly. They are not new unconditional
+Mordell or Siegel declarations in this roadmap.
+
+This roadmap does not own, and cites:
+
+- **Mathlib**: schemes, morphism properties, the valuative criterion, relative normalisation, group
+  objects, number fields with their infinite places, discriminants, the different, the product
+  formula, heights on projective space and Northcott for number fields, `p`-adic numbers with
+  Hensel's lemma, semisimple rings and modules, bilinear forms and orthogonal complements, induced
+  representations, the transfer, determinants and traces, the `l`-adic and mod-`n` cyclotomic
+  characters, Galois groups of cyclotomic extensions of `ℚ`, Weierstrass curves.
+- **Tau Ceti**: `QuadraticMap.euler_four_squares` in `LinearAlgebra/QuadraticForm/FourSquares`
+  already proves the four-square identity for quadratic maps. R28.4.2 keeps the matrix-transpose
+  identity and the two-graph construction for an alternating form, which are different statements.
+  Abelian varieties over a field with homomorphisms, endomorphisms, products, base
+  change and isogenies; homomorphisms of Weierstrass curves with degree and composition; the double
+  centralizer theorem; finite locally free commutative group schemes; the ramified support of an
+  extension of number fields and Hermite's finiteness theorem for extensions of bounded degree
+  ramified only inside a finite set of finite places.
+- **TauCetiRoadmap roadmaps**: ClassFieldTheory (Kronecker–Weber), Chebotarev (Frobenius classes),
+  GlobalNumberFields (ramification in cyclotomic fields), NumberFieldArithmetic (the bound on the
+  different exponent), EllipticCurves (dual isogenies, Tate modules, reduction of elliptic curves),
+  JacobianChallenge (Jacobians and their principal polarization).
+- **Roadmaps this one builds on**: AbelianSchemesAndArithmeticModuli (abelian schemes,
+  polarizations, Weil pairings, the arithmetic of Hom), JacobianChallengePartII (relative
+  Jacobians, their canonical principal polarization, and the stable Picard Lie and Hodge
+  comparisons), AbelianSchemesAndArithmeticModuliPartII (geometric strong Torelli), NeronModelsAndSemistableAbelianVarieties
+  (Néron models, semistable reduction, the monodromy criterion, Néron–Ogg–Shafarevich),
+  ArithmeticGaloisRepresentations (Tate modules with their Frobenius polynomials, induction and
+  determinants), WeightsInEtaleCohomology (the Weil bound), FiniteFlatGroupsAndIntegralPadicHodgeTheory
+  (`p`-divisible groups, Tate's and Raynaud's local theorems), PadicPeriodRings §2 (Tate–Sen),
+  PELModuli (the Siegel moduli stack, its coarse space and level rigidity), ShimuraVarieties (the
+  Baily–Borel compactification), ArakelovGeometryAndAbelianHeights (semiabelian families, Siegel compactifications,
+  the arithmetic degree, semistable height, logarithmic metrics and isogeny variation),
+  PadicDifferentialEquationsAndRigidCohomology (Zarhin's trick with graph descent),
+  ClassicalArithmeticCompletion (orders and containing maximal orders), AdelicAlgebraicGroups
+  (closed-orbit reduction theory),
+  ComplexComparisonPartII (analytification), AlgebraicModuliForArithmeticGeometry (Deligne–Mumford
+  stacks).
+  The exact statements consumed are listed under *Exact supplier contracts*.
+
+This roadmap gives no effective global height bound in Satz 6: that bound comes from a finiteness
+argument. Auxiliary constants such as the auxiliary bound have explicit values in worked Checks. It does not prove the
+Mordell conjecture by the Vojta–Bombieri or Lawrence–Venkatesh methods, nor Siegel's theorem by
+Diophantine approximation; it does not develop Arakelov intersection theory beyond the degree of a
+metrized line bundle on `Spec(O_K)`; and it does not treat abelian varieties over function fields.
+
+## Exact supplier contracts
+
+Each supplier statement is consumed with its own hypotheses; where a target needs more than a
+supplier states, the additional statement is part of that target here.
+
+### From Mathlib (pinned)
+
+- Schemes: `AlgebraicGeometry.Scheme`, `Scheme.Hom`, `IsProper`, `IsSeparated`, `Smooth`, `IsFinite`,
+  the valuative criterion `IsProper.eq_valuativeCriterion`, relative normalisation
+  `Scheme.Hom.normalization`, and Zariski's main theorem in the form
+  `IsFinite.of_isProper_of_locallyQuasiFinite` (proper and locally quasi-finite morphisms are finite).
+  Group objects `CategoryTheory.GrpObj` and homomorphisms `IsMonHom`.
+- Number fields: `NumberField.RingOfIntegers`, `InfinitePlace` with `InfinitePlace.mult` (the weights
+  `ε_v`), the product formula `NumberField.prod_abs_eq_one`, `IsDedekindDomain.HeightOneSpectrum`,
+  `FractionalIdeal.absNorm`, discriminants `NumberField.discr`, Hermite's theorem
+  `NumberField.finite_of_discr_bdd`, the different (`not_dvd_differentIdeal_iff`,
+  `NumberField.natAbs_discr_eq_absNorm_differentIdeal_mul_natAbs_discr_pow`), cyclotomic fields
+  (`IsCyclotomicExtension.Rat.galEquivZMod`, `IsCyclotomicExtension.Rat.ramificationIdxIn_eq_of_prime_pow`).
+- Heights: `Projectivization.logHeight`, `Projectivization.mulHeight`,
+  `NumberField.finite_setOfPred_mulHeight₁_le` (Northcott over a number field), `Height.mulHeight_comp_le`,
+  `Height.mulHeight₁_div_eq_mulHeight`.
+- `p`-adic numbers: `PadicInt` with `PadicInt.compactSpace`, Hensel's lemma `hensels_lemma`,
+  `ZMod.sq_add_sq`, `Nat.sum_four_squares`.
+- Algebra: `IsSemisimpleModule`, `IsSemisimpleRing` with `IsSemisimpleRing.ideal_eq_span_idempotent`,
+  `Algebra.traceForm`, `LinearMap.BilinForm.IsAlt`, `LinearMap.BilinForm.orthogonal`,
+  `LinearMap.BilinForm.finrank_add_finrank_orthogonal`, `LinearMap.det`, `LinearMap.trace`, `Matrix`,
+  `Polynomial` (with `Polynomial.roots` and Vieta's formulas), `Polynomial.finite_mahlerMeasure_le`
+  (bounded degree and Mahler measure over `ℤ`),
+  `Polynomial.mahlerMeasure_eq_leadingCoeff_mul_prod_roots`, `Submodule.IsLattice`, Nakayama's lemma.
+- Galois theory and representations: `Field.absoluteGaloisGroup`, `cyclotomicCharacter`,
+  `modularCyclotomicCharacter`, `Representation.ind`, the transfer `MonoidHom.transfer` with
+  `MonoidHom.transfer_eq_prod_quotient_orbitRel_zpowers_quot`.
+- Elliptic curves: `WeierstrassCurve`, `WeierstrassCurve.IsElliptic`, `WeierstrassCurve.VariableChange`.
+- `Matrix.Module.matrixModule` (scoped): matrices act on `V^n` through their coefficients, with
+  `one_smul`, `zero_smul`, `mul_smul` and `Matrix.Module.smul_apply`.
+
+### From Tau Ceti (pinned)
+
+The abelian-variety modules are `TauCeti.AlgebraicGeometry.AbelianVariety.Basic`,
+`.MorphismGroup`, `.End.Basic`, `.Product` and `.Isogeny`. Their namespace is
+`TauCeti.AlgebraicGeometry.AbelianVariety`; the short names below refer to it.
+The Weierstrass Hom modules are `TauCeti.AlgebraicGeometry.EllipticCurve.Isogeny.Hom.Basic`,
+`.Hom.Add` and `.MulByInt.Hom`, with namespace `TauCeti.Isogeny.Hom`.
+
+- `TauCeti.AlgebraicGeometry.AbelianVariety` over a field, with `AbelianVariety.Hom` (a commutative group,
+  written multiplicatively), `AbelianVariety.End` (a ring), `AbelianVariety.prod`,
+  `AbelianVariety.baseChange` and `AbelianVariety.IsIsogeny` (finite and surjective).
+- `TauCeti.Isogeny.Hom W₁ W₂` for Weierstrass curves: the zero map and the isogenies, an additive group
+  (`Isogeny.Hom.add_comp`), with composition, `Isogeny.Hom.degree`, `Isogeny.Hom.comp_eq_zero_iff` and
+  `Isogeny.Hom.degree_zsmul` (`deg(n • f) = n²·deg f` on elliptic targets).
+- `AlgHom.centralizer_centralizer_range` in `TauCeti.RingTheory.Semisimple.DoubleCentralizer`
+  (the double centralizer theorem for a semisimple algebra acting
+  on a finite module) and `TauCeti.finiteLocallyFreeCommAffineGroupSchemeProperty` (finite locally free
+  commutative group schemes with Cartier duality).
+- `LinearMap.BilinForm.prod` in `TauCeti.LinearAlgebra.BilinearForm.Prod` gives the
+  block-diagonal sum of two bilinear forms. The orthogonal-sum form evaluates it on the two coordinatewise
+  sums over `Fin 4`; those coordinatewise forms have no dedicated pinned carrier.
+- `TauCeti.NumberField.ramifiedSupport K L` in
+  `TauCeti.NumberTheory.NumberField.Discriminant.RamifiedSupport.Basic`: the finite places of `K`
+  dividing the relative discriminant of `L/K`, with `TauCeti.NumberField.mem_ramifiedSupport_iff_exists`
+  (a place lies in it exactly when some prime of `L` above it has ramification index greater than one).
+  `TauCeti.NumberField.finite_of_finrank_le_of_ramifiedSupport_subset` in
+  `TauCeti.NumberTheory.NumberField.Discriminant.RamifiedSupport.Hermite`: inside a field `A`
+  containing `K`, only finitely many finite extensions of `K` have degree at most `d` and ramified
+  support inside a given finite set of finite places. Used in R28.1.9.
+
+### From TauCetiRoadmap roadmaps
+
+- *ClassFieldTheory, Layer 13*: `kroneckerWeber` (every finite abelian extension of `ℚ` lies in a cyclotomic
+  field). Used in R28.2.6 and R28.5.6.
+- *Chebotarev, Layer 10*: `hasDirichletDensity_frobeniusPrimeSet`, with the consequence that every
+  conjugacy class of a finite Galois group is the Frobenius class of infinitely many primes. Used in
+  R28.4.7 and R28.5.2.
+- *GlobalNumberFields, Layer 10*: ramification in cyclotomic fields. Used in R28.5.6.
+- *NumberFieldArithmetic, Layer 6.4* and *LocalFieldsRamification, Layer 3*
+  and Tau Ceti `TauCeti.differentExponent_le_ramificationIndex_sub_one_add_natCastValuation`
+  in `TauCeti.NumberTheory.LocalField.Different.Wild`: in the wild case, `e ≤ v_𝔓(𝔇) ≤ e − 1 + v_𝔓(e)`;
+  in the tame case, `v_𝔓(𝔇) = e − 1`. Thus the upper bound holds in both cases. Used in R28.1.9.
+- *EllipticCurves, Layers 1, 2 and 4*: the dual isogeny over `K`, the Tate module of a Weierstrass curve with
+  its Galois action, reduction types and `a_v`. Used in Layer R28.6.
+- *JacobianChallenge, Layers D and E*: Picard representability and the principal polarization
+  of a pointed curve's Jacobian by the theta divisor, independent of translation of theta.
+  R28.5.14 obtains the field specialization of the canonical Jacobian polarization on the unpointed Jacobian of
+  SchemeAndStackFoundations §3.6 by specializing JacobianChallengePartII §1.4 to `S = Spec(k)`.
+
+### From the roadmaps this one builds on
+
+- *SchemeAndStackFoundations*: §2.20 `RelativeDualizingComplex`, `relativeDualizingModule` and
+  `curve_dualizing_comparison` (over a field), for the relative dualising sheaf of a stable curve; §3.8 `invariant_differentials`; §4.15 `StableCurves.Mbar`,
+  `Mbar_algebraic_proper_DM` and `level_structure_cover`; §4.17 normal-crossings divisors.
+  **AlgebraicVectorBundles** Layers L0B–L0C supplies `determinantObj` with pullback and product
+  compatibility. Together these supply the Hodge line `det(e^*Ω¹)` on a smooth group scheme.
+  On an abelian scheme its proper pushforward description is
+  AbelianSchemesAndArithmeticModuli §A1.3 `relativeInvariantForms` and §A6.38 `AbelianHodgeLine`.
+  Section 3.5 supplies `lineBundleNorm`, `lineBundleNorm_pullback` and
+  `lineBundleNorm_baseChange` for R28.1.3, with §3.2 `scheme_riemann_hurwitz`.
+  Section 3.6 supplies `jacobian` and `jacobian_dim` without a rational-point hypothesis;
+  §1.1 supplies descent of sheaf morphisms for R28.5.14. Sections 1.18–1.20 supply
+  effective descent, finite-presentation and proper-stack carriers, and the groupoid
+  of lifts with a specified generic identification for R28.1.4; §§0.20–0.21 supply
+  finite normalization over excellent bases.
+- *AlgebraicModuliForArithmeticGeometry*: §5.4 `ArithmeticModuli.DMSchematicClosure.stack`,
+  `ArithmeticModuli.DMNormalization.stack`, `ArithmeticModuli.DMNormalization.finite`.
+- *JacobianChallengePartII*: §1.2 the relative Jacobian `J(X/S) = Pic⁰_{X/S}`, which over a field
+  base is JacobianChallenge Layer D's Jacobian, and §1.3 its base change; §1.4 the canonical
+  principal polarization `λ_X`, defined without a degree-one bundle, compatible with every base
+  change and equal to `φ_{O(θ_α)}` on a field fibre with a degree-one divisor `α`. For a stable
+  family of genus `g ≥ 2` over an integral Noetherian base, §6.1 the Lie comparison
+  `Lie(Pic⁰_{C/S}) ≅ R¹q_*O_C`, §6.2 the rank-`g` comparison `q_*ω_{C/S} ≅ e^*Ω¹_{Pic⁰/S}` and
+  §6.3 its determinant, each compatible with base change. R28.1.1 adapts §§6.1–6.3 to Faltings'
+  Hodge line; R28.5.14 specializes §§1.2–1.4 to a field. The analytic metric stays here.
+- *AbelianSchemesAndArithmeticModuliPartII*: B4.1, geometric strong Torelli: for smooth
+  projective connected curves of genus `g ≥ 2` over an algebraically closed field, Abel
+  embeddings `j`, `j′` and an isomorphism `β` of canonically polarized Jacobians, there are a
+  curve isomorphism `α`, a sign `ε` and a point `c` with `j′ ∘ α = ε β ∘ j + c`. R28.5.14 adds the
+  uniqueness of `(α, ε, c)` and the descent to a perfect field.
+- *ComplexComparisonPartII*: C0.3 `holomorphicBundleDictionary` and C0.4 `CoherentAnalytification`
+  are direct prerequisites of Layer R28.1. They identify holomorphic bundles with finite locally free
+  analytic sheaves on complex manifolds and analytify coherent sheaves on schemes locally of finite
+  type over `ℂ`, compatibly with tensor products. ArakelovGeometryAndAbelianHeights also uses coherent
+  analytification in supplying the height and metric comparisons.
+- *AbelianSchemesAndArithmeticModuli*: A0.2 `fieldAndEllipticBoundary`; A1.3 `relativeInvariantForms`; A1.6
+  `relativeEllipticEquivalence`; A2.2 `AbelianScheme.dual` (with the duality of products); A2.5 `Polarization`
+  (`Polarization.degree`: the kernel has rank `d²` for a polarization of their degree `d`); A3.3
+  `AbelianQuotient`; A3.6 `ThetaGroup` (`ThetaGroup.commutator`, `ThetaGroup.descend`); A3.7
+  `polarizedWeilPairing`; A6.1 `Hom.deg` (with the function-field degree); A6.2 `homTateInjective`; A6.5
+  `poincareReducibility`; A6.7 `homFreeFinite` (Hom free of finite rank, `Hom ⊗ ℤ_l → Hom(T_l, T_l)` injective
+  with torsion-free cokernel); A6.8 `endQ_isSemisimple` (with `End(A^n) = M_n(End A)` compatibly with `T_l`);
+  A6.13 `polarizedIsogenyDegree`; A6.14 Rosati positivity; A6.18 `polarizedAutomorphisms` (finiteness of
+  `Aut(A, λ)` and level-`n ≥ 3` rigidity); A6.20 `homDescentFullLevel`; A6.33 `weilRestrictionTate`; A6.38
+  `AbelianHodgeLine`. Their "polarization of degree `d`" is a polarization of degree `d²` in the convention
+  here.
+- *ArithmeticGaloisRepresentations*: §1.3 “The Mackey decomposition”, using pinned
+  `Rep.mackeyDecomposition` for the abstract isomorphism, and the prose targets
+  “The Mackey decomposition” and “The determinant of an induced representation”. Induction is from an open subgroup of a compact group on a finite-rank
+  free module; the Mackey restriction subgroup is closed. §1.6
+  stable lattices; §1.8 Brauer–Nesbitt (`ContinuousRep.iso_of_charpoly_eq`) in its trace form:
+  semisimple representations of dimension `d` with equal traces are isomorphic when `d!` is
+  invertible, in particular in characteristic `0`; §5.1 density of `GaloisRep.frobeniusSet` and its
+  finite-quotient consequence; §5.3 recognition on a dense subset, both from Frobenius
+  polynomials (`GaloisRep.iso_of_frobenius_charpoly_eq`) and from traces when `n!` is invertible; §6.1
+  `TateModule.tateModule`, `TateModule.tateModuleRep`, “The elliptic comparison” and
+  “Functoriality of the arithmetic adapter”. These use AbelianSchemesAndArithmeticModuli
+  §A4.1 `AbelianTate.map` and `AbelianTate.baseChange`; an isogeny induces an injection of Tate
+  lattices with cokernel of order its degree's `l`-part, and products give direct sums.
+  Section 6.2 transports the supplied alternating pairings into the cyclotomic target,
+  perfect when `l ∤ deg λ`, with the supplied product comparison. Section 6.3
+  `TateModule.localEulerFactor` uses geometric Frobenius on the inertia invariants of `H¹`,
+  equivalently arithmetic Frobenius on the Tate coinvariants; it includes isogeny invariance,
+  products and agreement with the Weil–Deligne factor. Section 7.1 supplies
+  `ContinuousRep.extPower`. Integral good-reduction polynomials independent of `l` and their
+  all-conjugates Weil bounds are WeightsInEtaleCohomology R34.2, “Frobenius on the Tate module
+  and first cohomology” and “Purity and integral polynomials at good reduction”, using
+  AbelianSchemesAndArithmeticModuli §A6.11 `charpolyTate` and DeligneWeightsAndPurity §1.4.
+- *NeronModelsAndSemistableAbelianVarieties*: §3.1 `SemistableReduction` (`toric_zero`); §3.2
+  `SemistabilityIsogeny`; §3.3 `SemistableIdentityBasechange`; §3.5 `ToricFiniteFiltration`,
+  `FiniteFlatToricFiltration`; §3.6 `Orthogonality`, `FiniteFlatOrthogonality`; §3.7 `InertiaSquareZero`; §3.8–§3.9
+  `PicardNeronIdentity`; §3.10 `JacobianIsogenyFactor` (positive dimension over an infinite field) and
+  `FiniteSeparableSemistableExtension`; §3.11 `MonodromyCriterion`; §3.12
+  `FiniteTorsionSemistability` (semistable over `K(A[n])` at places prime to `n ≥ 3`); §3.13
+  `RaynaudExtensionComparison`; §2.4 `ToricCharacter`; §4.13 `StableFamilyPicard`; §5.1 `NeronOggShafarevich`;
+  §5.2 `GoodIsogeny`; §6.4 `IsogenyDifferentialExport`; §6.5 `EquationGoodComparison`. These are local
+  statements over excellent (henselian) discrete valuation rings; the number-field forms used here apply them
+  at each place.
+- *HeightsAndUnits*: §1.1 `instNorthcottProjectivizationMulHeight` and
+  `instNorthcottProjectivizationLogHeight`; *DiophantineApproximationAndTranscendence*: §§0.2–0.3
+  `absoluteProjectiveTupleHeight`, `mulHeight_pow_finrank` and `finite_setOf_absMulHeight₁_le`.
+  For a finite extension `L/K` of number fields and a finite tuple `x` over `K`,
+  `mulHeight_pow_finrank` in §0.2 states `H_rel,K(x)^[L:K] = H_rel,L(x)`
+  for a tuple indexed by any finite type; reversing this equality gives the orientation used here,
+  with coordinates mapped along the number-field algebra map `K → L`;
+  the zero tuple has height `1`. Applying this to `(x,1)` gives the scalar comparison.
+  The absolute tuple height is `H_abs(x) = H_rel,K(x)^(1/[K:ℚ])` and is invariant under
+  extension, since `[L:ℚ] = [L:K][K:ℚ]` cancels the relative-height power
+  ([Wu, *Arithmetic heights*](https://www.math.columbia.edu/~xiaorunw/diop/08.pdf),
+  §2, Lemma 2.5 and Definition 2.7, p. 4).
+  These supply the normalization, extension comparisons and projective Northcott used here.
+
+  **Checks.**
+
+  - The tuple `(2,1)` has relative height `2` over `ℚ` and `4` over `ℚ(i)`.
+  - Its absolute height is `2` over both fields.
+  - The zero tuple has height `1` over both fields, consistent with `1^[L:K] = 1`.
+- *DeligneWeightsAndPurity*: DWP.0 §0.14 (eigenvalues of exterior powers), DWP.1 §1.4 (the Weil estimate for
+  abelian varieties over `𝔽_q`).
+- *FiniteFlatGroupsAndIntegralPadicHodgeTheory*: R07.1.3 `finitePart`; R07.1.8 `BarsottiTate.tateModule`;
+  R07.1.14 `BarsottiTate.dim`; R07.1.16 `BarsottiTate.discr_level`; R07.1.17
+  `invariantDifferentialsAndAbsoluteDifferent` (`ω_{G[p^v]} ≅ (R/p^vR)^d`; `v_R(𝔇(𝒢)) = length_R ω_𝒢`); R07.1.19 `BarsottiTate.hodgeTate` (the determinant consequence); R07.1.20 `schematicClosure_flat`;
+  R07.1.20a `BarsottiTate.quotientFiniteFlatSubgroup` (quotients by finite flat subgroups);
+  R07.1.21 `BarsottiTate.exists_of_tateModule_summand` (Tate's Proposition 12); R07.1.33
+  `raynaudDeterminantTameDifferent` (Raynaud's Théorème 4.1.1, over a strictly henselian base with `e ≤ p − 1`).
+- *WeightsInEtaleCohomology*: R34.2 (Frobenius on the Tate module at good reduction, weights of exterior
+  powers).
+- *PELModuli*: M2.1 `rigidity`; M6.3 `siegelStack`; M6.5 `coarseModuli`; M6.7 `descentObstruction` (`K`-forms
+  split by `K'` ↔ `H^1(Gal(K'/K), Aut_{K'})`); M6.9 `hodgeLine`; M6.10 `moduliPoint`.
+- *ShimuraVarieties*: §2.7 `TauCeti.Shimura.baily_borel`; §8.18 `CanonicalModel.minimal_defined_over_reflex`.
+- *PadicPeriodRings*: §2 `tateSen` and `tateSen_character` (Tate's theorems on `C(ψ)`: `C(ψ) ≅ C` exactly when `ψ` has finite
+  image on inertia; representations with finite image on inertia are `C`-trivial).
+- *ArakelovGeometryAndAbelianHeights*: §§1.3–1.6, 1.12–1.14 (the arithmetic degree of a hermitian line bundle on `Spec(O_K)`
+  and its comparison with projective heights, including §1.3
+  `HermitianBundle.arakelovDegree_ofFractionalIdeal`, `HermitianBundle.arakelovDegree_eq_infinitePlace`
+  and `HermitianBundle.arakelovDegree_rescale`), §§2.1–2.8 (the Hodge bundle with its integration metric), §§3.1–3.4
+  (the height of a semiabelian model and its base-change invariance), §§4.1–4.4 (the isogeny variation:
+  flatness of an isogeny of semiabelian models, its quasi-finite flat kernel, the inclusion of Hodge lattices
+  with cokernel `s^*(Ω^1_{G/R})`, the archimedean scaling by `deg φ`, and the bound
+  `|v_p(exp(2m(h(B) − h(A))))| ≤ m·v_p(deg φ)`), §§5.1–5.4
+  (`HermitianMetric.HasLogSingularities`, its local and tensor API, logarithmic Northcott,
+  Hodge growth and `SiegelModuli.modularMetric_logSing`). R28.1.5–R28.1.8 and R28.2.1–R28.2.2
+  use aliases and specializations of these objects and results in Faltings' normalization.
+- *PadicDifferentialEquationsAndRigidCohomology*: §RD.5.116, Zarhin's trick with its finite-flat
+  graph quotient and principal-polarization descent, specialized to `Spec(k)` with a `k`-polarization.
+- *ClassicalArithmeticCompletion*: §7.4 `IntegralOrder.IsOrder` (an order is a subalgebra which
+  is a full lattice), §7.21 `IntegralOrder.IsMaximalOrder`, §7.56 (every order in a
+  finite-dimensional characteristic-zero semisimple algebra lies in a maximal order).
+- *AdelicAlgebraicGroups*: AA.3.3, “Reduction for reductive subgroups of GL_n”,
+  “Closed-orbit lattice finiteness” and “Rational points on closed orbits”. R28.5.12 constructs
+  the arithmetic closed-conjugacy-orbit adapter from these reduction results.
+
+The semiabelian-family carrier and dense-open homomorphism extension are
+ArakelovGeometryAndAbelianHeights §2.0 `GroupScheme.IsSemiAbelianFamily` and
+`GroupScheme.semiAbelianHom_extend`. The integral principal Siegel compactifications are its
+§§5.0a–5.0b `SiegelModuli.ToroidalCompactification`, `SiegelModuli.toroidalFamily`,
+`SiegelModuli.MinimalCompactification`, `SiegelModuli.toroidalToMinimal` and
+`SiegelModuli.minimalHodgePower_pullback`. They include smooth complex normal-crossings charts,
+a proper toroidal stack over all of `ℤ`, a normal projective minimal coarse scheme over `ℤ`,
+and a positive Hodge power pulled back from an ample line on that scheme. The integral
+base and all primes are retained; a space over `ℤ[1/n]` alone does not provide this contract.
+This roadmap's correspondence stack adds a stable-curve family and a saturated
+Hodge subline over an integral proper correspondence, rather than a second Siegel compactification.
 
 ## References
 
