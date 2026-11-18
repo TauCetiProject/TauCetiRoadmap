@@ -1,17 +1,32 @@
 # Roadmap: Exponential, logarithmic, error and incomplete Gamma functions
 
-**Summary.** This roadmap builds the theory of Chapters 6, 7 and 8 of the NIST *Digital Library
-of Mathematical Functions* (DLMF; see [References](#references)) as a library. It covers three
-chapters:
-- **Chapter 8:** the incomplete Gamma functions `γ(a, z)`, `Γ(a, z)`, `P`, `Q` and Tricomi's
-  entire function `γ*(a, z)`; the generalized exponential integral `E_p(z)`; the generalized sine
-  and cosine integrals; and the incomplete Beta function `B_x(a, b)`.
-- **Chapter 6:** the exponential integrals `E₁`, `Ein` and `Ei`; the logarithmic integral `li`;
-  the sine and cosine integrals `Si`, `si`, `Ci`, `Cin`, `Shi`, `Chi`; and their auxiliary
-  functions `f`, `g`.
-- **Chapter 7:** the complex error functions `erf`, `erfc` and `w`; the Fresnel integrals `C`,
-  `S` and `ℱ` with their auxiliary functions; the Goodwin–Staton integral; the inverse error
-  functions; the repeated integrals `iⁿ erfc`; and the Voigt functions.
+**Summary.** This roadmap builds, as a library, the theory of the incomplete Gamma functions and
+of the functions that are their special cases or close relatives:
+- the incomplete Gamma functions `γ(a, z)`, `Γ(a, z)`, `P`, `Q` and Tricomi's entire function
+  `γ*(a, z)`;
+- the exponential integrals `E_p`, `E₁`, `Ein` and `Ei`, the logarithmic integral `li`, the sine
+  and cosine integrals `Si`, `si`, `Ci`, `Cin`, `Shi`, `Chi` with their auxiliary functions `f`,
+  `g`, and the sine and cosine integrals `Si(a, z)`, `Ci(a, z)` of complex order;
+- the complex error functions `erf`, `erfc` and `w`, the Fresnel integrals `C`, `S` and `ℱ` with
+  their auxiliary functions, the Goodwin–Staton integral, the inverse error functions, the
+  repeated integrals `iⁿ erfc` and the Voigt functions;
+- the incomplete Beta function `B_x(a, b)`.
+
+Its organization follows the structure of the subject rather than any one text. The incomplete Gamma
+functions come first, continued to the logarithmic plane, and every other family is obtained from
+them by specializing the parameter: `E_p(z) = z^{p−1} Γ(1 − p, z)`, `E₁ = Γ(0, ·)` and
+`erf z = z γ*(½, z²)`, as in Olver's *Asymptotics and Special Functions* (Ch. 2 §§3–5) and Temme's
+*Special Functions* (§§7.3 and 11.1–11.2). The incomplete Beta function, which shares the
+continued-fraction and Mellin–Barnes machinery, comes last. Nikiforov–Uvarov (Ch. II §11) obtain the
+incomplete Gamma, error and incomplete Beta functions as the functions of the second kind of the
+Laguerre, Hermite and Jacobi polynomials. The content is drawn from Olver (Chs. 2–4), Temme (Chs. 7,
+11 and 13), Lebedev (*Special Functions and Their Applications*, Chs. 2–3 and §9.13), Cuyt,
+Petersen, Verdonk, Waadeland and Jones (*Handbook of Continued Fractions for Special Functions*,
+Chs. 1, 3, 12–14 and 18), Andrews–Askey–Roy (§4.4), Beals–Wong (§§2.6 and 6.4), Paris–Kaminski
+(§§3.4 and 5.1), Wong (*Asymptotic Approximations of Integrals*, Ch. I), Nikiforov–Uvarov, Duverney
+(Ch. 6), Gautschi (*Orthogonal Polynomials*, §1.3) and the NIST *Digital Library of Mathematical
+Functions* (DLMF). The DLMF is the primary locator source: each headline carries its DLMF equation
+numbers and, where one of the books has the result, a locator there; see [References](#references).
 
 The roadmap covers:
 - definitions as entire or principal-branch functions, and analytic continuation in logarithmic
@@ -26,14 +41,15 @@ The roadmap covers:
 - integrals, Laplace transforms and sums;
 - the Gibbs phenomenon.
 
-Chapter 8 is the base: Chapter 6 is the case `E₁ = Γ(0, ·)`, and Chapter 7 is the case
-`erf z = z γ*(½, z²)` of Tricomi's entire function (equivalently `erf z = π^{−1/2} γ(½, z²)` for
-`Re z > 0`, where `(z²)^{1/2} = z`). Layers 1–6 use nothing from Chapters 6 and 7. The Chapter 8
+The incomplete Gamma functions are the base: the exponential integrals are the case
+`E₁ = Γ(0, ·)`, and the error functions are the case `erf z = z γ*(½, z²)` of Tricomi's entire
+function (equivalently `erf z = π^{−1/2} γ(½, z²)` for `Re z > 0`, where `(z²)^{1/2} = z`).
+Layers 1–6 use none of the exponential, sine, cosine or error functions. The incomplete Gamma
 formulas that involve `E₁`, `erf`, `erfc` or Dawson's integral are placed after those functions,
 in Layers 7, 11 and 13.
 
 The general asymptotic methods are consumed from
-[AsymptoticExpansions](../AsymptoticExpansions/README.md) (DLMF Chapter 2): the expansion API,
+[AsymptoticExpansions](../AsymptoticExpansions/README.md): the expansion API,
 Watson's lemma, the rotation of the path, Laplace's method, transcendental equations, the Mellin
 tools and three-term recurrences. Dawson's integral and the repeated Gaussian integrals `Hh_n` are
 consumed from [SpecialFunctionsParabolicCylinder](../SpecialFunctionsParabolicCylinder/README.md).
@@ -57,36 +73,33 @@ layer:
 
 The roadmap is complete when Tau Ceti proves all of the following.
 
-1. **Incomplete Gamma: definitions and continuation** (DLMF 8.2.1–8.2.14, with 8.4.2, 8.4.12,
-   8.7.1 and the bridge to Tau Ceti's real functions).
-2. **Special values, Kummer representations, series and recurrences** (DLMF 8.4.5, 8.4.7–8.4.11,
-   8.5.1–8.5.2, 8.7.2–8.7.3, 8.8.1–8.8.13, 8.8.15–8.8.19, 8.15.1).
-3. **Integral representations, integrals and sums** (DLMF 8.6.1–8.6.5, 8.6.7–8.6.12,
-   8.14.1–8.14.6, 8.22.2–8.22.3).
-4. **Continued fractions and inequalities** (DLMF 8.9.1–8.9.2, 8.10.1–8.10.13), with Pincherle's
-   theorem for continued fractions.
-5. **Asymptotics of the incomplete Gamma functions** (DLMF 8.11.1–8.11.9, 8.11.12–8.11.19).
-6. **Zeros of `γ*`** (DLMF §8.13(i) with 8.13.1, and §8.13(iii) (a)–(c)).
-7. **The generalized exponential integral** (DLMF 8.4.4, 8.4.13, 8.4.15, 8.8.14,
-   8.19.1–8.19.15, 8.19.17–8.19.27, 8.20.1–8.20.6, 8.22.1, and 2.11.5–2.11.7).
-8. **Exponential and logarithmic integrals** (DLMF 6.2.1–6.2.8, 6.4.1–6.4.3, 6.5.1–6.5.2,
-   6.6.1–6.6.4, 6.7.1–6.7.8, 6.8.1–6.8.3, 6.9.1, 6.10.1–6.10.3, 6.11.1, 6.12.1–6.12.2, 6.13.1,
-   6.14.1, 6.14.4, and 2.5.49).
-9. **Sine and cosine integrals** (DLMF 6.2.9–6.2.21, 6.4.4–6.4.7, 6.5.3–6.5.7, 6.6.5–6.6.6,
-   6.7.9–6.7.14, 6.12.3–6.12.8, 6.13.2, 6.14.2–6.14.3, 6.14.5–6.14.7, 6.15.1–6.15.4,
-   6.16.1–6.16.4).
-10. **Generalized sine and cosine integrals** (DLMF 8.21.1–8.21.15, 8.21.18–8.21.27).
-11. **Error functions and Fresnel integrals** (DLMF 7.2.1–7.2.12, 7.4.1–7.4.8, 7.5.1–7.5.13,
-    7.6.1–7.6.7, 7.10.1–7.10.4, 7.11.1–7.11.4, 7.11.6–7.11.8, and 8.4.1, 8.4.3, 8.4.6, 8.4.14),
-    with the symmetries of Dawson's integral.
+1. **Incomplete Gamma: definitions, the bridge to Tau Ceti's real functions, and continuation to
+   the logarithmic plane** (1.1–1.5).
+2. **Values at integer parameters, Kummer representations, series, recurrences, derivatives and a
+   multiplication formula** (2.1–2.6).
+3. **Integral representations, loop and vertical-line integrals, Laplace and Mellin transforms,
+   and the incomplete Riemann zeta function** (3.1–3.5).
+4. **Continued fractions, with Pincherle's theorem, and real bounds** (4.1–4.3).
+5. **Asymptotics of the incomplete Gamma functions** for large argument, large parameter, and
+   both large in fixed ratio, and of `Γ(z, z)` and the exponential partial sums (5.1–5.4).
+6. **Real zeros of `γ*`** in the argument and in the parameter (6.1–6.2).
+7. **The exponential integral `E_p` of complex order** (7.1–7.6).
+8. **`E₁`, `Ein`, `Ei` and `li`** (8.1–8.5).
+9. **The sine and cosine integrals and their hyperbolic analogues**, with the Gibbs phenomenon
+   (9.1–9.7).
+10. **Sine and cosine integrals of complex order** (10.1–10.4).
+11. **Error functions, Dawson's integral and Fresnel integrals:** definitions, symmetry,
+    interrelations, series and hypergeometric forms, and the incomplete Gamma values at
+    half-integer parameters (11.1–11.5).
 12. **Integral representations, inequalities, continued fractions and integrals of the error
-    functions** (DLMF 7.7.1–7.7.16, 7.8.1–7.8.8, 7.9.1–7.9.3, 7.14.1–7.14.8).
-13. **Asymptotics and zeros of the error functions** (DLMF 7.12.1–7.12.7, §7.13 with
-    7.13.1–7.13.7), and the incomplete Gamma functions near the transition point
-    (DLMF 8.11.10–8.11.11).
-14. **Inverse error functions, repeated integrals and Voigt functions** (DLMF 7.17.1–7.17.6,
-    7.18.1–7.18.9, 7.18.12–7.18.14, 7.19.1–7.19.11).
-15. **Incomplete Beta functions** (DLMF 8.17.1–8.17.24 with 8.17.9 for `0 ≤ x < ½`, and 8.18.1).
+    functions** (12.1–12.4).
+13. **Asymptotics and complex zeros of the error functions and Fresnel integrals**, and the
+    incomplete Gamma functions near the transition point (13.1–13.5).
+14. **Inverse error functions, repeated integrals of `erfc` and Voigt functions** (14.1–14.3).
+15. **The incomplete Beta function** (15.1–15.5).
+
+The numbers are those of the layers below, and `k.n` names subsection `n` of Layer `k`; each
+subsection gives its DLMF equation numbers and its locators in the other sources.
 
 **What this roadmap owns:** the functions and formulas listed above, with the hypotheses and
 conventions specified in the layers. It also owns the following auxiliary results, which the
@@ -116,8 +129,8 @@ and `E_p` and leaves to this roadmap (8.1, 7.1 and 7.6).
   `Hh_n = TauCeti.repeatedGaussianIntegral n`**, with their basic API, owned by
   [SpecialFunctionsParabolicCylinder §5.1](../SpecialFunctionsParabolicCylinder/README.md#51-hermite-cases)
   and [§5.3](../SpecialFunctionsParabolicCylinder/README.md#53-the-repeated-gaussian-integrals).
-  Their Chapter 7 formulas (7.5.1, 7.6.3, 7.18.12 and the others listed in the layers) are owned
-  here.
+  Their formulas with the error functions (DLMF 7.5.1, 7.6.3, 7.18.12 and the others listed in
+  the layers) are owned here.
 - **Probability statements:** the normal cdf (DLMF 7.20.1), the gamma, beta, Poisson and binomial
   cdfs, and their quantiles.
 - **Formulas through other special functions**, listed in
@@ -133,12 +146,12 @@ and `E_p` and leaves to this roadmap (8.1, 7.1 and 7.6).
   (fixed `b` and `x`, 15.5).
 - **Numerical tables and methods of computation.**
 
-**The boundary in one sentence:** this roadmap owns the complex theory of the functions of DLMF
-Chapters 6–8 and its real-variable consequences; it consumes the general asymptotic methods of
+**The boundary in one sentence:** this roadmap owns the complex theory of the functions listed
+in the Summary and its real-variable consequences; it consumes the general asymptotic methods of
 AsymptoticExpansions, the existing real incomplete Gamma, Beta and error functions, and Dawson's
-integral and `Hh_n` from the parabolic cylinder roadmap; and it excludes formulas through
-functions of other chapters, the uniform expansions of §8.12 and §8.18(ii), exponentially
-improved expansions and numerical tables.
+integral and `Hh_n` from the parabolic cylinder roadmap; and it excludes formulas through other
+special functions, the uniform expansions of DLMF §8.12 and §8.18(ii), exponentially improved
+expansions and numerical tables.
 
 **Mathlib and other roadmaps.** Mathlib has `Complex.partialGamma s X = ∫₀^X e^{−x} x^{s−1} dx`
 with `Complex.partialGamma_add_one`, the lower incomplete Gamma function with a real upper limit,
@@ -460,9 +473,11 @@ conventions on explicit parameters.
 ### 1.1 Tricomi's function
 
 `γ*` (`tricomiIncompleteGamma`) is entire in `a` for fixed `z`
-(`differentiable_tricomiIncompleteGamma_left`) and in `z` for fixed `a`. Prove:
+(`differentiable_tricomiIncompleteGamma_left`) and in `z` for fixed `a` (Temme (11.4), p. 278;
+Olver Ch. 2, Ex. 5.2, p. 45). Prove:
 - the series 8.7.1: `γ*(a, z) = ∑ e^{−z} z^k/Γ(a + k + 1)` for all `a`, `z`, and
-  `γ*(a, z) = Γ(a)⁻¹ ∑ (−z)^k/(k!(a + k))` for `a ∉ −ℕ`;
+  `γ*(a, z) = Γ(a)⁻¹ ∑ (−z)^k/(k!(a + k))` for `a ∉ −ℕ` (Beals–Wong Ex. 2.25, p. 46; Temme
+  (11.9), p. 279);
 - the special values `γ*(a, 0) = 1/Γ(a + 1)` (8.4.2) and `γ*(−n, z) = zⁿ` (8.4.12);
 - the integral 8.2.7 `γ*(a, z) = Γ(a)⁻¹ ∫₀¹ t^{a−1} e^{−zt} dt` for `Re a > 0`;
 - the differential equation 8.2.14 (`tricomiIncompleteGamma_ode`).
@@ -482,10 +497,11 @@ the entire reciprocal in the coefficients, and `Complex.Gamma_add_one`; Tau Ceti
 ### 1.2 `P` and `γ`
 
 Prove 8.2.1 in the form `γ(a, z) = z^a ∫₀¹ s^{a−1} e^{−zs} ds` for `Re a > 0` and every `z`
-(`lowerIncompleteGamma_eq_integral`). Prove 8.2.4 and 8.2.6 (by definition, with `γ = Γ(a)P` for
-`a ∉ −ℕ`). Prove the poles: for `z ≠ 0`, `(a + n) γ(a, z) → (−1)ⁿ/n!` as `a → −n`
-(`tendsto_mul_lowerIncompleteGamma`). For fixed `z ≠ 0`, `P(·, z)` is entire, and `γ(·, z)` is
-holomorphic off `−ℕ`.
+(`lowerIncompleteGamma_eq_integral`; Cuyt et al. (12.6.2)–(12.6.3), p. 238). Prove 8.2.4 and 8.2.6
+(by definition, with `γ = Γ(a)P` for `a ∉ −ℕ`). Prove the poles: for `z ≠ 0`,
+`(a + n) γ(a, z) → (−1)ⁿ/n!` as `a → −n` (`tendsto_mul_lowerIncompleteGamma`). For fixed `z ≠ 0`,
+`P(·, z)` is entire, and `γ(·, z)` is holomorphic off `−ℕ` (Olver Ch. 2 §5.1, p. 45; Lebedev Ch. 1,
+Problem 10, p. 15).
 
 **Checks.**
 - `P(1, z) = 1 − e^{−z}` for every `z`.
@@ -498,7 +514,8 @@ and `Complex.Gamma_add_one` for the residues at `−n`; `Complex.cpow` on `slitP
 
 ### 1.3 `Γ(a, z)` and `Q`
 
-For `z ∈ slitPlane`:
+For `z ∈ slitPlane` (Cuyt et al. (12.6.4)–(12.6.5), p. 238, which take the same ray; Olver
+Ch. 2 §5.2, p. 45; Beals–Wong (2.6.5)–(2.6.6), p. 35):
 - the ray integral converges absolutely;
 - `Γ(·, z)` is entire (`differentiable_upperIncompleteGamma_left`);
 - `Γ(a, ·)` is holomorphic on `slitPlane`;
@@ -536,7 +553,8 @@ Mathlib `Complex.partialGamma`.
 
 ### 1.5 Continuation
 
-DLMF 8.2.8–8.2.11. Prove:
+DLMF 8.2.8–8.2.11; Olver Ch. 2 §§5.1–5.2, (5.03) and (5.06), p. 45; Beals–Wong (2.6.4) and
+(2.6.7), p. 35. Prove:
 - `upperIncompleteGammaLog` is entire in `a` and in `w` (`differentiable_upperIncompleteGammaLog`);
 - `upperIncompleteGammaLog a (log z) = Γ(a, z)` for `z ∈ slitPlane` (`upperIncompleteGammaLog_log`);
 - `∂_w upperIncompleteGammaLog a w = −e^{aw − e^w}`;
@@ -576,15 +594,17 @@ integrals and the rectangle Cauchy theorem; Tau Ceti's real incomplete Gamma fun
 
 ### 2.1 Special values
 
-DLMF 8.4.5, 8.4.7–8.4.11. `Γ(1, z) = e^{−z}`, and for `n ∈ ℕ` the Erlang forms 8.4.7–8.4.10 with
-`e_n` written out. The upper function holds for
+DLMF 8.4.5, 8.4.7–8.4.11; Temme (11.6), p. 278. `Γ(1, z) = e^{−z}`, and for `n ∈ ℕ` the Erlang
+forms 8.4.7–8.4.10 with `e_n` written out. The upper function holds for
 every `z`, because the integrand of `Γ(n + 1, z)` is a polynomial times `e^{−t}`.
 
 *Needs:* 1.1–1.3; Mathlib `integral_Ioi_mul_deriv_eq_deriv_mul` for the integrations by parts.
 
 ### 2.2 Kummer representations
 
-DLMF 8.5.1–8.5.2. `γ*(a, z) = 𝐌(a, a + 1, −z)`, and 8.5.1 for `a ∉ −ℕ` in the form
+DLMF 8.5.1–8.5.2; Andrews–Askey–Roy (4.4.6), p. 197; Beals–Wong (6.4.6), p. 198; Temme (11.5),
+p. 278; Duverney (6.12), p. 183; Cuyt et al. (12.6.7)–(12.6.8), p. 239.
+`γ*(a, z) = 𝐌(a, a + 1, −z)`, and 8.5.1 for `a ∉ −ℕ` in the form
 `γ(a, z) = a⁻¹ z^a Γ(a + 1) 𝐌(a, a + 1, −z)`. This is Kummer's transformation for the special
 parameters `(1, a + 1)`, proved here from the series.
 
@@ -592,14 +612,16 @@ parameters `(1, a + 1)`, proved here from the series.
 
 ### 2.3 Series
 
-DLMF 8.7.2–8.7.3. 8.7.3 for `a ∉ −ℕ` and `z ∈ slitPlane`. 8.7.2 for `|y| < |x|` with `x > 0`, as
+DLMF 8.7.2–8.7.3; for 8.7.3, Temme (11.9) and the remark after it, p. 279. 8.7.3 for `a ∉ −ℕ`
+and `z ∈ slitPlane`. 8.7.2 for `|y| < |x|` with `x > 0`, as
 a convergent series.
 
 *Needs:* 1.1–1.3, 2.1.
 
 ### 2.4 Recurrences
 
-DLMF 8.8.1–8.8.12. 8.8.1 for `a ∉ −ℕ`; 8.8.2 on `slitPlane` for all `a`
+DLMF 8.8.1–8.8.12; for 8.8.1–8.8.2, Temme (11.7)–(11.8), p. 279, and Lebedev Ch. 1,
+Problem 11, p. 15. 8.8.1 for `a ∉ −ℕ`; 8.8.2 on `slitPlane` for all `a`
 (`upperIncompleteGamma_add_one`); the three-term recurrence 8.8.3 for both functions; 8.8.4–8.8.6;
 the iterated forms 8.8.7–8.8.12 for `n ∈ ℕ`, with `Γ(a + n)/Γ(a + k + 1)` written through
 `(ascPochhammer ℂ _).eval` where `Γ` may vanish.
@@ -608,7 +630,8 @@ the iterated forms 8.8.7–8.8.12 for `n ∈ ℕ`, with `Γ(a + n)/Γ(a + k + 1)
 
 ### 2.5 Derivatives
 
-DLMF 8.8.13, 8.8.15–8.8.19. 8.8.13 on `slitPlane` (`hasDerivAt_upperIncompleteGamma`), and the
+DLMF 8.8.13, 8.8.15–8.8.19; an `n`th-derivative formula of this family is Olver Ch. 2, Ex. 5.3,
+p. 45. 8.8.13 on `slitPlane` (`hasDerivAt_upperIncompleteGamma`), and the
 `n`th derivatives 8.8.15–8.8.19 with `iteratedDeriv`. The parameter derivative 8.8.14 is in 7.3.
 
 *Needs:* 1.3, 1.5, 2.4; Mathlib `iteratedDeriv`.
@@ -636,7 +659,9 @@ Layer 1; Mathlib's Pochhammer symbols, iterated derivatives and power-series man
 
 ### 3.1 Real-line integrals
 
-DLMF 8.6.1–8.6.5, 8.6.7. 8.6.1 for `a ∉ ℤ` and `z ≠ 0`. 8.6.2 for `Re a > 0`, with Mathlib's
+DLMF 8.6.1–8.6.5, 8.6.7. For the Laplace forms 8.6.4–8.6.5: Temme (11.10) and (11.13),
+pp. 279–280; Cuyt et al. (12.6.12), p. 240; Olver Ch. 4 §2.1, p. 109, which continues 8.6.5 by
+rotating the ray. 8.6.1 for `a ∉ ℤ` and `z ≠ 0`. 8.6.2 for `Re a > 0`, with Mathlib's
 `Complex.besselJ`. 8.6.3 for `Re a > 0` and every `z`. 8.6.4 for `Re a < 1` and
 `z ∈ slitPlane`. 8.6.5 and 8.6.7 for `Re z > 0`. The auxiliary Laplace transforms
 `∫₀^∞ e^{−zt}(1 + t)^{a−1} dt` and `∫₀^∞ e^{−zt} t^{s−1}/(1 + t) dt` are holomorphic in `Re z > 0`
@@ -658,11 +683,12 @@ and with the left side `upperIncompleteGammaLog (−a) (log z ± πi)`.
 
 ### 3.3 Mellin–Barnes integrals
 
-DLMF 8.6.10–8.6.12. Each is stated as an integral over the vertical line `Re s = c`, written as
-`(2π)⁻¹ ∫ y : ℝ, f(c + iy)`, for the parameters for which a straight line separates the poles as
-DLMF requires: 8.6.10 for `Re z > 0`, `Re a > 0` and `0 < c < Re a`; 8.6.11 for `Re z > 0` and
-`c > max(0, −Re a)` (`upperIncompleteGamma_eq_mellinBarnes`); 8.6.12 for
-`|ph z| < 3π/2` (in logarithmic coordinates), `Re a < 1` and `max(Re a − 1, −1) < c < 0`.
+DLMF 8.6.10–8.6.12; Paris–Kaminski (3.4.10)–(3.4.12), p. 113. Each is stated as an integral over the
+vertical line `Re s = c`, written as `(2π)⁻¹ ∫ y : ℝ, f(c + iy)`, for the parameters for which a
+straight line separates the poles as DLMF requires: 8.6.10 for `Re z > 0`, `Re a > 0` and
+`0 < c < Re a`; 8.6.11 for `Re z > 0` and `c > max(0, −Re a)`
+(`upperIncompleteGamma_eq_mellinBarnes`); 8.6.12 for `|ph z| < 3π/2` (in logarithmic coordinates),
+`Re a < 1` and `max(Re a − 1, −1) < c < 0`.
 
 *Needs:* Layers 1–2; AsymptoticExpansions §8.1, §8.2, §8.6 and §8.7; ContourIntegration
 `TauCeti.Contour.residue`.
@@ -699,7 +725,10 @@ Bessel and Gauss functions, circle integrals and the Riemann zeta function.
 
 ### 4.1 Pincherle's theorem
 
-Gautschi 1967, Theorem 1.1. Let `a n`, `b n` (`n ≥ 1`) be complex with every `a n ≠ 0`, and
+Gautschi 1967, Theorem 1.1; Cuyt et al. Theorem 3.6.1, p. 57, with the reduction-of-order
+criterion as Theorem 3.6.2, p. 58, and the determinant formula (1.3.4), p. 14; Gautschi 2004,
+Definition 1.42, p. 19, and the corollary to Theorem 1.43, p. 20; Temme §13.2, (13.2)–(13.3),
+p. 336, for minimal solutions. Let `a n`, `b n` (`n ≥ 1`) be complex with every `a n ≠ 0`, and
 consider the recurrence `y(n + 1) = b n · y(n) + a n · y(n − 1)` (`n ≥ 1`) for `y : ℕ → ℂ`
 (`IsRecurrenceSolution`). A solution `f` is *minimal* (`IsMinimalSolution`) when `f ≠ 0` and, for
 every solution `u` that is not a scalar multiple of `f`, `u(n) ≠ 0` for all large `n` and
@@ -735,7 +764,9 @@ the recurrences for the numerators and denominators (`GenContFract.nums_recurren
 ### 4.2 The incomplete Gamma fractions
 
 DLMF 8.9.1–8.9.2, each as convergence of a `GenContFract ℂ` via 4.1 with an explicit minimal
-solution.
+solution. The fractions are Cuyt et al. (12.6.23), p. 241, and (12.6.17), p. 240; Temme §11.2.2,
+(11.13)–(11.19), pp. 280–282, derives 8.9.2 (Legendre's fraction) from the same integrals
+`K(c, d)` as below.
 - **8.9.2**, for `z ∈ slitPlane` and `a ∉ ℤ_{>0}` (`tendsto_convs_upperIncompleteGamma`). The
   fraction has `b_n = 1`, `a₁ = 1/z`, `a_{2k} = (k − a)/z` and `a_{2k+1} = k/z`. With
   `K(c, d) = ∫₀^∞ e^{−zt} t^c (1 + t)^d dt` for `c ∈ ℕ` (defined for `Re z > 0` and continued to
@@ -798,7 +829,9 @@ Layers 1–3; AsymptoticExpansions Layers 4–5; Mathlib's generalized continued
 
 ### 5.1 Large `z`, fixed `a`
 
-DLMF 8.11.1–8.11.3. With `u_k = (a − 1)(a − 2)⋯(a − k)`, for every `n` and `δ > 0`, in
+DLMF 8.11.1–8.11.3; Olver Ch. 3 §1.1, pp. 66–67, and Ch. 4 §§2.1–2.4, pp. 109–111; Temme
+(11.11)–(11.12), p. 280; Wong Ch. I, Exercises 3–4, pp. 42–43; Cuyt et al. (12.6.10), p. 239.
+With `u_k = (a − 1)(a − 2)⋯(a − k)`, for every `n` and `δ > 0`, in
 logarithmic coordinates: `e^{(1−a)w + e^w} Γ(a, e^w) − ∑_{k<n} u_k e^{−kw} = O(e^{−nw})` as
 `Re w → ∞` with `|Im w| ≤ 3π/2 − δ` (`upperIncompleteGammaLog_isBigO`). For real `a`, `x > 0` and
 `n ≥ a − 1`, `R_n(a, x)` lies between `0` and the first neglected term `u_n/xⁿ`. The proof is
@@ -808,7 +841,8 @@ Watson's lemma (AsymptoticExpansions §§4.2–4.3) on 8.6.5, and 8.2.9 beyond `
 
 ### 5.2 Large `a`, fixed `z`
 
-DLMF 8.11.4–8.11.5. 8.11.4 as a convergent series for `a ∉ −ℕ`, and as a generalized asymptotic
+DLMF 8.11.4–8.11.5; for the first, Temme p. 283 on the series (11.9) for large `a`. 8.11.4 as
+a convergent series for `a ∉ −ℕ`, and as a generalized asymptotic
 expansion as `a → ∞` in `|ph a| ≤ π − δ`, with respect to the scale `|z|^k/|(a)_{k+1}|`. 8.11.5 in
 the same sector for fixed `z ≠ 0`, both relations as asymptotic equivalences along
 `Bornology.cobounded ℂ ⊓ 𝓟 {a | |arg a| ≤ π − δ}`, using complex Stirling
@@ -895,7 +929,9 @@ Layers 1–2; Mathlib's intermediate value theorem and Rolle's theorem.
 
 ### 7.1 Definition and integrals
 
-DLMF 8.19.1–8.19.4. `E_p(z) = z^{p−1} Γ(1 − p, z)` (`expIntegralE`) by definition. `E_p` is
+DLMF 8.19.1–8.19.4; Cuyt et al. (14.1.1)–(14.1.4), p. 275; Olver Ch. 2, Ex. 3.5, p. 43; Temme
+(7.24), p. 180; Nikiforov–Uvarov Ch. II §11.4, (13), p. 100; Beals–Wong Ex. 2.27, p. 46.
+`E_p(z) = z^{p−1} Γ(1 − p, z)` (`expIntegralE`) by definition. `E_p` is
 holomorphic on `slitPlane` for each `p`, and entire in `p` for each `z` there. Prove 8.19.2 along
 the horizontal ray, 8.19.3 for `Re z > 0` (`expIntegralE_eq_integral`), and 8.19.4 for `Re z > 0`
 and `Re p > 0`. Prove 2.11.5 as the same statement as 8.19.4. Prove the terminant identity 8.22.1
@@ -914,18 +950,21 @@ is `E_p(e^w)` on the logarithmic plane, and `expIntegralELog p (log z) = E_p(z)`
 
 ### 7.2 Special values and series
 
-DLMF 8.19.5–8.19.11, 8.4.4, 8.4.13, 8.4.15. `E₀`. For `Re p > 1`, 8.19.6 as `E_p(z) → 1/(p − 1)`
-as `z → 0` in `slitPlane`, so that the extension `Function.update (expIntegralE p) 0 (p − 1)⁻¹`
-of the conventions is continuous at `0` within `slitPlane ∪ {0}`, and the definition's own value
-at `0` is `0` for `p ≠ 1`. 8.19.7 for `n ≥ 2`. Prove 8.19.8–8.19.9 for `n ≥ 1` with
-`ψ = Complex.digamma` and `z ∈ slitPlane`. Prove 8.19.10–8.19.11 for `p ∉ ℤ_{>0}`. Prove
-`Γ(0, z) = E₁(z)` (8.4.4), 8.4.13 and 8.4.15.
+DLMF 8.19.5–8.19.11, 8.4.4, 8.4.13, 8.4.15; for the series at integer order, Olver Ch. 2, Ex. 3.5,
+p. 43, and Cuyt et al. (14.1.11), p. 276. `E₀`. For `Re p > 1`, 8.19.6 as `E_p(z) → 1/(p − 1)` as
+`z → 0` in `slitPlane`, so that the extension `Function.update (expIntegralE p) 0 (p − 1)⁻¹` of the
+conventions is continuous at `0` within `slitPlane ∪ {0}`, and the definition's own value at `0` is
+`0` for `p ≠ 1`. 8.19.7 for `n ≥ 2`. Prove 8.19.8–8.19.9 for `n ≥ 1` with `ψ = Complex.digamma` and
+`z ∈ slitPlane`. Prove 8.19.10–8.19.11 for `p ∉ ℤ_{>0}`. Prove `Γ(0, z) = E₁(z)` (8.4.4), 8.4.13 and
+8.4.15.
 
 *Needs:* 7.1, 1.1, 2.3; Mathlib `Complex.digamma` and `harmonic`.
 
 ### 7.3 Recurrence, derivatives and continuation
 
-DLMF 8.19.12–8.19.15, 8.19.18, 8.8.14. 8.19.12–8.19.14 on `slitPlane` (`expIntegralE_add_one`
+DLMF 8.19.12–8.19.15, 8.19.18, 8.8.14; for 8.19.12 at integer order, Olver Ch. 2, Ex. 3.5,
+p. 43, Nikiforov–Uvarov Ch. II §11.4, (16), p. 101, and Cuyt et al. (14.1.8), p. 276.
+8.19.12–8.19.14 on `slitPlane` (`expIntegralE_add_one`
 for 8.19.12), and 8.19.15 for `Re z > 0` and `j ≥ 1`. For 8.19.18, in logarithmic coordinates
 and for `p ∉ ℤ_{>0}` (`expIntegralELog_add_two_pi_mul_I`):
 `E_p(e^{w + 2πim}) = 2πi e^{mpπi} Γ(p)⁻¹ (sin(mpπ)/sin(pπ)) e^{(p−1)w} + E_p(e^w)`. At
@@ -939,7 +978,8 @@ the parameter derivative of `γ*` at `a = 0`, `∂_a γ*(a, z)|_{a=0} = −E₁(
 
 ### 7.4 Continued fraction and inequalities
 
-DLMF 8.19.17, 8.19.19–8.19.22. 8.19.17 for `z ∈ slitPlane` and `p ∉ −ℕ`: it is 8.9.2 at
+DLMF 8.19.17, 8.19.19–8.19.22; the fraction 8.19.17 is Cuyt et al. (14.1.19), p. 278.
+8.19.17 for `z ∈ slitPlane` and `p ∉ −ℕ`: it is 8.9.2 at
 `a = 1 − p` after the equivalence transformation multiplying the odd-indexed levels by `z`, so the
 minimal solution of 4.2 (rescaled) applies; at `p ∈ −ℕ` it terminates. 8.19.19–8.19.22 for
 `n ≥ 1` and `x > 0` (with `E₀` from 8.19.5 where `n − 1 = 0`).
@@ -965,7 +1005,8 @@ is needed because `E_p(0) = 1/(p − 1) ≠ 0` makes the integrand `≍ t^{b−1
 
 ### 7.6 Asymptotics
 
-DLMF 8.20.1–8.20.6, 2.11.6–2.11.7. 8.20.1 as an identity. 8.20.2 in `|ph z| ≤ 3π/2 − δ` and
+DLMF 8.20.1–8.20.6, 2.11.6–2.11.7; for 8.20.2, Cuyt et al. (14.1.13), p. 277, and Olver Ch. 4,
+Ex. 2.2, p. 112. 8.20.1 as an identity. 8.20.2 in `|ph z| ≤ 3π/2 − δ` and
 8.20.3 in `π/2 + δ ≤ ±ph z ≤ 7π/2 − δ`, both in logarithmic coordinates. 2.11.6–2.11.7 as the
 same statements. 8.20.4–8.20.5: the polynomials `A_k` with `A₀ = 1` and
 `A_{k+1}(λ) = (1 − 2kλ) A_k(λ) + λ(λ + 1) A_k′(λ)` (8.20.4), with the printed values 8.20.5 as
@@ -991,7 +1032,9 @@ Layers 1–5; AsymptoticExpansions Layers 1, 3 and 4; Mathlib's digamma function
 
 ### 8.1 `E₁` and `Ein`
 
-DLMF 6.2.1–6.2.4, 6.4.1–6.4.3, 6.11.1, 2.5.49. `Ein` (`expIntegralEin`) is entire. On
+DLMF 6.2.1–6.2.4, 6.4.1–6.4.3, 6.11.1, 2.5.49; Olver Ch. 2 §3.1, p. 40; Paris–Kaminski
+(5.1.2) and (5.1.4)–(5.1.5), pp. 180–181; Nikiforov–Uvarov Ch. II §11.4, (17), p. 101.
+`Ein` (`expIntegralEin`) is entire. On
 `slitPlane`: 6.2.1 along the horizontal ray, 6.2.2 (which is 2.5.49), and 6.2.4
 (`expIntegralE_one`). In logarithmic coordinates, `E₁(e^w) = Ein(e^w) − w − γ` (6.4.1) is the
 value of `expIntegralELog 1 w`; deduce 6.4.2–6.4.3. 6.11.1 is 8.4.4. The elementary API:
@@ -1010,7 +1053,8 @@ value of `expIntegralELog 1 w`; deduce 6.4.2–6.4.3. 6.11.1 is 8.4.4. The eleme
 
 ### 8.2 `Ei` and `li`
 
-DLMF 6.2.5–6.2.8, 6.5.1–6.5.2. `Ei` is `TauCeti.Real.expIntegralEi`, and `li` is
+DLMF 6.2.5–6.2.8, 6.5.1–6.5.2; Olver Ch. 2 §3.2, p. 41; Lebedev (3.1.7), p. 32, and §3.4, pp. 37–38;
+Wong Ch. I §5, pp. 28–30; Temme (7.25), p. 180. `Ei` is `TauCeti.Real.expIntegralEi`, and `li` is
 `TauCeti.Real.principalLogIntegral`. The elementary API:
 - `Ei` is differentiable on `x ≠ 0` with `Ei′(x) = eˣ/x` (`hasDerivAt_expIntegralEi`), continuous
   on `(−∞, 0)` and on `(0, ∞)`, strictly decreasing on `(−∞, 0)` and strictly increasing on
@@ -1043,16 +1087,19 @@ integrals over `Set.Iic`.
 
 ### 8.3 Series and integral representations
 
-DLMF 6.6.1–6.6.4, 6.7.1–6.7.8, 6.10.1–6.10.3. The power series 6.6.1–6.6.4, with 6.6.3 using
-`ψ(n + 1) = Complex.digamma (n + 1)`. The integrals 6.7.1–6.7.8 with their stated parameter
-ranges, with 6.7.3–6.7.4 as improper integrals. The inverse factorial series 6.10.1 for
+DLMF 6.6.1–6.6.4, 6.7.1–6.7.8, 6.10.1–6.10.3; for the power series, Olver Ch. 2 §3.1, p. 40, Lebedev
+(3.1.5)–(3.1.6), pp. 31–32, and Cuyt et al. (14.1.10), p. 276. The power series 6.6.1–6.6.4, with
+6.6.3 using `ψ(n + 1) = Complex.digamma (n + 1)`. The integrals 6.7.1–6.7.8 with their stated
+parameter ranges, with 6.7.3–6.7.4 as improper integrals. The inverse factorial series 6.10.1 for
 `Re z > 0`, with `c_k` defined by 6.10.3 and the values 6.10.2 as checks.
 
 *Needs:* 8.1–8.2; Mathlib `Complex.digamma` and `harmonic`.
 
 ### 8.4 Inequalities, continued fraction, asymptotics
 
-DLMF 6.8.1–6.8.3, 6.9.1, 6.12.1–6.12.2. 6.8.1–6.8.3 for `x > 0`. 6.9.1 for `z ∈ slitPlane`, the
+DLMF 6.8.1–6.8.3, 6.9.1, 6.12.1–6.12.2. The fraction 6.9.1 is Cuyt et al. (14.1.16), p. 277, at
+`n = 1`; for 6.12.1–6.12.2 and the bounds, Lebedev §3.2, (3.2.1)–(3.2.4), pp. 32–33, and Wong
+Ch. I §4, Example 1, pp. 14–15. 6.8.1–6.8.3 for `x > 0`. 6.9.1 for `z ∈ slitPlane`, the
 case `p = 1` of 8.19.17. 6.12.1 in `|ph z| ≤ 3π/2 − δ`, with the remainder bounds:
 - at most the first neglected term in `|ph z| ≤ π/2`, and of the same sign on the positive axis;
 - at most `csc |ph z|` times it in `π/2 ≤ |ph z| < π`.
@@ -1088,13 +1135,15 @@ Euler–Mascheroni constant and digamma function.
 
 ### 9.1 Definitions and continuation
 
-DLMF 6.2.9–6.2.16, 6.4.4–6.4.5. `Si`, `Cin` and `Shi` (`sinIntegral`, `cosIntegralCin`,
-`sinhIntegral`) are entire. `Si` and `Shi` are odd and `Cin` is even. 6.2.10–6.2.11
-(`sinIntegralTail`), with 6.2.11 on `slitPlane` along the horizontal ray as an improper integral.
-6.2.13 (`cosIntegral`) and 6.2.16 (`coshIntegral`) hold by definition. Prove the limits 6.2.14;
-`Si(x) → π/2` along the real axis is Tau Ceti's `TauCeti.Contour.tendsto_integral_sin_div_atTop`,
-after the substitution `t = xs` in the segment integral. Prove 6.4.4–6.4.5 in logarithmic
-coordinates, with `Ci(e^w) = −Cin(e^w) + w + γ`. The elementary API:
+DLMF 6.2.9–6.2.16, 6.4.4–6.4.5; Olver Ch. 2 §§3.3–3.4, pp. 41–42; Lebedev (3.3.1)–(3.3.2),
+pp. 33–35; Temme p. 181; Nikiforov–Uvarov Ch. II §11.4, (18), p. 102. `Si`, `Cin` and `Shi`
+(`sinIntegral`, `cosIntegralCin`, `sinhIntegral`) are entire. `Si` and `Shi` are odd and `Cin` is
+even. 6.2.10–6.2.11 (`sinIntegralTail`), with 6.2.11 on `slitPlane` along the horizontal ray as an
+improper integral. 6.2.13 (`cosIntegral`) and 6.2.16 (`coshIntegral`) hold by definition. Prove the
+limits 6.2.14; `Si(x) → π/2` along the real axis is Tau Ceti's
+`TauCeti.Contour.tendsto_integral_sin_div_atTop`, after the substitution `t = xs` in the segment
+integral. Prove 6.4.4–6.4.5 in logarithmic coordinates, with `Ci(e^w) = −Cin(e^w) + w + γ`. The
+elementary API:
 - `Si′(z) = sin z/z`, `Cin′(z) = (1 − cos z)/z` and `Shi′(z) = sinh z/z` for `z ≠ 0`, with the
   values `1`, `0`, `1` at `z = 0`;
 - `Ci′(z) = cos z/z` and `Chi′(z) = cosh z/z` on `slitPlane`;
@@ -1134,7 +1183,8 @@ with `x > 0` and `ph z = ±π`, prove 6.7.12 with both sides taken as their limi
 
 ### 9.3 Interrelations and series
 
-DLMF 6.5.3–6.5.7, 6.6.5–6.6.6, 6.7.9–6.7.11. 6.5.3–6.5.4 for `x > 0`; 6.5.5–6.5.7 for `Re z > 0`
+DLMF 6.5.3–6.5.7, 6.6.5–6.6.6, 6.7.9–6.7.11; Lebedev (3.3.3)–(3.3.8), p. 36;
+Nikiforov–Uvarov Ch. II §11.4, (18), p. 102. 6.5.3–6.5.4 for `x > 0`; 6.5.5–6.5.7 for `Re z > 0`
 (`sinIntegral_eq_expIntegralE` for 6.5.5); the power series 6.6.5–6.6.6; 6.7.9–6.7.11 with the
 stated ranges.
 
@@ -1142,9 +1192,9 @@ stated ranges.
 
 ### 9.4 Asymptotics
 
-DLMF 6.12.3–6.12.8. The remainder identities 6.12.5–6.12.8 for `Re z > 0`. The expansions
-6.12.3–6.12.4 in `|ph z| ≤ π − δ`. The remainder bounds in `|ph z| ≤ π/4`, and with the factor
-`csc(2|ph z|)` in `π/4 ≤ |ph z| < π/2`.
+DLMF 6.12.3–6.12.8; Lebedev (3.3.10), p. 37. The remainder identities 6.12.5–6.12.8 for `Re z > 0`.
+The expansions 6.12.3–6.12.4 in `|ph z| ≤ π − δ`. The remainder bounds in `|ph z| ≤ π/4`, and with
+the factor `csc(2|ph z|)` in `π/4 ≤ |ph z| < π/2`.
 
 *Needs:* 9.2; AsymptoticExpansions §3.3 and §§4.2–4.3.
 
@@ -1162,14 +1212,16 @@ at most its modulus, for `n ≤ 4`.
 
 ### 9.6 Integrals and sums
 
-DLMF 6.14.2–6.14.3, 6.14.5–6.14.7, 6.15.1–6.15.4. As stated, with `Re a > 0` for the Laplace
+DLMF 6.14.2–6.14.3, 6.14.5–6.14.7, 6.15.1–6.15.4; for 6.14.2–6.14.3, Olver Ch. 2, Ex. 3.4,
+p. 43. As stated, with `Re a > 0` for the Laplace
 transforms and improper integrals where DLMF's are not absolutely convergent.
 
 *Needs:* 9.1–9.3; Mathlib Fourier series (`hasSum_fourier_series_of_summable`) for 6.15.
 
 ### 9.7 The Gibbs phenomenon
 
-DLMF 6.16.1–6.16.4. The Fourier series 6.16.1 converges pointwise on `(−π, π)` to the stated
+DLMF 6.16.1–6.16.4; Temme §7.3.5, pp. 181–182, which has the uniform `O(1/n)` bound on closed
+subintervals of `[0, π)`. The Fourier series 6.16.1 converges pointwise on `(−π, π)` to the stated
 values, and the identity 6.16.2 holds. For each `0 < b < π`, `R_n(x) = O(n⁻¹)` uniformly for
 `|x| ≤ b` (6.16.4, corrected): integrate 6.16.3 by parts once, with the kernel
 `1/sin t − 1/t`, whose derivative is bounded on `[−b, b]`. The first positive maximum of `Si` is
@@ -1257,13 +1309,15 @@ Layers 1, 5 and 9; AsymptoticExpansions Layer 4.
 
 ### 11.1 Definitions
 
-DLMF 7.2.1–7.2.3, 7.2.6–7.2.8, 7.2.10–7.2.12. `erf`, `erfc`, `w`, `C`, `S` and `ℱ` (`erf`,
-`erfc`, `faddeeva`, `fresnelC`, `fresnelS`, `fresnelTail`) are entire (`differentiable_erf`).
-`erf (x : ℂ) = TauCeti.Real.erf x` (`erf_ofReal`). The defining integrals from `0` are
-characterized by their derivatives and their value `0` at `0`: `erf′ = 2π^{−1/2} e^{−z²}`,
-`C′ = cos(πz²/2)` and `S′ = sin(πz²/2)`. 7.2.2 holds for `erfc` as `∫_z^∞` along the horizontal
-ray, for every `z`. 7.2.6 holds for `ℱ` as an improper integral along the
-real axis. The auxiliary functions `f`, `g` (`fresnelAuxF`, `fresnelAuxG`) are 7.2.10–7.2.11 by
+DLMF 7.2.1–7.2.3, 7.2.6–7.2.8, 7.2.10–7.2.12; Lebedev (2.1.1), p. 16, and (2.4.2), p. 21; Olver
+Ch. 2 §§4.1–4.2, pp. 43–44, with the Goodwin–Staton integral in Ex. 4.4, p. 44; Temme §11.1,
+pp. 275–276, for `w`; Cuyt et al. (13.1.1)–(13.1.2), p. 253, and (13.2.1)–(13.2.8), p. 261. `erf`,
+`erfc`, `w`, `C`, `S` and `ℱ` (`erf`, `erfc`, `faddeeva`, `fresnelC`, `fresnelS`, `fresnelTail`) are
+entire (`differentiable_erf`). `erf (x : ℂ) = TauCeti.Real.erf x` (`erf_ofReal`). The defining
+integrals from `0` are characterized by their derivatives and their value `0` at `0`:
+`erf′ = 2π^{−1/2} e^{−z²}`, `C′ = cos(πz²/2)` and `S′ = sin(πz²/2)`. 7.2.2 holds for `erfc` as
+`∫_z^∞` along the horizontal ray, for every `z`. 7.2.6 holds for `ℱ` as an improper integral along
+the real axis. The auxiliary functions `f`, `g` (`fresnelAuxF`, `fresnelAuxG`) are 7.2.10–7.2.11 by
 definition. The integral defining `G` (`goodwinStaton`, 7.2.12) converges absolutely for
 `z ∈ slitPlane`, and `G` is holomorphic there. Conjugation: `erf`, `erfc`, `C`, `S` commute with
 `z ↦ z̄`, `w(−z̄) = conj w(z)`, and `G(z̄) = conj G(z)` on `slitPlane`. For every `w`,
@@ -1285,9 +1339,10 @@ definition. The integral defining `G` (`goodwinStaton`, 7.2.12) converges absolu
 
 ### 11.2 Values at infinity and symmetry
 
-DLMF 7.2.4, 7.2.9, 7.4.1–7.4.8. 7.2.4 in `|ph z| ≤ π/4 − δ`. 7.2.9 for the real parts
-(`tendsto_fresnelC_atTop`). 7.4.1–7.4.8 as identities of entire functions. `C`, `S` and `erf`
-are real on the real axis.
+DLMF 7.2.4, 7.2.9, 7.4.1–7.4.8; for 7.2.4, Cuyt et al. (13.1.4), p. 254, and on the real line
+Lebedev (2.1.3), p. 17; for 7.2.9, Olver Ch. 2, Ex. 4.3, p. 44. 7.2.4 in `|ph z| ≤ π/4 − δ`. 7.2.9
+for the real parts (`tendsto_fresnelC_atTop`). 7.4.1–7.4.8 as identities of entire functions. `C`,
+`S` and `erf` are real on the real axis.
 
 Dawson's integral `F = TauCeti.dawson`, its entirety, `F′ = 1 − 2zF` and `F(0) = 0` are consumed
 from
@@ -1299,7 +1354,8 @@ SpecialFunctionsParabolicCylinder §5.1 (`differentiable_dawson`, `hasDerivAt_da
 
 ### 11.3 Interrelations
 
-DLMF 7.5.1–7.5.13. All as identities of entire functions, with 7.5.8–7.5.10 for both sign
+DLMF 7.5.1–7.5.13; for 7.5.1, Temme §11.1, p. 276; for 7.5.8, Olver Ch. 2 §4.2, (4.07), p. 44,
+and Lebedev (2.4.6), p. 22. All as identities of entire functions, with 7.5.8–7.5.10 for both sign
 choices (`dawson_eq_faddeeva` for 7.5.1, `fresnelC_add_I_mul_fresnelS` for 7.5.8 with the upper
 signs). 7.5.11–7.5.12 for real `x` with the stated signs. 7.5.13 for `x > 0`, with `Ei` of 8.2.
 
@@ -1307,7 +1363,10 @@ signs). 7.5.11–7.5.12 for real `x` with the stated signs. 7.5.13 for `x > 0`, 
 
 ### 11.4 Series, derivatives and hypergeometric forms
 
-DLMF 7.6.1–7.6.7, 7.10.1–7.10.4, 7.11.1–7.11.4, 7.11.6–7.11.8. The power series 7.6.1–7.6.7
+DLMF 7.6.1–7.6.7, 7.10.1–7.10.4, 7.11.1–7.11.4, 7.11.6–7.11.8. For the series, Lebedev (2.1.2),
+p. 16, and (2.4.4), p. 22; for the Kummer forms, Andrews–Askey–Roy (4.4.2), p. 196, Beals–Wong
+(6.4.5), p. 198, and (6.4.8)–(6.4.9), p. 199, Duverney (6.10), p. 183, Lebedev §9.13, p. 272, and
+Cuyt et al. (13.1.7), p. 254. The power series 7.6.1–7.6.7
 (`hasSum_erf` for 7.6.1). 7.10.1 with `H_n` written through `Polynomial.hermite`. 7.10.2–7.10.4
 (`hasDerivAt_faddeeva` for 7.10.2). 7.11.1–7.11.3 for `Re z > 0`, where `(z²)^{1/2} = z`
 (`erf_eq_lowerIncompleteGamma`), and the entire form `erf z = z γ*(½, z²)`
@@ -1319,8 +1378,9 @@ DLMF 7.6.1–7.6.7, 7.10.1–7.10.4, 7.11.1–7.11.4, 7.11.6–7.11.8. The power
 
 ### 11.5 Incomplete Gamma special values
 
-DLMF 8.4.1, 8.4.3, 8.4.6, 8.4.14. 8.4.1 and 8.4.6 for `Re z > 0`. 8.4.3 for `z ≠ 0`. 8.4.14 for
-`n ∈ ℕ` and `Re z > 0`.
+DLMF 8.4.1, 8.4.3, 8.4.6, 8.4.14; for 8.4.1 and 8.4.6, Olver Ch. 2, Ex. 5.1, p. 45, Cuyt et al.
+(13.1.5), p. 254, and Duverney (6.13), p. 183. 8.4.1 and 8.4.6 for `Re z > 0`. 8.4.3 for `z ≠ 0`.
+8.4.14 for `n ∈ ℕ` and `Re z > 0`.
 
 *Needs:* 11.4, 1.2–1.3, 2.4.
 
@@ -1339,7 +1399,8 @@ Mathlib's Gaussian integrals, Hermite polynomials and regularized hypergeometric
 
 ### 12.1 Integral representations
 
-DLMF 7.7.1–7.7.16. 7.7.1 for `|ph z| ≤ π/4` (`z ≠ 0`), 7.7.2 for `Im z > 0`
+DLMF 7.7.1–7.7.16; 7.7.2 is Temme (11.1), p. 275, and 7.7.1 for real `z > 0`, after scaling,
+is Olver Ch. 2, Ex. 4.2, p. 44. 7.7.1 for `|ph z| ≤ π/4` (`z ≠ 0`), 7.7.2 for `Im z > 0`
 (`faddeeva_eq_integral`), and 7.7.3–7.7.9 with the stated ranges. 7.7.10–7.7.12 with the stated
 ranges, with 7.7.12 as an improper integral. The Mellin–Barnes integrals 7.7.13–7.7.14 with
 `ζ = π² z⁴/16` and `|ph z| < π/8` (so that `|ph ζ| < π/2`), as in 3.3. 7.7.15–7.7.16 for
@@ -1357,11 +1418,12 @@ DLMF 7.8.1–7.8.8. With Mills' ratio written out, 7.8.2–7.8.5 on the stated r
 
 ### 12.3 Continued fractions
 
-DLMF 7.9.1–7.9.3. 7.9.1 for `Re z > 0`: it is 8.9.2 at `a = ½` and argument `z² ∈ slitPlane`,
-with `Γ(½, z²) = √π erfc z` (8.4.6), multiplied by `z` and followed by the equivalence
-transformation multiplying alternate levels by `z²`. 7.9.2 for `Re z > 0` as the even part of
-7.9.1: prove, for a general `GenContFract`, that the convergents of its even contraction are its
-even-indexed convergents. 7.9.3 for `Im z > 0`: it is 7.9.1 at `−iz`, where `Re(−iz) > 0`, after
+DLMF 7.9.1–7.9.3; Cuyt et al. (13.2.20), p. 263, and (13.2.23), p. 264, the latter by the even
+contraction (1.5.3), p. 17. 7.9.1 for `Re z > 0`: it is 8.9.2 at `a = ½` and argument
+`z² ∈ slitPlane`, with `Γ(½, z²) = √π erfc z` (8.4.6), multiplied by `z` and followed by the
+equivalence transformation multiplying alternate levels by `z²`. 7.9.2 for `Re z > 0` as the even
+part of 7.9.1: prove, for a general `GenContFract`, that the convergents of its even contraction are
+its even-indexed convergents. 7.9.3 for `Im z > 0`: it is 7.9.1 at `−iz`, where `Re(−iz) > 0`, after
 an equivalence transformation.
 
 *Needs:* 4.1–4.2, 11.5; Mathlib `GenContFract.convs` and the continuant recurrences.
@@ -1388,15 +1450,18 @@ Layers 3, 4, 8 and 11; AsymptoticExpansions Layer 8.
 
 ### 13.1 `erfc`
 
-DLMF 7.12.1. Both expansions in `|ph z| ≤ 3π/4 − δ`, in logarithmic coordinates (`erfc_isBigO`).
-The remainder bounds hold in `|ph z| ≤ π/4` (with the sign on the positive axis) and with the
-factor `csc(2|ph z|)` in `π/4 ≤ |ph z| < π/2`.
+DLMF 7.12.1; Lebedev §2.2, (2.2.1)–(2.2.4), pp. 18–19; Olver Ch. 3, Ex. 1.2, p. 67;
+Andrews–Askey–Roy (C.1.4), pp. 611–612; Wong Ch. I, Ex. 1, p. 42; Duverney Ex. 6.10, p. 188; Cuyt
+et al. (13.2.11), p. 262. Both expansions in `|ph z| ≤ 3π/4 − δ`, in logarithmic coordinates
+(`erfc_isBigO`). The remainder bounds hold in `|ph z| ≤ π/4` (with the sign on the positive axis)
+and with the factor `csc(2|ph z|)` in `π/4 ≤ |ph z| < π/2`.
 
 *Needs:* 11.5, 5.1; AsymptoticExpansions Layer 1 and §§4.2–4.3.
 
 ### 13.2 Fresnel auxiliary functions
 
-DLMF 7.12.2–7.12.7. The remainder identities 7.12.4–7.12.7 for `|ph z| < π/4`. The expansions in
+DLMF 7.12.2–7.12.7; Lebedev (2.4.7), p. 23; Olver Ch. 3, Ex. 1.4, p. 67. The remainder
+identities 7.12.4–7.12.7 for `|ph z| < π/4`. The expansions in
 `|ph z| ≤ π/2 − δ`. The remainder bounds in `|ph z| ≤ π/8` and with the factor `|csc(4 ph z)|` in
 `π/8 ≤ |ph z| < π/4`.
 
@@ -1507,8 +1572,9 @@ and `c₄ = (4v³ + 27v² + 108v − 300)/384`, for `N ≤ 5`:
 
 ### 14.2 Repeated integrals
 
-DLMF 7.18.1–7.18.9, 7.18.12–7.18.14. `iⁿ erfc` (`iteratedErfc`) is entire for each `n`, and its
-defining integral converges absolutely for every `z`. Prove:
+DLMF 7.18.1–7.18.9, 7.18.12–7.18.14; Cuyt et al. (13.3.1)–(13.3.5), pp. 268–269, with the fraction
+7.18.13 and its minimal solution; Duverney Ex. 6.11, p. 188. `iⁿ erfc` (`iteratedErfc`) is entire
+for each `n`, and its defining integral converges absolutely for every `z`. Prove:
 - `i⁰ erfc = erfc`, `iⁿ erfc(0) = 1/(2ⁿ Γ(n/2 + 1))` (7.18.3), and
   `(iⁿ⁺¹ erfc)′ = −iⁿ erfc` for `n ≥ 0` (`hasDerivAt_iteratedErfc`), with
   `(i⁰ erfc)′ = −(2/√π) e^{−z²}`;
@@ -1568,7 +1634,8 @@ and 5; Tau Ceti's inverse error function.
 
 ### 15.1 Definition and normalization
 
-DLMF 8.17.1–8.17.6, 8.17.24. `B_x(a, b)` is `incompleteBeta a b x`. For `a, b > 0` and
+DLMF 8.17.1–8.17.6, 8.17.24; Temme (11.29)–(11.30), p. 288; Cuyt et al. (18.5.3)–(18.5.6),
+p. 384. `B_x(a, b)` is `incompleteBeta a b x`. For `a, b > 0` and
 `0 ≤ x ≤ 1`:
 - 8.17.2, `I_x(a, b) = B_x(a, b)/B(a, b)`, is Tau Ceti's
   `TauCeti.regularizedIncompleteBeta_def_of_mem_Icc`, and is not restated;
@@ -1591,45 +1658,47 @@ DLMF 8.17.1–8.17.6, 8.17.24. `B_x(a, b)` is `incompleteBeta a b x`. For `a, b 
 
 ### 15.2 Hypergeometric and integral representations
 
-DLMF 8.17.7–8.17.10. 8.17.7–8.17.8 for `0 ≤ x < 1` (`incompleteBeta_eq_hypergeometric` for
-8.17.7), and 8.17.9 for `0 ≤ x < ½` (where `|x/(x − 1)| < 1`), all with Mathlib's
-`ordinaryHypergeometric`. 8.17.10 for `0 < x < 1` and `x < c < 1`, as a vertical-line integral.
+DLMF 8.17.7–8.17.10; Temme (11.34), p. 289, and (11.42), p. 290, for 8.17.10; Beals–Wong Ex. 8.7,
+p. 287; Cuyt et al. (18.5.16), p. 385. 8.17.7–8.17.8 for `0 ≤ x < 1`
+(`incompleteBeta_eq_hypergeometric` for 8.17.7), and 8.17.9 for `0 ≤ x < ½` (where
+`|x/(x − 1)| < 1`), all with Mathlib's `ordinaryHypergeometric`. 8.17.10 for `0 < x < 1` and
+`x < c < 1`, as a vertical-line integral.
 
 *Needs:* 15.1, 3.3; Mathlib `ordinaryHypergeometric`.
 
 ### 15.3 Recurrences
 
-DLMF 8.17.11–8.17.21. All, for `a, b > 0` and `0 ≤ x ≤ 1`, with the parameters in each formula
-positive. 8.17.20 is Tau Ceti's `TauCeti.regularizedIncompleteBeta_add_one_left`, and is not
-restated.
+DLMF 8.17.11–8.17.21; Temme (11.36)–(11.41), pp. 289–290. All, for `a, b > 0` and `0 ≤ x ≤ 1`, with
+the parameters in each formula positive. 8.17.20 is Tau Ceti's
+`TauCeti.regularizedIncompleteBeta_add_one_left`, and is not restated.
 
 *Needs:* 15.1; Tau Ceti `TauCeti.regularizedIncompleteBeta_add_one_left` and
 `TauCeti.regularizedIncompleteBeta_add_one_right`.
 
 ### 15.4 Continued fraction
 
-DLMF 8.17.22–8.17.23. Convergence to the stated value for `0 ≤ x < 1`, via 4.1; at `x = 0` every
-`d_m` vanishes and the fraction is `1`. For `b ∈ ℤ_{>0}`, `d_{2b} = 0`, and 8.17.22 is the finite
-identity given by the termination clause of 4.1, as for 8.9.2 in 4.2. For `0 < x < 1` and
-`b ∉ ℤ_{>0}`, with
-`g_n = F(a + b + ⌊n/2⌋, ⌈n/2⌉; a + n; x)` (Mathlib's `ordinaryHypergeometric`), prove the
-contiguous relations `g_{n−1} = g_n + d_n g_{n+1}` (`n ≥ 1`). Then `g₀ = 1`,
-`g₁ = F(a + b, 1; a + 1; x)` gives the value through 8.17.8, and `f(n) = (−1)ⁿ d₁⋯d_{n−1} g_n` is
-the minimal solution with `f(0) = 1` for the fraction with `a₁ = 1`, `a_{n+1} = d_n` and
-`b_n = 1`. Minimality follows from the criterion of 4.1 and `g_{n+1}/g_n → 2/(1 + √(1 − x))`, the
-smaller of the characteristic roots `2(1 ∓ √(1 − x))/x` of the limiting recurrence. Prove this
-limit by applying AsymptoticExpansions §12.1 to the two-step recurrences of `(g_{2k})` and
-`(g_{2k+1})`, whose coefficients are rational in `k` with limits having the distinct
-characteristic roots `(2(1 ∓ √(1 − x))/x)²`, together with a growth bound `g_n = O(Rⁿ)` for some
-`R < 2(1 + √(1 − x))/x`, which selects the smaller root. DLMF's bracketing of the convergents is
-not owned; see [Beyond this roadmap](#beyond-this-roadmap-a-roadmap-for-a-roadmap-do-not-implement).
+DLMF 8.17.22–8.17.23; Temme (11.35), p. 289; Cuyt et al. (18.5.17), p. 385. Convergence to the
+stated value for `0 ≤ x < 1`, via 4.1; at `x = 0` every `d_m` vanishes and the fraction is `1`. For
+`b ∈ ℤ_{>0}`, `d_{2b} = 0`, and 8.17.22 is the finite identity given by the termination clause of
+4.1, as for 8.9.2 in 4.2. For `0 < x < 1` and `b ∉ ℤ_{>0}`, with
+`g_n = F(a + b + ⌊n/2⌋, ⌈n/2⌉; a + n; x)` (Mathlib's `ordinaryHypergeometric`), prove the contiguous
+relations `g_{n−1} = g_n + d_n g_{n+1}` (`n ≥ 1`). Then `g₀ = 1`, `g₁ = F(a + b, 1; a + 1; x)` gives
+the value through 8.17.8, and `f(n) = (−1)ⁿ d₁⋯d_{n−1} g_n` is the minimal solution with `f(0) = 1`
+for the fraction with `a₁ = 1`, `a_{n+1} = d_n` and `b_n = 1`. Minimality follows from the criterion
+of 4.1 and `g_{n+1}/g_n → 2/(1 + √(1 − x))`, the smaller of the characteristic roots
+`2(1 ∓ √(1 − x))/x` of the limiting recurrence. Prove this limit by applying AsymptoticExpansions
+§12.1 to the two-step recurrences of `(g_{2k})` and `(g_{2k+1})`, whose coefficients are rational in
+`k` with limits having the distinct characteristic roots `(2(1 ∓ √(1 − x))/x)²`, together with a
+growth bound `g_n = O(Rⁿ)` for some `R < 2(1 + √(1 − x))/x`, which selects the smaller root. DLMF's
+bracketing of the convergents is not owned; see [Beyond this
+roadmap](#beyond-this-roadmap-a-roadmap-for-a-roadmap-do-not-implement).
 
 *Needs:* 15.2, 4.1; AsymptoticExpansions §12.1.
 
 ### 15.5 Large `a`, fixed `b` and `x`
 
-DLMF 8.18.1. For fixed `b > 0`, `0 < x < 1` and each `n`, the normalized remainder
-`Γ(a + n + 1) (I_x(a, b)/(Γ(a + b) x^a (1 − x)^{b−1}) − S_n)`, with
+DLMF 8.18.1; Temme §11.3.3, p. 291. For fixed `b > 0`, `0 < x < 1` and each `n`, the normalized
+remainder `Γ(a + n + 1) (I_x(a, b)/(Γ(a + b) x^a (1 − x)^{b−1}) − S_n)`, with
 `S_n = ∑_{k<n} (x/(1 − x))^k/(Γ(a + k + 1) Γ(b − k))`, is bounded as `a → +∞`, with `1/Γ(b − k)`
 Mathlib's entire reciprocal (`regularizedIncompleteBeta_large_a_isBigO`). For `b ∈ ℤ_{>0}` and
 `n ≥ b` it is exactly `0`.
@@ -1658,15 +1727,14 @@ function; Mathlib's Gauss function and Beta function.
 The following material is the natural continuation. It is recorded only to fix the boundary.
 Contributors should not attempt it under this roadmap.
 - **Formulas through Kummer's second function `U` and Whittaker functions**: DLMF 6.11.2–6.11.3,
-  7.11.5, 7.18.10, 8.5.3–8.5.5, 8.19.16. They belong to a confluent hypergeometric roadmap
-  (DLMF Chapter 13).
+  7.11.5, 7.18.10, 8.5.3–8.5.5, 8.19.16. They belong to a confluent hypergeometric roadmap.
 - **The relation to the parabolic cylinder functions**: DLMF 7.18.11. It is 7.18.12 combined with
   `U(n + ½, z) = e^{z²/4} Hh_n(z)` (DLMF 12.7.7), and belongs to the parabolic cylinder roadmap.
 - **Formulas through modified and spherical Bessel functions, Laguerre and Chebyshev
   polynomials**: DLMF 6.7.15–6.7.16, 6.10.4–6.10.8, 7.6.8–7.6.11, 8.6.6, 8.7.4–8.7.6,
   8.21.16–8.21.17. They belong to Bessel-function and orthogonal-polynomial roadmaps.
 - **The continued Gauss function**: DLMF 8.14.5–8.14.6, 8.17.9 and 8.19.25 outside the unit disc
-  of the hypergeometric argument. They belong to a hypergeometric roadmap (DLMF Chapter 15).
+  of the hypergeometric argument. They belong to a hypergeometric roadmap.
 - **The Hurwitz zeta function at complex shift**: DLMF 8.15.2.
 - **Uniform asymptotic expansions for large parameter**, which rest on the coalescence of a saddle
   point with a pole (beyond AsymptoticExpansions): DLMF §8.12 (8.12.1–8.12.22), §8.18(ii)
@@ -1704,8 +1772,9 @@ material for every layer. That development defines `Γ(a, z)` through Kummer's s
 as here, through `regularizedHGFun`. Its sine and cosine integrals are power series, while here
 they are segment integrals and the series are theorems.
 
-This roadmap specifies the mathematics intrinsically. `lean-DLMF` supplies prior proofs and
-implementation references; reused code carries attribution under the repository's porting
+This roadmap specifies the mathematics intrinsically, from the sources listed in
+[References](#references). `lean-DLMF`, which follows the DLMF's numbering, supplies prior proofs
+and implementation references; reused code carries attribution under the repository's porting
 guidance. The source contains both proved theorems and admitted statements, and serves as a
 reference, not as a specification. The following secondary provenance map records source
 counterparts; the mathematical targets and dependencies are specified by the layers.
@@ -1729,19 +1798,60 @@ counterparts; the mathematical targets and dependencies are specified by the lay
 
 ## References
 
+Page numbers are the printed pages of the editions listed. The DLMF is the primary locator
+source; the books are cited next to it where they contain the result.
+
+- G. E. Andrews, R. Askey and R. Roy, *Special Functions*, Cambridge University Press, 1999:
+  §4.4 (the error function and the incomplete Gamma function as Kummer functions) and
+  Appendix C.1 (the asymptotics of `erfc`).
+-  R. Beals and R. Wong, *Special Functions: A Graduate Text*, Cambridge University Press, 2010:
+  §2.6 (the incomplete Gamma functions and their continuation), §6.4 (the error function, the
+  incomplete Gamma function and the Fresnel integrals as Kummer functions), and Exercises 2.25–2.27
+  and 8.7.
+- A. Cuyt, V. B. Petersen, B. Verdonk, H. Waadeland and W. B. Jones, *Handbook of Continued
+  Fractions for Special Functions*, Springer, 2008: §§1.3–1.5 (determinant formula, equivalence
+  transformations, contractions), §3.6 (minimal solutions, Pincherle's theorem), §12.6 (the
+  incomplete Gamma functions), §§13.1–13.3 (error functions, the Faddeeva function, repeated
+  integrals of `erfc`), §14.1 (exponential integrals) and §18.5 (the incomplete Beta function).
 - NIST *Digital Library of Mathematical Functions*, Chapter 6 (N. M. Temme), Chapter 7
   (N. M. Temme) and Chapter 8 (R. B. Paris), <https://dlmf.nist.gov/6>,
   <https://dlmf.nist.gov/7>, <https://dlmf.nist.gov/8>; and
-  [§2.5(ii)](https://dlmf.nist.gov/2.5#ii), [§2.11(ii)](https://dlmf.nist.gov/2.11#ii).
-- F. W. J. Olver, *Asymptotics and Special Functions*, Academic Press, 1974, Chapters 2–3 and 9.
-- N. M. Temme, *Special Functions: An Introduction to the Classical Functions of Mathematical
-  Physics*, Wiley, 1996, Chapters 3 and 11.
+  [§2.5(ii)](https://dlmf.nist.gov/2.5#ii), [§2.11(ii)](https://dlmf.nist.gov/2.11#ii). The
+  primary locator source for every layer; the corrections to 6.16.4 (9.7) and to the bracketing
+  statement after 8.17.23 (Beyond this roadmap) are to this text.
+- D. Duverney, *An Introduction to Hypergeometric Functions*, Birkhäuser, 2024: §6.1 (the error
+  function and the incomplete Gamma function as Kummer functions) and Exercises 6.10–6.11
+  (asymptotics of `erfc`, repeated integrals of `erfc`).
+- W. Gautschi, Computational aspects of three-term recurrence relations, *SIAM Rev.* 9 (1967),
+  24–82: Theorem 1.1 (Pincherle's theorem).
+- W. Gautschi, *Orthogonal Polynomials: Computation and Approximation*, Oxford University Press,
+  2004: §1.3 (minimal solutions and Pincherle's theorem).
 - W. B. Jones and W. J. Thron, *Continued Fractions: Analytic Theory and Applications*,
   Addison-Wesley, 1980, Chapter 4 (Pincherle's theorem).
-- W. Gautschi, Computational aspects of three-term recurrence relations, *SIAM Rev.* 9 (1967),
-  24–82.
-- F. G. Tricomi, Asymptotische Eigenschaften der unvollständigen Gammafunktion, *Math. Z.* 53
-  (1950), 136–148.
 - K. S. Kölbig, On the zeros of the incomplete gamma function, *Math. Comp.* 26 (1972), 751–756.
+- N. N. Lebedev, *Special Functions and Their Applications*, translated by R. A. Silverman,
+  Prentice-Hall, 1965: the problems of Chapter 1 (the incomplete Gamma functions), Chapter 2 (the
+  error function, Dawson's integral, the Fresnel integrals), Chapter 3 (the exponential,
+  logarithmic, sine and cosine integrals) and §9.13 (Kummer forms).
 - A. J. MacLeod, Asymptotic expansions for the zeros of certain special functions, *J. Comput.
   Appl. Math.* 145 (2002), 261–267.
+- A. F. Nikiforov and V. B. Uvarov, *Special Functions of Mathematical Physics*, Birkhäuser,
+  1988: Chapter II §11.4 (the exponential integrals, the sine and cosine integrals and the error
+  function as functions of the second kind of the classical polynomials).
+- F. W. J. Olver, *Asymptotics and Special Functions*, A K Peters, 1997 (reprint of Academic
+  Press, 1974): Chapter 2 §§3–5 (the exponential, sine and cosine integrals, the error function,
+  the Fresnel integrals, the incomplete Gamma functions), Chapter 3 §1 (integration by parts and
+  the error bounds on the positive axis), Chapter 4 §2 (the incomplete Gamma function for large
+  argument, in the complex plane).
+- R. B. Paris and D. Kaminski, *Asymptotics and Mellin–Barnes Integrals*, Cambridge University
+  Press, 2001: §3.4 (the Mellin–Barnes integrals of the incomplete Gamma functions) and §5.1.1
+  (the exponential integral).
+- N. M. Temme, *Special Functions: An Introduction to the Classical Functions of Mathematical
+  Physics*, Wiley, 1996: Chapter 3 (the Gamma function), §§7.3.4–7.3.7 (special cases of
+  Kummer's function), §11.1 (the error functions), §11.2 (the incomplete Gamma functions), §11.3
+  (the incomplete Beta function) and §13.2 (minimal solutions of recurrences).
+- F. G. Tricomi, Asymptotische Eigenschaften der unvollständigen Gammafunktion, *Math. Z.* 53
+  (1950), 136–148.
+- R. Wong, *Asymptotic Approximations of Integrals*, SIAM Classics in Applied Mathematics, 2001:
+  Chapter I §§4–5 and the exercises of Chapter I (the exponential and logarithmic integrals,
+  `erfc` and the incomplete Gamma function).
