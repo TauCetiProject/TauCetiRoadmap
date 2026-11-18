@@ -2,6 +2,10 @@
 
 **Summary.** Build finite-height arithmetic families and integral orbit dictionaries, prove uniform counting and sieve estimates, then compute field densities, class-group moments and Selmer averages. Compare the arithmetic results with precisely specified finite-group, quadratic-intersection and geometric probability laws. The work is carried out in the eight parts ArithmeticStatisticsPartI–ArithmeticStatisticsPartVIII listed below.
 
+## How to read the build
+
+Read Parts I–III for families, orbit dictionaries and uniform counts. Part IV supplies finite-group probability and moment tools before Part V applies them to field and class-group statistics. Part VI computes Selmer averages. Part VII builds quadratic probability models and their conditional twist consequences. Part VIII proves the geometric and function-field comparisons.
+
 ## Scope and ownership
 
 The series consists of the following eight roadmaps. Each part's README states its targets, its conventions, its supplier contracts and its references; its `Suggested.lean` states its headline theorems.
@@ -20,7 +24,3 @@ The series consists of the following eight roadmaps. Each part's README states i
 ## Exact supplier contracts
 
 The prerequisites are the eight parts [ArithmeticStatisticsPartI](../ArithmeticStatisticsPartI/README.md), [ArithmeticStatisticsPartII](../ArithmeticStatisticsPartII/README.md), [ArithmeticStatisticsPartIII](../ArithmeticStatisticsPartIII/README.md), [ArithmeticStatisticsPartIV](../ArithmeticStatisticsPartIV/README.md), [ArithmeticStatisticsPartV](../ArithmeticStatisticsPartV/README.md), [ArithmeticStatisticsPartVI](../ArithmeticStatisticsPartVI/README.md), [ArithmeticStatisticsPartVII](../ArithmeticStatisticsPartVII/README.md) and [ArithmeticStatisticsPartVIII](../ArithmeticStatisticsPartVIII/README.md); this page uses no object from them.
-
-## How to read the build
-
-Read Parts I–III for families, orbit dictionaries and uniform counts. Part IV supplies finite-group probability and moment tools before Part V applies them to field and class-group statistics. Part VI computes Selmer averages. Part VII builds quadratic probability models and their conditional twist consequences. Part VIII proves the geometric and function-field comparisons.
