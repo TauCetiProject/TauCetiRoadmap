@@ -35,124 +35,30 @@ Schur multiplier norm written through kernels (Conventions), except the multipli
 a Hilbert–Schmidt operator on an arbitrary σ-finite space, which Layer 2 builds; its docstring
 records this.
 
-## Scope and ownership
+## How to read the build
 
-This roadmap owns:
+Layer 1 completes the Schatten scale with its compact endpoint, proves norming by finite-rank
+operators and interpolation with the compact endpoint, and defines completely bounded maps by
+amplification. Layer 2 gives every Hilbert–Schmidt operator between `L²` spaces its kernel,
+computes kernels of adjoints, products, transposes, multiplication operators, changes of measure
+and compressions to sub-σ-algebras, and proves the properties of the `L^∞` conditional expectation
+of BochnerSpaces §7.4 that the later layers use, among them the `𝒜`-measurability of its values,
+its positivity and tower law, and its module property against the `L²` projection. Layer 3
+defines Schur multipliers, their norms, extensions and completely bounded norms, with the finite
+case and the invariances. Layer 4 proves
+duality and interpolation. Layer 5 studies conditional expectations of symbols and martingale
+limits. Layer 6 proves the Schur product theorem and the Grothendieck–Haagerup characterisation,
+first for finite index sets and then for σ-finite spaces. Layer 7 proves that norm and completely
+bounded norm agree on atomless spaces; Layer 8 treats continuous symbols on Radon measure spaces.
+Layer 9 proves Fourier–Schur transference on `ℝⁿ`. Layer 10 builds the operator-valued and matrix
+BMO seminorms and the interpolation inequality between matrix BMO and `S₂`; Layer 11 proves the
+Hörmander–Mikhlin–Schur theorem.
 
-- the compact endpoint `S_∞(H)` of the Schatten scale (compact operators with the operator norm),
-  the extended Schatten gauge on bounded operators, the norming of `S_p` by finite-rank operators
-  under the trace pairing, and Riesz–Thorin interpolation for maps defined on finite-rank
-  operators with the compact endpoint (Layer 1);
-- completely bounded maps on Schatten classes defined by matrix amplification, with their
-  composition, duality, interpolation and stabilisation laws and their agreement at `p = ∞` with
-  the completely bounded maps of CStarAlgebras C3.2 (Layer 1), and completely bounded norms of
-  Fourier multipliers on `Lᵖ(ℝⁿ)` through `Lᵖ(ℝⁿ; S_p^k)`, with the identification of
-  `Lᵖ(ℝⁿ; S_p^k)` as the tracial `Lᵖ` of `L^∞(ℝⁿ) ⊗̄ M_k` for Lebesgue measure (Layer 9);
-- the kernel `k_A ∈ L²(μ ⊗ ν)` of a Hilbert–Schmidt operator `A : L²(ν) → L²(μ)` (surjectivity of
-  the kernel map onto `S₂`), the kernel calculus (adjoint, composition, multiplication operators,
-  transposition) and the transformation of kernels under change of measure, measure-preserving
-  isomorphisms and passage to a sub-σ-algebra, and, for the `L^∞` conditional expectation of
-  BochnerSpaces §7.4, the `𝒜`-measurability of its values, its positivity and its tower law
-  (carried over from the `L¹` projection by the adjoint formula), its agreement with
-  `MeasureTheory.condExp` on integrable functions, the uniqueness in its pairing characterisation,
-  its invariance under `𝒜`-measurable densities, its commutation with complex conjugation and its
-  module property against `MeasureTheory.condExpL2` (Layer 2);
-- Schur multipliers on `L²(Ω, μ)` for σ-finite `(Ω, μ)`: the multiplier on `S₂`, its norms on
-  `S_p`, its unique bounded extension, its completely bounded norm by amplified symbols, the finite
-  (Hadamard) case, and their invariances (Layer 3); duality and interpolation (Layer 4);
-  conditional expectations of symbols and martingale limits (Layer 5); positive symbols and the
-  Grothendieck–Haagerup characterisation (Layer 6); the atomless theorem (Layer 7); continuous
-  symbols (Layer 8);
-- Toeplitz symbols on `ℝⁿ`, the Følner compressions of convolution operators and Fourier–Schur
-  transference on `ℝⁿ` (Layer 9);
-- operator-valued column and row BMO seminorms of functions on `ℝⁿ` and on the torus `𝕋ⁿ`, the
-  matrix BMO seminorm on `S₂(L²(ℝⁿ))`, its periodisation and its interpolation inequality with
-  `S₂` (Layer 10); twisted Fourier multipliers, the Hörmander–Mikhlin–Schur norm and theorem
-  (Layer 11).
-
-It leaves to named roadmaps, and consumes from them by section:
-
-- **OperatorTheory/OperatorIdeals** owns approximation numbers (Part A), the Schatten families
-  `S_p` for `1 ≤ p < ∞` with their gauges, inclusions and completeness, the trace-class and
-  Hilbert–Schmidt families (Part B) and the Hilbert–Schmidt column model (Part C). Its `p = ∞`
-  family (OI-B80) is all of `B(H)`; the compact endpoint used by the sources is a different
-  object and is defined here.
-- **VonNeumannAlgebras** owns the canonical trace on the trace class with cyclicity and the
-  Hilbert–Schmidt pairing (V4.Core), the completed Hilbert tensor product `H ⊗̂ L` of two Hilbert
-  spaces (V2), the tensor identification `L²(μ) ⊗̂ L²(ν) ≅ L²(μ ⊗ ν)` (V2.RectangularL2) and the
-  Hilbert-space ultraproduct of a sequence of Hilbert spaces (V13b).
-- **NoncommutativeIntegration** owns the identification of `Lᵖ(B(H), Tr)` with `S_p` (its §1.5),
-  density of finite-trace-support elements (its §1.3), Hölder's inequality (its §1.4), `Lᵖ`–`L^q`
-  duality and cyclicity of the trace pairing (its §2.1), the complex method with regularisation
-  (its §2.3), the interpolation of semifinite `Lᵖ` couples (its §2.5), noncommutative Riesz–Thorin
-  (its §2.6), the isometric identification of the tracial `Lᵖ` of a semifinite trace with the
-  Haagerup `Lᵖ` (its §3.5) and the Bochner identification `Lᵖ(Ω; Lᵖ(N)) = Lᵖ(L^∞(Ω) ⊗̄ N)` for a
-  probability space (its §4.4); the case of Lebesgue measure on `ℝⁿ` with a matrix fibre `M_k`,
-  which Layer 9 uses, is §9.2 here. The semifinite martingale BMO space and its interpolation
-  inequality with the sharp order `O(p)` are requested of NoncommutativeIntegration, Part II (gap
-  `semifinite-martingale-bmo-interpolation`).
-- **AutomorphicSpectralTheory** owns the kernel operator `T_k` of an `L²` kernel with
-  `kernel_apply`, `kernel_unique` and `kernel_norm` (its §0.8), and states for the trace of
-  VonNeumannAlgebras V4.Core the basis formula `Tr(BC) = Σ_j ⟨B* e_j, C e_j⟩` for
-  Hilbert–Schmidt `B`, `C` (AutomorphicSpectralTheory §0.9); every trace in this roadmap, whether
-  reached through V4.Core or through AutomorphicSpectralTheory §0.9, is therefore the one
-  functional of V4.Core. Its §0.8 is stated for standard Borel spaces; the arbitrary σ-finite
-  version that Layers 2, 5 and 7 need (sub-σ-algebras of a standard Borel space are not standard
-  Borel) is requested of AutomorphicSpectralTheory §0.8
-  (gap `sigma-finite-hilbert-schmidt-kernels`). Its trace formula
-  `Tr(T₁T₂) = ∫∫ K₁(x, y)K₂(y, x)` (its §0.10) is stated on one space at the generality of its
-  §0.8; §2.2 here proves it for two arbitrary σ-finite spaces from the kernel isometry and the
-  adjoint kernel.
-- **CStarAlgebras** owns the C*-algebra of compact operators (C1.6) and completely bounded maps of
-  operator spaces with Smith's lemma (C3.2); Layer 1 compares its amplification norm at `p = ∞`
-  with C3.2.
-- **BanachSpaceTheory** owns the Bochner density, for a finite measure, of a vector measure of
-  finite variation, absolutely continuous to it, with values in a reflexive Banach space (B4.0),
-  which gives the Radon–Nikodým representation of bounded maps `L¹(μ) → K` used here in §6.4.
-- **OperatorTheory/UnboundedOperators** treats integral operators with measurable kernels on
-  `L²(ℝ)`, with their maximal and absolute-pairing domains, conjugate-transpose adjoints and
-  composition (its §5.1, UO-E01). Layer 2 here is a different statement and consumes nothing of it:
-  bounded operators with square-integrable kernels between arbitrary σ-finite measure spaces.
-- **PDE** owns the scalar harmonic analysis of `ℝⁿ`: Riesz–Thorin interpolation (its §2.2), the
-  Mihlin–Hörmander multiplier theorem (its §2.3), the space `BMO(ℝⁿ)` with the John–Nirenberg
-  inequality (its §2.4) and the dyadic partition with the Bernstein and Littlewood–Paley estimates
-  (its §7.1). This roadmap consumes none of it. The column and row seminorms of §10.1 take the
-  operator norm of the average `⨍_Q |f − f_Q|²` of operator squares, a different seminorm from
-  `sup_B ⨍_B |f − f_B|`; §11.2 bounds the Littlewood–Paley pieces of a symbol with only `σ_n`
-  derivatives uniformly in a parameter `x`, which the estimates for a single smooth symbol do not
-  give; and the scalar Mihlin–Hörmander bound used in the Checks of §11.5 is Tau Ceti's.
-- **BochnerSpaces** owns the scalar conditional expectation on `L^∞` for a measure whose trim to
-  the sub-σ-algebra is σ-finite, defined as the adjoint of the `L¹` projection `E₁`, with its
-  adjoint formula, its contractivity and its agreement with `MeasureTheory.condExpL2` on
-  `L^∞ ∩ L²`, together with the positivity, idempotence, tower law and agreement with
-  `MeasureTheory.condExp` of `E₁` (its §7.4), the divisibility of atomless finite measures (its
-  §7.5), and the Fubini isometry `Lᵖ(μ ⊗ ν; X) ≅ Lᵖ(μ; Lᵖ(ν; X))` for σ-finite `μ`, `ν` (its §4.2).
-  Here §2.5 proves the further properties of that expectation which Layers 5–7 use, among them
-  the `𝒜`-measurability of its values, its positivity and its tower law, carried over from `E₁` by
-  the adjoint formula; §7.1 applies BochnerSpaces §7.5 to the restriction of an atomless measure
-  to a set of finite measure; §11.3 uses BochnerSpaces §4.2 at `p = 2`. Mathlib's
-  `MeasureTheory.condExp` is `0` on every non-integrable function and gives this expectation only
-  on integrable functions; the
-  normal expectation of NoncommutativeIntegration §4.3 lives on that roadmap's own `Lᵖ` carriers
-  of von Neumann algebras.
-
-Already in the pinned libraries and consumed directly: Mathlib's matrix Schur product theorem
-`Matrix.PosSemidef.hadamard`, the Hadamard three-lines theorem, the `L²` Fourier transform
-`MeasureTheory.Lp.fourierTransformₗᵢ`, conditional expectations of integrable functions and of `L²`
-classes, and Lévy's upward theorem; Tau Ceti's Schatten, trace-class and Hilbert–Schmidt families,
-its `L²` Fourier multiplier with `L^∞` symbols, its Littlewood–Paley pieces and its measure atoms
-(Exact supplier contracts).
-
-Outside this roadmap: Schatten classes for `0 < p < 1` (NoncommutativeIntegration §1.5);
-noncommutative `Lᵖ` of general von Neumann algebras; Fourier multipliers on group von Neumann
-algebras of non-abelian or non-Euclidean groups, including the transference theorems of
-Neuwirth–Ricard for discrete amenable groups and of Caspers–de la Salle for amenable locally
-compact groups beyond `ℝⁿ`; approximation properties of groups by Schur multipliers
-(Lafforgue–de la Salle §2 onwards); Hardy-space Toeplitz operators (OperatorTheory/ToeplitzOperators,
-a different object from the Toeplitz symbols `m(x − y)` here); double operator integrals and
-operator-Lipschitz functions; the Sobolev form of the Hörmander–Mikhlin–Schur theorem
-(Conde-Alonso–González-Pérez–Parcet–Tablate, Theorem A′) and its corollaries for divided
-differences, which belong to SchattenClassesAndSchurMultipliers, Part II (Downstream consumers).
+Layers 1 and 2 can be built at once, except that §2.3 and §2.4 use §1.1 and §1.4. Layer 3 needs
+Layers 1 and 2; Layer 4 needs Layers 1–3; Layer 5 needs Layers 2 and 3. Layer 6 needs Layers 1–5
+(§6.1–6.3 need only Layers 1, 3 and 4). Layer 7 needs Layers 2, 3 and 5. Layer 8 needs
+Layers 1, 3 and 5. Layer 9 needs Layers 1, 2 (§2.1, §2.2), 3, 4 and 8. Layer 10 needs Layers 1,
+2 (§2.1) and 3. Layer 11 needs Layers 2, 3, 4, 7 and 10.
 
 ## Conventions
 
@@ -224,381 +130,6 @@ differences, which belong to SchattenClassesAndSchurMultipliers, Part II (Downst
   `schurNorm` (§3.3) takes the supremum of `‖B‖_p` over pairs of integral operators `A`, `B` with
   kernels `k ∈ L²(μ ⊗ μ)` and `M · k` and with `‖A‖_p ≤ 1`. By §2.1 every Hilbert–Schmidt operator
   is such an `A`, for a unique class `k`, so this is the norm `‖S_M‖_p` of §1.4 and §3.3.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- `MeasureTheory.Lp`, `MeasureTheory.Measure.prod`, `MeasureTheory.SigmaFinite`,
-  `MeasureTheory.Measure.rnDeriv`, `MeasureTheory.MeasurePreserving`: the `Lᵖ` spaces, product
-  measures, Radon–Nikodým derivatives and measure-preserving maps of the conventions.
-- `MeasureTheory.lpMeas` (`Mathlib/MeasureTheory/Function/ConditionalExpectation/AEMeasurable.lean`)
-  and `MeasureTheory.condExpL2` (`…/ConditionalExpectation/CondexpL2.lean`): the closed subspace of
-  `𝒜`-measurable classes and the orthogonal projection onto it, defined with no σ-finiteness
-  hypothesis; `MeasureTheory.condExp` (`…/ConditionalExpectation/Basic.lean`): the conditional
-  expectation of an integrable function when `μ` is σ-finite on the sub-σ-algebra. It is `0`
-  on every non-integrable function (`MeasureTheory.condExp_of_not_integrable`): on `ℕ` with
-  counting measure the conditional expectation of the constant `1` onto the full σ-algebra is
-  `0`. It is therefore used only on integrable functions, in particular on bounded functions of a
-  finite measure (§2.5, §5.3, §6.4); §2.4 uses `MeasureTheory.condExpL2` for kernels, and bounded
-  functions of a measure that is only σ-finite on the sub-σ-algebra take the `L^∞` conditional
-  expectation of BochnerSpaces §7.4 (§2.5).
-- `MeasureTheory.condExp_indicator` (`…/ConditionalExpectation/Indicator.lean`): for an integrable
-  `f` and a set `A ∈ 𝒜`, the conditional expectation of `1_A f` is `1_A` times that of `f`;
-  `MeasureTheory.MemLp.condExpL2_ae_eq_condExp'` (`…/ConditionalExpectation/Basic.lean`): when `μ`
-  is σ-finite on `𝒜`, `MeasureTheory.condExpL2` and `MeasureTheory.condExp` agree on functions
-  that are integrable and square-integrable (§2.5).
-- `MeasureTheory.exists_pos_lintegral_lt_of_sigmaFinite`
-  (`Mathlib/MeasureTheory/Integral/Lebesgue/Countable.lean`) and `MeasureTheory.lintegral_trim`:
-  an everywhere positive measurable function of finite integral for a σ-finite measure, and
-  integrals of `𝒜`-measurable functions for the trimmed measure (§2.5);
-  `LinearMap.IsSymmetric.eigenvectorBasis` (`Mathlib/Analysis/InnerProductSpace/Spectrum.lean`):
-  an orthonormal eigenbasis of a symmetric operator on a finite-dimensional space (§1.2).
-- `MeasureTheory.Integrable.tendsto_ae_condExp` (`Mathlib/Probability/Martingale/Convergence.lean`):
-  Lévy's upward theorem, almost-everywhere convergence of `E[g | ℱ_n]` to `g`, for a real-valued
-  integrable `g` on a finite measure space (`IsFiniteMeasure μ`), a filtration `ℱ` indexed by `ℕ`
-  (`MeasureTheory.Filtration ℕ`) and `g` strongly measurable for `⨆ n, ℱ n`. §5.3 and §6.4 apply it
-  after the reduction to a finite measure (§3.7), on `μ ⊗ μ` along the sequence `𝓑_n ⊗ 𝓑_n`,
-  whose supremum is `𝒜₀ ⊗ 𝒜₀`, to the real and imaginary parts of a complex symbol;
-  `ContinuousLinearMap.comp_condExp_comm`
-  (`Mathlib/MeasureTheory/Function/ConditionalExpectation/Basic.lean`) with `Complex.reCLM` and
-  `Complex.imCLM` makes the conditional expectation commute with taking those parts.
-- `IsCompactOperator` and `compactOperator` (`Mathlib/Analysis/Normed/Operator/Compact/Basic.lean`):
-  compactness and the submodule of compact operators; `ContinuousLinearMap.adjoint`.
-- `Matrix.hadamard` (`Mathlib/LinearAlgebra/Matrix/Hadamard.lean`), `Matrix.PosSemidef.hadamard`
-  and `Matrix.PosSemidef.kronecker` (`Mathlib/Analysis/Matrix/Order.lean`): the Hadamard product,
-  positivity of Hadamard and Kronecker products of positive semidefinite matrices.
-- `CompletelyPositiveMap` (`Mathlib/Analysis/CStarAlgebra/CompletelyPositiveMap.lean`): completely
-  positive maps between C*-algebras; `CStarMatrix` for matrix levels.
-- `Complex.HadamardThreeLines.norm_le_interpStrip_of_mem_verticalClosedStrip`
-  (`Mathlib/Analysis/Complex/Hadamard.lean`): the three-lines theorem.
-- `MeasureTheory.Lp.fourierTransformₗᵢ` (`Mathlib/Analysis/Fourier/LpSpace.lean`): the Fourier
-  transform on `L²(ℝⁿ; F)` as a linear isometric equivalence (Plancherel), for every complex
-  Hilbert space `F`. `fourier_gaussian_innerProductSpace`
-  (`Mathlib/Analysis/SpecialFunctions/Gaussian/FourierTransform.lean`): on a finite-dimensional
-  real inner product space `V` and for `Re b > 0`, the Fourier transform of `v ↦ e^{−b‖v‖²}` is
-  `w ↦ (π/b)^{dim V/2} e^{−π²‖w‖²/b}`; with `b = π/T²` this is `𝓕γ_T = Tⁿ γ_{1/T}` for the
-  Gaussian `γ_T` of width `T` (§9.4).
-- `MeasureTheory.Measure.support` (`Mathlib/MeasureTheory/Measure/Support.lean`): the support of a
-  measure, closed, conull under inner regularity; `MeasureTheory.IsFiniteMeasureOnCompacts`,
-  `MeasureTheory.Measure.InnerRegularCompactLTTop`.
-- `MeasurableSet.exists_isCompact_lt_add` and `IsCompact.exists_isOpen_lt_add`
-  (`Mathlib/MeasureTheory/Measure/Regular.lean`): under `InnerRegularCompactLTTop`, a measurable
-  set of finite measure contains compact sets of measure arbitrarily close to its own; if moreover
-  the measure is locally finite, the space is R₁ (for instance Hausdorff) and the σ-algebra is
-  Borel, a compact set lies in open sets of measure arbitrarily close to its own.
-  `exists_continuousMap_one_of_isCompact_subset_isOpen` (`Mathlib/Topology/UrysohnsLemma.lean`):
-  on an R₁ locally compact space, for compact `K` inside open `V` a continuous `φ` with values in
-  `[0, 1]`, equal to `1` on `K`, with compact support inside `V`. §8.2 combines the three into the
-  density of continuous compactly supported functions in `L²(μ)` for a σ-finite Radon measure on
-  a locally compact Hausdorff space.
-- `MeasureTheory.MemLp.exists_hasCompactSupport_eLpNorm_sub_le`
-  (`Mathlib/MeasureTheory/Function/ContinuousMapDense.lean`): density of continuous compactly
-  supported functions in `ℒᵖ(μ)` for `p ≠ ∞`, under `NormalSpace`, `R1Space`,
-  `WeaklyLocallyCompactSpace` and `μ.Regular` (the last holds for a finite Radon measure on a
-  Hausdorff space with its Borel σ-algebra). A locally compact Hausdorff space need not be
-  normal, so this covers only the normal (for instance second-countable) case of §8.2.
-- `WithLp` (`Mathlib/Analysis/Normed/Lp/WithLp.lean`) with `PiLp.innerProductSpace`
-  (`Mathlib/Analysis/InnerProductSpace/PiL2.lean`): `WithLp 2 (Fin m → H)` is the Hilbert sum `H^m`
-  of `m` copies of `H`, with inner product `Σ_i ⟨x_i, y_i⟩`; the bare type synonym carries no norm
-  (§1.4).
-- `MeasureTheory.integral_prod` (`Mathlib/MeasureTheory/Integral/Prod.lean`): Fubini's theorem, the
-  integral of a `μ.prod ν`-integrable function equals the iterated integral, for s-finite `μ` and
-  `ν` (`MeasureTheory.SFinite`, implied by σ-finiteness) (§2.1, §2.2, §6.4).
-  `MeasureTheory.Measure.measure_prod_null` (`Mathlib/MeasureTheory/Measure/Prod.lean`): for
-  s-finite `ν`, a measurable set is `μ.prod ν`-null exactly when `μ`-almost all of its sections are
-  `ν`-null; so the diagonal of `ℝⁿ × ℝⁿ`, whose sections are points, is null for Lebesgue measure
-  when `n ≥ 1` (§10.2).
-- `MeasureTheory.hasSum_integral_of_dominated_convergence`
-  (`Mathlib/MeasureTheory/Integral/DominatedConvergence.lean`): dominated convergence for series,
-  `Σ_n ∫ F_n = ∫ f` when `Σ_n F_n = f` almost everywhere, each `F_n` is almost everywhere strongly
-  measurable and `‖F_n‖ ≤ b_n` with `Σ_n b_n` summable almost everywhere and integrable (§6.4).
-- `ContinuousLinearMap.compLp` (`Mathlib/MeasureTheory/Function/LpSpace/Basic.lean`): the class
-  `x ↦ L(f(x))` of `Lᵖ(μ; F)` for `f ∈ Lᵖ(μ; E)` and a bounded linear `L : E → F`, of norm at most
-  `‖L‖ ‖f‖`; composing with a unitary and with its inverse gives an isometric isomorphism of the
-  `L²` spaces (§11.3).
-- `MeasureTheory.Measure.withDensity` (`Mathlib/MeasureTheory/Measure/WithDensity.lean`): the
-  measure `w · μ` with `(w · μ)(A) = ∫⁻_A w dμ` for measurable `A` and `w : Ω → [0, ∞]` (§2.5).
-- `Matrix.toEuclideanCLM` (`Mathlib/Analysis/CStarAlgebra/Matrix.lean`): the star-algebra
-  isomorphism between `Matrix ι ι ℂ` and the bounded operators on `EuclideanSpace ℂ ι` given by the
-  standard orthonormal basis; `Matrix.kroneckerMap` (`Mathlib/LinearAlgebra/Matrix/Kronecker.lean`):
-  the Kronecker product `(A ⊗ B)_{(i,k),(j,l)} = f(A_{ij}, B_{kl})`; `Matrix.transpose`
-  (`Mathlib/LinearAlgebra/Matrix/Defs.lean`) (§2.3, §3.4, §3.5); `Matrix.toEuclideanLin`
-  (`Mathlib/Analysis/InnerProductSpace/PiL2.lean`): the linear equivalence between
-  `Matrix (Fin k) (Fin k) ℂ` and the linear maps of `EuclideanSpace ℂ (Fin k)`, through which a
-  matrix gets its Schatten norm `‖·‖_{S_p^k}` (§9.2).
-- `lp` (`Mathlib/Analysis/Normed/Lp/lpSpace.lean`) with its inner product at exponent `2`
-  (`Mathlib/Analysis/InnerProductSpace/l2Space.lean`): the Hilbert space `ℓ²(ℕ)` (§6.2) and the
-  Hilbert sum `ℓ²(β; H)` of copies of a Hilbert space `H` (§1.4).
-- `geometric_hahn_banach_point_closed` (`Mathlib/Analysis/LocallyConvex/Separation.lean`): in a real
-  locally convex topological vector space, a point outside a closed convex set is strictly
-  separated from it by a continuous real-linear functional (§6.3, applied to a finite-dimensional
-  real space).
-- `ContDiffBump.ae_convolution_tendsto_right_of_locallyIntegrable`
-  (`Mathlib/Analysis/Calculus/BumpFunction/Convolution.lean`): on a finite-dimensional real normed
-  space with an additive Haar measure, for normalised smooth bumps `φ_i` whose outer radius tends
-  to `0` with outer radius at most a fixed multiple of the inner radius, `φ_i ⋆ g → g` almost
-  everywhere for every locally integrable `g` with values in a complete real normed space (§9.5).
-- `volume_euclideanSpace_eq_dirac` (`Mathlib/MeasureTheory/Measure/Haar/InnerProductSpace.lean`):
-  for an empty finite index type `ι`, the volume of `EuclideanSpace ℝ ι` is the point mass at `0`
-  (the case `n = 0` of §9.5).
-- `MeasureTheory.NullSingletonClass`: null singletons (used only in a Check).
-- `ProbabilityTheory.gaussianReal`, `ProbabilityTheory.nullSingletonClass_gaussianReal` and
-  `ProbabilityTheory.gaussianReal_zero_var` (`Mathlib/Probability/Distributions/Gaussian/Real.lean`):
-  the real Gaussian measure of mean `m` and variance `v`, with null singletons for `v ≠ 0` and equal
-  to the point mass `δ_m` for `v = 0` (used only in the examples of Layer 7).
-- `ContinuousMap.starSubalgebra_topologicalClosure_eq_top_of_separatesPoints`
-  (`Mathlib/Topology/ContinuousMap/StoneWeierstrass.lean`): the Stone–Weierstrass theorem for a
-  star subalgebra of `C(K, ℂ)` separating the points of a compact space `K`;
-  `exists_continuous_zero_one_of_isClosed` (`Mathlib/Topology/UrysohnsLemma.lean`): Urysohn's lemma
-  in a normal space, which a compact Hausdorff space is
-  (`NormalSpace.of_compactSpace_r1Space`). §8.1 and §8.2 combine them into the measurability of
-  continuous functions on `K × K` for the product of the Borel σ-algebras. That product can be
-  strictly smaller than the Borel σ-algebra of `X × X` when `X` is not second countable: Mathlib's
-  `Prod.opensMeasurableSpace` (`Mathlib/MeasureTheory/Constructions/BorelSpace/Basic.lean`) needs
-  one factor second countable.
-- `UnitAddTorus`: the torus `𝕋ⁿ = Fin n → UnitAddCircle` with its Haar probability measure.
-- `iteratedFDeriv`, `ContDiffOn`, `MeasureTheory.eLpNorm`, `MeasureTheory.AEStronglyMeasurable`,
-  `MeasureTheory.Measure.count` and `essSup` (`Mathlib/MeasureTheory/Function/EssSup.lean`);
-  `ENNReal.HolderConjugate` (`Mathlib/Basic/ENNReal/Holder.lean`): exponents with
-  `p⁻¹ + q⁻¹ = 1` in `ℝ≥0∞`.
-
-Mathlib has no Schatten class, no trace on infinite-dimensional operators, no Schur multiplier
-beyond the Hadamard product of matrices, no completely bounded map on Schatten classes, no
-atomless measure (its `NoAtoms` is a deprecated alias of `NullSingletonClass`, and the docstring
-of `Mathlib/MeasureTheory/Measure/Typeclasses/NullSingletonClass.lean` notes that atomlessness is
-strictly stronger), no operator-valued BMO and no Fourier multiplier with an `L^∞` symbol: its
-`SchwartzMap.fourierMultiplierCLM` and `TemperedDistribution.fourierMultiplierCLM`
-(`Mathlib/Analysis/Distribution/FourierMultiplier.lean`) act on Schwartz functions and tempered
-distributions and assume a symbol of temperate growth.
-
-### From Tau Ceti
-
-- `TauCeti.OperatorIdealFamily.schatten`, `TauCeti.OperatorIdealFamily.gauge_schatten`,
-  `TauCeti.OperatorIdealFamily.gauge_schatten_le_of_le`,
-  `TauCeti.OperatorIdealFamily.finiteSubmodule_schatten_le_of_le`,
-  `TauCeti.OperatorIdealFamily.lowerSemicontinuous_gauge_schatten` and
-  `TauCeti.OperatorIdealFamily.schatten_isComplete`
-  (`TauCeti/Analysis/OperatorIdeal/Family/Schatten.lean`): for real `p ≥ 1`, the Schatten family
-  with gauge `(Σ' aₙ(T)^p)^{1/p}` in `ℝ≥0∞`, its monotonicity in `p`, the inclusions of the finite
-  gauge submodules, lower semicontinuity of the gauge for the operator norm, and completeness.
-  The gauge is defined for every bounded map between complete Hilbert spaces; it is not
-  restricted to compact operators. The family takes a real exponent `p` together with a proof of
-  `1 ≤ p`, so the extended gauge of §1.1 uses it at `p.toReal` for `p ∈ [1, ∞)`.
-- `TauCeti.OperatorIdealFamily.traceClass` and `TauCeti.OperatorIdealFamily.schatten_one`
-  (`…/Family/TraceClass.lean`); `TauCeti.OperatorIdealFamily.hilbertSchmidt` and
-  `TauCeti.OperatorIdealFamily.schatten_two` (`…/Family/HilbertSchmidt.lean`): the endpoints
-  `p = 1, 2`.
-- `ContinuousLinearMap.singularValue` (`TauCeti/Analysis/OperatorIdeal/ApproximationNumber/Basic.lean`):
-  the zero-indexed approximation numbers.
-- `TauCeti.UnitarilyInvariantSeminorm.schatten`
-  (`TauCeti/Analysis/InnerProductSpace/UnitarilyInvariantSeminorm/Schatten.lean`): the Schatten
-  `p`-seminorm on linear maps between finite-dimensional inner product spaces, for
-  `p ∈ [1, ∞]` with `Fact (1 ≤ p)`, used for the matrix levels `S_p^k`.
-- `Matrix.frobeniusInnerProductSpace` (`TauCeti/Analysis/Matrix/Frobenius.lean`): the Frobenius
-  inner product `⟨A, B⟩ = Σ_{i,j} conj A_{ij} B_{ij} = Tr(A* B)` on `Matrix (Fin k) (Fin k) ℂ`,
-  compatible with Mathlib's Frobenius norm and available through
-  `open scoped Matrix.Norms.Frobenius`; with it the matrices are the Hilbert space `S₂^k` on which
-  §9.2 lets Fourier multipliers act.
-- `MeasureTheory.Lp.fourierMultiplierCLM`, `MeasureTheory.Lp.norm_fourierMultiplierCLM_le`,
-  `MeasureTheory.Lp.fourierMultiplierCLM_compL_fourierMultiplierCLM`,
-  `MeasureTheory.Lp.adjoint_fourierMultiplierCLM` and
-  `MeasureTheory.Lp.tendsto_fourierMultiplierCLM_apply` (`TauCeti/Analysis/Fourier/L2Multiplier.lean`):
-  the Fourier multiplier `𝓕⁻¹(m · 𝓕 f)` on `L²(E; F)` for `m ∈ L^∞(E)` and a complex Hilbert space
-  `F`, with norm at most `‖m‖_∞`, multiplicativity in the symbol, adjoint `T_{m̄}` and strong
-  continuity under boundedly almost-everywhere convergent symbols.
-- `TauCeti.exists_eLpNorm_fourierMultiplierCLM_le_of_norm_iteratedFDeriv_le`
-  (`TauCeti/Analysis/Fourier/MihlinHormander.lean`): the Mihlin–Hörmander theorem for symbols
-  smooth off the origin with Hilbert-space-valued functions (Checks of §11.5).
-- `ContDiffBump.littlewoodPaleyPiece` and `ContDiffBump.exists_norm_iteratedFDeriv_littlewoodPaleyPiece_le`
-  (`TauCeti/Analysis/Distribution/SchwartzSpace/LittlewoodPaley.lean`): the Littlewood–Paley pieces
-  of a symbol smooth off the origin with their scale-invariant derivative bounds. The pieces
-  require a symbol smooth off the origin; §11.2 proves the bounds for symbols of class `C^{σ_n}`.
-- `MeasureTheory.Measure.IsAtom` (`TauCeti/MeasureTheory/Measure/Atom.lean`): measurable, positive
-  measure, every measurable subset null or of full measure.
-- `MeasureTheory.Measure.exists_subset_measure_eq_of_nullSingleton`
-  (`TauCeti/MeasureTheory/Measure/AtomlessStandardBorel/Transport.lean`): Sierpiński's theorem on a
-  standard Borel space under null singletons; §7.1 takes the version for an arbitrary measurable
-  space under the atomless hypothesis from BochnerSpaces §7.5 and compares the two.
-
-Tau Ceti has no compact endpoint of the Schatten scale, no operator trace on infinite-dimensional
-spaces, no kernel theorem, no Schur multiplier and no operator-valued BMO. Its bounded mean
-oscillation estimates (`TauCeti/MeasureTheory/Integral/CalderonZygmund/BoundedMeanOscillation.lean`)
-average the norm `⨍_Q ‖f − f_Q‖` of a Banach-valued function; the column seminorm of §10.1 takes
-the operator norm of the average `⨍_Q |f − f_Q|²` of operator squares, a different seminorm.
-
-### From TauCetiRoadmap.OperatorTheory
-
-OperatorIdeals: OI-A23 (finite rank implies vanishing approximation numbers), OI-A25–OI-A29
-(finite-rank approximability and compactness on Hilbert targets), OI-A30 (adjoint invariance),
-OI-A38–OI-A40 (localisation of approximation numbers on finite-dimensional subspaces, used for
-lower semicontinuity under strongly convergent compressions), OI-B29–OI-B41 (trace class,
-Hilbert–Schmidt energy, norm and family), OI-B76–OI-B88 (Schatten gauges and inclusions) and
-OI-C01–OI-C14 (column model, finite-rank truncations, Hilbert–Schmidt implies compact). Each is
-assumed for arbitrary complex Hilbert spaces, as Tau Ceti implements it.
-
-### From TauCetiRoadmap.VonNeumannAlgebras
-
-- V4.Core: the canonical trace `Tr` on the trace class with `|Tr(X)| ≤ ‖X‖₁`, cyclicity
-  `Tr(XY) = Tr(YX)` for trace-class products and Hilbert–Schmidt pairs, the rank-one formulas
-  `Tr(u ⊗ v*) = ⟨v, u⟩` and `‖u ⊗ v*‖₁ = ‖u‖‖v‖`.
-- V2 (completed Hilbert tensor products): for complex Hilbert spaces `H` and `L`, the completed
-  tensor product `H ⊗̂ L`, the completion of `H ⊗[ℂ] L` for the inner product with
-  `⟨h ⊗ l, h' ⊗ l'⟩ = ⟨h, h'⟩ ⟨l, l'⟩`, in which the elementary tensors span a dense subspace;
-  used for the stabilisation of §1.4, which identifies `H ⊗̂ L` with the Hilbert sum `ℓ²(β; H)`
-  along a Hilbert basis `(e_β)` of `L`, and `H ⊗̂ ℂ^m` with `H^m`.
-- V2.RectangularL2: the unitary `L²(μ) ⊗̂ L²(ν) ≅ L²(μ ⊗ ν)` sending `f ⊗ g` to `f(x)g(y)`, which
-  for σ-finite measures uses `μ.prod ν`; used for `L²(Ω × Ω, 𝒜 ⊗ 𝒜, μ ⊗ μ) = L²(𝒜) ⊗̂ L²(𝒜)` in
-  §2.4, for the amplified spaces `L²(Ω × Fin m)` of §3.5 and for
-  `L²(Ω × Ω') ≅ L²(Ω) ⊗̂ L²(Ω')` in §3.6.
-- V13b (§13.2): the Hilbert-space ultraproduct `∏_𝒰 H_n` of a sequence of Hilbert spaces along an
-  ultrafilter `𝒰` on `ℕ`, the quotient of the bounded sequences by those with `lim_𝒰 ‖x_n‖ = 0`,
-  built there in the route of the uniqueness of the injective factor of type III₁ with separable
-  predual, where its quotient inner product, its completeness and its coordinate norm are proved.
-  §6.4 uses it for a non-principal `𝒰` and states the three facts it consumes.
-
-### From TauCetiRoadmap.NoncommutativeIntegration
-
-- §1.3: the tracial `Lᵖ(M, τ)` of a semifinite trace for finite `p`, complete, and the density in it
-  of the bounded elements of finite-trace support; on `B(H)` these are the finite-rank operators,
-  and on the algebra `L^∞(ℝⁿ; F_k)` of §9.2 the bounded functions vanishing off a set of finite
-  measure.
-- §1.4 with §1.5: Hölder's inequality `‖XY‖_r ≤ ‖X‖_p ‖Y‖_q` on `B(H)` with the trace.
-- §1.5: `Lᵖ(B(H), Tr) = S_p(H)` isometrically for `1 ≤ p < ∞`; the commutative identification
-  `Lᵖ(L^∞(Ω), ∫) = Lᵖ(Ω)`.
-- §2.1: `L^{p'}(M, τ) = Lᵖ(M, τ)*` isometrically for `1 ≤ p < ∞` under `(X, Y) ↦ τ(XY)`, and
-  cyclicity `τ(XY) = τ(YX)`. Nothing else of §2.1 is consumed: the norming element of a nonzero
-  finite-rank `X` with polar decomposition `X = u|X|` is constructed in §1.2 here, as
-  `|X|^{p−1}u*/‖X‖_p^{p−1}` (`u*` at `p = 1`), whose pairing with `X` is
-  `Tr(|X|^p u*u)/‖X‖_p^{p−1} = ‖X‖_p`. The product in the other order does not norm: for
-  `X = E₁₂` in `M₂`, `u = E₁₂` and `|X| = E₂₂`, so `u*|X| = E₂₁E₂₂ = 0`, while
-  `|X|u* = E₂₂E₂₁ = E₂₁` and `Tr(X E₂₁) = 1 = ‖X‖₂`.
-- §2.3: the complex method, the operator estimate `‖T‖_θ ≤ ‖T‖₀^{1−θ}‖T‖₁^θ`, and regularisation
-  (each endpoint may be replaced by the closure of the intersection in it).
-- §2.5: `[L^{p₀}(M, τ), L^{p₁}(M, τ)]_θ = L^{p_θ}(M, τ)` isometrically, with `L^∞ = M`.
-- §2.6: noncommutative Riesz–Thorin for a linear map between the sums of two semifinite `Lᵖ`
-  couples, the source and target algebras possibly different (used with `L^∞(ℝⁿ)` on one side and
-  `B(L²(F))` on the other in §9.3).
-- §3.5: for a semifinite trace `τ` on `M`, the tracial `Lᵖ(M, τ)` of NoncommutativeIntegration
-  §1.3 is the weight-independent Haagerup `Lᵖ(M)` of NoncommutativeIntegration Layer 3,
-  isometrically.
-- §4.4: `Lᵖ(Ω; Lᵖ(N)) = Lᵖ(L^∞(Ω) ⊗̄ N)` for a probability space and `1 ≤ p < ∞`, with the norm
-  `(∫ ‖f(ω)‖_p^p dP)^{1/p}`, stated for the Haagerup spaces and the product weight. Read through
-  NoncommutativeIntegration §3.5 and §1.5, it gives for `N = B(L²(ℝⁿ))` with `Tr` and the Haar
-  probability measure of `𝕋ⁿ` the norm `(∫_{𝕋ⁿ} ‖f(s)‖_p^p ds)^{1/p}` on the tracial `Lᵖ` of
-  `L^∞(𝕋ⁿ) ⊗̄ B(L²(ℝⁿ))` for the trace `∫ ⊗ Tr`, the space in which the martingale contract below
-  is stated (§10.3, §10.4).
-
-What NoncommutativeIntegration must provide (gap:semifinite-martingale-bmo-interpolation): in a
-Part II extending its §7.3 and §8.4 to semifinite operator-valued filtrations, the column, row
-and two-sided martingale BMO norms on `L²(𝓜) ∩ 𝓜` for `𝓜 = L^∞(Ω) ⊗̄ N` and the interpolation
-inequality between them and `L²(𝓜)` with an absolute constant of order `p`, as follows.
-
-- **Semifinite martingale BMO interpolation.** Let `(N, τ_N)` be a semifinite von Neumann algebra,
-  `(Ω, 𝓕, P)` a probability space with a filtration `(𝓕_k)_{k ≥ 0}`, `𝓕₀` trivial, generating `𝓕`,
-  `𝓜 = L^∞(Ω) ⊗̄ N` with the trace `∫ ⊗ τ_N`, `E_k = E[· | 𝓕_k] ⊗ id_N` and `E_{−1} = 0`. For `f`
-  in `L²(𝓜) ∩ 𝓜` put `‖f‖_{BMO_c} = sup_{k ≥ 0} ‖E_k |f − E_{k−1} f|²‖^{1/2}`,
-  `‖f‖_{BMO_r} = ‖f*‖_{BMO_c}` and `‖f‖_{BMO} = max(‖f‖_{BMO_c}, ‖f‖_{BMO_r})`. There is an
-  absolute constant `C` such that for every `2 ≤ p < ∞` and every function
-  `Ψ(z) = Σ_j e^{δ z² + λ_j z} f_j` on the closed strip `0 ≤ Re z ≤ 1` (finitely many
-  `f_j ∈ L²(𝓜) ∩ 𝓜` with `E₀ f_j = 0`, `δ ≥ 0`, `λ_j ∈ ℝ`),
-  `‖Ψ(2/p)‖_{Lᵖ(𝓜)} ≤ C p · max(sup_t ‖Ψ(it)‖_{BMO}, sup_t ‖Ψ(1 + it)‖_{L²(𝓜)})`.
-  This is the inclusion `[BMO(𝓜), L²_0(𝓜)]_{2/p} ⊆ Lᵖ_0(𝓜)` with constant `O(p)`
-  (Conde-Alonso–González-Pérez–Parcet–Tablate, Lemma 1.4, cgpt-2023 lines 471–484, for the dyadic
-  filtration of `𝕋ⁿ` and `N = B(L²(ℝⁿ))`; Mei, Lemma 6.1, mei-2007 line 3218, for semifinite
-  operator-valued dyadic filtrations with equivalent norms; Musat, musat-2003 Theorem 3.1, as cited
-  in mei-2007 lines 3229–3230; the growth `O(p)` comes from the order `O(1/(q − 1))` of the
-  noncommutative Burkholder–Gundy constant as `q → 1`, Jiao–Randrianantoanina–Wu–Zhou, jrwz-2020,
-  as cited in cgpt-2023 lines 483–484). §10.4 uses the case of the
-  dyadic filtration of `𝕋ⁿ` and `N = B(L²(ℝⁿ))`.
-
-### From TauCetiRoadmap.AutomorphicSpectralTheory
-
-- §0.8: for square-integrable `K ∈ L²(X × Y)`, the integral operator `T_K : L²(Y) → L²(X)`,
-  `kernel_apply` (`T_K f(x) = ∫ K(x, y) f(y) dν(y)` almost everywhere), `kernel_unique` (a
-  linear embedding of `L²(X × Y)` into the bounded operators, isometric for the Hilbert–Schmidt
-  norm) and `kernel_norm`
-  (`‖T_K‖_{HS} = ‖K‖₂`).
-- §0.9: for the trace `Tr` of VonNeumannAlgebras V4.Core (AutomorphicSpectralTheory §0.9
-  defines no second trace), the absolutely convergent basis formula
-  `Tr(BC) = Σ_j ⟨B* e_j, C e_j⟩` for every Hilbert basis `(e_j)` and `‖BC‖₁ ≤ ‖B‖_HS ‖C‖_HS` for
-  Hilbert–Schmidt `B, C`, on arbitrary complex Hilbert spaces.
-
-What AutomorphicSpectralTheory must provide (gap:sigma-finite-hilbert-schmidt-kernels): its §0.8
-for arbitrary σ-finite measure spaces `(X, μ)` and `(Y, ν)`, with no standard Borel or
-separability hypothesis on the measurable spaces or on `L²`: the integral operator
-`T_K : L²(Y, ν) → L²(X, μ)` of every `K ∈ L²(μ ⊗ ν)` with `kernel_apply`, and `K ↦ T_K` a linear
-embedding into the bounded operators with `‖T_K‖_HS = ‖K‖₂` (`kernel_unique`, `kernel_norm`).
-The trace formula is not part of the request: §2.2 here derives it from AutomorphicSpectralTheory
-§0.8, §0.9 and the adjoint kernel. A route that needs no countable orthonormal basis is the
-composite of VonNeumannAlgebras V2.RectangularL2 with the unitary
-`S₂(L²(ν), L²(μ)) ≅ L²(μ) ⊗̂ conj(L²(ν))` of V4.Core, identified with the integral formula on
-rank-one kernels and extended by continuity.
-
-### From TauCetiRoadmap.CStarAlgebras
-
-- C1.6: the compact operators `K(H)` as a C*-algebra. The matrix levels `M_m(K(H)) = K(H^m)`
-  are identified in §1.4: an operator on `H^m` is compact exactly when each of its `m²` blocks is.
-- C3.2: the completely bounded norm `‖u‖_cb = sup_n ‖u_n‖` of a linear map between operator
-  spaces, with matrix levels `CStarMatrix`.
-
-### From TauCetiRoadmap.BanachSpaceTheory
-
-- B4.0: for a reflexive real Banach space `Y` (a complex one through its underlying real space),
-  a finite positive measure `μ` and a vector measure `m` with values in `Y`, of finite variation
-  `|m|` with `|m| ≪ μ`, an integrable Bochner density `h` with `m = μ.withDensityᵥ h` and
-  `|m|(s) = ∫_s ‖h‖ dμ` for every measurable `s`. If moreover `|m|(s) ≤ C μ(s)` for every
-  measurable `s`, the variation formula gives `‖h‖ ≤ C` almost everywhere. Applied to
-  `m(s) = a(1_s)` it represents a bounded linear `a : L¹(μ) → K` into a Hilbert space as
-  `u ↦ ∫ u h dμ` with `‖h‖_{L^∞(μ; K)} = ‖a‖` (§6.4).
-
-### From TauCetiRoadmap.BochnerSpaces
-
-- §7.4: for σ-algebras `𝒜 ⊆ 𝓑` on `Ω` and a measure `μ` on `𝓑` whose trim `μ.trim h` to `𝒜` is
-  σ-finite, with complex scalars: the `L¹` projection `E₁` of `L¹(Ω, 𝓑, μ)` onto the
-  `𝒜`-measurable classes (positive, contractive, idempotent with range the `𝒜`-measurable
-  classes, satisfying the tower law for nested σ-algebras, equal to `MeasureTheory.condExp` on
-  integrable functions), and the linear contraction `φ ↦ E[φ | 𝒜]` of `L^∞(Ω, 𝓑, μ)` defined as
-  its adjoint: `∫ E[φ | 𝒜] g dμ = ∫ φ E₁(g) dμ` for every `g ∈ L¹(μ)`; it agrees with
-  `MeasureTheory.condExpL2` on `L^∞ ∩ L²`. Nothing else is assumed of `E[· | 𝒜]`: the
-  `𝒜`-measurability of its values, its positivity, its tower law and its agreement with
-  `MeasureTheory.condExp` on `L^∞ ∩ L¹` are proved in §2.5 from the properties of `E₁` listed
-  here.
-- §4.2: for σ-finite `μ`, `ν`, `1 ≤ p < ∞` and a Banach space `X`, the isometric isomorphism
-  `Lᵖ(μ ⊗ ν; X) ≅ Lᵖ(μ; Lᵖ(ν; X))` with its section formula: the image of `F` is a class whose
-  value at `s` has value `F(s, t)` at `t`, for `ν`-almost every `t` and `μ`-almost every `s`. Used at
-  `p = 2`, `X = ℂ` in §11.3, with `μ` Lebesgue measure on `ℝⁿ_z` and `ν` Lebesgue measure on
-  `ℝⁿ_x × ℝⁿ_y`.
-- §7.5: for a finite atomless measure `ν`, a measurable set `A` and `0 ≤ t ≤ 1`, a measurable
-  `B ⊆ A` with `ν(B) = t ν(A)`. Atomless is read as: no set is an atom in the sense of Tau Ceti's
-  `MeasureTheory.Measure.IsAtom`. It is the only reading under which the statement holds: under
-  the weaker reading by null singletons it is false, since the countable–cocountable probability
-  measure on an uncountable set has null singletons and no set of measure `1/2`.
-
-## How to read the build
-
-Layer 1 completes the Schatten scale with its compact endpoint, proves norming by finite-rank
-operators and interpolation with the compact endpoint, and defines completely bounded maps by
-amplification. Layer 2 gives every Hilbert–Schmidt operator between `L²` spaces its kernel,
-computes kernels of adjoints, products, transposes, multiplication operators, changes of measure
-and compressions to sub-σ-algebras, and proves the properties of the `L^∞` conditional expectation
-of BochnerSpaces §7.4 that the later layers use, among them the `𝒜`-measurability of its values,
-its positivity and tower law, and its module property against the `L²` projection. Layer 3
-defines Schur multipliers, their norms, extensions and completely bounded norms, with the finite
-case and the invariances. Layer 4 proves
-duality and interpolation. Layer 5 studies conditional expectations of symbols and martingale
-limits. Layer 6 proves the Schur product theorem and the Grothendieck–Haagerup characterisation,
-first for finite index sets and then for σ-finite spaces. Layer 7 proves that norm and completely
-bounded norm agree on atomless spaces; Layer 8 treats continuous symbols on Radon measure spaces.
-Layer 9 proves Fourier–Schur transference on `ℝⁿ`. Layer 10 builds the operator-valued and matrix
-BMO seminorms and the interpolation inequality between matrix BMO and `S₂`; Layer 11 proves the
-Hörmander–Mikhlin–Schur theorem.
-
-Layers 1 and 2 can be built at once, except that §2.3 and §2.4 use §1.1 and §1.4. Layer 3 needs
-Layers 1 and 2; Layer 4 needs Layers 1–3; Layer 5 needs Layers 2 and 3. Layer 6 needs Layers 1–5
-(§6.1–6.3 need only Layers 1, 3 and 4). Layer 7 needs Layers 2, 3 and 5. Layer 8 needs
-Layers 1, 3 and 5. Layer 9 needs Layers 1, 2 (§2.1, §2.2), 3, 4 and 8. Layer 10 needs Layers 1,
-2 (§2.1) and 3. Layer 11 needs Layers 2, 3, 4, 7 and 10.
 
 ## Layer 1: the Schatten scale with its compact endpoint
 
@@ -2567,6 +2098,475 @@ Tau Ceti Littlewood–Paley pieces and `L²` Fourier multipliers.
   constants `Λ^{Schur}_{p,cb}`): consumes Layers 3–8.
 - **Fourier multipliers on group von Neumann algebras of amenable groups**: the transference
   theorems of Neuwirth–Ricard and Caspers–de la Salle beyond `ℝⁿ`; consumes Layers 3, 8 and 9.
+
+## Scope and ownership
+
+This roadmap owns:
+
+- the compact endpoint `S_∞(H)` of the Schatten scale (compact operators with the operator norm),
+  the extended Schatten gauge on bounded operators, the norming of `S_p` by finite-rank operators
+  under the trace pairing, and Riesz–Thorin interpolation for maps defined on finite-rank
+  operators with the compact endpoint (Layer 1);
+- completely bounded maps on Schatten classes defined by matrix amplification, with their
+  composition, duality, interpolation and stabilisation laws and their agreement at `p = ∞` with
+  the completely bounded maps of CStarAlgebras C3.2 (Layer 1), and completely bounded norms of
+  Fourier multipliers on `Lᵖ(ℝⁿ)` through `Lᵖ(ℝⁿ; S_p^k)`, with the identification of
+  `Lᵖ(ℝⁿ; S_p^k)` as the tracial `Lᵖ` of `L^∞(ℝⁿ) ⊗̄ M_k` for Lebesgue measure (Layer 9);
+- the kernel `k_A ∈ L²(μ ⊗ ν)` of a Hilbert–Schmidt operator `A : L²(ν) → L²(μ)` (surjectivity of
+  the kernel map onto `S₂`), the kernel calculus (adjoint, composition, multiplication operators,
+  transposition) and the transformation of kernels under change of measure, measure-preserving
+  isomorphisms and passage to a sub-σ-algebra, and, for the `L^∞` conditional expectation of
+  BochnerSpaces §7.4, the `𝒜`-measurability of its values, its positivity and its tower law
+  (carried over from the `L¹` projection by the adjoint formula), its agreement with
+  `MeasureTheory.condExp` on integrable functions, the uniqueness in its pairing characterisation,
+  its invariance under `𝒜`-measurable densities, its commutation with complex conjugation and its
+  module property against `MeasureTheory.condExpL2` (Layer 2);
+- Schur multipliers on `L²(Ω, μ)` for σ-finite `(Ω, μ)`: the multiplier on `S₂`, its norms on
+  `S_p`, its unique bounded extension, its completely bounded norm by amplified symbols, the finite
+  (Hadamard) case, and their invariances (Layer 3); duality and interpolation (Layer 4);
+  conditional expectations of symbols and martingale limits (Layer 5); positive symbols and the
+  Grothendieck–Haagerup characterisation (Layer 6); the atomless theorem (Layer 7); continuous
+  symbols (Layer 8);
+- Toeplitz symbols on `ℝⁿ`, the Følner compressions of convolution operators and Fourier–Schur
+  transference on `ℝⁿ` (Layer 9);
+- operator-valued column and row BMO seminorms of functions on `ℝⁿ` and on the torus `𝕋ⁿ`, the
+  matrix BMO seminorm on `S₂(L²(ℝⁿ))`, its periodisation and its interpolation inequality with
+  `S₂` (Layer 10); twisted Fourier multipliers, the Hörmander–Mikhlin–Schur norm and theorem
+  (Layer 11).
+
+It leaves to named roadmaps, and consumes from them by section:
+
+- **OperatorTheory/OperatorIdeals** owns approximation numbers (Part A), the Schatten families
+  `S_p` for `1 ≤ p < ∞` with their gauges, inclusions and completeness, the trace-class and
+  Hilbert–Schmidt families (Part B) and the Hilbert–Schmidt column model (Part C). Its `p = ∞`
+  family (OI-B80) is all of `B(H)`; the compact endpoint used by the sources is a different
+  object and is defined here.
+- **VonNeumannAlgebras** owns the canonical trace on the trace class with cyclicity and the
+  Hilbert–Schmidt pairing (V4.Core), the completed Hilbert tensor product `H ⊗̂ L` of two Hilbert
+  spaces (V2), the tensor identification `L²(μ) ⊗̂ L²(ν) ≅ L²(μ ⊗ ν)` (V2.RectangularL2) and the
+  Hilbert-space ultraproduct of a sequence of Hilbert spaces (V13b).
+- **NoncommutativeIntegration** owns the identification of `Lᵖ(B(H), Tr)` with `S_p` (its §1.5),
+  density of finite-trace-support elements (its §1.3), Hölder's inequality (its §1.4), `Lᵖ`–`L^q`
+  duality and cyclicity of the trace pairing (its §2.1), the complex method with regularisation
+  (its §2.3), the interpolation of semifinite `Lᵖ` couples (its §2.5), noncommutative Riesz–Thorin
+  (its §2.6), the isometric identification of the tracial `Lᵖ` of a semifinite trace with the
+  Haagerup `Lᵖ` (its §3.5) and the Bochner identification `Lᵖ(Ω; Lᵖ(N)) = Lᵖ(L^∞(Ω) ⊗̄ N)` for a
+  probability space (its §4.4); the case of Lebesgue measure on `ℝⁿ` with a matrix fibre `M_k`,
+  which Layer 9 uses, is §9.2 here. The semifinite martingale BMO space and its interpolation
+  inequality with the sharp order `O(p)` are requested of NoncommutativeIntegration, Part II (gap
+  `semifinite-martingale-bmo-interpolation`).
+- **AutomorphicSpectralTheory** owns the kernel operator `T_k` of an `L²` kernel with
+  `kernel_apply`, `kernel_unique` and `kernel_norm` (its §0.8), and states for the trace of
+  VonNeumannAlgebras V4.Core the basis formula `Tr(BC) = Σ_j ⟨B* e_j, C e_j⟩` for
+  Hilbert–Schmidt `B`, `C` (AutomorphicSpectralTheory §0.9); every trace in this roadmap, whether
+  reached through V4.Core or through AutomorphicSpectralTheory §0.9, is therefore the one
+  functional of V4.Core. Its §0.8 is stated for standard Borel spaces; the arbitrary σ-finite
+  version that Layers 2, 5 and 7 need (sub-σ-algebras of a standard Borel space are not standard
+  Borel) is requested of AutomorphicSpectralTheory §0.8
+  (gap `sigma-finite-hilbert-schmidt-kernels`). Its trace formula
+  `Tr(T₁T₂) = ∫∫ K₁(x, y)K₂(y, x)` (its §0.10) is stated on one space at the generality of its
+  §0.8; §2.2 here proves it for two arbitrary σ-finite spaces from the kernel isometry and the
+  adjoint kernel.
+- **CStarAlgebras** owns the C*-algebra of compact operators (C1.6) and completely bounded maps of
+  operator spaces with Smith's lemma (C3.2); Layer 1 compares its amplification norm at `p = ∞`
+  with C3.2.
+- **BanachSpaceTheory** owns the Bochner density, for a finite measure, of a vector measure of
+  finite variation, absolutely continuous to it, with values in a reflexive Banach space (B4.0),
+  which gives the Radon–Nikodým representation of bounded maps `L¹(μ) → K` used here in §6.4.
+- **OperatorTheory/UnboundedOperators** treats integral operators with measurable kernels on
+  `L²(ℝ)`, with their maximal and absolute-pairing domains, conjugate-transpose adjoints and
+  composition (its §5.1, UO-E01). Layer 2 here is a different statement and consumes nothing of it:
+  bounded operators with square-integrable kernels between arbitrary σ-finite measure spaces.
+- **PDE** owns the scalar harmonic analysis of `ℝⁿ`: Riesz–Thorin interpolation (its §2.2), the
+  Mihlin–Hörmander multiplier theorem (its §2.3), the space `BMO(ℝⁿ)` with the John–Nirenberg
+  inequality (its §2.4) and the dyadic partition with the Bernstein and Littlewood–Paley estimates
+  (its §7.1). This roadmap consumes none of it. The column and row seminorms of §10.1 take the
+  operator norm of the average `⨍_Q |f − f_Q|²` of operator squares, a different seminorm from
+  `sup_B ⨍_B |f − f_B|`; §11.2 bounds the Littlewood–Paley pieces of a symbol with only `σ_n`
+  derivatives uniformly in a parameter `x`, which the estimates for a single smooth symbol do not
+  give; and the scalar Mihlin–Hörmander bound used in the Checks of §11.5 is Tau Ceti's.
+- **BochnerSpaces** owns the scalar conditional expectation on `L^∞` for a measure whose trim to
+  the sub-σ-algebra is σ-finite, defined as the adjoint of the `L¹` projection `E₁`, with its
+  adjoint formula, its contractivity and its agreement with `MeasureTheory.condExpL2` on
+  `L^∞ ∩ L²`, together with the positivity, idempotence, tower law and agreement with
+  `MeasureTheory.condExp` of `E₁` (its §7.4), the divisibility of atomless finite measures (its
+  §7.5), and the Fubini isometry `Lᵖ(μ ⊗ ν; X) ≅ Lᵖ(μ; Lᵖ(ν; X))` for σ-finite `μ`, `ν` (its §4.2).
+  Here §2.5 proves the further properties of that expectation which Layers 5–7 use, among them
+  the `𝒜`-measurability of its values, its positivity and its tower law, carried over from `E₁` by
+  the adjoint formula; §7.1 applies BochnerSpaces §7.5 to the restriction of an atomless measure
+  to a set of finite measure; §11.3 uses BochnerSpaces §4.2 at `p = 2`. Mathlib's
+  `MeasureTheory.condExp` is `0` on every non-integrable function and gives this expectation only
+  on integrable functions; the
+  normal expectation of NoncommutativeIntegration §4.3 lives on that roadmap's own `Lᵖ` carriers
+  of von Neumann algebras.
+
+Already in the pinned libraries and consumed directly: Mathlib's matrix Schur product theorem
+`Matrix.PosSemidef.hadamard`, the Hadamard three-lines theorem, the `L²` Fourier transform
+`MeasureTheory.Lp.fourierTransformₗᵢ`, conditional expectations of integrable functions and of `L²`
+classes, and Lévy's upward theorem; Tau Ceti's Schatten, trace-class and Hilbert–Schmidt families,
+its `L²` Fourier multiplier with `L^∞` symbols, its Littlewood–Paley pieces and its measure atoms
+(Exact supplier contracts).
+
+Outside this roadmap: Schatten classes for `0 < p < 1` (NoncommutativeIntegration §1.5);
+noncommutative `Lᵖ` of general von Neumann algebras; Fourier multipliers on group von Neumann
+algebras of non-abelian or non-Euclidean groups, including the transference theorems of
+Neuwirth–Ricard for discrete amenable groups and of Caspers–de la Salle for amenable locally
+compact groups beyond `ℝⁿ`; approximation properties of groups by Schur multipliers
+(Lafforgue–de la Salle §2 onwards); Hardy-space Toeplitz operators (OperatorTheory/ToeplitzOperators,
+a different object from the Toeplitz symbols `m(x − y)` here); double operator integrals and
+operator-Lipschitz functions; the Sobolev form of the Hörmander–Mikhlin–Schur theorem
+(Conde-Alonso–González-Pérez–Parcet–Tablate, Theorem A′) and its corollaries for divided
+differences, which belong to SchattenClassesAndSchurMultipliers, Part II (Downstream consumers).
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- `MeasureTheory.Lp`, `MeasureTheory.Measure.prod`, `MeasureTheory.SigmaFinite`,
+  `MeasureTheory.Measure.rnDeriv`, `MeasureTheory.MeasurePreserving`: the `Lᵖ` spaces, product
+  measures, Radon–Nikodým derivatives and measure-preserving maps of the conventions.
+- `MeasureTheory.lpMeas` (`Mathlib/MeasureTheory/Function/ConditionalExpectation/AEMeasurable.lean`)
+  and `MeasureTheory.condExpL2` (`…/ConditionalExpectation/CondexpL2.lean`): the closed subspace of
+  `𝒜`-measurable classes and the orthogonal projection onto it, defined with no σ-finiteness
+  hypothesis; `MeasureTheory.condExp` (`…/ConditionalExpectation/Basic.lean`): the conditional
+  expectation of an integrable function when `μ` is σ-finite on the sub-σ-algebra. It is `0`
+  on every non-integrable function (`MeasureTheory.condExp_of_not_integrable`): on `ℕ` with
+  counting measure the conditional expectation of the constant `1` onto the full σ-algebra is
+  `0`. It is therefore used only on integrable functions, in particular on bounded functions of a
+  finite measure (§2.5, §5.3, §6.4); §2.4 uses `MeasureTheory.condExpL2` for kernels, and bounded
+  functions of a measure that is only σ-finite on the sub-σ-algebra take the `L^∞` conditional
+  expectation of BochnerSpaces §7.4 (§2.5).
+- `MeasureTheory.condExp_indicator` (`…/ConditionalExpectation/Indicator.lean`): for an integrable
+  `f` and a set `A ∈ 𝒜`, the conditional expectation of `1_A f` is `1_A` times that of `f`;
+  `MeasureTheory.MemLp.condExpL2_ae_eq_condExp'` (`…/ConditionalExpectation/Basic.lean`): when `μ`
+  is σ-finite on `𝒜`, `MeasureTheory.condExpL2` and `MeasureTheory.condExp` agree on functions
+  that are integrable and square-integrable (§2.5).
+- `MeasureTheory.exists_pos_lintegral_lt_of_sigmaFinite`
+  (`Mathlib/MeasureTheory/Integral/Lebesgue/Countable.lean`) and `MeasureTheory.lintegral_trim`:
+  an everywhere positive measurable function of finite integral for a σ-finite measure, and
+  integrals of `𝒜`-measurable functions for the trimmed measure (§2.5);
+  `LinearMap.IsSymmetric.eigenvectorBasis` (`Mathlib/Analysis/InnerProductSpace/Spectrum.lean`):
+  an orthonormal eigenbasis of a symmetric operator on a finite-dimensional space (§1.2).
+- `MeasureTheory.Integrable.tendsto_ae_condExp` (`Mathlib/Probability/Martingale/Convergence.lean`):
+  Lévy's upward theorem, almost-everywhere convergence of `E[g | ℱ_n]` to `g`, for a real-valued
+  integrable `g` on a finite measure space (`IsFiniteMeasure μ`), a filtration `ℱ` indexed by `ℕ`
+  (`MeasureTheory.Filtration ℕ`) and `g` strongly measurable for `⨆ n, ℱ n`. §5.3 and §6.4 apply it
+  after the reduction to a finite measure (§3.7), on `μ ⊗ μ` along the sequence `𝓑_n ⊗ 𝓑_n`,
+  whose supremum is `𝒜₀ ⊗ 𝒜₀`, to the real and imaginary parts of a complex symbol;
+  `ContinuousLinearMap.comp_condExp_comm`
+  (`Mathlib/MeasureTheory/Function/ConditionalExpectation/Basic.lean`) with `Complex.reCLM` and
+  `Complex.imCLM` makes the conditional expectation commute with taking those parts.
+- `IsCompactOperator` and `compactOperator` (`Mathlib/Analysis/Normed/Operator/Compact/Basic.lean`):
+  compactness and the submodule of compact operators; `ContinuousLinearMap.adjoint`.
+- `Matrix.hadamard` (`Mathlib/LinearAlgebra/Matrix/Hadamard.lean`), `Matrix.PosSemidef.hadamard`
+  and `Matrix.PosSemidef.kronecker` (`Mathlib/Analysis/Matrix/Order.lean`): the Hadamard product,
+  positivity of Hadamard and Kronecker products of positive semidefinite matrices.
+- `CompletelyPositiveMap` (`Mathlib/Analysis/CStarAlgebra/CompletelyPositiveMap.lean`): completely
+  positive maps between C*-algebras; `CStarMatrix` for matrix levels.
+- `Complex.HadamardThreeLines.norm_le_interpStrip_of_mem_verticalClosedStrip`
+  (`Mathlib/Analysis/Complex/Hadamard.lean`): the three-lines theorem.
+- `MeasureTheory.Lp.fourierTransformₗᵢ` (`Mathlib/Analysis/Fourier/LpSpace.lean`): the Fourier
+  transform on `L²(ℝⁿ; F)` as a linear isometric equivalence (Plancherel), for every complex
+  Hilbert space `F`. `fourier_gaussian_innerProductSpace`
+  (`Mathlib/Analysis/SpecialFunctions/Gaussian/FourierTransform.lean`): on a finite-dimensional
+  real inner product space `V` and for `Re b > 0`, the Fourier transform of `v ↦ e^{−b‖v‖²}` is
+  `w ↦ (π/b)^{dim V/2} e^{−π²‖w‖²/b}`; with `b = π/T²` this is `𝓕γ_T = Tⁿ γ_{1/T}` for the
+  Gaussian `γ_T` of width `T` (§9.4).
+- `MeasureTheory.Measure.support` (`Mathlib/MeasureTheory/Measure/Support.lean`): the support of a
+  measure, closed, conull under inner regularity; `MeasureTheory.IsFiniteMeasureOnCompacts`,
+  `MeasureTheory.Measure.InnerRegularCompactLTTop`.
+- `MeasurableSet.exists_isCompact_lt_add` and `IsCompact.exists_isOpen_lt_add`
+  (`Mathlib/MeasureTheory/Measure/Regular.lean`): under `InnerRegularCompactLTTop`, a measurable
+  set of finite measure contains compact sets of measure arbitrarily close to its own; if moreover
+  the measure is locally finite, the space is R₁ (for instance Hausdorff) and the σ-algebra is
+  Borel, a compact set lies in open sets of measure arbitrarily close to its own.
+  `exists_continuousMap_one_of_isCompact_subset_isOpen` (`Mathlib/Topology/UrysohnsLemma.lean`):
+  on an R₁ locally compact space, for compact `K` inside open `V` a continuous `φ` with values in
+  `[0, 1]`, equal to `1` on `K`, with compact support inside `V`. §8.2 combines the three into the
+  density of continuous compactly supported functions in `L²(μ)` for a σ-finite Radon measure on
+  a locally compact Hausdorff space.
+- `MeasureTheory.MemLp.exists_hasCompactSupport_eLpNorm_sub_le`
+  (`Mathlib/MeasureTheory/Function/ContinuousMapDense.lean`): density of continuous compactly
+  supported functions in `ℒᵖ(μ)` for `p ≠ ∞`, under `NormalSpace`, `R1Space`,
+  `WeaklyLocallyCompactSpace` and `μ.Regular` (the last holds for a finite Radon measure on a
+  Hausdorff space with its Borel σ-algebra). A locally compact Hausdorff space need not be
+  normal, so this covers only the normal (for instance second-countable) case of §8.2.
+- `WithLp` (`Mathlib/Analysis/Normed/Lp/WithLp.lean`) with `PiLp.innerProductSpace`
+  (`Mathlib/Analysis/InnerProductSpace/PiL2.lean`): `WithLp 2 (Fin m → H)` is the Hilbert sum `H^m`
+  of `m` copies of `H`, with inner product `Σ_i ⟨x_i, y_i⟩`; the bare type synonym carries no norm
+  (§1.4).
+- `MeasureTheory.integral_prod` (`Mathlib/MeasureTheory/Integral/Prod.lean`): Fubini's theorem, the
+  integral of a `μ.prod ν`-integrable function equals the iterated integral, for s-finite `μ` and
+  `ν` (`MeasureTheory.SFinite`, implied by σ-finiteness) (§2.1, §2.2, §6.4).
+  `MeasureTheory.Measure.measure_prod_null` (`Mathlib/MeasureTheory/Measure/Prod.lean`): for
+  s-finite `ν`, a measurable set is `μ.prod ν`-null exactly when `μ`-almost all of its sections are
+  `ν`-null; so the diagonal of `ℝⁿ × ℝⁿ`, whose sections are points, is null for Lebesgue measure
+  when `n ≥ 1` (§10.2).
+- `MeasureTheory.hasSum_integral_of_dominated_convergence`
+  (`Mathlib/MeasureTheory/Integral/DominatedConvergence.lean`): dominated convergence for series,
+  `Σ_n ∫ F_n = ∫ f` when `Σ_n F_n = f` almost everywhere, each `F_n` is almost everywhere strongly
+  measurable and `‖F_n‖ ≤ b_n` with `Σ_n b_n` summable almost everywhere and integrable (§6.4).
+- `ContinuousLinearMap.compLp` (`Mathlib/MeasureTheory/Function/LpSpace/Basic.lean`): the class
+  `x ↦ L(f(x))` of `Lᵖ(μ; F)` for `f ∈ Lᵖ(μ; E)` and a bounded linear `L : E → F`, of norm at most
+  `‖L‖ ‖f‖`; composing with a unitary and with its inverse gives an isometric isomorphism of the
+  `L²` spaces (§11.3).
+- `MeasureTheory.Measure.withDensity` (`Mathlib/MeasureTheory/Measure/WithDensity.lean`): the
+  measure `w · μ` with `(w · μ)(A) = ∫⁻_A w dμ` for measurable `A` and `w : Ω → [0, ∞]` (§2.5).
+- `Matrix.toEuclideanCLM` (`Mathlib/Analysis/CStarAlgebra/Matrix.lean`): the star-algebra
+  isomorphism between `Matrix ι ι ℂ` and the bounded operators on `EuclideanSpace ℂ ι` given by the
+  standard orthonormal basis; `Matrix.kroneckerMap` (`Mathlib/LinearAlgebra/Matrix/Kronecker.lean`):
+  the Kronecker product `(A ⊗ B)_{(i,k),(j,l)} = f(A_{ij}, B_{kl})`; `Matrix.transpose`
+  (`Mathlib/LinearAlgebra/Matrix/Defs.lean`) (§2.3, §3.4, §3.5); `Matrix.toEuclideanLin`
+  (`Mathlib/Analysis/InnerProductSpace/PiL2.lean`): the linear equivalence between
+  `Matrix (Fin k) (Fin k) ℂ` and the linear maps of `EuclideanSpace ℂ (Fin k)`, through which a
+  matrix gets its Schatten norm `‖·‖_{S_p^k}` (§9.2).
+- `lp` (`Mathlib/Analysis/Normed/Lp/lpSpace.lean`) with its inner product at exponent `2`
+  (`Mathlib/Analysis/InnerProductSpace/l2Space.lean`): the Hilbert space `ℓ²(ℕ)` (§6.2) and the
+  Hilbert sum `ℓ²(β; H)` of copies of a Hilbert space `H` (§1.4).
+- `geometric_hahn_banach_point_closed` (`Mathlib/Analysis/LocallyConvex/Separation.lean`): in a real
+  locally convex topological vector space, a point outside a closed convex set is strictly
+  separated from it by a continuous real-linear functional (§6.3, applied to a finite-dimensional
+  real space).
+- `ContDiffBump.ae_convolution_tendsto_right_of_locallyIntegrable`
+  (`Mathlib/Analysis/Calculus/BumpFunction/Convolution.lean`): on a finite-dimensional real normed
+  space with an additive Haar measure, for normalised smooth bumps `φ_i` whose outer radius tends
+  to `0` with outer radius at most a fixed multiple of the inner radius, `φ_i ⋆ g → g` almost
+  everywhere for every locally integrable `g` with values in a complete real normed space (§9.5).
+- `volume_euclideanSpace_eq_dirac` (`Mathlib/MeasureTheory/Measure/Haar/InnerProductSpace.lean`):
+  for an empty finite index type `ι`, the volume of `EuclideanSpace ℝ ι` is the point mass at `0`
+  (the case `n = 0` of §9.5).
+- `MeasureTheory.NullSingletonClass`: null singletons (used only in a Check).
+- `ProbabilityTheory.gaussianReal`, `ProbabilityTheory.nullSingletonClass_gaussianReal` and
+  `ProbabilityTheory.gaussianReal_zero_var` (`Mathlib/Probability/Distributions/Gaussian/Real.lean`):
+  the real Gaussian measure of mean `m` and variance `v`, with null singletons for `v ≠ 0` and equal
+  to the point mass `δ_m` for `v = 0` (used only in the examples of Layer 7).
+- `ContinuousMap.starSubalgebra_topologicalClosure_eq_top_of_separatesPoints`
+  (`Mathlib/Topology/ContinuousMap/StoneWeierstrass.lean`): the Stone–Weierstrass theorem for a
+  star subalgebra of `C(K, ℂ)` separating the points of a compact space `K`;
+  `exists_continuous_zero_one_of_isClosed` (`Mathlib/Topology/UrysohnsLemma.lean`): Urysohn's lemma
+  in a normal space, which a compact Hausdorff space is
+  (`NormalSpace.of_compactSpace_r1Space`). §8.1 and §8.2 combine them into the measurability of
+  continuous functions on `K × K` for the product of the Borel σ-algebras. That product can be
+  strictly smaller than the Borel σ-algebra of `X × X` when `X` is not second countable: Mathlib's
+  `Prod.opensMeasurableSpace` (`Mathlib/MeasureTheory/Constructions/BorelSpace/Basic.lean`) needs
+  one factor second countable.
+- `UnitAddTorus`: the torus `𝕋ⁿ = Fin n → UnitAddCircle` with its Haar probability measure.
+- `iteratedFDeriv`, `ContDiffOn`, `MeasureTheory.eLpNorm`, `MeasureTheory.AEStronglyMeasurable`,
+  `MeasureTheory.Measure.count` and `essSup` (`Mathlib/MeasureTheory/Function/EssSup.lean`);
+  `ENNReal.HolderConjugate` (`Mathlib/Basic/ENNReal/Holder.lean`): exponents with
+  `p⁻¹ + q⁻¹ = 1` in `ℝ≥0∞`.
+
+Mathlib has no Schatten class, no trace on infinite-dimensional operators, no Schur multiplier
+beyond the Hadamard product of matrices, no completely bounded map on Schatten classes, no
+atomless measure (its `NoAtoms` is a deprecated alias of `NullSingletonClass`, and the docstring
+of `Mathlib/MeasureTheory/Measure/Typeclasses/NullSingletonClass.lean` notes that atomlessness is
+strictly stronger), no operator-valued BMO and no Fourier multiplier with an `L^∞` symbol: its
+`SchwartzMap.fourierMultiplierCLM` and `TemperedDistribution.fourierMultiplierCLM`
+(`Mathlib/Analysis/Distribution/FourierMultiplier.lean`) act on Schwartz functions and tempered
+distributions and assume a symbol of temperate growth.
+
+### From Tau Ceti
+
+- `TauCeti.OperatorIdealFamily.schatten`, `TauCeti.OperatorIdealFamily.gauge_schatten`,
+  `TauCeti.OperatorIdealFamily.gauge_schatten_le_of_le`,
+  `TauCeti.OperatorIdealFamily.finiteSubmodule_schatten_le_of_le`,
+  `TauCeti.OperatorIdealFamily.lowerSemicontinuous_gauge_schatten` and
+  `TauCeti.OperatorIdealFamily.schatten_isComplete`
+  (`TauCeti/Analysis/OperatorIdeal/Family/Schatten.lean`): for real `p ≥ 1`, the Schatten family
+  with gauge `(Σ' aₙ(T)^p)^{1/p}` in `ℝ≥0∞`, its monotonicity in `p`, the inclusions of the finite
+  gauge submodules, lower semicontinuity of the gauge for the operator norm, and completeness.
+  The gauge is defined for every bounded map between complete Hilbert spaces; it is not
+  restricted to compact operators. The family takes a real exponent `p` together with a proof of
+  `1 ≤ p`, so the extended gauge of §1.1 uses it at `p.toReal` for `p ∈ [1, ∞)`.
+- `TauCeti.OperatorIdealFamily.traceClass` and `TauCeti.OperatorIdealFamily.schatten_one`
+  (`…/Family/TraceClass.lean`); `TauCeti.OperatorIdealFamily.hilbertSchmidt` and
+  `TauCeti.OperatorIdealFamily.schatten_two` (`…/Family/HilbertSchmidt.lean`): the endpoints
+  `p = 1, 2`.
+- `ContinuousLinearMap.singularValue` (`TauCeti/Analysis/OperatorIdeal/ApproximationNumber/Basic.lean`):
+  the zero-indexed approximation numbers.
+- `TauCeti.UnitarilyInvariantSeminorm.schatten`
+  (`TauCeti/Analysis/InnerProductSpace/UnitarilyInvariantSeminorm/Schatten.lean`): the Schatten
+  `p`-seminorm on linear maps between finite-dimensional inner product spaces, for
+  `p ∈ [1, ∞]` with `Fact (1 ≤ p)`, used for the matrix levels `S_p^k`.
+- `Matrix.frobeniusInnerProductSpace` (`TauCeti/Analysis/Matrix/Frobenius.lean`): the Frobenius
+  inner product `⟨A, B⟩ = Σ_{i,j} conj A_{ij} B_{ij} = Tr(A* B)` on `Matrix (Fin k) (Fin k) ℂ`,
+  compatible with Mathlib's Frobenius norm and available through
+  `open scoped Matrix.Norms.Frobenius`; with it the matrices are the Hilbert space `S₂^k` on which
+  §9.2 lets Fourier multipliers act.
+- `MeasureTheory.Lp.fourierMultiplierCLM`, `MeasureTheory.Lp.norm_fourierMultiplierCLM_le`,
+  `MeasureTheory.Lp.fourierMultiplierCLM_compL_fourierMultiplierCLM`,
+  `MeasureTheory.Lp.adjoint_fourierMultiplierCLM` and
+  `MeasureTheory.Lp.tendsto_fourierMultiplierCLM_apply` (`TauCeti/Analysis/Fourier/L2Multiplier.lean`):
+  the Fourier multiplier `𝓕⁻¹(m · 𝓕 f)` on `L²(E; F)` for `m ∈ L^∞(E)` and a complex Hilbert space
+  `F`, with norm at most `‖m‖_∞`, multiplicativity in the symbol, adjoint `T_{m̄}` and strong
+  continuity under boundedly almost-everywhere convergent symbols.
+- `TauCeti.exists_eLpNorm_fourierMultiplierCLM_le_of_norm_iteratedFDeriv_le`
+  (`TauCeti/Analysis/Fourier/MihlinHormander.lean`): the Mihlin–Hörmander theorem for symbols
+  smooth off the origin with Hilbert-space-valued functions (Checks of §11.5).
+- `ContDiffBump.littlewoodPaleyPiece` and `ContDiffBump.exists_norm_iteratedFDeriv_littlewoodPaleyPiece_le`
+  (`TauCeti/Analysis/Distribution/SchwartzSpace/LittlewoodPaley.lean`): the Littlewood–Paley pieces
+  of a symbol smooth off the origin with their scale-invariant derivative bounds. The pieces
+  require a symbol smooth off the origin; §11.2 proves the bounds for symbols of class `C^{σ_n}`.
+- `MeasureTheory.Measure.IsAtom` (`TauCeti/MeasureTheory/Measure/Atom.lean`): measurable, positive
+  measure, every measurable subset null or of full measure.
+- `MeasureTheory.Measure.exists_subset_measure_eq_of_nullSingleton`
+  (`TauCeti/MeasureTheory/Measure/AtomlessStandardBorel/Transport.lean`): Sierpiński's theorem on a
+  standard Borel space under null singletons; §7.1 takes the version for an arbitrary measurable
+  space under the atomless hypothesis from BochnerSpaces §7.5 and compares the two.
+
+Tau Ceti has no compact endpoint of the Schatten scale, no operator trace on infinite-dimensional
+spaces, no kernel theorem, no Schur multiplier and no operator-valued BMO. Its bounded mean
+oscillation estimates (`TauCeti/MeasureTheory/Integral/CalderonZygmund/BoundedMeanOscillation.lean`)
+average the norm `⨍_Q ‖f − f_Q‖` of a Banach-valued function; the column seminorm of §10.1 takes
+the operator norm of the average `⨍_Q |f − f_Q|²` of operator squares, a different seminorm.
+
+### From TauCetiRoadmap.OperatorTheory
+
+OperatorIdeals: OI-A23 (finite rank implies vanishing approximation numbers), OI-A25–OI-A29
+(finite-rank approximability and compactness on Hilbert targets), OI-A30 (adjoint invariance),
+OI-A38–OI-A40 (localisation of approximation numbers on finite-dimensional subspaces, used for
+lower semicontinuity under strongly convergent compressions), OI-B29–OI-B41 (trace class,
+Hilbert–Schmidt energy, norm and family), OI-B76–OI-B88 (Schatten gauges and inclusions) and
+OI-C01–OI-C14 (column model, finite-rank truncations, Hilbert–Schmidt implies compact). Each is
+assumed for arbitrary complex Hilbert spaces, as Tau Ceti implements it.
+
+### From TauCetiRoadmap.VonNeumannAlgebras
+
+- V4.Core: the canonical trace `Tr` on the trace class with `|Tr(X)| ≤ ‖X‖₁`, cyclicity
+  `Tr(XY) = Tr(YX)` for trace-class products and Hilbert–Schmidt pairs, the rank-one formulas
+  `Tr(u ⊗ v*) = ⟨v, u⟩` and `‖u ⊗ v*‖₁ = ‖u‖‖v‖`.
+- V2 (completed Hilbert tensor products): for complex Hilbert spaces `H` and `L`, the completed
+  tensor product `H ⊗̂ L`, the completion of `H ⊗[ℂ] L` for the inner product with
+  `⟨h ⊗ l, h' ⊗ l'⟩ = ⟨h, h'⟩ ⟨l, l'⟩`, in which the elementary tensors span a dense subspace;
+  used for the stabilisation of §1.4, which identifies `H ⊗̂ L` with the Hilbert sum `ℓ²(β; H)`
+  along a Hilbert basis `(e_β)` of `L`, and `H ⊗̂ ℂ^m` with `H^m`.
+- V2.RectangularL2: the unitary `L²(μ) ⊗̂ L²(ν) ≅ L²(μ ⊗ ν)` sending `f ⊗ g` to `f(x)g(y)`, which
+  for σ-finite measures uses `μ.prod ν`; used for `L²(Ω × Ω, 𝒜 ⊗ 𝒜, μ ⊗ μ) = L²(𝒜) ⊗̂ L²(𝒜)` in
+  §2.4, for the amplified spaces `L²(Ω × Fin m)` of §3.5 and for
+  `L²(Ω × Ω') ≅ L²(Ω) ⊗̂ L²(Ω')` in §3.6.
+- V13b (§13.2): the Hilbert-space ultraproduct `∏_𝒰 H_n` of a sequence of Hilbert spaces along an
+  ultrafilter `𝒰` on `ℕ`, the quotient of the bounded sequences by those with `lim_𝒰 ‖x_n‖ = 0`,
+  built there in the route of the uniqueness of the injective factor of type III₁ with separable
+  predual, where its quotient inner product, its completeness and its coordinate norm are proved.
+  §6.4 uses it for a non-principal `𝒰` and states the three facts it consumes.
+
+### From TauCetiRoadmap.NoncommutativeIntegration
+
+- §1.3: the tracial `Lᵖ(M, τ)` of a semifinite trace for finite `p`, complete, and the density in it
+  of the bounded elements of finite-trace support; on `B(H)` these are the finite-rank operators,
+  and on the algebra `L^∞(ℝⁿ; F_k)` of §9.2 the bounded functions vanishing off a set of finite
+  measure.
+- §1.4 with §1.5: Hölder's inequality `‖XY‖_r ≤ ‖X‖_p ‖Y‖_q` on `B(H)` with the trace.
+- §1.5: `Lᵖ(B(H), Tr) = S_p(H)` isometrically for `1 ≤ p < ∞`; the commutative identification
+  `Lᵖ(L^∞(Ω), ∫) = Lᵖ(Ω)`.
+- §2.1: `L^{p'}(M, τ) = Lᵖ(M, τ)*` isometrically for `1 ≤ p < ∞` under `(X, Y) ↦ τ(XY)`, and
+  cyclicity `τ(XY) = τ(YX)`. Nothing else of §2.1 is consumed: the norming element of a nonzero
+  finite-rank `X` with polar decomposition `X = u|X|` is constructed in §1.2 here, as
+  `|X|^{p−1}u*/‖X‖_p^{p−1}` (`u*` at `p = 1`), whose pairing with `X` is
+  `Tr(|X|^p u*u)/‖X‖_p^{p−1} = ‖X‖_p`. The product in the other order does not norm: for
+  `X = E₁₂` in `M₂`, `u = E₁₂` and `|X| = E₂₂`, so `u*|X| = E₂₁E₂₂ = 0`, while
+  `|X|u* = E₂₂E₂₁ = E₂₁` and `Tr(X E₂₁) = 1 = ‖X‖₂`.
+- §2.3: the complex method, the operator estimate `‖T‖_θ ≤ ‖T‖₀^{1−θ}‖T‖₁^θ`, and regularisation
+  (each endpoint may be replaced by the closure of the intersection in it).
+- §2.5: `[L^{p₀}(M, τ), L^{p₁}(M, τ)]_θ = L^{p_θ}(M, τ)` isometrically, with `L^∞ = M`.
+- §2.6: noncommutative Riesz–Thorin for a linear map between the sums of two semifinite `Lᵖ`
+  couples, the source and target algebras possibly different (used with `L^∞(ℝⁿ)` on one side and
+  `B(L²(F))` on the other in §9.3).
+- §3.5: for a semifinite trace `τ` on `M`, the tracial `Lᵖ(M, τ)` of NoncommutativeIntegration
+  §1.3 is the weight-independent Haagerup `Lᵖ(M)` of NoncommutativeIntegration Layer 3,
+  isometrically.
+- §4.4: `Lᵖ(Ω; Lᵖ(N)) = Lᵖ(L^∞(Ω) ⊗̄ N)` for a probability space and `1 ≤ p < ∞`, with the norm
+  `(∫ ‖f(ω)‖_p^p dP)^{1/p}`, stated for the Haagerup spaces and the product weight. Read through
+  NoncommutativeIntegration §3.5 and §1.5, it gives for `N = B(L²(ℝⁿ))` with `Tr` and the Haar
+  probability measure of `𝕋ⁿ` the norm `(∫_{𝕋ⁿ} ‖f(s)‖_p^p ds)^{1/p}` on the tracial `Lᵖ` of
+  `L^∞(𝕋ⁿ) ⊗̄ B(L²(ℝⁿ))` for the trace `∫ ⊗ Tr`, the space in which the martingale contract below
+  is stated (§10.3, §10.4).
+
+What NoncommutativeIntegration must provide (gap:semifinite-martingale-bmo-interpolation): in a
+Part II extending its §7.3 and §8.4 to semifinite operator-valued filtrations, the column, row
+and two-sided martingale BMO norms on `L²(𝓜) ∩ 𝓜` for `𝓜 = L^∞(Ω) ⊗̄ N` and the interpolation
+inequality between them and `L²(𝓜)` with an absolute constant of order `p`, as follows.
+
+- **Semifinite martingale BMO interpolation.** Let `(N, τ_N)` be a semifinite von Neumann algebra,
+  `(Ω, 𝓕, P)` a probability space with a filtration `(𝓕_k)_{k ≥ 0}`, `𝓕₀` trivial, generating `𝓕`,
+  `𝓜 = L^∞(Ω) ⊗̄ N` with the trace `∫ ⊗ τ_N`, `E_k = E[· | 𝓕_k] ⊗ id_N` and `E_{−1} = 0`. For `f`
+  in `L²(𝓜) ∩ 𝓜` put `‖f‖_{BMO_c} = sup_{k ≥ 0} ‖E_k |f − E_{k−1} f|²‖^{1/2}`,
+  `‖f‖_{BMO_r} = ‖f*‖_{BMO_c}` and `‖f‖_{BMO} = max(‖f‖_{BMO_c}, ‖f‖_{BMO_r})`. There is an
+  absolute constant `C` such that for every `2 ≤ p < ∞` and every function
+  `Ψ(z) = Σ_j e^{δ z² + λ_j z} f_j` on the closed strip `0 ≤ Re z ≤ 1` (finitely many
+  `f_j ∈ L²(𝓜) ∩ 𝓜` with `E₀ f_j = 0`, `δ ≥ 0`, `λ_j ∈ ℝ`),
+  `‖Ψ(2/p)‖_{Lᵖ(𝓜)} ≤ C p · max(sup_t ‖Ψ(it)‖_{BMO}, sup_t ‖Ψ(1 + it)‖_{L²(𝓜)})`.
+  This is the inclusion `[BMO(𝓜), L²_0(𝓜)]_{2/p} ⊆ Lᵖ_0(𝓜)` with constant `O(p)`
+  (Conde-Alonso–González-Pérez–Parcet–Tablate, Lemma 1.4, cgpt-2023 lines 471–484, for the dyadic
+  filtration of `𝕋ⁿ` and `N = B(L²(ℝⁿ))`; Mei, Lemma 6.1, mei-2007 line 3218, for semifinite
+  operator-valued dyadic filtrations with equivalent norms; Musat, musat-2003 Theorem 3.1, as cited
+  in mei-2007 lines 3229–3230; the growth `O(p)` comes from the order `O(1/(q − 1))` of the
+  noncommutative Burkholder–Gundy constant as `q → 1`, Jiao–Randrianantoanina–Wu–Zhou, jrwz-2020,
+  as cited in cgpt-2023 lines 483–484). §10.4 uses the case of the
+  dyadic filtration of `𝕋ⁿ` and `N = B(L²(ℝⁿ))`.
+
+### From TauCetiRoadmap.AutomorphicSpectralTheory
+
+- §0.8: for square-integrable `K ∈ L²(X × Y)`, the integral operator `T_K : L²(Y) → L²(X)`,
+  `kernel_apply` (`T_K f(x) = ∫ K(x, y) f(y) dν(y)` almost everywhere), `kernel_unique` (a
+  linear embedding of `L²(X × Y)` into the bounded operators, isometric for the Hilbert–Schmidt
+  norm) and `kernel_norm`
+  (`‖T_K‖_{HS} = ‖K‖₂`).
+- §0.9: for the trace `Tr` of VonNeumannAlgebras V4.Core (AutomorphicSpectralTheory §0.9
+  defines no second trace), the absolutely convergent basis formula
+  `Tr(BC) = Σ_j ⟨B* e_j, C e_j⟩` for every Hilbert basis `(e_j)` and `‖BC‖₁ ≤ ‖B‖_HS ‖C‖_HS` for
+  Hilbert–Schmidt `B, C`, on arbitrary complex Hilbert spaces.
+
+What AutomorphicSpectralTheory must provide (gap:sigma-finite-hilbert-schmidt-kernels): its §0.8
+for arbitrary σ-finite measure spaces `(X, μ)` and `(Y, ν)`, with no standard Borel or
+separability hypothesis on the measurable spaces or on `L²`: the integral operator
+`T_K : L²(Y, ν) → L²(X, μ)` of every `K ∈ L²(μ ⊗ ν)` with `kernel_apply`, and `K ↦ T_K` a linear
+embedding into the bounded operators with `‖T_K‖_HS = ‖K‖₂` (`kernel_unique`, `kernel_norm`).
+The trace formula is not part of the request: §2.2 here derives it from AutomorphicSpectralTheory
+§0.8, §0.9 and the adjoint kernel. A route that needs no countable orthonormal basis is the
+composite of VonNeumannAlgebras V2.RectangularL2 with the unitary
+`S₂(L²(ν), L²(μ)) ≅ L²(μ) ⊗̂ conj(L²(ν))` of V4.Core, identified with the integral formula on
+rank-one kernels and extended by continuity.
+
+### From TauCetiRoadmap.CStarAlgebras
+
+- C1.6: the compact operators `K(H)` as a C*-algebra. The matrix levels `M_m(K(H)) = K(H^m)`
+  are identified in §1.4: an operator on `H^m` is compact exactly when each of its `m²` blocks is.
+- C3.2: the completely bounded norm `‖u‖_cb = sup_n ‖u_n‖` of a linear map between operator
+  spaces, with matrix levels `CStarMatrix`.
+
+### From TauCetiRoadmap.BanachSpaceTheory
+
+- B4.0: for a reflexive real Banach space `Y` (a complex one through its underlying real space),
+  a finite positive measure `μ` and a vector measure `m` with values in `Y`, of finite variation
+  `|m|` with `|m| ≪ μ`, an integrable Bochner density `h` with `m = μ.withDensityᵥ h` and
+  `|m|(s) = ∫_s ‖h‖ dμ` for every measurable `s`. If moreover `|m|(s) ≤ C μ(s)` for every
+  measurable `s`, the variation formula gives `‖h‖ ≤ C` almost everywhere. Applied to
+  `m(s) = a(1_s)` it represents a bounded linear `a : L¹(μ) → K` into a Hilbert space as
+  `u ↦ ∫ u h dμ` with `‖h‖_{L^∞(μ; K)} = ‖a‖` (§6.4).
+
+### From TauCetiRoadmap.BochnerSpaces
+
+- §7.4: for σ-algebras `𝒜 ⊆ 𝓑` on `Ω` and a measure `μ` on `𝓑` whose trim `μ.trim h` to `𝒜` is
+  σ-finite, with complex scalars: the `L¹` projection `E₁` of `L¹(Ω, 𝓑, μ)` onto the
+  `𝒜`-measurable classes (positive, contractive, idempotent with range the `𝒜`-measurable
+  classes, satisfying the tower law for nested σ-algebras, equal to `MeasureTheory.condExp` on
+  integrable functions), and the linear contraction `φ ↦ E[φ | 𝒜]` of `L^∞(Ω, 𝓑, μ)` defined as
+  its adjoint: `∫ E[φ | 𝒜] g dμ = ∫ φ E₁(g) dμ` for every `g ∈ L¹(μ)`; it agrees with
+  `MeasureTheory.condExpL2` on `L^∞ ∩ L²`. Nothing else is assumed of `E[· | 𝒜]`: the
+  `𝒜`-measurability of its values, its positivity, its tower law and its agreement with
+  `MeasureTheory.condExp` on `L^∞ ∩ L¹` are proved in §2.5 from the properties of `E₁` listed
+  here.
+- §4.2: for σ-finite `μ`, `ν`, `1 ≤ p < ∞` and a Banach space `X`, the isometric isomorphism
+  `Lᵖ(μ ⊗ ν; X) ≅ Lᵖ(μ; Lᵖ(ν; X))` with its section formula: the image of `F` is a class whose
+  value at `s` has value `F(s, t)` at `t`, for `ν`-almost every `t` and `μ`-almost every `s`. Used at
+  `p = 2`, `X = ℂ` in §11.3, with `μ` Lebesgue measure on `ℝⁿ_z` and `ν` Lebesgue measure on
+  `ℝⁿ_x × ℝⁿ_y`.
+- §7.5: for a finite atomless measure `ν`, a measurable set `A` and `0 ≤ t ≤ 1`, a measurable
+  `B ⊆ A` with `ν(B) = t ν(A)`. Atomless is read as: no set is an atom in the sense of Tau Ceti's
+  `MeasureTheory.Measure.IsAtom`. It is the only reading under which the statement holds: under
+  the weaker reading by null singletons it is false, since the countable–cocountable probability
+  measure on an uncountable set has null singletons and no set of measure `1/2`.
 
 ## References
 
