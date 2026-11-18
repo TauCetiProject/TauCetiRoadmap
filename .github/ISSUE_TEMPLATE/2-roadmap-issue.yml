@@ -104,6 +104,7 @@ body:
         - DiophantineApproximationAndTranscendencePartII
         - DiracScatteringAndNonlinearFourierTransform
         - DirectSummandsAndBigCohenMacaulay
+        - DirichletPadicLFunctions
         - DysonBrownianMotion
         - ECM
         - EllipticCohomology
@@ -257,6 +258,7 @@ body:
         - PositiveScalarCurvature
         - PresentationsOfMonoidalCategories
         - PrimitivePrimeDivisors
+        - PrismaticCohomology
         - ProbabilisticAndMetricNumberTheory
         - ProbabilisticAndMetricNumberTheoryPartII
         - ProfiniteCohomology
@@ -297,8 +299,10 @@ body:
         - SchubertGeometry
         - SeibergWittenTheory
         - SelmerIwasawaCohomology
+        - ShimuraData
         - ShimuraVarieties
         - SieveMethodsAndPrimePatterns
+        - SmallRamificationAndAbelianVarietyBaseCases
         - SmoothBundlesConnections
         - SmoothRepresentationsOfLocalGroups
         - SobolevMapsBetweenManifolds
