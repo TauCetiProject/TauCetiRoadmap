@@ -749,12 +749,7 @@ the mutable image and give the presentation `I≃K⊔J`, with row as the mutable
 inclusion. Prove transport along equivalences commuting with row. In the
 formulas below a mutable index in I means its image under row. Prove `μ_kμ_k=id`, that
 symmetrizers of `B` symmetrize `μ_kB`, zero diagonal, and commutation of `μ_k` with the
-principal block, reindexing along `K≃K'`, `J≃J'`, and `fromBlocks B₁ 0 0 B₂`. For `B̃`
-with skew-symmetric principal block, `q_ik=[b_ik]_+`, `q_ki=[-b_ik]_+` (`i∈I`, `k∈K`),
-`q_jj'=0` (`j,j'∈J`) is a bijection onto ice quivers `q : I → I → ℕ` with frozen
-vertices `J`, `q_ii=0`, `q_ij q_ji=0` and no arrows between frozen vertices; prove it
-intertwines `μ_k` with ice-quiver mutation at mutable `k` (add `q_ik q_kj` arrows `i→j`,
-reverse arrows at `k`, cancel 2-cycles, delete arrows between frozen vertices).
+principal block, reindexing along `K≃K'`, `J≃J'`, and `fromBlocks B₁ 0 0 B₂`.
 
 For `b_kk=0` and `ε∈{1,-1}`, prove `μ_k(B̃)=E_ε B̃ F_ε`, where `E_ε : Matrix I I ℤ` is
 the identity except in column `k`, with `(E_ε)_kk=-1`, `(E_ε)_ik=[-ε b_ik]_+` for `i≠k`,
@@ -788,7 +783,37 @@ integer preserves this independence.
 
 - For `B=((0,1),(−2,0))`, the symmetrizer `(2,1)` works for both `B` and `μ₁(B)=−B`.
 - For the rank-one extended column `(0,1)ᵀ`, the frozen row changes sign and the rational column rank stays one.
-- For the quiver `1→2→3`, mutation at 2 adds `1→3` and reverses the two arrows incident to 2.
+
+#### Ice quivers and amalgamation
+
+Define `IceQuiver row` extending the rectangular `ExchangeMatrix row`.
+On the frozen complement `F` of `row`, add positive integer weights `s_f` and a block
+`C : Matrix F F ℚ` with `s_f C_fg = −s_g C_gf` and `s_k ∣ s_f B̃_fk`, where
+`s_k` is the mutable symmetrizer. Define `fullMatrix : Matrix I I ℚ` by
+
+```
+M_i,row(k) = B̃_ik
+M_row(k),f = −s_f B̃_fk / s_k
+M_f,g = C_fg
+```
+
+Prove the equivalence with a full rational matrix satisfying
+`s_i M_ij = −s_j M_ji` and integrality of every entry incident to a mutable
+vertex, with its mutable embedding and positive integer symmetrizer.
+Full matrix mutation keeps the symmetrizer and projects to
+`ExchangeMatrix.mutation`. Freezing and defrosting change the mutable
+embedding and keep the full matrix and symmetrizer. Defrosting requires both rows and
+columns at the new mutable vertices to be integral. Prove that mutation
+at an already mutable vertex preserves this condition and commutes with
+defrosting.
+
+For a finite family of ice quivers on `I_a`, give embeddings `ι_a : I_a ↪ J`
+and one symmetrizer on `J` that restricts to those of the factors. A mutable
+vertex of one factor must have no preimage in any other factor. Define
+**amalgamation** with mutable set the union of the mutable images and full
+matrix `M^am = Σ_a (ι_a)_* M^a`, where `(ι_a)_*` extends the whole matrix by zero.
+Prove compatibility with reindexing, amalgamation in stages, and mutation at
+a mutable vertex of one factor. See Fock–Goncharov, §2.2.
 
 *Needs:* Mathlib matrices, finite products, linear independence and equivalences.
 
@@ -2915,17 +2940,38 @@ data and highest-weight representations.
 
 ### 6.2 The BFZ seed
 
-For every double reduced word `i` for `(u,v)`, use negative
-letters for `u`, positive letters for `v`, and prepend the indices `-r,…,-1` as in BFZ.
-The successor `k⁺` is the next occurrence of the same absolute simple index; the mutable
-positions are the positive positions with a successor in the word. Implement `B̃(i)` of
-BFZ §2.2, Definition 2.3 and Remark 2.4, and the minors `Δ(k;i)` of §2.3,
-(2.9)–(2.11), with index conversions. Prove that `B̃(i)` has full column rank and its
-principal part is skew-symmetrizable (BFZ III, Proposition 2.6). Prove that the frozen
-minors are units on `G^{u,v}` and construct the field isomorphism sending each initial
-variable `x_k` to `Δ(k;i)` (BFZ III, Lemma 2.12(1)–(2), over ℂ). This is a generating
+Let `b : P.Base` be the base of the pinned root pairing `P` and let `I` be its
+simple index type `b.support`. Use `A = b.cartanMatrix`, with
+`a_ij = ⟨α_i, α_j∨⟩`. Fix positive integer quiver weights `s_i` with
+`s_i a_ji = s_j a_ij`.
+
+For every double word `w : List (I ⊕ I)`, define its quiver `Q(w)`. Use
+`Sum.inl` for positive letters and `Sum.inr` for negative letters. The
+one-letter factors are the all-frozen elementary quivers `J_∘(i)` and
+`J_∘(ī)` of Goncharov–Shen, §11.2.1, with their full matrices transposed
+to the column convention and the same weights `s_i`.
+Amalgamate in word order by identifying successive right and left boundary
+vertices of each simple index. For each index, number its vertices by the count
+of letters of that index to their left, counting both signs. Prove integrality
+at the non-extremal vertices of each index and defrost them to obtain `Q(w)`. Prove the concatenation law
+with the same boundary identifications and defrosting, and apply §1.1 to
+localize mutation at internal vertices of a subword. See Fock–Goncharov,
+§3.2, and Shen–Weng, Remark 3.6.
+
+For a double reduced word for `(u,v)`, with negative letters for `u` and
+positive letters for `v`, read the BFZ matrix `B̃(w)` from the mutable columns
+of `Q(w)`. Prove agreement with BFZ III, Definition 2.3 and Remark 2.4, up to
+reindexing that identifies mutable vertices with BFZ's exchangeable positions.
+In those formulas the Cartan entry for row color `i` and column color `j` is
+`a_ji` in `b.cartanMatrix` notation. Prove full column rank (BFZ III,
+Proposition 2.6).
+
+Construct the minors `Δ(k;w)` of BFZ III, §2.3, (2.9)–(2.11), with the same index
+conversion. Prove that the frozen minors are units on `G^{u,v}` and construct
+the field isomorphism sending each initial
+variable `x_k` to `Δ(k;w)` (BFZ III, Lemma 2.12(1)–(2), over ℂ). This is a generating
 regular chart in the function field of `G^{u,v}`; the BFZ seed is the resulting
-regular binary seed over 𝕜 with matrix `B̃(i)` (§1.4). It is admissible,
+regular binary seed over 𝕜 with matrix `B̃(w)` (§1.4). It is admissible,
 so all its mutation words are defined (§1.2). For every
 mutable `k` and every Cartan type, prove the exchange relation as an identity
 of regular functions for the mutated seed, that `x'_k` is regular, and that the cluster of `μ_k` gives a chart of `G^{u,v}`
@@ -3017,6 +3063,12 @@ None.
   [*Cluster algebras III: Upper bounds and double Bruhat cells*](https://arxiv.org/abs/math/0305434),
   §§1–7; the upper-bound proof is on PDF pp. 24–28, and Theorem 2.10 and its
   geometric input are on pp. 15–18 of version 3.
+- Fock–Goncharov, [*Cluster X-varieties, amalgamation, and Poisson-Lie groups*](https://arxiv.org/abs/math/0508408),
+  §§2.2 and 3.2 for amalgamation, defrosting and the construction along a word.
+- Goncharov–Shen, [*Quantum geometry of moduli spaces of local systems and representation theory*](https://arxiv.org/html/1904.10491v4#S11.SS2),
+  §11.2.1 for the elementary quivers and §11.3 for local mutations.
+- Shen–Weng, [*Cluster structures on double Bott–Samelson cells*](https://arxiv.org/abs/1904.07992),
+  Remark 3.6 for integrality at the non-extremal vertices.
 - Fomin–Zelevinsky, [*Double Bruhat cells and total positivity*](https://arxiv.org/abs/math/9802056),
   the factorization, twist and generalized-minor constructions used by BFZ.
 - Berenstein–Zelevinsky, [*Total positivity in Schubert varieties*](https://ems.press/content/serial-article-files/42750?nt=1),
