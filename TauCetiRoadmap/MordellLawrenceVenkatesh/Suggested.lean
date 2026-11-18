@@ -1,19 +1,15 @@
 import Mathlib
-import TauCeti.AlgebraicGeometry.Cohomology.Genus
 
 /-!
-# Mordell after Lawrence and Venkatesh: target signatures
+# p-adic period maps after Lawrence and Venkatesh: target signatures
 
 **This file is not the roadmap and is not exhaustive.** The definitive document is
 `README.md`. This file states the roadmap’s headline theorems against the pinned APIs;
 discharging them finishes neither a layer nor the roadmap.
 
-The statements are the semilinear centralizer dimension bound (§0.4, LV20 Lemma 2.1), S-unit
-finiteness (§6.10, LV20 Theorem 4.1), and Mordell finiteness (§11.6, LV20 Theorem 5.4). The
-latter two specify the Lawrence–Venkatesh proofs of the statements owned by
-DiophantineApproximationAndTranscendence §2.4 and
-HeightsRationalPointsAndObstructions §§5.12, 6.4. They use native S-unit subgroups and
-morphisms over `Spec K`; the native scheme genus requires finite-dimensional H¹(𝒪).
+The statements are the semilinear centralizer dimension bound (§0.4, LV20 Lemma 2.1) and S-unit
+finiteness (§6.10, LV20 Theorem 4.1). The latter specifies the Lawrence–Venkatesh proof of the
+statement owned by DiophantineApproximationAndTranscendence §2.4. It uses native S-unit subgroups.
 
 The other headline statements need interfaces absent from Mathlib `1b1ccf4` and Tau Ceti
 `2fd255d`. Faltings's representation finiteness and friendly-place Hodge-weight identities
@@ -82,23 +78,6 @@ theorem sUnitEquation_finite (K : Type u) [Field K] [NumberField K]
     {xy : (Set.unit (R := NumberField.RingOfIntegers K) (↑S) K) ×
         (Set.unit (R := NumberField.RingOfIntegers K) (↑S) K) |
       ((xy.1 : Kˣ) : K) + ((xy.2 : Kˣ) : K) = 1}.Finite := by
-  sorry
-
-/-! ## Layer 11: Faltings’s theorem -/
-
-open CategoryTheory AlgebraicGeometry
-
-/-- Mordell finiteness by the Lawrence–Venkatesh method (README §11.6, LV20 Theorem 5.4):
-a smooth proper geometrically connected curve of genus at least two over a number field
-has finitely many rational points. -/
-theorem mordell_finite (K : Type u) [Field K] [NumberField K]
-    (C : Scheme.{u}) [C.Over (Spec (.of K))]
-    [Smooth (C ↘ Spec (.of K))] [IsProper (C ↘ Spec (.of K))]
-    [GeometricallyConnected (C ↘ Spec (.of K))]
-    [FiniteDimensional K (TauCeti.AlgebraicGeometry.Scheme.Modules.Cohomology
-      (TauCeti.AlgebraicGeometry.InvertibleSheaf.trivial C).obj 1)]
-    (hdim : topologicalKrullDim C = 1) (hg : 2 ≤ C.genus K) :
-    Finite (Over.mk (𝟙 (Spec (.of K))) ⟶ Over.mk (C ↘ Spec (.of K))) := by
   sorry
 
 end TauCetiRoadmap.MordellLawrenceVenkatesh

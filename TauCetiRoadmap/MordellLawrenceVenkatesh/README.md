@@ -1,26 +1,57 @@
-# Roadmap: the Mordell conjecture after Lawrence and Venkatesh
+# Roadmap: p-adic period maps and the Kodaira–Parshin family after Lawrence and Venkatesh
 
-**Summary.** This roadmap proves Faltings's theorem — a smooth projective geometrically connected curve
-of genus at least two over a number field has only finitely many rational points — by the method of
-Lawrence and Venkatesh, and by the same method the finiteness of the S-unit equation. A rational point
-`y` of the base of a polarized family of abelian varieties gives a global `p`-adic Galois
-representation `ρ_y`. On one `p`-adic residue disk the crystalline comparison identifies the restriction
-of `ρ_y` to a decomposition group with a filtered `φ`-module whose underlying `φ`-module is fixed by
-Gauss–Manin transport and whose Hodge filtration is the value at `y` of a `p`-adic period map. Faltings's
-finiteness lemma allows only finitely many semisimple global representations, so the points with
-semisimple representation are sent into finitely many orbits of a Frobenius centralizer; once a local
-field factor has degree at least eight these orbits are small compared with the period variety. Big
-monodromy of the family over `ℂ`, transported to the `p`-adic side through one common tuple of power
-series, makes the image of the period map Zariski dense, and Strassmann's theorem converts density into
-finiteness on a curve. Two further arguments make this apply to every rational point of a curve of genus
-`g ≥ 2`: the Kodaira–Parshin family of reduced Pryms of `Aff(q)`-covers branched at one point has big
-monodromy, proved with mapping class groups by lifting point-pushing maps and Dehn twists to the covers;
-and at a friendly place a count of short Frobenius orbits on `H¹(Y, ℤ/(q−1))` guarantees a large local
-factor above every rational point, while purity of Hodge weights controls the reducible fibres. The end
-theorems are Faltings's theorem (11.6), the S-unit theorem (6.10), the finiteness of rational points on
-the base of an abelian-by-finite family (7.9), the finiteness of good-reduction fibres with semisimple
-representation in a residue disk (4.5), Zariski density of the point-pushing monodromy (10.9) and full
-monodromy of the Kodaira–Parshin family (10.10).
+**Summary.** Lawrence and Venkatesh showed that the rational points of a variety can be controlled by
+watching how the `p`-adic Galois representations of the fibres of a family above it vary. This roadmap
+builds their method for families over curves, applies it to the S-unit equation, and proves that the Kodaira–Parshin family of a curve of genus at least two has full
+monodromy.
+
+A rational point `y` of the base of a polarized family of abelian varieties gives a global `p`-adic
+Galois representation `ρ_y`. On one `p`-adic residue disk, the crystalline comparison identifies its
+restriction to a decomposition group with a filtered `φ`-module whose `φ`-module is fixed by Gauss–Manin
+transport and whose Hodge filtration is the value at `y` of a `p`-adic period map. Faltings's finiteness
+lemma allows only finitely many semisimple global representations, so the points with semisimple
+representation are sent into finitely many orbits of a Frobenius centralizer, which are small once a
+local field factor has degree at least eight. Big monodromy over `ℂ`, transported to the `p`-adic side
+through one common tuple of power series, makes the image of the period map Zariski dense, and
+Strassmann's theorem converts density into finiteness on a curve.
+
+The first main theorem is general. Let `X → Y' → Y` be a polarized family of abelian varieties of
+dimension `d ≥ 1` over a finite étale cover of positive degree of a smooth projective geometrically
+connected curve `Y` over a number field. Assume that it has full monodromy and a good model over the
+`S`-integers with proper base, and let `v` be a friendly place, in the sense of the Galois layer, whose
+residue characteristic is odd and lies below no place of `S`. Then only finitely many rational points
+of `Y` have fewer than a fraction `1/(d + 1)` of the geometric points of their fibre in `Y'` lying in
+Frobenius orbits of length less than eight.
+
+The second, its prototype, concerns a polarized abelian scheme with a good model over a smooth
+geometrically connected curve and a place `v` outside `S`, unramified of odd residue characteristic: if the Frobenius centralizer at an integral base point has smaller dimension than the
+monodromy orbit of the Hodge filtration, only finitely many integral points congruent to it modulo `v`
+have a semisimple Galois representation. The third is the S-unit theorem: for a number field `K` and a
+finite set `S` of places containing the archimedean ones, only finitely many `S`-units `t` have `1 − t`
+also an `S`-unit. Its proof uses a cyclic Legendre family; the statement belongs to
+DiophantineApproximationAndTranscendence, which proves it by other means.
+
+The fourth concerns a smooth projective geometrically connected curve `Y` of genus `g ≥ 2` over a
+number field inside `ℂ` and a prime `q ≥ 3`. The covers of `Y` with monodromy group the affine group
+`Aff(q)` of the line over `𝔽_q`, branched at one moving point, form a finite étale family over `Y`, and
+their reduced Pryms form a polarized abelian scheme over it of relative dimension `(2g − 1)(q − 1)/2`,
+the Kodaira–Parshin family. The Zariski closure of its monodromy contains the product of the symplectic
+groups of its fibres. The proof is topological: the point-pushing maps of a closed surface of genus
+`g` that lift to all these covers act on their primitive homology with Zariski-dense image.
+
+This family is how the method reaches the rational points of a curve of genus at least two. Mordell's
+conjecture itself is not proved here: HeightsRationalPointsAndObstructions proves it as the case of
+curves of Faltings's theorem on rational points of subvarieties of abelian varieties.
+
+The roadmap builds on PadicHodgeTheory and CrystallineCohomology for the crystalline comparison, and on
+AbelianSchemesAndArithmeticModuli for the Gauss–Manin connection.
+FaltingsFinitenessAndIsogenyTheorems provides the Frobenius test set behind Faltings's lemma.
+
+The first two layers are toolkits: linear algebra and finite groups, then Hodge weights and Faltings's
+lemma. Layers LV.2 to LV.4 build families, transport and the two period maps, and the finiteness criterion
+on a residue disk. Layer LV.5 treats surfaces and mapping class groups. Layer LV.6
+proves the S-unit theorem and Layer LV.7 the finiteness theorem over a curve. Layers LV.8 to LV.10
+build the Kodaira–Parshin family and prove its monodromy theorem.
 
 ## How to read the build
 
@@ -32,7 +63,7 @@ Layer LV.4 combines them with crystalline comparison into the finiteness criteri
 finiteness theorem for abelian-by-finite families (Layer LV.7) adds the short-orbit measure, purity at friendly places
 and general position. The topological part — surfaces and mapping class groups (LV.5), `Aff(q)`-covers (LV.9) and the
 monodromy theorem (LV.10) — is independent of the arithmetic until Layer LV.8 builds the Kodaira–Parshin family and
-LV.10 identifies its monodromy. Build §§9.1–9.3, including branched transfer, before §8.12 identifies Prym homology. Layer LV.11 chooses the auxiliary prime and place and concludes. A reader interested
+LV.10 identifies its monodromy. Build §§9.1–9.3, including branched transfer, before §8.12 identifies Prym homology. A reader interested
 only in the S-unit theorem can stop after Layer LV.6.
 
 ## Conventions
@@ -561,7 +592,7 @@ proves this extension; the direct image-algebra proof below fixes the test-set u
 - A friendly place is unramified over `ℚ`.
 - If `K` has no CM subfield, IsFriendly `v ↔ v` is unramified over `ℚ`.
 - IsFriendly `v ↔ v` unramified over `ℚ ∧` (`E_K` CM `→ ∃ δ` in the decomposition group at `v` with `δ` acting on `E_K` as its complex conjugation).
-- If `Frob_℘ ∈ Gal(K'/ℚ)` (`K'` Galois over `ℚ` containing `K`) restricts to the nontrivial automorphism of `E_K` over `E_K⁺`, then the place of `K` below `℘` is friendly when unramified over `ℚ` (used with Chebotarev in Layer LV.11).
+- If `Frob_℘ ∈ Gal(K'/ℚ)` (`K'` Galois over `ℚ` containing `K`) restricts to the nontrivial automorphism of `E_K` over `E_K⁺`, then the place of `K` below `℘` is friendly when unramified over `ℚ`.
 - Friendliness is preserved by isomorphisms of number fields.
 - Over `ℚ` every prime is friendly; over `ℚ(i)` exactly the primes above `p ≡ 3 mod 4`.
 
@@ -1924,7 +1955,7 @@ the finiteness criterion together with Faltings's finiteness lemma.
 - A disjoint union of one fixed point and one 8-cycle has `size_v=1/9`, not 1/2.
 - An 8-cycle mapping to a singleton is equivariant with constant fibre size and gives `0≤1` in the monotonicity inequality.
 - `E = 𝔽_{q^k}`-points of a set permuted by Frobenius as a single `k`-cycle: `size_v(E) = 1` if `k < 8` and 0 otherwise.
-- For `E = Υ ⊆ (ℤ/N)^{2g}` and `E → Υ` with fibres of constant size (Layer LV.11), `size_v(E) ≤ size_v(Υ)`.
+- For `E = Υ ⊆ (ℤ/N)^{2g}` and `E → Υ` with fibres of constant size (8.14), `size_v(E) ≤ size_v(Υ)`.
 - On the empty permutation set the total function is zero; the arithmetic proportion requires a nonempty set.
 
 ### 7.2 Frobenius orbits on geometric points are the places above `v`
@@ -2011,7 +2042,6 @@ the finiteness criterion together with Faltings's finiteness lemma.
 
 **Checks.**
 
-- Layer LV.11 applies the proposition to the Kodaira–Parshin family, for which `size_v(π^{-1}(y)) < 1/(d_q + 1)` for all `y ∈ Y(K)`, so `Y(K)* = Y(K)`.
 - For `π = id, size_v(π^{-1}(y)) = 1` for all `y` and the proposition is empty, which is why Lawrence and Venkatesh pass to abelian-by-finite families.
 - For `Y = ℙ¹_ℚ` and `Y′ = X = ∅`, full monodromy is vacuous and the total function gives size zero, but `ℙ¹(ℚ)` is infinite. The hypothesis `n ≥ 1` excludes this case.
 
@@ -2613,97 +2643,6 @@ and §8.5, proof of Lemma 8.10, p. 48.
 
 Layers LV.0, LV.3, LV.5, LV.8, LV.9; TauCetiRoadmap AlgebraicTopology Stage 1; TauCetiRoadmap AlgebraicTopology Stage 3; TauCetiRoadmap ReductiveGroups Layer 3; TauCetiRoadmap ReductiveGroups Layer 6; AbelianSchemesAndArithmeticModuli §§A5.6–A5.7; ComplexComparisonPartII §§C5.1–C5.2; Mathlib and Tau Ceti as listed under each target.
 
-## Layer LV.11: Faltings's theorem
-
-The proof of Faltings's theorem chooses an auxiliary prime `q` and a friendly place `v`. The prime is taken
-with `4 ∤ q − 1`, with no small odd prime and no odd prime dividing the discriminant of `K` in `q − 1`, and
-large enough for the final inequality; the place is found by Chebotarev in the compositum of the Galois
-closure of `K` with `ℚ(ζ_{q−1})`, so that it is friendly and its norm has large order modulo every odd prime
-dividing `q − 1`. The Frobenius-fixed subgroups for exponents one to seven are then isotropic on the odd part
-of `H¹(Y, ℤ/(q − 1))`, which bounds short orbits there; the linear-part map from the Kodaira–Parshin fibre has
-constant fibres, so the bound passes to the fibre and gives `size_v < 1/(d_q + 1)` at every rational point.
-Layer LV.7 then shows that `Y(K)` is finite.
-
-### 11.1 Choice of the prime `q` (LV20 §5, conditions `(i)`–(iii))
-
-**Lemma.** Let `K` be a number field with Galois closure `K'` over `ℚ, g ≥ 2` and `B > 0`. There is a prime `q > B` such that: `(i) 4 ∤ q − 1`, and no odd prime `ℓ < 8[K : ℚ]` divides `q − 1`; (ii) no odd prime dividing `q − 1` divides `disc(K)`; consequently, writing `q − 1 = 2m'` (`m'` odd), `ℚ(ζ_{q−1}) = ℚ(ζ_{m'}), K' ∩ ℚ(ζ_{q−1}) = ℚ` and `Gal(K'(ζ_{m'})/ℚ) ≅ Gal(K'/ℚ) × (ℤ/m')^× ≅ Gal(K'/ℚ) × (ℤ/(q − 1))^×`; (iii) `8·2^{g+1}/(q − 1)^g < 1/((g − 1/2)(q − 1) + 1)`.
-
-*Proof sketch.* Let `L` be the set of odd primes `ℓ` with `ℓ < 8[K : ℚ]` or `ℓ | disc(K)`, and `N := 4∏_{ℓ∈L} ℓ`. By Dirichlet's theorem there are primes `q > B` with `q ≡ −1 mod N`; then `q − 1 ≡ 2 mod 4` and `q − 1 ≡ −2 ≢ 0 mod ℓ` for `ℓ ∈ L`, which gives `(i)` and (ii). (ii): the primes ramified in `K'` are those ramified in `K`, i.e. those dividing `disc(K)` (Mathlib). The odd primes dividing `q − 1` are unramified in `K'`, so `|disc K'|` is coprime to `m'`, and the Tau Ceti compositum isomorphism gives `Gal(K'(ζ_{m'})/ℚ) ≅ Gal(K'/ℚ) × (ℤ/m')^×`; also `(ℤ/2m')^× = (ℤ/m')^×` and `ℚ(ζ_{2m'}) = ℚ(ζ_{m'})` since `m'` is odd. (iii): the left side is `O(q^{−g})` and the right side is of order `q^{−1}`; since `g ≥ 2` the inequality holds for all large `q`. (LV20, §5, proof of Theorem 5.4, p. 26.) *Needs:* Mathlib `Nat.forall_exists_prime_gt_and_eq_mod`; Mathlib `NumberField.not_dvd_discr_iff_isUnramifiedIn`; Mathlib `NumberField.exists_not_isUnramifiedIn`; Mathlib `IsCyclotomicExtension.Rat.ramificationIdx_eq_of_not_dvd`; Tau Ceti `IsCyclotomicExtension.Rat.prime_dvd_of_dvd_natAbs_discr`; Tau Ceti `IsCyclotomicExtension.galEquivProd`; Mathlib `ZMod.card_units_eq_totient`; TauCetiRoadmap LocalFieldsRamification Layer 2.
-
-**Checks.**
-
-- `K = ℚ, g = 2: q = 107` is admissible: `106 = 2·53`, none of 3, 5, 7 divides 106, and `64/106² ≈` 0.00570 `< 1/160 =` 0.00625.
-- `K = ℚ, g = 2`: the least `q ≡ −1 mod 420` is `419 (418 = 2·11·19)`, also admissible.
-
-### 11.2 Choice of the friendly place `v` (LV20 §5)
-
-**Lemma.** Let `K` and `q` be as in the lemma on the choice of `q` (11.1) and `T` a finite set of places of `K`. There is a finite place `v ∉ T` of `K` such that: `(a) v` is friendly; `(b)` its residue characteristic `p` is odd, unramified in `K` and lies below no place of `T`; `(c) (q_v, q − 1) = 1`; `(d)` for every odd prime `r | q − 1`, the class of `q_v` in `(ℤ/r)^×` has order at least 8.
-
-*Proof sketch.* Choose `σ ∈ Gal(K'/ℚ)`: if `K` has a CM subfield, let `E` be its largest CM subfield and `E⁺` the maximal totally real subfield of `E`, and take `σ ∈ Gal(K'/E⁺)` acting nontrivially on `E`; otherwise take any `σ`. By the Chinese remainder theorem choose `a ∈ (ℤ/m')^×` reducing to a primitive root modulo every prime `r | m'`. By Chebotarev applied to `K'(ζ_{m'})/ℚ` and the class of `(σ, a)` (Tau Ceti Chebotarev Layer 10 with the compositum Frobenius lemma), there are infinitely many primes `p`, unramified in `K'(ζ_{m'})`, with a prime `℘` above `p` whose Frobenius restricts to `σ` on `K'` and with `p ≡ a mod m'`; exclude `p = 2`, the primes ramified in `K` and those below `T`. Let `v` be the place of `K` below `℘` and `f` its residue degree, so `q_v = p^f` with `f ≤ [K : ℚ]`. `(c): p` is odd and prime to `m'`. `(d): p` has order `r − 1` modulo `r`, so `q_v` has order `(r − 1)/gcd(r − 1, f) ≥ (r − 1)/[K : ℚ] ≥ 8`, since `r ≥ 8[K : ℚ] + 1` by `(i)` of 11.1. `(a)`: if `E` exists, the decomposition group of `℘` in `Gal(K'/ℚ)` is generated by `σ ∈ Gal(K'/E⁺)`, so the place of `E⁺` below `℘` has residue degree 1 over `p` and its Frobenius in `Gal(E/E⁺)` is `σ|_E ≠ 1`; it is therefore inert in `E`, and `v` lies above it. In all cases `v` is unramified over `ℚ`. (LV20, §5, proof of Theorem 5.4, p. 27.) *Needs:* 1.4; 1.5; 11.1; Tau Ceti `NumberField.Chebotarev.mem_frobeniusPrimeSet_galEquivProd_symm_iff`; Tau Ceti `AlgHom.IsArithFrobAt.autToPow_eq_absNorm`; Tau Ceti `IsCyclotomicExtension.galEquivProd`; Mathlib `Ideal.quotientInfRingEquivPiQuotient`; Mathlib `IsArithFrobAt`; Tau Ceti `NumberField.exists_isArithFrobAt`; TauCetiRoadmap Chebotarev Layer 10.
-
-**Checks.**
-
-- `K = ℚ` (no CM subfield): every odd prime `p` that is a primitive root modulo each prime factor of `(q − 1)/2` works; for `q = 107, 2` is a primitive root modulo 53, so any odd prime `p ≡ 2 mod 53` works, for example `p = 373 = 7·53 + 2`. Any numerical auxiliary prime must also avoid the finite bad-reduction and ramification set; 373 is only usable when it avoids that set.
-- `K` imaginary quadratic (a CM field): `v` must lie above a prime inert in `K`.
-
-### 11.3 The Weil pairing on `H¹(Y, ℤ/(q − 1))` and the Frobenius at `v`
-
-**Lemma.** Let `Y` be a smooth projective geometrically connected curve of genus `g` over `K` with good reduction outside a finite set `S` of places, `N ≥ 2`, and `v ∉ S` a finite place with `(q_v, N) = 1`. Then `M := H¹_et(Y_{K̄}, ℤ/N)` is free of rank `2g` over `ℤ/N` and unramified at `v`, it carries a perfect alternating `G_K`-equivariant pairing `⟨·,·⟩ : M × M → μ_N^∨ := Hom(μ_N, ℤ/N)`, and the Frobenius `T := Frob_v` satisfies `⟨Tm₁, Tm₂⟩ = q_v⁻¹⟨m₁, m₂⟩`.
-
-*Proof sketch.* Poincaré duality for curves with `ℤ/N` coefficients (cup product and the trace `H²(Y_{K̄}, μ_N) ≅ ℤ/N`) gives the perfect alternating equivariant pairing into `Hom(μ_N, ℤ/N)`; freeness of rank `2g` follows from `H¹ = Hom(π₁^geom, ℤ/N)` and the comparison with the topological fundamental group (Layer LV.8). Unramifiedness: smooth proper base change for the good model at `v, N` being invertible there. The arithmetic Frobenius acts on `μ_N` by `ζ ↦ ζ^{q_v}`, hence on `μ_N^∨` by multiplication by `q_v⁻¹`; equivariance of the pairing gives the relation. (LV20, §5, proof of Theorem 5.4, p. 27.) *Needs:* 8.1; EtaleDualityAndPerverseSheaves §§0.5–0.7; InverseGaloisAndArithmeticFundamentalGroups §§IG.1.2–IG.1.3; EtaleCohomologyFoundations §§F.0.A1–F.0.A2; EtaleCohomologyFoundations §§F.2.1–F.2.2, `F`.4.
-
-**Checks.**
-
-- `N = 2: M ≅ Jac(Y)[2]` (as `μ₂ = ℤ/2`) with the Weil pairing, and `T` preserves the pairing since `q_v` is odd.
-- For an elliptic curve and `N = q − 1`, the relation is `det T = q_v⁻¹` on `H¹`.
-
-### 11.4 Few elements lie in small Frobenius orbits
-
-**Lemma.** Let `N = 2m'` with `m'` odd, `M` a free `ℤ/N`-module of rank `2g` with a perfect alternating pairing into a cyclic group `C ≅ ℤ/N`, and `T` an automorphism of `M` with `⟨Tm₁, Tm₂⟩ = u⟨m₁, m₂⟩` for a unit `u ∈ (ℤ/N)^×` such that `u^i ≢ 1 mod r` for every prime `r | m'` and `1 ≤ i ≤ 7`. Then `|ker(T^i − 1)| ≤ 2^g N^g` for `1 ≤ i ≤ 7`, and at most `7·2^g N^g ≤ 8·2^g N^g` elements of `M` lie in `T`-orbits with fewer than 8 elements.
-
-*Proof sketch.* For `m₁, m₂ ∈ ker(T^i − 1): (u^i − 1)⟨m₁, m₂⟩ = 0`, and `u^i − 1` is a unit modulo `m'`, so the `ℤ/m'`-component of `⟨m₁, m₂⟩` vanishes and `⟨2m₁, 2m₂⟩ = 4⟨m₁, m₂⟩ = 0`. `2M ≅ (ℤ/m')^{2g}` with the pairing `(2a, 2b) ↦ 4⟨a, b⟩ ∈ 2C ≅ ℤ/m'` is perfect (2 is invertible modulo `m'`); by Layer LV.0 (isotropic subgroups) `|2·ker(T^i − 1)|² ≤ |2M| = m'^{2g}`. The kernel of `x ↦ 2x` on `ker(T^i − 1)` lies in `M[2] ≅ (ℤ/2)^{2g}`, so `|ker(T^i − 1)| ≤ 2^{2g}·m'^g = 2^g N^g`. An element in an orbit of size `s < 8` lies in `ker(T^s − 1)` with `1 ≤ s ≤ 7`. (LV20, §5, proof of Theorem 5.4, p. 27; §5, proof of Theorem 5.4, p. 28.) *Needs:* 0.12; Mathlib `CharacterModule`.
-
-**Checks.**
-
-- `N = 106 = 2·53, g = 2: |ker(T^i − 1)| ≤ 4·106² = 44944`, while `|M| = 106⁴ ≈` 1.26`·10⁸`.
-- Lawrence and Venkatesh state the union over `1 ≤ i ≤ 8`; for `i = 8` the unit condition may fail when `q_v` has order exactly 8 modulo `r`, but orbits of size `< 8` only need `i ≤ 7`.
-
-### 11.5 The size bound (LV20 (5.4))
-
-**Lemma.** Let `Y` be a smooth projective geometrically connected curve of genus `g ≥ 2` over `K, q` an admissible prime, `X_q → Y'_q → Y` the Kodaira–Parshin family with a good model over `𝒪_S` (`𝒴` proper), and `v ∉ S` a place satisfying `(b)`–`(d)` of 11.2 for `T ⊇ S`. The cover `π` has positive degree, and `size_v(π⁻¹(y)) < 1/(d_q + 1)` for every `y ∈ Y(K)`.
-
-*Proof sketch.* `π⁻¹(y)` is finite étale over `𝒪_S`, hence unramified at `v`. The fibre map `ψ : π⁻¹(y)(K̄) → M = H¹(Y_{K̄}, ℤ/(q − 1))` is `G_K`-equivariant with image `Υ` (the generating `2g`-tuples) and fibres of constant size (Layer LV.8), so `size_v(π⁻¹(y)) ≤ size_v(Υ)` (LV20 (5.3)). The Frobenius `T` at `v` preserves `Υ` and satisfies `⟨Tm₁, Tm₂⟩ = q_v⁻¹⟨m₁, m₂⟩`; by `(c), (d), u = q_v⁻¹` satisfies the unit condition of the orbit count, and `q − 1 = 2m'` with `m'` odd by admissibility. So at most `8·2^g(q − 1)^g` elements of `Υ` lie in small orbits. `|Υ| = J_{2g}(q − 1) ≥ (q − 1)^{2g}/2` (Layer LV.0), so `size_v(Υ) ≤ 8·2^{g+1}/(q − 1)^g < 1/((g − 1/2)(q − 1) + 1) = 1/(d_q + 1)` by (iii). (LV20, §5, (5.4), p. 26; §5, proof of Theorem 5.4, p. 27.) *Needs:* 0.11; 7.1; 8.13; 8.14; 11.1; 11.2; 11.3; 11.4.
-
-**Checks.**
-
-- `K = ℚ, g = 2, q = 107: size_v ≤ 64/106² ≈` 0.0057 `< 1/160`.
-- The bound does not depend on `y`.
-- The generating tuples include a standard basis vector, and each has a nonempty fibre under `ψ`; hence `π⁻¹(y)` is nonempty and its arithmetic proportion is defined.
-
-### 11.6 Faltings's theorem (LV20 Theorem 5.4)
-
-**Proof target.** Give the Lawrence–Venkatesh proof of HeightsRationalPointsAndObstructions §§5.12, 6.4, `TauCetiRoadmap.HeightsRationalPointsAndObstructions.mordell_finite`, on its native scheme/genus/rational-point signature. For a number field `K` and a smooth projective geometrically connected curve `Y/K` of genus `g ≥ 2`, the proof contract is that `Y(K)` is finite. The native signature uses a smooth proper geometrically connected one-dimensional scheme, `Scheme.genus K`, finite-dimensional `H¹(C, O_C)`, and its morphisms over `Spec K`; for curves proper and projective are equivalent. The statement `mordell_finite` in Suggested.lean expresses this proof target.
-
-*Proof sketch.* Fix an embedding `K ⊂ ℂ`. Choose an admissible prime `q` and form the Kodaira–Parshin family `X_q → Y'_q → Y` (Layer LV.8); choose `S` such that it has a good model over `𝒪_S` with `𝒴` proper. The family has full monodromy (Layer LV.10), and `Y(ℂ)` is connected. Choose `v` by 11.2 with `T` the set of places in `S`, above 2, and above the primes lying below `S`; then `v` is friendly, `v ∉ S`, its residue characteristic is odd and lies below no place of `S`, and `(c), (d)` hold. By 11.5, `Y(K)* = Y(K)` for `d = d_q`; 7.9 (LV20 Proposition 5.3) shows that `Y(K)*` is finite. (LV20, §5, Theorem 5.4, p. 26; §5, proof of Theorem 5.4, p. 26.) *Needs:* 2.3; 3.10; 7.9; 8.13; 10.10; 11.1; 11.2; 11.5; ComplexComparisonPartII §C4.5.
-
-**Checks.**
-
-- The statement is the declaration `TauCetiRoadmap.HeightsRationalPointsAndObstructions.mordell_finite` of HeightsRationalPointsAndObstructions, §§5.12, 6.4.
-- For `K = ℚ` and `g = 2` the proof runs with `q = 107 (d_q = 159)` and a prime `p ≡ 2 mod 53`. Any numerical auxiliary prime must also avoid the finite bad-reduction and ramification set; 373 is only usable when it avoids that set.
-- A positive-rank elliptic curve has infinitely many rational points; the genus-at-least-two hypothesis is essential.
-
-### Examples
-
-- For `K = ℚ` and `g = 2`, `q = 107` is admissible: `106 = 2·53`, no prime `3, 5, 7` divides `106`, and
-  `8·2³/106² = 64/11236 < 1/160 = 1/(d_q + 1)` with `d_q = 159`. A friendly place needs `q_v` of order at least
-  `8` modulo `53`; `p ≡ 2 mod 53` works since `2` has order `52` modulo `53`, and `p = 373` is such a prime
-  (it must also avoid the finite exceptional set). For `N = 106` the fixed-space bound is
-  `|ker(T^i − 1)| ≤ 4·106²` for `1 ≤ i ≤ 7`.
-
-### Dependencies
-
-Layers LV.0, LV.1, LV.2, LV.3, LV.7, LV.8, LV.10; TauCetiRoadmap LocalFieldsRamification Layer 2; TauCetiRoadmap Chebotarev Layer 10; EtaleDualityAndPerverseSheaves §§0.5–0.7; InverseGaloisAndArithmeticFundamentalGroups §§IG.1.2–IG.1.3; EtaleCohomologyFoundations §§F.0.A1–F.0.A2; EtaleCohomologyFoundations §§F.2.1–F.2.2, `F`.4; ComplexComparisonPartII §C4.5; Mathlib and Tau Ceti as listed under each target.
-
 ## Worked examples
 
 - **The smallest affine example.** For `q = 3`, `Aff(3) = Sym(𝔽₃)`. For a curve of genus two there are `810`
@@ -2719,49 +2658,20 @@ Layers LV.0, LV.1, LV.2, LV.3, LV.7, LV.8, LV.10; TauCetiRoadmap LocalFieldsRami
   right. A symplectic plane gives `ℙ¹` and the zero space `Spec k`.
 - **Short orbits.** `A` `7`-cycle contributes fully to `size_v`, an `8`-cycle not at all, and a fixed point together with an
   `8`-cycle gives `size_v = 1/9`.
-- **The auxiliary choices for `K = ℚ`, `g = 2`.** `q = 107` is admissible (`106 = 2·53`, `d_q = 159`,
-  `64/106² < 1/160`); a prime `p ≡ 2 mod 53` has order `52` modulo `53`, and `p = 373` is one, to be used only if it
-  also avoids the finite exceptional set. For `N = 106` the fixed-space bound is `|ker(T^i − 1)| ≤ 4·106²`.
 - **Hodge weights.** `ℚ_p(1)` has `t_H = −1`; jumps `−1` and `+1` together give `t_H = 0`. At `K = ℚ(i)` the prime `3` is
   friendly, the primes above `5` are not, and `2` is ramified. The reciprocity identities of Layer LV.1 hold on an open
   subgroup of units, with `χ_cyc(Art_F(u)) = N(u)^{−1}`.
 
 ## Downstream consumers
 
-- **HeightsRationalPointsAndObstructions**, §§5.12, 6.4, owns the declaration of Faltings's theorem; 11.6 is one of its
-  proofs, independent of the Parshin–Shafarevich and Vojta–Bombieri routes of that roadmap.
 - **DiophantineApproximationAndTranscendence**, §2.4, owns the unit equation; 6.10 proves its two-term case over
   number fields without the subspace theorem.
+- **GaloisSectionsPadicPeriodMaps** uses Layers LV.0–LV.4, the small-orbit proportion and general position for
+  Lagrangians of Layer LV.7, and the Kodaira–Parshin family with its full monodromy (Layers LV.8 and LV.10) for its
+  finiteness theorems on Galois sections of curves of genus at least two.
 - The method of Layers LV.2–LV.4 (Gauss–Manin transport on residue disks, period maps and the centralizer bound) is the
   entry point for the higher-dimensional applications of Lawrence–Venkatesh and its successors, which are not part of
   this roadmap.
-
-## Existing formalizations outside Tau Ceti
-
-This section records provenance only; it changes no target, owner or hypothesis above.
-
-[AxiomMath/Mordell](https://github.com/AxiomMath/Mordell/tree/82a30cb7857f6e3cfdb1be91f5533c0ccb57d493), read at
-commit `82a30cb7857f6e3cfdb1be91f5533c0ccb57d493`, is an Apache-2.0 Lean formalization of Faltings's theorem by the
-Vojta–Bombieri method, built on AxiomMath/Stacks with its own Lean and Mathlib pins. It is not a dependency of this
-roadmap. A statement read there is compared with the target here before use; a proof adapted rather than rewritten
-keeps the Apache-2.0 attribution, and porting a file is agreed with that repository's maintainers first.
-
-- **[`MordellConjecture/`](https://github.com/AxiomMath/Mordell/tree/82a30cb7857f6e3cfdb1be91f5533c0ccb57d493/Mordell/MordellConjecture).**
-  `Faltings.finite_setOf_comp_eq_id_of_two_le_genus` in `Curve.lean` states §11.6 on that repository's carriers: a
-  smooth, projective, geometrically integral curve `f : C ⟶ Spec k` over a number field with
-  `dim_k H¹(C, 𝒪_C) ≥ 2` has finitely many sections of `f`; for smooth curves geometric integrality is geometric
-  connectedness. `Faltings.finite_setOf_place_isDegreeOne` in `FunctionField.lean` restates it for the degree-one
-  places of a function field of one variable. Both are prior art for the statement of §11.6, whose declaration
-  HeightsRationalPointsAndObstructions §§5.12, 6.4 owns, and not for its proof.
-- **[`BombieriVojta/`](https://github.com/AxiomMath/Mordell/tree/82a30cb7857f6e3cfdb1be91f5533c0ccb57d493/Mordell/BombieriVojta).**
-  Bombieri's proof of Vojta's inequality: Vojta divisors on `C × C`, admissible pairs and Taylor coefficients, the
-  small section from Siegel's lemma, norm polynomials, the derivative estimate, Bombieri's Theorems 1–2 and
-  Mumford's gap principle. It is prior art for HeightsRationalPointsAndObstructions §§5.10–5.12 and has no
-  counterpart here.
-
-Layers LV.0–LV.10 and §§11.1–11.5, and with them the proofs of 6.10 and 11.6, have no counterpart in that
-repository, which contains no `p`-adic Galois representations, `p`-adic Hodge theory, period maps, surface topology,
-mapping class groups, Hurwitz spaces or `S`-unit theorem.
 
 ## Scope and ownership
 
@@ -2802,15 +2712,14 @@ This roadmap owns:
    the idempotents of `ℚ[Aff(q)]`, the reduced relative Prym, `Aff(q)`-covers of surfaces with their
    primitive homology, lifted monodromy, liftable curves and normal form, the monodromy theorem, and
    full monodromy of the Kodaira–Parshin family.
-8. **Faltings's theorem** (Layer LV.11): the auxiliary prime `q` and friendly place `v`, the Weil pairing
-   on `H¹(Y, ℤ/(q−1))`, the short-orbit count, the size bound and the conclusion.
 
-Two end statements are shared with other roadmaps, which own their declarations. The S-unit theorem
+One end statement is shared with another roadmap, which owns its declaration. The S-unit theorem
 (6.10) is the number-field specialization of DiophantineApproximationAndTranscendence §2.4,
-`DiophantineApproximation.finite_two_term_unit_equation` (finitely many solutions of `ax + by = 1` in a finitely generated subgroup of `K^×`), and Faltings's
-theorem (11.6) is the declaration `TauCetiRoadmap.HeightsRationalPointsAndObstructions.mordell_finite` of HeightsRationalPointsAndObstructions, §§5.12, 6.4.
-This roadmap gives the Lawrence–Venkatesh proofs of these statements; they use neither the subspace
-theorem nor Baker's method, nor the Parshin–Shafarevich or Vojta–Bombieri routes, and conversely.
+`DiophantineApproximation.finite_two_term_unit_equation` (finitely many solutions of `ax + by = 1` in a finitely generated subgroup of `K^×`).
+This roadmap gives the Lawrence–Venkatesh proof of that statement; it uses neither the subspace
+theorem nor Baker's method, and conversely. The finiteness theorem of Layer LV.7 and the Kodaira–Parshin
+family with its full monodromy (Layers LV.8–LV.10) are the inputs through which the method reaches the
+rational points of a curve of genus at least two; Mordell's conjecture itself is not a target here.
 
 It uses, and does not redevelop:
 
@@ -2858,7 +2767,10 @@ It uses, and does not redevelop:
 It leaves to other roadmaps:
 
 - The sections of Lawrence–Venkatesh after §8 (hypersurfaces, the Ax–Schanuel input, unlikely
-  intersections); this roadmap covers the one-dimensional S-unit and Mordell arguments of §§2–8;
+  intersections); this roadmap covers the one-dimensional arguments of §§2–8 except the deduction of
+  Mordell's conjecture;
+- Mordell's conjecture (LV20 Theorem 5.4), which HeightsRationalPointsAndObstructions §6.4 proves as the
+  curve case of Faltings's theorem on rational points of subvarieties of abelian varieties (its §5.9);
 - any effective bound on the number or the height of the rational points: the method is ineffective and
   nothing here computes `Y(K)`.
 
@@ -2874,9 +2786,8 @@ It leaves to other roadmaps:
   `NumberField.maximalRealSubfield`, the S-integers and S-units `Set.integer`, `Set.unit` of a Dedekind domain,
   `NumberField.Units.logEmbedding`, `NumberField.Units.dirichletUnitTheorem.unitLattice_span_eq_top`,
   the `Monoid.FG (𝓞 K)ˣ` instance in `Mathlib.NumberTheory.NumberField.Units.DirichletTheorem`,
-  `NumberField.not_dvd_discr_iff_isUnramifiedIn`, `NumberField.exists_not_isUnramifiedIn`,
-  `IsCyclotomicExtension.Rat.ramificationIdx_eq_of_not_dvd`, `IsArithFrobAt`, `cyclotomicCharacter` (with target
-  `ℤ_p^×`; prime-to-`p` roots of unity are not in its scope), `Nat.forall_exists_prime_gt_and_eq_mod` (Dirichlet),
+  `IsArithFrobAt`, `cyclotomicCharacter` (with target
+  `ℤ_p^×`; prime-to-`p` roots of unity are not in its scope),
   and `ZMod.card_units_eq_totient`.
 - Linear algebra: `LinearMap.BilinForm.IsAlt`, `LinearMap.BilinForm.Nondegenerate`, `LinearMap.BilinForm.orthogonal`,
   `LinearMap.BilinForm.finrank_orthogonal`, `LinearMap.transvection`, `LinearEquiv.transvection` (for a form `f` and a vector
@@ -2906,10 +2817,7 @@ It leaves to other roadmaps:
 
 ### From Tau Ceti (pinned at `2fd255d`)
 
-- Number fields: `NumberField.artinSymbol`, `NumberField.exists_isArithFrobAt`, `NumberField.Chebotarev.frobeniusPrimeSet`,
-  `NumberField.Chebotarev.mem_frobeniusPrimeSet_galEquivProd_symm_iff`, `IsCyclotomicExtension.galEquivProd` (for `L/K`
-  Galois and `m` prime to the discriminant of `L`, `Gal(L(μ_m)/K) ≅ Gal(L/K) × (ℤ/m)^×`),
-  `IsCyclotomicExtension.Rat.prime_dvd_of_dvd_natAbs_discr` and `AlgHom.IsArithFrobAt.autToPow_eq_absNorm`.
+- Number fields: `NumberField.artinSymbol`, `NumberField.exists_isArithFrobAt` and `NumberField.Chebotarev.frobeniusPrimeSet`.
 - S-units: `Set.unit_fg_of_units` in `TauCeti.RingTheory.DedekindDomain.SInteger.Unit` supplies
   finite generation from a finite set of primes and finite generation of the base-ring units;
   Mathlib's Dirichlet instance supplies the latter for `𝒪_K`.
@@ -2956,9 +2864,6 @@ It leaves to other roadmaps:
   No second averaging element or idempotence theorem is introduced. For the trivial subgroup
   the supplied average is `1`; on a nontrivial subgroup it is not `1`, as
   `TauCeti.groupAlgebraSubgroupAverage_ne_one` confirms.
-- `AlgebraicGeometry.Scheme.genus` in `TauCeti.AlgebraicGeometry.Cohomology.Genus` is
-  `dim_K H¹(C, O_C)`, guarded by finite dimensionality. Rational points are morphisms over
-  `Spec K`. The supplied declaration proved in §11.6 uses these native carriers.
 
 ### From TauCetiRoadmap roadmaps
 
@@ -3004,8 +2909,7 @@ It leaves to other roadmaps:
   its outer action, and decomposition and inertia subgroups. Sections F.2.1–F.2.2 (`VanishingCycles.properBaseChange`,
   `VanishingCycles.smoothBaseChange`) give torsion proper base change and invertible-torsion smooth
   base change. Section F.4 gives adic realization. They identify proper geometric `H¹_et` after
-  extension of algebraically closed fields and make `H¹_et(Y_K̄, ℤ/N)` unramified at a good-reduction
-  place where `N` is invertible, as used in §§4.1 and 11.3.
+  extension of algebraically closed fields, as used in §4.1.
 
 ### From other roadmaps
 
@@ -3036,8 +2940,7 @@ It leaves to other roadmaps:
   maximizing index; the statement allows arbitrary radii and complete isometric extensions.
   Layer LV.3 uses it on the compact residue disk over `K_v`.
 - **DiophantineApproximationAndTranscendence** §2.4 owns the declaration of the unit equation (6.10 proves its
-  two-term case), and **HeightsRationalPointsAndObstructions** §§5.12, 6.4 owns the declaration of Faltings's theorem
-  (11.6 proves it).
+  two-term case).
 - **FiniteFlatGroupsAndIntegralPadicHodgeTheory** §§R07.3.1–R07.3.2: the filtered
   `(φ,N)`-module and its `N = 0` subcategory, strict morphisms, tensors, duals, determinants,
   the Hodge and Newton numbers `FilteredPhiNModule.tH`, `FilteredPhiNModule.tN` and weak admissibility.
