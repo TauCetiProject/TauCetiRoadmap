@@ -44,7 +44,9 @@ body:
         - ArithmeticGaloisDuality
         - ArithmeticGaloisRepresentations
         - ArithmeticInterpolationDeterminants
+        - ArithmeticKTheory
         - ArithmeticLocallySymmetricSpaces
+        - ArithmeticStatisticsPartI
         - AsymptoticExpansions
         - AutomorphicFormsOnReductiveGroups
         - AutomorphicLFunctionsAndLocalFactors
@@ -218,6 +220,7 @@ body:
         - MorseNovikov
         - MorseTheory
         - MotivesAndAlgebraicCycles
+        - MotivicEtaleKTheory
         - NashBlowups
         - NeronModelsAndSemistableAbelianVarieties
         - NeronModelsAndSemistableAbelianVarietiesPartII
