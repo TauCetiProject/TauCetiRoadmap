@@ -1,54 +1,59 @@
 # Roadmap: mapping class groups and canonical representations of surface groups
 
-**Summary.** A representation `ρ : π₁(Σ_{g,n}) → GL_r(ℂ)` of the fundamental group of an oriented
-genus-`g` surface with `n` punctures is *MCG-finite* (a *canonical representation*) when its actual
-conjugacy class has finite orbit under the mapping class group. This roadmap builds the theory that
-proves Landesman and Litt's theorem: an MCG-finite representation of rank `r` with `r² < g + 1` has
-finite image, with no semisimplicity hypothesis. It starts from the pure mapping class groups of
-punctured surfaces acting on presented surface groups, with the pure Birman sequence and capping
-(Layer 0), group-cohomological and
-deformation-theoretic tools for arbitrary discrete groups (Layer 1), and étale-versal families of
-pointed curves (Layer 2). It realizes an irreducible MCG-finite representation as the fibre of a
-projective and then of a linear local system on a versal family (Layers 3–4), and it develops the
-Hodge theory of unitary local systems on families of punctured curves, ending in the rank bound for
-sub-local systems of `R¹π°_* V` and its Artinian vanishing form (Layer 5). From these it proves the
-higher Prym rank bound and the Putman–Wieland property for groups of order `< g²` (Layer 6),
-rigidity, integrality and finiteness in the unitary case (Layer 7), the semisimple case by
-nonabelian Hodge theory and a constancy argument (Layer 8), and the general case by induction on the
-socle filtration, with the free-group, Nielsen-tuple, isomonodromy and fibral corollaries
-(Layer 9). The arithmetic layers deduce finite monodromy for low-rank arithmetic representations of
-the geometric étale fundamental group of the generic pointed curve over `ℚ`, its Hodge-theoretic
-characterisation, and the non-liftability of residual surjections onto `GL_r(𝔽_p)` (Layers 10–11).
-Layer 12 constructs the examples that show which hypotheses and ranges are needed.
+**Summary.** The mapping class group of an oriented surface `Σ_{g,n}` of genus `g` with `n`
+punctures acts on its fundamental group by outer automorphisms, so it permutes the conjugacy classes
+of representations of `π₁(Σ_{g,n})` in `GL_r(ℂ)`. A representation is *MCG-finite*, or a *canonical
+representation*, when its conjugacy class has finite orbit. Conjugacy means actual
+`GL_r(ℂ)`-conjugacy, never equality of semisimplifications. Representations with finite image are
+MCG-finite. This roadmap builds the theory behind Landesman and Litt's theorem that in low rank the
+converse holds.
 
-The end theorems are: the finiteness theorem (Layer 9, `mcgFinite_finite_image`), its free-group
-form (`freeGroup_finite_image`), its rank-two form in every genus `g ≥ 2`
-(`rankTwo_mcgFinite_finite_image`, Layer 12), the higher Prym rank bound (`higherPrym_rank_bound`,
-Layer 6), the Putman–Wieland theorem for groups of small degree and of small order
-(`putmanWieland_of_irreducible_dim_lt` and `putmanWieland_of_card_lt`, Layer 6),
-the sub-local-system rank bound (Layer 5), arithmetic finite monodromy on the generic curve and its
-four-way characterisation (Layer 10), and residual non-liftability (Layer 11).
+By the main theorem, for every `g` and `n`, an MCG-finite representation of `π₁(Σ_{g,n})` of rank
+`r` with `r² < g + 1` has finite image. No semisimplicity is assumed, and without it no bound on the
+rank growing faster than linearly in `g` is possible: on a closed surface of genus `g ≥ 1`, a
+unipotent representation of rank `2g + 1` built from the abelianization has infinite image, although
+every automorphism fixes its conjugacy class. For the free group on `N` generators, where `N` is
+`2g` or `2g + 1`, the same bound gives finite image for every representation whose conjugacy class
+has finite orbit under the outer automorphisms. In rank two more is true: for `g ≥ 2` and every `n`,
+an MCG-finite representation into `GL₂(ℂ)` has finite image. On punctured tori this fails.
 
-## How to read the build
+A surjection `φ` of the fundamental group of a genus-`g` surface, possibly with punctures and
+boundary, onto a finite group `H` defines a Galois cover with deck group `H`. The pure mapping
+classes, fixing an extra base point, that preserve `φ` up to conjugacy in `H` form a finite-index
+subgroup `Γ`, which acts on the first cohomology of the cover and the first homology of its
+compactification. The higher Prym rank bound says that for every irreducible complex representation
+`σ` of `H`, every nonzero subspace of the `σ`-isotypic part of either space that is stable under a
+finite-index subgroup of `Γ` has dimension at least `2g − 2 dim σ`. Hence, if every irreducible
+representation of `H` has dimension less than `g`, in particular if `H` has order less than `g²`, no
+nonzero homology class of the compactified cover has finite `Γ`-orbit: this is the Putman–Wieland
+property.
 
-Layer 0 adapts the surfaces, mapping class groups, twists, point-pushing and capping of
-MordellLawrenceVenkatesh and GeometricTopology to presented surface groups, pure and based actions
-and the positive twist, and proves the finite abelianization of mapping class groups; it defines
-the Lean carriers `surfaceGroup` and `pureMappingClassAut`. Layer 1 supplies the group theory used
-throughout: the five-term sequence with transgression, lifting through finite central isogenies,
-Artinian deformations with the constancy criterion, representation schemes and the Jordan
-identity.
-Layer 2 defines MCG-finiteness and étale-versal families and identifies their fundamental groups
-with mapping class groups through Teichmüller uniformization. Layers 3 and 4 realize an irreducible
-MCG-finite representation projectively and then linearly on a versal family and decompose Artinian
-deformations of fibre-unitary local systems. Layer 5 is the Hodge theory: variations of Hodge
-structure, isomonodromy, the mixed Hodge structure on the cohomology of unitary local systems, the
-rank bound and its Artinian vanishing form, nonabelian Hodge theory, rigidity, companions over
-finite fields and integrality.
-Layer 6 deduces the higher Prym rank bound and the Putman–Wieland theorem; Layer 7 the unitary
-case; Layer 8 the semisimple case; Layer 9 the general theorem and its corollaries. Layers 10 and 11
-are arithmetic, and Layer 12 collects the examples. Layers 2–4 do not use Layer 5, and Layer 5 uses
-Layer 4 only in its Artinian vanishing theorem.
+On the arithmetic side, take a smooth geometrically connected `n`-pointed curve of genus `g`, with
+`2g − 2 + n > 0`, over a finitely generated field `K` of characteristic zero, whose moduli map
+factors through the generic point. A continuous `ℓ`-adic representation of the geometric étale
+fundamental group of the punctured curve is *arithmetic* when its isomorphism class has finite orbit
+under the absolute Galois group of `K`. An arithmetic representation of rank `r` with `r² < g + 1`
+has finite image.
+
+In Tau Ceti, the roadmap builds on MordellLawrenceVenkatesh and GeometricTopology for surfaces and
+their mapping class groups. It takes the moduli stack `M_{g,n}` from SchemeAndStackFoundations, and
+arithmetic representations from InverseGaloisAndArithmeticFundamentalGroups. Downstream,
+NonabelianLevelStructures and MotivicStructuresInModuliOfCurves use this roadmap's Teichmüller
+uniformization of the pointed moduli stack.
+
+The proofs pass through *punctured étale-versal families*: smooth proper families of `n`-pointed
+genus-`g` curves over a connected smooth complex variety whose classifying map to `M_{g,n}` is
+dominant and étale. Layer 0 sets up the presented surface group and the pure mapping class groups
+acting on it. Layer 1 collects group cohomology, Artinian deformations and representation schemes.
+Layer 2 defines MCG-finiteness and versal families and identifies their fundamental groups with
+mapping class groups. Layers 3 and 4 realize an irreducible MCG-finite representation on a versal
+family, first projectively and then linearly. Layer 5, the Hodge theory, ends in a rank bound: for a
+unitary local system `V` on the punctured total space, every nonzero sub-local system of the first
+cohomology of the punctured fibres with coefficients in `V` has rank at least `2g − 2 rk V`. Layers
+2–4 do not use Layer 5, which uses Layer 4 only in its Artinian vanishing theorem. Layer 6 deduces
+the higher Prym rank bound. Layers 7 and 8 treat unitary and then semisimple representations, and
+Layer 9 removes semisimplicity by induction on the socle filtration. Layers 10 and 11 are
+arithmetic, and Layer 12 builds examples showing which hypotheses are needed.
 
 ## Conventions
 
