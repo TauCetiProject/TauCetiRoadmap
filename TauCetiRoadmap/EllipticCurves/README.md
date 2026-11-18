@@ -1249,7 +1249,11 @@ scheme-facing roadmap. This layer deliberately does not conflate the two.
   (`lutz_nagell_integrality_general`, with its discriminant companion); and for an integral
   **short** model `y² = x³ + Ax + B` (where Mathlib's `Δ` evaluates to `−16(4A³ + 27B²)` —
   a computed fact about the existing definition, not a convention to be made here), the
-  classical full form — `x, y ∈ ℤ` and `y = 0` or `y² ∣ Δ` (`lutz_nagell`; AEC VIII.7). Route:
+  discriminant form — `x, y ∈ ℤ` and `y = 0` or `y² ∣ Δ` (`lutz_nagell`; AEC VIII.7), weaker
+  by the factor `16` than the classical `y² ∣ 4A³ + 27B²`. The classical form is the sharper
+  target of this layer, from the same integrality argument: for `P = (x, y)` with `y ≠ 0`, the
+  abscissa of `2P` is integral, and `y²` then divides `−(4A³ + 27B²)`, the discriminant of the
+  cubic `x³ + Ax + B`. Route:
   division polynomials (⚠ *mathlib-track*: the division-polynomial material being upstreamed
   is assumed done and consumed here). The **formal-group integrality
   refinement** — every prime in a coordinate denominator appears to order `≥ 2`, the
@@ -1818,8 +1822,10 @@ only hold for, these revisions:
   needed on porting.
 - **Nagell–Lutz (Layer 6).** The AINTLIB `NagellLutz` project (pinned above) is sorry-free at
   file level on the division-polynomial route, in exactly the two registers Layer 6 asks for:
-  the classical short-model theorem over `ℚ` (`lutz_nagell`: integrality and
-  `y = 0 ∨ y² ∣ Δ`), the **long-model** integrality over `ℤ` with the honest order-`2`
+  the short-model theorem over `ℚ` in its discriminant form (`lutz_nagell`: integrality and
+  `y = 0 ∨ y² ∣ Δ`, where `Δ = −16(4A³ + 27B²)`, so weaker by the factor `16` than the
+  classical `y² ∣ 4A³ + 27B²` that Layer 6 also targets), the **long-model** integrality over
+  `ℤ` with the honest order-`2`
   branch (`lutz_nagell_integrality_general`, `lutz_nagell_general`), and beyond them a
   characteristic-zero **PID generalization** (`PIDMain.lean`: `den_powerful_of_on_curve` —
   denominator-powerfulness for *all* points — integrality under a squarefree-order
