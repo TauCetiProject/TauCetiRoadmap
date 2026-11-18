@@ -22,6 +22,9 @@ on:
 
 permissions:
   contents: read
+  # The scope step reads earlier `build` check runs and merge-queue CI runs to reuse their result.
+  checks: read
+  actions: read
 
 # One live build per pull request. A push makes the previous head's build irrelevant, since the
 # required check is per commit, but without this it still waits for, and then occupies, one of the
@@ -86,42 +89,109 @@ jobs:
         with:
           fetch-depth: 2
 
-      # A pull request that changes only progress reports (`STATUS.md` and `PROGRESS.md` in a roadmap
-      # directory, active or `Completed/`) changes nothing `lake build` reads, so its build stops
-      # after the topic check. The progress gate validates those files itself, and building them
-      # cost a runner 12 to 150 minutes for nothing. Only `pull_request` is narrowed: a merge-queue
-      # candidate and `main` are always built in full, so whatever reaches `main` through the queue
-      # has been built.
+      # Decide whether this run needs the Lean build, for `pull_request` and `push`. A merge-queue
+      # candidate is always built in full, so whatever reaches `main` through the queue has been
+      # built, and the cases below only ever skip work that the queue will repeat or has just done.
       #
-      # The checkout is GitHub's merge of the pull request into its base, whose first parent is the
-      # base, so this diff is exactly what the pull request changes. `--no-renames` lists both sides
-      # of a rename, so a Lean file moved onto a report's path still counts. Anything unexpected,
-      # including no diff at all, builds in full.
+      # 1. A pull request that changes only Markdown (roadmap READMEs, progress reports, the
+      #    repository's own docs) changes nothing `lake build` reads. The checkout is GitHub's merge
+      #    of the pull request into its base, whose first parent is the base, so this diff is exactly
+      #    what the pull request changes. `--no-renames` lists both sides of a rename, so a Lean file
+      #    moved onto a Markdown path still counts.
+      #
+      # 2. A push to a pull request whose Lean content is unchanged since the previous head, when
+      #    that head's `build` passed. Roadmap pull requests are revised mostly in their README: on
+      #    2026-11-18 the last push of 253 of the 254 pull requests built that day changed only
+      #    `README.md`, and each push cost a GitHub-hosted runner 12 to 20 minutes. The diff here is
+      #    between the two head trees, so a rebase or a merge of `main` that brings in Lean files
+      #    builds in full. The earlier build tested the head merged with `main` as it was then, so
+      #    the result is exactly as fresh as it would be had the README push not happened, the same
+      #    staleness any unpushed pull request already has, and the queue's full build is what
+      #    tests the merge. The one change to `main` that commonly breaks every roadmap at once, a
+      #    move of the Lean toolchain or the Tau Ceti pin, is checked here: if `lean-toolchain`,
+      #    `lakefile.toml` or `lake-manifest.json` differ between the previous head and the
+      #    current base, the pull request builds in full. "Passed" means the newest completed
+      #    `build` check run from GitHub Actions on the previous head concluded `success`, so a
+      #    later failed re-run counts against it.
+      #
+      # 3. A push to `main` whose exact commit the merge queue has already built. A merge-queue
+      #    merge fast-forwards `main` to the candidate the queue just built, so the push build
+      #    repeated it on the same tree; on 2026-11-18 that was 39 of the 87 queue merges. Only a
+      #    successful `merge_group` run of this workflow on that commit counts: a pull request's
+      #    check is reported on its head but tests a merge with its base, so it says nothing about
+      #    the head alone. A commit that lands outside the queue is built in full.
+      #
+      # Any error, an empty diff, or an unreadable answer builds in full.
       #
       # The Lean steps below test `github.event_name` before this step's output, and the output is
       # a word, not a number. The first version of this step wrote `0`/`1` and the steps tested
-      # `steps.scope.outputs.lean != '0'`. On every other event this step is skipped, its output is
+      # `steps.scope.outputs.lean != '0'`. On an event where this step is skipped its output is
       # null, and GitHub's loose comparison turns both null and '0' into the number 0, so the test
       # failed and every merge-queue candidate and push to `main` skipped the build. From 2026-11-08
       # 02:11 to the fix, the queue merged #1051 and #1653 unbuilt and broke `main`, while `main`'s
       # own CI stayed green.
       - name: Decide whether the Lean build is needed
         id: scope
-        if: github.event_name == 'pull_request'
+        if: github.event_name == 'pull_request' || github.event_name == 'push'
         shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          EVENT: ${{ github.event_name }}
+          ACTION: ${{ github.event.action }}
+          BEFORE: ${{ github.event.before }}
+          AFTER: ${{ github.event.pull_request.head.sha }}
+          SHA: ${{ github.sha }}
         run: |
           set -uo pipefail
-          if ! files="$(git diff --name-only --no-renames HEAD^1 HEAD)" || [ -z "$files" ]; then
-            echo "lean=build" >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
-          if grep -qvE '^(TauCetiRoadmap|Completed)/[^/]+/(STATUS|PROGRESS)\.md$' <<< "$files"; then
-            echo "lean=build" >> "$GITHUB_OUTPUT"
-          else
-            echo "::notice::Only progress reports changed; skipping the Lean build"
-            printf '%s\n' "$files"
+          build() { echo "lean=build" >> "$GITHUB_OUTPUT"; exit 0; }
+          skip() {
+            echo "::notice::$1; skipping the Lean build"
             echo "lean=skip" >> "$GITHUB_OUTPUT"
+            exit 0
+          }
+          only_markdown() { [ -n "$1" ] && ! grep -qvE '\.md$' <<< "$1"; }
+          passed() {
+            local conclusion
+            conclusion="$(gh api "repos/$REPO/commits/$1/check-runs?check_name=build&filter=all&per_page=100" \
+              --jq '[.check_runs[] | select(.app.slug == "github-actions" and .status == "completed")]
+                    | sort_by(.completed_at) | last | .conclusion // ""' 2>/dev/null)" || return 1
+            echo "newest completed build on ${1:0:7}: ${conclusion:-none}"
+            [ "$conclusion" = success ]
+          }
+          queue_built() {
+            local runs
+            runs="$(gh api "repos/$REPO/actions/runs?head_sha=$1&event=merge_group&status=success&per_page=100" \
+              --jq '[.workflow_runs[] | select(.path == ".github/workflows/ci.yml")] | length' 2>/dev/null)" || return 1
+            echo "successful merge-queue CI runs on ${1:0:7}: ${runs:-none}"
+            [ "${runs:-0}" -gt 0 ] 2>/dev/null
+          }
+
+          if [ "$EVENT" = push ]; then
+            if queue_built "$SHA"; then
+              skip "the merge queue already built ${SHA:0:7}"
+            fi
+            build
           fi
+
+          if ! files="$(git diff --name-only --no-renames HEAD^1 HEAD)" || [ -z "$files" ]; then
+            build
+          fi
+          if only_markdown "$files"; then
+            printf '%s\n' "$files"
+            skip "Only Markdown changed"
+          fi
+
+          if [ "$ACTION" = synchronize ] && [ -n "$BEFORE" ] && [ -n "$AFTER" ] \
+              && git fetch --quiet --no-tags --depth=1 origin "$BEFORE" "$AFTER" \
+              && changed="$(git diff --name-only --no-renames "$BEFORE" "$AFTER")" \
+              && only_markdown "$changed" \
+              && git diff --quiet "$BEFORE" HEAD^1 -- lean-toolchain lakefile.toml lake-manifest.json \
+              && passed "$BEFORE"; then
+            printf '%s\n' "$changed"
+            skip "Only Markdown changed since ${BEFORE:0:7}, whose build passed"
+          fi
+          build
 
       # Every roadmap names its arXiv topic in a `metadata.toml` (README.md, "Filing a roadmap").
       # This is a step of `build` rather than a job of its own because `build` is the check the
@@ -145,7 +215,7 @@ jobs:
       # `cancelled` or `skipped`), so no comparison involves a missing value (see the scope step).
       - name: Set up Lean and restore Mathlib
         id: lean_setup
-        if: github.event_name != 'pull_request' || steps.scope.outputs.lean != 'skip'
+        if: github.event_name == 'merge_group' || steps.scope.outputs.lean != 'skip'
         continue-on-error: true
         uses: leanprover/lean-action@v1
         with:
@@ -197,7 +267,7 @@ jobs:
       # else lacks.
       - name: Fetch Tau Ceti cache map
         id: tauceti_cache
-        if: github.event_name != 'pull_request' || steps.scope.outputs.lean != 'skip'
+        if: github.event_name == 'merge_group' || steps.scope.outputs.lean != 'skip'
         shell: bash
         env:
           PUBLIC_ARTIFACT_ENDPOINT: ${{ vars.LAKE_CACHE_ARTIFACT_ENDPOINT_PUBLIC || 'https://cache.taucetiproject.org/artifacts' }}
@@ -271,7 +341,7 @@ jobs:
       # Build only. The roadmap's Lean targets carry `sorry` on purpose (they are goals),
       # so there is no axiom audit or warning-as-error here.
       - name: Build
-        if: github.event_name != 'pull_request' || steps.scope.outputs.lean != 'skip'
+        if: github.event_name == 'merge_group' || steps.scope.outputs.lean != 'skip'
         run: lake build
 
       # Keep degradation visible without turning a cache-service outage into a correctness failure.
