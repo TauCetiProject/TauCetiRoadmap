@@ -2,21 +2,9 @@
 
 **Summary.** Build the rank-zero and rank-one converse at every good odd Eisenstein prime for a rational elliptic curve with a fixed cyclic isogeny and the two local character exclusions. The route combines complementary quadratic twists, ordinary anticyclotomic control at augmentation, the Heegner index-square equality and the complex Gross–Zagier formula. It gives equality of analytic and Mordell–Weil ranks and finiteness of the whole Tate–Shafarevich group. Its finite-Selmer form converts restricted three-Selmer statistics into positive analytic-rank proportions in quadratic twist families with a good-at-three twist (CGLS Theorem 5.2.1 and Corollaries 5.2.2–5.2.3, pp. 574–575; CGLS lines 2145, 2191 and 2198).
 
-## Scope and ownership
+## How to read the build
 
-The forward direction from which this roadmap starts is supplied by named owners: ArithmeticStatisticsPartVI's supporting targets “Heegner logarithm and low rank” and “Elliptic p-parity” give the forward low-analytic-rank theorem and the elliptic root-number parity, and HeegnerPointEulerSystems §§8b.2 and 8b.10 give the anticyclotomic Iwasawa equalities at Eisenstein primes. There is no separate RankZeroOneBSD roadmap: the base direction, the forward Gross–Zagier–Kolyvagin theory, is owned by the suppliers just named, and this roadmap is complete in itself. The new implication here starts from Selmer corank. Ownership of the imported inputs is specified by the supplier sections below. The CM newform and elliptic converses belong to CMRankZeroConverse Layers 0–6, and the irreducible-residual localization criteria belong to RankOneConverse Layers 0–6. Their hypotheses are not imposed on this branch. RankOneConverse §4.1 “General quadratic nonvanishing with local prescriptions”, which has no residual hypothesis, owns the existence of infinitely many quadratic twists of a trivial-nebentypus newform with prescribed split primes and analytic rank zero, and of infinitely many with analytic rank one; §1.1 imports it.
-
-The fixed-isogeny hypothesis predicate, complementary-field assembly, combination of discrete augmentation control with compact specialization, traced Heegner comparison, two converses and admissible statistical conversion are owned here. EulerSystemsAndKolyvaginSystems §8.31 owns discrete augmentation control and its corank-one consequence; compact specialization uses the additional SelmerIwasawaCohomology contract below. The Howard unit-line and level-zero normalization comparison is imported from HeegnerPointEulerSystems §8.13. The traced comparison here differs from its §8.32: it is an exact identity at the trivial character after the full Hilbert-class-field trace, rather than a finite-coefficient congruence for near-trivial characters.
-
-The generic isogeny, degree, Tate module, Weil pairing, quadratic twist, minimal model, height and finite generation constructions are already in the library at the modules named below. EllipticCurves Layers 2, 4, 5 and 7 retain their general Galois, local-reduction, twist and descent APIs. SelmerIwasawaCohomology §§2.9–2.12a, 3.9–3.11, 4.26 and 4.29 own the Selmer carriers, control machinery, Kummer comparisons and alternating Cassels–Tate pairing modulo divisible kernels. No second pairing or Selmer theory is constructed here.
-
-HeegnerPointEulerSystems §§8.6–8.6a, 8.24, 8.31, 8.34, 8b.2 and 8b.10 own the arithmetic tower, source class, rank-one paired-torsion theorem and Eisenstein main-conjecture equality. GrossZagierAndArithmeticHeights §§0.1, 8.14, 8.18 and 8.19 own the height normalization, the general explicit formula, the non-torsion criterion for the trace point and the elliptic X₀(N) specialization; its squarefree-level §8.17 is not used. ModularIwasawaMainConjectures §6.1 owns the comparison formulation, not a second proof of the Eisenstein equality.
-
-ArithmeticStatisticsPartI owns relative density (§0.1), families defined by local conditions (§0.2), squareclasses, their height and the twist family (§0.5), squarefree residue counts (§0.6) and the positive squareclass denominator (§0.15). ArithmeticStatisticsPartVII §5.10 owns the Selmer ratio, the local Tamagawa formula, stratum density and restricted three-Selmer bounds, and its §5.32 owns the attainable local three-isogeny ratios; Part III owns the orbit-counting input and, in its “Windowed cubic counting contract”, the seven-part counting condition C(F,φ,Σ) itself. ArithmeticStatisticsPartVI's supporting “Heegner logarithm and low rank” and “Elliptic p-parity” own the forward theorem and elliptic corank parity. Family parity between two arithmetic points in SelmerIwasawaCohomology §4.28 is not substituted for this root-number parity theorem. EllipticCurveModularity Layers R29.3–R29.6 and ModularForms Layer 7 own the actual newform and continued elliptic L-functions. These generic statements are imports, not targets here.
-
-GlobalNumberFields Layer 1 owns mixed-place weak approximation; its endpoint is consumed through the pinned Tau Ceti declaration below.
-
-The concrete nineteen-a3 equation is a worked specialization of native coefficients. Its local density and the no-good-twist obstruction are owned here as scope diagnostics. They, and the elementary coefficient, invariant, point-count and tangent Checks, are mathematical examples, not headline acceptance theorems.
+Layer 0 fixes the actual isogeny condition and compares low finite Selmer dimension with corank. Layer 1 selects a complementary twist and obtains corank one over K. Layer 2 keeps augmentation in the coefficient ring and proves nonzero bottom specialization. Layer 3 subtracts central orders, then imports the forward theorem for the arithmetic conclusions. Layer 4 applies the finite-Selmer result on the same admissible local families as the statistical bounds. Layer 5 computes the model, density and good-reduction obstruction that delimit those applications. The pairing enters the finite-Selmer branch; the p∞ converse uses its own control argument. Each target lists its statement inputs and the inputs to the indicated proof route separately enough that a different proof can replace that route.
 
 ## Conventions
 
@@ -37,90 +25,6 @@ Count each squareclass in ℚˣ/ℚˣ² by its unique nonzero signed squarefree 
 - In Λ=ℤ₃⟦T⟧, T=γ−1 remains a nonunit in Λ[1/3], while 3 becomes a unit. For the contragredient action γ↦γ⁻¹, T↦−T/(1+T); its order at T=0 is still one. Inverting T would discard that prime.
 - For h_(O)(P)=1 and h_(O)(2P)=4, h_x(P)=2, h_x(2P)=8 and B_x(P,P)=(8−2−2)/2=2. Using the half polar form of h_(O) would give 1.
 - The two local classes 1 and 2 at 3 each have mass 3/8 among signed squarefree integers; classes 3 and 6 each have mass 1/8. The sum is 1, and the total unit mass is 3/4. The classes of 2 and 18 coincide and are counted once.
-
-## Exact supplier contracts
-
-The following contracts fix mathematical objects and their normalizations. A gap is an additional endpoint required from its named owner; it is not a substitute definition or an extra hypothesis on the final theorem.
-
-### From Mathlib
-
-Consume `WeierstrassCurve`, its five coefficients, `WeierstrassCurve.Δ`, `WeierstrassCurve.c₄`, `WeierstrassCurve.c₆`, `WeierstrassCurve.map`, `WeierstrassCurve.IsElliptic` and `WeierstrassCurve.j` from `Mathlib/AlgebraicGeometry/EllipticCurve/Weierstrass.lean`. The carrier allows singular equations over arbitrary rings; ellipticity means the discriminant is a unit, not merely nonzero over a ring. All arithmetic statements here explicitly restrict to characteristic-zero fields and elliptic curves.
-
-Consume `WeierstrassCurve.minimal`, `WeierstrassCurve.HasGoodReduction` and `WeierstrassCurve.hasGoodReduction_iff_isElliptic_reduction` from `Mathlib/AlgebraicGeometry/EllipticCurve/Reduction.lean`. The good-reduction class includes minimality and discriminant valuation equal to the multiplicative identity 1 (additive valuation 0). Apply it to the chosen minimal model after base change to ℚ₃, rather than to an arbitrary raw twist equation. Consume `NumberField.finite_setOfPred_logHeight₁_le` from `Mathlib/NumberTheory/Height/NumberField.lean` and `WeierstrassCurve.Affine.finite_naiveHeight_le` from `Mathlib/NumberTheory/Height/EllipticCurve.lean` for Northcott. Consume `le_liminf_mul` from `Mathlib/Topology/Algebra/Order/LiminfLimsup.lean`: for real functions u,v that are eventually nonnegative along a nontrivial filter, with u bounded above and v cobounded for ≥ (which holds when v is bounded above), (liminf u)(liminf v)≤liminf(uv). It is applied to cutoff ratios, which lie in [0,1].
-
-`WeierstrassCurve.LSeries` in `Mathlib/AlgebraicGeometry/EllipticCurve/LFunction.lean` is the literal L-series built from its arithmetic coefficient function; continuation and finite central order are the separate elliptic modularity contract. `ContinuousCohomology.tateShafarevich` in `Mathlib/RepresentationTheory/Homological/ContCohomology/Sha.lean` is a localization kernel for supplied topological Galois data; its identification with classical elliptic Sha and Kummer local conditions is the Selmer supplier's contract.
-
-### From Tau Ceti
-
-Consume `TauCeti.Isogeny` in `TauCeti/AlgebraicGeometry/EllipticCurve/Isogeny/Basic.lean` and its nonzero coordinate pullback carrier, with degree and point maps from the Isogeny development; no duplicate isogeny carrier is introduced. Consume `WeierstrassCurve.quadraticTwistOf`, `WeierstrassCurve.Δ_quadraticTwistOf`, `WeierstrassCurve.isElliptic_quadraticTwistOf_iff` and `WeierstrassCurve.j_quadraticTwistOf` in `TauCeti/AlgebraicGeometry/EllipticCurve/QuadraticTwist/Basic.lean`. The trace/norm parameters t,n have discriminant parameter t²−4n. For t=0,n=−d, this is 4d; over ℚ and ℚ₃ it represents the squareclass of d.
-
-Consume `WeierstrassCurve.Affine.Point.canonicalHeight_nonneg` and `WeierstrassCurve.Affine.Point.canonicalHeight_eq_zero_iff_isOfFinAddOrder` in `TauCeti/AlgebraicGeometry/EllipticCurve/CanonicalHeight/Basic.lean`. The latter retains the Northcott hypothesis on canonical height, discharged over number fields by the native height comparisons. The Northcott transfer from naive to canonical height is the instance in the same file. Consume `WeierstrassCurve.Affine.fg_point_of_numberField` from `TauCeti/AlgebraicGeometry/EllipticCurve/MordellWeil/FinitelyGenerated.lean` for finite generation over every number field. Neither height assertion alone constructs a Heegner point.
-
-Consume `TauCeti.GlobalNumberFields.weakApproximation_denseRange` from `TauCeti/NumberTheory/NumberField/Global/Approximation/Weak.lean`: for any number field K and finite sets of finite and infinite places, the diagonal K has dense image in the product of their completions. Nonzero local squareclasses are open, so any finite rational prescription, including a real sign, is realized by an element of ℚˣ. Its unique signed squarefree representative preserves all local squareclasses and the sign. This supplies compatibility; ArithmeticStatisticsPartI supplies the height-density statement.
-
-Consume `HeckeRing.GL2.Newform.analyticRank`, `HeckeRing.GL2.Newform.analyticOrderAt_L_ne_top` and `HeckeRing.GL2.Newform.analyticRank_eq_zero_iff` from `TauCeti/NumberTheory/ModularForms/Newforms/AnalyticInvariants.lean`. These use the entire L-function of a positive-weight newform and its finite central order. The elliptic modularity supplier identifies the rational elliptic curve’s actual coefficient series with this newform L-function; the native newform API by itself does not supply that identification.
-
-### From TauCetiRoadmap.EllipticCurves
-
-Layers 1–2 supply degree, duals, the rational quotient by a stable cyclic subgroup, Weil pairing and actual kernel character; Layers 4–5 supply the local model, invariant differential, formal group, isogeny invariance of good reduction, twist transport and j-invariance; Layer 7 supplies Kummer exact sequences and finite Selmer conditions. The chord/tangent law identifies the two nonidentity flexes below as order-three points. The reduction used at 3 is of the integral coefficient tuple; there is no unital map ℚ→𝔽₃.
-
-What EllipticCurves must provide (gap:eisenstein-local-dictionary): For a fixed rational cyclic odd-prime isogeny at good reduction, identify its actual kernel and quotient characters, deduce ordinarity and local p-torsion vanishing under the two-character exclusion, and at p=3 prove the good unramified versus bad ramified twist dictionary with its connected/étale kernel alternatives.
-
-### From TauCetiRoadmap.EllipticCurveModularity and TauCetiRoadmap.ModularForms
-
-EllipticCurveModularity Layers R29.3–R29.6 supply the rational newform, exact conductor and all Euler factors, modular parametrization, summability, continuation and functional equation. ModularForms Layer 7 supplies the arithmetic newform L-function and its analytic identities. These fix the actual L-function, not an arbitrarily specified germ near 1.
-
-What EllipticCurveModularity must provide (gap:quadratic-analytic-factorization): Identify the continued quadratic base-change L-function with the product of the two actual rational elliptic twist L-functions, including all bad Euler factors, finite central orders and the split-level imaginary-quadratic root sign −1.
-
-### From TauCetiRoadmap.SelmerIwasawaCohomology
-
-Use §§2.9–2.12a for classical elliptic Selmer groups, their coefficient exact sequences, cofinite generation, corank of the Pontryagin dual and the Mordell–Weil/Sha sequence; §4.26 identifies the rational finite Kummer condition. Use §4.28's quadratic-character decomposition with its Shapiro and local-condition compatibility to obtain the rational corank sum. Use §4.29's elliptic specialization, divisible radicals and finite reduced-primary product T×T. This is stronger than square cardinality: finite cyclic p² has square order but is not a nontrivial alternating perfect self-pairing. No full-Sha finiteness is an input. The finite-Selmer dimension comparison uses this endpoint, whereas the p∞ converse does not.
-
-Use §§3.9–3.11 for the actual localization-image and derived specialization diagrams, retaining invariant, H² and Tor errors. They do not authorize dropping the compact cokernel.
-
-What SelmerIwasawaCohomology must provide (gap:cgls-ordinary-control): For the CGLS self-dual ordinary anticyclotomic Selmer groups with both residual local characters nontrivial, prove that compact specialization S[1/p]→H¹_f(K,V_pE) has kernel (γ−1)S[1/p], retaining the local-image, H² and Tor cokernel terms.
-
-### From TauCetiRoadmap.EulerSystemsAndKolyvaginSystems
-
-Use §8.31 “Augmentation control” and its corank-one consequence for finite kernel and cokernel of discrete restriction control and the rational coinvariant dimension. Its good ordinary, split-level, split-p and E(K)[p]=0 hypotheses follow from the local dictionary and the Heegner conditions: at a split place K_v=ℚ_p, so E(K)[p] injects into the vanishing E(ℚ_p)[p]. Section 1.2 of this roadmap supplies corank one for the selected field. Residual irreducibility and the image conditions (Sc) and (Irr) are not hypotheses of this control theorem.
-
-### From TauCetiRoadmap.HeegnerPointEulerSystems
-
-Use §§8.6–8.6a and 8.24 for the norm-compatible source-normalized Heegner family, Kummer/Shapiro comparison and its non-Λ-torsion class, with the actual class-number shift; §§8.31 and 8.34 give the paired rank-one structure. Use §8b.2's rational CGLS comparison and §8b.10's Eisenstein equality, including its independent elliptic-unit/Katz and integral-family reciprocity contracts. Rationalize the exact fixed-isogeny transport factors of §8.6a; a nonzero scalar becomes a unit in Λ[1/p], not necessarily in Λ. For the present corank-one application retain (Sel) before invoking the equality at P₀. The inputs to that equality are independent of this converse. Nonzero tower class alone supplies no nonzero trivial-character specialization.
-
-### From TauCetiRoadmap.PadicMeasuresIwasawaAlgebras
-
-Layer 4 supplies Λ, its power-series coordinate, height-one localization, characteristic ideals and module structure. Localizing at P₀ gives a DVR with residue field ℚ_p. Finite p-power modules disappear after inverting p; augmentation-primary torsion does not. This distinction is part of the argument, not a change of coefficients after specialization.
-
-### From TauCetiRoadmap.GrossZagierAndArithmeticHeights
-
-Use §0.1's pinned x-height comparison and §§8.14, 8.18 and 8.19 for the general explicit Gross–Zagier identity, specialized to ℚ, trivial ring-class character, conductor c=1, odd D and all level primes split. Section 8.19 identifies the central derivative with a nonzero explicit constant times the K-relative height of the specified trace point, using the same modular parametrization; its classical case c=1, odd D and (N,D)=1 is also stated by EffectiveClassNumbers §2.8 “Gross–Zagier with exact constants” for every level N with all primes of N split, with the same coefficient ‖ω_E‖²/(C²u²√|D|). Section 8.19 derives it through its own kernel route, using its §§8.15 and 8.4. Section 8.18 with F=ℚ, A=E and B=M₂(ℚ) gives that the trace point has infinite order exactly when the central order over K is one. The Hodge, unit-index, degree and differential normalizations are retained. Section 8.17 assumes squarefree N and is not used; no squarefree-conductor restriction enters this specialization.
-
-### From TauCetiRoadmap.ArithmeticStatisticsPartI
-
-Use §0.1 “Relative density” for the cutoff ratios r_X(S | T), their bounds 0≤r_X≤1 and lower and upper relative densities; §0.2 “Family defined by local conditions”; §0.5 “Quadratic twist squareclass family”; §0.6 “Squarefree integers in residue classes”; and §0.15 “Positive squareclass denominator”. The tower theorem of §0.1 assumes both relative densities exist and is not applied to analytic-rank sets, whose limiting density is not known. For rational signed squarefree d, each compatible nonempty finite local rectangle has positive density; finite unions have the sum of their disjoint masses. The modulus-three residue count gives the mass 3/8 for a fixed nonsquare unit class. The limiting denominator is positive before any conditional proportion is formed.
-
-### From TauCetiRoadmap.ArithmeticStatisticsPartVI
-
-The supporting “Heegner logarithm and low rank” supplies, for every E/ℚ with the modular comparison data, analytic rank zero or one ⇒ that Mordell–Weil rank and finite whole Sha. The supporting “Elliptic p-parity” supplies (−1)^corank=w(E) on that realization. These are used first on the known auxiliary twist and only after the converse on E itself. The root-number theorem is required even when the residual representation is reducible and at p=3.
-
-### From TauCetiRoadmap.ArithmeticStatisticsPartVII and TauCetiRoadmap.ArithmeticStatisticsPartIII
-
-Part VII §5.10 supplies “Selmer ratio of an isogeny”, “Local Selmer ratio via Tamagawa numbers”, “Selmer ratio classes are locally defined”, the three-isogeny parity theorem and both restricted zero/one three-Selmer bounds. Their corrected rank is dim Sel₃−dim E(ℚ)[3]. On the admissible family the torsion term is exactly zero. By the Tamagawa formula of §5.10, at 3 the good ordinary ratio is |φ′(0)|₃⁻¹, equal to 1 or 3 according to the étale/connected kernel, and the two real signs give 1 and 1/3. Part VII §5.32 “Attainable local three-isogeny ratios” supplies the Kodaira/twist and differential tables and the existence, at every finite prime ℓ≠3 including ℓ=2, of a local quadratic twist with ratio 1 (BKLOS Propositions 10.1, 10.7 and Theorem 10.5, pp. 14–17; BKLOS lines 674, 764 and 713). Section 5.10 supplies the ratio definition, the Tamagawa formula, the strata and the statistical bounds.
-
-The Part VII means and low-Selmer proportions retain the seven-part counting condition C(F,ι,Σ) of Part III's “Windowed cubic counting contract”. Part III's “Supporting uniform estimates”, “Windowed cubic counting contract”, items 1–7, state C(F,φ,Σ) as its own targets for every number field F, every degree-three isogeny φ of abelian varieties and every nonempty family Σ defined by finitely many local conditions, in the unweighted squareclass height H(s)=∏_(v(s) odd) Nv with the additive-Haar local mass normalization. That contract is applied here with F=ℚ, where H(d)=|d| on signed squarefree d, to ι and its dual and to the strata Σ∩T_m; a numerical average with C assumed does not discharge it.
-
-### From TauCetiRoadmap.RankOneConverse
-
-Section 4.1 “General quadratic nonvanishing with local prescriptions” supplies, for every normalized newform g of positive weight, positive level and trivial nebentypus, with root number ε(g) and every finite set S₀ of primes containing those dividing its level, infinitely many fundamental discriminants δ with every prime of S₀ split in ℚ(√δ), ε(g)δ>0 and primitive quadratic twist of analytic rank 0 (the value branch), and infinitely many with ε(g)δ<0 and primitive twist of analytic rank 1 (the derivative branch). Its primitive twist of g by δ is the unique newform whose q-th coefficient is χ_δ(q)a_q(g) at all primes q away from both levels and δ, by the cross-level strong multiplicity one of ModularForms Layer 5. No residual, ordinarity or localization hypothesis of the other RankOneConverse sections enters this theorem.
-
-### From TauCetiRoadmap.CMRankZeroConverse
-
-Section 0.1 “The rank-r p-converse proposition” supplies the shared proposition: corank Sel_(p∞)(E/ℚ)=r implies analyticRank(E)=r. Use it with r=0,1; its shared name adds no hypothesis and is not defined a second time here.
-
-## How to read the build
-
-Layer 0 fixes the actual isogeny condition and compares low finite Selmer dimension with corank. Layer 1 selects a complementary twist and obtains corank one over K. Layer 2 keeps augmentation in the coefficient ring and proves nonzero bottom specialization. Layer 3 subtracts central orders, then imports the forward theorem for the arithmetic conclusions. Layer 4 applies the finite-Selmer result on the same admissible local families as the statistical bounds. Layer 5 computes the model, density and good-reduction obstruction that delimit those applications. The pairing enters the finite-Selmer branch; the p∞ converse uses its own control argument. Each target lists its statement inputs and the inputs to the indicated proof route separately enough that a different proof can replace that route.
 
 ## Layer 0: Fixed isogenies and low-dimensional Selmer groups
 
@@ -554,6 +458,102 @@ The finite-Selmer converse supplies analytic rank, arithmetic rank and finite Sh
 The nineteen-a3 family has admissible signed squarefree parameters exactly d≡2 mod 3 and mass 3/8. The analytic lower bounds supplied by this roadmap are (1/2)μ(A₃∩T₀) and (5/6)μ(A₃∩(T₁∪T₋₁)), or the corresponding bounds on specified finite local subfamilies. Their numerical values are not obtained by replacing these intersections with unrestricted Selmer-ratio strata. The 41.6% and 25% analytic conversions in CGLS Remark 5.2.4, p. 575 (CGLS line 2206), require this compatibility; the first percentage exceeds the 37.5% ceiling on the admissible conversion set itself. This observation concerns the stated conversion, not an upper bound on the full analytic rank-one set.
 
 The curve y²+xy+3y=x³ has a rational cyclic three-isogeny and no quadratic twist good at 3, by §5.3. Thus the positive-proportion theorem here retains the good-at-three-twist hypothesis. The unrestricted analytic density assertion of CGLS Corollary 5.2.3 is not an endpoint proved by this method for that curve (CGLS p. 575, lines 2198–2205). The distinction keeps good reduction throughout the use of the converse and does not impose a good-prime restriction on the generic local or Selmer theories supplied to it.
+
+## Scope and ownership
+
+The forward direction from which this roadmap starts is supplied by named owners: ArithmeticStatisticsPartVI's supporting targets “Heegner logarithm and low rank” and “Elliptic p-parity” give the forward low-analytic-rank theorem and the elliptic root-number parity, and HeegnerPointEulerSystems §§8b.2 and 8b.10 give the anticyclotomic Iwasawa equalities at Eisenstein primes. There is no separate RankZeroOneBSD roadmap: the base direction, the forward Gross–Zagier–Kolyvagin theory, is owned by the suppliers just named, and this roadmap is complete in itself. The new implication here starts from Selmer corank. Ownership of the imported inputs is specified by the supplier sections below. The CM newform and elliptic converses belong to CMRankZeroConverse Layers 0–6, and the irreducible-residual localization criteria belong to RankOneConverse Layers 0–6. Their hypotheses are not imposed on this branch. RankOneConverse §4.1 “General quadratic nonvanishing with local prescriptions”, which has no residual hypothesis, owns the existence of infinitely many quadratic twists of a trivial-nebentypus newform with prescribed split primes and analytic rank zero, and of infinitely many with analytic rank one; §1.1 imports it.
+
+The fixed-isogeny hypothesis predicate, complementary-field assembly, combination of discrete augmentation control with compact specialization, traced Heegner comparison, two converses and admissible statistical conversion are owned here. EulerSystemsAndKolyvaginSystems §8.31 owns discrete augmentation control and its corank-one consequence; compact specialization uses the additional SelmerIwasawaCohomology contract below. The Howard unit-line and level-zero normalization comparison is imported from HeegnerPointEulerSystems §8.13. The traced comparison here differs from its §8.32: it is an exact identity at the trivial character after the full Hilbert-class-field trace, rather than a finite-coefficient congruence for near-trivial characters.
+
+The generic isogeny, degree, Tate module, Weil pairing, quadratic twist, minimal model, height and finite generation constructions are already in the library at the modules named below. EllipticCurves Layers 2, 4, 5 and 7 retain their general Galois, local-reduction, twist and descent APIs. SelmerIwasawaCohomology §§2.9–2.12a, 3.9–3.11, 4.26 and 4.29 own the Selmer carriers, control machinery, Kummer comparisons and alternating Cassels–Tate pairing modulo divisible kernels. No second pairing or Selmer theory is constructed here.
+
+HeegnerPointEulerSystems §§8.6–8.6a, 8.24, 8.31, 8.34, 8b.2 and 8b.10 own the arithmetic tower, source class, rank-one paired-torsion theorem and Eisenstein main-conjecture equality. GrossZagierAndArithmeticHeights §§0.1, 8.14, 8.18 and 8.19 own the height normalization, the general explicit formula, the non-torsion criterion for the trace point and the elliptic X₀(N) specialization; its squarefree-level §8.17 is not used. ModularIwasawaMainConjectures §6.1 owns the comparison formulation, not a second proof of the Eisenstein equality.
+
+ArithmeticStatisticsPartI owns relative density (§0.1), families defined by local conditions (§0.2), squareclasses, their height and the twist family (§0.5), squarefree residue counts (§0.6) and the positive squareclass denominator (§0.15). ArithmeticStatisticsPartVII §5.10 owns the Selmer ratio, the local Tamagawa formula, stratum density and restricted three-Selmer bounds, and its §5.32 owns the attainable local three-isogeny ratios; Part III owns the orbit-counting input and, in its “Windowed cubic counting contract”, the seven-part counting condition C(F,φ,Σ) itself. ArithmeticStatisticsPartVI's supporting “Heegner logarithm and low rank” and “Elliptic p-parity” own the forward theorem and elliptic corank parity. Family parity between two arithmetic points in SelmerIwasawaCohomology §4.28 is not substituted for this root-number parity theorem. EllipticCurveModularity Layers R29.3–R29.6 and ModularForms Layer 7 own the actual newform and continued elliptic L-functions. These generic statements are imports, not targets here.
+
+GlobalNumberFields Layer 1 owns mixed-place weak approximation; its endpoint is consumed through the pinned Tau Ceti declaration below.
+
+The concrete nineteen-a3 equation is a worked specialization of native coefficients. Its local density and the no-good-twist obstruction are owned here as scope diagnostics. They, and the elementary coefficient, invariant, point-count and tangent Checks, are mathematical examples, not headline acceptance theorems.
+
+## Exact supplier contracts
+
+The following contracts fix mathematical objects and their normalizations. A gap is an additional endpoint required from its named owner; it is not a substitute definition or an extra hypothesis on the final theorem.
+
+### From Mathlib
+
+Consume `WeierstrassCurve`, its five coefficients, `WeierstrassCurve.Δ`, `WeierstrassCurve.c₄`, `WeierstrassCurve.c₆`, `WeierstrassCurve.map`, `WeierstrassCurve.IsElliptic` and `WeierstrassCurve.j` from `Mathlib/AlgebraicGeometry/EllipticCurve/Weierstrass.lean`. The carrier allows singular equations over arbitrary rings; ellipticity means the discriminant is a unit, not merely nonzero over a ring. All arithmetic statements here explicitly restrict to characteristic-zero fields and elliptic curves.
+
+Consume `WeierstrassCurve.minimal`, `WeierstrassCurve.HasGoodReduction` and `WeierstrassCurve.hasGoodReduction_iff_isElliptic_reduction` from `Mathlib/AlgebraicGeometry/EllipticCurve/Reduction.lean`. The good-reduction class includes minimality and discriminant valuation equal to the multiplicative identity 1 (additive valuation 0). Apply it to the chosen minimal model after base change to ℚ₃, rather than to an arbitrary raw twist equation. Consume `NumberField.finite_setOfPred_logHeight₁_le` from `Mathlib/NumberTheory/Height/NumberField.lean` and `WeierstrassCurve.Affine.finite_naiveHeight_le` from `Mathlib/NumberTheory/Height/EllipticCurve.lean` for Northcott. Consume `le_liminf_mul` from `Mathlib/Topology/Algebra/Order/LiminfLimsup.lean`: for real functions u,v that are eventually nonnegative along a nontrivial filter, with u bounded above and v cobounded for ≥ (which holds when v is bounded above), (liminf u)(liminf v)≤liminf(uv). It is applied to cutoff ratios, which lie in [0,1].
+
+`WeierstrassCurve.LSeries` in `Mathlib/AlgebraicGeometry/EllipticCurve/LFunction.lean` is the literal L-series built from its arithmetic coefficient function; continuation and finite central order are the separate elliptic modularity contract. `ContinuousCohomology.tateShafarevich` in `Mathlib/RepresentationTheory/Homological/ContCohomology/Sha.lean` is a localization kernel for supplied topological Galois data; its identification with classical elliptic Sha and Kummer local conditions is the Selmer supplier's contract.
+
+### From Tau Ceti
+
+Consume `TauCeti.Isogeny` in `TauCeti/AlgebraicGeometry/EllipticCurve/Isogeny/Basic.lean` and its nonzero coordinate pullback carrier, with degree and point maps from the Isogeny development; no duplicate isogeny carrier is introduced. Consume `WeierstrassCurve.quadraticTwistOf`, `WeierstrassCurve.Δ_quadraticTwistOf`, `WeierstrassCurve.isElliptic_quadraticTwistOf_iff` and `WeierstrassCurve.j_quadraticTwistOf` in `TauCeti/AlgebraicGeometry/EllipticCurve/QuadraticTwist/Basic.lean`. The trace/norm parameters t,n have discriminant parameter t²−4n. For t=0,n=−d, this is 4d; over ℚ and ℚ₃ it represents the squareclass of d.
+
+Consume `WeierstrassCurve.Affine.Point.canonicalHeight_nonneg` and `WeierstrassCurve.Affine.Point.canonicalHeight_eq_zero_iff_isOfFinAddOrder` in `TauCeti/AlgebraicGeometry/EllipticCurve/CanonicalHeight/Basic.lean`. The latter retains the Northcott hypothesis on canonical height, discharged over number fields by the native height comparisons. The Northcott transfer from naive to canonical height is the instance in the same file. Consume `WeierstrassCurve.Affine.fg_point_of_numberField` from `TauCeti/AlgebraicGeometry/EllipticCurve/MordellWeil/FinitelyGenerated.lean` for finite generation over every number field. Neither height assertion alone constructs a Heegner point.
+
+Consume `TauCeti.GlobalNumberFields.weakApproximation_denseRange` from `TauCeti/NumberTheory/NumberField/Global/Approximation/Weak.lean`: for any number field K and finite sets of finite and infinite places, the diagonal K has dense image in the product of their completions. Nonzero local squareclasses are open, so any finite rational prescription, including a real sign, is realized by an element of ℚˣ. Its unique signed squarefree representative preserves all local squareclasses and the sign. This supplies compatibility; ArithmeticStatisticsPartI supplies the height-density statement.
+
+Consume `HeckeRing.GL2.Newform.analyticRank`, `HeckeRing.GL2.Newform.analyticOrderAt_L_ne_top` and `HeckeRing.GL2.Newform.analyticRank_eq_zero_iff` from `TauCeti/NumberTheory/ModularForms/Newforms/AnalyticInvariants.lean`. These use the entire L-function of a positive-weight newform and its finite central order. The elliptic modularity supplier identifies the rational elliptic curve’s actual coefficient series with this newform L-function; the native newform API by itself does not supply that identification.
+
+### From TauCetiRoadmap.EllipticCurves
+
+Layers 1–2 supply degree, duals, the rational quotient by a stable cyclic subgroup, Weil pairing and actual kernel character; Layers 4–5 supply the local model, invariant differential, formal group, isogeny invariance of good reduction, twist transport and j-invariance; Layer 7 supplies Kummer exact sequences and finite Selmer conditions. The chord/tangent law identifies the two nonidentity flexes below as order-three points. The reduction used at 3 is of the integral coefficient tuple; there is no unital map ℚ→𝔽₃.
+
+What EllipticCurves must provide (gap:eisenstein-local-dictionary): For a fixed rational cyclic odd-prime isogeny at good reduction, identify its actual kernel and quotient characters, deduce ordinarity and local p-torsion vanishing under the two-character exclusion, and at p=3 prove the good unramified versus bad ramified twist dictionary with its connected/étale kernel alternatives.
+
+### From TauCetiRoadmap.EllipticCurveModularity and TauCetiRoadmap.ModularForms
+
+EllipticCurveModularity Layers R29.3–R29.6 supply the rational newform, exact conductor and all Euler factors, modular parametrization, summability, continuation and functional equation. ModularForms Layer 7 supplies the arithmetic newform L-function and its analytic identities. These fix the actual L-function, not an arbitrarily specified germ near 1.
+
+What EllipticCurveModularity must provide (gap:quadratic-analytic-factorization): Identify the continued quadratic base-change L-function with the product of the two actual rational elliptic twist L-functions, including all bad Euler factors, finite central orders and the split-level imaginary-quadratic root sign −1.
+
+### From TauCetiRoadmap.SelmerIwasawaCohomology
+
+Use §§2.9–2.12a for classical elliptic Selmer groups, their coefficient exact sequences, cofinite generation, corank of the Pontryagin dual and the Mordell–Weil/Sha sequence; §4.26 identifies the rational finite Kummer condition. Use §4.28's quadratic-character decomposition with its Shapiro and local-condition compatibility to obtain the rational corank sum. Use §4.29's elliptic specialization, divisible radicals and finite reduced-primary product T×T. This is stronger than square cardinality: finite cyclic p² has square order but is not a nontrivial alternating perfect self-pairing. No full-Sha finiteness is an input. The finite-Selmer dimension comparison uses this endpoint, whereas the p∞ converse does not.
+
+Use §§3.9–3.11 for the actual localization-image and derived specialization diagrams, retaining invariant, H² and Tor errors. They do not authorize dropping the compact cokernel.
+
+What SelmerIwasawaCohomology must provide (gap:cgls-ordinary-control): For the CGLS self-dual ordinary anticyclotomic Selmer groups with both residual local characters nontrivial, prove that compact specialization S[1/p]→H¹_f(K,V_pE) has kernel (γ−1)S[1/p], retaining the local-image, H² and Tor cokernel terms.
+
+### From TauCetiRoadmap.EulerSystemsAndKolyvaginSystems
+
+Use §8.31 “Augmentation control” and its corank-one consequence for finite kernel and cokernel of discrete restriction control and the rational coinvariant dimension. Its good ordinary, split-level, split-p and E(K)[p]=0 hypotheses follow from the local dictionary and the Heegner conditions: at a split place K_v=ℚ_p, so E(K)[p] injects into the vanishing E(ℚ_p)[p]. Section 1.2 of this roadmap supplies corank one for the selected field. Residual irreducibility and the image conditions (Sc) and (Irr) are not hypotheses of this control theorem.
+
+### From TauCetiRoadmap.HeegnerPointEulerSystems
+
+Use §§8.6–8.6a and 8.24 for the norm-compatible source-normalized Heegner family, Kummer/Shapiro comparison and its non-Λ-torsion class, with the actual class-number shift; §§8.31 and 8.34 give the paired rank-one structure. Use §8b.2's rational CGLS comparison and §8b.10's Eisenstein equality, including its independent elliptic-unit/Katz and integral-family reciprocity contracts. Rationalize the exact fixed-isogeny transport factors of §8.6a; a nonzero scalar becomes a unit in Λ[1/p], not necessarily in Λ. For the present corank-one application retain (Sel) before invoking the equality at P₀. The inputs to that equality are independent of this converse. Nonzero tower class alone supplies no nonzero trivial-character specialization.
+
+### From TauCetiRoadmap.PadicMeasuresIwasawaAlgebras
+
+Layer 4 supplies Λ, its power-series coordinate, height-one localization, characteristic ideals and module structure. Localizing at P₀ gives a DVR with residue field ℚ_p. Finite p-power modules disappear after inverting p; augmentation-primary torsion does not. This distinction is part of the argument, not a change of coefficients after specialization.
+
+### From TauCetiRoadmap.GrossZagierAndArithmeticHeights
+
+Use §0.1's pinned x-height comparison and §§8.14, 8.18 and 8.19 for the general explicit Gross–Zagier identity, specialized to ℚ, trivial ring-class character, conductor c=1, odd D and all level primes split. Section 8.19 identifies the central derivative with a nonzero explicit constant times the K-relative height of the specified trace point, using the same modular parametrization; its classical case c=1, odd D and (N,D)=1 is also stated by EffectiveClassNumbers §2.8 “Gross–Zagier with exact constants” for every level N with all primes of N split, with the same coefficient ‖ω_E‖²/(C²u²√|D|). Section 8.19 derives it through its own kernel route, using its §§8.15 and 8.4. Section 8.18 with F=ℚ, A=E and B=M₂(ℚ) gives that the trace point has infinite order exactly when the central order over K is one. The Hodge, unit-index, degree and differential normalizations are retained. Section 8.17 assumes squarefree N and is not used; no squarefree-conductor restriction enters this specialization.
+
+### From TauCetiRoadmap.ArithmeticStatisticsPartI
+
+Use §0.1 “Relative density” for the cutoff ratios r_X(S | T), their bounds 0≤r_X≤1 and lower and upper relative densities; §0.2 “Family defined by local conditions”; §0.5 “Quadratic twist squareclass family”; §0.6 “Squarefree integers in residue classes”; and §0.15 “Positive squareclass denominator”. The tower theorem of §0.1 assumes both relative densities exist and is not applied to analytic-rank sets, whose limiting density is not known. For rational signed squarefree d, each compatible nonempty finite local rectangle has positive density; finite unions have the sum of their disjoint masses. The modulus-three residue count gives the mass 3/8 for a fixed nonsquare unit class. The limiting denominator is positive before any conditional proportion is formed.
+
+### From TauCetiRoadmap.ArithmeticStatisticsPartVI
+
+The supporting “Heegner logarithm and low rank” supplies, for every E/ℚ with the modular comparison data, analytic rank zero or one ⇒ that Mordell–Weil rank and finite whole Sha. The supporting “Elliptic p-parity” supplies (−1)^corank=w(E) on that realization. These are used first on the known auxiliary twist and only after the converse on E itself. The root-number theorem is required even when the residual representation is reducible and at p=3.
+
+### From TauCetiRoadmap.ArithmeticStatisticsPartVII and TauCetiRoadmap.ArithmeticStatisticsPartIII
+
+Part VII §5.10 supplies “Selmer ratio of an isogeny”, “Local Selmer ratio via Tamagawa numbers”, “Selmer ratio classes are locally defined”, the three-isogeny parity theorem and both restricted zero/one three-Selmer bounds. Their corrected rank is dim Sel₃−dim E(ℚ)[3]. On the admissible family the torsion term is exactly zero. By the Tamagawa formula of §5.10, at 3 the good ordinary ratio is |φ′(0)|₃⁻¹, equal to 1 or 3 according to the étale/connected kernel, and the two real signs give 1 and 1/3. Part VII §5.32 “Attainable local three-isogeny ratios” supplies the Kodaira/twist and differential tables and the existence, at every finite prime ℓ≠3 including ℓ=2, of a local quadratic twist with ratio 1 (BKLOS Propositions 10.1, 10.7 and Theorem 10.5, pp. 14–17; BKLOS lines 674, 764 and 713). Section 5.10 supplies the ratio definition, the Tamagawa formula, the strata and the statistical bounds.
+
+The Part VII means and low-Selmer proportions retain the seven-part counting condition C(F,ι,Σ) of Part III's “Windowed cubic counting contract”. Part III's “Supporting uniform estimates”, “Windowed cubic counting contract”, items 1–7, state C(F,φ,Σ) as its own targets for every number field F, every degree-three isogeny φ of abelian varieties and every nonempty family Σ defined by finitely many local conditions, in the unweighted squareclass height H(s)=∏_(v(s) odd) Nv with the additive-Haar local mass normalization. That contract is applied here with F=ℚ, where H(d)=|d| on signed squarefree d, to ι and its dual and to the strata Σ∩T_m; a numerical average with C assumed does not discharge it.
+
+### From TauCetiRoadmap.RankOneConverse
+
+Section 4.1 “General quadratic nonvanishing with local prescriptions” supplies, for every normalized newform g of positive weight, positive level and trivial nebentypus, with root number ε(g) and every finite set S₀ of primes containing those dividing its level, infinitely many fundamental discriminants δ with every prime of S₀ split in ℚ(√δ), ε(g)δ>0 and primitive quadratic twist of analytic rank 0 (the value branch), and infinitely many with ε(g)δ<0 and primitive twist of analytic rank 1 (the derivative branch). Its primitive twist of g by δ is the unique newform whose q-th coefficient is χ_δ(q)a_q(g) at all primes q away from both levels and δ, by the cross-level strong multiplicity one of ModularForms Layer 5. No residual, ordinarity or localization hypothesis of the other RankOneConverse sections enters this theorem.
+
+### From TauCetiRoadmap.CMRankZeroConverse
+
+Section 0.1 “The rank-r p-converse proposition” supplies the shared proposition: corank Sel_(p∞)(E/ℚ)=r implies analyticRank(E)=r. Use it with r=0,1; its shared name adds no hypothesis and is not defined a second time here.
 
 ## References
 
