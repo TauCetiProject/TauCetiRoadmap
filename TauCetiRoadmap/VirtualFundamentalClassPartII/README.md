@@ -31,116 +31,26 @@ curves over a pure-dimensional algebraic stack to a smooth `k`-scheme, separated
 global resolutions and virtual dimension `b + δ + dim X · (1 − g)` for a target of pure
 dimension (Layers 6–9).
 
-## Scope and ownership
+## How to read the build
 
-This roadmap owns:
-
-- proper covers of the Deligne–Mumford stacks of Convention 1, whose diagonal is quasi-compact and
-  separated, their existence (a finite cover by a scheme) and
-  proper coverings of integral ones, the description of the function field of an integral stack
-  (the residue field at its generic point) by rational functions and on étale charts, the generic
-  stabiliser order `e(𝒱)` and
-  Vistoli's rational degree of a separated dominant morphism of integral stacks, for stacks that
-  need not be separated (Layer 1);
-- the integral cycle groups, orders of rational functions, rational equivalence and integral
-  Chow groups `A_i(ℳ)` of such stacks, the cycle of a closed substack, and the comparisons with
-  the scheme groups of Tau Ceti, with the Chow groups of algebraic spaces of the Stacks Project
-  and with the rational groups of VirtualFundamentalClass §2.1 (Layer 2);
-- integral flat pullback, integral pushforward along proper representable morphisms, the
-  integral push–pull formula and localisation sequence, integral exterior products, integral
-  homotopy invariance for vector bundles on algebraic spaces, and integral refined Gysin maps of
-  regular local immersions with algebraic-space sources (Layer 3);
-- on all such stacks: rational pushforward along every proper morphism, the action of Gysin maps
-  of regular local immersions and of flat pullback on Chow groups of stacks, homotopy invariance
-  for vector bundles, Chern classes, and their agreement with VirtualFundamentalClass §§2.2–2.5
-  on separated stacks (Layer 4);
-- the intersection product on smooth stacks and Poincaré duality for the bivariant groups of a
-  smooth separated stack with separated sources; the comparison with moduli spaces that are
-  algebraic spaces; the compatibility of the Edidin–Graham comparison with products; and the
-  closed formula for the degree of a closed point (Layer 5);
-- the comparison bundle of two global resolutions, the virtual class of a stack, separated or
-  not, whose obstruction theory has a global resolution, and the relative no-obstruction and
-  obstruction-bundle formulas over a base of pure dimension (Layer 6);
-- the relative obstruction class of square-zero extensions over an algebraic stack and the
-  relative characterisations of obstruction theories (Layer 7);
-- cycles and rational equivalences on algebraic stacks locally of finite type, formed on smooth
-  charts and descended, with no Chow group; the deformation space of a local immersion of algebraic
-  stacks; the intersection of cycles and rational equivalences with `P`-divisors and Kresch's explicit
-  rational equivalence between the two intersections of two `P`-divisors; the canonical rational equivalence on an arbitrary ambient algebraic stack locally of finite
-  type, with its invariance along relative tangent directions, regular-immersion pullback and
-  functoriality of virtual classes over bases of pure dimension, and deformation invariance of
-  virtual counts (Layer 8);
-- derived pushforward and Grothendieck duality along prestable families over Deligne–Mumford
-  stacks, the Kodaira–Spencer morphism, the perfect relative obstruction theory of every relative
-  space of maps from a family of prestable curves to a smooth `k`-scheme, its global
-  resolutions and its virtual dimension (Layer 9).
-
-Imported, not restated:
-
-- **VirtualFundamentalClass** owns the Behrend–Fantechi construction: stack dimension (§§0.2–0.3);
-  cones and normal cones, with the normal cones of local immersions of
-  gap:normal-cones-of-local-immersions, the deformation to the normal cone of representable closed
-  immersions, and the smooth-ambient tangent actions (§§1.4–1.6);
-  Vistoli's rational Chow groups of separated Deligne–Mumford stacks with the degree of proper
-  zero-cycles, proper pushforward, flat
-  pullback, localisation, exterior products, homotopy invariance, Chern classes, refined Gysin
-  maps, bivariant groups, the canonical rational equivalence with its compatibilities and its
-  invariance under the restricted tangent action of Kresch's Theorem 3.1, the plane example in
-  which a transverse translation moves it, and the cap action with the projection formula
-  (§§2.1–2.5); the relative cotangent complex of a morphism of algebraic stacks and absolute
-  square-zero lifting (§§3.1–3.5); cone stacks and `h¹/h⁰` (§§4.1–4.5); the absolute and relative
-  intrinsic normal sheaf and cone, the relative cone presented on charts by normal cones and the
-  relative tangent action (§§5.1–5.5, 9.1); obstruction theories, their absolute
-  closed-immersion and lifting characterisations, perfectness and global resolutions (§§6.1–6.6);
-  the virtual class of a separated stack with the resolution property, its independence, formulas
-  and virtual degree (§§7.1–7.7); compatible obstruction theories, pullback and functoriality over
-  smooth bases (§§8.1–8.5); and the relative class over a pure-dimensional algebraic stack, its flat
-  base change (§9.3), regular base change and the no-obstruction and obstruction-bundle formulas
-  over smooth bases (§9.4), relative functoriality under the hypotheses of Behrend–Fantechi
-  Proposition 7.5 for separated stacks with the resolution property (§9.5) and pullback from smooth
-  stacks (§9.6). Each item of this roadmap that touches one of these sections states, in one
-  clause, which hypothesis of that section it does without.
-- **StackPointsAndResidualGerbes** owns, for every algebraic stack, reduced stacks (§0.1), closed
-  substacks with their description as invariant closed subspaces of a presentation and their base
-  change (§0.3), the unique reduced closed substack with a given closed support and the
-  factorisation of morphisms from reduced stacks through it (§0.5), the automorphism group space
-  `G_x` of a field-valued point (§1.3), residual gerbes and, at a closed point of a locally
-  Noetherian stack, their identification with the reduced closed substack on that point (§4.5),
-  the residue field `κ(x)` of a point of a decent stack (§5.3), and the dense open gerbe over an
-  integral affine scheme through a point (§5.4). Here the function field of an integral stack is
-  the residue field at its generic point (1.2), and the zero-cycle of a closed point is the class
-  of its residual gerbe (5.4).
-- **SchemeAndStackFoundations** owns algebraic spaces, stacks in groupoids, algebraic and
-  Deligne–Mumford stacks, inertia, the underlying topological space, separated and proper stacks,
-  quotient stacks, quasi-coherent modules on stacks, coarse moduli spaces and the Keel–Mori theorem
-  (§§1.3, 1.9–1.10, 1.18–1.23), the vanishing of higher quasi-coherent cohomology on affine schemes
-  and its agreement in the Zariski, étale and fppf topologies (§§2.6, 2.10), used in 6.1 to split
-  extensions on affine charts, derived categories of quasi-coherent complexes, the upper shriek
-  functor and relative dualising complexes (§§2.18–2.20), Riemann–Roch on curves (§3.3), the
-  lifting criterion and torsors of lifts for smooth morphisms (§4.1), Hom schemes of projective
-  schemes (§4.14), and the intersection theory of schemes (§§5.1–5.6). Every stack-level statement
-  here restricts on schemes to those sections and is not restated for schemes.
-- **StableReductionPartII** §5.15 owns the Edidin–Graham comparison of groups
-  `A_{i−g}([X/G])_ℚ ≅ A^G_i(X) ⊗ ℚ` for a Deligne–Mumford quotient stack, with its compatibility
-  with Chern classes and proper pushforward; 5.3 here adds only its compatibility with products.
-- **EquivariantIntersectionTheory** §§2.1–2.2 owns equivariant Chow groups and the equivariant
-  product; **StableReduction** Layers 2–3 own coherent cohomology of curve families, the relative
-  dualising sheaf, relative ampleness and prestable families; **EnhancedDerivedSheaves** §0.3, E1.4
-  and E1.8 own derived functors on ringed sites; **DerivedModuleAlgebra** §§0.7, 0.12 and 0.25 own
-  the cotangent complex of ring maps and square-zero lifting for ring maps.
-
-Not part of this roadmap: the prestable-curve stack, the stack of stable maps, its properness and
-its virtual class (AlgebraicGromovWittenTheory, a consumer of Layer 9; Layer 9 states the
-obstruction theory of a relative space of maps for every base of pure dimension and every smooth
-target scheme, and builds no moduli stack); Chow groups of Artin stacks in the sense of Kresch (8.1
-forms cycles and rational equivalences on algebraic stacks, and no Chow group of a stack that is not
-Deligne–Mumford) and the virtual class without a global resolution (kresch1999 Theorem 6.2.1),
-virtual pullbacks, torus and cosection
-localisation, virtual structure sheaves, reduced, logarithmic and symmetric obstruction theories,
-general bivariant groups with non-separated test objects (the bivariant groups here are those of
-VirtualFundamentalClass §2.5; on non-separated stacks only the Gysin, flat-pullback and Chern
-operations of Layer 4 act), and the symplectic virtual classes of GromovWittenTheory and
-ImplicitAtlases.
+Layers 1–4 are the Chow lane. On the closed substacks, residual gerbes and residue fields of
+StackPointsAndResidualGerbes, Layer 1 supplies proper covers, function fields, generic stabiliser
+orders and degrees on stacks that need not be separated; Layer 2 the integral cycle and Chow
+groups and their three comparisons; Layer 3 the operations that exist integrally; Layer 4, built
+on proper covers, the rational operations on all stacks, and their agreement with
+VirtualFundamentalClass on separated stacks. Layer 5 uses Layers 1–4 for the products and
+comparisons. Layer 6 uses Layer 4 and VirtualFundamentalClass Layers 3–4, 6–7 and 9 to define the
+virtual class without the resolution property and to prove the relative formulas. Layer 7 is
+independent of the Chow lane: it needs only VirtualFundamentalClass Layers 3–5 and §9.1,
+DerivedModuleAlgebra §§0.7 and 0.25 and SchemeAndStackFoundations §4.1. Layer 8 extends the cycles
+and rational equivalences of Layer 2 to algebraic stacks by smooth descent and the deformation to the
+normal cone to local immersions, adds the intersection with `P`-divisors that builds the canonical
+rational equivalence, and combines them with Layers 3–6 for base change, functoriality and
+deformation invariance over bases of pure dimension, and Layer 9
+combines Layers 6–7 with StableReduction and
+SchemeAndStackFoundations duality for spaces of maps from curves; its virtual class is Layer 6's.
+Each target's *Needs:* line lists what its statement and its route use, item by item; where a
+section proves statements that need different items, its line says which statement needs which.
 
 ## Conventions
 
@@ -277,258 +187,6 @@ ImplicitAtlases.
    pinned libraries have no algebraic stacks, no Chow groups beyond those of schemes and no
    cotangent complex of a morphism of schemes or stacks, so no headline theorem of this roadmap is
    statable against them; `Suggested.lean` lists the headline theorems and what each lacks.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- `AlgebraicGeometry.AlgebraicCycle` and `AlgebraicGeometry.AlgebraicCycle.map`
-  (`Mathlib/AlgebraicGeometry/AlgebraicCycle/Basic.lean`): cycles on a scheme as locally finitely
-  supported functions, and pushforward along a quasi-compact morphism with prescribed weights. Used
-  through Tau Ceti's Chow API in 2.3.
-- `AlgebraicGeometry.Scheme.ord` (`Mathlib/AlgebraicGeometry/OrderOfVanishing.lean`): the order of an
-  element of the function field of an integral locally Noetherian scheme at a point. Its value is
-  `0` at points of coheight different from `1` and for the zero function; 2.2 evaluates it only on
-  nonzero functions at points of coheight one; 8.1 evaluates it on normal integral schemes.
-- `AlgebraicGeometry.Scheme.Hom.normalization`, `AlgebraicGeometry.Scheme.Hom.fromNormalization` and
-  `AlgebraicGeometry.Scheme.Hom.normalizationPullback` (`Mathlib/AlgebraicGeometry/Normalization.lean`):
-  the relative normalisation of a quasi-compact quasi-separated morphism, integral over the target, and
-  the comparison map from the normalisation of a base change to the base change of the normalisation,
-  an isomorphism along a smooth morphism. 8.1 takes the normalisation
-  of an integral scheme as that of `Spec k(M) → M`.
-- `AlgebraicGeometry.IsClosedImmersion`, `AlgebraicGeometry.Flat`, `AlgebraicGeometry.Etale`,
-  `AlgebraicGeometry.Smooth` and `AlgebraicGeometry.IsProper` (`Mathlib/AlgebraicGeometry/Morphisms/`):
-  the scheme morphism properties to which SchemeAndStackFoundations §§1.19–1.20 reduce those of
-  representable morphisms.
-
-The pin has no algebraic stacks, no Chow groups of stacks and no cotangent complex of a stack.
-
-### From Tau Ceti
-
-- `TauCeti.AlgebraicGeometry.Chow.cyclesOfDimension`, `TauCeti.AlgebraicGeometry.Chow.RatEquivFamily`
-  with `TauCeti.AlgebraicGeometry.Chow.RatEquivFamily.cycle`, `TauCeti.AlgebraicGeometry.Chow.RatEquiv`,
-  `TauCeti.AlgebraicGeometry.Chow.ChowGroup`, `TauCeti.AlgebraicGeometry.Chow.cycleClass` and
-  `TauCeti.AlgebraicGeometry.Chow.ChowGroup.equivIntOfUnique`
-  (`TauCeti/AlgebraicGeometry/Chow/Basic.lean`), and
-  `TauCeti.AlgebraicGeometry.Chow.ChowGroup.pushforward`
-  (`TauCeti/AlgebraicGeometry/Chow/ClosedImmersion.lean`): cycles of a locally Noetherian scheme
-  graded by the dimension of the closure; families of integral closed subschemes of dimension
-  `k + 1` with nonzero rational functions on them, whose supports are locally finite, and the cycle
-  `Σ_j (i_j)_* div(r_j)` of such a family; rational equivalence as the subgroup of these cycles; Chow
-  groups, the class map, `CH_0` of a one-point scheme, and pushforward along closed immersions. On
-  a scheme of finite type over `k` the families are finite. 2.3 identifies the stack groups of a
-  scheme with these.
-- `TauCeti.AlgebraicGeometry.SchPseudofunctor` (`TauCeti/AlgebraicGeometry/Stack/Basic.lean`) and
-  `TauCeti.AlgebraicGeometry.Spaces.IsAlgebraicSpace` (`TauCeti/AlgebraicGeometry/AlgebraicSpace/Basic.lean`):
-  the carriers under SchemeAndStackFoundations §§1.3 and 1.18. `IsAlgebraicSpace` asks for a diagonal
-  representable by schemes and an étale atlas; it does not include quasi-separatedness, which
-  Convention 1 adds.
-- `TauCeti.AlgebraicGeometry.isFinite_fromNormalization_of_isJapanese`
-  (`TauCeti/AlgebraicGeometry/Normalization/Finite.lean`): for an integral scheme whose rings of sections
-  on nonempty affine opens are Japanese and a finite extension `L` of its function field, the
-  normalisation in `Spec L` is finite. 8.1 uses it with `L = k(M)` for an integral scheme `M` of finite
-  type over `k`.
-- `TauCeti.AlgebraicGeometry.PrestableFamily` (`TauCeti/AlgebraicGeometry/Curves/Prestable.lean`):
-  proper, geometrically connected, at-worst-nodal relative curves; it is stable under base change
-  and syntomic of relative dimension one. The genus is not part of it.
-- `TauCeti.AlgebraicGeometry.FiniteLocallyFreeSheaf.FixedRank.vectorBundleDegree`
-  (`TauCeti/AlgebraicGeometry/VectorBundle/Degree.lean`): `deg E := χ(E) − r · χ(O)` for a bundle of
-  rank `r` on a proper scheme of dimension at most one over `k`, used fibrewise in 9.5.
-
-### From TauCetiRoadmap.VirtualFundamentalClass
-
-- §§0.2–0.3: dimension and pure dimension of algebraic stacks locally of finite type over `k`,
-  independent of the atlas, with `dim [U/G] = dim U − dim G`.
-- §§1.4–1.6: cones, abelian cones and vector bundles over stacks, normal cones of representable
-  closed immersions with flat base change, their deformation to the normal cone (generic fibre the
-  ambient stack, special fibre the normal cone), and the action of `T_M|_X` on `C_{X/M}` for a smooth
-  ambient `M`.
-- §2.1: the rational groups `A_i(ℳ)_ℚ` of a separated stack, generated by integral closed
-  substacks with Vistoli's degree factors, and the degree of proper zero-cycles with the generic
-  stabiliser weight; §2.2: proper pushforward, flat pullback, localisation and
-  exterior products on them; §2.3: homotopy invariance, the zero-section Gysin inverse and Chern
-  classes; §2.4: refined Gysin maps of representable regular local immersions; §2.5: rational
-  bivariant groups for morphisms of relative Deligne–Mumford type to algebraic stacks, acting
-  after base change to separated test stacks whose pullbacks are separated, the flat and
-  regular-local-immersion orientations, the canonical rational equivalence with its compatibility with smooth base change and smooth refinement
-  (behrend-fantechi1997 Propositions 3.3–3.4), its invariance under the restricted tangent action
-  `T_{Y′}|_{X′}` of kresch1999b Theorem 3.1, the plane example in which a transverse translation
-  moves it, and the cap action with the projection formula.
-- §§3.1–3.5: derived operations on the small étale site of a stack, perfect complexes and global
-  two-term resolutions, the relative cotangent complex `L_{X/𝔜}` of a morphism of algebraic stacks
-  locally of finite type with its transitivity triangles and flat base change, vanishing in positive
-  degrees and coherence in degrees `0, −1` for morphisms of Deligne–Mumford type, its local
-  presentation, and absolute square-zero lifting.
-- §§4.1–4.5: cone stacks, `h¹/h⁰`, the abelian cone stack `h¹/h⁰(E^∨)` of a complex with the
-  condition of §4.4, the presentation `h¹/h⁰(E^∨) ≅ [F_1/F_0]` of a global resolution functorial up to
-  specified 2-isomorphism, and the closed-immersion criterion.
-- §§5.1–5.5 and 9.1: the absolute and relative intrinsic normal sheaf and cone; the relative cone
-  presented on charts by normal cones and the relative tangent action, with comparison under
-  refinement (§9.1); for `𝔜` of pure dimension `d`, `𝔠_{X/𝔜}` is pure of dimension `d`.
-- §§6.1–6.6: obstruction theories, the obstruction cone, the absolute lifting criterion,
-  perfectness, global resolutions, pullback of relative theories under cartesian base change.
-- §§7.1–7.7: the resolved cone `C(F•) := 𝔠_X ×_𝔈 F_1`, the class `0^!_{F_1}[C(F•)]` of a separated
-  stack with the resolution property, its independence (§7.3), its public construction (§7.4), its
-  formulas (§§7.5–7.6) and its degree (§7.7).
-- §§8.1–8.5: compatibility data over a local complete intersection morphism, smooth and
-  regular-immersion pullback between smooth bases, functoriality and coherence.
-- §§9.2–9.6: the relative virtual class `[X/𝔜, E]^vir ∈ A_{d + rk E}(X)_ℚ` for separated `X` with the
-  resolution property, flat base change, regular base change and formulas over smooth bases,
-  relative functoriality and pullback from smooth stacks.
-
-What VirtualFundamentalClass must provide (gap:closed-substacks-of-stacks): in its §2.1, integral
-closed substacks of a Deligne–Mumford stack, their bijection with the irreducible closed subsets of its
-space, and the image of an integral closed substack under a proper morphism, with no separatedness
-assumed. Its cycles are sums of integral closed substacks, and this roadmap uses the same substacks
-on stacks that are not separated. Closed substacks, their description on a presentation, their
-base change and the reduced closed substack on a closed subset are StackPointsAndResidualGerbes
-§§0.3 and 0.5, which that roadmap states for every algebraic stack; on them, what is needed is: an
-integral closed substack of `ℳ` is a reduced closed substack `𝒱` with `|𝒱|` irreducible
-(vistoli1989 (1.6), lines 245–250); `𝒱 ↦ |𝒱|` is a bijection from integral closed substacks onto the
-irreducible closed subsets of `|ℳ|` (SchemeAndStackFoundations §1.20 `Stacks.points`), by the
-uniqueness of StackPointsAndResidualGerbes §0.5; and for a proper morphism `f : ℱ → 𝒢` of stacks
-(Convention 1) and an integral closed substack `𝒱 ⊆ ℱ`, the image `f(𝒱)` is the reduced closed
-substack on the closed irreducible set `|f|(|𝒱|)`, an integral closed substack of `𝒢` (vistoli1989
-(1.7), lines 254–269, which defines it on an atlas). None of this depends on separatedness.
-
-What VirtualFundamentalClass must provide (gap:normal-cones-of-local-immersions): in its §1.5, the
-normal cone `C_{X/Y}` of a local immersion `X → Y` of algebraic stacks locally of finite type over
-`k`, obtained by descent from charts on which it is a closed immersion of schemes, with its closed
-embedding under base change (an isomorphism under flat base change), its closed embedding in the
-normal sheaf, and the normal bundle of a regular local immersion. Its §1.5 forms the normal cones of representable closed immersions; its §2.4 and this roadmap's 3.5, 4.2,
-8.1 and 8.3 use the normal cone of a local immersion that need not be a closed immersion, such as
-`Spec k → BG` or the diagonal `BG → BG × BG` (5.1) for a finite étale `G` with `|G| > 1`. Needed: for
-a local immersion `X → Y` of algebraic stacks locally of finite type over `k`, the normal cone
-`C_{X/Y}`, obtained by descent from charts `U → V` that are closed immersions of schemes, with
-`V → Y` and `U → X` smooth and surjective and `U → X ×_Y V` étale (kresch1999b Lemma 2.2 and the
-paragraph after it, lines 218–237; vistoli1989 Lemma 1.19 and lines 508–526), equal to §1.5's cone
-when `X → Y` is a closed immersion; for a morphism `Y′ → Y` of algebraic stacks locally of finite type
-over `k` and `X′ := X ×_Y Y′`, a closed embedding
-`C_{X′/Y′} ⊆ C_{X/Y} ×_X X′` (vistoli1989 lines 529–535), an isomorphism when `Y′ → Y` is flat (on the
-charts `U → V`, the flat base change of normal cones of closed immersions of VirtualFundamentalClass
-§1.5, descended; vistoli1989 Lemma 3.14, lines 1126–1131, for local embeddings of schemes); the
-closed embedding of `C_{X/Y}` in the normal sheaf; and, for a regular local immersion of codimension
-`d`, the equality of `C_{X/Y}` with the normal bundle `N_{X/Y}`, a vector bundle of rank `d`
-(vistoli1989 lines 527–528; kresch1999b lines 236–237). On the diagonal of `BG` the cone is the zero
-bundle over `BG`: over the atlas `Spec k → BG × BG` the diagonal becomes the finite étale `G → Spec k`,
-and the chart `U = V = G`, with `U → BG ×_{BG×BG} V = G ×_k G` the diagonal of `G` (open and closed, `G`
-being étale and separated), has `U → V` the identity, so the cone has rank equal to the codimension
-`0`; a construction for closed immersions alone does not reach it, as the diagonal is not one.
-
-### From TauCetiRoadmap.StackPointsAndResidualGerbes
-
-- §0.1: reduced algebraic stacks, reducedness being a smooth-local property; an integral stack
-  (Convention 5) is a reduced one with irreducible space.
-- §0.3: closed substacks of an algebraic stack (strictly full substacks whose inclusion is a closed
-  immersion), the bijection, for a presentation `[U/R]`, with the `R`-invariant closed subspaces of
-  `U` (for an étale presentation, the closed subschemes `Z ⊆ U` with `s^{−1}Z = t^{−1}Z`, vistoli1989
-  (1.5), lines 232–244), base change and composition of closed immersions, and `|𝒵|` closed in `|ℳ|`.
-- §0.5: for every closed subset `T ⊆ |ℳ|` a unique reduced closed substack with support `T`, the
-  reduction `ℳ_red`, and the factorisation through a closed substack of a morphism from a reduced
-  stack whose image lies in it.
-- §1.3: the automorphism group space `G_x` of a field-valued point and its base change along field
-  extensions.
-- §§2.3 and 2.5: a gerbe is, fppf locally on its base, the classifying stack of a flat group
-  algebraic space, and it is a universal homeomorphism.
-- §4.5: for a closed point `x` of a locally Noetherian stack, the residual gerbe `𝒵_x → ℳ` is a closed
-  immersion and `𝒵_x` is the reduced closed substack on `{x}`.
-- §5.3: the residue field `κ(x)` of a point of a decent stack whose residual gerbe exists, with `𝒵_x`
-  a gerbe over `Spec κ(x)`; quasi-separated stacks are decent and have residual gerbes at every
-  point (its last API bullet). The stacks of Convention 1 are quasi-separated and of finite type
-  over `k`, hence decent and locally Noetherian.
-- §5.4: for a decent stack with quasi-compact inertia and a point `ξ`, an open substack of the
-  reduced closure of `ξ` containing `ξ` that is a gerbe over an integral affine scheme `Z` whose
-  generic point is the image of `ξ`, with `κ(ξ)` the function field of `Z`. The inertia of a stack of
-  Convention 1 is quasi-compact, being a base change of the diagonal.
-
-### From TauCetiRoadmap.SchemeAndStackFoundations
-
-- §1.3 (algebraic spaces and their diagonals), §1.9 (separation and properness of algebraic
-  spaces), §1.10 (the small étale site of an algebraic space), §1.18 (stacks in groupoids,
-  `StackInGroupoids`, 2-fibre products), §1.19 (`IsRepresentableBySpaces`, `RepresentableProperty`,
-  `IsAlgebraicStack`, `IsDeligneMumford`), §1.20 (`inertia`, `automorphismGroup`,
-  `setoid_criterion`, `SmoothLocal`, `Stacks.points`, `IsSeparatedStack`, `IsProperStack`,
-  `stack_presentation`), §1.21 (`actionQuotient`, `quotientStack_algebraic`), §1.22 (quasi-coherent
-  modules on stacks and their description on a presentation), §1.23 (`IsCoarseModuliSpace`,
-  `keel_mori`: an algebraic stack with finite inertia has a coarse space `π : ℳ → M` with `π` proper
-  and quasi-finite, bijective on geometric points).
-- §2.6 (`serre_affineness_criterion`, whose direction from affineness gives `H^q(X, F) = 0` for every
-  `q > 0` and every quasi-coherent `F` on an affine scheme `X`) and §2.10
-  (`quasiCoherent_topology_comparison`: for quasi-coherent `F`,
-  `H^q(X_Zar, F) = H^q(X_ét, F^a) = H^q(X_fppf, F^a)`), used in 6.1 to split, on each affine étale
-  chart, an extension of a finite locally free module by a quasi-coherent one.
-- §2.18 (derived categories of quasi-coherent complexes on schemes; `projectionFormula`, and
-  `torIndependent_baseChange` for a qcqs `f` Tor-independent of the base change, used in 9.2 for the
-  base change of `Rπ_*` to every scheme, `π` being flat), §2.19 (the right adjoint
-  `a_f` of `Rf_*`, `pushforwardRightAdjoint_adj`, `globalDuality`, the upper shriek functor and its
-  local complete intersection formula), §2.20 (relative dualising complexes of flat finitely
-  presented morphisms and their base change).
-- §3.3 (degrees of vector bundles and Riemann–Roch on proper curves), §4.1 (thickenings, formal
-  smoothness, the lifting criterion and torsors of lifts for smooth morphisms), §4.14 (over a
-  Noetherian base, `Hom_S(X, Y)` for projective `X`, `Y` flat over `S` is an open subscheme of a
-  Hilbert scheme of `X ×_S Y`, with its universal family), used in 9.1 for the scheme of morphisms
-  from a fixed curve.
-- §§5.1–5.6: Chow groups of schemes locally of finite type over `k`, proper pushforward, flat
-  pullback, `localization_exact`, `chow_affine_bundle`, the first Chern class, projective bundles
-  and Chern classes with the splitting principle, normal cones, `deformationToNormalCone`, refined
-  Gysin maps of regular immersions that need not be closed with `excess_intersection` and
-  `gysin_self_intersection`, exterior products, and the intersection product on smooth schemes
-  that need not be separated.
-
-### From TauCetiRoadmap.EquivariantIntersectionTheory
-
-Conventions 1, 4 and 5 (smooth affine `G` over `k`, quasi-projective `X` with a `G`-linearised
-ample invertible sheaf, dimension and codimension gradings); §2.1 (`A^G_i(X) := A_{i+l−g}(X ×^G U)`
-through Totaro's approximation, independent of `(V, U)`); §2.2 (operations and, for smooth `X`,
-the equivariant intersection product, defined through the products on the mixed spaces).
-
-### From TauCetiRoadmap.StableReductionPartII
-
-§5.15, the Edidin–Graham comparison: for a smooth affine group `G` of dimension `g` over `k` acting
-properly on a quasi-projective `X` with a `G`-linearised ample invertible sheaf, with `[X/G]`
-Deligne–Mumford, flat pullback along the mixed spaces `X ×^G U → [X/G]` gives isomorphisms
-`A_{i−g}([X/G])_ℚ ≅ A^G_i(X) ⊗ ℚ` for every `i`, from VirtualFundamentalClass §2.1's groups,
-compatible with Chern classes of equivariant vector bundles and with proper pushforward.
-
-### From TauCetiRoadmap.StableReduction
-
-Layer 2 (coherent pushforward along proper morphisms over locally Noetherian bases, cohomology and
-base change, the relative dualising sheaf of a proper flat nodal family and its base change,
-relative ampleness and its openness) and Layer 3 (prestable families, their base change and
-fibres).
-
-### From TauCetiRoadmap.EnhancedDerivedSheaves
-
-§0.3 (derived tensor and internal Hom on ringed sites), E1.4 (the pullback–pushforward adjunction
-and change of coefficients), E1.8 (quasi-coherent derived sheaves and base change), through the
-stack sites of VirtualFundamentalClass §3.1.
-
-### From TauCetiRoadmap.DerivedModuleAlgebra
-
-§0.7 (`τ_{≥−1}L_{B/A}` of a surjection `A → B = A/I` is `I/I²[1]`), §0.12 (for smooth `B/A`,
-`L_{B/A} ≃ Ω_{B/A}[0]`), §0.25 (the obstruction in `Ext¹_B(L_{B/A}, J)` to lifting an `A`-map
-`B → T` along a square-zero extension `T′ → T` of `A`-algebras, and the torsor of lifts).
-
-## How to read the build
-
-Layers 1–4 are the Chow lane. On the closed substacks, residual gerbes and residue fields of
-StackPointsAndResidualGerbes, Layer 1 supplies proper covers, function fields, generic stabiliser
-orders and degrees on stacks that need not be separated; Layer 2 the integral cycle and Chow
-groups and their three comparisons; Layer 3 the operations that exist integrally; Layer 4, built
-on proper covers, the rational operations on all stacks, and their agreement with
-VirtualFundamentalClass on separated stacks. Layer 5 uses Layers 1–4 for the products and
-comparisons. Layer 6 uses Layer 4 and VirtualFundamentalClass Layers 3–4, 6–7 and 9 to define the
-virtual class without the resolution property and to prove the relative formulas. Layer 7 is
-independent of the Chow lane: it needs only VirtualFundamentalClass Layers 3–5 and §9.1,
-DerivedModuleAlgebra §§0.7 and 0.25 and SchemeAndStackFoundations §4.1. Layer 8 extends the cycles
-and rational equivalences of Layer 2 to algebraic stacks by smooth descent and the deformation to the
-normal cone to local immersions, adds the intersection with `P`-divisors that builds the canonical
-rational equivalence, and combines them with Layers 3–6 for base change, functoriality and
-deformation invariance over bases of pure dimension, and Layer 9
-combines Layers 6–7 with StableReduction and
-SchemeAndStackFoundations duality for spaces of maps from curves; its virtual class is Layer 6's.
-Each target's *Needs:* line lists what its statement and its route use, item by item; where a
-section proves statements that need different items, its line says which statement needs which.
 
 ## Layer 1: proper covers, function fields and degrees
 
@@ -2502,6 +2160,348 @@ VirtualFundamentalClass §§3.1, 3.3, 6.4, 9.2; Tau Ceti `TauCeti.AlgebraicGeome
   smooth projective target over a field of characteristic zero; 6.2 does without the use
   of the resolution property in its §4.2; 8.4 gives deformation invariance of its invariants; 5.4 computes
   its degrees on coarse spaces.
+
+## Scope and ownership
+
+This roadmap owns:
+
+- proper covers of the Deligne–Mumford stacks of Convention 1, whose diagonal is quasi-compact and
+  separated, their existence (a finite cover by a scheme) and
+  proper coverings of integral ones, the description of the function field of an integral stack
+  (the residue field at its generic point) by rational functions and on étale charts, the generic
+  stabiliser order `e(𝒱)` and
+  Vistoli's rational degree of a separated dominant morphism of integral stacks, for stacks that
+  need not be separated (Layer 1);
+- the integral cycle groups, orders of rational functions, rational equivalence and integral
+  Chow groups `A_i(ℳ)` of such stacks, the cycle of a closed substack, and the comparisons with
+  the scheme groups of Tau Ceti, with the Chow groups of algebraic spaces of the Stacks Project
+  and with the rational groups of VirtualFundamentalClass §2.1 (Layer 2);
+- integral flat pullback, integral pushforward along proper representable morphisms, the
+  integral push–pull formula and localisation sequence, integral exterior products, integral
+  homotopy invariance for vector bundles on algebraic spaces, and integral refined Gysin maps of
+  regular local immersions with algebraic-space sources (Layer 3);
+- on all such stacks: rational pushforward along every proper morphism, the action of Gysin maps
+  of regular local immersions and of flat pullback on Chow groups of stacks, homotopy invariance
+  for vector bundles, Chern classes, and their agreement with VirtualFundamentalClass §§2.2–2.5
+  on separated stacks (Layer 4);
+- the intersection product on smooth stacks and Poincaré duality for the bivariant groups of a
+  smooth separated stack with separated sources; the comparison with moduli spaces that are
+  algebraic spaces; the compatibility of the Edidin–Graham comparison with products; and the
+  closed formula for the degree of a closed point (Layer 5);
+- the comparison bundle of two global resolutions, the virtual class of a stack, separated or
+  not, whose obstruction theory has a global resolution, and the relative no-obstruction and
+  obstruction-bundle formulas over a base of pure dimension (Layer 6);
+- the relative obstruction class of square-zero extensions over an algebraic stack and the
+  relative characterisations of obstruction theories (Layer 7);
+- cycles and rational equivalences on algebraic stacks locally of finite type, formed on smooth
+  charts and descended, with no Chow group; the deformation space of a local immersion of algebraic
+  stacks; the intersection of cycles and rational equivalences with `P`-divisors and Kresch's explicit
+  rational equivalence between the two intersections of two `P`-divisors; the canonical rational equivalence on an arbitrary ambient algebraic stack locally of finite
+  type, with its invariance along relative tangent directions, regular-immersion pullback and
+  functoriality of virtual classes over bases of pure dimension, and deformation invariance of
+  virtual counts (Layer 8);
+- derived pushforward and Grothendieck duality along prestable families over Deligne–Mumford
+  stacks, the Kodaira–Spencer morphism, the perfect relative obstruction theory of every relative
+  space of maps from a family of prestable curves to a smooth `k`-scheme, its global
+  resolutions and its virtual dimension (Layer 9).
+
+Imported, not restated:
+
+- **VirtualFundamentalClass** owns the Behrend–Fantechi construction: stack dimension (§§0.2–0.3);
+  cones and normal cones, with the normal cones of local immersions of
+  gap:normal-cones-of-local-immersions, the deformation to the normal cone of representable closed
+  immersions, and the smooth-ambient tangent actions (§§1.4–1.6);
+  Vistoli's rational Chow groups of separated Deligne–Mumford stacks with the degree of proper
+  zero-cycles, proper pushforward, flat
+  pullback, localisation, exterior products, homotopy invariance, Chern classes, refined Gysin
+  maps, bivariant groups, the canonical rational equivalence with its compatibilities and its
+  invariance under the restricted tangent action of Kresch's Theorem 3.1, the plane example in
+  which a transverse translation moves it, and the cap action with the projection formula
+  (§§2.1–2.5); the relative cotangent complex of a morphism of algebraic stacks and absolute
+  square-zero lifting (§§3.1–3.5); cone stacks and `h¹/h⁰` (§§4.1–4.5); the absolute and relative
+  intrinsic normal sheaf and cone, the relative cone presented on charts by normal cones and the
+  relative tangent action (§§5.1–5.5, 9.1); obstruction theories, their absolute
+  closed-immersion and lifting characterisations, perfectness and global resolutions (§§6.1–6.6);
+  the virtual class of a separated stack with the resolution property, its independence, formulas
+  and virtual degree (§§7.1–7.7); compatible obstruction theories, pullback and functoriality over
+  smooth bases (§§8.1–8.5); and the relative class over a pure-dimensional algebraic stack, its flat
+  base change (§9.3), regular base change and the no-obstruction and obstruction-bundle formulas
+  over smooth bases (§9.4), relative functoriality under the hypotheses of Behrend–Fantechi
+  Proposition 7.5 for separated stacks with the resolution property (§9.5) and pullback from smooth
+  stacks (§9.6). Each item of this roadmap that touches one of these sections states, in one
+  clause, which hypothesis of that section it does without.
+- **StackPointsAndResidualGerbes** owns, for every algebraic stack, reduced stacks (§0.1), closed
+  substacks with their description as invariant closed subspaces of a presentation and their base
+  change (§0.3), the unique reduced closed substack with a given closed support and the
+  factorisation of morphisms from reduced stacks through it (§0.5), the automorphism group space
+  `G_x` of a field-valued point (§1.3), residual gerbes and, at a closed point of a locally
+  Noetherian stack, their identification with the reduced closed substack on that point (§4.5),
+  the residue field `κ(x)` of a point of a decent stack (§5.3), and the dense open gerbe over an
+  integral affine scheme through a point (§5.4). Here the function field of an integral stack is
+  the residue field at its generic point (1.2), and the zero-cycle of a closed point is the class
+  of its residual gerbe (5.4).
+- **SchemeAndStackFoundations** owns algebraic spaces, stacks in groupoids, algebraic and
+  Deligne–Mumford stacks, inertia, the underlying topological space, separated and proper stacks,
+  quotient stacks, quasi-coherent modules on stacks, coarse moduli spaces and the Keel–Mori theorem
+  (§§1.3, 1.9–1.10, 1.18–1.23), the vanishing of higher quasi-coherent cohomology on affine schemes
+  and its agreement in the Zariski, étale and fppf topologies (§§2.6, 2.10), used in 6.1 to split
+  extensions on affine charts, derived categories of quasi-coherent complexes, the upper shriek
+  functor and relative dualising complexes (§§2.18–2.20), Riemann–Roch on curves (§3.3), the
+  lifting criterion and torsors of lifts for smooth morphisms (§4.1), Hom schemes of projective
+  schemes (§4.14), and the intersection theory of schemes (§§5.1–5.6). Every stack-level statement
+  here restricts on schemes to those sections and is not restated for schemes.
+- **StableReductionPartII** §5.15 owns the Edidin–Graham comparison of groups
+  `A_{i−g}([X/G])_ℚ ≅ A^G_i(X) ⊗ ℚ` for a Deligne–Mumford quotient stack, with its compatibility
+  with Chern classes and proper pushforward; 5.3 here adds only its compatibility with products.
+- **EquivariantIntersectionTheory** §§2.1–2.2 owns equivariant Chow groups and the equivariant
+  product; **StableReduction** Layers 2–3 own coherent cohomology of curve families, the relative
+  dualising sheaf, relative ampleness and prestable families; **EnhancedDerivedSheaves** §0.3, E1.4
+  and E1.8 own derived functors on ringed sites; **DerivedModuleAlgebra** §§0.7, 0.12 and 0.25 own
+  the cotangent complex of ring maps and square-zero lifting for ring maps.
+
+Not part of this roadmap: the prestable-curve stack, the stack of stable maps, its properness and
+its virtual class (AlgebraicGromovWittenTheory, a consumer of Layer 9; Layer 9 states the
+obstruction theory of a relative space of maps for every base of pure dimension and every smooth
+target scheme, and builds no moduli stack); Chow groups of Artin stacks in the sense of Kresch (8.1
+forms cycles and rational equivalences on algebraic stacks, and no Chow group of a stack that is not
+Deligne–Mumford) and the virtual class without a global resolution (kresch1999 Theorem 6.2.1),
+virtual pullbacks, torus and cosection
+localisation, virtual structure sheaves, reduced, logarithmic and symmetric obstruction theories,
+general bivariant groups with non-separated test objects (the bivariant groups here are those of
+VirtualFundamentalClass §2.5; on non-separated stacks only the Gysin, flat-pullback and Chern
+operations of Layer 4 act), and the symplectic virtual classes of GromovWittenTheory and
+ImplicitAtlases.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- `AlgebraicGeometry.AlgebraicCycle` and `AlgebraicGeometry.AlgebraicCycle.map`
+  (`Mathlib/AlgebraicGeometry/AlgebraicCycle/Basic.lean`): cycles on a scheme as locally finitely
+  supported functions, and pushforward along a quasi-compact morphism with prescribed weights. Used
+  through Tau Ceti's Chow API in 2.3.
+- `AlgebraicGeometry.Scheme.ord` (`Mathlib/AlgebraicGeometry/OrderOfVanishing.lean`): the order of an
+  element of the function field of an integral locally Noetherian scheme at a point. Its value is
+  `0` at points of coheight different from `1` and for the zero function; 2.2 evaluates it only on
+  nonzero functions at points of coheight one; 8.1 evaluates it on normal integral schemes.
+- `AlgebraicGeometry.Scheme.Hom.normalization`, `AlgebraicGeometry.Scheme.Hom.fromNormalization` and
+  `AlgebraicGeometry.Scheme.Hom.normalizationPullback` (`Mathlib/AlgebraicGeometry/Normalization.lean`):
+  the relative normalisation of a quasi-compact quasi-separated morphism, integral over the target, and
+  the comparison map from the normalisation of a base change to the base change of the normalisation,
+  an isomorphism along a smooth morphism. 8.1 takes the normalisation
+  of an integral scheme as that of `Spec k(M) → M`.
+- `AlgebraicGeometry.IsClosedImmersion`, `AlgebraicGeometry.Flat`, `AlgebraicGeometry.Etale`,
+  `AlgebraicGeometry.Smooth` and `AlgebraicGeometry.IsProper` (`Mathlib/AlgebraicGeometry/Morphisms/`):
+  the scheme morphism properties to which SchemeAndStackFoundations §§1.19–1.20 reduce those of
+  representable morphisms.
+
+The pin has no algebraic stacks, no Chow groups of stacks and no cotangent complex of a stack.
+
+### From Tau Ceti
+
+- `TauCeti.AlgebraicGeometry.Chow.cyclesOfDimension`, `TauCeti.AlgebraicGeometry.Chow.RatEquivFamily`
+  with `TauCeti.AlgebraicGeometry.Chow.RatEquivFamily.cycle`, `TauCeti.AlgebraicGeometry.Chow.RatEquiv`,
+  `TauCeti.AlgebraicGeometry.Chow.ChowGroup`, `TauCeti.AlgebraicGeometry.Chow.cycleClass` and
+  `TauCeti.AlgebraicGeometry.Chow.ChowGroup.equivIntOfUnique`
+  (`TauCeti/AlgebraicGeometry/Chow/Basic.lean`), and
+  `TauCeti.AlgebraicGeometry.Chow.ChowGroup.pushforward`
+  (`TauCeti/AlgebraicGeometry/Chow/ClosedImmersion.lean`): cycles of a locally Noetherian scheme
+  graded by the dimension of the closure; families of integral closed subschemes of dimension
+  `k + 1` with nonzero rational functions on them, whose supports are locally finite, and the cycle
+  `Σ_j (i_j)_* div(r_j)` of such a family; rational equivalence as the subgroup of these cycles; Chow
+  groups, the class map, `CH_0` of a one-point scheme, and pushforward along closed immersions. On
+  a scheme of finite type over `k` the families are finite. 2.3 identifies the stack groups of a
+  scheme with these.
+- `TauCeti.AlgebraicGeometry.SchPseudofunctor` (`TauCeti/AlgebraicGeometry/Stack/Basic.lean`) and
+  `TauCeti.AlgebraicGeometry.Spaces.IsAlgebraicSpace` (`TauCeti/AlgebraicGeometry/AlgebraicSpace/Basic.lean`):
+  the carriers under SchemeAndStackFoundations §§1.3 and 1.18. `IsAlgebraicSpace` asks for a diagonal
+  representable by schemes and an étale atlas; it does not include quasi-separatedness, which
+  Convention 1 adds.
+- `TauCeti.AlgebraicGeometry.isFinite_fromNormalization_of_isJapanese`
+  (`TauCeti/AlgebraicGeometry/Normalization/Finite.lean`): for an integral scheme whose rings of sections
+  on nonempty affine opens are Japanese and a finite extension `L` of its function field, the
+  normalisation in `Spec L` is finite. 8.1 uses it with `L = k(M)` for an integral scheme `M` of finite
+  type over `k`.
+- `TauCeti.AlgebraicGeometry.PrestableFamily` (`TauCeti/AlgebraicGeometry/Curves/Prestable.lean`):
+  proper, geometrically connected, at-worst-nodal relative curves; it is stable under base change
+  and syntomic of relative dimension one. The genus is not part of it.
+- `TauCeti.AlgebraicGeometry.FiniteLocallyFreeSheaf.FixedRank.vectorBundleDegree`
+  (`TauCeti/AlgebraicGeometry/VectorBundle/Degree.lean`): `deg E := χ(E) − r · χ(O)` for a bundle of
+  rank `r` on a proper scheme of dimension at most one over `k`, used fibrewise in 9.5.
+
+### From TauCetiRoadmap.VirtualFundamentalClass
+
+- §§0.2–0.3: dimension and pure dimension of algebraic stacks locally of finite type over `k`,
+  independent of the atlas, with `dim [U/G] = dim U − dim G`.
+- §§1.4–1.6: cones, abelian cones and vector bundles over stacks, normal cones of representable
+  closed immersions with flat base change, their deformation to the normal cone (generic fibre the
+  ambient stack, special fibre the normal cone), and the action of `T_M|_X` on `C_{X/M}` for a smooth
+  ambient `M`.
+- §2.1: the rational groups `A_i(ℳ)_ℚ` of a separated stack, generated by integral closed
+  substacks with Vistoli's degree factors, and the degree of proper zero-cycles with the generic
+  stabiliser weight; §2.2: proper pushforward, flat pullback, localisation and
+  exterior products on them; §2.3: homotopy invariance, the zero-section Gysin inverse and Chern
+  classes; §2.4: refined Gysin maps of representable regular local immersions; §2.5: rational
+  bivariant groups for morphisms of relative Deligne–Mumford type to algebraic stacks, acting
+  after base change to separated test stacks whose pullbacks are separated, the flat and
+  regular-local-immersion orientations, the canonical rational equivalence with its compatibility with smooth base change and smooth refinement
+  (behrend-fantechi1997 Propositions 3.3–3.4), its invariance under the restricted tangent action
+  `T_{Y′}|_{X′}` of kresch1999b Theorem 3.1, the plane example in which a transverse translation
+  moves it, and the cap action with the projection formula.
+- §§3.1–3.5: derived operations on the small étale site of a stack, perfect complexes and global
+  two-term resolutions, the relative cotangent complex `L_{X/𝔜}` of a morphism of algebraic stacks
+  locally of finite type with its transitivity triangles and flat base change, vanishing in positive
+  degrees and coherence in degrees `0, −1` for morphisms of Deligne–Mumford type, its local
+  presentation, and absolute square-zero lifting.
+- §§4.1–4.5: cone stacks, `h¹/h⁰`, the abelian cone stack `h¹/h⁰(E^∨)` of a complex with the
+  condition of §4.4, the presentation `h¹/h⁰(E^∨) ≅ [F_1/F_0]` of a global resolution functorial up to
+  specified 2-isomorphism, and the closed-immersion criterion.
+- §§5.1–5.5 and 9.1: the absolute and relative intrinsic normal sheaf and cone; the relative cone
+  presented on charts by normal cones and the relative tangent action, with comparison under
+  refinement (§9.1); for `𝔜` of pure dimension `d`, `𝔠_{X/𝔜}` is pure of dimension `d`.
+- §§6.1–6.6: obstruction theories, the obstruction cone, the absolute lifting criterion,
+  perfectness, global resolutions, pullback of relative theories under cartesian base change.
+- §§7.1–7.7: the resolved cone `C(F•) := 𝔠_X ×_𝔈 F_1`, the class `0^!_{F_1}[C(F•)]` of a separated
+  stack with the resolution property, its independence (§7.3), its public construction (§7.4), its
+  formulas (§§7.5–7.6) and its degree (§7.7).
+- §§8.1–8.5: compatibility data over a local complete intersection morphism, smooth and
+  regular-immersion pullback between smooth bases, functoriality and coherence.
+- §§9.2–9.6: the relative virtual class `[X/𝔜, E]^vir ∈ A_{d + rk E}(X)_ℚ` for separated `X` with the
+  resolution property, flat base change, regular base change and formulas over smooth bases,
+  relative functoriality and pullback from smooth stacks.
+
+What VirtualFundamentalClass must provide (gap:closed-substacks-of-stacks): in its §2.1, integral
+closed substacks of a Deligne–Mumford stack, their bijection with the irreducible closed subsets of its
+space, and the image of an integral closed substack under a proper morphism, with no separatedness
+assumed. Its cycles are sums of integral closed substacks, and this roadmap uses the same substacks
+on stacks that are not separated. Closed substacks, their description on a presentation, their
+base change and the reduced closed substack on a closed subset are StackPointsAndResidualGerbes
+§§0.3 and 0.5, which that roadmap states for every algebraic stack; on them, what is needed is: an
+integral closed substack of `ℳ` is a reduced closed substack `𝒱` with `|𝒱|` irreducible
+(vistoli1989 (1.6), lines 245–250); `𝒱 ↦ |𝒱|` is a bijection from integral closed substacks onto the
+irreducible closed subsets of `|ℳ|` (SchemeAndStackFoundations §1.20 `Stacks.points`), by the
+uniqueness of StackPointsAndResidualGerbes §0.5; and for a proper morphism `f : ℱ → 𝒢` of stacks
+(Convention 1) and an integral closed substack `𝒱 ⊆ ℱ`, the image `f(𝒱)` is the reduced closed
+substack on the closed irreducible set `|f|(|𝒱|)`, an integral closed substack of `𝒢` (vistoli1989
+(1.7), lines 254–269, which defines it on an atlas). None of this depends on separatedness.
+
+What VirtualFundamentalClass must provide (gap:normal-cones-of-local-immersions): in its §1.5, the
+normal cone `C_{X/Y}` of a local immersion `X → Y` of algebraic stacks locally of finite type over
+`k`, obtained by descent from charts on which it is a closed immersion of schemes, with its closed
+embedding under base change (an isomorphism under flat base change), its closed embedding in the
+normal sheaf, and the normal bundle of a regular local immersion. Its §1.5 forms the normal cones of representable closed immersions; its §2.4 and this roadmap's 3.5, 4.2,
+8.1 and 8.3 use the normal cone of a local immersion that need not be a closed immersion, such as
+`Spec k → BG` or the diagonal `BG → BG × BG` (5.1) for a finite étale `G` with `|G| > 1`. Needed: for
+a local immersion `X → Y` of algebraic stacks locally of finite type over `k`, the normal cone
+`C_{X/Y}`, obtained by descent from charts `U → V` that are closed immersions of schemes, with
+`V → Y` and `U → X` smooth and surjective and `U → X ×_Y V` étale (kresch1999b Lemma 2.2 and the
+paragraph after it, lines 218–237; vistoli1989 Lemma 1.19 and lines 508–526), equal to §1.5's cone
+when `X → Y` is a closed immersion; for a morphism `Y′ → Y` of algebraic stacks locally of finite type
+over `k` and `X′ := X ×_Y Y′`, a closed embedding
+`C_{X′/Y′} ⊆ C_{X/Y} ×_X X′` (vistoli1989 lines 529–535), an isomorphism when `Y′ → Y` is flat (on the
+charts `U → V`, the flat base change of normal cones of closed immersions of VirtualFundamentalClass
+§1.5, descended; vistoli1989 Lemma 3.14, lines 1126–1131, for local embeddings of schemes); the
+closed embedding of `C_{X/Y}` in the normal sheaf; and, for a regular local immersion of codimension
+`d`, the equality of `C_{X/Y}` with the normal bundle `N_{X/Y}`, a vector bundle of rank `d`
+(vistoli1989 lines 527–528; kresch1999b lines 236–237). On the diagonal of `BG` the cone is the zero
+bundle over `BG`: over the atlas `Spec k → BG × BG` the diagonal becomes the finite étale `G → Spec k`,
+and the chart `U = V = G`, with `U → BG ×_{BG×BG} V = G ×_k G` the diagonal of `G` (open and closed, `G`
+being étale and separated), has `U → V` the identity, so the cone has rank equal to the codimension
+`0`; a construction for closed immersions alone does not reach it, as the diagonal is not one.
+
+### From TauCetiRoadmap.StackPointsAndResidualGerbes
+
+- §0.1: reduced algebraic stacks, reducedness being a smooth-local property; an integral stack
+  (Convention 5) is a reduced one with irreducible space.
+- §0.3: closed substacks of an algebraic stack (strictly full substacks whose inclusion is a closed
+  immersion), the bijection, for a presentation `[U/R]`, with the `R`-invariant closed subspaces of
+  `U` (for an étale presentation, the closed subschemes `Z ⊆ U` with `s^{−1}Z = t^{−1}Z`, vistoli1989
+  (1.5), lines 232–244), base change and composition of closed immersions, and `|𝒵|` closed in `|ℳ|`.
+- §0.5: for every closed subset `T ⊆ |ℳ|` a unique reduced closed substack with support `T`, the
+  reduction `ℳ_red`, and the factorisation through a closed substack of a morphism from a reduced
+  stack whose image lies in it.
+- §1.3: the automorphism group space `G_x` of a field-valued point and its base change along field
+  extensions.
+- §§2.3 and 2.5: a gerbe is, fppf locally on its base, the classifying stack of a flat group
+  algebraic space, and it is a universal homeomorphism.
+- §4.5: for a closed point `x` of a locally Noetherian stack, the residual gerbe `𝒵_x → ℳ` is a closed
+  immersion and `𝒵_x` is the reduced closed substack on `{x}`.
+- §5.3: the residue field `κ(x)` of a point of a decent stack whose residual gerbe exists, with `𝒵_x`
+  a gerbe over `Spec κ(x)`; quasi-separated stacks are decent and have residual gerbes at every
+  point (its last API bullet). The stacks of Convention 1 are quasi-separated and of finite type
+  over `k`, hence decent and locally Noetherian.
+- §5.4: for a decent stack with quasi-compact inertia and a point `ξ`, an open substack of the
+  reduced closure of `ξ` containing `ξ` that is a gerbe over an integral affine scheme `Z` whose
+  generic point is the image of `ξ`, with `κ(ξ)` the function field of `Z`. The inertia of a stack of
+  Convention 1 is quasi-compact, being a base change of the diagonal.
+
+### From TauCetiRoadmap.SchemeAndStackFoundations
+
+- §1.3 (algebraic spaces and their diagonals), §1.9 (separation and properness of algebraic
+  spaces), §1.10 (the small étale site of an algebraic space), §1.18 (stacks in groupoids,
+  `StackInGroupoids`, 2-fibre products), §1.19 (`IsRepresentableBySpaces`, `RepresentableProperty`,
+  `IsAlgebraicStack`, `IsDeligneMumford`), §1.20 (`inertia`, `automorphismGroup`,
+  `setoid_criterion`, `SmoothLocal`, `Stacks.points`, `IsSeparatedStack`, `IsProperStack`,
+  `stack_presentation`), §1.21 (`actionQuotient`, `quotientStack_algebraic`), §1.22 (quasi-coherent
+  modules on stacks and their description on a presentation), §1.23 (`IsCoarseModuliSpace`,
+  `keel_mori`: an algebraic stack with finite inertia has a coarse space `π : ℳ → M` with `π` proper
+  and quasi-finite, bijective on geometric points).
+- §2.6 (`serre_affineness_criterion`, whose direction from affineness gives `H^q(X, F) = 0` for every
+  `q > 0` and every quasi-coherent `F` on an affine scheme `X`) and §2.10
+  (`quasiCoherent_topology_comparison`: for quasi-coherent `F`,
+  `H^q(X_Zar, F) = H^q(X_ét, F^a) = H^q(X_fppf, F^a)`), used in 6.1 to split, on each affine étale
+  chart, an extension of a finite locally free module by a quasi-coherent one.
+- §2.18 (derived categories of quasi-coherent complexes on schemes; `projectionFormula`, and
+  `torIndependent_baseChange` for a qcqs `f` Tor-independent of the base change, used in 9.2 for the
+  base change of `Rπ_*` to every scheme, `π` being flat), §2.19 (the right adjoint
+  `a_f` of `Rf_*`, `pushforwardRightAdjoint_adj`, `globalDuality`, the upper shriek functor and its
+  local complete intersection formula), §2.20 (relative dualising complexes of flat finitely
+  presented morphisms and their base change).
+- §3.3 (degrees of vector bundles and Riemann–Roch on proper curves), §4.1 (thickenings, formal
+  smoothness, the lifting criterion and torsors of lifts for smooth morphisms), §4.14 (over a
+  Noetherian base, `Hom_S(X, Y)` for projective `X`, `Y` flat over `S` is an open subscheme of a
+  Hilbert scheme of `X ×_S Y`, with its universal family), used in 9.1 for the scheme of morphisms
+  from a fixed curve.
+- §§5.1–5.6: Chow groups of schemes locally of finite type over `k`, proper pushforward, flat
+  pullback, `localization_exact`, `chow_affine_bundle`, the first Chern class, projective bundles
+  and Chern classes with the splitting principle, normal cones, `deformationToNormalCone`, refined
+  Gysin maps of regular immersions that need not be closed with `excess_intersection` and
+  `gysin_self_intersection`, exterior products, and the intersection product on smooth schemes
+  that need not be separated.
+
+### From TauCetiRoadmap.EquivariantIntersectionTheory
+
+Conventions 1, 4 and 5 (smooth affine `G` over `k`, quasi-projective `X` with a `G`-linearised
+ample invertible sheaf, dimension and codimension gradings); §2.1 (`A^G_i(X) := A_{i+l−g}(X ×^G U)`
+through Totaro's approximation, independent of `(V, U)`); §2.2 (operations and, for smooth `X`,
+the equivariant intersection product, defined through the products on the mixed spaces).
+
+### From TauCetiRoadmap.StableReductionPartII
+
+§5.15, the Edidin–Graham comparison: for a smooth affine group `G` of dimension `g` over `k` acting
+properly on a quasi-projective `X` with a `G`-linearised ample invertible sheaf, with `[X/G]`
+Deligne–Mumford, flat pullback along the mixed spaces `X ×^G U → [X/G]` gives isomorphisms
+`A_{i−g}([X/G])_ℚ ≅ A^G_i(X) ⊗ ℚ` for every `i`, from VirtualFundamentalClass §2.1's groups,
+compatible with Chern classes of equivariant vector bundles and with proper pushforward.
+
+### From TauCetiRoadmap.StableReduction
+
+Layer 2 (coherent pushforward along proper morphisms over locally Noetherian bases, cohomology and
+base change, the relative dualising sheaf of a proper flat nodal family and its base change,
+relative ampleness and its openness) and Layer 3 (prestable families, their base change and
+fibres).
+
+### From TauCetiRoadmap.EnhancedDerivedSheaves
+
+§0.3 (derived tensor and internal Hom on ringed sites), E1.4 (the pullback–pushforward adjunction
+and change of coefficients), E1.8 (quasi-coherent derived sheaves and base change), through the
+stack sites of VirtualFundamentalClass §3.1.
+
+### From TauCetiRoadmap.DerivedModuleAlgebra
+
+§0.7 (`τ_{≥−1}L_{B/A}` of a surjection `A → B = A/I` is `I/I²[1]`), §0.12 (for smooth `B/A`,
+`L_{B/A} ≃ Ω_{B/A}[0]`), §0.25 (the obstruction in `Ext¹_B(L_{B/A}, J)` to lifting an `A`-map
+`B → T` along a square-zero extension `T′ → T` of `A`-algebras, and the torsor of lifts).
 
 ## References
 
