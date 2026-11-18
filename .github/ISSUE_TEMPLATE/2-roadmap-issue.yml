@@ -39,6 +39,7 @@ body:
         - AnalyticNumberTheoryPartII
         - AnalyticNumberTheoryPartIII
         - AnalyticStableMaps
+        - ArakelovGeometryAndAbelianHeights
         - ArithmeticDirichletSeriesPartII
         - ArithmeticGaloisDuality
         - ArithmeticGaloisRepresentations
@@ -79,6 +80,7 @@ body:
         - ComplexTori
         - ComputabilityTheory
         - ConformalMappingPartII
+        - CongruenceSpectralGap
         - ConvexLifting
         - CountableModelCounting
         - CountableStructureSpaces
@@ -233,6 +235,7 @@ body:
         - PCurvature
         - PDE
         - PELModuli
+        - PadicDifferentialEquationsAndRigidCohomology
         - PadicExtensionFamilies
         - PadicFunctionalAnalysis
         - PadicLocalLanglandsForGL2Qp
