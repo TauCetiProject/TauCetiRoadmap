@@ -1,43 +1,58 @@
 # Roadmap: Schrödinger operators and spectral types
 
-**Summary.** Build the measure-theoretic spectral types of an arbitrary self-adjoint operator on a
-complex Hilbert space, the self-adjoint Laplace–Beltrami operator of a complete Riemannian manifold,
-and the Schrödinger operators `−Δ + V` with bounded real potentials on `L²(ℝ^d)`, where `Δ = Σⱼ ∂ⱼ²`
-is Mathlib's Euclidean Laplacian, so that `−Δ ≥ 0`. The first layer identifies the absolutely
-continuous, singular continuous and pure point spectral projections with the Lebesgue decomposition
-of every vector spectral measure, defines `σ_ac`, `σ_sc`, `σ_pp`, characterises `σ_ac` by local
-absolutely continuous mass (hence closed with no isolated points), proves the interval criterion for
-`[a, b] ⊆ σ_ac`, the min–max principle below the essential spectrum, the abstract wave operators,
-Pearson's theorem and the Kato–Rosenblum theorem on trace-class perturbations. The second layer
-gives the lower bounds and cores that bounded and Kato–Rellich perturbations preserve. The third
-layer constructs, on every smooth Riemannian manifold without boundary, the initial operator
-`Δ₀ = −div grad` on `C_c^∞` (whose closure is the minimal operator), its adjoint the maximal
-operator, the energy form and the Friedrichs Laplacian, and proves the theorem of Gaffney, Chernoff
-and Strichartz: on a complete manifold `Δ₀` is essentially self-adjoint, its closure `Δ_X` is the
-maximal operator and the operator of the energy form on `H¹(X) = H¹₀(X)`. It then gives `Δ_X` its
-spectral vocabulary (kernel, bottom of the spectrum, ordered eigenvalues below the essential
-spectrum, its identification on closed manifolds with the operator of RiemannianGeometry, bounded
-potentials, and the threshold `[1/4, ∞) ⊆ σ_ess` forced by a hyperbolic cusp end). The fourth layer
-describes `H²(ℝ^d)` four ways, takes the free Laplacian `H₀ = −Δ` on `H²(ℝ^d)` from
-QuantumFoundations, identifies its form domain `H¹(ℝ^d)` and essential spectrum `[0, ∞)` in every
-dimension `d ≥ 1`, and proves that `−Δ + V` with real `V ∈ L^∞(ℝ^d)` is self-adjoint on `H²`,
-bounded below by `ess inf V`, essentially self-adjoint on `C_c^∞` and on Schwartz space, with
-`σ_ess = [0, ∞)` when `V` vanishes at infinity; quasi-periodic trigonometric potentials are the
-model example.
+**Summary.** A self-adjoint operator on a complex Hilbert space gives each vector a spectral measure
+on the real line. The Lebesgue decomposition of these measures sorts the vectors into three types:
+absolutely continuous, singular continuous and pure point. This roadmap builds that theory for every
+self-adjoint operator, assuming no separability unless a statement says so. It then studies the
+Laplace–Beltrami operator of a complete Riemannian manifold and the Schrödinger operators `−Δ + V`
+with bounded real potentials on `L²(ℝ^d)`. Manifolds are Hausdorff, second countable and without
+boundary, but need not be connected or compact. On a manifold Δ is the nonnegative `−div grad`; on
+`ℝ^d`, `Δ = Σⱼ ∂ⱼ²` is Mathlib's Euclidean Laplacian, so that `−Δ ≥ 0`.
 
-## How to read the build
+Every vector is uniquely an orthogonal sum of components of the three types. By the first theorem,
+the spectral measure of the absolutely continuous component is the absolutely continuous part of the
+vector's spectral measure, and that of the pure point component is the restriction of the vector's
+measure to its atoms. The absolutely continuous spectrum `σ_ac` is the set of points each of whose
+neighbourhoods carries spectral mass of some vector of absolutely continuous type. It is closed with
+no isolated points. For real a < b, `[a, b] ⊆ σ_ac` exactly when every nonempty open subset of
+(a, b) carries absolutely continuous mass of some vector.
 
-Layer 1 is abstract spectral theory: it turns UnboundedOperators' type decomposition into statements
-about the Lebesgue decomposition of vector measures, defines and characterises the three spectral
-parts, proves the min–max principle, and ends with wave operators, Pearson's theorem and
-Kato–Rosenblum. Layer 2 collects the semibounded perturbation statements that Layers 3 and 4 both
-use; it rests on SelfAdjointSpectralTheory and UnboundedOperators alone, so Layers 1 and 2 are
-independent of each other. Layer 3 builds the Laplace–Beltrami operator of a Riemannian manifold
-from `C_c^∞` to its self-adjoint closure on complete manifolds and equips it with Layer 1's
-vocabulary. Layer 4 takes the free Laplacian on `ℝ^d` from QuantumFoundations, adds its form domain
-and essential spectrum, and builds the Schrödinger operators with bounded potentials. Layers 3 and 4
-are independent of each other; both need Layers 1 and 2. Downstream consumers records what a roadmap
-on finite-area hyperbolic surfaces takes from Layers 1 and 3.
+The essential spectrum is the spectrum minus its isolated eigenvalues of finite multiplicity. For A
+self-adjoint and bounded below, the n-th min–max value is the supremum over n − 1 vectors of the
+infimum of ⟪ψ, Aψ⟫ over unit vectors ψ in the domain orthogonal to them. The min–max principle says
+that it is the n-th eigenvalue below the essential spectrum, counted with multiplicity, if there are
+at least n of them, and otherwise the bottom of the essential spectrum (+∞ if that is empty).
+
+Let H be self-adjoint and V bounded, self-adjoint and trace class. The Kato–Rosenblum theorem says
+that, as t → ±∞, `e^{it(H+V)} e^{−itH} x` converges for every x of absolutely continuous type for H,
+to a vector of absolutely continuous type for H + V. All such vectors for H + V arise this way, and
+H and H + V have the same `σ_ac`. The convergence comes from Pearson's theorem, stated for operators
+on two Hilbert spaces.
+
+On a Riemannian manifold X, `Δ₀ = −div grad` acts in L²(X) on compactly supported smooth complex
+functions. The theorem of Gaffney, Chernoff and Strichartz says: if X is complete (each connected
+component complete for its Riemannian distance), then `Δ₀` is essentially self-adjoint. Its closure
+`Δ_X` is the maximal operator, defined on the u ∈ L²(X) whose distributional Laplacian is in L²(X).
+Its kernel consists of the L² functions that are almost everywhere locally constant. A standard cusp
+end is an open set isometric to (ℝ/wℤ) × (a, ∞) with the metric (dx² + dy²)/y², where w, a > 0. If a
+complete X contains one, every λ ≥ 1/4 lies in the essential spectrum of `Δ_X`.
+
+On `ℝ^d`, `d ≥ 1`, let V be real with `V ∈ L^∞(ℝ^d)`. Then `−Δ + V` is essentially self-adjoint on
+`C_c^∞` and on Schwartz space. Its closure has domain `H²(ℝ^d)` and is bounded below by `ess inf V`,
+and `σ_ess = [0, ∞)` when V vanishes at infinity. The decay is needed: for V = 1 the essential
+spectrum is [1, ∞).
+
+The roadmap builds on SelfAdjointSpectralTheory for spectral measures and unitary groups, and on
+UnboundedOperators for the essential spectrum and the three type subspaces. QuantumFoundations
+supplies the free Laplacian `H₀ = −Δ` on `H²(ℝ^d)`. On closed manifolds of positive dimension, `Δ_X`
+is identified with the complexification of the Laplacian of RiemannianGeometry. A roadmap on
+finite-area hyperbolic surfaces proves `σ_ess(Δ_X) = [1/4, ∞)` for the connected, complete,
+noncompact ones, taking one inclusion from the cusp theorem.
+
+Layer 1 holds the abstract theory and Layer 2 the semibounded perturbation results, such as the
+Kato–Rellich lower bound and cores. Layers 3 and 4 build the Laplace–Beltrami operator and the
+Euclidean Schrödinger operators. Layers 1 and 2 are independent of each other; so are Layers 3 and
+4, which both need Layers 1 and 2.
 
 ## Conventions
 
