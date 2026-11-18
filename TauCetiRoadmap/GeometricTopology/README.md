@@ -1,35 +1,63 @@
 # Roadmap: geometric topology
 
-**Summary.** This roadmap builds the geometric topology of manifolds that Mathlib does not yet
-have, from the smooth-manifold and tangent-bundle level upwards: manifolds with boundary and
-their collars, gluing along boundary faces, handle attachment, connected sums and tubular
-neighbourhoods (Layer 1); locally flat embeddings and the annulus theorem (Layer 2);
-diffeomorphism groups with the weak Whitney topology, isotopy extension and the Smale
-conjecture (Layer 3); knots and links in a general manifold with their presentations,
-invariants and minima (Layer 4); Dehn surgery (Layer 5); knot concordance (Layer 6);
-hyperbolic structures, volume and Mostow rigidity (Layer 7); the prime and JSJ
-decompositions and the statement of geometrization (Layer 8); Heegaard splittings
-(Layer 9); taut foliations, the Euler class of an oriented plane bundle and the Thurston norm
-(Layer 10); and triangulations, PL structures and collapse
-(Layer 11). Each layer is a reusable library in its own right. The end theorems are the
-resolved problems of Kirby's list that these primitives make statable: the Smale conjecture
-and its four-dimensional failure, the annulus theorem, Freedman's topological slice theorem,
-Levine's theorem that a knot in a homology sphere bounding a contractible manifold need not be
-homology concordant to a knot in `S³`, Mostow rigidity, Agol's virtual fibering and virtual
-Haken theorems, the JSJ theorem, geometrization and the Poincaré conjecture, Li's rank-versus-genus examples, the minimality
-of the Weeks manifold, Property P and Manolescu's non-triangulable manifolds, together with
-Alexander's sphere theorem, the knot-group theorem and the Gordon–Luecke theorem.
-`Suggested.lean` states all of these against the pinned libraries, together with Property R, the
-cyclic surgery theorem and the Kneser–Milnor prime decomposition, and four classical theorems of
-low-dimensional topology that the layers prove and the pins make statable: Radó's and Moise's
-triangulation theorems, the sphere theorem and Waldhausen's theorem.
-It also states Markov's theorem on braid words and oriented PD-codes, Mathieu's chirally cosmetic
-theorem, the Gordon–Luecke theorem in its filling form (no filling of the exterior of a nontrivial
-knot in `S³` along a slope other than the meridian is homeomorphic to `S³`), Agol's virtual Haken
-theorem for closed aspherical `3`-manifolds, Manolescu's theorem for closed connected manifolds, Thurston's Euler
-class inequality on closed irreducible `3`-manifolds with its closed hyperbolic form, and Yazdi's
-theorem that infinitely many closed hyperbolic `3`-manifolds violate Thurston's Euler class one
-conjecture.
+**Summary.** Geometric topology studies manifolds by cutting them open and gluing them back
+together, and by the ways one manifold can sit inside another. This roadmap builds the parts of
+the subject that Mathlib does not yet have, starting from Mathlib's smooth manifolds. Its basic
+tools are manifolds with boundary and their collars, gluing along the boundary, and tubular
+neighbourhoods. On these it develops knot theory, the topology and geometry of three-manifolds,
+and triangulations. A closed manifold is compact and without boundary.
+
+Knot theory is the largest part. A knot is a smooth embedding of the circle, and two knots are
+equivalent when an ambient isotopy carries one onto the other. The roadmap relates knots to
+diagrams and to braids, and builds the classical invariants, from the Alexander polynomial to the
+Jones and HOMFLY polynomials. Among its comparison theorems is Markov's theorem: two braids have ambient
+isotopic closures exactly when they are related by a sequence of conjugations, stabilizations and
+their inverses. It is also proved in a purely combinatorial form, on braid words and diagram
+codes.
+
+A hyperbolic metric is a complete Riemannian metric of constant sectional curvature −1. Mostow
+rigidity says that any two hyperbolic metrics on a closed connected manifold of dimension at least
+three are isometric, so the hyperbolic volume of such a manifold does not depend on the metric.
+The roadmap proves Mostow rigidity by Gromov's route, through the simplicial volume.
+
+For three-manifolds the main result is the prime decomposition of Kneser and Milnor. A
+three-manifold is prime when it is not the 3-sphere and every way of writing it as a connected sum
+of two closed three-manifolds has the 3-sphere as a summand. Every closed connected orientable
+smooth three-manifold is a connected sum of finitely many closed prime three-manifolds, the
+3-sphere being the empty sum. Any two such decompositions have the same number of summands, and
+after reordering the summands are diffeomorphic. Dehn's lemma, the loop theorem and the sphere
+theorem are proved alongside.
+
+Moise's theorem says that every topological three-manifold is triangulable, and that any two
+triangulations of it have isomorphic subdivisions. With smoothing theory it follows that every
+topological three-manifold has a smooth structure, unique up to diffeomorphism, so the
+three-dimensional layers pass freely between topological, piecewise-linear (PL) and smooth
+manifolds. Triangulability fails in higher dimensions: by Manolescu's theorem, which this roadmap
+states and leaves to later roadmaps, every dimension n ≥ 5 has a closed topological manifold not
+homeomorphic to the realization of any simplicial complex.
+
+The end theorems are resolved problems from Kirby's list of problems in low-dimensional topology,
+which the roadmap's definitions make it possible to state. Several are stated here and proved
+elsewhere. The Smale conjecture, Hatcher's theorem, says that the inclusion of the orthogonal
+group O(4) into the diffeomorphism group of `S³` is a homotopy equivalence. GeometricTopology,
+Part II starts where this roadmap stops, and proves the Smale conjecture and the JSJ theorem from
+the statements made here. The Poincaré conjecture, that every closed simply connected
+three-manifold is homeomorphic to `S³`, is stated with geometrization; their proofs by Ricci flow
+belong to RicciFlow and Poincare3D. `Suggested.lean` states the headline theorems in Lean.
+
+Much of the basic vocabulary, such as the diffeomorphism group with its weak Whitney topology and
+locally flat embeddings, is already in the Tau Ceti library, and this roadmap uses it instead of
+defining its own. AlgebraicTopology provides fundamental groups, homology and cohomology, and in
+turn uses the smooth triangulations built here. Many roadmaps build on this one, MorseTheory among
+them, using the collars, gluing and tubular neighbourhoods of the first layer.
+
+Layer 1 is the foundation for cutting and regluing: manifolds with boundary, handles and compact
+surfaces. Layer 2 treats locally flat embeddings, which exclude wild examples such as the
+Alexander horned sphere, and Layer 3 groups of diffeomorphisms. Layers 4 to 6 treat knots and
+links, Dehn surgery along them, and knot concordance. Layers 7 and 8 treat hyperbolic structures
+and the decomposition theorems of three-manifolds. Layers 9 and 10 treat Heegaard splittings and
+foliations, and Layer 11 triangulations and PL structures. The layers are grouped by subject; the
+next section gives the order in which they are built.
 
 ## How to read the build
 
@@ -10235,7 +10263,7 @@ This roadmap leaves the following to other roadmaps.
   Pin(2)-equivariant Seiberg–Witten Floer homology, Watanabe's theorem by configuration-space
   integrals, and Agol's theorems by the theory of special cube complexes; their proofs are the
   work of later roadmaps. This roadmap states these theorems against its carriers and owns
-  every topological reduction named in the layers below.
+  every topological reduction named in the layers above.
   The `E₈` manifold (Freedman's closed simply connected topological `4`-manifold with
   intersection form `E₈`) and Casson's theorem that it is not triangulable belong to the topology
   of four-manifolds; this roadmap states nothing on that manifold, and Layer 11.2 cites it from the
@@ -10363,7 +10391,7 @@ This roadmap leaves the following to other roadmaps.
 
 ### From Tau Ceti (commit 2fd255d9)
 
-The following pinned declarations supply the carriers and results used below. Layer 1.6
+The following pinned declarations supply the carriers and results used above. Layer 1.6
 transfers the pinned compact PL comparison from coordinate spaces to finite-dimensional normed
 spaces, Layer 4.6 constructs the HOMFLY coefficient substitution, and
 Layer 5.1 adds the smooth structure of the pinned link exterior.
