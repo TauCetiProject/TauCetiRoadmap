@@ -306,36 +306,52 @@ function f whose gradient is globally Lipschitz, whose critical points are
 nondegenerate and whose sublevel sets {f≤c} are compact. These are the
 trapping hypotheses of the compact-band versions above; they make the
 negative-gradient flow global and the critical set finite in each band.
-Consume Tau Ceti's `TauCeti.IsMorseSmale f hf`, the admissible families
-`TauCeti.IsAdmissiblePerturbation f h` (finitely many C² functions with
-compact support away from the critical points), the perturbed function
-`TauCeti.perturb f h s = f + Σᵢ sᵢhᵢ` with its jointly C^(n+1) perturbed
-flow, and universal transversality (`Morse/MorseSmale/Surjective.lean`).
+Consume Tau Ceti's `TauCeti.IsMorseSmale f hf`; finite families
+`h : ι → E → ℝ` with `TauCeti.IsAdmissiblePerturbation f (h i)` for each i
+(C², compact support, support disjoint from the critical set); the perturbed
+function `TauCeti.perturb f h s = f + Σᵢ sᵢhᵢ` with its perturbed flow,
+jointly C^(r−1) for C^r data (`TauCeti.contDiff_perturbedFlow_of_contDiff`);
+the global stable and unstable charts (`Morse/GlobalChart.lean`); and
+universal transversality (`Morse/MorseSmale/Surjective.lean`).
 Perturb the function, not the metric; this theorem is independent of
-F0.4.
+F0.4. The route is Smale's slab-by-slab induction (Audin–Damian,
+*Théorie de Morse et homologie de Floer*, Théorème 2.2.5, pp. 37–38,
+and Lemme 2.2.8, p. 38), which perturbs a pseudo-gradient field in the
+slab f⁻¹([α_j+ε,α_j+2ε]) above each critical value α_j; here the
+perturbation is of the function, and each slab step is a Sard argument
+on a finite-dimensional parameter.
 
 Prove three results, with the index difference truncated at0 in ℕ.
 
 - **Single pair on a slab.** Let p≠q be critical points, c₁<c₂ regular
   values with no critical value in [c₁,c₂], C a compact subset of
-  W^u(p)∩{f=c₂}, and h admissible and C^r with
-  r≥max(ind p−ind q,0)+2. If every trajectory of W^u(p)∩W^s(q) passes
-  through C and lies below c₁ after a fixed time T, and the parameter
-  derivatives of s↦φ^(f_s)_T at s=0 together with the tangent cone of
-  W^s(q) span E along φ_T(C), then for some ε>0 and almost every s with
-  ‖s‖<ε, W^u(p) and W^s(q) of f_s are transverse at every point of
-  φ^(f_s)_T(C). Apply sharp finite-dimensional Sard to the projection of
-  the universal space {(s,x) : x∈C, φ^(f_s)_T(x)∈W^s(q)} to the
-  parameter, whose fiber dimension is ind p−ind q−1.
-- **All pairs.** If r≥dim E+2, there is an admissible C^r family h such
-  that, for some ε>0 and almost every s with ‖s‖<ε, f_s has the same
-  critical points as f and is Morse–Smale. Order the critical values,
-  apply the single-pair step in a slab just below each of them, and use
-  that a perturbation supported above f(p) leaves W^u(p) unchanged and that
+  W^u(p)∩{f=c₂}, and h a family of C^r admissible functions, each with
+  support in f⁻¹((c₁,c₂)), with r≥max(ind p−ind q,0)+2. Suppose every
+  trajectory of W^u(p)∩W^s(q) passes through C and lies below c₁ after a
+  fixed time T, and the parameter derivatives of s↦φ^(f_s)_T at s=0
+  together with the tangent cone of W^s(q) span E at every point of
+  φ_T(C)∩W^s(q). Then for some ε>0 and almost every s with ‖s‖<ε,
+  W^u(p) and W^s(q) of f_s are transverse at every point of
+  φ^(f_s)_T(C). Since the supports lie in the open slab,
+  `TauCeti.mem_unstableSet_perturb_iff` and
+  `TauCeti.mem_stableSet_perturb_iff` give C⊂W^u(p) for f_s and
+  W^s(q)∩{f<c₁} the same for f and f_s. Apply sharp finite-dimensional
+  Sard to the projection to the parameter of the universal space
+  {(s,x) : x∈C, φ^(f_s)_T(x)∈W^s(q)}, whose fiber dimension is
+  ind p−ind q−1.
+- **All pairs.** If r≥dim E+2 and f has finitely many critical points,
+  there is an admissible C^r family h such that, for some ε>0 and almost
+  every s with ‖s‖<ε, f_s has the same critical points as f and is
+  Morse–Smale. Without finiteness, prove the band form: for each c there
+  are an admissible C^r family h and ε>0 such that, for almost every
+  s with ‖s‖<ε, W^u(p) and W^s(q) of f_s are transverse for all
+  critical points p,q in {f≤c}. Order the critical values, apply the
+  single-pair step in a slab just below each of them, and use that a
+  perturbation supported above f(p) leaves W^u(p) unchanged and that
   transversality along compact pieces is open in s.
-- **Corollary.** Every C^∞ function f as above has, in every
-  neighbourhood of 0 in the C^∞ topology of compactly supported
-  functions, a perturbation g with f+g Morse–Smale.
+- **Corollary.** Every C^∞ function f as above with finitely many critical
+  points has, in every neighbourhood of 0 in the C^∞ topology of
+  compactly supported functions, a perturbation g with f+g Morse–Smale.
 
 **Checks.**
 
@@ -348,14 +364,22 @@ Prove three results, with the index difference truncated at0 in ℕ.
   this pair is r≥max(0,0)+2=2.
 - For ind p=0 and ind q=1 the threshold is max(−1,0)+2=2, not
   −1+2=1: the perturbed flow and its parameter derivative need C².
+- Finiteness is needed in the all-pairs form. On ℝ² let f=|x|²/2 off the
+  balls B(4ⁱe₁,4ⁱ/10), i≥1, and f=4²ⁱk(x/4ⁱ) inside them, for a k equal
+  to |y|²/2 near the boundary of B(e₁,1/10), even in the second
+  coordinate, with a saddle–saddle trajectory on the first axis.
+  The Hessian is bounded and the sublevels are compact, but every
+  compactly supported perturbation misses some ball, so f+g is never
+  Morse–Smale; the band form holds, since {f≤c} meets finitely many balls.
 - On an infinite-dimensional Hilbert space a continuous compactly
   supported function is0
   (`HasCompactSupport.eq_zero_or_finiteDimensional`), so every admissible
   family is trivial there; the finite-dimensional hypothesis is essential.
 
 *Needs:* Tau Ceti's `Analysis/Calculus/Morse/MorseSmale/{Basic,Perturbation,Surjective}.lean`,
-`Analysis/Calculus/Morse/{CompactSublevel,LocalInvariantManifold}.lean` and
-`Analysis/Calculus/Sard/`; F0.S's sharp finite-dimensional Sard; MorseTheory M1's Hessian index.
+`Analysis/Calculus/Morse/{CompactSublevel,GlobalChart}.lean` (with `morseIndex`) and
+`Analysis/Calculus/Sard/`; F0.S's sharp finite-dimensional Sard; Audin–Damian,
+Théorème 2.2.5 and Lemme 2.2.8 (source).
 
 ### 1.1 Parametrized and unparametrized trajectories (M.1)
 
@@ -4990,6 +5014,9 @@ Concrete checks that rule out vacuous or mis-stated definitions:
   holomorphic discs under the perturbation of boundary conditions*, Math. Z. 222 (1996),
   505–520, by locator: generic regularity of discs with totally real boundary through
   boundary injective points (F2.4).
+- M. Audin, M. Damian, *Théorie de Morse et homologie de Floer*, EDP Sciences,
+  2010, Théorème 2.2.5, pp. 37–38, and Lemme 2.2.8, p. 38: Smale's slab-by-slab
+  route for M.0c.
 - M. Audin, M. Damian, *Morse Theory and Floer Homology*, April 23, 2013
   author draft, Proposition 2.1.5, p. 28; M. Schwarz, *Morse Homology*,
   Birkhäuser, 1993; K. Wehrheim,
