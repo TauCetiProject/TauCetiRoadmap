@@ -768,7 +768,7 @@ A proof route is as follows. Use the marked-surface-twist compatibility to ident
 - The first six-dimensional characteristic polynomial is (x²+1)(x⁴+1), the principal part has polynomial x²+1, and the determinant ratio is 4/2=2 with h=0.
 - The second example has characteristic polynomial (x²+1)³ before quotient and (x²+1)² after quotient, with ratio 8/2=4 and trivial square class.
 
-*Needs:* §4.7; §4.6; GeometricTopology Layer 3; gap:marked-surface-twists.
+*Needs:* §4.7; §4.6; GeometricTopology Layer 1.7.2; gap:marked-surface-twists.
 
 ### Examples
 
@@ -776,7 +776,7 @@ The rotation plane and the nonsemisimple hyperbolic 𝔽₃ model test the circl
 
 ### Dependencies
 
-Earlier local inputs: Layer 0, Layer 1, Layer 2. AlgebraicTopology Stages 6.1–6.4; AlgebraicTopology Stage 2; AlgebraicTopology Stage 4; GeometricTopology Layer 3; gap:marked-surface-twists. The subsection Needs lines separate statement inputs from the indicated proof route.
+Earlier local inputs: Layer 0, Layer 1, Layer 2. AlgebraicTopology Stages 6.1–6.4; AlgebraicTopology Stage 2; AlgebraicTopology Stage 4; GeometricTopology Layer 1.7.2; gap:marked-surface-twists. The subsection Needs lines separate statement inputs from the indicated proof route.
 
 ## Layer 5: transfer and controlling extensions
 
@@ -1196,6 +1196,8 @@ What AlgebraicTopology must provide (gap:poincare-boundary-cone): Provide a chai
 Layers 1 and 11 and the smoothing-and-triangulation comparison: compact smooth cellulations, boundary-compatible dual cells and simple comparisons. A single even-rank elementary cell pair contributes determinant one; arbitrary quasi-isomorphisms need not preserve a based volume. The scope is smooth manifolds, without a triangulability assertion for arbitrary topological manifolds.
 
 What GeometricTopology must provide (gap:smooth-cell-comparison): Provide finite smooth-compatible triangulations, boundary dual cells, common subdivisions and simple comparison maps in every finite dimension, preserving transported local-coefficient cellular volumes.
+
+The following contract extends Layer 1.7.2's Dehn twists, whose action that section gives on H₁ only.
 
 What GeometricTopology must provide (gap:marked-surface-twists): Provide, for marked closed smooth oriented surfaces, compatibility between orientation-preserving Dehn twists and their induced automorphisms of marked fundamental-group presentations, including basepoint-path conjugation and preservation of the oriented relator up to conjugacy with exponent +1.
 
