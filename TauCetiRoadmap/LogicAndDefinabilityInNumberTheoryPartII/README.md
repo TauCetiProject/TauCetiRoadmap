@@ -2,37 +2,9 @@
 
 **Summary.** This roadmap continues LogicAndDefinabilityInNumberTheory, whose theory of interpretations (its Layer 0, §§0.1–0.4) covers interpretations on definable quotients and their composition but neither homotopies of interpretations nor bi-interpretations, and which never treats finitely generated fields as a class. Starting from Rumely's uniform arithmetic of global fields and Poonen's uniform definitions of the prime field, of constants and of algebraic dependence, it builds Dittmann and Pop's uniform first-order definition of the geometric prime divisors of finitely generated fields: anisotropic "nice" Pfister forms, the cohomological local–global principles of Jannsen, Kerz–Saito and Kato that detect them at prime divisors, a patch-compactness argument in the valuation spectrum, anisotropy sets whose multiplicative stabilizers are valuation rings, and, in Kronecker dimension two, Pop's shifted-ring construction from cubic or quadratic symbols. With these formulas it defines finite normalizations, proves that every infinite finitely generated field is bi-interpretable with the ring ℤ, and ends with the theorem that every finitely generated field `K` is characterized among all finitely generated fields by one sentence in the language of rings. The end theorems are unconditional except for fields of characteristic two and Kronecker dimension above three, where resolution of singularities above 𝔽₂ is a hypothesis.
 
-## Scope and ownership
+## How to read the build
 
-This roadmap owns:
-
-- the hypothesis `H_d`, the notion of a geometric prime divisor and the uniform definable families with empty failed fibres (Layer 0); the rational Albanese torsor over an arbitrary field needed by Poonen's twisting arguments (0.8a), extending the pointed characteristic-zero existence supplied by ColemanIntegrationPartII §4.0b to unpointed varieties and positive characteristic;
-- Rumely's uniform definitions in global fields, Pop's sentences fixing the Kronecker dimension, Poonen's diagonal-form lemmas, his elliptic constructions, the characteristic sentence, the uniform prime subfield of infinite finitely generated fields, the uniform constant field, uniform algebraic dependence and the uniform family of relatively closed global subfields (Layer 0);
-- the three cohomological local–global principles that no other roadmap states — Kerz–Saito's with prime coefficients over finite fields and excellent henselian discrete valuation rings, the principle in characteristic two (Kerz–Saito's up to Kronecker dimension three, Jannsen's above it), and the detection and complex statements of Kato's two-dimensional principle — and the reduced-norm test for cubic and quadratic symbols (Layer 1); with them, the inputs of their routes that no other roadmap states: Kato's complex on regular excellent schemes and on schemes over a regular excellent base with coefficients invertible there, identified with the rows of the coniveau and niveau spectral sequences (1.1a), the `p`-primary étale homology over a finite field of characteristic `p`, with its duality, Kato complex, level, weights, pullbacks and Lefschetz condition (1.3a), and the projective resolution of reduced quasi-projective threefolds over a field of positive characteristic differentially finite over a perfect subfield (1.3b);
-- nice Pfister presentations, test presentations and their abundance (Layer 2), prime-divisor detection and the compact limiting detector (Layer 3), anisotropy sets, discrete balls and stabilizers (Layer 4), the uniform divisor formulas in every Kronecker dimension (Layer 5);
-- definable finite normalizations, full geometric flags with an arithmetic terminal place and the height-one intersection theorem for normal Noetherian domains (Layer 6);
-- Aschenbrenner–Khélif–Naziazeno–Scanlon's arithmetic bi-interpretation of infinite finitely generated domains, the fraction-field transfer and the bi-interpretability of infinite finitely generated fields with ℤ (Layer 7);
-- the passage from bi-interpretability to a single characterizing sentence, the finite-field sentences and the final theorem (Layer 8).
-
-It leaves to named owners, and imports without restating:
-
-- **LogicAndDefinabilityInNumberTheory** §0.1 (interpretations on definable quotients, including quotients by definable ideals), §0.2 (semantics and composition of interpretations), §0.3 (fraction fields as interpreted structures) and §0.4 (arithmetic semantics bridges). Definable homotopy of interpretations and parametric bi-interpretation are requested from its §0.2 as gap:biinterpretation-homotopy.
-- **QuadraticFormInvariantsPartII** §1.1 (quadratic Pfister forms in every characteristic), §1.2 (binary norms of quadratic étale algebras, including the split algebra), §1.5 (isotropy equals hyperbolicity), §2.5 (Springer's theorem for odd-degree extensions, separable or not), §§3.1 and 3.7–3.9 (coefficient groups, the Pfister invariant, its naturality and the invariant-zero criterion), §§4.1–4.3 (unit reduction, principal-unit and independent-value criteria over henselian fields of arbitrary rank), §5.6 (Tsen–Lang), §5.7 (Kronecker dimension, constant field and its strict drop under nontrivial valuations), §6.3 (Jannsen's Hasse principle for `ℤ/2` coefficients away from characteristic two), §6.5 (Dittmann–Pop's dimension theorem for unit Pfister forms) and §7.2 (patch openness of henselian isotropy loci). The Lean definition `kroneckerDimension` of this roadmap restates the notion of its §5.7 on pinned carriers so that the headline theorems are statable.
-- **LocalFieldsRamificationPartII** §1.1 (normalization and prolongations), §§1.2–1.3 (henselizations of valuation rings and valued fields), §5.1 (composed valuations), §5.2 (coarsenings) and §5.3 (the Abhyankar inequality).
-- **AlgebraicModuliForArithmeticGeometry** §3.5 (effective descent with a specified ample line bundle and cocycle) and §7.5 (finite normalization of reduced finite-type algebras with generic étaleness, `ArithmeticCoefficients.valuation_prolongation_integrality` and `ArithmeticCoefficients.root_coefficient_descent`).
-- **AdicCoefficientsAndComparisonsPartII** §PA.0.11 (resolution of quasi-excellent schemes of dimension at most two by projective modifications, the source of the regular surfaces of 1.4, 1.5 and 5.4), §PA.6.8 and §PA.6.10 (Gabber's prime-to-ℓ alterations over a one-dimensional base and the odd-degree regular alteration of a projective flat model over an excellent henselian non-dyadic discrete valuation ring). The embedded resolution of closed subschemes of dimension at most two in regular excellent schemes, which its §PA.0.12 consumes, is requested from that section as gap:embedded-resolution-dimension-two for 1.4. Its §PA.0.12 resolves separated quasi-excellent threefolds by proper modifications, projective only over affine schemes; 1.3b differs in giving a projective resolution over every reduced quasi-projective threefold over a field of positive characteristic differentially finite over a perfect subfield, which the smooth projective model of 1.4 needs in Kronecker dimension three.
-- **ArithmeticGaloisDuality** §R02.4.4 (cohomological dimension of Galois groups of number fields with restricted ramification) and §R02.3.2 (class formation and Brauer sequence of a global function field). The cyclic Hasse norm theorem for global function fields is requested from its §R02.3.2 as gap:function-field-cyclic-hasse-norm.
-- **ClassicalAdicEtaleCohomology** §11.2 (the transcendence-degree bound for the cohomological dimension of a field).
-- **FunctionFieldArithmetic** §5.8 (degree-sensitive Chebotarev for global function fields).
-- **AbelianSchemesAndArithmeticModuli** §§A1.8, A3.1, A6.5 (Weil extension, isogenies and Poincaré complete reducibility) and **NeronModelsAndSemistableAbelianVarieties** §5.2 (`GoodIsogeny`: isogenous abelian varieties over the fraction field of a discrete valuation ring have good reduction simultaneously).
-- **ColemanIntegrationPartII** §4.0b (pointed Albanese existence for smooth geometrically connected varieties in characteristic zero).
-- **SieveMethodsAndPrimePatterns** §5.4 (*Uniform algebraic point counts*), for affine Lang–Weil estimates and upper bounds for fibres.
-- **LefschetzPencilsAndVanishingCycles** §0.10 (absolute purity) and §3.5 (pencils and hypersurface sections over finite fields). Its descent theorem gives a pencil only over a finite extension of the base field, so two statements over the base itself are requested from it: Kerz–Saito's Bertini theorem for 1.3, as gap:snc-bertini-over-base, and the divisor-adapted smooth fibration of a surface over a finite field for 5.4, as gap:finite-field-divisor-adapted-fibration.
-- **DeligneWeightsAndPurity** §§7.12 and 7.15, **KTheoryFiniteLocalFields** §§3.0–3.0a, **PadicDifferentialEquationsAndRigidCohomology** §RD.7.7 (Katz–Messing), **PurityForFlatCohomology** §8.4 (the coniveau spectral sequence with supports on a finite-dimensional Noetherian scheme) and **SchemeAndStackFoundations** §§0.12, 0.20, 2.15 and 4.13 (Bertini smoothness over infinite fields), as inputs of the local–global principles of Layer 1; **SchemeAndStackFoundations** §0.17 (the Hartogs characterisation of `(S_2)`) and §4.13 (Serre's criterion), as the inputs of the height-one intersection theorem 6.3. **MotivesAndAlgebraicCycles** §0.5b constructs the coniveau couple and Gersten residues of a smooth variety over a perfect field with coefficients prime to the characteristic; 1.1a differs in covering regular excellent schemes of mixed characteristic and in identifying the differentials with Kato's residue maps, and agrees with §0.5b on smooth varieties.
-- **CrystallineCohomology** §§CR.4.7–CR.4.8 (slopes and logarithmic Hodge–Witt sheaves, the coefficients of 1.3a and 1.4); **EtaleCohomologyFoundations** §F.5 (the exceptional inverse image, which defines the étale homology of 1.1a and 1.3a); **JacobianChallenge** Layer F (the Albanese property of a curve); **AnalyticNumberTheoryPartI** §0.21 (Mertens's second theorem); **SchemeAndStackFoundations** §5.11 (`weil_bound`, the Weil bound for smooth projective curves over finite fields); **AlgebraicCurves** Layers 0, 2, 6 and 12; **Chebotarev** Layer 10; **GlobalNumberFields** Layers 1 and 6; **GlobalQuadraticForms** §5.5; **RealAlgebraicGeometry** Layer 1 (*Ordered real-closure existence*); **ClassFieldTheory** Layers 10 and 13; **EllipticCurves** Layers 0, 1, 3, 4, 5 and 6.
-- Mathlib and Tau Ceti at the pins, as listed in the supplier contracts.
-
-Functional transcendence for Shimura varieties shares only general logic with this roadmap and is not part of it. The ring-theoretic quasi-finite axiomatizability of non-domains (fibre products, nilpotents) is not part of this roadmap; only integral domains and fields are treated.
+Layer 0 makes the arithmetic of finitely generated fields first-order: global fields (Rumely), the Kronecker dimension, constants, algebraic dependence and the relatively closed global subfields, ending with the relative constant field over which a field becomes a function field in one variable. Layer 1 states the cohomological local–global principles, together with Kato's complexes, the `p`-primary étale homology over finite fields and the projective resolution of threefolds on which their routes rest. Layer 2 constructs nice Pfister presentations and shows that every geometric prime divisor has many anisotropic test forms. Layer 3 turns anisotropy into a prime divisor, first by the local–global principles and then by patch compactness and coarsening. Layer 4 converts anisotropy into finite unions of discrete balls whose stabilizers are valuation rings, and isolates each divisor. Layer 5 assembles the uniform divisor formula in every Kronecker dimension, Pop's construction supplying dimension two. Layer 6 defines finite normalizations by intersecting divisor rings and, in characteristic zero, composite valuations with an arithmetic terminal place. Layer 7 interprets ℤ and proves bi-interpretability, and Layer 8 converts it into a single sentence. The *Needs:* lines give the build order item by item; a *Needs:* line lists what a statement and its indicated route use, and a different proof may omit route-only inputs. The README is the roadmap; [Suggested.lean](Suggested.lean) states the headline theorems that are statable at the pins, `exists_formula_valuationSubring_ne_top`, `exists_sentence_kroneckerDimension_eq`, `exists_sentence_charZero`, `exists_formula_mem_primeField`, `exists_formula_not_algebraicIndependent`, `exists_formula_isGeometricPrimeDivisor`, `exists_formula_arithmeticNormalization`, `exists_sentence_realize_iff_nonempty_ringEquiv_of_isDomain` and `exists_sentence_realize_iff_nonempty_ringEquiv`, with the two definitions `kroneckerDimension` and `IsGeometricPrimeDivisor` they need; its module docstring names the headline theorems that are not statable there (the bi-interpretability theorems of Layer 7, the local–global principles of Layer 1 and the characteristic-two cases above Kronecker dimension three) and the carrier each lacks.
 
 ## Conventions
 
@@ -46,161 +18,6 @@ Functional transcendence for Shimura varieties shares only general logic with th
 - **Interpretations.** Interpretations, their semantics and their composition are LogicAndDefinabilityInNumberTheory's (§§0.1–0.2), with parameters; *bi-interpretable* means parametrically bi-interpretable, with both comparison isomorphisms definable (the notion requested as gap:biinterpretation-homotopy). A *finitely generated structure* in a language is one generated by finitely many elements together with the constants.
 - **Universes.** Fields quantified in one statement live in one universe; the class of finitely generated fields of a universe contains a copy of every finitely generated field.
 - **Page numbers.** Dittmann–Pop pages are those of the author version of 27 April 2023 (arXiv v2); Poonen pages and numbering are those of arXiv v1 (in that version the relative dependence lemma is Lemma 5.2); Pop 2002 numbering is arXiv v1 (its Theorem 1.4 is the published theorem Poonen cites as Theorem 2.3's source); Jannsen is cited by the numbering of arXiv v2: its Theorem 0.1 (Kato's conjecture for `n` invertible), Corollary 0.4 (the `ℤ/2` injectivity) and Theorem 0.6 (the finite-field theorem) are Theorem 0.4, Corollary 0.8 and Theorem 0.10 of the published paper, the numbering Dittmann–Pop use; AKNS, Kerz–Saito and Cossart–Jannsen–Saito numbering and pages are those of the arXiv versions listed in the references; Pop 2017 and Rumely pages are the published pages.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- Logic: `FirstOrder.Language.ring`, `FirstOrder.Ring.compatibleRingOfRing`, `FirstOrder.Language.Sentence.Realize`, `FirstOrder.Language.Formula.Realize`, `Set.Definable`. Mathlib supplies syntax, semantics and definability with parameters; it has no interpretations, homotopies or bi-interpretations.
-- Fields: `Field.FG` (finitely many generators of the field, not of the ring), `Algebra.trdeg`, `AlgebraicIndependent`, `algebraicIndependent_unique_type_iff` (a one-element family is algebraically independent exactly when its element is transcendental), `IsTranscendenceBasis`, `IsAlgebraic`, `algebraicClosure` (relative algebraic closure as an intermediate field), `ringChar`, `FiniteField.ringEquivOfCardEq` (two finite fields of equal cardinality are isomorphic; it needs `Fintype` instances, which exact-cardinality witnesses supply).
-- Valuations and rings: `ValuationSubring`, `ValuationSubring.ofPrime` (localization of a valuation ring at a prime, the coarsening), `IsDiscreteValuationRing`, `IsLocalRing.ResidueField`, `HenselianLocalRing`, `LocalSubring.exists_le_valuationSubring` (Chevalley extension), `integralClosure`, `IsIntegral`, `Subring.closure`, `IsIntegrallyClosed`, `IsFractionRing`, `Algebra.FiniteType`.
-- Regular local rings: `IsRegularLocalRing`, and `IsDiscreteValuationRing.TFAE` (a Noetherian local domain that is not a field is a discrete valuation ring exactly when its maximal ideal is principal), used in 0.6(e).
-- Quadratic forms: `QuadraticMap.Anisotropic`; isotropic means not anisotropic.
-
-### From Tau Ceti
-
-- `AlgebraicGeometry.Scheme.Hom.exists_finite_isSeparable_comp_eq` (`TauCeti/AlgebraicGeometry/Morphisms/Smooth/SeparablePoint.lean`): a nonempty scheme smooth over any field has a point over a finite separable extension.
-- `TauCeti.AlgebraicGeometry.isRegularLocalRing_stalk_of_smooth` (`TauCeti/AlgebraicGeometry/Morphisms/Smooth/Regular.lean`): the local rings of a scheme smooth over a locally Noetherian scheme with regular local rings, a field for instance, are regular; `TauCeti.IsRegularLocalRing.quotient_span_singleton` and `TauCeti.IsRegularLocalRing.isDomain` (`TauCeti/RingTheory/RegularLocalRing/Basic.lean`): for `x` in the maximal ideal but not its square, the quotient of a regular local ring by `x` is regular local, and a regular local ring is a domain. These are the commutative algebra of 0.6(e).
-- `TauCeti.ValuationSpectrum.patchTopology`, `TauCeti.ValuationSpectrum.compactSpace_patchTopology` and `TauCeti.ValuationSpectrum.isClopen_patchTopology_basicOpen`: for a commutative ring `A` the valuation spectrum `Spv A` with its patch topology is compact and every basic open `{v : v(f) ≤ v(s) ≠ 0}` is clopen. For a field this is the Riemann–Zariski space including the trivial valuation; no rank-one subspace replaces it.
-- `TauCeti.Place`, `TauCeti.Place.integers`, `TauCeti.Place.ord`: a place of a function field `F/k` is a surjective `ℤᵐ⁰`-valued valuation trivial on `k`; its integers form a valuation subring and `ord` is the integer order with `ord 0 = 0`.
-- `TauCeti.Place.exists_ne_zero_forall_mem_ord_eq`: for a finite set of places and integers `r_P` there is a nonzero `g` with `ord_P g = r_P` on that set.
-- `TauCeti.Place.exists_forall_mem_valuation_sub_le` (`TauCeti/FieldTheory/FunctionField/Place/Approximation.lean`): for a finite set `s` of places, targets `f_P ∈ F` and integers `r_P`, there is `g` with `v_P(g − f_P) ≤ exp(r_P)` at every `P ∈ s`, that is `g = f_P` or `ord_P(g − f_P) ≥ −r_P` (weak approximation with targets; no function-field hypothesis).
-- `TauCeti.Place.exists_ord_eq_neg_and_forall_ne_ord_nonneg`: for a function field `F/k` with `k` relatively integrally closed in `F`, a place `P` and `n ≥ 2g`, there is a nonzero `x` with `ord_P x = −n` and `ord_Q x ≥ 0` at every other place.
-- `TauCeti.GlobalNumberFields.weakApproximation_denseRange` (`TauCeti/NumberTheory/NumberField/Global/Approximation/Weak.lean`): for finite sets of finite and of infinite places of a number field `K`, the diagonal image of `K` is dense in the product of the corresponding completions.
-- `IsDedekindDomain.FiniteAdeleRing.denseRange_algebraMap` (`TauCeti/RingTheory/DedekindDomain/FiniteAdeleRing/Basic.lean`): for a Dedekind domain `R` with fraction field `K`, the image of `K` is dense in the finite adele ring of `R`.
-- `TauCeti.Place.exists_forall_mem_valuation_sub_le_and_forall_mem_integers`: for a set `S` of places other than the set of all places and a finite `s ⊆ S`, there is `x` approximating prescribed targets to prescribed orders on `s` and integral at every place of `S ∖ s` (strong approximation; same function-field hypotheses).
-
-### From TauCetiRoadmap.LogicAndDefinabilityInNumberTheory
-
-§0.1 supplies interpretations of a structure in another with a finite parameter tuple, a definable domain, a definable equivalence and definable invariant symbol graphs, with no definable choice of representatives; §0.2 the semantic equivalence of a formula with its translation, and composition; §0.3 the fraction field of a definable domain as pairs modulo cross multiplication; §0.4 the arithmetic semantics bridges. These are used for residue fields of definable valuation rings (quotient by a definable ideal), for finite extensions given by structure constants (0.4 of this roadmap) and for fraction fields.
-
-What LogicAndDefinabilityInNumberTheory must provide (gap:biinterpretation-homotopy): for interpretations `f, g` of a structure in another, definable homotopy (a definable isomorphism between the two interpreted copies), and parametric bi-interpretability (interpretations both ways whose two composites are definably homotopic to the identity interpretations), with closure under composition.
-
-### From TauCetiRoadmap.QuadraticFormInvariantsPartII
-
-§1.1 `q_a` as a quadratic Pfister form with the characteristic-dependent last factor; §1.2 the binary norm of a quadratic étale algebra, with split norm `(u, v) ↦ uv`; §1.5 isotropic Pfister forms are hyperbolic; §2.5 Springer's theorem, `TauCetiRoadmap.QuadraticFormInvariantsPartII.anisotropic_extendScalars_of_odd_finrank`: an anisotropic quadratic form stays anisotropic over every finite extension of odd degree, purely inseparable extensions of odd degree included (used in 0.6(a)–(b)); §3.1 the groups `H^{i+1}(F) = H^{i+1}(F, ℤ/2(i))`, Kato's group in characteristic two; §3.7 the invariant `e(q_a) ∈ H^{d+1}(F)`; §3.8 its naturality under every field extension (Dittmann–Pop Fact 3.1(2)); §3.9 `q_a` is isotropic exactly when `e(q_a) = 0` (Fact 3.1(1)); §4.1 unit reduction; §4.2 a unit form with a principal-unit outer slot is isotropic (Proposition 3.2(1)); §4.3 the independent-value criterion (Proposition 3.2(2)); §5.6 Tsen–Lang (`C_i` ascent; finite fields are `C₁`); §5.7 the Kronecker dimension, the constant field, invariance under algebraic extensions and the strict drop `δ(Fw) < δ(F)` for nontrivial `w`; §6.3 Jannsen's injectivity `H^{d+2}(F, ℤ/2) → ⊕_v H^{d+2}(F_v, ℤ/2)` for a function field `F` in `d` variables over a global field `k₁` of characteristic different from two that is separably closed in `F`; §6.5 the dimension theorem (Proposition 3.2(3)) with no finite-generation hypothesis; §7.2 for every quadratic form over `F` the set of valuations at whose henselization it is isotropic is patch open (Lemma 3.9(2)).
-
-### From TauCetiRoadmap.LocalFieldsRamificationPartII
-
-§1.1: for a finite extension, the prolongations of a valuation ring correspond to the maximal ideals of the integral closure. §§1.2–1.3: henselizations of valuation rings and valued fields, their universal property and embeddings under extension. §5.1: composed valuations as inverse images of residue valuation rings, with their value-group sequence and convex kernel. §5.2: coarsenings as localizations (`ValuationSubring.ofPrime`) and their chain. §5.3: the Abhyankar inequality and finite-height bound. The embedding of a coarser henselization into a finer one uses §§1.3, 5.1–5.2.
-
-### From TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry
-
-§3.5: `ModuliDescent.polarizedDescentComparison`, effective descent of a proper finitely presented scheme with a relatively ample invertible sheaf along an fppf cover. Both the scheme isomorphism and its lift to the line bundle on the fibre square, their identity laws and their triple cocycles are data. This applies to finite extensions of fields, including inseparable ones with nonreduced fibre squares; invariance of an isomorphism class is insufficient.
-
-§7.5: `arithmetic_normalization_genericallyEtale` (finite normalization of a reduced finite-type algebra over a field or an excellent base in every finite extension, generically étale for separable function-field extensions); `ArithmeticCoefficients.valuation_prolongation_integrality` (the integral closure of an intersection of valuation rings in a finite extension is the intersection of all their prolongations, with no assumption on the fraction field of the intersection); `ArithmeticCoefficients.root_coefficient_descent` (roots with multiplicities in a prolongation give coefficients in the base valuation ring).
-
-### From TauCetiRoadmap.AdicCoefficientsAndComparisonsPartII
-
-§PA.0.11: every noetherian quasi-excellent scheme of dimension at most two is universally resolvable in the projective sense; in particular an integral two-dimensional scheme of finite type over a field, over the ring of integers of a number field or over a smooth curve over a finite field has a projective modification by a regular scheme (its route is Lipman's normalized blow-ups in closed points, Stacks, Theorem 54.14.5, tag 0BGP, followed by an embedded resolution of the preimage of a given nowhere dense closed set). Nothing beyond the statement, in particular no description of the modification, is assumed of it. It supplies the smooth projective models of 1.4 for `d = 2`, the regular models of 1.5 and the surfaces of 5.4.
-
-§PA.6.10: for an excellent henselian discrete valuation ring `R` of residue characteristic different from two and an integral projective flat `R`-scheme with nonempty generic fibre, an odd-degree finite extension of the fraction field and an odd-degree projective alteration by a regular integral scheme projective over the normalized base. §PA.6.8, Gabber's prime-to-ℓ theorem over a one-dimensional base, is its input and an input of 1.3. §PA.0.12 (universal resolvability of separated quasi-excellent schemes of dimension at most three in the proper sense) consumes the embedded resolution requested below; its own conclusion gives only a proper modification for a non-affine scheme, while 1.4 needs a projective one, which 1.3b supplies.
-
-What AdicCoefficientsAndComparisonsPartII must provide (gap:embedded-resolution-dimension-two): for a regular excellent scheme `Z` of any dimension and a reduced closed subscheme `X ⊂ Z` of dimension at most two, a projective surjective morphism `π : Z′ → Z` with `Z′` regular, an isomorphism over `Z ∖ X`, such that `π⁻¹(X)` with its reduced structure is a simple normal crossings divisor on `Z′` (Cossart–Jannsen–Saito, Corollary 0.4, p. 5), stated in §PA.0.12 where it is consumed. With `Z` regular and projective over `𝔽₂` this is Kerz–Saito's condition `(G)_{2,q}` for `q ≤ 2` (Kerz–Saito, Remark 6.1(2), p. 31), used in 1.4.
-
-### From TauCetiRoadmap.ArithmeticGaloisDuality
-
-§R02.4.4: `cd_ℓ(G_{K,S}) ≤ 2` for a number field `K`, a set `S` of places and a prime `ℓ` invertible on `S` when `ℓ` is odd or `K` is totally imaginary; passing to the limit over `S`, a totally imaginary number field has `cd₂ ≤ 2`. §R02.3.2: the class formation of a global function field, reciprocity and norm groups, and the exact Brauer sequence `0 → Br(F) → ⊕_v Br(F_v) → ℚ/ℤ → 0` of a global function field `F` with the sum of the local invariants (item 1 of its class-formation statement), used in 1.1, 1.6 and 5.6 for the global function fields that occur as residue fields, where ClassFieldTheory Layer 10, which treats number fields only, does not apply.
-
-What ArithmeticGaloisDuality must provide (gap:function-field-cyclic-hasse-norm): the cyclic Hasse norm theorem for a cyclic extension `L/K` of global function fields, that an element of `Kˣ` is a norm from `L` exactly when it is a local norm at every place of `K`, stated in §R02.3.2 next to the class formation.
-
-### From TauCetiRoadmap.LefschetzPencilsAndVanishingCycles
-
-§0.10: Gabber's absolute purity for a regular closed immersion of regular noetherian schemes with coefficients invertible on the ambient scheme, used in 1.1a to identify the terms of the coniveau and niveau spectral sequences of a regular excellent scheme, or of a scheme over a regular excellent base, with Galois cohomology of residue fields (consumed by 1.3 and 1.5(b)).
-
-§3.5: pencils and hypersurface sections over a finite field. Its descent theorem puts a good axis over some finite extension `𝔽_{q^r}` of the base field `𝔽_q`, and says that `𝔽_q` itself may carry none. Both consumers here need sections defined over the base itself, so that theorem is not used as stated; the two statements below are requested from §3.5.
-
-What LefschetzPencilsAndVanishingCycles must provide (gap:snc-bertini-over-base): Kerz–Saito's Bertini theorem over the base itself (Kerz–Saito, Theorem 3.2, p. 14, in the setting of their Definitions 2.1–2.5 and 3.1, pp. 10–14): for `S` the spectrum of a finite field or of an excellent henselian discrete valuation ring with finite residue field, an irreducible regular scheme `X` projective over `S` of positive relative dimension over its image `T` in `S` (when `X` is flat over `S`, with reduced special fibre a simple normal crossings divisor), a simple normal crossings divisor `Y` on `X` whose components flat over `S` form, together with that reduced special fibre, a simple normal crossings divisor, and an invertible sheaf `L` on `X` ample relative to `T`, every sufficiently large power `L^{⊗N}` has a global section, defined over `S`, with support `Z` such that `Y ∪ Z` again satisfies the condition imposed on `Y` and contains a regular divisor ample relative to `T` (an ample log-pair in their sense).
-
-What LefschetzPencilsAndVanishingCycles must provide (gap:finite-field-divisor-adapted-fibration): for a smooth projective geometrically integral surface `X` over a finite field `k` and an integral curve `C ⊂ X`, a smooth projective surface `X′` with a birational `k`-morphism `X′ → X`, a smooth projective geometrically integral `k`-curve `B` and a dominant `k`-morphism `X′ → B` whose generic fibre is smooth and geometrically integral over `k(B)` and under which the strict transform of `C` maps dominantly onto `B`, all defined over `k` itself and not over a finite extension of `k`. One route: by Poonen's Bertini theorem with Taylor conditions (Poonen 2004, Theorem 1.2, p. 2) there is, in every large degree `d`, a form `f` over `k` such that `X ∩ {f = 0}` is smooth of dimension one and misses a chosen closed point of `C`; it is geometrically connected (Poonen 2004, Remark 1 after Theorem 3.3, p. 10), hence an integral curve. Since `f` does not vanish identically on `C`, the ratios `g/f` of degree-`d` forms `g` over `k`, restricted to `C`, generate the function field `k(C)` (for a coordinate `x_0` of the projective embedding not vanishing identically on `C`, the ratios for `x_i x_0^{d−1}` and `x_0^d` have quotient `x_i/x_0`), which has transcendence degree one over `k`; so some degree-`d` form `g` over `k` has `(g/f)|_C` transcendental over `k`. Then `g` does not vanish identically on `X ∩ {f = 0}`: otherwise, that zero scheme being reduced, `g/f` would be a regular function on `X`, hence a constant `c ∈ k` because `H⁰(X, O_X) = k`, and `(g/f)|_C = c` would be algebraic over `k`, contrary to the choice of `g`. So the pencil `f − t g` has finitely many base points; its member at `t = 0` is smooth, so its generic member over `k(t)` is smooth, and the same connectedness argument over an algebraic closure of `k(t)` makes it geometrically integral. Resolving the base points by blow-ups of closed points gives `X′ → B = ℙ¹_k`, and the strict transform of `C` dominates `B` because `(f/g)|_C` is transcendental over `k`, so that the image of `C` is not a closed point of `ℙ¹_k`.
-
-### From TauCetiRoadmap.FunctionFieldArithmetic
-
-§5.8, the degree-sensitive Chebotarev theorem: for a finite Galois extension of global function fields and a conjugacy class compatible with the constant-field Frobenius, places of every large compatible degree with that Frobenius exist; in particular infinitely many places split completely, outside any finite set.
-
-### From TauCetiRoadmap.AbelianSchemesAndArithmeticModuli
-
-§A1.8 (Weil extension: a rational map from a smooth variety to an abelian variety extends, using properness at codimension-one points and the criterion in item (1)), §A3.1 (isogenies) and §A6.5 (Poincaré complete reducibility).
-
-### From TauCetiRoadmap.NeronModelsAndSemistableAbelianVarieties
-
-§5.2 (`GoodIsogeny`): isogenous abelian varieties over the fraction field of a discrete valuation ring have good reduction simultaneously, inseparable isogenies included and with no henselian hypothesis on the ring, so that good reduction at a place is invariant under isogeny.
-
-### From TauCetiRoadmap.ClassicalAdicEtaleCohomology
-
-§11.2: `TauCetiRoadmap.ClassicalAdicEtaleCohomology.field_cohomological_dimension_transcendence`, `cd_ℓ(L) ≤ cd_ℓ(K) + trdeg_K(L)` for every field extension `L/K` and every prime `ℓ`, infinite values allowed; used in 0.6(c) with `ℓ = 2` in characteristic zero, for `K` finitely generated of transcendence degree `r` over a number field.
-
-### From TauCetiRoadmap.ColemanIntegrationPartII
-
-§4.0b: `NaturalIntegration.properAlbanese_exists`, the pointed Albanese of a smooth geometrically connected separated finite-type variety over a characteristic-zero field.
-
-### From TauCetiRoadmap.SieveMethodsAndPrimePatterns
-
-§5.4: `SieveLangWeil.lang_weil_uniform`. For fixed affine ambient dimension, number of equations and degree bound, a geometrically irreducible affine variety of dimension `r` over `𝔽_Q` has `Q^r + O(Q^{r−1/2})` points; arbitrary fibres of dimension at most `r` with that presentation bound have `O(Q^r)` points, including empty and reducible fibres. Constants depend only on the presentation bounds, hence remain fixed under finite-field extension.
-
-### From TauCetiRoadmap.DeligneWeightsAndPurity and TauCetiRoadmap.KTheoryFiniteLocalFields
-
-DeligneWeightsAndPurity §§7.12 and 7.15 (weight bounds and purity over a finite field), KTheoryFiniteLocalFields §3.0 (Milnor symbols, residues, norms, the differential symbol and the Bloch–Gabber–Kato isomorphism) and §3.0a (the norm residue isomorphism): the inputs of Layer 1, used exactly as QuadraticFormInvariantsPartII §6.3 uses them.
-
-### From TauCetiRoadmap.PadicDifferentialEquationsAndRigidCohomology
-
-§RD.7.7 (Katz–Messing: crystalline and `ℓ`-adic Frobenius characteristic polynomials of a smooth projective variety over a finite field agree) supplies, with DeligneWeightsAndPurity §7.15 and the slopes of CrystallineCohomology §CR.4.7, the weights of smooth projective varieties used in 1.3a(d); nothing is assumed of it for open or singular varieties.
-
-### From TauCetiRoadmap.PurityForFlatCohomology
-
-§8.4: for a Noetherian scheme `X` of finite dimension, a closed `Z ⊆ X` and an abelian sheaf `F` on `X_ét`, the convergent spectral sequence `E₁^{a,b} = ⊕ H^{a+b}_z(Spec 𝒪_{X,z}, F) ⇒ H^{a+b}_Z(X, F)`, the sum over the `z ∈ Z` with `dim 𝒪_{X,z} = a`, from the filtration by closed supports of bounded codimension; 1.1a uses it with `Z = X`.
-
-### From TauCetiRoadmap.SchemeAndStackFoundations
-
-§0.12 (étale neighbourhoods and henselian lifting, used in 0.5), §0.17 (`satisfiesSerreS_two_iff_hartogs`: a finite module of full support over a Noetherian ring satisfying `(S_1)` satisfies `(S_2)` exactly when its sections extend across every closed set all of whose points have height at least two, used in 6.3), §0.20 (Japanese and Nagata rings), §2.15 (Gabber's affine proper base change for henselian pairs, the comparison of étale and Galois cohomology of fields, limits and Hochschild–Serre, inputs of Layer 1), §4.13 (Serre's criterion, so that a Noetherian normal domain satisfies `(R_1)` and `(S_2)`, used in 6.3; and Bertini smoothness: a general hyperplane section of a smooth projective variety over an infinite field is smooth, applied over infinite algebraic extensions of a finite base in Jannsen's route for 1.4) and §5.11 (`weil_bound`: a smooth projective geometrically irreducible curve of genus `g` over `𝔽_q` has `|#C(𝔽_q) − (q + 1)| ≤ 2g√q` points, used in 0.11(d)).
-
-### From TauCetiRoadmap.JacobianChallenge
-
-Layer F (§F.1): for a smooth proper geometrically connected curve `X` over a field with a rational point `x₀`, the Abel–Jacobi morphism `X → Jac X`, `x ↦ 𝒪(x − x₀)`, and its Albanese property on Tau Ceti's `TauCeti.AlgebraicGeometry.AbelianVariety.IsAlbanese`: every pointed morphism to an abelian variety factors uniquely through a homomorphism `Jac X → A`. It is the pointed curve case of 0.8a.
-
-### From TauCetiRoadmap.AnalyticNumberTheoryPartI
-
-§0.21, Mertens's second theorem: there is a real `B` with `Σ_{p ≤ x} 1/p = log log x + B + O(1/log x)` for real `x ≥ 2`; 0.11(a) uses only the consequence `Σ_{p ≤ x} 1/p = O(log log x)`.
-
-### From TauCetiRoadmap.AlgebraicCurves
-
-Layer 0 (places of a function field in one variable are its valuation rings over the constants; weak approximation in the equality form; existence of places; `𝒪_P` is a discrete valuation ring); Layer 2 (affine models, the Dedekind bridge); Layer 6 (the fundamental identity `Σ e f = [F′ : F]` without perfectness, and every place has finitely many prolongations); Layer 12 (closed points of the normal proper curve correspond to places).
-
-### From TauCetiRoadmap.Chebotarev
-
-Layer 10, `hasDirichletDensity_frobeniusPrimeSet`: in a finite extension of number fields infinitely many primes split completely, outside any finite set.
-
-### From TauCetiRoadmap.GlobalNumberFields
-
-Layer 1, `TauCeti.GlobalNumberFields.weakApproximation_denseRange` (finite and archimedean weak approximation, which prescribes signs at real places), and Layer 6, `IsDedekindDomain.FiniteAdeleRing.denseRange_algebraMap` (the diagonal image of `K` is dense in the finite adeles: strong approximation with the archimedean places omitted), both proved at the pinned Tau Ceti (see From Tau Ceti).
-
-### From TauCetiRoadmap.GlobalQuadraticForms
-
-§5.5: Hasse–Minkowski isotropy over number fields, with real places; hence a quadratic form of rank at least five over a totally imaginary number field is isotropic, and every sum of squares in a number field is a sum of four squares.
-
-### From TauCetiRoadmap.RealAlgebraicGeometry
-
-Layer 1, *Ordered real-closure existence*: every proper field preordering lies in an ordering; real closures at orderings exist.
-
-### From TauCetiRoadmap.ClassFieldTheory
-
-Layer 10 (the Brauer–Hasse–Noether sequence of a number field; global function fields are outside that roadmap and their Brauer sequence is ArithmeticGaloisDuality §R02.3.2) and Layer 13 (`cyclicHasseNorm`, the cyclic Hasse norm theorem over number fields).
-
-### From TauCetiRoadmap.CrystallineCohomology
-
-§CR.4.7 (the crystalline comparison, Frobenius, slopes and the slope spectral sequence) and §CR.4.8 (logarithmic Hodge–Witt sheaves `W_rΩ^q_{X,log}` on regular `𝔽_p`-schemes, with the exact sequences for `1 − F` and for restriction): the coefficients `ℤ/pⁿ(q) = W_nΩ^q_log[−q]` of the `p`-primary étale homology of 1.3a, used in 1.4 for `ℓ = 2 = char`, and the slope input of the weights in 1.3a(d). Duality, purity and weights for these coefficients are not assumed of it; they are 1.3a.
-
-### From TauCetiRoadmap.EtaleCohomologyFoundations
-
-§F.5: the exceptional inverse image `Rf^!` of a compactifiable morphism with torsion coefficients, right adjoint to `Rf_!`, with its composition isomorphisms; it defines the étale homology `H^{−a}(X_ét, Rf^!Λ)` of 1.1a and 1.3a, whose localization sequences come from the triangle of a closed immersion and its open complement.
-
-### From TauCetiRoadmap.EllipticCurves
-
-Layer 0 (the place at infinity of a Weierstrass curve, with `ord_∞ x = −2` and `ord_∞ y = −3`), Layer 1 (the formal group and `Ê(𝔪) ≅ E₁(K)`; a separable isogeny is unramified, `e = 1`), Layer 3 (the Hasse bound), Layer 4 (reduction and the filtration `E₁ ⊆ E₀ ⊆ E`; Néron–Ogg–Shafarevich, statement (i): over a complete discretely valued field with perfect residue field of characteristic different from `ℓ`, good reduction implies that inertia acts trivially on `T_ℓ`, used in 0.12(a) at the completion of a global function field at a place), Layer 5 (quadratic twists and the point isomorphism of a twist) and Layer 6 (Mordell–Weil).
-
-## How to read the build
-
-Layer 0 makes the arithmetic of finitely generated fields first-order: global fields (Rumely), the Kronecker dimension, constants, algebraic dependence and the relatively closed global subfields, ending with the relative constant field over which a field becomes a function field in one variable. Layer 1 states the cohomological local–global principles, together with Kato's complexes, the `p`-primary étale homology over finite fields and the projective resolution of threefolds on which their routes rest. Layer 2 constructs nice Pfister presentations and shows that every geometric prime divisor has many anisotropic test forms. Layer 3 turns anisotropy into a prime divisor, first by the local–global principles and then by patch compactness and coarsening. Layer 4 converts anisotropy into finite unions of discrete balls whose stabilizers are valuation rings, and isolates each divisor. Layer 5 assembles the uniform divisor formula in every Kronecker dimension, Pop's construction supplying dimension two. Layer 6 defines finite normalizations by intersecting divisor rings and, in characteristic zero, composite valuations with an arithmetic terminal place. Layer 7 interprets ℤ and proves bi-interpretability, and Layer 8 converts it into a single sentence. The *Needs:* lines give the build order item by item; a *Needs:* line lists what a statement and its indicated route use, and a different proof may omit route-only inputs. The README is the roadmap; [Suggested.lean](Suggested.lean) states the headline theorems that are statable at the pins, `exists_formula_valuationSubring_ne_top`, `exists_sentence_kroneckerDimension_eq`, `exists_sentence_charZero`, `exists_formula_mem_primeField`, `exists_formula_not_algebraicIndependent`, `exists_formula_isGeometricPrimeDivisor`, `exists_formula_arithmeticNormalization`, `exists_sentence_realize_iff_nonempty_ringEquiv_of_isDomain` and `exists_sentence_realize_iff_nonempty_ringEquiv`, with the two definitions `kroneckerDimension` and `IsGeometricPrimeDivisor` they need; its module docstring names the headline theorems that are not statable there (the bi-interpretability theorems of Layer 7, the local–global principles of Layer 1 and the characteristic-two cases above Kronecker dimension three) and the carrier each lacks.
 
 ## Layer 0: uniform arithmetic predicates in finitely generated fields
 
@@ -1598,6 +1415,189 @@ The uniform divisor families of 5.7 are the interface for defining subrings of f
 **The arithmetic normalization of `ℚ(s)`.** The geometric intersection gives `ℚ[s]`; the flags "place `s = ζ`, then a `p`-adic place of `ℚ(ζ)`" exclude every non-integral coefficient, as for `(s + 2)/3` at `ζ = −1`, `p = 3`.
 
 **The single sentence of `ℚ`.** `R_∅ = ℤ` is defined by 0.7(3); the fraction presentation gives the bi-interpretation; in the inverse-expanded language `ℚ` is generated by the empty tuple, 8.1 gives a sentence, and eliminating `inv` gives a ring sentence true in `ℚ` and false in every other finitely generated field.
+
+## Scope and ownership
+
+This roadmap owns:
+
+- the hypothesis `H_d`, the notion of a geometric prime divisor and the uniform definable families with empty failed fibres (Layer 0); the rational Albanese torsor over an arbitrary field needed by Poonen's twisting arguments (0.8a), extending the pointed characteristic-zero existence supplied by ColemanIntegrationPartII §4.0b to unpointed varieties and positive characteristic;
+- Rumely's uniform definitions in global fields, Pop's sentences fixing the Kronecker dimension, Poonen's diagonal-form lemmas, his elliptic constructions, the characteristic sentence, the uniform prime subfield of infinite finitely generated fields, the uniform constant field, uniform algebraic dependence and the uniform family of relatively closed global subfields (Layer 0);
+- the three cohomological local–global principles that no other roadmap states — Kerz–Saito's with prime coefficients over finite fields and excellent henselian discrete valuation rings, the principle in characteristic two (Kerz–Saito's up to Kronecker dimension three, Jannsen's above it), and the detection and complex statements of Kato's two-dimensional principle — and the reduced-norm test for cubic and quadratic symbols (Layer 1); with them, the inputs of their routes that no other roadmap states: Kato's complex on regular excellent schemes and on schemes over a regular excellent base with coefficients invertible there, identified with the rows of the coniveau and niveau spectral sequences (1.1a), the `p`-primary étale homology over a finite field of characteristic `p`, with its duality, Kato complex, level, weights, pullbacks and Lefschetz condition (1.3a), and the projective resolution of reduced quasi-projective threefolds over a field of positive characteristic differentially finite over a perfect subfield (1.3b);
+- nice Pfister presentations, test presentations and their abundance (Layer 2), prime-divisor detection and the compact limiting detector (Layer 3), anisotropy sets, discrete balls and stabilizers (Layer 4), the uniform divisor formulas in every Kronecker dimension (Layer 5);
+- definable finite normalizations, full geometric flags with an arithmetic terminal place and the height-one intersection theorem for normal Noetherian domains (Layer 6);
+- Aschenbrenner–Khélif–Naziazeno–Scanlon's arithmetic bi-interpretation of infinite finitely generated domains, the fraction-field transfer and the bi-interpretability of infinite finitely generated fields with ℤ (Layer 7);
+- the passage from bi-interpretability to a single characterizing sentence, the finite-field sentences and the final theorem (Layer 8).
+
+It leaves to named owners, and imports without restating:
+
+- **LogicAndDefinabilityInNumberTheory** §0.1 (interpretations on definable quotients, including quotients by definable ideals), §0.2 (semantics and composition of interpretations), §0.3 (fraction fields as interpreted structures) and §0.4 (arithmetic semantics bridges). Definable homotopy of interpretations and parametric bi-interpretation are requested from its §0.2 as gap:biinterpretation-homotopy.
+- **QuadraticFormInvariantsPartII** §1.1 (quadratic Pfister forms in every characteristic), §1.2 (binary norms of quadratic étale algebras, including the split algebra), §1.5 (isotropy equals hyperbolicity), §2.5 (Springer's theorem for odd-degree extensions, separable or not), §§3.1 and 3.7–3.9 (coefficient groups, the Pfister invariant, its naturality and the invariant-zero criterion), §§4.1–4.3 (unit reduction, principal-unit and independent-value criteria over henselian fields of arbitrary rank), §5.6 (Tsen–Lang), §5.7 (Kronecker dimension, constant field and its strict drop under nontrivial valuations), §6.3 (Jannsen's Hasse principle for `ℤ/2` coefficients away from characteristic two), §6.5 (Dittmann–Pop's dimension theorem for unit Pfister forms) and §7.2 (patch openness of henselian isotropy loci). The Lean definition `kroneckerDimension` of this roadmap restates the notion of its §5.7 on pinned carriers so that the headline theorems are statable.
+- **LocalFieldsRamificationPartII** §1.1 (normalization and prolongations), §§1.2–1.3 (henselizations of valuation rings and valued fields), §5.1 (composed valuations), §5.2 (coarsenings) and §5.3 (the Abhyankar inequality).
+- **AlgebraicModuliForArithmeticGeometry** §3.5 (effective descent with a specified ample line bundle and cocycle) and §7.5 (finite normalization of reduced finite-type algebras with generic étaleness, `ArithmeticCoefficients.valuation_prolongation_integrality` and `ArithmeticCoefficients.root_coefficient_descent`).
+- **AdicCoefficientsAndComparisonsPartII** §PA.0.11 (resolution of quasi-excellent schemes of dimension at most two by projective modifications, the source of the regular surfaces of 1.4, 1.5 and 5.4), §PA.6.8 and §PA.6.10 (Gabber's prime-to-ℓ alterations over a one-dimensional base and the odd-degree regular alteration of a projective flat model over an excellent henselian non-dyadic discrete valuation ring). The embedded resolution of closed subschemes of dimension at most two in regular excellent schemes, which its §PA.0.12 consumes, is requested from that section as gap:embedded-resolution-dimension-two for 1.4. Its §PA.0.12 resolves separated quasi-excellent threefolds by proper modifications, projective only over affine schemes; 1.3b differs in giving a projective resolution over every reduced quasi-projective threefold over a field of positive characteristic differentially finite over a perfect subfield, which the smooth projective model of 1.4 needs in Kronecker dimension three.
+- **ArithmeticGaloisDuality** §R02.4.4 (cohomological dimension of Galois groups of number fields with restricted ramification) and §R02.3.2 (class formation and Brauer sequence of a global function field). The cyclic Hasse norm theorem for global function fields is requested from its §R02.3.2 as gap:function-field-cyclic-hasse-norm.
+- **ClassicalAdicEtaleCohomology** §11.2 (the transcendence-degree bound for the cohomological dimension of a field).
+- **FunctionFieldArithmetic** §5.8 (degree-sensitive Chebotarev for global function fields).
+- **AbelianSchemesAndArithmeticModuli** §§A1.8, A3.1, A6.5 (Weil extension, isogenies and Poincaré complete reducibility) and **NeronModelsAndSemistableAbelianVarieties** §5.2 (`GoodIsogeny`: isogenous abelian varieties over the fraction field of a discrete valuation ring have good reduction simultaneously).
+- **ColemanIntegrationPartII** §4.0b (pointed Albanese existence for smooth geometrically connected varieties in characteristic zero).
+- **SieveMethodsAndPrimePatterns** §5.4 (*Uniform algebraic point counts*), for affine Lang–Weil estimates and upper bounds for fibres.
+- **LefschetzPencilsAndVanishingCycles** §0.10 (absolute purity) and §3.5 (pencils and hypersurface sections over finite fields). Its descent theorem gives a pencil only over a finite extension of the base field, so two statements over the base itself are requested from it: Kerz–Saito's Bertini theorem for 1.3, as gap:snc-bertini-over-base, and the divisor-adapted smooth fibration of a surface over a finite field for 5.4, as gap:finite-field-divisor-adapted-fibration.
+- **DeligneWeightsAndPurity** §§7.12 and 7.15, **KTheoryFiniteLocalFields** §§3.0–3.0a, **PadicDifferentialEquationsAndRigidCohomology** §RD.7.7 (Katz–Messing), **PurityForFlatCohomology** §8.4 (the coniveau spectral sequence with supports on a finite-dimensional Noetherian scheme) and **SchemeAndStackFoundations** §§0.12, 0.20, 2.15 and 4.13 (Bertini smoothness over infinite fields), as inputs of the local–global principles of Layer 1; **SchemeAndStackFoundations** §0.17 (the Hartogs characterisation of `(S_2)`) and §4.13 (Serre's criterion), as the inputs of the height-one intersection theorem 6.3. **MotivesAndAlgebraicCycles** §0.5b constructs the coniveau couple and Gersten residues of a smooth variety over a perfect field with coefficients prime to the characteristic; 1.1a differs in covering regular excellent schemes of mixed characteristic and in identifying the differentials with Kato's residue maps, and agrees with §0.5b on smooth varieties.
+- **CrystallineCohomology** §§CR.4.7–CR.4.8 (slopes and logarithmic Hodge–Witt sheaves, the coefficients of 1.3a and 1.4); **EtaleCohomologyFoundations** §F.5 (the exceptional inverse image, which defines the étale homology of 1.1a and 1.3a); **JacobianChallenge** Layer F (the Albanese property of a curve); **AnalyticNumberTheoryPartI** §0.21 (Mertens's second theorem); **SchemeAndStackFoundations** §5.11 (`weil_bound`, the Weil bound for smooth projective curves over finite fields); **AlgebraicCurves** Layers 0, 2, 6 and 12; **Chebotarev** Layer 10; **GlobalNumberFields** Layers 1 and 6; **GlobalQuadraticForms** §5.5; **RealAlgebraicGeometry** Layer 1 (*Ordered real-closure existence*); **ClassFieldTheory** Layers 10 and 13; **EllipticCurves** Layers 0, 1, 3, 4, 5 and 6.
+- Mathlib and Tau Ceti at the pins, as listed in the supplier contracts.
+
+Functional transcendence for Shimura varieties shares only general logic with this roadmap and is not part of it. The ring-theoretic quasi-finite axiomatizability of non-domains (fibre products, nilpotents) is not part of this roadmap; only integral domains and fields are treated.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- Logic: `FirstOrder.Language.ring`, `FirstOrder.Ring.compatibleRingOfRing`, `FirstOrder.Language.Sentence.Realize`, `FirstOrder.Language.Formula.Realize`, `Set.Definable`. Mathlib supplies syntax, semantics and definability with parameters; it has no interpretations, homotopies or bi-interpretations.
+- Fields: `Field.FG` (finitely many generators of the field, not of the ring), `Algebra.trdeg`, `AlgebraicIndependent`, `algebraicIndependent_unique_type_iff` (a one-element family is algebraically independent exactly when its element is transcendental), `IsTranscendenceBasis`, `IsAlgebraic`, `algebraicClosure` (relative algebraic closure as an intermediate field), `ringChar`, `FiniteField.ringEquivOfCardEq` (two finite fields of equal cardinality are isomorphic; it needs `Fintype` instances, which exact-cardinality witnesses supply).
+- Valuations and rings: `ValuationSubring`, `ValuationSubring.ofPrime` (localization of a valuation ring at a prime, the coarsening), `IsDiscreteValuationRing`, `IsLocalRing.ResidueField`, `HenselianLocalRing`, `LocalSubring.exists_le_valuationSubring` (Chevalley extension), `integralClosure`, `IsIntegral`, `Subring.closure`, `IsIntegrallyClosed`, `IsFractionRing`, `Algebra.FiniteType`.
+- Regular local rings: `IsRegularLocalRing`, and `IsDiscreteValuationRing.TFAE` (a Noetherian local domain that is not a field is a discrete valuation ring exactly when its maximal ideal is principal), used in 0.6(e).
+- Quadratic forms: `QuadraticMap.Anisotropic`; isotropic means not anisotropic.
+
+### From Tau Ceti
+
+- `AlgebraicGeometry.Scheme.Hom.exists_finite_isSeparable_comp_eq` (`TauCeti/AlgebraicGeometry/Morphisms/Smooth/SeparablePoint.lean`): a nonempty scheme smooth over any field has a point over a finite separable extension.
+- `TauCeti.AlgebraicGeometry.isRegularLocalRing_stalk_of_smooth` (`TauCeti/AlgebraicGeometry/Morphisms/Smooth/Regular.lean`): the local rings of a scheme smooth over a locally Noetherian scheme with regular local rings, a field for instance, are regular; `TauCeti.IsRegularLocalRing.quotient_span_singleton` and `TauCeti.IsRegularLocalRing.isDomain` (`TauCeti/RingTheory/RegularLocalRing/Basic.lean`): for `x` in the maximal ideal but not its square, the quotient of a regular local ring by `x` is regular local, and a regular local ring is a domain. These are the commutative algebra of 0.6(e).
+- `TauCeti.ValuationSpectrum.patchTopology`, `TauCeti.ValuationSpectrum.compactSpace_patchTopology` and `TauCeti.ValuationSpectrum.isClopen_patchTopology_basicOpen`: for a commutative ring `A` the valuation spectrum `Spv A` with its patch topology is compact and every basic open `{v : v(f) ≤ v(s) ≠ 0}` is clopen. For a field this is the Riemann–Zariski space including the trivial valuation; no rank-one subspace replaces it.
+- `TauCeti.Place`, `TauCeti.Place.integers`, `TauCeti.Place.ord`: a place of a function field `F/k` is a surjective `ℤᵐ⁰`-valued valuation trivial on `k`; its integers form a valuation subring and `ord` is the integer order with `ord 0 = 0`.
+- `TauCeti.Place.exists_ne_zero_forall_mem_ord_eq`: for a finite set of places and integers `r_P` there is a nonzero `g` with `ord_P g = r_P` on that set.
+- `TauCeti.Place.exists_forall_mem_valuation_sub_le` (`TauCeti/FieldTheory/FunctionField/Place/Approximation.lean`): for a finite set `s` of places, targets `f_P ∈ F` and integers `r_P`, there is `g` with `v_P(g − f_P) ≤ exp(r_P)` at every `P ∈ s`, that is `g = f_P` or `ord_P(g − f_P) ≥ −r_P` (weak approximation with targets; no function-field hypothesis).
+- `TauCeti.Place.exists_ord_eq_neg_and_forall_ne_ord_nonneg`: for a function field `F/k` with `k` relatively integrally closed in `F`, a place `P` and `n ≥ 2g`, there is a nonzero `x` with `ord_P x = −n` and `ord_Q x ≥ 0` at every other place.
+- `TauCeti.GlobalNumberFields.weakApproximation_denseRange` (`TauCeti/NumberTheory/NumberField/Global/Approximation/Weak.lean`): for finite sets of finite and of infinite places of a number field `K`, the diagonal image of `K` is dense in the product of the corresponding completions.
+- `IsDedekindDomain.FiniteAdeleRing.denseRange_algebraMap` (`TauCeti/RingTheory/DedekindDomain/FiniteAdeleRing/Basic.lean`): for a Dedekind domain `R` with fraction field `K`, the image of `K` is dense in the finite adele ring of `R`.
+- `TauCeti.Place.exists_forall_mem_valuation_sub_le_and_forall_mem_integers`: for a set `S` of places other than the set of all places and a finite `s ⊆ S`, there is `x` approximating prescribed targets to prescribed orders on `s` and integral at every place of `S ∖ s` (strong approximation; same function-field hypotheses).
+
+### From TauCetiRoadmap.LogicAndDefinabilityInNumberTheory
+
+§0.1 supplies interpretations of a structure in another with a finite parameter tuple, a definable domain, a definable equivalence and definable invariant symbol graphs, with no definable choice of representatives; §0.2 the semantic equivalence of a formula with its translation, and composition; §0.3 the fraction field of a definable domain as pairs modulo cross multiplication; §0.4 the arithmetic semantics bridges. These are used for residue fields of definable valuation rings (quotient by a definable ideal), for finite extensions given by structure constants (0.4 of this roadmap) and for fraction fields.
+
+What LogicAndDefinabilityInNumberTheory must provide (gap:biinterpretation-homotopy): for interpretations `f, g` of a structure in another, definable homotopy (a definable isomorphism between the two interpreted copies), and parametric bi-interpretability (interpretations both ways whose two composites are definably homotopic to the identity interpretations), with closure under composition.
+
+### From TauCetiRoadmap.QuadraticFormInvariantsPartII
+
+§1.1 `q_a` as a quadratic Pfister form with the characteristic-dependent last factor; §1.2 the binary norm of a quadratic étale algebra, with split norm `(u, v) ↦ uv`; §1.5 isotropic Pfister forms are hyperbolic; §2.5 Springer's theorem, `TauCetiRoadmap.QuadraticFormInvariantsPartII.anisotropic_extendScalars_of_odd_finrank`: an anisotropic quadratic form stays anisotropic over every finite extension of odd degree, purely inseparable extensions of odd degree included (used in 0.6(a)–(b)); §3.1 the groups `H^{i+1}(F) = H^{i+1}(F, ℤ/2(i))`, Kato's group in characteristic two; §3.7 the invariant `e(q_a) ∈ H^{d+1}(F)`; §3.8 its naturality under every field extension (Dittmann–Pop Fact 3.1(2)); §3.9 `q_a` is isotropic exactly when `e(q_a) = 0` (Fact 3.1(1)); §4.1 unit reduction; §4.2 a unit form with a principal-unit outer slot is isotropic (Proposition 3.2(1)); §4.3 the independent-value criterion (Proposition 3.2(2)); §5.6 Tsen–Lang (`C_i` ascent; finite fields are `C₁`); §5.7 the Kronecker dimension, the constant field, invariance under algebraic extensions and the strict drop `δ(Fw) < δ(F)` for nontrivial `w`; §6.3 Jannsen's injectivity `H^{d+2}(F, ℤ/2) → ⊕_v H^{d+2}(F_v, ℤ/2)` for a function field `F` in `d` variables over a global field `k₁` of characteristic different from two that is separably closed in `F`; §6.5 the dimension theorem (Proposition 3.2(3)) with no finite-generation hypothesis; §7.2 for every quadratic form over `F` the set of valuations at whose henselization it is isotropic is patch open (Lemma 3.9(2)).
+
+### From TauCetiRoadmap.LocalFieldsRamificationPartII
+
+§1.1: for a finite extension, the prolongations of a valuation ring correspond to the maximal ideals of the integral closure. §§1.2–1.3: henselizations of valuation rings and valued fields, their universal property and embeddings under extension. §5.1: composed valuations as inverse images of residue valuation rings, with their value-group sequence and convex kernel. §5.2: coarsenings as localizations (`ValuationSubring.ofPrime`) and their chain. §5.3: the Abhyankar inequality and finite-height bound. The embedding of a coarser henselization into a finer one uses §§1.3, 5.1–5.2.
+
+### From TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry
+
+§3.5: `ModuliDescent.polarizedDescentComparison`, effective descent of a proper finitely presented scheme with a relatively ample invertible sheaf along an fppf cover. Both the scheme isomorphism and its lift to the line bundle on the fibre square, their identity laws and their triple cocycles are data. This applies to finite extensions of fields, including inseparable ones with nonreduced fibre squares; invariance of an isomorphism class is insufficient.
+
+§7.5: `arithmetic_normalization_genericallyEtale` (finite normalization of a reduced finite-type algebra over a field or an excellent base in every finite extension, generically étale for separable function-field extensions); `ArithmeticCoefficients.valuation_prolongation_integrality` (the integral closure of an intersection of valuation rings in a finite extension is the intersection of all their prolongations, with no assumption on the fraction field of the intersection); `ArithmeticCoefficients.root_coefficient_descent` (roots with multiplicities in a prolongation give coefficients in the base valuation ring).
+
+### From TauCetiRoadmap.AdicCoefficientsAndComparisonsPartII
+
+§PA.0.11: every noetherian quasi-excellent scheme of dimension at most two is universally resolvable in the projective sense; in particular an integral two-dimensional scheme of finite type over a field, over the ring of integers of a number field or over a smooth curve over a finite field has a projective modification by a regular scheme (its route is Lipman's normalized blow-ups in closed points, Stacks, Theorem 54.14.5, tag 0BGP, followed by an embedded resolution of the preimage of a given nowhere dense closed set). Nothing beyond the statement, in particular no description of the modification, is assumed of it. It supplies the smooth projective models of 1.4 for `d = 2`, the regular models of 1.5 and the surfaces of 5.4.
+
+§PA.6.10: for an excellent henselian discrete valuation ring `R` of residue characteristic different from two and an integral projective flat `R`-scheme with nonempty generic fibre, an odd-degree finite extension of the fraction field and an odd-degree projective alteration by a regular integral scheme projective over the normalized base. §PA.6.8, Gabber's prime-to-ℓ theorem over a one-dimensional base, is its input and an input of 1.3. §PA.0.12 (universal resolvability of separated quasi-excellent schemes of dimension at most three in the proper sense) consumes the embedded resolution requested below; its own conclusion gives only a proper modification for a non-affine scheme, while 1.4 needs a projective one, which 1.3b supplies.
+
+What AdicCoefficientsAndComparisonsPartII must provide (gap:embedded-resolution-dimension-two): for a regular excellent scheme `Z` of any dimension and a reduced closed subscheme `X ⊂ Z` of dimension at most two, a projective surjective morphism `π : Z′ → Z` with `Z′` regular, an isomorphism over `Z ∖ X`, such that `π⁻¹(X)` with its reduced structure is a simple normal crossings divisor on `Z′` (Cossart–Jannsen–Saito, Corollary 0.4, p. 5), stated in §PA.0.12 where it is consumed. With `Z` regular and projective over `𝔽₂` this is Kerz–Saito's condition `(G)_{2,q}` for `q ≤ 2` (Kerz–Saito, Remark 6.1(2), p. 31), used in 1.4.
+
+### From TauCetiRoadmap.ArithmeticGaloisDuality
+
+§R02.4.4: `cd_ℓ(G_{K,S}) ≤ 2` for a number field `K`, a set `S` of places and a prime `ℓ` invertible on `S` when `ℓ` is odd or `K` is totally imaginary; passing to the limit over `S`, a totally imaginary number field has `cd₂ ≤ 2`. §R02.3.2: the class formation of a global function field, reciprocity and norm groups, and the exact Brauer sequence `0 → Br(F) → ⊕_v Br(F_v) → ℚ/ℤ → 0` of a global function field `F` with the sum of the local invariants (item 1 of its class-formation statement), used in 1.1, 1.6 and 5.6 for the global function fields that occur as residue fields, where ClassFieldTheory Layer 10, which treats number fields only, does not apply.
+
+What ArithmeticGaloisDuality must provide (gap:function-field-cyclic-hasse-norm): the cyclic Hasse norm theorem for a cyclic extension `L/K` of global function fields, that an element of `Kˣ` is a norm from `L` exactly when it is a local norm at every place of `K`, stated in §R02.3.2 next to the class formation.
+
+### From TauCetiRoadmap.LefschetzPencilsAndVanishingCycles
+
+§0.10: Gabber's absolute purity for a regular closed immersion of regular noetherian schemes with coefficients invertible on the ambient scheme, used in 1.1a to identify the terms of the coniveau and niveau spectral sequences of a regular excellent scheme, or of a scheme over a regular excellent base, with Galois cohomology of residue fields (consumed by 1.3 and 1.5(b)).
+
+§3.5: pencils and hypersurface sections over a finite field. Its descent theorem puts a good axis over some finite extension `𝔽_{q^r}` of the base field `𝔽_q`, and says that `𝔽_q` itself may carry none. Both consumers here need sections defined over the base itself, so that theorem is not used as stated; the two statements below are requested from §3.5.
+
+What LefschetzPencilsAndVanishingCycles must provide (gap:snc-bertini-over-base): Kerz–Saito's Bertini theorem over the base itself (Kerz–Saito, Theorem 3.2, p. 14, in the setting of their Definitions 2.1–2.5 and 3.1, pp. 10–14): for `S` the spectrum of a finite field or of an excellent henselian discrete valuation ring with finite residue field, an irreducible regular scheme `X` projective over `S` of positive relative dimension over its image `T` in `S` (when `X` is flat over `S`, with reduced special fibre a simple normal crossings divisor), a simple normal crossings divisor `Y` on `X` whose components flat over `S` form, together with that reduced special fibre, a simple normal crossings divisor, and an invertible sheaf `L` on `X` ample relative to `T`, every sufficiently large power `L^{⊗N}` has a global section, defined over `S`, with support `Z` such that `Y ∪ Z` again satisfies the condition imposed on `Y` and contains a regular divisor ample relative to `T` (an ample log-pair in their sense).
+
+What LefschetzPencilsAndVanishingCycles must provide (gap:finite-field-divisor-adapted-fibration): for a smooth projective geometrically integral surface `X` over a finite field `k` and an integral curve `C ⊂ X`, a smooth projective surface `X′` with a birational `k`-morphism `X′ → X`, a smooth projective geometrically integral `k`-curve `B` and a dominant `k`-morphism `X′ → B` whose generic fibre is smooth and geometrically integral over `k(B)` and under which the strict transform of `C` maps dominantly onto `B`, all defined over `k` itself and not over a finite extension of `k`. One route: by Poonen's Bertini theorem with Taylor conditions (Poonen 2004, Theorem 1.2, p. 2) there is, in every large degree `d`, a form `f` over `k` such that `X ∩ {f = 0}` is smooth of dimension one and misses a chosen closed point of `C`; it is geometrically connected (Poonen 2004, Remark 1 after Theorem 3.3, p. 10), hence an integral curve. Since `f` does not vanish identically on `C`, the ratios `g/f` of degree-`d` forms `g` over `k`, restricted to `C`, generate the function field `k(C)` (for a coordinate `x_0` of the projective embedding not vanishing identically on `C`, the ratios for `x_i x_0^{d−1}` and `x_0^d` have quotient `x_i/x_0`), which has transcendence degree one over `k`; so some degree-`d` form `g` over `k` has `(g/f)|_C` transcendental over `k`. Then `g` does not vanish identically on `X ∩ {f = 0}`: otherwise, that zero scheme being reduced, `g/f` would be a regular function on `X`, hence a constant `c ∈ k` because `H⁰(X, O_X) = k`, and `(g/f)|_C = c` would be algebraic over `k`, contrary to the choice of `g`. So the pencil `f − t g` has finitely many base points; its member at `t = 0` is smooth, so its generic member over `k(t)` is smooth, and the same connectedness argument over an algebraic closure of `k(t)` makes it geometrically integral. Resolving the base points by blow-ups of closed points gives `X′ → B = ℙ¹_k`, and the strict transform of `C` dominates `B` because `(f/g)|_C` is transcendental over `k`, so that the image of `C` is not a closed point of `ℙ¹_k`.
+
+### From TauCetiRoadmap.FunctionFieldArithmetic
+
+§5.8, the degree-sensitive Chebotarev theorem: for a finite Galois extension of global function fields and a conjugacy class compatible with the constant-field Frobenius, places of every large compatible degree with that Frobenius exist; in particular infinitely many places split completely, outside any finite set.
+
+### From TauCetiRoadmap.AbelianSchemesAndArithmeticModuli
+
+§A1.8 (Weil extension: a rational map from a smooth variety to an abelian variety extends, using properness at codimension-one points and the criterion in item (1)), §A3.1 (isogenies) and §A6.5 (Poincaré complete reducibility).
+
+### From TauCetiRoadmap.NeronModelsAndSemistableAbelianVarieties
+
+§5.2 (`GoodIsogeny`): isogenous abelian varieties over the fraction field of a discrete valuation ring have good reduction simultaneously, inseparable isogenies included and with no henselian hypothesis on the ring, so that good reduction at a place is invariant under isogeny.
+
+### From TauCetiRoadmap.ClassicalAdicEtaleCohomology
+
+§11.2: `TauCetiRoadmap.ClassicalAdicEtaleCohomology.field_cohomological_dimension_transcendence`, `cd_ℓ(L) ≤ cd_ℓ(K) + trdeg_K(L)` for every field extension `L/K` and every prime `ℓ`, infinite values allowed; used in 0.6(c) with `ℓ = 2` in characteristic zero, for `K` finitely generated of transcendence degree `r` over a number field.
+
+### From TauCetiRoadmap.ColemanIntegrationPartII
+
+§4.0b: `NaturalIntegration.properAlbanese_exists`, the pointed Albanese of a smooth geometrically connected separated finite-type variety over a characteristic-zero field.
+
+### From TauCetiRoadmap.SieveMethodsAndPrimePatterns
+
+§5.4: `SieveLangWeil.lang_weil_uniform`. For fixed affine ambient dimension, number of equations and degree bound, a geometrically irreducible affine variety of dimension `r` over `𝔽_Q` has `Q^r + O(Q^{r−1/2})` points; arbitrary fibres of dimension at most `r` with that presentation bound have `O(Q^r)` points, including empty and reducible fibres. Constants depend only on the presentation bounds, hence remain fixed under finite-field extension.
+
+### From TauCetiRoadmap.DeligneWeightsAndPurity and TauCetiRoadmap.KTheoryFiniteLocalFields
+
+DeligneWeightsAndPurity §§7.12 and 7.15 (weight bounds and purity over a finite field), KTheoryFiniteLocalFields §3.0 (Milnor symbols, residues, norms, the differential symbol and the Bloch–Gabber–Kato isomorphism) and §3.0a (the norm residue isomorphism): the inputs of Layer 1, used exactly as QuadraticFormInvariantsPartII §6.3 uses them.
+
+### From TauCetiRoadmap.PadicDifferentialEquationsAndRigidCohomology
+
+§RD.7.7 (Katz–Messing: crystalline and `ℓ`-adic Frobenius characteristic polynomials of a smooth projective variety over a finite field agree) supplies, with DeligneWeightsAndPurity §7.15 and the slopes of CrystallineCohomology §CR.4.7, the weights of smooth projective varieties used in 1.3a(d); nothing is assumed of it for open or singular varieties.
+
+### From TauCetiRoadmap.PurityForFlatCohomology
+
+§8.4: for a Noetherian scheme `X` of finite dimension, a closed `Z ⊆ X` and an abelian sheaf `F` on `X_ét`, the convergent spectral sequence `E₁^{a,b} = ⊕ H^{a+b}_z(Spec 𝒪_{X,z}, F) ⇒ H^{a+b}_Z(X, F)`, the sum over the `z ∈ Z` with `dim 𝒪_{X,z} = a`, from the filtration by closed supports of bounded codimension; 1.1a uses it with `Z = X`.
+
+### From TauCetiRoadmap.SchemeAndStackFoundations
+
+§0.12 (étale neighbourhoods and henselian lifting, used in 0.5), §0.17 (`satisfiesSerreS_two_iff_hartogs`: a finite module of full support over a Noetherian ring satisfying `(S_1)` satisfies `(S_2)` exactly when its sections extend across every closed set all of whose points have height at least two, used in 6.3), §0.20 (Japanese and Nagata rings), §2.15 (Gabber's affine proper base change for henselian pairs, the comparison of étale and Galois cohomology of fields, limits and Hochschild–Serre, inputs of Layer 1), §4.13 (Serre's criterion, so that a Noetherian normal domain satisfies `(R_1)` and `(S_2)`, used in 6.3; and Bertini smoothness: a general hyperplane section of a smooth projective variety over an infinite field is smooth, applied over infinite algebraic extensions of a finite base in Jannsen's route for 1.4) and §5.11 (`weil_bound`: a smooth projective geometrically irreducible curve of genus `g` over `𝔽_q` has `|#C(𝔽_q) − (q + 1)| ≤ 2g√q` points, used in 0.11(d)).
+
+### From TauCetiRoadmap.JacobianChallenge
+
+Layer F (§F.1): for a smooth proper geometrically connected curve `X` over a field with a rational point `x₀`, the Abel–Jacobi morphism `X → Jac X`, `x ↦ 𝒪(x − x₀)`, and its Albanese property on Tau Ceti's `TauCeti.AlgebraicGeometry.AbelianVariety.IsAlbanese`: every pointed morphism to an abelian variety factors uniquely through a homomorphism `Jac X → A`. It is the pointed curve case of 0.8a.
+
+### From TauCetiRoadmap.AnalyticNumberTheoryPartI
+
+§0.21, Mertens's second theorem: there is a real `B` with `Σ_{p ≤ x} 1/p = log log x + B + O(1/log x)` for real `x ≥ 2`; 0.11(a) uses only the consequence `Σ_{p ≤ x} 1/p = O(log log x)`.
+
+### From TauCetiRoadmap.AlgebraicCurves
+
+Layer 0 (places of a function field in one variable are its valuation rings over the constants; weak approximation in the equality form; existence of places; `𝒪_P` is a discrete valuation ring); Layer 2 (affine models, the Dedekind bridge); Layer 6 (the fundamental identity `Σ e f = [F′ : F]` without perfectness, and every place has finitely many prolongations); Layer 12 (closed points of the normal proper curve correspond to places).
+
+### From TauCetiRoadmap.Chebotarev
+
+Layer 10, `hasDirichletDensity_frobeniusPrimeSet`: in a finite extension of number fields infinitely many primes split completely, outside any finite set.
+
+### From TauCetiRoadmap.GlobalNumberFields
+
+Layer 1, `TauCeti.GlobalNumberFields.weakApproximation_denseRange` (finite and archimedean weak approximation, which prescribes signs at real places), and Layer 6, `IsDedekindDomain.FiniteAdeleRing.denseRange_algebraMap` (the diagonal image of `K` is dense in the finite adeles: strong approximation with the archimedean places omitted), both proved at the pinned Tau Ceti (see From Tau Ceti).
+
+### From TauCetiRoadmap.GlobalQuadraticForms
+
+§5.5: Hasse–Minkowski isotropy over number fields, with real places; hence a quadratic form of rank at least five over a totally imaginary number field is isotropic, and every sum of squares in a number field is a sum of four squares.
+
+### From TauCetiRoadmap.RealAlgebraicGeometry
+
+Layer 1, *Ordered real-closure existence*: every proper field preordering lies in an ordering; real closures at orderings exist.
+
+### From TauCetiRoadmap.ClassFieldTheory
+
+Layer 10 (the Brauer–Hasse–Noether sequence of a number field; global function fields are outside that roadmap and their Brauer sequence is ArithmeticGaloisDuality §R02.3.2) and Layer 13 (`cyclicHasseNorm`, the cyclic Hasse norm theorem over number fields).
+
+### From TauCetiRoadmap.CrystallineCohomology
+
+§CR.4.7 (the crystalline comparison, Frobenius, slopes and the slope spectral sequence) and §CR.4.8 (logarithmic Hodge–Witt sheaves `W_rΩ^q_{X,log}` on regular `𝔽_p`-schemes, with the exact sequences for `1 − F` and for restriction): the coefficients `ℤ/pⁿ(q) = W_nΩ^q_log[−q]` of the `p`-primary étale homology of 1.3a, used in 1.4 for `ℓ = 2 = char`, and the slope input of the weights in 1.3a(d). Duality, purity and weights for these coefficients are not assumed of it; they are 1.3a.
+
+### From TauCetiRoadmap.EtaleCohomologyFoundations
+
+§F.5: the exceptional inverse image `Rf^!` of a compactifiable morphism with torsion coefficients, right adjoint to `Rf_!`, with its composition isomorphisms; it defines the étale homology `H^{−a}(X_ét, Rf^!Λ)` of 1.1a and 1.3a, whose localization sequences come from the triangle of a closed immersion and its open complement.
+
+### From TauCetiRoadmap.EllipticCurves
+
+Layer 0 (the place at infinity of a Weierstrass curve, with `ord_∞ x = −2` and `ord_∞ y = −3`), Layer 1 (the formal group and `Ê(𝔪) ≅ E₁(K)`; a separable isogeny is unramified, `e = 1`), Layer 3 (the Hasse bound), Layer 4 (reduction and the filtration `E₁ ⊆ E₀ ⊆ E`; Néron–Ogg–Shafarevich, statement (i): over a complete discretely valued field with perfect residue field of characteristic different from `ℓ`, good reduction implies that inertia acts trivially on `T_ℓ`, used in 0.12(a) at the completion of a global function field at a place), Layer 5 (quadratic twists and the point isomorphism of a twist) and Layer 6 (Mordell–Weil).
 
 ## References
 
