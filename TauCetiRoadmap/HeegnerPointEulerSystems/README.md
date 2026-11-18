@@ -4,21 +4,9 @@
 
 The finite branch starts with transported quadratic orders and ring-class fields, constructs integral CM divisor classes, and differentiates their Kummer images. It includes the clean elliptic rank-one theorem, residual indivisibility for modular forms of GL₂ type, and error-tolerant descent at exceptional primes, including the dyadic and CM cases. The anticyclotomic branch builds coherent norm families and Λ-adic classes before proving nonvanishing or using any main conjecture. It treats both the split-prime equality results and the refined equivalence at unramified primes, with the inert case retaining its conjectural hypothesis.
 
-## Scope and ownership
+## How to read the build
 
-The general theories have other owners. GlobalNumberFields supplies orders and Picard groups; ClassFieldTheory supplies the fields and reciprocity maps. ComplexMultiplicationAndExplicitReciprocity and the modular and quaternionic curve roadmaps supply moduli, canonical models and level structures. EllipticCurves supplies Tate modules, Kummer sequences and Mordell–Weil theory. SelmerIwasawaCohomology and ArithmeticGaloisDuality supply continuous cohomology, local conditions and duality. EulerSystemsAndKolyvaginSystems supplies derivative operators, abstract descent and rigidity. The task here is to construct the actual Heegner objects and verify those theories' arithmetic hypotheses. Outside the statistics scope specified below, heights and explicit reciprocity come from GrossZagierAndArithmeticHeights; the Gross–Zagier formula is not needed to construct the Euler system or to prove descent from an already non-torsion point.
-
-ImaginaryQuadraticClassNumber H1.4 owns the conductor residue-unit exact sequence, class-number formula and exceptional units; §0.4 applies them to successive conductors. EffectiveClassNumbers §2.8, Classical Heegner construction, owns the classical cusp-normalized conductor-one trace and its Artin and conjugation laws; §§1.5–1.6 extend that normalization to the conductor family. HeightsRationalPointsAndObstructions §1.7 supplies abelian Mordell–Weil finite generation to the RM branch.
-
-Generic automorphic transfer, level raising, congruence modules, heights and p-adic regulators retain the owners and sections named in the supplier contracts. The additional contracts state required mathematical inputs; they are not assertions that a supplier contains a target beyond its specified scope. The definite period comparison is proved independently in Layer 6, before Zhang’s indivisibility theorem. The Eisenstein equality in Layer 8b uses independent elliptic-unit/Katz inputs and precedes its finite-system application; it does not consume a cyclotomic return theorem proved from that application. EulerSystemsCyclotomicMainConjecture owns the additional elliptic-unit/Katz obligation stated below; its existing cyclotomic/circular-unit theorem does not discharge that obligation. The additional general inputs are the explicit supplier obligations below, with their mathematical scope and source locators. The proof routes using them are conditional on those contracts, including every subsequent application through an internal dependency. A weaker supplied theorem does not discharge a stronger contract; a source citation alone does not supply its prerequisite library development.
-
-Outside the supplied statistics CM realizations, the cyclic-isogeny CM pair at every quadratic discriminant and the optimal-embedding/canonical-model comparison are supplied by GrossZagierAndArithmeticHeights §§0a.2–0a.4. Layer 1 here applies those points and the normalized Hodge class of its §3.2 to one fixed integral conductor family; it does not construct a second CM moduli or canonical-descent theory. Its denominator-clearing target differs from the rational Hodge-class construction by retaining the fixed integral d and its quotient image.
-
-EulerSystemsAndKolyvaginSystems §1.6 owns the residual Kummer-field evaluation pairing; §1.16 owns the residual local pairing, simultaneous detection of two classes and classes with prescribed ramification. Sections 5.7, 6.15 and 6.18 consume them for the actual Heegner classes. Section 4.1 identifies the coefficient ideal of this family with that roadmap’s §1.4 inert-prime ideal; §8.15 specializes its §5.12 divisibility profile. Its §4.19(b) owns the generic common-multiple uniform bound, including independence from the multiplying power; §8.33 applies the modified-edge extension to the actual Heegner family and its divided specializations. These arithmetic identifications retain the actual eigenvalues and point family.
-
-SelmerIwasawaCohomology §4.28 owns parity constancy and quadratic-character decomposition for supplied self-dual ordinary families. Its ordinary modular-form application retains the common arithmetic realization and local diagram and conditions (A1)–(A2) for each twist; it compares Selmer dimensions at two arithmetic points. The anticyclotomic endpoints of Layer 8 here are the divisibility, nonvanishing and determinant statements of §§8.30–8.45.
-
-ArithmeticStatisticsPartVI, “Heegner logarithm and low rank”, owns its marked classical/quaternionic CM divisor and elliptic image, logarithm and height formulas, and the low-analytic-rank implication in its stated scope. “Anticyclotomic character nonvanishing” owns its classical elliptic conductor-tower CM divisors and images as well as higher-point nonvanishing for every odd p with trivial tame character; “Anticyclotomic character Selmer multiplicity one” owns its character-level descent. In these scopes §§1.5–1.6 reuse those supplied divisors and images, proving the conductor relations and normalization comparisons needed for the arithmetic system, rather than reconstructing them. The conditional non-torsion, all-prime classical descent of §7.11 and general-F RM descent of §7.12 have different hypotheses from the statistics applications; neither asserts its character-multiplicity theorem. Section 8.21 here treats general totally real F and prescribed torsion character χ₀, while §8.24 uses the supplied classical theorem to prove non-torsion of this roadmap’s actual normalized Λ-adic class.
+Layers 0–3 construct the orders, conductor towers, fixed integral point maps and Kummer local conditions. Layers 4–5 differentiate and descend those points, retaining the coefficient ideals, cyclic tensor factors and local modified edge maps. Layer 6 applies clean descent and the independent level-raising, period and rank-zero inputs; Layer 7 treats exceptional coefficients, CM and RM errors. Layer 8 builds the anticyclotomic family before geometric nonvanishing, specialization, control and conditional determinant comparisons. Layer 8b proves the split-prime equalities before applying the conditional finite-system and refined-index theorems.
 
 ## Conventions
 
@@ -45,241 +33,6 @@ For Cornut–Vatsal, F is totally real, K/F is CM, π has parallel weight two an
 The compact ordinary Selmer module S and its Heegner line H=Λy∞ are distinguished from their discrete duals. For BCGS/BCS the torsion Greenberg module has the (0,∅) condition: strict at one prime over p and unrestricted at the other. The Castella–Sano complex instead uses the strict ordinary cone at every prime over p and has a rank-one dual with torsion part. Its finite quotient called X_BK uses propagated local conditions; for general twists it need not be the Bloch–Kato Selmer quotient. Rational equalities extend ideals to Λ⊗ℚ_p. Integral equalities retain every p-factor. The BDP square-root convention and the single-power convention for its square are reconciled only after coefficient, period and primitive-factor comparisons.
 
 The arithmetic constructions, APIs and Checks below are specified in prose. Suggested.lean is the acceptance test for headline theorems on the pinned carriers. Its module docstring lists the arithmetic headlines and their required constructions; it supplies no generic-map substitutes. Continuous cohomology, Tate modules and completed group algebras have native carriers, but those alone do not determine the Heegner families, their Selmer structures or their canonical determinant comparisons.
-
-## Exact supplier contracts
-
-### Additional contracts used by the proof routes
-
-The following table makes the extra inputs of each route explicit. Its entries are requirements on the indicated owners, separate from the sections imported below. Each route is conditional on the full indicated contract and on the ordinary supplier sections it uses; conditionality propagates to its downstream applications. These are library obligations, not extra hypotheses asserting the conclusion of an arithmetic theorem.
-
-| Required input and owner | Dependent route |
-| --- | --- |
-| GrossZagierAndArithmeticHeights §§0a.2–0a.4, §3.2 and the height/period sections below; additionally gap:integral-family-logarithm on the distinguished integral family | General CM/Hodge construction in §§1.4–1.6; height use in §8.22; logarithm, determinant and BDP comparisons in §§8.35–8.45 and Layer 8b |
-| ModularIwasawaMainConjectures §1.3 integral ordinary main conjecture and the ordinary/zeta/determinant comparisons; additionally gap:gl2-integral-rank-zero for the trivial-character control formula | §6.9 and its Zhang consumers; the cyclotomic comparisons used in §8b.2 |
-| KatoEulerSystems gap:kato-distinguished-lattice on the integral modular lattice and prescribed étale isogenies | The source normalization of §8.6a and lattice transport of §8.16; the integral main conjecture is ModularIwasawaMainConjectures §1.3 and the rank-zero control formula belongs to gap:gl2-integral-rank-zero |
-| PadicHodgeRegulators §§1.3, 1.9–1.10, 8.17–8.22 on local logarithms and integral regulator lattices | §§8.35–8.37 and the integral comparisons in Layer 8b |
-| AutomorphicCongruences §§5.4, 5.10, 5.12–5.13, 6.1–6.6 (the Wan/Fujiwara quartic-CM engine, the two-variable comparisons, the auxiliary-field hypotheses and the μ=0 input), independently of cyclotomic return | §8b.5 and the irreducible split equality applications |
-| ArithmeticGaloisRepresentations gap:abelian-scalar-image | §§7.2–7.3 and their all-prime finiteness applications |
-| SerreWeightAndLevelOptimisation gap:zhang-level-raising; HilbertModularVarietiesAndShimuraCurves gap:zhang-integral-realization | §§4.10, 6.7–6.19 |
-| EulerSystemsAndKolyvaginSystems gap:modified-heegner-descent, retaining the actual modified edges | §§5.3, 6.1, 6.5–6.6 and all ordinary-system consumers in Layers 8 and 8b |
-| EulerSystemsAndKolyvaginSystems gap:classical-uniform-square-index | §7.13; its length/cardinality assertion is separate from an exponent bound |
-| GeometryOfNumbersAndQuadraticArithmetic gap:cm-local-dynamics over finite extensions of ℚ_p | §§8.9–8.12, 8.21–8.22 |
-| EulerSystemsAndKolyvaginSystems gap:self-dual-rigidity-three | Only the surjective p=3 exact-length branch of §8.41 and its uses |
-| SelmerIwasawaCohomology gap:surjective-three-integral-comparison | Only the surjective p=3 integral comparison of §8b.2 and its uses |
-| EulerSystemsCyclotomicMainConjecture gap:eisenstein-elliptic-unit-inputs on elliptic-unit/Katz character components | §8b.10 and its Eisenstein applications; independent of both surjective p=3 contracts |
-
-### From Mathlib
-
-Use Mathlib `6b7abb3c7686292736be2955bd3eb9ebf63b456a` and Tau Ceti `a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039`. Use the algebraic carriers and elementary operations below. Their arithmetic interpretation still requires the named supplier layers. A subring preimage does not construct a full integral order, a group ring does not construct Λ, and compactness does not prove that the arithmetic constraints have the finite intersection property.
-
-| Declaration at the Mathlib pin | Use |
-| --- | --- |
-| [`Subring.comap`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/Algebra/Ring/Subring/Basic.lean) | Preimage subring along a ring homomorphism. |
-| [`ClassGroup.equivPic`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/RingTheory/PicardGroup.lean) | ClassGroup R ≃* CommRing.Pic R for any commutative domain R. |
-| [`CommRing.Pic.mapRingHom`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/RingTheory/PicardGroup.lean) | Pic R →* Pic S for f:R→+*S between commutative semirings. |
-| [`PadicInt`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/NumberTheory/Padics/PadicIntegers.lean) | The bounded subtype of Q_p defining Z_p under Fact p.Prime. This definition alone does not supply DVR ideal/valuation theorems; cite the two separately checked declarations below for Layer 4. |
-| [`WeierstrassCurve.Affine.Point`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/AlgebraicGeometry/EllipticCurve/Affine/Point.lean) | Nonsingular points with infinity. |
-| [`Module.length`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/RingTheory/Length.lean) | Module length in ℕ∞ for a ring, additive group and module. |
-| [`Nat.primeFactorsList`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/Data/Nat/Factors.lean) | The sorted list of prime factors with multiplicity. Taking toFinset/card counts distinct conductor primes. |
-| [`IsDiscreteValuationRing.ideal_eq_span_pow_irreducible`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/RingTheory/DiscreteValuationRing/Basic.lean) | In a commutative DVR domain, every nonzero ideal is spanned by a power of a specified irreducible uniformizer; the zero ideal is excluded. |
-| [`PadicInt.ideal_eq_span_pow_p`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/NumberTheory/Padics/PadicIntegers.lean) | For a nonzero ideal s of Z_p, there exists n with s=span{p^n}; s≠⊥ is essential. |
-| [`PadicInt.mem_span_pow_iff_le_valuation`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/NumberTheory/Padics/PadicIntegers.lean) | For x≠0, x∈span{p^n} iff n≤x.valuation; the zero case must be handled separately. |
-| [`DihedralGroup.sr_mul_r`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/GroupTheory/SpecificGroups/Dihedral.lean) | Abstract cyclic-dihedral algebra; the generalized-dihedral ring-class action is the separate arithmetic target §0.6. |
-| [`DihedralGroup.sr_mul_sr`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/GroupTheory/SpecificGroups/Dihedral.lean) | Abstract cyclic-dihedral algebra; the generalized-dihedral ring-class action is the separate arithmetic target §0.6. |
-| [`DihedralGroup.inv_r`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/GroupTheory/SpecificGroups/Dihedral.lean) | Abstract cyclic-dihedral algebra; the generalized-dihedral ring-class action is the separate arithmetic target §0.6. |
-| [`DihedralGroup.inv_sr`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/GroupTheory/SpecificGroups/Dihedral.lean) | Abstract cyclic-dihedral algebra; the generalized-dihedral ring-class action is the separate arithmetic target §0.6. |
-| [`hensels_lemma`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/NumberTheory/Padics/Hensel.lean) | A sufficiently simple approximate root lifts uniquely to ℤ_p; the ordinary quadratic has simple unit residue root a_p mod p. |
-| [`PadicInt.isUnit_iff`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/NumberTheory/Padics/PadicIntegers.lean) | An element of ℤ_p is a unit iff its p-adic norm is 1; used to distinguish the β-unit factors from the possibly nonunit Φ. |
-| [`MonoidAlgebra.single`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/Algebra/MonoidAlgebra/Defs.lean) | The finite group-ring basis element r·g; this is not a completed arithmetic Iwasawa algebra. |
-| [`Submodule.span`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/LinearAlgebra/Span/Defs.lean) | The smallest module containing a supplied subset; useful for the Heegner line, without asserting arithmetic saturation. |
-| [`LinearMap`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/Algebra/Module/LinearMap/Defs.lean) | Bundled semilinear/linear maps between actual modules; used for supplied corestriction and localization maps. |
-| [`MonoidHom`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/Algebra/Group/Hom/Defs.lean) | Bundled multiplicative homomorphisms; finite CM character and character-power algebra. Continuity/topology of Γ remains a supplier condition. |
-| [`TensorProduct.tmul`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/LinearAlgebra/TensorProduct/Defs.lean) | The canonical bilinear tensor of actual modules; it supplies the algebraic Heegner tensor, not a Selmer determinant comparison. |
-| [`Module.finrank`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/LinearAlgebra/Dimension/Finrank.lean) | Finite rank obtained from cardinal rank; use rank assertions on supplied fraction-field modules, never assumed to make the integral Selmer lattice free. |
-| [`ENat`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/Data/ENat/Defs.lean) | Extended naturals ℕ∪{∞}; records zero-system divisibility and empty-stratum minima. |
-| [`Pi.compactSpace`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/Topology/Compactness/Compact.lean) | Dependent products of compact spaces are compact; no surjectivity of transition maps is required. |
-| [`IsCompact.inter_iInter_nonempty`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/Topology/Compactness/Compact.lean) | A compact set meets an intersection of closed constraints when every finite subfamily has nonempty intersection. |
-
-### From Tau Ceti
-
-The native elliptic Tate module is `TauCeti.TateModule`. In `TauCeti/AlgebraicGeometry/EllipticCurve/TateModule/Basic.lean`, `WeierstrassCurve.nonempty_linearEquiv_tateModule`, `WeierstrassCurve.free_tateModule` and `WeierstrassCurve.finrank_tateModule` give freeness and rank two over ℤ_p for an elliptic curve over a separably closed field with p nonzero. In `TauCeti/AlgebraicGeometry/EllipticCurve/MordellWeil/FinitelyGenerated.lean`, `WeierstrassCurve.Affine.fg_point_of_numberField` gives finite generation of the point group over a number field. Mathlib `ContinuousCohomology.tateShafarevich`, in `Mathlib/RepresentationTheory/Homological/ContCohomology/Sha.lean`, is the intersection of the localization kernels for a supplied topological Galois module and a supplied family of field extensions; it includes no identification with an elliptic Kummer quotient. These inputs do not determine a Heegner point family. The acceptance file consequently needs no Tau Ceti import.
-
-`TauCeti.ContinuousCohomology.map_eq_id_of_inner`, in `TauCeti/RepresentationTheory/Homological/ContCohomology/InnerConjugation.lean`, identifies the action of an inner compatible pair with the identity in every cohomological degree for a locally compact group and smooth discrete coefficients. Section 5.7 applies it to the finite residual image and its discrete E[p]: centrality makes the group map the identity, while the coefficient map is −I, so the induced map is both the identity and negation.
-
-### From TauCetiRoadmap.GlobalNumberFields
-
-Layer 11, “orders and Picard groups”: full orders, invertible proper Picard groups and conductor-prime-to extension/contraction. The quadratic trace-dual calculation is proved in Layer 0 here.
-
-### From TauCetiRoadmap.ImaginaryQuadraticClassNumber
-
-H1.4 “Orders and conductor comparisons”: the conductor residue-unit exact sequence, the order class-number formula and the exceptional-unit indices. Section 0.4 applies the compatible extension/contraction maps at c and cℓ to the successive kernel.
-
-### From TauCetiRoadmap.EffectiveClassNumbers
-
-§2.8 “Exact vanishing from a Heegner height gap”, Classical Heegner construction: the cusp-normalized conductor-one trace, arithmetic-Artin action, K-rationality and conjugation with its cusp-torsion correction. Sections 1.5–1.6 extend this supplied normalization to higher conductors and to the integral quaternionic family.
-
-### From TauCetiRoadmap.ClassFieldTheory
-
-Layer 12, “separate arithmetic global existence, the norm index, and the global correspondence”, and Layer 13, “norm theorems and class fields”: actual relative class-field existence, finite quotients and arithmetic Artin/norm compatibility. Relative CM towers use Layer 12, not the absolute quadratic carrier alone.
-
-### From TauCetiRoadmap.ComplexMultiplicationAndExplicitReciprocity
-
-CM.1–CM.2: ideal actions and full level reciprocity; CM.4: CM Tate characters. The arithmetic conductor induction is ArithmeticGaloisRepresentations §3.5, including ramified and dyadic cases.
-
-### From TauCetiRoadmap.ModularCurvesPartII
-
-§9.9 “Full and cyclic isogeny correspondences”; §§13.1–13.4 modular Jacobians, Hecke and adjoints; §17.1 “Reduction of the supplied modular Hecke action”; §17.2 “The Eichler–Shimura relation”; §17.3 “Cusp-normalised Abel–Jacobi maps”. Reduction is the canonical specialization map and the Frobenius relation includes the diamond at Γ₁ level.
-
-### From TauCetiRoadmap.HilbertModularVarietiesAndShimuraCurves
-
-R18.1–R18.5: admissible quaternionic levels, canonical curves, definite sets, optimal embeddings, degeneracy and integral specialization. Use the fixed embedding and both vertex copies in the semistable comparison.
-
-What HilbertModularVarietiesAndShimuraCurves must provide (gap:zhang-integral-realization): For the forms and prescribed local types supplied by gap:zhang-level-raising under Zhang’s Hypothesis ♥, provide the marked integral definite/indefinite quaternionic realizations and the G_ℚ-equivariant multiplicity-one identifications J(X_m)[𝔪]≃V≃A⁰_gm[𝔭_m,0] over the common residual field k₀. Require compatibility of the geometric Hecke, degeneracy, specialization and Kummer maps with these identifications (Zhang Lemma 3.3 and Theorem 4.3, pp.215,218–221). A characteristic-zero Jacquet–Langlands comparison does not identify these integral lattices.
-
-### From TauCetiRoadmap.ShimuraVarieties
-
-§4.4 “Canonical-model condition” and §7.14 “Canonical models for every pure datum”: descent and special-point reciprocity, applied to the specified quaternionic curve.
-
-### From TauCetiRoadmap.EllipticCurveModularity
-
-Layer R29.5, “Quotient isogenies and modular parametrisations”: the actual fixed quotient, differential and Hecke/Fricke action. A quotient multiplied by p is not integrally interchangeable with the fixed one.
-
-### From TauCetiRoadmap.EllipticCurveModularityImaginaryQuadratic
-
-§5.1 “Decomposed genericity and a large original image”: for a number field k and a geometrically non-CM elliptic curve E/k, the image of G_k on E[p] contains SL₂(𝔽_p) for all but finitely many p (its `nonCM_elliptic_large_residual_primes`, which owns Serre’s elliptic open-image input). Section 7.2 consumes only this consequence for E/ℚ, completed to full GL₂(𝔽_p) image by the cyclotomic determinant of ArithmeticGaloisRepresentations §6.2; no adelic or finite-index statement is consumed.
-
-### From TauCetiRoadmap.GrossZagierAndArithmeticHeights
-
-§§0a.2–0a.4 CM points and level/canonical descent, Layer 0 normalization, Layer 3 Hodge classes and differential constants, Layers 4–5 signs and definite special values, §8.11 quaternionic Gross–Zagier, and §§9.10, 9.14, 9.20, 9.22 isogeny, toric-square and logarithm/function comparisons. Retain CM units, stabilizers, discriminants and integral primitive vectors. General height and CM-moduli constructions remain there; this roadmap applies them to its conductor family.
-
-What GrossZagierAndArithmeticHeights must provide (gap:integral-family-logarithm): For the ordinary split anticyclotomic Heegner family, provide the integral family logarithm and explicit reciprocity identity on the specified distinguished Tate lattice, with coefficient extension, periods and regulator cokernel, used by BCGS Lemmas 1.2.3–1.2.5. Its domain is the positive-filtration Iwasawa cohomology; specialization retains its H² cokernel before the map to the propagated ordinary lattice. Section 8.35 evaluates the quotient-invariant, full-torsion and saturation factors separately for the actual Heegner family; the rational finite-point identity alone does not give this contract.
-
-### From TauCetiRoadmap.EllipticCurves
-
-Layers 2, 4, 6 and 7: torsion/Tate modules, local reduction and Tate uniformization, Mordell–Weil finite generation, and the Kummer/Selmer–Sha exact sequences.
-
-### From TauCetiRoadmap.HeightsRationalPointsAndObstructions
-
-§1.7 “Mordell–Weil”: finite generation of A(K) for every abelian variety over a number field, and finiteness of its torsion. This supplies the RM point-divisibility input independently of the rank-one conclusion.
-
-### From TauCetiRoadmap.NeronModelsAndSemistableAbelianVarieties
-
-§§1.2, 1.10, 2.1–2.2 and 2.6 supply marked Néron models, unramified base change, identity/component groups and the elliptic reduction filtration; §§4.3–4.6 supply graph monodromy and component pairings; §§5.0a–5.0c supply finite-étale torsion specialization and good-reduction Frobenius. Rational component points and geometric components are kept distinct. Quaternionic curve specialization uses HilbertModularVarietiesAndShimuraCurves §§R18.2.6, R18.5.15–R18.5.18.
-
-### From TauCetiRoadmap.SelmerIwasawaCohomology
-
-§§0.6, 0.8 limit Kummer; §2.12a abelian Kummer/Selmer/Sha and the finiteness of `Sel_φ(A/K)` for every isogeny; §§2.3, 2.5–2.8, 2.13–2.22 Selmer propagation, saturation, ordinary conditions, duality and mapping fibres; §§3.1–3.3, 3.5–3.6, 3.9–3.11 Iwasawa–Shapiro, universal norms, semilocal and derived control; §§4.9, 4.12 finite/ordinary local comparison with errors.
-
-What SelmerIwasawaCohomology must provide (gap:surjective-three-integral-comparison): For p=3, E/ℚ good ordinary with surjective residual G_ℚ image and K satisfying (disc),(Heeg),(spl), use the actual Heegner family and integral family logarithm to prove equivalence of both integral Heegner-index and (0,∅)-Greenberg/BDP divisibilities of §8b.2, retaining height-one (3) lengths, coefficient extension, periods, involution and every finite local cokernel, without inverting 3 or assuming either divisibility.
-
-The arithmetic evaluation of these specialization errors for the strict-at-v unrestricted-at-v̄ Heegner condition is proved in §8.36 here. It uses the supplied error sequences, not an imported arithmetic JSW formula or perfect specialization of the all-p ordinary complex.
-
-### From TauCetiRoadmap.ArithmeticStatisticsPartVI
-
-“Heegner logarithm and low rank” supplies its marked CM divisor and elliptic image, logarithm/height identities and low-analytic-rank implication under the hypotheses stated there. “Anticyclotomic character Selmer multiplicity one” supplies the character-level descent under its preceding nonvanishing hypotheses; it is not replaced by the untwisted §7.12 here. The divisor/image comparisons in §§1.5–1.6 retain that roadmap’s quotient, isogeny and differential factors.
-
-“Anticyclotomic character nonvanishing”: for E/ℚ with all bad primes split in the imaginary quadratic field K and without CM by K, every sufficiently large anticyclotomic layer has a primitive character with a non-torsion traced CM-point component. It includes odd bad, ramified and nonordinary coefficient primes. Apply it here only after identifying its fixed modular CM family and trace with §§1.5–1.6 and 8.2–8.6; in the ordinary branch the additional ordinary hypotheses remain those of the local construction. For CM E/ℚ, §7.8 supplies the distinctness of its CM field from K.
-
-### From TauCetiRoadmap.ArithmeticGaloisDuality
-
-§R02.2.2 “The low-degree sequence and the transgression”, §R02.2.3 “Descent along open subgroups, norms and compact coefficients”, R02.4 local/global duality and real Tate corrections, and D7 derived continuous Selmer complexes and specialization. Inflation–restriction retains its H¹/H² errors until invariant vanishing is proved.
-
-### From TauCetiRoadmap.EulerSystemsAndKolyvaginSystems
-
-Layer 1 auxiliary primes and finite–singular modules and §5.2’s inert evaluation comparison, in particular §1.6 the residual evaluation pairing and §1.16 the local pairing, simultaneous prime detection and prescribed ramification; §§3.1–3.8 cyclic derivatives, tensor factors and selected descent; §§4.13, 4.18–4.19 all-prime descent and uniform errors; §5.2 “Howard’s self-dual Selmer triples and hypotheses H.0–H.5”; §5.10 “Howard’s bound for self-dual Kolyvagin systems over a discrete valuation ring”; §§5.11–5.13 rigidity, profile and exact length in their stated prime range; §§8.28, 8.31 self-dual Λ-adic bounds. Section 4.19(b) supplies the generic common-multiple bound over ℤ_p, independent of the multiplying power, with its §1.14 ordinary conditions, E(K)[p]=0, nontrivial near-identity character, scalar-image condition (Sc), absolute irreducibility condition (Irr), cofinal deep auxiliary sets and nonzero divided bottom. Its zero-error branch retains its surjectivity hypothesis. Section 8.33 applies the modified-edge extension of this bound to the actual Heegner family.
-
-What EulerSystemsAndKolyvaginSystems must provide (gap:modified-heegner-descent): Extend its ordinary-system results to the modified local edge maps verified in §§5.2–5.3 and 8.29, without requiring global lifts of those maps. The maps are invertible on every coefficient quotient, compatible with coefficient reduction, the cyclic tensors, conjugation and the paired local dualities; the auxiliary sets and prime-detection hypotheses of each original theorem remain explicit. Required conclusions are the common-multiple uniform error bounds of §§4.18–4.19, the rank/paired-module bound of §5.10, integral stub rigidity and the exact-length/profile statements of §§5.11–5.13 in their stated prime range, and the Λ-adic characteristic bounds of §§8.28, 8.31 and the augmentation-inclusive bound of §8.36, with the same uniform error constants and specialization maps. The proof route transports the local vanishing and socle-order comparisons through the invertible edges, proves core-vertex connectivity with the supplied prime detection, and then repeats the integral length and height-one specialization arguments. Each of these conclusions is required separately: a rank/length upper bound alone supplies neither rigidity nor exact length nor an integral Λ-adic bound. The residue-characteristic-three extension is the separate contract below. The ordinary proof inputs to extend are Howard §§1.5–1.6, pp.14–19, §2.2, pp.25–28, and Zanarella §§2.2–2.3, pp.12–20.
-
-What EulerSystemsAndKolyvaginSystems must provide (gap:classical-uniform-square-index): In the classical setting of Kolyvagin’s Theorem A, supply the integral length descent giving a positive d_E independent of the Heegner field K, with v_ℓ(d_E)=0 at the full Tate-image primes B(E) of §7.13 and #Sha(E/K) dividing d_E[E(K):ℤy_K]², retaining Cartan/CM and dyadic errors.
-
-What EulerSystemsAndKolyvaginSystems must provide (gap:self-dual-rigidity-three): For residue characteristic 3, a coefficient DVR R finite over ℤ₃, surjective residual elliptic representation, the self-dual cartesian ordinary conditions and a prime set containing every sufficiently deep auxiliary set, prove the common stub exponent d in BCGS Lemma 2.2.4 on N(2k−1), independent of k, with d finite if a core value is nonzero, and deduce the deep-prime invariance and exact paired length of Proposition 2.2.1 and Theorem 2.2.2 without the printed p>3 rigidity restriction.
-
-### From TauCetiRoadmap.FiniteFlatGroupsAndIntegralPadicHodgeTheory
-
-§§R07.4.21–R07.4.25 supply the integral Barsotti–Tate/crystalline lattice comparisons, including the separate dyadic classification; §R07.5.6a supplies finite-coefficient finite-flat Kummer comparison with its odd-prime coefficient hypotheses. Apply these with the specified lattice, ramification and local torsion conditions; SelmerIwasawaCohomology §§4.9, 4.12 supply the finite/ordinary local-condition comparison.
-
-### From TauCetiRoadmap.FaltingsFinitenessAndIsogenyTheorems
-
-R28.4.5–R28.4.6: semisimplicity and the Tate endomorphism/Hom comparisons; R28.6.7: integral generation of the commutant at almost every prime, with rational generation at every prime. For the RM application, §7.3 proves absolute irreducibility of each coefficient representation by the no-CM/self-twist criterion, then uses these comparisons and the double-centralizer theorem to obtain C₃. The O_L-linear centralizer is the relevant one; no equality End_K(A)=O_L is inferred merely from the no-CM hypothesis. Scalar-image bounds have the separate contract below; the almost-all-p full residual image of §7.2 is EllipticCurveModularityImaginaryQuadratic §5.1 with the determinant of ArithmeticGaloisRepresentations §6.2.
-
-### From TauCetiRoadmap.ArithmeticGaloisRepresentations
-
-§3.5 “Induction and the conductor–discriminant formula”; §§6.1–6.2 “The Tate module” and “Weil pairing and determinant”; §§6.4–6.4a coefficients/images and Frattini detection. The actual representation and base-field index are retained.
-
-What ArithmeticGaloisRepresentations must provide (gap:abelian-scalar-image): For the RM quotients of the integral context over K, supply a scalar u_p∈ℤ_p× distinct from 1 in the G_K image on T_pA for every p, and a bound on the indices of the scalar subgroups independent of p, so that u_p−1 can be a unit at all but finitely many p (Nekovář Proposition 6.1.1, pp.35–36).
-
-### From TauCetiRoadmap.SerreWeightAndLevelOptimisation
-
-§§1.1–1.3 “Level-changing algebra and cohomology” and §2.4 “Diamond’s level-raising criterion”; the additional quaternionic congruence contract is stated below.
-
-What SerreWeightAndLevelOptimisation must provide (gap:zhang-level-raising): For the weight-two GL₂-type residual representation over k₀ satisfying Zhang’s three-clause Hypothesis ♥ and admissible primes q₁,q₂, provide the level-raised eigenforms with the prescribed local types and marked common residual G_ℚ representation used in Zhang Theorem 4.3. The integral quaternionic realizations and multiplicity-one identifications belong to HilbertModularVarietiesAndShimuraCurves gap:zhang-integral-realization; a q-new witness alone does not provide that second contract.
-
-### From TauCetiRoadmap.GL2AutomorphicRepresentationsAndTransfer
-
-R17.3 `global-jl` and `multiplicity-one`: the specified Jacquet–Langlands transfer and multiplicity-one comparison, with its actual coefficient structures.
-
-### From TauCetiRoadmap.ModularIwasawaMainConjectures
-
-§§0.5–0.10 the ordinary, zeta and determinant formulations; §1.3 “The Skinner–Urban ordinary main conjecture”, the integral equality char_Λ(X^Σ)=(L_SU^Σ) for a weight-two newform with p≥3 ordinary, residually irreducible and ramified at some q∥N, applied in §6.9 to g and to its quadratic twist g_K; and §1.7 “Skinner’s theorem for multiplicative reduction”. The trivial-character control formula needs the additional GL₂-type contract below.
-
-What ModularIwasawaMainConjectures must provide (gap:gl2-integral-rank-zero): For g and its quadratic twist g_K in Zhang Theorem 7.1, give the trivial-character GL₂-type control formula over the coefficient DVR, assuming residual image containing SL₂(𝔽_p), good ordinary p≥3 and a residually ramified prime ℓ∥N, and retain the canonical-period and local component factors without assuming full integral SL₂ image. The integral ordinary main conjecture for g and for g_K is §1.3: g_K is a newform of trivial character and level ND_K², ramified at the same ℓ∥N since ℓ∤D_K, with the same residual irreducibility and ordinarity.
-
-### From TauCetiRoadmap.KatoEulerSystems
-
-What KatoEulerSystems must provide (gap:kato-distinguished-lattice): For a rational weight-two elliptic newform f of level N and every odd prime p of semistable reduction, construct the integral lattice T_f given by the image of H¹(Y₁(N),ℤ_p(1)) in the f-eigenspace quotient V_f of H¹(Y₁(N),ℚ_p(1)). Construct the curve E• in the rational isogeny class and the specified maps E₁→E₀→E• from the X₁(N)- and X₀(N)-optimal curves, with the integral identification T_pE•≃T_f induced by their modular maps. Require the maps to extend étale at p on the Néron models, and retain the Néron differential factors, the modular-symbol period lattice and the possible 2-power change of distinguished-curve convention (Wüthrich Theorem 4, p.384, proof pp.386–387; BCGS §1.2.2, pp.10–12). In the good ordinary case their maps on positive Tate lattices are isomorphisms, compatibly with the point and Kummer maps; this does not identify the full Tate or saturated local lattices. Sections 8.6a and 8.16 apply these comparisons to the fixed Heegner family. The integral ordinary main conjecture needed by §6.9 is ModularIwasawaMainConjectures §1.3, and its trivial-character control is required by gap:gl2-integral-rank-zero, including both g and g_K and their canonical-period and component factors.
-
-**Checks.**
-
-- On a rank-two ℤ₅-lattice with positive line spanned by e₁, diag(1,5) is the identity on that line but has full cokernel ℤ/5; positive-lattice transport cannot erase that defect.
-- Multiplication by 2 has determinant 4∈ℤ₅× and zero cokernel, while multiplication by 5 has cokernel (ℤ/5)² of order 25; a 2-power convention change is a unit comparison only at odd p.
-- For the same positive bottom 5e, saturated inclusions of indices 1 and 5 give bottom indices 5 and 25; dividing by the saturation indices gives 5 on both sides, as in §8.16.
-
-### From TauCetiRoadmap.PadicMeasuresIwasawaAlgebras
-
-§1.6 continuous-character evaluation and §1.7 measure/completed-algebra comparison; §3.1 pseudo-measure evaluation only at admissible characters; §3a.1 varying character spaces; Layers 4–5 Weierstrass zero isolation, characteristic ideals, determinant lines and base change. Compactness additionally needs simultaneous finite solvability.
-
-### From TauCetiRoadmap.GeometryOfNumbersAndQuadraticArithmetic
-
-§4.2 “Mixing, ergodicity and unipotent flows” supplies its real dynamics. The needed nonarchimedean extension is a distinct contract below.
-
-What GeometryOfNumbersAndQuadraticArithmetic must provide (gap:cm-local-dynamics): For every finite extension L/ℚ_p, r≥1 and product of cocompact lattices Γᵢ⊂SL₂(L), supply the homogeneous orbit-closure probability measure and dilated-compact-set equidistribution for every L-one-parameter unipotent subgroup of SL₂(L)ʳ, the twisted-diagonal containment for Δ(U) with U nontrivial, and the full-product criterion that the conjugated lattices are pairwise not U-commensurable (Cornut–Vatsal Theorem 2.29, Lemma 2.30 and Proposition 2.35, pp.31–34).
-
-### From TauCetiRoadmap.PadicHodgeTheory
-
-§3.5 “Crystalline and semistable classification”: a rank-one rational character of G_ℚp is crystalline precisely when it is an integral cyclotomic power times an unramified character. This is used for the two split local factors of the algebraic-Hecke characters in §8.14; no family reciprocity law is consumed in constructing the Heegner family.
-
-### From TauCetiRoadmap.PadicHodgeRegulators
-
-§§1.3, 1.9–1.10 Bloch–Kato logarithms of local Kummer classes and §§8.17–8.22 integral Perrin–Riou regulators. The arithmetic family reciprocity comparison remains the GrossZagierAndArithmeticHeights contract above.
-
-### From TauCetiRoadmap.AutomorphicCongruences
-
-§5.4 “Quaternionic period and primitive anticyclotomic input”: Wan’s Theorem 86 for the anticyclotomic specialization of the parallel Hilbert family, with its per-place nonvanishing, its μ-invariant formula and every imprimitive nonsplit Euler factor retained. §5.10 “Wan’s parallel Hilbert-family divisibility”. §5.12 “The BCS quartic-CM input”: for an elliptic newform g, good ordinary p>3, real quadratic F with (pN,D_F)=1 and CM quadratic M/F with p split and (NO_F,D_(M/F))=1, under residual irreducibility over G_M, the Fujiwara (H1)–(H3) instance, Δ⁺ and squarefree n⁻ with an even number of residually ramified inert factors, the integral containment (L_p(g_F/M)) ⊃ char_(Λ_M)(X_ord(g/M∞)) in the torsion case (BCS Theorem 3.2.1). §5.13 “Discharging the auxiliary-field hypotheses”: the verification of those hypotheses, including the base change of a minimal lift, for the selected fields K and F (BCS Proposition 5.2.1, proof). §6.1 the ordinary two-variable Perrin-Riou/Greenberg equivalence of both containments, integrally and after inverting p, with its two-form product version (BCS Theorem 4.1.3, Corollary 4.1.4). §6.2 the integral restriction π_K(char(X_ord(g/M∞))) ⊃ char(X_ord(g/K∞))char(X_ord(g^F/K∞)) in Λ_K (BCS Lemma 5.1.1), distinguishing the base change g_F from the quadratic twist g^F. §6.3 the factorization (π_K(L_p(g_F/M)))=(L_PR(g/K)L_PR(g^F/K)) in Λ_K[1/p] (BCS Lemma 5.1.2). §6.4 existence of auxiliary fields satisfying conditions (i)–(vi) (BCS Lemma 5.2.3). §6.5 μ(L^Gr_p(g/K))=μ(L^BDP_p(g/K))=0 for p>2 under (disc), (Heeg), (spl) and (irr_K), including its projection comparison L^Gr_p(g/K)⁻Λ^(−,ur)_K=L^BDP_p(g/K)Λ^(−,ur)_K of the Greenberg function to the single-power BDP function (BCS Proposition 4.2.2; [cgs](#references), Proposition 2.4.5, PDF p.10). §6.6 the integral Perrin-Riou and Greenberg product containments over K for p≥5 (BCS Proposition 5.2.1).
-
-These are used with the hypotheses stated there, which are at or below those of §§8b.3–8b.5: p>3 in §5.12, p≥5 in §6.6, and (irr_K) in §§6.1 and 6.5–6.6, which §8b.3 derives from irreducibility over G_ℚ. The anticyclotomic projection of the §6.6 containments to the single-power BDP convention of §8b.1 is proved in §8b.5, not imported. Rational factorization alone is not integral factorization: the integral statements rest on the μ=0 input of §6.5. None of these imports consumes the cyclotomic-return application of that roadmap’s Layer 7.
-
-**Checks.**
-
-- In ℤ₅⟦T⟧, (5T) and (T) become equal after inverting 5 but have different (5)-valuations, 1 and 0; the rational factorization of §6.3 does not erase the μ input of §6.5.
-- The containment (T) ⊃ (T²) has valuations 1≤2; reversing it fails. If opposite bounds give b₁≤a₁ and b₂≤a₂ while the product bound gives a₁+a₂≤b₁+b₂, the test a₁=1,a₂=2 forces b₁=1,b₂=2, illustrating the factorwise cancellation in §8b.5.
-- For n⁻=O_F the number of inert ramified factors is 0, of even parity, and residual ramification there is vacuous; one factor has odd parity and fails the hypothesis of §5.12.
-
-### From TauCetiRoadmap.EulerSystemsCyclotomicMainConjecture
-
-The imaginary-quadratic elliptic-unit/Katz contract below is an independent input to the Eisenstein route. It requires the finite-character components, μ statement and integral local/lattice corrections; the route does not infer it from the Heegner equality.
-
-What EulerSystemsCyclotomicMainConjecture must provide (gap:eisenstein-elliptic-unit-inputs): Provide an independent elliptic-unit/Katz main-conjecture and μ input for the imaginary-quadratic finite-order character components used by CGS Theorem C under φ|G_p≠1,ω, including local and integral lattice corrections, independently of the Heegner anticyclotomic equality; the cyclotomic-unit theorem over ℚ alone is insufficient.
-
-### From TauCetiRoadmap.Chebotarev
-
-Layer 10, “Dirichlet-density Chebotarev”: simultaneous Frobenius selection and finite avoidance. The actual Kummer fields, disjointness and conjugacy classes are verified here.
-
-The classical error-tolerant argument gives a uniform exponent. Its stronger global cardinality estimate additionally uses Kolyvagin's classical square-index theorem, quoted as Theorem A on p.95 of the structure paper. Its integral length argument is required by gap:classical-uniform-square-index; the exponent theorems in EulerSystemsAndKolyvaginSystems §§4.13, 4.18–4.19 do not supply that cardinality estimate. Likewise, neither an unspecified elliptic-unit theorem nor a real Ratner theorem supplies the additional arithmetic interfaces described above.
-
-
-## How to read the build
-
-Layers 0–3 construct the orders, conductor towers, fixed integral point maps and Kummer local conditions. Layers 4–5 differentiate and descend those points, retaining the coefficient ideals, cyclic tensor factors and local modified edge maps. Layer 6 applies clean descent and the independent level-raising, period and rank-zero inputs; Layer 7 treats exceptional coefficients, CM and RM errors. Layer 8 builds the anticyclotomic family before geometric nonvanishing, specialization, control and conditional determinant comparisons. Layer 8b proves the split-prime equalities before applying the conditional finite-system and refined-index theorems.
 
 ## Layer 0: Quadratic orders and CM conductor towers
 
@@ -464,6 +217,7 @@ For K=ℚ(i), the order ℤ+3ℤi has basis (1,3i), index 3 and discriminant −
 ### Dependencies
 
 This layer uses the earlier internal targets specified in each *Needs:* sentence, the pinned algebraic APIs, and ClassFieldTheory, GlobalNumberFields, GrossZagierAndArithmeticHeights, HilbertModularVarietiesAndShimuraCurves.
+
 
 ## Layer 1: CM points and integral quotient maps
 
@@ -2213,10 +1967,256 @@ The ideals (3) and (1) in ℤ₃⟦T⟧ have height-one (3) lengths 1 and 0; bot
 
 This layer uses the earlier internal targets specified in each *Needs:* sentence, the pinned algebraic APIs, and AutomorphicCongruences, EulerSystemsCyclotomicMainConjecture, EulerSystemsAndKolyvaginSystems, GrossZagierAndArithmeticHeights, ModularIwasawaMainConjectures, PadicHodgeRegulators, PadicMeasuresIwasawaAlgebras.
 
-
 ## Downstream consumers
 
 The finite-system rank and Sha theorems and the anticyclotomic Heegner line supply arithmetic applications of the earlier modularity, height and Selmer theories. Later BSD arguments may consume these results with their exact local, period and lattice hypotheses; they do not supply inputs back to this construction.
+
+## Scope and ownership
+
+The general theories have other owners. GlobalNumberFields supplies orders and Picard groups; ClassFieldTheory supplies the fields and reciprocity maps. ComplexMultiplicationAndExplicitReciprocity and the modular and quaternionic curve roadmaps supply moduli, canonical models and level structures. EllipticCurves supplies Tate modules, Kummer sequences and Mordell–Weil theory. SelmerIwasawaCohomology and ArithmeticGaloisDuality supply continuous cohomology, local conditions and duality. EulerSystemsAndKolyvaginSystems supplies derivative operators, abstract descent and rigidity. The task here is to construct the actual Heegner objects and verify those theories' arithmetic hypotheses. Outside the statistics scope specified below, heights and explicit reciprocity come from GrossZagierAndArithmeticHeights; the Gross–Zagier formula is not needed to construct the Euler system or to prove descent from an already non-torsion point.
+
+ImaginaryQuadraticClassNumber H1.4 owns the conductor residue-unit exact sequence, class-number formula and exceptional units; §0.4 applies them to successive conductors. EffectiveClassNumbers §2.8, Classical Heegner construction, owns the classical cusp-normalized conductor-one trace and its Artin and conjugation laws; §§1.5–1.6 extend that normalization to the conductor family. HeightsRationalPointsAndObstructions §1.7 supplies abelian Mordell–Weil finite generation to the RM branch.
+
+Generic automorphic transfer, level raising, congruence modules, heights and p-adic regulators retain the owners and sections named in the supplier contracts. The additional contracts state required mathematical inputs; they are not assertions that a supplier contains a target beyond its specified scope. The definite period comparison is proved independently in Layer 6, before Zhang’s indivisibility theorem. The Eisenstein equality in Layer 8b uses independent elliptic-unit/Katz inputs and precedes its finite-system application; it does not consume a cyclotomic return theorem proved from that application. EulerSystemsCyclotomicMainConjecture owns the additional elliptic-unit/Katz obligation stated below; its existing cyclotomic/circular-unit theorem does not discharge that obligation. The additional general inputs are the explicit supplier obligations below, with their mathematical scope and source locators. The proof routes using them are conditional on those contracts, including every subsequent application through an internal dependency. A weaker supplied theorem does not discharge a stronger contract; a source citation alone does not supply its prerequisite library development.
+
+Outside the supplied statistics CM realizations, the cyclic-isogeny CM pair at every quadratic discriminant and the optimal-embedding/canonical-model comparison are supplied by GrossZagierAndArithmeticHeights §§0a.2–0a.4. Layer 1 here applies those points and the normalized Hodge class of its §3.2 to one fixed integral conductor family; it does not construct a second CM moduli or canonical-descent theory. Its denominator-clearing target differs from the rational Hodge-class construction by retaining the fixed integral d and its quotient image.
+
+EulerSystemsAndKolyvaginSystems §1.6 owns the residual Kummer-field evaluation pairing; §1.16 owns the residual local pairing, simultaneous detection of two classes and classes with prescribed ramification. Sections 5.7, 6.15 and 6.18 consume them for the actual Heegner classes. Section 4.1 identifies the coefficient ideal of this family with that roadmap’s §1.4 inert-prime ideal; §8.15 specializes its §5.12 divisibility profile. Its §4.19(b) owns the generic common-multiple uniform bound, including independence from the multiplying power; §8.33 applies the modified-edge extension to the actual Heegner family and its divided specializations. These arithmetic identifications retain the actual eigenvalues and point family.
+
+SelmerIwasawaCohomology §4.28 owns parity constancy and quadratic-character decomposition for supplied self-dual ordinary families. Its ordinary modular-form application retains the common arithmetic realization and local diagram and conditions (A1)–(A2) for each twist; it compares Selmer dimensions at two arithmetic points. The anticyclotomic endpoints of Layer 8 here are the divisibility, nonvanishing and determinant statements of §§8.30–8.45.
+
+ArithmeticStatisticsPartVI, “Heegner logarithm and low rank”, owns its marked classical/quaternionic CM divisor and elliptic image, logarithm and height formulas, and the low-analytic-rank implication in its stated scope. “Anticyclotomic character nonvanishing” owns its classical elliptic conductor-tower CM divisors and images as well as higher-point nonvanishing for every odd p with trivial tame character; “Anticyclotomic character Selmer multiplicity one” owns its character-level descent. In these scopes §§1.5–1.6 reuse those supplied divisors and images, proving the conductor relations and normalization comparisons needed for the arithmetic system, rather than reconstructing them. The conditional non-torsion, all-prime classical descent of §7.11 and general-F RM descent of §7.12 have different hypotheses from the statistics applications; neither asserts its character-multiplicity theorem. Section 8.21 here treats general totally real F and prescribed torsion character χ₀, while §8.24 uses the supplied classical theorem to prove non-torsion of this roadmap’s actual normalized Λ-adic class.
+
+
+## Exact supplier contracts
+
+### Additional contracts used by the proof routes
+
+The following table makes the extra inputs of each route explicit. Its entries are requirements on the indicated owners, separate from the sections imported below. Each route is conditional on the full indicated contract and on the ordinary supplier sections it uses; conditionality propagates to its downstream applications. These are library obligations, not extra hypotheses asserting the conclusion of an arithmetic theorem.
+
+| Required input and owner | Dependent route |
+| --- | --- |
+| GrossZagierAndArithmeticHeights §§0a.2–0a.4, §3.2 and the height/period sections below; additionally gap:integral-family-logarithm on the distinguished integral family | General CM/Hodge construction in §§1.4–1.6; height use in §8.22; logarithm, determinant and BDP comparisons in §§8.35–8.45 and Layer 8b |
+| ModularIwasawaMainConjectures §1.3 integral ordinary main conjecture and the ordinary/zeta/determinant comparisons; additionally gap:gl2-integral-rank-zero for the trivial-character control formula | §6.9 and its Zhang consumers; the cyclotomic comparisons used in §8b.2 |
+| KatoEulerSystems gap:kato-distinguished-lattice on the integral modular lattice and prescribed étale isogenies | The source normalization of §8.6a and lattice transport of §8.16; the integral main conjecture is ModularIwasawaMainConjectures §1.3 and the rank-zero control formula belongs to gap:gl2-integral-rank-zero |
+| PadicHodgeRegulators §§1.3, 1.9–1.10, 8.17–8.22 on local logarithms and integral regulator lattices | §§8.35–8.37 and the integral comparisons in Layer 8b |
+| AutomorphicCongruences §§5.4, 5.10, 5.12–5.13, 6.1–6.6 (the Wan/Fujiwara quartic-CM engine, the two-variable comparisons, the auxiliary-field hypotheses and the μ=0 input), independently of cyclotomic return | §8b.5 and the irreducible split equality applications |
+| ArithmeticGaloisRepresentations gap:abelian-scalar-image | §§7.2–7.3 and their all-prime finiteness applications |
+| SerreWeightAndLevelOptimisation gap:zhang-level-raising; HilbertModularVarietiesAndShimuraCurves gap:zhang-integral-realization | §§4.10, 6.7–6.19 |
+| EulerSystemsAndKolyvaginSystems gap:modified-heegner-descent, retaining the actual modified edges | §§5.3, 6.1, 6.5–6.6 and all ordinary-system consumers in Layers 8 and 8b |
+| EulerSystemsAndKolyvaginSystems gap:classical-uniform-square-index | §7.13; its length/cardinality assertion is separate from an exponent bound |
+| GeometryOfNumbersAndQuadraticArithmetic gap:cm-local-dynamics over finite extensions of ℚ_p | §§8.9–8.12, 8.21–8.22 |
+| EulerSystemsAndKolyvaginSystems gap:self-dual-rigidity-three | Only the surjective p=3 exact-length branch of §8.41 and its uses |
+| SelmerIwasawaCohomology gap:surjective-three-integral-comparison | Only the surjective p=3 integral comparison of §8b.2 and its uses |
+| EulerSystemsCyclotomicMainConjecture gap:eisenstein-elliptic-unit-inputs on elliptic-unit/Katz character components | §8b.10 and its Eisenstein applications; independent of both surjective p=3 contracts |
+
+### From Mathlib
+
+Use Mathlib `6b7abb3c7686292736be2955bd3eb9ebf63b456a` and Tau Ceti `a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039`. Use the algebraic carriers and elementary operations below. Their arithmetic interpretation still requires the named supplier layers. A subring preimage does not construct a full integral order, a group ring does not construct Λ, and compactness does not prove that the arithmetic constraints have the finite intersection property.
+
+| Declaration at the Mathlib pin | Use |
+| --- | --- |
+| [`Subring.comap`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/Algebra/Ring/Subring/Basic.lean) | Preimage subring along a ring homomorphism. |
+| [`ClassGroup.equivPic`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/RingTheory/PicardGroup.lean) | ClassGroup R ≃* CommRing.Pic R for any commutative domain R. |
+| [`CommRing.Pic.mapRingHom`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/RingTheory/PicardGroup.lean) | Pic R →* Pic S for f:R→+*S between commutative semirings. |
+| [`PadicInt`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/NumberTheory/Padics/PadicIntegers.lean) | The bounded subtype of Q_p defining Z_p under Fact p.Prime. This definition alone does not supply DVR ideal/valuation theorems; cite the two separately checked declarations below for Layer 4. |
+| [`WeierstrassCurve.Affine.Point`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/AlgebraicGeometry/EllipticCurve/Affine/Point.lean) | Nonsingular points with infinity. |
+| [`Module.length`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/RingTheory/Length.lean) | Module length in ℕ∞ for a ring, additive group and module. |
+| [`Nat.primeFactorsList`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/Data/Nat/Factors.lean) | The sorted list of prime factors with multiplicity. Taking toFinset/card counts distinct conductor primes. |
+| [`IsDiscreteValuationRing.ideal_eq_span_pow_irreducible`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/RingTheory/DiscreteValuationRing/Basic.lean) | In a commutative DVR domain, every nonzero ideal is spanned by a power of a specified irreducible uniformizer; the zero ideal is excluded. |
+| [`PadicInt.ideal_eq_span_pow_p`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/NumberTheory/Padics/PadicIntegers.lean) | For a nonzero ideal s of Z_p, there exists n with s=span{p^n}; s≠⊥ is essential. |
+| [`PadicInt.mem_span_pow_iff_le_valuation`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/NumberTheory/Padics/PadicIntegers.lean) | For x≠0, x∈span{p^n} iff n≤x.valuation; the zero case must be handled separately. |
+| [`DihedralGroup.sr_mul_r`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/GroupTheory/SpecificGroups/Dihedral.lean) | Abstract cyclic-dihedral algebra; the generalized-dihedral ring-class action is the separate arithmetic target §0.6. |
+| [`DihedralGroup.sr_mul_sr`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/GroupTheory/SpecificGroups/Dihedral.lean) | Abstract cyclic-dihedral algebra; the generalized-dihedral ring-class action is the separate arithmetic target §0.6. |
+| [`DihedralGroup.inv_r`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/GroupTheory/SpecificGroups/Dihedral.lean) | Abstract cyclic-dihedral algebra; the generalized-dihedral ring-class action is the separate arithmetic target §0.6. |
+| [`DihedralGroup.inv_sr`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/GroupTheory/SpecificGroups/Dihedral.lean) | Abstract cyclic-dihedral algebra; the generalized-dihedral ring-class action is the separate arithmetic target §0.6. |
+| [`hensels_lemma`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/NumberTheory/Padics/Hensel.lean) | A sufficiently simple approximate root lifts uniquely to ℤ_p; the ordinary quadratic has simple unit residue root a_p mod p. |
+| [`PadicInt.isUnit_iff`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/NumberTheory/Padics/PadicIntegers.lean) | An element of ℤ_p is a unit iff its p-adic norm is 1; used to distinguish the β-unit factors from the possibly nonunit Φ. |
+| [`MonoidAlgebra.single`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/Algebra/MonoidAlgebra/Defs.lean) | The finite group-ring basis element r·g; this is not a completed arithmetic Iwasawa algebra. |
+| [`Submodule.span`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/LinearAlgebra/Span/Defs.lean) | The smallest module containing a supplied subset; useful for the Heegner line, without asserting arithmetic saturation. |
+| [`LinearMap`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/Algebra/Module/LinearMap/Defs.lean) | Bundled semilinear/linear maps between actual modules; used for supplied corestriction and localization maps. |
+| [`MonoidHom`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/Algebra/Group/Hom/Defs.lean) | Bundled multiplicative homomorphisms; finite CM character and character-power algebra. Continuity/topology of Γ remains a supplier condition. |
+| [`TensorProduct.tmul`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/LinearAlgebra/TensorProduct/Defs.lean) | The canonical bilinear tensor of actual modules; it supplies the algebraic Heegner tensor, not a Selmer determinant comparison. |
+| [`Module.finrank`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/LinearAlgebra/Dimension/Finrank.lean) | Finite rank obtained from cardinal rank; use rank assertions on supplied fraction-field modules, never assumed to make the integral Selmer lattice free. |
+| [`ENat`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/Data/ENat/Defs.lean) | Extended naturals ℕ∪{∞}; records zero-system divisibility and empty-stratum minima. |
+| [`Pi.compactSpace`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/Topology/Compactness/Compact.lean) | Dependent products of compact spaces are compact; no surjectivity of transition maps is required. |
+| [`IsCompact.inter_iInter_nonempty`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/Topology/Compactness/Compact.lean) | A compact set meets an intersection of closed constraints when every finite subfamily has nonempty intersection. |
+
+### From Tau Ceti
+
+The native elliptic Tate module is `TauCeti.TateModule`. In `TauCeti/AlgebraicGeometry/EllipticCurve/TateModule/Basic.lean`, `WeierstrassCurve.nonempty_linearEquiv_tateModule`, `WeierstrassCurve.free_tateModule` and `WeierstrassCurve.finrank_tateModule` give freeness and rank two over ℤ_p for an elliptic curve over a separably closed field with p nonzero. In `TauCeti/AlgebraicGeometry/EllipticCurve/MordellWeil/FinitelyGenerated.lean`, `WeierstrassCurve.Affine.fg_point_of_numberField` gives finite generation of the point group over a number field. Mathlib `ContinuousCohomology.tateShafarevich`, in `Mathlib/RepresentationTheory/Homological/ContCohomology/Sha.lean`, is the intersection of the localization kernels for a supplied topological Galois module and a supplied family of field extensions; it includes no identification with an elliptic Kummer quotient. These inputs do not determine a Heegner point family. The acceptance file consequently needs no Tau Ceti import.
+
+`TauCeti.ContinuousCohomology.map_eq_id_of_inner`, in `TauCeti/RepresentationTheory/Homological/ContCohomology/InnerConjugation.lean`, identifies the action of an inner compatible pair with the identity in every cohomological degree for a locally compact group and smooth discrete coefficients. Section 5.7 applies it to the finite residual image and its discrete E[p]: centrality makes the group map the identity, while the coefficient map is −I, so the induced map is both the identity and negation.
+
+### From TauCetiRoadmap.GlobalNumberFields
+
+Layer 11, “orders and Picard groups”: full orders, invertible proper Picard groups and conductor-prime-to extension/contraction. The quadratic trace-dual calculation is proved in Layer 0 here.
+
+### From TauCetiRoadmap.ImaginaryQuadraticClassNumber
+
+H1.4 “Orders and conductor comparisons”: the conductor residue-unit exact sequence, the order class-number formula and the exceptional-unit indices. Section 0.4 applies the compatible extension/contraction maps at c and cℓ to the successive kernel.
+
+### From TauCetiRoadmap.EffectiveClassNumbers
+
+§2.8 “Exact vanishing from a Heegner height gap”, Classical Heegner construction: the cusp-normalized conductor-one trace, arithmetic-Artin action, K-rationality and conjugation with its cusp-torsion correction. Sections 1.5–1.6 extend this supplied normalization to higher conductors and to the integral quaternionic family.
+
+### From TauCetiRoadmap.ClassFieldTheory
+
+Layer 12, “separate arithmetic global existence, the norm index, and the global correspondence”, and Layer 13, “norm theorems and class fields”: actual relative class-field existence, finite quotients and arithmetic Artin/norm compatibility. Relative CM towers use Layer 12, not the absolute quadratic carrier alone.
+
+### From TauCetiRoadmap.ComplexMultiplicationAndExplicitReciprocity
+
+CM.1–CM.2: ideal actions and full level reciprocity; CM.4: CM Tate characters. The arithmetic conductor induction is ArithmeticGaloisRepresentations §3.5, including ramified and dyadic cases.
+
+### From TauCetiRoadmap.ModularCurvesPartII
+
+§9.9 “Full and cyclic isogeny correspondences”; §§13.1–13.4 modular Jacobians, Hecke and adjoints; §17.1 “Reduction of the supplied modular Hecke action”; §17.2 “The Eichler–Shimura relation”; §17.3 “Cusp-normalised Abel–Jacobi maps”. Reduction is the canonical specialization map and the Frobenius relation includes the diamond at Γ₁ level.
+
+### From TauCetiRoadmap.HilbertModularVarietiesAndShimuraCurves
+
+R18.1–R18.5: admissible quaternionic levels, canonical curves, definite sets, optimal embeddings, degeneracy and integral specialization. Use the fixed embedding and both vertex copies in the semistable comparison.
+
+What HilbertModularVarietiesAndShimuraCurves must provide (gap:zhang-integral-realization): For the forms and prescribed local types supplied by gap:zhang-level-raising under Zhang’s Hypothesis ♥, provide the marked integral definite/indefinite quaternionic realizations and the G_ℚ-equivariant multiplicity-one identifications J(X_m)[𝔪]≃V≃A⁰_gm[𝔭_m,0] over the common residual field k₀. Require compatibility of the geometric Hecke, degeneracy, specialization and Kummer maps with these identifications (Zhang Lemma 3.3 and Theorem 4.3, pp.215,218–221). A characteristic-zero Jacquet–Langlands comparison does not identify these integral lattices.
+
+### From TauCetiRoadmap.ShimuraVarieties
+
+§4.4 “Canonical-model condition” and §7.14 “Canonical models for every pure datum”: descent and special-point reciprocity, applied to the specified quaternionic curve.
+
+### From TauCetiRoadmap.EllipticCurveModularity
+
+Layer R29.5, “Quotient isogenies and modular parametrisations”: the actual fixed quotient, differential and Hecke/Fricke action. A quotient multiplied by p is not integrally interchangeable with the fixed one.
+
+### From TauCetiRoadmap.EllipticCurveModularityImaginaryQuadratic
+
+§5.1 “Decomposed genericity and a large original image”: for a number field k and a geometrically non-CM elliptic curve E/k, the image of G_k on E[p] contains SL₂(𝔽_p) for all but finitely many p (its `nonCM_elliptic_large_residual_primes`, which owns Serre’s elliptic open-image input). Section 7.2 consumes only this consequence for E/ℚ, completed to full GL₂(𝔽_p) image by the cyclotomic determinant of ArithmeticGaloisRepresentations §6.2; no adelic or finite-index statement is consumed.
+
+### From TauCetiRoadmap.GrossZagierAndArithmeticHeights
+
+§§0a.2–0a.4 CM points and level/canonical descent, Layer 0 normalization, Layer 3 Hodge classes and differential constants, Layers 4–5 signs and definite special values, §8.11 quaternionic Gross–Zagier, and §§9.10, 9.14, 9.20, 9.22 isogeny, toric-square and logarithm/function comparisons. Retain CM units, stabilizers, discriminants and integral primitive vectors. General height and CM-moduli constructions remain there; this roadmap applies them to its conductor family.
+
+What GrossZagierAndArithmeticHeights must provide (gap:integral-family-logarithm): For the ordinary split anticyclotomic Heegner family, provide the integral family logarithm and explicit reciprocity identity on the specified distinguished Tate lattice, with coefficient extension, periods and regulator cokernel, used by BCGS Lemmas 1.2.3–1.2.5. Its domain is the positive-filtration Iwasawa cohomology; specialization retains its H² cokernel before the map to the propagated ordinary lattice. Section 8.35 evaluates the quotient-invariant, full-torsion and saturation factors separately for the actual Heegner family; the rational finite-point identity alone does not give this contract.
+
+### From TauCetiRoadmap.EllipticCurves
+
+Layers 2, 4, 6 and 7: torsion/Tate modules, local reduction and Tate uniformization, Mordell–Weil finite generation, and the Kummer/Selmer–Sha exact sequences.
+
+### From TauCetiRoadmap.HeightsRationalPointsAndObstructions
+
+§1.7 “Mordell–Weil”: finite generation of A(K) for every abelian variety over a number field, and finiteness of its torsion. This supplies the RM point-divisibility input independently of the rank-one conclusion.
+
+### From TauCetiRoadmap.NeronModelsAndSemistableAbelianVarieties
+
+§§1.2, 1.10, 2.1–2.2 and 2.6 supply marked Néron models, unramified base change, identity/component groups and the elliptic reduction filtration; §§4.3–4.6 supply graph monodromy and component pairings; §§5.0a–5.0c supply finite-étale torsion specialization and good-reduction Frobenius. Rational component points and geometric components are kept distinct. Quaternionic curve specialization uses HilbertModularVarietiesAndShimuraCurves §§R18.2.6, R18.5.15–R18.5.18.
+
+### From TauCetiRoadmap.SelmerIwasawaCohomology
+
+§§0.6, 0.8 limit Kummer; §2.12a abelian Kummer/Selmer/Sha and the finiteness of `Sel_φ(A/K)` for every isogeny; §§2.3, 2.5–2.8, 2.13–2.22 Selmer propagation, saturation, ordinary conditions, duality and mapping fibres; §§3.1–3.3, 3.5–3.6, 3.9–3.11 Iwasawa–Shapiro, universal norms, semilocal and derived control; §§4.9, 4.12 finite/ordinary local comparison with errors.
+
+What SelmerIwasawaCohomology must provide (gap:surjective-three-integral-comparison): For p=3, E/ℚ good ordinary with surjective residual G_ℚ image and K satisfying (disc),(Heeg),(spl), use the actual Heegner family and integral family logarithm to prove equivalence of both integral Heegner-index and (0,∅)-Greenberg/BDP divisibilities of §8b.2, retaining height-one (3) lengths, coefficient extension, periods, involution and every finite local cokernel, without inverting 3 or assuming either divisibility.
+
+The arithmetic evaluation of these specialization errors for the strict-at-v unrestricted-at-v̄ Heegner condition is proved in §8.36 here. It uses the supplied error sequences, not an imported arithmetic JSW formula or perfect specialization of the all-p ordinary complex.
+
+### From TauCetiRoadmap.ArithmeticStatisticsPartVI
+
+“Heegner logarithm and low rank” supplies its marked CM divisor and elliptic image, logarithm/height identities and low-analytic-rank implication under the hypotheses stated there. “Anticyclotomic character Selmer multiplicity one” supplies the character-level descent under its preceding nonvanishing hypotheses; it is not replaced by the untwisted §7.12 here. The divisor/image comparisons in §§1.5–1.6 retain that roadmap’s quotient, isogeny and differential factors.
+
+“Anticyclotomic character nonvanishing”: for E/ℚ with all bad primes split in the imaginary quadratic field K and without CM by K, every sufficiently large anticyclotomic layer has a primitive character with a non-torsion traced CM-point component. It includes odd bad, ramified and nonordinary coefficient primes. Apply it here only after identifying its fixed modular CM family and trace with §§1.5–1.6 and 8.2–8.6; in the ordinary branch the additional ordinary hypotheses remain those of the local construction. For CM E/ℚ, §7.8 supplies the distinctness of its CM field from K.
+
+### From TauCetiRoadmap.ArithmeticGaloisDuality
+
+§R02.2.2 “The low-degree sequence and the transgression”, §R02.2.3 “Descent along open subgroups, norms and compact coefficients”, R02.4 local/global duality and real Tate corrections, and D7 derived continuous Selmer complexes and specialization. Inflation–restriction retains its H¹/H² errors until invariant vanishing is proved.
+
+### From TauCetiRoadmap.EulerSystemsAndKolyvaginSystems
+
+Layer 1 auxiliary primes and finite–singular modules and §5.2’s inert evaluation comparison, in particular §1.6 the residual evaluation pairing and §1.16 the local pairing, simultaneous prime detection and prescribed ramification; §§3.1–3.8 cyclic derivatives, tensor factors and selected descent; §§4.13, 4.18–4.19 all-prime descent and uniform errors; §5.2 “Howard’s self-dual Selmer triples and hypotheses H.0–H.5”; §5.10 “Howard’s bound for self-dual Kolyvagin systems over a discrete valuation ring”; §§5.11–5.13 rigidity, profile and exact length in their stated prime range; §§8.28, 8.31 self-dual Λ-adic bounds. Section 4.19(b) supplies the generic common-multiple bound over ℤ_p, independent of the multiplying power, with its §1.14 ordinary conditions, E(K)[p]=0, nontrivial near-identity character, scalar-image condition (Sc), absolute irreducibility condition (Irr), cofinal deep auxiliary sets and nonzero divided bottom. Its zero-error branch retains its surjectivity hypothesis. Section 8.33 applies the modified-edge extension of this bound to the actual Heegner family.
+
+What EulerSystemsAndKolyvaginSystems must provide (gap:modified-heegner-descent): Extend its ordinary-system results to the modified local edge maps verified in §§5.2–5.3 and 8.29, without requiring global lifts of those maps. The maps are invertible on every coefficient quotient, compatible with coefficient reduction, the cyclic tensors, conjugation and the paired local dualities; the auxiliary sets and prime-detection hypotheses of each original theorem remain explicit. Required conclusions are the common-multiple uniform error bounds of §§4.18–4.19, the rank/paired-module bound of §5.10, integral stub rigidity and the exact-length/profile statements of §§5.11–5.13 in their stated prime range, and the Λ-adic characteristic bounds of §§8.28, 8.31 and the augmentation-inclusive bound of §8.36, with the same uniform error constants and specialization maps. The proof route transports the local vanishing and socle-order comparisons through the invertible edges, proves core-vertex connectivity with the supplied prime detection, and then repeats the integral length and height-one specialization arguments. Each of these conclusions is required separately: a rank/length upper bound alone supplies neither rigidity nor exact length nor an integral Λ-adic bound. The residue-characteristic-three extension is the separate contract below. The ordinary proof inputs to extend are Howard §§1.5–1.6, pp.14–19, §2.2, pp.25–28, and Zanarella §§2.2–2.3, pp.12–20.
+
+What EulerSystemsAndKolyvaginSystems must provide (gap:classical-uniform-square-index): In the classical setting of Kolyvagin’s Theorem A, supply the integral length descent giving a positive d_E independent of the Heegner field K, with v_ℓ(d_E)=0 at the full Tate-image primes B(E) of §7.13 and #Sha(E/K) dividing d_E[E(K):ℤy_K]², retaining Cartan/CM and dyadic errors.
+
+What EulerSystemsAndKolyvaginSystems must provide (gap:self-dual-rigidity-three): For residue characteristic 3, a coefficient DVR R finite over ℤ₃, surjective residual elliptic representation, the self-dual cartesian ordinary conditions and a prime set containing every sufficiently deep auxiliary set, prove the common stub exponent d in BCGS Lemma 2.2.4 on N(2k−1), independent of k, with d finite if a core value is nonzero, and deduce the deep-prime invariance and exact paired length of Proposition 2.2.1 and Theorem 2.2.2 without the printed p>3 rigidity restriction.
+
+### From TauCetiRoadmap.FiniteFlatGroupsAndIntegralPadicHodgeTheory
+
+§§R07.4.21–R07.4.25 supply the integral Barsotti–Tate/crystalline lattice comparisons, including the separate dyadic classification; §R07.5.6a supplies finite-coefficient finite-flat Kummer comparison with its odd-prime coefficient hypotheses. Apply these with the specified lattice, ramification and local torsion conditions; SelmerIwasawaCohomology §§4.9, 4.12 supply the finite/ordinary local-condition comparison.
+
+### From TauCetiRoadmap.FaltingsFinitenessAndIsogenyTheorems
+
+R28.4.5–R28.4.6: semisimplicity and the Tate endomorphism/Hom comparisons; R28.6.7: integral generation of the commutant at almost every prime, with rational generation at every prime. For the RM application, §7.3 proves absolute irreducibility of each coefficient representation by the no-CM/self-twist criterion, then uses these comparisons and the double-centralizer theorem to obtain C₃. The O_L-linear centralizer is the relevant one; no equality End_K(A)=O_L is inferred merely from the no-CM hypothesis. Scalar-image bounds have the separate contract below; the almost-all-p full residual image of §7.2 is EllipticCurveModularityImaginaryQuadratic §5.1 with the determinant of ArithmeticGaloisRepresentations §6.2.
+
+### From TauCetiRoadmap.ArithmeticGaloisRepresentations
+
+§3.5 “Induction and the conductor–discriminant formula”; §§6.1–6.2 “The Tate module” and “Weil pairing and determinant”; §§6.4–6.4a coefficients/images and Frattini detection. The actual representation and base-field index are retained.
+
+What ArithmeticGaloisRepresentations must provide (gap:abelian-scalar-image): For the RM quotients of the integral context over K, supply a scalar u_p∈ℤ_p× distinct from 1 in the G_K image on T_pA for every p, and a bound on the indices of the scalar subgroups independent of p, so that u_p−1 can be a unit at all but finitely many p (Nekovář Proposition 6.1.1, pp.35–36).
+
+### From TauCetiRoadmap.SerreWeightAndLevelOptimisation
+
+§§1.1–1.3 “Level-changing algebra and cohomology” and §2.4 “Diamond’s level-raising criterion”; the additional quaternionic congruence contract is stated below.
+
+What SerreWeightAndLevelOptimisation must provide (gap:zhang-level-raising): For the weight-two GL₂-type residual representation over k₀ satisfying Zhang’s three-clause Hypothesis ♥ and admissible primes q₁,q₂, provide the level-raised eigenforms with the prescribed local types and marked common residual G_ℚ representation used in Zhang Theorem 4.3. The integral quaternionic realizations and multiplicity-one identifications belong to HilbertModularVarietiesAndShimuraCurves gap:zhang-integral-realization; a q-new witness alone does not provide that second contract.
+
+### From TauCetiRoadmap.GL2AutomorphicRepresentationsAndTransfer
+
+R17.3 `global-jl` and `multiplicity-one`: the specified Jacquet–Langlands transfer and multiplicity-one comparison, with its actual coefficient structures.
+
+### From TauCetiRoadmap.ModularIwasawaMainConjectures
+
+§§0.5–0.10 the ordinary, zeta and determinant formulations; §1.3 “The Skinner–Urban ordinary main conjecture”, the integral equality char_Λ(X^Σ)=(L_SU^Σ) for a weight-two newform with p≥3 ordinary, residually irreducible and ramified at some q∥N, applied in §6.9 to g and to its quadratic twist g_K; and §1.7 “Skinner’s theorem for multiplicative reduction”. The trivial-character control formula needs the additional GL₂-type contract below.
+
+What ModularIwasawaMainConjectures must provide (gap:gl2-integral-rank-zero): For g and its quadratic twist g_K in Zhang Theorem 7.1, give the trivial-character GL₂-type control formula over the coefficient DVR, assuming residual image containing SL₂(𝔽_p), good ordinary p≥3 and a residually ramified prime ℓ∥N, and retain the canonical-period and local component factors without assuming full integral SL₂ image. The integral ordinary main conjecture for g and for g_K is §1.3: g_K is a newform of trivial character and level ND_K², ramified at the same ℓ∥N since ℓ∤D_K, with the same residual irreducibility and ordinarity.
+
+### From TauCetiRoadmap.KatoEulerSystems
+
+What KatoEulerSystems must provide (gap:kato-distinguished-lattice): For a rational weight-two elliptic newform f of level N and every odd prime p of semistable reduction, construct the integral lattice T_f given by the image of H¹(Y₁(N),ℤ_p(1)) in the f-eigenspace quotient V_f of H¹(Y₁(N),ℚ_p(1)). Construct the curve E• in the rational isogeny class and the specified maps E₁→E₀→E• from the X₁(N)- and X₀(N)-optimal curves, with the integral identification T_pE•≃T_f induced by their modular maps. Require the maps to extend étale at p on the Néron models, and retain the Néron differential factors, the modular-symbol period lattice and the possible 2-power change of distinguished-curve convention (Wüthrich Theorem 4, p.384, proof pp.386–387; BCGS §1.2.2, pp.10–12). In the good ordinary case their maps on positive Tate lattices are isomorphisms, compatibly with the point and Kummer maps; this does not identify the full Tate or saturated local lattices. Sections 8.6a and 8.16 apply these comparisons to the fixed Heegner family. The integral ordinary main conjecture needed by §6.9 is ModularIwasawaMainConjectures §1.3, and its trivial-character control is required by gap:gl2-integral-rank-zero, including both g and g_K and their canonical-period and component factors.
+
+**Checks.**
+
+- On a rank-two ℤ₅-lattice with positive line spanned by e₁, diag(1,5) is the identity on that line but has full cokernel ℤ/5; positive-lattice transport cannot erase that defect.
+- Multiplication by 2 has determinant 4∈ℤ₅× and zero cokernel, while multiplication by 5 has cokernel (ℤ/5)² of order 25; a 2-power convention change is a unit comparison only at odd p.
+- For the same positive bottom 5e, saturated inclusions of indices 1 and 5 give bottom indices 5 and 25; dividing by the saturation indices gives 5 on both sides, as in §8.16.
+
+### From TauCetiRoadmap.PadicMeasuresIwasawaAlgebras
+
+§1.6 continuous-character evaluation and §1.7 measure/completed-algebra comparison; §3.1 pseudo-measure evaluation only at admissible characters; §3a.1 varying character spaces; Layers 4–5 Weierstrass zero isolation, characteristic ideals, determinant lines and base change. Compactness additionally needs simultaneous finite solvability.
+
+### From TauCetiRoadmap.GeometryOfNumbersAndQuadraticArithmetic
+
+§4.2 “Mixing, ergodicity and unipotent flows” supplies its real dynamics. The needed nonarchimedean extension is a distinct contract below.
+
+What GeometryOfNumbersAndQuadraticArithmetic must provide (gap:cm-local-dynamics): For every finite extension L/ℚ_p, r≥1 and product of cocompact lattices Γᵢ⊂SL₂(L), supply the homogeneous orbit-closure probability measure and dilated-compact-set equidistribution for every L-one-parameter unipotent subgroup of SL₂(L)ʳ, the twisted-diagonal containment for Δ(U) with U nontrivial, and the full-product criterion that the conjugated lattices are pairwise not U-commensurable (Cornut–Vatsal Theorem 2.29, Lemma 2.30 and Proposition 2.35, pp.31–34).
+
+### From TauCetiRoadmap.PadicHodgeTheory
+
+§3.5 “Crystalline and semistable classification”: a rank-one rational character of G_ℚp is crystalline precisely when it is an integral cyclotomic power times an unramified character. This is used for the two split local factors of the algebraic-Hecke characters in §8.14; no family reciprocity law is consumed in constructing the Heegner family.
+
+### From TauCetiRoadmap.PadicHodgeRegulators
+
+§§1.3, 1.9–1.10 Bloch–Kato logarithms of local Kummer classes and §§8.17–8.22 integral Perrin–Riou regulators. The arithmetic family reciprocity comparison remains the GrossZagierAndArithmeticHeights contract above.
+
+### From TauCetiRoadmap.AutomorphicCongruences
+
+§5.4 “Quaternionic period and primitive anticyclotomic input”: Wan’s Theorem 86 for the anticyclotomic specialization of the parallel Hilbert family, with its per-place nonvanishing, its μ-invariant formula and every imprimitive nonsplit Euler factor retained. §5.10 “Wan’s parallel Hilbert-family divisibility”. §5.12 “The BCS quartic-CM input”: for an elliptic newform g, good ordinary p>3, real quadratic F with (pN,D_F)=1 and CM quadratic M/F with p split and (NO_F,D_(M/F))=1, under residual irreducibility over G_M, the Fujiwara (H1)–(H3) instance, Δ⁺ and squarefree n⁻ with an even number of residually ramified inert factors, the integral containment (L_p(g_F/M)) ⊃ char_(Λ_M)(X_ord(g/M∞)) in the torsion case (BCS Theorem 3.2.1). §5.13 “Discharging the auxiliary-field hypotheses”: the verification of those hypotheses, including the base change of a minimal lift, for the selected fields K and F (BCS Proposition 5.2.1, proof). §6.1 the ordinary two-variable Perrin-Riou/Greenberg equivalence of both containments, integrally and after inverting p, with its two-form product version (BCS Theorem 4.1.3, Corollary 4.1.4). §6.2 the integral restriction π_K(char(X_ord(g/M∞))) ⊃ char(X_ord(g/K∞))char(X_ord(g^F/K∞)) in Λ_K (BCS Lemma 5.1.1), distinguishing the base change g_F from the quadratic twist g^F. §6.3 the factorization (π_K(L_p(g_F/M)))=(L_PR(g/K)L_PR(g^F/K)) in Λ_K[1/p] (BCS Lemma 5.1.2). §6.4 existence of auxiliary fields satisfying conditions (i)–(vi) (BCS Lemma 5.2.3). §6.5 μ(L^Gr_p(g/K))=μ(L^BDP_p(g/K))=0 for p>2 under (disc), (Heeg), (spl) and (irr_K), including its projection comparison L^Gr_p(g/K)⁻Λ^(−,ur)_K=L^BDP_p(g/K)Λ^(−,ur)_K of the Greenberg function to the single-power BDP function (BCS Proposition 4.2.2; [cgs](#references), Proposition 2.4.5, PDF p.10). §6.6 the integral Perrin-Riou and Greenberg product containments over K for p≥5 (BCS Proposition 5.2.1).
+
+These are used with the hypotheses stated there, which are at or below those of §§8b.3–8b.5: p>3 in §5.12, p≥5 in §6.6, and (irr_K) in §§6.1 and 6.5–6.6, which §8b.3 derives from irreducibility over G_ℚ. The anticyclotomic projection of the §6.6 containments to the single-power BDP convention of §8b.1 is proved in §8b.5, not imported. Rational factorization alone is not integral factorization: the integral statements rest on the μ=0 input of §6.5. None of these imports consumes the cyclotomic-return application of that roadmap’s Layer 7.
+
+**Checks.**
+
+- In ℤ₅⟦T⟧, (5T) and (T) become equal after inverting 5 but have different (5)-valuations, 1 and 0; the rational factorization of §6.3 does not erase the μ input of §6.5.
+- The containment (T) ⊃ (T²) has valuations 1≤2; reversing it fails. If opposite bounds give b₁≤a₁ and b₂≤a₂ while the product bound gives a₁+a₂≤b₁+b₂, the test a₁=1,a₂=2 forces b₁=1,b₂=2, illustrating the factorwise cancellation in §8b.5.
+- For n⁻=O_F the number of inert ramified factors is 0, of even parity, and residual ramification there is vacuous; one factor has odd parity and fails the hypothesis of §5.12.
+
+### From TauCetiRoadmap.EulerSystemsCyclotomicMainConjecture
+
+The imaginary-quadratic elliptic-unit/Katz contract below is an independent input to the Eisenstein route. It requires the finite-character components, μ statement and integral local/lattice corrections; the route does not infer it from the Heegner equality.
+
+What EulerSystemsCyclotomicMainConjecture must provide (gap:eisenstein-elliptic-unit-inputs): Provide an independent elliptic-unit/Katz main-conjecture and μ input for the imaginary-quadratic finite-order character components used by CGS Theorem C under φ|G_p≠1,ω, including local and integral lattice corrections, independently of the Heegner anticyclotomic equality; the cyclotomic-unit theorem over ℚ alone is insufficient.
+
+### From TauCetiRoadmap.Chebotarev
+
+Layer 10, “Dirichlet-density Chebotarev”: simultaneous Frobenius selection and finite avoidance. The actual Kummer fields, disjointness and conjugacy classes are verified here.
+
+The classical error-tolerant argument gives a uniform exponent. Its stronger global cardinality estimate additionally uses Kolyvagin's classical square-index theorem, quoted as Theorem A on p.95 of the structure paper. Its integral length argument is required by gap:classical-uniform-square-index; the exponent theorems in EulerSystemsAndKolyvaginSystems §§4.13, 4.18–4.19 do not supply that cardinality estimate. Likewise, neither an unspecified elliptic-unit theorem nor a real Ratner theorem supplies the additional arithmetic interfaces described above.
 
 ## References
 
