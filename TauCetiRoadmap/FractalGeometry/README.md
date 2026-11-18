@@ -393,11 +393,18 @@ point mass `2^(−ms)` at one point of `K` in every cube of side `2^(−m)` that
 `K`, gives every dyadic cube `Q` of side at least `2^(−m)` mass at most `2ⁿ · (side Q)^s`, and every
 point of `K` lies in a cube of mass exactly `(side Q)^s`; the largest such cubes are disjoint and
 cover `K`, so `μ_m K` is a sum `Σ (side Q)^s` over a cover of `K`, which is bounded below
-independently of `m` because `μH[s] K ≠ 0`. The measures `μ_m` have bounded mass and are carried by
+independently of `m` by the bullet below. The measures `μ_m` have bounded mass and are carried by
 the compact set `K`, so they have a weak limit point `μ`, carried by `K`, with `μ K = lim μ_m K > 0`
 and `μ U ≤ liminf μ_m U` for open `U`; a closed ball of radius `r` lies in an open set covered by
 `3ⁿ` dyadic cubes of side between `2r` and `4r`. A linear isomorphism, which is bi-Lipschitz,
 transports the measure to `E`, and the constant is absorbed by rescaling `μ`.
+
+- *Covers of any size.* If `A` is a subset of a metric space, `s ≥ 0` and `μH[s] A ≠ 0`, then the
+  infimum of `Σ (diam U_i)^s` over all countable covers of `A`, with no restriction on the
+  diameters, is positive (Bishop and Peres, Proposition 1.2.6). For `s > 0` a cover with
+  `Σ (diam U_i)^s ≤ ε` has every diameter at most `ε^(1/s)`, so an infimum equal to `0` would give
+  `μH[s] A = 0`; for `s = 0` every cover of a nonempty set has sum at least `1`. The covers of the
+  route are by cubes of side up to `2^(−k₀)`, which are not small, so this is the form it uses.
 
 **Checks.**
 
@@ -431,8 +438,12 @@ complement is `μ`-null; so the supremum over `ρ` of `μ(A ∩ E(η, ρ))` is `
 - Consequently `ENNReal.ofReal s ≤ dimH A`.
 - *Converse for compact sets.* If `K` is a compact subset of a finite-dimensional real normed space,
   `0 ≤ t < s` and `μH[s] K ≠ 0`, there is a Borel probability measure `μ` with `μ K = 1` and finite
-  `t`-energy (Bishop and Peres, Theorem 3.4.2(i)); the measure of 3.2, normalised, has
-  `φ(x) ≤ Σ 2^(t(k+1)) · 2^(−sk)` summed over the dyadic shells of radius `2^(−k)`.
+  `t`-energy (Bishop and Peres, Theorem 3.4.2(i)). For the measure `μ` of 3.2 itself, before
+  normalising, and `x ∈ K`, split `K` into the shells `2^(−k−1) < dist(x, y) ≤ 2^(−k)` for
+  `k ≥ k₀`, where `k₀` is the least integer with `2^(−k₀−1) < diam K`; the point `y = x` carries no
+  mass because `s > 0`. The ball bound of 3.2 gives `φ(x) ≤ Σ_{k ≥ k₀} 2^(t(k+1)) · 2^(−sk)`, a
+  series that converges because `t < s`, and the `t`-energy of the normalised measure is at most
+  this sum divided by `μ K`.
 
 **Checks.**
 
