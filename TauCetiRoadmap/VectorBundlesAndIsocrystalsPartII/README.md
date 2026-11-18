@@ -2,23 +2,9 @@
 
 **Summary.** VectorBundlesAndIsocrystals, Layer 5, builds classical Banach–Colmez spaces over sympathetic algebras: presentations, Dimension, curvature, the finite-length period realization and Le Bras's equivalence with the tilted coherent heart of the Fargues–Fontaine curve. That roadmap, called the parent below, stops there. This part II builds what comes after, in three directions. First, the arithmetic theory of Fontaine's almost `C`-representations of `G_K`. This covers the strict Banach Galois category, full faithfulness of the forgetful functors from `C`- and `B_dR⁺`-representations, the abelian category `C(G_K)` with its Dimension, the Yoneda `Ext` comparison, the two-operator `Ext` complex, Euler–Poincaré duality and the fundamental theorem for an extension of a `C`-line. Second, the topological enlargement of Banach–Colmez spaces due to Colmez and Nizioł. This covers Topological Vector Spaces (TVS) in the left heart of nonarchimedean locally convex spaces, completed period Modules and Pairs, the perfectoid disc class `Ext¹_TVS(V₁,V₁) ≅ C`, Hom and `Ext¹` comparisons for reasonable period models, and quasi-Banach–Colmez spaces (qBC) with their intrinsic curvature filtration and full faithfulness. Third, the contravariant period-valued height functor `h(W) = Hom_VS(W, B_dR)` and the height–rank formula `rank h(W) = ht(W) + rank Ext¹_VS(W, B_dR)`. The end theorems are Fontaine's full faithfulness and duality, the disc extension isomorphism, full faithfulness of reasonable qBCs in TVS, and the height–rank formula.
 
-## Scope and ownership
+## How to read the build
 
-This roadmap owns almost `C`-representations and their arithmetic Hom and `Ext` (Layers 0–1), Topological Vector Spaces, period Modules and Pairs (Layer 2), the perfectoid disc class (Layer 3), reasonable period comparisons (Layer 4), qBC (Layer 5) and the period-valued height functor (Layer 6). It also owns `SemilinearRep`, the `Suggested.lean` structure of a continuous semilinear `ℂ_p`-representation that makes the Layer 0 headlines of §§0.2 and 0.10 statable for finite `K/ℚ_p`; the action of `Gal(ℚ̄_p/K)` on `ℂ_p` over which it is semilinear is PadicPeriodRings §1.1's, and the Lean statements write it as `UniformSpace.Completion.map σ`.
-
-It leaves to other roadmaps:
-
-- VectorBundlesAndIsocrystals, Layer 5: sympathetic algebras and Vector Spaces, classical Banach–Colmez presentations, Dimension, the abelian BC category, curvature, HN invariants, finite-length period realizations, the Artinian property, morphism calculus and Le Bras's equivalence. These are imported by section heading.
-- CompactOperators §0.5: compactoid subsets of Banach spaces and maps of compactoid image over a complete nontrivially normed ultrametric field. The `B_m`-relative notion and compact-type limits over `C` and `B_m`, with their completeness, regularity and permanence, are this roadmap's §2.5.
-- LocallyAnalyticDistributions §§0.0–0.3 and Layer 1: the generic nonarchimedean locally convex category, its strict derived category and left heart, completed tensors, three-space and functional-extension theorems, locally analytic functions, continuous functions, distributions and measures. The sympathetic functor categories and their period comparisons are what this roadmap adds.
-- PadicPeriodRings §§1.1–1.2: the continuous action of `G_K` on `ℂ_p` for finite `K/ℚ_p`, by the completion map of each automorphism, with its uniqueness, isometry, composition and joint-continuity laws, and the fixed field `ℂ_p^{G_K} = K`.
-- PadicPeriodRings §§1.5, 2, 4.1–4.3: the period carriers, their topologies and Galois actions, the fixed fields and the twist invariants.
-- PadicHodgeTheory §4.4 and FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.P7.2: Sen modules and operators. PadicHodgeTheory §0.3: the Hensel lift `K̄ → B_dR⁺` for finite `K/ℚ_p`; this roadmap's §0.8 constructs the same lift over the general base field of the Conventions, which that section does not cover.
-- ArithmeticGaloisRepresentations §1.1: finite-dimensional continuous representations. ArithmeticGaloisDuality §§R02.1.3 and D7.4: rational local Tate duality.
-- PerfectoidSpaces, Layers P1, P3 and P6 and §P7.16, and PerfectoidTowers §§P9.2, P9.4 and P9.6: the perfectoid criterion, almost purity, the pro-étale calculus, the pro-étale site of a rigid space, the completed structure sheaf `Ô`, pro-étale Galois towers and descent along towers. Their specialization to the translation-invariant `Ô`-cohomology of the closed disc is a target here (§§3.4 and 3.8).
-- DiamondsAndVStacks §D2.2: the v-site of perfectoid spaces, on which the v-sheaf comparison of §6.2 is formed.
-
-The pinned libraries already supply functors, topological modules, scalar torsion submodules, the positive and localized de Rham rings as commutative rings, abelian `Ext` and its comparison maps, Krull topologies, spectral norms, completions, and Tau Ceti's exact structures. These are reused as listed under the supplier contracts. The roadmap asserts no general abelianness or splitting of qBC, no equivalence of `Ext` for arbitrary Pairs, and no comparison of topological-module `Ext` in degrees above one.
+Layer 0 builds the strict Banach Galois category, Fontaine's full faithfulness, analyticity of fundamental extensions, the fundamental theorem for an extension of a `C`-line, the abelian category of almost `C`-representations, and the rigidity of continuous equivariant maps between de Rham periods. The fundamental theorem §0.10 depends only on §§0.1–0.3 and the parent and is proved before §0.5, which uses it. Layer 1 builds the arithmetic extension theory: almost-split extensions, the Yoneda comparison, the two-operator complex, Euler–Poincaré duality, the period `Ext` table and the equivariant analytic realization. Layer 2 builds the left-heart functor category TVS, completed period Modules and Pairs. Layer 3 computes the perfectoid disc class `Ext¹_TVS(V₁,V₁) ≅ C`. Layer 4 proves Hom and `Ext¹` comparisons for reasonable period models and Pairs. Layer 5 defines qBC and proves its intrinsic filtration and full faithfulness. Layer 6 returns to the parent's VS category and proves the period-valued height–rank formula, using its own sheaf and colimit comparisons and the projectivity of the constant source. Layers 0–1 and Layers 2–5 are independent. Layer 6 uses only the parent and Layer 2's conventions.
 
 ## Conventions
 
@@ -54,88 +40,6 @@ In an almost presentation `W/V₂ ≅ C^d/V₁`, the spaces `V₂ ⊂ W` and `V�
 - For the two-term test in `B₂`, multiplication by `t′` sends `K` isomorphically to `Kt′`. The two expressions `t′(γ−1)z` and `(χ⁽¹⁾(γ)⁻¹γ − 1)t′z` both equal `t′γz − t′z`, so `d₁d₀ = 0`.
 - The framed extension `0 → V₁ → B₂ → V₁ → 0`, with first map `c ↦ tc`, has disc parameter 1. The pushout relation `(tc, −c)` identifies its middle object by `(b, c′) ↦ b + tc′`; reversing that sign gives parameter −1.
 - For `X = Y = ℚ_p` the `Ext` dimensions are `1, [K:ℚ_p] + 1, 0`, so the alternating Euler sum is `−[K:ℚ_p]`. The unsigned sum would be `[K:ℚ_p] + 2`.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-The pin is `1b1ccf4b088b32fa3f23f2de1127433254a81e1e`.
-
-| Declaration and pinned file | Contract |
-| --- | --- |
-| `CategoryTheory.Functor` — Mathlib/CategoryTheory/Functor/Basic.lean:40 | Functor with object and map operations and identity and composition laws. It supplies neither sympathetic algebras nor boundedness. |
-| `TopModuleCat` — Mathlib/Algebra/Category/ModuleCat/Topology/Basic.lean:41 | Bundled topological modules and continuous linear maps. Local convexity, completeness, strictness and the left heart come from LocallyAnalyticDistributions §0.0, not from this structure. |
-| `ContinuousLinearMap.isOpenMap` — Mathlib/Analysis/Normed/Operator/Banach.lean:229 | A surjective continuous linear map of Banach spaces over a nontrivially normed field is open. Completeness of both spaces is required. |
-| `ContinuousLinearMap.exists_preimage_norm_le` — Mathlib/Analysis/Normed/Operator/Banach.lean:162 | For a surjective continuous linear map of Banach spaces there is a constant giving preimages of controlled norm. This is not a linear section. |
-| `Submodule.torsionBy` — Mathlib/Algebra/Module/Torsion/Basic.lean:177 | Submodule of elements killed by a scalar. `W[t^d]` below is this object. |
-| `LinearMap` — Mathlib/Algebra/Module/LinearMap/Defs.lean:84 | Linear and semilinear maps, used for the period operators of §1.3. |
-| `BDeRhamPlus` — Mathlib/RingTheory/Perfectoid/BDeRham.lean:75 | Theta-kernel adic completion after inverting `p`, for a commutative ring `R`, a prime `p`, `[Fact ¬IsUnit (p : R)]` and `[IsAdicComplete (Ideal.span {(p : R)}) R]`. No period topology and no Galois action are included. |
-| `BDeRham` — Mathlib/RingTheory/Perfectoid/BDeRham.lean:88 | Localization of the positive period ring at generators of `ker θ`. A commutative ring, without the classical topology, the DVR structure or a Galois action. |
-| `CategoryTheory.Abelian.Ext` — Mathlib/Algebra/Homology/DerivedCategory/Ext/Basic.lean:118 | `Ext` on an abelian category with `HasExt` in the selected universe. This is the `Ext` of `C(G_K)`. |
-| `CategoryTheory.Abelian.Ext.mapExactFunctor` — Mathlib/Algebra/Homology/DerivedCategory/Ext/Map.lean:126 | The comparison map on `Ext` of an additive functor between abelian categories preserving finite limits and colimits, with `HasExt` on both sides. Its bijectivity for the two inclusions of §1.2 is a target. |
-| `PadicAlgCl`, `PadicComplex` — Mathlib/NumberTheory/Padics/Complex.lean:54, 137 | The fixed algebraic closure of `ℚ_p` with its spectral norm, and its completion `ℂ_[p]`. The file defines no Galois action; PadicPeriodRings §1.1 supplies it, as `UniformSpace.Completion.map σ`. |
-| `krullTopology` — Mathlib/FieldTheory/KrullTopology.lean:134 | The Krull topology on `L ≃ₐ[K] L`, used as the topology of `G_K`. |
-| `spectralNorm_eq_of_equiv` — Mathlib/Analysis/Normed/Unbundled/SpectralNorm.lean:451 | `K`-algebra automorphisms preserve the spectral norm. This makes `UniformSpace.Completion.map σ` the continuous extension of `σ` (PadicPeriodRings §1.1). |
-| `UniformSpace.Completion.map` — Mathlib/Topology/UniformSpace/Completion.lean:477 | Extension of a map to completions. It restricts to the map on the dense image when the map is uniformly continuous (`UniformSpace.Completion.map_coe`, line 488). |
-| `IsModuleTopology` — Mathlib/Topology/Algebra/Module/ModuleTopology.lean:133 | The module topology, the canonical topology of a finite-dimensional `ℂ_p`-space. |
-| `AddMonoid.End` — Mathlib/Algebra/Group/Hom/Defs.lean:975 | The monoid of additive endomorphisms, the additive form of `Monoid.End` generated at that line by `to_additive`, and the target of the action map of a `SemilinearRep`. |
-| `WithSeminorms.banach_steinhaus`, `BaireSpace.instBarrelledSpace` — Mathlib/Analysis/LocallyConvex/Barrelled.lean:164, 122 | The uniform boundedness principle for continuous linear maps from a barrelled space over a nontrivially normed field to a space with a generating family of seminorms, and barrelledness of every Baire topological vector space, in particular of every Fréchet space. No archimedean or ultrametric hypothesis is made. |
-| `WittVector.fontaineTheta` — Mathlib/RingTheory/Perfectoid/FontaineTheta.lean:166 | `θ` from Witt vectors of the pretilt to a `p`-adically complete ring with `p` prime and not a unit. |
-
-The positive period carrier requires `R` commutative, `p` prime, `[Fact ¬IsUnit (p : R)]` and `[IsAdicComplete (Ideal.span {(p : R)}) R]`. These hypotheses include no perfectoidness, DVR structure, topology or Galois action. For `R = O_C` the period suppliers identify this carrier with the classical one. In characteristic `p` the positive and localized rings are zero, and substituting `R = C` would make `p` a unit and violate the nonunit hypothesis.
-
-### From Tau Ceti
-
-The pin is `2fd255d997f47c0b5d834ee416c7015d55444ce5`.
-
-| Declaration and pinned file | Contract |
-| --- | --- |
-| `TauCeti.ExactStructure` — TauCeti/CategoryTheory/Exact/ExactStructure.lean:241 | Quillen exact structure on an additive category with zero object and binary biproducts, with genuine pushout and pullback squares. |
-| `TauCeti.ExactStructure.IsConflationExact` — TauCeti/CategoryTheory/Exact/Functor.lean:74 | An additive functor preserving the conflations of two chosen exact structures. It does not assert preservation of all finite limits or colimits. |
-
-The exact structures of `B(G_K)` and TVS are `TauCeti.ExactStructure` values, their comparison functors are conflation-exact, and `C(G_K)` uses abelian `Ext`. Abelianness of `C(G_K)`, its `Ext` universe and exactness of the two inclusions are targets here. The generic `Ext` map carries no assertion of bijectivity.
-
-### From TauCetiRoadmap.VectorBundlesAndIsocrystals
-
-The parent's Layer 5 supplies *Sympathetic Vector Spaces*. That includes the functorial period objects `B_dR⁺(Λ)`, `B_dR(Λ)` and `B_m(Λ)` on sympathetic algebras with their compatibility with algebra maps, reduction modulo the Cartier parameter, finite sums and evaluation at `C`. It also supplies *Finite-Dimensional Banach–Colmez presentations*, *Exact faithful Banach realization*, *Dimension and the abelian BC category*, *Dimensions of standard Banach–Colmez spaces*, *Curvature orthogonality*, *The tilted coherent heart*, *Le Bras equivalence*, *HN decomposition and connected components*, *Canonical curvature filtration*, *Artinian property of BC*, *Banach–Colmez morphism calculus*, *Torsion at an untilt point*, *Curvature-zero finite-length modules*, *VS Hom vanishing from torsion period modules*, *Curvature and HN support*, *Height of torsion period subobjects* and *Nonpositive curvature extension criterion*. Its Artinian property says that a proper BC subobject of `V₁` is a finite-dimensional `ℚ_p`-space. Together with Dimension this gives the analytic surjectivity and finite-kernel lemma used in Layers 0–1.
-
-What VectorBundlesAndIsocrystals must provide (gap:G-HOM): in its Layer 5, *VS Hom vanishing from torsion period modules*, for every classical BC `W`, every VS natural map `W → B_dR` factors through the sub-VS `t^(−N)B_dR⁺` for one `N ≥ 0` independent of `Λ` (CN25, Corollary 3.18 and proof, p. 18). The parent proves the vanishing for torsion sources only. The bounded factorization for every BC source is the missing statement. Read pointwise, "for each `Λ` and each element some `N`", the condition would be empty, since `B_dR(Λ)` is the union of the `t^(−N)B_dR⁺(Λ)`.
-
-### From TauCetiRoadmap.PadicPeriodRings
-
-Section 1.1 supplies, for finite `K/ℚ_p` inside `PadicAlgCl p`, the action of `G_K` on `ℂ_[p]` by `UniformSpace.Completion.map σ` with the laws assumed of it in the Conventions: restriction to `σ` on `ℚ̄_p`, uniqueness of the continuous extension, isometry, compatibility with composition and joint continuity of `G_K × ℂ_p → ℂ_p` for the Krull topology. Section 1.2 supplies `ℂ_p^{G_K} = K` for such `K`. Sections 1.5, 2 and 4.1–4.3 supply `B_dR⁺`, `B_dR`, `θ`, `t`, their topologies and continuous actions, the complete discrete valuation ring structure of `B_dR⁺` with residue field `C`, the `G_K`-fixed embedding `K → B_dR⁺` lifting `K ⊂ C` (§4.3; this roadmap's §0.8 extends it to `K̄`), the fixed fields `K`, crystalline periods and the fundamental period sequence. Section 2 supplies `H⁰(G_K, C) = K` and `H⁰(G_L, C(j)) = 0` for `j ≠ 0` over every finite `L/K` in the general-base convention. The sympathetic extensions are consumed through the parent's period objects.
-
-### From TauCetiRoadmap.PadicHodgeTheory
-
-Section 4.4 supplies the Sen module and the Sen operator of a finite-dimensional continuous semilinear `C`-representation, scalar-extension recovery, and tensor and dual compatibility. Section 0.3 supplies, for finite `K/ℚ_p`, the unique `K₀`-algebra lift `K̄ → B_dR⁺` of `K̄ ⊂ C`, which is `G_K`-equivariant; this roadmap's §0.8 constructs it for the general base field. FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.P7.2 supplies the compatible labelled rational Sen operators.
-
-### From TauCetiRoadmap.LocallyAnalyticDistributions
-
-Section 0.0 supplies the category of nonarchimedean locally convex spaces, its strict derived category and left heart (*Left hearts and strict exactness*), bounded sets, projective tensors and separated completions. Section 0.2 supplies the comparison of strict sequences with the left heart, the closure of Banach and Fréchet spaces under extensions, Fréchet open mapping, *Continuous functional extension in countable type*, and *Strict countable inverse limits and cohomology* with its strict Roos surjectivity and finite-dimensional Mittag–Leffler hypotheses. Its *Extensions of spaces of compact type* keeps the subsection hypothesis of a finite `K/ℚ_p` and its spherical-completeness-or-separability alternatives, so this roadmap's §4.6 proves the separable extension over `C` needed here. Its compact-type contract of §0.0, completeness and regularity, is stated for countable Banach systems with injective compact transitions over finite `K/ℚ_p`; over `C` a compact map of Banach spaces is zero, so it is not used for `C`-spaces or `B_m`-models, and §2.5 here states the compactoid version. Sections 0.1 and 0.3 and Layer 1 supply locally analytic functions, continuous functions, distributions, measures and their analytic-stage and strong dual topologies over `ℚ_p`.
-
-### From TauCetiRoadmap.CompactOperators
-
-Section 0.5 supplies `IsCompactoidSet` and `HasCompactoidImage` for Banach spaces over a complete nontrivially normed ultrametric field, with no discreteness, local compactness or spherical completeness assumed, and its model-space criterion: a subset of `c₀(I, K)` is compactoid exactly when it is bounded and its coordinates are uniformly small outside a finite set of indices. Over `ℂ_p` it records that the identity of a line has compactoid image without being a compact operator. Its theory is for Banach spaces; the `B_m`-relative notion, compact-type inductive limits over `C` and `B_m`, and their completeness, regularity and permanence are this roadmap's §2.5.
-
-### From TauCetiRoadmap.ArithmeticGaloisRepresentations
-
-Section 1.1 supplies finite-dimensional continuous representations and their morphisms. The Banach ambient category is constructed in this roadmap's §0.1.
-
-### From TauCetiRoadmap.ArithmeticGaloisDuality
-
-Sections R02.1.3 and D7.4 supply rationalization and derived local Tate duality for finite-dimensional `ℚ_p`-representations. The continuous cyclotomic descent for finite-length periods in Fontaine's two-operator complex is proved in this roadmap's §1.4. The discrete-coefficient Hochschild–Serre theorem of §R02.2.1 does not supply it.
-
-### From TauCetiRoadmap.PerfectoidSpaces and TauCetiRoadmap.PerfectoidTowers
-
-PerfectoidSpaces Layer P1 supplies the Frobenius criterion for complete uniform perfectoid rings, P3 almost purity, P6 the pro-étale presentation calculus, and §P7.16 (*proetale-site*) the pro-étale site of a rigid space with its basis of affinoid perfectoid objects. PerfectoidTowers §P9.2 (*completed-structure-sheaves*) supplies, on that site, `O⁺ = ν*O⁺_ét`, `O = ν*O_ét`, `Ô⁺ = lim_m O⁺/p^m` and `Ô = Ô⁺[1/p]`, with their sections on affinoid perfectoid objects; §P9.4 (*profinite-galois-tower*) supplies pro-étale Galois towers with perfectoid limit; §P9.6 supplies *almost-cohomology-of-tower* and *function-descent-along-tower*, with their stated base and coefficient topologies: a pro-étale Galois tower over a smooth rigid space over a complete discretely valued field with perfect residue field, the almost statement read after base change to `C`. This roadmap's §3.2 constructs the sympathetic disc cover and verifies the perfectoid hypotheses. Its §3.4 applies the tower statements to the Kummer–cyclotomic tower of the disc over `ℚ_p`, whose base change to `C` is that cover, and reaches the sympathetic closure by inflation and almost purity (PerfectoidSpaces §P3), never by applying them to the closure itself; it proves the resulting identification of continuous `H_C`-cohomology with `Ô`-cohomology of the closed disc at every prime.
-
-### From TauCetiRoadmap.DiamondsAndVStacks
-
-Section D2.2 (*small-pro-etale-site-and-v-site*) supplies the v-site of perfectoid spaces, whose coverings are the families satisfying the finite quasicompact image condition. The `ℚ_p`-module v-sheaves over `Perf_C` of §6.2 are sheaves on its slice over `Spa(C, O_C)`.
-
-## How to read the build
-
-Layer 0 builds the strict Banach Galois category, Fontaine's full faithfulness, analyticity of fundamental extensions, the fundamental theorem for an extension of a `C`-line, the abelian category of almost `C`-representations, and the rigidity of continuous equivariant maps between de Rham periods. The fundamental theorem §0.10 depends only on §§0.1–0.3 and the parent and is proved before §0.5, which uses it. Layer 1 builds the arithmetic extension theory: almost-split extensions, the Yoneda comparison, the two-operator complex, Euler–Poincaré duality, the period `Ext` table and the equivariant analytic realization. Layer 2 builds the left-heart functor category TVS, completed period Modules and Pairs. Layer 3 computes the perfectoid disc class `Ext¹_TVS(V₁,V₁) ≅ C`. Layer 4 proves Hom and `Ext¹` comparisons for reasonable period models and Pairs. Layer 5 defines qBC and proves its intrinsic filtration and full faithfulness. Layer 6 returns to the parent's VS category and proves the period-valued height–rank formula, using its own sheaf and colimit comparisons and the projectivity of the constant source. Layers 0–1 and Layers 2–5 are independent. Layer 6 uses only the parent and Layer 2's conventions.
 
 ## Layer 0: Almost C-representations and period rigidity
 
@@ -1220,6 +1124,102 @@ gap:G-HOM; PadicPeriodRings §§4.1–4.3; DiamondsAndVStacks §D2.2; VectorBund
 ## Downstream consumers
 
 CstConjectureForDaggerVarieties uses the qBC filtration and full faithfulness of Layer 5. The Colmez–Nizioł comparisons of CohomologyComparisons §§4.8–4.11 work in the same setting (countable perfect residue field, `C` the completion of `K̄`) and are the natural consumer of the period Hom and `Ext` statements of Layers 1 and 4 and of the height–rank formula. Neither is a supplier of this roadmap.
+
+## Scope and ownership
+
+This roadmap owns almost `C`-representations and their arithmetic Hom and `Ext` (Layers 0–1), Topological Vector Spaces, period Modules and Pairs (Layer 2), the perfectoid disc class (Layer 3), reasonable period comparisons (Layer 4), qBC (Layer 5) and the period-valued height functor (Layer 6). It also owns `SemilinearRep`, the `Suggested.lean` structure of a continuous semilinear `ℂ_p`-representation that makes the Layer 0 headlines of §§0.2 and 0.10 statable for finite `K/ℚ_p`; the action of `Gal(ℚ̄_p/K)` on `ℂ_p` over which it is semilinear is PadicPeriodRings §1.1's, and the Lean statements write it as `UniformSpace.Completion.map σ`.
+
+It leaves to other roadmaps:
+
+- VectorBundlesAndIsocrystals, Layer 5: sympathetic algebras and Vector Spaces, classical Banach–Colmez presentations, Dimension, the abelian BC category, curvature, HN invariants, finite-length period realizations, the Artinian property, morphism calculus and Le Bras's equivalence. These are imported by section heading.
+- CompactOperators §0.5: compactoid subsets of Banach spaces and maps of compactoid image over a complete nontrivially normed ultrametric field. The `B_m`-relative notion and compact-type limits over `C` and `B_m`, with their completeness, regularity and permanence, are this roadmap's §2.5.
+- LocallyAnalyticDistributions §§0.0–0.3 and Layer 1: the generic nonarchimedean locally convex category, its strict derived category and left heart, completed tensors, three-space and functional-extension theorems, locally analytic functions, continuous functions, distributions and measures. The sympathetic functor categories and their period comparisons are what this roadmap adds.
+- PadicPeriodRings §§1.1–1.2: the continuous action of `G_K` on `ℂ_p` for finite `K/ℚ_p`, by the completion map of each automorphism, with its uniqueness, isometry, composition and joint-continuity laws, and the fixed field `ℂ_p^{G_K} = K`.
+- PadicPeriodRings §§1.5, 2, 4.1–4.3: the period carriers, their topologies and Galois actions, the fixed fields and the twist invariants.
+- PadicHodgeTheory §4.4 and FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.P7.2: Sen modules and operators. PadicHodgeTheory §0.3: the Hensel lift `K̄ → B_dR⁺` for finite `K/ℚ_p`; this roadmap's §0.8 constructs the same lift over the general base field of the Conventions, which that section does not cover.
+- ArithmeticGaloisRepresentations §1.1: finite-dimensional continuous representations. ArithmeticGaloisDuality §§R02.1.3 and D7.4: rational local Tate duality.
+- PerfectoidSpaces, Layers P1, P3 and P6 and §P7.16, and PerfectoidTowers §§P9.2, P9.4 and P9.6: the perfectoid criterion, almost purity, the pro-étale calculus, the pro-étale site of a rigid space, the completed structure sheaf `Ô`, pro-étale Galois towers and descent along towers. Their specialization to the translation-invariant `Ô`-cohomology of the closed disc is a target here (§§3.4 and 3.8).
+- DiamondsAndVStacks §D2.2: the v-site of perfectoid spaces, on which the v-sheaf comparison of §6.2 is formed.
+
+The pinned libraries already supply functors, topological modules, scalar torsion submodules, the positive and localized de Rham rings as commutative rings, abelian `Ext` and its comparison maps, Krull topologies, spectral norms, completions, and Tau Ceti's exact structures. These are reused as listed under the supplier contracts. The roadmap asserts no general abelianness or splitting of qBC, no equivalence of `Ext` for arbitrary Pairs, and no comparison of topological-module `Ext` in degrees above one.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+The pin is `1b1ccf4b088b32fa3f23f2de1127433254a81e1e`.
+
+| Declaration and pinned file | Contract |
+| --- | --- |
+| `CategoryTheory.Functor` — Mathlib/CategoryTheory/Functor/Basic.lean:40 | Functor with object and map operations and identity and composition laws. It supplies neither sympathetic algebras nor boundedness. |
+| `TopModuleCat` — Mathlib/Algebra/Category/ModuleCat/Topology/Basic.lean:41 | Bundled topological modules and continuous linear maps. Local convexity, completeness, strictness and the left heart come from LocallyAnalyticDistributions §0.0, not from this structure. |
+| `ContinuousLinearMap.isOpenMap` — Mathlib/Analysis/Normed/Operator/Banach.lean:229 | A surjective continuous linear map of Banach spaces over a nontrivially normed field is open. Completeness of both spaces is required. |
+| `ContinuousLinearMap.exists_preimage_norm_le` — Mathlib/Analysis/Normed/Operator/Banach.lean:162 | For a surjective continuous linear map of Banach spaces there is a constant giving preimages of controlled norm. This is not a linear section. |
+| `Submodule.torsionBy` — Mathlib/Algebra/Module/Torsion/Basic.lean:177 | Submodule of elements killed by a scalar. `W[t^d]` below is this object. |
+| `LinearMap` — Mathlib/Algebra/Module/LinearMap/Defs.lean:84 | Linear and semilinear maps, used for the period operators of §1.3. |
+| `BDeRhamPlus` — Mathlib/RingTheory/Perfectoid/BDeRham.lean:75 | Theta-kernel adic completion after inverting `p`, for a commutative ring `R`, a prime `p`, `[Fact ¬IsUnit (p : R)]` and `[IsAdicComplete (Ideal.span {(p : R)}) R]`. No period topology and no Galois action are included. |
+| `BDeRham` — Mathlib/RingTheory/Perfectoid/BDeRham.lean:88 | Localization of the positive period ring at generators of `ker θ`. A commutative ring, without the classical topology, the DVR structure or a Galois action. |
+| `CategoryTheory.Abelian.Ext` — Mathlib/Algebra/Homology/DerivedCategory/Ext/Basic.lean:118 | `Ext` on an abelian category with `HasExt` in the selected universe. This is the `Ext` of `C(G_K)`. |
+| `CategoryTheory.Abelian.Ext.mapExactFunctor` — Mathlib/Algebra/Homology/DerivedCategory/Ext/Map.lean:126 | The comparison map on `Ext` of an additive functor between abelian categories preserving finite limits and colimits, with `HasExt` on both sides. Its bijectivity for the two inclusions of §1.2 is a target. |
+| `PadicAlgCl`, `PadicComplex` — Mathlib/NumberTheory/Padics/Complex.lean:54, 137 | The fixed algebraic closure of `ℚ_p` with its spectral norm, and its completion `ℂ_[p]`. The file defines no Galois action; PadicPeriodRings §1.1 supplies it, as `UniformSpace.Completion.map σ`. |
+| `krullTopology` — Mathlib/FieldTheory/KrullTopology.lean:134 | The Krull topology on `L ≃ₐ[K] L`, used as the topology of `G_K`. |
+| `spectralNorm_eq_of_equiv` — Mathlib/Analysis/Normed/Unbundled/SpectralNorm.lean:451 | `K`-algebra automorphisms preserve the spectral norm. This makes `UniformSpace.Completion.map σ` the continuous extension of `σ` (PadicPeriodRings §1.1). |
+| `UniformSpace.Completion.map` — Mathlib/Topology/UniformSpace/Completion.lean:477 | Extension of a map to completions. It restricts to the map on the dense image when the map is uniformly continuous (`UniformSpace.Completion.map_coe`, line 488). |
+| `IsModuleTopology` — Mathlib/Topology/Algebra/Module/ModuleTopology.lean:133 | The module topology, the canonical topology of a finite-dimensional `ℂ_p`-space. |
+| `AddMonoid.End` — Mathlib/Algebra/Group/Hom/Defs.lean:975 | The monoid of additive endomorphisms, the additive form of `Monoid.End` generated at that line by `to_additive`, and the target of the action map of a `SemilinearRep`. |
+| `WithSeminorms.banach_steinhaus`, `BaireSpace.instBarrelledSpace` — Mathlib/Analysis/LocallyConvex/Barrelled.lean:164, 122 | The uniform boundedness principle for continuous linear maps from a barrelled space over a nontrivially normed field to a space with a generating family of seminorms, and barrelledness of every Baire topological vector space, in particular of every Fréchet space. No archimedean or ultrametric hypothesis is made. |
+| `WittVector.fontaineTheta` — Mathlib/RingTheory/Perfectoid/FontaineTheta.lean:166 | `θ` from Witt vectors of the pretilt to a `p`-adically complete ring with `p` prime and not a unit. |
+
+The positive period carrier requires `R` commutative, `p` prime, `[Fact ¬IsUnit (p : R)]` and `[IsAdicComplete (Ideal.span {(p : R)}) R]`. These hypotheses include no perfectoidness, DVR structure, topology or Galois action. For `R = O_C` the period suppliers identify this carrier with the classical one. In characteristic `p` the positive and localized rings are zero, and substituting `R = C` would make `p` a unit and violate the nonunit hypothesis.
+
+### From Tau Ceti
+
+The pin is `2fd255d997f47c0b5d834ee416c7015d55444ce5`.
+
+| Declaration and pinned file | Contract |
+| --- | --- |
+| `TauCeti.ExactStructure` — TauCeti/CategoryTheory/Exact/ExactStructure.lean:241 | Quillen exact structure on an additive category with zero object and binary biproducts, with genuine pushout and pullback squares. |
+| `TauCeti.ExactStructure.IsConflationExact` — TauCeti/CategoryTheory/Exact/Functor.lean:74 | An additive functor preserving the conflations of two chosen exact structures. It does not assert preservation of all finite limits or colimits. |
+
+The exact structures of `B(G_K)` and TVS are `TauCeti.ExactStructure` values, their comparison functors are conflation-exact, and `C(G_K)` uses abelian `Ext`. Abelianness of `C(G_K)`, its `Ext` universe and exactness of the two inclusions are targets here. The generic `Ext` map carries no assertion of bijectivity.
+
+### From TauCetiRoadmap.VectorBundlesAndIsocrystals
+
+The parent's Layer 5 supplies *Sympathetic Vector Spaces*. That includes the functorial period objects `B_dR⁺(Λ)`, `B_dR(Λ)` and `B_m(Λ)` on sympathetic algebras with their compatibility with algebra maps, reduction modulo the Cartier parameter, finite sums and evaluation at `C`. It also supplies *Finite-Dimensional Banach–Colmez presentations*, *Exact faithful Banach realization*, *Dimension and the abelian BC category*, *Dimensions of standard Banach–Colmez spaces*, *Curvature orthogonality*, *The tilted coherent heart*, *Le Bras equivalence*, *HN decomposition and connected components*, *Canonical curvature filtration*, *Artinian property of BC*, *Banach–Colmez morphism calculus*, *Torsion at an untilt point*, *Curvature-zero finite-length modules*, *VS Hom vanishing from torsion period modules*, *Curvature and HN support*, *Height of torsion period subobjects* and *Nonpositive curvature extension criterion*. Its Artinian property says that a proper BC subobject of `V₁` is a finite-dimensional `ℚ_p`-space. Together with Dimension this gives the analytic surjectivity and finite-kernel lemma used in Layers 0–1.
+
+What VectorBundlesAndIsocrystals must provide (gap:G-HOM): in its Layer 5, *VS Hom vanishing from torsion period modules*, for every classical BC `W`, every VS natural map `W → B_dR` factors through the sub-VS `t^(−N)B_dR⁺` for one `N ≥ 0` independent of `Λ` (CN25, Corollary 3.18 and proof, p. 18). The parent proves the vanishing for torsion sources only. The bounded factorization for every BC source is the missing statement. Read pointwise, "for each `Λ` and each element some `N`", the condition would be empty, since `B_dR(Λ)` is the union of the `t^(−N)B_dR⁺(Λ)`.
+
+### From TauCetiRoadmap.PadicPeriodRings
+
+Section 1.1 supplies, for finite `K/ℚ_p` inside `PadicAlgCl p`, the action of `G_K` on `ℂ_[p]` by `UniformSpace.Completion.map σ` with the laws assumed of it in the Conventions: restriction to `σ` on `ℚ̄_p`, uniqueness of the continuous extension, isometry, compatibility with composition and joint continuity of `G_K × ℂ_p → ℂ_p` for the Krull topology. Section 1.2 supplies `ℂ_p^{G_K} = K` for such `K`. Sections 1.5, 2 and 4.1–4.3 supply `B_dR⁺`, `B_dR`, `θ`, `t`, their topologies and continuous actions, the complete discrete valuation ring structure of `B_dR⁺` with residue field `C`, the `G_K`-fixed embedding `K → B_dR⁺` lifting `K ⊂ C` (§4.3; this roadmap's §0.8 extends it to `K̄`), the fixed fields `K`, crystalline periods and the fundamental period sequence. Section 2 supplies `H⁰(G_K, C) = K` and `H⁰(G_L, C(j)) = 0` for `j ≠ 0` over every finite `L/K` in the general-base convention. The sympathetic extensions are consumed through the parent's period objects.
+
+### From TauCetiRoadmap.PadicHodgeTheory
+
+Section 4.4 supplies the Sen module and the Sen operator of a finite-dimensional continuous semilinear `C`-representation, scalar-extension recovery, and tensor and dual compatibility. Section 0.3 supplies, for finite `K/ℚ_p`, the unique `K₀`-algebra lift `K̄ → B_dR⁺` of `K̄ ⊂ C`, which is `G_K`-equivariant; this roadmap's §0.8 constructs it for the general base field. FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.P7.2 supplies the compatible labelled rational Sen operators.
+
+### From TauCetiRoadmap.LocallyAnalyticDistributions
+
+Section 0.0 supplies the category of nonarchimedean locally convex spaces, its strict derived category and left heart (*Left hearts and strict exactness*), bounded sets, projective tensors and separated completions. Section 0.2 supplies the comparison of strict sequences with the left heart, the closure of Banach and Fréchet spaces under extensions, Fréchet open mapping, *Continuous functional extension in countable type*, and *Strict countable inverse limits and cohomology* with its strict Roos surjectivity and finite-dimensional Mittag–Leffler hypotheses. Its *Extensions of spaces of compact type* keeps the subsection hypothesis of a finite `K/ℚ_p` and its spherical-completeness-or-separability alternatives, so this roadmap's §4.6 proves the separable extension over `C` needed here. Its compact-type contract of §0.0, completeness and regularity, is stated for countable Banach systems with injective compact transitions over finite `K/ℚ_p`; over `C` a compact map of Banach spaces is zero, so it is not used for `C`-spaces or `B_m`-models, and §2.5 here states the compactoid version. Sections 0.1 and 0.3 and Layer 1 supply locally analytic functions, continuous functions, distributions, measures and their analytic-stage and strong dual topologies over `ℚ_p`.
+
+### From TauCetiRoadmap.CompactOperators
+
+Section 0.5 supplies `IsCompactoidSet` and `HasCompactoidImage` for Banach spaces over a complete nontrivially normed ultrametric field, with no discreteness, local compactness or spherical completeness assumed, and its model-space criterion: a subset of `c₀(I, K)` is compactoid exactly when it is bounded and its coordinates are uniformly small outside a finite set of indices. Over `ℂ_p` it records that the identity of a line has compactoid image without being a compact operator. Its theory is for Banach spaces; the `B_m`-relative notion, compact-type inductive limits over `C` and `B_m`, and their completeness, regularity and permanence are this roadmap's §2.5.
+
+### From TauCetiRoadmap.ArithmeticGaloisRepresentations
+
+Section 1.1 supplies finite-dimensional continuous representations and their morphisms. The Banach ambient category is constructed in this roadmap's §0.1.
+
+### From TauCetiRoadmap.ArithmeticGaloisDuality
+
+Sections R02.1.3 and D7.4 supply rationalization and derived local Tate duality for finite-dimensional `ℚ_p`-representations. The continuous cyclotomic descent for finite-length periods in Fontaine's two-operator complex is proved in this roadmap's §1.4. The discrete-coefficient Hochschild–Serre theorem of §R02.2.1 does not supply it.
+
+### From TauCetiRoadmap.PerfectoidSpaces and TauCetiRoadmap.PerfectoidTowers
+
+PerfectoidSpaces Layer P1 supplies the Frobenius criterion for complete uniform perfectoid rings, P3 almost purity, P6 the pro-étale presentation calculus, and §P7.16 (*proetale-site*) the pro-étale site of a rigid space with its basis of affinoid perfectoid objects. PerfectoidTowers §P9.2 (*completed-structure-sheaves*) supplies, on that site, `O⁺ = ν*O⁺_ét`, `O = ν*O_ét`, `Ô⁺ = lim_m O⁺/p^m` and `Ô = Ô⁺[1/p]`, with their sections on affinoid perfectoid objects; §P9.4 (*profinite-galois-tower*) supplies pro-étale Galois towers with perfectoid limit; §P9.6 supplies *almost-cohomology-of-tower* and *function-descent-along-tower*, with their stated base and coefficient topologies: a pro-étale Galois tower over a smooth rigid space over a complete discretely valued field with perfect residue field, the almost statement read after base change to `C`. This roadmap's §3.2 constructs the sympathetic disc cover and verifies the perfectoid hypotheses. Its §3.4 applies the tower statements to the Kummer–cyclotomic tower of the disc over `ℚ_p`, whose base change to `C` is that cover, and reaches the sympathetic closure by inflation and almost purity (PerfectoidSpaces §P3), never by applying them to the closure itself; it proves the resulting identification of continuous `H_C`-cohomology with `Ô`-cohomology of the closed disc at every prime.
+
+### From TauCetiRoadmap.DiamondsAndVStacks
+
+Section D2.2 (*small-pro-etale-site-and-v-site*) supplies the v-site of perfectoid spaces, whose coverings are the families satisfying the finite quasicompact image condition. The `ℚ_p`-module v-sheaves over `Perf_C` of §6.2 are sheaves on its slice over `Spa(C, O_C)`.
 
 ## References
 
