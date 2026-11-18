@@ -2,124 +2,6 @@
 
 **Summary.** Let `K` be an imaginary quadratic field, `p` an odd prime inert in `K`, and `φ` a conjugation-equivariant Hecke character of `K` of ideal infinity type `(1,0)`, realised by a CM elliptic curve over the Hilbert class field `H`. This roadmap builds the complex and `p`-adic special-value theory of the anticyclotomic twists `φ̄νχ` at such a nonordinary prime, where no ordinary `p`-adic period exists. From the native Hecke characters of Tau Ceti, the CM theory of ComplexMultiplicationAndExplicitReciprocity, Hecke's functional equation of AnalyticNumberTheoryPartI and the local factors of AutomorphicLFunctionsAndLocalFactors it constructs: Kato's CM theta functions, his standard elliptic units and elliptic zeta elements, and his reciprocity law for CM characters; the class of Burungale–Kobayashi–Ota normalised by a Néron differential, with its integrality on the components where a smoothing factor is a unit; the torsion and ring-class towers with their CM Lubin–Tate comparison at the parameter `π = −p`; the local Fröhlich–Queyrut theorem, the root numbers of the twists and the central zeros they force; Finis's theory of primitive and integral theta functions and his divisibility theorem for anticyclotomic `L`-values in every critical weight at split valuation primes and in weight one at nonsplit valuation primes; and Jia's nonvanishing theorem for arbitrary class number, with Rohrlich's Diophantine lattice count. The end theorems are the BKO unit theorem — for an auxiliary split prime `l`, almost every normalised value `Ω⁻¹ L_f(φ̄ν, 1)`, `ν` of `l`-power order, is a `p`-adic unit — and the parity dichotomy: in the `p`-anticyclotomic family, values of one conductor parity vanish and all but finitely many of the other parity do not.
 
-## Scope and ownership
-
-This roadmap owns:
-
-- the carriers of the anticyclotomic family on Tau Ceti's `HeckeCharacter` (Layer 0): conjugation-equivariant characters of type `(1,0)`, anticyclotomic characters, the `p`-anticyclotomic family, primitive Euler factors and central values;
-- the integral CM period of a good Néron differential, the auxiliary split prime and the auxiliary characters `X_l` (Layer 0);
-- the canonical root number `W(φ) = (2/D)` for odd `D`, the root numbers of the auxiliary and `p`-anticyclotomic twists, the local Fröhlich–Queyrut theorem and the forced central zeros (Layer 1);
-- Kato's CM refinement `_aθ_E` of the theta function, canonical CM pairs, standard elliptic units in Kato's normalisation, the elliptic zeta element, Kato's realisation `V_L(ψ)`, `S(ψ)`, `per_ψ`, the height-one explicit reciprocity law in the form applied by Kato, Kato's reciprocity law for CM characters (Kato 2004, Proposition 15.9), the twist of norm-compatible Kummer towers by a finite free coefficient module, the BKO class with its integrality where a smoothing factor is a unit, its direct-character reciprocity and its period laws (Layer 2). The general Kato hypotheses (every imaginary quadratic `K`, every prime `p`, every `r ≥ 1`) are stated in §§2.1–2.6, separately from the BKO restrictions of §§2.7–2.10;
-- the torsion and ring-class composita, their disjointness, the semilocal splitting, the inert Frobenius and the CM application of the Honda–Lubin–Tate comparison (Layer 3);
-- Finis's divisibility theory: scalar theta functions on CM lattices, primitive subspaces, Shintani operators, the functional `l`, integral theta functions and the canonical bilinear forms, Yang's formula and its arithmetic form, the torsion-stabiliser input in characteristic `ℓ`, the nonvanishing of theta functions modulo `ℓ`, the ordinary-measure comparison across weights, and Finis's divisibility theorem in every critical weight for split valuation primes and in weight one for nonsplit valuation primes (Layer 4);
-- the specialisation of Finis's theorem to the canonical family, the unit witness, the unramified coefficient field and the scalar/tensor kernel comparison (Layer 5);
-- Rohrlich's lattice-point count, Jia's Galois-average limit, the Galois stability of central vanishing, central nonvanishing and the parity dichotomy (Layer 6).
-
-It leaves to other roadmaps:
-
-- the ordinary theta unit `_cθ_E` (divisor, distribution relation, base change, isogeny norm and `q`-expansion, for `c` invertible on the base and prime to `6`): PadicFamilies §4.0.1. Layer 2 constructs only its CM ideal refinement and compares the two when the ideal is principal;
-- the elliptic units built from Siegel functions on a class-number-one CM curve with ordinary `p`, with their Euler-system relations and Rubin's two-variable main conjecture: NoncommutativeAndEquivariantIwasawa §4.3. Layer 2 uses Kato's theta normalisation on canonical CM pairs over every ray class field `K(f)` instead, with no class-number or ordinarity hypothesis;
-- Hecke's continuation and functional equation for unitary idele-class characters: AnalyticNumberTheoryPartI §2.3a; the root-number product formula: ArithmeticGaloisRepresentations §2.7; local `ε`-factors and Gauss sums: AutomorphicLFunctionsAndLocalFactors AL.1.3;
-- the cyclotomic twist of Iwasawa cohomology: SelmerIwasawaCohomology §3.7. The twist by a finite free module whose action factors through a `p`-adic Lie tower is §2.9 here;
-- canonical Gross characters, their existence, their attached curves and their good reduction; CM periods, the idele and torsion dictionary, the ray-level generation criterion, the good-prime Frobenius identities: ComplexMultiplicationAndExplicitReciprocity §§1.2, 2.2, 3.2, 4.1, 4.3;
-- Lubin–Tate formal modules, division fields and the Honda comparisons: LubinTateFormalModulesAndQuasiCanonicalLifts Layers 2 and 4.
-
-The ordinary CM `ℓ`-adic period and Katz measure at split `ℓ` are supplied by AutomorphicPadicLFunctionsPartII §§6.2, 8.5; the Finis valuation comparison with them is §4.7 here. The Rubin `p`-adic `L`-function, the primitive elliptic-unit coordinate, the signed local decomposition, the `Δ`-projection of the elliptic class and its derivatives are outside this roadmap. The normalised values here define no Iwasawa function by interpolation, and no statement is made about central derivatives for sign `−1`.
-
-## Conventions
-
-**Fields and embeddings.** `K` is imaginary quadratic with ring of integers `O_K`, fundamental discriminant `−D`, quadratic character `κ_K`, class number `h_K`, unit order `w_K`, Hilbert class field `H` and complex conjugation `c`. Fix embeddings `ι_∞ : Q̄ → ℂ` and `ι_p : Q̄ → C_p` that agree on `K`; `ι : K → ℂ` is the restriction of `ι_∞`. The prime `p` is odd and inert in `K`, `Φ = K_p` is the unramified quadratic extension of `Q_p` with integers `O_Φ = W(F_{p²})`, and `π = −p`. In §§2.7–2.10 and Layers 3 and 5, `p ≥ 5` and `p ∤ h_K` (the BKO setting); §§2.1–2.6 hold for every prime `p`, split, inert or ramified, including `2` and `3`.
-
-**Characters.** Artin reciprocity sends uniformizers to arithmetic Frobenius. A Hecke character is a continuous character of the idele class group, Tau Ceti's `HeckeCharacter`. Its ideal character is `HeckeCharacter.idealCharacter`, defined on fractional ideals prime to `HeckeCharacter.finiteConductor`, and its local conductor exponents are `HeckeCharacter.conductorExponent`. Ideal infinity type `(1,0)` for `ι` means `φ((x)) = ι(x)` for `x ≡ 1` modulo the conductor; at the idele level the archimedean component is `z ↦ z⁻¹` (idelic type `(−1,0)`). Kato writes `ψ` of type `(−r,0)` for the same normalisation, and Finis writes type `(k,j)` for `λ_∞(x) = x^{−k}x̄^{−j}`; so our `φ` is Kato's `ψ` with `r = 1`, and `φ̄ν/N` has Finis type `(−1,0)`.
-
-**L-functions.** `L(η, s) = Σ_a η(a) N(a)^{−s}`, the sum over integral ideals prime to the conductor of `η`: the primitive `L`-function. For a finite set `S` of primes, `L_S(η, s)` removes the Euler factors at `S` (only the support of a modulus matters for deletion). A character `η = φρ` with `ρ` of finite order has weight one, its Euler product converges for `Re s > 3/2`, its central point is `s = 1`, and after the unitary normalisation `η|·|^{1/2}` the centre is `1/2`. The root number `W(η)` is that of the unitary character `η|·|^{1/2}` in AnalyticNumberTheoryPartI §2.3a, the product of the local constants `ε(1/2, η_v|·|_v^{1/2}, ψ_v)` of AutomorphicLFunctionsAndLocalFactors AL.1.3 for the standard additive character `ψ_K = ψ_Q ∘ Tr_{K/Q}` (ArithmeticGaloisRepresentations §2.7, Root-number product formula). Changing `ψ_v` to `ψ_v(−·)` multiplies a local central epsilon factor by `η_v(−1)`, and the product of these changes over all places is `η(−1) = 1`.
-
-**Indices.** For an anticyclotomic character `ν` of exact order `l^r`, `r ≥ 1`, with `l` split, `l ∤ h_K`, `l ≥ 5`, the field layer is `L[r]` (degree `l^r`) and the conductor is `l^m O_K` with `m = r + 1`; for `ν = 1`, `r = m = 0`. For a `p`-anticyclotomic `χ` of exact order `p^n`, `n ≥ 1`, and `p ∤ h_K`, the conductor is `p^c O_K` with `c = n + 1`; the trivial character has `c = 0`. When `p | h_K` the conductor exponent `c` is still the index that controls signs, but it is not determined by the order. Order indices and conductor indices are never identified.
-
-**Towers and periods.** `F_n = H(E[p^{n+1}])`, `Φ_n` its completion at the place above `p` fixed by `ι_p`, of degree `(p² − 1)p^{2n}` over `Φ`; `Φ_0 ≠ Φ`. Arithmetic Frobenius on the covariant Tate module of the reduction at a place above `p` is `[−p]`, and a compatible `π`-power basis differs from a `p`-power basis by the sign `(−1)^n` at level `n`. A period datum `(E, ω, Ω)` consists of a CM curve `E/H` with good reduction above `p`, a Néron differential `ω` at the place above `p`, and `Ω ∈ ℂ×` with period lattice of `ω` equal to `Ω O_K`; `Ω` is determined up to `O_K×`.
-
-**Duals and twists.** `T_φ` is the rank-one `p`-adic realisation of `φ` over the integers `R` of a finite extension of `Φ` containing its values, taken as a lattice: the free rank-one `R`-module on which `G_K` acts through `φ`, identified on `G_H` with `T_pE ⊗_{O_Φ} R` for the curve `E` of the period datum (BKO, §3.0.2, p.951, BKO21 lines 409–411). This lattice is part of the period datum; another `G_K`-stable lattice of `T_φ[1/p]`, such as `p⁻¹T_φ`, carries the same character and is a different choice. `T_φ^∨(1) = Hom_R(T_φ, R)(1)`. Kato's `V_L(ψ)` carries the inverse action, so `V_L(φ)(1) ⊗ L_λ = T_φ^∨(1)[1/p]`, and its de Rham line is generated by `ω`. The normalised Betti vector is `γ = per_φ(ω)/Ω ∈ V_L(φ)`. Group-algebra evaluation of a character `ν` sends `[g]` to `ν(g)` (Mathlib's `MonoidAlgebra.lift`), never to `ν(g)⁻¹`.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- `NumberField.RingOfIntegers`, `NumberField.classNumber`, `NumberField.IsCMField` and `NumberField.IsCMField.complexConj`, `Algebra.IsQuadraticExtension`: the field, its integers, class number and conjugation. For a degree-two CM field the maximal real subfield is `ℚ`, so `IsCMField` with `IsQuadraticExtension ℚ K` is exactly an imaginary quadratic field.
-- `FractionalIdeal`, `IsDedekindDomain.HeightOneSpectrum`, `Ideal.absNorm`: ideals, finite primes and norms.
-- `MonoidAlgebra.lift` and `MonoidAlgebra.lift_single` (Mathlib/Algebra/MonoidAlgebra/Basic.lean): evaluation `[g] ↦ ν(g)`, without inversion.
-- `Subalgebra.linearDisjoint_iff_injective` (Mathlib/RingTheory/LinearDisjoint.lean): linear disjointness is injectivity of the multiplication map.
-- `DirichletCharacter.LFunction_apply_one_ne_zero` (Mathlib/NumberTheory/LSeries/Nonvanishing.lean): `L(1, κ) ≠ 0` for a nontrivial Dirichlet character of nonzero modulus.
-- `PadicInt`, `Padic`, `IsAlgebraic`, `Set.ncard`, `HasProd`, `Differentiable`: the carriers of the Lean statements.
-
-### From Tau Ceti
-
-- `TauCeti.GlobalNumberFields.HeckeCharacter` (`ContinuousMonoidHom (IdeleClassGroup (𝓞 K) K) ℂˣ`), with `HeckeCharacter.IsFiniteOrder`, `HeckeCharacter.finiteConductor`, `HeckeCharacter.finiteConductor_ne_bot`, `HeckeCharacter.conductorExponent`, `HeckeCharacter.finiteComponent` and `HeckeCharacter.idealCharacter` (TauCeti/NumberTheory/NumberField/Global/HeckeCharacter/FiniteComponent.lean and Ideal.lean). `HeckeCharacter.idealCharacter_apply_prime` identifies the ideal value at a prime with the local component at any uniformizer; `HeckeCharacter.idealCharacter_apply_toPrincipalIdeal` identifies the value at `(x)`, `x ≡ 1`, with the inverse of the product of the archimedean components. The carrier includes non-unitary characters; finite order is a separate predicate.
-- `TauCeti.GlobalNumberFields.Modulus`, `idealsPrimeTo`, `IsCongrOne`, `IsCongrOne.toPrincipalIdeal_mem_idealsPrimeTo`, `toPrincipalIdeal`: moduli, ideals prime to a modulus and multiplicative congruence. `IsCongrOne` is a condition on `Kˣ`, so zero is excluded.
-- `TauCeti.ClassFieldTheory.ringClassField` (TauCeti/NumberTheory/ClassFieldTheory/ClassFields/RingClass/Field.lean): the ring class field of an order of a number field, an intermediate field of the separable closure, with its unramifiedness, Artin equivalence with the Picard group and degree. The Hilbert class field `H` and the ring-class layers `L[r]` are instances. The attached CM curve over `H` and its torsion fields are not at the pin.
-
-### From TauCetiRoadmap.ComplexMultiplicationAndExplicitReciprocity
-
-- §4.3 `IsCanonicalGrossCharacter`: conjugation equivariance, principal values `±α`, conductor primes ramified in `K`; `canonicalGrossExistence`: existence exactly for `D ≠ 3` with `D` odd or `8 | D`, and the attached CM curve over `H`; Canonical Gross good reduction away from the discriminant: good reduction above every rational prime not dividing `D`. Assumed: the attached curve realises `φ ∘ N_{H/K}` and is an `H`-isogeny class of `Q`-curves.
-- §4.1 The algebraic Hecke character of a CM abelian variety (Frobenius values at good primes, principal law), One-dimensional CM components of the Tate module (rank-one coefficient summands, arithmetic Frobenius value `j(ψ(v))`), Frobenius and infinity-type identities (`π_v π̄_v = q`; for a rational CM elliptic curve at an inert good rational prime `p`, the Frobenius over `K` is `−p` of norm `p²`).
-- §1.2 CM period and de Rham pairings, with its period-lattice comparison: the ideal-twist curve `ℂ/aΛ` of a CM curve, its `O_K`-action and the period pairing `ω_{E/ℂ} × H₁(E(ℂ), Z) → ℂ`, natural in `O_K`-linear homomorphisms; CM tensor ideal inclusions and their kernels: the isogeny attached to an inclusion of ideals `a ⊂ b` has degree `[b : a]`.
-- §2.2 Normalized idele and torsion dictionary and §3.2 Exact ray-level field and generation criterion: the action of `Aut(ℂ/K)` on CM torsion and the ray-class field generated by torsion values.
-
-### From TauCetiRoadmap.AnalyticNumberTheoryPartI
-
-- §2.3a Hecke continuation and functional equation: for a unitary idele-class character `ω` the completed function `Λ_H(ω, s)` continues meromorphically, is entire unless `ω` is a norm character `|·|^{it}`, and satisfies `Λ_H(ω, s) = W(ω)Λ_H(ω⁻¹, 1 − s)` with `|W(ω)| = 1`; norm twists translate the variable; any continuation agreeing with the Euler product on `Re s > 1` is this one. This is the target cited by AutomorphicLFunctionsAndLocalFactors under its identifiers AL.1.5.2 and AL.1.6.2.
-
-### From TauCetiRoadmap.AutomorphicLFunctionsAndLocalFactors and ArithmeticGaloisRepresentations
-
-- AL.1.1.1 Local quasi-characters, unramified characters and the conductor exponent; AL.1.3.1 the local factors `ε(s, ω, ψ)`; AL.1.3.4 The local Gauss sum; AL.1.3.5 Explicit local ε-factors (the unramified formula `ω(ϖ^ν)q^{(1/2−s)ν}`, the ramified formula with the Gauss sum, and the archimedean values `i^a` over `ℝ` and `i^{max(a,b)}` over `ℂ` for the standard additive characters).
-- AL.5.1.1 Finite Euler corrections at critical points (`L^S = E_S L`, orders add) and AL.5.3.2 The functional-equation sign at the centre (sign `−1` at the centre forces a zero).
-- ArithmeticGaloisRepresentations §2.7, Root-number product formula: Hecke's root number of a unitary idele-class character is the product of its local constants.
-
-### From LubinTateFormalModulesAndQuasiCanonicalLifts
-
-- §2.1 Finite-height torsion, §2.2 The π-adic Tate module, §2.3 Lubin–Tate division fields (the `π^m`-division field is totally ramified of degree `(q − 1)q^{m−1}` and generated by a primitive point), §2.4 The Lubin–Tate character.
-- §4.3 The unramified Honda–Lubin–Tate comparison (over `O = W(F_{p²})`, a formal group with `q`-Frobenius `[sp]`, `s = ±1`, is strictly isomorphic to the Lubin–Tate group for `sp`) and §4.4 The supersingular elliptic comparison (a Weierstrass curve over `O` with `#W̄(F_{p²}) = p² + 1 − 2sp` has `p²`-Frobenius `[sp]` and Lubin–Tate parameter `sp`). The sign convention `a_{p²} = −2p ↔ π = −p` is the one fixed there. These sections concern connected formal groups.
-
-### From TauCetiRoadmap.FiniteFlatGroupsAndIntegralPadicHodgeTheory and NeronModelsAndSemistableAbelianVarieties
-
-- FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1.8 (the Tate module of a `p`-divisible group over a mixed-characteristic base), R07.1.9 (the connected–étale sequence over a henselian local base), R07.1.12–R07.1.13 (commutative formal Lie groups; connected `p`-divisible groups are `p`-divisible formal Lie groups) and R07.1.14 (the dimension of a `p`-divisible group).
-- NeronModelsAndSemistableAbelianVarieties §5.1 Néron–Ogg–Shafarevich: an abelian variety over a discretely valued field whose `ℓ`-adic Tate module is unramified for some `ℓ` different from the residue characteristic has good reduction.
-
-### From TauCetiRoadmap.SelmerIwasawaCohomology
-
-- §0.8 and §0.9: the `p`-adic and `S`-unit Kummer identifications `H¹(G_{F,S}, Z_p(1)) ≅ Z_p ⊗ O_{F,S}×`, compatible with restriction and with corestriction against the norm. §0.11: cup products and Shapiro under Kummer. §3.1 Iwasawa cohomology and §3.2 Shapiro's lemma for Iwasawa cohomology. §3.6: semilocal cohomology and descent. §3.7: the cyclotomic twist isomorphism of Iwasawa cohomology, the model for §2.9.
-
-### From TauCetiRoadmap.PadicHodgeRegulators
-
-- §1.4 Kato's dual exponential `exp* : H¹(K, V) → Fil⁰ D_dR(V)`, its kernel `H¹_g` and its adjunction with `exp`. §1.7 compatibility with twists, restriction and corestriction. §1.11 semilocal Bloch–Kato maps `exp*_{A,V}` on `A = F ⊗ Q_p`, componentwise and compatible with Shapiro.
-
-### From TauCetiRoadmap.PadicFamilies and NoncommutativeAndEquivariantIwasawa
-
-- PadicFamilies §4.0.1 Geometric classes, moments and norm relations: the normalised theta unit `_cθ_E` on an elliptic curve over a base on which `c` is invertible, `c` prime to `6`, with divisor `c²[0] − [c]⁎[0]`, the distribution identity under multiplication by integers prime to `c`, base change, the isogeny norm for isogenies of degree prime to `c`, and Kato's `q`-expansion normalisation.
-- NoncommutativeAndEquivariantIwasawa §4.3: the Siegel-function elliptic units of the ray class fields of a class-number-one CM field; cited for the comparison of scope, not consumed.
-
-### From TauCetiRoadmap.ModularSymbolsPadicLFunctions and GL2AutomorphicRepresentationsAndTransfer
-
-- ModularSymbolsPadicLFunctions §1.2: twisted Mellin formula and algebraicity of normalised critical values of newforms; §4.3: a field embedding `σ` carries the algebraic normalised critical coordinates of `f` to those of `f^σ`. No transport of complex periods is assumed.
-- GL2AutomorphicRepresentationsAndTransfer R17.4.16: quadratic automorphic induction of a Hecke character `θ` of `K`, cuspidal exactly when `θ ≠ θ^c`, with `L(s, AI θ) = L(s, θ)`; for `η` of type `(1,0)` it gives the weight-two newform `θ_η`.
-
-### From TauCetiRoadmap.AutomorphicPadicLFunctionsPartII and PadicMeasuresIwasawaAlgebras
-
-- AutomorphicPadicLFunctionsPartII §§5.1, 6.1–6.2 and 8.5: the paired complex and ordinary periods and bounded ray-class measure for an imaginary quadratic field at a split valuation prime `ℓ`, with critical moments, local Gauss factors and Euler depletion. Section 4.7 compares these normalisations with Finis's; it consumes no ordinary measure at an inert prime.
-- PadicMeasuresIwasawaAlgebras §§1.7, 4.3 and 4.5: measures as completed group algebras, uniformizer-power preparation and the one-variable power-series coordinate, used to transfer the weight-one lower bound to the twisted measure.
-
-### From TauCetiRoadmap.DiophantineApproximationAndTranscendence
-
-- §2.1: the subspace theorem with finitely many places; in two variables, solutions of the product inequality lie on finitely many lines. §2.3: Ridout's `p`-adic approximation theorem for algebraic targets (`∏_{p∈S} min(1, |ξ − α_p|_p) ≤ C H(ξ)^{−κ}` has finitely many rational solutions for `κ > 2`).
-
-### From the Tau Ceti roadmaps on main
-
-- GlobalNumberFields Layer 9 (Hecke and ray class characters, local components, finite conductor), Layer 10 (archimedean characters, infinity types, norm twists), Layer 11 (orders, conductors, Picard groups).
-- ClassFieldTheory Layer 13 (Hilbert and ray class fields, ring class fields of quadratic orders with `Gal ≅ Pic(O)`, and Artin symbols of principal ideals; the anticyclotomic `Z_l` and `Z_p` quotients of the ring-class towers are derived here in §§0.2 and 0.6).
-- Chebotarev Layer 10 (Dirichlet-density Chebotarev, infinitely many primes in a Frobenius class after finite exclusions).
-- LocalFieldsRamification Layer 2 (unramified extensions, unit-root extensions `X^d − u`, `p ∤ d`) and Layer 3 (ramification; a totally ramified and an unramified extension meet in the base).
-- EllipticCurves Layer 1 (invariant differential, formal group), Layer 2 (torsion, Weil pairing, faithful Tate realisation of endomorphisms), Layer 3 (Frobenius polynomial over finite fields).
-- ArithmeticDirichletSeries Layer 3 (local factors and Euler products), Layer 5 (polynomial bounds for ideal counts) and Layer 6, 6.1 Abel summation (the norm-indexed extensions of partial summation).
-
 ## How to read the build
 
 Layer 0 fixes the carriers (anticyclotomic characters, the `p`-anticyclotomic family, Euler factors and central values) and the data (the integral period, the auxiliary prime and characters). Layer 1 computes root numbers, proves the local Fröhlich–Queyrut theorem that the twisted signs need, and derives the zeros the signs force; it needs only Layer 0 and the local factors. Layer 2 constructs Kato's CM theta functions, elliptic units, zeta elements and realisations; the integral twisting comparison (§2.9) precedes the reciprocity laws and the BKO class that use it. Layer 3 builds the torsion and ring-class towers and applies Lubin–Tate theory at `π = −p`. Layer 4 develops Finis's scalar theta functions and the weight-one divisibility theorem, then compares ordinary moments to obtain all critical weights at split valuation primes; it is independent of Layers 1–3. Layer 5 specialises Finis to the canonical family to obtain the unit theorem and the coefficient descent; it uses Layers 0–4. Layer 6 proves Rohrlich's lattice count, Jia's average and the nonvanishing and parity theorems; it uses Layers 0 and 1. The Lean acceptance test states the parity dichotomy (§6.5) and Rohrlich's two bounds (§6.1).
@@ -134,6 +16,20 @@ The identifiers NCM.0–NCM.5 of the former numbering name the following section
 | NCM.3 | §§1.2–1.5 |
 | NCM.4 | §§5.1–5.5 |
 | NCM.5 | §§6.1–6.4, 5.6, 5.7 |
+
+## Conventions
+
+**Fields and embeddings.** `K` is imaginary quadratic with ring of integers `O_K`, fundamental discriminant `−D`, quadratic character `κ_K`, class number `h_K`, unit order `w_K`, Hilbert class field `H` and complex conjugation `c`. Fix embeddings `ι_∞ : Q̄ → ℂ` and `ι_p : Q̄ → C_p` that agree on `K`; `ι : K → ℂ` is the restriction of `ι_∞`. The prime `p` is odd and inert in `K`, `Φ = K_p` is the unramified quadratic extension of `Q_p` with integers `O_Φ = W(F_{p²})`, and `π = −p`. In §§2.7–2.10 and Layers 3 and 5, `p ≥ 5` and `p ∤ h_K` (the BKO setting); §§2.1–2.6 hold for every prime `p`, split, inert or ramified, including `2` and `3`.
+
+**Characters.** Artin reciprocity sends uniformizers to arithmetic Frobenius. A Hecke character is a continuous character of the idele class group, Tau Ceti's `HeckeCharacter`. Its ideal character is `HeckeCharacter.idealCharacter`, defined on fractional ideals prime to `HeckeCharacter.finiteConductor`, and its local conductor exponents are `HeckeCharacter.conductorExponent`. Ideal infinity type `(1,0)` for `ι` means `φ((x)) = ι(x)` for `x ≡ 1` modulo the conductor; at the idele level the archimedean component is `z ↦ z⁻¹` (idelic type `(−1,0)`). Kato writes `ψ` of type `(−r,0)` for the same normalisation, and Finis writes type `(k,j)` for `λ_∞(x) = x^{−k}x̄^{−j}`; so our `φ` is Kato's `ψ` with `r = 1`, and `φ̄ν/N` has Finis type `(−1,0)`.
+
+**L-functions.** `L(η, s) = Σ_a η(a) N(a)^{−s}`, the sum over integral ideals prime to the conductor of `η`: the primitive `L`-function. For a finite set `S` of primes, `L_S(η, s)` removes the Euler factors at `S` (only the support of a modulus matters for deletion). A character `η = φρ` with `ρ` of finite order has weight one, its Euler product converges for `Re s > 3/2`, its central point is `s = 1`, and after the unitary normalisation `η|·|^{1/2}` the centre is `1/2`. The root number `W(η)` is that of the unitary character `η|·|^{1/2}` in AnalyticNumberTheoryPartI §2.3a, the product of the local constants `ε(1/2, η_v|·|_v^{1/2}, ψ_v)` of AutomorphicLFunctionsAndLocalFactors AL.1.3 for the standard additive character `ψ_K = ψ_Q ∘ Tr_{K/Q}` (ArithmeticGaloisRepresentations §2.7, Root-number product formula). Changing `ψ_v` to `ψ_v(−·)` multiplies a local central epsilon factor by `η_v(−1)`, and the product of these changes over all places is `η(−1) = 1`.
+
+**Indices.** For an anticyclotomic character `ν` of exact order `l^r`, `r ≥ 1`, with `l` split, `l ∤ h_K`, `l ≥ 5`, the field layer is `L[r]` (degree `l^r`) and the conductor is `l^m O_K` with `m = r + 1`; for `ν = 1`, `r = m = 0`. For a `p`-anticyclotomic `χ` of exact order `p^n`, `n ≥ 1`, and `p ∤ h_K`, the conductor is `p^c O_K` with `c = n + 1`; the trivial character has `c = 0`. When `p | h_K` the conductor exponent `c` is still the index that controls signs, but it is not determined by the order. Order indices and conductor indices are never identified.
+
+**Towers and periods.** `F_n = H(E[p^{n+1}])`, `Φ_n` its completion at the place above `p` fixed by `ι_p`, of degree `(p² − 1)p^{2n}` over `Φ`; `Φ_0 ≠ Φ`. Arithmetic Frobenius on the covariant Tate module of the reduction at a place above `p` is `[−p]`, and a compatible `π`-power basis differs from a `p`-power basis by the sign `(−1)^n` at level `n`. A period datum `(E, ω, Ω)` consists of a CM curve `E/H` with good reduction above `p`, a Néron differential `ω` at the place above `p`, and `Ω ∈ ℂ×` with period lattice of `ω` equal to `Ω O_K`; `Ω` is determined up to `O_K×`.
+
+**Duals and twists.** `T_φ` is the rank-one `p`-adic realisation of `φ` over the integers `R` of a finite extension of `Φ` containing its values, taken as a lattice: the free rank-one `R`-module on which `G_K` acts through `φ`, identified on `G_H` with `T_pE ⊗_{O_Φ} R` for the curve `E` of the period datum (BKO, §3.0.2, p.951, BKO21 lines 409–411). This lattice is part of the period datum; another `G_K`-stable lattice of `T_φ[1/p]`, such as `p⁻¹T_φ`, carries the same character and is a different choice. `T_φ^∨(1) = Hom_R(T_φ, R)(1)`. Kato's `V_L(ψ)` carries the inverse action, so `V_L(φ)(1) ⊗ L_λ = T_φ^∨(1)[1/p]`, and its de Rham line is generated by `ω`. The normalised Betti vector is `γ = per_φ(ω)/Ω ∈ V_L(φ)`. Group-algebra evaluation of a character `ν` sends `[g]` to `ν(g)` (Mathlib's `MonoidAlgebra.lift`), never to `ν(g)⁻¹`.
 
 ## Layer 0: CM data, characters and central values
 
@@ -912,6 +808,110 @@ AnticyclotomicLocalUnits consumes the class of §2.7, integral on the component 
 ## Worked examples
 
 Take `K = Q(√−7)`, `p = 5`, the canonical character with conductor supported at `7`, and `l = 23`. The prime `2` splits and `(−7/5) = −1`, so `5` is inert, `h_K = 1`. An auxiliary character of order `23` has field layer of degree `23` and conductor `23²`, ramified at both primes over `23`, so both local factors are `1`. The inert Frobenius at `5` is `[−5]`, and `Φ_0/Φ` has degree `24`. Finis's discriminant factor `7^{1/4}` has `5`-adic valuation `0`. A `p`-character of order `5` has `c = 2` and sign `+1`; of order `25`, `c = 3`, sign `−1` and central value `0`. Group-algebra evaluation sends `[g]` with `ν(g) = ζ_23` to `ζ_23`, not `ζ_23⁻¹`. Changing `ω` by `2` fixes the class and halves the scalar; `pω` is not allowed. The `p`-deleted trivial-character factor `6/5` has valuation `−1`. For scalar/tensor descent, `Φ_n` totally ramified and `U` unramified meet in `Φ`, so `Φ_n ⊗_Φ U` embeds in `C_5`; for `U = Φ_n` it does not.
+
+## Scope and ownership
+
+This roadmap owns:
+
+- the carriers of the anticyclotomic family on Tau Ceti's `HeckeCharacter` (Layer 0): conjugation-equivariant characters of type `(1,0)`, anticyclotomic characters, the `p`-anticyclotomic family, primitive Euler factors and central values;
+- the integral CM period of a good Néron differential, the auxiliary split prime and the auxiliary characters `X_l` (Layer 0);
+- the canonical root number `W(φ) = (2/D)` for odd `D`, the root numbers of the auxiliary and `p`-anticyclotomic twists, the local Fröhlich–Queyrut theorem and the forced central zeros (Layer 1);
+- Kato's CM refinement `_aθ_E` of the theta function, canonical CM pairs, standard elliptic units in Kato's normalisation, the elliptic zeta element, Kato's realisation `V_L(ψ)`, `S(ψ)`, `per_ψ`, the height-one explicit reciprocity law in the form applied by Kato, Kato's reciprocity law for CM characters (Kato 2004, Proposition 15.9), the twist of norm-compatible Kummer towers by a finite free coefficient module, the BKO class with its integrality where a smoothing factor is a unit, its direct-character reciprocity and its period laws (Layer 2). The general Kato hypotheses (every imaginary quadratic `K`, every prime `p`, every `r ≥ 1`) are stated in §§2.1–2.6, separately from the BKO restrictions of §§2.7–2.10;
+- the torsion and ring-class composita, their disjointness, the semilocal splitting, the inert Frobenius and the CM application of the Honda–Lubin–Tate comparison (Layer 3);
+- Finis's divisibility theory: scalar theta functions on CM lattices, primitive subspaces, Shintani operators, the functional `l`, integral theta functions and the canonical bilinear forms, Yang's formula and its arithmetic form, the torsion-stabiliser input in characteristic `ℓ`, the nonvanishing of theta functions modulo `ℓ`, the ordinary-measure comparison across weights, and Finis's divisibility theorem in every critical weight for split valuation primes and in weight one for nonsplit valuation primes (Layer 4);
+- the specialisation of Finis's theorem to the canonical family, the unit witness, the unramified coefficient field and the scalar/tensor kernel comparison (Layer 5);
+- Rohrlich's lattice-point count, Jia's Galois-average limit, the Galois stability of central vanishing, central nonvanishing and the parity dichotomy (Layer 6).
+
+It leaves to other roadmaps:
+
+- the ordinary theta unit `_cθ_E` (divisor, distribution relation, base change, isogeny norm and `q`-expansion, for `c` invertible on the base and prime to `6`): PadicFamilies §4.0.1. Layer 2 constructs only its CM ideal refinement and compares the two when the ideal is principal;
+- the elliptic units built from Siegel functions on a class-number-one CM curve with ordinary `p`, with their Euler-system relations and Rubin's two-variable main conjecture: NoncommutativeAndEquivariantIwasawa §4.3. Layer 2 uses Kato's theta normalisation on canonical CM pairs over every ray class field `K(f)` instead, with no class-number or ordinarity hypothesis;
+- Hecke's continuation and functional equation for unitary idele-class characters: AnalyticNumberTheoryPartI §2.3a; the root-number product formula: ArithmeticGaloisRepresentations §2.7; local `ε`-factors and Gauss sums: AutomorphicLFunctionsAndLocalFactors AL.1.3;
+- the cyclotomic twist of Iwasawa cohomology: SelmerIwasawaCohomology §3.7. The twist by a finite free module whose action factors through a `p`-adic Lie tower is §2.9 here;
+- canonical Gross characters, their existence, their attached curves and their good reduction; CM periods, the idele and torsion dictionary, the ray-level generation criterion, the good-prime Frobenius identities: ComplexMultiplicationAndExplicitReciprocity §§1.2, 2.2, 3.2, 4.1, 4.3;
+- Lubin–Tate formal modules, division fields and the Honda comparisons: LubinTateFormalModulesAndQuasiCanonicalLifts Layers 2 and 4.
+
+The ordinary CM `ℓ`-adic period and Katz measure at split `ℓ` are supplied by AutomorphicPadicLFunctionsPartII §§6.2, 8.5; the Finis valuation comparison with them is §4.7 here. The Rubin `p`-adic `L`-function, the primitive elliptic-unit coordinate, the signed local decomposition, the `Δ`-projection of the elliptic class and its derivatives are outside this roadmap. The normalised values here define no Iwasawa function by interpolation, and no statement is made about central derivatives for sign `−1`.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- `NumberField.RingOfIntegers`, `NumberField.classNumber`, `NumberField.IsCMField` and `NumberField.IsCMField.complexConj`, `Algebra.IsQuadraticExtension`: the field, its integers, class number and conjugation. For a degree-two CM field the maximal real subfield is `ℚ`, so `IsCMField` with `IsQuadraticExtension ℚ K` is exactly an imaginary quadratic field.
+- `FractionalIdeal`, `IsDedekindDomain.HeightOneSpectrum`, `Ideal.absNorm`: ideals, finite primes and norms.
+- `MonoidAlgebra.lift` and `MonoidAlgebra.lift_single` (Mathlib/Algebra/MonoidAlgebra/Basic.lean): evaluation `[g] ↦ ν(g)`, without inversion.
+- `Subalgebra.linearDisjoint_iff_injective` (Mathlib/RingTheory/LinearDisjoint.lean): linear disjointness is injectivity of the multiplication map.
+- `DirichletCharacter.LFunction_apply_one_ne_zero` (Mathlib/NumberTheory/LSeries/Nonvanishing.lean): `L(1, κ) ≠ 0` for a nontrivial Dirichlet character of nonzero modulus.
+- `PadicInt`, `Padic`, `IsAlgebraic`, `Set.ncard`, `HasProd`, `Differentiable`: the carriers of the Lean statements.
+
+### From Tau Ceti
+
+- `TauCeti.GlobalNumberFields.HeckeCharacter` (`ContinuousMonoidHom (IdeleClassGroup (𝓞 K) K) ℂˣ`), with `HeckeCharacter.IsFiniteOrder`, `HeckeCharacter.finiteConductor`, `HeckeCharacter.finiteConductor_ne_bot`, `HeckeCharacter.conductorExponent`, `HeckeCharacter.finiteComponent` and `HeckeCharacter.idealCharacter` (TauCeti/NumberTheory/NumberField/Global/HeckeCharacter/FiniteComponent.lean and Ideal.lean). `HeckeCharacter.idealCharacter_apply_prime` identifies the ideal value at a prime with the local component at any uniformizer; `HeckeCharacter.idealCharacter_apply_toPrincipalIdeal` identifies the value at `(x)`, `x ≡ 1`, with the inverse of the product of the archimedean components. The carrier includes non-unitary characters; finite order is a separate predicate.
+- `TauCeti.GlobalNumberFields.Modulus`, `idealsPrimeTo`, `IsCongrOne`, `IsCongrOne.toPrincipalIdeal_mem_idealsPrimeTo`, `toPrincipalIdeal`: moduli, ideals prime to a modulus and multiplicative congruence. `IsCongrOne` is a condition on `Kˣ`, so zero is excluded.
+- `TauCeti.ClassFieldTheory.ringClassField` (TauCeti/NumberTheory/ClassFieldTheory/ClassFields/RingClass/Field.lean): the ring class field of an order of a number field, an intermediate field of the separable closure, with its unramifiedness, Artin equivalence with the Picard group and degree. The Hilbert class field `H` and the ring-class layers `L[r]` are instances. The attached CM curve over `H` and its torsion fields are not at the pin.
+
+### From TauCetiRoadmap.ComplexMultiplicationAndExplicitReciprocity
+
+- §4.3 `IsCanonicalGrossCharacter`: conjugation equivariance, principal values `±α`, conductor primes ramified in `K`; `canonicalGrossExistence`: existence exactly for `D ≠ 3` with `D` odd or `8 | D`, and the attached CM curve over `H`; Canonical Gross good reduction away from the discriminant: good reduction above every rational prime not dividing `D`. Assumed: the attached curve realises `φ ∘ N_{H/K}` and is an `H`-isogeny class of `Q`-curves.
+- §4.1 The algebraic Hecke character of a CM abelian variety (Frobenius values at good primes, principal law), One-dimensional CM components of the Tate module (rank-one coefficient summands, arithmetic Frobenius value `j(ψ(v))`), Frobenius and infinity-type identities (`π_v π̄_v = q`; for a rational CM elliptic curve at an inert good rational prime `p`, the Frobenius over `K` is `−p` of norm `p²`).
+- §1.2 CM period and de Rham pairings, with its period-lattice comparison: the ideal-twist curve `ℂ/aΛ` of a CM curve, its `O_K`-action and the period pairing `ω_{E/ℂ} × H₁(E(ℂ), Z) → ℂ`, natural in `O_K`-linear homomorphisms; CM tensor ideal inclusions and their kernels: the isogeny attached to an inclusion of ideals `a ⊂ b` has degree `[b : a]`.
+- §2.2 Normalized idele and torsion dictionary and §3.2 Exact ray-level field and generation criterion: the action of `Aut(ℂ/K)` on CM torsion and the ray-class field generated by torsion values.
+
+### From TauCetiRoadmap.AnalyticNumberTheoryPartI
+
+- §2.3a Hecke continuation and functional equation: for a unitary idele-class character `ω` the completed function `Λ_H(ω, s)` continues meromorphically, is entire unless `ω` is a norm character `|·|^{it}`, and satisfies `Λ_H(ω, s) = W(ω)Λ_H(ω⁻¹, 1 − s)` with `|W(ω)| = 1`; norm twists translate the variable; any continuation agreeing with the Euler product on `Re s > 1` is this one. This is the target cited by AutomorphicLFunctionsAndLocalFactors under its identifiers AL.1.5.2 and AL.1.6.2.
+
+### From TauCetiRoadmap.AutomorphicLFunctionsAndLocalFactors and ArithmeticGaloisRepresentations
+
+- AL.1.1.1 Local quasi-characters, unramified characters and the conductor exponent; AL.1.3.1 the local factors `ε(s, ω, ψ)`; AL.1.3.4 The local Gauss sum; AL.1.3.5 Explicit local ε-factors (the unramified formula `ω(ϖ^ν)q^{(1/2−s)ν}`, the ramified formula with the Gauss sum, and the archimedean values `i^a` over `ℝ` and `i^{max(a,b)}` over `ℂ` for the standard additive characters).
+- AL.5.1.1 Finite Euler corrections at critical points (`L^S = E_S L`, orders add) and AL.5.3.2 The functional-equation sign at the centre (sign `−1` at the centre forces a zero).
+- ArithmeticGaloisRepresentations §2.7, Root-number product formula: Hecke's root number of a unitary idele-class character is the product of its local constants.
+
+### From LubinTateFormalModulesAndQuasiCanonicalLifts
+
+- §2.1 Finite-height torsion, §2.2 The π-adic Tate module, §2.3 Lubin–Tate division fields (the `π^m`-division field is totally ramified of degree `(q − 1)q^{m−1}` and generated by a primitive point), §2.4 The Lubin–Tate character.
+- §4.3 The unramified Honda–Lubin–Tate comparison (over `O = W(F_{p²})`, a formal group with `q`-Frobenius `[sp]`, `s = ±1`, is strictly isomorphic to the Lubin–Tate group for `sp`) and §4.4 The supersingular elliptic comparison (a Weierstrass curve over `O` with `#W̄(F_{p²}) = p² + 1 − 2sp` has `p²`-Frobenius `[sp]` and Lubin–Tate parameter `sp`). The sign convention `a_{p²} = −2p ↔ π = −p` is the one fixed there. These sections concern connected formal groups.
+
+### From TauCetiRoadmap.FiniteFlatGroupsAndIntegralPadicHodgeTheory and NeronModelsAndSemistableAbelianVarieties
+
+- FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1.8 (the Tate module of a `p`-divisible group over a mixed-characteristic base), R07.1.9 (the connected–étale sequence over a henselian local base), R07.1.12–R07.1.13 (commutative formal Lie groups; connected `p`-divisible groups are `p`-divisible formal Lie groups) and R07.1.14 (the dimension of a `p`-divisible group).
+- NeronModelsAndSemistableAbelianVarieties §5.1 Néron–Ogg–Shafarevich: an abelian variety over a discretely valued field whose `ℓ`-adic Tate module is unramified for some `ℓ` different from the residue characteristic has good reduction.
+
+### From TauCetiRoadmap.SelmerIwasawaCohomology
+
+- §0.8 and §0.9: the `p`-adic and `S`-unit Kummer identifications `H¹(G_{F,S}, Z_p(1)) ≅ Z_p ⊗ O_{F,S}×`, compatible with restriction and with corestriction against the norm. §0.11: cup products and Shapiro under Kummer. §3.1 Iwasawa cohomology and §3.2 Shapiro's lemma for Iwasawa cohomology. §3.6: semilocal cohomology and descent. §3.7: the cyclotomic twist isomorphism of Iwasawa cohomology, the model for §2.9.
+
+### From TauCetiRoadmap.PadicHodgeRegulators
+
+- §1.4 Kato's dual exponential `exp* : H¹(K, V) → Fil⁰ D_dR(V)`, its kernel `H¹_g` and its adjunction with `exp`. §1.7 compatibility with twists, restriction and corestriction. §1.11 semilocal Bloch–Kato maps `exp*_{A,V}` on `A = F ⊗ Q_p`, componentwise and compatible with Shapiro.
+
+### From TauCetiRoadmap.PadicFamilies and NoncommutativeAndEquivariantIwasawa
+
+- PadicFamilies §4.0.1 Geometric classes, moments and norm relations: the normalised theta unit `_cθ_E` on an elliptic curve over a base on which `c` is invertible, `c` prime to `6`, with divisor `c²[0] − [c]⁎[0]`, the distribution identity under multiplication by integers prime to `c`, base change, the isogeny norm for isogenies of degree prime to `c`, and Kato's `q`-expansion normalisation.
+- NoncommutativeAndEquivariantIwasawa §4.3: the Siegel-function elliptic units of the ray class fields of a class-number-one CM field; cited for the comparison of scope, not consumed.
+
+### From TauCetiRoadmap.ModularSymbolsPadicLFunctions and GL2AutomorphicRepresentationsAndTransfer
+
+- ModularSymbolsPadicLFunctions §1.2: twisted Mellin formula and algebraicity of normalised critical values of newforms; §4.3: a field embedding `σ` carries the algebraic normalised critical coordinates of `f` to those of `f^σ`. No transport of complex periods is assumed.
+- GL2AutomorphicRepresentationsAndTransfer R17.4.16: quadratic automorphic induction of a Hecke character `θ` of `K`, cuspidal exactly when `θ ≠ θ^c`, with `L(s, AI θ) = L(s, θ)`; for `η` of type `(1,0)` it gives the weight-two newform `θ_η`.
+
+### From TauCetiRoadmap.AutomorphicPadicLFunctionsPartII and PadicMeasuresIwasawaAlgebras
+
+- AutomorphicPadicLFunctionsPartII §§5.1, 6.1–6.2 and 8.5: the paired complex and ordinary periods and bounded ray-class measure for an imaginary quadratic field at a split valuation prime `ℓ`, with critical moments, local Gauss factors and Euler depletion. Section 4.7 compares these normalisations with Finis's; it consumes no ordinary measure at an inert prime.
+- PadicMeasuresIwasawaAlgebras §§1.7, 4.3 and 4.5: measures as completed group algebras, uniformizer-power preparation and the one-variable power-series coordinate, used to transfer the weight-one lower bound to the twisted measure.
+
+### From TauCetiRoadmap.DiophantineApproximationAndTranscendence
+
+- §2.1: the subspace theorem with finitely many places; in two variables, solutions of the product inequality lie on finitely many lines. §2.3: Ridout's `p`-adic approximation theorem for algebraic targets (`∏_{p∈S} min(1, |ξ − α_p|_p) ≤ C H(ξ)^{−κ}` has finitely many rational solutions for `κ > 2`).
+
+### From the Tau Ceti roadmaps on main
+
+- GlobalNumberFields Layer 9 (Hecke and ray class characters, local components, finite conductor), Layer 10 (archimedean characters, infinity types, norm twists), Layer 11 (orders, conductors, Picard groups).
+- ClassFieldTheory Layer 13 (Hilbert and ray class fields, ring class fields of quadratic orders with `Gal ≅ Pic(O)`, and Artin symbols of principal ideals; the anticyclotomic `Z_l` and `Z_p` quotients of the ring-class towers are derived here in §§0.2 and 0.6).
+- Chebotarev Layer 10 (Dirichlet-density Chebotarev, infinitely many primes in a Frobenius class after finite exclusions).
+- LocalFieldsRamification Layer 2 (unramified extensions, unit-root extensions `X^d − u`, `p ∤ d`) and Layer 3 (ramification; a totally ramified and an unramified extension meet in the base).
+- EllipticCurves Layer 1 (invariant differential, formal group), Layer 2 (torsion, Weil pairing, faithful Tate realisation of endomorphisms), Layer 3 (Frobenius polynomial over finite fields).
+- ArithmeticDirichletSeries Layer 3 (local factors and Euler products), Layer 5 (polynomial bounds for ideal counts) and Layer 6, 6.1 Abel summation (the norm-indexed extensions of partial summation).
 
 ## References
 
