@@ -1,27 +1,59 @@
 # Roadmap: function field arithmetic — algebraic curves, Part II
 
-**Summary.** This roadmap continues
-[AlgebraicCurves](../AlgebraicCurves/README.md) at the point where that roadmap stops: function
-fields of one variable whose exact constant field is a finite field `𝔽_q`. It fixes the degree,
-sign and Frobenius conventions that every finite-constant-field statement depends on, and then
-builds the following arithmetic that no other roadmap owns: the Riemann–Roch spaces of a finite
-extension of `𝔽_q(t)` described by reduced bases of a pair of lattices (Hess); the volumes of
-divisor lattices and the Fourier transforms of their indicators in the completed adeles, for the
-self-dual measure of a rational differential; Artin–Schreier–Witt theory, with reduced Witt–Laurent
-representatives and the conductor formula of Kosters–Wan; equal-characteristic local class field
-theory through Lubin–Tate formal modules, including the `p`-primary existence theorem that the
-Tau Ceti ClassFieldTheory roadmap leaves out, the Schmid–Witt symbol, and the perfect-field universal property of generalized Picard
-schemes, with the finite-abelian-group extension of the supplied Lang-cover realization; the zeta function of a
-function field built from effective divisors, its Riemann–Roch rationality and functional
-equation, the identity `L(1) = h`, and the recovery of the `L`-polynomial from the first `g`
-point counts; the finite-coefficient `L`-function of a local system on a curve; automorphic
-functions with integral coefficients on a reductive group over a function field, their constant
-terms, Harder's finiteness theorem and Yu's degree-zero nonvanishing; and the unitary
-Siegel–Eisenstein series of Feng–Yun–Zhang with the formula for its nonsingular Fourier
-coefficients. The end theorems are the rationality theorem for the zeta function (§5.3), local
-abelian existence in equal characteristic (§4.2), finite ray-cover classification with least
-conductors (§4.10), Harder's finiteness theorem with integral
-coefficients (§6.4–§6.5) and the Feng–Yun–Zhang coefficient formula (§7.6).
+**Summary.** A function field in one variable over a finite field `𝔽_q` is the field of rational
+functions on a curve over `𝔽_q`. Its arithmetic runs parallel to that of number fields. This roadmap
+is the second part of [AlgebraicCurves](../AlgebraicCurves/README.md). Its global statements concern
+a function field `F` whose exact constant field is a finite field `k = 𝔽_q`: every element of `F`
+algebraic over `k` lies in `k`. Layers 1, 3 and 4 work in broader settings, stated there.
+
+The first main theorem is the rationality of the zeta function. Let `g` be the genus of `F` and `h`
+the number of divisor classes of degree zero. The coefficient of `T^n` in the zeta function `Z(T)`
+counts the effective divisors of degree `n`. Then `L(T) = (1−T)(1−qT)Z(T)` is a polynomial with
+integer coefficients of degree exactly `2g`, with constant term `1` and leading coefficient `q^g`.
+It satisfies `L(T) = q^g T^(2g) L(1/(qT))` and `L(1) = h`. For `y² = x³+x+1` over `𝔽_5`,
+`L = 1+3T+5T²` and `h = 9`. The curve's point counts over `𝔽_q`, …, `𝔽_{q^g}` determine `L`. The
+Riemann hypothesis for `L` is imported from DeligneWeightsAndPurity and SchemeAndStackFoundations,
+not proved here.
+
+The second is local class field theory in characteristic `p`. Let `K` be a nonarchimedean local
+field, such as the completion of `F` at a place. Every open subgroup `H` of finite index in `Kˣ` is
+the group of norms from a unique finite abelian extension `L` of `K` in a fixed separable closure,
+and `[L : K]` is the index of `H`. The local Artin map of `K` is injective. In characteristic zero
+both facts are already in the library; the new case is characteristic `p`. There openness cannot
+be dropped: `𝔽_p((T))ˣ` has subgroups of index `p` that are not open, and none is a norm group.
+
+The third is Harder's finiteness theorem, with integral coefficients. Let `G` be a connected
+reductive group over `F`, `U` a compact open subgroup of its adelic points `G(𝔸)`, and `R` a
+commutative ring in which `p` is invertible. A cusp form of level `U` is an `R`-valued function on
+`G(F)∖G(𝔸)/U` whose constant terms along proper rational parabolic subgroups vanish, and which is
+invariant under a fixed discrete central subgroup `Ξ` with `Z(F)∖Z(𝔸)/((Z(𝔸)∩U)Ξ)` finite. All cusp
+forms of level `U` are supported in one compact subset of `G(F)∖G(𝔸)/Z(𝔸)`. Hence, for Noetherian
+`R`, they form a finitely generated `R`-module. On complex cusp forms, the Hecke eigenvalues at the
+places where `U` is hyperspecial are algebraic numbers.
+
+The fourth is the formula of Feng, Yun and Zhang for the nonsingular Fourier coefficients of unitary
+Siegel–Eisenstein series. Here `p` is odd, `X′` is a finite étale double cover of the curve `X` of
+`F`, possibly split or constant, and the group is the unitary group of a split skew-Hermitian space
+of dimension `2n` over the function algebra of `X′`. For the normalized spherical section induced
+from an everywhere-unramified character `χ`, a vector bundle `𝓔` of rank `n` on `X′` and an
+injective Hermitian map `a`, the coefficient attached to `(𝓔, a)` is
+`χ(det 𝓔)·q^(−deg(𝓔)(s−n/2)−n²deg(ω_X)/2)·L_n(s)⁻¹·Den(q^(−2s),(𝓔,a))`. The third factor inverts an
+Euler product built from the quadratic character of the cover, and the last is a finite product of
+local Hermitian density polynomials. A version with ramified places is proved too.
+
+AlgebraicCurves provides places, divisors and Riemann–Roch. ClassFieldTheory provides the local
+Artin map, and local existence for finite extensions of `ℚ_p` and for index prime to `p`.
+AutomorphicLFunctionsAndLocalFactors provides the adeles of `F` with their self-dual measures, and
+the rank-one dictionary between ray classes and Lang covers that Layer 4 extends to finite abelian
+groups. GlobalShtukasAndFunctionFieldLanglands uses the zeta function, Layer 5's Chebotarev estimate
+and Harder's theorem.
+
+Layer 0 fixes the conventions and proves that `F` has a divisor of degree one. Layers 1–3,
+independent of each other, treat Riemann–Roch spaces through reduced bases, divisor lattices in the
+adeles, and Artin–Schreier–Witt theory. Layer 4 builds local class field theory in characteristic
+`p`, then classifies finite abelian covers by homomorphisms from ray class groups. Layer 5 treats
+the zeta function and counts places of each degree with prescribed Frobenius, up to an explicit
+error. Layers 6 and 7 treat automorphic functions and Eisenstein series.
 
 ## How to read the build
 
@@ -3449,7 +3481,7 @@ negative-kernel convention of Mathlib's `VectorFourier.fourierIntegral`.
 Layers 0, 2, 4, 6 and 7 use exactly these objects. Its §AL.3.10.4 *Ramified rank-one curve
 reciprocity* supplies the finite-field objects and comparisons consumed in §§4.5 and 4.8–4.10,
 including every positive modulus. Its convention is `χ(a)=ρ(Art_ar(a)⁻¹)` for a
-rank-one local system; the deck action on a Lang torsor below instead records
+rank-one local system; the deck action on a Lang torsor above instead records
 arithmetic Artin itself, so passing to that local system inverts the character. Layer 6
 consumes §AL.R.3 *Restricted tensor realizations* (the complex `GLₙ` automorphic spaces with
 fixed unitary central character, in §6.2) and, in §6.7, §AL.3.4.1 *The `GL(n)` cuspidal Fourier
