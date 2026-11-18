@@ -6,45 +6,9 @@ The end theorems are the finite torsion determinant theorem of Layer 4 (Scholze,
 
 Every comparison keeps its error category. An almost isomorphism over `O_C` is not an isomorphism; a nilpotent ideal of a Hecke image is a separate error with its own exponent; a characteristic-zero input is used only through the exact theorem that supplies it. Where the published text needs a correction, the corrected statement is the target and the correction is recorded in *Corrections to the published sources*. The companion [Suggested.lean](Suggested.lean), in the namespace `TauCetiRoadmap.TorsionCohomologyInfrastructure`, states the algebraic milestones of Layer 3a: twisted-product separation, uniqueness and polynomiality of finite-weight factorisations, weighted determinant extraction, and the Laurent coefficient-ideal nilpotence bound. Weighted extraction is stated on Mathlib’s `PolynomialLaw`, with unitality, multiplicativity and homogeneity explicit after every scalar extension. The geometric and arithmetic headline theorems remain in this README: their formal models, perfectoid compactifications, arithmetic cohomology carriers, cohomological Hecke images and Satake actions are built by the roadmaps named under *Scope and ownership*.
 
-## Scope and ownership
+## How to read the build
 
-This roadmap owns:
-
-- the integral transport results on formal models and perfectoid charts used by Scholze §§2 and 4: the integral section model of a framed affinoid cover, the integral boundary ideal, the coordinatewise bounded-lattice extension across a good triple, the almost boundary support comparison on the perfectoid minimal compactification, and boundary-preserving traces (Layer 0);
-- the ordinary colimit of quotients of bounded boundary-ideal sections at fixed coefficient exponent, and their almost comparison with sections of the quotient sheaf (Layer 2a);
-- the integral period-lattice transport along the Hodge–Tate period map, the fixed-precision approximation atlas, localised cusp sections, integral cuspidal lifting and classical section approximation (Layer 1);
-- the perfectoid compact-support comparison, its geometric amplitude and Iwasawa consequences, the classical Hecke topology `T_cl`, continuity of the Hecke action on completed torsion cohomology, and the finite-level descent with its coefficient limits (Layer 2);
-- the weighted-determinant algebra: the twisted polynomial product and its separation theorem, uniqueness and polynomiality of finite-weight factorisations, the homogeneous decomposition of multiplicative group-algebra laws, the weighted unit law, extraction of weighted determinant factors, and the Laurent coefficient-ideal bound (Layer 3a);
-- the arithmetic Levi realisation on the Siegel boundary: the boundary Satake polynomials, the unitary-similitude boundary adapter, the classical ambient determinants with their field branches, the Siegel–Levi annihilator containment, the ambient interior error bound, auxiliary character realisation, the residual-kernel factorisation of continuous determinants, cyclotomic factor extension, the Laurent determinant realisation and the Levi interior determinant (Layer 3b);
-- the compact-support product comparison for neat Levi manifolds, the integral boundary filtration for `GL_n`, the boundary induction, the finite torsion determinant theorem, its integral and inverse-system transport, the four-route compatibility theorem, the residual and local specialisations, and the rank-one, rank-two and nonlifting validation examples (Layer 4).
-
-It consumes the following developments by name and does not rebuild them; the exact items are listed under *Exact supplier contracts*.
-
-- **Mathlib** supplies polynomials and their composition, reversal and reflection, Laurent polynomials, power series with rescaling, polynomial laws, matrix characteristic polynomials and `charpolyRev`, initial topologies, ideals and their powers, traces of finite free algebras, and group cohomology of a representation.
-- **Tau Ceti** supplies the maximal pro-`p` quotient of a profinite group with its universal factorisation (`TauCeti.maximalProPQuotient.lift`) and the long exact cohomology sequence of scheme modules (`TauCeti.AlgebraicGeometry.Scheme.Modules.cohomologyδ`).
-- **TauCetiRoadmap.IntegralHeckeAndGaloisDeterminants** supplies Chenevier determinants as homogeneous multiplicative polynomial laws, their characteristic polynomials, Amitsur's formula, coefficient-subring descent, direct sums and duals (Layer 0), reconstruction over fields and henselian local rings (Layer 1), derived Hecke images and ghost nilpotence (Layer 2), the `GL_n` Hecke polynomial normalisation (Layer 3a), uniqueness from Frobenius density, compact coefficient gluing and integral interpolation (Layer 4), and the arithmetic of nilpotent error ideals with residual specialisation (Layer 5). This roadmap does not redefine determinants.
-- **TauCetiRoadmap.ClassFieldTheory** (Layer 11) supplies the global Artin map in the arithmetic-Frobenius normalisation, with geometric normalisation obtained by composing `globalArtinMap` with inversion.
-- **AdicSpacesPartIII** (F0, R2, R3) supplies gluing of formal schemes, algebras topologically of finite type and presentation over `O_K` with saturation and coherence, Raynaud generic fibres and formal models, noetherian Serre vanishing, rigid GAGA, and traces of finite locally free algebras.
-- **PerfectoidSpaces** (Layers P0, P2, P3, P7) supplies almost mathematics over a basic setup, the sheaf theorem with almost acyclicity of `O⁺`, almost purity with étale almost acyclicity, and the étale cohomology of tilde-limits.
-- **PerfectoidSpaces** (§§P4.14–P4.15, the universal perfectoid closed quotient) supplies the closed quotient `(R_I, R_I⁺)` of a perfectoid pair by a closed ideal, the strongly Zariski closed immersion, and almost surjectivity of `R⁺ → R_I⁺`.
-- **PerfectoidShimuraVarieties** (Layers 1–3) supplies the Hebbarkeitssatz and good triples with their stability, normalised traces on the anticanonical tower, the perfectoid Hodge-type tower with its image compactification and the finite genuine-to-image map, the Hodge–Tate period map with its tautological and Hodge-type pullbacks, and the finite-level formal models with approximating Plücker sections.
-- **PadicHodgeTheory** (§2.7) supplies primitive comparison for smooth proper spaces, strict normal-crossings pairs and singular proper spaces. Section 2.1 here supplies its constructible relative and arbitrary-boundary forms.
-- **CompletedCohomologyPartII** (§§1.1, 2.1, 2.3–2.9, 4.1–4.6, 5.5, 6.1–6.4, 7.6, 8.6) supplies the fixed-exponent and integral completed cohomology of an arithmetic tower, coefficient Bockstein and Milnor sequences, finite projective completed complexes, grade and codimension over Iwasawa algebras, Hochschild–Serre descent to finite level, completed Poincaré duality, and the identification of Scholze's §4.2 compact-support object with its fixed-exponent carrier.
-- **AlgebraicTopology** (Stage 5 item 1, Stage 6) supplies singular-chain products and the general-ring Künneth spectral sequence, and Poincaré–Lefschetz duality with orientation local systems. The compact-support and Hecke adapter for Levi manifolds is built in §4.1 here.
-- **ArithmeticLocallySymmetricSpaces** (ALS.0–ALS.4, ALS.6) supplies the locally symmetric spaces `X_K` with their component decomposition and stacky non-neat levels, Hecke correspondences with level traces, character twists and cup products, the Borel–Serre boundary with its stratification, nilmanifold fibrations and boundary triangle, the unnormalised Satake map, and the finite-cover Hochschild–Serre sequence.
-- **AutomorphicGaloisRepresentationsPartII** (AG2.3, AG2.7) supplies Galois representations attached to regular algebraic conjugate-self-dual cuspidal representations of `GL_n` over CM fields, including the non-Shin-regular and non-finite-slope cases, with their good-place, polarisation and lattice exports.
-- **EndoscopicTransferAndUnitaryTraceComparison** (§§1.8, 5.1, 6.17, 6.19–6.20, 6.25, 6.29, 13.1, 13.4) supplies the endoscopic labels for global Speh data, unitary similitude groups with the full invariant twisted trace formula and, when `[F⁺:ℚ] ≥ 2`, the simple stable–twisted identity, and weak cohomological base change for unitary groups (Labesse's form, and Shin's for standard hermitian spaces). Shin's base change for the unitary similitude group of `U(n,n)`, which the unconditional CM form uses, is the target **unitarySimilitudeBaseChange** of §3b.2 here.
-- **AutomorphicSpectralTheory** (§4.14a, *Number-field GLₙ residual blocks*) supplies the discrete GL spectrum used after unitary base change.
-- **HodgeTateAndCanonicalSubgroups** (§§2.1–2.10) supplies the level tower and the Hodge–Tate conventions used through PerfectoidShimuraVarieties.
-- **ModularCurvesPartII** (§§13.1–13.6, 14.2–14.4, 14.15) supplies the integral Hecke correspondences on modular curve cohomology used in the rank-two validation.
-
-The matrix characteristic convention is supplied directly by Mathlib's `Matrix.reverse_charpoly`, with no additional matrix target here. The following supplier results support the integral, almost or nilpotent clauses built here: IntegralHeckeAndGaloisDeterminants Layer 5, *Nilpotence in a product of coefficient rings* (used for the infinite simultaneous product of Layer 4 here); PerfectoidShimuraVarieties Layer 1, good triples (applied coordinatewise to finite free lattices here); and ArithmeticLocallySymmetricSpaces ALS.4.1 (the boundary triangle, specialised to the Siegel stratum here).
-
-**Owned specialisations of supplier theories.** The following statements belong in the direction of a supplier roadmap but are stated and proved here, because their suppliers state only a more special or a different case: ampleness of a line bundle on a formal scheme from the affine cover of its special fibre (Layer 0, for AdicSpacesPartIII's noetherian projective theory); reduction modulo `p^m` of the closed-quotient sequence (Layer 0, for PerfectoidSpaces §§P4.14–P4.15); integrality of traces on integrally closed ideals and trace preservation of reduced boundary ideals in a generically étale extension (Layer 0, for AdicSpacesPartIII R3); sections over the non-vanishing locus of a section and Serre vanishing for flat finitely presented sheaves over an arbitrary base (Layer 1); almost faithfulness of free `O_C/p`-modules and the cohomological dimension of the perfectoid minimal compactification, and constructible relative primitive comparison (Layer 2); the homogeneous decomposition of multiplicative group-algebra laws (Layer 3a, for IntegralHeckeAndGaloisDeterminants Layer 0); the residual-kernel factorisation of continuous determinants (Layer 3b, for IntegralHeckeAndGaloisDeterminants Layer 1); and the integral finite-coefficient boundary filtration of `GL_n` (Layer 4, for ArithmeticLocallySymmetricSpaces ALS.4). Each uses the earlier targets listed in its *Needs:* clause.
-
-**Endoscopic classification input.** Scholze's Theorem 5.1.2 (Arthur for `Sp_2n` over a totally real field, Mok for quasi-split `U(n,n)` over a CM field) describes the transfer of a cuspidal representation of `G_0` with discrete-series archimedean components of weight `k` as an isobaric sum of conjugate-self-dual cuspidal representations of `GL_{n_i}` in segments of length `ℓ_i`. This roadmap neither proves nor plans that classification. The theorems of Layers 3b and 4 come in two forms. The **unconditional CM form** assumes that `F` is CM and contains an imaginary quadratic field and that `S` is the set of places over a finite set `S_ℚ` of rational places containing `p` and every place where `F/ℚ` ramifies (Scholze, Remark 5.4.6, p.1061); it uses unitary similitude Shimura varieties of Hodge type and Shin's cohomological base change for unitary similitude groups ([Shin, *On the cohomological base change for unitary similitude groups*, appendix to Goldring, Theorem 1.1, pp.1–2](https://math.berkeley.edu/~swshin/BCofU.pdf)), which §3b.2 builds as **unitarySimilitudeBaseChange**. The GU branch uses the distinct group, multiplier and Hecke interfaces of **unitarySimilitudeBoundaryAdapter** in §3b.1a, including its restricted classical topology and integral boundary action. The **general form**, for any totally real or CM `F`, carries the rank-specific hypothesis **(EC)_n**: for every cuspidal `π` of `G_0` whose archimedean components are the discrete series `π_k` of Proposition 5.1.1, the conclusion of Theorem 5.1.2 holds, with the unramified local compatibility of its display on p.1033 and the regularity of `Π_i|·|^{(h−ℓ_i)/2}` at the archimedean places. For the general rank-`n` conclusions of Layer 4, **`(EC)_{≤n}`** means this transfer theorem for every rank `1 ≤ r ≤ n`, with `G_{0,r} = Sp_{2r}` or `U(r,r)` and every allowed classical weight; `(EC)_{≤0}` is empty. Layer 3b at rank `n` uses only `(EC)_n`. These hypotheses appear explicitly in the respective general-form statements; the algebraic constructions of Layer 3a and the geometric comparisons of Layers 0–2 do not use these hypotheses. The status of the stabilisation that these hypotheses rest on is surveyed in Atobe–Gan–Ichino–Kaletha–Mínguez–Shin, arXiv:2410.13504v3, §§0.3–0.4. The symplectic group and its similitude group are not interchangeable: each statement names the group whose Shimura variety realises it.
-
-**Outside this roadmap.** The construction of perfectoid Shimura varieties, of the Hodge–Tate period map and of anticanonical towers belongs to PerfectoidShimuraVarieties; completed cohomology in general to CompletedCohomologyPartII; arithmetic quotients, Borel–Serre compactifications and Satake maps to ArithmeticLocallySymmetricSpaces; determinants, reconstruction and interpolation to IntegralHeckeAndGaloisDeterminants; Galois representations for characteristic-zero automorphic forms to AutomorphicGaloisRepresentationsPartII. This roadmap does not construct Galois representations for reductive groups other than `GL_n`, and it gives no explicit value of `N([F:ℚ],n)` beyond the bounds its proofs produce.
+The construction proceeds in the order Layer 0, Layer 2a, Layer 1, Layer 2, Layer 3a, Layer 3b, Layer 4. Layer 0 constructs integral models and boundary ideals on affinoid covers and the almost boundary sequence on perfectoid charts. Layer 2a proves the ordinary colimit description of the perfectoid boundary ideal modulo `p^m`, which Layer 1 needs before it can approximate sections. Layer 1 transports integral lattices along the period map and turns finitely many bounded sections into classical cusp forms. Layer 2 compares completed compact-support cohomology with almost Čech cohomology of the boundary ideal and proves continuity of the Hecke action. Layer 3a is pure algebra, uses only Mathlib and IntegralHeckeAndGaloisDeterminants, and can be built first; consumers of the factor-extraction argument import it without importing any arithmetic. Layer 3b realises the algebra on the Siegel boundary and extracts the Levi interior determinant. Layer 4 assembles the finite torsion theorem, passes to integral coefficients, and validates the normalisations. Within each layer the targets are ordered by their dependencies, and each *Needs* annotation names the earlier target or the supplier item it uses.
 
 ## Conventions
 
@@ -59,112 +23,6 @@ The matrix characteristic convention is supplied directly by Mathlib's `Matrix.r
 - **Dimensions and exponents.** In Layers 3b–4, `d` is the complex dimension of the ambient Shimura variety: `d = [F:ℚ]·n(n+1)/2` for `Sp_2n` over totally real `F`, and `d = [F⁺:ℚ]·n²` for `U(n,n)` over CM `F`. The ambient rank is `h = 2n+1` in the real case and `h = 2n` in the CM case. Error exponents are `d+1` for one descent filtration, `2(d+1)` for the ambient interior error and `4(d+1)` after Levi extraction.
 - **Weight steps.** The classical weights are `ak` for `k ≥ 1` with a fixed step `a`; determinant interpolation needs `a > n` for `Sp_2n` and `a ≥ n` for `U(n,n)` (Proposition 5.1.1; see *Corrections*).
 - **Library pins.** The vocabulary is that of Mathlib `6b7abb3c7686292736be2955bd3eb9ebf63b456a` and Tau Ceti `a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039`. A prerequisite that names a roadmap layer refers to that layer's stated development; a Mathlib or Tau Ceti prerequisite refers only to the named declaration.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- `Polynomial.comp`, `Polynomial.compRingHom` and `Polynomial.mul_comp` (`Mathlib/Algebra/Polynomial/Eval/Defs.lean`) supply substitution `X ↦ cX`; the twisted product of Layer 3a is a composite of these and introduces no polynomial carrier.
-- `Polynomial.coeff_mul` (`Mathlib/Algebra/Polynomial/Coeff.lean`) supplies the antidiagonal coefficient formula used in every coefficient induction of Layer 3a.
-- `Polynomial.reverse`, `Polynomial.reflect`, `Polynomial.coeff_reflect` and `Polynomial.reflect_reflect` (`Mathlib/Algebra/Polynomial/Reverse.lean`) supply the reciprocal polynomial; `reverse` uses the actual `natDegree`, `reflect N` a prescribed degree bound, and the normalised reciprocal of Layer 3b is built from `reflect`.
-- `Matrix.charpolyRev`, `Matrix.reverse_charpoly` (`Mathlib/LinearAlgebra/Matrix/Charpoly/Coeff.lean`) and `Matrix.charpoly_map` (`Mathlib/LinearAlgebra/Matrix/Charpoly/Basic.lean`) supply `det(1 − X·M)`, its relation to the monic characteristic polynomial and its coefficient base change.
-- `LaurentPolynomial` with notation `R[T;T⁻¹]` (`Mathlib/Algebra/Polynomial/Laurent.lean`) and `AddMonoidAlgebra.mapDomainRingHom` (`Mathlib/Algebra/MonoidAlgebra/MapDomain.lean`) supply Laurent polynomials and the substitution `T ↦ T^a` as the map induced by `AddMonoidHom.mulLeft a : ℤ →+ ℤ`.
-- `PowerSeries.rescale`, `PowerSeries.map` and `Polynomial.coeToPowerSeries.ringHom` (`Mathlib/RingTheory/PowerSeries/Basic.lean`) supply `f(X) ↦ f(cX)`, coefficient change and the inclusion of polynomials into power series.
-- `PolynomialLaw` (`Mathlib/RingTheory/PolynomialLaw/Basic.lean`) is the carrier of the laws of Layer 3a, through IntegralHeckeAndGaloisDeterminants Layer 0.
-- `TopologicalSpace.induced` and `continuous_iInf_rng` (`Mathlib/Topology/Order.lean`) supply initial topologies and their universal property.
-- `groupCohomology` (`Mathlib/RepresentationTheory/Homological/GroupCohomology/Basic.lean`), `Rep.trivial` (`Mathlib/RepresentationTheory/Rep/Basic.lean`) and `groupCohomology.H1IsoOfIsTrivial` (`Mathlib/RepresentationTheory/Homological/GroupCohomology/LowDegree.lean`) supply the cohomology of the finite stabiliser in the nonlifting example.
-- `Algebra.trace`, `Algebra.isIntegral_trace` (`Mathlib/RingTheory/Trace/Basic.lean`) and `IsIntegrallyClosed` supply traces of finite free algebras and their integrality over a normal base.
-
-### From Tau Ceti
-
-- `TauCeti.maximalProPQuotient.lift` (`TauCeti/Topology/Algebra/Group/Profinite/MaximalProP.lean`) supplies the factorisation of a continuous homomorphism to a pro-`p` group through the maximal pro-`p` quotient; it is used for the group-theoretic part of the residual-kernel factorisation in Layer 3b and does not by itself factor a determinant.
-- `TauCeti.AlgebraicGeometry.Scheme.Modules.cohomologyδ` (`TauCeti/AlgebraicGeometry/Cohomology/LongExactSequence.lean`) supplies connecting maps for short exact sequences of scheme modules; it is used for the reduction sequences `0 → F →(p) F → F/p → 0` of Layer 1.
-
-### From TauCetiRoadmap.IntegralHeckeAndGaloisDeterminants
-
-- Layer 0: homogeneous and multiplicative polynomial laws, determinants of degree `d` with their characteristic polynomials (degree zero allowed), *Direct sums of determinants*, duals, Amitsur's formula, *Coefficient reconstruction from group words*, coefficient-subring descent, continuity of a determinant and its open-kernel criterion.
-- Layer 1: semisimple reconstruction over algebraically closed fields and henselian irreducible reconstruction with the Cayley–Hamilton quotient.
-- Layer 2: Hecke images of a complex and the amplitude bound for ghost nilpotence.
-- Layer 3a: the `GL_n` Hecke polynomial `P^std_v` and the arithmetic/geometric Frobenius conversion.
-- Layer 4: *Uniqueness from Frobenius density*, *Compact coefficient-ring gluing*, compatible quotient determinants, uniform congruence witnesses and *Integral interpolation with uniform congruences*.
-- Layer 5: *Determinant from a quantified Hecke comparison*, nilpotence through a quotient extension, of sums, in a product of coefficient rings (any index family), on a filtered module, *Quantified composition of Hecke error ideals*, residual semisimple specialisation and the representation over the nilpotent quotient.
-
-### From TauCetiRoadmap.ClassFieldTheory
-
-- Layer 11: `globalArtinMap`, `globalArtinMap_ideal`, `globalArtinMap_isArithFrobAt` and `globalArtinMap_local` supply global reciprocity and its local compatibilities in arithmetic normalisation. Compose this map with inversion to obtain the geometric normalisation used for the finite-order idele characters of §3b.5 and the rank-one check of §4.7. Layer 7's `geometricArtinMap` is the local map; it is not the name of a second global map.
-
-### From AdicSpacesPartIII and SchemeAndStackFoundations
-
-- AdicSpacesPartIII §F0.3, *Gluing formal schemes along open subschemes*, supplies formal glue data, their glued formal scheme and the morphism universal property. Its §R2.2 supplies admissible formal schemes and their reductions over a complete rank-one valuation ring, without discreteness.
-- AdicSpacesPartIII §R2.1, *Algebras topologically of finite type and of finite presentation*, *Saturated submodules of finite free modules over tft algebras are finitely generated*, *A flat algebra topologically of finite type is topologically finitely presented* and *Algebras topologically of finite presentation are coherent*, supplies finite generation of saturated submodules, completeness, coherence and the finite-presentation vocabulary over `O_K`. The statements concern the `ϖ`-adic topology, not the maximal-ideal topology.
-- AdicSpacesPartIII §§R2.3, R2.5 supplies Raynaud generic fibres, formal models of affinoids and the formal-model description of the underlying adic space; §R2.6, *Separatedness, properness and partial properness of a formal model versus its generic fibre*, supplies properness for admissible formal models over a complete rank-one field.
-- SchemeAndStackFoundations §2.6, *Quasi-coherent cohomology*, supplies noetherian Serre vanishing; AdicSpacesPartIII §F0.9, *Projective geometry over a noetherian base*, supplies its formal projective use. The arbitrary-base flat form is §1.5 here.
-- AdicSpacesPartIII §R3.7 supplies proper rigid GAGA; §R3.8, *The trace of a finite locally free algebra*, supplies traces, coefficient change and their agreement with Mathlib `Algebra.trace` in the finite free case.
-
-### From PerfectoidSpaces
-
-- Layer P0, especially §§P0.1, P0.5 and P0.29: almost modules and almost sheaves over a basic setup, almost isomorphisms and detection by `𝔪̃ ⊗ −`.
-- §§P2.7–P2.8: almost acyclicity on rational coverings and the sheaf theorem for affinoid perfectoid spaces.
-- Layer P3, especially §§P3.13, P3.21–P3.22: almost purity and étale almost acyclicity of `O⁺` and `O⁺/ϖ`.
-- §§P4.14–P4.15: the universal perfectoid closed quotient `(R_I, R_I⁺)`, with `R → R_I` surjective, `R_I⁺` the integral closure of the image of `R⁺`, and `R⁺ → R_I⁺` almost surjective; the associated strongly Zariski closed immersion onto `V(I)` and its base change. The integral quotient algebra of PerfectoidQuotients §2.1 is a separate theory and is not an input here.
-- §P7.15: for a noetherian tilde-limit `X ~ lim X_j` with the stated qcqs hypotheses, `colim_j H^n(X_{j,ét}, F_j) ≅ H^n(X_ét, F)` (Scholze, *Perfectoid spaces*, Corollary 7.18).
-
-### From PerfectoidShimuraVarieties and HodgeTateAndCanonicalSubgroups
-
-- PerfectoidShimuraVarieties §§1.3–1.6: the Hebbarkeitssatz, its extension corollary, good triples and their stability; §1.16: normalised traces on the anticanonical tower with errors tending to zero.
-- PerfectoidShimuraVarieties §2.2: the open Hodge-type perfectoid tower; §2.3: the image-compactified perfectoid tower `X̄_{K^p} ~ lim X̄_{K_pK^p}`, its finite-stage Lagrangian charts, completed colimit of plus rings and strongly closed boundary. Section 2.1 supplies the finite map from the genuine to the image compactification, an isomorphism over the interior that maps boundary to boundary; §2.8 supplies its infinite-level comparison. No tilde-limit property of the genuine minimal tower is assumed.
-- PerfectoidShimuraVarieties §3.3: `Lie A ⊗ O(1) ≅ π_HT^*W` on the Siegel tower; §§3.6, 3.8: the Hodge-type Levi and automorphic-bundle pullbacks; §3.9: the all-prime Scholze form of finite-level formal models with approximating Plücker sections. The stronger Pilloni–Stroh uniform integral estimate retains its stated qualification at `p = 2`.
-- HodgeTateAndCanonicalSubgroups §§2.1–2.3 supplies the canonical level tower, transition and tame Hecke maps and its infinite-level v-sheaf, with effective actions and the component labels. Its §§2.5–2.10 supplies the Hodge–Tate sequence and its cyclotomic and Levi conventions. The comparisons of §§1.1 and 2.1 here use these same tower and bundle maps through PerfectoidShimuraVarieties.
-
-### From PadicHodgeTheory
-
-- §2.7, *Primitive comparison and integral finiteness*, supplies the absolute smooth proper primitive comparison, its strict-normal-crossings compact-support form for a smooth proper pair `U = Y ∖ D`, and its extension to singular proper rigid spaces through analytic log resolution, with resolution independence, localization and amplitude. The constructible relative theorem for proper algebraic morphisms and its arbitrary-boundary extension-by-zero form are targets of §2.1 here; they are not inferred from the smooth proper statement alone.
-
-### From CompletedCohomologyPartII
-
-- §§1.1, 2.1 and 8.6: fixed-exponent cohomology, its integral coefficient limit and identification of `colim_{K_p} H^i_c(X_{K_pK^p}, ℤ/p^n)` with Scholze's fixed-exponent support convention.
-- §§2.3–2.9: strict integral control, coefficient Bockstein comparison `0 → H̃^n/ϖ^s → A^n_s → H̃^{n+1}[ϖ^s] → 0`, and Milnor and Mittag-Leffler control of coefficient limits.
-- §§4.1–4.6: actual lifted cellular complexes, finite projective completed models and stabilizer/boundary replacements, with the Hecke action at a torsion-free pro-`p` level.
-- §5.5: Auslander regularity, grade and codimension over `Λ = ℤ_p[[K_p]]`; §§6.1–6.4: fixed-exponent and integral Hochschild–Serre descent to finite level and algebraic coefficient untwisting; §7.6: completed Iwasawa–Poincaré duality. The regular-cover, strictness, orientation and effective-deck hypotheses of those sections are retained.
-
-### From AlgebraicTopology
-
-- Stage 5 item 1 supplies the Alexander–Whitney and Eilenberg–Zilber chain maps and the Künneth spectral sequence over every commutative ring, with collapse only under its stated coefficient hypotheses. Stage 6 items 1–4 supply local-coefficient cochains, cross and cap products, orientation local systems and Poincaré–Lefschetz duality for compact manifolds with boundary. Section 4.1 constructs the compact-support product and correspondence comparison for the supplied Levi manifolds.
-
-### From ArithmeticLocallySymmetricSpaces
-
-- ALS.0: `X_K` and its components (ALS.0.7), stacky non-neat levels with their finite stabilisers (ALS.0.8, ALS.1.5), neat levels are manifolds (ALS.0.9).
-- ALS.2: boundary strata fibre over Levi quotients with nilmanifold fibres (ALS.2.8), and the stratification filtration of `∂X̄^{BS}_K` with its spectral sequence (ALS.2.9).
-- ALS.3: level traces with `cor ∘ res = [K:K′]` (ALS.3.6), Hecke compatibility with supports, boundary, coefficients and cup products (ALS.3.9), twisting by a character of `det` (ALS.3.12).
-- ALS.4: the boundary triangle `RΓ_c → RΓ → RΓ_∂` (ALS.4.1), restriction to a parabolic and the integral unnormalised Satake map (ALS.4.2), Hecke action on boundary strata (ALS.4.3), the integral Leray–Hochschild–Serre sequence of a stratum (ALS.4.7), Hecke-compatible gluing over strata (ALS.4.8).
-- ALS.6: the finite-cover Hochschild–Serre sequence `H^i(K/K′, H^j(X_{K′}, V)) ⇒ H^{i+j}(X_K, V)` with Hecke action (ALS.6.2).
-
-### From AutomorphicGaloisRepresentationsPartII
-
-- AG2.3: for every CM `F` and regular algebraic conjugate-self-dual cuspidal `π` of `GL_n(𝔸_F)`, a continuous semisimple Galois representation with the good-place compatibility, including the non-Shin-regular and non-finite-slope cases (*Arbitrary regular conjugate-self-dual existence*; *Induction removing the finite-slope hypothesis*). The same layer's *Totally real polarized existence by CM descent* supplies the essentially self-dual totally real branch; it is not obtained from the CM statement by changing the field in its hypotheses.
-- AG2.7: the good-prime, polarised-comparison and lattice-and-residual-polynomial exports, which give the representation over a finite extension of `ℚ_p` with a stable lattice and its Frobenius polynomials.
-
-### From AutomorphicSpectralTheory
-
-- §4.14a, *Number-field GLₙ residual blocks*, supplies the discrete spectrum of `GL_N` over number fields as `Speh(ρ,b)`, with its construction, existence, uniqueness, multiplicity and ordered local quotient normalisation. EndoscopicTransferAndUnitaryTraceComparison §5.1 uses these same blocks; it does not construct a second residual classification.
-
-### From EndoscopicTransferAndUnitaryTraceComparison
-
-*Uses.*
-
-- Layer 5 (§5.1, *The supplied residual block and its endoscopic label*): the application to endoscopy of the discrete spectrum of `GL_N` over a number field as the segments `Speh(ρ, b)` of unitary cuspidal `ρ` (Mœglin–Waldspurger). It is used to read the discrete constituents of a weak base change as segments of conjugate-self-dual cuspidal representations.
-- Layers 1 and 6: unitary similitude groups and their elliptic endoscopic data (§1.8), the invariant twisted formula with proper-Levi distributions (§§6.17, 6.19–6.20), the simple stable–twisted identity for unitary similitude groups when `[F⁺:ℚ] ≥ 2` (§6.25), and Labesse's weak base change for inner forms of quasi-split unitary groups with discrete-series components under his property (*) (§6.29).
-- Layer 13 (§§13.1, 13.4): weak unitary base change for standard pairs and pure cohomological unitary transfer, which rest on Shin's cohomological base change.
-
-The additional cohomological base change for the unitary similitude group of `U(n,n)` is **unitarySimilitudeBaseChange** in §3b.2 here. Its cohomological trace prerequisite, including `F⁺ = ℚ` and purity, is also built in §3b.2. It retains nonregular highest weights and is separate from the standard-hermitian-space theorem of §13.4 and Labesse's property-(*) theorem of §6.29.
-
-### From ModularCurvesPartII
-
-- §§13.1–13.6, 14.2–14.4 and 14.15: the geometric Hecke coefficients and the integral comparison of modular curve cohomology, with Hecke operators `T_ℓ` and diamond operators.
-
-## How to read the build
-
-The construction proceeds in the order Layer 0, Layer 2a, Layer 1, Layer 2, Layer 3a, Layer 3b, Layer 4. Layer 0 constructs integral models and boundary ideals on affinoid covers and the almost boundary sequence on perfectoid charts. Layer 2a proves the ordinary colimit description of the perfectoid boundary ideal modulo `p^m`, which Layer 1 needs before it can approximate sections. Layer 1 transports integral lattices along the period map and turns finitely many bounded sections into classical cusp forms. Layer 2 compares completed compact-support cohomology with almost Čech cohomology of the boundary ideal and proves continuity of the Hecke action. Layer 3a is pure algebra, uses only Mathlib and IntegralHeckeAndGaloisDeterminants, and can be built first; consumers of the factor-extraction argument import it without importing any arithmetic. Layer 3b realises the algebra on the Siegel boundary and extracts the Levi interior determinant. Layer 4 assembles the finite torsion theorem, passes to integral coefficients, and validates the normalisations. Within each layer the targets are ordered by their dependencies, and each *Needs* annotation names the earlier target or the supplier item it uses.
 
 ## Layer 0: integral sheaves, formal models and boundary traces
 
@@ -932,6 +790,148 @@ The targets above use the following corrected forms. Each item names the place i
 
 - **IgusaVarietiesAndTorsionConcentration** uses Layers 3b and 4: the Levi interior determinant, the finite torsion determinant theorem and its integral and residual forms, as the Galois input for torsion vanishing.
 - Every roadmap that attaches Galois representations to torsion classes for `GL_n` over CM fields, in particular those leading to modularity lifting over CM fields, uses §§4.3–4.6.
+
+## Scope and ownership
+
+This roadmap owns:
+
+- the integral transport results on formal models and perfectoid charts used by Scholze §§2 and 4: the integral section model of a framed affinoid cover, the integral boundary ideal, the coordinatewise bounded-lattice extension across a good triple, the almost boundary support comparison on the perfectoid minimal compactification, and boundary-preserving traces (Layer 0);
+- the ordinary colimit of quotients of bounded boundary-ideal sections at fixed coefficient exponent, and their almost comparison with sections of the quotient sheaf (Layer 2a);
+- the integral period-lattice transport along the Hodge–Tate period map, the fixed-precision approximation atlas, localised cusp sections, integral cuspidal lifting and classical section approximation (Layer 1);
+- the perfectoid compact-support comparison, its geometric amplitude and Iwasawa consequences, the classical Hecke topology `T_cl`, continuity of the Hecke action on completed torsion cohomology, and the finite-level descent with its coefficient limits (Layer 2);
+- the weighted-determinant algebra: the twisted polynomial product and its separation theorem, uniqueness and polynomiality of finite-weight factorisations, the homogeneous decomposition of multiplicative group-algebra laws, the weighted unit law, extraction of weighted determinant factors, and the Laurent coefficient-ideal bound (Layer 3a);
+- the arithmetic Levi realisation on the Siegel boundary: the boundary Satake polynomials, the unitary-similitude boundary adapter, the classical ambient determinants with their field branches, the Siegel–Levi annihilator containment, the ambient interior error bound, auxiliary character realisation, the residual-kernel factorisation of continuous determinants, cyclotomic factor extension, the Laurent determinant realisation and the Levi interior determinant (Layer 3b);
+- the compact-support product comparison for neat Levi manifolds, the integral boundary filtration for `GL_n`, the boundary induction, the finite torsion determinant theorem, its integral and inverse-system transport, the four-route compatibility theorem, the residual and local specialisations, and the rank-one, rank-two and nonlifting validation examples (Layer 4).
+
+It consumes the following developments by name and does not rebuild them; the exact items are listed under *Exact supplier contracts*.
+
+- **Mathlib** supplies polynomials and their composition, reversal and reflection, Laurent polynomials, power series with rescaling, polynomial laws, matrix characteristic polynomials and `charpolyRev`, initial topologies, ideals and their powers, traces of finite free algebras, and group cohomology of a representation.
+- **Tau Ceti** supplies the maximal pro-`p` quotient of a profinite group with its universal factorisation (`TauCeti.maximalProPQuotient.lift`) and the long exact cohomology sequence of scheme modules (`TauCeti.AlgebraicGeometry.Scheme.Modules.cohomologyδ`).
+- **TauCetiRoadmap.IntegralHeckeAndGaloisDeterminants** supplies Chenevier determinants as homogeneous multiplicative polynomial laws, their characteristic polynomials, Amitsur's formula, coefficient-subring descent, direct sums and duals (Layer 0), reconstruction over fields and henselian local rings (Layer 1), derived Hecke images and ghost nilpotence (Layer 2), the `GL_n` Hecke polynomial normalisation (Layer 3a), uniqueness from Frobenius density, compact coefficient gluing and integral interpolation (Layer 4), and the arithmetic of nilpotent error ideals with residual specialisation (Layer 5). This roadmap does not redefine determinants.
+- **TauCetiRoadmap.ClassFieldTheory** (Layer 11) supplies the global Artin map in the arithmetic-Frobenius normalisation, with geometric normalisation obtained by composing `globalArtinMap` with inversion.
+- **AdicSpacesPartIII** (F0, R2, R3) supplies gluing of formal schemes, algebras topologically of finite type and presentation over `O_K` with saturation and coherence, Raynaud generic fibres and formal models, noetherian Serre vanishing, rigid GAGA, and traces of finite locally free algebras.
+- **PerfectoidSpaces** (Layers P0, P2, P3, P7) supplies almost mathematics over a basic setup, the sheaf theorem with almost acyclicity of `O⁺`, almost purity with étale almost acyclicity, and the étale cohomology of tilde-limits.
+- **PerfectoidSpaces** (§§P4.14–P4.15, the universal perfectoid closed quotient) supplies the closed quotient `(R_I, R_I⁺)` of a perfectoid pair by a closed ideal, the strongly Zariski closed immersion, and almost surjectivity of `R⁺ → R_I⁺`.
+- **PerfectoidShimuraVarieties** (Layers 1–3) supplies the Hebbarkeitssatz and good triples with their stability, normalised traces on the anticanonical tower, the perfectoid Hodge-type tower with its image compactification and the finite genuine-to-image map, the Hodge–Tate period map with its tautological and Hodge-type pullbacks, and the finite-level formal models with approximating Plücker sections.
+- **PadicHodgeTheory** (§2.7) supplies primitive comparison for smooth proper spaces, strict normal-crossings pairs and singular proper spaces. Section 2.1 here supplies its constructible relative and arbitrary-boundary forms.
+- **CompletedCohomologyPartII** (§§1.1, 2.1, 2.3–2.9, 4.1–4.6, 5.5, 6.1–6.4, 7.6, 8.6) supplies the fixed-exponent and integral completed cohomology of an arithmetic tower, coefficient Bockstein and Milnor sequences, finite projective completed complexes, grade and codimension over Iwasawa algebras, Hochschild–Serre descent to finite level, completed Poincaré duality, and the identification of Scholze's §4.2 compact-support object with its fixed-exponent carrier.
+- **AlgebraicTopology** (Stage 5 item 1, Stage 6) supplies singular-chain products and the general-ring Künneth spectral sequence, and Poincaré–Lefschetz duality with orientation local systems. The compact-support and Hecke adapter for Levi manifolds is built in §4.1 here.
+- **ArithmeticLocallySymmetricSpaces** (ALS.0–ALS.4, ALS.6) supplies the locally symmetric spaces `X_K` with their component decomposition and stacky non-neat levels, Hecke correspondences with level traces, character twists and cup products, the Borel–Serre boundary with its stratification, nilmanifold fibrations and boundary triangle, the unnormalised Satake map, and the finite-cover Hochschild–Serre sequence.
+- **AutomorphicGaloisRepresentationsPartII** (AG2.3, AG2.7) supplies Galois representations attached to regular algebraic conjugate-self-dual cuspidal representations of `GL_n` over CM fields, including the non-Shin-regular and non-finite-slope cases, with their good-place, polarisation and lattice exports.
+- **EndoscopicTransferAndUnitaryTraceComparison** (§§1.8, 5.1, 6.17, 6.19–6.20, 6.25, 6.29, 13.1, 13.4) supplies the endoscopic labels for global Speh data, unitary similitude groups with the full invariant twisted trace formula and, when `[F⁺:ℚ] ≥ 2`, the simple stable–twisted identity, and weak cohomological base change for unitary groups (Labesse's form, and Shin's for standard hermitian spaces). Shin's base change for the unitary similitude group of `U(n,n)`, which the unconditional CM form uses, is the target **unitarySimilitudeBaseChange** of §3b.2 here.
+- **AutomorphicSpectralTheory** (§4.14a, *Number-field GLₙ residual blocks*) supplies the discrete GL spectrum used after unitary base change.
+- **HodgeTateAndCanonicalSubgroups** (§§2.1–2.10) supplies the level tower and the Hodge–Tate conventions used through PerfectoidShimuraVarieties.
+- **ModularCurvesPartII** (§§13.1–13.6, 14.2–14.4, 14.15) supplies the integral Hecke correspondences on modular curve cohomology used in the rank-two validation.
+
+The matrix characteristic convention is supplied directly by Mathlib's `Matrix.reverse_charpoly`, with no additional matrix target here. The following supplier results support the integral, almost or nilpotent clauses built here: IntegralHeckeAndGaloisDeterminants Layer 5, *Nilpotence in a product of coefficient rings* (used for the infinite simultaneous product of Layer 4 here); PerfectoidShimuraVarieties Layer 1, good triples (applied coordinatewise to finite free lattices here); and ArithmeticLocallySymmetricSpaces ALS.4.1 (the boundary triangle, specialised to the Siegel stratum here).
+
+**Owned specialisations of supplier theories.** The following statements belong in the direction of a supplier roadmap but are stated and proved here, because their suppliers state only a more special or a different case: ampleness of a line bundle on a formal scheme from the affine cover of its special fibre (Layer 0, for AdicSpacesPartIII's noetherian projective theory); reduction modulo `p^m` of the closed-quotient sequence (Layer 0, for PerfectoidSpaces §§P4.14–P4.15); integrality of traces on integrally closed ideals and trace preservation of reduced boundary ideals in a generically étale extension (Layer 0, for AdicSpacesPartIII R3); sections over the non-vanishing locus of a section and Serre vanishing for flat finitely presented sheaves over an arbitrary base (Layer 1); almost faithfulness of free `O_C/p`-modules and the cohomological dimension of the perfectoid minimal compactification, and constructible relative primitive comparison (Layer 2); the homogeneous decomposition of multiplicative group-algebra laws (Layer 3a, for IntegralHeckeAndGaloisDeterminants Layer 0); the residual-kernel factorisation of continuous determinants (Layer 3b, for IntegralHeckeAndGaloisDeterminants Layer 1); and the integral finite-coefficient boundary filtration of `GL_n` (Layer 4, for ArithmeticLocallySymmetricSpaces ALS.4). Each uses the earlier targets listed in its *Needs:* clause.
+
+**Endoscopic classification input.** Scholze's Theorem 5.1.2 (Arthur for `Sp_2n` over a totally real field, Mok for quasi-split `U(n,n)` over a CM field) describes the transfer of a cuspidal representation of `G_0` with discrete-series archimedean components of weight `k` as an isobaric sum of conjugate-self-dual cuspidal representations of `GL_{n_i}` in segments of length `ℓ_i`. This roadmap neither proves nor plans that classification. The theorems of Layers 3b and 4 come in two forms. The **unconditional CM form** assumes that `F` is CM and contains an imaginary quadratic field and that `S` is the set of places over a finite set `S_ℚ` of rational places containing `p` and every place where `F/ℚ` ramifies (Scholze, Remark 5.4.6, p.1061); it uses unitary similitude Shimura varieties of Hodge type and Shin's cohomological base change for unitary similitude groups ([Shin, *On the cohomological base change for unitary similitude groups*, appendix to Goldring, Theorem 1.1, pp.1–2](https://math.berkeley.edu/~swshin/BCofU.pdf)), which §3b.2 builds as **unitarySimilitudeBaseChange**. The GU branch uses the distinct group, multiplier and Hecke interfaces of **unitarySimilitudeBoundaryAdapter** in §3b.1a, including its restricted classical topology and integral boundary action. The **general form**, for any totally real or CM `F`, carries the rank-specific hypothesis **(EC)_n**: for every cuspidal `π` of `G_0` whose archimedean components are the discrete series `π_k` of Proposition 5.1.1, the conclusion of Theorem 5.1.2 holds, with the unramified local compatibility of its display on p.1033 and the regularity of `Π_i|·|^{(h−ℓ_i)/2}` at the archimedean places. For the general rank-`n` conclusions of Layer 4, **`(EC)_{≤n}`** means this transfer theorem for every rank `1 ≤ r ≤ n`, with `G_{0,r} = Sp_{2r}` or `U(r,r)` and every allowed classical weight; `(EC)_{≤0}` is empty. Layer 3b at rank `n` uses only `(EC)_n`. These hypotheses appear explicitly in the respective general-form statements; the algebraic constructions of Layer 3a and the geometric comparisons of Layers 0–2 do not use these hypotheses. The status of the stabilisation that these hypotheses rest on is surveyed in Atobe–Gan–Ichino–Kaletha–Mínguez–Shin, arXiv:2410.13504v3, §§0.3–0.4. The symplectic group and its similitude group are not interchangeable: each statement names the group whose Shimura variety realises it.
+
+**Outside this roadmap.** The construction of perfectoid Shimura varieties, of the Hodge–Tate period map and of anticanonical towers belongs to PerfectoidShimuraVarieties; completed cohomology in general to CompletedCohomologyPartII; arithmetic quotients, Borel–Serre compactifications and Satake maps to ArithmeticLocallySymmetricSpaces; determinants, reconstruction and interpolation to IntegralHeckeAndGaloisDeterminants; Galois representations for characteristic-zero automorphic forms to AutomorphicGaloisRepresentationsPartII. This roadmap does not construct Galois representations for reductive groups other than `GL_n`, and it gives no explicit value of `N([F:ℚ],n)` beyond the bounds its proofs produce.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- `Polynomial.comp`, `Polynomial.compRingHom` and `Polynomial.mul_comp` (`Mathlib/Algebra/Polynomial/Eval/Defs.lean`) supply substitution `X ↦ cX`; the twisted product of Layer 3a is a composite of these and introduces no polynomial carrier.
+- `Polynomial.coeff_mul` (`Mathlib/Algebra/Polynomial/Coeff.lean`) supplies the antidiagonal coefficient formula used in every coefficient induction of Layer 3a.
+- `Polynomial.reverse`, `Polynomial.reflect`, `Polynomial.coeff_reflect` and `Polynomial.reflect_reflect` (`Mathlib/Algebra/Polynomial/Reverse.lean`) supply the reciprocal polynomial; `reverse` uses the actual `natDegree`, `reflect N` a prescribed degree bound, and the normalised reciprocal of Layer 3b is built from `reflect`.
+- `Matrix.charpolyRev`, `Matrix.reverse_charpoly` (`Mathlib/LinearAlgebra/Matrix/Charpoly/Coeff.lean`) and `Matrix.charpoly_map` (`Mathlib/LinearAlgebra/Matrix/Charpoly/Basic.lean`) supply `det(1 − X·M)`, its relation to the monic characteristic polynomial and its coefficient base change.
+- `LaurentPolynomial` with notation `R[T;T⁻¹]` (`Mathlib/Algebra/Polynomial/Laurent.lean`) and `AddMonoidAlgebra.mapDomainRingHom` (`Mathlib/Algebra/MonoidAlgebra/MapDomain.lean`) supply Laurent polynomials and the substitution `T ↦ T^a` as the map induced by `AddMonoidHom.mulLeft a : ℤ →+ ℤ`.
+- `PowerSeries.rescale`, `PowerSeries.map` and `Polynomial.coeToPowerSeries.ringHom` (`Mathlib/RingTheory/PowerSeries/Basic.lean`) supply `f(X) ↦ f(cX)`, coefficient change and the inclusion of polynomials into power series.
+- `PolynomialLaw` (`Mathlib/RingTheory/PolynomialLaw/Basic.lean`) is the carrier of the laws of Layer 3a, through IntegralHeckeAndGaloisDeterminants Layer 0.
+- `TopologicalSpace.induced` and `continuous_iInf_rng` (`Mathlib/Topology/Order.lean`) supply initial topologies and their universal property.
+- `groupCohomology` (`Mathlib/RepresentationTheory/Homological/GroupCohomology/Basic.lean`), `Rep.trivial` (`Mathlib/RepresentationTheory/Rep/Basic.lean`) and `groupCohomology.H1IsoOfIsTrivial` (`Mathlib/RepresentationTheory/Homological/GroupCohomology/LowDegree.lean`) supply the cohomology of the finite stabiliser in the nonlifting example.
+- `Algebra.trace`, `Algebra.isIntegral_trace` (`Mathlib/RingTheory/Trace/Basic.lean`) and `IsIntegrallyClosed` supply traces of finite free algebras and their integrality over a normal base.
+
+### From Tau Ceti
+
+- `TauCeti.maximalProPQuotient.lift` (`TauCeti/Topology/Algebra/Group/Profinite/MaximalProP.lean`) supplies the factorisation of a continuous homomorphism to a pro-`p` group through the maximal pro-`p` quotient; it is used for the group-theoretic part of the residual-kernel factorisation in Layer 3b and does not by itself factor a determinant.
+- `TauCeti.AlgebraicGeometry.Scheme.Modules.cohomologyδ` (`TauCeti/AlgebraicGeometry/Cohomology/LongExactSequence.lean`) supplies connecting maps for short exact sequences of scheme modules; it is used for the reduction sequences `0 → F →(p) F → F/p → 0` of Layer 1.
+
+### From TauCetiRoadmap.IntegralHeckeAndGaloisDeterminants
+
+- Layer 0: homogeneous and multiplicative polynomial laws, determinants of degree `d` with their characteristic polynomials (degree zero allowed), *Direct sums of determinants*, duals, Amitsur's formula, *Coefficient reconstruction from group words*, coefficient-subring descent, continuity of a determinant and its open-kernel criterion.
+- Layer 1: semisimple reconstruction over algebraically closed fields and henselian irreducible reconstruction with the Cayley–Hamilton quotient.
+- Layer 2: Hecke images of a complex and the amplitude bound for ghost nilpotence.
+- Layer 3a: the `GL_n` Hecke polynomial `P^std_v` and the arithmetic/geometric Frobenius conversion.
+- Layer 4: *Uniqueness from Frobenius density*, *Compact coefficient-ring gluing*, compatible quotient determinants, uniform congruence witnesses and *Integral interpolation with uniform congruences*.
+- Layer 5: *Determinant from a quantified Hecke comparison*, nilpotence through a quotient extension, of sums, in a product of coefficient rings (any index family), on a filtered module, *Quantified composition of Hecke error ideals*, residual semisimple specialisation and the representation over the nilpotent quotient.
+
+### From TauCetiRoadmap.ClassFieldTheory
+
+- Layer 11: `globalArtinMap`, `globalArtinMap_ideal`, `globalArtinMap_isArithFrobAt` and `globalArtinMap_local` supply global reciprocity and its local compatibilities in arithmetic normalisation. Compose this map with inversion to obtain the geometric normalisation used for the finite-order idele characters of §3b.5 and the rank-one check of §4.7. Layer 7's `geometricArtinMap` is the local map; it is not the name of a second global map.
+
+### From AdicSpacesPartIII and SchemeAndStackFoundations
+
+- AdicSpacesPartIII §F0.3, *Gluing formal schemes along open subschemes*, supplies formal glue data, their glued formal scheme and the morphism universal property. Its §R2.2 supplies admissible formal schemes and their reductions over a complete rank-one valuation ring, without discreteness.
+- AdicSpacesPartIII §R2.1, *Algebras topologically of finite type and of finite presentation*, *Saturated submodules of finite free modules over tft algebras are finitely generated*, *A flat algebra topologically of finite type is topologically finitely presented* and *Algebras topologically of finite presentation are coherent*, supplies finite generation of saturated submodules, completeness, coherence and the finite-presentation vocabulary over `O_K`. The statements concern the `ϖ`-adic topology, not the maximal-ideal topology.
+- AdicSpacesPartIII §§R2.3, R2.5 supplies Raynaud generic fibres, formal models of affinoids and the formal-model description of the underlying adic space; §R2.6, *Separatedness, properness and partial properness of a formal model versus its generic fibre*, supplies properness for admissible formal models over a complete rank-one field.
+- SchemeAndStackFoundations §2.6, *Quasi-coherent cohomology*, supplies noetherian Serre vanishing; AdicSpacesPartIII §F0.9, *Projective geometry over a noetherian base*, supplies its formal projective use. The arbitrary-base flat form is §1.5 here.
+- AdicSpacesPartIII §R3.7 supplies proper rigid GAGA; §R3.8, *The trace of a finite locally free algebra*, supplies traces, coefficient change and their agreement with Mathlib `Algebra.trace` in the finite free case.
+
+### From PerfectoidSpaces
+
+- Layer P0, especially §§P0.1, P0.5 and P0.29: almost modules and almost sheaves over a basic setup, almost isomorphisms and detection by `𝔪̃ ⊗ −`.
+- §§P2.7–P2.8: almost acyclicity on rational coverings and the sheaf theorem for affinoid perfectoid spaces.
+- Layer P3, especially §§P3.13, P3.21–P3.22: almost purity and étale almost acyclicity of `O⁺` and `O⁺/ϖ`.
+- §§P4.14–P4.15: the universal perfectoid closed quotient `(R_I, R_I⁺)`, with `R → R_I` surjective, `R_I⁺` the integral closure of the image of `R⁺`, and `R⁺ → R_I⁺` almost surjective; the associated strongly Zariski closed immersion onto `V(I)` and its base change. The integral quotient algebra of PerfectoidQuotients §2.1 is a separate theory and is not an input here.
+- §P7.15: for a noetherian tilde-limit `X ~ lim X_j` with the stated qcqs hypotheses, `colim_j H^n(X_{j,ét}, F_j) ≅ H^n(X_ét, F)` (Scholze, *Perfectoid spaces*, Corollary 7.18).
+
+### From PerfectoidShimuraVarieties and HodgeTateAndCanonicalSubgroups
+
+- PerfectoidShimuraVarieties §§1.3–1.6: the Hebbarkeitssatz, its extension corollary, good triples and their stability; §1.16: normalised traces on the anticanonical tower with errors tending to zero.
+- PerfectoidShimuraVarieties §2.2: the open Hodge-type perfectoid tower; §2.3: the image-compactified perfectoid tower `X̄_{K^p} ~ lim X̄_{K_pK^p}`, its finite-stage Lagrangian charts, completed colimit of plus rings and strongly closed boundary. Section 2.1 supplies the finite map from the genuine to the image compactification, an isomorphism over the interior that maps boundary to boundary; §2.8 supplies its infinite-level comparison. No tilde-limit property of the genuine minimal tower is assumed.
+- PerfectoidShimuraVarieties §3.3: `Lie A ⊗ O(1) ≅ π_HT^*W` on the Siegel tower; §§3.6, 3.8: the Hodge-type Levi and automorphic-bundle pullbacks; §3.9: the all-prime Scholze form of finite-level formal models with approximating Plücker sections. The stronger Pilloni–Stroh uniform integral estimate retains its stated qualification at `p = 2`.
+- HodgeTateAndCanonicalSubgroups §§2.1–2.3 supplies the canonical level tower, transition and tame Hecke maps and its infinite-level v-sheaf, with effective actions and the component labels. Its §§2.5–2.10 supplies the Hodge–Tate sequence and its cyclotomic and Levi conventions. The comparisons of §§1.1 and 2.1 here use these same tower and bundle maps through PerfectoidShimuraVarieties.
+
+### From PadicHodgeTheory
+
+- §2.7, *Primitive comparison and integral finiteness*, supplies the absolute smooth proper primitive comparison, its strict-normal-crossings compact-support form for a smooth proper pair `U = Y ∖ D`, and its extension to singular proper rigid spaces through analytic log resolution, with resolution independence, localization and amplitude. The constructible relative theorem for proper algebraic morphisms and its arbitrary-boundary extension-by-zero form are targets of §2.1 here; they are not inferred from the smooth proper statement alone.
+
+### From CompletedCohomologyPartII
+
+- §§1.1, 2.1 and 8.6: fixed-exponent cohomology, its integral coefficient limit and identification of `colim_{K_p} H^i_c(X_{K_pK^p}, ℤ/p^n)` with Scholze's fixed-exponent support convention.
+- §§2.3–2.9: strict integral control, coefficient Bockstein comparison `0 → H̃^n/ϖ^s → A^n_s → H̃^{n+1}[ϖ^s] → 0`, and Milnor and Mittag-Leffler control of coefficient limits.
+- §§4.1–4.6: actual lifted cellular complexes, finite projective completed models and stabilizer/boundary replacements, with the Hecke action at a torsion-free pro-`p` level.
+- §5.5: Auslander regularity, grade and codimension over `Λ = ℤ_p[[K_p]]`; §§6.1–6.4: fixed-exponent and integral Hochschild–Serre descent to finite level and algebraic coefficient untwisting; §7.6: completed Iwasawa–Poincaré duality. The regular-cover, strictness, orientation and effective-deck hypotheses of those sections are retained.
+
+### From AlgebraicTopology
+
+- Stage 5 item 1 supplies the Alexander–Whitney and Eilenberg–Zilber chain maps and the Künneth spectral sequence over every commutative ring, with collapse only under its stated coefficient hypotheses. Stage 6 items 1–4 supply local-coefficient cochains, cross and cap products, orientation local systems and Poincaré–Lefschetz duality for compact manifolds with boundary. Section 4.1 constructs the compact-support product and correspondence comparison for the supplied Levi manifolds.
+
+### From ArithmeticLocallySymmetricSpaces
+
+- ALS.0: `X_K` and its components (ALS.0.7), stacky non-neat levels with their finite stabilisers (ALS.0.8, ALS.1.5), neat levels are manifolds (ALS.0.9).
+- ALS.2: boundary strata fibre over Levi quotients with nilmanifold fibres (ALS.2.8), and the stratification filtration of `∂X̄^{BS}_K` with its spectral sequence (ALS.2.9).
+- ALS.3: level traces with `cor ∘ res = [K:K′]` (ALS.3.6), Hecke compatibility with supports, boundary, coefficients and cup products (ALS.3.9), twisting by a character of `det` (ALS.3.12).
+- ALS.4: the boundary triangle `RΓ_c → RΓ → RΓ_∂` (ALS.4.1), restriction to a parabolic and the integral unnormalised Satake map (ALS.4.2), Hecke action on boundary strata (ALS.4.3), the integral Leray–Hochschild–Serre sequence of a stratum (ALS.4.7), Hecke-compatible gluing over strata (ALS.4.8).
+- ALS.6: the finite-cover Hochschild–Serre sequence `H^i(K/K′, H^j(X_{K′}, V)) ⇒ H^{i+j}(X_K, V)` with Hecke action (ALS.6.2).
+
+### From AutomorphicGaloisRepresentationsPartII
+
+- AG2.3: for every CM `F` and regular algebraic conjugate-self-dual cuspidal `π` of `GL_n(𝔸_F)`, a continuous semisimple Galois representation with the good-place compatibility, including the non-Shin-regular and non-finite-slope cases (*Arbitrary regular conjugate-self-dual existence*; *Induction removing the finite-slope hypothesis*). The same layer's *Totally real polarized existence by CM descent* supplies the essentially self-dual totally real branch; it is not obtained from the CM statement by changing the field in its hypotheses.
+- AG2.7: the good-prime, polarised-comparison and lattice-and-residual-polynomial exports, which give the representation over a finite extension of `ℚ_p` with a stable lattice and its Frobenius polynomials.
+
+### From AutomorphicSpectralTheory
+
+- §4.14a, *Number-field GLₙ residual blocks*, supplies the discrete spectrum of `GL_N` over number fields as `Speh(ρ,b)`, with its construction, existence, uniqueness, multiplicity and ordered local quotient normalisation. EndoscopicTransferAndUnitaryTraceComparison §5.1 uses these same blocks; it does not construct a second residual classification.
+
+### From EndoscopicTransferAndUnitaryTraceComparison
+
+*Uses.*
+
+- Layer 5 (§5.1, *The supplied residual block and its endoscopic label*): the application to endoscopy of the discrete spectrum of `GL_N` over a number field as the segments `Speh(ρ, b)` of unitary cuspidal `ρ` (Mœglin–Waldspurger). It is used to read the discrete constituents of a weak base change as segments of conjugate-self-dual cuspidal representations.
+- Layers 1 and 6: unitary similitude groups and their elliptic endoscopic data (§1.8), the invariant twisted formula with proper-Levi distributions (§§6.17, 6.19–6.20), the simple stable–twisted identity for unitary similitude groups when `[F⁺:ℚ] ≥ 2` (§6.25), and Labesse's weak base change for inner forms of quasi-split unitary groups with discrete-series components under his property (*) (§6.29).
+- Layer 13 (§§13.1, 13.4): weak unitary base change for standard pairs and pure cohomological unitary transfer, which rest on Shin's cohomological base change.
+
+The additional cohomological base change for the unitary similitude group of `U(n,n)` is **unitarySimilitudeBaseChange** in §3b.2 here. Its cohomological trace prerequisite, including `F⁺ = ℚ` and purity, is also built in §3b.2. It retains nonregular highest weights and is separate from the standard-hermitian-space theorem of §13.4 and Labesse's property-(*) theorem of §6.29.
+
+### From ModularCurvesPartII
+
+- §§13.1–13.6, 14.2–14.4 and 14.15: the geometric Hecke coefficients and the integral comparison of modular curve cohomology, with Hecke operators `T_ℓ` and diamond operators.
 
 ## References
 
