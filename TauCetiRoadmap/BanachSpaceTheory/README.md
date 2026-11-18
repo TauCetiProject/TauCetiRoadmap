@@ -1,38 +1,57 @@
 # Roadmap: Banach space theory
 
-**Summary.** Build the geometry and duality of Banach spaces over `ℝ` and `ℂ` on top of the
-large Banach-space layer the pinned Tau Ceti already carries (annihilators and adjoints,
-Goldstine, Eberlein–Šmulian, Milman–Pettis, Krein–Šmulian, Bishop–Phelps, Schauder bases with
-James's basis criterion, the approximation properties, the projective, injective and completed
-tensor products, nuclear operators and integral bilinear forms, absolutely summing operators
-with Pietsch domination and factorization, Grothendieck's matrix inequality, the Dunford–Pettis
-property, the scalar-measure integration layer, Banach–Mazur distance and local reflexivity).
-What is built here is the rest of the classical theory: James's norm-attainment theorem;
-Grothendieck's tensor characterization of the approximation property and his theorem that a
-reflexive space with the approximation property has the metric one; Enflo's separable reflexive
-space without the approximation property and the Argyros–Haydon space on which every operator is
-a scalar plus a compact; the real–complex comparisons; Hilbert dimension and the unitary
-classification; the Riesz representation of `C(K, 𝕜)*`, the σ-finite `L¹`–`L∞` and the
-`Lᵖ`–`Lᑫ` dualities, the local-null Haar endpoint, the Dunford–Pettis weak compactness
-criterion and the Dunford–Pettis property of `C(K)` and `L¹(μ)`; Banach–Stone; Rademacher cotype
-with Pisier's cotype-2 summing bound and Grothendieck's theorem for operators out of `L¹`; and in
-finite dimension John's bound `d(E, ℓ₂ⁿ) ≤ √n`, the Kadec–Snobar and Garling–Gordon projection
-theorems and Dvoretzky's theorem. The roadmap is this README; `Suggested.lean` states the
-headline theorems whose carriers exist at the pins.
+**Summary.** A Banach space is a complete normed space, and much of its theory studies such a
+space through its continuous linear functionals. This roadmap builds the classical geometry and
+duality of Banach spaces over ℝ and ℂ. Completeness is an explicit hypothesis, duals are
+continuous duals, and a space is reflexive when the canonical map into its bidual is onto.
 
-## How to read the build
+James's theorem characterizes weak compactness through functionals. A nonempty, norm-closed,
+bounded, convex subset A of a real or complex Banach space is weakly compact if and only if, for
+every continuous linear functional f, the real part of f attains its supremum on A. On the closed
+unit ball this says that a Banach space is reflexive exactly when every continuous linear
+functional attains its norm there. On `ℓ¹`, the functional `Σ (1 − 1/n) xₙ` has norm 1 and does
+not attain it, so `ℓ¹` is not reflexive.
 
-Layer 1 completes the duality theory of normed spaces around the pinned annihilator, adjoint,
-Goldstine and bipolar results. Layer 2 proves James's theorem. Layer 3 adds block bases, the
-ambient perturbation of basic sequences and the Haar basis of `Lᵖ[0,1]`. Layer 4 is the
-approximation and tensor layer: Grothendieck's tensor characterization, the Hilbert comparisons,
-the real–complex comparisons, Grothendieck's reflexive theorem with Enflo's counterexample, and
-the Argyros–Haydon construction. Layer 5 is function spaces and measure duality, from `ℓ²(S)`
-and Hilbert dimension through `C(K)*`, the `Lᵖ` dualities, the Dunford–Pettis theory and the
-local-null Haar endpoint. Layer 6 is cotype and Grothendieck's theorem, and Layer 7 the local
-theory. Layers 1–3 depend only on the suppliers; Layer 4 needs Layers 1–3; Layer 5 needs
-Layers 1–3, and inside it §5.4's density construction comes first and §5.7's property of
-`L¹(μ)` last, after §5.9; Layer 6 needs Layer 5; Layer 7 needs Layers 1, 4 and 6.
+A Banach space has the approximation property when its identity is a limit, uniformly on compact
+sets, of finite-rank operators, and the metric approximation property when these can be taken of
+norm at most 1. The roadmap proves Grothendieck's theorem that a reflexive Banach space with the
+approximation property has the metric one. It also proves his characterization: E has the
+property exactly when, for every Banach space F, the natural map from the completed projective
+to the completed injective tensor product of F and E is injective. Two examples are constructed
+as well: Enflo's separable reflexive real Banach space without the approximation property, and
+the Argyros–Haydon space, an infinite-dimensional real Banach space on which every bounded
+operator is a scalar multiple of the identity plus a compact operator.
+
+An operator T is absolutely summing when `Σ ‖T xᵢ‖` is at most a constant times the supremum of
+`Σ |f(xᵢ)|` over functionals f of norm at most 1, for every finite family `(xᵢ)`; the least
+constant is `π₁(T)`. By Grothendieck's theorem, for every measure μ, every bounded operator T
+from `L¹(μ)` into an inner product space is absolutely summing, with `π₁(T) ≤ 16 ‖T‖` over ℝ or
+ℂ. The identity of `ℓ²` is not, so the hypothesis on the domain cannot be dropped.
+
+The local theory compares finite-dimensional spaces with Euclidean ones through the Banach–Mazur
+distance, the infimum of `‖T‖ ‖T⁻¹‖` over linear isomorphisms T. By John's theorem every
+n-dimensional normed space over ℝ or ℂ is at distance at most √n from `ℓ₂ⁿ`; the real `ℓ₁ⁿ`
+attains this bound. Dvoretzky's theorem finds almost Euclidean subspaces in high dimension: for
+every k and ε > 0 there is N such that every real normed space of finite dimension at least N
+admits a linear map T from `ℓ₂ᵏ` with `(1 − ε)‖x‖ ≤ ‖Tx‖ ≤ (1 + ε)‖x‖` for all x.
+
+Much of the groundwork, such as the Eberlein–Šmulian theorem, the Banach tensor products and
+Grothendieck's inequality for matrices, is already in the Tau Ceti library.
+[Operator ideals](../OperatorTheory/OperatorIdeals/README.md) supplies the trace-class norm on
+Hilbert space, which Layer 4 identifies with the nuclear norm. In turn, BanachAlgebras draws
+spectral and invariant-subspace consequences from the Argyros–Haydon space,
+SelfAdjointSpectralTheory uses the description of the dual of `C(K)` by measures, and SNumbers
+uses Grothendieck's and John's theorems.
+
+Layer 1 completes the duality theory of normed spaces, Layer 2 proves James's theorem, and Layer 3
+adds block bases, the perturbation of basic sequences and the Haar basis of `Lᵖ[0,1]`. Layer 4
+holds the approximation theorems and both constructions. Layer 5, on function spaces, identifies
+the dual of `C(K)`, for compact Hausdorff K, with the scalar measures of regular variation normed
+by total variation, and the dual of `Lᵖ(μ)` with `L^q(μ)` for `1 < p < ∞`, `q = p/(p − 1)`, and
+any μ. It also covers Hilbert dimension, the Dunford–Pettis theory of `L¹`, and the dual of `L¹`
+for regular left Haar measures that need not be σ-finite. Layer 6 adds Rademacher type and cotype
+and proves Grothendieck's theorem, and Layer 7 is the local theory. Layers 2 and 3 need Layer 1,
+and Layers 4 and 5 need Layers 1–3. Layer 6 needs Layer 5, and Layer 7 needs Layers 1, 4 and 6.
 
 ## Conventions
 
@@ -1668,7 +1687,7 @@ contract. Within the roadmap: Layer 1, §4.4 (for §7.1), §6.1 (Gaussian model)
 ## Scope and ownership
 
 This roadmap owns the targets of its seven layers. The layer ids `B1`–`B7`, and the target ids
-`B4.0`, `B4.1`, `B4.C`, `B5.LocalHaarDual` and `B6.Cotype2`, are kept in the headings below,
+`B4.0`, `B4.1`, `B4.C`, `B5.LocalHaarDual` and `B6.Cotype2`, are kept in the headings above,
 since other roadmaps cite them. The layer anchors used by other roadmaps' links map to the layer
 headings as follows:
 

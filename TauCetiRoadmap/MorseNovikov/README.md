@@ -1,13 +1,65 @@
 # Roadmap: Morse–Novikov homology and dynamical Reidemeister torsion
 
-**Summary.** Build the Morse theory of closed real one-forms, from the completed group-ring
-algebra to geometric trajectory complexes and their topological comparison.
-Count periodic return orbits with their multiplicities and Lefschetz signs,
-and prove that Novikov torsion multiplied by the dynamical zeta function equals
-cellular Reidemeister torsion (Hutchings, Forum Math. 14 (2002), Theorem B, p. 215). The resulting library includes nonintegral period
-classes, noninjective period homomorphisms, torsion in abelian deck groups,
-continuation, Euler structures, and explicit circle, mapping-torus and knot-surgery
-calculations.
+**Summary.** Morse theory reads the topology of a closed manifold off the critical
+points of a function and the gradient trajectories between them. Novikov replaced the
+function by a closed one-form α, which is locally the differential of a function but
+need not be one globally. Its gradient flow can then have closed orbits. This roadmap
+builds the Morse theory of closed real one-forms. Its main theorem is that the
+torsion of the resulting complex, multiplied by a zeta function counting closed
+orbits, equals the Reidemeister torsion of the manifold (Hutchings, Forum Math. 14
+(2002), Theorems A and B).
+
+Throughout, X is a closed connected smooth manifold, Hausdorff and second countable,
+not necessarily oriented. Fix a connected regular cover of X with abelian deck group H
+on which the pullback of α is exact. The periods of α give a homomorphism from H to ℝ,
+which may have a kernel or a dense image, and H may have torsion. The Novikov ring of
+H consists of the series Σ a_h e^h with finitely many terms below each bound on N(h),
+where N is minus that homomorphism. When the zeros of α are nondegenerate and its
+trajectories are transverse, chosen lifts of the zeros form a basis of the Novikov
+complex over this ring. Its differential counts signed trajectories between zeros of adjacent index,
+weighted by deck class.
+
+This complex is chain homotopy equivalent to the cellular chains of the cover,
+completed over the Novikov ring. When the class of α is nonzero, its top-degree
+integral homology vanishes, also for nonorientable X.
+
+The total quotient ring of the integral Novikov ring is a finite product of fields of
+characteristic zero. The Novikov torsion lies there, and is zero exactly on the
+components where the complex is not acyclic. Suppose also that all closed orbits,
+iterates included, are nondegenerate. The zeta function ζ is the exponential of
+Σ ε(γ)/p(γ) e^[γ] over the closed orbits γ, with return sign ε(γ) and multiplicity
+p(γ); it has integer coefficients and constant term 1. If χ(X)=0, the product of the
+Novikov torsion and ζ, taken modulo signs and elements of H, depends only on the
+cohomology class of α and the cover, and equals the image of the cellular torsion of
+the cover, for every real class and every finitely generated abelian H. On the
+circle, a form of nonzero period without zeros has torsion 1 and ζ=(1−t)⁻¹; perturbed
+to have a maximum and a minimum, it has torsion (1−t)⁻¹ and ζ=1. Both products are
+the cellular torsion (1−t)⁻¹. Zero surgery on a knot K in S³ has cellular
+torsion Δ_K(t)/(1−t)² up to ±t^k, with Δ_K the Conway-normalized Alexander polynomial.
+
+Two classical theorems are built along the way and stated in Suggested.lean. Let M be
+a compact Hausdorff smooth manifold of finite dimension without boundary, possibly
+disconnected, nonorientable or empty. The Lefschetz fixed-point formula: if every
+fixed point of a smooth map f:M→M is nondegenerate (1 is not an eigenvalue of df_x),
+then the sum over the fixed points of the sign of det(1−df_x) is
+Σ(i=0,…,dim M)(−1)^i tr(f_* on H_i(M;ℚ)). For z↦z² on the circle, its one fixed point
+and its traces both give −1. The Poincaré–Hopf theorem: for a smooth vector field on M
+whose derivative at each zero has nonzero determinant, the sum over the zeros of the
+sign of that determinant is the alternating sum of the rational Betti numbers of M in
+degrees 0 to dim M.
+
+Much of the algebra is already in Tau Ceti, from the Novikov ring to the torsion of a
+based complex over a field. [HeegaardFloer](../HeegaardFloer/README.md) provides
+ordinary Morse moduli spaces and the return maps of periodic orbits.
+[DifferentialGeometry](../DifferentialGeometry/README.md) provides forms, de Rham
+cohomology and periods. AlgebraicTopology and GeometricTopology provide covers,
+cellular chains and the Alexander polynomial. Downstream, TaubesGromov uses the
+torsion and zeta results for its orbit expansions.
+
+Layers 1 and 4 are algebra: the Novikov ring, and torsion over its total quotient.
+Layers 2, 3 and 5 build the trajectory spaces, the Novikov complex and the orbit count.
+Layer 6 proves the equality and the Lefschetz formula. Layer 7 adds Poincaré–Hopf and
+Euler structures, which refine the equality up to sign alone.
 
 ## How to read the build
 
@@ -2199,7 +2251,7 @@ for smooth triangulations. The simplex-cell CW structure of a realization, its s
 boundaries and the cellularity of simplicial maps are the Tau Ceti declarations above, as
 are smooth triangulations with their subdivisions, the PL charts on stars with spherical
 links, the knot exterior, its Dehn fillings and its preferred longitude.
-Layer 6 below constructs the based equivariant
+Layer 6 above constructs the based equivariant
 cellular complex of the surgery cover, its identification with §4.4's presentation,
 and the orientation signs and simplicial-map functoriality of the
 pinned ordered simplicial chains.
