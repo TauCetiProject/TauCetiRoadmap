@@ -25,117 +25,18 @@ it states the headline theorems that can be expressed against the pinned Mathlib
 Tau Ceti APIs, with `sorry` proofs and only the simple definitions their statements need.
 The module docstring identifies the remaining headlines and the carriers they lack.
 
-## Scope and ownership
+## How to read the build
 
-This roadmap owns:
-
-- the rational auxiliary independence of Siegel units, their two-coordinate
-  Galois action and distribution relation, their analytic product with its
-  Bernoulli exponent, cusp orders and integral descent, and the one-coordinate
-  degeneracy product (Layer 0);
-- the norm relations of the Beilinson elements in their étale Chern and real-regulator
-  realizations, for level raises that keep each index's prime set and for auxiliary
-  primes, and the norm formula for transfers of unit symbols on which they rest (Layer 1);
-- the labelled classes at each conductor m, obtained from the two-index classes of
-  `PadicFamilies` §4.0.1 by Kato's labelled pushforward, the conductor Euler system of a
-  newform in the Euler-system carrier, the dictionary between Kato's and Nakamura's Hecke
-  and twist conventions, and the full-level zeta classes (Layer 2);
-- the explicit modular filtration on the de Rham realization, Kato's Eisenstein
-  series `E^h_(α,β)`, `F^h_(α,β)`, the Eisenstein zeta forms with their Betti
-  periods and critical values, the operator-valued zeta function and Beilinson's
-  real regulator formula for the K₂ element (Layer 3);
-- the admissible coefficient places, the nonvanishing of twisted critical values
-  used by Kato, the conversion of Kato's Euler-system hypotheses into Rubin's,
-  the module structure of lattice Iwasawa cohomology, finite support over the
-  full cyclotomic algebra, the twist–localization square, the Momose–Ribet–Loeffler open
-  image of a non-CM newform in the group of pairs, the cyclotomic consequences of the image
-  theorems for a non-CM elliptic curve over ℚ (openness at every p imported from
-  `NoncommutativeAndEquivariantIwasawa` §4.0, surjectivity for all but finitely many p from
-  `AdelicImagesAndModularCurves` §4.3), and the strict `H²` kernel (Layer 4);
-- Kato's canonical rational zeta morphism, the finite index of the smoothed
-  integral span, the critical interpolation of the canonical map, Nakamura's
-  twist-one morphism, parabolic full-level Iwasawa cohomology and the parabolic
-  characterization of the full-level classes (Layer 5);
-- Perrin-Riou's map for de Rham representations in Kato's form, the scalar
-  regulator of the canonical class, the period dictionary with modular symbols,
-  the noncritical analytic–arithmetic equality, its bad-reduction domains
-  and the elliptic local lattice with Kato's period (Layer 6);
-- the non-torsion and cohomological bound for the canonical zeta module, the
-  elliptic applications with their formal-group and control inputs, Kato's finiteness of
-  Bloch–Kato Selmer groups over abelian fields with its consequences for modular abelian
-  varieties, and his bound for the order of `H²` (Layer 7).
-
-`PadicFamilies` §4.0 is the owner of the finite-level geometric construction
-and its first consequences, and this roadmap does not construct them again:
-the normalized theta unit, the smoothed Siegel units obtained by torsion
-evaluation, the ordered Beilinson symbols on the two-index curves with their
-products, transfers and étale Chern classes (the Chern image of `{u,v}` is the
-cup product of the Kummer classes of `u` and `v`), the
-modular zeta classes with parameters c, d, M, N, k, r, r′ with their norm, trace, moment,
-coefficient, Hecke and smoothing relations (§4.0.1), the modular dual exponential and the
-three-branch explicit reciprocity law, including the comparison over the
-completed modular function field whose residue field has a finite p-basis
-(§4.0.2), and the rational cyclotomic bound for the geometric zeta submodule,
-its integral form under the `SL₂(ℤ_p)` image condition, the CM case through
-elliptic units, and the ordinary Selmer bound by the ordinary p-adic L-function
-with good periods (§4.0.3). The statements kept below differ from those of §4.0
-in one of three ways, which each target names: they concern the canonical zeta
-module of Layer 5 rather than the geometric one, they use a weaker integral
-hypothesis than the `SL₂(ℤ_p)` image, or they are finer statements (symbol-level
-relations of the realizations, analytic products, full-level and parabolic classes) that
-§4.0 does not make.
-
-The two-index classes of §4.0.1 live on the curves `Y(M,N)`. The labelled classes at a
-conductor m, in `H¹(ℤ[ζ_m,1/p], V_(k,ℤ_p)(Y₁(N))(k−r))`, with their newform projections,
-which Kato obtains from the two-index classes by the pushforward of his 8.9–8.11, are not
-stated by §4.0.1 and are target 2.0 here; `EllipticCurveModularityPartII` §6.0e consumes
-their weight-two case through its own supplier contract with `PadicFamilies`.
-
-Openness of the p-adic image of a non-CM elliptic curve over a number field at every p,
-including `p = 2, 3`, is `NoncommutativeAndEquivariantIwasawa` §4.0, and the surjectivity of
-that image for all but finitely many p is `AdelicImagesAndModularCurves` §4.3; 4.7 imports
-both over ℚ and proves only their cyclotomic consequences. The
-finiteness of `A_f(ℚ)` for a weight-two newform f with trivial character and `L(f,1) ≠ 0`,
-in particular of `E(ℚ)` when `L(E,1) ≠ 0`, is `EllipticCurveModularityPartII` §6.0e; 7.9
-keeps Kato's general theorem, over every finite abelian K, for the χ-parts of Selmer and
-Mordell–Weil groups at every admissible p, for arbitrary nebentypus and every critical
-twist, of which §6.0e is the case `K = ℚ`, `χ = 1` of the Mordell–Weil conclusion.
-
-The modular curves, their level and degeneracy maps, cusps and Tate charts, and
-their étale local systems come from `ModularCurves` and `ModularCurvesPartII`.
-Scheme K-theory products, transfers and the projection formula come from
-`SchemeKTheoryOperations`, and the ring-level Steinberg symbol relations from
-`K2SymbolsBrauer`; finite étale traces and their norm description on Kummer classes from
-`EtaleCohomologyFoundations` §0.8; the curve η-regulator from `Polylogarithms` §5.13.
-Eisenstein series with character and the analytically
-continued newform L-function come from `ModularForms`. Galois representations of
-newforms, their lattices, purity and local behaviour at p come from
-`AutomorphicGaloisRepresentations`; Galois and Iwasawa cohomology, Selmer
-conditions, universal norms and twisting from `SelmerIwasawaCohomology` and
-`ArithmeticGaloisDuality`; the Euler-system carrier and its finite-level and
-Iwasawa bounds from `EulerSystemsAndKolyvaginSystems`; completed group rings,
-pseudo-null modules and characteristic ideals from
-`PadicMeasuresIwasawaAlgebras`; the dual exponential, the crystalline and de
-Rham regulators and the elliptic Coleman map from `PadicHodgeRegulators`;
-modular-symbol periods, the Drinfeld–Manin splitting, admissible distributions
-and the family comparison principle from `ModularSymbolsPadicLFunctions`; the
-completed Borel–Moore moment map from
-`CompletedCohomologyAndLocalGlobalCompatibility`; and elliptic curves over local
-and global fields from `EllipticCurves`. Boundary nonvanishing is supplied by
-`AutomorphicLFunctionsAndLocalFactors` Layer AL.3, “Rankin–Selberg nonvanishing on
-the boundary”, through the classical-to-unitary dictionary of
-`GL2AutomorphicRepresentationsAndTransfer` §R16.5.3. The critical-slope family comparison
-is `ModularSymbolsPadicLFunctions` §3.3 applied to a jointly analytic arithmetic family
-section with compatible periods and dense noncritical agreement. Such an arithmetic
-section is additional input; its construction is outside this roadmap.
-
-Not in this roadmap: a generic Euler-system or Kolyvagin-system machine, generic
-regulators, the construction of the analytic p-adic L-function, reverse
-divisibility or any main-conjecture equality, the BSD p-part equality, the Tamagawa
-number conjecture itself, two-variable and family classes (owned by `PadicFamilies`),
-and the CM main conjecture beyond the elliptic-unit input that `PadicFamilies` §4.0.3
-uses; in particular the vanishing for almost all λ of the Selmer groups of 7.9 for CM
-forms, which rests on it, is not claimed.
+Layer 0 and Layer 1 refine the units and K₂ elements of `PadicFamilies` §4.0.1.
+Layer 2 pushes the two-index classes forward to the labelled classes at each conductor,
+places them in the Euler-system carrier and constructs the full-level classes. Layer 3 supplies the archimedean side: the filtration
+step in which reciprocity lands, Kato's Eisenstein series, periods, critical
+values and the real regulator. Layer 4 proves the image, nonvanishing and
+Iwasawa-theoretic inputs that precede the canonical map. Layer 5 constructs the
+canonical rational morphism and its twist-one and parabolic forms; Layer 6
+compares its regulator with the analytic p-adic L-function; Layer 7 applies the
+bounds and ends with Kato's finiteness theorems over abelian fields. This order separates nonvanishing of the geometric classes from
+nonvanishing of the subsequently constructed canonical map.
 
 ## Conventions
 
@@ -203,316 +104,6 @@ algebra splits; in particular for all but finitely many λ, for every λ when f
 has no nontrivial inner twist, and for every p when f comes from an elliptic
 curve over ℚ. Statements below that rest on Kato's Theorem 12.4 assume
 admissibility.
-
-## Exact supplier contracts
-
-### From Mathlib and Tau Ceti
-
-For the elliptic character part of §7.9, use Tau Ceti
-`WeierstrassCurve.pointGaloisAction` in
-`TauCeti/AlgebraicGeometry/EllipticCurve/Affine/Point/Galois.lean`, which acts by applying
-field automorphisms to coordinates, and Mathlib `IsCyclotomicExtension.autEquivPow`
-in `Mathlib/NumberTheory/Cyclotomic/Gal.lean`, with
-`Polynomial.cyclotomic.irreducible_rat` over ℚ. The character evaluation is
-`MonoidAlgebra.lift` and the twisted Dirichlet series is Mathlib `LSeries`.
-
-The image theorems imported into 4.7 are read on Tau Ceti `WeierstrassCurve.tateModuleGaloisRepresentation` in
-`TauCeti/AlgebraicGeometry/EllipticCurve/TateModule/Galois.lean`, the coordinatewise action of
-`Gal(ℚ̄/ℚ)` on the Tate module `T_ℓE`, continuous for the Krull topology, with Mathlib
-`Representation.asGroupHom` for its values in the automorphism group; and their non-CM
-hypothesis on Tau Ceti `TauCeti.Isogeny.Hom` with its ring structure in
-`TauCeti/AlgebraicGeometry/EllipticCurve/Isogeny/Hom/Ring.lean`, the endomorphisms of the curve
-with addition the group law of morphisms and multiplication composition, so that the integer
-`n` in it is multiplication by n.
-
-Use Mathlib `Units` and `Units.map` for ring units, `UpperHalfPlane`,
-`ModularForm`, `CuspForm`, `DirichletCharacter` and
-`ModularForm.eisensteinSeriesMF` (with its integer-pair summand
-`EisensteinSeries.eisSummand`, which carries no level normalization) for analytic
-carriers, `PadicInt` with
-`Fact p.Prime` for `ℤ_p`, `PowerSeries`, `Polynomial`, `Matrix.vecMul`,
-`LinearMap`, `Submodule`, `Submodule.span`, `Module.Dual`, `Module.Finite`,
-`Module.IsTorsion`, `Module.IsTorsionFree`, `LocalizedModule`, `Ideal.height`
-and `ringKrullDim` at their stated generality. Fractional analytic q-powers need
-the chosen exponential branch; they are not powers of a formal variable.
-`LSeries` is a total sum and supplies no meromorphic extension to critical
-integers. Tau Ceti's field Kummer maps (`TauCeti.kummerMap` and its restriction
-and corestriction compatibilities) are consistency checks for the symbol
-normalization only; they say nothing about the open modular curve.
-
-### From PadicFamilies §4.0
-
-- §4.0.1: the normalized theta unit `c-θ`, for c prime to six and invertible on the base,
-  with its divisor, isogeny norm, base change and Tate expansion (its extension over the
-  primes dividing c is proved here, in 0.3); the smoothed Siegel units by torsion
-  evaluation; the ordered Beilinson symbol of two units on the two-index curve `Y(M,N)` with
-  `gcd(c,6pM) = gcd(d,6pN) = 1`, its products, finite-étale transfers,
-  projection formula and transfer transitivity, and its étale Chern image (the
-  ordered Kummer cup product); the modular zeta class with parameters c, d, M, N, k, r, r′,
-  written `c,d-z^(p)_(M,N)(k,r,r′)` below, in the degree-one arithmetic cohomology of the
-  weight-`(k−2)` local system on `Y(M,N)` twisted by `k − r`, with its moment
-  compatibility, its conductor norm relation (factor
-  `1 − ℓ^(−r)A_ℓ + ℓ^(k−1−2r)B_ℓ` for `ℓ ∤ N`, `1 − ℓ^(−r)A_ℓ` for `ℓ | N`,
-  where `A_ℓ = T′(ℓ)⟨1/ℓ,1⟩*`, `B_ℓ = ⟨1/ℓ,1/ℓ⟩*`), its p-level trace relation (identity
-  factor in the p-direction), its Hecke and diamond equivariance, coefficient change and
-  descent from the smoothed classes, and the Hochschild–Serre comparison with the
-  finite-ramification Galois model of `SelmerIwasawaCohomology` §3.15. These classes are
-  indexed by the two levels M, N only: no label ξ, conductor m or cyclotomic base
-  `ℤ[ζ_m,1/p]` enters §4.0.1, and the labelled classes are target 2.0 here.
-- §4.0.2: the modular dual exponential on the open-curve local system and
-  the explicit reciprocity law for the two-index classes, for `1 ≤ r, r′ ≤ k−1`, one of them `k−1`,
-  every prime of M dividing N and `M ≥ 2` when `(r,r′) = (k−2,k−1)`, with factor
-  1 if `p | M`, `1 − p^(−r)T′(p)⟨1/p,1⟩*` if `p ∤ M, p | N`, and
-  `1 − p^(−r)T′(p)⟨1/p,1⟩* + p^(k−1−2r)⟨1/p,1/p⟩*` if `p ∤ MN`, proved through the
-  comparison square (10.9.5) of Kato over the completed modular function field.
-- §4.0.3: for a classical eigenform, degree-one Iwasawa cohomology of a stable
-  lattice has generic rank one, degree two is torsion, the geometric zeta
-  submodule is non-torsion, and the height-one length inequality with the local
-  degree-two term holds away from p; the CM case is included through elliptic
-  units; for p odd and an integral `SL₂(ℤ_p)` image the integral inequality holds;
-  the torsion of the classical ordinary Selmer dual and the rational height-one bound of
-  that dual by the ordinary p-adic L-function with good periods, for every p, with the
-  integral form for odd p.
-  This roadmap uses the non-CM rational clauses only for admissible pairs: at a
-  coefficient place over a ramified place of Momose's algebra Kato's 12.8.2,
-  on which their proof rests, is not available (see 4.1).
-
-### From ModularCurves and ModularCurvesPartII
-
-From `ModularCurves`: relative effective Cartier divisors (§0A), multiplication
-maps as finite locally free isogenies with their degree (§2A), Picard duality
-(§2D), the integral Weil pairing with Cartier–Nishi duality (§2E), and the fine
-full-level moduli `Y_full(N)` over `ℤ[1/N]` for `N ≥ 3` with its determinant map
-(§5B). From `ModularCurvesPartII`: analytic uniformization of full and
-congruence levels and its compatibility with level maps and row actions
-(§§3.13–3.14, 4.5); finite locally free level maps, the normalizer action and
-quotients by finite level groups (§§3.15, 5.15–5.16); compactification, cusp
-ramification indices, cusp fields and the Tate cusp parameter (§§4.8, 6.1–6.3);
-the full-level Tate chart `⊔ Spec ℤ[ζ_n][[q^(1/n)]]` (§§5.8(c), 5.11); arithmetic
-determinant descent and the fixed-pairing model over `ℚ(ζ_N)` (§§5.12,
-8.1–8.5); degeneracy correspondences and diamond operators (§§9.1–9.2) with their
-étale traces (§9.12); and the open-curve étale local systems `Sym^(k−2)` with the
-Artin comparison, the parabolic and boundary sequences, Hecke traces and the
-graph retraction of the open curve (§§14.1–14.4, 14.8, 14.9a, 14.12); and the modular
-abelian variety `A_f` of a weight-two newform as a quotient of `J₁(N)` (§16.2). Vanishing of
-degree-two étale cohomology of the affine curve with these coefficients follows
-from §14.4 with §14.9a.
-
-### From SchemeKTheoryOperations and K2SymbolsBrauer
-
-From `SchemeKTheoryOperations`: pullback (§2.2), proper pushforward including
-finite locally free maps (§2.3), the projection formula
-`f_*(x · f^*y) = f_*x · y` (§2.4), the unit class `λ_A` of an affine scheme
-(§3.6) and the graded product with its comparison to Loday's `K₂` product
-(§6.1). From `K2SymbolsBrauer`: bilinearity, `{r,1} = 1`, the Steinberg relation
-and skew-symmetry of unit symbols over commutative rings (§§6.4, 6.7–6.9) and the
-sign comparison of §8.1.
-
-### From ModularForms
-
-Layer 0: Eisenstein series with character and the level-`Γ(N)` translation to
-Mathlib's `eisensteinSeries`. Layer 7: the newform L-function with its Euler
-product, meromorphic extension and functional equation. Layer 9 (the inner-twist
-sublayer): the twist `f ⊗ χ` by a Dirichlet character with its modularity, level,
-nebentypus and primitive associate; through it the twisted values `L_S(f,χ,s)` used
-below are L-values of a newform with finitely many Euler factors removed, so Layer 7
-gives their continuation. Kato's
-`E^h_(α,β)`, `F^h_(α,β)` and the operator-valued zeta function are not there and
-are targets 3.2 and 3.4 here.
-
-### From AutomorphicLFunctionsAndLocalFactors and GL2AutomorphicRepresentationsAndTransfer
-
-From `AutomorphicLFunctionsAndLocalFactors` §AL.3.6.3, “Rankin–Selberg nonvanishing on the
-boundary”, in Layer AL.3, “Poles, functional equations and the closed boundary”: zero-freeness of finite
-partial Rankin–Selberg L-functions on `Re(s) ≥ 1` for unitary cuspidal inputs over a
-number field, with the stated pole exception and regular nonzero removed factors.
-From `GL2AutomorphicRepresentationsAndTransfer` §R16.5.3, “Classical and unitary L-function normalization”: the unitary adelization of a weight-k newform and
-`L(s,π_f) = L(f,s + (k−1)/2)`, including ramified factors. In 4.2 the other
-representation is the trivial `GL₁` character, so the unequal-rank pole exception is empty.
-
-### From AutomorphicGaloisRepresentations
-
-The parabolic realization with its duality pairing (§1.2); the rank-two
-representation of a newform with the restricted Fricke pairing and the dual-form
-twist, its determinant, oddness and characteristic polynomials of Frobenius
-(§1.5); stable lattices (§1.6); potentially semistable comparison (§4.5);
-absolute irreducibility (§4.8); the ordinary filtration and `D_cris` at
-`p ∤ N` (§§5.1–5.2); purity and strict compatibility of the eigenform system
-(§§7.2–7.3); and the Ribet–Momose theorem that for non-CM f the Zariski closure of
-the image contains `SL₂` at every λ, with residual largeness outside a finite set
-(§7.5); and the decomposition of the Tate module of the modular abelian variety `A_f` of
-a weight-two newform along the places above ℓ (§6.1). The local structure of the image at a
-given λ, in terms of the inner-twist field `F⁰` and Momose's algebra, and its adelic openness
-in Loeffler's group of pairs, are ribetMomoseOpenImage in 4.1 here: §7.5 supplies the Zariski
-closure and the residual largeness, not the openness.
-
-### From SelmerIwasawaCohomology and ArithmeticGaloisDuality
-
-From `SelmerIwasawaCohomology`: the p-adic Kummer identifications, limits of
-coefficients and cup–Shapiro compatibility (§§0.7–0.11); the unramified,
-Greenberg and ordinary local conditions (§§2.7, 2.8, 2.8a), the elliptic
-`p^∞`-Selmer group with its Kummer-image local conditions (§2.12),
-finite against unramified classes (§2.15), Poitou–Tate for Selmer groups
-(§§2.19–2.20) and Selmer complexes (§2.21); Iwasawa algebras of `ℤ_p^d × Δ`
-(§3.0), Iwasawa cohomology as a corestriction limit (§3.1), Shapiro, descent and
-control (§§3.2–3.3), universal norms unramified away from p (§3.5), semilocal
-descent (§3.6), the twist isomorphism `φ_k` with `φ_k(σx) = κ(σ)^(−k)σφ_k(x)` and
-augmentation specialization, with its degree-one description as the diagonal limit of finite
-cup products with the invariant generators `t_n^k` of `(ℤ/p^n)(k)` (§3.7), the rank formula
-(§3.13), the étale/Galois
-comparison for Kato's `j_*` convention (§3.15), Greenberg's criterion for the
-absence of finite submodules (§§3.18–3.21), the Bloch–Kato local condition (§4.9) with its
-identification with the Kummer conditions for elliptic curves at every place (§4.26), and the
-abelian Kummer and Selmer carriers (§2.12a). From `ArithmeticGaloisDuality`:
-Tate's inverse-limit theorem (§R02.1.2), the Hochschild–Serre sequence and
-finite-index restriction/corestriction (§§R02.2.1–R02.2.3), the local Tate
-pairing with exact unramified annihilators (§R02.4.2), the nine-term Poitou–Tate
-sequence (§R02.4.3), the global Euler characteristic including real dyadic terms
-(§R02.4.4), and compact Shapiro and derived local duality (§§D7.3–D7.4).
-
-### From EulerSystemsAndKolyvaginSystems
-
-Euler polynomials with the comparison of Rubin's, Mazur–Rubin's and
-Burns–Sakamoto–Sano's conventions (§2.1; Kato's polynomial `P_ℓ(ℓ^(−1)σ_ℓ^(−1))` of his
-13.1, p. 224, is not compared there, and its transport to Rubin's
-`det(1 − N(q)^(−1)Fr_q x | T)` is done in 2.1 here), the module of Euler systems (§2.2), conductor presentations
-(§2.4) and twisting by finite-order characters (§2.5); Rubin's finite-level
-hypotheses and bound (§§4.3, 4.17); the hypotheses `Hyp(K_∞,T)` and `Hyp(K_∞,V)`
-over a `ℤ_p^d`-extension, with irreducibility over `G_(K_∞)` (§8.2), the module
-`X_∞` of the restricted Selmer groups (§8.3), `Hyp(K_∞/K)` (§8.6), the index
-`ind_Λ` (§8.7), the Iwasawa Poitou–Tate sequence (§8.16), and the divisibilities
-`char(X_∞) | ind_Λ(c)` (§8.37), `char(X_∞) | p^t ind_Λ(c)` (§8.38) and the
-true-Selmer version (§8.39). That
-roadmap states that Kato's hypotheses (i)–(v) of his Theorem 13.4 are a different
-record from Rubin's; the implication used here is target 4.3.
-
-### From PadicMeasuresIwasawaAlgebras
-
-Pseudo-null modules, with pseudo-null equivalent to finite over a
-two-dimensional noetherian normal local domain with finite residue field (§4.1);
-structure and coordinates of `O[[T]]` and of group rings of order prime to p
-(§§4.2–4.5); characteristic ideals, their multiplicativity and localization
-(§4.6). The full algebra `O[{±1}][[T]]` at `p = 2` is not a domain; target 4.5
-supplies its finite-support statement.
-
-### From PadicHodgeRegulators
-
-Kato's dual exponential for de Rham representations of a finite extension of
-`ℚ_p`, with its Tate-pairing adjunction and corestriction compatibility, and its
-semilocal form (§§1.4, 1.7, 1.11); the crystalline regulator `L_V` over `ℚ_p` for
-odd p with its ramified and unramified interpolation, singular Euler operators,
-growth, reciprocity, scalar projection and Rubin's elliptic Coleman map
-(§§8.8, 8.13–8.16, 8.18, 8.20–8.22); the de Rham regulator of a (φ,Γ)-module on
-its high-conductor domain, allowing `p = 2` (§§9.31–9.34); from §9.35 only the global
-`D_cris`-valued distribution `𝔐_z` for crystalline D and z with
-`(1−φ)z ∈ (ℛ⁺)^(ψ=0) ⊗ D_cris(D)`, and the chart identity
-`Λ_(D,z)(θ) = φ^(−n)𝔐_z(θ)` on its supplied domain only: θ in the admitted domain `U_D` of
-§9.31 there, of conductor `p^n` with `n > m(Δ)`, inside the charts `B(η^(−1), N(D))` of §9.33
-there. At conductors `p^n` with `n ≤ m(Δ)`, in particular at the trivial character, no chart
-regulator is supplied and only `𝔐_z` is used; the de Rham regulator itself does not
-extend to all of weight space. Also the containment of the split
-multiplicative Coleman image in the augmentation ideal for odd p (§9.36).
-
-### From ModularSymbolsPadicLFunctions
-
-The determination of a modular symbol by its values on the Farey generators
-(§0.2), the period symbol and its pairing (§0.7), the rational Drinfeld–Manin
-splitting (§0.8), period lines, periods and saturated integral lattices (§1.1),
-the twisted Mellin formula and the interpolation dictionary (§§1.2–1.3),
-admissible distributions, the analytic p-adic L-function and its uniqueness
-for slope `h < k − 1` in Kato's weight (§2.5), decency (§3.0) and the family
-comparison principle at a decent critical point (§§3.2–3.3).
-
-### From CompletedCohomologyAndLocalGlobalCompatibility
-
-§2.6: completed Borel–Moore homology with coefficients recovers classical
-cohomology. With `W = Sym^(k−2)(ℤ_p²)^*` it gives the integral map
-`Sym^(k−2)(ℤ_p²)^* ⊗_(ℤ_p[[K_m]]) H̃^BM_1(K^p(N₀))(1) → H¹(Y(N), V^*_k)(2)`,
-compatible with Hecke operators, change of `K_p`, coefficient change and traces,
-and an isomorphism after inverting p (Nakamura, arXiv v2, Lemma 2.10, pp. 29–31). Its statement (b)
-has twist `(1)` with coefficients `𝒱_W`; the extra Tate twist above is that of
-the literal dual.
-
-### From EllipticCurveModularity
-
-Layer R29.4: for an attached weight-two newform, the equivariant rational Tate-module
-comparison at every prime and the identification of all Euler factors. In the
-cohomological convention here this identifies `V_p(E)` with `V_λ(f)(1)`, where `f = f*` has
-rational coefficients (for a newform with non-real coefficients the λ-factor of the Tate
-module is `V_λ(f*)(1)`, 7.9).
-Layer R29.5: the isogeny from the attached modular quotient and the surjection
-`J₀(N_E) → E` giving a modular parametrisation. Layer R29.6: every elliptic curve over ℚ
-has such an attached rational-coefficient newform. For the elliptic statements of 6.6 and
-7.3–7.8 and the elliptic signatures of §7.9, which carry no modularity hypothesis, use R29.6 to
-choose this newform and R29.4–R29.5 for its Tate-module and modular-quotient comparisons with E.
-
-### From NoncommutativeAndEquivariantIwasawa
-
-§4.0, “Local elliptic image theorems”: for an elliptic curve E over a number field F whose
-geometric endomorphisms are all multiplications by integers, and every prime p including
-`p = 2, 3` and primes of bad reduction, the image of `Gal(F̄/F)` in `Aut_(ℤ_p)(T_pE) ≅ GL₂(ℤ_p)`
-is open, stated there on Tau Ceti `WeierstrassCurve.tateModuleGaloisRepresentation` as
-`elliptic_nonCM_openImage`, with compatibility under change of integral basis and
-restriction to a finite extension. It is used at `F = ℚ` in 4.7; the surjectivity for all but
-finitely many p is not stated there and is `AdelicImagesAndModularCurves` §4.3.
-
-### From AdelicImagesAndModularCurves
-
-§4.3, “Surjectivity for almost all ℓ”, under the standing hypotheses of its Layer 4 (K a
-number field, E/K an elliptic curve): if E has no geometric complex multiplication, the mod-ℓ
-representation `ρ̄_(E,ℓ)` is surjective onto `GL₂(𝔽_ℓ)` for all but finitely many primes ℓ,
-hence the image of `Gal(K̄/K)` in `Aut_(ℤ_ℓ)(T_ℓE) ≅ GL₂(ℤ_ℓ)` is the whole group for all but
-finitely many ℓ. It is the owner of that statement and proves it from Dickson's classification,
-the inertia images at ℓ, the finiteness of the isogeny class and Hermite's finiteness; 4.7 uses
-it at `K = ℚ`, with the non-CM hypothesis read as: every endomorphism of E over `ℚ̄` is
-multiplication by an integer. It is cited by section: its `Suggested.lean` declares no name for
-this theorem.
-
-### From EllipticCurveModularityPartII
-
-§6.0e, “Unconditional rank zero for modular abelian factors”: for a weight-two newform f with
-trivial character and `L(f,1) ≠ 0`, the group `A_f(ℚ)` is finite, in every coefficient degree
-and including CM forms. It is the owner of that statement; 7.9 cites it and keeps the general
-theorem of which it is the case `K = ℚ`, `χ = 1`.
-
-### From EllipticCurves
-
-The invariant differential and the formal group with its logarithm over a ring
-containing ℚ (Layer 1); reduction types, the filtration `E₀ ⊃ E₁ ≅ Ê(m)`, the
-local minimal discriminant and Tamagawa numbers as indices (Layer 4); the global
-minimal integral model over ℚ (Layer 4.5b); the Mordell–Weil theorem over number fields
-(Layer 6); and the positive total real period of the global minimal differential,
-defined by an explicit convergent integral over both real branches (Layer 7).
-
-### From EtaleCohomologyFoundations and Polylogarithms
-
-From `EtaleCohomologyFoundations` §0.8: the trace `ClassicalAlgebraic.finiteTrace` of a finite
-locally free map on abelian étale sheaves, equal to the adjunction counit for a finite étale
-map, with naturality, composition, pullback compatibility and the norm description on Kummer
-classes when the coefficient order is invertible. From `Polylogarithms` §5.13: on a complex curve,
-the closed form `η(f,g) = log|f| d arg g − log|g| d arg f` of two nonzero rational functions
-away from their divisors, with antisymmetry, multiplicative bilinearity, the current equation
-with the tame symbols, and `curveEtaRegulator_beilinson`, the comparison with Beilinson's
-regulator through the rational Chern character, sign included; the real regulator used here is
-`i·η`.
-
-### From HeightsRationalPointsAndObstructions
-
-The Mordell–Weil theorem for abelian varieties over number fields: `A(K)` is finitely
-generated (§1.7).
-
-## How to read the build
-
-Layer 0 and Layer 1 refine the units and K₂ elements of `PadicFamilies` §4.0.1.
-Layer 2 pushes the two-index classes forward to the labelled classes at each conductor,
-places them in the Euler-system carrier and constructs the full-level classes. Layer 3 supplies the archimedean side: the filtration
-step in which reciprocity lands, Kato's Eisenstein series, periods, critical
-values and the real regulator. Layer 4 proves the image, nonvanishing and
-Iwasawa-theoretic inputs that precede the canonical map. Layer 5 constructs the
-canonical rational morphism and its twist-one and parabolic forms; Layer 6
-compares its regulator with the analytic p-adic L-function; Layer 7 applies the
-bounds and ends with Kato's finiteness theorems over abelian fields. This order separates nonvanishing of the geometric classes from
-nonvanishing of the subsequently constructed canonical map.
 
 ## Layer 0: Siegel units beyond the normalized theta function
 
@@ -3225,6 +2816,415 @@ nothing from it: the Hida-family classes of `PadicFamilies` §4.5 interpolate th
 classes of its own §4.0, and the general Euler-system theorems leave each application to supply
 its classes. The modular Euler system of 2.1 and the passage from Kato's hypotheses to Rubin's in
 4.3 are this roadmap's application of that theory.
+
+## Scope and ownership
+
+This roadmap owns:
+
+- the rational auxiliary independence of Siegel units, their two-coordinate
+  Galois action and distribution relation, their analytic product with its
+  Bernoulli exponent, cusp orders and integral descent, and the one-coordinate
+  degeneracy product (Layer 0);
+- the norm relations of the Beilinson elements in their étale Chern and real-regulator
+  realizations, for level raises that keep each index's prime set and for auxiliary
+  primes, and the norm formula for transfers of unit symbols on which they rest (Layer 1);
+- the labelled classes at each conductor m, obtained from the two-index classes of
+  `PadicFamilies` §4.0.1 by Kato's labelled pushforward, the conductor Euler system of a
+  newform in the Euler-system carrier, the dictionary between Kato's and Nakamura's Hecke
+  and twist conventions, and the full-level zeta classes (Layer 2);
+- the explicit modular filtration on the de Rham realization, Kato's Eisenstein
+  series `E^h_(α,β)`, `F^h_(α,β)`, the Eisenstein zeta forms with their Betti
+  periods and critical values, the operator-valued zeta function and Beilinson's
+  real regulator formula for the K₂ element (Layer 3);
+- the admissible coefficient places, the nonvanishing of twisted critical values
+  used by Kato, the conversion of Kato's Euler-system hypotheses into Rubin's,
+  the module structure of lattice Iwasawa cohomology, finite support over the
+  full cyclotomic algebra, the twist–localization square, the Momose–Ribet–Loeffler open
+  image of a non-CM newform in the group of pairs, the cyclotomic consequences of the image
+  theorems for a non-CM elliptic curve over ℚ (openness at every p imported from
+  `NoncommutativeAndEquivariantIwasawa` §4.0, surjectivity for all but finitely many p from
+  `AdelicImagesAndModularCurves` §4.3), and the strict `H²` kernel (Layer 4);
+- Kato's canonical rational zeta morphism, the finite index of the smoothed
+  integral span, the critical interpolation of the canonical map, Nakamura's
+  twist-one morphism, parabolic full-level Iwasawa cohomology and the parabolic
+  characterization of the full-level classes (Layer 5);
+- Perrin-Riou's map for de Rham representations in Kato's form, the scalar
+  regulator of the canonical class, the period dictionary with modular symbols,
+  the noncritical analytic–arithmetic equality, its bad-reduction domains
+  and the elliptic local lattice with Kato's period (Layer 6);
+- the non-torsion and cohomological bound for the canonical zeta module, the
+  elliptic applications with their formal-group and control inputs, Kato's finiteness of
+  Bloch–Kato Selmer groups over abelian fields with its consequences for modular abelian
+  varieties, and his bound for the order of `H²` (Layer 7).
+
+`PadicFamilies` §4.0 is the owner of the finite-level geometric construction
+and its first consequences, and this roadmap does not construct them again:
+the normalized theta unit, the smoothed Siegel units obtained by torsion
+evaluation, the ordered Beilinson symbols on the two-index curves with their
+products, transfers and étale Chern classes (the Chern image of `{u,v}` is the
+cup product of the Kummer classes of `u` and `v`), the
+modular zeta classes with parameters c, d, M, N, k, r, r′ with their norm, trace, moment,
+coefficient, Hecke and smoothing relations (§4.0.1), the modular dual exponential and the
+three-branch explicit reciprocity law, including the comparison over the
+completed modular function field whose residue field has a finite p-basis
+(§4.0.2), and the rational cyclotomic bound for the geometric zeta submodule,
+its integral form under the `SL₂(ℤ_p)` image condition, the CM case through
+elliptic units, and the ordinary Selmer bound by the ordinary p-adic L-function
+with good periods (§4.0.3). The statements kept below differ from those of §4.0
+in one of three ways, which each target names: they concern the canonical zeta
+module of Layer 5 rather than the geometric one, they use a weaker integral
+hypothesis than the `SL₂(ℤ_p)` image, or they are finer statements (symbol-level
+relations of the realizations, analytic products, full-level and parabolic classes) that
+§4.0 does not make.
+
+The two-index classes of §4.0.1 live on the curves `Y(M,N)`. The labelled classes at a
+conductor m, in `H¹(ℤ[ζ_m,1/p], V_(k,ℤ_p)(Y₁(N))(k−r))`, with their newform projections,
+which Kato obtains from the two-index classes by the pushforward of his 8.9–8.11, are not
+stated by §4.0.1 and are target 2.0 here; `EllipticCurveModularityPartII` §6.0e consumes
+their weight-two case through its own supplier contract with `PadicFamilies`.
+
+Openness of the p-adic image of a non-CM elliptic curve over a number field at every p,
+including `p = 2, 3`, is `NoncommutativeAndEquivariantIwasawa` §4.0, and the surjectivity of
+that image for all but finitely many p is `AdelicImagesAndModularCurves` §4.3; 4.7 imports
+both over ℚ and proves only their cyclotomic consequences. The
+finiteness of `A_f(ℚ)` for a weight-two newform f with trivial character and `L(f,1) ≠ 0`,
+in particular of `E(ℚ)` when `L(E,1) ≠ 0`, is `EllipticCurveModularityPartII` §6.0e; 7.9
+keeps Kato's general theorem, over every finite abelian K, for the χ-parts of Selmer and
+Mordell–Weil groups at every admissible p, for arbitrary nebentypus and every critical
+twist, of which §6.0e is the case `K = ℚ`, `χ = 1` of the Mordell–Weil conclusion.
+
+The modular curves, their level and degeneracy maps, cusps and Tate charts, and
+their étale local systems come from `ModularCurves` and `ModularCurvesPartII`.
+Scheme K-theory products, transfers and the projection formula come from
+`SchemeKTheoryOperations`, and the ring-level Steinberg symbol relations from
+`K2SymbolsBrauer`; finite étale traces and their norm description on Kummer classes from
+`EtaleCohomologyFoundations` §0.8; the curve η-regulator from `Polylogarithms` §5.13.
+Eisenstein series with character and the analytically
+continued newform L-function come from `ModularForms`. Galois representations of
+newforms, their lattices, purity and local behaviour at p come from
+`AutomorphicGaloisRepresentations`; Galois and Iwasawa cohomology, Selmer
+conditions, universal norms and twisting from `SelmerIwasawaCohomology` and
+`ArithmeticGaloisDuality`; the Euler-system carrier and its finite-level and
+Iwasawa bounds from `EulerSystemsAndKolyvaginSystems`; completed group rings,
+pseudo-null modules and characteristic ideals from
+`PadicMeasuresIwasawaAlgebras`; the dual exponential, the crystalline and de
+Rham regulators and the elliptic Coleman map from `PadicHodgeRegulators`;
+modular-symbol periods, the Drinfeld–Manin splitting, admissible distributions
+and the family comparison principle from `ModularSymbolsPadicLFunctions`; the
+completed Borel–Moore moment map from
+`CompletedCohomologyAndLocalGlobalCompatibility`; and elliptic curves over local
+and global fields from `EllipticCurves`. Boundary nonvanishing is supplied by
+`AutomorphicLFunctionsAndLocalFactors` Layer AL.3, “Rankin–Selberg nonvanishing on
+the boundary”, through the classical-to-unitary dictionary of
+`GL2AutomorphicRepresentationsAndTransfer` §R16.5.3. The critical-slope family comparison
+is `ModularSymbolsPadicLFunctions` §3.3 applied to a jointly analytic arithmetic family
+section with compatible periods and dense noncritical agreement. Such an arithmetic
+section is additional input; its construction is outside this roadmap.
+
+Not in this roadmap: a generic Euler-system or Kolyvagin-system machine, generic
+regulators, the construction of the analytic p-adic L-function, reverse
+divisibility or any main-conjecture equality, the BSD p-part equality, the Tamagawa
+number conjecture itself, two-variable and family classes (owned by `PadicFamilies`),
+and the CM main conjecture beyond the elliptic-unit input that `PadicFamilies` §4.0.3
+uses; in particular the vanishing for almost all λ of the Selmer groups of 7.9 for CM
+forms, which rests on it, is not claimed.
+
+## Exact supplier contracts
+
+### From Mathlib and Tau Ceti
+
+For the elliptic character part of §7.9, use Tau Ceti
+`WeierstrassCurve.pointGaloisAction` in
+`TauCeti/AlgebraicGeometry/EllipticCurve/Affine/Point/Galois.lean`, which acts by applying
+field automorphisms to coordinates, and Mathlib `IsCyclotomicExtension.autEquivPow`
+in `Mathlib/NumberTheory/Cyclotomic/Gal.lean`, with
+`Polynomial.cyclotomic.irreducible_rat` over ℚ. The character evaluation is
+`MonoidAlgebra.lift` and the twisted Dirichlet series is Mathlib `LSeries`.
+
+The image theorems imported into 4.7 are read on Tau Ceti `WeierstrassCurve.tateModuleGaloisRepresentation` in
+`TauCeti/AlgebraicGeometry/EllipticCurve/TateModule/Galois.lean`, the coordinatewise action of
+`Gal(ℚ̄/ℚ)` on the Tate module `T_ℓE`, continuous for the Krull topology, with Mathlib
+`Representation.asGroupHom` for its values in the automorphism group; and their non-CM
+hypothesis on Tau Ceti `TauCeti.Isogeny.Hom` with its ring structure in
+`TauCeti/AlgebraicGeometry/EllipticCurve/Isogeny/Hom/Ring.lean`, the endomorphisms of the curve
+with addition the group law of morphisms and multiplication composition, so that the integer
+`n` in it is multiplication by n.
+
+Use Mathlib `Units` and `Units.map` for ring units, `UpperHalfPlane`,
+`ModularForm`, `CuspForm`, `DirichletCharacter` and
+`ModularForm.eisensteinSeriesMF` (with its integer-pair summand
+`EisensteinSeries.eisSummand`, which carries no level normalization) for analytic
+carriers, `PadicInt` with
+`Fact p.Prime` for `ℤ_p`, `PowerSeries`, `Polynomial`, `Matrix.vecMul`,
+`LinearMap`, `Submodule`, `Submodule.span`, `Module.Dual`, `Module.Finite`,
+`Module.IsTorsion`, `Module.IsTorsionFree`, `LocalizedModule`, `Ideal.height`
+and `ringKrullDim` at their stated generality. Fractional analytic q-powers need
+the chosen exponential branch; they are not powers of a formal variable.
+`LSeries` is a total sum and supplies no meromorphic extension to critical
+integers. Tau Ceti's field Kummer maps (`TauCeti.kummerMap` and its restriction
+and corestriction compatibilities) are consistency checks for the symbol
+normalization only; they say nothing about the open modular curve.
+
+### From PadicFamilies §4.0
+
+- §4.0.1: the normalized theta unit `c-θ`, for c prime to six and invertible on the base,
+  with its divisor, isogeny norm, base change and Tate expansion (its extension over the
+  primes dividing c is proved here, in 0.3); the smoothed Siegel units by torsion
+  evaluation; the ordered Beilinson symbol of two units on the two-index curve `Y(M,N)` with
+  `gcd(c,6pM) = gcd(d,6pN) = 1`, its products, finite-étale transfers,
+  projection formula and transfer transitivity, and its étale Chern image (the
+  ordered Kummer cup product); the modular zeta class with parameters c, d, M, N, k, r, r′,
+  written `c,d-z^(p)_(M,N)(k,r,r′)` below, in the degree-one arithmetic cohomology of the
+  weight-`(k−2)` local system on `Y(M,N)` twisted by `k − r`, with its moment
+  compatibility, its conductor norm relation (factor
+  `1 − ℓ^(−r)A_ℓ + ℓ^(k−1−2r)B_ℓ` for `ℓ ∤ N`, `1 − ℓ^(−r)A_ℓ` for `ℓ | N`,
+  where `A_ℓ = T′(ℓ)⟨1/ℓ,1⟩*`, `B_ℓ = ⟨1/ℓ,1/ℓ⟩*`), its p-level trace relation (identity
+  factor in the p-direction), its Hecke and diamond equivariance, coefficient change and
+  descent from the smoothed classes, and the Hochschild–Serre comparison with the
+  finite-ramification Galois model of `SelmerIwasawaCohomology` §3.15. These classes are
+  indexed by the two levels M, N only: no label ξ, conductor m or cyclotomic base
+  `ℤ[ζ_m,1/p]` enters §4.0.1, and the labelled classes are target 2.0 here.
+- §4.0.2: the modular dual exponential on the open-curve local system and
+  the explicit reciprocity law for the two-index classes, for `1 ≤ r, r′ ≤ k−1`, one of them `k−1`,
+  every prime of M dividing N and `M ≥ 2` when `(r,r′) = (k−2,k−1)`, with factor
+  1 if `p | M`, `1 − p^(−r)T′(p)⟨1/p,1⟩*` if `p ∤ M, p | N`, and
+  `1 − p^(−r)T′(p)⟨1/p,1⟩* + p^(k−1−2r)⟨1/p,1/p⟩*` if `p ∤ MN`, proved through the
+  comparison square (10.9.5) of Kato over the completed modular function field.
+- §4.0.3: for a classical eigenform, degree-one Iwasawa cohomology of a stable
+  lattice has generic rank one, degree two is torsion, the geometric zeta
+  submodule is non-torsion, and the height-one length inequality with the local
+  degree-two term holds away from p; the CM case is included through elliptic
+  units; for p odd and an integral `SL₂(ℤ_p)` image the integral inequality holds;
+  the torsion of the classical ordinary Selmer dual and the rational height-one bound of
+  that dual by the ordinary p-adic L-function with good periods, for every p, with the
+  integral form for odd p.
+  This roadmap uses the non-CM rational clauses only for admissible pairs: at a
+  coefficient place over a ramified place of Momose's algebra Kato's 12.8.2,
+  on which their proof rests, is not available (see 4.1).
+
+### From ModularCurves and ModularCurvesPartII
+
+From `ModularCurves`: relative effective Cartier divisors (§0A), multiplication
+maps as finite locally free isogenies with their degree (§2A), Picard duality
+(§2D), the integral Weil pairing with Cartier–Nishi duality (§2E), and the fine
+full-level moduli `Y_full(N)` over `ℤ[1/N]` for `N ≥ 3` with its determinant map
+(§5B). From `ModularCurvesPartII`: analytic uniformization of full and
+congruence levels and its compatibility with level maps and row actions
+(§§3.13–3.14, 4.5); finite locally free level maps, the normalizer action and
+quotients by finite level groups (§§3.15, 5.15–5.16); compactification, cusp
+ramification indices, cusp fields and the Tate cusp parameter (§§4.8, 6.1–6.3);
+the full-level Tate chart `⊔ Spec ℤ[ζ_n][[q^(1/n)]]` (§§5.8(c), 5.11); arithmetic
+determinant descent and the fixed-pairing model over `ℚ(ζ_N)` (§§5.12,
+8.1–8.5); degeneracy correspondences and diamond operators (§§9.1–9.2) with their
+étale traces (§9.12); and the open-curve étale local systems `Sym^(k−2)` with the
+Artin comparison, the parabolic and boundary sequences, Hecke traces and the
+graph retraction of the open curve (§§14.1–14.4, 14.8, 14.9a, 14.12); and the modular
+abelian variety `A_f` of a weight-two newform as a quotient of `J₁(N)` (§16.2). Vanishing of
+degree-two étale cohomology of the affine curve with these coefficients follows
+from §14.4 with §14.9a.
+
+### From SchemeKTheoryOperations and K2SymbolsBrauer
+
+From `SchemeKTheoryOperations`: pullback (§2.2), proper pushforward including
+finite locally free maps (§2.3), the projection formula
+`f_*(x · f^*y) = f_*x · y` (§2.4), the unit class `λ_A` of an affine scheme
+(§3.6) and the graded product with its comparison to Loday's `K₂` product
+(§6.1). From `K2SymbolsBrauer`: bilinearity, `{r,1} = 1`, the Steinberg relation
+and skew-symmetry of unit symbols over commutative rings (§§6.4, 6.7–6.9) and the
+sign comparison of §8.1.
+
+### From ModularForms
+
+Layer 0: Eisenstein series with character and the level-`Γ(N)` translation to
+Mathlib's `eisensteinSeries`. Layer 7: the newform L-function with its Euler
+product, meromorphic extension and functional equation. Layer 9 (the inner-twist
+sublayer): the twist `f ⊗ χ` by a Dirichlet character with its modularity, level,
+nebentypus and primitive associate; through it the twisted values `L_S(f,χ,s)` used
+below are L-values of a newform with finitely many Euler factors removed, so Layer 7
+gives their continuation. Kato's
+`E^h_(α,β)`, `F^h_(α,β)` and the operator-valued zeta function are not there and
+are targets 3.2 and 3.4 here.
+
+### From AutomorphicLFunctionsAndLocalFactors and GL2AutomorphicRepresentationsAndTransfer
+
+From `AutomorphicLFunctionsAndLocalFactors` §AL.3.6.3, “Rankin–Selberg nonvanishing on the
+boundary”, in Layer AL.3, “Poles, functional equations and the closed boundary”: zero-freeness of finite
+partial Rankin–Selberg L-functions on `Re(s) ≥ 1` for unitary cuspidal inputs over a
+number field, with the stated pole exception and regular nonzero removed factors.
+From `GL2AutomorphicRepresentationsAndTransfer` §R16.5.3, “Classical and unitary L-function normalization”: the unitary adelization of a weight-k newform and
+`L(s,π_f) = L(f,s + (k−1)/2)`, including ramified factors. In 4.2 the other
+representation is the trivial `GL₁` character, so the unequal-rank pole exception is empty.
+
+### From AutomorphicGaloisRepresentations
+
+The parabolic realization with its duality pairing (§1.2); the rank-two
+representation of a newform with the restricted Fricke pairing and the dual-form
+twist, its determinant, oddness and characteristic polynomials of Frobenius
+(§1.5); stable lattices (§1.6); potentially semistable comparison (§4.5);
+absolute irreducibility (§4.8); the ordinary filtration and `D_cris` at
+`p ∤ N` (§§5.1–5.2); purity and strict compatibility of the eigenform system
+(§§7.2–7.3); and the Ribet–Momose theorem that for non-CM f the Zariski closure of
+the image contains `SL₂` at every λ, with residual largeness outside a finite set
+(§7.5); and the decomposition of the Tate module of the modular abelian variety `A_f` of
+a weight-two newform along the places above ℓ (§6.1). The local structure of the image at a
+given λ, in terms of the inner-twist field `F⁰` and Momose's algebra, and its adelic openness
+in Loeffler's group of pairs, are ribetMomoseOpenImage in 4.1 here: §7.5 supplies the Zariski
+closure and the residual largeness, not the openness.
+
+### From SelmerIwasawaCohomology and ArithmeticGaloisDuality
+
+From `SelmerIwasawaCohomology`: the p-adic Kummer identifications, limits of
+coefficients and cup–Shapiro compatibility (§§0.7–0.11); the unramified,
+Greenberg and ordinary local conditions (§§2.7, 2.8, 2.8a), the elliptic
+`p^∞`-Selmer group with its Kummer-image local conditions (§2.12),
+finite against unramified classes (§2.15), Poitou–Tate for Selmer groups
+(§§2.19–2.20) and Selmer complexes (§2.21); Iwasawa algebras of `ℤ_p^d × Δ`
+(§3.0), Iwasawa cohomology as a corestriction limit (§3.1), Shapiro, descent and
+control (§§3.2–3.3), universal norms unramified away from p (§3.5), semilocal
+descent (§3.6), the twist isomorphism `φ_k` with `φ_k(σx) = κ(σ)^(−k)σφ_k(x)` and
+augmentation specialization, with its degree-one description as the diagonal limit of finite
+cup products with the invariant generators `t_n^k` of `(ℤ/p^n)(k)` (§3.7), the rank formula
+(§3.13), the étale/Galois
+comparison for Kato's `j_*` convention (§3.15), Greenberg's criterion for the
+absence of finite submodules (§§3.18–3.21), the Bloch–Kato local condition (§4.9) with its
+identification with the Kummer conditions for elliptic curves at every place (§4.26), and the
+abelian Kummer and Selmer carriers (§2.12a). From `ArithmeticGaloisDuality`:
+Tate's inverse-limit theorem (§R02.1.2), the Hochschild–Serre sequence and
+finite-index restriction/corestriction (§§R02.2.1–R02.2.3), the local Tate
+pairing with exact unramified annihilators (§R02.4.2), the nine-term Poitou–Tate
+sequence (§R02.4.3), the global Euler characteristic including real dyadic terms
+(§R02.4.4), and compact Shapiro and derived local duality (§§D7.3–D7.4).
+
+### From EulerSystemsAndKolyvaginSystems
+
+Euler polynomials with the comparison of Rubin's, Mazur–Rubin's and
+Burns–Sakamoto–Sano's conventions (§2.1; Kato's polynomial `P_ℓ(ℓ^(−1)σ_ℓ^(−1))` of his
+13.1, p. 224, is not compared there, and its transport to Rubin's
+`det(1 − N(q)^(−1)Fr_q x | T)` is done in 2.1 here), the module of Euler systems (§2.2), conductor presentations
+(§2.4) and twisting by finite-order characters (§2.5); Rubin's finite-level
+hypotheses and bound (§§4.3, 4.17); the hypotheses `Hyp(K_∞,T)` and `Hyp(K_∞,V)`
+over a `ℤ_p^d`-extension, with irreducibility over `G_(K_∞)` (§8.2), the module
+`X_∞` of the restricted Selmer groups (§8.3), `Hyp(K_∞/K)` (§8.6), the index
+`ind_Λ` (§8.7), the Iwasawa Poitou–Tate sequence (§8.16), and the divisibilities
+`char(X_∞) | ind_Λ(c)` (§8.37), `char(X_∞) | p^t ind_Λ(c)` (§8.38) and the
+true-Selmer version (§8.39). That
+roadmap states that Kato's hypotheses (i)–(v) of his Theorem 13.4 are a different
+record from Rubin's; the implication used here is target 4.3.
+
+### From PadicMeasuresIwasawaAlgebras
+
+Pseudo-null modules, with pseudo-null equivalent to finite over a
+two-dimensional noetherian normal local domain with finite residue field (§4.1);
+structure and coordinates of `O[[T]]` and of group rings of order prime to p
+(§§4.2–4.5); characteristic ideals, their multiplicativity and localization
+(§4.6). The full algebra `O[{±1}][[T]]` at `p = 2` is not a domain; target 4.5
+supplies its finite-support statement.
+
+### From PadicHodgeRegulators
+
+Kato's dual exponential for de Rham representations of a finite extension of
+`ℚ_p`, with its Tate-pairing adjunction and corestriction compatibility, and its
+semilocal form (§§1.4, 1.7, 1.11); the crystalline regulator `L_V` over `ℚ_p` for
+odd p with its ramified and unramified interpolation, singular Euler operators,
+growth, reciprocity, scalar projection and Rubin's elliptic Coleman map
+(§§8.8, 8.13–8.16, 8.18, 8.20–8.22); the de Rham regulator of a (φ,Γ)-module on
+its high-conductor domain, allowing `p = 2` (§§9.31–9.34); from §9.35 only the global
+`D_cris`-valued distribution `𝔐_z` for crystalline D and z with
+`(1−φ)z ∈ (ℛ⁺)^(ψ=0) ⊗ D_cris(D)`, and the chart identity
+`Λ_(D,z)(θ) = φ^(−n)𝔐_z(θ)` on its supplied domain only: θ in the admitted domain `U_D` of
+§9.31 there, of conductor `p^n` with `n > m(Δ)`, inside the charts `B(η^(−1), N(D))` of §9.33
+there. At conductors `p^n` with `n ≤ m(Δ)`, in particular at the trivial character, no chart
+regulator is supplied and only `𝔐_z` is used; the de Rham regulator itself does not
+extend to all of weight space. Also the containment of the split
+multiplicative Coleman image in the augmentation ideal for odd p (§9.36).
+
+### From ModularSymbolsPadicLFunctions
+
+The determination of a modular symbol by its values on the Farey generators
+(§0.2), the period symbol and its pairing (§0.7), the rational Drinfeld–Manin
+splitting (§0.8), period lines, periods and saturated integral lattices (§1.1),
+the twisted Mellin formula and the interpolation dictionary (§§1.2–1.3),
+admissible distributions, the analytic p-adic L-function and its uniqueness
+for slope `h < k − 1` in Kato's weight (§2.5), decency (§3.0) and the family
+comparison principle at a decent critical point (§§3.2–3.3).
+
+### From CompletedCohomologyAndLocalGlobalCompatibility
+
+§2.6: completed Borel–Moore homology with coefficients recovers classical
+cohomology. With `W = Sym^(k−2)(ℤ_p²)^*` it gives the integral map
+`Sym^(k−2)(ℤ_p²)^* ⊗_(ℤ_p[[K_m]]) H̃^BM_1(K^p(N₀))(1) → H¹(Y(N), V^*_k)(2)`,
+compatible with Hecke operators, change of `K_p`, coefficient change and traces,
+and an isomorphism after inverting p (Nakamura, arXiv v2, Lemma 2.10, pp. 29–31). Its statement (b)
+has twist `(1)` with coefficients `𝒱_W`; the extra Tate twist above is that of
+the literal dual.
+
+### From EllipticCurveModularity
+
+Layer R29.4: for an attached weight-two newform, the equivariant rational Tate-module
+comparison at every prime and the identification of all Euler factors. In the
+cohomological convention here this identifies `V_p(E)` with `V_λ(f)(1)`, where `f = f*` has
+rational coefficients (for a newform with non-real coefficients the λ-factor of the Tate
+module is `V_λ(f*)(1)`, 7.9).
+Layer R29.5: the isogeny from the attached modular quotient and the surjection
+`J₀(N_E) → E` giving a modular parametrisation. Layer R29.6: every elliptic curve over ℚ
+has such an attached rational-coefficient newform. For the elliptic statements of 6.6 and
+7.3–7.8 and the elliptic signatures of §7.9, which carry no modularity hypothesis, use R29.6 to
+choose this newform and R29.4–R29.5 for its Tate-module and modular-quotient comparisons with E.
+
+### From NoncommutativeAndEquivariantIwasawa
+
+§4.0, “Local elliptic image theorems”: for an elliptic curve E over a number field F whose
+geometric endomorphisms are all multiplications by integers, and every prime p including
+`p = 2, 3` and primes of bad reduction, the image of `Gal(F̄/F)` in `Aut_(ℤ_p)(T_pE) ≅ GL₂(ℤ_p)`
+is open, stated there on Tau Ceti `WeierstrassCurve.tateModuleGaloisRepresentation` as
+`elliptic_nonCM_openImage`, with compatibility under change of integral basis and
+restriction to a finite extension. It is used at `F = ℚ` in 4.7; the surjectivity for all but
+finitely many p is not stated there and is `AdelicImagesAndModularCurves` §4.3.
+
+### From AdelicImagesAndModularCurves
+
+§4.3, “Surjectivity for almost all ℓ”, under the standing hypotheses of its Layer 4 (K a
+number field, E/K an elliptic curve): if E has no geometric complex multiplication, the mod-ℓ
+representation `ρ̄_(E,ℓ)` is surjective onto `GL₂(𝔽_ℓ)` for all but finitely many primes ℓ,
+hence the image of `Gal(K̄/K)` in `Aut_(ℤ_ℓ)(T_ℓE) ≅ GL₂(ℤ_ℓ)` is the whole group for all but
+finitely many ℓ. It is the owner of that statement and proves it from Dickson's classification,
+the inertia images at ℓ, the finiteness of the isogeny class and Hermite's finiteness; 4.7 uses
+it at `K = ℚ`, with the non-CM hypothesis read as: every endomorphism of E over `ℚ̄` is
+multiplication by an integer. It is cited by section: its `Suggested.lean` declares no name for
+this theorem.
+
+### From EllipticCurveModularityPartII
+
+§6.0e, “Unconditional rank zero for modular abelian factors”: for a weight-two newform f with
+trivial character and `L(f,1) ≠ 0`, the group `A_f(ℚ)` is finite, in every coefficient degree
+and including CM forms. It is the owner of that statement; 7.9 cites it and keeps the general
+theorem of which it is the case `K = ℚ`, `χ = 1`.
+
+### From EllipticCurves
+
+The invariant differential and the formal group with its logarithm over a ring
+containing ℚ (Layer 1); reduction types, the filtration `E₀ ⊃ E₁ ≅ Ê(m)`, the
+local minimal discriminant and Tamagawa numbers as indices (Layer 4); the global
+minimal integral model over ℚ (Layer 4.5b); the Mordell–Weil theorem over number fields
+(Layer 6); and the positive total real period of the global minimal differential,
+defined by an explicit convergent integral over both real branches (Layer 7).
+
+### From EtaleCohomologyFoundations and Polylogarithms
+
+From `EtaleCohomologyFoundations` §0.8: the trace `ClassicalAlgebraic.finiteTrace` of a finite
+locally free map on abelian étale sheaves, equal to the adjunction counit for a finite étale
+map, with naturality, composition, pullback compatibility and the norm description on Kummer
+classes when the coefficient order is invertible. From `Polylogarithms` §5.13: on a complex curve,
+the closed form `η(f,g) = log|f| d arg g − log|g| d arg f` of two nonzero rational functions
+away from their divisors, with antisymmetry, multiplicative bilinearity, the current equation
+with the tame symbols, and `curveEtaRegulator_beilinson`, the comparison with Beilinson's
+regulator through the rational Chern character, sign included; the real regulator used here is
+`i·η`.
+
+### From HeightsRationalPointsAndObstructions
+
+The Mordell–Weil theorem for abelian varieties over number fields: `A(K)` is finitely
+generated (§1.7).
 
 ## References
 
