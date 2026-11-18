@@ -999,8 +999,12 @@ the change of `f` when the coordinates in `S` are moved from the baseline to the
 For an additive `f` the baseline game is the additive game with
 `a i = g i (x i) − g i (x₀ i)`, whose Shapley value is `a` by covariance. In the two remaining
 cases player `i` is null, and the exchange is the duality of 4.2 applied to
-`baselineGame f x x₀`. The estimator of 6.1 applies to the baseline game, with `b − a` at most
-the oscillation of `f` on the points `S.piecewise x x₀`. (Sundararajan and Najmi 2020,
+`baselineGame f x x₀`. The estimator of 6.1 applies to the baseline game with `a = −ω` and
+`b = ω`, where `ω` is the oscillation of `f` on the points `S.piecewise x x₀`: a marginal
+contribution is a difference of two values of `f` at such points, so `b − a` is twice the
+oscillation and cannot be taken smaller in general (for two coordinates with
+`f (x₀ 1, x₀ 2) = f (x 1, x 2) = 0` and `f (x 1, x₀ 2) = f (x₀ 1, x 2) = 1`, the marginal
+contributions of the first coordinate are `1` and `−1`, while `ω = 1`). (Sundararajan and Najmi 2020,
 Section 2.3, equation (3), whose set function is this one plus the constant `f x₀`, with the
 same marginal contributions; proved here.)
 
