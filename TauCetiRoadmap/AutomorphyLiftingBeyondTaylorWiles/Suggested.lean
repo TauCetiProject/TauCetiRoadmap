@@ -35,9 +35,9 @@ so the file declares nothing. Each headline theorem and the carrier it lacks:
 * Cuspidal recognition of the degree-`q_0` eigenclasses (README §5.6) lacks cuspidal
   automorphic representations of `GL_n` over a number field and the cohomology of the locally
   symmetric space.
-* The support-to-eigenclass deduction (README §5.8) and its specializations to imaginary
-  quadratic fields (README §5.9) and totally real fields (README §5.10) lack the same
-  deformation, cohomology and automorphic carriers.
+* The support-to-eigenclass deduction (README §5.8) and its specialization to imaginary
+  quadratic fields (README §5.9) lack the same deformation, cohomology and automorphic
+  carriers.
 
 No simple definition on native carriers supplies any of these: an arbitrary complex, a bare
 numerical identity or an unspecified automorphy predicate would not be an acceptance test for

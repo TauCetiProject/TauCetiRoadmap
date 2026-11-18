@@ -1,6 +1,18 @@
 # Roadmap: automorphy lifting beyond the Taylor–Wiles method
 
-**Summary.** Build the conditional integral automorphy-lifting argument for GLₙ over an arbitrary number field, using the cohomology of Res PGLₙ in a range of defect ℓ₀, the local character deformation at trivial residual places, and two simultaneous Taylor–Wiles patching data. The arithmetic conclusions are the near faithfulness of the lowest-degree cohomology dual over the minimal deformation ring, and integral R = T with freeness when the local conditions are smooth. The construction gives the strengthened hypotheses and the support-to-eigenclass deduction used in conditional automorphy lifting. Conjecture B remains an explicit hypothesis. The roadmap is this README. None of its headline theorems is statable on the pinned Mathlib and Tau Ceti carriers, so `Suggested.lean` states none of them and its docstring names the carrier each one lacks.
+**Summary.** This roadmap builds Calegari and Geraghty's method of automorphy lifting for `n`-dimensional Galois representations of an arbitrary number field `F`. Fix `n ≥ 2` and a prime `p > n` unramified in `F`, and let `F` have signature `(r₁, r₂)`. The method works with the cohomology of the arithmetic quotients of `Res_{F/ℚ} PGLₙ`, localized at the maximal ideal of the Hecke algebra attached to an absolutely irreducible residual representation `r̄`. Unless `F` is totally real and `n = 2`, this cohomology is expected to occupy a whole range of degrees, from `q₀` to `q₀ + ℓ₀` with `ℓ₀ = r₁⌊(n−1)/2⌋ + r₂(n−1)`, and the patching is carried out with complexes rather than with single modules.
+
+The argument is conditional throughout. It assumes a strengthened form of Calegari–Geraghty's Conjecture B for `Res_{F/ℚ} PGLₙ`: Galois representations attached to the Hecke algebras acting on this cohomology, their local–global compatibility, vanishing of the localized cohomology outside the expected degrees, and the absence of new cohomology at Taylor–Wiles level. Conjecture B remains an explicit hypothesis of every theorem that uses it.
+
+Under these hypotheses, when the image of `r̄` on the Galois group of `F(ζ_p)` is big and `ζ_p` lies outside the field cut out by the adjoint of `r̄`, the main theorem says that the Pontryagin dual of the lowest-degree localized cohomology with torsion coefficients is nearly faithful over the minimal deformation ring: its annihilator there is nilpotent. When the local deformation rings are smooth, that is, when no auxiliary place has trivial residual representation, the deformation ring maps isomorphically onto the Hecke algebra and this dual is free over it. Together with the recognition of characteristic-zero eigenclasses as cuspidal, the main theorem gives conditional automorphy lifting. A lift with crystalline Hodge–Tate weights `0, …, n−1` at every embedding, satisfying the stated residual, local and determinant conditions, has at every place outside a finite set the Hecke polynomial of a cuspidal automorphic representation of `GLₙ(𝔸_F)`. For `n = 2` over an imaginary quadratic field the comparison at Taylor–Wiles level and part of the vanishing are proved here, so only the remaining clauses of Conjecture B are assumed.
+
+To avoid Ihara's lemma the roadmap patches two deformation problems at once, following Taylor's method: at places where `r̄` is trivial one problem uses the unipotent local condition and the other a condition attached to distinct characters of the residue field. The two problems agree modulo the maximal ideal of the coefficients, and support proved on the character side is transferred to the unipotent side.
+
+The roadmap builds on ArithmeticLocallySymmetricSpaces, for the arithmetic quotients, their cohomology and Hecke correspondences, and on DeformationAndDerivedPatchingAlgebra, for the patching of complexes and the near-faithfulness and support theorems applied in the last layer. ModularityAndLanglandsExtensions states a form of Conjecture B for `GLₙ` and a conditional lifting theorem, of which the deduction here is a variant. GL2ModularityLifting proves the unconditional lifting theorems for `GL₂` over totally real fields, where `ℓ₀ = 0`, among them the Fontaine–Laffaille-range theorem with Ihara avoidance; PotentialAutomorphyInfrastructure carries out the unconditional argument for `GLₙ` over CM fields.
+
+Layer 0 sets up the Hecke operators, Hecke algebras and Taylor–Wiles maximal ideals at auxiliary level. Layer 1 fixes the two deformation problems and proves the numerical coincidence that relates the number of generators of the global deformation rings to the defect `ℓ₀`. Layer 2 states the strengthened Conjecture B. Layer 3 proves the comparison at Taylor–Wiles level for `n = 2` and at primes with distinct Frobenius eigenvalues. Layer 4 constructs the two finite patching data, and Layer 5 patches them and draws the conclusions.
+
+None of the headline theorems can be stated against the pinned versions of Mathlib and Tau Ceti, so `Suggested.lean` states none of them; its docstring names, for each, the objects that are missing.
 
 ## How to read the build
 
@@ -1252,28 +1264,6 @@ A proof uses the following inputs and comparisons. Specialize §5.8, replacing B
 
 *Needs:* §5.8; §3.5; §2.8.
 
-### 5.10 Defect zero: n = 2 over a totally real field
-
-Let F be totally real and n = 2, so l_0 = 0 and q_0 = [F:ℚ]. Then the complexes D̃_N are single free S_N-modules, the patching is module patching, and Theorem 5.16 is the weight-two Fontaine–Laffaille automorphy lifting theorem for Hilbert modular forms (with Ihara avoidance at places where r̄ is trivial), conditional on Conjecture B for the Betti cohomology of Hilbert modular varieties in middle degree.
-
-Hypotheses of §5.8 with n = 2 and F totally real; r is totally odd by §1.1(f).
-
-The unconditional Fontaine–Laffaille-range lifting theorem for Hilbert modular forms, with Taylor's Ihara avoidance, is GL2ModularityLifting §5.8 with Layer 4 of that roadmap; this section records only that the support-to-eigenclass deduction of the present roadmap specializes to a statement of that kind when l_0 = 0 under Conjecture B, and is not a second proof of it.
-
-A proof uses the following inputs and comparisons. l_0 = r_1⌊1/2⌋ + r_2 = 0 and 2q_0 = 2[F:ℚ] = dim Y (AutomorphicFormsOnReductiveGroups §5.3). With l_0 = 0, §5.1 reduces to a single free module (DeformationAndDerivedPatchingAlgebra §9.2) and the argument is Taylor–Wiles–Kisin's, with Taylor's Ihara avoidance on the χ side.
-
-**Checks.**
-
-- For F = ℚ, Y is a modular curve, q_0 = 1, and Conjecture B holds at non-Eisenstein m.
-
-- The numerical coincidence dim R_∞ = dim S_∞^□ holds exactly (no defect); S_∞^□=S_∞⟦z₁,…,zⱼ⟧.
-
-- For F real quadratic, n=2 and |T|=1, ℓ₀=0, q₀=2, g=q−2 and dim R_∞=1+q+3=4+q. At q=3, both dim R_∞ and dim S_∞^□ are 7, while dim S_∞=4; dropping framing changes the comparison.
-
-(CG18, §8.1, published p. 401; CG18 line 4167; CG18, §8.4, published pp. 405–406; CG18 line 4339.)
-
-*Needs:* §5.8; TauCetiRoadmap.AutomorphicFormsOnReductiveGroups §5.3; TauCetiRoadmap.DeformationAndDerivedPatchingAlgebra §9.2.
-
 ### Examples
 
 Over A=k[ε]/(ε²), M=k has annihilator (ε), radical annihilator (ε)=√0, and full support, but it is not faithful. This distinguishes the near-faithfulness conclusion from the integral R=T conclusion that needs a nonzero free module.
@@ -1296,7 +1286,7 @@ DeformationAndDerivedPatchingAlgebra §§6.1–6.8, 7.3, 8.6 and 9.1–9.2 owns 
 
 ModularityAndLanglandsExtensions §2.7 states a GLₙ form of Conjecture B and its §2.8 the conditional weight-zero lifting endpoint. Layer 2 states the Res PGLₙ package of CG18 §9 independently, as a kept variant that adds all intermediate covers and the inertia–diamond clause; §5.8 is a kept variant of that §2.8 under this package, with balanced oddness and the split ramification set. Its §2.8 names the CG18 §9.5 patching verification and Theorem 9.19 in the proof route of that endpoint and keeps those arithmetic verifications for its own §2.7 hypothesis, without stating separate targets for them; they remain there. The finite patching data, their verification and the near-faithfulness theorem stated here (§§4.1–4.4 and 5.1–5.4) are for the Res PGLₙ package of Layer 2, whose Hecke algebras are the simultaneous images over all intermediate covers and finite coefficients of §0.3 and whose clause (6) that proof route does not assume; they are owned here. Apart from the variant §5.8, nothing of §2.8 is restated. The minimal-level residual condition is used in the precise cohomological sense of §0.6. The CM-only cuspidal-range theorem of ArithmeticLocallySymmetricSpaces ALS.5b.8 does not cover the arbitrary-number-field, big-image recognition in §5.6. AutomorphicSpectralTheory §§4.14a and 5.12–5.14 supplies the spectral objects used there.
 
-ClassFieldTheory Layers 7 and 11 supplies reciprocity, including the rank-one example; Chebotarev Layer 10 supplies Frobenius density. The rank-one example is an application of those results, not another class field theory target. GL2ModularityLifting Layers 4–5 own unconditional modularity lifting for GL₂ over totally real fields, including the Fontaine–Laffaille-range theorem with Ihara avoidance that §5.10 recovers conditionally. The defect-one GL₂ part of CG18 (balanced modules, weight-one forms and their complements, and the Conjecture A treatment of imaginary quadratic fields, §§2–5) is outside this roadmap: Hecke operators on torsion coherent cohomology of modular curves in its fine-curve setting are AlgebraicModularFormsAndSerreWeights §2.12, the CG18 Theorem 4.8 finiteness application is PotentialModularityAndCompatibleSystems §8.8, and the integral coherent-cohomology complexes of CG18 §7.2 are AutomorphicBundlesPartII §1.4 and Layer 2. §5.9 recovers the imaginary-quadratic GL₂ statement only as a specialization of Layers 4–5 under Conjecture B.
+ClassFieldTheory Layers 7 and 11 supplies reciprocity, including the rank-one example; Chebotarev Layer 10 supplies Frobenius density. The rank-one example is an application of those results, not another class field theory target. GL2ModularityLifting Layers 4–5 own unconditional modularity lifting for GL₂ over totally real fields, including the Fontaine–Laffaille-range theorem with Ihara avoidance (its §5.8). For n = 2 over a totally real field, where l_0 = 0, the support-to-eigenclass deduction of §5.8 here specializes under Conjecture B to a statement of that kind; it is not a second proof of that theorem and is not stated as a separate target. The defect-one GL₂ part of CG18 (balanced modules, weight-one forms and their complements, and the Conjecture A treatment of imaginary quadratic fields, §§2–5) is outside this roadmap: Hecke operators on torsion coherent cohomology of modular curves in its fine-curve setting are AlgebraicModularFormsAndSerreWeights §2.12, the CG18 Theorem 4.8 finiteness application is PotentialModularityAndCompatibleSystems §8.8, and the integral coherent-cohomology complexes of CG18 §7.2 are AutomorphicBundlesPartII §1.4 and Layer 2. §5.9 recovers the imaginary-quadratic GL₂ statement only as a specialization of Layers 4–5 under Conjecture B.
 
 ## Exact supplier contracts
 
