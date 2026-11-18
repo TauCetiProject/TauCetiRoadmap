@@ -2335,9 +2335,10 @@ R28.2.2 and R28.2.4 use its §§4.1–4.5: the names here are aliases or special
 Faltings normalization, not separately owned metric, height or isogeny theorems. Faltings'
 comparison of the modular and Hodge line bundles through a stack of stable curves (§2, Lemma 2 and
 its Korollar, pp. 352–353) is not planned here: ArakelovGeometryAndAbelianHeights §5.5 identifies
-the modular height of a moduli point with `m·h_st` exactly, on its minimal compactification over all
-of `ℤ`, and its §§5.6 and 6.4 give the resulting finiteness up to isomorphism over K̄, which R28.1.6
-descends to `K`. R28.1.4 specializes
+the modular height of a moduli point with a fixed positive multiple of `h_st` exactly (the power of the
+Hodge line that descends, `12` for `g = 1`), on its minimal compactification over all of `ℤ`, and
+its §§5.6 and 6.4 give the resulting finiteness up to isomorphism over K̄, which R28.1.6 descends to
+`K`. R28.1.4 specializes
 Tau Ceti's `TauCeti.NumberField.finite_of_finrank_le_of_ramifiedSupport_subset` to fixed degree in the
 chosen algebraic closure; the generic restricted-ramification theorem is already in the library.
 Zarhin's trick, including graph descent, is supplied by PadicDifferentialEquationsAndRigidCohomology §RD.5.116 over `Spec(k)`;
