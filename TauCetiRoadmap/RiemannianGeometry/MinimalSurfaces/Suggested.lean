@@ -32,6 +32,10 @@ variation of volume of an immersion of a manifold into a Riemannian manifold.
   connection, and the index form of the second variation of volume.
 - Instability under `Ric > 0` (6.4) needs the mean curvature and `|A|` of a two-sided
   hypersurface of a Riemannian manifold, for the stability form.
+- Stability across a singular set and strict stability (7.8) need `|A|` and `Ric_N(ν,ν)` of an
+  embedded hypersurface of a Riemannian manifold; `hessianCoordNormSq` covers surfaces in `ℝ³`
+  only, while the cone criterion concerns hypersurfaces of dimension at least three and the
+  lowest eigenvalue of `−Δ − |A|²` on a closed hypersurface of the sphere.
 - Removable singularities (8.1) and compactness under bounded total curvature (9.1) need the
   mean curvature and `|A|` of a surface in a Riemannian three-manifold.
 - Frankel's theorem (11.2) needs the mean curvature of an immersion into a Riemannian
