@@ -113,7 +113,7 @@ Write `H^i_S = lim_{K′} H^i(O_{K′}[S⁻¹], ℤ_p(1))`. Prove that `H¹_p = 
 0 → H²_p → H²_{pf} → ⊕_{𝔩 ∣ f, 𝔩 ∤ p} ℤ_p[[G/D_𝔩]] → 0,
 ```
 
-where `D_𝔩` is the decomposition group of `𝔩` in `G`, of `ℤ_p`-rank one. Each `ℤ_p[[G/D_𝔩]]` is torsion and not pseudo-null. After inverting `p` its localization vanishes at every height-one prime on a component where the inertia group `I_𝔩 ⊂ G` acts nontrivially. On a component where `I_𝔩` acts trivially it is the cyclic module defined by `1 − Frob_𝔩⁻¹` (Johnson-Leung–Kings, Lemma 4.3 and its proof, pp. 20–21, JLK line 861, for the localization triangle, purity and the determinant `(1 − η(𝔩)Frob_𝔩⁻¹)⁻¹`; the limit sequence is derived here). *Needs:* §§0.2, 1.1, 1.3; SelmerIwasawaCohomology §3.17; ArithmeticGaloisDuality §D7.5; PadicMeasuresIwasawaAlgebras §4.1.
+where `D_𝔩` is the decomposition group of `𝔩` in `G`, of `ℤ_p`-rank one. Each `ℤ_p[[G/D_𝔩]]` is torsion and not pseudo-null. After inverting `p` its localization vanishes at every height-one prime on a component where the inertia group `I_𝔩 ⊂ G` acts nontrivially. On a component where `I_𝔩` acts trivially it is the cyclic module defined by `1 − Frob_𝔩⁻¹` (Johnson-Leung–Kings, Lemma 4.3 and its proof, pp. 20–21, JLK line 861, for the localization triangle, purity and the determinant of the supported complex; the limit sequence is derived here). *Needs:* §§0.2, 1.1, 1.3; SelmerIwasawaCohomology §3.17; ArithmeticGaloisDuality §D7.5; PadicMeasuresIwasawaAlgebras §4.1.
 
 The route: at each layer, the localization triangle for `Spec O_{K′}[1/pf] ⊂ Spec O_{K′}[1/p]` and purity give `0 → H¹_p → H¹_{pf} → ⊕_{w∣𝔩} ℤ_p → H²_p → H²_{pf} → ⊕_{w∣𝔩} H¹(κ(w), ℤ_p) → 0`. In the limit the degree-two supported terms vanish, because corestriction multiplies by residue degrees that grow without bound, `Frob_𝔩` having infinite order in `G/I_𝔩`. The degree-three supported terms assemble to `ℤ_p[[G/D_𝔩]]`. Inverse limits of compact modules are exact.
 
@@ -259,7 +259,7 @@ Fix `p` and an ideal `a` prime to `6p`, and let `𝒦` be the union of the `K(q)
 **Checks.**
 
 - For `χ = 1` the twisted classes are `a ζ_m`.
-- At `𝔮 ∤ pma` the corestriction factor is `1 − Frob_𝔮⁻¹`; with arithmetic Frobenius and inverse-Artin character values `η(𝔮) = η(Frob_𝔮⁻¹)` the twisted factor is `1 − χ(𝔮)Frob_𝔮⁻¹`.
+- At `𝔮 ∤ pma` the corestriction factor is `1 − Frob_𝔮⁻¹`, with `Frob_𝔮` arithmetic. For `T = O_p(χ)(1)` the dual `T^*` carries `χ⁻¹`, on which `Frob_𝔮⁻¹` acts by `χ(Frob_𝔮)`, so the factor `P(Frob_𝔮⁻¹ | T^*; Frob_𝔮⁻¹)` of EulerSystemsAndKolyvaginSystems §2.2 is `1 − χ(Frob_𝔮)Frob_𝔮⁻¹`, the image of `1 − Frob_𝔮⁻¹` under the twist of §1.1. The opposite twist `1 − χ(Frob_𝔮)⁻¹Frob_𝔮⁻¹` agrees with it only when `χ(Frob_𝔮) = ±1` (§4.6).
 - For `#G = p` the integral character map is defined and the idempotent `(1/p)Σ_g χ(g)⁻¹g` is not integral. A definition through the idempotent excludes `p ∣ #G`.
 
 ### 4.2 The scalar Tamagawa number conjecture at s = 0
@@ -284,9 +284,9 @@ For abelian L ⊃ F ⊃ K, let z(η) be the zeta element characterized by r(z(η
 
 Let η have sufficiently large level to be ramified at every prime above p, and let a ≠ O_K be prime to 6pf_η. Denote by e(η⁻¹) the trace of a ζ_(f_η) of §2.2 tensored with t_p(η⁻¹). Prove that e(η⁻¹) lies in H¹_f and
 
-    e(η⁻¹) = (N(a) − η(a)) z_p(η).
+    e(η⁻¹) = (N(a) − η(σ_a)) z_p(η).
 
-Here η(a) uses the inverse-Artin ideal convention of §4.1. This compares Kronecker's formula of §2.3 with the regulator of §4.2; both are taken in the squared norm, so no power of 2 enters. For n large, the tensor over characters of exact level n of (N(a) − η(a))⁻¹e(η⁻¹)O_p equals the tensor of Det⁻¹ RΓ(O_K[1/p], O_p(η⁻¹)(1)) (Johnson-Leung–Kings, (6), Definition 3.8, Theorem 3.9 and Corollary 3.10, pp. 9, 17–19). The source prints the ordinary absolute value both in (6) and in Proposition 3.3(4); each is off by the factor 2, the two factors cancel, and its Theorem 3.9 and Corollary 3.10 hold as printed. The nonzero scalar N(a) − η(a) is invertible over the coefficient field because N(a) > 1 and η(a) is a root of unity. *Needs:* §§2.2, 2.3, 4.1–4.2; Mathlib `NumberField.Units.logEmbedding_eq_zero_iff`.
+The scalar is the image of N(a) − σ_a under the twist of §1.1 by η⁻¹, which sends σ_a to η(σ_a) at the bottom layer; it is the augmentation of s_a(η⁻¹) of §4.5. By the auxiliary independence of §2.2 it is the scalar for which (N(a) − η(σ_a))⁻¹e(η⁻¹) does not depend on a. Johnson-Leung–Kings print it as Na − η(a) with η(a) = η(σ_a)⁻¹, which differs when η(σ_a) is not ±1. This compares Kronecker's formula of §2.3 with the regulator of §4.2; both are taken in the squared norm, so no power of 2 enters. For n large, the tensor over characters of exact level n of (N(a) − η(σ_a))⁻¹e(η⁻¹)O_p equals the tensor of Det⁻¹ RΓ(O_K[1/p], O_p(η⁻¹)(1)) (Johnson-Leung–Kings, (6), Definition 3.8, Theorem 3.9 and Corollary 3.10, pp. 9, 17–19). The source prints the ordinary absolute value both in (6) and in Proposition 3.3(4); each is off by the factor 2, the two factors cancel, and its Theorem 3.9 and Corollary 3.10 need no correction for the factor 2. The nonzero scalar N(a) − η(σ_a) is invertible over the coefficient field because N(a) > 1 and η(σ_a) is a root of unity. *Needs:* §§2.2, 2.3, 4.1–4.2; Mathlib `NumberField.Units.logEmbedding_eq_zero_iff`.
 
 - e(η⁻¹) is non-torsion and lies on the rational character line of z_p(η).
 - Taking the regulator with the ordinary absolute value halves it, doubles the element it characterizes and multiplies the tensor lattice by 2^m for m character factors; at p = 2 that is not a unit, and the class-number Check of §4.2 excludes it.
@@ -294,7 +294,7 @@ Here η(a) uses the inverse-Artin ideal convention of §4.1. This compares Krone
 
 **Checks.**
 
-- For K = ℚ(i), p = 3, η quadratic of conductor (3), a = (5), put R = log(2 + √3). Then r(e(η⁻¹)) = 8R in the squared norm (§2.3) and (N(a) − η(a))·L′(η, 0) = (25 − 1)·R/3 = 8R, so e(η⁻¹) = (N(a) − η(a))z_p(η). The ordinary absolute value gives 4R and would insert a factor 1/2.
+- For K = ℚ(i), p = 3, η quadratic of conductor (3), a = (5), put R = log(2 + √3). Then r(e(η⁻¹)) = 8R in the squared norm (§2.3) and (N(a) − η(σ_a))·L′(η, 0) = (25 − 1)·R/3 = 8R, so e(η⁻¹) = (N(a) − η(σ_a))z_p(η). The ordinary absolute value gives 4R and would insert a factor 1/2.
 - In a dyadic rank-one lattice, multiplying a generator by 2 increases its valuation by 1. For m character factors the tensor changes by 2^m, while at odd p this scalar is a unit.
 
 ### 4.4 Rubin's Euler-system bound for elliptic units
@@ -333,19 +333,20 @@ at every height-one q, including q containing p, and the associated determinant 
 **Checks.**
 
 - For K = ℚ(i), p = 3, χ quadratic modulo (3), a = (2 + i), b = (7), the augmented factors are 5 − (−1) = 6 and 49 − 1 = 48. The normalized values are 6u/6 = 48u/48 = u. Untwisted factors give 6u/4 = 3u/2 and 48u/48 = u.
-- At χ = 1, J_χ is the cyclotomic auxiliary ideal, of height two; it is not principal, although every height-one localization is the unit ideal.
+- At χ = 1, Λ_O/J_χ ≅ O_p/(κ(δ) − 1 : δ ∈ Δ) for the cyclotomic character κ, since N(a) = κ(σ_a) and the σ_a are dense in the ray group; so J_χ has height two exactly when κ is trivial on Δ. For K = ℚ(i), p = 2, f_χ = (1), Δ is trivial and J_χ is the kernel of κ, of height two and not principal, although every height-one localization is the unit ideal. For K = ℚ(i), p = 3, a = (2 + i) gives s_a(1) = 5 − [σ_a|Γ], whose augmentation 4 is a 3-adic unit, so s_a(1) is a unit of the local ring ℤ_3[[Γ]] and J_χ is the unit ideal.
 - For K = ℚ(i), p = 2, χ = 1 and the height-one prime q = (2) of Λ_O = ℤ_2[[Γ]]: for a = (5), σ_a|Γ ≠ 1 since σ_a raises 2-power roots of unity to the power 25, so s_a = 25 − [σ_a|Γ] maps to 1 − [σ_a|Γ] ≠ 0 in 𝔽_2[[Γ]] and is a unit at q. Hence (J_χζ)_q = Λ_q·aζ, and §4.4, by twisting, gives length H²_q ≤ length(H¹/J_χζ)_q. A generator doubled by an ordinary-norm regulator would raise the right side by 1 at q and contradict the equality: the integral statement fixes the generator, not only its line.
 - Rubin's hypothesis p ∤ #μ(H) excludes p = 2 for ℚ(i), and p = 2, 3 for ℚ(√−3); the character-wise statement includes these primes.
 
 ### 4.6 The character-wise equality with tame Euler factors
 
-Suppose f_χ ∣ f. Define ζ(χ, f) = ∏_(𝔩∣f, 𝔩∤p)(1 − χ(𝔩)Frob_𝔩⁻¹)ζ(χ), with χ(𝔩) in the inverse-Artin convention and zero at a ramified prime. Prove that the inclusion J_χζ(χ, f) → RΓ(O_K[1/pf], Λ(χ)(1))[1] has divisor zero. In particular Det(H¹/J_χζ(χ, f)) ≅ Det H². The supported complexes contribute the inverse Euler determinant, compensated by the displayed factors (Johnson-Leung–Kings, Corollary 5.3, pp. 24–25). Use the same twisted smoothing ideal as §4.5. *Needs:* §§4.5, 1.5.
+Suppose f_χ ∣ f. Define ζ(χ, f) = ∏_(𝔩∣f, 𝔩∤p)(1 − χ(Frob_𝔩)Frob_𝔩⁻¹)ζ(χ), with Frob_𝔩 arithmetic and the factor 1 at a prime where χ is ramified. Each factor is the Euler factor of §4.1 for O_p(χ)(1), the image of 1 − Frob_𝔩⁻¹ under the same twist as s_a(χ). Johnson-Leung–Kings write it 1 − χ(𝔩)Frob_𝔩⁻¹ with χ(𝔩) = χ(Frob_𝔩⁻¹); read in the action of the Conventions, that is the opposite twist, with a different divisor when χ(Frob_𝔩) is not ±1 (Checks). Prove that the inclusion J_χζ(χ, f) → RΓ(O_K[1/pf], Λ(χ)(1))[1] has divisor zero. In particular Det(H¹/J_χζ(χ, f)) ≅ Det H². The supported complexes contribute the inverse Euler determinant, compensated by the displayed factors (Johnson-Leung–Kings, Corollary 5.3, pp. 24–25). Use the same twisted smoothing ideal as §4.5. *Needs:* §§4.5, 1.5.
 
 **Checks.**
 
 - If every prime of f lies above p, the product is empty, equals 1 and this is §4.5.
-- At a ramified prime χ(𝔩) = 0 and its factor is 1.
+- At a prime where χ is ramified the factor is 1.
 - At an unramified prime with finite Frobenius eigenvalue −1 and p = 5, the factor 1 + γ⁻¹ has augmentation 2 and contributes no divisor; finite inertia alone does not specify its support.
+- For K = ℚ(i), p = 3 and f = (7)(2 + i), let χ be the cubic character of conductor (7) induced by x ↦ x^16 on (O_K/7)^×, which is trivial on μ_4. Since (2 + i)^16 ≡ 4 mod 7 has order 3, χ(Frob_(2+i)) is a primitive cube root of unity ζ_3. With γ the image of Frob_(2+i) in Γ, the factor is 1 − ζ_3γ⁻¹, which vanishes at the characters of Γ with γ ↦ ζ_3; the opposite twist 1 − ζ_3⁻¹γ⁻¹ vanishes where γ ↦ ζ_3⁻¹. Both are nonunits of ℤ_3[ζ_3][[Γ]], their augmentations 1 − ζ_3^(±1) lying in the maximal ideal, and their divisors differ, so the two definitions of ζ(χ, f) cannot both give divisor zero. The value −1 of the previous Check does not separate them.
 
 ### 4.7 Rubin's Iwasawa modules
 
@@ -443,7 +444,7 @@ For a finitely generated torsion A-module Y with Y/aY and Y[a] torsion over B, p
 
 ### 5.2 Elliptic units and the exact Katz image
 
-On the full two-variable tower of §5.1, prove that the image of the closed inverse elliptic-unit module is J_aux,χ·ν_𝔭^χ on each χ-component. Here ν_𝔭 is Katz's measure of AutomorphicPadicLFunctionsPartII §8.5, with its period and conductor Euler factors fixed, and J_aux,χ is generated by the auxiliary factors N(a) − σ_a transported through the chosen local character. The sign in Col(a z) = (N(a) − σ_a)ν_𝔭 is the inverse-unit convention; a generator differing by a unit gives the same ideal. The exact image need not be principal. Its divisorial hull is (ν_𝔭^χ), since the auxiliary ideal becomes the unit ideal at height one. Consequently char(U_∞^χ/𝒞̄_∞^χ)·Λ_Ô^χ = (L_𝔭^χ), including the image-ideal correction C_loc of §5.1 before passing to characteristic ideals. Sources: Yager, Theorem 1 (class number one, p ≥ 5, good reduction); Rubin91, Remark (1) after Theorem 4.1, p. 37, for the general-field measure identification; NoncommutativeAndEquivariantIwasawa §4.3 for its exact image and rational-curve specialization.
+On the full two-variable tower of §5.1, prove that the image of the closed inverse elliptic-unit module is J_aux,χ·ν_𝔭^χ on each χ-component. Here ν_𝔭 is Katz's measure of AutomorphicPadicLFunctionsPartII §8.5, with its period and conductor Euler factors fixed, and J_aux,χ is generated by the auxiliary factors N(a) − σ_a transported through the chosen local character. The sign in Col(a z) = (N(a) − σ_a)ν_𝔭 is the inverse-unit convention; a generator differing by a unit gives the same ideal. The exact image need not be principal. Its divisorial hull is (ν_𝔭^χ), since the auxiliary ideal becomes the unit ideal at height one. Consequently char(U_∞^χ/𝒞̄_∞^χ)·Λ_Ô^χ = (L_𝔭^χ), including the image-ideal correction C_loc of §5.1 before passing to characteristic ideals. Sources: Yager, Theorem 1 (class number one, p ≥ 5, good reduction); Rubin91, Remark (1) after Theorem 4.1, p. 37, for the general-field measure identification; compare NoncommutativeAndEquivariantIwasawa §4.3, the rational CM-curve case.
 
 A route evaluates the local Coleman measure on the theta system through NonordinaryCMSpecialValues §§2.5–2.6 and compares its moments with Katz interpolation on a dense family. It identifies each smoothed value, then the entire generated ideal. For an arbitrary one-variable quotient, specialize this exact image and use every Tor, K_Y and D_Y term of §5.1; the assertion is the resulting corrected divisor identity, not an unrestricted equality of the actual one-variable image with a principal Katz ideal. *Needs:* §§5.1, 2.4; NonordinaryCMSpecialValues §§2.1, 2.5, 2.6; AutomorphicPadicLFunctionsPartII §8.5.
 
@@ -519,7 +520,7 @@ For every prime `p` and nonzero `f`, prove that at every height-one prime `q` of
 length_{R_q} (h¹/z)_q = length_{R_q} (H²_{pf})_q = length_{R_q} h²_q + Σ_{𝔩 ∣ f, 𝔩 ∤ p} length_{R_q} ℤ_p[[G/D_𝔩]]_q.
 ```
 
-In particular `length h²_q = length (h¹/z)_q` whenever `q` lies on a component on which the inertia group of every such `𝔩` acts nontrivially (Johnson-Leung–Kings, §§7.1–7.2, Lemmas 7.1, 7.2, 7.6, 7.7 and the argument after Lemma 7.7, pp. 34–36, JLK lines 1412–1487; Burungale–Tian, proof of Theorem 2.1, p. 4, BT lines 155–157). The route extends scalars to `O` containing the values of the characters of `Δ`. At regular `q`, `(R_O)_q` is the localization of one factor `O[[Γ]](χ)` (§0.2), and the projection of `a ζ(f)` to that factor is `∏(1 − χ(𝔩)Frob_𝔩⁻¹)·a ζ(χ)` (Lemma 7.7). On that factor J_χ is the projected auxiliary ideal; its height-one localization is the whole ring, and §4.6 gives the first equality via §§1.3 and 2.4. §§1.4–1.5 give the second. *Needs:* §§4.5, 4.6, 1.3–1.5, 2.4, 0.2.
+In particular `length h²_q = length (h¹/z)_q` whenever `q` lies on a component on which the inertia group of every such `𝔩` acts nontrivially (Johnson-Leung–Kings, §§7.1–7.2, Lemmas 7.1, 7.2, 7.6, 7.7 and the argument after Lemma 7.7, pp. 34–36, JLK lines 1412–1487; Burungale–Tian, proof of Theorem 2.1, p. 4, BT lines 155–157). The route extends scalars to `O` containing the values of the characters of `Δ`. At regular `q`, `(R_O)_q` is the localization of one factor `O[[Γ]](χ)` (§0.2), on which `Δ` acts through `χ`. That factor carries the coefficient line of `χ⁻¹`: the projection of `a ζ(f)` to it is `∏(1 − χ⁻¹(Frob_𝔩)Frob_𝔩⁻¹)·a ζ(χ⁻¹)`, with the factors of §4.6 for `χ⁻¹` (Lemma 7.7, where the factor with coefficients `Λ(η)` is reached by the projector `p_{η⁻¹}`, JLK line 1499; here `η = χ⁻¹`). On that factor `J_{χ⁻¹}` is the projected auxiliary ideal; its height-one localization is the whole ring, and §4.6 gives the first equality via §§1.3 and 2.4. §§1.4–1.5 give the second. *Needs:* §§4.5, 4.6, 1.3–1.5, 2.4, 0.2.
 
 ### 6.2 The rational equivariant main conjecture
 
@@ -603,7 +604,6 @@ It is corestriction from `K(p^n f)` to `K ⊗ ℚ(ζ_{p^n})` (a field when `K �
 - At level `n = 0` with `K ⊄ ℚ(μ_{p^∞})`, it is corestriction from `K(f)` to `K` followed by Shapiro to `ℚ`.
 - For `m ≥ n`, the projection to level `n` of the image equals the corestriction of its level-`m` value. This tests the transition maps, which a map sending zero to zero alone would not.
 - A map built from the archimedean isomorphism (15.11.3) as a Galois identification is not this map for `k ≥ 3`, since that isomorphism is not known to be Galois-equivariant.
-
 - Changing a lattice T to pT multiplies both the source generator and its image by p; the rational map is unchanged after scalar extension.
 
 ### 7.4 Twisting the tower cohomology to CM coefficients
@@ -776,7 +776,6 @@ For even k, the central specialization at the kernel of `σ_c ↦ c^{−k/2}` is
 - The torsion `Δ` of `G_∞` is `ℤ/(p − 1)` for odd `p` and `ℤ/2` for `p = 2`. A formulation over `O_λ[[Γ]]` alone would see only the trivial component.
 - With extension by zero in place of `j_*`, `H²` at a prime `ℓ ∣ N` where `V` is ramified would acquire a local term and change `ξ(H²)`.
 - For `k = 2` the character is `σ_c ↦ c⁻¹`. Its kernel is a height-one prime of `Λ` with quotient `O_λ`, of characteristic zero, so it does not contain `p`. For odd `p` its restriction to `Δ = μ_{p−1}` is `ω⁻¹`, so it lies on the `ω⁻¹`-component.
-
 - At k = 3 a character h on the full cyclotomic group must satisfy h(−1)² = 1, whereas the proposed square (−1)^(−3) is −1. The half-weight central specialization is excluded, while §8.6 still covers weight 3.
 
 ### Examples
@@ -929,7 +928,6 @@ PS.5.2 (the equivariant Tamagawa number conjecture `ETNC(M, O)` as a predicate: 
 - **CGLS.** Francesc Castella, Giada Grossi, Jaehoon Lee and Christopher Skinner, *On the anticyclotomic Iwasawa theory of rational elliptic curves at Eisenstein primes*, Inventiones Mathematicae 227 (2022), 517–580; read as [arXiv:2008.02571v2](https://arxiv.org/abs/2008.02571v2). Definition 1.2.1, Theorem 1.2.2, Remark 1.2.3, (2.11).
 - **Kriz.** Daniel Kriz, *Generalized Heegner cycles at Eisenstein primes and the Katz p-adic L-function*, Algebra & Number Theory 10 (2016), 309–374; read as [arXiv:1512.05032v1](https://arxiv.org/abs/1512.05032v1). Theorem 27.
 - **Yager.** Rodney Ian Yager, *On two variable p-adic L-functions*, PhD thesis, Australian National University (1981), [ANU Open Research](https://openresearch-repository.anu.edu.au/items/7c4519f4-e0eb-49ce-a2d9-e5777fa9483d). Chapters 3–8 and Theorem 1.
-
 - **Coleman79.** Robert F. Coleman, *Division values in local fields*, Inventiones Mathematicae 53 (1979), 91–116, [GDZ](https://gdz.sub.uni-goettingen.de/download/pdf/PPN356556735_0053/LOG_0011.pdf). Theorem A, p. 92; Theorem 11 and Corollary 12, p. 102.
 - **BKO21.** Ashay Burungale, Shinichi Kobayashi and Kazuto Ota, *Rubin’s conjecture on local units in the anticyclotomic tower at inert primes*, Annals of Mathematics 194 (2021), 943–966, [NSF public copy](https://par.nsf.gov/servlets/purl/10336626). Theorems 6.1–6.2, pp. 960–963.
 - **Schutt09.** Matthias Schütt, *CM newforms with rational coefficients*, Ramanujan Journal 19 (2009), 187–205; [arXiv:math/0511228v5](https://arxiv.org/abs/math/0511228v5), Theorem 1.4, p. 3.
