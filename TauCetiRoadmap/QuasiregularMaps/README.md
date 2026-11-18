@@ -1,36 +1,64 @@
 # Roadmap: quasiregular maps
 
-**Summary.** Build quasiregular maps between oriented Riemannian manifolds of one dimension `n`
-on the Sobolev class `W^{1,n}_loc(M, N)` of SobolevMapsBetweenManifolds. The construction runs from
-the linear algebra of distortion (minimal stretch, outer, inner and Hilbert–Schmidt distortion of
-a linear map) to the class of `K`-quasiregular maps `f : M → N`, defined by
-`‖Df‖ⁿ ≤ K J_f` almost everywhere. Its invariants are the outer, inner, maximal and
-Hilbert–Schmidt distortions. The roadmap proves their comparison inequalities and their
-invariance under change of metric, reversal of orientation and composition with `C¹` factors.
-It proves the `ACL^p` characterisation of continuous Sobolev maps on Euclidean domains, and
-hence agreement with the classical definition of Martio, Rickman and Väisälä. It proves that
-non-degenerate orientation-preserving simplicial maps between smoothly triangulated manifolds
-with bounded simplexwise distortion, in particular with compact source, are quasiregular, and it
-develops quasiregularly elliptic manifolds. The end theorems are:
+**Summary.** Quasiregular maps are maps between oriented Riemannian manifolds of one dimension
+`n` whose weak differential obeys a uniform distortion inequality. They need not be injective:
+in the plane, `z ↦ zᵐ` is `1`-quasiregular and `m`-to-one off `0`. For `K ≥ 1`, a continuous
+map `f : M → N` in the Sobolev class `W^{1,n}_loc(M, N)` is `K`-quasiregular when
+`‖Df‖ⁿ ≤ K J_f` almost everywhere, with the operator norm on the left and the Jacobian, signed
+by the orientations, on the right. The sign matters: the fold
+`(x₁, …, xₙ) ↦ (|x₁|, x₂, …, xₙ)` has a differential of norm `1` almost everywhere, but its
+Jacobian is `−1` where `x₁ < 0`, so it is not quasiregular. Throughout, manifolds are smooth,
+Hausdorff, second countable and boundaryless, of dimension `n ≥ 1`, with a continuous
+Riemannian metric and an orientation.
 
-- the sharp comparison `K_I(f) ≤ K_O(f)^{n−1}`, `K_O(f) ≤ K_I(f)^{n−1}`, so the outer and
-  maximal definitions give one class of maps, between manifolds and, in the original setting of
-  Martio, Rickman and Väisälä, on Euclidean domains;
-- a continuous map of a Euclidean domain is `ACL^p` if and only if it lies in `W^{1,p}_loc`,
-  so the definition here agrees with the classical one;
-- a non-degenerate orientation-preserving simplicial map of `C¹`-triangulated manifolds with
-  bounded simplexwise distortion, in particular one with closed source, is quasiregular, with its
-  outer distortion computed simplex by simplex;
-- quasiregular ellipticity of a closed connected orientable manifold is independent of the
-  metric and the orientation;
-- every closed orientable flat manifold is `1`-quasiregularly elliptic;
-- a connected oriented Riemannian manifold that receives a non-degenerate orientation-preserving
-  simplicial map from a flat torus is quasiregularly elliptic.
+The least `K` for which `f` is `K`-quasiregular is its outer distortion `K_O(f)`, infinite when
+there is none. The inner distortion `K_I(f)` of a quasiregular map is the least `K ≥ 1` for which
+the Jacobian is at most `K` times the `n`-th power of the minimal stretch, the least length of
+the image of a unit vector under the differential. Martio, Rickman and Väisälä call a map
+`K`-quasiregular when both distortions are at most `K`; this roadmap calls that
+"`K`-quasiregular in the maximal sense".
 
-Reshetnyak's theorem, the composition of arbitrary quasiregular maps and the cohomological
-constraints on quasiregularly elliptic manifolds of Bonk–Heinonen, Prywes and Heikkilä–Pankka
-are the subjects of QuasiregularMaps, Part II and Part III, described under Downstream
-consumers. Each of them consumes this roadmap.
+The first main theorem compares them. For every quasiregular map, `K_I(f) ≤ K_O(f)^{n−1}` and
+`K_O(f) ≤ K_I(f)^{n−1}`, and for `n ≥ 2` both bounds are attained. So the two definitions give
+the same quasiregular maps. For example, the radial stretch `x ↦ |x|^{−1/2} x` of `ℝ³`
+has `K_O = 2` and `K_I = 4`: it is `2`-quasiregular, and `4`-quasiregular but not
+`2`-quasiregular in the maximal sense.
+
+The second main theorem is Euclidean. A continuous map of an open set `Ω ⊆ ℝⁿ` is `ACL^p` when,
+in every closed coordinate box in `Ω`, it is absolutely continuous on almost every segment
+parallel to an axis, and its partial derivatives lie in `L^p` on every compact subset of `Ω`.
+For `1 ≤ p ≤ ∞`, a continuous map of `Ω` into a finite-dimensional real normed space is `ACL^p`
+if and only if it has a weak derivative in `L^p` on every compact subset of `Ω`. With `p = n`
+this recovers the classical definition: for `K ≥ 1`, a map of `Ω` into `ℝⁿ`, with the flat
+metric and the standard orientation, is `K`-quasiregular if and only if it is `ACLⁿ` and
+`‖f′‖ⁿ ≤ K det f′` almost everywhere, where `f′` is the matrix of partial derivatives.
+
+The third produces quasiregular maps from triangulations. Take `C¹` triangulations of `M` and
+`N` and a simplicial map between them that is injective on the vertices of each simplex and
+orientation preserving inside each top-dimensional simplex. If the `n`-th power of the norm of
+its differential, divided by the Jacobian, is bounded there, the map is quasiregular, and its
+outer distortion is the larger of `1` and the supremum of that quotient. The bound is automatic
+when `M` is compact.
+
+The last results concern quasiregularly elliptic manifolds: connected oriented Riemannian
+`n`-manifolds that receive a non-constant quasiregular map from `ℝⁿ`. This property never depends
+on the orientation, and for closed manifolds not on the metric either. Every closed orientable
+flat manifold is `1`-quasiregularly elliptic, for each of its orientations. A connected oriented
+Riemannian manifold that receives a simplicial map as above from a flat torus is quasiregularly
+elliptic.
+
+Everything between manifolds is stated on the Sobolev class of SobolevMapsBetweenManifolds,
+which provides the weak differential and the oriented Jacobian. The Euclidean results rest on
+Mathlib and Tau Ceti alone. GeometricTopology provides simplicial
+maps, and RiemannianGeometry the flat quotients `ℝⁿ/Γ` with the Killing–Hopf theorem. Building
+on this roadmap, QuasiregularMaps, Part II proves Reshetnyak's theorem: for `n ≥ 2`, a
+non-constant quasiregular map of a connected manifold is discrete, open and sense preserving.
+Part III proves the cohomological constraints of Bonk–Heinonen, Prywes and Heikkilä–Pankka on
+closed quasiregularly elliptic manifolds.
+
+The first layer treats a single linear map, the next three quasiregular maps, their
+distortions and their invariance. The fifth is Euclidean, the sixth treats triangulations and
+the seventh elliptic manifolds.
 
 ## How to read the build
 
