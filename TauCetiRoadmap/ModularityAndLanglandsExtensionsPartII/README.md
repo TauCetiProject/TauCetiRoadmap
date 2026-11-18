@@ -1864,13 +1864,16 @@ induced from a quadratic extension. Prove that for every `n ≥ 2`, `Sym^{n−1}
 cuspidal `Π_n` of `GL_n(𝔸_E)` with `rec(Π_{n,w}) ≅ Sym^{n−1} ∘ rec(π_w)` for every place `w` (nt26
 Theorem 6.5(2) and proof, p. 50).
 
-*Proof sketch.* Clozel–Thorne Proposition 7.6 (ModularityAndLanglandsExtensions §4.22), an auxiliary
-character and an odd extension, §13.10, then base change.
+*Proof sketch.* For RACSDC `π`: Clozel–Thorne Proposition 7.6 (ModularityAndLanglandsExtensions
+§4.22), an auxiliary character and an odd extension, §13.10, then base change. A RAECSDC `(π, χ)` is
+twisted to this case (nt26 p. 50): an algebraic character `ψ` of `E` with
+`ψψ^c = (χ ∘ N_{E/E⁺})^{−1}` (PotentialAutomorphyInfrastructurePartII §0.11) makes `π ⊗ (ψ ∘ det)`
+RACSDC (§0.8 there), and `Π_n` is `Sym^{n−1}` of it twisted by `ψ^{1−n} ∘ det`.
 
-General Bianchi forms instead use the potential route of ModularityAndLanglandsExtensions §4.42.
+General Bianchi forms instead use the potential route of ModularityAndLanglandsExtensions §4.33.
 
-*Needs:* §13.10; ModularityAndLanglandsExtensions §4.22; EndoscopicTransferAndUnitaryTraceComparison
-§§6.24, 6.26–6.29.
+*Needs:* §13.10; ModularityAndLanglandsExtensions §4.22; PotentialAutomorphyInfrastructurePartII
+§§0.8, 0.11; EndoscopicTransferAndUnitaryTraceComparison §§6.24, 6.26–6.29.
 
 ### 13.13 Holomorphy of `L(s, Sym^n π)` for Hilbert modular forms
 

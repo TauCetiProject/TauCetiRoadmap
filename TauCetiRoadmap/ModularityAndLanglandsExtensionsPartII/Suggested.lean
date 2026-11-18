@@ -43,6 +43,14 @@ deformation and pseudodeformation rings. Hence:
   every place, lacks automorphic representations of `GL_n(𝔸_ℚ)` and the local Langlands
   correspondence at the ramified primes; its consequence at the unramified primes is the second
   statement above.
+* The all-place lifts for Hilbert modular forms of any parity and for essentially conjugate
+  self-dual representations of `GL_2` over CM fields (§§13.11, 13.12) and the holomorphy of
+  `L(s, Sym^n π)` for Hilbert modular forms (§13.13) lack cuspidal automorphic representations of
+  `GL_n` over totally real and CM fields and the local Langlands correspondence at every place.
+* The entireness of the completed `Λ(Sym^n E, s)` for non-CM elliptic curves `E/ℚ` (§14.6) lacks
+  the `Sym^n` Weil–Deligne Euler factors of `E` at its bad primes and the conductor of `Sym^n E`;
+  its consequence away from the conductor of `E` is the second statement above, applied to the
+  weight-two newform of `E`.
 -/
 
 @[expose] public section
