@@ -149,7 +149,7 @@ Integral inequalities:
   Hölder in `∫⁻` form, its weighted product forms for exponents summing to `1`, and Minkowski.
 - `MeasureTheory.eLpNorm_smul_le_mul_eLpNorm`, `MeasureTheory.eLpNorm_le_eLpNorm_of_exponent_le`
   (`Mathlib/MeasureTheory/Function/LpSeminorm/CompareExp.lean`): Hölder for a `HolderTriple`
-  of extended exponents (`ENNReal.HolderTriple`, `Mathlib/Data/ENNReal/Holder.lean`) and the
+  of extended exponents (`ENNReal.HolderTriple`, `Mathlib/Basic/ENNReal/Holder.lean`) and the
   Lyapunov comparison of norms on a probability space.
 - `ProbabilityTheory.variance_le_sq_of_bounded` (`Mathlib/Probability/Moments/Variance.lean`):
   Popoviciu's variance bound `Var f ≤ ((b − a)/2)²`.
@@ -175,6 +175,11 @@ Entropy and divergence:
   (`Mathlib/InformationTheory/KullbackLeibler/Basic.lean`) and `InformationTheory.klDiv_map_le`
   (`Mathlib/InformationTheory/KullbackLeibler/DataProcessing.lean`): the Gibbs inequality with
   its equality case, and data processing.
+- `InformationTheory.mul_log_le_klDiv`, `InformationTheory.mul_log_le_toReal_klDiv`
+  (`Mathlib/InformationTheory/KullbackLeibler/Basic.lean`): for finite measures `μ, ν`,
+  `μ(univ) log (μ(univ)/ν(univ)) + ν(univ) − μ(univ) ≤ klDiv μ ν`, in `ℝ≥0∞` with
+  `klDiv μ ν = ∞` when `μ` is not absolutely continuous with respect to `ν`, and in real form
+  under absolute continuity and integrability of the log-likelihood ratio.
 
 ### From Tau Ceti
 
@@ -300,7 +305,8 @@ geometric and harmonic means are `r = 1, 0, −1`.
   `MeasureTheory.eLpNorm_le_eLpNorm_of_exponent_le`.
 
 **Proof route.** The finite form is Hölder with exponents `1/(1−t)` and `1/t` applied to
-`w x ^ ((1−t) r)` and `x ^ (t s)` (`Real.inner_le_Lp_mul_Lq`), with `t ∈ {0, 1}` trivial. The
+`w ^ (1−t) x ^ ((1−t) r)` and `w ^ t x ^ (t s)` (`Real.inner_le_Lp_mul_Lq`), whose product is
+`w x ^ ((1−t) r + t s)`; the cases `t ∈ {0, 1}` are trivial. The
 integral form is `ENNReal.lintegral_mul_norm_pow_le` with the two functions `f ^ r`, `f ^ s`
 and weights `1 − t`, `t`, after rewriting `f ^ (a + b) = f ^ a * f ^ b` for nonnegative
 exponents in `ℝ≥0∞`.
@@ -692,7 +698,9 @@ Young's equality case. No earlier layer is needed.
   subset sums.
 
 The value at `i = 0` is `0`, and the condition at the full size is the total-sum field; that is
-why the index runs over `Fin (Fintype.card ι)`. Marshall–Olkin–Arnold, 1.A.1, p. 8, define
+why the index runs over `Fin (Fintype.card ι)`. The three definitions need only addition and a
+linear order, and `Suggested.lean` states them for an additive commutative monoid `M` with a
+linear order; every theorem of this layer takes `M = ℝ`. Marshall–Olkin–Arnold, 1.A.1, p. 8, define
 majorization, and 1.A.2, p. 12, weak majorization, by partial sums of decreasing
 rearrangements; the largest-subset-sum form is equivalent by the sorted-form target below.
 
@@ -804,9 +812,14 @@ entries and all row and column sums at most `1`.
 
 **Proof route.**
 
-- Majorized upper bound, `⇒`: on `Fin n` with sorted vectors raise the smallest entry of `x` by
-  `∑ y − ∑ x`; the prefix inequalities persist because the increase is at the last position
-  after sorting. `⇐`: `maxSubsetSum` is monotone and `z ≺ y`.
+- Majorized upper bound, `⇒`: the set of `z ≥ x` with `z ≺_w y` is nonempty and compact (each
+  entry lies between `x i` and the largest entry of `y`), so it contains a `z` with the largest
+  total. If `∑ z < ∑ y`, sort `z` decreasingly and let `k < n` be the last index whose prefix
+  sum equals that of `y` (`k = 0` if none). Equality at `k` and slack at `k + 1` give
+  `z_(k+1) < y_(k+1) ≤ y_k ≤ z_k`, so `z_(k+1)` can be raised by a small `ε` without changing
+  the order or breaking a prefix inequality, contradicting maximality; hence `z ≺ y`. Raising
+  the smallest entry of `x` by `∑ y − ∑ x` does not work: `x = (0, 0)`, `y = (3, 1)` would give
+  `(0, 4)`, which is not majorized by `y`. `⇐`: `maxSubsetSum` is monotone and `z ≺ y`.
 - Tomić–Weyl, `⇒`: with `x ≤ z ≺ y`, monotonicity of `φ` then Karamata. `⇐`: test with
   `φ (t) = max (t − c) 0` as in 4.3, and with `φ = id` for the totals.
 - Doubly substochastic, `⇐`: `P` is dominated entrywise by a doubly stochastic `D` (add to
@@ -855,7 +868,7 @@ with 4.2.
 - `WeaklyMajorizes ![−5, 0] ![0, 0]`: weak majorization is defined for signed vectors.
 - Negative control for `WeaklyMajorizes`: `¬ WeaklyMajorizes ![2, 2] ![3, 0]`, since `4 > 3`,
   although the size-`1` condition `2 ≤ 3` holds.
-- `0`, `1` and `(1/2) • 1` (the all-`1/2` matrix for two indices) lie in
+- `0`, `1` and `(1/2) • 1` (half the identity) lie in
   `doublySubstochastic (Fin 2)`; every doubly stochastic matrix does.
 - Negative control for `doublySubstochastic`: `!![1, 0; 1, 0]` has row sums `1, 1` but first
   column sum `2`, so it is not doubly substochastic; a definition bounding only row sums would
@@ -886,8 +899,9 @@ Schur-concavity is `SchurConvexOn s (−φ)`.
 - **Schur–Ostrowski** (`schurConvexOn_iff_fderiv`): let `I ⊆ ℝ` be open and order-connected and
   `φ` differentiable on `Iⁿ = Set.univ.pi fun _ ↦ I`. Then `φ` is Schur-convex on `Iⁿ` exactly
   when it is symmetric on `Iⁿ` and `(x i − x j) (∂_i φ (x) − ∂_j φ (x)) ≥ 0` for all `x ∈ Iⁿ`
-  and all `i, j`. Marshall–Olkin–Arnold, 3.A.4, p. 84; Bullen, Ch. I, Thm 48, p. 57;
-  Niculescu–Persson, Thm 4.3.3, p. 198 (differentiability suffices; no `C¹` hypothesis).
+  and all `i, j`. Niculescu–Persson, Thm 4.3.3, p. 198, states it for differentiable `φ`;
+  Marshall–Olkin–Arnold, 3.A.4, p. 84, and Bullen, Ch. I, Thm 48, p. 57 (with `I ⊆ (0, ∞)`),
+  assume continuous derivatives.
 - **Symmetric convex functions** (prose target): a symmetric function convex on a
   permutation-invariant convex set is Schur-convex there. Marshall–Olkin–Arnold, 3.C.2, p. 97.
 - **Separable functions** (prose target): `x ↦ ∑ g (x i)` is Schur-convex on `Iⁿ` exactly when
@@ -1044,11 +1058,13 @@ both. It is used for probability measures.
 **Proof route.**
 
 - `⇒`: `φ (x) = x`, `−x` give equal means, and `max (x − t) 0` is convex and integrable.
-- `⇐`: a convex `φ` is the increasing limit of piecewise-linear convex functions
-  `φ_n = a_n + b_n x + ∑_k c_(n,k) max (x − t_(n,k)) 0` with `c ≥ 0` (interpolate `φ` at a
-  growing finite grid and extend linearly by one-sided slopes). Each `∫ φ_n` is ordered by
-  the hypothesis and equal means; pass to the limit by monotone convergence applied to
-  `φ_n − ℓ ≥ 0`, where `ℓ` is an affine minorant of `φ`.
+- `⇐`: let `φ_n` be the maximum of supporting lines of `φ` at the first `n` points of a
+  countable dense subset of `ℝ`. It is convex and piecewise linear with finitely many kinks,
+  hence of the form `φ_n = a_n + b_n x + ∑_k c_(n,k) max (x − t_(n,k)) 0` with `c ≥ 0`; it
+  increases with `n`, lies below `φ`, and converges to `φ` pointwise because `φ` is continuous.
+  (Chord interpolants on refining grids lie above `φ` and decrease, so they do not serve.) Each
+  `∫ φ_n` is ordered by the hypothesis and equal means; pass to the limit by monotone
+  convergence applied to `φ_n − φ_1 ≥ 0`.
 - Strong form: the same approximation with `φ` only `ν`-integrable: `φ ≥ ℓ` makes the negative
   part `μ`-integrable, and the monotone limit bounds `∫ φ⁺ dμ` by `∫ φ dν − ∫ ℓ dν` plus the
   affine terms.
@@ -1077,9 +1093,12 @@ target is 4.3's characterisation `majorizes_iff_forall_convexOn`.
   `(∑ a) log ((∑ a)/(∑ b)) ≤ ∑ a log (a / b)`.
 - **Equality** (`sum_mul_log_div_eq_iff`): equality holds exactly when `a = c b` on `s` for some
   real `c` (necessarily `c ≥ 0`).
-- **Zero conventions** (prose target): with `b i = 0` allowed and `a i log (a i / 0) := +∞` for
-  `a i > 0`, the inequality holds in `EReal`; this extension is stated through
-  `InformationTheory.klDiv` on finite measures and is the Gibbs inequality when `∑ a = ∑ b`.
+- **Zero conventions** (consumed): with `b i = 0` allowed and `a i log (a i / 0) := +∞` for
+  `a i > 0`, the inequality is `InformationTheory.mul_log_le_klDiv` for the finite measures
+  with masses `a` and `b` on `s` (the terms `ν(univ) − μ(univ)` occur on both sides and
+  cancel); it is the Gibbs inequality when `∑ a = ∑ b`. The two targets above differ from it in
+  being the finite-sum real form with `b > 0`, and in the equality case, which Mathlib does not
+  state for this inequality.
 
 The hypothesis `b > 0` avoids the junk value `Real.log (a / 0) = 0`; a zero `a i` contributes
 `0 · log 0 = 0`, which is the intended value.
@@ -1155,12 +1174,14 @@ The empty finset gives `0 = 0` on both sides and the condition is vacuous.
 
 ## Prior formalization
 
-- **lean-CKMA** (the author's project; admitted targets only, design ideas and provenance):
+- **[lean-CKMA](https://github.com/bjbraams/lean-CKMA)** (the author's project, Apache 2.0;
+  admitted targets only, design ideas and provenance):
   `CKMA/Analysis/Convex/Majorization.lean` defines majorization by subset sums and states the
   Hardy–Littlewood–Pólya theorem and Karamata with its strict equality case;
   `CKMA/Analysis/Inequalities/ClassicalSequences.lean` and its `NewtonMaclaurin.lean` state
-  Newton, Maclaurin and the discrete Hardy inequality. Coverage of the synopsis entries of this
-  area:
+  Newton, Maclaurin and the discrete Hardy inequality. Coverage of the entries 11.1–11.72 of
+  its synopsis file SYNOPSIS11.md (classical inequalities, means, majorization and
+  rearrangement):
   - provided by Mathlib or Tau Ceti and consumed: 11.1, 11.2, 11.4, 11.12, 11.16, 11.18, 11.23,
     11.30;
   - targets here: 11.3, 11.5, 11.6, 11.7, 11.8, 11.10, 11.11, 11.13, 11.14, 11.15, 11.17,

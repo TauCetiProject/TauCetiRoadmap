@@ -6,7 +6,6 @@ public import TauCeti.Analysis.Convex.Majorization
 public import TauCeti.Analysis.Convex.PermutationOrbit
 public import TauCeti.Analysis.Convex.DoublyStochasticMatrix
 public import TauCeti.Analysis.Convex.Conjugate
-public import TauCeti.Analysis.MeanInequalities
 public import TauCeti.Probability.Process.EmpiricalMeasure
 public import TauCeti.InformationTheory.KullbackLeibler.Pinsker
 
@@ -98,7 +97,9 @@ theorem quasiArithMean_mem_Icc [Nonempty ι] {φ : ℝ → ℝ} {I : Set ℝ} (h
     (hφc : ContinuousOn φ I) (hφm : StrictMonoOn φ I) {w x : ι → ℝ} (hw : ∀ i, 0 ≤ w i)
     (hw1 : ∑ i, w i = 1) (hx : ∀ i, x i ∈ I) :
     quasiArithMean φ I w x ∈ I ∧ φ (quasiArithMean φ I w x) = ∑ i, w i * φ (x i) ∧
-      quasiArithMean φ I w x ∈ Icc (Finset.univ.inf' Finset.univ_nonempty x) (Finset.univ.sup' Finset.univ_nonempty x) := by
+      quasiArithMean φ I w x ∈
+        Icc (Finset.univ.inf' Finset.univ_nonempty x)
+          (Finset.univ.sup' Finset.univ_nonempty x) := by
   sorry
 
 /-- 1.3: comparison of quasi-arithmetic means: `M_φ ≤ M_ψ` for all data exactly when
@@ -254,7 +255,7 @@ end SumsAndIntegrals
 
 section Majorization
 
-variable {M : Type*} [AddCommMonoid M] [LinearOrder M] [IsOrderedAddMonoid M]
+variable {M : Type*} [AddCommMonoid M] [LinearOrder M]
 
 /-- Local copy of the shape of Mathlib PR #41898: the largest sum of `i` coordinates of `a`. -/
 def maxSubsetSum (i : Fin (Fintype.card ι)) (a : ι → M) : M :=
@@ -436,7 +437,10 @@ theorem sum_mul_log_div_eq_iff {κ : Type*} {s : Finset κ} {a b : κ → ℝ}
 
 end ConvexOrder
 
-/-! ## Supplier declarations named in the README -/
+/-! ## Mathlib and Tau Ceti names used in the README
+
+Every Mathlib or Tau Ceti name that the README writes in code font is pinned here, the supplier
+contracts and also the names its conventions and proof routes mention. -/
 
 #check @Real.geom_mean_le_arith_mean_weighted
 #check @Real.geom_mean_eq_arith_mean_weighted_iff_of_pos
@@ -480,6 +484,8 @@ end ConvexOrder
 #check @InformationTheory.klDiv
 #check @InformationTheory.klDiv_eq_zero_iff
 #check @InformationTheory.klDiv_map_le
+#check @InformationTheory.mul_log_le_klDiv
+#check @InformationTheory.mul_log_le_toReal_klDiv
 #check @intervalIntegral.integral_comp_mul_deriv
 #check @TauCeti.prefixSum
 #check @TauCeti.IsWeaklyMajorizedBy
