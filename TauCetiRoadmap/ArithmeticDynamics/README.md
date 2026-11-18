@@ -2,124 +2,24 @@
 
 **Summary.** This roadmap builds the arithmetic of iterated self-maps: deciding when an orbit is finite, measuring its growth by canonical heights, relating global small points to local invariant measures, and studying the Galois action on iterated preimages. Its endpoints include dynamical equidistribution on the projective line, explicit rational-cycle and preperiodic-point problems, selected arboreal image theorems, canonical-height specialization, uniform common torsion images in the Legendre family, and étale dynamical Mordell–Lang. The concrete maps z↦z^d, z↦z²+c, and the Lattès maps provide checks across these theories.
 
-## Scope and ownership
+## How to read the build
 
-This roadmap owns the arithmetic of self-maps, the dynamical canonical-height
-adapters, local escape functions, Fatou and Julia sets, dynamical equilibrium
-measures, dynatomic equations, iterated preimage actions, and the stated family
-and orbit-intersection results. General algebraic geometry, curve theory, heights,
-potential theory and Galois theory are consumed through the contracts in the indicated layers.
+Layer 0 fixes iteration, homogeneous rational maps, conjugacy, moduli and
+reduction. Layer 1 applies the Tate limit to heights. Layer 2 constructs local
+escape functions and measures before proving the transfer, support and entropy
+comparisons. Layer 3 develops formal periods, affine dynatomic rings, projective
+models, analytic comparisons and certified rational-point reductions. Layer 4
+passes from local energies to adelic heights, pairings and equidistribution.
+Layer 5 builds the preimage tower and its Galois action. Layer 6 develops power
+and Lattès examples, families, specialization and orbit intersections.
 
-- ModularCurves §4C owns the universal Legendre family, and EllipticLegendreCharacterInterfaces §§0.1, 0.4 its native Weierstrass coefficient model over every commutative ring, discriminant, ellipticity criterion and j-invariant. The variants in §§6.35 and 6.111 are their specializations for Lattès dynamics and projected torsion sets.
-- Mathlib supplies iteration, positive periods, minimal periods and semiconjugacy;
-  polynomials, projective points and resultants; native Weil heights and field
-  Northcott; field extensions, finite polynomial Galois actions and Krull topology.
-  These notions retain their library meanings.
-- Tau Ceti's EllipticCurves supplies elliptic geometry and the elliptic height.
-  The new target is its comparison with the dynamical Tate limit and with Lattès
-  maps. General abelian Néron–Tate heights come from
-  HeightsRationalPointsAndObstructions §0.19.
-- ComplexComparisonPartII §C−1.1 owns general complex scheme analytification,
-  including its underlying topological carrier. AlgebraicModuliForArithmeticGeometry
-  §7.10.2 owns the general Berkovich carrier, affinoid domains and gluing; its §7.4
-  supplies the rigid analytification comparison. TropicalAndBerkovichArithmetic
-  §§0.21–0.23, 1.1–1.3, 3.3 and 6.1–6.5 owns the norm-sensitive analytic
-  realizations, line geometry, graph Laplacian, Hsia kernels, continuous-potential
-  energy, finite-place model metrics and measures, their limits and model-function
-  density, and the general hybrid carrier and topology. Layer 2 owns rational-map
-  local degrees and pullback adapters, escape functions, dynamical measures,
-  archimedean potential theory, and the all-place energy interface with its
-  classical-atom corrections and C¹ test estimates. Layer 4 compares the local
-  curvature measures with global adelic intersections and proves all-place
-  equidistribution. Layer 6 owns Favre's hybrid model-function and curvature
-  comparisons, the central-field dynamical base-change adapter, and the
-  family-specific escape-potential and equilibrium-measure convergence.
-- HeightsRationalPointsAndObstructions §0.18 owns the arbitrary-set Tate series,
-  convergence, bounded-distance estimate, scaling, bounded-perturbation invariance
-  and uniqueness, with argument order `tateLimit φ α h`. Section 1.1 compares its
-  series with normalized iterates; the dynamical height adapters, semiconjugacy,
-  iteration and applications belong here.
-- HeightsRationalPointsAndObstructions §§5.17a–f owns arbitrary-dimensional
-  arithmetic divisor actions, projective adelic metrized line bundles and
-  intersections, normalized cycle heights, Bouche–Tian estimates, arithmetic
-  Hilbert–Samuel and successive minima. Layer 4 uses those carriers and absolute
-  normalizations; its additional targets are arithmetic Siu, all-place Yuan
-  equidistribution, quasi-projective boundary completion, dynamical metrics,
-  bifurcation theory and the P¹ energy comparisons. The supplier's archimedean
-  abelian equidistribution proof is independent of these additional targets.
-- AlgebraicCurves owns function fields, regular projective models, divisors,
-  the different and Hurwitz. SchemeAndStackFoundations, §§0.3, 0.9, 2.6 and Layer 5, supplies
-  schemes, spreading out, projective-space cohomology and intersection degrees.
-  Section 0.26 compares its global sections of O(d) with the concrete binary forms
-  and their chart evaluations used here. The dynatomic coordinate
-  rings and dynamical ramification calculations belong here.
-- EffectiveDiophantineMethods §0.11 and Layers 3–4 supply certified height
-  candidates, Mordell–Weil calculations and rational-point certificates.
-  The dynamical equations, projective chart comparisons, finite candidate sets
-  and orbit-repetition criteria belong here.
-- ConformalMapping supplies local complex analysis and analytic continuation;
-  Tau Ceti supplies the sphere atlas used by ComplexManifolds, Milestone 3;
-  Layer 2 constructs the meromorphic comparison on that atlas;
-  FuchsianOrbifolds supplies compact-surface finite-degree theory. Spherical
-  omitted-value normality is the value-distribution extension specified below.
-  Dynamical rays, kneading and parabolic transversality belong here.
-- PolynomialGaloisGroups and LocalGaloisGroups supply finite Galois and local
-  infrastructure; InverseGaloisAndArithmeticFundamentalGroups, IG.2, supplies
-  Hilbert irreducibility. The preimage tower, arboreal action and the
-  integrally closed coefficient-ring specialization comparison of §5.39
-  belong here; that comparison uses the native `Polynomial.Gal` root action.
-- ProbabilisticAndMetricNumberTheory §§4.1–4.3 owns pointwise Birkhoff.
-  GeometryOfNumbersAndQuadraticArithmetic §4.2 owns measurable partition labels,
-  finite-label Shannon entropy with its chain rule, addition for independent
-  labels and alphabet bound, countable and conditional partition entropy,
-  itinerary joins, entropy rates and measure entropy. Sections 2.6–2.7 add
-  invariance under almost-everywhere equality of labels, the finite-label
-  supremum formula for measure entropy, fibre-entropy bounds,
-  Shannon–McMillan–Breiman, endomorphism ergodic decomposition with entropy
-  integration, and comparison with topological entropy. The endomorphism
-  decomposition includes noninvertible maps, beyond the supplier's group-action
-  component kernels.
-- ArithmeticGaloisRepresentations §1.11 owns reductive quotients of affine
-  schemes over fields and excellent DVRs. The global quotient over Spec ℤ, the
-  Rat_d stability calculation and the dynamical identifications belong to §0.28.
-- All-place adelic equidistribution, bifurcation currents
-  and Banach-contraction decomposition require the explicit additional contracts
-  in the indicated layers. They are distinct from set quotients, local measures
-  and Hilbert-space spectral theory.
-- Postcritically finite maps, the critical height and its adelic line bundle on
-  the chosen parameter cover, and bifurcation currents belong here (§§0.34, 4.5,
-  4.49, 6.5, 6.8, 6.40). DeMarco–Mavraki–Ye's bounded-geometry and
-  small-critical-height theorems for subvarieties of M_d, and DeMarco–Krieger–Ye's
-  bielliptic genus-2 application, are outside this roadmap.
-  ArithmeticDynamicsPartII is the roadmap of Markoff dynamics over finite fields;
-  it does not continue this bifurcation material.
+`Suggested.lean` states the headline theorems whose objects can be expressed at the pinned libraries: rational three-cycle uniqueness and the four- and five-cycle exclusions (§§3.57, 3.58, 3.88), Stoll's integer-family finite-level Galois theorem (§5.64), Ritt's classification (§6.23), the full affine-line orbit-intersection theorem (§6.84), the whole-field Lech–Cassels embedding (§6.86), polynomial-line return times (§6.90), infinitely many algebraic torsion specializations of a constant mark (§6.87), the uniform common Legendre torsion bound (§6.111), and its extension to two standard projections with three common branch values (§6.112). Its real-bodied definitions are `forwardOrbit`, `IsFiniteUnionAP`, `ellipticStandardProjection` and `legendreTorsionImages`. The module docstring identifies the other headline theorems and the carriers they lack at the pins; the layers below specify their full statements, APIs and Checks.
 
-Uniform boundedness, dynamical Lehmer and unrestricted dynamical Mordell–Lang
-are conjectural statements, used only under explicitly stated hypotheses. The
-selected rational-cycle theorems retain their rank assumptions. Generic rational-map arboreal
-surjectivity is stated in every characteristic; generic monic polynomials retain
-the exceptional quadratic characteristic-two image theorem.
-
-- Northcott on projective space, including ℙ¹, is supplied by HeightsAndUnits §1.1; its projective finiteness theorem is not a separate target here.
-
-- The projective absolute Weil height is `projectiveWeilHeight` of ClassicalArithmeticCompletion §6.37; this roadmap uses that definition rather than a second chart construction.
-
-- The Layer 3 number-field finiteness and period-reduction statements use Layer 1 Northcott and Layer 2 good-reduction period classification. The whole-field Lech–Cassels theorem supplies its integral assembly form. The weaker coefficient-height extension bound in Layer 6 is supplied by the equality in §1.3, which also gives its normalized constant.
-- Power-orbit classification retains arbitrary characteristic; ClassicalArithmeticCompletion §6.37 supplies its characteristic-zero specialization.
-- RestrictedPowerSeries §2.4 owns the general restricted-series zero bound;
-  the orbit-interpolation argument consumes its unit-disc specialization.
-- The sphere charts, their transition formulas and the chartwise holomorphy
-  criterion are supplied by Tau Ceti's `Geometry/Manifold/Instances/OnePoint.lean`,
-  as consumed by ComplexManifolds, Milestone 3. No second atlas or chart API is a
-  target here. The meromorphic-extension comparison retains its additional
-  pole and removable-value content.
-
-Supplier interfaces distinguish the imported output from its dynamical adapters:
-
-| Interface | Supplier and section | Use here |
-|---|---|---|
-| Dominant-map height comparison | HeightsRationalPointsAndObstructions §0.30, `weilHeight_dominant_lower_bound` | Consume h_Y(F(P))≥c h_X(P)−C, c>0, on a dense open in the domain of a dominant generically finite rational map over ℚ̄ with ample compactification heights. Section 6.10 extends this to the whole finite-fibre locus. |
-| Bounded-height candidate sets | EffectiveDiophantineMethods §0.11, `boundedHeightPoints` and its projective set T | Consume both finite output lists and the projective set including ∞, with an integral power basis, complete archimedean embedding data, rational D≥1 and 0<τ≤1, and D≥exp(B) for the native logarithmic bound B. Sections 3.47 and 3.53 supply height normalization, chart transport and the preperiodic-set inclusion used in §3.40. |
+Within a layer the targets follow their prerequisites. Layer 0 constructs the
+power map and the rational-function-field height used by Layers 1–2. The
+period-three parametrization precedes the two-cycle reduction and the final
+rational preperiodic bound. The Lech argument constructs the whole-field
+embedding before transporting any marked expression.
 
 ## Conventions
 
@@ -169,788 +69,6 @@ For singular logarithmic potentials use log 0 = −∞ in the extended-real subh
 Y₁(n) is the affine dynatomic scheme, X₁(n) its regular projective characteristic-zero model, and X₀(n) the quotient by cycle rotation. Formal period need not be exact period at a root-of-unity multiplier. The period-three parametrization and the assertion of at most one rational three-cycle are separate targets: the latter uses Morton's elliptic reduction. Poonen type-(3,2) and its dependent exclusions and bounds retain rank J(C₁(3₂))(Q)≤1. The type-(1,3) and type-(2,3) exclusions and the bounds using them also retain rank E11(ℚ)=0 for E11:y²+y=x³−x², independently of the genus-two rank bound. Stoll's six-cycle exclusion retains its genus-four rank hypothesis. No conjecture becomes an unconditional theorem merely by being named as a proposition.
 
 In the Lech presentation A=Z[T₁,…,Tₙ], F=Frac(A), and the primitive variable Y is separate from the parameters. Marked expressions U(y,t)/V(t) have V in A, nonzero. Marks can include zero and need not generate the field. The primitive equation is generically separable and can be nonmonic over A. The parameter map is extended to the entire field before marked evaluation identities are used.
-
-## Exact supplier contracts
-
-Each contract specifies the mathematical output consumed by its linked targets.
-An extension named here requires the full stated output; a theorem with a weaker
-conclusion does not discharge that contract. Arithmetic point lists retain every
-rank, saturation, local-data and finite-certificate hypothesis.
-
-### From TauCetiRoadmap.ModularCurves — §4C
-
-Consume the universal Legendre family and its field fibres, with its chosen x-coordinate.
-
-### From TauCetiRoadmap.EllipticLegendreCharacterInterfaces — §§0.1, 0.4
-
-The supplier's parameter λ is written t here. Consume from §0.1 the native Weierstrass coefficient model y²=x(x−1)(x−t), with coefficients (0,−(1+t),0,t,0), over every commutative ring and at every parameter, including t=0,1. Consume from §0.4 its discriminant 16t²(t−1)² over every commutative ring and its ellipticity criterion: over a field with 2≠0 the model is elliptic exactly when t≠0,1. For those parameters consume its j-invariant 256(t²−t+1)³/(t²(t−1)²). Section 6.35 specializes this model for its Lattès map; §6.111 specializes the coefficient tuple inside `legendreTorsionImages` to state the projected-torsion theorem on native points.
-
-### From TauCetiRoadmap.DiophantineApproximationAndTranscendence — §§0.2, 0.3, 2.4
-
-Consume §0.2 `prod_infinitePlace_comap_pow_mult`, `mulHeight_pow_finrank`, `mulHeight₁_pow_finrank`, `absMulHeight₁_eq`, `absMulHeight₁_eq_of_minpoly_eq`, and §0.3 `finite_setOf_absMulHeight₁_le` with their number-field degree normalizations. For affine-orbit intersections use §2.4: over an algebraically closed characteristic-zero field, a finite-rank subgroup of (K×)^n has finitely many nondegenerate solutions of Σ a_i x_i=1 with every a_i nonzero. Apply n=2 after embedding the coefficient field; §2.3’s rational-coefficient theorem alone does not supply this application.
-
-### From TauCetiRoadmap.SchemeAndStackFoundations — §§0.3, 2.6
-
-Consume SchemeAndStackFoundations §0.3, `relativeProj`, `relativeProj_affine_iso`, `relativeProj_baseChange` and `relativeProj_polynomial`, on the polynomial graded algebra over a field K. Use the standard projective charts and Mathlib scheme gluing. Consume §2.6 `projectiveSpace_cohomology`, specializing its degree-zero cohomology to global sections of O(d) on ℙ¹_K, the degree-d component of K[X₀,X₁] for d≥0. Section 0.26 constructs the comparison with its concrete binary forms and chart evaluations, the map from homogeneous forms and the classification of projective-line endomorphisms.
-
-### From TauCetiRoadmap.ComplexComparisonPartII — §C−1.1
-
-Consume `ComplexAnalyticSpace` and `complexSchemeAnalytification` on locally finite-type complex schemes, with its identification of the underlying space with the classical complex points, its functor laws for identities and composites, its closed-subspace comparison, its separated-implies-Hausdorff comparison and its preservation of proper morphisms, all stated in §C-1.1. Take the topological carrier by forgetting the analytic ring sheaf of that same space. For projective X, its classical complex points give the compact Hausdorff carrier used in §4.1; §2.2 compares its P¹ specialization with `OnePoint ℂ`. The category itself imposes no global Hausdorff axiom; the projective hypothesis supplies separatedness and properness.
-
-### From TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry — §§7.10.2, 7.4
-
-Consume §7.10.2 `BerkovichAnalyticSpace`, `BerkovichAnalyticSpace.affinoid`, `BerkovichAnalyticSpace.domain`, `BerkovichAnalyticSpace.refineAtlas`, `BerkovichAnalyticSpace.glueDomains`, `BerkovichAnalyticSpace.fibreProduct` and `BerkovichAnalyticSpace.rigidModel`: bounded multiplicative-seminorm spectra M(A), evaluation topology, completed residue fields and compatible affinoid-domain gluing. Use these as the common categorical substrate for the realizations compared in §§2.2 and 4.1. Over complete nontrivially valued fields, consume §7.4 `SpaceAnalytification` and its scheme, identity and composition comparisons only as rigid analytification; compare its projective value with the rigid model of the constructed Berkovich space. Apply the rigid equivalence only on the supplier's paracompact strictly analytic and quasi-separated rigid spaces with affinoid covers of finite type. The Berkovich topological carrier is the seminorm realization, with its nonclassical points.
-
-### From TauCetiRoadmap.TropicalAndBerkovichArithmetic — §§0.21–0.23, 1.1–1.3, 3.3, 6.1–6.5
-
-Consume §§0.21–0.22's norm-sensitive charts and functorial analytification over every complete nonarchimedean field, its identification with AlgebraicModuliForArithmeticGeometry §7.10.2, proper compact Hausdorff carriers and isometric scalar-extension comparison. Consume §§1.1–1.3's polynomial-evaluation line, weighted Gauss points, four-type classification over algebraically closed nontrivially valued fields, paths, tangent directions and logarithmic hyperbolic lengths. All carrier identifications preserve polynomial evaluations, classical points, infinity and Gauss; transport continuous functions by composition with the inverse homeomorphism and Radon measures by pushforward, preserving integrals. Section 2.2 adds the rational-map action and its compatibility with these identifications.
-
-Consume §3.3's finite-graph measure Laplacian on continuous functions with weak edge derivatives of bounded variation and finite total Laplacian variation, including all endpoint fluxes, and its piecewise-C² integration-by-parts identity. Consume §6.5's Hsia kernels, Radon continuous-potential measures, symmetric bilinear mass-zero energy and its squared-slope identity and positive definiteness under the total-variation continuous-potential condition of §2.5, including its general complete algebraically closed nontrivially valued rank-one extension. Identify Δ here with the supplied ddᶜ=−Δ_graph: on [0,1], Δ(s)=δ₀−δ₁, and −∫s dΔ(s)=1. Preserve the nonclassical self-diagonal. Section 2.5 extends the all-place interface to classical-atom corrections and C¹ tests; no finite signed Laplacian is presumed for an arbitrary C¹ test.
-
-Consume §§6.1–6.4's formal/model metrics, mixed model measures with tensor-power denominators, component multiplicities and residue-field degrees, semipositive and integrable metric classes, uniform density of rational model functions, and uniform semipositive-measure limits over arbitrary complete nontrivially valued rank-one bases. These are local constructions without a chosen global adelic origin. For O(e) on a good-reduction projective line the measure is eδ_G; probability normalization divides by e>0. Section 4.1a adds the comparison with HeightsRationalPointsAndObstructions §5.17b and the archimedean construction.
-
-Consume §0.23's hybrid space of a smooth projective meromorphic family over a punctured complex disc, after choosing 0<r<1 within its convergence radius: proper projection to the closed parameter disc, usual complex fibres for t≠0, central fibre Xᵃⁿ over k₀=ℂ((T)) with |T|=r, rescaled evaluation |g(t)|^(log r/log|t|), and the SNC-model inverse-limit comparison. The parameter monomial has rescaled value r. The central fibre is over k₀ itself; its projection from the analytification over the completed algebraic closure C₀ is scalar restriction, not a homeomorphism. Section 6.1 supplies the dynamical potential and measure comparison along that projection and Favre's model-function and curvature results; §0.23 supplies topology alone.
-
-### From TauCetiRoadmap.EllipticCurves — Layer 4
-
-For an elliptic curve over the fraction field K of a complete DVR R, consume `HasPotentialGoodReduction`: a finite extension L/K has good reduction on the minimal model over its valuation ring. Consume its equivalence with integrality of j and the minimal-discriminant comparison, including residue characteristic 2. With Mathlib `WeierstrassCurve.variableChange_Δ` in `Mathlib/AlgebraicGeometry/EllipticCurve/VariableChange.lean`, a good integral model E′ obtained from E by x=u²x′+r, u≠0, has Δ(E′)=u⁻¹²Δ(E). Thus |u|¹²=|Δ(E)| for the extended absolute value when |Δ(E′)|=1. Section 6.3 supplies the elliptic-to-Lattès adapter; §6.83 uses this finite-extension and coordinate comparison.
-
-### From TauCetiRoadmap.HeightsRationalPointsAndObstructions — §0.18
-
-Consume `tateLimit φ α h`, `tendsto_tateLimit`, `abs_tateLimit_sub_le`, `tateLimit_comp`, `tateLimit_unique` and `congr_bounded` on an arbitrary type S with φ:S→S, α>1 and a global bound |h(φP)−αh(P)|≤C. Read the supplied definition h plus the error series using Mathlib's default unconditional `tsum`; the global bound makes that series absolutely summable, with normalized iterates tending to it. Section 1.1 compares this same defining series under pointwise summability and supplies orbitwise sufficient bounds; the finite telescoping identity needs no bounded-error hypothesis.
-
-### From TauCetiRoadmap.HeightsRationalPointsAndObstructions — §§5.17a–f
-
-Consume §5.17a `metrizedDivisorAction`, `arithmeticDegree` and `arithmeticIntersection` for projective arithmetic models in every dimension; §5.17b `AdelicMetrizedLineBundle`, `SemipositiveAdelic`, `IntegrableAdelic`, `adelicIntersection_uniformBound`, `adelicCycleHeight` and `cycleProbabilityMeasure`; §5.17c `BergmanDensity` and `bergmanDensity_uniform` with its positive smooth metric and curvature-volume hypotheses; §5.17d `AdelicSectionLattice`, `arithmeticEulerCharacteristic` and the arithmetic Hilbert–Samuel asymptotic; §5.17e section lifting and arithmetic Nakai; and §5.17f `AdelicSuccessiveMinimum` and `successiveMinima_inequality`. Intersections are symmetric, multilinear, compatible with pullback and field extension, and continuous for uniform changes with a fixed model outside finitely many places. The integrable continuity bound uses fixed differences of semipositive factors. For a nonzero effective pure n-cycle Z and ample L, the supplied absolute height is I(L̄^(n+1),Z)/((n+1)deg_L Z), where I is divided by [K:ℚ]; for semipositive L̄ the local probability measure is c₁(L̄_v)^n/deg_L Z. The zero cycle has no such normalization. These inputs do not assert the all-place equidistribution or quasi-projective completion targets of this roadmap.
-
-### From TauCetiRoadmap.HeightsRationalPointsAndObstructions — §0.16
-
-For a global height field K with its chosen product-formula structure, a smooth projective variety V/K and η ∈ Pic(V) ⊗ ℝ, consume the Weil height class with a representative h(V,η):V(K̄)→ℝ. It is ℝ-linear in η up to bounded functions, depends only on the line-bundle class, and satisfies h(V,η)∘φ=h(W,φ*η)+O(1) for a morphism φ:W→V. For ample η its representatives are bounded below. Use the supplier's relative height normalization from §§0.9–0.16: on ℙᴺ(K), O(1) gives the chosen relative projective height h_K; under finite extension L/K the relative height scales by [L:K], and division by [L:K] gives the extension-independent representative on K̄ relative to the chosen structure on K.
-
-For number fields, use the absolute representative instead: on ℙᴺ it is Projectivization.logHeight_L(x)/[L:ℚ] for any number field L containing the coordinates. The supplier's number-field contract, from ArakelovGeometryAndAbelianHeights §§1.12–1.14, supplies Northcott separately: for ample η, B∈ℝ and D≥1, the points P∈V(K̄) with [K(P):K]≤D and absolute h(V,η)(P)≤B form a finite set. The same holds for the relative number-field normalization after rescaling B. Over a general global height field this conclusion requires an additional bounded-degree Northcott hypothesis; the height-machine identities alone do not imply it (Call–Silverman §1, input (2) and Corollary 1.1.1).
-
-**Checks.**
-
-- On ℙ¹(ℚ), h([2:1])=log 2 and an O(2)-height is 2log 2; tensor powers scale the height class.
-- Over L=ℚ(√2), the native relative height of [2:1] is 2log 2 and its absolute height is log 2, agreeing with the value over ℚ.
-- For K=ℚ(t) with the geometric degree height, every [a:1] with a∈ℚ has height 0 and K-degree 1. Thus B=0,D=1 gives infinitely many points, while the corresponding set in ℙ¹(ℚ) for the absolute number-field height is {0,1,−1,∞}.
-
-### From TauCetiRoadmap.HeightsRationalPointsAndObstructions — §0.19
-
-For an abelian variety A over a number field K and a symmetric line bundle L ([−1]*L ≅ L): [m]*L ≅ `L^{⊗m²}` for every integer m, and the Néron–Tate height `ĥ_{A,L}` : A(K̄) → ℝ with `ĥ_{A,L}` − `h_{A,L}` bounded and `ĥ_{A,L}(mP)` = `m²·ĥ_{A,L}(P),` compared with Tau Ceti's elliptic canonicalHeight for dim A = 1 and L = O((O)).
-
-### From TauCetiRoadmap.NeronModelsAndSemistableAbelianVarieties — §§1.3, 1.7–1.9
-
-Consume extension of generic morphisms from smooth test schemes in §1.3, finite-type Néron-model existence for abelian varieties over fraction fields of DVRs in §1.7, the abelian-scheme comparison in §1.8, and spreading out and Dedekind gluing in §1.9. For §6.85 apply these to an elliptic curve over the function field of a smooth projective base curve over a number field; its closed-point local rings are DVRs, and taking the base itself as a smooth test scheme extends the generic point P to a section. Section 6.85 constructs D_P and its local-height comparisons with uniformly summable adelic errors.
-
-### From TauCetiRoadmap.EffectiveDiophantineMethods — §0.11
-
-Consume `boundedHeightPoints` with its completeness clause, and its projective set T ⊆ ℙ¹(L) with its completeness clause. The inputs are a number field L, a power basis over ℚ with integral generator, a complete collection of [L:ℚ] archimedean embedding data with pairwise disjoint root boxes as in §0.4, and rationals D≥1 and 0<τ≤1. The union S_<∪S_≈ contains every x with native multiplicative height at most D; its projective counterpart includes ∞ and every P with native logarithmic height at most log D. A native bound B uses D≥exp(B); an absolute bound B_abs uses D≥exp([L:ℚ]B_abs). Both lists are retained. Sections 3.47 and 3.53 apply this supplied completeness to the dynamical height bound and projective evaluation; they do not construct another bounded-height enumeration.
-
-### From TauCetiRoadmap.EffectiveDiophantineMethods — Layer 3
-
-Mordell–Weil certificates for two genus-2 Jacobians: (a) for C₀(5): y² = x⁶ + 8x⁵ + 22x⁴ + 22x³ + 5x² + 6x + 1, the FPS Theorem 3 rank-one result and explicit generator data, with the finite descent and local certificates of EffectiveDiophantineMethods §3.27; (b) for C₁(3₂): y² = x⁶ − 2x⁴ + 2x³ + 5x² + 2x + 1, EffectiveDiophantineMethods §3.28 supplies the torsion/rank-lower-bound and 3-saturation contracts for [∞₊ − ∞₋]. The dynamical consumers take a corrected descent proving rank ≤ 1 as an explicit hypothesis. Poonen Proposition 1 and the author errata, p. 1, correct the 743-adic point to (−2, √33) and require 2-adic information; the errata do not themselves provide the missing formal descent certificate.
-
-### From TauCetiRoadmap.EffectiveDiophantineMethods — Layer 3
-
-Consume EffectiveDiophantineMethods §3.26 with its explicit arithmetic-data hypotheses. For E11: y² + y = x³ − x² the supplied torsion subgroup is {O, (0, 0), (0, −1), (1, 0), (1, −1)} ≅ ℤ/5; the additional premise rank E11(ℚ)=0 makes this the complete list E11(ℚ). This rank premise is independent of rank J(C₁(3₂))(ℚ)≤1. The other complete lists are: E15: y² + xy + y = x³ + x² has {O, (0, 0), (−1, 0), (0, −1)}; E17: y² + xy + y = x³ − x² − x has {O, (0, 0), (1, −1), (0, −1)}; E24: y² = x³ − x² + x has {O, (0, 0), (1, 1), (1, −1)}; E40: y² = x³ − 2x + 1 has {O, (0, ±1), (1, 0)}; Morton's Y² = 4X³ − 11X² + 8X has exactly the points ∞, (0, 0), (1, ±1), (2, ±2); for these five models consume the rank-zero and torsion conclusions under the supplier’s stated descent and reduction-data hypotheses. E11’s separate rank datum is retained by §§3.84–3.85, 3.89 and the bound in §3.14; §3.88 uses only the Morton model.
-
-### From TauCetiRoadmap.EffectiveDiophantineMethods — declared gaps (genus-2 modular point lists)
-
-EffectiveDiophantineMethods Layer 3 states complete rational-point lists for the elliptic curves of §3.26 and the genus-2 curves C₀(5) and C₁(3₂) of §§3.27–3.28, but not for the three genus-2 modular curves that the quadratic cycle and type reductions below require. Each is a single complete point list on an explicit model; the descent and torsion computation that certify it belong to the supplier.
-
-What EffectiveDiophantineMethods must provide (gap:x1-16-rational-points): the rational points of the genus-2 curve v² = u(u² + 1)(1 + 2u − u²) over ℚ, a model of X₁(16), are exactly (0, 0), (±1, ±2) and the single point at infinity of its smooth projective model (Washington's determination, as used in Morton 1998, Proposition 3 and the proof of Theorem 4, printed p. 93). Consumed by §3.57.
-
-What EffectiveDiophantineMethods must provide (gap:x1-13-rational-points): the rational points of the genus-2 curve y² = x⁶ + 2x⁵ + x⁴ + 2x³ + 6x² + 4x + 1 over ℚ, a model of X₁(13), are exactly (−1, ±1), (0, ±1) and the two points at infinity of its smooth projective model (Poonen 1995, proof of Theorem 2, p. 6: the six rational points of X₁(13) are its cusps). Consumed by §3.77.
-
-What EffectiveDiophantineMethods must provide (gap:x1-18-rational-points): the rational points of the genus-2 curve y² = x⁶ + 2x⁵ + 5x⁴ + 10x³ + 10x² + 4x + 1 over ℚ, a model of X₁(18), are exactly (−1, ±1), (0, ±1) and the two points at infinity of its smooth projective model (Poonen 1995, proof of Theorem 2, p. 6: the six rational points of X₁(18) are its cusps). Consumed by §3.77.
-
-### From TauCetiRoadmap.EffectiveDiophantineMethods — Layer 3
-
-For Stoll's genus-4 curve X₀^dyn(6), consume EffectiveDiophantineMethods §3.29: the Jacobian J and its Mordell–Weil group, trivial torsion and G≅ℤ³ for the subgroup generated by differences of the ten known rational points, under the exact reduction-group, point-image and divisor-relation hypotheses. Under the additional premise rank J(ℚ)=3, consume the finite-index conclusion and J(ℚ)=Gˢᵃᵗ, where Gˢᵃᵗ={D∈J(ℚ) : mD∈G for some integer m≥1} is the full saturation (Stoll 2008, §3, Lemma 4 and proof of Theorem 6).
-
-### From TauCetiRoadmap.EffectiveDiophantineMethods — Layer 4
-
-Chabauty–Coleman certificates with every residue disc treated: (a) C₀(5): y² = x⁶ + 8x⁵ + 22x⁴ + 22x³ + 5x² + 6x + 1 has exactly the six rational points (0, ±1), (−3, ±1), ∞± (FPS 1995, Theorem 6, p = 3, given J(ℚ) ≅ ℤ); (b) C₁(3₂): y² = x⁶ − 2x⁴ + 2x³ + 5x² + 2x + 1 has exactly (−1, ±1), (0, ±1), (1, ±3), ∞± (Poonen 1995, Proposition 2, p = 3, including the variant embedding P ↦ [P + S₊] on the disc of the Weierstrass point (1, 0) mod 3); (c) EffectiveDiophantineMethods §4.25 supplies the ten-point list on X₀^dyn(6) for rational points P with [P−P₁] in the full saturation of G, using the exact ten points, complete 𝔽₅ residue-point and chart list, reduction and Mordell–Weil matrices, annihilating differential, integral series, strict tails and local witnesses. Under rank J(ℚ)=3 this is the complete rational-point list (Stoll 2008, Lemma 5 and Theorem 6, p = 5).
-
-### From TauCetiRoadmap.RestrictedPowerSeries — §2.4
-
-Consume RestrictedPowerSeries §2.4: a nonzero restricted power series over a complete nonarchimedean field has at most N distinct closed-unit-disc zeros, where N is its last coefficient index attaining the Gauss norm. In the orbit argument the field is ℚ_p, the coefficients tend to zero, and the evaluated variable ranges over ℤ_p. Thus infinitely many distinct integral zeros force every coefficient to vanish. Use the evaluation interface of RestrictedPowerSeries §2.1.
-
-*Needs:* RestrictedPowerSeries §§2.1, 2.4; `PowerSeries.IsRestricted`; `PadicInt`.
-
-([bell-ghioca-tucker-2010](#bell-ghioca-tucker-2010), §1, p. 2; proof of Theorem 4.1, p. 14 (arXiv v1): the closed-disc zero theorem is the final analytic step after interpolation. [Flynn–Poonen–Schaefer](#fps95), §8, Theorem 4, p. 21, states this general bound.)
-
-**Endpoint checks.** The polynomial z(z−1) has last dominant index 2 and exactly two integral zeros. For odd p, the analytic function (1+p)^z−1 has only the zero z=0; at p=2 use 5^z−1. These follow from the injectivity of the exponential on pℤ_p for odd p and on 4ℤ₂. The expansion Σ binom(z,i)p^i is a Mahler expansion, so its binomial coefficients are not the monomial coefficients to which Strassmann applies. At p=2 the continuous function 3^z instead has a parity factor and requires two analytic residue classes.
-
-### From TauCetiRoadmap.ProbabilisticAndMetricNumberTheory — §§4.1–4.3
-
-Consume §4.1 `birkhoff_pointwise` and `birkhoff_pointwise_ergodic`, with the
-construction and identification in §§4.2–4.3: on any probability space, for a
-measure-preserving T and integrable real f, native time averages converge almost
-everywhere to conditional expectation on `MeasurableSpace.invariants T`, and to
-the integral when T is ergodic. Only these pointwise statements are used; the
-arithmetic applications of that roadmap supply no input to Layer 2. Finite-label
-entropy comes from GeometryOfNumbersAndQuadraticArithmetic §4.2 below.
-
-### From TauCetiRoadmap.GeometryOfNumbersAndQuadraticArithmetic — §4.2
-
-Consume the **Entropy and Haar measure on leaves** paragraph's
-`finitePartitionEntropy`, `countablePartitionEntropy`,
-`conditionalPartitionEntropy`, `iteratedPartitionLabel`, `partitionEntropyRate`
-and `measureEntropy`, together with `atomInformation` and
-`conditionalLabelEntropy` for standard Borel labels and their conditional-kernel
-atom evaluation. Consume their measurable-label, chain-rule, relabeling,
-independence and subadditive-limit API. For measurable labels into finite
-nonempty alphabets with discrete σ-algebras on a probability space, with no
-standard-Borel assumption on the underlying space, this includes the value
-−Σᵢ pᵢ log pᵢ with zero-mass atoms contributing zero, the finite-sum comparison
-with `countablePartitionEntropy`, the joint-label chain rule, addition for
-independent labels and the alphabet bound 0≤H≤log(card alphabet). Use
-probability measures here and natural logarithms; the measure entropy retains
-+∞. Section 2.6 compares the supremum over countable finite-entropy labels with
-that over finite labels and proves invariance under almost-everywhere equality
-of labels;
-§2.7 adds conditional entropy against a
-sub-σ-algebra and the endomorphism and topological comparison theorems.
-
-### From TauCetiRoadmap.SchemeAndStackFoundations — §1.17
-
-Consume `IsInvariant`, `IsCategoricalQuotient` and `IsGeometricQuotient` for the SL₂ action groupoid on Rat_d. These predicates do not assert the existence of a reductive quotient; the GIT existence and dynamical application are targets of §0.28.
-
-### From TauCetiRoadmap.ArithmeticGaloisRepresentations — §1.11
-
-Consume the target Reductive quotients over fields and DVRs: for a connected reductive group acting on an integral affine variety over a field, or a reductive group scheme acting on an integral affine flat finite-type scheme over an excellent DVR, the coaction-invariant quotient Spec O(X)^G with finite generation, the universal property for invariant morphisms, normality, surjectivity on geometric points, unique closed orbits in fibres, the closed-image and separation properties, and invariants commuting with flat base change. Over a non-flat reduction only the bijection on geometric points between the special-fibre quotient and the special fibre of the integral quotient is supplied, not an isomorphism of invariant algebras. Section 0.28 applies this to SL₂ acting on Rat_d over ℚ, over 𝔽_p and over ℤ_(p).
-
-### From TauCetiRoadmap.SchemeAndStackFoundations — Layer 5
-
-For a projective variety X of dimension n over a field and a line bundle L on X, the degree deg_L X = (c₁(L)^n · [X]) as an intersection number, positive when L is ample, and equal to deg X ⊂ P^N for L = O(1).
-
-### From TauCetiRoadmap.ModularCurves — 0d-finite-étale-schemes-and-galois-actions
-
-Over a field K with separable closure K^s: the equivalence X ↦ X(K^s) between finite étale K-schemes and finite continuous Gal(K^s/K)-sets, functorial in K-morphisms, together with its value on the monogenic case: for a separable g ∈ K[x], Spec K[x]/(g) ↦ the Gal(K^s/K)-set of roots of g in K^s, and for polynomials g, h and p ∈ K[x] with g ∣ h ∘ p, the morphism Spec K[x]/(g) → Spec K[y]/(h) induced by y ↦ p(x) ↦ the map of roots β ↦ p(β).
-
-### From TauCetiRoadmap.NumberFieldArithmetic — layer-3-the-index-dedekindkummer-and-dedekinds-theorem
-
-For a monic separable f ∈ ℤ[x] and a rational prime p with p ∤ disc(f): p is unramified in the splitting field of f over ℚ, i.e. Algebra.IsUnramifiedIn (𝓞 L) (Ideal.span {p}) for L = the splitting field (equivalently: p is unramified in every root field ℚ(θ) (layer 3.5–3.6) and unramified in each of two number fields implies unramified in their compositum (layer 1.5)).
-
-### From TauCetiRoadmap.AlgebraicCurves — layer-6-extensions-of-function-fields
-
-For a finite separable extension F'/F of function fields over an algebraically closed k of any characteristic and a place P of F with a local integral generator y whose minimal polynomial φ has 𝒪_P[y] = 𝒪'_P (monogenic case): the places over P, their ramification indices and residue degrees are read off the factorization of φ mod P (Kummer's theorem, Stichtenoth Cor. 3.3.8), and the discriminant ideal of 𝒪'_P over 𝒪_P is generated by disc φ.
-
-### From TauCetiRoadmap.AlgebraicCurves — layer-7-the-different-and-the-hurwitz-genus-formula
-
-Consume AlgebraicCurves Layer 7 over exact constant field k in every characteristic for finite separable F′/F: the different divisor, d(P′|P)≥e(P′|P)−1, tower transitivity, and Hurwitz 2g′−2=[F′:F](2g−2)+deg Diff. With separable residue extension, d=e−1 precisely at tame places. The discriminant valuation is Σ d(P′|P)f(P′|P); replace d by e−1 only in the tame case. For the Juul application pass to algebraically closed k, where residue extensions are separable. The genus-zero base is k(t).
-
-### From TauCetiRoadmap.AlgebraicCurves — layer-8-constant-field-extensions-galois-ramification-and-inseparability-
-
-For a finite Galois extension M/F of function fields over an algebraically closed k of any characteristic, a place q of M over p, and an intermediate field L = M^H: decomposition and inertia groups with |I(q|p)| = e(q|p); the Galois action on places and its decomposition/inertia stabilizers; §5.7 derives the root-permutation orbit comparison of Juul Lemma 2.4 from this input. Consume also the statement that unramified in each of two subfields implies unramified in their compositum (Stichtenoth Cor. 3.9.3).
-
-### From TauCetiRoadmap.AlgebraicCurves — Layer 9
-
-Consume the formal derivative calculus and the Kähler/Weil differential comparison for separably generated function fields, applied to k(t) and k(f(t)) with f separable. Layer 7 supplies the different exponent used to identify the local multiplicities of §5.6a's critical divisor. These rational function fields are separably generated over k even when k is imperfect.
-
-### From TauCetiRoadmap.InverseGaloisAndArithmeticFundamentalGroups — IG.2
-
-Hilbert's irreducibility theorem for number fields in the form: for a number field K, independent indeterminates s = (s_0, …, `s_{d−1})` and a finite Galois extension M/K(s) split by a monic separable P ∈ K[s][x], there is a thin set E ⊆ K^d such that for a ∈ K^d ∖ E the specialized polynomial P_a is separable and Gal(P_a/K) ≅ Gal(M/K(s)) compatibly with the root actions.
-
-### From TauCetiRoadmap.SchemeAndStackFoundations — Layer 0
-
-(1) Quasi-projective varieties over a field K: schemes admitting an immersion into ℙ^N_K = Proj K[x₀, …, x_N], their closed subvarieties and K-points, with étale and unramified endomorphisms as Mathlib AlgebraicGeometry.Etale / FormallyUnramified morphisms of finite type. (2) Spreading out: for smooth geometrically irreducible X, an étale Φ, V and α over ℂ defined over a finitely generated ℤ-algebra R ⊂ ℂ, a model X_R → Spec R such that, over a dense open U ⊆ Spec R, X_U is smooth and quasi-projective, Φ extends to an unramified endomorphism, fibres are geometrically irreducible, and α extends to a section (EGA IV §§8–9, 12; Bell–Ghioca–Tucker Proposition 4.3). (3) Base change of smoothness, unramifiedness and quasi-projectivity along Spec ℤ_p → Spec R.
-
-### From TauCetiRoadmap.HeightsRationalPointsAndObstructions — §§0.16, 0.30
-
-For a projective variety X over ℚ̄ with an ample line bundle L, the Weil height `h_{X,L}` : X(ℚ̄) → ℝ (well defined up to bounded functions), with pullback functoriality `h_{Y,φ*M}` = `h_{X,M}` ∘ φ + O(1) for morphisms φ : Y → X, restriction to closed subvarieties, commensurability `c₁h_{X,L}` − c₂ ≤ `h_{X,L′}` ≤ `c₃h_{X,L}` + c₄ of two ample heights, and HeightsRationalPointsAndObstructions §0.30 `weilHeight_dominant_lower_bound` for a generically finite morphism on a dense open; the extension to its whole finite-fibre locus is a Layer 6 target; applied to a projective compactification of the moduli space M_d of degree-d rational maps, giving the ample moduli height `h_{M_d}.`
-
-### From TauCetiRoadmap.FuchsianOrbifolds — layer-5-compact-surface-degree-theory-and-fuchsian-applications
-
-Finite nonconstant holomorphic sphere maps: local analytic normal forms, positive local multiplicities, finite fibres with degree sum, critical values, inverse branches off critical values, composition. Use the FuchsianOrbifolds independent lower compact-surface degree module; do not reconstruct it in arithmetic dynamics.
-
-### From TauCetiRoadmap.ConformalMapping — Layers, L0 (the local mapping engine)
-
-Import ConformalMapping L0 Hurwitz and its local open-mapping and degree consequences. A nonconstant locally uniform inverse-branch limit then yields a common image neighborhood.
-
-### From Tau Ceti — sphere atlas
-
-Consume `OnePoint.affineChart`, `OnePoint.invChart`, `OnePoint.instChartedSpace`,
-`OnePoint.instIsManifold`, `OnePoint.chartAt_coe`, `OnePoint.chartAt_infty`,
-`OnePoint.affineChart_coe`, `OnePoint.invChart_coe`, `OnePoint.invChart_infty`,
-`OnePoint.invChart_symm_zero`, `OnePoint.mdifferentiableAt_iff_of_ne_infty`
-and `OnePoint.mdifferentiableAt_iff_of_eq_infty` from
-`TauCeti/Geometry/Manifold/Instances/OnePoint.lean`, specialized to ℂ. The
-finite chart is z, the infinity chart is 1/z, and the analytic manifold instance
-uses the existing compact Hausdorff topology. These are the inputs of
-ComplexManifolds, Milestone 3, and of the meromorphic comparison in §2.1.
-
-### From TauCetiRoadmap.AlgebraicCurves — layer-0-function-fields-constant-fields-and-places
-
-One-variable function fields, exact constants and places for the dynatomic function field.
-
-### From TauCetiRoadmap.AlgebraicCurves — layer-1-the-rational-function-field
-
-Genus 0 of the rational function field, rational differential coefficient and places.
-
-### From TauCetiRoadmap.AlgebraicCurves — layer-2-affine-models--the-dedekind-bridge
-
-Integral closure and the smooth affine-model/function-field comparison.
-
-### From TauCetiRoadmap.AlgebraicCurves — layer-3-divisors-ld-riemanns-theorem-and-the-genus
-
-Genus of a function field and its regular projective model.
-
-### From TauCetiRoadmap.AlgebraicCurves — layer-6-extensions-of-function-fields
-
-Degree of a finite extension of function fields, the places above a given place and the fundamental identity Σe·f=[F′:F], for the rotation quotient.
-
-### From TauCetiRoadmap.AlgebraicCurves — layer-7-the-different-and-the-hurwitz-genus-formula
-
-Tame different exponent e−1 and the Hurwitz genus formula.
-
-### From TauCetiRoadmap.AlgebraicCurves — layer-8-constant-field-extensions-galois-ramification-and-inseparability-
-
-Characteristic-zero base change preserves geometric integrality and genus.
-
-### From TauCetiRoadmap.AlgebraicCurves — layer-11-automorphisms-and-the-hurwitz-bound
-
-Fixed-field degree and quotient by a finite cyclic automorphism group.
-
-### From TauCetiRoadmap.AlgebraicCurves — layer-12-the-dictionary--function-fields--curves-and-the-comparison-contracts
-
-Unique regular projective models, finite maps from inclusions of function fields, normalization, and extension of affine maps.
-
-### From TauCetiRoadmap.ConformalMapping — Layers, L4 (analytic continuation and the reflection principle)
-
-Normalized conformal coordinates, analytic continuation, and general monodromy/lifting theorems, specialized to the explicitly specified dynamical domains. Periodic ray landing and parabolic basin theory require the dynamical constructions below.
-
-### From TauCetiRoadmap.HeightsRationalPointsAndObstructions — §§0.9–0.11, 0.16
-
-Consume `GeneralizedGlobalField` (§0.9) as the global height field K of §6.24, together with its finite extensions. For a smooth projective geometrically integral curve T/K, consume the polarized function-field height family `ofPolarization` of §0.10 on K(T) (K is algebraically closed in K(T), the transcendence degree is 1, V = T, N any divisor of degree 1), whose place at a closed point D of T has weight [K(D) : K] and value exp(−ord_D a); this is the degree-normalized geometric height on K(T) that the right-hand side of §6.24 uses, and the normalized projective height of §0.11 fixes its scaling. Consume the Weil height machine `weilHeight` of §0.16 twice: over K, for V and T, and over the global height field K(T), for the generic fibre V_η. Section 6.24 derives from these the curve-height quasi-equivalence `h_{T,D}(t)/h_{T,A}(t)→deg` D for every real divisor class D on T and deg A=1, as `h_{T,A}→∞,` with compatible algebraic-extension normalization, the generic intersection-degree identity, and the uniform relative height bound of Call–Silverman Theorems 3.1 and 4.1 over a global height field.
-
-### From TauCetiRoadmap.HeightsRationalPointsAndObstructions — §4.8
-
-Use Siegel on the normalizations of the components of F(X)=G(Y), with the integral model and boundary points tracked. The Bilu–Tichy classification is a separate input and is not attributed to Siegel.
-
-### From TauCetiRoadmap.HeightsAndUnits
-
-Consume §1.1, the `Northcott` instances for `Projectivization.mulHeight` and `Projectivization.logHeight`. These supply finiteness of bounded-height projective sets over a number field, and transfer bounded-degree Northcott from DiophantineApproximationAndTranscendence §0.3.
-
-### From TauCetiRoadmap.ClassicalArithmeticCompletion
-
-Consume §6.37, `projectiveWeilHeight`, `projectivePowerMap`, their affine and infinity computation rules, the compositional iterate formula and `powerMapCanonicalHeight_eq`. The general rational-map constructor here retains arbitrary characteristic; its characteristic-zero projective action is this supplier's map. Its power-height and algebraic torsion tests are consumed as that section's computations.
-
-### From TauCetiRoadmap.PDE — Lane C
-
-Consume Lane C, targets 13–15, for the classical Euclidean harmonic and potential-theory input, with Mathlib’s Laplacian sign. The sphere distributional Laplacian, Riesz measures and logarithmic singularities are constructed in Layer 2 on the stated domain of potentials.
-
-### From Mathlib and Tau Ceti
-
-Consume `MeasureTheory.Measure.condKernel`, its `IsCondKernel` and Markov-kernel
-instances from `Mathlib/Probability/Kernel/Disintegration/StandardBorel.lean`,
-and `MeasureTheory.Measure.IsCondKernel` and `MeasureTheory.Measure.disintegrate`
-from `Mathlib/Probability/Kernel/Disintegration/Basic.lean`. For a finite measure
-ρ on A×X the chosen kernel requires X nonempty and standard Borel; A needs only a
-measurable structure. The `IsCondKernel` class states the reconstruction identity
-ρ.fst ⊗ₘ K=ρ; it alone imposes neither the Markov property nor pointwise support
-on fibres. Consume also `ProbabilityTheory.condDistrib`,
-`ProbabilityTheory.compProd_map_condDistrib` and
-`ProbabilityTheory.condDistrib_ae_eq_condExp` in
-`Mathlib/Probability/Kernel/CondDistrib.lean`. Its definition is the conditional
-kernel of the joint law in conditioning-variable, observed-variable order.
-Section 2.7 specializes it to an endomorphism's graph, using the supplier's
-conditional-label interface for fibre concentration and the entropy bound.
-
-Analytic-presentation transport uses `Homeomorph` from `Mathlib/Topology/Homeomorph/Defs.lean` and `ContinuousMap` from `Mathlib/Topology/ContinuousMap/Defs.lean`. Consume `MeasureTheory.Measure.map` and `MeasureTheory.Measure.map_map` in `Mathlib/MeasureTheory/Measure/Map.lean`, `MeasureTheory.Measure.map_dirac'` in `Mathlib/MeasureTheory/Measure/Dirac/Basic.lean`, and `MeasureTheory.integral_map` in `Mathlib/MeasureTheory/Integral/Bochner/Basic.lean`, with their measurability hypotheses. The homeomorphisms in §§2.2, 4.1 are measurable in both directions for the Borel structures; their function and measure comparisons use these native operations and laws.
-
-`WeierstrassCurve.Affine.Point.xRep` in `Mathlib/AlgebraicGeometry/EllipticCurve/Affine/Point.lean` supplies the normalized x-coordinate representatives (1,0) at zero and (x,1) at a nonsingular affine point (x,y). The point type includes only nonsingular affine points and the point at infinity; ellipticity is a separate condition, not a field of that type. The Legendre bound explicitly excludes t = 0,1.
-
-`Equiv.conj` (`Mathlib/Logic/Equiv/Defs.lean`) supplies conjugation of self-maps as h∘f∘h⁻¹. Use `Equiv.divRight₀` and `Equiv.addRight` for the rational scaling and translation convention Checks in §§0.36, 2.16 and 3.3; their backward-orbit transport follows from conjugacy transport in §2.17.
-
-Consume `Polynomial.dickson 1 a n` over a commutative ring, together with `Polynomial.map_dickson`, `Polynomial.dickson_add_two`, `Polynomial.dickson_one_one_eval_add_inv` and `Polynomial.dickson_one_one_mul`, from `Mathlib/RingTheory/Polynomial/Dickson.lean`. These supply the carrier, coefficient transport, recurrence, parameter-one evaluation and composition identities used in §6.25. Consume also `Polynomial.dickson_sq_mul_eval_mul` from `TauCeti/RingTheory/Polynomial/Dickson.lean`: over a commutative ring, `(dickson k (b^2*a) n).eval (b*t) = b^n*(dickson k a n).eval t`, for every k,n and a,b,t. Applying it over R[X] at X gives D_n(bX,b²a)=bⁿD_n(X,a), the parameter scaling used in §6.25.
-
-The following existing declarations supply the algebraic, topological and height
-interfaces used below. Their statements and ambient hypotheses govern every use.
-
-- **`AbsoluteValue`** — Absolute values R → S; the places of the admissible family on k(t) are AbsoluteValue (RatFunc k) ℝ. Module: `Mathlib/Algebra/Order/AbsoluteValue/Basic.lean`.
-- **`AbsoluteValue.eval_mvPolynomial_le`** — Local (archimedean) bound v(p(x)) ≤ (Σ v(coefficients))·(⨆ i, v(x i))^N for p homogeneous of degree N. Module: `Mathlib/NumberTheory/Height/MvPolynomial.lean`.
-- **`AbsoluteValue.iSup_abv_linearMap_apply_le`** — Local bound ⨆ j, v(Σ_i A(j,i)x_i) ≤ #ι·(⨆ v(A))·(⨆ v(x)) for a linear map. Module: `Mathlib/NumberTheory/Height/MvPolynomial.lean`.
-- **`AddCircle`** — For an additive commutative group, the quotient by integer multiples of p; p=1 over ℝ supplies angles. Module: `Mathlib/Topology/Instances/AddCircle/Defs.lean`.
-- **`AdjoinRoot`** — R[X]/(f): the coordinate ring of the dynatomic curve over ℤ[c] Module: `Mathlib/RingTheory/AdjoinRoot.lean`.
-- **`AdjoinRoot.lift`** — ring homomorphisms out of R[X]/(f) from a root of f: the points of Y₁(n) Module: `Mathlib/RingTheory/AdjoinRoot.lean`.
-- **`Algebra.EssFiniteType`** — Essentially finite-type algebras; for fields this is finite field generation, not finite algebra generation. Module: `Mathlib/RingTheory/EssentialFiniteness.lean`.
-- **`Algebra.FiniteType`** — Finitely generated algebras (finite type). Module: `Mathlib/RingTheory/FiniteType.lean`.
-- **`Algebra.IsAlgebraic`** — The class of algebraic algebras (every element algebraic over the base). Module: `Mathlib/RingTheory/Algebraic/Defs.lean`.
-- **`Algebra.IsAlgebraic.cardinalMk_le_max`** — A torsion-free algebraic domain extension has cardinal at most max(base cardinal,ℵ₀). Module: `Mathlib/RingTheory/Algebraic/Cardinality.lean`.
-- **`Algebra.IsUnramifiedIn`** — A prime 𝔭 of R is unramified in A: every prime of A over 𝔭 is unramified. Module: `Mathlib/RingTheory/Unramified/Locus.lean`.
-- **`Algebra.adjoin_induction`** — Induction on membership of a generated subalgebra by generators, scalar constants, addition and multiplication. Module: `Mathlib/Algebra/Algebra/Subalgebra/Lattice.lean`.
-- **`Algebra.finite_of_essFiniteType_of_isAlgebraic`** — An algebraic essentially finite type field extension is module finite. Module: `Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.lean`.
-- **`Algebra.trace`** — The trace of an element of an R-algebra S, as an R-linear map S → R (trace of left multiplication). Module: `Mathlib/RingTheory/Trace/Defs.lean`.
-- **`Algebra.trace_trace`** — Transitivity of the trace in a tower R ⊆ S ⊆ T of free finite extensions: `Tr_{S/R}(Tr_{T/S}` x) = `Tr_{T/R}` x. Module: `Mathlib/RingTheory/Trace/Defs.lean`.
-- **`AlgebraicClosure`** — The algebraic closure of a field. Module: `Mathlib/FieldTheory/IsAlgClosed/AlgebraicClosure.lean`.
-- **`AlgebraicGeometry.Etale`** — Étale morphisms of schemes. Module: `Mathlib/AlgebraicGeometry/Morphisms/Etale.lean`.
-- **`AlgebraicGeometry.FormallyUnramified`** — Formally unramified morphisms of schemes (unramified with locally finite type). Module: `Mathlib/AlgebraicGeometry/Morphisms/FormallyUnramified.lean`.
-- **`AlgebraicGeometry.IsIntegral`** — Integral schemes (varieties). Module: `Mathlib/AlgebraicGeometry/Properties.lean`.
-- **`AlgebraicGeometry.Scheme`** — Schemes, carrying the Zariski topology used for generic sequences. Module: `Mathlib/AlgebraicGeometry/Scheme.lean`.
-- **`AlgebraicGeometry.Smooth`** — Smooth morphisms of schemes. Module: `Mathlib/AlgebraicGeometry/Morphisms/Smooth.lean`.
-- **`AlgebraicIndependent`** — Injectivity of the native multivariable evaluation algebra homomorphism. Module: `Mathlib/RingTheory/AlgebraicIndependent/Defs.lean`.
-- **`AlgebraicIndependent.aevalEquiv`** — The native polynomial algebra is equivalent to the subalgebra generated by an independent family. Module: `Mathlib/RingTheory/AlgebraicIndependent/Defs.lean`.
-- **`AlgebraicIndependent.aevalEquivField`** — Identifies the fraction field of a multivariate polynomial ring over a field with the intermediate field generated by an independent family. Module: `Mathlib/RingTheory/AlgebraicIndependent/Adjoin.lean`.
-- **`AlgebraicIndependent.aeval_of_algebraicIndependent`** — Evaluating an independent family of polynomial expressions at an independent tuple preserves independence. Module: `Mathlib/RingTheory/AlgebraicIndependent/Basic.lean`.
-- **`AlgebraicIndependent.comp`** — Restriction/reindexing of an independent family along an injective index map. Module: `Mathlib/RingTheory/AlgebraicIndependent/Defs.lean`.
-- **`ArithmeticFunction.coe_moebius_mul_coe_zeta`** — μ ∗ ζ = 1: `Σ_{d∣n}` μ(d) = [n = 1] Module: `Mathlib/NumberTheory/ArithmeticFunction/Moebius.lean`.
-- **`ArithmeticFunction.isMultiplicative_moebius`** — μ is multiplicative Module: `Mathlib/NumberTheory/ArithmeticFunction/Moebius.lean`.
-- **`ArithmeticFunction.moebius`** — Integer-valued Möbius function, zero on nonsquarefree integers and (−1)^cardFactors otherwise. Module: `Mathlib/NumberTheory/ArithmeticFunction/Moebius.lean`.
-- **`ArithmeticFunction.prod_eq_iff_prod_pow_moebius_eq_of_nonzero`** — multiplicative Möbius inversion in a group with zero Module: `Mathlib/NumberTheory/ArithmeticFunction/Moebius.lean`.
-- **`ArithmeticFunction.prod_eq_iff_prod_pow_moebius_eq_on_of_nonzero`** — Multiplicative Möbius inversion for nonvanishing sequences in a group with zero, on divisor-closed sets. Module: `Mathlib/NumberTheory/ArithmeticFunction/Moebius.lean`.
-- **`ArithmeticFunction.sum_eq_iff_sum_mul_moebius_eq`** — additive Möbius inversion Module: `Mathlib/NumberTheory/ArithmeticFunction/Moebius.lean`.
-- **`ArzelaAscoli.isCompact_of_equicontinuous`** — An equicontinuous family of continuous maps compact in the pointwise topology is compact in the compact-open topology; native uniform-space formulation. Module: `Mathlib/Topology/UniformSpace/Ascoli.lean`.
-- **`BoundedContinuousFunction.arzela_ascoli₁`** — Closed equicontinuous sets of bounded continuous maps from a compact domain into a compact metric target are compact. Restrict to compact subdomains before applying to local normal families. Module: `Mathlib/Topology/ContinuousMap/Bounded/ArzelaAscoli.lean`.
-- **`Cardinal.aleph0_lt_continuum`** — Cantor inequality ℵ₀ < 2^ℵ₀ used against countability of a putatively algebraic p-adic field. Module: `Mathlib/SetTheory/Cardinal/Continuum.lean`.
-- **`Cardinal.mk_arrow`** — The cardinal of a function type is the corresponding power, with universe lifts. Module: `Mathlib/SetTheory/Cardinal/Defs.lean`.
-- **`Cardinal.mk_bool`** — Bool has cardinal 2. Module: `Mathlib/SetTheory/Cardinal/Order.lean`.
-- **`Cardinal.mk_le_aleph0`** — A countable type has cardinal at most ℵ₀. Module: `Mathlib/SetTheory/Cardinal/Basic.lean`.
-- **`Cardinal.mk_nat`** — ℕ has cardinal ℵ₀. Module: `Mathlib/SetTheory/Cardinal/Defs.lean`.
-- **`CategoryTheory.End`** — The endomorphisms of an object, a monoid under composition. Module: `Mathlib/CategoryTheory/Endomorphism.lean`.
-- **`CategoryTheory.End.mul_def`** — xs * ys = ys ≫ xs in End X. Module: `Mathlib/CategoryTheory/Endomorphism.lean`.
-- **`CauchySeq.tendsto_limUnder`** — A Cauchy sequence in a complete space tends to its limUnder. Module: `Mathlib/Topology/UniformSpace/Cauchy.lean`.
-- **`CompactSpace.uniformContinuous_of_continuous`** — Heine–Cantor: continuous functions on a compact uniform space are uniformly continuous (the regularisation modulus at infinite places). Module: `Mathlib/Topology/UniformSpace/HeineCantor.lean`.
-- **`Complex.isAlgClosed`** — ℂ is algebraically closed (instance). Module: `Mathlib/Analysis/Complex/Polynomial/Basic.lean`.
-- **`ConjAct.units_smul_def`** — Units of a monoid act on it by conjugation: g • h = g h g⁻¹ (MulDistribMulAction). Module: `Mathlib/GroupTheory/GroupAction/ConjAct.lean`.
-- **`ConjClasses`** — Conjugacy classes of a monoid (quotient by IsConj). Module: `Mathlib/Algebra/Group/Conj.lean`.
-- **`ConjClasses.mk`** — The conjugacy class of an element; mk a = mk b ↔ IsConj a b. Module: `Mathlib/Algebra/Group/Conj.lean`.
-- **`Dynamics.coverEntropy`**, **`Dynamics.coverEntropyInf`**, **`Dynamics.coverMincard`** — Native EReal-valued entropy from limsup or liminf covering growth, and the ℕ∞-valued minimal dynamical covering cardinal. The global sphere target uses Set.univ. Module: `Mathlib/Dynamics/TopologicalEntropy/CoverEntropy.lean`.
-- **`Equiv.Perm`** — Permutations of a type. Module: `Mathlib/Logic/Equiv/Defs.lean`.
-- **`Equiv.Perm.sign`** — The sign homomorphism Perm α →* ℤˣ for a finite type with decidable equality. Module: `Mathlib/GroupTheory/Perm/Sign.lean`.
-- **`Field.absoluteGaloisGroup`** — Mathlib's absolute Galois group, the automorphisms of AlgebraicClosure K over K, with the Krull topology. Module: `Mathlib/FieldTheory/AbsoluteGaloisGroup.lean`.
-- **`Field.exists_primitive_element`** — A finite-dimensional separable extension has a single intermediate-field generator. Module: `Mathlib/FieldTheory/PrimitiveElement.lean`.
-- **`Filter.Tendsto.comp`** — Composition of limits. Module: `Mathlib/Order/Filter/Tendsto.lean`.
-- **`Filter.Tendsto.const_mul`** — Limits of b * f. Module: `Mathlib/Topology/Algebra/Monoid/Defs.lean`.
-- **`Filter.Tendsto.div_const`** — Limits of f / y. Module: `Mathlib/Topology/Algebra/GroupWithZero.lean`.
-- **`Filter.Tendsto.limUnder_eq`** — If g tends to x then limUnder f g = x. Module: `Mathlib/Topology/Separation/Hausdorff.lean`.
-- **`Filter.limUnder`** — limUnder f g, the (junk-valued) limit of g along f. Module: `Mathlib/Topology/Defs/Filter.lean`.
-- **`Filter.tendsto_add_atTop_nat`** — n ↦ n + k tends to atTop. Module: `Mathlib/Order/Filter/AtTopBot/Basic.lean`.
-- **`Fin.cons`** — Prepend an entry at index 0 to a tuple. Module: `Mathlib/Data/Fin/Tuple/Basic.lean`.
-- **`Fin.tail`** — Drop the entry at index 0 of a tuple Fin (n+1) → α. Module: `Mathlib/Data/Fin/Tuple/Basic.lean`.
-- **`Finite.exists_ne_map_eq_of_infinite`** — Pigeonhole: a map from an infinite type to a finite type is not injective. Module: `Mathlib/Data/Fintype/Pigeonhole.lean`.
-- **`Finset.abs_sum_le_sum_abs`** — Triangle inequality for finite sums. Module: `Mathlib/Algebra/Order/BigOperators/Group/Finset.lean`.
-- **`Finset.dvd_prod_of_mem`** — Every factor belonging to a finite product divides it; excludes each marked denominator from the selected prime. Module: `Mathlib/Algebra/BigOperators/Group/Finset/Piecewise.lean`.
-- **`Finset.exists_ne_map_eq_of_card_lt_of_maps_to`** — the pigeonhole principle for finite sets Module: `Mathlib/Data/Finset/Card.lean`.
-- **`FractionRing`** — the fraction field of K[X, Y], home of the Möbius product of period forms Module: `Mathlib/RingTheory/Localization/FractionRing.lean`.
-- **`Function.End`** — Self-maps of a type as a monoid under composition, with power = iterate. Module: `Mathlib/Algebra/Group/End.lean`.
-- **`Function.IsPeriodicPt`** — Periodic points of a self-map of a type (IsFixedPt of the iterate). Module: `Mathlib/Dynamics/PeriodicPts/Defs.lean`.
-- **`Function.IsPeriodicPt.iterate_mod_apply`** — For a point of period n, f^[m mod n] x = f^[m] x. Module: `Mathlib/Dynamics/PeriodicPts/Defs.lean`.
-- **`Function.IsPeriodicPt.map`** — A semiconjugacy maps periodic points to periodic points of the same period. Module: `Mathlib/Dynamics/PeriodicPts/Defs.lean`.
-- **`Function.IsPeriodicPt.minimalPeriod_dvd`** — If x is n-periodic then minimalPeriod f x divides n. Module: `Mathlib/Dynamics/PeriodicPts/Defs.lean`.
-- **`Function.Semiconj`** — Semiconjugacy g ∘ fa = fb ∘ g. Module: `Mathlib/Logic/Function/Conjugate.lean`.
-- **`Function.Semiconj.iterate_right`** — A semiconjugacy semiconjugates the iterates. Module: `Mathlib/Logic/Function/Iterate.lean`.
-- **`Function.Semiconj.mapsTo_periodicPts`** — A semiconjugacy maps periodicPts fa into periodicPts fb. Module: `Mathlib/Dynamics/PeriodicPts/Defs.lean`.
-- **`Function.iterate_succ_apply'`** — f^[n+1] x = f (f^[n] x). Module: `Mathlib/Logic/Function/Iterate.lean`.
-- **`Function.minimalPeriod`** — The minimal period of a point. Module: `Mathlib/Dynamics/PeriodicPts/Defs.lean`.
-- **`Function.minimalPeriod_iterate_eq_div_gcd`** — minimalPeriod f^[n] x = minimalPeriod f x / gcd(minimalPeriod f x, n) for n ≠ 0. Module: `Mathlib/Dynamics/PeriodicPts/Defs.lean`.
-- **`Function.periodicOrbit`** — The periodic orbit of a point as a Cycle . Module: `Mathlib/Dynamics/PeriodicPts/Defs.lean`.
-- **`Function.periodicPts`** — The set of periodic points of positive period. Module: `Mathlib/Dynamics/PeriodicPts/Defs.lean`.
-- **`Height.AdmissibleAbsValues`** — Fields with an admissible family of absolute values (archimedean multiset, nonarchimedean set, product formula). Module: `Mathlib/NumberTheory/Height/Basic.lean`.
-- **`Height.logHeight`** — Logarithmic height of a tuple over a field with admissible absolute values. Module: `Mathlib/NumberTheory/Height/Basic.lean`.
-- **`Height.logHeight_cons_zero`** — logHeight (vecCons 0 x) = logHeight x. Module: `Mathlib/NumberTheory/Height/Basic.lean`.
-- **`Height.logHeight_eq_zero_of_subsingleton`** — The height of a tuple indexed by a subsingleton is 0. Module: `Mathlib/NumberTheory/Height/Basic.lean`.
-- **`Height.logHeight_eval_ge`** — Lower bound for the height of the values of homogeneous forms, given a Nullstellensatz certificate q of degree M. Module: `Mathlib/NumberTheory/Height/MvPolynomial.lean`.
-- **`Height.logHeight_eval_le`** — Upper bound logHeight(p(x)) ≤ log max(mulHeightBound p, 1) + N logHeight x for forms of degree N. Module: `Mathlib/NumberTheory/Height/MvPolynomial.lean`.
-- **`Height.logHeight_smul_eq_logHeight`** — The height of a tuple is invariant under nonzero scaling. Module: `Mathlib/NumberTheory/Height/Basic.lean`.
-- **`Height.logHeight_swap`** — logHeight ![x, y] = logHeight ![y, x]. Module: `Mathlib/NumberTheory/Height/Basic.lean`.
-- **`Height.logHeight₁`** — The logarithmic height of a field element relative to K. Module: `Mathlib/NumberTheory/Height/Basic.lean`.
-- **`Height.logHeight₁_eq_logHeight`** — Under the ambient admissible absolute-value/height assumptions, scalar logarithmic height equals tuple height of [x,1]. Module: `Mathlib/NumberTheory/Height/Basic.lean`.
-- **`Height.logHeight₁_inv`** — logHeight₁ x⁻¹ = logHeight₁ x. Module: `Mathlib/NumberTheory/Height/Basic.lean`.
-- **`Height.mulHeight`** — the multiplicative height of a tuple Module: `Mathlib/NumberTheory/Height/Basic.lean`.
-- **`Height.mulHeightBound`** — The explicit constant (product over places of coefficient sums and maxima) in Mathlib's height bounds. Module: `Mathlib/NumberTheory/Height/MvPolynomial.lean`.
-- **`Height.mulHeightBound_eq`** — The unfolding of mulHeightBound as a product over archimedean and nonarchimedean absolute values. Module: `Mathlib/NumberTheory/Height/MvPolynomial.lean`.
-- **`Height.mulHeight₁_div_eq_mulHeight`** — H(x/y) = H(x, y): heights of points of ℙ¹ Module: `Mathlib/NumberTheory/Height/Basic.lean`.
-- **`Height.mulHeight₁_pow`** — mulHeight₁ (x ^ n) = mulHeight₁ x ^ n. Module: `Mathlib/NumberTheory/Height/Basic.lean`.
-- **`Height.totalWeight`** — The number of archimedean absolute values with multiplicity. Module: `Mathlib/NumberTheory/Height/Basic.lean`.
-- **`Ideal.Quotient.stabilizerHom`** — The homomorphism from the stabilizer (decomposition group) of Q to Aut((B/Q)/(A/P)). Module: `Mathlib/RingTheory/Ideal/Over.lean`.
-- **`Ideal.Quotient.stabilizerHom_surjective`** — The decomposition group of Q surjects onto the automorphism group of the residue extension. Module: `Mathlib/RingTheory/Invariant/Basic.lean`.
-- **`Ideal.exists_maximal`** — Every nonzero ring has a maximal ideal. Module: `Mathlib/RingTheory/Ideal/Maximal.lean`.
-- **`Ideal.sum_ramification_inertia_eq_finrank`** — `Σ_{q | p}` e(q|p) f(q|p) = [S : R] for a finite flat extension. Module: `Mathlib/RingTheory/RamificationInertia/Basic.lean`.
-- **`InfiniteGalois.normalAutEquivQuotient`** — For a closed normal subgroup H, Gal(K/k) ⧸ H ≃* Gal(fixedField H/k). Module: `Mathlib/FieldTheory/Galois/Infinite.lean`.
-- **`IsFractionRing.stabilizerHom_surjective`** — For a finite group G acting on B with invariant subring A, and a prime Q of B over P of A, the decomposition group surjects onto Aut(Frac(B/Q)/Frac(A/P)), with the compatible scalar structures. Section 5.39 uses the fraction-field form because P need not be maximal. Module: `Mathlib/RingTheory/Invariant/Basic.lean`, theorem at line 351.
-- **`IntermediateField.AdjoinSimple.gen`** — The generator x of K⟮x⟯ as an element of it. Module: `Mathlib/FieldTheory/IntermediateField/Adjoin/Defs.lean`.
-- **`IntermediateField.AdjoinSimple.norm_gen_eq_prod_roots`** — The norm of the generator of K⟮x⟯ is the product of the roots of minpoly K x in a splitting field. Module: `Mathlib/RingTheory/Norm/Basic.lean`.
-- **`IntermediateField.adjoin`** — The intermediate field generated by a set. Module: `Mathlib/FieldTheory/IntermediateField/Adjoin/Defs.lean`.
-- **`IntermediateField.adjoin.finrank`** — finrank K K⟮x⟯ = natDegree (minpoly K x) for integral x. Module: `Mathlib/FieldTheory/IntermediateField/Adjoin/Basic.lean`.
-- **`IntermediateField.adjoinRootEquivAdjoin`** — AdjoinRoot of the minimal polynomial of an integral element is algebra-equivalent to its simple intermediate field. Module: `Mathlib/FieldTheory/IntermediateField/Adjoin/Basic.lean`.
-- **`IntermediateField.adjoin_rootSet_isSplittingField`** — If p splits in L then adjoin K (p.rootSet L) is a splitting field of p. Module: `Mathlib/FieldTheory/SplittingField/IsSplittingField.lean`.
-- **`IntermediateField.algHomAdjoinIntegralEquiv`** — Algebra homomorphisms from a simple algebraic intermediate field correspond to roots of its minimal polynomial. Module: `Mathlib/FieldTheory/IntermediateField/Adjoin/Basic.lean`.
-- **`IntermediateField.algHomAdjoinIntegralEquiv_symm_apply_gen`** — The homomorphism associated to a root sends the simple generator to that root. Module: `Mathlib/FieldTheory/IntermediateField/Adjoin/Basic.lean`.
-- **`IntermediateField.fg_top_iff`** — Finite field generation is equivalent to Algebra.EssFiniteType. Module: `Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.lean`.
-- **`IntermediateField.finiteDimensional_adjoin`** — Adjoining finitely many integral elements gives a finite-dimensional extension. Module: `Mathlib/FieldTheory/IntermediateField/Adjoin/Basic.lean`.
-- **`IntermediateField.fixingSubgroup`** — The subgroup of Gal(E/F) fixing an intermediate field pointwise. Module: `Mathlib/FieldTheory/Galois/Basic.lean`.
-- **`IntermediateField.fixingSubgroup_isOpen`** — For E/K finite, the fixing subgroup of E is open in the Krull topology. Module: `Mathlib/FieldTheory/KrullTopology.lean`.
-- **`IntermediateField.relfinrank`** — The relative degree of two intermediate fields. Module: `Mathlib/FieldTheory/Relrank.lean`.
-- **`Irreducible`** — irreducible elements (irreducibility of Φ*ₙ(x, c) over ℂ) Module: `Mathlib/Algebra/Group/Irreducible/Defs.lean`.
-- **`IsAlgClosed`** — Algebraically closed fields. Module: `Mathlib/FieldTheory/IsAlgClosed/Basic.lean`.
-- **`IsAlgClosed.card_roots_eq_natDegree`** — Over an algebraically closed field a polynomial has natDegree roots with multiplicity. Module: `Mathlib/FieldTheory/IsAlgClosed/Basic.lean`.
-- **`IsAlgClosed.dvd_iff_roots_le_roots`** — divisibility of nonzero polynomials by comparison of root multisets Module: `Mathlib/FieldTheory/IsAlgClosed/Basic.lean`.
-- **`IsAlgClosed.lift`** — An algebraic extension embeds into an algebraically closed field. Module: `Mathlib/FieldTheory/IsAlgClosed/Basic.lean`.
-- **`IsAlgClosed.splits_domain`** — Every polynomial splits over an algebraically closed field. Module: `Mathlib/FieldTheory/IsAlgClosed/Basic.lean`.
-- **`IsClosed`** — Closed sets (Zariski-closed subsets of a scheme). Module: `Mathlib/Topology/Defs/Basic.lean`.
-- **`IsConj`** — Conjugacy in a monoid: a unit c with c a = b c. Module: `Mathlib/Algebra/Group/Conj.lean`.
-- **`IsDedekindDomain.HeightOneSpectrum.valuation`** — The adic valuation of a Dedekind domain at a height-one prime, extended to the fraction field (the places π of k(t)). Module: `Mathlib/RingTheory/DedekindDomain/AdicValuation.lean`.
-- **`IsDedekindDomain.HeightOneSpectrum.valuation_liesOver`** — v(x)^e = w(algebraMap x) for a prime w over v with ramification index e. Module: `Mathlib/NumberTheory/RamificationInertia/Valuation.lean`.
-- **`IsDiscreteValuationRing`** — discrete valuation rings (good reduction at a prime) Module: `Mathlib/RingTheory/DiscreteValuationRing/Basic.lean`.
-- **`IsFractionRing`** — K is the fraction field of R. Module: `Mathlib/RingTheory/Localization/FractionRing.lean`.
-- **`IsFractionRing.injective`** — a domain embeds in its fraction field Module: `Mathlib/RingTheory/Localization/FractionRing.lean`.
-- **`IsFractionRing.lift`** — An injective ring map into a field extends to its fraction field. Module: `Mathlib/RingTheory/Localization/FractionRing.lean`.
-- **`IsFractionRing.lift_unique`** — The fraction-field extension is unique once its values on the ring are fixed. Module: `Mathlib/RingTheory/Localization/FractionRing.lean`.
-- **`IsGalois.of_separable_splitting_field`** — The splitting field of a separable polynomial is Galois. Module: `Mathlib/FieldTheory/Galois/Basic.lean`.
-- **`IsLocalRing.ResidueField`** — The residue field R/𝔪 of a local ring. Module: `Mathlib/RingTheory/LocalRing/ResidueField/Defs.lean`.
-- **`IsLocalRing.mem_maximalIdeal`** — Membership in the maximal ideal of a commutative local semiring is precisely being a nonunit. Module: `Mathlib/RingTheory/LocalRing/MaximalIdeal/Basic.lean`.
-- **`IsLocalRing.residue`** — The quotient map R → R/𝔪. Module: `Mathlib/RingTheory/LocalRing/ResidueField/Defs.lean`.
-- **`IsLocalRing.residue_ne_zero_iff_isUnit`** — residue x ≠ 0 ↔ x is a unit, in a local ring. Module: `Mathlib/RingTheory/LocalRing/ResidueField/Basic.lean`.
-- **`IsLocalization.exist_integer_multiples`** — A finite family of fractions has a common denominator in the localization submonoid. Module: `Mathlib/RingTheory/Localization/Integer.lean`.
-- **`IsLocalization.integerNormalization_spec`** — An integral polynomial normalization maps to a nonzero-denominator scalar multiple of the original polynomial. Module: `Mathlib/RingTheory/Localization/Integral.lean`.
-- **`IsNonarchimedean.eval_mvPolynomial_le`** — Local nonarchimedean bound v(p(x)) ≤ (⨆ v(coefficients))·(⨆ i, v(x i))^N for p homogeneous of degree N. Module: `Mathlib/NumberTheory/Height/MvPolynomial.lean`.
-- **`IsNonarchimedean.iSup_abv_linearMap_apply_le`** — Nonarchimedean bound ⨆ j, v(Σ_i A(j,i)x_i) ≤ (⨆ v(A))·(⨆ v(x)). Module: `Mathlib/NumberTheory/Height/MvPolynomial.lean`.
-- **`IsOfFinOrder`** — Elements of finite order in a monoid. Module: `Mathlib/GroupTheory/OrderOfElement.lean`.
-- **`IsPGroup`** — The predicate that every element has p-power order. Module: `Mathlib/GroupTheory/PGroup.lean`.
-- **`IsPGroup.card_modEq_card_fixedPoints`** — For a p-group acting on a finite set, |α| ≡ |fixed points| mod p. Module: `Mathlib/GroupTheory/PGroup.lean`.
-- **`IsPGroup.exists_fixed_point_of_prime_dvd_card_of_fixed_point`** — A p-group acting on a finite set of cardinality divisible by p with one fixed point has another. Module: `Mathlib/GroupTheory/PGroup.lean`.
-- **`IsPrimitiveRoot`** — primitive roots of unity Module: `Mathlib/RingTheory/RootsOfUnity/PrimitiveRoots.lean`.
-- **`IsPrimitiveRoot.pow_eq_one_iff_dvd`** — ζ^l = 1 iff k ∣ l for a primitive k-th root ζ Module: `Mathlib/RingTheory/RootsOfUnity/PrimitiveRoots.lean`.
-- **`IsTranscendenceBasis.isAlgebraic`** — The target is algebraic over the subalgebra generated by a transcendence basis; the base need only be nontrivial. Module: `Mathlib/RingTheory/AlgebraicIndependent/TranscendenceBasis.lean`.
-- **`IsUltrametricDist`** — Ultrametric distances (the nonarchimedean inequality used in Strassmann's theorem). Module: `Mathlib/Topology/MetricSpace/Ultra/Basic.lean`.
-- **`IteratedWreathProduct`** — The n-fold iterated regular wreath product of a group G. Module: `Mathlib/GroupTheory/RegularWreathProduct.lean`.
-- **`IteratedWreathProduct.card`** — Nat.card (IteratedWreathProduct G n) = Nat.card G ^ `(∑_{i<n}` Nat.card G ^ i). Module: `Mathlib/GroupTheory/RegularWreathProduct.lean`.
-- **`Localization.Away`** — The localisation R[1/s]. Module: `Mathlib/GroupTheory/MonoidLocalization/Away.lean`.
-- **`Matrix.ProjGenLinGroup`** — PGL(n, R) = GL(n, R)/centre, with its action on ℙ K (n → K). Module: `Mathlib/LinearAlgebra/Matrix/GeneralLinearGroup/Projective.lean`.
-- **`Matrix.ProjGenLinGroup.mk`** — The projection GL(n, R) → PGL(n, R). Module: `Mathlib/LinearAlgebra/Matrix/GeneralLinearGroup/Projective.lean`.
-- **`Matrix.adjugate`** — The adjugate matrix. Module: `Mathlib/LinearAlgebra/Matrix/Adjugate.lean`.
-- **`Matrix.det_adjugate`** — det (adj A) = det A ^ (n − 1). Module: `Mathlib/LinearAlgebra/Matrix/Adjugate.lean`.
-- **`Matrix.det_fin_two`** — The 2 × 2 determinant formula. Module: `Mathlib/LinearAlgebra/Matrix/Determinant/Basic.lean`.
-- **`Matrix.det_kronecker`** — det (A ⊗ₖ B) = det A ^ card n · det B ^ card m. Module: `Mathlib/LinearAlgebra/Matrix/Kronecker.lean`.
-- **`Matrix.det_mul`** — Multiplicativity of the determinant. Module: `Mathlib/LinearAlgebra/Matrix/Determinant/Basic.lean`.
-- **`Matrix.det_reindex_self`** — Reindexing rows and columns by the same equivalence preserves the determinant. Module: `Mathlib/LinearAlgebra/Matrix/Determinant/Basic.lean`.
-- **`MeasureTheory.Measure.dirac`** — The Dirac measure at a point. Module: `Mathlib/MeasureTheory/Measure/Dirac/Def.lean`.
-- **`MeasureTheory.Measure.ext_of_integral_eq_on_compactlySupported`** — Regular measures agreeing on all compactly supported continuous real tests are equal. Module: `Mathlib/MeasureTheory/Integral/RieszMarkovKakutani/Real.lean`.
-- **`MeasureTheory.Measure.haarMeasure`** — Haar measure on a locally compact group normalised on a compact set; its additive version (generated by to_additive, not indexed) gives Haar measure on ℤ_p. Module: `Mathlib/MeasureTheory/Measure/Haar/Basic.lean`.
-- **`MeasureTheory.Measure.isClosed_support`** — Support is closed without assuming second countability. Module: `Mathlib/MeasureTheory/Measure/Support.lean`.
-- **`MeasureTheory.Measure.support`** — Native support of a measure on a topological measurable space; use instead of defining a second dynamical support. Module: `Mathlib/MeasureTheory/Measure/Support.lean`.
-- **`MeasureTheory.Measure.support_mem_ae_of_innerRegular`** — Inner regularity supplies conull support on a Hausdorff Borel space; nonempty support of a probability follows without a countable basis. Module: `Mathlib/MeasureTheory/Measure/Support.lean`.
-- **`MeasureTheory.ProbabilityMeasure`** — Native probability measures, underlying Measure and weak topology defined by continuous bounded test functions. Module: `Mathlib/MeasureTheory/Measure/ProbabilityMeasure.lean`.
-- **`MeasureTheory.ProbabilityMeasure.tendsto_iff_forall_integral_tendsto`** — Weak convergence of probability measures is convergence of integrals of bounded continuous functions. Module: `Mathlib/MeasureTheory/Measure/ProbabilityMeasure.lean`.
-- **`Metric.cauchySeq_iff'`** — Cauchy criterion for sequences in a metric space. Module: `Mathlib/Topology/MetricSpace/Cauchy.lean`.
-- **`Module.finrank`** — Dimension of a vector space; field degrees [L : K]. Module: `Mathlib/LinearAlgebra/Dimension/Finrank.lean`.
-- **`Module.finrank_mul_finrank`** — Tower law for finrank. Module: `Mathlib/LinearAlgebra/Dimension/Free.lean`.
-- **`MulAction.orbitRel`** — For a group acting on a type, the setoid of being in the same orbit; used for finite word quotients. Module: `Mathlib/GroupTheory/GroupAction/Defs.lean`.
-- **`Multiset.esymm`** — Elementary symmetric functions of a multiset. Module: `Mathlib/RingTheory/MvPolynomial/Symmetric/Defs.lean`.
-- **`MvPolynomial`** — Multivariate polynomials (forms defining rational maps and curves in ℙ¹ × ℙ¹). Module: `Mathlib/Algebra/MvPolynomial/Basic.lean`.
-- **`MvPolynomial.IsHomogeneous`** — Homogeneous multivariate polynomials of a given degree. Module: `Mathlib/RingTheory/MvPolynomial/Homogeneous.lean`.
-- **`MvPolynomial.IsHomogeneous.aeval`** — Substituting forms of degree n into a form of degree m gives a form of degree n·m. Module: `Mathlib/RingTheory/MvPolynomial/Homogeneous.lean`.
-- **`MvPolynomial.IsHomogeneous.funext`** — Over an infinite domain two forms of the same degree with the same values are equal. Module: `Mathlib/RingTheory/MvPolynomial/Homogeneous.lean`.
-- **`MvPolynomial.IsHomogeneous.map`** — Homogeneity is preserved by coefficient maps. Module: `Mathlib/RingTheory/MvPolynomial/Homogeneous.lean`.
-- **`MvPolynomial.IsHomogeneous.totalDegree_le`** — A form of degree n has total degree ≤ n. Module: `Mathlib/RingTheory/MvPolynomial/Homogeneous.lean`.
-- **`MvPolynomial.aeval`** — Evaluation/substitution of multivariate polynomials. Module: `Mathlib/Algebra/MvPolynomial/Eval.lean`.
-- **`MvPolynomial.aeval_C`** — Evaluation of a constant is its image under the algebra map. Module: `Mathlib/Algebra/MvPolynomial/Eval.lean`.
-- **`MvPolynomial.aeval_X`** — Evaluation of a variable is its assigned coordinate. Module: `Mathlib/Algebra/MvPolynomial/Eval.lean`.
-- **`MvPolynomial.bind₁`** — Substitution of polynomials for variables (monad bind), associative. Module: `Mathlib/Algebra/MvPolynomial/Monad.lean`.
-- **`MvPolynomial.cardinalMk_le_max`** — #R[T_i] ≤ max(#R,#I,ℵ₀), including an empty variable type. Module: `Mathlib/Algebra/MvPolynomial/Cardinal.lean`.
-- **`MvPolynomial.coeff_map`** — Coefficients of a mapped polynomial. Module: `Mathlib/Algebra/MvPolynomial/Eval.lean`.
-- **`MvPolynomial.comp_aeval`** — Composition with an algebra homomorphism commutes with multivariable evaluation. Module: `Mathlib/Algebra/MvPolynomial/Eval.lean`.
-- **`MvPolynomial.comp_eval₂Hom`** — A ring homomorphism composed with multivariable evaluation equals evaluation with mapped coefficients and coordinates. Module: `Mathlib/Algebra/MvPolynomial/Eval.lean`.
-- **`MvPolynomial.eval`** — Evaluation of a multivariate polynomial at a point. Module: `Mathlib/Algebra/MvPolynomial/Eval.lean`.
-- **`MvPolynomial.funext`** — Over an infinite domain two polynomials agreeing at every point are equal. Module: `Mathlib/Algebra/MvPolynomial/Funext.lean`.
-- **`MvPolynomial.map`** — Coefficient map of multivariate polynomials. Module: `Mathlib/Algebra/MvPolynomial/Eval.lean`.
-- **`MvPolynomial.pderiv`** — Partial derivatives of multivariate polynomials. Module: `Mathlib/Algebra/MvPolynomial/PDeriv.lean`.
-- **`MvPolynomial.pderiv_map`** — Partial derivatives commute with coefficient maps: pderiv i (map φ f) = map φ (pderiv i f). Module: `Mathlib/Algebra/MvPolynomial/PDeriv.lean`.
-- **`MvPolynomial.support_map_of_injective`** — An injective coefficient map preserves the support. Module: `Mathlib/Algebra/MvPolynomial/Eval.lean`.
-- **`Nat.ModEq.pow_totient`** — Euler's theorem x^φ(n) ≡ 1 mod n for x coprime to n. Module: `Mathlib/FieldTheory/Finite/Basic.lean`.
-- **`Nat.Prime.dvd_choose_self`** — p divides the binomial coefficient C(p, k) for 0 < k < p. Module: `Mathlib/Data/Nat/Choose/Dvd.lean`.
-- **`Nat.card`** — Cardinality of a type as a natural number (0 for infinite types). Module: `Mathlib/SetTheory/Cardinal/Finite.lean`.
-- **`Nat.divisorsAntidiagonal`** — the pairs (i, j) with i·j = n, indexing Möbius sums Module: `Mathlib/NumberTheory/Divisors.lean`.
-- **`Nat.exists_infinite_primes`** — For every natural bound there exists a prime at least that bound. Module: `Mathlib/Data/Nat/Prime/Infinite.lean`.
-- **`Nat.fib`** — The Fibonacci numbers. Module: `Mathlib/Data/Nat/Fib/Basic.lean`.
-- **`Nat.iterate`** — Native iterates, including the identity at n=0; Function.iterate_* supplies the laws. Module: `Mathlib/Logic/Function/Iterate.lean`.
-- **`Nat.ne_one_iff_exists_prime_dvd`** — A natural number different from one has a prime divisor, including the zero case. Module: `Mathlib/Data/Nat/Prime/Basic.lean`.
-- **`Nat.sum_Icc_choose`** — Hockey-stick identity `Σ_{m=k}^{n}` C(m, k) = C(n + 1, k + 1). Module: `Mathlib/Data/Nat/Choose/Sum.lean`.
-- **`Nat.totient`** — Counts natural numbers below n coprime with n; used in the ramification/genus sums. Module: `Mathlib/Data/Nat/Totient.lean`.
-- **`NumberField.FinitePlace`** — Finite places of a number field, as normalised absolute values. Module: `Mathlib/NumberTheory/NumberField/Completion/FinitePlace.lean`.
-- **`NumberField.FinitePlace.equivHeightOneSpectrum_symm_apply_algebraMap`** — For w over v, w(x) = `v(x)^{e f}` on elements of the base field. Module: `Mathlib/NumberTheory/NumberField/Completion/FinitePlace.lean`.
-- **`NumberField.FinitePlace.hasFiniteMulSupport`** — A nonzero element has absolute value 1 at all but finitely many finite places. Module: `Mathlib/NumberTheory/NumberField/Completion/FinitePlace.lean`.
-- **`NumberField.InfinitePlace`** — The infinite places of a number field (absolute values from complex embeddings). Module: `Mathlib/NumberTheory/NumberField/InfinitePlace/Basic.lean`.
-- **`NumberField.InfinitePlace.comap_apply`** — w.comap f x = w (f x). Module: `Mathlib/NumberTheory/NumberField/InfinitePlace/Ramification.lean`.
-- **`NumberField.InfinitePlace.mult`** — Multiplicity (1 or 2) of an infinite place. Module: `Mathlib/NumberTheory/NumberField/InfinitePlace/Basic.lean`.
-- **`NumberField.absLogHeight₁`** — The absolute logarithmic Weil height of a field element (junk 0 when transcendental). Module: `Mathlib/NumberTheory/Height/NumberField.lean`.
-- **`NumberField.finite_setOfPred_logHeight₁_le`** — Northcott in a fixed number field for logHeight₁. Module: `Mathlib/NumberTheory/Height/NumberField.lean`.
-- **`NumberField.finite_setOfPred_mulHeight₁_le`** — Northcott in a fixed number field for mulHeight₁. Module: `Mathlib/NumberTheory/Height/NumberField.lean`.
-- **`NumberField.instAdmissibleAbsValues`** — The admissible family of absolute values (places with multiplicity) of a number field. Module: `Mathlib/NumberTheory/Height/NumberField.lean`.
-- **`NumberField.logHeight₁_eq`** — logHeight₁ x = `Σ_{w infinite}` mult(w) log⁺ w(x) + `Σᶠ_{v finite}` log⁺ v(x) in a number field. Module: `Mathlib/NumberTheory/Height/NumberField.lean`.
-- **`NumberField.mulHeight_eq`** — The multiplicative height of a nonzero tuple is `∏_{v|∞}(⨆` `v(x_i))^{mult v}·∏ᶠ_{v∤∞}` ⨆ v(x_i). Module: `Mathlib/NumberTheory/Height/NumberField.lean`.
-- **`NumberField.mulHeight₁_eq`** — For a number field, native multiplicative height equals the product of max(|x|,1) over infinite places with multiplicities and finite places; no division by field degree. Module: `Mathlib/NumberTheory/Height/NumberField.lean`.
-- **`NumberField.not_dvd_discr_iff_isUnramifiedIn`** — A rational prime p does not divide disc K iff p is unramified in 𝓞_K. Module: `Mathlib/NumberTheory/NumberField/Discriminant/Different.lean`.
-- **`NumberField.prod_abs_eq_one`** — Product formula: `(∏_{w|∞}` `w(x)^{mult w})·∏ᶠ_{w∤∞}` w(x) = 1 for x ≠ 0. Module: `Mathlib/NumberTheory/NumberField/ProductFormula.lean`.
-- **`NumberField.prod_archAbsVal_eq`** — The product over archimedean absolute values as a product over infinite places with multiplicities. Module: `Mathlib/NumberTheory/Height/NumberField.lean`.
-- **`NumberField.totalWeight_eq_finrank`** — totalWeight K = [K : ℚ]. Module: `Mathlib/NumberTheory/Height/NumberField.lean`.
-- **`OnePoint`** — One-point compactification (the Riemann sphere OnePoint ℂ). Module: `Mathlib/Topology/Compactification/OnePoint/Basic.lean`.
-- **`OnePoint.equivProjectivization`** — Set equivalence OnePoint K with Projectivization K (Fin 2 → K), mapping finite z to [z:1] and infinity to [1:0]. Does not provide a complex manifold or a projective-line homeomorphism. Module: `Mathlib/Topology/Compactification/OnePoint/ProjectiveLine.lean`.
-- **`Padic.nonarchimedean`** — The norm of a sum of p-adic numbers is bounded by the maximum of the summands' norms. Module: `Mathlib/NumberTheory/Padics/PadicNumbers.lean`.
-- **`Padic.norm_p_lt_one`** — For a prime p, the p-adic norm of p is strictly below 1. Module: `Mathlib/NumberTheory/Padics/PadicNumbers.lean`.
-- **`PadicComplex`** — ℂ_p, the completion of an algebraic closure of ℚ_p (the field C_v at a finite place over p). Module: `Mathlib/NumberTheory/Padics/Complex.lean`.
-- **`PadicInt`** — The p-adic integers ℤ_[p]. Module: `Mathlib/NumberTheory/Padics/PadicIntegers.lean`.
-- **`PadicInt.isUnit_iff`** — A p-adic integer is a unit iff its norm equals one. Module: `Mathlib/NumberTheory/Padics/PadicIntegers.lean`.
-- **`PadicInt.ker_toZMod`** — The kernel of reduction ℤ_p → ZMod p is the maximal ideal. Module: `Mathlib/NumberTheory/Padics/RingHoms.lean`.
-- **`PadicInt.mem_nonunits`** — A p-adic integer is a nonunit iff its norm is strictly less than one. Module: `Mathlib/NumberTheory/Padics/PadicIntegers.lean`.
-- **`PadicInt.norm_intCast_eq_padic_norm`** — The norm of an integer cast to ℤ_p equals its norm after casting to ℚ_p. Module: `Mathlib/NumberTheory/Padics/PadicIntegers.lean`.
-- **`PadicInt.norm_le_one`** — Every p-adic integer has norm at most one. Module: `Mathlib/NumberTheory/Padics/PadicIntegers.lean`.
-- **`Perfect.exists_nat_bool_injection`** — Every nonempty perfect subset of a complete metric space receives a continuous injection from ℕ → Bool. Module: `Mathlib/Topology/MetricSpace/Perfect.lean`.
-- **`PerfectSpace.univ_perfect`** — The universe of a perfect space is a closed perfect set. Module: `Mathlib/Topology/Perfect.lean`.
-- **`Pi.topologicalSpace`** — Product topology on a Pi type. Module: `Mathlib/Topology/Constructions.lean`.
-- **`Polynomial`** — Univariate polynomials. Module: `Mathlib/Algebra/Polynomial/Basic.lean`.
-- **`Polynomial.C_leadingCoeff_mul_prod_multiset_X_sub_C`** — A polynomial with natDegree roots is lead · ∏ (X − r). Module: `Mathlib/Algebra/Polynomial/Roots.lean`.
-- **`Polynomial.Gal`** — The automorphism group of the native splitting field over the coefficient field, without a separability or irreducibility assumption in its definition. Module: `Mathlib/FieldTheory/PolynomialGaloisGroup.lean`, definition at line 56.
-- **`Polynomial.Gal.card_of_separable`** — Nat.card p.Gal = finrank F p.SplittingField for separable p. Module: `Mathlib/FieldTheory/PolynomialGaloisGroup.lean`.
-- **`Polynomial.Gal.galAction`** — The action of p.Gal on the roots of p in a splitting extension. Module: `Mathlib/FieldTheory/PolynomialGaloisGroup.lean`.
-- **`Polynomial.Gal.galActionHom`** — The permutation representation Gal(p) →* Perm (p.rootSet E). Module: `Mathlib/FieldTheory/PolynomialGaloisGroup.lean`.
-- **`Polynomial.Gal.galActionHom_injective`** — galActionHom is injective. Module: `Mathlib/FieldTheory/PolynomialGaloisGroup.lean`.
-- **`Polynomial.Gal.galActionHom_restrict`** — galActionHom p E (restrict p E ϕ) x = ϕ x for ϕ ∈ Gal(E/F). Module: `Mathlib/FieldTheory/PolynomialGaloisGroup.lean`.
-- **`Polynomial.Gal.galAction_isPretransitive`** — For irreducible p the Galois action on the roots is transitive. Module: `Mathlib/FieldTheory/PolynomialGaloisGroup.lean`.
-- **`Polynomial.Gal.restrict`** — Restriction Gal(E/F) →* p.Gal when p splits in E. Module: `Mathlib/FieldTheory/PolynomialGaloisGroup.lean`.
-- **`Polynomial.Gal.restrict_surjective`** — For E/F normal, restriction Gal(E/F) → p.Gal is surjective. Module: `Mathlib/FieldTheory/PolynomialGaloisGroup.lean`.
-- **`Polynomial.Monic`** — monic polynomials Module: `Mathlib/Algebra/Polynomial/Degree/Defs.lean`.
-- **`Polynomial.Monic.comp`** — a composite of monic polynomials is monic Module: `Mathlib/Algebra/Polynomial/Monic.lean`.
-- **`Polynomial.Separable.of_dvd`** — A divisor of a separable polynomial is separable. Module: `Mathlib/FieldTheory/Separable.lean`.
-- **`Polynomial.Splits`** — The predicate that a polynomial splits (factors into linear factors) over its coefficient field. Module: `Mathlib/Algebra/Polynomial/Splits.lean`.
-- **`Polynomial.Splits.eval_eq_prod_roots_of_monic`** — For monic f that splits, f.eval x = `∏_{roots r}` (x − r). Module: `Mathlib/Algebra/Polynomial/Splits.lean`.
-- **`Polynomial.aeval`** — Evaluation of a polynomial at an element of an algebra, as an algebra map. Module: `Mathlib/Algebra/Polynomial/AlgebraMap.lean`.
-- **`Polynomial.aeval_algHom_apply`** — aeval (f x) p = f (aeval x p) for an algebra homomorphism f. Module: `Mathlib/Algebra/Polynomial/AlgebraMap.lean`.
-- **`Polynomial.aeval_homogenize_X_one`** — Dehomogenising homogenize p n at X₁ = 1 returns p when deg p ≤ n. Module: `Mathlib/Algebra/Polynomial/Homogenize.lean`.
-- **`Polynomial.card_rootSet_eq_natDegree`** — A separable polynomial that splits in K has natDegree many roots in K. Module: `Mathlib/FieldTheory/Separable.lean`.
-- **`Polynomial.card_roots'`** — A polynomial has at most natDegree roots. Module: `Mathlib/Algebra/Polynomial/Roots.lean`.
-- **`Polynomial.coeToPowerSeries.ringHom`** — polynomials as power series Module: `Mathlib/RingTheory/PowerSeries/Basic.lean`.
-- **`Polynomial.coeff`** — Native coefficient finitely supported function, used over the generic integer coefficient ring and its reductions. Module: `Mathlib/Algebra/Polynomial/Basic.lean`.
-- **`Polynomial.comp`** — Polynomial substitution over a semiring; iterate the function H↦H.comp f for composition powers, rather than ring powers. Module: `Mathlib/Algebra/Polynomial/Eval/Defs.lean`.
-- **`Polynomial.count_roots`** — the multiplicity of a in the root multiset is rootMultiplicity a Module: `Mathlib/Algebra/Polynomial/Roots.lean`.
-- **`Polynomial.cyclotomic`** — Cyclotomic polynomials Φ_m. Module: `Mathlib/RingTheory/Polynomial/Cyclotomic/Basic.lean`.
-- **`Polynomial.derivative`** — The derivative of a univariate polynomial. Module: `Mathlib/Algebra/Polynomial/Derivative.lean`.
-- **`Polynomial.derivative_comp`** — Chain rule for polynomial composition. Module: `Mathlib/Algebra/Polynomial/Derivative.lean`.
-- **`Polynomial.derivative_map`** — Formal differentiation commutes with any coefficient-ring homomorphism. Module: `Mathlib/Algebra/Polynomial/Derivative.lean`.
-- **`Polynomial.discr`** — The discriminant of a polynomial (Sylvester determinant with sign; standard normalization). Module: `Mathlib/RingTheory/Polynomial/Resultant/Basic.lean`.
-- **`Polynomial.divByMonic`** — division by a monic polynomial over any commutative ring Module: `Mathlib/Algebra/Polynomial/Div.lean`.
-- **`Polynomial.eq_zero_of_infinite_isRoot`** — A polynomial with infinitely many roots is zero. Module: `Mathlib/Algebra/Polynomial/Roots.lean`.
-- **`Polynomial.eval`** — Evaluation of a polynomial in a semiring at an element; used for the explicit Morton equations. Module: `Mathlib/Algebra/Polynomial/Eval/Defs.lean`.
-- **`Polynomial.eval_homogenize`** — homogenize p n (x) = p(x₀/x₁) x₁^n for x₁ ≠ 0. Module: `Mathlib/Algebra/Polynomial/Homogenize.lean`.
-- **`Polynomial.eval_map_apply`** — Evaluating a coefficient-mapped polynomial at a mapped argument equals mapping the original evaluation. Module: `Mathlib/Algebra/Polynomial/Eval/Defs.lean`.
-- **`Polynomial.eval₂RingHom`** — evaluation as a ring homomorphism (specialising c) Module: `Mathlib/Algebra/Polynomial/Eval/Defs.lean`.
-- **`Polynomial.exists_mul_add_mul_eq_C_resultant`** — For formal degrees m,n bounding the polynomial degrees and m ≠ 0 or n ≠ 0: f p + g q = `C(Res_{m,n}(f,g)),` with deg p < n and deg q < m. No such assertion at m = n = 0. Module: `Mathlib/RingTheory/Polynomial/Resultant/Basic.lean`.
-- **`Polynomial.homogenize`** — Homogenisation of a univariate polynomial to a binary form of given degree. Module: `Mathlib/Algebra/Polynomial/Homogenize.lean`.
-- **`Polynomial.homogenize_C`** — homogenize (C c) n = C c · X₁^n. Module: `Mathlib/Algebra/Polynomial/Homogenize.lean`.
-- **`Polynomial.homogenize_eq_of_isHomogeneous`** — A form of degree n is the homogenisation of its dehomogenisation. Module: `Mathlib/Algebra/Polynomial/Homogenize.lean`.
-- **`Polynomial.homogenize_finsetProd`** — Homogenisation of a product. Module: `Mathlib/Algebra/Polynomial/Homogenize.lean`.
-- **`Polynomial.homogenize_mul`** — homogenize (p q) (m + n) = homogenize p m · homogenize q n. Module: `Mathlib/Algebra/Polynomial/Homogenize.lean`.
-- **`Polynomial.irreducible_comp`** — Capelli (one direction, monic case): f irreducible and g − α irreducible over K(α) imply f ∘ g irreducible. Module: `Mathlib/FieldTheory/IntermediateField/Adjoin/Basic.lean`.
-- **`Polynomial.isHomogeneous_homogenize`** — homogenize p n is homogeneous of degree n. Module: `Mathlib/Algebra/Polynomial/Homogenize.lean`.
-- **`Polynomial.iterate_comp_eval`** — evaluating the iterated composite is iterating the evaluation Module: `Mathlib/Algebra/Polynomial/Eval/Degree.lean`.
-- **`Polynomial.iterate_comp_eval₂`** — eval₂ of an iterated composition: eval₂ f t (p.comp^[k] q) = (fun x ↦ eval₂ f x p)^[k] (eval₂ f t q). Module: `Mathlib/Algebra/Polynomial/Eval/Degree.lean`.
-- **`Polynomial.map_divByMonic`** — division by a monic polynomial commutes with ring homomorphisms Module: `Mathlib/Algebra/Polynomial/Div.lean`.
-- **`Polynomial.map_map`** — Successive coefficient maps compose; used to compare the two reductions of a specialized polynomial. Module: `Mathlib/Algebra/Polynomial/Eval/Coeff.lean`.
-- **`Polynomial.mem_rootSet`** — Membership in rootSet: p ≠ 0 and aeval x p = 0. Module: `Mathlib/Algebra/Polynomial/Roots.lean`.
-- **`Polynomial.natDegree_X_pow`** — natDegree (X^n) = n. Module: `Mathlib/Algebra/Polynomial/Degree/Defs.lean`.
-- **`Polynomial.natDegree_iterate_comp`** — degree of iterated composites Module: `Mathlib/Algebra/Polynomial/Degree/Lemmas.lean`.
-- **`Polynomial.natDegree_map_eq_of_injective`** — Injective coefficient maps preserve natural degree; needed for actual-degree resultants. Module: `Mathlib/Algebra/Polynomial/Degree/Lemmas.lean`.
-- **`Polynomial.natDegree_map_of_leadingCoeff_ne_zero`** — A specialization preserves natural degree when the image of the leading coefficient is nonzero. Module: `Mathlib/Algebra/Polynomial/Eval/Degree.lean`.
-- **`Polynomial.natDegree_mul_le`** — natDegree (p q) ≤ natDegree p + natDegree q. Module: `Mathlib/Algebra/Polynomial/Degree/Defs.lean`.
-- **`Polynomial.nodup_roots`** — A separable polynomial has no repeated roots. Module: `Mathlib/FieldTheory/Separable.lean`.
-- **`Polynomial.nodup_roots_iff_of_splits`** — For f ≠ 0 splitting over a field: f.roots.Nodup ↔ f.Separable. Module: `Mathlib/FieldTheory/Separable.lean`.
-- **`Polynomial.prod_cyclotomic_eq_X_pow_sub_one`** — `∏_{i | n}` Φ_i = X^n − 1. Module: `Mathlib/RingTheory/Polynomial/Cyclotomic/Basic.lean`.
-- **`Polynomial.resultant`** — The resultant with formal degrees m, n as the Sylvester determinant. Module: `Mathlib/RingTheory/Polynomial/Resultant/Basic.lean`.
-- **`Polynomial.resultant_C_mul_left`** — Res(C r · f, g) = r^n Res(f, g). Module: `Mathlib/RingTheory/Polynomial/Resultant/Basic.lean`.
-- **`Polynomial.resultant_C_mul_right`** — Res(f, C r · g) = r^m Res(f, g). Module: `Mathlib/RingTheory/Polynomial/Resultant/Basic.lean`.
-- **`Polynomial.resultant_X_pow_left`** — `Res_{m,n}(X^m,` g) = g(0)^m. Module: `Mathlib/RingTheory/Polynomial/Resultant/Basic.lean`.
-- **`Polynomial.resultant_add_left_deg`** — Raising the formal degree of the first argument multiplies by ((−1)^n g_n)^k. Module: `Mathlib/RingTheory/Polynomial/Resultant/Basic.lean`.
-- **`Polynomial.resultant_add_right_deg`** — Raising the formal degree of the second argument multiplies by f_m^k. Module: `Mathlib/RingTheory/Polynomial/Resultant/Basic.lean`.
-- **`Polynomial.resultant_comm`** — `Res_{m,n}(f,` g) = `(−1)^{mn}` `Res_{n,m}(g,` f). Module: `Mathlib/RingTheory/Polynomial/Resultant/Basic.lean`.
-- **`Polynomial.resultant_deriv`** — resultant f f' = `(−1)^{n(n−1)/2}` · lc f · discr f for deg f > 0. Module: `Mathlib/RingTheory/Polynomial/Resultant/Basic.lean`.
-- **`Polynomial.resultant_eq_prod_eval`** — For f splitting over a domain: resultant f g = lc(f)^n `∏_{roots r of f}` g(r). Module: `Mathlib/RingTheory/Polynomial/Resultant/Basic.lean`.
-- **`Polynomial.resultant_eq_zero_iff`** — Over a field, the resultant vanishes iff (not both zero and) the polynomials are not coprime. Module: `Mathlib/RingTheory/Polynomial/Resultant/Basic.lean`.
-- **`Polynomial.resultant_map_map`** — The resultant commutes with ring homomorphisms. Module: `Mathlib/RingTheory/Polynomial/Resultant/Basic.lean`.
-- **`Polynomial.resultant_mul_left`** — Res(f₁ f₂, g) = Res(f₁, g) Res(f₂, g) at actual degrees. Module: `Mathlib/RingTheory/Polynomial/Resultant/Basic.lean`.
-- **`Polynomial.resultant_mul_right`** — Res(f, g₁ g₂) = Res(f, g₁) Res(f, g₂) at actual degrees. Module: `Mathlib/RingTheory/Polynomial/Resultant/Basic.lean`.
-- **`Polynomial.resultant_ne_zero`** — Over a domain, coprime polynomials have nonzero resultant at their actual degrees. Applied only after passage to the fraction field. Module: `Mathlib/RingTheory/Polynomial/Resultant/Basic.lean`.
-- **`Polynomial.resultant_succ_left_deg`** — Res(f, g, m + 1, n) = (−1)^n g_n Res(f, g, m, n). Module: `Mathlib/RingTheory/Polynomial/Resultant/Basic.lean`.
-- **`Polynomial.resultant_zero_left`** — `Res_{m,n}(0,` g) = 0^n g(0)^m. Module: `Mathlib/RingTheory/Polynomial/Resultant/Basic.lean`.
-- **`Polynomial.rootMultiplicity`** — root multiplicity (orders of binary forms at finite points) Module: `Mathlib/Algebra/Polynomial/Div.lean`.
-- **`Polynomial.rootSet`** — The set of roots of p (mapped) in an algebra, as a Set. Module: `Mathlib/Algebra/Polynomial/Roots.lean`.
-- **`Polynomial.roots`** — The multiset of roots of a polynomial. Module: `Mathlib/Algebra/Polynomial/Roots.lean`.
-- **`Polynomial.roots_mul`** — Roots of a product. Module: `Mathlib/Algebra/Polynomial/Roots.lean`.
-- **`Polynomial.separable_def'`** — Separability is the existence of a polynomial Bézout identity with scalar one in the specified coefficient ring. Module: `Mathlib/FieldTheory/Separable.lean`.
-- **`Polynomial.sub_dvd_eval_sub`** — a − b divides f(a) − f(b) over a commutative ring. Module: `Mathlib/Algebra/Polynomial/Div.lean`.
-- **`Polynomial.sylvester`** — The Sylvester matrix with formal degrees (its column convention fixes the orientation). Module: `Mathlib/RingTheory/Polynomial/Resultant/Basic.lean`.
-- **`Polynomial.tendstoCofinite_of_natDegree_ne_zero`** — A nonconstant polynomial over a domain has finite fibres; hence preimages of finite intervals are finite. Module: `Mathlib/Algebra/Polynomial/Roots.lean`.
-- **`Polynomial.toTupleMvPolynomial`** — The pair (homogenize p (deg p), `X₁^{deg p})` of a polynomial map. Module: `Mathlib/Algebra/Polynomial/Homogenize.lean`.
-- **`PowerBasis.algHom_ext`** — Two algebra homomorphisms agree if their values on the power-basis generator agree. Module: `Mathlib/RingTheory/PowerBasis.lean`.
-- **`PowerBasis.exists_eq_aeval`** — Every element is a polynomial in the power-basis generator of degree below its dimension. Module: `Mathlib/RingTheory/PowerBasis.lean`.
-- **`PowerBasis.ofAdjoinSimpleEqTop`** — An integral generator of the entire field gives a power basis. Module: `Mathlib/FieldTheory/IntermediateField/Adjoin/Basic.lean`.
-- **`PowerSeries`** — Formal power series in one variable. Module: `Mathlib/RingTheory/PowerSeries/Basic.lean`.
-- **`PowerSeries.HasSubst.of_constantCoeff_zero'`** — a series with zero constant term can be substituted Module: `Mathlib/RingTheory/PowerSeries/Substitution.lean`.
-- **`PowerSeries.coeff`** — coefficients of power series (the multiplier as linear coefficient) Module: `Mathlib/RingTheory/PowerSeries/Basic.lean`.
-- **`PowerSeries.order`** — the order of a power series (multiplicities at a fixed point) Module: `Mathlib/RingTheory/PowerSeries/Order.lean`.
-- **`PowerSeries.order_mul`** — order is additive in products over a domain Module: `Mathlib/RingTheory/PowerSeries/Order.lean`.
-- **`PowerSeries.subst`** — substitution of power series (iterating germs) Module: `Mathlib/RingTheory/PowerSeries/Substitution.lean`.
-- **`PowerSeries.substAlgHom`** — substitution is an algebra homomorphism Module: `Mathlib/RingTheory/PowerSeries/Substitution.lean`.
-- **`ProfiniteGrp.of`** — The profinite group attached to a compact totally disconnected topological group. Module: `Mathlib/Topology/Algebra/Category/ProfiniteGrp/Basic.lean`.
-- **`Projectivization`** — Projective space ℙ K V of lines in a vector space. Module: `Mathlib/LinearAlgebra/Projectivization/Basic.lean`.
-- **`Projectivization.PGL.mk_smul_mk`** — The action of PGL(ι, K) on ℙ K (ι → K) on representatives. Module: `Mathlib/LinearAlgebra/Projectivization/Action.lean`.
-- **`Projectivization.lift`** — Functions on ℙ K V from scale-invariant functions on V ∖ 0. Module: `Mathlib/LinearAlgebra/Projectivization/Basic.lean`.
-- **`Projectivization.logHeight`** — The relative logarithmic height of a point of projective space over a field with admissible absolute values. Module: `Mathlib/NumberTheory/Height/Projectivization.lean`.
-- **`Projectivization.logHeight_mk`** — logHeight [x] = `Height.logHeight` x. Module: `Mathlib/NumberTheory/Height/Projectivization.lean`.
-- **`Projectivization.logHeight_nonneg`** — The projective height is nonnegative. Module: `Mathlib/NumberTheory/Height/Projectivization.lean`.
-- **`Projectivization.mk`** — The point [v] of ℙ K V. Module: `Mathlib/LinearAlgebra/Projectivization/Basic.lean`.
-- **`Projectivization.mk_eq_mk_iff`** — [v] = [w] iff v = a • w for a unit a. Module: `Mathlib/LinearAlgebra/Projectivization/Basic.lean`.
-- **`RatFunc`** — For a commutative ring K, rational functions are carried by FractionRing(K[X]); used over fields. Module: `Mathlib/FieldTheory/RatFunc/Defs.lean`.
-- **`RatFunc.denom`** — The monic denominator of a rational function in lowest terms. Module: `Mathlib/FieldTheory/RatFunc/Basic.lean`.
-- **`RatFunc.finrank_eq_max_natDegree`** — For f in K(X), [K(X):K(f)] = max(deg num f, deg denom f); for a nonconstant polynomial f this is deg f, so ℂ(z) is a finite extension of ℂ(f(z)). Module: `Mathlib/FieldTheory/RatFunc/IntermediateField.lean`.
-- **`RatFunc.inftyValuation`** — The valuation at infinity of K(X). Module: `Mathlib/FieldTheory/RatFunc/Valuation.lean`.
-- **`RatFunc.intDegree`** — deg num − deg denom of a rational function (not the height). Module: `Mathlib/FieldTheory/RatFunc/Degree.lean`.
-- **`RatFunc.num`** — The numerator of a rational function in lowest terms. Module: `Mathlib/FieldTheory/RatFunc/Basic.lean`.
-- **`Real.log`** — The real logarithm. Module: `Mathlib/Analysis/SpecialFunctions/Log/Basic.lean`.
-- **`Real.posLog`** — log⁺ r = max 0 (log r). Module: `Mathlib/Analysis/SpecialFunctions/Log/PosLog.lean`.
-- **`RealRMK.integral_rieszMeasure`** — The representing measure integrates each compactly supported continuous real function to the value of the positive functional. Module: `Mathlib/MeasureTheory/Integral/RieszMarkovKakutani/Real.lean`.
-- **`RealRMK.rieszMeasure`** — Radon measure of a positive linear functional on compactly supported continuous real functions of a locally compact Hausdorff Borel space. Compact sphere continuous functions identify with this space. Module: `Mathlib/MeasureTheory/Integral/RieszMarkovKakutani/Real.lean`.
-- **`SeparableClosure`** — The separable closure of a field inside its algebraic closure. Module: `Mathlib/FieldTheory/IsSepClosed.lean`.
-- **`Set.Finite`** — Finite sets (finitely many indices in a closed subset). Module: `Mathlib/Basic/Finite/Defs.lean`.
-- **`Set.Finite.subset`** — Subsets of finite sets are finite. Module: `Mathlib/Data/Set/Finite/Basic.lean`.
-- **`Set.Infinite`** — Infinite sets. Module: `Mathlib/Basic/Finite/Defs.lean`.
-- **`Set.ncard`** — Cardinality of a set as a natural number. Module: `Mathlib/Data/Set/Card.lean`.
-- **`Subgroup.FiniteIndex`** — The class of subgroups of finite index. Module: `Mathlib/GroupTheory/Index.lean`.
-- **`Subgroup.index`** — The index of a subgroup (0 if infinite). Module: `Mathlib/GroupTheory/Index.lean`.
-- **`Sylow.mulEquivIteratedWreathProduct`** — A Sylow p-subgroup of Perm α with Nat.card α = pⁿ is isomorphic to IteratedWreathProduct G n for |G| = p. Module: `Mathlib/GroupTheory/RegularWreathProduct.lean`.
-- **`TendstoUniformly`** — Uniform convergence of a sequence of functions. Module: `Mathlib/Topology/UniformSpace/UniformConvergence.lean`.
-- **`TendstoUniformly.continuous`** — A uniform limit of continuous functions is continuous. Module: `Mathlib/Topology/UniformSpace/UniformApproximation.lean`.
-- **`UniformEquicontinuousOn`** — One entourage bound simultaneously for all iterates and pairs in a specified neighborhood; stronger than pointwise EquicontinuousAt. Module: `Mathlib/Topology/UniformSpace/Equicontinuity.lean`.
-- **`UniqueFactorizationMonoid.factors`** — The multiset of irreducible factors (with multiplicity) in a unique factorization monoid. Module: `Mathlib/RingTheory/UniqueFactorizationDomain/Defs.lean`.
-- **`ValuationRing`** — Valuation rings (local, the divisibility order is total). Module: `Mathlib/RingTheory/Valuation/ValuationRing.lean`.
-- **`WeierstrassCurve.Affine.Point.add_of_X_ne`** — The addition formula for two affine points with distinct x-coordinates. Module: `Mathlib/AlgebraicGeometry/EllipticCurve/Affine/Point.lean`.
-- **`WeierstrassCurve.Affine.Point.xRep`** — The x-coordinate map E(F) → ℙ¹ as a representative vector: O ↦ ![1, 0], (x, y) ↦ ![x, 1]. Module: `Mathlib/AlgebraicGeometry/EllipticCurve/Affine/Point.lean`.
-- **`WeierstrassCurve.Affine.Y_eq_of_X_eq`** — Two points on the curve with equal x-coordinates have equal or opposite y-coordinates. Module: `Mathlib/AlgebraicGeometry/EllipticCurve/Affine/Formula.lean`.
-- **`WeierstrassCurve.Affine.addX`** — The x-coordinate of a sum: ℓ² + a₁ℓ − a₂ − x₁ − x₂. Module: `Mathlib/AlgebraicGeometry/EllipticCurve/Affine/Formula.lean`.
-- **`WeierstrassCurve.Affine.equation_iff_nonsingular_of_Δ_ne_zero`** — When Δ ≠ 0, every point on the curve is nonsingular. Module: `Mathlib/AlgebraicGeometry/EllipticCurve/Affine/Basic.lean`.
-- **`WeierstrassCurve.Affine.negY`** — The y-coordinate of the negative of a point. Module: `Mathlib/AlgebraicGeometry/EllipticCurve/Affine/Formula.lean`.
-- **`WeierstrassCurve.Affine.slope`** — The slope of the line through two points (tangent when equal). Module: `Mathlib/AlgebraicGeometry/EllipticCurve/Affine/Formula.lean`.
-- **`WeierstrassCurve.IsElliptic`** — Weierstrass curves with invertible discriminant. Module: `Mathlib/AlgebraicGeometry/EllipticCurve/Weierstrass.lean`.
-- **`WeierstrassCurve.Jacobian.Point.toAffineAddEquiv`** — The group isomorphism between Jacobian and affine points (used to transport n • P = 0). Module: `Mathlib/AlgebraicGeometry/EllipticCurve/Jacobian/Point.lean`.
-- **`WeierstrassCurve.b₂`** — The invariant b₂ = a₁² + 4a₂. Module: `Mathlib/AlgebraicGeometry/EllipticCurve/Weierstrass.lean`.
-- **`WeierstrassCurve.b₄`** — The invariant b₄ = 2a₄ + a₁a₃. Module: `Mathlib/AlgebraicGeometry/EllipticCurve/Weierstrass.lean`.
-- **`WeierstrassCurve.j`** — The j-invariant. Module: `Mathlib/AlgebraicGeometry/EllipticCurve/Weierstrass.lean`.
-- **`WeierstrassCurve.leadingCoeff_Φ`** — Φ_n is monic. Module: `Mathlib/AlgebraicGeometry/EllipticCurve/DivisionPolynomial/Degree.lean`.
-- **`WeierstrassCurve.map_Φ`** — Φ_n commutes with ring homomorphisms (base change / specialisation of coefficients). Module: `Mathlib/AlgebraicGeometry/EllipticCurve/DivisionPolynomial/Basic.lean`.
-- **`WeierstrassCurve.map_ΨSq`** — ΨSq_n commutes with ring homomorphisms. Module: `Mathlib/AlgebraicGeometry/EllipticCurve/DivisionPolynomial/Basic.lean`.
-- **`WeierstrassCurve.natDegree_Φ`** — deg Φ_n = n². Module: `Mathlib/AlgebraicGeometry/EllipticCurve/DivisionPolynomial/Degree.lean`.
-- **`WeierstrassCurve.natDegree_ΨSq_le`** — deg ΨSq_n ≤ n² − 1. Module: `Mathlib/AlgebraicGeometry/EllipticCurve/DivisionPolynomial/Degree.lean`.
-- **`WeierstrassCurve.Δ`** — The discriminant of a Weierstrass curve. Module: `Mathlib/AlgebraicGeometry/EllipticCurve/Weierstrass.lean`.
-- **`WeierstrassCurve.Φ`** — The univariate division polynomials Φ_n (numerator of x(nP)). Module: `Mathlib/AlgebraicGeometry/EllipticCurve/DivisionPolynomial/Basic.lean`.
-- **`WeierstrassCurve.Φ_neg`** — `Φ_{−n}` = Φ_n. Module: `Mathlib/AlgebraicGeometry/EllipticCurve/DivisionPolynomial/Basic.lean`.
-- **`WeierstrassCurve.Φ_two`** — Φ_2 = X⁴ − b₄X² − 2b₆X − b₈. Module: `Mathlib/AlgebraicGeometry/EllipticCurve/DivisionPolynomial/Basic.lean`.
-- **`WeierstrassCurve.ΨSq`** — The univariate polynomials ΨSq_n congruent to ψ_n² (denominator of x(nP)). Module: `Mathlib/AlgebraicGeometry/EllipticCurve/DivisionPolynomial/Basic.lean`.
-- **`WeierstrassCurve.ΨSq_neg`** — `ΨSq_{−n}` = ΨSq_n. Module: `Mathlib/AlgebraicGeometry/EllipticCurve/DivisionPolynomial/Basic.lean`.
-- **`WeierstrassCurve.ΨSq_two`** — ΨSq_2 = Ψ₂Sq. Module: `Mathlib/AlgebraicGeometry/EllipticCurve/DivisionPolynomial/Basic.lean`.
-- **`WeierstrassCurve.Ψ₂Sq`** — Ψ₂Sq = 4X³ + b₂X² + 2b₄X + b₆. Module: `Mathlib/AlgebraicGeometry/EllipticCurve/DivisionPolynomial/Basic.lean`.
-- **`WeierstrassCurve.ψ`** — The bivariate division polynomials ψ_n. Module: `Mathlib/AlgebraicGeometry/EllipticCurve/DivisionPolynomial/Basic.lean`.
-- **`X_pow_sub_C_irreducible_iff_of_prime`** — For p prime, X^p − C a is irreducible iff a is not a p-th power. Module: `Mathlib/FieldTheory/KummerPolynomial.lean`.
-- **`ZMod`** — The integers modulo n. Module: `Mathlib/Data/ZMod/Defs.lean`.
-- **`ZMod.intCast_zmod_eq_zero_iff_dvd`** — An integer reduces to zero in ZMod p exactly when p divides it. Module: `Mathlib/Data/ZMod/Basic.lean`.
-- **`add_pow_char_pow`** — Frobenius: (x + `y)^{p^n}` = `x^{p^n}` + `y^{p^n}` in characteristic p. Module: `Mathlib/Algebra/CharP/Lemmas.lean`.
-- **`cauchySeq_of_le_geometric`** — A sequence with geometrically decaying steps is Cauchy (Tate telescoping). Module: `Mathlib/Analysis/SpecificLimits/Basic.lean`.
-- **`circleAverage_log_norm_sub_const_eq_log_radius_add_posLog`** — Jensen's formula for a circle: circleAverage (log ‖· − a‖) c R = log R + log⁺(R⁻¹‖c − a‖), i.e. log max(R, ‖c − a‖) for R > 0. Module: `Mathlib/Analysis/SpecialFunctions/Integrals/PosLog.lean`.
-- **`closure_of_isSwap_of_isPretransitive`** — A transitive permutation group generated by transpositions is the whole symmetric group. Module: `Mathlib/GroupTheory/Perm/ClosureSwap.lean`.
-- **`dist_le_of_le_geometric_of_tendsto₀`** — Distance from the first term to the limit is at most C/(1 − r). Module: `Mathlib/Analysis/SpecificLimits/Basic.lean`.
-- **`exists_finset_isTranscendenceBasis`** — A FinTrdeg field extension has a finite transcendence basis; EssFiniteType supplies FinTrdeg. Module: `Mathlib/FieldTheory/FinTrdeg.lean`.
-- **`exists_isTranscendenceBasis`** — A transcendence basis of a faithful commutative algebra as an actual subset, including the empty case. Module: `Mathlib/RingTheory/AlgebraicIndependent/TranscendenceBasis.lean`.
-- **`finite_of_finite_type_of_isJacobsonRing`** — Zariski's lemma: a field of finite type over a Jacobson ring is finite over it. Module: `Mathlib/RingTheory/Jacobson/Ring.lean`.
-- **`geom_sum_eq`** — The geometric sum formula. Module: `Mathlib/Algebra/Field/GeomSum.lean`.
-- **`hensels_lemma`** — If ‖F(a)‖ < ‖F′(a)‖² in ℤ_p, produces a root, strict closeness, equality of derivative norms and local uniqueness. Module: `Mathlib/NumberTheory/Padics/Hensel.lean`.
-- **`isOfFinOrder_iff_pow_eq_one`** — Finite order iff some positive power is 1. Module: `Mathlib/GroupTheory/OrderOfElement.lean`.
-- **`iteratedWreathToPermHom`** — The permutation representation of IteratedWreathProduct G n on Fin n → G (recursion through `Fin.succFunEquiv`, top group on the last coordinate). Module: `Mathlib/GroupTheory/RegularWreathProduct.lean`.
-- **`krullTopology`** — The Krull topology on Gal(L/K). Module: `Mathlib/FieldTheory/KrullTopology.lean`.
-- **`krullTopology_t2`** — The Krull topology on Gal(L/K) is Hausdorff for integral L/K. Module: `Mathlib/FieldTheory/KrullTopology.lean`.
-- **`le_of_tendsto`** — Closed order conditions pass to limits. Module: `Mathlib/Topology/Order/OrderClosed.lean`.
-- **`minpoly`** — minimal polynomials (degree of a point over the base field) Module: `Mathlib/FieldTheory/Minpoly/Basic.lean`.
-- **`mulAutArrow`** — The action of a group on A → M by precomposition, as a hom to MulAut (A → M); the twisting of TauCeti.WreathProduct. Module: `Mathlib/Algebra/Group/Action/End.lean`.
-- **`multiplicity`** — the multiplicity of a divisor (orders of binary forms at points) Module: `Mathlib/RingTheory/Multiplicity.lean`.
-- **`orderOf`** — Multiplicative order of an element (0 for infinite order). Module: `Mathlib/GroupTheory/OrderOfElement.lean`.
-- **`orderOf_dvd_iff_pow_eq_one`** — orderOf x ∣ n iff x^n = 1. Module: `Mathlib/GroupTheory/OrderOfElement.lean`.
-- **`padicValNat`** — p-adic valuation of naturals (vₚ in the multiplicity profile) Module: `Mathlib/Data/Nat/MaxPowDiv.lean`.
-- **`padicValNat_zero_left`** — padicValNat 0 n = 0 (characteristic zero case of the profile) Module: `Mathlib/Data/Nat/PadicValNat.lean`.
-- **`padicValRat`** — p-adic valuation of rationals (denominators of preperiodic points) Module: `Mathlib/NumberTheory/Padics/PadicVal/Basic.lean`.
-- **`padicValRat.pow`** — padicValRat p (q ^ k) = k * padicValRat p q. Module: `Mathlib/NumberTheory/Padics/PadicVal/Basic.lean`.
-- **`perfectSpace_of_module`** — A nontrivial topological module over a nontrivially normed field has no isolated points. Module: `Mathlib/Topology/Algebra/Module/PerfectSpace.lean`.
-- **`ringChar`** — the characteristic of a field Module: `Mathlib/Algebra/CharP/Defs.lean`.
-- **`rootsOfUnity`** — The group of k-th roots of unity. Module: `Mathlib/RingTheory/RootsOfUnity/Basic.lean`.
-- **`smul_iterate`** — (a • ·)^[n] = (a^n • ·). Module: `Mathlib/Algebra/Group/Action/Defs.lean`.
-- **`summable_geometric_of_lt_one`** — Summability of the geometric series Σ rⁿ for 0 ≤ r < 1. Module: `Mathlib/Analysis/SpecificLimits/Basic.lean`.
-- **`tendsto_nhds_unique`** — Uniqueness of limits in a Hausdorff space. Module: `Mathlib/Topology/Separation/Hausdorff.lean`.
-- **`tendsto_pow_atTop_nhds_zero_of_lt_one`** — r^n → 0 for 0 ≤ r < 1. Module: `Mathlib/Analysis/SpecificLimits/Basic.lean`.
-- **`tendsto_pow_atTop_nhds_zero_of_norm_lt_one`** — Powers of a norm-below-one element in a seminormed ring tend to zero. Module: `Mathlib/Analysis/SpecificLimits/Normed.lean`.
-- **`trace_eq_sum_embeddings`** — For a finite separable field extension L/K and an algebraically closed K-algebra field E, the image of `Tr_{L/K}(x)` in E is the sum of σ(x) over the K-embeddings σ : L → E (root namespace). Module: `Mathlib/RingTheory/Trace/Basic.lean`.
-- **`uniformSpaceOfCompactR1`** — The unique compatible uniformity of a compact Hausdorff carrier, used locally on OnePoint C; it is not a global instance. Module: `Mathlib/Topology/UniformSpace/OfCompactT2.lean`.
-- **`AdjoinRoot.norm_mk_eq_resultant`** — Tau Ceti's extension of the resultant: the norm in R[X]/(g) as a resultant. Module: `TauCeti/RingTheory/Polynomial/Resultant/AdjoinRoot.lean`.
-- **`Polynomial.Monic.isSquare_discr_iff_range_le_alternatingGroup`** — The discriminant test: for monic separable f in characteristic ≠ 2, discr f is a square iff the Galois image is in the alternating group. Module: `TauCeti/FieldTheory/GaloisGroups/Discriminant/Basic.lean`.
-- **`Polynomial.Monic.discr_ne_zero_iff`** — Over a field, a monic polynomial has nonzero discriminant exactly when it is separable. Module: `TauCeti/RingTheory/Polynomial/Resultant/Discriminant.lean`.
-- **`Polynomial.Monic.prod_roots_eval_derivative`** — For monic split f over a domain: `∏_{roots}` f'(r) = `(−1)^{n(n−1)/2}` discr f. Module: `TauCeti/RingTheory/Polynomial/Resultant/Discriminant.lean`.
-- **`Polynomial.Monic.resultant_of_le`** — Tau Ceti's extension: formal degree of the second argument is irrelevant for monic first argument. Module: `TauCeti/RingTheory/Polynomial/Resultant/Basic.lean`.
-- **`Polynomial.resultant_C_sub_X_right`** — Tau Ceti's extension: Res(f, x − X) = f(x). Module: `TauCeti/RingTheory/Polynomial/Resultant/Basic.lean`.
-- **`TauCeti.AbsoluteGaloisGroup`** — Gal(SeparableClosure K/K), the absolute Galois group taken at the separable closure (an abbreviation). Module: `TauCeti/FieldTheory/Galois/AbsoluteGaloisGroup/Basic.lean`.
-- **`TauCeti.Isogeny.comp_fieldPullback`** — The function-field pullback of a composite isogeny is the composite of the pullbacks. Module: `TauCeti/AlgebraicGeometry/EllipticCurve/Isogeny/FunctionField.lean`.
-- **`TauCeti.Isogeny.fieldPullback_mulByIntIsogeny_X`** — The pullback of x along [n] is Φ_n(x)/ΨSq_n(x) in F(E). Module: `TauCeti/AlgebraicGeometry/EllipticCurve/Isogeny/MulByInt/Degree.lean`.
-- **`TauCeti.Isogeny.mulByIntIsogeny_comp_mulByIntIsogeny`** — [m] ∘ [n] = [mn] as isogenies. Module: `TauCeti/AlgebraicGeometry/EllipticCurve/Isogeny/MulByInt/Comp.lean`.
-- **`TauCeti.Isogeny.pullbackDifferential_mulByIntIsogeny_invariantDifferential`** — [n]*ω = n ω for the invariant differential. Module: `TauCeti/AlgebraicGeometry/EllipticCurve/Isogeny/MulByInt/Separability.lean`.
-- **`TauCeti.Multiquadratic.finrank_adjoin_range_eq_two_pow_finrank_span_squareClass`** — [K(√d_i) : K] = 2^r with r the F_2-rank of the span of the square classes of the d_i (char ≠ 2). Module: `TauCeti/NumberTheory/Multiquadratic/SquareClass/Rank.lean`.
-- **`TauCeti.Multiquadratic.mem_adjoin_of_squareClass_mem_span`** — If the square class of d_i is in the span of those of d_j (j ∈ s), then √d_i ∈ K(√d_j : j ∈ s). Module: `TauCeti/NumberTheory/Multiquadratic/SquareClass/Rank.lean`.
-- **`TauCeti.Multiquadratic.squareClass_of_sq_mem_fintype`** — Square descent: if y² = r lies in K(√d_i), then r is a square times a subset product of the d_i. Module: `TauCeti/NumberTheory/Multiquadratic/SquareClass/Basic.lean`.
-- **`TauCeti.PermSubgroupWreathProduct`** — The wreath product (ι → D) ⋊ Q for Q ≤ Perm ι. Module: `TauCeti/GroupTheory/Perm/WreathProduct/Basic.lean`.
-- **`TauCeti.SquareClassGroup`** — The square-class group Kˣ/(Kˣ)² of a field, written additively, as a ZMod 2-module. Module: `TauCeti/FieldTheory/SquareClassGroup/Basic.lean`.
-- **`TauCeti.WreathProduct`** — The permutation wreath product (ι → D) ⋊ Perm ι. Module: `TauCeti/GroupTheory/Perm/WreathProduct/Basic.lean`.
-- **`TauCeti.WreathProduct.card`** — Nat.card (WreathProduct D ι) = Nat.card D ^ Nat.card ι * (Nat.card ι)!. Module: `TauCeti/GroupTheory/Perm/WreathProduct/Basic.lean`.
-- **`TauCeti.absoluteGaloisGroupRestrictEquiv`** — `Field.absoluteGaloisGroup` K ≃ₜ* TauCeti.AbsoluteGaloisGroup K, by restriction. Module: `TauCeti/FieldTheory/Galois/AbsoluteGaloisGroup/Basic.lean`.
-- **`TauCeti.isPretransitive_iff_irreducible`** — For separable p of positive degree, the Galois action on the roots is transitive iff p is irreducible. Module: `TauCeti/FieldTheory/GaloisGroups/Orbits.lean`.
-- **`TauCeti.linearIndependent_squareClass_iff`** — Square classes of units are F_2-independent iff no nonempty subset product is a square. Module: `TauCeti/FieldTheory/SquareClassGroup/Basic.lean`.
-- **`TauCeti.squareClass`** — The class of a unit in the square-class group Kˣ/Kˣ². Module: `TauCeti/FieldTheory/SquareClassGroup/Basic.lean`.
-- **`WeierstrassCurve.Affine.Point.abs_canonicalHeight_sub_naiveHeight_le`** — ∃ D, |canonicalHeight P − naiveHeight P| ≤ D. Module: `TauCeti/AlgebraicGeometry/EllipticCurve/CanonicalHeight/Basic.lean`.
-- **`WeierstrassCurve.Affine.Point.canonicalHeight`** — The Néron–Tate height lim h(2ⁿP)/4ⁿ of the naive x-height. Module: `TauCeti/AlgebraicGeometry/EllipticCurve/CanonicalHeight/Basic.lean`.
-- **`WeierstrassCurve.Affine.Point.canonicalHeight_eq_zero_iff_isOfFinAddOrder`** — Under Northcott, canonical height zero iff torsion. Module: `TauCeti/AlgebraicGeometry/EllipticCurve/CanonicalHeight/Basic.lean`.
-- **`WeierstrassCurve.Affine.Point.canonicalHeight_nsmul`** — canonicalHeight (n • P) = n² canonicalHeight P. Module: `TauCeti/AlgebraicGeometry/EllipticCurve/CanonicalHeight/Basic.lean`.
-- **`WeierstrassCurve.Affine.Point.canonicalHeight_two_nsmul`** — canonicalHeight (2 • P) = 4 canonicalHeight P. Module: `TauCeti/AlgebraicGeometry/EllipticCurve/CanonicalHeight/Basic.lean`.
-- **`WeierstrassCurve.Affine.Point.canonicalHeight_zsmul`** — ĥ(nP) = n² ĥ(P). Module: `TauCeti/AlgebraicGeometry/EllipticCurve/CanonicalHeight/Basic.lean`.
-- **`WeierstrassCurve.Affine.Point.isOfFinAddOrder_of_canonicalHeight_eq_zero`** — Canonical height zero implies torsion, under Northcott . Module: `TauCeti/AlgebraicGeometry/EllipticCurve/CanonicalHeight/Basic.lean`.
-- **`WeierstrassCurve.Affine.Point.naiveHeight`** — The naive height logHeight (x-coordinate) of a point. Module: `Mathlib/NumberTheory/Height/EllipticCurve.lean`.
-- **`WeierstrassCurve.Affine.Point.naiveHeight_eq_logHeight₁`** — The naive height is logHeight₁ of the x-coordinate (0 at O). Module: `Mathlib/NumberTheory/Height/EllipticCurve.lean`.
-- **`WeierstrassCurve.Affine.Point.tendsto_naiveHeight_two_pow_nsmul_div_four_pow`** — h(2ⁿP)/4ⁿ → canonicalHeight P (the limit is attained). Module: `TauCeti/AlgebraicGeometry/EllipticCurve/CanonicalHeight/Basic.lean`.
-- **`WeierstrassCurve.Affine.approx_parallelogram_law`** — The approximate parallelogram law for the naive height . Module: `Mathlib/NumberTheory/Height/EllipticCurve.lean`.
-- **`WeierstrassCurve.Affine.exists_point_on_curve`** — Over an algebraically closed field every x is the x-coordinate of a point on the curve. Module: `TauCeti/AlgebraicGeometry/EllipticCurve/Affine/IsAlgClosed.lean`.
-- **`WeierstrassCurve.Affine.finite_naiveHeight_le`** — Northcott for the naive height on W(K) . Module: `Mathlib/NumberTheory/Height/EllipticCurve.lean`.
-- **`WeierstrassCurve.Affine.invariantDifferential`** — The invariant differential dx/(2y + a₁x + a₃) in the Kähler differentials of F(E). Module: `TauCeti/AlgebraicGeometry/EllipticCurve/Affine/InvariantDifferential.lean`.
-- **`WeierstrassCurve.Affine.neronTatePairing`** — The Néron–Tate pairing, the polarisation of the canonical height . Module: `TauCeti/AlgebraicGeometry/EllipticCurve/CanonicalHeight/Basic.lean`.
-- **`WeierstrassCurve.evalEval_Ψ_sq_eq_eval_ΨSq`** — Ψ_n(x, y)² = ΨSq_n(x) at points on the curve. Module: `TauCeti/AlgebraicGeometry/EllipticCurve/DivisionPolynomial/Eval.lean`.
-- **`WeierstrassCurve.evalEval_ψ_eq_evalEval_Ψ`** — ψ_n and Ψ_n agree at points on the curve. Module: `TauCeti/AlgebraicGeometry/EllipticCurve/DivisionPolynomial/Eval.lean`.
-- **`WeierstrassCurve.evalEval_ψ_eq_zero_of_zsmul_eq_zero`** — If n • P = 0 then ψ_n(P) = 0. Module: `TauCeti/AlgebraicGeometry/EllipticCurve/DivisionPolynomial/ZSMul.lean`.
-- **`WeierstrassCurve.eval_ΨSq_ne_zero_of_zsmul_ne_zero`** — If n • P ≠ 0 then ΨSq_n(x(P)) ≠ 0. Module: `TauCeti/AlgebraicGeometry/EllipticCurve/DivisionPolynomial/Coprimality.lean`.
-- **`WeierstrassCurve.isCoprime_Φ_ΨSq`** — Φ_n and ΨSq_n are coprime when Δ ≠ 0, in every characteristic. Module: `TauCeti/AlgebraicGeometry/EllipticCurve/DivisionPolynomial/Coprimality.lean`.
-- **`WeierstrassCurve.mul_eval_ΨSq_eq_eval_Φ_of_zsmul`** — x(nP) · ΨSq_n(x(P)) = Φ_n(x(P)) for affine P, nP. Module: `TauCeti/AlgebraicGeometry/EllipticCurve/DivisionPolynomial/Descent.lean`.
-- **`WeierstrassCurve.ΨSq_ne_zero_of_Δ_ne_zero`** — ΨSq_n ≠ 0 for n ≠ 0 when Δ ≠ 0. Module: `TauCeti/AlgebraicGeometry/EllipticCurve/DivisionPolynomial/Coprimality.lean`.
-
-## How to read the build
-
-Layer 0 fixes iteration, homogeneous rational maps, conjugacy, moduli and
-reduction. Layer 1 applies the Tate limit to heights. Layer 2 constructs local
-escape functions and measures before proving the transfer, support and entropy
-comparisons. Layer 3 develops formal periods, affine dynatomic rings, projective
-models, analytic comparisons and certified rational-point reductions. Layer 4
-passes from local energies to adelic heights, pairings and equidistribution.
-Layer 5 builds the preimage tower and its Galois action. Layer 6 develops power
-and Lattès examples, families, specialization and orbit intersections.
-
-`Suggested.lean` states the headline theorems whose objects can be expressed at the pinned libraries: rational three-cycle uniqueness and the four- and five-cycle exclusions (§§3.57, 3.58, 3.88), Stoll's integer-family finite-level Galois theorem (§5.64), Ritt's classification (§6.23), the full affine-line orbit-intersection theorem (§6.84), the whole-field Lech–Cassels embedding (§6.86), polynomial-line return times (§6.90), infinitely many algebraic torsion specializations of a constant mark (§6.87), the uniform common Legendre torsion bound (§6.111), and its extension to two standard projections with three common branch values (§6.112). Its real-bodied definitions are `forwardOrbit`, `IsFiniteUnionAP`, `ellipticStandardProjection` and `legendreTorsionImages`. The module docstring identifies the other headline theorems and the carriers they lack at the pins; the layers below specify their full statements, APIs and Checks.
-
-Within a layer the targets follow their prerequisites. Layer 0 constructs the
-power map and the rational-function-field height used by Layers 1–2. The
-period-three parametrization precedes the two-cycle reduction and the final
-rational preperiodic bound. The Lech argument constructs the whole-field
-embedding before transporting any marked expression.
 
 ## Layer 0: Iteration, maps and moduli
 
@@ -10997,6 +10115,888 @@ comparisons support bifurcation and rigidity. The certified dynatomic reductions
 feed effective arithmetic, while the preimage tower supplies explicit examples of
 profinite Galois images. General probability, potential theory and moduli theory
 are used through their specified interfaces.
+
+## Scope and ownership
+
+This roadmap owns the arithmetic of self-maps, the dynamical canonical-height
+adapters, local escape functions, Fatou and Julia sets, dynamical equilibrium
+measures, dynatomic equations, iterated preimage actions, and the stated family
+and orbit-intersection results. General algebraic geometry, curve theory, heights,
+potential theory and Galois theory are consumed through the contracts in the indicated layers.
+
+- ModularCurves §4C owns the universal Legendre family, and EllipticLegendreCharacterInterfaces §§0.1, 0.4 its native Weierstrass coefficient model over every commutative ring, discriminant, ellipticity criterion and j-invariant. The variants in §§6.35 and 6.111 are their specializations for Lattès dynamics and projected torsion sets.
+- Mathlib supplies iteration, positive periods, minimal periods and semiconjugacy;
+  polynomials, projective points and resultants; native Weil heights and field
+  Northcott; field extensions, finite polynomial Galois actions and Krull topology.
+  These notions retain their library meanings.
+- Tau Ceti's EllipticCurves supplies elliptic geometry and the elliptic height.
+  The new target is its comparison with the dynamical Tate limit and with Lattès
+  maps. General abelian Néron–Tate heights come from
+  HeightsRationalPointsAndObstructions §0.19.
+- ComplexComparisonPartII §C−1.1 owns general complex scheme analytification,
+  including its underlying topological carrier. AlgebraicModuliForArithmeticGeometry
+  §7.10.2 owns the general Berkovich carrier, affinoid domains and gluing; its §7.4
+  supplies the rigid analytification comparison. TropicalAndBerkovichArithmetic
+  §§0.21–0.23, 1.1–1.3, 3.3 and 6.1–6.5 owns the norm-sensitive analytic
+  realizations, line geometry, graph Laplacian, Hsia kernels, continuous-potential
+  energy, finite-place model metrics and measures, their limits and model-function
+  density, and the general hybrid carrier and topology. Layer 2 owns rational-map
+  local degrees and pullback adapters, escape functions, dynamical measures,
+  archimedean potential theory, and the all-place energy interface with its
+  classical-atom corrections and C¹ test estimates. Layer 4 compares the local
+  curvature measures with global adelic intersections and proves all-place
+  equidistribution. Layer 6 owns Favre's hybrid model-function and curvature
+  comparisons, the central-field dynamical base-change adapter, and the
+  family-specific escape-potential and equilibrium-measure convergence.
+- HeightsRationalPointsAndObstructions §0.18 owns the arbitrary-set Tate series,
+  convergence, bounded-distance estimate, scaling, bounded-perturbation invariance
+  and uniqueness, with argument order `tateLimit φ α h`. Section 1.1 compares its
+  series with normalized iterates; the dynamical height adapters, semiconjugacy,
+  iteration and applications belong here.
+- HeightsRationalPointsAndObstructions §§5.17a–f owns arbitrary-dimensional
+  arithmetic divisor actions, projective adelic metrized line bundles and
+  intersections, normalized cycle heights, Bouche–Tian estimates, arithmetic
+  Hilbert–Samuel and successive minima. Layer 4 uses those carriers and absolute
+  normalizations; its additional targets are arithmetic Siu, all-place Yuan
+  equidistribution, quasi-projective boundary completion, dynamical metrics,
+  bifurcation theory and the P¹ energy comparisons. The supplier's archimedean
+  abelian equidistribution proof is independent of these additional targets.
+- AlgebraicCurves owns function fields, regular projective models, divisors,
+  the different and Hurwitz. SchemeAndStackFoundations, §§0.3, 0.9, 2.6 and Layer 5, supplies
+  schemes, spreading out, projective-space cohomology and intersection degrees.
+  Section 0.26 compares its global sections of O(d) with the concrete binary forms
+  and their chart evaluations used here. The dynatomic coordinate
+  rings and dynamical ramification calculations belong here.
+- EffectiveDiophantineMethods §0.11 and Layers 3–4 supply certified height
+  candidates, Mordell–Weil calculations and rational-point certificates.
+  The dynamical equations, projective chart comparisons, finite candidate sets
+  and orbit-repetition criteria belong here.
+- ConformalMapping supplies local complex analysis and analytic continuation;
+  Tau Ceti supplies the sphere atlas used by ComplexManifolds, Milestone 3;
+  Layer 2 constructs the meromorphic comparison on that atlas;
+  FuchsianOrbifolds supplies compact-surface finite-degree theory. Spherical
+  omitted-value normality is the value-distribution extension specified below.
+  Dynamical rays, kneading and parabolic transversality belong here.
+- PolynomialGaloisGroups and LocalGaloisGroups supply finite Galois and local
+  infrastructure; InverseGaloisAndArithmeticFundamentalGroups, IG.2, supplies
+  Hilbert irreducibility. The preimage tower, arboreal action and the
+  integrally closed coefficient-ring specialization comparison of §5.39
+  belong here; that comparison uses the native `Polynomial.Gal` root action.
+- ProbabilisticAndMetricNumberTheory §§4.1–4.3 owns pointwise Birkhoff.
+  GeometryOfNumbersAndQuadraticArithmetic §4.2 owns measurable partition labels,
+  finite-label Shannon entropy with its chain rule, addition for independent
+  labels and alphabet bound, countable and conditional partition entropy,
+  itinerary joins, entropy rates and measure entropy. Sections 2.6–2.7 add
+  invariance under almost-everywhere equality of labels, the finite-label
+  supremum formula for measure entropy, fibre-entropy bounds,
+  Shannon–McMillan–Breiman, endomorphism ergodic decomposition with entropy
+  integration, and comparison with topological entropy. The endomorphism
+  decomposition includes noninvertible maps, beyond the supplier's group-action
+  component kernels.
+- ArithmeticGaloisRepresentations §1.11 owns reductive quotients of affine
+  schemes over fields and excellent DVRs. The global quotient over Spec ℤ, the
+  Rat_d stability calculation and the dynamical identifications belong to §0.28.
+- All-place adelic equidistribution, bifurcation currents
+  and Banach-contraction decomposition require the explicit additional contracts
+  in the indicated layers. They are distinct from set quotients, local measures
+  and Hilbert-space spectral theory.
+- Postcritically finite maps, the critical height and its adelic line bundle on
+  the chosen parameter cover, and bifurcation currents belong here (§§0.34, 4.5,
+  4.49, 6.5, 6.8, 6.40). DeMarco–Mavraki–Ye's bounded-geometry and
+  small-critical-height theorems for subvarieties of M_d, and DeMarco–Krieger–Ye's
+  bielliptic genus-2 application, are outside this roadmap.
+  ArithmeticDynamicsPartII is the roadmap of Markoff dynamics over finite fields;
+  it does not continue this bifurcation material.
+
+Uniform boundedness, dynamical Lehmer and unrestricted dynamical Mordell–Lang
+are conjectural statements, used only under explicitly stated hypotheses. The
+selected rational-cycle theorems retain their rank assumptions. Generic rational-map arboreal
+surjectivity is stated in every characteristic; generic monic polynomials retain
+the exceptional quadratic characteristic-two image theorem.
+
+- Northcott on projective space, including ℙ¹, is supplied by HeightsAndUnits §1.1; its projective finiteness theorem is not a separate target here.
+
+- The projective absolute Weil height is `projectiveWeilHeight` of ClassicalArithmeticCompletion §6.37; this roadmap uses that definition rather than a second chart construction.
+
+- The Layer 3 number-field finiteness and period-reduction statements use Layer 1 Northcott and Layer 2 good-reduction period classification. The whole-field Lech–Cassels theorem supplies its integral assembly form. The weaker coefficient-height extension bound in Layer 6 is supplied by the equality in §1.3, which also gives its normalized constant.
+- Power-orbit classification retains arbitrary characteristic; ClassicalArithmeticCompletion §6.37 supplies its characteristic-zero specialization.
+- RestrictedPowerSeries §2.4 owns the general restricted-series zero bound;
+  the orbit-interpolation argument consumes its unit-disc specialization.
+- The sphere charts, their transition formulas and the chartwise holomorphy
+  criterion are supplied by Tau Ceti's `Geometry/Manifold/Instances/OnePoint.lean`,
+  as consumed by ComplexManifolds, Milestone 3. No second atlas or chart API is a
+  target here. The meromorphic-extension comparison retains its additional
+  pole and removable-value content.
+
+Supplier interfaces distinguish the imported output from its dynamical adapters:
+
+| Interface | Supplier and section | Use here |
+|---|---|---|
+| Dominant-map height comparison | HeightsRationalPointsAndObstructions §0.30, `weilHeight_dominant_lower_bound` | Consume h_Y(F(P))≥c h_X(P)−C, c>0, on a dense open in the domain of a dominant generically finite rational map over ℚ̄ with ample compactification heights. Section 6.10 extends this to the whole finite-fibre locus. |
+| Bounded-height candidate sets | EffectiveDiophantineMethods §0.11, `boundedHeightPoints` and its projective set T | Consume both finite output lists and the projective set including ∞, with an integral power basis, complete archimedean embedding data, rational D≥1 and 0<τ≤1, and D≥exp(B) for the native logarithmic bound B. Sections 3.47 and 3.53 supply height normalization, chart transport and the preperiodic-set inclusion used in §3.40. |
+
+## Exact supplier contracts
+
+Each contract specifies the mathematical output consumed by its linked targets.
+An extension named here requires the full stated output; a theorem with a weaker
+conclusion does not discharge that contract. Arithmetic point lists retain every
+rank, saturation, local-data and finite-certificate hypothesis.
+
+### From TauCetiRoadmap.ModularCurves — §4C
+
+Consume the universal Legendre family and its field fibres, with its chosen x-coordinate.
+
+### From TauCetiRoadmap.EllipticLegendreCharacterInterfaces — §§0.1, 0.4
+
+The supplier's parameter λ is written t here. Consume from §0.1 the native Weierstrass coefficient model y²=x(x−1)(x−t), with coefficients (0,−(1+t),0,t,0), over every commutative ring and at every parameter, including t=0,1. Consume from §0.4 its discriminant 16t²(t−1)² over every commutative ring and its ellipticity criterion: over a field with 2≠0 the model is elliptic exactly when t≠0,1. For those parameters consume its j-invariant 256(t²−t+1)³/(t²(t−1)²). Section 6.35 specializes this model for its Lattès map; §6.111 specializes the coefficient tuple inside `legendreTorsionImages` to state the projected-torsion theorem on native points.
+
+### From TauCetiRoadmap.DiophantineApproximationAndTranscendence — §§0.2, 0.3, 2.4
+
+Consume §0.2 `prod_infinitePlace_comap_pow_mult`, `mulHeight_pow_finrank`, `mulHeight₁_pow_finrank`, `absMulHeight₁_eq`, `absMulHeight₁_eq_of_minpoly_eq`, and §0.3 `finite_setOf_absMulHeight₁_le` with their number-field degree normalizations. For affine-orbit intersections use §2.4: over an algebraically closed characteristic-zero field, a finite-rank subgroup of (K×)^n has finitely many nondegenerate solutions of Σ a_i x_i=1 with every a_i nonzero. Apply n=2 after embedding the coefficient field; §2.3’s rational-coefficient theorem alone does not supply this application.
+
+### From TauCetiRoadmap.SchemeAndStackFoundations — §§0.3, 2.6
+
+Consume SchemeAndStackFoundations §0.3, `relativeProj`, `relativeProj_affine_iso`, `relativeProj_baseChange` and `relativeProj_polynomial`, on the polynomial graded algebra over a field K. Use the standard projective charts and Mathlib scheme gluing. Consume §2.6 `projectiveSpace_cohomology`, specializing its degree-zero cohomology to global sections of O(d) on ℙ¹_K, the degree-d component of K[X₀,X₁] for d≥0. Section 0.26 constructs the comparison with its concrete binary forms and chart evaluations, the map from homogeneous forms and the classification of projective-line endomorphisms.
+
+### From TauCetiRoadmap.ComplexComparisonPartII — §C−1.1
+
+Consume `ComplexAnalyticSpace` and `complexSchemeAnalytification` on locally finite-type complex schemes, with its identification of the underlying space with the classical complex points, its functor laws for identities and composites, its closed-subspace comparison, its separated-implies-Hausdorff comparison and its preservation of proper morphisms, all stated in §C-1.1. Take the topological carrier by forgetting the analytic ring sheaf of that same space. For projective X, its classical complex points give the compact Hausdorff carrier used in §4.1; §2.2 compares its P¹ specialization with `OnePoint ℂ`. The category itself imposes no global Hausdorff axiom; the projective hypothesis supplies separatedness and properness.
+
+### From TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry — §§7.10.2, 7.4
+
+Consume §7.10.2 `BerkovichAnalyticSpace`, `BerkovichAnalyticSpace.affinoid`, `BerkovichAnalyticSpace.domain`, `BerkovichAnalyticSpace.refineAtlas`, `BerkovichAnalyticSpace.glueDomains`, `BerkovichAnalyticSpace.fibreProduct` and `BerkovichAnalyticSpace.rigidModel`: bounded multiplicative-seminorm spectra M(A), evaluation topology, completed residue fields and compatible affinoid-domain gluing. Use these as the common categorical substrate for the realizations compared in §§2.2 and 4.1. Over complete nontrivially valued fields, consume §7.4 `SpaceAnalytification` and its scheme, identity and composition comparisons only as rigid analytification; compare its projective value with the rigid model of the constructed Berkovich space. Apply the rigid equivalence only on the supplier's paracompact strictly analytic and quasi-separated rigid spaces with affinoid covers of finite type. The Berkovich topological carrier is the seminorm realization, with its nonclassical points.
+
+### From TauCetiRoadmap.TropicalAndBerkovichArithmetic — §§0.21–0.23, 1.1–1.3, 3.3, 6.1–6.5
+
+Consume §§0.21–0.22's norm-sensitive charts and functorial analytification over every complete nonarchimedean field, its identification with AlgebraicModuliForArithmeticGeometry §7.10.2, proper compact Hausdorff carriers and isometric scalar-extension comparison. Consume §§1.1–1.3's polynomial-evaluation line, weighted Gauss points, four-type classification over algebraically closed nontrivially valued fields, paths, tangent directions and logarithmic hyperbolic lengths. All carrier identifications preserve polynomial evaluations, classical points, infinity and Gauss; transport continuous functions by composition with the inverse homeomorphism and Radon measures by pushforward, preserving integrals. Section 2.2 adds the rational-map action and its compatibility with these identifications.
+
+Consume §3.3's finite-graph measure Laplacian on continuous functions with weak edge derivatives of bounded variation and finite total Laplacian variation, including all endpoint fluxes, and its piecewise-C² integration-by-parts identity. Consume §6.5's Hsia kernels, Radon continuous-potential measures, symmetric bilinear mass-zero energy and its squared-slope identity and positive definiteness under the total-variation continuous-potential condition of §2.5, including its general complete algebraically closed nontrivially valued rank-one extension. Identify Δ here with the supplied ddᶜ=−Δ_graph: on [0,1], Δ(s)=δ₀−δ₁, and −∫s dΔ(s)=1. Preserve the nonclassical self-diagonal. Section 2.5 extends the all-place interface to classical-atom corrections and C¹ tests; no finite signed Laplacian is presumed for an arbitrary C¹ test.
+
+Consume §§6.1–6.4's formal/model metrics, mixed model measures with tensor-power denominators, component multiplicities and residue-field degrees, semipositive and integrable metric classes, uniform density of rational model functions, and uniform semipositive-measure limits over arbitrary complete nontrivially valued rank-one bases. These are local constructions without a chosen global adelic origin. For O(e) on a good-reduction projective line the measure is eδ_G; probability normalization divides by e>0. Section 4.1a adds the comparison with HeightsRationalPointsAndObstructions §5.17b and the archimedean construction.
+
+Consume §0.23's hybrid space of a smooth projective meromorphic family over a punctured complex disc, after choosing 0<r<1 within its convergence radius: proper projection to the closed parameter disc, usual complex fibres for t≠0, central fibre Xᵃⁿ over k₀=ℂ((T)) with |T|=r, rescaled evaluation |g(t)|^(log r/log|t|), and the SNC-model inverse-limit comparison. The parameter monomial has rescaled value r. The central fibre is over k₀ itself; its projection from the analytification over the completed algebraic closure C₀ is scalar restriction, not a homeomorphism. Section 6.1 supplies the dynamical potential and measure comparison along that projection and Favre's model-function and curvature results; §0.23 supplies topology alone.
+
+### From TauCetiRoadmap.EllipticCurves — Layer 4
+
+For an elliptic curve over the fraction field K of a complete DVR R, consume `HasPotentialGoodReduction`: a finite extension L/K has good reduction on the minimal model over its valuation ring. Consume its equivalence with integrality of j and the minimal-discriminant comparison, including residue characteristic 2. With Mathlib `WeierstrassCurve.variableChange_Δ` in `Mathlib/AlgebraicGeometry/EllipticCurve/VariableChange.lean`, a good integral model E′ obtained from E by x=u²x′+r, u≠0, has Δ(E′)=u⁻¹²Δ(E). Thus |u|¹²=|Δ(E)| for the extended absolute value when |Δ(E′)|=1. Section 6.3 supplies the elliptic-to-Lattès adapter; §6.83 uses this finite-extension and coordinate comparison.
+
+### From TauCetiRoadmap.HeightsRationalPointsAndObstructions — §0.18
+
+Consume `tateLimit φ α h`, `tendsto_tateLimit`, `abs_tateLimit_sub_le`, `tateLimit_comp`, `tateLimit_unique` and `congr_bounded` on an arbitrary type S with φ:S→S, α>1 and a global bound |h(φP)−αh(P)|≤C. Read the supplied definition h plus the error series using Mathlib's default unconditional `tsum`; the global bound makes that series absolutely summable, with normalized iterates tending to it. Section 1.1 compares this same defining series under pointwise summability and supplies orbitwise sufficient bounds; the finite telescoping identity needs no bounded-error hypothesis.
+
+### From TauCetiRoadmap.HeightsRationalPointsAndObstructions — §§5.17a–f
+
+Consume §5.17a `metrizedDivisorAction`, `arithmeticDegree` and `arithmeticIntersection` for projective arithmetic models in every dimension; §5.17b `AdelicMetrizedLineBundle`, `SemipositiveAdelic`, `IntegrableAdelic`, `adelicIntersection_uniformBound`, `adelicCycleHeight` and `cycleProbabilityMeasure`; §5.17c `BergmanDensity` and `bergmanDensity_uniform` with its positive smooth metric and curvature-volume hypotheses; §5.17d `AdelicSectionLattice`, `arithmeticEulerCharacteristic` and the arithmetic Hilbert–Samuel asymptotic; §5.17e section lifting and arithmetic Nakai; and §5.17f `AdelicSuccessiveMinimum` and `successiveMinima_inequality`. Intersections are symmetric, multilinear, compatible with pullback and field extension, and continuous for uniform changes with a fixed model outside finitely many places. The integrable continuity bound uses fixed differences of semipositive factors. For a nonzero effective pure n-cycle Z and ample L, the supplied absolute height is I(L̄^(n+1),Z)/((n+1)deg_L Z), where I is divided by [K:ℚ]; for semipositive L̄ the local probability measure is c₁(L̄_v)^n/deg_L Z. The zero cycle has no such normalization. These inputs do not assert the all-place equidistribution or quasi-projective completion targets of this roadmap.
+
+### From TauCetiRoadmap.HeightsRationalPointsAndObstructions — §0.16
+
+For a global height field K with its chosen product-formula structure, a smooth projective variety V/K and η ∈ Pic(V) ⊗ ℝ, consume the Weil height class with a representative h(V,η):V(K̄)→ℝ. It is ℝ-linear in η up to bounded functions, depends only on the line-bundle class, and satisfies h(V,η)∘φ=h(W,φ*η)+O(1) for a morphism φ:W→V. For ample η its representatives are bounded below. Use the supplier's relative height normalization from §§0.9–0.16: on ℙᴺ(K), O(1) gives the chosen relative projective height h_K; under finite extension L/K the relative height scales by [L:K], and division by [L:K] gives the extension-independent representative on K̄ relative to the chosen structure on K.
+
+For number fields, use the absolute representative instead: on ℙᴺ it is Projectivization.logHeight_L(x)/[L:ℚ] for any number field L containing the coordinates. The supplier's number-field contract, from ArakelovGeometryAndAbelianHeights §§1.12–1.14, supplies Northcott separately: for ample η, B∈ℝ and D≥1, the points P∈V(K̄) with [K(P):K]≤D and absolute h(V,η)(P)≤B form a finite set. The same holds for the relative number-field normalization after rescaling B. Over a general global height field this conclusion requires an additional bounded-degree Northcott hypothesis; the height-machine identities alone do not imply it (Call–Silverman §1, input (2) and Corollary 1.1.1).
+
+**Checks.**
+
+- On ℙ¹(ℚ), h([2:1])=log 2 and an O(2)-height is 2log 2; tensor powers scale the height class.
+- Over L=ℚ(√2), the native relative height of [2:1] is 2log 2 and its absolute height is log 2, agreeing with the value over ℚ.
+- For K=ℚ(t) with the geometric degree height, every [a:1] with a∈ℚ has height 0 and K-degree 1. Thus B=0,D=1 gives infinitely many points, while the corresponding set in ℙ¹(ℚ) for the absolute number-field height is {0,1,−1,∞}.
+
+### From TauCetiRoadmap.HeightsRationalPointsAndObstructions — §0.19
+
+For an abelian variety A over a number field K and a symmetric line bundle L ([−1]*L ≅ L): [m]*L ≅ `L^{⊗m²}` for every integer m, and the Néron–Tate height `ĥ_{A,L}` : A(K̄) → ℝ with `ĥ_{A,L}` − `h_{A,L}` bounded and `ĥ_{A,L}(mP)` = `m²·ĥ_{A,L}(P),` compared with Tau Ceti's elliptic canonicalHeight for dim A = 1 and L = O((O)).
+
+### From TauCetiRoadmap.NeronModelsAndSemistableAbelianVarieties — §§1.3, 1.7–1.9
+
+Consume extension of generic morphisms from smooth test schemes in §1.3, finite-type Néron-model existence for abelian varieties over fraction fields of DVRs in §1.7, the abelian-scheme comparison in §1.8, and spreading out and Dedekind gluing in §1.9. For §6.85 apply these to an elliptic curve over the function field of a smooth projective base curve over a number field; its closed-point local rings are DVRs, and taking the base itself as a smooth test scheme extends the generic point P to a section. Section 6.85 constructs D_P and its local-height comparisons with uniformly summable adelic errors.
+
+### From TauCetiRoadmap.EffectiveDiophantineMethods — §0.11
+
+Consume `boundedHeightPoints` with its completeness clause, and its projective set T ⊆ ℙ¹(L) with its completeness clause. The inputs are a number field L, a power basis over ℚ with integral generator, a complete collection of [L:ℚ] archimedean embedding data with pairwise disjoint root boxes as in §0.4, and rationals D≥1 and 0<τ≤1. The union S_<∪S_≈ contains every x with native multiplicative height at most D; its projective counterpart includes ∞ and every P with native logarithmic height at most log D. A native bound B uses D≥exp(B); an absolute bound B_abs uses D≥exp([L:ℚ]B_abs). Both lists are retained. Sections 3.47 and 3.53 apply this supplied completeness to the dynamical height bound and projective evaluation; they do not construct another bounded-height enumeration.
+
+### From TauCetiRoadmap.EffectiveDiophantineMethods — Layer 3
+
+Mordell–Weil certificates for two genus-2 Jacobians: (a) for C₀(5): y² = x⁶ + 8x⁵ + 22x⁴ + 22x³ + 5x² + 6x + 1, the FPS Theorem 3 rank-one result and explicit generator data, with the finite descent and local certificates of EffectiveDiophantineMethods §3.27; (b) for C₁(3₂): y² = x⁶ − 2x⁴ + 2x³ + 5x² + 2x + 1, EffectiveDiophantineMethods §3.28 supplies the torsion/rank-lower-bound and 3-saturation contracts for [∞₊ − ∞₋]. The dynamical consumers take a corrected descent proving rank ≤ 1 as an explicit hypothesis. Poonen Proposition 1 and the author errata, p. 1, correct the 743-adic point to (−2, √33) and require 2-adic information; the errata do not themselves provide the missing formal descent certificate.
+
+### From TauCetiRoadmap.EffectiveDiophantineMethods — Layer 3
+
+Consume EffectiveDiophantineMethods §3.26 with its explicit arithmetic-data hypotheses. For E11: y² + y = x³ − x² the supplied torsion subgroup is {O, (0, 0), (0, −1), (1, 0), (1, −1)} ≅ ℤ/5; the additional premise rank E11(ℚ)=0 makes this the complete list E11(ℚ). This rank premise is independent of rank J(C₁(3₂))(ℚ)≤1. The other complete lists are: E15: y² + xy + y = x³ + x² has {O, (0, 0), (−1, 0), (0, −1)}; E17: y² + xy + y = x³ − x² − x has {O, (0, 0), (1, −1), (0, −1)}; E24: y² = x³ − x² + x has {O, (0, 0), (1, 1), (1, −1)}; E40: y² = x³ − 2x + 1 has {O, (0, ±1), (1, 0)}; Morton's Y² = 4X³ − 11X² + 8X has exactly the points ∞, (0, 0), (1, ±1), (2, ±2); for these five models consume the rank-zero and torsion conclusions under the supplier’s stated descent and reduction-data hypotheses. E11’s separate rank datum is retained by §§3.84–3.85, 3.89 and the bound in §3.14; §3.88 uses only the Morton model.
+
+### From TauCetiRoadmap.EffectiveDiophantineMethods — declared gaps (genus-2 modular point lists)
+
+EffectiveDiophantineMethods Layer 3 states complete rational-point lists for the elliptic curves of §3.26 and the genus-2 curves C₀(5) and C₁(3₂) of §§3.27–3.28, but not for the three genus-2 modular curves that the quadratic cycle and type reductions below require. Each is a single complete point list on an explicit model; the descent and torsion computation that certify it belong to the supplier.
+
+What EffectiveDiophantineMethods must provide (gap:x1-16-rational-points): the rational points of the genus-2 curve v² = u(u² + 1)(1 + 2u − u²) over ℚ, a model of X₁(16), are exactly (0, 0), (±1, ±2) and the single point at infinity of its smooth projective model (Washington's determination, as used in Morton 1998, Proposition 3 and the proof of Theorem 4, printed p. 93). Consumed by §3.57.
+
+What EffectiveDiophantineMethods must provide (gap:x1-13-rational-points): the rational points of the genus-2 curve y² = x⁶ + 2x⁵ + x⁴ + 2x³ + 6x² + 4x + 1 over ℚ, a model of X₁(13), are exactly (−1, ±1), (0, ±1) and the two points at infinity of its smooth projective model (Poonen 1995, proof of Theorem 2, p. 6: the six rational points of X₁(13) are its cusps). Consumed by §3.77.
+
+What EffectiveDiophantineMethods must provide (gap:x1-18-rational-points): the rational points of the genus-2 curve y² = x⁶ + 2x⁵ + 5x⁴ + 10x³ + 10x² + 4x + 1 over ℚ, a model of X₁(18), are exactly (−1, ±1), (0, ±1) and the two points at infinity of its smooth projective model (Poonen 1995, proof of Theorem 2, p. 6: the six rational points of X₁(18) are its cusps). Consumed by §3.77.
+
+### From TauCetiRoadmap.EffectiveDiophantineMethods — Layer 3
+
+For Stoll's genus-4 curve X₀^dyn(6), consume EffectiveDiophantineMethods §3.29: the Jacobian J and its Mordell–Weil group, trivial torsion and G≅ℤ³ for the subgroup generated by differences of the ten known rational points, under the exact reduction-group, point-image and divisor-relation hypotheses. Under the additional premise rank J(ℚ)=3, consume the finite-index conclusion and J(ℚ)=Gˢᵃᵗ, where Gˢᵃᵗ={D∈J(ℚ) : mD∈G for some integer m≥1} is the full saturation (Stoll 2008, §3, Lemma 4 and proof of Theorem 6).
+
+### From TauCetiRoadmap.EffectiveDiophantineMethods — Layer 4
+
+Chabauty–Coleman certificates with every residue disc treated: (a) C₀(5): y² = x⁶ + 8x⁵ + 22x⁴ + 22x³ + 5x² + 6x + 1 has exactly the six rational points (0, ±1), (−3, ±1), ∞± (FPS 1995, Theorem 6, p = 3, given J(ℚ) ≅ ℤ); (b) C₁(3₂): y² = x⁶ − 2x⁴ + 2x³ + 5x² + 2x + 1 has exactly (−1, ±1), (0, ±1), (1, ±3), ∞± (Poonen 1995, Proposition 2, p = 3, including the variant embedding P ↦ [P + S₊] on the disc of the Weierstrass point (1, 0) mod 3); (c) EffectiveDiophantineMethods §4.25 supplies the ten-point list on X₀^dyn(6) for rational points P with [P−P₁] in the full saturation of G, using the exact ten points, complete 𝔽₅ residue-point and chart list, reduction and Mordell–Weil matrices, annihilating differential, integral series, strict tails and local witnesses. Under rank J(ℚ)=3 this is the complete rational-point list (Stoll 2008, Lemma 5 and Theorem 6, p = 5).
+
+### From TauCetiRoadmap.RestrictedPowerSeries — §2.4
+
+Consume RestrictedPowerSeries §2.4: a nonzero restricted power series over a complete nonarchimedean field has at most N distinct closed-unit-disc zeros, where N is its last coefficient index attaining the Gauss norm. In the orbit argument the field is ℚ_p, the coefficients tend to zero, and the evaluated variable ranges over ℤ_p. Thus infinitely many distinct integral zeros force every coefficient to vanish. Use the evaluation interface of RestrictedPowerSeries §2.1.
+
+*Needs:* RestrictedPowerSeries §§2.1, 2.4; `PowerSeries.IsRestricted`; `PadicInt`.
+
+([bell-ghioca-tucker-2010](#bell-ghioca-tucker-2010), §1, p. 2; proof of Theorem 4.1, p. 14 (arXiv v1): the closed-disc zero theorem is the final analytic step after interpolation. [Flynn–Poonen–Schaefer](#fps95), §8, Theorem 4, p. 21, states this general bound.)
+
+**Endpoint checks.** The polynomial z(z−1) has last dominant index 2 and exactly two integral zeros. For odd p, the analytic function (1+p)^z−1 has only the zero z=0; at p=2 use 5^z−1. These follow from the injectivity of the exponential on pℤ_p for odd p and on 4ℤ₂. The expansion Σ binom(z,i)p^i is a Mahler expansion, so its binomial coefficients are not the monomial coefficients to which Strassmann applies. At p=2 the continuous function 3^z instead has a parity factor and requires two analytic residue classes.
+
+### From TauCetiRoadmap.ProbabilisticAndMetricNumberTheory — §§4.1–4.3
+
+Consume §4.1 `birkhoff_pointwise` and `birkhoff_pointwise_ergodic`, with the
+construction and identification in §§4.2–4.3: on any probability space, for a
+measure-preserving T and integrable real f, native time averages converge almost
+everywhere to conditional expectation on `MeasurableSpace.invariants T`, and to
+the integral when T is ergodic. Only these pointwise statements are used; the
+arithmetic applications of that roadmap supply no input to Layer 2. Finite-label
+entropy comes from GeometryOfNumbersAndQuadraticArithmetic §4.2 below.
+
+### From TauCetiRoadmap.GeometryOfNumbersAndQuadraticArithmetic — §4.2
+
+Consume the **Entropy and Haar measure on leaves** paragraph's
+`finitePartitionEntropy`, `countablePartitionEntropy`,
+`conditionalPartitionEntropy`, `iteratedPartitionLabel`, `partitionEntropyRate`
+and `measureEntropy`, together with `atomInformation` and
+`conditionalLabelEntropy` for standard Borel labels and their conditional-kernel
+atom evaluation. Consume their measurable-label, chain-rule, relabeling,
+independence and subadditive-limit API. For measurable labels into finite
+nonempty alphabets with discrete σ-algebras on a probability space, with no
+standard-Borel assumption on the underlying space, this includes the value
+−Σᵢ pᵢ log pᵢ with zero-mass atoms contributing zero, the finite-sum comparison
+with `countablePartitionEntropy`, the joint-label chain rule, addition for
+independent labels and the alphabet bound 0≤H≤log(card alphabet). Use
+probability measures here and natural logarithms; the measure entropy retains
++∞. Section 2.6 compares the supremum over countable finite-entropy labels with
+that over finite labels and proves invariance under almost-everywhere equality
+of labels;
+§2.7 adds conditional entropy against a
+sub-σ-algebra and the endomorphism and topological comparison theorems.
+
+### From TauCetiRoadmap.SchemeAndStackFoundations — §1.17
+
+Consume `IsInvariant`, `IsCategoricalQuotient` and `IsGeometricQuotient` for the SL₂ action groupoid on Rat_d. These predicates do not assert the existence of a reductive quotient; the GIT existence and dynamical application are targets of §0.28.
+
+### From TauCetiRoadmap.ArithmeticGaloisRepresentations — §1.11
+
+Consume the target Reductive quotients over fields and DVRs: for a connected reductive group acting on an integral affine variety over a field, or a reductive group scheme acting on an integral affine flat finite-type scheme over an excellent DVR, the coaction-invariant quotient Spec O(X)^G with finite generation, the universal property for invariant morphisms, normality, surjectivity on geometric points, unique closed orbits in fibres, the closed-image and separation properties, and invariants commuting with flat base change. Over a non-flat reduction only the bijection on geometric points between the special-fibre quotient and the special fibre of the integral quotient is supplied, not an isomorphism of invariant algebras. Section 0.28 applies this to SL₂ acting on Rat_d over ℚ, over 𝔽_p and over ℤ_(p).
+
+### From TauCetiRoadmap.SchemeAndStackFoundations — Layer 5
+
+For a projective variety X of dimension n over a field and a line bundle L on X, the degree deg_L X = (c₁(L)^n · [X]) as an intersection number, positive when L is ample, and equal to deg X ⊂ P^N for L = O(1).
+
+### From TauCetiRoadmap.ModularCurves — 0d-finite-étale-schemes-and-galois-actions
+
+Over a field K with separable closure K^s: the equivalence X ↦ X(K^s) between finite étale K-schemes and finite continuous Gal(K^s/K)-sets, functorial in K-morphisms, together with its value on the monogenic case: for a separable g ∈ K[x], Spec K[x]/(g) ↦ the Gal(K^s/K)-set of roots of g in K^s, and for polynomials g, h and p ∈ K[x] with g ∣ h ∘ p, the morphism Spec K[x]/(g) → Spec K[y]/(h) induced by y ↦ p(x) ↦ the map of roots β ↦ p(β).
+
+### From TauCetiRoadmap.NumberFieldArithmetic — layer-3-the-index-dedekindkummer-and-dedekinds-theorem
+
+For a monic separable f ∈ ℤ[x] and a rational prime p with p ∤ disc(f): p is unramified in the splitting field of f over ℚ, i.e. Algebra.IsUnramifiedIn (𝓞 L) (Ideal.span {p}) for L = the splitting field (equivalently: p is unramified in every root field ℚ(θ) (layer 3.5–3.6) and unramified in each of two number fields implies unramified in their compositum (layer 1.5)).
+
+### From TauCetiRoadmap.AlgebraicCurves — layer-6-extensions-of-function-fields
+
+For a finite separable extension F'/F of function fields over an algebraically closed k of any characteristic and a place P of F with a local integral generator y whose minimal polynomial φ has 𝒪_P[y] = 𝒪'_P (monogenic case): the places over P, their ramification indices and residue degrees are read off the factorization of φ mod P (Kummer's theorem, Stichtenoth Cor. 3.3.8), and the discriminant ideal of 𝒪'_P over 𝒪_P is generated by disc φ.
+
+### From TauCetiRoadmap.AlgebraicCurves — layer-7-the-different-and-the-hurwitz-genus-formula
+
+Consume AlgebraicCurves Layer 7 over exact constant field k in every characteristic for finite separable F′/F: the different divisor, d(P′|P)≥e(P′|P)−1, tower transitivity, and Hurwitz 2g′−2=[F′:F](2g−2)+deg Diff. With separable residue extension, d=e−1 precisely at tame places. The discriminant valuation is Σ d(P′|P)f(P′|P); replace d by e−1 only in the tame case. For the Juul application pass to algebraically closed k, where residue extensions are separable. The genus-zero base is k(t).
+
+### From TauCetiRoadmap.AlgebraicCurves — layer-8-constant-field-extensions-galois-ramification-and-inseparability-
+
+For a finite Galois extension M/F of function fields over an algebraically closed k of any characteristic, a place q of M over p, and an intermediate field L = M^H: decomposition and inertia groups with |I(q|p)| = e(q|p); the Galois action on places and its decomposition/inertia stabilizers; §5.7 derives the root-permutation orbit comparison of Juul Lemma 2.4 from this input. Consume also the statement that unramified in each of two subfields implies unramified in their compositum (Stichtenoth Cor. 3.9.3).
+
+### From TauCetiRoadmap.AlgebraicCurves — Layer 9
+
+Consume the formal derivative calculus and the Kähler/Weil differential comparison for separably generated function fields, applied to k(t) and k(f(t)) with f separable. Layer 7 supplies the different exponent used to identify the local multiplicities of §5.6a's critical divisor. These rational function fields are separably generated over k even when k is imperfect.
+
+### From TauCetiRoadmap.InverseGaloisAndArithmeticFundamentalGroups — IG.2
+
+Hilbert's irreducibility theorem for number fields in the form: for a number field K, independent indeterminates s = (s_0, …, `s_{d−1})` and a finite Galois extension M/K(s) split by a monic separable P ∈ K[s][x], there is a thin set E ⊆ K^d such that for a ∈ K^d ∖ E the specialized polynomial P_a is separable and Gal(P_a/K) ≅ Gal(M/K(s)) compatibly with the root actions.
+
+### From TauCetiRoadmap.SchemeAndStackFoundations — Layer 0
+
+(1) Quasi-projective varieties over a field K: schemes admitting an immersion into ℙ^N_K = Proj K[x₀, …, x_N], their closed subvarieties and K-points, with étale and unramified endomorphisms as Mathlib AlgebraicGeometry.Etale / FormallyUnramified morphisms of finite type. (2) Spreading out: for smooth geometrically irreducible X, an étale Φ, V and α over ℂ defined over a finitely generated ℤ-algebra R ⊂ ℂ, a model X_R → Spec R such that, over a dense open U ⊆ Spec R, X_U is smooth and quasi-projective, Φ extends to an unramified endomorphism, fibres are geometrically irreducible, and α extends to a section (EGA IV §§8–9, 12; Bell–Ghioca–Tucker Proposition 4.3). (3) Base change of smoothness, unramifiedness and quasi-projectivity along Spec ℤ_p → Spec R.
+
+### From TauCetiRoadmap.HeightsRationalPointsAndObstructions — §§0.16, 0.30
+
+For a projective variety X over ℚ̄ with an ample line bundle L, the Weil height `h_{X,L}` : X(ℚ̄) → ℝ (well defined up to bounded functions), with pullback functoriality `h_{Y,φ*M}` = `h_{X,M}` ∘ φ + O(1) for morphisms φ : Y → X, restriction to closed subvarieties, commensurability `c₁h_{X,L}` − c₂ ≤ `h_{X,L′}` ≤ `c₃h_{X,L}` + c₄ of two ample heights, and HeightsRationalPointsAndObstructions §0.30 `weilHeight_dominant_lower_bound` for a generically finite morphism on a dense open; the extension to its whole finite-fibre locus is a Layer 6 target; applied to a projective compactification of the moduli space M_d of degree-d rational maps, giving the ample moduli height `h_{M_d}.`
+
+### From TauCetiRoadmap.FuchsianOrbifolds — layer-5-compact-surface-degree-theory-and-fuchsian-applications
+
+Finite nonconstant holomorphic sphere maps: local analytic normal forms, positive local multiplicities, finite fibres with degree sum, critical values, inverse branches off critical values, composition. Use the FuchsianOrbifolds independent lower compact-surface degree module; do not reconstruct it in arithmetic dynamics.
+
+### From TauCetiRoadmap.ConformalMapping — Layers, L0 (the local mapping engine)
+
+Import ConformalMapping L0 Hurwitz and its local open-mapping and degree consequences. A nonconstant locally uniform inverse-branch limit then yields a common image neighborhood.
+
+### From Tau Ceti — sphere atlas
+
+Consume `OnePoint.affineChart`, `OnePoint.invChart`, `OnePoint.instChartedSpace`,
+`OnePoint.instIsManifold`, `OnePoint.chartAt_coe`, `OnePoint.chartAt_infty`,
+`OnePoint.affineChart_coe`, `OnePoint.invChart_coe`, `OnePoint.invChart_infty`,
+`OnePoint.invChart_symm_zero`, `OnePoint.mdifferentiableAt_iff_of_ne_infty`
+and `OnePoint.mdifferentiableAt_iff_of_eq_infty` from
+`TauCeti/Geometry/Manifold/Instances/OnePoint.lean`, specialized to ℂ. The
+finite chart is z, the infinity chart is 1/z, and the analytic manifold instance
+uses the existing compact Hausdorff topology. These are the inputs of
+ComplexManifolds, Milestone 3, and of the meromorphic comparison in §2.1.
+
+### From TauCetiRoadmap.AlgebraicCurves — layer-0-function-fields-constant-fields-and-places
+
+One-variable function fields, exact constants and places for the dynatomic function field.
+
+### From TauCetiRoadmap.AlgebraicCurves — layer-1-the-rational-function-field
+
+Genus 0 of the rational function field, rational differential coefficient and places.
+
+### From TauCetiRoadmap.AlgebraicCurves — layer-2-affine-models--the-dedekind-bridge
+
+Integral closure and the smooth affine-model/function-field comparison.
+
+### From TauCetiRoadmap.AlgebraicCurves — layer-3-divisors-ld-riemanns-theorem-and-the-genus
+
+Genus of a function field and its regular projective model.
+
+### From TauCetiRoadmap.AlgebraicCurves — layer-6-extensions-of-function-fields
+
+Degree of a finite extension of function fields, the places above a given place and the fundamental identity Σe·f=[F′:F], for the rotation quotient.
+
+### From TauCetiRoadmap.AlgebraicCurves — layer-7-the-different-and-the-hurwitz-genus-formula
+
+Tame different exponent e−1 and the Hurwitz genus formula.
+
+### From TauCetiRoadmap.AlgebraicCurves — layer-8-constant-field-extensions-galois-ramification-and-inseparability-
+
+Characteristic-zero base change preserves geometric integrality and genus.
+
+### From TauCetiRoadmap.AlgebraicCurves — layer-11-automorphisms-and-the-hurwitz-bound
+
+Fixed-field degree and quotient by a finite cyclic automorphism group.
+
+### From TauCetiRoadmap.AlgebraicCurves — layer-12-the-dictionary--function-fields--curves-and-the-comparison-contracts
+
+Unique regular projective models, finite maps from inclusions of function fields, normalization, and extension of affine maps.
+
+### From TauCetiRoadmap.ConformalMapping — Layers, L4 (analytic continuation and the reflection principle)
+
+Normalized conformal coordinates, analytic continuation, and general monodromy/lifting theorems, specialized to the explicitly specified dynamical domains. Periodic ray landing and parabolic basin theory require the dynamical constructions below.
+
+### From TauCetiRoadmap.HeightsRationalPointsAndObstructions — §§0.9–0.11, 0.16
+
+Consume `GeneralizedGlobalField` (§0.9) as the global height field K of §6.24, together with its finite extensions. For a smooth projective geometrically integral curve T/K, consume the polarized function-field height family `ofPolarization` of §0.10 on K(T) (K is algebraically closed in K(T), the transcendence degree is 1, V = T, N any divisor of degree 1), whose place at a closed point D of T has weight [K(D) : K] and value exp(−ord_D a); this is the degree-normalized geometric height on K(T) that the right-hand side of §6.24 uses, and the normalized projective height of §0.11 fixes its scaling. Consume the Weil height machine `weilHeight` of §0.16 twice: over K, for V and T, and over the global height field K(T), for the generic fibre V_η. Section 6.24 derives from these the curve-height quasi-equivalence `h_{T,D}(t)/h_{T,A}(t)→deg` D for every real divisor class D on T and deg A=1, as `h_{T,A}→∞,` with compatible algebraic-extension normalization, the generic intersection-degree identity, and the uniform relative height bound of Call–Silverman Theorems 3.1 and 4.1 over a global height field.
+
+### From TauCetiRoadmap.HeightsRationalPointsAndObstructions — §4.8
+
+Use Siegel on the normalizations of the components of F(X)=G(Y), with the integral model and boundary points tracked. The Bilu–Tichy classification is a separate input and is not attributed to Siegel.
+
+### From TauCetiRoadmap.HeightsAndUnits
+
+Consume §1.1, the `Northcott` instances for `Projectivization.mulHeight` and `Projectivization.logHeight`. These supply finiteness of bounded-height projective sets over a number field, and transfer bounded-degree Northcott from DiophantineApproximationAndTranscendence §0.3.
+
+### From TauCetiRoadmap.ClassicalArithmeticCompletion
+
+Consume §6.37, `projectiveWeilHeight`, `projectivePowerMap`, their affine and infinity computation rules, the compositional iterate formula and `powerMapCanonicalHeight_eq`. The general rational-map constructor here retains arbitrary characteristic; its characteristic-zero projective action is this supplier's map. Its power-height and algebraic torsion tests are consumed as that section's computations.
+
+### From TauCetiRoadmap.PDE — Lane C
+
+Consume Lane C, targets 13–15, for the classical Euclidean harmonic and potential-theory input, with Mathlib’s Laplacian sign. The sphere distributional Laplacian, Riesz measures and logarithmic singularities are constructed in Layer 2 on the stated domain of potentials.
+
+### From Mathlib and Tau Ceti
+
+Consume `MeasureTheory.Measure.condKernel`, its `IsCondKernel` and Markov-kernel
+instances from `Mathlib/Probability/Kernel/Disintegration/StandardBorel.lean`,
+and `MeasureTheory.Measure.IsCondKernel` and `MeasureTheory.Measure.disintegrate`
+from `Mathlib/Probability/Kernel/Disintegration/Basic.lean`. For a finite measure
+ρ on A×X the chosen kernel requires X nonempty and standard Borel; A needs only a
+measurable structure. The `IsCondKernel` class states the reconstruction identity
+ρ.fst ⊗ₘ K=ρ; it alone imposes neither the Markov property nor pointwise support
+on fibres. Consume also `ProbabilityTheory.condDistrib`,
+`ProbabilityTheory.compProd_map_condDistrib` and
+`ProbabilityTheory.condDistrib_ae_eq_condExp` in
+`Mathlib/Probability/Kernel/CondDistrib.lean`. Its definition is the conditional
+kernel of the joint law in conditioning-variable, observed-variable order.
+Section 2.7 specializes it to an endomorphism's graph, using the supplier's
+conditional-label interface for fibre concentration and the entropy bound.
+
+Analytic-presentation transport uses `Homeomorph` from `Mathlib/Topology/Homeomorph/Defs.lean` and `ContinuousMap` from `Mathlib/Topology/ContinuousMap/Defs.lean`. Consume `MeasureTheory.Measure.map` and `MeasureTheory.Measure.map_map` in `Mathlib/MeasureTheory/Measure/Map.lean`, `MeasureTheory.Measure.map_dirac'` in `Mathlib/MeasureTheory/Measure/Dirac/Basic.lean`, and `MeasureTheory.integral_map` in `Mathlib/MeasureTheory/Integral/Bochner/Basic.lean`, with their measurability hypotheses. The homeomorphisms in §§2.2, 4.1 are measurable in both directions for the Borel structures; their function and measure comparisons use these native operations and laws.
+
+`WeierstrassCurve.Affine.Point.xRep` in `Mathlib/AlgebraicGeometry/EllipticCurve/Affine/Point.lean` supplies the normalized x-coordinate representatives (1,0) at zero and (x,1) at a nonsingular affine point (x,y). The point type includes only nonsingular affine points and the point at infinity; ellipticity is a separate condition, not a field of that type. The Legendre bound explicitly excludes t = 0,1.
+
+`Equiv.conj` (`Mathlib/Logic/Equiv/Defs.lean`) supplies conjugation of self-maps as h∘f∘h⁻¹. Use `Equiv.divRight₀` and `Equiv.addRight` for the rational scaling and translation convention Checks in §§0.36, 2.16 and 3.3; their backward-orbit transport follows from conjugacy transport in §2.17.
+
+Consume `Polynomial.dickson 1 a n` over a commutative ring, together with `Polynomial.map_dickson`, `Polynomial.dickson_add_two`, `Polynomial.dickson_one_one_eval_add_inv` and `Polynomial.dickson_one_one_mul`, from `Mathlib/RingTheory/Polynomial/Dickson.lean`. These supply the carrier, coefficient transport, recurrence, parameter-one evaluation and composition identities used in §6.25. Consume also `Polynomial.dickson_sq_mul_eval_mul` from `TauCeti/RingTheory/Polynomial/Dickson.lean`: over a commutative ring, `(dickson k (b^2*a) n).eval (b*t) = b^n*(dickson k a n).eval t`, for every k,n and a,b,t. Applying it over R[X] at X gives D_n(bX,b²a)=bⁿD_n(X,a), the parameter scaling used in §6.25.
+
+The following existing declarations supply the algebraic, topological and height
+interfaces used below. Their statements and ambient hypotheses govern every use.
+
+- **`AbsoluteValue`** — Absolute values R → S; the places of the admissible family on k(t) are AbsoluteValue (RatFunc k) ℝ. Module: `Mathlib/Algebra/Order/AbsoluteValue/Basic.lean`.
+- **`AbsoluteValue.eval_mvPolynomial_le`** — Local (archimedean) bound v(p(x)) ≤ (Σ v(coefficients))·(⨆ i, v(x i))^N for p homogeneous of degree N. Module: `Mathlib/NumberTheory/Height/MvPolynomial.lean`.
+- **`AbsoluteValue.iSup_abv_linearMap_apply_le`** — Local bound ⨆ j, v(Σ_i A(j,i)x_i) ≤ #ι·(⨆ v(A))·(⨆ v(x)) for a linear map. Module: `Mathlib/NumberTheory/Height/MvPolynomial.lean`.
+- **`AddCircle`** — For an additive commutative group, the quotient by integer multiples of p; p=1 over ℝ supplies angles. Module: `Mathlib/Topology/Instances/AddCircle/Defs.lean`.
+- **`AdjoinRoot`** — R[X]/(f): the coordinate ring of the dynatomic curve over ℤ[c] Module: `Mathlib/RingTheory/AdjoinRoot.lean`.
+- **`AdjoinRoot.lift`** — ring homomorphisms out of R[X]/(f) from a root of f: the points of Y₁(n) Module: `Mathlib/RingTheory/AdjoinRoot.lean`.
+- **`Algebra.EssFiniteType`** — Essentially finite-type algebras; for fields this is finite field generation, not finite algebra generation. Module: `Mathlib/RingTheory/EssentialFiniteness.lean`.
+- **`Algebra.FiniteType`** — Finitely generated algebras (finite type). Module: `Mathlib/RingTheory/FiniteType.lean`.
+- **`Algebra.IsAlgebraic`** — The class of algebraic algebras (every element algebraic over the base). Module: `Mathlib/RingTheory/Algebraic/Defs.lean`.
+- **`Algebra.IsAlgebraic.cardinalMk_le_max`** — A torsion-free algebraic domain extension has cardinal at most max(base cardinal,ℵ₀). Module: `Mathlib/RingTheory/Algebraic/Cardinality.lean`.
+- **`Algebra.IsUnramifiedIn`** — A prime 𝔭 of R is unramified in A: every prime of A over 𝔭 is unramified. Module: `Mathlib/RingTheory/Unramified/Locus.lean`.
+- **`Algebra.adjoin_induction`** — Induction on membership of a generated subalgebra by generators, scalar constants, addition and multiplication. Module: `Mathlib/Algebra/Algebra/Subalgebra/Lattice.lean`.
+- **`Algebra.finite_of_essFiniteType_of_isAlgebraic`** — An algebraic essentially finite type field extension is module finite. Module: `Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.lean`.
+- **`Algebra.trace`** — The trace of an element of an R-algebra S, as an R-linear map S → R (trace of left multiplication). Module: `Mathlib/RingTheory/Trace/Defs.lean`.
+- **`Algebra.trace_trace`** — Transitivity of the trace in a tower R ⊆ S ⊆ T of free finite extensions: `Tr_{S/R}(Tr_{T/S}` x) = `Tr_{T/R}` x. Module: `Mathlib/RingTheory/Trace/Defs.lean`.
+- **`AlgebraicClosure`** — The algebraic closure of a field. Module: `Mathlib/FieldTheory/IsAlgClosed/AlgebraicClosure.lean`.
+- **`AlgebraicGeometry.Etale`** — Étale morphisms of schemes. Module: `Mathlib/AlgebraicGeometry/Morphisms/Etale.lean`.
+- **`AlgebraicGeometry.FormallyUnramified`** — Formally unramified morphisms of schemes (unramified with locally finite type). Module: `Mathlib/AlgebraicGeometry/Morphisms/FormallyUnramified.lean`.
+- **`AlgebraicGeometry.IsIntegral`** — Integral schemes (varieties). Module: `Mathlib/AlgebraicGeometry/Properties.lean`.
+- **`AlgebraicGeometry.Scheme`** — Schemes, carrying the Zariski topology used for generic sequences. Module: `Mathlib/AlgebraicGeometry/Scheme.lean`.
+- **`AlgebraicGeometry.Smooth`** — Smooth morphisms of schemes. Module: `Mathlib/AlgebraicGeometry/Morphisms/Smooth.lean`.
+- **`AlgebraicIndependent`** — Injectivity of the native multivariable evaluation algebra homomorphism. Module: `Mathlib/RingTheory/AlgebraicIndependent/Defs.lean`.
+- **`AlgebraicIndependent.aevalEquiv`** — The native polynomial algebra is equivalent to the subalgebra generated by an independent family. Module: `Mathlib/RingTheory/AlgebraicIndependent/Defs.lean`.
+- **`AlgebraicIndependent.aevalEquivField`** — Identifies the fraction field of a multivariate polynomial ring over a field with the intermediate field generated by an independent family. Module: `Mathlib/RingTheory/AlgebraicIndependent/Adjoin.lean`.
+- **`AlgebraicIndependent.aeval_of_algebraicIndependent`** — Evaluating an independent family of polynomial expressions at an independent tuple preserves independence. Module: `Mathlib/RingTheory/AlgebraicIndependent/Basic.lean`.
+- **`AlgebraicIndependent.comp`** — Restriction/reindexing of an independent family along an injective index map. Module: `Mathlib/RingTheory/AlgebraicIndependent/Defs.lean`.
+- **`ArithmeticFunction.coe_moebius_mul_coe_zeta`** — μ ∗ ζ = 1: `Σ_{d∣n}` μ(d) = [n = 1] Module: `Mathlib/NumberTheory/ArithmeticFunction/Moebius.lean`.
+- **`ArithmeticFunction.isMultiplicative_moebius`** — μ is multiplicative Module: `Mathlib/NumberTheory/ArithmeticFunction/Moebius.lean`.
+- **`ArithmeticFunction.moebius`** — Integer-valued Möbius function, zero on nonsquarefree integers and (−1)^cardFactors otherwise. Module: `Mathlib/NumberTheory/ArithmeticFunction/Moebius.lean`.
+- **`ArithmeticFunction.prod_eq_iff_prod_pow_moebius_eq_of_nonzero`** — multiplicative Möbius inversion in a group with zero Module: `Mathlib/NumberTheory/ArithmeticFunction/Moebius.lean`.
+- **`ArithmeticFunction.prod_eq_iff_prod_pow_moebius_eq_on_of_nonzero`** — Multiplicative Möbius inversion for nonvanishing sequences in a group with zero, on divisor-closed sets. Module: `Mathlib/NumberTheory/ArithmeticFunction/Moebius.lean`.
+- **`ArithmeticFunction.sum_eq_iff_sum_mul_moebius_eq`** — additive Möbius inversion Module: `Mathlib/NumberTheory/ArithmeticFunction/Moebius.lean`.
+- **`ArzelaAscoli.isCompact_of_equicontinuous`** — An equicontinuous family of continuous maps compact in the pointwise topology is compact in the compact-open topology; native uniform-space formulation. Module: `Mathlib/Topology/UniformSpace/Ascoli.lean`.
+- **`BoundedContinuousFunction.arzela_ascoli₁`** — Closed equicontinuous sets of bounded continuous maps from a compact domain into a compact metric target are compact. Restrict to compact subdomains before applying to local normal families. Module: `Mathlib/Topology/ContinuousMap/Bounded/ArzelaAscoli.lean`.
+- **`Cardinal.aleph0_lt_continuum`** — Cantor inequality ℵ₀ < 2^ℵ₀ used against countability of a putatively algebraic p-adic field. Module: `Mathlib/SetTheory/Cardinal/Continuum.lean`.
+- **`Cardinal.mk_arrow`** — The cardinal of a function type is the corresponding power, with universe lifts. Module: `Mathlib/SetTheory/Cardinal/Defs.lean`.
+- **`Cardinal.mk_bool`** — Bool has cardinal 2. Module: `Mathlib/SetTheory/Cardinal/Order.lean`.
+- **`Cardinal.mk_le_aleph0`** — A countable type has cardinal at most ℵ₀. Module: `Mathlib/SetTheory/Cardinal/Basic.lean`.
+- **`Cardinal.mk_nat`** — ℕ has cardinal ℵ₀. Module: `Mathlib/SetTheory/Cardinal/Defs.lean`.
+- **`CategoryTheory.End`** — The endomorphisms of an object, a monoid under composition. Module: `Mathlib/CategoryTheory/Endomorphism.lean`.
+- **`CategoryTheory.End.mul_def`** — xs * ys = ys ≫ xs in End X. Module: `Mathlib/CategoryTheory/Endomorphism.lean`.
+- **`CauchySeq.tendsto_limUnder`** — A Cauchy sequence in a complete space tends to its limUnder. Module: `Mathlib/Topology/UniformSpace/Cauchy.lean`.
+- **`CompactSpace.uniformContinuous_of_continuous`** — Heine–Cantor: continuous functions on a compact uniform space are uniformly continuous (the regularisation modulus at infinite places). Module: `Mathlib/Topology/UniformSpace/HeineCantor.lean`.
+- **`Complex.isAlgClosed`** — ℂ is algebraically closed (instance). Module: `Mathlib/Analysis/Complex/Polynomial/Basic.lean`.
+- **`ConjAct.units_smul_def`** — Units of a monoid act on it by conjugation: g • h = g h g⁻¹ (MulDistribMulAction). Module: `Mathlib/GroupTheory/GroupAction/ConjAct.lean`.
+- **`ConjClasses`** — Conjugacy classes of a monoid (quotient by IsConj). Module: `Mathlib/Algebra/Group/Conj.lean`.
+- **`ConjClasses.mk`** — The conjugacy class of an element; mk a = mk b ↔ IsConj a b. Module: `Mathlib/Algebra/Group/Conj.lean`.
+- **`Dynamics.coverEntropy`**, **`Dynamics.coverEntropyInf`**, **`Dynamics.coverMincard`** — Native EReal-valued entropy from limsup or liminf covering growth, and the ℕ∞-valued minimal dynamical covering cardinal. The global sphere target uses Set.univ. Module: `Mathlib/Dynamics/TopologicalEntropy/CoverEntropy.lean`.
+- **`Equiv.Perm`** — Permutations of a type. Module: `Mathlib/Logic/Equiv/Defs.lean`.
+- **`Equiv.Perm.sign`** — The sign homomorphism Perm α →* ℤˣ for a finite type with decidable equality. Module: `Mathlib/GroupTheory/Perm/Sign.lean`.
+- **`Field.absoluteGaloisGroup`** — Mathlib's absolute Galois group, the automorphisms of AlgebraicClosure K over K, with the Krull topology. Module: `Mathlib/FieldTheory/AbsoluteGaloisGroup.lean`.
+- **`Field.exists_primitive_element`** — A finite-dimensional separable extension has a single intermediate-field generator. Module: `Mathlib/FieldTheory/PrimitiveElement.lean`.
+- **`Filter.Tendsto.comp`** — Composition of limits. Module: `Mathlib/Order/Filter/Tendsto.lean`.
+- **`Filter.Tendsto.const_mul`** — Limits of b * f. Module: `Mathlib/Topology/Algebra/Monoid/Defs.lean`.
+- **`Filter.Tendsto.div_const`** — Limits of f / y. Module: `Mathlib/Topology/Algebra/GroupWithZero.lean`.
+- **`Filter.Tendsto.limUnder_eq`** — If g tends to x then limUnder f g = x. Module: `Mathlib/Topology/Separation/Hausdorff.lean`.
+- **`Filter.limUnder`** — limUnder f g, the (junk-valued) limit of g along f. Module: `Mathlib/Topology/Defs/Filter.lean`.
+- **`Filter.tendsto_add_atTop_nat`** — n ↦ n + k tends to atTop. Module: `Mathlib/Order/Filter/AtTopBot/Basic.lean`.
+- **`Fin.cons`** — Prepend an entry at index 0 to a tuple. Module: `Mathlib/Data/Fin/Tuple/Basic.lean`.
+- **`Fin.tail`** — Drop the entry at index 0 of a tuple Fin (n+1) → α. Module: `Mathlib/Data/Fin/Tuple/Basic.lean`.
+- **`Finite.exists_ne_map_eq_of_infinite`** — Pigeonhole: a map from an infinite type to a finite type is not injective. Module: `Mathlib/Data/Fintype/Pigeonhole.lean`.
+- **`Finset.abs_sum_le_sum_abs`** — Triangle inequality for finite sums. Module: `Mathlib/Algebra/Order/BigOperators/Group/Finset.lean`.
+- **`Finset.dvd_prod_of_mem`** — Every factor belonging to a finite product divides it; excludes each marked denominator from the selected prime. Module: `Mathlib/Algebra/BigOperators/Group/Finset/Piecewise.lean`.
+- **`Finset.exists_ne_map_eq_of_card_lt_of_maps_to`** — the pigeonhole principle for finite sets Module: `Mathlib/Data/Finset/Card.lean`.
+- **`FractionRing`** — the fraction field of K[X, Y], home of the Möbius product of period forms Module: `Mathlib/RingTheory/Localization/FractionRing.lean`.
+- **`Function.End`** — Self-maps of a type as a monoid under composition, with power = iterate. Module: `Mathlib/Algebra/Group/End.lean`.
+- **`Function.IsPeriodicPt`** — Periodic points of a self-map of a type (IsFixedPt of the iterate). Module: `Mathlib/Dynamics/PeriodicPts/Defs.lean`.
+- **`Function.IsPeriodicPt.iterate_mod_apply`** — For a point of period n, f^[m mod n] x = f^[m] x. Module: `Mathlib/Dynamics/PeriodicPts/Defs.lean`.
+- **`Function.IsPeriodicPt.map`** — A semiconjugacy maps periodic points to periodic points of the same period. Module: `Mathlib/Dynamics/PeriodicPts/Defs.lean`.
+- **`Function.IsPeriodicPt.minimalPeriod_dvd`** — If x is n-periodic then minimalPeriod f x divides n. Module: `Mathlib/Dynamics/PeriodicPts/Defs.lean`.
+- **`Function.Semiconj`** — Semiconjugacy g ∘ fa = fb ∘ g. Module: `Mathlib/Logic/Function/Conjugate.lean`.
+- **`Function.Semiconj.iterate_right`** — A semiconjugacy semiconjugates the iterates. Module: `Mathlib/Logic/Function/Iterate.lean`.
+- **`Function.Semiconj.mapsTo_periodicPts`** — A semiconjugacy maps periodicPts fa into periodicPts fb. Module: `Mathlib/Dynamics/PeriodicPts/Defs.lean`.
+- **`Function.iterate_succ_apply'`** — f^[n+1] x = f (f^[n] x). Module: `Mathlib/Logic/Function/Iterate.lean`.
+- **`Function.minimalPeriod`** — The minimal period of a point. Module: `Mathlib/Dynamics/PeriodicPts/Defs.lean`.
+- **`Function.minimalPeriod_iterate_eq_div_gcd`** — minimalPeriod f^[n] x = minimalPeriod f x / gcd(minimalPeriod f x, n) for n ≠ 0. Module: `Mathlib/Dynamics/PeriodicPts/Defs.lean`.
+- **`Function.periodicOrbit`** — The periodic orbit of a point as a Cycle . Module: `Mathlib/Dynamics/PeriodicPts/Defs.lean`.
+- **`Function.periodicPts`** — The set of periodic points of positive period. Module: `Mathlib/Dynamics/PeriodicPts/Defs.lean`.
+- **`Height.AdmissibleAbsValues`** — Fields with an admissible family of absolute values (archimedean multiset, nonarchimedean set, product formula). Module: `Mathlib/NumberTheory/Height/Basic.lean`.
+- **`Height.logHeight`** — Logarithmic height of a tuple over a field with admissible absolute values. Module: `Mathlib/NumberTheory/Height/Basic.lean`.
+- **`Height.logHeight_cons_zero`** — logHeight (vecCons 0 x) = logHeight x. Module: `Mathlib/NumberTheory/Height/Basic.lean`.
+- **`Height.logHeight_eq_zero_of_subsingleton`** — The height of a tuple indexed by a subsingleton is 0. Module: `Mathlib/NumberTheory/Height/Basic.lean`.
+- **`Height.logHeight_eval_ge`** — Lower bound for the height of the values of homogeneous forms, given a Nullstellensatz certificate q of degree M. Module: `Mathlib/NumberTheory/Height/MvPolynomial.lean`.
+- **`Height.logHeight_eval_le`** — Upper bound logHeight(p(x)) ≤ log max(mulHeightBound p, 1) + N logHeight x for forms of degree N. Module: `Mathlib/NumberTheory/Height/MvPolynomial.lean`.
+- **`Height.logHeight_smul_eq_logHeight`** — The height of a tuple is invariant under nonzero scaling. Module: `Mathlib/NumberTheory/Height/Basic.lean`.
+- **`Height.logHeight_swap`** — logHeight ![x, y] = logHeight ![y, x]. Module: `Mathlib/NumberTheory/Height/Basic.lean`.
+- **`Height.logHeight₁`** — The logarithmic height of a field element relative to K. Module: `Mathlib/NumberTheory/Height/Basic.lean`.
+- **`Height.logHeight₁_eq_logHeight`** — Under the ambient admissible absolute-value/height assumptions, scalar logarithmic height equals tuple height of [x,1]. Module: `Mathlib/NumberTheory/Height/Basic.lean`.
+- **`Height.logHeight₁_inv`** — logHeight₁ x⁻¹ = logHeight₁ x. Module: `Mathlib/NumberTheory/Height/Basic.lean`.
+- **`Height.mulHeight`** — the multiplicative height of a tuple Module: `Mathlib/NumberTheory/Height/Basic.lean`.
+- **`Height.mulHeightBound`** — The explicit constant (product over places of coefficient sums and maxima) in Mathlib's height bounds. Module: `Mathlib/NumberTheory/Height/MvPolynomial.lean`.
+- **`Height.mulHeightBound_eq`** — The unfolding of mulHeightBound as a product over archimedean and nonarchimedean absolute values. Module: `Mathlib/NumberTheory/Height/MvPolynomial.lean`.
+- **`Height.mulHeight₁_div_eq_mulHeight`** — H(x/y) = H(x, y): heights of points of ℙ¹ Module: `Mathlib/NumberTheory/Height/Basic.lean`.
+- **`Height.mulHeight₁_pow`** — mulHeight₁ (x ^ n) = mulHeight₁ x ^ n. Module: `Mathlib/NumberTheory/Height/Basic.lean`.
+- **`Height.totalWeight`** — The number of archimedean absolute values with multiplicity. Module: `Mathlib/NumberTheory/Height/Basic.lean`.
+- **`Ideal.Quotient.stabilizerHom`** — The homomorphism from the stabilizer (decomposition group) of Q to Aut((B/Q)/(A/P)). Module: `Mathlib/RingTheory/Ideal/Over.lean`.
+- **`Ideal.Quotient.stabilizerHom_surjective`** — The decomposition group of Q surjects onto the automorphism group of the residue extension. Module: `Mathlib/RingTheory/Invariant/Basic.lean`.
+- **`Ideal.exists_maximal`** — Every nonzero ring has a maximal ideal. Module: `Mathlib/RingTheory/Ideal/Maximal.lean`.
+- **`Ideal.sum_ramification_inertia_eq_finrank`** — `Σ_{q | p}` e(q|p) f(q|p) = [S : R] for a finite flat extension. Module: `Mathlib/RingTheory/RamificationInertia/Basic.lean`.
+- **`InfiniteGalois.normalAutEquivQuotient`** — For a closed normal subgroup H, Gal(K/k) ⧸ H ≃* Gal(fixedField H/k). Module: `Mathlib/FieldTheory/Galois/Infinite.lean`.
+- **`IsFractionRing.stabilizerHom_surjective`** — For a finite group G acting on B with invariant subring A, and a prime Q of B over P of A, the decomposition group surjects onto Aut(Frac(B/Q)/Frac(A/P)), with the compatible scalar structures. Section 5.39 uses the fraction-field form because P need not be maximal. Module: `Mathlib/RingTheory/Invariant/Basic.lean`, theorem at line 351.
+- **`IntermediateField.AdjoinSimple.gen`** — The generator x of K⟮x⟯ as an element of it. Module: `Mathlib/FieldTheory/IntermediateField/Adjoin/Defs.lean`.
+- **`IntermediateField.AdjoinSimple.norm_gen_eq_prod_roots`** — The norm of the generator of K⟮x⟯ is the product of the roots of minpoly K x in a splitting field. Module: `Mathlib/RingTheory/Norm/Basic.lean`.
+- **`IntermediateField.adjoin`** — The intermediate field generated by a set. Module: `Mathlib/FieldTheory/IntermediateField/Adjoin/Defs.lean`.
+- **`IntermediateField.adjoin.finrank`** — finrank K K⟮x⟯ = natDegree (minpoly K x) for integral x. Module: `Mathlib/FieldTheory/IntermediateField/Adjoin/Basic.lean`.
+- **`IntermediateField.adjoinRootEquivAdjoin`** — AdjoinRoot of the minimal polynomial of an integral element is algebra-equivalent to its simple intermediate field. Module: `Mathlib/FieldTheory/IntermediateField/Adjoin/Basic.lean`.
+- **`IntermediateField.adjoin_rootSet_isSplittingField`** — If p splits in L then adjoin K (p.rootSet L) is a splitting field of p. Module: `Mathlib/FieldTheory/SplittingField/IsSplittingField.lean`.
+- **`IntermediateField.algHomAdjoinIntegralEquiv`** — Algebra homomorphisms from a simple algebraic intermediate field correspond to roots of its minimal polynomial. Module: `Mathlib/FieldTheory/IntermediateField/Adjoin/Basic.lean`.
+- **`IntermediateField.algHomAdjoinIntegralEquiv_symm_apply_gen`** — The homomorphism associated to a root sends the simple generator to that root. Module: `Mathlib/FieldTheory/IntermediateField/Adjoin/Basic.lean`.
+- **`IntermediateField.fg_top_iff`** — Finite field generation is equivalent to Algebra.EssFiniteType. Module: `Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.lean`.
+- **`IntermediateField.finiteDimensional_adjoin`** — Adjoining finitely many integral elements gives a finite-dimensional extension. Module: `Mathlib/FieldTheory/IntermediateField/Adjoin/Basic.lean`.
+- **`IntermediateField.fixingSubgroup`** — The subgroup of Gal(E/F) fixing an intermediate field pointwise. Module: `Mathlib/FieldTheory/Galois/Basic.lean`.
+- **`IntermediateField.fixingSubgroup_isOpen`** — For E/K finite, the fixing subgroup of E is open in the Krull topology. Module: `Mathlib/FieldTheory/KrullTopology.lean`.
+- **`IntermediateField.relfinrank`** — The relative degree of two intermediate fields. Module: `Mathlib/FieldTheory/Relrank.lean`.
+- **`Irreducible`** — irreducible elements (irreducibility of Φ*ₙ(x, c) over ℂ) Module: `Mathlib/Algebra/Group/Irreducible/Defs.lean`.
+- **`IsAlgClosed`** — Algebraically closed fields. Module: `Mathlib/FieldTheory/IsAlgClosed/Basic.lean`.
+- **`IsAlgClosed.card_roots_eq_natDegree`** — Over an algebraically closed field a polynomial has natDegree roots with multiplicity. Module: `Mathlib/FieldTheory/IsAlgClosed/Basic.lean`.
+- **`IsAlgClosed.dvd_iff_roots_le_roots`** — divisibility of nonzero polynomials by comparison of root multisets Module: `Mathlib/FieldTheory/IsAlgClosed/Basic.lean`.
+- **`IsAlgClosed.lift`** — An algebraic extension embeds into an algebraically closed field. Module: `Mathlib/FieldTheory/IsAlgClosed/Basic.lean`.
+- **`IsAlgClosed.splits_domain`** — Every polynomial splits over an algebraically closed field. Module: `Mathlib/FieldTheory/IsAlgClosed/Basic.lean`.
+- **`IsClosed`** — Closed sets (Zariski-closed subsets of a scheme). Module: `Mathlib/Topology/Defs/Basic.lean`.
+- **`IsConj`** — Conjugacy in a monoid: a unit c with c a = b c. Module: `Mathlib/Algebra/Group/Conj.lean`.
+- **`IsDedekindDomain.HeightOneSpectrum.valuation`** — The adic valuation of a Dedekind domain at a height-one prime, extended to the fraction field (the places π of k(t)). Module: `Mathlib/RingTheory/DedekindDomain/AdicValuation.lean`.
+- **`IsDedekindDomain.HeightOneSpectrum.valuation_liesOver`** — v(x)^e = w(algebraMap x) for a prime w over v with ramification index e. Module: `Mathlib/NumberTheory/RamificationInertia/Valuation.lean`.
+- **`IsDiscreteValuationRing`** — discrete valuation rings (good reduction at a prime) Module: `Mathlib/RingTheory/DiscreteValuationRing/Basic.lean`.
+- **`IsFractionRing`** — K is the fraction field of R. Module: `Mathlib/RingTheory/Localization/FractionRing.lean`.
+- **`IsFractionRing.injective`** — a domain embeds in its fraction field Module: `Mathlib/RingTheory/Localization/FractionRing.lean`.
+- **`IsFractionRing.lift`** — An injective ring map into a field extends to its fraction field. Module: `Mathlib/RingTheory/Localization/FractionRing.lean`.
+- **`IsFractionRing.lift_unique`** — The fraction-field extension is unique once its values on the ring are fixed. Module: `Mathlib/RingTheory/Localization/FractionRing.lean`.
+- **`IsGalois.of_separable_splitting_field`** — The splitting field of a separable polynomial is Galois. Module: `Mathlib/FieldTheory/Galois/Basic.lean`.
+- **`IsLocalRing.ResidueField`** — The residue field R/𝔪 of a local ring. Module: `Mathlib/RingTheory/LocalRing/ResidueField/Defs.lean`.
+- **`IsLocalRing.mem_maximalIdeal`** — Membership in the maximal ideal of a commutative local semiring is precisely being a nonunit. Module: `Mathlib/RingTheory/LocalRing/MaximalIdeal/Basic.lean`.
+- **`IsLocalRing.residue`** — The quotient map R → R/𝔪. Module: `Mathlib/RingTheory/LocalRing/ResidueField/Defs.lean`.
+- **`IsLocalRing.residue_ne_zero_iff_isUnit`** — residue x ≠ 0 ↔ x is a unit, in a local ring. Module: `Mathlib/RingTheory/LocalRing/ResidueField/Basic.lean`.
+- **`IsLocalization.exist_integer_multiples`** — A finite family of fractions has a common denominator in the localization submonoid. Module: `Mathlib/RingTheory/Localization/Integer.lean`.
+- **`IsLocalization.integerNormalization_spec`** — An integral polynomial normalization maps to a nonzero-denominator scalar multiple of the original polynomial. Module: `Mathlib/RingTheory/Localization/Integral.lean`.
+- **`IsNonarchimedean.eval_mvPolynomial_le`** — Local nonarchimedean bound v(p(x)) ≤ (⨆ v(coefficients))·(⨆ i, v(x i))^N for p homogeneous of degree N. Module: `Mathlib/NumberTheory/Height/MvPolynomial.lean`.
+- **`IsNonarchimedean.iSup_abv_linearMap_apply_le`** — Nonarchimedean bound ⨆ j, v(Σ_i A(j,i)x_i) ≤ (⨆ v(A))·(⨆ v(x)). Module: `Mathlib/NumberTheory/Height/MvPolynomial.lean`.
+- **`IsOfFinOrder`** — Elements of finite order in a monoid. Module: `Mathlib/GroupTheory/OrderOfElement.lean`.
+- **`IsPGroup`** — The predicate that every element has p-power order. Module: `Mathlib/GroupTheory/PGroup.lean`.
+- **`IsPGroup.card_modEq_card_fixedPoints`** — For a p-group acting on a finite set, |α| ≡ |fixed points| mod p. Module: `Mathlib/GroupTheory/PGroup.lean`.
+- **`IsPGroup.exists_fixed_point_of_prime_dvd_card_of_fixed_point`** — A p-group acting on a finite set of cardinality divisible by p with one fixed point has another. Module: `Mathlib/GroupTheory/PGroup.lean`.
+- **`IsPrimitiveRoot`** — primitive roots of unity Module: `Mathlib/RingTheory/RootsOfUnity/PrimitiveRoots.lean`.
+- **`IsPrimitiveRoot.pow_eq_one_iff_dvd`** — ζ^l = 1 iff k ∣ l for a primitive k-th root ζ Module: `Mathlib/RingTheory/RootsOfUnity/PrimitiveRoots.lean`.
+- **`IsTranscendenceBasis.isAlgebraic`** — The target is algebraic over the subalgebra generated by a transcendence basis; the base need only be nontrivial. Module: `Mathlib/RingTheory/AlgebraicIndependent/TranscendenceBasis.lean`.
+- **`IsUltrametricDist`** — Ultrametric distances (the nonarchimedean inequality used in Strassmann's theorem). Module: `Mathlib/Topology/MetricSpace/Ultra/Basic.lean`.
+- **`IteratedWreathProduct`** — The n-fold iterated regular wreath product of a group G. Module: `Mathlib/GroupTheory/RegularWreathProduct.lean`.
+- **`IteratedWreathProduct.card`** — Nat.card (IteratedWreathProduct G n) = Nat.card G ^ `(∑_{i<n}` Nat.card G ^ i). Module: `Mathlib/GroupTheory/RegularWreathProduct.lean`.
+- **`Localization.Away`** — The localisation R[1/s]. Module: `Mathlib/GroupTheory/MonoidLocalization/Away.lean`.
+- **`Matrix.ProjGenLinGroup`** — PGL(n, R) = GL(n, R)/centre, with its action on ℙ K (n → K). Module: `Mathlib/LinearAlgebra/Matrix/GeneralLinearGroup/Projective.lean`.
+- **`Matrix.ProjGenLinGroup.mk`** — The projection GL(n, R) → PGL(n, R). Module: `Mathlib/LinearAlgebra/Matrix/GeneralLinearGroup/Projective.lean`.
+- **`Matrix.adjugate`** — The adjugate matrix. Module: `Mathlib/LinearAlgebra/Matrix/Adjugate.lean`.
+- **`Matrix.det_adjugate`** — det (adj A) = det A ^ (n − 1). Module: `Mathlib/LinearAlgebra/Matrix/Adjugate.lean`.
+- **`Matrix.det_fin_two`** — The 2 × 2 determinant formula. Module: `Mathlib/LinearAlgebra/Matrix/Determinant/Basic.lean`.
+- **`Matrix.det_kronecker`** — det (A ⊗ₖ B) = det A ^ card n · det B ^ card m. Module: `Mathlib/LinearAlgebra/Matrix/Kronecker.lean`.
+- **`Matrix.det_mul`** — Multiplicativity of the determinant. Module: `Mathlib/LinearAlgebra/Matrix/Determinant/Basic.lean`.
+- **`Matrix.det_reindex_self`** — Reindexing rows and columns by the same equivalence preserves the determinant. Module: `Mathlib/LinearAlgebra/Matrix/Determinant/Basic.lean`.
+- **`MeasureTheory.Measure.dirac`** — The Dirac measure at a point. Module: `Mathlib/MeasureTheory/Measure/Dirac/Def.lean`.
+- **`MeasureTheory.Measure.ext_of_integral_eq_on_compactlySupported`** — Regular measures agreeing on all compactly supported continuous real tests are equal. Module: `Mathlib/MeasureTheory/Integral/RieszMarkovKakutani/Real.lean`.
+- **`MeasureTheory.Measure.haarMeasure`** — Haar measure on a locally compact group normalised on a compact set; its additive version (generated by to_additive, not indexed) gives Haar measure on ℤ_p. Module: `Mathlib/MeasureTheory/Measure/Haar/Basic.lean`.
+- **`MeasureTheory.Measure.isClosed_support`** — Support is closed without assuming second countability. Module: `Mathlib/MeasureTheory/Measure/Support.lean`.
+- **`MeasureTheory.Measure.support`** — Native support of a measure on a topological measurable space; use instead of defining a second dynamical support. Module: `Mathlib/MeasureTheory/Measure/Support.lean`.
+- **`MeasureTheory.Measure.support_mem_ae_of_innerRegular`** — Inner regularity supplies conull support on a Hausdorff Borel space; nonempty support of a probability follows without a countable basis. Module: `Mathlib/MeasureTheory/Measure/Support.lean`.
+- **`MeasureTheory.ProbabilityMeasure`** — Native probability measures, underlying Measure and weak topology defined by continuous bounded test functions. Module: `Mathlib/MeasureTheory/Measure/ProbabilityMeasure.lean`.
+- **`MeasureTheory.ProbabilityMeasure.tendsto_iff_forall_integral_tendsto`** — Weak convergence of probability measures is convergence of integrals of bounded continuous functions. Module: `Mathlib/MeasureTheory/Measure/ProbabilityMeasure.lean`.
+- **`Metric.cauchySeq_iff'`** — Cauchy criterion for sequences in a metric space. Module: `Mathlib/Topology/MetricSpace/Cauchy.lean`.
+- **`Module.finrank`** — Dimension of a vector space; field degrees [L : K]. Module: `Mathlib/LinearAlgebra/Dimension/Finrank.lean`.
+- **`Module.finrank_mul_finrank`** — Tower law for finrank. Module: `Mathlib/LinearAlgebra/Dimension/Free.lean`.
+- **`MulAction.orbitRel`** — For a group acting on a type, the setoid of being in the same orbit; used for finite word quotients. Module: `Mathlib/GroupTheory/GroupAction/Defs.lean`.
+- **`Multiset.esymm`** — Elementary symmetric functions of a multiset. Module: `Mathlib/RingTheory/MvPolynomial/Symmetric/Defs.lean`.
+- **`MvPolynomial`** — Multivariate polynomials (forms defining rational maps and curves in ℙ¹ × ℙ¹). Module: `Mathlib/Algebra/MvPolynomial/Basic.lean`.
+- **`MvPolynomial.IsHomogeneous`** — Homogeneous multivariate polynomials of a given degree. Module: `Mathlib/RingTheory/MvPolynomial/Homogeneous.lean`.
+- **`MvPolynomial.IsHomogeneous.aeval`** — Substituting forms of degree n into a form of degree m gives a form of degree n·m. Module: `Mathlib/RingTheory/MvPolynomial/Homogeneous.lean`.
+- **`MvPolynomial.IsHomogeneous.funext`** — Over an infinite domain two forms of the same degree with the same values are equal. Module: `Mathlib/RingTheory/MvPolynomial/Homogeneous.lean`.
+- **`MvPolynomial.IsHomogeneous.map`** — Homogeneity is preserved by coefficient maps. Module: `Mathlib/RingTheory/MvPolynomial/Homogeneous.lean`.
+- **`MvPolynomial.IsHomogeneous.totalDegree_le`** — A form of degree n has total degree ≤ n. Module: `Mathlib/RingTheory/MvPolynomial/Homogeneous.lean`.
+- **`MvPolynomial.aeval`** — Evaluation/substitution of multivariate polynomials. Module: `Mathlib/Algebra/MvPolynomial/Eval.lean`.
+- **`MvPolynomial.aeval_C`** — Evaluation of a constant is its image under the algebra map. Module: `Mathlib/Algebra/MvPolynomial/Eval.lean`.
+- **`MvPolynomial.aeval_X`** — Evaluation of a variable is its assigned coordinate. Module: `Mathlib/Algebra/MvPolynomial/Eval.lean`.
+- **`MvPolynomial.bind₁`** — Substitution of polynomials for variables (monad bind), associative. Module: `Mathlib/Algebra/MvPolynomial/Monad.lean`.
+- **`MvPolynomial.cardinalMk_le_max`** — #R[T_i] ≤ max(#R,#I,ℵ₀), including an empty variable type. Module: `Mathlib/Algebra/MvPolynomial/Cardinal.lean`.
+- **`MvPolynomial.coeff_map`** — Coefficients of a mapped polynomial. Module: `Mathlib/Algebra/MvPolynomial/Eval.lean`.
+- **`MvPolynomial.comp_aeval`** — Composition with an algebra homomorphism commutes with multivariable evaluation. Module: `Mathlib/Algebra/MvPolynomial/Eval.lean`.
+- **`MvPolynomial.comp_eval₂Hom`** — A ring homomorphism composed with multivariable evaluation equals evaluation with mapped coefficients and coordinates. Module: `Mathlib/Algebra/MvPolynomial/Eval.lean`.
+- **`MvPolynomial.eval`** — Evaluation of a multivariate polynomial at a point. Module: `Mathlib/Algebra/MvPolynomial/Eval.lean`.
+- **`MvPolynomial.funext`** — Over an infinite domain two polynomials agreeing at every point are equal. Module: `Mathlib/Algebra/MvPolynomial/Funext.lean`.
+- **`MvPolynomial.map`** — Coefficient map of multivariate polynomials. Module: `Mathlib/Algebra/MvPolynomial/Eval.lean`.
+- **`MvPolynomial.pderiv`** — Partial derivatives of multivariate polynomials. Module: `Mathlib/Algebra/MvPolynomial/PDeriv.lean`.
+- **`MvPolynomial.pderiv_map`** — Partial derivatives commute with coefficient maps: pderiv i (map φ f) = map φ (pderiv i f). Module: `Mathlib/Algebra/MvPolynomial/PDeriv.lean`.
+- **`MvPolynomial.support_map_of_injective`** — An injective coefficient map preserves the support. Module: `Mathlib/Algebra/MvPolynomial/Eval.lean`.
+- **`Nat.ModEq.pow_totient`** — Euler's theorem x^φ(n) ≡ 1 mod n for x coprime to n. Module: `Mathlib/FieldTheory/Finite/Basic.lean`.
+- **`Nat.Prime.dvd_choose_self`** — p divides the binomial coefficient C(p, k) for 0 < k < p. Module: `Mathlib/Data/Nat/Choose/Dvd.lean`.
+- **`Nat.card`** — Cardinality of a type as a natural number (0 for infinite types). Module: `Mathlib/SetTheory/Cardinal/Finite.lean`.
+- **`Nat.divisorsAntidiagonal`** — the pairs (i, j) with i·j = n, indexing Möbius sums Module: `Mathlib/NumberTheory/Divisors.lean`.
+- **`Nat.exists_infinite_primes`** — For every natural bound there exists a prime at least that bound. Module: `Mathlib/Data/Nat/Prime/Infinite.lean`.
+- **`Nat.fib`** — The Fibonacci numbers. Module: `Mathlib/Data/Nat/Fib/Basic.lean`.
+- **`Nat.iterate`** — Native iterates, including the identity at n=0; Function.iterate_* supplies the laws. Module: `Mathlib/Logic/Function/Iterate.lean`.
+- **`Nat.ne_one_iff_exists_prime_dvd`** — A natural number different from one has a prime divisor, including the zero case. Module: `Mathlib/Data/Nat/Prime/Basic.lean`.
+- **`Nat.sum_Icc_choose`** — Hockey-stick identity `Σ_{m=k}^{n}` C(m, k) = C(n + 1, k + 1). Module: `Mathlib/Data/Nat/Choose/Sum.lean`.
+- **`Nat.totient`** — Counts natural numbers below n coprime with n; used in the ramification/genus sums. Module: `Mathlib/Data/Nat/Totient.lean`.
+- **`NumberField.FinitePlace`** — Finite places of a number field, as normalised absolute values. Module: `Mathlib/NumberTheory/NumberField/Completion/FinitePlace.lean`.
+- **`NumberField.FinitePlace.equivHeightOneSpectrum_symm_apply_algebraMap`** — For w over v, w(x) = `v(x)^{e f}` on elements of the base field. Module: `Mathlib/NumberTheory/NumberField/Completion/FinitePlace.lean`.
+- **`NumberField.FinitePlace.hasFiniteMulSupport`** — A nonzero element has absolute value 1 at all but finitely many finite places. Module: `Mathlib/NumberTheory/NumberField/Completion/FinitePlace.lean`.
+- **`NumberField.InfinitePlace`** — The infinite places of a number field (absolute values from complex embeddings). Module: `Mathlib/NumberTheory/NumberField/InfinitePlace/Basic.lean`.
+- **`NumberField.InfinitePlace.comap_apply`** — w.comap f x = w (f x). Module: `Mathlib/NumberTheory/NumberField/InfinitePlace/Ramification.lean`.
+- **`NumberField.InfinitePlace.mult`** — Multiplicity (1 or 2) of an infinite place. Module: `Mathlib/NumberTheory/NumberField/InfinitePlace/Basic.lean`.
+- **`NumberField.absLogHeight₁`** — The absolute logarithmic Weil height of a field element (junk 0 when transcendental). Module: `Mathlib/NumberTheory/Height/NumberField.lean`.
+- **`NumberField.finite_setOfPred_logHeight₁_le`** — Northcott in a fixed number field for logHeight₁. Module: `Mathlib/NumberTheory/Height/NumberField.lean`.
+- **`NumberField.finite_setOfPred_mulHeight₁_le`** — Northcott in a fixed number field for mulHeight₁. Module: `Mathlib/NumberTheory/Height/NumberField.lean`.
+- **`NumberField.instAdmissibleAbsValues`** — The admissible family of absolute values (places with multiplicity) of a number field. Module: `Mathlib/NumberTheory/Height/NumberField.lean`.
+- **`NumberField.logHeight₁_eq`** — logHeight₁ x = `Σ_{w infinite}` mult(w) log⁺ w(x) + `Σᶠ_{v finite}` log⁺ v(x) in a number field. Module: `Mathlib/NumberTheory/Height/NumberField.lean`.
+- **`NumberField.mulHeight_eq`** — The multiplicative height of a nonzero tuple is `∏_{v|∞}(⨆` `v(x_i))^{mult v}·∏ᶠ_{v∤∞}` ⨆ v(x_i). Module: `Mathlib/NumberTheory/Height/NumberField.lean`.
+- **`NumberField.mulHeight₁_eq`** — For a number field, native multiplicative height equals the product of max(|x|,1) over infinite places with multiplicities and finite places; no division by field degree. Module: `Mathlib/NumberTheory/Height/NumberField.lean`.
+- **`NumberField.not_dvd_discr_iff_isUnramifiedIn`** — A rational prime p does not divide disc K iff p is unramified in 𝓞_K. Module: `Mathlib/NumberTheory/NumberField/Discriminant/Different.lean`.
+- **`NumberField.prod_abs_eq_one`** — Product formula: `(∏_{w|∞}` `w(x)^{mult w})·∏ᶠ_{w∤∞}` w(x) = 1 for x ≠ 0. Module: `Mathlib/NumberTheory/NumberField/ProductFormula.lean`.
+- **`NumberField.prod_archAbsVal_eq`** — The product over archimedean absolute values as a product over infinite places with multiplicities. Module: `Mathlib/NumberTheory/Height/NumberField.lean`.
+- **`NumberField.totalWeight_eq_finrank`** — totalWeight K = [K : ℚ]. Module: `Mathlib/NumberTheory/Height/NumberField.lean`.
+- **`OnePoint`** — One-point compactification (the Riemann sphere OnePoint ℂ). Module: `Mathlib/Topology/Compactification/OnePoint/Basic.lean`.
+- **`OnePoint.equivProjectivization`** — Set equivalence OnePoint K with Projectivization K (Fin 2 → K), mapping finite z to [z:1] and infinity to [1:0]. Does not provide a complex manifold or a projective-line homeomorphism. Module: `Mathlib/Topology/Compactification/OnePoint/ProjectiveLine.lean`.
+- **`Padic.nonarchimedean`** — The norm of a sum of p-adic numbers is bounded by the maximum of the summands' norms. Module: `Mathlib/NumberTheory/Padics/PadicNumbers.lean`.
+- **`Padic.norm_p_lt_one`** — For a prime p, the p-adic norm of p is strictly below 1. Module: `Mathlib/NumberTheory/Padics/PadicNumbers.lean`.
+- **`PadicComplex`** — ℂ_p, the completion of an algebraic closure of ℚ_p (the field C_v at a finite place over p). Module: `Mathlib/NumberTheory/Padics/Complex.lean`.
+- **`PadicInt`** — The p-adic integers ℤ_[p]. Module: `Mathlib/NumberTheory/Padics/PadicIntegers.lean`.
+- **`PadicInt.isUnit_iff`** — A p-adic integer is a unit iff its norm equals one. Module: `Mathlib/NumberTheory/Padics/PadicIntegers.lean`.
+- **`PadicInt.ker_toZMod`** — The kernel of reduction ℤ_p → ZMod p is the maximal ideal. Module: `Mathlib/NumberTheory/Padics/RingHoms.lean`.
+- **`PadicInt.mem_nonunits`** — A p-adic integer is a nonunit iff its norm is strictly less than one. Module: `Mathlib/NumberTheory/Padics/PadicIntegers.lean`.
+- **`PadicInt.norm_intCast_eq_padic_norm`** — The norm of an integer cast to ℤ_p equals its norm after casting to ℚ_p. Module: `Mathlib/NumberTheory/Padics/PadicIntegers.lean`.
+- **`PadicInt.norm_le_one`** — Every p-adic integer has norm at most one. Module: `Mathlib/NumberTheory/Padics/PadicIntegers.lean`.
+- **`Perfect.exists_nat_bool_injection`** — Every nonempty perfect subset of a complete metric space receives a continuous injection from ℕ → Bool. Module: `Mathlib/Topology/MetricSpace/Perfect.lean`.
+- **`PerfectSpace.univ_perfect`** — The universe of a perfect space is a closed perfect set. Module: `Mathlib/Topology/Perfect.lean`.
+- **`Pi.topologicalSpace`** — Product topology on a Pi type. Module: `Mathlib/Topology/Constructions.lean`.
+- **`Polynomial`** — Univariate polynomials. Module: `Mathlib/Algebra/Polynomial/Basic.lean`.
+- **`Polynomial.C_leadingCoeff_mul_prod_multiset_X_sub_C`** — A polynomial with natDegree roots is lead · ∏ (X − r). Module: `Mathlib/Algebra/Polynomial/Roots.lean`.
+- **`Polynomial.Gal`** — The automorphism group of the native splitting field over the coefficient field, without a separability or irreducibility assumption in its definition. Module: `Mathlib/FieldTheory/PolynomialGaloisGroup.lean`, definition at line 56.
+- **`Polynomial.Gal.card_of_separable`** — Nat.card p.Gal = finrank F p.SplittingField for separable p. Module: `Mathlib/FieldTheory/PolynomialGaloisGroup.lean`.
+- **`Polynomial.Gal.galAction`** — The action of p.Gal on the roots of p in a splitting extension. Module: `Mathlib/FieldTheory/PolynomialGaloisGroup.lean`.
+- **`Polynomial.Gal.galActionHom`** — The permutation representation Gal(p) →* Perm (p.rootSet E). Module: `Mathlib/FieldTheory/PolynomialGaloisGroup.lean`.
+- **`Polynomial.Gal.galActionHom_injective`** — galActionHom is injective. Module: `Mathlib/FieldTheory/PolynomialGaloisGroup.lean`.
+- **`Polynomial.Gal.galActionHom_restrict`** — galActionHom p E (restrict p E ϕ) x = ϕ x for ϕ ∈ Gal(E/F). Module: `Mathlib/FieldTheory/PolynomialGaloisGroup.lean`.
+- **`Polynomial.Gal.galAction_isPretransitive`** — For irreducible p the Galois action on the roots is transitive. Module: `Mathlib/FieldTheory/PolynomialGaloisGroup.lean`.
+- **`Polynomial.Gal.restrict`** — Restriction Gal(E/F) →* p.Gal when p splits in E. Module: `Mathlib/FieldTheory/PolynomialGaloisGroup.lean`.
+- **`Polynomial.Gal.restrict_surjective`** — For E/F normal, restriction Gal(E/F) → p.Gal is surjective. Module: `Mathlib/FieldTheory/PolynomialGaloisGroup.lean`.
+- **`Polynomial.Monic`** — monic polynomials Module: `Mathlib/Algebra/Polynomial/Degree/Defs.lean`.
+- **`Polynomial.Monic.comp`** — a composite of monic polynomials is monic Module: `Mathlib/Algebra/Polynomial/Monic.lean`.
+- **`Polynomial.Separable.of_dvd`** — A divisor of a separable polynomial is separable. Module: `Mathlib/FieldTheory/Separable.lean`.
+- **`Polynomial.Splits`** — The predicate that a polynomial splits (factors into linear factors) over its coefficient field. Module: `Mathlib/Algebra/Polynomial/Splits.lean`.
+- **`Polynomial.Splits.eval_eq_prod_roots_of_monic`** — For monic f that splits, f.eval x = `∏_{roots r}` (x − r). Module: `Mathlib/Algebra/Polynomial/Splits.lean`.
+- **`Polynomial.aeval`** — Evaluation of a polynomial at an element of an algebra, as an algebra map. Module: `Mathlib/Algebra/Polynomial/AlgebraMap.lean`.
+- **`Polynomial.aeval_algHom_apply`** — aeval (f x) p = f (aeval x p) for an algebra homomorphism f. Module: `Mathlib/Algebra/Polynomial/AlgebraMap.lean`.
+- **`Polynomial.aeval_homogenize_X_one`** — Dehomogenising homogenize p n at X₁ = 1 returns p when deg p ≤ n. Module: `Mathlib/Algebra/Polynomial/Homogenize.lean`.
+- **`Polynomial.card_rootSet_eq_natDegree`** — A separable polynomial that splits in K has natDegree many roots in K. Module: `Mathlib/FieldTheory/Separable.lean`.
+- **`Polynomial.card_roots'`** — A polynomial has at most natDegree roots. Module: `Mathlib/Algebra/Polynomial/Roots.lean`.
+- **`Polynomial.coeToPowerSeries.ringHom`** — polynomials as power series Module: `Mathlib/RingTheory/PowerSeries/Basic.lean`.
+- **`Polynomial.coeff`** — Native coefficient finitely supported function, used over the generic integer coefficient ring and its reductions. Module: `Mathlib/Algebra/Polynomial/Basic.lean`.
+- **`Polynomial.comp`** — Polynomial substitution over a semiring; iterate the function H↦H.comp f for composition powers, rather than ring powers. Module: `Mathlib/Algebra/Polynomial/Eval/Defs.lean`.
+- **`Polynomial.count_roots`** — the multiplicity of a in the root multiset is rootMultiplicity a Module: `Mathlib/Algebra/Polynomial/Roots.lean`.
+- **`Polynomial.cyclotomic`** — Cyclotomic polynomials Φ_m. Module: `Mathlib/RingTheory/Polynomial/Cyclotomic/Basic.lean`.
+- **`Polynomial.derivative`** — The derivative of a univariate polynomial. Module: `Mathlib/Algebra/Polynomial/Derivative.lean`.
+- **`Polynomial.derivative_comp`** — Chain rule for polynomial composition. Module: `Mathlib/Algebra/Polynomial/Derivative.lean`.
+- **`Polynomial.derivative_map`** — Formal differentiation commutes with any coefficient-ring homomorphism. Module: `Mathlib/Algebra/Polynomial/Derivative.lean`.
+- **`Polynomial.discr`** — The discriminant of a polynomial (Sylvester determinant with sign; standard normalization). Module: `Mathlib/RingTheory/Polynomial/Resultant/Basic.lean`.
+- **`Polynomial.divByMonic`** — division by a monic polynomial over any commutative ring Module: `Mathlib/Algebra/Polynomial/Div.lean`.
+- **`Polynomial.eq_zero_of_infinite_isRoot`** — A polynomial with infinitely many roots is zero. Module: `Mathlib/Algebra/Polynomial/Roots.lean`.
+- **`Polynomial.eval`** — Evaluation of a polynomial in a semiring at an element; used for the explicit Morton equations. Module: `Mathlib/Algebra/Polynomial/Eval/Defs.lean`.
+- **`Polynomial.eval_homogenize`** — homogenize p n (x) = p(x₀/x₁) x₁^n for x₁ ≠ 0. Module: `Mathlib/Algebra/Polynomial/Homogenize.lean`.
+- **`Polynomial.eval_map_apply`** — Evaluating a coefficient-mapped polynomial at a mapped argument equals mapping the original evaluation. Module: `Mathlib/Algebra/Polynomial/Eval/Defs.lean`.
+- **`Polynomial.eval₂RingHom`** — evaluation as a ring homomorphism (specialising c) Module: `Mathlib/Algebra/Polynomial/Eval/Defs.lean`.
+- **`Polynomial.exists_mul_add_mul_eq_C_resultant`** — For formal degrees m,n bounding the polynomial degrees and m ≠ 0 or n ≠ 0: f p + g q = `C(Res_{m,n}(f,g)),` with deg p < n and deg q < m. No such assertion at m = n = 0. Module: `Mathlib/RingTheory/Polynomial/Resultant/Basic.lean`.
+- **`Polynomial.homogenize`** — Homogenisation of a univariate polynomial to a binary form of given degree. Module: `Mathlib/Algebra/Polynomial/Homogenize.lean`.
+- **`Polynomial.homogenize_C`** — homogenize (C c) n = C c · X₁^n. Module: `Mathlib/Algebra/Polynomial/Homogenize.lean`.
+- **`Polynomial.homogenize_eq_of_isHomogeneous`** — A form of degree n is the homogenisation of its dehomogenisation. Module: `Mathlib/Algebra/Polynomial/Homogenize.lean`.
+- **`Polynomial.homogenize_finsetProd`** — Homogenisation of a product. Module: `Mathlib/Algebra/Polynomial/Homogenize.lean`.
+- **`Polynomial.homogenize_mul`** — homogenize (p q) (m + n) = homogenize p m · homogenize q n. Module: `Mathlib/Algebra/Polynomial/Homogenize.lean`.
+- **`Polynomial.irreducible_comp`** — Capelli (one direction, monic case): f irreducible and g − α irreducible over K(α) imply f ∘ g irreducible. Module: `Mathlib/FieldTheory/IntermediateField/Adjoin/Basic.lean`.
+- **`Polynomial.isHomogeneous_homogenize`** — homogenize p n is homogeneous of degree n. Module: `Mathlib/Algebra/Polynomial/Homogenize.lean`.
+- **`Polynomial.iterate_comp_eval`** — evaluating the iterated composite is iterating the evaluation Module: `Mathlib/Algebra/Polynomial/Eval/Degree.lean`.
+- **`Polynomial.iterate_comp_eval₂`** — eval₂ of an iterated composition: eval₂ f t (p.comp^[k] q) = (fun x ↦ eval₂ f x p)^[k] (eval₂ f t q). Module: `Mathlib/Algebra/Polynomial/Eval/Degree.lean`.
+- **`Polynomial.map_divByMonic`** — division by a monic polynomial commutes with ring homomorphisms Module: `Mathlib/Algebra/Polynomial/Div.lean`.
+- **`Polynomial.map_map`** — Successive coefficient maps compose; used to compare the two reductions of a specialized polynomial. Module: `Mathlib/Algebra/Polynomial/Eval/Coeff.lean`.
+- **`Polynomial.mem_rootSet`** — Membership in rootSet: p ≠ 0 and aeval x p = 0. Module: `Mathlib/Algebra/Polynomial/Roots.lean`.
+- **`Polynomial.natDegree_X_pow`** — natDegree (X^n) = n. Module: `Mathlib/Algebra/Polynomial/Degree/Defs.lean`.
+- **`Polynomial.natDegree_iterate_comp`** — degree of iterated composites Module: `Mathlib/Algebra/Polynomial/Degree/Lemmas.lean`.
+- **`Polynomial.natDegree_map_eq_of_injective`** — Injective coefficient maps preserve natural degree; needed for actual-degree resultants. Module: `Mathlib/Algebra/Polynomial/Degree/Lemmas.lean`.
+- **`Polynomial.natDegree_map_of_leadingCoeff_ne_zero`** — A specialization preserves natural degree when the image of the leading coefficient is nonzero. Module: `Mathlib/Algebra/Polynomial/Eval/Degree.lean`.
+- **`Polynomial.natDegree_mul_le`** — natDegree (p q) ≤ natDegree p + natDegree q. Module: `Mathlib/Algebra/Polynomial/Degree/Defs.lean`.
+- **`Polynomial.nodup_roots`** — A separable polynomial has no repeated roots. Module: `Mathlib/FieldTheory/Separable.lean`.
+- **`Polynomial.nodup_roots_iff_of_splits`** — For f ≠ 0 splitting over a field: f.roots.Nodup ↔ f.Separable. Module: `Mathlib/FieldTheory/Separable.lean`.
+- **`Polynomial.prod_cyclotomic_eq_X_pow_sub_one`** — `∏_{i | n}` Φ_i = X^n − 1. Module: `Mathlib/RingTheory/Polynomial/Cyclotomic/Basic.lean`.
+- **`Polynomial.resultant`** — The resultant with formal degrees m, n as the Sylvester determinant. Module: `Mathlib/RingTheory/Polynomial/Resultant/Basic.lean`.
+- **`Polynomial.resultant_C_mul_left`** — Res(C r · f, g) = r^n Res(f, g). Module: `Mathlib/RingTheory/Polynomial/Resultant/Basic.lean`.
+- **`Polynomial.resultant_C_mul_right`** — Res(f, C r · g) = r^m Res(f, g). Module: `Mathlib/RingTheory/Polynomial/Resultant/Basic.lean`.
+- **`Polynomial.resultant_X_pow_left`** — `Res_{m,n}(X^m,` g) = g(0)^m. Module: `Mathlib/RingTheory/Polynomial/Resultant/Basic.lean`.
+- **`Polynomial.resultant_add_left_deg`** — Raising the formal degree of the first argument multiplies by ((−1)^n g_n)^k. Module: `Mathlib/RingTheory/Polynomial/Resultant/Basic.lean`.
+- **`Polynomial.resultant_add_right_deg`** — Raising the formal degree of the second argument multiplies by f_m^k. Module: `Mathlib/RingTheory/Polynomial/Resultant/Basic.lean`.
+- **`Polynomial.resultant_comm`** — `Res_{m,n}(f,` g) = `(−1)^{mn}` `Res_{n,m}(g,` f). Module: `Mathlib/RingTheory/Polynomial/Resultant/Basic.lean`.
+- **`Polynomial.resultant_deriv`** — resultant f f' = `(−1)^{n(n−1)/2}` · lc f · discr f for deg f > 0. Module: `Mathlib/RingTheory/Polynomial/Resultant/Basic.lean`.
+- **`Polynomial.resultant_eq_prod_eval`** — For f splitting over a domain: resultant f g = lc(f)^n `∏_{roots r of f}` g(r). Module: `Mathlib/RingTheory/Polynomial/Resultant/Basic.lean`.
+- **`Polynomial.resultant_eq_zero_iff`** — Over a field, the resultant vanishes iff (not both zero and) the polynomials are not coprime. Module: `Mathlib/RingTheory/Polynomial/Resultant/Basic.lean`.
+- **`Polynomial.resultant_map_map`** — The resultant commutes with ring homomorphisms. Module: `Mathlib/RingTheory/Polynomial/Resultant/Basic.lean`.
+- **`Polynomial.resultant_mul_left`** — Res(f₁ f₂, g) = Res(f₁, g) Res(f₂, g) at actual degrees. Module: `Mathlib/RingTheory/Polynomial/Resultant/Basic.lean`.
+- **`Polynomial.resultant_mul_right`** — Res(f, g₁ g₂) = Res(f, g₁) Res(f, g₂) at actual degrees. Module: `Mathlib/RingTheory/Polynomial/Resultant/Basic.lean`.
+- **`Polynomial.resultant_ne_zero`** — Over a domain, coprime polynomials have nonzero resultant at their actual degrees. Applied only after passage to the fraction field. Module: `Mathlib/RingTheory/Polynomial/Resultant/Basic.lean`.
+- **`Polynomial.resultant_succ_left_deg`** — Res(f, g, m + 1, n) = (−1)^n g_n Res(f, g, m, n). Module: `Mathlib/RingTheory/Polynomial/Resultant/Basic.lean`.
+- **`Polynomial.resultant_zero_left`** — `Res_{m,n}(0,` g) = 0^n g(0)^m. Module: `Mathlib/RingTheory/Polynomial/Resultant/Basic.lean`.
+- **`Polynomial.rootMultiplicity`** — root multiplicity (orders of binary forms at finite points) Module: `Mathlib/Algebra/Polynomial/Div.lean`.
+- **`Polynomial.rootSet`** — The set of roots of p (mapped) in an algebra, as a Set. Module: `Mathlib/Algebra/Polynomial/Roots.lean`.
+- **`Polynomial.roots`** — The multiset of roots of a polynomial. Module: `Mathlib/Algebra/Polynomial/Roots.lean`.
+- **`Polynomial.roots_mul`** — Roots of a product. Module: `Mathlib/Algebra/Polynomial/Roots.lean`.
+- **`Polynomial.separable_def'`** — Separability is the existence of a polynomial Bézout identity with scalar one in the specified coefficient ring. Module: `Mathlib/FieldTheory/Separable.lean`.
+- **`Polynomial.sub_dvd_eval_sub`** — a − b divides f(a) − f(b) over a commutative ring. Module: `Mathlib/Algebra/Polynomial/Div.lean`.
+- **`Polynomial.sylvester`** — The Sylvester matrix with formal degrees (its column convention fixes the orientation). Module: `Mathlib/RingTheory/Polynomial/Resultant/Basic.lean`.
+- **`Polynomial.tendstoCofinite_of_natDegree_ne_zero`** — A nonconstant polynomial over a domain has finite fibres; hence preimages of finite intervals are finite. Module: `Mathlib/Algebra/Polynomial/Roots.lean`.
+- **`Polynomial.toTupleMvPolynomial`** — The pair (homogenize p (deg p), `X₁^{deg p})` of a polynomial map. Module: `Mathlib/Algebra/Polynomial/Homogenize.lean`.
+- **`PowerBasis.algHom_ext`** — Two algebra homomorphisms agree if their values on the power-basis generator agree. Module: `Mathlib/RingTheory/PowerBasis.lean`.
+- **`PowerBasis.exists_eq_aeval`** — Every element is a polynomial in the power-basis generator of degree below its dimension. Module: `Mathlib/RingTheory/PowerBasis.lean`.
+- **`PowerBasis.ofAdjoinSimpleEqTop`** — An integral generator of the entire field gives a power basis. Module: `Mathlib/FieldTheory/IntermediateField/Adjoin/Basic.lean`.
+- **`PowerSeries`** — Formal power series in one variable. Module: `Mathlib/RingTheory/PowerSeries/Basic.lean`.
+- **`PowerSeries.HasSubst.of_constantCoeff_zero'`** — a series with zero constant term can be substituted Module: `Mathlib/RingTheory/PowerSeries/Substitution.lean`.
+- **`PowerSeries.coeff`** — coefficients of power series (the multiplier as linear coefficient) Module: `Mathlib/RingTheory/PowerSeries/Basic.lean`.
+- **`PowerSeries.order`** — the order of a power series (multiplicities at a fixed point) Module: `Mathlib/RingTheory/PowerSeries/Order.lean`.
+- **`PowerSeries.order_mul`** — order is additive in products over a domain Module: `Mathlib/RingTheory/PowerSeries/Order.lean`.
+- **`PowerSeries.subst`** — substitution of power series (iterating germs) Module: `Mathlib/RingTheory/PowerSeries/Substitution.lean`.
+- **`PowerSeries.substAlgHom`** — substitution is an algebra homomorphism Module: `Mathlib/RingTheory/PowerSeries/Substitution.lean`.
+- **`ProfiniteGrp.of`** — The profinite group attached to a compact totally disconnected topological group. Module: `Mathlib/Topology/Algebra/Category/ProfiniteGrp/Basic.lean`.
+- **`Projectivization`** — Projective space ℙ K V of lines in a vector space. Module: `Mathlib/LinearAlgebra/Projectivization/Basic.lean`.
+- **`Projectivization.PGL.mk_smul_mk`** — The action of PGL(ι, K) on ℙ K (ι → K) on representatives. Module: `Mathlib/LinearAlgebra/Projectivization/Action.lean`.
+- **`Projectivization.lift`** — Functions on ℙ K V from scale-invariant functions on V ∖ 0. Module: `Mathlib/LinearAlgebra/Projectivization/Basic.lean`.
+- **`Projectivization.logHeight`** — The relative logarithmic height of a point of projective space over a field with admissible absolute values. Module: `Mathlib/NumberTheory/Height/Projectivization.lean`.
+- **`Projectivization.logHeight_mk`** — logHeight [x] = `Height.logHeight` x. Module: `Mathlib/NumberTheory/Height/Projectivization.lean`.
+- **`Projectivization.logHeight_nonneg`** — The projective height is nonnegative. Module: `Mathlib/NumberTheory/Height/Projectivization.lean`.
+- **`Projectivization.mk`** — The point [v] of ℙ K V. Module: `Mathlib/LinearAlgebra/Projectivization/Basic.lean`.
+- **`Projectivization.mk_eq_mk_iff`** — [v] = [w] iff v = a • w for a unit a. Module: `Mathlib/LinearAlgebra/Projectivization/Basic.lean`.
+- **`RatFunc`** — For a commutative ring K, rational functions are carried by FractionRing(K[X]); used over fields. Module: `Mathlib/FieldTheory/RatFunc/Defs.lean`.
+- **`RatFunc.denom`** — The monic denominator of a rational function in lowest terms. Module: `Mathlib/FieldTheory/RatFunc/Basic.lean`.
+- **`RatFunc.finrank_eq_max_natDegree`** — For f in K(X), [K(X):K(f)] = max(deg num f, deg denom f); for a nonconstant polynomial f this is deg f, so ℂ(z) is a finite extension of ℂ(f(z)). Module: `Mathlib/FieldTheory/RatFunc/IntermediateField.lean`.
+- **`RatFunc.inftyValuation`** — The valuation at infinity of K(X). Module: `Mathlib/FieldTheory/RatFunc/Valuation.lean`.
+- **`RatFunc.intDegree`** — deg num − deg denom of a rational function (not the height). Module: `Mathlib/FieldTheory/RatFunc/Degree.lean`.
+- **`RatFunc.num`** — The numerator of a rational function in lowest terms. Module: `Mathlib/FieldTheory/RatFunc/Basic.lean`.
+- **`Real.log`** — The real logarithm. Module: `Mathlib/Analysis/SpecialFunctions/Log/Basic.lean`.
+- **`Real.posLog`** — log⁺ r = max 0 (log r). Module: `Mathlib/Analysis/SpecialFunctions/Log/PosLog.lean`.
+- **`RealRMK.integral_rieszMeasure`** — The representing measure integrates each compactly supported continuous real function to the value of the positive functional. Module: `Mathlib/MeasureTheory/Integral/RieszMarkovKakutani/Real.lean`.
+- **`RealRMK.rieszMeasure`** — Radon measure of a positive linear functional on compactly supported continuous real functions of a locally compact Hausdorff Borel space. Compact sphere continuous functions identify with this space. Module: `Mathlib/MeasureTheory/Integral/RieszMarkovKakutani/Real.lean`.
+- **`SeparableClosure`** — The separable closure of a field inside its algebraic closure. Module: `Mathlib/FieldTheory/IsSepClosed.lean`.
+- **`Set.Finite`** — Finite sets (finitely many indices in a closed subset). Module: `Mathlib/Basic/Finite/Defs.lean`.
+- **`Set.Finite.subset`** — Subsets of finite sets are finite. Module: `Mathlib/Data/Set/Finite/Basic.lean`.
+- **`Set.Infinite`** — Infinite sets. Module: `Mathlib/Basic/Finite/Defs.lean`.
+- **`Set.ncard`** — Cardinality of a set as a natural number. Module: `Mathlib/Data/Set/Card.lean`.
+- **`Subgroup.FiniteIndex`** — The class of subgroups of finite index. Module: `Mathlib/GroupTheory/Index.lean`.
+- **`Subgroup.index`** — The index of a subgroup (0 if infinite). Module: `Mathlib/GroupTheory/Index.lean`.
+- **`Sylow.mulEquivIteratedWreathProduct`** — A Sylow p-subgroup of Perm α with Nat.card α = pⁿ is isomorphic to IteratedWreathProduct G n for |G| = p. Module: `Mathlib/GroupTheory/RegularWreathProduct.lean`.
+- **`TendstoUniformly`** — Uniform convergence of a sequence of functions. Module: `Mathlib/Topology/UniformSpace/UniformConvergence.lean`.
+- **`TendstoUniformly.continuous`** — A uniform limit of continuous functions is continuous. Module: `Mathlib/Topology/UniformSpace/UniformApproximation.lean`.
+- **`UniformEquicontinuousOn`** — One entourage bound simultaneously for all iterates and pairs in a specified neighborhood; stronger than pointwise EquicontinuousAt. Module: `Mathlib/Topology/UniformSpace/Equicontinuity.lean`.
+- **`UniqueFactorizationMonoid.factors`** — The multiset of irreducible factors (with multiplicity) in a unique factorization monoid. Module: `Mathlib/RingTheory/UniqueFactorizationDomain/Defs.lean`.
+- **`ValuationRing`** — Valuation rings (local, the divisibility order is total). Module: `Mathlib/RingTheory/Valuation/ValuationRing.lean`.
+- **`WeierstrassCurve.Affine.Point.add_of_X_ne`** — The addition formula for two affine points with distinct x-coordinates. Module: `Mathlib/AlgebraicGeometry/EllipticCurve/Affine/Point.lean`.
+- **`WeierstrassCurve.Affine.Point.xRep`** — The x-coordinate map E(F) → ℙ¹ as a representative vector: O ↦ ![1, 0], (x, y) ↦ ![x, 1]. Module: `Mathlib/AlgebraicGeometry/EllipticCurve/Affine/Point.lean`.
+- **`WeierstrassCurve.Affine.Y_eq_of_X_eq`** — Two points on the curve with equal x-coordinates have equal or opposite y-coordinates. Module: `Mathlib/AlgebraicGeometry/EllipticCurve/Affine/Formula.lean`.
+- **`WeierstrassCurve.Affine.addX`** — The x-coordinate of a sum: ℓ² + a₁ℓ − a₂ − x₁ − x₂. Module: `Mathlib/AlgebraicGeometry/EllipticCurve/Affine/Formula.lean`.
+- **`WeierstrassCurve.Affine.equation_iff_nonsingular_of_Δ_ne_zero`** — When Δ ≠ 0, every point on the curve is nonsingular. Module: `Mathlib/AlgebraicGeometry/EllipticCurve/Affine/Basic.lean`.
+- **`WeierstrassCurve.Affine.negY`** — The y-coordinate of the negative of a point. Module: `Mathlib/AlgebraicGeometry/EllipticCurve/Affine/Formula.lean`.
+- **`WeierstrassCurve.Affine.slope`** — The slope of the line through two points (tangent when equal). Module: `Mathlib/AlgebraicGeometry/EllipticCurve/Affine/Formula.lean`.
+- **`WeierstrassCurve.IsElliptic`** — Weierstrass curves with invertible discriminant. Module: `Mathlib/AlgebraicGeometry/EllipticCurve/Weierstrass.lean`.
+- **`WeierstrassCurve.Jacobian.Point.toAffineAddEquiv`** — The group isomorphism between Jacobian and affine points (used to transport n • P = 0). Module: `Mathlib/AlgebraicGeometry/EllipticCurve/Jacobian/Point.lean`.
+- **`WeierstrassCurve.b₂`** — The invariant b₂ = a₁² + 4a₂. Module: `Mathlib/AlgebraicGeometry/EllipticCurve/Weierstrass.lean`.
+- **`WeierstrassCurve.b₄`** — The invariant b₄ = 2a₄ + a₁a₃. Module: `Mathlib/AlgebraicGeometry/EllipticCurve/Weierstrass.lean`.
+- **`WeierstrassCurve.j`** — The j-invariant. Module: `Mathlib/AlgebraicGeometry/EllipticCurve/Weierstrass.lean`.
+- **`WeierstrassCurve.leadingCoeff_Φ`** — Φ_n is monic. Module: `Mathlib/AlgebraicGeometry/EllipticCurve/DivisionPolynomial/Degree.lean`.
+- **`WeierstrassCurve.map_Φ`** — Φ_n commutes with ring homomorphisms (base change / specialisation of coefficients). Module: `Mathlib/AlgebraicGeometry/EllipticCurve/DivisionPolynomial/Basic.lean`.
+- **`WeierstrassCurve.map_ΨSq`** — ΨSq_n commutes with ring homomorphisms. Module: `Mathlib/AlgebraicGeometry/EllipticCurve/DivisionPolynomial/Basic.lean`.
+- **`WeierstrassCurve.natDegree_Φ`** — deg Φ_n = n². Module: `Mathlib/AlgebraicGeometry/EllipticCurve/DivisionPolynomial/Degree.lean`.
+- **`WeierstrassCurve.natDegree_ΨSq_le`** — deg ΨSq_n ≤ n² − 1. Module: `Mathlib/AlgebraicGeometry/EllipticCurve/DivisionPolynomial/Degree.lean`.
+- **`WeierstrassCurve.Δ`** — The discriminant of a Weierstrass curve. Module: `Mathlib/AlgebraicGeometry/EllipticCurve/Weierstrass.lean`.
+- **`WeierstrassCurve.Φ`** — The univariate division polynomials Φ_n (numerator of x(nP)). Module: `Mathlib/AlgebraicGeometry/EllipticCurve/DivisionPolynomial/Basic.lean`.
+- **`WeierstrassCurve.Φ_neg`** — `Φ_{−n}` = Φ_n. Module: `Mathlib/AlgebraicGeometry/EllipticCurve/DivisionPolynomial/Basic.lean`.
+- **`WeierstrassCurve.Φ_two`** — Φ_2 = X⁴ − b₄X² − 2b₆X − b₈. Module: `Mathlib/AlgebraicGeometry/EllipticCurve/DivisionPolynomial/Basic.lean`.
+- **`WeierstrassCurve.ΨSq`** — The univariate polynomials ΨSq_n congruent to ψ_n² (denominator of x(nP)). Module: `Mathlib/AlgebraicGeometry/EllipticCurve/DivisionPolynomial/Basic.lean`.
+- **`WeierstrassCurve.ΨSq_neg`** — `ΨSq_{−n}` = ΨSq_n. Module: `Mathlib/AlgebraicGeometry/EllipticCurve/DivisionPolynomial/Basic.lean`.
+- **`WeierstrassCurve.ΨSq_two`** — ΨSq_2 = Ψ₂Sq. Module: `Mathlib/AlgebraicGeometry/EllipticCurve/DivisionPolynomial/Basic.lean`.
+- **`WeierstrassCurve.Ψ₂Sq`** — Ψ₂Sq = 4X³ + b₂X² + 2b₄X + b₆. Module: `Mathlib/AlgebraicGeometry/EllipticCurve/DivisionPolynomial/Basic.lean`.
+- **`WeierstrassCurve.ψ`** — The bivariate division polynomials ψ_n. Module: `Mathlib/AlgebraicGeometry/EllipticCurve/DivisionPolynomial/Basic.lean`.
+- **`X_pow_sub_C_irreducible_iff_of_prime`** — For p prime, X^p − C a is irreducible iff a is not a p-th power. Module: `Mathlib/FieldTheory/KummerPolynomial.lean`.
+- **`ZMod`** — The integers modulo n. Module: `Mathlib/Data/ZMod/Defs.lean`.
+- **`ZMod.intCast_zmod_eq_zero_iff_dvd`** — An integer reduces to zero in ZMod p exactly when p divides it. Module: `Mathlib/Data/ZMod/Basic.lean`.
+- **`add_pow_char_pow`** — Frobenius: (x + `y)^{p^n}` = `x^{p^n}` + `y^{p^n}` in characteristic p. Module: `Mathlib/Algebra/CharP/Lemmas.lean`.
+- **`cauchySeq_of_le_geometric`** — A sequence with geometrically decaying steps is Cauchy (Tate telescoping). Module: `Mathlib/Analysis/SpecificLimits/Basic.lean`.
+- **`circleAverage_log_norm_sub_const_eq_log_radius_add_posLog`** — Jensen's formula for a circle: circleAverage (log ‖· − a‖) c R = log R + log⁺(R⁻¹‖c − a‖), i.e. log max(R, ‖c − a‖) for R > 0. Module: `Mathlib/Analysis/SpecialFunctions/Integrals/PosLog.lean`.
+- **`closure_of_isSwap_of_isPretransitive`** — A transitive permutation group generated by transpositions is the whole symmetric group. Module: `Mathlib/GroupTheory/Perm/ClosureSwap.lean`.
+- **`dist_le_of_le_geometric_of_tendsto₀`** — Distance from the first term to the limit is at most C/(1 − r). Module: `Mathlib/Analysis/SpecificLimits/Basic.lean`.
+- **`exists_finset_isTranscendenceBasis`** — A FinTrdeg field extension has a finite transcendence basis; EssFiniteType supplies FinTrdeg. Module: `Mathlib/FieldTheory/FinTrdeg.lean`.
+- **`exists_isTranscendenceBasis`** — A transcendence basis of a faithful commutative algebra as an actual subset, including the empty case. Module: `Mathlib/RingTheory/AlgebraicIndependent/TranscendenceBasis.lean`.
+- **`finite_of_finite_type_of_isJacobsonRing`** — Zariski's lemma: a field of finite type over a Jacobson ring is finite over it. Module: `Mathlib/RingTheory/Jacobson/Ring.lean`.
+- **`geom_sum_eq`** — The geometric sum formula. Module: `Mathlib/Algebra/Field/GeomSum.lean`.
+- **`hensels_lemma`** — If ‖F(a)‖ < ‖F′(a)‖² in ℤ_p, produces a root, strict closeness, equality of derivative norms and local uniqueness. Module: `Mathlib/NumberTheory/Padics/Hensel.lean`.
+- **`isOfFinOrder_iff_pow_eq_one`** — Finite order iff some positive power is 1. Module: `Mathlib/GroupTheory/OrderOfElement.lean`.
+- **`iteratedWreathToPermHom`** — The permutation representation of IteratedWreathProduct G n on Fin n → G (recursion through `Fin.succFunEquiv`, top group on the last coordinate). Module: `Mathlib/GroupTheory/RegularWreathProduct.lean`.
+- **`krullTopology`** — The Krull topology on Gal(L/K). Module: `Mathlib/FieldTheory/KrullTopology.lean`.
+- **`krullTopology_t2`** — The Krull topology on Gal(L/K) is Hausdorff for integral L/K. Module: `Mathlib/FieldTheory/KrullTopology.lean`.
+- **`le_of_tendsto`** — Closed order conditions pass to limits. Module: `Mathlib/Topology/Order/OrderClosed.lean`.
+- **`minpoly`** — minimal polynomials (degree of a point over the base field) Module: `Mathlib/FieldTheory/Minpoly/Basic.lean`.
+- **`mulAutArrow`** — The action of a group on A → M by precomposition, as a hom to MulAut (A → M); the twisting of TauCeti.WreathProduct. Module: `Mathlib/Algebra/Group/Action/End.lean`.
+- **`multiplicity`** — the multiplicity of a divisor (orders of binary forms at points) Module: `Mathlib/RingTheory/Multiplicity.lean`.
+- **`orderOf`** — Multiplicative order of an element (0 for infinite order). Module: `Mathlib/GroupTheory/OrderOfElement.lean`.
+- **`orderOf_dvd_iff_pow_eq_one`** — orderOf x ∣ n iff x^n = 1. Module: `Mathlib/GroupTheory/OrderOfElement.lean`.
+- **`padicValNat`** — p-adic valuation of naturals (vₚ in the multiplicity profile) Module: `Mathlib/Data/Nat/MaxPowDiv.lean`.
+- **`padicValNat_zero_left`** — padicValNat 0 n = 0 (characteristic zero case of the profile) Module: `Mathlib/Data/Nat/PadicValNat.lean`.
+- **`padicValRat`** — p-adic valuation of rationals (denominators of preperiodic points) Module: `Mathlib/NumberTheory/Padics/PadicVal/Basic.lean`.
+- **`padicValRat.pow`** — padicValRat p (q ^ k) = k * padicValRat p q. Module: `Mathlib/NumberTheory/Padics/PadicVal/Basic.lean`.
+- **`perfectSpace_of_module`** — A nontrivial topological module over a nontrivially normed field has no isolated points. Module: `Mathlib/Topology/Algebra/Module/PerfectSpace.lean`.
+- **`ringChar`** — the characteristic of a field Module: `Mathlib/Algebra/CharP/Defs.lean`.
+- **`rootsOfUnity`** — The group of k-th roots of unity. Module: `Mathlib/RingTheory/RootsOfUnity/Basic.lean`.
+- **`smul_iterate`** — (a • ·)^[n] = (a^n • ·). Module: `Mathlib/Algebra/Group/Action/Defs.lean`.
+- **`summable_geometric_of_lt_one`** — Summability of the geometric series Σ rⁿ for 0 ≤ r < 1. Module: `Mathlib/Analysis/SpecificLimits/Basic.lean`.
+- **`tendsto_nhds_unique`** — Uniqueness of limits in a Hausdorff space. Module: `Mathlib/Topology/Separation/Hausdorff.lean`.
+- **`tendsto_pow_atTop_nhds_zero_of_lt_one`** — r^n → 0 for 0 ≤ r < 1. Module: `Mathlib/Analysis/SpecificLimits/Basic.lean`.
+- **`tendsto_pow_atTop_nhds_zero_of_norm_lt_one`** — Powers of a norm-below-one element in a seminormed ring tend to zero. Module: `Mathlib/Analysis/SpecificLimits/Normed.lean`.
+- **`trace_eq_sum_embeddings`** — For a finite separable field extension L/K and an algebraically closed K-algebra field E, the image of `Tr_{L/K}(x)` in E is the sum of σ(x) over the K-embeddings σ : L → E (root namespace). Module: `Mathlib/RingTheory/Trace/Basic.lean`.
+- **`uniformSpaceOfCompactR1`** — The unique compatible uniformity of a compact Hausdorff carrier, used locally on OnePoint C; it is not a global instance. Module: `Mathlib/Topology/UniformSpace/OfCompactT2.lean`.
+- **`AdjoinRoot.norm_mk_eq_resultant`** — Tau Ceti's extension of the resultant: the norm in R[X]/(g) as a resultant. Module: `TauCeti/RingTheory/Polynomial/Resultant/AdjoinRoot.lean`.
+- **`Polynomial.Monic.isSquare_discr_iff_range_le_alternatingGroup`** — The discriminant test: for monic separable f in characteristic ≠ 2, discr f is a square iff the Galois image is in the alternating group. Module: `TauCeti/FieldTheory/GaloisGroups/Discriminant/Basic.lean`.
+- **`Polynomial.Monic.discr_ne_zero_iff`** — Over a field, a monic polynomial has nonzero discriminant exactly when it is separable. Module: `TauCeti/RingTheory/Polynomial/Resultant/Discriminant.lean`.
+- **`Polynomial.Monic.prod_roots_eval_derivative`** — For monic split f over a domain: `∏_{roots}` f'(r) = `(−1)^{n(n−1)/2}` discr f. Module: `TauCeti/RingTheory/Polynomial/Resultant/Discriminant.lean`.
+- **`Polynomial.Monic.resultant_of_le`** — Tau Ceti's extension: formal degree of the second argument is irrelevant for monic first argument. Module: `TauCeti/RingTheory/Polynomial/Resultant/Basic.lean`.
+- **`Polynomial.resultant_C_sub_X_right`** — Tau Ceti's extension: Res(f, x − X) = f(x). Module: `TauCeti/RingTheory/Polynomial/Resultant/Basic.lean`.
+- **`TauCeti.AbsoluteGaloisGroup`** — Gal(SeparableClosure K/K), the absolute Galois group taken at the separable closure (an abbreviation). Module: `TauCeti/FieldTheory/Galois/AbsoluteGaloisGroup/Basic.lean`.
+- **`TauCeti.Isogeny.comp_fieldPullback`** — The function-field pullback of a composite isogeny is the composite of the pullbacks. Module: `TauCeti/AlgebraicGeometry/EllipticCurve/Isogeny/FunctionField.lean`.
+- **`TauCeti.Isogeny.fieldPullback_mulByIntIsogeny_X`** — The pullback of x along [n] is Φ_n(x)/ΨSq_n(x) in F(E). Module: `TauCeti/AlgebraicGeometry/EllipticCurve/Isogeny/MulByInt/Degree.lean`.
+- **`TauCeti.Isogeny.mulByIntIsogeny_comp_mulByIntIsogeny`** — [m] ∘ [n] = [mn] as isogenies. Module: `TauCeti/AlgebraicGeometry/EllipticCurve/Isogeny/MulByInt/Comp.lean`.
+- **`TauCeti.Isogeny.pullbackDifferential_mulByIntIsogeny_invariantDifferential`** — [n]*ω = n ω for the invariant differential. Module: `TauCeti/AlgebraicGeometry/EllipticCurve/Isogeny/MulByInt/Separability.lean`.
+- **`TauCeti.Multiquadratic.finrank_adjoin_range_eq_two_pow_finrank_span_squareClass`** — [K(√d_i) : K] = 2^r with r the F_2-rank of the span of the square classes of the d_i (char ≠ 2). Module: `TauCeti/NumberTheory/Multiquadratic/SquareClass/Rank.lean`.
+- **`TauCeti.Multiquadratic.mem_adjoin_of_squareClass_mem_span`** — If the square class of d_i is in the span of those of d_j (j ∈ s), then √d_i ∈ K(√d_j : j ∈ s). Module: `TauCeti/NumberTheory/Multiquadratic/SquareClass/Rank.lean`.
+- **`TauCeti.Multiquadratic.squareClass_of_sq_mem_fintype`** — Square descent: if y² = r lies in K(√d_i), then r is a square times a subset product of the d_i. Module: `TauCeti/NumberTheory/Multiquadratic/SquareClass/Basic.lean`.
+- **`TauCeti.PermSubgroupWreathProduct`** — The wreath product (ι → D) ⋊ Q for Q ≤ Perm ι. Module: `TauCeti/GroupTheory/Perm/WreathProduct/Basic.lean`.
+- **`TauCeti.SquareClassGroup`** — The square-class group Kˣ/(Kˣ)² of a field, written additively, as a ZMod 2-module. Module: `TauCeti/FieldTheory/SquareClassGroup/Basic.lean`.
+- **`TauCeti.WreathProduct`** — The permutation wreath product (ι → D) ⋊ Perm ι. Module: `TauCeti/GroupTheory/Perm/WreathProduct/Basic.lean`.
+- **`TauCeti.WreathProduct.card`** — Nat.card (WreathProduct D ι) = Nat.card D ^ Nat.card ι * (Nat.card ι)!. Module: `TauCeti/GroupTheory/Perm/WreathProduct/Basic.lean`.
+- **`TauCeti.absoluteGaloisGroupRestrictEquiv`** — `Field.absoluteGaloisGroup` K ≃ₜ* TauCeti.AbsoluteGaloisGroup K, by restriction. Module: `TauCeti/FieldTheory/Galois/AbsoluteGaloisGroup/Basic.lean`.
+- **`TauCeti.isPretransitive_iff_irreducible`** — For separable p of positive degree, the Galois action on the roots is transitive iff p is irreducible. Module: `TauCeti/FieldTheory/GaloisGroups/Orbits.lean`.
+- **`TauCeti.linearIndependent_squareClass_iff`** — Square classes of units are F_2-independent iff no nonempty subset product is a square. Module: `TauCeti/FieldTheory/SquareClassGroup/Basic.lean`.
+- **`TauCeti.squareClass`** — The class of a unit in the square-class group Kˣ/Kˣ². Module: `TauCeti/FieldTheory/SquareClassGroup/Basic.lean`.
+- **`WeierstrassCurve.Affine.Point.abs_canonicalHeight_sub_naiveHeight_le`** — ∃ D, |canonicalHeight P − naiveHeight P| ≤ D. Module: `TauCeti/AlgebraicGeometry/EllipticCurve/CanonicalHeight/Basic.lean`.
+- **`WeierstrassCurve.Affine.Point.canonicalHeight`** — The Néron–Tate height lim h(2ⁿP)/4ⁿ of the naive x-height. Module: `TauCeti/AlgebraicGeometry/EllipticCurve/CanonicalHeight/Basic.lean`.
+- **`WeierstrassCurve.Affine.Point.canonicalHeight_eq_zero_iff_isOfFinAddOrder`** — Under Northcott, canonical height zero iff torsion. Module: `TauCeti/AlgebraicGeometry/EllipticCurve/CanonicalHeight/Basic.lean`.
+- **`WeierstrassCurve.Affine.Point.canonicalHeight_nsmul`** — canonicalHeight (n • P) = n² canonicalHeight P. Module: `TauCeti/AlgebraicGeometry/EllipticCurve/CanonicalHeight/Basic.lean`.
+- **`WeierstrassCurve.Affine.Point.canonicalHeight_two_nsmul`** — canonicalHeight (2 • P) = 4 canonicalHeight P. Module: `TauCeti/AlgebraicGeometry/EllipticCurve/CanonicalHeight/Basic.lean`.
+- **`WeierstrassCurve.Affine.Point.canonicalHeight_zsmul`** — ĥ(nP) = n² ĥ(P). Module: `TauCeti/AlgebraicGeometry/EllipticCurve/CanonicalHeight/Basic.lean`.
+- **`WeierstrassCurve.Affine.Point.isOfFinAddOrder_of_canonicalHeight_eq_zero`** — Canonical height zero implies torsion, under Northcott . Module: `TauCeti/AlgebraicGeometry/EllipticCurve/CanonicalHeight/Basic.lean`.
+- **`WeierstrassCurve.Affine.Point.naiveHeight`** — The naive height logHeight (x-coordinate) of a point. Module: `Mathlib/NumberTheory/Height/EllipticCurve.lean`.
+- **`WeierstrassCurve.Affine.Point.naiveHeight_eq_logHeight₁`** — The naive height is logHeight₁ of the x-coordinate (0 at O). Module: `Mathlib/NumberTheory/Height/EllipticCurve.lean`.
+- **`WeierstrassCurve.Affine.Point.tendsto_naiveHeight_two_pow_nsmul_div_four_pow`** — h(2ⁿP)/4ⁿ → canonicalHeight P (the limit is attained). Module: `TauCeti/AlgebraicGeometry/EllipticCurve/CanonicalHeight/Basic.lean`.
+- **`WeierstrassCurve.Affine.approx_parallelogram_law`** — The approximate parallelogram law for the naive height . Module: `Mathlib/NumberTheory/Height/EllipticCurve.lean`.
+- **`WeierstrassCurve.Affine.exists_point_on_curve`** — Over an algebraically closed field every x is the x-coordinate of a point on the curve. Module: `TauCeti/AlgebraicGeometry/EllipticCurve/Affine/IsAlgClosed.lean`.
+- **`WeierstrassCurve.Affine.finite_naiveHeight_le`** — Northcott for the naive height on W(K) . Module: `Mathlib/NumberTheory/Height/EllipticCurve.lean`.
+- **`WeierstrassCurve.Affine.invariantDifferential`** — The invariant differential dx/(2y + a₁x + a₃) in the Kähler differentials of F(E). Module: `TauCeti/AlgebraicGeometry/EllipticCurve/Affine/InvariantDifferential.lean`.
+- **`WeierstrassCurve.Affine.neronTatePairing`** — The Néron–Tate pairing, the polarisation of the canonical height . Module: `TauCeti/AlgebraicGeometry/EllipticCurve/CanonicalHeight/Basic.lean`.
+- **`WeierstrassCurve.evalEval_Ψ_sq_eq_eval_ΨSq`** — Ψ_n(x, y)² = ΨSq_n(x) at points on the curve. Module: `TauCeti/AlgebraicGeometry/EllipticCurve/DivisionPolynomial/Eval.lean`.
+- **`WeierstrassCurve.evalEval_ψ_eq_evalEval_Ψ`** — ψ_n and Ψ_n agree at points on the curve. Module: `TauCeti/AlgebraicGeometry/EllipticCurve/DivisionPolynomial/Eval.lean`.
+- **`WeierstrassCurve.evalEval_ψ_eq_zero_of_zsmul_eq_zero`** — If n • P = 0 then ψ_n(P) = 0. Module: `TauCeti/AlgebraicGeometry/EllipticCurve/DivisionPolynomial/ZSMul.lean`.
+- **`WeierstrassCurve.eval_ΨSq_ne_zero_of_zsmul_ne_zero`** — If n • P ≠ 0 then ΨSq_n(x(P)) ≠ 0. Module: `TauCeti/AlgebraicGeometry/EllipticCurve/DivisionPolynomial/Coprimality.lean`.
+- **`WeierstrassCurve.isCoprime_Φ_ΨSq`** — Φ_n and ΨSq_n are coprime when Δ ≠ 0, in every characteristic. Module: `TauCeti/AlgebraicGeometry/EllipticCurve/DivisionPolynomial/Coprimality.lean`.
+- **`WeierstrassCurve.mul_eval_ΨSq_eq_eval_Φ_of_zsmul`** — x(nP) · ΨSq_n(x(P)) = Φ_n(x(P)) for affine P, nP. Module: `TauCeti/AlgebraicGeometry/EllipticCurve/DivisionPolynomial/Descent.lean`.
+- **`WeierstrassCurve.ΨSq_ne_zero_of_Δ_ne_zero`** — ΨSq_n ≠ 0 for n ≠ 0 when Δ ≠ 0. Module: `TauCeti/AlgebraicGeometry/EllipticCurve/DivisionPolynomial/Coprimality.lean`.
 
 ## References
 
