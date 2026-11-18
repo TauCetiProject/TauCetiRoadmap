@@ -1,5 +1,4 @@
 import Mathlib
-import TauCeti.NumberTheory.ModularForms.Newforms.Newform
 
 /-!
 # Rank-two lifting inputs for Serre's conjecture: target signatures
@@ -8,17 +7,31 @@ import TauCeti.NumberTheory.ModularForms.Newforms.Newform
 `README.md`. This file states the roadmap's headline theorems against the pinned APIs;
 discharging them finishes neither a layer nor the roadmap.
 
-The statement is the positive-density auxiliary-prime theorem. The definitions are the
-arithmetic interfaces on which the statements of Serre's conjecture are written: attachment is
-expressed on Tau Ceti's `HeckeRing.GL2.Newform` by its Fourier coefficients, nebentypus and
-arithmetic Frobenius, over Mathlib's actual absolute Galois group, algebraic integers, inertia,
-complex conjugations and matrix representations.
+The statement is Khare–Wintenberger's Lemma 8.2 (R27.1), the positive Dirichlet density of the
+auxiliary primes, over Mathlib's absolute Galois group, algebraic integers, arithmetic Frobenius
+elements, inertia groups, complex conjugations and Dirichlet density.
 
-Layer I's prescribed lifts and modularity transfers require compatible-system carriers, local
-period conditions and deformation problems. R33.1's globalization and unitary Hecke–Galois
-construction additionally require definite unitary groups, their Hecke algebras and polarized
-deformation problems, absent at the pins. These results are specified in the README, without
-compiled signatures here.
+Headline theorems that are not statable at the pins, with the carrier each lacks:
+
+* Moret-Bailly's theorem (I.0): a topology on the points of a scheme over a completion of a
+  number field, in which the local conditions are open sets.
+* Controlled residual potential modularity (I.0): cuspidal automorphic representations of `GL₂`
+  over a totally real field, and Serre's weight `k(ρ̄)`.
+* Khare–Wintenberger's lifting theorem, crystalline lifting with a matching-weight seed and
+  Kisin's potentially Barsotti–Tate theorem with Hypothesis `(H)` (I.2), and the prescribed lifts
+  (I.3): crystalline, semistable and potentially Barsotti–Tate local conditions, and Serre's
+  weight.
+* Global finiteness (I.2) and Böckle's presentation of minimal deformation rings (R26.1): Galois
+  deformation rings.
+* The families through prescribed lifts and the modularity transfer (I.3): compatible systems of
+  Galois representations.
+* The good-dihedral predicate and its image lemma (R27.1): the Artin conductor of a
+  two-dimensional representation of `G_ℚ`.
+* Rank-two irreducibility and the Hecke-valued representation of the definite unitary tower
+  (R33.1): cuspidal automorphic representations of `GL₂` over CM fields, definite unitary groups
+  with their Hecke algebras, and polarized deformation problems.
+* The twist-two vanishing (R33.1): the Galois group `G_{L,S}` of the maximal extension unramified
+  outside a finite set of places; continuous group cohomology itself is at the pin.
 -/
 
 noncomputable section
@@ -26,9 +39,8 @@ noncomputable section
 namespace TauCetiRoadmap.ClassicalSerreModularity
 
 open NumberField
-open HeckeRing.GL2 (Newform)
 
-/-! ## Arithmetic carriers and conventions -/
+/-! ## Arithmetic carriers -/
 
 /-- The absolute Galois group `G_ℚ = Gal(ℚ̄/ℚ)`, with Mathlib's Krull topology. As in
 EllipticCurveModularity, the body of `Field.absoluteGaloisGroup ℚ` is unfolded so that Tau Ceti's
@@ -38,62 +50,16 @@ abbrev GQ : Type := AlgebraicClosure ℚ ≃ₐ[ℚ] AlgebraicClosure ℚ
 /-- The ring `ℤ̄` of algebraic integers, on which `G_ℚ` acts. -/
 abbrev IntBar : Type := 𝓞 (AlgebraicClosure ℚ)
 
-/-- `𝔽̄_p`, the coefficient field of residual representations. -/
-abbrev FpBar (p : ℕ) [Fact p.Prime] : Type := AlgebraicClosure (ZMod p)
-
-/-- `σ` is an arithmetic Frobenius element at some prime of `ℤ̄` containing `r`: `σ x ≡ x ^ r`
-modulo that prime for every algebraic integer `x`. For a prime number `r` these are the elements
-`Frob_r` of the sources, for all choices of a prime above `r`. -/
+/-- `σ` is an arithmetic Frobenius element at some prime `Q` of `ℤ̄` containing `r`:
+`σ x ≡ x ^ q` modulo `Q` for every algebraic integer `x`, where `q` is the residue characteristic
+of `Q`. For a prime number `r` (then `q = r`) these are the elements `Frob_r` of the sources, for
+all choices of a prime above `r`. -/
 def IsFrobAt (σ : GQ) (r : ℕ) : Prop :=
   ∃ Q : Ideal IntBar, Q.IsPrime ∧ (r : IntBar) ∈ Q ∧ IsArithFrobAt ℤ σ Q
 
 /-- `ρ` is unramified at `r`: trivial on the inertia group of every prime of `ℤ̄` containing `r`. -/
 def IsUnramifiedAt {H : Type*} [Group H] (ρ : GQ →* H) (r : ℕ) : Prop :=
   ∀ Q : Ideal IntBar, Q.IsPrime → (r : IntBar) ∈ Q → Q.inertia GQ ≤ ρ.ker
-
-/-- `ρ` is odd: `det ρ(c) = −1` for every complex conjugation `c`, that is every `c` which some
-embedding `φ : ℚ̄ → ℂ` carries to complex conjugation. All such `c` are conjugate in `G_ℚ`. -/
-def IsOdd {k : Type*} [CommRing k] (ρ : GQ →* GL (Fin 2) k) : Prop :=
-  ∀ (φ : AlgebraicClosure ℚ →+* ℂ) (c : GQ), ComplexEmbedding.IsConj φ c →
-    Matrix.det (ρ c : Matrix (Fin 2) (Fin 2) k) = -1
-
-/-- Absolute irreducibility in Burnside's form: the matrices `ρ(g)` span `M₂(k)`. This is
-equivalent to irreducibility over every extension field of `k`. -/
-def IsAbsIrreducible {G k : Type*} [Group G] [Field k] (ρ : G →* GL (Fin 2) k) : Prop :=
-  Submodule.span k (Set.range fun g : G => (ρ g : Matrix (Fin 2) (Fin 2) k)) = ⊤
-
-/-- A residual representation of S-type: continuous (open kernel), odd and absolutely
-irreducible. -/
-def IsSType {k : Type*} [Field k] (ρ : GQ →* GL (Fin 2) k) : Prop :=
-  IsOpen (ρ.ker : Set GQ) ∧ IsOdd ρ ∧ IsAbsIrreducible ρ
-
-/-- The Fourier coefficient at infinity of a bundled newform. -/
-def coeff {N : ℕ} [NeZero N] {k : ℤ} (f : Newform N k) (n : ℕ) : ℂ :=
-  (UpperHalfPlane.qExpansion 1 f.toCuspForm).coeff n
-
-/-- The subring generated by all Fourier coefficients and nebentypus values. -/
-def coefficientRing {N : ℕ} [NeZero N] {k : ℤ} (f : Newform N k) : Subring ℂ :=
-  Subring.closure (Set.range (coeff f) ∪ Set.range (fun n : ℕ => f.dirichletLift n))
-
-/-- Coefficient-defined residual attachment: one coefficient reduction (a ring map into a field
-of characteristic `p`, so it kills `p`) gives arithmetic Frobenius traces, determinants and
-unramifiedness away from the level and characteristic, as specified by
-AlgebraicModularFormsAndSerreWeights §7.5. -/
-def ArisesFrom {p N : ℕ} [Fact p.Prime] [NeZero N] {k : ℤ}
-    (ρ : GQ →* GL (Fin 2) (FpBar p)) (f : Newform N k) : Prop :=
-  ∃ φ : coefficientRing f →+* FpBar p,
-    ∀ ℓ : ℕ, ℓ.Prime → ¬ ℓ ∣ p * N → IsUnramifiedAt ρ ℓ ∧
-      ∀ σ : GQ, IsFrobAt σ ℓ →
-        Matrix.trace (ρ σ : Matrix (Fin 2) (Fin 2) (FpBar p)) =
-          φ ⟨coeff f ℓ, Subring.subset_closure (Or.inl ⟨ℓ, rfl⟩)⟩ ∧
-        Matrix.det (ρ σ : Matrix (Fin 2) (Fin 2) (FpBar p)) =
-          φ ⟨f.dirichletLift ℓ, Subring.subset_closure (Or.inr ⟨ℓ, rfl⟩)⟩ *
-            (ℓ : FpBar p) ^ (k.toNat - 1)
-
-/-- The matrix action on the existing two-dimensional module. -/
-def toRepresentation {G R : Type*} [Group G] [CommRing R]
-    (ρ : G →* GL (Fin 2) R) : Representation R G (Fin 2 → R) :=
-  (Units.coeHom _).comp (Matrix.GeneralLinearGroup.toLin.toMonoidHom.comp ρ)
 
 /-! ## Layer R27.1: The auxiliary-prime theorem -/
 
