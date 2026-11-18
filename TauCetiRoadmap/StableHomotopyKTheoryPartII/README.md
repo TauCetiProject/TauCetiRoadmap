@@ -2,21 +2,9 @@
 
 **Summary.** Starting from spectra, derived smash products, Steenrod operations and the Adams tower, build the cohomological and topological Singer constructions and prove the generalized Segal conjecture for every bounded-below spectrum at every prime. Identify the Tate-valued Frobenius with classical power operations in every integer degree, including its total Steenrod and periodic complex K-theory forms. Prove the simply connected free-loop Segal theorem and retain explicit counterexamples showing where boundedness is essential.
 
-## Scope and ownership
+## How to read the build
 
-StableHomotopyKTheory Part I stops at the stable homotopy foundations, completion and spectral-sequence machinery of Layers 5–7. This Part II owns the homological Tate spectral sequence of Greenlees towers in continuous mod-p homology, the Singer module and its augmentation, the inverse-limit Adams comparison, the finite-type and arbitrary-cardinality steps in the prime-order generalized Segal theorem, the Weyl refinement, the comparison with representation-twisted power operations, the spherical finite-field Witt Frobenius (the spherical lift SW(k) of a finite field k is the marked étale lift of RefinedTraceMethods §6.1 at the finite étale ℤ_p-algebra W(k); §4.8 owns the integral input that makes W(k) finite étale over ℤ_p, the finite-free module structure of SW(k) and its Frobenius comparison, and spherical lifts of general perfect p-complete δ-rings are neither constructed nor used here), the total Steenrod comparison, the KU Adams comparison and the free-loop theorem. The group in the tensor Tate diagonal is C_p; a general finite-group Segal conjecture is outside this statement.
-
-The general constructions have the following owners, and are consumed by the exact contracts below.
-
-- GeneralizedCohomology G2.8 owns symmetric extended powers as the summands of the free commutative spectral algebra; BordismFormalGroups §F6.5 supplies restriction to subgroups and coherent permutation actions. The cyclic desuspension tower here is an additional comparison of those powers.
-- TangentialBordism §B4 items 1, 2 and 7 owns ordinary and stable Steenrod operations, their complete operation algebra, admissible basis, Milnor dual, coproduct and conjugation at all primes. Its items 2 (at p=2) and 7 (at odd p) own the mod-p Adams tower, cohomological Ext page and bounded-below finite-type convergence. These constructions are not targets here. BordismFormalGroups §F6.3 owns the finite Steenrod Hopf subalgebras and their free-module tools, including the exhaustive chain A_p(n) and the freeness of A_p over each A_p(n) that the Singer Tor-equivalence uses, specified in its exhaustive-chain contract below.
-- BordismFormalGroups §F6.5 owns finite Borel actions, norms, Tate, induced-object vanishing, multiplicativity, restriction, transfer and finite-height Tate descent. KTheoryFiniteLocalFields §4.5 owns Eilenberg–MacLane/Tate comparison, the algebraic cyclic resolution and the homotopy Tate spectral sequence; its continuous mod-p homology form for bounded-below finite-type inputs is §1.2 here. The coefficient target in Layer 1 adds a fixed Weyl normalization to those calculations. The algebraic Tate cohomology of finite groups, its two-term models for cyclic groups and its cup product in all integer bidegrees are already in Mathlib and the pinned Tau Ceti; §§1.1 and 6.1 consume them through the supplier contracts below.
-- AInfCohomology §AI.7.2 owns the spectral Tate diagonal and the Tate orbit lemma. RefinedTraceMethods §§2.3–2.4 supplies the boundedness and parametrized extensions; its §2.3 owns the Tate fixpoint lemma and the p-completion invariance of Tate for bounded-below inputs. The sphere counterexample (S^(hC_p))^(t(C_(p²)/C_p))≃S_p^∧≠0 to the fixpoint lemma is a consequence of the C_p Segal theorem §2.7 here and is derived in the Layer 7 Examples, beside the KU orbit and tensor-diagonal counterexamples. RefinedTraceMethods §§2.6, 2.8 and 2.10–2.16 own the THH, E∞ Frobenius and genuine cyclotomic interfaces; its §2.10 supplies the loop-space model; the Segal equivalence of that model is proved in Layer 8 here.
-- HermitianKTheoryOfPoincareCategories §5.1a owns the C₂ sphere comparison (the Segal–Lin theorem): for the trivial action the canonical map S→S^(hC₂)→S^(tC₂) exhibits its target as S₂^∧, proved there through the inverse tower of stunted real projective Thom spectra. Here §2.7 extends it to every prime and every bounded-below finite-type spectrum by the Singer construction, and §3.4 to every bounded-below spectrum by truncated Tate functors; neither uses §5.1a. Their p=2 sphere case is the same statement about the same map: the Tate diagonal at S is that canonical map (AInfCohomology §AI.7.2; ns18, Definition III.1.4, p.286; ns18 line 3236), and by the universal property of 2-completion an equivalence S₂^∧≃S^(tC₂) under S is unique up to homotopy, so the two comparisons agree.
-- GeneralizedCohomology G4.2 and G5.3 owns ordinary Thom spaces and compatible Thom-spectrum diagrams; RefinedTraceMethods §2.13 owns genuine representation spheres. Layer 5 here adds tensor-inverse virtual twists over arbitrary spaces and their power-operation comparison. EnhancedDerivedSheaves E3 and E5 supplies the coherent Kan-extension and monoidal formalism.
-- GeneralizedCohomology G5.4 owns ku and KU. TopologicalKTheory T1–T5 owns bundle K-theory, Bott periodicity, splitting and degree-zero Adams operations. RefinedTraceMethods §5.1 owns Snaith's comparison and stable Adams operations after inverting their index. Layer 7 adds Atiyah-power compatibility, cyclic Tate coefficient fields and their Frobenius comparison.
-- PadicHodgeRegulators, “Supplier: Finite unramified étale Q_p-algebras”, owns the ordinary Witt/unramified identification and rank. RefinedTraceMethods §6.1 supplies spectral étale lifting, and SW(k) is its value at W(k). The pinned Tau Ceti already has the unramified/étale comparison of integer rings, the rigidity of unramified extensions, the residue correspondence with its Frobenius element and the congruence that characterizes it; the exact declarations are listed under the Tau Ceti supplier contract. §4.8 here identifies the ℤ_p-algebra endomorphisms of W(k) with Gal(L/ℚ_p) for L=W(k)[1/p], so that reduction modulo p becomes the residue correspondence and Witt Frobenius becomes the unique lift of the pth-power map; §4.8 also owns the finite-free S_p^∧-module structure of SW(k) and its Frobenius comparison.
-- Mathlib already has ordinary and Witt Frobenius and the finite inverse-system tools listed below. The finite-tower theorem here assembles the nonsurjective and empty-limit cases into a pro-isomorphism; it does not redefine compatible sections or eventual ranges.
+Layer 1 fixes the cyclic and Weyl coefficient normalization on the supplied operation algebra and passes the supplied Tate spectral sequence to continuous mod-p homology of Greenlees towers. Layer 2 constructs Singer modules, their continuous-cohomology realization and the convergent inverse-limit Adams comparison, obtaining finite-type Segal. Layer 3 proves uniform pro-constancy and removes every finite-type restriction from the bounded-below theorem. Layer 4 refines the diagonal and compares degree-zero powers and Frobenius. Layer 5 retains permutation spheres through all integer degrees. Layer 6 reads off the Steenrod components; Layer 7 calculates KU and the boundedness obstructions. Layer 8 applies the Segal theorem to a controlled free-loop totalization. Suggested.lean is the acceptance-signature companion; this README specifies the roadmap and every construction, API and Check.
 
 ## Conventions
 
@@ -29,141 +17,6 @@ A prime p is always an integer prime, including 2 and 3. Fix a p-cycle identifyi
 Derived p-completion is the spectral localization with the function-spectrum model of GeneralizedCohomology G3.9, with completeness criteria in StableHomotopyKTheory §§7.14–7.16. A p-adic equivalence has mod-p Moore cofiber zero. A finite-type spectrum has degreewise finite-dimensional mod-p homology; bounded below means π_i=0 for all i below some integer, which can depend on the object. A compact space in the KU comparison is a homotopy retract of a finite CW complex. The finite p-complete class in §4.7 consists of p-completions of finite spectra and retracts of finite cell S_p^∧-modules. For the p-inversion diagram on S_p^∧, the colimit in p-complete spectra is zero while the colimit of π₀ maps out of S_p^∧ is ℚ_p; these are different finiteness notions (§4.7; ns18, Example IV.1.2(ii), p.325; ns18 line 4852).
 
 A Laurent coefficient ring below is graded. Its homogeneous pieces do not include arbitrary ungraded series. In Tate-valued cohomology such as H*(X;𝔽_p)((t^(p−1)))⊗Λ(e), Tate coefficients are written to the right of cohomology classes and pass them with the Koszul sign, so e·z=−z·e for z of odd degree; a component of a class is its right coefficient of the named Tate monomial. Product decompositions of spectra induce products of mapping groups; no unrestricted tensor/cohomology interchange is assumed. Binomial coefficients with an integer upper argument use the integral polynomial convention, and a negative lower argument means zero: binom(−1,1)=−1, which is 1 in 𝔽₂. The KU Bott class β has homotopy degree 2 and is [H]−1 on S² for the chosen line H (ns18, Proposition IV.1.12, pp.329–330; ns18 line 5002). Set x=L−1; the multiplicative p-series is (1+x)^p−1, and its value at x=0 is 0.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-Use `CategoryTheory.Functor.sections` in Mathlib/CategoryTheory/Types/Basic.lean: a section is an element of the dependent product satisfying every transition equation. This definition includes neither nonemptiness nor finiteness. In Mathlib/CategoryTheory/CofilteredSystem.lean use `CategoryTheory.Functor.eventualRange`, `CategoryTheory.Functor.isMittagLeffler_of_exists_finite_range`, `CategoryTheory.Functor.toEventualRangesSectionsEquiv`, `CategoryTheory.Functor.surjective_toEventualRanges`, `CategoryTheory.Functor.eval_section_surjective_of_surjective`, `CategoryTheory.Functor.eventually_injective` and `nonempty_sections_of_finite_cofiltered_system`. Keep each theorem's cofilteredness, finite-stage, surjectivity and nonemptiness hypotheses: eventual injectivity is a theorem for a surjective finite system, not for an arbitrary original tower.
-
-Use `frobenius` from Mathlib/Algebra/CharP/Lemmas.lean on a commutative semiring of exponential characteristic p. Use `WittVector`, `WittVector.frobenius`, `WittVector.coeff_frobenius_charP` and `WittVector.frobenius_zmodp` from Mathlib/RingTheory/WittVector/Basic.lean and Frobenius.lean, with p prime and a commutative coefficient ring. The coefficientwise pth-power formula additionally requires characteristic p. It does not say that all Witt Frobenius maps are the identity. Use `WittVector.equiv` in Mathlib/RingTheory/WittVector/Compare.lean, the ring isomorphism from the Witt vectors of `ZMod p` to `ℤ_[p]` for p prime, to identify W(𝔽_p) with ℤ_p; this identification is the base of the integral comparison of §4.8, not one of its conclusions. Use `WittVector.IsPoly.map` in Mathlib/RingTheory/WittVector/IsPoly.lean: a polynomial function of Witt vectors, Witt Frobenius among them, commutes with `WittVector.map` along every ring homomorphism of coefficients. Use `WittVector.constantCoeff` in Mathlib/RingTheory/WittVector/Basic.lean, the zeroth Witt coordinate as a ring homomorphism W(R)→R. Use `FiniteField.frobeniusAlgEquivOfAlgebraic` and `FiniteField.orderOf_frobeniusAlgEquivOfAlgebraic` in Mathlib/FieldTheory/Finite/Basic.lean: for an algebraic extension L of a finite field K, the qth-power map (q the cardinality of K) is a K-algebra automorphism of L, and for finite L its order is [L:K]. Use `FiniteField.natCard_algHom_of_finrank_dvd` in Mathlib/FieldTheory/Finite/GaloisField.lean: for field extensions K and L of F with L finite and [K:F] dividing [L:F], there are exactly [K:F] F-algebra maps K→L; at K=L=k over 𝔽_p this counts the d endomorphisms of k. Use `IsGalois.of_card_aut_eq_finrank` in Mathlib/FieldTheory/Galois/Basic.lean: a finite extension E/F with exactly [E:F] F-automorphisms is Galois.
-
-Use `tateCohomology` in Mathlib/RepresentationTheory/Homological/TateCohomology/Basic.lean: for a commutative ring R, a finite group G and a representation M in `Rep R G`, its Tate cohomology in an integer degree n is the degree-n homology of the Tate complex, which joins the inhomogeneous chain and cochain complexes of M along the norm map; positive degrees agree with group cohomology and degrees ≤ −2 with group homology. It is the algebraic Tate cohomology of a representation, the coefficient object of KTheoryFiniteLocalFields §4.5's Eilenberg–MacLane/Tate comparison, not the Tate construction on spectra, and it fixes no generators.
-
-### From Tau Ceti
-
-Suggested.lean imports no Tau Ceti module. The README consumes two groups of declarations of the pinned Tau Ceti: Tate cohomology of finite groups, in the coefficient calculations of §1.1 and §6.1, and unramified local fields, in the integral comparison of §4.8.
-
-The Tate cohomology declarations are in TauCeti/RepresentationTheory/Homological/TateCohomology/. In them G is a finite group, k a commutative ring, M and N are objects of `Rep k G`, and the Tate groups are Mathlib's `tateCohomology`.
-
-- For a finite cyclic group G with generator g, `Rep.FiniteCyclicGroup.tateCohomologyIsoEven` identifies the Tate group of M in every even integer degree with the homology of M –N→ M –(g−1)→ M, N the norm, and `Rep.FiniteCyclicGroup.tateCohomologyIsoOdd` identifies the Tate group in every odd integer degree with the homology of M –(g−1)→ M –N→ M. Under `IsCyclic G`, `Rep.FiniteCyclicGroup.periodicIso` identifies the Tate groups of M in any two degrees congruent modulo 2 (Periodic.lean).
-- `TauCeti.TateCohomology.cup` is the k-bilinear cup product from the Tate groups of M and N in degrees p and q to the Tate group of M⊗N in degree p+q, for all integers p and q (Cup/Product.lean). Its unit is `TauCeti.TateCohomology.cupUnit`, the degree-zero class of 1 in the trivial representation (Cup/Unit.lean); it is associative through the tensor associator, `TauCeti.TateCohomology.cup_assoc` (Cup/Associativity.lean); and `TauCeti.TateCohomology.cup_gradedComm` gives its Koszul sign: after the braiding M⊗N≅N⊗M, x∪y for classes of degrees p and q is (−1)^(pq) times y∪x (Cup/GradedComm.lean).
-- These declarations fix no cohomology classes. The classes b, u, t, e and s and the normalization βe=1 are fixed in §1.1 here.
-
-The local-field declarations are in TauCeti/NumberTheory/LocalField/. Throughout them, K and L are nonarchimedean local fields (`IsNonarchimedeanLocalField` with their valuative relations and topologies), with `Algebra K L` and `ValuativeExtension K L`.
-
-- The class `TauCeti.IsUnramified K L` (ramification index 1 and separable residue extension), its degree form `TauCeti.IsUnramified.inertiaDegree_eq_finrank` (the residue degree of an unramified L/K is [L:K]) and the comparison `TauCeti.isUnramified_iff_etale`: L/K is unramified exactly when 𝒪[L] is étale over 𝒪[K] (Unramified/Basic.lean).
-- Under the further hypotheses `Module.Finite K L` and `IsUnramified K L`, the rigidity bijection `TauCeti.IsUnramified.residueFieldHomEquiv K L M`: for every nonarchimedean local field M with `Algebra K M` and `ValuativeExtension K M`, reduction is a bijection from the K-algebra maps L→M to the 𝓀[K]-algebra maps 𝓀[L]→𝓀[M] (Unramified/Rigidity.lean). It needs no Galois hypothesis; at M=L it identifies the K-algebra endomorphisms of L with the 𝓀[K]-algebra endomorphisms of 𝓀[L].
-- Under the further hypotheses `FiniteDimensional K L`, `IsGalois K L` and `IsUnramified K L`: the residue correspondence `TauCeti.residueFieldAutEquiv`, a group isomorphism from Gal(L/K) to Gal(𝓀[L]/𝓀[K]) given by the action on the residue field; cyclicity of Gal(L/K), `TauCeti.isCyclic_algEquiv`; the Frobenius element `TauCeti.frobeniusAlgEquiv`, the preimage of the qth-power map for q the cardinality of 𝓀[K]; its order `TauCeti.orderOf_frobeniusAlgEquiv`, the inertia degree; and its characterization `TauCeti.eq_frobeniusAlgEquiv_of_valuation_sub_pow_lt_one`: a K-automorphism σ of L with σ(y)≡y^q modulo the maximal ideal for every integral y is the Frobenius element (ResidueCorrespondence.lean). Under the same hypotheses `TauCeti.frobeniusAlgEquiv_teichmullerLift` says that the Teichmüller lift of the Frobenius image of a residue class a is the Teichmüller lift of a^q (Frobenius.lean).
-- For p prime, `Padic.integerRingEquiv`, the ring isomorphism between the valuative integer ring 𝒪[ℚ_p] and ℤ_p (Padic.lean), through which these statements are read at K=ℚ_p.
-
-The spectral interfaces below are roadmap contracts on the shared spectrum model, rather than definitions encoded by unrelated native types.
-
-**Checks.**
-
-- For G=C₃ and the trivial module 𝔽₃, the norm acts by 3=0 and g−1 by 0, so both two-term models have zero maps and every Tate group is 𝔽₃, one dimension in each degree as §1.1 requires. For the trivial module ℤ the norm is multiplication by 3, so the even degrees give ℤ/3 and the odd degrees 0, the groups of §6.1. Exchanging the two models would give Ĥ⁰(C₃;ℤ)=0 and ℤ/3 in odd degrees, against Ĥ⁰(C₃;ℤ)=ℤ/3.
-- For b∈Ĥ¹(C_p;𝔽_p) with trivial coefficients, the Koszul sign in bidegree (1,1) gives b∪b=−b∪b, hence b²=0 at odd p, the exterior relation of §1.1. At p=2 the sign is +1 and gives no relation: there b² is the nonzero class βb of Ĥ²(C₂;𝔽₂), and the Tate ring is the Laurent ring 𝔽₂[s^(±1)].
-- For k=𝔽₄ and L=ℚ₂(ζ₃), the unramified quadratic extension of ℚ₂, Gal(L/ℚ₂) and Gal(𝔽₄/𝔽₂) both have order 2, and the Frobenius element sends ζ₃ to ζ₃²; the identity does not satisfy the congruence σ(ζ₃)≡ζ₃² modulo 2, since ζ₃²−ζ₃=ζ₃(ζ₃−1) and ζ₃−1 has norm 3, a unit of ℤ₂.
-- ℚ₃(ζ₃) has ramification index 2 and residue field 𝔽₃, so it is not unramified and the comparison denies étaleness of ℤ₃[ζ₃] over ℤ₃; this is the negative control of §4.8, where the endomorphism counts 2 and 3 differ. Rigidity also fails there: ℚ₃(ζ₃) has two ℚ₃-algebra endomorphisms, while its residue field 𝔽₃ has one 𝔽₃-algebra endomorphism, so the bijection needs the unramified hypothesis.
-- For L=K=ℚ_p both Galois groups are trivial, the rigidity bijection relates the single endomorphism on each side, and the Frobenius element is the identity, of order 1.
-- For the unramified cubic extension L of ℚ₂, with residue field 𝔽₈, the Frobenius element reduces to the arithmetic Frobenius a↦a², not to its inverse a↦a⁴: for a∈𝔽₈ outside 𝔽₂, a⁴=a² would give a²(a²−1)=0, so the two differ. At degree 2 the two coincide, so the 𝔽₄ Check cannot fix this direction.
-
-### From TauCetiRoadmap.StableHomotopyKTheory
-
-Consume Layer 5's spectrum model, Eilenberg–MacLane spectra and ordinary cohomology comparison, smash, suspension, connectivity and operadic ring/module objects. Consume §7.9 for Milnor comparison, §§7.14–7.18 for completeness, detection and closure, and §7.19 for rational spectra, using GeneralizedCohomology G3.8–G3.9 for the homotopy-limit and derived-completion carriers, and §§7.21–7.26 for the exact-couple pages and complete convergence criteria. In particular a filtration page alone supplies no convergence theorem. Preserve integer gradings and the shared spectrum comparison of GeneralizedCohomology G2–G3.
-
-### From TauCetiRoadmap.GeneralizedCohomology
-
-Use G2.8 for D_k(E)=(E^(⊗k))_(hΣ_k) and its coherent functoriality, sum expansion, subgroup restriction and equivalence invariance, together with BordismFormalGroups §F6.5 for subgroup Borel constructions. Write D_G for restriction to G≤Σ_k, k≥1. The permutation-suspension identity is D_G(ΣⁿE)=(S^(nρ_k)⊗E^(⊗k))_(hG), with the actual restricted permutation representation. It gives D_G(S)=Σ∞_+BG and preserves filtered colimits. These are the imported extended-power API (bmms86, VIII.1, Propositions 1.1–1.4, scan pp.130–132; bmms86 line 4297).
-
-**Checks.**
-
-- For k≥1 the zero input gives D_G(0)=0; at k=0 the empty tensor instead gives S, so the lower bound matters.
-- For k=1 the group is trivial and D_1(E)=E. For k=3, G=S₃ and E=S, π₀D_G(S)=ℤ and the orbit object is Σ∞_+BS₃, rather than a fixed-point spectrum.
-- At k=2 the swap on (ΣS)^(⊗2) has degree −1, while on (Σ²S)^(⊗2) it has degree +1. A trivial action on the first suspension would fail this test.
-
-Use G4.2 and G5.3 for ordinary and compatible Thom objects and G5.4 for the commutative spectral rings ku, KU, their Bott localization and their bundle comparison. Their chosen Bott class and complex orientation are retained, rather than chosen independently.
-
-### From TauCetiRoadmap.TangentialBordism
-
-Consume §B4 items 1, 2 and 7 for Sq, P and β on spaces, relative groups and spectra, their normalization, suspension, naturality, Cartan and Adem, and the identification with the full algebra of stable operations. Consume its admissible basis and graded Milnor dual: at 2, 𝔽₂[ξ₁,ξ₂,…], |ξ_i|=2ⁱ−1; at odd p, Λ(τ₀,τ₁,…)⊗𝔽_p[ξ₁,ξ₂,…], |τ_i|=2pⁱ−1 and |ξ_i|=2(pⁱ−1). Fix ξ₀=1 and coproduct Δξ_n=Σ_i ξ_(n−i)^(pⁱ)⊗ξ_i and Δτ_n=τ_n⊗1+Σ_i ξ_(n−i)^(pⁱ)⊗τ_i. Tensor products have the Koszul sign. Cohomology of each spectrum is a graded left A_p-module, contravariantly functorial; the graded tensor action uses this coproduct. Multiplication is composition of the representing spectrum maps. These exact conventions are needed by the Singer formulas (milnor58, §§2–3 and 5, Theorems 1–3, pp.153–162, Appendix 1, p.171; bmms86, VIII.2, scan pp.133–135; Cartan exposés 14–16, locators in References).
-
-The consumed operation API includes pullback and suspension compatibility, zero-index identity, positive operations on the degree-zero unit equal to zero, top-square and even top-power laws on spaces, the admissible basis of all stable operations and agreement of composition with spectrum maps. Each dual degree is finite. The exhaustive chain of finite sub-Hopf algebras A_p(n) and the freeness of A_p over each of them are not part of this contract or of TangentialBordism §B4 item 8, whose freeness is over the infinite exterior algebra of Milnor primitives; they are the exhaustive-chain contract below. No instability relation is imposed on general A_p-modules.
-
-**Checks.**
-
-- For u in H¹(ℝP∞;𝔽₂), Sq¹u=u²≠0 and Sq²u=0; Sq⁰u=u. An unstable relation on the operation algebra itself would discard legitimate stable operations.
-- For v in H²(ℂP∞;𝔽_p), P¹v=v^p≠0 and P²v=0. At p=3 the degree of P¹v is 6=2+4, rather than 4.
-- For x in H¹(BC_p;𝔽_p), βx=y≠0 and βy=0. For degree-one x and z, the second term of β(xz) has coefficient −1, which is 2 at p=3.
-- Composition gives Sq¹Sq¹=0, Sq¹Sq²=Sq³ and, at p=3, P¹P¹=2P². These distinguish right-to-left composition and the coefficient normalization.
-- The dual has dimensions 1,1,1 in degrees 0,1,2 at 2; at p=3 the first odd class is τ₀ in degree 1, with ξ₁ in degree 4. The degree-zero algebra is 𝔽_p and its unit acts as the identity.
-
-Consume §B4 item 2 at p=2 and item 7 at odd p for the tower I^(⊗s)⊗B, I=fib(S→H𝔽_p), with cofibers H𝔽_p⊗I^(⊗s)⊗B and augmented cobar object B⊗H𝔽_p^(⊗(n+1)). Its functoriality and normalized cobar differential give Ext_(A_p)^(s,t)(H*(B;𝔽_p),𝔽_p) for bounded-below degreewise finite-type B. Its differential changes (s,t) by (r,r−1), so the stem t−s drops by one. The same hypotheses give strong convergence to π_(t−s)(B_p^∧) with complete Hausdorff Adams filtration (lnr12, §2.1 and Proposition 2.2, pp.864–869; lnr12 line 265).
-
-**Checks.**
-
-- B=0 gives zero terms and zero pages; the tower's filtration-zero term is B itself.
-- For B=H𝔽_p, H*(B)=A_p, so E₂ is 𝔽_p at (0,0) and zero elsewhere; its abutment has the same single nonzero homotopy group.
-- For B=S, E₂ is Ext_(A_p)(𝔽_p,𝔽_p), with nonzero positive filtration. Replacing A_p by the coefficient field would erase those terms.
-
-### From TauCetiRoadmap.BordismFormalGroups
-
-Consume §F6.3 for its finite Steenrod sub-Hopf algebras E(Q_i) and T_t with their Margolis free-module criteria, §F6.1 for Bousfield localization, §F6.4 for the smashing theorem L_nX≃L_nS⊗X, §F3 for ku_(2)≃BP⟨1⟩ and for E(1) as the v₁-localization of BP⟨1⟩, and §F6.5 for finite-action norms, their unshifted Tate cofibers, induced vanishing, lax monoidal products, restriction and transfers. Its finite-height descent states that (L_nS)^(tG) is E(n−1)-local for n≥1 and finite G. At n=1 this is rationality of raw Tate, which is stronger than merely the vanishing after K(1)-localization. Layer 7 specializes this result to the KU-local sphere and the swap action.
-
-The additional BordismFormalGroups §F6.3 contract is the exhaustive finite Hopf-algebra chain: For every prime p and every n≥−1, the quotient of the dual Steenrod algebra by the ideal generated by the τ_r with r>n and the ξ_s^(p^r) with r+s≥n+1 at odd p, and by the ξ_s^(2^r) with r+s≥n+2 at p=2, is a Hopf algebra quotient dual to a finite sub-Hopf algebra A_p(n) of A_p; these form an increasing chain with A_p(−1)=𝔽_p and union A_p, and A_p is free as a left and as a right module over each A_p(n) (agm85, §2, p.439; agm85 line 214; the freeness enters the proof of Lemma 2.2, p.441; agm85 line 290).
-
-**Checks.**
-
-- For G trivial the norm is the identity and Tate is zero; for the induced object Σ∞_+G, Tate is also zero. Ordinary fixed points would not pass either test.
-- For Hℤ with trivial C₂-action, the norm on π₀ is multiplication by 2 and Tate π₀ is ℤ/2; the finite norm has no suspension shift.
-- At height 1 the local target of descent is E(0)=Hℚ, while at height 2 it is E(1). K(1)-acyclicity alone does not identify an arbitrary spectrum as rational.
-- In the chain, n=−1 kills every τ_r and ξ_s, so A_p(−1)=𝔽_p, of dimension 1. For n=0 only τ₀ survives at odd p and only ξ₁ with ξ₁²=0 at p=2, so A_p(0) is the exterior algebra on β, respectively on Sq¹, of dimension 2.
-- A₂(1) is dual to 𝔽₂[ξ₁,ξ₂]/(ξ₁⁴,ξ₂²), of dimension 8, and is generated by Sq¹ and Sq². At odd p, A_p(1) is dual to Λ(τ₀,τ₁)⊗𝔽_p[ξ₁]/(ξ₁^p), of dimension 4p, hence 12 at p=3. The exterior algebra E(Q₀,Q₁) has dimension 4, so the Margolis subalgebras of §F6.3 do not form this chain.
-- Left multiplication by Sq¹ on A₂ sends Sq⁰↦Sq¹, Sq¹↦0, Sq²↦Sq³, Sq³↦0 and Sq²Sq¹↦Sq³Sq¹, so its kernel equals its image in degrees 0 to 3, as freeness over A₂(0)=Λ(Sq¹) requires. The module 𝔽₂ with Sq¹ acting by zero has homology 𝔽₂ in degree 0 and is not free.
-
-### From TauCetiRoadmap.KTheoryFiniteLocalFields
-
-Consume §4.0's genuine cyclic models and §4.5's Eilenberg–MacLane/Tate comparison, complete cyclic resolution, cup products and spectral comparison, and its Tate spectral sequence E²_(s,t)=Ĥ^(−s)(G,π_tT) with its pairings, its comparison with the Greenlees filtration and its conditional convergence to π_(s+t)T^(tG). It is a homotopy spectral sequence; its form for continuous mod-p homology is §1.2 here, and conditional convergence is not upgraded to strong convergence without the hypotheses stated there. In particular the trivial cyclic resolution alternates 0 and multiplication by p for a trivial integral coefficient module, and the mod-p differential is zero. The Weyl action and its chosen coefficient basis are fixed in Layer 1.
-
-### From TauCetiRoadmap.AInfCohomology
-
-Consume §AI.7.2, “Spectral Tate diagonal”, for the exact tensor-Tate functor, its unit-normalized lax monoidal diagonal and its coherent naturality. Consume “Circle actions, homotopy fixed points and Tate constructions” for the Tate orbit lemma with its bounded-below hypothesis and residual quotient action. The sphere Check of the Tate diagonal fixes the map S→S^(hC_p)→S^(tC_p); its identification as the p-completion of S is proved in §2.7 here and is not an input of any layer.
-
-### From TauCetiRoadmap.RefinedTraceMethods
-
-Consume §§2.1 and 2.3–2.4 for orbit/fixed-point adjunctions, Postnikov/Tate comparisons, boundedness criteria, p-completeness and parametrized spectra. From §2.3 consume also the Tate fixpoint lemma for bounded-above spectra with C_(p²)-action, and its part (iii): X^(tC_p) is p-complete and X^(tC_p)≃(X_p^∧)^(tC_p) for bounded-below X. The sphere Segal equivalence S^(tC_p)≃S_p^∧ is proved in §2.7 here. The residual sphere counterexample (S^(hC_p))^(t(C_(p²)/C_p))≃S_p^∧ is derived from it in the Layer 7 Examples. Consume §§2.5–2.6 for cyclic realization, edgewise subdivision and THH Frobenius; §2.8 supplies the E∞ Tate-valued Frobenius as multiplication after Δ_p, equivalently the THH Frobenius followed by augmentation. This supplies the unrefined map on all E∞-rings without using its Segal equivalence.
-
-Consume §2.10's cyclic-bar equivalence THH(S[ΩY])=Σ∞_+LY and its cyclotomic model, §§2.11–2.13's genuine and representation-sphere models, and §2.16's restriction pullback for genuine fixed points. Consume §5.1 for coherent stable ψ^k on KU[1/k] and §6.1 for the equivalence between étale algebras over a connective E∞-ring and étale algebras over its π₀. The marked lift over S_p^∧ and its maps are the ones used here.
-
-The spectral étale equivalence is applied in §4.8 to the finite étale ℤ_p-algebra W(k) of a finite field k. That W(k) is finite étale over ℤ_p is not part of §6.1: it is Tau Ceti's unramified/étale comparison `TauCeti.isUnramified_iff_etale` at the PadicHodgeRegulators identification W(k)=O_L. The marked lift SW(k) of §4.8 is the value of this equivalence at W(k), not a separate construction. The identification of the ℤ_p-algebra endomorphisms of W(k) with Gal(L/ℚ_p), under which reduction modulo p is the residue correspondence, is proved in §4.8 here.
-
-**Checks.**
-
-- At p=2, stable ψ² sends β to 2β and β⁻¹ to β⁻¹/2; the localized codomain is required.
-- At Y=* the cyclic-bar/free-loop equivalence gives S. The cyclotomic map is the sphere's constant-to-Tate map, not an arbitrary endomorphism with the same source and target.
-
-### From TauCetiRoadmap.PadicHodgeRegulators
-
-Consume “Supplier: Finite unramified étale Q_p-algebras” for every prime p and finite field k/𝔽_p of degree d≥1: L=W(k)[1/p] is the unramified extension of ℚ_p of degree d, its ring of integers is W(k), free of rank d over ℤ_p, and its rational Frobenius φ_L is Witt Frobenius after inverting p. Consume from “Supplier: Frobenius on the roots of unity of an unramified field” that the same φ_L is the unique ℚ_p-automorphism of L whose reduction is the pth-power map, implemented as `TauCeti.frobeniusAlgEquiv` for K=ℚ_p; so Witt Frobenius after inverting p is the Frobenius element of L/ℚ_p. §4.8 combines this identification with the Tau Ceti declarations of the Tau Ceti supplier contract: étaleness of W(k)=O_L over ℤ_p, rigidity and the residue correspondence are read at it, and the identification of the ℤ_p-algebra endomorphisms of W(k) with Gal(L/ℚ_p) is proved in §4.8.
-
-**Checks.**
-
-- For k=𝔽₂ and k=𝔽₃, respectively, the integers are ℤ₂ and ℤ₃, the rank is 1 and rational Frobenius is the identity; there is no restriction to primes greater than 3.
-- For k=𝔽₄=𝔽₂[a]/(a²+a+1), W(k) has ℤ₂-rank 2 and L has ℚ₂-degree 2. Rational Frobenius sends [a] to [a²]=[a+1], not [a], and its square fixes [a].
-- The ramified field ℚ₃(ζ₃) has degree 2 and residue field 𝔽₃ of degree 1; it cannot be W(𝔽₃)[1/3]=ℚ₃. Finite étaleness over ℚ₃ alone does not imply this unramified rank comparison.
-
-### From TauCetiRoadmap.EnhancedDerivedSheaves and TauCetiRoadmap.AlgebraicTopology
-
-Use EnhancedDerivedSheaves E3, “Coherent diagrams, Kan extensions and adjoints”, and E5:abstract for coherent symmetric monoidal stable categories, operadic algebra/module objects and the adjunctions p_!⊣p*⊣p_*. Use AlgebraicTopology Stage 6, “Cohomology, products and manifold duality”, for ordinary cup products and their relative comparisons. Use the common ordinary cohomology supplied to TangentialBordism; changing ordinary cochain models retains its operation comparisons.
-
-### From TauCetiRoadmap.TopologicalKTheory
-
-Consume T1–T5, specifically T2.5's degree-zero Adams operations and T4's Bott comparison, with the tautological-line convention. Splitting is applied to finite CW spaces and retracts; tensor products of complexes, rather than a formal power of a difference, define the cyclic operation on virtual classes in Layer 7.
-
-## How to read the build
-
-Layer 1 fixes the cyclic and Weyl coefficient normalization on the supplied operation algebra and passes the supplied Tate spectral sequence to continuous mod-p homology of Greenlees towers. Layer 2 constructs Singer modules, their continuous-cohomology realization and the convergent inverse-limit Adams comparison, obtaining finite-type Segal. Layer 3 proves uniform pro-constancy and removes every finite-type restriction from the bounded-below theorem. Layer 4 refines the diagonal and compares degree-zero powers and Frobenius. Layer 5 retains permutation spheres through all integer degrees. Layer 6 reads off the Steenrod components; Layer 7 calculates KU and the boundedness obstructions. Layer 8 applies the Segal theorem to a controlled free-loop totalization. Suggested.lean is the acceptance-signature companion; this README specifies the roadmap and every construction, API and Check.
-
 
 ## Layer 1: Cyclic coefficients, permutation conventions and homological Tate spectral sequences
 
@@ -395,6 +248,7 @@ For the sphere at p=2, U_n(S) is the suspension of the Thom spectrum of −n tim
 ### Dependencies
 
 TangentialBordism §B4 items 2 and 7; GeneralizedCohomology G3.8 and StableHomotopyKTheory §7.9 (homotopy limits and Milnor comparison); StableHomotopyKTheory Layer 5 (smash, suspension, Eilenberg–MacLane and connectivity); StableHomotopyKTheory §7.9 (spectral Milnor sequence); GeneralizedCohomology G3.9 (derived completion and its function-spectrum model); StableHomotopyKTheory §7.26 (complete strong convergence); TangentialBordism §B4 items 2 and 7 and BordismFormalGroups §F6.3; the exhaustive-chain supplier contract (the chain A_p(n) and the freeness of A_p over it); GeneralizedCohomology G2.8 and BordismFormalGroups §F6.5; BordismFormalGroups §F6.5 (finite-action norm, Tate and transfers); RefinedTraceMethods §§2.11–2.13 (genuine equivariance); AInfCohomology §AI.7.2 (Spectral Tate diagonal); RefinedTraceMethods §2.3 and KTheoryFiniteLocalFields §4.4 (boundedness and residual Tate comparison); StableHomotopyKTheory §7.16 (mod-p detection for complete spectra). The individual Needs lines specify the earlier local targets and distinguish the general statement from its application.
+
 
 ## Layer 3: The bounded-below generalized Segal conjecture
 
@@ -1090,6 +944,152 @@ Trace and cyclotomic applications use the bounded-below Segal equivalence with i
 ## Worked examples
 
 The normalizations can be read together in three two-term calculations. At p=2, a degree-one projective class maps to u+u²s, with both terms in total degree 1; the same degree-one sphere transposition has sign −1 in Layers 1 and 5. At p=3, v−v³t² has total degree 2, and x−β(x)e has total degree 1, where e is the generator of Layer 1 normalized by βe=1; these distinguish the invariant even period 4 from the odd Bockstein shift. For KU on S², H=1+β and β²=0 give H^p=1+pβ, so Frobenius has Bott value pβ while the constant coefficient comparison has Bott value β. Each is evaluated in its actual coefficient or cohomology ring; the nilpotence β²=0 in KU⁰(S²) is not imposed on the periodic coefficient ring π_*KU.
+
+## Scope and ownership
+
+StableHomotopyKTheory Part I stops at the stable homotopy foundations, completion and spectral-sequence machinery of Layers 5–7. This Part II owns the homological Tate spectral sequence of Greenlees towers in continuous mod-p homology, the Singer module and its augmentation, the inverse-limit Adams comparison, the finite-type and arbitrary-cardinality steps in the prime-order generalized Segal theorem, the Weyl refinement, the comparison with representation-twisted power operations, the spherical finite-field Witt Frobenius (the spherical lift SW(k) of a finite field k is the marked étale lift of RefinedTraceMethods §6.1 at the finite étale ℤ_p-algebra W(k); §4.8 owns the integral input that makes W(k) finite étale over ℤ_p, the finite-free module structure of SW(k) and its Frobenius comparison, and spherical lifts of general perfect p-complete δ-rings are neither constructed nor used here), the total Steenrod comparison, the KU Adams comparison and the free-loop theorem. The group in the tensor Tate diagonal is C_p; a general finite-group Segal conjecture is outside this statement.
+
+The general constructions have the following owners, and are consumed by the exact contracts below.
+
+- GeneralizedCohomology G2.8 owns symmetric extended powers as the summands of the free commutative spectral algebra; BordismFormalGroups §F6.5 supplies restriction to subgroups and coherent permutation actions. The cyclic desuspension tower here is an additional comparison of those powers.
+- TangentialBordism §B4 items 1, 2 and 7 owns ordinary and stable Steenrod operations, their complete operation algebra, admissible basis, Milnor dual, coproduct and conjugation at all primes. Its items 2 (at p=2) and 7 (at odd p) own the mod-p Adams tower, cohomological Ext page and bounded-below finite-type convergence. These constructions are not targets here. BordismFormalGroups §F6.3 owns the finite Steenrod Hopf subalgebras and their free-module tools, including the exhaustive chain A_p(n) and the freeness of A_p over each A_p(n) that the Singer Tor-equivalence uses, specified in its exhaustive-chain contract below.
+- BordismFormalGroups §F6.5 owns finite Borel actions, norms, Tate, induced-object vanishing, multiplicativity, restriction, transfer and finite-height Tate descent. KTheoryFiniteLocalFields §4.5 owns Eilenberg–MacLane/Tate comparison, the algebraic cyclic resolution and the homotopy Tate spectral sequence; its continuous mod-p homology form for bounded-below finite-type inputs is §1.2 here. The coefficient target in Layer 1 adds a fixed Weyl normalization to those calculations. The algebraic Tate cohomology of finite groups, its two-term models for cyclic groups and its cup product in all integer bidegrees are already in Mathlib and the pinned Tau Ceti; §§1.1 and 6.1 consume them through the supplier contracts below.
+- AInfCohomology §AI.7.2 owns the spectral Tate diagonal and the Tate orbit lemma. RefinedTraceMethods §§2.3–2.4 supplies the boundedness and parametrized extensions; its §2.3 owns the Tate fixpoint lemma and the p-completion invariance of Tate for bounded-below inputs. The sphere counterexample (S^(hC_p))^(t(C_(p²)/C_p))≃S_p^∧≠0 to the fixpoint lemma is a consequence of the C_p Segal theorem §2.7 here and is derived in the Layer 7 Examples, beside the KU orbit and tensor-diagonal counterexamples. RefinedTraceMethods §§2.6, 2.8 and 2.10–2.16 own the THH, E∞ Frobenius and genuine cyclotomic interfaces; its §2.10 supplies the loop-space model; the Segal equivalence of that model is proved in Layer 8 here.
+- HermitianKTheoryOfPoincareCategories §5.1a owns the C₂ sphere comparison (the Segal–Lin theorem): for the trivial action the canonical map S→S^(hC₂)→S^(tC₂) exhibits its target as S₂^∧, proved there through the inverse tower of stunted real projective Thom spectra. Here §2.7 extends it to every prime and every bounded-below finite-type spectrum by the Singer construction, and §3.4 to every bounded-below spectrum by truncated Tate functors; neither uses §5.1a. Their p=2 sphere case is the same statement about the same map: the Tate diagonal at S is that canonical map (AInfCohomology §AI.7.2; ns18, Definition III.1.4, p.286; ns18 line 3236), and by the universal property of 2-completion an equivalence S₂^∧≃S^(tC₂) under S is unique up to homotopy, so the two comparisons agree.
+- GeneralizedCohomology G4.2 and G5.3 owns ordinary Thom spaces and compatible Thom-spectrum diagrams; RefinedTraceMethods §2.13 owns genuine representation spheres. Layer 5 here adds tensor-inverse virtual twists over arbitrary spaces and their power-operation comparison. EnhancedDerivedSheaves E3 and E5 supplies the coherent Kan-extension and monoidal formalism.
+- GeneralizedCohomology G5.4 owns ku and KU. TopologicalKTheory T1–T5 owns bundle K-theory, Bott periodicity, splitting and degree-zero Adams operations. RefinedTraceMethods §5.1 owns Snaith's comparison and stable Adams operations after inverting their index. Layer 7 adds Atiyah-power compatibility, cyclic Tate coefficient fields and their Frobenius comparison.
+- PadicHodgeRegulators, “Supplier: Finite unramified étale Q_p-algebras”, owns the ordinary Witt/unramified identification and rank. RefinedTraceMethods §6.1 supplies spectral étale lifting, and SW(k) is its value at W(k). The pinned Tau Ceti already has the unramified/étale comparison of integer rings, the rigidity of unramified extensions, the residue correspondence with its Frobenius element and the congruence that characterizes it; the exact declarations are listed under the Tau Ceti supplier contract. §4.8 here identifies the ℤ_p-algebra endomorphisms of W(k) with Gal(L/ℚ_p) for L=W(k)[1/p], so that reduction modulo p becomes the residue correspondence and Witt Frobenius becomes the unique lift of the pth-power map; §4.8 also owns the finite-free S_p^∧-module structure of SW(k) and its Frobenius comparison.
+- Mathlib already has ordinary and Witt Frobenius and the finite inverse-system tools listed below. The finite-tower theorem here assembles the nonsurjective and empty-limit cases into a pro-isomorphism; it does not redefine compatible sections or eventual ranges.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+Use `CategoryTheory.Functor.sections` in Mathlib/CategoryTheory/Types/Basic.lean: a section is an element of the dependent product satisfying every transition equation. This definition includes neither nonemptiness nor finiteness. In Mathlib/CategoryTheory/CofilteredSystem.lean use `CategoryTheory.Functor.eventualRange`, `CategoryTheory.Functor.isMittagLeffler_of_exists_finite_range`, `CategoryTheory.Functor.toEventualRangesSectionsEquiv`, `CategoryTheory.Functor.surjective_toEventualRanges`, `CategoryTheory.Functor.eval_section_surjective_of_surjective`, `CategoryTheory.Functor.eventually_injective` and `nonempty_sections_of_finite_cofiltered_system`. Keep each theorem's cofilteredness, finite-stage, surjectivity and nonemptiness hypotheses: eventual injectivity is a theorem for a surjective finite system, not for an arbitrary original tower.
+
+Use `frobenius` from Mathlib/Algebra/CharP/Lemmas.lean on a commutative semiring of exponential characteristic p. Use `WittVector`, `WittVector.frobenius`, `WittVector.coeff_frobenius_charP` and `WittVector.frobenius_zmodp` from Mathlib/RingTheory/WittVector/Basic.lean and Frobenius.lean, with p prime and a commutative coefficient ring. The coefficientwise pth-power formula additionally requires characteristic p. It does not say that all Witt Frobenius maps are the identity. Use `WittVector.equiv` in Mathlib/RingTheory/WittVector/Compare.lean, the ring isomorphism from the Witt vectors of `ZMod p` to `ℤ_[p]` for p prime, to identify W(𝔽_p) with ℤ_p; this identification is the base of the integral comparison of §4.8, not one of its conclusions. Use `WittVector.IsPoly.map` in Mathlib/RingTheory/WittVector/IsPoly.lean: a polynomial function of Witt vectors, Witt Frobenius among them, commutes with `WittVector.map` along every ring homomorphism of coefficients. Use `WittVector.constantCoeff` in Mathlib/RingTheory/WittVector/Basic.lean, the zeroth Witt coordinate as a ring homomorphism W(R)→R. Use `FiniteField.frobeniusAlgEquivOfAlgebraic` and `FiniteField.orderOf_frobeniusAlgEquivOfAlgebraic` in Mathlib/FieldTheory/Finite/Basic.lean: for an algebraic extension L of a finite field K, the qth-power map (q the cardinality of K) is a K-algebra automorphism of L, and for finite L its order is [L:K]. Use `FiniteField.natCard_algHom_of_finrank_dvd` in Mathlib/FieldTheory/Finite/GaloisField.lean: for field extensions K and L of F with L finite and [K:F] dividing [L:F], there are exactly [K:F] F-algebra maps K→L; at K=L=k over 𝔽_p this counts the d endomorphisms of k. Use `IsGalois.of_card_aut_eq_finrank` in Mathlib/FieldTheory/Galois/Basic.lean: a finite extension E/F with exactly [E:F] F-automorphisms is Galois.
+
+Use `tateCohomology` in Mathlib/RepresentationTheory/Homological/TateCohomology/Basic.lean: for a commutative ring R, a finite group G and a representation M in `Rep R G`, its Tate cohomology in an integer degree n is the degree-n homology of the Tate complex, which joins the inhomogeneous chain and cochain complexes of M along the norm map; positive degrees agree with group cohomology and degrees ≤ −2 with group homology. It is the algebraic Tate cohomology of a representation, the coefficient object of KTheoryFiniteLocalFields §4.5's Eilenberg–MacLane/Tate comparison, not the Tate construction on spectra, and it fixes no generators.
+
+### From Tau Ceti
+
+Suggested.lean imports no Tau Ceti module. The README consumes two groups of declarations of the pinned Tau Ceti: Tate cohomology of finite groups, in the coefficient calculations of §1.1 and §6.1, and unramified local fields, in the integral comparison of §4.8.
+
+The Tate cohomology declarations are in TauCeti/RepresentationTheory/Homological/TateCohomology/. In them G is a finite group, k a commutative ring, M and N are objects of `Rep k G`, and the Tate groups are Mathlib's `tateCohomology`.
+
+- For a finite cyclic group G with generator g, `Rep.FiniteCyclicGroup.tateCohomologyIsoEven` identifies the Tate group of M in every even integer degree with the homology of M –N→ M –(g−1)→ M, N the norm, and `Rep.FiniteCyclicGroup.tateCohomologyIsoOdd` identifies the Tate group in every odd integer degree with the homology of M –(g−1)→ M –N→ M. Under `IsCyclic G`, `Rep.FiniteCyclicGroup.periodicIso` identifies the Tate groups of M in any two degrees congruent modulo 2 (Periodic.lean).
+- `TauCeti.TateCohomology.cup` is the k-bilinear cup product from the Tate groups of M and N in degrees p and q to the Tate group of M⊗N in degree p+q, for all integers p and q (Cup/Product.lean). Its unit is `TauCeti.TateCohomology.cupUnit`, the degree-zero class of 1 in the trivial representation (Cup/Unit.lean); it is associative through the tensor associator, `TauCeti.TateCohomology.cup_assoc` (Cup/Associativity.lean); and `TauCeti.TateCohomology.cup_gradedComm` gives its Koszul sign: after the braiding M⊗N≅N⊗M, x∪y for classes of degrees p and q is (−1)^(pq) times y∪x (Cup/GradedComm.lean).
+- These declarations fix no cohomology classes. The classes b, u, t, e and s and the normalization βe=1 are fixed in §1.1 here.
+
+The local-field declarations are in TauCeti/NumberTheory/LocalField/. Throughout them, K and L are nonarchimedean local fields (`IsNonarchimedeanLocalField` with their valuative relations and topologies), with `Algebra K L` and `ValuativeExtension K L`.
+
+- The class `TauCeti.IsUnramified K L` (ramification index 1 and separable residue extension), its degree form `TauCeti.IsUnramified.inertiaDegree_eq_finrank` (the residue degree of an unramified L/K is [L:K]) and the comparison `TauCeti.isUnramified_iff_etale`: L/K is unramified exactly when 𝒪[L] is étale over 𝒪[K] (Unramified/Basic.lean).
+- Under the further hypotheses `Module.Finite K L` and `IsUnramified K L`, the rigidity bijection `TauCeti.IsUnramified.residueFieldHomEquiv K L M`: for every nonarchimedean local field M with `Algebra K M` and `ValuativeExtension K M`, reduction is a bijection from the K-algebra maps L→M to the 𝓀[K]-algebra maps 𝓀[L]→𝓀[M] (Unramified/Rigidity.lean). It needs no Galois hypothesis; at M=L it identifies the K-algebra endomorphisms of L with the 𝓀[K]-algebra endomorphisms of 𝓀[L].
+- Under the further hypotheses `FiniteDimensional K L`, `IsGalois K L` and `IsUnramified K L`: the residue correspondence `TauCeti.residueFieldAutEquiv`, a group isomorphism from Gal(L/K) to Gal(𝓀[L]/𝓀[K]) given by the action on the residue field; cyclicity of Gal(L/K), `TauCeti.isCyclic_algEquiv`; the Frobenius element `TauCeti.frobeniusAlgEquiv`, the preimage of the qth-power map for q the cardinality of 𝓀[K]; its order `TauCeti.orderOf_frobeniusAlgEquiv`, the inertia degree; and its characterization `TauCeti.eq_frobeniusAlgEquiv_of_valuation_sub_pow_lt_one`: a K-automorphism σ of L with σ(y)≡y^q modulo the maximal ideal for every integral y is the Frobenius element (ResidueCorrespondence.lean). Under the same hypotheses `TauCeti.frobeniusAlgEquiv_teichmullerLift` says that the Teichmüller lift of the Frobenius image of a residue class a is the Teichmüller lift of a^q (Frobenius.lean).
+- For p prime, `Padic.integerRingEquiv`, the ring isomorphism between the valuative integer ring 𝒪[ℚ_p] and ℤ_p (Padic.lean), through which these statements are read at K=ℚ_p.
+
+The spectral interfaces below are roadmap contracts on the shared spectrum model, rather than definitions encoded by unrelated native types.
+
+**Checks.**
+
+- For G=C₃ and the trivial module 𝔽₃, the norm acts by 3=0 and g−1 by 0, so both two-term models have zero maps and every Tate group is 𝔽₃, one dimension in each degree as §1.1 requires. For the trivial module ℤ the norm is multiplication by 3, so the even degrees give ℤ/3 and the odd degrees 0, the groups of §6.1. Exchanging the two models would give Ĥ⁰(C₃;ℤ)=0 and ℤ/3 in odd degrees, against Ĥ⁰(C₃;ℤ)=ℤ/3.
+- For b∈Ĥ¹(C_p;𝔽_p) with trivial coefficients, the Koszul sign in bidegree (1,1) gives b∪b=−b∪b, hence b²=0 at odd p, the exterior relation of §1.1. At p=2 the sign is +1 and gives no relation: there b² is the nonzero class βb of Ĥ²(C₂;𝔽₂), and the Tate ring is the Laurent ring 𝔽₂[s^(±1)].
+- For k=𝔽₄ and L=ℚ₂(ζ₃), the unramified quadratic extension of ℚ₂, Gal(L/ℚ₂) and Gal(𝔽₄/𝔽₂) both have order 2, and the Frobenius element sends ζ₃ to ζ₃²; the identity does not satisfy the congruence σ(ζ₃)≡ζ₃² modulo 2, since ζ₃²−ζ₃=ζ₃(ζ₃−1) and ζ₃−1 has norm 3, a unit of ℤ₂.
+- ℚ₃(ζ₃) has ramification index 2 and residue field 𝔽₃, so it is not unramified and the comparison denies étaleness of ℤ₃[ζ₃] over ℤ₃; this is the negative control of §4.8, where the endomorphism counts 2 and 3 differ. Rigidity also fails there: ℚ₃(ζ₃) has two ℚ₃-algebra endomorphisms, while its residue field 𝔽₃ has one 𝔽₃-algebra endomorphism, so the bijection needs the unramified hypothesis.
+- For L=K=ℚ_p both Galois groups are trivial, the rigidity bijection relates the single endomorphism on each side, and the Frobenius element is the identity, of order 1.
+- For the unramified cubic extension L of ℚ₂, with residue field 𝔽₈, the Frobenius element reduces to the arithmetic Frobenius a↦a², not to its inverse a↦a⁴: for a∈𝔽₈ outside 𝔽₂, a⁴=a² would give a²(a²−1)=0, so the two differ. At degree 2 the two coincide, so the 𝔽₄ Check cannot fix this direction.
+
+### From TauCetiRoadmap.StableHomotopyKTheory
+
+Consume Layer 5's spectrum model, Eilenberg–MacLane spectra and ordinary cohomology comparison, smash, suspension, connectivity and operadic ring/module objects. Consume §7.9 for Milnor comparison, §§7.14–7.18 for completeness, detection and closure, and §7.19 for rational spectra, using GeneralizedCohomology G3.8–G3.9 for the homotopy-limit and derived-completion carriers, and §§7.21–7.26 for the exact-couple pages and complete convergence criteria. In particular a filtration page alone supplies no convergence theorem. Preserve integer gradings and the shared spectrum comparison of GeneralizedCohomology G2–G3.
+
+### From TauCetiRoadmap.GeneralizedCohomology
+
+Use G2.8 for D_k(E)=(E^(⊗k))_(hΣ_k) and its coherent functoriality, sum expansion, subgroup restriction and equivalence invariance, together with BordismFormalGroups §F6.5 for subgroup Borel constructions. Write D_G for restriction to G≤Σ_k, k≥1. The permutation-suspension identity is D_G(ΣⁿE)=(S^(nρ_k)⊗E^(⊗k))_(hG), with the actual restricted permutation representation. It gives D_G(S)=Σ∞_+BG and preserves filtered colimits. These are the imported extended-power API (bmms86, VIII.1, Propositions 1.1–1.4, scan pp.130–132; bmms86 line 4297).
+
+**Checks.**
+
+- For k≥1 the zero input gives D_G(0)=0; at k=0 the empty tensor instead gives S, so the lower bound matters.
+- For k=1 the group is trivial and D_1(E)=E. For k=3, G=S₃ and E=S, π₀D_G(S)=ℤ and the orbit object is Σ∞_+BS₃, rather than a fixed-point spectrum.
+- At k=2 the swap on (ΣS)^(⊗2) has degree −1, while on (Σ²S)^(⊗2) it has degree +1. A trivial action on the first suspension would fail this test.
+
+Use G4.2 and G5.3 for ordinary and compatible Thom objects and G5.4 for the commutative spectral rings ku, KU, their Bott localization and their bundle comparison. Their chosen Bott class and complex orientation are retained, rather than chosen independently.
+
+### From TauCetiRoadmap.TangentialBordism
+
+Consume §B4 items 1, 2 and 7 for Sq, P and β on spaces, relative groups and spectra, their normalization, suspension, naturality, Cartan and Adem, and the identification with the full algebra of stable operations. Consume its admissible basis and graded Milnor dual: at 2, 𝔽₂[ξ₁,ξ₂,…], |ξ_i|=2ⁱ−1; at odd p, Λ(τ₀,τ₁,…)⊗𝔽_p[ξ₁,ξ₂,…], |τ_i|=2pⁱ−1 and |ξ_i|=2(pⁱ−1). Fix ξ₀=1 and coproduct Δξ_n=Σ_i ξ_(n−i)^(pⁱ)⊗ξ_i and Δτ_n=τ_n⊗1+Σ_i ξ_(n−i)^(pⁱ)⊗τ_i. Tensor products have the Koszul sign. Cohomology of each spectrum is a graded left A_p-module, contravariantly functorial; the graded tensor action uses this coproduct. Multiplication is composition of the representing spectrum maps. These exact conventions are needed by the Singer formulas (milnor58, §§2–3 and 5, Theorems 1–3, pp.153–162, Appendix 1, p.171; bmms86, VIII.2, scan pp.133–135; Cartan exposés 14–16, locators in References).
+
+The consumed operation API includes pullback and suspension compatibility, zero-index identity, positive operations on the degree-zero unit equal to zero, top-square and even top-power laws on spaces, the admissible basis of all stable operations and agreement of composition with spectrum maps. Each dual degree is finite. The exhaustive chain of finite sub-Hopf algebras A_p(n) and the freeness of A_p over each of them are not part of this contract or of TangentialBordism §B4 item 8, whose freeness is over the infinite exterior algebra of Milnor primitives; they are the exhaustive-chain contract below. No instability relation is imposed on general A_p-modules.
+
+**Checks.**
+
+- For u in H¹(ℝP∞;𝔽₂), Sq¹u=u²≠0 and Sq²u=0; Sq⁰u=u. An unstable relation on the operation algebra itself would discard legitimate stable operations.
+- For v in H²(ℂP∞;𝔽_p), P¹v=v^p≠0 and P²v=0. At p=3 the degree of P¹v is 6=2+4, rather than 4.
+- For x in H¹(BC_p;𝔽_p), βx=y≠0 and βy=0. For degree-one x and z, the second term of β(xz) has coefficient −1, which is 2 at p=3.
+- Composition gives Sq¹Sq¹=0, Sq¹Sq²=Sq³ and, at p=3, P¹P¹=2P². These distinguish right-to-left composition and the coefficient normalization.
+- The dual has dimensions 1,1,1 in degrees 0,1,2 at 2; at p=3 the first odd class is τ₀ in degree 1, with ξ₁ in degree 4. The degree-zero algebra is 𝔽_p and its unit acts as the identity.
+
+Consume §B4 item 2 at p=2 and item 7 at odd p for the tower I^(⊗s)⊗B, I=fib(S→H𝔽_p), with cofibers H𝔽_p⊗I^(⊗s)⊗B and augmented cobar object B⊗H𝔽_p^(⊗(n+1)). Its functoriality and normalized cobar differential give Ext_(A_p)^(s,t)(H*(B;𝔽_p),𝔽_p) for bounded-below degreewise finite-type B. Its differential changes (s,t) by (r,r−1), so the stem t−s drops by one. The same hypotheses give strong convergence to π_(t−s)(B_p^∧) with complete Hausdorff Adams filtration (lnr12, §2.1 and Proposition 2.2, pp.864–869; lnr12 line 265).
+
+**Checks.**
+
+- B=0 gives zero terms and zero pages; the tower's filtration-zero term is B itself.
+- For B=H𝔽_p, H*(B)=A_p, so E₂ is 𝔽_p at (0,0) and zero elsewhere; its abutment has the same single nonzero homotopy group.
+- For B=S, E₂ is Ext_(A_p)(𝔽_p,𝔽_p), with nonzero positive filtration. Replacing A_p by the coefficient field would erase those terms.
+
+### From TauCetiRoadmap.BordismFormalGroups
+
+Consume §F6.3 for its finite Steenrod sub-Hopf algebras E(Q_i) and T_t with their Margolis free-module criteria, §F6.1 for Bousfield localization, §F6.4 for the smashing theorem L_nX≃L_nS⊗X, §F3 for ku_(2)≃BP⟨1⟩ and for E(1) as the v₁-localization of BP⟨1⟩, and §F6.5 for finite-action norms, their unshifted Tate cofibers, induced vanishing, lax monoidal products, restriction and transfers. Its finite-height descent states that (L_nS)^(tG) is E(n−1)-local for n≥1 and finite G. At n=1 this is rationality of raw Tate, which is stronger than merely the vanishing after K(1)-localization. Layer 7 specializes this result to the KU-local sphere and the swap action.
+
+The additional BordismFormalGroups §F6.3 contract is the exhaustive finite Hopf-algebra chain: For every prime p and every n≥−1, the quotient of the dual Steenrod algebra by the ideal generated by the τ_r with r>n and the ξ_s^(p^r) with r+s≥n+1 at odd p, and by the ξ_s^(2^r) with r+s≥n+2 at p=2, is a Hopf algebra quotient dual to a finite sub-Hopf algebra A_p(n) of A_p; these form an increasing chain with A_p(−1)=𝔽_p and union A_p, and A_p is free as a left and as a right module over each A_p(n) (agm85, §2, p.439; agm85 line 214; the freeness enters the proof of Lemma 2.2, p.441; agm85 line 290).
+
+**Checks.**
+
+- For G trivial the norm is the identity and Tate is zero; for the induced object Σ∞_+G, Tate is also zero. Ordinary fixed points would not pass either test.
+- For Hℤ with trivial C₂-action, the norm on π₀ is multiplication by 2 and Tate π₀ is ℤ/2; the finite norm has no suspension shift.
+- At height 1 the local target of descent is E(0)=Hℚ, while at height 2 it is E(1). K(1)-acyclicity alone does not identify an arbitrary spectrum as rational.
+- In the chain, n=−1 kills every τ_r and ξ_s, so A_p(−1)=𝔽_p, of dimension 1. For n=0 only τ₀ survives at odd p and only ξ₁ with ξ₁²=0 at p=2, so A_p(0) is the exterior algebra on β, respectively on Sq¹, of dimension 2.
+- A₂(1) is dual to 𝔽₂[ξ₁,ξ₂]/(ξ₁⁴,ξ₂²), of dimension 8, and is generated by Sq¹ and Sq². At odd p, A_p(1) is dual to Λ(τ₀,τ₁)⊗𝔽_p[ξ₁]/(ξ₁^p), of dimension 4p, hence 12 at p=3. The exterior algebra E(Q₀,Q₁) has dimension 4, so the Margolis subalgebras of §F6.3 do not form this chain.
+- Left multiplication by Sq¹ on A₂ sends Sq⁰↦Sq¹, Sq¹↦0, Sq²↦Sq³, Sq³↦0 and Sq²Sq¹↦Sq³Sq¹, so its kernel equals its image in degrees 0 to 3, as freeness over A₂(0)=Λ(Sq¹) requires. The module 𝔽₂ with Sq¹ acting by zero has homology 𝔽₂ in degree 0 and is not free.
+
+### From TauCetiRoadmap.KTheoryFiniteLocalFields
+
+Consume §4.0's genuine cyclic models and §4.5's Eilenberg–MacLane/Tate comparison, complete cyclic resolution, cup products and spectral comparison, and its Tate spectral sequence E²_(s,t)=Ĥ^(−s)(G,π_tT) with its pairings, its comparison with the Greenlees filtration and its conditional convergence to π_(s+t)T^(tG). It is a homotopy spectral sequence; its form for continuous mod-p homology is §1.2 here, and conditional convergence is not upgraded to strong convergence without the hypotheses stated there. In particular the trivial cyclic resolution alternates 0 and multiplication by p for a trivial integral coefficient module, and the mod-p differential is zero. The Weyl action and its chosen coefficient basis are fixed in Layer 1.
+
+### From TauCetiRoadmap.AInfCohomology
+
+Consume §AI.7.2, “Spectral Tate diagonal”, for the exact tensor-Tate functor, its unit-normalized lax monoidal diagonal and its coherent naturality. Consume “Circle actions, homotopy fixed points and Tate constructions” for the Tate orbit lemma with its bounded-below hypothesis and residual quotient action. The sphere Check of the Tate diagonal fixes the map S→S^(hC_p)→S^(tC_p); its identification as the p-completion of S is proved in §2.7 here and is not an input of any layer.
+
+### From TauCetiRoadmap.RefinedTraceMethods
+
+Consume §§2.1 and 2.3–2.4 for orbit/fixed-point adjunctions, Postnikov/Tate comparisons, boundedness criteria, p-completeness and parametrized spectra. From §2.3 consume also the Tate fixpoint lemma for bounded-above spectra with C_(p²)-action, and its part (iii): X^(tC_p) is p-complete and X^(tC_p)≃(X_p^∧)^(tC_p) for bounded-below X. The sphere Segal equivalence S^(tC_p)≃S_p^∧ is proved in §2.7 here. The residual sphere counterexample (S^(hC_p))^(t(C_(p²)/C_p))≃S_p^∧ is derived from it in the Layer 7 Examples. Consume §§2.5–2.6 for cyclic realization, edgewise subdivision and THH Frobenius; §2.8 supplies the E∞ Tate-valued Frobenius as multiplication after Δ_p, equivalently the THH Frobenius followed by augmentation. This supplies the unrefined map on all E∞-rings without using its Segal equivalence.
+
+Consume §2.10's cyclic-bar equivalence THH(S[ΩY])=Σ∞_+LY and its cyclotomic model, §§2.11–2.13's genuine and representation-sphere models, and §2.16's restriction pullback for genuine fixed points. Consume §5.1 for coherent stable ψ^k on KU[1/k] and §6.1 for the equivalence between étale algebras over a connective E∞-ring and étale algebras over its π₀. The marked lift over S_p^∧ and its maps are the ones used here.
+
+The spectral étale equivalence is applied in §4.8 to the finite étale ℤ_p-algebra W(k) of a finite field k. That W(k) is finite étale over ℤ_p is not part of §6.1: it is Tau Ceti's unramified/étale comparison `TauCeti.isUnramified_iff_etale` at the PadicHodgeRegulators identification W(k)=O_L. The marked lift SW(k) of §4.8 is the value of this equivalence at W(k), not a separate construction. The identification of the ℤ_p-algebra endomorphisms of W(k) with Gal(L/ℚ_p), under which reduction modulo p is the residue correspondence, is proved in §4.8 here.
+
+**Checks.**
+
+- At p=2, stable ψ² sends β to 2β and β⁻¹ to β⁻¹/2; the localized codomain is required.
+- At Y=* the cyclic-bar/free-loop equivalence gives S. The cyclotomic map is the sphere's constant-to-Tate map, not an arbitrary endomorphism with the same source and target.
+
+### From TauCetiRoadmap.PadicHodgeRegulators
+
+Consume “Supplier: Finite unramified étale Q_p-algebras” for every prime p and finite field k/𝔽_p of degree d≥1: L=W(k)[1/p] is the unramified extension of ℚ_p of degree d, its ring of integers is W(k), free of rank d over ℤ_p, and its rational Frobenius φ_L is Witt Frobenius after inverting p. Consume from “Supplier: Frobenius on the roots of unity of an unramified field” that the same φ_L is the unique ℚ_p-automorphism of L whose reduction is the pth-power map, implemented as `TauCeti.frobeniusAlgEquiv` for K=ℚ_p; so Witt Frobenius after inverting p is the Frobenius element of L/ℚ_p. §4.8 combines this identification with the Tau Ceti declarations of the Tau Ceti supplier contract: étaleness of W(k)=O_L over ℤ_p, rigidity and the residue correspondence are read at it, and the identification of the ℤ_p-algebra endomorphisms of W(k) with Gal(L/ℚ_p) is proved in §4.8.
+
+**Checks.**
+
+- For k=𝔽₂ and k=𝔽₃, respectively, the integers are ℤ₂ and ℤ₃, the rank is 1 and rational Frobenius is the identity; there is no restriction to primes greater than 3.
+- For k=𝔽₄=𝔽₂[a]/(a²+a+1), W(k) has ℤ₂-rank 2 and L has ℚ₂-degree 2. Rational Frobenius sends [a] to [a²]=[a+1], not [a], and its square fixes [a].
+- The ramified field ℚ₃(ζ₃) has degree 2 and residue field 𝔽₃ of degree 1; it cannot be W(𝔽₃)[1/3]=ℚ₃. Finite étaleness over ℚ₃ alone does not imply this unramified rank comparison.
+
+### From TauCetiRoadmap.EnhancedDerivedSheaves and TauCetiRoadmap.AlgebraicTopology
+
+Use EnhancedDerivedSheaves E3, “Coherent diagrams, Kan extensions and adjoints”, and E5:abstract for coherent symmetric monoidal stable categories, operadic algebra/module objects and the adjunctions p_!⊣p*⊣p_*. Use AlgebraicTopology Stage 6, “Cohomology, products and manifold duality”, for ordinary cup products and their relative comparisons. Use the common ordinary cohomology supplied to TangentialBordism; changing ordinary cochain models retains its operation comparisons.
+
+### From TauCetiRoadmap.TopologicalKTheory
+
+Consume T1–T5, specifically T2.5's degree-zero Adams operations and T4's Bott comparison, with the tautological-line convention. Splitting is applied to finite CW spaces and retracts; tensor products of complexes, rather than a formal power of a difference, define the cyclic operation on virtual classes in Layer 7.
 
 ## References
 
