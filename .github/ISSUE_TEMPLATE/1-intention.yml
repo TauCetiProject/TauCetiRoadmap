@@ -100,6 +100,7 @@ body:
         - DeformationAndDerivedPatchingAlgebra
         - DeformationAndDerivedPatchingAlgebraPartII
         - DeligneWeightsAndPurity
+        - DenoisingDiffusion
         - DerivedDeRhamCohomology
         - DerivedModuleAlgebra
         - DiagrammaticCoherence
@@ -119,6 +120,7 @@ body:
         - EllipticCurves
         - EllipticIntegrals
         - EllipticLegendreCharacterInterfaces
+        - EndoscopicTransferAndUnitaryTraceComparison
         - EnhancedDerivedSheaves
         - Equidistribution
         - EquivariantIntersectionTheory
@@ -249,8 +251,10 @@ body:
         - PDE
         - PELModuli
         - PadicDifferentialEquationsAndRigidCohomology
+        - PadicDifferentialEquationsAndRigidCohomologyPartII
         - PadicExtensionFamilies
         - PadicFunctionalAnalysis
+        - PadicHodgeTheory
         - PadicLocalLanglandsForGL2Qp
         - PadicMeasuresIwasawaAlgebras
         - PadicPeriodRings
@@ -352,6 +356,7 @@ body:
         - Varifolds
         - VirtualFundamentalClass
         - VonNeumannAlgebras
+        - WeightsInEtaleCohomology
         - Yamabe
         - YangMillsConnectionsAndCaloricGauge
         - ZerosOfLFunctions
