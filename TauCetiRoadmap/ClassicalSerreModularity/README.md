@@ -1,4 +1,4 @@
-# Roadmap: Serre's modularity conjecture over ℚ
+# Roadmap: rank-two lifting inputs for Serre's conjecture over ℚ
 
 **Summary.** The proof of Serre's modularity conjecture over `ℚ` rests on a body of rank-two theorems about Galois representations of `ℚ` and of the totally real fields used as auxiliary base changes. This roadmap proves them; the conjecture itself, with its consequences, is proved in SerreModularityByCompatibleSystems. Throughout, a residual representation `ρ̄ : G_ℚ → GL₂(𝔽̄_p)` of S-type is continuous, odd and absolutely irreducible, and Serre's invariants are its conductor `N(ρ̄)` away from `p`, its weight `k(ρ̄)` and its character `ε(ρ̄)`. None of the results assumes Serre's conjecture.
 

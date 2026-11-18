@@ -2,7 +2,7 @@ import Mathlib
 import TauCeti.NumberTheory.ModularForms.Newforms.Newform
 
 /-!
-# Classical Serre modularity: target signatures
+# Rank-two lifting inputs for Serre's conjecture: target signatures
 
 **This file is not the roadmap and is not exhaustive.** The definitive document is
 `README.md`. This file states the roadmap's headline theorems against the pinned APIs;
