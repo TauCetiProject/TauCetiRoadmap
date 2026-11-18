@@ -2,8 +2,8 @@
 
 **Summary.** Lawrence and Venkatesh showed that the rational points of a variety can be controlled by
 watching how the `p`-adic Galois representations of the fibres of a family above it vary. This roadmap
-builds their method for families over curves, applies it to the S-unit equation, and proves that the Kodaira–Parshin family of a curve of genus at least two has full
-monodromy.
+builds their method for families over curves, proves its general finiteness theorem, and proves that the
+Kodaira–Parshin family of a curve of genus at least two has full monodromy.
 
 A rational point `y` of the base of a polarized family of abelian varieties gives a global `p`-adic
 Galois representation `ρ_y`. On one `p`-adic residue disk, the crystalline comparison identifies its
@@ -24,14 +24,10 @@ of `Y` have fewer than a fraction `1/(d + 1)` of the geometric points of their f
 Frobenius orbits of length less than eight.
 
 The second, its prototype, concerns a polarized abelian scheme with a good model over a smooth
-geometrically connected curve and a place `v` outside `S`, unramified of odd residue characteristic: if the Frobenius centralizer at an integral base point has smaller dimension than the
-monodromy orbit of the Hodge filtration, only finitely many integral points congruent to it modulo `v`
-have a semisimple Galois representation. The third is the S-unit theorem: for a number field `K` and a
-finite set `S` of places containing the archimedean ones, only finitely many `S`-units `t` have `1 − t`
-also an `S`-unit. Its proof uses a cyclic Legendre family; the statement belongs to
-DiophantineApproximationAndTranscendence, which proves it by other means.
+geometrically connected curve and a place `v` outside `S`, unramified of odd residue characteristic:
+if the Frobenius centralizer at an integral base point has smaller dimension than the monodromy orbit of the Hodge filtration, only finitely many integral points congruent to it modulo `v` have a semisimple Galois representation.
 
-The fourth concerns a smooth projective geometrically connected curve `Y` of genus `g ≥ 2` over a
+The third concerns a smooth projective geometrically connected curve `Y` of genus `g ≥ 2` over a
 number field inside `ℂ` and a prime `q ≥ 3`. The covers of `Y` with monodromy group the affine group
 `Aff(q)` of the line over `𝔽_q`, branched at one moving point, form a finite étale family over `Y`, and
 their reduced Pryms form a polarized abelian scheme over it of relative dimension `(2g − 1)(q − 1)/2`,
@@ -41,7 +37,10 @@ groups of its fibres. The proof is topological: the point-pushing maps of a clos
 
 This family is how the method reaches the rational points of a curve of genus at least two. Mordell's
 conjecture itself is not proved here: HeightsRationalPointsAndObstructions proves it as the case of
-curves of Faltings's theorem on rational points of subvarieties of abelian varieties.
+curves of Faltings's theorem on rational points of subvarieties of abelian varieties. Nor is the
+first application of Lawrence and Venkatesh, the finiteness of solutions of the S-unit equation:
+DiophantineApproximationAndTranscendence proves the unit equation for finitely generated subgroups of
+the multiplicative group of any field of characteristic zero.
 
 The roadmap builds on PadicHodgeTheory and CrystallineCohomology for the crystalline comparison, and on
 AbelianSchemesAndArithmeticModuli for the Gauss–Manin connection.
@@ -49,22 +48,20 @@ FaltingsFinitenessAndIsogenyTheorems provides the Frobenius test set behind Falt
 
 The first two layers are toolkits: linear algebra and finite groups, then Hodge weights and Faltings's
 lemma. Layers LV.2 to LV.4 build families, transport and the two period maps, and the finiteness criterion
-on a residue disk. Layer LV.5 treats surfaces and mapping class groups. Layer LV.6
-proves the S-unit theorem and Layer LV.7 the finiteness theorem over a curve. Layers LV.8 to LV.10
-build the Kodaira–Parshin family and prove its monodromy theorem.
+on a residue disk. Layer LV.5 treats surfaces and mapping class groups, and Layer LV.7 proves the
+finiteness theorem over a curve. Layers LV.8 to LV.10 build the Kodaira–Parshin family and prove its
+monodromy theorem.
 
 ## How to read the build
 
 Layers LV.0 and LV.1 are independent toolkits: linear algebra and finite group theory, and the Galois-theoretic
 constraints on Hodge weights together with the finiteness of global representations. Layers LV.2 and LV.3 build the analytic heart of the method — families,
 Gauss–Manin transport, period varieties and the two period maps, and the density of the `p`-adic period image — and
-Layer LV.4 combines them with crystalline comparison into the finiteness criterion on a residue disk. The S-unit theorem
-(Layer LV.6) is the first application and only needs Layers LV.0–LV.4 and the elementary part of LV.5. The general
+Layer LV.4 combines them with crystalline comparison into the finiteness criterion on a residue disk. The general
 finiteness theorem for abelian-by-finite families (Layer LV.7) adds the short-orbit measure, purity at friendly places
 and general position. The topological part — surfaces and mapping class groups (LV.5), `Aff(q)`-covers (LV.9) and the
 monodromy theorem (LV.10) — is independent of the arithmetic until Layer LV.8 builds the Kodaira–Parshin family and
-LV.10 identifies its monodromy. Build §§9.1–9.3, including branched transfer, before §8.12 identifies Prym homology. A reader interested
-only in the S-unit theorem can stop after Layer LV.6.
+LV.10 identifies its monodromy. Build §§9.1–9.3, including branched transfer, before §8.12 identifies Prym homology.
 
 ## Conventions
 
@@ -521,7 +518,7 @@ exponent `w/2`. Taking determinants turns this into the statement that the avera
 pure representation is `w/2`, and finite induction adds these averages over the places above `v` with
 their local degrees; the integer-indexed filtration is kept throughout, because truncating at zero
 would break the determinant and twist identities. The layer ends with the properties of `H¹` of an
-abelian variety that Layers LV.4, LV.6 and LV.7 use.
+abelian variety that Layers LV.4 and LV.7 use.
 
 ### 1.1 A finite Frobenius test set
 
@@ -799,7 +796,7 @@ fibres.
 - For `Y′=Y⊔Y` and two dimension-`d` abelian schemes, the fibre algebra is `κ(y)×κ(y)`, and the total fibre is their disjoint union, not their product.
 - Pulling back along `id_Y` gives an isomorphic abelian-by-finite family, preserving its polarization and factorization.
 - The polarized abelian scheme `X → Y` with `π = id`.
-- The Legendre variant `X → ℙ¹∖{0, μ_m, ∞} → ℙ¹∖{0,1,∞}` of LV20 §4.2 (Layer LV.6).
+- The Legendre variant `X → ℙ¹∖{0, μ_m, ∞} → ℙ¹∖{0,1,∞}` of LV20 §4.2.
 - The Kodaira–Parshin family `X_q → Y'_q → Y` (Layer LV.8).
 
 ### 2.1a Integral Gauss–Manin connection
@@ -1759,171 +1756,6 @@ This specializes the supplied lifting criterion to invertible maps and fixes the
 
 DGFloer Layer 1 item 2 (fibration exact sequence, component actions and relative-CW lifting); TauCetiRoadmap FuchsianOrbifolds Layer 2; TauCetiRoadmap GeometricTopology Layer 1; TauCetiRoadmap AlgebraicTopology Stage 4; TauCetiRoadmap AlgebraicTopology Stage 6; TauCetiRoadmap Completed/UniversalCovers Stage 2; TauCetiRoadmap AlgebraicTopology Stage 2; TauCetiRoadmap AlgebraicTopology Stage 8; TauCetiRoadmap AlgebraicTopology Stage 5; TauCetiRoadmap AlgebraicTopology Stage 1; Mathlib and Tau Ceti as listed under each target.
 
-## Layer LV.6: The `S`-unit theorem
-
-After adjoining eighth roots of unity and inverting `2`, a solution `t` of the `S`-unit equation that is not
-a square generates a cyclic Kummer extension of fixed degree `m ≥ 8`, unramified outside `S`; there are
-only finitely many such fields. For each, a place inert in it makes the fibre of the cyclic Legendre
-family above `t` a single local field of degree `m ≥ 8` over `K_v`. The cyclic Legendre family has full
-monodromy (its loop monodromies are powers of transvections, and factor-wise unipotents force the whole
-product of `SL₂`'`s`), the Legendre curves with reducible representation are finite in number by the
-Hodge-weight argument, and the finiteness criterion applies on every residue disk.
-
-### 6.1 Reductions for the `S`-unit equation
-
-**Finite-generation supplier.** For every number field `K` and finite set `S_f` of height-one
-primes of `O_K`, use the pinned `Set.unit_fg_of_units` from
-`TauCeti.RingTheory.DedekindDomain.SInteger.Unit`, specialized to `R = O_K`, and
-`Group.fg_iff_subgroup_fg` to obtain `(Set.unit S_f K).FG`. Mathlib's Dirichlet instance
-`Monoid.FG (O_K)ˣ` supplies the base-ring hypothesis. HeightsAndUnits §4.2 owns the S-unit API.
-This supplies the hypothesis for identifying the end statement with
-DiophantineApproximationAndTranscendence §2.4's unit equation; the geometric proof below is
-independent of its subspace-theorem proof. Sources: the pinned `Set.unit_fg_of_units` instance;
-Mathlib `Mathlib.NumberTheory.NumberField.Units.DirichletTheorem` and `Group.fg_iff_subgroup_fg`.
-
-**Checks of the supplier.** With `S_f` empty this is finite generation of the ordinary unit group.
-For `K = ℚ` and `S_f = {2}`, the group is `{±2^n : n ∈ ℤ}`. For `S_f = {2,3}`, the valuations
-of `2` and `3` give the two independent integer coordinates, while the sign is in the kernel.
-
-**Lemma.** Let `K` be a number field, `S` a finite set of places containing the archimedean ones and `U(K, S) := {t ∈ 𝒪_S^× : 1 − t ∈ 𝒪_S^×}`. `(a)` If `K'/K` is finite and `S' ⊇` the places of `K'` above `S`, then `U(K, S) ⊆ U(K', S')`; so finiteness of `U(K', S')` implies finiteness of `U(K, S)`. In particular one may assume `μ_8 ⊆ K` and that `S` contains the places above 2. `(b)` Assume `μ_8 ⊆ K`, let `m` be the largest power of 2 dividing #`μ(K)` (so `m ≥ 8`), and `U₁ := {t ∈ U(K, S) : t ∉ K^{×2}}`. Then `U(K, S) ⊆ ⋃_{0 ≤ j ≤ log₂ m} {s^{2^j} : s ∈ U₁}`; hence `U(K, S)` is finite if `U₁` is.
-
-*Proof sketch.* `(a) 𝒪_{K,S} ⊆ 𝒪_{K',S'}` and units stay units. `(b)` If `s ∈ K^×` and `s^k ∈ U(K, S)` for some `k ≥ 1`, then `s ∈ U(K, S): s` is integral over `𝒪_S` and a unit, and `1 − s^k = ∏_{η ∈ μ_k(K̄)} (1 − ηs)` is a product of `S`-integers of `K(μ_k)` that is a unit, so `1 − s` is an `S`-unit (its inverse is integral over `𝒪_S` and lies in `K`). Let `t ∈ U`. If `t` is not an `m`-th power, choose `j < log₂ m` maximal with `t = s^{2^j}` for some `s ∈ K`; then `s` is not a square, so `s ∈ U₁` by the previous step. If `t = s^m`, then among `s` and `ζs` (`ζ` a primitive `m`-th root of unity) one is not a square: otherwise `ζ` would be a square, i.e. `K` would contain a primitive `2m`-th root of unity, contradicting the maximality of `m`. Both are `m`-th roots of `t`, so the non-square one lies in `U₁`. (LV20, §4.1, p. 20.) *Needs:* Mathlib `Set.integer`; Mathlib `Set.unit`.
-
-**Checks.**
-
-- `K = ℚ, S = {2, ∞}: U = {−1, 2, 1/2}`.
-- `K = ℚ(ζ₈): μ(K) = μ₈`, so `m = 8`.
-
-### 6.2 The Kummer fields of non-square `S`-unit solutions
-
-**Lemma.** Assume `μ₈ ⊆ K`, let `m ≥ 8` be the largest power of two dividing `|μ(K)|`, and let `S` contain the places above 2. Let `U₁` be the set of non-squares of 6.1. For `t ∈ U₁: (a)` the class of `t` in `K^×/K^{×m}` has order exactly `m`; `(b) X^m − t` is irreducible over `K` and `L_t := K[X]/(X^m − t)` is a cyclic extension of `K` of degree `m`, unramified at every finite place outside `S`; `(c)` the fields `L_t (t ∈ U₁)` fall into finitely many isomorphism classes, so `U₁ = U_{1,L_1} ∪ ⋯ ∪ U_{1,L_r}` with `U_{1,L} := {t ∈ U₁ : L_t ≅ L}`.
-
-*Proof sketch.* `(a)` If `t^k = a^m` with `k` a proper divisor of `m`, then `t ∈ a^{m/k}μ_k ⊆ K^{×2}·μ_k`; `μ_k` consists of squares since `k | m/2` and `μ_m ⊆ K`, contradicting `t ∉ K^{×2}`. `(b)` Kummer theory with `μ_m ⊆ K`: for a root `α` of `X^m − t, σ ↦ σ(α)/α` embeds `Gal(K(α)/K)` into `μ_m` with image `μ_d, d = [K(α) : K]`; then `α^d ∈ K`, so `t^d ∈ K^{×m}`, and conversely `t^k ∈ K^{×m}` forces `α^k ∈ K` and `d | k`. So `d` equals the order of `t`, which is `m` by `(a)`; `X^m − t` is irreducible, `K(α)` is its splitting field and `Gal(K(α)/K) ≅ μ_m` is cyclic. Unramified outside `S`: at a finite place `w ∉ S, t` and `m` are `w`-units, so `𝒪_w[X]/(X^m − t)` is standard étale (the derivative `mX^{m−1}` is a unit modulo `X^m − t`) and `K_w[X]/(X^m − t)` is a product of unramified extensions of `K_w`. `(c)` Hermite–Minkowski: there are finitely many extensions of `K` of degree `m` unramified outside `S` (ArithmeticGaloisDuality §R02.3.1). (LV20, §4.1, pp. 20–21; §4.1, p. 21.) *Needs:* 6.1; ArithmeticGaloisDuality §R02.3.1 (Hermite–Minkowski); Mathlib `isCyclic_of_isSplittingField_X_pow_sub_C`; Mathlib `autEquivZmod`; Mathlib `autEquivRootsOfUnity`; Mathlib `StandardEtalePair`; Mathlib `Polynomial.separable_X_pow_sub_C_unit`; TauCetiRoadmap LocalFieldsRamification Layer 2.
-
-**Checks.**
-
-- `K = ℚ(ζ₈), S = {places above 2, ∞}`: every `L_t` is a cyclic octic extension of `ℚ(ζ₈)` unramified outside 2.
-- `t = ζ₈` lies in `U₁` for `K = ℚ(ζ₈)` (`1 − ζ₈` generates the prime above 2, and `ζ₈` is not a square in `K`), and `L_t = ℚ(ζ₆₄)`, cyclic of degree 8 over `K`.
-
-### 6.3 An auxiliary place inert in a cyclic extension
-
-**Lemma.** Let `L/K` be a cyclic extension of number fields, `S` a finite set of places of `K` and `T` a finite set of places. There is a finite place `v ∉ S ∪ T`, unramified in `L`, whose Frobenius generates `Gal(L/K)`, whose residue characteristic `p` is odd, unramified in `K` and not below any place of `S`. For such `v, L ⊗_K K_v` is a field, unramified of degree `[L : K]` over `K_v`, and `K_v/ℚ_p` is unramified.
-
-*Proof sketch.* Apply Chebotarev (Tau Ceti Chebotarev Layer 10) to the conjugacy class of a generator `σ`, excluding the finitely many places in `S ∪ T`, above 2, above primes ramified in `K` and above primes lying below `S`. The decomposition group of a place above `v` is generated by `Frob_v = σ`, hence is all of `Gal(L/K)`; so there is one place above `v`, with residue degree `[L : K]` and ramification index 1, and `L ⊗_K K_v` is that completion. (LV20, §4.1, p. 21.) *Needs:* Tau Ceti `NumberField.artinSymbol`; Tau Ceti `NumberField.exists_isArithFrobAt`; Tau Ceti `NumberField.Chebotarev.frobeniusPrimeSet`; TauCetiRoadmap Chebotarev Layer 10; TauCetiRoadmap LocalFieldsRamification Layer 2.
-
-**Checks.**
-
-- `K = ℚ(i)` and `L = ℚ(ζ₈)`, a quadratic extension of `K`: every prime `p ≡ 5 mod 8` splits in `K`, and the places of `K` above it are inert in `L` because 2 is not a square modulo `p`.
-- For `m = 8` and `K = ℚ(ζ₈), v` has residue degree 8 in `L_t`.
-
-### 6.4 The Legendre family and its cyclic variant (LV20 §4.2)
-
-The universal smooth family is ModularCurves Layer `4C`. The coefficient model
-`y² = x(x − 1)(x − t)` over every commutative ring is EllipticLegendreCharacterInterfaces §0.1 with
-parameter `t`. Its discriminant `Δ = 16t²(1 − t)²` and `c₄ = 16(t² − t + 1)` over every commutative
-ring, its ellipticity criterion and its `j`-invariant are EllipticLegendreCharacterInterfaces §0.4.
-This section introduces neither another coefficient model nor another moduli family.
-
-**Construction.** Let `𝒪` be a ring with `2 ∈ 𝒪^×` and `𝒴 := Spec 𝒪[t, 1/(t(1 − t))] = ℙ¹_𝒪 ∖ {0, 1, ∞}`. Over `𝒴` the coefficient model `E : y² = x(x − 1)(x − t)` has unit discriminant, so it is an elliptic curve over `𝒴` (an abelian scheme of relative dimension 1 with its principal polarization). For `m` a power of 2, put `𝒴' := Spec 𝒪[u, 1/(u(1 − u^m))]` and `π : 𝒴' → 𝒴, t ↦ u^m`; `π` is finite étale of degree `m`, since `𝒪[t, 1/(t(1−t))][u]/(u^m − t) ≅ 𝒪[u, 1/(u(1 − u^m))]` is standard étale. Let `X → 𝒴'` be the Legendre curve with parameter `u, y² = x(x − 1)(x − u)` (the pullback of `E` along the open immersion `𝒴' ⊆ 𝒴, u ↦ t`, which is defined since `u − 1` divides `u^m − 1`). Then `X → 𝒴' → 𝒴` is an abelian-by-finite family of relative dimension 1; for `𝒪 = 𝒪_S` with `S ⊇` places above 2 it is a good model of its generic fibre, and for `t₀ ∈ 𝒴(K)` the fibre algebra is `E_{t₀} = K[u]/(u^m − t₀)`, with `X_{t₀}` geometrically the disjoint union of the curves `E_u, u^m = t₀`.
-
-The Legendre curve is the base change of the universal curve of the Legendre problem of TauCetiRoadmap ModularCurves, Layer `4C`, along `ℤ[1/2][λ, 1/(λ(λ − 1))] → 𝒪[t, 1/(t(1 − t))]`, `λ ↦ t`; what is new here is the cyclic variant and its structure as an abelian-by-finite family.
-
-- The abelian-by-finite family `X → 𝒴' → 𝒴` with `π(u) = u^m`.
-- It is a good model over `𝒪_S` when `S` contains the places above 2.
-- `E_{t₀} = K[u]/(u^m − t₀)`.
-- Over `ℂ`, the total space of `X` over `𝒴'(ℂ) = ℂ ∖ ({0} ∪ μ_m)` is the restriction of the Legendre family over `ℂ ∖ {0, 1}`.
-
-*Construction.* By EllipticLegendreCharacterInterfaces §0.4 the discriminant is `16t²(1 − t)²`, a unit in `𝒪[t, 1/(t(1 − t))]` because 2 is a unit in `𝒪`; a Weierstrass curve with unit discriminant over a ring is elliptic (Mathlib) and is an abelian scheme with its canonical principal polarization. `π` is standard étale: `u^m − t` is monic in `u` with derivative mu`^{m−1}`, a unit because `m` and `u = t/u^{m−1}` are. The supplied Hodge bundles and the integral connection of 2.1a give the good-model conditions over the smooth separated `𝒪_S`-scheme `𝒴`. The fibre of `π` over `t₀` is `Spec K[u]/(u^m − t₀)`, and the fibre of `X` over it is the Legendre curve with parameter `u`. (LV20, §4.2, p. 21.) *Needs:* 2.1; 2.1a; 2.2; EllipticLegendreCharacterInterfaces §§0.1, 0.4; AbelianSchemesAndArithmeticModuli §§A0.2, A1.6; AbelianSchemesAndArithmeticModuli §A2.5; AbelianSchemesAndArithmeticModuli §A4.3; Mathlib `WeierstrassCurve`; Mathlib `WeierstrassCurve.IsElliptic`; Mathlib `StandardEtalePair`.
-
-**Checks.**
-
-- `t = −1, 2, 1/2` (the `S`-units of `ℚ` with `S = {2, ∞}`) all give `j = 1728`: the inputs `(Δ, c₄)` from EllipticLegendreCharacterInterfaces §0.4 are `(64, 48)`, `(64, 48)` and `(1, 12)`, and `c₄³/Δ = 1728` in each case. The curve is `y² = x³ − x` up to twist.
-- At `t = 0` or `t = 1`, `Δ = 0`, so the coefficient model is not elliptic there; this is why `𝒴` omits `0, 1` and `𝒴'` omits `0` and `μ_m`.
-- For `m = 2, t₀ = 4` over `ℚ`: `E_{t₀} = ℚ[u]/(u² − 4) ≅ ℚ × ℚ` and `X_{t₀} = E₂ ⊔ E_{−2}`, with `j`-values `1728` and `21952/9` by EllipticLegendreCharacterInterfaces §0.4. The pullback of `E` along `π` would instead give two copies of `E₄`, with `j = 35152/9`, so `X` is not `π^*E`.
-
-### 6.5 Monodromy of the Legendre family
-
-**Theorem.** Let `B = ℂ ∖ {0, 1}, λ₀ ∈ (0, 1)`, and let `γ₀` (resp. `γ₁`) be the standard positively oriented loop, accessed along the real interval from `λ₀`, encircling 0 (resp. 1) once and no other point of `{0, 1}`. There are classes `a, b ∈ H₁(E_{λ₀}(ℂ); ℤ)` with `î(a, b) = ±1` such that the monodromy of the Legendre family along `γ₀` (resp. `γ₁`) acts on `H₁(E_{λ₀}(ℂ); ℤ)` as `ε₀T_a^{2s₀}` (resp. `ε₁T_b^{2s₁}`) with `ε_i,s_i ∈ {±1}`, where `T_c(x) = x + î(x, c)c`. Consequently: `(a)` the monodromy of `γ₀²` (resp. `γ₁²`) is the nontrivial unipotent `T_a^{4s₀}` (resp. `T_b^{4s₁}`); `(b)` the algebraic monodromy group of the Legendre family is `SL(H¹_B(E_{λ₀}, ℂ)) = Sp`, i.e. the family has full monodromy; `(c)` the Zariski closure of the monodromy of any subgroup of `π₁(B, λ₀)` containing powers `γ₀^k` and `γ₁^k (k ≥ 1)` is also `SL₂`.
-
-*Proof sketch.* Topological model: `E_λ(ℂ)` is the double cover of `ℙ¹(ℂ)` branched at `{0, 1, λ, ∞}`, and the family is the configuration family of Layer LV.5 with `Σ = ℙ¹(ℂ), B = {0, 1, ∞}, S = ℂ ∖ {0, 1} (χ = −1)` and `𝒵° = {y² = x(x − 1)(x − λ), y ≠ 0}`; the analytic local system `R¹f_*ℤ` is its homology local system (Ehresmann; AbelianSchemesAndArithmeticModuli A5). By Layer LV.5, the monodromy along `γ` is `±` the action of the lift of `Push(γ)`, the sign coming from the deck involution, which acts on `H₁` of the elliptic curve by `−1`. `Push(γ₀) = T_{c₀}^{±1}` in `Mod(ℂ ∖ {0, 1, λ₀})`, where `c₀` bounds a disk `D₀` containing exactly 0 and `λ₀` (Birman: the other push-off bounds a once-punctured disk). The monodromy of the double cover around `c₀` is trivial (two branch points), so `c₀` lifts to two curves `c', c''` and `T_{c₀}` lifts to `T_{c'}T_{c''}`. The preimage of `D₀` is an annulus with boundary `c' ⊔ c''` (Euler characteristic `2·1 − 2 = 0`), exchanged by the deck involution, so `[c''] = −[c'] =: −a` and `T_{c'}T_{c''}` acts by `x ↦ x + 2î(x, a)a` (Layer LV.5, Dehn twists on homology). The complement of the annulus is also an annulus, so `c'` is nonseparating and `a` is primitive. Retain the point-push exponent `s₀`: the loop transport is `ε₀T_a^{2s₀}`; the scalar deck sign `ε₀` does not absorb an inverse twist. Likewise `γ₁` gives `ε₁T_b^{2s₁}` with `b` from a disk `D₁` containing exactly `λ₀` and 1. Taking `D₀, D₁` to be thin neighbourhoods of the segments `[0, λ₀]` and `[λ₀, 1]`, the core circles of the two annuli are the preimages of the segments, which meet in exactly one point, transversally (in the local coordinate `w² = x − λ₀` the segments lift to the two axes); so `î(a, b) = ±1`. `(b), (c)`: the Zariski closure contains the closures of `{T_a^{4ks₀n}}` and `{T_b^{4ks₁n}}`, i.e. the root groups `U_a, U_b` (Layer LV.0), which generate `Sp(H₁ ⊗ ℂ) = SL₂` because `î(a, b) ≠ 0` (LV20 Lemma 2.13 in Layer LV.0). (LV20, §4.4, proof of Lemma 4.3, p. 24; FM12, §4.2, Fact 4.7, p. 103.) *Needs:* 0.19; 0.20; 3.11; 5.12; 5.13; 5.20; 5.25; 5.26; 6.4; AbelianSchemesAndArithmeticModuli §§A5.6–A5.7; ComplexComparisonPartII §§C5.1–C5.2.
-
-**Checks.**
-
-- Algebraic convention check: in a basis `(a,b)` with `î(a,b)=1`, the positive operators `T_a²=[[1,−2],[0,1]], T_b²=[[1,0],[2,1]]` generate the standard free index-two subgroup of `Γ(2)`. Inverting either generator leaves the generated subgroup and its Zariski closure unchanged.
-- For the positive operators, `T_a²T_b²=[[−3,−2],[2,1]]` has trace `−2`. This checks the transvection convention; identifying those operators with the specific positive puncture-loop transports requires comparing the orientation of each puncture loop with the annulus model of the twist (5.11, 5.19).
-
-### 6.6 A closed subgroup of a product of `SL₂'s` with surjective projections and factorwise unipotents is everything
-
-**Lemma.** Let `k` be an algebraically closed field of characteristic zero, `V_1, …, V_r` two-dimensional `k`-vector spaces and `H ⊆ ∏_j SL(V_j)` a Zariski-closed subgroup such that `(i)` each projection `pr_j(H)` is `SL(V_j)`, and (ii) for each `j, H` contains an element whose `j`-th component is a nontrivial unipotent and whose other components are 1. Then `H = ∏_j SL(V_j)`.
-
-*Proof sketch.* `N_j := H ∩ (1 × ⋯ × SL(V_j) × ⋯ × 1)` is a closed subgroup of `SL(V_j)` normalized by `pr_j(H) = SL(V_j)`, hence a closed normal subgroup of `SL(V_j)`. By (ii) it contains a nontrivial unipotent, which is not `±1`; closed normal subgroups of `SL₂` are `SL₂` or contained in `{±1}` (ReductiveGroups Layer 6), so `N_j = SL(V_j)`. Hence `H ⊇ ∏_j N_j = ∏_j SL(V_j)`. (LV20, §4.4, proof of Lemma 4.3, p. 24.) *Needs:* 0.15; 0.17; Tau Ceti `LinearMap.GeneralLinearGroup.IsUnipotent`; TauCetiRoadmap ReductiveGroups Layer 3; TauCetiRoadmap ReductiveGroups Layer 6.
-
-**Checks.**
-
-- The diagonal `SL₂ ⊆ SL₂ × SL₂` satisfies `(i)` but not (ii).
-- `r = 1: (i)` alone already gives `H = SL₂`.
-
-### 6.7 Big monodromy for the cyclic variant of the Legendre family (LV20 Lemma 4.3)
-
-**Theorem.** For every `m ≥ 1`, the family over `ℂ ∖ {0, 1}` whose fibre over `t` is `⊔_{z^m = t} E_z` (the analytification of `X → Y' → Y` of the Legendre variant 6.4) has full monodromy: for `t₀ ∈ ℂ ∖ {0, 1}`, the Zariski closure of the monodromy on `⊕_{z^m = t₀} H¹_B(E_z, ℚ)` contains `∏_z SL(H¹_B(E_z, ℂ))`.
-
-*Proof sketch.* Full monodromy does not depend on the base point, so take `t₀ ∈ (0, 1)` and `u₀ = t₀^{1/m} ∈ (0, 1)`, with roots `u_j = ζ^j u₀`. `Y' → Y (u ↦ u^m)` is a connected cyclic covering, so `π₁(Y', u₀)` is a normal subgroup of `π₁(Y, t₀)` of index `m` whose elements lift to closed loops at every `u_j` and act factorwise, by Legendre monodromy along the lifts `(Y' ⊆ ℂ ∖ {0, 1})`. Let `H` be the Zariski closure of the image of `π₁(Y', u₀)`. The loop `δ₀` running `m` times around the circle `|t| = t₀` lifts at `u₀` to the circle `|u| = u₀`, a simple loop around 0 avoiding 1; a small loop `δ₁` around `t = 1` (joined to `t₀` along the real segment) lifts at `u₀` to a simple loop around 1, and at `u_j (j ≠ 0)` to a loop around `ζ^j` joined along the ray arg `u = 2πj/m`, which is null-homotopic in `ℂ ∖ {0, 1}`. Both `δ₀` and `δ₁` lie in `π₁(Y', u₀)`. By the Legendre monodromy theorem `(c), pr_{u₀}(H) = SL₂`; and `μ(δ₁²)` is the nontrivial unipotent `T_b⁴` in the `u₀`-factor and 1 elsewhere. The loop once around `t = 0` permutes the roots cyclically and normalizes `H` (`π₁(Y')` is normal); conjugating by its powers transports both properties to every factor. The factorwise-unipotent criterion gives `H = ∏ SL(H¹_B(E_{u_j}, ℂ)) ⊆ Γ`. (LV20, §4.3, Lemma 4.3, p. 21; §4.4, proof of Lemma 4.3, p. 24.) *Needs:* 3.11; 6.4; 6.5; 6.6; TauCetiRoadmap ReductiveGroups Layer 3; TauCetiRoadmap Completed/UniversalCovers Stage 2.
-
-**Checks.**
-
-- `m = 2, t₀ = 1/4`: two factors `u = ±1/2`, and the loop around `t = 1` acts as `(±T_b², 1)`.
-- `m = 1` is the Legendre monodromy theorem.
-
-### 6.8 Generic simplicity of the Legendre curves (LV20 Lemma 4.4)
-
-**Theorem.** Let `L` be a number field and `p > 2` a prime unramified in `L`. There are only finitely many `z ∈ L` such that `z` and `1 − z` are units at every place of `L` above `p` and `H¹_et(E_{z, L̄}, ℚ_p)` (equivalently `V_p(E_z)`) is reducible as a `G_L`-representation.
-
-*Proof sketch.* The admissible `z` fall into finitely many classes modulo the places above `p` (their residues avoid 0 and 1); fix a class with representative `z₀ ∈ L`. For `z` in the class, `E_z` has good reduction at every `w | p` (`16z²(z − 1)²` is a `w`-unit and `p > 2`). Suppose `W ⊂ H¹(E_z)` is a `G_L`-stable line. `W` is pure of weight 1, finitely ramified and crystalline at the places above p. LV20 Lemma 2.10 (1.15) with `K = ℚ` and `v = p` (friendly, as `ℚ` has no CM subfield and `p` is unramified) gives `Σ_{w|p} [L_w : ℚ_p]·a_w(W) = [L : ℚ]/2` with `a_w(W) ∈ {0, 1}`; since `Σ_{w|p} [L_w : ℚ_p] = [L : ℚ]`, some `w` has `a_w(W) = 1`. At that `w`, with `D_z := D_cris(H¹(E_z)|G_{L_w}) = (H¹_dR(E_z/L_w), φ_z, F¹)` (4.1), the line `W^dR := D_cris(W)` satisfies `W^dR ⊆ F¹` (the filtration is induced), so `W^dR = F¹D_z`. Weak admissibility of `D_cris` gives `t_N = t_H` for `W^dR (= 1)` and for `D_z (= 1)`. So `φ_z` has slope 1 on `W^dR` and slope 0 on `D_z/W^dR`, the `L_w`-linear `φ_z^{[L_w:ℚ_p]}` has eigenvalues of different valuations, and `W^dR` is the unique `φ_z`-stable line of slope `1, ℓ(D_z)`. The Gauss–Manin transport `T_w(z) : (D_{z₀}, φ_{z₀}) ≅ (D_z, φ_z)` (2.11) carries `ℓ(D_{z₀})` to `ℓ(D_z)` when either exists; hence the period map satisfies `Φ_w(z) = T_w(z)^{-1}(F¹D_z) = ℓ₀ := ℓ(D_{z₀})`, a fixed point of `ℙ(D_{z₀})` (if `ℓ(D_{z₀})` does not exist, no `z` in the class is reducible at `w`). The Legendre family over `L` has full monodromy (Legendre monodromy theorem) and `ℂ ∖ {0, 1}` is connected, so by 3.19 the set `{z ∈ Ω_w(z₀) : Φ_w(z) = ℓ₀}` is finite (a point has dimension `0 < 1`). Take the union over the finitely many `w | p` and classes. (LV20, §4.3, Lemma 4.4, p. 22; §4.4, proof of Lemma 4.4, p. 24.) *Needs:* 1.5; 1.15; 1.16; 2.9; 3.10; 3.12; 3.19; 4.1; 6.4; 6.5; PadicHodgeTheory §§3.2–3.4; WeightsInEtaleCohomology Layer R34.1; ComplexComparisonPartII §C4.5.
-
-**Checks.**
-
-- `L = ℚ, p = 3` and `z ≡ 2 mod 3: E_z` reduces to `y² = x³ − x` over `𝔽₃`, which is supersingular `(a₃ = 0)`; both slopes are 1/2, so no `z` in this class has reducible `V₃(E_z)`.
-- Lawrence and Venkatesh remark that much stronger results are known (Serre's open image theorem); the point is the combination of purity and period maps that Layer LV.7 reuses.
-
-### 6.9 Finiteness in a residue disk (LV20 Lemma 4.2)
-
-**Theorem.** Assume `μ_8 ⊆ K` and that `S` contains the places above 2; let `m` be the 2-part of #`μ(K), L` a cyclic extension of `K` of degree `m, v` a finite place as in 6.3 (`v ∉ S, Frob_v` generates `Gal(L/K), p =` char `k_v` odd and unramified in `K`, no place of `S` above `p`), and `t₀ ∈ 𝒪_S`. Then `{t ∈ U_{1,L} : t ≡ t₀ mod v}` is finite.
-
-*Proof sketch.* We may assume `t₀ ∈ U_{1,L}`. Use the Legendre-variant family over `𝒪_S` with `y₀ = t₀ ∈ 𝒴(𝒪_S): E₀ = K[u]/(u^m − t₀) ≅ L`, and since `v` is inert in `L, E₀ ⊗ K_v = L₀` is a field of degree `m` over `K_v`; there is a single pair `(y₀', w₀)` over `(t₀, v)` and, for `t` in the disk, a single pair `(t', w)` over `(t, v)`, with `K(t') ≅ L`. The fibre over `t'` is the Legendre curve `E_z` over `K(t'), z` a root of `u^m = t`. For an isomorphism `α : K(t') ≅ L, α(z)` and `1 − α(z)` are units above `p` (`t` is an `S`-unit and `1 − z` divides `1 − t`), and `p` is unramified in `L` (`L/K` is unramified outside `S`). By LV20 Lemma 4.4 (6.8), outside a finite set of `t` (those with `α(z)` in the finite exceptional set, for one of the `m` choices of `α`), `ρ_{t'}` is simple. Faltings's finiteness lemma over `L` (dimension 2, weight 1, unramified outside the places above `S` and `p`, integral Frobenius polynomials) leaves finitely many isomorphism classes for the semisimple `ρ_{t'}`; hence the pairs `(K(t'), ρ_{t'})`, and the local pairs `(K(t')_w, ρ_{t',w})`, lie in finitely many classes. Apply the finiteness criterion 4.4: the family has full monodromy (LV20 Lemma 4.3, 6.7), `ℂ ∖ {0, 1}` is connected, `[L₀ : K_v] = m ≥ 8` and `c ≤ (dim_{L₀} H¹_dR)² = 4 < m = dim Z₀`. (LV20, §4.1, Lemma 4.2, p. 21; §4.3, proof of Lemma 4.2, p. 22; §4.3, proof of Lemma 4.2, p. 23.) *Needs:* 0.6; 1.2; 1.16; 4.4; 6.2; 6.3; 6.4; 6.7; 6.8; ComplexComparisonPartII §C4.5.
-
-**Checks.**
-
-- `K = ℚ(ζ₈), m = 8: c ≤ 4 < 8 = dim H_v`.
-- Without the variant `(m = 1)` the criterion fails, as for the Legendre family over `ℚ_p` (LV20 §1.3).
-
-### 6.10 Lawrence–Venkatesh proof of the supplied `S`-unit theorem (LV20 Theorem 4.1)
-
-**Proof target.** Give the Lawrence–Venkatesh proof of the number-field `S`-unit specialization of
-DiophantineApproximationAndTranscendence §2.4'`s`
-`DiophantineApproximation.finite_two_term_unit_equation`, with `a = b = 1` and
-`Γ = Set.unit S_f K`, where `S_f` is the finite-prime part of `S`. The hypotheses are a number field `K` and a finite set `S` of places
-containing the archimedean ones. Write `U(K,S) := {t ∈ O_Sˣ : 1 − t ∈ O_Sˣ}`; this is the
-solution set identified with the supplied two-term unit equation. The finite-generation hypothesis for `Γ` follows
-from the pinned `Set.unit_fg_of_units` and `Group.fg_iff_subgroup_fg`, as in §6.1
-(HeightsAndUnits §4.2). The statement `sUnitEquation_finite` in Suggested.lean expresses this proof target on the native S-unit subgroup.
-
-*Proof sketch.* By 6.1, assume `μ_8 ⊆ K` and that `S` contains the places above 2; it suffices to show that `U₁` is finite. `U₁` is the finite union of the `U_{1,L}` over the Kummer fields `L` (Hermite–Minkowski). For each `L` choose `v` by 6.3. `𝒴(𝒪_S)` meets finitely many residue classes modulo `v` (`k_v` is finite); in each class that meets `U_{1,L}` choose `t₀` in it and apply 6.9 (LV20 Lemma 4.2). (LV20, §4, Theorem 4.1, p. 20; §4, p. 20.) *Needs:* 6.1; 6.2; 6.3; 6.9.
-
-**Checks.**
-
-- `K = ℚ, S = {2, ∞}: U = {−1, 2, 1/2}`.
-- `K = ℚ, S = {2, 3, ∞}: U` contains `−1, 2, 1/2, 3, −2, 4, −3, 9, −8`, and their images under `t ↦ 1 − t` and `t ↦ 1/t`.
-
-### Examples
-
-- `j(−1) = j(2) = j(1/2) = 1728` for the Legendre curve, and `Δ = 16t²(1 − t)²` vanishes at `t = 0, 1` (EllipticLegendreCharacterInterfaces §0.4).
-- For `m = 2` and `t₀ = 4` over `ℚ`, the fibre algebra of the cyclic variant is `ℚ[u]/(u² − 4) ≅ ℚ × ℚ`, and its
-  curves are `E₂` and `E_{−2}`.
-
-### Dependencies
-
-Layers LV.0, LV.1, LV.2, LV.3, LV.4, LV.5; ArithmeticGaloisDuality §R02.3.1; TauCetiRoadmap LocalFieldsRamification Layer 2; TauCetiRoadmap Chebotarev Layer 10; EllipticLegendreCharacterInterfaces §§0.1, 0.4; AbelianSchemesAndArithmeticModuli §§A0.2, A1.6; AbelianSchemesAndArithmeticModuli §A2.5; AbelianSchemesAndArithmeticModuli §A4.3; AbelianSchemesAndArithmeticModuli §§A5.6–A5.7; ComplexComparisonPartII §§C5.1–C5.2; TauCetiRoadmap ReductiveGroups Layer 3; TauCetiRoadmap ReductiveGroups Layer 6; TauCetiRoadmap Completed/UniversalCovers Stage 2; PadicHodgeTheory §§3.2–3.4; WeightsInEtaleCohomology Layer R34.1; ComplexComparisonPartII §C4.5; Mathlib and Tau Ceti as listed under each target.
-
 ## Layer LV.7: Rational points on the base of an abelian-by-finite family
 
 For a general abelian-by-finite family over a curve the local factors need not be large. The proportion
@@ -2006,7 +1838,7 @@ the finiteness criterion together with Faltings's finiteness lemma.
 
 **Checks.**
 
-- For `π=id, size_v=1`, so the size hypothesis fails even when `d=1`. The `S`-unit generic-simplicity result uses a separate argument and is not a special case of this sublemma.
+- For `π=id, size_v=1`, so the size hypothesis fails even when `d=1`. Generic simplicity of the Legendre curves (LV20 Lemma 4.4) uses a separate argument and is not a special case of this sublemma.
 - If all orbits have size `≥ 8 (size_v = 0)`, the counting forces `a_{y',w} ≥ 1/2` for some pair outright.
 - Nonemptiness is essential: for an empty fibre the total convention gives size zero, but there is no pair `(y′,w)` to produce.
 
@@ -2664,8 +2496,6 @@ Layers LV.0, LV.3, LV.5, LV.8, LV.9; TauCetiRoadmap AlgebraicTopology Stage 1; T
 
 ## Downstream consumers
 
-- **DiophantineApproximationAndTranscendence**, §2.4, owns the unit equation; 6.10 proves its two-term case over
-  number fields without the subspace theorem.
 - **GaloisSectionsPadicPeriodMaps** uses Layers LV.0–LV.4, the small-orbit proportion and general position for
   Lagrangians of Layer LV.7, and the Kodaira–Parshin family with its full monodromy (Layers LV.8 and LV.10) for its
   finiteness theorems on Galois sections of curves of genus at least two.
@@ -2695,9 +2525,8 @@ This roadmap owns:
    symplectic module over a finite étale algebra, the algebraic monodromy group and full monodromy, the
    `p`-adic and complex period maps, their common power series, Zariski density of the period image,
    and finiteness of preimages on a curve.
-5. **The finiteness criterion** (Layer LV.4) and the two applications: the S-unit theorem through the
-   cyclic Legendre family (Layer LV.6) and finiteness on the base of an abelian-by-finite family
-   (Layer LV.7).
+5. **The finiteness criterion** (Layer LV.4) and its application: finiteness on the base of an
+   abelian-by-finite family (Layer LV.7).
 6. **Surface topology for the monodromy theorem** (Layer LV.5): surfaces with boundary and punctures,
    their classification, homology and intersection forms, simple closed curves, mapping class groups,
    Dehn twists and their action on homology, point-pushing and the Birman exact sequence, capping,
@@ -2713,13 +2542,10 @@ This roadmap owns:
    primitive homology, lifted monodromy, liftable curves and normal form, the monodromy theorem, and
    full monodromy of the Kodaira–Parshin family.
 
-One end statement is shared with another roadmap, which owns its declaration. The S-unit theorem
-(6.10) is the number-field specialization of DiophantineApproximationAndTranscendence §2.4,
-`DiophantineApproximation.finite_two_term_unit_equation` (finitely many solutions of `ax + by = 1` in a finitely generated subgroup of `K^×`).
-This roadmap gives the Lawrence–Venkatesh proof of that statement; it uses neither the subspace
-theorem nor Baker's method, and conversely. The finiteness theorem of Layer LV.7 and the Kodaira–Parshin
-family with its full monodromy (Layers LV.8–LV.10) are the inputs through which the method reaches the
-rational points of a curve of genus at least two; Mordell's conjecture itself is not a target here.
+The finiteness theorem of Layer LV.7 and the Kodaira–Parshin family with its full monodromy
+(Layers LV.8–LV.10) are the inputs through which the method reaches the rational points of a curve of
+genus at least two. Neither Mordell's conjecture nor the S-unit theorem is a target here; see the list
+below of what is left to other roadmaps.
 
 It uses, and does not redevelop:
 
@@ -2733,8 +2559,6 @@ It uses, and does not redevelop:
   is ArithmeticGaloisRepresentations §1.8;
 - Strassmann's theorem over a complete nonarchimedean field (RestrictedPowerSeries §2.4);
 - The universal Legendre curve over `ℤ[1/2][λ, 1/(λ(λ−1))]` (TauCetiRoadmap ModularCurves, Layer 4C);
-- The Legendre coefficient model over every commutative ring, with its discriminant, `c₄`, ellipticity
-  criterion and `j`-invariant (EllipticLegendreCharacterInterfaces §§0.1, 0.4);
 - The one-dimensional affine group `TauCeti.AffineGroup F = F ⋊ F^×` with its translation and linear
   subgroups, its order and its Frobenius-group structure (Tau Ceti at `2fd255d`,
   `TauCeti/GroupTheory/SpecificGroups/Affine/Basic.lean`); this roadmap adds the permutation-group statements
@@ -2767,8 +2591,11 @@ It uses, and does not redevelop:
 It leaves to other roadmaps:
 
 - The sections of Lawrence–Venkatesh after §8 (hypersurfaces, the Ax–Schanuel input, unlikely
-  intersections); this roadmap covers the one-dimensional arguments of §§2–8 except the deduction of
-  Mordell's conjecture;
+  intersections); this roadmap covers the one-dimensional arguments of §§2–8 except the S-unit theorem
+  and the deduction of Mordell's conjecture;
+- the S-unit theorem (LV20 Theorem 4.1), the first application of the method: DiophantineApproximationAndTranscendence
+  §2.4 proves the unit equation for finitely generated subgroups of the multiplicative group of any field
+  of characteristic zero;
 - Mordell's conjecture (LV20 Theorem 5.4), which HeightsRationalPointsAndObstructions §6.4 proves as the
   curve case of Faltings's theorem on rational points of subvarieties of abelian varieties (its §5.9);
 - any effective bound on the number or the height of the rational points: the method is ineffective and
@@ -2779,13 +2606,10 @@ It leaves to other roadmaps:
 ### From Mathlib (pinned at `1b1ccf4`)
 
 - Fields and Galois theory: `Field.exists_primitive_element`, `IsGalois.of_fixed_field`, `FixedPoints.finrank_eq_card`,
-  `InfiniteGalois.fixedField_fixingSubgroup`, `InfiniteGalois.fixingSubgroup_fixedField`, the Kummer-theory results
-  `isCyclic_of_isSplittingField_X_pow_sub_C`, `autEquivZmod`, `autEquivRootsOfUnity`, `Polynomial.separable_X_pow_sub_C_unit`,
-  and `StandardEtalePair` (its algebra is étale).
+  `InfiniteGalois.fixedField_fixingSubgroup`, and `InfiniteGalois.fixingSubgroup_fixedField`.
 - Number fields: `NumberField.IsCMField` with `NumberField.IsCMField.complexEmbedding_complexConj`,
   `NumberField.maximalRealSubfield`, the S-integers and S-units `Set.integer`, `Set.unit` of a Dedekind domain,
   `NumberField.Units.logEmbedding`, `NumberField.Units.dirichletUnitTheorem.unitLattice_span_eq_top`,
-  the `Monoid.FG (𝓞 K)ˣ` instance in `Mathlib.NumberTheory.NumberField.Units.DirichletTheorem`,
   `IsArithFrobAt`, `cyclotomicCharacter` (with target
   `ℤ_p^×`; prime-to-`p` roots of unity are not in its scope),
   and `ZMod.card_units_eq_totient`.
@@ -2808,8 +2632,7 @@ It leaves to other roadmaps:
   `AlgebraicGeometry.IsProper.eq_valuativeCriterion`, `AlgebraicGeometry.Smooth`, `AlgebraicGeometry.IsIntegral`,
   `IrreducibleSpace`, `AlgebraicGeometry.spread_out_of_isGermInjective` (a morphism of stalks spreads out; the spreading
   of whole families is SchemeAndStackFoundations'), `AlgebraicGeometry.Scheme.Hom.normalization` (a scheme only: its
-  finiteness and smoothness are theorems, 8.7 and Layer 0), `CommAlgCat.FiniteEtale`,
-  `WeierstrassCurve`, `WeierstrassCurve.IsElliptic` and `WeierstrassCurve.j`.
+  finiteness and smoothness are theorems, 8.7 and Layer 0), and `CommAlgCat.FiniteEtale`.
 - Topology: `FundamentalGroup.mul_def` (`p * q = q.trans p`), `IsCoveringMap.monodromyPerm`, `IsCoveringMap.liftHomotopy`,
   `IsCoveringMap.existsUnique_continuousMap_lifts` (lifting from a simply connected, locally path-connected domain),
   `AlgebraicTopology.singularHomologyFunctor`, `CategoryTheory.PreGaloisCategory.IsFundamentalGroup`, and
@@ -2817,10 +2640,7 @@ It leaves to other roadmaps:
 
 ### From Tau Ceti (pinned at `2fd255d`)
 
-- Number fields: `NumberField.artinSymbol`, `NumberField.exists_isArithFrobAt` and `NumberField.Chebotarev.frobeniusPrimeSet`.
-- S-units: `Set.unit_fg_of_units` in `TauCeti.RingTheory.DedekindDomain.SInteger.Unit` supplies
-  finite generation from a finite set of primes and finite generation of the base-ring units;
-  Mathlib's Dirichlet instance supplies the latter for `𝒪_K`.
+- Number fields: `NumberField.exists_isArithFrobAt`.
 - Representations and linear algebra: `Rep.mackeyDecomposition` (algebraic, no continuity; the continuous form is
   ArithmeticGaloisRepresentations §1.3), `TauCeti.nonempty_linearEquiv_of_finrank_linearMap_eq` (multiplicity criterion
   over a semisimple algebra), `TauCeti.BilinForm.isometryGroup` (the group `Sp(V, ω)` of a nondegenerate alternating
@@ -2867,7 +2687,6 @@ It leaves to other roadmaps:
 
 ### From TauCetiRoadmap roadmaps
 
-- **HeightsAndUnits** §4.2 owns the S-unit API; §6.1 consumes its pinned finite-generation result.
 - **ReductiveGroups** Layers 2, 3, 6 and 7: Lie algebras of smooth affine groups and the adjoint representation; closed
   subgroup schemes, quotients and identity components; centres and semisimple groups; split structure theory.
   §§3A.1–3A.2 supply geometric orbit maps, stabilizer fibres, reduced locally closed orbits and
@@ -2939,8 +2758,6 @@ It leaves to other roadmaps:
   complete nonarchimedean field has at most as many closed-ball zeros as its last Gauss-norm
   maximizing index; the statement allows arbitrary radii and complete isometric extensions.
   Layer LV.3 uses it on the compact residue disk over `K_v`.
-- **DiophantineApproximationAndTranscendence** §2.4 owns the declaration of the unit equation (6.10 proves its
-  two-term case).
 - **FiniteFlatGroupsAndIntegralPadicHodgeTheory** §§R07.3.1–R07.3.2: the filtered
   `(φ,N)`-module and its `N = 0` subcategory, strict morphisms, tensors, duals, determinants,
   the Hodge and Newton numbers `FilteredPhiNModule.tH`, `FilteredPhiNModule.tN` and weak admissibility.
@@ -3006,10 +2823,6 @@ It leaves to other roadmaps:
   (inertia at punctures: peripheral inertia is the prime-to-`p` Tate module), §IG.3.1 (Riemann existence for punctured
   curves and the extension to branched covers).
 - **EtaleDualityAndPerverseSheaves** §§0.5–0.7 (trace and Poincaré duality on curves, the cup-product pairing).
-- **EllipticLegendreCharacterInterfaces** §0.1 (the Legendre coefficient model as a `WeierstrassCurve` over
-  every commutative ring, singular parameters included) and §0.4 (its discriminant and `c₄` over every
-  commutative ring, its ellipticity criterion and its `j`-invariant). Section 6.4 uses them with parameter `t`;
-  ModularCurves Layer 4C remains the owner of the universal smooth family.
 
 ## References
 

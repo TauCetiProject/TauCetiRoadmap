@@ -7,9 +7,7 @@ import Mathlib
 `README.md`. This file states the roadmap’s headline theorems against the pinned APIs;
 discharging them finishes neither a layer nor the roadmap.
 
-The statements are the semilinear centralizer dimension bound (§0.4, LV20 Lemma 2.1) and S-unit
-finiteness (§6.10, LV20 Theorem 4.1). The latter specifies the Lawrence–Venkatesh proof of the
-statement owned by DiophantineApproximationAndTranscendence §2.4. It uses native S-unit subgroups.
+The statement is the semilinear centralizer dimension bound (§0.4, LV20 Lemma 2.1).
 
 The other headline statements need interfaces absent from Mathlib `1b1ccf4` and Tau Ceti
 `2fd255d`. Faltings's representation finiteness and friendly-place Hodge-weight identities
@@ -66,18 +64,5 @@ theorem finrank_semilinearCentralizer_le [FiniteDimensional E V] (σ : E →+* E
   sorry
 
 end SemilinearCentralizer
-
-/-! ## Layer 6: The S-unit theorem -/
-
-universe u
-
-/-- The S-unit theorem by the Lawrence–Venkatesh method (README §6.10, LV20 Theorem 4.1):
-there are finitely many solutions of `x + y = 1` in the S-unit subgroup of a number field. -/
-theorem sUnitEquation_finite (K : Type u) [Field K] [NumberField K]
-    (S : Finset (IsDedekindDomain.HeightOneSpectrum (NumberField.RingOfIntegers K))) :
-    {xy : (Set.unit (R := NumberField.RingOfIntegers K) (↑S) K) ×
-        (Set.unit (R := NumberField.RingOfIntegers K) (↑S) K) |
-      ((xy.1 : Kˣ) : K) + ((xy.2 : Kˣ) : K) = 1}.Finite := by
-  sorry
 
 end TauCetiRoadmap.MordellLawrenceVenkatesh
