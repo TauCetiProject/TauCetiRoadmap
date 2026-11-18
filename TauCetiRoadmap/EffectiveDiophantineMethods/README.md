@@ -7,76 +7,47 @@ to Chabauty–Coleman, the Mordell–Weil sieve and explicit quadratic Chabauty.
 finite list with exact membership proofs and a completeness theorem carrying every arithmetic or
 analytic assumption used to obtain it.
 
-## Scope and ownership
+## How to read the build
 
-This roadmap owns the scalar datum interfaces, quantitative logarithm errors, lattice
-exclusion and finite enumeration witnesses, finite local-image checks, saturation and index
-data, geometric Chabauty comparisons, and finite sieve and residue-disc soundness theorems.
-Its modular and Chabauty examples (§§3.24–3.29, 4.23–4.25, 5.29 and 6.18–6.35) are conditional
-applications to explicitly supplied exact data; checking those data must establish the claimed
-bounds and complete lists rather than assume them. The four classical solved equations of
-§§6.36–6.39 are unconditional theorems: the unit-group, class-number and prime-decomposition
-facts about their three explicit number fields are targets of Layer 6, and every reduction
-inequality is a step of their proofs.
+Layer 0 fixes exact scalar meaning and precision. Layer 1 turns finite arithmetic into lattice
+distance and enumeration data. Layer 2 combines those with explicit transcendence bounds for
+Thue, Thue–Mahler and S-unit equations. Layer 3 certifies local descent, ranks, heights and
+Mordell–Weil subgroup indices. Layer 4 constructs the geometric integration comparisons and
+residue-disc bounds. Layer 5 combines compatible reductions in a finite sieve. Layer 6 verifies
+quadratic Chabauty formulas and complete example lists under their displayed input hypotheses. `Suggested.lean`
+states headline results on the pinned carriers. Other named interfaces below specify library targets; the README gives their full mathematical specification.
 
-Mathlib owns quotients, finite sets, number fields, heights, valuations, Hensel lifting, power
-series, quadratic forms and Gram–Schmidt. Tau Ceti owns the existing elliptic descent map, the
-abstract 2-Selmer group and rank bound, canonical heights, Néron–Tate pairings and regulators. These
-are inputs to the finite data below. In particular, the existing rank bound is not a new
-target.
+### Headline Lean statements
 
-`TauCetiRoadmap.RealAlgebraicGeometry`, Layer 1, owns Sturm–Tarski root counts, Thom encodings and
-comparison of real algebraic roots. The selected-root data and quantitative refinement below
-add a rational-width guarantee and a labelled embedding to that theory. They do not introduce a
-second field of real algebraic numbers. `TauCetiRoadmap.IntegralLattices`, Layer 2, owns bounded-norm
-finiteness, Hermite bounds and successive minima. The affine finite-set description here adds closed-boundary membership and exact distance
-comparisons.
-GeometryOfNumbersAndQuadraticArithmetic §5.1 supplies LLL reducedness, orthogonal-length
-estimates and the short-vector factor. A reduced basis and integral inverse change-of-basis
-matrices are explicit hypotheses of each application here. DiophantineApproximationAndTranscendence §§3.6–3.7 and 4.1–4.5
-supply the transcendence bounds and effective Diophantine finiteness theorems; this roadmap checks
-their constants and numerical applications.
+`Suggested.lean` states the following headline theorems. Its definitions supply
+only the scalar constants, generated subgroup, S-unit
+solution set `ED6.sUnitSolutions2to13` and Thue–Mahler solution list
+`ED6.thueMahlerSolutionList` needed to express these results on native Mathlib and
+Tau Ceti carriers.
 
-Tau Ceti supplies the principal-unit logarithm, its convergence and its deep-unit isometry:
-`TauCeti.hasSum_log_of_mem_unitFiltration_one` and `TauCeti.valuation_log_sub_log` in
-`TauCeti/NumberTheory/LocalField/Logarithm.lean`. Its restricted-series API supplies the last
-Gauss-norm maximum through `TauCeti.PowerSeries.exists_isDistinguished` in
-`TauCeti/RingTheory/PowerSeries/GaussNorm.lean`. Weierstrass preparation and uniqueness are
-`TauCeti.PowerSeries.IsDistinguished.exists_isUnit_isMonicOfDegree_mul_eq` and
-`TauCeti.PowerSeries.IsDistinguished.existsUnique_isUnit_isMonicOfDegree_mul_eq` in
-`TauCeti/RingTheory/PowerSeries/Weierstrass/Preparation.lean`. Strassmann's bound at any radius
-and in any complete normed extension field is
-`TauCeti.PowerSeries.IsDistinguished.encard_setOf_evalAt_eq_zero_le` in
-`TauCeti/RingTheory/PowerSeries/Weierstrass/Strassmann.lean`, and series evaluation is
-`PowerSeries.evalAt` in `TauCeti/RingTheory/PowerSeries/EvalAt.lean`. These are suppliers for the
-zero-count and root-perturbation comparisons.
-ColemanIntegration, Layers L0–L1, owns analytic primitives and Frobenius continuation;
-AnabelianGeometryAndNonabelianChabauty §§2.0–2.7 and 6.1–6.8, owns the universal unipotent connection,
-quadratic Chabauty pairs and the determinant criterion. The geometric identification of abelian
-integrals with regular Coleman integrals, the global abelian logarithm and its pairing come from
-AnabelianGeometryAndNonabelianChabauty §5.8; their effective numerical applications and the explicit
-finite data belong here. AnabelianGeometryAndNonabelianChabauty §5.10 owns the Mordell–Weil
-logarithmic span of `J(F)` at a place of good reduction, its dimension bound and its annihilator,
-§5.6 the Strassmann bound on a residue chart, and §5.11 classical Chabauty finiteness when
-`rank J(ℚ) < g`. Section 4.8 here differs from §5.10 by taking an arbitrary finitely generated
-subgroup and an arbitrary prime, with the finite-index comparison (c); §4.9 states the annihilator
-of an arbitrary subgroup with the properties (b)–(e); §4.11 keeps the bounds (b)–(e) that read the
-disc Strassmann index from finitely many coefficients; §4.12 keeps the closure form at an arbitrary
-prime, the bound `Σ N_p(I_x̃)` and the bad-reduction case. Jacobians and Abel–Jacobi come from
-`TauCetiRoadmap.JacobianChallenge`, Layers D–F. The smooth relative Jacobian, its base change and its
-reduction square needed here are constructed in §§4.1 and 5.11, from the Picard and Néron-model
-contracts below.
+| Target | Statement in `Suggested.lean` |
+| --- | --- |
+| Exact logarithmic lower bound (§2.3) | `ED2.matveev_lower_bound` |
+| Normalized p-adic valuation upper bound (§2.5) | `ED2.yu_valuation_upper_bound` |
+| Rational height difference bound (§3.12) | `ED3.canonicalHeight_sub_naiveHeight_cremona` |
+| Weighted number-field height difference bound (§3.12) | `ED3.canonicalHeight_sub_naiveHeight_silverman` |
+| Full Mordell–Weil basis and regulator (§3.22) | `ED3.mordellWeil_basis_of_height_and_saturation` |
+| Quantitative geometric root matching with multiplicities (§6.16) | `ED6.roots_determined_of_truncation` |
+| Tzanakis–de Weger's quartic Thue equations (§6.36) | `ED6.thue_quartic_i`, `ED6.thue_quartic_ii` |
+| Integral points of `y² = x³ − 4x + 1` and Mohanty's problem (§6.37) | `ED6.integralPoints_cubic_minus_four_x_plus_one`, `ED6.triangular_eq_three_consecutive` |
+| de Weger's `x + y = z` in `{2, …, 13}`-units (§6.38) | `ED6.sUnit_two_to_thirteen` |
+| Tzanakis–de Weger's Thue–Mahler equation (§6.39) | `ED6.thueMahler_cubic` |
 
-There is no general class-group, unit, ideal-factorisation, finite-group, model, Hecke, Frobenius,
-Coleman-evaluation or L-value table algorithm in scope. The unit groups, class numbers and prime
-decompositions of the three explicit fields of §§6.36–6.39 are theorems of Layer 6 about those
-fields; every other application supplies such exact data with mathematical identifications and
-error bounds. General number-field p-adic input uses its actual
-completion and valuation; a rational-centred `Q_p` ball is only the degree-one case. The modular
-rank-over-Q implication, CM dictionaries, Baran isomorphism, Bilu–Parent–Rebolledo uniformity input
-and any unproved rank upper bound are explicit application hypotheses, stated where used. Thus a
-conditional worked theorem does not assert that its numerical identities or these external
-hypotheses have been formalised.
+The general exact Thue, Thue–Mahler and S-unit list implications of §§2.20, 2.28 and
+2.33 use the complete arithmetic data and validity constructions of Layer 2 and are not
+stated; the four classical solved equations of §§6.36–6.39 are stated unconditionally on
+`ℤ` and `ℕ`. The geometric Chabauty
+and sieve endpoints use actual Jacobians, Abel–Jacobi maps, logarithms, models
+and reduction comparisons. Quadratic Chabauty also uses the filtered Frobenius
+connection and geometric heights. These constructions are absent at the pins;
+the module docstring identifies the affected headline results. The conditional
+worked applications retain all their arithmetic and geometric input hypotheses
+in the mathematical targets below.
 
 ## Conventions
 
@@ -134,408 +105,6 @@ Build Layer 5 in numerical order; its sections are §§5.1–5.6 and §§5.8–5
 Within §6.30 prove the small-level genera and
 Fricke fixed-point count before the rational-point application. Section numbers
 identify topics; this order specifies which results are available to each target.
-
-## Exact supplier contracts
-
-### From Mathlib and Tau Ceti
-
-Use Mathlib at 1b1ccf4b088b32fa3f23f2de1127433254a81e1e and Tau Ceti at
-2fd255d997f47c0b5d834ee416c7015d55444ce5 for the Lean statements in `Suggested.lean`. The mathematical
-interfaces below also reuse the pinned library results described under scope. Additive quotients
-use `QuotientAddGroup`, the additive versions of `QuotientGroup.mk'`, `QuotientGroup.map`, `QuotientGroup.map_mk'` and `QuotientGroup.eq_iff_div_mem`, surjectivity and composition; no private quotient implementation is needed. Finite
-enumerations use `Finset.filter`, image, `biUnion`, and the corresponding membership and
-cardinality theorems. Subgroup index, map, comap and index-power membership have their native
-meanings; the natural index is zero for infinite index, so finiteness hypotheses are essential
-whenever index is used quantitatively.
-
-For algebraic input use `PowerBasis.lift`, `PowerBasis.liftEquiv'`, `NumberField.Embeddings.range_eval_eq_rootSet_minpoly`, `minpoly`, `Matrix.charpoly`, `Algebra.leftMulMatrix`, `Polynomial.primPart` and Mahler measure. The arbitrary-element
-characteristic-polynomial tower identity in §0.10 is an additional target; the identity for a
-power-basis generator alone does not supply it. Number-field height and denominator interfaces are
-`NumberField.mulHeight₁_eq`, `NumberField.natDenominator_le_mulHeight₁`, `Algebra.discr_mul_isIntegral_mem_adjoin` and `Algebra.isIntegral_natDenominator_smul`.
-`NumberField.finite_setOfPred_mulHeight₁_le` gives finiteness; §0.11 supplies an explicit finite
-coordinate cover. `hensels_lemma`, `PadicInt.appr`, `PadicInt.appr_spec`, `PadicInt.appr_lt`, `Padic.norm_eq_zpow_neg_valuation` and Dedekind height-one-prime valuations supply the existing
-analytic and valuation carriers. `Real.exists_rat_eq_convergent` supplies Legendre's implication for
-the exhaustive continued-fraction search.
-
-For a nonsingular characteristic-not-two normal-form Weierstrass curve, use the actual
-`WeierstrassCurve.Affine.μ`, `M`, `normM`, `localRes`, `localCondition`, `selmerGroupA` and
-`selmerGroup₂`; in particular `ker_μ_eq`, `range_μ_le_selmerGroupA`, `range_μ_le_ker_normM`, `range_μ_le_selmerGroup₂`, `mem_selmerGroup₂_iff`, `card_range_μ`, `pow_rank_le_card_of_range_μ_le`, `card_ker_nsmul_two`, `fg_point_of_numberField` and its instance form `moduleFinite_point_of_numberField`. Their hypotheses and exceptional points are
-retained by every adapter. The finite good-place reverse inclusion is the extra theorem in §3.5. For
-heights use `WeierstrassCurve.Affine.Point.canonicalHeight`, `naiveHeight`, `canonicalHeight_nsmul`, `naiveHeight_eq_logHeight₁`, `abs_canonicalHeight_sub_naiveHeight_le`, `neronTatePairing`, `neronTateGramMatrix`, `PointModTorsion` and `regulator_eq_abs_det_neronTateGramMatrix`. The
-existential bounded-height difference is input infrastructure; §3.12 supplies explicit constants and
-§3.13 finite error intervals.
-
-The elliptic height module is `TauCeti.AlgebraicGeometry.EllipticCurve.CanonicalHeight.Basic`:
-`canonicalHeight` is the full x-height limit, `canonicalHeight_nsmul` is quadraticity, and
-`neronTatePairing_apply` is half its polarization. The regulator is supplied by
-`TauCeti.AlgebraicGeometry.EllipticCurve.MordellWeil.Regulator.Basic` with the same pairing.
-The principal-unit series and preparation declarations named under scope are used with their
-complete ultrametric field and positive-radius hypotheses. Series evaluation is
-`PowerSeries.evalAt` in `TauCeti/RingTheory/PowerSeries/EvalAt.lean`, the sum `Σ_n a_n x^n`
-(junk value 0 off convergence), with `PowerSeries.IsRestricted.hasSum_evalAt` for convergence on
-the closed disc of a restricted series. No second logarithm, Gauss-norm maximum, evaluation or
-preparation construction is requested.
-
-From GeometryOfNumbersAndQuadraticArithmetic §5.1 use `lllCoefficient`, `IsLLLReduced`,
-its size and Lovász inequalities, §5.1.3's Gram–Schmidt growth and `lll_short_vector_factor` (§5.1.4). Supply integer matrices U,V with `UV = VU = I` whenever a basis is changed;
-reducedness of AU is a hypothesis. No reduction routine or termination theorem is consumed.
-
-From HeightsRationalPointsAndObstructions §§1.17–1.19 use the local doubling index,
-torsion specialization and two-isogeny Kummer coordinates, including the exceptional point
-`(0,0)`, the quartic torsor and the kernel/image comparison. Elliptic rank bounds consume
-Tau Ceti `pow_rank_le_card_of_range_μ_le` and `card_ker_nsmul_two`; §3.7 below owns only
-the comparison of the explicitly described subgroup with those native inputs.
-
-### From the geometric and arithmetic roadmaps
-
-Each following contract is consumed with its stated domain, rather than by replacing its objects
-with arbitrary types having similarly named fields.
-
-From HeightsRationalPointsAndObstructions Layer 1: For the Jacobian `J` of a smooth proper
-geometrically connected curve `C` over `ℚ` with `C(ℚ) ≠ ∅` (`J(ℚ) = Pic⁰` points as in JacobianChallenge
-Layer D): (a) `J(ℚ)` is a finitely generated abelian group; (b) for a prime `q` at which `C` has a smooth
-proper model, a reduction homomorphism `J(ℚ) → J̃(𝔽_q)` compatible with reduction of points and
-divisors, injective on torsion of order prime to `q` and on all torsion when `q ≥ 3`; (c) for an abelian
-variety `A` of dimension `g` over `ℚ_p`, `A(ℚ_p)` has an open subgroup of finite index isomorphic to `ℤ_p^g`,
-so `#A(ℚ_p)/2A(ℚ_p) = |2|_p^{-g}·#A(ℚ_p)[2]`.
-
-From HeightsRationalPointsAndObstructions Layer 1: For `E : y² = x(x² + cx + d)` over `ℚ` with the
-2-isogeny `φ : E → E′ (E′ : y² = x(x² − 2cx + c² − 4d))` and its dual `φ′`: the Kummer map
-`E(ℚ)/φ′(E′(ℚ)) → H¹(ℚ, E′[φ′]) ≅ ℚ^×/ℚ^{×2}` is `(x, y) ↦ x` (and `(0,0) ↦ d`); the `φ′-Selmer` group is
-the set of `d₁` for which `v² = d₁u⁴ + cu² + d/d₁` is everywhere locally soluble; and its quotient by
-the image of `E(ℚ)` is `Ш(E′/ℚ)[φ′]` (as defined in EllipticCurves Layer 7).
-
-From HeightsRationalPointsAndObstructions Layer 0: Néron local heights on an elliptic curve `E` over a
-number field `K`: functions `λ_v` on `E(K_v) ∖ {O}` for each place v, with `λ_v − ½log⁺|x|_v` bounded, and
-`ĥ(P) = [K:ℚ]^{-1} Σ_v n_v λ_v(P)` for `P ∈ E(K) ∖ {O}`, where ĥ is Tau Ceti's
-`WeierstrassCurve.Affine.Point.canonicalHeight` divided by `2[K:ℚ]`; normalised as in Silverman, Math.
-Comp. 55 (1990) §3 `(λ(2P) = 4λ(P) − log|ψ₂(P)|_v + ¼log|Δ|_v)`.
-
-From EllipticCurves Layer 3 (finite fields and Hasse bound): For an elliptic curve over a finite field `𝔽_q`, the group `Ẽ(𝔽_q)` as a finite abelian group with
-its order, and Hasse's bound `|#Ẽ(𝔽_q) − q − 1| ≤ 2√q`, used for targets of reduction maps. The
-genus-one torsor argument needed for quartic models is given in §3.9.
-
-From EllipticCurves Layer 4 (local reduction and formal groups): Over `ℚ_p`: the point-level reduction map `E(ℚ_p) → Ẽ_ns(𝔽_p)` on a minimal model as a group homomorphism on `E₀(ℚ_p)`, the finite index of `E₀(ℚ_p)`, and
-`E₁(ℚ_p) ≅ Ê(pℤ_p)` with the formal logarithm giving `Ê(p^rℤ_p) ≅ ℤ_p` for `r ≥ 2`.
-
-From EllipticCurves Layer 6 (Mordell–Weil): Mordell–Weil over `ℚ` (`fg_point_of_numberField`), the Lutz–Nagell integrality of torsion points on integral models, and
-injectivity of `E(ℚ)_tors → Ẽ_ns(𝔽_p)` at good odd primes p.
-
-From EllipticCurves Layer 7 (Selmer groups and Sha): The cohomological
-2-Selmer group `Sel₂(E/ℚ)` and `Ш(E/ℚ)[2]` with the exact sequence `0 → E(ℚ)/2E(ℚ) → Sel₂ → Ш[2] → 0`, and
-its comparison with the explicit étale-algebra group `selmerGroup₂`; for the 2-isogeny `φ′` the same for
-`Sel^{(φ′)}` and `Ш[φ′]`.
-
-From JacobianChallenge Layer D (relative Picard and Jacobian):
-For a smooth proper geometrically connected curve `C` over `ℚ` with a rational point, `J(K) = Pic⁰_{C}(K)`
-for fields `K ⊇ ℚ` as an abelian group of degree-zero divisor classes, functorial in `K`, so that `J(ℚ) → J(ℚ_p)` and divisor-class arithmetic are available.
-
-From SchemeAndStackFoundations §§3.3, 3.8: For a smooth projective geometrically integral curve `X` of
-genus g over a field k with a rational point `O` and its Jacobian `J` (JacobianChallenge layers D–F):
-(i) the pullback `ι_O* : H⁰(J, Ω¹) → H⁰(X, Ω¹)` along `P ↦ [P − O]` is an isomorphism and does not
-depend on `O`; (ii) Riemann–Roch consequences: a nonzero regular differential has a divisor of degree
-2g − 2, so `Σ_{x ∈ X(k)} ord_x ω ≤ 2g − 2`; and every degree-zero class `D` satisfies `D + g·O ∼ E` with `E`
-effective of degree g.
-
-From JacobianChallenge Layer C use relative effective Cartier divisors, symmetric powers
-`Symᵈ X`, their geometric points as degree-d effective divisors with multiplicities, and
-cohomology/base change and upper semicontinuity for a proper flat family and a flat coherent
-sheaf. From its Layer D use the relative Picard functor and Abel maps; its Layer F supplies
-the Abel–Jacobi embedding. Specialization of a horizontal divisor is its schematic closure
-restricted to the special fibre, with degree and line-bundle compatibility proved in §§4.1, 5.11.
-The symmetric-square application in §4.20 uses this geometric construction, including `2P`.
-From SchemeAndStackFoundations §2.20 use the relative dualizing module, its smooth-locus
-identification, flat base change and `curve_dualizing_comparison`; StableReduction Layers 2
-and 5 supply the Gorenstein curve dualizing sheaf and regular models. These are the canonical
-sheaf contracts in §4.14 (Liu, Definition 6.4.7 and Theorem 6.4.9).
-
-From HeightsRationalPointsAndObstructions Layer 1: The Mordell–Weil theorem for abelian varieties
-over number fields: for an abelian variety `A` over a number field `K` (in Layer 4, the Jacobian of a
-smooth projective curve over `ℚ`), `A(K)` is a finitely generated abelian group.
-
-From JacobianChallenge Layer D (relative Picard and Jacobian):
-`Pic⁰` of a smooth proper geometrically connected curve over a field `(ℚ, ℚ_p, 𝔽_p)` as its Jacobian,
-with points the degree-zero divisor classes when the curve has a rational divisor of degree one; the
-Abel maps `Sym^d X → Pic^d` on symmetric powers.
-
-From JacobianChallenge Layer E (abelian varieties): The Jacobian over `𝔽_p` and over
-`ℚ_p` as an abelian variety; `J(𝔽_p)` is a finite group.
-
-From AbelianSchemesAndArithmeticModuli A3.9 (`Polarization.rosati`), A6.14
-(`rosatiPositivity`) and A6.15 (`rationalNSAmpleCone`): over an algebraically closed
-field and with a polarization, `NS(A)⊗Q` identifies with the Rosati-fixed part of
-`End⁰(A)`. Use these over `Qbar` with JacobianChallenge Layer E's principal theta
-polarization. Rosati positivity forces its action on a totally real endomorphism
-field to be the identity, as used in §6.19.
-
-From JacobianChallenge Layer F (Abel–Jacobi): For a curve
-of genus at least one with a rational point `x₀`, the Abel–Jacobi morphism is a closed immersion (the
-Layer F closed-immersion theorem); in particular `x ↦ [x − x₀]` is injective on k-points, used over `𝔽_p`.
-
-From StableReduction Layer 5 (regular and minimal models): Regular proper models and
-smooth proper models of curves over `ℤ_(p)` or `ℤ_p`, with the reduction of rational points through
-sections, and the regularity notion of the hypothesis of Bruin–Stoll Corollary 5.15.
-
-From EllipticCurves Layer 4 (local reduction and formal groups): The reduction map on points `E(ℚ_p) → Ẽ(𝔽_p)` for a
-minimal Weierstrass equation with good reduction, as a group homomorphism with kernel `E₁(ℚ_p)`.
-
-From AlgebraicCurves Layer 10 (hyperelliptic and plane models):
-Hyperelliptic models `y² = f(x)` with f squarefree of degree 2g + 1 or 2g + 2, the genus formula, and
-the places at infinity (one for odd degree; two, or a conjugate pair, for even degree).
-
-From NeronModelsAndSemistableAbelianVarieties §3.8: For a smooth proper curve `𝒞` over a discrete
-valuation ring `R` with geometrically connected fibres (in particular `R = ℤ_(p)`): `Pic⁰` of `𝒞/R` is an
-abelian scheme over `R` whose generic fibre is the Jacobian of `𝒞_K` and whose special fibre is the
-Jacobian of `𝒞_k`; and for a horizontal relative divisor `𝒟` of degree zero on `𝒞` the class of `𝒪(𝒟)` in
-`Pic⁰(R)` restricts to `[𝒟_K]` and `[𝒟_k]`. This is the smooth case of §3.8's degree-zero Picard of a
-semistable curve, over a general DVR rather than a strictly henselian one. From §1.7 use the
-finite-type Néron model of an abelian variety over the fraction field of a discrete valuation
-ring (§4.2), and from §1.8 that an abelian scheme over a discrete valuation ring is the Néron
-model of its generic fibre (§5.11).
-
-From HeightsRationalPointsAndObstructions Layer 0: The Néron–Tate canonical height `ĥ` on `A(K)` for an
-abelian variety `A` over a number field `K` with a symmetric ample class (for Jacobians, the theta
-class): `ĥ` is a quadratic map over `ℤ` (`ĥ(nx) = n²ĥ(x)` and the parallelogram law), `ĥ ≥ 0`, `ĥ(x) = 0` iff
-`x` is torsion, and `ĥ − h` is bounded for the naive height of a symmetric projective embedding.
-
-From HeightsRationalPointsAndObstructions §§1.15a–1.17: consume integral commutative formal
-groups, formal identity charts for smooth groups over complete DVRs, the unique formal logarithm
-and its isomorphism on ideals of depth greater than e/(p−1), and local doubling indices.
-Section 3.1 specializes the index theorem through the pinned descent-kernel comparison.
-
-From AnabelianGeometryAndNonabelianChabauty §5.8, paragraph *Local abelian logarithm*, use the
-global logarithm `log_A : A(K) → Lie(A)(K)` of an arbitrary abelian variety over a finite extension
-`K/ℚ_p`: it is additive, its differential at zero is the identity, its kernel on `A(K)` is the
-finite torsion subgroup, it respects homomorphisms of abelian varieties and finite extensions, it
-restricts to the normalised formal logarithm of HeightsRationalPointsAndObstructions §§1.15a–1.16
-on a deep congruence subgroup, it extends to a locally analytic homomorphism on all of `A(ℂ_p)`,
-it pairs with invariant differentials, and it is determined by its restriction to any open
-subgroup. Section 4.2 compares its formal-coordinate presentation with this supplied logarithm.
-For smooth proper geometrically connected curves with good reduction, use the same section's
-paragraph *Coleman and abelian logarithm comparison*: the Coleman integral of a regular one-form
-from the base point equals the pairing of the corresponding invariant differential with the
-logarithm of the Abel–Jacobi image, with its base-point change law and its finite-extension and
-`ℂ_p` evaluation laws. Section 4.6 specializes that equality to the numerical data here.
-From §5.6 use Strassmann's bound on a compact residue chart, from §5.10 the Mordell–Weil
-logarithmic span of `J(F)` at a place of good reduction with its dimension bound and annihilator,
-and from §5.11 classical Chabauty finiteness when `rank J(ℚ) < g`.
-
-From AnabelianGeometryAndNonabelianChabauty §§6.1–6.8: consume the following geometric interfaces: (a) quadratic Chabauty pairs and
-the determinant criterion (BDMTV §1.4 (5), Lemma 1.5), with the K-equivariant variant replacing `E` by
-`H⁰(Ω¹)^* ⊗_{K⊗Q_p} H⁰(Ω¹)^*` when the splitting of the Hodge filtration is K-equivariant (Remark 1.6,
-§1.7, Remark 3.9); (b) Lemma 3.7 and Corollary 3.8: for `r = g` with `log : J(Q) ⊗ Q_p ≅ H⁰(X_{Q_p}, Ω¹)^*` and a nice class `Z`, `θ = h_p(A_Z(b, ·))` and `Υ = {−Σ_{v∈T_0} h_v(A_Z(b, x_v)) : x_v∈X(Q_v)}` form a quadratic
-Chabauty pair with endomorphism induced by `Z`, constant `[IA_Z(b)]` and pairing the global height,
-used only on the image `κ(J(Q)) ⊗ Q_p` of the Kummer map and not on all of `H¹_f(G_T, V)`; `Υ = {0}` under potentially good reduction everywhere (Lemma
-3.2); the zero set is independent of the splitting and of the idèle class character (Remarks 3.10, 3.12); (c) the filtered F-isocrystal `A_Z` (pushout of `A_2^dR` along `Z`, (25)), the comparison
-`D_cris(A_Z(b, x)) ≅ x^*A_Z` of filtered φ-modules (Lemma 5.4) and Nekovář's local height formula
-(17); (d) Theorem 2.3: `r < g + ρ − 1` implies `X(Q_p)_2` finite, with `X(Q) ⊆ X(Q_p)_2 ⊆ X(Q_p)_{U_Z}`;
-(e) the class of a nice correspondence satisfies (a)–(d) (forward direction of Lemma 4.7 only),
-and on a genus-g modular curve with absolutely simple Jacobian the correspondence
-`(2g)T_q−tr_H¹(T_q)Id` is nice provided it is nonzero and self-adjoint and the
-supplier’s remaining hypotheses hold. Its `H¹`-trace is zero. In genus three the coefficient
-is 6; the matrices in §6.22 verify nonzeroness for `q=7,11`.
-Here `θ−B=−Σ_{v≠p}h_v`. For the convention `ρ=h−h_p` use instead
-the positive away-place sum set `−Υ`; transfer constants by negation. Both sets are {0}
-in the potentially-good-reduction applications.
-The prime-level local-height factorization used in §6.35 is a separate application
-hypothesis specified below (BDMTV 2021 Theorem 3.2).
-
-From AnabelianGeometryAndNonabelianChabauty §§2.0–2.7: consume the following connection and path interfaces: Kim's universal pointed unipotent connection `A_n^dR(Y) = ⊕_{i≤n} V_dR(Y)^{⊗i} ⊗ O_Y` with `∇` as in (21) and its universal property for pointed objects with `v`
-in the fibre at `b` (Theorem 4.2 with the distinguished vector in the fibre at `b`); Corollary 4.4 (`A_n^dR(X)|_Y` is the maximal
-quotient extending holomorphically to `X`); path composition (Lemma 4.3); Hadian's characterisation of
-the Hodge filtration (Theorem 4.5); the Frobenius structure on `A_n^rig(b)`, unique with `1 ↦ 1` (Lemma
-5.2), and Chiarellotto–Le Stum (Theorem 5.3); Besser's identification of `v ↦ I(x_0, x)·v·I(b, b_0)`
-with the unique unipotent Frobenius-equivariant isomorphism between path spaces (41); and
-for a smooth projective curve `X/Q` the description of `H¹_dR(X/Q)` by differentials of the second kind
-modulo exact ones on an affine open, with `Fil¹ = H⁰(X, Ω¹)` and `H¹_dR(X)/Fil¹ ≅ H¹(X, O_X)` realised
-by the principal parts of local primitives (Mittag-Leffler; Tau Ceti AlgebraicCurves Layer 4
-repartitions are the natural input).
-
-From PadicDifferentialEquationsAndRigidCohomology §RD.7.18: Mathematical comparison for a supplied
-plane-curve Frobenius lift `φ` on the weak completion of a model satisfying Tuitman's corrected Assumption 1, the Frobenius matrix `F` and primitives `f_i` with `φ^*ω_i = Σ_j F_ij ω_j + df_i`, and the identification of `F` with the rigid Frobenius on `H¹_rig` in the basis `ω`. Include functorial basis change, cup
-compatibility and the identification needed by the local-height formulas. Concrete
-Frobenius, coefficient and integral tables are explicit hypotheses of the Layer 6 applications.
-
-From ModularCurvesPartII §5.11 use the bijection between the cusps of `X_H` over an algebraically
-closed field of characteristic prime to the level and the double cosets `⟨±u⟩\GL₂(ℤ/n)/H̄`; from §6.1
-the isomorphism of a compact modular curve over `ℂ` with its analytic quotient `Γ\(ℍ ∪ ℙ¹(ℚ))`;
-from §6.2 the ramification index `w′/w` of a level map at a cusp; and from §9.4 the Atkin–Lehner
-involution `w_d` of `X₀(N)` for an exact divisor `d` of `N`, the Fricke involution being `w_N`.
-Section 9.5 supplies `X_s(ℓ) ≅ X_0(ℓ²)/w_{ℓ²}` over `Q`. Section 9.6 supplies
-the coarse curve `X_H` for the Cartan levels and for the subgroup of `GL₂(𝔽₁₃)` whose projective
-image is `S₄`, and a rational cusp of `X_s(ℓ)`; §9.7 supplies the rational-point/Galois-image
-criterion for `j∉{0,1728}`, and that the fibres of `X_s(13)` over `j = 0` and `j = 1728` contain
-`ℚ`-points. Section 9.8 supplies `gammaZeroPlus` and `gammaZeroPlus.quotientMap` for `X₀⁺(N)`,
-its moduli description by unordered pairs of mutually dual cyclic `N`-isogenies, and the fact
-that `j` does not descend to `X₀⁺(N)`. The four small-level genera and the fixed-point
-count of `w₄₉` are targets of §6.30 below.
-
-From ModularCurvesPartII §11.8 use potential good reduction of `X_s(13)` at 13 and
-good reduction away from 13, including at 2 for the first Baran model (Corollary 6.7).
-For each prime-level application of §6.35 assume a regular proper semistable model over
-`Z_N`, with its generic fibre identified with the smooth projective quotient `X₀⁺(N)`
-and geometrically irreducible special fibre. Also supply the factorization of the
-normalized local height `h_N` through the component reduction map: its value on
-the component of the base point is zero. These are explicit application inputs,
-not a consequence of the split-Cartan prime-square model. BDMTV 2021 Lemma 5.2,
-pp.27–28, proves this prime-level fact using Xue's quotient of the Deligne–Rapoport
-model; its Theorem 3.2, p.8, supplies the source for the height comparison.
-The one-component reduction map and the normalized factorization give `h_N=0`.
-
-From ModularCurvesPartII §§13.1–13.4 and 16.1–16.7 consume the actual weight-two
-Jacobian quotients, their Hecke action, dimension and differential comparison. The decomposition
-of `Jac(X₀⁺(N))` into the specified `w_N = +1` newform factors is an explicit application
-hypothesis with its isogeny maps. The no-CM/no-inner-twist endomorphism comparison is the
-mathematical target of §6.19 here. No general-weight modular quotient is used.
-
-From ModularCurvesPartII §17.2 use the Eichler–Shimura relation `(T_p)_* = F + ⟨p⟩_* V` in the
-endomorphism ring of the Jacobian of the special fibre at a prime `p ∤ N`, where `F` is the
-`p`-power Frobenius and `V` its Verschiebung; on `J₀(N)` it reads `F² − T_p F + p = 0`.
-Sections 6.17 and 6.22 use it at primes not dividing the level.
-
-From ColemanIntegration §§L0.10, L0.13 and L0.17 use the identity of the principal-unit p-adic
-logarithm with `Σ(k≥1)(−1)^(k+1)(z−1)^k/k` on each finite extension of `Q_p` (L0.10), its additivity
-on principal units (L0.13) and its compatibility with finite extensions (L0.17). The pinned `TauCeti.NumberTheory.LocalField.Logarithm` supplies principal-unit convergence. Section 2.6 owns only the explicit finite-tail and
-precision-loss bounds, not logarithm foundations. From §§L0.2–L0.8 use the normalised formal
-primitive of a power series, its uniqueness given the constant term, the radius-loss estimate for
-termwise integration and the primitive with chosen base value on an open disc. From §§L1.1–L1.20
-use the good-reduction pair of a curve and an étale divisor (§L1.1), residue discs as open discs
-(§L1.3), Frobenius lifts and Teichmüller points (§§L1.5–L1.6), the lemma that products of Weil
-numbers of positive weight are not roots of unity (§L1.8), the Frobenius datum of a good-reduction
-pair (§L1.9), local horizontal sections and Frobenius on the word algebra (§§L1.14–L1.15), the
-Coleman integral (§L1.19) and its characterisation by Frobenius equivariance (§L1.20).
-
-From DiophantineApproximationAndTranscendence §§0.1–0.3 use the primitive minimal polynomial,
-the absolute and relative heights of algebraic numbers and the height size estimates. From §3.6
-use `matveev`, Matveev's explicit lower bound for a nonzero linear form in logarithms; from §3.7
-Yu's explicit upper bound `yu` for the `𝔭`-adic valuation of `α_1^{b_1}⋯α_n^{b_n} − 1`, with
-`yuValuationAdapter`, its rational form `yu_rat`, the one-factor bound `yuOneFactorBound` and the
-multiplicative power-law adapter. From §4.1 use the rational S-units (`sUnits_rat_mulEquiv`) and
-the bounded divisor representatives `boundedDivisors` with `exists_mem_boundedDivisors_of_dvd`;
-from §4.3 the unit-equation exponent bound, the reduction of a Thue equation to unit equations
-through three distinct zeros (the Siegel identity), the monic reduction and the effective Thue
-bound; from §4.4 `baker_superelliptic`, Baker's bound for the integral solutions of
-`b·y^n = f(x)`; from §4.5 effective finiteness for S-unit and Thue–Mahler equations, the coprime
-S-unit reduction and the S-unit exponent bound. Layers 0, 2, 5 and 6 use them as stated there.
-
-From NewtonPolygons §3.4 use that a perturbation with `‖f − g‖_r < ‖f‖_r` of a series restricted
-at `r` keeps its Gauss norm and its active indices, and from §4.3 the analytic multiplicity of a
-zero and the exact counts, with multiplicity, of the zeros in the closed disc, the open disc and
-the boundary circle over a complete extension in which the disc polynomial splits (`ℂ_p` in
-particular), with their invariance under such a perturbation. From RestrictedPowerSeries §2.2 use
-the translation `X ↦ X + a` with `‖a‖ ≤ r`, an isometric automorphism of the series restricted at
-`r`, and the affine changes of disc coordinate. Section 6.16 uses them.
-
-From EllipticCurves Layers 1–2 use isogenies with their degrees and duals, the Frobenius isogeny,
-and the `n`-torsion `E[n]`, of order `n²` in characteristic prime to `n` (§§3.9, 6.30). From AlgebraicCurves Layer 7
-use the Hurwitz genus formula (§6.30), from Layer 9 residues of differentials (§6.19), and from
-Layer 10 the canonical divisor of a smooth plane curve (§6.19).
-
-### Explicit application inputs
-
-A finite arithmetic presentation comes with an isomorphism to the actual number field, ideal class
-group, unit group, Mordell–Weil subgroup or residue group it describes. Unit generators must
-generate the full required unit group, with torsion and rank stated; a list of independent units is
-insufficient. Quotient and Smith-form tables must enumerate every class. Model maps come with
-inverse identities, smoothness and reduction comparisons. Frobenius and Hecke tables are identified
-with the actual cohomological operators; a matrix identity alone does not make a matrix a geometric
-Frobenius. L-derivative intervals come with error bounds and analytic
-continuation/functional-equation hypotheses. A positive-width box containing zero alone
-need not establish exact vanishing. A complex box with both widths zero at zero does establish it.
-
-The modular rank-one input used in §6.21 states precisely: for the indicated weight-two newform f
-with trivial character, quotient `A_f` of dimension `[K_f:Q]`, and every conjugate `f^σ` having a simple
-zero at 1, the supplied admissible rank-one theorem gives `rank A_f(Q)=[K_f:Q]` and finite Sha. Its
-admissibility includes a suitable imaginary quadratic field, the non-torsion Heegner trace, the
-required endomorphism-order/isogeny comparison, and descent of the rank conclusion from that field
-to `Q`. These hypotheses are not inferred from a theorem giving rank only over the quadratic field.
-The conditional rank-over-Q application is a separate theorem here; no Gross–Zagier or Euler-system
-roadmap is a prerequisite of this build.
-
-The CM inputs shared by §§6.29–6.33 are explicit application hypotheses. Every CM j-invariant is
-an algebraic integer. For an imaginary quadratic order `O` of class number one, its CM invariant is
-rational and is realised by an elliptic curve over `Q` with geometric endomorphism ring `O`. At a prime
-`ℓ` unramified in `O`, its residual image is contained in a split Cartan normaliser when `ℓ` splits in `O`,
-and in a non-split Cartan normaliser when `ℓ` is inert in `O`.
-For `ℓ=13` the seven distinct j-values displayed in §6.32 correspond to exactly the seven indicated
-orders, under the actual modular j-map; this identification is independent of Baran's coordinate
-isomorphism. Conversely, the identified CM fibres in §6.29 have precisely their displayed geometric
-endomorphism orders. Small class numbers and their order/discriminant identifications are exact
-supplied arithmetic data. These are assumptions of the conditional applications, rather than
-prerequisites from a CM roadmap outside this build (BDMTV 2019, Corollary 1.3 and Remark 1.4, p.888).
-
-For §§6.18–6.35 the identification of each printed plane quartic with its coarse modular curve,
-the positions of the cusps and CM points on it (those over `j = 0` and `j = 1728` included), the
-three non-CM points of `X_S4(13)` with their j-invariants, and the identification of the supplied
-Hecke and Frobenius matrices with the operators of ModularCurvesPartII §17.2 on the cohomology of
-that curve are hypotheses of the applications.
-
-For genus-two height searches supply a positive-definite free Mordell–Weil height lattice, finite
-torsion representatives, its Gram matrix and comparison constants. Semidefiniteness on an arbitrary
-abelian group does not imply finite enumeration. For Kummer calculations supply the actual
-Cassels–Flynn model, duplication and duality identities: `J⊂P^15`, its Kummer quartic,
-`κ([P₁+P₂−D₂])=(1:x₁+x₂:x₁x₂:β₀)`, and the dual `Pic¹` Kummer pairing and addition forms. The reduction,
-membership and deep-congruence theorems below are conditional on these geometric identifications. No
-weaker numerical assertion replaces these geometric hypotheses.
-
-In the concrete applications of §§3.24–3.29, 4.23–4.25, 5.29 and 6.18–6.39, every printed
-finite-field point list, class-group or unit presentation, divisor/reduction table, modular model,
-Hecke or Frobenius matrix, integral value and L-derivative interval is an explicit hypothesis.
-Each hypothesis identifies its entries with the actual arithmetic or geometric objects and states
-the full membership, generation, coverage or error equality it asserts. The application theorems
-prove the resulting rank, obstruction or complete global solution set from those inputs. The
-scalar error bounds of §§0.1–0.10 and 2.1–2.7, the reduction inequalities and finite-set
-coverage theorems are proved mathematical targets and do not assume completeness of the answer.
-
-The exact-algebraic interface follows the design of
-[Hex's algebraic numbers](https://kim-em.github.io/blog/2026-9-8-exact-algebraic-numbers-and-number-fields-in-lean/):
-an exact algebraic value and a selected root, with theorem-level comparison to its polynomial
-and isolating region. Use the native algebraic closure at the pins. For reduced bases, every
-reducedness and integral basis-change identity needed here is stated as a mathematical hypothesis
-on the carriers of GeometryOfNumbersAndQuadraticArithmetic §5.1. No external executable
-representation is imported.
-
-## How to read the build
-
-Layer 0 fixes exact scalar meaning and precision. Layer 1 turns finite arithmetic into lattice
-distance and enumeration data. Layer 2 combines those with explicit transcendence bounds for
-Thue, Thue–Mahler and S-unit equations. Layer 3 certifies local descent, ranks, heights and
-Mordell–Weil subgroup indices. Layer 4 constructs the geometric integration comparisons and
-residue-disc bounds. Layer 5 combines compatible reductions in a finite sieve. Layer 6 verifies
-quadratic Chabauty formulas and complete example lists under their displayed input hypotheses. `Suggested.lean`
-states headline results on the pinned carriers. Other named interfaces below specify library targets; the README gives their full mathematical specification.
-
-### Headline Lean statements
-
-`Suggested.lean` states the following headline theorems. Its definitions supply
-only the scalar constants, generated subgroup, S-unit
-solution set `ED6.sUnitSolutions2to13` and Thue–Mahler solution list
-`ED6.thueMahlerSolutionList` needed to express these results on native Mathlib and
-Tau Ceti carriers.
-
-| Target | Statement in `Suggested.lean` |
-| --- | --- |
-| Exact logarithmic lower bound (§2.3) | `ED2.matveev_lower_bound` |
-| Normalized p-adic valuation upper bound (§2.5) | `ED2.yu_valuation_upper_bound` |
-| Rational height difference bound (§3.12) | `ED3.canonicalHeight_sub_naiveHeight_cremona` |
-| Weighted number-field height difference bound (§3.12) | `ED3.canonicalHeight_sub_naiveHeight_silverman` |
-| Full Mordell–Weil basis and regulator (§3.22) | `ED3.mordellWeil_basis_of_height_and_saturation` |
-| Quantitative geometric root matching with multiplicities (§6.16) | `ED6.roots_determined_of_truncation` |
-| Tzanakis–de Weger's quartic Thue equations (§6.36) | `ED6.thue_quartic_i`, `ED6.thue_quartic_ii` |
-| Integral points of `y² = x³ − 4x + 1` and Mohanty's problem (§6.37) | `ED6.integralPoints_cubic_minus_four_x_plus_one`, `ED6.triangular_eq_three_consecutive` |
-| de Weger's `x + y = z` in `{2, …, 13}`-units (§6.38) | `ED6.sUnit_two_to_thirteen` |
-| Tzanakis–de Weger's Thue–Mahler equation (§6.39) | `ED6.thueMahler_cubic` |
-
-The general exact Thue, Thue–Mahler and S-unit list implications of §§2.20, 2.28 and
-2.33 use the complete arithmetic data and validity constructions of Layer 2 and are not
-stated; the four classical solved equations of §§6.36–6.39 are stated unconditionally on
-`ℤ` and `ℕ`. The geometric Chabauty
-and sieve endpoints use actual Jacobians, Abel–Jacobi maps, logarithms, models
-and reduction comparisons. Quadratic Chabauty also uses the filtered Frobenius
-connection and geometric heights. These constructions are absent at the pins;
-the module docstring identifies the affected headline results. The conditional
-worked applications retain all their arithmetic and geometric input hypotheses
-in the mathematical targets below.
 
 ## Layer 0: Exact algebraic values and scalar precision
 
@@ -8136,6 +7705,437 @@ complex or p-adic enclosures, lattice reduction, linear forms in logarithms, des
 Chabauty or sieve data, or p-adic heights. The repository's `NeronTate` directory is prior art for the
 Néron–Tate height that HeightsRationalPointsAndObstructions Layer 0 supplies to §§5.18–5.19, not for a
 target here.
+
+## Scope and ownership
+
+This roadmap owns the scalar datum interfaces, quantitative logarithm errors, lattice
+exclusion and finite enumeration witnesses, finite local-image checks, saturation and index
+data, geometric Chabauty comparisons, and finite sieve and residue-disc soundness theorems.
+Its modular and Chabauty examples (§§3.24–3.29, 4.23–4.25, 5.29 and 6.18–6.35) are conditional
+applications to explicitly supplied exact data; checking those data must establish the claimed
+bounds and complete lists rather than assume them. The four classical solved equations of
+§§6.36–6.39 are unconditional theorems: the unit-group, class-number and prime-decomposition
+facts about their three explicit number fields are targets of Layer 6, and every reduction
+inequality is a step of their proofs.
+
+Mathlib owns quotients, finite sets, number fields, heights, valuations, Hensel lifting, power
+series, quadratic forms and Gram–Schmidt. Tau Ceti owns the existing elliptic descent map, the
+abstract 2-Selmer group and rank bound, canonical heights, Néron–Tate pairings and regulators. These
+are inputs to the finite data below. In particular, the existing rank bound is not a new
+target.
+
+`TauCetiRoadmap.RealAlgebraicGeometry`, Layer 1, owns Sturm–Tarski root counts, Thom encodings and
+comparison of real algebraic roots. The selected-root data and quantitative refinement below
+add a rational-width guarantee and a labelled embedding to that theory. They do not introduce a
+second field of real algebraic numbers. `TauCetiRoadmap.IntegralLattices`, Layer 2, owns bounded-norm
+finiteness, Hermite bounds and successive minima. The affine finite-set description here adds closed-boundary membership and exact distance
+comparisons.
+GeometryOfNumbersAndQuadraticArithmetic §5.1 supplies LLL reducedness, orthogonal-length
+estimates and the short-vector factor. A reduced basis and integral inverse change-of-basis
+matrices are explicit hypotheses of each application here. DiophantineApproximationAndTranscendence §§3.6–3.7 and 4.1–4.5
+supply the transcendence bounds and effective Diophantine finiteness theorems; this roadmap checks
+their constants and numerical applications.
+
+Tau Ceti supplies the principal-unit logarithm, its convergence and its deep-unit isometry:
+`TauCeti.hasSum_log_of_mem_unitFiltration_one` and `TauCeti.valuation_log_sub_log` in
+`TauCeti/NumberTheory/LocalField/Logarithm.lean`. Its restricted-series API supplies the last
+Gauss-norm maximum through `TauCeti.PowerSeries.exists_isDistinguished` in
+`TauCeti/RingTheory/PowerSeries/GaussNorm.lean`. Weierstrass preparation and uniqueness are
+`TauCeti.PowerSeries.IsDistinguished.exists_isUnit_isMonicOfDegree_mul_eq` and
+`TauCeti.PowerSeries.IsDistinguished.existsUnique_isUnit_isMonicOfDegree_mul_eq` in
+`TauCeti/RingTheory/PowerSeries/Weierstrass/Preparation.lean`. Strassmann's bound at any radius
+and in any complete normed extension field is
+`TauCeti.PowerSeries.IsDistinguished.encard_setOf_evalAt_eq_zero_le` in
+`TauCeti/RingTheory/PowerSeries/Weierstrass/Strassmann.lean`, and series evaluation is
+`PowerSeries.evalAt` in `TauCeti/RingTheory/PowerSeries/EvalAt.lean`. These are suppliers for the
+zero-count and root-perturbation comparisons.
+ColemanIntegration, Layers L0–L1, owns analytic primitives and Frobenius continuation;
+AnabelianGeometryAndNonabelianChabauty §§2.0–2.7 and 6.1–6.8, owns the universal unipotent connection,
+quadratic Chabauty pairs and the determinant criterion. The geometric identification of abelian
+integrals with regular Coleman integrals, the global abelian logarithm and its pairing come from
+AnabelianGeometryAndNonabelianChabauty §5.8; their effective numerical applications and the explicit
+finite data belong here. AnabelianGeometryAndNonabelianChabauty §5.10 owns the Mordell–Weil
+logarithmic span of `J(F)` at a place of good reduction, its dimension bound and its annihilator,
+§5.6 the Strassmann bound on a residue chart, and §5.11 classical Chabauty finiteness when
+`rank J(ℚ) < g`. Section 4.8 here differs from §5.10 by taking an arbitrary finitely generated
+subgroup and an arbitrary prime, with the finite-index comparison (c); §4.9 states the annihilator
+of an arbitrary subgroup with the properties (b)–(e); §4.11 keeps the bounds (b)–(e) that read the
+disc Strassmann index from finitely many coefficients; §4.12 keeps the closure form at an arbitrary
+prime, the bound `Σ N_p(I_x̃)` and the bad-reduction case. Jacobians and Abel–Jacobi come from
+`TauCetiRoadmap.JacobianChallenge`, Layers D–F. The smooth relative Jacobian, its base change and its
+reduction square needed here are constructed in §§4.1 and 5.11, from the Picard and Néron-model
+contracts below.
+
+There is no general class-group, unit, ideal-factorisation, finite-group, model, Hecke, Frobenius,
+Coleman-evaluation or L-value table algorithm in scope. The unit groups, class numbers and prime
+decompositions of the three explicit fields of §§6.36–6.39 are theorems of Layer 6 about those
+fields; every other application supplies such exact data with mathematical identifications and
+error bounds. General number-field p-adic input uses its actual
+completion and valuation; a rational-centred `Q_p` ball is only the degree-one case. The modular
+rank-over-Q implication, CM dictionaries, Baran isomorphism, Bilu–Parent–Rebolledo uniformity input
+and any unproved rank upper bound are explicit application hypotheses, stated where used. Thus a
+conditional worked theorem does not assert that its numerical identities or these external
+hypotheses have been formalised.
+
+## Exact supplier contracts
+
+### From Mathlib and Tau Ceti
+
+Use Mathlib at 1b1ccf4b088b32fa3f23f2de1127433254a81e1e and Tau Ceti at
+2fd255d997f47c0b5d834ee416c7015d55444ce5 for the Lean statements in `Suggested.lean`. The mathematical
+interfaces below also reuse the pinned library results described under scope. Additive quotients
+use `QuotientAddGroup`, the additive versions of `QuotientGroup.mk'`, `QuotientGroup.map`, `QuotientGroup.map_mk'` and `QuotientGroup.eq_iff_div_mem`, surjectivity and composition; no private quotient implementation is needed. Finite
+enumerations use `Finset.filter`, image, `biUnion`, and the corresponding membership and
+cardinality theorems. Subgroup index, map, comap and index-power membership have their native
+meanings; the natural index is zero for infinite index, so finiteness hypotheses are essential
+whenever index is used quantitatively.
+
+For algebraic input use `PowerBasis.lift`, `PowerBasis.liftEquiv'`, `NumberField.Embeddings.range_eval_eq_rootSet_minpoly`, `minpoly`, `Matrix.charpoly`, `Algebra.leftMulMatrix`, `Polynomial.primPart` and Mahler measure. The arbitrary-element
+characteristic-polynomial tower identity in §0.10 is an additional target; the identity for a
+power-basis generator alone does not supply it. Number-field height and denominator interfaces are
+`NumberField.mulHeight₁_eq`, `NumberField.natDenominator_le_mulHeight₁`, `Algebra.discr_mul_isIntegral_mem_adjoin` and `Algebra.isIntegral_natDenominator_smul`.
+`NumberField.finite_setOfPred_mulHeight₁_le` gives finiteness; §0.11 supplies an explicit finite
+coordinate cover. `hensels_lemma`, `PadicInt.appr`, `PadicInt.appr_spec`, `PadicInt.appr_lt`, `Padic.norm_eq_zpow_neg_valuation` and Dedekind height-one-prime valuations supply the existing
+analytic and valuation carriers. `Real.exists_rat_eq_convergent` supplies Legendre's implication for
+the exhaustive continued-fraction search.
+
+For a nonsingular characteristic-not-two normal-form Weierstrass curve, use the actual
+`WeierstrassCurve.Affine.μ`, `M`, `normM`, `localRes`, `localCondition`, `selmerGroupA` and
+`selmerGroup₂`; in particular `ker_μ_eq`, `range_μ_le_selmerGroupA`, `range_μ_le_ker_normM`, `range_μ_le_selmerGroup₂`, `mem_selmerGroup₂_iff`, `card_range_μ`, `pow_rank_le_card_of_range_μ_le`, `card_ker_nsmul_two`, `fg_point_of_numberField` and its instance form `moduleFinite_point_of_numberField`. Their hypotheses and exceptional points are
+retained by every adapter. The finite good-place reverse inclusion is the extra theorem in §3.5. For
+heights use `WeierstrassCurve.Affine.Point.canonicalHeight`, `naiveHeight`, `canonicalHeight_nsmul`, `naiveHeight_eq_logHeight₁`, `abs_canonicalHeight_sub_naiveHeight_le`, `neronTatePairing`, `neronTateGramMatrix`, `PointModTorsion` and `regulator_eq_abs_det_neronTateGramMatrix`. The
+existential bounded-height difference is input infrastructure; §3.12 supplies explicit constants and
+§3.13 finite error intervals.
+
+The elliptic height module is `TauCeti.AlgebraicGeometry.EllipticCurve.CanonicalHeight.Basic`:
+`canonicalHeight` is the full x-height limit, `canonicalHeight_nsmul` is quadraticity, and
+`neronTatePairing_apply` is half its polarization. The regulator is supplied by
+`TauCeti.AlgebraicGeometry.EllipticCurve.MordellWeil.Regulator.Basic` with the same pairing.
+The principal-unit series and preparation declarations named under scope are used with their
+complete ultrametric field and positive-radius hypotheses. Series evaluation is
+`PowerSeries.evalAt` in `TauCeti/RingTheory/PowerSeries/EvalAt.lean`, the sum `Σ_n a_n x^n`
+(junk value 0 off convergence), with `PowerSeries.IsRestricted.hasSum_evalAt` for convergence on
+the closed disc of a restricted series. No second logarithm, Gauss-norm maximum, evaluation or
+preparation construction is requested.
+
+From GeometryOfNumbersAndQuadraticArithmetic §5.1 use `lllCoefficient`, `IsLLLReduced`,
+its size and Lovász inequalities, §5.1.3's Gram–Schmidt growth and `lll_short_vector_factor` (§5.1.4). Supply integer matrices U,V with `UV = VU = I` whenever a basis is changed;
+reducedness of AU is a hypothesis. No reduction routine or termination theorem is consumed.
+
+From HeightsRationalPointsAndObstructions §§1.17–1.19 use the local doubling index,
+torsion specialization and two-isogeny Kummer coordinates, including the exceptional point
+`(0,0)`, the quartic torsor and the kernel/image comparison. Elliptic rank bounds consume
+Tau Ceti `pow_rank_le_card_of_range_μ_le` and `card_ker_nsmul_two`; §3.7 below owns only
+the comparison of the explicitly described subgroup with those native inputs.
+
+### From the geometric and arithmetic roadmaps
+
+Each following contract is consumed with its stated domain, rather than by replacing its objects
+with arbitrary types having similarly named fields.
+
+From HeightsRationalPointsAndObstructions Layer 1: For the Jacobian `J` of a smooth proper
+geometrically connected curve `C` over `ℚ` with `C(ℚ) ≠ ∅` (`J(ℚ) = Pic⁰` points as in JacobianChallenge
+Layer D): (a) `J(ℚ)` is a finitely generated abelian group; (b) for a prime `q` at which `C` has a smooth
+proper model, a reduction homomorphism `J(ℚ) → J̃(𝔽_q)` compatible with reduction of points and
+divisors, injective on torsion of order prime to `q` and on all torsion when `q ≥ 3`; (c) for an abelian
+variety `A` of dimension `g` over `ℚ_p`, `A(ℚ_p)` has an open subgroup of finite index isomorphic to `ℤ_p^g`,
+so `#A(ℚ_p)/2A(ℚ_p) = |2|_p^{-g}·#A(ℚ_p)[2]`.
+
+From HeightsRationalPointsAndObstructions Layer 1: For `E : y² = x(x² + cx + d)` over `ℚ` with the
+2-isogeny `φ : E → E′ (E′ : y² = x(x² − 2cx + c² − 4d))` and its dual `φ′`: the Kummer map
+`E(ℚ)/φ′(E′(ℚ)) → H¹(ℚ, E′[φ′]) ≅ ℚ^×/ℚ^{×2}` is `(x, y) ↦ x` (and `(0,0) ↦ d`); the `φ′-Selmer` group is
+the set of `d₁` for which `v² = d₁u⁴ + cu² + d/d₁` is everywhere locally soluble; and its quotient by
+the image of `E(ℚ)` is `Ш(E′/ℚ)[φ′]` (as defined in EllipticCurves Layer 7).
+
+From HeightsRationalPointsAndObstructions Layer 0: Néron local heights on an elliptic curve `E` over a
+number field `K`: functions `λ_v` on `E(K_v) ∖ {O}` for each place v, with `λ_v − ½log⁺|x|_v` bounded, and
+`ĥ(P) = [K:ℚ]^{-1} Σ_v n_v λ_v(P)` for `P ∈ E(K) ∖ {O}`, where ĥ is Tau Ceti's
+`WeierstrassCurve.Affine.Point.canonicalHeight` divided by `2[K:ℚ]`; normalised as in Silverman, Math.
+Comp. 55 (1990) §3 `(λ(2P) = 4λ(P) − log|ψ₂(P)|_v + ¼log|Δ|_v)`.
+
+From EllipticCurves Layer 3 (finite fields and Hasse bound): For an elliptic curve over a finite field `𝔽_q`, the group `Ẽ(𝔽_q)` as a finite abelian group with
+its order, and Hasse's bound `|#Ẽ(𝔽_q) − q − 1| ≤ 2√q`, used for targets of reduction maps. The
+genus-one torsor argument needed for quartic models is given in §3.9.
+
+From EllipticCurves Layer 4 (local reduction and formal groups): Over `ℚ_p`: the point-level reduction map `E(ℚ_p) → Ẽ_ns(𝔽_p)` on a minimal model as a group homomorphism on `E₀(ℚ_p)`, the finite index of `E₀(ℚ_p)`, and
+`E₁(ℚ_p) ≅ Ê(pℤ_p)` with the formal logarithm giving `Ê(p^rℤ_p) ≅ ℤ_p` for `r ≥ 2`.
+
+From EllipticCurves Layer 6 (Mordell–Weil): Mordell–Weil over `ℚ` (`fg_point_of_numberField`), the Lutz–Nagell integrality of torsion points on integral models, and
+injectivity of `E(ℚ)_tors → Ẽ_ns(𝔽_p)` at good odd primes p.
+
+From EllipticCurves Layer 7 (Selmer groups and Sha): The cohomological
+2-Selmer group `Sel₂(E/ℚ)` and `Ш(E/ℚ)[2]` with the exact sequence `0 → E(ℚ)/2E(ℚ) → Sel₂ → Ш[2] → 0`, and
+its comparison with the explicit étale-algebra group `selmerGroup₂`; for the 2-isogeny `φ′` the same for
+`Sel^{(φ′)}` and `Ш[φ′]`.
+
+From JacobianChallenge Layer D (relative Picard and Jacobian):
+For a smooth proper geometrically connected curve `C` over `ℚ` with a rational point, `J(K) = Pic⁰_{C}(K)`
+for fields `K ⊇ ℚ` as an abelian group of degree-zero divisor classes, functorial in `K`, so that `J(ℚ) → J(ℚ_p)` and divisor-class arithmetic are available.
+
+From SchemeAndStackFoundations §§3.3, 3.8: For a smooth projective geometrically integral curve `X` of
+genus g over a field k with a rational point `O` and its Jacobian `J` (JacobianChallenge layers D–F):
+(i) the pullback `ι_O* : H⁰(J, Ω¹) → H⁰(X, Ω¹)` along `P ↦ [P − O]` is an isomorphism and does not
+depend on `O`; (ii) Riemann–Roch consequences: a nonzero regular differential has a divisor of degree
+2g − 2, so `Σ_{x ∈ X(k)} ord_x ω ≤ 2g − 2`; and every degree-zero class `D` satisfies `D + g·O ∼ E` with `E`
+effective of degree g.
+
+From JacobianChallenge Layer C use relative effective Cartier divisors, symmetric powers
+`Symᵈ X`, their geometric points as degree-d effective divisors with multiplicities, and
+cohomology/base change and upper semicontinuity for a proper flat family and a flat coherent
+sheaf. From its Layer D use the relative Picard functor and Abel maps; its Layer F supplies
+the Abel–Jacobi embedding. Specialization of a horizontal divisor is its schematic closure
+restricted to the special fibre, with degree and line-bundle compatibility proved in §§4.1, 5.11.
+The symmetric-square application in §4.20 uses this geometric construction, including `2P`.
+From SchemeAndStackFoundations §2.20 use the relative dualizing module, its smooth-locus
+identification, flat base change and `curve_dualizing_comparison`; StableReduction Layers 2
+and 5 supply the Gorenstein curve dualizing sheaf and regular models. These are the canonical
+sheaf contracts in §4.14 (Liu, Definition 6.4.7 and Theorem 6.4.9).
+
+From HeightsRationalPointsAndObstructions Layer 1: The Mordell–Weil theorem for abelian varieties
+over number fields: for an abelian variety `A` over a number field `K` (in Layer 4, the Jacobian of a
+smooth projective curve over `ℚ`), `A(K)` is a finitely generated abelian group.
+
+From JacobianChallenge Layer D (relative Picard and Jacobian):
+`Pic⁰` of a smooth proper geometrically connected curve over a field `(ℚ, ℚ_p, 𝔽_p)` as its Jacobian,
+with points the degree-zero divisor classes when the curve has a rational divisor of degree one; the
+Abel maps `Sym^d X → Pic^d` on symmetric powers.
+
+From JacobianChallenge Layer E (abelian varieties): The Jacobian over `𝔽_p` and over
+`ℚ_p` as an abelian variety; `J(𝔽_p)` is a finite group.
+
+From AbelianSchemesAndArithmeticModuli A3.9 (`Polarization.rosati`), A6.14
+(`rosatiPositivity`) and A6.15 (`rationalNSAmpleCone`): over an algebraically closed
+field and with a polarization, `NS(A)⊗Q` identifies with the Rosati-fixed part of
+`End⁰(A)`. Use these over `Qbar` with JacobianChallenge Layer E's principal theta
+polarization. Rosati positivity forces its action on a totally real endomorphism
+field to be the identity, as used in §6.19.
+
+From JacobianChallenge Layer F (Abel–Jacobi): For a curve
+of genus at least one with a rational point `x₀`, the Abel–Jacobi morphism is a closed immersion (the
+Layer F closed-immersion theorem); in particular `x ↦ [x − x₀]` is injective on k-points, used over `𝔽_p`.
+
+From StableReduction Layer 5 (regular and minimal models): Regular proper models and
+smooth proper models of curves over `ℤ_(p)` or `ℤ_p`, with the reduction of rational points through
+sections, and the regularity notion of the hypothesis of Bruin–Stoll Corollary 5.15.
+
+From EllipticCurves Layer 4 (local reduction and formal groups): The reduction map on points `E(ℚ_p) → Ẽ(𝔽_p)` for a
+minimal Weierstrass equation with good reduction, as a group homomorphism with kernel `E₁(ℚ_p)`.
+
+From AlgebraicCurves Layer 10 (hyperelliptic and plane models):
+Hyperelliptic models `y² = f(x)` with f squarefree of degree 2g + 1 or 2g + 2, the genus formula, and
+the places at infinity (one for odd degree; two, or a conjugate pair, for even degree).
+
+From NeronModelsAndSemistableAbelianVarieties §3.8: For a smooth proper curve `𝒞` over a discrete
+valuation ring `R` with geometrically connected fibres (in particular `R = ℤ_(p)`): `Pic⁰` of `𝒞/R` is an
+abelian scheme over `R` whose generic fibre is the Jacobian of `𝒞_K` and whose special fibre is the
+Jacobian of `𝒞_k`; and for a horizontal relative divisor `𝒟` of degree zero on `𝒞` the class of `𝒪(𝒟)` in
+`Pic⁰(R)` restricts to `[𝒟_K]` and `[𝒟_k]`. This is the smooth case of §3.8's degree-zero Picard of a
+semistable curve, over a general DVR rather than a strictly henselian one. From §1.7 use the
+finite-type Néron model of an abelian variety over the fraction field of a discrete valuation
+ring (§4.2), and from §1.8 that an abelian scheme over a discrete valuation ring is the Néron
+model of its generic fibre (§5.11).
+
+From HeightsRationalPointsAndObstructions Layer 0: The Néron–Tate canonical height `ĥ` on `A(K)` for an
+abelian variety `A` over a number field `K` with a symmetric ample class (for Jacobians, the theta
+class): `ĥ` is a quadratic map over `ℤ` (`ĥ(nx) = n²ĥ(x)` and the parallelogram law), `ĥ ≥ 0`, `ĥ(x) = 0` iff
+`x` is torsion, and `ĥ − h` is bounded for the naive height of a symmetric projective embedding.
+
+From HeightsRationalPointsAndObstructions §§1.15a–1.17: consume integral commutative formal
+groups, formal identity charts for smooth groups over complete DVRs, the unique formal logarithm
+and its isomorphism on ideals of depth greater than e/(p−1), and local doubling indices.
+Section 3.1 specializes the index theorem through the pinned descent-kernel comparison.
+
+From AnabelianGeometryAndNonabelianChabauty §5.8, paragraph *Local abelian logarithm*, use the
+global logarithm `log_A : A(K) → Lie(A)(K)` of an arbitrary abelian variety over a finite extension
+`K/ℚ_p`: it is additive, its differential at zero is the identity, its kernel on `A(K)` is the
+finite torsion subgroup, it respects homomorphisms of abelian varieties and finite extensions, it
+restricts to the normalised formal logarithm of HeightsRationalPointsAndObstructions §§1.15a–1.16
+on a deep congruence subgroup, it extends to a locally analytic homomorphism on all of `A(ℂ_p)`,
+it pairs with invariant differentials, and it is determined by its restriction to any open
+subgroup. Section 4.2 compares its formal-coordinate presentation with this supplied logarithm.
+For smooth proper geometrically connected curves with good reduction, use the same section's
+paragraph *Coleman and abelian logarithm comparison*: the Coleman integral of a regular one-form
+from the base point equals the pairing of the corresponding invariant differential with the
+logarithm of the Abel–Jacobi image, with its base-point change law and its finite-extension and
+`ℂ_p` evaluation laws. Section 4.6 specializes that equality to the numerical data here.
+From §5.6 use Strassmann's bound on a compact residue chart, from §5.10 the Mordell–Weil
+logarithmic span of `J(F)` at a place of good reduction with its dimension bound and annihilator,
+and from §5.11 classical Chabauty finiteness when `rank J(ℚ) < g`.
+
+From AnabelianGeometryAndNonabelianChabauty §§6.1–6.8: consume the following geometric interfaces: (a) quadratic Chabauty pairs and
+the determinant criterion (BDMTV §1.4 (5), Lemma 1.5), with the K-equivariant variant replacing `E` by
+`H⁰(Ω¹)^* ⊗_{K⊗Q_p} H⁰(Ω¹)^*` when the splitting of the Hodge filtration is K-equivariant (Remark 1.6,
+§1.7, Remark 3.9); (b) Lemma 3.7 and Corollary 3.8: for `r = g` with `log : J(Q) ⊗ Q_p ≅ H⁰(X_{Q_p}, Ω¹)^*` and a nice class `Z`, `θ = h_p(A_Z(b, ·))` and `Υ = {−Σ_{v∈T_0} h_v(A_Z(b, x_v)) : x_v∈X(Q_v)}` form a quadratic
+Chabauty pair with endomorphism induced by `Z`, constant `[IA_Z(b)]` and pairing the global height,
+used only on the image `κ(J(Q)) ⊗ Q_p` of the Kummer map and not on all of `H¹_f(G_T, V)`; `Υ = {0}` under potentially good reduction everywhere (Lemma
+3.2); the zero set is independent of the splitting and of the idèle class character (Remarks 3.10, 3.12); (c) the filtered F-isocrystal `A_Z` (pushout of `A_2^dR` along `Z`, (25)), the comparison
+`D_cris(A_Z(b, x)) ≅ x^*A_Z` of filtered φ-modules (Lemma 5.4) and Nekovář's local height formula
+(17); (d) Theorem 2.3: `r < g + ρ − 1` implies `X(Q_p)_2` finite, with `X(Q) ⊆ X(Q_p)_2 ⊆ X(Q_p)_{U_Z}`;
+(e) the class of a nice correspondence satisfies (a)–(d) (forward direction of Lemma 4.7 only),
+and on a genus-g modular curve with absolutely simple Jacobian the correspondence
+`(2g)T_q−tr_H¹(T_q)Id` is nice provided it is nonzero and self-adjoint and the
+supplier’s remaining hypotheses hold. Its `H¹`-trace is zero. In genus three the coefficient
+is 6; the matrices in §6.22 verify nonzeroness for `q=7,11`.
+Here `θ−B=−Σ_{v≠p}h_v`. For the convention `ρ=h−h_p` use instead
+the positive away-place sum set `−Υ`; transfer constants by negation. Both sets are {0}
+in the potentially-good-reduction applications.
+The prime-level local-height factorization used in §6.35 is a separate application
+hypothesis specified below (BDMTV 2021 Theorem 3.2).
+
+From AnabelianGeometryAndNonabelianChabauty §§2.0–2.7: consume the following connection and path interfaces: Kim's universal pointed unipotent connection `A_n^dR(Y) = ⊕_{i≤n} V_dR(Y)^{⊗i} ⊗ O_Y` with `∇` as in (21) and its universal property for pointed objects with `v`
+in the fibre at `b` (Theorem 4.2 with the distinguished vector in the fibre at `b`); Corollary 4.4 (`A_n^dR(X)|_Y` is the maximal
+quotient extending holomorphically to `X`); path composition (Lemma 4.3); Hadian's characterisation of
+the Hodge filtration (Theorem 4.5); the Frobenius structure on `A_n^rig(b)`, unique with `1 ↦ 1` (Lemma
+5.2), and Chiarellotto–Le Stum (Theorem 5.3); Besser's identification of `v ↦ I(x_0, x)·v·I(b, b_0)`
+with the unique unipotent Frobenius-equivariant isomorphism between path spaces (41); and
+for a smooth projective curve `X/Q` the description of `H¹_dR(X/Q)` by differentials of the second kind
+modulo exact ones on an affine open, with `Fil¹ = H⁰(X, Ω¹)` and `H¹_dR(X)/Fil¹ ≅ H¹(X, O_X)` realised
+by the principal parts of local primitives (Mittag-Leffler; Tau Ceti AlgebraicCurves Layer 4
+repartitions are the natural input).
+
+From PadicDifferentialEquationsAndRigidCohomology §RD.7.18: Mathematical comparison for a supplied
+plane-curve Frobenius lift `φ` on the weak completion of a model satisfying Tuitman's corrected Assumption 1, the Frobenius matrix `F` and primitives `f_i` with `φ^*ω_i = Σ_j F_ij ω_j + df_i`, and the identification of `F` with the rigid Frobenius on `H¹_rig` in the basis `ω`. Include functorial basis change, cup
+compatibility and the identification needed by the local-height formulas. Concrete
+Frobenius, coefficient and integral tables are explicit hypotheses of the Layer 6 applications.
+
+From ModularCurvesPartII §5.11 use the bijection between the cusps of `X_H` over an algebraically
+closed field of characteristic prime to the level and the double cosets `⟨±u⟩\GL₂(ℤ/n)/H̄`; from §6.1
+the isomorphism of a compact modular curve over `ℂ` with its analytic quotient `Γ\(ℍ ∪ ℙ¹(ℚ))`;
+from §6.2 the ramification index `w′/w` of a level map at a cusp; and from §9.4 the Atkin–Lehner
+involution `w_d` of `X₀(N)` for an exact divisor `d` of `N`, the Fricke involution being `w_N`.
+Section 9.5 supplies `X_s(ℓ) ≅ X_0(ℓ²)/w_{ℓ²}` over `Q`. Section 9.6 supplies
+the coarse curve `X_H` for the Cartan levels and for the subgroup of `GL₂(𝔽₁₃)` whose projective
+image is `S₄`, and a rational cusp of `X_s(ℓ)`; §9.7 supplies the rational-point/Galois-image
+criterion for `j∉{0,1728}`, and that the fibres of `X_s(13)` over `j = 0` and `j = 1728` contain
+`ℚ`-points. Section 9.8 supplies `gammaZeroPlus` and `gammaZeroPlus.quotientMap` for `X₀⁺(N)`,
+its moduli description by unordered pairs of mutually dual cyclic `N`-isogenies, and the fact
+that `j` does not descend to `X₀⁺(N)`. The four small-level genera and the fixed-point
+count of `w₄₉` are targets of §6.30 below.
+
+From ModularCurvesPartII §11.8 use potential good reduction of `X_s(13)` at 13 and
+good reduction away from 13, including at 2 for the first Baran model (Corollary 6.7).
+For each prime-level application of §6.35 assume a regular proper semistable model over
+`Z_N`, with its generic fibre identified with the smooth projective quotient `X₀⁺(N)`
+and geometrically irreducible special fibre. Also supply the factorization of the
+normalized local height `h_N` through the component reduction map: its value on
+the component of the base point is zero. These are explicit application inputs,
+not a consequence of the split-Cartan prime-square model. BDMTV 2021 Lemma 5.2,
+pp.27–28, proves this prime-level fact using Xue's quotient of the Deligne–Rapoport
+model; its Theorem 3.2, p.8, supplies the source for the height comparison.
+The one-component reduction map and the normalized factorization give `h_N=0`.
+
+From ModularCurvesPartII §§13.1–13.4 and 16.1–16.7 consume the actual weight-two
+Jacobian quotients, their Hecke action, dimension and differential comparison. The decomposition
+of `Jac(X₀⁺(N))` into the specified `w_N = +1` newform factors is an explicit application
+hypothesis with its isogeny maps. The no-CM/no-inner-twist endomorphism comparison is the
+mathematical target of §6.19 here. No general-weight modular quotient is used.
+
+From ModularCurvesPartII §17.2 use the Eichler–Shimura relation `(T_p)_* = F + ⟨p⟩_* V` in the
+endomorphism ring of the Jacobian of the special fibre at a prime `p ∤ N`, where `F` is the
+`p`-power Frobenius and `V` its Verschiebung; on `J₀(N)` it reads `F² − T_p F + p = 0`.
+Sections 6.17 and 6.22 use it at primes not dividing the level.
+
+From ColemanIntegration §§L0.10, L0.13 and L0.17 use the identity of the principal-unit p-adic
+logarithm with `Σ(k≥1)(−1)^(k+1)(z−1)^k/k` on each finite extension of `Q_p` (L0.10), its additivity
+on principal units (L0.13) and its compatibility with finite extensions (L0.17). The pinned `TauCeti.NumberTheory.LocalField.Logarithm` supplies principal-unit convergence. Section 2.6 owns only the explicit finite-tail and
+precision-loss bounds, not logarithm foundations. From §§L0.2–L0.8 use the normalised formal
+primitive of a power series, its uniqueness given the constant term, the radius-loss estimate for
+termwise integration and the primitive with chosen base value on an open disc. From §§L1.1–L1.20
+use the good-reduction pair of a curve and an étale divisor (§L1.1), residue discs as open discs
+(§L1.3), Frobenius lifts and Teichmüller points (§§L1.5–L1.6), the lemma that products of Weil
+numbers of positive weight are not roots of unity (§L1.8), the Frobenius datum of a good-reduction
+pair (§L1.9), local horizontal sections and Frobenius on the word algebra (§§L1.14–L1.15), the
+Coleman integral (§L1.19) and its characterisation by Frobenius equivariance (§L1.20).
+
+From DiophantineApproximationAndTranscendence §§0.1–0.3 use the primitive minimal polynomial,
+the absolute and relative heights of algebraic numbers and the height size estimates. From §3.6
+use `matveev`, Matveev's explicit lower bound for a nonzero linear form in logarithms; from §3.7
+Yu's explicit upper bound `yu` for the `𝔭`-adic valuation of `α_1^{b_1}⋯α_n^{b_n} − 1`, with
+`yuValuationAdapter`, its rational form `yu_rat`, the one-factor bound `yuOneFactorBound` and the
+multiplicative power-law adapter. From §4.1 use the rational S-units (`sUnits_rat_mulEquiv`) and
+the bounded divisor representatives `boundedDivisors` with `exists_mem_boundedDivisors_of_dvd`;
+from §4.3 the unit-equation exponent bound, the reduction of a Thue equation to unit equations
+through three distinct zeros (the Siegel identity), the monic reduction and the effective Thue
+bound; from §4.4 `baker_superelliptic`, Baker's bound for the integral solutions of
+`b·y^n = f(x)`; from §4.5 effective finiteness for S-unit and Thue–Mahler equations, the coprime
+S-unit reduction and the S-unit exponent bound. Layers 0, 2, 5 and 6 use them as stated there.
+
+From NewtonPolygons §3.4 use that a perturbation with `‖f − g‖_r < ‖f‖_r` of a series restricted
+at `r` keeps its Gauss norm and its active indices, and from §4.3 the analytic multiplicity of a
+zero and the exact counts, with multiplicity, of the zeros in the closed disc, the open disc and
+the boundary circle over a complete extension in which the disc polynomial splits (`ℂ_p` in
+particular), with their invariance under such a perturbation. From RestrictedPowerSeries §2.2 use
+the translation `X ↦ X + a` with `‖a‖ ≤ r`, an isometric automorphism of the series restricted at
+`r`, and the affine changes of disc coordinate. Section 6.16 uses them.
+
+From EllipticCurves Layers 1–2 use isogenies with their degrees and duals, the Frobenius isogeny,
+and the `n`-torsion `E[n]`, of order `n²` in characteristic prime to `n` (§§3.9, 6.30). From AlgebraicCurves Layer 7
+use the Hurwitz genus formula (§6.30), from Layer 9 residues of differentials (§6.19), and from
+Layer 10 the canonical divisor of a smooth plane curve (§6.19).
+
+### Explicit application inputs
+
+A finite arithmetic presentation comes with an isomorphism to the actual number field, ideal class
+group, unit group, Mordell–Weil subgroup or residue group it describes. Unit generators must
+generate the full required unit group, with torsion and rank stated; a list of independent units is
+insufficient. Quotient and Smith-form tables must enumerate every class. Model maps come with
+inverse identities, smoothness and reduction comparisons. Frobenius and Hecke tables are identified
+with the actual cohomological operators; a matrix identity alone does not make a matrix a geometric
+Frobenius. L-derivative intervals come with error bounds and analytic
+continuation/functional-equation hypotheses. A positive-width box containing zero alone
+need not establish exact vanishing. A complex box with both widths zero at zero does establish it.
+
+The modular rank-one input used in §6.21 states precisely: for the indicated weight-two newform f
+with trivial character, quotient `A_f` of dimension `[K_f:Q]`, and every conjugate `f^σ` having a simple
+zero at 1, the supplied admissible rank-one theorem gives `rank A_f(Q)=[K_f:Q]` and finite Sha. Its
+admissibility includes a suitable imaginary quadratic field, the non-torsion Heegner trace, the
+required endomorphism-order/isogeny comparison, and descent of the rank conclusion from that field
+to `Q`. These hypotheses are not inferred from a theorem giving rank only over the quadratic field.
+The conditional rank-over-Q application is a separate theorem here; no Gross–Zagier or Euler-system
+roadmap is a prerequisite of this build.
+
+The CM inputs shared by §§6.29–6.33 are explicit application hypotheses. Every CM j-invariant is
+an algebraic integer. For an imaginary quadratic order `O` of class number one, its CM invariant is
+rational and is realised by an elliptic curve over `Q` with geometric endomorphism ring `O`. At a prime
+`ℓ` unramified in `O`, its residual image is contained in a split Cartan normaliser when `ℓ` splits in `O`,
+and in a non-split Cartan normaliser when `ℓ` is inert in `O`.
+For `ℓ=13` the seven distinct j-values displayed in §6.32 correspond to exactly the seven indicated
+orders, under the actual modular j-map; this identification is independent of Baran's coordinate
+isomorphism. Conversely, the identified CM fibres in §6.29 have precisely their displayed geometric
+endomorphism orders. Small class numbers and their order/discriminant identifications are exact
+supplied arithmetic data. These are assumptions of the conditional applications, rather than
+prerequisites from a CM roadmap outside this build (BDMTV 2019, Corollary 1.3 and Remark 1.4, p.888).
+
+For §§6.18–6.35 the identification of each printed plane quartic with its coarse modular curve,
+the positions of the cusps and CM points on it (those over `j = 0` and `j = 1728` included), the
+three non-CM points of `X_S4(13)` with their j-invariants, and the identification of the supplied
+Hecke and Frobenius matrices with the operators of ModularCurvesPartII §17.2 on the cohomology of
+that curve are hypotheses of the applications.
+
+For genus-two height searches supply a positive-definite free Mordell–Weil height lattice, finite
+torsion representatives, its Gram matrix and comparison constants. Semidefiniteness on an arbitrary
+abelian group does not imply finite enumeration. For Kummer calculations supply the actual
+Cassels–Flynn model, duplication and duality identities: `J⊂P^15`, its Kummer quartic,
+`κ([P₁+P₂−D₂])=(1:x₁+x₂:x₁x₂:β₀)`, and the dual `Pic¹` Kummer pairing and addition forms. The reduction,
+membership and deep-congruence theorems below are conditional on these geometric identifications. No
+weaker numerical assertion replaces these geometric hypotheses.
+
+In the concrete applications of §§3.24–3.29, 4.23–4.25, 5.29 and 6.18–6.39, every printed
+finite-field point list, class-group or unit presentation, divisor/reduction table, modular model,
+Hecke or Frobenius matrix, integral value and L-derivative interval is an explicit hypothesis.
+Each hypothesis identifies its entries with the actual arithmetic or geometric objects and states
+the full membership, generation, coverage or error equality it asserts. The application theorems
+prove the resulting rank, obstruction or complete global solution set from those inputs. The
+scalar error bounds of §§0.1–0.10 and 2.1–2.7, the reduction inequalities and finite-set
+coverage theorems are proved mathematical targets and do not assume completeness of the answer.
+
+The exact-algebraic interface follows the design of
+[Hex's algebraic numbers](https://kim-em.github.io/blog/2026-9-8-exact-algebraic-numbers-and-number-fields-in-lean/):
+an exact algebraic value and a selected root, with theorem-level comparison to its polynomial
+and isolating region. Use the native algebraic closure at the pins. For reduced bases, every
+reducedness and integral basis-change identity needed here is stated as a mathematical hypothesis
+on the carriers of GeometryOfNumbersAndQuadraticArithmetic §5.1. No external executable
+representation is imported.
 
 ## References
 
