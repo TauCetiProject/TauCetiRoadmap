@@ -10,7 +10,7 @@ geometric base cases. Finally, a realisation theorem for weight-two representati
 geometric results back to residual representations and supplies a precise table of terminal weights.
 
 The endpoint is a collection of independent base cases, rather than the full induction proving
-Serre's conjecture. The consumers are `ClassicalSerreModularity:R26.1`, `R26.5` and `R33.4`. In
+Serre's conjecture. The consumer is `SerreModularityByCompatibleSystems:S4`. In
 particular, the argument below never assumes the level-one modularity theorem it will help prove.
 Layer 5 specifies the minimal lifting, compatible-family, ordinary and potential-modularity
 statements needed by the terminal arguments, together with the shared raw compatible-system data
@@ -1119,8 +1119,8 @@ the oddness and kernel-field API, the tame and subgroup targets, the three-adic 
 totally complex thresholds. See Dieulefait–Pacetti, Theorem 1.1, §1.1, p. 3, and Khare, §1.1, p. 2.
 
 The combined target states that for p in `{2,3}`, `IsLevelOneResidual p ρ̄` is impossible. The algebraic-closure version follows by
-finite coefficient descent, with discrete target topology. This is the form consumed by R26.1 and by
-the 3-adic terminal step of R33.4. Khare, §8, pp. 29–30, also explains why the discriminant strategy
+finite coefficient descent, with discrete target topology. This is the form consumed by
+the 3-adic terminal step of SerreModularityByCompatibleSystems S4. Khare, §8, pp. 29–30, also explains why the discriminant strategy
 does not simply extend to all characteristics. The Ramanujan representation in characteristic eleven
 is a concrete reminder that a level-one nonexistence theorem cannot be asserted for every p.
 
@@ -2479,7 +2479,7 @@ eleven without this exception. The version of record, Annals of Mathematics 169 
 p. 247, explicitly restricts its weight-fourteen conclusion to `p ≠ 11`. The theorem here uses that
 published restriction and the complete local case split. Its dependencies are
 AlgebraicModularFormsAndSerreWeights R15.4 and the weight-two exclusion, not a weight-ten induction
-from R26.
+through Khare's level-one argument.
 
 ### 5.11 The small-weight theorem
 
@@ -2540,7 +2540,7 @@ families, in addition to recognition within a family by common Frobenius polynom
 - A reducible residual representation fails (A1), and belongs to the ordinary modularity interface
   rather than this target.
 
-Paso 6 is the terminal application used by `ClassicalSerreModularity:R33.4`. Start with an
+Paso 6 is the terminal application used by `SerreModularityByCompatibleSystems:S4`. Start with an
 almost strictly compatible system with empty ramification set whose original 5-adic member is
 continuous, odd, finitely ramified and de Rham at five with weights `{0,w−1}`, `w ≥ 2`. Require a
 stable lattice with residual (A1), equivalently the non-bad-dihedral condition here together with
@@ -2594,15 +2594,15 @@ index or declaration name carries no mathematical proof.
 
 | Row | Hypotheses and conclusion | Supplier | Consumer and local check |
 | --- | --- | --- | --- |
-| Tate | Finite characteristic-two coefficients, continuous absolutely irreducible residual representation, unramified outside two: impossible; all weights | `tate_no_levelOne_char_two` | R26.1 and the characteristic-two base case; determinant oddness is automatic |
-| Serre | Finite characteristic-three coefficients, odd absolutely irreducible residual representation, unramified outside three: impossible; all weights | `serre_no_levelOne_char_three` | R26.1 and R33.4's 3-adic member; check oddness and ramification |
-| Fontaine | Abelian variety over `ℚ`, good reduction at every prime: dimension zero | `dim_eq_zero_of_goodReduction_everywhere` at `K = ℚ` | R26.5 through weight two; verify good reduction at p as well as away from p |
-| Schoof | Abelian variety over `ℚ`, semistable at `ℓ` and good away from `ℓ ∈ {2,3,5,7,13}`: dimension zero | §4.9 | R26.5 at weights `p+1`, and R33.4 at `ℓ = 5`; check semistability and the exact prime set |
-| Weight two | Level-one absolutely irreducible residual representation of weight two, any p: impossible | §5.8 | R26.5; check actual Serre weight, minimal crystallinity and (A1) |
-| Selected `p+1` | Level-one residual representation, p in `{5,7,13}`, weight `p+1`: impossible | §5.9 | R26.5; check the Steinberg weight-two lift and reduction type |
-| Ordinary terminal members | Irreducible odd crystalline p-adic member of weight k, unramified outside p, with reducible reduction, at (3,2), (3,4), (5,6), (7,8), (13,14): impossible | §5.7 | R33.4 and R26.5; check ordinarity, p-distinguishedness and level-one local–global compatibility |
-| Small weights | Level-one residual representation with actual weight between two and eight, or weight fourteen with `p ≠ 11`: impossible | §5.11 | R26.5; retain the actual-weight convention and the exception at eleven |
-| Paso 6 | Almost strictly compatible system with empty ramification set; original 5-adic member continuous, odd, finitely ramified, de Rham of weights `{0,w−1}`, `w ≥ 2`, with stable lattice and residual (A1): residual weights two and four give modularity of the original system; weight six is impossible | §5.12 | R33.4; check the original member’s lifting hypotheses, minimal lift, compatibility and the modularity transfer at five |
+| Tate | Finite characteristic-two coefficients, continuous absolutely irreducible residual representation, unramified outside two: impossible; all weights | `tate_no_levelOne_char_two` | The characteristic-two base case; determinant oddness is automatic |
+| Serre | Finite characteristic-three coefficients, odd absolutely irreducible residual representation, unramified outside three: impossible; all weights | `serre_no_levelOne_char_three` | S4's 3-adic member; check oddness and ramification |
+| Fontaine | Abelian variety over `ℚ`, good reduction at every prime: dimension zero | `dim_eq_zero_of_goodReduction_everywhere` at `K = ℚ` | Verify good reduction at p as well as away from p |
+| Schoof | Abelian variety over `ℚ`, semistable at `ℓ` and good away from `ℓ ∈ {2,3,5,7,13}`: dimension zero | §4.9 | S4 at `ℓ = 5`; check semistability and the exact prime set |
+| Weight two | Level-one absolutely irreducible residual representation of weight two, any p: impossible | §5.8 | Check actual Serre weight, minimal crystallinity and (A1) |
+| Selected `p+1` | Level-one residual representation, p in `{5,7,13}`, weight `p+1`: impossible | §5.9 | Check the Steinberg weight-two lift and reduction type |
+| Ordinary terminal members | Irreducible odd crystalline p-adic member of weight k, unramified outside p, with reducible reduction, at (3,2), (3,4), (5,6), (7,8), (13,14): impossible | §5.7 | S4; check ordinarity, p-distinguishedness and level-one local–global compatibility |
+| Small weights | Level-one residual representation with actual weight between two and eight, or weight fourteen with `p ≠ 11`: impossible | §5.11 | Retain the actual-weight convention and the exception at eleven |
+| Paso 6 | Almost strictly compatible system with empty ramification set; original 5-adic member continuous, odd, finitely ramified, de Rham of weights `{0,w−1}`, `w ≥ 2`, with stable lattice and residual (A1): residual weights two and four give modularity of the original system; weight six is impossible | §5.12 | S4; check the original member’s lifting hypotheses, minimal lift, compatibility and the modularity transfer at five |
 
 **Checks.**
 
@@ -2620,7 +2620,7 @@ There are three additional branches whose theorems have other owners. A solvable
 Langlands–Tunnell in `GL2AutomorphicRepresentationsAndTransfer:R17.5`, and in characteristic two by
 Rohrlich–Tunnell in `R17.6`. The reducible-reduction cases needed here are precisely those of §5.7.
 Failure of (A1) away from level one belongs to `ClassicalSerreModularity:R27.1` and
-`ClassicalSerreModularity:R33.2`. The arithmetic dihedral classification here addresses level one
+`SerreModularityByCompatibleSystems:S2`. The arithmetic dihedral classification here addresses level one
 only. These branches remain supplier applications and are not additional nonexistence claims in the
 table.
 
@@ -2641,11 +2641,11 @@ at weights twelve and fourteen in characteristic eleven.
 
 ### Dependencies
 
-Layers 2–5. ClassicalSerreModularity consumes the table; it is not a prerequisite.
+Layers 2–5. SerreModularityByCompatibleSystems consumes the table; it is not a prerequisite.
 
 ## Downstream consumers
 
-ClassicalSerreModularity R26.1 and R26.5 use the residual and geometric base cases; R33.4 uses the
+SerreModularityByCompatibleSystems S4 uses the characteristic-three residual base case, Schoof's theorem and the
 terminal compatible-system arguments. The table records the actual weight, coefficient, ramification
 and image hypotheses needed at each transition. Its exceptional characteristic-eleven rows are not
 exclusions.
