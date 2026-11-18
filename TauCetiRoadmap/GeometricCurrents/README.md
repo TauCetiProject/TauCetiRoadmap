@@ -7,8 +7,9 @@ minimization, and interior regularity of codimension-one minimizers. The same
 integral carrier supports geometric-chain comparisons in Morse theory and the
 minimizing-hypersurface input to nonspin positive mass in ambient dimensions 3–7.
 Every construction includes its restriction, locality, naturality, change-of-chart
-and normalization API. [Suggested.lean](Suggested.lean) names the headline theorems
-and the carriers the pinned libraries lack to state them; this README is definitive.
+and normalization API. [Suggested.lean](Suggested.lean) states the Bombieri–De
+Giorgi–Giusti theorem of G7 and names the other headline theorems with the carriers
+the pinned libraries lack to state them; this README is definitive.
 
 The ambient manifold M is Hausdorff, second countable, smooth, boundaryless and
 finite dimensional, with a chosen smooth positive-definite Riemannian metric.
@@ -84,7 +85,7 @@ Consume the following suppliers at their indicated item boundaries:
 | [CalibratedGeometry C1/C2](../CalibratedGeometry/README.md) | Comass; the **single integral finite smooth-chain complex** on DG8.3's `SmoothSimplex →₀ ℤ`, integral smooth-to-singular comparison, and finite oriented relative fundamental chains from GT's smooth triangulation. G2–G3 build their evaluation into currents, not another integral smooth complex. |
 | [AlgebraicTopology2–4/6](../AlgebraicTopology/README.md) | Native singular homology with integral coefficients, subdivision/excision/relative sequences, orientation local systems and manifold fundamental classes. No current homology is assumed. |
 | [DGFloer0](../DGFloer/README.md) | Normalized cubical chains, products, simplicial comparison and coherent topological corner fundamental chains. The smooth/Lipschitz evaluation adapter and rank-drop theorem are constructed here. |
-| [GeometricTopology Layer1 and smoothing-and-triangulation item1](../GeometricTopology/README.md) | Native-compatible embedded normal bundles/tubes, collars and actual ordered locally finite/relative smooth triangulations. These do not supply current compactness. |
+| [GeometricTopology Layer 1 and Layer 11.3](../GeometricTopology/README.md) | Native-compatible embedded normal bundles/tubes, collars and actual ordered locally finite/relative smooth triangulations. These do not supply current compactness. |
 | [MorseTheory M3](../MorseTheory/README.md) | Its early smooth proper bounded-below exhaustion from compact exhaustion and a smooth partition of unity, before Morse approximation. G2 proves the integral sublevel/tail comparisons; no Morse differential or Bott theorem is used. |
 | [TopologicalKTheory T1.5](../TopologicalKTheory/README.md) | The finite coordinate real Grassmannian/submodule carrier used for the auxiliary tangent-plane bundle; GC constructs its intrinsic fibre comparison and proves compactness; no bundle classification or Bott theorem is needed. |
 | [RiemannianGeometry R5](../RiemannianGeometry/README.md) | Earlier immersion geometry B/S/H, Gauss/Codazzi/Ricci and first volume variation; R5a.1's density-volume theorem and R5b's general smooth normal Hessian/Jacobi/stability and Dirichlet API. |
@@ -92,7 +93,7 @@ Consume the following suppliers at their indicated item boundaries:
 | [PDE scalar Sobolev/trace, harmonic theory, ABP and non-divergence estimates](../PDE/README.md) | Lane A Sobolev/trace and Hölder carriers; B.8–10 interpolation and Mihlin–Hörmander/CZ bounds; C.12–13 harmonic comparison and the single generic strong-solution ABP/contact engine with GMT's area input; D16–19 variational/represented operators; the **non-divergence Calderón–Zygmund** and **non-divergence Schauder/classical Dirichlet** families (E26, §5.7, and E25, §5.6). G6 constructs the additional Hessian-intersection/common-fixed-point and nonlinear graph upgrade. Divergence-form estimates are not substituted for those non-divergence families. |
 | [RiemannianGeometry R5b](../RiemannianGeometry/README.md) | R5b's normal second variation, hypersurface Jacobi operator and full-scalar stability, its Dirichlet realization of the normal Jacobi operator on W¹,²₀ through Tau Ceti's coercive-form solution operator, its boundary H² estimate and its Dirichlet-domain identification. Use that finite-chart Riemannian metric/normal-bundle specialization, not another generic spectral or Jacobi construction. A compact-boundaryless PDO theorem is not a Dirichlet boundary theorem. All geometric excess/height/iteration and nonlinear minimizing-graph constructions remain targets here. |
 
-[CalibratedGeometry C2](../CalibratedGeometry/README.md#c2-calibrated-immersions-and-integration)
+[CalibratedGeometry C2](../CalibratedGeometry/README.md#layer-2-calibrated-immersions-and-integral-smooth-chains-c2)
 supplies the integral smooth-to-singular quasi-isomorphism: integer generator
 maps and both face-compatible chain homotopies from DG8.3's simplex-level
 smoothing data, with coefficient-change agreement to DG's real-only operators.
@@ -240,22 +241,23 @@ Own the real constancy theorem: on a connected oriented open m-manifold,
 a real m-current with zero boundary is a constant real multiple of its
 oriented integration current. Include distributional currents, localization,
 orientation reversal, the degree-zero case, and restriction/naturality.
-Prove it by local coordinate test derivatives and the criterion, then connected overlap gluing. Reuse Tau Ceti's `TauCeti.Analysis.Distribution.DuBoisReymond` module's
-`ContDiff.exists_contDiff_deriv_eq_of_integral_eq_zero` and
-`ContinuousOn.exists_eqOn_const_Ioo_of_integral_deriv_smul_eq_zero` for the
-one-dimensional mean-zero-test primitive and continuous-function specialization;
-these address one-dimensional continuous functions; the arbitrary-distribution/
-multidimensional criterion is constructed here.
-G1 owns that criterion explicitly:
-for a scalar distribution on a connected Euclidean open set, annihilation of
-every coordinate derivative of compactly supported smooth tests implies it is
-c times Lebesgue integration; include nonempty/uniqueness, local-to-global and
-finite-dimensional componentwise vector-valued `TestFunction` versions. Prove it by local
-localized convolution regularization, including smooth compact mollifiers,
-test-topology convergence and commutation with derivatives, then vanishing
-derivatives of the regularizations and compatibility
-of the resulting constants on overlapping balls; do not assume local finite mass
-as a substitute for that argument.
+On a connected open subset of an oriented real vector space of dimension m ≥ 1 it is
+Tau Ceti's `Orientation.existsUnique_eq_smul_integrationCurrent_of_comp_extDerivCLM_eq_zero`,
+with its local form `Orientation.existsUnique_comp_monoCLM_eq_smul_integrationCurrent`
+and its degree-zero case `Orientation.existsUnique_eq_smul_integrationCurrent_of_finrank_eq_zero`
+(`TauCeti/Analysis/Distribution/Constancy/Current.lean`), with no order-zero or
+finite-mass hypothesis. Prove the manifold theorem from it through the chart
+comparison of test forms above, then glue the constants along connected overlaps.
+G1 supplies the constancy criterion behind it in Tau Ceti's form, not rebuilt here:
+a Banach-valued distribution on a connected open subset of a finite-dimensional real
+normed space whose directional derivatives all vanish is integration against a unique
+constant, for any additive Haar measure
+(`Distribution.existsUnique_eq_ofFun_const_of_forall_lineDerivOp_eq_zero`), with its
+version for functionals on finite-dimensional vector-valued tests
+(`TestFunction.existsUnique_eq_integralAgainstBilinCLM_of_forall_lineDeriv_eq_zero`,
+both in `TauCeti/Analysis/Distribution/Constancy/Basic.lean`) and its local-to-global
+step `Distribution.existsUnique_eq_ofFun_const_of_locally`
+(`TauCeti/Analysis/Distribution/LocalConstancy.lean`).
 
 ## G2. Integer rectifiability, integration, pushforward and slicing
 
@@ -614,7 +616,8 @@ infimum of the empty set being ∞, and for V≥0 the filling volume function
 soon as a cycle of mass at most V does not bound (Checks below). Prove that any filling
 bounds it, `FV_d(α) ≤ mass(β)` whenever `∂β=α`; that `FV_d(α) < ∞` exactly when α is a
 boundary in `C^Lip_•(Y)`; `FV_d(0) = 0`, subadditivity, `FV_d(f_#α) ≤ Lᵈ FV_d(α)`
-for L-Lipschitz f, and monotonicity of `FV_d(Y, V)` in V. On a smooth
+for L-Lipschitz f with L > 0 (for L = 0 it can fail in degree one, Checks below),
+and monotonicity of `FV_d(Y, V)` in V. On a smooth
 Riemannian manifold, and on G3's retracts, a Lipschitz (d−1)-cycle has finite filling
 volume iff its singular homology class vanishes, by G3's quasi-isomorphism. Quasi-isometry
 invariance of these functions and the filling invariants of groups acting geometrically
@@ -647,7 +650,9 @@ Checks:
 - Degree one, on any nonempty Y: a point 0-cycle ⟨y⟩ has mass 1, while every boundary
   `∂σ=⟨σ(e₁)⟩−⟨σ(e₀)⟩` of a 1-simplex has coefficient sum 0, so ⟨y⟩ does not bound and
   `FV_1(Y, V) = ∞` for V≥1, also for connected Y; for V<1 the zero chain is the only
-  0-cycle of mass at most V, so `FV_1(Y, V) = 0`.
+  0-cycle of mass at most V, so `FV_1(Y, V) = 0`. A constant map f is 0-Lipschitz and
+  sends ⟨y⟩ to a point 0-cycle, so `FV_1(f_#⟨y⟩) = ∞` while `0¹·FV_1(⟨y⟩) = 0·∞ = 0` with
+  the convention 0·∞ = 0 of [0,∞]: the Lipschitz bound for filling volume needs L > 0.
 - Without (d−1)-connectedness: on the unit circle S¹ ⊂ ℝ² with the restricted
   distance, the loop s ↦ (cos 2πs, sin 2πs), parametrized by the second barycentric
   coordinate s of Δ¹, is a 1-cycle of mass 2π whose singular homology class generates
@@ -1058,8 +1063,12 @@ For every locally finite-perimeter F with F∆E compactly contained, apply GMT
 Gauss–Green to the smooth cutoff field `(1−η_ε)Y` with an outer cutoff equal to
 one near the changed set, then let ε→0. Prove the error bound
 `∫|∇η_ε|=O(ε⁷)` uniformly for the competitor; a weak identity only against
-smooth tests is not a Gauss–Green theorem for χ_F. This proves E is locally
-perimeter minimizing. The integral
+smooth tests is not a Gauss–Green theorem for χ_F. This proves the
+Bombieri–De Giorgi–Giusti theorem `perimeter_simonsRegion_le`: E, the set
+`simonsRegion`, is locally perimeter minimizing, that is, `P(E;Ω) ≤ P(F;Ω)` for
+every open Ω and every null-measurable F with F∆E inside a compact subset of Ω,
+where P is Tau Ceti's perimeter `TauCeti.perimeter` for Lebesgue measure
+(`TauCeti/Analysis/BoundedVariation/Perimeter.lean`). The integral
 height/BV layer decomposition then proves `∂[[E]]` minimizes against **all**
 compactly supported integral-current perturbations, not only set boundaries.
 Construct the cone's local integrality, multiplicity, smooth link S³×S³,
