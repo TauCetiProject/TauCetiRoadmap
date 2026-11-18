@@ -4,61 +4,11 @@
 
 The elliptic inputs include ring and ray class fields of imaginary quadratic fields. Higher-dimensional CM gives reflex-field reciprocity and polarized moduli orbits. Height/Colmez comparisons belong to ComplexMultiplicationAndExplicitReciprocityPartII; Heegner-point, Euler-system and `p`-converse arguments consume the interfaces here. The scope is the CM fields and algebras stated below, with no claim to Hilbert’s twelfth problem for arbitrary number fields.
 
-## Scope and ownership
+## How to read the build
 
-ShimuraVarieties §5.1 supplies CM types, primitive induction, trace reflex fields and reflex norms; §§4.2 and 5.8–5.11 supply torus reciprocity, the main CM theorem and the Shimura–Taniyama formula. CM.0 adds closure-independence, primitive/double-reflex and integral reflex-order comparisons for the supplied reflex pair. CM.2 specializes the supplied reciprocity theorems to ideal, torsion, polarization and level formulas, and constructs the regular Siegel level-function interface. These dependencies run from ShimuraVarieties to this roadmap.
+The layers proceed from the supplied embedding partitions through reflex-pair and integral comparisons to realizations, then reciprocity and class fields, characters, and reduction. New names are proposed in `TauCetiRoadmap.ComplexMultiplicationAndExplicitReciprocity`; CM-type comparisons use the supplied `TauCetiRoadmap.ShimuraVarieties.CMType` interface. Each definition has its API and discriminating Checks; each theorem records its hypotheses, source and immediate inputs. Source pages are printed page numbers in the editions under References. Checks involving heavy geometric carriers specify mathematical tests of those targets.
 
-| Material used here | Owning roadmap and interface |
-| --- | --- |
-| Orders, conductors, proper invertible ideals, their finite class groups, extension and contraction | GlobalNumberFields, Layer 11; use Mathlib's existing `ClassGroup` and `Pic` |
-| Fractional ray congruences, ideal/idele comparison, norms, Hecke characters and infinity types | GlobalNumberFields, Layers 7–10 |
-| Galois avatars of algebraic Hecke characters, with geometric Artin normalization | AutomorphicGaloisRepresentationsPartII, AG2.0, `AlgHeckeChar.galoisChar`, `galoisChar_local` and `galoisChar_mul` |
-| Maximal-order elliptic CM characters, ideal kernels, norm degrees, differential normalization and isogeny to maximal order | ArithmeticStatisticsPartVII, `support-cm`, `cm_hecke_character` and `cm_ideal_isogeny_comparison` |
-| Arithmetic Artin map, class-field correspondence, quadratic ring and ray class fields | ClassFieldTheory, Layers 11–13 |
-| Equation-level CM actions, ordinary finite-field endomorphism orders, twists, torsion, Weil pairing and local reduction | EllipticCurves, Layers 1–5 |
-| Regular projective curve/function-field anti-equivalence, including elliptic isogenies | AlgebraicCurves §12C |
-| Projective Weierstrass models, pointed group law, multiplication-degree and Weil-pairing comparisons | ModularCurves §§1A–1D, 2A, 2D–2E |
-| Relative elliptic/abelian equivalence and general isogeny degree as function-field degree | AbelianSchemesAndArithmeticModuli A1.6 and A6.1 |
-| Full-order elliptic ideal-lattice and form dictionary, ideal action and degrees, singular-modulus integrality, class polynomials, ring/ray Artin reciprocity and genus-one arithmetic level functions | ImaginaryQuadraticClassNumber §H3.1 |
-| Elliptic complex uniformization, analytic/algebraic Hom comparison, regular level-function evaluation | ModularCurvesPartII §§1.1–1.5, 3.14 and 6.1 |
-| Relative Lie theory, the Serre tensor and its realizations, Hodge/period realization, polarized uniformization, Rosati, degree and primitive CM simplicity | AbelianSchemesAndArithmeticModuli, A0–A6, in particular A1.3a/A4.7a for the Serre tensor and A6.37 `cmIsotypic` |
-| Crystalline Dieudonné realization, rational slope decomposition and group/isocrystal slope comparison | AbelianSchemesAndArithmeticModuli A4.CR.7.2; CrystallineCohomology CR.4.7; FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.2.15–R07.2.16 |
-| Cocharacter reflex field, CM types and norms, main CM theorem, polarized Siegel moduli and canonical tower | ShimuraVarieties §§P.3, 4.2, 5.0–5.11 and 8.1–8.3 |
-| Covariant Tate realizations, local characters, inertia, induction, Artin/Swan conductors and Frobenius recognition | ArithmeticGaloisRepresentations §§1.3, 1.12, 2.1–2.5, 3.1–3.5, 5.1, 5.3, 6.1–6.4 |
-| `H¹` étale local Euler polynomials and Néron–Ogg–Shafarevich | NeronModelsAndSemistableAbelianVarieties §§5.1, 5.3i and 5.6 |
-| Quadratic automorphic induction and CM newform compatible systems | GL2AutomorphicRepresentationsAndTransfer R17.4.16; AutomorphicGaloisRepresentations §§1.5 and 7.3 |
-| Binary form/ideal dictionary and complete reduced-class census | IntegralLattices, B2, B3 and B5 |
-| Embedded quaternion-order lattices and localization | GeometryOfNumbersAndQuadraticArithmetic §2.8 |
-| Supersingular cyclic-level endomorphism orders, including maximality at level one | SerreWeightAndLevelOptimisation §2.6, `deuring-eichler-supersingular-comparison` |
-| Rational quaternion algebras, reduced norm and split/division comparison | QuadraticFormInvariants, Layer 2 |
-| Existence of primes with specified class-field Artin class | Chebotarev, Layer 9 |
-
-ModularForms Layer 0 supplies the independent `LevelOne.JInputs` interface: normalized `j`, its `q`-expansion and special values. ModularCurvesPartII §5.6 supplies the integral cyclic modular polynomials. ImaginaryQuadraticClassNumber §H3.1 owns the elliptic modular-equation integrality argument and full-order CM classification. CM.3 uses that classification and reciprocity; CM.5 adds the unconditional coefficient bounds. The genus-one function field and its arithmetic action are imported from §H3.1; CM.2 adds the higher-dimensional Siegel comparison. The exact contracts consumed from these owners follow below. General constructions remain with their owners; this roadmap supplies CM specializations and comparisons.
-
-### Existing interfaces
-
-Use the pinned Mathlib and Tau Ceti interfaces. A CM field already exists as `NumberField.IsCMField`: a totally complex quadratic extension of its maximal real subfield. Its `complexConj` is a maximal-real-subfield algebra automorphism, with `φ(c(x)) = conjugate(φ(x))`, `c(c(x)) = x` and fixed elements exactly in the maximal real subfield. Integral-over-`ℚ` hypotheses on this conjugation API hold for the number fields used here.
-
-`FractionalIdeal` is the native submodule carrier with a common denominator; invertibility is extra data, expressed by its units. `ClassGroup R`, for every commutative domain `R`, is the quotient of invertible fractional ideals by principal ones. `ClassGroup.mk` is the class map on a chosen fraction field, and `ClassGroup.equivPic` identifies this group with `CommRing.Pic R`. `CommRing.Pic.mapAlgebra` is invertible-module base change. These definitions already apply to nonmaximal orders. GlobalNumberFields Layer 11 supplies the additional arithmetic: properness, order-specific finiteness, conductor behavior and norms. A nonzero ideal of a nonmaximal order need not be invertible.
-
-`IntermediateField.adjoin` and `adjoin_le_iff` supply the trace-generated reflex field and its universal property. `NumberField.RingOfIntegers` is the integral closure of `ℤ` in the field. `WeierstrassCurve.j` is `Δ⁻¹c₄³` with invertible discriminant. `TauCeti.AlgebraicGeometry.AbelianVariety` is a proper geometrically integral group scheme over the given field; its `End` is the additive wrapper of its endomorphism morphisms, with composition as multiplication. `TauCeti.Isogeny` is the native Weierstrass affine isogeny, and `Isogeny.degree` is the dimension of the source function field over the pulled-back target field. Transport these objects through the supplied uniformization and equation/scheme comparisons rather than introducing private substitutes.
-
-### Outputs
-
-| Layer | Output |
-| --- | --- |
-| CM.0 | Comparisons for supplied reflex pairs, integral reflex orders and concrete field Checks |
-| CM.1 | Rational CM self-twists, Serre tensor and CM Hodge/period comparisons |
-| CM.2 | Polarized lattices and explicit reciprocity dictionaries after ShimuraVarieties §5.10 |
-| CM.3 | Analytic class-polynomial input for bounds and exact polarized CM value fields |
-| CM.4 | CM Hecke characters, full local factorizations and coefficient components |
-| CM.5 | Reduction, isogeny graphs, coefficient bounds, conductor criteria and polynomial reconstruction |
-
-The non-Galois quartic example is in CM.0, the dimension-two torsion/polarization example in CM.2, and the complete Gaussian class-field example in CM.3. Applications import the actual declarations from these layers. Examples and exports introduce no additional mathematical layer.
-
-Tau Ceti supplies the Gaussian lattice as `TauCeti.GeometryOfNumbers.gaussianLattice`, its membership description and separation bounds, and `TauCeti.NumberField.complexConjugationAt_eq_complexConj` identifies place conjugation with Mathlib’s CM conjugation. Reuse these results. IntegralLattices B2/B3/B5 already owns the binary-form/class-group dictionary, composition and reduced representatives. ImaginaryQuadraticClassNumber §H3.1 supplies their full-order CM-point comparison.
-
-For the unit-obstruction bound, use Tau Ceti's `NumberField.units_sq_index_le` from `TauCeti.NumberTheory.EffectiveBounds.UnitSquares.Basic`, which bounds the unit-square index by `2^[F:ℚ]`. Layer 2 supplies the CM-specific injection into a totally positive unit/norm quotient and the fact that squares are relative norms; the general unit-square bound is already available.
+[Suggested.lean](Suggested.lean) is the headline acceptance test against the pinned Mathlib and Tau Ceti APIs. It states the canonical Gross-character existence criterion from CM.4.3 and the unconditional class-polynomial bound from CM.5.3. The definitions `primitiveReducedForms` and `classPolynomial` express the analytic input for that bound using the native census and upper-half-plane roots; `IsCanonicalGrossCharacter` uses the native ideal character and least finite conductor. The module docstring identifies the missing carriers for the other headlines. API bullets and Checks below state mathematics in prose. The finite-product estimates in Layer 5 retain their full algebraic generality before their CM specializations.
 
 ## Conventions
 
@@ -73,181 +23,6 @@ For the unit-obstruction bound, use Tau Ceti's `NumberField.units_sq_index_le` f
 **Discriminants and order tests.** The reflex-order discriminant is a relative ideal over `O_{E*}`. For `E = ℚ(i)` and `O = ℤ + 3ℤi` the selected reflex image is `O_E`, with relative discriminant `1`; the input order has absolute `ℤ`-discriminant `−36`. Geometric endomorphisms mean endomorphisms over an algebraic closure. The endomorphism ring over a finite model field can be smaller, especially in the supersingular case. All characteristic-`p` classification and reduction statements include `p = 2` and `p = 3`.
 
 **Positive dimensions and levels.** Geometric CM objects have `g≥1`, full lattices have rank `2g`, finite fields have `q=pʳ` with `p` prime and `r≥1`, and level `N` is a positive integer. Multiplication-degree formulas for isogenies require `n≠0`: `[0]` on a positive-dimensional variety is not an isogeny. The general finite-product bounds below also state the empty-index case, separately from a CM class census, which is nonempty. Compactness and discreteness in complex uniformization are supplied by the full lattice hypothesis.
-
-## Exact supplier contracts
-
-### From Mathlib and Tau Ceti
-
-Mathlib `NumberTheory.NumberField.CMField` supplies `NumberField.IsCMField`,
-`NumberField.IsCMField.complexConj`, `complexEmbedding_complexConj`,
-`complexConj_apply_apply` and `complexConj_eq_self_iff`. Its native `FractionalIdeal`,
-`ClassGroup` and `ClassGroup.mk` are used throughout. `RingTheory.PicardGroup` supplies
-`CommRing.Pic`, `ClassGroup.equivPic` and `CommRing.Pic.mapAlgebra`;
-`IntermediateField.adjoin` and `adjoin_le_iff` specify generated subfields, and
-`NumberField.RingOfIntegers` specifies integral closures.
-
-Under `TauCeti.NumberTheory.NumberField.Global.Orders`, use `Basic`’s
-`TauCeti.GlobalNumberFields.NumberFieldOrder`,
-`NumberFieldOrder.toRingOfIntegers`, `ProperIdeal`’s
-`NumberFieldOrder.multiplierRing`,
-`Picard`'s `TauCeti.GlobalNumberFields.Pic` and `NumberFieldOrder.mkPic`,
-`Conductor`'s `NumberFieldOrder.conductor`, `Discriminant`'s
-`NumberFieldOrder.discr_eq_index_sq_mul`, and `AwayConductor`'s
-`NumberFieldOrder.integralIdealsAwayConductorEquiv` and
-`NumberFieldOrder.integralIdealsAwayConductorToInvertible`.
-`RayClass`'s `NumberFieldOrder.finite_pic` gives finiteness on the same Picard carrier.
-These are the existing order-theoretic interfaces of GlobalNumberFields Layer 11.
-The relative discriminant of the selected reflex order is a distinct comparison in CM.0.2.
-
-`TauCeti.AlgebraicGeometry.AbelianVariety.Basic` supplies
-`TauCeti.AlgebraicGeometry.AbelianVariety`; its `End.Basic` module supplies the ring
-`TauCeti.AlgebraicGeometry.AbelianVariety.End` and the maps `End.toHom` and `End.ofHom`.
-`TauCeti.AlgebraicGeometry.EllipticCurve.Isogeny.Basic` and `.Degree` supply
-`TauCeti.Isogeny` and `TauCeti.Isogeny.degree`. These geometric carriers are transported
-through the equation, uniformization and realization comparisons below.
-
-`TauCeti.NumberTheory.GeometryOfNumbers.RankTwoDoubling` supplies
-`TauCeti.GeometryOfNumbers.gaussianLattice`, `mem_gaussianLattice` and
-`one_le_norm_of_mem_gaussianLattice_of_ne_zero`.
-`TauCeti.NumberTheory.NumberField.ComplexConjugation.CMField` supplies
-`TauCeti.NumberField.complexConjugationAt_eq_complexConj`.
-`TauCeti.NumberTheory.EffectiveBounds.UnitSquares.Basic` supplies
-`NumberField.units_sq_index_le`: the index of the squares in `(𝓞 F)ˣ` is at most
-`2 ^ Module.finrank ℚ F` for every number field `F`.
-
-### From the geometric and arithmetic roadmaps
-
-- `AbelianSchemesAndArithmeticModuli:A0.1–A0.2`: The abelian-scheme carrier `AbelianScheme S` over an arbitrary base and its comparisons with Tau Ceti's field carrier and with elliptic curves.
-- `AbelianSchemesAndArithmeticModuli:A1.1–A1.3`: Products, arbitrary base change and the locally constant relative dimension (dimension zero is the identity scheme `S`); rigidity, including A1.2(3): a homomorphism vanishing on one geometric fibre of each connected component is zero; invariant differentials `ω_A`, locally free of rank `g`, with `Lie(A/S)=ω_A^∨`, all compatible with base change.
-- `AbelianSchemesAndArithmeticModuli:A1.3a/relativeSerreTensor`: For any scheme `S`, any abelian scheme `A/S`, any associative unital ring `R` with a unital map `R→End_S(A)`, and any finitely generated projective right `R`-module `M`, the presheaf `T↦M⊗_R A(T)` is already an fppf sheaf and is represented by an abelian scheme `M⊗_R A`, unique up to unique isomorphism with its universal balanced map. It is built as the kernel of `1−e` for the projector `e` on `Aⁿ` given by a splitting `M⊕N≅Rⁿ`, and `M⊗_R A(T)≅Hom_R(M*,A(T))` with `M*=Hom_{Rᵒᵖ}(M,R)`. Its Checks include `M=R` (giving `A`), `M=0` (giving the identity scheme), `M=Rⁿ` (giving `Aⁿ`, also for `n=0`) and a nonprincipal invertible ideal.
-- `AbelianSchemesAndArithmeticModuli:A1.3a/relativeSerreTensor-functoriality`: Module maps `M→N` and `R`-linear homomorphisms `A→B` induce `f⊗u`, characterized on points by `m⊗a↦f(m)⊗u(a)`, with identity, composition and additivity laws; `(M⊕N)⊗A≅(M⊗A)×_S(N⊗A)` including the empty sum; independence of the chosen projective splitting and complement, with the cocycle identity.
-- `AbelianSchemesAndArithmeticModuli:A1.3a/relativeSerreTensor-base-change`: `(M⊗_R A)_{S′}≅M⊗_R A_{S′}` for every `S′→S`, compatible with universal maps, module maps, homomorphisms and finite sums, with identity and iterated-pullback coherence.
-- `AbelianSchemesAndArithmeticModuli:A3.1/IsAbelianIsogeny`: Isogenies over a base are finite, flat, surjective homomorphisms; the kernel is finite locally free, the rank (degree) equals the rank of the kernel, is locally constant and multiplies under composition (A3.1, multiplicativity of ranks under composition).
-- `AbelianSchemesAndArithmeticModuli:A4.1, A4.3`: The integral Tate module `AbelianTate` for `ℓ` invertible on `S`, functorial in homomorphisms and compatible with base change; first de Rham cohomology `AbelianH1dR` with the Hodge sequence `0→ω_A→H¹_dR(A/S)→Lie(A^∨)→0`, base change, contravariant pullback along homomorphisms (hence the CM action) and the perfect pairing between `H¹_dR(A/S)` and `H¹_dR(A^∨/S)`. The covariant sequence `0→ω_{A^∨}→H_A→Lie(A)→0` used in CM.1 is the A4.3 sequence of `A^∨`, with `H_A=H¹_dR(A^∨/S)≅Hom(H¹_dR(A/S),O_S)`.
-- `AbelianSchemesAndArithmeticModuli:A4.5/BarsottiTate`: The `p`-divisible group of an abelian scheme over an arbitrary base, with truncations.
-- `AbelianSchemesAndArithmeticModuli:A4.CR.7.2`: The crystalline Dieudonné crystal, its contravariance, Frobenius and Tate-twist conventions.
-- `CrystallineCohomology:CR.4.7`, *Slope decomposition on the existing isocrystal carrier*: rational slope summands on Mathlib’s `WittVector.Isocrystal`, with finite-field slopes given by normalized Frobenius valuations.
-- `FiniteFlatGroupsAndIntegralPadicHodgeTheory:R07.2.15/dieudonneManinClassification` and `R07.2.16/slopeSequence`, `slopeSequence_baseChange`: the integral Dieudonné/group comparison, multiplicity equal to block dimension, and invariance under perfect-field extension.
-- `AbelianSchemesAndArithmeticModuli:A6.37/cmIsotypic`: Irreducible rational polarized CM Hodge structures correspond to CM fields with primitive types; the associated complex abelian varieties are simple with that rational endomorphism field. CM.2.1 transports this through the lattice classification.
-- `AbelianSchemesAndArithmeticModuli:A4.7a/relativeSerreTensor-lie-tate`: For `B=M⊗_R A` as in A1.3a: `Lie(B/S)≅M⊗_R Lie(A/S)` as `O_S`-modules, with the differentiated `R`-action; `T_ℓB≅M⊗_R T_ℓA` and `B[ℓʳ]≅M⊗_R A[ℓʳ]` for `ℓ` invertible on `S`; `H¹_dR(B/S)≅Hom_{Rᵒᵖ}(M,H¹_dR(A/S))` respecting the Hodge filtration (and the Gauss–Manin connection over a smooth base), equivalently `H₁,dR(B/S)≅M⊗_R H₁,dR(A/S)`; `B[p^∞]≅M⊗_R A[p^∞]` and the contravariant Dieudonné comparison when `p` is locally nilpotent. All are natural in module maps and `R`-linear homomorphisms and commute with base change; its Checks show that `M⊗Lie(A)` can be nonzero when `M` is torsion and the fppf tensor sheaf vanishes, so finite projectivity is essential.
-- `AbelianSchemesAndArithmeticModuli:A5.1–A5.8`: Lattice uniformization `A^an≅Lie(A)/Λ` with `Λ=H₁(A^an,ℤ)` and `T_ℓA=Λ⊗ℤ_ℓ` (A5.1); integral Riemann forms with positivity `E(Jv,v)>0`, the negative of the `E_ξ` convention used here, and principality as a perfect pairing (A5.2); algebraization of a complex torus with a positive Riemann form, applied here to `ℂ^Φ/Φ(I)` (A5.3); polarization types (A5.4); the polarized Hodge equivalence, i.e. the analytic/algebraic Hom comparison (A5.5); the de Rham–Betti comparison (A5.6) and the degree-one realization conventions over `ℂ` (A5.7), whose composite is the integration pairing `ω_A×H₁(A(ℂ),ℤ)→ℂ`; symplectic period matrices and the Siegel family (A5.8).
-- `ArithmeticGaloisRepresentations:§§1.3, 1.12, 2.1–2.5 and 6.3`: Rank-one local inertia and Weil–Deligne character, duality between covariant Tate and cohomological `H¹`, inertia-invariant Euler factors with geometric Frobenius on `H¹`, and induction/restriction at all primes.
-- `ArithmeticGaloisRepresentations:§§3.1–3.5`: Artin/Swan conductors and local rank-one conductor additivity under direct sums, including ramified places.
-- `ArithmeticGaloisRepresentations:§§5.1 and 5.3`: Semisimple representation recognition by good Frobenius polynomials and Chebotarev.
-- `ArithmeticGaloisRepresentations:§§6.1–6.2 and 6.4`: Canonical covariant Tate module for abelian varieties, `E⊗ℚ_ℓ` action, extension of coefficients and direct-summand realizations.
-- `AutomorphicGaloisRepresentationsPartII:AG2.0`, *The `l`-adic character `r_{l,ι}(χ)` of an algebraic Hecke character*: `AlgHeckeChar.galoisChar`, `galoisChar_local` and `galoisChar_mul` construct the avatar and its local and multiplicative comparisons. Its Artin map sends uniformizers to geometric Frobenius, so an unramified character with finite uniformizer value `c` has arithmetic Frobenius value `ι⁻¹(c⁻¹)`. CM.4 applies this construction to the inverse idelic character to obtain the covariant Tate eigenvalue (BLGGT, §A.2 p.87 and Notation p.9, as cited by the supplier).
-- `ArithmeticStatisticsPartVII:support-cm`, *CM twist and descent estimates*: `cm_hecke_character` supplies the continuous character for a maximal-order CM elliptic curve over a number field containing its CM field, with all CM endomorphisms defined there, using the differential embedding. It includes the norm-ideal, torsion and good-Frobenius identities in the arithmetic Artin convention (Rubin, Theorem 5.15 and Corollary 5.16, pp.19–20). `cm_ideal_isogeny_comparison` supplies its base-stable ideal kernels of rank `N(a)`, CM quotient, differential scalar and base-defined CM isogeny from an arbitrary quadratic order to maximal order (Rubin, Propositions 5.3–5.4, pp.15–16, and Proposition 3.14, p.11). CM.1 uses these in the maximal quadratic-order cases; CM.4 transports the elliptic character through this isogeny for nonmaximal orders and constructs the higher-dimensional character with agreement in dimension one.
-- `GL2AutomorphicRepresentationsAndTransfer:R17.4.16/quadratic-induction`: Quadratic automorphic induction of algebraic Hecke characters, with local induction parameters, twisting, the cuspidality criterion and the CM theta-series realization. `AutomorphicGaloisRepresentations:§§1.5 and 7.3` supplies the rank-two newform realization and its strict fixed-eigenform compatible system; ArithmeticGaloisRepresentations §5.3 compares the resulting semisimple representations by good Frobenius polynomials.
-- `GeometryOfNumbersAndQuadraticArithmetic:§2.8`: Embedded full lattices stable under a chosen quaternion order, their localization and standard involution, on the existing rational quaternion algebra. CM.5 uses this carrier to compare the supplied supersingular endomorphism order and its reduced discriminant.
-- `SerreWeightAndLevelOptimisation:§2.6/deuring-eichler-supersingular-comparison`: For every prime `p` and positive `N` prime to `p`, the endomorphisms of a supersingular pair `(A,C)` with `C` cyclic of order `N` form an Eichler order of level `N` in `B_{p,∞}`. The case `N=1` supplies maximality of `End_geom(A)`. The supplier also identifies enhanced supersingular isogenies with ideal correspondences, retaining automorphisms and multiplicities (Ribet, §3, Proposition 3.3 and Variant 3.4, p.440). CM.5 adds the reduced CM embedding, optimality and reduced-discriminant comparison on the embedded lattice carrier.
-- `IntegralLattices:B2,B3,B5`: The existing primitive positive binary-form/proper-ideal-class equivalence, composition, complete reduced representatives, boundary identifications and stabilizer weights. The comparison with oriented analytic CM points is imported from ImaginaryQuadraticClassNumber §H3.1.
-- `ModularCurvesPartII:§§1.1–1.5`: Elliptic lattice↔Weierstrass curve comparison, analytic functions and normalized `j`, full faithfulness for origin-preserving maps.
-- `ModularCurvesPartII:§§3.14 and 6.1`: Open and compact analytic–algebraic uniformization for the supplied level curves. Transport their rational functions and local rings through this comparison. CM.2.3 supplies the arithmetic function-field action and regular evaluation; CM.3.2 proves that admissible functions separate the required finite CM orbit.
-- [ModularCurvesPartII §5.6][modularcurvespartii-polynomial]: Integral cyclic modular polynomial `Φ_N(U,V)`, with `Φ₁=V−U`; for `N≥2` it is symmetric and monic of degree `ψ(N)` in each variable. Its roots parametrize cyclic degree-`N` isogenies in characteristic zero. This construction is independent of CM and counts cyclic subgroups, including coincident target `j`-values with multiplicity.
-- `ShimuraVarieties:§P.3 and §5.1`: Generic cocharacter reflex-field carrier and stabilizer, with comparison to the trace-generated field of a CM type.
-- `ShimuraVarieties:§4.2 and §5.1`: Special-torus reflex norm on finite ideles, rational elements and ideals, conjugation norm identity and exact Artin/level convention, independent of CM.2.
-- `ShimuraVarieties:§§5.4–5.11`: Main CM theorem and general Shimura–Taniyama theorem: actual CM abelian varieties, polarization similitude, torsion/finite-adelic `H₁` and Galois conjugation, on the CM types of its §5.1. Its rational rank-one Tate theorem (§5.4) permits nonmaximal orders; integral freeness requires maximal order or an invertible local lattice.
-- `ShimuraVarieties:§5.0 and §§8.1–8.3`: Rational polarized Siegel moduli, their complex uniformization, the canonical algebraic tower, finite-level maps and rational similitude translations. CM.2.3 constructs the associated regular modular-function field and its semilinear finite-level action from these schemes and maps; that function-field comparison is a target here.
-- [Chebotarev Layer 9][chebotarev-9]: Abelian Chebotarev: each class-field Artin class contains infinitely many degree-one primes avoiding any finite set; in particular infinitely many rational primes splitting completely in the quadratic ring class field.
-- [ClassFieldTheory Layer 11][classfieldtheory-11]: Arithmetic global Artin reciprocity, `Art(uniformizer)=arithmetic Frobenius`, compatible with norms and finite extensions.
-- [ClassFieldTheory Layer 12][classfieldtheory-12]: Global class-field correspondence for arbitrary number fields: ray/idele open-subgroup fields, exact arithmetic Artin quotient, least conductor and conductor divisibility, uniqueness and field inclusion reversal.
-- [ClassFieldTheory Layer 13][classfieldtheory-13]: Imaginary quadratic ring/ray class fields with Artin/Picard and Artin/ray-class isomorphisms; conductor divisibility.
-- AlgebraicCurves §12C: The contravariant correspondence between function-field embeddings and dominant morphisms of regular projective curves, including the elliptic isogeny specialization. Identity and composition transport equation-level endomorphisms and isogenies to their geometric morphisms; pointedness selects group homomorphisms by ModularCurves §2D.
-- ModularCurves §§1A–1D, 2A and 2E: Projective Weierstrass models, the point and variable-change dictionaries, and the pointed group law; §2A compares multiplication degrees with equation-level function-field degrees, and §2E compares scheme and equation Weil pairings where the torsion order is invertible. The multiplication comparison is not the general isogeny correspondence.
-- AbelianSchemesAndArithmeticModuli A1.6 and A6.1: Relative elliptic/abelian equivalence preserving origins, group law and invariant differentials; for every field-level isogeny, finite-flat kernel rank equals the function-field degree, including inseparable degree. Together with AlgebraicCurves §12C these contracts identify `TauCeti.Isogeny.degree` with geometric degree for the same map; restriction to torsion and inverse limits transports the Tate action. Variable-change descent transports twists, and the Weierstrass invariant is the `j` of that projective model.
-- ImaginaryQuadraticClassNumber §H3.1: For every imaginary quadratic order, the oriented ideal-lattice/elliptic-curve dictionary, full endomorphism order, proper Picard action, ideal-isogeny kernels and degrees, normalized `j` comparison and form representatives. It supplies singular-modulus integrality, the monic integral class polynomial with simple roots and Picard-number degree, complex conjugation and change of order, and actual ring/ray Artin reciprocity with conductor and unit exceptions. Its genus-one arithmetic modular-function field includes regular evaluation, coefficient action and level maps. Use these inputs for CM.1–CM.3 and for the class polynomial in CM.5.
-- [EllipticCurves Layer 1][ellipticcurves-1]: Equation-level endomorphisms, isogenies, function-field degree and invariant differentials. The preceding contracts transport them to geometric objects. For an ordinary curve over `𝔽_q`, its endomorphism ring is an order in `ℚ(π_q)` containing `ℤ[π_q]`.
-- [EllipticCurves Layer 2][ellipticcurves-2]: Covariant elliptic Tate module and Weil pairing, integral torsion kernels and degrees, compatibility with Weierstrass maps.
-- [EllipticCurves Layer 3][ellipticcurves-3]: Ordinary/supersingular predicates, geometric endomorphisms, Frobenius, trace and finite-field trace in all characteristics, including `2` and `3`.
-- [EllipticCurves Layer 4][ellipticcurves-4]: Generic elliptic local reduction theorem: integral `j` iff potentially good reduction, good-model specialization of endomorphisms and conductor/local Euler compatibility, with no exclusion of residue characteristics `2` or `3`.
-- [EllipticCurves Layer 5][ellipticcurves-5]: Quadratic-twist equation/isomorphism and descent with Galois cocycle; twisting a rational CM curve by its CM quadratic character.
-- [GlobalNumberFields Layer 10][globalnumberfields-10]: Archimedean exponent conventions, algebraic infinity types, conjugation, cyclotomic character and coefficient embeddings; positive ideal type versus negative idelic type.
-- [GlobalNumberFields Layer 11][globalnumberfields-11]: Generic finite `ℤ`-orders `R` in number fields, conductor ideal, proper invertible fractional ideals, order-specific finiteness/API on the existing ClassGroup/Pic carriers, extension/contraction away from the conductor, ideal norms and the quadratic-order class number formula.
-- [GlobalNumberFields Layer 7][globalnumberfields-7]: Ideal/idele ray-class comparison, `mod×` congruences for fractional elements, arithmetic normalization and ideals prime to a modulus.
-- [GlobalNumberFields Layer 8][globalnumberfields-8]: Norms and base change for ideals/ideles of finite extensions, compatible with arithmetic Artin maps.
-- [GlobalNumberFields Layers 9–10][globalnumberfields-9]: Hecke characters on ideles/ideals, their finite conductors and local components, and algebraic infinity types with the ideal/idele exponent comparison. The Galois-avatar construction is the AutomorphicGaloisRepresentationsPartII AG2.0 contract above.
-- [ModularForms Layer 0][modularforms-0]: Independent `LevelOne.JInputs`: normalized modular `j` with `q`-expansion `q⁻¹+744+196884q+…`, modular invariance, holomorphy on the upper half-plane, and exact elliptic orders giving `j(i)=1728` and `j(exp(2πi/3))=0`. This module has no dependency on CM.
-- [QuadraticFormInvariants Layer 2][quadraticforminvariants-2]: Existing quaternion algebra/reduced norm and split-or-division API; reuse actual `QuaternionAlgebra` and its naturality, not a new CM-specific division algebra carrier.
-
-The field-level interfaces of AbelianSchemesAndArithmeticModuli are used on the same abelian-variety action as the A4/A5 comparisons: A3.9 `Polarization.rosati`; A6.1 `Hom.deg` (finite-flat `deg`ree, inseparable part included, multiplicative, `deg[n]=|n|^{2g}`); A6.10 `End.charpoly`; A6.11 `charpolyTate` (`P_α` is the characteristic polynomial on `V_ℓ` for `ℓ≠char`); A6.12 `traceDegreeSubfield` (for a subfield `F⊂End⁰A` of `deg`ree `f` with the same identity, `V_ℓA` is free of rank 2g/f over `F⊗ℚ_ℓ` and `deg α=N_{F/ℚ}(α)^{2g/f}`); and A6.18 `polarizedAutomorphisms` (finiteness, and rigidity at level `n≥3`, tested on points when `n` is prime to the characteristic). ArithmeticGaloisRepresentations §6.3 defines the local Euler polynomial with cohomological geometric Frobenius; NeronModelsAndSemistableAbelianVarieties §§5.6 and 5.3i prove its independence and elliptic comparison, and §5.1 relates unramified Tate realization to good reduction. These comparisons must transport the equation, scheme, endomorphism and realization data together.
-
-The general Serre tensor, its functoriality, base change and realizations are A1.3a and A4.7a above; CM.1.2 specializes them to rings of integers acting with `[L:ℚ]=2·dim` and adds only the CM conclusions: ideal-isogeny degrees with their inseparable parts, preservation of the CM type, and the eigenspace and period comparisons of an abelian scheme with its ideal twists.
-
-Primality, actual traces, residue sizes, endomorphism orders, root bounds, coefficient intervals and completeness of finite orbits are mathematical hypotheses wherever used. Their production by a search or numerical procedure is outside these contracts.
-
-### From ShimuraVarieties §5.1: embedding partitions, primitive induction and trace fields
-
-The supplied definition is `TauCetiRoadmap.ShimuraVarieties.CMType`; its type-trace and reflex-field definitions are in that namespace. The API facts below are the prose contracts of ShimuraVarieties §5.1. Its types use actual embeddings, so conjugation, induction and cardinality serve both torus and geometric realizations. The primitive-core construction uses the right stabilizer; the trace reflex field uses the left stabilizer.
-
-**CM types of finite étale CM algebras**. For a nonempty finite product `E` of CM number fields, a CM type `Φ` is a subset of `Hom_ℚ-alg(E,ℂ)` containing exactly one of `φ` and `cφ` for every embedding. Use the existing CM-field/conjugation structure on each factor; `|Φ|=[E:ℚ]/2`. Conjugate type `cΦ` is the complement. A CM field is not defined again.
-
-Sources: [MilneCM](#milnecm), Definition 1.8, p.11; [AGHMP](#aghmp), §3.4 p.420. *Needs:* [NumberField.IsCMField][mathlib-numberfield.iscmfield]; [NumberField.IsCMField.complexConj][mathlib-numberfield.iscmfield.complexconj]; [NumberField.IsCMField.complexEmbedding_complexConj][mathlib-numberfield.iscmfield.complexembedding_complexconj]; [NumberField.IsCMField.complexConj_apply_apply][mathlib-numberfield.iscmfield.complexconj_apply_apply].
-
-**Induced and primitive CM types** — primitivity of the supplied `CMType`. For a CM subalgebra `E₀⊂E`, `Φ` is induced from `Φ₀` iff `Φ` consists of all embeddings whose restriction belongs to `Φ₀`. For a CM FIELD `E`, the pair is primitive iff no proper CM subfield induces its type. Its unique primitive core is the fixed field of the right stabilizer of the extended type in a common Galois CM closure; the reflex field uses the left stabilizer. The field hypothesis is part of Milne Definition 1.8 and Proposition 1.9: no single primitive core is asserted for a product CM algebra.
-
-Sources: [MilneCM](#milnecm), Proposition 1.9, pp.11–12; [Tsimerman](#tsimerman), §4 pp.384–385. *Needs:* [CMType](#from-shimuravarieties-51-embedding-partitions-primitive-induction-and-trace-fields).
-
-Conjugation composes an existing rational embedding with complex conjugation; the conjugate type takes the image of the selected finite set. For a rational algebra map `ι:E₀→E`, induction records `φ∈Φ` iff `φ∘ι∈Φ₀`; it applies to CM algebra inclusions as well as CM subfields. The primitive-core and double-reflex assertions retain the CM-field hypothesis. ShimuraVarieties §5.1 supplies the cardinality identity for nonempty finite products of CM fields. No general reduced-algebra cardinality theorem is consumed here. Convert its rational ring maps to `AlgHom`s when using a finite selection; rational ring maps automatically preserve the rational algebra structure.
-
-**Checks.**
-
-- Conjugating an embedding twice returns it, and evaluation sends `i` to `−i` and `2+i` to `2−i` in the Gaussian case.
-- A type and its conjugate have disjoint selections covering every embedding; conjugating the type twice returns it.
-- If a selected embedding restricts outside the proposed inducing selection, the proposed induction fails. Restriction to the whole field instead gives the original selection.
-
-**Basic API.**
-
-- Types with the same embedding subset are equal.
-- `φ∈cΦ` iff `φ∉Φ`.
-- `2|Φ|=[E:ℚ]`.
-- `c(cΦ)=Φ`.
-- `φ` lies in the induced type iff `φ|E₀` lies in `Φ₀`.
-- Induction along `E₀⊂E₁⊂E₂` equals direct induction.
-- For `E` a CM field, any primitive CM subpair inducing `Φ` is uniquely the embedded primitive core.
-
-**Checks.**
-
-- For `E=ℚ(i)`, the type selecting `i↦i` has cardinal one, so `2·1=2`. On `ℚ`, its sole embedding is fixed by conjugation and the partition equation would be `2χ=1`, which is impossible.
-- The entire embedding set of `ℚ(i)` is not a CM type.
-- Types on `E₁×E₂` correspond to pairs of types, with additive cardinalities.
-- Every CM type on an imaginary quadratic field is primitive.
-- The stated two embeddings of `ℚ(ζ₈)` restrict to the same embedding of `ℚ(√−2)`, so this type is not primitive.
-- For `E/E₀` finite, an induced type has cardinal `[E:E₀]|Φ₀|`.
-
-**Required calculations and boundary cases.** For `ℚ(i)`, `{i↦i}` has cardinal one; both embeddings together and the empty set fail. For `ℚ(i)×ℚ(√−3)`, a type has one embedding of each factor, cardinal two. On `ℚ(ζ₈)`, the type with `ζ₈↦ζ₈` and `ζ₈↦ζ₈³` is induced from `ℚ(√−2)`; primitive must fail.
-
-**Checks.**
-
-- Restriction along `E⊂E` induces the original type, and conjugating an induced type conjugates its inducing type.
-- A quadratic CM field has no proper CM subfield and every type on it is primitive. A proper CM subfield inducing a type contradicts primitivity.
-- The two `ℚ(ζ₈)` embeddings above induce the same `ℚ(√−2)` type and are nonprimitive. Product types have no single primitive-core assertion.
-
-#### Trace reflex-field contract
-
-The trace description supplies an intrinsic field inside `ℂ` and a comparison with ShimuraVarieties §P.3. The inverse-coset reflex-pair comparisons of CM.0 retain the field hypothesis.
-
-**Trace description of the CM reflex field**. For a finite étale CM algebra `E` and CM type `Φ`, choose a common finite Galois CM field `L⊂ℂ` containing the images of every embedding of every field factor. The reflex field is `E* = ℚ(Σ_{φ∈Φ} φ(a) : a ∈ E) ⊂ L`. Equivalently `E*=L^{Stab(Φ)}`, where Galois acts on `Hom_ℚ-alg(E,L)`; if `E` is a field this is the left stabilizer of the extended type `S⊂Gal(L/ℚ)`. A product algebra `E` is not embedded as a subalgebra of `L`. Identify this actual trace subfield with ShimuraVarieties §§P.3 and 5.1’s cocharacter reflex field, without a second generic carrier.
-
-Sources: [MilneCM](#milnecm), Proposition 1.16, Definition 1.17 and Proposition 1.18, pp.13–14; [YZ](#yz), §2.2 p.546. *Needs:* [CMType](#from-shimuravarieties-51-embedding-partitions-primitive-induction-and-trace-fields); [IntermediateField.adjoin][mathlib-intermediatefield.adjoin]; [IntermediateField.adjoin_le_iff][mathlib-intermediatefield.adjoin_le_iff]; `ShimuraVarieties:§P.3 and §5.1`.
-
-**Supplied type-product, conjugation and change-of-type identities**. For a CM FIELD `E` with type `Φ` and reflex type `Φ*` on `E*`, and `a∈(E*)×`, `NΦ(a)=∏ψ∈Φ*ψ(a)` lies in `E×`, satisfies `NΦ(a)·conjugate(NΦ(a))=N_{E*/ℚ}(a)`, and is multiplicative. For `γ∈Gal(ℚ̄/ℚ)`, transport the embedded pairs: `N_{γΦ}(γa)=γNΦ(a)`. Induction from the primitive core leaves the reflex field unchanged and the map to `E` is the inclusion of the primitive-core type product. These are algebraic formulas, not another construction of ShimuraVarieties §4.2’s idelic torus norm. For product CM algebras use ShimuraVarieties §4.2’s cocharacter norm rather than asserting one primitive reflex pair.
-
-Sources: [MilneCM](#milnecm), Proposition 1.23, Remark 1.24 and Proposition 1.26, pp.15–17; Example 1.28, p.18. *Needs:* ShimuraVarieties §5.1; [NumberField.IsCMField.complexEmbedding_complexConj][mathlib-numberfield.iscmfield.complexembedding_complexconj].
-
-**Basic API.**
-
-- `typeTraceΦ(a)=Σφ∈Φ φ(a)`.
-- The type trace is `ℚ`-linear and sends `1` to `|Φ|`. It is not generally a field homomorphism.
-- `E*⊂F` iff every `typeTraceΦ(a)` belongs to `F`.
-- The conjugate-trace identity conjugates each finite trace sum. The conjugate-reflex-field identity identifies the two trace fields for finite reduced `ℚ`-algebras with a CM partition. The comparison with the conjugate image of the native `IntermediateField.adjoin` also holds for any rational algebra and finite embedding selection, without reducedness or finite-dimensionality, by conjugating each finite trace sum as in CM.0.1.
-- `Gal(L/E*)` is the stabilizer of `Φ` in `Hom_ℚ-alg(E,L)`; for `E` a field it is the left stabilizer of its extended type `S`.
-- The trace subfield is the ShimuraVarieties §P.3 cocharacter reflex field under its specified embedding.
-
-## How to read the build
-
-The layers proceed from the supplied embedding partitions through reflex-pair and integral comparisons to realizations, then reciprocity and class fields, characters, and reduction. New names are proposed in `TauCetiRoadmap.ComplexMultiplicationAndExplicitReciprocity`; CM-type comparisons use the supplied `TauCetiRoadmap.ShimuraVarieties.CMType` interface. Each definition has its API and discriminating Checks; each theorem records its hypotheses, source and immediate inputs. Source pages are printed page numbers in the editions under References. Checks involving heavy geometric carriers specify mathematical tests of those targets.
-
-[Suggested.lean](Suggested.lean) is the headline acceptance test against the pinned Mathlib and Tau Ceti APIs. It states the canonical Gross-character existence criterion from CM.4.3 and the unconditional class-polynomial bound from CM.5.3. The definitions `primitiveReducedForms` and `classPolynomial` express the analytic input for that bound using the native census and upper-half-plane roots; `IsCanonicalGrossCharacter` uses the native ideal character and least finite conductor. The module docstring identifies the missing carriers for the other headlines. API bullets and Checks below state mathematics in prose. The finite-product estimates in Layer 5 retain their full algebraic generality before their CM specializations.
 
 ## Layer 0: Reflex pairs, integral data and concrete fields
 
@@ -901,6 +676,231 @@ This section is secondary; it maps targets to an existing formalization and pres
 | CM.5.1–5.2: split, inert and ramified primes, and the `1+(D_K/l)` horizontal kernels for `l∤f` | `QuadraticOrder/Prime/` | The same trichotomy for odd `p`. Prime ideals of norm `l` are not counted there, and `p=2` is excluded. |
 
 Its norm form, conjugate and discriminant identity (`Norm.lean`, `Discriminant.lean`) and its counts of square roots modulo prime powers (`RootCounting.lean`) have no counterpart here. Nothing there corresponds to CM.0.1, Layers 1–3, CM.4.1, CM.4.3 or CM.5.3–5.5, or to the rest of CM.0.2, CM.4.2 and CM.5.1–5.2.
+
+## Scope and ownership
+
+ShimuraVarieties §5.1 supplies CM types, primitive induction, trace reflex fields and reflex norms; §§4.2 and 5.8–5.11 supply torus reciprocity, the main CM theorem and the Shimura–Taniyama formula. CM.0 adds closure-independence, primitive/double-reflex and integral reflex-order comparisons for the supplied reflex pair. CM.2 specializes the supplied reciprocity theorems to ideal, torsion, polarization and level formulas, and constructs the regular Siegel level-function interface. These dependencies run from ShimuraVarieties to this roadmap.
+
+| Material used here | Owning roadmap and interface |
+| --- | --- |
+| Orders, conductors, proper invertible ideals, their finite class groups, extension and contraction | GlobalNumberFields, Layer 11; use Mathlib's existing `ClassGroup` and `Pic` |
+| Fractional ray congruences, ideal/idele comparison, norms, Hecke characters and infinity types | GlobalNumberFields, Layers 7–10 |
+| Galois avatars of algebraic Hecke characters, with geometric Artin normalization | AutomorphicGaloisRepresentationsPartII, AG2.0, `AlgHeckeChar.galoisChar`, `galoisChar_local` and `galoisChar_mul` |
+| Maximal-order elliptic CM characters, ideal kernels, norm degrees, differential normalization and isogeny to maximal order | ArithmeticStatisticsPartVII, `support-cm`, `cm_hecke_character` and `cm_ideal_isogeny_comparison` |
+| Arithmetic Artin map, class-field correspondence, quadratic ring and ray class fields | ClassFieldTheory, Layers 11–13 |
+| Equation-level CM actions, ordinary finite-field endomorphism orders, twists, torsion, Weil pairing and local reduction | EllipticCurves, Layers 1–5 |
+| Regular projective curve/function-field anti-equivalence, including elliptic isogenies | AlgebraicCurves §12C |
+| Projective Weierstrass models, pointed group law, multiplication-degree and Weil-pairing comparisons | ModularCurves §§1A–1D, 2A, 2D–2E |
+| Relative elliptic/abelian equivalence and general isogeny degree as function-field degree | AbelianSchemesAndArithmeticModuli A1.6 and A6.1 |
+| Full-order elliptic ideal-lattice and form dictionary, ideal action and degrees, singular-modulus integrality, class polynomials, ring/ray Artin reciprocity and genus-one arithmetic level functions | ImaginaryQuadraticClassNumber §H3.1 |
+| Elliptic complex uniformization, analytic/algebraic Hom comparison, regular level-function evaluation | ModularCurvesPartII §§1.1–1.5, 3.14 and 6.1 |
+| Relative Lie theory, the Serre tensor and its realizations, Hodge/period realization, polarized uniformization, Rosati, degree and primitive CM simplicity | AbelianSchemesAndArithmeticModuli, A0–A6, in particular A1.3a/A4.7a for the Serre tensor and A6.37 `cmIsotypic` |
+| Crystalline Dieudonné realization, rational slope decomposition and group/isocrystal slope comparison | AbelianSchemesAndArithmeticModuli A4.CR.7.2; CrystallineCohomology CR.4.7; FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.2.15–R07.2.16 |
+| Cocharacter reflex field, CM types and norms, main CM theorem, polarized Siegel moduli and canonical tower | ShimuraVarieties §§P.3, 4.2, 5.0–5.11 and 8.1–8.3 |
+| Covariant Tate realizations, local characters, inertia, induction, Artin/Swan conductors and Frobenius recognition | ArithmeticGaloisRepresentations §§1.3, 1.12, 2.1–2.5, 3.1–3.5, 5.1, 5.3, 6.1–6.4 |
+| `H¹` étale local Euler polynomials and Néron–Ogg–Shafarevich | NeronModelsAndSemistableAbelianVarieties §§5.1, 5.3i and 5.6 |
+| Quadratic automorphic induction and CM newform compatible systems | GL2AutomorphicRepresentationsAndTransfer R17.4.16; AutomorphicGaloisRepresentations §§1.5 and 7.3 |
+| Binary form/ideal dictionary and complete reduced-class census | IntegralLattices, B2, B3 and B5 |
+| Embedded quaternion-order lattices and localization | GeometryOfNumbersAndQuadraticArithmetic §2.8 |
+| Supersingular cyclic-level endomorphism orders, including maximality at level one | SerreWeightAndLevelOptimisation §2.6, `deuring-eichler-supersingular-comparison` |
+| Rational quaternion algebras, reduced norm and split/division comparison | QuadraticFormInvariants, Layer 2 |
+| Existence of primes with specified class-field Artin class | Chebotarev, Layer 9 |
+
+ModularForms Layer 0 supplies the independent `LevelOne.JInputs` interface: normalized `j`, its `q`-expansion and special values. ModularCurvesPartII §5.6 supplies the integral cyclic modular polynomials. ImaginaryQuadraticClassNumber §H3.1 owns the elliptic modular-equation integrality argument and full-order CM classification. CM.3 uses that classification and reciprocity; CM.5 adds the unconditional coefficient bounds. The genus-one function field and its arithmetic action are imported from §H3.1; CM.2 adds the higher-dimensional Siegel comparison. The exact contracts consumed from these owners follow below. General constructions remain with their owners; this roadmap supplies CM specializations and comparisons.
+
+### Existing interfaces
+
+Use the pinned Mathlib and Tau Ceti interfaces. A CM field already exists as `NumberField.IsCMField`: a totally complex quadratic extension of its maximal real subfield. Its `complexConj` is a maximal-real-subfield algebra automorphism, with `φ(c(x)) = conjugate(φ(x))`, `c(c(x)) = x` and fixed elements exactly in the maximal real subfield. Integral-over-`ℚ` hypotheses on this conjugation API hold for the number fields used here.
+
+`FractionalIdeal` is the native submodule carrier with a common denominator; invertibility is extra data, expressed by its units. `ClassGroup R`, for every commutative domain `R`, is the quotient of invertible fractional ideals by principal ones. `ClassGroup.mk` is the class map on a chosen fraction field, and `ClassGroup.equivPic` identifies this group with `CommRing.Pic R`. `CommRing.Pic.mapAlgebra` is invertible-module base change. These definitions already apply to nonmaximal orders. GlobalNumberFields Layer 11 supplies the additional arithmetic: properness, order-specific finiteness, conductor behavior and norms. A nonzero ideal of a nonmaximal order need not be invertible.
+
+`IntermediateField.adjoin` and `adjoin_le_iff` supply the trace-generated reflex field and its universal property. `NumberField.RingOfIntegers` is the integral closure of `ℤ` in the field. `WeierstrassCurve.j` is `Δ⁻¹c₄³` with invertible discriminant. `TauCeti.AlgebraicGeometry.AbelianVariety` is a proper geometrically integral group scheme over the given field; its `End` is the additive wrapper of its endomorphism morphisms, with composition as multiplication. `TauCeti.Isogeny` is the native Weierstrass affine isogeny, and `Isogeny.degree` is the dimension of the source function field over the pulled-back target field. Transport these objects through the supplied uniformization and equation/scheme comparisons rather than introducing private substitutes.
+
+### Outputs
+
+| Layer | Output |
+| --- | --- |
+| CM.0 | Comparisons for supplied reflex pairs, integral reflex orders and concrete field Checks |
+| CM.1 | Rational CM self-twists, Serre tensor and CM Hodge/period comparisons |
+| CM.2 | Polarized lattices and explicit reciprocity dictionaries after ShimuraVarieties §5.10 |
+| CM.3 | Analytic class-polynomial input for bounds and exact polarized CM value fields |
+| CM.4 | CM Hecke characters, full local factorizations and coefficient components |
+| CM.5 | Reduction, isogeny graphs, coefficient bounds, conductor criteria and polynomial reconstruction |
+
+The non-Galois quartic example is in CM.0, the dimension-two torsion/polarization example in CM.2, and the complete Gaussian class-field example in CM.3. Applications import the actual declarations from these layers. Examples and exports introduce no additional mathematical layer.
+
+Tau Ceti supplies the Gaussian lattice as `TauCeti.GeometryOfNumbers.gaussianLattice`, its membership description and separation bounds, and `TauCeti.NumberField.complexConjugationAt_eq_complexConj` identifies place conjugation with Mathlib’s CM conjugation. Reuse these results. IntegralLattices B2/B3/B5 already owns the binary-form/class-group dictionary, composition and reduced representatives. ImaginaryQuadraticClassNumber §H3.1 supplies their full-order CM-point comparison.
+
+For the unit-obstruction bound, use Tau Ceti's `NumberField.units_sq_index_le` from `TauCeti.NumberTheory.EffectiveBounds.UnitSquares.Basic`, which bounds the unit-square index by `2^[F:ℚ]`. Layer 2 supplies the CM-specific injection into a totally positive unit/norm quotient and the fact that squares are relative norms; the general unit-square bound is already available.
+
+## Exact supplier contracts
+
+### From Mathlib and Tau Ceti
+
+Mathlib `NumberTheory.NumberField.CMField` supplies `NumberField.IsCMField`,
+`NumberField.IsCMField.complexConj`, `complexEmbedding_complexConj`,
+`complexConj_apply_apply` and `complexConj_eq_self_iff`. Its native `FractionalIdeal`,
+`ClassGroup` and `ClassGroup.mk` are used throughout. `RingTheory.PicardGroup` supplies
+`CommRing.Pic`, `ClassGroup.equivPic` and `CommRing.Pic.mapAlgebra`;
+`IntermediateField.adjoin` and `adjoin_le_iff` specify generated subfields, and
+`NumberField.RingOfIntegers` specifies integral closures.
+
+Under `TauCeti.NumberTheory.NumberField.Global.Orders`, use `Basic`’s
+`TauCeti.GlobalNumberFields.NumberFieldOrder`,
+`NumberFieldOrder.toRingOfIntegers`, `ProperIdeal`’s
+`NumberFieldOrder.multiplierRing`,
+`Picard`'s `TauCeti.GlobalNumberFields.Pic` and `NumberFieldOrder.mkPic`,
+`Conductor`'s `NumberFieldOrder.conductor`, `Discriminant`'s
+`NumberFieldOrder.discr_eq_index_sq_mul`, and `AwayConductor`'s
+`NumberFieldOrder.integralIdealsAwayConductorEquiv` and
+`NumberFieldOrder.integralIdealsAwayConductorToInvertible`.
+`RayClass`'s `NumberFieldOrder.finite_pic` gives finiteness on the same Picard carrier.
+These are the existing order-theoretic interfaces of GlobalNumberFields Layer 11.
+The relative discriminant of the selected reflex order is a distinct comparison in CM.0.2.
+
+`TauCeti.AlgebraicGeometry.AbelianVariety.Basic` supplies
+`TauCeti.AlgebraicGeometry.AbelianVariety`; its `End.Basic` module supplies the ring
+`TauCeti.AlgebraicGeometry.AbelianVariety.End` and the maps `End.toHom` and `End.ofHom`.
+`TauCeti.AlgebraicGeometry.EllipticCurve.Isogeny.Basic` and `.Degree` supply
+`TauCeti.Isogeny` and `TauCeti.Isogeny.degree`. These geometric carriers are transported
+through the equation, uniformization and realization comparisons below.
+
+`TauCeti.NumberTheory.GeometryOfNumbers.RankTwoDoubling` supplies
+`TauCeti.GeometryOfNumbers.gaussianLattice`, `mem_gaussianLattice` and
+`one_le_norm_of_mem_gaussianLattice_of_ne_zero`.
+`TauCeti.NumberTheory.NumberField.ComplexConjugation.CMField` supplies
+`TauCeti.NumberField.complexConjugationAt_eq_complexConj`.
+`TauCeti.NumberTheory.EffectiveBounds.UnitSquares.Basic` supplies
+`NumberField.units_sq_index_le`: the index of the squares in `(𝓞 F)ˣ` is at most
+`2 ^ Module.finrank ℚ F` for every number field `F`.
+
+### From the geometric and arithmetic roadmaps
+
+- `AbelianSchemesAndArithmeticModuli:A0.1–A0.2`: The abelian-scheme carrier `AbelianScheme S` over an arbitrary base and its comparisons with Tau Ceti's field carrier and with elliptic curves.
+- `AbelianSchemesAndArithmeticModuli:A1.1–A1.3`: Products, arbitrary base change and the locally constant relative dimension (dimension zero is the identity scheme `S`); rigidity, including A1.2(3): a homomorphism vanishing on one geometric fibre of each connected component is zero; invariant differentials `ω_A`, locally free of rank `g`, with `Lie(A/S)=ω_A^∨`, all compatible with base change.
+- `AbelianSchemesAndArithmeticModuli:A1.3a/relativeSerreTensor`: For any scheme `S`, any abelian scheme `A/S`, any associative unital ring `R` with a unital map `R→End_S(A)`, and any finitely generated projective right `R`-module `M`, the presheaf `T↦M⊗_R A(T)` is already an fppf sheaf and is represented by an abelian scheme `M⊗_R A`, unique up to unique isomorphism with its universal balanced map. It is built as the kernel of `1−e` for the projector `e` on `Aⁿ` given by a splitting `M⊕N≅Rⁿ`, and `M⊗_R A(T)≅Hom_R(M*,A(T))` with `M*=Hom_{Rᵒᵖ}(M,R)`. Its Checks include `M=R` (giving `A`), `M=0` (giving the identity scheme), `M=Rⁿ` (giving `Aⁿ`, also for `n=0`) and a nonprincipal invertible ideal.
+- `AbelianSchemesAndArithmeticModuli:A1.3a/relativeSerreTensor-functoriality`: Module maps `M→N` and `R`-linear homomorphisms `A→B` induce `f⊗u`, characterized on points by `m⊗a↦f(m)⊗u(a)`, with identity, composition and additivity laws; `(M⊕N)⊗A≅(M⊗A)×_S(N⊗A)` including the empty sum; independence of the chosen projective splitting and complement, with the cocycle identity.
+- `AbelianSchemesAndArithmeticModuli:A1.3a/relativeSerreTensor-base-change`: `(M⊗_R A)_{S′}≅M⊗_R A_{S′}` for every `S′→S`, compatible with universal maps, module maps, homomorphisms and finite sums, with identity and iterated-pullback coherence.
+- `AbelianSchemesAndArithmeticModuli:A3.1/IsAbelianIsogeny`: Isogenies over a base are finite, flat, surjective homomorphisms; the kernel is finite locally free, the rank (degree) equals the rank of the kernel, is locally constant and multiplies under composition (A3.1, multiplicativity of ranks under composition).
+- `AbelianSchemesAndArithmeticModuli:A4.1, A4.3`: The integral Tate module `AbelianTate` for `ℓ` invertible on `S`, functorial in homomorphisms and compatible with base change; first de Rham cohomology `AbelianH1dR` with the Hodge sequence `0→ω_A→H¹_dR(A/S)→Lie(A^∨)→0`, base change, contravariant pullback along homomorphisms (hence the CM action) and the perfect pairing between `H¹_dR(A/S)` and `H¹_dR(A^∨/S)`. The covariant sequence `0→ω_{A^∨}→H_A→Lie(A)→0` used in CM.1 is the A4.3 sequence of `A^∨`, with `H_A=H¹_dR(A^∨/S)≅Hom(H¹_dR(A/S),O_S)`.
+- `AbelianSchemesAndArithmeticModuli:A4.5/BarsottiTate`: The `p`-divisible group of an abelian scheme over an arbitrary base, with truncations.
+- `AbelianSchemesAndArithmeticModuli:A4.CR.7.2`: The crystalline Dieudonné crystal, its contravariance, Frobenius and Tate-twist conventions.
+- `CrystallineCohomology:CR.4.7`, *Slope decomposition on the existing isocrystal carrier*: rational slope summands on Mathlib’s `WittVector.Isocrystal`, with finite-field slopes given by normalized Frobenius valuations.
+- `FiniteFlatGroupsAndIntegralPadicHodgeTheory:R07.2.15/dieudonneManinClassification` and `R07.2.16/slopeSequence`, `slopeSequence_baseChange`: the integral Dieudonné/group comparison, multiplicity equal to block dimension, and invariance under perfect-field extension.
+- `AbelianSchemesAndArithmeticModuli:A6.37/cmIsotypic`: Irreducible rational polarized CM Hodge structures correspond to CM fields with primitive types; the associated complex abelian varieties are simple with that rational endomorphism field. CM.2.1 transports this through the lattice classification.
+- `AbelianSchemesAndArithmeticModuli:A4.7a/relativeSerreTensor-lie-tate`: For `B=M⊗_R A` as in A1.3a: `Lie(B/S)≅M⊗_R Lie(A/S)` as `O_S`-modules, with the differentiated `R`-action; `T_ℓB≅M⊗_R T_ℓA` and `B[ℓʳ]≅M⊗_R A[ℓʳ]` for `ℓ` invertible on `S`; `H¹_dR(B/S)≅Hom_{Rᵒᵖ}(M,H¹_dR(A/S))` respecting the Hodge filtration (and the Gauss–Manin connection over a smooth base), equivalently `H₁,dR(B/S)≅M⊗_R H₁,dR(A/S)`; `B[p^∞]≅M⊗_R A[p^∞]` and the contravariant Dieudonné comparison when `p` is locally nilpotent. All are natural in module maps and `R`-linear homomorphisms and commute with base change; its Checks show that `M⊗Lie(A)` can be nonzero when `M` is torsion and the fppf tensor sheaf vanishes, so finite projectivity is essential.
+- `AbelianSchemesAndArithmeticModuli:A5.1–A5.8`: Lattice uniformization `A^an≅Lie(A)/Λ` with `Λ=H₁(A^an,ℤ)` and `T_ℓA=Λ⊗ℤ_ℓ` (A5.1); integral Riemann forms with positivity `E(Jv,v)>0`, the negative of the `E_ξ` convention used here, and principality as a perfect pairing (A5.2); algebraization of a complex torus with a positive Riemann form, applied here to `ℂ^Φ/Φ(I)` (A5.3); polarization types (A5.4); the polarized Hodge equivalence, i.e. the analytic/algebraic Hom comparison (A5.5); the de Rham–Betti comparison (A5.6) and the degree-one realization conventions over `ℂ` (A5.7), whose composite is the integration pairing `ω_A×H₁(A(ℂ),ℤ)→ℂ`; symplectic period matrices and the Siegel family (A5.8).
+- `ArithmeticGaloisRepresentations:§§1.3, 1.12, 2.1–2.5 and 6.3`: Rank-one local inertia and Weil–Deligne character, duality between covariant Tate and cohomological `H¹`, inertia-invariant Euler factors with geometric Frobenius on `H¹`, and induction/restriction at all primes.
+- `ArithmeticGaloisRepresentations:§§3.1–3.5`: Artin/Swan conductors and local rank-one conductor additivity under direct sums, including ramified places.
+- `ArithmeticGaloisRepresentations:§§5.1 and 5.3`: Semisimple representation recognition by good Frobenius polynomials and Chebotarev.
+- `ArithmeticGaloisRepresentations:§§6.1–6.2 and 6.4`: Canonical covariant Tate module for abelian varieties, `E⊗ℚ_ℓ` action, extension of coefficients and direct-summand realizations.
+- `AutomorphicGaloisRepresentationsPartII:AG2.0`, *The `l`-adic character `r_{l,ι}(χ)` of an algebraic Hecke character*: `AlgHeckeChar.galoisChar`, `galoisChar_local` and `galoisChar_mul` construct the avatar and its local and multiplicative comparisons. Its Artin map sends uniformizers to geometric Frobenius, so an unramified character with finite uniformizer value `c` has arithmetic Frobenius value `ι⁻¹(c⁻¹)`. CM.4 applies this construction to the inverse idelic character to obtain the covariant Tate eigenvalue (BLGGT, §A.2 p.87 and Notation p.9, as cited by the supplier).
+- `ArithmeticStatisticsPartVII:support-cm`, *CM twist and descent estimates*: `cm_hecke_character` supplies the continuous character for a maximal-order CM elliptic curve over a number field containing its CM field, with all CM endomorphisms defined there, using the differential embedding. It includes the norm-ideal, torsion and good-Frobenius identities in the arithmetic Artin convention (Rubin, Theorem 5.15 and Corollary 5.16, pp.19–20). `cm_ideal_isogeny_comparison` supplies its base-stable ideal kernels of rank `N(a)`, CM quotient, differential scalar and base-defined CM isogeny from an arbitrary quadratic order to maximal order (Rubin, Propositions 5.3–5.4, pp.15–16, and Proposition 3.14, p.11). CM.1 uses these in the maximal quadratic-order cases; CM.4 transports the elliptic character through this isogeny for nonmaximal orders and constructs the higher-dimensional character with agreement in dimension one.
+- `GL2AutomorphicRepresentationsAndTransfer:R17.4.16/quadratic-induction`: Quadratic automorphic induction of algebraic Hecke characters, with local induction parameters, twisting, the cuspidality criterion and the CM theta-series realization. `AutomorphicGaloisRepresentations:§§1.5 and 7.3` supplies the rank-two newform realization and its strict fixed-eigenform compatible system; ArithmeticGaloisRepresentations §5.3 compares the resulting semisimple representations by good Frobenius polynomials.
+- `GeometryOfNumbersAndQuadraticArithmetic:§2.8`: Embedded full lattices stable under a chosen quaternion order, their localization and standard involution, on the existing rational quaternion algebra. CM.5 uses this carrier to compare the supplied supersingular endomorphism order and its reduced discriminant.
+- `SerreWeightAndLevelOptimisation:§2.6/deuring-eichler-supersingular-comparison`: For every prime `p` and positive `N` prime to `p`, the endomorphisms of a supersingular pair `(A,C)` with `C` cyclic of order `N` form an Eichler order of level `N` in `B_{p,∞}`. The case `N=1` supplies maximality of `End_geom(A)`. The supplier also identifies enhanced supersingular isogenies with ideal correspondences, retaining automorphisms and multiplicities (Ribet, §3, Proposition 3.3 and Variant 3.4, p.440). CM.5 adds the reduced CM embedding, optimality and reduced-discriminant comparison on the embedded lattice carrier.
+- `IntegralLattices:B2,B3,B5`: The existing primitive positive binary-form/proper-ideal-class equivalence, composition, complete reduced representatives, boundary identifications and stabilizer weights. The comparison with oriented analytic CM points is imported from ImaginaryQuadraticClassNumber §H3.1.
+- `ModularCurvesPartII:§§1.1–1.5`: Elliptic lattice↔Weierstrass curve comparison, analytic functions and normalized `j`, full faithfulness for origin-preserving maps.
+- `ModularCurvesPartII:§§3.14 and 6.1`: Open and compact analytic–algebraic uniformization for the supplied level curves. Transport their rational functions and local rings through this comparison. CM.2.3 supplies the arithmetic function-field action and regular evaluation; CM.3.2 proves that admissible functions separate the required finite CM orbit.
+- [ModularCurvesPartII §5.6][modularcurvespartii-polynomial]: Integral cyclic modular polynomial `Φ_N(U,V)`, with `Φ₁=V−U`; for `N≥2` it is symmetric and monic of degree `ψ(N)` in each variable. Its roots parametrize cyclic degree-`N` isogenies in characteristic zero. This construction is independent of CM and counts cyclic subgroups, including coincident target `j`-values with multiplicity.
+- `ShimuraVarieties:§P.3 and §5.1`: Generic cocharacter reflex-field carrier and stabilizer, with comparison to the trace-generated field of a CM type.
+- `ShimuraVarieties:§4.2 and §5.1`: Special-torus reflex norm on finite ideles, rational elements and ideals, conjugation norm identity and exact Artin/level convention, independent of CM.2.
+- `ShimuraVarieties:§§5.4–5.11`: Main CM theorem and general Shimura–Taniyama theorem: actual CM abelian varieties, polarization similitude, torsion/finite-adelic `H₁` and Galois conjugation, on the CM types of its §5.1. Its rational rank-one Tate theorem (§5.4) permits nonmaximal orders; integral freeness requires maximal order or an invertible local lattice.
+- `ShimuraVarieties:§5.0 and §§8.1–8.3`: Rational polarized Siegel moduli, their complex uniformization, the canonical algebraic tower, finite-level maps and rational similitude translations. CM.2.3 constructs the associated regular modular-function field and its semilinear finite-level action from these schemes and maps; that function-field comparison is a target here.
+- [Chebotarev Layer 9][chebotarev-9]: Abelian Chebotarev: each class-field Artin class contains infinitely many degree-one primes avoiding any finite set; in particular infinitely many rational primes splitting completely in the quadratic ring class field.
+- [ClassFieldTheory Layer 11][classfieldtheory-11]: Arithmetic global Artin reciprocity, `Art(uniformizer)=arithmetic Frobenius`, compatible with norms and finite extensions.
+- [ClassFieldTheory Layer 12][classfieldtheory-12]: Global class-field correspondence for arbitrary number fields: ray/idele open-subgroup fields, exact arithmetic Artin quotient, least conductor and conductor divisibility, uniqueness and field inclusion reversal.
+- [ClassFieldTheory Layer 13][classfieldtheory-13]: Imaginary quadratic ring/ray class fields with Artin/Picard and Artin/ray-class isomorphisms; conductor divisibility.
+- AlgebraicCurves §12C: The contravariant correspondence between function-field embeddings and dominant morphisms of regular projective curves, including the elliptic isogeny specialization. Identity and composition transport equation-level endomorphisms and isogenies to their geometric morphisms; pointedness selects group homomorphisms by ModularCurves §2D.
+- ModularCurves §§1A–1D, 2A and 2E: Projective Weierstrass models, the point and variable-change dictionaries, and the pointed group law; §2A compares multiplication degrees with equation-level function-field degrees, and §2E compares scheme and equation Weil pairings where the torsion order is invertible. The multiplication comparison is not the general isogeny correspondence.
+- AbelianSchemesAndArithmeticModuli A1.6 and A6.1: Relative elliptic/abelian equivalence preserving origins, group law and invariant differentials; for every field-level isogeny, finite-flat kernel rank equals the function-field degree, including inseparable degree. Together with AlgebraicCurves §12C these contracts identify `TauCeti.Isogeny.degree` with geometric degree for the same map; restriction to torsion and inverse limits transports the Tate action. Variable-change descent transports twists, and the Weierstrass invariant is the `j` of that projective model.
+- ImaginaryQuadraticClassNumber §H3.1: For every imaginary quadratic order, the oriented ideal-lattice/elliptic-curve dictionary, full endomorphism order, proper Picard action, ideal-isogeny kernels and degrees, normalized `j` comparison and form representatives. It supplies singular-modulus integrality, the monic integral class polynomial with simple roots and Picard-number degree, complex conjugation and change of order, and actual ring/ray Artin reciprocity with conductor and unit exceptions. Its genus-one arithmetic modular-function field includes regular evaluation, coefficient action and level maps. Use these inputs for CM.1–CM.3 and for the class polynomial in CM.5.
+- [EllipticCurves Layer 1][ellipticcurves-1]: Equation-level endomorphisms, isogenies, function-field degree and invariant differentials. The preceding contracts transport them to geometric objects. For an ordinary curve over `𝔽_q`, its endomorphism ring is an order in `ℚ(π_q)` containing `ℤ[π_q]`.
+- [EllipticCurves Layer 2][ellipticcurves-2]: Covariant elliptic Tate module and Weil pairing, integral torsion kernels and degrees, compatibility with Weierstrass maps.
+- [EllipticCurves Layer 3][ellipticcurves-3]: Ordinary/supersingular predicates, geometric endomorphisms, Frobenius, trace and finite-field trace in all characteristics, including `2` and `3`.
+- [EllipticCurves Layer 4][ellipticcurves-4]: Generic elliptic local reduction theorem: integral `j` iff potentially good reduction, good-model specialization of endomorphisms and conductor/local Euler compatibility, with no exclusion of residue characteristics `2` or `3`.
+- [EllipticCurves Layer 5][ellipticcurves-5]: Quadratic-twist equation/isomorphism and descent with Galois cocycle; twisting a rational CM curve by its CM quadratic character.
+- [GlobalNumberFields Layer 10][globalnumberfields-10]: Archimedean exponent conventions, algebraic infinity types, conjugation, cyclotomic character and coefficient embeddings; positive ideal type versus negative idelic type.
+- [GlobalNumberFields Layer 11][globalnumberfields-11]: Generic finite `ℤ`-orders `R` in number fields, conductor ideal, proper invertible fractional ideals, order-specific finiteness/API on the existing ClassGroup/Pic carriers, extension/contraction away from the conductor, ideal norms and the quadratic-order class number formula.
+- [GlobalNumberFields Layer 7][globalnumberfields-7]: Ideal/idele ray-class comparison, `mod×` congruences for fractional elements, arithmetic normalization and ideals prime to a modulus.
+- [GlobalNumberFields Layer 8][globalnumberfields-8]: Norms and base change for ideals/ideles of finite extensions, compatible with arithmetic Artin maps.
+- [GlobalNumberFields Layers 9–10][globalnumberfields-9]: Hecke characters on ideles/ideals, their finite conductors and local components, and algebraic infinity types with the ideal/idele exponent comparison. The Galois-avatar construction is the AutomorphicGaloisRepresentationsPartII AG2.0 contract above.
+- [ModularForms Layer 0][modularforms-0]: Independent `LevelOne.JInputs`: normalized modular `j` with `q`-expansion `q⁻¹+744+196884q+…`, modular invariance, holomorphy on the upper half-plane, and exact elliptic orders giving `j(i)=1728` and `j(exp(2πi/3))=0`. This module has no dependency on CM.
+- [QuadraticFormInvariants Layer 2][quadraticforminvariants-2]: Existing quaternion algebra/reduced norm and split-or-division API; reuse actual `QuaternionAlgebra` and its naturality, not a new CM-specific division algebra carrier.
+
+The field-level interfaces of AbelianSchemesAndArithmeticModuli are used on the same abelian-variety action as the A4/A5 comparisons: A3.9 `Polarization.rosati`; A6.1 `Hom.deg` (finite-flat `deg`ree, inseparable part included, multiplicative, `deg[n]=|n|^{2g}`); A6.10 `End.charpoly`; A6.11 `charpolyTate` (`P_α` is the characteristic polynomial on `V_ℓ` for `ℓ≠char`); A6.12 `traceDegreeSubfield` (for a subfield `F⊂End⁰A` of `deg`ree `f` with the same identity, `V_ℓA` is free of rank 2g/f over `F⊗ℚ_ℓ` and `deg α=N_{F/ℚ}(α)^{2g/f}`); and A6.18 `polarizedAutomorphisms` (finiteness, and rigidity at level `n≥3`, tested on points when `n` is prime to the characteristic). ArithmeticGaloisRepresentations §6.3 defines the local Euler polynomial with cohomological geometric Frobenius; NeronModelsAndSemistableAbelianVarieties §§5.6 and 5.3i prove its independence and elliptic comparison, and §5.1 relates unramified Tate realization to good reduction. These comparisons must transport the equation, scheme, endomorphism and realization data together.
+
+The general Serre tensor, its functoriality, base change and realizations are A1.3a and A4.7a above; CM.1.2 specializes them to rings of integers acting with `[L:ℚ]=2·dim` and adds only the CM conclusions: ideal-isogeny degrees with their inseparable parts, preservation of the CM type, and the eigenspace and period comparisons of an abelian scheme with its ideal twists.
+
+Primality, actual traces, residue sizes, endomorphism orders, root bounds, coefficient intervals and completeness of finite orbits are mathematical hypotheses wherever used. Their production by a search or numerical procedure is outside these contracts.
+
+### From ShimuraVarieties §5.1: embedding partitions, primitive induction and trace fields
+
+The supplied definition is `TauCetiRoadmap.ShimuraVarieties.CMType`; its type-trace and reflex-field definitions are in that namespace. The API facts below are the prose contracts of ShimuraVarieties §5.1. Its types use actual embeddings, so conjugation, induction and cardinality serve both torus and geometric realizations. The primitive-core construction uses the right stabilizer; the trace reflex field uses the left stabilizer.
+
+**CM types of finite étale CM algebras**. For a nonempty finite product `E` of CM number fields, a CM type `Φ` is a subset of `Hom_ℚ-alg(E,ℂ)` containing exactly one of `φ` and `cφ` for every embedding. Use the existing CM-field/conjugation structure on each factor; `|Φ|=[E:ℚ]/2`. Conjugate type `cΦ` is the complement. A CM field is not defined again.
+
+Sources: [MilneCM](#milnecm), Definition 1.8, p.11; [AGHMP](#aghmp), §3.4 p.420. *Needs:* [NumberField.IsCMField][mathlib-numberfield.iscmfield]; [NumberField.IsCMField.complexConj][mathlib-numberfield.iscmfield.complexconj]; [NumberField.IsCMField.complexEmbedding_complexConj][mathlib-numberfield.iscmfield.complexembedding_complexconj]; [NumberField.IsCMField.complexConj_apply_apply][mathlib-numberfield.iscmfield.complexconj_apply_apply].
+
+**Induced and primitive CM types** — primitivity of the supplied `CMType`. For a CM subalgebra `E₀⊂E`, `Φ` is induced from `Φ₀` iff `Φ` consists of all embeddings whose restriction belongs to `Φ₀`. For a CM FIELD `E`, the pair is primitive iff no proper CM subfield induces its type. Its unique primitive core is the fixed field of the right stabilizer of the extended type in a common Galois CM closure; the reflex field uses the left stabilizer. The field hypothesis is part of Milne Definition 1.8 and Proposition 1.9: no single primitive core is asserted for a product CM algebra.
+
+Sources: [MilneCM](#milnecm), Proposition 1.9, pp.11–12; [Tsimerman](#tsimerman), §4 pp.384–385. *Needs:* [CMType](#from-shimuravarieties-51-embedding-partitions-primitive-induction-and-trace-fields).
+
+Conjugation composes an existing rational embedding with complex conjugation; the conjugate type takes the image of the selected finite set. For a rational algebra map `ι:E₀→E`, induction records `φ∈Φ` iff `φ∘ι∈Φ₀`; it applies to CM algebra inclusions as well as CM subfields. The primitive-core and double-reflex assertions retain the CM-field hypothesis. ShimuraVarieties §5.1 supplies the cardinality identity for nonempty finite products of CM fields. No general reduced-algebra cardinality theorem is consumed here. Convert its rational ring maps to `AlgHom`s when using a finite selection; rational ring maps automatically preserve the rational algebra structure.
+
+**Checks.**
+
+- Conjugating an embedding twice returns it, and evaluation sends `i` to `−i` and `2+i` to `2−i` in the Gaussian case.
+- A type and its conjugate have disjoint selections covering every embedding; conjugating the type twice returns it.
+- If a selected embedding restricts outside the proposed inducing selection, the proposed induction fails. Restriction to the whole field instead gives the original selection.
+
+**Basic API.**
+
+- Types with the same embedding subset are equal.
+- `φ∈cΦ` iff `φ∉Φ`.
+- `2|Φ|=[E:ℚ]`.
+- `c(cΦ)=Φ`.
+- `φ` lies in the induced type iff `φ|E₀` lies in `Φ₀`.
+- Induction along `E₀⊂E₁⊂E₂` equals direct induction.
+- For `E` a CM field, any primitive CM subpair inducing `Φ` is uniquely the embedded primitive core.
+
+**Checks.**
+
+- For `E=ℚ(i)`, the type selecting `i↦i` has cardinal one, so `2·1=2`. On `ℚ`, its sole embedding is fixed by conjugation and the partition equation would be `2χ=1`, which is impossible.
+- The entire embedding set of `ℚ(i)` is not a CM type.
+- Types on `E₁×E₂` correspond to pairs of types, with additive cardinalities.
+- Every CM type on an imaginary quadratic field is primitive.
+- The stated two embeddings of `ℚ(ζ₈)` restrict to the same embedding of `ℚ(√−2)`, so this type is not primitive.
+- For `E/E₀` finite, an induced type has cardinal `[E:E₀]|Φ₀|`.
+
+**Required calculations and boundary cases.** For `ℚ(i)`, `{i↦i}` has cardinal one; both embeddings together and the empty set fail. For `ℚ(i)×ℚ(√−3)`, a type has one embedding of each factor, cardinal two. On `ℚ(ζ₈)`, the type with `ζ₈↦ζ₈` and `ζ₈↦ζ₈³` is induced from `ℚ(√−2)`; primitive must fail.
+
+**Checks.**
+
+- Restriction along `E⊂E` induces the original type, and conjugating an induced type conjugates its inducing type.
+- A quadratic CM field has no proper CM subfield and every type on it is primitive. A proper CM subfield inducing a type contradicts primitivity.
+- The two `ℚ(ζ₈)` embeddings above induce the same `ℚ(√−2)` type and are nonprimitive. Product types have no single primitive-core assertion.
+
+#### Trace reflex-field contract
+
+The trace description supplies an intrinsic field inside `ℂ` and a comparison with ShimuraVarieties §P.3. The inverse-coset reflex-pair comparisons of CM.0 retain the field hypothesis.
+
+**Trace description of the CM reflex field**. For a finite étale CM algebra `E` and CM type `Φ`, choose a common finite Galois CM field `L⊂ℂ` containing the images of every embedding of every field factor. The reflex field is `E* = ℚ(Σ_{φ∈Φ} φ(a) : a ∈ E) ⊂ L`. Equivalently `E*=L^{Stab(Φ)}`, where Galois acts on `Hom_ℚ-alg(E,L)`; if `E` is a field this is the left stabilizer of the extended type `S⊂Gal(L/ℚ)`. A product algebra `E` is not embedded as a subalgebra of `L`. Identify this actual trace subfield with ShimuraVarieties §§P.3 and 5.1’s cocharacter reflex field, without a second generic carrier.
+
+Sources: [MilneCM](#milnecm), Proposition 1.16, Definition 1.17 and Proposition 1.18, pp.13–14; [YZ](#yz), §2.2 p.546. *Needs:* [CMType](#from-shimuravarieties-51-embedding-partitions-primitive-induction-and-trace-fields); [IntermediateField.adjoin][mathlib-intermediatefield.adjoin]; [IntermediateField.adjoin_le_iff][mathlib-intermediatefield.adjoin_le_iff]; `ShimuraVarieties:§P.3 and §5.1`.
+
+**Supplied type-product, conjugation and change-of-type identities**. For a CM FIELD `E` with type `Φ` and reflex type `Φ*` on `E*`, and `a∈(E*)×`, `NΦ(a)=∏ψ∈Φ*ψ(a)` lies in `E×`, satisfies `NΦ(a)·conjugate(NΦ(a))=N_{E*/ℚ}(a)`, and is multiplicative. For `γ∈Gal(ℚ̄/ℚ)`, transport the embedded pairs: `N_{γΦ}(γa)=γNΦ(a)`. Induction from the primitive core leaves the reflex field unchanged and the map to `E` is the inclusion of the primitive-core type product. These are algebraic formulas, not another construction of ShimuraVarieties §4.2’s idelic torus norm. For product CM algebras use ShimuraVarieties §4.2’s cocharacter norm rather than asserting one primitive reflex pair.
+
+Sources: [MilneCM](#milnecm), Proposition 1.23, Remark 1.24 and Proposition 1.26, pp.15–17; Example 1.28, p.18. *Needs:* ShimuraVarieties §5.1; [NumberField.IsCMField.complexEmbedding_complexConj][mathlib-numberfield.iscmfield.complexembedding_complexconj].
+
+**Basic API.**
+
+- `typeTraceΦ(a)=Σφ∈Φ φ(a)`.
+- The type trace is `ℚ`-linear and sends `1` to `|Φ|`. It is not generally a field homomorphism.
+- `E*⊂F` iff every `typeTraceΦ(a)` belongs to `F`.
+- The conjugate-trace identity conjugates each finite trace sum. The conjugate-reflex-field identity identifies the two trace fields for finite reduced `ℚ`-algebras with a CM partition. The comparison with the conjugate image of the native `IntermediateField.adjoin` also holds for any rational algebra and finite embedding selection, without reducedness or finite-dimensionality, by conjugating each finite trace sum as in CM.0.1.
+- `Gal(L/E*)` is the stabilizer of `Φ` in `Hom_ℚ-alg(E,L)`; for `E` a field it is the left stabilizer of its extended type `S`.
+- The trace subfield is the ShimuraVarieties §P.3 cocharacter reflex field under its specified embedding.
 
 ## References
 
