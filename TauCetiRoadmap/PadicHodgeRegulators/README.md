@@ -2,19 +2,9 @@
 
 **Summary.** Build normalized regulators from algebraic K-theory and local Iwasawa cohomology to de Rham periods, with integral and analytic control. The local summit is the isomorphism from completed K₃ of a finite unramified étale ℚₚ-algebra to p² times its integers when p > 3. Other summits compare curve regulators with Bloch–Kato logarithms and give Coleman/Perrin–Riou images, elementary divisors and character specializations.
 
-## Scope and ownership
+## How to read the build
 
-This roadmap owns the normalization and comparison of regulators, the finite-residue dilogarithm argument for the local K₃ theorem, the explicit curve regulator interfaces, and the linear algebra of Coleman images. In particular it is the single owner of the weight-two comparison of de Jeu's classes with Suslin's Bloch group (§4.7) with the evaluation of de Jeu's classes it rests on, the completed root classes, the normalized local K₃ regulator with its naturality and transfer, its lattice isomorphism, root generation and finite root presentations (§§5.6–5.9); HabiroNumberFields §3.0 and its PadicHodgeRegulators supplier contract, and HabiroNahmSeries §6.3, consume these rather than construct them. The other evaluation that comparison rests on, the Borel regulator on Suslin's Bloch classes as an exactly calibrated multiple of the descended Bloch–Wigner regulator, is stated by Polylogarithms §§2.1 and 2.3 (blochWignerDesc, weightTwoRegulator, weightTwoRegulator_borel and borelCalibration_two) and consumed in §4.7; its Borel and Tate coordinates and its analytic Bloch–Wigner cocycle (Polylogarithms §2.2) are Polylogarithms' own. SchemeKTheoryOperations §7.3a constructs Chern classes out of higher K-theory once, for every theory satisfying its projective bundle and divisor conditions, and KTheoryFiniteLocalFields §1.8 states its finite and ℓ-adic étale instances: Soulé's étale regulator (supplier contract “Soulé's étale regulator to continuous Galois cohomology”) is the p-adic class c_(n,1) of §1.8 over fields, and the étale classes of smooth varieties in §4.2 are its p-adic classes. Section 4.1 states the rigid syntomic instance and proves its two conditions. KTheoryFiniteLocalFields §§3.0a,6.6–6.7 supply algebraic K-groups, motivic cycle complexes and finite/continuous étale comparisons. K3BlochGroups Layer 3 (§§3.1,3.3–3.6) is the single owner of the integral pre-Bloch group, the antisymmetric-square boundary, the Bloch kernel and their field maps; its §§4.20,6.3–6.6 supply the Suslin exact sequence, integral root multiples, coefficient-localized root classes and finite Bloch quotients. ColemanIntegration §L2.Fb supplies only the p-adic evaluation of these carriers and its branch descent, transported through K3BlochGroups §§3.4–3.5's symbol-preserving equivalence and boundary square. KTheoryFiniteLocalFields §§3.5,6.2,6.8–6.10 supply the Milnor divisibility and completion inputs. Generic classical syntomic, relative open-curve and semistable comparison carriers are required inputs from **CohomologyComparisonsPartII**; their regulator-specific identifications are stated here. ColemanIntegration owns Coleman integration; **ColemanIntegrationPartII** supplies the required Vologodsky integration and double/triple indices. This roadmap identifies their values on regulator classes.
-
-Submodule inverse images and preservation of dimension by linear equivalences use Mathlib `Submodule.comap` and `LinearEquiv.finrank_eq`; they are not separate transport constructions here. Reconstruction through a coordinate equivalence uses `LinearEquiv.symm_apply_apply`. The ordinary-to-indecomposable quotient and completed-to-inverse-limit identifications use KTheoryFiniteLocalFields §§3.5,6.2,6.8–6.10 together with K3BlochGroups §6.6. The regulator lattice theorem and its root-value normalization are the additional arithmetic assertions of Layer 5.
-
-PadicPeriodRings §§1.5,4.1–4.3 own the period rings, invariant functors and underlying fundamental sequence. FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.P2–R07.P5 supply finite-K comparison contracts, continuous sections and additional sequences. SelmerIwasawaCohomology §4.9 owns the finite Bloch–Kato condition on representations, lattices and discrete quotients, with its local duality. NoncommutativeAndEquivariantIwasawa §F.6 owns the normalized finite Bloch–Kato complex, its cohomology comparison, period boundaries, dual exponential, adjunction and functoriality; PhiGammaModulesAndIwasawaCohomology §5.7 reexports its exponential. These generic constructions are consumed here. The additional condition g, logarithm specializations and regulator-specific comparisons are the outputs here. SelmerIwasawaCohomology §4.26’s elliptic Kummer comparison is also consumed. The extension to abelian varieties of arbitrary reduction is stated for the functorial logarithm, without identifying a chosen differential with a minimal differential through an unproved scalar.
-
-PhiGammaModulesAndIwasawaCohomology §5 supplies Fontaine's integral Iwasawa comparison and its coefficient, character and generator compatibilities. Its §§5.7 and 6 supply the local exponential, H¹_e, ψ-fixed Wach containment and good Wach bases with integral congruence. The present roadmap adds regulator normalization, image formulas and particular Coleman coordinates. These exponentials, §5.6a's differential module and NoncommutativeAndEquivariantIwasawa §F.6's maps are stated only for Galois representations. This roadmap therefore owns, in §9.30a, the differential module N_rig(D) of an arbitrary de Rham (φ,Γ)-module over the Robba ring, together with its Bloch–Kato exponential and dual exponential, their étale comparison and their differential interpolation. These are built from PadicHodgeTheory §§4.2, 4.5 and 5.2 (localization, positive de Rham realization with its sign adapter, and Berger's modification) and from PhiGammaModulesAndIwasawaCohomology §§1.6, 3.1–3.2, 3.4–3.4a, 3.9 and 5.3 (equivariant B-pair realization, Herr complexes, rational torsion-convention and Herr–Galois comparisons, the equivariant cohomology comparison and the cyclotomic deformation). LocalGaloisGroups Layer 7 owns the completed multiplicative carrier, its Galois action and torsion/free quotient. The unit filtration, the convergence and continuity of the logarithm on principal units and the deep-unit logarithm `TauCeti.deepUnitExpLogEquiv` are already in the pinned Tau Ceti library; the full local unit-log kernel and semilocal norm–trace of §§3.5(a),3.6 extend that interface. IntegralIwasawaTheory §§2.2 and 4.1 own the global unit localization, `leopoldtDefect`, `LeopoldtConjecture`, `leopoldtLogMap`, the all-embeddings logarithm matrix and its full-rank criterion; §3.5(b) consumes them and adds only the rank abbreviation rr_p in the row convention.
-
-AbelianSchemesAndArithmeticModuli §A4.3 owns degree-one de Rham cohomology and its Hodge sequence; NeronModelsAndSemistableAbelianVarieties §§3.10, 3.13–3.14 and 5.3 own potential semistability, Raynaud uniformization and the filtered homological period comparison with descent. Section 1.9 adds the Bloch–Kato logarithm identification on the abelian Kummer image at arbitrary reduction.
-
-The Tau Ceti local-field library supplies Teichmüller lifting and the residue-field equivalence for tame roots of unity. Mathlib supplies finite fields, polynomials, finite-dimensional linear algebra, submodules and matrix determinants. EffectiveBounds owns real regulators and unit-lattice bounds. ArithmeticKTheory §§3.2–3.4 supply global K₃ finite generation and ranks. Global signed Selmer structures and main conjectures are outside this roadmap’s scope; its output is the specified Coleman kernel. HabiroNahmSeries consumes the local K₃ output, and GrossZagierAndArithmeticHeights consumes the arbitrary-reduction Kummer logarithm of §1.9. Global injectivity in positive K₃ rank remains conjectural.
+Layers 0–2 fix the cohomological interfaces; Layers 3–6 build the local K₃ theorem and global regulator. Layer 7 treats curves, retaining continuous and discrete semistable coordinates. Layers 8–9 build cyclotomic regulators, interpolation, Coleman images and de Rham domains.
 
 ## Conventions
 
@@ -27,392 +17,6 @@ The exponential is the boundary for a cochain differential with boundary g ↦ (
 The Iwasawa logarithm has logₚ(p)=0. Coleman dilogarithms use Dₚ(z)=Li₂(z)+½logₚ(z)logₚ(1−z), and Bernoulli polynomials use B₁=−½. Regulators on K_(2n−1) are normalized by the Chern character, as are the supplied regulator of ColemanIntegration §L3.Fb.2 and the symbol maps of §§7.3–7.11: they are ring homomorphisms, and in weight one they are the logarithm and the Kummer map. The ordinary Chern classes cₙ induced by the same universal classes are kept as separate maps. On K_m with m≥1 the decomposable terms of Newton's identity vanish, so cₙ=(−1)ⁿ⁻¹(n−1)!·chₙ there: c₁=ch₁, c₂=−ch₂ and c₃=2ch₃. Integral étale statements use the ordinary Chern classes. The local K₃ regulator is normalized once by the universal Suslin–de Jeu constant c₂ of §4.7, so that the tame root class [ζ] maps to Li₂(ζ); no sign or scalar is chosen again at each prime or on each symbol. Complex regulator values are those of the Beilinson regulator reg_∞ of ColemanIntegration §L3.Fc.1 in the point coordinate of BorelRegulators §6.0a; the Borel regulator is r_Bo = −2·reg_∞ (BorelRegulators §6.2), so over ℚ(i) the de Jeu class of [i]_2 has reg_∞ value P₂(i) and Borel value −2P₂(i). Gros depletion in weight n is 1−σ/pⁿ, applied to the syntomic coordinate.
 
 Cyclotomic layers assume p odd, E/ℚₚ finite with integers 𝒪_E, G∞=Δ×Γ₁, Λ_E=𝒪_E[[G∞]][1/p], and analytic distribution algebra ℋ_E(G∞). At a fixed Δ-character we use X=γ−1 and xᵢ=χ(γ)ⁱ−1. Twisting an algebra element by η means g ↦ η(g)⁻¹g; sources using η(g)g require the inverse character. All Coleman vectors are rows. The right action cM, the coefficient embedding Λ_E→ℋ_E and the order of all basis changes are part of the notation.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-Use `Polynomial`, `Polynomial.eval`, `Polynomial.aeval`, `ZMod`, `GaloisField`, `GaloisField.finrank` and `GaloisField.card`. The last two require a nonzero extension degree; a degree-zero finite field is never used as a residue field. Use `Submodule.comap` from `Mathlib/Algebra/Module/Submodule/Map.lean` and `LinearEquiv.finrank_eq` from `Mathlib/LinearAlgebra/Dimension/Finrank.lean` for row-map inverse images and their dimension under invertible transport. Use native `Submodule`, `LinearMap`, `LinearEquiv`, `Module.Basis`, `Matrix.det`, `Matrix.det_mul` and `Matrix.det_fin_two`. Evaluation constraints are submodules obtained through algebra homomorphisms, rather than a new notion of module. Generic coordinate reconstruction uses `LinearEquiv.symm_apply_apply` in `Mathlib/Algebra/Module/Equiv/Defs.lean`; the arithmetic identification of the Wach equivalence and 1−φ belongs to §9.16. Finite-field polynomials are polynomial identities first and functions only after evaluation; equality as functions does not imply equality of polynomials without a degree bound.
-
-### From Tau Ceti
-
-Use `TauCeti.teichmuller 𝒪[K]`, `TauCeti.unitsMap_residue_teichmuller` and `TauCeti.rootsOfUnityAlgebraMulEquivUnitsResidueField 𝒪[K] K` from `TauCeti/RingTheory/Henselian/Teichmuller.lean`. `TauCeti.unitFiltrationZeroEquivProd` in `TauCeti/NumberTheory/LocalField/UnitsDecomposition.lean` supplies the entire tame/principal-unit decomposition. Principal units are `TauCeti.unitFiltration K 1` in `TauCeti/NumberTheory/LocalField/UnitFiltration/Basic.lean`. On them the logarithm series converges to Mathlib's `NormedSpace.log` and is continuous: `TauCeti.hasSum_log_of_mem_unitFiltration_one` and `TauCeti.continuous_log_unitFiltration` in `TauCeti/NumberTheory/LocalField/Logarithm.lean`. With e the absolute ramification index and a depth i with e < (p − 1)i, `TauCeti.deepUnitExpLogEquiv K hi : U(K,i) ≃ₜ* Multiplicative (𝓂[K]^i)` in `TauCeti/NumberTheory/LocalField/DeepUnits/Basic.lean` is the logarithm, with the exponential as inverse. LocalGaloisGroups Layer 7 supplies the inverse-limit multiplicative carrier. ProfiniteArithmetic §§0.2,1.1–1.3 supplies compatible finite quotients and completion infrastructure, without a regulator identification.
-
-### From TauCetiRoadmap.PadicPeriodRings and the local cohomology suppliers
-
-From PadicPeriodRings §§1.5,4.1–4.3 consume B_cris, B_dR, B_e, D_cris, D_dR and the underlying fundamental exact sequence. From FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.P2–R07.P5 consume the finite-K comparison contracts, continuous nonequivariant sections and additional period sequences; continuous cohomology comes from ArithmeticGaloisDuality §R02.1.2. From NoncommutativeAndEquivariantIwasawa §F.6 consume the normalized finite complex, its H⁰ and H¹_f comparisons, the exponential kernel sequence, dual exponential, ordered adjunction, coefficient change and restriction/corestriction functoriality. Its crystalline exact fragment is
-
-```text
-0 → H⁰(K,V) → D_cris(V)
-  → D_cris(V) ⊕ D_dR(V)/Fil⁰ → H¹_f(K,V) → 0,
-x ↦ ((1−φ)x, x mod Fil⁰).
-```
-
-SelmerIwasawaCohomology §4.7 supplies the small-weight crystalline realization; §4.9 supplies the finite condition H¹_f(K,V), its preimage on T and image on V/T, the local-condition structure L^BK_v and its propagation to discrete quotients. SelmerIwasawaCohomology §4.26 supplies the elliptic tangent/exponential/Kummer comparison used by §1.9. AbelianSchemesAndArithmeticModuli §A4.3 supplies H¹_dR(A/K), its Hodge sequence and duality; NeronModelsAndSemistableAbelianVarieties §5.3 supplies the natural filtered comparison D_dR(VₚA)≃H¹_dR(A/K)* at arbitrary reduction, including finite-extension descent, and crystallinity for good reduction. Its §§3.10, 3.13–3.14 supply potential semistability and the full Raynaud uniformization, including its lattice, used in §1.9; §5.3’s semiabelian Frobenius comparison retains the Weil bounds for the good abelian quotient. The homological dual Hodge sequence identifies the tangent quotient with Lie(A/K); §1.9 compares the Kummer and logarithm maps on that same quotient. Local Tate duality includes the invariant H²(K,ℚₚ(1))→ℚₚ, compatibility with restriction/corestriction and the ordered degree-one pairing. The finite-condition duality and exponential adjunction are imports from NoncommutativeAndEquivariantIwasawa §F.6; the e/g comparison and regulator normalization use these supplied maps. The integral Tate rank and torsion calculations also require KTheoryFiniteLocalFields Layer 6. A torsion class maps to zero on rationalization; the map from integral H¹ to rational H¹ is not called an inclusion in general.
-
-### From TauCetiRoadmap.PhiGammaModulesAndIwasawaCohomology and the distribution suppliers
-
-From PhiGammaModulesAndIwasawaCohomology §§5–6, consume the integral D(T)^ψ=1 ≃ H¹_Iw(T), its normalization, Herr cocycles, exact twist and coefficient squares, the Wach lattice and a good basis. ColemanPowerSeries Layers 1–2 supplies norm-compatible units, their Coleman series, the norm operator and the logarithmic derivative. PadicMeasuresIwasawaAlgebras §§1.7,2.1–2.6,3.1–3.3,4.3–4.5 supplies Λ, finite-character idempotents, bounded Amice transforms and Weierstrass preparation. LocallyAnalyticDistributions §§1.1,1.4–1.5 supplies unbounded Amice, convolution, ∂ and its ψ-zero inverse; §§2.1,2.3 supplies order-r growth and locally algebraic determination. Its §3.3 supplies the unbounded Mellin Fréchet isomorphism with ℋ, bounded-measure criterion, character evaluation, convolution, generator change, weight differentiation, twists, pushforward and finite coefficient extension. Logarithmic factors below use these exact conventions.
-
-For §9.30a, consume the following from PhiGammaModulesAndIwasawaCohomology: from §§3.1–3.2, the signed Herr complexes C_(φ,γ) and C_(ψ,γ), with `d0(x) = ((phi-1)x, (gamma-1)x)`, and the φ/ψ comparison (id,(−ψ,id),−ψ); from §3.4, the rational finite-torsion-convention comparison; from §3.4a, the field Herr–Galois comparison, Euler characteristic and duality; from §§1.6 and 3.9, the equivariant B-pair realization and the comparison of its cohomology with arithmetic Herr cohomology, preserving tensor cups, restriction and trace; from §5.3, the cyclotomic deformation and its specialization at η, which lands in M(η⁻¹). From PadicHodgeTheory §4.2, consume the localization maps ι_n on the Robba ring and their coefficientwise extension to finite free modules. From §4.5, consume the labelled positive de Rham realization W⁺_dR and D⁺_dR=Fil⁰D_dR and the coordinate adapter (degree-one swap, degree-two negation) for the supplied comparison. Require the equivariant comparison of PhiGammaModulesAndIwasawaCohomology §§1.6 and 3.9 on D, D[1/t], D⁺_dif(D) and D_dif(D), compatible with the localization and positive-period exact sequences and their connecting maps; on étale objects it agrees with the representation comparison (Nakamura2014 Theorem 2.21, p.27). From §5.2, consume Berger's modification and its equivalence between filtered (φ,N,G_K)-modules with finite descent and the Robba (φ,Γ)-modules whose connection is locally trivial, which are the de Rham ones.
-
-### From TauCetiRoadmap.KTheoryFiniteLocalFields and the K-theory suppliers
-
-From KTheoryFiniteLocalFields §§1.8,6.6–6.7 consume the universal finite-coefficient Chern maps `earlyChern i j`; the p-adic classes c_(i,j):K_(2i−j)(X)→H^j_cont(X,ℤ_p(i)) of §1.8, indexed there by weight i and cohomological degree j, with their inverse-limit description over fields and their transfer identity i·(c_(i,j)(Nx)−cor c_(i,j)(x))=0 for finite separable extensions of fields and 2i−j≥2; the completed étale edge maps; and the weight-two Chern comparison. From K3BlochGroups §§3.1,3.3–3.6 consume the integral pre-Bloch group P(F) with its five-term relations, the antisymmetric square, the boundary ∂[x]=x⊗(1−x), the Bloch kernel B(F), the inversion symbols ⟨x⟩=[x]+[x⁻¹] of P(F) and their field maps; from its §§4.20,6.3–6.6 consume the natural Suslin sequence with enhanced Tor kernel and its rational isomorphism suslin_rational, integral root multiples, denominator-independent coefficient-localized root classes and the finite-quotient snake sequence. ColemanIntegration §L2.Fb supplies the p-adic evaluation dilogEvaluation, the branch pairing branchPair and the branch independence of the evaluation on Bloch kernels; it is applied to the K3BlochGroups carriers through the symbol-preserving equivalence and boundary square of K3BlochGroups §§3.4–3.5. KTheoryFiniteLocalFields §6.10 supplies unique divisibility of local Milnor K₃, so its image has zero quotient modulo p^ν. Its §§3.5,6.2,6.8–6.9 supply TₚK₂(L)=0 and the natural identification K₃(L;ℤₚ)≃lim_ν K₃(L)/p^ν, including restriction, transfer and finite-product compatibility. The compatible inverse limit, not an uncompleted rational map, defines the integral regulator. From PadicHodgeTheory §§6.1–6.2 and FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.3 consume the integral period comparison; the precise finite small-weight range is always displayed below.
-
-From SchemeKTheoryOperations, consume the following, retaining its regular ample-family scope:
-- proper and finite flat K-theory transfers (§2.3) and the projection formula f_*(x·f^*y)=f_*x·y (§2.4);
-- the projective bundle decomposition (§5.5);
-- Adams operations, with products of n units of weight n and ψ^k[L]=[L^⊗k] (§6.4), their compatibility with products (§6.8), and the rational weight decomposition of K_m(X)⊗ℚ (§6.9);
-- the commutation of finite étale transfers with ψ^k (§6.11);
-- Adams–Riemann–Roch ψ^k(f_*x)=f_*(θ^k(−T_f^∨)ψ^k x) for projective morphisms of smooth quasi-projective schemes over a regular base (§7.5);
-- Chern classes c_(i,j):K_j(X)→H^(2i−j)(X,Γ(i)), the second index the K-degree, for every theory Γ satisfying its projective bundle and divisor conditions, with their universal classes, their values in K-degrees 0 and 1, their compatibility with morphisms of theories and the rational Chern character ch_(i,j)=(−1)^(i−1)c_(i,j)/(i−1)!, multiplicative wherever its product formula holds (§7.3a, T1–T3, T5 and T7–T8).
-
-Sections 7.3 and 7.6 use these for the domain of the curve regulator and its transfers; §§4.1–4.2 use §7.3a for the syntomic and étale Chern classes. The smooth projective curves over 𝒪_K of Layer 7 lie in that scope.
-
-From ArithmeticKTheory §§3.2–3.4 consume finite generation of K₃(𝒪_F), the actual rational localization K₃(𝒪_F)⊗ℚ≃K₃(F)⊗ℚ and Borel’s formula dim_ℚ(K₃(F)⊗ℚ)=r₂(F). Its §2.1 and KTheoryFiniteLocalFields §1.5 give localization and K₂(𝔽_q)=0: K₃(𝒪_F)→K₃(F) is surjective, so K₃(F) is finitely generated. These inputs apply throughout Layer 6 without assuming p-adic regulator injectivity.
-
-From BorelRegulators §§2.1–2.3 consume the Borel class, the Borel regulator r_Bo on K₃(F) through the Hurewicz map, its real isomorphism and rational injectivity for number fields, and its restriction square; from §6.0a the identification of ColemanIntegration §L3.Fc.1's complex Beilinson regulator reg_∞ with the shared regulator r_Be in its point coordinate; from §6.2 the conversion r_Bo = −2r_Be. Section 4.7 evaluates every class with reg_∞, so the injectivity it uses is that of r_Be = −½r_Bo, and a Borel value is −2 times the stated value. PolylogarithmFunctions §§5.1–5.2,5.7–5.8 supply the Bloch–Wigner function D_BW, the identity L₂ = D_BW, its continuity on ℙ¹(ℂ), its five-term relation and its cross-ratio form. From Polylogarithms §2.1 consume blochWignerDesc, the ℚ-linear map on the rational pre-Bloch group with [z] ↦ D_BW(z), and weightTwoRegulator; from its §2.3 consume weightTwoRegulator_borel and borelCalibration_two: for every number field F and complex embedding σ, the Borel regulator at σ of s_F⁻¹b, for b in the rational Bloch kernel and s_F K3BlochGroups Layer 4's Suslin isomorphism, is one explicit nonzero constant, independent of F and σ and computed by borelCalibration_two, times blochWignerDesc(σ_*b). Section 4.7 converts this constant to the reg_∞ coordinate by BorelRegulators §§6.0a and 6.2 and P₂ = i·D_BW.
-
-### From TauCetiRoadmap.IntegralIwasawaTheory
-
-From IntegralIwasawaTheory §2.2 consume the localization ι_F : O_F^× ⊗ ℤ_p → `∏_{v|p} U¹(F_v)`, with p-power torsion retained, `leopoldtDefect` F p = rank ker ι_F and `LeopoldtConjecture` F p with its equivalence to injectivity of ι_F; from §4.1 consume `leopoldtLogMap`, `leopoldtDefect_eq_logKernel`, the [F:ℚ]-by-r logarithm matrix over ℂ_p on a unit basis and `leopoldt_iff_logMatrix_fullRank`; from §4.4 consume `abelianLeopoldt`. Section 3.5(b) uses the transpose of that matrix and defines no second localization, logarithm map or Leopoldt predicate.
-
-### From TauCetiRoadmap.ColemanIntegration
-
-From ColemanIntegration §L3.Fa.1 consume rational localization, `KTheoryQ.localization`, `noLowWeightKTheory_of_algebraic_over_Fp` and `KTheoryQ.dvr_localization_iso` on their stated domains. Its §§L3.Fa.4,L3.Fb.2,L3.Fb.5–L3.Fb.6,L3.14–L3.15 supply the oriented de Jeu map, the syntomic Chern-character regulator, special-unit and cyclotomic formulas and Gros depletion. Retain the fixed raw-symbol coefficient (−1)ⁿ(n−1)! and the distinction between reduced and unreduced hypotheses. That coefficient belongs to the Chern-character regulator, which is reg_syn of §4.1; for the ordinary Chern-class regulator of §4.1 the same raw symbol has coefficient −((n−1)!)². Sections 4.1–4.5 identify these imported maps with the étale/Bloch–Kato normalization; they do not construct those formulas again. Its §L3.Fc.1 supplies the complex Beilinson regulator reg_∞, and §L3.Fc.3 the function P_n = zagierPolylog n (P₂ = i·D_BW) with the cyclotomic value Φ_∞([ζ]_n) = (−1)ⁿ(n−1)!·P_n(φ_∞ζ); at n = 2 this fixes the normalization of the de Jeu evaluation in §4.7. No supplier compares de Jeu's map with Suslin's Bloch group; that comparison is §4.7. The regulator on Suslin's Bloch classes is supplied by Polylogarithms §2.3.
-
-### From TauCetiRoadmap.CohomologyComparisonsPartII
-
-**Required classical and relative inputs.** CohomologyComparisonsPartII supplies the following sections on the base, coefficient and geometric domains stated there. Section citations identify the mathematical contracts; no additional declaration names are presumed.
-
-| Supplier sections | Content and consumers |
-|---|---|
-| CohomologyComparisonsPartII §§2.1–2.3 | Compactification-filtered rigid syntomic fibre in every integer weight (Fⁿ=F⁰ for n≤0), its specialization diagram, products and long exact sequence, in the fibre coordinates fixed by §2.2; §2.2's coordinate isomorphism to the Huber–Kings order; the tube-filtered variant and the comparison map κ_n, an equivalence for X proper over the base. Used by Layers 4–5 and §§7.1–7.6. |
-| CohomologyComparisonsPartII §§3.1–3.4 | Divided and undivided log-syntomic fibres, directed ω/τ, products and derived completion on their log-syntomic domain; rational quotient presentation on its log-smooth arithmetic pairs, with the boundary rescaling ω_Q∘δ_U=pʳ·δ_D of §3.4. Used by §4.6. |
-| CohomologyComparisonsPartII §§4.1–4.4 | Modified Tate lattices, directed Fontaine–Messing maps, exact divided small-weight comparison and bounded undivided comparison, retaining each section's geometric and weight hypotheses. |
-| CohomologyComparisonsPartII §§5.1–5.3 | Hyodo–Kato adapter, semistable total fibre, monodromy convention and compatibility with the base h-realization; used by §§4.6,7.7,7.10–7.11. |
-| CohomologyComparisonsPartII §§1.1–1.6,6.1–6.7,7.1–7.5 | Filtered F-isocrystal category, Yoneda extensions, filtered realization, relative residue/Gysin sequence, extension coordinates and Frobenius-compatible specialization. Retain algebraic finiteness, actual filtered realization, compactification and evaluation hypotheses; Milnor-symbol and tame-kernel comparisons belong to §§7.8–7.9 here. |
-
-Three regulator-specific statements on these carriers are targets here rather than supplier inputs: the compatibility of κ_n with syntomic Chern classes (§4.1); the Bloch–Kato sign, the range of the de Rham comparison and the exponential square of the normalized syntomic boundary (§4.6); and the potentially semistable descent of the semistable extension complex with its coordinates (§7.7).
-
-### From TauCetiRoadmap.ColemanIntegrationPartII and the curve suppliers
-
-**Required integration inputs.** ColemanIntegration supplies branch-aware Coleman primitives, constant terms, residues and traces. ColemanIntegrationPartII §§1.1–1.3 and 3.0a–3.0c supply geometric node identities, loops, parallel edges and curve graph/cohomology carriers; §§2.1–2.3 supply logarithmic annular functions and the alternating local double index with its coordinate, degree and coefficient laws; §§3.1a and 3.2–3.4 supply wide-open reciprocity, normalized component primitives, the graph correction and the graph-corrected cohomological pairing; §§4.0c,4.2–4.4 supply natural single integration, its harmonic realization, the valuation term and the Vologodsky point-sum; §§5.1–5.5 supply compatible labelled auxiliary primitives and the local triple index with its choice laws; §§6.0–6.4 supply global Coleman-wide-open triple sums with actual global compatible auxiliary primitives, their choice cancellation and the pairing on actual Coleman one-forms. Its §§7.1–7.6 supply branch, coefficient-trace, closed-point trace and arbitrary-reduction descent, on precisely those integration domains. No dependence of ColemanIntegrationPartII on CohomologyComparisonsPartII is required: both supply this roadmap independently. Section 7.11 owns the regulator-specific cancellation and comparison of component triple sums; wide-open choice independence alone does not imply that comparison.
-
-AlgebraicCurves Layers 0,3,6,9,12 supply function-field places, divisors, regular projective models, differentials and pull/push. K2SymbolsBrauer §§9.2–9.4 supply the tame symbol, bilinearity and Steinberg relation; its §§9.11,9.13 supply the higher residues and finite support used for the tame kernels in §§7.3,7.8,7.11. Smooth proper curve and finite étale boundary hypotheses are retained on the geometric carriers of ColemanIntegration §L1.1.
-
-### Supplier: The fundamental exact sequences used by the Bloch–Kato maps
-
-Consume the fundamental period sequences from PadicPeriodRings §4.3, with `B_e=B_cris^{φ=1}.` They are 0→ℚₚ→B_e→B_dR/B_dR⁺→0 and its equivalent presentation using B_e⊕B_dR⁺→B_dR. The crystalline presentation uses (1−φ, mod Fil⁰), consistently with the supplier contract. Fontaine's twisted sequence is 0→ℚₚ(r)→FilʳB_cris→B_cris→0 with arrow p⁻ʳφ−1, for integral r. Tensoring a rational sequence with V preserves exactness; taking invariants produces `D_cris(V)^{φ=1}` and D_dR(V)/Fil⁰ when V is de Rham. Integrally, the undivided period arrow is pʳ−φ and uses the modified Tate lattice; its bounded cokernel is part of the divided/undivided integral comparison supplier contracts, with its stated geometric and weight hypotheses. It is not an integral rescaling isomorphism.
-
-See FO, author-hosted 303-page version, Theorem 7.26(3), Theorem 7.28(4) and Remark 7.29, printed pp.169–171; CN2017 §2.4.3, p. 23.
-
-**Checks.**
-
-- For V = Q_p(r), r ≥ 1: H^0(K, B_e(r)) = `D_cris(Q_p(r))^{φ=1}` = 0, so the connecting map of the exponential period sequence ⊗ V is injective on D_dR/Fil^0.
-- For V = Q_p: H^0(K, B_e) = `K_0^{φ=1}` = Q_p and D_dR(Q_p)/Fil^0 = 0.
-- For V=ℚₚ, the fixed crystalline line survives and maps to zero in D_dR/Fil⁰; deleting it would make the exponential injective for the wrong reason.
-
-### Supplier: Integral comparison interface for small weights
-
-For p odd, K/ℚₚ unramified and a crystalline lattice T whose weights lie in [0,p−2], consume the Fontaine–Laffaille correspondence with a strongly divisible W(k)-lattice in D_cris(V∨). On T=ℤₚ(r), 0≤r≤p−2, that lattice is W(k)d₋ᵣ. The integral Tate logarithm in §1.10 and the divided period comparison in the divided-comparison supplier contract use this convention. This is the integral interface of SelmerIwasawaCohomology §4.7 and FiniteFlatGroupsAndIntegralPadicHodgeTheory, with no new period-ring construction.
-
-See BNQD2002 §1.3, p. 647.
-
-**Checks.**
-
-- T = Z_p(2) with p ≥ 5 lies in the Fontaine–Laffaille range [0, p − 2].
-- T = Z_p(p − 1) is outside the range; the integral statements of Layer 1 are not asserted there.
-- At p=3 the interval contains weights 0 and 1, and excludes weight 2; the weight-two lattice theorem therefore starts at p=5.
-
-### Supplier: Fontaine's isomorphism h_Iw : `D(T)^{ψ=1}` ≅ H¹_Iw
-
-Let D(T) be the étale (φ, Γ)-module of T over O_E ⊗ `A_{Q_p}` with the operator ψ (PhiGammaModulesAndIwasawaCohomology Layers 1 and 4). Define `h_{Iw,T}` : `D(T)^{ψ=1}` → H^1_Iw(Q_p, T) as the H^1-comparison of the ψ-complex [D(T) --(ψ − 1)--> D(T)] with the inverse-corestriction Iwasawa complex (PhiGammaModulesAndIwasawaCohomology Layer 5, SelmerIwasawaCohomology L3). Then: (a) `h_{Iw,T}` is a Λ-linear bijection; (b) for n ≥ 1, a topological generator γ_n of `Gal(Q_p(μ_{p^∞})/Q_p(μ_{p^n}))` and ℓ_n(γ_n) := log_p χ(γ_n)/p^n, pr_n(h(y)) is the class of σ ↦ ℓ_n(γ_n)((σ − 1)/(γ_n − 1)·y − (σ − 1)b), where the rational x_n ∈ `D(V)^{ψ=0}` solves (γ_n − 1)x_n = (φ − 1)y and b in the enlarged rational period module tensored with V solves (φ − 1)b = x_n; (c) cor ∘ `pr_{n+1}` = pr_n and pr_0 = `cor_{Q_p(μ_p)/Q_p}` ∘ pr_1; (d) `h_{Iw,V}` := h ⊗ Q is independent of the lattice; (e) the Λ_E-torsion of `D(V)^{ψ=1}` is `V^{H_{Q_p}}` and maps onto the torsion of H^1_Iw(Q_p, V); H^1_Iw(Q_p, T) has no Z_p-torsion. Formula (b) is a rational representative: integrality is supplied by the finite-torsion exact-sequence construction and its lattice limit, not by an inverse to γ_n−1 on every integral ψ-zero lattice.
-
-- fontaineIwasawaEquiv T : `D(T)^{ψ=1}` ≃ₗ[Λ] H1Iw T.
-- pr_n (fontaineIwasawaEquiv T y) is the class of the explicit cocycle of (b).
-- cor ∘ `pr_{n+1}` = pr_n; pr_0 = cor ∘ pr_1.
-- The rationalisation is independent of T ⊂ V.
-- Torsion of `D(V)^{ψ=1}` = `V^{H_{Q_p}}` ↦ torsion of H1Iw V.
-- H1Iw T has no ℤ_p-torsion.
-
-See CC99 Théorème II.1.3, p. 12; Berger2003 Theorem II.8, p. 118.
-
-**Checks.**
-
-- For V = Q_p, the class h(1) is nonzero and fixed by G_∞.
-- For V = E(μ) with μ unramified nontrivial, H^1_Iw(Q_p, V) is torsion-free `(Q_p(μ_{p^∞}) ∩ Q_p^ur = Q_p).`
-- `cor_{Q_p(μ_{p^2})/Q_p(μ_p)}` ∘ pr_2 ∘ h = pr_1 ∘ h, matching SelmerIwasawaCohomology's inverse system.
-- h is defined on `D(T)^{ψ=1},` not on `D(T)^{φ=1}:` for V = Q_p(1), (1 + π)/π ⊗ e_1 lies in `D^{ψ=1}` but not in `D^{φ=1}.`
-
-### Supplier: Twisting local Iwasawa cohomology by characters of G_∞
-
-For a continuous character η : G_∞ → O_E^×, choose n(k) ≥ k with η ≡ 1 mod p^k on `Gal(Q_p(μ_{p^∞})/Q_p(μ_{p^{n(k)}}));` using H^1_Iw(Q_p, T) = lim_k `H^1(Q_p(μ_{p^{n(k)}}), T/p^k)` define Tw_η := lim_k (x ↦ x ∪ ē_η) with ē_η ∈ `H^0(Q_p(μ_{p^{n(k)}}), (O_E/p^k)(η)).` Then Tw_η : H^1_Iw(Q_p, T) → H^1_Iw(Q_p, T(η)) is a well-defined O_E-linear bijection, independent of the choices, with Tw_1 = id, Tw_η ∘ Tw_η' = `Tw_{ηη'},` and Tw_η(λx) = Tw_η(λ)Tw_η(x) where Tw_η(σ) = `η(σ)^{−1}σ` on Λ (SelmerIwasawaCohomology's convention Tw_k for η = χ^k). For ω of finite order trivial on `G_{Q_p(μ_{p^n})}:` pr_n(Tw_ω x) = pr_n(x) ⊗ e_ω.
-
-- iwasawaTwist η : H1Iw T ≃+ H1Iw (T(η)).
-- iwasawaTwist η (λ • x) = Tw_η(λ) • iwasawaTwist η x.
-- iwasawaTwist 1 = id.
-- iwasawaTwist η ∘ iwasawaTwist η' = iwasawaTwist (η * η').
-- For ω of finite order trivial on level n, pr_n ∘ iwasawaTwist ω = (· ⊗ e_ω) ∘ pr_n.
-- For η = χ^j, iwasawaTwist agrees with the Shapiro-lemma twist of SelmerIwasawaCohomology.
-
-See CC99 Proposition II.1.2, p. 12; LZ2014 Lemma 2.4, p. 7.
-
-**Checks.**
-
-- iwasawaTwist η⁻¹ (iwasawaTwist η x) = x.
-- iwasawaTwist 1 x = x.
-- For η = χ^j and n ≥ 1, `pr_n(Tw_{χ^j}x)` ≡ pr_n(x) ∪ `ε_n^{⊗j}` modulo p^n.
-- For a nonzero class x in the rational torsion-free quotient, and σ with χ(σ)≠1, the twist satisfies Twχ(σx)=χ(σ)⁻¹σTwχ(x), which differs from σTwχ(x) for the unchanged action. With the transported action it is linear. At x=0 both expressions are zero.
-
-### Supplier: Compatibility of h_Iw with twists
-
-(i) D(T(η)) = D(T) ⊗ e_η with φ, ψ acting on the first factor and g(x ⊗ e_η) = η(g)g(x) ⊗ e_η, so ⊗e_η : `D(T)^{ψ=1}` → `D(T(η))^{ψ=1}` is Tw_η-semilinear. (ii) `h_{Iw,T(η)}(y ⊗ e_η)` = `Tw_η(h_{Iw,T}(y)).` (iii) For η = χ^j the level-n cocycle of h(y ⊗ e_j) is σ ↦ ℓ(γ_n)((σ − 1)/(γ_n − 1)·y(j) − (σ − 1)b) with y(j) the image of y in `D(V(j))^{ψ=1}` (Cherbonnier–Colmez, proof of Theorem IV.2.1). (iv) For crystalline V, N(T(j)) = `π^{−j}N(T)` ⊗ e_j.
-
-See CC99 Proof of Théorème IV.2.1, p. 21; Berger2003 Appendix A, p. 124.
-
-**Checks.**
-
-- η = χ: h(y ⊗ e_1) = Tw_χ h(y).
-- For V = Q_p, N(Z_p(1)) = `π^{−1}N(Z_p)` ⊗ e_1 = `π^{−1}A^+` ⊗ e_1.
-
-- At η=1 and y=0, both comparisons give 0; at η=χ and the Tate-root vector v₁, the nonzero image is κ_Iw(ε), so a zero comparison map fails.
-
-### Supplier: Berger: ψ-fixed vectors lie in the Wach module
-
-Let V be E-linear crystalline with Hodge–Tate weights in [a; b], T ⊂ V a G-stable O_E-lattice and N(T) its Wach module (PhiGammaModulesAndIwasawaCohomology Layer 6). (i) `D(T)^{ψ=1}` ⊂ `π^{a−1}N(T).` (ii) If V has no quotient isomorphic to E(a), then `D(T)^{ψ=1}` ⊂ π^a N(T). (iii) In particular, if a ≥ 0 and V has no quotient isomorphic to E (equivalently, as a Q_p-representation, no quotient Q_p), then ψ(N(T)) ⊂ N(T), `N(T)^{ψ=1}` = `D(T)^{ψ=1},` `N(V)^{ψ=1}` = `D(V)^{ψ=1},` and h_Iw restricts to Λ-isomorphisms `N(T)^{ψ=1}` ≅ H^1_Iw(Q_p, T) and `N(V)^{ψ=1}` ≅ H^1_Iw(Q_p, V).
-
-See Berger2003 Theorem A.3, p. 124; LLZWach §1, p. 4.
-
-**Checks.**
-
-- V = E(1) (a = 1): (1 + π)/π ⊗ e_1 ∈ `D(V)^{ψ=1}` ∩ N(V).
-- V = E (a = 0, quotient E): 1/π ∈ `D(E)^{ψ=1}` ∖ A^+, so the hypothesis of (ii) and the exponent a − 1 in (i) are sharp.
-
-- For V=0, `D(V)^(psi=1) = N(V)^(psi=1) = 0` and h_Iw is the unique map 0→0; the containment includes rank zero.
-
-### Supplier: Lattice and coefficient-change squares
-
-(a) For lattices U ⊂ T ⊂ V: D(U) ⊂ D(T) ⊂ D(V) compatibly with φ, ψ, G_∞ and h_Iw; H^1_Iw(Q_p, T) → H^1_Iw(Q_p, V) is injective with image `h(D(V)^{ψ=1} ∩ D(T));` N(U) = N(V) ∩ D(U), and U ↦ N(U) is an inclusion-preserving bijection between G-stable lattices and Wach lattices in N(V); under the supplier contract “Berger: ψ-fixed vectors lie in the Wach module” (iii), H^1_Iw(Q_p, T) = `h(N(T)^{ψ=1}).` (b) For E'/E finite, D, N, ψ, H^1_Iw, h, Λ and the Mellin transform commute with `O_{E'}` `⊗_{O_E}` −; restriction of scalars to Z_p changes none of D, ψ, h.
-
-See LLZWach §2.2, p. 8; Limites2004 Proposition III.4.2, p. 21.
-
-**Checks.**
-
-- For T = Z_p(1) ⊂ V: H^1_Iw(Q_p, Z_p(1)) = `h(N(Z_p(1))^{ψ=1}).`
-- Changing T to pT multiplies `h(D(T)^{ψ=1})` by p.
-
-- For T=0, coefficient extension gives 𝒪_E′⊗0=0 and every comparison remains 0; for pT⊂T the corresponding images are pH¹_Iw(T)⊂H¹_Iw(T).
-
-### Supplier: Teichmüller decomposition of the units of a local field
-
-Let L be a nonarchimedean local field with valuation ring O_L, maximal ideal m_L and residue field F_q, q = p^f. Write ω = TauCeti.teichmuller 𝒪[L] : F_q^× → O_L^× for the Teichmüller lift and U^1_L = 1 + m_L for the principal units. Then every u ∈ O_L^× factors uniquely as u = ω(ū)·⟨u⟩ with ū the residue of u and ⟨u⟩ := `u·ω(ū)^{-1}` ∈ U^1_L, so that O_L^× = `μ_{q-1}(O_L)` × U^1_L is an internal direct product; u ↦ ⟨u⟩ is a continuous group homomorphism onto U^1_L. The decomposition is natural for continuous field embeddings L → L' of local fields and for automorphisms of L, and, if L is a finite extension of Q_p, for every branch log_a of the p-adic logarithm (ColemanIntegration §L0.15) one has log_a(u) = log(⟨u⟩), the series logarithm of the principal-unit part, because log_a vanishes on roots of unity.
-
-See `TauCeti/RingTheory/Henselian/Teichmuller.lean` and `TauCeti/NumberTheory/LocalField/UnitsDecomposition.lean`; GSWZ2024 §3.1, (176), p. 38.
-
-**Checks.**
-
-- For L = Q_5 and u = 7: ū = 2, ω(2) is the unique 4th root of unity ≡ 2 mod 5, and ⟨7⟩ = `7·ω(2)^{-1}` ≡ 1 mod 5.
-- `μ_{q-1}(O_L)` ∩ U^1_L = {1}: a decomposition with a nontrivial root of unity in the principal-unit factor is rejected.
-- For p = 2 and L = Q_2 the first factor is trivial (q − 1 = 1) and −1 lies in `U^1_{Q_2}:` the factor of order prime to p does not contain the 2-power roots of unity.
-
-### Supplier: Frobenius on the roots of unity of an unramified field
-
-Let L be a finite unramified extension of Q_p with residue field F_q and let φ_L be its arithmetic Frobenius, the unique field automorphism of L over Q_p whose reduction is x ↦ x^p on F_q (an arithmetic Frobenius in the sense of IsArithFrobAt for the extension O_L/Z_p). Then φ_L(ω(α)) = ω(α^p) for every α ∈ F_q^×, hence φ_L(ζ) = ζ^p for every ζ ∈ `μ_{q-1}(L);` for p odd μ(L) = `μ_{q-1}(L),` so φ_L(ζ) = ζ^p for every root of unity of L. For a finite product L = ∏_i L_i of such fields put φ_L := ∏_i `φ_{L_i};` then φ_L(ζ) = ζ^p componentwise for tame ζ (all roots if p odd). This is GSWZ (176).
-
-This is `TauCeti.frobeniusAlgEquiv_teichmullerLift` and `TauCeti.frobeniusAlgEquiv_rootsOfUnity` in `TauCeti/NumberTheory/LocalField/Frobenius.lean`, with K=ℚₚ; finite products use the componentwise automorphism. The full root group assertion remains restricted to odd p.
-
-See GSWZ2024 §3.1, (176), p. 38; `TauCeti/NumberTheory/LocalField/Frobenius.lean`, `TauCeti.frobeniusAlgEquiv_rootsOfUnity`.
-
-**Checks.**
-
-- L = `Q_{25}` (p = 5): φ_L has order 2 and fixes exactly μ_4 ⊂ `μ_{24}.`
-- For p = 2 and L = Q_2, −1 ∈ μ(L) is not of order prime to 2; the identity φ(ζ) = ζ^2 fails for ζ = −1, so the odd-p hypothesis is needed for the full μ(L).
-
-- For L=ℚ₅, φ_L fixes ω(2), and ω(2)⁵=ω(2). On the zero algebra the componentwise Frobenius is its unique automorphism; its action on the zero element is 0.
-
-### Supplier: Soulé's étale regulator to continuous Galois cohomology
-
-Let F be a characteristic-zero field (a number field or a finite extension of ℚ_p), or a finite product of such fields. For n≥1, r^et_n:K_(2n−1)(F)→H¹(F,ℤ_p(n)) is the p-adic class c_(n,1) of KTheoryFiniteLocalFields §1.8 at Spec F, of weight n and cohomological degree 1. On each factor field it is Soulé's construction: reduction modulo p^ν, the classes c_(n,1) with μ_(p^ν)^⊗n coefficients, and inverse limit, because H¹(F,ℤ_p(n))→lim_ν H¹(F,μ_(p^ν)^⊗n) is an isomorphism, its kernel being lim¹ of the finite groups H⁰(F,μ_(p^ν)^⊗n). It factors through K_(2n−1)(F;ℤ_p); rationalization gives K_(2n−1)(F)⊗ℚ_p→H¹(F,ℚ_p(n)). Weight one is Kummer. These are ordinary Chern classes. The Chern-character étale regulator is r^(et,ch)_n:=((−1)ⁿ⁻¹/(n−1)!)·(r^et_n⊗ℚ), with values in H¹(F,ℚ_p(n)); it is the étale counterpart of reg_syn in §4.1. In weight two r^(et,ch)_2=−r^et_2 is still integral. For local F, KTheoryFiniteLocalFields §§6.6–6.7 supplies a completed étale edge isomorphism for n≥2. Ordinary Chern operations require a factorial comparison with that edge; here the Chern isomorphism is needed only in weight two.
-
-- etaleRegulator F p n : `K_{2n−1}(F)` →+ H^1(F, ℤ_p(n)).
-- The Chern-character normalization r^(et,ch)_n=((−1)ⁿ⁻¹/(n−1)!)·r^et_n after rationalization; in weight one both are Kummer, in weight two they differ by the sign −1.
-- The factorisation through `K_{2n−1}(F; ℤ_p),` a ℤ_[p]-linear map.
-- For n = 1, etaleRegulator F p 1 is the Kummer map F^× → H^1(F, ℤ_p(1)).
-- For a field embedding F → F', res ∘ etaleRegulator F = etaleRegulator F' ∘ `K_{2n−1}(ι).`
-- For a finite extension F'/F of fields, n·(etaleRegulator F ∘ `N_{F'/F}` − cor ∘ etaleRegulator F') = 0 (transfer): the two maps agree after rationalization, and integrally when p∤n, in particular for n = 1.
-- For F/ℚ_p finite, the completed weight-two Chern map is an isomorphism. For general n≥2 keep the separate `etaleEdgeOne` isomorphism and its Chern normalization comparison.
-- For a number field F and v | p, res_v ∘ etaleRegulator F = etaleRegulator F_v ∘ c_v.
-
-See HK2011 §1.3, p. 8; NN2016 §5.2, p. 59; KTheoryFiniteLocalFields §§1.8,6.6–6.7. The transfer identity reduces modulo p^ν to WeibelChern Proposition 4.4, p.22, which holds in every K-degree, the Kummer case n = 1 included. WeibelChern Proposition 5.1, p.24 distinguishes the ordinary Chern operation from the edge.
-
-**Checks.**
-
-- For F = Q_p, n = 1 and u ∈ Z_p^×, etaleRegulator F p 1 u is the image of u under lim_ν of Tau Ceti's kummerClassMap.
-- For F = Q_5, n = 2, the completed etaleRegulator is a ℤ_5-linear isomorphism between free modules of rank 1.
-- Over 𝔽₃ in weight 3 modulo 2, K₅ and H¹ both have order 2, but c_(3,1) is zero: its factorial multiplier is 2. Equal group sizes do not identify the ordinary Chern map with the edge.
-- In weight three r^et_3=2·r^(et,ch)_3 after rationalization. A comparison that treats the two normalizations as equal is off by the factor 2, which no choice of sign absorbs.
-- For F = `Q_{p²}` and p > 3, a ℤ_p-isomorphism K_3(F; ℤ_p) ≅ ℤ_p² chosen from bases is not etaleRegulator: etaleRegulator commutes with the Frobenius automorphism of F, while a generic basis isomorphism does not.
-
-### Supplier: Rigid syntomic cohomology of smooth schemes over a p-adic integer ring
-
-Consume the compactification-filtered theory of CohomologyComparisonsPartII §§2.1–2.3 in every integer weight n, with the fibre coordinates that §2.2 fixes for all consumers. Let R be a complete mixed-characteristic DVR with perfect residue field k, K=Frac(R), K₀=Frac(W(k)), and X smooth separated of finite type over R. Write A=RΓ_rig(X_k/K₀) with its σ-semilinear Frobenius φ, C=RΓ_rig(X_k/K), bc:A→C for scalar extension, and sp_n:FⁿRΓ_dR(X_K/K)→C for specialization from the filtered algebraic term, which is built from logarithmic forms on a smooth proper normal-crossings compactification with its Hodge filtration (Fⁿ=F⁰ for n≤0). Besser's rigid syntomic complex is the ℚₚ-linear homotopy fibre of f_n(a,b)=((1−p⁻ⁿφ)a, bc(a)−sp_n(b)) from A⊕FⁿRΓ_dR to A⊕C, in this order and with these signs. Its cohomology is functorial and independent of the chosen compactification and frame (Besser2000 Definition 6.1 and Proposition 6.3, author pp.19–20). The Huber–Kings presentation (HK2011 Definition 2.2.1, p.14) puts the filtered term first and maps (b,a)↦(sp_n(b)−bc(a),(1−p⁻ⁿφ)a) into C⊕A. Every formula imported from it is transported through the coordinate isomorphism (a,b;u,v)↦(b,a;−v,u) of CohomologyComparisonsPartII §2.2, which preserves the projections to A and to the filtered term and negates the C-component.
-
-For X=Spec R and n≥1 the filtered term vanishes, the fibre is [K₀ → K₀⊕K], a↦((1−σ/pⁿ)a, a), H¹ is the quotient of K₀⊕K by the image, and every other degree vanishes. Since 1−σ/pⁿ is bijective on K₀ for n≥1, the de Rham coordinate η:H¹→K, η[(u,v)]=(1−σ/pⁿ)⁻¹u−v, is an isomorphism. It is Huber–Kings' isomorphism (HK2011 Example 2.2.4 and Definition 2.2.5, pp.14–15), whose inverse is the inclusion of K as the C-slot of their order, transported through the coordinate isomorphism above; the C-slot of their order is minus the C-slot here.
-
-- Pullback commutes with specialization, Frobenius and products.
-- The fibre triangle gives the long exact sequence using Hⁱ(FⁿRΓ_dR), with this compactification filtration.
-- For X=Spec R and n≥1, η is a ℚₚ-linear isomorphism from H¹ to K. The class with A-component c and C-component 0 has η-value (1−σ/pⁿ)⁻¹c; the class with A-component 0 and C-component c has η-value −c.
-- Presentation refinements give compatible equivalences and homotopic chain maps induce the same cohomology map.
-
-Separately consume the tube-filtered variant of CohomologyComparisonsPartII §2.2. It replaces FⁿRΓ_dR by overconvergent forms on a strict neighbourhood of the tube, filtered by powers of the ideal of the generic fibre of the compactification and by form degree, and keeps the same coordinates and signs. It is not defined by algebraic stupid truncation on X_K. That section also supplies the natural comparison κ_n from the compactification-filtered fibre to the tube-filtered one. κ_n is an equivalence for X proper over R, in particular for X=Spec R, where it is the identity. For R finite over ℤₚ and X affine, the tube-filtered complex is equivalent to the Huber–Kings complex on the weak completion of X (HK2011 Definition 2.2.1 and Proposition 2.2.7, pp.14–15), read through the coordinate isomorphism. On general smooth affine X only the map κ_n is used, with no equivalence. The compatibility of κ_n with syntomic Chern classes is a target of §4.1. Sections 4.1–4.2 use the Huber–Kings regulator at Spec R through κ_n. Sections 7.1–7.6 use the compactification-filtered rigid theory on the smooth proper curve and its modified open-curve model. The relative and semistable theories in §§7.7–7.11 have their own explicitly stated filtered carriers.
-
-For the divisor condition of §4.1 consume, from PadicDifferentialEquationsAndRigidCohomology §RD.4.40, the rigid Gysin isomorphism RΓ_(D,rig)(Y/L)≃RΓ_rig(D/L)(−1)[−2] for a smooth divisor D of a smooth separated k-scheme Y and L=K₀ or K, natural for restriction and finite scalar extension; the twist (−1) multiplies Frobenius by p.
-
-**Checks.**
-
-- For R=ℤₚ and n=2, the class with A-component c has η-value c/(1−p⁻²) and the class with C-component c has η-value −c. The functional (u,v)↦v−u/(1−p⁻²), which reads the C-slot of this order the way Huber–Kings read theirs, is −η; with it the weight-one regulator of §4.1 would be −logₚ instead of logₚ.
-- At n=0, X=Spec ℤₚ, the fibre map is (a,b)↦(0,a−b), so H⁰=H¹=ℚₚ; the positive-weight vanishing statement does not apply.
-- At n=−1, X=Spec ℤₚ, the fibre map is (a,b)↦((1−p)a,a−b), which is bijective, so every group vanishes. Taking F⁻¹=0 instead of F⁰ would give H¹=ℚₚ.
-- For A¹_K compactified by (ℙ¹,∞), H¹(F¹RΓ_dR)=H⁰(ℙ¹,Ω¹(log∞))=0. Algebraic stupid truncation instead gives K[x]dx, while H¹_dR(A¹)=0. These complexes cannot be silently identified.
-- For G_m, compactification-filtered H¹ in weight one is K·dlog t, and φ(dlog t)=p·dlog t; 1−φ/p kills it.
-- For X=Spec R and n≥1, κ_n is the identity, and the Huber–Kings point calculation (HK2011 Example 2.2.4, pp.14–15), read through the coordinate isomorphism, gives H¹=K with the same η.
-
-### Supplier: Log-syntomic complexes S_n(r)
-
-Consume CohomologyComparisonsPartII §§3.1–3.4: its divided and undivided complexes, error maps, products and derived completion, on each section’s stated domain.
-
-For an fs log-smooth X/O_K^× (mixed characteristic, perfect residue field), r≥0 and m≥1, distinguish U_m(r)=Fib(p^r−φ:J_m^[r]→O_cr,m) from D_m(r)=Fib(1−φ_r:J_m^<r>→O_cr,m). Here J_m^<r> is obtained by lifting to level m+s, s≥r, imposing φ(x)∈p^r O_cr,m+s, then reducing modulo p^m; φ_r is the resulting divided Frobenius. For 0≤r≤p−1 the two domain ideals agree, but the two differentials and complexes still differ. There are directed maps ω_r:U_m(r)→D_m(r), with legs (p^r,id), and τ_r:D_m(r)→U_m(r), with legs (id,p^r). Both composites are p^r; their cohomological kernels/cokernels are p^r-torsion. ω preserves products; τ generally does not. Étale sheafification, derived global sections and derived m-limits are imported. Derived reduction and the rational quotient-fibre presentation retain CohomologyComparisonsPartII §3.4’s arithmetic-pair hypotheses: a dense open K-variety in a reduced proper flat 𝒪_K-scheme, fine integral quasi-coherent boundary log structure, log smoothness over the canonical log trait, Cartier type and local exact log-PD presentations. CN S_m(r) denotes U_m(r), whereas EN S_m(r) denotes D_m(r) and EN S′_m(r) denotes U_m(r). After rationalization ω and τ/p^r are inverse comparisons; integral equality is not asserted.
-
-- logSyntomicComplex X r m is the imported undivided complex U_m(r), not the divided D_m(r).
-- logSyntomicSheaf X r m is the étale undivided sheaf complex U_m(r); its derived global sections give logSyntomicComplex.
-- On the log-smooth arithmetic-pair domain of CohomologyComparisonsPartII §3.4, logSyntomicCompleted X r ⊗^L Z/p^n ≃ logSyntomicComplex X r n.
-- On that arithmetic-pair domain, logSyntomicCompleted X r ⊗ Q is Fib((1−φ/p^r,can):RΓ_cr,Q→RΓ_cr,Q⊕RΓ_dR/F^r), with the derived filtered quotient retained.
-- Morphisms of fs log-smooth O_K^×-schemes induce maps, with map_id and map_comp; base change along O_K → `O_{K'}.`
-- Cup products S_n(r) ⊗ S_n(s) → S_n(r + s).
-- The imported D_m(r) with the Frobenius-divisible ideal, distinct from U_m(r).
-- ω_r:U_m(r)→D_m(r) has legs (p^r,id); τ_r has legs (id,p^r), and both composites equal p^r. Only ω is asserted multiplicative.
-
-See CN2017 §5.1.1, pp. 52–53; NN2016 Introduction, (1), p. 2; EN2016 §2.1 and §2.1.2, pp. 4–6.
-
-**Checks.**
-
-- For X = Spec O_K (log structure of the closed point), r = 2: H^1(logSyntomicCompleted X 2) is `p^{N}-isomorphic` to O_K and H^2 to 0.
-- For r = 0, `J^{[0]}` = O and S_n(0) is the fibre of 1 − φ on `A_{cr,n};` on X = Spec O_K its H^0 is Z/p^n.
-- For Y/W(k) smooth projective and D a relative normal-crossings divisor, CohomologyComparisonsPartII §7.4 identifies the syntomic complex with log structure from D alone over the trivially logged base with rigid syntomic cohomology of Y−D (AM2022 Lemma 3.10, pp.29–30). For Y=Spec ℤₚ, D empty and r=1, both have H¹=ℚₚ. Adding the canonical vertical log gives H¹=ℚₚ²: the complex ℚₚ→ℚₚ³→ℚₚ has maps x↦((1−p⁻¹)x,x,0) and zero, so the extra uniformizer Kummer direction survives.
-- At r=p−1 the chosen Euclidean decomposition gives a(r)=1 and `Z_p(r)′=p^{-1}Z_p(r),` whereas at r=p−2 it gives a(r)=0 and the ordinary twist. Replacing all modified lattices by the ordinary lattice loses this normalization.
-- At m=1 and r≥1, p^r is zero. The identity ωτ=p^r supplies no inverse; for zero Frobenius and identical Z/p domains, Fib(0) and Fib(id) already have different cohomology. This algebraic test detects invalid rescaling.
-
-### Supplier: The Fontaine–Messing–Kato period morphism
-
-Consume CohomologyComparisonsPartII §§4.1–4.2 for ordinary/modified Tate lattices and the divided and undivided Fontaine–Messing morphisms.
-
-Use the imported divided complex D_m(r). Its integral Fontaine–Messing period map α_div:D_m(r)→i*Rj*(Z/p^m(r)′) is a directed morphism. For 0≤r≤p−2 it lands in the ordinary twist. In all weights EN uses Z_p(r)′=(p^a a!)^−1 Z_p(r), r=(p−1)a+b, 0≤b<p−1. On the syntomic–étale site the map goes from D_m(r) to i_se* j_se* j′*G(Z/p^m(r)′), with G the Godement resolution. Exactness of the special-fibre pushforward and the topos comparison induce the stated étale map after derived pushforward. Define α_und=α_div∘ω_r on U_m(r); this is multiplicative and reduction-compatible. This construction inverts no p^r-exact arrow. CN uses p^−a Z_p(r). The lattices coincide exactly when v_p(a!)=0, equivalently a<p. Otherwise transport the period map by the explicit change of lattice: multiplication by a! sends EN’s generator (p^a a!)⁻¹ to CN’s generator p^−a. Layer 4 uses weights outside this equality range; the p>3, weight-two calculation in Layer 5 has a=0.
-
-- fmkPeriodMap X r m := α_div∘ω_r : U_m(r)→i*Rj*(Z/p^m(r)′); the divided map is a separate imported interface.
-- The divided map comes from the canonical syntomic–étale-site map to a Godement resolution and derived pushforward. The undivided map is its composition with ω_r; no bounded quasi-isomorphism is inverted.
-- fmkPeriodMap is compatible with cup products S_n(r) ⊗ S_n(s) → S_n(r + s).
-- Compatible with the reduction maps n → n − 1 and with the completed versions.
-- On the divided weight-one unit class α_div equals the Kummer map; on the undivided unit class α_und equals p times Kummer, because ω sends that class to p times the divided one.
-- α_div:D_m(r)→i*Rj*(Z/p^m(r)′), with EN’s (p^a a!)^−1 twist.
-
-See CN2017 §1, p. 2; EN2016 §2.2–§2.2.1, pp. 7–8; EN2016 §2.1.3, the first Chern class maps and their compatibility diagram, pp. 5–6; §2.2.1, pp. 7–8.
-
-**Checks.**
-
-- For a unit u, the divided class maps to κ_m(u); the undivided class maps to p·κ_m(u). At m=1 the latter can vanish despite κ_m(u)≠0. Exactness belongs to the divided map.
-- For r = 0, `α^FM_{0,n}` is the identification of S_n(0) with i^*Rj_*Z/p^n in degree 0 (both are Z/p^n on a connected X).
-- For r < p − 1, a(r) = 0 and Z_p(r)' = Z_p(r), so the Colmez–Nizioł and Nekovář–Nizioł normalisations coincide.
-- At r=p−1, `Z_p(r)′=p^{-1}Z_p(r)` and its prescribed period generator has p-adic valuation one less than the ordinary generator; an ordinary generator cannot be silently substituted in the same normalized map.
-- At p=2,r=2, a=2: EN’s lattice is ⅛ℤ₂(2), CN’s is ¼ℤ₂(2), and multiplication by 2 carries the first generator to the second. At p=3,r=6, a=3, the change is multiplication by 6. At p=5,r=2, a=0 and both lattices are ℤ₅(2).
-
-### Supplier: The divided small-weight comparison and the undivided bounded comparison
-
-Consume CohomologyComparisonsPartII §§4.3–4.4, with the exact divided and bounded undivided domains kept separate.
-
-For fs log-smooth X/𝒪_K^× of Cartier type, and 0≤i≤r≤p−2, the divided period morphism induces Hⁱ(D_m(r))≃i*Rⁱj*(ℤ/pᵐ(r)). Equivalently, τ≤rD_m(r)≃τ≤r i*Rj*(ℤ/pᵐ(r)). This is the small-weight theorem in EN2016 Theorem 2.2, p. 7, attributed there to Tsuji. For a semistable scheme or semistable base change and 0≤i≤r, the undivided morphism, after the factorial lattice conversion above, has kernel and cokernel killed by p^(Nr+cₚ) when K has enough roots of unity in the following precise sense: if i is maximal with ζ_(pⁱ)∈K, F_i=K₀(ζ_(pⁱ)), δ_K=e·vₚ(Different(K/F_i)) and vₚ(p)=1, then δ_K+[K:F_i]<e/(2p). Here N is universal; cₚ depends only on p for odd p, and also on chart dimension d for p=2. The sharper bound is uniform in m and in X at fixed d when p=2. Separately, the general bound is p^N(e,p,r), uniform in m and X, where e is the absolute ramification index. Rationalization gives the comparison in degrees ≤r. The exact assertion is restricted to the divided complex and has no r=p−1 endpoint.
-
-See CN2017 §1, (1.3), p. 2; CN2017 Theorem 1.1, p. 2; EN2016 Theorem 2.2, p. 7; §2.1, pp. 4–5.
-
-**Checks.**
-
-- At r=1 and p≥3 the divided map computes H¹(K,Z/p^m(1)); the undivided map remains bounded and must not inherit this exact conclusion.
-- At r=2 and p≥5 the divided exact comparison uses the ordinary twist, but U_m(2) and D_m(2) are still different integral complexes.
-- At p=2,r=1, chart dimensions 1 and 2 give sharper exponents N+c₂(1) and N+c₂(2); no equality is inferred. At p=3,r=1 both dimensions use N+c₃. The separate general exponent N(e,p,1) applies in either dimension.
-
-### Supplier: Finite unramified étale Q_p-algebras
-
-A finite unramified étale Q_p-algebra is a Q_p-algebra L isomorphic to a finite product `∏_{i∈I}` L_i of finite unramified field extensions L_i/Q_p; equivalently L ≅ W(k)[1/p] for a finite reduced F_p-algebra k = ∏_i `F_{q_i}` (Witt vectors of a finite product of finite fields), with k ≅ O_L/pO_L. Its ring of integers is O_L = ∏_i `O_{L_i}` = W(k), the integral closure of Z_p in L; its rank is [L : Q_p] = Σ_i [L_i : Q_p] = `dim_{F_p}` k; its Frobenius φ_L = ∏_i `φ_{L_i}` is the Witt-vector Frobenius W(Frob_k)[1/p]. For a number field F and a prime p unramified in F, F ⊗_Q Q_p ≅ `∏_{v|p}` F_v is such an algebra, with O_F ⊗ Z_p = ∏_v O_v.
-
-- IsUnramifiedEtaleAlgebra p L : L is a finite product of finite unramified field extensions of ℚ_[p] (data: the factor decomposition up to isomorphism).
-- L ≃ₐ[ℚ_[p]] Localization.Away (p : WittVector p k) for k := O_L ⧸ p, a finite reduced 𝔽_p-algebra.
-- Module.finrank ℚ_[p] L = Module.finrank (ZMod p) k.
-- The Frobenius φ_L : L ≃ₐ[ℚ_[p]] L induced by WittVector.frobenius on W(k); it fixes exactly `ℚ_[p]^{#π_0}` componentwise.
-- Finite products of unramified étale algebras are unramified étale.
-- For a number field F and p unramified in F, F ⊗[ℚ] ℚ_[p] is unramified étale.
-
-See GSWZ2024 §3.1, paragraph before Theorem 9, p. 39.
-
-**Checks.**
-
-- For F = Q(α), α³ − α² + 1 = 0 and p = 5, F ⊗ Q_5 is unramified étale of rank 3 with factors of residue degrees 2 and 1.
-- The zero algebra (empty product, k = 0) is unramified étale of rank 0.
-- For k = F_q, the algebra W(F_q)[1/p] is the unramified extension Q_q of degree log_p q, and its Frobenius is Mathlib's WittVector.frobenius after inverting p.
-- For p odd, Q_p(ζ_p) is finite étale but not unramified: its residue field is F_p while its degree is p − 1, so it is not of the form W(k)[1/p].
-
-### Supplier: Completed K₃ of a finite unramified étale algebra
-
-For a finite unramified étale Q_p-algebra L = ∏_i L_i put K_3(L; Z_p) := π_3 K(L; Z_p), the p-completed K-theory of KTheoryFiniteLocalFields §1.6. The projections induce K_3(L; Z_p) ≅ ∏_i K_3(L_i; Z_p) (finite products commute with K-theory and with derived p-completion), and K_3(O_L; Z_p) → K_3(L; Z_p) is an isomorphism. The étale Chern classes give c_L : K_3(L; Z_p) ≅ H^1(L, Z_p(2)) := ∏_i H^1(L_i, Z_p(2)). For p > 3, K_3(L; Z_p) is a free Z_p-module of rank [L : Q_p]; for p ∈ {2, 3} it has the nonzero torsion `Z/w_2^{(p)}(L_i)` on each factor.
-
-- completedK3 p L := π_3 K(L; ℤ_p), a ℤ_[p]-module.
-- completedK3 p (∏ i, L i) ≃ₗ[ℤ_[p]] ∏ i, completedK3 p (L i).
-- completedK3 p O_L ≃ₗ[ℤ_[p]] completedK3 p L, induced by O_L → L.
-- completedK3 p L ≃ₗ[ℤ_[p]] H^1(L, ℤ_p(2)), componentwise étale Chern class `c_{2,1}.`
-- For p > 3, Module.Free ℤ_[p] (completedK3 p L) and Module.finrank = [L : ℚ_[p]].
-- A ℚ_[p]-algebra map f : L → L' induces completedK3 p L → completedK3 p L', with map_id and map_comp; the Frobenius φ_L acts by functoriality.
-- For L → L' finite free, a transfer completedK3 p L' → completedK3 p L. Under the Chern isomorphisms it corresponds to corestriction for odd p; for p = 2 the two differ by an element killed by 2 (KTheoryFiniteLocalFields §1.8, with weight two).
-- The completed module is imported from p-completed K-theory. Equality of induced maps is pointwise, and product maps are determined by all factor projections. Inherit Module and map_zero/map_add/map_smul rather than define a new completion carrier.
-
-See GSWZ2024 Proof of Theorem 9, p. 39.
-
-**Checks.**
-
-- For p = 5 and L = `Q_{25}` × Q_5, completedK3 5 L is free of rank 3.
-- completedK3 p 0 = 0 for the zero algebra.
-- For L = Q_p the Chern isomorphism agrees with KTheoryFiniteLocalFields §§6.6–6.7 at i = 2.
-- For p = 3, completedK3 3 Q_3 has torsion Z/3 `(w_2^{(3)}(Q_3) = 3),` so it is not free and no injective map to a torsion-free lattice exists.
-
-### Supplier: Completed K₃ of an unramified field is the completed Bloch group
-
-K3BlochGroups §6.6 supplies K₃^ind(L)/p^ν≃B(L)/p^ν when p is odd and μ(L)⊗ℤ/p^ν=0, retaining the kernel image of T̃(L)/p^ν before this root hypothesis. KTheoryFiniteLocalFields §§3.5,6.2,6.8–6.10 supply the ordinary-to-indecomposable and completed-to-inverse-limit steps: the local Milnor K₃ image is divisible, and TₚK₂(L)=0 because K₂(L) is a uniquely divisible group plus finite torsion. Composing these inputs gives the following contract.
-
-Let L be a finite unramified extension of Q_p with p ≥ 3. For every ν ≥ 1 the natural maps K_3(L)/p^ν → K_3^ind(L)/p^ν → B(L)/p^ν are isomorphisms (B(L) Suslin's Bloch group), and the completion map identifies K_3(L; Z_p) with lim_ν K_3(L)/p^ν ≅ lim_ν B(L)/p^ν =: B(L)^∧_p. In particular the image of B(L) — more precisely of K_3(L), which surjects onto every B(L)/p^ν — is dense in K_3(L; Z_p), and the kernel of K_3(L) → K_3(L; Z_p) is ⋂_ν p^ν K_3(L). For a finite product L = ∏ L_i the statements hold factorwise.
-
-See GSWZ2024 Proof of Theorem 9, p. 39.
-
-**Checks.**
-
-- For L = Q_5: K_3(Q_5; Z_5) ≅ Z_5 ≅ lim_ν B(Q_5)/5^ν.
-- For ramified L=Q_p(ζ_p), retain the term im(μ̃(L)/p→K_3^ind(L)/p) in the kernel of K_3^ind(L)/p→B(L)/p. The argument that this term vanishes for unramified L no longer applies. No nonzero injection of μ̃(L)/p, or ramified isomorphism, is inferred from tensoring Suslin’s exact sequence.
-
-- At L=ℚ₃ the completed group is ℤ₃⊕ℤ/3, so the completed Bloch comparison retains the order-three summand; it does not imply torsion-freeness.
-
-### Supplier: Good Wach basis coordinate interface
-
-Consume the integral, rational and analytic good-basis comparisons from PhiGammaModulesAndIwasawaCohomology §6.2, including the choice congruent modulo π to a prescribed integral Wach basis (LLZWach Theorem 3.5). For b_i=(1+π)φ(n_i), its ψ-zero coordinates identify the bounded coefficient row with Λ_E(G∞)^d and the analytic extension with ℋ_E(G∞)^d. A constant basis change acts by inverse right multiplication. A nonconstant matrix in GL_d(Λ_E(G∞)) transports coordinates but need not preserve the property of being a good Wach basis.
-
-See LLZWach Theorem3.5, Lemmas3.7-3.10, Proposition3.11, Lemma3.15, pp.10-13; LLZ2011 Proposition2.11, Theorem2.12, Corollary2.13, Remark2.14, pp.1115-1116.
-
-**Checks.**
-
-- Changing by a constant GL_d(O_E) matrix preserves goodness. An arbitrary power-series change does not follow from this theorem.
-- In rank one the bounded coordinate of b₁ is 1, whereas p⁻¹b₁ has nonintegral coordinate and is not an integral good basis.
-- For U=diag(2,1) over ℤ₅, coordinates (a,b) become (a/2,b); multiplication by U would give the wrong first coordinate.
-
-## How to read the build
-
-Layers 0–2 fix the cohomological interfaces; Layers 3–6 build the local K₃ theorem and global regulator. Layer 7 treats curves, retaining continuous and discrete semistable coordinates. Layers 8–9 build cyclotomic regulators, interpolation, Coleman images and de Rham domains.
 
 ## Layer 0: period and integral comparison interfaces
 
@@ -2752,6 +2356,402 @@ Layers 1–2,8; PhiGammaModulesAndIwasawaCohomology §§1.0,1.6,3.1–3.2,3.4–
 ## Downstream consumers
 
 HabiroNahmSeries (its local-K₃ supplier contract and §6.3) uses §§3.2–3.6, 4.7 and 5.4–5.9’s natural completed regulator isomorphism, tame-root generation and p² lattice without requiring global regulator injectivity. HabiroNumberFields §3.0 and its PadicHodgeRegulators supplier contract use the same completed root classes, normalized local regulator, lattice isomorphism, root presentations, global regulator, naturality and transfer (§§4.7, 5.6–5.9, 6.1, 6.3); they are owned here and imported there, not constructed a second time. Polylogarithms is a supplier, not a consumer: §4.7 imports its §2.3 evaluation of the Borel regulator on Suslin's Bloch classes with its calibrated scalar, and owns only the de Jeu evaluation and the de Jeu–Suslin comparison c₂ = κ₂⁻¹. GrossZagierAndArithmeticHeights uses §1.9’s arbitrary-reduction abelian-variety logarithm comparison with §0.1’s twist and de Rham conventions. Signed Selmer applications use the specified Coleman maps, their rational images, finite integral indices where proved and closed kernels. Euler-system applications use character specialization and explicit reciprocity with their Gauss and Gamma factors. Curve and family computations use the normalized syntomic/de Rham comparison and must supply Frobenius-compatible specialization points. Semistable applications retain both continuous and discrete coordinates. The injectivity predicates above are explicit hypotheses for applications needing them.
+
+## Scope and ownership
+
+This roadmap owns the normalization and comparison of regulators, the finite-residue dilogarithm argument for the local K₃ theorem, the explicit curve regulator interfaces, and the linear algebra of Coleman images. In particular it is the single owner of the weight-two comparison of de Jeu's classes with Suslin's Bloch group (§4.7) with the evaluation of de Jeu's classes it rests on, the completed root classes, the normalized local K₃ regulator with its naturality and transfer, its lattice isomorphism, root generation and finite root presentations (§§5.6–5.9); HabiroNumberFields §3.0 and its PadicHodgeRegulators supplier contract, and HabiroNahmSeries §6.3, consume these rather than construct them. The other evaluation that comparison rests on, the Borel regulator on Suslin's Bloch classes as an exactly calibrated multiple of the descended Bloch–Wigner regulator, is stated by Polylogarithms §§2.1 and 2.3 (blochWignerDesc, weightTwoRegulator, weightTwoRegulator_borel and borelCalibration_two) and consumed in §4.7; its Borel and Tate coordinates and its analytic Bloch–Wigner cocycle (Polylogarithms §2.2) are Polylogarithms' own. SchemeKTheoryOperations §7.3a constructs Chern classes out of higher K-theory once, for every theory satisfying its projective bundle and divisor conditions, and KTheoryFiniteLocalFields §1.8 states its finite and ℓ-adic étale instances: Soulé's étale regulator (supplier contract “Soulé's étale regulator to continuous Galois cohomology”) is the p-adic class c_(n,1) of §1.8 over fields, and the étale classes of smooth varieties in §4.2 are its p-adic classes. Section 4.1 states the rigid syntomic instance and proves its two conditions. KTheoryFiniteLocalFields §§3.0a,6.6–6.7 supply algebraic K-groups, motivic cycle complexes and finite/continuous étale comparisons. K3BlochGroups Layer 3 (§§3.1,3.3–3.6) is the single owner of the integral pre-Bloch group, the antisymmetric-square boundary, the Bloch kernel and their field maps; its §§4.20,6.3–6.6 supply the Suslin exact sequence, integral root multiples, coefficient-localized root classes and finite Bloch quotients. ColemanIntegration §L2.Fb supplies only the p-adic evaluation of these carriers and its branch descent, transported through K3BlochGroups §§3.4–3.5's symbol-preserving equivalence and boundary square. KTheoryFiniteLocalFields §§3.5,6.2,6.8–6.10 supply the Milnor divisibility and completion inputs. Generic classical syntomic, relative open-curve and semistable comparison carriers are required inputs from **CohomologyComparisonsPartII**; their regulator-specific identifications are stated here. ColemanIntegration owns Coleman integration; **ColemanIntegrationPartII** supplies the required Vologodsky integration and double/triple indices. This roadmap identifies their values on regulator classes.
+
+Submodule inverse images and preservation of dimension by linear equivalences use Mathlib `Submodule.comap` and `LinearEquiv.finrank_eq`; they are not separate transport constructions here. Reconstruction through a coordinate equivalence uses `LinearEquiv.symm_apply_apply`. The ordinary-to-indecomposable quotient and completed-to-inverse-limit identifications use KTheoryFiniteLocalFields §§3.5,6.2,6.8–6.10 together with K3BlochGroups §6.6. The regulator lattice theorem and its root-value normalization are the additional arithmetic assertions of Layer 5.
+
+PadicPeriodRings §§1.5,4.1–4.3 own the period rings, invariant functors and underlying fundamental sequence. FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.P2–R07.P5 supply finite-K comparison contracts, continuous sections and additional sequences. SelmerIwasawaCohomology §4.9 owns the finite Bloch–Kato condition on representations, lattices and discrete quotients, with its local duality. NoncommutativeAndEquivariantIwasawa §F.6 owns the normalized finite Bloch–Kato complex, its cohomology comparison, period boundaries, dual exponential, adjunction and functoriality; PhiGammaModulesAndIwasawaCohomology §5.7 reexports its exponential. These generic constructions are consumed here. The additional condition g, logarithm specializations and regulator-specific comparisons are the outputs here. SelmerIwasawaCohomology §4.26’s elliptic Kummer comparison is also consumed. The extension to abelian varieties of arbitrary reduction is stated for the functorial logarithm, without identifying a chosen differential with a minimal differential through an unproved scalar.
+
+PhiGammaModulesAndIwasawaCohomology §5 supplies Fontaine's integral Iwasawa comparison and its coefficient, character and generator compatibilities. Its §§5.7 and 6 supply the local exponential, H¹_e, ψ-fixed Wach containment and good Wach bases with integral congruence. The present roadmap adds regulator normalization, image formulas and particular Coleman coordinates. These exponentials, §5.6a's differential module and NoncommutativeAndEquivariantIwasawa §F.6's maps are stated only for Galois representations. This roadmap therefore owns, in §9.30a, the differential module N_rig(D) of an arbitrary de Rham (φ,Γ)-module over the Robba ring, together with its Bloch–Kato exponential and dual exponential, their étale comparison and their differential interpolation. These are built from PadicHodgeTheory §§4.2, 4.5 and 5.2 (localization, positive de Rham realization with its sign adapter, and Berger's modification) and from PhiGammaModulesAndIwasawaCohomology §§1.6, 3.1–3.2, 3.4–3.4a, 3.9 and 5.3 (equivariant B-pair realization, Herr complexes, rational torsion-convention and Herr–Galois comparisons, the equivariant cohomology comparison and the cyclotomic deformation). LocalGaloisGroups Layer 7 owns the completed multiplicative carrier, its Galois action and torsion/free quotient. The unit filtration, the convergence and continuity of the logarithm on principal units and the deep-unit logarithm `TauCeti.deepUnitExpLogEquiv` are already in the pinned Tau Ceti library; the full local unit-log kernel and semilocal norm–trace of §§3.5(a),3.6 extend that interface. IntegralIwasawaTheory §§2.2 and 4.1 own the global unit localization, `leopoldtDefect`, `LeopoldtConjecture`, `leopoldtLogMap`, the all-embeddings logarithm matrix and its full-rank criterion; §3.5(b) consumes them and adds only the rank abbreviation rr_p in the row convention.
+
+AbelianSchemesAndArithmeticModuli §A4.3 owns degree-one de Rham cohomology and its Hodge sequence; NeronModelsAndSemistableAbelianVarieties §§3.10, 3.13–3.14 and 5.3 own potential semistability, Raynaud uniformization and the filtered homological period comparison with descent. Section 1.9 adds the Bloch–Kato logarithm identification on the abelian Kummer image at arbitrary reduction.
+
+The Tau Ceti local-field library supplies Teichmüller lifting and the residue-field equivalence for tame roots of unity. Mathlib supplies finite fields, polynomials, finite-dimensional linear algebra, submodules and matrix determinants. EffectiveBounds owns real regulators and unit-lattice bounds. ArithmeticKTheory §§3.2–3.4 supply global K₃ finite generation and ranks. Global signed Selmer structures and main conjectures are outside this roadmap’s scope; its output is the specified Coleman kernel. HabiroNahmSeries consumes the local K₃ output, and GrossZagierAndArithmeticHeights consumes the arbitrary-reduction Kummer logarithm of §1.9. Global injectivity in positive K₃ rank remains conjectural.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+Use `Polynomial`, `Polynomial.eval`, `Polynomial.aeval`, `ZMod`, `GaloisField`, `GaloisField.finrank` and `GaloisField.card`. The last two require a nonzero extension degree; a degree-zero finite field is never used as a residue field. Use `Submodule.comap` from `Mathlib/Algebra/Module/Submodule/Map.lean` and `LinearEquiv.finrank_eq` from `Mathlib/LinearAlgebra/Dimension/Finrank.lean` for row-map inverse images and their dimension under invertible transport. Use native `Submodule`, `LinearMap`, `LinearEquiv`, `Module.Basis`, `Matrix.det`, `Matrix.det_mul` and `Matrix.det_fin_two`. Evaluation constraints are submodules obtained through algebra homomorphisms, rather than a new notion of module. Generic coordinate reconstruction uses `LinearEquiv.symm_apply_apply` in `Mathlib/Algebra/Module/Equiv/Defs.lean`; the arithmetic identification of the Wach equivalence and 1−φ belongs to §9.16. Finite-field polynomials are polynomial identities first and functions only after evaluation; equality as functions does not imply equality of polynomials without a degree bound.
+
+### From Tau Ceti
+
+Use `TauCeti.teichmuller 𝒪[K]`, `TauCeti.unitsMap_residue_teichmuller` and `TauCeti.rootsOfUnityAlgebraMulEquivUnitsResidueField 𝒪[K] K` from `TauCeti/RingTheory/Henselian/Teichmuller.lean`. `TauCeti.unitFiltrationZeroEquivProd` in `TauCeti/NumberTheory/LocalField/UnitsDecomposition.lean` supplies the entire tame/principal-unit decomposition. Principal units are `TauCeti.unitFiltration K 1` in `TauCeti/NumberTheory/LocalField/UnitFiltration/Basic.lean`. On them the logarithm series converges to Mathlib's `NormedSpace.log` and is continuous: `TauCeti.hasSum_log_of_mem_unitFiltration_one` and `TauCeti.continuous_log_unitFiltration` in `TauCeti/NumberTheory/LocalField/Logarithm.lean`. With e the absolute ramification index and a depth i with e < (p − 1)i, `TauCeti.deepUnitExpLogEquiv K hi : U(K,i) ≃ₜ* Multiplicative (𝓂[K]^i)` in `TauCeti/NumberTheory/LocalField/DeepUnits/Basic.lean` is the logarithm, with the exponential as inverse. LocalGaloisGroups Layer 7 supplies the inverse-limit multiplicative carrier. ProfiniteArithmetic §§0.2,1.1–1.3 supplies compatible finite quotients and completion infrastructure, without a regulator identification.
+
+### From TauCetiRoadmap.PadicPeriodRings and the local cohomology suppliers
+
+From PadicPeriodRings §§1.5,4.1–4.3 consume B_cris, B_dR, B_e, D_cris, D_dR and the underlying fundamental exact sequence. From FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.P2–R07.P5 consume the finite-K comparison contracts, continuous nonequivariant sections and additional period sequences; continuous cohomology comes from ArithmeticGaloisDuality §R02.1.2. From NoncommutativeAndEquivariantIwasawa §F.6 consume the normalized finite complex, its H⁰ and H¹_f comparisons, the exponential kernel sequence, dual exponential, ordered adjunction, coefficient change and restriction/corestriction functoriality. Its crystalline exact fragment is
+
+```text
+0 → H⁰(K,V) → D_cris(V)
+  → D_cris(V) ⊕ D_dR(V)/Fil⁰ → H¹_f(K,V) → 0,
+x ↦ ((1−φ)x, x mod Fil⁰).
+```
+
+SelmerIwasawaCohomology §4.7 supplies the small-weight crystalline realization; §4.9 supplies the finite condition H¹_f(K,V), its preimage on T and image on V/T, the local-condition structure L^BK_v and its propagation to discrete quotients. SelmerIwasawaCohomology §4.26 supplies the elliptic tangent/exponential/Kummer comparison used by §1.9. AbelianSchemesAndArithmeticModuli §A4.3 supplies H¹_dR(A/K), its Hodge sequence and duality; NeronModelsAndSemistableAbelianVarieties §5.3 supplies the natural filtered comparison D_dR(VₚA)≃H¹_dR(A/K)* at arbitrary reduction, including finite-extension descent, and crystallinity for good reduction. Its §§3.10, 3.13–3.14 supply potential semistability and the full Raynaud uniformization, including its lattice, used in §1.9; §5.3’s semiabelian Frobenius comparison retains the Weil bounds for the good abelian quotient. The homological dual Hodge sequence identifies the tangent quotient with Lie(A/K); §1.9 compares the Kummer and logarithm maps on that same quotient. Local Tate duality includes the invariant H²(K,ℚₚ(1))→ℚₚ, compatibility with restriction/corestriction and the ordered degree-one pairing. The finite-condition duality and exponential adjunction are imports from NoncommutativeAndEquivariantIwasawa §F.6; the e/g comparison and regulator normalization use these supplied maps. The integral Tate rank and torsion calculations also require KTheoryFiniteLocalFields Layer 6. A torsion class maps to zero on rationalization; the map from integral H¹ to rational H¹ is not called an inclusion in general.
+
+### From TauCetiRoadmap.PhiGammaModulesAndIwasawaCohomology and the distribution suppliers
+
+From PhiGammaModulesAndIwasawaCohomology §§5–6, consume the integral D(T)^ψ=1 ≃ H¹_Iw(T), its normalization, Herr cocycles, exact twist and coefficient squares, the Wach lattice and a good basis. ColemanPowerSeries Layers 1–2 supplies norm-compatible units, their Coleman series, the norm operator and the logarithmic derivative. PadicMeasuresIwasawaAlgebras §§1.7,2.1–2.6,3.1–3.3,4.3–4.5 supplies Λ, finite-character idempotents, bounded Amice transforms and Weierstrass preparation. LocallyAnalyticDistributions §§1.1,1.4–1.5 supplies unbounded Amice, convolution, ∂ and its ψ-zero inverse; §§2.1,2.3 supplies order-r growth and locally algebraic determination. Its §3.3 supplies the unbounded Mellin Fréchet isomorphism with ℋ, bounded-measure criterion, character evaluation, convolution, generator change, weight differentiation, twists, pushforward and finite coefficient extension. Logarithmic factors below use these exact conventions.
+
+For §9.30a, consume the following from PhiGammaModulesAndIwasawaCohomology: from §§3.1–3.2, the signed Herr complexes C_(φ,γ) and C_(ψ,γ), with `d0(x) = ((phi-1)x, (gamma-1)x)`, and the φ/ψ comparison (id,(−ψ,id),−ψ); from §3.4, the rational finite-torsion-convention comparison; from §3.4a, the field Herr–Galois comparison, Euler characteristic and duality; from §§1.6 and 3.9, the equivariant B-pair realization and the comparison of its cohomology with arithmetic Herr cohomology, preserving tensor cups, restriction and trace; from §5.3, the cyclotomic deformation and its specialization at η, which lands in M(η⁻¹). From PadicHodgeTheory §4.2, consume the localization maps ι_n on the Robba ring and their coefficientwise extension to finite free modules. From §4.5, consume the labelled positive de Rham realization W⁺_dR and D⁺_dR=Fil⁰D_dR and the coordinate adapter (degree-one swap, degree-two negation) for the supplied comparison. Require the equivariant comparison of PhiGammaModulesAndIwasawaCohomology §§1.6 and 3.9 on D, D[1/t], D⁺_dif(D) and D_dif(D), compatible with the localization and positive-period exact sequences and their connecting maps; on étale objects it agrees with the representation comparison (Nakamura2014 Theorem 2.21, p.27). From §5.2, consume Berger's modification and its equivalence between filtered (φ,N,G_K)-modules with finite descent and the Robba (φ,Γ)-modules whose connection is locally trivial, which are the de Rham ones.
+
+### From TauCetiRoadmap.KTheoryFiniteLocalFields and the K-theory suppliers
+
+From KTheoryFiniteLocalFields §§1.8,6.6–6.7 consume the universal finite-coefficient Chern maps `earlyChern i j`; the p-adic classes c_(i,j):K_(2i−j)(X)→H^j_cont(X,ℤ_p(i)) of §1.8, indexed there by weight i and cohomological degree j, with their inverse-limit description over fields and their transfer identity i·(c_(i,j)(Nx)−cor c_(i,j)(x))=0 for finite separable extensions of fields and 2i−j≥2; the completed étale edge maps; and the weight-two Chern comparison. From K3BlochGroups §§3.1,3.3–3.6 consume the integral pre-Bloch group P(F) with its five-term relations, the antisymmetric square, the boundary ∂[x]=x⊗(1−x), the Bloch kernel B(F), the inversion symbols ⟨x⟩=[x]+[x⁻¹] of P(F) and their field maps; from its §§4.20,6.3–6.6 consume the natural Suslin sequence with enhanced Tor kernel and its rational isomorphism suslin_rational, integral root multiples, denominator-independent coefficient-localized root classes and the finite-quotient snake sequence. ColemanIntegration §L2.Fb supplies the p-adic evaluation dilogEvaluation, the branch pairing branchPair and the branch independence of the evaluation on Bloch kernels; it is applied to the K3BlochGroups carriers through the symbol-preserving equivalence and boundary square of K3BlochGroups §§3.4–3.5. KTheoryFiniteLocalFields §6.10 supplies unique divisibility of local Milnor K₃, so its image has zero quotient modulo p^ν. Its §§3.5,6.2,6.8–6.9 supply TₚK₂(L)=0 and the natural identification K₃(L;ℤₚ)≃lim_ν K₃(L)/p^ν, including restriction, transfer and finite-product compatibility. The compatible inverse limit, not an uncompleted rational map, defines the integral regulator. From PadicHodgeTheory §§6.1–6.2 and FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.3 consume the integral period comparison; the precise finite small-weight range is always displayed below.
+
+From SchemeKTheoryOperations, consume the following, retaining its regular ample-family scope:
+- proper and finite flat K-theory transfers (§2.3) and the projection formula f_*(x·f^*y)=f_*x·y (§2.4);
+- the projective bundle decomposition (§5.5);
+- Adams operations, with products of n units of weight n and ψ^k[L]=[L^⊗k] (§6.4), their compatibility with products (§6.8), and the rational weight decomposition of K_m(X)⊗ℚ (§6.9);
+- the commutation of finite étale transfers with ψ^k (§6.11);
+- Adams–Riemann–Roch ψ^k(f_*x)=f_*(θ^k(−T_f^∨)ψ^k x) for projective morphisms of smooth quasi-projective schemes over a regular base (§7.5);
+- Chern classes c_(i,j):K_j(X)→H^(2i−j)(X,Γ(i)), the second index the K-degree, for every theory Γ satisfying its projective bundle and divisor conditions, with their universal classes, their values in K-degrees 0 and 1, their compatibility with morphisms of theories and the rational Chern character ch_(i,j)=(−1)^(i−1)c_(i,j)/(i−1)!, multiplicative wherever its product formula holds (§7.3a, T1–T3, T5 and T7–T8).
+
+Sections 7.3 and 7.6 use these for the domain of the curve regulator and its transfers; §§4.1–4.2 use §7.3a for the syntomic and étale Chern classes. The smooth projective curves over 𝒪_K of Layer 7 lie in that scope.
+
+From ArithmeticKTheory §§3.2–3.4 consume finite generation of K₃(𝒪_F), the actual rational localization K₃(𝒪_F)⊗ℚ≃K₃(F)⊗ℚ and Borel’s formula dim_ℚ(K₃(F)⊗ℚ)=r₂(F). Its §2.1 and KTheoryFiniteLocalFields §1.5 give localization and K₂(𝔽_q)=0: K₃(𝒪_F)→K₃(F) is surjective, so K₃(F) is finitely generated. These inputs apply throughout Layer 6 without assuming p-adic regulator injectivity.
+
+From BorelRegulators §§2.1–2.3 consume the Borel class, the Borel regulator r_Bo on K₃(F) through the Hurewicz map, its real isomorphism and rational injectivity for number fields, and its restriction square; from §6.0a the identification of ColemanIntegration §L3.Fc.1's complex Beilinson regulator reg_∞ with the shared regulator r_Be in its point coordinate; from §6.2 the conversion r_Bo = −2r_Be. Section 4.7 evaluates every class with reg_∞, so the injectivity it uses is that of r_Be = −½r_Bo, and a Borel value is −2 times the stated value. PolylogarithmFunctions §§5.1–5.2,5.7–5.8 supply the Bloch–Wigner function D_BW, the identity L₂ = D_BW, its continuity on ℙ¹(ℂ), its five-term relation and its cross-ratio form. From Polylogarithms §2.1 consume blochWignerDesc, the ℚ-linear map on the rational pre-Bloch group with [z] ↦ D_BW(z), and weightTwoRegulator; from its §2.3 consume weightTwoRegulator_borel and borelCalibration_two: for every number field F and complex embedding σ, the Borel regulator at σ of s_F⁻¹b, for b in the rational Bloch kernel and s_F K3BlochGroups Layer 4's Suslin isomorphism, is one explicit nonzero constant, independent of F and σ and computed by borelCalibration_two, times blochWignerDesc(σ_*b). Section 4.7 converts this constant to the reg_∞ coordinate by BorelRegulators §§6.0a and 6.2 and P₂ = i·D_BW.
+
+### From TauCetiRoadmap.IntegralIwasawaTheory
+
+From IntegralIwasawaTheory §2.2 consume the localization ι_F : O_F^× ⊗ ℤ_p → `∏_{v|p} U¹(F_v)`, with p-power torsion retained, `leopoldtDefect` F p = rank ker ι_F and `LeopoldtConjecture` F p with its equivalence to injectivity of ι_F; from §4.1 consume `leopoldtLogMap`, `leopoldtDefect_eq_logKernel`, the [F:ℚ]-by-r logarithm matrix over ℂ_p on a unit basis and `leopoldt_iff_logMatrix_fullRank`; from §4.4 consume `abelianLeopoldt`. Section 3.5(b) uses the transpose of that matrix and defines no second localization, logarithm map or Leopoldt predicate.
+
+### From TauCetiRoadmap.ColemanIntegration
+
+From ColemanIntegration §L3.Fa.1 consume rational localization, `KTheoryQ.localization`, `noLowWeightKTheory_of_algebraic_over_Fp` and `KTheoryQ.dvr_localization_iso` on their stated domains. Its §§L3.Fa.4,L3.Fb.2,L3.Fb.5–L3.Fb.6,L3.14–L3.15 supply the oriented de Jeu map, the syntomic Chern-character regulator, special-unit and cyclotomic formulas and Gros depletion. Retain the fixed raw-symbol coefficient (−1)ⁿ(n−1)! and the distinction between reduced and unreduced hypotheses. That coefficient belongs to the Chern-character regulator, which is reg_syn of §4.1; for the ordinary Chern-class regulator of §4.1 the same raw symbol has coefficient −((n−1)!)². Sections 4.1–4.5 identify these imported maps with the étale/Bloch–Kato normalization; they do not construct those formulas again. Its §L3.Fc.1 supplies the complex Beilinson regulator reg_∞, and §L3.Fc.3 the function P_n = zagierPolylog n (P₂ = i·D_BW) with the cyclotomic value Φ_∞([ζ]_n) = (−1)ⁿ(n−1)!·P_n(φ_∞ζ); at n = 2 this fixes the normalization of the de Jeu evaluation in §4.7. No supplier compares de Jeu's map with Suslin's Bloch group; that comparison is §4.7. The regulator on Suslin's Bloch classes is supplied by Polylogarithms §2.3.
+
+### From TauCetiRoadmap.CohomologyComparisonsPartII
+
+**Required classical and relative inputs.** CohomologyComparisonsPartII supplies the following sections on the base, coefficient and geometric domains stated there. Section citations identify the mathematical contracts; no additional declaration names are presumed.
+
+| Supplier sections | Content and consumers |
+|---|---|
+| CohomologyComparisonsPartII §§2.1–2.3 | Compactification-filtered rigid syntomic fibre in every integer weight (Fⁿ=F⁰ for n≤0), its specialization diagram, products and long exact sequence, in the fibre coordinates fixed by §2.2; §2.2's coordinate isomorphism to the Huber–Kings order; the tube-filtered variant and the comparison map κ_n, an equivalence for X proper over the base. Used by Layers 4–5 and §§7.1–7.6. |
+| CohomologyComparisonsPartII §§3.1–3.4 | Divided and undivided log-syntomic fibres, directed ω/τ, products and derived completion on their log-syntomic domain; rational quotient presentation on its log-smooth arithmetic pairs, with the boundary rescaling ω_Q∘δ_U=pʳ·δ_D of §3.4. Used by §4.6. |
+| CohomologyComparisonsPartII §§4.1–4.4 | Modified Tate lattices, directed Fontaine–Messing maps, exact divided small-weight comparison and bounded undivided comparison, retaining each section's geometric and weight hypotheses. |
+| CohomologyComparisonsPartII §§5.1–5.3 | Hyodo–Kato adapter, semistable total fibre, monodromy convention and compatibility with the base h-realization; used by §§4.6,7.7,7.10–7.11. |
+| CohomologyComparisonsPartII §§1.1–1.6,6.1–6.7,7.1–7.5 | Filtered F-isocrystal category, Yoneda extensions, filtered realization, relative residue/Gysin sequence, extension coordinates and Frobenius-compatible specialization. Retain algebraic finiteness, actual filtered realization, compactification and evaluation hypotheses; Milnor-symbol and tame-kernel comparisons belong to §§7.8–7.9 here. |
+
+Three regulator-specific statements on these carriers are targets here rather than supplier inputs: the compatibility of κ_n with syntomic Chern classes (§4.1); the Bloch–Kato sign, the range of the de Rham comparison and the exponential square of the normalized syntomic boundary (§4.6); and the potentially semistable descent of the semistable extension complex with its coordinates (§7.7).
+
+### From TauCetiRoadmap.ColemanIntegrationPartII and the curve suppliers
+
+**Required integration inputs.** ColemanIntegration supplies branch-aware Coleman primitives, constant terms, residues and traces. ColemanIntegrationPartII §§1.1–1.3 and 3.0a–3.0c supply geometric node identities, loops, parallel edges and curve graph/cohomology carriers; §§2.1–2.3 supply logarithmic annular functions and the alternating local double index with its coordinate, degree and coefficient laws; §§3.1a and 3.2–3.4 supply wide-open reciprocity, normalized component primitives, the graph correction and the graph-corrected cohomological pairing; §§4.0c,4.2–4.4 supply natural single integration, its harmonic realization, the valuation term and the Vologodsky point-sum; §§5.1–5.5 supply compatible labelled auxiliary primitives and the local triple index with its choice laws; §§6.0–6.4 supply global Coleman-wide-open triple sums with actual global compatible auxiliary primitives, their choice cancellation and the pairing on actual Coleman one-forms. Its §§7.1–7.6 supply branch, coefficient-trace, closed-point trace and arbitrary-reduction descent, on precisely those integration domains. No dependence of ColemanIntegrationPartII on CohomologyComparisonsPartII is required: both supply this roadmap independently. Section 7.11 owns the regulator-specific cancellation and comparison of component triple sums; wide-open choice independence alone does not imply that comparison.
+
+AlgebraicCurves Layers 0,3,6,9,12 supply function-field places, divisors, regular projective models, differentials and pull/push. K2SymbolsBrauer §§9.2–9.4 supply the tame symbol, bilinearity and Steinberg relation; its §§9.11,9.13 supply the higher residues and finite support used for the tame kernels in §§7.3,7.8,7.11. Smooth proper curve and finite étale boundary hypotheses are retained on the geometric carriers of ColemanIntegration §L1.1.
+
+### Supplier: The fundamental exact sequences used by the Bloch–Kato maps
+
+Consume the fundamental period sequences from PadicPeriodRings §4.3, with `B_e=B_cris^{φ=1}.` They are 0→ℚₚ→B_e→B_dR/B_dR⁺→0 and its equivalent presentation using B_e⊕B_dR⁺→B_dR. The crystalline presentation uses (1−φ, mod Fil⁰), consistently with the supplier contract. Fontaine's twisted sequence is 0→ℚₚ(r)→FilʳB_cris→B_cris→0 with arrow p⁻ʳφ−1, for integral r. Tensoring a rational sequence with V preserves exactness; taking invariants produces `D_cris(V)^{φ=1}` and D_dR(V)/Fil⁰ when V is de Rham. Integrally, the undivided period arrow is pʳ−φ and uses the modified Tate lattice; its bounded cokernel is part of the divided/undivided integral comparison supplier contracts, with its stated geometric and weight hypotheses. It is not an integral rescaling isomorphism.
+
+See FO, author-hosted 303-page version, Theorem 7.26(3), Theorem 7.28(4) and Remark 7.29, printed pp.169–171; CN2017 §2.4.3, p. 23.
+
+**Checks.**
+
+- For V = Q_p(r), r ≥ 1: H^0(K, B_e(r)) = `D_cris(Q_p(r))^{φ=1}` = 0, so the connecting map of the exponential period sequence ⊗ V is injective on D_dR/Fil^0.
+- For V = Q_p: H^0(K, B_e) = `K_0^{φ=1}` = Q_p and D_dR(Q_p)/Fil^0 = 0.
+- For V=ℚₚ, the fixed crystalline line survives and maps to zero in D_dR/Fil⁰; deleting it would make the exponential injective for the wrong reason.
+
+### Supplier: Integral comparison interface for small weights
+
+For p odd, K/ℚₚ unramified and a crystalline lattice T whose weights lie in [0,p−2], consume the Fontaine–Laffaille correspondence with a strongly divisible W(k)-lattice in D_cris(V∨). On T=ℤₚ(r), 0≤r≤p−2, that lattice is W(k)d₋ᵣ. The integral Tate logarithm in §1.10 and the divided period comparison in the divided-comparison supplier contract use this convention. This is the integral interface of SelmerIwasawaCohomology §4.7 and FiniteFlatGroupsAndIntegralPadicHodgeTheory, with no new period-ring construction.
+
+See BNQD2002 §1.3, p. 647.
+
+**Checks.**
+
+- T = Z_p(2) with p ≥ 5 lies in the Fontaine–Laffaille range [0, p − 2].
+- T = Z_p(p − 1) is outside the range; the integral statements of Layer 1 are not asserted there.
+- At p=3 the interval contains weights 0 and 1, and excludes weight 2; the weight-two lattice theorem therefore starts at p=5.
+
+### Supplier: Fontaine's isomorphism h_Iw : `D(T)^{ψ=1}` ≅ H¹_Iw
+
+Let D(T) be the étale (φ, Γ)-module of T over O_E ⊗ `A_{Q_p}` with the operator ψ (PhiGammaModulesAndIwasawaCohomology Layers 1 and 4). Define `h_{Iw,T}` : `D(T)^{ψ=1}` → H^1_Iw(Q_p, T) as the H^1-comparison of the ψ-complex [D(T) --(ψ − 1)--> D(T)] with the inverse-corestriction Iwasawa complex (PhiGammaModulesAndIwasawaCohomology Layer 5, SelmerIwasawaCohomology L3). Then: (a) `h_{Iw,T}` is a Λ-linear bijection; (b) for n ≥ 1, a topological generator γ_n of `Gal(Q_p(μ_{p^∞})/Q_p(μ_{p^n}))` and ℓ_n(γ_n) := log_p χ(γ_n)/p^n, pr_n(h(y)) is the class of σ ↦ ℓ_n(γ_n)((σ − 1)/(γ_n − 1)·y − (σ − 1)b), where the rational x_n ∈ `D(V)^{ψ=0}` solves (γ_n − 1)x_n = (φ − 1)y and b in the enlarged rational period module tensored with V solves (φ − 1)b = x_n; (c) cor ∘ `pr_{n+1}` = pr_n and pr_0 = `cor_{Q_p(μ_p)/Q_p}` ∘ pr_1; (d) `h_{Iw,V}` := h ⊗ Q is independent of the lattice; (e) the Λ_E-torsion of `D(V)^{ψ=1}` is `V^{H_{Q_p}}` and maps onto the torsion of H^1_Iw(Q_p, V); H^1_Iw(Q_p, T) has no Z_p-torsion. Formula (b) is a rational representative: integrality is supplied by the finite-torsion exact-sequence construction and its lattice limit, not by an inverse to γ_n−1 on every integral ψ-zero lattice.
+
+- fontaineIwasawaEquiv T : `D(T)^{ψ=1}` ≃ₗ[Λ] H1Iw T.
+- pr_n (fontaineIwasawaEquiv T y) is the class of the explicit cocycle of (b).
+- cor ∘ `pr_{n+1}` = pr_n; pr_0 = cor ∘ pr_1.
+- The rationalisation is independent of T ⊂ V.
+- Torsion of `D(V)^{ψ=1}` = `V^{H_{Q_p}}` ↦ torsion of H1Iw V.
+- H1Iw T has no ℤ_p-torsion.
+
+See CC99 Théorème II.1.3, p. 12; Berger2003 Theorem II.8, p. 118.
+
+**Checks.**
+
+- For V = Q_p, the class h(1) is nonzero and fixed by G_∞.
+- For V = E(μ) with μ unramified nontrivial, H^1_Iw(Q_p, V) is torsion-free `(Q_p(μ_{p^∞}) ∩ Q_p^ur = Q_p).`
+- `cor_{Q_p(μ_{p^2})/Q_p(μ_p)}` ∘ pr_2 ∘ h = pr_1 ∘ h, matching SelmerIwasawaCohomology's inverse system.
+- h is defined on `D(T)^{ψ=1},` not on `D(T)^{φ=1}:` for V = Q_p(1), (1 + π)/π ⊗ e_1 lies in `D^{ψ=1}` but not in `D^{φ=1}.`
+
+### Supplier: Twisting local Iwasawa cohomology by characters of G_∞
+
+For a continuous character η : G_∞ → O_E^×, choose n(k) ≥ k with η ≡ 1 mod p^k on `Gal(Q_p(μ_{p^∞})/Q_p(μ_{p^{n(k)}}));` using H^1_Iw(Q_p, T) = lim_k `H^1(Q_p(μ_{p^{n(k)}}), T/p^k)` define Tw_η := lim_k (x ↦ x ∪ ē_η) with ē_η ∈ `H^0(Q_p(μ_{p^{n(k)}}), (O_E/p^k)(η)).` Then Tw_η : H^1_Iw(Q_p, T) → H^1_Iw(Q_p, T(η)) is a well-defined O_E-linear bijection, independent of the choices, with Tw_1 = id, Tw_η ∘ Tw_η' = `Tw_{ηη'},` and Tw_η(λx) = Tw_η(λ)Tw_η(x) where Tw_η(σ) = `η(σ)^{−1}σ` on Λ (SelmerIwasawaCohomology's convention Tw_k for η = χ^k). For ω of finite order trivial on `G_{Q_p(μ_{p^n})}:` pr_n(Tw_ω x) = pr_n(x) ⊗ e_ω.
+
+- iwasawaTwist η : H1Iw T ≃+ H1Iw (T(η)).
+- iwasawaTwist η (λ • x) = Tw_η(λ) • iwasawaTwist η x.
+- iwasawaTwist 1 = id.
+- iwasawaTwist η ∘ iwasawaTwist η' = iwasawaTwist (η * η').
+- For ω of finite order trivial on level n, pr_n ∘ iwasawaTwist ω = (· ⊗ e_ω) ∘ pr_n.
+- For η = χ^j, iwasawaTwist agrees with the Shapiro-lemma twist of SelmerIwasawaCohomology.
+
+See CC99 Proposition II.1.2, p. 12; LZ2014 Lemma 2.4, p. 7.
+
+**Checks.**
+
+- iwasawaTwist η⁻¹ (iwasawaTwist η x) = x.
+- iwasawaTwist 1 x = x.
+- For η = χ^j and n ≥ 1, `pr_n(Tw_{χ^j}x)` ≡ pr_n(x) ∪ `ε_n^{⊗j}` modulo p^n.
+- For a nonzero class x in the rational torsion-free quotient, and σ with χ(σ)≠1, the twist satisfies Twχ(σx)=χ(σ)⁻¹σTwχ(x), which differs from σTwχ(x) for the unchanged action. With the transported action it is linear. At x=0 both expressions are zero.
+
+### Supplier: Compatibility of h_Iw with twists
+
+(i) D(T(η)) = D(T) ⊗ e_η with φ, ψ acting on the first factor and g(x ⊗ e_η) = η(g)g(x) ⊗ e_η, so ⊗e_η : `D(T)^{ψ=1}` → `D(T(η))^{ψ=1}` is Tw_η-semilinear. (ii) `h_{Iw,T(η)}(y ⊗ e_η)` = `Tw_η(h_{Iw,T}(y)).` (iii) For η = χ^j the level-n cocycle of h(y ⊗ e_j) is σ ↦ ℓ(γ_n)((σ − 1)/(γ_n − 1)·y(j) − (σ − 1)b) with y(j) the image of y in `D(V(j))^{ψ=1}` (Cherbonnier–Colmez, proof of Theorem IV.2.1). (iv) For crystalline V, N(T(j)) = `π^{−j}N(T)` ⊗ e_j.
+
+See CC99 Proof of Théorème IV.2.1, p. 21; Berger2003 Appendix A, p. 124.
+
+**Checks.**
+
+- η = χ: h(y ⊗ e_1) = Tw_χ h(y).
+- For V = Q_p, N(Z_p(1)) = `π^{−1}N(Z_p)` ⊗ e_1 = `π^{−1}A^+` ⊗ e_1.
+
+- At η=1 and y=0, both comparisons give 0; at η=χ and the Tate-root vector v₁, the nonzero image is κ_Iw(ε), so a zero comparison map fails.
+
+### Supplier: Berger: ψ-fixed vectors lie in the Wach module
+
+Let V be E-linear crystalline with Hodge–Tate weights in [a; b], T ⊂ V a G-stable O_E-lattice and N(T) its Wach module (PhiGammaModulesAndIwasawaCohomology Layer 6). (i) `D(T)^{ψ=1}` ⊂ `π^{a−1}N(T).` (ii) If V has no quotient isomorphic to E(a), then `D(T)^{ψ=1}` ⊂ π^a N(T). (iii) In particular, if a ≥ 0 and V has no quotient isomorphic to E (equivalently, as a Q_p-representation, no quotient Q_p), then ψ(N(T)) ⊂ N(T), `N(T)^{ψ=1}` = `D(T)^{ψ=1},` `N(V)^{ψ=1}` = `D(V)^{ψ=1},` and h_Iw restricts to Λ-isomorphisms `N(T)^{ψ=1}` ≅ H^1_Iw(Q_p, T) and `N(V)^{ψ=1}` ≅ H^1_Iw(Q_p, V).
+
+See Berger2003 Theorem A.3, p. 124; LLZWach §1, p. 4.
+
+**Checks.**
+
+- V = E(1) (a = 1): (1 + π)/π ⊗ e_1 ∈ `D(V)^{ψ=1}` ∩ N(V).
+- V = E (a = 0, quotient E): 1/π ∈ `D(E)^{ψ=1}` ∖ A^+, so the hypothesis of (ii) and the exponent a − 1 in (i) are sharp.
+
+- For V=0, `D(V)^(psi=1) = N(V)^(psi=1) = 0` and h_Iw is the unique map 0→0; the containment includes rank zero.
+
+### Supplier: Lattice and coefficient-change squares
+
+(a) For lattices U ⊂ T ⊂ V: D(U) ⊂ D(T) ⊂ D(V) compatibly with φ, ψ, G_∞ and h_Iw; H^1_Iw(Q_p, T) → H^1_Iw(Q_p, V) is injective with image `h(D(V)^{ψ=1} ∩ D(T));` N(U) = N(V) ∩ D(U), and U ↦ N(U) is an inclusion-preserving bijection between G-stable lattices and Wach lattices in N(V); under the supplier contract “Berger: ψ-fixed vectors lie in the Wach module” (iii), H^1_Iw(Q_p, T) = `h(N(T)^{ψ=1}).` (b) For E'/E finite, D, N, ψ, H^1_Iw, h, Λ and the Mellin transform commute with `O_{E'}` `⊗_{O_E}` −; restriction of scalars to Z_p changes none of D, ψ, h.
+
+See LLZWach §2.2, p. 8; Limites2004 Proposition III.4.2, p. 21.
+
+**Checks.**
+
+- For T = Z_p(1) ⊂ V: H^1_Iw(Q_p, Z_p(1)) = `h(N(Z_p(1))^{ψ=1}).`
+- Changing T to pT multiplies `h(D(T)^{ψ=1})` by p.
+
+- For T=0, coefficient extension gives 𝒪_E′⊗0=0 and every comparison remains 0; for pT⊂T the corresponding images are pH¹_Iw(T)⊂H¹_Iw(T).
+
+### Supplier: Teichmüller decomposition of the units of a local field
+
+Let L be a nonarchimedean local field with valuation ring O_L, maximal ideal m_L and residue field F_q, q = p^f. Write ω = TauCeti.teichmuller 𝒪[L] : F_q^× → O_L^× for the Teichmüller lift and U^1_L = 1 + m_L for the principal units. Then every u ∈ O_L^× factors uniquely as u = ω(ū)·⟨u⟩ with ū the residue of u and ⟨u⟩ := `u·ω(ū)^{-1}` ∈ U^1_L, so that O_L^× = `μ_{q-1}(O_L)` × U^1_L is an internal direct product; u ↦ ⟨u⟩ is a continuous group homomorphism onto U^1_L. The decomposition is natural for continuous field embeddings L → L' of local fields and for automorphisms of L, and, if L is a finite extension of Q_p, for every branch log_a of the p-adic logarithm (ColemanIntegration §L0.15) one has log_a(u) = log(⟨u⟩), the series logarithm of the principal-unit part, because log_a vanishes on roots of unity.
+
+See `TauCeti/RingTheory/Henselian/Teichmuller.lean` and `TauCeti/NumberTheory/LocalField/UnitsDecomposition.lean`; GSWZ2024 §3.1, (176), p. 38.
+
+**Checks.**
+
+- For L = Q_5 and u = 7: ū = 2, ω(2) is the unique 4th root of unity ≡ 2 mod 5, and ⟨7⟩ = `7·ω(2)^{-1}` ≡ 1 mod 5.
+- `μ_{q-1}(O_L)` ∩ U^1_L = {1}: a decomposition with a nontrivial root of unity in the principal-unit factor is rejected.
+- For p = 2 and L = Q_2 the first factor is trivial (q − 1 = 1) and −1 lies in `U^1_{Q_2}:` the factor of order prime to p does not contain the 2-power roots of unity.
+
+### Supplier: Frobenius on the roots of unity of an unramified field
+
+Let L be a finite unramified extension of Q_p with residue field F_q and let φ_L be its arithmetic Frobenius, the unique field automorphism of L over Q_p whose reduction is x ↦ x^p on F_q (an arithmetic Frobenius in the sense of IsArithFrobAt for the extension O_L/Z_p). Then φ_L(ω(α)) = ω(α^p) for every α ∈ F_q^×, hence φ_L(ζ) = ζ^p for every ζ ∈ `μ_{q-1}(L);` for p odd μ(L) = `μ_{q-1}(L),` so φ_L(ζ) = ζ^p for every root of unity of L. For a finite product L = ∏_i L_i of such fields put φ_L := ∏_i `φ_{L_i};` then φ_L(ζ) = ζ^p componentwise for tame ζ (all roots if p odd). This is GSWZ (176).
+
+This is `TauCeti.frobeniusAlgEquiv_teichmullerLift` and `TauCeti.frobeniusAlgEquiv_rootsOfUnity` in `TauCeti/NumberTheory/LocalField/Frobenius.lean`, with K=ℚₚ; finite products use the componentwise automorphism. The full root group assertion remains restricted to odd p.
+
+See GSWZ2024 §3.1, (176), p. 38; `TauCeti/NumberTheory/LocalField/Frobenius.lean`, `TauCeti.frobeniusAlgEquiv_rootsOfUnity`.
+
+**Checks.**
+
+- L = `Q_{25}` (p = 5): φ_L has order 2 and fixes exactly μ_4 ⊂ `μ_{24}.`
+- For p = 2 and L = Q_2, −1 ∈ μ(L) is not of order prime to 2; the identity φ(ζ) = ζ^2 fails for ζ = −1, so the odd-p hypothesis is needed for the full μ(L).
+
+- For L=ℚ₅, φ_L fixes ω(2), and ω(2)⁵=ω(2). On the zero algebra the componentwise Frobenius is its unique automorphism; its action on the zero element is 0.
+
+### Supplier: Soulé's étale regulator to continuous Galois cohomology
+
+Let F be a characteristic-zero field (a number field or a finite extension of ℚ_p), or a finite product of such fields. For n≥1, r^et_n:K_(2n−1)(F)→H¹(F,ℤ_p(n)) is the p-adic class c_(n,1) of KTheoryFiniteLocalFields §1.8 at Spec F, of weight n and cohomological degree 1. On each factor field it is Soulé's construction: reduction modulo p^ν, the classes c_(n,1) with μ_(p^ν)^⊗n coefficients, and inverse limit, because H¹(F,ℤ_p(n))→lim_ν H¹(F,μ_(p^ν)^⊗n) is an isomorphism, its kernel being lim¹ of the finite groups H⁰(F,μ_(p^ν)^⊗n). It factors through K_(2n−1)(F;ℤ_p); rationalization gives K_(2n−1)(F)⊗ℚ_p→H¹(F,ℚ_p(n)). Weight one is Kummer. These are ordinary Chern classes. The Chern-character étale regulator is r^(et,ch)_n:=((−1)ⁿ⁻¹/(n−1)!)·(r^et_n⊗ℚ), with values in H¹(F,ℚ_p(n)); it is the étale counterpart of reg_syn in §4.1. In weight two r^(et,ch)_2=−r^et_2 is still integral. For local F, KTheoryFiniteLocalFields §§6.6–6.7 supplies a completed étale edge isomorphism for n≥2. Ordinary Chern operations require a factorial comparison with that edge; here the Chern isomorphism is needed only in weight two.
+
+- etaleRegulator F p n : `K_{2n−1}(F)` →+ H^1(F, ℤ_p(n)).
+- The Chern-character normalization r^(et,ch)_n=((−1)ⁿ⁻¹/(n−1)!)·r^et_n after rationalization; in weight one both are Kummer, in weight two they differ by the sign −1.
+- The factorisation through `K_{2n−1}(F; ℤ_p),` a ℤ_[p]-linear map.
+- For n = 1, etaleRegulator F p 1 is the Kummer map F^× → H^1(F, ℤ_p(1)).
+- For a field embedding F → F', res ∘ etaleRegulator F = etaleRegulator F' ∘ `K_{2n−1}(ι).`
+- For a finite extension F'/F of fields, n·(etaleRegulator F ∘ `N_{F'/F}` − cor ∘ etaleRegulator F') = 0 (transfer): the two maps agree after rationalization, and integrally when p∤n, in particular for n = 1.
+- For F/ℚ_p finite, the completed weight-two Chern map is an isomorphism. For general n≥2 keep the separate `etaleEdgeOne` isomorphism and its Chern normalization comparison.
+- For a number field F and v | p, res_v ∘ etaleRegulator F = etaleRegulator F_v ∘ c_v.
+
+See HK2011 §1.3, p. 8; NN2016 §5.2, p. 59; KTheoryFiniteLocalFields §§1.8,6.6–6.7. The transfer identity reduces modulo p^ν to WeibelChern Proposition 4.4, p.22, which holds in every K-degree, the Kummer case n = 1 included. WeibelChern Proposition 5.1, p.24 distinguishes the ordinary Chern operation from the edge.
+
+**Checks.**
+
+- For F = Q_p, n = 1 and u ∈ Z_p^×, etaleRegulator F p 1 u is the image of u under lim_ν of Tau Ceti's kummerClassMap.
+- For F = Q_5, n = 2, the completed etaleRegulator is a ℤ_5-linear isomorphism between free modules of rank 1.
+- Over 𝔽₃ in weight 3 modulo 2, K₅ and H¹ both have order 2, but c_(3,1) is zero: its factorial multiplier is 2. Equal group sizes do not identify the ordinary Chern map with the edge.
+- In weight three r^et_3=2·r^(et,ch)_3 after rationalization. A comparison that treats the two normalizations as equal is off by the factor 2, which no choice of sign absorbs.
+- For F = `Q_{p²}` and p > 3, a ℤ_p-isomorphism K_3(F; ℤ_p) ≅ ℤ_p² chosen from bases is not etaleRegulator: etaleRegulator commutes with the Frobenius automorphism of F, while a generic basis isomorphism does not.
+
+### Supplier: Rigid syntomic cohomology of smooth schemes over a p-adic integer ring
+
+Consume the compactification-filtered theory of CohomologyComparisonsPartII §§2.1–2.3 in every integer weight n, with the fibre coordinates that §2.2 fixes for all consumers. Let R be a complete mixed-characteristic DVR with perfect residue field k, K=Frac(R), K₀=Frac(W(k)), and X smooth separated of finite type over R. Write A=RΓ_rig(X_k/K₀) with its σ-semilinear Frobenius φ, C=RΓ_rig(X_k/K), bc:A→C for scalar extension, and sp_n:FⁿRΓ_dR(X_K/K)→C for specialization from the filtered algebraic term, which is built from logarithmic forms on a smooth proper normal-crossings compactification with its Hodge filtration (Fⁿ=F⁰ for n≤0). Besser's rigid syntomic complex is the ℚₚ-linear homotopy fibre of f_n(a,b)=((1−p⁻ⁿφ)a, bc(a)−sp_n(b)) from A⊕FⁿRΓ_dR to A⊕C, in this order and with these signs. Its cohomology is functorial and independent of the chosen compactification and frame (Besser2000 Definition 6.1 and Proposition 6.3, author pp.19–20). The Huber–Kings presentation (HK2011 Definition 2.2.1, p.14) puts the filtered term first and maps (b,a)↦(sp_n(b)−bc(a),(1−p⁻ⁿφ)a) into C⊕A. Every formula imported from it is transported through the coordinate isomorphism (a,b;u,v)↦(b,a;−v,u) of CohomologyComparisonsPartII §2.2, which preserves the projections to A and to the filtered term and negates the C-component.
+
+For X=Spec R and n≥1 the filtered term vanishes, the fibre is [K₀ → K₀⊕K], a↦((1−σ/pⁿ)a, a), H¹ is the quotient of K₀⊕K by the image, and every other degree vanishes. Since 1−σ/pⁿ is bijective on K₀ for n≥1, the de Rham coordinate η:H¹→K, η[(u,v)]=(1−σ/pⁿ)⁻¹u−v, is an isomorphism. It is Huber–Kings' isomorphism (HK2011 Example 2.2.4 and Definition 2.2.5, pp.14–15), whose inverse is the inclusion of K as the C-slot of their order, transported through the coordinate isomorphism above; the C-slot of their order is minus the C-slot here.
+
+- Pullback commutes with specialization, Frobenius and products.
+- The fibre triangle gives the long exact sequence using Hⁱ(FⁿRΓ_dR), with this compactification filtration.
+- For X=Spec R and n≥1, η is a ℚₚ-linear isomorphism from H¹ to K. The class with A-component c and C-component 0 has η-value (1−σ/pⁿ)⁻¹c; the class with A-component 0 and C-component c has η-value −c.
+- Presentation refinements give compatible equivalences and homotopic chain maps induce the same cohomology map.
+
+Separately consume the tube-filtered variant of CohomologyComparisonsPartII §2.2. It replaces FⁿRΓ_dR by overconvergent forms on a strict neighbourhood of the tube, filtered by powers of the ideal of the generic fibre of the compactification and by form degree, and keeps the same coordinates and signs. It is not defined by algebraic stupid truncation on X_K. That section also supplies the natural comparison κ_n from the compactification-filtered fibre to the tube-filtered one. κ_n is an equivalence for X proper over R, in particular for X=Spec R, where it is the identity. For R finite over ℤₚ and X affine, the tube-filtered complex is equivalent to the Huber–Kings complex on the weak completion of X (HK2011 Definition 2.2.1 and Proposition 2.2.7, pp.14–15), read through the coordinate isomorphism. On general smooth affine X only the map κ_n is used, with no equivalence. The compatibility of κ_n with syntomic Chern classes is a target of §4.1. Sections 4.1–4.2 use the Huber–Kings regulator at Spec R through κ_n. Sections 7.1–7.6 use the compactification-filtered rigid theory on the smooth proper curve and its modified open-curve model. The relative and semistable theories in §§7.7–7.11 have their own explicitly stated filtered carriers.
+
+For the divisor condition of §4.1 consume, from PadicDifferentialEquationsAndRigidCohomology §RD.4.40, the rigid Gysin isomorphism RΓ_(D,rig)(Y/L)≃RΓ_rig(D/L)(−1)[−2] for a smooth divisor D of a smooth separated k-scheme Y and L=K₀ or K, natural for restriction and finite scalar extension; the twist (−1) multiplies Frobenius by p.
+
+**Checks.**
+
+- For R=ℤₚ and n=2, the class with A-component c has η-value c/(1−p⁻²) and the class with C-component c has η-value −c. The functional (u,v)↦v−u/(1−p⁻²), which reads the C-slot of this order the way Huber–Kings read theirs, is −η; with it the weight-one regulator of §4.1 would be −logₚ instead of logₚ.
+- At n=0, X=Spec ℤₚ, the fibre map is (a,b)↦(0,a−b), so H⁰=H¹=ℚₚ; the positive-weight vanishing statement does not apply.
+- At n=−1, X=Spec ℤₚ, the fibre map is (a,b)↦((1−p)a,a−b), which is bijective, so every group vanishes. Taking F⁻¹=0 instead of F⁰ would give H¹=ℚₚ.
+- For A¹_K compactified by (ℙ¹,∞), H¹(F¹RΓ_dR)=H⁰(ℙ¹,Ω¹(log∞))=0. Algebraic stupid truncation instead gives K[x]dx, while H¹_dR(A¹)=0. These complexes cannot be silently identified.
+- For G_m, compactification-filtered H¹ in weight one is K·dlog t, and φ(dlog t)=p·dlog t; 1−φ/p kills it.
+- For X=Spec R and n≥1, κ_n is the identity, and the Huber–Kings point calculation (HK2011 Example 2.2.4, pp.14–15), read through the coordinate isomorphism, gives H¹=K with the same η.
+
+### Supplier: Log-syntomic complexes S_n(r)
+
+Consume CohomologyComparisonsPartII §§3.1–3.4: its divided and undivided complexes, error maps, products and derived completion, on each section’s stated domain.
+
+For an fs log-smooth X/O_K^× (mixed characteristic, perfect residue field), r≥0 and m≥1, distinguish U_m(r)=Fib(p^r−φ:J_m^[r]→O_cr,m) from D_m(r)=Fib(1−φ_r:J_m^<r>→O_cr,m). Here J_m^<r> is obtained by lifting to level m+s, s≥r, imposing φ(x)∈p^r O_cr,m+s, then reducing modulo p^m; φ_r is the resulting divided Frobenius. For 0≤r≤p−1 the two domain ideals agree, but the two differentials and complexes still differ. There are directed maps ω_r:U_m(r)→D_m(r), with legs (p^r,id), and τ_r:D_m(r)→U_m(r), with legs (id,p^r). Both composites are p^r; their cohomological kernels/cokernels are p^r-torsion. ω preserves products; τ generally does not. Étale sheafification, derived global sections and derived m-limits are imported. Derived reduction and the rational quotient-fibre presentation retain CohomologyComparisonsPartII §3.4’s arithmetic-pair hypotheses: a dense open K-variety in a reduced proper flat 𝒪_K-scheme, fine integral quasi-coherent boundary log structure, log smoothness over the canonical log trait, Cartier type and local exact log-PD presentations. CN S_m(r) denotes U_m(r), whereas EN S_m(r) denotes D_m(r) and EN S′_m(r) denotes U_m(r). After rationalization ω and τ/p^r are inverse comparisons; integral equality is not asserted.
+
+- logSyntomicComplex X r m is the imported undivided complex U_m(r), not the divided D_m(r).
+- logSyntomicSheaf X r m is the étale undivided sheaf complex U_m(r); its derived global sections give logSyntomicComplex.
+- On the log-smooth arithmetic-pair domain of CohomologyComparisonsPartII §3.4, logSyntomicCompleted X r ⊗^L Z/p^n ≃ logSyntomicComplex X r n.
+- On that arithmetic-pair domain, logSyntomicCompleted X r ⊗ Q is Fib((1−φ/p^r,can):RΓ_cr,Q→RΓ_cr,Q⊕RΓ_dR/F^r), with the derived filtered quotient retained.
+- Morphisms of fs log-smooth O_K^×-schemes induce maps, with map_id and map_comp; base change along O_K → `O_{K'}.`
+- Cup products S_n(r) ⊗ S_n(s) → S_n(r + s).
+- The imported D_m(r) with the Frobenius-divisible ideal, distinct from U_m(r).
+- ω_r:U_m(r)→D_m(r) has legs (p^r,id); τ_r has legs (id,p^r), and both composites equal p^r. Only ω is asserted multiplicative.
+
+See CN2017 §5.1.1, pp. 52–53; NN2016 Introduction, (1), p. 2; EN2016 §2.1 and §2.1.2, pp. 4–6.
+
+**Checks.**
+
+- For X = Spec O_K (log structure of the closed point), r = 2: H^1(logSyntomicCompleted X 2) is `p^{N}-isomorphic` to O_K and H^2 to 0.
+- For r = 0, `J^{[0]}` = O and S_n(0) is the fibre of 1 − φ on `A_{cr,n};` on X = Spec O_K its H^0 is Z/p^n.
+- For Y/W(k) smooth projective and D a relative normal-crossings divisor, CohomologyComparisonsPartII §7.4 identifies the syntomic complex with log structure from D alone over the trivially logged base with rigid syntomic cohomology of Y−D (AM2022 Lemma 3.10, pp.29–30). For Y=Spec ℤₚ, D empty and r=1, both have H¹=ℚₚ. Adding the canonical vertical log gives H¹=ℚₚ²: the complex ℚₚ→ℚₚ³→ℚₚ has maps x↦((1−p⁻¹)x,x,0) and zero, so the extra uniformizer Kummer direction survives.
+- At r=p−1 the chosen Euclidean decomposition gives a(r)=1 and `Z_p(r)′=p^{-1}Z_p(r),` whereas at r=p−2 it gives a(r)=0 and the ordinary twist. Replacing all modified lattices by the ordinary lattice loses this normalization.
+- At m=1 and r≥1, p^r is zero. The identity ωτ=p^r supplies no inverse; for zero Frobenius and identical Z/p domains, Fib(0) and Fib(id) already have different cohomology. This algebraic test detects invalid rescaling.
+
+### Supplier: The Fontaine–Messing–Kato period morphism
+
+Consume CohomologyComparisonsPartII §§4.1–4.2 for ordinary/modified Tate lattices and the divided and undivided Fontaine–Messing morphisms.
+
+Use the imported divided complex D_m(r). Its integral Fontaine–Messing period map α_div:D_m(r)→i*Rj*(Z/p^m(r)′) is a directed morphism. For 0≤r≤p−2 it lands in the ordinary twist. In all weights EN uses Z_p(r)′=(p^a a!)^−1 Z_p(r), r=(p−1)a+b, 0≤b<p−1. On the syntomic–étale site the map goes from D_m(r) to i_se* j_se* j′*G(Z/p^m(r)′), with G the Godement resolution. Exactness of the special-fibre pushforward and the topos comparison induce the stated étale map after derived pushforward. Define α_und=α_div∘ω_r on U_m(r); this is multiplicative and reduction-compatible. This construction inverts no p^r-exact arrow. CN uses p^−a Z_p(r). The lattices coincide exactly when v_p(a!)=0, equivalently a<p. Otherwise transport the period map by the explicit change of lattice: multiplication by a! sends EN’s generator (p^a a!)⁻¹ to CN’s generator p^−a. Layer 4 uses weights outside this equality range; the p>3, weight-two calculation in Layer 5 has a=0.
+
+- fmkPeriodMap X r m := α_div∘ω_r : U_m(r)→i*Rj*(Z/p^m(r)′); the divided map is a separate imported interface.
+- The divided map comes from the canonical syntomic–étale-site map to a Godement resolution and derived pushforward. The undivided map is its composition with ω_r; no bounded quasi-isomorphism is inverted.
+- fmkPeriodMap is compatible with cup products S_n(r) ⊗ S_n(s) → S_n(r + s).
+- Compatible with the reduction maps n → n − 1 and with the completed versions.
+- On the divided weight-one unit class α_div equals the Kummer map; on the undivided unit class α_und equals p times Kummer, because ω sends that class to p times the divided one.
+- α_div:D_m(r)→i*Rj*(Z/p^m(r)′), with EN’s (p^a a!)^−1 twist.
+
+See CN2017 §1, p. 2; EN2016 §2.2–§2.2.1, pp. 7–8; EN2016 §2.1.3, the first Chern class maps and their compatibility diagram, pp. 5–6; §2.2.1, pp. 7–8.
+
+**Checks.**
+
+- For a unit u, the divided class maps to κ_m(u); the undivided class maps to p·κ_m(u). At m=1 the latter can vanish despite κ_m(u)≠0. Exactness belongs to the divided map.
+- For r = 0, `α^FM_{0,n}` is the identification of S_n(0) with i^*Rj_*Z/p^n in degree 0 (both are Z/p^n on a connected X).
+- For r < p − 1, a(r) = 0 and Z_p(r)' = Z_p(r), so the Colmez–Nizioł and Nekovář–Nizioł normalisations coincide.
+- At r=p−1, `Z_p(r)′=p^{-1}Z_p(r)` and its prescribed period generator has p-adic valuation one less than the ordinary generator; an ordinary generator cannot be silently substituted in the same normalized map.
+- At p=2,r=2, a=2: EN’s lattice is ⅛ℤ₂(2), CN’s is ¼ℤ₂(2), and multiplication by 2 carries the first generator to the second. At p=3,r=6, a=3, the change is multiplication by 6. At p=5,r=2, a=0 and both lattices are ℤ₅(2).
+
+### Supplier: The divided small-weight comparison and the undivided bounded comparison
+
+Consume CohomologyComparisonsPartII §§4.3–4.4, with the exact divided and bounded undivided domains kept separate.
+
+For fs log-smooth X/𝒪_K^× of Cartier type, and 0≤i≤r≤p−2, the divided period morphism induces Hⁱ(D_m(r))≃i*Rⁱj*(ℤ/pᵐ(r)). Equivalently, τ≤rD_m(r)≃τ≤r i*Rj*(ℤ/pᵐ(r)). This is the small-weight theorem in EN2016 Theorem 2.2, p. 7, attributed there to Tsuji. For a semistable scheme or semistable base change and 0≤i≤r, the undivided morphism, after the factorial lattice conversion above, has kernel and cokernel killed by p^(Nr+cₚ) when K has enough roots of unity in the following precise sense: if i is maximal with ζ_(pⁱ)∈K, F_i=K₀(ζ_(pⁱ)), δ_K=e·vₚ(Different(K/F_i)) and vₚ(p)=1, then δ_K+[K:F_i]<e/(2p). Here N is universal; cₚ depends only on p for odd p, and also on chart dimension d for p=2. The sharper bound is uniform in m and in X at fixed d when p=2. Separately, the general bound is p^N(e,p,r), uniform in m and X, where e is the absolute ramification index. Rationalization gives the comparison in degrees ≤r. The exact assertion is restricted to the divided complex and has no r=p−1 endpoint.
+
+See CN2017 §1, (1.3), p. 2; CN2017 Theorem 1.1, p. 2; EN2016 Theorem 2.2, p. 7; §2.1, pp. 4–5.
+
+**Checks.**
+
+- At r=1 and p≥3 the divided map computes H¹(K,Z/p^m(1)); the undivided map remains bounded and must not inherit this exact conclusion.
+- At r=2 and p≥5 the divided exact comparison uses the ordinary twist, but U_m(2) and D_m(2) are still different integral complexes.
+- At p=2,r=1, chart dimensions 1 and 2 give sharper exponents N+c₂(1) and N+c₂(2); no equality is inferred. At p=3,r=1 both dimensions use N+c₃. The separate general exponent N(e,p,1) applies in either dimension.
+
+### Supplier: Finite unramified étale Q_p-algebras
+
+A finite unramified étale Q_p-algebra is a Q_p-algebra L isomorphic to a finite product `∏_{i∈I}` L_i of finite unramified field extensions L_i/Q_p; equivalently L ≅ W(k)[1/p] for a finite reduced F_p-algebra k = ∏_i `F_{q_i}` (Witt vectors of a finite product of finite fields), with k ≅ O_L/pO_L. Its ring of integers is O_L = ∏_i `O_{L_i}` = W(k), the integral closure of Z_p in L; its rank is [L : Q_p] = Σ_i [L_i : Q_p] = `dim_{F_p}` k; its Frobenius φ_L = ∏_i `φ_{L_i}` is the Witt-vector Frobenius W(Frob_k)[1/p]. For a number field F and a prime p unramified in F, F ⊗_Q Q_p ≅ `∏_{v|p}` F_v is such an algebra, with O_F ⊗ Z_p = ∏_v O_v.
+
+- IsUnramifiedEtaleAlgebra p L : L is a finite product of finite unramified field extensions of ℚ_[p] (data: the factor decomposition up to isomorphism).
+- L ≃ₐ[ℚ_[p]] Localization.Away (p : WittVector p k) for k := O_L ⧸ p, a finite reduced 𝔽_p-algebra.
+- Module.finrank ℚ_[p] L = Module.finrank (ZMod p) k.
+- The Frobenius φ_L : L ≃ₐ[ℚ_[p]] L induced by WittVector.frobenius on W(k); it fixes exactly `ℚ_[p]^{#π_0}` componentwise.
+- Finite products of unramified étale algebras are unramified étale.
+- For a number field F and p unramified in F, F ⊗[ℚ] ℚ_[p] is unramified étale.
+
+See GSWZ2024 §3.1, paragraph before Theorem 9, p. 39.
+
+**Checks.**
+
+- For F = Q(α), α³ − α² + 1 = 0 and p = 5, F ⊗ Q_5 is unramified étale of rank 3 with factors of residue degrees 2 and 1.
+- The zero algebra (empty product, k = 0) is unramified étale of rank 0.
+- For k = F_q, the algebra W(F_q)[1/p] is the unramified extension Q_q of degree log_p q, and its Frobenius is Mathlib's WittVector.frobenius after inverting p.
+- For p odd, Q_p(ζ_p) is finite étale but not unramified: its residue field is F_p while its degree is p − 1, so it is not of the form W(k)[1/p].
+
+### Supplier: Completed K₃ of a finite unramified étale algebra
+
+For a finite unramified étale Q_p-algebra L = ∏_i L_i put K_3(L; Z_p) := π_3 K(L; Z_p), the p-completed K-theory of KTheoryFiniteLocalFields §1.6. The projections induce K_3(L; Z_p) ≅ ∏_i K_3(L_i; Z_p) (finite products commute with K-theory and with derived p-completion), and K_3(O_L; Z_p) → K_3(L; Z_p) is an isomorphism. The étale Chern classes give c_L : K_3(L; Z_p) ≅ H^1(L, Z_p(2)) := ∏_i H^1(L_i, Z_p(2)). For p > 3, K_3(L; Z_p) is a free Z_p-module of rank [L : Q_p]; for p ∈ {2, 3} it has the nonzero torsion `Z/w_2^{(p)}(L_i)` on each factor.
+
+- completedK3 p L := π_3 K(L; ℤ_p), a ℤ_[p]-module.
+- completedK3 p (∏ i, L i) ≃ₗ[ℤ_[p]] ∏ i, completedK3 p (L i).
+- completedK3 p O_L ≃ₗ[ℤ_[p]] completedK3 p L, induced by O_L → L.
+- completedK3 p L ≃ₗ[ℤ_[p]] H^1(L, ℤ_p(2)), componentwise étale Chern class `c_{2,1}.`
+- For p > 3, Module.Free ℤ_[p] (completedK3 p L) and Module.finrank = [L : ℚ_[p]].
+- A ℚ_[p]-algebra map f : L → L' induces completedK3 p L → completedK3 p L', with map_id and map_comp; the Frobenius φ_L acts by functoriality.
+- For L → L' finite free, a transfer completedK3 p L' → completedK3 p L. Under the Chern isomorphisms it corresponds to corestriction for odd p; for p = 2 the two differ by an element killed by 2 (KTheoryFiniteLocalFields §1.8, with weight two).
+- The completed module is imported from p-completed K-theory. Equality of induced maps is pointwise, and product maps are determined by all factor projections. Inherit Module and map_zero/map_add/map_smul rather than define a new completion carrier.
+
+See GSWZ2024 Proof of Theorem 9, p. 39.
+
+**Checks.**
+
+- For p = 5 and L = `Q_{25}` × Q_5, completedK3 5 L is free of rank 3.
+- completedK3 p 0 = 0 for the zero algebra.
+- For L = Q_p the Chern isomorphism agrees with KTheoryFiniteLocalFields §§6.6–6.7 at i = 2.
+- For p = 3, completedK3 3 Q_3 has torsion Z/3 `(w_2^{(3)}(Q_3) = 3),` so it is not free and no injective map to a torsion-free lattice exists.
+
+### Supplier: Completed K₃ of an unramified field is the completed Bloch group
+
+K3BlochGroups §6.6 supplies K₃^ind(L)/p^ν≃B(L)/p^ν when p is odd and μ(L)⊗ℤ/p^ν=0, retaining the kernel image of T̃(L)/p^ν before this root hypothesis. KTheoryFiniteLocalFields §§3.5,6.2,6.8–6.10 supply the ordinary-to-indecomposable and completed-to-inverse-limit steps: the local Milnor K₃ image is divisible, and TₚK₂(L)=0 because K₂(L) is a uniquely divisible group plus finite torsion. Composing these inputs gives the following contract.
+
+Let L be a finite unramified extension of Q_p with p ≥ 3. For every ν ≥ 1 the natural maps K_3(L)/p^ν → K_3^ind(L)/p^ν → B(L)/p^ν are isomorphisms (B(L) Suslin's Bloch group), and the completion map identifies K_3(L; Z_p) with lim_ν K_3(L)/p^ν ≅ lim_ν B(L)/p^ν =: B(L)^∧_p. In particular the image of B(L) — more precisely of K_3(L), which surjects onto every B(L)/p^ν — is dense in K_3(L; Z_p), and the kernel of K_3(L) → K_3(L; Z_p) is ⋂_ν p^ν K_3(L). For a finite product L = ∏ L_i the statements hold factorwise.
+
+See GSWZ2024 Proof of Theorem 9, p. 39.
+
+**Checks.**
+
+- For L = Q_5: K_3(Q_5; Z_5) ≅ Z_5 ≅ lim_ν B(Q_5)/5^ν.
+- For ramified L=Q_p(ζ_p), retain the term im(μ̃(L)/p→K_3^ind(L)/p) in the kernel of K_3^ind(L)/p→B(L)/p. The argument that this term vanishes for unramified L no longer applies. No nonzero injection of μ̃(L)/p, or ramified isomorphism, is inferred from tensoring Suslin’s exact sequence.
+
+- At L=ℚ₃ the completed group is ℤ₃⊕ℤ/3, so the completed Bloch comparison retains the order-three summand; it does not imply torsion-freeness.
+
+### Supplier: Good Wach basis coordinate interface
+
+Consume the integral, rational and analytic good-basis comparisons from PhiGammaModulesAndIwasawaCohomology §6.2, including the choice congruent modulo π to a prescribed integral Wach basis (LLZWach Theorem 3.5). For b_i=(1+π)φ(n_i), its ψ-zero coordinates identify the bounded coefficient row with Λ_E(G∞)^d and the analytic extension with ℋ_E(G∞)^d. A constant basis change acts by inverse right multiplication. A nonconstant matrix in GL_d(Λ_E(G∞)) transports coordinates but need not preserve the property of being a good Wach basis.
+
+See LLZWach Theorem3.5, Lemmas3.7-3.10, Proposition3.11, Lemma3.15, pp.10-13; LLZ2011 Proposition2.11, Theorem2.12, Corollary2.13, Remark2.14, pp.1115-1116.
+
+**Checks.**
+
+- Changing by a constant GL_d(O_E) matrix preserves goodness. An arbitrary power-series change does not follow from this theorem.
+- In rank one the bounded coordinate of b₁ is 1, whereas p⁻¹b₁ has nonintegral coordinate and is not an integral good basis.
+- For U=diag(2,1) over ℤ₅, coordinates (a,b) become (a/2,b); multiplication by U would give the wrong first coordinate.
 
 ## References
 
