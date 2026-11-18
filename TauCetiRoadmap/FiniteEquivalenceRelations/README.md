@@ -863,8 +863,15 @@ universal injectivity: the second and third theorems of 4.2. Tag 0EUA, the step 
 `AlgebraicGeometry.quasicoherentSectionsEqualizer_iff_isUniversalEffectiveEpiFamily`
 (`Descent/EffectiveEpi/QuasicoherentSectionsEqualizer/UniversalEffectiveEpi.lean`). It is stated for
 AxiomMath's own universal effective epimorphic families, not for Mathlib's
-`MorphismProperty.universally`. Non-flat relations, the effectivity criterion of 1.3, the examples
-of Layer 3 and the descent along the quotient map of 4.3 are not there.
+`MorphismProperty.universally`. For a faithfully flat ring map,
+`amitsurExtendedCochainComplex_acyclic_of_faithfullyFlat` (Tags 023M and 03OA,
+`Descent/ModuleEquivalence/FaithfullyFlatAmitsur.lean`) proves the Amitsur complex exact, which
+gives `IsAmitsurEqualizer` of 4.1 in that case, and
+`AlgebraicGeometry.DescentData.isFamilyEffective_of_isAffineHom_of_anyIndex` (Tag 0245,
+`Descent/FamilyEffectivityLargeIndex.lean`) proves descent data with affine structure morphisms
+effective along fpqc covering families. Both apply when the quotient map is faithfully flat, as in
+2.1, not to the quotient map of 4.3 in general. Non-flat relations, the effectivity criterion of
+1.3, the examples of Layer 3 and the descent along the quotient map of 4.3 are not there.
 
 ## References
 
