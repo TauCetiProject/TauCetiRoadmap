@@ -2,37 +2,9 @@
 
 **Summary.** This roadmap turns the trace machinery of RefinedTraceMethods into closed formulas for the algebraic K-theory of the standard singular and finite rings. RefinedTraceMethods stops at the general theory (THH and TC of ring spectra, the cyclotomic trace, the Dundas–Goodwillie–McCarthy theorem, truncating excision and continuity) and at the low-degree symbol calculations of its §4.19; it computes no K-group of a singular curve, of a truncated polynomial algebra in all degrees or of a finite chain ring. This roadmap builds the Nikolaus–Scholze calculus of pointed-monoid algebras: the cyclotomic splitting `THH(k(Π)) ≃ THH(k) ⊗ Σ^∞B^cy(Π)` with its unstable Frobenius, the circle-cell Tate calculus over perfect and perfectoid coefficients, and the passage from K to TC through normalization squares. It then proves the end theorems. Over a regular noetherian 𝔽_p-algebra k, `K_q(k[x,y]/(xy),(x,y))` is a sum of p-typical de Rham–Witt groups of k (Hesselholt). The relative K-groups of the coordinate axes in affine d-space are computed over every perfect field of positive characteristic, including p = 2, and over every ind-smooth ℚ-algebra (Speirs). For the planar cusps `y^a = x^b` over perfect 𝔽_p-algebras, the even relative K-groups are `W_S(k)/(V_aW_{S/a}(k) + V_bW_{S/b}(k))` and the odd ones vanish (Hesselholt–Nikolaus). For every perfectoid ring R, `K_{2r−1}(R[x]/x^e,(x);ℤ_p) ≅ W_{re}(R)/V_eW_r(R)` and the even groups vanish (Riggenbach). Finally, for every finite chain ring `O_K/ϖ^n` it gives the structure of the p-adic K-groups, Angeltveit's order quotient, the even vanishing theorem and the bound on v₁-nilpotence (Antieau–Krause–Nikolaus), with the relative and filtered prismatic cohomology over δ-rings that these need.
 
-## Scope and ownership
+## How to read the build
 
-This roadmap owns the following.
-
-- The cyclotomic splitting of THH of pointed-monoid algebras in the Nikolaus–Scholze framework, with its unstable Frobenius, and the rational Hochschild analogue (Layer 2).
-- The weight decompositions and circle-equivariant cell types of the cyclic bar constructions of the coordinate-axes monoids and of the cusp inclusion `⟨t^a,t^b⟩ ⊂ ⟨t⟩` (Layer 2).
-- The circle-cell Tate calculus: the Tate comparison for finite C_p-complexes, the Frobenius on fixed-point cells, the circle-orbit identity, the homotopy of `THH(R;ℤ_p)^{hC_{p^v}}` and `THH(R;ℤ_p)^{tC_{p^v}}` for perfectoid R with their canonical, Frobenius and Verschiebung maps, and the staircase lemma that evaluates the Nikolaus–Scholze equalizer on such pieces (Layer 3).
-- Birelative K-theory and TC of normalization squares, the conductor squares of numerical-semigroup rings, and the comparison of relative with birelative K-theory (Layer 4).
-- The calculations for the coordinate axes (Layer 5), the planar cusps (Layer 6), the truncated polynomial algebras over perfectoid rings (Layer 7) and finite chain rings (Layer 9).
-- Prismatic and syntomic cohomology relative to a δ-ring, its filtered variant and crystalline degeneration, as far as Layer 9 uses them (Layer 8). No prismatic roadmap plans prismatic cohomology relative to δ-rings or of filtered rings.
-- The arithmetic of the indexing data: the cusp counting function and its truncation sets, Sylvester's count, cyclic-word counts, the axes and cusp index functions, and the finite-chain-ring exponents (Layer 1).
-
-The following are imported, not planned again.
-
-- THH of E₁-rings with its Frobenius, symmetric monoidality, TC and its fibre formula, spherical monoid rings with the unstable Frobenius of an unpointed E₁-monoid, parametrized Tate constructions and dualizing spectra, representation-graded TR, relative K and TC with `K^inv`, the Dundas–Goodwillie–McCarthy theorem, henselian rigidity, Goodwillie's rational theorem, truncating excision with the Land–Tamme correction and the KABI consequence, and continuity: RefinedTraceMethods §§1.4, 1.9, 2.3–2.4, 2.6, 2.8–2.10, 2.13, 4.12, 4.17–4.18.
-- Pointed-monoid THH in the classical genuine model and the cell types of `B^cy(Π_e)`, λ-graded TR of regular noetherian 𝔽_p-algebras and the truncated-polynomial K-groups over regular noetherian 𝔽_p-algebras and perfect fields: KTheoryFiniteLocalFields §§5.16, 5.17; the power-series groups `𝕎_N(k)` these are written in are its Conventions. The truncated-polynomial theorem over perfect fields is a Check of Layer 7 here, not a target. K-theory of finite fields, Gabber rigidity and TC of perfect fields come from KTheoryFiniteLocalFields §§1.1–1.6, 2.1 and 5.1.
-- Truncation sets, big Witt rings, F, V and Teichmüller maps, the big Witt power-series comparison and the comparison with p-typical Witt vectors: QWittVectors §§1.1–1.5 (the power-series comparison is §1.4a). p-typical de Rham–Witt complexes: CrystallineCohomology CR.4.
-- Vanishing of NK and of negative K-groups for regular noetherian rings: SchemeKTheoryOperations §5.2. Relative K-theory as a fibre: GeneralAlgebraicKTheory §8.1.
-- Filtered derived categories, their completion, the Rees description and completed Day convolution: DerivedDeRhamCohomology §§1.14–1.17. Symmetric monoidal ∞-categories, E∞-algebras and their modules, and limits of presentable ∞-categories: EnhancedDerivedSheaves §§E5:abstract.1–E5:abstract.2 and §E5:presentability.2. Milnor sequences of towers of spectra, the homotopy of p-completions and p-complete spectra: StableHomotopyKTheory §§7.9, 7.11, 7.14–7.15 and 7.17.
-- δ-rings, prisms, Breuil–Kisin prisms and prismatic envelopes: PrismaticCohomology §§0.55–0.56, 0.73–0.76, 0.93 and 2.13. Nygaard filtrations, Breuil–Kisin twists, the ideals `I_r` of transversal prisms, Nygaard completion, the Cartier–Witt stack, prismatic crystals and absolute prismatic and Hodge–Tate cohomology: PrismaticCohomologyPartII §§3.6, 3.9–3.10, 3.20 and Layer 4. Syntomic complexes, their values in weights 0 and 1 and on smooth algebras over perfect fields, and the motivic filtration on TC: PrismaticCohomologyPartIII §§6.8–6.9, 6.16, 6.24, 6.31 and 7.0. Perfectoid rings, `A_inf`, Bökstedt periodicity for perfectoid rings and the perfectoid trace coefficients: AInfCohomology AI.0 and §AI.7.2.
-
-What is left out:
-
-- The algorithmic content of the finite-chain-ring calculation (akn24 §7 and its tables), whose values enter only as Checks.
-- The chromatic purity theorem, owned by GeneralAlgebraicKTheoryPartII (its target "The chromatic purity theorem", in the layer on trace comparison, CMNN vanishing and purity). At height one it gives `L_{T(1)}K(ℤ/p^n) = L_{T(1)}K(0) = 0` because ℤ/p^n is T(0)- and T(1)-acyclic. This roadmap does not state `L_{T(1)}K(ℤ/p^n) = 0`. Its §9.6 is the nilpotence of v₁ on the motivic associated graded `⊕_i 𝔽_p(i)(R)` only; akn24 Corollary 6.4 (line 2356) passes from there to the spectrum, using in addition the finiteness of the motivic filtration on each `π_rTC(ℤ/p^n;𝔽_p)` and the identification of `L_{T(1)}K` with `L_{T(1)}TC`.
-- K-theory of `O_K` and of local fields, owned by KTheoryFiniteLocalFields Layer 6.
-- Hahn–Levy–Senger's mod (p, v₁) calculation.
-- The F-smooth extension of the truncated-polynomial theorem (riggenbach-trunc Theorem 1.2), which needs the Nygaard-dimension theory of F-smooth rings, and the cusp calculation over fields of characteristic zero (recalled at hesselholt-cusp-polytopes line 198 through the cyclic homology of the cusp). This roadmap stops at perfectoid coefficients for truncated polynomials and at perfect 𝔽_p-algebras for cusps.
-- Prismatic cohomology relative to animated δ-rings. Descent for relative syntomic complexes along maps of pairs whose base map A → B is not flat needs it, because the derived Čech nerve of such a base map is not a diagram of δ-rings; akn-delta (lines 165–170) announces this extension without constructing it. Layer 8 proves descent along flat base maps, which is the case Layer 9 uses.
-- The p-completed lax comparison: for bounded-below T with C_p-action and finite pointed C_p-CW Z, the lax structure map `T^{tC_p} ⊗ (Σ^∞Z)^{tC_p} → (T ⊗ Σ^∞Z)^{tC_p}` is an equivalence after p-completion of its source (speirs-axes Lemma 15, line 506, states it without the completion, which is needed). Its proof needs the Segal equivalence `𝕊^{tC_p} ≃ 𝕊^∧_p`, which StableHomotopyKTheoryPartII §2.7 owns. No layer here uses either: §3.6 factors the Frobenius through the fixed-point comparison of §3.1, which holds for every T.
-- The filtered and graded Hodge–Tate comparison of akn-delta Proposition 10.37, a statement about the Hodge–Tate locus of the filtered relative Cartier–Witt stack. No layer here uses it: Layer 9 uses the base-change, envelope and degeneration statements of §8.5 and §8.6.
+Layer 1 is elementary arithmetic and Witt bookkeeping, close to Mathlib: it fixes every index function that appears in an answer. Layer 2 splits THH of a pointed-monoid algebra as THH of the coefficients tensored with a cyclic bar construction, and computes the circle-equivariant cell types of the three cyclic bar constructions the calculations need. Layer 3 develops the Tate calculus on circle cells over perfectoid coefficients, ending in the staircase lemma that evaluates the TC equalizer on a tower of cells. Layer 4 forms the birelative terms of the normalization squares of axes and cusps, which excision for `K^inv` (RefinedTraceMethods §4.18) identifies with birelative TC (p-adically) and birelative HC (rationally), and compares relative with birelative K-theory. Layers 5, 6 and 7 assemble the calculations for the coordinate axes, the cusps and the truncated polynomial algebras. Layer 8 builds prismatic cohomology relative to δ-rings and of filtered rings, with crystalline degeneration. Layer 9 applies Layers 1, 7 and 8 to finite chain rings. Layers 5–7 are independent of each other, and Layer 8 depends only on suppliers.
 
 ## Conventions
 
@@ -55,110 +27,6 @@ A finite chain ring is `R = O_K/ϖ^n` with K/ℚ_p finite, `e = v_K(p)`, residue
 - *Tate grading.* For trivial C_p acting on Hℤ, `π_{2r}((Hℤ)^{tC_p}) = ℤ/p` and the odd groups vanish (RefinedTraceMethods, Layer 2 Examples).
 - *Circle cells.* `(X ⊗ (T/C_m)_+)^{hT} ≃ Σ X^{hC_m}`. For X = Hℤ with trivial action and m = 1 this is `ΣHℤ`, with π₁ = ℤ. An unshifted formula would put ℤ in degree 0.
 - *Syntomic degrees.* `ℤ_p(1)` is the derived p-completion of `G_m[−1]` (akn-delta line 118, where it is written as the p-adic Tate module of `G_m`), so for a local ring R with finite unit group `H¹(ℤ_p(1)(R))` is the p-primary part of `R^×`. For R = ℤ/4 this is `(ℤ/4)^× = ℤ/2 = K_1(ℤ/4;ℤ_2)`, in cohomological degree 1, not 0.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- `MonoidWithZero` (Mathlib/Algebra/GroupWithZero/Defs.lean) is the pointed-monoid carrier. `MonoidAlgebra` (Mathlib/Algebra/MonoidAlgebra/Defs.lean) is the unpointed algebra; Mathlib has no contracted (pointed) monoid algebra, so Layer 2 defines it as a quotient.
-- `WittVector`, `TruncatedWittVector` (Mathlib/RingTheory/WittVector/Defs.lean, Truncated.lean), `WittVector.verschiebung`, `WittVector.frobenius` and `WittVector.teichmuller` are the p-typical carriers and operations.
-- `Nat.divisors` and `ArithmeticFunction.moebius` with `ArithmeticFunction.moebius_mul_coe_zeta` (Mathlib/NumberTheory/ArithmeticFunction/Moebius.lean) are used for the cyclic-word counts; `finRotate` (Mathlib/Logic/Equiv/Fin/Rotate.lean) is the cyclic successor on `Fin m`, and `Set.ncard` and `Finset.card` the cardinalities of Layer 1.
-- `frobeniusNumber_pair` (Mathlib/NumberTheory/FrobeniusNumber.lean): for coprime m, n > 1 the largest natural number outside the additive submonoid generated by m and n is `m*n − m − n`. It fixes the conductor of the cusp (§§1.1, 4.2).
-- `KaehlerDifferential` and exterior powers supply absolute Kähler forms `Ω^j_{k/ℚ}`.
-- `Polynomial`, `PowerSeries`, `Ideal.Quotient` and `MvPolynomial` supply the coordinate rings `k[x]/x^e`, `k[x_1,…,x_d]/(x_ix_j)_{i≠j}` and `k[x,y]/(y^a − x^b)`.
-
-Mathlib and Tau Ceti have no big Witt vectors, cyclic bar constructions, THH, TC, higher or relative algebraic K-groups, cyclic homology, mixed complexes or syntomic complexes at the pins. Tau Ceti has Grothendieck groups (`TauCeti/CategoryTheory/GrothendieckGroup`) and the Hochschild and cyclic cohomology of cochains (`TauCeti/RingTheory/HochschildCohomology`, `TauCeti/RingTheory/CyclicCohomology`); the theorems here need the relative groups `K_q(A,I)` in all degrees and the homology theories HH and HC with their circle action, which those do not give. Mathlib/RingTheory/Perfectoid has Fontaine's θ and untilts; Tau Ceti has the predicate `TauCeti.Perfectoid.IsIntegralPerfectoid p A` (TauCeti/RingTheory/Perfectoid/Integral.lean), the integral perfectoid rings of Bhatt–Morrow–Scholze, which are the perfectoid rings of Layers 3 and 7, but no big Witt vectors or K-theory.
-
-### From Tau Ceti
-
-- `TauCeti.NodeAlgebra R 0`, the quotient `MvPolynomial (Fin 2) R ⧸ Ideal.span {X 0 * X 1 − C 0}` with `TauCeti.NodeAlgebra.coord`, `TauCeti.NodeAlgebra.coord_zero_mul_coord_one` and `TauCeti.NodeAlgebra.lift` (TauCeti/RingTheory/Node/Basic.lean), is the coordinate ring of the axes in the plane for d = 2.
-
-### From TauCetiRoadmap.BordismFormalGroups
-
-- §F6.5: the Borel category `Sp^{BG}` of a finite group G with homotopy orbits, homotopy fixed points, the norm and the Tate cofibre; the projection formula and the vanishing of `(−)^{tG}` on the tensor ideal generated by induced objects; and the lax symmetric monoidal structure of `(−)^{tG}`, with `can : (−)^{hG} → (−)^{tG}` lax symmetric monoidal and the universal property of `(−)^{tG}` among exact functors under `(−)^{hG}` that vanish on that ideal. Layer 3 uses them for G = C_p.
-
-### From TauCetiRoadmap.RefinedTraceMethods
-
-- §§1.2–1.3: mixed complexes, the Connes operator and the coherent derived mixed category.
-- §§1.4 and 1.9: cyclic, negative cyclic and periodic cyclic homology, and the smooth HKR comparison.
-- §2.1: spectra with an action of a topological group and the adjunctions between them.
-- §2.3: convergence of `(−)^{hG}`, `(−)_{hG}` and `(−)^{tG}` along Postnikov towers for finite G, the vanishing of `Y^{tC_p}` when p acts invertibly on `π_*Y`, and, for bounded-below X, p-completeness of `X^{tC_p}` with `X^{tC_p} ≃ (X^∧_p)^{tC_p}`.
-- §2.4: the parametrized Tate construction of a Kan complex and its dualizing spectrum (NS Theorem I.4.1), with `D_{BT} = Σ𝕊` and `D_{BC_m} = 𝕊`.
-- §2.5: cyclic realization and edgewise subdivision.
-- §2.6: THH of E₁-rings and its Frobenius `φ_p`, and THH relative to an E∞-ring.
-- §2.8: the symmetric monoidal structure of cyclotomic spectra and of THH, with Frobenius on a tensor product given through the lax structure of `−^{tC_p}`.
-- §2.9: the Nikolaus–Scholze fibre formula `TC(X) ≃ fib(φ − can : TC^-(X) → TP(X)^∧)` for bounded-below X.
-- §2.10: THH of spherical monoid rings `𝕊[M]` of E₁-monoids M with the unstable Frobenius `ψ_p : B^cyM → (B^cyM)^{hC_p}`.
-- §2.13: genuine F-genuine T-spectra, representation spheres and representation-graded `TR^n_{q−λ}` with R, F, V; for a commutative ring A, `TR(A;p)` with `π_0TR(A;p) ≅ W(A)` compatibly with F, and genuine TC as the equalizer of id and F on `TR(A;p)`.
-- §2.16: restriction pullbacks and the comparison of genuine with Nikolaus–Scholze TC.
-- §4.12: relative K, relative TC and `K^inv`.
-- §4.17: the Dundas–Goodwillie–McCarthy theorem, henselian rigidity with finite coefficients and Goodwillie's rational theorem.
-- §4.18: `K^inv` is truncating; nil-invariance and excision of truncating invariants, with the rational (KABI) consequence for `KQinf` and HC; continuity modulo p.
-
-### From TauCetiRoadmap.KTheoryFiniteLocalFields
-
-- §§1.1–1.6: `K_{2i−1}(𝔽_q) ≅ ℤ/(q^i − 1)`, `K_{2i}(𝔽_q) = 0` for i ≥ 1, with coefficients.
-- §2.1: Gabber rigidity for henselian pairs with invertible finite coefficients.
-- §4.0: the ordinary cyclic bar and the genuine cyclotomic foundations.
-- §4.4: the norm, homotopy orbits and the comparison of the genuine with the modern cyclotomic model.
-- §5.1: `π_*TC^-(k)`, `π_*TP(k)`, can and φ for perfect fields, and TC of perfect fields.
-- §5.16: the classical pointed-monoid THH equivalence and the cofibre sequences for the weight pieces of `B^cy(Π_e)`.
-- Conventions: the series groups `𝕎_N(k)` of truncated power series with constant term 1 modulo `t^{N+1}` and `𝕎(k)` of such formal series, with the substitution Verschiebung `V_n` induced by `t ↦ t^n` and the Teichmüller class `(1 − at)^{−1}`; QWittVectors §1.4a identifies them with the coordinate groups `W_N(k)` and `W(k)`.
-- §5.17: `TR^n_{q−λ}(A;p) ≃ ⊕_{r=1}^{n} ⊕_{ℓ_{n−r} ≤ m < ℓ_{n−1−r}} W_rΩ^{q−2m}_A` for regular noetherian 𝔽_p-algebras A, and the truncated-polynomial K-groups over perfect fields.
-
-### From TauCetiRoadmap.QWittVectors
-
-- §§1.1–1.5: `BigWitt.TruncationSet`, `S/n`, the big Witt ring `W_S(R)`, F_n, V_n, τ with `F_nV_n = n` and `x·V_n(y) = V_n(F_n(x)·y)`, the power-series comparison of §1.4a, and the comparison with p-typical Witt vectors on the p-power truncation sets `Div(p^a)` of §1.5.
-- What QWittVectors must provide (gap:bigwitt-ptypical-decomposition): for a prime p, a `ℤ_(p)`-algebra R and a truncation set S, the natural ring isomorphism `W_S(R) ≅ ∏_{d ∈ S ∩ J_p} W_{s_S(d)}(R)` that commutes with restriction, carries `V_n` and `F_n` for n prime to p to the evident reindexings up to the unit n, and carries V_p and F_p to the p-typical V and F (the decomposition used at hesselholt-axes line 36 and hn-cusp line 43). Layers 6 and 7 use it to pass from p-typical answers to the big Witt forms of their statements.
-
-### From TauCetiRoadmap.CrystallineCohomology
-
-- CR.2: crystalline cohomology, the PD Poincaré lemma and its computation by divided-power de Rham complexes of embeddings.
-- CR.4: p-typical de Rham–Witt complexes `W_sΩ^*_k` with R, F, V, d, for every 𝔽_p-algebra k.
-
-### From TauCetiRoadmap.DerivedDeRhamCohomology
-
-- §§1.14–1.17: the filtered derived category `DF(A)` with `gr^i F = cofib(F^{i+1} → F^i)`, completion of filtered objects (which leaves every `gr^i` unchanged and kills constant filtrations), the Rees equivalence of filtered objects with graded `A[t]`-modules (t = 1 gives the underlying object, derived t = 0 the associated graded), and the completed Day-convolution tensor product, whose unit is the step filtration of A. Applied in each grading, they give the complete filtered graded objects of Layer 8 and the Rees algebras of §8.5.
-- Layer 2: ordinary and derived de Rham cohomology with its Hodge filtration.
-- Layer 5: the cotangent complex, Tor-amplitude conditions and the quasisyntomic sites.
-
-### From TauCetiRoadmap.GeneralAlgebraicKTheory
-
-- §8.1: relative K as a homotopy fibre with its long exact sequence. §10.5: the Fundamental Theorem with Nil terms.
-
-### From TauCetiRoadmap.SchemeKTheoryOperations
-
-- §5.2: for every regular noetherian X, `NK_n(X) = 0` for every integer n and `K_n(X) = 0` for every n < 0.
-- What SchemeKTheoryOperations must provide (gap:perfect-homotopy-invariance): for every perfect 𝔽_p-algebra A, the map `IK(A) → IK(A[T])` is an equivalence (amm-perfectoid Proposition 5.1, which proves `K ≃ KH` for smooth algebras over perfect 𝔽_p-algebras through cdh descent for perfect schemes). Layer 6 uses it, and only it, to identify birelative with relative K-theory of cusps over a perfect 𝔽_p-algebra that is not regular noetherian.
-
-### From TauCetiRoadmap.AInfCohomology
-
-- AI.0: perfectoid rings, `A_inf(R)`, θ and its principal kernel `(d)`, with `d̃ = φ(d)` and `d̃_k = φ(d)φ²(d)⋯φ^k(d)`.
-- §AI.7.2: THH of connective E∞-rings with circle Tate constructions and `(X^{tT})^∧_p ≃ (X^{tC_p})^{h(T/C_p)}` for bounded-below X; Bökstedt periodicity `π_*THH(R;ℤ_p) = R[u]` for perfectoid R; the perfectoid trace coefficients `π_*TC^-(R;ℤ_p) = A_inf(R)[u,v]/(uv − d)`, `π_*TP(R;ℤ_p) = A_inf(R)[σ^{±1}]` with can and φ (BMS2 Theorem 6.1 and Propositions 6.2–6.4); quasisyntomic unfolding.
-
-### From TauCetiRoadmap.PrismaticCohomology
-
-- §§0.55–0.56: free δ-rings, limits, colimits and Witt vectors of δ-rings. §§0.73–0.76: prisms, bounded, oriented, crystalline and Breuil–Kisin prisms. §0.93: prismatic envelopes over orientable prisms. §§1.2–1.4: the relative prismatic site and relative prismatic cohomology. §§2.1–2.13: derived prismatic cohomology, ending with the prismatic cohomology of a regular quotient as the prismatic envelope (§2.13).
-
-### From TauCetiRoadmap.PrismaticCohomologyPartII
-
-- §3.6: transversal prisms and the ideals `I_r`. §§3.9–3.10: Breuil–Kisin twists and the divided Frobenius. §3.15: the graded pieces of the relative Nygaard filtration as the conjugate pieces of Hodge–Tate cohomology. §3.19: comparison of the Nygaard filtration with the Hodge filtration of derived de Rham cohomology. §3.20: Nygaard completion. §3.24: the Nygaard filtration in de Rham coordinates. Layer 4: WCart, its points and fibre products, quasi-coherent complexes and prismatic crystals (§§4.4–4.10), relative prismatic complexes (§4.17), absolute prismatic cohomology (§§4.18–4.19), the diffracted Hodge complex (§4.22), the crystalline comparison in characteristic p (§4.23), the absolute Nygaard filtration (§§4.25, 4.29), its comparison with the relative Nygaard filtration over a perfect prism (§4.30) and the absolute Frobenius (§4.31).
-
-### From TauCetiRoadmap.PrismaticCohomologyPartIII
-
-- §§6.8–6.9: syntomic complexes `ℤ_p(i)` of quasisyntomic and of animated rings. §6.16: for a smooth algebra A over a perfect field, `ℤ_p(i)` is the logarithmic de Rham–Witt sheaf `WΩ^i_log[−i]` on the pro-étale site of Spec A. §6.24: `ℤ_p(i) = 0` for i < 0, `ℤ_p(0)(R) ≃ RΓ_ét(Spec R;ℤ_p)` for p-complete R, and `ℤ_p(1)(R) ≃ RΓ_ét(Spec R;G_m)^∧[−1]` for quasisyntomic R. §6.31: connectivity, rigidity and left Kan extension. §7.0: the motivic filtration with `gr^iTC(R;ℤ_p) ≃ ℤ_p(i)(R)[2i]`, and `gr^iTC^-`, `gr^iTP`.
-
-### From TauCetiRoadmap.StableHomotopyKTheory
-
-- §7.9: the Milnor sequence `0 → lim¹_r π_{k+1}X_r → π_k holim_r X_r → lim_r π_kX_r → 0` of a tower of spectra, with lim¹ = 0 for a Mittag-Leffler tower. §7.11: for a spectrum E, `π_n(E^∧_p)` maps onto `lim_r π_n(E/p^r)`, which is an extension of the Tate module `T_pπ_{n−1}E` by `lim_r π_nE/p^r`. §§7.14–7.15 and 7.17: p-complete spectra, their closure under fibres, products and limits of countable towers, and the p-completeness of every spectrum each of whose homotopy groups is killed by some power of p.
-
-### From TauCetiRoadmap.EnhancedDerivedSheaves
-
-- §§E5:abstract.1–E5:abstract.2: symmetric monoidal ∞-categories and ∞-operads, E∞-algebras `CAlg(C)` in a symmetric monoidal ∞-category C, and modules over them. §E5:presentability.2: presentable ∞-categories, and the limit of a diagram of presentable ∞-categories along colimit-preserving functors, which is presentable with colimits computed by the projections.
-
-## How to read the build
-
-Layer 1 is elementary arithmetic and Witt bookkeeping, close to Mathlib: it fixes every index function that appears in an answer. Layer 2 splits THH of a pointed-monoid algebra as THH of the coefficients tensored with a cyclic bar construction, and computes the circle-equivariant cell types of the three cyclic bar constructions the calculations need. Layer 3 develops the Tate calculus on circle cells over perfectoid coefficients, ending in the staircase lemma that evaluates the TC equalizer on a tower of cells. Layer 4 forms the birelative terms of the normalization squares of axes and cusps, which excision for `K^inv` (RefinedTraceMethods §4.18) identifies with birelative TC (p-adically) and birelative HC (rationally), and compares relative with birelative K-theory. Layers 5, 6 and 7 assemble the calculations for the coordinate axes, the cusps and the truncated polynomial algebras. Layer 8 builds prismatic cohomology relative to δ-rings and of filtered rings, with crystalline degeneration. Layer 9 applies Layers 1, 7 and 8 to finite chain rings. Layers 5–7 are independent of each other, and Layer 8 depends only on suppliers.
 
 ## Layer 1: Indexing arithmetic and Witt bookkeeping
 
@@ -922,6 +790,138 @@ The calculations are built for the following consumers.
 
 - Non-A¹-invariant motivic cohomology of singular schemes, whose motivic refinements of the coordinate axes, cusps and truncated polynomials are bouis-motivic §§2–3. Layers 5–7 are the weight-graded targets of its motivic spectral sequences.
 - The p-adic K-theory of `O_K` through continuity: `K(O_K;ℤ_p) ≃ lim_n K(O_K/ϖ^n;ℤ_p)` (RefinedTraceMethods §4.18) together with Layer 9 gives the finite-level groups whose limit is KTheoryFiniteLocalFields Layer 6.
+
+## Scope and ownership
+
+This roadmap owns the following.
+
+- The cyclotomic splitting of THH of pointed-monoid algebras in the Nikolaus–Scholze framework, with its unstable Frobenius, and the rational Hochschild analogue (Layer 2).
+- The weight decompositions and circle-equivariant cell types of the cyclic bar constructions of the coordinate-axes monoids and of the cusp inclusion `⟨t^a,t^b⟩ ⊂ ⟨t⟩` (Layer 2).
+- The circle-cell Tate calculus: the Tate comparison for finite C_p-complexes, the Frobenius on fixed-point cells, the circle-orbit identity, the homotopy of `THH(R;ℤ_p)^{hC_{p^v}}` and `THH(R;ℤ_p)^{tC_{p^v}}` for perfectoid R with their canonical, Frobenius and Verschiebung maps, and the staircase lemma that evaluates the Nikolaus–Scholze equalizer on such pieces (Layer 3).
+- Birelative K-theory and TC of normalization squares, the conductor squares of numerical-semigroup rings, and the comparison of relative with birelative K-theory (Layer 4).
+- The calculations for the coordinate axes (Layer 5), the planar cusps (Layer 6), the truncated polynomial algebras over perfectoid rings (Layer 7) and finite chain rings (Layer 9).
+- Prismatic and syntomic cohomology relative to a δ-ring, its filtered variant and crystalline degeneration, as far as Layer 9 uses them (Layer 8). No prismatic roadmap plans prismatic cohomology relative to δ-rings or of filtered rings.
+- The arithmetic of the indexing data: the cusp counting function and its truncation sets, Sylvester's count, cyclic-word counts, the axes and cusp index functions, and the finite-chain-ring exponents (Layer 1).
+
+The following are imported, not planned again.
+
+- THH of E₁-rings with its Frobenius, symmetric monoidality, TC and its fibre formula, spherical monoid rings with the unstable Frobenius of an unpointed E₁-monoid, parametrized Tate constructions and dualizing spectra, representation-graded TR, relative K and TC with `K^inv`, the Dundas–Goodwillie–McCarthy theorem, henselian rigidity, Goodwillie's rational theorem, truncating excision with the Land–Tamme correction and the KABI consequence, and continuity: RefinedTraceMethods §§1.4, 1.9, 2.3–2.4, 2.6, 2.8–2.10, 2.13, 4.12, 4.17–4.18.
+- Pointed-monoid THH in the classical genuine model and the cell types of `B^cy(Π_e)`, λ-graded TR of regular noetherian 𝔽_p-algebras and the truncated-polynomial K-groups over regular noetherian 𝔽_p-algebras and perfect fields: KTheoryFiniteLocalFields §§5.16, 5.17; the power-series groups `𝕎_N(k)` these are written in are its Conventions. The truncated-polynomial theorem over perfect fields is a Check of Layer 7 here, not a target. K-theory of finite fields, Gabber rigidity and TC of perfect fields come from KTheoryFiniteLocalFields §§1.1–1.6, 2.1 and 5.1.
+- Truncation sets, big Witt rings, F, V and Teichmüller maps, the big Witt power-series comparison and the comparison with p-typical Witt vectors: QWittVectors §§1.1–1.5 (the power-series comparison is §1.4a). p-typical de Rham–Witt complexes: CrystallineCohomology CR.4.
+- Vanishing of NK and of negative K-groups for regular noetherian rings: SchemeKTheoryOperations §5.2. Relative K-theory as a fibre: GeneralAlgebraicKTheory §8.1.
+- Filtered derived categories, their completion, the Rees description and completed Day convolution: DerivedDeRhamCohomology §§1.14–1.17. Symmetric monoidal ∞-categories, E∞-algebras and their modules, and limits of presentable ∞-categories: EnhancedDerivedSheaves §§E5:abstract.1–E5:abstract.2 and §E5:presentability.2. Milnor sequences of towers of spectra, the homotopy of p-completions and p-complete spectra: StableHomotopyKTheory §§7.9, 7.11, 7.14–7.15 and 7.17.
+- δ-rings, prisms, Breuil–Kisin prisms and prismatic envelopes: PrismaticCohomology §§0.55–0.56, 0.73–0.76, 0.93 and 2.13. Nygaard filtrations, Breuil–Kisin twists, the ideals `I_r` of transversal prisms, Nygaard completion, the Cartier–Witt stack, prismatic crystals and absolute prismatic and Hodge–Tate cohomology: PrismaticCohomologyPartII §§3.6, 3.9–3.10, 3.20 and Layer 4. Syntomic complexes, their values in weights 0 and 1 and on smooth algebras over perfect fields, and the motivic filtration on TC: PrismaticCohomologyPartIII §§6.8–6.9, 6.16, 6.24, 6.31 and 7.0. Perfectoid rings, `A_inf`, Bökstedt periodicity for perfectoid rings and the perfectoid trace coefficients: AInfCohomology AI.0 and §AI.7.2.
+
+What is left out:
+
+- The algorithmic content of the finite-chain-ring calculation (akn24 §7 and its tables), whose values enter only as Checks.
+- The chromatic purity theorem, owned by GeneralAlgebraicKTheoryPartII (its target "The chromatic purity theorem", in the layer on trace comparison, CMNN vanishing and purity). At height one it gives `L_{T(1)}K(ℤ/p^n) = L_{T(1)}K(0) = 0` because ℤ/p^n is T(0)- and T(1)-acyclic. This roadmap does not state `L_{T(1)}K(ℤ/p^n) = 0`. Its §9.6 is the nilpotence of v₁ on the motivic associated graded `⊕_i 𝔽_p(i)(R)` only; akn24 Corollary 6.4 (line 2356) passes from there to the spectrum, using in addition the finiteness of the motivic filtration on each `π_rTC(ℤ/p^n;𝔽_p)` and the identification of `L_{T(1)}K` with `L_{T(1)}TC`.
+- K-theory of `O_K` and of local fields, owned by KTheoryFiniteLocalFields Layer 6.
+- Hahn–Levy–Senger's mod (p, v₁) calculation.
+- The F-smooth extension of the truncated-polynomial theorem (riggenbach-trunc Theorem 1.2), which needs the Nygaard-dimension theory of F-smooth rings, and the cusp calculation over fields of characteristic zero (recalled at hesselholt-cusp-polytopes line 198 through the cyclic homology of the cusp). This roadmap stops at perfectoid coefficients for truncated polynomials and at perfect 𝔽_p-algebras for cusps.
+- Prismatic cohomology relative to animated δ-rings. Descent for relative syntomic complexes along maps of pairs whose base map A → B is not flat needs it, because the derived Čech nerve of such a base map is not a diagram of δ-rings; akn-delta (lines 165–170) announces this extension without constructing it. Layer 8 proves descent along flat base maps, which is the case Layer 9 uses.
+- The p-completed lax comparison: for bounded-below T with C_p-action and finite pointed C_p-CW Z, the lax structure map `T^{tC_p} ⊗ (Σ^∞Z)^{tC_p} → (T ⊗ Σ^∞Z)^{tC_p}` is an equivalence after p-completion of its source (speirs-axes Lemma 15, line 506, states it without the completion, which is needed). Its proof needs the Segal equivalence `𝕊^{tC_p} ≃ 𝕊^∧_p`, which StableHomotopyKTheoryPartII §2.7 owns. No layer here uses either: §3.6 factors the Frobenius through the fixed-point comparison of §3.1, which holds for every T.
+- The filtered and graded Hodge–Tate comparison of akn-delta Proposition 10.37, a statement about the Hodge–Tate locus of the filtered relative Cartier–Witt stack. No layer here uses it: Layer 9 uses the base-change, envelope and degeneration statements of §8.5 and §8.6.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- `MonoidWithZero` (Mathlib/Algebra/GroupWithZero/Defs.lean) is the pointed-monoid carrier. `MonoidAlgebra` (Mathlib/Algebra/MonoidAlgebra/Defs.lean) is the unpointed algebra; Mathlib has no contracted (pointed) monoid algebra, so Layer 2 defines it as a quotient.
+- `WittVector`, `TruncatedWittVector` (Mathlib/RingTheory/WittVector/Defs.lean, Truncated.lean), `WittVector.verschiebung`, `WittVector.frobenius` and `WittVector.teichmuller` are the p-typical carriers and operations.
+- `Nat.divisors` and `ArithmeticFunction.moebius` with `ArithmeticFunction.moebius_mul_coe_zeta` (Mathlib/NumberTheory/ArithmeticFunction/Moebius.lean) are used for the cyclic-word counts; `finRotate` (Mathlib/Logic/Equiv/Fin/Rotate.lean) is the cyclic successor on `Fin m`, and `Set.ncard` and `Finset.card` the cardinalities of Layer 1.
+- `frobeniusNumber_pair` (Mathlib/NumberTheory/FrobeniusNumber.lean): for coprime m, n > 1 the largest natural number outside the additive submonoid generated by m and n is `m*n − m − n`. It fixes the conductor of the cusp (§§1.1, 4.2).
+- `KaehlerDifferential` and exterior powers supply absolute Kähler forms `Ω^j_{k/ℚ}`.
+- `Polynomial`, `PowerSeries`, `Ideal.Quotient` and `MvPolynomial` supply the coordinate rings `k[x]/x^e`, `k[x_1,…,x_d]/(x_ix_j)_{i≠j}` and `k[x,y]/(y^a − x^b)`.
+
+Mathlib and Tau Ceti have no big Witt vectors, cyclic bar constructions, THH, TC, higher or relative algebraic K-groups, cyclic homology, mixed complexes or syntomic complexes at the pins. Tau Ceti has Grothendieck groups (`TauCeti/CategoryTheory/GrothendieckGroup`) and the Hochschild and cyclic cohomology of cochains (`TauCeti/RingTheory/HochschildCohomology`, `TauCeti/RingTheory/CyclicCohomology`); the theorems here need the relative groups `K_q(A,I)` in all degrees and the homology theories HH and HC with their circle action, which those do not give. Mathlib/RingTheory/Perfectoid has Fontaine's θ and untilts; Tau Ceti has the predicate `TauCeti.Perfectoid.IsIntegralPerfectoid p A` (TauCeti/RingTheory/Perfectoid/Integral.lean), the integral perfectoid rings of Bhatt–Morrow–Scholze, which are the perfectoid rings of Layers 3 and 7, but no big Witt vectors or K-theory.
+
+### From Tau Ceti
+
+- `TauCeti.NodeAlgebra R 0`, the quotient `MvPolynomial (Fin 2) R ⧸ Ideal.span {X 0 * X 1 − C 0}` with `TauCeti.NodeAlgebra.coord`, `TauCeti.NodeAlgebra.coord_zero_mul_coord_one` and `TauCeti.NodeAlgebra.lift` (TauCeti/RingTheory/Node/Basic.lean), is the coordinate ring of the axes in the plane for d = 2.
+
+### From TauCetiRoadmap.BordismFormalGroups
+
+- §F6.5: the Borel category `Sp^{BG}` of a finite group G with homotopy orbits, homotopy fixed points, the norm and the Tate cofibre; the projection formula and the vanishing of `(−)^{tG}` on the tensor ideal generated by induced objects; and the lax symmetric monoidal structure of `(−)^{tG}`, with `can : (−)^{hG} → (−)^{tG}` lax symmetric monoidal and the universal property of `(−)^{tG}` among exact functors under `(−)^{hG}` that vanish on that ideal. Layer 3 uses them for G = C_p.
+
+### From TauCetiRoadmap.RefinedTraceMethods
+
+- §§1.2–1.3: mixed complexes, the Connes operator and the coherent derived mixed category.
+- §§1.4 and 1.9: cyclic, negative cyclic and periodic cyclic homology, and the smooth HKR comparison.
+- §2.1: spectra with an action of a topological group and the adjunctions between them.
+- §2.3: convergence of `(−)^{hG}`, `(−)_{hG}` and `(−)^{tG}` along Postnikov towers for finite G, the vanishing of `Y^{tC_p}` when p acts invertibly on `π_*Y`, and, for bounded-below X, p-completeness of `X^{tC_p}` with `X^{tC_p} ≃ (X^∧_p)^{tC_p}`.
+- §2.4: the parametrized Tate construction of a Kan complex and its dualizing spectrum (NS Theorem I.4.1), with `D_{BT} = Σ𝕊` and `D_{BC_m} = 𝕊`.
+- §2.5: cyclic realization and edgewise subdivision.
+- §2.6: THH of E₁-rings and its Frobenius `φ_p`, and THH relative to an E∞-ring.
+- §2.8: the symmetric monoidal structure of cyclotomic spectra and of THH, with Frobenius on a tensor product given through the lax structure of `−^{tC_p}`.
+- §2.9: the Nikolaus–Scholze fibre formula `TC(X) ≃ fib(φ − can : TC^-(X) → TP(X)^∧)` for bounded-below X.
+- §2.10: THH of spherical monoid rings `𝕊[M]` of E₁-monoids M with the unstable Frobenius `ψ_p : B^cyM → (B^cyM)^{hC_p}`.
+- §2.13: genuine F-genuine T-spectra, representation spheres and representation-graded `TR^n_{q−λ}` with R, F, V; for a commutative ring A, `TR(A;p)` with `π_0TR(A;p) ≅ W(A)` compatibly with F, and genuine TC as the equalizer of id and F on `TR(A;p)`.
+- §2.16: restriction pullbacks and the comparison of genuine with Nikolaus–Scholze TC.
+- §4.12: relative K, relative TC and `K^inv`.
+- §4.17: the Dundas–Goodwillie–McCarthy theorem, henselian rigidity with finite coefficients and Goodwillie's rational theorem.
+- §4.18: `K^inv` is truncating; nil-invariance and excision of truncating invariants, with the rational (KABI) consequence for `KQinf` and HC; continuity modulo p.
+
+### From TauCetiRoadmap.KTheoryFiniteLocalFields
+
+- §§1.1–1.6: `K_{2i−1}(𝔽_q) ≅ ℤ/(q^i − 1)`, `K_{2i}(𝔽_q) = 0` for i ≥ 1, with coefficients.
+- §2.1: Gabber rigidity for henselian pairs with invertible finite coefficients.
+- §4.0: the ordinary cyclic bar and the genuine cyclotomic foundations.
+- §4.4: the norm, homotopy orbits and the comparison of the genuine with the modern cyclotomic model.
+- §5.1: `π_*TC^-(k)`, `π_*TP(k)`, can and φ for perfect fields, and TC of perfect fields.
+- §5.16: the classical pointed-monoid THH equivalence and the cofibre sequences for the weight pieces of `B^cy(Π_e)`.
+- Conventions: the series groups `𝕎_N(k)` of truncated power series with constant term 1 modulo `t^{N+1}` and `𝕎(k)` of such formal series, with the substitution Verschiebung `V_n` induced by `t ↦ t^n` and the Teichmüller class `(1 − at)^{−1}`; QWittVectors §1.4a identifies them with the coordinate groups `W_N(k)` and `W(k)`.
+- §5.17: `TR^n_{q−λ}(A;p) ≃ ⊕_{r=1}^{n} ⊕_{ℓ_{n−r} ≤ m < ℓ_{n−1−r}} W_rΩ^{q−2m}_A` for regular noetherian 𝔽_p-algebras A, and the truncated-polynomial K-groups over perfect fields.
+
+### From TauCetiRoadmap.QWittVectors
+
+- §§1.1–1.5: `BigWitt.TruncationSet`, `S/n`, the big Witt ring `W_S(R)`, F_n, V_n, τ with `F_nV_n = n` and `x·V_n(y) = V_n(F_n(x)·y)`, the power-series comparison of §1.4a, and the comparison with p-typical Witt vectors on the p-power truncation sets `Div(p^a)` of §1.5.
+- What QWittVectors must provide (gap:bigwitt-ptypical-decomposition): for a prime p, a `ℤ_(p)`-algebra R and a truncation set S, the natural ring isomorphism `W_S(R) ≅ ∏_{d ∈ S ∩ J_p} W_{s_S(d)}(R)` that commutes with restriction, carries `V_n` and `F_n` for n prime to p to the evident reindexings up to the unit n, and carries V_p and F_p to the p-typical V and F (the decomposition used at hesselholt-axes line 36 and hn-cusp line 43). Layers 6 and 7 use it to pass from p-typical answers to the big Witt forms of their statements.
+
+### From TauCetiRoadmap.CrystallineCohomology
+
+- CR.2: crystalline cohomology, the PD Poincaré lemma and its computation by divided-power de Rham complexes of embeddings.
+- CR.4: p-typical de Rham–Witt complexes `W_sΩ^*_k` with R, F, V, d, for every 𝔽_p-algebra k.
+
+### From TauCetiRoadmap.DerivedDeRhamCohomology
+
+- §§1.14–1.17: the filtered derived category `DF(A)` with `gr^i F = cofib(F^{i+1} → F^i)`, completion of filtered objects (which leaves every `gr^i` unchanged and kills constant filtrations), the Rees equivalence of filtered objects with graded `A[t]`-modules (t = 1 gives the underlying object, derived t = 0 the associated graded), and the completed Day-convolution tensor product, whose unit is the step filtration of A. Applied in each grading, they give the complete filtered graded objects of Layer 8 and the Rees algebras of §8.5.
+- Layer 2: ordinary and derived de Rham cohomology with its Hodge filtration.
+- Layer 5: the cotangent complex, Tor-amplitude conditions and the quasisyntomic sites.
+
+### From TauCetiRoadmap.GeneralAlgebraicKTheory
+
+- §8.1: relative K as a homotopy fibre with its long exact sequence. §10.5: the Fundamental Theorem with Nil terms.
+
+### From TauCetiRoadmap.SchemeKTheoryOperations
+
+- §5.2: for every regular noetherian X, `NK_n(X) = 0` for every integer n and `K_n(X) = 0` for every n < 0.
+- What SchemeKTheoryOperations must provide (gap:perfect-homotopy-invariance): for every perfect 𝔽_p-algebra A, the map `IK(A) → IK(A[T])` is an equivalence (amm-perfectoid Proposition 5.1, which proves `K ≃ KH` for smooth algebras over perfect 𝔽_p-algebras through cdh descent for perfect schemes). Layer 6 uses it, and only it, to identify birelative with relative K-theory of cusps over a perfect 𝔽_p-algebra that is not regular noetherian.
+
+### From TauCetiRoadmap.AInfCohomology
+
+- AI.0: perfectoid rings, `A_inf(R)`, θ and its principal kernel `(d)`, with `d̃ = φ(d)` and `d̃_k = φ(d)φ²(d)⋯φ^k(d)`.
+- §AI.7.2: THH of connective E∞-rings with circle Tate constructions and `(X^{tT})^∧_p ≃ (X^{tC_p})^{h(T/C_p)}` for bounded-below X; Bökstedt periodicity `π_*THH(R;ℤ_p) = R[u]` for perfectoid R; the perfectoid trace coefficients `π_*TC^-(R;ℤ_p) = A_inf(R)[u,v]/(uv − d)`, `π_*TP(R;ℤ_p) = A_inf(R)[σ^{±1}]` with can and φ (BMS2 Theorem 6.1 and Propositions 6.2–6.4); quasisyntomic unfolding.
+
+### From TauCetiRoadmap.PrismaticCohomology
+
+- §§0.55–0.56: free δ-rings, limits, colimits and Witt vectors of δ-rings. §§0.73–0.76: prisms, bounded, oriented, crystalline and Breuil–Kisin prisms. §0.93: prismatic envelopes over orientable prisms. §§1.2–1.4: the relative prismatic site and relative prismatic cohomology. §§2.1–2.13: derived prismatic cohomology, ending with the prismatic cohomology of a regular quotient as the prismatic envelope (§2.13).
+
+### From TauCetiRoadmap.PrismaticCohomologyPartII
+
+- §3.6: transversal prisms and the ideals `I_r`. §§3.9–3.10: Breuil–Kisin twists and the divided Frobenius. §3.15: the graded pieces of the relative Nygaard filtration as the conjugate pieces of Hodge–Tate cohomology. §3.19: comparison of the Nygaard filtration with the Hodge filtration of derived de Rham cohomology. §3.20: Nygaard completion. §3.24: the Nygaard filtration in de Rham coordinates. Layer 4: WCart, its points and fibre products, quasi-coherent complexes and prismatic crystals (§§4.4–4.10), relative prismatic complexes (§4.17), absolute prismatic cohomology (§§4.18–4.19), the diffracted Hodge complex (§4.22), the crystalline comparison in characteristic p (§4.23), the absolute Nygaard filtration (§§4.25, 4.29), its comparison with the relative Nygaard filtration over a perfect prism (§4.30) and the absolute Frobenius (§4.31).
+
+### From TauCetiRoadmap.PrismaticCohomologyPartIII
+
+- §§6.8–6.9: syntomic complexes `ℤ_p(i)` of quasisyntomic and of animated rings. §6.16: for a smooth algebra A over a perfect field, `ℤ_p(i)` is the logarithmic de Rham–Witt sheaf `WΩ^i_log[−i]` on the pro-étale site of Spec A. §6.24: `ℤ_p(i) = 0` for i < 0, `ℤ_p(0)(R) ≃ RΓ_ét(Spec R;ℤ_p)` for p-complete R, and `ℤ_p(1)(R) ≃ RΓ_ét(Spec R;G_m)^∧[−1]` for quasisyntomic R. §6.31: connectivity, rigidity and left Kan extension. §7.0: the motivic filtration with `gr^iTC(R;ℤ_p) ≃ ℤ_p(i)(R)[2i]`, and `gr^iTC^-`, `gr^iTP`.
+
+### From TauCetiRoadmap.StableHomotopyKTheory
+
+- §7.9: the Milnor sequence `0 → lim¹_r π_{k+1}X_r → π_k holim_r X_r → lim_r π_kX_r → 0` of a tower of spectra, with lim¹ = 0 for a Mittag-Leffler tower. §7.11: for a spectrum E, `π_n(E^∧_p)` maps onto `lim_r π_n(E/p^r)`, which is an extension of the Tate module `T_pπ_{n−1}E` by `lim_r π_nE/p^r`. §§7.14–7.15 and 7.17: p-complete spectra, their closure under fibres, products and limits of countable towers, and the p-completeness of every spectrum each of whose homotopy groups is killed by some power of p.
+
+### From TauCetiRoadmap.EnhancedDerivedSheaves
+
+- §§E5:abstract.1–E5:abstract.2: symmetric monoidal ∞-categories and ∞-operads, E∞-algebras `CAlg(C)` in a symmetric monoidal ∞-category C, and modules over them. §E5:presentability.2: presentable ∞-categories, and the limit of a diagram of presentable ∞-categories along colimit-preserving functors, which is presentable with colimits computed by the projections.
 
 ## References
 
