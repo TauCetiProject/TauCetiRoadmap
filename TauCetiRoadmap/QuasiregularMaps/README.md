@@ -32,98 +32,28 @@ constraints on quasiregularly elliptic manifolds of Bonk–Heinonen, Prywes and 
 are the subjects of QuasiregularMaps, Part II and Part III, described under Downstream
 consumers. Each of them consumes this roadmap.
 
-## Scope and ownership
+## How to read the build
 
-This roadmap owns:
+Layer 1 is finite-dimensional linear algebra. It defines the minimal stretch and the three
+distortion quotients of a linear map, proves the comparison inequalities with their equality
+cases and submultiplicativity, and computes the planar case. Layer 2 defines `K`-quasiregular
+maps on the imported Sobolev class and the outer distortion. It proves attainment, the sign of
+the Jacobian, locality and constancy, and gives the `C¹`, locally Lipschitz, Euclidean and planar
+descriptions. Layer 3 adds the inner, maximal and Hilbert–Schmidt distortions and proves the
+sharp comparison of the Martio–Rickman–Väisälä inequalities (2.24) and (2.25). Layer 4 proves
+invariance under metrics, orientations and `C¹` factors. Layer 5 is Euclidean and independent of
+Layers 2–4 except in §5.3: `ACL^p` maps, their identification with continuous `W^{1,p}_loc` maps,
+and the agreement with the classical definition. Layer 6 proves that piecewise `C¹` maps of
+`C¹`-triangulated manifolds are locally Lipschitz and that non-degenerate orientation-preserving
+simplicial maps with bounded simplexwise distortion are quasiregular. Layer 7 defines
+quasiregular ellipticity, proves its invariances, orients the orbit spaces of free, properly
+discontinuous orientation-preserving actions, and proves its examples.
 
-- the minimal stretch `ℓ(A)` and the outer, inner and Hilbert–Schmidt distortion quotients of
-  a linear map between oriented inner product spaces of equal dimension, with their comparison
-  inequalities, equality cases and submultiplicativity;
-- `K`-quasiregular and quasiregular maps between oriented Riemannian `n`-manifolds; the outer,
-  inner, maximal and Hilbert–Schmidt distortions of a map; attainment of the outer distortion;
-  the sign and integrability of the Jacobian of a quasiregular map; restriction and locality;
-  constancy of maps with vanishing differential; the `C¹`, locally Lipschitz, Euclidean and
-  planar descriptions of the class;
-- invariance under uniformly comparable metrics, reversal of orientations, precomposition with
-  `C¹` local diffeomorphisms of bounded distortion and postcomposition with `C¹` quasiregular
-  maps;
-- the formal derivative, `ACL` and `ACL^p` maps on Euclidean domains, the theorem
-  `ACL^p = W^{1,p}_loc` for continuous maps, and the agreement with Definition 2.20 of
-  Martio–Rickman–Väisälä;
-- the measure-theoretic facts about `C¹` smooth triangulations of boundaryless manifolds that the
-  Sobolev theory needs (local finiteness, purity, null lower skeleton, top simplices locally
-  bi-Lipschitz in charts); simplicial maps between triangulated manifolds; the Lipschitz
-  regularity of piecewise `C¹` maps; and the quasiregularity of non-degenerate
-  orientation-preserving simplicial maps;
-- quasiregularly elliptic and `K`-quasiregularly elliptic manifolds, their independence of the
-  orientation and, for closed manifolds, of the metric; transfer along `C¹` local
-  diffeomorphisms of bounded distortion; the orientation of the orbit space of a free, properly
-  discontinuous action by orientation-preserving diffeomorphisms; flat examples; simplicial
-  branched coverings by tori.
-
-Already in Tau Ceti are the singular-value perturbation bound
-`LinearMap.abs_singularValues_sub_singularValues_le`, scalar law
-`LinearMap.singularValues_smul`, and isometric-equivalence laws
-`LinearMap.singularValues_linearIsometryEquiv_comp` and
-`LinearMap.singularValues_comp_linearIsometryEquiv`. Their specializations at index `n − 1`
-supply the corresponding minimal-stretch laws in §1.1; this roadmap owns the minimum
-characterisation and the distortion theory built from them.
-
-It leaves to named roadmaps:
-
-- **SobolevMapsBetweenManifolds** owns the continuous Sobolev class `W^{1,p}_loc(M, N)` with its
-  chart independence (§4.2), its restriction, locality and metric independence (§4.5) and its
-  `C¹` members (§4.4); the weak differential `Df` (§4.3) and the identification of chartwise and
-  Riemannian null sets (§3.1); the measurable operator norm `‖Df‖` (§5.1) with its `L^p`
-  characterisation (§5.2) and metric comparison (§5.3); the oriented Jacobian `J(A)` of a linear
-  map (§6.1), the Jacobian `J_f` (§6.2) and Hadamard's inequality with the integrability of `J_f`
-  (§6.3); the chain rules with `C¹` factors (§4.6, with null sets under `C¹` maps in §3.3); and
-  the Euclidean class and compatibility (§1.2, §7.1). Everything here is stated on that class.
-  The locally Lipschitz members of the class (§2.8) are owned here, because the supplier plans
-  only `C¹` members. PseudoholomorphicCurveAnalysis §4.1 owns `W^{k,p}_loc(Σ, M)` for maps from
-  a Riemann surface with `kp > 2`; it does not reach the borderline exponent `p = n = 2` that
-  planar quasiregular maps need.
-- **DifferentialGeometry** owns orientations and orientation-preserving maps (2.1–2.2), metrics
-  on open submanifolds (12.1) and the Riemannian volume (12.4). Tau Ceti implements the parts used
-  here. Chartwise null sets are already in Tau Ceti (`TauCeti.IsNullSet`) and are consumed from
-  there. No roadmap plans the orientation of the quotient manifold of a general free, properly
-  discontinuous action; it is owned here (§7.5). Orbifolds owns orientations of orbifold
-  presentations, preserved by all arrows, and their descended coarse orientation local systems;
-  §7.5 differs in producing a manifold orientation (`TauCeti.Manifold.Orientation`) of the
-  orbit space itself, which is a manifold because the action is free.
-- **RiemannianGeometry** R4 item 7 owns quotients of a Riemannian manifold by free properly
-  discontinuous isometry groups, with the descended metric and covering projection, and the
-  Killing–Hopf classification. Its orientability of `ℝPⁿ` is the antipodal case of §7.5 on the
-  sphere; §7.5 is the general descent, for any free properly discontinuous action by
-  orientation-preserving diffeomorphisms.
-- **GeometricTopology** Layer 11 owns realizations of abstract simplicial complexes, simplicial
-  maps and their realizations, and the compactness lemma for realizations (11.1), and the
-  Cairns–Whitehead existence and uniqueness of smooth triangulations (11.3). §6.1 differs from
-  11.3: it proves measure-theoretic and metric properties of one given `C¹` triangulation
-  (local finiteness, purity, a null lower skeleton, locally bi-Lipschitz top simplices) by
-  elementary arguments, without the combinatorial-manifold structure.
-- **TeichmullerGeometry** §7.4 owns the weak Wirtinger derivatives, planar quasiconformal maps
-  defined by the Beltrami equation, and the measurable Riemann mapping theorem; §2.10 here proves
-  that its quasiconformal maps are quasiregular.
-- **PDE** Layer 1 owns the Euclidean Sobolev spaces; they are consumed through Tau Ceti's
-  `TauCeti.HasWeakFDerivOn` and `TauCeti.W1p`. Its §1.1 owns the one-dimensional
-  identification of `W^{1,p}(a, b)` with the absolutely continuous functions whose derivative is
-  in `L^p`. The theorem `ACL^p = W^{1,p}_loc` of §5.2 is the `n`-dimensional, local form along
-  coordinate lines; it applies the one-dimensional statement on almost every line, through the
-  Tau Ceti declarations that implement it.
-- **QuasiregularMaps, Part II** owns Reshetnyak's theorem (continuity of `W^{1,n}_loc` solutions of
-  the distortion inequality; non-constant quasiregular maps are open, discrete, sense-preserving,
-  differentiable almost everywhere, satisfy Lusin's condition (N) and have `J_f > 0` almost
-  everywhere), the composition of two arbitrary quasiregular maps, the transfer of ellipticity
-  along a non-constant quasiregular map, the modulus of path families with the Poletsky and
-  Väisälä inequalities, Liouville's theorem for `1`-quasiregular maps in dimension `n ≥ 3`, the
-  higher integrability of the Jacobian, and Rickman's Picard theorem.
-- **QuasiregularMaps, Part III** owns the cohomological constraints on closed quasiregularly
-  elliptic manifolds: the Bonk–Heinonen bound, Prywes's binomial bound, the
-  Heikkilä–Pankka embedding of the de Rham algebra into `⋀^* ℝⁿ`, and the non-ellipticity of
-  `#^k (S² × S²)` for `k ≥ 4`.
-- Mappings of finite distortion (IwaniecMartin2001, Ch. 6) lie outside this roadmap and its Parts
-  II and III.
+Layers 1 and 5 can be built at once. Layer 2 needs Layer 1. Layer 3 needs Layer 2, and Layer 4
+needs Layers 2 and 3. Layer 6 needs §2.2, §2.7, §2.8 and §3.1. Layer 7 needs Layers 4 and 6. The
+Euclidean part of the roadmap needs no supplier roadmap: the minimal stretch (§1.1), Euclidean
+quasiregularity (§2.9, the definition), the Euclidean form of §3.2 and §5.1–§5.3 rest on Mathlib
+and Tau Ceti alone, and they are what `Suggested.lean` states.
 
 ## Conventions
 
@@ -187,274 +117,6 @@ It leaves to named roadmaps:
   reflection `(x₁, x₂) ↦ (−x₁, x₂)` from `(ℝ², std)` to `(ℝ², −std)` has `J = +1` (§4.2).
 - **Exponents.** `K_I ≤ K_O^{n−1}` and `K_O ≤ K_I^{n−1}`, both with exponent `n − 1`. Witness:
   `diag(2, 1, 1)` has `q_O = 4`, `q_I = 2`, and `diag(1, 1, 1/2)` has `q_O = 2`, `q_I = 4` (§1.3).
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- `LinearMap.singularValues`, `LinearMap.singularValues_antitone` and
-  `LinearMap.injective_iff_forall_lt_finrank_singularValues_pos`
-  (`Mathlib/Analysis/InnerProductSpace/SingularValues.lean`): singular values in descending order,
-  zero beyond the dimension; injectivity iff the first `n` are positive.
-- `LinearMap.normDet`, `LinearMap.normDet_eq_prod_singularValues` and
-  `LinearMap.normDet_eq_abs_det` (`Mathlib/Analysis/InnerProductSpace/NormDet.lean`): the
-  unsigned Jacobian, the product of the singular values, equal to `|det|` for endomorphisms.
-- `LinearMap.det` (`Mathlib/LinearAlgebra/Determinant.lean`): the determinant of an
-  endomorphism. `Orientation.volumeForm`, `Orientation.volumeForm_robust`,
-  `Orientation.volumeForm_neg_orientation`, `Orientation.volumeForm_map` and
-  `Orientation.abs_volumeForm_apply_le` (`Mathlib/Analysis/InnerProductSpace/Orientation.lean`):
-  the oriented volume form, its value `1` on positive orthonormal bases, its sign under reversal,
-  its naturality, and Hadamard's inequality for vectors. `Orientation.map`
-  (`Mathlib/LinearAlgebra/Orientation.lean`): the orientation carried along a linear
-  equivalence.
-- `MulAction.instChartedSpaceQuotient` (`Mathlib/Geometry/Manifold/Instances/Quotient.lean`) and
-  `isQuotientCoveringMap_quotientMk_of_properlyDiscontinuousSMul`
-  (`Mathlib/Topology/Covering/Quotient.lean`): the charts of the orbit space of a free, properly
-  discontinuous action, pushed forward along the orbit projection, which is a covering map (§7.5).
-- `essSup`, `ae_le_essSup` and `essSup_le_of_ae_le`
-  (`Mathlib/MeasureTheory/Function/EssSup.lean`): the essential supremum; the function is bounded
-  by it almost everywhere, and an almost-everywhere bound bounds it.
-- `AbsolutelyContinuousOnInterval` (`Mathlib/MeasureTheory/Function/AbsolutelyContinuous.lean`),
-  `AbsolutelyContinuousOnInterval.ae_differentiableAt` (same file) and
-  `AbsolutelyContinuousOnInterval.integral_mul_deriv_eq_deriv_mul`
-  (`Mathlib/MeasureTheory/Integral/IntervalIntegral/AbsolutelyContinuousFun.lean`): absolute
-  continuity on a closed interval, almost-everywhere differentiability, integration by parts.
-- `MeasureTheory.volume_preserving_piFinSuccAbove`
-  (`Mathlib/MeasureTheory/Constructions/Pi.lean`): splitting one coordinate off Lebesgue
-  measure, the Fubini step for coordinate lines.
-- `IsOpen.ae_eq_zero_of_integral_contDiff_smul_eq_zero`
-  (`Mathlib/Analysis/Distribution/AEEqOfIntegralContDiff.lean`): the fundamental lemma of the
-  calculus of variations.
-- `LipschitzWith.ae_differentiableAt` (`Mathlib/Analysis/Calculus/Rademacher.lean`),
-  `Convex.norm_image_sub_le_of_norm_hasFDerivWithin_le` and
-  `Convex.norm_image_sub_le_of_norm_hasFDerivWithin_le'`
-  (`Mathlib/Analysis/Calculus/MeanValue.lean`): Rademacher's theorem; the mean value inequality
-  on convex sets, and its variant against a fixed linear map.
-- `extChartAt` and `Manifold.locallyCompact_of_finiteDimensional`
-  (`Mathlib/Geometry/Manifold/IsManifold/ExtChartAt.lean`): the preferred extended chart at a
-  point, in which the local bi-Lipschitz property of §6.1 is stated; a manifold modelled on a
-  finite-dimensional space over a locally compact field is locally compact, which §6.1 uses for
-  local finiteness of a triangulation.
-- `DifferentiableAt.conformalAt` (`Mathlib/Analysis/Complex/Conformal.lean`): a complex
-  differentiable map with non-zero derivative is conformal.
-- `lineDeriv`, `HasLineDerivAt` and `LineDifferentiableAt`
-  (`Mathlib/Analysis/Calculus/LineDeriv/Basic.lean`) and `measurable_lineDeriv`
-  (`Mathlib/Analysis/Calculus/LineDeriv/Measurable.lean`): the derivative of `t ↦ u(x + t v)` at
-  `0`, which `lineDeriv` sets to `0` where it does not exist, and its measurability for
-  continuous `u`. `EuclideanSpace.basisFun` (`Mathlib/Analysis/InnerProductSpace/PiL2.lean`),
-  `Module.Basis.constr` (`Mathlib/LinearAlgebra/Basis/Defs.lean`) and
-  `LinearMap.toContinuousLinearMap` (`Mathlib/Topology/Algebra/Module/FiniteDimension.lean`): the
-  standard basis, the linear map with prescribed values on it, and its continuity in finite
-  dimension (§5.1).
-- `MeasureTheory.MemLp` (`Mathlib/MeasureTheory/Function/LpSeminorm/Defs.lean`),
-  `MeasureTheory.LocallyIntegrableOn` (`Mathlib/MeasureTheory/Function/LocallyIntegrable.lean`)
-  and `measureSpaceOfInnerProductSpace` (`Mathlib/MeasureTheory/Measure/Haar/OfBasis.lean`):
-  membership in `L^p`, local integrability on a set, and the Lebesgue measure of a
-  finite-dimensional inner product space. `MemLp` includes almost-everywhere strong
-  measurability; at `p = 0` it asks nothing else
-  (`MeasureTheory.memLp_zero_iff_aestronglyMeasurable`,
-  `Mathlib/MeasureTheory/Function/LpSeminorm/Basic.lean`).
-
-### From Tau Ceti
-
-- `LinearMap.norm_toContinuousLinearMap_eq_singularValues_zero`
-  (`TauCeti/Analysis/OperatorIdeal/ApproximationNumber/EckartYoung.lean`): `‖A‖ = σ₁(A)`.
-- `LinearMap.abs_singularValues_sub_singularValues_le`
-  (`TauCeti/Analysis/OperatorIdeal/ApproximationNumber/EckartYoung.lean:106`):
-  `|σᵢ(A) − σᵢ(B)| ≤ ‖A − B‖` for every index and maps between finite-dimensional inner
-  product spaces. At index `n − 1` it gives the minimal-stretch perturbation bound.
-- `LinearMap.singularValues_smul`, `LinearMap.singularValues_linearIsometryEquiv_comp` and
-  `LinearMap.singularValues_comp_linearIsometryEquiv`
-  (`TauCeti/Analysis/InnerProductSpace/SingularValues.lean:602`, 589, 595): scaling by `c`
-  multiplies each singular value by `‖c‖`, and composition on either side by a linear isometric
-  equivalence preserves it. At index `n − 1` these give `ℓ(c A) = |c| ℓ(A)` and
-  `ℓ(U ∘ A ∘ U') = ℓ(A)`; the domain dimensions agree under `U'`.
-- `LinearMap.singularValues_mul_norm_le_norm_apply`
-  (`TauCeti/Analysis/InnerProductSpace/SingularValues.lean`): `σ_k |x| ≤ |Ax|` on the span of the
-  first `k` right singular vectors; with `k = n` it gives `ℓ(A)|v| ≤ |Av|` for all `v`.
-- `TauCeti.UnitarilyInvariantSeminorm.frobenius_apply_eq_sqrt_sum_sq_singularValues`
-  (`TauCeti/Analysis/InnerProductSpace/UnitarilyInvariantSeminorm/Frobenius.lean`): the
-  Hilbert–Schmidt norm is `√(Σ σᵢ²)`.
-- `TauCeti.Manifold.Orientation`, `TauCeti.Manifold.Orientation.orientationAt`,
-  `TauCeti.Manifold.Orientation.eq_or_eq_neg` and `TauCeti.Manifold.Orientation.model`
-  (`TauCeti/Geometry/Manifold/Orientation/Basic.lean`); `TauCeti.Manifold.Orientation.IsOrientationPreservingAt`
-  and `TauCeti.Manifold.Orientation.IsOrientationReversingAt`
-  (`TauCeti/Geometry/Manifold/Orientation/Preserving.lean`);
-  `TauCeti.Manifold.Orientation.restrict` (`…/Orientation/OpenSubset.lean`);
-  `TauCeti.Manifold.Orientation.pullback` and
-  `IsLocalDiffeomorphAt.eventually_mapOrientation_eq` (`…/Orientation/Pullback.lean`): the
-  pullback orientation along a `C¹` map with invertible differential, and the local constancy,
-  in a trivialization of the tangent bundle, of a family of tangent orientations that the
-  differential of a local diffeomorphism carries from an orientation of its source.
-  `TauCeti.Manifold.Orientation.ext`, `TauCeti.Manifold.Orientation.ofVectorBundleOrientation`
-  and `TauCeti.Manifold.Orientation.orientationAt_ofVectorBundleOrientation` (`…/Orientation/Basic.lean`)
-  with `TauCeti.VectorBundleOrientation.ofEventually`
-  (`TauCeti/Topology/VectorBundle/Orientation/Basic.lean`): two orientations with the same
-  tangent orientations are equal, and a family of tangent orientations that is locally constant
-  in trivializations is the family of tangent orientations of an orientation. An orientation is
-  a quotient of chart-sign data; `IsOrientationPreservingAt` asks that `mfderiv` be an
-  isomorphism carrying one tangent orientation to the other. It does not include
-  differentiability of the map near the point.
-- `TauCeti.IsNullSet`, `TauCeti.IsNullSet.iUnion` and `TauCeti.IsNullSet.interior_eq_empty`
-  (`TauCeti/Geometry/Manifold/Measure.lean`): chartwise null sets against every Haar measure on
-  the model; they are closed under countable unions and have empty interior.
-- `TauCeti.riemannianVolume` (`TauCeti/Geometry/Manifold/Riemannian/VolumeDensity/Volume.lean`),
-  `TauCeti.isLocallyFiniteMeasure_riemannianVolume` (same file) and
-  `TauCeti.isOpenPosMeasure_riemannianVolume` (`…/VolumeDensity/Support.lean`): the Riemannian
-  measure of a continuous metric on a Lindelöf manifold; locally finite, positive on non-empty
-  open sets. `TauCeti.riemannianVolumeForm` (`…/Riemannian/VolumeForm.lean`): the oriented volume
-  form. `TauCeti.WithMetric` (`…/Riemannian/WithMetric.lean`): a copy of a manifold carrying a
-  second metric.
-- `TauCeti.IsLocalRiemannianIsometry` (`…/Riemannian/Isometry/Local.lean`): a smooth map whose
-  differential is everywhere invertible and inner-product preserving.
-  `Bundle.ContMDiffRiemannianMetric.quotient` and
-  `Bundle.ContMDiffRiemannianMetric.isLocalRiemannianIsometry_descend`
-  (`…/Riemannian/Pullback/Descent.lean`), with `TauCeti.instIsManifoldQuotient`,
-  `TauCeti.isLocalDiffeomorph_quotientMk` and `TauCeti.mfderiv_quotientMk_smul_apply`
-  (`TauCeti/Geometry/Manifold/Instances/Quotient.lean`): the metric descended to the orbit space
-  of a free, properly discontinuous smooth isometric action, for which the orbit projection is a
-  local Riemannian isometry; the smooth structure of the orbit space of a free, properly
-  discontinuous action by `Cⁿ` maps, for which the orbit projection `π` is a `Cⁿ` local
-  diffeomorphism with `dπ_{γx} ∘ dγ_x = dπ_x`.
-- `TauCeti.HasWeakFDerivOn` and `Module.Basis.hasWeakFDerivOn_of_forall`
-  (`TauCeti/Analysis/Sobolev/WeakDeriv/Basic.lean`): vector-valued weak Fréchet derivatives on an
-  open set, checked in the directions of a basis. The definition includes completeness of the
-  target and local integrability of `u` and of every `x ↦ Du(x) v` on the open set; it puts no
-  condition on `u` off the open set. In the same file, `TauCeti.HasWeakFDerivOn.ae_eq` (two weak
-  derivatives agree almost everywhere on the open set, in finite dimension),
-  `TauCeti.HasWeakFDerivOn.congr_ae_deriv` (replacing the derivative by an almost-everywhere
-  equal field preserves the weak derivative),
-  `TauCeti.HasWeakFDerivOn.mono` (restriction to a smaller open set) and
-  `TauCeti.hasWeakFDerivOn_of_differentiableOn` (a map differentiable at every point of the open
-  set, with locally integrable `fderiv`, has `fderiv` as weak derivative). `TauCeti.hasWeakFDerivOn_iff_forall_isCompact_closure`
-  (`…/WeakDeriv/Local.lean`): locality.
-  `TauCeti.hasWeakFDerivOn_of_hasFDerivAt_off_countable` (`…/WeakDeriv/Removable.lean`): a
-  continuous map, classically differentiable off a countable set with locally integrable
-  derivative, has it as weak derivative. `LocallyLipschitzOn.hasWeakFDerivOn_fderiv`
-  (`…/WeakDeriv/Lipschitz.lean`): a locally Lipschitz map has `fderiv` as weak derivative.
-  `TauCeti.HasWeakLineDerivOn.absolutelyContinuousOnInterval` and
-  `TauCeti.HasWeakLineDerivOn.ae_hasDerivAt` (`…/WeakDeriv/Interval.lean`): on an interval a
-  continuous function with integrable weak derivative is absolutely continuous and differentiable
-  almost everywhere with that derivative.
-- `TauCeti.W1p` (`TauCeti/Analysis/Sobolev/W1p/Basic.lean`) and
-  `TauCeti.W1p.exists_value_ae_eq_const_of_gradient_eq_zero`
-  (`TauCeti/Analysis/Sobolev/Poincare/Wirtinger/W1p.lean`): on a preconnected open set a
-  scalar `W^{1,p}` function with zero gradient is almost everywhere constant.
-- `LocallyLipschitzOn.ae_differentiableAt_of_mem` (`TauCeti/Analysis/Calculus/Rademacher.lean`):
-  Rademacher's theorem on open sets. `DifferentiableOn.addHaar_image_eq_zero_of_finrank_lt_finrank`
-  (`TauCeti/Analysis/Calculus/Sard/LowDimension.lean`): differentiable images of lower-dimensional
-  sets are null.
-- `TauCeti.cantorFunction` and `TauCeti.not_absolutelyContinuousOnInterval_cantorFunction`
-  (`TauCeti/Analysis/SpecialFunctions/CantorFunction.lean`): the Cantor function on `ℝ`, `0` on
-  `(−∞, 0]` and `1` on `[1, ∞)`, is not absolutely continuous on `[0, 1]`.
-- `TauCeti.IsSmoothTriangulation` and `TauCeti.IsSimplexImmersion`
-  (`TauCeti/Geometry/Manifold/SmoothTriangulation/Basic.lean`): a homeomorphism from a realization
-  onto a manifold that is `Cᵏ` within every closed simplex with injective differential there.
-  The definition does not include local finiteness or purity, which §6.1 proves.
-  `AbstractSimplicialComplex.Realization`, `AbstractSimplicialComplex.faceInclusion`,
-  `AbstractSimplicialComplex.continuous_faceInclusion`, `AbstractSimplicialComplex.carrier` and
-  `AbstractSimplicialComplex.faceBarycenter`
-  (`TauCeti/AlgebraicTopology/SimplicialComplex/Realization/Basic.lean`): the realization with
-  the weak topology, final for the continuous face inclusions; the carrier of a point, the support
-  of its barycentric coordinates; the barycentre of a face, with coordinate `1/|σ|` on each vertex
-  of `σ`. `AbstractSimplicialComplex.exists_finset_support_subset_of_isCompact` and
-  `AbstractSimplicialComplex.compactSpace_realization_iff_finite` (`…/Realization/Compact.lean`):
-  the carriers of the points of a compact subset lie in one finite vertex set, for every complex;
-  the realization is compact exactly when the vertex type is finite. Neither assumes nor yields
-  local finiteness, which §6.1 proves for triangulations of manifolds;
-  `PreAbstractSimplicialComplex.SimplicialMap` (`…/SimplicialComplex/Maps.lean`) and
-  `PreAbstractSimplicialComplex.SimplicialMap.realizationMap` (`…/Realization/Map.lean`), affine
-  on each face, with its identity and composition laws; `PreAbstractSimplicialComplex.IsPure`
-  (`…/SimplicialComplex/Pure.lean`).
-
-### From TauCetiRoadmap.SobolevMapsBetweenManifolds
-
-Every statement of Layers 2–4 and 7, and the oriented Jacobian of Layer 1, is made on the
-continuous Sobolev class of maps between manifolds that SobolevMapsBetweenManifolds builds. This
-roadmap assumes exactly the following of the sections cited, and nothing about how they are
-constructed.
-
-The class: its §4.2 (the class and its independence of the atlases), §4.4 (`C¹` members) and
-§4.5 (restriction, locality and metric copies).
-
-What SobolevMapsBetweenManifolds must provide (gap:sobolev-maps-class): For continuous maps between Hausdorff, second countable, boundaryless manifolds and `1 ≤ p ≤ ∞`, the chartwise class `W^{1,p}_loc(M, N)`, independent of the atlases and of the metrics, closed under restriction to open submanifolds, local for open covers, and containing every `C¹` map with `Df = mfderiv f` almost everywhere.
-
-The weak differential and null sets: its §4.3 (the weak differential) and §3.1 (chartwise null
-sets are Riemannian null sets).
-
-What SobolevMapsBetweenManifolds must provide (gap:sobolev-maps-weak-differential): For `f ∈ W^{1,p}_loc(M, N)`, the almost-everywhere unique, chart-measurable weak differential `Df(x) : T_xM → T_{f(x)}N` with its chart formula, and the agreement of chartwise `TauCeti.IsNullSet` null sets with the null sets of `TauCeti.riemannianVolume` for every continuous metric.
-
-The norm: its §5.1 (the norm `‖Df‖`), §5.2 (the `L^p` characterisation) and §5.3 (comparable
-metrics).
-
-What SobolevMapsBetweenManifolds must provide (gap:sobolev-maps-norm): For Riemannian `M` and `N`, the measurability of `x ↦ ‖Df(x)‖` and, for continuous `f` with local representatives in `W^{1,1}_loc`, the equivalence of `f ∈ W^{1,p}_loc(M, N)` with `‖Df‖ ∈ L^p_loc(M)`, with `‖Df‖` changed only by bounded factors under uniformly comparable metrics.
-
-The Jacobian: its §6.1 (the oriented Jacobian of a linear map), §6.2 (the Jacobian of a Sobolev
-map) and §6.3 (Hadamard's inequality and integrability).
-
-What SobolevMapsBetweenManifolds must provide (gap:sobolev-maps-jacobian): For oriented inner product spaces of one dimension `n`, the oriented Jacobian `J(A)` with `A^*(o_W.volumeForm) = J(A) · o_V.volumeForm`, multiplicative, negated by reversing one orientation, with `|J(A)| = normDet(A) ≤ ‖A‖ⁿ` and `J(A) = det A` for endomorphisms; and, for `f ∈ W^{1,p}_loc(M, N)` between oriented Riemannian `n`-manifolds, the measurable Jacobian `J_f = J(Df)` almost everywhere, with `|J_f| ≤ ‖Df‖ⁿ` and `J_f ∈ L¹_loc(M)` when `p ≥ n`.
-
-The chain rules: its §4.6 (a)–(b) (chain rules on manifolds), with §3.3 (null sets under `C¹`
-maps of manifolds).
-
-What SobolevMapsBetweenManifolds must provide (gap:sobolev-maps-chain-rules): For a `C¹` local diffeomorphism `θ : M' → M`, `f ∘ θ ∈ W^{1,p}_loc(M', N)` with `D(f ∘ θ)(y) = Df(θ y) ∘ dθ_y` almost everywhere and null preimages of null sets, and for a `C¹` map `g : N → P`, `g ∘ f ∈ W^{1,p}_loc(M, P)` with `D(g ∘ f)(x) = dg_{f(x)} ∘ Df(x)` almost everywhere, with no bound on `dθ` or `dg`.
-
-The Euclidean case: its §1.2 (the class `W^{1,p}_loc(Ω; F)` on a Euclidean domain) and §7.1
-(Euclidean compatibility).
-
-What SobolevMapsBetweenManifolds must provide (gap:sobolev-maps-euclidean): For an open `Ω` of an `n`-dimensional real inner product space `E` with identity charts and flat metrics, `f ∈ W^{1,p}_loc(Ω, E)` if and only if `f` is continuous on `Ω` with a `TauCeti.HasWeakFDerivOn` derivative `Du` such that `‖Du‖ ∈ L^p_loc(Ω)`, and then `Df = Du` almost everywhere and, for one orientation on both sides, `J_f = det Du` almost everywhere.
-
-### From TauCetiRoadmap.DifferentialGeometry
-
-- 2.1–2.2: orientations, tangent orientations, orientation-preserving maps and pullback
-  orientations along local diffeomorphisms, through the Tau Ceti declarations above.
-- 12.1: the metric of an open submanifold (used in §2.5).
-- 12.4: the Riemannian volume form and the measure `TauCeti.riemannianVolume` with full
-  support.
-
-### From TauCetiRoadmap.RiemannianGeometry
-
-- R4 item 7: the quotient atlas, descended metric and covering for a free, properly
-  discontinuous group of isometries, through `Bundle.ContMDiffRiemannianMetric.quotient` and
-  `TauCeti.isLocalDiffeomorph_quotientMk`, and the Killing–Hopf classification, by which a
-  connected complete flat manifold is isometric to `ℝⁿ/Γ` for a free, properly discontinuous
-  group `Γ` of isometries of `ℝⁿ` (§7.6).
-
-### From TauCetiRoadmap.GeometricTopology
-
-- Layer 11: realizations of abstract simplicial complexes, simplicial maps and their
-  realizations, and the lemma that every compact subset of a realization lies in the realization
-  of a restriction to finitely many vertices, through the Tau Ceti declarations above (Layer 6).
-
-### From TauCetiRoadmap.TeichmullerGeometry
-
-- §7.4: the weak Wirtinger derivatives `f_z`, `f_z̄` of a `W^{1,2}_loc` map of a planar domain,
-  their agreement with the classical ones at points of differentiability, and orientation-preserving
-  quasiconformal maps as `W^{1,2}_loc` homeomorphisms with `f_z̄ = μ f_z` almost everywhere for a
-  measurable `μ` with `‖μ‖_∞ < 1` (§2.10).
-
-## How to read the build
-
-Layer 1 is finite-dimensional linear algebra. It defines the minimal stretch and the three
-distortion quotients of a linear map, proves the comparison inequalities with their equality
-cases and submultiplicativity, and computes the planar case. Layer 2 defines `K`-quasiregular
-maps on the imported Sobolev class and the outer distortion. It proves attainment, the sign of
-the Jacobian, locality and constancy, and gives the `C¹`, locally Lipschitz, Euclidean and planar
-descriptions. Layer 3 adds the inner, maximal and Hilbert–Schmidt distortions and proves the
-sharp comparison of the Martio–Rickman–Väisälä inequalities (2.24) and (2.25). Layer 4 proves
-invariance under metrics, orientations and `C¹` factors. Layer 5 is Euclidean and independent of
-Layers 2–4 except in §5.3: `ACL^p` maps, their identification with continuous `W^{1,p}_loc` maps,
-and the agreement with the classical definition. Layer 6 proves that piecewise `C¹` maps of
-`C¹`-triangulated manifolds are locally Lipschitz and that non-degenerate orientation-preserving
-simplicial maps with bounded simplexwise distortion are quasiregular. Layer 7 defines
-quasiregular ellipticity, proves its invariances, orients the orbit spaces of free, properly
-discontinuous orientation-preserving actions, and proves its examples.
-
-Layers 1 and 5 can be built at once. Layer 2 needs Layer 1. Layer 3 needs Layer 2, and Layer 4
-needs Layers 2 and 3. Layer 6 needs §2.2, §2.7, §2.8 and §3.1. Layer 7 needs Layers 4 and 6. The
-Euclidean part of the roadmap needs no supplier roadmap: the minimal stretch (§1.1), Euclidean
-quasiregularity (§2.9, the definition), the Euclidean form of §3.2 and §5.1–§5.3 rest on Mathlib
-and Tau Ceti alone, and they are what `Suggested.lean` states.
 
 ## Layer 1: linear distortion
 
@@ -1883,6 +1545,344 @@ roadmap stops and describe those two; nothing in them is a target of this roadma
 - A later roadmap on `n`-dimensional quasiconformal maps and uniformly quasiregular dynamics, and
   the dimension-two comparison with Stoïlow factorisation (Prywes2019 lines 59–62), consume
   Layers 2–4.
+
+## Scope and ownership
+
+This roadmap owns:
+
+- the minimal stretch `ℓ(A)` and the outer, inner and Hilbert–Schmidt distortion quotients of
+  a linear map between oriented inner product spaces of equal dimension, with their comparison
+  inequalities, equality cases and submultiplicativity;
+- `K`-quasiregular and quasiregular maps between oriented Riemannian `n`-manifolds; the outer,
+  inner, maximal and Hilbert–Schmidt distortions of a map; attainment of the outer distortion;
+  the sign and integrability of the Jacobian of a quasiregular map; restriction and locality;
+  constancy of maps with vanishing differential; the `C¹`, locally Lipschitz, Euclidean and
+  planar descriptions of the class;
+- invariance under uniformly comparable metrics, reversal of orientations, precomposition with
+  `C¹` local diffeomorphisms of bounded distortion and postcomposition with `C¹` quasiregular
+  maps;
+- the formal derivative, `ACL` and `ACL^p` maps on Euclidean domains, the theorem
+  `ACL^p = W^{1,p}_loc` for continuous maps, and the agreement with Definition 2.20 of
+  Martio–Rickman–Väisälä;
+- the measure-theoretic facts about `C¹` smooth triangulations of boundaryless manifolds that the
+  Sobolev theory needs (local finiteness, purity, null lower skeleton, top simplices locally
+  bi-Lipschitz in charts); simplicial maps between triangulated manifolds; the Lipschitz
+  regularity of piecewise `C¹` maps; and the quasiregularity of non-degenerate
+  orientation-preserving simplicial maps;
+- quasiregularly elliptic and `K`-quasiregularly elliptic manifolds, their independence of the
+  orientation and, for closed manifolds, of the metric; transfer along `C¹` local
+  diffeomorphisms of bounded distortion; the orientation of the orbit space of a free, properly
+  discontinuous action by orientation-preserving diffeomorphisms; flat examples; simplicial
+  branched coverings by tori.
+
+Already in Tau Ceti are the singular-value perturbation bound
+`LinearMap.abs_singularValues_sub_singularValues_le`, scalar law
+`LinearMap.singularValues_smul`, and isometric-equivalence laws
+`LinearMap.singularValues_linearIsometryEquiv_comp` and
+`LinearMap.singularValues_comp_linearIsometryEquiv`. Their specializations at index `n − 1`
+supply the corresponding minimal-stretch laws in §1.1; this roadmap owns the minimum
+characterisation and the distortion theory built from them.
+
+It leaves to named roadmaps:
+
+- **SobolevMapsBetweenManifolds** owns the continuous Sobolev class `W^{1,p}_loc(M, N)` with its
+  chart independence (§4.2), its restriction, locality and metric independence (§4.5) and its
+  `C¹` members (§4.4); the weak differential `Df` (§4.3) and the identification of chartwise and
+  Riemannian null sets (§3.1); the measurable operator norm `‖Df‖` (§5.1) with its `L^p`
+  characterisation (§5.2) and metric comparison (§5.3); the oriented Jacobian `J(A)` of a linear
+  map (§6.1), the Jacobian `J_f` (§6.2) and Hadamard's inequality with the integrability of `J_f`
+  (§6.3); the chain rules with `C¹` factors (§4.6, with null sets under `C¹` maps in §3.3); and
+  the Euclidean class and compatibility (§1.2, §7.1). Everything here is stated on that class.
+  The locally Lipschitz members of the class (§2.8) are owned here, because the supplier plans
+  only `C¹` members. PseudoholomorphicCurveAnalysis §4.1 owns `W^{k,p}_loc(Σ, M)` for maps from
+  a Riemann surface with `kp > 2`; it does not reach the borderline exponent `p = n = 2` that
+  planar quasiregular maps need.
+- **DifferentialGeometry** owns orientations and orientation-preserving maps (2.1–2.2), metrics
+  on open submanifolds (12.1) and the Riemannian volume (12.4). Tau Ceti implements the parts used
+  here. Chartwise null sets are already in Tau Ceti (`TauCeti.IsNullSet`) and are consumed from
+  there. No roadmap plans the orientation of the quotient manifold of a general free, properly
+  discontinuous action; it is owned here (§7.5). Orbifolds owns orientations of orbifold
+  presentations, preserved by all arrows, and their descended coarse orientation local systems;
+  §7.5 differs in producing a manifold orientation (`TauCeti.Manifold.Orientation`) of the
+  orbit space itself, which is a manifold because the action is free.
+- **RiemannianGeometry** R4 item 7 owns quotients of a Riemannian manifold by free properly
+  discontinuous isometry groups, with the descended metric and covering projection, and the
+  Killing–Hopf classification. Its orientability of `ℝPⁿ` is the antipodal case of §7.5 on the
+  sphere; §7.5 is the general descent, for any free properly discontinuous action by
+  orientation-preserving diffeomorphisms.
+- **GeometricTopology** Layer 11 owns realizations of abstract simplicial complexes, simplicial
+  maps and their realizations, and the compactness lemma for realizations (11.1), and the
+  Cairns–Whitehead existence and uniqueness of smooth triangulations (11.3). §6.1 differs from
+  11.3: it proves measure-theoretic and metric properties of one given `C¹` triangulation
+  (local finiteness, purity, a null lower skeleton, locally bi-Lipschitz top simplices) by
+  elementary arguments, without the combinatorial-manifold structure.
+- **TeichmullerGeometry** §7.4 owns the weak Wirtinger derivatives, planar quasiconformal maps
+  defined by the Beltrami equation, and the measurable Riemann mapping theorem; §2.10 here proves
+  that its quasiconformal maps are quasiregular.
+- **PDE** Layer 1 owns the Euclidean Sobolev spaces; they are consumed through Tau Ceti's
+  `TauCeti.HasWeakFDerivOn` and `TauCeti.W1p`. Its §1.1 owns the one-dimensional
+  identification of `W^{1,p}(a, b)` with the absolutely continuous functions whose derivative is
+  in `L^p`. The theorem `ACL^p = W^{1,p}_loc` of §5.2 is the `n`-dimensional, local form along
+  coordinate lines; it applies the one-dimensional statement on almost every line, through the
+  Tau Ceti declarations that implement it.
+- **QuasiregularMaps, Part II** owns Reshetnyak's theorem (continuity of `W^{1,n}_loc` solutions of
+  the distortion inequality; non-constant quasiregular maps are open, discrete, sense-preserving,
+  differentiable almost everywhere, satisfy Lusin's condition (N) and have `J_f > 0` almost
+  everywhere), the composition of two arbitrary quasiregular maps, the transfer of ellipticity
+  along a non-constant quasiregular map, the modulus of path families with the Poletsky and
+  Väisälä inequalities, Liouville's theorem for `1`-quasiregular maps in dimension `n ≥ 3`, the
+  higher integrability of the Jacobian, and Rickman's Picard theorem.
+- **QuasiregularMaps, Part III** owns the cohomological constraints on closed quasiregularly
+  elliptic manifolds: the Bonk–Heinonen bound, Prywes's binomial bound, the
+  Heikkilä–Pankka embedding of the de Rham algebra into `⋀^* ℝⁿ`, and the non-ellipticity of
+  `#^k (S² × S²)` for `k ≥ 4`.
+- Mappings of finite distortion (IwaniecMartin2001, Ch. 6) lie outside this roadmap and its Parts
+  II and III.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- `LinearMap.singularValues`, `LinearMap.singularValues_antitone` and
+  `LinearMap.injective_iff_forall_lt_finrank_singularValues_pos`
+  (`Mathlib/Analysis/InnerProductSpace/SingularValues.lean`): singular values in descending order,
+  zero beyond the dimension; injectivity iff the first `n` are positive.
+- `LinearMap.normDet`, `LinearMap.normDet_eq_prod_singularValues` and
+  `LinearMap.normDet_eq_abs_det` (`Mathlib/Analysis/InnerProductSpace/NormDet.lean`): the
+  unsigned Jacobian, the product of the singular values, equal to `|det|` for endomorphisms.
+- `LinearMap.det` (`Mathlib/LinearAlgebra/Determinant.lean`): the determinant of an
+  endomorphism. `Orientation.volumeForm`, `Orientation.volumeForm_robust`,
+  `Orientation.volumeForm_neg_orientation`, `Orientation.volumeForm_map` and
+  `Orientation.abs_volumeForm_apply_le` (`Mathlib/Analysis/InnerProductSpace/Orientation.lean`):
+  the oriented volume form, its value `1` on positive orthonormal bases, its sign under reversal,
+  its naturality, and Hadamard's inequality for vectors. `Orientation.map`
+  (`Mathlib/LinearAlgebra/Orientation.lean`): the orientation carried along a linear
+  equivalence.
+- `MulAction.instChartedSpaceQuotient` (`Mathlib/Geometry/Manifold/Instances/Quotient.lean`) and
+  `isQuotientCoveringMap_quotientMk_of_properlyDiscontinuousSMul`
+  (`Mathlib/Topology/Covering/Quotient.lean`): the charts of the orbit space of a free, properly
+  discontinuous action, pushed forward along the orbit projection, which is a covering map (§7.5).
+- `essSup`, `ae_le_essSup` and `essSup_le_of_ae_le`
+  (`Mathlib/MeasureTheory/Function/EssSup.lean`): the essential supremum; the function is bounded
+  by it almost everywhere, and an almost-everywhere bound bounds it.
+- `AbsolutelyContinuousOnInterval` (`Mathlib/MeasureTheory/Function/AbsolutelyContinuous.lean`),
+  `AbsolutelyContinuousOnInterval.ae_differentiableAt` (same file) and
+  `AbsolutelyContinuousOnInterval.integral_mul_deriv_eq_deriv_mul`
+  (`Mathlib/MeasureTheory/Integral/IntervalIntegral/AbsolutelyContinuousFun.lean`): absolute
+  continuity on a closed interval, almost-everywhere differentiability, integration by parts.
+- `MeasureTheory.volume_preserving_piFinSuccAbove`
+  (`Mathlib/MeasureTheory/Constructions/Pi.lean`): splitting one coordinate off Lebesgue
+  measure, the Fubini step for coordinate lines.
+- `IsOpen.ae_eq_zero_of_integral_contDiff_smul_eq_zero`
+  (`Mathlib/Analysis/Distribution/AEEqOfIntegralContDiff.lean`): the fundamental lemma of the
+  calculus of variations.
+- `LipschitzWith.ae_differentiableAt` (`Mathlib/Analysis/Calculus/Rademacher.lean`),
+  `Convex.norm_image_sub_le_of_norm_hasFDerivWithin_le` and
+  `Convex.norm_image_sub_le_of_norm_hasFDerivWithin_le'`
+  (`Mathlib/Analysis/Calculus/MeanValue.lean`): Rademacher's theorem; the mean value inequality
+  on convex sets, and its variant against a fixed linear map.
+- `extChartAt` and `Manifold.locallyCompact_of_finiteDimensional`
+  (`Mathlib/Geometry/Manifold/IsManifold/ExtChartAt.lean`): the preferred extended chart at a
+  point, in which the local bi-Lipschitz property of §6.1 is stated; a manifold modelled on a
+  finite-dimensional space over a locally compact field is locally compact, which §6.1 uses for
+  local finiteness of a triangulation.
+- `DifferentiableAt.conformalAt` (`Mathlib/Analysis/Complex/Conformal.lean`): a complex
+  differentiable map with non-zero derivative is conformal.
+- `lineDeriv`, `HasLineDerivAt` and `LineDifferentiableAt`
+  (`Mathlib/Analysis/Calculus/LineDeriv/Basic.lean`) and `measurable_lineDeriv`
+  (`Mathlib/Analysis/Calculus/LineDeriv/Measurable.lean`): the derivative of `t ↦ u(x + t v)` at
+  `0`, which `lineDeriv` sets to `0` where it does not exist, and its measurability for
+  continuous `u`. `EuclideanSpace.basisFun` (`Mathlib/Analysis/InnerProductSpace/PiL2.lean`),
+  `Module.Basis.constr` (`Mathlib/LinearAlgebra/Basis/Defs.lean`) and
+  `LinearMap.toContinuousLinearMap` (`Mathlib/Topology/Algebra/Module/FiniteDimension.lean`): the
+  standard basis, the linear map with prescribed values on it, and its continuity in finite
+  dimension (§5.1).
+- `MeasureTheory.MemLp` (`Mathlib/MeasureTheory/Function/LpSeminorm/Defs.lean`),
+  `MeasureTheory.LocallyIntegrableOn` (`Mathlib/MeasureTheory/Function/LocallyIntegrable.lean`)
+  and `measureSpaceOfInnerProductSpace` (`Mathlib/MeasureTheory/Measure/Haar/OfBasis.lean`):
+  membership in `L^p`, local integrability on a set, and the Lebesgue measure of a
+  finite-dimensional inner product space. `MemLp` includes almost-everywhere strong
+  measurability; at `p = 0` it asks nothing else
+  (`MeasureTheory.memLp_zero_iff_aestronglyMeasurable`,
+  `Mathlib/MeasureTheory/Function/LpSeminorm/Basic.lean`).
+
+### From Tau Ceti
+
+- `LinearMap.norm_toContinuousLinearMap_eq_singularValues_zero`
+  (`TauCeti/Analysis/OperatorIdeal/ApproximationNumber/EckartYoung.lean`): `‖A‖ = σ₁(A)`.
+- `LinearMap.abs_singularValues_sub_singularValues_le`
+  (`TauCeti/Analysis/OperatorIdeal/ApproximationNumber/EckartYoung.lean:106`):
+  `|σᵢ(A) − σᵢ(B)| ≤ ‖A − B‖` for every index and maps between finite-dimensional inner
+  product spaces. At index `n − 1` it gives the minimal-stretch perturbation bound.
+- `LinearMap.singularValues_smul`, `LinearMap.singularValues_linearIsometryEquiv_comp` and
+  `LinearMap.singularValues_comp_linearIsometryEquiv`
+  (`TauCeti/Analysis/InnerProductSpace/SingularValues.lean:602`, 589, 595): scaling by `c`
+  multiplies each singular value by `‖c‖`, and composition on either side by a linear isometric
+  equivalence preserves it. At index `n − 1` these give `ℓ(c A) = |c| ℓ(A)` and
+  `ℓ(U ∘ A ∘ U') = ℓ(A)`; the domain dimensions agree under `U'`.
+- `LinearMap.singularValues_mul_norm_le_norm_apply`
+  (`TauCeti/Analysis/InnerProductSpace/SingularValues.lean`): `σ_k |x| ≤ |Ax|` on the span of the
+  first `k` right singular vectors; with `k = n` it gives `ℓ(A)|v| ≤ |Av|` for all `v`.
+- `TauCeti.UnitarilyInvariantSeminorm.frobenius_apply_eq_sqrt_sum_sq_singularValues`
+  (`TauCeti/Analysis/InnerProductSpace/UnitarilyInvariantSeminorm/Frobenius.lean`): the
+  Hilbert–Schmidt norm is `√(Σ σᵢ²)`.
+- `TauCeti.Manifold.Orientation`, `TauCeti.Manifold.Orientation.orientationAt`,
+  `TauCeti.Manifold.Orientation.eq_or_eq_neg` and `TauCeti.Manifold.Orientation.model`
+  (`TauCeti/Geometry/Manifold/Orientation/Basic.lean`); `TauCeti.Manifold.Orientation.IsOrientationPreservingAt`
+  and `TauCeti.Manifold.Orientation.IsOrientationReversingAt`
+  (`TauCeti/Geometry/Manifold/Orientation/Preserving.lean`);
+  `TauCeti.Manifold.Orientation.restrict` (`…/Orientation/OpenSubset.lean`);
+  `TauCeti.Manifold.Orientation.pullback` and
+  `IsLocalDiffeomorphAt.eventually_mapOrientation_eq` (`…/Orientation/Pullback.lean`): the
+  pullback orientation along a `C¹` map with invertible differential, and the local constancy,
+  in a trivialization of the tangent bundle, of a family of tangent orientations that the
+  differential of a local diffeomorphism carries from an orientation of its source.
+  `TauCeti.Manifold.Orientation.ext`, `TauCeti.Manifold.Orientation.ofVectorBundleOrientation`
+  and `TauCeti.Manifold.Orientation.orientationAt_ofVectorBundleOrientation` (`…/Orientation/Basic.lean`)
+  with `TauCeti.VectorBundleOrientation.ofEventually`
+  (`TauCeti/Topology/VectorBundle/Orientation/Basic.lean`): two orientations with the same
+  tangent orientations are equal, and a family of tangent orientations that is locally constant
+  in trivializations is the family of tangent orientations of an orientation. An orientation is
+  a quotient of chart-sign data; `IsOrientationPreservingAt` asks that `mfderiv` be an
+  isomorphism carrying one tangent orientation to the other. It does not include
+  differentiability of the map near the point.
+- `TauCeti.IsNullSet`, `TauCeti.IsNullSet.iUnion` and `TauCeti.IsNullSet.interior_eq_empty`
+  (`TauCeti/Geometry/Manifold/Measure.lean`): chartwise null sets against every Haar measure on
+  the model; they are closed under countable unions and have empty interior.
+- `TauCeti.riemannianVolume` (`TauCeti/Geometry/Manifold/Riemannian/VolumeDensity/Volume.lean`),
+  `TauCeti.isLocallyFiniteMeasure_riemannianVolume` (same file) and
+  `TauCeti.isOpenPosMeasure_riemannianVolume` (`…/VolumeDensity/Support.lean`): the Riemannian
+  measure of a continuous metric on a Lindelöf manifold; locally finite, positive on non-empty
+  open sets. `TauCeti.riemannianVolumeForm` (`…/Riemannian/VolumeForm.lean`): the oriented volume
+  form. `TauCeti.WithMetric` (`…/Riemannian/WithMetric.lean`): a copy of a manifold carrying a
+  second metric.
+- `TauCeti.IsLocalRiemannianIsometry` (`…/Riemannian/Isometry/Local.lean`): a smooth map whose
+  differential is everywhere invertible and inner-product preserving.
+  `Bundle.ContMDiffRiemannianMetric.quotient` and
+  `Bundle.ContMDiffRiemannianMetric.isLocalRiemannianIsometry_descend`
+  (`…/Riemannian/Pullback/Descent.lean`), with `TauCeti.instIsManifoldQuotient`,
+  `TauCeti.isLocalDiffeomorph_quotientMk` and `TauCeti.mfderiv_quotientMk_smul_apply`
+  (`TauCeti/Geometry/Manifold/Instances/Quotient.lean`): the metric descended to the orbit space
+  of a free, properly discontinuous smooth isometric action, for which the orbit projection is a
+  local Riemannian isometry; the smooth structure of the orbit space of a free, properly
+  discontinuous action by `Cⁿ` maps, for which the orbit projection `π` is a `Cⁿ` local
+  diffeomorphism with `dπ_{γx} ∘ dγ_x = dπ_x`.
+- `TauCeti.HasWeakFDerivOn` and `Module.Basis.hasWeakFDerivOn_of_forall`
+  (`TauCeti/Analysis/Sobolev/WeakDeriv/Basic.lean`): vector-valued weak Fréchet derivatives on an
+  open set, checked in the directions of a basis. The definition includes completeness of the
+  target and local integrability of `u` and of every `x ↦ Du(x) v` on the open set; it puts no
+  condition on `u` off the open set. In the same file, `TauCeti.HasWeakFDerivOn.ae_eq` (two weak
+  derivatives agree almost everywhere on the open set, in finite dimension),
+  `TauCeti.HasWeakFDerivOn.congr_ae_deriv` (replacing the derivative by an almost-everywhere
+  equal field preserves the weak derivative),
+  `TauCeti.HasWeakFDerivOn.mono` (restriction to a smaller open set) and
+  `TauCeti.hasWeakFDerivOn_of_differentiableOn` (a map differentiable at every point of the open
+  set, with locally integrable `fderiv`, has `fderiv` as weak derivative). `TauCeti.hasWeakFDerivOn_iff_forall_isCompact_closure`
+  (`…/WeakDeriv/Local.lean`): locality.
+  `TauCeti.hasWeakFDerivOn_of_hasFDerivAt_off_countable` (`…/WeakDeriv/Removable.lean`): a
+  continuous map, classically differentiable off a countable set with locally integrable
+  derivative, has it as weak derivative. `LocallyLipschitzOn.hasWeakFDerivOn_fderiv`
+  (`…/WeakDeriv/Lipschitz.lean`): a locally Lipschitz map has `fderiv` as weak derivative.
+  `TauCeti.HasWeakLineDerivOn.absolutelyContinuousOnInterval` and
+  `TauCeti.HasWeakLineDerivOn.ae_hasDerivAt` (`…/WeakDeriv/Interval.lean`): on an interval a
+  continuous function with integrable weak derivative is absolutely continuous and differentiable
+  almost everywhere with that derivative.
+- `TauCeti.W1p` (`TauCeti/Analysis/Sobolev/W1p/Basic.lean`) and
+  `TauCeti.W1p.exists_value_ae_eq_const_of_gradient_eq_zero`
+  (`TauCeti/Analysis/Sobolev/Poincare/Wirtinger/W1p.lean`): on a preconnected open set a
+  scalar `W^{1,p}` function with zero gradient is almost everywhere constant.
+- `LocallyLipschitzOn.ae_differentiableAt_of_mem` (`TauCeti/Analysis/Calculus/Rademacher.lean`):
+  Rademacher's theorem on open sets. `DifferentiableOn.addHaar_image_eq_zero_of_finrank_lt_finrank`
+  (`TauCeti/Analysis/Calculus/Sard/LowDimension.lean`): differentiable images of lower-dimensional
+  sets are null.
+- `TauCeti.cantorFunction` and `TauCeti.not_absolutelyContinuousOnInterval_cantorFunction`
+  (`TauCeti/Analysis/SpecialFunctions/CantorFunction.lean`): the Cantor function on `ℝ`, `0` on
+  `(−∞, 0]` and `1` on `[1, ∞)`, is not absolutely continuous on `[0, 1]`.
+- `TauCeti.IsSmoothTriangulation` and `TauCeti.IsSimplexImmersion`
+  (`TauCeti/Geometry/Manifold/SmoothTriangulation/Basic.lean`): a homeomorphism from a realization
+  onto a manifold that is `Cᵏ` within every closed simplex with injective differential there.
+  The definition does not include local finiteness or purity, which §6.1 proves.
+  `AbstractSimplicialComplex.Realization`, `AbstractSimplicialComplex.faceInclusion`,
+  `AbstractSimplicialComplex.continuous_faceInclusion`, `AbstractSimplicialComplex.carrier` and
+  `AbstractSimplicialComplex.faceBarycenter`
+  (`TauCeti/AlgebraicTopology/SimplicialComplex/Realization/Basic.lean`): the realization with
+  the weak topology, final for the continuous face inclusions; the carrier of a point, the support
+  of its barycentric coordinates; the barycentre of a face, with coordinate `1/|σ|` on each vertex
+  of `σ`. `AbstractSimplicialComplex.exists_finset_support_subset_of_isCompact` and
+  `AbstractSimplicialComplex.compactSpace_realization_iff_finite` (`…/Realization/Compact.lean`):
+  the carriers of the points of a compact subset lie in one finite vertex set, for every complex;
+  the realization is compact exactly when the vertex type is finite. Neither assumes nor yields
+  local finiteness, which §6.1 proves for triangulations of manifolds;
+  `PreAbstractSimplicialComplex.SimplicialMap` (`…/SimplicialComplex/Maps.lean`) and
+  `PreAbstractSimplicialComplex.SimplicialMap.realizationMap` (`…/Realization/Map.lean`), affine
+  on each face, with its identity and composition laws; `PreAbstractSimplicialComplex.IsPure`
+  (`…/SimplicialComplex/Pure.lean`).
+
+### From TauCetiRoadmap.SobolevMapsBetweenManifolds
+
+Every statement of Layers 2–4 and 7, and the oriented Jacobian of Layer 1, is made on the
+continuous Sobolev class of maps between manifolds that SobolevMapsBetweenManifolds builds. This
+roadmap assumes exactly the following of the sections cited, and nothing about how they are
+constructed.
+
+The class: its §4.2 (the class and its independence of the atlases), §4.4 (`C¹` members) and
+§4.5 (restriction, locality and metric copies).
+
+What SobolevMapsBetweenManifolds must provide (gap:sobolev-maps-class): For continuous maps between Hausdorff, second countable, boundaryless manifolds and `1 ≤ p ≤ ∞`, the chartwise class `W^{1,p}_loc(M, N)`, independent of the atlases and of the metrics, closed under restriction to open submanifolds, local for open covers, and containing every `C¹` map with `Df = mfderiv f` almost everywhere.
+
+The weak differential and null sets: its §4.3 (the weak differential) and §3.1 (chartwise null
+sets are Riemannian null sets).
+
+What SobolevMapsBetweenManifolds must provide (gap:sobolev-maps-weak-differential): For `f ∈ W^{1,p}_loc(M, N)`, the almost-everywhere unique, chart-measurable weak differential `Df(x) : T_xM → T_{f(x)}N` with its chart formula, and the agreement of chartwise `TauCeti.IsNullSet` null sets with the null sets of `TauCeti.riemannianVolume` for every continuous metric.
+
+The norm: its §5.1 (the norm `‖Df‖`), §5.2 (the `L^p` characterisation) and §5.3 (comparable
+metrics).
+
+What SobolevMapsBetweenManifolds must provide (gap:sobolev-maps-norm): For Riemannian `M` and `N`, the measurability of `x ↦ ‖Df(x)‖` and, for continuous `f` with local representatives in `W^{1,1}_loc`, the equivalence of `f ∈ W^{1,p}_loc(M, N)` with `‖Df‖ ∈ L^p_loc(M)`, with `‖Df‖` changed only by bounded factors under uniformly comparable metrics.
+
+The Jacobian: its §6.1 (the oriented Jacobian of a linear map), §6.2 (the Jacobian of a Sobolev
+map) and §6.3 (Hadamard's inequality and integrability).
+
+What SobolevMapsBetweenManifolds must provide (gap:sobolev-maps-jacobian): For oriented inner product spaces of one dimension `n`, the oriented Jacobian `J(A)` with `A^*(o_W.volumeForm) = J(A) · o_V.volumeForm`, multiplicative, negated by reversing one orientation, with `|J(A)| = normDet(A) ≤ ‖A‖ⁿ` and `J(A) = det A` for endomorphisms; and, for `f ∈ W^{1,p}_loc(M, N)` between oriented Riemannian `n`-manifolds, the measurable Jacobian `J_f = J(Df)` almost everywhere, with `|J_f| ≤ ‖Df‖ⁿ` and `J_f ∈ L¹_loc(M)` when `p ≥ n`.
+
+The chain rules: its §4.6 (a)–(b) (chain rules on manifolds), with §3.3 (null sets under `C¹`
+maps of manifolds).
+
+What SobolevMapsBetweenManifolds must provide (gap:sobolev-maps-chain-rules): For a `C¹` local diffeomorphism `θ : M' → M`, `f ∘ θ ∈ W^{1,p}_loc(M', N)` with `D(f ∘ θ)(y) = Df(θ y) ∘ dθ_y` almost everywhere and null preimages of null sets, and for a `C¹` map `g : N → P`, `g ∘ f ∈ W^{1,p}_loc(M, P)` with `D(g ∘ f)(x) = dg_{f(x)} ∘ Df(x)` almost everywhere, with no bound on `dθ` or `dg`.
+
+The Euclidean case: its §1.2 (the class `W^{1,p}_loc(Ω; F)` on a Euclidean domain) and §7.1
+(Euclidean compatibility).
+
+What SobolevMapsBetweenManifolds must provide (gap:sobolev-maps-euclidean): For an open `Ω` of an `n`-dimensional real inner product space `E` with identity charts and flat metrics, `f ∈ W^{1,p}_loc(Ω, E)` if and only if `f` is continuous on `Ω` with a `TauCeti.HasWeakFDerivOn` derivative `Du` such that `‖Du‖ ∈ L^p_loc(Ω)`, and then `Df = Du` almost everywhere and, for one orientation on both sides, `J_f = det Du` almost everywhere.
+
+### From TauCetiRoadmap.DifferentialGeometry
+
+- 2.1–2.2: orientations, tangent orientations, orientation-preserving maps and pullback
+  orientations along local diffeomorphisms, through the Tau Ceti declarations above.
+- 12.1: the metric of an open submanifold (used in §2.5).
+- 12.4: the Riemannian volume form and the measure `TauCeti.riemannianVolume` with full
+  support.
+
+### From TauCetiRoadmap.RiemannianGeometry
+
+- R4 item 7: the quotient atlas, descended metric and covering for a free, properly
+  discontinuous group of isometries, through `Bundle.ContMDiffRiemannianMetric.quotient` and
+  `TauCeti.isLocalDiffeomorph_quotientMk`, and the Killing–Hopf classification, by which a
+  connected complete flat manifold is isometric to `ℝⁿ/Γ` for a free, properly discontinuous
+  group `Γ` of isometries of `ℝⁿ` (§7.6).
+
+### From TauCetiRoadmap.GeometricTopology
+
+- Layer 11: realizations of abstract simplicial complexes, simplicial maps and their
+  realizations, and the lemma that every compact subset of a realization lies in the realization
+  of a restriction to finitely many vertices, through the Tau Ceti declarations above (Layer 6).
+
+### From TauCetiRoadmap.TeichmullerGeometry
+
+- §7.4: the weak Wirtinger derivatives `f_z`, `f_z̄` of a `W^{1,2}_loc` map of a planar domain,
+  their agreement with the classical ones at points of differentiability, and orientation-preserving
+  quasiconformal maps as `W^{1,2}_loc` homeomorphisms with `f_z̄ = μ f_z` almost everywhere for a
+  measurable `μ` with `‖μ‖_∞ < 1` (§2.10).
 
 ## References
 
