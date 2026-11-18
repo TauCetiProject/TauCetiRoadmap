@@ -2,15 +2,9 @@
 
 **Summary.** Build ordinary symplectic modularity lifting in singular Siegel weights (a,2). Starting from integral cuspidal coherent sections, construct singular-weight Galois systems through regular weights, prove the two Fourier-doubling injections and the Klingen Taylor–Wiles comparison, and establish balance on the selected patching module. The end results are minimal R=T with positive cuspidal freeness, ordinary p-adic family lifting, and classical weight-two modularity from four higher-Hida multiplicity-one statements. Each implication retains its precise geometric, classification and patching hypotheses. The README is definitive; `Suggested.lean` states no target, because none of the end theorems is statable against the pinned libraries, and its docstring records which carrier each lacks.
 
-## Scope and ownership
+## How to read the build
 
-This roadmap owns the genus-two lifting application: residual data and levels, selected Hecke actions, singular specialization, corrected cuspidal doubling, level comparison, selected-module balance and the three distinct lifting endpoints.
-
-Generic determinant reconstruction, action images, finite local quotients, factorial projectors, spin polynomials and full multipliers are stated by IntegralHeckeAndGaloisDeterminants §§1.1–1.7, 2.1–2.3 and Layers IHG.3a–IHG.4. Generic induction, Jacquet and Satake theory are stated by SmoothRepresentationsOfLocalGroups SR.2 and SR.4. This roadmap keeps their genus-two arithmetic specializations. The pinned library's generalized eigenspaces, idempotents, matrix groups, local-ring completions and continuous H¹ are imported at their native scope; none is reconstructed here.
-
-Integral coherent complexes, duality, Hochschild–Serre, vanishing, boundary localization, Arthur exclusions and the characteristic-zero dimension equality are stated by AutomorphicBundlesPartII Layers 1–8. All four higher-Hida/Coleman chambers, the completed filtration and the singular classicality criterion are imported from PadicFamiliesPartII E6, S7 and F8. The general analytic Bruhat coefficients belong to OverconvergentAutomorphicForms §§8.6–8.7. The secondary Hasse section with its extension and square root, the Hasse lifts with their torsion congruences and equivariant weight shifts, the formal coefficient operators U, Z, Z₂, X₂ with the corrected integral Q₂, the binary neighbor multisets with their oriented reciprocity, the integral H⁰ actions of T and Q₂, and the scalar and vector theta operators with their injectivity are stated by AlgebraicModularFormsAndSerreWeightsPartII §§3.1–3.7, 4.1–4.3, 5.2–5.7, 6.1, 6.3, 7.3–7.6, 8.2 and 8.6–8.7; §§1.1, 3.1–3.2, 4.1–4.2, 4.4 and 4.7 keep only their specializations to the weights used here and the levels of §0.4. The general coherent-complex carriers remain with AutomorphicBundlesPartII. The selected all-degree p-action extension is the normalized integral p-action contract asked of that roadmap. The regular Galois construction belongs to AutomorphicGaloisRepresentationsPartII AG2.P, AG2.5–AG2.6; §3.5 assembles its selected integral images. The all-degree characteristic-zero interpolation of coherent eigensystems (§2.3) is stated here; ModularityAndLanglandsExtensions §0.4 records only the expected p-adic Hodge properties of its output and constructs nothing. The residual realization of CG Lemma 6.9 with its symplectic pairing is ModularityAndLanglandsExtensions §3.30, and analytic continuation of crystalline periods in families is AutomorphicGaloisRepresentations §0.4; §§3.4 and 2.4 apply them. Frobenius-annihilation isotypy belongs to ArithmeticGaloisRepresentations §7.6, and solvable GSp₄ descent to EndoscopicTransferAndUnitaryTraceComparison §13.2.
-
-The arbitrary-rank dyadic definite-unitary ordinary Hecke algebra and Hida theory, the ordinary global problem and its dimension bound, finiteness and reduced R=T are stated by OrdinaryAutomorphicFormsAndModularityLiftingPartII §§2.1–2.2, 3.1–3.2 and 4.7–4.8; its §§5.4–5.6 and 6.3–6.4 state the seed-selected symplectic ordinary reduced R=T and finiteness for p>2. Near adequacy is its §1.3 and GSp₄-reasonableness its §5.2; strong residual oddness at a real place is PotentialAutomorphyInfrastructurePartII PL.4, and tidiness is ArithmeticGaloisRepresentations §7.11. §11.4 applies these interfaces to the component through the singular point. The rank-two odd-characteristic tower of PotentialModularityAndCompatibleSystems §8.3 is an input to that supplier, rather than a construction here. The six-point even-subset symplectic model and the identification S₆≅Sp₄(𝔽₂) are AbelianSchemesAndArithmeticModuli A3.12; §8.4 uses them in an illustration only. General local deformation and image theories remain with LocalGaloisDeformationRings and ArithmeticGaloisRepresentations, through the exact extensions below. Patching algebra is DeformationAndDerivedPatchingAlgebra §§5.5–5.8; Layer 8, Layer 9 and Layer 10 verify three different arithmetic applications.
+Layer 0–Layer 1 fix the data, levels and selected actions. Layer 2 constructs characteristic-zero interpolation independently of minimal patching, using the imported family theory. Layer 3 applies the imported Hasse lifts and secondary Hasse section at the levels of Layer 0 and provides regular finite-quotient systems; Layer 4 proves cuspidal doubling; Layer 5 assembles the singular Galois deformation. Layer 6 controls Klingen level, Layer 7 isolates the defect on the selected summand, and Layer 8 applies balanced patching. Layer 9 is the independent ordinary-family branch. Layer 10 proves local freeness with rank allowed to be zero; Layer 11 applies the supplied regular ordinary support, proves positive rank one in each chamber, and applies higher-Coleman classicality. A *Needs* line distinguishes statement carriers from the ingredients of the indicated proof route; another proof may replace that route without changing the statement.
 
 ## Conventions
 
@@ -31,173 +25,6 @@ For polynomial notation, distinguish the CG monic polynomial det(X−ρ(Frobℓ)
 The P12 ordinary-family implications retain the strong-ordinary flag/Ext comparison, well-ramified local conditions and horizontal control. They yield ordinary p-adic cusp forms at integral weights; a classicality conclusion requires its own analytic and geometric hypotheses. The BCGP implications retain the marked characteristic-zero patching comparisons of §10.7, all hypotheses of one complete seed alternative, the support contracts from OrdinaryAutomorphicFormsAndModularityLiftingPartII §§4.7–4.8 at p=2 and §§6.3–6.4 at p>2 and the four independent multiplicity equalities. They use the exact singular Sen/Cousin comparison and classification of packets in the supplied classicality theorem. No equality of all reduced global deformation components is required to conclude rank one on the component through q.
 
 Every classification-dependent assertion is an implication from the specified inputs on packets, multiplicities and twisted weighted stabilization. The local adjoint-L assertion for generic packets is an additional local input to the monodromy theorem, rather than a global analytic nonvanishing assumption (BCGP25 Remark 1.8.20, p.14; BCGP25 line 680).
-
-## Exact supplier contracts
-
-### From Mathlib
-
-At the pins, `ZMod` in `Mathlib/Data/ZMod/Defs.lean` supplies residue examples; `Module.End.genEigenspace` and `Module.End.mem_genEigenspace_nat` in `Mathlib/LinearAlgebra/Eigenspace/Basic.lean` supply kernels of powers and their increasing union; `IsIdempotentElem` in `Mathlib/Algebra/Group/Idempotent.lean` is the equation e²=e. No semisimple decomposition is part of the generalized-eigenspace definition.
-
-### From Tau Ceti
-
-`TauCeti.ContCohomology.H1` in `TauCeti/RepresentationTheory/Homological/ContCohomology/LowDegree.lean` is the continuous cocycle quotient for a continuously acting topological additive group. It supplies the low-degree additive carrier, with its action and continuity hypotheses; its inherited pointwise quotient topology is not asserted to be the discrete arithmetic-cohomology topology; global Selmer conditions, finite-generation and symplectic deformation numerology are supplier contracts rather than consequences of that abbreviation. `Suggested.lean` declares nothing and imports no Tau Ceti module.
-
-### From TauCetiRoadmap.AbelianSchemesAndArithmeticModuli
-
-A3.12, “Differences of Weierstrass points in genus two”: the even-cardinality subsets of a six-element set modulo the full set, with the pairing (−1)^|{i,j}∩{k,l}| on two-element classes, as a four-dimensional 𝔽₂-symplectic space on which S₆ acts through S₆≅Sp₄(𝔽₂).
-
-### From TauCetiRoadmap.AlgebraicModularFormsAndSerreWeightsPartII
-
-§§3.1–3.7, 4.1–4.3, 5.2–5.7, 6.1, 6.3, 7.3–7.6, 8.2 and 8.6–8.7. That roadmap fixes a neat tame level prime to p, hyperspecial at p, and retains every connected component, so its statements apply at the levels of this roadmap's §0.4. Use the secondary Hasse section h′ of determinant weight p²−1, a unit on the rank-one locus, with its unique extension to the compactified nonordinary divisor S, a reduced Cohen–Macaulay surface, its invariance under tame level maps and deck transformations, and injectivity of multiplication by it on locally free sheaves on S (§§3.1–3.6); for odd p use its square root b₀, with V(h′)=2Z_red for the reduced supersingular curve Z_red (§3.7). Use the chosen characteristic-zero lift A of hʳ, the congruence of p^(m−1)-st powers modulo ϖᵐ of two local lifts congruent modulo ϖ, and, for s>0 divisible by p^(m−1), the injective multiplication by Aˢ on forms and cusp forms with coefficients O/ϖᵐ, equivariant for prime-to-p Hecke correspondences, tame U operators and deck transformations (§§4.1–4.3). For odd p use the formal operators on covariant formal Siegel series: a(UF;Q)=a(F;pQ), Z the sum over the p+1 local p-branches with their coefficient maps and transported tame markings, Z₂=UZ and a(X₂F;Q)=(d(Q)/p)a(F;Q) over k, with UZ₂=Z₂U and the characteristic-p relations UX₂=0, X₂³=X₂ and Z₂X₂=0; the reduction T≡U+Z modulo p in weights (j,2); and the corrected integral Q₂, equal to (pT₂+(p+p³)S)p^(2−k) after p is inverted and congruent modulo p to Z₂ except in weight (2,2), where it is Z₂+X₂ (§§5.2–5.7). Use the forward neighbor multiset of the double coset Δ=Γ diag(p,1) Γ and the oriented reciprocity of occurrences with Δ∨={pM⁻¹ : M∈Δ} (§§6.1, 6.3); that roadmap identifies the reverse correspondence with the forward one only where Δ∨=Δ, as at full level. Use the integral actions of T and Q₂ on forms and cusp forms of weight (j,k), j≥k≥2, with coefficients O/ϖᵐ, O and E/O, constructed from integral correspondences before reduction and commuting with coefficient maps, prime-to-p correspondences, tame deck transformations and toroidal refinement (§§7.3–7.6). For p>3 use the scalar theta operator Θ with Fourier multiplier det(Q) and weight shift (p+1,p+1), and the vector operator θ₁ from (j,k) to (j+p−1,k+p+1), for d=j−k≥2, k≥2 and p>d+1, with coefficient the normalized contraction of a(F;Q)⊗Q and no determinant factor, both preserving cusp forms (§8.2); injectivity of Θ in weight (k,k) for 2≤k≤p+1, k≠p−1 and p∤k(2k−1) (§8.6); and injectivity of θ₁ in weight (j,2) for 4≤j<p−1 (§8.7).
-
-### From TauCetiRoadmap.ArithmeticGaloisRepresentations
-
-§§7.3–7.5, 7.9–7.12; §7.6, whose semisimplicity criteria are used. Use continuous symplectic representations with their full multiplier, residual coefficient change, the CG big-image condition, tidiness of a GSp₄ residual image for p≥3 (§7.11, BCGP21 Definition 7.5.11, used in seed alternative B of this roadmap's §11.2), and the two Frobenius-annihilation semisimplicity criteria of BCGP25 Propositions 4.11.1–4.11.2. The latter concern annihilation of the action on a finite-dimensional nonzero representation, rather than equality of characteristic polynomials of semisimplifications. Its §5.11 supplies the passage from a density-one Frobenius set to all group elements.
-
-What ArithmeticGaloisRepresentations must provide (the integral-enormousness contract): Provide BCGP25 integral enormousness (Definition 7.1.1) with its exact adjoint condition, coefficient field and restriction behavior, without identifying it with CG big image or ACC enormousness.
-
-What ArithmeticGaloisRepresentations must provide (the Weil-restriction big-image contract): For an imaginary quadratic K and a non-CM elliptic curve E/K not isogenous over the algebraic closure to its conjugate, prove that the dual mod-p representations of E and its conjugate map the cyclotomic kernel onto SL₂(𝔽_p)² for all sufficiently large p, supplying the induced CG big-image example.
-
-### From TauCetiRoadmap.AutomorphicBundles
-
-Layers 5, 10, 11 and 12, in particular §§10.4 and 10.7–10.8; that roadmap's own letter labels B3, B3.HT, B4 and B5 read Layer 5, Layer 10, Layer 11 and Layer 12. Use canonical and subcanonical automorphic coefficients, the boundary divisor, genus-two Schur weights, classical section comparison, geometric H⁰ Hecke correspondences and the coefficient-valued expansion principle. In the characteristic-zero interpolation route use its full-level Siegel minimal tower and period map (§10.4), the rational Hodge–Tate Levi torsor (§10.7) and the finite-level cohomology of algebraic coefficients (§10.8).
-
-### From TauCetiRoadmap.AutomorphicBundlesPartII
-
-Layers 1–5; Layers 6–8. Use coherent homology and finite-coefficient Serre duality from Layer 1, equivariant perfect models and homological deck descent from Layer 2, proper cohomological correspondences from Layer 3, the arithmetic normalization, the sheaf-level integral divisibility with its unique division and the geometric spin-polynomial dictionary of §§4.1–4.3, and small-weight and large-parallel-twist vanishing from Layer 5. The threshold in “Large parallel twists and reduction of sections” depends on the specified finite collection of levels. Layers 6–8 supply interior comparison, localized boundary vanishing over ℚ, the Arthur-type exclusions and the multiplicity-counted equality dim H¹=dim H⁰, under their hypotheses on packets and classification. 
-
-What AutomorphicBundlesPartII must provide (the normalized integral p-action contract): Construct normalized integral Siegel p-operators Tp,1 and Qp,2 on RΓ(X₁(Q),ω(a,2)(−D)) in degrees zero and one for the CG weights and coefficients O/ϖᵐ, O and E/O, agreeing in degree zero with the q-expansion operators of CG20 §8.4, with commuting idempotents compatible with coefficient change, Serre duality and deck descent.
-
-What AutomorphicBundlesPartII must provide (the selected rank-inequality contract): For neat prime-to-p genus-two levels X₀(Q) over ℚ, non-Eisenstein m, a≥2 and L=ω(1,3−a), prove dim_E eαβH₁(X₀(Q),L)_(m,E)≤dim_E eαβH₀(X₀(Q),L)_(m,E), under the all-weight classification of packets and multiplicity hypotheses of Layers 6–8 and the normalized degree-one p-action, grouping the multiplicity-counted summands by finite part with the Serre-dual transported projector.
-
-### From TauCetiRoadmap.AutomorphicGaloisRepresentationsPartII
-
-AG2.P, “GSp₄ construction and normalization”; AG2.5; AG2.6, “GSp₄ crystalline Hodge comparison” and “Ordinary GSp₄ triangular shape”. Use the regular cuspidal spin realization, including the full multiplier, crystalline Frobenius polynomial at spherical p, and the ordered ordinary shape of CG20 Proposition 6.8; the crystalline comparison of AG2.6 is stated for good p-level and regular weight (a,b) with a≥b≥3. Use semisimplified ramified local comparison and the pure monodromy upgrade; retain every normalizing twist and classification premise. Family continuation of crystalline periods is not part of this contract; it is AutomorphicGaloisRepresentations §0.4.
-
-### From TauCetiRoadmap.AutomorphicGaloisRepresentations
-
-§0.4, “Crystalline periods in families”. Use Kisin’s analytic continuation of crystalline periods for a finite free continuous representation over a reduced Tate algebra, with its smallness, Sen-polynomial, invertibility and injectivity hypotheses, in the `G_{F_v}` version with `φ^{f_v}` for a finite extension F_v/ℚ_p, retaining Q(0) as a nonzerodivisor on the family.
-
-### From TauCetiRoadmap.AutomorphicLFunctionsAndLocalFactors
-
-Layer AL.4, local correspondence and local factors. Use the Weil–Deligne/Satake dictionary and the adjoint local L-factor normalization.
-
-### From TauCetiRoadmap.ModularityAndLanglandsExtensions
-
-§0.4 records, as a proposition and not a theorem, the expected de Rham and crystalline behaviour of the singular-weight coherent Galois representations of this roadmap's §2.3; §§3.2, 3.9 and 3.26 supply the classification and interpolation interfaces used below; §3.30, “The symplectic pairing through unitary descent”, supplies for weights (a,b) with a≥b≥2 and a non-Eisenstein maximal ideal of the anemic Hecke image the semisimple residual representation of CG Lemma 6.9 and, when it is absolutely irreducible, its nondegenerate alternating pairing, under its classification, unitary-descent, coefficient and polarization hypotheses; §3.5(vii) supplies the equivalence between existence of generic members in local GSp₄ packets and holomorphy at s=1 of its adjoint L-factor. The pure-monodromy uniqueness comparison is the separate SmoothRepresentationsOfLocalGroups contract. With the “GSp4ClassificationInputs” contract, use the classification of GSp₄ packets and multiplicity bookkeeping with its full real-group components, central character and transfer normalization; retain the specified twisted weighted fundamental-lemma/stabilization hypothesis wherever that source route assumes it, since unitary classification alone does not establish the GSp₄ input.
-
-### From TauCetiRoadmap.DeformationAndDerivedPatchingAlgebra
-
-§§3.1–3.3, 5.1–5.9, 6.1–6.7 and 7.6–7.10. Use the Tor defect and balanced-module theorem of §5.5 for the CG branch, the equal-variable free-module criterion of §5.6 for the Pilloni branch, and corrected characteristic-zero patching of §5.8 for the higher-Hida branch. The last retains cofinal open cutoffs, actual ring actions, the uniform cotangent bound, marked coefficient sections and all three image comparisons; it supplies surjectivity of point completions before Noetherianity of the target completion is inferred. Sections 3.1–3.3 provide depth, Auslander–Buchsbaum and projective-to-free comparison; Layer 6 provides component support under its faithfulness hypotheses. Section 5.9 supplies projective finite-group norm/invariant/coinvariant comparison without division by the group order. The present roadmap verifies the arithmetic hypotheses of these three distinct patching applications.
-
-### From TauCetiRoadmap.EndoscopicTransferAndUnitaryTraceComparison
-
-§13.2, “Automorphic inputs to GSp₄ solvable descent”; §11.1. Use BCGP25 Proposition 7.5.3 with its full multiplier ε⁻¹, central character |·|², restriction irreducibility and Tate twist. A regular |·|²-self-dual cuspidal GL₄/ℚ representation is symplectic; an irreducible realization after solvable Galois CM base change as rπ⊗ε, or after solvable totally real base change as a GSp₄ representation, descends to a regular cuspidal GSp₄/ℚ representation. Keep the cyclic-descent character ambiguity until the given Galois representation fixes it.
-
-### From TauCetiRoadmap.GlobalGaloisDeformations
-
-R04.3–R04.6 and Layer G7. Use universal fixed-full-multiplier symplectic deformation rings, their classifying maps, the exact CG Selmer presentation and labelled Taylor–Wiles sets. The CG cardinality equals its dual Selmer dimension and each prime has the requested depth x≡1 modulo pᴺ. A rank-one Klingen diamond and the two torus directions of the characteristic-zero branch are different deformation data.
-
-What GlobalGaloisDeformations must provide (the CG Selmer-presentation contract): Supply the CG fixed-full-multiplier Selmer presentation with qTW≥1 and labelled Klingen Taylor–Wiles sets of cardinality qTW at every requested depth, under CG20 Assumptions 4.1–4.3.
-
-What GlobalGaloisDeformations must provide (the torus Taylor–Wiles contract): Supply the BCGP25 two-torus-direction Taylor–Wiles sets and uniform marked cotangent bounds under integral enormousness, with the weight algebra and marked coefficient sections retained, including p=2.
-
-What GlobalGaloisDeformations must provide (the variable-weight patching contract): Supply the P12 variable-weight ordinary minimal deformation problems with prescribed universal similitude and Taylor–Wiles presentations over the two-weight Borel and one-weight GL₂-parabolic algebras, with the specified ordered flags, tame types and augmentation maps.
-
-### From TauCetiRoadmap.HodgeTateAndCanonicalSubgroups
-
-§§0.2–0.5 and 0.14–0.15. Use the finite-level and p-divisible Hodge–Tate maps, their linearization, isogeny functoriality and the ordinary-locus Hasse criterion. Actual rational Siegel period covers and coefficient sections are taken from AutomorphicBundles Layer 10, rather than inferred from a pointwise Hodge–Tate map.
-
-### From TauCetiRoadmap.IntegralHeckeAndGaloisDeterminants
-
-§§0.7, 1.1–1.7, 2.1–2.3 and Layers IHG.3a–IHG.4. Use determinant reconstruction and all-characteristic GL coefficient descent/Carayol comparison from §1.5, finite action images and factorial idempotents from Layer 2, spin/dual-spin polynomials with the separate full multiplier from IHG.3a, Galois-type residual ideals from IHG.3b, and compatible continuous integral determinants from IHG.4. Its prescribed-multiplier symplectic descent in §1.5 assumes residue characteristic greater than two. Its §1.6 Cayley–Hamilton isotypy requires annihilation by the entire Cayley–Hamilton ideal; Frobenius-polynomial annihilation in this roadmap's §2.8 instead uses ArithmeticGaloisRepresentations §7.6.
-
-What IntegralHeckeAndGaloisDeterminants must provide (the all-characteristic symplectic-descent contract): Extend symplectic_coefficient_descent to every residue characteristic by removing p>2, keeping the continuous smaller-ring representation with the same nondegenerate alternating form and full multiplier and the similitude conjugator congruent to 1 modulo the larger maximal ideal (BCGP25 Lemma 7.4.8).
-
-**Checks for the all-characteristic symplectic-descent contract.**
-
-- For S=R=𝔽₂ and the standard representation of Sp₄(𝔽₂), the generated matrix algebra has dimension 16 and the identity conjugator has multiplier 1.
-- The trivial group on k⁴ generates only the one-dimensional scalar algebra, so residual absolute irreducibility fails.
-- For R=k[ε]/(ε²), S=k, the antidiagonal alternating form J₁₄=J₂₃=1 and J₄₁=J₃₂=−1 satisfies CᵀJC=J for C=I+εE₁₄. If ρ=C⁻¹ρ₀C for a constant representation ρ₀, then CρC⁻¹=ρ₀, traces and multiplier descend, and C reduces to I.
-
-What IntegralHeckeAndGaloisDeterminants must provide (the pseudocharacter-reconstruction contract): Reconstruct a continuous semisimple GSp₄-valued representation with its full multiplier from a continuous GSp₄ pseudocharacter over an algebraically closed characteristic-zero field, compatibly with affinoid specialization.
-
-### From TauCetiRoadmap.LocalGaloisDeformationRings
-
-Section 2.7 supplies the residual U/P/H types; §2.25 supplies the minimal GSp₄ conditions at the ramified primes of types U, P and H, including Artinian nilpotent-orbit membership at U primes and reduction-injective P/H inertia. Section 6.14 supplies the Siegel-ordinary GSp₄ condition at p with fixed multiplier, its split unramified Lagrangian plane, zero (1,2),(3,4) entries, uniqueness and tangent space; §6.26 supplies its tangent dimension and finite-flat comparison. Use §2.17 for ordered distinct-root Taylor–Wiles scalar inertia. For the P12 ordered full-flag functor use §6.3 together with the flag-orientation contract. For the BCGP branch use §6.27 only for the odd-p B/P comparison and §6.29 for the all-p ordinary flag-incidence image with its arithmetic point criterion. Preserve the distinction between the split unramified plane, a full flag, the two Borel orderings and their P intersection. For the BCGP local points use §6.31, which rests on §6.29: at a p-distinguished pure ordinary characteristic-zero point of the flag-incidence image, with the chosen stabilization, the image ring is regular on a unique component of relative dimension sixteen, for every p including p=2. Away from p use §1.22 for regularity at pure points and §2.24 for constancy of the full type, hence of the conductor, between pure points on a common component that lie on no other component; apply §2.24 to the underlying rank-four representation, whose forgetful map carries an irreducible symplectic component into one rank-four component, the pure points being regular there by §1.22.
-
-What LocalGaloisDeformationRings must provide (the flag-orientation contract): Compare P12 automorphic and deformation ordinarity on specified ordered flags and Ext conventions, resolving both the opposite ratio directions of P12 Definitions 3.2 and 5.3 and the exponent prescriptions iκ versus −iκ in P12 §3.2 and Definition 5.3, including the parabolic ratio of P12 §7.4, before transporting representability or Hida control.
-
-### From TauCetiRoadmap.PadicFamiliesPartII
-
-Layers E6, S7 and F8; K2 for the singular Klingen comparison. Use E6/four-pieces for the actual completed-to-coherent filtration, S7/sen-cousin and S7/de-rham-classicality for the singular Sen comparison and BCGP25 Theorem 4.12.4, and F8/four-modules through F8/central-character for the four integral modules, regular and Coleman control, duality, tame group-ring projectivity and partial central specialization. Keep its nonzero singular-overlap comparison and independent four-piece dimension balance as premises. The BCGP torus convention is obtained by the involution [t]↦[t⁻¹]; character evaluation and the algebraic twist are retained. This imports one four-chamber theory.
-
-What PadicFamiliesPartII must provide (the horizontal-control contract): Supply the Borel two-weight and GL₂-parabolic one-weight ordinary Siegel Hida modules, their dual Iwasawa finiteness, arithmetic control and horizontal Λ[Δ]-freeness at the P12 tame levels and ordered flags.
-
-### From TauCetiRoadmap.OverconvergentAutomorphicForms
-
-§§8.6–8.7. Use the analytic Bruhat coefficient and distribution families, their full Weyl/root shifts, radius and coefficient maps, finite-character twists and the stated analytic/étale comparison. The hypotheses include actual finite-flat trivializing covers and finite unions of quasi-Stein opens. Rational local Banach projectivity supplies no integral finite-torus averaging.
-
-### From TauCetiRoadmap.PadicHodgeTheory
-
-§§3.2–3.6, 4.4 and 5.3–5.4. Use coefficient descent, duals, twists, de Rham/crystalline/semistable period functors and their Weil–Deligne comparison. A de Rham finite-dimensional representation has semisimple Sen operator in the stated arithmetic convention; an arbitrary completed representation is outside this assertion.
-
-### From TauCetiRoadmap.ShimuraCompactifications
-
-Layer 4, especially 4.2–4.3 and 4.9–4.10; Layer 7, especially 7.13–7.18. Use the neat smooth toroidal model, compatible fans, toroidal level maps, pullback and unnormalized trace, integral genus-two models, the Hodge line and its positivity. Smoothness is used only at the supplied good integral models; higher p-level compactifications carry their own hypotheses. Trace after a selected Klingen projector has the scalar computed in this roadmap's Layer 6, rather than the covering degree.
-
-### From TauCetiRoadmap.ShimuraData
-
-§§5.9–5.10 and 5.18, “Pilloni genus-two convention comparison”. Use the genus-two root/weight and Kostant dictionaries and the change between CG and Pilloni coordinates. This roadmap's §0.2 specializes these dictionaries to the singular bundles used in this roadmap.
-
-### From TauCetiRoadmap.SmoothRepresentationsOfLocalGroups
-
-SR.1.4, SR.2.1–SR.2.3, SR.4.1–SR.4.5. Use the positive Klingen Hecke algebra of SR.1.4 for the Klingen parahoric and its U-operators, normalized parabolic induction and Jacquet functors, invariant-vector interfaces, the spherical Satake transform and the GSp₄ spin-polynomial dictionary. The specialized Klingen/newvector and projective finite-group statements required below are separate contracts.
-
-What SmoothRepresentationsOfLocalGroups must provide (the Steinberg eigenvalue contract): Compute the normalized GSp₄ Steinberg Ux,1 eigenvalue x^((j+k−6)/2) in weight (j,k), including finite unramified unit twists, in the Fourier-lattice normalization of CG20 Theorem 5.9.
-
-What SmoothRepresentationsOfLocalGroups must provide (the Klingen level-comparison contract): Prove the Klingen no-newforms result and compute the spherical-to-labelled-refinement pullback/trace constant for the regular residual block in CG20 Theorem 7.3, including its congruence to 1 at x≡1 modulo p.
-
-What SmoothRepresentationsOfLocalGroups must provide (the paramodular newvector contract): For an irreducible admissible generic GSp₄(ℚ_ℓ)-representation over an algebraically closed characteristic-zero coefficient field with unramified central character, prove that its paramodular fixed space at the Artin conductor of its local parameter is one-dimensional and vanishes at smaller levels, with the normalization used in BCGP25 Proposition 7.5.1.
-
-**Checks for the paramodular newvector contract.**
-
-- Every paramodular group K(ℓⁿ) contains the scalars zI₄ with z∈ℤ_ℓ^×. At ℓ=7, twist a generic unramified principal series of trivial central character by χ∘ν with χ tame and χ(3)=ζ₃; then 3I₄ acts by χ(9)=ζ₃²≠1, so every paramodular fixed space is zero. The unramified-central-character hypothesis excludes it.
-- The application’s central character |·|² is trivial on ℤ_ℓ^×, so it satisfies the hypothesis.
-- An unramified central character ω has an unramified square root χ over an algebraically closed field; ν takes K(ℓⁿ) into ℤ_ℓ^×, where χ is trivial, so twisting by χ⁻¹∘ν preserves every paramodular fixed space and gives central character ωχ⁻²=1, since ν(zI₄)=z². At the uniformizer, ω(ℓ)=2 and χ(ℓ)=√2 give 2·(√2)⁻²=1, whereas twisting by χ∘ν would give ω(ℓ)χ(ℓ)²=4, not 1. This reduces the contract to trivial central character.
-
-What SmoothRepresentationsOfLocalGroups must provide (the refinement-line contract): Prove one-dimensionality of the selected ordinary p-refinement and neat-prime Iwahori refinement lines under the regularity and distinct-root hypotheses in the proof of BCGP25 Lemma 7.5.8, pp.176–177, especially p.177 (BCGP25 line 8119), invoking BCGP21 Propositions 2.4.24 and 2.4.26, pp.26–27.
-
-What SmoothRepresentationsOfLocalGroups must provide (the pure-monodromy uniqueness contract): Prove the local uniqueness of monodromy with the given semisimplification under purity and the adjoint holomorphy condition, in the geometric-Frobenius convention of BCGP25 Remark 1.8.20.
-
-What SmoothRepresentationsOfLocalGroups must provide (the projective Satake contract): Supply the regular residual GSp₄ Satake-block comparison of BCGP25 Lemmas 7.4.11–7.4.12 on projective finite-group modules, compatibly with the partial central condition and diamond augmentation, without dividing by 8.
-
-### From TauCetiRoadmap.OrdinaryAutomorphicFormsAndModularityLiftingPartII
-
-Sections 2.1–2.2 supply the universal ordinary Hecke algebra of a definite unitary group and its Hida theory and arithmetic control at p=2; §§3.1–3.2 supply the ordinary global problem with its ring `R^{T,ord}` and the dimension bound; §4.7 supplies finiteness of `R^{T,ord}` over Λ and §4.8 the dyadic reduced R=T (BCGP25 Theorem 5.7.14, pp.134–135; BCGP25 line 6088). Section 1.3 supplies near adequacy, a weakly adequate image with H¹(H,k)=0 and H¹(H,ad)=0 (BCGP25 Definition 5.3.3, p.120; BCGP25 line 5426). For n≥2 retain a CM field F with F/F⁺ unramified at finite places, splitting of places above 2 and below seed ramification, n[F⁺:ℚ] divisible by 4, an ordinary RACSDC residual seed, nearly adequate residual image containing a regular-semisimple element, and strong residual oddness when n is even. The finite set T consists of split places and contains those above 2 and below seed ramification. Finiteness over Λ=O[[T(2)]] requires no extra tame depth; the nilpotent-kernel Hecke comparison retains sufficiently deep level at T outside 2. The coefficient convention is f(gu)=u⁻¹f(g); use upper-Iwahori levels above 2 and the algebraic weight twist in arithmetic control.
-
-What OrdinaryAutomorphicFormsAndModularityLiftingPartII must provide (the dyadic ordinary-support contract): Supply §§1.3, 2.1–2.2, 3.1–3.2 and 4.7–4.8 at p=2, including near adequacy, the arbitrary-rank definite-unitary ordinary Hecke algebra with Hida theory and arithmetic control, the ordinary global problem with its dimension bound, and the finiteness and sufficiently-deep-level reduced R=T of BCGP25 Theorem 5.7.14 under all six hypotheses.
-
-Sections 5.4–5.6 supply ordinary GSp₄ seed data, the selected ordinary problems S₁ and `S_{1,π}` and the Galois representation over the GSp₄ Hida–Hecke algebra; §6.3 supplies the symplectic ordinary reduced R=T and §6.4 finiteness of `R_{S_{1,π}}` over the weight algebra (BCGP25 Hypothesis 6.3.1 and Theorem 6.3.4, pp.146–148; BCGP25 line 6628 and line 6694). Section 5.2 supplies GSp₄-reasonableness of a residual representation for p≥3, the notion of BCGP25 Proposition 7.5.10(B2) (p.177; BCGP25 line 8147). Retain p>2 split completely in F⁺, an ordinary cuspidal GSp₄ seed of central character |·|² in weight two or regular weight, reasonable and tidy residual image, compatible stabilizations and the unique seed component at each v|p. At tame R require trivial residual restriction, Iwahori seed vectors and q_v≡1 modulo p, strengthened to q_v≡1 modulo 9 at p=3. Use the neat auxiliary place supplied by tidiness and only the seed-selected local components, without imposing residual p-distinction.
-
-What OrdinaryAutomorphicFormsAndModularityLiftingPartII must provide (the symplectic component-support contract): Supply §§5.2, 5.4–5.6 and 6.3–6.4, including GSp₄-reasonableness, the ordinary seed datum, the selected ordinary deformation problem and Hida–Hecke Galois representation, and the reduced R=T and finiteness of BCGP25 Theorem 6.3.4 on the seed-selected components under Hypothesis 6.3.1, retaining q_v≡1 modulo 9 when p=3.
-
-**Checks for the regular ordinary imports.**
-
-- At n=4 and [F⁺:ℚ]=1 the dyadic divisibility test gives 4≡0 modulo 4; n=2 gives 2 and fails it. These are numerical controls, not existence assertions for such CM fields.
-- At u=diag(1,3) and n=2, the universal weight factor ∏u_i^(1−i) is 1/3; replacing it by 3 changes arithmetic specialization. For the contragredient coefficient rule, a one-dimensional coefficient action u↦3 gives f(gu)=f(g)/3, whereas u↦1 gives f(gu)=f(g).
-- At p=2, n=2, [F⁺:ℚ]=2 and #T=3, the supplier’s polarized strict-conjugacy deformation complex with local classes µ_v has h⁰=0, hⁱ=0 for i≥4, h² equal to the dimension of its dual H¹ Selmer group, and h³=h⁰(F(S)/F⁺, ad r̄(1))=1 (OrdinaryAutomorphicFormsAndModularityLiftingPartII §1.2; Tho17 Lemma 2.15, p.10; Tho17 line 433). At p=2, ad r̄(1)=ad r̄, and an element (B,b)j acts on ad r̄ by X↦−BXᵗB⁻¹, which fixes I₂ because −1=1; absolute irreducibility leaves only this scalar line. With q=5 Taylor–Wiles primes and h²=1, the Euler characteristic is χ=1−#T−q+[F⁺:ℚ]n(n−1)/2=1−3−5+2=−5, so h¹=h²−h³−χ=1−1+5=5, the supplier’s generator count g=q+#T−1−[F⁺:ℚ]n(n−1)/2=5; the value h³=0 would give 6 (Tho17, proof of Proposition 2.21, pp.14–15; Tho17 line 614). Transpose fixes I₂, but Tr(I₂I₂)=Tr(I₂)=1+1=0, so the scalar-class pairing is zero. For T the finite places of S, a scalar-derived class survives in the dual H¹ at every sufficiently deep Taylor–Wiles level; it contributes through H². BCGP25 states vanishing outside degrees 1 and 2, which omits this degree-three scalar invariant (BCGP25 §5.4, pp.122–123, and Lemma 5.5.3, p.125; BCGP25 line 5567 and line 5640).
-- At p=3, q_v=7 passes modulo 3 but fails modulo 9; q_v=19 passes both tests.
-- In E[x,y]/(xy), the origin lies on two components, so it cannot serve as the unique seed component even though it lies on x=0.
-- A nontrivial 2-power tame character ψ reduces to 1 but has inertia eigenvalue ψ(σ)≠1; ψ⊕1^(n−1) fails unipotent ramification. Solvable preparation controls restrictions of original local lifts, rather than all lifts over the larger field.
-
-### From TauCetiRoadmap.PotentialAutomorphyInfrastructurePartII
-
-PL.4, “Strong residual oddness at a real place (p = 2)”. For a perfect field k of characteristic 2, even n and a polarized pair (ρ̄,µ̄) over a CM field F, extended to r̄:G_F⁺→𝒢_n(k), the pair is strongly residually odd at an infinite place v of F⁺ when r̄(c_v) is GL_n(k)-conjugate to (1_n,1)j rather than to (Ψ_n,1)j with Ψ_n antidiagonal (Tho17 Definition 3.3, p.16; BCGP25 Definition 5.2.1, p.117; BCGP25 line 5249). It is consumed with n=4 in seed alternative A of this roadmap's §11.2 and in the dyadic hypotheses of the OrdinaryAutomorphicFormsAndModularityLiftingPartII contract above.
-
-## How to read the build
-
-Layer 0–Layer 1 fix the data, levels and selected actions. Layer 2 constructs characteristic-zero interpolation independently of minimal patching, using the imported family theory. Layer 3 applies the imported Hasse lifts and secondary Hasse section at the levels of Layer 0 and provides regular finite-quotient systems; Layer 4 proves cuspidal doubling; Layer 5 assembles the singular Galois deformation. Layer 6 controls Klingen level, Layer 7 isolates the defect on the selected summand, and Layer 8 applies balanced patching. Layer 9 is the independent ordinary-family branch. Layer 10 proves local freeness with rank allowed to be zero; Layer 11 applies the supplied regular ordinary support, proves positive rank one in each chamber, and applies higher-Coleman classicality. A *Needs* line distinguishes statement carriers from the ingredients of the indicated proof route; another proof may replace that route without changing the statement.
 
 ## Layer 0: Conventions, residual data and tame levels
 
@@ -1621,6 +1448,179 @@ ArithmeticGaloisRepresentations §§7.3–7.5, 7.9–7.12; EndoscopicTransferAnd
 ## Downstream consumers
 
 AbelianSurfacesModularity consumes the ordinary weight-two Galois representation and its pure monodromy upgrade (§§2.5–2.6) and the seeds, support, four-chamber rank one and classical weight-two lifting of §§11.2–11.6, with all of their integral-enormousness, seed and patching hypotheses. The odd-p CG theorem and the all-p characteristic-zero theorem have distinct conclusions and premises.
+
+## Scope and ownership
+
+This roadmap owns the genus-two lifting application: residual data and levels, selected Hecke actions, singular specialization, corrected cuspidal doubling, level comparison, selected-module balance and the three distinct lifting endpoints.
+
+Generic determinant reconstruction, action images, finite local quotients, factorial projectors, spin polynomials and full multipliers are stated by IntegralHeckeAndGaloisDeterminants §§1.1–1.7, 2.1–2.3 and Layers IHG.3a–IHG.4. Generic induction, Jacquet and Satake theory are stated by SmoothRepresentationsOfLocalGroups SR.2 and SR.4. This roadmap keeps their genus-two arithmetic specializations. The pinned library's generalized eigenspaces, idempotents, matrix groups, local-ring completions and continuous H¹ are imported at their native scope; none is reconstructed here.
+
+Integral coherent complexes, duality, Hochschild–Serre, vanishing, boundary localization, Arthur exclusions and the characteristic-zero dimension equality are stated by AutomorphicBundlesPartII Layers 1–8. All four higher-Hida/Coleman chambers, the completed filtration and the singular classicality criterion are imported from PadicFamiliesPartII E6, S7 and F8. The general analytic Bruhat coefficients belong to OverconvergentAutomorphicForms §§8.6–8.7. The secondary Hasse section with its extension and square root, the Hasse lifts with their torsion congruences and equivariant weight shifts, the formal coefficient operators U, Z, Z₂, X₂ with the corrected integral Q₂, the binary neighbor multisets with their oriented reciprocity, the integral H⁰ actions of T and Q₂, and the scalar and vector theta operators with their injectivity are stated by AlgebraicModularFormsAndSerreWeightsPartII §§3.1–3.7, 4.1–4.3, 5.2–5.7, 6.1, 6.3, 7.3–7.6, 8.2 and 8.6–8.7; §§1.1, 3.1–3.2, 4.1–4.2, 4.4 and 4.7 keep only their specializations to the weights used here and the levels of §0.4. The general coherent-complex carriers remain with AutomorphicBundlesPartII. The selected all-degree p-action extension is the normalized integral p-action contract asked of that roadmap. The regular Galois construction belongs to AutomorphicGaloisRepresentationsPartII AG2.P, AG2.5–AG2.6; §3.5 assembles its selected integral images. The all-degree characteristic-zero interpolation of coherent eigensystems (§2.3) is stated here; ModularityAndLanglandsExtensions §0.4 records only the expected p-adic Hodge properties of its output and constructs nothing. The residual realization of CG Lemma 6.9 with its symplectic pairing is ModularityAndLanglandsExtensions §3.30, and analytic continuation of crystalline periods in families is AutomorphicGaloisRepresentations §0.4; §§3.4 and 2.4 apply them. Frobenius-annihilation isotypy belongs to ArithmeticGaloisRepresentations §7.6, and solvable GSp₄ descent to EndoscopicTransferAndUnitaryTraceComparison §13.2.
+
+The arbitrary-rank dyadic definite-unitary ordinary Hecke algebra and Hida theory, the ordinary global problem and its dimension bound, finiteness and reduced R=T are stated by OrdinaryAutomorphicFormsAndModularityLiftingPartII §§2.1–2.2, 3.1–3.2 and 4.7–4.8; its §§5.4–5.6 and 6.3–6.4 state the seed-selected symplectic ordinary reduced R=T and finiteness for p>2. Near adequacy is its §1.3 and GSp₄-reasonableness its §5.2; strong residual oddness at a real place is PotentialAutomorphyInfrastructurePartII PL.4, and tidiness is ArithmeticGaloisRepresentations §7.11. §11.4 applies these interfaces to the component through the singular point. The rank-two odd-characteristic tower of PotentialModularityAndCompatibleSystems §8.3 is an input to that supplier, rather than a construction here. The six-point even-subset symplectic model and the identification S₆≅Sp₄(𝔽₂) are AbelianSchemesAndArithmeticModuli A3.12; §8.4 uses them in an illustration only. General local deformation and image theories remain with LocalGaloisDeformationRings and ArithmeticGaloisRepresentations, through the exact extensions below. Patching algebra is DeformationAndDerivedPatchingAlgebra §§5.5–5.8; Layer 8, Layer 9 and Layer 10 verify three different arithmetic applications.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+At the pins, `ZMod` in `Mathlib/Data/ZMod/Defs.lean` supplies residue examples; `Module.End.genEigenspace` and `Module.End.mem_genEigenspace_nat` in `Mathlib/LinearAlgebra/Eigenspace/Basic.lean` supply kernels of powers and their increasing union; `IsIdempotentElem` in `Mathlib/Algebra/Group/Idempotent.lean` is the equation e²=e. No semisimple decomposition is part of the generalized-eigenspace definition.
+
+### From Tau Ceti
+
+`TauCeti.ContCohomology.H1` in `TauCeti/RepresentationTheory/Homological/ContCohomology/LowDegree.lean` is the continuous cocycle quotient for a continuously acting topological additive group. It supplies the low-degree additive carrier, with its action and continuity hypotheses; its inherited pointwise quotient topology is not asserted to be the discrete arithmetic-cohomology topology; global Selmer conditions, finite-generation and symplectic deformation numerology are supplier contracts rather than consequences of that abbreviation. `Suggested.lean` declares nothing and imports no Tau Ceti module.
+
+### From TauCetiRoadmap.AbelianSchemesAndArithmeticModuli
+
+A3.12, “Differences of Weierstrass points in genus two”: the even-cardinality subsets of a six-element set modulo the full set, with the pairing (−1)^|{i,j}∩{k,l}| on two-element classes, as a four-dimensional 𝔽₂-symplectic space on which S₆ acts through S₆≅Sp₄(𝔽₂).
+
+### From TauCetiRoadmap.AlgebraicModularFormsAndSerreWeightsPartII
+
+§§3.1–3.7, 4.1–4.3, 5.2–5.7, 6.1, 6.3, 7.3–7.6, 8.2 and 8.6–8.7. That roadmap fixes a neat tame level prime to p, hyperspecial at p, and retains every connected component, so its statements apply at the levels of this roadmap's §0.4. Use the secondary Hasse section h′ of determinant weight p²−1, a unit on the rank-one locus, with its unique extension to the compactified nonordinary divisor S, a reduced Cohen–Macaulay surface, its invariance under tame level maps and deck transformations, and injectivity of multiplication by it on locally free sheaves on S (§§3.1–3.6); for odd p use its square root b₀, with V(h′)=2Z_red for the reduced supersingular curve Z_red (§3.7). Use the chosen characteristic-zero lift A of hʳ, the congruence of p^(m−1)-st powers modulo ϖᵐ of two local lifts congruent modulo ϖ, and, for s>0 divisible by p^(m−1), the injective multiplication by Aˢ on forms and cusp forms with coefficients O/ϖᵐ, equivariant for prime-to-p Hecke correspondences, tame U operators and deck transformations (§§4.1–4.3). For odd p use the formal operators on covariant formal Siegel series: a(UF;Q)=a(F;pQ), Z the sum over the p+1 local p-branches with their coefficient maps and transported tame markings, Z₂=UZ and a(X₂F;Q)=(d(Q)/p)a(F;Q) over k, with UZ₂=Z₂U and the characteristic-p relations UX₂=0, X₂³=X₂ and Z₂X₂=0; the reduction T≡U+Z modulo p in weights (j,2); and the corrected integral Q₂, equal to (pT₂+(p+p³)S)p^(2−k) after p is inverted and congruent modulo p to Z₂ except in weight (2,2), where it is Z₂+X₂ (§§5.2–5.7). Use the forward neighbor multiset of the double coset Δ=Γ diag(p,1) Γ and the oriented reciprocity of occurrences with Δ∨={pM⁻¹ : M∈Δ} (§§6.1, 6.3); that roadmap identifies the reverse correspondence with the forward one only where Δ∨=Δ, as at full level. Use the integral actions of T and Q₂ on forms and cusp forms of weight (j,k), j≥k≥2, with coefficients O/ϖᵐ, O and E/O, constructed from integral correspondences before reduction and commuting with coefficient maps, prime-to-p correspondences, tame deck transformations and toroidal refinement (§§7.3–7.6). For p>3 use the scalar theta operator Θ with Fourier multiplier det(Q) and weight shift (p+1,p+1), and the vector operator θ₁ from (j,k) to (j+p−1,k+p+1), for d=j−k≥2, k≥2 and p>d+1, with coefficient the normalized contraction of a(F;Q)⊗Q and no determinant factor, both preserving cusp forms (§8.2); injectivity of Θ in weight (k,k) for 2≤k≤p+1, k≠p−1 and p∤k(2k−1) (§8.6); and injectivity of θ₁ in weight (j,2) for 4≤j<p−1 (§8.7).
+
+### From TauCetiRoadmap.ArithmeticGaloisRepresentations
+
+§§7.3–7.5, 7.9–7.12; §7.6, whose semisimplicity criteria are used. Use continuous symplectic representations with their full multiplier, residual coefficient change, the CG big-image condition, tidiness of a GSp₄ residual image for p≥3 (§7.11, BCGP21 Definition 7.5.11, used in seed alternative B of this roadmap's §11.2), and the two Frobenius-annihilation semisimplicity criteria of BCGP25 Propositions 4.11.1–4.11.2. The latter concern annihilation of the action on a finite-dimensional nonzero representation, rather than equality of characteristic polynomials of semisimplifications. Its §5.11 supplies the passage from a density-one Frobenius set to all group elements.
+
+What ArithmeticGaloisRepresentations must provide (the integral-enormousness contract): Provide BCGP25 integral enormousness (Definition 7.1.1) with its exact adjoint condition, coefficient field and restriction behavior, without identifying it with CG big image or ACC enormousness.
+
+What ArithmeticGaloisRepresentations must provide (the Weil-restriction big-image contract): For an imaginary quadratic K and a non-CM elliptic curve E/K not isogenous over the algebraic closure to its conjugate, prove that the dual mod-p representations of E and its conjugate map the cyclotomic kernel onto SL₂(𝔽_p)² for all sufficiently large p, supplying the induced CG big-image example.
+
+### From TauCetiRoadmap.AutomorphicBundles
+
+Layers 5, 10, 11 and 12, in particular §§10.4 and 10.7–10.8; that roadmap's own letter labels B3, B3.HT, B4 and B5 read Layer 5, Layer 10, Layer 11 and Layer 12. Use canonical and subcanonical automorphic coefficients, the boundary divisor, genus-two Schur weights, classical section comparison, geometric H⁰ Hecke correspondences and the coefficient-valued expansion principle. In the characteristic-zero interpolation route use its full-level Siegel minimal tower and period map (§10.4), the rational Hodge–Tate Levi torsor (§10.7) and the finite-level cohomology of algebraic coefficients (§10.8).
+
+### From TauCetiRoadmap.AutomorphicBundlesPartII
+
+Layers 1–5; Layers 6–8. Use coherent homology and finite-coefficient Serre duality from Layer 1, equivariant perfect models and homological deck descent from Layer 2, proper cohomological correspondences from Layer 3, the arithmetic normalization, the sheaf-level integral divisibility with its unique division and the geometric spin-polynomial dictionary of §§4.1–4.3, and small-weight and large-parallel-twist vanishing from Layer 5. The threshold in “Large parallel twists and reduction of sections” depends on the specified finite collection of levels. Layers 6–8 supply interior comparison, localized boundary vanishing over ℚ, the Arthur-type exclusions and the multiplicity-counted equality dim H¹=dim H⁰, under their hypotheses on packets and classification. 
+
+What AutomorphicBundlesPartII must provide (the normalized integral p-action contract): Construct normalized integral Siegel p-operators Tp,1 and Qp,2 on RΓ(X₁(Q),ω(a,2)(−D)) in degrees zero and one for the CG weights and coefficients O/ϖᵐ, O and E/O, agreeing in degree zero with the q-expansion operators of CG20 §8.4, with commuting idempotents compatible with coefficient change, Serre duality and deck descent.
+
+What AutomorphicBundlesPartII must provide (the selected rank-inequality contract): For neat prime-to-p genus-two levels X₀(Q) over ℚ, non-Eisenstein m, a≥2 and L=ω(1,3−a), prove dim_E eαβH₁(X₀(Q),L)_(m,E)≤dim_E eαβH₀(X₀(Q),L)_(m,E), under the all-weight classification of packets and multiplicity hypotheses of Layers 6–8 and the normalized degree-one p-action, grouping the multiplicity-counted summands by finite part with the Serre-dual transported projector.
+
+### From TauCetiRoadmap.AutomorphicGaloisRepresentationsPartII
+
+AG2.P, “GSp₄ construction and normalization”; AG2.5; AG2.6, “GSp₄ crystalline Hodge comparison” and “Ordinary GSp₄ triangular shape”. Use the regular cuspidal spin realization, including the full multiplier, crystalline Frobenius polynomial at spherical p, and the ordered ordinary shape of CG20 Proposition 6.8; the crystalline comparison of AG2.6 is stated for good p-level and regular weight (a,b) with a≥b≥3. Use semisimplified ramified local comparison and the pure monodromy upgrade; retain every normalizing twist and classification premise. Family continuation of crystalline periods is not part of this contract; it is AutomorphicGaloisRepresentations §0.4.
+
+### From TauCetiRoadmap.AutomorphicGaloisRepresentations
+
+§0.4, “Crystalline periods in families”. Use Kisin’s analytic continuation of crystalline periods for a finite free continuous representation over a reduced Tate algebra, with its smallness, Sen-polynomial, invertibility and injectivity hypotheses, in the `G_{F_v}` version with `φ^{f_v}` for a finite extension F_v/ℚ_p, retaining Q(0) as a nonzerodivisor on the family.
+
+### From TauCetiRoadmap.AutomorphicLFunctionsAndLocalFactors
+
+Layer AL.4, local correspondence and local factors. Use the Weil–Deligne/Satake dictionary and the adjoint local L-factor normalization.
+
+### From TauCetiRoadmap.ModularityAndLanglandsExtensions
+
+§0.4 records, as a proposition and not a theorem, the expected de Rham and crystalline behaviour of the singular-weight coherent Galois representations of this roadmap's §2.3; §§3.2, 3.9 and 3.26 supply the classification and interpolation interfaces used below; §3.30, “The symplectic pairing through unitary descent”, supplies for weights (a,b) with a≥b≥2 and a non-Eisenstein maximal ideal of the anemic Hecke image the semisimple residual representation of CG Lemma 6.9 and, when it is absolutely irreducible, its nondegenerate alternating pairing, under its classification, unitary-descent, coefficient and polarization hypotheses; §3.5(vii) supplies the equivalence between existence of generic members in local GSp₄ packets and holomorphy at s=1 of its adjoint L-factor. The pure-monodromy uniqueness comparison is the separate SmoothRepresentationsOfLocalGroups contract. With the “GSp4ClassificationInputs” contract, use the classification of GSp₄ packets and multiplicity bookkeeping with its full real-group components, central character and transfer normalization; retain the specified twisted weighted fundamental-lemma/stabilization hypothesis wherever that source route assumes it, since unitary classification alone does not establish the GSp₄ input.
+
+### From TauCetiRoadmap.DeformationAndDerivedPatchingAlgebra
+
+§§3.1–3.3, 5.1–5.9, 6.1–6.7 and 7.6–7.10. Use the Tor defect and balanced-module theorem of §5.5 for the CG branch, the equal-variable free-module criterion of §5.6 for the Pilloni branch, and corrected characteristic-zero patching of §5.8 for the higher-Hida branch. The last retains cofinal open cutoffs, actual ring actions, the uniform cotangent bound, marked coefficient sections and all three image comparisons; it supplies surjectivity of point completions before Noetherianity of the target completion is inferred. Sections 3.1–3.3 provide depth, Auslander–Buchsbaum and projective-to-free comparison; Layer 6 provides component support under its faithfulness hypotheses. Section 5.9 supplies projective finite-group norm/invariant/coinvariant comparison without division by the group order. The present roadmap verifies the arithmetic hypotheses of these three distinct patching applications.
+
+### From TauCetiRoadmap.EndoscopicTransferAndUnitaryTraceComparison
+
+§13.2, “Automorphic inputs to GSp₄ solvable descent”; §11.1. Use BCGP25 Proposition 7.5.3 with its full multiplier ε⁻¹, central character |·|², restriction irreducibility and Tate twist. A regular |·|²-self-dual cuspidal GL₄/ℚ representation is symplectic; an irreducible realization after solvable Galois CM base change as rπ⊗ε, or after solvable totally real base change as a GSp₄ representation, descends to a regular cuspidal GSp₄/ℚ representation. Keep the cyclic-descent character ambiguity until the given Galois representation fixes it.
+
+### From TauCetiRoadmap.GlobalGaloisDeformations
+
+R04.3–R04.6 and Layer G7. Use universal fixed-full-multiplier symplectic deformation rings, their classifying maps, the exact CG Selmer presentation and labelled Taylor–Wiles sets. The CG cardinality equals its dual Selmer dimension and each prime has the requested depth x≡1 modulo pᴺ. A rank-one Klingen diamond and the two torus directions of the characteristic-zero branch are different deformation data.
+
+What GlobalGaloisDeformations must provide (the CG Selmer-presentation contract): Supply the CG fixed-full-multiplier Selmer presentation with qTW≥1 and labelled Klingen Taylor–Wiles sets of cardinality qTW at every requested depth, under CG20 Assumptions 4.1–4.3.
+
+What GlobalGaloisDeformations must provide (the torus Taylor–Wiles contract): Supply the BCGP25 two-torus-direction Taylor–Wiles sets and uniform marked cotangent bounds under integral enormousness, with the weight algebra and marked coefficient sections retained, including p=2.
+
+What GlobalGaloisDeformations must provide (the variable-weight patching contract): Supply the P12 variable-weight ordinary minimal deformation problems with prescribed universal similitude and Taylor–Wiles presentations over the two-weight Borel and one-weight GL₂-parabolic algebras, with the specified ordered flags, tame types and augmentation maps.
+
+### From TauCetiRoadmap.HodgeTateAndCanonicalSubgroups
+
+§§0.2–0.5 and 0.14–0.15. Use the finite-level and p-divisible Hodge–Tate maps, their linearization, isogeny functoriality and the ordinary-locus Hasse criterion. Actual rational Siegel period covers and coefficient sections are taken from AutomorphicBundles Layer 10, rather than inferred from a pointwise Hodge–Tate map.
+
+### From TauCetiRoadmap.IntegralHeckeAndGaloisDeterminants
+
+§§0.7, 1.1–1.7, 2.1–2.3 and Layers IHG.3a–IHG.4. Use determinant reconstruction and all-characteristic GL coefficient descent/Carayol comparison from §1.5, finite action images and factorial idempotents from Layer 2, spin/dual-spin polynomials with the separate full multiplier from IHG.3a, Galois-type residual ideals from IHG.3b, and compatible continuous integral determinants from IHG.4. Its prescribed-multiplier symplectic descent in §1.5 assumes residue characteristic greater than two. Its §1.6 Cayley–Hamilton isotypy requires annihilation by the entire Cayley–Hamilton ideal; Frobenius-polynomial annihilation in this roadmap's §2.8 instead uses ArithmeticGaloisRepresentations §7.6.
+
+What IntegralHeckeAndGaloisDeterminants must provide (the all-characteristic symplectic-descent contract): Extend symplectic_coefficient_descent to every residue characteristic by removing p>2, keeping the continuous smaller-ring representation with the same nondegenerate alternating form and full multiplier and the similitude conjugator congruent to 1 modulo the larger maximal ideal (BCGP25 Lemma 7.4.8).
+
+**Checks for the all-characteristic symplectic-descent contract.**
+
+- For S=R=𝔽₂ and the standard representation of Sp₄(𝔽₂), the generated matrix algebra has dimension 16 and the identity conjugator has multiplier 1.
+- The trivial group on k⁴ generates only the one-dimensional scalar algebra, so residual absolute irreducibility fails.
+- For R=k[ε]/(ε²), S=k, the antidiagonal alternating form J₁₄=J₂₃=1 and J₄₁=J₃₂=−1 satisfies CᵀJC=J for C=I+εE₁₄. If ρ=C⁻¹ρ₀C for a constant representation ρ₀, then CρC⁻¹=ρ₀, traces and multiplier descend, and C reduces to I.
+
+What IntegralHeckeAndGaloisDeterminants must provide (the pseudocharacter-reconstruction contract): Reconstruct a continuous semisimple GSp₄-valued representation with its full multiplier from a continuous GSp₄ pseudocharacter over an algebraically closed characteristic-zero field, compatibly with affinoid specialization.
+
+### From TauCetiRoadmap.LocalGaloisDeformationRings
+
+Section 2.7 supplies the residual U/P/H types; §2.25 supplies the minimal GSp₄ conditions at the ramified primes of types U, P and H, including Artinian nilpotent-orbit membership at U primes and reduction-injective P/H inertia. Section 6.14 supplies the Siegel-ordinary GSp₄ condition at p with fixed multiplier, its split unramified Lagrangian plane, zero (1,2),(3,4) entries, uniqueness and tangent space; §6.26 supplies its tangent dimension and finite-flat comparison. Use §2.17 for ordered distinct-root Taylor–Wiles scalar inertia. For the P12 ordered full-flag functor use §6.3 together with the flag-orientation contract. For the BCGP branch use §6.27 only for the odd-p B/P comparison and §6.29 for the all-p ordinary flag-incidence image with its arithmetic point criterion. Preserve the distinction between the split unramified plane, a full flag, the two Borel orderings and their P intersection. For the BCGP local points use §6.31, which rests on §6.29: at a p-distinguished pure ordinary characteristic-zero point of the flag-incidence image, with the chosen stabilization, the image ring is regular on a unique component of relative dimension sixteen, for every p including p=2. Away from p use §1.22 for regularity at pure points and §2.24 for constancy of the full type, hence of the conductor, between pure points on a common component that lie on no other component; apply §2.24 to the underlying rank-four representation, whose forgetful map carries an irreducible symplectic component into one rank-four component, the pure points being regular there by §1.22.
+
+What LocalGaloisDeformationRings must provide (the flag-orientation contract): Compare P12 automorphic and deformation ordinarity on specified ordered flags and Ext conventions, resolving both the opposite ratio directions of P12 Definitions 3.2 and 5.3 and the exponent prescriptions iκ versus −iκ in P12 §3.2 and Definition 5.3, including the parabolic ratio of P12 §7.4, before transporting representability or Hida control.
+
+### From TauCetiRoadmap.PadicFamiliesPartII
+
+Layers E6, S7 and F8; K2 for the singular Klingen comparison. Use E6/four-pieces for the actual completed-to-coherent filtration, S7/sen-cousin and S7/de-rham-classicality for the singular Sen comparison and BCGP25 Theorem 4.12.4, and F8/four-modules through F8/central-character for the four integral modules, regular and Coleman control, duality, tame group-ring projectivity and partial central specialization. Keep its nonzero singular-overlap comparison and independent four-piece dimension balance as premises. The BCGP torus convention is obtained by the involution [t]↦[t⁻¹]; character evaluation and the algebraic twist are retained. This imports one four-chamber theory.
+
+What PadicFamiliesPartII must provide (the horizontal-control contract): Supply the Borel two-weight and GL₂-parabolic one-weight ordinary Siegel Hida modules, their dual Iwasawa finiteness, arithmetic control and horizontal Λ[Δ]-freeness at the P12 tame levels and ordered flags.
+
+### From TauCetiRoadmap.OverconvergentAutomorphicForms
+
+§§8.6–8.7. Use the analytic Bruhat coefficient and distribution families, their full Weyl/root shifts, radius and coefficient maps, finite-character twists and the stated analytic/étale comparison. The hypotheses include actual finite-flat trivializing covers and finite unions of quasi-Stein opens. Rational local Banach projectivity supplies no integral finite-torus averaging.
+
+### From TauCetiRoadmap.PadicHodgeTheory
+
+§§3.2–3.6, 4.4 and 5.3–5.4. Use coefficient descent, duals, twists, de Rham/crystalline/semistable period functors and their Weil–Deligne comparison. A de Rham finite-dimensional representation has semisimple Sen operator in the stated arithmetic convention; an arbitrary completed representation is outside this assertion.
+
+### From TauCetiRoadmap.ShimuraCompactifications
+
+Layer 4, especially 4.2–4.3 and 4.9–4.10; Layer 7, especially 7.13–7.18. Use the neat smooth toroidal model, compatible fans, toroidal level maps, pullback and unnormalized trace, integral genus-two models, the Hodge line and its positivity. Smoothness is used only at the supplied good integral models; higher p-level compactifications carry their own hypotheses. Trace after a selected Klingen projector has the scalar computed in this roadmap's Layer 6, rather than the covering degree.
+
+### From TauCetiRoadmap.ShimuraData
+
+§§5.9–5.10 and 5.18, “Pilloni genus-two convention comparison”. Use the genus-two root/weight and Kostant dictionaries and the change between CG and Pilloni coordinates. This roadmap's §0.2 specializes these dictionaries to the singular bundles used in this roadmap.
+
+### From TauCetiRoadmap.SmoothRepresentationsOfLocalGroups
+
+SR.1.4, SR.2.1–SR.2.3, SR.4.1–SR.4.5. Use the positive Klingen Hecke algebra of SR.1.4 for the Klingen parahoric and its U-operators, normalized parabolic induction and Jacquet functors, invariant-vector interfaces, the spherical Satake transform and the GSp₄ spin-polynomial dictionary. The specialized Klingen/newvector and projective finite-group statements required below are separate contracts.
+
+What SmoothRepresentationsOfLocalGroups must provide (the Steinberg eigenvalue contract): Compute the normalized GSp₄ Steinberg Ux,1 eigenvalue x^((j+k−6)/2) in weight (j,k), including finite unramified unit twists, in the Fourier-lattice normalization of CG20 Theorem 5.9.
+
+What SmoothRepresentationsOfLocalGroups must provide (the Klingen level-comparison contract): Prove the Klingen no-newforms result and compute the spherical-to-labelled-refinement pullback/trace constant for the regular residual block in CG20 Theorem 7.3, including its congruence to 1 at x≡1 modulo p.
+
+What SmoothRepresentationsOfLocalGroups must provide (the paramodular newvector contract): For an irreducible admissible generic GSp₄(ℚ_ℓ)-representation over an algebraically closed characteristic-zero coefficient field with unramified central character, prove that its paramodular fixed space at the Artin conductor of its local parameter is one-dimensional and vanishes at smaller levels, with the normalization used in BCGP25 Proposition 7.5.1.
+
+**Checks for the paramodular newvector contract.**
+
+- Every paramodular group K(ℓⁿ) contains the scalars zI₄ with z∈ℤ_ℓ^×. At ℓ=7, twist a generic unramified principal series of trivial central character by χ∘ν with χ tame and χ(3)=ζ₃; then 3I₄ acts by χ(9)=ζ₃²≠1, so every paramodular fixed space is zero. The unramified-central-character hypothesis excludes it.
+- The application’s central character |·|² is trivial on ℤ_ℓ^×, so it satisfies the hypothesis.
+- An unramified central character ω has an unramified square root χ over an algebraically closed field; ν takes K(ℓⁿ) into ℤ_ℓ^×, where χ is trivial, so twisting by χ⁻¹∘ν preserves every paramodular fixed space and gives central character ωχ⁻²=1, since ν(zI₄)=z². At the uniformizer, ω(ℓ)=2 and χ(ℓ)=√2 give 2·(√2)⁻²=1, whereas twisting by χ∘ν would give ω(ℓ)χ(ℓ)²=4, not 1. This reduces the contract to trivial central character.
+
+What SmoothRepresentationsOfLocalGroups must provide (the refinement-line contract): Prove one-dimensionality of the selected ordinary p-refinement and neat-prime Iwahori refinement lines under the regularity and distinct-root hypotheses in the proof of BCGP25 Lemma 7.5.8, pp.176–177, especially p.177 (BCGP25 line 8119), invoking BCGP21 Propositions 2.4.24 and 2.4.26, pp.26–27.
+
+What SmoothRepresentationsOfLocalGroups must provide (the pure-monodromy uniqueness contract): Prove the local uniqueness of monodromy with the given semisimplification under purity and the adjoint holomorphy condition, in the geometric-Frobenius convention of BCGP25 Remark 1.8.20.
+
+What SmoothRepresentationsOfLocalGroups must provide (the projective Satake contract): Supply the regular residual GSp₄ Satake-block comparison of BCGP25 Lemmas 7.4.11–7.4.12 on projective finite-group modules, compatibly with the partial central condition and diamond augmentation, without dividing by 8.
+
+### From TauCetiRoadmap.OrdinaryAutomorphicFormsAndModularityLiftingPartII
+
+Sections 2.1–2.2 supply the universal ordinary Hecke algebra of a definite unitary group and its Hida theory and arithmetic control at p=2; §§3.1–3.2 supply the ordinary global problem with its ring `R^{T,ord}` and the dimension bound; §4.7 supplies finiteness of `R^{T,ord}` over Λ and §4.8 the dyadic reduced R=T (BCGP25 Theorem 5.7.14, pp.134–135; BCGP25 line 6088). Section 1.3 supplies near adequacy, a weakly adequate image with H¹(H,k)=0 and H¹(H,ad)=0 (BCGP25 Definition 5.3.3, p.120; BCGP25 line 5426). For n≥2 retain a CM field F with F/F⁺ unramified at finite places, splitting of places above 2 and below seed ramification, n[F⁺:ℚ] divisible by 4, an ordinary RACSDC residual seed, nearly adequate residual image containing a regular-semisimple element, and strong residual oddness when n is even. The finite set T consists of split places and contains those above 2 and below seed ramification. Finiteness over Λ=O[[T(2)]] requires no extra tame depth; the nilpotent-kernel Hecke comparison retains sufficiently deep level at T outside 2. The coefficient convention is f(gu)=u⁻¹f(g); use upper-Iwahori levels above 2 and the algebraic weight twist in arithmetic control.
+
+What OrdinaryAutomorphicFormsAndModularityLiftingPartII must provide (the dyadic ordinary-support contract): Supply §§1.3, 2.1–2.2, 3.1–3.2 and 4.7–4.8 at p=2, including near adequacy, the arbitrary-rank definite-unitary ordinary Hecke algebra with Hida theory and arithmetic control, the ordinary global problem with its dimension bound, and the finiteness and sufficiently-deep-level reduced R=T of BCGP25 Theorem 5.7.14 under all six hypotheses.
+
+Sections 5.4–5.6 supply ordinary GSp₄ seed data, the selected ordinary problems S₁ and `S_{1,π}` and the Galois representation over the GSp₄ Hida–Hecke algebra; §6.3 supplies the symplectic ordinary reduced R=T and §6.4 finiteness of `R_{S_{1,π}}` over the weight algebra (BCGP25 Hypothesis 6.3.1 and Theorem 6.3.4, pp.146–148; BCGP25 line 6628 and line 6694). Section 5.2 supplies GSp₄-reasonableness of a residual representation for p≥3, the notion of BCGP25 Proposition 7.5.10(B2) (p.177; BCGP25 line 8147). Retain p>2 split completely in F⁺, an ordinary cuspidal GSp₄ seed of central character |·|² in weight two or regular weight, reasonable and tidy residual image, compatible stabilizations and the unique seed component at each v|p. At tame R require trivial residual restriction, Iwahori seed vectors and q_v≡1 modulo p, strengthened to q_v≡1 modulo 9 at p=3. Use the neat auxiliary place supplied by tidiness and only the seed-selected local components, without imposing residual p-distinction.
+
+What OrdinaryAutomorphicFormsAndModularityLiftingPartII must provide (the symplectic component-support contract): Supply §§5.2, 5.4–5.6 and 6.3–6.4, including GSp₄-reasonableness, the ordinary seed datum, the selected ordinary deformation problem and Hida–Hecke Galois representation, and the reduced R=T and finiteness of BCGP25 Theorem 6.3.4 on the seed-selected components under Hypothesis 6.3.1, retaining q_v≡1 modulo 9 when p=3.
+
+**Checks for the regular ordinary imports.**
+
+- At n=4 and [F⁺:ℚ]=1 the dyadic divisibility test gives 4≡0 modulo 4; n=2 gives 2 and fails it. These are numerical controls, not existence assertions for such CM fields.
+- At u=diag(1,3) and n=2, the universal weight factor ∏u_i^(1−i) is 1/3; replacing it by 3 changes arithmetic specialization. For the contragredient coefficient rule, a one-dimensional coefficient action u↦3 gives f(gu)=f(g)/3, whereas u↦1 gives f(gu)=f(g).
+- At p=2, n=2, [F⁺:ℚ]=2 and #T=3, the supplier’s polarized strict-conjugacy deformation complex with local classes µ_v has h⁰=0, hⁱ=0 for i≥4, h² equal to the dimension of its dual H¹ Selmer group, and h³=h⁰(F(S)/F⁺, ad r̄(1))=1 (OrdinaryAutomorphicFormsAndModularityLiftingPartII §1.2; Tho17 Lemma 2.15, p.10; Tho17 line 433). At p=2, ad r̄(1)=ad r̄, and an element (B,b)j acts on ad r̄ by X↦−BXᵗB⁻¹, which fixes I₂ because −1=1; absolute irreducibility leaves only this scalar line. With q=5 Taylor–Wiles primes and h²=1, the Euler characteristic is χ=1−#T−q+[F⁺:ℚ]n(n−1)/2=1−3−5+2=−5, so h¹=h²−h³−χ=1−1+5=5, the supplier’s generator count g=q+#T−1−[F⁺:ℚ]n(n−1)/2=5; the value h³=0 would give 6 (Tho17, proof of Proposition 2.21, pp.14–15; Tho17 line 614). Transpose fixes I₂, but Tr(I₂I₂)=Tr(I₂)=1+1=0, so the scalar-class pairing is zero. For T the finite places of S, a scalar-derived class survives in the dual H¹ at every sufficiently deep Taylor–Wiles level; it contributes through H². BCGP25 states vanishing outside degrees 1 and 2, which omits this degree-three scalar invariant (BCGP25 §5.4, pp.122–123, and Lemma 5.5.3, p.125; BCGP25 line 5567 and line 5640).
+- At p=3, q_v=7 passes modulo 3 but fails modulo 9; q_v=19 passes both tests.
+- In E[x,y]/(xy), the origin lies on two components, so it cannot serve as the unique seed component even though it lies on x=0.
+- A nontrivial 2-power tame character ψ reduces to 1 but has inertia eigenvalue ψ(σ)≠1; ψ⊕1^(n−1) fails unipotent ramification. Solvable preparation controls restrictions of original local lifts, rather than all lifts over the larger field.
+
+### From TauCetiRoadmap.PotentialAutomorphyInfrastructurePartII
+
+PL.4, “Strong residual oddness at a real place (p = 2)”. For a perfect field k of characteristic 2, even n and a polarized pair (ρ̄,µ̄) over a CM field F, extended to r̄:G_F⁺→𝒢_n(k), the pair is strongly residually odd at an infinite place v of F⁺ when r̄(c_v) is GL_n(k)-conjugate to (1_n,1)j rather than to (Ψ_n,1)j with Ψ_n antidiagonal (Tho17 Definition 3.3, p.16; BCGP25 Definition 5.2.1, p.117; BCGP25 line 5249). It is consumed with n=4 in seed alternative A of this roadmap's §11.2 and in the dyadic hypotheses of the OrdinaryAutomorphicFormsAndModularityLiftingPartII contract above.
 
 ## References
 
