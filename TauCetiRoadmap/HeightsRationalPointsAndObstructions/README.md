@@ -184,7 +184,7 @@ GroupSchemesOverABase §6.2 supplies, for a connected split reductive group G ov
 
 ## How to read the build
 
-Layer 0 fixes normalizations and heights; Layer 1 adds Kummer/trace/finite generation. Layer 2 supplies adelic evaluation, Layer 3 torsor descent. Layer 4's Mordell theorem is the curve case of the subvariety theorem of §5.9, through the Abel–Jacobi embedding of §6.4; §§5.10–5.11 add Vojta's inequality for curves with Bombieri's explicit angle and Mumford's gap principle. Layer 5's arithmetic positivity proves equidistribution before division-group Mordell–Lang and Bogomolov. Layer 6 assembles genus conclusions and conjectural propositions. Read §0.34 before §§0.31–33. `Suggested.lean` states Mordell–Weil, Mordell and Siegel finiteness, characteristic-zero Manin–Mumford, finite-rank Mordell–Lang and the genus-zero Hasse principle on native carriers; its module docstring identifies the geometric interfaces needed for the other headline statements.
+Layer 0 fixes normalizations and heights; Layer 1 adds Kummer/trace/finite generation. Layer 2 supplies adelic evaluation, Layer 3 torsor descent. Layer 4's Mordell theorem is the curve case of the subvariety theorem of §5.9, through the Abel–Jacobi embedding of §6.4; §§5.10–5.11 add Vojta's inequality for curves with Bombieri's explicit angle and Mumford's gap principle. Section 5.12 (Mordell's theorem for curves) is now §§4.6 and 6.4. Layer 5's arithmetic positivity proves equidistribution before division-group Mordell–Lang and Bogomolov. Layer 6 assembles genus conclusions and conjectural propositions. Read §0.34 before §§0.31–33. `Suggested.lean` states Mordell–Weil, Mordell and Siegel finiteness, characteristic-zero Manin–Mumford, finite-rank Mordell–Lang and the genus-zero Hasse principle on native carriers; its module docstring identifies the geometric interfaces needed for the other headline statements.
 
 ## Layer 0: height classes, the Weil machine and canonical heights
 
@@ -2041,7 +2041,7 @@ For a global field k, finite S and a nonisomorphic finite étale map Y→X of ge
 
 ### 3.21 Obstructions need not suffice
 
-Prove existence over ℚ of (a) a nice bielliptic surface with nonempty Br set, no rational point and empty étale–Brauer set, and (b) a nice quadric bundle with nonempty étale–Brauer set and no rational point. For (a) use the smooth proper model of (x²+1)y²=(x²+2)z²=3(t⁴−54t²−117t−243); its product-of-genus-one étale cover and twists give the obstruction. For (b) choose a curve C with finitely many rational points and an étale-simply-connected rational fibre over a local-solubility parameter but a Hasse-failing Châtelet fibre over every rational point. Pullback describes Br and finite covers from C, so the chosen adelic fibre survives them while no rational point can lie over C(ℚ). The exact choices and fibre computations are Poonen Theorem 8.6.5/Propositions 8.6.6–10 pp.250–252; (a) is Theorem 8.6.1/Remark 8.6.4 pp.248–250. *Needs:* §§2.23, 3.7–8, 4.6; scheme smooth proper models, Châtelet conic bundles and finite étale covers. The dependency on §4.6 only uses Layer 5's independent curve-height proof.
+Prove existence over ℚ of (a) a nice bielliptic surface with nonempty Br set, no rational point and empty étale–Brauer set, and (b) a nice quadric bundle with nonempty étale–Brauer set and no rational point. For (a) use the smooth proper model of (x²+1)y²=(x²+2)z²=3(t⁴−54t²−117t−243); its product-of-genus-one étale cover and twists give the obstruction. For (b) choose a curve C with finitely many rational points and an étale-simply-connected rational fibre over a local-solubility parameter but a Hasse-failing Châtelet fibre over every rational point. Pullback describes Br and finite covers from C, so the chosen adelic fibre survives them while no rational point can lie over C(ℚ). The exact choices and fibre computations are Poonen Theorem 8.6.5/Propositions 8.6.6–10 pp.250–252; (a) is Theorem 8.6.1/Remark 8.6.4 pp.248–250. *Needs:* §§2.23, 3.7–8, 4.6; scheme smooth proper models, Châtelet conic bundles and finite étale covers. The dependency on §4.6 uses only §5.9 and the Abel–Jacobi embedding of §6.4, whose inputs are Layers 0–1, §§5.1–5.4c, 5.9a–f and 5.17a and suppliers.
 
 **Checks.**
 
@@ -2198,7 +2198,7 @@ For `ℙ¹\{0,1,∞}`, S-integral points satisfy the S-unit equation u+(1−u)=1
 
 ### Dependencies
 
-Layers 0–3; JacobianChallenge Layer F; SchemeAndStackFoundations §§3.1–3.7 and 4.13; TauCetiRoadmap.StableReduction Layer 2; AbelianSchemesAndArithmeticModuli §A3.2; ArithmeticGaloisDuality Layer R02.3; SubspaceTheorem §6.2 with the normalized absolute/projective adapter of §4.7a; DiophantineApproximationAndTranscendence for S-units. Function-field Mordell has its separate proof inputs.
+Layers 0–3; §§5.9 and 6.4 for §4.6; JacobianChallenge Layer F; SchemeAndStackFoundations §§3.1–3.7 and 4.13; TauCetiRoadmap.StableReduction Layer 2; AbelianSchemesAndArithmeticModuli §A3.2; ArithmeticGaloisDuality Layer R02.3; SubspaceTheorem §6.2 with the normalized absolute/projective adapter of §4.7a; DiophantineApproximationAndTranscendence for S-units. Function-field Mordell has its separate proof inputs.
 
 ## Layer 5: Cosets, finite rank and small points
 
