@@ -1,32 +1,52 @@
 # Roadmap: compressible Euler equations, symmetric hyperbolic systems and maximal developments
 
-**Summary.** Build the classical theory of the compressible Euler equations of a perfect fluid
-on the Galilean spacetime `𝔐 = ℝ_t × E`, `E = ℝⁿ`, `n ≥ 1`, with the partially periodic
-carriers `ℝ × (ℝ/2πℤ)^{n−1}` treated as periodic lifts. From Mathlib's calculus, measure theory
-and ODE theory, Tau Ceti's whole-space Sobolev spaces, LorentzianGeometry's acoustical form and
-its causal curves and domains of dependence inside subsets, and SymmetricHyperbolicSystems'
-linear systems, the roadmap constructs: the barotropic and the full (entropy-carrying) Euler
-systems with a general smooth equation of state; a general carrier for first-order quasilinear
-symmetric hyperbolic systems, with the Euler systems as instances through explicit
-symmetrisers; the identification of the null covectors of the acoustical form of a state with
-the sound sheet of the Euler symbol; for continuous sound-cone fields on relatively open subsets
-of a half-space, limit curves, compact causal pasts and open, idempotent future domains of
-dependence; the `Hᵏ` calculus on partially periodic carriers (Gagliardo–Nirenberg, Moser
-product, commutator and composition estimates, Friedrichs mollifiers); the Friedrichs energy
-method for linear symmetric hyperbolic systems in the periodic Sobolev spaces, including
-weighted energies with characteristic-monotone Lipschitz weights; local uniqueness on lens-shaped domains and
-uniqueness on domains of dependence; local well-posedness in `Hᵏ`, `k > n/2 + 1`, with
-continuous dependence and the continuation criterion; and the theory of developments of
-Cauchy data. The end theorems are the local well-posedness of compressible Euler for
-non-vacuum `Hᵏ` data, uniqueness on lens-shaped domains, the uniqueness, compatibility and
-existence theory of developments (any two developments of the same data have a largest
-common development below both, and are compatible exactly when they have a common upper
-bound; every development lies below a maximal one; if the data extend to a classical solution
-on the whole future half-space, the maximal development is unique), and the nullity of the
-regular boundary of every maximal development. The classical claim that all developments of
-the same data agree on their common domain is false for compressible Euler on a fixed Galilean
-background; the roadmap states the correct uniqueness theorems and records an explicit
-counterexample.
+**Summary.** The compressible Euler equations express conservation of mass, momentum and entropy
+for a perfect fluid of density ρ > 0, velocity v and entropy s. The pressure P(ρ, s), the equation
+of state, is smooth on an open set of density–entropy pairs with ∂_ρP > 0, and c = √(∂_ρP) is the
+sound speed. The sound cones `|ẋ − v| ≤ c` bound the characteristic speeds; they are the causal
+cones of a Lorentzian metric, the acoustical form. This roadmap builds the classical theory of the
+equations on the Galilean spacetime ℝ_t × ℝⁿ, n ≥ 1, for C¹ solutions without vacuum. Periodicity
+is encoded by a discrete subgroup Λ of ℝⁿ; Λ = 0 gives ℝⁿ itself.
+
+The first main theorem is local well-posedness in the Sobolev space H^k_Λ of Λ-periodic functions,
+for k > n/2 + 1. Fix a constant background state, a compact set L of admissible density–entropy
+pairs and a bound M. There is a T > 0 such that, for every initial time t₀, every continuous
+Λ-periodic datum whose values of (ρ, s) lie in L, within M of the background in H^k_Λ, has a unique
+classical solution on [t₀, t₀ + T] × ℝⁿ, depending continuously on the data. Such a solution
+extends as long as ∫ ‖∇(ρ, v, s)‖_∞ dt is finite and (ρ, s) remains in a compact set of admissible
+pairs. The proof rests on Kato's theorem, proved here for every quasilinear symmetric hyperbolic
+system `A⁰(U)∂_tU + Σᵢ Aⁱ(U)∂ᵢU = F(U)` (symmetric coefficients, A⁰ positive definite) around a
+state where F vanishes.
+
+The second is uniqueness on domains of dependence. Let U₁ be a classical solution on a region D
+relatively open in the half-space t ≥ t₀. Its causal curves t ↦ (t, x(t)) have ẋ in its sound cones
+(for a general system, in continuously chosen cones bounding the characteristic speeds). A point p
+of D lies in the future domain of dependence of an open part S of the initial slice of D when every
+past causal curve in D from p that cannot be extended meets S. A classical solution on another such
+region O, agreeing with U₁ on S ∩ O, then agrees with U₁ on the causal past of p in D, if that
+causal past lies in O.
+
+A development of data on an open S ⊆ ℝⁿ is such a region D, meeting the initial slice in S, with a
+periodic classical solution taking the data, such that D is the future domain of dependence of S
+for its sound cones. Developments are ordered by extension. Any two of the same data have a largest
+common development below both, and they agree on their intersection exactly when some development
+lies above both. Every development lies below a maximal one; if the data extend to a periodic
+classical solution on the whole half-space, the maximal development is unique. Contrary to a
+classical claim, two developments of the same data can disagree where both are defined, as for
+P = ρ², n = 1 and data at t = 0 of density 1/2 with velocity 2 on x < −1 and −2 on x > 1.
+
+Finally, let q be a boundary point of a development after the initial time, near which it is
+{φ < 0} for a C¹ function φ with dφ(q) ≠ 0. If the solution extends periodically to a classical
+solution near q, and no larger development adding only points near q and their translates contains
+q, as for a maximal development, then the boundary is a null hypersurface of the acoustical form at
+q.
+
+The roadmap builds on Mathlib and develops the calculus of H^k_Λ on Tau Ceti's Sobolev spaces.
+LorentzianGeometry provides the acoustical form, and causal curves and domains of dependence in
+arbitrary subsets. SymmetricHyperbolicSystems provides linear symmetric hyperbolic systems and
+their pointwise energy identity. "Compressible Euler equations, Part II" and work on shock
+formation build on this roadmap. Layers 1 to 3 set up the equations and their sound cones, Layers 4
+and 5 the Sobolev and energy estimates, and Layers 6 to 8 prove the main theorems.
 
 ## How to read the build
 
