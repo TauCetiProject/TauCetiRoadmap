@@ -6,7 +6,7 @@
 
 which asks when the product of `k` consecutive terms of a primitive arithmetic progression is a perfect power. The integers `n, d, y` may have either sign. Erdős conjectured that for positive progressions there are no solutions once the length is large; Layer 7 states that conjecture precisely but neither proves it nor uses it.
 
-The main theorem is that of Bennett and Siksek [BS20, Theorem 2]. There is an effectively computable absolute integer `k_0 >= 5` such that a solution with length `k >= k_0` and prime exponent `ell` has `yd = 0` or `ell <= exp(10^k)`. The character estimates in its proof come from the uniform exclusion of Landau–Siegel zeros in AnalyticNumberTheoryPartI, so no exceptional character needs separate treatment and no constant is ineffective. Several explicit prime estimates below `exp(10000)` are stated inputs from that roadmap, and the theorems using them are conditional on those inputs until it proves them.
+The main theorem is that of Bennett and Siksek [BS20, Theorem 2]. There is an effectively computable absolute integer `k_0 >= 5` such that a solution with length `k >= k_0` and prime exponent `ell` has `yd = 0` or `ell <= exp(10^k)`. The character estimates in its proof come from the uniform exclusion of Landau–Siegel zeros in AnalyticNumberTheoryPartI, so no exceptional character needs separate treatment and no constant is ineffective. Several explicit prime estimates below `exp(10000)` are inputs that roadmap states as hypotheses. ExplicitPrimeCounting proves them from recorded numerical verifications: finite computations of the prime-counting functions, published tables, and checks of the Riemann hypothesis and its generalization up to a fixed height. The theorems that use these estimates are conditional on those recorded verifications.
 
 With the theorem of Faltings, applied to Darmon and Granville's diagonal curves [DG95, Corollary 2.1], the exponent bound gives finiteness for each fixed length. For fixed `k >= 3` and `ell >= 2` with `2*ell + k < k*ell`, there are finitely many coprime `(n,d,y)` with `yd != 0`. For positive progressions the same holds whenever `k + ell >= 6`; the two boundary cases, a four-term square and a three-term cube, are excluded by Euler's descents. Hence, for each fixed `k >= k_0`, there are only finitely many nontrivial solutions with arbitrary exponent at least two. This is not finiteness as the length varies, and an effective threshold for the exponent does not give an effective enumeration of the solutions. The roadmap also proves the theorem of Erdős and Selfridge: a product of two or more consecutive positive integers is never a perfect power.
 
@@ -30,6 +30,7 @@ Layer 0 constructs signed factors, finite index sets and the adapter
 to the supplied prime estimates. Layer 1 specializes the supplied residual and
 conductor invariants before building the modular comparisons for both Frey families.
 Layer 2 applies the supplied Legendre interfaces and builds the simultaneous character family.
+The numbering skips Layer 3 and §§4.1–4.2: Layer 4 opens at §4.3.
 Layer 4 supplies maximal-valuation deletion and the explicit Stirling bound.
 Layer 5 builds the bounded-height zero estimates and a single Granville witness.
 Layer 6 combines that route with the signed geometric adapter for fixed-length
@@ -299,9 +300,10 @@ SchoenfeldFiniteRangeInput; the prime-count pair retains
 RosserSchoenfeldFiniteRangeInput; the mod-eight errors retain the full
 ModEightFiniteInput, whose zero-line clause is ExplicitZetaBounds §§0.2–0.4;
 and the Euler-product bound retains PrimeProductFiniteInput.
-Unconditional applications require gap:schoenfeld-theta-finite-range,
-gap:rosser-schoenfeld-prime-count-finite-range, gap:mod-eight-theta-finite-range
-and gap:prime-product-finite-range. These generic
+ExplicitPrimeCounting proves SchoenfeldFiniteRangeInput in §3.2,
+RosserSchoenfeldFiniteRangeInput in §3.5, PrimeProductFiniteInput in §4.3 and
+the theta clause of ModEightFiniteInput in §6.1, under the recorded numerical
+verifications named in its supplier contract. These generic
 estimates are consumed; the local target is the divisor bound below.
 
 For ε>0, use AnalyticNumberTheoryPartI §3.1 at ε/2 to obtain
@@ -318,9 +320,8 @@ n≥C_ε^(2/ε) gives τ(n)≤n^ε. This applies to nonsquarefree n as well
 
 *Needs:* AnalyticNumberTheoryPartI §§0.3–0.5, 0.8, 0.16, 0.19–0.20, 0.25 and 3.1;
 ExplicitZetaBounds §§0.2–0.4 for the zero-line clause of ModEightFiniteInput;
-gap:schoenfeld-theta-finite-range, gap:rosser-schoenfeld-prime-count-finite-range,
-gap:mod-eight-theta-finite-range and gap:prime-product-finite-range for
-unconditional applications; Mathlib finite prime sums,
+ExplicitPrimeCounting §§3.2, 3.5, 4.3 and 6.1 for the four finite-range
+inputs; Mathlib finite prime sums,
 natural factorization and factorial valuations.
 
 ### Examples
@@ -331,7 +332,8 @@ The primitive square product is 1·25·49=35². The signed product (−3)(−1)(
 
 Mathlib integer gcd, factorization, prime valuations and finite sets;
 AnalyticNumberTheoryPartI §§0.3–0.5, 0.8, 0.16, 0.19–0.20, 0.25 and 3.1,
-with the numerical hypotheses in the supplier table.
+with the numerical hypotheses in the supplier table; ExplicitZetaBounds
+§§0.2–0.4 and ExplicitPrimeCounting §§3.2, 3.5, 4.3 and 6.1 for those hypotheses.
 
 ## Layer 1: Frey families and residual comparisons
 
@@ -452,7 +454,7 @@ Compute the native Weierstrass discriminant and c4 by polynomial algebra. Pairwi
 
 *Needs:* Layer 1 — progression frey specialization; Layer 0 — large-prime valuation divisibility; EllipticCurves Layer 4; Mathlib `WeierstrassCurve.Δ`; Mathlib `WeierstrassCurve.c₄`.
 
-([BS20], Lemma 3.2 discriminant display, p. 361; native normalization; Lemma 3.2, p. 361; Lemma 3.2 last conclusion, p.361.)
+([BS20], Lemma 3.2 discriminant display, p. 361, which prints 64(abc)², four times the native discriminant 16(abc)² of this equation (2304=16·12² at a=1, c=3); Lemma 3.2, p. 361; Lemma 3.2 last conclusion, p.361.)
 
 ### 1.4 Progression generalized Fermat identities
 
@@ -589,12 +591,12 @@ The statement is on the pinned carriers: F_a is a Weierstrass curve over ℚ wit
 **Checks.**
 
 - Y²=X(X−1)(X+3) has `HasFullRationalTwoTorsion`: its points killed by 2 are (0,0), (1,0), (−3,0) and the point at infinity, four in all; Y²=X³−2 has only the point at infinity and Y²=X(X²+1) has two, so neither satisfies it.
-- `AddSubgroup.torsionBy` of E(Ω) at ell=1 is the trivial subgroup and at ell=0 the whole group, as in the Checks of EllipticCurveModularityPartII §5.1; the headline uses it only at the prime ell of H.
+- `AddSubgroup.torsionBy` of E(Ω) at ell=1 is the trivial subgroup and at ell=0 the whole group, as in the Checks of EllipticCurveModularityPartII §2.0; the headline uses it only at the prime ell of H.
 - A conductor equal to M_a but with a 2-torsion point of F_a defined only over a quadratic field fails the full-two-torsion clause; Kraus's realization produces F_a with all three rational.
 
 Apply the Kraus realization theorem with the coefficient-prime bridge, irreducibility and the strict threshold just proved; the conductor of the realized curve is transported to the algorithmic conductor by Ogg's formula (NeronModelsAndSemistableAbelianVarieties §5.3e). Fix a choice only after proving existence. A free natural-number field called conductor is not an admissible substitute for the native invariant.
 
-*Needs:* Layer 1 — serre-weight and residual-conductor bridge; Layer 1 — kraus threshold for progression levels; EllipticCurveModularityPartII §4.7 (EC.3) for the Kraus realization theorem and §5.1 (EC.6) for the geometric-torsion carrier and the full-two-torsion predicate; NeronModelsAndSemistableAbelianVarieties §5.3e; Tau Ceti `WeierstrassCurve.algorithmicConductor`, `WeierstrassCurve.minimalDiscriminantIdeal` and `WeierstrassCurve.torsionGaloisAction`; Mathlib `AddSubgroup.torsionBy` and `WeierstrassCurve.Affine.Point.map`.
+*Needs:* Layer 1 — serre-weight and residual-conductor bridge; Layer 1 — kraus threshold for progression levels; EllipticCurveModularityPartII §4.7 (EC.3) for the Kraus realization theorem, §2.0 (EC.6) for the geometric-torsion carrier and §5.1 (EC.6) for the full-two-torsion predicate; NeronModelsAndSemistableAbelianVarieties §5.3e; Tau Ceti `WeierstrassCurve.algorithmicConductor`, `WeierstrassCurve.minimalDiscriminantIdeal` and `WeierstrassCurve.torsionGaloisAction`; Mathlib `AddSubgroup.torsionBy` and `WeierstrassCurve.Affine.Point.map`.
 
 ([BS20], Lemma 5.1, p. 365.)
 
@@ -616,7 +618,7 @@ At n=d=1 the first model has coefficients (0,2,0,−3,0), while the equal-sum mo
 
 ### Dependencies
 
-Layer 0; EllipticCurveModularityPartII §§1.4–1.8, 2.2, 4.7, 5.1 and 5.4–5.5 (EC.0–EC.4, EC.6); EllipticLegendreCharacterInterfaces §5.1; WeightsInEtaleCohomology R34.5–R34.6; EllipticCurves Layers 2–4 and 8; NeronModelsAndSemistableAbelianVarieties §§5.3e and 5.3g–5.3h; Tau Ceti `TauCeti.freyCurve`, `WeierstrassCurve.algorithmicConductor`, `WeierstrassCurve.minimalDiscriminantIdeal` and `WeierstrassCurve.torsionGaloisAction`; Mathlib `AddSubgroup.torsionBy` and `WeierstrassCurve.Affine.Point.map`; EllipticCurveModularity R29.3, R29.4 and R29.6; SerreWeightAndLevelOptimisation §§6.1–6.3; AutomorphicGaloisRepresentations §1.5; ModularForms Layers 2–4, 8 and 10; EtaleCohomologyFoundations §F.4.0; ArithmeticGaloisRepresentations §1.9 and §§3.1–3.3; Tau Ceti's local ramification filtrations, inertia and wild inertia (supplier contracts). Explicit numerical level bounds additionally use the general prime estimates of Layer 0; their proof is independent of the Frey application.
+Layer 0; EllipticCurveModularityPartII §§1.4–1.8, 2.0, 2.2, 4.7, 5.1 and 5.4–5.5 (EC.0–EC.4, EC.6); EllipticLegendreCharacterInterfaces §5.1; WeightsInEtaleCohomology R34.5–R34.6; EllipticCurves Layers 2–4 and 8; NeronModelsAndSemistableAbelianVarieties §§5.3e and 5.3g–5.3h; Tau Ceti `TauCeti.freyCurve`, `WeierstrassCurve.algorithmicConductor`, `WeierstrassCurve.minimalDiscriminantIdeal` and `WeierstrassCurve.torsionGaloisAction`; Mathlib `AddSubgroup.torsionBy` and `WeierstrassCurve.Affine.Point.map`; EllipticCurveModularity R29.3, R29.4 and R29.6; SerreWeightAndLevelOptimisation §§6.1–6.3; AutomorphicGaloisRepresentations §1.5; ModularForms Layers 2–4, 8 and 10; EtaleCohomologyFoundations §F.4.0; ArithmeticGaloisRepresentations §1.9 and §§3.1–3.3; Tau Ceti's local ramification filtrations, inertia and wild inertia (supplier contracts). Explicit numerical level bounds additionally use the general prime estimates of Layer 0; their proof is independent of the Frey application.
 
 ## Layer 2: Legendre cases and the simultaneous character family
 
@@ -887,12 +889,12 @@ AnalyticNumberTheoryPartI §0.7 is not consumed.
 (IwaniecKowalski2004, Theorem 5.26, for the Landau–Page form with its possible
 exception, which AnalyticNumberTheoryPartI §0.34 excludes; BS20, §12, p. 386.)
 
-Consume §1.7's effective density estimate for ε>0, Q,T≥2, 1/2≤σ≤1,
+Consume AnalyticNumberTheoryPartI §1.7's effective density estimate for ε>0, Q,T≥2, 1/2≤σ≤1,
 counting zeros with multiplicity:
 ∑_(q≤Q)∑_(χ primitive mod q) N(σ,T,χ)≪_ε (Q^(5+ε)T^(3+ε))^(1−σ).
 It is log-free and has no additive term, since the right side is at least 1
 throughout 1/2≤σ≤1.
-Consume §1.4 and §§1.4a–1.4d's truncated half-interval formula for primitive
+Consume AnalyticNumberTheoryPartI §1.4 and §§1.4a–1.4d's truncated half-interval formula for primitive
 nonprincipal χ, integer k≥4 and 2≤T≤k. It uses one height, includes both
 endpoint corrections, and bounds the kernel near zero by its integral over
 [k/2,k]. Specialize these inputs to Q=k⁴ and T(k,c) in §§5.3–5.4,
@@ -1080,7 +1082,7 @@ The modulus 8 has cube-root threshold 1, so every term of (1,2,3,4) has a permis
 Layers 0 and 2 and §4.3's maximal-valuation deletion; AnalyticNumberTheoryPartI §§0.6, 1.4 and 1.7, with §0.6 the
 bounded-height corollary of its uniform exclusion of Landau–Siegel zeros
 (§0.34); no real-zero separation constant, small-conductor computation or
-numerical gap enters this layer beyond those of Layer 0.
+numerical hypothesis enters this layer beyond those of Layer 0.
 
 ## Layer 6: Effective exponent bound and fixed-length finiteness
 
@@ -1178,7 +1180,7 @@ Layer 5 for the exponent bound; Layer 0, AlgebraicCurves Layers 7 and 12E, and H
 
 ## Layer 7: Conjectural and announced predicates
 
-Prove the positive consecutive-product theorem in this layer. State the stronger Erdős eventual-nonexistence conjecture with positivity and the gcd condition, without proving it or using it as an assumption. Register the Section 11 smooth-multiplier equation product(n+id)=b*y^ell with nonzero b supported on primes≤tau*k for fixed tau<1/2, marking the announced extension as lacking a separate quantified proof. Specify the two assertions and test their domains; neither is a shortcut in either unconditional proof route.
+Prove the positive consecutive-product theorem in this layer. State the stronger Erdős eventual-nonexistence conjecture with positivity and the gcd condition, without proving it or using it as an assumption. Register the Section 11 smooth-multiplier equation product(n+id)=b*y^ell with nonzero b supported on primes≤tau*k for fixed tau<1/2, marking the announced extension as lacking a separate quantified proof. Specify the two assertions and test their domains; neither enters the proof of any headline theorem.
 
 ### 7.1 Positive consecutive products
 
@@ -1195,7 +1197,7 @@ hypothesis on y is needed: the product is positive, so y=0 cannot occur.
 
 The proof targets below belong to this section. Their deletion input is §4.3,
 which has no H or analytic hypothesis. The consecutive-product argument uses
-neither a Frey comparison nor the progression character-family endgames.
+neither a Frey comparison nor the progression character-family endgame.
 
 #### Arithmetic reduction and powerfree coefficients
 
@@ -1294,8 +1296,8 @@ for every larger k are explicit mathematical inequalities.
 
 *Needs:* Distinctness and deletion above; native finite simple graphs and finite
 sets; §4.4 and `Stirling.le_factorial_stirling` for the factorial comparisons;
-AnalyticNumberTheoryPartI §0.5 with `gap:rosser-schoenfeld-prime-count-finite-range`
-for its unconditional numerical prime-count estimate.
+AnalyticNumberTheoryPartI §0.5 for its numerical prime-count estimate, with
+ExplicitPrimeCounting §3.5 for its finite-range input.
 
 #### Odd-prime finite ranges
 
@@ -1380,8 +1382,8 @@ all endpoints. (ErdosSelfridge1975, §3.2, p. 300.)
 - At m=0,k=3, the prime 3≥k has valuation 1 in 1·2·3, not divisible by either exponent 2 or 3. At m=0,k=4, v₃(24)=1 but 3<k, and m+k=4 is below the least prime 5≥k; Theorem 2 does not apply there.
 
 *Needs:* Powerfree factorization, distinctness, deletion and the finite residue
-counts above; AnalyticNumberTheoryPartI §0.3 with
-`gap:schoenfeld-theta-finite-range` for the theta bound; native prime factorization.
+counts above; AnalyticNumberTheoryPartI §0.3 for the theta bound, with
+ExplicitPrimeCounting §3.2 for its finite-range input; native prime factorization.
 Combining the square branch, the odd-prime branches and prime-divisor reduction
 proves Theorem 2, and then `consecutiveProduct_not_perfectPower`.
 
@@ -1435,7 +1437,7 @@ The positive solution (n,d,k,y,ell)=(1,24,3,35,2) rules out thresholds 0 and 3. 
 
 ### Dependencies
 
-Layer 0 and native finite products; §§4.3–4.4 and AnalyticNumberTheoryPartI §§0.3 and 0.5, with `gap:schoenfeld-theta-finite-range` and `gap:rosser-schoenfeld-prime-count-finite-range`, for §7.1. No target in this layer is a premise to Layers 1–6.
+Layer 0 and native finite products; §§4.3–4.4 and AnalyticNumberTheoryPartI §§0.3 and 0.5, with ExplicitPrimeCounting §§3.2 and 3.5 for their finite-range inputs, for §7.1. No target in this layer is a premise to Layers 1–6.
 
 ## Downstream consumers
 
@@ -1485,14 +1487,11 @@ by `n-d`. Its distinct branch values, the covering degree
 Layers 1–6 also consume the effective comparisons EC.0–EC.5 of
 EllipticCurveModularityPartII Layers 1–6, with their stated hypotheses.
 All applications of the literal numerical constants retain the four supplier
-input hypotheses in the contracts table until their discharge. The unconditional
-end theorems require the four declared gaps of the AnalyticNumberTheoryPartI
-contract: gap:schoenfeld-theta-finite-range,
-gap:rosser-schoenfeld-prime-count-finite-range, gap:mod-eight-theta-finite-range
-and gap:prime-product-finite-range. The proof consumes no small-conductor
+input hypotheses in the contracts table. The end theorems discharge them through
+ExplicitPrimeCounting §§3.2, 3.5, 4.3 and 6.1 and remain conditional on the
+recorded numerical verifications those sections assume. The proof consumes no small-conductor
 real-zero computation, real-zero separation constant or numerical
-conductor–largest-prime bound. Conditional supplier
-estimates alone do not discharge these obligations.
+conductor–largest-prime bound.
 
 Finally, prove effectivity alongside the prime-exponent theorem. Record an
 explicit finite bound for every prime-counting and
@@ -1521,7 +1520,7 @@ ArithmeticGaloisRepresentations §1.9 owns
 residual reduction and lattice independence; its §§3.1–3.3 own Swan, Artin and
 prime-to-coefficient residual conductors. General modularity, newform representations,
 rational-isogeny classification and uniformity, explicit formula, zero-density and
-Mordell finiteness are supplier contracts, including the explicit gaps below.
+Mordell finiteness are supplier contracts below.
 
 EllipticCurves Layers 2–4 own torsion, finite-field Hasse theory, and local
 minimality and reduction. The Frey–Hellegouarch curve Y²=X(X−A)(X+B) of
@@ -1529,8 +1528,8 @@ EllipticCurves §Worked examples is formalised at the pin as Tau Ceti
 `TauCeti.freyCurve`, with the same coefficients over any commutative ring, and
 the geometric torsion subgroup is Mathlib's `AddSubgroup.torsionBy`; this
 roadmap consumes both from the pins.
-EllipticCurveModularityPartII §5.1 owns the geometric-torsion module on that
-subgroup, its Galois representation and the full-two-torsion predicate.
+EllipticCurveModularityPartII §2.0 owns the geometric-torsion module on that
+subgroup and its Galois representation, and its §5.1 the full-two-torsion predicate.
 EllipticCurves Layer 6 owns the `x − θ` Kummer map with kernel 2E(K),
 and Layer 8 owns the semistable algorithmic–Artin conductor comparison. The first family here differs by its progression normalization;
 the second differs by its equal-sum quadratic identity. ModularForms Layers 2–4, 8
@@ -1574,7 +1573,9 @@ is no second generic invariant or point-count API. AnalyticNumberTheoryPartI §�
 3.1 own the generic prime estimates, the uniform exclusion of Landau–Siegel
 zeros with its exception-free bounded-height corollary,
 explicit formula, zero density and divisor estimates.
-Their numerical input hypotheses are retained in the supplier contracts below.
+Their numerical input hypotheses are retained in the supplier contracts below;
+ExplicitPrimeCounting §§3.2, 3.5, 4.3 and 6.1 own the proofs of the four
+finite-range inputs from the recorded verifications that roadmap assumes.
 
 ## Exact supplier contracts
 
@@ -1999,38 +2000,25 @@ The constant c_LS of §0.34 is effective but has no numerical value, so these
 literal estimates and their finite-range inputs are unaffected by it.
 
 The exclusion of Landau–Siegel zeros is unconditional; the literal numerical
-estimates have the following hypotheses, which remain hypotheses in every
-application until the indicated supplier gaps are discharged.
+estimates have the following hypotheses, each proved where the table says from
+the recorded numerical verifications that the proving roadmap assumes.
 
 | Supplier section | Required input | Exact content relevant here |
 | --- | --- | --- |
-| §0.34 | none | The effective absolute c_LS>0 above, for every conductor q≥3. Consumed through §0.6 in Layer 5; no gap is declared. |
-| §0.3 | `SchoenfeldFiniteRangeInput` | θ(x)<1.000081x for 0<x<exp(10000). Declared as gap:schoenfeld-theta-finite-range. |
-| §0.5 | `RosserSchoenfeldFiniteRangeInput` | The stated prime-count pair for 59≤x<exp(10000). Declared as gap:rosser-schoenfeld-prime-count-finite-range. |
-| §0.16 | `ModEightFiniteInput` | The two theta error bounds for 10¹⁰≤x<exp(10000), and every nontrivial zero for characters modulo 8 at height at most 10000 lies on Re s=1/2. The analytic tail still uses this bounded-zero input. The theta clause is declared as gap:mod-eight-theta-finite-range; the zero-line clause is ExplicitZetaBounds §0.3's GRH(8, 10000) and GRH(4, 10000) with §0.4's RH(10⁹) and §0.2's passage to imprimitive characters. |
-| §0.25 | `PrimeProductFiniteInput` | ∑_(p≤x)1/p≤log log x+0.27+5/log x for 10⁸≤x<exp(10000). Declared as gap:prime-product-finite-range. |
+| §0.34 | none | The effective absolute c_LS>0 above, for every conductor q≥3. Consumed through §0.6 in Layer 5. |
+| §0.3 | `SchoenfeldFiniteRangeInput` | θ(x)<1.000081x for 0<x<exp(10000). Proved in ExplicitPrimeCounting §3.2. |
+| §0.5 | `RosserSchoenfeldFiniteRangeInput` | The stated prime-count pair for 59≤x<exp(10000). Proved in ExplicitPrimeCounting §3.5. |
+| §0.16 | `ModEightFiniteInput` | The two theta error bounds for 10¹⁰≤x<exp(10000), and every nontrivial zero for characters modulo 8 at height at most 10000 lies on Re s=1/2. The analytic tail still uses this bounded-zero input. The theta clause is proved in ExplicitPrimeCounting §6.1; the zero-line clause is ExplicitZetaBounds §0.3's GRH(8, 10000) and GRH(4, 10000) with §0.4's RH(10⁹) and §0.2's passage to imprimitive characters. |
+| §0.25 | `PrimeProductFiniteInput` | ∑_(p≤x)1/p≤log log x+0.27+5/log x for 10⁸≤x<exp(10000). Proved in ExplicitPrimeCounting §4.3. |
 
 `ModEightFiniteInput` is the conjunction of its theta clause and its zero-line
 clause; the zero-line clause is ExplicitZetaBounds §§0.2–0.4 at the
-divisors 1, 2, 4 and 8 of the modulus (consumed below) and only the theta
-clause is a gap. No GRH assumption or omitted numerical hypothesis is substituted for
+divisors 1, 2, 4 and 8 of the modulus (consumed below), and the theta
+clause is ExplicitPrimeCounting §6.1 (consumed below). No GRH assumption or omitted numerical hypothesis is substituted for
 these inputs. The real-zero separation of §0.7, with its inputs
 `BMORFiniteInput` and `BMORClassNumberInput`, and the conductor–largest-prime
 bound of §3.2, with `QuadraticConductorFiniteInput`, are not consumed: §0.6
 leaves Layer 5 no small modulus to separate.
-
-The clauses no supplier proves are declared as the following gaps, one per
-input, and are cited by slug from every target that uses the corresponding
-literal constant. A gap supplies no theorem; a target citing one is conditional
-on that input until the gap is discharged.
-
-What AnalyticNumberTheoryPartI must provide (gap:schoenfeld-theta-finite-range): a proof of `SchoenfeldFiniteRangeInput`, that is θ(x)<1.000081x for every real 0<x<exp(10000) (Schoenfeld1976, Note Added in Proof, p. 360).
-
-What AnalyticNumberTheoryPartI must provide (gap:rosser-schoenfeld-prime-count-finite-range): a proof of `RosserSchoenfeldFiniteRangeInput`, that is x/log x·(1+1/(2 log x))<π(x)<x/log x·(1+3/(2 log x)) for every real 59≤x<exp(10000) (RosserSchoenfeld1962, Theorem 1).
-
-What AnalyticNumberTheoryPartI must provide (gap:mod-eight-theta-finite-range): a proof of the theta clause of `ModEightFiniteInput`, that is |θ(x;8,a)−x/4|≤0.002811x/4 for a=3 and a=5 and every real 10¹⁰≤x<exp(10000) (RamareRumely1996, Theorem 1 and Table 1).
-
-What AnalyticNumberTheoryPartI must provide (gap:prime-product-finite-range): a proof of `PrimeProductFiniteInput`, that is ∑_(p≤x)1/p≤log log x+0.27+5/log x for every real 10⁸≤x<exp(10000) (RosserSchoenfeld1962, Theorems 5 and 8).
 
 ### From TauCetiRoadmap.EllipticCurveModularityPartII
 
@@ -2045,7 +2033,7 @@ Layers 1–2, with the hypotheses of the cited sections.
 | EC.3 | §4.7 | For E/ℚ with full rational two-torsion, prime ell≥5, E[ell] irreducible of Serre weight two and prime-to-ell conductor N, and ell>H♯(N): an F/ℚ of conductor exactly N with full rational two-torsion and F[ell]≅E[ell]. |
 | EC.4 | §§5.4–5.5 | Irreducibility of E[ell] for primes ell≥5 under full rational two-torsion, and for primes ell≥11 under a rational point of order two. |
 | EC.5 | §6.18 | Surjectivity onto GL₂(𝔽_ell) for every prime ell>37, for a non-CM E/ℚ with a rational cyclic isogeny of degree greater than one. |
-| EC.6 | §5.1 | The geometric n-torsion `GeometricTorsion` of an elliptic E/ℚ, which is `AddSubgroup.torsionBy` of the points over an algebraic closure of ℚ at n, its ZMod n module and Galois representation `torsionRepresentation`, and the full-two-torsion predicate `FullRationalTwo`: exactly four rational points killed by 2. §1.12 states the residual comparison on the torsion subgroup directly and restates the predicate locally as `HasFullRationalTwoTorsion`, since a roadmap's Lean file imports only the pinned libraries. |
+| EC.6 | §§2.0, 5.1 | The geometric n-torsion `GeometricTorsion` of an elliptic E/ℚ, which is `AddSubgroup.torsionBy` of the points over an algebraic closure of ℚ at n, its ZMod n module and Galois representation `torsionRepresentation`, and the full-two-torsion predicate `FullRationalTwo`: exactly four rational points killed by 2. §1.12 states the residual comparison on the torsion subgroup directly and restates the predicate locally as `HasFullRationalTwoTorsion`, since a roadmap's Lean file imports only the pinned libraries. |
 
 Here μ(N)=N∏_(q|N)(1+1/q) is the Γ₀ index for N>0, and the numerical majorants are
 F_K(N)=(μ(N)/6+1)^(2g₀⁺(N)), G_K(N)=(μ(lcm(N,4))/6+1)², H_K(N)=max(F_K(N),G_K(N)).
@@ -2076,6 +2064,29 @@ primitive. The modulus 1 is not part of that record: consume §0.4's record
 RH(10⁹), hence RH(10000) by antitonicity. At the divisors 1, 2, 4 and 8 of
 the modulus 8 with H=10000 these give the zero-line clause of
 AnalyticNumberTheoryPartI §0.16's `ModEightFiniteInput`, used in §0.9.
+
+### From TauCetiRoadmap.ExplicitPrimeCounting
+
+Consume the four theorems that prove the finite-range inputs in the
+AnalyticNumberTheoryPartI table above:
+
+- §3.2: `SchoenfeldFiniteRangeInput`, θ(x)<1.000081x for 0<x<exp(10000) (Schoenfeld1976, Note Added in Proof, p. 360);
+- §3.5: `RosserSchoenfeldFiniteRangeInput`, both prime-count inequalities for 59≤x<exp(10000) (RosserSchoenfeld1962, Theorem 1);
+- §4.3: `PrimeProductFiniteInput`, ∑_(p≤x)1/p≤log log x+0.27+5/log x for 10⁸≤x<exp(10000) (RosserSchoenfeld1962, Theorems 5 and 8);
+- §6.1: the theta clause of `ModEightFiniteInput`, |θ(x;8,a)−x/4|≤0.002811x/4 for a=3,5 and 10¹⁰≤x<exp(10000) (RamareRumely1996, Theorem 1 and Table 1).
+
+Each holds there under the hypotheses its section states, and every application
+here carries them unchanged. They are that roadmap's named propositions holding
+numbers that a paper obtained by computation (the finite-range propositions of
+its Layer 1 and the table propositions of its later sections), which it assumes
+and never establishes, together with the inputs it takes from its own suppliers.
+For §§3.2 and 3.5 they include `ButheVerified`, *RosserSchoenfeld1962Range*,
+*DusartThesisTable* and RH(30 610 046 000); for §4.3, *MeisselMertensEnclosure*,
+which gives B<0.2615 for the prime Mertens constant B of
+AnalyticNumberTheoryPartI §0.19; for §6.1, the row (8, 0.002811, 10¹⁰) of
+*RamareRumelyTable1* under GRH*(8, 10000), that is GRH(f, 10000) for every
+divisor f of 8, which is the zero-line clause supplied by ExplicitZetaBounds
+§§0.2–0.4 above.
 
 ## References
 
