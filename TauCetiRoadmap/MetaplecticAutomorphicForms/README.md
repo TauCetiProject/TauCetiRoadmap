@@ -3484,7 +3484,7 @@ Page numbers refer to the linked version. “PDF” denotes a physical page and 
 
 **Kudla96.** Stephen S. Kudla, [Notes on the local theta correspondence](https://www.math.toronto.edu/skudla/castle.pdf). Unpublished author notes; introduction dated July 6, 1996; 110-page author copy.
 
-**Weil64.** André Weil, [Sur certains groupes d’opérateurs unitaires](https://webhomes.maths.ed.ac.uk/~v1ranick/papers/weil2.pdf). Acta Mathematica 111 (1964), 143–211; published scan, DOI 10.1007/BF02391012.
+**Weil64.** André Weil, [Sur certains groupes d’opérateurs unitaires](https://doi.org/10.1007/BF02391012). Acta Mathematica 111 (1964), 143–211; open at Project Euclid, DOI 10.1007/BF02391012.
 
 **Garrett20.** Paul Garrett, [Stone–von Neumann theorem](https://www-users.cse.umn.edu/~garrett/m/mfms/SSW/06_svn_theorem.pdf). Author notes dated23March2020;5pages.
 
@@ -3506,7 +3506,7 @@ Page numbers refer to the linked version. “PDF” denotes a physical page and 
 
 **Biro00.** András Biró, [Cycle integrals of Maass forms of weight0 and Fourier coefficients of Maass forms of weight1/2](https://matwbn.icm.edu.pl/ksiazki/aa/aa94/aa9421.pdf). Acta Arithmetica94(2000),103–152;50-page published scan.
 
-**BFH90.** Daniel Bump, Solomon Friedberg and Jeffrey Hoffstein, [Nonvanishing theorems for L-functions of modular forms and their derivatives](https://www.wstein.org/papers/bib/bump-friedberg-hoffstein-nonvanishing.pdf). Inventiones mathematicae102(1990),543–618;77-page published scan.
+**BFH90.** Daniel Bump, Solomon Friedberg and Jeffrey Hoffstein, [Nonvanishing theorems for L-functions of modular forms and their derivatives](https://gdz.sub.uni-goettingen.de/download/pdf/PPN356556735_0102/LOG_0038.pdf). Inventiones mathematicae 102 (1990), 543–618; 77-page scan at the Göttinger Digitalisierungszentrum, DOI 10.1007/BF01233440.
 
 **EZ85.** Martin Eichler and Don Zagier, [The Theory of Jacobi Forms](https://doi.org/10.1007/978-1-4684-9162-3). Progress in Mathematics 55, Birkhäuser, Boston, 1985.
 
@@ -3540,7 +3540,7 @@ Page numbers refer to the linked version. “PDF” denotes a physical page and 
 
 **YZ18.** Xinyi Yuan and Shou-Wu Zhang, [On the averaged Colmez conjecture](https://annals.math.princeton.edu/wp-content/uploads/annals-v187-n2-p04-p.pdf). Annals of Mathematics187(2018),533–638; erratum198(2023),867–878.
 
-**Z21.** Wei Zhang, [Weil representation and Arithmetic Fundamental Lemma](https://archive.ymsc.tsinghua.edu.cn/pacm_download/21/12000-annals.2021.193.3.5.pdf). Annals of Mathematics 193 (2021), no. 3, 863–978.
+**Z21.** Wei Zhang, [Weil representation and Arithmetic Fundamental Lemma](https://doi.org/10.4007/annals.2021.193.3.5). Annals of Mathematics 193 (2021), no. 3, 863–978; preprint arXiv:1909.02697.
 
 **YZZ11.** Xinyi Yuan; Shou-Wu Zhang; Wei Zhang, [The Gross–Zagier Formula on Shimura Curves](https://www.researchgate.net/profile/Xinyi-Yuan-11/publication/267551160_Gross-Zagier_Formula_On_Shimura_Curves/links/548e842c0cf225bf66a5ff13/Gross-Zagier-Formula-On-Shimura-Curves.pdf?origin=publication_detail). Author draft dated 6 November 2011, 266 PDF pages; author-uploaded public copy. Distinct from the 2013 published book.
 
