@@ -70,8 +70,8 @@ infrastructure (the Bockstein, compactly supported relative cochains, the singul
 the Čech comparison) and the line classes with their Eilenberg–MacLane identifications. C2 builds
 Thom and Euler classes, the Gysin sequence, the primary obstruction, the Euler number, embedding
 Gysin maps with their hyperplane-section application to embedded representatives of homology
-classes in codimensions one and two, and fibre integration. C3 defines Stiefel–Whitney,
-Chern and Pontryagin classes by projective splitting
+classes in codimensions one and two, and fibre integration. C3 first defines c₁ as the Euler class of a
+complex line (C3.0), then Stiefel–Whitney, Chern and Pontryagin classes by projective splitting
 and computes the universal rings mod 2 and away from 2, with w₂ as the spin obstruction. C4
 builds Chern–Weil forms and the universal Chern–Weil map, and C5 proves Chevalley restriction
 and Borel's theorem for the rational universal rings. C5a computes the cohomology of compact
@@ -161,7 +161,9 @@ polynomials real-valued on the compact unitary Lie algebra before taking real fo
 polynomial is −a/(2π). Thus cw sends it to −[F_real/(2π)], exactly the
 standard-character line class, while the dual character gives the opposite.
 
-Chern classes have degree2i and `c_r(E)=e(E_R)`. On CP^N let
+Chern classes have degree2i and `c_r(E)=e(E_R)`. The first Chern class of a
+complex line is the Euler class of its underlying real plane bundle with
+the complex orientation, and `c₁(E)=c₁(det E)` in positive rank (C3.0). On CP^N let
 `h=c₁(O(1))`, with ∫_(CP¹)h=1, so `c₁(O(−1))=−h`. For projectivization
 P(E) of lines use its tautological sub-line H and `a=c₁(H)`; its monic relation
 is `a^r−c₁(E)a^(r−1)+…+(-1)^r c_r(E)=0`. Real projectivization uses
@@ -859,15 +861,17 @@ coordinate character gives the associated tautological O(−1), hence class
 −h_i; the positive h_i is the dual-character class.
 Define the degree2 complex-line class using the class x on CP∞ whose
 restriction to complex-oriented CP¹ pairs to −1: for its tautological
-line O(−1), `c₁(L)=f_L*x`, and h=−x for O(1). Define the real-line
+line O(−1), the line class of L is `f_L*x`, and h=−x for O(1). Define the real-line
 w₁ as pullback of the unique nonzero a∈H¹(RP∞;F2), identified with its
 orientation double cover. This precedes higher projective characteristic classes. Its
 tensor/dual maps are addition/negation by the universal degree2 calculation;
-compare with SBC B6 on smooth bases. C3 identifies this class with c₁.
+compare with SBC B6 on smooth bases. C2.3 compares this class with the
+rank2 Euler class, which C3.0 takes as the definition of c₁.
 
 **Checks.**
-- c₁(O(−1))=−h pairs to −1 with the complex-oriented CP¹, and c₁(O(1)⊗O(1))=2h by the tensor
-  law; a convention with x=+h for the tautological line would pair O(−1) to +1.
+- The line class −h of O(−1) pairs to −1 with the complex-oriented CP¹, and the line class of
+  O(1)⊗O(1) is 2h by the tensor law; a convention with x=+h for the tautological line would
+  pair O(−1) to +1.
 - w₁ of the Möbius line over S¹=RP¹ is the nonzero a∈H¹(S¹;𝔽₂), and w₁ of the trivial line is 0,
   matching their connected and split orientation double covers.
 - For m=1, ET_N=S^(2N+1) is 2N-connected and BT_N=CP^N, so H²(BT_N;ℤ)=ℤh for every N≥1, while
@@ -1230,7 +1234,8 @@ identifying Euler with diagonal self-intersection, then evaluating the
 Poincaré-duality/Künneth trace; finite good covers give the finite-generation
 and cohomological-dimension bounds. This does not assume a Morse triangulation. Compare the rank2 class with
 C1's normalized degree2 class of the corresponding complex line, including
-the SBC dual-character convention. C3 identifies it with c₁. No separate
+the SBC dual-character convention. C3.0 takes this rank2 Euler class of a
+complex line as the definition of c₁. No separate
 plane-field Euler class enters: the pinned Euler class of a foliation,
 `TauCeti.Foliation.eulerClass`, is `TauCeti.eulerClass` of its tangent field. Construct characteristic-number evaluation and
 its naturality, degree and boundary-vanishing formulas. For a closed
@@ -1435,8 +1440,8 @@ and C1.5's classes, including finite-stage restriction: restrict to RP¹ and
 CP¹ and count the single transverse hyperplane point, whose mod 2 count is 1
 and whose complex-oriented integral count is +1; C1.5's finite cellular
 restriction isomorphisms in degrees one and two then identify the Thom
-images with a and h, with no appeal to C3's later identification of c₁ with
-an Euler class. The positively oriented normal of 1∈Circle gives in the same
+images with a and h, with no appeal to C3.0's definition of c₁ as an Euler
+class. The positively oriented normal of 1∈Circle gives in the same
 way the integral degree-one class normalized on the positive loop. The
 adapter precedes the representation theorem; it is not inferred from the
 names of the cohomology generators.
@@ -1613,6 +1618,104 @@ product of LieGroups Layer 5A.
 
 ## C3: Projective splitting and integral/mod2 classes
 
+### 3.0 The first Chern class as an Euler class (C3.0)
+
+This item defines c₁ before any projective splitting. Its definition and Stages 1–2 consume
+C2.1–C2.3, the Conventions' complex orientation and the suppliers named
+below; they use no classifying map, no Leray–Hirsch theorem and no
+projective relation. Stage 3 also consumes C1.5 and TopK T1.6. C3.1–C3.2
+consume this item.
+
+*Determinant line.* TopK T1.2 owns the determinant on its finite-rank
+carrier, and Tau Ceti has `FiniteRankBundleCore.det` for point-indexed
+cores. Construct here the determinant line `det E=Λ^r_ℂ E` of a complex
+vector bundle E of constant rank r≥1 on Mathlib's `FiberBundle` and
+`VectorBundle` carriers, the carriers of `TauCeti.complexEulerClass`: its
+fibre at x is `Λ^r_ℂ(E_x)`, its model fibre is ℂ through a fixed ℂ-basis
+of E's model fibre, its trivializations are induced from those of E and
+its coordinate changes are the determinants of E's coordinate changes.
+Prove the comparison with `FiniteRankBundleCore.det` through
+`FiniteRankBundleCore.ofBundle`, functoriality in bundle isomorphisms,
+pullback compatibility, and the canonical isomorphisms `det L≃L` for a
+line, `det(ℂ^r)≃ℂ`, `det(Ē)≃conj(det E)` and `det(E⊕E')≃det E⊗det E'`,
+the last with Tau Ceti's native tensor bundle of
+`TauCeti/Topology/VectorBundle/TensorProduct/Basic.lean`.
+
+*Definition.* For a complex line bundle L over any topological base X
+define `c₁(L)∈H²(X;ℤ)` as the Euler class of the underlying oriented real
+plane bundle L_ℝ with the complex orientation `(v,iv)` of the Conventions.
+Tau Ceti's `TauCeti.complexEulerClass` with r=0 is this class. For a complex
+vector bundle E of constant rank r≥1 define `c₁(E)=c₁(det E)`; in rank0
+set c₁(E)=0; for a locally constant rank define c₁ on each clopen rank
+stratum. Prove that the two definitions agree on a line through
+`det L≃L`.
+
+*First theorems.* Prove naturality under continuous pullback and
+invariance under complex-linear bundle isomorphism, which preserves the
+complex orientation. Prove c₁=0 for a trivial bundle and c₁(L)=0 when L
+has a nowhere-zero continuous section. The complex orientation of the
+conjugate line L̄ is `(v,−iv)`, so C2.2's orientation reversal gives
+`c₁(L̄)=−c₁(L)`; over a paracompact Hausdorff base TopK T1.3's Hermitian
+metric gives L*≃L̄ and hence `c₁(L*)=−c₁(L)`. Then prove tensor additivity
+`c₁(L⊗L')=c₁(L)+c₁(L')` in the stages below, and in Stages 1 and 3 derive
+the Whitney formula `c₁(E⊕E')=c₁(E)+c₁(E')` from `det(E⊕E')≃det E⊗det E'`.
+
+*Stage 1: closed oriented surfaces.* Let Σ be a closed oriented smooth
+surface (compact, boundaryless, Hausdorff and second countable) and L a
+smooth complex line bundle over Σ. For a smooth section whose zeros are
+transverse prove that `⟨c₁(L),[Σ]⟩` is the signed count of its zeros, a
+zero z counting +1 exactly when the derivative `T_zΣ→L_z` carries the
+orientation of Σ to the complex orientation of L_z; for a section with
+isolated zeros it is the sum of the local indices. Both come from C2.3's
+transverse-zero and sum-of-local-indices formulas. For a holomorphic line
+bundle over a compact Riemann surface, in CKG K4's sense, prove that a
+zero of order k of a nonzero holomorphic section has local index k, so
+`⟨c₁(L),[Σ]⟩` is the sum of the vanishing orders. Prove that two smooth
+complex lines L and L' over Σ have smooth sections s and s' with transverse
+zeros and disjoint zero sets Z and Z': build a finite-dimensional family
+of sections spanning every fibre from bundle charts and smooth bump
+functions, and apply parametric transversality with DG10.2's manifold Sard
+theorem. Then s⊗s' has transverse zeros exactly on Z∪Z'. Near z∈Z the
+section s' is nowhere zero, and `v↦v⊗s'(x)` is a complex-linear
+isomorphism L≃L⊗L' carrying s to s⊗s', so the sign of s⊗s' at z is that
+of s; symmetrically on Z'. Summing gives
+`⟨c₁(L⊗L'),[Σ]⟩=⟨c₁(L),[Σ]⟩+⟨c₁(L'),[Σ]⟩`, and the evaluated Whitney
+formula for smooth complex bundles over Σ.
+
+*Stage 2: localized additivity on any base.* Let s and s' be continuous
+sections of complex lines L and L' over X whose zero sets Z and Z' are
+closed and have disjoint open neighbourhoods U⊇Z and U'⊇Z'. Then s⊗s'
+vanishes exactly on Z∪Z'. The pullbacks of the Thom classes of L, L' and
+L⊗L' along s, s' and s⊗s', as in Tau Ceti's
+`TauCeti.eulerClass_eq_singularCohomologyMap_thomPairMapOfNeZero`, lie in
+`H²(X,X∖Z)`, `H²(X,X∖Z')` and `H²(X,X∖(Z∪Z'))`, and their absolute images
+are c₁(L), c₁(L') and c₁(L⊗L'). Excision to U⊔U' splits the last group as the sum of the first two. Over U the section
+s' trivializes L' and the isomorphism L≃L⊗L' above carries s to s⊗s', so
+the components of the class of s⊗s' are the classes of s and of s'. This
+proves `c₁(L⊗L')=c₁(L)+c₁(L')` for every such pair of lines; Stage 1's
+sections are an instance.
+
+*Stage 3: comparison with C1.5's line class and general additivity.*
+Through this definition, C2.3's comparison of the rank2 Euler class with
+C1.5's normalized line class reads `c₁(O(−1))=x` on CP∞, hence
+`c₁(L)=f_L*x` by naturality for every complex line with a classifying map
+f_L from T1.6's numerable classification, in particular every complex line
+over a paracompact Hausdorff base. C1.5's universal degree2 calculation of
+the tensor and dual maps then gives `c₁(L⊗L')=c₁(L)+c₁(L')`,
+`c₁(L*)=−c₁(L)` and the Whitney formula for all numerable bundles.
+
+**Checks.**
+- `⟨c₁(O(1)),[CP¹]⟩=1` and `⟨c₁(O(−1)),[CP¹]⟩=−1`: on complex-oriented
+  CP¹ the section z₀ of O(1) has one simple zero, of sign +1 in Stage 1's
+  count, and O(−1)≃O(1)*. This agrees with Stage 3's `c₁(O(−1))=x`. A
+  definition using the reversed orientation `(iv,v)` would flip both signs.
+- `⟨c₁(TCP¹),[CP¹]⟩=2`: the field z∂_z has two zeros, at 0 and ∞, each of
+  index +1, and C2.3's `e(TM)[M]=χ(M)` gives χ(S²)=2. This pins the
+  complex orientation of TCP¹ to the orientation defining [CP¹].
+- The conjugate line of O(1) on CP¹ pairs to −1, not 1: c₁ depends on the
+  complex structure, not only on the underlying real plane bundle.
+- For E=ℂ⊕L, `det E≃L` gives `c₁(E)=c₁(L)` with no additivity theorem.
+
 ### 3.1 Leray–Hirsch (C3.1)
 
 Prove and export general cohomological Leray–Hirsch for a locally trivial fibre
@@ -1730,9 +1833,11 @@ its arbitrary-base scope.
 
 ### 3.2 Stiefel–Whitney and Chern classes (C3.2)
 
-In positive rank define w_i and c_i by the unique monic projective
+In positive rank define w_i, and c_i for i≥2, by the unique monic projective
 relations above (Hatcher, *Vector Bundles and K-Theory*, §3.1, pp. 79–81, with the same real
-relation and the same alternating complex relation in the class of the tautological sub-line). In rank0 define the total class as1, with all positive
+relation and the same alternating complex relation in the class of the tautological sub-line).
+Prove that the degree2 coefficient of the complex relation is C3.0's c₁(E): on split bundles
+by C3.0's Stage 3 tensor additivity, then by flag injection. In rank0 define the total class as1, with all positive
 components zero; the empty projectivization is not used for coefficient uniqueness. Build
 pullback/isomorphism invariance, ranks, vanishing above rank, normalization
 and trivial-bundle classes. On split bundles derive the root polynomials
@@ -1749,8 +1854,8 @@ Compare c with the deleted-vector/Gysin inductive construction of
 Milnor–Stasheff §14, including the rank-reduction quotient bundle.
 
 **Checks.**
-- For a line E, P(E)=X and the relation reads a−c₁(E)=0, so c₁ is C1's
-  line class: on CP¹, c(O(−1))=1−h and c(O(1))=1+h; a relation with
+- For a line E, P(E)=X and the relation reads a−c₁(E)=0, so its coefficient is C3.0's c₁,
+  equal to C1's line class: on CP¹, c(O(−1))=1−h and c(O(1))=1+h; a relation with
   +c₁(E)a^(r−1) would give c(O(−1))=1+h.
 - On RP², T⊕ε¹≅γ^⊕3 gives w=(1+a)³=1+3a+3a²=1+a+a² (a³=0): w₁=a≠0
   detects nonorientability and w₂=a²≠0, while an additive sum law would
@@ -1956,7 +2061,7 @@ the image equality. Only this order2 involution is used, not averaging
 over a Weyl group whose order may be divisible by an odd prime.
 The n=2 Gysin sequence with contractible BSO(1) starts this induction.
 Compare BU(1)=BT¹→BSO(2) through the standard complex-line realification:
-C3.2's c₁=e identifies its degree2 generator and C1.5 pins x=−h.
+C3.0's definition c₁=e identifies its degree2 generator and C1.5 pins x=−h.
 Pin the sphere/Thom/generator maps by C2's ordinary orientation convention.
 
 Prove each integral cohomology degree is finitely generated using C1's
@@ -2014,8 +2119,11 @@ the tautological line has p₁(L)=0 while p₁(L⊕L)=−β(a)²≠0, the integr
 
 ### Dependencies
 
-C3.1 uses C1.2a, C1.2b, AlgebraicTopology Stages 4.10, 5.5 and 6.0, the pinned Serre-fibration
-membership of locally trivial maps and the pinned Milnor tower sequence. C3.2 uses C3.1, C1.5's line classes and C2.2's Euler products. C3.3 uses C3.2 and the
+C3.0's definition and its Stages 1–2 use C2.1–C2.3, TopologicalKTheory T1.2–T1.3,
+ComplexKahlerGeometry K4, DifferentialGeometry 10.2 and the pinned Euler class, determinant and
+tensor bundles, and no classifying map or projective relation; its Stage 3 also uses C1.5 and
+TopologicalKTheory T1.6. C3.1 uses C1.2a, C1.2b, AlgebraicTopology Stages 4.10, 5.5 and 6.0, the pinned Serre-fibration
+membership of locally trivial maps and the pinned Milnor tower sequence. C3.2 uses C3.0, C3.1, C1.5's line classes and C2.2's Euler products. C3.3 uses C3.2 and the
 pinned Bockstein of C1.2. C3.4 uses C3.1–C3.3, C2.2's Gysin sequence and Mathlib's symmetric
 polynomials. C3.4a uses C3.4, C2.2, TopologicalKTheory T1.5a and AlgebraicTopology Stage 8.9.
 C3.5 uses C1.0, C1.2b, C3.4, the pinned Clifford spin-cover declarations and AlgebraicTopology
@@ -3226,6 +3334,8 @@ theorem and Mathlib's `onePointEquivSphereOfFinrankEq`, independently of C2–C6
 - GeneralizedCohomology consumes C1–C3: C1.1b's join classifiers, C1.2's counit theorem, C1.5's
   line classes, C2.1's Thom classes, C2.4–C2.5's Gysin maps and fibre integration, and C3.2's
   top-Chern/Euler comparison.
+- PseudoholomorphicCurveAnalysis PH7 consumes C3.0's c₁: its definition, `c₁(E)=c₁(det E)`,
+  the signed zero count and the tensor and Whitney formulas evaluated on a closed surface.
 - MorseTheory M5 consumes C2.0's bundle disk/sphere cells for its negative-disk attachments;
   RiemannianGeometry R3 consumes the same generic bundle-cell model, and its R4.9 consumes C1.5,
   C2 and C3 on the tautological disk bundle.
@@ -3260,8 +3370,8 @@ of principal bundles, and their comparison with curvature:
   Euler number `⟨e(TM),[M]⟩=χ(M)`, embedding Gysin maps, the projective-hyperplane adapter with
   the embedded representatives of homology classes in codimensions one and two (C2.4a), and
   fibre integration;
-- C3: Leray–Hirsch, Stiefel–Whitney, Chern and Pontryagin classes defined by projective
-  relations, the integral Bockstein classes W_k, the universal rings of BU(r), BO(n) and BSO(n)
+- C3: the first Chern class as an Euler class (C3.0), Leray–Hirsch, Stiefel–Whitney, Chern and
+  Pontryagin classes defined by projective relations, the integral Bockstein classes W_k, the universal rings of BU(r), BO(n) and BSO(n)
   mod 2 and away from 2, partial-frame obstructions, and w₂ as the spin obstruction;
 - C4 and C5: Chern–Weil forms, the universal Chern–Weil map, compact-Lie Chevalley restriction,
   and the rational universal rings with Borel's theorem;
