@@ -37,6 +37,7 @@ body:
         - AlgebraicVectorBundles
         - AmenableGroups
         - AmenableTracesOnCStarAlgebras
+        - AnabelianGeometryAndNonabelianChabauty
         - AnalyticNumberTheoryPartI
         - AnalyticNumberTheoryPartII
         - AnalyticNumberTheoryPartIII
@@ -58,6 +59,7 @@ body:
         - AutomorphicFormsOnReductiveGroups
         - AutomorphicGaloisRepresentationsPartII
         - AutomorphicLFunctionsAndLocalFactors
+        - AutomorphicLFunctionsAndLocalFactorsPartII
         - AutomorphicSpectralTheory
         - BallQuotientsAndComplexHyperbolicLattices
         - BanachAlgebras
@@ -65,12 +67,14 @@ body:
         - BelyiMaps
         - BordismFormalGroups
         - BorelEquivalenceRelations
+        - BorelRegulators
         - CFSGBasicProperties
         - CFSGStatement
         - CStarAlgebras
         - CStarClassification
         - CalibratedGeometry
         - CategoricalOperatorAlgebras
+        - CharacterSumsOverFiniteFields
         - CharacteristicClasses
         - ChevalleyGroups
         - ClassFieldTheory
@@ -148,6 +152,7 @@ body:
         - FiniteAffineBoundTightening
         - FiniteFlatGroupsAndIntegralPadicHodgeTheory
         - FiniteGroupExtensionSplitting
+        - FiniteGroupInvariants
         - FiniteSamplingDiscrepancy
         - FlagVarieties
         - Foams
@@ -218,10 +223,12 @@ body:
         - LFunctions
         - LaguerreJacobi
         - LanglandsParameterStacks
+        - LatticePackingsAndPerfectForms
         - LefschetzPencilsAndVanishingCycles
         - LefschetzPencilsAndVanishingCyclesPartII
         - LieGroupoidsPoisson
         - LieGroupsPartII
+        - LieHighestWeightPartII
         - LinearFormsInLogarithms
         - LocalFieldsRamificationPartII
         - LocalGaloisDeformationRings
