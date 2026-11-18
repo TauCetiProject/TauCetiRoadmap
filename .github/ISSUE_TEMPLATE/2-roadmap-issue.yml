@@ -281,6 +281,7 @@ body:
         - PrimitivePrimeDivisors
         - PrismaticCohomology
         - PrismaticCohomologyPartII
+        - PrismaticCohomologyPartIII
         - ProbabilisticAndMetricNumberTheory
         - ProbabilisticAndMetricNumberTheoryPartII
         - ProfiniteCohomology
@@ -304,6 +305,7 @@ body:
         - ReductiveGroups
         - ReductiveGroupsPartII
         - ReflectionInvariantTheory
+        - RegretMinimizationAndEquilibria
         - Regularity
         - RelativeJacobiansAndIntegralCurveModels
         - RepresentationTheory
@@ -326,6 +328,7 @@ body:
         - ShimuraVarieties
         - SieveMethodsAndPrimePatterns
         - SmallRamificationAndAbelianVarietyBaseCases
+        - SmallRamificationAndAbelianVarietyBaseCasesPartII
         - SmoothBundlesConnections
         - SmoothRepresentationsOfLocalGroups
         - SobolevMapsBetweenManifolds
