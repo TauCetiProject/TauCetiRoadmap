@@ -1,25 +1,57 @@
 # Roadmap: symmetric power moments of Kloosterman sums and their potential automorphy
 
-**Summary.** Assemble the symmetric power moments of rank-two Kloosterman sums over all finite
-fields into generating series `Z_k(p; T)`, realize them cohomologically, and prove the theorems of
-Fresán, Sabbah and Yu: `Z_k(p; T)` is an integer polynomial of known degree whose reciprocal roots
-have weights `0`, `k` and `k + 1`; the middle de Rham cohomology of `Sym^k Kl₂` is the realization
-of a motive `M_k` over `ℚ` of weight `k + 1` whose Hodge numbers are all `0` or `1` and are computed
-explicitly; the inverse Euler factor of `M_k` at `p` is the middle factor `M_k(p; T)` of `Z_k(p; T)`,
-its part of weight `k + 1`, except at the odd primes with `p² ≤ k` for odd `k` and at the odd primes
-`p ≤ k/2` and at `2` for even `k`; at those odd primes it is `M_k(p; T)` times explicit linear factors
-of weight `k + 1`, respectively `k`, from inertia invariants outside the middle part (Layer 8), and at
-`2` for even `k` it is shown to exist (Layer 11); the `ℓ`-adic realizations of `M_k` form a
-regular, polarized, weakly compatible system, hence are potentially automorphic by Patrikis–Taylor;
-and the completed moment `L`-functions continue meromorphically with the functional equations
-`Λ_k(s) = Λ_k(k + 2 − s)` for odd `k` (FSY Theorem 1.2, p. 3) and
-`Λ_k(s) = ε_k Λ_k(k + 2 − s)` for even `k`, with an Euler factor, conductor exponent and sign at `2`
-that are shown to exist (FSY Theorem 1.3, p. 4). The route goes through the characteristic-zero
-Kloosterman connections of every rank `r ≥ 2`, their exponential mixed Hodge theory, explicit bases
-and compactifications, the moment hypersurfaces `K_{r,k}` and their integral models, the local
-Galois structure at every odd prime by Picard–Lefschetz theory, and the gamma and epsilon factors.
-The finite sums, the `ℓ`-adic Kloosterman sheaf and its Deligne bound, the rigid Kloosterman
-`F`-isocrystal and the general Hodge-module machinery are imported from the roadmaps that own them.
+**Summary.** Let `ψ` be a nontrivial additive character of a finite field `F` with `q` elements.
+For `a ∈ Fˣ` the Kloosterman sum is `Kl₂(a) = Σ_{x ∈ Fˣ} ψ(x + a/x)`. Its negative is the sum
+`α + β` of the two Frobenius eigenvalues at `a` of the rank-two Kloosterman sheaf, and `αβ = q`. The
+`k`-th symmetric power moment over `F` is the sum of `Σ_{i=0}^k αⁱβ^{k−i}` over all `a ∈ Fˣ`. This
+roadmap gathers the moments `m₂ᵏ(p^m)` over `𝔽_{p^m}` into the generating series
+`Z_k(p; T) = exp(Σ_{m ≥ 1} m₂ᵏ(p^m) T^m/m)`, and proves the theorems of Fresán, Sabbah and Yu about
+it. Its arithmetic results assume `k ≥ 1`.
+
+By the first main theorem, for every prime `p`, `Z_k(p; T)` is a polynomial with integer
+coefficients and constant term `1`. Its degree is explicit, and equals `⌊(k + 1)/2⌋` when `p > k`. It
+is `1 − T` times a polynomial whose roots all have absolute value `p^{−(k+1)/2}` or, only when `k` is
+even, `p^{−k/2}`. For example, `Z₅(3; T) = 1 + 26T − 27T² = (1 − T)(1 + 27T)`, and the root `−1/27`
+has absolute value `3^{−(5+1)/2}`.
+
+The second is a divisibility. When `p` is odd or `k` is odd, the coefficient of `Tⁿ` in `Z_k(p; T)` is
+divisible by `p^{n(n−1)}`: the Newton polygon lies on or above the polygon with slopes `0, 2, 4, …`.
+For instance `Z₅(2; T) = 1 − 5T + 68T² − 64T³`, where `2²` divides `68` and `64 = 2⁶`. For `p = 2`
+and even `k` this is a theorem of Haessig, outside this roadmap.
+
+Behind both theorems is geometry. `Z_k(p; T)` is the reciprocal characteristic polynomial of Frobenius
+on the compactly supported cohomology of the `k`-th symmetric power of the Kloosterman sheaf over
+`𝔽̄_p`. In characteristic zero the sheaf has a counterpart, the Kloosterman connection. The middle de
+Rham cohomology of its `k`-th symmetric power realizes a motive `M_k` over `ℚ` of weight `k + 1`,
+whose Hodge numbers are all `0` or `1`. The semisimplified `ℓ`-adic realizations of `M_k` form a
+regular, polarized, weakly compatible system. For `k` other than `1`, `2` and `4`, where the system is
+zero, the theorem of Patrikis and Taylor makes it potentially automorphic: after enlarging the
+coefficient field, it becomes, over a finite totally real Galois extension of `ℚ`, a direct sum of
+systems attached to regular algebraic cuspidal polarized automorphic representations.
+
+The third main theorem is the functional equation of the `L`-function of `M_k`. Except at `2` when
+`k` is even, its inverse Euler factor at `p` is the weight-`(k + 1)` part `M_k(p; T)` of `Z_k(p; T)`,
+times explicit linear factors at a few odd primes `p ≤ k`. For odd `k`, multiply the Euler product
+`L_k(s)` by a power of the conductor, the product of the square-free parts of `1, 3, …, k`, and by an
+explicit gamma factor. The result `Λ_k(s)` continues meromorphically to `ℂ` with
+`Λ_k(s) = Λ_k(k + 2 − s)`. For `k = 5`, `L₅(s) = L(f, s − 2)` for a newform `f` of weight three and
+level `15`.
+
+For even `k`, the Euler product over the odd primes is completed in the same way, with an explicit odd
+conductor, and then at `2` by a factor `2^{rs/2} P(2^{−s})⁻¹`. Here `r ≥ 0` is the conductor exponent
+at `2`, and `P(T)⁻¹`, with `P ∈ ℚ[T]` and `P(0) = 1`, is the Euler factor at `2`. The result continues
+meromorphically to `ℂ` with `Λ_k(k + 2 − s) = ε Λ_k(s)` for a sign `ε = ±1`. No formula for `r`, `P`
+or `ε` is asserted.
+
+The roadmap builds on CharacterSumsOverFiniteFields for the Kloosterman sums, and on
+CongruenceSpectralGap for the `ℓ`-adic Kloosterman sheaf and its Deligne bound.
+MixedHodgeModulesAndIrregularHodgeTheory provides the general exponential mixed Hodge theory, and
+ModularityAndLanglandsExtensions the Patrikis–Taylor theorem. KloostermanSheavesAndBesselIsocrystals,
+in turn, uses the Kloosterman sheaves and connections of every rank built here.
+
+Layers 0 and 1 treat the finite sums and their `ℓ`-adic cohomology. Layers 2 to 6 build the motives
+and their Hodge numbers in characteristic zero, and Layers 7 to 11 the Galois realizations and the
+functional equations. The next section describes each layer.
 
 ## How to read the build
 
