@@ -1661,13 +1661,18 @@ input of Layer 9.
 `Subtopos/` defines subtopoi (Tag 08LV, SGA 4 IV 9.1, `Defs.lean`), open and closed subtopoi and
 closed complements (Tag 08LZ, `Open.lean`, `Closed.lean`) and embeddings: part of 4.1 and 4.3,
 without Lawvere–Tierney topologies, the lattice of subtopoi, gluing or the surjection–embedding
-factorization. `Point/` defines points of a topos (Tag 00Y4, SGA 4 IV 6.1, `Defs.lean`), stalks and
-conservative families, and proves a criterion for enough points by finite refinements
-(`CriterionForExistenceOfPoints/DeligneCriterion.lean`), to be compared with 6.1, 6.2 and 6.4. No
-file name or tag there treats the predicate of 1.1, power objects (1.3), Giraud's theorem (1.4),
-Diaconescu's theorem (2.5), the classes of geometric morphisms of Layer 5, locales and localic topoi
-(Layer 7) or fibre products of topoi (Layer 8): a topos there is the category of sheaves on a given
-site.
+factorization. There a subtopos is `IsSubtopos J P` for `P : ObjectProperty (Sheaf J (Type w))`, the
+essential image of the pushforward of an embedding `MorphismOfTopoi.IsEmbedding`, a fully faithful
+pushforward (Tag 08LU, `Embedding.lean`), with a criterion by invertibility of the counit;
+`isSubtopos_essImage_pushforward` and that criterion are to be compared with 4.1, and
+`IsOpenSubtopos` and `IsClosedSubtopos` (`IsOpen.lean`, `Closed.lean`) with 4.3. The correspondence
+of 4.2 between subtopoi and topologies `J′ ≥ J` is not there. `Point/` defines points of a topos
+(Tag 00Y4, SGA 4 IV 6.1, `Defs.lean`), stalks and conservative families, and proves a criterion for
+enough points by finite refinements (`CriterionForExistenceOfPoints/DeligneCriterion.lean`), to be
+compared with 6.1, 6.2 and 6.4. No file name or tag there treats the predicate of 1.1, power objects
+(1.3), Giraud's theorem (1.4), Diaconescu's theorem (2.5), the classes of geometric morphisms of
+Layer 5, locales and localic topoi (Layer 7) or fibre products of topoi (Layer 8): a topos there is
+the category of sheaves on a given site.
 
 ## References
 
