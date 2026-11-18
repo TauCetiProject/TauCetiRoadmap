@@ -38,119 +38,25 @@ The end theorems are:
 [`Suggested.lean`](Suggested.lean) states these headline theorems against the pinned libraries,
 with the few definitions their statements need; it is not the roadmap.
 
-## Scope and ownership
+## How to read the build
 
-**Owned here.** The real-part form of the normalised van der Corput inequality (Layer 0), Arias de
-Reyna's iterated van der Corput inequality (Layer 1), the explicit counts of integer points near a
-curve by the first and second derivative and by exponential sums (Layer 2), the explicit
-Pólya–Vinogradov inequalities and the elementary character-sum identities they use (Layers 0 and
-3), the explicit Burgess inequalities for a prime modulus together with Burgess's moment bound and
-McGown–Trudgian's refinement of it at `r = 2`, the multiplicative-energy counts and Burgess's
-amplification inequality (Layer 4), the Selberg diagonal carriers with the coprime comparison,
-the explicit asymptotic for Büthe's weight mass and the diagonal bound from `z = 3`, the weighted
-arithmetic large sieve and the explicit sieve upper bounds (Layer 5), and the named computational
-hypotheses (Layer 6).
-
-**The van der Corput toolkit.** ExplicitZetaBounds, earlier in the order of supply, owns the
-Kusmin–Landau inequality in its symmetric and asymmetric forms (§4.1), the finite van der Corput
-inequality for complex coefficients with its `|C(h)|` and normalised forms and the A-process
-(§4.2), Arias de Reyna's second derivative tests (§4.3), Patel's corrected third, fourth and fifth
-derivative tests and the `k`-th derivative test with Yang's recursive constants (§4.4), and the
-truncated Poisson formula, stationary phase and the B-process (§4.5); this roadmap consumes §4.2
-and restates none of them. Kept here: Arias de Reyna's real-part form of the normalised inequality
-(§0.3), which differs from the normalised form of ExplicitZetaBounds §4.2 in keeping the real part
-of the weighted lag sum; and Arias de Reyna's iterated inequality (§1.1), which assumes no
-derivative bound at all.
-
-**Consumed, not restated.** Mathlib supplies Dirichlet characters with conductor, primitivity,
-parity and primitive character, Gauss sums of multiplicative characters and their shift identity
-for primitive characters, the quadratic character of a finite field, the native `BoundingSieve`
-and `SelbergSieve` carriers, the von Mangoldt function, prime counting, totient, Möbius function,
-absolutely continuous functions and `Real.fourierChar`. Tau Ceti supplies the norm of a primitive
-Gauss sum and the vanishing of a nonprincipal character over a full period.
-SieveMethodsAndPrimePatterns §2.9 owns the large sieve for
-forbidden residues `J(Q)|Σ aₙ|² ≤ (H − 1 + Q²)Σ|aₙ|²`, consumed by Fan's bound, and §1.3 owns
-Selberg's optimal weights on the native carrier, consumed by Büthe's weighted sieve; its §1.1
-owns the qualitative asymptotics of Selberg diagonal sums, and §5.1 here differs from it in
-having explicit constants. ExplicitZetaBounds §6.5 owns Montgomery–Vaughan's weighted large sieve
-`Σ_x (N + (3/2)δ(x)⁻¹)⁻¹|S(x)|² ≤ Σ|aₙ|²` for an arbitrary finite set of points, consumed by the
-weighted arithmetic large sieve of §5.5, which differs from it in being its sieve form, at the
-Farey fractions and for sequences avoiding residue classes. CharacterSumsOverFiniteFields
-§4.7 owns Weil's bound `|Σ_x χ(f(x))| ≤ (m − 1)√q`, consumed by Burgess's moment bound and its
-`r = 2` refinements.
-AnalyticNumberTheoryPartI §§0.5, 0.8, 0.19 and 0.20 own the explicit Rosser–Schoenfeld estimates
-for `π(x)`, `Σ log p/p` and `Σ 1/p`, consumed by McGown's Burgess inequality and by Fan's bound.
-ExplicitPrimeCounting §0.1 owns Montgomery–Vaughan's Brun–Titchmarsh inequality
-`π(x + y; k, l) − π(x; k, l) ≤ 2y/(φ(k) log(y/k))` (`brun_titchmarsh`) together with the inputs of
-its proof: the bound `S(u) > log u` from the kernel identity for the diagonal sum
-`S(u) = Σ_{q ≤ u} μ²(q)/φ(q)`, Büthe's explicit asymptotic for `S`, Montgomery–Vaughan's
-bound `S(u) ≥ log u + 1.07` for `u ≥ 6` with its finite-range proposition `MVDiagonalFiniteRange`,
-the step from one prime to a squarefree modulus for a sequence avoiding one residue class modulo
-each sieving prime, and the comparison `L₁(Q) ≤ (k/φ(k)) L_k(Q)` of the weighted diagonal sums;
-§§5.1, 5.5 and 5.6 here consume them. §5.1 adds the bound `S(z) ≥ log z + 0.89` from `z = 3`,
-which differs in reaching below `6` with a smaller constant; §5.5 owns the weighted arithmetic
-large sieve, which differs from that step in allowing `ω(p)` forbidden classes modulo each prime
-and an arbitrary sifted set, and the sifted form, which differs from `brun_titchmarsh` in counting
-every integer of the progression free of prime factors up to a level `z`, with `π(z)` added, the
-form that the prime-power sums need. No large-sieve constant, Selberg weight, diagonal bound,
-Gauss-sum evaluation or Weil bound is proved a second time.
-
-**Not owned here.** The qualitative Brun–Titchmarsh bound with an unspecified constant and the
-qualitative twin-prime and Goldbach upper bounds are SieveMethodsAndPrimePatterns §1.6; the
-linear-sieve functions `F`, `f` and the Rosser–Iwaniec linear sieve with an unspecified error
-constant are SieveMethodsAndPrimePatterns §5.2; the weighted finite Hilbert inequality with
-constant `3π/2` is AnalyticNumberTheoryPartI §1.5a; the explicit Erdős–Turán inequality is
-ProbabilisticAndMetricNumberTheory §2.7. Outside this roadmap and its Part II are: bounds for
-`L(1, χ)` and class numbers; the least `k`-th power non-residue, primitive roots and
-norm-Euclidean fields; Vinogradov's mean value theorem; every algorithm, and every computation
-behind a hypothesis of Layer 6.
-None of the results here depends on zeros of `L`-functions, so the exclusion of Landau–Siegel
-zeros (AnalyticNumberTheoryPartI §0.34) is not used.
-
-**ExplicitCharacterSumsAndSieves, Part II.** The following explicit results are the subject of
-ExplicitCharacterSumsAndSieves, Part II, a later roadmap that consumes Layers 0–6 of this one. This
-roadmap stops at the iterated van der Corput inequality of Layer 1, the first and second
-derivative counts of Layer 2, the Pólya–Vinogradov inequalities of Layer 3, the Burgess
-inequalities for a prime modulus of Layer 4 and the sieve bounds of Layer 5.
-
-- Arias de Reyna's uniform explicit `d`-th derivative estimate for exponential sums
-  (ariasdereyna2024 Theorem 11, line 555), built on §1.1.
-- The explicit `k`-th derivative test (`k ≥ 3`) for integer points near a curve: Bordellès's
-  explicit form of the theorem of Huxley and Sargos (bordelles2012 Theorem 5.12; the qualitative
-  form is huxleysargos1995 Théorème 1, line 39), with the correction of the major-arc lemma and the
-  corrected constants of zhao2024 Theorem 2.1 (line 84).
-- Bachman–Rachakonda's bound `(1/(3 log 3))√q log q + 6.5√q` for nonprincipal characters of every
-  modulus (bachmanrachakonda2001 Theorem 1); §3.5 implies it for primitive characters and §3.6
-  for `q ≥ 1000`.
-- Explicit partial Gaussian sums and the Pólya–Vinogradov bounds with leading constant reduced by
-  them: Bordignon–Kerr for squarefree moduli (bordignonkerr2020 Theorem 2, Corollary 1 and
-  Theorem 5, lines 156–220) and Bordignon for primitive characters of every large modulus
-  (bordignon2022partial Theorem 1.1, lines 69–75, with its Tables 1–3, and the Burgess-type bound
-  for twisted characters it uses, Theorem 1.3, lines 123–126).
-- Booker's Burgess inequality for the quadratic character of a prime `d > 10²⁰` with
-  `d ≡ 1 (mod 4)`, with its table of `α(r)` and `β(r)` (booker2006 Proposition 2 and Table 1,
-  lines 350–379).
-- Burgess inequalities for composite moduli (jainsharmakhaleliu2021 Theorem 1.1 and
-  Corollary 1.2, lines 86–91).
-- Francis's refined Burgess constants for a prime modulus (francis2021 Theorem 1.8, Tables 3
-  and 6, lines 127–145 and 810).
-- The dimension-two sieve bounds: Siebert's bound with leading constant `16C₂` for the primes `p`
-  with `ap + b` prime, `C₂ = ∏_{p > 2}(1 − (p − 1)⁻²)` the twin-prime constant (siebert1976;
-  tmeemt-art14 line 119), Riesel–Vaughan's Lemma 4 with its table of pairs `(L, A)`
-  (rieselvaughan1983; tmeemt-art14 lines 126–155), the enclosure `0.66016 ≤ C₂ ≤ 0.66017`
-  (platttrudgian2018 line 163 encloses `2C₂`) and Platt–Trudgian's upper bound for the twin-prime
-  count (platttrudgian2018 display (11), line 188), built on the weighted arithmetic large sieve
-  of §5.5.
-- The explicit linear sieve of Bordignon–Johnston–Starichkova (bordignonjohnstonstarichkova2022
-  Theorem 6, line 147).
-- Yamada's Brun–Titchmarsh inequality with `log(y/k) + 0.8601` in place of `log(y/k)` (yamada2023
-  Theorem 2, lines 104–106).
-
-**Sources stated at second hand.** The Montgomery–Vaughan weighted sieve and sifted bound (5.5),
-the Frolenkov–Soundararajan bound for nonprincipal characters (3.6), the integer-point first and
-second derivative tests (2.2, 2.3) and Greaves's density-sum bound (5.2) are stated from the
-TME-EMT pages and from papers that quote the primary statements; the primary texts are cited by
-locator. For 2.2, 5.2 and 5.5 the proof route given here is complete in itself.
+Layer 0 fixes the carriers (the exponential sum over the integers of an interval, the distance to
+the nearest integer and the near-integer count, the character interval sum and its maximum),
+proves the real-part form of the normalised van der Corput inequality from the finite inequality
+of ExplicitZetaBounds, and the elementary identities for character sums (periodicity, the
+symmetry of even characters, the reduction to the primitive character). Layer 1 proves Arias de
+Reyna's iterated van der Corput inequality from the normalised form of ExplicitZetaBounds §4.2.
+Layer 2 counts integer points near curves by the mean value theorem,
+by Huxley's reduction and by Fejér's kernel. Layer 3 expands character sums in Gauss sums and
+proves the explicit Pólya–Vinogradov inequalities. Layer 4 proves Burgess's moment bound and its
+`r = 2` refinements from Weil's bound, the multiplicative-energy counts and Burgess's
+amplification inequality, and derives the tabulated Burgess constants from the Layer 6
+propositions. Layer 5 proves the explicit
+bounds for Selberg diagonal sums that the sieves need beyond those of ExplicitPrimeCounting, the
+weighted arithmetic large sieve and the explicit sieve upper bounds. Layer 6 lists the
+computational hypotheses: numerical inequalities over explicitly bounded ranges, and, for
+Treviño's two tables, inequalities between explicit functions of `p ≥ p₀`; none is a statement
+about characters or primes in general. Read each claim with its hypotheses and its *Needs:* line.
 
 ## Conventions
 
@@ -193,179 +99,6 @@ locator. For 2.2, 5.2 and 5.5 the proof route given here is complete in itself.
   ExplicitPrimeCounting §0.1 carries that section's named input `MVDiagonalFiniteRange`; Layer 6
   and `Suggested.lean` restate both with the same content, so that those theorems are statable at
   the pins.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-At the pinned commit `1b1ccf4b088b32fa3f23f2de1127433254a81e1e`:
-
-- `Real.fourierChar : AddChar ℝ Circle` and `Real.fourierChar_apply`
-  (`Mathlib/Analysis/Complex/Circle.lean`, lines 221 and 232): `e(x) = exp(2πix)`.
-- `UnitAddCircle.norm_eq` (`Mathlib/Analysis/Normed/Group/AddCircle.lean`, line 223):
-  `‖(x : UnitAddCircle)‖ = |x − round x|`.
-- `DirichletCharacter.conductor`, `DirichletCharacter.IsPrimitive`,
-  `DirichletCharacter.primitiveCharacter`, `DirichletCharacter.primitiveCharacter_isPrimitive`,
-  `DirichletCharacter.changeLevel_primitiveCharacter`, `DirichletCharacter.eq_one_iff_conductor_eq_one`,
-  `DirichletCharacter.IsPrimitive.inv`, `DirichletCharacter.Even`, `DirichletCharacter.Odd`,
-  `DirichletCharacter.even_or_odd`, `DirichletCharacter.Even.eval_neg`,
-  `DirichletCharacter.Odd.eval_neg` (`Mathlib/NumberTheory/DirichletCharacter/Basic.lean`, lines
-  245–572); `DirichletCharacter.norm_le_one` (`.../Bounds.lean`, line 44).
-- `gaussSum` (`Mathlib/NumberTheory/GaussSum.lean`, line 72), `gaussSum_mulShift_of_isPrimitive`
-  (`Mathlib/NumberTheory/DirichletCharacter/GaussSum.lean`, line 59): for primitive `χ` and every
-  `a`, including non-units, `gaussSum χ (e.mulShift a) = χ⁻¹(a) gaussSum χ e`; `ZMod.stdAddChar`
-  and `ZMod.isPrimitive_stdAddChar`
-  (`Mathlib/Analysis/SpecialFunctions/Complex/CircleAddChar.lean`, lines 83 and 95).
-- `BoundingSieve`, `SelbergSieve`, `BoundingSieve.siftedSum_le_mainSum_errSum_of_upperMoebius`,
-  `BoundingSieve.upperMoebius_lambdaSquared` (`Mathlib/NumberTheory/SelbergSieve.lean`, lines 54,
-  78, 217 and 251). The carrier records a finite weighted support, a squarefree prime product, a
-  multiplicative density with `0 < ν(p) < 1` and an approximation `X`; it carries no remainder
-  estimate.
-- `quadraticChar` and `quadraticChar_ne_one`
-  (`Mathlib/NumberTheory/LegendreSymbol/QuadraticChar/Basic.lean`, lines 120 and 207): the quadratic
-  character of `ZMod p` for an odd prime `p`, which is the unique character of order two of the
-  cyclic group `(ZMod p)ˣ`.
-- `Nat.primeCounting`, `ArithmeticFunction.vonMangoldt`, `ArithmeticFunction.moebius`,
-  `Nat.totient`, `ArithmeticFunction.cardDistinctFactors`, `ArithmeticFunction.sigma`,
-  `Nat.doubleFactorial`, `Real.eulerMascheroniConstant`, `Real.eulerMascheroniSeq` (the sequence
-  `H_n − log(n + 1)`) and `Real.eulerMascheroniSeq_lt_eulerMascheroniConstant`
-  (`Mathlib/NumberTheory/Harmonic/EulerMascheroni.lean`, lines 50 and 159: `H_n − log(n + 1) < γ`
-  for every `n`), `Real.log_le_sub_one_of_pos` (`Mathlib/Analysis/SpecialFunctions/Log/Basic.lean`,
-  line 307), `Complex.re_le_norm` (`Mathlib/Analysis/Complex/Norm.lean`, line 45).
-- `ContDiffOn`, `derivWithin`, `iteratedDerivWithin`, `exists_deriv_eq_slope`
-  (`Mathlib/Analysis/Calculus/Deriv/MeanValue.lean`, line 155), `AbsolutelyContinuousOnInterval`
-  (`Mathlib/MeasureTheory/Function/AbsolutelyContinuous.lean`, line 155) and
-  `AbsolutelyContinuousOnInterval.integral_deriv_eq_sub`
-  (`Mathlib/MeasureTheory/Integral/IntervalIntegral/AbsolutelyContinuousFun.lean`, line 227).
-- `Finset.sum_mul_sq_le_sq_mul_sq` (`Mathlib/Algebra/Order/BigOperators/Ring/Finset.lean`, line
-  171) and `Real.inner_le_Lp_mul_Lq_of_nonneg` (`Mathlib/Analysis/MeanInequalities.lean`, line
-  954), the finite Cauchy–Schwarz and Hölder inequalities; `ConvexOn.map_integral_le`
-  (`Mathlib/Analysis/Convex/Integral.lean`, line 196), Jensen's inequality for a probability
-  measure, used in the tuple count of 4.1.
-- `Complex.hasSum_taylorSeries_neg_log` (`Mathlib/Analysis/SpecialFunctions/Complex/LogBounds.lean`,
-  line 280), `Complex.tendsto_tsum_powerSeries_nhdsWithin_stolzSet`
-  (`Mathlib/Analysis/Complex/AbelLimit.lean`, line 162), `hasSum_fourier_series_of_summable`
-  (`Mathlib/Analysis/Fourier/AddCircle.lean`, line 493), `strictConcaveOn_sin_Icc`
-  (`Mathlib/Analysis/Convex/SpecificFunctions/Deriv.lean`, line 164), `Real.sin_le` and
-  `Real.mul_le_sin` (`Mathlib/Analysis/SpecialFunctions/Trigonometric/Bounds.lean`, lines 56
-  and 84), `ZMod.unitOfCoprime` (`Mathlib/Data/ZMod/Basic.lean`, line 794).
-
-The pin has no Kusmin–Landau lemma, no derivative test, no Pólya–Vinogradov or Burgess
-inequality, no Brun–Titchmarsh inequality and no large sieve.
-
-### From Tau Ceti
-
-At the pinned commit `2fd255d997f47c0b5d834ee416c7015d55444ce5`:
-
-- `DirichletCharacter.gaussSum_mul_gaussSum_inv_eq_card_of_isPrimitive` and
-  `DirichletCharacter.IsPrimitive.norm_gaussSum`
-  (`TauCeti/NumberTheory/DirichletCharacter/GaussSum.lean`, lines 43 and 82): for primitive `χ`
-  of level `n` and a primitive additive character `e`, `‖gaussSum χ e‖ = √n`.
-- `DirichletCharacter.IsPrimitive.eq_one_iff`
-  (`TauCeti/NumberTheory/DirichletCharacter/Conductor.lean`, line 25): a primitive character is
-  principal exactly when its level is `1`; and `DirichletCharacter.even_of_le_two`
-  (`TauCeti/NumberTheory/DirichletCharacter/Even.lean`, line 77): at levels `1` and `2` every
-  character is even, because `−1 = 1` there.
-- `DirichletCharacter.sum_range_level_eq_zero`, `DirichletCharacter.sum_range_eq_sum_range_mod`
-  and `DirichletCharacter.norm_sum_Icc_le_level`
-  (`TauCeti/NumberTheory/DirichletCharacter/PartialSum.lean`, lines 30, 37 and 49): a
-  nonprincipal character sums to zero over a full period, its initial sums depend on the endpoint
-  modulo the level, and they are bounded by the level.
-
-### From TauCetiRoadmap.SieveMethodsAndPrimePatterns
-
-- §2.9, "Large sieve for forbidden residues": for a finite prime set with forbidden residue sets
-  `Ω_p`, `|Ω_p| < p`, and coefficients supported on `H ≥ 1` consecutive integers avoiding every
-  forbidden residue, `J(Q)|Σ aₙ|² ≤ (H − 1 + Q²)Σ|aₙ|²` for `Q ≥ 1`, where
-  `J(Q) = Σ_{d ≤ Q} μ²(d)∏_{p | d}|Ω_p|/(p − |Ω_p|)` over squarefree `d` composed of sieving
-  primes. Consumed in 5.6 (the class `0`); in 5.5 it enters only the Check showing that it does
-  not reach the constant `2`.
-- §1.3, "Selberg optimal weights" and "Selberg upper-bound sieve": the optimal weights `λ_z` on a
-  native `BoundingSieve` with `λ_z(1) = 1`, `|λ_z(d)| ≤ 1`, strict cutoff `d < z` and main term
-  `1/G(s, z)`. Consumed in 5.3.
-
-### From TauCetiRoadmap.CharacterSumsOverFiniteFields
-
-- §4.7, `weil_mulChar_sum_bound`: for a finite field `F` with `q` elements, `χ ≠ 1` of order `d`
-  and `f ∈ F[X]` nonzero, not of the form `c·h^d`, with `m` distinct roots in `F̄`,
-  `|Σ_{x ∈ F} χ(f(x))| ≤ (m − 1)√q`. Consumed at `F = ZMod p` in 4.1: with `m ≤ 2r` in the moment
-  bound, with `m ≤ 4` in the `r = 2` refinement for characters of order greater than `2`, and with
-  `m = 3`, for a cubic with three distinct roots, in the `r = 2` refinement for the quadratic
-  character.
-
-### From TauCetiRoadmap.AnalyticNumberTheoryPartI
-
-- §0.5: under `RosserSchoenfeldFiniteRangeInput`, for `x ≥ 59`,
-  `(x/log x)(1 + 1/(2 log x)) < π(x) < (x/log x)(1 + 3/(2 log x))`.
-- §0.8: an absolute constant `E` with
-  `log x + E − 1/(2 log x) < Σ_{p ≤ x} log p/p < log x + E + 1/(2 log x)` for `x ≥ 319`, and
-  §0.20, its interval form `Σ_{y < p ≤ x} log p/p > log(x/y) − 1/(2 log x) − 1/(2 log y)` for
-  `x ≥ y ≥ 319`.
-- §0.19: `|Σ_{p ≤ x} 1/p − log log x − B| < 1/(2 log² x)` for `x ≥ 286`.
-
-All four are consumed in 5.6, at arguments at least `319`; smaller arguments are covered by the
-finite-range hypothesis of Layer 6. §0.5 is consumed also in 4.4, for the lower bound
-`π(A) > A/log A` at integers `A ≥ 59`, so the theorems of 4.4 carry
-`RosserSchoenfeldFiniteRangeInput`.
-
-### From TauCetiRoadmap.ExplicitZetaBounds
-
-- §4.2, the finite van der Corput inequality: for integers `N, H ≥ 1` and complex `b_1, …, b_N`,
-  with `C(h) = Σ_{n=1}^{N−h} b_{n+h} conj(b_n)` for `1 ≤ h < N` and `C(h) = 0` for `h ≥ N`,
-  `H²|Σ_{n≤N} b_n|² ≤ (N + H − 1)(H Σ_{n≤N} |b_n|² + 2 Re Σ_{h=1}^{H−1} (H − h) C(h))`, proved by
-  writing `H Σ_n b_n = Σ_m Σ_{j=0}^{H−1} b_{m−j}` (with `b` extended by zero) and applying
-  Cauchy–Schwarz in `m`; consumed in 0.3. And its normalised form: for real `X`, `Y ≥ 1`, an
-  integer `1 ≤ H ≤ Y` and complex `b_n` with `|b_n| ≤ 1` on the integers of `(X, X + Y]`,
-  `|Y⁻¹ Σ_{X<n≤X+Y} b_n|² ≤ 4/H + (4/(HY)) Σ_{h=1}^{H−1} |Σ_{X<n, n+h≤X+Y} b_{n+h} conj(b_n)|`;
-  consumed in 1.1 at `b_n = e(f(n))`, where the lag sum at `h` is `S_{g_h}[⌊X⌋ + 1, X + Y − h]`
-  with `g_h(x) = f(x + h) − f(x)` (§0.1).
-- §6.5, Montgomery–Vaughan's weighted large sieve with `c = 3/2`: for a finite set `X ⊂ ℝ/ℤ` with
-  at least two points, `δ(x)` the distance from `x` to `X ∖ {x}`, an integer `M`, `N ≥ 1` and
-  complex `a_n` on `M < n ≤ M + N`,
-  `Σ_{x ∈ X} (N + (3/2)δ(x)⁻¹)⁻¹ |Σ_n a_n e(nx)|² ≤ Σ_n |a_n|²`. Consumed in 5.5.
-
-### From TauCetiRoadmap.ExplicitPrimeCounting
-
-Its §0.1 writes `S(u) = Σ_{q ≤ u} μ²(q)/φ(q)`, which is `selbergDiagonal` here, and
-`L(Q, N) = Σ_{q ≤ Q} μ²(q)/(φ(q)(N + (3/2)qQ))` for integers `Q ≥ 2`, `N ≥ 1`.
-
-- §0.1, the diagonal bound: `S(u) > log u` for every real `u ≥ 1`, from the kernel identity
-  `S(u) = Σ_{rad m ≤ u} 1/m`; Büthe's explicit asymptotic
-  `S(u) = log u + γ + Σ_p log p/(p(p − 1)) + θ · 58/√u` with `|θ| ≤ 1` for real `u ≥ 10⁹`
-  (buthe2014 Lemma 4.5, lines 462–468), which gives `S(u) ≥ log u + 1.32` there; and, under
-  `MVDiagonalFiniteRange` (for every real `6 ≤ u < 10⁹`, `S(u) ≥ log u + 1.07`),
-  Montgomery–Vaughan's bound `S(u) ≥ log u + 1.07` for every real `u ≥ 6`. Consumed in 5.1, 5.4
-  (the asymptotic), 5.5 and 5.6.
-- §0.1, two steps of the proof of `brun_titchmarsh`: for a set of `Z` integers avoiding one residue
-  class modulo each prime factor of a squarefree `q`, the sums `S(α) = Σ_{m in the set} e(mα)`
-  satisfy `Σ*_{a mod q} |S(a/q)|² ≥ Z²/φ(q)`, which is the case `ω(p) = 1` of the step in 5.5; and
-  the comparison `L₁(Q) ≤ (k/φ(k)) L_k(Q)` of `L₁(Q) = L(Q, N)` with
-  `L_k(Q) = Σ_{q ≤ Q, (q, k) = 1} μ²(q)/(φ(q)(N + (3/2)qQ))`, consumed in 5.5.
-- §0.1, `brun_titchmarsh`: under `MVDiagonalFiniteRange` and `BrunTitchmarshFiniteRange` (for every
-  integer `25 ≤ n ≤ 2·10⁴` there is an integer `Q ≥ 2` with `1/L(Q, n + 1) + π(Q) ≤ 2n/log n`),
-  for real `x, y > 0` and coprime positive integers `k`, `l` with `y > k`, the number of primes
-  `p ≡ l (mod k)` in `(x, x + y]` is at most `2y/(φ(k) log(y/k))`. Consumed in the Checks of 5.4;
-  the sifted form of 5.5 implies the same prime count without `BrunTitchmarshFiniteRange`.
-
-## How to read the build
-
-Layer 0 fixes the carriers (the exponential sum over the integers of an interval, the distance to
-the nearest integer and the near-integer count, the character interval sum and its maximum),
-proves the real-part form of the normalised van der Corput inequality from the finite inequality
-of ExplicitZetaBounds, and the elementary identities for character sums (periodicity, the
-symmetry of even characters, the reduction to the primitive character). Layer 1 proves Arias de
-Reyna's iterated van der Corput inequality from the normalised form of ExplicitZetaBounds §4.2.
-Layer 2 counts integer points near curves by the mean value theorem,
-by Huxley's reduction and by Fejér's kernel. Layer 3 expands character sums in Gauss sums and
-proves the explicit Pólya–Vinogradov inequalities. Layer 4 proves Burgess's moment bound and its
-`r = 2` refinements from Weil's bound, the multiplicative-energy counts and Burgess's
-amplification inequality, and derives the tabulated Burgess constants from the Layer 6
-propositions. Layer 5 proves the explicit
-bounds for Selberg diagonal sums that the sieves need beyond those of ExplicitPrimeCounting, the
-weighted arithmetic large sieve and the explicit sieve upper bounds. Layer 6 lists the
-computational hypotheses: numerical inequalities over explicitly bounded ranges, and, for
-Treviño's two tables, inequalities between explicit functions of `p ≥ p₀`; none is a statement
-about characters or primes in general. Read each claim with its hypotheses and its *Needs:* line.
 
 ## Layer 0: carriers, the real-part van der Corput bound and character-sum identities
 
@@ -1864,6 +1597,273 @@ the size of the lower support (`theorem4`, `linearSieveEstimate`), and an applic
 Jacobsthal's problem (`iwaniecBound`); every error constant there is shown only to exist. That is
 the material of SieveMethodsAndPrimePatterns §5.2, which Scope leaves to it; no layer here treats
 the linear sieve, and its explicit form of Bordignon–Johnston–Starichkova is in Part II.
+
+## Scope and ownership
+
+**Owned here.** The real-part form of the normalised van der Corput inequality (Layer 0), Arias de
+Reyna's iterated van der Corput inequality (Layer 1), the explicit counts of integer points near a
+curve by the first and second derivative and by exponential sums (Layer 2), the explicit
+Pólya–Vinogradov inequalities and the elementary character-sum identities they use (Layers 0 and
+3), the explicit Burgess inequalities for a prime modulus together with Burgess's moment bound and
+McGown–Trudgian's refinement of it at `r = 2`, the multiplicative-energy counts and Burgess's
+amplification inequality (Layer 4), the Selberg diagonal carriers with the coprime comparison,
+the explicit asymptotic for Büthe's weight mass and the diagonal bound from `z = 3`, the weighted
+arithmetic large sieve and the explicit sieve upper bounds (Layer 5), and the named computational
+hypotheses (Layer 6).
+
+**The van der Corput toolkit.** ExplicitZetaBounds, earlier in the order of supply, owns the
+Kusmin–Landau inequality in its symmetric and asymmetric forms (§4.1), the finite van der Corput
+inequality for complex coefficients with its `|C(h)|` and normalised forms and the A-process
+(§4.2), Arias de Reyna's second derivative tests (§4.3), Patel's corrected third, fourth and fifth
+derivative tests and the `k`-th derivative test with Yang's recursive constants (§4.4), and the
+truncated Poisson formula, stationary phase and the B-process (§4.5); this roadmap consumes §4.2
+and restates none of them. Kept here: Arias de Reyna's real-part form of the normalised inequality
+(§0.3), which differs from the normalised form of ExplicitZetaBounds §4.2 in keeping the real part
+of the weighted lag sum; and Arias de Reyna's iterated inequality (§1.1), which assumes no
+derivative bound at all.
+
+**Consumed, not restated.** Mathlib supplies Dirichlet characters with conductor, primitivity,
+parity and primitive character, Gauss sums of multiplicative characters and their shift identity
+for primitive characters, the quadratic character of a finite field, the native `BoundingSieve`
+and `SelbergSieve` carriers, the von Mangoldt function, prime counting, totient, Möbius function,
+absolutely continuous functions and `Real.fourierChar`. Tau Ceti supplies the norm of a primitive
+Gauss sum and the vanishing of a nonprincipal character over a full period.
+SieveMethodsAndPrimePatterns §2.9 owns the large sieve for
+forbidden residues `J(Q)|Σ aₙ|² ≤ (H − 1 + Q²)Σ|aₙ|²`, consumed by Fan's bound, and §1.3 owns
+Selberg's optimal weights on the native carrier, consumed by Büthe's weighted sieve; its §1.1
+owns the qualitative asymptotics of Selberg diagonal sums, and §5.1 here differs from it in
+having explicit constants. ExplicitZetaBounds §6.5 owns Montgomery–Vaughan's weighted large sieve
+`Σ_x (N + (3/2)δ(x)⁻¹)⁻¹|S(x)|² ≤ Σ|aₙ|²` for an arbitrary finite set of points, consumed by the
+weighted arithmetic large sieve of §5.5, which differs from it in being its sieve form, at the
+Farey fractions and for sequences avoiding residue classes. CharacterSumsOverFiniteFields
+§4.7 owns Weil's bound `|Σ_x χ(f(x))| ≤ (m − 1)√q`, consumed by Burgess's moment bound and its
+`r = 2` refinements.
+AnalyticNumberTheoryPartI §§0.5, 0.8, 0.19 and 0.20 own the explicit Rosser–Schoenfeld estimates
+for `π(x)`, `Σ log p/p` and `Σ 1/p`, consumed by McGown's Burgess inequality and by Fan's bound.
+ExplicitPrimeCounting §0.1 owns Montgomery–Vaughan's Brun–Titchmarsh inequality
+`π(x + y; k, l) − π(x; k, l) ≤ 2y/(φ(k) log(y/k))` (`brun_titchmarsh`) together with the inputs of
+its proof: the bound `S(u) > log u` from the kernel identity for the diagonal sum
+`S(u) = Σ_{q ≤ u} μ²(q)/φ(q)`, Büthe's explicit asymptotic for `S`, Montgomery–Vaughan's
+bound `S(u) ≥ log u + 1.07` for `u ≥ 6` with its finite-range proposition `MVDiagonalFiniteRange`,
+the step from one prime to a squarefree modulus for a sequence avoiding one residue class modulo
+each sieving prime, and the comparison `L₁(Q) ≤ (k/φ(k)) L_k(Q)` of the weighted diagonal sums;
+§§5.1, 5.5 and 5.6 here consume them. §5.1 adds the bound `S(z) ≥ log z + 0.89` from `z = 3`,
+which differs in reaching below `6` with a smaller constant; §5.5 owns the weighted arithmetic
+large sieve, which differs from that step in allowing `ω(p)` forbidden classes modulo each prime
+and an arbitrary sifted set, and the sifted form, which differs from `brun_titchmarsh` in counting
+every integer of the progression free of prime factors up to a level `z`, with `π(z)` added, the
+form that the prime-power sums need. No large-sieve constant, Selberg weight, diagonal bound,
+Gauss-sum evaluation or Weil bound is proved a second time.
+
+**Not owned here.** The qualitative Brun–Titchmarsh bound with an unspecified constant and the
+qualitative twin-prime and Goldbach upper bounds are SieveMethodsAndPrimePatterns §1.6; the
+linear-sieve functions `F`, `f` and the Rosser–Iwaniec linear sieve with an unspecified error
+constant are SieveMethodsAndPrimePatterns §5.2; the weighted finite Hilbert inequality with
+constant `3π/2` is AnalyticNumberTheoryPartI §1.5a; the explicit Erdős–Turán inequality is
+ProbabilisticAndMetricNumberTheory §2.7. Outside this roadmap and its Part II are: bounds for
+`L(1, χ)` and class numbers; the least `k`-th power non-residue, primitive roots and
+norm-Euclidean fields; Vinogradov's mean value theorem; every algorithm, and every computation
+behind a hypothesis of Layer 6.
+None of the results here depends on zeros of `L`-functions, so the exclusion of Landau–Siegel
+zeros (AnalyticNumberTheoryPartI §0.34) is not used.
+
+**ExplicitCharacterSumsAndSieves, Part II.** The following explicit results are the subject of
+ExplicitCharacterSumsAndSieves, Part II, a later roadmap that consumes Layers 0–6 of this one. This
+roadmap stops at the iterated van der Corput inequality of Layer 1, the first and second
+derivative counts of Layer 2, the Pólya–Vinogradov inequalities of Layer 3, the Burgess
+inequalities for a prime modulus of Layer 4 and the sieve bounds of Layer 5.
+
+- Arias de Reyna's uniform explicit `d`-th derivative estimate for exponential sums
+  (ariasdereyna2024 Theorem 11, line 555), built on §1.1.
+- The explicit `k`-th derivative test (`k ≥ 3`) for integer points near a curve: Bordellès's
+  explicit form of the theorem of Huxley and Sargos (bordelles2012 Theorem 5.12; the qualitative
+  form is huxleysargos1995 Théorème 1, line 39), with the correction of the major-arc lemma and the
+  corrected constants of zhao2024 Theorem 2.1 (line 84).
+- Bachman–Rachakonda's bound `(1/(3 log 3))√q log q + 6.5√q` for nonprincipal characters of every
+  modulus (bachmanrachakonda2001 Theorem 1); §3.5 implies it for primitive characters and §3.6
+  for `q ≥ 1000`.
+- Explicit partial Gaussian sums and the Pólya–Vinogradov bounds with leading constant reduced by
+  them: Bordignon–Kerr for squarefree moduli (bordignonkerr2020 Theorem 2, Corollary 1 and
+  Theorem 5, lines 156–220) and Bordignon for primitive characters of every large modulus
+  (bordignon2022partial Theorem 1.1, lines 69–75, with its Tables 1–3, and the Burgess-type bound
+  for twisted characters it uses, Theorem 1.3, lines 123–126).
+- Booker's Burgess inequality for the quadratic character of a prime `d > 10²⁰` with
+  `d ≡ 1 (mod 4)`, with its table of `α(r)` and `β(r)` (booker2006 Proposition 2 and Table 1,
+  lines 350–379).
+- Burgess inequalities for composite moduli (jainsharmakhaleliu2021 Theorem 1.1 and
+  Corollary 1.2, lines 86–91).
+- Francis's refined Burgess constants for a prime modulus (francis2021 Theorem 1.8, Tables 3
+  and 6, lines 127–145 and 810).
+- The dimension-two sieve bounds: Siebert's bound with leading constant `16C₂` for the primes `p`
+  with `ap + b` prime, `C₂ = ∏_{p > 2}(1 − (p − 1)⁻²)` the twin-prime constant (siebert1976;
+  tmeemt-art14 line 119), Riesel–Vaughan's Lemma 4 with its table of pairs `(L, A)`
+  (rieselvaughan1983; tmeemt-art14 lines 126–155), the enclosure `0.66016 ≤ C₂ ≤ 0.66017`
+  (platttrudgian2018 line 163 encloses `2C₂`) and Platt–Trudgian's upper bound for the twin-prime
+  count (platttrudgian2018 display (11), line 188), built on the weighted arithmetic large sieve
+  of §5.5.
+- The explicit linear sieve of Bordignon–Johnston–Starichkova (bordignonjohnstonstarichkova2022
+  Theorem 6, line 147).
+- Yamada's Brun–Titchmarsh inequality with `log(y/k) + 0.8601` in place of `log(y/k)` (yamada2023
+  Theorem 2, lines 104–106).
+
+**Sources stated at second hand.** The Montgomery–Vaughan weighted sieve and sifted bound (5.5),
+the Frolenkov–Soundararajan bound for nonprincipal characters (3.6), the integer-point first and
+second derivative tests (2.2, 2.3) and Greaves's density-sum bound (5.2) are stated from the
+TME-EMT pages and from papers that quote the primary statements; the primary texts are cited by
+locator. For 2.2, 5.2 and 5.5 the proof route given here is complete in itself.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+At the pinned commit `1b1ccf4b088b32fa3f23f2de1127433254a81e1e`:
+
+- `Real.fourierChar : AddChar ℝ Circle` and `Real.fourierChar_apply`
+  (`Mathlib/Analysis/Complex/Circle.lean`, lines 221 and 232): `e(x) = exp(2πix)`.
+- `UnitAddCircle.norm_eq` (`Mathlib/Analysis/Normed/Group/AddCircle.lean`, line 223):
+  `‖(x : UnitAddCircle)‖ = |x − round x|`.
+- `DirichletCharacter.conductor`, `DirichletCharacter.IsPrimitive`,
+  `DirichletCharacter.primitiveCharacter`, `DirichletCharacter.primitiveCharacter_isPrimitive`,
+  `DirichletCharacter.changeLevel_primitiveCharacter`, `DirichletCharacter.eq_one_iff_conductor_eq_one`,
+  `DirichletCharacter.IsPrimitive.inv`, `DirichletCharacter.Even`, `DirichletCharacter.Odd`,
+  `DirichletCharacter.even_or_odd`, `DirichletCharacter.Even.eval_neg`,
+  `DirichletCharacter.Odd.eval_neg` (`Mathlib/NumberTheory/DirichletCharacter/Basic.lean`, lines
+  245–572); `DirichletCharacter.norm_le_one` (`.../Bounds.lean`, line 44).
+- `gaussSum` (`Mathlib/NumberTheory/GaussSum.lean`, line 72), `gaussSum_mulShift_of_isPrimitive`
+  (`Mathlib/NumberTheory/DirichletCharacter/GaussSum.lean`, line 59): for primitive `χ` and every
+  `a`, including non-units, `gaussSum χ (e.mulShift a) = χ⁻¹(a) gaussSum χ e`; `ZMod.stdAddChar`
+  and `ZMod.isPrimitive_stdAddChar`
+  (`Mathlib/Analysis/SpecialFunctions/Complex/CircleAddChar.lean`, lines 83 and 95).
+- `BoundingSieve`, `SelbergSieve`, `BoundingSieve.siftedSum_le_mainSum_errSum_of_upperMoebius`,
+  `BoundingSieve.upperMoebius_lambdaSquared` (`Mathlib/NumberTheory/SelbergSieve.lean`, lines 54,
+  78, 217 and 251). The carrier records a finite weighted support, a squarefree prime product, a
+  multiplicative density with `0 < ν(p) < 1` and an approximation `X`; it carries no remainder
+  estimate.
+- `quadraticChar` and `quadraticChar_ne_one`
+  (`Mathlib/NumberTheory/LegendreSymbol/QuadraticChar/Basic.lean`, lines 120 and 207): the quadratic
+  character of `ZMod p` for an odd prime `p`, which is the unique character of order two of the
+  cyclic group `(ZMod p)ˣ`.
+- `Nat.primeCounting`, `ArithmeticFunction.vonMangoldt`, `ArithmeticFunction.moebius`,
+  `Nat.totient`, `ArithmeticFunction.cardDistinctFactors`, `ArithmeticFunction.sigma`,
+  `Nat.doubleFactorial`, `Real.eulerMascheroniConstant`, `Real.eulerMascheroniSeq` (the sequence
+  `H_n − log(n + 1)`) and `Real.eulerMascheroniSeq_lt_eulerMascheroniConstant`
+  (`Mathlib/NumberTheory/Harmonic/EulerMascheroni.lean`, lines 50 and 159: `H_n − log(n + 1) < γ`
+  for every `n`), `Real.log_le_sub_one_of_pos` (`Mathlib/Analysis/SpecialFunctions/Log/Basic.lean`,
+  line 307), `Complex.re_le_norm` (`Mathlib/Analysis/Complex/Norm.lean`, line 45).
+- `ContDiffOn`, `derivWithin`, `iteratedDerivWithin`, `exists_deriv_eq_slope`
+  (`Mathlib/Analysis/Calculus/Deriv/MeanValue.lean`, line 155), `AbsolutelyContinuousOnInterval`
+  (`Mathlib/MeasureTheory/Function/AbsolutelyContinuous.lean`, line 155) and
+  `AbsolutelyContinuousOnInterval.integral_deriv_eq_sub`
+  (`Mathlib/MeasureTheory/Integral/IntervalIntegral/AbsolutelyContinuousFun.lean`, line 227).
+- `Finset.sum_mul_sq_le_sq_mul_sq` (`Mathlib/Algebra/Order/BigOperators/Ring/Finset.lean`, line
+  171) and `Real.inner_le_Lp_mul_Lq_of_nonneg` (`Mathlib/Analysis/MeanInequalities.lean`, line
+  954), the finite Cauchy–Schwarz and Hölder inequalities; `ConvexOn.map_integral_le`
+  (`Mathlib/Analysis/Convex/Integral.lean`, line 196), Jensen's inequality for a probability
+  measure, used in the tuple count of 4.1.
+- `Complex.hasSum_taylorSeries_neg_log` (`Mathlib/Analysis/SpecialFunctions/Complex/LogBounds.lean`,
+  line 280), `Complex.tendsto_tsum_powerSeries_nhdsWithin_stolzSet`
+  (`Mathlib/Analysis/Complex/AbelLimit.lean`, line 162), `hasSum_fourier_series_of_summable`
+  (`Mathlib/Analysis/Fourier/AddCircle.lean`, line 493), `strictConcaveOn_sin_Icc`
+  (`Mathlib/Analysis/Convex/SpecificFunctions/Deriv.lean`, line 164), `Real.sin_le` and
+  `Real.mul_le_sin` (`Mathlib/Analysis/SpecialFunctions/Trigonometric/Bounds.lean`, lines 56
+  and 84), `ZMod.unitOfCoprime` (`Mathlib/Data/ZMod/Basic.lean`, line 794).
+
+The pin has no Kusmin–Landau lemma, no derivative test, no Pólya–Vinogradov or Burgess
+inequality, no Brun–Titchmarsh inequality and no large sieve.
+
+### From Tau Ceti
+
+At the pinned commit `2fd255d997f47c0b5d834ee416c7015d55444ce5`:
+
+- `DirichletCharacter.gaussSum_mul_gaussSum_inv_eq_card_of_isPrimitive` and
+  `DirichletCharacter.IsPrimitive.norm_gaussSum`
+  (`TauCeti/NumberTheory/DirichletCharacter/GaussSum.lean`, lines 43 and 82): for primitive `χ`
+  of level `n` and a primitive additive character `e`, `‖gaussSum χ e‖ = √n`.
+- `DirichletCharacter.IsPrimitive.eq_one_iff`
+  (`TauCeti/NumberTheory/DirichletCharacter/Conductor.lean`, line 25): a primitive character is
+  principal exactly when its level is `1`; and `DirichletCharacter.even_of_le_two`
+  (`TauCeti/NumberTheory/DirichletCharacter/Even.lean`, line 77): at levels `1` and `2` every
+  character is even, because `−1 = 1` there.
+- `DirichletCharacter.sum_range_level_eq_zero`, `DirichletCharacter.sum_range_eq_sum_range_mod`
+  and `DirichletCharacter.norm_sum_Icc_le_level`
+  (`TauCeti/NumberTheory/DirichletCharacter/PartialSum.lean`, lines 30, 37 and 49): a
+  nonprincipal character sums to zero over a full period, its initial sums depend on the endpoint
+  modulo the level, and they are bounded by the level.
+
+### From TauCetiRoadmap.SieveMethodsAndPrimePatterns
+
+- §2.9, "Large sieve for forbidden residues": for a finite prime set with forbidden residue sets
+  `Ω_p`, `|Ω_p| < p`, and coefficients supported on `H ≥ 1` consecutive integers avoiding every
+  forbidden residue, `J(Q)|Σ aₙ|² ≤ (H − 1 + Q²)Σ|aₙ|²` for `Q ≥ 1`, where
+  `J(Q) = Σ_{d ≤ Q} μ²(d)∏_{p | d}|Ω_p|/(p − |Ω_p|)` over squarefree `d` composed of sieving
+  primes. Consumed in 5.6 (the class `0`); in 5.5 it enters only the Check showing that it does
+  not reach the constant `2`.
+- §1.3, "Selberg optimal weights" and "Selberg upper-bound sieve": the optimal weights `λ_z` on a
+  native `BoundingSieve` with `λ_z(1) = 1`, `|λ_z(d)| ≤ 1`, strict cutoff `d < z` and main term
+  `1/G(s, z)`. Consumed in 5.3.
+
+### From TauCetiRoadmap.CharacterSumsOverFiniteFields
+
+- §4.7, `weil_mulChar_sum_bound`: for a finite field `F` with `q` elements, `χ ≠ 1` of order `d`
+  and `f ∈ F[X]` nonzero, not of the form `c·h^d`, with `m` distinct roots in `F̄`,
+  `|Σ_{x ∈ F} χ(f(x))| ≤ (m − 1)√q`. Consumed at `F = ZMod p` in 4.1: with `m ≤ 2r` in the moment
+  bound, with `m ≤ 4` in the `r = 2` refinement for characters of order greater than `2`, and with
+  `m = 3`, for a cubic with three distinct roots, in the `r = 2` refinement for the quadratic
+  character.
+
+### From TauCetiRoadmap.AnalyticNumberTheoryPartI
+
+- §0.5: under `RosserSchoenfeldFiniteRangeInput`, for `x ≥ 59`,
+  `(x/log x)(1 + 1/(2 log x)) < π(x) < (x/log x)(1 + 3/(2 log x))`.
+- §0.8: an absolute constant `E` with
+  `log x + E − 1/(2 log x) < Σ_{p ≤ x} log p/p < log x + E + 1/(2 log x)` for `x ≥ 319`, and
+  §0.20, its interval form `Σ_{y < p ≤ x} log p/p > log(x/y) − 1/(2 log x) − 1/(2 log y)` for
+  `x ≥ y ≥ 319`.
+- §0.19: `|Σ_{p ≤ x} 1/p − log log x − B| < 1/(2 log² x)` for `x ≥ 286`.
+
+All four are consumed in 5.6, at arguments at least `319`; smaller arguments are covered by the
+finite-range hypothesis of Layer 6. §0.5 is consumed also in 4.4, for the lower bound
+`π(A) > A/log A` at integers `A ≥ 59`, so the theorems of 4.4 carry
+`RosserSchoenfeldFiniteRangeInput`.
+
+### From TauCetiRoadmap.ExplicitZetaBounds
+
+- §4.2, the finite van der Corput inequality: for integers `N, H ≥ 1` and complex `b_1, …, b_N`,
+  with `C(h) = Σ_{n=1}^{N−h} b_{n+h} conj(b_n)` for `1 ≤ h < N` and `C(h) = 0` for `h ≥ N`,
+  `H²|Σ_{n≤N} b_n|² ≤ (N + H − 1)(H Σ_{n≤N} |b_n|² + 2 Re Σ_{h=1}^{H−1} (H − h) C(h))`, proved by
+  writing `H Σ_n b_n = Σ_m Σ_{j=0}^{H−1} b_{m−j}` (with `b` extended by zero) and applying
+  Cauchy–Schwarz in `m`; consumed in 0.3. And its normalised form: for real `X`, `Y ≥ 1`, an
+  integer `1 ≤ H ≤ Y` and complex `b_n` with `|b_n| ≤ 1` on the integers of `(X, X + Y]`,
+  `|Y⁻¹ Σ_{X<n≤X+Y} b_n|² ≤ 4/H + (4/(HY)) Σ_{h=1}^{H−1} |Σ_{X<n, n+h≤X+Y} b_{n+h} conj(b_n)|`;
+  consumed in 1.1 at `b_n = e(f(n))`, where the lag sum at `h` is `S_{g_h}[⌊X⌋ + 1, X + Y − h]`
+  with `g_h(x) = f(x + h) − f(x)` (§0.1).
+- §6.5, Montgomery–Vaughan's weighted large sieve with `c = 3/2`: for a finite set `X ⊂ ℝ/ℤ` with
+  at least two points, `δ(x)` the distance from `x` to `X ∖ {x}`, an integer `M`, `N ≥ 1` and
+  complex `a_n` on `M < n ≤ M + N`,
+  `Σ_{x ∈ X} (N + (3/2)δ(x)⁻¹)⁻¹ |Σ_n a_n e(nx)|² ≤ Σ_n |a_n|²`. Consumed in 5.5.
+
+### From TauCetiRoadmap.ExplicitPrimeCounting
+
+Its §0.1 writes `S(u) = Σ_{q ≤ u} μ²(q)/φ(q)`, which is `selbergDiagonal` here, and
+`L(Q, N) = Σ_{q ≤ Q} μ²(q)/(φ(q)(N + (3/2)qQ))` for integers `Q ≥ 2`, `N ≥ 1`.
+
+- §0.1, the diagonal bound: `S(u) > log u` for every real `u ≥ 1`, from the kernel identity
+  `S(u) = Σ_{rad m ≤ u} 1/m`; Büthe's explicit asymptotic
+  `S(u) = log u + γ + Σ_p log p/(p(p − 1)) + θ · 58/√u` with `|θ| ≤ 1` for real `u ≥ 10⁹`
+  (buthe2014 Lemma 4.5, lines 462–468), which gives `S(u) ≥ log u + 1.32` there; and, under
+  `MVDiagonalFiniteRange` (for every real `6 ≤ u < 10⁹`, `S(u) ≥ log u + 1.07`),
+  Montgomery–Vaughan's bound `S(u) ≥ log u + 1.07` for every real `u ≥ 6`. Consumed in 5.1, 5.4
+  (the asymptotic), 5.5 and 5.6.
+- §0.1, two steps of the proof of `brun_titchmarsh`: for a set of `Z` integers avoiding one residue
+  class modulo each prime factor of a squarefree `q`, the sums `S(α) = Σ_{m in the set} e(mα)`
+  satisfy `Σ*_{a mod q} |S(a/q)|² ≥ Z²/φ(q)`, which is the case `ω(p) = 1` of the step in 5.5; and
+  the comparison `L₁(Q) ≤ (k/φ(k)) L_k(Q)` of `L₁(Q) = L(Q, N)` with
+  `L_k(Q) = Σ_{q ≤ Q, (q, k) = 1} μ²(q)/(φ(q)(N + (3/2)qQ))`, consumed in 5.5.
+- §0.1, `brun_titchmarsh`: under `MVDiagonalFiniteRange` and `BrunTitchmarshFiniteRange` (for every
+  integer `25 ≤ n ≤ 2·10⁴` there is an integer `Q ≥ 2` with `1/L(Q, n + 1) + π(Q) ≤ 2n/log n`),
+  for real `x, y > 0` and coprime positive integers `k`, `l` with `y > k`, the number of primes
+  `p ≡ l (mod k)` in `(x, x + y]` is at most `2y/(φ(k) log(y/k))`. Consumed in the Checks of 5.4;
+  the sifted form of 5.5 implies the same prime count without `BrunTitchmarshFiniteRange`.
 
 ## References
 
