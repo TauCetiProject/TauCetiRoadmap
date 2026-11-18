@@ -2072,7 +2072,7 @@ ModularityAndLanglandsExtensions §§1.10, 1.15, 4.13, 4.15; Tau Ceti `HeckeRing
 - ModularityAndLanglandsExtensions: its statements in §§4.9, 4.12, 4.20, 4.23 (its second paragraph
   in residual form, §13.6), 4.29 and 4.30 are proved here (§§14.1, 14.2, 12.7, 13.6, 14.3, 13.10),
   and its consequences (Sato–Tate in §4.34, the Hilbert statements of §§4.35–4.36, the holomorphy
-  statements of §§4.32, 4.37) use them.
+  statement of §4.37) use them.
 - Roadmaps on the cuspidal cohomology of `GL_n(ℤ)` and level-one change of weight consume §§13.10 and
   14.2.
 - The technique of Layer 9 and Layer 12 (patching a pseudodeformation ring against a rank-two
