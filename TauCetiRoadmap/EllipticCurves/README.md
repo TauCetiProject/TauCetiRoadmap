@@ -415,7 +415,7 @@ listed in §Scope and ownership.
 - **Layer 0** (function fields, constant fields and places): the exact constants `k̃ = ⋂_P 𝒪_P`,
   consumed by Layer 1's unramifiedness milestone.
 - **Layer 6** (extensions of function fields): the induced-place API and the fundamental identity
-  `Σ e·f = [F′ : F]`, consumed by Layer 0's `inducedPlace`.
+  `Σ e·f = [F′ : F]`, consumed by Layer 0's induced place.
 - **Layer 10's early Weierstrass local-ring milestone**: the smooth affine local rings, the
   normalized valuation at infinity, the classification of places and the local Kähler
   generation by `ω`, consumed by Layers 0 and 1. It starts after AlgebraicCurves Layer 0 and uses
@@ -423,7 +423,8 @@ listed in §Scope and ownership.
 
 ## How to read the build
 
-The layers are in dependency order, and §Ordering below lists the lanes that run in parallel.
+The layers are in dependency order, and each layer's Dependencies say what it needs; dependency
+order is not a schedule, and independent layers proceed in parallel.
 Layer 0 is the dictionary between Mathlib's point group and the places of the function field;
 Layer 0.5 the base change, Galois actions, translations and descent every later layer uses;
 Layer 1 the isogenies, their degree, the dual, the invariant differential and the formal group;
@@ -470,7 +471,19 @@ here, with adapters to Angdinata's coordinate-ring and ideal-class interfaces.
   Layer 0 and uses no elliptic genus, isogeny or translation-invariance result.
   Instantiate its normalized valuation API here; use the single supplied
   `infinityPlace` throughout the point/place and induced-place dictionaries.
-- **`inducedPlace`.** The place of `F₂` under a place of `F₁`, along a `K`-algebra map
+
+  **Checks.**
+
+  - `ord_∞ x = −2` and `ord_∞ y = −3` on every Weierstrass curve, so `x/y` is a uniformiser at
+    `infinityPlace`; extending the degree valuation of `K(x)` without normalising gives `−1` and
+    `−3/2`, the values a wrong normalisation reports.
+  - On `y² = x³ − x` over `𝔽₃` the degree-`1` places are `infinityPlace` and the maximal ideals
+    `(X, Y)`, `(X − 1, Y)`, `(X + 1, Y)`: four, matching `#E(𝔽₃) = 4`.
+  - Nonexample: on the cuspidal `y² = x³` the ideal `(X, Y)` is a maximal ideal of degree `1` whose
+    local ring is not a discrete valuation ring (`(X, Y)` needs two generators there), which is
+    why the affine places are the maximal ideals only for elliptic `W`.
+
+- **The induced place.** The place of `F₂` under a place of `F₁`, along a `K`-algebra map
   `F₂ →ₐ[K] F₁`: restriction of the valuation, with ramification index `e` and residue degree
   `f`; functoriality (`id`, `comp`); and the **fundamental identity** `Σ_{w ∣ v} e_w · f_w = [F₁ : F₂]`
   (Stichtenoth III.1.11), supplied by
@@ -481,10 +494,31 @@ here, with adapters to Angdinata's coordinate-ring and ideal-class interfaces.
   this gives `f_w = 1` as well. The identity alone only gives `Σ e_w·f_w = deg`;
   a separable function-field extension can still ramify at individual places
   or have inseparable residue extensions (Layers 1–3).
+
+  **Checks.**
+
+  - Along the identity of `F`, every place induces itself, with `e = f = 1`.
+  - Along the Frobenius pullback `f ↦ f ^ q` over `𝔽_q`, one place lies over `infinityPlace`, with
+    `e = q` (`x` pulls back to `x ^ q`, of order `−2q`) and `f = 1`, so `Σ e·f = q = deg π_q` from a
+    single place; counting points alone would see one point and miss the factor `q`.
+  - Along `[2]^*` on `y² = x³ − x` over an algebraic closure of `𝔽₃`, four places lie over
+    `infinityPlace`, at `O`, `(0, 0)` and `(±1, 0)`, each with `e = f = 1`: `Σ e·f = 4 = deg [2]`.
+
 - **The point–place dictionary.** For elliptic `W`, `W.toAffine.Point` is in bijection with the
   **degree-`1` places**: `O ↦ infinityPlace`, and an affine nonsingular `(x₀, y₀) ↦` the maximal
   ideal `(X − x₀, Y − y₀)`. Every later layer passes through this dictionary. (Stated for elliptic
   `W`; singular Weierstrass curves are not this roadmap's business.)
+
+  **Checks.**
+
+  - On `y² = x³ − x` over `𝔽₃`, `O ↦ infinityPlace` and `(1, 0) ↦ (X − 1, Y)`, and back: the
+    residues of `X` and `Y` at `(X − 1, Y)` are `1` and `0`.
+  - Negation `(x₀, y₀) ↦ (x₀, −y₀ − a₁x₀ − a₃)` corresponds to the automorphism
+    `y ↦ −y − a₁x − a₃` of the function field; on `y² = x³ + 1` the points `(0, 1)` and `(0, −1)`
+    give the distinct places `(X, Y − 1)` and `(X, Y + 1)`.
+  - Nonexample: on `y² = x³` the degree-`1` ideal `(X, Y)` is no point of `W.toAffine.Point`, so a
+    dictionary on all degree-`1` maximal ideals of a singular cubic is not a bijection.
+
 - **Divisors and the class-group anchor.** The divisor group on places; `deg`; `div f` for
   `f ≠ 0` with `deg (div f) = 0`; and the identification of Mathlib's class-group group law with
   the degree-`0` divisor class group: `Point.toClass` is injective upstream, and the
@@ -494,6 +528,32 @@ here, with adapters to Angdinata's coordinate-ring and ideal-class interfaces.
   with no Riemann–Roch anywhere. ⚠ *Mathlib-track*: the shared upstream `CoordinateRing`
   split-out proves `Point.toClass_surjective` and packages `toClassEquiv` — with **no**
   ellipticity hypothesis — so the statement is consumed and deduplicated when that lands.
+
+  **Checks.**
+
+  - On `y² = x³ − x`, `div x = 2((0, 0)) − 2(O)` and `div y = ((0, 0)) + ((1, 0)) + ((−1, 0)) − 3(O)`:
+    both have degree `0`, and the points of each sum to `O` in the group, as the principal-divisor
+    criterion requires.
+  - `(P) − (O)` with `P ≠ O` has degree `0` and is not principal, its sum being `P`; a class-group
+    map that ignored the group sum would make it trivial.
+  - For `P = (0, 0)` on `y² = x³ − x`, the class of `(X, Y)` has order `2`: its square is the
+    principal ideal `(X)`, matching `2P = O`.
+
+#### Examples
+
+- **The point–place dictionary and the class-group anchor.** `W.toAffine.Point` is exactly the
+  degree-`1` places of the function field (`O ↦ infinityPlace`), and `toClass` is onto the ideal
+  class group (`toClass_surjective`, with Mathlib's `toClass_injective`) — the Layer-0 identifications
+  every later layer uses.
+
+#### Dependencies
+
+Mathlib's `Affine.CoordinateRing`, `Affine.FunctionField`, `Point.toClass` and valuation theory.
+AlgebraicCurves Layer 10's early Weierstrass local-ring milestone supplies the places, the
+Dedekind property and the dictionary; it starts after AlgebraicCurves Layer 0 and uses no genus,
+different, completion or later Kähler/Weil comparison. The fundamental identity of induced places
+is AlgebraicCurves Layer 6, which follows its Layers 0–3 independently of Riemann–Roch. The count of
+geometric fibres of isogenies also uses Layer 1's separable-⟹-unramified milestone.
 
 ### Layer 0.5: base change, Galois actions, translations, and descent (cross-cutting)
 
@@ -520,6 +580,32 @@ being distributed as bookkeeping. Its milestones:
 - descent of function-field maps from `Kˢᵉᵖ` to `K` (Galois-equivariance criterion);
 - descent of the symmetric Vélu coefficients for Galois-stable finite subgroups.
 
+**Checks.**
+
+- `τ_O^*` is the identity of the function field, and `τ_Q^* ∘ τ_{Q′}^* = τ_{Q+Q′}^*`: for
+  `Q = (0, 1)` on `y² = x³ + 1`, of order `3`, applying `τ_Q^*` three times gives the identity.
+- The direction of translation: on `y² = x³ + 1` with `Q = (0, 1)`, `τ_Q^* x = (y − 1)²/x² − x` and
+  `τ_{−Q}^* x = (y + 1)²/x² − x`; at `P = (2, 3)` these are `−1` and `2`, the `x`-coordinates of
+  `P + Q = (−1, 0)` and `P − Q = (2, −3)`, and a pullback along `X ↦ X − Q` would exchange them.
+- Galois actions commute with translations by rational points and move the others: for
+  `σ ∈ Gal(Kˢᵉᵖ/K)`, `σ ∘ τ_Q^* ∘ σ⁻¹ = τ_{σQ}^*`, so `τ_Q^*` descends to `K(W)` exactly when `Q` is
+  `K`-rational.
+
+#### Examples
+
+- **Descent of Vélu's coefficients.** On `y² = x³ − 2` over `ℚ`, `Φ = E[2]` consists of `O` and
+  the three points `(x_Q, 0)` with `x_Q³ = 2`, none rational but `Φ` Galois-stable. Vélu's sums are
+  `t = Σ 3x_Q² = 0` and `w = Σ 3x_Q³ = 18`, rational, and the quotient is `y² = x³ − 128`, which the
+  change of variables `x = 4x′`, `y = 8y′` takes back to `y² = x³ − 2`: the quotient by `E[2]` is the
+  target of `[2]`, as it must be.
+
+#### Dependencies
+
+Mathlib's base change of Weierstrass curves and points and its group law over the function field;
+Layer 0's places, which the translations transport. The translations are built from the native
+addition formulas, independently of AlgebraicCurves. The lane starts early because Layers 1, 2, 4
+and 5 all use it.
+
 ### Layer 1: isogenies, the dual, the invariant differential, and formal groups (AEC II.2, III.4–6, IV)
 
 - **The isogeny type** (Tau Ceti's `TauCeti.Isogeny`, with `TauCeti.Isogeny.degree`; ⚠
@@ -530,6 +616,17 @@ being distributed as bookkeeping. Its milestones:
   finite, the inseparable case included), `deg φ ≥ 1` (`TauCeti.Isogeny.degree_pos`), the separable and inseparable
   degrees, identity and composition with `deg (ψ ∘ φ) = deg ψ · deg φ` — the tower formula;
   under the scheme definition this was half the hard core, here it is field theory.
+
+  **Checks.**
+
+  - The identity pullback is an `Isogeny` of degree `1`, and the `q`-power Frobenius over `𝔽_q` one
+    of degree `q`.
+  - On `y² = x³ − x`, `x ∘ [2] = (x² + 1)²/(4(x³ − x))`, a rational function of degree `4` in `x`, so
+    `[K(x) : K(x ∘ [2])] = 4` and `deg [2] = 4 = 2²`; a degree read off as `|n|` would say `2`.
+  - Nonexample: evaluation at an affine point, `f ↦ f(x₀, y₀)`, is a unital `K`-algebra map
+    `R(W₂) → K(W₁)` that fails `MapsInfinity`: its image is `K`, over which `x ∈ R(W₁)` is
+    transcendental.
+
 - **The intermediate ring and the induced map on points.** The integral closure of
   `W₂.CoordinateRing` in `W₁.FunctionField` — geometrically, the functions regular away from
   the fibre `φ⁻¹(O₂)` — receives both coordinate rings, is **module-finite** over
@@ -548,6 +645,15 @@ being distributed as bookkeeping. Its milestones:
   count — the intermediate ring is locally free of rank `deg φ` over the coordinate ring, so
   every fibre over an affine point has `deg φ` points with multiplicity, and translation
   moves the kernel fibre onto one — is the alternate route Layers 2–3 may take.
+
+  **Checks.**
+
+  - `toPointHom` of the identity is the identity, and of `[n]` is `P ↦ n • P`.
+  - `toPointHom` of the Frobenius isogeny over `𝔽_q` is `(x, y) ↦ (x^q, y^q)`; on `y² = x³ − x` over
+    `𝔽₃` it fixes the four `𝔽₃`-points.
+  - `toPointHom` of `[−1]` is `(x, y) ↦ (x, −y − a₁x − a₃)`; on `y² + y = x³ − x` it sends `(0, 0)` to
+    `(0, −1)`, and a map read off the `x`-pullback alone could not tell it from the identity.
+
 - **The standard isogenies: `[n]`, fully specified.** `[n] : Hom(E, E)` is defined for every
   `n : ℤ`, with `[0]` the carrier's zero map and `[n]` an `Isogeny` for `n ≠ 0`. The `x`-coordinate
   alone does not determine the map (`[n]` and `[−n]` share it), so the definition fixes
@@ -563,6 +669,14 @@ being distributed as bookkeeping. Its milestones:
   The `q`-power **Frobenius** `π_q` over `𝔽_q` (`pullback = (· ^ q)`; Tau Ceti's
   `TauCeti.Isogeny.frobeniusIsogeny` with `TauCeti.Isogeny.degree_frobeniusIsogeny`), purely inseparable of degree `q`;
   `deg (1 − π_q) = #E(𝔽_q)` is the identity Layer 3 turns into the Hasse bound.
+
+  **Checks.**
+
+  - `[1]` and `[−1]` have the same `x`-pullback `x`, and `y`-pullbacks `y` and `−y − a₁x − a₃`.
+  - On `y² = x³ + 1`, `x ∘ [2] = (x⁴ − 8x)/(4x³ + 4)`; at `P = (2, 3)` it gives `0`, the abscissa of
+    `2P = (0, 1)`.
+  - `[0]` is the zero element of `Hom`, not an `Isogeny`, with `deg [0] = 0`.
+
 - **Relative Frobenius, a milestone and not a one-liner.** Over an imperfect field, `p`-th
   powering is semilinear rather than a `K`-algebra map, so the target is not a single arrow:
   the **Frobenius twist** `W^{(p)}` with its coefficient description and base-change API; the
@@ -573,6 +687,16 @@ being distributed as bookkeeping. Its milestones:
   (AEC II.2.12); and **Verschiebung** `V` as the dual of relative Frobenius, with
   `V ∘ F = [p]` and `F ∘ V = [p]`. The dual construction and the finite-field theory below
   consume every one of these.
+
+  **Checks.**
+
+  - The Frobenius twist raises coefficients to the `p`-th power: `y² + xy = x³ + t` over `𝔽₂(t)` has
+    `W^{(2)} : y² + xy = x³ + t²`, and over a finite prime field `W^{(p)} = W`.
+  - `V ∘ F = [p]` forces `deg V = p`; `V` is purely inseparable on `y² = x³ − x` over `𝔽₃`
+    (supersingular) and separable on `y² = x³ + x` over `𝔽₅` (ordinary).
+  - Every isogeny factors as `φ_sep ∘ F^r`: for `[p]` on an ordinary curve `r = 1` and `deg φ_sep = p`,
+    on a supersingular one `r = 2` and `φ_sep` is an isomorphism.
+
 - **The hom-group and the degree form.** `Hom(W₁, W₂)`: **the carrier adjoins no `WithZero`** —
   the `F`-linear multiplicative maps `R(W₂) → K(W₁)` that are either the
   zero map or a conditioned `F`-algebra map. Into a field a multiplicative map satisfies
@@ -604,14 +728,15 @@ being distributed as bookkeeping. Its milestones:
   `a₃ = 0`, so over `𝔽₉` the Frobenius is `π₉ = π₃² = [−3]` and `ℤ[π₉] = ℤ`. State the rank
   dichotomy, not a blanket rank-`2` claim, and treat the ordinary and supersingular cases
   separately where the distinction matters.
-  **Rational versus geometric endomorphisms are different types**: `EndOver K E` (defined
-  over `K`) and `GeometricEnd E := EndOver Kˢᵉᵖ (E.baseChange Kˢᵉᵖ)` — Layer 5 quantifies
+  **Rational versus geometric endomorphisms are different types**: Tau Ceti's
+  `TauCeti.Isogeny.Hom W W` (defined over `K`) and `WeierstrassCurve.GeometricEnd W`, the same
+  ring for the base change of `W` to `Kˢᵉᵖ` — Layer 5 quantifies
   over `Aut (E_{Kˢᵉᵖ}, O)`, the units of the *geometric* ring, not over `K`-automorphisms.
   **Complex multiplication enters as data and as properties, at the right strength**:
-  `CMAction R E` — a ring **embedding** `R ↪+* EndOver K E` (a chosen action of an order,
-  which is what "CM by `R`" supplies) — with `HasGeometricCM E` the property that
-  `GeometricEnd E` is strictly larger than `ℤ`, and the exact identification
-  `GeometricEnd E ≃+* R` kept as a separately named, stronger predicate; each with its
+  `TauCeti.CMAction R W` — an injective ring homomorphism `R →+* Hom W W` (a chosen action of an
+  order, which is what "CM by `R`" supplies) — with `WeierstrassCurve.HasGeometricCM` the property
+  that `GeometricEnd W` is strictly larger than `ℤ`, and the exact identification
+  `GeometricEnd W ≃+* R` kept as a separately named, stronger predicate; each with its
   transport API. The assertion that the endomorphism ring of an ordinary curve over `𝔽_q` is
   an **order in `ℚ(π_q)`** is a substantial theorem, not bookkeeping; it is a named milestone
   of its own below, and nothing in the CM vocabulary presumes it.
@@ -624,12 +749,29 @@ being distributed as bookkeeping. Its milestones:
   `ℤ[π_q] ⊆ End(E)`, and the inclusion is genuinely strict in general — for `y² = x³ + x`
   over `𝔽₅` one has `#E(𝔽₅) = 4`, `a₅ = 2`, so `π = 1 ± 2i` and
   `ℤ[π] = ℤ[2i] ⊊ ℤ[i] ≅ End(E)`, of index `2`. The correct ordinary-case target is therefore
-  **`End(E)` is an order in `ℚ(π_q)` containing `ℤ[π_q]`**, with `HasCM` witnessed
-  separately and explicitly (worked examples). The CM **main theorem** is out
+  **`End(E)` is an order in `ℚ(π_q)` containing `ℤ[π_q]`**, with the order `End(E)` itself — a
+  `CMAction` of that order — witnessed separately and explicitly (§Layer 1 Examples). The CM
+  **main theorem** is out
   of scope. ⚠ The hard core of the layer — for *any* definition of isogeny — is the
   **quadraticity of the degree**: `deg` extends to a positive-definite quadratic form on
   `Hom(W₁, W₂)` (`deg [n] = n²`, the parallelogram law, bilinearity of
   `(φ, ψ) ↦ deg (φ ∔ ψ) − deg φ − deg ψ`) — the Abel-grade content behind Hasse.
+
+  **Checks.**
+
+  - The sum is not pointwise: adding the identity pullback to itself pointwise sends `x` to `2x` and
+    `x²` to `2x²`, not `(2x)²`, so it is not multiplicative; the group-law sum `id ∔ id` is `[2]`, of
+    degree `4`.
+  - The degree form: `deg 0 = 0`, `deg [n] = n²`, and on `y² = x³ − x` over `𝔽₃`,
+    `deg(1 − π₃) = #E(𝔽₃) = 4 = deg(1 + π₃)`, so the trace of `π₃` is `0`.
+  - The rank dichotomy: on `y² = x³ − x` over `𝔽₉`, `π₉ = [−3]` and `ℤ[π₉] = ℤ`; on `y² = x³ + x`
+    over `𝔽₅`, `π₅² − 2π₅ + 5 = 0` and `ℤ[π₅]` has rank `2`.
+  - Rational against geometric: on `y² = x³ + x`, `[i](x, y) = (−x, iy)` is defined over `ℚ(i)`
+    and gives a `CMAction` of `ℤ[i]` there; over `ℚ` it is not defined, so the curve has
+    `HasGeometricCM` over `ℚ` with no `CMAction` of `ℤ[i]` over `ℚ`.
+  - `Aut (E, O)`: `{±1}` for `j ≠ 0, 1728`; `μ₄`, generated by `[i]`, for `y² = x³ + x` over `ℚ(i)`;
+    `μ₆`, generated by `(x, y) ↦ (ζ₃x, −y)`, for `y² = x³ + 1` over `ℚ(ζ₃)`.
+
 - **The factorisation theorem** — made a milestone in its own right, because it is what
   the dual is built from and it is easy to state wrongly. It is typed on **isogenies**, since
   the zero homomorphism has no function-field pullback. Over **any** field `K`: for isogenies
@@ -663,6 +805,15 @@ being distributed as bookkeeping. Its milestones:
   relative-Frobenius bullet above (AEC II.2.12), every quotient is a Frobenius power
   followed by a Vélu quotient by a set of points, so the two constructions together reach
   every isogeny.
+
+  **Checks.**
+
+  - `Φ = {O}` gives `X = x` and the curve itself.
+  - On `y² = x³ − x` with `Φ = {O, (0, 0)}`: `τ_{(0,0)}^* x = −1/x`, so `X = x − 1/x`, and Vélu's
+    sums `t = −1`, `w = 0` give the quotient `Y² = X³ + 4X`.
+  - Nonexample: the kernel of relative Frobenius has no geometric points other than `O`, so Vélu
+    returns the identity for it; that quotient is the twist `W^{(p)}`.
+
 - **The dual isogeny.** `φ̂` with `φ̂ ∘ φ = [deg φ]` and `φ ∘ φ̂ = [deg φ]` (AEC III.6.1–2),
   constructed by factoring `[deg φ]` through `φ` via the milestone above: for the **separable**
   part, base change to `Kˢᵉᵖ`, where `Kˢᵉᵖ(W₁)/φ^*Kˢᵉᵖ(W₂)` **is** Galois with group
@@ -686,6 +837,16 @@ being distributed as bookkeeping. Its milestones:
   is a ring and may be taken there instead; a general `φ : W₁ → W₂` has its dual in
   `Hom(W₂, W₁)` and gets it from the factorisation above. The construction of record is
   Silverman's factorisation — fully scheme-free.)
+
+  **Checks.**
+
+  - The dual of `[n]` is `[n]`, and `deg φ̂ = deg φ`.
+  - On `y² = x³ − x` over `𝔽₃`, the trace is `0`, so `π̂₃ = −π₃` and `π₃ ∘ π̂₃ = −π₃² = [3]`, using
+    `π₃² = [−3]`.
+  - Nonexample: `[2]` on `y² = x³ − 2` over `ℚ`, which has no rational `2`-torsion point, gives a
+    separable extension of degree `4` with no nontrivial `ℚ`-automorphism, so the dual cannot be
+    built by a Galois correspondence over `ℚ`.
+
 - **`[n]`-surjectivity.** `[n]`'s surjectivity on `Kˢᵉᵖ`-points, for `n` **invertible in `K`** —
   the invertibility makes `[n]` separable, and over a merely separably closed (possibly
   imperfect) field only separable isogenies are surjective on points — is the first concrete
@@ -734,6 +895,15 @@ being distributed as bookkeeping. Its milestones:
   capstone genuinely consumes it: `HasseBound/Separability.lean` imports
   `Foundation/InvariantDifferentialPullback`, and `Foundation/EC/MulByIntUnramified.lean` is
   the `e = 1` input, citing AEC III.4.10(c) (§Provenance).
+
+  **Checks.**
+
+  - `[−1]^*ω = −ω`: under `y ↦ −y − a₁x − a₃` the denominator `2y + a₁x + a₃` changes sign.
+  - The Frobenius isogeny has `π_q^*ω = 0`, since `d(x^q) = 0`: it is inseparable, as the criterion
+    says.
+  - On `y² + xy = x³ + t` over `𝔽₂(t)` the denominator `2y + a₁x + a₃` is `x ≠ 0`, while `dx/(2y)`
+    would divide by zero in characteristic `2`.
+
 - **The formal group — four milestones with four different hypothesis sets, not one.**
   (i) The elliptic formal group *law* `Ê` over the coefficient ring, from expanding the group
   law at `O` (AEC IV.1), as an instance of Mathlib's `RingTheory/FormalGroup`; `[m]` on `Ê`.
@@ -743,6 +913,35 @@ being distributed as bookkeeping. Its milestones:
   the kernel of reduction for an integral model (IV.6; consumed by Layers 3–4). These cannot
   share one typeclass bundle, and the existing sorry-free Stoll development (provenance) is
   the port source — refounded on Mathlib's formal-group-law layer, not rebuilt from nothing.
+
+  **Checks.**
+
+  - The law begins `F(z₁, z₂) = z₁ + z₂ − a₁z₁z₂ + (terms of degree ≥ 3)`, in the parameter
+    `z = −x/y`.
+  - The inverse begins `i(z) = −z − a₁z² + O(z³)`, read off `−(x, y) = (x, −y − a₁x − a₃)`, and
+    `[2](z) = 2z − a₁z² + O(z³)`.
+  - The logarithm and exponential need `ℚ` in the coefficients: the coefficient of `z^m` in the
+    logarithm carries the denominator `m`, so over `𝔽_p` there is no logarithm.
+
+#### Examples
+
+- **Frobenius is an isogeny:** over `𝔽_q`, `pullback = (· ^ q)` satisfies `MapsInfinity`, is
+  purely inseparable of degree `q`, and induces `(x, y) ↦ (x^q, y^q)` on points
+  (`frobeniusIsogeny` and `degree_frobeniusIsogeny`).
+- **CM as a predicate, and the gap `ℤ[π_q]` leaves:** over `ℚ(i)` the curve `y² = x³ + x` carries a
+  `CMAction` of `ℤ[i]`, hence `HasGeometricCM`; and the *same equation over `𝔽₅`* is the cautionary
+  instance — it is ordinary with `π = 1 ± 2i`, so `ℤ[π] = ℤ[2i]` is index `2` in `End(E) ≅ ℤ[i]`,
+  showing that a `CMAction` of `ℤ[π_q]` is strictly weaker than one of `ℤ[i]`. The predicates and
+  their witnesses only; the CM main theorem stays out of scope.
+
+#### Dependencies
+
+Layers 0 and 0.5; Mathlib's division polynomials, field theory (`Module.finrank`, separable and
+purely inseparable degrees), Kähler differentials and `RingTheory/FormalGroup`. AlgebraicCurves
+Layer 0 (the exact constants) and Layer 10's early Weierstrass local-generation milestone supply
+the Kähler basis, the regular and nonvanishing differential and the unramifiedness milestone; the
+translation-invariance of `ω` uses Layer 0.5's translations and the native addition formulas,
+independently of that supplier.
 
 ### Layer 2: torsion, the Weil pairing, and the Tate module (AEC III.6–8)
 
@@ -772,6 +971,18 @@ being distributed as bookkeeping. Its milestones:
   a separably closed field with `N` invertible (`TauCeti.Isogeny.weilPairing_nondegenerate`), Galois-equivariant, compatible with
   isogenies via the dual (`e_N(φP, Q) = e_N(P, φ̂Q)`) — the consumer-facing API — and
   functorial under change of field.
+
+  **Checks.**
+
+  - `N = 2` on `y² = x³ − x`: `E[2] = {O, (0, 0), (1, 0), (−1, 0)}`, and `e₂(P, Q) = −1` for distinct
+    nonzero `P`, `Q`, `e₂(P, P) = 1`; this value cannot tell `e₂` from `e₂⁻¹`.
+  - The orientation: on `y² + y = x³` over `𝔽₄ = 𝔽₂(ω)`, `ω² + ω + 1 = 0`, the nine `𝔽₄`-points
+    are `E[3]`, and `e₃((0, 0), (1, ω)) = ω`, computed from `e_N(S, T) = τ_S^* g_T / g_T` with `g_T`
+    built over `𝔽₆₄`, where `E[9]` is rational; `e₃((1, ω), (0, 0)) = ω²`, which is also what the
+    inverse pairing, or translation by `−S`, would return for the first pair.
+  - Nonexample for `N` not invertible: over an algebraic closure of `𝔽₃`, `y² = x³ − x` has
+    `E[3] = 0` and `μ₃ = 1`, so no nondegenerate pairing exists there.
+
 - **The Tate module.** For `ℓ` **prime**, `ℓ ≠ char K`: the inverse system `E[ℓⁿ]` with its
   transition maps, `T_ℓ E = lim E[ℓⁿ]` a free `ℤ_ℓ`-module of rank `2` with its profinite
   topology, the `ℓ`-adic Weil pairing, and the continuous Galois representation into
@@ -780,6 +991,30 @@ being distributed as bookkeeping. Its milestones:
   (`det = ` the cyclotomic character, via the pairing) are named milestones.
   ⚠ *Mathlib-track*: to be done directly in Mathlib in due course — built
   here per the dedupe convention and deduplicated when upstream catches up.
+
+  **Checks.**
+
+  - For `E/ℚ` and complex conjugation `c`, `det ρ_ℓ(c) = −1`, the cyclotomic character at `c`, so
+    `ρ_ℓ(c)` has eigenvalues `1` and `−1`; a determinant normalised to the trivial character fails
+    this.
+  - `ℓ = char K` is excluded: over an algebraic closure of `𝔽₃`, `y² = x³ − x` has `E[3ⁿ] = 0` for
+    every `n`, so `T₃ E = 0`, not free of rank `2`.
+  - Modulo `2`: on `y² = x³ − 2` over `ℚ`, `E[2]` is `O` and the three points `(x_Q, 0)` with
+    `x_Q³ = 2`, and Galois acts through `S₃ ≅ GL₂(𝔽₂)`, so the reduction of `ρ₂` is surjective.
+
+#### Examples
+
+- **`[n]` is surjective on `E(Kˢᵉᵖ)`** for `n` invertible in `K`, and `#E[N] = N²` for `N`
+  invertible in `K` — the Layer 1/2 counting gate (`nsmul_surjective`, `torsion_addEquiv_prod`).
+- **The Weil pairing is bilinear and nondegenerate** — an additive bilinear map into
+  `Additive (rootsOfUnity N K)`, with `e_N(P, ·) ≡ 0 ⇒ P = 0` over a separably closed field with
+  `N` invertible (`weilPairing`, `weilPairing_nondegenerate`).
+
+#### Dependencies
+
+Layer 1's dual isogeny, `[N]`-surjectivity and separable-⟹-unramified milestone; Layer 0's divisor
+calculus for the Weil pairing; Layer 0.5's Galois actions for the Tate module and its
+representation.
 
 ### Layer 3: elliptic curves over finite fields — the Hasse bound (AEC V.1)
 
@@ -809,18 +1044,27 @@ being distributed as bookkeeping. Its milestones:
   singular point is fixed by every automorphism of `F̄/F`, hence rational over a perfect field.
   ⚠ Rationality needs perfectness: over `𝔽₃(t)` the only singular point of `y² = x³ + t` is
   `(−t^(1/3), 0)`, which is not rational. Hence `pointCount W = #W.Point + 1` when `Δ W = 0` and
-  `= #W.Point` otherwise — both milestones — and when the planned upstream split into all points
-  and a separate `NonsingularPoint` lands, these become the deduplication lemmas rather than a
-  reason to have waited.
+  `= #W.Point` otherwise — both milestones.
   ⚠ What is genuinely elliptic-specific is not the definition but the theorem making the defect
   a *trace*: the Layer-1 identity `deg(1 − π_q) = #E(𝔽_q)`, which is where the name is earned.
   Every theorem treating `a_q` **as a trace** — Hasse, the zeta strand, the
   ordinary-endomorphism-ring theorem — carries `[E.IsElliptic]` accordingly, and the
   bad-reduction trichotomy above is a separate milestone about the same formula.
+
+  **Checks.**
+
+  - `y² = x³ − x` over `𝔽₃` has point count `4` and trace `0`; `y² = x³ + x` over `𝔽₅` has point
+    count `4` and trace `2`.
+  - The singular cubics over `𝔽₅`: `y² = x³ + x²` (split node), `y² = x³ + 2x²` (nonsplit, `2` not a
+    square) and `y² = x³` (cusp) have point counts `5`, `7`, `6`, so traces `1`, `−1`, `0`; counting
+    nonsingular points only would give `2`, `0`, `1`.
+  - Over `𝔽₂`, `y² + y = x³ + x + 1` has `1` point and trace `2`, and `y² + y = x³ + x` has `5`
+    points and trace `−2`, both at the edge `⌊2√2⌋ = 2` of the Hasse interval.
+
 - **The ordinary/supersingular dichotomy, defined geometrically.** For elliptic `E` over **any**
   field `K` of characteristic `p > 0`, `E` is **supersingular** when `E[p](K̄) = O` for an
   algebraic closure `K̄`, and **ordinary** otherwise (Tau Ceti's `WeierstrassCurve.IsSupersingular`
-  and `WeierstrassCurve.IsOrdinary`; AEC V.3.1(i)). ⚠ **The algebraic closure, not the separable
+  and `WeierstrassCurve.IsOrdinary`; Sutherland, Lecture 14, p. 1). ⚠ **The algebraic closure, not the separable
   one**: over an imperfect field a `p`-torsion point can need a purely inseparable extension.
   On `y² + xy = x³ + t` over `𝔽₂(t)` (`Δ = t`, `j = 1/t`, ordinary since `j ≠ 0`) the only
   nonzero `2`-torsion point is `(0, √t)`, so `E[2](K̄) ≅ ℤ/2` while `E[2](Kˢᵉᵖ) = O`, and a
@@ -842,8 +1086,9 @@ being distributed as bookkeeping. Its milestones:
   its induced function-field extension, proves that it is preserved and reflected by arbitrary
   scalar extension, and proves that Frobenius twists, relative Frobenius, duals and hence
   Verschiebung commute with scalar extension under the canonical Frobenius-twist base-change
-  identification. This layer proves
-  `IsSupersingular p W ↔ (verschiebung p W).IsPurelyInseparable`: the defining equality
+  identification. This layer proves that `W` is supersingular exactly when the Verschiebung is
+  purely inseparable (Tau Ceti's
+  `WeierstrassCurve.isSupersingular_iff_isPurelyInseparable_verschiebungIsogeny`): the defining equality
   `E[p](K̄) = {O}` is equivalent to `sepdeg([p]) = 1`; from `[p] = V ∘ F`,
   `sepdeg(F) = 1`, and multiplicativity of separable degrees, one gets
   `sepdeg([p]) = sepdeg(V)`; and because `V` has degree `p`, this is equivalent to `V` being
@@ -855,11 +1100,23 @@ being distributed as bookkeeping. Its milestones:
   including for transcendental `L/K` and without choosing or comparing separable closures.
   **Over a finite field** the operational criterion is the theorem
   `IsSupersingular E ↔ ringChar F ∣ frobeniusTrace E` (Tau Ceti's
-  `WeierstrassCurve.isSupersingular_iff_dvd_frobeniusTrace`; AEC V.4.1), and
-  it is what the Hasse-era strands use. ⚠ Do not write `a_q = 0` for it: the two agree only for
-  `q = p ≥ 5`, since over `𝔽₂` and `𝔽₃` the Hasse interval is wide enough to hold supersingular
+  `WeierstrassCurve.isSupersingular_iff_dvd_frobeniusTrace`; Sutherland, Lecture 14, Theorem 14.2),
+  and it is what the Hasse-era strands use. ⚠ Do not write `a_q = 0` for it: the two agree only for
+  `q = p ≥ 5` (Sutherland, Lecture 14, Corollary 14.3 and Warning 14.4), since over `𝔽₂` and `𝔽₃`
+  the Hasse interval is wide enough to hold supersingular
   curves with `a_q ≠ 0`. The remaining equivalences — `#E(𝔽_q) ≡ 1 (mod p)`, inseparability of
   the dual `π̂_q`, and `E[p^r](K̄) = O` for every `r` — are theorems of this layer.
+
+  **Checks.**
+
+  - `y² = x³ − x` over `𝔽₃` is supersingular (`3 ∣ 0`); `y² = x³ + x` over `𝔽₅` is ordinary
+    (`5 ∤ 2`); `y² + y = x³ + x` over `𝔽₂` is supersingular with trace `−2 ≠ 0`.
+  - `y² + xy = x³ + t` over `𝔽₂(t)` is ordinary, as computed above; a separable-closure definition
+    calls it supersingular.
+  - Negative control for the prime: over `ℚ`, `IsOrdinary 2 W` holds for every elliptic `W`, since
+    `E[2](ℚ̄) ≅ (ℤ/2)²`; a statement reading the predicate as supersingularity without
+    `[CharP K p]` or `[ExpChar K p]` is vacuous there.
+
 - **The Hasse bound.** `#E(𝔽_q)` is within `2√q` of `q + 1` (AEC V.1.1). With
   `a_q := q + 1 − #E(𝔽_q)` the trace of Frobenius, the natural formalisation goal is the **integer
   inequality** `a_q² ≤ 4q` (Tau Ceti's `WeierstrassCurve.frobeniusTrace_sq_le_four_mul_card`; the real `|a_q| ≤ 2√q` follows), from
@@ -877,10 +1134,9 @@ being distributed as bookkeeping. Its milestones:
   Layer 1's separable-⟹-unramified milestone) — the
   only locus where the existing proof counts kernels (its
   coprime-route design; the one inseparable actor, `π_q` itself, never has its kernel counted —
-  its degree `q` enters through the Galois `q`-power pairing scaling). Once Layers 0–1 land, the
-  **restatement against the degree form is a named milestone discharged by rewriting along those
-  two lemmas — the existing proof reused, not redone** — and the bespoke notions are thereby
-  certified as computations of the real ones and kept internal.
+  its degree `q` enters through the Galois `q`-power pairing scaling). Tau Ceti proves the bound
+  against the degree form directly (`HasseBound.lean`), so the two lemmas are comparison theorems
+  that certify the bespoke notions as computations of the real ones, not inputs to the bound.
 - **The zeta function of `E/𝔽_q`** — defined the standard way, rational by *theorem*:
   `Z(E/𝔽_q, T) = exp(Σ_{n ≥ 1} #E(𝔽_{qⁿ})·Tⁿ/n) ∈ ℚ⟦T⟧`. Three milestones (AEC V.2 —
   elementary given the layers above; nothing Weil-conjectures-flavoured is needed at genus
@@ -904,6 +1160,36 @@ being distributed as bookkeeping. Its milestones:
   `T ↦ 1/(qT)` is not an operation on formal power series, so the power-series object never
   carries it. The **Riemann hypothesis for `E/𝔽_q`** (roots of absolute value `q^{-1/2}`,
   equivalent to Hasse) is then a corollary of the closed form.
+
+  **Checks.**
+
+  - `y² = x³ − x` over `𝔽₃` (`a = 0`): `Z = (1 + 3T²)/((1 − T)(1 − 3T))`, giving `#E(𝔽₃) = 4` and
+    `#E(𝔽₉) = 16`; the latter is `#E[4]`, as `π₉ = [−3]` fixes exactly `E[4]`.
+  - The trace sequence starts at `t₀ = 2`: then `t₂ = a·t₁ − q·t₀ = −6` and `#E(𝔽₉) = 9 + 1 − t₂ = 16`;
+    starting at `t₀ = 0` would give `t₂ = 0` and `10` points.
+  - The functional equation: `T ↦ 1/(qT)` multiplies the numerator and the denominator of
+    `(1 − aT + qT²)/((1 − T)(1 − qT))` by the same factor `1/(qT²)`, so the rational function is
+    unchanged, while the power series has no such substitution.
+
+#### Examples
+
+- **Hasse:** `a_q² ≤ 4q` for the Frobenius trace `a_q = q + 1 − #E(𝔽_q)`
+  (`frobeniusTrace_sq_le_four_mul_card`), **against the Layer-1 degree form**; the two comparison
+  lemmas of the function-field dictionary, which identify the provenance proof's equation-level
+  Frobenius and kernel counts with Layer 1's notions, are the acceptance test of the dictionary
+  itself.
+- **Ordinary and supersingular, on the curves the roadmap already turns on:** `y² = x³ − x`
+  over `𝔽₃` has trace `a_3 = 0` and is **supersingular**; `y² = x³ + x` over `𝔽₅` has trace
+  `a_5 = 2` and is **ordinary** (⚠ the trace is written `a_q`, never `a₃`, which is a
+  Weierstrass coefficient). These are exactly the two curves §Layer 1 uses for the `ℤ[π_q]` rank
+  dichotomy and for the gap between `ℤ[π_q]` and `End(E)`, so the predicates are certified on
+  the instances the endomorphism theory already depends on rather than on fresh ones.
+
+#### Dependencies
+
+Layer 1's Frobenius isogeny, degree form and dual; the zeta strand needs Layer 1's Frobenius
+identities. Layer 0.5's base change and Layer 2's torsion vocabulary for the geometric definition of
+supersingularity. Mathlib's `PowerSeries.exp` and `log` for the zeta function.
 
 ### Layer 4: elliptic curves over local fields — reduction, Tate's algorithm, the Tate curve (AEC VII, ATAEC IV–V)
 
@@ -954,15 +1240,39 @@ future scheme-facing roadmap.
     literature states its results under. API: the dichotomy (good reduction is exactly one of
     the two), compatibility with `frobeniusTrace` of the reduction, and behaviour under
     unramified base change.
+
+  **Checks.**
+
+  - `HasPotentialGoodReduction`: `y² = x³ + p` over `ℚ_p`, `p ≥ 5`, has `Δ = −432p²` and additive
+    reduction, and good reduction over `L = ℚ_p(p^{1/6})` after minimising; the base change of the
+    given equation has `v_L(Δ) = 12` and bad reduction, so a definition without the minimisation
+    would deny it potential good reduction.
+  - Not potentially good: on 11.a2 at `11`, `v(Δ) = 5` and `c₄ = 496` is a unit, so `v(j) = −5 < 0`.
+  - `localMinimalDiscriminant` and the good-reduction pair: scaling a minimal equation by
+    `aᵢ ↦ pⁱaᵢ` raises `v(Δ)` by `12`, the minimal ideal unchanged; `y² = x³ − x` has good supersingular
+    reduction at `3` (trace `0`), good ordinary reduction at `5` (`8` points, trace `−2`), and at `2`
+    additive reduction, where neither predicate holds.
+
 - **The reduction filtration (discrete strand).** Over a DVR `R` with fraction field `K` and
   residue field `k`, from a minimal Weierstrass equation (Mathlib's `WeierstrassCurve.minimal`):
   the **reduction map on points** — via the projective-coordinate representation, so that every
-  `K`-point reduces honestly (an API Mathlib's `Reduction.lean` does not yet have: it reduces
-  the curve, not the points; the Stoll repository now carries exactly this map — provenance) — the subgroups `E₀(K)` (nonsingular reduction) and `E₁(K)` (kernel
+  `K`-point reduces honestly (Mathlib's `Reduction.lean` reduces the curve, not the points; the
+  map is Tau Ceti's `WeierstrassCurve.Affine.Point.reduction` in `Affine/Point/Reduction.lean`, for
+  any valuation and integral model, and the Stoll repository carries it too — provenance) — the
+  subgroups `E₀(K)` (nonsingular reduction) and `E₁(K)` (kernel
   of reduction), the exact sequence `0 → E₁(K) → E₀(K) → Ẽ_ns(k) → 0` (AEC VII.2.1; `K`
   complete — Hensel's lemma gives the right-exactness), and the identification `Ê(𝔪) ≅ E₁(K)`
   connecting the formal group (Layer 1) to the kernel of reduction (VII.2.2, the formal group
   converging over complete `K`).
+
+  **Checks.**
+
+  - On 37.a1, `P = (0, 0)` reduces to a point of order `5` in `E(𝔽₂)`, of `5` points, and
+    `5P = (1/4, −5/8)` has `2` in its denominators: `5P ∈ E₁(ℚ₂)`.
+  - Likewise modulo `3`, where `E(𝔽₃)` has `7` points: `7P = (−5/9, 8/27) ∈ E₁(ℚ₃)`.
+  - `E₀` is proper at split `I₅`: on 11.a2 at `11` the reduction has a node at `(5, 5)`, with tangent
+    slopes in `𝔽₁₁` (`3` is a square there), and `[E(ℚ₁₁) : E₀(ℚ₁₁)] = 5`.
+
 - **Néron–Ogg–Shafarevich (discrete strand), in three separate statements.** (i) Good
   reduction `↔` unramified `T_ℓ`-action, for **`ℓ ≠ char k`** — the *residue* characteristic:
   `ℓ ≠ char K` is vacuous in mixed characteristic, and `T_p E` need not be unramified even
@@ -996,7 +1306,16 @@ future scheme-facing roadmap.
   residue characteristic `3` and refers `2` to Saito (Duke 1988), whose arithmetic-surface
   proof is uniform in the residue characteristic — is a
   **separate, related project**, cited (Saito) for context only; likewise the deeper
-  Tamagawa-number theory once the point-level reduction map exists.
+  Tamagawa-number theory.
+
+  **Checks.**
+
+  - 11.a2 at `11`: `I₅`, split, `c₁₁ = 5`, and algorithmic exponent `v(Δ) − m + 1 = 5 − 5 + 1 = 1`.
+  - `y² = x³ + p` at `p ≥ 5`: `v(Δ) = 2`, type `II`, `m = 1`, exponent `2 − 1 + 1 = 2`, `c_p = 1`.
+  - The split test changes `c_p`: `Iₙ` split gives `n`, nonsplit gives `2` for even `n` and `1` for
+    odd `n`, so a test that always answered "split" would give `c₁₁ = 5` for a nonsplit `I₅`, where
+    the index is `1`.
+
 - **The Tate curve (analytic strand).** For `K` a complete rank-1 valued field (nondiscrete
   allowed — `ℂ_p` qualifies) and `q : Kˣ` with `|q| < 1` — ⚠ type `q` as a **unit**, since
   `q = 0` satisfies `|q| < 1` and makes `qᶻ` meaningless at negative exponents — the Tate curve `E_q` and its uniformisation — pinned as the
@@ -1016,6 +1335,39 @@ future scheme-facing roadmap.
   functions* (1995, circulated since 1959) and Roquette (1970) for a general complete
   rank-1 field (references). This strand consumes the rank-1 generalisation of Mathlib's
   reduction predicates flagged in the consume-section above.
+
+  **Checks.**
+
+  - The series begin `a₄ = −5q − 45q² − ⋯` and `a₆ = −q − 23q² − ⋯`: the numerators `5 + 7 = 12`
+    and `5·9 + 7·33 = 276` of `−(5s₃ + 7s₅)/12` are divisible by `12`, as the integrality theorem
+    requires.
+  - `c₄ = 1 + 240 s₃ ≡ 1` and `v(Δ(q)) = v(q) > 0`, so over a discretely valued `K` the curve `E_q`
+    has split multiplicative reduction, and `j(q) = 1/q + 744 + ⋯` has a pole.
+  - `q = 0` is excluded by typing `q` as a unit: it satisfies `|q| < 1` and makes `q^ℤ` meaningless.
+
+#### Examples
+
+- **Tate's algorithm, one certified entry per Kodaira type** (LMFDB label @ prime): the
+  parametric family `v(Δ) = n`, `v(c₄) = 0 ↦ Iₙ` with `f = 1` — instances `I₁` on 11.a1@11,
+  `I₂` on 14.a4@7, `I₅` on 11.a2@11 — then `II` on 27.a4@3, `III` on 24.a5@2, `IV` on
+  20.a3@2, `I₀*` on 32.a1@2, the `Iₙ*` family with `I₁*` on 24.a4@2 and `I₂*` on 45.a8@3,
+  `IV*` on 20.a2@2, `III*` on 24.a3@2, and `II*` on 24.a1@2 — one certified example per
+  Kodaira symbol. ⚠ That is **not** the same as every branch of the algorithm: the multiplicative
+  entries above are all *split* (e.g. `I₅` on 11.a2@11 has `c_p = 5`), and the splitting test is
+  what the Tamagawa number sees — `c_p = n` when `Iₙ` is split, `gcd(2, n)` when it is nonsplit.
+  So the list also carries the missing branches: **good reduction** (`I₀`) at 11.a1@2, and
+  **nonsplit** `Iₙ` at both parities — `I₈` on 45.a8@5 (`c_p = 2`, even) and `I₁` on 24.a5@3
+  (`c_p = 1`, odd). Additive types have their own residue-polynomial splitting subbranches
+  affecting `c_p`; genuine decision-path coverage is a stronger goal than this list, and is
+  named as such.
+
+#### Dependencies
+
+Mathlib's reduction theory over a discrete valuation ring; Layer 1's formal group; Layer 2's Tate
+module for Néron–Ogg–Shafarevich; Layer 3's dichotomy for good ordinary and supersingular
+reduction. Layer 5's split-reduction statement feeds back into the analytic strand, so the two land
+together, not in numeric order, and the Tate-curve strand consumes the rank-one generalisation of
+Mathlib's reduction predicates flagged in §Exact supplier contracts.
 
 ### Layer 4.5a: invariant theory over a Dedekind domain (AEC VIII.8)
 
@@ -1063,6 +1415,18 @@ The layer is about elliptic curves and says so in its hypotheses.
   intended "every global minimal model is semi-global" would fail at the degenerate base. ⚠ The
   integrality clause on the second disjunct cannot be dropped either, since minimality away from
   `v₀` says nothing about the denominators at `v₀`.
+
+  **Checks.**
+
+  - `O` a field: the height-one spectrum is empty, `IsGlobalMinimal` holds vacuously, the bare
+    existential fails, and the disjunction `IsSemiGlobalMinimal` holds.
+  - 37.a1, `[0, 0, 1, −1, 0]` with `Δ = 37`, is `IsGlobalMinimal` over `ℤ`; the equation
+    `[0, 0, 8, −16, 0]` (`aᵢ ↦ 2ⁱaᵢ`) has `Δ = 2¹²·37`, is integral and minimal away from `2` but not
+    at `2`: `IsSemiGlobalMinimal` through the second disjunct, not `IsGlobalMinimal`.
+  - The integrality clause: translating 37.a1 by `r = 1/2` keeps `Δ = 37` and makes `a₂ = 3/2`, so
+    the translate is minimal at every `v ≠ 2` and not integral at `2`; without the clause it would
+    pass as semi-global at `v₀ = 2`.
+
 - **The sharp predicate is a different one.** `IsSemiGlobalMinimal` deliberately permits any
   defect at `v₀`, so the exact-defect notion gets its own name:
   **`IsSharpSemiGlobalMinimalAt O v₀ W`**, meaning **integral at `v₀`**, minimal at every
@@ -1071,6 +1435,14 @@ The layer is about elliptic curves and says so in its hypotheses.
   can preserve the discriminant. The weak predicate is what consumers test; the sharp one is what
   §Layer 4.5b's construction produces; both are Tau Ceti declarations
   (`WeierstrassCurve.IsSemiGlobalMinimal`, `WeierstrassCurve.IsSharpSemiGlobalMinimalAt`).
+
+  **Checks.**
+
+  - `[0, 0, 8, −16, 0]` has `v₂(Δ) − v₂(Δ_min) = 12`: sharp at `2`, `obstructionExponentAt = 1`.
+  - Scaling 37.a1 by `aᵢ ↦ 4ⁱaᵢ` gives `24` and exponent `2`: semi-global, not sharp.
+  - Translating `[0, 0, 8, −16, 0]` by `r = 1/2` keeps the discriminant and loses integrality at `2`:
+    not sharp, though the exponent computed from `Δ` alone would be `1`.
+
 - **The minimal discriminant ideal.** `minimalDiscriminantIdeal O W = ∏ᵥ 𝔭ᵥ ^ v(Δ_min,ᵥ)`, the
   finite product over the height-one primes of the local minimal discriminants of §Layer 4. It
   depends only on the `K`-isomorphism class and not on the model — that invariance is the
@@ -1079,6 +1451,14 @@ The layer is about elliptic curves and says so in its hypotheses.
   and cheaply — translating a global minimal equation by `r = 1/2` leaves `Δ` alone and destroys
   integrality, so `(Δ W) = 𝔇_{E/K}` holds for a model that is not even integral, let alone
   minimal.
+
+  **Checks.**
+
+  - 37.a1 has `𝔇 = (37)`, 11.a2 has `𝔇 = (11)⁵`, and `y² = x³ − x` has `𝔇 = (2)⁶`.
+  - `[0, 0, 8, −16, 0]` is integral and not minimal, and `(Δ) = (2¹²·37) ≠ 𝔇 = (37)`.
+  - The translate of 37.a1 by `r = 1/2` has `(Δ) = 𝔇` without being integral, the counterexample to
+    the comparison without integrality.
+
 - **The Weierstrass class.** The obstruction exponents
   `fᵥ = (v(Δ W) − v(Δ_min,ᵥ))/12` of an integral model — nonnegative integers, the
   divisibility by `12` being a theorem about admissible changes of variable rather than a
@@ -1110,11 +1490,30 @@ The layer is about elliptic curves and says so in its hypotheses.
   the global-minimality theorem tests — is the same either way; what is *not* orientation-free
   is any theorem naming a representative prime, which is why both spellings exist rather than
   one being quietly preferred.
+
+  **Checks.**
+
+  - The ideal identity on `[0, 0, 8, −16, 0]`: `f₂ = 1`, `𝔍 = (2)` and `(2¹²·37) = (37)·(2)¹²`; the
+    identity written the other way round would put `𝔍¹²` on the side of `(Δ W)`.
+  - Over `ℚ` every class is trivial (`h(ℚ) = 1`), so the class detects nothing there.
+  - Principality of `𝔇` is not triviality of the class: the `ℚ(√65)` curve of the Examples below
+    has `𝔇 = (1)` and a nontrivial class.
+
 - **The reduced-minimal predicate over `ℚ`.** `IsReducedMinimal W` packages global minimality
   over `ℤ` together with the coefficient ranges `a₁, a₃ ∈ {0, 1}` and
   `a₂ ∈ {−1, 0, 1}`. This layer defines that normal-form predicate but does not construct a
   representative. Existence and uniqueness are the §Layer 4.5b theorem, after global minimality
   has supplied an integral equation.
+
+  **Checks.**
+
+  - 37.a1 `[0, 0, 1, −1, 0]`, 11.a2 `[0, −1, 1, −10, −20]` and `y² = x³ − x` are `IsReducedMinimal`:
+    each is globally minimal (`v_p(Δ) < 12` at every `p`) with `a₁, a₃ ∈ {0, 1}`, `a₂ ∈ {−1, 0, 1}`.
+  - The translate `y ↦ y + 1` of 37.a1, `[0, 0, 3, −1, −2]`, still has `Δ = 37` and is globally
+    minimal, but `a₃ = 3`: not reduced.
+  - `y² = x³ − 16x`, the scaling `aᵢ ↦ 2ⁱaᵢ` of `y² = x³ − x`, meets the coefficient ranges but has
+    `v₂(Δ) = 18` and is not minimal at `2`: not reduced, so the predicate needs both clauses.
+
 - **Semistability.** `IsSemistable O W`: no height-one prime carries additive reduction, the
   reduction at `v` being that of a local minimal model at `v`. Milestones: invariance under
   `K`-isomorphism; the local criterion — on a minimal model, no additive reduction at `v` is
@@ -1125,6 +1524,37 @@ The layer is about elliptic curves and says so in its hypotheses.
   good over a ramified extension of `K_v` (potential good reduction, not semistable), while
   multiplicative reduction survives every extension (semistable at `v`, never potentially good
   there).
+
+  **Checks.**
+
+  - 37.a1 and 11.a2 are semistable: at `37` and `11` the minimal model has `v(Δ) > 0` and `c₄` a unit
+    (`48`, `496`).
+  - `y² = x³ − x` is not: at `2`, `v₂(Δ) = 6` and `v₂(c₄) = 4`, additive.
+  - `y² = x³ + p` over `ℚ`, `p ≥ 5`, has potential good reduction at `p` and is not semistable there,
+    while 11.a2 is semistable at `11` and never potentially good there (`v(j) = −5`).
+
+#### Examples
+
+- **Semistability agrees with the Kodaira symbol:** 11.a1 is semistable — its only bad prime is
+  `11`, of type `I₁` in §Layer 4's list — while 27.a4 is not, type `II` at `3` being additive.
+  Checking `IsSemistable` against the symbols Tate's algorithm computes is the acceptance test
+  for this layer against §Layer 4, in both directions.
+- **The Weierstrass class is not the principality of `𝔇_{E/K}`**, on a named curve. Over
+  `K = ℚ(α)` with `α² − α − 16 = 0` — that is `ℚ(√65)`, of class number `2` — the curve
+  `[0, 0, 0, −15221331α − 53748576, −79617688290α − 281140318368]` has **everywhere good
+  reduction**, so `𝔇_{E/K} = (1)`, as principal as an ideal gets; and yet its Weierstrass
+  class is nontrivial, so it has no global minimal model — no equation over `𝓞 K` has unit
+  discriminant — and only a semi-global one. It is the sharpest possible separation of the two
+  conditions, and certifying it is what stops them being conflated. The coefficients are large
+  because such curves are; any curve with those two properties serves equally, and this one is
+  named so that the acceptance test is a computation rather than a search. (Cremona's
+  number-field elliptic-curve implementation, references.)
+
+#### Dependencies
+
+Layer 4's local minimality and `localMinimalDiscriminant`; Mathlib's
+`IsDedekindDomain.HeightOneSpectrum` and `ClassGroup`. Layers 1–3 are not inputs, and the converse
+construction of a global equation is §Layer 4.5b's.
 
 ### Layer 4.5b: global equation construction over a number field
 
@@ -1147,7 +1577,7 @@ neither Kraus nor Tate's algorithm, since Mathlib's `exists_isMinimal` already s
 local minimalising change of variables at each prime, `Cl(ℤ) = 1` makes the global scale
 automatic, and finite approximation patches the translations. What Kraus is load-bearing for is
 the opposite direction — producing a certified curve from stored invariants — which is the
-database-facing consumer that §Worked examples exercises when it certifies records by label.
+database-facing consumer that this layer's Examples exercise when they certify records by label.
 ⚠ And it is **not** a cheap increment on Tate's algorithm: the difficulty is disjoint, Tate's
 being the singular-fibre case analysis and Kraus's the `a₁, a₃, b₂` congruences solved
 `2`-adically and `3`-adically. They share only the finite-approximation step, which the VIII.8.2
@@ -1168,7 +1598,8 @@ route needs anyway.
      Prove the nontrivial `krausLocalCondition_iff_exists_integralModel`, equating this explicit
      auxiliary criterion with existence of a Weierstrass equation over `𝒪_{K,v}` whose base
      change has **exactly** those two invariants;
-  3. prove `krausLocalCondition_of_not_dvd_six` **from the input in step 1**. Thus the auxiliary
+  3. prove that the condition holds **from the input in step 1** alone when `6` is a unit at `v`,
+     that is `v ∤ 6` (Tau Ceti's `TauCeti.krausLocalCondition_of_isUnit_six`). Thus the auxiliary
      analysis, not the integrality/nonsingularity hypotheses, is automatic away from `v ∣ 6`;
   4. for every `v ∣ 3`, choose a `HasKrausThreeWitness` value `b₂` modulo
      `v ^ v(3)`; for every `v ∣ 2`, choose a `HasKrausTwoWitness` pair and retain its `a₁`
@@ -1203,6 +1634,15 @@ route needs anyway.
      `krausGlobalCondition_iff_exists_integralModel` by the construction above; and
   8. in each application, separately verify local minimality and compute every
      `obstructionExponentAt`, rather than inferring either property from the discriminant alone.
+
+  **Checks.**
+
+  - Away from `6` the condition is the step-1 input alone (step 3).
+  - At `2`, for the invariants `(c₄, c₆) = (48, −216)` of 37.a1, `W₀ = [0, 0, 0, −1, 1/4]` is not
+    `2`-integral, so `(a₁, a₃) = (0, 0)` is no two-witness, while `(0, 1)` is: the
+    `(0, 0, 1/2)`-transform of `W₀` is `y² + y = x³ − x`.
+  - At `3` the same `W₀` is `3`-integral, so `b₂ = 0` is a three-witness, and step 6 with
+    `a₁ = 0`, `b₂ = 0`, `a₃ = 1` returns `(r, s, t) = (0, 0, 1/2)`, the same transform.
 
 - **Patching local minimal changes of variables — a separate AEC contract.** For each prime in
   the finite support of the defect, Layer 4 supplies a local minimal change
@@ -1267,6 +1707,23 @@ route needs anyway.
   by the primes above `2` and `3` would give the unconditional finite-avoidance corollary; that
   corollary belongs to external integration, not to this roadmap.
 
+#### Examples
+
+- **The reduced minimal model is unique, so a label names an equation:**
+  `y² + y = x³ − x² − 10x − 20` for 11.a2 and `y² + y = x³ − x` for 37.a1 are `IsReducedMinimal`,
+  and are the only such equations in their `ℚ`-isomorphism classes. That uniqueness lets a label
+  name a particular equation; the minimal discriminant and the absolute real period are already
+  presentation-independent by their own invariance and sign-independence theorems. ⚠ It is a
+  *long* equation, and is not the canonical minimal-pair short equation that
+  §Layer 8's height is computed from; the two canonical equations are certified separately.
+
+#### Dependencies
+
+§Layer 4.5a's invariants and §Layer 4's local minimal changes of variables; Mathlib's
+`exists_isMinimal`, `Rat.classNumber_eq` and `Rat.ringOfIntegersEquiv`; the finite-approximation
+lemma that step 5 of the Kraus contract owns. It comes after §Layer 4.5a, and the unconditional
+finite-avoidance corollary belongs to external integration.
+
 ### Layer 5: twists (AEC X.2, X.5)
 
 Twists here are twists of the **pointed** curve `(E, O)`: elliptic curves `E'/K` that become
@@ -1301,17 +1758,51 @@ scheme-facing roadmap. This layer deliberately does not conflate the two.
   AEC X.5.4); in characteristic `2`, where separable quadratic extensions are Artin–Schreier, by
   `K/℘(K)` with `℘(x) = x² − x`. The concrete construction below is characteristic-free either
   way.
+
+  **Checks.**
+
+  - The trivial cocycle gives `E` itself, and the pointed `K`-isomorphism class of `E` is the base
+    point of `H¹`.
+  - `j = 0`: `y² = x³ + 1` and `y² = x³ + 2` become isomorphic over `ℚ(2^{1/6})`, by `x ↦ 2^{1/3}x`,
+    `y ↦ 2^{1/2}y`, and are not quadratic twists of each other, since the quadratic twists of
+    `y² = x³ + 1` are the `y² = x³ + d³` and `2` is not a cube times a sixth power: a classification
+    by `K^×/(K^×)²` alone misses them.
+  - The classified objects are `K`-isomorphism classes, not equations: `y² = x³ + 2` and
+    `y² = x³ + 1458` (`1458 = 2·3⁶`) are one class, related by `x ↦ 9x`, `y ↦ 27y`.
+
 - **Quadratic twists (Weierstrass form).** The concrete `char`-free development of Stoll in the
   FLT project (revision `bc2fe8ff7396`): the twist `quadraticTwistOf E t n` by the quadratic `x² − t x + n` (discriminant
   `D = t² − 4n`, `Δ ↦ D⁶Δ`, `c₄ ↦ D²c₄`, `c₆ ↦ D³c₆`, identities over any `CommRing`), elliptic —
   over a field, as FLT states it — exactly when `D ≠ 0`, with
   `j(E_{t,n}) = j(E)` (Tau Ceti's `WeierstrassCurve.j_quadraticTwistOf`); the extension twist `quadraticTwist E L` by a separable quadratic
   `L/K` with `j(E^L) = j(E)` (`WeierstrassCurve.j_quadraticTwist`); the point isomorphism `E^L(M) ≅ E(M)` over `M ⊇ L`, Galois
-  anti-equivariant by the quadratic character (`WeierstrassCurve.quadraticTwistPointEquiv` — ⚠ the finite-`M/K` case of
-  the isomorphism is in an in-flight mathlib PR; the target here is general `M`, e.g.
-  `M = Kˢᵉᵖ`, which the Galois statement needs); and the headline that a curve with **nonsplit**
+  anti-equivariant by the quadratic character (`WeierstrassCurve.quadraticTwistPointEquiv`, for
+  every field `M` containing `L`, `M = Kˢᵉᵖ` included, which the Galois statement needs); and the headline that a curve with **nonsplit**
   multiplicative reduction acquires **split** reduction after a separable quadratic twist (over
   Mathlib's reduction predicates). This is *not* Silverman's `char ≠ 2` example (AEC X, Example 2.4).
+
+  **Checks.**
+
+  - `D = t² − 4n` governs everything: `Δ ↦ D⁶Δ`, `c₄ ↦ D²c₄`, `c₆ ↦ D³c₆`, `j` unchanged; at
+    `x² − 2x + 1`, `D = 0` and the twist is singular.
+  - `y² = x³ − 2` and its twist by `ℚ(i)`, `−y² = x³ − 2`, which `x ↦ −x` makes `y² = x³ + 2`: both
+    have `j = 0`, and at `7`, inert in `ℚ(i)`, they have `7` and `9` points, traces `1` and `−1`.
+  - Nonexample for "`E^L ≇ E`": the twist of `y² = x³ − x` by `ℚ(i)` is `−y² = x³ − x`, which
+    `x ↦ −x` takes back to `y² = x³ − x` over `ℚ`; at `j = 1728` a nontrivial quadratic twist can be
+    isomorphic to the curve.
+
+#### Examples
+
+- **`j` is a twist invariant** but the curves differ: `j(E^L) = j(E)` while `E^L ≇ E` over `K` for
+  `j ≠ 0, 1728`, and `E^L(M) ≅ E(M)` once `L ⊆ M`, with the Galois action twisted by the quadratic
+  character (`j_quadraticTwist`, `quadraticTwistPointEquiv`).
+
+#### Dependencies
+
+§Layer 1's `Aut (E, O)` and its identification with the stabiliser in Mathlib's `VariableChange`
+group; §Layer 0.5's Galois descent; the continuous nonabelian `H¹` lane described in §Layer 7's
+dependency note, which this layer's classification uses; Mathlib's reduction predicates for the
+split-reduction headline.
 
 ### Layer 6: the Mordell–Weil theorem (AEC VIII)
 
@@ -1341,22 +1832,36 @@ scheme-facing roadmap. This layer deliberately does not conflate the two.
   nonnegativity, `ĥ(P) = 0 ↔ P` torsion, the Néron–Tate bilinear pairing, the isogeny
   compatibility `ĥ_{E'}(φP) = deg φ · ĥ_E(P)`, the **regulator** as the Gram determinant on
   a basis of the free quotient with basis independence, and the rank-zero convention
-  `Reg = 1`. ⚠ **Pin the normalisation**: `ĥ(P) = lim_n h(x(n • P))/n²` with `h` the
-  logarithmic height of the `x`-coordinate, which is twice the normalisation some authors use;
-  the regulator and the BSD quotient of §Layer 7 are stated against this one, so it is fixed
-  here and not per-consumer. Convergence of that limit is the content of the construction and
-  is proved, never assumed: `ĥ` is not defined as a bare `limUnder` whose value would be
-  unspecified exactly where the theorem is.
+  `Reg = 1`. ⚠ **Pin the normalisation**: `ĥ(P) = lim_n h(2ⁿ • P)/4ⁿ` with `h` the
+  logarithmic height of the `x`-coordinate, equal to `lim_n h(n • P)/n²` and twice the
+  normalisation some authors use; the regulator and the BSD quotient of §Layer 7 are stated
+  against this one, so it is fixed here and not per-consumer. Tau Ceti's
+  `WeierstrassCurve.Affine.Point.canonicalHeight` is the `limUnder` of the first sequence, and the
+  convergence of both sequences on an elliptic curve is proved there
+  (`WeierstrassCurve.Affine.Point.tendsto_naiveHeight_two_pow_nsmul_div_four_pow` and
+  `WeierstrassCurve.Affine.Point.tendsto_naiveHeight_nsmul_div_sq`), so every statement about `ĥ`
+  carries `[W.IsElliptic]` and never reads the value `limUnder` takes on a divergent sequence.
   The elliptic-curve Selmer group `Sel_m(E/K)` of Layer 7 is the cohomological
   *refinement* of this argument, not its prerequisite.
+
+  **Checks.**
+
+  - `ĥ(O) = 0`, `ĥ(−P) = ĥ(P)` and `ĥ(n • P) = n² ĥ(P)`.
+  - `ĥ` vanishes on torsion: on 11.a2 the point `(5, 5)` has order `5` and `ĥ = 0`; on 37.a1,
+    `P = (0, 0)` has infinite order and `h(2ⁿ • P)/4ⁿ` is `0.0503`, `0.05110`, `0.05111` at
+    `n = 3, 4, 8`, so `ĥ(P) ≈ 0.0511 > 0`.
+  - The normalisation: `h(n • P)/n²` at `n = 80` is `0.05110`, the same limit; the halved
+    normalisation would give `ĥ(P) ≈ 0.0256`.
+
 - **Explicit `2`-descent (core, this layer).** The Stoll development already contains
   arithmetic `2`-descent: the local conditions, the explicit `2`-Selmer group inside the
   square classes of the étale algebra `K[X]/(f)`, its finiteness, and the theorem converting
   its cardinality into a **Mordell–Weil rank bound** — none of which needs Layer 7's
-  cohomological framework. Migrate it here as its own lane, with the existing
-  `y² = x³ − x + 1` rank computation as the early acceptance test. The comparison of this
-  explicit étale-algebra `2`-Selmer group with the abstract cohomological `Sel₂(E/K)` is a
-  named Layer-7 milestone.
+  cohomological framework. It is its own lane, ported to Tau Ceti (`MordellWeil/RankBound.lean`),
+  with the `y² = x³ − x + 1` rank computation (`MordellWeil/WorkedExamples/X3SubXAddOne/`) as its
+  acceptance test. The comparison of this explicit étale-algebra `2`-Selmer group with the
+  abstract cohomological `Sel₂(E/K)` is a named Layer-7 milestone
+  (`GaloisCohomology/Selmer/EtaleTwoDescent.lean` in Tau Ceti).
 - **The torsion subgroup and Nagell–Lutz.** Finiteness of `E(K)_tors` is a *corollary* of
   Mordell–Weil (finitely generated abelian groups have finite torsion), not a separate
   milestone; the content is **computability**. Over `ℚ` the theorem is wanted for
@@ -1373,13 +1878,36 @@ scheme-facing roadmap. This layer deliberately does not conflate the two.
   abscissa of `2P` is integral, and `y²` then divides `−(4A³ + 27B²)`, the discriminant of the
   cubic `x³ + Ax + B`. Route:
   division polynomials (⚠ *mathlib-track*: the division-polynomial material being upstreamed
-  is assumed done and consumed here). The **formal-group integrality
-  refinement** — every prime in a coordinate denominator appears to order `≥ 2`, the
-  provenance's PID-level `den_powerful_of_on_curve` — is a named later milestone consuming
-  Layer 4's filtration, not an aside. The **reduction-injectivity bound**
+  is assumed done and consumed here). The **integrality refinement** — every prime in the
+  denominator of `x` appears to order `≥ 2`, for every point of an integral model over a unique
+  factorisation domain, the provenance's PID-level `den_powerful_of_on_curve` — is Tau Ceti's
+  `WeierstrassCurve.sq_dvd_den_of_prime_of_dvd` (`Denominator.lean`), proved by a descent in the
+  Weierstrass equation with no formal group. The **reduction-injectivity bound**
   `E(ℚ)_tors ↪ Ẽ_ns(𝔽_p)` holds for good **odd** `p` (at `p = 2` only the prime-to-`2`
-  torsion injects; the general statement is injectivity on prime-to-`p` torsion) — gated on
-  Layer 4's point-level reduction map (the projective-coordinates API flagged there).
+  torsion injects; the general statement is injectivity on prime-to-`p` torsion), through
+  Layer 4's point-level reduction map: Tau Ceti's
+  `WeierstrassCurve.Affine.Point.injOn_reductionHom_torsion` (`Affine/Point/TorsionReduction.lean`).
+
+#### Examples
+
+- **Torsion and rank on named curves:** `E(ℚ)_tors ≅ ℤ/5ℤ` for 11.a3, certified by
+  Nagell–Lutz (a finite integral search); rank `≥ 1` for 37.a1 via the point `(0, 0)`,
+  certified of infinite order by **reduction at two primes** (its orders in two good-
+  reduction point groups are incompatible with any single torsion order) — a certificate
+  independent of the canonical height; upgraded to rank `= 1` by the **explicit `2`-descent of
+  this layer**. Torsion is decidable, explicit `2`-descent rank bounds are Layer-6 material, and
+  only the general cohomological `m`-Selmer machinery is Layer-7 material.
+- **Mordell–Weil:** `E(K)` is finitely generated for a number field `K`
+  (`fg_point_of_numberField`), and its free rank plus a finite torsion subgroup describe it.
+
+#### Dependencies
+
+Mathlib's point height, approximate parallelogram law and Northcott finiteness
+(`Mathlib/NumberTheory/Height/EllipticCurve.lean`) and `DedekindDomain.SelmerGroup`; the
+division-polynomial material for Nagell–Lutz; §Layer 4's point-level reduction map for the
+reduction-injectivity bound. Naïve-height Mordell–Weil and the explicit `2`-descent are independent
+of §Layer 7; the canonical height is its own later milestone, consumed by the regulator and
+§Layer 7.
 
 ### Layer 7: Selmer groups and Sha (AEC X.4)
 
@@ -1407,6 +1935,17 @@ scheme-facing roadmap. This layer deliberately does not conflate the two.
   Weil–Châtelet group `WC(E/K) = H¹(Gal(Kˢᵉᵖ/K), E(Kˢᵉᵖ))` (AEC X.3) needs no geometry to
   define, and `Ш` is its everywhere-locally-trivial part; the geometric reading of its classes
   as curves belongs to the scheme-facing roadmap.
+
+  **Checks.**
+
+  - `m = 1`: all three terms of the descent sequence are `0`.
+  - Lower bounds from the Kummer image: on 37.a1 (rank `≥ 1`, torsion trivial since `#E(𝔽₂) = 5`
+    and `#E(𝔽₃) = 7` are coprime) `#Sel₂ ≥ 2`; on `y² = x³ − x`, whose torsion `(ℤ/2)²` has no point
+    of order `4`, `#Sel₂ ≥ 4`. A definition that dropped the image of `E(K)/mE(K)` fails both.
+  - `Ш` sits in `H¹(K, E(Kˢᵉᵖ))` as the classes trivial at every place, so `Ш[m]` is the image of
+    `Sel_m`; with the coefficients forced discrete, `K̄ˣ` over a `p`-adic `K` gets the discrete
+    topology and not its valuation topology.
+
 - **The BSD quotient and Cassels' isogeny-invariance.** The conjecture stays out, but
   **assuming `Ш(E/K)` finite** the *arithmetic* side of BSD is definable: the BSD quotient
   `Ω(E) · Reg(E/K) · #Ш(E/K) · ∏_p c_p / #E(K)_tors²` — the regulator from the canonical height
@@ -1422,7 +1961,12 @@ scheme-facing roadmap. This layer deliberately does not conflate the two.
   periods, Tamagawa numbers, and torsion under isogeny. For the *truth of BSD* to be
   isogeny-invariant one must also prove that isogenous curves have the **same local Euler
   factors**, hence the same `L`-function (`LFunction_eq_of_isogeny` in `Suggested.lean`, over any
-  number field). The quotient's target is fixed and
+  number field; Milne, ADT I.7.1(a) and its proof, for the factors at the primes of good
+  reduction). At a prime of bad reduction the factor is read off the reduction type of the minimal
+  model — split multiplicative, nonsplit multiplicative, additive — and its invariance under
+  isogeny is a milestone of this layer, extending Tau Ceti's
+  `TauCeti.Isogeny.localPolynomial_eq_of_hasPotentialGoodReduction` to potentially multiplicative
+  reduction. The quotient's target is fixed and
   pinned to **`K = ℚ`**: the milestone is the full quotient, period included — the period-free
   part is not isogeny-invariant, so it would gut Cassels' theorem — with
   the real period of the **global minimal** Weierstrass equation. Two prerequisites, each an
@@ -1464,6 +2008,17 @@ scheme-facing roadmap. This layer deliberately does not conflate the two.
   equation, with sign erased by absolute value, as fixed above),
   and `Ш(E/ℚ)` finiteness as hypothesis — the rank equality and the leading-coefficient
   identity against the quotient above. **Proving** anything about it stays out of scope.
+
+  **Checks.**
+
+  - The period of `y² = x³ − x` (minimal, `Δ = 64`, two real components) is
+    `Ω = 2 ∫_{D_W > 0} dx/√(D_W(x)) = 5.24412`, each component contributing `2.62206`; dropping the
+    factor `2` or one component gives `2.62206`.
+  - The period depends on the equation: 37.a1 has `Ω = 5.98692`, and its nonminimal equation
+    `[0, 0, 8, −16, 0]` has `2.99346`, half of it; this is why the quotient uses the global minimal
+    equation.
+  - Rank `0` gives `Reg = 1`, the empty Gram determinant.
+
 - ⚠ **Dependency — what is actually missing.** Pinned Mathlib has the *abelian* group-
   cohomology material: group cohomology with the explicit low-degree API, the long exact
   sequence, Shapiro's lemma, and Hilbert 90 for **finite** extensions
@@ -1491,10 +2046,25 @@ scheme-facing roadmap. This layer deliberately does not conflate the two.
   explicit finiteness route for `H¹(G_{K,S}, E[m])` — via finite extensions of bounded
   degree and Hermite–Minkowski. The discreteness of coefficient modules is carried by the
   forced-discrete constructor above (a wrapper, so no reliance on one topology instance
-  "winning" against a pre-existing one). The layer is stated against that packaging once it
-  exists. (***Proving*** BSD, which would relate `Ш` and the rank to
+  "winning" against a pre-existing one). (***Proving*** BSD, which would relate `Ш` and the rank to
   `L(E, s)`, is out of scope — it needs the analytic continuation of `L(E, s)` that Mathlib does
   not have; the statement-only milestone above, with its analytic hypothesis, is what is in.)
+
+#### Examples
+
+- **Cassels on the isogeny class 11.a.** 11.a2 and 11.a3 are isogenous, with torsion `ℤ/5` on
+  both, `c₁₁ = 5` (split `I₅`) and `1` (`I₁`, `Δ = −11`), and periods `1.26921` and `6.34605`. The
+  period-free factor `∏ c_p / #E(ℚ)_tors²` is `1/5` and `1/25`, so it is not isogeny-invariant,
+  while `Ω · ∏ c_p / #E(ℚ)_tors² = 0.25384` on both: Cassels' theorem then says that `Reg · #Ш`
+  is the same on the two curves.
+
+#### Dependencies
+
+Mathlib's group cohomology and continuous cohomology, with this layer's forced-discrete
+constructor; the continuous nonabelian `H¹` lane, shared with §Layer 5; §Layer 6's descent, which
+Selmer groups refine. Cassels' theorem and the conditional BSD statement come after §Layer 4 (the
+`c_p`), §§Layer 4.5a–b (the global minimal model over `ℚ`), §Layer 5, §Layer 6 (the regulator) and
+the cohomology lane; the period uses §Layer 1's `ω`.
 
 ### Layer 8: selected `ℚ`-specific database adapters
 
@@ -1537,6 +2107,15 @@ boundary is the point: this layer is useful without pretending to be exhaustive.
   different purposes, both stored separately in a database record, and neither substitutes for
   the other. The bundled change-of-variables witness need not be unique; only the equation and
   its derived height are canonical.
+
+  **Checks.**
+
+  - `y² = x³ − x`, `(A, B) = (−1, 0)`, is a minimal pair; `(−16, 0)` is not (`2⁴ ∣ 16`, `2⁶ ∣ 0`) and
+    reduces to it, the `B = 0` edge.
+  - `(0, 64)` is not a minimal pair (`2⁴ ∣ 0`, `2⁶ ∣ 64`) and reduces to `(0, 1)`, the `A = 0` edge.
+  - Uniqueness: the only rescalings `(u⁴A, u⁶B)` with `u ∈ ℚ` keeping a minimal pair integral and
+    minimal are `u = ±1`, which fix it.
+
 - **The height of a curve over `ℚ`.** Two declarations, and the split is the point:
   `shortEquationHeight W = max (4·|a₄|³) (27·a₆²) : ℕ` for an integral short equation over `ℤ`,
   and `minimalPairModel E` and `naiveHeight E`, that function
@@ -1569,6 +2148,15 @@ boundary is the point: this layer is useful without pretending to be exhaustive.
   what `naiveHeight E` does. The naïve `x`-height on *points* of §Layer 6 is a different
   quantity on a different type, `WeierstrassCurve.Affine.Point.naiveHeight`, and the namespaces
   keep the two apart.
+
+  **Checks.**
+
+  - `shortEquationHeight` of `y² = x³ − x` is `max(4·1, 0) = 4`.
+  - On a bare rational short model the expression is not invariant: `(−1, 1/4)`, the rescaling by
+    `u = 2` of the minimal pair `(−16, 16)`, has `max(4·1, 27/16) = 4 = 16384/2¹²`, against `16384`
+    for `(−16, 16)`.
+  - `Δ = −16(4A³ + 27B²)` on the minimal pair: `−16·(−4 + 0) = 64` for `y² = x³ − x`.
+
 - **The abc quality of a curve.** With `j/1728 = a/c` in lowest terms and `b = c − a`,
   `abcQuality E = log max(|a|, |b|, |c|) / log rad(a·b·c)`, defined **under the hypothesis
   `j ∉ {0, 1728}`** — exactly the condition making `a·b·c ≠ 0`. ⚠ Do not define it totally: at
@@ -1577,7 +2165,19 @@ boundary is the point: this layer is useful without pretending to be exhaustive.
   API: dependence on `j` alone, hence `ℚ`-isomorphism invariance, and the relation to the
   abc-triple `(a, b, c)`. **No bound on the quality is claimed** — see the conjecture statements
   below, none of which is proved here.
-- **The Szpiro ratio, and the conjecture statements.** `szpiroRatio E = log |Δ_min| / log N`,
+
+  **Checks.**
+
+  - `y² = x³ − 6x + 8` has `j = −1728`, so `j/1728 = −1/1`, `(a, b, c) = (−1, 2, 1)`, and the quality
+    is `log 2 / log 2 = 1`.
+  - `y² = x³ − x` (`j = 1728`, `b = 0`) and `y² = x³ + 1` (`j = 0`, `a = 0`) are excluded by the
+    hypothesis; there `rad 0 = 1` and a total definition would report `0`.
+  - The triple is reduced: for 37.a1 the unreduced `(c₄³, −c₆², 1728Δ) = (110592, −46656, 63936)`
+    has the same radical `222` as the reduced `(64, −27, 37)` and would give quality `≈ 2.15` in
+    place of `≈ 0.770`.
+
+- **The Szpiro ratio, and the conjecture statements.** `algorithmicSzpiroRatio E = log |Δ_min| / log N`
+  (Tau Ceti's `WeierstrassCurve.algorithmicSzpiroRatio`, `Szpiro.lean`),
   with `Δ_min` the minimal discriminant of §Layer 4.5a and `N` the conductor assembled from
   §Layer 4's exponents, defined **under `N > 1`** so the logarithm's denominator is nonzero.
   Then three statements, none proved: **Szpiro's conjecture**, `|Δ_min| ≪_ε N^{6+ε}`; the
@@ -1591,9 +2191,16 @@ boundary is the point: this layer is useful without pretending to be exhaustive.
   the Frey application specifically the gap is small and worth isolating: the Frey curve is
   semistable, so only the exponents `0` and `1` occur, and **the semistable case of the
   algorithmic–Artin comparison** is its own milestone here, far short of the wild-conductor
-  theorem. ⚠ **Ordering.** This block is stated only once §Layer 4's
-  conductor is a *declaration* rather than prose: `szpiroRatio` is a ratio against it, so
-  stating the conjectures before it exists would mean inventing the denominator.
+  theorem.
+
+  **Checks.**
+
+  - 11.a2: `Δ_min = 11⁵` and algorithmic conductor `11` (exponent `1` at the split `I₅`), so the ratio
+    is `5`.
+  - `y² = x³ + p` over `ℚ` has exponent `2` at `p` (type `II`), so the conductor counts `p²` and not
+    `p` there.
+  - The hypothesis `N > 1` is what makes `log N ≠ 0`; with `N = 1` the quotient would read `0`.
+
 - **The implications between them.** Milestones, in increasing order of work:
   **modified Szpiro ⟹ Szpiro**, immediate from `1728Δ = c₄³ − c₆²`; **Szpiro ⟹ abc with
   exponent `3/2`**, by the Frey-curve estimate `|Δ| ≍ (abc)²`, `N ≍ rad(abc)` — the exponent is
@@ -1630,6 +2237,31 @@ boundary is the point: this layer is useful without pretending to be exhaustive.
   builds the approximation theory. What *is* here is the decidable bounded search certifying that
   a claimed list is complete below a given bound on `|x|`.
 
+  **Checks.**
+
+  - 37.a1 with `|x| ≤ 2000`: exactly ten integral points, at `x = −1, 0, 1, 2, 6`, two at each.
+  - On `y² + ½y = x³` the point `(0, 0)` is integral and `−(0, 0) = (0, −½)` is not: integrality of
+    the model is what makes the set stable under negation.
+  - `u ≠ ±1` changes the set: `5P = (1/4, −5/8)` on 37.a1 becomes `(1, −5)` on the rescaled
+    `[0, 0, 8, −16, 0]`, integral there and not on 37.a1.
+
+#### Examples
+
+- **37.a1 across the layer.** Its short model `y² = x³ − 1296x + 11664` (`A = −27c₄`, `B = −54c₆`)
+  reduces by `ℓ = 3` to the minimal pair `(−16, 16)` and no further (`2⁶ ∤ 16`), with
+  `Δ = 2¹²·37`, so the minimal-pair equation is not minimal at `2`; its height is
+  `max(4·16³, 27·16²) = 16384`. Its `j/1728 = 64/37` gives `(a, b, c) = (64, −27, 37)` and abc
+  quality `log 64 / log 222 ≈ 0.770`; `Δ_min = 37` and conductor `37` give Szpiro ratio `1`.
+
+#### Dependencies
+
+§Layer 4.5b's reduced minimal long model, and this layer's own minimal-pair model for the height;
+§Layer 4's algorithmic conductor and §Layer 4.5a's minimal discriminant for the Szpiro ratio; the
+Frey curve of §Worked examples for the implications. The layer is thin by construction: it owns
+the minimal-pair model and height, the abc quality, the Szpiro ratio with the named conjecture
+statements and their implications, and bounded integral-point search — not an exhaustive database
+schema.
+
 ---
 
 ## Downstream consumers
@@ -1661,81 +2293,9 @@ Roadmaps on main that build on these layers, by the layer they cite:
 
 ## Worked examples (acceptance criteria, keeping the theory honest)
 
-- **The point–place dictionary and the class-group anchor.** `W.toAffine.Point` is exactly the
-  degree-`1` places of the function field (`O ↦ infinityPlace`), and `toClass` is onto the ideal
-  class group (`toClass_surjective`, with Mathlib's `toClass_injective`) — the Layer-0 identifications
-  every later layer uses.
-- **Frobenius is an isogeny:** over `𝔽_q`, `pullback = (· ^ q)` satisfies `MapsInfinity`, is
-  purely inseparable of degree `q`, and induces `(x, y) ↦ (x^q, y^q)` on points
-  (`frobeniusIsogeny` and `degree_frobeniusIsogeny`).
-- **`[n]` is surjective on `E(Kˢᵉᵖ)`** for `n` invertible in `K`, and `#E[N] = N²` for `N`
-  invertible in `K` — the Layer 1/2 counting gate (`nsmul_surjective`, `torsion_addEquiv_prod`).
-- **The Weil pairing is bilinear and nondegenerate** — an additive bilinear map into
-  `Additive (rootsOfUnity N K)`, with `e_N(P, ·) ≡ 0 ⇒ P = 0` over a separably closed field with
-  `N` invertible (`weilPairing`, `weilPairing_nondegenerate`).
-- **Hasse:** `a_q² ≤ 4q` for the Frobenius trace `a_q = q + 1 − #E(𝔽_q)`
-  (`frobeniusTrace_sq_le_four_mul_card`), **against the Layer-1 degree form**; the two comparison
-  lemmas of the function-field dictionary, which identify the provenance proof's equation-level
-  Frobenius and kernel counts with Layer 1's notions, are the acceptance test of the dictionary
-  itself.
-- **`j` is a twist invariant** but the curves differ: `j(E^L) = j(E)` while `E^L ≇ E` over `K`, and
-  `E^L(M) ≅ E(M)` once `L ⊆ M`, with the Galois action twisted by the quadratic character
-  (`j_quadraticTwist`, `quadraticTwistPointEquiv`).
-- **Tate's algorithm, one certified entry per Kodaira type** (LMFDB label @ prime): the
-  parametric family `v(Δ) = n`, `v(c₄) = 0 ↦ Iₙ` with `f = 1` — instances `I₁` on 11.a1@11,
-  `I₂` on 14.a4@7, `I₅` on 11.a2@11 — then `II` on 27.a4@3, `III` on 24.a5@2, `IV` on
-  20.a3@2, `I₀*` on 32.a1@2, the `Iₙ*` family with `I₁*` on 24.a4@2 and `I₂*` on 45.a8@3,
-  `IV*` on 20.a2@2, `III*` on 24.a3@2, and `II*` on 24.a1@2 — one certified example per
-  Kodaira symbol. ⚠ That is **not** the same as every branch of the algorithm: the multiplicative
-  entries above are all *split* (e.g. `I₅` on 11.a2@11 has `c_p = 5`), and the splitting test is
-  what the Tamagawa number sees — `c_p = n` when `Iₙ` is split, `gcd(2, n)` when it is nonsplit.
-  So the list also carries the missing branches: **good reduction** (`I₀`) at 11.a1@2, and
-  **nonsplit** `Iₙ` at both parities — `I₈` on 45.a8@5 (`c_p = 2`, even) and `I₁` on 24.a5@3
-  (`c_p = 1`, odd). Additive types have their own residue-polynomial splitting subbranches
-  affecting `c_p`; genuine decision-path coverage is a stronger goal than this list, and is
-  named as such.
-- **Torsion and rank on named curves:** `E(ℚ)_tors ≅ ℤ/5ℤ` for 11.a3, certified by
-  Nagell–Lutz (a finite integral search); rank `≥ 1` for 37.a1 via the point `(0, 0)`,
-  certified of infinite order by **reduction at two primes** (its orders in two good-
-  reduction point groups are incompatible with any single torsion order) — an available
-  certificate, unlike positive canonical height, which waits on the canonical-height
-  milestone; upgraded to rank `= 1` by the **explicit `2`-descent of Layer 6**. Torsion is
-  decidable today, explicit `2`-descent rank bounds are Layer-6 material, and only the
-  general cohomological `m`-Selmer machinery is Layer-7 material.
-- **CM as a predicate, and the gap `ℤ[π_q]` leaves:** over `ℚ(i)` the curve
-  `y² = x³ + x` witnesses `HasCM` for `ℤ[i]`; and the *same equation over `𝔽₅`* is the
-  cautionary instance — it is ordinary with `π = 1 ± 2i`, so `ℤ[π] = ℤ[2i]` is index `2` in
-  `End(E) ≅ ℤ[i]`, showing that "contains `ℤ[π_q]`" is strictly weaker than `HasCM`. The
-  predicate and its witnesses only; the CM main theorem stays out of scope.
-- **Mordell–Weil:** `E(K)` is finitely generated for a number field `K`
-  (`fg_point_of_numberField`), and its free rank plus a finite torsion subgroup describe it.
-- **Ordinary and supersingular, on the curves the roadmap already turns on:** `y² = x³ − x`
-  over `𝔽₃` has trace `a_3 = 0` and is **supersingular**; `y² = x³ + x` over `𝔽₅` has trace
-  `a_5 = 2` and is **ordinary** (⚠ the trace is written `a_q`, never `a₃`, which is a
-  Weierstrass coefficient). These are exactly the two curves §Layer 1 uses for the `ℤ[π_q]` rank
-  dichotomy and for the gap between `ℤ[π_q]` and `End(E)`, so the predicates are certified on
-  the instances the endomorphism theory already depends on rather than on fresh ones.
-- **The reduced minimal model is unique, so a label names an equation:**
-  `y² + y = x³ − x² − 10x − 20` for 11.a2 and `y² + y = x³ − x` for 37.a1 are `IsReducedMinimal`,
-  and are the only such equations in their `ℚ`-isomorphism classes. That uniqueness lets a label
-  name a particular equation; the minimal discriminant and the absolute real period are already
-  presentation-independent by their own invariance and sign-independence theorems. ⚠ It is a
-  *long* equation, and is not the canonical minimal-pair short equation that
-  §Layer 8's height is computed from; the two canonical equations are certified separately.
-- **Semistability agrees with the Kodaira symbol:** 11.a1 is semistable — its only bad prime is
-  `11`, of type `I₁` in the list above — while 27.a4 is not, type `II` at `3` being additive.
-  Checking `IsSemistable` against the symbols Tate's algorithm computes is the acceptance test
-  for §Layer 4.5a against §Layer 4, in both directions.
-- **The Weierstrass class is not the principality of `𝔇_{E/K}`**, on a named curve. Over
-  `K = ℚ(α)` with `α² − α − 16 = 0` — that is `ℚ(√65)`, of class number `2` — the curve
-  `[0, 0, 0, −15221331α − 53748576, −79617688290α − 281140318368]` has **everywhere good
-  reduction**, so `𝔇_{E/K} = (1)`, as principal as an ideal gets; and yet its Weierstrass
-  class is nontrivial, so it has no global minimal model — no equation over `𝓞 K` has unit
-  discriminant — and only a semi-global one. It is the sharpest possible separation of the two
-  conditions, and certifying it is what stops them being conflated. The coefficients are large
-  because such curves are; any curve with those two properties serves equally, and this one is
-  named so that the acceptance test is a computation rather than a search. (Cremona's
-  number-field elliptic-curve implementation, references.)
+Each layer ends with its own examples; this section keeps the one worked application that runs
+across Layers 4, 4.5a and 8.
+
 - **The Frey–Hellegouarch curve — a worked application, not an invariant.** `freyCurve A B` is
   the curve `y² = x(x − A)(x + B)`, that is `a₂ = B − A`, `a₄ = −A·B`, `a₁ = a₃ = a₆ = 0`, over
   any `CommRing`. The general identities are `Δ = 16·A²B²(A + B)²` and `c₄ = 16·(A² + AB + B²)`,
@@ -1760,52 +2320,6 @@ Roadmaps on main that build on these layers, by the layer they cite:
   ⚠ The modularity statement this curve is famous for is not this roadmap's, and nothing here
   presupposes it.
 
-## Ordering
-
-Dependency order is not a schedule: independent lanes proceed in parallel, and the
-cross-cutting Layer 0.5 starts early because Layers 1, 2, 4, and 5 all use it. The lanes:
-
-1. **Function fields, isogenies, base change, and descent** — Layers 0, 0.5, 1. Layer 0 is
-   the foundation; Layer 1 builds on it, on Layer 0.5, and on the division polynomials.
-   Its Layer 0 place/Dedekind/dictionary lane and Layer 1 Kähler basis,
-   regular/nonvanishing and unramifiedness milestones consume AlgebraicCurves
-   Layer 10's early Weierstrass local-ring/local-generation milestone.
-   Layer 0.5's translations and their Layer 1 differential identity use the
-   native addition formulas independently of that supplier.
-   That supplier starts after AlgebraicCurves Layer 0 and uses no genus,
-   different, completion, or later Kähler/Weil comparison. Layer 0's induced-place
-   fundamental identity consumes AlgebraicCurves Layer 6, which follows
-   Layers 0–3 independently of Riemann–Roch.
-2. **Finite fields** — Layer 3 (Hasse, zeta): the Hasse bound is the earliest PR, its
-   existing proof self-contained; the zeta strand needs Layer 1's Frobenius identities.
-3. **Formal groups, reduction, and local arithmetic** — Layers 1 (formal group), 4. Layer 4
-   consumes the formal group, the Tate module (Layer 2), and Mathlib's reduction theory;
-   Layer 5's split-reduction statement feeds back into Layer 4's analytic strand, so those
-   two land together, not in numeric order.
-4. **Invariant theory over a Dedekind domain** — Layer 4.5a: the localisation instances, global
-   and semi-global predicates, the minimal discriminant ideal, obstruction exponents, the
-   curve-level global-minimality class, semistability, and the reduced-minimal predicate over `ℚ`.
-   The Dedekind-general invariant package and easy implication need Layer 4's local minimality;
-   they do not include the converse construction of a global equation.
-5. **Global equation construction over a number field** — Layer 4.5b, after lane 4. It proves
-   Kraus's local and global criteria, patches the local auxiliary coefficients, obtains the
-   global-minimality equivalence over `𝓞 K`, proves existence and uniqueness of the reduced
-   minimal equation over `ℚ`, and constructs a sharp model at a supplied representative prime.
-   The unconditional finite-avoidance corollary belongs to external integration.
-6. **Torsion and pairings** — Layer 2, on the dual isogeny and the divisor calculus.
-7. **Heights, Mordell–Weil, and explicit `2`-descent** — Layer 6: naïve-height Mordell–Weil
-   and the explicit étale-algebra `2`-descent, independent of Layer 7; the canonical height
-   is its own later milestone.
-8. **Continuous Galois cohomology, twists, and abstract Selmer groups** — the
-   nonabelian-`H¹` prerequisite (used by Layer 5's classification and Layer 7), then
-   Layer 7's Selmer/Sha, refining Layer 6's descent.
-9. **Cassels and the conditional BSD statement** — after lanes 3, 4, 5, 7, 8.
-10. **Selected `ℚ`-specific database adapters** — Layer 8, on lane 5 for the canonical long
-    model and on its own minimal-pair-model construction for the height.
-   Thin by construction: it owns the minimal-pair model and height, the abc quality, the Szpiro
-   ratio with the named conjecture statements and their implications, and bounded integral-point
-   search — not an exhaustive database schema.
-
 ## References
 
 - J. H. Silverman, *The Arithmetic of Elliptic Curves*, GTM 106, 2nd ed. (Springer, 2009) — AEC:
@@ -1813,6 +2327,10 @@ cross-cutting Layer 0.5 starts early because Layers 1, 2, 4, and 5 all use it. T
   Hasse), VII (local fields), VIII (Mordell–Weil), X (twists, Selmer/Sha).
 - J. H. Silverman, *Advanced Topics in the Arithmetic of Elliptic Curves*, GTM 151 (Springer,
   1994) — ATAEC: IV (Tate's algorithm), V (the Tate curve).
+- A. V. Sutherland, *18.783 Elliptic Curves*, lecture notes, MIT (2017), Lecture 14
+  ([author's course page](https://math.mit.edu/classes/18.783/2017/LectureNotes14.pdf)) — the
+  definition of supersingularity (p. 1), the trace criterion over `𝔽_q` (Theorem 14.2) and its
+  prime-field form (Corollary 14.3, Warning 14.4), Layer 3.
 - H. Stichtenoth, *Algebraic Function Fields and Codes*, GTM 254, 2nd ed. (Springer, 2009) —
   places, divisors, and extensions of function fields (Layer 0).
 - J. Tate, *Algorithm for determining the type of a singular fibre in an elliptic pencil*, in
@@ -1849,7 +2367,7 @@ cross-cutting Layer 0.5 starts early because Layers 1, 2, 4, and 5 all use it. T
   construction of one global equation from compatible local data, global and semi-global
   minimal models over `𝓞 K`, and the source of the `ℚ(√65)` curve with everywhere
   good reduction, principal minimal discriminant ideal and nontrivial Weierstrass class that
-  §Worked examples names (Layers 4.5a–b).
+  §Layer 4.5a's Examples name (Layers 4.5a–b).
 - J. S. Balakrishnan, W. Ho, N. Kaplan, S. Spicer, W. Stein, J. Weigandt, *Databases of elliptic
   curves ordered by height and distributions of Selmer groups and ranks*, LMS J. Comput. Math.
   **19** (2016), 351–370 ([arXiv:1602.01894](https://arxiv.org/abs/1602.01894)) — the
@@ -1891,7 +2409,7 @@ only hold for, these revisions:
   there is no public revision to pin, so the shared files are the contract):
   `Isogeny.lean` on three mathlib-bound supports — the `CoordinateRing` split-out,
   `RingTheory/ClassGroup/RelNorm`, and `RingTheory/IntegralClosure/NormalizationFinite`.
-  Details in the Layers 0–1 entry below; pin to the PR numbers once they exist.
+  Details in the Layers 0–1 entry below.
 - **FLT** (`github.com/ImperialCollegeLondon/FLT`, Apache-2.0): the quadratic-twist development at
   revision `bc2fe8ff7396`.
 - **Mordell–Weil / local fields** (`github.com/MichaelStollBayreuth/EllipticCurves`,
@@ -1947,15 +2465,14 @@ only hold for, these revisions:
   `hasse_bound_unconditional` (`HasseWeil/WeilPairing/HasseBound.lean`), in the real form
   `|#E(𝔽_q) − q − 1| ≤ 2√q` over `Fintype.card W.toAffine.Point` (the projective count, matching the
   stated form; the integer form `a_q² ≤ 4q` is the trivial corollary). The flagship's `#print axioms` output —
-  `[propext, Classical.choice, Quot.sound]` — is recorded in-repo at the pinned revision (a
-  documented check, to be turned into a CI gate on porting) — but the
+  `[propext, Classical.choice, Quot.sound]` — is recorded in-repo at the pinned revision — but the
   surrounding project is not globally `sorry`-free (the capstone routes around its in-progress
-  conditional lemmas), and its `maxHeartbeats 2000000` override must be removed for TauCeti CI. (The
+  conditional lemmas), and it sets `maxHeartbeats 2000000`. (The
   `trace_sq_le_four_mul_deg` quadratic-form step belongs to that separate conditional route, not the
   flagship.) Its equation-level Frobenius and kernel-cardinality degrees are the **computational
   counterparts** of
-  Layer 1's isogeny notions (§Layer 3), which is what makes the planned restatement a transport,
-  not a second proof. The monorepo copy (`projects/HasseWeil` at the `dev/modular-curves` pin
+  Layer 1's isogeny notions (§Layer 3). Tau Ceti's bound (`HasseBound.lean`) takes nothing from
+  this proof: it is proved against the degree form. The monorepo copy (`projects/HasseWeil` at the `dev/modular-curves` pin
   of the NagellLutz entry) restructures the tree and carries the
   invariant-differential/ramification module the Layer-1 API is modelled on:
   `Foundation/InvariantDifferential{,Pullback}.lean`, `Foundation/Ramification.lean`, and
@@ -1986,9 +2503,10 @@ only hold for, these revisions:
   branch (`lutz_nagell_integrality_general`, `lutz_nagell_general`), and beyond them a
   characteristic-zero **PID generalization** (`PIDMain.lean`: `den_powerful_of_on_curve` —
   denominator-powerfulness for *all* points — integrality under a squarefree-order
-  hypothesis, and the `κ² ∣ 4Δ` discriminant form) — the model for the formal-group
-  refinement milestone. Migration must dedupe its vendored division-polynomial files against
-  the upstreaming in flight (mathlib-track convention).
+  hypothesis, and the `κ² ∣ 4Δ` discriminant form) — the model for Layer 6's integrality
+  refinement. Tau Ceti's `Denominator.lean` is ported from it at the pinned revision, and
+  `DivisionPolynomial/ShortNagellLutz.lean` from its `LutzNagellTheorem` files at a later AINTLIB
+  revision.
 - **Mordell–Weil (Layer 6).** Michael Stoll's formalisation (pinned above, Apache-2.0) proves
   it `sorry`-free — the height half by the **naïve `x`-height** with the approximate
   parallelogram law and Northcott finiteness (the route Layer 6 records as core; the
@@ -2006,8 +2524,7 @@ only hold for, these revisions:
   carries the **explicit `2`-descent** Layer 6 names as its own lane: the local
   conditions, the étale-algebra `2`-Selmer group, its finiteness, the rank-bound theorem,
   and the `y² = x³ − x + 1` rank computation — the lane's port source and its acceptance
-  test. Porting note: nothing structural remains; the work is Mathlib-polish and the dedupe
-  discipline.
+  test.
 - **The reduction filtration (Layer 4).** The same repository (pinned above) already carries
   the local-field material Layer 4 flags as missing from Mathlib: the **point-level reduction
   map** `redHom : E(K_v) → Ẽ(k_v)` via the projective representation — injective on torsion
@@ -2015,11 +2532,9 @@ only hold for, these revisions:
   theorem that `E(K_v)` has a finite-index subgroup `≅ (𝒪_v, +)`, torsion-freeness of `E₁`
   under the standard ramification condition, and integral-model existence; all sorry-free,
   not yet Mathlib-polished. Its formal group is built on a small vendored multivariate
-  formal-group kit (from as-yet-unpublished Chabauty–Coleman work); on migration the
-  one-dimensional elliptic case is refounded on Mathlib's `RingTheory/FormalGroup`, per the
-  Layer-1 convention.
-- **Selmer/Sha (Layer 7)** waits on the continuous-Galois-cohomology packaging (§Layer 7 lists the
-  concrete missing pieces).
+  formal-group kit (from as-yet-unpublished Chabauty–Coleman work); the one-dimensional elliptic
+  case is Tau Ceti's `WeierstrassCurve.formalGroup` (`FormalGroup/Basic.lean`), founded on
+  Mathlib's `RingTheory/FormalGroup` per the Layer-1 convention.
 
 The modular-curves project also carries a `sorry`-free construction of the invariant
 differential as a line bundle glued over the Weierstrass atlas (`InvariantDifferential.lean` at

@@ -52,7 +52,9 @@ theorem sq_dvd_four_mul_cube_add_of_isOfFinAddOrder (A B : ℤ) {x y : ℚ}
 
 /-- **Isogenous curves have the same `L`-function.** For elliptic curves over a number field `K`
 related by an isogeny defined over `K`, Mathlib's `WeierstrassCurve.LFunction`, the formal Euler
-product of the local factors of the minimal models at all finite primes, is the same. At each prime
+product of the local factors of the minimal models at all finite primes, is the same (Milne,
+*Arithmetic Duality Theorems*, I.7.1(a) and its proof, for the factors at the primes of good
+reduction). At each prime
 the local factor is read off the reduction type and, at good reduction, the trace of Frobenius, and
 an isogeny preserves both: good, split multiplicative, nonsplit multiplicative and additive
 reduction correspond, and at good reduction the reductions are isogenous over the residue field.
