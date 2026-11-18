@@ -1,5 +1,5 @@
 import Mathlib
-import TauCeti.AlgebraicGeometry.EllipticCurve.Isogeny.Hom.Ring
+import TauCeti.AlgebraicGeometry.EllipticCurve.Isogeny.Hom.ComplexMultiplication
 
 /-!
 # Modularity and Langlands extensions: target signatures
@@ -8,8 +8,9 @@ import TauCeti.AlgebraicGeometry.EllipticCurve.Isogeny.Hom.Ring
 `README.md`; this file states its headline theorems against the pinned APIs.
 
 The Sato–Tate theorem for every non-CM elliptic curve over ℚ (§4.34) is stated using
-Mathlib's minimal local reductions and Tau Ceti's geometric endomorphism ring. Non-CM
-means that the integer map onto the endomorphisms after base change to ℂ is surjective.
+Mathlib's minimal local reductions and Tau Ceti's geometric complex multiplication
+`WeierstrassCurve.HasGeometricCM`: non-CM means that every endomorphism over a separable
+closure of ℚ is multiplication by an integer.
 The two definitions supply the good primes up to a bound and their Frobenius angles.
 
 The other headline signatures are deferred until their mathematical carriers exist at
@@ -62,8 +63,7 @@ noncomputable def frobeniusAngle (E : WeierstrassCurve ℚ) (p : Nat.Primes) : �
 /-- Sato–Tate (§4.34): the good-prime angles of every non-CM elliptic curve over ℚ
 are equidistributed on `[0, π]` with density `(2/π) sin² θ`. -/
 theorem satoTate_elliptic (E : WeierstrassCurve ℚ) [E.IsElliptic]
-    (h_nonCM : Function.Surjective (Int.castRingHom
-      (TauCeti.Isogeny.Hom (E.baseChange ℂ).toAffine (E.baseChange ℂ).toAffine)))
+    (h_nonCM : ¬ E.HasGeometricCM)
     (f : ℝ → ℝ) (hf : ContinuousOn f (Set.Icc 0 Real.pi)) :
     Tendsto (fun x : ℕ =>
       (∑ p ∈ goodReductionPrimes E x, f (frobeniusAngle E p)) /

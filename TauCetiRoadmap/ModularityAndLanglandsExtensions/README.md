@@ -4,7 +4,7 @@
 
 ## How to read the build
 
-The layer numbers organize the targets; the following dependencies fix the construction order. Construct §1.10's all-place predicate before §4.15, then deduce §1.10's Galois equivalence and prove §4.12. Prove §2.39 before §2.38. Construct only §3.13's parameter/component-group definitions before §3.15, then deduce §3.13's packet bijections. Prove §3.17 before §3.4's transfer characterization. Prove §5.1's forward generic transfer, then §5.4's descent, then §5.1's image/converse characterization. Prove §2.43 from the weaker comparisons before using any full coefficient-prime export of AG2.6–AG2.7, even in a target with an earlier section number. Other targets follow their stated prerequisites. `Suggested.lean` gives suggested forms over existing carriers; this README specifies every target and its prerequisites.
+The layer numbers organize the targets; the following dependencies fix the construction order. Construct §1.10's all-place predicate before §4.15, then deduce §1.10's Galois equivalence. Prove §2.39 before §2.38. Construct only §3.13's parameter/component-group definitions before §3.15, then deduce §3.13's packet bijections. Prove §3.17 before §3.4's transfer characterization. Prove §5.1's forward generic transfer, then §5.4's descent, then §5.1's image/converse characterization. Prove §2.43 from the weaker comparisons before using any full coefficient-prime export of AG2.6–AG2.7, even in a target with an earlier section number. Other targets follow their stated prerequisites. `Suggested.lean` gives suggested forms over existing carriers; this README specifies every target and its prerequisites.
 
 API bullets state the mathematical properties to prove. The acceptance statement in `Suggested.lean` is the elliptic Sato–Tate theorem in §4.34; its module documentation identifies the missing carriers for the other headline statements.
 
@@ -22,13 +22,13 @@ For an elliptic curve write `V_{E,ℓ}=T_ℓ(E)⊗ℚ_ℓ` and `H_{E,ℓ}=H¹_et
 
 Pure weight w means roots of modulus `q_v^{w/2}`. For monic degree-n `Q_v`,use `P_v(T)=TⁿQ_v(T⁻¹):X−1↦1−T`,`X²−aX+q↦1−aT+qT²`. At `T=½` the first pair gives `−½`,`+½`. Inverse evaluation requires `T≠0`;prime norms exceed1.
 
-Set `Γ_ℝ(s)=π^{−s/2}Γ(s/2)`,`Γ_ℂ(s)=2(2π)^{−s}Γ(s)`. Pure weak compatibility gives good-place partial products;full factors require coherent strict WD/real signs. A paired real Hodge type `h<w/2` gives `Γ_ℂ(s−h)`;middle `h=w/2` gives `Γ_ℝ(s−h)` if `c=(−1)^h`,otherwise `Γ_ℝ(s−h+1)`. For regular odd rank n,the corrected determinant conversion is
+Set `Γ_ℝ(s)=π^{−s/2}Γ(s/2)`,`Γ_ℂ(s)=2(2π)^{−s}Γ(s)`. Pure weak compatibility gives good-place partial products;full factors require coherent strict WD/real signs. A paired real Hodge type `h<w/2` gives `Γ_ℂ(s−h)`;middle `h=w/2` gives `Γ_ℝ(s−h)` if `c=(−1)^h`,otherwise `Γ_ℝ(s−h+1)`. For regular odd rank n, the dimension `d±` of the `±(−1)^(w/2)`-eigenspace of `R(c)` is given by the corrected determinant conversion
 
 ```text
 d± = (n ± (−1)^(w/2+(n−1)/2) det(R)(c))/2.
 ```
 
-Each exchanged Hodge pair has determinant−1,hence the rank correction. On `Sym²H¹(E)`,c exchanges `e²/ē²` and fixes `eē`:trace1,`det−1`,middle `h=1` gives `Γ_ℝ(s)`,full factor `Γ_ℝ(s)Γ_ℂ(s)`. Trivial/sign real characters give `Γ_ℝ(s)/Γ_ℝ(s+1)`.
+Each exchanged Hodge pair has determinant−1,hence the rank correction. On `Sym²H¹(E)`,c exchanges `e²/ē²` and fixes `eē`:trace1,`det−1`,so `d+=1` and `d−=2`;middle `h=1` gives `Γ_ℝ(s)`,full factor `Γ_ℝ(s)Γ_ℂ(s)`. Trivial/sign real characters give `Γ_ℝ(s)/Γ_ℝ(s+1)`.
 
 Elliptic completion includes `N_m^{s/2}=exp((s/2)log N_m)`,`N_m>0`,entire/nonvanishing. Unitary variable is `s−m/2`;weight2 has motivic centre1/unitary centre½. Omitting `N_m` preserves entireness,changes the functional equation.
 
@@ -360,12 +360,11 @@ Used in Newton–Thorne II, Appendix A, for icosahedral weight-one forms.
 
 ### 1.12 The statement `SP_n` (Newton–Thorne, Conjecture B)
 
-For `n≥1`, `SP_n` asserts that every non-CM RAC `π` on `GL₂` over every totally real F has a RAESDC `Sym^{n−1}` lift on `GL_n`, in the equivalent local/Galois senses of [§4.15]. Such rank-two inputs are already RAESDC. [§4.30] proves `SP_n` for all n.
+For `n≥1`, `SP_n` asserts that every non-CM RAC `π` on `GL₂` over every totally real F has a RAESDC `Sym^{n−1}` lift on `GL_n`, in the equivalent local/Galois senses of [§4.15]. Such rank-two inputs are already RAESDC.
 
 - SP 1 holds.
 - SP 2 holds.
 - Low-rank transfer proves SP n for 1≤n≤5.
-- Newton–Thorne Theorem 6.4 proves SP n for every n≥1.
 
 Define the proposition.
 
@@ -632,7 +631,7 @@ Fix `N>1`,`M=ℚ(ζ_N)`↪coefficients, and smooth `T₀=ℙ¹∖(µ_N∪{∞})`
 - The trivial projector averages onto invariants; distinct character projectors compose to zero. The identity on all cohomology fails.
 - At residue characteristic dividing N this integral projector is unavailable. Require a smooth `T₀` point and the chosen eigensummand.
 
-([Qian], §3, Lemmas 3.1–3.10, pp.9–21; [Qian, ordinarity], §1, pp.1–2; [Qian's thesis], Lemma 3.0.11, pp.53–55.)
+([Qian], §3, Lemmas 3.1–3.10, pp.10–21; [Qian, ordinarity], §1, pp.1–2; [Qian's thesis], Lemma 3.0.11, pp.53–55.)
 
 *Needs:* EtaleCohomologyFoundations §§F.2.1–F.2.2, F.4 and F.10, proper smooth base change and trace formula; PH, proper smooth de Rham comparison; representation-theoretic finite-group projectors over coefficients in which `|H₀|` is invertible.
 
@@ -665,7 +664,7 @@ For the same K,N,`χ` and `n>0`, assume Qian’s consecutive labelled lists and 
 
 Route: PH §3.6’s consecutive-weight/maximal-N criterion at **every** `D_st` embedding, crystalline-character dual/twist dictionary and finite-extension descent; apply `H₀`-equivariant log comparison and descend the unique extreme-weight flag. Translate PH’s convention. Maximal N alone fails; construct the flag before global semisimplification.
 
-Return the imported `RegularOrdinary` flag, characters and labelled weights on the actual fibre.
+Return the flag, characters and labelled weights of PadicHodgeTheory §3.6's regular ordinary predicate on the actual fibre.
 
 **Checks.**
 
@@ -825,7 +824,7 @@ Proof route: Qian 2.3 for N; disjoint ramification makes the cyclotomic intersec
 
 *Needs:* Chebotarev, Layer 10.
 
-### 2.20 Steinberg component and ordinarity of the automorphic Dwork realisation (Qian Lemma 4.3)
+### 2.20 Steinberg component and ordinarity of the automorphic Dwork realisation (Qian's thesis, Lemma 4.0.3)
 
 At v|l of a Dwork point,`v(t)<0`, assume `V_{λ,t}^ss≅r_{l,ι}(π)` for RAC `π`, and semisimple auxiliary `V_{λ′,t}` (in the construction its residual twist is an absolutely irreducible elliptic symmetric power), with embeddings matched. Auxiliary monodromy is one size-n block; Varma forces `π_v` an unramified Steinberg twist. `HT={M(a_τ),…,M(a_τ)+n−1}` gives constant automorphic weight `+λ_τ=M(a_τ)`, central slope `+nλ_τ`,partial slopes `+jλ_τ`, hence Geraghty `ι`-ordinarity. Galois ordinarity/potential semistability of `V_{λ,t}^ss` require the separate geometric/subquotient argument; original `V_{λ,t}` semisimplicity is not claimed.
 
@@ -1081,7 +1080,7 @@ Checks: finite intersections preserve density one; fixed Hodge ranges fit [a,a+l
 
 ([BLGGT], §5.4, Thm. 5.4.1, Cor. 5.4.2 and proof, p. 74.)
 
-*Needs:* [§2.1] (pd criteria); PAI Layer 2, soluble automorphy comparisons; PMCS §1.21 (density-one residual irreducibility); PMCS §1.17, `monodromy_component_field`, including `componentKernelIndependent` and constituent coefficient descent; PMCS §1.1 (weakly compatible systems of rank n); PMCS §1.6 (compatible system predicates).
+*Needs:* [§2.1] (pd criteria); PAI Layer 2, soluble automorphy comparisons; PMCS §1.21 (density-one residual irreducibility); PMCS §1.17, the common monodromy component field, including its component-kernel independence and constituent coefficient descent; PMCS §1.1 (weakly compatible systems of rank n); PMCS §1.6 (compatible system predicates).
 
 ### 2.36 Constituents of polarized systems are potentially automorphic (Proposition 5.4.6)
 
@@ -1129,7 +1128,7 @@ Proof route: [§2.27] on elliptic symmetric powers twisted by induced CM charact
 
 ### 2.40 Meromorphic continuation, functional equation and purity for compatible systems (Corollary 5.4.3)
 
-For the regular irreducible totally odd polarized weakly compatible system of [§2.35], BLGGT 5.4.2: (1) each `L^S(ιℛ,s)`, `ι:M↪ℂ`, converges uniformly absolutely on right-half-plane compacta and continues meromorphically; (2) `ℛ` is strictly pure and `Λ(ιℛ,s)=ε(ιℛ,s)Λ(ιℛ∨,1−s)`; (3) for totally real F, odd n and `v|∞`, `tr r_λ(c_v)=±1` independently of `λ`.
+For the regular irreducible totally odd polarized weakly compatible system of [§2.35], under the assumptions of BLGGT Corollary 5.4.2, Corollary 5.4.3 gives: (1) each `L^S(ιℛ,s)`, `ι:M↪ℂ`, converges uniformly absolutely on right-half-plane compacta and continues meromorphically; (2) `ℛ` is strictly pure and `Λ(ιℛ,s)=ε(ιℛ,s)Λ(ιℛ∨,1−s)`; (3) for totally real F, odd n and `v|∞`, `tr r_λ(c_v)=±1` independently of `λ`.
 
 Proof route: potential automorphy, pure local–global comparison and Brauer induction give strict purity and the product of automorphic L-functions/functional equations (HSBT10 4.2); rank-one trivial factors retain poles. For (3) use Taylor 2012’s Calegari observation.
 
@@ -1149,7 +1148,7 @@ Check: use the exact virtual-character criterion `(A,A)=1` and `dim A≥0`.
 
 ([BLGGT], §5.5, Thm. 5.5.1 and proof, pp. 79–81.)
 
-*Needs:* [§2.26], CM potential automorphy; §2.33 for the totally real specialization; PAI Layer 2, soluble automorphy comparisons; PMCS §1.16 (Galois Grothendieck ring); PMCS §1.17, `monodromy_component_field`, including `componentKernelIndependent` and constituent coefficient descent; AG2.2.
+*Needs:* [§2.26], CM potential automorphy; §2.33 for the totally real specialization; PAI Layer 2, soluble automorphy comparisons; PMCS §1.16 (Galois Grothendieck ring); PMCS §1.17, the common monodromy component field, including its component-kernel independence and constituent coefficient descent; AG2.2.
 
 ### 2.42 Simultaneous potential automorphy of pure regular polarized systems
 
@@ -1289,7 +1288,7 @@ Route: §§2.19,2.44,Dwork/Moret–Bailly and `ACC+6`.1.2 at l′; §2.47 transp
 
 ([Qian], Thm. 1.1, §1, p. 1; proof §4, pp. 21–24; Lemma 3.10(4) and its proof, pp. 20–21; geometric explanation in §1, p. 4; [Qian's thesis], Remark 3.0.13, printed p. 55 (PDF p. 62).)
 
-*Needs:* §§2.9–2.12, 2.19 and 2.44; [§2.47](#247-automorphy-of-the-dwork-fibre-at-l-and-its-transport-to-l-qian-4); [§2.20](#220-steinberg-component-and-ordinarity-of-the-automorphic-dwork-realisation-qian-lemma-43); PMCS §§2.8–2.10 and 2.23; [§2.2].
+*Needs:* §§2.9–2.12, 2.19 and 2.44; [§2.47](#247-automorphy-of-the-dwork-fibre-at-l-and-its-transport-to-l-qian-4); [§2.20](#220-steinberg-component-and-ordinarity-of-the-automorphic-dwork-realisation-qians-thesis-lemma-403); PMCS §§2.8–2.10 and 2.23; [§2.2].
 
 ### 2.51 Potential automorphy of ordinary l-adic representations over CM fields (Qian, Theorem 1.4)
 
@@ -1565,14 +1564,14 @@ For `SO₃≅PGL₂`, `1⊠ν₂` is discrete with trivial-representation packet
 
 ### 3.9 Discrete automorphic representations of `GSp₄`: symplectic type, general type and transfer
 
-Discrete `π` means occurrence in fixed-centre `L²_disc(GSp₄)`; all cuspidals qualify. For unitary cuspidal `GL₄` `Π`, unitary `χ` and finite admissible S as in §3.3, symplectic multiplier `χ` means that `L^S(s,Π,∧²⊗χ⁻¹)` has a pole at1; this is independent of the finite admissible S and implies `Π≅Π∨⊗χ`. Import ET §11.1's general-type transfer, rank-four pole alternative and all-place parameter comparison under `GSp4ClassificationInputs`. A general-type `π` has that cuspidal transfer `Π`,multiplier `ω_π`,with `std∘parameter(π_v)=rec(Π_v)` everywhere (GT finite,LLC infinite). This section constructs the six-family bookkeeping and normalization adapters: (a)–(f) are general,Yoshida,Soudry,Saito–Kurokawa,Howe–Piatetski-Shapiro,characters. Their `S_ψ` are 1,`C₂`,1,`C₂`,`C₂`,1; `ε_ψ` can be nontrivial only in SK with `ε(1/2,π⊗η⁻¹)=−1` (GT6.1.4).
+Discrete `π` means occurrence in fixed-centre `L²_disc(GSp₄)`; all cuspidals qualify. For unitary cuspidal `GL₄` `Π`, unitary `χ` and finite admissible S as in §3.3, symplectic multiplier `χ` means that `L^S(s,Π,∧²⊗χ⁻¹)` has a pole at1; this is independent of the finite admissible S and implies `Π≅Π∨⊗χ`. Import ET §11.1's general-type transfer, rank-four pole alternative and all-place parameter comparison under its symplectic classification contract (§§11.0g–11.0h). A general-type `π` has that cuspidal transfer `Π`,multiplier `ω_π`,with `std∘parameter(π_v)=rec(Π_v)` everywhere (GT finite,LLC infinite). This section constructs the six-family bookkeeping and normalization adapters: (a)–(f) are general,Yoshida,Soudry,Saito–Kurokawa,Howe–Piatetski-Shapiro,characters. Their `S_ψ` are 1,`C₂`,1,`C₂`,`C₂`,1; `ε_ψ` can be nontrivial only in SK with `ε(1/2,π⊗η⁻¹)=−1` (GT6.1.4).
 
 Here F is totally real, `GSp₄` split, `ν` its similitude and `ω_π` the fixed central character.
 
 - Discreteness means occurrence in L²_disc for the fixed central character.
 - Symplectic type with multiplier χ is the twisted exterior-square pole condition above.
 - General type requires a cuspidal symplectic transfer with multiplier ω_π.
-- adapter to ET §11.1's unique general-type transfer with `GSp4ClassificationInputs`; transport its local parameters through the fixed GT/`recᵀ` normalizations. Track norm twists when using a nonunitary algebraic normalization.
+- adapter to ET §11.1's unique general-type transfer under the symplectic classification contract of ET §§11.0g–11.0h; transport its local parameters through the fixed GT/`recᵀ` normalizations. Track norm twists when using a nonunitary algebraic normalization.
 - `Π≅Π∨⊗χ`.
 - Every parameter in this classification has one of the six specified types.
 - General type is equivalent to type (a).
@@ -1592,7 +1591,7 @@ Non-endoscopic genus-two Siegel forms of weight `(k,j)≥(3,0)` give general typ
 
 ([BCGP], §2.9, p. 38; §2.9, definition of general type, p. 38; [GT19], Remark 6.1.4, p. 35.)
 
-*Needs:* ET §11.1 with `GSp4ClassificationInputs`, unitary cuspidal Π and unitary multiplier; [§3.4]; [§3.5]; [AutomorphicLFunctionsAndLocalFactors, Representation prerequisites: archimedean GL_n parameters](../AutomorphicLFunctionsAndLocalFactors/README.md).
+*Needs:* ET §11.1 with the symplectic classification contract of its §§11.0g–11.0h, unitary cuspidal Π and unitary multiplier; [§3.4]; [§3.5]; [AutomorphicLFunctionsAndLocalFactors, Representation prerequisites: archimedean GL_n parameters](../AutomorphicLFunctionsAndLocalFactors/README.md).
 
 ### 3.10 Conjecture: weight (2,2) Siegel eigenforms come from abelian varieties with real multiplication (conjectural endpoint)
 
@@ -1912,11 +1911,11 @@ The `GL_n` model is the generic standard-module theorem of Zelevinsky.
 
 ### 3.26 Arthur's classification of the discrete spectrum of `GSp₄` (Arthur 2004; Gee–Taïbi)
 
-For totally real F,every discrete `GSp₄` `π` transfers to `GL₄` in one of §3.9’s six types and satisfies Arthur’s multiplicity formula. Transfer matches `rec_GT` at every finite place. Import the general-type transfer and the theorem on Arthur packets and their multiplicities from ET §11.1, retaining `GSp4ClassificationInputs` and its unitary/cuspidal hypotheses: for general-type `ψ=π̃⊠1`, `S_ψ=1`, every restricted product of local members,unramified almost everywhere,is automorphic with multiplicity1, and the archimedean Arthur packet is the parameter’s L-packet. The targets here are the nongeneral-type extensions, six-type assembly and normalization adapters beyond that export.
+For totally real F,every discrete `GSp₄` `π` transfers to `GL₄` in one of §3.9’s six types and satisfies Arthur’s multiplicity formula. Transfer matches `rec_GT` at every finite place. Import the general-type transfer and the theorem on Arthur packets and their multiplicities from ET §11.1, retaining the symplectic classification contract of §§11.0g–11.0h and its unitary/cuspidal hypotheses: for general-type `ψ=π̃⊠1`, `S_ψ=1`, every restricted product of local members,unramified almost everywhere,is automorphic with multiplicity1, and the archimedean Arthur packet is the parameter’s L-packet. The targets here are the nongeneral-type extensions, six-type assembly and normalization adapters beyond that export.
 
 Use BCGP §2.9’s totally real scope and fixed central character; broader number-field scope needs a separate Gee–Taïbi export.
 
-Retain ET's `GSp4ClassificationInputs`. The extensions also assume TWFL together with the [Trace inputs] in the group and parameter scope of this assertion; §3.2 and the local Arthur targets discharge only their corresponding premises.
+Retain ET's symplectic classification contract (§§11.0g–11.0h). The extensions also assume TWFL together with the [Trace inputs] in the group and parameter scope of this assertion; §3.2 and the local Arthur targets discharge only their corresponding premises.
 
 Assemble the six types with ET §11.1's general-type branch and the stated classification premises.
 
@@ -1932,7 +1931,7 @@ CG 7.11 and Pilloni 15.2.4.1 use (ii),(iii) to exchange holomorphic/generic limi
 
 ([Calegari–Geraghty](#reference-cg-2020), Proof of Thm. 7.11, §7.2, publ. p. 854; arXiv v1 p. 40; [Calegari–Geraghty](#reference-cg-2020), Proof of Thm. 7.11, publ. p. 855 (copy p. 55); [BCGP], §2.9 'Arthur's classification', first paragraph PDF p.38; [GT19], Proposition 6.1.7, Remark 6.1.8 and Theorem 7.4.1, published pp.507–508 and 512–514.)
 
-*Needs:* ET §11.1 and `GSp4ClassificationInputs`; [§3.17]; [§3.5]; [The classification input for the symplectic branch](#the-classification-input-for-the-symplectic-branch); [TWFL].
+*Needs:* ET §11.1 and its symplectic classification contract (§§11.0g–11.0h); [§3.17]; [§3.5]; [The classification input for the symplectic branch](#the-classification-input-for-the-symplectic-branch); [TWFL].
 
 ### 3.27 Xu's multiplicity formula for generic global parameters of `GSp_{2n}`
 
@@ -2025,7 +2024,7 @@ Take imaginary quadratic K with `r_f|G_K` absolutely irreducible; retain the tra
 
 For the classification-dependent conclusion assume TWFL and the [Trace inputs].
 
-Proof route: multiplication by the Hasse-invariant power of CG Lemma 6.4, with `t=rs(p−1)` sufficiently large, preserves the residual Hecke eigensystem in weight `(a+t,b+t)`. Cohomology vanishing and eigenvalue lifting give a characteristic-zero eigenform; Proposition 6.8 constructs its realization. Use ET §11.1's general-type transfer with `GSp4ClassificationInputs` and construct unitary descent of Σ over K/ℚ using §3.12's unitary classification. Match its base change and regular-weight Galois realization over one coefficient extension. Apply Bellaïche–Chenevier Theorem 1.2 to this realization. Compare its conjugate-polarization sign through θ and restriction with the rank-four multiplier’s value `−1` at complex conjugation to obtain an alternating form over ℚ. Normalize on a stable lattice and reduce; residual absolute irreducibility makes the reduced pairing nondegenerate. The weight lift, imaginary-quadratic descent and sign/normalization comparisons are owned here.
+Proof route: multiplication by the Hasse-invariant power of CG Lemma 6.4, with `t=rs(p−1)` sufficiently large, preserves the residual Hecke eigensystem in weight `(a+t,b+t)`. Cohomology vanishing and eigenvalue lifting give a characteristic-zero eigenform; Proposition 6.8 constructs its realization. Use ET §11.1's general-type transfer under the symplectic classification contract of ET §§11.0g–11.0h and construct unitary descent of Σ over K/ℚ using §3.12's unitary classification. Match its base change and regular-weight Galois realization over one coefficient extension. Apply Bellaïche–Chenevier Theorem 1.2 to this realization. Compare its conjugate-polarization sign through θ and restriction with the rank-four multiplier’s value `−1` at complex conjugation to obtain an alternating form over ℚ. Normalize on a stable lattice and reduce; residual absolute irreducibility makes the reduced pairing nondegenerate. The weight lift, imaginary-quadratic descent and sign/normalization comparisons are owned here.
 
 **Checks.**
 
@@ -2038,7 +2037,7 @@ Thus an absolutely irreducible residual realization is symplectic.
 
 ([Calegari–Geraghty](#reference-cg-2020), Lemma 6.4 and its Hecke-equivariant injection, arXiv v1 pp.27–28; Proposition 6.8, pp.29–30; Lemma 6.9 and proof, p.30, publ. p.840. [Bellaïche–Chenevier, The sign of Galois representations attached to automorphic forms for unitary groups](https://arxiv.org/pdf/0804.2860v1), Theorem 1.2, p.2, and the sign comparison on p.3.)
 
-*Needs:* [§3.26]; [§3.12]; ET §§6.24 and 11.1 with `GSp4ClassificationInputs`; AG2.2; CSM R27.6, eigenvalue lifting. The imaginary-quadratic unitary descent and pairing transport have the field scope specified in this target.
+*Needs:* [§3.26]; [§3.12]; ET §§6.24 and 11.1 with the symplectic classification contract of §§11.0g–11.0h; AG2.2; CSM R27.6, eigenvalue lifting. The imaginary-quadratic unitary descent and pairing transport have the field scope specified in this target.
 
 ### 3.31 Global packets with a holomorphic limit of discrete series at infinity are of general, Yoshida or Saito–Kurokawa type
 
@@ -2137,7 +2136,7 @@ Then `ρ` comes from ordinary RACSDC `Π`. Own the reducible-lifting route: `µ�
 
 For NT I§2.18’s definite unitary group,tame `U^p` and residual conjugate-self-dual pseudocharacter `τ`,complete algebraic forms over **all** p-levels,take locally analytic vectors/normalized torus Jacquet module,and coherent strong dual M on the product torus-character space. The relative tame-Hecke spectrum `E_n` has weight map,pseudocharacter and closed realization in `X_ps×T_n`. For highest algebraic `κ` and smooth normalized accessible `χ`,`ν=κχι⁻¹δ_B^{−1/2}`,`j_n(ν)=ν(1,ε⁻¹∘Art,…,ε^{1−n}∘Art)`. Twist the raw Jacquet-spectrum character map by `δ_B⁻¹` to obtain `ν` (NT I(2.18.1)pp.35–37). Interpolate `χ↦(χ₁^{n−1},χ₁^{n−2}χ₂,…,χ₂^{n−1})` with the symmetric-power pseudocharacter map.
 
-For finite `K/ℚ_p` and a finite coefficient extension `E/ℚ_p` containing its embeddings, use LocalGaloisDeformationRings §0.4's `CoefficientRobbaModule`, `CoefficientRobbaModule.etaleEquivalence`, `D_rig`, saturated rank-one character quotients, `HerrCohomology` and `HerrCohomology.baseChange` over finite local E-algebras. Its Herr/`Ext` comparison identifies Artinian representation extensions and triangulations with these same Robba objects. Fix a trianguline E-representation `ρ` and saturated flag/parameters. Saturated ordered trianguline deformations over Artin E-algebras/residue E,with `δ_i/δ_j` not a nonnegative embedding monomial for `i<j`. This injects into `ρ`-deformations,is relatively representable,and is a quotient of `R_ρ` for absolutely irreducible `ρ` (or `End(W)=E` for B-pairs). Route: rank-one `H⁰`/Artin fibre products,[Nakamura](#reference-nakamura)2.35/37/38 pp.493–495. De Rham strictly increasing weights give fixed-weight tangent⊂`H¹_g(adρ)`: [Hellmann–Schraen](#reference-hellmann-schraen)2.6 p.10;NT I2.7 pp.26–27. Impose the supplier's full finite Gamma-torsion invariants first (also `p=2`),then HT;reverse weight signs for Hellmann–Schraen’s `HT(ε)=+1`.
+For finite `K/ℚ_p` and a finite coefficient extension `E/ℚ_p` containing its embeddings, use LocalGaloisDeformationRings §0.4's coefficient Robba modules and their étale equivalence, `D_rig`, saturated rank-one character quotients, Herr cohomology `C_Herr` and its derived coefficient change over finite local E-algebras. Its Herr/`Ext` comparison identifies Artinian representation extensions and triangulations with these same Robba objects. Fix a trianguline E-representation `ρ` and saturated flag/parameters. Saturated ordered trianguline deformations over Artin E-algebras/residue E,with `δ_i/δ_j` not a nonnegative embedding monomial for `i<j`. This injects into `ρ`-deformations,is relatively representable,and is a quotient of `R_ρ` for absolutely irreducible `ρ` (or `End(W)=E` for B-pairs). Route: rank-one `H⁰`/Artin fibre products,[Nakamura](#reference-nakamura)2.35/37/38 pp.493–495. De Rham strictly increasing weights give fixed-weight tangent⊂`H¹_g(adρ)`: [Hellmann–Schraen](#reference-hellmann-schraen)2.6 p.10;NT I2.7 pp.26–27. Impose the supplier's full finite Gamma-torsion invariants first (also `p=2`),then HT;reverse weight signs for Hellmann–Schraen’s `HT(ε)=+1`.
 
 Use the family realization and derived Herr comparisons in the PhiGammaModulesAndIwasawaCohomology supplier contract on the local Galois family of this eigenvariety. The application-specific comparison identifies its Artinian tangent extensions with the trianguline deformation problem just specified and intertwines the weight differential with the characters of the ordered graded lines. On `D^Δ` retain the supplier's differentials `d⁰x=((φ−1)x,(γ−1)x)` and `d¹(a,b)=(γ−1)a−(φ−1)b`, and its signed trace; no new relative Robba or Herr construction is required.
 
@@ -2187,29 +2186,7 @@ Tangent route: for NT I 2.10’s polarized datum, assume regular noncritical tri
 
 ([NT I], Prop. 2.11, p.30; construction §2.18.1, pp.36–39; Thms. 2.24, 2.27, pp.40–44; §2.22 and Thm. 2.33, pp.47–51.)
 
-*Needs:* PadicFunctionalAnalysis §§1.4,2.2–2.6;CompactOperators §§0.1,0.4–0.5,1.7;LAD §§0.0,0.2–0.3,3.3;RigidAnalyticGeometry §7.3;PadicFamilies §§2a.10–2a.14;SR’s stated smooth/locally analytic scope;LocalGaloisDeformationRings §0.4, `CoefficientRobbaModule`, `CoefficientRobbaModule.etaleEquivalence`, `D_rig`, `HerrCohomology`, `HerrCohomology.baseChange` and the saturated-character/`Ext`/cup/trace comparisons, together with its local deformation rings; PhiGammaModulesAndIwasawaCohomology §§1.1–1.2, 3.4–3.6, 4.4–4.5 and 7.8; GGD pseudocharacters;[§1.1];[§4.1](#41-characteristic-zero-enormous-image-and-adjoint-selmer-vanishing). Own the additional general finite-slope/Jacquet, relative compactness/distribution/coadmissibility (Emerton §§2,4.1–4.2) and Nakamura/Hellmann–Schraen deformation/`H¹_g` comparisons (NT I2.6–7) on the supplied finite-coefficient objects.
-
-### 4.9 One level-one form with automorphic `Sym^{n−1}` (NT I Theorem 7.6 = Theorem E)
-
-For every `n ≥ 3` there is a cuspidal, everywhere unramified `π` of `GL₂(𝔸_ℚ)` of weight `k ≥ 2` such that `Sym^{n−1}r_{π,ι}` is automorphic for every `ι`.
-
-Proof route: every level-one `π` (for instance the one attached to `Δ`, of weight 12) is non-CM, since a quadratic twist ramifies at the primes dividing the conductor of its character, so [§4.30] at `F=ℚ` makes `Sym^{n−1}r_{π,ι}` automorphic for every `ι` (ModularityAndLanglandsExtensionsPartII §14.1).
-
-([NT I], §7, Thm. 7.6, p. 90; Introduction p. 4; [NT Hilbert], Thm. 6.4, §6, p. 50.)
-
-*Needs:* [§4.30].
-
-### 4.12 Symmetric power functoriality in level one (NT I Theorem 7.7 = Theorem A)
-
-For every `n ≥ 2` and every RAC automorphic representation `π` of `GL₂(𝔸_ℚ)` of level 1, `Sym^{n−1}π` exists as a RAC automorphic representation of `GL_n(𝔸_ℚ)`.
-
-Proof route: a level-one `π` is non-CM, since a quadratic twist ramifies at the primes dividing the conductor of its character, so [§4.30] at `F=ℚ` applies; [§4.15] gives the all-place lift of [§1.10] (ModularityAndLanglandsExtensionsPartII §14.2(1)).
-
-For `Δ` this gives entire L-functions of every positive symmetric power.
-
-([NT I], Introduction, Thm. A, p. 2; §7, Thm. 7.7, p. 91; [NT Hilbert], Thm. 6.4, §6, p. 50.)
-
-*Needs:* [§4.30]; [§1.10], its all-place predicate; [§4.15].
+*Needs:* PadicFunctionalAnalysis §§1.4,2.2–2.6;CompactOperators §§0.1,0.4–0.5,1.7;LAD §§0.0,0.2–0.3,3.3;RigidAnalyticGeometry §7.3;PadicFamilies §§2a.10–2a.14;SR’s stated smooth/locally analytic scope;LocalGaloisDeformationRings §0.4, coefficient Robba modules and their étale equivalence, `D_rig`, Herr cohomology `C_Herr` with its derived coefficient change, and the saturated-character/`Ext`/cup/trace comparisons, together with its local deformation rings; PhiGammaModulesAndIwasawaCohomology §§1.1–1.2, 3.4–3.6, 4.4–4.5 and 7.8; GGD pseudocharacters;[§1.1];[§4.1](#41-characteristic-zero-enormous-image-and-adjoint-selmer-vanishing). Own the additional general finite-slope/Jacquet, relative compactness/distribution/coadmissibility (Emerton §§2,4.1–4.2) and Nakamura/Hellmann–Schraen deformation/`H¹_g` comparisons (NT I2.6–7) on the supplied finite-coefficient objects.
 
 ### 4.13 Symmetric powers of CM and weight-one forms (NT II Theorem A.1)
 
@@ -2302,7 +2279,7 @@ For `n=1: Λ=N^{1/2·s}Γ_ℂ(s)L(E,s)`.
 
 ([NT II], §1 Introduction, Cor. B, p. 2 (Publ. IHÉS 134, p. 118); [DMW09](#reference-dmw-2009), §§2–3, PDF pp.4–7 (printed pp.1314–1317); [Martin–Watkins](#reference-martin-watkins-2006), §4.2, PDF p.7.)
 
-*Needs:* [PMCS §1.15, system L-functions](../PotentialModularityAndCompatibleSystems/README.md); [§1.10].
+*Needs:* [PMCS §1.15, system L-functions](../PotentialModularityAndCompatibleSystems/README.md); [§1.10]; EllipticCurveModularity, Layer R29.6 (the cuspidal `π_E`).
 
 ### 4.18 Parallel weight and the imaginary-quadratic consequence of purity
 
@@ -2334,16 +2311,6 @@ Proof route: Jacquet–Shalika on the unitary cuspidal constituents gives `|α|^
 
 *Needs:* AL.3, Whittaker realizations and parameter estimates; PMCS §§1.7–1.8 (operations on systems).
 
-### 4.20 Symmetric powers when no local component is supercuspidal (NT I Theorem 8.1 = Theorem B, Corollary C)
-
-Let `π` be a non-CM RAC `π` of `GL₂(𝔸_ℚ)` such that `π_l` has nonzero Jacquet module for every prime l. Then for every `n ≥ 3`, `Sym^{n−1}r_{π,ι}` is automorphic, so `Sym^{n−1}π` exists. In particular (Cor. C) for a semistable elliptic curve `E/ℚ` and each `n≥1` the completed `Λ(Sym^nE, s)` is entire.
-
-Proof route: [§4.30] at `F=ℚ`, which uses no condition on the Jacquet modules of `π` (ModularityAndLanglandsExtensionsPartII §14.2(2)). For semistable E, which is non-CM, modularity and squarefree `Γ₀(N)` give only unramified/Steinberg components; Godement–Jacquet gives entireness.
-
-([NT I], §8, Thm. 8.1, p. 91; Introduction, Thm. B and Cor. C, p. 2; [NT Hilbert], Thm. 6.4, §6, p. 50.)
-
-*Needs:* [§4.30]; [§1.10]; AL.2.
-
 ### 4.21 Purity and potential automorphy of symmetric powers when `det r_λ = ε^{−m}` (BCGNT Theorem 6.2.1)
 
 For CM F,strongly irreducible rank-two very weakly compatible R with `HT_τ={0,m}`,`m≥1`,`det r_λ=ε^{−m}`,R is pure weight m and each `n≥1` admits finite CM `F_n/F`,Galois over `ℚ`,with automorphic `Sym^{n−1}R|G_{F_n}`. Automorphic means BCGNT6.1.2(2): unramified matching at **all** finite places outside S;bad-place matching is separate. At `m=1` use `ACC+7`.1.12 (Remark6.2.2).
@@ -2373,26 +2340,6 @@ Proof route: ET §§6.24–6.29/PAI Layer 2’s soluble comparisons, [§2.16], [
 ([NT Hilbert],6.1 pp.45–49 and6.5 p.50;[CT17],7.1 p.46,7.4 pp.47–48,7.6 p.49;[Thorne 2024],8.1/8.2/8.3 pp.47–50.)
 
 *Needs:* ET §§6.24, 6.26–6.29; PAI Layer 2, soluble automorphy comparisons; [§2.2]; [§4.15].
-
-### 4.23 Tensor-product functoriality lifting over totally real fields
-
-Let F be totally real, `r≥1`, p any prime, and `π`,`π′` on `GL₂` and `σ` on `GL_r` be RAESDC. Assume `π`,`π′` have weight zero and are non-CM; `r̄_π≅r̄_π′`; `r̄_π(G_F)` contains a conjugate of `SL₂(𝔽_{p^a})` with `p^a>5`. At every v|p require the same ordinary status and the same potentially crystalline status for both, and if `p=2` require both potentially crystalline. At `v∤p` require Steinberg-twist status to agree. Require a perfect subgroup H of `(r̄_π⊗r̄_σ)^{ss}(G_F)` containing an element with 2r distinct eigenvalues; labelled `HT(r_σ)={0,2,…,2r−2}`; automorphy and strong irreducibility of `r_π⊗r_σ`; irreducibility of `r_π′⊗r_σ`. Then the latter tensor product is automorphic.
-
-Proof route: NT Hilbert 4.1 pp.25–26, simultaneous rank-two/rank-2r patching and the tensor map of deformation rings; for `p=2` use the modified Khare–Wintenberger argument pp.35–36 (ModularityAndLanglandsExtensionsPartII §12.7, with the symmetric-power patching of its Layer 9). The perfect-subgroup condition persists under soluble base change and is stronger than a size bound.
-
-NT Hilbert5.9 pp.44–`45: p≥5`,`0<r<p`,`M>p^{a₀(p)}`,`SP_r`,`SP_{r+1}`,`SP_{r−1}` if `r>1`,and **all** [§4.22](1)–(8),with `t₁`,`t₂>M`/same ray-class conditions,give residual `SL₂(𝔽_{p^a})`,`p^a>M`,and an ordinary RAESDC `Π` on `GL_{2r}` with `r̄_Π≅ϕ_p r̄_π⊗Sym^{r−1}r̄_π`. The statement is residual: for `r≥2` the labelled HT weights `{0,1}+{0,…,r−1}` of `ϕ_p r_π⊗Sym^{r−1}r_π` repeat, so it is the Galois representation of no RAESDC `Π`. `ϕ_p` is coefficient arithmetic-Frobenius lift. Route:5.5 under all-primes large image,5.9 obtains it via two good-dihedral places (ModularityAndLanglandsExtensionsPartII §§13.5–13.6). This is the tensor induction input,not arbitrary tensor functoriality.
-
-**Checks.**
-
-- At `r=1`, `HT(r_σ)={0}` and the tensor rank is two.
-- At `r=2`, the tensor-weight multiset `{0,1}+{0,2}` is `[0,1,2,3]`, so the resulting weight is zero; replacing `σ`-weights by {0,1} gives `[0,1,1,2]` with repetitions.
-- At `p=2` the field-size bound can hold over `𝔽₈`, but the extra potentially crystalline condition remains.
-- A subgroup with nontrivial abelianization is not automatically perfect.
-- The coefficient twist `ϕ_p` is not evaluation of a Galois representation at a Frobenius element.
-
-([NT Hilbert], Thm. 4.1 and proof, pp.25–36; Thm. 5.5 pp.40–41; Thm. 5.9 pp.44–45.)
-
-*Needs:* DeformationAndDerivedPatchingAlgebra Layers 7–9, patching supports; LGD, tensor morphisms and components; GL2ML, local weight-zero lifting; the ray-class constructions of [§4.22].
 
 ### 4.24 Purity and analytic continuation for rank-two systems of weight zero over CM fields (ACC+, Corollary 7.1.13)
 
@@ -2475,30 +2422,6 @@ Proof route: [§2.31], the tensor trick and [§2.37](#237-conditional-potential-
 
 ([Calegari–Geraghty](#reference-cg-2018), Thm. 1.1(2), §1, p. 3 = Invent. p. 300; reduction in §10, p. 97 = Invent. p. 428.)
 
-### 4.29 Symmetric power functoriality for all non-CM modular forms (NT II Theorem A, Corollary B)
-
-Let `π` be a RA, cuspidal, non-CM automorphic representation of `GL₂(𝔸_ℚ)`. Then for every `n ≥ 1`, `Sym^nπ` exists as a RAC automorphic representation of `GL_{n+1}(𝔸_ℚ)`. In particular (Cor. B), for every elliptic curve `E/ℚ` without CM and `n ≥ 2`, `Λ(Sym^nE, s)` is entire.
-
-The `n=1` lift is `π` itself; Cor. B is stated for `n≥2`.
-
-Proof route: [§4.30] at `F=ℚ` (ModularityAndLanglandsExtensionsPartII §14.3). Modularity and Godement–Jacquet give Cor. B.
-
-CM and weight-one forms use [§4.13](#413-symmetric-powers-of-cm-and-weight-one-forms-nt-ii-theorem-a1).
-
-([NT II], Introduction, Thm. A and Cor. B, pp. 1–2; [NT Hilbert], Thm. 6.4, §6, p. 50.)
-
-*Needs:* [§4.30]; [§1.10]; AL.2.
-
-### 4.30 Symmetric power functoriality for all non-CM regular algebraic `GL₂` representations over totally real fields (Newton–Thorne, Theorem 6.4)
-
-`SP_n` holds for all `n ≥ 2`: for every totally real F and every non-CM cuspidal RA `π` of `GL₂(𝔸_F)`, `Sym^{n−1}π` exists as a RAESDC automorphic representation of `GL_n(𝔸_F)`, in each of the senses of [§4.15].
-
-Proof route: induction on `n` (ModularityAndLanglandsExtensionsPartII §13.10). [§1.15] starts the induction; for `n≥6` Bertrand gives a prime `p` with `n/2<p<n`, and `n=p+r` with `0<r<p`, so `p≥5`. By [§4.15] one `ι` suffices. After [§4.22] replaces `π` by `π′` over a soluble extension, the second paragraph of [§4.23](#423-tensor-product-functoriality-lifting-over-totally-real-fields) (using `SP_r`,`SP_{r+1}` and, if `r>1`, `SP_{r−1}`) and `SP_{p−r}` give ordinary residual witnesses for the two blocks of `Sym^{p+r−1}` modulo `p`; Thorne's `p`-adic level raising (ModularityAndLanglandsExtensionsPartII §6.9) and residually reducible lifting make `Sym^{p+r−1}r_{π′,ι}` automorphic, hence `Sym^{p+r−1}r_{π,ι}`.
-
-([NT Hilbert], Thm. 6.4 and its proof, §6, p. 50.)
-
-*Needs:* [§1.12]; [§1.15]; [§4.15]; [§4.22]; [§4.23](#423-tensor-product-functoriality-lifting-over-totally-real-fields).
-
 ### 4.33 Purity and potential automorphy of symmetric powers of rank-two systems over CM fields (BCGNT Theorem 7.2.1 = Theorem C)
 
 Take a CM field F, an integer `m ≥ 1`, and an irreducible very weakly compatible system R of `G_F` of rank 2 whose Hodge–Tate sets are `H_τ = {0, m}`. Then R is pure, of weight m. Under the stronger hypothesis that R is strongly irreducible, every symmetric power becomes automorphic after a CM base change: for each `n ≥ 1` some finite CM extension F′/F, Galois over `ℚ`, makes `Sym^{n−1}R|_{G_{F′}}` automorphic. If instead R is not strongly irreducible, then for each n the system `Sym^{n−1}R` splits as a direct sum of compatible systems, each automorphic and of dimension `≤ 2`.
@@ -2513,7 +2436,7 @@ Proof route: BCGNT 7.1.1’s rank-one determinant normalization, finite-order sq
 
 Let `E/ℚ` be an elliptic curve without complex multiplication, and for good p let `α_p` be the root of `X² − a_pX + p` with nonnegative imaginary part and `θ_p = arg(α_p/√p) ∈ [0, π]`. Then `(θ_p)` is equidistributed for `(2/π)sin²θ` `dθ`, the push-forward of Haar measure on SU(2).
 
-In `Suggested.lean`, `SymmetricPower.satoTate_elliptic` states this theorem for every `E : WeierstrassCurve ℚ` with `E.IsElliptic`. The non-CM hypothesis is surjectivity of the integer map to Tau Ceti's geometric endomorphism ring `TauCeti.Isogeny.Hom` after base change to ℂ. The definitions `SymmetricPower.goodReductionPrimes` and `SymmetricPower.frobeniusAngle` use Mathlib's minimal models over `ℤ_p` and their residue-field point counts. Equidistribution is the limit of the averages of every continuous function on `[0,π]`, ordered by increasing prime bound, against `(2/π)sin²θ dθ`.
+In `Suggested.lean`, `SymmetricPower.satoTate_elliptic` states this theorem for every `E : WeierstrassCurve ℚ` with `E.IsElliptic`. The non-CM hypothesis is `¬ E.HasGeometricCM`, the negation of Tau Ceti's `WeierstrassCurve.HasGeometricCM`: every element of the geometric endomorphism ring `WeierstrassCurve.GeometricEnd`, the endomorphisms of E over a separable closure of ℚ, is multiplication by an integer. The definitions `SymmetricPower.goodReductionPrimes` and `SymmetricPower.frobeniusAngle` use Mathlib's minimal models over `ℤ_p` and their residue-field point counts. Equidistribution is the limit of the averages of every continuous function on `[0,π]`, ordered by increasing prime bound, against `(2/π)sin²θ dθ`.
 
 Define `SymmetricPower.goodReductionPrimes E x` to be the finite set of rational primes p≤x at which the minimal integral equation of E over ℚ_p has good reduction. The definition is total on rational Weierstrass equations; the invariance statements below assume E is elliptic.
 
@@ -2544,50 +2467,13 @@ Define `SymmetricPower.frobeniusAngle E p` by the real arccosine of `(p+1−#E_p
 - The chosen roots are `−1+2i` at 5 and `−2+i√3` at 7, with squared moduli 5 and 7. Their real parts divided by √p give exactly the two cosines above; conjugating the roots reverses the imaginary sign.
 - E′ above has the same angle at 5 as E after minimization; counting the singular displayed reduction would not give the elliptic Frobenius angle. No Frobenius interpretation is asserted at the bad prime 23.
 
-Proof route: `SU₂` irreducibles are `Sym^n` and the Weyl measure is `(2/π)sin²θ` `dθ` (Kedlaya §24.5). For `n≥1`, [§4.29](#429-symmetric-power-functoriality-for-all-non-cm-modular-forms-nt-ii-theorem-a-corollary-b) and AL.3 make `L(Sym^nE,s+n/2)` entire and nonzero on `Re s≥1`; apply [§4.14].
+Proof route: `SU₂` irreducibles are `Sym^m`, `m≥0`, and the Weyl measure is `(2/π)sin²θ` `dθ` (Kedlaya §24.5), so by [§4.14] it suffices that for every `m≥1` the good-prime Euler product `L^S(Sym^mE,s+m/2)` is holomorphic and nonzero on `Re s≥1`. Take `𝓜={m}` and `F′=F^suffices` in [§2.39]: `F′` is totally real and Galois over `ℚ`, and `Sym^mH_{E,ℓ}|G_{F′}` is `r_{l,ι}(π)` for a cuspidal `π` on `GL_{m+1}(𝔸_{F′})`. Brauer's theorem writes the trivial character of `Gal(F′/ℚ)` as `Σ_j n_j Ind ψ_j` with integers `n_j`, characters `ψ_j` of `G_{F_j}` and each `Gal(F′/F_j)` soluble. For a prime `ℓ>m` with `r̄_{E,ℓ}(G_{F′})=GL₂(𝔽_ℓ)` ([§2.18]), `Sym^mH_{E,ℓ}` is irreducible on `G_{F′}`, so soluble descent makes its restriction to `G_{F_j}` equal to `r_{l,ι}(π_j)` for a cuspidal `π_j` on `GL_{m+1}(𝔸_{F_j})`. Hence `L^S(Sym^mE,s)=∏_j L^{S_j}(π_j⊗ψ_j,s)^{n_j}`; in unitary normalization each factor is entire (AL.2) and nonzero on `Re s≥1` (AL.3), so the product is holomorphic and nonzero there.
 
-∫`₀^πsin²θ` `dθ=π/2`. Potential automorphy with Brauer nonvanishing already suffices; full entireness is stronger than needed.
+∫`₀^πsin²θ` `dθ=π/2`.
 
 ([Kedlaya], §§24.4–24.5, Conjecture 24.4 and Thms. 24.5–24.6, printed pp. 134–135.)
 
-*Needs:* AL.3; [§2.40]; EllipticCurveModularity, Layer R29.6.
-
-### 4.35 Symmetric power functoriality for Hilbert modular forms (Newton–Thorne, Theorem A = Theorem 6.5(1))
-
-For totally real F,non-CM cuspidal `GL₂` `π` essentially square-integrable at every infinite place (weights `k_v≥2`,including mixed parity),every `n≥2` admits cuspidal `GL_n` `Π_n` with `rec(Π_{n,v})=Sym^{n−1}rec(π_v)` at **every** place.
-
-Proof route: same parity uses [§4.30] after a twist; mixed parity uses Thorne 2024 Thm. 8.1/Prop. 8.3 as specified in [§4.22], including infinity.
-
-([NT Hilbert], Thm. A, §1, p. 1 = Thm. 6.5(1) and proof, §6, p. 50; [Thorne 2024], Thm. 8.1 and proof, pp. 48–50.)
-
-*Needs:* AG §§3.10–3.14 and 4.3–4.7.
-
-### 4.36 Symmetric powers of conjugate self-dual `GL₂` representations over CM fields (Newton–Thorne, Theorem 6.5(2))
-
-Let E be a CM field and `π` a RAECSDC automorphic representation of `GL₂(𝔸_E)` not automorphically induced from a quadratic extension. Then for every `n ≥ 2` `Sym^{n−1}π` exists: there is a cuspidal `Π_n` of `GL_n(𝔸_E)` with `rec(Π_{n,w}) ≅ Sym^{n−1} ∘ rec(π_w)` for every place w.
-
-Proof route: Clozel–Thorne 7.6/[§4.22], auxiliary character and odd extension, [§4.30], then base change.
-
-General Bianchi forms instead use [§4.42](#442-the-satotate-conjecture-in-parallel-weight-over-imaginary-cm-fields-bcgnt-theorem-b--theorem-723)’s potential route.
-
-([NT Hilbert], Thm. 6.5(2) and its proof, §6, p. 50.)
-
-*Needs:* ET §§6.24, 6.26–6.29.
-
-### 4.37 Holomorphy of `L(s, Sym^n π)` for Hilbert modular forms
-
-Let F be totally real and `π` a non-CM cuspidal representation of `GL₂(𝔸_F)`, essentially square-integrable at every infinite place, as in [§4.35](#435-symmetric-power-functoriality-for-hilbert-modular-forms-newtonthorne-theorem-a--theorem-651). Then for every `n ≥ 1`, `L(s, Sym^n π)` is entire with the expected functional equation.
-
-Proof route: [§4.35](#435-symmetric-power-functoriality-for-hilbert-modular-forms-newtonthorne-theorem-a--theorem-651) gives a cuspidal `Π` on `GL_{n+1}(𝔸_F)` with `rec(Π_v) ≅ Sym^n rec(π_v)` at every place, so `L(s, Sym^n π) = L(s, Π)`; apply Godement–Jacquet to `Π`.
-
-**Checks.**
-
-- Degree one gives the original cuspidal standard L-function.
-- Degree zero gives `ζ_F(s)` with its pole at 1, including for π attached to Δ; the entireness conclusion excludes it.
-
-([NT Hilbert], Thm. A, §1, p. 1 = Thm. 6.5(1), §6, p. 50.)
-
-*Needs:* [§4.35](#435-symmetric-power-functoriality-for-hilbert-modular-forms-newtonthorne-theorem-a--theorem-651); AL.2 (global Godement–Jacquet theory).
+*Needs:* [§2.18]; [§2.39]; [§4.14]; PAI §2.3, soluble descent; PMCS §1.16, Brauer decomposition and partial L-functions of virtual classes; AL.2; AL.3; RepresentationTheory.CompactGroups, Layers 5–6 and §§E.2–E.4 (`SU(2)` irreducibles and Weyl integration).
 
 ### 4.38 The Ramanujan conjecture in parallel weight over imaginary CM fields (BCGNT Theorem A = Theorem 7.1.1)
 
@@ -3022,7 +2908,9 @@ TauCetiRoadmap.RepresentationTheory.ClassicalGroups Layers0–1 owns standard/te
 
 ClassicalSerreModularity/EllipticCurveModularity own rational modularity;GL2AutomorphicRepresentationsAndTransfer rank-two LLC,soluble Artin/base change;PotentialModularityAndCompatibleSystems systems/operations/L-functions;AutomorphicGaloisRepresentationsPartII Galois/WD/HT realization;AutomorphicFormsOnReductiveGroups infinity,weights,purity/real cohomological packets;EndoscopicTransferAndUnitaryTraceComparison local factors,cyclic base change/weak induction;AutomorphicLFunctionsAndLocalFactors standard/Rankin–Selberg theorems and Langlands–Shahidi definitions. Own stronger induction,analytic/trace comparisons here;separate weak/all-place,isobaric/cuspidal.
 
-Layer4 owns tensor lifting/auxiliary curves;Layer2 Dwork projectors,coefficient-prime ordinarity and ordinary-prime density/progression arguments. EllipticCurveModularityImaginaryQuadratic §§0.3, 5.1 and 5.3 owns the typed elliptic seed, general non-CM large-prime theorem and geometric prime switch; §§2.18 and 2.29 here give specialization and normalization comparisons on its outputs. Own polarized-lifting, theta and Whittaker extensions over lower inputs. AutomorphicGaloisRepresentationsPartII AG2.6 owns the shared relative curves, bundle/Hecke categories, parameter stack and geometric spectral action; LanglandsParameterStacks LP1 supplies that stack's LCI, cotangent and singular-support package. §§5.7–5.9 compare these objects and specialize their support categories for the Whittaker adjunction. PadicHodgeTheory§3.6 owns labelled ordinary flags,crystalline characters,consecutive-weight/maximal-monodromy criteria/finite-extension descent;CrystallineCohomology§§CR.6.1–3 log boundary/Hyodo–Kato/one-parameter comparisons;here add `H₀`-equivariant Dwork specialization. Extend PotentialModularityAndCompatibleSystems§8.6’s rank-two ordinary lifting/finiteness to higher polarized rank.
+Layer2 owns Dwork projectors,coefficient-prime ordinarity and ordinary-prime density/progression arguments. EllipticCurveModularityImaginaryQuadratic §§0.3, 5.1 and 5.3 owns the typed elliptic seed, general non-CM large-prime theorem and geometric prime switch; §§2.18 and 2.29 here give specialization and normalization comparisons on its outputs. Own polarized-lifting, theta and Whittaker extensions over lower inputs. AutomorphicGaloisRepresentationsPartII AG2.6 owns the shared relative curves, bundle/Hecke categories, parameter stack and geometric spectral action; LanglandsParameterStacks LP1 supplies that stack's LCI, cotangent and singular-support package. §§5.7–5.9 compare these objects and specialize their support categories for the Whittaker adjunction. PadicHodgeTheory§3.6 owns labelled ordinary flags,crystalline characters,consecutive-weight/maximal-monodromy criteria/finite-extension descent;CrystallineCohomology§§CR.6.1–3 log boundary/Hyodo–Kato/one-parameter comparisons;here add `H₀`-equivariant Dwork specialization. Extend PotentialModularityAndCompatibleSystems§8.6’s rank-two ordinary lifting/finiteness to higher polarized rank.
+
+For symmetric powers of `GL₂` over totally real fields this roadmap owns the statement `SP_n` (§1.12), its cases `n≤5` (§1.15), the one-prime criterion (§4.15) and the reductions of §4.22, which also pass from `SP_n` to all-place lifts in mixed parity and to conjugate self-dual representations over CM fields. The theorem that `SP_n` holds for every n ([NT Hilbert], Theorem 6.4), with the tensor-product functoriality lifting and residual witnesses its induction uses (Theorems 4.1, 5.5 and 5.9 there) and its specialisations over ℚ (Theorems A, B and E of [NT I] and Theorem A of [NT II]), is stated and proved by ModularityAndLanglandsExtensionsPartII (§§12.7, 13.5–13.6, 13.10 and 14.1–14.3), which consumes the sections just named; no target here uses it. Its further consequences through §§4.17 and 4.22 ([NT Hilbert], Theorem 6.5; the holomorphy of `L(s, Sym^n π)` for non-CM Hilbert modular forms; the entireness of the completed `Λ(Sym^nE,s)` of §4.17 for non-CM `E/ℚ`) are not targets of this roadmap.
 
 PadicFunctionalAnalysis/CompactOperators own Banach modules,orthonormalizability/complete continuity;LocallyAnalyticDistributions locally convex limits,strictness,completed tensors,compact duality/distribution-character spaces;RigidAnalyticGeometry quasi-Stein sheaves. §4.3 adds relative compactness,Fréchet–Stein/coadmissibility,contracting Jacquet/automorphic comparisons.
 
@@ -3038,7 +2926,7 @@ Section 4.41 owns minimal-K-type probability mass, Marshall's conditional cohomo
 
 Import `Polynomial.reverse`, `Polynomial.eval₂_reverse_mul_pow` at the natural degree with invertible evaluation argument. For commutative rings,`Matrix.charpolyRev = det(1 − X • M.map C)`; `Matrix.reverse_charpoly` gives reversal,`Matrix.eval_charpolyRev` constant1,including singular/empty matrices (`0₂:charpoly=X²,charpolyRev=1`). Import `Matrix.trace`, `Matrix.ProjGenLinGroup`, `Matrix.ProjGenLinGroup.mk`, `Matrix.ProjGenLinGroup.map`,injective `Matrix.ProjectiveSpecialLinearGroup.toPGL`,surjective scalar quotient. Scalar extension induces a map on central quotients. Sign kernels use `AddSubgroup`, `AddMonoidHom.ker`, finite sums and `ZMod 2`. These give no topology/Galois/closure structure. `H_E` is always the cohomological dual of that same imported Tate action/determinant.
 
-Import `WeierstrassCurve.tateModuleGaloisRepresentation`, `WeierstrassCurve.continuous_tateModuleGaloisRepresentation_apply`, `TauCeti.det_tateModuleGaloisRepresentation` (separably closed/characteristic hypotheses) via cohomological duality. `HeckeRing.GL2.Newform.satakeParameters`, `satakeParameters_eq_pair_iff`, `satakeAngle`, `satakeParameters_eq_exp_satakeAngle` in `TauCeti.NumberTheory.ModularForms.Newforms.Satake` give rational classical comparisons;the last assumes prime p,trivial local nebentypus/Ramanujan bound. It proves neither that bound nor CM Sato–Tate. §3.1 uses `TauCeti.HeisenbergGroup` from `TauCeti.GroupTheory.SpecificGroups.Heisenberg` and `TauCeti.hermiteFunction`, `TauCeti.hermiteFunction_oscillator` from `TauCeti.Analysis.SpecialFunctions.Hermite.Function.Oscillator`. SR.6 owns integral finite-wild cocycles/`ℓ`-adic extension/excursions; AutomorphicGaloisRepresentationsPartII AG2.6 supplies their parameter stack and geometric spectral action; LanglandsParameterStacks LP1 supplies singular support; §§5.8–5.9 identify its support categories and add the Whittaker adjunction. LocalGaloisGroups/ProfiniteArithmetic own foundations.
+Import `WeierstrassCurve.tateModuleGaloisRepresentation`, `WeierstrassCurve.continuous_tateModuleGaloisRepresentation_apply`, `TauCeti.det_tateModuleGaloisRepresentation` (separably closed/characteristic hypotheses) via cohomological duality. §4.34 uses `WeierstrassCurve.GeometricEnd` (the endomorphism ring of the base change to `SeparableClosure F`) and `WeierstrassCurve.HasGeometricCM` (some such endomorphism is not an integer) from `TauCeti.AlgebraicGeometry.EllipticCurve.Isogeny.Hom.ComplexMultiplication`. `HeckeRing.GL2.Newform.satakeParameters`, `satakeParameters_eq_pair_iff`, `satakeAngle`, `satakeParameters_eq_exp_satakeAngle` in `TauCeti.NumberTheory.ModularForms.Newforms.Satake` give rational classical comparisons;the last assumes prime p,trivial local nebentypus/Ramanujan bound. It proves neither that bound nor CM Sato–Tate. §3.1 uses `TauCeti.HeisenbergGroup` from `TauCeti.GroupTheory.SpecificGroups.Heisenberg` and `TauCeti.hermiteFunction`, `TauCeti.hermiteFunction_oscillator` from `TauCeti.Analysis.SpecialFunctions.Hermite.Function.Oscillator`. SR.6 owns integral finite-wild cocycles/`ℓ`-adic extension/excursions; AutomorphicGaloisRepresentationsPartII AG2.6 supplies their parameter stack and geometric spectral action; LanglandsParameterStacks LP1 supplies singular support; §§5.8–5.9 identify its support categories and add the Whittaker adjunction. LocalGaloisGroups/ProfiniteArithmetic own foundations.
 
 ### From the nonarchimedean analytic roadmaps
 
@@ -3048,7 +2936,7 @@ For finite `K/ℚ_p`, LocallyAnalyticDistributions §§0.0–0.3 supplies locall
 
 ### From PhiGammaModulesAndIwasawaCohomology
 
-Use §§1.1–1.2's `RelativePhiGammaModule` and `relativeDrig` on finite-projective affinoid coefficient modules, including nonreduced coefficients, exactness, full faithfulness, tensor/dual and coefficient-change comparisons. Its finite-local specialization `CoefficientRobbaModule.etaleEquivalence` is the same one used by LocalGaloisDeformationRings §0.4. Sections 3.4–3.6 fix the full finite Gamma-torsion invariants, Herr differentials and signed cup/trace comparison. Sections 4.4–4.5 supply `relativeHerrPerfect` of amplitude [0,2], Euler characteristic −[K:ℚ_p] times rank, cyclotomic Tate duality and `herrDerivedBaseChange`; ordinary cohomology base change retains the Tor-vanishing hypotheses. Section 7.8 supplies `globalCoherentTriangulation` for reduced rigid spaces with irreducible connected components and the dense strictness/global-parameter conditions of §7.5: a proper birational modification with character-line graded embeddings, locally t-power-torsion cokernels and a strict flag off the exceptional locus. For a smooth curve the modification is the identity. The special-fibre theorem retains its saturation and character-shift conditions.
+Use §§1.1–1.2's relative (φ,Γ_K)-modules and relative realization `D_rig` on finite-projective affinoid coefficient modules, including nonreduced coefficients, exactness, full faithfulness, tensor/dual and coefficient-change comparisons. Its finite-local specialization, the étale equivalence with finite free continuous representations, is the one LocalGaloisDeformationRings §0.4 uses. Sections 3.4–3.6 fix the full finite Gamma-torsion invariants, Herr differentials and signed cup/trace comparison. Sections 4.4–4.5 supply relative Herr perfectness in amplitude [0,2], Euler characteristic −[K:ℚ_p] times rank, cyclotomic Tate duality and derived coefficient change; ordinary cohomology base change retains the Tor-vanishing hypotheses. Section 7.8 supplies coherent triangulations for reduced rigid spaces with irreducible connected components and the dense strictness/global-parameter conditions of §7.5: a proper birational modification with character-line graded embeddings, locally t-power-torsion cokernels and a strict flag off the exceptional locus. For a smooth curve the modification is the identity. The special-fibre theorem retains its saturation and character-shift conditions.
 
 ### Actual objects and comparison laws
 
@@ -3074,7 +2962,7 @@ AdelicAlgebraicGroups §2.4 uses arithmetic Frobenius:invert the element/equival
 
 LocalGaloisDeformationRings owns fixed-residual framed generic fibres and Hodge/type loci. “Connects” means same geometric irreducible component of that locus, rather than equal reduction. Import ACC+ Fontaine–Laffaille/ordinary lifting from PotentialAutomorphyInfrastructure §§5.22–5.23. Construct [§2.5], [§2.6], [§2.8](#28-conditional-weight-zero-lifting-over-an-arbitrary-number-field) separately. GL2ModularityLifting §5.7 supplies Hilbert potentially Barsotti–Tate lifting with its refined ordinary quotient condition.
 
-For [§4.3](#43-definite-unitary-eigenvarieties-and-the-trianguline-comparison), LocalGaloisDeformationRings §0.4 supplies `CoefficientRobbaModule`, `CoefficientRobbaModule.etaleEquivalence`, `D_rig`, saturated character quotients, `HerrCohomology` and `HerrCohomology.baseChange` over every finite local E-algebra. Its full finite Gamma-torsion invariants, differentials, cup products and signed trace fix the finite-coefficient specialization of the relative construction supplied by PhiGammaModulesAndIwasawaCohomology §§1.1–1.2 and 4.4–4.5.
+For [§4.3](#43-definite-unitary-eigenvarieties-and-the-trianguline-comparison), LocalGaloisDeformationRings §0.4 supplies coefficient Robba modules and their étale equivalence, `D_rig`, saturated character quotients, Herr cohomology `C_Herr` and its derived coefficient change over every finite local E-algebra. Its full finite Gamma-torsion invariants, differentials, cup products and signed trace fix the finite-coefficient specialization of the relative construction supplied by PhiGammaModulesAndIwasawaCohomology §§1.1–1.2 and 4.4–4.5.
 
 #### C-MODULI: from PotentialModularityAndCompatibleSystems, §§2.8–2.10 and 2.23
 
@@ -3160,7 +3048,7 @@ Import the restricted simple unitary comparison and the elliptic stabilization o
 
 #### From EndoscopicTransferAndUnitaryTraceComparison, §11.1
 
-Import general-type `GSp₄` transfer, the rank-four twisted-square pole alternative, all-place parameter matching and packet multiplicity one, retaining `GSp4ClassificationInputs`, unitary cuspidal `Π` and unitary multiplier `χ`. Sections 3.9 and 3.26 supply six-type bookkeeping, nongeneral-type extensions and normalization adapters. The local Arthur and weighted-stabilization targets here discharge the relevant classification premises; they do not replace the supplier's input record.
+Import general-type `GSp₄` transfer, the rank-four twisted-square pole alternative, all-place parameter matching and packet multiplicity one, retaining the symplectic classification contract of §§11.0g–11.0h, unitary cuspidal `Π` and unitary multiplier `χ`. Sections 3.9 and 3.26 supply six-type bookkeeping, nongeneral-type extensions and normalization adapters. The local Arthur and weighted-stabilization targets here discharge the relevant classification premises; they do not replace the supplier's classification contract.
 
 #### From ArithmeticGaloisRepresentations, §7.10
 
@@ -3246,7 +3134,7 @@ Use §1.15’s completed L-functions with strictness, purity, regularity and rea
 
 #### From EllipticCurveModularity, Layer R29.6
 
-Modularity of every elliptic curve over `ℚ` with full local-factor comparison, to apply NT non-CM symmetric powers in the Sato–Tate criterion.
+Modularity of every elliptic curve over `ℚ` with full local-factor comparison: the cuspidal `π_E` of `GL₂(𝔸_ℚ)` whose symmetric powers §4.17 compares with `Λ(Sym^nE,s)`.
 
 PMCS §1.22 supplies BLGGT’s extremely regular decomposition. [§2.42] extends it to pure regular polarized systems with one common extension for a finite family; reducible sums remain isobaric.
 
@@ -3728,7 +3616,6 @@ Unless marked journal/published or otherwise, locators use the linked edition be
 [§4.15]: #415-one-prime-suffices-for-symmetric-power-functoriality-newtonthorne-lemma-21
 [§0.2]: #02-automorphic-galois-representations-in-newtonthornes-sense
 [CT17]: #reference-ct-2017
-[§4.30]: #430-symmetric-power-functoriality-for-all-non-cm-regular-algebraic-gl₂-representations-over-totally-real-fields-newtonthorne-theorem-64
 [§1.15]: #115-symmetric-powers-of-gl₂-of-rank-at-most-five-sp_n-for-n--5
 [KS02]: #reference-kim-shahidi-2002
 [GT19]: #reference-gee-taibi-2019
@@ -3759,6 +3646,7 @@ Unless marked journal/published or otherwise, locators use the linked edition be
 [§2.26]: #226-potential-automorphy-of-potentially-diagonalizable-polarized-representations-theorem-451
 [§2.31]: #231-conditional-potential-modularity-of-odd-symmetric-powers-of-elliptic-curves-calegarigeraghty-10
 [§2.39]: #239-potential-automorphy-of-the-symmetric-powers-of-a-non-cm-elliptic-curve-over-ℚ-acc-corollary-724
+[§2.18]: #218-ordinary-auxiliary-primes-with-full-residual-elliptic-image
 [§2.27]: #227-potential-ordinary-automorphy-of-symplectic-residual-representations-with-prescribed-disjointness-acc-proposition-723
 [§2.35]: #235-potential-automorphy-of-compatible-systems-theorem-541-corollary-542
 [§2.41]: #241-a-potentially-diagonalizable-polarized-representation-lies-in-a-compatible-system-theorem-551
@@ -3795,9 +3683,7 @@ Unless marked journal/published or otherwise, locators use the linked edition be
 [C-EQUIDISTRIBUTION]: #c-equidistribution-from-taucetiroadmaprepresentationtheorycompactgroups-layer-6
 [§4.19]: #419-purity-from-potential-weak-automorphy-of-symmetric-powers-bcgnt-lemma-613
 [Thorne 2024]: #reference-thorne-2024
-[§4.22]: #422-reductions-for-symmetric-powers-clozelthornes-theorem-71-lemma-74-proposition-76-and-newtonthornes-proposition-61
 [§4.14]: #414-equidistribution-from-l-functions-kedlaya-theorem-242-and-the-weyl-criterion
-[§4.20]: #420-symmetric-powers-when-no-local-component-is-supercuspidal-nt-i-theorem-81--theorem-b-corollary-c
 [§4.21]: #421-purity-and-potential-automorphy-of-symmetric-powers-when-det-r_λ--εm-bcgnt-theorem-621
 [§4.33]: #433-purity-and-potential-automorphy-of-symmetric-powers-of-rank-two-systems-over-cm-fields-bcgnt-theorem-721--theorem-c
 [§4.38]: #438-the-ramanujan-conjecture-in-parallel-weight-over-imaginary-cm-fields-bcgnt-theorem-a--theorem-711
@@ -3811,4 +3697,3 @@ Unless marked journal/published or otherwise, locators use the linked edition be
 
 [§1.13]: #113-kimshahidi-functorial-products-gl₂--gl₃--gl₆-and-the-symmetric-cube
 [Gan–Savin]: #reference-gan-savin-2023-g2
-[§4.9]: #49-one-level-one-form-with-automorphic-symn1-nt-i-theorem-76--theorem-e
