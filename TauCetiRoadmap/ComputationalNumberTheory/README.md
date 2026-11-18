@@ -23,121 +23,16 @@ Suggested homes are `TauCeti/NumberTheory/Computational/` for the arithmetic ada
 necessary simple definitions. The companion eigensystems use scalar extensions of the integral cusp lattices;
 this document specifies every construction, API fact and Check.
 
-## Scope and ownership
+## How to read the build
 
-This roadmap owns:
-
-1. **Exact presentations** (Layer 0): isolated algebraic numbers with exact arithmetic and
-   equality comparisons for prescribed polynomials; Rabin irreducibility predicates,
-   finite-field presentations and changes of presentation with explicit inverses.
-2. **Primality and factorization presentations** (Layer 1): Pratt trees with soundness,
-   completeness and size bounds; strong liars and the Miller–Rabin bound; the AKS congruence criterion and
-   its primality equivalence; Pocklington presentations; integer factor presentations; factor presentations over
-   finite fields and their transport; Hensel lifting modulo prime powers; rational polynomial
-   factor presentations and the existence of rational factor presentations.
-3. **Order presentations and local arithmetic** (Layer 2): order bases, multiplier rings, local
-   maximality, Frobenius nilradicals, `p`-radicals and the multiplier criterion, integral-basis
-   presentations and their existence over any full order, prime-ideal decompositions, `φ`-adic expansions,
-   `φ`-Newton sides, residual polynomials and Ore's criterion, finite local expansions, squares of
-   units in finite extensions of `ℚ_p`, and roots in `ℚ_p` read off from prime decompositions.
-4. **Exact modular and elliptic data** (Layer 3): integral `q`-expansion lattices at level one,
-   Miller bases, the congruence Sturm bound, exact equality of coefficient data, integral Hecke
-   matrices, the ordinary and nonordinary witnesses and companion eigensystems of
-   Boxer–Calegari–Gee; the finite-enumeration form of point counts over finite fields, exact local images
-   of the `x − T` descent map, and a finite `p`-saturation criterion by exact divisibility and reduction homomorphisms.
-5. **Validated numerics** (Layer 4): signed rational interval and complex box arithmetic,
-   outward dyadic rounding, unique-integer recovery, `p`-adic precision propagation, the Odlyzko
-   kernel and the eight scalar quantities of Chenevier–Lannes and Chenevier–Taïbi with exact
-   enclosures, complete root isolation, enclosures of Dirichlet and level-one cusp-form `L`-values,
-   Gram negativity witnesses, integral-coordinate ellipsoid comparisons,
-   and validity of finite families.
-6. **Interpretation of finite arithmetic families** (Layer 5).
-
-It consumes the following mathematics by its existing ownership:
-
-- **Mathlib and Tau Ceti** at the pins, listed under *Exact supplier contracts*: native
-  order integrality and monogenic Dedekind criteria are inputs. The `multiplierRing` (2.2)
-  variant accepts every ℤ-submodule of a characteristic-zero field, including zero;
-  the native order version accepts fractional ideals of an order. `IsPMaximal` (2.3)
-  permits nonmonogenic orders.
-- **TauCetiRoadmap ModularForms** (Layers 7–11): `L`-functions and functional equations, modular
-  symbols and the integral Hecke algebra, LMFDB labels, cusp widths and dimension formulas, and the
-  level-one trace formula. The lattices of Layer 3 live on the `q`-expansion side and are
-  distinct from the integral modular-symbol module there.
-- **TauCetiRoadmap EllipticCurves** (Layers 1, 3, 4, 6, 7): isogenies and formal groups, the Hasse
-  bound, reduction of points and the filtration `E₁ ⊆ E₀ ⊆ E` over local fields, Mordell–Weil with
-  explicit `2`-descent and Nagell–Lutz, and Selmer groups. Layer 3 adds presentations on top of
-  those objects; it does not construct them again.
-- **EllipticLegendreCharacterInterfaces** §§5.1–5.2: the character-sum point count and the trace
-  of quadratic twists for Weierstrass equations with `a₁ = a₃ = 0` over every finite field of odd
-  characteristic, singular equations included. Section 3.17 keeps the finite-enumeration form of
-  the count and its comparison with these identities.
-- **[LocalFieldsRamification](../../Completed/LocalFieldsRamification/README.md)**: the
-  arithmetic of finite extensions of nonarchimedean local fields. The parts used here are
-  already in the pinned Tau Ceti and are consumed by their declaration names (listed under
-  *Exact supplier contracts*, From Tau Ceti): the local-field structure on a finite extension,
-  the ramification index and residue degree with `e·f = [L : K]`, and the zero-preserving
-  Teichmüller lift. Sections 2.20–2.23 apply them over `ℚ_p` and its finite extensions.
-- **[RealAlgebraicGeometry](../../Completed/RealAlgebraicGeometry/README.md)** (Layers 1–4): Sturm–Tarski, signed remainder sequences,
-  subresultants, distinct-root counts, root separation and multiplicity-sensitive root matching.
-  Layers 0 and 4 add finite rational presentations and rational-box comparison on top of that theory.
-- **[PolynomialGaloisGroups](../../Completed/PolynomialGaloisGroups/README.md)** (Layer 5, “Frobenius
-  specialization”): degrees of irreducible factors over a finite field are Frobenius orbit sizes.
-  Layer 0 turns this into a checked irreducibility presentation.
-- **[NumberFieldArithmetic](../../Completed/NumberFieldArithmetic/README.md)** (Layers 3, 5 and 7): the index–discriminant identity,
-  Kummer–Dedekind under its index hypothesis, explicit integral bases, rank-one unit presentations,
-  and the global completion decomposition with its local/global invariant comparisons (§§5.3, 5.5).
-  Layer 2 adds full-order presentations and local maximality comparisons.
-- **ClassicalArithmeticCompletion** §§3.3, 3.5, 3.25, 3.27, 3.33 and 3.48 supplies Smith and
-  column Hermite decompositions, pivot indices, ordinary Newton polygons and Hermite bases.
-  Its §§5.1–5.3, 5.10–5.11, 5.16 and 5.22 own factor-base generation, relation lattices,
-  class-group quotients, regulator index comparisons and joint class–unit completeness.
-  This roadmap consumes these comparisons; it defines no second relation lattice or stopping bound.
-- **AlgebraicModularFormsAndSerreWeights** (Layers R15.1–R15.3, R15.5): the `q`-expansion
-  principle and bounded denominators at level one, the theta operator and the Hasse invariant, and
-  the Deligne–Serre lifting of residual eigensystems to characteristic zero.
-- **[ContourIntegration](../../Completed/ContourIntegration/README.md)** Layer 3: the
-  null-homologous argument principle with multiplicities and pole corrections, including its
-  star-convex specialization. Layer 4 applies this interface on rectangular contours.
-- **ZerosOfLFunctions** §§4.1, 4.3–4.4, 4.9, 7.1–7.2a and Layer 9 own generic divisor and
-  zero counts, rectangle boundaries and their argument principle, and abstract localization
-  semantics. Section 4.21a adds the native Dirichlet normalization, the symmetric
-  character/conjugate-character count comparison, and explicit Turing upper bounds.
-- **HeightsRationalPointsAndObstructions** (§1.17): the index of multiplication by two on the
-  points of an abelian variety over a local field, used for the size check of local images.
-- **NewtonPolygons** §§0.1, 0.3 and 3.2 supplies lower convex envelopes, maximal supporting
-  faces and polygon sums. The φ-Newton objects in §§2.18–2.20 differ by applying that geometry
-  to polynomial-valued φ-coefficients and by retaining residue-field data and the φ-divisible part.
-- **FormalLaurentPuiseux** L5 owns coprime factor lifting over K[[t]]. The complete-DVR
-  statement in §1.26a differs by allowing every complete DVR, including mixed characteristic
-  and arbitrary residue field; no separate K[[t]] lifting target is specified here.
-- **IntegralLattices** Layer 2, milestone 2A owns positive-definite bounded-norm
-  finiteness. Section 4.26 compares rational affine coordinates with an integral lattice
-  and a congruence class; affine finiteness itself comes from EffectiveDiophantineMethods §§1.7–1.8.
-- **GlobalNumberFields** Layer 11 owns intrinsic orders and their fractional ideals. The
-  finite rational bases in §2.1 and arbitrary-submodule stabilizers in §2.2 are presentation
-  comparisons with those carriers, rather than another order or ideal-class theory.
-- **ExplicitZetaBounds** §§0.3 and 0.4b own Platt's finite-conductor material: the heights
-  `plattHeight`, the named records `PlattRecord` and `PlattCentralRecord`, and the absence of real
-  zeros in `(0, 1)` for primitive characters of modulus at most `400 000`
-  (`LFunction_ne_zero_of_platt`). This roadmap states none of them.
-- **ExplicitNumberFields** 1.1a owns the digamma and trigamma remainders on `Re z > 0`
-  (`digamma_series_remainder`, `trigamma_series_remainder`); §4.18 applies them to the CT scalars.
-
-**EffectiveDiophantineMethods** supplies the following shared foundations; the
-comparisons here consume them in that direction.
-
-| Foundation and supplier section | Additional comparison owned here |
-| --- | --- |
-| Canonical rational-centred p-adic records and normalization, §§0.1, 0.9 | Exact set images of independent balls under addition, multiplication and inversion (§§4.11–4.13), strengthening pointwise error containment |
-| Squarefree selected-root data, arithmetic, equality and finite simultaneous isolation, §§0.2–0.3 | Rectangles for a prescribed nonzero polynomial, including repeated roots, and value-preserving conversion (§§0.8–0.13, 4.19) |
-| Local quotient sizes, coordinate local-image data and cardinality completeness, §§3.1–3.3 | Forgetting square-class coordinates (§3.18), cardinality comparison for arbitrary local models (§3.19), and rational-abscissa existence without integral-model assumptions (§3.20) |
-| Generic p-saturation, finite-index and joint-reduction criteria, §§3.17–3.18 | Quotient-generating finite divisibility tests and division-polynomial comparisons for elliptic points (§§3.23–3.26) |
-| Rational affine ellipsoid membership, finiteness and distance comparisons, §§1.7–1.8 | Clearing denominators into an integral lattice with its congruence condition (§4.26), and nonnegative Gram covers (§4.31) |
-
-Canonical heights, global index bounds, Selmer assembly and Mordell–Weil bases
-remain with EffectiveDiophantineMethods §§3.5–3.22. This roadmap supplies no
-input back to that roadmap.
+Layer 0 fixes exact presentations and their native meanings. Layer 1 supplies primality
+criteria and factor presentations. Layer 2 develops order presentations, prime decompositions,
+φ-Newton factorization and local square and root criteria. Layer 3 binds integral Fourier
+coefficients and matrices to modular forms, and finite local-image and divisibility data to
+elliptic curves. Layer 4 supplies quantitative analytic error estimates and rational enclosures,
+integral-coordinate ellipsoid comparisons and Gram inequalities. Layer 5 interprets finite families using these
+comparisons. Root presentation arithmetic specifies existence independently of the disjoint-root
+existence theorem in Layer 4.
 
 ## Conventions
 
@@ -173,343 +68,6 @@ carries its own primality, finite-generation, completeness and scalar-tower hypo
 * A class-group relation matrix supplies checked relations, not their completeness. The unit
   regulator index is measured after adjoining all torsion units. A numerical inequality is used
   only together with its rigorous remainder bound.
-
-## Exact supplier contracts
-
-### From Mathlib (pinned at `1b1ccf4b088b32fa3f23f2de1127433254a81e1e`)
-
-- Elementary arithmetic and primality: `lucas_primality`, `reverse_lucas_primality`
-  (`Mathlib.NumberTheory.LucasPrimality`),
-  `Nat.primeFactorsList`, `Nat.prod_primeFactorsList`, `Nat.prime_of_mem_primeFactorsList` (`Mathlib.Data.Nat.Factors`),
-  `padicValRat` (`Mathlib.NumberTheory.Padics.PadicVal.Basic`),
-  `PadicInt.toZModPow` (`Mathlib.NumberTheory.Padics.RingHoms`),
-  `hensels_lemma` (`Mathlib.NumberTheory.Padics.Hensel`, a root-lifting theorem).
-- Polynomials and finite fields: `AdjoinRoot`, `AdjoinRoot.equiv'`, `AdjoinRoot.algHom_ext` (`Mathlib.RingTheory.AdjoinRoot`),
-  `PowerBasis.ofAdjoinEqTop` (`Mathlib.RingTheory.Adjoin.PowerBasis`), `Polynomial.Monic.irreducible_iff_natDegree` (`Mathlib.Algebra.Polynomial.Monic`),
-  `Irreducible.natDegree_dvd_iff_dvd_X_pow_card_pow_sub_X` (`Mathlib.FieldTheory.Finite.Extension`), `FiniteField.algEquivOfCardEq` (`Mathlib.FieldTheory.Finite.GaloisField`),
-  `FiniteField.frobeniusAlgHom` (`Mathlib.FieldTheory.Finite.Basic`), `UniqueFactorizationMonoid.normalizedFactors_prod_eq`
-  (`Mathlib.RingTheory.UniqueFactorizationDomain.NormalizedFactors`),
-  `Polynomial.norm_coeff_le_choose_mul_mahlerMeasure_of_one_le_mahlerMeasure`
-  (Mignotte-type bound for a factor), `Polynomial.mahlerMeasure_le_sum_norm_coeff`
-  (the coefficient-norm bound), both in `Mathlib.Analysis.Polynomial.MahlerMeasure`,
-  `quadraticChar` (`Mathlib.NumberTheory.LegendreSymbol.QuadraticChar.Basic`).
-- `Complex.exists_continuousOn_eqOn_exp_comp` (`Mathlib.Analysis.Complex.BranchLogRoot`):
-  continuous logarithm branches on open simply connected domains where the function never vanishes;
-  `Complex.Gamma_ne_zero_of_re_pos` (`Mathlib.Analysis.SpecialFunctions.Gamma.Beta`)
-  and `Complex.differentiableAt_Gamma` (`Mathlib.Analysis.SpecialFunctions.Gamma.Deriv`)
-  apply on the right half-plane.
-- `Real.eulerMascheroniSeq_lt_eulerMascheroniConstant`,
-  `Real.eulerMascheroniConstant_lt_eulerMascheroniSeq'`,
-  `Real.tendsto_eulerMascheroniSeq` and `Real.tendsto_eulerMascheroniSeq'`
-  (`Mathlib.NumberTheory.Harmonic.EulerMascheroni`): lower and upper harmonic–logarithm
-  bounds converging to Euler's constant.
-- Algebraic numbers and intervals: `algebraicClosure`, `mem_algebraicClosure_iff`
-  (`Mathlib.FieldTheory.AlgebraicClosure`), `Polynomial.finite_setOfPred_isRoot`
-  (`Mathlib.Algebra.Polynomial.Roots`, applied after coefficient extension to ℂ),
-  `NonemptyInterval` (`Mathlib.Order.Interval.Basic`; its multiplication is the monotone one and does not apply to signed
-  rational endpoints; its inverse is a group inverse, not a field reciprocal).
-- Number fields: `NumberField.classNumber`,
-  `NumberField.exists_ideal_in_class_of_norm_le` (`Mathlib.NumberTheory.NumberField.ClassNumber`),
-  `ClassGroup.mk0` (`Mathlib.RingTheory.ClassGroup`),
-  `NumberField.Units.regOfFamily_div_regulator` (`Mathlib.NumberTheory.NumberField.Units.Regulator`),
-  `Ideal.radical` (`Mathlib.RingTheory.Ideal.Operations`).
-- Submodule division: `Submodule.mem_div_iff_forall_mul_mem`,
-  `Submodule.mem_div_iff_smul_subset` and `Submodule.le_div_iff_mul_le`
-  (`Mathlib/Algebra/Algebra/Operations.lean`, lines 873–883) identify I / J with
-  the elements x for which xJ⊆I. Section 2.2 packages I / I as a ℤ-subalgebra.
-- Modular forms and `L`-functions: `ModularForm.dimension_level_one`,
-  `ModularForm.sturm_bound_levelOne_nat`
-  (`Mathlib.NumberTheory.ModularForms.LevelOne.DimensionFormula`), `ModularForm.weakFEPair`, `ModularForm.L` (`Mathlib.NumberTheory.ModularForms.LFunction`),
-  `WeakFEPair.functional_equation` (`Mathlib.NumberTheory.LSeries.AbstractFuncEq`), `DirichletCharacter.LFunction` (`Mathlib.NumberTheory.LSeries.DirichletContinuation`),
-  `DirichletCharacter.IsPrimitive` (`Mathlib.NumberTheory.DirichletCharacter.Basic`),
-  `DirichletCharacter.completedLFunction`, `DirichletCharacter.gammaFactor`,
-  `DirichletCharacter.LFunction_eq_completed_div_gammaFactor`,
-  `DirichletCharacter.IsPrimitive.completedLFunction_one_sub`
-  (`Mathlib.NumberTheory.LSeries.DirichletContinuation`),
-  `DirichletCharacter.LFunction_ne_zero_of_one_le_re`
-  (`Mathlib.NumberTheory.LSeries.Nonvanishing`), `Complex.digamma`, `Complex.digamma_one`, `Complex.digamma_apply_add_nat`
-  (`Mathlib.Analysis.SpecialFunctions.Gamma.Digamma`, recurrence with all poles excluded),
-  `CuspFormClass.qExpansion_isBigO` (`Mathlib.NumberTheory.ModularForms.Bounds`), and
-  `ModularForm.L` (`Mathlib.NumberTheory.ModularForms.LFunction`);
-  `ModularForm.discriminant_eq_q_prod` (`Mathlib.NumberTheory.ModularForms.Discriminant`)
-  identifies the normalized discriminant with its convergent q-product.
-- Elliptic curves: `WeierstrassCurve.IsCharNeTwoNF`
-  (`Mathlib.AlgebraicGeometry.EllipticCurve.NormalForms`), `WeierstrassCurve.Affine.equation_iff`
-  (`Mathlib.AlgebraicGeometry.EllipticCurve.Affine.Basic`, the affine equation as the displayed
-  polynomial identity), the division polynomials `WeierstrassCurve.Φ`
-  and `WeierstrassCurve.ΨSq` with `WeierstrassCurve.natDegree_Φ`, `WeierstrassCurve.leadingCoeff_Φ`
-  and `WeierstrassCurve.natDegree_ΨSq`
-  (`Mathlib.AlgebraicGeometry.EllipticCurve.DivisionPolynomial.Degree`); the polynomial
-  definitions are in `Mathlib.AlgebraicGeometry.EllipticCurve.DivisionPolynomial.Basic`.
-- Scalar extension of integer operators: `LinearMap.baseChange`
-  (`Mathlib/LinearAlgebra/TensorProduct/Tower.lean`, line 655) acts on pure tensors
-  by applying the original map to the second factor; `Module.Basis.baseChange`
-  (`Mathlib/LinearAlgebra/TensorProduct/Basis.lean`, line 66) extends a basis.
-- Finite analytic expressions: `ascPochhammer` (`Mathlib/RingTheory/Polynomial/Pochhammer.lean`,
-  line 51) is the rising-factorial polynomial, and `bernoulli`
-  (`Mathlib/NumberTheory/Bernoulli.lean`, line 197) uses B₁=−1/2.
-  `ModularForm.weakFEPair` and `ModularForm.L`
-  (`Mathlib/NumberTheory/ModularForms/LFunction.lean`, lines 65 and 151) fix the
-  Fricke factor i^k and the uncompleted L-value normalization.
-- Matrices: `Matrix.PosDef` and `Matrix.PosSemidef` (`Mathlib.LinearAlgebra.Matrix.PosDef`).
-
-### From Tau Ceti (pinned at `2fd255d997f47c0b5d834ee416c7015d55444ce5`)
-
-- `TauCeti.Contour.argumentPrinciple_starConvex` (`TauCeti.Analysis.Contour.StarConvex`)
-  and `TauCeti.Contour.argumentPrinciple_nullHomologous`
-  (`TauCeti.Analysis.Contour.Argument.Cycle`): on a closed piecewise-C¹ contour avoiding
-  the zeros and poles, the log-derivative integral is the winding-weighted sum of
-  meromorphic orders. A convex neighborhood of the rectangle supplies null-homology;
-  only finitely many zeros and poles occur in its compact closure.
-- `TauCeti.GlobalNumberFields.NumberFieldOrder.isIntegral`
-  (`TauCeti.NumberTheory.NumberField.Global.Orders.Basic`),
-  `TauCeti.GlobalNumberFields.NumberFieldOrder.multiplierRing`
-  (`TauCeti.NumberTheory.NumberField.Global.Orders.ProperIdeal`), and
-  `TauCeti.NumberField.IntegralPrimitiveElement.not_dvd_index_iff`
-  (`TauCeti.NumberTheory.NumberField.Index.DedekindCriterion`).
-- `TauCeti.unitFiltration_le_range_powMonoidHom_two`
-  (`TauCeti.NumberTheory.LocalField.Squares`), with explicit local-field and characteristic
-  assumptions: units of depth `2*v_L(2)+1` are squares.
-- Finite extensions of a nonarchimedean local field `K` (Mathlib `IsNonarchimedeanLocalField`,
-  with the instance for `ℚ_[p]` in `Mathlib.NumberTheory.Padics.LocalField`), as implemented
-  for LocalFieldsRamification: `TauCeti.algebraicExtensionValuativeRel` and
-  `TauCeti.algebraicExtension_valuativeExtension`
-  (`TauCeti.NumberTheory.LocalField.AlgebraicExtension.Basic`, under the hypothesis
-  `[Algebra.IsAlgebraic K M]`, which a finite extension satisfies) put on an algebraic
-  extension `M` the valuative relation of the spectral norm, extending that of `K`, and
-  `TauCeti.finiteExtension_isNonarchimedeanLocalField`
-  (`TauCeti.NumberTheory.LocalField.FiniteExtension.Basic`) makes a finite `M` a
-  nonarchimedean local field. For local fields `L/K` with `ValuativeExtension K L`, `TauCeti.ramificationIndex`
-  (`TauCeti.NumberTheory.LocalField.RamificationIndex`), `TauCeti.inertiaDegree` and
-  `TauCeti.ramificationIndex_mul_inertiaDegree`
-  (`TauCeti.NumberTheory.LocalField.InertiaDegree`) give `e`, `f` and `e·f = [L : K]`.
-  `TauCeti.normalizedNormedField` (`TauCeti.NumberTheory.LocalField.NormedField`) norms `K` by
-  `‖x‖ = q^(−v_K(x))`, with `q` the order of the residue field.
-  `TauCeti.teichmullerLift` (`TauCeti.NumberTheory.LocalField.Teichmuller`) is the
-  zero-preserving multiplicative section `𝓀[K] →*₀ 𝒪[K]` of reduction, unique by
-  `TauCeti.teichmullerLift_unique`.
-
-- `TauCeti.ModularForm.eq_of_sturm_bound` (equality of two forms on a finite-index subgroup from
-  agreement of their coefficients up to the Sturm bound at the actual strict width;
-  `TauCeti.NumberTheory.ModularForms.SturmBound`) and
-  `HeckeRing.GL2.qExpansion_coeff_heckeSlashGamma1CuspFormEnd_diagCosetGamma1_of_mem_cuspFormCharSpace`
-  (`TauCeti.NumberTheory.ModularForms.HeckeSlash.Recurrence`; the coefficient recurrence of `T_p` on `Γ₁(N)` with its nebentypus and coprimality hypotheses).
-- `CuspForm.hasEntireExtension_qExpansion_coeff` (the coefficient Dirichlet series of a cusp form
-  continues to the native `L`-function, with the cusp-width factor;
-  `TauCeti.NumberTheory.ModularForms.LFunction.Basic`).
-- `TauCeti.kernelBasis` with `mulVec_eq_zero_of_mem_kernelBasis`, `span_kernelBasis`,
-  `linearIndepOn_kernelBasis` and `length_kernelBasis` (the field-kernel basis comparison;
-  `TauCeti.LinearAlgebra.Matrix.Echelon.KernelBasis`).
-- `WeierstrassCurve.pointCount`, `WeierstrassCurve.pointCount_def`, `WeierstrassCurve.frobeniusTrace`,
-  `WeierstrassCurve.frobeniusTrace_def` and `WeierstrassCurve.pointCount_eq_card_point` (the
-  projective count as `Nat.card` of all affine solutions plus one, singular point included, the
-  trace `q + 1` minus that count, and its comparison with Mathlib's point type on an elliptic model;
-  `TauCeti.AlgebraicGeometry.EllipticCurve.PointCount`).
-- `WeierstrassCurve.isCharNeTwoNF_map` (`TauCeti.AlgebraicGeometry.EllipticCurve.NormalForms`):
-  the normal form `a₁ = a₃ = 0` is preserved by `W.map f` along every ring homomorphism.
-- `WeierstrassCurve.quadraticTwistOf` (`TauCeti.AlgebraicGeometry.EllipticCurve.QuadraticTwist.Basic`):
-  with `a₁ = a₃ = 0`, the twist by `(0, −d/4)` multiplies `a₂, a₄, a₆` by `d, d², d³`.
-- The `x − T` descent: `WeierstrassCurve.Affine.A`, `WeierstrassCurve.Affine.M`,
-  `WeierstrassCurve.Affine.μ`, `WeierstrassCurve.Affine.ker_μ_eq`,
-  `WeierstrassCurve.Affine.μX_of_eval_f_ne_zero`, `WeierstrassCurve.Affine.localRes`,
-  `WeierstrassCurve.Affine.localCondition`, `WeierstrassCurve.Affine.mem_localCondition_iff`
-  and `WeierstrassCurve.Affine.card_ker_nsmul_two`, all for `W : WeierstrassCurve.Affine K` with
-  `[W.IsElliptic] [W.IsCharNeTwoNF]`. Their modules are
-  `TauCeti.AlgebraicGeometry.EllipticCurve.MordellWeil.XSubT` (A, M, μ, its kernel and
-  `μX_of_eval_f_ne_zero`),
-  `TauCeti.AlgebraicGeometry.EllipticCurve.MordellWeil.LocalCondition` (local restriction
-  and condition) and `TauCeti.AlgebraicGeometry.EllipticCurve.MordellWeil.TwoTorsion`
-  (`card_ker_nsmul_two`).
-- `WeierstrassCurve.mul_eval_ΨSq_eq_eval_Φ_of_zsmul` (if `n • P = P′` then
-  `x(P′)·ΨSq_n(x(P)) = Φ_n(x(P))`;
-  `TauCeti.AlgebraicGeometry.EllipticCurve.DivisionPolynomial.Descent`).
-
-- `TauCeti.isOpen_range_powMonoidHom`
-  (`TauCeti.NumberTheory.LocalField.PowerSubgroup.Open`) gives openness of nonzero square
-  classes in characteristic different from two.
-
-### From TauCetiRoadmap.ModularForms
-
-Layers 7–11 supply the functional equation with its Fricke sign, modular-symbol and integral
-Hecke-algebra comparisons, labels, strict cusp widths, congruence-subgroup index and dimension
-conventions, and the level-one trace formula. Equality of finite-index forms uses their actual
-strict cusp width and coefficients including index zero.
-
-### From TauCetiRoadmap.EllipticCurves
-
-Layer 4 supplies the homomorphism on points at good reduction; Layer 6 supplies the
-Mordell–Weil group and the exact rational torsion subgroup. Apply the rational-point reduction
-map only at a good prime. Descent in this roadmap uses the pinned x − T carriers listed above.
-
-### From TauCetiRoadmap.EllipticLegendreCharacterInterfaces
-
-§5.1, “Character-sum point counts and symmetric cubics”, supplies for every finite field F of odd
-characteristic with q elements and every Weierstrass equation W over F with a₁ = a₃ = 0, singular
-or not, the identity (W.pointCount : ℤ) = q + 1 + Σ_x quadraticChar F (f(x)), with
-f(x) = x³ + a₂x² + a₄x + a₆, and W.frobeniusTrace = −Σ_x quadraticChar F (f(x)). §5.2,
-“Quadratic-twist trace over odd finite fields”, supplies, with decidable equality on F and for
-every d ∈ F, the trace of W.quadraticTwistOf 0 (−d/4) as quadraticChar F (d) times
-W.frobeniusTrace, with no ellipticity or d ≠ 0 hypothesis. Section 3.17 applies both to Tau Ceti's
-projective count through its enumeration; the square-root count is not reproved here.
-
-### From Completed.NumberFieldArithmetic
-
-Layers 3 and 7 supply the index–discriminant and integral-basis comparisons.
-Sections 5.3 and 5.5 supply `semilocalEquiv`, `completionFactorsEquivPlaces`,
-`factorFieldEquivCompletion`, and the separate comparisons of completion ramification indices
-and residue degrees with `Ideal.ramificationIdx` and `Ideal.inertiaDeg`. Apply these with the
-minimal-polynomial and generating-root hypotheses, before the local degree formula for K/ℚ.
-
-### From Completed.ContourIntegration
-
-Layer 3 supplies the null-homologous argument principle, realized by
-`TauCeti.Contour.argumentPrinciple_nullHomologous` and its star-convex specialization
-`TauCeti.Contour.argumentPrinciple_starConvex`. Use an open neighborhood of the contour,
-analyticity and nonvanishing off a finite set containing every zero and pole, meromorphy
-and the correct order at those points, a closed piecewise-C¹ contour avoiding the set,
-and null-homology in that neighborhood. A convex neighborhood of a rectangle supplies
-null-homology. The two conductor-one poles are retained in §4.21a.
-
-### From TauCetiRoadmap.ZerosOfLFunctions
-
-Sections 4.1, 4.3–4.4 and 4.9 supply `divisorCount`, `zeroCount`, half-open height
-additivity and monotonicity, and the distinction between positive and symmetric counts.
-Sections 7.1–7.2a supply `rectBoundary`, its positive orientation and winding numbers,
-and the rectangle argument principle with localization to a relatively compact
-neighborhood. Apply these with nondegenerate rectangles, a meromorphic function on an
-open neighborhood, and pointwise analyticity and nonvanishing on the boundary; the
-finite singular set is obtained inside that neighborhood. A zero meromorphic order
-alone does not supply boundary regularity. Convert the signed divisor count into the
-zero count only after accounting for all poles. Layer 9 supplies abstract localization
-semantics; §4.21a adds arithmetic inequalities that establish equality with a sign-change
-lower count, rather than another abstract localization relation.
-
-### From TauCetiRoadmap.ExplicitZetaBounds
-
-§0.3 supplies Platt's heights `plattHeight`, `H(q) = max(10⁸/q, 7.5·10⁷/q + 200)` for even `q` and
-`max(10⁸/q, 3.75·10⁷/q + 200)` for odd `q`, the parity being that of the modulus, and
-`LFunction_ne_zero_of_platt`: given the two records below, `L(s, χ) ≠ 0` for `χ` primitive modulo
-`q ≤ 400 000` and real `0 < s < 1`, the modulus `1` included. §0.4b supplies the named records
-`PlattRecord`, that every zero of `L(s, χ)` with `0 < Re s < 1` and `|Im s| ≤ H(q)` has
-`Re s = 1/2` for every primitive `χ` modulo `2 ≤ q ≤ 400 000`, and `PlattCentralRecord`, that
-`L(1/2, χ) ≠ 0` for every primitive `χ` modulo `2 ≤ q ≤ 2·10⁶` (Platt Theorems 7.1–7.2). At the
-modulus `1`, outside both records, the bounded-height statement at `H(1) = 10⁸` follows from the
-record `RiemannHypothesisUpTo 545439823` of §0.4 by the antitonicity of §0.2.
-
-### From TauCetiRoadmap.ExplicitNumberFields
-
-1.1a supplies `digamma_series_remainder` and `trigamma_series_remainder`: for `z ∈ ℂ` with
-`Re z > 0`, `N ≥ 1` and `a = min(1, Re z)`, put `D_N(z) = −γ + Σ_{n<N} (1/(n+1) − 1/(n+z))` and
-`T_N(z) = Σ_{n<N} 1/(n+z)²`, with `γ` Euler's constant; then `|ψ(z) − D_N(z)| ≤ |z − 1|/(N − 1 + a)`
-and `|ψ'(z) − T_N(z)| ≤ 1/(N − 1 + a)`, uniformly on `{Re z ≥ a₀, |z − 1| ≤ C}` for `a₀ > 0`
-with `a` replaced by `min(1, a₀)`. Sections 4.17–4.18 apply them at arguments of real part at
-least `1/4`.
-
-### From Completed.RealAlgebraicGeometry
-
-Layers 1–3 supply real closed-field root and sign counts, signed remainder/subresultant
-comparisons and root separation. Layer 4 supplies multiplicity-sensitive matching of complex
-roots in fixed-degree coefficient families. These statements distinguish distinct values from
-roots with multiplicity and require nonzero polynomials where finiteness is used.
-
-### From Completed.PolynomialGaloisGroups
-
-Layer 5, “Frobenius specialization”, milestone “Factor degrees are Frobenius orbit sizes”, identifies monic irreducible-factor degrees
-of a squarefree finite-field polynomial with the orbit sizes of x ↦ x^q on its roots.
-
-### From TauCetiRoadmap.NewtonPolygons
-
-Sections 0.1 and 0.3 supply lower convex envelopes and maximal supporting faces; §3.2 supplies
-polygon sums. Here the input sequence is the valuation of each φ-coefficient. Nonzero input,
-finite support and the −∞ part are explicit in §§2.18–2.19a.
-
-### From TauCetiRoadmap.ClassicalArithmeticCompletion
-
-- ClassicalArithmeticCompletion §3.3 `IntMatrix.IsSmithDecomposition`; §3.5
-  `IntMatrix.IsHermiteNormalForm`; §3.25 `IntMatrix.IsHermiteDecomposition`; §3.27
-  (index equals the product of positive Hermite pivots); §3.48 (the unique Hermite basis
-  of a sublattice). Matrices act on columns and the Hermite convention is upper triangular.
-- ClassicalArithmeticCompletion §§5.1–5.3, 5.10–5.11, 5.16 and 5.22:
-  `classGroupPresentation`, `relationLattice`, `ClassGroupPresentation.index_relationLattice`,
-  Minkowski generation, the full-rank found-relation index comparison, and the regulator
-  and joint completeness inequalities. Use nonzero ideals generating the class group,
-  a relation matrix with nonzero determinant, and an `IsMaxRank` unit family together
-  with all torsion units; any analytic lower bound for `h_K*R_K` is a separate input.
-
-### From TauCetiRoadmap.AlgebraicModularFormsAndSerreWeights
-
-- R15.1, “Level-one and level-two descent”, supplies the level-one geometric comparison
-  after inverting 6. R15.2, “The integral cusp lattice and its reduction image”, supplies
-  the localized coefficient lattice and the image of its geometric reduction map.
-  Section 3.13a identifies our integer Fourier lattice after localization and reduction
-  with those inputs before R15.3 is applied; arbitrary Katz cusp forms are not identified
-  with the reduction image. R15.3 (theta
-  operator with the shift `a_ℓ ↦ ℓ·a_ℓ`, Hasse invariant), R15.5 (Deligne–Serre lifting of a
-  residual eigensystem to a characteristic-zero eigenform).
-
-### From TauCetiRoadmap.IntegralLattices
-
-Layer 2, milestone 2A supplies finiteness of `{x in L | B(x,x) <= C}` for every
-positive-definite integral lattice L and rational C. Section 4.26 applies it after
-clearing denominators in G and in the rational translate t; it constructs no new
-lattice, bounded-norm theorem, reduction theory or successive-minimum interface.
-
-### From TauCetiRoadmap.EffectiveDiophantineMethods
-
-- §0.1: for prime p, rational c and integer N, the canonical ball record is
-  (N,N,0) when c=0 or v_p(c)≥N; otherwise v=v_p(c)<N and the mantissa is the
-  unique nonzero residue of c·p^(−v) modulo p^(N−v), prime to p. Its denotation
-  is the whole ball c+p^Nℤ_p. Section 0.9 supplies the field-operation error
-  containments for independent values in balls in every number-field completion,
-  with ord(π)=1 and the strict nonzero-centre hypothesis for inversion.
-- §§0.2–0.3: a selected algebraic value has nonzero squarefree annihilators,
-  rational isolating boxes or discs, arbitrarily fine isolation and compatible
-  field operations; a finite set of distinct values admits disjoint isolations.
-  Our conversion uses the fixed complex embedding and rational rectangles.
-- §§3.1–3.3: for an elliptic normal-form model over ℚ_p or over ℝ, the image of the
-  pinned `W.μ` has order #W(ℚ_p)[2]·|2|_p^(−1), respectively #W(ℝ)[2]/2, where
-  #W(K_v)[2] = 1+r_v and r_v counts the roots of the cubic in K_v (§3.1). For a rational
-  integral normal-form elliptic model and its base change at a place, the coordinate
-  subgroup is the inverse image of the span of the displayed x−T classes under the
-  specified square-class isomorphism; it lies in the image of `W.μ` and has order 2 to
-  the 𝔽₂-rank of the coordinate vectors (§3.2). Equality of its cardinality with the
-  §3.1 order characterizes completeness (§3.3).
-- §§3.17–3.18: for an additive commutative group A, subgroup G and prime p,
-  p-saturation means ∀a, pa∈G → a∈G. It is equivalent to A[p]≤G and G∩pA=pG;
-  for finite index it is equivalent to p not dividing the index. For finite G/pG,
-  a finite family A→C_i with pC_i=0 proves saturation when G/pG→∏C_i is
-  injective and A[p]≤G. The small predicate `IsPSaturated` in the acceptance
-  file spells this imported notion on native groups for §3.26; it claims no
-  second generic saturation theory.
-- §§1.7–1.8: for n≥1, symmetric positive-definite G∈ℚⁿˣⁿ, t∈ℚⁿ and R∈ℚ,
-  the integer vectors satisfying (x−t)ᵀG(x−t)≤R form a finite set, with the
-  closed boundary included, and identify with the corresponding lattice-distance
-  set. Sections 4.26 and 4.31 use these native sets, with no new carrier, and
-  settle dimension zero themselves.
-
-### From TauCetiRoadmap.HeightsRationalPointsAndObstructions
-
-What HeightsRationalPointsAndObstructions must provide (gap:local-two-quotient):
-
-- §1.17 `card_quotient_two_padic`, with its real analogue: `#(A(F)/2A(F)) = |2|_F^(−g)·#A(F)[2]` for an abelian
-  variety of dimension `g` over a finite extension `F` of `ℚ_p`, and `#A(ℝ)[2]/2^g` over `ℝ`.
-  The nonarchimedean formula follows from Mattuck, Theorem 7, p.114: choose an open
-  finite-index subgroup isomorphic to the additive group of the ring of integers in `F`
-  to the power `g`, and compare multiplication by two on this subgroup and its finite
-  quotient. The finite quotient's kernel and cokernel have equal size. Over `ℝ`, use the
-  connected compact real torus and its finite component group instead. FPS §7 applies
-  this argument in dimension two; Layer 3 uses its dimension-one specialization.
-
-## How to read the build
-
-Layer 0 fixes exact presentations and their native meanings. Layer 1 supplies primality
-criteria and factor presentations. Layer 2 develops order presentations, prime decompositions,
-φ-Newton factorization and local square and root criteria. Layer 3 binds integral Fourier
-coefficients and matrices to modular forms, and finite local-image and divisibility data to
-elliptic curves. Layer 4 supplies quantitative analytic error estimates and rational enclosures,
-integral-coordinate ellipsoid comparisons and Gram inequalities. Layer 5 interprets finite families using these
-comparisons. Root presentation arithmetic specifies existence independently of the disjoint-root
-existence theorem in Layer 4.
 
 ## Layer 0: exact presentations
 
@@ -2698,6 +2256,448 @@ Arithmetic applications can use the order and factor presentations of Layers 1�
 the integral Fourier lattices and finite elliptic comparisons of Layer 3, and the
 quantitative analytic bounds and finite Gram families of Layers 4–5. Their inputs
 retain the displayed embeddings, local normalizations and completeness hypotheses.
+
+## Scope and ownership
+
+This roadmap owns:
+
+1. **Exact presentations** (Layer 0): isolated algebraic numbers with exact arithmetic and
+   equality comparisons for prescribed polynomials; Rabin irreducibility predicates,
+   finite-field presentations and changes of presentation with explicit inverses.
+2. **Primality and factorization presentations** (Layer 1): Pratt trees with soundness,
+   completeness and size bounds; strong liars and the Miller–Rabin bound; the AKS congruence criterion and
+   its primality equivalence; Pocklington presentations; integer factor presentations; factor presentations over
+   finite fields and their transport; Hensel lifting modulo prime powers; rational polynomial
+   factor presentations and the existence of rational factor presentations.
+3. **Order presentations and local arithmetic** (Layer 2): order bases, multiplier rings, local
+   maximality, Frobenius nilradicals, `p`-radicals and the multiplier criterion, integral-basis
+   presentations and their existence over any full order, prime-ideal decompositions, `φ`-adic expansions,
+   `φ`-Newton sides, residual polynomials and Ore's criterion, finite local expansions, squares of
+   units in finite extensions of `ℚ_p`, and roots in `ℚ_p` read off from prime decompositions.
+4. **Exact modular and elliptic data** (Layer 3): integral `q`-expansion lattices at level one,
+   Miller bases, the congruence Sturm bound, exact equality of coefficient data, integral Hecke
+   matrices, the ordinary and nonordinary witnesses and companion eigensystems of
+   Boxer–Calegari–Gee; the finite-enumeration form of point counts over finite fields, exact local images
+   of the `x − T` descent map, and a finite `p`-saturation criterion by exact divisibility and reduction homomorphisms.
+5. **Validated numerics** (Layer 4): signed rational interval and complex box arithmetic,
+   outward dyadic rounding, unique-integer recovery, `p`-adic precision propagation, the Odlyzko
+   kernel and the eight scalar quantities of Chenevier–Lannes and Chenevier–Taïbi with exact
+   enclosures, complete root isolation, enclosures of Dirichlet and level-one cusp-form `L`-values,
+   Gram negativity witnesses, integral-coordinate ellipsoid comparisons,
+   and validity of finite families.
+6. **Interpretation of finite arithmetic families** (Layer 5).
+
+It consumes the following mathematics by its existing ownership:
+
+- **Mathlib and Tau Ceti** at the pins, listed under *Exact supplier contracts*: native
+  order integrality and monogenic Dedekind criteria are inputs. The `multiplierRing` (2.2)
+  variant accepts every ℤ-submodule of a characteristic-zero field, including zero;
+  the native order version accepts fractional ideals of an order. `IsPMaximal` (2.3)
+  permits nonmonogenic orders.
+- **TauCetiRoadmap ModularForms** (Layers 7–11): `L`-functions and functional equations, modular
+  symbols and the integral Hecke algebra, LMFDB labels, cusp widths and dimension formulas, and the
+  level-one trace formula. The lattices of Layer 3 live on the `q`-expansion side and are
+  distinct from the integral modular-symbol module there.
+- **TauCetiRoadmap EllipticCurves** (Layers 1, 3, 4, 6, 7): isogenies and formal groups, the Hasse
+  bound, reduction of points and the filtration `E₁ ⊆ E₀ ⊆ E` over local fields, Mordell–Weil with
+  explicit `2`-descent and Nagell–Lutz, and Selmer groups. Layer 3 adds presentations on top of
+  those objects; it does not construct them again.
+- **EllipticLegendreCharacterInterfaces** §§5.1–5.2: the character-sum point count and the trace
+  of quadratic twists for Weierstrass equations with `a₁ = a₃ = 0` over every finite field of odd
+  characteristic, singular equations included. Section 3.17 keeps the finite-enumeration form of
+  the count and its comparison with these identities.
+- **[LocalFieldsRamification](../../Completed/LocalFieldsRamification/README.md)**: the
+  arithmetic of finite extensions of nonarchimedean local fields. The parts used here are
+  already in the pinned Tau Ceti and are consumed by their declaration names (listed under
+  *Exact supplier contracts*, From Tau Ceti): the local-field structure on a finite extension,
+  the ramification index and residue degree with `e·f = [L : K]`, and the zero-preserving
+  Teichmüller lift. Sections 2.20–2.23 apply them over `ℚ_p` and its finite extensions.
+- **[RealAlgebraicGeometry](../../Completed/RealAlgebraicGeometry/README.md)** (Layers 1–4): Sturm–Tarski, signed remainder sequences,
+  subresultants, distinct-root counts, root separation and multiplicity-sensitive root matching.
+  Layers 0 and 4 add finite rational presentations and rational-box comparison on top of that theory.
+- **[PolynomialGaloisGroups](../../Completed/PolynomialGaloisGroups/README.md)** (Layer 5, “Frobenius
+  specialization”): degrees of irreducible factors over a finite field are Frobenius orbit sizes.
+  Layer 0 turns this into a checked irreducibility presentation.
+- **[NumberFieldArithmetic](../../Completed/NumberFieldArithmetic/README.md)** (Layers 3, 5 and 7): the index–discriminant identity,
+  Kummer–Dedekind under its index hypothesis, explicit integral bases, rank-one unit presentations,
+  and the global completion decomposition with its local/global invariant comparisons (§§5.3, 5.5).
+  Layer 2 adds full-order presentations and local maximality comparisons.
+- **ClassicalArithmeticCompletion** §§3.3, 3.5, 3.25, 3.27, 3.33 and 3.48 supplies Smith and
+  column Hermite decompositions, pivot indices, ordinary Newton polygons and Hermite bases.
+  Its §§5.1–5.3, 5.10–5.11, 5.16 and 5.22 own factor-base generation, relation lattices,
+  class-group quotients, regulator index comparisons and joint class–unit completeness.
+  This roadmap consumes these comparisons; it defines no second relation lattice or stopping bound.
+- **AlgebraicModularFormsAndSerreWeights** (Layers R15.1–R15.3, R15.5): the `q`-expansion
+  principle and bounded denominators at level one, the theta operator and the Hasse invariant, and
+  the Deligne–Serre lifting of residual eigensystems to characteristic zero.
+- **[ContourIntegration](../../Completed/ContourIntegration/README.md)** Layer 3: the
+  null-homologous argument principle with multiplicities and pole corrections, including its
+  star-convex specialization. Layer 4 applies this interface on rectangular contours.
+- **ZerosOfLFunctions** §§4.1, 4.3–4.4, 4.9, 7.1–7.2a and Layer 9 own generic divisor and
+  zero counts, rectangle boundaries and their argument principle, and abstract localization
+  semantics. Section 4.21a adds the native Dirichlet normalization, the symmetric
+  character/conjugate-character count comparison, and explicit Turing upper bounds.
+- **HeightsRationalPointsAndObstructions** (§1.17): the index of multiplication by two on the
+  points of an abelian variety over a local field, used for the size check of local images.
+- **NewtonPolygons** §§0.1, 0.3 and 3.2 supplies lower convex envelopes, maximal supporting
+  faces and polygon sums. The φ-Newton objects in §§2.18–2.20 differ by applying that geometry
+  to polynomial-valued φ-coefficients and by retaining residue-field data and the φ-divisible part.
+- **FormalLaurentPuiseux** L5 owns coprime factor lifting over K[[t]]. The complete-DVR
+  statement in §1.26a differs by allowing every complete DVR, including mixed characteristic
+  and arbitrary residue field; no separate K[[t]] lifting target is specified here.
+- **IntegralLattices** Layer 2, milestone 2A owns positive-definite bounded-norm
+  finiteness. Section 4.26 compares rational affine coordinates with an integral lattice
+  and a congruence class; affine finiteness itself comes from EffectiveDiophantineMethods §§1.7–1.8.
+- **GlobalNumberFields** Layer 11 owns intrinsic orders and their fractional ideals. The
+  finite rational bases in §2.1 and arbitrary-submodule stabilizers in §2.2 are presentation
+  comparisons with those carriers, rather than another order or ideal-class theory.
+- **ExplicitZetaBounds** §§0.3 and 0.4b own Platt's finite-conductor material: the heights
+  `plattHeight`, the named records `PlattRecord` and `PlattCentralRecord`, and the absence of real
+  zeros in `(0, 1)` for primitive characters of modulus at most `400 000`
+  (`LFunction_ne_zero_of_platt`). This roadmap states none of them.
+- **ExplicitNumberFields** 1.1a owns the digamma and trigamma remainders on `Re z > 0`
+  (`digamma_series_remainder`, `trigamma_series_remainder`); §4.18 applies them to the CT scalars.
+
+**EffectiveDiophantineMethods** supplies the following shared foundations; the
+comparisons here consume them in that direction.
+
+| Foundation and supplier section | Additional comparison owned here |
+| --- | --- |
+| Canonical rational-centred p-adic records and normalization, §§0.1, 0.9 | Exact set images of independent balls under addition, multiplication and inversion (§§4.11–4.13), strengthening pointwise error containment |
+| Squarefree selected-root data, arithmetic, equality and finite simultaneous isolation, §§0.2–0.3 | Rectangles for a prescribed nonzero polynomial, including repeated roots, and value-preserving conversion (§§0.8–0.13, 4.19) |
+| Local quotient sizes, coordinate local-image data and cardinality completeness, §§3.1–3.3 | Forgetting square-class coordinates (§3.18), cardinality comparison for arbitrary local models (§3.19), and rational-abscissa existence without integral-model assumptions (§3.20) |
+| Generic p-saturation, finite-index and joint-reduction criteria, §§3.17–3.18 | Quotient-generating finite divisibility tests and division-polynomial comparisons for elliptic points (§§3.23–3.26) |
+| Rational affine ellipsoid membership, finiteness and distance comparisons, §§1.7–1.8 | Clearing denominators into an integral lattice with its congruence condition (§4.26), and nonnegative Gram covers (§4.31) |
+
+Canonical heights, global index bounds, Selmer assembly and Mordell–Weil bases
+remain with EffectiveDiophantineMethods §§3.5–3.22. This roadmap supplies no
+input back to that roadmap.
+
+## Exact supplier contracts
+
+### From Mathlib (pinned at `1b1ccf4b088b32fa3f23f2de1127433254a81e1e`)
+
+- Elementary arithmetic and primality: `lucas_primality`, `reverse_lucas_primality`
+  (`Mathlib.NumberTheory.LucasPrimality`),
+  `Nat.primeFactorsList`, `Nat.prod_primeFactorsList`, `Nat.prime_of_mem_primeFactorsList` (`Mathlib.Data.Nat.Factors`),
+  `padicValRat` (`Mathlib.NumberTheory.Padics.PadicVal.Basic`),
+  `PadicInt.toZModPow` (`Mathlib.NumberTheory.Padics.RingHoms`),
+  `hensels_lemma` (`Mathlib.NumberTheory.Padics.Hensel`, a root-lifting theorem).
+- Polynomials and finite fields: `AdjoinRoot`, `AdjoinRoot.equiv'`, `AdjoinRoot.algHom_ext` (`Mathlib.RingTheory.AdjoinRoot`),
+  `PowerBasis.ofAdjoinEqTop` (`Mathlib.RingTheory.Adjoin.PowerBasis`), `Polynomial.Monic.irreducible_iff_natDegree` (`Mathlib.Algebra.Polynomial.Monic`),
+  `Irreducible.natDegree_dvd_iff_dvd_X_pow_card_pow_sub_X` (`Mathlib.FieldTheory.Finite.Extension`), `FiniteField.algEquivOfCardEq` (`Mathlib.FieldTheory.Finite.GaloisField`),
+  `FiniteField.frobeniusAlgHom` (`Mathlib.FieldTheory.Finite.Basic`), `UniqueFactorizationMonoid.normalizedFactors_prod_eq`
+  (`Mathlib.RingTheory.UniqueFactorizationDomain.NormalizedFactors`),
+  `Polynomial.norm_coeff_le_choose_mul_mahlerMeasure_of_one_le_mahlerMeasure`
+  (Mignotte-type bound for a factor), `Polynomial.mahlerMeasure_le_sum_norm_coeff`
+  (the coefficient-norm bound), both in `Mathlib.Analysis.Polynomial.MahlerMeasure`,
+  `quadraticChar` (`Mathlib.NumberTheory.LegendreSymbol.QuadraticChar.Basic`).
+- `Complex.exists_continuousOn_eqOn_exp_comp` (`Mathlib.Analysis.Complex.BranchLogRoot`):
+  continuous logarithm branches on open simply connected domains where the function never vanishes;
+  `Complex.Gamma_ne_zero_of_re_pos` (`Mathlib.Analysis.SpecialFunctions.Gamma.Beta`)
+  and `Complex.differentiableAt_Gamma` (`Mathlib.Analysis.SpecialFunctions.Gamma.Deriv`)
+  apply on the right half-plane.
+- `Real.eulerMascheroniSeq_lt_eulerMascheroniConstant`,
+  `Real.eulerMascheroniConstant_lt_eulerMascheroniSeq'`,
+  `Real.tendsto_eulerMascheroniSeq` and `Real.tendsto_eulerMascheroniSeq'`
+  (`Mathlib.NumberTheory.Harmonic.EulerMascheroni`): lower and upper harmonic–logarithm
+  bounds converging to Euler's constant.
+- Algebraic numbers and intervals: `algebraicClosure`, `mem_algebraicClosure_iff`
+  (`Mathlib.FieldTheory.AlgebraicClosure`), `Polynomial.finite_setOfPred_isRoot`
+  (`Mathlib.Algebra.Polynomial.Roots`, applied after coefficient extension to ℂ),
+  `NonemptyInterval` (`Mathlib.Order.Interval.Basic`; its multiplication is the monotone one and does not apply to signed
+  rational endpoints; its inverse is a group inverse, not a field reciprocal).
+- Number fields: `NumberField.classNumber`,
+  `NumberField.exists_ideal_in_class_of_norm_le` (`Mathlib.NumberTheory.NumberField.ClassNumber`),
+  `ClassGroup.mk0` (`Mathlib.RingTheory.ClassGroup`),
+  `NumberField.Units.regOfFamily_div_regulator` (`Mathlib.NumberTheory.NumberField.Units.Regulator`),
+  `Ideal.radical` (`Mathlib.RingTheory.Ideal.Operations`).
+- Submodule division: `Submodule.mem_div_iff_forall_mul_mem`,
+  `Submodule.mem_div_iff_smul_subset` and `Submodule.le_div_iff_mul_le`
+  (`Mathlib/Algebra/Algebra/Operations.lean`, lines 873–883) identify I / J with
+  the elements x for which xJ⊆I. Section 2.2 packages I / I as a ℤ-subalgebra.
+- Modular forms and `L`-functions: `ModularForm.dimension_level_one`,
+  `ModularForm.sturm_bound_levelOne_nat`
+  (`Mathlib.NumberTheory.ModularForms.LevelOne.DimensionFormula`), `ModularForm.weakFEPair`, `ModularForm.L` (`Mathlib.NumberTheory.ModularForms.LFunction`),
+  `WeakFEPair.functional_equation` (`Mathlib.NumberTheory.LSeries.AbstractFuncEq`), `DirichletCharacter.LFunction` (`Mathlib.NumberTheory.LSeries.DirichletContinuation`),
+  `DirichletCharacter.IsPrimitive` (`Mathlib.NumberTheory.DirichletCharacter.Basic`),
+  `DirichletCharacter.completedLFunction`, `DirichletCharacter.gammaFactor`,
+  `DirichletCharacter.LFunction_eq_completed_div_gammaFactor`,
+  `DirichletCharacter.IsPrimitive.completedLFunction_one_sub`
+  (`Mathlib.NumberTheory.LSeries.DirichletContinuation`),
+  `DirichletCharacter.LFunction_ne_zero_of_one_le_re`
+  (`Mathlib.NumberTheory.LSeries.Nonvanishing`), `Complex.digamma`, `Complex.digamma_one`, `Complex.digamma_apply_add_nat`
+  (`Mathlib.Analysis.SpecialFunctions.Gamma.Digamma`, recurrence with all poles excluded),
+  `CuspFormClass.qExpansion_isBigO` (`Mathlib.NumberTheory.ModularForms.Bounds`), and
+  `ModularForm.L` (`Mathlib.NumberTheory.ModularForms.LFunction`);
+  `ModularForm.discriminant_eq_q_prod` (`Mathlib.NumberTheory.ModularForms.Discriminant`)
+  identifies the normalized discriminant with its convergent q-product.
+- Elliptic curves: `WeierstrassCurve.IsCharNeTwoNF`
+  (`Mathlib.AlgebraicGeometry.EllipticCurve.NormalForms`), `WeierstrassCurve.Affine.equation_iff`
+  (`Mathlib.AlgebraicGeometry.EllipticCurve.Affine.Basic`, the affine equation as the displayed
+  polynomial identity), the division polynomials `WeierstrassCurve.Φ`
+  and `WeierstrassCurve.ΨSq` with `WeierstrassCurve.natDegree_Φ`, `WeierstrassCurve.leadingCoeff_Φ`
+  and `WeierstrassCurve.natDegree_ΨSq`
+  (`Mathlib.AlgebraicGeometry.EllipticCurve.DivisionPolynomial.Degree`); the polynomial
+  definitions are in `Mathlib.AlgebraicGeometry.EllipticCurve.DivisionPolynomial.Basic`.
+- Scalar extension of integer operators: `LinearMap.baseChange`
+  (`Mathlib/LinearAlgebra/TensorProduct/Tower.lean`, line 655) acts on pure tensors
+  by applying the original map to the second factor; `Module.Basis.baseChange`
+  (`Mathlib/LinearAlgebra/TensorProduct/Basis.lean`, line 66) extends a basis.
+- Finite analytic expressions: `ascPochhammer` (`Mathlib/RingTheory/Polynomial/Pochhammer.lean`,
+  line 51) is the rising-factorial polynomial, and `bernoulli`
+  (`Mathlib/NumberTheory/Bernoulli.lean`, line 197) uses B₁=−1/2.
+  `ModularForm.weakFEPair` and `ModularForm.L`
+  (`Mathlib/NumberTheory/ModularForms/LFunction.lean`, lines 65 and 151) fix the
+  Fricke factor i^k and the uncompleted L-value normalization.
+- Matrices: `Matrix.PosDef` and `Matrix.PosSemidef` (`Mathlib.LinearAlgebra.Matrix.PosDef`).
+
+### From Tau Ceti (pinned at `2fd255d997f47c0b5d834ee416c7015d55444ce5`)
+
+- `TauCeti.Contour.argumentPrinciple_starConvex` (`TauCeti.Analysis.Contour.StarConvex`)
+  and `TauCeti.Contour.argumentPrinciple_nullHomologous`
+  (`TauCeti.Analysis.Contour.Argument.Cycle`): on a closed piecewise-C¹ contour avoiding
+  the zeros and poles, the log-derivative integral is the winding-weighted sum of
+  meromorphic orders. A convex neighborhood of the rectangle supplies null-homology;
+  only finitely many zeros and poles occur in its compact closure.
+- `TauCeti.GlobalNumberFields.NumberFieldOrder.isIntegral`
+  (`TauCeti.NumberTheory.NumberField.Global.Orders.Basic`),
+  `TauCeti.GlobalNumberFields.NumberFieldOrder.multiplierRing`
+  (`TauCeti.NumberTheory.NumberField.Global.Orders.ProperIdeal`), and
+  `TauCeti.NumberField.IntegralPrimitiveElement.not_dvd_index_iff`
+  (`TauCeti.NumberTheory.NumberField.Index.DedekindCriterion`).
+- `TauCeti.unitFiltration_le_range_powMonoidHom_two`
+  (`TauCeti.NumberTheory.LocalField.Squares`), with explicit local-field and characteristic
+  assumptions: units of depth `2*v_L(2)+1` are squares.
+- Finite extensions of a nonarchimedean local field `K` (Mathlib `IsNonarchimedeanLocalField`,
+  with the instance for `ℚ_[p]` in `Mathlib.NumberTheory.Padics.LocalField`), as implemented
+  for LocalFieldsRamification: `TauCeti.algebraicExtensionValuativeRel` and
+  `TauCeti.algebraicExtension_valuativeExtension`
+  (`TauCeti.NumberTheory.LocalField.AlgebraicExtension.Basic`, under the hypothesis
+  `[Algebra.IsAlgebraic K M]`, which a finite extension satisfies) put on an algebraic
+  extension `M` the valuative relation of the spectral norm, extending that of `K`, and
+  `TauCeti.finiteExtension_isNonarchimedeanLocalField`
+  (`TauCeti.NumberTheory.LocalField.FiniteExtension.Basic`) makes a finite `M` a
+  nonarchimedean local field. For local fields `L/K` with `ValuativeExtension K L`, `TauCeti.ramificationIndex`
+  (`TauCeti.NumberTheory.LocalField.RamificationIndex`), `TauCeti.inertiaDegree` and
+  `TauCeti.ramificationIndex_mul_inertiaDegree`
+  (`TauCeti.NumberTheory.LocalField.InertiaDegree`) give `e`, `f` and `e·f = [L : K]`.
+  `TauCeti.normalizedNormedField` (`TauCeti.NumberTheory.LocalField.NormedField`) norms `K` by
+  `‖x‖ = q^(−v_K(x))`, with `q` the order of the residue field.
+  `TauCeti.teichmullerLift` (`TauCeti.NumberTheory.LocalField.Teichmuller`) is the
+  zero-preserving multiplicative section `𝓀[K] →*₀ 𝒪[K]` of reduction, unique by
+  `TauCeti.teichmullerLift_unique`.
+
+- `TauCeti.ModularForm.eq_of_sturm_bound` (equality of two forms on a finite-index subgroup from
+  agreement of their coefficients up to the Sturm bound at the actual strict width;
+  `TauCeti.NumberTheory.ModularForms.SturmBound`) and
+  `HeckeRing.GL2.qExpansion_coeff_heckeSlashGamma1CuspFormEnd_diagCosetGamma1_of_mem_cuspFormCharSpace`
+  (`TauCeti.NumberTheory.ModularForms.HeckeSlash.Recurrence`; the coefficient recurrence of `T_p` on `Γ₁(N)` with its nebentypus and coprimality hypotheses).
+- `CuspForm.hasEntireExtension_qExpansion_coeff` (the coefficient Dirichlet series of a cusp form
+  continues to the native `L`-function, with the cusp-width factor;
+  `TauCeti.NumberTheory.ModularForms.LFunction.Basic`).
+- `TauCeti.kernelBasis` with `mulVec_eq_zero_of_mem_kernelBasis`, `span_kernelBasis`,
+  `linearIndepOn_kernelBasis` and `length_kernelBasis` (the field-kernel basis comparison;
+  `TauCeti.LinearAlgebra.Matrix.Echelon.KernelBasis`).
+- `WeierstrassCurve.pointCount`, `WeierstrassCurve.pointCount_def`, `WeierstrassCurve.frobeniusTrace`,
+  `WeierstrassCurve.frobeniusTrace_def` and `WeierstrassCurve.pointCount_eq_card_point` (the
+  projective count as `Nat.card` of all affine solutions plus one, singular point included, the
+  trace `q + 1` minus that count, and its comparison with Mathlib's point type on an elliptic model;
+  `TauCeti.AlgebraicGeometry.EllipticCurve.PointCount`).
+- `WeierstrassCurve.isCharNeTwoNF_map` (`TauCeti.AlgebraicGeometry.EllipticCurve.NormalForms`):
+  the normal form `a₁ = a₃ = 0` is preserved by `W.map f` along every ring homomorphism.
+- `WeierstrassCurve.quadraticTwistOf` (`TauCeti.AlgebraicGeometry.EllipticCurve.QuadraticTwist.Basic`):
+  with `a₁ = a₃ = 0`, the twist by `(0, −d/4)` multiplies `a₂, a₄, a₆` by `d, d², d³`.
+- The `x − T` descent: `WeierstrassCurve.Affine.A`, `WeierstrassCurve.Affine.M`,
+  `WeierstrassCurve.Affine.μ`, `WeierstrassCurve.Affine.ker_μ_eq`,
+  `WeierstrassCurve.Affine.μX_of_eval_f_ne_zero`, `WeierstrassCurve.Affine.localRes`,
+  `WeierstrassCurve.Affine.localCondition`, `WeierstrassCurve.Affine.mem_localCondition_iff`
+  and `WeierstrassCurve.Affine.card_ker_nsmul_two`, all for `W : WeierstrassCurve.Affine K` with
+  `[W.IsElliptic] [W.IsCharNeTwoNF]`. Their modules are
+  `TauCeti.AlgebraicGeometry.EllipticCurve.MordellWeil.XSubT` (A, M, μ, its kernel and
+  `μX_of_eval_f_ne_zero`),
+  `TauCeti.AlgebraicGeometry.EllipticCurve.MordellWeil.LocalCondition` (local restriction
+  and condition) and `TauCeti.AlgebraicGeometry.EllipticCurve.MordellWeil.TwoTorsion`
+  (`card_ker_nsmul_two`).
+- `WeierstrassCurve.mul_eval_ΨSq_eq_eval_Φ_of_zsmul` (if `n • P = P′` then
+  `x(P′)·ΨSq_n(x(P)) = Φ_n(x(P))`;
+  `TauCeti.AlgebraicGeometry.EllipticCurve.DivisionPolynomial.Descent`).
+
+- `TauCeti.isOpen_range_powMonoidHom`
+  (`TauCeti.NumberTheory.LocalField.PowerSubgroup.Open`) gives openness of nonzero square
+  classes in characteristic different from two.
+
+### From TauCetiRoadmap.ModularForms
+
+Layers 7–11 supply the functional equation with its Fricke sign, modular-symbol and integral
+Hecke-algebra comparisons, labels, strict cusp widths, congruence-subgroup index and dimension
+conventions, and the level-one trace formula. Equality of finite-index forms uses their actual
+strict cusp width and coefficients including index zero.
+
+### From TauCetiRoadmap.EllipticCurves
+
+Layer 4 supplies the homomorphism on points at good reduction; Layer 6 supplies the
+Mordell–Weil group and the exact rational torsion subgroup. Apply the rational-point reduction
+map only at a good prime. Descent in this roadmap uses the pinned x − T carriers listed above.
+
+### From TauCetiRoadmap.EllipticLegendreCharacterInterfaces
+
+§5.1, “Character-sum point counts and symmetric cubics”, supplies for every finite field F of odd
+characteristic with q elements and every Weierstrass equation W over F with a₁ = a₃ = 0, singular
+or not, the identity (W.pointCount : ℤ) = q + 1 + Σ_x quadraticChar F (f(x)), with
+f(x) = x³ + a₂x² + a₄x + a₆, and W.frobeniusTrace = −Σ_x quadraticChar F (f(x)). §5.2,
+“Quadratic-twist trace over odd finite fields”, supplies, with decidable equality on F and for
+every d ∈ F, the trace of W.quadraticTwistOf 0 (−d/4) as quadraticChar F (d) times
+W.frobeniusTrace, with no ellipticity or d ≠ 0 hypothesis. Section 3.17 applies both to Tau Ceti's
+projective count through its enumeration; the square-root count is not reproved here.
+
+### From Completed.NumberFieldArithmetic
+
+Layers 3 and 7 supply the index–discriminant and integral-basis comparisons.
+Sections 5.3 and 5.5 supply `semilocalEquiv`, `completionFactorsEquivPlaces`,
+`factorFieldEquivCompletion`, and the separate comparisons of completion ramification indices
+and residue degrees with `Ideal.ramificationIdx` and `Ideal.inertiaDeg`. Apply these with the
+minimal-polynomial and generating-root hypotheses, before the local degree formula for K/ℚ.
+
+### From Completed.ContourIntegration
+
+Layer 3 supplies the null-homologous argument principle, realized by
+`TauCeti.Contour.argumentPrinciple_nullHomologous` and its star-convex specialization
+`TauCeti.Contour.argumentPrinciple_starConvex`. Use an open neighborhood of the contour,
+analyticity and nonvanishing off a finite set containing every zero and pole, meromorphy
+and the correct order at those points, a closed piecewise-C¹ contour avoiding the set,
+and null-homology in that neighborhood. A convex neighborhood of a rectangle supplies
+null-homology. The two conductor-one poles are retained in §4.21a.
+
+### From TauCetiRoadmap.ZerosOfLFunctions
+
+Sections 4.1, 4.3–4.4 and 4.9 supply `divisorCount`, `zeroCount`, half-open height
+additivity and monotonicity, and the distinction between positive and symmetric counts.
+Sections 7.1–7.2a supply `rectBoundary`, its positive orientation and winding numbers,
+and the rectangle argument principle with localization to a relatively compact
+neighborhood. Apply these with nondegenerate rectangles, a meromorphic function on an
+open neighborhood, and pointwise analyticity and nonvanishing on the boundary; the
+finite singular set is obtained inside that neighborhood. A zero meromorphic order
+alone does not supply boundary regularity. Convert the signed divisor count into the
+zero count only after accounting for all poles. Layer 9 supplies abstract localization
+semantics; §4.21a adds arithmetic inequalities that establish equality with a sign-change
+lower count, rather than another abstract localization relation.
+
+### From TauCetiRoadmap.ExplicitZetaBounds
+
+§0.3 supplies Platt's heights `plattHeight`, `H(q) = max(10⁸/q, 7.5·10⁷/q + 200)` for even `q` and
+`max(10⁸/q, 3.75·10⁷/q + 200)` for odd `q`, the parity being that of the modulus, and
+`LFunction_ne_zero_of_platt`: given the two records below, `L(s, χ) ≠ 0` for `χ` primitive modulo
+`q ≤ 400 000` and real `0 < s < 1`, the modulus `1` included. §0.4b supplies the named records
+`PlattRecord`, that every zero of `L(s, χ)` with `0 < Re s < 1` and `|Im s| ≤ H(q)` has
+`Re s = 1/2` for every primitive `χ` modulo `2 ≤ q ≤ 400 000`, and `PlattCentralRecord`, that
+`L(1/2, χ) ≠ 0` for every primitive `χ` modulo `2 ≤ q ≤ 2·10⁶` (Platt Theorems 7.1–7.2). At the
+modulus `1`, outside both records, the bounded-height statement at `H(1) = 10⁸` follows from the
+record `RiemannHypothesisUpTo 545439823` of §0.4 by the antitonicity of §0.2.
+
+### From TauCetiRoadmap.ExplicitNumberFields
+
+1.1a supplies `digamma_series_remainder` and `trigamma_series_remainder`: for `z ∈ ℂ` with
+`Re z > 0`, `N ≥ 1` and `a = min(1, Re z)`, put `D_N(z) = −γ + Σ_{n<N} (1/(n+1) − 1/(n+z))` and
+`T_N(z) = Σ_{n<N} 1/(n+z)²`, with `γ` Euler's constant; then `|ψ(z) − D_N(z)| ≤ |z − 1|/(N − 1 + a)`
+and `|ψ'(z) − T_N(z)| ≤ 1/(N − 1 + a)`, uniformly on `{Re z ≥ a₀, |z − 1| ≤ C}` for `a₀ > 0`
+with `a` replaced by `min(1, a₀)`. Sections 4.17–4.18 apply them at arguments of real part at
+least `1/4`.
+
+### From Completed.RealAlgebraicGeometry
+
+Layers 1–3 supply real closed-field root and sign counts, signed remainder/subresultant
+comparisons and root separation. Layer 4 supplies multiplicity-sensitive matching of complex
+roots in fixed-degree coefficient families. These statements distinguish distinct values from
+roots with multiplicity and require nonzero polynomials where finiteness is used.
+
+### From Completed.PolynomialGaloisGroups
+
+Layer 5, “Frobenius specialization”, milestone “Factor degrees are Frobenius orbit sizes”, identifies monic irreducible-factor degrees
+of a squarefree finite-field polynomial with the orbit sizes of x ↦ x^q on its roots.
+
+### From TauCetiRoadmap.NewtonPolygons
+
+Sections 0.1 and 0.3 supply lower convex envelopes and maximal supporting faces; §3.2 supplies
+polygon sums. Here the input sequence is the valuation of each φ-coefficient. Nonzero input,
+finite support and the −∞ part are explicit in §§2.18–2.19a.
+
+### From TauCetiRoadmap.ClassicalArithmeticCompletion
+
+- ClassicalArithmeticCompletion §3.3 `IntMatrix.IsSmithDecomposition`; §3.5
+  `IntMatrix.IsHermiteNormalForm`; §3.25 `IntMatrix.IsHermiteDecomposition`; §3.27
+  (index equals the product of positive Hermite pivots); §3.48 (the unique Hermite basis
+  of a sublattice). Matrices act on columns and the Hermite convention is upper triangular.
+- ClassicalArithmeticCompletion §§5.1–5.3, 5.10–5.11, 5.16 and 5.22:
+  `classGroupPresentation`, `relationLattice`, `ClassGroupPresentation.index_relationLattice`,
+  Minkowski generation, the full-rank found-relation index comparison, and the regulator
+  and joint completeness inequalities. Use nonzero ideals generating the class group,
+  a relation matrix with nonzero determinant, and an `IsMaxRank` unit family together
+  with all torsion units; any analytic lower bound for `h_K*R_K` is a separate input.
+
+### From TauCetiRoadmap.AlgebraicModularFormsAndSerreWeights
+
+- R15.1, “Level-one and level-two descent”, supplies the level-one geometric comparison
+  after inverting 6. R15.2, “The integral cusp lattice and its reduction image”, supplies
+  the localized coefficient lattice and the image of its geometric reduction map.
+  Section 3.13a identifies our integer Fourier lattice after localization and reduction
+  with those inputs before R15.3 is applied; arbitrary Katz cusp forms are not identified
+  with the reduction image. R15.3 (theta
+  operator with the shift `a_ℓ ↦ ℓ·a_ℓ`, Hasse invariant), R15.5 (Deligne–Serre lifting of a
+  residual eigensystem to a characteristic-zero eigenform).
+
+### From TauCetiRoadmap.IntegralLattices
+
+Layer 2, milestone 2A supplies finiteness of `{x in L | B(x,x) <= C}` for every
+positive-definite integral lattice L and rational C. Section 4.26 applies it after
+clearing denominators in G and in the rational translate t; it constructs no new
+lattice, bounded-norm theorem, reduction theory or successive-minimum interface.
+
+### From TauCetiRoadmap.EffectiveDiophantineMethods
+
+- §0.1: for prime p, rational c and integer N, the canonical ball record is
+  (N,N,0) when c=0 or v_p(c)≥N; otherwise v=v_p(c)<N and the mantissa is the
+  unique nonzero residue of c·p^(−v) modulo p^(N−v), prime to p. Its denotation
+  is the whole ball c+p^Nℤ_p. Section 0.9 supplies the field-operation error
+  containments for independent values in balls in every number-field completion,
+  with ord(π)=1 and the strict nonzero-centre hypothesis for inversion.
+- §§0.2–0.3: a selected algebraic value has nonzero squarefree annihilators,
+  rational isolating boxes or discs, arbitrarily fine isolation and compatible
+  field operations; a finite set of distinct values admits disjoint isolations.
+  Our conversion uses the fixed complex embedding and rational rectangles.
+- §§3.1–3.3: for an elliptic normal-form model over ℚ_p or over ℝ, the image of the
+  pinned `W.μ` has order #W(ℚ_p)[2]·|2|_p^(−1), respectively #W(ℝ)[2]/2, where
+  #W(K_v)[2] = 1+r_v and r_v counts the roots of the cubic in K_v (§3.1). For a rational
+  integral normal-form elliptic model and its base change at a place, the coordinate
+  subgroup is the inverse image of the span of the displayed x−T classes under the
+  specified square-class isomorphism; it lies in the image of `W.μ` and has order 2 to
+  the 𝔽₂-rank of the coordinate vectors (§3.2). Equality of its cardinality with the
+  §3.1 order characterizes completeness (§3.3).
+- §§3.17–3.18: for an additive commutative group A, subgroup G and prime p,
+  p-saturation means ∀a, pa∈G → a∈G. It is equivalent to A[p]≤G and G∩pA=pG;
+  for finite index it is equivalent to p not dividing the index. For finite G/pG,
+  a finite family A→C_i with pC_i=0 proves saturation when G/pG→∏C_i is
+  injective and A[p]≤G. The small predicate `IsPSaturated` in the acceptance
+  file spells this imported notion on native groups for §3.26; it claims no
+  second generic saturation theory.
+- §§1.7–1.8: for n≥1, symmetric positive-definite G∈ℚⁿˣⁿ, t∈ℚⁿ and R∈ℚ,
+  the integer vectors satisfying (x−t)ᵀG(x−t)≤R form a finite set, with the
+  closed boundary included, and identify with the corresponding lattice-distance
+  set. Sections 4.26 and 4.31 use these native sets, with no new carrier, and
+  settle dimension zero themselves.
+
+### From TauCetiRoadmap.HeightsRationalPointsAndObstructions
+
+What HeightsRationalPointsAndObstructions must provide (gap:local-two-quotient):
+
+- §1.17 `card_quotient_two_padic`, with its real analogue: `#(A(F)/2A(F)) = |2|_F^(−g)·#A(F)[2]` for an abelian
+  variety of dimension `g` over a finite extension `F` of `ℚ_p`, and `#A(ℝ)[2]/2^g` over `ℝ`.
+  The nonarchimedean formula follows from Mattuck, Theorem 7, p.114: choose an open
+  finite-index subgroup isomorphic to the additive group of the ring of integers in `F`
+  to the power `g`, and compare multiplication by two on this subgroup and its finite
+  quotient. The finite quotient's kernel and cokernel have equal size. Over `ℝ`, use the
+  connected compact real torus and its finite component group instead. FPS §7 applies
+  this argument in dimension two; Layer 3 uses its dimension-one specialization.
 
 ## References
 
