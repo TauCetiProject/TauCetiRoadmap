@@ -47,6 +47,13 @@ Left to other roadmaps:
 - **Lie-algebra reality types.** The description of the Frobenius-Schur type through opposition
   and invariant forms on the Lie-algebra side is [LieHighestWeight](../LieHighestWeight/README.md)
   Layer 5's ("opposition and invariant forms").
+- **G-finite vectors in Banach representations.** The vectors whose orbit spans a
+  finite-dimensional subspace, the submodule they form, and its density for a strongly continuous
+  representation of a compact Hausdorff group on a complex Banach space are CompactGroupsPartII
+  §2.1's, which derives the density from §§5.1-5.2 here. Every representation in Layers 0-6 is
+  finite-dimensional, on a complete inner product space, or a regular representation on `L²(G)`.
+  Roadmaps that cite Layer 5 for these objects, under `gap:banach-gfinite-density`, find them
+  there.
 
 ## Conventions
 
@@ -86,8 +93,8 @@ Left to other roadmaps:
 - **Haar measure.** `MeasureTheory.Measure.haar` (`MeasureTheory/Measure/Haar/Basic.lean`); its
   uniqueness among probability measures `MeasureTheory.Measure.isHaarMeasure_eq_of_isProbabilityMeasure`
   (`MeasureTheory/Measure/Haar/Unique.lean`); finiteness on a compact space
-  `CompactSpace.isFiniteMeasure` (`MeasureTheory/Measure/Typeclasses/Finite.lean`); the translation
-  and inversion identities `MeasureTheory.integral_mul_left_eq_self`,
+  `MeasureTheory.CompactSpace.isFiniteMeasure` (`MeasureTheory/Measure/Typeclasses/Finite.lean`);
+  the translation and inversion identities `MeasureTheory.integral_mul_left_eq_self`,
   `MeasureTheory.integral_mul_right_eq_self` and `MeasureTheory.integral_inv_eq_self`
   (`MeasureTheory/Group/Integral.lean`).
 - **Representations.** `ContRepresentation`, `ContIntertwiningMap` and `ContRepresentation.Equiv`
@@ -100,7 +107,8 @@ Left to other roadmaps:
   `HilbertBasis.tsum_inner_mul_inner` (`Analysis/InnerProductSpace/l2Space.lean`); `IsHilbertSum`;
   `MeasureTheory.Lp`, `ContinuousMap.toLp` and `ContinuousMap.toLp_denseRange`
   (`MeasureTheory/Function/ContinuousMapDense.lean`).
-- **Compact operators.** `IsCompactOperator` and `ContinuousLinearMap.finite_dimensional_eigenspace`
+- **Compact operators.** `IsCompactOperator` (`Analysis/Normed/Operator/Compact/Basic.lean`) and
+  `ContinuousLinearMap.finite_dimensional_eigenspace`
   (`Analysis/InnerProductSpace/Spectrum.lean`): on a complete space, a compact operator has
   finite-dimensional eigenspaces at every nonzero eigenvalue.
 - **The circle.** `fourierBasis`, `orthonormal_fourier` and `span_fourier_closure_eq_top`
@@ -125,14 +133,14 @@ Paths are under `TauCeti/RepresentationTheory/` unless stated otherwise.
 | §4.1-4.3 | `ContRepresentation.schur_orthogonality_self`, `ContRepresentation.schur_orthogonality_basis`, `ContRepresentation.schur_orthogonality` (`Compact/SchurOrthogonality.lean`) |
 | §5.1 | `TauCeti.convolutionOperator`, `TauCeti.isCompactOperator_convolutionOperator`, `TauCeti.isSelfAdjoint_convolutionOperator`, `TauCeti.finiteDimensional_eigenspace_convolutionOperator` (`Compact/Convolution.lean`); `TauCeti.convolutionEigenspaceRepresentation` (`Compact/EigenspaceRepresentation.lean`); `TauCeti.exists_isMollifier` (`Compact/ApproximateIdentity.lean`) |
 | §5.2 | `TauCeti.representativeStarSubalgebra_dense`, `TauCeti.representativeStarSubalgebra_separatesPoints`, `TauCeti.dense_image_toLp_representativeSubmodule` (`Compact/RepresentativeDensity.lean`) |
-| §5.3-5.4 | `TauCeti.IrrepModel`, `TauCeti.IsIrrepSkeleton`, `TauCeti.peterWeylBasis`, `TauCeti.coe_peterWeylBasis`, `TauCeti.stdPeterWeylBasis`, `TauCeti.coe_stdPeterWeylBasis` (`Compact/PeterWeyl.lean`) |
+| §5.3-5.4 | `TauCeti.IrrepModel`, `TauCeti.IsIrrepSkeleton`, `TauCeti.IrrepClass.model`, `TauCeti.peterWeylBasis`, `TauCeti.coe_peterWeylBasis`, `TauCeti.stdPeterWeylBasis`, `TauCeti.coe_stdPeterWeylBasis` (`Compact/PeterWeyl.lean`) |
 | §5.5 | `TauCeti.peterWeylBlock`, `TauCeti.finrank_peterWeylBlock`, `TauCeti.isHilbertSum_peterWeylBlock`, `TauCeti.peterWeylBlockAveraging_eq_starProjection` (`Compact/IsotypicBlock/Basic.lean`); `TauCeti.peterWeylTraceEquiv`, `TauCeti.peterWeylTraceEquiv_biRegularLp` (`Compact/TraceCoefficient/HilbertSum.lean`) |
-| §6.1 | `ContRepresentation.character`, `ContRepresentation.character_conj` (`Continuous/Character.lean`), `ContRepresentation.characterLp` (`Compact/Character/Basic.lean`) |
+| §6.1 | `ContRepresentation.character`, `ContRepresentation.character_conj`, `ContRepresentation.character_one`, `ContRepresentation.character_apply_eq_sum_inner`, `ContRepresentation.star_character` (`Continuous/Character.lean`), `ContRepresentation.characterLp` (`Compact/Character/Basic.lean`) |
 | §6.2 | `ContRepresentation.character_orthonormal_self`, `ContRepresentation.character_orthonormal_distinct` (`Compact/Character/Basic.lean`) |
 | §6.3 | `TauCeti.classFunctionLp` (`TauCeti/MeasureTheory/Group/Conjugation.lean`), `ContRepresentation.characterLp_mem_classFunctionLp` (`Compact/ClassFunctionLp.lean`), `TauCeti.characterBasis`, `TauCeti.stdCharacterBasis`, `TauCeti.coe_stdCharacterBasis` (`Compact/Character/Basis.lean`) |
 | §6.4 | `ContRepresentation.isotypicProjector`, `ContRepresentation.isotypicProjector_apply`, `ContRepresentation.range_isotypicProjector`, `ContRepresentation.isotypicProjector_idempotent` (`Compact/Character/IsotypicProjection.lean`) |
 | §6.5 | `ContRepresentation.frobeniusSchurIndicator` (`Compact/FrobeniusSchur/Basic.lean`), `ContRepresentation.frobeniusSchurIndicator_trichotomy` (`Compact/FrobeniusSchur/Trichotomy.lean`), `ContRepresentation.frobeniusSchurIndicator_eq_one_iff`, `ContRepresentation.frobeniusSchurIndicator_eq_neg_one_iff` (`Compact/FrobeniusSchur/InvariantForm.lean`) |
-| §E.1 | `TauCeti.SU2.torusExp` (`SU2/Basic.lean`), `TauCeti.SU2.exists_isConj_torusExp` (`SU2/TorusConjugacy.lean`) |
+| §E.1 | `TauCeti.SU2.torusExp`, `TauCeti.SU2.mem_torus_iff_exists_torusExp`, `TauCeti.SU2.torusExp_add` (`SU2/Basic.lean`), `TauCeti.SU2.exists_isConj_torusExp` (`SU2/TorusConjugacy.lean`) |
 | §E.2 | `TauCeti.SU2.symPowerModel`, `TauCeti.SU2.isIrreducible_symPowerModel`, `TauCeti.SU2.existsUnique_nonempty_equiv_symPower` (`SU2/Exhaustion.lean`) |
 | §E.3 | `TauCeti.SU2.character_symPower_torusExp` (`SU2/SymmetricPower.lean`), `TauCeti.SU2.character_symPower_torusExp_eq_sin_div_sin`, `TauCeti.SU2.character_symPower_torusExp_of_sin_eq_zero` (`SU2/Weyl/Character.lean`) |
 | §E.4 | `TauCeti.SU2.weyl_integration_formula`, `TauCeti.SU2.integral_character_symPower_mul_conj` (`SU2/Weyl/Integration.lean`), `TauCeti.SU2.weyl_integration_formula_normalized` (`SU2/Weyl/Orthogonality.lean`) |
@@ -174,12 +182,14 @@ examples fix the normalizations.
 
 Define the Haar probability measure `TauCeti.haarProb G` of a compact group as Mathlib's Haar
 measure divided by its total mass, `(Measure.haar univ)⁻¹ • Measure.haar`
-(`TauCeti.haarProb_def`). The total mass is finite by `CompactSpace.isFiniteMeasure` and nonzero
-because Haar measure charges the nonempty open set `univ`. Prove that it is a Haar measure and a
-probability measure, that it is right-invariant and inversion-invariant as well as left-invariant
-(a compact group is unimodular), and that every Haar probability measure on `G` equals it (Knapp,
-§IV.2, pp. 239-240; Bump, Ch. 1). *Needs:* Mathlib `Measure.haar`,
-`isHaarMeasure_eq_of_isProbabilityMeasure`, `CompactSpace.isFiniteMeasure`.
+(`TauCeti.haarProb_def`). The total mass is finite by
+`MeasureTheory.CompactSpace.isFiniteMeasure` and nonzero because Haar measure charges the nonempty
+open set `univ`. Prove that it is a Haar measure and a probability measure, that it is
+right-invariant and inversion-invariant as well as left-invariant (a compact group is unimodular),
+and that every Haar probability measure on `G` equals it (Knapp, §IV.2, pp. 239-240; Bump,
+Ch. 1). *Needs:* Mathlib `MeasureTheory.Measure.haar`,
+`MeasureTheory.Measure.isHaarMeasure_eq_of_isProbabilityMeasure`,
+`MeasureTheory.CompactSpace.isFiniteMeasure`.
 
 - `TauCeti.haarProb G` is a probability measure, and a left-invariant Haar measure.
 - It is invariant under right translations and under `g ↦ g⁻¹` (`TauCeti.isInvInvariant_haarProb`).
@@ -251,7 +261,8 @@ product on `V`, so represent the averaged form by its Gram operator
 `ContRepresentation.gramOperator π hπ`, the operator `S` with `⟪S v, w⟫ = ⟨v, w⟩_G`. Prove that
 there is a self-adjoint `S : V →L[ℂ] V` with `0 < re ⟪S v, v⟫` for `v ≠ 0` and
 `(π g)† ∘ S ∘ π g = S` for every `g` (`ContRepresentation.isUnitarizable`; Knapp, Prop. 4.6,
-p. 240). For finite-dimensional `V`, conjugating `π` by `S^(1/2)` gives a unitary representation
+p. 240, for finite-dimensional `V`; Kowalski, Thm 5.2.11, p. 221, on a Hilbert space). For
+finite-dimensional `V`, conjugating `π` by `S^(1/2)` gives a unitary representation
 equivalent to `π`, so the following layers may assume unitarity. *Needs:* §0.1-0.2, §1.1,
 `Continuous π`.
 
@@ -392,10 +403,15 @@ because `π` is, and its class `ContRepresentation.matrixCoeffLp π hπ v w` in 
 
 Define `TauCeti.representativeSubmodule ℂ G` as the span in `C(G, ℂ)` of all matrix coefficients
 of all finite-dimensional continuous representations, and `TauCeti.representativeStarSubalgebra
-ℂ G` as the same set with its structure of a `StarSubalgebra`: it contains the constants (trivial
-representation), is closed under products (tensor products) and under conjugation (the
-conjugate representation). That `𝓡(G)` separates points is a consequence of Peter-Weyl (§5.2), not
-an input. *Needs:* §3.1.
+ℂ G` as the same set with its structure of a `StarSubalgebra`; write `𝓡(G)` for this set of
+functions. That `𝓡(G)` separates points is a consequence of Peter-Weyl (§5.2), not an input.
+*Needs:* §3.1.
+
+- `𝓡(G)` contains the constants, the coefficients of the trivial representation.
+- `𝓡(G)` is closed under products: the product of a coefficient of `π` and one of `ρ` is a
+  coefficient of `π ⊗ ρ` (§3.1).
+- `𝓡(G)` is closed under complex conjugation: the conjugate of a coefficient of `π` is a
+  coefficient of the conjugate representation.
 
 **Checks.**
 - For the circle, the representative ring is the span of the `zⁿ`, `n ∈ ℤ`: the trigonometric
@@ -438,16 +454,19 @@ placement of the conjugation is invisible. *Needs:* §0.2, §2.3, §3.1, `[IsAlg
 
 ### 4.2 Inequivalent irreducibles
 
-For irreducible `π` on a finite-dimensional space and `ρ` on a complete space, with `ρ` unitary
-and no equivalence between them, every matrix coefficient of `π` is `L²`-orthogonal to every
-matrix coefficient of `ρ` (`ContRepresentation.schur_orthogonality`;
-Knapp, Cor. 4.10(a), p. 241), by averaging into an intertwiner and §2.3. Algebraic closure is not
-needed. *Needs:* §0.2, §2.3, §3.1.
+For irreducible `π` on a finite-dimensional space and irreducible `ρ` on a complete space, with
+`ρ` unitary and no equivalence between them, every matrix coefficient of `π` is `L²`-orthogonal to
+every matrix coefficient of `ρ` (`ContRepresentation.schur_orthogonality`; Knapp, Cor. 4.10(a),
+p. 241, for finite-dimensional `ρ`), by averaging into an intertwiner and §2.3. Algebraic closure
+is not needed. *Needs:* §0.2, §2.3, §3.1.
 
 **Checks.**
 - For `ZMod 2`, the trivial and sign characters give `⟪1, sgn⟫ = (1 − 1)/2 = 0`.
 - Inequivalence is needed: a nonzero coefficient has positive norm, so it is not orthogonal to
   itself.
+- Irreducibility of `ρ` is needed: for `ZMod 2`, `π = sgn` on `ℂ` and `ρ = sgn ⊕ 1` on `ℂ²` are
+  inequivalent (their dimensions differ), yet the coefficient of `ρ` at `(e₁, e₁)` is `sgn`, and
+  `⟪sgn, sgn⟫ = (1 + 1)/2 = 1`.
 - For the circle, `⟪z⁻ᵐ, z⁻ⁿ⟫ = 0` for `m ≠ n`.
 
 ### 4.3 The orthonormal system
@@ -477,20 +496,22 @@ Layers 0-3; Tau Ceti `Compact/SchurOrthogonality.lean`.
 
 Define `TauCeti.convolutionOperator k : Lp ℂ 2 μ_G →L[ℂ] Lp ℂ 2 μ_G` for a kernel `k ∈ C(G, ℂ)`,
 `(k * f)(x) = ∫ y, k(x y⁻¹) f(y) ∂μ_G`; the value is a continuous function. Prove that it is a
-compact operator (`TauCeti.isCompactOperator_convolutionOperator`), self-adjoint when
-`k(g⁻¹) = conj(k g)` (`TauCeti.isSelfAdjoint_convolutionOperator`), and that its eigenspaces at
-nonzero eigenvalues are finite-dimensional
-(`TauCeti.finiteDimensional_eigenspace_convolutionOperator`, from Mathlib's
-`ContinuousLinearMap.finite_dimensional_eigenspace`), invariant under right translation, and
-carry continuous finite-dimensional representations whose functions are representative
-(`TauCeti.convolutionEigenspaceRepresentation`). Prove that mollifiers exist (nonnegative
-continuous kernels, invariant under inversion, of mass one and supported in a given neighbourhood
-of `1`; `TauCeti.exists_isMollifier`) and that convolution with them approximates every
-`f ∈ C(G)` uniformly as the neighbourhood shrinks. Compactness has two routes: the image of the
-unit ball is a bounded equicontinuous family in `C(G)` (Arzelà-Ascoli), or a continuous kernel
-gives a Hilbert-Schmidt operator, which is compact by OperatorIdeals Part C (Knapp, proof of
-Thm 4.20, pp. 245-247; Bump, Ch. 3). *Needs:* §0.2, §3.2; Mathlib `IsCompactOperator`; for the
-second route, OperatorIdeals Part C.
+compact operator (`TauCeti.isCompactOperator_convolutionOperator`). Compactness has two routes:
+the image of the unit ball is a bounded equicontinuous family in `C(G)` (Arzelà-Ascoli), or a
+continuous kernel gives a Hilbert-Schmidt operator, which is compact by OperatorIdeals Part C
+(Knapp, proof of Thm 4.20, pp. 245-247; Bump, Ch. 3). *Needs:* §0.2, §3.2; Mathlib
+`IsCompactOperator`; for the second route, OperatorIdeals Part C.
+
+- The operator is self-adjoint when `k(g⁻¹) = conj(k g)`
+  (`TauCeti.isSelfAdjoint_convolutionOperator`).
+- Its eigenspaces at nonzero eigenvalues are finite-dimensional
+  (`TauCeti.finiteDimensional_eigenspace_convolutionOperator`, from Mathlib's
+  `ContinuousLinearMap.finite_dimensional_eigenspace`), invariant under right translation, and
+  carry continuous finite-dimensional representations whose functions are representative
+  (`TauCeti.convolutionEigenspaceRepresentation`).
+- Mollifiers exist: nonnegative continuous kernels, invariant under inversion, of mass one and
+  supported in a given neighbourhood of `1` (`TauCeti.exists_isMollifier`). Convolution with them
+  approximates every `f ∈ C(G)` uniformly as the neighbourhood shrinks.
 
 **Checks.**
 - On the circle, `zᵐ * zⁿ = δ_mn · zⁿ`: `∫ (x y⁻¹)ᵐ yⁿ dy = xᵐ ∫ y^(n−m) dy`.
@@ -526,8 +547,10 @@ representation on the standard space `EuclideanSpace ℂ (Fin dim)`, with the fi
 `continuous_rep`, `isUnitary` and `isIrreducible`. Define `TauCeti.IsIrrepSkeleton models` for a
 family `models : ι → IrrepModel ℂ G`: distinct members are inequivalent, and every continuous
 unitary irreducible representation on a standard space is carried onto some member by a linear
-isometry. A skeleton exists: the representatives of the classes of models up to unitary
-equivalence, `TauCeti.IrrepClass.model`. *Needs:* §2.3, §1.1.
+isometry. *Needs:* §2.3, §1.1.
+
+- A skeleton exists: the representatives of the classes of models up to unitary equivalence,
+  `TauCeti.IrrepClass.model`.
 
 **Checks.**
 - For the circle, the characters `zⁿ`, `n ∈ ℤ`, are a skeleton; omitting one of them breaks
@@ -552,26 +575,32 @@ Mathlib's `HilbertBasis.tsum_inner_mul_inner`. *Needs:* §4.3, §5.2, §5.3.
   model `n` giving the mode `−n` (Tau Ceti `Compact/FourierPeterWeyl.lean`).
 - For a finite group the basis has `Σ (dim V_π)² = |G|` elements: `1 + 1 + 4 = 6` for
   `Equiv.Perm (Fin 3)`.
-- The theorem pins the elements, not only the existence of a basis: `TauCeti.coe_peterWeylBasis`
-  rules out an arbitrary Hilbert basis with the same index set.
+- For `ZMod 2` the basis is `{1, sgn}`. The Hilbert basis `{(1 + sgn)/√2, (1 − sgn)/√2}` has the
+  same index set and is excluded by the element formula.
 
 ### 5.5 The isotypic decomposition
 
 Define the block `TauCeti.peterWeylBlock model ⊆ L²(G)` as the span of the `L²` coefficients of a
-model. Prove that it has dimension `dim²` (`TauCeti.finrank_peterWeylBlock`), that `L²(G)` is the
-Hilbert sum of the blocks of a skeleton (`TauCeti.isHilbertSum_peterWeylBlock`), that the
-orthogonal projection onto a block is convolution with `dim · conj(Σ_i π_ii)`, where `Σ_i π_ii`
-is the sum of the diagonal coefficients of the model (its character, §6.1)
-(`TauCeti.peterWeylBlockAveraging_eq_starProjection`), and that the isometry
-`TauCeti.peterWeylTraceEquiv` onto the Hilbert sum of the spaces `End(V_π)` intertwines the
-two-sided translation representation of `G × G` with `T ↦ π g ∘ T ∘ π h⁻¹` on each summand
-(`TauCeti.peterWeylTraceEquiv_biRegularLp`). This regroups the basis of §5.4 by model (Knapp,
+model. Prove that `L²(G)` is the Hilbert sum of the blocks of a skeleton
+(`TauCeti.isHilbertSum_peterWeylBlock`), which regroups the basis of §5.4 by model (Knapp,
 Cor. 4.21, p. 247). *Needs:* §5.4.
+
+- The block has dimension `dim²` (`TauCeti.finrank_peterWeylBlock`).
+- For a skeleton, the orthogonal projection onto the block of a model is convolution with
+  `dim · Σ_i π_ii`, where `Σ_i π_ii` is the sum of the diagonal coefficients of the model, equal
+  to `conj χ` for its character `χ` (§6.1)
+  (`TauCeti.peterWeylBlockAveraging_eq_starProjection`; Knapp, Cor. 9.6, p. 560, for the
+  left-regular representation, pp. 561-562).
+- The isometry `TauCeti.peterWeylTraceEquiv` onto the Hilbert sum of the spaces `End(V_π)`
+  intertwines the two-sided translation representation of `G × G` on `L²(G)` with
+  `T ↦ π g ∘ T ∘ π h⁻¹` on each summand (`TauCeti.peterWeylTraceEquiv_biRegularLp`; Kowalski,
+  proof of Lemma 5.5.2, p. 238).
 
 **Checks.**
 - For `Equiv.Perm (Fin 3)` the blocks have dimensions `1, 1, 4`, summing to `6 = dim L²(G)`.
 - For the circle the block of the model `n` is the line `ℂ · z⁻ⁿ`, and the projection is
-  convolution with `conj(zⁿ) = z⁻ⁿ`, which by the first Check of §5.1 keeps the mode `−n` only.
+  convolution with `π_11 = conj(zⁿ) = z⁻ⁿ`, which by the first Check of §5.1 keeps the mode `−n`
+  only; the kernel `χ = zⁿ` would keep the mode `n`, the block of the model `−n`.
 - For the trivial model the projection is convolution with `1`, the projection onto the constants.
 
 ### Examples
@@ -592,16 +621,22 @@ route.
 
 ### 6.1 Characters
 
-Define the character `ContRepresentation.character π hπ : C(G, ℂ)`, `g ↦ trace (π g)`, and its
-class `ContRepresentation.characterLp π hπ` in `L²(G)`. It is a class function
-(`ContRepresentation.character_conj`), its value at `1` is `dim V`, and in an orthonormal basis it
-is the sum of the diagonal coefficients `π_ii` (Knapp, (4.11)-(4.15), pp. 242-243). *Needs:* §3.1.
+Define the character `χ_π = ContRepresentation.character π hπ : C(G, ℂ)`, `g ↦ trace (π g)`, and
+its class `ContRepresentation.characterLp π hπ` in `L²(G)` (Knapp, (4.11)-(4.15), pp. 242-243,
+whose inner product is linear in its first slot). *Needs:* §3.1.
+
+- `χ_π` is a class function (`ContRepresentation.character_conj`).
+- `χ_π(1) = dim V` (`ContRepresentation.character_one`).
+- In an orthonormal basis `(e_i)`, `χ_π(g) = Σ_i ⟪e_i, π g e_i⟫`
+  (`ContRepresentation.character_apply_eq_sum_inner`), so `conj χ_π = Σ_i π_ii`, the conjugate of
+  the character is the sum of the diagonal coefficients (`ContRepresentation.star_character`).
 
 **Checks.**
 - For the two-dimensional representation of `Equiv.Perm (Fin 3)` the character is `2, 0, −1` on
   the identity, the transpositions and the 3-cycles.
 - For the circle character `π z = zⁿ` the character is `zⁿ`, while its matrix coefficient with
-  `v = w = 1` is `z⁻ⁿ` (§3.1): the character is the trace, not a coefficient.
+  `v = w = 1` is `z⁻ⁿ` (§3.1): the character is the trace, and the sum of the diagonal
+  coefficients is its conjugate.
 - The character of the trivial representation on `ℂ²` is the constant `2`.
 
 ### 6.2 Orthonormality of characters
@@ -622,12 +657,16 @@ Mathlib's `Representation.char_orthonormal`. *Needs:* §4.1-4.2, §6.1.
 
 The class functions in `L²(G)` are `TauCeti.classFunctionLp ℂ ℂ 2 μ_G`, the closed subspace of
 classes fixed by every conjugation `f ↦ f(h · h⁻¹)`; conjugation invariance holds almost
-everywhere, as befits classes of functions. Characters belong to it
-(`ContRepresentation.characterLp_mem_classFunctionLp`). Prove that for a skeleton, the characters
-of the models form a Hilbert basis of the class functions (`TauCeti.characterBasis`, and
-unconditionally `TauCeti.stdCharacterBasis ℂ G` with its elements given by
-`TauCeti.coe_stdCharacterBasis`): a class function orthogonal to every character is orthogonal to
-every block of §5.5, hence zero. *Needs:* §5.5, §6.2.
+everywhere, as befits classes of functions. Prove that for a skeleton, the characters of the
+models form a Hilbert basis of the class functions (`TauCeti.characterBasis`; Kowalski,
+Thm 5.5.1(1), p. 237): a class function orthogonal to every character is orthogonal to every block
+of §5.5, hence zero. *Needs:* §5.5, §6.2.
+
+- Characters belong to the class functions
+  (`ContRepresentation.characterLp_mem_classFunctionLp`).
+- Unconditionally, the characters of the chosen representatives form the Hilbert basis
+  `TauCeti.stdCharacterBasis ℂ G`, whose elements are those characters
+  (`TauCeti.coe_stdCharacterBasis`).
 
 **Checks.**
 - For an abelian group every `L²` class is a class function, and the character basis and the
@@ -642,9 +681,12 @@ every block of §5.5, hence zero. *Needs:* §5.5, §6.2.
 
 For a finite-dimensional unitary continuous `ρ` and an irreducible `σ`, define
 `ContRepresentation.isotypicProjector ρ hρ σ hσ`, the self-intertwiner
-`v ↦ ∫ g, dim σ · conj(χ_σ g) · ρ g v ∂μ_G` (`ContRepresentation.isotypicProjector_apply`), and
-prove that its range is the `σ`-isotypic component of `ρ`
-(`ContRepresentation.range_isotypicProjector`) and that it is idempotent. *Needs:* §6.2, §2.2.
+`v ↦ ∫ g, dim σ · conj(χ_σ g) · ρ g v ∂μ_G`. Prove that its range is the `σ`-isotypic component
+of `ρ` (`ContRepresentation.range_isotypicProjector`; Knapp, Cor. 9.6, p. 560). *Needs:* §6.2,
+§2.2.
+
+- Its value at `v` is the integral above (`ContRepresentation.isotypicProjector_apply`).
+- It is idempotent (`ContRepresentation.isotypicProjector_idempotent`).
 
 **Checks.**
 - For the trivial `σ` the projector is `∫ ρ g dμ_G`, the projection onto the invariant vectors.
@@ -657,11 +699,15 @@ prove that its range is the `σ`-isotypic component of `ρ`
 
 Define `ContRepresentation.frobeniusSchurIndicator π hπ = ∫ g, χ_π(g²) ∂μ_G`. Prove that for a
 unitary irreducible `π` it is `1`, `0` or `−1`
-(`ContRepresentation.frobeniusSchurIndicator_trichotomy`), that it is `1` exactly when `π` has a
-nondegenerate invariant symmetric bilinear form
-(`ContRepresentation.frobeniusSchurIndicator_eq_one_iff`) and `−1` exactly when it has a
-nondegenerate invariant alternating one (`ContRepresentation.frobeniusSchurIndicator_eq_neg_one_iff`)
-(Bröcker-tom Dieck, Ch. II). *Needs:* §6.2, §2.3.
+(`ContRepresentation.frobeniusSchurIndicator_trichotomy`; Kowalski, Thm 6.2.3, p. 253;
+Bröcker-tom Dieck, Ch. II). *Needs:* §6.2, §2.3.
+
+- For a unitary irreducible `π`, the indicator is `1` exactly when `π` has a nondegenerate
+  invariant symmetric bilinear form (`ContRepresentation.frobeniusSchurIndicator_eq_one_iff`;
+  Kowalski, Thm 6.2.3(1), p. 253).
+- For a unitary irreducible `π`, the indicator is `−1` exactly when `π` has a nondegenerate
+  invariant alternating bilinear form
+  (`ContRepresentation.frobeniusSchurIndicator_eq_neg_one_iff`; Kowalski, Thm 6.2.3(2), p. 253).
 
 **Checks.**
 - The trivial representation has indicator `1`; the circle character `zⁿ` with `n ≠ 0` has
@@ -687,10 +733,13 @@ Layers 0-5; Mathlib `Representation.character`; Tau Ceti `Continuous/Character.l
 
 ### E.1 The torus and torus conjugacy
 
-Define `TauCeti.SU2.torusExp θ = diag(e^{iθ}, e^{-iθ})`, which parametrizes the maximal torus. Prove
-that every element of `SU(2)` is conjugate to some `torusExp θ`
-(`TauCeti.SU2.exists_isConj_torusExp`; Knapp, Thm 4.36, p. 255; Bump, Ch. 16), by unitary
-diagonalization. *Needs:* Mathlib `Matrix.specialUnitaryGroup`.
+Define `TauCeti.SU2.torusExp θ = diag(e^{iθ}, e^{-iθ})`. Prove that every element of `SU(2)` is
+conjugate to some `torusExp θ` (`TauCeti.SU2.exists_isConj_torusExp`; Knapp, Thm 4.36, p. 255;
+Bump, Ch. 16), by unitary diagonalization. *Needs:* Mathlib `Matrix.specialUnitaryGroup`.
+
+- `torusExp` maps `ℝ` onto the maximal torus of diagonal matrices in `SU(2)`
+  (`TauCeti.SU2.mem_torus_iff_exists_torusExp`), with
+  `torusExp (θ + φ) = torusExp θ · torusExp φ` (`TauCeti.SU2.torusExp_add`).
 
 **Checks.**
 - `torusExp 0 = 1` and `torusExp π = −1`.
@@ -702,14 +751,17 @@ diagonalization. *Needs:* Mathlib `Matrix.specialUnitaryGroup`.
 
 Define `TauCeti.SU2.symPowerModel n`, the representation of `SU(2)` on `Symⁿ(ℂ²)` carried to
 `EuclideanSpace ℂ (Fin (n + 1))` by the weight basis (Knapp, §IV.1, Example 4, p. 235). Prove
-that it is irreducible (`TauCeti.SU2.isIrreducible_symPowerModel`) and that every
-finite-dimensional irreducible continuous representation of `SU(2)` is equivalent to the
-representation on `Symᵈ(ℂ²)` for exactly one `d`
-(`TauCeti.SU2.existsUnique_nonempty_equiv_symPower`).
+that every finite-dimensional irreducible continuous representation of `SU(2)` is equivalent to
+the representation on `Symᵈ(ℂ²)` for exactly one `d`
+(`TauCeti.SU2.existsUnique_nonempty_equiv_symPower`; Kowalski, Thm 5.6.3, p. 243; Knapp,
+Thm 1.66, p. 62, through the passage from `SU(2)` to `sl(2, ℂ)` on p. 314).
 Peter-Weyl alone does not identify the irreducibles. Exhaustion has two routes: by highest
 weights, or by characters (the characters of the `Symᵈ(ℂ²)` span a uniformly dense subspace of
 the continuous class functions, so a further irreducible would have a character orthogonal to
 every class function, against §6.2). *Needs:* §2.3, §6.1-6.2, §E.1.
+
+- `symPowerModel n` is irreducible (`TauCeti.SU2.isIrreducible_symPowerModel`; Knapp,
+  Problem IV.1, pp. 269-270).
 
 **Checks.**
 - `n = 0` is the trivial representation and `n = 1` the defining one, of character
@@ -805,12 +857,20 @@ case); [CharacteristicClasses](../../CharacteristicClasses/README.md) and
 ## References
 
 - A. W. Knapp, *Lie Groups Beyond an Introduction*, 2nd ed., Progress in Mathematics 140,
-  Birkhäuser (2002): Haar measure on compact groups (§IV.2, pp. 239-240), unitarizability and
-  complete reducibility (Prop. 4.6, Cor. 4.7, p. 240), Schur's lemma (Prop. 4.8, Cor. 4.9, p. 240),
-  Schur orthogonality (Cor. 4.10, p. 241), characters (pp. 242-243, Cor. 4.16), the Peter-Weyl
-  theorem (Lemmas 4.17-4.19, Thm 4.20, Cor. 4.21, pp. 244-247), torus conjugacy (Thm 4.36,
-  p. 255), the `SU(2)` characters (pp. 314-315), the Weyl character formula (Thm 5.113, p. 338)
-  and the Weyl integration formula (Thm 8.60, p. 550).
+  Birkhäuser (2002): representations of `sl(2, ℂ)` (Thm 1.66, p. 62), Haar measure on compact
+  groups (§IV.2, pp. 239-240), unitarizability and complete reducibility (Prop. 4.6, Cor. 4.7,
+  p. 240), Schur's lemma (Prop. 4.8, Cor. 4.9, p. 240), Schur orthogonality (Cor. 4.10, p. 241),
+  characters (pp. 242-243, Cor. 4.16), the Peter-Weyl theorem (Lemmas 4.17-4.19, Thm 4.20,
+  Cor. 4.21, pp. 244-247), torus conjugacy (Thm 4.36, p. 255), the irreducibility of the `SU(2)`
+  symmetric powers (Problem IV.1, pp. 269-270), the `SU(2)` characters (pp. 314-315), the Weyl
+  character formula (Thm 5.113, p. 338), the Weyl integration formula (Thm 8.60, p. 550) and
+  isotypic projections of unitary representations (Cor. 9.6, p. 560, with the regular
+  representations on pp. 561-562).
+- E. Kowalski, *Representation theory*, lecture notes, ETH Zürich (version of February 17, 2017,
+  from the author's page): unitarizability on a Hilbert space (Thm 5.2.11, p. 221), characters
+  as a Hilbert basis of the class functions (Thm 5.5.1, p. 237), the blocks of `L²(G)` as
+  representations of `G × G` (proof of Lemma 5.5.2, p. 238), the irreducible representations of
+  `SU(2)` (Thm 5.6.3, p. 243) and the Frobenius-Schur indicator (Thm 6.2.3, p. 253).
 - D. Bump, *Lie Groups*, 2nd ed., Springer GTM 225 (2013): Haar measure (Ch. 1), Schur
   orthogonality (Ch. 2), compact operators (Ch. 3), the Peter-Weyl theorem (Ch. 4), tori and
   maximal tori (Chs. 15-16) and the Weyl integration formula (Ch. 17).
