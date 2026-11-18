@@ -365,9 +365,13 @@ body:
         - SobolevMapsBetweenManifolds
         - SobolevPolynomialApproximation
         - SpecialFunctionsAiry
+        - SpecialFunctionsBessel
         - SpecialFunctionsEiLiErfIncompleteGamma
+        - SpecialFunctionsGeneralizedHypergeometric
         - SpecialFunctionsHypergeometric
+        - SpecialFunctionsOrthogonalPolynomialsGeneral
         - SpecialFunctionsParabolicCylinder
+        - SpecialFunctionsTheta
         - SpectralManifolds
         - SpectralSequencesAndConvergence
         - SpectralSequencesAndConvergencePartII
