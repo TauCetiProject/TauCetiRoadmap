@@ -4,43 +4,9 @@
 
 The headline targets are: the recursive decidability of satisfiability of systems of equations and inequations over a free group of finite rank (Layer 7); Merzljakov's theorem on formal solutions and the constrained-formal-solution characterization of positive sentences (Layer 7); the equivalence of limit groups, finitely generated fully residually free groups and coordinate groups of irreducible algebraic sets (Layer 8); finite Grushko and JSJ decompositions of finitely generated fully residually free groups and finite Makanin–Razborov diagrams for finite systems over a free group (Layer 10); and the implicit function theorems for regular quadratic equations and regular NTQ systems, with formal solutions (Layer 11).
 
-## Scope and ownership
+## How to read the build
 
-This roadmap owns:
-
-- conjugacy, maximal roots and centralizers in free groups, primitive elements, CSA groups and commutative transitivity, with malnormality supplied by Tau Ceti (Layer 1);
-- Serre graphs with edge reversal and adapters to the shared multigraph walk and component API, Stallings graphs and graph criteria for finitely generated subgroups of free groups, with the exact Schreier formula (Layer 2);
-- the language of groups with basis constants, the term–word correspondence and the reduction of quantifier-free formulas and of existential and universal sentences to systems of equations and inequations (Layer 3);
-- graphs of groups, their fundamental groups and Bass–Serre trees, the structure theorem, induced splittings, the Kurosh and Grushko theorems, domination, collapses and Dehn twists (Layer 4);
-- algebraic geometry over groups: `G[X]`, algebraic sets, radicals, coordinate groups, separation and discrimination, domains, the Zariski topology, equational Noetherianity and irreducible components (Layer 5);
-- finite polygonal surface models, their normal forms, face presentations and peripheral groups, curves and cutting, surface groups with boundary and quadratic equations, regularity, radicals, and quadratically hanging vertices (Layer 6);
-- generalised equations, Makanin's finiteness and minimal-solution bounds, recursive truth sets for the existential, universal and positive fragments, and Merzljakov's theorem (Layer 7);
-- fully residually free groups, limit groups, extensions of centralizers, the embedding theorems, finite presentability, and NTQ systems (Layer 8);
-- Lyndon length functions, `Λ`-trees and free actions on them, infinite words, `F^{ℤ[t]}` and graphs labelled by infinite words (Layer 9);
-- JSJ theory for limit groups, marked finite Grushko and JSJ graphs, complete Makanin–Razborov factorization diagrams, finite irreducible-component systems, and equations over a limit group (Layer 10);
-- lifts to generic points, basic automorphisms and generic families, and the regular implicit function theorems (Layer 11).
-
-What it builds on, and does not plan again:
-
-- **Mathlib** (at the Tau Ceti pin) already has the free group with reduced words and cyclic reduction (`FreeGroup.reduce`, `FreeGroup.toWord`, `FreeGroup.IsCyclicallyReduced`, `FreeGroup.reduceCyclically`), torsion-freeness and uniqueness of roots for a fixed exponent (the `IsMulTorsionFree` instance on `FreeGroup α`), free bases (`FreeGroupBasis`, `IsFreeGroup`), the non-constructive Nielsen–Schreier theorem (`Subgroup.isFreeGroupOfIsFreeGroup`), the Schreier inequality `Subgroup.rank_le_index_mul_rank`, amalgamated products and HNN extensions with their normal forms (`Monoid.PushoutI.NormalWord`, `HNNExtension.NormalWord`, hence Britton's lemma), free products and the ping-pong lemma (`Monoid.CoprodI`, `Monoid.CoprodI.lift_injective_of_ping_pong`, and the free-group form `FreeGroup.injective_lift_of_ping_pong`), presented and finitely presented groups, first-order syntax and semantics with prenex normal form (`FirstOrder.Language.BoundedFormula.toPrenex`), list encodings of terms and formulas, and the computability framework. These are cited, never re-planned. Reduced-word equality and the trivial-word criterion are consumed directly, and syntax encoding and prenex transformations have no second implementation here.
-- **Shared free-group centralizer interfaces.** A proposed Mathlib change, commit `b38ce379d898d1284bae5582be27de1d2af39f67` (not in Mathlib at the pin), adds `FreeGroup/Center.lean` with `FreeGroup.centralizer_of_eq_closure`, `FreeGroup.isCyclic_centralizer`, `FreeGroup.commute_of_commute`, `FreeGroup.center_eq_top_of_subsingleton` and `FreeGroup.center_eq_bot_of_nontrivial`. These overlap §§1.5–1.8. Coordinate the shared signatures with that work and build the required theory in Tau Ceti using its interface shape wherever the pinned Mathlib lacks it; adopt the Mathlib declarations when available. The maximal-root identification and malnormality targets remain here. No reuse of the proposed proofs is required.
-- **Tau Ceti at the pin** already has malnormal subgroups, as trivial-intersection subgroups: `TauCeti.IsTISubgroup` (TauCeti/GroupTheory/TrivialIntersection.lean), with its lattice form `TauCeti.isTISubgroup_iff_inf_conj_smul_eq_bot`. The CSA condition of Layer 1 is stated with it, and malnormality is not defined again here; `RepresentationTheory/CharacterTheory`, Layer 8 “Frobenius groups and Frobenius’s theorem,” uses the same notion for finite groups.
-- **Tau Ceti at the pin** supplies free-group residual finiteness, residual `p` and the sharper Schreier inequality through the exact contracts below. The equality for finite-index free subgroups is Layer 2.
-- **Tau Ceti at the pin** has the presentation complex of `⟨S | R⟩` and its fundamental-group comparison, `TauCeti.PresentationComplex` and `TauCeti.PresentationComplex.fundamentalGroupMulEquiv` (TauCeti/AlgebraicTopology/ClassifyingSpace/PresentationComplex.lean). §10.1a consumes them, hence §10.2 and downstream JSJ consumers; §2.2 is combinatorial and independent of that input.
-- **Tau Ceti roadmaps.** [GraphConnectivityAndFlows, Target 1.1](../GraphConnectivityAndFlows/README.md#11-undirected-walks-isomorphisms-and-representation-bridges) supplies native multigraph walks, connectivity and components, and its Target 2.1 the multigraph forests of §2.2a; §§2.1–2.1a own the Serre-dart adapter. §§2.2–2.2a own graph path groups, spanning-tree presentations, finite multigraph integral and binary cycle kernels, forest bases, coefficient comparison and rank formulas. §§6.0a–6.1a own the finite polygonal surface models, normal forms, face presentations and marked boundary comparisons used here; §6.0d owns combinatorial two-sided curves, proper arcs, their cut models and the cutting-to-splitting comparisons. These are item-level inputs, without flow, Menger or mapping-class-group prerequisites. `AlgebraicTopology`'s surface topology and `FuchsianOrbifolds`' analytic surfaces have different applications. QH vertices here have hyperbolic surface groups and trivial fiber (§6.10); `GeometricTopology`'s geometric JSJ is distinct from Layer 10's group-theoretic JSJ. `ProfiniteProPGroups` and `PeripheralActions` concern pro-`p` groups. These roadmap contracts are specifications, distinct from the declarations implemented at the library pin.
-
-| Shared mathematics | Owner and supplier contract | Dependency direction |
-| --- | --- | --- |
-| Underlying multigraph incidence | Mathlib `Graph` | §2.1 supplies the Serre-dart adapter. |
-| Native multigraph walks, connectivity and components | `GraphConnectivityAndFlows` Target 1.1 | §2.1a consumes this API and proves the Serre comparison; no flow or Menger target is needed. |
-| Graph edge-path groups, spanning-tree presentations and group rank | Local §2.2, over Mathlib `FreeGroup` and `PresentedGroup` | Layers 2, 4, 7 and 10 use these graph group results. |
-| Finite multigraph cycle kernels, forest bases, coefficient comparison and ranks | Local §2.2a; component counts from `GraphConnectivityAndFlows` Target 1.1 and multigraph forests from its Target 2.1 | The general core includes loops, parallel edges, disconnected graphs and the empty graph; its graph-group comparisons use §2.2. |
-| Finite polygonal surfaces, boundary incidence, moves and normal forms | Local §§6.0a–6.0b | §6.0d consumes this polygonal carrier; §§6.3–6.4 and §6.10 use the resulting peripheral surfaces. |
-| Combinatorial two-sided curves, proper arcs and cut models | Local §6.0d, on the carrier of §§6.0a–6.0b | Both curve and arc cutting, disjoint-family and subdivision compatibility, marked boundary transport, face-group regluing and the monomorphic cyclic edge maps are local targets. §§6.3 and 6.10 consume these contracts. |
-| Surface face presentations and subdivision comparisons | Local §6.0c | §6.1a identifies the marked boundary conjugacy classes in `S±(g,m)`. Quadratic normalization in §6.6 is independent of surface realization. |
-| Presentation complexes and their fundamental groups | Tau Ceti `TauCeti.PresentationComplex` and `TauCeti.PresentationComplex.fundamentalGroupMulEquiv` (at the pin) | §10.1a consumes them, hence §10.2 and downstream JSJ consumers; the relative finite-cell construction and track resolution are owned in §10.1a. |
-
-Out of scope (non-goals): the full first-order decision procedure for free groups and everything specific to it — effective reduction of arbitrary formulas to Boolean combinations of two-block formulas, the existential–universal decision trees, MAX-equivalence and the associated algebraic-solution bounds, complete reducing systems of that procedure, induced-NTQ enlargement algorithms, tight envelopes, projective-image and configuration machinery, and termination of the outer quantifier-elimination procedure; also the parametrisation theorem for arbitrary NTQ systems with correcting embeddings, lifts of `∀∃` formulas over arbitrary systems, implicit function theorems for non-regular NTQ systems, and the classification of groups up to elementary equivalence. A separate first-order decidability development may import this library; none of its specialised constructions are hidden prerequisites here.
+Layer 1 proves conjugacy, roots and centralizers over Mathlib's free group. Layer 2 adds Serre graphs and the Stallings correspondence; Layer 3 supplies the language of groups and the term–word and formula–system dictionaries. Layer 4 develops Bass–Serre theory. Layer 5 gives algebraic geometry over a coefficient group; Layer 6 treats surface groups and quadratic equations. Layer 7 supplies cancellation families, solution bounds and positive formal solutions. Layer 8 identifies limit groups, fully residually free groups and irreducible coordinate groups and builds NTQ towers. Layer 9 gives length functions, infinite words and subgroup graphs. Layer 10 proves finite JSJ and Makanin–Razborov factorization theorems; Layer 11 proves the regular implicit function theorems. The subsection contracts fix the proof order: §§8.5–8.6 supply §6.8; §§6.8–6.9 and §8.8 supply normalized tower discrimination and embeddings in §8.9 independently of §8.7; §§8.6a–8.6b and §8.9 supply §8.7; §8.7 supplies §8.2's finite-rank centralizers and §9.5's limit-group length-function corollary.
 
 ## Conventions
 
@@ -51,98 +17,6 @@ Out of scope (non-goals): the full first-order decision procedure for free group
 - **Graphs and graphs of groups.** Graphs are Serre graphs (edge reversal without fixed points; loops and multiple edges allowed). In a graph of groups the boundary monomorphisms satisfy `α_e = ω_{ē}`, and the fundamental group uses the relation `e ω_e(c) e⁻¹ = α_e(c)`.
 - **Finite descriptions and decidability.** All targets specify mathematical objects, existence, uniqueness, solution sets and factorization. Recursive decidability assertions concern sets of finite words or sentences; no executable procedure, algorithm implementation, output certificate or complexity bound is a target. For finite presentations of limit groups, the hypothesis that the represented group is fully residually free is explicit; no recognition theorem for that class is asserted.
 - **Semantics.** First-order semantics is Mathlib's; prenex transformations are used in nonempty structures, which groups are.
-
-## Exact supplier contracts
-
-### From Mathlib (commit 1b1ccf4)
-
-- `FirstOrder.Language`: A first-order language: function and relation symbols graded by arity. Used in §3.1.
-- `FirstOrder.Language.BoundedFormula`: Formulas with free variables in `α` and `n` de Bruijn-indexed bound variables (capture is impossible by construction). Used in the semantic correspondence of §3.2 and the positive normal forms of §7.9.
-- `FirstOrder.Language.BoundedFormula.IsExistential`: Existential formulas: quantifier-free formulas under a block of existential quantifiers. Used in §3.5.
-- `FirstOrder.Language.BoundedFormula.IsQF`: Quantifier-free bounded formulas. Used in §3.4.
-- `FirstOrder.Language.BoundedFormula.IsUniversal`: Universal formulas. Used in §3.5.
-- `FirstOrder.Language.BoundedFormula.Realize`: Satisfaction of a bounded formula. Used in the semantic correspondence of §3.2 and the positive normal forms of §7.9.
-- `FirstOrder.Language.BoundedFormula.listEncode`: List encoding of a bounded formula at a fixed number `n` of bound variables; `listDecode` and its round trip `listDecode_encode_list` go through `Σ n`, `BoundedFormula α n`. Mathlib gives Countable instances, no Encodable or Primcodable structure on formulas. Used in the first-order truth-set statements of Layer 7.
-- `FirstOrder.Language.BoundedFormula.realize_toPrenex`: `toPrenex` preserves satisfaction in every nonempty structure. Used in the semantic correspondence of §3.2 and the positive normal forms of §7.9.
-- `FirstOrder.Language.BoundedFormula.toPrenex`: A prenex normal form transformation of bounded formulas. Used in the semantic correspondence of §3.2 and the positive normal forms of §7.9.
-- `FirstOrder.Language.Sentence`: Sentences: formulas without free variables. Used in §3.5.
-- `FirstOrder.Language.Structure`: An interpretation of a language in a type. Used in §3.1.
-- `FirstOrder.Language.Term`: First-order terms over a language with variables in a type. Used in §3.2.
-- `FirstOrder.Language.Term.listEncode`: List encoding of terms, with `listDecode` and the round trip `listDecode_encode_list`; Encodable instance on terms. Used in the first-order truth-set statements of Layer 7.
-- `FirstOrder.Language.withConstants`: The language `L[[A]]` obtained by adding constant symbols for the elements of `A`. Used in §3.1.
-- `FreeGroup`: The free group on a type, as the quotient of words `List (α × Bool)` by one-step reduction; `(a, true)` is the letter `a` and `(a, false)` its inverse. Used in §1.2, §2.2, §2.3, §3.2, §3.3, §5.1, §5.8, §6.1, §7.1, §8.3, §9.1, §9.4.
-- `FreeGroup.IsCyclicallyReduced`: A word is cyclically reduced when it is reduced and its last letter is not the inverse of its first. Used in §1.1.
-- `FreeGroup.IsReduced`: A word is reduced when no letter is followed by its inverse (`List.IsChain` condition). Used in §2.3, §7.1.
-- `FreeGroup.injective_lift_of_ping_pong`: The free-group ping-pong lemma. For a nontrivial index type `ι`, `a : ι → G` and a `G`-action on a set with sets `X i`, `Y i` such that every `X i` is nonempty, the `X i` are pairwise disjoint, the `Y i` are pairwise disjoint, `X i` and `Y j` are disjoint for all `i`, `j`, `a i • (Y i)ᶜ ⊆ X i` and `(a i)⁻¹ • (X i)ᶜ ⊆ Y i`, the map `FreeGroup.lift a` is injective. Used in §5.8.
-- `FreeGroup.lift`: The universal property: `(α → β) ≃ (FreeGroup α →* β)`, with `lift_mk` computing on words. Used in §3.3, §5.1.
-- `FreeGroup.map`: Functoriality of `FreeGroup` in the basis. Used in §3.2 and §5.1.
-- `FreeGroup.norm`: Word length: the length of the reduced word, with `norm_mul_le`, `norm_inv_eq`, `norm_eq_zero`. Used in §9.1.
-- `FreeGroup.reduce`: Free reduction of a word, a structurally recursive (computable) function on `List (α × Bool)` given `DecidableEq α`. Used throughout Layer 1 and Layer 2.
-- `FreeGroup.reduce.exact`: `reduce L₁ = reduce L₂` implies `mk L₁ = mk L₂`. Used in word equality and path membership throughout Layers 1–2.
-- `FreeGroup.reduce.sound`: `mk L₁ = mk L₂` implies `reduce L₁ = reduce L₂`. Used in word equality and path membership throughout Layers 1–2.
-- `FreeGroup.reduceCyclically`: Cyclic reduction of a word (defined on every list), with the conjugator; `reduceCyclically L` is cyclically reduced when `L` is reduced. Used in §1.1 and §1.4.
-- `FreeGroup.reduceCyclically.conj_conjugator_reduceCyclically`: A word equals `conjugator · reduceCyclically · conjugator⁻¹` (as words, so in the group). Used in §1.1, §1.4.
-- `FreeGroup.toWord`: The reduced word of an element of `FreeGroup α`, with `toWord_injective` and `mk_toWord`. Used throughout Layer 1 and Layer 2.
-- `FreeGroup.toWord_injective`: `toWord` is injective on `FreeGroup α`. Used throughout Layer 1 and Layer 2.
-- `FreeGroup.toWord_inv`: `toWord x⁻¹ = invRev (toWord x)`. Used in the word-length and path statements.
-- `FreeGroup.toWord_mul`: `toWord (x * y) = reduce (toWord x ++ toWord y)`. Used in the word-length and path statements.
-- `FreeGroupBasis`: A free basis of a group: an isomorphism with `FreeGroup ι`, with lift and `ext_hom`. Used in §1.3, §2.8.
-- `Group.IsFinitelyPresented`: A group is finitely presented: a quotient of a free group of finite rank by the normal closure of finitely many elements. Used in §8.7, §10.2.
-- `Group.ResiduallyFinite`: Residually finite groups. Used in §6.2.
-- `Group.rank`: The minimal cardinality of a finite generating set of a group with `[Group.FG G]` (noncomputable). Used in §2.11, §4.11.
-- `HNNExtension`: The HNN extension of `G` along an isomorphism `φ : A ≃* B` of subgroups, with of, `t`, lift and `t_mul_of`. Used in §4.5, §4.13, §8.5.
-- `HNNExtension.NormalWord`: Normal words for HNN extensions relative to a transversal pair, with equiv : `HNNExtension ≃ NormalWord` (the normal form theorem; noncomputable). Britton's lemma is the separate theorem `HNNExtension.ReducedWord.toList_eq_nil_of_mem_of_range`. Used in §4.3.
-- `HNNExtension.ReducedWord.toList_eq_nil_of_mem_of_range`: Britton's lemma: a reduced word whose product lies in the image of the base group contains no occurrence of `t`. Used in §4.3.
-- `HNNExtension.of_injective`: The base group embeds in the HNN extension. Used in §4.3.
-- `IsConj`: Conjugacy of two elements of a monoid. Used in §1.1.
-- `IsFreeGroup`: A group admitting a free basis. Used in §1.3, §2.8, §6.2, §8.1.
-- `IsIrreducible`: Irreducible subsets of a topological space. Used in §5.10.
-- `IsMulCommutative`: The class of commutative multiplications, applied to a subgroup coerced to a type (abelian subgroups). Used in §1.7.
-- `IsMulTorsionFree`: Injectivity of `x ↦ x ^ n` for `n ≠ 0`; `FreeGroup α` carries an instance in Mathlib/GroupTheory/FreeGroup/CyclicallyReduced.lean (unique roots and torsion-freeness). Used in §1.4 (Maximal roots and their uniqueness).
-- `Lex`: The lexicographic order type synonym; `Lex (Fin n → ℤ)` is a linearly ordered abelian group. Used in §9.1, §9.2, §9.4.
-- `Matrix.SpecialLinearGroup`: The special linear group `SL(n, R)`. Used in §5.8, §5.9.
-- `Monoid.Coprod`: The binary free product `M ∗ N` of monoids (groups), with `inl`, `inr` and lift. Used in §4.2, §4.5, §5.1.
-- `Monoid.Coprod.lift`: The universal property of the binary free product. Used in §5.1.
-- `Monoid.CoprodI`: The free product of a family of monoids or groups, with reduced words Word and the ping-pong lemma. Used in §4.2.
-- `Monoid.CoprodI.lift_injective_of_ping_pong`: For homomorphisms `f i : H i →* G` and a `G`-action, assume nonempty pairwise disjoint sets `X i` and, for `i ≠ j` and `h ≠ 1` in `H i`, `f i h • X j ⊆ X i`. Also require either at least three indices or a factor with at least three elements. Then the lift from the free product is injective. Used in §5.8.
-- `Monoid.PushoutI`: The pushout (amalgamated free product) of a family of groups over a common group `H`, with of, base, lift. Used in §4.5, §4.13, §8.5.
-- `Monoid.PushoutI.NormalWord`: Normal words for amalgamated products relative to a Transversal (which bundles injectivity of every `φ i`), with equiv : `PushoutI ≃ NormalWord` (normal form theorem; noncomputable, needs `DecidableEq` on the index and factors). Used in §4.3.
-- `Monoid.PushoutI.of_injective`: When every `φ i` is injective, every factor embeds in the amalgamated product. Used in §4.3.
-- `PresentedGroup`: The group `FreeGroup α ⧸ normalClosure` rels presented by generators `α` and relators rels. Used in §6.1.
-- `Quiver`: Quivers (directed multigraphs with loops), with paths in Mathlib/Combinatorics/Quiver/Path.lean. Used in §2.1.
-- `SimpleGraph`: Simple graphs (no loops, no multiple edges). Used in §2.1.
-- `SimpleGraph.Dart`: Darts (oriented edges) of a simple graph, with `Dart.symm`, `Dart.symm_symm` and `Dart.symm_ne` (no dart is its own reverse). Used in §2.1.
-- `Subgroup.centralizer`: The centralizer of a subset of a group. Used in §1.6, §1.7, §4.13, §8.5.
-- `Subgroup.index`: The index of a subgroup (0 when infinite). Used in §2.11.
-- `Subgroup.normalClosure`: The normal closure of a subset of a group. Used in §4.2, §5.2, §8.3.
-- `Subgroup.rank_le_index_mul_rank`: For `[Group.FG G]` and `[H.FiniteIndex]`: `rank H ≤ index H · rank G` (an inequality only). Used in §2.11.
-- `Subgroup.zpowers`: The cyclic subgroup generated by an element. Used in §1.6.
-- `TopologicalSpace.NoetherianSpace`: Noetherian topological spaces (descending chain condition on closed sets), with finite decomposition into irreducible components. Used in §5.10.
-- `TopologicalSpace.generateFrom`: The topology generated by a family of sets declared open. Used in §5.6.
-- `Subgroup.isFreeGroupOfIsFreeGroup`: Nielsen–Schreier: every subgroup of a free group is free (non-constructive, via free groupoids). Used in §2.8.
-
-- `FreeGroup.toWord_eq_nil_iff`: `x.toWord=[]` if and only if `x=1`; `FreeGroup.toWord_mk` computes the word of mk `L` as reduce `L`. These supply word equality and the trivial-word criterion, including cancellation of `a b b⁻¹a⁻¹`.
-
-- `Primcodable`, `Primrec` and `ComputablePred` (Mathlib/Computability): the standard natural-number encoding framework, primitive recursiveness, and recursive predicates. The recursion assertions below use these library meanings on finite-word or syntax codes; no extra executable encoding is specified.
-
-### From Tau Ceti (commit 2fd255d)
-
-- `TauCeti.IsTISubgroup` (TauCeti/GroupTheory/TrivialIntersection.lean): `H ≤ G` is a trivial-intersection, that is malnormal, subgroup, stated elementwise: for `g ∉ H` and `x ∈ H`, `g x g⁻¹ ∈ H` forces `x = 1`. Used in §1.7 (CSA groups and commutation transitivity) and §1.8, and through them wherever CSA groups occur (§5.5, §7.9, Layer 8).
-- `TauCeti.isTISubgroup_iff_inf_conj_smul_eq_bot`: `IsTISubgroup H ↔ ∀ g ∉ H`, `H ⊓ MulAut.conj g • H = ⊥`, the lattice form. Used in §1.8.
-- `FreeGroup.instResiduallyFinite` (TauCeti/GroupTheory/FreeGroup/ResiduallyP.lean): every free group is `Group.ResiduallyFinite`. `FreeGroup.exists_normal_isPGroup_quotient_notMem` supplies a finite-index normal subgroup avoiding any specified nontrivial word, with `p`-group quotient for each prime `p`. Used in §6.2.
-- `Subgroup.rank_le_one_add_index_mul_rank_sub_one` (TauCeti/GroupTheory/Schreier.lean): for a finite-index subgroup `H` of a finitely generated `G`, `rank H ≤ 1 + H.index * (rank G - 1)`, in natural numbers. Layer 2 asks for the exact integer equality for free groups.
-- `TauCeti.IsTISubgroup.centralizer_singleton_le` (TauCeti/GroupTheory/TrivialIntersection.lean): if `H` is malnormal and `1≠x∈H`, then `C_G(x)≤H`. Used with maximal abelian subgroups in §1.7.
-- `TauCeti.GroupAlgGeom.GX`, `TauCeti.GroupAlgGeom.eval` (TauCeti/GroupTheory/GroupAlgGeom/Basic.lean), `TauCeti.GroupAlgGeom.V`, `TauCeti.GroupAlgGeom.CoordGroup` and `TauCeti.GroupAlgGeom.CoordGroup.coeff` (TauCeti/GroupTheory/GroupAlgGeom/AlgebraicSet.lean): the free `G`-group `G[X] = G ∗ F(X)`, evaluation at a point `X → H` along a coefficient homomorphism `G →* H`, the algebraic set `V_H(S)`, and the coordinate group `G[X] ⧸ Rad_H(S)` with its coefficient homomorphism. They implement the carriers of §§5.1–5.2, and `Suggested.lean` states the Layer 11 headlines with them.
-- `TauCeti.LimitGroup.IsFullyResiduallyFree` (TauCeti/GroupTheory/LimitGroup/ResiduallyFree.lean): every finite set of nonidentity elements survives under one homomorphism to a free group `FreeGroup ι`, `ι` in the universe of the group. `TauCeti.LimitGroup.CentralizerExt u n` and `TauCeti.LimitGroup.IsAdmissibleCentralizerStep u n` (TauCeti/GroupTheory/LimitGroup/CentralizerExtension/Basic.lean): the amalgam `G ∗_{C_G(u)} (C_G(u) × ℤⁿ)`, and the condition that `u` is not a proper power and `n > 0`. They implement the carriers of §§8.1 and 8.5, and `Suggested.lean` states the Layer 8 and 9 headlines with them.
-- `Group.ResiduallyFinite.injective_of_surjective` (TauCeti/GroupTheory/ResiduallyFinite.lean): Malcev's theorem, a surjective endomorphism of a finitely generated residually finite group is injective. Used in §6.2 for the Hopf property of free groups of finite rank.
-- `TauCeti.PresentationComplex` and `TauCeti.PresentationComplex.fundamentalGroupMulEquiv` (TauCeti/AlgebraicTopology/ClassifyingSpace/PresentationComplex.lean): the presentation complex of `⟨S | R⟩` (one vertex, a 1-cell for each generator and a 2-cell attached along each relator, with its CW structure `TauCeti.PresentationComplex.instCWComplex`) and the isomorphism of its fundamental group with `PresentedGroup R`. Used in §10.1a.
-
-Cross-layer prerequisites are explicit: §§8.5–8.6 precede §6.8; §§8.8–8.9 provide the normalized tower embedding independently of §8.7; §8.6a's carrier and ICE comparison and §8.6b's irreducible-to-tower embedding precede §8.7, while §9.5's length-function corollary follows §8.7. Finite presentability in §8.7 precedes §8.2's finite-rank abelian-subgroup conclusion.
-
-
-## How to read the build
-
-Layer 1 proves conjugacy, roots and centralizers over Mathlib's free group. Layer 2 adds Serre graphs and the Stallings correspondence; Layer 3 supplies the language of groups and the term–word and formula–system dictionaries. Layer 4 develops Bass–Serre theory. Layer 5 gives algebraic geometry over a coefficient group; Layer 6 treats surface groups and quadratic equations. Layer 7 supplies cancellation families, solution bounds and positive formal solutions. Layer 8 identifies limit groups, fully residually free groups and irreducible coordinate groups and builds NTQ towers. Layer 9 gives length functions, infinite words and subgroup graphs. Layer 10 proves finite JSJ and Makanin–Razborov factorization theorems; Layer 11 proves the regular implicit function theorems. The subsection contracts fix the proof order: §§8.5–8.6 supply §6.8; §§6.8–6.9 and §8.8 supply normalized tower discrimination and embeddings in §8.9 independently of §8.7; §§8.6a–8.6b and §8.9 supply §8.7; §8.7 supplies §8.2's finite-rank centralizers and §9.5's limit-group length-function corollary.
 
 ## Layer 1: Free-group conjugacy, roots and centralizers
 
@@ -319,6 +193,7 @@ For `w = b⁻¹a⁶b` in `F(a,b)`, cyclic reduction gives `a⁶`. Its shortest r
 ### Dependencies
 
 This layer consumes none. Library suppliers are the declarations specified above; no other roadmap is required.
+
 
 ## Layer 2: Stallings graphs and finitely generated free subgroups
 
@@ -2784,6 +2659,131 @@ This layer consumes Layers 5–10, including Layer 10's presentation-complex inp
 ## Downstream consumers
 
 A separate development of the first-order theory of free groups (Tarski's problems) may import this library: it would consume the recursive truth sets and formal-solution theorems of Layer 7, the Makanin–Razborov diagrams of Layer 10 and the implicit function theorems of Layer 11, and own its specialised constructions (induced NTQ systems, envelopes, the decision trees and the termination of quantifier elimination). Any roadmap needing free groups, Bass–Serre theory, surface groups or equations over groups imports the corresponding layer of this roadmap.
+
+## Scope and ownership
+
+This roadmap owns:
+
+- conjugacy, maximal roots and centralizers in free groups, primitive elements, CSA groups and commutative transitivity, with malnormality supplied by Tau Ceti (Layer 1);
+- Serre graphs with edge reversal and adapters to the shared multigraph walk and component API, Stallings graphs and graph criteria for finitely generated subgroups of free groups, with the exact Schreier formula (Layer 2);
+- the language of groups with basis constants, the term–word correspondence and the reduction of quantifier-free formulas and of existential and universal sentences to systems of equations and inequations (Layer 3);
+- graphs of groups, their fundamental groups and Bass–Serre trees, the structure theorem, induced splittings, the Kurosh and Grushko theorems, domination, collapses and Dehn twists (Layer 4);
+- algebraic geometry over groups: `G[X]`, algebraic sets, radicals, coordinate groups, separation and discrimination, domains, the Zariski topology, equational Noetherianity and irreducible components (Layer 5);
+- finite polygonal surface models, their normal forms, face presentations and peripheral groups, curves and cutting, surface groups with boundary and quadratic equations, regularity, radicals, and quadratically hanging vertices (Layer 6);
+- generalised equations, Makanin's finiteness and minimal-solution bounds, recursive truth sets for the existential, universal and positive fragments, and Merzljakov's theorem (Layer 7);
+- fully residually free groups, limit groups, extensions of centralizers, the embedding theorems, finite presentability, and NTQ systems (Layer 8);
+- Lyndon length functions, `Λ`-trees and free actions on them, infinite words, `F^{ℤ[t]}` and graphs labelled by infinite words (Layer 9);
+- JSJ theory for limit groups, marked finite Grushko and JSJ graphs, complete Makanin–Razborov factorization diagrams, finite irreducible-component systems, and equations over a limit group (Layer 10);
+- lifts to generic points, basic automorphisms and generic families, and the regular implicit function theorems (Layer 11).
+
+What it builds on, and does not plan again:
+
+- **Mathlib** (at the Tau Ceti pin) already has the free group with reduced words and cyclic reduction (`FreeGroup.reduce`, `FreeGroup.toWord`, `FreeGroup.IsCyclicallyReduced`, `FreeGroup.reduceCyclically`), torsion-freeness and uniqueness of roots for a fixed exponent (the `IsMulTorsionFree` instance on `FreeGroup α`), free bases (`FreeGroupBasis`, `IsFreeGroup`), the non-constructive Nielsen–Schreier theorem (`Subgroup.isFreeGroupOfIsFreeGroup`), the Schreier inequality `Subgroup.rank_le_index_mul_rank`, amalgamated products and HNN extensions with their normal forms (`Monoid.PushoutI.NormalWord`, `HNNExtension.NormalWord`, hence Britton's lemma), free products and the ping-pong lemma (`Monoid.CoprodI`, `Monoid.CoprodI.lift_injective_of_ping_pong`, and the free-group form `FreeGroup.injective_lift_of_ping_pong`), presented and finitely presented groups, first-order syntax and semantics with prenex normal form (`FirstOrder.Language.BoundedFormula.toPrenex`), list encodings of terms and formulas, and the computability framework. These are cited, never re-planned. Reduced-word equality and the trivial-word criterion are consumed directly, and syntax encoding and prenex transformations have no second implementation here.
+- **Shared free-group centralizer interfaces.** A proposed Mathlib change, commit `b38ce379d898d1284bae5582be27de1d2af39f67` (not in Mathlib at the pin), adds `FreeGroup/Center.lean` with `FreeGroup.centralizer_of_eq_closure`, `FreeGroup.isCyclic_centralizer`, `FreeGroup.commute_of_commute`, `FreeGroup.center_eq_top_of_subsingleton` and `FreeGroup.center_eq_bot_of_nontrivial`. These overlap §§1.5–1.8. Coordinate the shared signatures with that work and build the required theory in Tau Ceti using its interface shape wherever the pinned Mathlib lacks it; adopt the Mathlib declarations when available. The maximal-root identification and malnormality targets remain here. No reuse of the proposed proofs is required.
+- **Tau Ceti at the pin** already has malnormal subgroups, as trivial-intersection subgroups: `TauCeti.IsTISubgroup` (TauCeti/GroupTheory/TrivialIntersection.lean), with its lattice form `TauCeti.isTISubgroup_iff_inf_conj_smul_eq_bot`. The CSA condition of Layer 1 is stated with it, and malnormality is not defined again here; `RepresentationTheory/CharacterTheory`, Layer 8 “Frobenius groups and Frobenius’s theorem,” uses the same notion for finite groups.
+- **Tau Ceti at the pin** supplies free-group residual finiteness, residual `p` and the sharper Schreier inequality through the exact contracts below. The equality for finite-index free subgroups is Layer 2.
+- **Tau Ceti at the pin** has the presentation complex of `⟨S | R⟩` and its fundamental-group comparison, `TauCeti.PresentationComplex` and `TauCeti.PresentationComplex.fundamentalGroupMulEquiv` (TauCeti/AlgebraicTopology/ClassifyingSpace/PresentationComplex.lean). §10.1a consumes them, hence §10.2 and downstream JSJ consumers; §2.2 is combinatorial and independent of that input.
+- **Tau Ceti roadmaps.** [GraphConnectivityAndFlows, Target 1.1](../GraphConnectivityAndFlows/README.md#11-undirected-walks-isomorphisms-and-representation-bridges) supplies native multigraph walks, connectivity and components, and its Target 2.1 the multigraph forests of §2.2a; §§2.1–2.1a own the Serre-dart adapter. §§2.2–2.2a own graph path groups, spanning-tree presentations, finite multigraph integral and binary cycle kernels, forest bases, coefficient comparison and rank formulas. §§6.0a–6.1a own the finite polygonal surface models, normal forms, face presentations and marked boundary comparisons used here; §6.0d owns combinatorial two-sided curves, proper arcs, their cut models and the cutting-to-splitting comparisons. These are item-level inputs, without flow, Menger or mapping-class-group prerequisites. `AlgebraicTopology`'s surface topology and `FuchsianOrbifolds`' analytic surfaces have different applications. QH vertices here have hyperbolic surface groups and trivial fiber (§6.10); `GeometricTopology`'s geometric JSJ is distinct from Layer 10's group-theoretic JSJ. `ProfiniteProPGroups` and `PeripheralActions` concern pro-`p` groups. These roadmap contracts are specifications, distinct from the declarations implemented at the library pin.
+
+| Shared mathematics | Owner and supplier contract | Dependency direction |
+| --- | --- | --- |
+| Underlying multigraph incidence | Mathlib `Graph` | §2.1 supplies the Serre-dart adapter. |
+| Native multigraph walks, connectivity and components | `GraphConnectivityAndFlows` Target 1.1 | §2.1a consumes this API and proves the Serre comparison; no flow or Menger target is needed. |
+| Graph edge-path groups, spanning-tree presentations and group rank | Local §2.2, over Mathlib `FreeGroup` and `PresentedGroup` | Layers 2, 4, 7 and 10 use these graph group results. |
+| Finite multigraph cycle kernels, forest bases, coefficient comparison and ranks | Local §2.2a; component counts from `GraphConnectivityAndFlows` Target 1.1 and multigraph forests from its Target 2.1 | The general core includes loops, parallel edges, disconnected graphs and the empty graph; its graph-group comparisons use §2.2. |
+| Finite polygonal surfaces, boundary incidence, moves and normal forms | Local §§6.0a–6.0b | §6.0d consumes this polygonal carrier; §§6.3–6.4 and §6.10 use the resulting peripheral surfaces. |
+| Combinatorial two-sided curves, proper arcs and cut models | Local §6.0d, on the carrier of §§6.0a–6.0b | Both curve and arc cutting, disjoint-family and subdivision compatibility, marked boundary transport, face-group regluing and the monomorphic cyclic edge maps are local targets. §§6.3 and 6.10 consume these contracts. |
+| Surface face presentations and subdivision comparisons | Local §6.0c | §6.1a identifies the marked boundary conjugacy classes in `S±(g,m)`. Quadratic normalization in §6.6 is independent of surface realization. |
+| Presentation complexes and their fundamental groups | Tau Ceti `TauCeti.PresentationComplex` and `TauCeti.PresentationComplex.fundamentalGroupMulEquiv` (at the pin) | §10.1a consumes them, hence §10.2 and downstream JSJ consumers; the relative finite-cell construction and track resolution are owned in §10.1a. |
+
+Out of scope (non-goals): the full first-order decision procedure for free groups and everything specific to it — effective reduction of arbitrary formulas to Boolean combinations of two-block formulas, the existential–universal decision trees, MAX-equivalence and the associated algebraic-solution bounds, complete reducing systems of that procedure, induced-NTQ enlargement algorithms, tight envelopes, projective-image and configuration machinery, and termination of the outer quantifier-elimination procedure; also the parametrisation theorem for arbitrary NTQ systems with correcting embeddings, lifts of `∀∃` formulas over arbitrary systems, implicit function theorems for non-regular NTQ systems, and the classification of groups up to elementary equivalence. A separate first-order decidability development may import this library; none of its specialised constructions are hidden prerequisites here.
+
+## Exact supplier contracts
+
+### From Mathlib (commit 1b1ccf4)
+
+- `FirstOrder.Language`: A first-order language: function and relation symbols graded by arity. Used in §3.1.
+- `FirstOrder.Language.BoundedFormula`: Formulas with free variables in `α` and `n` de Bruijn-indexed bound variables (capture is impossible by construction). Used in the semantic correspondence of §3.2 and the positive normal forms of §7.9.
+- `FirstOrder.Language.BoundedFormula.IsExistential`: Existential formulas: quantifier-free formulas under a block of existential quantifiers. Used in §3.5.
+- `FirstOrder.Language.BoundedFormula.IsQF`: Quantifier-free bounded formulas. Used in §3.4.
+- `FirstOrder.Language.BoundedFormula.IsUniversal`: Universal formulas. Used in §3.5.
+- `FirstOrder.Language.BoundedFormula.Realize`: Satisfaction of a bounded formula. Used in the semantic correspondence of §3.2 and the positive normal forms of §7.9.
+- `FirstOrder.Language.BoundedFormula.listEncode`: List encoding of a bounded formula at a fixed number `n` of bound variables; `listDecode` and its round trip `listDecode_encode_list` go through `Σ n`, `BoundedFormula α n`. Mathlib gives Countable instances, no Encodable or Primcodable structure on formulas. Used in the first-order truth-set statements of Layer 7.
+- `FirstOrder.Language.BoundedFormula.realize_toPrenex`: `toPrenex` preserves satisfaction in every nonempty structure. Used in the semantic correspondence of §3.2 and the positive normal forms of §7.9.
+- `FirstOrder.Language.BoundedFormula.toPrenex`: A prenex normal form transformation of bounded formulas. Used in the semantic correspondence of §3.2 and the positive normal forms of §7.9.
+- `FirstOrder.Language.Sentence`: Sentences: formulas without free variables. Used in §3.5.
+- `FirstOrder.Language.Structure`: An interpretation of a language in a type. Used in §3.1.
+- `FirstOrder.Language.Term`: First-order terms over a language with variables in a type. Used in §3.2.
+- `FirstOrder.Language.Term.listEncode`: List encoding of terms, with `listDecode` and the round trip `listDecode_encode_list`; Encodable instance on terms. Used in the first-order truth-set statements of Layer 7.
+- `FirstOrder.Language.withConstants`: The language `L[[A]]` obtained by adding constant symbols for the elements of `A`. Used in §3.1.
+- `FreeGroup`: The free group on a type, as the quotient of words `List (α × Bool)` by one-step reduction; `(a, true)` is the letter `a` and `(a, false)` its inverse. Used in §1.2, §2.2, §2.3, §3.2, §3.3, §5.1, §5.8, §6.1, §7.1, §8.3, §9.1, §9.4.
+- `FreeGroup.IsCyclicallyReduced`: A word is cyclically reduced when it is reduced and its last letter is not the inverse of its first. Used in §1.1.
+- `FreeGroup.IsReduced`: A word is reduced when no letter is followed by its inverse (`List.IsChain` condition). Used in §2.3, §7.1.
+- `FreeGroup.injective_lift_of_ping_pong`: The free-group ping-pong lemma. For a nontrivial index type `ι`, `a : ι → G` and a `G`-action on a set with sets `X i`, `Y i` such that every `X i` is nonempty, the `X i` are pairwise disjoint, the `Y i` are pairwise disjoint, `X i` and `Y j` are disjoint for all `i`, `j`, `a i • (Y i)ᶜ ⊆ X i` and `(a i)⁻¹ • (X i)ᶜ ⊆ Y i`, the map `FreeGroup.lift a` is injective. Used in §5.8.
+- `FreeGroup.lift`: The universal property: `(α → β) ≃ (FreeGroup α →* β)`, with `lift_mk` computing on words. Used in §3.3, §5.1.
+- `FreeGroup.map`: Functoriality of `FreeGroup` in the basis. Used in §3.2 and §5.1.
+- `FreeGroup.norm`: Word length: the length of the reduced word, with `norm_mul_le`, `norm_inv_eq`, `norm_eq_zero`. Used in §9.1.
+- `FreeGroup.reduce`: Free reduction of a word, a structurally recursive (computable) function on `List (α × Bool)` given `DecidableEq α`. Used throughout Layer 1 and Layer 2.
+- `FreeGroup.reduce.exact`: `reduce L₁ = reduce L₂` implies `mk L₁ = mk L₂`. Used in word equality and path membership throughout Layers 1–2.
+- `FreeGroup.reduce.sound`: `mk L₁ = mk L₂` implies `reduce L₁ = reduce L₂`. Used in word equality and path membership throughout Layers 1–2.
+- `FreeGroup.reduceCyclically`: Cyclic reduction of a word (defined on every list), with the conjugator; `reduceCyclically L` is cyclically reduced when `L` is reduced. Used in §1.1 and §1.4.
+- `FreeGroup.reduceCyclically.conj_conjugator_reduceCyclically`: A word equals `conjugator · reduceCyclically · conjugator⁻¹` (as words, so in the group). Used in §1.1, §1.4.
+- `FreeGroup.toWord`: The reduced word of an element of `FreeGroup α`, with `toWord_injective` and `mk_toWord`. Used throughout Layer 1 and Layer 2.
+- `FreeGroup.toWord_injective`: `toWord` is injective on `FreeGroup α`. Used throughout Layer 1 and Layer 2.
+- `FreeGroup.toWord_inv`: `toWord x⁻¹ = invRev (toWord x)`. Used in the word-length and path statements.
+- `FreeGroup.toWord_mul`: `toWord (x * y) = reduce (toWord x ++ toWord y)`. Used in the word-length and path statements.
+- `FreeGroupBasis`: A free basis of a group: an isomorphism with `FreeGroup ι`, with lift and `ext_hom`. Used in §1.3, §2.8.
+- `Group.IsFinitelyPresented`: A group is finitely presented: a quotient of a free group of finite rank by the normal closure of finitely many elements. Used in §8.7, §10.2.
+- `Group.ResiduallyFinite`: Residually finite groups. Used in §6.2.
+- `Group.rank`: The minimal cardinality of a finite generating set of a group with `[Group.FG G]` (noncomputable). Used in §2.11, §4.11.
+- `HNNExtension`: The HNN extension of `G` along an isomorphism `φ : A ≃* B` of subgroups, with of, `t`, lift and `t_mul_of`. Used in §4.5, §4.13, §8.5.
+- `HNNExtension.NormalWord`: Normal words for HNN extensions relative to a transversal pair, with equiv : `HNNExtension ≃ NormalWord` (the normal form theorem; noncomputable). Britton's lemma is the separate theorem `HNNExtension.ReducedWord.toList_eq_nil_of_mem_of_range`. Used in §4.3.
+- `HNNExtension.ReducedWord.toList_eq_nil_of_mem_of_range`: Britton's lemma: a reduced word whose product lies in the image of the base group contains no occurrence of `t`. Used in §4.3.
+- `HNNExtension.of_injective`: The base group embeds in the HNN extension. Used in §4.3.
+- `IsConj`: Conjugacy of two elements of a monoid. Used in §1.1.
+- `IsFreeGroup`: A group admitting a free basis. Used in §1.3, §2.8, §6.2, §8.1.
+- `IsIrreducible`: Irreducible subsets of a topological space. Used in §5.10.
+- `IsMulCommutative`: The class of commutative multiplications, applied to a subgroup coerced to a type (abelian subgroups). Used in §1.7.
+- `IsMulTorsionFree`: Injectivity of `x ↦ x ^ n` for `n ≠ 0`; `FreeGroup α` carries an instance in Mathlib/GroupTheory/FreeGroup/CyclicallyReduced.lean (unique roots and torsion-freeness). Used in §1.4 (Maximal roots and their uniqueness).
+- `Lex`: The lexicographic order type synonym; `Lex (Fin n → ℤ)` is a linearly ordered abelian group. Used in §9.1, §9.2, §9.4.
+- `Matrix.SpecialLinearGroup`: The special linear group `SL(n, R)`. Used in §5.8, §5.9.
+- `Monoid.Coprod`: The binary free product `M ∗ N` of monoids (groups), with `inl`, `inr` and lift. Used in §4.2, §4.5, §5.1.
+- `Monoid.Coprod.lift`: The universal property of the binary free product. Used in §5.1.
+- `Monoid.CoprodI`: The free product of a family of monoids or groups, with reduced words Word and the ping-pong lemma. Used in §4.2.
+- `Monoid.CoprodI.lift_injective_of_ping_pong`: For homomorphisms `f i : H i →* G` and a `G`-action, assume nonempty pairwise disjoint sets `X i` and, for `i ≠ j` and `h ≠ 1` in `H i`, `f i h • X j ⊆ X i`. Also require either at least three indices or a factor with at least three elements. Then the lift from the free product is injective. Used in §5.8.
+- `Monoid.PushoutI`: The pushout (amalgamated free product) of a family of groups over a common group `H`, with of, base, lift. Used in §4.5, §4.13, §8.5.
+- `Monoid.PushoutI.NormalWord`: Normal words for amalgamated products relative to a Transversal (which bundles injectivity of every `φ i`), with equiv : `PushoutI ≃ NormalWord` (normal form theorem; noncomputable, needs `DecidableEq` on the index and factors). Used in §4.3.
+- `Monoid.PushoutI.of_injective`: When every `φ i` is injective, every factor embeds in the amalgamated product. Used in §4.3.
+- `PresentedGroup`: The group `FreeGroup α ⧸ normalClosure` rels presented by generators `α` and relators rels. Used in §6.1.
+- `Quiver`: Quivers (directed multigraphs with loops), with paths in Mathlib/Combinatorics/Quiver/Path.lean. Used in §2.1.
+- `SimpleGraph`: Simple graphs (no loops, no multiple edges). Used in §2.1.
+- `SimpleGraph.Dart`: Darts (oriented edges) of a simple graph, with `Dart.symm`, `Dart.symm_symm` and `Dart.symm_ne` (no dart is its own reverse). Used in §2.1.
+- `Subgroup.centralizer`: The centralizer of a subset of a group. Used in §1.6, §1.7, §4.13, §8.5.
+- `Subgroup.index`: The index of a subgroup (0 when infinite). Used in §2.11.
+- `Subgroup.normalClosure`: The normal closure of a subset of a group. Used in §4.2, §5.2, §8.3.
+- `Subgroup.rank_le_index_mul_rank`: For `[Group.FG G]` and `[H.FiniteIndex]`: `rank H ≤ index H · rank G` (an inequality only). Used in §2.11.
+- `Subgroup.zpowers`: The cyclic subgroup generated by an element. Used in §1.6.
+- `TopologicalSpace.NoetherianSpace`: Noetherian topological spaces (descending chain condition on closed sets), with finite decomposition into irreducible components. Used in §5.10.
+- `TopologicalSpace.generateFrom`: The topology generated by a family of sets declared open. Used in §5.6.
+- `Subgroup.isFreeGroupOfIsFreeGroup`: Nielsen–Schreier: every subgroup of a free group is free (non-constructive, via free groupoids). Used in §2.8.
+
+- `FreeGroup.toWord_eq_nil_iff`: `x.toWord=[]` if and only if `x=1`; `FreeGroup.toWord_mk` computes the word of mk `L` as reduce `L`. These supply word equality and the trivial-word criterion, including cancellation of `a b b⁻¹a⁻¹`.
+
+- `Primcodable`, `Primrec` and `ComputablePred` (Mathlib/Computability): the standard natural-number encoding framework, primitive recursiveness, and recursive predicates. The recursion assertions below use these library meanings on finite-word or syntax codes; no extra executable encoding is specified.
+
+### From Tau Ceti (commit 2fd255d)
+
+- `TauCeti.IsTISubgroup` (TauCeti/GroupTheory/TrivialIntersection.lean): `H ≤ G` is a trivial-intersection, that is malnormal, subgroup, stated elementwise: for `g ∉ H` and `x ∈ H`, `g x g⁻¹ ∈ H` forces `x = 1`. Used in §1.7 (CSA groups and commutation transitivity) and §1.8, and through them wherever CSA groups occur (§5.5, §7.9, Layer 8).
+- `TauCeti.isTISubgroup_iff_inf_conj_smul_eq_bot`: `IsTISubgroup H ↔ ∀ g ∉ H`, `H ⊓ MulAut.conj g • H = ⊥`, the lattice form. Used in §1.8.
+- `FreeGroup.instResiduallyFinite` (TauCeti/GroupTheory/FreeGroup/ResiduallyP.lean): every free group is `Group.ResiduallyFinite`. `FreeGroup.exists_normal_isPGroup_quotient_notMem` supplies a finite-index normal subgroup avoiding any specified nontrivial word, with `p`-group quotient for each prime `p`. Used in §6.2.
+- `Subgroup.rank_le_one_add_index_mul_rank_sub_one` (TauCeti/GroupTheory/Schreier.lean): for a finite-index subgroup `H` of a finitely generated `G`, `rank H ≤ 1 + H.index * (rank G - 1)`, in natural numbers. Layer 2 asks for the exact integer equality for free groups.
+- `TauCeti.IsTISubgroup.centralizer_singleton_le` (TauCeti/GroupTheory/TrivialIntersection.lean): if `H` is malnormal and `1≠x∈H`, then `C_G(x)≤H`. Used with maximal abelian subgroups in §1.7.
+- `TauCeti.GroupAlgGeom.GX`, `TauCeti.GroupAlgGeom.eval` (TauCeti/GroupTheory/GroupAlgGeom/Basic.lean), `TauCeti.GroupAlgGeom.V`, `TauCeti.GroupAlgGeom.CoordGroup` and `TauCeti.GroupAlgGeom.CoordGroup.coeff` (TauCeti/GroupTheory/GroupAlgGeom/AlgebraicSet.lean): the free `G`-group `G[X] = G ∗ F(X)`, evaluation at a point `X → H` along a coefficient homomorphism `G →* H`, the algebraic set `V_H(S)`, and the coordinate group `G[X] ⧸ Rad_H(S)` with its coefficient homomorphism. They implement the carriers of §§5.1–5.2, and `Suggested.lean` states the Layer 11 headlines with them.
+- `TauCeti.LimitGroup.IsFullyResiduallyFree` (TauCeti/GroupTheory/LimitGroup/ResiduallyFree.lean): every finite set of nonidentity elements survives under one homomorphism to a free group `FreeGroup ι`, `ι` in the universe of the group. `TauCeti.LimitGroup.CentralizerExt u n` and `TauCeti.LimitGroup.IsAdmissibleCentralizerStep u n` (TauCeti/GroupTheory/LimitGroup/CentralizerExtension/Basic.lean): the amalgam `G ∗_{C_G(u)} (C_G(u) × ℤⁿ)`, and the condition that `u` is not a proper power and `n > 0`. They implement the carriers of §§8.1 and 8.5, and `Suggested.lean` states the Layer 8 and 9 headlines with them.
+- `Group.ResiduallyFinite.injective_of_surjective` (TauCeti/GroupTheory/ResiduallyFinite.lean): Malcev's theorem, a surjective endomorphism of a finitely generated residually finite group is injective. Used in §6.2 for the Hopf property of free groups of finite rank.
+- `TauCeti.PresentationComplex` and `TauCeti.PresentationComplex.fundamentalGroupMulEquiv` (TauCeti/AlgebraicTopology/ClassifyingSpace/PresentationComplex.lean): the presentation complex of `⟨S | R⟩` (one vertex, a 1-cell for each generator and a 2-cell attached along each relator, with its CW structure `TauCeti.PresentationComplex.instCWComplex`) and the isomorphism of its fundamental group with `PresentedGroup R`. Used in §10.1a.
+
+Cross-layer prerequisites are explicit: §§8.5–8.6 precede §6.8; §§8.8–8.9 provide the normalized tower embedding independently of §8.7; §8.6a's carrier and ICE comparison and §8.6b's irreducible-to-tower embedding precede §8.7, while §9.5's length-function corollary follows §8.7. Finite presentability in §8.7 precedes §8.2's finite-rank abelian-subgroup conclusion.
 
 ## References
 
