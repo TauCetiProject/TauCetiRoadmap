@@ -5,13 +5,12 @@ a library: the solutions of the associated Legendre equation
 `(1 − z²) w″ − 2z w′ + (ν(ν + 1) − μ²/(1 − z²)) w = 0` for all complex degree `ν` and order `μ`, the
 Legendre polynomials and the Ferrers functions of integer degree, the spherical harmonics on `S²`,
 and the toroidal, conical, Gegenbauer and Jacobi functions that are Legendre functions in disguise.
-Its organization follows the structure of the subject rather than any one text. After the
-definitions and the equation, the integer degree comes first, as in Whittaker–Watson and Lebedev:
-the polynomials, their contour and Laplace integrals, orthogonality and the addition theorem lead
-directly to the spherical harmonics and the Funk–Hecke formula. The local theory at the origin and
-at the singular points then yields the Wronskians and the connection formulas, as in Olver's
-treatment, and these carry the zeros, the second-kind recurrences, the integral representations from
-Schläfli's loop integrals, and the expansions. The content is drawn from Olver (*Asymptotics and
+After the definitions and the equation, the integer degree comes first: the polynomials, their
+contour and Laplace integrals, orthogonality and the addition theorem lead directly to the
+spherical harmonics and the Funk–Hecke formula. The local theory at the origin and at the singular
+points then yields the Wronskians and the connection formulas, and these carry the zeros, the
+second-kind recurrences, the integral representations from Schläfli's loop integrals, and the
+expansions. The content is drawn from Olver (*Asymptotics and
 Special Functions*, Ch. 5 §§12–15), Whittaker–Watson (Ch. XV), Lebedev (*Special Functions and Their
 Applications*, Chs. 4, 7 and 8), Temme (*Special Functions*, Chs. 6 and 8), Andrews–Askey–Roy
 (*Special Functions*, Ch. 9 and §6.8), Atkinson–Han (*Spherical Harmonics and Approximations on the
@@ -119,9 +118,8 @@ provides:
 - the branch identities behind the definitions: `((1 + z)/(1 − z))^{μ/2}` and `(1 − z²)^{−μ/2}`
   are holomorphic on the doubly cut plane, `((z + 1)/(z − 1))^{μ/2}`, `(z − 1)^{μ/2} (z + 1)^{μ/2}`
   and `z^{ν+μ+1}` on `ℂ \ (−∞, 1]`, and each is the principal value on the real interval (1.1);
-- Sturm's separation and comparison theorems for `((1 − x²) y′)′ + q(x) y = 0` on an open
-  subinterval of `(−1, 1)` or of `(1, ∞)`, and the continuity of the zeros of a solution in its
-  parameters (6.1);
+- Sturm's separation theorem for `((1 − x²) y′)′ + q(x) y = 0` on an open subinterval of
+  `(−1, 1)` or of `(1, ∞)`, and the continuity of the zeros of a solution in its parameters (6.1);
 - the Ferrers–Adams linearization of `Pₘ Pₙ` in Legendre polynomials (9.2);
 - the Abelian estimate: for `Re μ > −1` and `g` integrable on `(0, 1)` and continuous at `1`, the
   integral `I(σ) = ∫₀¹ x^σ (1 − x)^μ g(x) dx` exists for `σ ≥ 0` and
@@ -134,6 +132,9 @@ provides:
 - The principal branch of `𝐅` and its theory (SpecialFunctionsHypergeometric), the Legendre
   polynomials as polynomials (Mathlib) and the complete elliptic integrals (Tau Ceti).
 - Pincherle's theorem (SpecialFunctionsEiLiErfIncompleteGamma 4.1), consumed in 7.4.
+- Sturm's comparison theorem and the simplicity and isolation of the zeros of a real solution of
+  `(p y′)′ + Q y = 0` for `p > 0` of class `C¹` on an open interval (SpecialFunctionsBessel 10.1,
+  an auxiliary target there), consumed in 6.1 with `p = |1 − x²|`.
 - The theory of harmonic polynomials in `n` variables (Tau Ceti's `MvPolynomial.harmonicSubmodule`
   and its decomposition) and the spectral theory of the Laplace–Beltrami operator on `Sᵐ`
   (RiemannianGeometry R8). Layer 3 consumes the first, and the completeness clause of
@@ -157,7 +158,8 @@ harmonics `Y_{l,m}`, and the results stated through them, `𝐅`, `Γ`, `ψ`, el
 the Legendre polynomials and the complete elliptic integrals, as listed in the layers, except the
 uniform asymptotics, the Mehler–Fock transformation, the branches off the principal sheet and the
 complex zeros; it consumes `𝐅` from SpecialFunctionsHypergeometric, Pincherle's theorem from
-SpecialFunctionsEiLiErfIncompleteGamma and the completeness clause of RiemannianGeometry R8.2.
+SpecialFunctionsEiLiErfIncompleteGamma, Sturm comparison from SpecialFunctionsBessel and the
+completeness clause of RiemannianGeometry R8.2.
 
 ## Conventions
 
@@ -281,6 +283,15 @@ associatedLegendreQ ν μ z = e^{μπi} Γ(ν + μ + 1) olverLegendreQ ν μ z  
   is `−f(1)/f(0)` in that roadmap's normalization; the reduction-of-order criterion for minimality;
   and termination at a zero partial numerator. 7.4 applies it to the recurrence in the order
   (DLMF 14.10.6) and to the recurrence in the degree (DLMF 14.10.3).
+
+### From SpecialFunctionsBessel
+
+- 10.1, its auxiliary Sturm comparison on an open interval `I ⊆ ℝ`: for `p > 0` of class `C¹` and
+  continuous `q₁ ≤ q₂`, if `a < b` are consecutive zeros of a nontrivial real solution `u` of
+  `(p u′)′ + q₁ u = 0`, then every real solution `v` of `(p v′)′ + q₂ v = 0` has a zero in
+  `(a, b)`, unless `q₁ = q₂` on `[a, b]` and `v` is a constant multiple of `u` on `[a, b]`; and
+  the zeros of a nontrivial real solution are simple and isolated. For 6.1, with `p = |1 − x²|`
+  and `Q = ±q`.
 
 ### From [RiemannianGeometry](../RiemannianGeometry/README.md)
 
@@ -412,13 +423,14 @@ on its domain and is the principal real power on the real interval:
 
 ### 1.3 The equation, its exponents and Abel's identity
 
-- **The equation** (Olver, Ch. 5 (12.02), p. 169; Whittaker–Watson §15·13, p. 304; Lebedev
-  (7.12.1), p. 192; Temme (8.1), p. 194; DLMF 14.2.1, 14.2.2, 14.21.1): on `D`, `ferrersP ν (±μ)`
-  and `ferrersQ ν μ` solve the associated Legendre equation (`ferrersP_legendreEquation`); on `U`,
-  `associatedLegendreP ν (±μ)`, `olverLegendreQ ν μ`, `olverLegendreQ (−ν − 1) μ` and
-  `associatedLegendreQ ν μ` do (`olverLegendreQ_legendreEquation`). Each is the hypergeometric
-  equation 15.10.1 for its `𝐅` after the change of variable and the removal of the power prefactor
-  (15.11.8); for `ferrersQ` the variable is `z²`.
+- **The equation** (Olver, Ch. 5 (12.02), p. 169; Whittaker–Watson §15·5, p. 324, and §15·13,
+  p. 304, at `μ = 0`; Lebedev (7.12.1), p. 192; Temme (8.1), p. 194; DLMF 14.2.1, 14.2.2,
+  14.21.1): on `D`, `ferrersP ν (±μ)` and `ferrersQ ν μ` solve the associated Legendre equation
+  (`ferrersP_legendreEquation`); on `U`, `associatedLegendreP ν (±μ)`, `olverLegendreQ ν μ`,
+  `olverLegendreQ (−ν − 1) μ` and `associatedLegendreQ ν μ` do
+  (`olverLegendreQ_legendreEquation`). Each is the hypergeometric equation 15.10.1 for its `𝐅`
+  after the change of variable and the removal of the power prefactor (15.11.8); for `ferrersQ`
+  the variable is `z²`.
 - **The exponents** (Olver, Ch. 5 §12.2, (12.03), p. 169; Andrews–Askey–Roy, p. 449; DLMF
   §14.2(iii), as corrected in DLMF erratum version 1.0.22): the equation is Riemann's equation
   15.11.1 (in its form with one singular point at `∞`) with singular points `1`, `−1`, `∞` and
@@ -594,14 +606,18 @@ real part, so the base never meets `(−∞, 0]` and the principal power is the 
 p. 156; Atkinson–Han §2.7.1, p. 42; DLMF 14.17.6–14.17.9.) For `l, m, n : ℕ` with the Kronecker
 delta, 14.17.6–14.17.7 for `m ≤ n` (for `m > n`, `𝖯^m_n = 0` by 2.1: at `l = n` both integrals
 vanish while the printed right side of 14.17.7 is `(−1)^m/(l + ½) ≠ 0`, and at `l ≠ n` 14.17.7 fails
-as well, `∫₋₁¹ 𝖯²₃ 𝖯⁻²₁ dx = −4` at `(l, m, n) = (3, 2, 1)`), 14.17.8 for `m > 0` and 14.17.9 for
-`l > 0` (`integral_ferrersP_mul_ferrersP`). Proof: Green's identity for the equation at `μ = m` with
-boundary values from 2.1, and for the norm Rodrigues' formula with `m + n` integrations by parts.
+as well, `∫₋₁¹ 𝖯²₃ 𝖯⁻²₁ dx = −4` at `(l, m, n) = (3, 2, 1)`), 14.17.8 for `m > 0`, and 14.17.9 for
+`l > 0` and `m ≤ n` (for `m > n` it fails: at `(l, m, n) = (2, 2, 1)` the integral is `0`, not `½`,
+since `𝖯²₁ = 0`, and at `(1, 2, 1)` it diverges at `x = −1`) (`integral_ferrersP_mul_ferrersP`).
+Proof: Green's identity for the equation at `μ = m` with boundary values from 2.1, and for the
+norm Rodrigues' formula with `m + n` integrations by parts.
 
 **Checks.**
 - 14.17.6 at `l = n = 2`, `m = 1`: `∫_{−1}^1 (𝖯^1_2)² = 3!/(1! · 5/2) = 12/5`.
 - 14.17.6 at `l = 1`, `n = 0`, `m = 0`: `∫₋₁¹ x dx = 0`.
 - 14.17.7 at `(l, m, n) = (3, 2, 1)` is the negative control above.
+- 14.17.9 at `(l, m, n) = (1, 1, 2)`: `𝖯¹₂ 𝖯⁻¹₂/(1 − x²) = −(3/2) x²`, whose integral is
+  `−1 = (−1)¹/1`; at `(2, 2, 1)`, outside `m ≤ n`, the integral is `0` against the printed `½`.
 
 *Needs:* 2.1; Layer 1.
 
@@ -622,8 +638,9 @@ Pₙ(cos θ₁ cos θ₂ + sin θ₁ sin θ₂ cos φ) = ∑_{m=−n}^{n} (−1)
   its `m`-th coefficient, as a function of `θ₁`, solves the equation with `μ = m` and is bounded at
   `θ₁ = 0`, so it is a multiple of `𝖯^m_n(cos θ₁)`, and the multiple is fixed by the leading
   behaviour at `θ₁ = 0`.
-- **Extensions**: the identity for all real `θ₁, θ₂, φ`, both sides being polynomials in
-  `cos θ₁, sin θ₁, cos θ₂, sin θ₂, cos φ`, and its complex form (Olver, Ch. 5 Thm 14.1, p. 183)
+- **Extensions**: the identity for `0 ≤ θ₁, θ₂ ≤ π` and real `φ` (there `𝖯^{±m}_n(cos θ)` is
+  `(sin θ)^m` times a polynomial in `cos θ`, so both sides are polynomials in
+  `cos θ₁, sin θ₁, cos θ₂, sin θ₂, cos φ`), and its complex form (Olver, Ch. 5 Thm 14.1, p. 183)
   with `z₁, z₂` in place of `cos θ₁, cos θ₂`.
 
 **Checks.**
@@ -660,8 +677,11 @@ Layer 1; SpecialFunctionsHypergeometric 9.1; Mathlib `circleIntegral`, the Legen
 
 **Checks** (for `sphericalHarmonic`).
 - `Y_{0,0} = (4π)^{−1/2}` and `Y_{1,0}(θ, φ) = (3/(4π))^{1/2} cos θ`.
-- `Y_{1,1}(θ, φ) = −(3/(8π))^{1/2} sin θ e^{iφ}`, with the sign from `𝖯^1_1(x) = −(1 − x²)^{1/2}`
-  (the Condon–Shortley phase is in the Ferrers function, not added).
+- `Y_{1,1}(θ, φ) = −(3/(8π))^{1/2} sin θ e^{iφ}` for `0 ≤ θ ≤ π`, with the sign from
+  `𝖯^1_1(x) = −(1 − x²)^{1/2}` (the Condon–Shortley phase is in the Ferrers function, not added).
+- Negative control: for `sin θ < 0` the definition gives `−(3/(8π))^{1/2} |sin θ| e^{iφ}`, which is
+  not the value of the harmonic at the point `(sin θ cos φ, sin θ sin φ, cos θ)`; so the statements
+  through a point of `S²` (3.4) take `θ ∈ (0, π)`.
 - 14.30.6 at `l = m = 1`: `Y_{1,−1} = −conj Y_{1,1} = (3/(8π))^{1/2} sin θ e^{−iφ}`.
 
 *Needs:* 2.1; 1.5.
@@ -673,8 +693,10 @@ Layer 1; SpecialFunctionsHypergeometric 9.1; Mathlib `circleIntegral`, the Legen
   with the weight `sin θ` is `δ_{l₁,l₂} δ_{m₁,m₂}`, from 2.4 and the orthogonality of `e^{imφ}`.
 - **The addition theorem** (Atkinson–Han Thm 2.9, p. 21; Andrews–Askey–Roy Thm 9.6.3, p. 456;
   DLMF 14.30.9; `ferrersP_eq_sum_sphericalHarmonic`), from 2.5.
-- **Herglotz's generating function** (DLMF 14.30.8_5), for all real `t`, `r`, `θ`, `φ` and complex
-  `λ ≠ 0`, with `a` and `x` as printed, as `HasSum` over `n` of the finite inner sums.
+- **Herglotz's generating function** (DLMF 14.30.8_5), for all real `t`, `r`, `φ`, `0 ≤ θ ≤ π`
+  (DLMF's range for 14.30.1) and complex `λ ≠ 0`, with `a` and `x` as printed, as `HasSum` over
+  `n` of the finite inner sums. Off that range it fails: at `θ = −π/2` the coefficient of `tλ` is
+  `½ r e^{iφ}` on the left and `−½ r e^{iφ}` on the right, where `Y_{1,1}` sees only `|sin θ|`.
 
 **Checks.**
 - The addition theorem at `l = 1`:
@@ -729,7 +751,8 @@ polynomials, `MvPolynomial.laplacian_eval_euclidean`, `TauCeti.sphereRoundMetric
 ### 3.4 The Funk–Hecke formula
 
 (Andrews–Askey–Roy Thm 9.7.1, (9.7.4), p. 459; Atkinson–Han Thm 2.22, (2.62), p. 36.) For
-`f : ℝ → ℂ` continuous on `[−1, 1]`, `l : ℕ`, `m : ℤ` with `|m| ≤ l`, and real `θ₀, φ₀`,
+`f : ℝ → ℂ` continuous on `[−1, 1]`, `l : ℕ`, `m : ℤ` with `|m| ≤ l`, real `φ₀` and
+`0 < θ₀ < π`,
 
 ```text
 ∫₀^{2π} ∫₀^π f(cos θ cos θ₀ + sin θ sin θ₀ cos(φ − φ₀)) Y_{l,m}(θ, φ) sin θ dθ dφ
@@ -746,6 +769,9 @@ orthonormality.
   (the area of the sphere, the value for `l = 0`) is wrong for `l = 1`.
 - `f = 1`: the factor is `4π δ_{l,0}`, and the formula is orthogonality to `Y_{0,0}`.
 - `f = exp`, `l = 1`: the factor is `2π ∫₋₁¹ t eᵗ dt = 4π/e = 4.62290 93991 6…`.
+- Negative control for the range of `θ₀`: at `f(t) = t`, `l = m = 1`, `φ₀ = 0.3`, both sides are
+  `−1.38257… − 0.42768… i` at `θ₀ = π/2`, while at `θ₀ = −π/2` the left side is
+  `+1.38257… + 0.42768… i` and the right side is unchanged, since `Y_{1,1}` sees only `|sin θ₀|`.
 
 *Needs:* 3.2–3.3; 2.4.
 
@@ -1000,16 +1026,18 @@ Layers 1, 4; SpecialFunctionsHypergeometric Layers 5, 7.
 
 ### 6.1 Sturm theory
 
-Auxiliary targets (Beals–Wong 2010, Thm 3.3.3, p. 65; Temme, Thm 4.4 of §4.3, p. 97), for
-`((1 − x²) y′)′ + q(x) y = 0` on an open subinterval `I` of `(−1, 1)` or of `(1, ∞)` with `q`
+Sturm theory (Beals–Wong 2010, Thm 3.3.3, p. 65; Temme, Thm 4.4 of §4.3, p. 97) for
+`((1 − x²) y′)′ + q(x) y = 0` on an open subinterval `I` of `(−1, 1)` or of `(1, ∞)`, with `q`
 continuous and real. On `I` the equation is the Sturm–Liouville equation `(p y′)′ + Q y = 0` with
-`p = |1 − x²| > 0`, where `Q = q` on `(−1, 1)` and `Q = −q` on `(1, ∞)`:
-- the zeros of a nontrivial real solution are simple and isolated;
+`p = |1 − x²| > 0` of class `C¹`, where `Q = q` on `(−1, 1)` and `Q = −q` on `(1, ∞)`.
+
+The simplicity and isolation of the zeros of a nontrivial real solution, and Sturm's comparison
+theorem, are SpecialFunctionsBessel's auxiliary Sturm comparison (its 10.1), applied with this `p`
+and `Q`: if `Q₁ ≤ Q₂` on `I` (so `q₁ ≤ q₂` on a subinterval of `(−1, 1)` and `q₂ ≤ q₁` on a
+subinterval of `(1, ∞)`) and `a < b` are consecutive zeros in `I` of a nontrivial real solution
+`y₁` for `q₁`, then every real solution `y₂` for `q₂` has a zero in `(a, b)`, unless `q₁ = q₂` on
+`[a, b]` and `y₂` is a multiple of `y₁`. The auxiliary targets owned here:
 - Sturm's separation theorem: the zeros of two independent real solutions interlace;
-- Sturm's comparison theorem: let `Q₁ ≤ Q₂` on `I` (so `q₁ ≤ q₂` on a subinterval of `(−1, 1)`
-  and `q₂ ≤ q₁` on a subinterval of `(1, ∞)`), let `y₁` be a nontrivial real solution for `q₁`
-  with consecutive zeros `a < b` in `I`, and let `y₂` be a real solution for `q₂`. Then `y₂` has a
-  zero in `(a, b)`, unless `q₁ = q₂` on `[a, b]` and `y₂` is a multiple of `y₁`;
 - continuity of the zero count: let `t ↦ (q_t, y_t)` be a family indexed by a real interval `T`,
   with `y_t` a nontrivial real solution for `q_t` and `(t, x) ↦ y_t(x)`, `(t, x) ↦ y_t′(x)`
   continuous on `T × I`. Suppose the endpoint behaviour is fixed: for each compact `K ⊆ T` there
@@ -1027,7 +1055,8 @@ continuous and real. On `I` the equation is the Sturm–Liouville equation `(p y
 - Comparison on `(−1, 1)`: `𝖯₂` (`q = 6`) has the consecutive zeros `±3^{−1/2}`, and `𝖯₃`
   (`q = 12 ≥ 6`) has the zero `0` between them.
 
-*Needs:* Mathlib calculus on intervals.
+*Needs:* SpecialFunctionsBessel 10.1 (auxiliary: Sturm comparison); Mathlib calculus on
+intervals.
 
 ### 6.2 Zero counts on `(−1, 1)` and `(1, ∞)`
 
@@ -1562,9 +1591,8 @@ Layers 1, 2, 4, 5; SpecialFunctionsHypergeometric Layers 3, 5, 7, 9.
 
 ## Downstream consumers
 
-- A roadmap that consumes this one and [SpecialFunctionsBessel](../SpecialFunctionsBessel/README.md)
-  owns the formulas of DLMF Chapter 10 through Legendre or Ferrers functions, DLMF 10.22.66,
-  10.22.71, 10.22.72 and 10.43.22.
+- A roadmap that consumes this one and SpecialFunctionsBessel owns the formulas of DLMF Chapter
+  10 through Legendre or Ferrers functions, DLMF 10.22.66, 10.22.71, 10.22.72 and 10.43.22.
 - A roadmap for the classical orthogonal polynomials consumes Layers 1, 2 and 11 for the Legendre
   and Gegenbauer cases.
 - Roadmaps for spheroidal wave functions and for the `3j`, `6j`, `9j` symbols consume Layers 1–4.

@@ -16,7 +16,10 @@ public import TauCeti.Geometry.Manifold.Riemannian.VolumeDensity.Volume
 This file states the headline theorems of the roadmap against the pinned Mathlib and Tau Ceti,
 one or more per layer, as a check that the conventions of `README.md` can be stated. `README.md`
 is the definitive document and states every target; the statements here are a selection of
-them.
+them. Not statable here: Schläfli's loop integrals for `P_ν` and `Q_ν` of general degree (8.1),
+whose integrand is continued along a closed contour around `1` and `z` (a figure-eight around `±1`
+for `Q_ν`); the file states the form of `Q_ν` collapsed onto `[−1, 1]` and the circle integral for
+`Pₙ`.
 
 The definitions below are roadmap-local copies. Euler's integral, `IsEulerContinuation` and
 `regularizedGaussHypergeometric` copy the definitions that SpecialFunctionsHypergeometric pins (in
@@ -250,9 +253,10 @@ theorem sphericalHarmonic_hilbertBasis :
       ∀ i, (b i : ℝ × ℝ → ℂ) =ᵐ[sphereMeasure]
         fun p => sphericalHarmonic i.1 ((i.2 : ℤ) - i.1) p.1 p.2 := sorry
 
-/-- **3.4** The Funk–Hecke formula on `S²`, for `f` continuous on `[−1, 1]` and `|m| ≤ l`. -/
+/-- **3.4** The Funk–Hecke formula on `S²`, for `f` continuous on `[−1, 1]`, `|m| ≤ l` and
+`0 < θ₀ < π`. -/
 theorem integral_funkHecke_sphericalHarmonic {f : ℝ → ℂ} (hf : ContinuousOn f (Icc (-1) 1))
-    (l : ℕ) {m : ℤ} (hm : m.natAbs ≤ l) (θ₀ phi₀ : ℝ) :
+    (l : ℕ) {m : ℤ} (hm : m.natAbs ≤ l) {θ₀ : ℝ} (hθ₀ : 0 < θ₀) (hθ₀' : θ₀ < π) (phi₀ : ℝ) :
     ∫ phi in (0 : ℝ)..2 * π, ∫ θ in (0 : ℝ)..π,
         f (Real.cos θ * Real.cos θ₀ + Real.sin θ * Real.sin θ₀ * Real.cos (phi - phi₀)) *
           sphericalHarmonic l m θ phi * Real.sin θ =
