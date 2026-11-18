@@ -2,15 +2,9 @@
 
 **Summary.** This Part II of AnabelianGeometryAndNonabelianChabauty develops the obstruction to Galois sections supplied by polarised abelian-by-finite families. Starting with section classes and the local-system interpretation of their fundamental groups, it constructs Selmer localisations, symplectic interpolation, filtered discrete (φ,N,Gᵥ)-modules, and the model-free period comparison. The principal trichotomy and Kodaira–Parshin families give finiteness of the Lawrence–Venkatesh locus at every self-conjugate finite place. For a number field with no CM subfield, they prove that the Selmer-section image and the projection of the finite descent locus are finite at every finite place (bs, Theorems A and B, pp. 1–2; bs lines 44 and 66).
 
-## Scope and ownership
+## How to read the build
 
-AnabelianGeometryAndNonabelianChabauty §7.1 (NC.6) supplies section classes, the point-section map, its field-general divisibility criterion, its number-field injectivity corollary, and the section conjecture as a proposition. This Part II begins with restriction to completions, the p-adic specialisation of that criterion, and the Selmer condition. It neither assumes nor proves the section conjecture.
-
-Mathlib supplies absolute Galois groups, continuous homomorphisms, connected components, completions, alternating and perfect pairings, CM fields, intermediate fields and group orbits. Tau Ceti supplies the symplectic group scheme. These objects are used directly. Ordinary induction, Mackey decomposition and decomposition groups belong to ArithmeticGaloisRepresentations §§1.3, 1.12 and 2.1; the new induction here is the filtered discrete-module construction. General adelic points, their topology and torsor descent belong to HeightsRationalPointsAndObstructions §§2.3–2.4, 2.11 and 3.1–3.5. This roadmap owns the modified adelic points of every proper finite-type K-scheme, and, for smooth projective geometrically connected varieties, the finite-cover locus and its comparison with sections; that roadmap's §3.17d uses modified adeles only for torsors under an abelian variety and does not construct the general carrier. ArithmeticGaloisDuality §R02.4.6 owns the Tate-modified adelic groups and duality of tori; their restricted products and real norm quotients are distinct from the proper-scheme carrier here.
-
-MordellLawrenceVenkatesh §§0.5 and 0.18 own unit groups of finite-dimensional algebras and orbit-dimension geometry. Its §§1.4–1.16 own maximal CM subfields, infinity types, friendly places, filtration weights, induced de Rham periods and abelian-variety representation properties. Its §§2.1, 3.1–3.11, LV.8 and LV.10 own abelian-by-finite families, Lagrangian Grassmannians and period varieties, Kodaira–Parshin families and full monodromy. Its LV.11 owns the Mordell theorem. The application in Layer 9 gives another proof through the new locus; it introduces no second Mordell declaration. The dimension formula for that family is used rather than redefined. The self-conjugate and model-free variants below differ by admitting ramified places, every residue characteristic and families without a good model; the variable-rank supplier contract also admits locally constant relative dimension over the finite étale base.
-
-PadicHodgeTheory §§3.3–3.5, 5.1, 5.3 and 7.3 supplies period functors, finite-level filtered monodromy modules, de Rham monodromy and de Rham pairs. CohomologyComparisons §§6.4–6.7 owns cup, trace, duality and Chern-class compatibility for Scholze's comparison. AbelianSchemesAndArithmeticModuli §§A3.5, A3.7, A4.3–A4.4 owns the abelian cohomology and polarisation ingredients; §§A6.30–A6.31 owns Weil restriction and its splitting. This roadmap assembles these into symplectic pairs and their section and period constructions, rather than reconstructing those generic theories.
+Layers 0 and 1 construct the section-theoretic obstruction independently of p-adic Hodge theory. Layers 2 and 3 develop the local filtered category and the global weight identity. Layer 4 proves horizontal transport of potentially semistable periods; Layer 5 applies it to polarised families. Layer 6 defines the loci and proves the trichotomy. Layer 7 proves non-density and finiteness for types (a) and (b), while Layer 8 excludes type (c) by a choice of Kodaira–Parshin parameter. Layer 9 assembles the finiteness theorems. Every API below has the hypotheses of its defining paragraph unless a bullet explicitly changes them; source locators in that paragraph apply to its API as well. Checks are concrete consequences and negative controls rather than additional Lean declarations.
 
 ## Conventions
 
@@ -33,132 +27,6 @@ For a family X→Y′→Y the finite étale map Y′→Y is a covering and hence
 - For T=[[1,0],[a,1]] and F¹=span(e₁), the pulled-back line is span(e₁−ae₂). At a=1 it is (1:−1), whereas push-forward gives (1:1), including over ℚ₂.
 - For induction from an index-two subgroup, the unit induces to dimension 2, its tensor square has dimension 4, and induction of the tensor unit has dimension 2. Induction is lax monoidal.
 - With arithmetic reciprocity over ℚ₃ and unit u=4, the cyclotomic value is 1/4, not 4. On the two Tate lines the crystalline eigenvalues are 1 and p⁻¹ and the jumps 0 and −1.
-
-## Exact supplier contracts
-
-Each paragraph fixes the mathematical range consumed from the named section. A gap is a required extension of that supplier, with the same quantifiers as the construction using it.
-
-### From Mathlib
-
-Use `Field.absoluteGaloisGroup` and `Field.absoluteGaloisGroup.map` in `Mathlib/FieldTheory/AbsoluteGaloisGroup.lean`, and `ContinuousMonoidHom` in `Mathlib/Topology/Algebra/ContinuousMonoidHom.lean`. The first is the algebraic-closure automorphism group with Krull topology; its definition does not supply decomposition embeddings. Use `ConnectedComponents` in `Mathlib/Topology/Connected/Clopen.lean` for the quotient at infinity, and `IsDedekindDomain.HeightOneSpectrum.adicCompletion` in `Mathlib/RingTheory/DedekindDomain/AdicValuation.lean` for finite completions.
-
-Use `LinearMap.IsAlt` and `LinearMap.Nondegenerate` in `Mathlib/LinearAlgebra/SesquilinearForm/Basic.lean`; alternation is vanishing on the diagonal and nondegeneracy is separation in both variables, so perfectness additionally uses finite-dimensional modules and a rank-one target. Use `Matrix.symplecticGroup` in `Mathlib/LinearAlgebra/SymplecticGroup.lean` for exact form preservation. Use `NumberField.IsCMField` and `NumberField.IsCMField.ringOfIntegersComplexConj` in `Mathlib/NumberTheory/NumberField/CMField.lean`, and `IntermediateField` in `Mathlib/FieldTheory/IntermediateField/Basic.lean`. Use `MulAction.orbit` in `Mathlib/GroupTheory/GroupAction/Defs.lean`; it is a set of points, with finiteness supplied by the finite acted-on set. Use `Nat.forall_exists_prime_gt_and_eq_mod` in `Mathlib/NumberTheory/LSeries/PrimesInAP.lean` for arbitrarily large primes in a unit residue class, and `hasSum_zeta_four` in `Mathlib/NumberTheory/ZetaValues.lean` for the sum π⁴/90, including the total-function term 1/0⁴=0.
-
-### From Tau Ceti
-
-Use `TauCeti.Symplectic.groupScheme` in `TauCeti/Algebra/AlgebraicGroup/Symplectic/Basic.lean`. It represents exact preservation of the standard alternating form. Similitudes retain a separate invertible multiplier; their rank-zero fibre is consequently G_m. Its exact form-preservation equations determine the imported symplectic structure.
-
-### From `TauCetiRoadmap.AnabelianGeometryAndNonabelianChabauty`
-
-Section 7.1 (NC.6), “Conjugacy classes of Galois sections”, “The section map of rational points”, “Sections of an abelian variety and the Kummer map”, and “Injectivity of the section map” supply Sect, the natural map κ, its Kummer interpretation and the injectivity criterion for any field whose abelian varieties have no nonzero point divisible by every invertible positive integer. The number-field corollary alone is insufficient for the local specialisation. Its section conjecture is only a named proposition.
-
-### From `TauCetiRoadmap.InverseGaloisAndArithmeticFundamentalGroups`
-
-Layer IG.0 supplies finite étale covers, finite free integral ℤₚ-local systems and their isogeny category as continuous fundamental-group representations of a connected base, with tensor operations and fibre functors. Its comparison of the isogeny category with all rational local systems assumes a normal Noetherian base; it is not used here, since every rational local system below is the rationalisation of a lisse integral lattice. Section IG.0.3 supplies compatible finite free ℤ/pⁿ-systems, their integral ℤₚ-local systems and pullback; apply this to Spec(R_v[1/p]) in §4.1. Section IG.1.3 supplies invariance of geometric π₁ under algebraically closed field extension in characteristic zero. Applying it to the geometric kernels identifies the arithmetic completion sequence with the fibre product over G_K.
-
-### From `TauCetiRoadmap.EtaleCohomologyFoundations`
-
-Section F.0.2 supplies the finite étale Galois category, geometric fibre functor, based fundamental group and finite-lisse monodromy equivalence for every connected nonempty scheme, without local Noetherianity or coefficient invertibility. Applying this equivalence to each finite level of an integral local system gives the fundamental-group action used in §1.3.
-
-### From `TauCetiRoadmap.ArithmeticGaloisRepresentations`
-
-Sections 1.3 and 1.12 supply induction from open subgroups, restriction and the Mackey decomposition for compact groups and closed decomposition subgroups. Section 2.1 supplies Gᵤ→G_K from an embedding of closures, its image as a decomposition group, conjugacy under choices and restriction of representations. The geometric/arithmetic inverse convention is transported explicitly; abelian good-reduction Frobenius polynomials are taken from WeightsInEtaleCohomology Layer R34.2.
-
-### From `TauCetiRoadmap.HeightsRationalPointsAndObstructions`
-
-Sections 2.3–2.4 supply scheme adelic points and independence of integral models; §§2.3a and 2.11 supply the proper local-point compactness and product topology, including the analytic topology of each archimedean factor X(K_u). Section 2.11a supplies local étale charts and smooth openness. Sections 3.1–3.5 supply evaluation of torsors, twists, local matching and the finite étale descent set, with twisting convention eval(x)=ξ for a lift to the ξ-twist. The modified adelic carrier, its projection, its finite-cover locus and the global-section equivalence are constructed here (§§0.4–0.5).
-
-### From `TauCetiRoadmap.PadicHodgeTheory`
-
-Sections 3.3–3.5 supply the period functors and filtered semistable classification; §§5.1 and 5.3 supply de Rham potential semistability, algebraic-unramified D_pst and descent comparisons. Section 7.2 supplies the equivalence LisseZpSheaf.ofEtale from compatible finite étale coefficient systems to integral pro-étale local systems, with pullback and point fibres; restrict to finite free coefficients for the lattices used here. Section 7.3 supplies actual de Rham pairs and proper smooth pushforward, with tensor, cup and smooth-base-change compatibility; §§8.1–8.2 supply geometric de Rham comparison and Tate-line normalisation. These use all finite extensions of ℚₚ and all primes. Translate its Hodge–Tate weight +1 on ℚₚ(1) to the filtration jump −1 here. For the unit plus ℚₚ(−1), its reported weights are 0,−1 and the jumps used here are 0,1.
-
-What PadicHodgeTheory must provide (gap:horizontal-pst-specialisation): On spherical polyannuli over every finite F/ℚₚ, provide the horizontal semistable period ring, potentially horizontal semistable realisations, the relative monodromy theorem for a de Rham pair with a horizontal basis, and the φ,N,G_F-equivariant specialisation isomorphisms D_pst^∇(E) ≅ D_pst(E_y) compatible with its actual de Rham comparison.
-
-### From `TauCetiRoadmap.CohomologyComparisons`
-
-Sections 6.4–6.7 supply naturality, scalar extension, cup products, the trace-normalised map a:B_dR(−1)≅B_dR⟨−1⟩, duality, cycles and first Chern classes for smooth proper varieties. The line-bundle statement is proved using the projective compactification P(O⊕L), so properness is retained. For a degree-one divisor on P¹ the trace of c₁ is 1 in either theory; the comparison on a class twisted by +1 uses a⁻¹. No equality with a separately chosen crystalline comparison is needed.
-
-### From `TauCetiRoadmap.MordellLawrenceVenkatesh`
-
-Sections 0.4–0.5 supply semilinear centralizer finiteness and unit-group representability. Sections 0.9–0.12 supply the affine-group centralizer, commutator-product count, primitive cyclic tuples and the cardinality bound for isotropic finite subgroups. Section 0.18 supplies orbit maps and the dimension of their geometric closure, hence the bound after quotienting a scalar torus. Sections 1.4–1.16 supply the maximal CM subfield, infinity-type factorisation, the conjugation identity for pure characters, local algebraicity, the friendly-place specialisations, filtration weights and induction of de Rham periods. Sections 2.1–2.4 supply families and good models. Section 2.11 and §§4.1–4.2 supply crystalline transport and its good-model fibre comparison in their unramified p>2 setting; §4.3 supplies Frobenius-centralizer orbits. Sections 3.1–3.11 supply Lagrangian geometry and full monodromy, including dimension d(d+1)/2. Layer LV.7 supplies the five-Lagrangian comparison and its unramified Frobenius small-orbit variant. Layers LV.8 and LV.10 supply the Kodaira–Parshin family and its full monodromy. Layer LV.11 supplies the original admissible-prime argument and Mordell theorem. The contracts below state the larger domains used here.
-
-What MordellLawrenceVenkatesh must provide (gap:variable-rank-abelian-by-finite): Extend §§2.1–2.4 and 3.8–3.9 to a polarised abelian scheme of locally constant relative dimension over a surjective finite étale cover, with its finite locally free H¹ module and the product of Weil-restricted Lagrangian varieties indexed by the constant-rank components.
-
-What MordellLawrenceVenkatesh must provide (gap:model-free-polarised-fibres): For polarised abelian-by-finite families over characteristic-zero fields, provide the induced H⁰-linear perfect alternating H¹ pairings from half the Poincaré Chern class, their Lagrangian de Rham filtration, and horizontal transport preserving algebra, module and pairing on any trivialising closed polydisc, including the induced trivialisation of the finite étale base.
-
-What MordellLawrenceVenkatesh must provide (gap:model-free-period-maps): For smooth varieties over every finite F/ℚₚ and every F-point, provide local horizontal trivialisations and the inverse-transport period map, its flag functor, comparison of its Zariski closure with complex periods at F-rational centres, density under full monodromy, and finite intersection with a proper closed subvariety on a closed curve disc.
-
-What MordellLawrenceVenkatesh must provide (gap:symplectic-faltings-finiteness): For every number field L, prime p, finite S containing the places above p and infinity, and integers n≥0, d>0 and B≥1, there are finitely many isomorphism classes of GSp-irreducible symplectic ℚₚ-representations (V, L₀, ω) of G_L with V of rank 2d, unramified and pure of weight n outside S, whose Frobenius eigenvalues outside S are algebraic integers of degree over ℚ at most B; B=2d includes the integer-polynomial case.
-
-What MordellLawrenceVenkatesh must provide (gap:four-isotropic-lagrangians): For every finite-dimensional symplectic space over a field and r≥4, prove that r-tuples admitting a nonzero isotropic subspace meeting each Lagrangian in at least half its dimension lie in a proper Zariski-closed subscheme of the r-fold Lagrangian Grassmannian.
-
-What MordellLawrenceVenkatesh must provide (gap:kodaira-parshin-local-fibres): For every characteristic-zero extension F/K and y∈Y(F), describe the geometric finite-base fibre of the Kodaira–Parshin family G_F-equivariantly by conjugacy classes of punctured-curve surjections to Aff(q) nontrivial on inertia, with the equal-fibre surjection to primitive cyclic characters, including F=K_v.
-
-### From `TauCetiRoadmap.AbelianSchemesAndArithmeticModuli`
-
-Sections A3.5 and A3.7 supply the Poincaré and polarised Weil pairings; §§A4.3–A4.4 supply de Rham H¹, its Hodge sequence and connection, and the exterior cohomology structures. In characteristic zero a nonzero polarisation degree is invertible on rational cohomology. Sections A6.30–A6.31 supply Weil restriction of quasi-projective schemes over finite field extensions and its product decomposition over a splitting field for separable extensions. In degree two, restriction of a line has dimension 2 and splits into two lines; no such product is asserted for inseparable extensions.
-
-### From `TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry`
-
-Section 1.3, “Coherent quotients, Plücker and partial flags”, supplies the flag bundle with locally free quotient conditions, including empty flags and base change. For a two-space with a rank-one step it is P¹; the empty flag is the base. Only this flag carrier is consumed, not a second moduli construction.
-
-### From `TauCetiRoadmap.AdicEtaleGeometry`
-
-Section A1.1 supplies strong sheafiness of affinoid algebras over complete nonarchimedean fields, including K_v⟨t₁±¹,…,tₙ±¹⟩. Section A1.3, finite-etale-local-to-global (c), identifies finite étale spaces over a strongly sheafy Spa(A,A⁺) with FÉt(A)^op. Use the rigid–adic comparison of AdicSpacesPartII Layer R1 to apply it to the polyannuli in §4.1. Fibre functors identify their profinite fundamental groups with those of Spec A.
-
-### From `TauCetiRoadmap.AdicSpacesPartII`
-
-Layer R1 supplies rigid analytification and algebraic/analytic pullback for finite-type varieties over a complete nonarchimedean field, including finite extensions of ℚₚ. The closed discs and spherical polyannuli used here are admissible analytic subspaces of that geometry.
-
-### From `TauCetiRoadmap.ComplexComparisonPartII`
-
-Section C5.2 supplies the algebraic Gauss–Manin connection of a smooth proper family and its comparison with complex Betti parallel transport. Sections C6.0 and C6.2 supply finite CW type of separated finite-type complex schemes and Riemann existence for their finite étale covers, giving the geometric fundamental-group finite-generation input in §0.5. It is applied after a specified field embedding into ℂ; no continuity of an embedding Kᵥ→ℂ is asserted.
-
-### From `TauCetiRoadmap.EtaleDualityAndPerverseSheaves`
-
-Section 0.3, “Poincaré duality on a smooth curve over an algebraically closed field”, supplies the Jacobian/Kummer H¹ duality. Section 0.5 supplies cup–trace identification and Galois equivariance. For n invertible in the geometric field, H¹(Ȳ,ℤ/n) has its perfect alternating pairing into μ_n∨; a symplectic basis gives pairing 1 and reversing the pair gives −1. In the local application n=k is odd and prime to p.
-
-### From `TauCetiRoadmap.ArithmeticGaloisDuality`
-
-Section R02.3.1, “Hermite: finitely many extensions of bounded degree unramified outside a finite set”, supplies finiteness of subfields of the fixed algebraic closure with degree≤δ and ramification contained in S. The bound and S are fixed before the fields range.
-
-### From `TauCetiRoadmap.WeightsInEtaleCohomology`
-
-Layer R34.1 supplies unramified, pure and integral representations outside a finite set with geometric-Frobenius weights, and their restriction, tensor and induction properties; purity passes to subquotients, while integer Frobenius polynomials pass to a subquotient only when that factor is rational. Layer R34.2 supplies abelian-variety purity and integral Frobenius polynomials at good places. ℚₚ(−1) has geometric eigenvalue q and weight 2; H¹ of an abelian variety is pure of weight 1.
-
-### From `TauCetiRoadmap.ClassFieldTheory`
-
-Layer 5 supplies the Kummer identification of power classes with degree-one Galois cohomology for nonzero n invertible in the field; §8.2 uses n=2 and n=3 over characteristic-zero local fields containing μ_n. Layers 7 and 11 supply local and global reciprocity, compatibility with norms and the Galois/idele character dictionary. A uniformiser maps to arithmetic Frobenius; on a unit u the cyclotomic character is the inverse local norm. Over ℚ₃ the values on u=4 are 1/4 for χ_cyc and 4 for χ_cyc⁻¹.
-
-### From `TauCetiRoadmap.GlobalNumberFields`
-
-Layers 2, 7 and 8 supply finite ray class groups for every modulus, their idele congruence quotient, and idele/idele-class norms with local components. Finite-power norm descent is along `N_{K/E}`, whose v₀-component is the product of the norms from all Kᵥ over Eᵥ₀. Restricting an idele character to the diagonally embedded Eᵥ₀× instead would give a product of local factors; it does not isolate one factor.
-
-### From `TauCetiRoadmap.LocalFieldsRamification`
-
-Layers 0, 2 and 4 supply finite local extensions, unramified extensions of each degree, and the tame quotient with στσ⁻¹=τ^q. Layer 1, “Power classes, the primary statement” and “The dyadic square-class count”, supplies the square-class counts used in §8.2, including eight square classes over ℚ₂. The residue-degree-two and residue-degree-three unramified subgroups generate the whole local Galois group because gcd(2,3)=1. At residue cardinality 5 the tame relation conjugates τ to τ⁵; replacing 5 by its inverse reverses this convention.
-
-### From `TauCetiRoadmap.LocalGaloisGroups`
-
-Layer 7 supplies topological finite generation of the full absolute Galois group, with generator rank [F:ℚₚ]+2. This is distinct from the maximal pro-p quotient. With d generators, homomorphisms into S_m number at most (m!)^d; transitive permutation actions therefore bound index-m open subgroups. This supplies a bound for nᵥ depending only on [F:ℚₚ], including p=2,3.
-
-### From `TauCetiRoadmap.ReductiveGroups`
-
-Layers 0 and 3 supply affine group functors, closed subgroup schemes, scalar subgroups and quotients. The orbit-dimension input used here is the more explicit MordellLawrenceVenkatesh §0.18 contract. Rank-zero Aut is the trivial group while its multiplier-retaining similitude group is G_m.
-
-### From `TauCetiRoadmap.Chebotarev`
-
-Layer 10 supplies Dirichlet-density Chebotarev for finite Galois extensions, and Layer 13 supplies the rational prime-counting specialisation used in the elementary modulus-size estimates. Layer 10 supplies the density input in Harari–Stix and infinitely many primes fixed by CM conjugation; Layer 14 supplies natural densities of the residue classes in §8.6 (I). The latter use a cyclotomic extension disjoint from the Galois closure of K.
-
-### From `TauCetiRoadmap.AnalyticNumberTheoryPartI`
-
-Section 0.32 supplies quantitative prime distribution in arithmetic progressions in its stated logarithmic-modulus range. The density-one comparison in §8.6 needs the stronger least-prime input below; it is used only for that comparison, not to exclude any finite place from the end theorems.
-
-What AnalyticNumberTheoryPartI must provide (gap:linnik-polynomial-least-prime): There are absolute constants C>0 and L>0 such that every coprime residue class a modulo m≥2 contains a prime q≤C m^L, with constants independent of a and m.
-
-## How to read the build
-
-Layers 0 and 1 construct the section-theoretic obstruction independently of p-adic Hodge theory. Layers 2 and 3 develop the local filtered category and the global weight identity. Layer 4 proves horizontal transport of potentially semistable periods; Layer 5 applies it to polarised families. Layer 6 defines the loci and proves the trichotomy. Layer 7 proves non-density and finiteness for types (a) and (b), while Layer 8 excludes type (c) by a choice of Kodaira–Parshin parameter. Layer 9 assembles the finiteness theorems. Every API below has the hypotheses of its defining paragraph unless a bullet explicitly changes them; source locators in that paragraph apply to its API as well. Checks are concrete consequences and negative controls rather than additional Lean declarations.
 
 ## Layer 0: Selmer sections and the finite descent locus
 
@@ -1527,6 +1395,138 @@ TauCetiRoadmap.MordellLawrenceVenkatesh Layer LV.10, Kodaira–Parshin full mono
 ## Downstream consumers
 
 Section 9.4 constrains every finite-place localisation of Selmer sections over fields without CM subfields; §9.5 gives the corresponding finite-descent constraint. The general local-system restriction theorem applies to other cohomological obstructions, including the nonabelian Chabauty constructions of AnabelianGeometryAndNonabelianChabauty. The horizontal-transport and symplectic-period results apply to smooth proper families independently of reduction models, and the self-conjugate weight identities apply to induced pure representations over arbitrary finite extensions of number fields (bs, Remark 1.5, Corollary 2.21, Theorems 3.3 and 7.1, pp. 3–4, 14–17, 54; bs lines 144, 721, 852 and 2812).
+
+## Scope and ownership
+
+AnabelianGeometryAndNonabelianChabauty §7.1 (NC.6) supplies section classes, the point-section map, its field-general divisibility criterion, its number-field injectivity corollary, and the section conjecture as a proposition. This Part II begins with restriction to completions, the p-adic specialisation of that criterion, and the Selmer condition. It neither assumes nor proves the section conjecture.
+
+Mathlib supplies absolute Galois groups, continuous homomorphisms, connected components, completions, alternating and perfect pairings, CM fields, intermediate fields and group orbits. Tau Ceti supplies the symplectic group scheme. These objects are used directly. Ordinary induction, Mackey decomposition and decomposition groups belong to ArithmeticGaloisRepresentations §§1.3, 1.12 and 2.1; the new induction here is the filtered discrete-module construction. General adelic points, their topology and torsor descent belong to HeightsRationalPointsAndObstructions §§2.3–2.4, 2.11 and 3.1–3.5. This roadmap owns the modified adelic points of every proper finite-type K-scheme, and, for smooth projective geometrically connected varieties, the finite-cover locus and its comparison with sections; that roadmap's §3.17d uses modified adeles only for torsors under an abelian variety and does not construct the general carrier. ArithmeticGaloisDuality §R02.4.6 owns the Tate-modified adelic groups and duality of tori; their restricted products and real norm quotients are distinct from the proper-scheme carrier here.
+
+MordellLawrenceVenkatesh §§0.5 and 0.18 own unit groups of finite-dimensional algebras and orbit-dimension geometry. Its §§1.4–1.16 own maximal CM subfields, infinity types, friendly places, filtration weights, induced de Rham periods and abelian-variety representation properties. Its §§2.1, 3.1–3.11, LV.8 and LV.10 own abelian-by-finite families, Lagrangian Grassmannians and period varieties, Kodaira–Parshin families and full monodromy. Its LV.11 owns the Mordell theorem. The application in Layer 9 gives another proof through the new locus; it introduces no second Mordell declaration. The dimension formula for that family is used rather than redefined. The self-conjugate and model-free variants below differ by admitting ramified places, every residue characteristic and families without a good model; the variable-rank supplier contract also admits locally constant relative dimension over the finite étale base.
+
+PadicHodgeTheory §§3.3–3.5, 5.1, 5.3 and 7.3 supplies period functors, finite-level filtered monodromy modules, de Rham monodromy and de Rham pairs. CohomologyComparisons §§6.4–6.7 owns cup, trace, duality and Chern-class compatibility for Scholze's comparison. AbelianSchemesAndArithmeticModuli §§A3.5, A3.7, A4.3–A4.4 owns the abelian cohomology and polarisation ingredients; §§A6.30–A6.31 owns Weil restriction and its splitting. This roadmap assembles these into symplectic pairs and their section and period constructions, rather than reconstructing those generic theories.
+
+## Exact supplier contracts
+
+Each paragraph fixes the mathematical range consumed from the named section. A gap is a required extension of that supplier, with the same quantifiers as the construction using it.
+
+### From Mathlib
+
+Use `Field.absoluteGaloisGroup` and `Field.absoluteGaloisGroup.map` in `Mathlib/FieldTheory/AbsoluteGaloisGroup.lean`, and `ContinuousMonoidHom` in `Mathlib/Topology/Algebra/ContinuousMonoidHom.lean`. The first is the algebraic-closure automorphism group with Krull topology; its definition does not supply decomposition embeddings. Use `ConnectedComponents` in `Mathlib/Topology/Connected/Clopen.lean` for the quotient at infinity, and `IsDedekindDomain.HeightOneSpectrum.adicCompletion` in `Mathlib/RingTheory/DedekindDomain/AdicValuation.lean` for finite completions.
+
+Use `LinearMap.IsAlt` and `LinearMap.Nondegenerate` in `Mathlib/LinearAlgebra/SesquilinearForm/Basic.lean`; alternation is vanishing on the diagonal and nondegeneracy is separation in both variables, so perfectness additionally uses finite-dimensional modules and a rank-one target. Use `Matrix.symplecticGroup` in `Mathlib/LinearAlgebra/SymplecticGroup.lean` for exact form preservation. Use `NumberField.IsCMField` and `NumberField.IsCMField.ringOfIntegersComplexConj` in `Mathlib/NumberTheory/NumberField/CMField.lean`, and `IntermediateField` in `Mathlib/FieldTheory/IntermediateField/Basic.lean`. Use `MulAction.orbit` in `Mathlib/GroupTheory/GroupAction/Defs.lean`; it is a set of points, with finiteness supplied by the finite acted-on set. Use `Nat.forall_exists_prime_gt_and_eq_mod` in `Mathlib/NumberTheory/LSeries/PrimesInAP.lean` for arbitrarily large primes in a unit residue class, and `hasSum_zeta_four` in `Mathlib/NumberTheory/ZetaValues.lean` for the sum π⁴/90, including the total-function term 1/0⁴=0.
+
+### From Tau Ceti
+
+Use `TauCeti.Symplectic.groupScheme` in `TauCeti/Algebra/AlgebraicGroup/Symplectic/Basic.lean`. It represents exact preservation of the standard alternating form. Similitudes retain a separate invertible multiplier; their rank-zero fibre is consequently G_m. Its exact form-preservation equations determine the imported symplectic structure.
+
+### From `TauCetiRoadmap.AnabelianGeometryAndNonabelianChabauty`
+
+Section 7.1 (NC.6), “Conjugacy classes of Galois sections”, “The section map of rational points”, “Sections of an abelian variety and the Kummer map”, and “Injectivity of the section map” supply Sect, the natural map κ, its Kummer interpretation and the injectivity criterion for any field whose abelian varieties have no nonzero point divisible by every invertible positive integer. The number-field corollary alone is insufficient for the local specialisation. Its section conjecture is only a named proposition.
+
+### From `TauCetiRoadmap.InverseGaloisAndArithmeticFundamentalGroups`
+
+Layer IG.0 supplies finite étale covers, finite free integral ℤₚ-local systems and their isogeny category as continuous fundamental-group representations of a connected base, with tensor operations and fibre functors. Its comparison of the isogeny category with all rational local systems assumes a normal Noetherian base; it is not used here, since every rational local system below is the rationalisation of a lisse integral lattice. Section IG.0.3 supplies compatible finite free ℤ/pⁿ-systems, their integral ℤₚ-local systems and pullback; apply this to Spec(R_v[1/p]) in §4.1. Section IG.1.3 supplies invariance of geometric π₁ under algebraically closed field extension in characteristic zero. Applying it to the geometric kernels identifies the arithmetic completion sequence with the fibre product over G_K.
+
+### From `TauCetiRoadmap.EtaleCohomologyFoundations`
+
+Section F.0.2 supplies the finite étale Galois category, geometric fibre functor, based fundamental group and finite-lisse monodromy equivalence for every connected nonempty scheme, without local Noetherianity or coefficient invertibility. Applying this equivalence to each finite level of an integral local system gives the fundamental-group action used in §1.3.
+
+### From `TauCetiRoadmap.ArithmeticGaloisRepresentations`
+
+Sections 1.3 and 1.12 supply induction from open subgroups, restriction and the Mackey decomposition for compact groups and closed decomposition subgroups. Section 2.1 supplies Gᵤ→G_K from an embedding of closures, its image as a decomposition group, conjugacy under choices and restriction of representations. The geometric/arithmetic inverse convention is transported explicitly; abelian good-reduction Frobenius polynomials are taken from WeightsInEtaleCohomology Layer R34.2.
+
+### From `TauCetiRoadmap.HeightsRationalPointsAndObstructions`
+
+Sections 2.3–2.4 supply scheme adelic points and independence of integral models; §§2.3a and 2.11 supply the proper local-point compactness and product topology, including the analytic topology of each archimedean factor X(K_u). Section 2.11a supplies local étale charts and smooth openness. Sections 3.1–3.5 supply evaluation of torsors, twists, local matching and the finite étale descent set, with twisting convention eval(x)=ξ for a lift to the ξ-twist. The modified adelic carrier, its projection, its finite-cover locus and the global-section equivalence are constructed here (§§0.4–0.5).
+
+### From `TauCetiRoadmap.PadicHodgeTheory`
+
+Sections 3.3–3.5 supply the period functors and filtered semistable classification; §§5.1 and 5.3 supply de Rham potential semistability, algebraic-unramified D_pst and descent comparisons. Section 7.2 supplies the equivalence LisseZpSheaf.ofEtale from compatible finite étale coefficient systems to integral pro-étale local systems, with pullback and point fibres; restrict to finite free coefficients for the lattices used here. Section 7.3 supplies actual de Rham pairs and proper smooth pushforward, with tensor, cup and smooth-base-change compatibility; §§8.1–8.2 supply geometric de Rham comparison and Tate-line normalisation. These use all finite extensions of ℚₚ and all primes. Translate its Hodge–Tate weight +1 on ℚₚ(1) to the filtration jump −1 here. For the unit plus ℚₚ(−1), its reported weights are 0,−1 and the jumps used here are 0,1.
+
+What PadicHodgeTheory must provide (gap:horizontal-pst-specialisation): On spherical polyannuli over every finite F/ℚₚ, provide the horizontal semistable period ring, potentially horizontal semistable realisations, the relative monodromy theorem for a de Rham pair with a horizontal basis, and the φ,N,G_F-equivariant specialisation isomorphisms D_pst^∇(E) ≅ D_pst(E_y) compatible with its actual de Rham comparison.
+
+### From `TauCetiRoadmap.CohomologyComparisons`
+
+Sections 6.4–6.7 supply naturality, scalar extension, cup products, the trace-normalised map a:B_dR(−1)≅B_dR⟨−1⟩, duality, cycles and first Chern classes for smooth proper varieties. The line-bundle statement is proved using the projective compactification P(O⊕L), so properness is retained. For a degree-one divisor on P¹ the trace of c₁ is 1 in either theory; the comparison on a class twisted by +1 uses a⁻¹. No equality with a separately chosen crystalline comparison is needed.
+
+### From `TauCetiRoadmap.MordellLawrenceVenkatesh`
+
+Sections 0.4–0.5 supply semilinear centralizer finiteness and unit-group representability. Sections 0.9–0.12 supply the affine-group centralizer, commutator-product count, primitive cyclic tuples and the cardinality bound for isotropic finite subgroups. Section 0.18 supplies orbit maps and the dimension of their geometric closure, hence the bound after quotienting a scalar torus. Sections 1.4–1.16 supply the maximal CM subfield, infinity-type factorisation, the conjugation identity for pure characters, local algebraicity, the friendly-place specialisations, filtration weights and induction of de Rham periods. Sections 2.1–2.4 supply families and good models. Section 2.11 and §§4.1–4.2 supply crystalline transport and its good-model fibre comparison in their unramified p>2 setting; §4.3 supplies Frobenius-centralizer orbits. Sections 3.1–3.11 supply Lagrangian geometry and full monodromy, including dimension d(d+1)/2. Layer LV.7 supplies the five-Lagrangian comparison and its unramified Frobenius small-orbit variant. Layers LV.8 and LV.10 supply the Kodaira–Parshin family and its full monodromy. Layer LV.11 supplies the original admissible-prime argument and Mordell theorem. The contracts below state the larger domains used here.
+
+What MordellLawrenceVenkatesh must provide (gap:variable-rank-abelian-by-finite): Extend §§2.1–2.4 and 3.8–3.9 to a polarised abelian scheme of locally constant relative dimension over a surjective finite étale cover, with its finite locally free H¹ module and the product of Weil-restricted Lagrangian varieties indexed by the constant-rank components.
+
+What MordellLawrenceVenkatesh must provide (gap:model-free-polarised-fibres): For polarised abelian-by-finite families over characteristic-zero fields, provide the induced H⁰-linear perfect alternating H¹ pairings from half the Poincaré Chern class, their Lagrangian de Rham filtration, and horizontal transport preserving algebra, module and pairing on any trivialising closed polydisc, including the induced trivialisation of the finite étale base.
+
+What MordellLawrenceVenkatesh must provide (gap:model-free-period-maps): For smooth varieties over every finite F/ℚₚ and every F-point, provide local horizontal trivialisations and the inverse-transport period map, its flag functor, comparison of its Zariski closure with complex periods at F-rational centres, density under full monodromy, and finite intersection with a proper closed subvariety on a closed curve disc.
+
+What MordellLawrenceVenkatesh must provide (gap:symplectic-faltings-finiteness): For every number field L, prime p, finite S containing the places above p and infinity, and integers n≥0, d>0 and B≥1, there are finitely many isomorphism classes of GSp-irreducible symplectic ℚₚ-representations (V, L₀, ω) of G_L with V of rank 2d, unramified and pure of weight n outside S, whose Frobenius eigenvalues outside S are algebraic integers of degree over ℚ at most B; B=2d includes the integer-polynomial case.
+
+What MordellLawrenceVenkatesh must provide (gap:four-isotropic-lagrangians): For every finite-dimensional symplectic space over a field and r≥4, prove that r-tuples admitting a nonzero isotropic subspace meeting each Lagrangian in at least half its dimension lie in a proper Zariski-closed subscheme of the r-fold Lagrangian Grassmannian.
+
+What MordellLawrenceVenkatesh must provide (gap:kodaira-parshin-local-fibres): For every characteristic-zero extension F/K and y∈Y(F), describe the geometric finite-base fibre of the Kodaira–Parshin family G_F-equivariantly by conjugacy classes of punctured-curve surjections to Aff(q) nontrivial on inertia, with the equal-fibre surjection to primitive cyclic characters, including F=K_v.
+
+### From `TauCetiRoadmap.AbelianSchemesAndArithmeticModuli`
+
+Sections A3.5 and A3.7 supply the Poincaré and polarised Weil pairings; §§A4.3–A4.4 supply de Rham H¹, its Hodge sequence and connection, and the exterior cohomology structures. In characteristic zero a nonzero polarisation degree is invertible on rational cohomology. Sections A6.30–A6.31 supply Weil restriction of quasi-projective schemes over finite field extensions and its product decomposition over a splitting field for separable extensions. In degree two, restriction of a line has dimension 2 and splits into two lines; no such product is asserted for inseparable extensions.
+
+### From `TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry`
+
+Section 1.3, “Coherent quotients, Plücker and partial flags”, supplies the flag bundle with locally free quotient conditions, including empty flags and base change. For a two-space with a rank-one step it is P¹; the empty flag is the base. Only this flag carrier is consumed, not a second moduli construction.
+
+### From `TauCetiRoadmap.AdicEtaleGeometry`
+
+Section A1.1 supplies strong sheafiness of affinoid algebras over complete nonarchimedean fields, including K_v⟨t₁±¹,…,tₙ±¹⟩. Section A1.3, finite-etale-local-to-global (c), identifies finite étale spaces over a strongly sheafy Spa(A,A⁺) with FÉt(A)^op. Use the rigid–adic comparison of AdicSpacesPartII Layer R1 to apply it to the polyannuli in §4.1. Fibre functors identify their profinite fundamental groups with those of Spec A.
+
+### From `TauCetiRoadmap.AdicSpacesPartII`
+
+Layer R1 supplies rigid analytification and algebraic/analytic pullback for finite-type varieties over a complete nonarchimedean field, including finite extensions of ℚₚ. The closed discs and spherical polyannuli used here are admissible analytic subspaces of that geometry.
+
+### From `TauCetiRoadmap.ComplexComparisonPartII`
+
+Section C5.2 supplies the algebraic Gauss–Manin connection of a smooth proper family and its comparison with complex Betti parallel transport. Sections C6.0 and C6.2 supply finite CW type of separated finite-type complex schemes and Riemann existence for their finite étale covers, giving the geometric fundamental-group finite-generation input in §0.5. It is applied after a specified field embedding into ℂ; no continuity of an embedding Kᵥ→ℂ is asserted.
+
+### From `TauCetiRoadmap.EtaleDualityAndPerverseSheaves`
+
+Section 0.3, “Poincaré duality on a smooth curve over an algebraically closed field”, supplies the Jacobian/Kummer H¹ duality. Section 0.5 supplies cup–trace identification and Galois equivariance. For n invertible in the geometric field, H¹(Ȳ,ℤ/n) has its perfect alternating pairing into μ_n∨; a symplectic basis gives pairing 1 and reversing the pair gives −1. In the local application n=k is odd and prime to p.
+
+### From `TauCetiRoadmap.ArithmeticGaloisDuality`
+
+Section R02.3.1, “Hermite: finitely many extensions of bounded degree unramified outside a finite set”, supplies finiteness of subfields of the fixed algebraic closure with degree≤δ and ramification contained in S. The bound and S are fixed before the fields range.
+
+### From `TauCetiRoadmap.WeightsInEtaleCohomology`
+
+Layer R34.1 supplies unramified, pure and integral representations outside a finite set with geometric-Frobenius weights, and their restriction, tensor and induction properties; purity passes to subquotients, while integer Frobenius polynomials pass to a subquotient only when that factor is rational. Layer R34.2 supplies abelian-variety purity and integral Frobenius polynomials at good places. ℚₚ(−1) has geometric eigenvalue q and weight 2; H¹ of an abelian variety is pure of weight 1.
+
+### From `TauCetiRoadmap.ClassFieldTheory`
+
+Layer 5 supplies the Kummer identification of power classes with degree-one Galois cohomology for nonzero n invertible in the field; §8.2 uses n=2 and n=3 over characteristic-zero local fields containing μ_n. Layers 7 and 11 supply local and global reciprocity, compatibility with norms and the Galois/idele character dictionary. A uniformiser maps to arithmetic Frobenius; on a unit u the cyclotomic character is the inverse local norm. Over ℚ₃ the values on u=4 are 1/4 for χ_cyc and 4 for χ_cyc⁻¹.
+
+### From `TauCetiRoadmap.GlobalNumberFields`
+
+Layers 2, 7 and 8 supply finite ray class groups for every modulus, their idele congruence quotient, and idele/idele-class norms with local components. Finite-power norm descent is along `N_{K/E}`, whose v₀-component is the product of the norms from all Kᵥ over Eᵥ₀. Restricting an idele character to the diagonally embedded Eᵥ₀× instead would give a product of local factors; it does not isolate one factor.
+
+### From `TauCetiRoadmap.LocalFieldsRamification`
+
+Layers 0, 2 and 4 supply finite local extensions, unramified extensions of each degree, and the tame quotient with στσ⁻¹=τ^q. Layer 1, “Power classes, the primary statement” and “The dyadic square-class count”, supplies the square-class counts used in §8.2, including eight square classes over ℚ₂. The residue-degree-two and residue-degree-three unramified subgroups generate the whole local Galois group because gcd(2,3)=1. At residue cardinality 5 the tame relation conjugates τ to τ⁵; replacing 5 by its inverse reverses this convention.
+
+### From `TauCetiRoadmap.LocalGaloisGroups`
+
+Layer 7 supplies topological finite generation of the full absolute Galois group, with generator rank [F:ℚₚ]+2. This is distinct from the maximal pro-p quotient. With d generators, homomorphisms into S_m number at most (m!)^d; transitive permutation actions therefore bound index-m open subgroups. This supplies a bound for nᵥ depending only on [F:ℚₚ], including p=2,3.
+
+### From `TauCetiRoadmap.ReductiveGroups`
+
+Layers 0 and 3 supply affine group functors, closed subgroup schemes, scalar subgroups and quotients. The orbit-dimension input used here is the more explicit MordellLawrenceVenkatesh §0.18 contract. Rank-zero Aut is the trivial group while its multiplier-retaining similitude group is G_m.
+
+### From `TauCetiRoadmap.Chebotarev`
+
+Layer 10 supplies Dirichlet-density Chebotarev for finite Galois extensions, and Layer 13 supplies the rational prime-counting specialisation used in the elementary modulus-size estimates. Layer 10 supplies the density input in Harari–Stix and infinitely many primes fixed by CM conjugation; Layer 14 supplies natural densities of the residue classes in §8.6 (I). The latter use a cyclotomic extension disjoint from the Galois closure of K.
+
+### From `TauCetiRoadmap.AnalyticNumberTheoryPartI`
+
+Section 0.32 supplies quantitative prime distribution in arithmetic progressions in its stated logarithmic-modulus range. The density-one comparison in §8.6 needs the stronger least-prime input below; it is used only for that comparison, not to exclude any finite place from the end theorems.
+
+What AnalyticNumberTheoryPartI must provide (gap:linnik-polynomial-least-prime): There are absolute constants C>0 and L>0 such that every coprime residue class a modulo m≥2 contains a prime q≤C m^L, with constants independent of a and m.
 
 ## References
 
