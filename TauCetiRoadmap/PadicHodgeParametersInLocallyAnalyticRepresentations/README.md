@@ -20,67 +20,20 @@ maximal ideal of a first-order Artinian algebra A_D acting on the universal exte
 are located in Ding, *p-adic Hodge parameters in the crystabelline representations of GL_n* (DING25),
 §3.2, pp. 47–59; each target gives its locator.
 
-## Scope and ownership
+## How to read the build
 
-This roadmap owns the comparison between `Ext¹_{GL_n(K)}(π_alg(φ,h), π_1(φ,h))` and the trianguline
-first-order deformations of D, and everything built from it: the endpoint
-refinement families and block character directions used in the induction (Layer 0), the refinement
-presentation and the comparison map with its kernel (Layers 0–1), the minimal representation, its
-Ext¹ comparison, characterisation and scalar characters (Layer 2), its parabolic, single-embedding
-and modified-module compatibilities (Layer 3), the recovery theorem (Layer 4), and the first-order
-Artinian algebras, universal extensions and the universal action (Layer 5).
-
-It owns none of the two theories being compared:
-
-- **The locally analytic side** is LocallyAnalyticRepresentationsOfLocalGroups. Its Layers 0–1
-  give admissible locally ℚ_p-analytic representations of GL_n(K), the Schneider–Teitelbaum duality,
-  Ext groups computed among D(G,E)-modules with their long exact sequences, the identification of
-  Ext¹ with extensions, tautological and universal extensions, and completed external tensor
-  products (§§0.9, 1.5, 1.7–1.9); its §4.1 gives highest-weight and Harish-Chandra theory for split
-  reductive Lie algebras over E; its §§6.1–6.2 give the Orlik–Strauch functors and their exactness;
-  its §§7.1–7.3 give Emerton's Jacquet-module adjunction and closed induction; its §§8.1–8.14 give
-  π_alg(φ,h), the principal series PS(w(φ),h), PS_1(w(φ),h), π_1(φ,h), the amalgam π(φ,h), the maps
-  ζ_w, the dimension of Ext¹(π_alg(φ,h), π_1(φ,h)) and its filtration by the images of the locally
-  algebraic, the self-extension and the refinement subspaces (Ding §§3.1.1–3.1.2); its §§9.1–9.7 give the
-  parabolic subrepresentations `π_{F_P}(φ,h)`, the maps `ζ_{F_P}` and the amalgamation of the two
-  endpoint parabolics (Ding §3.1.3); its §§10.1–10.7 give the locally σ-analytic theory,
-  `π_{1,σ}(φ,h)` and the decomposition of Ext¹ over the embeddings (Ding §3.1.4). The compact
-  distribution algebras, their Fréchet–Stein structure and the coadmissible modules behind these are
-  PadicLocalLanglandsForGL2Qp §0.1, reached here only through Layers 0–1 of
-  LocallyAnalyticRepresentationsOfLocalGroups.
-- **The (φ,Γ)-module side** is TriangulineVarietyAndItsLocalModel. Its Layer 10 gives the class
-  ΦΓ_nc(φ,h), the canonical labelled subquotients D_1 and C_1, the modified module D_σ (imported there
-  from PadicHodgeTheory §5.2) and its modified endpoint diagrams; Layer 11 gives the refinement
-  deformation spaces Ext¹_w(D,D) with the parameter maps κ_w, their dimensions and Weyl transport, the
-  common kernel Ext¹_0(D,D), the quotient deformation spaces, the de Rham-up-to-twist and paraboline
-  subspaces; Layer 12 gives the partial de Rham deformation spaces and the first-order modification
-  T_σ with its quotient comparison; Layer 13 gives the higher-intertwining relation, the spanning of
-  the deformation space by the refinement subspaces and the single-embedding recovery exact sequence
-  (Ding §§2.1–2.4).
-- **Robba modules and rank-one characters** are PhiGammaModulesAndIwasawaCohomology §§1.0, 1.2,
-  7.1–7.4 and 7.2a (the étale realisation of Galois representations, character modules `R_{K,E}(δ)` with
-  their tensor laws, their cohomology and rank-one submodules, Sen modules, weights over Artinian
-  coefficients, the rank-one classification and the de Rham criterion for rank-one modules).
-- **Deformation rings of (φ,Γ)-modules** with their trianguline and de Rham quotients, tangent
-  spaces and the first-order Cartesian comparison are LocalGaloisDeformationRings §§0.4 and 1.23.
-- **B-pairs and labelled de Rham realisations** are PadicHodgeTheory §4.5. The modified module D_σ
-  of Ding Proposition 2.5(1) is consumed through TriangulineVarietyAndItsLocalModel §10.5, which
-  imports it from PadicHodgeTheory §5.2.
-- **The completed Bernstein centre** of the principal-series block of π_sm(φ), with Ding's
-  ordered-character isomorphisms 𝒥_w, is SmoothRepresentationsOfLocalGroups §SR.3.2 (supplier
-  contract below).
-- **Harish-Chandra theory** for the split reductive Lie algebra `gl_{n,Σ_K}` = ∏_σ gl_n over E is
-  LocallyAnalyticRepresentationsOfLocalGroups §4.1, which descends LieHighestWeight Layers 3, 4, 5, 7
-  and 9 from an algebraic closure (supplier contract below); this roadmap only translates its dot
-  action into the variable used in §2.6. Tau Ceti's `TauCeti.hcProjection` exists at the pin for
-  Killing-semisimple Lie algebras over a characteristic-zero field and does not cover the reductive
-  gl_n.
-
-The local–global applications of DING25 §4 (patched eigenvarieties, the occurrence of π_min(D) and
-π_fs(D) in the locally analytic vectors of patched completed cohomology, and the comparison of the
-A_D-action with patched Galois deformation rings) are outside this roadmap; they consume Layers 2
-and 5 (Downstream consumers). No statement here identifies π_min(D) or π_fs(D) with a full locally
-analytic representation attached to D by a p-adic local Langlands correspondence.
+Layer 0 fixes the combinatorics of the induction (endpoint refinement families, block character
+directions and their spanning identity) and the common presentation of 𝔈 and Q by the direct sum of
+refinement quotients. Layer 1 constructs t_D by induction on n, gluing the two endpoint block
+comparisons and extending to all refinements, and computes its kernel. Layer 2 builds π_min(D) and
+π_fs(D), identifies their Ext¹ with Q, characterises π_min(D) intrinsically and computes its scalar
+characters. Layer 3 compares parabolic blocks, restricts to one embedding, splits the kernel over the
+embeddings and transports everything to the modified modules D_σ. Layer 4 proves the recovery
+theorem. Layer 5 reformulates Theorem 1.4 (DING25 Theorem 3.21) through first-order Artinian
+algebras acting on the universal extension. Layer 2 depends on Layer 1. Layer 5 depends on Layer 1: §§5.1–5.4 reformulate
+Theorem 1.4 through universal extensions, and §5.5 also uses Layer 2's minimal representation
+π_min(D) (§2.1); nothing in Layer 2 uses Layer 5. Layer 3 depends on Layers 1–2, and Layer 4 on
+Layer 3.
 
 ## Conventions
 
@@ -169,185 +122,6 @@ Theorem 3.21). A bare parenthesised number such as (3.51) is always an equation 
 field E. Tangent spaces are Hom_E(𝔪/𝔪², E) and cotangent spaces 𝔪/𝔪²; for a first-order algebra
 (𝔪² = 0) with cotangent space M the algebra is `TrivSqZeroExt E M`. Duals are E-linear duals
 (`Module.Dual`). Dimensions are over E. The dual numbers are `DualNumber E`.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-Linear algebra at the pin: `LinearMap.ker`, `LinearMap.range`, `LinearMap.prod`,
-`LinearMap.quotKerEquivOfSurjective` (a surjective linear map induces a linear equivalence from the
-quotient by its kernel), `LinearMap.finrank_range_add_finrank_ker` (rank–nullity on a
-finite-dimensional source), `Submodule.finrank_sup_add_finrank_inf_eq`, `Module.Dual`; permutations
-`Equiv.Perm` of `Fin n`; the square-zero algebras `TrivSqZeroExt` and `DualNumber`; `IsLocalRing`;
-`CategoryTheory.Abelian.Ext` for Ext in module categories, with the Yoneda product
-`CategoryTheory.Abelian.Ext.comp`, the class `CategoryTheory.ShortComplex.ShortExact.extClass` of a
-short exact sequence and the long exact sequence `CategoryTheory.Abelian.Ext.covariantSequence`, whose
-connecting maps are products with that class (used in §2.2). None of these knows locally analytic
-representations, Robba rings or Ext between them.
-
-### From Tau Ceti
-
-No Tau Ceti declaration is consumed directly. `TauCeti.hcProjection` (the Harish-Chandra projection
-Z(U(L)) → S(H), without ρ-shift, for a Killing Lie algebra L with a splitting Cartan subalgebra H over
-a characteristic-zero field) and `TauCeti.vermaCentralCharacter_eq_lift_cartanProjection` (the
-central character of a Verma module as evaluation of the Cartan projection), in
-`TauCeti/Algebra/Lie/HighestWeight/CentralCharacter/HarishChandra.lean`, are the semisimple form of
-the input of §2.6. They do not apply to gl_n, whose Killing form is degenerate, so §2.6 takes its
-Harish-Chandra input from LocallyAnalyticRepresentationsOfLocalGroups §4.1 (below).
-
-### From TauCetiRoadmap.LocallyAnalyticRepresentationsOfLocalGroups
-
-- §1.7 (Ext^i_G(V_1,V_2) = `Ext^i_{D(G,E)}(V_2′, V_1′)`, push-forward and pull-back, the long exact
-  sequences in both variables), §1.8 (Ext¹ as Yoneda classes of admissible extensions, also for
-  locally σ-analytic representations), §1.9 (the dual-number structure on a self-extension, the
-  deformed characters χ(1 + ψε), and the tautological extension of V_1 ⊗_E U by V_2 for a subspace U
-  of a finite-dimensional Ext¹_G(V_1,V_2), the universal extension when U is everything, with its
-  functoriality under restriction to a subspace and push-out along V_2 → W). Assumed: the
-  classifying isomorphism `Ext¹_G(V_1 ⊗_E U, V_2) ≅ Hom_E(U, Ext¹_G(V_1, V_2))` for
-  finite-dimensional U (§1.9 (ii)).
-- §0.9 and §1.5: completed external tensor products of admissible representations of the Levi
-  blocks and their admissibility.
-- §4.1: highest-weight theory for split reductive Lie algebras over a field of characteristic zero,
-  descended from LieHighestWeight Layers 3, 4, 5, 7 and 9, as products over σ for
-  `gl_{n,Σ_K}` = `∏_{σ∈Σ_K}` gl_n over E with its diagonal Cartan `t_{Σ_K}` and upper Borel. Used here
-  in the form of §4.1 (iv): the Harish-Chandra map identifies Z(U(`gl_{n,Σ_K}`)) with the invariants
-  of `U(t_{Σ_K})` under the dot action w·ν = w(ν + ρ) − ρ of `S_n^{Σ_K}`, where
-  ρ = ((n−1)/2, (n−3)/2, …, (1−n)/2) at each σ, and the Verma modules M(ν), M(ν′) (hence their simple
-  quotients) have equal infinitesimal characters exactly when ν′ lies in the dot orbit of ν. This
-  roadmap writes `ξ_{μ−θ}` for the infinitesimal character of M(μ − θ) and of L(μ − θ), that is, it
-  uses the variable μ = ν + θ. Since ρ − θ = ((n−1)/2)(1,…,1) at each σ is fixed by every permutation,
-  w·(μ − θ) = w(μ) − θ: the dot action in ν is the ordinary permutation action in μ, `ξ_{μ−θ}` =
-  `ξ_{μ′−θ}` exactly when μ′ ∈ `S_n^{Σ_K}`μ, and the invariant ring in the variable μ is the symmetric
-  polynomials in each σ-block (§2.6).
-- §§6.1–6.2: the Orlik–Strauch functor F^G_P(M, π) with the U(g)-action on F^G_P(M, π) induced from
-  M, and its exactness in M (used in §2.1 for the multiplicity of A in PS(w(φ),h)).
-- §§7.1–7.3: Emerton's Jacquet-module adjunction, Jacquet modules of very strongly admissible
-  representations, and Emerton's closed induction `I_{P⁻}^G`, distinct from full locally analytic
-  induction, with its value on deformed characters (§7.3 (iv)).
-- §8.1 (θ, θ^P, w(φ), η, ε, λ = h − θ, `Hom_{g′}` and Hom_σ), §8.2 (π_alg(φ,h), End_G(A) = E),
-  §8.3 (PS(w(φ),h) = `F^{GL_n}_{B⁻}(M⁻(−λ), w(φ)η)`), §8.4 (constituents and socles of the principal
-  series), §8.5 (the labels I run over all nonempty proper subsets of {1,…,n}), §8.7 (PS_1(w(φ),h)
-  and π_1(φ,h), soc V = A, End(V) = E), §8.8 (Ding Proposition 3.3, including the Weyl transport
-  `ζ_{w_2}` ∘ `(w_2w_1^{−1})` = `ζ_{w_1}` on `Hom_{g′}`), §8.9 (Ding Lemma 3.5, in particular part
-  (2): pull-back along a nonsplit self-extension of A is a bijection on Ext¹(·, `C(I,s_{i,σ})`)),
-  §8.10 (ζ_w: Ding (3.10)–(3.11) and Remark 3.7), §8.11 (Ding Proposition 3.6), §8.12 (Ding
-  Proposition 3.8 and Remark 3.9: dim 𝔈 = n + (2^n − 1)d_K, surjectivity of
-  (ζ_w)_w : ⊕_w H_T ↠ 𝔈, and 𝔈 ≅ Ext¹_G(A, π(φ,h))), §8.13 (the amalgam π(φ,h)), §8.14
-  (𝔈_g ⊂ `𝔈_{g′}` ⊂ 𝔈_w with dimensions n, n + d_K, n(1 + d_K)).
-- §§9.1–9.7: the Levi data of a P-filtration and the parabolic induction (3.19), its constituents,
-  `π_{F_P}(φ,h)` and `𝔈_{F_P}` (§9.3), Ext¹(A, `π_{F_P}(φ,h)`) (§9.4), the maps `ζ_{F_P}` (§9.5),
-  their bijectivity with compatible-refinement spanning of `𝔈_{F_P}` and Weyl transport (3.30) (§9.6,
-  Ding Proposition 3.12), and the amalgamation of the two endpoint parabolics (§9.7, Ding
-  Proposition 3.13: the exact sequence `0 → 𝔈_{g′} → 𝔈_F ⊕ 𝔈_G → 𝔈 → 0` with first map
-  b ↦ (b, −b), and ζ_F, ζ_G).
-- §§10.1–10.7: locally σ-analytic and `g_{Σ_K∖{σ}}`-algebraic representations and Ext¹_σ (§10.1);
-  `π_{1,σ}(φ,h)`, the maximal `g_{Σ_K∖{σ}}`-algebraic subrepresentation of V, and `π_{F_P,σ}(φ,h)`
-  (§10.2); σ-analytic self-extensions (§10.3); Ext¹_σ(A, `PS_{1,σ}(w(φ),h)`) (§10.4); Ding
-  Proposition 3.18 (§10.5: dim 𝔈_σ = n + 2^n − 1, the σ-refinement surjection, and
-  `⊕_σ (𝔈_σ/𝔈_g) ≅ 𝔈/𝔈_g`); the σ-parabolic spaces `𝔈_{σ,F_P}` (§10.6); the σ-amalgamation of the
-  endpoint parabolics, `𝔈_{σ,F}` + `𝔈_{σ,G}` = 𝔈_σ (§10.7, Ding Proposition 3.20).
-
-### From TauCetiRoadmap.TriangulineVarietyAndItsLocalModel
-
-- §10.1 (ΦΓ_nc(φ,h), regular modules, refinements and their parameters `φ_{w^{−1}(i)}z^{h_i}`),
-  §10.2 (D_1, C_1 and the canonical labelled subquotients), §10.3 (the rank-(n−1) injection pencil),
-  §10.5 (the modified module D ⊂ D_σ with D_σ[1/t] = D[1/t], Hodge–Tate–Sen weights 𝔗_σ(h), equal to
-  h_σ at σ and to `h_{n,τ}` at every τ ≠ σ, and the same σ-filtered de Rham module, imported there
-  from PadicHodgeTheory §5.2; the modified endpoints `D_{1,σ}`, `C_{1,σ}`, formed with the ambient
-  off-σ cutoff `h_{n,τ}` and not with the lowest weight of D_1 or C_1; and the parameters
-  `w(φ)z^{𝔗_σ(h)}` of every refinement of D_σ), §10.7 (the rank-three example of Ding
-  Example 2.9), §10.8 (surjectivity of 𝔗_σ on isomorphism classes).
-- §11.1 (Ext¹ of a rank-one module as Hom(K^×, E), ψ ↔ δ(1 + εψ)), §11.2 (Ext¹_w, κ_w, Ext¹_g),
-  §11.3 (dimensions, surjectivity of κ_w, Weyl transport on Ext¹_g: Ding Proposition 2.10 and
-  Lemma 2.11), §11.4 (Ext¹_0, the quotient Q, Q_w ≅ H_T, Q_g ≅ Hom_sm(T(K),E), dim Q), §11.5
-  `(Ext¹_{g′})`, §§11.6–11.8 (paraboline subspaces, `Q_{F_P} ≅ ∏_i Q(M_i)` and `Hom_{P,g′}`, Ding
-  Corollaries 2.14–2.15 and (2.19)–(2.21)).
-- §§12.1–12.2 (partial de Rham conditions and Q_σ), §12.4 (the first-order modification T_σ, which
-  applies the same ambient cutoff to saturated filtrations and their graded pieces),
-  §12.6 (the modified zero subspace), §12.7 (Ding Corollary 2.27: `Q_*(D) ≅ Q_*(D_σ)` for
-  * = g, σ, (σ, F_P), compatibly with parabolic products and with the graded modifications).
-- §13.8 (Ding Proposition 2.12: ⊕_w Ext¹_w(D,D) → Ext¹(D,D) is surjective, also modulo Ext¹_0),
-  §13.13 (the single-embedding relation ℒ_σ(D_σ, `D_{1,σ}`, `C_{1,σ}`) inside its ambient space
-  `𝒱_σ(D_{1,σ}, C_{1,σ})`), §13.14 (Ding (2.42) and Corollary 2.38(1): the exact sequence
-  `0 → ℒ_σ → 𝒱_σ → Q_σ(D_σ) → 0`, and equality of the relations for fixed endpoints and φ_n is
-  equivalent to D_σ ≅ D′_σ), §13.16 (Ding Corollary 2.40: refinement spanning of Q_σ for D and D_σ).
-
-These sections assume n ≥ 2; the rank-one case they reduce to is §11.1. Section 10.1 admits weakly
-decreasing weights so that it contains the modified modules D_σ; the module D of (H) is regular,
-since h is strictly dominant, and Theorem 1.4 is applied only to regular modules.
-
-### From TauCetiRoadmap.PhiGammaModulesAndIwasawaCohomology
-
-§1.0 (the field realisation with finite coefficient algebras) and §1.2 (the relative realisation
-D_rig(V), fully faithful, whose étale subcategory over a finite local E-algebra, in particular over E
-itself, is equivalent to finite free continuous representations of G_K; used in §4.2 to pass from D
-to ρ), §7.1 (the rank-one modules `R_{K,E}(δ)`, written
-`R_{E,K}(δ)` there, with ε = `N_{K/ℚ_p}|N_{K/ℚ_p}|` the Tate character, and their tensor and
-coefficient-change laws, used in §5.1 to twist deformations by a character), §7.2 (H⁰, H¹, H² of
-the rank-one modules `R_{K,E}(δ)` over a coefficient field and their (φ,Γ)-submodules
-`∏_σ t_σ^{m_σ} R_{K,E}(δ)`; used in
-§5.1 for the vanishing of Hom(R(φ_i)[1/t], R(φ_j)[1/t]) when φ_i/φ_j is not algebraic), §7.2a (Sen
-modules and Sen polynomials over affinoid coefficients, applied over E[ε]/ε² in §2.6), §7.3 (weights
-of characters over Artinian coefficients, locally algebraic characters), §7.4 (rank-one
-classification over Artinian coefficients, and, over a coefficient field, a rank-one module
-`R_{K,E}(δ)` is de Rham exactly when δ is locally algebraic).
-
-### From TauCetiRoadmap.PadicHodgeTheory
-
-§4.5 (the Galois B-pair of a Robba module over a finite coefficient field, imported there from
-PhiGammaModulesAndIwasawaCohomology §1.6 with its exact tensor equivalence with Robba modules, and
-its labelled positive de Rham lattices). The modified module D_σ of DING25 Proposition 2.5 (p. 13)
-is not consumed from here directly: it is TriangulineVarietyAndItsLocalModel §10.5's, imported there
-from PadicHodgeTheory §5.2.
-
-### From TauCetiRoadmap.LocalGaloisDeformationRings
-
-§0.4 (deformations of coefficient Robba modules and their tangent space `Ext¹(D,D)`), §1.23 (the
-deformation ring R_D of a (φ,Γ_K)-module D with End(D) = E, its trianguline quotient `R_{D,w}` for
-the triangulation attached to a refinement w and its de Rham quotient `R_{D,g}`; the identification of
-their tangent spaces with Ext¹(D,D), Ext¹_w(D,D) and Ext¹_g(D,D); their formal smoothness, of
-dimensions 1 + n²d_K, 1 + n(n+1)d_K/2 and 1 + n(n−1)d_K/2; the forgetful maps; and the first-order
-Cartesian comparison with locally algebraic parameters, for noncritical crystabelline D with
-End(D) = E and generic regular parameters). Its rank-one case
-applies to the trivial module `R_{K,E}`, which is crystalline (genericity, regularity and
-noncriticality are empty conditions in rank one), and gives its deformation ring R_1 ≅
-`E⟦x_1,…,x_{d_K+1}⟧` with tangent space `Ext¹(R_{K,E}, R_{K,E})` ≅ Hom(K^×, E). It does not apply
-to `R_{K,E}(δ)` for a character δ that is not locally algebraic, since that module is not de Rham
-(PhiGammaModulesAndIwasawaCohomology §7.4). §5.1 obtains the ring `R_{δ_i}` of an arbitrary
-continuous character δ_i of K^× from R_1 by twisting, and builds the rings of characters of
-T(K) = (K^×)^n as completed tensor products of these rank-one rings; neither is stated there.
-
-### From TauCetiRoadmap.SmoothRepresentationsOfLocalGroups
-
-§SR.3.2 (Bernstein components and the Bernstein centre).
-
-What SmoothRepresentationsOfLocalGroups must provide (gap:principal-series-bernstein-completion):
-over a finite extension E of ℚ_p containing the values of φ, the Bernstein centre ℋ of the
-principal-series block of π_sm(φ) (and ℋ_i of the block of φ_i of K^×), the completion Ĥ_φ of ℋ at
-the point π_sm(φ), and, for generic φ and every w ∈ S_n, that the map `𝒥_w` induced by
-`∏_i Spec ℋ_{w^{−1}(i)} → Spec ℋ` on completions is an isomorphism `𝒥_w : Ĥ_φ ≅ R_{w(φ),g}`, where
-`R_{w(φ),g}` is the completed local ring of `∏_i Spec ℋ_{w^{−1}(i)}` at w(φ) (equivalently the ring of
-smooth deformations of the character w(φ) of T(K)) (CEGGPS16 Lemma 3.22, p. 47; DING25 §3.2.2,
-p. 57). The ordered-character maps 𝒥_w themselves, with the reordering identity
-`𝒥_{w_2} ∘ p_{w_2w_1^{−1}} = 𝒥_{w_1}` and their differentials on Hom_sm(T(K), E), are what
-LocallyAnalyticRepresentationsOfLocalGroups requests from the same section for its §8.8 (2);
-one construction serves both, and this gap adds only the completion Ĥ_φ and the isomorphism of Ĥ_φ
-onto `R_{w(φ),g}`.
-
-## How to read the build
-
-Layer 0 fixes the combinatorics of the induction (endpoint refinement families, block character
-directions and their spanning identity) and the common presentation of 𝔈 and Q by the direct sum of
-refinement quotients. Layer 1 constructs t_D by induction on n, gluing the two endpoint block
-comparisons and extending to all refinements, and computes its kernel. Layer 2 builds π_min(D) and
-π_fs(D), identifies their Ext¹ with Q, characterises π_min(D) intrinsically and computes its scalar
-characters. Layer 3 compares parabolic blocks, restricts to one embedding, splits the kernel over the
-embeddings and transports everything to the modified modules D_σ. Layer 4 proves the recovery
-theorem. Layer 5 reformulates Theorem 1.4 (DING25 Theorem 3.21) through first-order Artinian
-algebras acting on the universal extension. Layer 2 depends on Layer 1. Layer 5 depends on Layer 1: §§5.1–5.4 reformulate
-Theorem 1.4 through universal extensions, and §5.5 also uses Layer 2's minimal representation
-π_min(D) (§2.1); nothing in Layer 2 uses Layer 5. Layer 3 depends on Layers 1–2, and Layer 4 on
-Layer 3.
 
 ## Layer 0: Refinement parameters and the common presentation
 
@@ -1511,6 +1285,232 @@ All entries paraphrase the published version of DING25.
   A_D-action with the action of the patched Galois deformation ring) uses Layers 2 and 5.
 - Locally analytic constructions attached to crystabelline Galois representations of GL_n(K) use
   π_min(D) and the recovery theorem of Layer 4 as their Hodge-parameter-detecting core.
+
+## Scope and ownership
+
+This roadmap owns the comparison between `Ext¹_{GL_n(K)}(π_alg(φ,h), π_1(φ,h))` and the trianguline
+first-order deformations of D, and everything built from it: the endpoint
+refinement families and block character directions used in the induction (Layer 0), the refinement
+presentation and the comparison map with its kernel (Layers 0–1), the minimal representation, its
+Ext¹ comparison, characterisation and scalar characters (Layer 2), its parabolic, single-embedding
+and modified-module compatibilities (Layer 3), the recovery theorem (Layer 4), and the first-order
+Artinian algebras, universal extensions and the universal action (Layer 5).
+
+It owns none of the two theories being compared:
+
+- **The locally analytic side** is LocallyAnalyticRepresentationsOfLocalGroups. Its Layers 0–1
+  give admissible locally ℚ_p-analytic representations of GL_n(K), the Schneider–Teitelbaum duality,
+  Ext groups computed among D(G,E)-modules with their long exact sequences, the identification of
+  Ext¹ with extensions, tautological and universal extensions, and completed external tensor
+  products (§§0.9, 1.5, 1.7–1.9); its §4.1 gives highest-weight and Harish-Chandra theory for split
+  reductive Lie algebras over E; its §§6.1–6.2 give the Orlik–Strauch functors and their exactness;
+  its §§7.1–7.3 give Emerton's Jacquet-module adjunction and closed induction; its §§8.1–8.14 give
+  π_alg(φ,h), the principal series PS(w(φ),h), PS_1(w(φ),h), π_1(φ,h), the amalgam π(φ,h), the maps
+  ζ_w, the dimension of Ext¹(π_alg(φ,h), π_1(φ,h)) and its filtration by the images of the locally
+  algebraic, the self-extension and the refinement subspaces (Ding §§3.1.1–3.1.2); its §§9.1–9.7 give the
+  parabolic subrepresentations `π_{F_P}(φ,h)`, the maps `ζ_{F_P}` and the amalgamation of the two
+  endpoint parabolics (Ding §3.1.3); its §§10.1–10.7 give the locally σ-analytic theory,
+  `π_{1,σ}(φ,h)` and the decomposition of Ext¹ over the embeddings (Ding §3.1.4). The compact
+  distribution algebras, their Fréchet–Stein structure and the coadmissible modules behind these are
+  PadicLocalLanglandsForGL2Qp §0.1, reached here only through Layers 0–1 of
+  LocallyAnalyticRepresentationsOfLocalGroups.
+- **The (φ,Γ)-module side** is TriangulineVarietyAndItsLocalModel. Its Layer 10 gives the class
+  ΦΓ_nc(φ,h), the canonical labelled subquotients D_1 and C_1, the modified module D_σ (imported there
+  from PadicHodgeTheory §5.2) and its modified endpoint diagrams; Layer 11 gives the refinement
+  deformation spaces Ext¹_w(D,D) with the parameter maps κ_w, their dimensions and Weyl transport, the
+  common kernel Ext¹_0(D,D), the quotient deformation spaces, the de Rham-up-to-twist and paraboline
+  subspaces; Layer 12 gives the partial de Rham deformation spaces and the first-order modification
+  T_σ with its quotient comparison; Layer 13 gives the higher-intertwining relation, the spanning of
+  the deformation space by the refinement subspaces and the single-embedding recovery exact sequence
+  (Ding §§2.1–2.4).
+- **Robba modules and rank-one characters** are PhiGammaModulesAndIwasawaCohomology §§1.0, 1.2,
+  7.1–7.4 and 7.2a (the étale realisation of Galois representations, character modules `R_{K,E}(δ)` with
+  their tensor laws, their cohomology and rank-one submodules, Sen modules, weights over Artinian
+  coefficients, the rank-one classification and the de Rham criterion for rank-one modules).
+- **Deformation rings of (φ,Γ)-modules** with their trianguline and de Rham quotients, tangent
+  spaces and the first-order Cartesian comparison are LocalGaloisDeformationRings §§0.4 and 1.23.
+- **B-pairs and labelled de Rham realisations** are PadicHodgeTheory §4.5. The modified module D_σ
+  of Ding Proposition 2.5(1) is consumed through TriangulineVarietyAndItsLocalModel §10.5, which
+  imports it from PadicHodgeTheory §5.2.
+- **The completed Bernstein centre** of the principal-series block of π_sm(φ), with Ding's
+  ordered-character isomorphisms 𝒥_w, is SmoothRepresentationsOfLocalGroups §SR.3.2 (supplier
+  contract below).
+- **Harish-Chandra theory** for the split reductive Lie algebra `gl_{n,Σ_K}` = ∏_σ gl_n over E is
+  LocallyAnalyticRepresentationsOfLocalGroups §4.1, which descends LieHighestWeight Layers 3, 4, 5, 7
+  and 9 from an algebraic closure (supplier contract below); this roadmap only translates its dot
+  action into the variable used in §2.6. Tau Ceti's `TauCeti.hcProjection` exists at the pin for
+  Killing-semisimple Lie algebras over a characteristic-zero field and does not cover the reductive
+  gl_n.
+
+The local–global applications of DING25 §4 (patched eigenvarieties, the occurrence of π_min(D) and
+π_fs(D) in the locally analytic vectors of patched completed cohomology, and the comparison of the
+A_D-action with patched Galois deformation rings) are outside this roadmap; they consume Layers 2
+and 5 (Downstream consumers). No statement here identifies π_min(D) or π_fs(D) with a full locally
+analytic representation attached to D by a p-adic local Langlands correspondence.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+Linear algebra at the pin: `LinearMap.ker`, `LinearMap.range`, `LinearMap.prod`,
+`LinearMap.quotKerEquivOfSurjective` (a surjective linear map induces a linear equivalence from the
+quotient by its kernel), `LinearMap.finrank_range_add_finrank_ker` (rank–nullity on a
+finite-dimensional source), `Submodule.finrank_sup_add_finrank_inf_eq`, `Module.Dual`; permutations
+`Equiv.Perm` of `Fin n`; the square-zero algebras `TrivSqZeroExt` and `DualNumber`; `IsLocalRing`;
+`CategoryTheory.Abelian.Ext` for Ext in module categories, with the Yoneda product
+`CategoryTheory.Abelian.Ext.comp`, the class `CategoryTheory.ShortComplex.ShortExact.extClass` of a
+short exact sequence and the long exact sequence `CategoryTheory.Abelian.Ext.covariantSequence`, whose
+connecting maps are products with that class (used in §2.2). None of these knows locally analytic
+representations, Robba rings or Ext between them.
+
+### From Tau Ceti
+
+No Tau Ceti declaration is consumed directly. `TauCeti.hcProjection` (the Harish-Chandra projection
+Z(U(L)) → S(H), without ρ-shift, for a Killing Lie algebra L with a splitting Cartan subalgebra H over
+a characteristic-zero field) and `TauCeti.vermaCentralCharacter_eq_lift_cartanProjection` (the
+central character of a Verma module as evaluation of the Cartan projection), in
+`TauCeti/Algebra/Lie/HighestWeight/CentralCharacter/HarishChandra.lean`, are the semisimple form of
+the input of §2.6. They do not apply to gl_n, whose Killing form is degenerate, so §2.6 takes its
+Harish-Chandra input from LocallyAnalyticRepresentationsOfLocalGroups §4.1 (below).
+
+### From TauCetiRoadmap.LocallyAnalyticRepresentationsOfLocalGroups
+
+- §1.7 (Ext^i_G(V_1,V_2) = `Ext^i_{D(G,E)}(V_2′, V_1′)`, push-forward and pull-back, the long exact
+  sequences in both variables), §1.8 (Ext¹ as Yoneda classes of admissible extensions, also for
+  locally σ-analytic representations), §1.9 (the dual-number structure on a self-extension, the
+  deformed characters χ(1 + ψε), and the tautological extension of V_1 ⊗_E U by V_2 for a subspace U
+  of a finite-dimensional Ext¹_G(V_1,V_2), the universal extension when U is everything, with its
+  functoriality under restriction to a subspace and push-out along V_2 → W). Assumed: the
+  classifying isomorphism `Ext¹_G(V_1 ⊗_E U, V_2) ≅ Hom_E(U, Ext¹_G(V_1, V_2))` for
+  finite-dimensional U (§1.9 (ii)).
+- §0.9 and §1.5: completed external tensor products of admissible representations of the Levi
+  blocks and their admissibility.
+- §4.1: highest-weight theory for split reductive Lie algebras over a field of characteristic zero,
+  descended from LieHighestWeight Layers 3, 4, 5, 7 and 9, as products over σ for
+  `gl_{n,Σ_K}` = `∏_{σ∈Σ_K}` gl_n over E with its diagonal Cartan `t_{Σ_K}` and upper Borel. Used here
+  in the form of §4.1 (iv): the Harish-Chandra map identifies Z(U(`gl_{n,Σ_K}`)) with the invariants
+  of `U(t_{Σ_K})` under the dot action w·ν = w(ν + ρ) − ρ of `S_n^{Σ_K}`, where
+  ρ = ((n−1)/2, (n−3)/2, …, (1−n)/2) at each σ, and the Verma modules M(ν), M(ν′) (hence their simple
+  quotients) have equal infinitesimal characters exactly when ν′ lies in the dot orbit of ν. This
+  roadmap writes `ξ_{μ−θ}` for the infinitesimal character of M(μ − θ) and of L(μ − θ), that is, it
+  uses the variable μ = ν + θ. Since ρ − θ = ((n−1)/2)(1,…,1) at each σ is fixed by every permutation,
+  w·(μ − θ) = w(μ) − θ: the dot action in ν is the ordinary permutation action in μ, `ξ_{μ−θ}` =
+  `ξ_{μ′−θ}` exactly when μ′ ∈ `S_n^{Σ_K}`μ, and the invariant ring in the variable μ is the symmetric
+  polynomials in each σ-block (§2.6).
+- §§6.1–6.2: the Orlik–Strauch functor F^G_P(M, π) with the U(g)-action on F^G_P(M, π) induced from
+  M, and its exactness in M (used in §2.1 for the multiplicity of A in PS(w(φ),h)).
+- §§7.1–7.3: Emerton's Jacquet-module adjunction, Jacquet modules of very strongly admissible
+  representations, and Emerton's closed induction `I_{P⁻}^G`, distinct from full locally analytic
+  induction, with its value on deformed characters (§7.3 (iv)).
+- §8.1 (θ, θ^P, w(φ), η, ε, λ = h − θ, `Hom_{g′}` and Hom_σ), §8.2 (π_alg(φ,h), End_G(A) = E),
+  §8.3 (PS(w(φ),h) = `F^{GL_n}_{B⁻}(M⁻(−λ), w(φ)η)`), §8.4 (constituents and socles of the principal
+  series), §8.5 (the labels I run over all nonempty proper subsets of {1,…,n}), §8.7 (PS_1(w(φ),h)
+  and π_1(φ,h), soc V = A, End(V) = E), §8.8 (Ding Proposition 3.3, including the Weyl transport
+  `ζ_{w_2}` ∘ `(w_2w_1^{−1})` = `ζ_{w_1}` on `Hom_{g′}`), §8.9 (Ding Lemma 3.5, in particular part
+  (2): pull-back along a nonsplit self-extension of A is a bijection on Ext¹(·, `C(I,s_{i,σ})`)),
+  §8.10 (ζ_w: Ding (3.10)–(3.11) and Remark 3.7), §8.11 (Ding Proposition 3.6), §8.12 (Ding
+  Proposition 3.8 and Remark 3.9: dim 𝔈 = n + (2^n − 1)d_K, surjectivity of
+  (ζ_w)_w : ⊕_w H_T ↠ 𝔈, and 𝔈 ≅ Ext¹_G(A, π(φ,h))), §8.13 (the amalgam π(φ,h)), §8.14
+  (𝔈_g ⊂ `𝔈_{g′}` ⊂ 𝔈_w with dimensions n, n + d_K, n(1 + d_K)).
+- §§9.1–9.7: the Levi data of a P-filtration and the parabolic induction (3.19), its constituents,
+  `π_{F_P}(φ,h)` and `𝔈_{F_P}` (§9.3), Ext¹(A, `π_{F_P}(φ,h)`) (§9.4), the maps `ζ_{F_P}` (§9.5),
+  their bijectivity with compatible-refinement spanning of `𝔈_{F_P}` and Weyl transport (3.30) (§9.6,
+  Ding Proposition 3.12), and the amalgamation of the two endpoint parabolics (§9.7, Ding
+  Proposition 3.13: the exact sequence `0 → 𝔈_{g′} → 𝔈_F ⊕ 𝔈_G → 𝔈 → 0` with first map
+  b ↦ (b, −b), and ζ_F, ζ_G).
+- §§10.1–10.7: locally σ-analytic and `g_{Σ_K∖{σ}}`-algebraic representations and Ext¹_σ (§10.1);
+  `π_{1,σ}(φ,h)`, the maximal `g_{Σ_K∖{σ}}`-algebraic subrepresentation of V, and `π_{F_P,σ}(φ,h)`
+  (§10.2); σ-analytic self-extensions (§10.3); Ext¹_σ(A, `PS_{1,σ}(w(φ),h)`) (§10.4); Ding
+  Proposition 3.18 (§10.5: dim 𝔈_σ = n + 2^n − 1, the σ-refinement surjection, and
+  `⊕_σ (𝔈_σ/𝔈_g) ≅ 𝔈/𝔈_g`); the σ-parabolic spaces `𝔈_{σ,F_P}` (§10.6); the σ-amalgamation of the
+  endpoint parabolics, `𝔈_{σ,F}` + `𝔈_{σ,G}` = 𝔈_σ (§10.7, Ding Proposition 3.20).
+
+### From TauCetiRoadmap.TriangulineVarietyAndItsLocalModel
+
+- §10.1 (ΦΓ_nc(φ,h), regular modules, refinements and their parameters `φ_{w^{−1}(i)}z^{h_i}`),
+  §10.2 (D_1, C_1 and the canonical labelled subquotients), §10.3 (the rank-(n−1) injection pencil),
+  §10.5 (the modified module D ⊂ D_σ with D_σ[1/t] = D[1/t], Hodge–Tate–Sen weights 𝔗_σ(h), equal to
+  h_σ at σ and to `h_{n,τ}` at every τ ≠ σ, and the same σ-filtered de Rham module, imported there
+  from PadicHodgeTheory §5.2; the modified endpoints `D_{1,σ}`, `C_{1,σ}`, formed with the ambient
+  off-σ cutoff `h_{n,τ}` and not with the lowest weight of D_1 or C_1; and the parameters
+  `w(φ)z^{𝔗_σ(h)}` of every refinement of D_σ), §10.7 (the rank-three example of Ding
+  Example 2.9), §10.8 (surjectivity of 𝔗_σ on isomorphism classes).
+- §11.1 (Ext¹ of a rank-one module as Hom(K^×, E), ψ ↔ δ(1 + εψ)), §11.2 (Ext¹_w, κ_w, Ext¹_g),
+  §11.3 (dimensions, surjectivity of κ_w, Weyl transport on Ext¹_g: Ding Proposition 2.10 and
+  Lemma 2.11), §11.4 (Ext¹_0, the quotient Q, Q_w ≅ H_T, Q_g ≅ Hom_sm(T(K),E), dim Q), §11.5
+  `(Ext¹_{g′})`, §§11.6–11.8 (paraboline subspaces, `Q_{F_P} ≅ ∏_i Q(M_i)` and `Hom_{P,g′}`, Ding
+  Corollaries 2.14–2.15 and (2.19)–(2.21)).
+- §§12.1–12.2 (partial de Rham conditions and Q_σ), §12.4 (the first-order modification T_σ, which
+  applies the same ambient cutoff to saturated filtrations and their graded pieces),
+  §12.6 (the modified zero subspace), §12.7 (Ding Corollary 2.27: `Q_*(D) ≅ Q_*(D_σ)` for
+  * = g, σ, (σ, F_P), compatibly with parabolic products and with the graded modifications).
+- §13.8 (Ding Proposition 2.12: ⊕_w Ext¹_w(D,D) → Ext¹(D,D) is surjective, also modulo Ext¹_0),
+  §13.13 (the single-embedding relation ℒ_σ(D_σ, `D_{1,σ}`, `C_{1,σ}`) inside its ambient space
+  `𝒱_σ(D_{1,σ}, C_{1,σ})`), §13.14 (Ding (2.42) and Corollary 2.38(1): the exact sequence
+  `0 → ℒ_σ → 𝒱_σ → Q_σ(D_σ) → 0`, and equality of the relations for fixed endpoints and φ_n is
+  equivalent to D_σ ≅ D′_σ), §13.16 (Ding Corollary 2.40: refinement spanning of Q_σ for D and D_σ).
+
+These sections assume n ≥ 2; the rank-one case they reduce to is §11.1. Section 10.1 admits weakly
+decreasing weights so that it contains the modified modules D_σ; the module D of (H) is regular,
+since h is strictly dominant, and Theorem 1.4 is applied only to regular modules.
+
+### From TauCetiRoadmap.PhiGammaModulesAndIwasawaCohomology
+
+§1.0 (the field realisation with finite coefficient algebras) and §1.2 (the relative realisation
+D_rig(V), fully faithful, whose étale subcategory over a finite local E-algebra, in particular over E
+itself, is equivalent to finite free continuous representations of G_K; used in §4.2 to pass from D
+to ρ), §7.1 (the rank-one modules `R_{K,E}(δ)`, written
+`R_{E,K}(δ)` there, with ε = `N_{K/ℚ_p}|N_{K/ℚ_p}|` the Tate character, and their tensor and
+coefficient-change laws, used in §5.1 to twist deformations by a character), §7.2 (H⁰, H¹, H² of
+the rank-one modules `R_{K,E}(δ)` over a coefficient field and their (φ,Γ)-submodules
+`∏_σ t_σ^{m_σ} R_{K,E}(δ)`; used in
+§5.1 for the vanishing of Hom(R(φ_i)[1/t], R(φ_j)[1/t]) when φ_i/φ_j is not algebraic), §7.2a (Sen
+modules and Sen polynomials over affinoid coefficients, applied over E[ε]/ε² in §2.6), §7.3 (weights
+of characters over Artinian coefficients, locally algebraic characters), §7.4 (rank-one
+classification over Artinian coefficients, and, over a coefficient field, a rank-one module
+`R_{K,E}(δ)` is de Rham exactly when δ is locally algebraic).
+
+### From TauCetiRoadmap.PadicHodgeTheory
+
+§4.5 (the Galois B-pair of a Robba module over a finite coefficient field, imported there from
+PhiGammaModulesAndIwasawaCohomology §1.6 with its exact tensor equivalence with Robba modules, and
+its labelled positive de Rham lattices). The modified module D_σ of DING25 Proposition 2.5 (p. 13)
+is not consumed from here directly: it is TriangulineVarietyAndItsLocalModel §10.5's, imported there
+from PadicHodgeTheory §5.2.
+
+### From TauCetiRoadmap.LocalGaloisDeformationRings
+
+§0.4 (deformations of coefficient Robba modules and their tangent space `Ext¹(D,D)`), §1.23 (the
+deformation ring R_D of a (φ,Γ_K)-module D with End(D) = E, its trianguline quotient `R_{D,w}` for
+the triangulation attached to a refinement w and its de Rham quotient `R_{D,g}`; the identification of
+their tangent spaces with Ext¹(D,D), Ext¹_w(D,D) and Ext¹_g(D,D); their formal smoothness, of
+dimensions 1 + n²d_K, 1 + n(n+1)d_K/2 and 1 + n(n−1)d_K/2; the forgetful maps; and the first-order
+Cartesian comparison with locally algebraic parameters, for noncritical crystabelline D with
+End(D) = E and generic regular parameters). Its rank-one case
+applies to the trivial module `R_{K,E}`, which is crystalline (genericity, regularity and
+noncriticality are empty conditions in rank one), and gives its deformation ring R_1 ≅
+`E⟦x_1,…,x_{d_K+1}⟧` with tangent space `Ext¹(R_{K,E}, R_{K,E})` ≅ Hom(K^×, E). It does not apply
+to `R_{K,E}(δ)` for a character δ that is not locally algebraic, since that module is not de Rham
+(PhiGammaModulesAndIwasawaCohomology §7.4). §5.1 obtains the ring `R_{δ_i}` of an arbitrary
+continuous character δ_i of K^× from R_1 by twisting, and builds the rings of characters of
+T(K) = (K^×)^n as completed tensor products of these rank-one rings; neither is stated there.
+
+### From TauCetiRoadmap.SmoothRepresentationsOfLocalGroups
+
+§SR.3.2 (Bernstein components and the Bernstein centre).
+
+What SmoothRepresentationsOfLocalGroups must provide (gap:principal-series-bernstein-completion):
+over a finite extension E of ℚ_p containing the values of φ, the Bernstein centre ℋ of the
+principal-series block of π_sm(φ) (and ℋ_i of the block of φ_i of K^×), the completion Ĥ_φ of ℋ at
+the point π_sm(φ), and, for generic φ and every w ∈ S_n, that the map `𝒥_w` induced by
+`∏_i Spec ℋ_{w^{−1}(i)} → Spec ℋ` on completions is an isomorphism `𝒥_w : Ĥ_φ ≅ R_{w(φ),g}`, where
+`R_{w(φ),g}` is the completed local ring of `∏_i Spec ℋ_{w^{−1}(i)}` at w(φ) (equivalently the ring of
+smooth deformations of the character w(φ) of T(K)) (CEGGPS16 Lemma 3.22, p. 47; DING25 §3.2.2,
+p. 57). The ordered-character maps 𝒥_w themselves, with the reordering identity
+`𝒥_{w_2} ∘ p_{w_2w_1^{−1}} = 𝒥_{w_1}` and their differentials on Hom_sm(T(K), E), are what
+LocallyAnalyticRepresentationsOfLocalGroups requests from the same section for its §8.8 (2);
+one construction serves both, and this gap adds only the completion Ĥ_φ and the isomorphism of Ĥ_φ
+onto `R_{w(φ),g}`.
 
 ## References
 
