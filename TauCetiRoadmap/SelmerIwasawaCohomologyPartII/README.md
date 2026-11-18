@@ -4,17 +4,9 @@
 
 [Suggested.lean](Suggested.lean) is the acceptance test for the headline theorems: unitary incidence and product geometry (§§2.2–2.6), odd Tate and even integral level raising (§§3.2–3.7), the Selmer-valued diagonal regulator (§§4.3–4.6), both geometric and explicit reciprocity laws (§§5.2–6.4), auxiliary-place and annihilator constructions (§§7.1–7.4), the rank-zero and rank-one theorems and their specializations (§§8.1–8.4), and the Hilbert modular precursor comparison (§8.5). None is statable at the pinned APIs: the module docstring identifies the missing native unitary, nearby-cycle, arithmetic regulator and Selmer carriers for each result. The file therefore contains no declarations; the definitions, APIs and Checks are specified here in mathematical prose.
 
-## Scope and ownership
+## How to read the build
 
-This is Part II of SelmerIwasawaCohomology. The base develops continuous arithmetic cohomology, local finite and singular conditions and integral Selmer reduction (§§2.6–2.7, 4.8–4.11, 4.24–4.25), together with weak semisimplicity (§§0.12–0.13). This continuation owns their native unitary level-raising realization, the source-specific incidence and reciprocity comparisons, and the one- and two-place annihilator constructions and Selmer-rank deductions.
-
-Mathlib and Tau Ceti own the polynomial and continuous-cohomology carriers specified below. EulerSystemsAndKolyvaginSystems §§1.2–1.3, 1.6, 1.11, 1.15 and 4.4 own exponents, reducibility depth, finite/singular parts and realised Frobenius detection; SmoothRepresentationsOfLocalGroups §§SR.4.1 and SR.4.4 own Satake predicates and the unitary Hecke formulas. Those objects are imported without a second definition here. The local membership conditions use ramified coefficient fields on the supplier domains.
-
-LocalGaloisDeformationRings §§1.6, 2.3, 2.12 and 2.20 owns the general minimal, regular Fontaine–Laffaille, level-raising and rigidity predicates and generic enlargement API; §7.3 here keeps the Satake-to-arithmetic-Frobenius specialization. General PEL moduli and canonical models belong to PELModuli and ShimuraVarieties, general unitary packets and transferable levels to EndoscopicTransferAndUnitaryTraceComparison, and Galois realizations to AutomorphicGaloisRepresentationsPartII. The exact contracts below distinguish their outputs from residual supplier obligations for incidence geometry, integral nearby cycles, special-level models and regulators. ShimuraVarieties owns construction and strict semistability of the native special-level model, its link charts and generic-fibre/specialization comparison through gap native-shimura. Layer 2 uses those outputs to identify the incidence strata and their normal bundles; Layers 4–6 own graph cycles and arithmetic comparisons. The Liu–Tian Hilbert modular theorem in §8.5 is a declared gap on HilbertModularVarietiesAndShimuraCurves, not a claimed existing section.
-
-General Gan–Gross–Prasad period nonvanishing, heights and derivative formulas are outside this continuation; §8.1 starts with the definite period witness itself. The L6/L7-free rank-(2,3) refinement announced in ltxzz Remark 1.1.10 (ltxzz line 196) is not a target because that passage provides no proof. The root-number consequence of ltxzz Remark 8.3.3 (ltxzz line 6793) is not exported. A nonzero L-derivative does not replace a nonzero cycle: that implication is Conjecture 8.3.1 (ltxzz line 6748). The conditional rank statements include F⁺=ℚ, and their H(N)-free domains and small-rank specialization retain the uniform CM span premise.
-
-General Rees blowups, strict transforms and Cartier lifting belong to StableReduction Layer 4 and the pinned affine charts; §2.6 keeps the additional two-factor unitary product calculation. General nearby cycles and the weight sequence belong to LefschetzPencilsAndVanishingCycles §§7a.7–7a.9; §2.5 keeps the incidence maps and their explicit Hecke matrices. General arithmetic duality belongs to ArithmeticGaloisDuality §§R02.4.2–R02.4.3, D7.4 and D7.7, and general Chow and Gysin theory to MotivesAndAlgebraicCycles §§7.16–7.18 and EtaleCohomologyFoundations §§0.9–0.11, F.6–F.7. General hermitian classification is the declared gap hermitian-local-global on AdelicAlgebraicGroups, extending its §4.1 local-global machinery by the prescribed-invariant existence theorem. The finite diagonal period in §5.1 is the summation functional on the supplied definite sets; it adds no second finite-function or pushforward theory. Its additivity, left regular scalar linearity, coefficient maps, reindexing and nonzero-summand implication are specializations of Mathlib Finset.sum_add_distrib, Finset.mul_sum, map_sum, Equiv.sum_comp and Finset.sum_eq_zero, respectively.
+Layer 1 fixes the exact local and admissibility predicates; the coefficient algebra they are stated on is imported through the supplier contracts, not built here, so the layer's own targets are §§1.5–1.6. Layer 2 constructs the source-specific unitary reduction geometry and incidence maps. Layer 3 proves the odd Tate and even integral level-raising comparisons. Layer 4 constructs the diagonal regulator on its actual multiplicity module. Layers 5 and 6 prove the first and second reciprocity laws under their different hypothesis lists. Layer 7 realizes the arithmetic level-raising system and auxiliary-place detection. Layer 8 gives the rank deductions and their distinct specializations. Every target has a source locator and every additional supplier interface has an explicit contract.
 
 ## Conventions
 
@@ -53,200 +45,6 @@ Schemes, modules and topological groups use the supplier universes without a cou
 - cochain_sign: the two-point definite period of the actual coboundary d0(1) for the sign action of ℤˣ={±1} on ℤ is 0+(−2)=−2; TauCeti.ContCohomology.d0_apply fixes this connecting-map convention.
 - Hecke nonunit volume: for C₂ with counting measure and 𝔽₂ coefficients, μ(C₂)=0 and 1_C₂*1_C₂=0. The normalized convolution idempotent is unavailable, while the coset-counting level algebra retains its identity 1_C₂.
 - Exceptional ramified field: for F=ℚ(i), the place 2 belongs to Σ⁺bad even for a representation unramified there. Omitting it would incorrectly treat a ramified unitary group as hyperspecial.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-The baseline is 6b7abb3c7686292736be2955bd3eb9ebf63b456a. Read these as the exact pinned signatures, with the ring, group and topology instances in their Lean contexts:
-
-- Finset.sum_add_distrib and Finset.sum_eq_zero in Mathlib/Algebra/BigOperators/Group/Finset/Basic.lean; map_sum and Equiv.sum_comp in Mathlib/Algebra/BigOperators/Group/Finset/Defs.lean; Finset.mul_sum in Mathlib/Algebra/BigOperators/Ring/Finset.lean supply the finite-sum identities used by the period. They require an additive commutative monoid, with a semiring for left regular scalar linearity.
-- NumberField and NumberField.inst_ringOfIntegersAlgebra in Mathlib/NumberTheory/NumberField/Basic.lean give the fields and the induced map on integers; Ideal.absNorm in Mathlib/RingTheory/Ideal/Norm/AbsNorm.lean and Ideal.map give prime norm and extension of ideals. Algebra.IsUnramifiedIn in Mathlib/RingTheory/Unramified/Locus.lean quantifies over every upper prime above a rational prime; CyclotomicField in Mathlib/NumberTheory/Cyclotomic/Basic.lean supplies the Gaussian-field control carrier.
-- Polynomial.eval in Mathlib/Algebra/Polynomial/Eval/Defs.lean evaluates R[X] at R; eval_X computes X at its argument. Polynomial.derivative in Mathlib/Algebra/Polynomial/Derivative.lean is an R-linear map under a semiring, and derivative_X is 1. SmoothRepresentationsOfLocalGroups §SR.4.4 supplies the parity and unit/root conditions on these carriers.
-- Polynomial.reflect and coeff_reflect in Mathlib/Algebra/Polynomial/Reverse.lean reverse coefficients through the given degree. For monic degree-N P the reciprocal condition is P = (-1 : L)^N • Polynomial.reflect N P; it uses no Laurent carrier.
-- Module.torsion_by_prime_power_decomposition in Mathlib/Algebra/Module/PID.lean decomposes finite prime-power torsion modules over a PID. Module.free_iff_isTorsionFree in Mathlib/LinearAlgebra/FreeModule/PID.lean applies to finite modules over a PID; neither is asserted over an arbitrary ring.
-- TopRep.homogeneousCochains and continuousCohomology n A : TopModuleCat k in Mathlib/RepresentationTheory/Homological/ContCohomology/Basic.lean, for a ring k and topological group G with the displayed topologies. The pin uses TopRep k G and the pointwise cohomology argument n A.
-- ContinuousCohomology.cochainsMap, map, map_id and map_comp in Mathlib/RepresentationTheory/Homological/ContCohomology/Functoriality.lean: a continuous φ:H→G and f:res φ X→Y induce Hⁿ(G,X)→Hⁿ(H,Y). The identity and composition laws use those same compatible pairs.
-
-### From Tau Ceti
-
-The baseline is a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039. In TauCeti/RepresentationTheory/Homological/ContCohomology/LowDegree.lean, TauCeti.ContCohomology.d0, with d0_apply, is the additive map m↦(g↦g·m−m); H1 is the quotient of continuous 1-cocycles by continuous coboundaries, and H1pi is its quotient map. Its context retains the continuous scalar action. subsingleton_H1_of_subsingleton computes H¹ for a trivial group, subsingleton_H1_of_subsingleton_coefficients computes zero coefficients, and nsmul_H1_eq_zero transfers a coefficient exponent to H¹. These provide the low-degree anchor; none asserts an arithmetic Bloch–Kato condition.
-
-In TauCeti/AlgebraicGeometry/Blowup/AffineCharts.lean, TauCeti.AlgebraicGeometry.affineBlowupι, opensRange_affineBlowupι, iSup_opensRange_affineBlowupι and affineBlowupι_toSpecZero supply the affine Rees-blowup charts and their maps to the base; §2.6 uses these instead of rebuilding their general API. Mathlib reesAlgebra and mem_reesAlgebra_iff in Mathlib/RingTheory/ReesAlgebra.lean supply the underlying graded algebra for a commutative ring and an ideal.
-
-### From TauCetiRoadmap.EtaleCohomologyFoundations
-
-§F.0.3, §§F.2.1–F.2.3, §F.2.6, §F.2.7, §F.3a, §§F.4.0–F.4.6, §§0.9–0.11, §F.6, §F.7: Tate twists, trait inertia, stable lattices, finite/adic cohomology, derived reduction and rationalization, Künneth, Gysin, cycle classes, trace and blowups on their stated domains. Sections F.2.1–F.2.3 supply proper/smooth base change and smooth local acyclicity; §§F.4.1, F.4.6 pass these to adic coefficients and continuous actions for the proper good-reduction input of 7.3.
-
-### From TauCetiRoadmap.StableReduction
-
-Layer 4: Rees-algebra blowups, their unique lifting for maps with effective-Cartier inverse-image center, strict transforms and exceptional divisors. Use the affine chart maps at the Tau Ceti pin on their stated commutative-ring/localization domain.
-
-### From TauCetiRoadmap.ProfiniteCohomology
-
-Layers 1–3, Layers 5–8, Layer 10: Explicit/canonical finite discrete coefficient comparisons, exactness, restriction, transfer and cups; no ℓ-adic Hochschild–Serre or non-discrete exactness is inferred.
-
-### From TauCetiRoadmap.Chebotarev
-
-Layers 1–2, Layer 10: Arithmetic Frobenius conjugacy classes, finite exclusions and infinitely many primes over arbitrary number fields.
-
-### From TauCetiRoadmap.SchemeAndStackFoundations
-
-§2.15 (hochschildSerre_galois_covering), §§0.3, 5.4–5.5: Galois-cover descent, relative Proj, projectiveBundle with its lines/quotients convention comparison, Chern classes and normal-bundle self-intersection; the adic single-row edge remains gap hochshild-serre-adic.
-
-**Adic arithmetic Hochschild–Serre edge identification.** Use the geometric Galois action of EtaleCohomologyFoundations §F.4.6 and the Galois-cover descent of §2.15. Extend to Oλ, Oλ/λᵐ and Eλ geometric complexes, compatibly with reduction, rationalization and localization; with only geometric row 2n−1, identify absolute H²ⁿ with H¹(F,H²ⁿ⁻¹) (ltxzz line 6767). Used by §§4.3, 4.6, 6.4.
-
-What SchemeAndStackFoundations must provide (gap:hochshild-serre-adic): Supply the adic Hochschild–Serre spectral sequence and its single-row edge identification, using EtaleCohomologyFoundations §F.4.6 for continuous actions.
-
-### From TauCetiRoadmap.SelmerIwasawaCohomology
-
-§§0.12–0.13, §§2.6–2.7, §§4.8–4.11, §§4.24–4.25: IsWeaklySemisimple, invariantCoinvariantMap, the surjective-can criterion of §0.13 and weaklySemisimple_integral_lift; propagated finite conditions, global integral Selmer images, conjugation, crystalline annihilators and the uniform local annihilation theorem of §4.25 with both H⁰ vanishings. Section 4.8 supplies the nonsingular crystalline extension submodule and its coefficient-map compatibility for torsion crystalline extensions and equivariant coefficient pushout.
-
-### From TauCetiRoadmap.EulerSystemsAndKolyvaginSystems
-
-§§1.2–1.3, §1.6, §1.11, §1.15, §4.4: TauCeti.ErrorTolerant.expAt, ordAt and reducibilityDepth; finite/singular parts, both Res_ρ injectivity criteria (the semisimple branch requires Hom_𝔽ℓ[ΓF](End_k(R̄),R̄)=0, equivalently vanishing for every coefficient Frobenius twist, for k=kλ), θ_S, abundance and the realised Frobenius span condition (v), with f(1)=1 and f(2)=4. Section 4.4 supplies scaled_inverse: for an evaluation matrix D with image containing π^c A_k^r there is C with DC=CD=π^c I; its columns span a submodule containing π^c S and are guaranteed to form a basis when c=0; no basis assertion is made for positive loss. It also supplies the primitive-kernel statement for rank two.
-
-### From TauCetiRoadmap.SmoothRepresentationsOfLocalGroups
-
-§§SR.1.1–SR.1.2: unit-volume convolution comparisons, coefficient-independent permutation level algebras, mixed-level coset traces and the inverse-double-coset anti-involution. §§SR.4.1, SR.4.4: Normalized Satake, unitary-genericity, paired-unitary-parameter, actual double-coset operators, unitary-even-formulas and unitary-odd-formulas, over coefficient rings with q invertible. On Mathlib’s carrier reciprocity is P = (−1)^N • Polynomial.reflect N P, with P monic of degree N.
-
-### From TauCetiRoadmap.ArithmeticGaloisDuality
-
-§§R02.4.2–R02.4.3, §D7.4, §D7.7: Defined local Tate pairings, global sum-zero reciprocity and coefficient/dual-local-condition compatibilities; gap purity-crystalline-regulator records the additional all-place regulator theorem and its torsion crystalline good-reduction conclusion, compatible with Hecke quotients and equivariant integral lattice maps.
-
-**All-place purity and finite regulator theorem.** Need tempered local-global purity of weight −1, local Euler characteristic with dual invariants, and crystalline regulator at good smooth integral reduction above ℓ, including nonproper projected cohomology; separate general purity belongs to DeligneWeightsAndPurity and crystalline comparison to PadicHodgeTheory. ltxzz line 6484, ltxzz line 6796; the integral extension condition and congruence-level construction are ltxzz Definitions 2.2.4–2.2.5, lines 591–610, and equations (8.5), (8.14), lines 6637–6638, 6681–6701, 6891–6897. Used by §§4.4, 7.3.
-
-What ArithmeticGaloisDuality must provide (gap:purity-crystalline-regulator): Bind the rational all-place finite regulator theorem and its compatible integral-lattice realization, and the torsion crystalline nonsingularity at every w|ℓ of the integral Abel–Jacobi class of a cycle with good smooth reduction on the model and support domain used here, compatible with Hecke quotients and Oλ[ΓF]-linear maps.
-
-### From TauCetiRoadmap.AutomorphicGaloisRepresentationsPartII
-
-AG2.1b (The actual Galois constituent of cohomology) and its archimedean multiplicity subsection, AG2.2 (Galois assembly for discrete unitary transfer; Attachment under cuspidal solvable base change), AG2.5 (Unramifiedness and the good-prime polynomial; Published RACSDC comparison specializations), AG2.6 (Strong coefficient field; Uniform strong realization of polarized systems; Purity and polarization of the polarized system), AG2.7 (Residual representation of π; Residual genericity outside finitely many λ; Unitary discrete-parameter export; Lattice and residual polynomial export): General-rank attachment, local comparisons and temperedness in the relevant specialization, strong coefficient fields and stable polarized lattices; actual multiplicity identifications retain the distinct gap automorphic-multiplicity. AG2.1b (Weight separation into the middle degree) and its archimedean multiplicity subsection have compact ST/END hypotheses; gap diagonal-concentration records the full rational native-unitary concentration and nonproper cuspidal boundary specialization needed in 4.3.
-
-**Exact cohomological multiplicity H(N).** The contracts for actual constituents and packets in AG2.1b, AG2.2, AG2.5–AG2.7 do not identify every standard unitary isotypic multiplicity space. Require H(N) exactly as in Conventions and its proof on the domain N≤3 or F⁺≠ℚ of ltxzz Proposition 3.2.11 (ltxzz line 1259–1277); for F⁺=ℚ and N≥4 it remains an explicit premise, not an asserted theorem. Used by §§3.2, 3.6, 3.7, 4.5, 6.3, 8.3, 8.4.
-
-What AutomorphicGaloisRepresentationsPartII must provide (gap:automorphic-multiplicity): Supply the exact H(N) multiplicity identification, with its N≤3 and F⁺≠ℚ removal theorems and the c-conjugation of Hypothesis 3.2.10.
-
-**Rational cuspidal concentration on the native diagonal product.** AG2.1b supplies middle-degree concentration on its compact ST/END domain. Require the rational specialization to every standard indefinite native unitary level of 4.1 and each relevant cuspidal Πα: the Πα-projected rank-nα geometric cohomology vanishes outside degree nα−1, so Künneth concentrates the product in degree 2n−1. For F⁺=ℚ include rational cuspidal boundary exclusion and identification with ordinary cohomology, without residual absolute irreducibility or H(n),H(n+1). The separate boundary-cohomology gap supplies integral boundary localization only under residual absolute irreducibility. The general rational assertion is ltxzz line 6767–6772, not an asserted enlargement of the compact ST/END target. Used by §§4.3.
-
-What AutomorphicGaloisRepresentationsPartII must provide (gap:diagonal-concentration): Extend AG2.1b middle-degree concentration and comparison of archimedean packets to the native relevant cuspidal Hecke quotients of 4.1 in every rank and level, including rational cuspidal boundary exclusion for F⁺=ℚ, independently of H(n),H(n+1) and residual absolute irreducibility.
-
-### From TauCetiRoadmap.EndoscopicTransferAndUnitaryTraceComparison
-
-§9.1 (the raw compact-unitary multiplicity space), §§11.2–11.4, §§12.12–12.15, §§13.1, 13.5–13.9: Local unitary packets, actual tower cohomology, definite Shimura sets and raw multiplicities, multiplicity one for relevant packets, both transfer-witness clauses of §13.7, switches of packets and the D.2.3 oldform dimensions. Retain its classification inputs and finite-place temperedness. The supplied §§13.7 and 13.9 theorems require Σmin⊇S_pf, Σlr∩S_pf=∅ and sufficiently small levels at S_pf as in §6.14; hyperspecial transfer is supplied only above the stated residue-characteristic bounds. Retain the unitary classification contract of §§11.0d–11.0e, fixed measures, normalized intertwiners and separate finite-place temperedness. Throughout this roadmap, transferable level means the two actual transfer-witness clauses of §13.7, with 1_K unnormalized and e_K=1_K/vol(K); it does not impose the supplier theorem’s S_pf/small-level restrictions on the endpoints. Any use beyond that theorem domain consumes gap old-form-dimension, not an inferred enlargement or descent along covers. Gaps old-form-dimension and local-unitary-representations specify the remaining comparisons.
-
-**Transfer dimension comparison in even rank.** Sections 13.7 and 13.9 supply transfer and the D.2.3 dimension formula only when Σmin⊇S_pf, Σlr∩S_pf=∅ and levels at S_pf are sufficiently small, with hyperspecial transfer above the stated residue-characteristic bounds. Beyond that domain require hyperspecial transfer at every allowed unramified place, transfer at sufficiently small exceptional levels at every residue characteristic, and the oldform comparison for every finite configuration and transferable neat level allowed by §§2.1, 4.1, 5.1 and 6.1, without imposing S_pf or extra smallness on the rank endpoints; arbitrary exceptional levels are not asserted transferable. Use the normalized idempotent dimension formula of ltxzz Proposition D.2.3, pp. 174–177 (ltxzz line 9631), and Lemma 6.4.2 (ltxzz line 5741–5748) for the normalized-intertwiner isomorphism on GL_N(O_Fv)-restrictions of two relevant tempered lifts of the same rigid residual representation at v∈Σ⁺min. Retain finite-place temperedness, classification hypotheses and Haar/volume conventions. No arbitrary-level integral descent is inferred from a finite cover whose degree may be divisible by λ. Used by §§2.1, 3.3, 4.1, 5.1, 6.1, 8.1, 8.2.
-
-What EndoscopicTransferAndUnitaryTraceComparison must provide (gap:old-form-dimension): Supply hyperspecial transfer at every allowed unramified place and transfer at sufficiently small exceptional levels in every residue characteristic, and extend the D.2.3 identity and ltxzz Lemma 6.4.2 to every transferable neat level and finite configuration permitted here, without S_pf or additional small-level endpoint restrictions.
-
-**Local unitary constituents and cohomological decomposition.** Use the contracts for local packets and actual tower cohomology on their own domains. The finite-field primitive link cohomology of ltxzz Proposition 5.6.4 still requires its specific unitary constituent and Frobenius comparison, rather than identification with Lubin–Tate tower cohomology (ltxzz line 3368–3376). Used by §§3.2, 3.4, 6.3.
-
-What EndoscopicTransferAndUnitaryTraceComparison must provide (gap:local-unitary-representations): Supply the primitive link-cohomology constituent/Frobenius comparison of ltxzz Proposition 5.6.4 beyond the bound interfaces for local packets and towers.
-
-### From TauCetiRoadmap.IgusaVarietiesAndTorsionConcentration
-
-§IG.7.2: IsCohomologicallyGeneric with every exceptional-set enlargement, standard indefinite space and compatible level; IsCohomologicallyGeneric.of_decomposedGeneric retains F⁺≠ℚ and decomposed-generic witnesses away from every prescribed finite enlargement. Genericity is not inferred from one fixed module.
-
-### From TauCetiRoadmap.PELModuli
-
-§§M0.25–M0.26, §M2.8, §§M2.12–M2.14, §M4.3, §§M4.5–M4.9: CM types and the published reflexive closure, unitaryDeformation and isogenyKernelRanks at odd unramified p, representability/smoothness, PEL generic fibres and normalized higher levels, cmModuli1 and torusInvariantCohomology with torusTrace. Definite nonsimilitude sets and special-level semistability have their separate contracts. Use cmModuli_galois, torusInvariantCohomology_functorial and torusTrace_indep on finite p-coprime or constructible adic Oλ/Eλ coefficients; compact supports require separated finite type, and orbit trace requires smooth pure dimension and free Γ-action on components.
-
-### From TauCetiRoadmap.ShimuraVarieties
-
-§5.1, §6.7: CM types and reflex fields, and abelian-type canonical models; gaps native-shimura and unitary-special-compatibility state the additional models and diagrams.
-
-**Native unitary Shimura schemes and integral models.** Beyond the PEL models and generic-fibre comparisons of PELModuli §§M2.8, M4.3, M4.5–M4.6 and the definite sets of EndoscopicTransferAndUnitaryTraceComparison §§13.1, 13.8, require the native strictly semistable unitary special-level model, its reduced components and link charts xy=p, and 𝔗-equivariant generic-fibre and ordinary/compact specialization comparisons on the nonproper domain (ltxzz line 2653, 2744, 4725). Incidence identifications and normal bundles are conclusions of §2.3 here. At every finite w away from Σ⁺min, ℓ and the detecting places, also require smooth hyperspecial models with the ordinary/compact specialization isomorphisms of ltxzz Lemma 4.2.4, compatible with the Hecke quotient and the extending graph cycle. For F⁺≠ℚ include the proper smooth models of Remark 5.2.8 at all places above Σ⁺_p∖{p}, including Σ⁺_p₁∖{p₁} in the two-place construction (ltxzz line 1744–1754, 2754–2768, 6700–6701, 6901–6902). PELModuli §§M2.8, M4.3 supplies only its stated smooth hyperspecial domain; remaining native model and nonproper specialization comparisons are required here without an additional prime exclusion. Used by §§2.1, 2.2, 2.3, 2.6, 4.1, 5.1, 7.3, 8.1, 8.2.
-
-What ShimuraVarieties must provide (gap:native-shimura): Supply the native strictly semistable models of ltxzz §5.2 with link charts and 𝔗-equivariant generic-fibre and nonproper ordinary/compact specialization comparisons, the smooth hyperspecial models and Lemma 4.2.4 specialization isomorphisms at every nondetecting w outside Σ⁺min and ℓ, compatible with the extending graph cycle and Hecke quotient, and the proper smooth models of Remark 5.2.8 above Σ⁺_p∖{p} for F⁺≠ℚ.
-
-**Special homomorphism under basic uniformizations.** Supply addition-of-line maps V→V⊕⟨1⟩ and definite/indefinite uniformization compatibilities on the native level domains, including the two definite correspondence legs and their double-coset maps, with lattice/polarization scaling by ϖ. The basic square of Proposition 4.5.5 is Cartesian for even n only; the ground square of Proposition 5.10.6 is Cartesian for odd n; the link squares of Lemma 5.10.8(1)/(2) have respectively even/odd n. For §6.2 use the product square in the proof of Theorem 4.6.2, from Proposition 4.5.5 for even n and Lemma 4.5.2 for odd n (ltxzz line 2286–2297, 2552–2563, 4432, 4461–4479). Source-specific geometric reciprocity is proved in §§5.2/6.2. Used by §§2.6, 5.2, 6.1, 6.2.
-
-What ShimuraVarieties must provide (gap:unitary-special-compatibility): Supply native addition-of-line and uniformization compatibilities with isogeny scaling by ϖ, the even-n Cartesian square of Proposition 4.5.5, odd-n ground square of Proposition 5.10.6, even/odd link squares of Lemma 5.10.8(1)/(2), and the all-parity product square of Theorem 4.6.2 using Lemma 4.5.2 in odd rank.
-
-### From TauCetiRoadmap.LefschetzPencilsAndVanishingCycles
-
-§§7a.7–7a.9: Nearby-cycle stalks with finite/adic coefficients and the rational weight spectral sequence with its nonproper nearby-cohomology abutment. The integral filtered complex and stratum spectral sequence require gap integral-nearby-complex; the additional parity-dependent cohomological filtration and inertia cokernel require gap nearby-weight, and the cycle-boundary comparison requires gap semistable-boundary.
-
-**Integral filtered nearby complex and stratum spectral sequence.** For a separated finite-type strictly semistable X over a henselian trait, of pure relative dimension d, with smooth intersection strata and ℓ invertible on the trait, require the filtered nearby-cycle complex with its derived inertia action for L=Oλ and Oλ/λᵐ, m≥1. If Y^(j) is the disjoint union of (j+1)-fold geometric special-fibre intersections and a_j:Y^(j)→Y, its graded pieces are gr_j RΨL=⊕_(a,b≥0,a−b=j) a_(a+b),*L(−a)[−a−b]. For every Tate twist t the associated spectral sequence has E₁^(u,v)=⊕_(i≥max(0,−u)) H^(v−2i)(Y^(u+2i),L(t−i)) and abuts to H^(u+v)(Y,RΨL(t)); empty strata contribute zero. Its d₁ is the alternating restriction/Gysin differential in ordered-component coordinates, chosen so the two-branch maps are (j₀!,−j₁!) and j₀*−j₁*. On graded pieces, the integral operator induced by tame variation maps gr_j to gr_(j−2)(−1); it is the identity from the (a,b) summand to (a−1,b+1) after that twist for a≥1, zero otherwise. Retain its compatibility with the derived tame inertia action, coefficient extension, derived reduction modulo λᵐ and rationalization; no division by a logarithm denominator is used. Require equivariance and passage to the H_𝔗 stratum sequence on the CM-torsor descent domain of Conventions. Properness is not assumed; a generic-fibre comparison is the separate native-shimura contract. No equality with the cohomological weight-monodromy filtration is asserted. The two-branch specialization is ltxzz Construction 5.9.1, pp. 84–85 (ltxzz line 4023); the three-branch product sequence is equation (5.27), pp. 98–99 (ltxzz line 4777). Used by §§2.5, 2.6, 5.3.
-
-What LefschetzPencilsAndVanishingCycles must provide (gap:integral-nearby-complex): Extend §§7a.7–7a.9 to the integral and finite-coefficient filtered nearby-cycle complex with derived inertia action, stratum E₁ terms, alternating restriction/Gysin differential, integral tame operator on graded pieces, coefficient compatibilities and nearby-cohomology abutment for separated finite-type strictly semistable schemes with smooth intersection strata over a henselian trait and ℓ invertible, without properness, including the two- and three-branch models used here.
-
-**Integral nearby cycles, weight sequence and monodromy.** For two-component strictly semistable schemes without properness, of relative dimension 2r−1, with ℓ different from the residue characteristic, L=Oλ or Oλ/λᵐ, and H^odd_𝔗(M°,L)=H^odd_𝔗(M†,L)=0, require the three-step filtration of H²ʳ⁻¹_𝔗(M,RΨL(r)) induced by the filtered nearby complex, with graded pieces E₂¹,²ʳ⁻², H²ʳ⁻¹_𝔗(M•,L(r)), E₂⁻¹,²ʳ and the integral tame monodromy induced by the identity on H²ʳ⁻²_𝔗(M†,L(r−1)); retain F₋₁H¹(I,H)≃coker(μ:E₂⁻¹,²ʳ→E₂¹,²ʳ⁻²(−1)) for H=H²ʳ⁻¹_𝔗(M,RΨL(r)), and the restriction/Gysin image presentation of part (5) (ltxzz line 4122–4150). This is the filtration induced from nearby cycles, not a general weight-monodromy equality on cohomology. Used by §§2.5, 2.6.
-
-What LefschetzPencilsAndVanishingCycles must provide (gap:nearby-weight): Extend §§7a.7–7a.9 to the torsion and adic two-component filtration and filtered inertia quotient of ltxzz Lemma 5.9.3(3)–(5) under those explicit stratum parity vanishings.
-
-**Singular cohomology and the potential boundary cokernel.** Need the general comparison for integral strictly semistable schemes with ordinary/compact comparison, concentration, Frobenius exclusions and weak semisimplicity; identify ∂AJ with the actual integral potential-map cycle class. The unitary hypotheses are verified in 5.3; the generic theorem is not an arbitrary chosen isomorphism. ltxzz line 6024, ltxzz line 6030. Used by §§5.4.
-
-What LefschetzPencilsAndVanishingCycles must provide (gap:semistable-boundary): Bind the semistable potential-map comparison and its Abel–Jacobi value on a cycle, retaining the nonproper support hypothesis.
-
-### From TauCetiRoadmap.MotivesAndAlgebraicCycles
-
-§§7.16–7.18: Geometrically homologically trivial Chow domain, rank predicates and the unitary specialization; the integral arithmetic étale regulator is gap chow-abel-jacobi.
-
-**Chow cycles and the arithmetic étale regulator.** Beyond the homologically trivial Chow domain and rank predicates of §§7.16–7.18, require the Oλ-coefficient arithmetic étale regulator on CHⁿ(X)^0 and compatibility with proper pushforward, pullback, coefficient change and reduction, on the smooth schemes and support domains used here (ltxzz line 6152, 6767). Used by §§4.2, 4.3, 4.6.
-
-What MotivesAndAlgebraicCycles must provide (gap:chow-abel-jacobi): Supply the integral arithmetic étale regulator on CHⁿ(X)^0 with its pushforward, pullback and coefficient compatibilities.
-
-### From TauCetiRoadmap.GlobalGaloisDeformations
-
-§5.2, §§3.3–3.8: IsCyclotomicAbsIrred in its rank-two scope and global deformation rings. In higher rank L6 and A7.2.2 retain the literal absolute irreducibility of restriction to Γ_F(ζℓ); no rank-two equivalence with a dihedral condition is used. Gaps rigid-r-equals-t and eventual-rigidity are additional global obligations.
-
-**Rigid R=T, complete intersections and Hecke freeness.** For the polarized problem retain d0–D4 of ltxzz-deformation Theorem 3.6.3, including Fontaine–Laffaille width, ℓ≥2(N+1), arbitrary-rank cyclotomic irreducibility, rigidity, residual concentration and a nonzero localized module; Σlr=∅ in odd rank. Require Runiv≃T_m, finite free middle cohomology, and the mixed-to-congruence maps, using local rings from LocalGaloisDeformationRings (ltxzz-deformation line 1444; ltxzz line 5662; ltxzz-published Theorem 6.3.4(a), p. 277, line 6408). Used by §§3.3, 3.6.
-
-What GlobalGaloisDeformations must provide (gap:rigid-r-equals-t): Supply the polarized global rigid R=T and freeness theorem and its mixed-to-congruence deformation maps at full coefficient generality.
-
-**Eventual rigidity in the two specified families.** Require eventual minimal/FL rigidity for the non-CM symmetric-power family and the supercuspidal relevant family, with their respective hypotheses, as used in ltxzz Lemmas 8.1.3–8.1.4; ltxzz-deformation line 1880; ltxzz line 6410, ltxzz line 6429. Used by §§7.4.
-
-What GlobalGaloisDeformations must provide (gap:eventual-rigidity): Bind eventual rigidity and cyclotomic residual irreducibility for the stated families only.
-
-### From TauCetiRoadmap.ArithmeticGaloisRepresentations
-
-**Congruence image lifting for polarized tensors.** Need finite congruence images of polarized representation pairs, lifting and prime-to-ℓ powering with simultaneous cyclotomic control. Target 7.1 owns the source-specific Rankin–Selberg conclusion; general finite-group and polarized-image construction remains upstream. ltxzz line 918. Used by §§7.1.
-
-What ArithmeticGaloisRepresentations must provide (gap:polarized-image-lifting): Bind finite congruence image and prime-to-ℓ lifting operations with their polarization/cyclotomic compatibilities.
-
-**Independent elliptic images and Steinberg tensor criterion.** Need independent non-CM elliptic residual images, symmetric powers and their polarizations, plus the tensor irreducibility/adjoint exclusion criterion with one regular even unipotent and trivial odd action in characteristic zero or ≥2n(n+1)−1. Over finite k, require exclusion from every End_k(R̄)^(σ), σ∈Gal(k/𝔽ℓ); twisting preserves semisimplicity and the odd Jordan block sizes of that adjoint. ltxzz line 942, ltxzz line 6459. Used by §§7.4.
-
-What ArithmeticGaloisRepresentations must provide (gap:eventual-images): Bind the residual-image and tensor-irreducibility facts needed to check the two admissibility families, including exclusion from every coefficient Frobenius twist of the adjoint over finite residue fields.
-
-### From TauCetiRoadmap.LocalGaloisDeformationRings
-
-§§1.6, 2.3, 2.12, 2.20: FLDeformation and FLDeformation.coefficientRealization, IsMinimallyRamified and minimal_baseChange, the fixed-multiplier LevelRaising.mix, LevelRaising.unr, LevelRaising.ram and LevelRaising.unr_eq_minimal, and IsRigidFor with IsRigidFor.minimal, IsRigidFor.levelRaising, IsRigidFor.fontaineLaffaille, IsRigidFor.unramified and IsRigidFor.mono. For polarized rank N≥2 retain ℓ≥N, the fixed similitude η_(F/F⁺)^N εℓ^(1−N), disjoint finite minimal and inert raising sets away from ℓ, and Σlr=∅ in odd rank. The minimal condition quantifies over every lift with that similitude. Above ℓ retain the unramified local-field domain and the regular coefficient Fontaine–Laffaille condition with labelled multiplicities at most one in [0,ℓ−2]. At each raising place v require unramified residual restriction, ℓ∤Nv((Nv)²−1), and the arithmetic-Frobenius pair {Nv^(−N),Nv^(−N+2)} exactly once; §2.12 uses the even multiplier exponent μ=N in the even-rank application. The generic enlargement is IsRigidFor.mono; §7.3 supplies its Satake specialization (ltxzz Definition 6.3.4, lines 5623–5632). L1 gives ℓ>4n≥N for N∈{n,n+1}; L1–L2 retain the unramified Fontaine–Laffaille domain.
-
-### From TauCetiRoadmap.IntegralHeckeAndGaloisDeterminants
-
-**Finite Hecke-support contraction at chosen Frobenius.** Need finite support of localized native Hecke modules, distinction of nonisomorphic residual Galois systems by Frobenius, and contraction invariance between T_O coefficient algebras after omitting an auxiliary rational support, simultaneously with the detecting conjugacy class; all residual and λᵐ quotients use n_(Π,m) of Conventions, including ramified Oλ. ltxzz line 5173, ltxzz line 5880, ltxzz line 6617, ltxzz line 6856. Chebotarev alone does not prove a Hecke quotient map is an isomorphism. Used by §§7.2.
-
-What IntegralHeckeAndGaloisDeterminants must provide (gap:hecke-finite-support): Bind the finite-support/Frobenius separation theorem proving congruence quotient comparisons for the Oλ-extended Hecke algebras and their n_(Π,m) coefficient kernels, including ramified coefficients.
-
-### From TauCetiRoadmap.ShimuraCompactifications
-
-**Boundary localization at irreducible residual systems.** Need toroidal compactification for rank-one nonproper unitary varieties and boundary Eisenstein/isobaric cohomology: residual absolute irreducibility kills the boundary in every degree. ltxzz line 5255. Compactness is not a silent premise. Used by §§3.1, 4.3.
-
-What ShimuraCompactifications must provide (gap:boundary-cohomology): Bind the native boundary cohomology theorem identifying ordinary and compact supports after localization.
-
-### From TauCetiRoadmap.ReductiveGroupsPartII
-
-**Hermitian Frobenius incidence varieties and their cohomology.** Hermitian Frobenius incidence schemes with the admissible possibly degenerate forms of Appendix A need tangent and normal bundles, integral cohomology, cycle intersections and finite-field counts; arithmetic identification with the strata is owned here (ltxzz line 6937). Used by §§2.2, 2.3, 2.4.
-
-What ReductiveGroupsPartII must provide (gap:unitary-incidence): Supply Appendix A hermitian incidence geometry and its cohomology as a new obligation; no existing incidence section is asserted.
-
-### From TauCetiRoadmap.HilbertModularVarietiesAndShimuraCurves
-
-**Hilbert modular level raising comparison.** The odd-degree Hilbert modular unramified level-raising theorem is a supplier obligation on its native supersingular cycles, with LIInd and the residual dimension equality retained (liu-tian line 1407, 1477, 1496); no existing Liu–Tian section is claimed. Used by §§8.5.
-
-What HilbertModularVarietiesAndShimuraCurves must provide (gap:hilbert-precursor): Supply Liu–Tian Theorem 4.7 on its exact Assumption 4.1 and Definition 4.5 domain for the comparison in §8.5.
-
-### From TauCetiRoadmap.AdelicAlgebraicGroups
-
-New obligation after §4.1: hermitian local-global classification, gap hermitian-local-global: Supply the Hasse classification and existence of global hermitian spaces with compatible prescribed local invariants.
-
-**Global hermitian spaces with prescribed invariants.** For CM F/F⁺, construct standard hermitian spaces with the specified real signatures and finite local invariants exactly when the determinant/Hasse product compatibility holds; include the definite/indefinite switch used in ltxzz §§3.2, 3.4 and 5.1. Used by §§2.1.
-
-What AdelicAlgebraicGroups must provide (gap:hermitian-local-global): Supply the Hasse classification and existence of global hermitian spaces with compatible prescribed local invariants.
-
-## How to read the build
-
-Layer 1 fixes the exact local and admissibility predicates; the coefficient algebra they are stated on is imported through the supplier contracts, not built here, so the layer's own targets are §§1.5–1.6. Layer 2 constructs the source-specific unitary reduction geometry and incidence maps. Layer 3 proves the odd Tate and even integral level-raising comparisons. Layer 4 constructs the diagonal regulator on its actual multiplicity module. Layers 5 and 6 prove the first and second reciprocity laws under their different hypothesis lists. Layer 7 realizes the arithmetic level-raising system and auxiliary-place detection. Layer 8 gives the rank deductions and their distinct specializations. Every target has a source locator and every additional supplier interface has an explicit contract.
 
 ## Layer 1: Coefficient algebra, local predicates and admissibility
 
@@ -980,6 +778,208 @@ Layer 4 §4.4; Layer 7 §7.3; SelmerIwasawaCohomology §§4.10–4.11, 4.24–4.
 ## Downstream consumers
 
 PeriodsAndSpecialValues consumes §§1.6, 4.1–4.6, 5.5–6.4 and 8.1–8.4 for admissibility, diagonal regulators, reciprocity and rank statements, retaining the uniform realised Frobenius span hypotheses. It supplies no premise to this roadmap. An arithmetic Gan–Gross–Prasad application can use these interfaces for cycle and height results. Its L-value corollary requires an independently supplied theorem converting L(1/2,Π₀×Π₁)≠0 to the definite witness of §8.1 (ltxzz Lemma 8.2.1, lines 6548–6565), with the other §8.1 hypotheses retained. No L-derivative or height formula is exported here.
+
+## Scope and ownership
+
+This is Part II of SelmerIwasawaCohomology. The base develops continuous arithmetic cohomology, local finite and singular conditions and integral Selmer reduction (§§2.6–2.7, 4.8–4.11, 4.24–4.25), together with weak semisimplicity (§§0.12–0.13). This continuation owns their native unitary level-raising realization, the source-specific incidence and reciprocity comparisons, and the one- and two-place annihilator constructions and Selmer-rank deductions.
+
+Mathlib and Tau Ceti own the polynomial and continuous-cohomology carriers specified below. EulerSystemsAndKolyvaginSystems §§1.2–1.3, 1.6, 1.11, 1.15 and 4.4 own exponents, reducibility depth, finite/singular parts and realised Frobenius detection; SmoothRepresentationsOfLocalGroups §§SR.4.1 and SR.4.4 own Satake predicates and the unitary Hecke formulas. Those objects are imported without a second definition here. The local membership conditions use ramified coefficient fields on the supplier domains.
+
+LocalGaloisDeformationRings §§1.6, 2.3, 2.12 and 2.20 owns the general minimal, regular Fontaine–Laffaille, level-raising and rigidity predicates and generic enlargement API; §7.3 here keeps the Satake-to-arithmetic-Frobenius specialization. General PEL moduli and canonical models belong to PELModuli and ShimuraVarieties, general unitary packets and transferable levels to EndoscopicTransferAndUnitaryTraceComparison, and Galois realizations to AutomorphicGaloisRepresentationsPartII. The exact contracts below distinguish their outputs from residual supplier obligations for incidence geometry, integral nearby cycles, special-level models and regulators. ShimuraVarieties owns construction and strict semistability of the native special-level model, its link charts and generic-fibre/specialization comparison through gap native-shimura. Layer 2 uses those outputs to identify the incidence strata and their normal bundles; Layers 4–6 own graph cycles and arithmetic comparisons. The Liu–Tian Hilbert modular theorem in §8.5 is a declared gap on HilbertModularVarietiesAndShimuraCurves, not a claimed existing section.
+
+General Gan–Gross–Prasad period nonvanishing, heights and derivative formulas are outside this continuation; §8.1 starts with the definite period witness itself. The L6/L7-free rank-(2,3) refinement announced in ltxzz Remark 1.1.10 (ltxzz line 196) is not a target because that passage provides no proof. The root-number consequence of ltxzz Remark 8.3.3 (ltxzz line 6793) is not exported. A nonzero L-derivative does not replace a nonzero cycle: that implication is Conjecture 8.3.1 (ltxzz line 6748). The conditional rank statements include F⁺=ℚ, and their H(N)-free domains and small-rank specialization retain the uniform CM span premise.
+
+General Rees blowups, strict transforms and Cartier lifting belong to StableReduction Layer 4 and the pinned affine charts; §2.6 keeps the additional two-factor unitary product calculation. General nearby cycles and the weight sequence belong to LefschetzPencilsAndVanishingCycles §§7a.7–7a.9; §2.5 keeps the incidence maps and their explicit Hecke matrices. General arithmetic duality belongs to ArithmeticGaloisDuality §§R02.4.2–R02.4.3, D7.4 and D7.7, and general Chow and Gysin theory to MotivesAndAlgebraicCycles §§7.16–7.18 and EtaleCohomologyFoundations §§0.9–0.11, F.6–F.7. General hermitian classification is the declared gap hermitian-local-global on AdelicAlgebraicGroups, extending its §4.1 local-global machinery by the prescribed-invariant existence theorem. The finite diagonal period in §5.1 is the summation functional on the supplied definite sets; it adds no second finite-function or pushforward theory. Its additivity, left regular scalar linearity, coefficient maps, reindexing and nonzero-summand implication are specializations of Mathlib Finset.sum_add_distrib, Finset.mul_sum, map_sum, Equiv.sum_comp and Finset.sum_eq_zero, respectively.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+The baseline is 6b7abb3c7686292736be2955bd3eb9ebf63b456a. Read these as the exact pinned signatures, with the ring, group and topology instances in their Lean contexts:
+
+- Finset.sum_add_distrib and Finset.sum_eq_zero in Mathlib/Algebra/BigOperators/Group/Finset/Basic.lean; map_sum and Equiv.sum_comp in Mathlib/Algebra/BigOperators/Group/Finset/Defs.lean; Finset.mul_sum in Mathlib/Algebra/BigOperators/Ring/Finset.lean supply the finite-sum identities used by the period. They require an additive commutative monoid, with a semiring for left regular scalar linearity.
+- NumberField and NumberField.inst_ringOfIntegersAlgebra in Mathlib/NumberTheory/NumberField/Basic.lean give the fields and the induced map on integers; Ideal.absNorm in Mathlib/RingTheory/Ideal/Norm/AbsNorm.lean and Ideal.map give prime norm and extension of ideals. Algebra.IsUnramifiedIn in Mathlib/RingTheory/Unramified/Locus.lean quantifies over every upper prime above a rational prime; CyclotomicField in Mathlib/NumberTheory/Cyclotomic/Basic.lean supplies the Gaussian-field control carrier.
+- Polynomial.eval in Mathlib/Algebra/Polynomial/Eval/Defs.lean evaluates R[X] at R; eval_X computes X at its argument. Polynomial.derivative in Mathlib/Algebra/Polynomial/Derivative.lean is an R-linear map under a semiring, and derivative_X is 1. SmoothRepresentationsOfLocalGroups §SR.4.4 supplies the parity and unit/root conditions on these carriers.
+- Polynomial.reflect and coeff_reflect in Mathlib/Algebra/Polynomial/Reverse.lean reverse coefficients through the given degree. For monic degree-N P the reciprocal condition is P = (-1 : L)^N • Polynomial.reflect N P; it uses no Laurent carrier.
+- Module.torsion_by_prime_power_decomposition in Mathlib/Algebra/Module/PID.lean decomposes finite prime-power torsion modules over a PID. Module.free_iff_isTorsionFree in Mathlib/LinearAlgebra/FreeModule/PID.lean applies to finite modules over a PID; neither is asserted over an arbitrary ring.
+- TopRep.homogeneousCochains and continuousCohomology n A : TopModuleCat k in Mathlib/RepresentationTheory/Homological/ContCohomology/Basic.lean, for a ring k and topological group G with the displayed topologies. The pin uses TopRep k G and the pointwise cohomology argument n A.
+- ContinuousCohomology.cochainsMap, map, map_id and map_comp in Mathlib/RepresentationTheory/Homological/ContCohomology/Functoriality.lean: a continuous φ:H→G and f:res φ X→Y induce Hⁿ(G,X)→Hⁿ(H,Y). The identity and composition laws use those same compatible pairs.
+
+### From Tau Ceti
+
+The baseline is a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039. In TauCeti/RepresentationTheory/Homological/ContCohomology/LowDegree.lean, TauCeti.ContCohomology.d0, with d0_apply, is the additive map m↦(g↦g·m−m); H1 is the quotient of continuous 1-cocycles by continuous coboundaries, and H1pi is its quotient map. Its context retains the continuous scalar action. subsingleton_H1_of_subsingleton computes H¹ for a trivial group, subsingleton_H1_of_subsingleton_coefficients computes zero coefficients, and nsmul_H1_eq_zero transfers a coefficient exponent to H¹. These provide the low-degree anchor; none asserts an arithmetic Bloch–Kato condition.
+
+In TauCeti/AlgebraicGeometry/Blowup/AffineCharts.lean, TauCeti.AlgebraicGeometry.affineBlowupι, opensRange_affineBlowupι, iSup_opensRange_affineBlowupι and affineBlowupι_toSpecZero supply the affine Rees-blowup charts and their maps to the base; §2.6 uses these instead of rebuilding their general API. Mathlib reesAlgebra and mem_reesAlgebra_iff in Mathlib/RingTheory/ReesAlgebra.lean supply the underlying graded algebra for a commutative ring and an ideal.
+
+### From TauCetiRoadmap.EtaleCohomologyFoundations
+
+§F.0.3, §§F.2.1–F.2.3, §F.2.6, §F.2.7, §F.3a, §§F.4.0–F.4.6, §§0.9–0.11, §F.6, §F.7: Tate twists, trait inertia, stable lattices, finite/adic cohomology, derived reduction and rationalization, Künneth, Gysin, cycle classes, trace and blowups on their stated domains. Sections F.2.1–F.2.3 supply proper/smooth base change and smooth local acyclicity; §§F.4.1, F.4.6 pass these to adic coefficients and continuous actions for the proper good-reduction input of 7.3.
+
+### From TauCetiRoadmap.StableReduction
+
+Layer 4: Rees-algebra blowups, their unique lifting for maps with effective-Cartier inverse-image center, strict transforms and exceptional divisors. Use the affine chart maps at the Tau Ceti pin on their stated commutative-ring/localization domain.
+
+### From TauCetiRoadmap.ProfiniteCohomology
+
+Layers 1–3, Layers 5–8, Layer 10: Explicit/canonical finite discrete coefficient comparisons, exactness, restriction, transfer and cups; no ℓ-adic Hochschild–Serre or non-discrete exactness is inferred.
+
+### From TauCetiRoadmap.Chebotarev
+
+Layers 1–2, Layer 10: Arithmetic Frobenius conjugacy classes, finite exclusions and infinitely many primes over arbitrary number fields.
+
+### From TauCetiRoadmap.SchemeAndStackFoundations
+
+§2.15 (hochschildSerre_galois_covering), §§0.3, 5.4–5.5: Galois-cover descent, relative Proj, projectiveBundle with its lines/quotients convention comparison, Chern classes and normal-bundle self-intersection; the adic single-row edge remains gap hochshild-serre-adic.
+
+**Adic arithmetic Hochschild–Serre edge identification.** Use the geometric Galois action of EtaleCohomologyFoundations §F.4.6 and the Galois-cover descent of §2.15. Extend to Oλ, Oλ/λᵐ and Eλ geometric complexes, compatibly with reduction, rationalization and localization; with only geometric row 2n−1, identify absolute H²ⁿ with H¹(F,H²ⁿ⁻¹) (ltxzz line 6767). Used by §§4.3, 4.6, 6.4.
+
+What SchemeAndStackFoundations must provide (gap:hochshild-serre-adic): Supply the adic Hochschild–Serre spectral sequence and its single-row edge identification, using EtaleCohomologyFoundations §F.4.6 for continuous actions.
+
+### From TauCetiRoadmap.SelmerIwasawaCohomology
+
+§§0.12–0.13, §§2.6–2.7, §§4.8–4.11, §§4.24–4.25: IsWeaklySemisimple, invariantCoinvariantMap, the surjective-can criterion of §0.13 and weaklySemisimple_integral_lift; propagated finite conditions, global integral Selmer images, conjugation, crystalline annihilators and the uniform local annihilation theorem of §4.25 with both H⁰ vanishings. Section 4.8 supplies the nonsingular crystalline extension submodule and its coefficient-map compatibility for torsion crystalline extensions and equivariant coefficient pushout.
+
+### From TauCetiRoadmap.EulerSystemsAndKolyvaginSystems
+
+§§1.2–1.3, §1.6, §1.11, §1.15, §4.4: TauCeti.ErrorTolerant.expAt, ordAt and reducibilityDepth; finite/singular parts, both Res_ρ injectivity criteria (the semisimple branch requires Hom_𝔽ℓ[ΓF](End_k(R̄),R̄)=0, equivalently vanishing for every coefficient Frobenius twist, for k=kλ), θ_S, abundance and the realised Frobenius span condition (v), with f(1)=1 and f(2)=4. Section 4.4 supplies scaled_inverse: for an evaluation matrix D with image containing π^c A_k^r there is C with DC=CD=π^c I; its columns span a submodule containing π^c S and are guaranteed to form a basis when c=0; no basis assertion is made for positive loss. It also supplies the primitive-kernel statement for rank two.
+
+### From TauCetiRoadmap.SmoothRepresentationsOfLocalGroups
+
+§§SR.1.1–SR.1.2: unit-volume convolution comparisons, coefficient-independent permutation level algebras, mixed-level coset traces and the inverse-double-coset anti-involution. §§SR.4.1, SR.4.4: Normalized Satake, unitary-genericity, paired-unitary-parameter, actual double-coset operators, unitary-even-formulas and unitary-odd-formulas, over coefficient rings with q invertible. On Mathlib’s carrier reciprocity is P = (−1)^N • Polynomial.reflect N P, with P monic of degree N.
+
+### From TauCetiRoadmap.ArithmeticGaloisDuality
+
+§§R02.4.2–R02.4.3, §D7.4, §D7.7: Defined local Tate pairings, global sum-zero reciprocity and coefficient/dual-local-condition compatibilities; gap purity-crystalline-regulator records the additional all-place regulator theorem and its torsion crystalline good-reduction conclusion, compatible with Hecke quotients and equivariant integral lattice maps.
+
+**All-place purity and finite regulator theorem.** Need tempered local-global purity of weight −1, local Euler characteristic with dual invariants, and crystalline regulator at good smooth integral reduction above ℓ, including nonproper projected cohomology; separate general purity belongs to DeligneWeightsAndPurity and crystalline comparison to PadicHodgeTheory. ltxzz line 6484, ltxzz line 6796; the integral extension condition and congruence-level construction are ltxzz Definitions 2.2.4–2.2.5, lines 591–610, and equations (8.5), (8.14), lines 6637–6638, 6681–6701, 6891–6897. Used by §§4.4, 7.3.
+
+What ArithmeticGaloisDuality must provide (gap:purity-crystalline-regulator): Bind the rational all-place finite regulator theorem and its compatible integral-lattice realization, and the torsion crystalline nonsingularity at every w|ℓ of the integral Abel–Jacobi class of a cycle with good smooth reduction on the model and support domain used here, compatible with Hecke quotients and Oλ[ΓF]-linear maps.
+
+### From TauCetiRoadmap.AutomorphicGaloisRepresentationsPartII
+
+AG2.1b (The actual Galois constituent of cohomology) and its archimedean multiplicity subsection, AG2.2 (Galois assembly for discrete unitary transfer; Attachment under cuspidal solvable base change), AG2.5 (Unramifiedness and the good-prime polynomial; Published RACSDC comparison specializations), AG2.6 (Strong coefficient field; Uniform strong realization of polarized systems; Purity and polarization of the polarized system), AG2.7 (Residual representation of π; Residual genericity outside finitely many λ; Unitary discrete-parameter export; Lattice and residual polynomial export): General-rank attachment, local comparisons and temperedness in the relevant specialization, strong coefficient fields and stable polarized lattices; actual multiplicity identifications retain the distinct gap automorphic-multiplicity. AG2.1b (Weight separation into the middle degree) and its archimedean multiplicity subsection have compact ST/END hypotheses; gap diagonal-concentration records the full rational native-unitary concentration and nonproper cuspidal boundary specialization needed in 4.3.
+
+**Exact cohomological multiplicity H(N).** The contracts for actual constituents and packets in AG2.1b, AG2.2, AG2.5–AG2.7 do not identify every standard unitary isotypic multiplicity space. Require H(N) exactly as in Conventions and its proof on the domain N≤3 or F⁺≠ℚ of ltxzz Proposition 3.2.11 (ltxzz line 1259–1277); for F⁺=ℚ and N≥4 it remains an explicit premise, not an asserted theorem. Used by §§3.2, 3.6, 3.7, 4.5, 6.3, 8.3, 8.4.
+
+What AutomorphicGaloisRepresentationsPartII must provide (gap:automorphic-multiplicity): Supply the exact H(N) multiplicity identification, with its N≤3 and F⁺≠ℚ removal theorems and the c-conjugation of Hypothesis 3.2.10.
+
+**Rational cuspidal concentration on the native diagonal product.** AG2.1b supplies middle-degree concentration on its compact ST/END domain. Require the rational specialization to every standard indefinite native unitary level of 4.1 and each relevant cuspidal Πα: the Πα-projected rank-nα geometric cohomology vanishes outside degree nα−1, so Künneth concentrates the product in degree 2n−1. For F⁺=ℚ include rational cuspidal boundary exclusion and identification with ordinary cohomology, without residual absolute irreducibility or H(n),H(n+1). The separate boundary-cohomology gap supplies integral boundary localization only under residual absolute irreducibility. The general rational assertion is ltxzz line 6767–6772, not an asserted enlargement of the compact ST/END target. Used by §§4.3.
+
+What AutomorphicGaloisRepresentationsPartII must provide (gap:diagonal-concentration): Extend AG2.1b middle-degree concentration and comparison of archimedean packets to the native relevant cuspidal Hecke quotients of 4.1 in every rank and level, including rational cuspidal boundary exclusion for F⁺=ℚ, independently of H(n),H(n+1) and residual absolute irreducibility.
+
+### From TauCetiRoadmap.EndoscopicTransferAndUnitaryTraceComparison
+
+§9.1 (the raw compact-unitary multiplicity space), §§11.2–11.4, §§12.12–12.15, §§13.1, 13.5–13.9: Local unitary packets, actual tower cohomology, definite Shimura sets and raw multiplicities, multiplicity one for relevant packets, both transfer-witness clauses of §13.7, switches of packets and the D.2.3 oldform dimensions. Retain its classification inputs and finite-place temperedness. The supplied §§13.7 and 13.9 theorems require Σmin⊇S_pf, Σlr∩S_pf=∅ and sufficiently small levels at S_pf as in §6.14; hyperspecial transfer is supplied only above the stated residue-characteristic bounds. Retain the unitary classification contract of §§11.0d–11.0e, fixed measures, normalized intertwiners and separate finite-place temperedness. Throughout this roadmap, transferable level means the two actual transfer-witness clauses of §13.7, with 1_K unnormalized and e_K=1_K/vol(K); it does not impose the supplier theorem’s S_pf/small-level restrictions on the endpoints. Any use beyond that theorem domain consumes gap old-form-dimension, not an inferred enlargement or descent along covers. Gaps old-form-dimension and local-unitary-representations specify the remaining comparisons.
+
+**Transfer dimension comparison in even rank.** Sections 13.7 and 13.9 supply transfer and the D.2.3 dimension formula only when Σmin⊇S_pf, Σlr∩S_pf=∅ and levels at S_pf are sufficiently small, with hyperspecial transfer above the stated residue-characteristic bounds. Beyond that domain require hyperspecial transfer at every allowed unramified place, transfer at sufficiently small exceptional levels at every residue characteristic, and the oldform comparison for every finite configuration and transferable neat level allowed by §§2.1, 4.1, 5.1 and 6.1, without imposing S_pf or extra smallness on the rank endpoints; arbitrary exceptional levels are not asserted transferable. Use the normalized idempotent dimension formula of ltxzz Proposition D.2.3, pp. 174–177 (ltxzz line 9631), and Lemma 6.4.2 (ltxzz line 5741–5748) for the normalized-intertwiner isomorphism on GL_N(O_Fv)-restrictions of two relevant tempered lifts of the same rigid residual representation at v∈Σ⁺min. Retain finite-place temperedness, classification hypotheses and Haar/volume conventions. No arbitrary-level integral descent is inferred from a finite cover whose degree may be divisible by λ. Used by §§2.1, 3.3, 4.1, 5.1, 6.1, 8.1, 8.2.
+
+What EndoscopicTransferAndUnitaryTraceComparison must provide (gap:old-form-dimension): Supply hyperspecial transfer at every allowed unramified place and transfer at sufficiently small exceptional levels in every residue characteristic, and extend the D.2.3 identity and ltxzz Lemma 6.4.2 to every transferable neat level and finite configuration permitted here, without S_pf or additional small-level endpoint restrictions.
+
+**Local unitary constituents and cohomological decomposition.** Use the contracts for local packets and actual tower cohomology on their own domains. The finite-field primitive link cohomology of ltxzz Proposition 5.6.4 still requires its specific unitary constituent and Frobenius comparison, rather than identification with Lubin–Tate tower cohomology (ltxzz line 3368–3376). Used by §§3.2, 3.4, 6.3.
+
+What EndoscopicTransferAndUnitaryTraceComparison must provide (gap:local-unitary-representations): Supply the primitive link-cohomology constituent/Frobenius comparison of ltxzz Proposition 5.6.4 beyond the bound interfaces for local packets and towers.
+
+### From TauCetiRoadmap.IgusaVarietiesAndTorsionConcentration
+
+§IG.7.2: IsCohomologicallyGeneric with every exceptional-set enlargement, standard indefinite space and compatible level; IsCohomologicallyGeneric.of_decomposedGeneric retains F⁺≠ℚ and decomposed-generic witnesses away from every prescribed finite enlargement. Genericity is not inferred from one fixed module.
+
+### From TauCetiRoadmap.PELModuli
+
+§§M0.25–M0.26, §M2.8, §§M2.12–M2.14, §M4.3, §§M4.5–M4.9: CM types and the published reflexive closure, unitaryDeformation and isogenyKernelRanks at odd unramified p, representability/smoothness, PEL generic fibres and normalized higher levels, cmModuli1 and torusInvariantCohomology with torusTrace. Definite nonsimilitude sets and special-level semistability have their separate contracts. Use cmModuli_galois, torusInvariantCohomology_functorial and torusTrace_indep on finite p-coprime or constructible adic Oλ/Eλ coefficients; compact supports require separated finite type, and orbit trace requires smooth pure dimension and free Γ-action on components.
+
+### From TauCetiRoadmap.ShimuraVarieties
+
+§5.1, §6.7: CM types and reflex fields, and abelian-type canonical models; gaps native-shimura and unitary-special-compatibility state the additional models and diagrams.
+
+**Native unitary Shimura schemes and integral models.** Beyond the PEL models and generic-fibre comparisons of PELModuli §§M2.8, M4.3, M4.5–M4.6 and the definite sets of EndoscopicTransferAndUnitaryTraceComparison §§13.1, 13.8, require the native strictly semistable unitary special-level model, its reduced components and link charts xy=p, and 𝔗-equivariant generic-fibre and ordinary/compact specialization comparisons on the nonproper domain (ltxzz line 2653, 2744, 4725). Incidence identifications and normal bundles are conclusions of §2.3 here. At every finite w away from Σ⁺min, ℓ and the detecting places, also require smooth hyperspecial models with the ordinary/compact specialization isomorphisms of ltxzz Lemma 4.2.4, compatible with the Hecke quotient and the extending graph cycle. For F⁺≠ℚ include the proper smooth models of Remark 5.2.8 at all places above Σ⁺_p∖{p}, including Σ⁺_p₁∖{p₁} in the two-place construction (ltxzz line 1744–1754, 2754–2768, 6700–6701, 6901–6902). PELModuli §§M2.8, M4.3 supplies only its stated smooth hyperspecial domain; remaining native model and nonproper specialization comparisons are required here without an additional prime exclusion. Used by §§2.1, 2.2, 2.3, 2.6, 4.1, 5.1, 7.3, 8.1, 8.2.
+
+What ShimuraVarieties must provide (gap:native-shimura): Supply the native strictly semistable models of ltxzz §5.2 with link charts and 𝔗-equivariant generic-fibre and nonproper ordinary/compact specialization comparisons, the smooth hyperspecial models and Lemma 4.2.4 specialization isomorphisms at every nondetecting w outside Σ⁺min and ℓ, compatible with the extending graph cycle and Hecke quotient, and the proper smooth models of Remark 5.2.8 above Σ⁺_p∖{p} for F⁺≠ℚ.
+
+**Special homomorphism under basic uniformizations.** Supply addition-of-line maps V→V⊕⟨1⟩ and definite/indefinite uniformization compatibilities on the native level domains, including the two definite correspondence legs and their double-coset maps, with lattice/polarization scaling by ϖ. The basic square of Proposition 4.5.5 is Cartesian for even n only; the ground square of Proposition 5.10.6 is Cartesian for odd n; the link squares of Lemma 5.10.8(1)/(2) have respectively even/odd n. For §6.2 use the product square in the proof of Theorem 4.6.2, from Proposition 4.5.5 for even n and Lemma 4.5.2 for odd n (ltxzz line 2286–2297, 2552–2563, 4432, 4461–4479). Source-specific geometric reciprocity is proved in §§5.2/6.2. Used by §§2.6, 5.2, 6.1, 6.2.
+
+What ShimuraVarieties must provide (gap:unitary-special-compatibility): Supply native addition-of-line and uniformization compatibilities with isogeny scaling by ϖ, the even-n Cartesian square of Proposition 4.5.5, odd-n ground square of Proposition 5.10.6, even/odd link squares of Lemma 5.10.8(1)/(2), and the all-parity product square of Theorem 4.6.2 using Lemma 4.5.2 in odd rank.
+
+### From TauCetiRoadmap.LefschetzPencilsAndVanishingCycles
+
+§§7a.7–7a.9: Nearby-cycle stalks with finite/adic coefficients and the rational weight spectral sequence with its nonproper nearby-cohomology abutment. The integral filtered complex and stratum spectral sequence require gap integral-nearby-complex; the additional parity-dependent cohomological filtration and inertia cokernel require gap nearby-weight, and the cycle-boundary comparison requires gap semistable-boundary.
+
+**Integral filtered nearby complex and stratum spectral sequence.** For a separated finite-type strictly semistable X over a henselian trait, of pure relative dimension d, with smooth intersection strata and ℓ invertible on the trait, require the filtered nearby-cycle complex with its derived inertia action for L=Oλ and Oλ/λᵐ, m≥1. If Y^(j) is the disjoint union of (j+1)-fold geometric special-fibre intersections and a_j:Y^(j)→Y, its graded pieces are gr_j RΨL=⊕_(a,b≥0,a−b=j) a_(a+b),*L(−a)[−a−b]. For every Tate twist t the associated spectral sequence has E₁^(u,v)=⊕_(i≥max(0,−u)) H^(v−2i)(Y^(u+2i),L(t−i)) and abuts to H^(u+v)(Y,RΨL(t)); empty strata contribute zero. Its d₁ is the alternating restriction/Gysin differential in ordered-component coordinates, chosen so the two-branch maps are (j₀!,−j₁!) and j₀*−j₁*. On graded pieces, the integral operator induced by tame variation maps gr_j to gr_(j−2)(−1); it is the identity from the (a,b) summand to (a−1,b+1) after that twist for a≥1, zero otherwise. Retain its compatibility with the derived tame inertia action, coefficient extension, derived reduction modulo λᵐ and rationalization; no division by a logarithm denominator is used. Require equivariance and passage to the H_𝔗 stratum sequence on the CM-torsor descent domain of Conventions. Properness is not assumed; a generic-fibre comparison is the separate native-shimura contract. No equality with the cohomological weight-monodromy filtration is asserted. The two-branch specialization is ltxzz Construction 5.9.1, pp. 84–85 (ltxzz line 4023); the three-branch product sequence is equation (5.27), pp. 98–99 (ltxzz line 4777). Used by §§2.5, 2.6, 5.3.
+
+What LefschetzPencilsAndVanishingCycles must provide (gap:integral-nearby-complex): Extend §§7a.7–7a.9 to the integral and finite-coefficient filtered nearby-cycle complex with derived inertia action, stratum E₁ terms, alternating restriction/Gysin differential, integral tame operator on graded pieces, coefficient compatibilities and nearby-cohomology abutment for separated finite-type strictly semistable schemes with smooth intersection strata over a henselian trait and ℓ invertible, without properness, including the two- and three-branch models used here.
+
+**Integral nearby cycles, weight sequence and monodromy.** For two-component strictly semistable schemes without properness, of relative dimension 2r−1, with ℓ different from the residue characteristic, L=Oλ or Oλ/λᵐ, and H^odd_𝔗(M°,L)=H^odd_𝔗(M†,L)=0, require the three-step filtration of H²ʳ⁻¹_𝔗(M,RΨL(r)) induced by the filtered nearby complex, with graded pieces E₂¹,²ʳ⁻², H²ʳ⁻¹_𝔗(M•,L(r)), E₂⁻¹,²ʳ and the integral tame monodromy induced by the identity on H²ʳ⁻²_𝔗(M†,L(r−1)); retain F₋₁H¹(I,H)≃coker(μ:E₂⁻¹,²ʳ→E₂¹,²ʳ⁻²(−1)) for H=H²ʳ⁻¹_𝔗(M,RΨL(r)), and the restriction/Gysin image presentation of part (5) (ltxzz line 4122–4150). This is the filtration induced from nearby cycles, not a general weight-monodromy equality on cohomology. Used by §§2.5, 2.6.
+
+What LefschetzPencilsAndVanishingCycles must provide (gap:nearby-weight): Extend §§7a.7–7a.9 to the torsion and adic two-component filtration and filtered inertia quotient of ltxzz Lemma 5.9.3(3)–(5) under those explicit stratum parity vanishings.
+
+**Singular cohomology and the potential boundary cokernel.** Need the general comparison for integral strictly semistable schemes with ordinary/compact comparison, concentration, Frobenius exclusions and weak semisimplicity; identify ∂AJ with the actual integral potential-map cycle class. The unitary hypotheses are verified in 5.3; the generic theorem is not an arbitrary chosen isomorphism. ltxzz line 6024, ltxzz line 6030. Used by §§5.4.
+
+What LefschetzPencilsAndVanishingCycles must provide (gap:semistable-boundary): Bind the semistable potential-map comparison and its Abel–Jacobi value on a cycle, retaining the nonproper support hypothesis.
+
+### From TauCetiRoadmap.MotivesAndAlgebraicCycles
+
+§§7.16–7.18: Geometrically homologically trivial Chow domain, rank predicates and the unitary specialization; the integral arithmetic étale regulator is gap chow-abel-jacobi.
+
+**Chow cycles and the arithmetic étale regulator.** Beyond the homologically trivial Chow domain and rank predicates of §§7.16–7.18, require the Oλ-coefficient arithmetic étale regulator on CHⁿ(X)^0 and compatibility with proper pushforward, pullback, coefficient change and reduction, on the smooth schemes and support domains used here (ltxzz line 6152, 6767). Used by §§4.2, 4.3, 4.6.
+
+What MotivesAndAlgebraicCycles must provide (gap:chow-abel-jacobi): Supply the integral arithmetic étale regulator on CHⁿ(X)^0 with its pushforward, pullback and coefficient compatibilities.
+
+### From TauCetiRoadmap.GlobalGaloisDeformations
+
+§5.2, §§3.3–3.8: IsCyclotomicAbsIrred in its rank-two scope and global deformation rings. In higher rank L6 and A7.2.2 retain the literal absolute irreducibility of restriction to Γ_F(ζℓ); no rank-two equivalence with a dihedral condition is used. Gaps rigid-r-equals-t and eventual-rigidity are additional global obligations.
+
+**Rigid R=T, complete intersections and Hecke freeness.** For the polarized problem retain d0–D4 of ltxzz-deformation Theorem 3.6.3, including Fontaine–Laffaille width, ℓ≥2(N+1), arbitrary-rank cyclotomic irreducibility, rigidity, residual concentration and a nonzero localized module; Σlr=∅ in odd rank. Require Runiv≃T_m, finite free middle cohomology, and the mixed-to-congruence maps, using local rings from LocalGaloisDeformationRings (ltxzz-deformation line 1444; ltxzz line 5662; ltxzz-published Theorem 6.3.4(a), p. 277, line 6408). Used by §§3.3, 3.6.
+
+What GlobalGaloisDeformations must provide (gap:rigid-r-equals-t): Supply the polarized global rigid R=T and freeness theorem and its mixed-to-congruence deformation maps at full coefficient generality.
+
+**Eventual rigidity in the two specified families.** Require eventual minimal/FL rigidity for the non-CM symmetric-power family and the supercuspidal relevant family, with their respective hypotheses, as used in ltxzz Lemmas 8.1.3–8.1.4; ltxzz-deformation line 1880; ltxzz line 6410, ltxzz line 6429. Used by §§7.4.
+
+What GlobalGaloisDeformations must provide (gap:eventual-rigidity): Bind eventual rigidity and cyclotomic residual irreducibility for the stated families only.
+
+### From TauCetiRoadmap.ArithmeticGaloisRepresentations
+
+**Congruence image lifting for polarized tensors.** Need finite congruence images of polarized representation pairs, lifting and prime-to-ℓ powering with simultaneous cyclotomic control. Target 7.1 owns the source-specific Rankin–Selberg conclusion; general finite-group and polarized-image construction remains upstream. ltxzz line 918. Used by §§7.1.
+
+What ArithmeticGaloisRepresentations must provide (gap:polarized-image-lifting): Bind finite congruence image and prime-to-ℓ lifting operations with their polarization/cyclotomic compatibilities.
+
+**Independent elliptic images and Steinberg tensor criterion.** Need independent non-CM elliptic residual images, symmetric powers and their polarizations, plus the tensor irreducibility/adjoint exclusion criterion with one regular even unipotent and trivial odd action in characteristic zero or ≥2n(n+1)−1. Over finite k, require exclusion from every End_k(R̄)^(σ), σ∈Gal(k/𝔽ℓ); twisting preserves semisimplicity and the odd Jordan block sizes of that adjoint. ltxzz line 942, ltxzz line 6459. Used by §§7.4.
+
+What ArithmeticGaloisRepresentations must provide (gap:eventual-images): Bind the residual-image and tensor-irreducibility facts needed to check the two admissibility families, including exclusion from every coefficient Frobenius twist of the adjoint over finite residue fields.
+
+### From TauCetiRoadmap.LocalGaloisDeformationRings
+
+§§1.6, 2.3, 2.12, 2.20: FLDeformation and FLDeformation.coefficientRealization, IsMinimallyRamified and minimal_baseChange, the fixed-multiplier LevelRaising.mix, LevelRaising.unr, LevelRaising.ram and LevelRaising.unr_eq_minimal, and IsRigidFor with IsRigidFor.minimal, IsRigidFor.levelRaising, IsRigidFor.fontaineLaffaille, IsRigidFor.unramified and IsRigidFor.mono. For polarized rank N≥2 retain ℓ≥N, the fixed similitude η_(F/F⁺)^N εℓ^(1−N), disjoint finite minimal and inert raising sets away from ℓ, and Σlr=∅ in odd rank. The minimal condition quantifies over every lift with that similitude. Above ℓ retain the unramified local-field domain and the regular coefficient Fontaine–Laffaille condition with labelled multiplicities at most one in [0,ℓ−2]. At each raising place v require unramified residual restriction, ℓ∤Nv((Nv)²−1), and the arithmetic-Frobenius pair {Nv^(−N),Nv^(−N+2)} exactly once; §2.12 uses the even multiplier exponent μ=N in the even-rank application. The generic enlargement is IsRigidFor.mono; §7.3 supplies its Satake specialization (ltxzz Definition 6.3.4, lines 5623–5632). L1 gives ℓ>4n≥N for N∈{n,n+1}; L1–L2 retain the unramified Fontaine–Laffaille domain.
+
+### From TauCetiRoadmap.IntegralHeckeAndGaloisDeterminants
+
+**Finite Hecke-support contraction at chosen Frobenius.** Need finite support of localized native Hecke modules, distinction of nonisomorphic residual Galois systems by Frobenius, and contraction invariance between T_O coefficient algebras after omitting an auxiliary rational support, simultaneously with the detecting conjugacy class; all residual and λᵐ quotients use n_(Π,m) of Conventions, including ramified Oλ. ltxzz line 5173, ltxzz line 5880, ltxzz line 6617, ltxzz line 6856. Chebotarev alone does not prove a Hecke quotient map is an isomorphism. Used by §§7.2.
+
+What IntegralHeckeAndGaloisDeterminants must provide (gap:hecke-finite-support): Bind the finite-support/Frobenius separation theorem proving congruence quotient comparisons for the Oλ-extended Hecke algebras and their n_(Π,m) coefficient kernels, including ramified coefficients.
+
+### From TauCetiRoadmap.ShimuraCompactifications
+
+**Boundary localization at irreducible residual systems.** Need toroidal compactification for rank-one nonproper unitary varieties and boundary Eisenstein/isobaric cohomology: residual absolute irreducibility kills the boundary in every degree. ltxzz line 5255. Compactness is not a silent premise. Used by §§3.1, 4.3.
+
+What ShimuraCompactifications must provide (gap:boundary-cohomology): Bind the native boundary cohomology theorem identifying ordinary and compact supports after localization.
+
+### From TauCetiRoadmap.ReductiveGroupsPartII
+
+**Hermitian Frobenius incidence varieties and their cohomology.** Hermitian Frobenius incidence schemes with the admissible possibly degenerate forms of Appendix A need tangent and normal bundles, integral cohomology, cycle intersections and finite-field counts; arithmetic identification with the strata is owned here (ltxzz line 6937). Used by §§2.2, 2.3, 2.4.
+
+What ReductiveGroupsPartII must provide (gap:unitary-incidence): Supply Appendix A hermitian incidence geometry and its cohomology as a new obligation; no existing incidence section is asserted.
+
+### From TauCetiRoadmap.HilbertModularVarietiesAndShimuraCurves
+
+**Hilbert modular level raising comparison.** The odd-degree Hilbert modular unramified level-raising theorem is a supplier obligation on its native supersingular cycles, with LIInd and the residual dimension equality retained (liu-tian line 1407, 1477, 1496); no existing Liu–Tian section is claimed. Used by §§8.5.
+
+What HilbertModularVarietiesAndShimuraCurves must provide (gap:hilbert-precursor): Supply Liu–Tian Theorem 4.7 on its exact Assumption 4.1 and Definition 4.5 domain for the comparison in §8.5.
+
+### From TauCetiRoadmap.AdelicAlgebraicGroups
+
+New obligation after §4.1: hermitian local-global classification, gap hermitian-local-global: Supply the Hasse classification and existence of global hermitian spaces with compatible prescribed local invariants.
+
+**Global hermitian spaces with prescribed invariants.** For CM F/F⁺, construct standard hermitian spaces with the specified real signatures and finite local invariants exactly when the determinant/Hasse product compatibility holds; include the definite/indefinite switch used in ltxzz §§3.2, 3.4 and 5.1. Used by §§2.1.
+
+What AdelicAlgebraicGroups must provide (gap:hermitian-local-global): Supply the Hasse classification and existence of global hermitian spaces with compatible prescribed local invariants.
 
 ## References
 
