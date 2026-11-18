@@ -1,35 +1,58 @@
 # Roadmap: explicit number fields
 
-**Summary.** This roadmap develops the numerically explicit inequalities about a number field `K`
-of degree `n` on Mathlib's carriers: the count of integral ideals of norm at most `x` with
-explicit error terms (Sunley, Lee, Debaene, Fehnker, Gun–Ramaré–Sivaraman, and Ramaré for
-imaginary quadratic fields), explicit upper and lower bounds for the residue `κ_K` of the Dedekind
-zeta function at `1` (Louboutin, Friedman, Stark, Garcia–Lee, and under the generalized Riemann
-hypothesis Garcia–Grenié–Lee–Molteni and Palojärvi–Simonič), the class-number, regulator and
-relative class-number bounds that follow through the class-number formula (Louboutin, Bordellès,
-Cully-Hugill–Trudgian, Tudzi), explicit zero-counting formulae, zero-free regions and zero
-repulsion for `ζ_K` (Trudgian, Hasanalizade–Shen–Wong, Stark, Louboutin, Kadiri, Lee,
-Das–Gaba–Lee–Savalia–Wong, Kadiri–Ng–Wong, Kadiri–Ng), the consequences of a uniform gap for real
-zeros of quadratic Dedekind zeta functions for the real zeros of every `ζ_K` and for an effective
-Brauer–Siegel bound over Galois fields (Guo; Banks, with the computation of Lu–Zaman–Zhao),
-the explicit bounds on the least primitive root modulo `p` and
-modulo `p²` (McGown–Trudgian, McGown–Sorenson, McGown–Treviño–Trudgian, Kerr–McGown–Trudgian,
-Chen), and the explicit theory of prime ideals: Mertens' theorems for number fields (Garcia–Lee),
-the Chebotarev density theorem with explicit error terms unconditionally (Das–Kadiri–Ng) and under
-the generalized Riemann hypothesis (Grenié–Molteni), the least prime ideal with a given Frobenius
-class (Ahn–Kwon, Kadiri–Ng–Wong, Bach–Sorenson) and Debaene's Brun–Titchmarsh inequality. It is
-built from Mathlib's Dedekind zeta function, residue, class number, regulator and CM-field API,
-from Tau Ceti's ideal counting, ray class groups, geometry of numbers, Mertens constant and
-Frobenius prime sets, from the analytic continuation and zero theory of LFunctions,
-ZerosOfLFunctions and AnalyticNumberTheoryPartI, and from the explicit inequalities for the
-Riemann zeta function, Dirichlet L-functions, primes, arithmetic functions and character sums of
-the four explicit roadmaps before it in the order of supply. Its end theorems are the explicit
-ideal counts, the two-sided residue bounds, the regulator-free class-number bounds, the upper and
-lower bounds for relative class numbers of CM-fields, the explicit Riemann–von Mangoldt formula,
-the zero-free regions and real-zero gaps for `ζ_K`, the bounds `g(p) < p^{5/8}` and
-`h(p) < p^{2/3}`, Grosswald's conjecture under the generalized Riemann hypothesis, the explicit
-Mertens theorems for number fields and the explicit Chebotarev, least-prime-ideal and
-Brun–Titchmarsh theorems.
+**Summary.** Many basic estimates about number fields are proved with constants that are shown to
+exist but are not given. Tau Ceti already shows, for instance, that in a number field of degree `n`
+the number of ideals of norm at most `x` is a constant multiple of `x` up to an error of order
+x^{1−1/n}, but the constant in that error is unspecified. Questions such as finding every field of
+small class number need such constants as numbers.
+
+This roadmap states the numerically explicit forms of these estimates for a number field `K` of
+degree `n`. Its main objects are the ideals of `K`, the residue `κ_K` at `1` of the Dedekind zeta
+function `ζ_K`, and the zeros of `ζ_K`; it ends with prime ideals and their Frobenius classes.
+Every finite verification, table or certificate that a theorem here rests on is a named
+proposition, carried as a hypothesis by the theorems that need it; nothing here performs a
+computation.
+
+Write d for the absolute value of the discriminant of `K`, h for its class number and R for its
+regulator. The first main result is Debaene's count of ideals. For every real `x` ≥ 1, the number
+of nonzero integral ideals of norm at most `x` differs from `κ_K` times `x` by at most an explicit
+multiple of x^{1−1/n}, and that multiple depends only on `n` and on hR. For ℚ(i) the bound is
+2^{40}√x, while at x = 10 the actual error is about 1.15.
+
+The second concerns the residue. Friedman's lower bound says that `κ_K` ≥ 0.36232/√d for every
+`K` of degree at least 2. For fields of degree at least 3 with no quadratic subfield, Stark's
+theorem bounds `κ_K` below by an explicit constant divided by log d. That constant depends only on
+the degree and on whether `K` is Galois over ℚ, is reached from ℚ by a chain of Galois steps, or
+neither.
+
+The third bounds the class number without the regulator. Bordellès proved that every number field
+of degree `n` has class number at most (2^{n−1}/(n−1)!) √d (log d)^{n−1}.
+
+The fourth is about the least prime ideal with a given Frobenius class. Let L/K be a Galois
+extension of number fields with L ≠ ℚ, and let C be a conjugacy class of its Galois group. Ahn and
+Kwon proved that some prime of `K`, unramified in L and with Frobenius class C, has as absolute
+norm a rational prime at most the absolute discriminant of L to the power 12577. For ℚ(i) over ℚ
+and C complex conjugation, the bound is 4^{12577} and the least such prime is 3.
+
+The roadmap builds on Mathlib's Dedekind zeta function, class number and regulator, and on Tau
+Ceti's ideal counts and Frobenius prime sets. Away from the half-plane Re s > 1, `ζ_K` is the
+function extended meromorphically to the whole plane in LFunctions. ZerosOfLFunctions provides the
+counting of zeros. AnalyticNumberTheoryPartI has forms of several results here whose constants are
+not given as numbers, and this roadmap makes them numerical. Explicit inequalities for zeta and
+L-functions come from ExplicitZetaBounds, and those for primes from ExplicitPrimeCounting.
+ExplicitMultiplicativeFunctions provides bounds for divisor sums, and ExplicitCharacterSumsAndSieves
+the character-sum bounds used for primitive roots. In the other direction, ComputationalNumberTheory
+uses the explicit remainders of the digamma and trigamma series proved here.
+
+The layers run from invariants to prime ideals. After the invariants and predicates come
+Rademacher's convexity bound for `ζ_K` and the digamma and trigamma remainders. Ideal counts and
+the residue bounds that need no zero-free region come next, followed by the zero theory of `ζ_K`
+and the class-number bounds. A layer on primitive roots proves, from a sieve identity and bounds
+for character sums, that `g(p) < p^{5/8}` for every prime `p` > 3 under the finite verifications it
+names, g(p) being the least primitive root modulo `p`. The last layer proves Mertens' three
+theorems for number fields of degree at least 2 with explicit error terms. It also gives the
+explicit Chebotarev density theorem and the bounds for the least prime ideal. The next section
+describes how the layers depend on one another.
 
 ## How to read the build
 
