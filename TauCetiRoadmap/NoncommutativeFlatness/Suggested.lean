@@ -545,11 +545,12 @@ noncomputable def balancedTorExtDualityEquiv {R : Type t} [CommRing R] {A : Type
 
 end TransposeAndDuality
 
-/-- **1.6** Commutative `Tor` comparisons (`BalancedTor R R n ≅ Tor` and `Tor ≅ Tor'`). -/
+/-- **1.6** Over a commutative ring, `BalancedTor R R n` agrees with `CategoryTheory.Tor`. -/
 noncomputable def balancedTorIsoTor (R : Type u) [CommRing R] (n : ℕ) :
     ModuleCat.restrictScalars.{u} (RingEquiv.toOpposite R).symm.toRingHom ⋙ BalancedTor.{u} R R n ≅
       Tor (ModuleCat.{u} R) n := sorry
 
+/-- **1.6** Symmetry `Tor (ModuleCat R) n ≅ Tor' (ModuleCat R) n` from balance. -/
 noncomputable def torIsoTor' (R : Type u) [CommRing R] (n : ℕ) :
     Tor (ModuleCat.{u} R) n ≅ Tor' (ModuleCat.{u} R) n := sorry
 
