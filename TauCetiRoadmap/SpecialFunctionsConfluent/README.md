@@ -481,8 +481,8 @@ The following are consumed with the hypotheses and conventions stated there.
 Layer 1 rests on two facts: `𝐌` is entire in all three variables jointly (1.1), and the bracket
 `F` vanishes at integer `b` by DLMF 13.2.5, so that `U` is entire in `a`, `b` and in the
 logarithmic coordinate `w` (1.4). The confluence of Gauss's function (1.2) places `𝐌` as a limit
-of the hypergeometric function, and the singularity structure of Kummer's equation (1.3) fixes
-what the two standard solutions are: the solution regular at `0` and the solution recessive at
+of the hypergeometric function, and the singularity structure of Kummer's equation (1.3, 3.2)
+fixes what the two standard solutions are: the solution regular at `0` and the solution recessive at
 `+∞`. Kummer's equation for `U` follows from that of `𝐌` and of
 `z^{1−b} 𝐌(a − b + 1, 2 − b, z)` and from continuity in `b` at the integers; Whittaker's equation
 is Kummer's after removing the first-derivative term (1.6). Layer 2 proves each integral
@@ -556,13 +556,27 @@ Gauss's equation in `z/t` tends to Kummer's equation, and the regular singular p
 Kummer's equation has a regular singular point at `0`, with exponents `0` and `1 − b`, and an
 irregular singular point of rank one at `∞` (Kristensson §7.1, p. 124; Olver §9.1, p. 254;
 DLMF 13.2.1). Two solutions of 13.2.1 on the slit plane with the same value and derivative at one
-point are equal, and every solution is `c₁ 𝐌(a, b, ·) + c₂ U(a, b, ·)` when
-`a ∉ {0, −1, −2, …}` and `c₁ 𝐌(a, b, ·) + c₂ z^{1−b} 𝐌(a − b + 1, 2 − b, ·)` when `b ∉ ℤ`
-(Temme (7.6) and (7.10), pp. 173–174; Kristensson (7.2), p. 125; Beals–Wong (6.1.6), p. 191;
-Lebedev (9.10.2) and (9.10.11), pp. 263 and 265). The bases are those whose Wronskians (3.2) do
-not vanish.
+point are equal, and for `b ∉ ℤ` every solution is
+`c₁ 𝐌(a, b, ·) + c₂ z^{1−b} 𝐌(a − b + 1, 2 − b, ·)` (Temme (7.6) and (7.10), pp. 173–174;
+Kristensson (7.2), p. 125; Beals–Wong (6.1.6), p. 191; Lebedev (9.10.2), p. 263). The pair is a
+basis because its Wronskian (DLMF 13.2.33; Beals–Wong (6.1.7), p. 191, for `M`; Olver §9.2,
+p. 255, for `𝐌`) is
 
-*Needs:* 1.1, 1.4; AsymptoticExpansions §10.2.
+```text
+𝒲{𝐌(a, b, z), z^{1−b} 𝐌(a − b + 1, 2 − b, z)} = sin(πb) z^{−b} e^z/π
+```
+
+on the slit plane, computed from the leading terms of the two series at `0`, since `z^b e^{−z} 𝒲`
+is constant by 13.2.1. The basis `𝐌`, `U` for `a ∉ {0, −1, −2, …}` is in 3.2.
+
+**Checks.**
+- 13.2.33 at `a = 0`, `b = ½`: the first function is the constant `Γ(½)⁻¹`, and at `z = ½` both
+  sides equal `0.74218 53304…`.
+- At integer `b` the Wronskian of the pair vanishes, so the pair is not a basis there; dropping
+  `sin(πb)/π` would claim one.
+- At `b = 1` the two functions coincide, `𝐌(a, 1, z)` both times, consistent with `sin π = 0`.
+
+*Needs:* 1.1; AsymptoticExpansions §10.2.
 
 ### 1.4 Tricomi's function
 
@@ -577,9 +591,9 @@ p. 263; Beals–Wong (6.2.6), p. 195, and (6.3.2), p. 197; Temme (7.14), p. 176,
   and the integer case is the limit of the non-integer case (`tendsto_kummerULog_intCast`;
   Lebedev (9.10.5), p. 264; Beals–Wong, p. 197);
 - `kummerU a b` is holomorphic on the slit plane (`analyticOnNhd_kummerU`);
-- `U` solves Kummer's equation 13.2.1 on the slit plane (`kummerU_kummer_equation`), and
-  `w ↦ kummerULog a b w` solves the same equation transported to `z = e^w`, which is
-  `u″ − (1 − b + e^w) u′ − a e^w u = 0` for `u(w) = U(a, b, e^w)`;
+- `U` solves Kummer's equation 13.2.1 on the slit plane (`kummerU_kummer_equation`);
+- `w ↦ kummerULog a b w` solves the same equation transported to `z = e^w`, which is
+  `u″ − (1 − b + e^w) u′ − a e^w u = 0` for `u(w) = U(a, b, e^w)`, for every `w`;
 - for real `a`, `b` and `x > 0`, `U(a, b, x)` is real, and `U(ā, b̄, z̄) = conj U(a, b, z)` on the
   slit plane.
 
@@ -698,8 +712,9 @@ With DLMF's hypotheses:
 - Euler's integral `𝐌(a, b, z) = Γ(a)⁻¹ Γ(b − a)⁻¹ ∫₀¹ e^{zt} t^{a−1} (1 − t)^{b−a−1} dt` for
   `Re b > Re a > 0` and every `z` (`regularizedHGFun_eq_integral`; DLMF 13.4.1; Temme (7.7),
   p. 173; Olver (9.07), p. 255; Beals–Wong (6.1.3), p. 190; Lebedev (9.11.1), p. 266;
-  Kristensson, Thm. 7.1, p. 126), and its companion DLMF 13.4.2 for `Re b > Re c > 0`
-  (Lebedev, Ch. 9, Problem 14, p. 278);
+  Kristensson, Thm. 7.1, p. 126);
+- the companion of Euler's integral, DLMF 13.4.2, for `Re b > Re c > 0` (Lebedev, Ch. 9,
+  Problem 14, p. 278);
 - DLMF 13.4.3 for `Re a > 0` and `z ≠ 0`, through `Complex.besselJ (b − 1) (2√(zt))`
   (Lebedev, Ch. 9, Problem 12, p. 278, after Kummer's transformation);
 - the Laplace integral `U(a, b, z) = Γ(a)⁻¹ ∫₀^∞ e^{−zt} t^{a−1} (1 + t)^{b−a−1} dt` for
@@ -843,25 +858,25 @@ logarithmic series 13.2.9 (an input, through 2.1) at integer `b`.
 
 ### 3.2 Fundamental pairs and Wronskians
 
-DLMF 13.2.24–13.2.33 and 13.2.35–13.2.38. The content of 13.2.24–13.2.32 formalized here is that
+DLMF 13.2.24–13.2.32 and 13.2.35–13.2.38. The content of 13.2.24–13.2.32 formalized here is that
 each listed function solves 13.2.1 and that each listed pair has non-vanishing Wronskian on the
 stated sector, with the logarithmic series 13.2.27–13.2.32 at integer `b` stated as functions on
 the slit plane (Magnus–Oberhettinger–Soni §6.3.2, pp. 270–271; Olver §10.5, p. 259, on the
 numerically satisfactory pairs). 13.2.24 and 13.2.25 are stated in logarithmic coordinates. The
-Wronskians 13.2.33–13.2.38 hold on the slit plane, with `e^{±πi} z` as in the Conventions
-(13.2.33: Beals–Wong (6.1.7), p. 191, for `M`; Olver §9.2, p. 255, for `𝐌`). They are computed
-from the leading terms at `0` or at `∞`, since `z^b e^{−z} 𝒲` is constant by 13.2.1. The Wronskian
-13.2.34, `𝒲{𝐌(a, b, z), U(a, b, z)} = −z^{−b} e^z/Γ(a)` (Olver §10.5, p. 259; Beals–Wong (6.2.8),
-p. 195, for `M`), is an input from QuantumFoundations §9.4, through 2.1.
+Wronskians 13.2.35–13.2.38 hold on the slit plane, with `e^{±πi} z` as in the Conventions; like
+13.2.33 (1.3) they are computed from the leading terms at `0` or at `∞`, since `z^b e^{−z} 𝒲` is
+constant by 13.2.1. The Wronskian 13.2.34, `𝒲{𝐌(a, b, z), U(a, b, z)} = −z^{−b} e^z/Γ(a)`
+(Olver §10.5, p. 259; Beals–Wong (6.2.8), p. 195, for `M`), is an input from
+QuantumFoundations §9.4, through 2.1. With the uniqueness of 1.3 it makes `𝐌`, `U` a basis: for
+`a ∉ {0, −1, −2, …}` every solution of 13.2.1 on the slit plane is
+`c₁ 𝐌(a, b, ·) + c₂ U(a, b, ·)`, for every `b` (Lebedev (9.10.11), p. 265).
 
 **Checks.**
 - 13.2.34 at `a = b = 1`: `𝐌(1, 1, z) = e^z`, `U(1, 1, z) = e^z E₁(z)`, and
   `𝒲 = e^z (e^z E₁)′ − e^z e^z E₁ = −e^z z^{−1}`, using `E₁′ = −e^{−z}/z`.
-- 13.2.33: `𝒲{𝐌(a, b, z), z^{1−b} 𝐌(a − b + 1, 2 − b, z)} = sin(πb) z^{−b} e^z/π`; at `a = 0`,
-  `b = ½` the first function is the constant `Γ(½)⁻¹`, and at `z = ½` both sides equal
-  `0.74218 53304…`.
-- At integer `b` the regularized Wronskian of the pair vanishes, so the pair is not a basis there;
-  dropping `sin(πb)/π` would claim one.
+- At `a = 0` the pair is not a basis: `U(0, b, z) = 1` (13.6.3) and `𝐌(0, b, z) = Γ(b)⁻¹` are
+  proportional, and 13.2.34 gives `𝒲 = 0` through `1/Γ(0) = 0`; dropping the hypothesis on `a`
+  would claim a basis.
 
 *Needs:* 1.3–1.5, 3.1, 2.1; QuantumFoundations §9.4.
 
@@ -1092,10 +1107,12 @@ Both are tail estimates of the series: under `|b + n| ≥ δ` for all `n`, the t
 
 **Checks.**
 - At `a = 1`, `z = 1`, `n = 1`: `M(1, b, 1) − 1 = 1/b + O(b^{−2})`; at `b = 100` the left side is
-  `0.01009 99010…`.
+  `0.01009 99901…`.
 - At `a = 0` the left side `M(0, b, z) = 1` and the sum is `1` for every `n ≥ 1`: the error is `0`.
-- Without the restriction `|b + n| ≥ δ`, the statement fails along `b = −n + 1/n²` at `a = 1`,
-  `z = 1`, where `M(1, b, 1)` is unbounded by 13.2.5 (1.1).
+- Without the restriction `|b + n| ≥ δ`, the statement fails at `a = 1`, `z = 1` along
+  `b = −m + 1/(m! m²)`, `m → ∞`: `𝐌(1, −m, 1) = e` by 13.2.5 (1.1), so `M(1, b, 1)` has the
+  residue `(−1)^m e/m!` at `b = −m`, and `M(1, b, 1)` is `−67.157…`, `272.738…` and `1088.265…`
+  at `m = 5`, `10`, `20`, close to `(−1)^m e m²`.
 
 *Needs:* 1.6; Tau Ceti `Complex.hasSum_regularizedHGFun`.
 
@@ -1205,8 +1222,9 @@ DLMF 13.11.1–13.11.4 and 13.24.1–13.24.3:
 - Buchholz's expansion 13.11.3 in the entire form
   `𝐌(a, b, z) = e^{z/2} ∑_s A_s (z/2)^s 𝐅(b + s, −(b − 2a) z/2)` for all `a`, `b`, `z`
   (`hasSum_regularizedHGFun_buchholz`; Magnus–Oberhettinger–Soni §6.7.1, pp. 284–285), with
-  `𝐅(c, w) = ∑_k w^k/(k! Γ(c + k))` the regularized `₀F₁`, and the printed `J_{b−1+s}` form for
-  `z ≠ 0`, `b ≠ 2a` and `−π < ph z + ph(b − 2a) ≤ π`, with principal powers and square root.
+  `𝐅(c, w) = ∑_k w^k/(k! Γ(c + k))` the regularized `₀F₁`;
+- the printed `J_{b−1+s}` form of 13.11.3 for `z ≠ 0`, `b ≠ 2a` and `−π < ph z + ph(b − 2a) ≤ π`,
+  with principal powers and square root.
   Outside that range the printed form with principal branches is false: at `a = 0.2 − 0.5i`,
   `b = 1.4 + 0.4i`, `z = −1.2 + 0.3i` the left side is `1.18529 22839… + 0.46781 21627… i` and the
   printed right side `2.83359 66305… − 3.38992 70140… i`;

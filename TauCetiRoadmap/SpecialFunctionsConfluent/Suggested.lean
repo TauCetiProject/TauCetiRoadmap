@@ -153,10 +153,12 @@ theorem regularizedHGFun_neg_nat (a : ℂ) (n : ℕ) (z : ℂ) :
     𝐌(a, -(n : ℂ)) z = poch(a, n + 1) * z ^ (n + 1) * 𝐌(a + n + 1, (n : ℂ) + 2) z := sorry
 
 /-- **1.2** Confluence of Gauss's function into `𝐌`: `𝐅(a, t; c; z/t) → 𝐌(a, c, z)` as the
-real parameter `t → ∞`. -/
-theorem tendsto_regularizedGaussHGFun_div_atTop (a c z : ℂ) :
-    Tendsto (fun t : ℝ => Complex.regularizedGaussHGFun a t c (z / t)) atTop
-      (𝓝 (𝐌(a, c) z)) := sorry
+real parameter `t → ∞`, for every `z` and locally uniformly in `z`. -/
+theorem tendsto_regularizedGaussHGFun_div_atTop (a c : ℂ) :
+    (∀ z : ℂ, Tendsto (fun t : ℝ => Complex.regularizedGaussHGFun a t c (z / t)) atTop
+      (𝓝 (𝐌(a, c) z))) ∧
+    TendstoLocallyUniformly (fun (t : ℝ) (z : ℂ) => Complex.regularizedGaussHGFun a t c (z / t))
+      (fun z => 𝐌(a, c) z) atTop := sorry
 
 /-- **1.4** The bracket of DLMF 13.2.42 vanishes at integer `b`. -/
 theorem kummerUBracket_intCast (a w : ℂ) (n : ℤ) : kummerUBracket a n w = 0 := sorry
@@ -178,11 +180,14 @@ theorem kummerU_kummer_equation (a b : ℂ) {z : ℂ} (hz : z ∈ slitPlane) :
     z * deriv (deriv (kummerU a b)) z + (b - z) * deriv (kummerU a b) z - a * kummerU a b z =
       0 := sorry
 
-/-- **1.5** The polynomial case `U(−m, b, z)` (DLMF 13.2.7), for every `b`. -/
+/-- **1.5** The polynomial case `U(−m, b, z)` (DLMF 13.2.7): the sum for every `b`, and the middle
+form `(−1)^m (b)_m M(−m, b, z)` for `b ∉ {0, −1, …}`. -/
 theorem kummerU_neg_nat (m : ℕ) (b : ℂ) {z : ℂ} (hz : z ≠ 0) :
     kummerU (-m) b z =
-      (-1 : ℂ) ^ m * ∑ s ∈ Finset.range (m + 1),
-        (m.choose s : ℂ) * poch(b + s, m - s) * (-z) ^ s := sorry
+        (-1 : ℂ) ^ m * ∑ s ∈ Finset.range (m + 1),
+          (m.choose s : ℂ) * poch(b + s, m - s) * (-z) ^ s ∧
+      ((∀ n : ℕ, b ≠ -n) →
+        kummerU (-m) b z = (-1 : ℂ) ^ m * poch(b, m) * (Gamma b * 𝐌(-(m : ℂ), b) z)) := sorry
 
 /-- **1.5** The analytic continuation (DLMF 13.2.12) for `b ∉ ℤ`. -/
 theorem kummerULog_add_two_pi_mul_I (a : ℂ) {b : ℂ} (hb : ∀ n : ℤ, b ≠ n) (w : ℂ) (m : ℤ) :
@@ -197,14 +202,21 @@ theorem kummerULog_intCast_add_two_pi_mul_I (a : ℂ) (n : ℤ) (w : ℂ) (m : �
       2 * π * I * m * (-1 : ℂ) ^ n * (Gamma (1 + a - n))⁻¹ * 𝐌(a, (n : ℂ)) (cexp w) +
         kummerULog a n w := sorry
 
-/-- **1.6** Whittaker's equation for `W_{κ,μ}` (DLMF 13.14.1). -/
+/-- **1.6** Whittaker's equation (DLMF 13.14.1) for `𝐌_{κ,μ}`, for `M_{κ,μ}` where
+`2μ ∉ {−1, −2, …}`, and for `W_{κ,μ}`. -/
 theorem whittakerW_equation (κ μ : ℂ) {z : ℂ} (hz : z ∈ slitPlane) :
+    deriv (deriv (regularizedWhittakerM κ μ)) z +
+        (-1 / 4 + κ / z + (1 / 4 - μ ^ 2) / z ^ 2) * regularizedWhittakerM κ μ z = 0 ∧
+    ((∀ n : ℕ, 2 * μ ≠ -((n : ℂ) + 1)) →
+      deriv (deriv (whittakerM κ μ)) z +
+        (-1 / 4 + κ / z + (1 / 4 - μ ^ 2) / z ^ 2) * whittakerM κ μ z = 0) ∧
     deriv (deriv (whittakerW κ μ)) z +
         (-1 / 4 + κ / z + (1 / 4 - μ ^ 2) / z ^ 2) * whittakerW κ μ z = 0 := sorry
 
-/-- **1.6** `𝐌_{κ,μ}(e^w)` is entire in `(κ, μ, w)` (DLMF §13.14(ii)). -/
+/-- **1.6** `𝐌_{κ,μ}(e^w)` and `W_{κ,μ}(e^w)` are entire in `(κ, μ, w)` (DLMF §13.14(ii)). -/
 theorem differentiable_regularizedWhittakerMLog :
-    Differentiable ℂ fun p : ℂ × ℂ × ℂ => regularizedWhittakerMLog p.1 p.2.1 p.2.2 := sorry
+    (Differentiable ℂ fun p : ℂ × ℂ × ℂ => regularizedWhittakerMLog p.1 p.2.1 p.2.2) ∧
+      Differentiable ℂ fun p : ℂ × ℂ × ℂ => whittakerWLog p.1 p.2.1 p.2.2 := sorry
 
 /-! ### Layer 2: the functions as integrals -/
 
@@ -249,17 +261,23 @@ theorem tendsto_kummerU_nhdsWithin_zero (a : ℂ) {b : ℂ} (hb : b.re < 1) :
     Tendsto (kummerU a b) (𝓝[slitPlane] 0) (𝓝 (Gamma (1 - b) * (Gamma (a - b + 1))⁻¹)) :=
   sorry
 
-/-- **3.3** Kummer's second transformation (DLMF 13.2.40). -/
-theorem kummerU_eq_cpow_mul_kummerU (a b : ℂ) {z : ℂ} (hz : z ∈ slitPlane) :
-    kummerU a b z = z ^ (1 - b) * kummerU (a - b + 1) (2 - b) z := sorry
+/-- **3.3** Kummer's second transformation (DLMF 13.2.40) on the slit plane, and in logarithmic
+coordinates for every `w`. -/
+theorem kummerU_eq_cpow_mul_kummerU (a b : ℂ) :
+    (∀ z ∈ slitPlane, kummerU a b z = z ^ (1 - b) * kummerU (a - b + 1) (2 - b) z) ∧
+      ∀ w : ℂ, kummerULog a b w = cexp ((1 - b) * w) * kummerULog (a - b + 1) (2 - b) w := sorry
 
-/-- **3.3** The connection formula DLMF 13.2.41, upper sign, for every `z ≠ 0`; QuantumFoundations
-§9.4 gives it for `−π < arg z < 0`. -/
+/-- **3.3** The connection formula DLMF 13.2.41, both signs, for every `z ≠ 0`; QuantumFoundations
+§9.4 gives the upper sign for `−π < arg z < 0` and the lower for `0 < arg z < π`. -/
 theorem regularizedHGFun_eq_kummerU_add (a b : ℂ) {z : ℂ} (hz : z ≠ 0) :
     𝐌(a, b) z =
-      cexp (-(a * π * I)) * (Gamma (b - a))⁻¹ * kummerU a b z +
-        cexp ((b - a) * π * I) * (Gamma a)⁻¹ * cexp z *
-          kummerULog (b - a) b (Complex.log z + π * I) := sorry
+        cexp (-(a * π * I)) * (Gamma (b - a))⁻¹ * kummerU a b z +
+          cexp ((b - a) * π * I) * (Gamma a)⁻¹ * cexp z *
+            kummerULog (b - a) b (Complex.log z + π * I) ∧
+      𝐌(a, b) z =
+        cexp (a * π * I) * (Gamma (b - a))⁻¹ * kummerU a b z +
+          cexp (-((b - a) * π * I)) * (Gamma a)⁻¹ * cexp z *
+            kummerULog (b - a) b (Complex.log z - π * I) := sorry
 
 /-- **3.4** `W_{κ,μ} = W_{κ,−μ}` (DLMF 13.14.31). -/
 theorem whittakerW_neg (κ μ : ℂ) {z : ℂ} (hz : z ∈ slitPlane) :
@@ -345,10 +363,12 @@ theorem hasSum_regularizedHGFun_buchholz (a b z : ℂ) :
         𝐅(b + s) (-(b - 2 * a) * z / 2))
       (𝐌(a, b) z) := sorry
 
-/-- **6.4** Weber's parabolic cylinder function (DLMF 13.6.12). -/
+/-- **6.4** Weber's parabolic cylinder function (DLMF 13.6.12–13.6.13). -/
 theorem kummerU_parabolicCylinderU (a : ℂ) {z : ℂ} (hz : 0 < z.re) :
     kummerU (a / 2 + 1 / 4) (1 / 2) (z ^ 2 / 2) =
-      (2 : ℂ) ^ (a / 2 + 1 / 4) * cexp (z ^ 2 / 4) * parabolicCylinderU a z := sorry
+        (2 : ℂ) ^ (a / 2 + 1 / 4) * cexp (z ^ 2 / 4) * parabolicCylinderU a z ∧
+      kummerU (a / 2 + 3 / 4) (3 / 2) (z ^ 2 / 2) =
+        (2 : ℂ) ^ (a / 2 + 3 / 4) * cexp (z ^ 2 / 4) * parabolicCylinderU a z / z := sorry
 
 /-- **6.4** Weber's `U(a, z)` through `W_{−a/2,1/4}` (DLMF 12.7.14, last form). -/
 theorem parabolicCylinderU_eq_whittakerW (a : ℂ) {z : ℂ} (hz : 0 < z.re) :
