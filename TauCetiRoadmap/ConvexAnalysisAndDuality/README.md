@@ -4,7 +4,7 @@
 the extended-real conjugate, subdifferential and Fenchel–Moreau theorem that Tau Ceti already
 has for an arbitrary bilinear pairing:
 - convex sets: supporting hyperplanes in finite dimension, the Minkowski–Carathéodory theorem,
-  the Minkowski–Weyl theorem for cones and polyhedra, and Farkas' lemma;
+  the Minkowski–Weyl theorem for polyhedra, and Farkas' lemma;
 - operations on extended-real convex functions: indicator and support functions, polars,
   infimal convolution, recession functions and closed perspectives, with their conjugates;
 - subgradients: directional derivatives, the max formula, existence on the relative interior,
@@ -40,9 +40,10 @@ polyhedra as finite intersections of half-spaces, and Rockafellar's construction
 potential from a cyclically monotone set. Neither has support functions, infimal convolution,
 recession functions or perspectives of extended-real functions, directional derivatives with the
 max formula, any subdifferential calculus rule beyond affine perturbation, normal cones of
-intersections, Legendre functions, the Minkowski–Weyl theorem, Farkas' lemma, linear or conic
-programming duality, the Karush–Kuhn–Tucker theorem, the Brøndsted–Rockafellar theorem, generic
-differentiability, or Choquet theory.
+intersections, Legendre functions, the Minkowski–Weyl theorem for polyhedra, Farkas' lemma,
+linear or conic programming duality, the Karush–Kuhn–Tucker theorem, the Brøndsted–Rockafellar
+theorem, generic differentiability, or Choquet theory. The Minkowski–Weyl theorem for cones is a
+target of ScatteringDiagrams §1.1, which this roadmap consumes.
 
 `Suggested.lean` states, against the pinned Mathlib and Tau Ceti, the headlines below that carry
 a Lean name, each with every conclusion the README attaches to it, and the definitions those
@@ -59,8 +60,8 @@ The roadmap is complete when Tau Ceti proves all of the following.
 
 1. **Convex sets and cones.** Supporting hyperplanes at frontier points in finite dimension and
    nontrivial support off the relative interior; the Minkowski–Carathéodory theorem; the
-   Minkowski–Weyl theorem for pointed cones under a perfect pairing and for convex polyhedra,
-   with bounded polyhedra as polytopes; Farkas' lemma.
+   Minkowski–Weyl theorem for convex polyhedra, with bounded polyhedra as polytopes; Farkas'
+   lemma.
 2. **Operations on convex functions.** Support functions and their duality with indicators; the
    one-sided polar and the bipolar theorem; infimal convolution with its conjugate; the recession
    function as a limit of slopes and as the support function of the conjugate domain, and the
@@ -110,7 +111,17 @@ The numbers are those of the layers below, and `k.n` names subsection `n` of Lay
   Baillon–Haddad theorem and the convergence theory of first-order methods (proximal point,
   projected gradient, forward–backward, accelerated gradient, subgradient method, alternating
   projections and Douglas–Rachford): the first-order-methods roadmap. 3.8 proves the cone case of
-  Moreau's decomposition with nearest points, which is its input;
+  Moreau's decomposition with nearest points, which is its input. That roadmap also owns
+  existence, uniqueness and quadratic growth for minimizers of continuous real-valued strongly
+  convex functions (its 1.3), of which 4.1 is the extended-real closed form, and the
+  variational inequality for the projection onto a closed convex set (its 3.1), of which
+  `mem_normalCone_iff_isMinOn` in 3.8 is the normal-cone form;
+- the finite matrix Farkas certificate over the rationals, with nonnegative inequality and free
+  equality multipliers, among the rational polyhedron adapters of TensorProductCombinatorics
+  §1.3; Farkas' lemma 1.4 is the real matrix form for the standard system `A x = b`, `x ≥ 0`;
+- the Minkowski–Weyl theorem for cones: ScatteringDiagrams §1.1, consumed by 1.3 and 1.4;
+- Ekeland's variational principle: Tau Ceti
+  `LowerSemicontinuous.exists_add_mul_dist_le_and_lt_add_mul_dist`, used by 4.6;
 - the matrix-game minimax theorem: RegretMinimizationAndEquilibria.
 
 Every result that is not listed in a layer belongs to the
@@ -149,7 +160,8 @@ These are fixed for every target. A statement that departs from them is a differ
 - **Normal cone and indicator.** `convexIndicator C` is `0` on `C` and `⊤` off `C`, and
   `normalCone B C x` is `{y | ∀ v ∈ C, B (v - x) y ≤ 0}`; both are local copies of
   VariationalMethods §2.1, and the normal cone is used only at points `x ∈ C`. Tangent cones are
-  Mathlib's `tangentConeAt ℝ C x`.
+  Mathlib's one-sided `posTangentConeAt C x`, which is `tangentConeAt NNReal C x`; Mathlib's
+  `tangentConeAt ℝ C x` admits negative scalars and is not the tangent cone of convex analysis.
 - **Optimal values.** Primal and dual values of optimization problems are infima and suprema in
   `EReal`, so infeasibility is `⊤` for a minimization and `⊥` for a maximization, and an
   unbounded problem has value `⊥` or `⊤`. A duality theorem asserts equality in `EReal`, and
@@ -174,8 +186,7 @@ These are fixed for every target. A statement that departs from them is a differ
 - **Cones:** `ProperCone`, `ProperCone.innerDual`, `ProperCone.hyperplane_separation'` and
   `ProperCone.relative_hyperplane_separation` (`Mathlib/Analysis/Convex/Cone/InnerDual.lean`);
   `PointedCone.hull`, `PointedCone.dual`, `PointedCone.DualFG`
-  (`Mathlib/Geometry/Convex/Cone/DualFinite.lean`) and `Submodule.FG`; perfect pairings
-  `LinearMap.IsPerfPair`.
+  (`Mathlib/Geometry/Convex/Cone/DualFinite.lean`) and `Submodule.FG`.
 - **Convex functions:** `ConvexOn`, `StrictConvexOn`, `StrongConvexOn` with
   `strongConvexOn_iff_convex` (`Mathlib/Analysis/Convex/Strong.lean`),
   `ConvexOn.continuousOn_tfae`, `ConvexOn.locallyLipschitzOn_interior`,
@@ -187,7 +198,8 @@ These are fixed for every target. A statement that departs from them is a differ
   (`Mathlib/Analysis/InnerProductSpace/Projection/Minimal.lean`), `innerₗ`,
   `ContinuousLinearMap.adjoint`.
 - **Duals and derivatives:** `StrongDual`, `topDualPairing`, `Convex.toWeakSpace_closure`,
-  `tangentConeAt`, `HasLineDerivAt`, `HasGradientAt`, `gradient`, `DifferentiableAt`.
+  `posTangentConeAt`, `tangentConeAt`, `tangentConeAt_eq_univ`, `HasLineDerivAt`, `HasGradientAt`,
+  `gradient`, `DifferentiableAt`.
 - **Minimax:** `Sion.minimax` (`Mathlib/Topology/Sion.lean`).
 - **Order:** `Maximal`, `IsGreatest`, `IsMinOn`, `IsMaxOn`; measures `IsProbabilityMeasure`,
   `MeasurableSet` and `IsGδ`.
@@ -234,8 +246,12 @@ These are fixed for every target. A statement that departs from them is a differ
 - **VariationalMethods §2.1:** the indicator of a convex set and the normal cone, of which
   `convexIndicator` and `normalCone` are local copies with the same values (the normal cone of
   §2.1 uses the evaluation pairing; the copy here takes the pairing as a parameter and agrees
-  with it for `(topDualPairing ℝ E).flip`). This roadmap consumes nothing else from other
-  roadmaps.
+  with it for `(topDualPairing ℝ E).flip`).
+- **ScatteringDiagrams §1.1:** the Minkowski–Weyl theorem for cones, that a pointed cone in a
+  finite-dimensional real vector space, lineality allowed, is finitely generated exactly when it
+  is the dual of a finite set of linear forms. 1.3 and 1.4 use it.
+
+This roadmap consumes nothing else from other roadmaps.
 
 ## How to read the build
 
@@ -247,16 +263,16 @@ uses. **Checks.** are small cases computed by hand and recomputed numerically, o
 bullet; at least one per definition is a negative control, a case that a plausible wrong
 convention or a dropped hypothesis gets wrong. Each layer closes with Examples and Dependencies.
 
-The layers are ordered by dependency: Layer 1 needs only Mathlib; Layer 2 needs Layer 1 and the
-Tau Ceti conjugate; Layer 3 needs Layers 1–2; Layer 4 needs Layer 3; Layer 5 needs Layers 1 and
-3; Layer 6 needs only 1.2 and Mathlib's measure theory, and can be built in parallel with
-Layers 2–5.
+The layers are ordered by dependency: Layer 1 needs Mathlib and ScatteringDiagrams §1.1; Layer 2
+needs Layer 1 and the Tau Ceti conjugate; Layer 3 needs Layers 1–2; Layer 4 needs Layer 3;
+Layer 5 needs Layers 1 and 3; Layer 6 needs only 1.2 and Mathlib's measure theory, and can be
+built in parallel with Layers 2–5.
 
 ## Layer 1: convex sets and cones
 
 Finite-dimensional facts that Mathlib's separation theorems do not yet give: support without an
 interior hypothesis, the dimension bound in Minkowski's theorem, the two descriptions of
-polyhedra and cones, and the linear alternative that drives linear-programming duality.
+polyhedra, and the linear alternative that drives linear-programming duality.
 
 ### 1.1 Supporting hyperplanes in finite dimension
 
@@ -303,26 +319,24 @@ theorem `convexHull_eq_union` inside the affine span, with `AffineIndependent.ca
 
 ### 1.3 The Minkowski–Weyl theorem
 
-- **Minkowski–Weyl for cones** (`PointedCone.fg_iff_dualFG`). For a perfect pairing
-  `p : M →ₗ[R] N →ₗ[R] R` of finite-dimensional vector spaces over a linearly ordered field, a
-  pointed cone in `N` is finitely generated exactly when it is the dual of a finite set
-  (`PointedCone.DualFG`) (Rockafellar–Wets, Thm 3.52, p. 102; Borwein–Lewis, Thm 5.1.7, p. 99).
-  Mathlib's `Mathlib/Geometry/Convex/Cone/DualFinite.lean` names this theorem in its docstring as
-  not yet proved.
 - **Minkowski–Weyl for polyhedra** (`isConvexPolyhedron_iff_convexHull_add_hull`). In a
   finite-dimensional real normed space, a set is a convex polyhedron in the sense of Tau Ceti's
   `IsConvexPolyhedron` exactly when it is `convexHull ℝ P + PointedCone.hull ℝ D` for finite sets
   `P` and `D`; and it is a bounded polyhedron exactly when it is `convexHull ℝ P` for a finite
   `P` (Borwein–Lewis, Thm 5.1.7, p. 99; Schneider, Thm 2.4.3, p. 96, and Thm 2.4.6, p. 97).
 
-*Proof route.* The cone statement by Fourier–Motzkin elimination: the projection of a cone dual
-to a finite set is again dual to a finite set, and a finitely generated cone is the projection of
-the orthant. Duality of finite sets under the perfect pairing exchanges the two descriptions.
-Polyhedra reduce to cones by homogenization `s ↦ {(t • x, t) | t ≥ 0, x ∈ s}`. The bounded case:
-`PointedCone.hull ℝ D` is bounded only if it is `{0}`.
+- The cone form, that a pointed cone in a finite-dimensional real vector space is finitely
+  generated exactly when it is `PointedCone.DualFG` for the pairing with the dual space
+  (Rockafellar–Wets, Thm 3.52, p. 102; Borwein–Lewis, Thm 5.1.7, p. 99), is the Minkowski–Weyl
+  target of ScatteringDiagrams §1.1 and is consumed here, not built.
 
-*Needs:* Mathlib `PointedCone.hull`, `PointedCone.DualFG`, `LinearMap.IsPerfPair`; Tau Ceti
-`IsConvexPolyhedron`.
+*Proof route.* Polyhedra reduce to cones by homogenization `s ↦ {(t • x, t) | t ≥ 0, x ∈ s}` in
+`V × ℝ`, to which the cone form of ScatteringDiagrams §1.1 applies; the slice at `t = 1` gives
+`convexHull ℝ P + PointedCone.hull ℝ D`. The bounded case: `PointedCone.hull ℝ D` is bounded only
+if it is `{0}`.
+
+*Needs:* ScatteringDiagrams §1.1 (Minkowski–Weyl for cones); Mathlib `PointedCone.hull`,
+`PointedCone.DualFG`; Tau Ceti `IsConvexPolyhedron`.
 
 ### 1.4 Linear alternatives
 
@@ -332,10 +346,11 @@ Polyhedra reduce to cones by homogenization `s ↦ {(t • x, t) | t ≥ 0, x �
 - Gordan's alternative is Tau Ceti's `exists_forall_dual_pos_iff`, and Farkas' lemma does not
   depend on it.
 
-*Proof route.* The cone `{A x | x ≥ 0}` is finitely generated, hence closed by 1.3; separate `b`
-from it with `ProperCone.hyperplane_separation'`.
+*Proof route.* The cone `{A x | x ≥ 0}` is finitely generated, hence the dual of a finite set by
+the cone form of Minkowski–Weyl (ScatteringDiagrams §1.1) and closed; separate `b` from it with
+`ProperCone.hyperplane_separation'`.
 
-*Needs:* 1.3; Mathlib `ProperCone.hyperplane_separation'`.
+*Needs:* ScatteringDiagrams §1.1; Mathlib `ProperCone.hyperplane_separation'`.
 
 **Checks.**
 
@@ -371,7 +386,7 @@ from it with `ProperCone.hyperplane_separation'`.
 
 ### Dependencies
 
-Mathlib only; Tau Ceti `IsConvexPolyhedron`.
+Mathlib; Tau Ceti `IsConvexPolyhedron`; ScatteringDiagrams §1.1.
 
 ## Layer 2: operations on convex functions
 
@@ -432,11 +447,10 @@ can be scaled to `1`.
   `B`, if `f` and `g` are convex and never `⊥`, then `infConv f g` is convex and its conjugate is
   `fenchelConjugate B f + fenchelConjugate B g` (Bauschke–Combettes, Prop 13.24(i), p. 226, which
   needs no convexity for the conjugate identity; convexity is the strict-epigraph sum).
-- Under the qualification that `g` is continuous at a point of `x - dom f`, or in finite
-  dimension that `ri dom f ∩ (x - ri dom g)` is nonempty, the infimum is attained, and the
-  conjugate of a sum of proper closed convex functions is the infimal convolution of the
-  conjugates; this is the conjugate form of the sum rules 3.5 and 3.6, and a target in prose
-  (Hiriart-Urruty–Lemaréchal II, Ch. X, Thm 2.3.2, p. 62).
+- The infimum defining `infConv f g x` need not be attained, even when `g` is finite and
+  continuous: `infConv exp 0 0 = 0` on `ℝ` is attained at no `y`. The conjugate of a sum, which
+  is an infimal convolution of the conjugates with attainment under a qualification on
+  `dom f ∩ dom g`, is a target of 5.1.
 
 *Proof route.* The conjugate identity is an exchange of suprema with the substitution
 `x = y + z`; the hypothesis that neither function takes `⊥` makes `f y + g z - B (y + z) u`
@@ -663,42 +677,54 @@ separation.
   `⊥`, if some `A x₀` lies in the relative interior of the domain of `g`, then the subdifferential
   of `g ∘ A` at `x` is the image under `ContinuousLinearMap.adjoint A` of the subdifferential of
   `g` at `A x` (Hiriart-Urruty–Lemaréchal II, Ch. X, Thm 2.2.3, p. 58, for the conjugate).
+- **Relative interior of a linear image.** For a linear map `L` between finite-dimensional real
+  vector spaces and a convex set `C`, the relative interior of `L '' C` is the image of the
+  relative interior of `C` (Rockafellar–Wets, Prop 2.44(a), p. 66). With Mathlib's
+  `intrinsicInterior_prod_eq` and `L (a, b) = a - b` this gives
+  `ri (C - D) = ri C - ri D` for convex `C`, `D`. This is a target in prose.
 
-*Proof route.* Translate so that `0` is a common relative-interior point and restrict to the
-affine spans; there the relative interiors are interiors and the sum rule of 3.5 applies to the
-restrictions, which are continuous on the relative interior by
-`ConvexOn.locallyLipschitzOn_intrinsicInterior`. A subgradient of the restriction extends to the
-whole space by adding any element of the orthogonal complement of the span, which is in both
-subdifferentials. The chain rule is the sum rule on `E × F` for `g (y)` and `δ_{graph A}`.
+*Proof route.* The inclusion `⊇` is the unqualified rule of 3.5. For `⊆`, fix
+`u ∈ subdifferential (f + g) x` and set `φ y = ⨅ z, f z - ⟪z, u⟫ + g (z + y)`. Then `φ` is convex,
+`φ 0 = f x + g x - ⟪x, u⟫` is finite and attained at `z = x`, and `dom φ = dom g - dom f`, whose
+relative interior `ri dom g - ri dom f` contains `0` by the image rule. A convex function finite
+at a relative-interior point of its domain is never `⊥`, so 3.2 gives a subgradient `w` of `φ` at
+`0`. Taking `z = x` in the infimum gives `w ∈ subdifferential g x`, and taking `y = x - z` gives
+`u - w ∈ subdifferential f x`. The chain rule is the same argument for
+`φ y = ⨅ z, g (A z + y) - ⟪z, u⟫`, whose domain `dom g - range A` has `0` in its relative
+interior when some `A x₀` is in `ri dom g`; the second substitution gives
+`u = ContinuousLinearMap.adjoint A w`.
 
-*Needs:* 3.2, 3.5.
+*Needs:* 3.2, 3.5; Mathlib `intrinsicInterior_prod_eq`.
 
 ### 3.7 Tangent and normal cones
 
-- **Polarity** (`tangentConeAt_eq_and_normalCone_polar`). For a convex set `C` in a real Hilbert
-  space and `x ∈ C`, Mathlib's `tangentConeAt ℝ C x` is the closure of the cone
-  `{t • (c - x) | t > 0, c ∈ C}`; the normal cone is its polar; and the tangent cone is the polar
-  of the normal cone (Bauschke–Combettes, Prop 6.44(i), p. 127; Rockafellar–Wets, Thm 6.9, p. 203).
+- **Polarity** (`posTangentConeAt_eq_and_normalCone_polar`). For a convex set `C` in a real
+  Hilbert space and `x ∈ C`, Mathlib's one-sided tangent cone `posTangentConeAt C x` is the
+  closure of the cone `{t • (c - x) | t > 0, c ∈ C}`; the normal cone is its polar; and the
+  tangent cone is the polar of the normal cone (Bauschke–Combettes, Prop 6.44(i), p. 127;
+  Rockafellar–Wets, Thm 6.9, p. 203).
 - **Intersections** (`normalCone_inter_of_intrinsicInterior`). For convex `C`, `D` in a
   finite-dimensional inner product space with `intrinsicInterior ℝ C ∩ intrinsicInterior ℝ D`
   nonempty, the normal cone of `C ∩ D` at `x ∈ C ∩ D` is the sum of the normal cones.
 - The normal cone at a point of `interior C` is `{0}` (Bauschke–Combettes, Prop 6.44(ii),
   p. 127); this is a target in prose.
 
-*Proof route.* The first claim: Mathlib's tangent cone consists of limits of `cₙ (yₙ - x)` with
-`yₙ ∈ C`, `yₙ → x`; convexity lets `yₙ = x + sₙ (c - x)` be chosen on segments. Polarity is the
+*Proof route.* The first claim: `posTangentConeAt C x` consists of limits of `cₙ (yₙ - x)` with
+`cₙ ≥ 0`, `yₙ ∈ C`, `yₙ → x`; convexity lets `yₙ = x + sₙ (c - x)` be chosen on segments. The
+sign condition `cₙ ≥ 0` is essential: the two-sided `tangentConeAt ℝ C x` is symmetric under
+negation and is in general larger. Polarity is the
 bipolar theorem for cones (2.2). Intersections: the subdifferential of the indicator is the
 normal cone (Bauschke–Combettes, Example 16.13, p. 267), and the sum rule 3.6 for the two
 indicators gives the formula.
 
-*Needs:* 2.2, 3.6; Mathlib `tangentConeAt`.
+*Needs:* 2.2, 3.6; Mathlib `posTangentConeAt`.
 
 ### 3.8 Nearest points and Moreau's decomposition
 
 - **Normal cones and nearest points** (`mem_normalCone_iff_isMinOn`). For a convex set `C` in a
   real Hilbert space, `x ∈ C`, and `γ > 0`, `u` is in the normal cone of `C` at `x` exactly when
   `x` is a nearest point of `C` to `x + γ • u` (Bauschke–Combettes, Prop 6.47, p. 127, for closed
-  `C`). With `C` closed this is `u ∈ N_C(x) ↔ P_C (x + γ u) = x`, CKMA's form.
+  `C`). With `C` closed this is `u ∈ N_C(x) ↔ P_C (x + γ u) = x`.
 - **Moreau's decomposition for cones** (`exists_unique_moreau_decomposition`). For a closed
   convex cone `K` in a real Hilbert space and any `x`, there are unique `a ∈ K` and `b` in the
   polar cone with `a + b = x` and `⟪a, b⟫ = 0`; and `a` and `b` are the nearest points of `K` and
@@ -739,6 +765,10 @@ Uniqueness: two decompositions give `‖a - a'‖² = ⟪a - a', b' - b⟫ ≤ 0
   all of `ℝ²`, but the sum of the normal cones is `{0} × ℝ`, and neither is continuous at a common
   point nor do the relative interiors meet.
 - Normal cone: the normal cone of `[0, 1]` is `[0, ∞)` at `1` and `{0}` at `1/2`.
+- Tangent cone: `posTangentConeAt [0, 1] 0 = [0, ∞)`, whose polar `(-∞, 0]` is the normal cone of
+  `[0, 1]` at `0`.
+- Negative control for the one-sided cone: `tangentConeAt ℝ [0, 1] 0 = ℝ` by Mathlib's
+  `tangentConeAt_eq_univ`, whose polar is `{0}`, not the normal cone `(-∞, 0]`.
 - Negative control for `x ∈ C` in `normalCone`: at `x = 2 ∉ [0, 1]` the formula gives
   `[0, ∞)`, which is why every target uses the normal cone only at points of `C`.
 - `mem_normalCone_iff_isMinOn`: with `C = [0, 1]`, `x = 1`, `u = 3`, `γ = 1`, the nearest point
@@ -809,11 +839,17 @@ quadratic lower bound for `f = f**`.
 - **Definitions.** On a finite-dimensional inner product space:
   - `IsEssentiallySmooth f`: the interior of the domain is nonempty, `f` is differentiable on it,
     and `subdifferential (innerₗ E) f x` is empty at every `x` outside it. This is
-    Rockafellar–Wets' "almost differentiable" (Thm 11.13(a), p. 483); for proper closed convex
-    `f` it is equivalent to the gradient blowing up at the boundary of the domain.
+    Rockafellar–Wets' "almost differentiable" (Thm 11.13(a), p. 483).
   - `IsEssentiallyStrictlyConvex f`: `f` is strictly convex on every convex set of points where
     its subdifferential is nonempty.
   - `IsLegendre f`: both.
+- **Steepness.** For a proper closed convex `f` on a finite-dimensional inner product space,
+  `IsEssentiallySmooth f` holds exactly when the interior of the domain is nonempty, `f` is
+  differentiable on it, and `‖∇f xₙ‖ → ∞` whenever `xₙ` in the interior of the domain converges
+  to a point of its frontier (Borwein–Vanderwerff, Def 7.1.1(a), p. 338, for the steep form, and
+  Thm 7.3.8(a), p. 345, for its equivalence with `∂f` single-valued and locally bounded on its
+  domain). This is a target in prose, and it is the form in which essential smoothness enters
+  the Gärtner–Ellis theorem.
 - **Strict–smooth duality**
   (`isEssentiallySmooth_iff_isEssentiallyStrictlyConvex_fenchelConjugate`). A proper closed
   convex `f` is essentially smooth exactly when `f*` is essentially strictly convex
@@ -829,7 +865,15 @@ and lives on the interior of the domain; essential strict convexity of `f*` says
 3.2 (nonempty on the relative interior) and 3.3. The Legendre statement combines the two
 directions and the symmetry `f** = f`.
 
-*Needs:* 3.2, 3.3; Tau Ceti `mem_subdifferential_fenchelConjugate_iff`.
+Steepness: `IsEssentiallySmooth f` gives `∂f` single-valued on its domain, which is the interior
+of `dom f`, and locally bounded there, by 3.3 and continuity on the interior. Conversely, if `∂f`
+is single-valued and locally bounded on its domain, then the domain of `f` has interior, since
+otherwise `∂f` at a relative-interior point contains a translate of the orthogonal complement of
+the affine span (3.2); and `∂f x` is empty at a frontier point `x`, since a subgradient there
+plus the nonzero normals of 1.1 would give a second one. Borwein–Vanderwerff's Thm 7.3.8(a)
+identifies single-valued, locally bounded `∂f` with the steep form.
+
+*Needs:* 1.1, 3.2, 3.3; Tau Ceti `mem_subdifferential_fenchelConjugate_iff`.
 
 ### 4.4 Monotone and cyclically monotone subdifferentials
 
@@ -893,12 +937,14 @@ same argument localized to `U`.
 - In particular the domain of the subdifferential is dense in the domain of `f`; this is a target
   in prose.
 
-*Proof route.* Ekeland's variational principle for the closed function `f - y₀` on the complete
-space, with weight `ε / r`, gives a point `x` that minimizes `f - y₀ + (ε / r) ‖· - x‖`; the sum
-rule 3.5, with the norm continuous, yields `y ∈ subdifferential f x` with `‖y - y₀‖ ≤ ε / r`.
-Ekeland's principle is proved on the way; it is not in Mathlib.
+*Proof route.* Tau Ceti's Ekeland principle
+`LowerSemicontinuous.exists_add_mul_dist_le_and_lt_add_mul_dist`, applied with weight `ε / r` to
+the real-valued function `f - y₀` on the closed, hence complete, sublevel set
+`{x | f x - y₀ x ≤ f x₀ - y₀ x₀}`, where it is bounded below by `f x₀ - y₀ x₀ - ε`, gives a point
+`x` that minimizes `f - y₀ + (ε / r) ‖· - x‖`; the sum rule 3.5, with the norm continuous, yields
+`y ∈ subdifferential f x` with `‖y - y₀‖ ≤ ε / r`.
 
-*Needs:* 3.5.
+*Needs:* 3.5; Tau Ceti `LowerSemicontinuous.exists_add_mul_dist_le_and_lt_add_mul_dist`.
 
 **Checks.**
 
@@ -971,13 +1017,24 @@ domain.
   Borwein–Vanderwerff, Thm 2.3.4, p. 46, under the core condition).
 - Weak duality `⨆ u, -f* (-(u ∘ A)) - g* u ≤ ⨅ x, f x + g (A x)` holds with no hypothesis, by
   Fenchel–Young; this is a target in prose.
+- **Conjugate of a sum.** For convex `f`, `g` that are never `⊥`, if `g` is finite and
+  continuous at a point of `dom f` (normed tier), or `ri dom f ∩ ri dom g` is nonempty
+  (Euclidean tier), then `(f + g)* = infConv f* g*` for the pairing of the tier, and at every
+  `u` where this value is not `⊤` the infimum defining `infConv f* g* u` is attained
+  (Hiriart-Urruty–Lemaréchal II, Ch. X, Thm 2.3.2, p. 62, for proper closed convex functions
+  under the relative-interior qualification; Bauschke–Combettes, Prop 15.2, p. 247, in Hilbert
+  space under `0 ∈ core (dom f - dom g)`). This is a target in prose.
 
 *Proof route.* The value function `v y = ⨅ x, f x + g (A x + y)` is convex, and its conjugate is
 `u ↦ f* (-(u ∘ A)) + g* u`. Under either qualification `0` is a point of continuity, or a
 relative-interior point, of `dom v`, so `v` has a subgradient `-u` at `0` (3.2) when `v 0 ≠ ⊥`,
-and `v 0 = -v* (-u)` is the dual value at `u`.
+and `v 0 = -v* (-u)` is the dual value at `u`. In the Euclidean tier, `dom v = dom g - A (dom f)`
+and the relative interior of this set is `ri dom g - A (ri dom f)` by the image rule of 3.6. The
+conjugate of a sum is the case `A = id` with `f` replaced by `f - B (·) u`: the primal value is
+`-(f + g)* u`, and the attained dual supremum is `-infConv f* g* u` with its minimizer.
 
-*Needs:* 3.2, 3.5, 3.6; Tau Ceti `le_add_fenchelConjugate`.
+*Needs:* 3.2, 3.6 (relative interior of a linear image); 2.3 (`infConv`); Tau Ceti
+`le_add_fenchelConjugate`.
 
 ### 5.2 The Karush–Kuhn–Tucker theorem
 
@@ -989,7 +1046,8 @@ and `v 0 = -v* (-u)` is the dual value at `u`.
   `0 ∈ ∂f x* + ∑ λᵢ ∂gᵢ x* + Aᵀ y` (Hiriart-Urruty–Lemaréchal I, Ch. VII, Thm 2.2.5, p. 310;
   Borwein–Lewis, Thm 3.2.8, p. 44; Boyd–Vandenberghe, §5.5.3, p. 243).
 - **Sufficiency** (`isMinOn_of_kkt`). A feasible point with such multipliers is a minimizer,
-  with no constraint qualification (Hiriart-Urruty–Lemaréchal I, Ch. VII, Thm 2.2.5, p. 310).
+  with no constraint qualification and no convexity hypothesis: the subgradient inequalities
+  carry the argument (Hiriart-Urruty–Lemaréchal I, Ch. VII, Thm 2.2.5, p. 310, for convex data).
 
 *Proof route.* Necessity is Fenchel duality 5.1 for `f` and the indicator of the feasible set,
 whose normal cone at `x*` is computed by the sum rule 3.6 and Danskin 3.4 for `max gᵢ`; Slater's
@@ -1005,13 +1063,13 @@ subgradient inequalities with weights `1`, `λᵢ`, and use complementary slackn
   `max b ⬝ᵥ y` over `Aᵀ y ≤ c` both have solutions, with equal values; and a primal-feasible `x`
   and dual-feasible `y` have equal values exactly when complementary slackness
   `xⱼ (c - Aᵀ y)ⱼ = 0` holds for all `j` (Borwein–Lewis, Cor 5.3.7, p. 111;
-  Boyd–Vandenberghe, §5.2.3, p. 227, and §5.5.2, p. 242).
+  Boyd–Vandenberghe, §5.2.4, p. 227, and §5.5.2, p. 242).
 - If the primal is infeasible, the dual is infeasible or unbounded, and symmetrically; this is
   a target in prose, from Farkas' lemma.
 
 *Proof route.* Farkas' lemma 1.4 applied to the system `A x = b`, `x ≥ 0`, `c ⬝ᵥ x ≤ t` for the
 optimal `t`, augmented by one row, gives the dual solution; attainment of the primal is closedness
-of the finitely generated cone `{(A x, c ⬝ᵥ x) | x ≥ 0}` (1.3). Complementary slackness is the
+of the finitely generated cone `{(A x, c ⬝ᵥ x) | x ≥ 0}` (as in 1.4). Complementary slackness is the
 identity `c ⬝ᵥ x - b ⬝ᵥ y = x ⬝ᵥ (c - Aᵀ y)` with nonnegative terms.
 
 *Needs:* 1.3, 1.4.
@@ -1062,7 +1120,7 @@ applies.
 - The Lagrangian dual of a quadratic program and the dual of a semidefinite program are instances
   of 5.4 with `K` the orthant and the positive semidefinite cone.
 - Minimax: Sion's theorem (`Sion.minimax`) gives the saddle-point form for convex–concave
-  functions on a compact convex set, which is CKMA's convex minimax theorem.
+  functions on a compact convex set, which is the convex minimax theorem.
 
 ### Dependencies
 
@@ -1097,7 +1155,12 @@ extreme points are `G_δ`: the complement is the union over `n` of the closed se
 
 - **Definitions.** `coneOver K = {(t • x, t) | t ≥ 0, x ∈ K}` in `V × ℝ`, ordered by
   `d ≤ a ↔ a - d ∈ coneOver K`. `IsChoquetSimplex K` asserts that any two elements of the cone have
-  a greatest lower bound in it (Simon, p. 174).
+  a least upper bound in it. For convex `K`, upper bounds of an element of the cone lie in the
+  cone, so least upper bounds in the cone are least upper bounds in its span
+  `coneOver K - coneOver K`, and translation moves any two elements of the span into the cone;
+  hence the property says that the span, with the order of the cone, is a vector lattice,
+  Simon's definition of a simplex (Simon, p. 174, where (11.5) shows that least upper bounds
+  suffice).
 - **Choquet–Meyer theorem** (`isChoquetSimplex_iff_existsUnique`). For a compact metrizable
   convex `K` as in 6.1, every point has exactly one representing probability measure carried by
   the extreme points if and only if `K` is a Choquet simplex (Simon, Thm 11.12, p. 182, from
@@ -1120,6 +1183,10 @@ by the extreme points (6.1).
   its own order.
 - Negative control for the witness at `t = 0`: `(0, 0)` lies in `coneOver K` only when `K` is
   nonempty, so the empty set is a simplex vacuously and not through a degenerate cone `{0}`.
+- Negative control for the lattice property: over the unit square, the cone points `((0, 0), 1)`
+  and `((1, 0), 1)` have the two upper bounds `((1, 0), 2)` and `((1, 1), 2)`, which differ by
+  `±((0, 1), 0)`, outside the cone; every upper bound has height at least `2`, and one of height
+  `2` below both would have to be both of them, so there is no least upper bound.
 - Negative control: the unit square is not a simplex, and its centre has two representing
   measures carried by the vertices, `(δ_(0,0) + δ_(1,1))/2` and `(δ_(1,0) + δ_(0,1))/2`.
 - The closed unit disc is not a simplex: its centre is the barycenter of the uniform measure on
@@ -1153,6 +1220,9 @@ by the extreme points (6.1).
   case of 5.3 for the game's linear program.
 - **MarkovDecisionProcesses** Layer 5 states linear programs for Markov decision processes
   and proves their duality directly; 5.3 is the general theorem those programs instantiate.
+- The large-deviations roadmap uses essential smoothness in the Gärtner–Ellis theorem in the
+  steep form of 4.3 (the gradient norm tends to infinity at the frontier of the interior of the
+  domain); 4.3 owns the predicate and the equivalence of the two forms.
 - The convergence theory of proximal and splitting algorithms rests on 3.5, 3.8 (the cone case
   of Moreau's decomposition), 4.1, 4.2 and 4.4.
 
@@ -1166,9 +1236,10 @@ under this roadmap.
   sets, Clarke's generalized gradient and its calculus, the Lyusternik–Graves theorem, Hoffman's
   error bound, limiting subdifferentials and their calculus, the extremal principle, the
   Mordukhovich criterion, and KKT and second-order conditions under general constraint
-  qualifications (CKMA 12.45–12.52, 12.54, 12.55 and 12.70–12.75). They need a theory of set-valued
-  maps and regularity that this roadmap does not build. Ekeland's principle is proved in 4.6 only
-  as the step of the Brøndsted–Rockafellar theorem.
+  qualifications (entries 12.45–12.52, 12.54, 12.55 and 12.70–12.75 of the CKMA list described
+  under [Prior formalization](#prior-formalization)). They need a theory of set-valued maps and
+  regularity that this roadmap does not build. Ekeland's principle itself is Tau Ceti's, and 4.6
+  uses it.
 - **Asplund spaces**: Fréchet differentiability on a dense `G_δ` for every Asplund space, beyond
   the separable-dual case of 4.5, needs the separable reduction and the Radon–Nikodým property.
 - **Choquet theory without metrizability**: the Choquet–Bishop–de Leeuw theorem and the
@@ -1214,10 +1285,9 @@ prescriptive:
 | 12.53 | 4.5 (separable-dual case; Asplund spaces are beyond) |
 | 12.64–12.69 | 4.2, 2.5, 3.7, 3.4, 4.6, 4.4 |
 
-Mathlib pull request #45868 (`feat(Geometry/Convex): add subgradients`) introduces a subgradient
-of a real-valued convex function in Mathlib. When it lands, the bridge from Tau Ceti's
-`subdifferential` with `innerₗ E` to it is a one-line lemma in the implementation of 3.1, and
-no target changes.
+Mathlib has no subgradient of a real-valued convex function at the pinned version. A bridge from
+Tau Ceti's `subdifferential` with `innerₗ E` to any such Mathlib notion belongs to 3.1 and changes
+no target.
 
 ## References
 

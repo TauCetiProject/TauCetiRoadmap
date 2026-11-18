@@ -16,6 +16,7 @@ public import TauCeti.Analysis.Convex.RecessionConstant
 public import TauCeti.Analysis.Calculus.Rademacher
 public import TauCeti.Analysis.LocallyConvex.Bipolar
 public import TauCeti.Geometry.Convex.Cone.Alternative
+public import TauCeti.Topology.MetricSpace.Ekeland
 public import TauCeti.Analysis.Normed.Module.Dual.Reflexive.WeakCompact
 public import TauCeti.MeasureTheory.OptimalTransport.CTransform.Rockafellar
 
@@ -96,14 +97,6 @@ theorem convexHull_extremePoints_eq {K : Set V} (hK : IsCompact K) (hKc : Convex
     convexHull ℝ (K.extremePoints ℝ) = K ∧
       ∀ x ∈ K, ∃ t : Finset V, (t : Set V) ⊆ K.extremePoints ℝ ∧
         t.card ≤ Module.finrank ℝ (vectorSpan ℝ K) + 1 ∧ x ∈ convexHull ℝ (t : Set V) := by
-  sorry
-
-/-- 1.3, the Minkowski–Weyl theorem for cones: in finite dimension, for a perfect pairing, a
-pointed cone is finitely generated exactly when it is the dual of a finite set. -/
-theorem PointedCone.fg_iff_dualFG {R M N : Type*} [Field R] [LinearOrder R]
-    [IsStrictOrderedRing R] [AddCommGroup M] [Module R M] [AddCommGroup N] [Module R N]
-    [Module.Finite R M] [Module.Finite R N] (p : M →ₗ[R] N →ₗ[R] R) [p.IsPerfPair]
-    (C : PointedCone R N) : C.FG ↔ C.DualFG p := by
   sorry
 
 /-- 1.3, the Minkowski–Weyl theorem for polyhedra, and its bounded case: a convex polyhedron is a
@@ -223,12 +216,13 @@ theorem perspective_spec {f : H → EReal} (hf : Convex ℝ {p : H × ℝ | f p.
         (∀ x, ∀ t : ℝ, 0 < t → g (x, t) ≤ (t : EReal) * f (t⁻¹ • x)) → g ≤ perspective f := by
   sorry
 
-/-- 3.7: tangent and normal cones of a convex set are polar to each other. -/
-theorem tangentConeAt_eq_and_normalCone_polar {C : Set H} (hC : Convex ℝ C) {x : H}
+/-- 3.7: the one-sided tangent cone and the normal cone of a convex set are polar to each other.
+Mathlib's two-sided `tangentConeAt ℝ` is not the tangent cone of convex analysis. -/
+theorem posTangentConeAt_eq_and_normalCone_polar {C : Set H} (hC : Convex ℝ C) {x : H}
     (hx : x ∈ C) :
-    tangentConeAt ℝ C x = closure {v | ∃ t : ℝ, 0 < t ∧ ∃ c ∈ C, v = t • (c - x)} ∧
-      normalCone (innerₗ H) C x = {u | ∀ v ∈ tangentConeAt ℝ C x, ⟪v, u⟫ ≤ 0} ∧
-      tangentConeAt ℝ C x = {v | ∀ u ∈ normalCone (innerₗ H) C x, ⟪v, u⟫ ≤ 0} := by
+    posTangentConeAt C x = closure {v | ∃ t : ℝ, 0 < t ∧ ∃ c ∈ C, v = t • (c - x)} ∧
+      normalCone (innerₗ H) C x = {u | ∀ v ∈ posTangentConeAt C x, ⟪v, u⟫ ≤ 0} ∧
+      posTangentConeAt C x = {v | ∀ u ∈ normalCone (innerₗ H) C x, ⟪v, u⟫ ≤ 0} := by
   sorry
 
 /-- 3.8: `u` is normal to the convex set `C` at `x ∈ C` exactly when `x` is a nearest point of
@@ -496,9 +490,10 @@ theorem exists_kkt_of_slater {ι : Type*} [Fintype ι] {f : E → ℝ} {g : ι �
         u + ∑ i, l i • v i + ContinuousLinearMap.adjoint A y = 0 := by
   sorry
 
-/-- 5.2: the Karush–Kuhn–Tucker conditions are sufficient, with no constraint qualification. -/
+/-- 5.2: the Karush–Kuhn–Tucker conditions are sufficient, with no constraint qualification and
+no convexity hypothesis; the subgradient inequalities carry the argument. -/
 theorem isMinOn_of_kkt {ι : Type*} [Fintype ι] {f : E → ℝ} {g : ι → E → ℝ}
-    (hf : ConvexOn ℝ univ f) (hg : ∀ i, ConvexOn ℝ univ (g i)) (A : E →L[ℝ] F) (b : F) {xs : E}
+    (A : E →L[ℝ] F) (b : F) {xs : E}
     (hxs : xs ∈ {x | (∀ i, g i x ≤ 0) ∧ A x = b}) (l : ι → ℝ) (y : F) (hl : ∀ i, 0 ≤ l i)
     (hcs : ∀ i, l i * g i xs = 0) (u : E)
     (hu : u ∈ subdifferential (innerₗ E) (fun x => (f x : EReal)) xs) (v : ι → E)
@@ -595,11 +590,12 @@ def coneOver (K : Set V) : Set (V × ℝ) :=
   {p | ∃ t : ℝ, 0 ≤ t ∧ ∃ x ∈ K, p = (t • x, t)}
 
 /-- `K` is a Choquet simplex when the cone over it is a lattice in its own order: any two of its
-elements have a greatest lower bound in the cone, for the order `d ≤ a ↔ a - d ∈ coneOver K`. -/
+elements have a least upper bound in the cone, for the order `a ≤ c ↔ c - a ∈ coneOver K`. For
+convex `K` this says that `coneOver K - coneOver K` is a vector lattice (Simon, p. 174). -/
 def IsChoquetSimplex (K : Set V) : Prop :=
-  ∀ a ∈ coneOver K, ∀ b ∈ coneOver K, ∃ c ∈ coneOver K, a - c ∈ coneOver K ∧
-    b - c ∈ coneOver K ∧
-    ∀ d ∈ coneOver K, a - d ∈ coneOver K → b - d ∈ coneOver K → c - d ∈ coneOver K
+  ∀ a ∈ coneOver K, ∀ b ∈ coneOver K, ∃ c ∈ coneOver K, c - a ∈ coneOver K ∧
+    c - b ∈ coneOver K ∧
+    ∀ d ∈ coneOver K, d - a ∈ coneOver K → d - b ∈ coneOver K → d - c ∈ coneOver K
 
 /-- 6.1, Choquet's theorem: in a compact metrizable convex set the extreme points form a Borel
 set, and every point is the barycenter of a probability measure carried by them. -/
@@ -685,9 +681,12 @@ end TauCetiRoadmap.ConvexAnalysisAndDuality
 #check @exists_norm_eq_iInf_of_complete_convex
 #check @norm_eq_iInf_iff_real_inner_le_zero
 #check @tangentConeAt
+#check @posTangentConeAt
+#check @tangentConeAt_eq_univ
+#check @intrinsicInterior_prod_eq
+#check @LowerSemicontinuous.exists_add_mul_dist_le_and_lt_add_mul_dist
 #check @topDualPairing
 #check @HasLineDerivAt
-#check @LinearMap.IsPerfPair
 #check @Set.extremePoints
 #check @ContinuousLinearMap.adjoint
 #check @Convex.toWeakSpace_closure
