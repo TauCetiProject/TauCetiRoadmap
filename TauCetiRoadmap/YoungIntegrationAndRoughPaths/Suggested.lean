@@ -21,9 +21,9 @@ a rough path lives in `Ten2 d = EuclideanSpace ℝ (Fin d × Fin d)`, whose norm
 Hilbert–Schmidt norm, and functionals of all degrees are maps on `List (Fin d)`. Quantities that
 can be infinite (variations, rough path distances) take values in `ℝ≥0∞`.
 
-`rEVariationOn` and `ControlOn` follow the shapes of the open Mathlib pull requests #38055 and
-#38053; they are built here, and are replaced by Mathlib's declarations when those land. The
-predicate `IsBrownian` is a local copy of the vector Brownian motion of StochasticCalculus §1.2.
+`rEVariationOn` and `ControlOn` follow the shapes of the Mathlib pull requests cited in the
+README under *Exact supplier contracts*. The predicate `IsBrownian` is a local copy of the vector
+Brownian motion of StochasticCalculus §1.2.
 The implementation namespace of the README is `TauCeti`; the prototypes live in this roadmap's
 namespace.
 -/
@@ -45,9 +45,10 @@ section Variation
 
 variable {α E : Type*} [LinearOrder α] [PseudoEMetricSpace E]
 
-/-- The `r`-variation of `f` on `s`, in the shape of Mathlib PR #38055: for `0 < r < ∞`, the
-supremum over finite monotone sequences `u` in `s` of `(∑ edist (f (u (i+1))) (f (u i)) ^ r)^(1/r)`;
-at `r = ⊤` the oscillation, at `r = 0` the number of jumps. -/
+/-- The `r`-variation of `f` on `s`, in the shape of the Mathlib pull request cited in the README:
+for `0 < r < ∞`, the supremum over finite monotone sequences `u` in `s` of
+`(∑ edist (f (u (i+1))) (f (u i)) ^ r)^(1/r)`; at `r = ⊤` the oscillation, at `r = 0` the
+number of jumps. -/
 def rEVariationOn (r : ℝ≥0∞) (f : α → E) (s : Set α) : ℝ≥0∞ :=
   if r = 0 then ⨆ p : { t : ℕ → α // Monotone t ∧ ∀ i, t i ∈ s },
     ((Function.support fun i : ℕ ↦ edist (f (p.val (i + 1))) (f (p.val i))).encard : ℝ≥0∞)
@@ -60,14 +61,16 @@ theorem rEVariationOn_anti {r r' : ℝ≥0∞} (hr : r ≠ 0) (hrr' : r ≤ r') 
     (f : α → E) (s : Set α) : rEVariationOn r' f s ≤ rEVariationOn r f s := by
   sorry
 
-/-- 1.1: the `1`-variation is Mathlib's variation. -/
+/-- Check of Layer 1: the `1`-variation is Mathlib's variation, so `rEVariationOn` extends
+`eVariationOn`; at `r = 1` both are the same supremum. -/
 theorem rEVariationOn_one (f : α → E) (s : Set α) : rEVariationOn 1 f s = eVariationOn f s := by
-  sorry
+  simp [rEVariationOn, eVariationOn]
 
 end Variation
 
-/-- A control on `s`, in the shape of Mathlib PR #38053: a function of two variables, continuous
-on the ordered pairs of `s`, vanishing on the diagonal and superadditive. -/
+/-- A control on `s`, in the shape of the Mathlib pull request cited in the README: a function of
+two variables, continuous on the ordered pairs of `s`, vanishing on the diagonal and
+superadditive. -/
 structure ControlOn (α : Type*) [PartialOrder α] [TopologicalSpace α] (s : Set α) where
   /-- The underlying two-variable function. -/
   toFun : α → α → ℝ≥0
@@ -218,6 +221,7 @@ theorem tendsto_isYoungSolution [CompleteSpace W] {p T M : ℝ} (hp : 1 ≤ p) (
     (hfb : ∀ k ≤ 2, ∀ y, ‖iteratedFDeriv ℝ k f y‖ ≤ M)
     {X : ℝ → E} {Xn : ℕ → ℝ → E} {ξ : W} {ξn : ℕ → W} {Y : ℝ → W} {Yn : ℕ → ℝ → W}
     (hXc : ContinuousOn X (Icc 0 T)) (hXnc : ∀ n, ContinuousOn (Xn n) (Icc 0 T))
+    (hXv : rEVariationOn (ENNReal.ofReal p) X (Icc 0 T) ≠ ⊤)
     (hXlim : Tendsto (fun n ↦ rEVariationOn (ENNReal.ofReal p) (Xn n - X) (Icc 0 T)) atTop (𝓝 0))
     (hξ : Tendsto ξn atTop (𝓝 ξ))
     (hY : IsYoungSolution f X ξ T Y) (hYv : rEVariationOn (ENNReal.ofReal p) Y (Icc 0 T) ≠ ⊤)
@@ -286,9 +290,9 @@ structure IsMultiplicative (N : ℕ∞) (T : ℝ) (M : List (Fin d) → ℝ → 
   cont : ∀ w : List (Fin d), (w.length : ℕ∞) ≤ N →
     ContinuousOn (fun q : ℝ × ℝ ↦ M w q.1 q.2) {q | 0 ≤ q.1 ∧ q.1 ≤ q.2 ∧ q.2 ≤ T}
 
-/-- The constant of the extension theorem, `p² (1 + ∑_{k ≥ 1} (2 / k) ^ ((p + 1) / p))`. -/
+/-- The constant of the extension theorem, `p² (1 + ∑_{k ≥ 1} (2 / k) ^ ((⌊p⌋ + 1) / p))`. -/
 def lyonsBeta (p : ℝ) : ℝ :=
-  p ^ 2 * (1 + ∑' k : ℕ, (2 / ((k : ℝ) + 1)) ^ ((p + 1) / p))
+  p ^ 2 * (1 + ∑' k : ℕ, (2 / ((k : ℝ) + 1)) ^ (((⌊p⌋₊ : ℝ) + 1) / p))
 
 /-- `M` has finite `p`-variation controlled by `ω` with constant `β`, at the degrees `1 ≤ n ≤ N`:
 `‖M^n_{s,t}‖ ≤ ω(s,t)^{n/p} / (β Γ(n/p + 1))`. -/
@@ -650,7 +654,8 @@ section Stochastic
 variable {Ω : Type*} {mΩ : MeasurableSpace Ω} {d : ℕ}
 
 /-- Local copy of the `d`-dimensional standard Brownian motion of StochasticCalculus §1.2:
-independent real Brownian coordinates. -/
+independent real Brownian coordinates. There it is the predicate `IsBrownianVector P B` on
+`B : Fin d → ℝ≥0 → Ω → ℝ`; here the coordinates are packed into `Vec d`. -/
 def IsBrownian (B : ℝ≥0 → Ω → Vec d) (P : Measure Ω) : Prop :=
   (∀ i, IsBrownianReal (fun t ω ↦ B t ω i) P) ∧
     iIndepFun (fun (i : Fin d) (ω : Ω) (t : ℝ≥0) ↦ B t ω i) P

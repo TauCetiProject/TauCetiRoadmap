@@ -87,9 +87,10 @@ Completion means:
 - Rough paths are finite-dimensional. `Vec d` is `EuclideanSpace ℝ (Fin d)`. The second level
   lives in `Ten2 d`, the Euclidean space of `d × d` arrays, whose norm is the Hilbert–Schmidt
   norm. It is an admissible tensor norm (symmetric, with `‖x ⊗ y‖ = ‖x‖ ‖y‖`), so the
-  estimates of the sources hold with the same exponents. Higher tensors are handled in word
-  coordinates: a functional of all degrees is a map on `List (Fin d)`, and the degree-`n` norm
-  `levelNorm` is the Hilbert–Schmidt norm over the `dⁿ` words of length `n`.
+  estimates of the sources hold with the same exponents; their constants may depend on `d`.
+  Higher tensors are handled in word coordinates: a functional of all degrees is a map on
+  `List (Fin d)`, and the degree-`n` norm `levelNorm` is the Hilbert–Schmidt norm over the
+  `dⁿ` words of length `n`.
 - `outer x y` is `x ⊗ y`, with coordinates `x i * y j`. A bilinear map `B` acts on a second-level
   tensor `A` by `contract2 B A = ∑ᵢⱼ A (i, j) • B eᵢ eⱼ`, so `contract2 B (outer x y) = B x y`.
 - Chen's relation for a level-2 rough path is imposed for all triples of times in `[0, T]`, not
@@ -135,18 +136,20 @@ Completion means:
   `TensorAlgebra`: the coordinate-free tensor algebra, against which the word coordinates are
   checked in §3.1.
 - Mathlib has no `p`-variation for `p ≠ 1`, no control functions, no sewing lemma, no Young
-  integral and no rough path. Two open pull requests fix the shapes used here and are followed
-  exactly: #38055 (`rEVariationOn`, the predicate of finite `r`-variation, monotonicity in
-  `r`) and #38053 (`ControlOn`, its global version, powers and differences of controls). The
-  definitions are built here in those shapes and replaced by Mathlib's when they land. The
+  integral and no rough path. Two open Mathlib pull requests fix the shapes used here and are
+  followed exactly: #38055 defines the `r`-variation `rEVariationOn` (a supremum over monotone
+  sequences in `ℝ≥0∞`, with the oscillation at `r = ⊤` and the jump count at `r = 0`), the
+  predicate of finite `r`-variation and monotonicity in `r`; #38053 defines `ControlOn` (a
+  superadditive function of two variables on a set, vanishing on the diagonal and continuous on
+  the ordered pairs), its global version, and powers and differences of controls. The
   Hopf-algebra pull request #31898 on `TensorAlgebra` is prior art for the shuffle and
-  deconcatenation coproducts and is not waited for.
+  deconcatenation coproducts.
 
 ### From Tau Ceti
 
 - `TauCeti.HolderSpace` (`TauCeti/Analysis/Holder/Normed.lean`): the Banach space of bounded
-  Hölder maps with the sup-plus-Hölder norm. It is the carrier in which the Young and RDE
-  fixed points of §2.3 and §5.1 are taken.
+  Hölder maps with the sup-plus-Hölder norm. It is the carrier in which the RDE fixed point
+  of §5.1 is taken.
 - `TauCeti/Topology/EMetricSpace/VariationOnFromTo.lean`: signed variation between two points,
   used in the proof of the control property in §1.2.
 - Tau Ceti has no sewing, rough path, signature or Hölder–Besov material.
@@ -184,21 +187,22 @@ a proof route, and a *Needs:* line. Each layer ends with **Checks.**, *Examples*
 
 - **`r`-variation** (`rEVariationOn`): for `0 < r < ∞`, the supremum over finite monotone
   sequences `u` in `s` of `(∑ edist (f (u (i+1))) (f (u i)) ^ r) ^ (1/r)`, in `ℝ≥0∞`; at
-  `r = ⊤` the oscillation `⨆ edist (f x) (f y)`, at `r = 0` the number of jumps. The definition
-  is the one of Mathlib pull request #38055 (Lyons–Caruana–Lévy, Definition 1.5, p. 4).
+  `r = ⊤` the oscillation `⨆ edist (f x) (f y)`, at `r = 0` the number of jumps, in the shape
+  of the Mathlib pull request cited under *Exact supplier contracts* (Lyons–Caruana–Lévy,
+  Definition 1.5, p. 4).
 - **Monotonicity in `r`** (`rEVariationOn_anti`): for `0 < r ≤ r' < ∞`,
   `rEVariationOn r' f s ≤ rEVariationOn r f s` (Lyons–Caruana–Lévy, Lemma 1.6, pp. 4–5).
-- **Reduction at `r = 1`** (`rEVariationOn_one`): `rEVariationOn 1 f s = eVariationOn f s`.
-- Target in prose: for a normed space `E` and `p ≥ 1`, the paths on `[a, b]` of finite
+- Target in prose: for a Banach space `E` and `p ≥ 1`, the continuous paths on `[a, b]` of finite
   `p`-variation form a Banach space under `|X a| + rEVariationOn p X (Icc a b)`, with continuous
-  inclusions for increasing `p` (Lyons–Caruana–Lévy, Proposition 1.7, p. 5).
+  inclusions for increasing `p` (Lyons–Caruana–Lévy, Proposition 1.7, p. 5, with the equivalent
+  norm `sup |X| + rEVariationOn p X (Icc a b)`).
 - Target in prose: the `p`-variation dominates the oscillation,
   `edist (X s) (X t) ≤ rEVariationOn p X (Icc a b)` for `s, t ∈ [a, b]` (a two-point
   partition), and it is invariant under nondecreasing reparametrisation (Lyons–Caruana–Lévy,
   Lemma 1.6, pp. 4–5).
 
 *Proof route.* For monotonicity, the `ℓ^r` norm of a finite sequence is antitone in `r`; take
-suprema. At `r = 1`, both sides are suprema of the same sums over monotone sequences. The Banach
+suprema. The Banach
 property follows by the usual lower-semicontinuity of the variation under pointwise convergence.
 
 *Needs:* `eVariationOn`; nothing from this roadmap.
@@ -208,8 +212,8 @@ property follows by the usual lower-semicontinuity of the variation under pointw
 - **Control** (`ControlOn`): a function `ω : α → α → ℝ≥0` on a set `s`, superadditive
   (`ω(a, b) + ω(b, c) ≤ ω(a, c)` for `a ≤ b ≤ c` in `s`), vanishing on the diagonal, and
   continuous on the ordered pairs of `s` (Friz–Victoir, Definition 1.6, p. 22;
-  Lyons–Caruana–Lévy, Definition 1.9, p. 7). The structure is the one of Mathlib pull request
-  #38053.
+  Lyons–Caruana–Lévy, Definition 1.9, p. 7). The structure has the shape of the Mathlib pull
+  request cited under *Exact supplier contracts*.
 - **Variation is a control** (`exists_controlOn_rEVariationOn`): for `p ≥ 1` and `X` continuous
   of finite `p`-variation on `[a, b]`, `(s, t) ↦ rEVariationOn p X (Icc s t) ^ p` is a control
   (Friz–Victoir, Proposition 5.8, p. 80).
@@ -221,11 +225,11 @@ property follows by the usual lower-semicontinuity of the variation under pointw
   `⊤`-variation, from `∑ |Δ|^q ≤ max |Δ|^(q−p) ∑ |Δ|^p` (the two-path form is
   Lyons–Caruana–Lévy, Lemma 1.13, p. 9). Consequently a sequence bounded in `p`-variation and
   converging uniformly converges in `q`-variation for every `q > p`, and the piecewise linear
-  interpolations of a path of finite `p`-variation converge to it in `q`-variation as the mesh
-  tends to zero (Lyons–Caruana–Lévy, Proposition 1.14, p. 9).
+  interpolations of a continuous path of finite `p`-variation converge to it in `q`-variation as
+  the mesh tends to zero (Lyons–Caruana–Lévy, Proposition 1.14, p. 9).
 - Target in prose: powers `ω^θ` (`θ ≥ 1`), sums and products `ω₁^a ω₂^b` with `a + b ≥ 1` of
   controls are controls; `(t − s)` is a control (Friz–Victoir, Exercise 1.9, p. 22).
-  These are the power and product lemmas of pull request #38053.
+  The powers are part of the Mathlib pull request on `ControlOn`.
 
 *Proof route.* For the control property: superadditivity from concatenating partitions, which
 needs `p ≥ 1` (for `p < 1` the `p`-th power of the sum of `p`-th powers fails to be
@@ -238,6 +242,12 @@ superadditive); continuity from the continuity of `X` and a partition-refinement
 
 **Checks.**
 
+- `rEVariationOn 1 f s = eVariationOn f s` (`rEVariationOn_one`): at `r = 1` both sides are the
+  same supremum over monotone sequences, so the definition extends Mathlib's `1`-variation.
+- Negative control for continuity in the interpolation target: `X = 1` on `[1/2, 1]` and `X = 0`
+  on `[0, 1/2)` has `1`-variation `1`, but for every partition with `1/2` inside a piece the
+  piecewise linear interpolation differs from `X` by a jump of size `1`, so its distance to `X`
+  in `q`-variation is at least `1` at every mesh.
 - `X t = t` on `[0, 1]`: `rEVariationOn r X (Icc 0 1) = 1` for every `r ≥ 1`, since
   `∑ Δᵢ^r ≤ (∑ Δᵢ)^r = 1`, with equality for the trivial partition.
 - The tent path `X t = min t (2 − t)` on `[0, 2]` has `1`-variation `2`, `2`-variation `√2`
@@ -395,9 +405,10 @@ contraction estimate applied to the difference of two solutions.
   `Y t = 2 arctan(tan(ξ/2) e^(X t − X 0))`; at `ξ = π/2` and `X t − X 0 = log 3` it is
   `2 arctan 3 ≈ 2.4981`. This is also the classical ODE solution of `Y' = sin(Y) X'` given by
   `IsPicardLindelof`.
-- Negative control for `p < 2`: with `p = 2` the Young integral `∫ f(Y) dX` against a Brownian
-  path is not defined (previous negative control), so `IsYoungSolution` has no content; the
-  theorem's hypothesis `p < 2` is load-bearing.
+- Negative control for `p < 2`: a Brownian path has finite `p`-variation for every `p > 2` and
+  infinite `2`-variation, and the Young integral `∫ f(Y) dX` against it is not defined (previous
+  negative control), so `IsYoungSolution` has no content for such drivers; the theorem's
+  hypothesis `p < 2` is load-bearing.
 
 ### Examples
 
@@ -454,8 +465,8 @@ bounded through the simplex volume `L^n/n!` after reparametrising by arc length.
 - **Multiplicative functional** (`IsMultiplicative`): a map `M : List (Fin d) → ℝ → ℝ → ℝ`
   with `M [] = 1`, continuous on the simplex and satisfying Chen's identity on words of length
   at most `N` (Lyons–Caruana–Lévy, Definition 3.1, p. 42).
-- **Extension constant** (`lyonsBeta`): `β_p = p² (1 + ∑_{k≥1} (2/k)^((p+1)/p))`
-  (Lyons–Caruana–Lévy, Theorem 3.7, p. 45, where the sum is indexed by `r = k + 2 ≥ 3`).
+- **Extension constant** (`lyonsBeta`): `β_p = p² (1 + ∑_{k≥1} (2/k)^((⌊p⌋+1)/p))`
+  (Lyons–Caruana–Lévy, Theorem 3.7, pp. 45–46, where the sum is indexed by `r = k + 2 ≥ 3`).
 - **Finite `p`-variation** (`HasPVariation`):
   `levelNorm (M · s t) n ≤ ω(s,t)^(n/p) / (β Γ(n/p + 1))` for `1 ≤ n ≤ N`
   (Lyons–Caruana–Lévy, Definition 3.6, p. 44).
@@ -470,8 +481,9 @@ bounded through the simplex volume `L^n/n!` after reparametrising by arc length.
   `p`-variation; by uniqueness it is the extension of the increments of `X`
   (Lyons–Caruana–Lévy, the discussion before Definition 3.13, p. 53).
 - Target in prose (neo-classical inequality): for `p ≥ 1`, `a, b ≥ 0` and `n ∈ ℕ`,
-  `∑_{i=0}^n a^(i/p) b^((n−i)/p) / (Γ(i/p + 1) Γ((n−i)/p + 1)) ≤ p (a + b)^(n/p) / Γ(n/p + 1)`
-  (Lyons–Caruana–Lévy, Lemma 3.8, p. 46).
+  `∑_{i=0}^n a^(i/p) b^((n−i)/p) / (Γ(i/p + 1) Γ((n−i)/p + 1)) ≤ p² (a + b)^(n/p) / Γ(n/p + 1)`
+  (Lyons–Caruana–Lévy, Lemma 3.8, p. 46); the constant `p²` is the one the definition of
+  `lyonsBeta` absorbs.
 - Target in prose: the extension depends continuously on the functional in `p`-variation
   distance (Lyons–Caruana–Lévy, Theorem 3.10, p. 51).
 
@@ -519,7 +531,10 @@ as in the proof of Friz–Victoir, Theorem 9.5, p. 186, and use continuity of th
 - `sigCoord X [] s t = 1`, so `levelNorm (sigCoord X · s t) 0 = 1 = L⁰/0!`; at `n = 1` the level
   norm is `‖X t − X s‖ ≤ L`.
 - `lyonsBeta 1 = 1 + 4ζ(2) = 1 + 2π²/3 ≈ 7.580`, and `lyonsBeta 2 = 4(1 + 2^(3/2) ζ(3/2)) ≈ 33.56`;
-  the series diverges at the excluded exponent `(p+1)/p = 1`, which no `p ≥ 1` reaches.
+  the series converges since `(⌊p⌋+1)/p > 1` for every `p ≥ 1`.
+- `lyonsBeta 2.5 = 6.25 (1 + 2^1.2 ζ(1.2)) ≈ 86.54`, with exponent `3/2.5 = 1.2`. Negative
+  control: the exponent `(p+1)/p = 1.4` would give `≈ 57.47`; the two agree only at integer
+  `p`.
 - `HasPVariation` at `p = 1`, `n = 1`: `‖M¹ s t‖ ≤ ω(s, t)/β`, so for the increments of a path
   of bounded variation the control `β_1 × length` works.
 - `IsMultiplicative` with `N = 1` is Chen's relation `M [i] s t = M [i] s u + M [i] u t`: the
@@ -572,10 +587,15 @@ Layer 2 (sewing in control form, Young integration).
   starting point form a complete metric space (not a vector space: Chen's relation is not
   linear), by completeness of the Hölder spaces and closedness of Chen's relation under
   pointwise limits (Friz–Hairer, Definition 2.4, p. 18, for the metric).
-- Target in prose: for `α ∈ (1/3, 1/2]`, an `α`-Hölder rough path in the sense here and a
-  weakly geometric `1/α`-rough path of §3.3 determine each other, with `M [i] = ΔXⁱ` and
-  `M [i, j] = XX (i, j)` (Lyons–Caruana–Lévy, Definition 3.14, p. 53; Friz–Victoir,
-  Definition 9.15, p. 195).
+- Target in prose: for `α ∈ (1/3, 1/2]`, a weakly geometric `α`-Hölder rough path gives a
+  weakly geometric `1/α`-rough path of §3.3 through `M [i] = ΔXⁱ` and `M [i, j] = XX (i, j)`,
+  controlled by a multiple of `t − s`; conversely, a weakly geometric `1/α`-rough path whose
+  control satisfies `ω(s, t) ≤ K (t − s)` gives a weakly geometric `α`-Hölder rough path, with
+  `XX` extended to reversed times by Chen's relation (Lyons–Caruana–Lévy, Definition 3.14,
+  p. 53; Friz–Victoir, Definition 9.15, p. 195). Both hypotheses are needed: `X ≡ 0`,
+  `XX s t = (t − s) I` is a `1/2`-Hölder rough path that violates the shuffle identity
+  `M [0] M [0] = 2 M [0, 0]`, and `X t = t^(1/4)` on `[0, 1]` with `M [0, 0] = (ΔX)²/2` is a
+  weakly geometric `2`-rough path that is not `1/2`-Hölder.
 
 *Proof route.* Canonical lifts: Chen by additivity of the interval integral, the bounds from the
 `C¹` bound of `X` on `[0, T]` and `α ≤ 1`, weak geometricity from the product rule. Geometric
@@ -598,7 +618,7 @@ approximation.
 - **Contraction with a tensor** (`contract2`).
 - **Rough integral** (`roughIntegral`): the sewing of the germ
   `Y u (X v − X u) + contract2 (Y' u) (XX u v)`.
-- **Gubinelli's theorem** (`roughIntegral_spec`): for `α ∈ (1/3, 1/2]` there is `C = C(α)` such
+- **Gubinelli's theorem** (`roughIntegral_spec`): for `α ∈ (1/3, 1/2]` there is `C = C(α, d)` such
   that for every rough path and controlled integrand with the bounds `Kx, Kxx, Kd, Kr`, the
   rough integral is additive,
   `‖∫_s^t Y dX − Y s ΔX − Y' s XX s t‖ ≤ C (Kx Kr + Kxx Kd) (t − s)^(3α)`, and
@@ -1053,7 +1073,7 @@ Layers 4–5; StochasticCalculus §§1.1–1.2; Mathlib's Brownian motion and Ga
   roadmap* is the intended consumer of Layer 6, and the support and large-deviation theorems
   listed there are the intended consumers of Layers 5 and 7.
 
-## Beyond this roadmap (a roadmap for a roadmap; do not implement)
+## Beyond this roadmap
 
 - **Rough integral = Itô integral** (part of CKMA 09.31; Friz–Hairer, Proposition 5.1, p. 90):
   needs the Itô integral of StochasticCalculus Layer 3.
@@ -1074,7 +1094,7 @@ Layers 4–5; StochasticCalculus §§1.1–1.2; Mathlib's Brownian motion and Ga
   them, the `p`-variation RDE theory for `p ≥ 3` with `Lip^γ` vector fields
   (Lyons–Caruana–Lévy, Theorem 5.3, p. 83, in general), and fractional Brownian motion with
   `H ∈ (1/4, 1/3]` (part of CKMA 09.35; Friz–Victoir, Theorem 15.33, p. 429, at `ρ ∈ [3/2, 2)`).
-  The level-2 theory here is the case the charter's RDE items need.
+  The level-2 theory here covers the RDE results CKMA 09.28–09.30 (see *Prior formalization*).
 - **Signature uniqueness up to tree-like equivalence** (Hambly–Lyons, part of CKMA 09.24): a
   separate result on the kernel of the signature map.
 - **Equivalence of the local and dyadic definitions of `C^α`, and the converse of the product
@@ -1086,9 +1106,12 @@ Layers 4–5; StochasticCalculus §§1.1–1.2; Mathlib's Brownian motion and Ga
 
 ## Prior formalization
 
-- CKMA (`~/lean-CKMA`), fully proved: `CKMA/Analysis/RoughPath/Sewing.lean` and its subfiles
-  `Sewing/Construction.lean`, `Dyadic.lean`, `Variation.lean`, `VariationEstimate.lean`,
-  `YoungGrid.lean`, `YoungIntegral.lean`. They prove the sewing lemma in Hölder form (existence,
+- CKMA, *Core knowledge in mathematical analysis*, a Lean project under the Apache 2.0 licence
+  (https://github.com/bjbraams/lean-CKMA). Its synopsis of area 09 numbers the results of that
+  area; the entries cited in this README as CKMA 09.21–09.60 are those numbers. Fully proved
+  there: `CKMA/Analysis/RoughPath/Sewing.lean` and its subfiles `Sewing/Construction.lean`,
+  `Dyadic.lean`, `Variation.lean`, `VariationEstimate.lean`, `YoungGrid.lean`,
+  `YoungIntegral.lean`. They prove the sewing lemma in Hölder form (existence,
   uniqueness among left-normalised continuous additive maps, partition-sum limits, constant
   `sewingConstant γ`) and Young's integral in Hölder and variation form. They cover the Hölder
   part of §2.1 and §2.2 (CKMA 09.21–09.22) and are the starting point for those subsections,
@@ -1099,7 +1122,7 @@ Layers 4–5; StochasticCalculus §§1.1–1.2; Mathlib's Brownian motion and Ga
   limit in *Beyond*), 09.33 and 09.34 (*Beyond*), 09.35
   (§7.4, `H ∈ (1/3, 1/2]`; `H ∈ (1/4, 1/3]` in *Beyond*), 09.54 (§6.3; Bony's form owned by
   PDE §7.3), 09.57 (§6.2).
-- Mathlib pull requests #38055 and #38053 (see *Exact supplier contracts*).
+- The Mathlib pull requests on `rEVariationOn` and `ControlOn`, see *Exact supplier contracts*.
 
 ## References
 
