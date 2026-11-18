@@ -25,9 +25,9 @@ The headline theorems are:
 * the unramified and the modified arithmetic Siegel–Weil formulas (Li–Zhang, Theorem 15.5.1;
   He–Li–Shi–Yang, Theorems 10.1–10.2; README §§13.8, 13.10), the latter at a ramified place of
   dimension `n ≥ 4` under the same hypothesis of README §8.6;
-* the Chow-valued modularity of the generating series of Kudla divisors on GSpin Shimura
-  varieties, and of special divisors on unitary Shimura varieties, over every totally real field
-  (Yuan–Zhang–Zhang, Theorem 1.3; Liu, Theorem 3.5; README §§12.6a, 12.6b, 12.7);
+* the Chow-valued modularity of the generating series of special divisors on unitary Shimura
+  varieties over every totally real field, by pullback from the GSpin case of
+  GrossZagierAndArithmeticHeights (Liu, Theorem 3.5; README §§12.6b, 12.7);
 * the modularity of the CM intersection series over `ℚ` for hermitian spaces of dimension
   `n ≥ 3` (Zhang, §9.1 and Corollary 10.4, with the Borcherds products of Bruinier–Howard–
   Kudla–Rapoport–Yang; README §12.9);
