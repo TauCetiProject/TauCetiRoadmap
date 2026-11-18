@@ -2,26 +2,11 @@
 
 **Summary.** Extend PadicFamilies from modular forms to supported coherent cohomology in every degree. The inputs are the integral toroidal Siegel models of ShimuraCompactifications, the automorphic bundles of AutomorphicBundles, the solid coherent operations and cohomological correspondences of AutomorphicBundlesPartII, the Hodge–Tate period maps and Bruhat tubes of PerfectoidShimuraVarieties and the analytic coefficient sheaves of OverconvergentAutomorphicForms. Construct perfect ordinary Iwasawa complexes for Siegel varieties in every genus, with derived arithmetic control, finite Hecke image and Serre duality. Construct higher Coleman cohomology for locally quasi-split abelian-type data, analytic weight families, finite perfect slope complexes, cohomological eigenvarieties and maximal-dimensional deformation of interior eigenpackets. The ordinary/finite-slope comparison gives all-genus rational amplitude and sharp Siegel bounds; the singular Klingen construction gives a separate one-variable complex in degrees zero and one.
 
-## Scope and ownership
+## How to read the build
 
-PadicFamilies ends with ordinary modular-curve families and the general finite-slope/spectral infrastructure, including §§2a.15–2a.16 for compact complexes and intrinsic annihilator support. This roadmap owns their higher supported automorphic applications and cohomological Hecke gluing. Integral higher Hida theory is Siegel theory for every genus and every prime, using cofinal levels at p=2; Coleman theory uses quasi-split abelian-type data, including data without an ordinary locus.
+Layer 1 fixes the cohomological weight and slope dictionary. Layer 2 specializes the supplied solid operations to Artinian coefficients and proves the dynamic ordinary theorems, using the generic coherent correspondence and partial-support contracts. Layer 3 applies them to integral Siegel strata, with the away-p spherical Hecke algebra acting on the supported complexes, and Layer 4 interpolates the fixed-weight complexes over the torus Iwasawa algebra. Layer 5 constructs geometric finite-slope cohomology; Layer 6 applies analytic coefficients, proves BGG control in families and makes the away-S Hecke algebra act on family cohomology. Layer 7 constructs the cohomological eigenvariety and its interior deformation theorem. Layer 8 compares integral ordinary and finite-slope objects, giving rational amplitude and sharp Siegel bounds. Layer 9 tests the conventions in modular, Siegel, singular Klingen and split-unitary cases, and constructs the Klingen analytic family and small-slope extension on which the Klingen control theorem rests. Every missing supplier strengthening is named by its gap in the consuming target's Needs line.
 
-The following objects are imported from their existing owners; their exact hypotheses and missing extensions are specified under Exact supplier contracts.
-
-- Mathlib supplies scalar multiplication of linear endomorphisms, integer powers, the ordinary derived-category carrier, condensed modules and its stated solidity predicate. Scalar renormalization is a convention on that existing operation. Mathlib also supplies the module of finitely supported functions on the double cosets of a Hecke pair, and Tau Ceti its ring structure by Shimura's convolution product; the local spherical Hecke rings of §3.8 and §6.10 are these rings.
-- ShimuraData §§3.8–3.13 supplies the compact dual, Kostant representatives and opposition; §§5.5–5.11 supplies the C₂ coordinate conventions. AutomorphicFormsOnReductiveGroups §6.7 supplies Siegel coherent chambers. Layer 1 extends their cohomological dictionary to general abelian-type data, including the Serre-dual coefficient formula.
-- AutomorphicBundles §§1.4–1.5 and 1.9 supplies de Rham frame torsors; §§3.3, 5.2–5.4, 5.10 and 6.1 supplies the algebraic, integral and boundary coefficients. PELModuli M5.5–M5.6 supplies the split-unitary datum; it is not supplied by the GU(1,1) coefficient test of AutomorphicBundles §11.17.
-- OverconvergentAutomorphicForms §§0.4, 8.6–8.7 owns analytic induction, Bruhat coefficient and shifted distribution families, coefficient maps, torsor descent and its finite-flat/projective-Banach comparisons. Layer 6 starts with their normalized Hecke action and supported cohomology. The locally analytic BGG exactness needed for this application is a target in Layer 6.
-- PerfectoidShimuraVarieties §§6.3, 6.8 and 6.10 owns the Hodge–Tate period maps of abelian-type towers, §6.13 the Bruhat tubes, §6.13a their finite-level inverse images under the truncated period maps, §6.14 the reductions of the de Rham Levi torsor over them and §6.15 their Hecke maps; §5.1 records these and states no target, and the affinoid inverse images at classical flag points are a supplier gap. Layer 5 owns what is built on them: the allowed support pairs, the supported cohomology and its finite-slope theory (§§5.2–5.8).
-- CompletedCohomologyPartII §§3.11–3.12 owns the admissible category, continuous function/measure duality, the diagonal Iwasawa realization and reconstruction. Layer 4 proves admissibility for the actual Igusa tower and applies that functor; it does not rebuild the generic anti-equivalence.
-- IntegralHeckeAndGaloisDeterminants §§2.1, 2.3 supplies bounded-finite derived Hom, finite action images and Fitting ordinary parts. Its finiteness applies even when the finite cohomology modules are nonprojective; Layer 7 proves the compatible cohomological gluing. ResolutionOfSingularitiesCharacteristicZero §6.3 supplies separation of two Cartier divisors by their ideal-sum blow-up on any scheme; Layer 3 and Layer 8 apply it to the degree divisors.
-- AutomorphicBundlesPartII §3.0a owns the solid six operations on schemes with their discrete coherent comparison, projection formula, Tor-independent base change, closed locale and localization triangles, and §3.11 the derived formal completion; its §§2.2 and 2.4–2.5 own group-ring flatness of finite étale covers, perfect equivariant models, derived coefficient change and deck descent; its §§3.3, 3.6 and 3.9–3.12 own correspondence composition, base change, transpose, contracted support filtrations and the equivariant completion/compact-support filtration; its §§3.0b and 5.1–5.2 own the formally subcanonical criterion and toroidal-to-minimal relative vanishing on the normalized p-level models; its §3.13 owns the individual coherent Hecke operators in every degree and its §5.13 their integral algebra relations for Hilbert–Siegel GSp₄ at hyperspecial level. The away-S algebra relations on the supported p-level complexes and on the analytic family complexes, which that section excludes, are §3.8 and §6.10. The one enhancement it does not state, the two partial-support orders of BP-Hida on that solid enhancement, is a supplier gap below. Layer 2 owns the Artinian-coefficient specialization of the supplied operations and the dynamic ordinary theorems, not a second construction of the operations or of the coherent correspondences.
-- PadicFamilies §§2a.8–2a.14 owns the eigenvariety of a Banach module with a compact operator, §§2a.15–2a.16 the spectral variety of a compact endomorphism of a complex with its annihilator support and the local constancy of finite-slope Euler characteristics, and §2a.17 the eigenmodule sheaf with the distinction between localized and residue fibres; LocallyAnalyticDistributions §4.16 owns finite perfect slope complexes and their base change, and §4.17 the compact-stage factorization of Fréchet presentations. §7.1 differs from PadicFamilies §2a.12 in gluing cohomology of complexes in all degrees, signs and boundary variants over characters of the whole torus; §9.6(3) is the slope-zero instance of the Euler-characteristic statement of §2a.16.
-- AutomorphicBundles §9.1 owns the algebraic relative BGG resolution in type C₂ of an algebraic representation by induced modules, with Kostant cohomology, and the pinned Tau Ceti `TauCeti.VermaModule` supplies the Verma modules. LieHighestWeight states no resolution by Verma modules and leaves the linkage principle of category O outside its scope, so the Bernstein–Gelfand–Gelfand resolution of a finite-dimensional module of a split reductive Lie algebra, which has no other owner, is §6.5(0) here. The rest of §6.5 differs from both: it is the resolution of locally analytic induction from the analytic subgroup M₁, with its locally constant factor V_sm,1 and its finite-slope comparison.
-- SmoothRepresentationsOfLocalGroups §SR.1.2 owns the level Hecke algebras of compact open subgroups, with basis the double cosets, and their identification with the double-coset Hecke ring of the pinned libraries; §SR.4.1 owns the Satake isomorphism, from which the commutativity of the away-S spherical Hecke rings T^S of §3.8 and H^S of §6.10 is taken. Its §SR.1.4 owns the positive Klingen Hecke algebra of GSp₄ and §SR.4.5 the spherical Satake parameters; it assigns the Klingen refinement computations to other roadmaps, and §9.5 is that computation for an isolated eigenvalue, together with the criterion that an irreducible representation with Klingen invariants and no parameter ratio equal to p is an unramified principal series.
-- AlgebraicModularFormsAndSerreWeightsPartII §§7.1–7.4 owns, at hyperspecial level, the integral spherical correspondence over the formal p-rank-at-least-one locus, its ordinary trace divisibilities, the integral operator p⁻³T′_(p,2) and restriction across the codimension-two rank-zero locus; §9.8 proves only their Klingen counterparts, on the coefficient twisted by I^(−3).
-
-The scope does not include a general integral Hodge/PEL higher Hida theorem, the genus-at-least-three integral bound of BP-Hida Conjecture 5.6.1, or BP-Coleman Conjectures 5.9.2/6.8.1 on full general noncompact cohomology. The proved all-genus rational bound, the sharp interior theorem and the sharp Siegel comparison are targets. The supplied solid operations are used on separated schemes of finite type over S=Spec A for an Artinian coefficient ring A; six operations over larger noetherian bases are not used. The Klingen partial-ordinary complex and the full-torus Borel complexes are distinct objects; no comparison between them is asserted.
+The headline theorems are derived arithmetic Hida control (§4.6) and integral Iwasawa Serre duality (§4.8) for Siegel varieties of every genus, integral amplitude in genera one and two (§4.9) and rational amplitude in every genus (§8.4), regular and singular geometric classicality (§5.8), the cohomological eigenvariety (§7.1) with the equidimensionality and deformation of interior eigenpackets (§7.5), sharp interior slope bounds (§7.6) and sharp Siegel bounds (§8.5), and the two-term Klingen control theorem (§9.8). Their statements require Shimura varieties and their toroidal models, Igusa towers, supported coherent cohomology of automorphic bundles and analytic coefficient complexes, none of which exists in the pinned Mathlib or Tau Ceti; Suggested.lean therefore states none of them and names, for each, the carrier it lacks. Scalar and root-coordinate calculations serve as Checks in this README.
 
 ## Conventions
 
@@ -44,278 +29,6 @@ Ordinary means the integral solid localization for a specified operator and inte
 - On A=ℤ/p², multiplication by p has square zero and ordinary part zero. On ℚ_p the same scalar is invertible and belongs to a nonzero finite-slope window. These give different objects.
 - At p=3, scalar rescaling of identity with a=2 is 1/9, with a=−1 is 3, and with a=0 is 1. Rescaling by 2 then −1 is 1/3, agreeing with a=1; p≠0 is required for the integer-power identity.
 - For a two-term finite complex A→A in degrees zero and one with zero differential and d=1, duality with target A[−1] exchanges the two degrees. For d=0 on a point the pairing is multiplication A×A→A.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-At the manifest pins use `Module.End` in Mathlib/Algebra/Module/LinearMap/End.lean:33, with its semiring/additive-monoid/module assumptions; `zpow_sub₀` in Mathlib/Algebra/GroupWithZero/Units/Basic.lean:402, with nonzero base in a group with zero; and `DerivedCategory` in Mathlib/Algebra/Homology/DerivedCategory/Basic.lean:87, the localization of an abelian category's cochain complexes at quasi-isomorphisms with its `HasDerivedCategory` localization instance (line 74). Use `CondensedMod` in Mathlib/Condensed/Module.lean:41 for sheaves of R-modules on CompHaus with the coherent topology, and its abelian instance at line 43. `CondensedMod.IsSolid` in Mathlib/Condensed/Solid.lean:83 inverts the profinite solidification maps; its documentation at lines 74–81 limits this direct predicate to finite-type ℤ-algebras and prescribes polynomial restriction for a general ring. It is not a relative analytic localization theorem. For the local spherical Hecke rings of §3.8 and §6.10 use `HeckeRing` in Mathlib/NumberTheory/HeckeRing/Defs.lean:189, the finitely supported functions on the double cosets `HeckeCoset` (line 157) of a submonoid Δ by a subgroup H forming a Hecke triple `IsHeckeTriple` (line 75); here Δ is all of G(ℚ_ℓ) and H the hyperspecial subgroup K_ℓ (G(ℤ_ℓ) for the Siegel datum), which is compact open and so commensurated by every element. At this pin Mathlib gives the module and no product.
-
-### From Tau Ceti
-
-`HeckeCosetModule.instRingHeckeRing` in TauCeti/NumberTheory/HeckeRing/Associativity.lean:484 is the ring structure on the double-coset Hecke ring `HeckeRing` given by Shimura's convolution product, over any coefficient ring and for any Hecke triple (Δ,H,H); the local spherical Hecke rings of §3.8 and §6.10 are these rings for Δ=G(ℚ_ℓ) and its hyperspecial subgroup H=K_ℓ, with coefficients ℤ in §3.8 and ℚ in §6.10. `HeckeCosetModule.mul_comm_of_antiInvolution` in TauCeti/NumberTheory/HeckeRing/Commutativity.lean:459 proves such a ring commutative over a commutative semiring when an anti-involution of Δ preserving H fixes every double coset; the pin supplies no such anti-involution for GSp₂g(ℚ_ℓ) or for a general unramified group, so the commutativity of the local rings is taken from SmoothRepresentationsOfLocalGroups §SR.4.1. For the refinements of §2.2 use the category `TauCeti.Compactification` of compactifications of a morphism (TauCeti/AlgebraicGeometry/Compactification/Basic.lean:58), factorizations through a quasi-compact open immersion followed by a proper morphism, with no density required; its common refinement `TauCeti.Compactification.commonRefinement` (Refinement.lean:97), the scheme-theoretic closure of X in the fibre product of the two ambient schemes; the uniqueness of maps out of a compactification in which X is scheme-theoretically dense (`TauCeti.Compactification.hom_unique`, Uniqueness.lean:45); and its instance of Mathlib's `CategoryTheory.IsCofilteredOrEmpty` (Cofiltered.lean:50), which makes the category cofiltered or empty; it is cofiltered only under a nonemptiness hypothesis (line 54), Mathlib's `CategoryTheory.IsCofiltered` including nonemptiness (Mathlib/CategoryTheory/Filtered/Basic.lean:589). Use the blow-up `AlgebraicGeometry.Scheme.IdealSheafData.blowup` of a scheme along an ideal sheaf (TauCeti/AlgebraicGeometry/Blowup/IdealSheaf.lean:120), the relative Proj of the Rees algebra, proper over the base for an ideal sheaf of finite type (`AlgebraicGeometry.Scheme.IdealSheafData.isProper_blowupToBase`, line 191), on which the inverse image of the centre is an effective Cartier divisor (`AlgebraicGeometry.Scheme.IdealSheafData.isEffectiveCartier_comap_blowupToBase`, TauCeti/AlgebraicGeometry/Blowup/ExceptionalDivisor.lean:184). For the algebraic resolution of §6.5 use the Verma module `TauCeti.VermaModule` (TauCeti/Algebra/Lie/HighestWeight/Verma.lean:195), the quotient of the enveloping algebra by the left ideal of Verma relations, with its universal property `TauCeti.existsUnique_lieModuleHom_apply_vermaGenerator` (line 305); it is stated for a finite-dimensional Lie algebra with non-degenerate Killing form over a field of characteristic zero with a splitting Cartan subalgebra, so for the reductive Lie(M) it is applied to the derived subalgebra, the centre acting through the weight. No other Tau Ceti declaration is used; solid derived tensors, Shimura geometry and supported automorphic cohomology are specified as targets or supplier contracts below.
-
-
-### From TauCetiRoadmap.AdicCoefficientsAndComparisons
-
-- L2/strict-from-dense: a map of compactifications whose source contains X as a topologically dense open is strict, also over non-reduced schemes (BP-Hida, Lemma 2.1.4, p. 7).
-- L2/cartier-boundary-cofinal: over a noetherian affine S, the compactifications of a separated finite-type S-scheme whose boundary is the support of an effective Cartier divisor are initial, with strict refinement maps (BP-Hida, Lemma 2.1.5, p. 7).
-- L2/vector-bundle-extension-cofinal: over a noetherian affine S, for a separated finite-type S-scheme Y and a finite locally free sheaf F on Y of locally constant rank, the compactifications to which F extends as a finite locally free sheaf are initial, with strict refinement maps; no integrality or reducedness of S is assumed (BP-Hida, Lemma 2.1.6, p. 7). Used in §2.2(4).
-
-### From TauCetiRoadmap.AdicSpacesPartIII
-
-- §R3.1: Finite coherent affinoid acyclicity.
-- §R3.4: Coherent quasi-Stein Theorems A and B and dense Banach inverse-sequence exactness.
-- §R3.6: Relative compactness, completely continuous restrictions and proper coherent cohomology.
-- §R3.8: Finite locally free trace and pull–identify–trace.
-
-What AdicSpacesPartIII must provide (gap:projective-banach-cohomology): §§R3.4, R3.6 — Extend coherent quasi-Stein cohomology to locally projective Banach coefficients on finite quasi-Stein covers, represented by countable projective systems of bounded projective Banach Čech complexes over affinoid exhaustions (BP-Coleman Lemma 2.5.19), with compact restrictions, the finite-dimensional projected-lattice lemma and bounded-p-torsion integral Čech comparison of BP-Coleman §§2.4–2.6 and Lemma 5.9.10.
-
-
-### From TauCetiRoadmap.AdicSpacesPartIV
-
-- §F1.10: Coherent support triangles and dagger Serre duality over spherically complete fields. From *de-rham-cohomology-with-supports*: on a smooth rigid space X, for closed subsets Z⊆Y, each the complement of an admissible open, the derived sections RΓ_Y with supports in Y of a sheaf, in particular of a coherent F, and the triangle RΓ_Z(X,F)→RΓ_Y(X,F)→RΓ_(Y∖Z)(X∖Z,F), stated there at the level of sheaves. Used in §5.7 for the closed Bruhat filtration of the analytic toroidal space; the pullback H_Y(X,F)→H_(Y′)(X′,f*F) along f:X′→X with f⁻¹(Y)⊆Y′, which that section states for de Rham cohomology, is formed in §5.7 from the restriction of supports and the adjunction F→f_*f*F.
-
-What AdicSpacesPartIV must provide (gap:banach-support-duality): §F1.10 — Extend the coherent dagger Serre pairing to complementary-support compact-type LB/Fréchet coefficient systems over finite extensions of ℚ_p, using Ω^d in degree d and finite-slope perfect pairings, as in BP-Coleman §2.7.
-
-
-### From TauCetiRoadmap.AlgebraicModularFormsAndSerreWeightsPartII
-
-- §7.1: The compactified spherical correspondence C_(p,2) restricted to the formal p-rank-at-least-one locus X^≥1 of the genus-two Siegel model at hyperspecial level, with source fan equal to that of the trace projection p₁, which is finite and generically étale there.
-- §7.2: Its ordinary trace divisibilities on Ω(d,r)=Sym^dω⊗det(ω)^r for d≥0 and r≥2: at an ordinary point the differential and the trace give p-orders adding to at least three on each of the multiplicative, mixed and étale components.
-- §7.3: The integral operator p⁻³T′_(p,2) on RΓ(X^≥1,Ω(d,r)) and RΓ(X^≥1,Ω(d,r)(−D)) for d≥0 and r≥2, compatible with finite coefficients and rationalization; used at (d,r)=(k,2).
-- §7.4: Restriction from X to X^≥1 is bijective on H^0 and injective on H^1 for Ω(d,r) and Ω(d,r)(−D) modulo every p^n and integrally, the rank-zero complement having codimension two in each Cohen–Macaulay reduction.
-
-
-### From TauCetiRoadmap.AutomorphicBundles
-
-- §1.4: Tensor-preserving de Rham frame torsor.
-- §1.5: Filtered frame reduction.
-- §1.9: Abelian-type canonical principal bundle.
-
-- §3.3: Highest-weight labels and algebraic coefficient representations.
-- §5.10: Integral canonical coefficients under its good-prime PEL hypotheses.
-- §5.2: Gluing of the canonical extension on degeneration charts.
-- §5.3: Canonical toroidal extension.
-- §5.4: Subcanonical extension and the boundary twist.
-- §6.1: General-data canonical automorphic extensions.
-- §9.1: Kostant cohomology and the algebraic relative BGG resolution in type C₂.
-- §11.10: GL₂ Hodge-line coefficient convention.
-- §11.16: Siegel Schur coefficient Sym^kω⊗det(ω)^r with highest weight (k+r,r).
-- §11.17: The GU(1,1) coefficient test; it is not the split U(n,1) datum of §9.9.
-- §12.1: Coefficient trace adapter for finite locally free morphisms.
-- §12.11: Geometric Hecke operators on classical sections; higher-degree operators are AutomorphicBundlesPartII §3.13 on the partial-support objects of the coherent-correspondence gap, and their algebra relations are §3.8 and §6.10.
-
-
-### From TauCetiRoadmap.AutomorphicBundlesPartII
-
-- §2.2: Local projectivity of f_*O_Y over O_X[Δ] for a finite étale Galois cover f:Y→X with group Δ, and its A[Δ]-flatness when X is flat over A, with no division by |Δ|.
-- §2.4: Bounded finite projective A_n[Δ]-models of equivariant coherent cohomology and homology.
-- §2.5: Derived coefficient change of the equivariant models and homological deck descent with its Tor spectral sequence.
-- §3.0a: The solid six operations on qcqs Noetherian schemes over the coefficient base: lower and upper shriek for separated finite-presentation maps, composition, projection formula, Tor-independent base change, the discrete-coefficient functor on bounded coherent complexes with its proper upper-shriek comparison (an isomorphism on bounded perfect, pseudo-coherent inputs along proper maps of finite Tor dimension), and the closed locale with its two localization triangles. Nothing beyond the bounded coherent range of the discrete functor is assumed of it.
-- §3.0b: The compactified Siegel, Klingen and Iwahori p-level spans on the normalized models of ShimuraCompactifications §§7.19–7.31.
-- §§3.1–3.2: Cohomological correspondences T:Lp₂*F→p₁!G and their action on derived global sections.
-- §3.3: Composition of cohomological correspondences.
-- §3.6: Tor-independent base change of cohomological correspondences.
-- §3.9: The transpose correspondence under coherent duality.
-- §3.10: Set-theoretic contracted and expanded closed subsets and contracted support filtrations as coherent filtered diagrams.
-- §3.11: Derived formal completion of pseudo-coherent solid coefficients along a closed subscheme.
-- §3.12: Equivariance of the completion/compact-support filtration and its spectral sequence.
-- §3.13: Coherent Hecke operators in every degree, as individual derived endomorphisms. Their algebra relations on the supported p-level complexes and the analytic family complexes used here are §3.8 and §6.10.
-- §4.4: The coherent tower: at characteristic-zero neat finite levels the direct limit of coherent cohomology is a smooth representation whose invariants under a compact open subgroup recover the finite-level cohomology by finite étale descent, admissible because each finite-level group is finite-dimensional; the invariant functor is exact in characteristic zero.
-- §5.1: Verification of the formally canonical and subcanonical criterion on the p-level spans of §3.0b.
-- §5.2: Toroidal-to-minimal relative vanishing R^iπ_*(E(−nD′))=0 for formally subcanonical E, over opens of the minimal model and over finite coefficient algebras.
-
-What AutomorphicBundlesPartII must provide (gap:coherent-correspondences): §§3.3, 3.6 and 3.10–3.12 on the solid enhancement of §3.0a — Supply the two partial-support objects K+−(F)=RΓ(X̄,j+_*j−_!F) and K−+(F)=RΓ(X̄,i−_!i+_*F) of BP-Hida Definition 2.2.4 for two closed subschemes D+,D− of a proper X̄, their support-change maps of Lemma-construction 2.2.6, the comparison map K−+→K+−, the action of a cohomological correspondence with expanded D+ and contracted D− on both, compatible with composition (§3.3) and Tor-independent base change (§3.6) of correspondences and with the support-change maps, and for a coherent extension with locally principal D± the twist formulas Rlim_(n−) colim_(n+) and colim_(n+) Rlim_(n−) of RΓ(X̄,F(n+D+−n−D−)) of Corollary 2.3.11.
-
-What AutomorphicBundlesPartII must provide (gap:abelian-subcanonical-vanishing): §5.2 (abelian-type extension) — Extend the PEL formally subcanonical vanishing to abelian-type toroidal-to-minimal maps and the locally trivialized projective Banach coefficient situation of BP-Coleman Theorem 4.1.7 and Lemma 6.6.2 with its bounded-torsion reductions.
-
-
-### From TauCetiRoadmap.AutomorphicFormsOnReductiveGroups
-
-- §6.7: coherentChambers for GSp₂g; Layer 1 extends the cohomological dictionary to general abelian-type data.
-
-
-### From TauCetiRoadmap.CompletedCohomologyPartII
-
-- §3.11: Admissible integral category with continuous regular-function terms.
-- §3.12: Admissible–perfect anti-equivalence, continuous diagonal realization and inverse-action reconstruction.
-
-
-### From TauCetiRoadmap.DeformationAndDerivedPatchingAlgebra
-
-- §7.1: Native homological/cohomological Tor comparison.
-- §7.10: Coefficient hyper-Tor with its actual abutment.
-- §7.3: Minimal finite free representatives and residual detection.
-- §7.5: Complete flat models.
-- §7.6: Signed perfect duality.
-- §7.8: Completion of finite derived Hom.
-
-
-### From TauCetiRoadmap.HodgeTateAndCanonicalSubgroups
-
-
-What HodgeTateAndCanonicalSubgroups must provide (gap:siegel-ordinary-igusa): §5.1 (Siegel continuation) — Supply full polarized ordinary Siegel Igusa towers in every genus with cofinal decomposable P-levels, cyclotomic action, toroidal quotients and de Rham reduction, including the cofinal p=2 construction.
-
-What HodgeTateAndCanonicalSubgroups must provide (gap:klingen-height-one-igusa): §5.1 (height-one continuation) — Supply the Klingen height-one multiplicative tower on the p-rank-at-least-one locus, its ℤ_p× Igusa torsor, and affine étale nonfinite transitions with the prescribed toroidal quotient compatibility.
-
-
-### From TauCetiRoadmap.IntegralHeckeAndGaloisDeterminants
-
-- §2.1: HeckeImage.derived_hom_finite and finiteness of the actual action image for bounded complexes with finite cohomology, without projective dimension assumptions.
-- §2.3: Fitting ordinary parts and operator localization under its stated finiteness hypotheses.
-
-
-### From TauCetiRoadmap.LocallyAnalyticDistributions
-
-- §3.3: Mellin transform and compact character-space input.
-- §4.2: Completed scalar extension of orthonormalizable and (Pr) Banach modules along a continuous homomorphism of Noetherian Banach algebras, with preservation of complete continuity and coefficientwise base change of the Fredholm series; used in §6.4 for the map from a weight affinoid algebra to a complete field.
-- §4.16: Compact homotopy actions, finite perfect slope complexes, cohomology slope comparison, derived slope base change, and the finite-slope isomorphism for an operator factored through two complexes as U_C=ra, U_D=ar.
-- §4.17: Compact-stage factorization on Fréchet presentations by Banach modules and the identification of their finite slopes across stages, Stein exhaustions for finite-slope operators, and the relative torus slope order with its central-component condition.
-
-
-### From TauCetiRoadmap.LocallyAnalyticRepresentationsOfLocalGroups
-
-Coefficient fields are as in that roadmap's Conventions, finite extensions of ℚ_p containing the images of all embeddings of F; enlarging the coefficient field of §6.5 to such a field changes neither admissibility nor the closedness of an image.
-
-- §1.4: for a locally F-analytic group, the admissible locally analytic representations form an abelian category in which every morphism is strict with closed image, and a closed invariant subspace of an admissible representation, and the quotient by it, are admissible (its items (ii)–(iii)). Used in §6.5(1), for an open compact subgroup G₁ of M(F), to prove that the image of each differential is closed.
-- §5.1: the unnormalized locally analytic parabolic induction (Ind_P^G U)^an, for a parabolic P of the F-points G of a reductive group, is a closed subspace of the locally analytic functions, of compact type, and a locally analytic representation; it is admissible when U is inflated from an admissible representation of the Levi quotient (its items (i)–(ii)). Used in §6.5(1) for the Borel subgroup B of M and a locally analytic character χ of T(F): the functions in (Ind_B^M χ)^an supported on the open and closed subset B(F)G₁ form a closed G₁-stable subspace, identified by restriction with the induction from B(F)∩G₁ to G₁, which is therefore admissible by §1.4.
-
-
-### From TauCetiRoadmap.OverconvergentAutomorphicForms
-
-- §0.4: Analytic induction and bounded-open-disc distribution families over arbitrary finite-type affinoids.
-- §8.6: Rank-quotient toroidal coefficients with their actual effectivity and twist hypotheses.
-- §8.7: Bruhat coefficient and shifted distribution families, algebraic and finite-character maps, local projectivity under its finite-flat trivializing-cover hypothesis (supplied there in the Hodge-type pregood case with perfect Σ) and all-degree analytic/étale comparison on finite quasi-Stein unions. For general abelian-type data the trivializing-cover premise is proved in §6.1a.
-
-
-### From TauCetiRoadmap.PELModuli
-
-- §M2.8: Good-prime representability and smoothness.
-- §M2.9: Universal polarized abelian scheme at neat level.
-- §M5.1: Siegel PEL data.
-- §M5.2: Siegel moduli.
-- §M5.5: Unitary signature (n,1) PEL data.
-- §M5.6: Unitary examples.
-
-
-### From TauCetiRoadmap.PadicFamilies
-
-- §2a.15: Compact-representative slope charts for bounded property-(Pr) complexes.
-- §2a.16: the spectral variety of a compact endomorphism of a bounded projective Banach complex, its annihilator support, representative independence and the finite-slope Euler-characteristic local constancy at rational slopes; finite Hecke images use IntegralHeckeAndGaloisDeterminants §2.1.
-- §2a.17: the coherent eigenmodule sheaf, with the distinction between localizing a weight-specialized slope module at a point of the spectral variety, which gives the full generalized eigenspace, and tensoring with that point's residue field; §9.6(2) uses the first, after derived weight specialization of a complex.
-- §§2a.8–2a.14 build the eigenvariety of a single Banach module with a compact operator. §7.1 differs: it glues the cohomology of bounded complexes in all degrees, both signs and both boundary variants, over characters of the whole torus, and so uses §§2a.15–2a.16 rather than the single-module gluing.
-- §0a.24: The locally finite derived operator with compatible coefficient reductions.
-- §0a.25: The ordinary projector on locally finite complexes after local finiteness is established.
-- Layer 0: Modular-curve degree-zero ordinary families and arithmetic control.
-- Layer 0a: Finite/profinite and locally finite derived ordinary projectors.
-
-
-### From TauCetiRoadmap.PadicMeasuresIwasawaAlgebras
-
-- §1.1: Finite coefficient joint coordinates.
-- §1.7: Continuous torus measures and completed group algebra comparison.
-
-
-### From TauCetiRoadmap.PerfectoidShimuraVarieties
-
-- §4.5: Minimal perfectoid towers of pre-abelian data.
-- §6.12: Analytic level groups and Iwahori decompositions.
-- §6.13: Bruhat cell tubes.
-- §6.13a: Finite-level truncated period maps on the minimal and toroidal compactifications, and the open analytic inverse images of K_p-stable Bruhat tubes, compatible with level, cone refinement and both Hecke projections.
-- §6.14: Actual analytic reductions of the Levi torsor.
-- §6.15: Hecke maps with common cone refinements, their double-coset description on the reductions of §6.14, and the identification of the Hodge–Tate Levi torsor with the cyclotomic µ-twist of the de Rham torsor.
-- §6.3: Toroidal tower diamond and its Hodge–Tate map.
-- §6.8: Abelian-type minimal period map, G(ℚ_p)-equivariant and prime-to-p Hecke-equivariant, with the commutative diagram for B₁, G₁ and G.
-- §6.10: Compatibility of the toroidal period map with the minimal period map for abelian type.
-- §3.13: Hodge-type affinoid basis with affinoid perfectoid preimages.
-- §6.4: The Hodge-type cover and Lovering's B₁ of an abelian-type datum.
-- §6.5: Fibre products of torsors and the de Rham torsor of B₁.
-- §6.6: Connected towers and the finite descent group Δ.
-- §6.7: Finite quotients of connected towers with invariant pregood covers.
-- §6.9: The Levi torsor of an abelian-type datum as a Δ-quotient from its Hodge cover.
-
-What PerfectoidShimuraVarieties must provide (gap:abelian-affinoid-basis): §§3.13, 6.8 — Extend the Hodge-type affinoid basis to classical flag points after abelian-type descent, with the finite-level and toroidal comparisons used by BP-Coleman Theorem 4.5.2.
-
-
-### From TauCetiRoadmap.PhiGammaModulesAndIwasawaCohomology
-
-- §2.7: Compact character spaces of a compact abelian p-adic Lie group with their universal characters, and the inversion g↦g⁻¹, which acts on characters by δ↦δ⁻¹.
-
-
-### From TauCetiRoadmap.ResolutionOfSingularitiesCharacteristicZero
-
-- §6.3: Cartier separation of two effective Cartier divisors on any scheme, with residual disjointness and preserved difference.
-
-
-### From TauCetiRoadmap.RigidAnalyticGeometry
-
-- §1.1: Closure of affinoid algebras under quotients and finite algebra extensions.
-- §1.2: Every maximal ideal of an affinoid algebra has residue field finite over the base field.
-- §8.2: Classical points of an affinoid as points of its adic spectrum, and the rational traces: a rational subdomain containing a point of the adic spectrum has nonzero affinoid algebra, hence a classical point.
-
-
-### From TauCetiRoadmap.SchemeAndStackFoundations
-
-- §2.20: Relative dualizing complexes; upperShriek_structureSheaf_iso_shift identifies f^!O_Y with ω_(X/Y)[d] for a Cohen–Macaulay morphism of pure relative dimension d over a Noetherian Y, and relativeDualizingModule_smooth identifies ω_(X/Y) with ∧^dΩ_(X/Y) for smooth f, in the discrete coherent derived category.
-
-
-### From TauCetiRoadmap.ShimuraCompactifications
-
-- §0.14: Common cone refinements.
-- §4.10: Coherent cohomology independence of the cone system under its coefficient criterion.
-- §6.16: The compactified Klingen correspondence on triples (A,H_n,L).
-- §6.17: Acyclicity of its first projection, algebraically and after analytification.
-- §7.19: Normal higher-p-level Siegel models.
-- §7.20: Boundary charts on normalized models.
-- §7.21: Formal canonical coefficient criterion.
-- §7.29: Siegel threefold canonical line (det E)^3(−D), weight (3,3)=−2ρ_nc.
-
-What ShimuraCompactifications must provide (gap:klingen-lci-model): §7.19 (Klingen-level moduli extension) — Supply the toroidal compactification of the moduli scheme over ℤ_p of the Siegel threefold with a subgroup H⊂G[p] of order p, normal and a local complete intersection over ℤ_p, carrying the integral isogeny chain G→G/H→G/H^⊥→G and the extension of the forgetful map to the hyperspecial toroidal model (Pilloni-Singular, Proposition 6.1.4.1, p. 26, and Theorem 6.1.5.1, p. 29).
-
-
-### From TauCetiRoadmap.ShimuraData
-
-- §3.10: Minimal left Kostant representatives.
-- §3.13: Opposition involution.
-- §3.8: Compact-dual flag variety.
-- §5.10: Genus-two Kostant actions.
-- §5.11: Genus-two chamber reversal.
-- §5.5: Siegel roots, dominance and half-sums.
-- §5.6: Weyl permutation comparison.
-
-
-### From TauCetiRoadmap.SolidAnalyticRings
-
-- §7.2: Completed scalar extension, relative tensor and scalar-change coherences.
-- §7.3: Discrete animated Huber-pair module structures and polynomial analytic coefficient structures.
-- §7.4: Integer-linear and common-light-presentation comparisons, with its explicitly stated site-comparison prerequisite.
-
-What SolidAnalyticRings must provide (gap:solid-localization-kernel): §§7.2–7.3 — Identify the relative polynomial analytic localization kernel by its idempotent completion algebra, prove its localization triangles and A[[T]]⊗^L_(A[T],A)_■A[T,T⁻¹]_■=0.
-
-What SolidAnalyticRings must provide (gap:discrete-adic-solid-comparison): §§7.3–7.4 — Extend the supplied discrete animated Huber-pair coefficient structures and common-presentation comparisons to the discrete-adic locales and countable completion/localization towers used in BP-Hida, preserving their specified derived tensors and limits.
-
-
-### From TauCetiRoadmap.SmoothRepresentationsOfLocalGroups
-
-- §SR.0.2: the category of smooth representations and its discrete comparison.
-- §SR.1.2: the level Hecke algebra H(G,U;A) of a compact open subgroup U over a commutative ring A, with A-basis the double cosets, compatible with change of coefficients; its identification (hecke-ring-comparison) with the double-coset Hecke ring `HeckeRing` of the pinned libraries with Shimura's product, and, for an A-valued Haar measure with μ(U)=1, with the convolution algebra of U-bi-invariant compactly supported functions. Used with U=G(ℤ_ℓ) hyperspecial, A=ℤ in §3.8 and A=ℚ in §6.10.
-- §SR.4.1: the Satake isomorphism (satake-isomorphism) for an unramified connected reductive group over a local field with residue cardinality q and a hyperspecial subgroup K: over every ring in which q is a unit, the raw Satake transform is an injective ring homomorphism from the level-K Hecke algebra into a lattice group algebra, so that algebra is commutative. The integral ring ℤ[K\G/K] is then commutative too, being ℤ-free on the double cosets with integral structure constants and so a subring of its extension of scalars to ℤ[q⁻¹].
-- §SR.1.4: the positive Klingen Hecke algebra of GSp₄ (klingen-positive-hecke), a polynomial ring in the three Klingen double-coset operators, used to fix the Klingen operator U_Kli,1 of §9.5.
-- §SR.2.2: the unnormalized Jacquet module V_N with its M-action and the normalized Jacquet functor r_P=δ_P^(−1/2)⊗V_N (*jacquet-module*), normalized parabolic induction (*parabolic-induction*), induction in stages, and the geometric lemma (*geometric-lemma*): r_Q∘i_P has a natural filtration indexed by the double cosets W_L\W/W_M, with graded pieces induced from Weyl conjugates of Jacquet modules. Used in §9.5 for the Klingen parabolic and an unramified principal series.
-- §SR.2.3: Jacquet's lemma on invariants (*jacquet-invariants*): for a compact open K₀ with an Iwahori decomposition with respect to (P,P̄) and an admissible V, the projection V^(K₀)→(V_N)^(M₀) is surjective and intertwines [K₀aK₀] with δ_P(a)⁻¹π_N(a) for a∈M contracting N, π_N being the unnormalized action. Used in §9.5 with K₀=Kli(p), P the Klingen parabolic and a=diag(p²,p,p,1).
-- §SR.3.1: finite length of finitely generated admissible complex representations, cuspidal support and the constituents of principal series.
-- §SR.3.4: the Iwahori block: an irreducible representation has nonzero Iwahori invariants exactly when it is a constituent of an unramified principal series.
-- §SR.4.5: GSp₄ spherical Satake parameters and the spin polynomial with their similitude normalization.
-
-That roadmap leaves the Klingen computations for GSp₄ to other roadmaps; §9.5 proves the isolated Klingen refinement comparison and the criterion identifying an irreducible representation with Klingen invariants as an unramified principal series.
-
-## How to read the build
-
-Layer 1 fixes the cohomological weight and slope dictionary. Layer 2 specializes the supplied solid operations to Artinian coefficients and proves the dynamic ordinary theorems, using the generic coherent correspondence and partial-support contracts. Layer 3 applies them to integral Siegel strata, with the away-p spherical Hecke algebra acting on the supported complexes, and Layer 4 interpolates the fixed-weight complexes over the torus Iwasawa algebra. Layer 5 constructs geometric finite-slope cohomology; Layer 6 applies analytic coefficients, proves BGG control in families and makes the away-S Hecke algebra act on family cohomology. Layer 7 constructs the cohomological eigenvariety and its interior deformation theorem. Layer 8 compares integral ordinary and finite-slope objects, giving rational amplitude and sharp Siegel bounds. Layer 9 tests the conventions in modular, Siegel, singular Klingen and split-unitary cases, and constructs the Klingen analytic family and small-slope extension on which the Klingen control theorem rests. Every missing supplier strengthening is named by its gap in the consuming target's Needs line.
-
-The headline theorems are derived arithmetic Hida control (§4.6) and integral Iwasawa Serre duality (§4.8) for Siegel varieties of every genus, integral amplitude in genera one and two (§4.9) and rational amplitude in every genus (§8.4), regular and singular geometric classicality (§5.8), the cohomological eigenvariety (§7.1) with the equidimensionality and deformation of interior eigenpackets (§7.5), sharp interior slope bounds (§7.6) and sharp Siegel bounds (§8.5), and the two-term Klingen control theorem (§9.8). Their statements require Shimura varieties and their toroidal models, Igusa towers, supported coherent cohomology of automorphic bundles and analytic coefficient complexes, none of which exists in the pinned Mathlib or Tau Ceti; Suggested.lean therefore states none of them and names, for each, the carrier it lacks. Scalar and root-coordinate calculations serve as Checks in this README.
-
 
 ## Layer 1: Weights, supports and operator conventions
 
@@ -378,7 +91,6 @@ For GL₂, the BP degree-zero bound at k=2 excludes slope 2 but permits slope 1;
 ### Dependencies
 
 AutomorphicBundles §11.10; AutomorphicBundles §11.16; AutomorphicFormsOnReductiveGroups §6.7; LocallyAnalyticDistributions §4.17; ShimuraCompactifications §7.29; ShimuraData §3.10; ShimuraData §3.13; ShimuraData §3.8.
-
 
 ## Layer 2: Dynamical ordinary cohomology
 
@@ -1729,6 +1441,294 @@ At k=2 on the modular curve the standard classicality endpoint is 1. At genus-tw
 PadicFamiliesPartII builds on this theory toward small-slope classicality on PEL Shimura varieties, partial-ordinary Hida complexes for Hilbert–Siegel data, singular genus-two weights and the Eichler–Shimura spectral sequence of completed cohomology. It consumes the weight dictionary of §1.1, the ordinary localization of §2.3, regular control (§3.7), the Siegel Iwasawa complexes with their control, duality and amplitude (§§4.5–4.9), the geometric higher Coleman cohomology of Layer 5 (whose former numbering it partly cites, mapped in the table at the head of Layer 5), the analytic coefficients, family cohomology, slope blocks and BGG spectral sequence of §§6.1–6.3 and 6.6, the family comparison and sharp Siegel bounds (§§8.3, 8.5), and the Klingen constructions of §§9.1 and 9.4–9.8.
 
 Potential-modularity and Siegel modularity-lifting roadmaps consume the perfect Siegel Iwasawa complexes of Layer 4, their derived arithmetic control and complementary-degree pairing, Layer 8's rational amplitude, the separate Klingen complex of Layer 9 and the finite perfect slope blocks with Tor specialization of Layer 6. Each consumer specifies its Hecke localization, boundary variant, p-normalization, character inversion and selected degrees. Interior maximal-dimensional deformation uses Layer 7's cuspidal-to-canonical image hypothesis. A positive-degree-only eigenpacket is part of this contract; degree-zero truncation would discard it. A consumer requiring a comparison of the Klingen complex with full-torus M_w must supply a separate partial-ordinary comparison theorem.
+
+
+## Scope and ownership
+
+PadicFamilies ends with ordinary modular-curve families and the general finite-slope/spectral infrastructure, including §§2a.15–2a.16 for compact complexes and intrinsic annihilator support. This roadmap owns their higher supported automorphic applications and cohomological Hecke gluing. Integral higher Hida theory is Siegel theory for every genus and every prime, using cofinal levels at p=2; Coleman theory uses quasi-split abelian-type data, including data without an ordinary locus.
+
+The following objects are imported from their existing owners; their exact hypotheses and missing extensions are specified under Exact supplier contracts.
+
+- Mathlib supplies scalar multiplication of linear endomorphisms, integer powers, the ordinary derived-category carrier, condensed modules and its stated solidity predicate. Scalar renormalization is a convention on that existing operation. Mathlib also supplies the module of finitely supported functions on the double cosets of a Hecke pair, and Tau Ceti its ring structure by Shimura's convolution product; the local spherical Hecke rings of §3.8 and §6.10 are these rings.
+- ShimuraData §§3.8–3.13 supplies the compact dual, Kostant representatives and opposition; §§5.5–5.11 supplies the C₂ coordinate conventions. AutomorphicFormsOnReductiveGroups §6.7 supplies Siegel coherent chambers. Layer 1 extends their cohomological dictionary to general abelian-type data, including the Serre-dual coefficient formula.
+- AutomorphicBundles §§1.4–1.5 and 1.9 supplies de Rham frame torsors; §§3.3, 5.2–5.4, 5.10 and 6.1 supplies the algebraic, integral and boundary coefficients. PELModuli M5.5–M5.6 supplies the split-unitary datum; it is not supplied by the GU(1,1) coefficient test of AutomorphicBundles §11.17.
+- OverconvergentAutomorphicForms §§0.4, 8.6–8.7 owns analytic induction, Bruhat coefficient and shifted distribution families, coefficient maps, torsor descent and its finite-flat/projective-Banach comparisons. Layer 6 starts with their normalized Hecke action and supported cohomology. The locally analytic BGG exactness needed for this application is a target in Layer 6.
+- PerfectoidShimuraVarieties §§6.3, 6.8 and 6.10 owns the Hodge–Tate period maps of abelian-type towers, §6.13 the Bruhat tubes, §6.13a their finite-level inverse images under the truncated period maps, §6.14 the reductions of the de Rham Levi torsor over them and §6.15 their Hecke maps; §5.1 records these and states no target, and the affinoid inverse images at classical flag points are a supplier gap. Layer 5 owns what is built on them: the allowed support pairs, the supported cohomology and its finite-slope theory (§§5.2–5.8).
+- CompletedCohomologyPartII §§3.11–3.12 owns the admissible category, continuous function/measure duality, the diagonal Iwasawa realization and reconstruction. Layer 4 proves admissibility for the actual Igusa tower and applies that functor; it does not rebuild the generic anti-equivalence.
+- IntegralHeckeAndGaloisDeterminants §§2.1, 2.3 supplies bounded-finite derived Hom, finite action images and Fitting ordinary parts. Its finiteness applies even when the finite cohomology modules are nonprojective; Layer 7 proves the compatible cohomological gluing. ResolutionOfSingularitiesCharacteristicZero §6.3 supplies separation of two Cartier divisors by their ideal-sum blow-up on any scheme; Layer 3 and Layer 8 apply it to the degree divisors.
+- AutomorphicBundlesPartII §3.0a owns the solid six operations on schemes with their discrete coherent comparison, projection formula, Tor-independent base change, closed locale and localization triangles, and §3.11 the derived formal completion; its §§2.2 and 2.4–2.5 own group-ring flatness of finite étale covers, perfect equivariant models, derived coefficient change and deck descent; its §§3.3, 3.6 and 3.9–3.12 own correspondence composition, base change, transpose, contracted support filtrations and the equivariant completion/compact-support filtration; its §§3.0b and 5.1–5.2 own the formally subcanonical criterion and toroidal-to-minimal relative vanishing on the normalized p-level models; its §3.13 owns the individual coherent Hecke operators in every degree and its §5.13 their integral algebra relations for Hilbert–Siegel GSp₄ at hyperspecial level. The away-S algebra relations on the supported p-level complexes and on the analytic family complexes, which that section excludes, are §3.8 and §6.10. The one enhancement it does not state, the two partial-support orders of BP-Hida on that solid enhancement, is a supplier gap below. Layer 2 owns the Artinian-coefficient specialization of the supplied operations and the dynamic ordinary theorems, not a second construction of the operations or of the coherent correspondences.
+- PadicFamilies §§2a.8–2a.14 owns the eigenvariety of a Banach module with a compact operator, §§2a.15–2a.16 the spectral variety of a compact endomorphism of a complex with its annihilator support and the local constancy of finite-slope Euler characteristics, and §2a.17 the eigenmodule sheaf with the distinction between localized and residue fibres; LocallyAnalyticDistributions §4.16 owns finite perfect slope complexes and their base change, and §4.17 the compact-stage factorization of Fréchet presentations. §7.1 differs from PadicFamilies §2a.12 in gluing cohomology of complexes in all degrees, signs and boundary variants over characters of the whole torus; §9.6(3) is the slope-zero instance of the Euler-characteristic statement of §2a.16.
+- AutomorphicBundles §9.1 owns the algebraic relative BGG resolution in type C₂ of an algebraic representation by induced modules, with Kostant cohomology, and the pinned Tau Ceti `TauCeti.VermaModule` supplies the Verma modules. LieHighestWeight states no resolution by Verma modules and leaves the linkage principle of category O outside its scope, so the Bernstein–Gelfand–Gelfand resolution of a finite-dimensional module of a split reductive Lie algebra, which has no other owner, is §6.5(0) here. The rest of §6.5 differs from both: it is the resolution of locally analytic induction from the analytic subgroup M₁, with its locally constant factor V_sm,1 and its finite-slope comparison.
+- SmoothRepresentationsOfLocalGroups §SR.1.2 owns the level Hecke algebras of compact open subgroups, with basis the double cosets, and their identification with the double-coset Hecke ring of the pinned libraries; §SR.4.1 owns the Satake isomorphism, from which the commutativity of the away-S spherical Hecke rings T^S of §3.8 and H^S of §6.10 is taken. Its §SR.1.4 owns the positive Klingen Hecke algebra of GSp₄ and §SR.4.5 the spherical Satake parameters; it assigns the Klingen refinement computations to other roadmaps, and §9.5 is that computation for an isolated eigenvalue, together with the criterion that an irreducible representation with Klingen invariants and no parameter ratio equal to p is an unramified principal series.
+- AlgebraicModularFormsAndSerreWeightsPartII §§7.1–7.4 owns, at hyperspecial level, the integral spherical correspondence over the formal p-rank-at-least-one locus, its ordinary trace divisibilities, the integral operator p⁻³T′_(p,2) and restriction across the codimension-two rank-zero locus; §9.8 proves only their Klingen counterparts, on the coefficient twisted by I^(−3).
+
+The scope does not include a general integral Hodge/PEL higher Hida theorem, the genus-at-least-three integral bound of BP-Hida Conjecture 5.6.1, or BP-Coleman Conjectures 5.9.2/6.8.1 on full general noncompact cohomology. The proved all-genus rational bound, the sharp interior theorem and the sharp Siegel comparison are targets. The supplied solid operations are used on separated schemes of finite type over S=Spec A for an Artinian coefficient ring A; six operations over larger noetherian bases are not used. The Klingen partial-ordinary complex and the full-torus Borel complexes are distinct objects; no comparison between them is asserted.
+
+
+## Exact supplier contracts
+
+### From Mathlib
+
+At the manifest pins use `Module.End` in Mathlib/Algebra/Module/LinearMap/End.lean:33, with its semiring/additive-monoid/module assumptions; `zpow_sub₀` in Mathlib/Algebra/GroupWithZero/Units/Basic.lean:402, with nonzero base in a group with zero; and `DerivedCategory` in Mathlib/Algebra/Homology/DerivedCategory/Basic.lean:87, the localization of an abelian category's cochain complexes at quasi-isomorphisms with its `HasDerivedCategory` localization instance (line 74). Use `CondensedMod` in Mathlib/Condensed/Module.lean:41 for sheaves of R-modules on CompHaus with the coherent topology, and its abelian instance at line 43. `CondensedMod.IsSolid` in Mathlib/Condensed/Solid.lean:83 inverts the profinite solidification maps; its documentation at lines 74–81 limits this direct predicate to finite-type ℤ-algebras and prescribes polynomial restriction for a general ring. It is not a relative analytic localization theorem. For the local spherical Hecke rings of §3.8 and §6.10 use `HeckeRing` in Mathlib/NumberTheory/HeckeRing/Defs.lean:189, the finitely supported functions on the double cosets `HeckeCoset` (line 157) of a submonoid Δ by a subgroup H forming a Hecke triple `IsHeckeTriple` (line 75); here Δ is all of G(ℚ_ℓ) and H the hyperspecial subgroup K_ℓ (G(ℤ_ℓ) for the Siegel datum), which is compact open and so commensurated by every element. At this pin Mathlib gives the module and no product.
+
+### From Tau Ceti
+
+`HeckeCosetModule.instRingHeckeRing` in TauCeti/NumberTheory/HeckeRing/Associativity.lean:484 is the ring structure on the double-coset Hecke ring `HeckeRing` given by Shimura's convolution product, over any coefficient ring and for any Hecke triple (Δ,H,H); the local spherical Hecke rings of §3.8 and §6.10 are these rings for Δ=G(ℚ_ℓ) and its hyperspecial subgroup H=K_ℓ, with coefficients ℤ in §3.8 and ℚ in §6.10. `HeckeCosetModule.mul_comm_of_antiInvolution` in TauCeti/NumberTheory/HeckeRing/Commutativity.lean:459 proves such a ring commutative over a commutative semiring when an anti-involution of Δ preserving H fixes every double coset; the pin supplies no such anti-involution for GSp₂g(ℚ_ℓ) or for a general unramified group, so the commutativity of the local rings is taken from SmoothRepresentationsOfLocalGroups §SR.4.1. For the refinements of §2.2 use the category `TauCeti.Compactification` of compactifications of a morphism (TauCeti/AlgebraicGeometry/Compactification/Basic.lean:58), factorizations through a quasi-compact open immersion followed by a proper morphism, with no density required; its common refinement `TauCeti.Compactification.commonRefinement` (Refinement.lean:97), the scheme-theoretic closure of X in the fibre product of the two ambient schemes; the uniqueness of maps out of a compactification in which X is scheme-theoretically dense (`TauCeti.Compactification.hom_unique`, Uniqueness.lean:45); and its instance of Mathlib's `CategoryTheory.IsCofilteredOrEmpty` (Cofiltered.lean:50), which makes the category cofiltered or empty; it is cofiltered only under a nonemptiness hypothesis (line 54), Mathlib's `CategoryTheory.IsCofiltered` including nonemptiness (Mathlib/CategoryTheory/Filtered/Basic.lean:589). Use the blow-up `AlgebraicGeometry.Scheme.IdealSheafData.blowup` of a scheme along an ideal sheaf (TauCeti/AlgebraicGeometry/Blowup/IdealSheaf.lean:120), the relative Proj of the Rees algebra, proper over the base for an ideal sheaf of finite type (`AlgebraicGeometry.Scheme.IdealSheafData.isProper_blowupToBase`, line 191), on which the inverse image of the centre is an effective Cartier divisor (`AlgebraicGeometry.Scheme.IdealSheafData.isEffectiveCartier_comap_blowupToBase`, TauCeti/AlgebraicGeometry/Blowup/ExceptionalDivisor.lean:184). For the algebraic resolution of §6.5 use the Verma module `TauCeti.VermaModule` (TauCeti/Algebra/Lie/HighestWeight/Verma.lean:195), the quotient of the enveloping algebra by the left ideal of Verma relations, with its universal property `TauCeti.existsUnique_lieModuleHom_apply_vermaGenerator` (line 305); it is stated for a finite-dimensional Lie algebra with non-degenerate Killing form over a field of characteristic zero with a splitting Cartan subalgebra, so for the reductive Lie(M) it is applied to the derived subalgebra, the centre acting through the weight. No other Tau Ceti declaration is used; solid derived tensors, Shimura geometry and supported automorphic cohomology are specified as targets or supplier contracts below.
+
+
+### From TauCetiRoadmap.AdicCoefficientsAndComparisons
+
+- L2/strict-from-dense: a map of compactifications whose source contains X as a topologically dense open is strict, also over non-reduced schemes (BP-Hida, Lemma 2.1.4, p. 7).
+- L2/cartier-boundary-cofinal: over a noetherian affine S, the compactifications of a separated finite-type S-scheme whose boundary is the support of an effective Cartier divisor are initial, with strict refinement maps (BP-Hida, Lemma 2.1.5, p. 7).
+- L2/vector-bundle-extension-cofinal: over a noetherian affine S, for a separated finite-type S-scheme Y and a finite locally free sheaf F on Y of locally constant rank, the compactifications to which F extends as a finite locally free sheaf are initial, with strict refinement maps; no integrality or reducedness of S is assumed (BP-Hida, Lemma 2.1.6, p. 7). Used in §2.2(4).
+
+### From TauCetiRoadmap.AdicSpacesPartIII
+
+- §R3.1: Finite coherent affinoid acyclicity.
+- §R3.4: Coherent quasi-Stein Theorems A and B and dense Banach inverse-sequence exactness.
+- §R3.6: Relative compactness, completely continuous restrictions and proper coherent cohomology.
+- §R3.8: Finite locally free trace and pull–identify–trace.
+
+What AdicSpacesPartIII must provide (gap:projective-banach-cohomology): §§R3.4, R3.6 — Extend coherent quasi-Stein cohomology to locally projective Banach coefficients on finite quasi-Stein covers, represented by countable projective systems of bounded projective Banach Čech complexes over affinoid exhaustions (BP-Coleman Lemma 2.5.19), with compact restrictions, the finite-dimensional projected-lattice lemma and bounded-p-torsion integral Čech comparison of BP-Coleman §§2.4–2.6 and Lemma 5.9.10.
+
+
+### From TauCetiRoadmap.AdicSpacesPartIV
+
+- §F1.10: Coherent support triangles and dagger Serre duality over spherically complete fields. From *de-rham-cohomology-with-supports*: on a smooth rigid space X, for closed subsets Z⊆Y, each the complement of an admissible open, the derived sections RΓ_Y with supports in Y of a sheaf, in particular of a coherent F, and the triangle RΓ_Z(X,F)→RΓ_Y(X,F)→RΓ_(Y∖Z)(X∖Z,F), stated there at the level of sheaves. Used in §5.7 for the closed Bruhat filtration of the analytic toroidal space; the pullback H_Y(X,F)→H_(Y′)(X′,f*F) along f:X′→X with f⁻¹(Y)⊆Y′, which that section states for de Rham cohomology, is formed in §5.7 from the restriction of supports and the adjunction F→f_*f*F.
+
+What AdicSpacesPartIV must provide (gap:banach-support-duality): §F1.10 — Extend the coherent dagger Serre pairing to complementary-support compact-type LB/Fréchet coefficient systems over finite extensions of ℚ_p, using Ω^d in degree d and finite-slope perfect pairings, as in BP-Coleman §2.7.
+
+
+### From TauCetiRoadmap.AlgebraicModularFormsAndSerreWeightsPartII
+
+- §7.1: The compactified spherical correspondence C_(p,2) restricted to the formal p-rank-at-least-one locus X^≥1 of the genus-two Siegel model at hyperspecial level, with source fan equal to that of the trace projection p₁, which is finite and generically étale there.
+- §7.2: Its ordinary trace divisibilities on Ω(d,r)=Sym^dω⊗det(ω)^r for d≥0 and r≥2: at an ordinary point the differential and the trace give p-orders adding to at least three on each of the multiplicative, mixed and étale components.
+- §7.3: The integral operator p⁻³T′_(p,2) on RΓ(X^≥1,Ω(d,r)) and RΓ(X^≥1,Ω(d,r)(−D)) for d≥0 and r≥2, compatible with finite coefficients and rationalization; used at (d,r)=(k,2).
+- §7.4: Restriction from X to X^≥1 is bijective on H^0 and injective on H^1 for Ω(d,r) and Ω(d,r)(−D) modulo every p^n and integrally, the rank-zero complement having codimension two in each Cohen–Macaulay reduction.
+
+
+### From TauCetiRoadmap.AutomorphicBundles
+
+- §1.4: Tensor-preserving de Rham frame torsor.
+- §1.5: Filtered frame reduction.
+- §1.9: Abelian-type canonical principal bundle.
+
+- §3.3: Highest-weight labels and algebraic coefficient representations.
+- §5.10: Integral canonical coefficients under its good-prime PEL hypotheses.
+- §5.2: Gluing of the canonical extension on degeneration charts.
+- §5.3: Canonical toroidal extension.
+- §5.4: Subcanonical extension and the boundary twist.
+- §6.1: General-data canonical automorphic extensions.
+- §9.1: Kostant cohomology and the algebraic relative BGG resolution in type C₂.
+- §11.10: GL₂ Hodge-line coefficient convention.
+- §11.16: Siegel Schur coefficient Sym^kω⊗det(ω)^r with highest weight (k+r,r).
+- §11.17: The GU(1,1) coefficient test; it is not the split U(n,1) datum of §9.9.
+- §12.1: Coefficient trace adapter for finite locally free morphisms.
+- §12.11: Geometric Hecke operators on classical sections; higher-degree operators are AutomorphicBundlesPartII §3.13 on the partial-support objects of the coherent-correspondence gap, and their algebra relations are §3.8 and §6.10.
+
+
+### From TauCetiRoadmap.AutomorphicBundlesPartII
+
+- §2.2: Local projectivity of f_*O_Y over O_X[Δ] for a finite étale Galois cover f:Y→X with group Δ, and its A[Δ]-flatness when X is flat over A, with no division by |Δ|.
+- §2.4: Bounded finite projective A_n[Δ]-models of equivariant coherent cohomology and homology.
+- §2.5: Derived coefficient change of the equivariant models and homological deck descent with its Tor spectral sequence.
+- §3.0a: The solid six operations on qcqs Noetherian schemes over the coefficient base: lower and upper shriek for separated finite-presentation maps, composition, projection formula, Tor-independent base change, the discrete-coefficient functor on bounded coherent complexes with its proper upper-shriek comparison (an isomorphism on bounded perfect, pseudo-coherent inputs along proper maps of finite Tor dimension), and the closed locale with its two localization triangles. Nothing beyond the bounded coherent range of the discrete functor is assumed of it.
+- §3.0b: The compactified Siegel, Klingen and Iwahori p-level spans on the normalized models of ShimuraCompactifications §§7.19–7.31.
+- §§3.1–3.2: Cohomological correspondences T:Lp₂*F→p₁!G and their action on derived global sections.
+- §3.3: Composition of cohomological correspondences.
+- §3.6: Tor-independent base change of cohomological correspondences.
+- §3.9: The transpose correspondence under coherent duality.
+- §3.10: Set-theoretic contracted and expanded closed subsets and contracted support filtrations as coherent filtered diagrams.
+- §3.11: Derived formal completion of pseudo-coherent solid coefficients along a closed subscheme.
+- §3.12: Equivariance of the completion/compact-support filtration and its spectral sequence.
+- §3.13: Coherent Hecke operators in every degree, as individual derived endomorphisms. Their algebra relations on the supported p-level complexes and the analytic family complexes used here are §3.8 and §6.10.
+- §4.4: The coherent tower: at characteristic-zero neat finite levels the direct limit of coherent cohomology is a smooth representation whose invariants under a compact open subgroup recover the finite-level cohomology by finite étale descent, admissible because each finite-level group is finite-dimensional; the invariant functor is exact in characteristic zero.
+- §5.1: Verification of the formally canonical and subcanonical criterion on the p-level spans of §3.0b.
+- §5.2: Toroidal-to-minimal relative vanishing R^iπ_*(E(−nD′))=0 for formally subcanonical E, over opens of the minimal model and over finite coefficient algebras.
+
+What AutomorphicBundlesPartII must provide (gap:coherent-correspondences): §§3.3, 3.6 and 3.10–3.12 on the solid enhancement of §3.0a — Supply the two partial-support objects K+−(F)=RΓ(X̄,j+_*j−_!F) and K−+(F)=RΓ(X̄,i−_!i+_*F) of BP-Hida Definition 2.2.4 for two closed subschemes D+,D− of a proper X̄, their support-change maps of Lemma-construction 2.2.6, the comparison map K−+→K+−, the action of a cohomological correspondence with expanded D+ and contracted D− on both, compatible with composition (§3.3) and Tor-independent base change (§3.6) of correspondences and with the support-change maps, and for a coherent extension with locally principal D± the twist formulas Rlim_(n−) colim_(n+) and colim_(n+) Rlim_(n−) of RΓ(X̄,F(n+D+−n−D−)) of Corollary 2.3.11.
+
+What AutomorphicBundlesPartII must provide (gap:abelian-subcanonical-vanishing): §5.2 (abelian-type extension) — Extend the PEL formally subcanonical vanishing to abelian-type toroidal-to-minimal maps and the locally trivialized projective Banach coefficient situation of BP-Coleman Theorem 4.1.7 and Lemma 6.6.2 with its bounded-torsion reductions.
+
+
+### From TauCetiRoadmap.AutomorphicFormsOnReductiveGroups
+
+- §6.7: coherentChambers for GSp₂g; Layer 1 extends the cohomological dictionary to general abelian-type data.
+
+
+### From TauCetiRoadmap.CompletedCohomologyPartII
+
+- §3.11: Admissible integral category with continuous regular-function terms.
+- §3.12: Admissible–perfect anti-equivalence, continuous diagonal realization and inverse-action reconstruction.
+
+
+### From TauCetiRoadmap.DeformationAndDerivedPatchingAlgebra
+
+- §7.1: Native homological/cohomological Tor comparison.
+- §7.10: Coefficient hyper-Tor with its actual abutment.
+- §7.3: Minimal finite free representatives and residual detection.
+- §7.5: Complete flat models.
+- §7.6: Signed perfect duality.
+- §7.8: Completion of finite derived Hom.
+
+
+### From TauCetiRoadmap.HodgeTateAndCanonicalSubgroups
+
+
+What HodgeTateAndCanonicalSubgroups must provide (gap:siegel-ordinary-igusa): §5.1 (Siegel continuation) — Supply full polarized ordinary Siegel Igusa towers in every genus with cofinal decomposable P-levels, cyclotomic action, toroidal quotients and de Rham reduction, including the cofinal p=2 construction.
+
+What HodgeTateAndCanonicalSubgroups must provide (gap:klingen-height-one-igusa): §5.1 (height-one continuation) — Supply the Klingen height-one multiplicative tower on the p-rank-at-least-one locus, its ℤ_p× Igusa torsor, and affine étale nonfinite transitions with the prescribed toroidal quotient compatibility.
+
+
+### From TauCetiRoadmap.IntegralHeckeAndGaloisDeterminants
+
+- §2.1: HeckeImage.derived_hom_finite and finiteness of the actual action image for bounded complexes with finite cohomology, without projective dimension assumptions.
+- §2.3: Fitting ordinary parts and operator localization under its stated finiteness hypotheses.
+
+
+### From TauCetiRoadmap.LocallyAnalyticDistributions
+
+- §3.3: Mellin transform and compact character-space input.
+- §4.2: Completed scalar extension of orthonormalizable and (Pr) Banach modules along a continuous homomorphism of Noetherian Banach algebras, with preservation of complete continuity and coefficientwise base change of the Fredholm series; used in §6.4 for the map from a weight affinoid algebra to a complete field.
+- §4.16: Compact homotopy actions, finite perfect slope complexes, cohomology slope comparison, derived slope base change, and the finite-slope isomorphism for an operator factored through two complexes as U_C=ra, U_D=ar.
+- §4.17: Compact-stage factorization on Fréchet presentations by Banach modules and the identification of their finite slopes across stages, Stein exhaustions for finite-slope operators, and the relative torus slope order with its central-component condition.
+
+
+### From TauCetiRoadmap.LocallyAnalyticRepresentationsOfLocalGroups
+
+Coefficient fields are as in that roadmap's Conventions, finite extensions of ℚ_p containing the images of all embeddings of F; enlarging the coefficient field of §6.5 to such a field changes neither admissibility nor the closedness of an image.
+
+- §1.4: for a locally F-analytic group, the admissible locally analytic representations form an abelian category in which every morphism is strict with closed image, and a closed invariant subspace of an admissible representation, and the quotient by it, are admissible (its items (ii)–(iii)). Used in §6.5(1), for an open compact subgroup G₁ of M(F), to prove that the image of each differential is closed.
+- §5.1: the unnormalized locally analytic parabolic induction (Ind_P^G U)^an, for a parabolic P of the F-points G of a reductive group, is a closed subspace of the locally analytic functions, of compact type, and a locally analytic representation; it is admissible when U is inflated from an admissible representation of the Levi quotient (its items (i)–(ii)). Used in §6.5(1) for the Borel subgroup B of M and a locally analytic character χ of T(F): the functions in (Ind_B^M χ)^an supported on the open and closed subset B(F)G₁ form a closed G₁-stable subspace, identified by restriction with the induction from B(F)∩G₁ to G₁, which is therefore admissible by §1.4.
+
+
+### From TauCetiRoadmap.OverconvergentAutomorphicForms
+
+- §0.4: Analytic induction and bounded-open-disc distribution families over arbitrary finite-type affinoids.
+- §8.6: Rank-quotient toroidal coefficients with their actual effectivity and twist hypotheses.
+- §8.7: Bruhat coefficient and shifted distribution families, algebraic and finite-character maps, local projectivity under its finite-flat trivializing-cover hypothesis (supplied there in the Hodge-type pregood case with perfect Σ) and all-degree analytic/étale comparison on finite quasi-Stein unions. For general abelian-type data the trivializing-cover premise is proved in §6.1a.
+
+
+### From TauCetiRoadmap.PELModuli
+
+- §M2.8: Good-prime representability and smoothness.
+- §M2.9: Universal polarized abelian scheme at neat level.
+- §M5.1: Siegel PEL data.
+- §M5.2: Siegel moduli.
+- §M5.5: Unitary signature (n,1) PEL data.
+- §M5.6: Unitary examples.
+
+
+### From TauCetiRoadmap.PadicFamilies
+
+- §2a.15: Compact-representative slope charts for bounded property-(Pr) complexes.
+- §2a.16: the spectral variety of a compact endomorphism of a bounded projective Banach complex, its annihilator support, representative independence and the finite-slope Euler-characteristic local constancy at rational slopes; finite Hecke images use IntegralHeckeAndGaloisDeterminants §2.1.
+- §2a.17: the coherent eigenmodule sheaf, with the distinction between localizing a weight-specialized slope module at a point of the spectral variety, which gives the full generalized eigenspace, and tensoring with that point's residue field; §9.6(2) uses the first, after derived weight specialization of a complex.
+- §§2a.8–2a.14 build the eigenvariety of a single Banach module with a compact operator. §7.1 differs: it glues the cohomology of bounded complexes in all degrees, both signs and both boundary variants, over characters of the whole torus, and so uses §§2a.15–2a.16 rather than the single-module gluing.
+- §0a.24: The locally finite derived operator with compatible coefficient reductions.
+- §0a.25: The ordinary projector on locally finite complexes after local finiteness is established.
+- Layer 0: Modular-curve degree-zero ordinary families and arithmetic control.
+- Layer 0a: Finite/profinite and locally finite derived ordinary projectors.
+
+
+### From TauCetiRoadmap.PadicMeasuresIwasawaAlgebras
+
+- §1.1: Finite coefficient joint coordinates.
+- §1.7: Continuous torus measures and completed group algebra comparison.
+
+
+### From TauCetiRoadmap.PerfectoidShimuraVarieties
+
+- §4.5: Minimal perfectoid towers of pre-abelian data.
+- §6.12: Analytic level groups and Iwahori decompositions.
+- §6.13: Bruhat cell tubes.
+- §6.13a: Finite-level truncated period maps on the minimal and toroidal compactifications, and the open analytic inverse images of K_p-stable Bruhat tubes, compatible with level, cone refinement and both Hecke projections.
+- §6.14: Actual analytic reductions of the Levi torsor.
+- §6.15: Hecke maps with common cone refinements, their double-coset description on the reductions of §6.14, and the identification of the Hodge–Tate Levi torsor with the cyclotomic µ-twist of the de Rham torsor.
+- §6.3: Toroidal tower diamond and its Hodge–Tate map.
+- §6.8: Abelian-type minimal period map, G(ℚ_p)-equivariant and prime-to-p Hecke-equivariant, with the commutative diagram for B₁, G₁ and G.
+- §6.10: Compatibility of the toroidal period map with the minimal period map for abelian type.
+- §3.13: Hodge-type affinoid basis with affinoid perfectoid preimages.
+- §6.4: The Hodge-type cover and Lovering's B₁ of an abelian-type datum.
+- §6.5: Fibre products of torsors and the de Rham torsor of B₁.
+- §6.6: Connected towers and the finite descent group Δ.
+- §6.7: Finite quotients of connected towers with invariant pregood covers.
+- §6.9: The Levi torsor of an abelian-type datum as a Δ-quotient from its Hodge cover.
+
+What PerfectoidShimuraVarieties must provide (gap:abelian-affinoid-basis): §§3.13, 6.8 — Extend the Hodge-type affinoid basis to classical flag points after abelian-type descent, with the finite-level and toroidal comparisons used by BP-Coleman Theorem 4.5.2.
+
+
+### From TauCetiRoadmap.PhiGammaModulesAndIwasawaCohomology
+
+- §2.7: Compact character spaces of a compact abelian p-adic Lie group with their universal characters, and the inversion g↦g⁻¹, which acts on characters by δ↦δ⁻¹.
+
+
+### From TauCetiRoadmap.ResolutionOfSingularitiesCharacteristicZero
+
+- §6.3: Cartier separation of two effective Cartier divisors on any scheme, with residual disjointness and preserved difference.
+
+
+### From TauCetiRoadmap.RigidAnalyticGeometry
+
+- §1.1: Closure of affinoid algebras under quotients and finite algebra extensions.
+- §1.2: Every maximal ideal of an affinoid algebra has residue field finite over the base field.
+- §8.2: Classical points of an affinoid as points of its adic spectrum, and the rational traces: a rational subdomain containing a point of the adic spectrum has nonzero affinoid algebra, hence a classical point.
+
+
+### From TauCetiRoadmap.SchemeAndStackFoundations
+
+- §2.20: Relative dualizing complexes; upperShriek_structureSheaf_iso_shift identifies f^!O_Y with ω_(X/Y)[d] for a Cohen–Macaulay morphism of pure relative dimension d over a Noetherian Y, and relativeDualizingModule_smooth identifies ω_(X/Y) with ∧^dΩ_(X/Y) for smooth f, in the discrete coherent derived category.
+
+
+### From TauCetiRoadmap.ShimuraCompactifications
+
+- §0.14: Common cone refinements.
+- §4.10: Coherent cohomology independence of the cone system under its coefficient criterion.
+- §6.16: The compactified Klingen correspondence on triples (A,H_n,L).
+- §6.17: Acyclicity of its first projection, algebraically and after analytification.
+- §7.19: Normal higher-p-level Siegel models.
+- §7.20: Boundary charts on normalized models.
+- §7.21: Formal canonical coefficient criterion.
+- §7.29: Siegel threefold canonical line (det E)^3(−D), weight (3,3)=−2ρ_nc.
+
+What ShimuraCompactifications must provide (gap:klingen-lci-model): §7.19 (Klingen-level moduli extension) — Supply the toroidal compactification of the moduli scheme over ℤ_p of the Siegel threefold with a subgroup H⊂G[p] of order p, normal and a local complete intersection over ℤ_p, carrying the integral isogeny chain G→G/H→G/H^⊥→G and the extension of the forgetful map to the hyperspecial toroidal model (Pilloni-Singular, Proposition 6.1.4.1, p. 26, and Theorem 6.1.5.1, p. 29).
+
+
+### From TauCetiRoadmap.ShimuraData
+
+- §3.10: Minimal left Kostant representatives.
+- §3.13: Opposition involution.
+- §3.8: Compact-dual flag variety.
+- §5.10: Genus-two Kostant actions.
+- §5.11: Genus-two chamber reversal.
+- §5.5: Siegel roots, dominance and half-sums.
+- §5.6: Weyl permutation comparison.
+
+
+### From TauCetiRoadmap.SolidAnalyticRings
+
+- §7.2: Completed scalar extension, relative tensor and scalar-change coherences.
+- §7.3: Discrete animated Huber-pair module structures and polynomial analytic coefficient structures.
+- §7.4: Integer-linear and common-light-presentation comparisons, with its explicitly stated site-comparison prerequisite.
+
+What SolidAnalyticRings must provide (gap:solid-localization-kernel): §§7.2–7.3 — Identify the relative polynomial analytic localization kernel by its idempotent completion algebra, prove its localization triangles and A[[T]]⊗^L_(A[T],A)_■A[T,T⁻¹]_■=0.
+
+What SolidAnalyticRings must provide (gap:discrete-adic-solid-comparison): §§7.3–7.4 — Extend the supplied discrete animated Huber-pair coefficient structures and common-presentation comparisons to the discrete-adic locales and countable completion/localization towers used in BP-Hida, preserving their specified derived tensors and limits.
+
+
+### From TauCetiRoadmap.SmoothRepresentationsOfLocalGroups
+
+- §SR.0.2: the category of smooth representations and its discrete comparison.
+- §SR.1.2: the level Hecke algebra H(G,U;A) of a compact open subgroup U over a commutative ring A, with A-basis the double cosets, compatible with change of coefficients; its identification (hecke-ring-comparison) with the double-coset Hecke ring `HeckeRing` of the pinned libraries with Shimura's product, and, for an A-valued Haar measure with μ(U)=1, with the convolution algebra of U-bi-invariant compactly supported functions. Used with U=G(ℤ_ℓ) hyperspecial, A=ℤ in §3.8 and A=ℚ in §6.10.
+- §SR.4.1: the Satake isomorphism (satake-isomorphism) for an unramified connected reductive group over a local field with residue cardinality q and a hyperspecial subgroup K: over every ring in which q is a unit, the raw Satake transform is an injective ring homomorphism from the level-K Hecke algebra into a lattice group algebra, so that algebra is commutative. The integral ring ℤ[K\G/K] is then commutative too, being ℤ-free on the double cosets with integral structure constants and so a subring of its extension of scalars to ℤ[q⁻¹].
+- §SR.1.4: the positive Klingen Hecke algebra of GSp₄ (klingen-positive-hecke), a polynomial ring in the three Klingen double-coset operators, used to fix the Klingen operator U_Kli,1 of §9.5.
+- §SR.2.2: the unnormalized Jacquet module V_N with its M-action and the normalized Jacquet functor r_P=δ_P^(−1/2)⊗V_N (*jacquet-module*), normalized parabolic induction (*parabolic-induction*), induction in stages, and the geometric lemma (*geometric-lemma*): r_Q∘i_P has a natural filtration indexed by the double cosets W_L\W/W_M, with graded pieces induced from Weyl conjugates of Jacquet modules. Used in §9.5 for the Klingen parabolic and an unramified principal series.
+- §SR.2.3: Jacquet's lemma on invariants (*jacquet-invariants*): for a compact open K₀ with an Iwahori decomposition with respect to (P,P̄) and an admissible V, the projection V^(K₀)→(V_N)^(M₀) is surjective and intertwines [K₀aK₀] with δ_P(a)⁻¹π_N(a) for a∈M contracting N, π_N being the unnormalized action. Used in §9.5 with K₀=Kli(p), P the Klingen parabolic and a=diag(p²,p,p,1).
+- §SR.3.1: finite length of finitely generated admissible complex representations, cuspidal support and the constituents of principal series.
+- §SR.3.4: the Iwahori block: an irreducible representation has nonzero Iwahori invariants exactly when it is a constituent of an unramified principal series.
+- §SR.4.5: GSp₄ spherical Satake parameters and the spin polynomial with their similitude normalization.
+
+That roadmap leaves the Klingen computations for GSp₄ to other roadmaps; §9.5 proves the isolated Klingen refinement comparison and the criterion identifying an irreducible representation with Klingen invariants as an unramified principal series.
 
 ## References
 
