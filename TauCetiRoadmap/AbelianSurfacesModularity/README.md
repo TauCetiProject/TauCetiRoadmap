@@ -2,17 +2,9 @@
 
 **Summary.** Develop the arithmetic of the 2–3 switch for abelian surfaces: the finite symplectic image conditions, ordinary local geometry at both small primes, residual A₅ automorphy and approximation in marked genus-two moduli. Combine these with ordinary nonregular modularity lifting to prove modularity for the fifteen permitted mod-3 images, Theorems A and B of BCGP25, and the bad-reduction-at-2 theorem. The conclusions include equality of all finite Euler factors with a cuspidal GL₄ transfer, entire continuation and the weight-one functional equation. The complements give a coefficient-box lower density of 5551/46656, modularity outside the two exceptional endomorphism types, and ordinary residual modularity modulo 2. The automorphic conclusions retain the classification premises and proof gates of the lifting and transfer suppliers (BCGP25 §1.6, pp. 7–8, line 343; Theorems A and B, pp. 2–4, lines 100 and 150).
 
-## Scope and ownership
+## How to read the build
 
-This roadmap owns the mod-3 and mod-2 image conditions, the ordinary local realizations at 2 and 3, the 2–3 switch and the modularity endpoints of Layers 6–9, including every Frobenius class of §4.10 (BCGP25 §6.4 and §§8–10). It treats abelian surfaces with bad as well as good reduction at 2, product special fibres as well as Jacobians, and ordinary integral mod-2 models as well as their generic Galois representations. The isobaric notion of modularity is over any number field; the unconditional-in-image modularity endpoints specified in Layer 6 are over ℚ. All references to conditional automorphy include the exact premises below.
-
-The even-subset realization of Jacobian 2-torsion, its Weil pairing and S₆ ≅ Sp₄(𝔽₂) are stated by AbelianSchemesAndArithmeticModuli A3.12. Section 2.1 here fixes an explicit basis and compares matrices and the two S₅ embeddings; it does not reconstruct that realization. Semistable ordinary reduction, the isotropic filtration and the rational 2-torsion consequence belong to NeronModelsAndSemistableAbelianVarieties §§6.11–6.13, including the Siegel-parabolic intersection comparison in §6.13. General moduli of polarized abelian schemes, torsion pairings, principal quotients, Serre–Tate deformation and finite-level lifting belong to AbelianSchemesAndArithmeticModuli A2–A4 and A6.32–A6.34. Honda–Tate belongs to AbelianSchemesAndArithmeticModuliPartII F3.2 and finite-field isogeny comparison to EndoscopicTransferAndUnitaryTraceComparison §8.3. CurvesOverFiniteFields §§1.1, 1.6 and 1.11 own the Weil-polynomial predicate, polynomial ordinarity and polynomial point counts; AbelianVarietiesOverFiniteFields §§1.2, 6.1–6.3 and 10.3 own their geometric comparisons and the polarized surface trichotomy. The ordinary Weil-quartic predicate here specializes those notions in dimension two for the explicit local classification. S₅(b) uses Mathlib’s stabilizer subgroup and A₅(b) its intersection with the native alternating group. The finite 2-group fixed-vector theorem is supplied by Tau Ceti and consumed through NeronModelsAndSemistableAbelianVarieties §6.13.
-
-General similitude groups, adequacy, Zariski images, projective lifting, potentially abelian decomposition and tidy/vast image conditions belong to ArithmeticGaloisRepresentations §§5.12, 6.3 and 7.3–7.11. PotentialAutomorphyInfrastructurePartII PL.4, Adequacy relaxed to the vanishing of H¹(H, ad), supplies relaxed adequacy and the adequate implication; ArithmeticGaloisRepresentations §7.9 supplies the trace/spanning comparison identifying its characteristic-two specialization with BCGP25 near adequacy. OrdinaryAutomorphicFormsAndModularityLiftingPartII §5.2 supplies GSp₄-reasonableness and its adequacy comparison; the integral-enormity extension is requested from ArithmeticGaloisRepresentations. SatoTateGroups §§9.1–9.4 and 9.10 supply Sp₄ Zariski containment for surfaces with scalar geometric endomorphisms, including finite-base-change and isogeny invariance. FaltingsFinitenessAndIsogenyTheorems R28.4 owns semisimplicity and the isogeny criterion, including the requested residual-image endomorphism adapters. General thin sets, Hilbert irreducibility, their integral counts and Hilbert points with simultaneous local conditions belong to InverseGaloisAndArithmeticFundamentalGroups IG.2.4–IG.2.7. This roadmap applies IG.2.7 to smooth rational genus-two parameter spaces.
-
-GSp4NonregularModularityLifting §§2.5–2.6 and 11.2–11.6 supply weight-two attachment, pure monodromy comparison and nonregular lifting. This roadmap does not plan higher Coleman theory, regular ordinary R=T or patching. EndoscopicTransferAndUnitaryTraceComparison §11.1 and ModularityAndLanglandsExtensions §3.26 own the classification, packets and spin transfer; AutomorphicLFunctionsAndLocalFactors AL.2–AL.4 owns the analytic continuation, isobaric uniqueness and exterior transfers. The finite-image Artin and functoriality inputs retain ModularityAndLanglandsExtensions §§1.9, 1.11, 1.13 and GL2AutomorphicRepresentationsAndTransfer R17.5 as owners; finite-image projective lifting to GL₂(ℂ) is R17.5.4. Modularity of odd irreducible regular rank-two compatible systems over ℚ is ClassicalSerreModularity R27.6. Cuspidal quadratic induction of an algebraic Hecke character is EndoscopicTransferAndUnitaryTraceComparison §13.3, with its all-place comparison in ModularityAndLanglandsExtensions, Automorphic induction and its cuspidality criterion. Rank-one de Rham algebraicity is AutomorphicGaloisRepresentations §3.13, and the constraint on infinity types is AutomorphicGaloisRepresentationsPartII AG2.0. Section 7.1 combines these rank-one and induction inputs; in rank four the rank-two dichotomy of BCGP25 Lemma 10.2.4 occurs only in its finite-up-to-twist branch, which ArithmeticGaloisRepresentations §§5.12 and 7.6 supply.
-
-Integral curve models and pointed specialization belong to RelativeJacobiansAndIntegralCurveModels §§0.1–0.3, 2.2 and 2.4; AlgebraicCurves Layers 5, 10 and 11 own the function-field theory, gap sequences and Weierstrass points. For unpointed local models use the unramified section-acquiring extension and descent specified below. Polarized algebraization belongs to ShimuraCompactifications §§6.4–6.6. Fine curve moduli, the universal curve and geometric Torelli belong to AbelianSchemesAndArithmeticModuliPartII B4.1, used here at genus 2 and level 3. Section 4.8 adds the framing twist, the genus-two open-complement identification, its local density and the odd-theta variant to that supplied quasi-finite Torelli map. HyperellipticCurves §§0.2 and 0.3 own the weighted-projective model and smoothness criterion; §4.4 here gives its genus-two gcd form and finite enumerations. The twisted odd-theta space and its marked and unmarked Torelli loci (§4.8), the explicit local seeds at 3 (§§4.13 and 9.3), and the compatible-system dictionary of the Galois types (§7.2) are targets here. SatoTateGroups §8.7 owns the Galois endomorphism type and §§9.7–9.8 its classification and realizability. Their generic moduli, deformation and automorphic inputs have the separate owners just named.
+Layer 0 fixes the realization and modularity dictionary. Layers 1–2 establish the exact residual-image and matrix comparisons modulo 3 and modulo 2, and Layer 3 combines the mod-2 ones with the supplied lifting theorem at 2. Layer 4 builds the ordinary local points at 2 and 3 in the marked genus-two moduli, including the odd-theta moduli in §4.8 and every scalar and nonscalar ordinary seed at 3 in §4.13. Layer 5 assembles these local points by approximation outside thin sets. Layer 6 proves the modularity endpoints and their analytic consequences. Layer 7 proves modularity for the remaining endomorphism types from Layer 0 and its suppliers alone; the type dictionary in §7.2 precedes its use in §7.3. Layers 8 and 9 apply Layer 6 to coefficient-box density and to prescribed mod-2 representations. Each Needs line separates a statement's carriers from its proposed proof inputs. The missing supplier extensions are named contracts, and all their hypotheses travel into the consuming conclusions. [Suggested.lean](Suggested.lean) records the headline-statement boundary at the library pins.
 
 ## Conventions
 
@@ -30,188 +22,6 @@ The compatible-system equality in modularity includes every finite place, with t
 - At 2 modulo 3, ε(F)=2⁻¹=−1 and ε⁻¹(F)=−1. Scalars ±I have multiplier 1, so neither is an outer Frobenius lift. Twisting a lift by −1 sends X⁴+aX³+bX²+2aX+4 to X⁴−aX³+bX²−2aX+4.
 - In the basis of §2.1, the pairings of e₁ with e₄ and of e₂ with e₃ are 1 in 𝔽₂, while that of e₁ with e₂ is 0. Over ℤ the 2×2 alternating block squares to −I, not I; this records the sign lost in characteristic 2.
 - Dualizing weights {0,0,1,1} gives {0,0,−1,−1}; twisting by ε⁻³ gives {3,3,2,2}. A scalar twist shifts all weights equally, so it cannot turn H¹ into a finite-image system. The functional-equation involution sends s=0 to 2 and fixes s=1.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-Use `Matrix.J` and `Matrix.symplecticGroup` in `Mathlib/LinearAlgebra/SymplecticGroup.lean` (lines 58 and 101): the latter is the matrix submonoid defined by AJAᵀ=J, rather than a group carrying an arbitrary multiplier. Use `Matrix.charpoly` in `Mathlib/LinearAlgebra/Matrix/Charpoly/Basic.lean` (line 140), `Matrix.IsSymm` in `Mathlib/LinearAlgebra/Matrix/Symmetric.lean` (line 33), `Equiv.Perm`, `alternatingGroup` in `Mathlib/GroupTheory/SpecificGroups/Alternating.lean` (line 72), and `MulAction.stabilizer` in `Mathlib/GroupTheory/GroupAction/Defs.lean` (line 515). The stabilizer is a subgroup of the specified action, and the alternating group is the sign kernel. Use `Representation` in `Mathlib/RepresentationTheory/Basic.lean` (line 48), `groupCohomology.H1` in `Mathlib/RepresentationTheory/Homological/GroupCohomology/LowDegree.lean` (line 965), and `Polynomial.aroots` in `Mathlib/Algebra/Polynomial/Roots.lean` (line 497). A representation alone includes neither topological continuity nor finite dimension; these are explicit arithmetic hypotheses. Roots are counted with multiplicity, and no root statement is applied to the zero polynomial.
-
-Use `card_alternatingGroup` in `Mathlib/GroupTheory/SpecificGroups/Alternating.lean` (line 136), with a nontrivial finite type, and `alternatingGroup.isSimpleGroup` in `Mathlib/GroupTheory/SpecificGroups/Alternating/Simple.lean` (line 201), with at least five letters. The applications have 5!/2=60 and 6!/2=360 elements. Simplicity and these cardinalities are inputs to the A₅ image arguments.
-
-### From Tau Ceti
-
-Use `TauCeti.AlgebraicGeometry.AbelianVariety` in `TauCeti/AlgebraicGeometry/AbelianVariety/Basic.lean` (line 95), a proper geometrically integral group scheme over a field; it does not bundle a polarization or a chosen dimension. Use `TauCeti.schurMultiplier` in `TauCeti/RepresentationTheory/ProjectiveRepresentation/SchurMultiplier.lean` (line 122), the coefficient-dependent H²(G,kˣ), not the assertion that the integral Schur multiplier of A₅ is C₂. The latter finite-group fact is a target of §2.5 through BCGP25 Remark 8.2.3.
-
-Use `TauCeti.GlobalNumberFields.HeckeCharacter` in `TauCeti/NumberTheory/NumberField/Global/HeckeCharacter/Basic.lean` (line 70), a continuous homomorphism from the idele class group to ℂˣ, its predicate `TauCeti.GlobalNumberFields.HeckeCharacter.IsAlgebraic` in `HeckeCharacter/Algebraic.lean` (line 60), integer exponents on the identity component with real sign parities unconstrained, and its purity theorem `TauCeti.GlobalNumberFields.HeckeCharacter.add_conjugate_eq_add_conjugate` in `HeckeCharacter/Purity.lean` (line 98): the sum of the exponents at an embedding and at its complex conjugate is independent of the embedding. The pin does not show that the exponents factor through the maximal CM or totally real subfield; that constraint is consumed from AutomorphicGaloisRepresentationsPartII AG2.0 in §7.1.
-
-Use `Representation.exists_ne_zero_apply_eq_self_of_forall_pow_eq_one` in `TauCeti/RepresentationTheory/PGroupInvariants.lean` (line 170): a finite group whose operators have p-power order on a nonzero module over a commutative ring of characteristic prime p has a nonzero fixed vector. It requires a nontrivial module and a finite group, and no finite-dimension hypothesis. Here p=2 and the module is 𝔽₂⁴.
-
-### From TauCetiRoadmap.AbelianSchemesAndArithmeticModuli
-
-Consume A3.7–A3.8 for perfect alternating Weil pairings and level structures, A3.11 for principal quotients after finite extension, A3.12 for the even-subset realization, A4.8 for effectivity of polarized formal lifts, A4.9–A4.14 for polarized Serre–Tate and finite-level lifting, A5.7 for realization conventions, and A6.32–A6.34 for Weil restriction and quadratic twists. The odd-prime lifting input is height four, order p⁴, with a compatible polarized level-one truncated Barsotti–Tate structure. The dyadic theorem A4.13 takes, over the integers O of a finite extension of ℚ₂ and for a principally polarized ordinary abelian surface A₀ over the residue field, a finite flat group scheme over O of order 16 killed by 2 with a Cartier self-duality λ satisfying λ^∨=−λ and an identification of its special fibre with A₀[2]; it owns the comparison of such ordinary extensions with the symmetric formal-torus quotient, its Frobenius descent and the successive polarized lifting, and identifies underlying torsion without asserting that every chosen self-duality is a polarization. On a group killed by 2 the sign is immaterial, so λ^∨=−λ means λ^∨=λ. The product principal polarization has a reducible theta divisor.
-
-
-What AbelianSchemesAndArithmeticModuli must provide (gap:dyadic-selfdual-polarized-lift): For the ordinary finite flat group scheme W/ℤ₂ of order 16 killed by 2 in §9.3, prove that existence of a Cartier self-duality implies existence of a skew self-duality to which A4.13 applies, retaining the specified underlying W and distinguishing this from lifting an arbitrarily prescribed self-duality or asserting strong alternation.
-
-What AbelianSchemesAndArithmeticModuli must provide (gap:ordinary-polarized-three-model): For an ordinary finite-flat symplectic mod-3 representation over ℚ₃ with multiplier ε̄, construct the compatible polarized height-four level-one truncated Barsotti–Tate model and identify its special fibre with V extended by its multiplicative dual so that A4.12 applies to each seed.
-
-What AbelianSchemesAndArithmeticModuli must provide (gap:genus-two-level-three-monodromy): Prove geometric Sp₄(𝔽₃) level-3 monodromy for the smooth genus-two coefficient family and the universal ordered-six-branch hyperelliptic family, compatibly with characteristic-zero base change, and the resulting arithmetic GSp₄(𝔽₃) monodromy over ℚ and thin proper-image specialization loci.
-
-### From TauCetiRoadmap.AbelianSchemesAndArithmeticModuliPartII
-
-Consume F3.2, Honda–Tate simple isogeny classification, and its ordinary specialization: ordinary Weil quartics classify surface isogeny classes over 𝔽_p, including products and repeated elliptic factors. Endomorphism division-algebra invariants vanish in the ordinary irreducible case. Consume B4.1 at g=2 and ℓ=3 for the fine curve scheme over ℚ(ζ₃), its universal curve, its quasi-finite polarized Torelli map, geometric Torelli and the compatible level-change maps. Section 4.8 descends the supplied family with the prescribed framing using AlgebraicModuliForArithmeticGeometry §§3.5 and 5.2, then proves the additional open-complement and local-density statements.
-
-### From TauCetiRoadmap.CurvesOverFiniteFields
-
-Consume §1.1 for the q-Weil predicate, §1.3 for finiteness and coefficient bounds, §1.6 for polynomial p-rank, slopes and ordinarity, and §1.11 for the polynomial point-count formula. In degree four at q=p, ordinarity is p∤b. Their specialization in this roadmap's §4.1 fixes the coordinates used by the local lists.
-
-### From TauCetiRoadmap.AbelianVarietiesOverFiniteFields
-
-Consume §1.2 for #A(𝔽_q)=P_A(1), §§6.1–6.3 for geometric p-rank and its comparison with Frobenius slopes, and §10.3 for the polarized surface trichotomy over a finite field: a canonically polarized genus-two Jacobian, a product of elliptic curves with product polarization, or a quadratic Weil restriction with its descended product polarization. Section 4.5 computes the residual pairing in the last case; an unpolarized isogeny does not supply that pairing.
-
-### From TauCetiRoadmap.HyperellipticCurves
-
-Consume §0.2 for the weighted-projective model in ℙ(1,g+1,1), §0.3 for its geometric smoothness criterion in every characteristic, and §0.6 for Weierstrass points as fixed points of the involution, their 2g+2 count in characteristic different from 2, and the odd-degree model at a rational Weierstrass point. Section 4.4 specializes the supplied criterion and counts its finite equation loci.
-
-### From TauCetiRoadmap.SatoTateGroups
-
-Consume §8.7, The Galois endomorphism type, for the pair [Gal(L/F), End_L(A)⊗ℝ] up to equivariant isomorphism and its isogeny invariance, and §§9.7–9.8 for the classification and realizability of the 52 types over number fields and 34 over ℚ. Consume §9.10 to discharge their Mumford–Tate and algebraic Sato–Tate hypotheses in dimension two. Consume §§9.1–9.4 and 9.10 for polarized abelian surfaces over number fields with End⁰(A_F̄)=ℚ: scalar endomorphisms give TL(A)=Sp₄, hence each rational ℓ-adic Zariski closure contains Sp₄; finite base change and isogeny preserve this conclusion, without requiring a principal polarization (FKRS12 Definitions 2.14–2.15 and Theorem 2.16(b), p.11, lines 485–500). Section 7.2 here compares these types with the compatible-system decomposition; it does not build their Sato–Tate classification.
-
-### From TauCetiRoadmap.ArithmeticGaloisRepresentations
-
-Consume §§5.12, 6.3, 7.1, 7.3, 7.6, 7.9 and 7.11 for potentially abelian decomposition, Tate curves, symplectic similitudes, projective lifting and roots of characters, adequacy and tidy/vast images. Section 5.12 is Clifford theory over an arbitrary field: it supplies the decomposition ρ|_(G_L) ≅ ⊕χ_i^(⊕a) and the induction from the stabilizer field, but no algebraicity of the χ_i. Section 7.1, Tensor induction, supplies the positive-flip Asai construction for quadratic extensions; its quadratic-character twist is the exterior-square cross-term in §7.1. In the image tests Γ means Γ′∩Sp₄. Section 7.9 also supplies the finite-group equivalence between semisimple spanning and the eigenprojection trace condition, used with PL.4 relaxed adequacy after extending coefficients to contain eigenvalues. Residual and characteristic-zero enormousness are different conditions; no residual regular element alone implies the latter.
-
-
-What ArithmeticGaloisRepresentations must provide (gap:integral-enormity): Provide BCGP25 Definition 7.1.1 integral enormousness and Corollary 7.1.4, including its Sp₄ and induced SL₂ × SL₂ alternatives and the residual regular-semisimple and cyclotomic restriction hypotheses.
-
-### From TauCetiRoadmap.FaltingsFinitenessAndIsogenyTheorems
-
-Consume R28.4.4–R28.4.7 for semisimplicity, endomorphism centralizers and the isogeny criterion. For arbitrary surfaces in the residual A₅ argument use ZARHIN00 Theorem 4.1 on the five-point module (p.5, line 186) together with the endomorphism-subalgebra argument and Lemma 3.1 (pp.3–4, line 113); its Jacobian-only Theorem 2.1 is insufficient.
-
-What FaltingsFinitenessAndIsogenyTheorems must provide (gap:surface-residual-endomorphisms): Prove that geometric End is ℤ for a characteristic-zero abelian surface with symplectically identified mod-2 image containing A₅(b), by the five-point very-simple module and the Galois-stable endomorphism algebra, and for prime-to-3-polarized surfaces with surjective mod-3 image.
-
-### From TauCetiRoadmap.NeronModelsAndSemistableAbelianVarieties
-
-Consume §§3.5–3.6, 3.11–3.12, 5.0a–5.6 and 6.10–6.13 for saturated toric filtrations, orthogonality, semistability, good reduction, all finite local Euler factors and purity, compatible systems, ordinary isotropic submodules and the rational 2-torsion consequence. The toric submodule of a purely toric surface has rank two; the entire Tate module has rank four. The local-neighbourhood extension below is required independently of these pointwise statements. Consume §3.14 for the period-lattice torsion cone, evaluation pairing and unramified descent, after the algebraization of ShimuraCompactifications §§6.5–6.6. KIS99 Theorem 5.1 is cited by locator alone as uncertified; its integral strengthening is not attributed to that theorem.
-
-What NeronModelsAndSemistableAbelianVarieties must provide (gap:local-neighbourhoods): Prove local persistence in smooth polarized families of prescribed finite-level generic torsion, prime-to-p rational Weil–Deligne data, semistable ordinarity and distinguishedness, and separately openness of the prescribed integral ordinary W/ℤ₂ isomorphism class, without claiming constancy of the full p-adic representation.
-
-### From TauCetiRoadmap.ShimuraCompactifications
-
-Consume §§6.4–6.6 under (6-a), over ℤ₂ with radical ideal (2): the base is a complete noetherian normal domain and the tori are isotrivial. In §4.7 the abelian part is zero, the character and period lattices are X≅Y≅ℤ² with Frobenius R, the polarization map Y→X is the identity, and the period matrix is ((q,t²),(t²,q)). Its symmetric bilinear periods give the rigidified cubical datum; the valuation form v₂(q)I₂ is positive definite and admits an R-invariant square decomposition. §§6.5–6.6 algebraize this principally polarized datum and compare it with NeronModelsAndSemistableAbelianVarieties §§3.13–3.14 over the DVR.
-
-### From TauCetiRoadmap.LocalGaloisDeformationRings
-
-Consume §§6.27, 6.29 and 6.31–6.35 for ordered ordinary flags and pure weight-two points. Section 6.35 requires p>2, the finite-flat residual twist and compatible stabilizations; it puts the seed on a unique component and the target on that same component. The no-eigenvalue-ratio extension of §2.2 is required separately.
-
-What LocalGaloisDeformationRings must provide (gap:unramified-lift-rigidity): For ℓ ≠ p and unramified residual representations with no Frobenius eigenvalue ratio ℓ, prove every continuous lift to a complete local p-adic coefficient algebra is unramified, including nonreduced coefficient algebras.
-
-### From TauCetiRoadmap.FiniteFlatGroupsAndIntegralPadicHodgeTheory
-
-Consume R07.6.10, the good-reduction cyclotomic-image lemma for p≥3. It gives equality of residual images over ℚ(ζ_p) and ℚ(ζ_(p^n)), not an analogous statement without good reduction or at p=2.
-
-### From TauCetiRoadmap.PotentialAutomorphyInfrastructurePartII
-
-Consume PL.0, Soluble and cyclic CM extensions with prescribed local behaviour, for finite solvable Galois extensions with prescribed completions and linear disjointness, prescribing trivial real completions for a totally real extension and avoiding the residual field to preserve A₅. Consume PL.0, Soluble base change and descent of automorphy, for the corresponding automorphic comparisons. Consume PL.4, Strong residual oddness at a real place, for polarized absolutely irreducible pairs in even rank and characteristic two. Consume PL.4, Adequacy relaxed to the vanishing of H¹(H, ad) (PL.4/relaxed-adequacy), for its finite-image predicate over coefficients containing the eigenvalues and its adequate-implies-relaxed-adequate comparison. Together with ArithmeticGaloisRepresentations §7.9 this is BCGP25 near adequacy in characteristic two; finite coefficient extension gives the comparison over the original field. The alternating/nonalternating symmetric-form dichotomy is included there in general even rank; the translation to the symplectic matrix and its class count are the further contract below.
-
-What PotentialAutomorphyInfrastructurePartII must provide (gap:strong-odd-symplectic-criterion): Translate the general even-rank symmetric-form dichotomy of PL.4 to the matrix ψ(c_v)J of BCGP25 Lemma 5.2.7, prove its nonzero-diagonal test, and count the involution classes as n + 1 + floor(n/2) in symplectic rank n over a finite field of characteristic two.
-
-### From TauCetiRoadmap.GSp4NonregularModularityLifting
-
-Consume §§2.5–2.6 for ordinary weight-two attachment and pure general-type monodromy, and §§11.2–11.6 for the full dyadic and odd-prime seeds, nonvanishing, rank one and classical lifting. Retain the Layer 10 patching data, integral enormousness, purity, ordinary p-distinguished semistable weight two, the appropriate five seed conditions, the Zariski alternative and every hypothesis of §§11.2–11.6. A seed matches the target residually. In the odd branch it need not have regular weight. In the dyadic branch preserve the equality of images over ℚ and ℚ(i).
-
-What GSp4NonregularModularityLifting must provide (gap:ordinary-spherical-attachment): For a pure general-type weight-two system realized by an abelian surface with good ordinary reduction at finitely many primes, choose a global automorphic representation with its Arthur parameter, spherical and ordinarily stabilized at those primes, preserving the other prescribed local members and the archimedean weight, and identify its ordinary Galois attachment at each chosen prime.
-
-What GSp4NonregularModularityLifting must provide (gap:all-place-surface-comparison): For a weight-two general-type GSp₄ representation attached at p to the pure H¹ of an abelian surface, prove the compatible-system comparison with its GL₄ transfer at every finite place including ramified places above p, and compare conductors and the archimedean factors in the stated motivic normalization.
-
-### From TauCetiRoadmap.OrdinaryAutomorphicFormsAndModularityLifting
-
-Consume §2.11 Hilbert Hida weight change with fixed residual determinant only in its stated prime and weight range. The dyadic weight-one extension below is a separate requirement for §3.1.
-
-What OrdinaryAutomorphicFormsAndModularityLifting must provide (gap:dyadic-weight-one-change): Extend Hilbert ordinary weight change to a parallel-weight-one form unramified above 2, obtaining after solvable totally real base change an ordinary parallel-weight-two form of trivial central character with the prescribed residual representation.
-
-### From TauCetiRoadmap.OrdinaryAutomorphicFormsAndModularityLiftingPartII
-
-Consume §5.2 for GSp₄-reasonableness of continuous absolutely GSp₄-irreducible residual representations ρ̄:G_F→GSp₄(k), with F a number field and k finite of characteristic p≥3. For D=𝔰𝔭₄^∨ and H_n=ρ̄(G_(F(ζ_(p^n)))), retain eventual H⁰(H_n,D)=0 and semisimple detection on every nonzero simple submodule of D, together with H¹(H_n,D)=0 when ζ_p belongs to the field cut out by D. If H¹(H_1,k)=0, the groups H_n equal H_1; GSp₄-adequacy of H_1 then implies GSp₄-reasonableness (WHITMORE22 Definitions 3.15 and 3.19 and Lemma 3.20, pp.22–24, lines 936 and 1011–1024).
-
-### From TauCetiRoadmap.InverseGaloisAndArithmeticFundamentalGroups
-
-Consume IG.2.4–IG.2.7 for thin subsets of varieties, Hilbert irreducibility, the integral-box count O(H^(r−1/2) log H), and Hilbert points with weak approximation in simultaneous local opens outside any proper closed subset. Smooth geometrically integral rational varieties satisfy the weak approximation hypothesis for every finite set of places. The complement of a thin set contains a Hilbert subset outside a proper closed subset, so IG.2.5 and IG.2.7 give the approximation used here. A thin set is contained in a finite union of proper closed loci and images of generically finite covers of degree at least two. Hilbert irreducibility specializes a known monodromy group; it does not prove that monodromy group.
-
-### From TauCetiRoadmap.EndoscopicTransferAndUnitaryTraceComparison
-
-Consume §8.3 for finite-field Tate full faithfulness and isogeny classification, and §11.1 for general-type packets and the unitary-normalized transfer with its GSp₄ classification input record. Twisting back to the algebraic normalization is explicit. The forward singular-weight extension below retains the same local parameters and classification premises. Consume §13.3, Automorphic induction of a quadratic Hecke character: for a quadratic extension K/F and an algebraic Hecke character ψ of K distinct from its conjugate, the induction AI_(K/F)(ψ) is cuspidal on GL₂(𝔸_F), with the induced unramified parameters and a determinant containing the quadratic character of K/F. That section takes the identification of a Galois representation with an induction of ψ_p as its input; §7.1 here supplies it from Clifford theory and rank-one algebraicity.
-
-What EndoscopicTransferAndUnitaryTraceComparison must provide (gap:forward-singular-spin-transfer): Supply the forward cuspidal spin transfer from a singular weight-two GSp₄ representation with absolutely irreducible attached Galois representation, with every-place parameters and central-character twists, as well as the classification-based exclusion of nongeneral types.
-
-### From TauCetiRoadmap.AutomorphicLFunctionsAndLocalFactors
-
-Consume AL.2 Global Godement–Jacquet theory and Centered entire functions and paired products, AL.3 Strong multiplicity one for isobaric sums, and AL.4 Weil–Deligne normalization and factor operations and Exterior-power factors after an established transfer. Equality outside a finite set determines isobaric cuspidal support but does not supply factors at the omitted places. The completed function in §0.3 uses its stated Γ-factor convention.
-
-What AutomorphicLFunctionsAndLocalFactors must provide (gap:all-place-exterior-transfers): Supply existence and equality of every finite local factor for the established small-rank exterior-power and tensor transfers of normalized H¹ constituents, including GL₂ + GL₂ and character decompositions.
-
-### From TauCetiRoadmap.ModularityAndLanglandsExtensions
-
-Consume §1.9 odd Artin over totally real fields, §1.11 the GL₂ × GL₂ tensor product, §1.13 symmetric cube, and Automorphic induction and its cuspidality criterion. The latter gives, for a cyclic extension L/F and an essentially unitary cuspidal input on GL_m(𝔸_L), the isobaric induction whose local parameter at every place is the sum, over the places above it, of the induced local parameters; for an extension of prime degree, a cuspidal input not isomorphic to its nontrivial Galois conjugates has cuspidal induction. Section 3.26 gives the classification dependency, retaining the weighted twisted fundamental lemma and the precise trace and Arthur multiplicity premises. Local spherical choices use multiplicity one for every global representation with the specified general-type Arthur parameter; they are not inferred for a parameter outside general type.
-
-### From TauCetiRoadmap.ClassicalSerreModularity
-
-Consume R27.6, Theorem 10.1(i): regular compatible systems: every odd, irreducible, regular compatible system of two-dimensional representations of G_ℚ comes, after a twist, from a newform of weight at least two. The rank-two systems used in §7.3, the constituents of H¹ in the reducible types and the factor s of type E[D_n], are odd, irreducible and regular compatible systems with Hodge–Tate weights {0,1} (§7.2), so the newform f has weight two and, at almost all primes, the system has the Euler factors of π_f ⊗ |det|^(−1/2) in the normalization of §0.1. The equality of local factors at every finite place q is the consumer's step: compare at a coefficient prime not above q, using the Néron compatible-system factors of NeronModelsAndSemistableAbelianVarieties §6.10 for H¹ and AutomorphicGaloisRepresentations §§3.7 and 3.11 for the newform; type E[D_n] adds the tensor-product comparison of ModularityAndLanglandsExtensions §1.11.
-
-### From TauCetiRoadmap.GL2AutomorphicRepresentationsAndTransfer
-
-Consume R17.5.11 Prime-regular characters and reduction comparison, including modular-character recognition and the projective-cover/Hom comparison, and R17.5.1 and R17.5.4–R17.5.7 for the solvable Artin branch. A₅ is nonsolvable, so its odd Artin input is the distinct totally real theorem above. Consume R17.5.4, Continuous finite-image arithmetic projective lifting, also for the projective A₅ representation of §3.1: over a number field it gives a continuous finite-image lift to GL₂(ℂ) with the prescribed projectivization, any two lifts differ by a finite-order scalar character, and a lift is odd at a real place whose complex conjugation is a nontrivial projective involution. It prescribes neither the determinant nor the residual reduction; §3.1 fixes both with R17.5.11.
-
-### From TauCetiRoadmap.AutomorphicGaloisRepresentationsPartII
-
-Consume AG2.2 for attachment under twists and solvable base change and AG2.5 for RACSDC Galois systems and local comparison, with regular algebraicity, conjugate self-duality, cuspidality and coefficient embeddings retained. Consume AG2.0, The l-adic character of an algebraic Hecke character, its Hodge–Tate numbers and its weight: for an algebraic Hecke character χ of a number field K with exponents (a_τ), its avatar r_(p,ι)(χ) matches χ_v under geometric reciprocity at every place v not above p, has Hodge–Tate number a_(ι∘τ) at each embedding τ of K into ℚ̄_p, and a_τ+a_τ′ equals the weight whenever τ and τ′ restrict to complex-conjugate embeddings of the maximal subfield K₀ of K that is imaginary CM or totally real (conjugation trivial in the totally real case). Consume AG2.P, Finite-coefficient periods, descent and geometric comparison, for the de Rham property after restriction to a finite extension and on the image of a commuting idempotent.
-
-### From TauCetiRoadmap.AutomorphicGaloisRepresentations
-
-Consume §3.13, Geometric characters and algebraic Hecke characters: a continuous character of G_K, K a number field, unramified outside finitely many places and de Rham at every place above p, is after a finite coefficient enlargement the p-adic avatar of an algebraic Hecke character with the same labelled degrees; over a totally real K it is a finite-order character times an integer power of ε. Its finite-ramification hypothesis is checked in §7.1 before it is applied. Consume §§3.7 and 3.11, Carayol's Theorem B and the representation dictionary, for local–global compatibility of a weight-two newform at every finite place away from the coefficient prime, with the L-factor and conductor translations of that dictionary.
-
-### From TauCetiRoadmap.AutomorphicFormsOnReductiveGroups
-
-Consume §§2.3–2.7 for local induced representations and the archimedean parameter specialization used with the AL.2 archimedean factors; no archimedean normalization is inferred from finite Euler factors alone.
-
-### From TauCetiRoadmap.EllipticCurveModularity
-
-Consume R29.6 modularity of elliptic curves over ℚ. Products use two GL₂ constituents and no cuspidal GL₄ conclusion.
-
-### From TauCetiRoadmap.EllipticCurveModularityPartIIGL2TypeAbelianVarieties
-
-Consume GT.3 modularity of GL₂-type abelian varieties over ℚ with its coefficient-field compatible systems, not a theorem over arbitrary quadratic fields.
-
-### From TauCetiRoadmap.ShimuraVarieties
-
-Consume §5.0 Rational polarized Siegel moduli, its fine integral charts with principal polarization and full level N≥3, universal families, and level-change maps. A level-two moduli problem alone has the automorphism −1 and supplies only the stated coarse quotient. Section 4.8 specializes the fine level-three chart before adding its level-two cover; generic genus-two torsion geometry is not reconstructed here.
-
-What ShimuraVarieties must provide (gap:siegel-prime-to-level-monodromy): For each g ≥ 1 and a connected fixed-pairing fine Siegel chart of level N ≥ 3 in characteristic zero, prove that adjoining symplectic level ℓ with prime ℓ not dividing N gives a geometrically connected cover with group Sp_(2g)(𝔽_ℓ), compatibly with the universal family and level change.
-
-### From TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry
-
-Consume §§3.5 and 5.2 for polarized descent and rigid level functors. These are generic descent and representability tools, rather than a statement of odd-theta rationality; the specialized twist and marked Torelli target is §4.8.
-
-### From TauCetiRoadmap.AlgebraicCurves
-
-Consume Layer 10 for hyperelliptic function fields, their ramification, the uniqueness of the degree-two rational subfield and the characteristic-two function-field description, Layer 5 for the gap sequence at a rational place, and Layer 11 for Weierstrass points. In genus two a rational place is a Weierstrass place exactly when 2 is a pole number there; by the uniqueness of the degree-two rational subfield these are the ramified places of the hyperelliptic double cover, over every field of characteristic different from 2. Layer 11's equality case, exactly 2g+2 Weierstrass points for a hyperelliptic function field, is its algebraically closed characteristic-zero form. Use RelativeJacobiansAndIntegralCurveModels §§0.1–0.3, 2.2 and 2.4 with the section and descent hypotheses below for integral models and the good-reduction Jacobian comparison; the equation-specific two-chart smoothness criterion is §4.4 here.
-
-### From TauCetiRoadmap.RelativeJacobiansAndIntegralCurveModels
-
-Consume §§0.1–0.3 for marked integral models, proper specialization and normalization charts, and §§2.2 and 2.4 for the relative Jacobian and specialization of a pointed smooth proper geometrically connected curve family. For a smooth proper model over the integers of a finite extension of ℚ_p without a section, pass to a finite unramified extension over whose residue field the smooth special fibre has a point, and lift that point by Hensel's lemma. Apply §§2.2 and 2.4 there. Inertia is unchanged by this extension, so descend good Jacobian reduction by NeronModelsAndSemistableAbelianVarieties §5.1, using any prime ℓ different from the residue characteristic. The section-independent Jacobian comparison of §2.2 respects the canonical descent data and identifies the descended special fibre with the Jacobian of the curve fibre. The converse need not hold for a genus-two curve with a product Jacobian special fibre.
-
-### From TauCetiRoadmap.PolynomialGaloisGroups
-
-Consume Layers 0 and 4, intrinsic root permutation actions and resolvents. The degree-40 and degree-27 actions in §1.1 are mathematical permutation representations, not a replacement construction of resolvent theory.
-
-### From TauCetiRoadmap.EllipticCurves
-
-Consume Layers 3 and 4 for the finite-field Hasse bound and the Tate-curve/reduction dictionary. At 3 full rational 2-torsion forces the ordinary elliptic seed to fail: 4 divides #E(𝔽₃), the Hasse interval is [1,7], hence #E(𝔽₃)=4 and trace 0.
-
-## How to read the build
-
-Layer 0 fixes the realization and modularity dictionary. Layers 1–2 establish the exact residual-image and matrix comparisons modulo 3 and modulo 2, and Layer 3 combines the mod-2 ones with the supplied lifting theorem at 2. Layer 4 builds the ordinary local points at 2 and 3 in the marked genus-two moduli, including the odd-theta moduli in §4.8 and every scalar and nonscalar ordinary seed at 3 in §4.13. Layer 5 assembles these local points by approximation outside thin sets. Layer 6 proves the modularity endpoints and their analytic consequences. Layer 7 proves modularity for the remaining endomorphism types from Layer 0 and its suppliers alone; the type dictionary in §7.2 precedes its use in §7.3. Layers 8 and 9 apply Layer 6 to coefficient-box density and to prescribed mod-2 representations. Each Needs line separates a statement's carriers from its proposed proof inputs. The missing supplier extensions are named contracts, and all their hypotheses travel into the consuming conclusions. [Suggested.lean](Suggested.lean) records the headline-statement boundary at the library pins.
 
 ## Layer 0: Modularity and ordinary realizations
 
@@ -1234,6 +1044,196 @@ The abelian-surface endpoints supply the cuspidal and isobaric modularity inputs
 The local examples of Layer 4 give a complete switch chain. Start with any prime-to-3-polarized surface satisfying §6.2. Its mod-3 representation fixes the twisted marked family P. Section 4.10 supplies one of eight ordinary semistable distinguished classes, with class 2C supplied by the coupled-period seed fixing two odd theta characteristics; §4.13 supplies its triadic finite-flat module, including both scalar signs. The real polynomial x(x²+1)(x²+2) fixes the double-transposition open. Approximation away from all proper S₅ subgroup covers produces a Jacobian B with the same mod-3 representation and mod-2 image S₅(b). Modularity at 2 for B followed by the ordinary spherical attachment at 3 and odd-prime transfer proves modularity of the original surface. Every local datum in this example is a hypothesis or a named result above, including the negative controls for the two forbidden classes (BCGP25 proof of Theorem 9.5.2, p.207, line 9609).
 
 For the residual-mod-2 endpoint, the triadic Weil restriction has #E(𝔽₉)=8, so its quartic is X⁴−2X²+9. It is ordinary since 3 does not divide −2. Its four roots are distinct because its quadratic in X² has discriminant −32, neither zero nor a zero-root case. Its mod-2 action swaps the two rank-two summands and has partition [2,2,2]. The Weil-restriction seed target of §9.3 gives a Jacobian point of Z⁺ at 3, while the dyadic skew-self-duality contract, A4.13 and the neighbourhood contract supply the point at 2, after which approximation outside the mod-3 proper-image locus and §6.3 give §9.4. The two ordinary [2,2,2] equations over 𝔽₃ have Q=(X²±2X+3)² and would fail this example's distinguishedness test (§§4.11 and 9.3).
+
+## Scope and ownership
+
+This roadmap owns the mod-3 and mod-2 image conditions, the ordinary local realizations at 2 and 3, the 2–3 switch and the modularity endpoints of Layers 6–9, including every Frobenius class of §4.10 (BCGP25 §6.4 and §§8–10). It treats abelian surfaces with bad as well as good reduction at 2, product special fibres as well as Jacobians, and ordinary integral mod-2 models as well as their generic Galois representations. The isobaric notion of modularity is over any number field; the unconditional-in-image modularity endpoints specified in Layer 6 are over ℚ. All references to conditional automorphy include the exact premises below.
+
+The even-subset realization of Jacobian 2-torsion, its Weil pairing and S₆ ≅ Sp₄(𝔽₂) are stated by AbelianSchemesAndArithmeticModuli A3.12. Section 2.1 here fixes an explicit basis and compares matrices and the two S₅ embeddings; it does not reconstruct that realization. Semistable ordinary reduction, the isotropic filtration and the rational 2-torsion consequence belong to NeronModelsAndSemistableAbelianVarieties §§6.11–6.13, including the Siegel-parabolic intersection comparison in §6.13. General moduli of polarized abelian schemes, torsion pairings, principal quotients, Serre–Tate deformation and finite-level lifting belong to AbelianSchemesAndArithmeticModuli A2–A4 and A6.32–A6.34. Honda–Tate belongs to AbelianSchemesAndArithmeticModuliPartII F3.2 and finite-field isogeny comparison to EndoscopicTransferAndUnitaryTraceComparison §8.3. CurvesOverFiniteFields §§1.1, 1.6 and 1.11 own the Weil-polynomial predicate, polynomial ordinarity and polynomial point counts; AbelianVarietiesOverFiniteFields §§1.2, 6.1–6.3 and 10.3 own their geometric comparisons and the polarized surface trichotomy. The ordinary Weil-quartic predicate here specializes those notions in dimension two for the explicit local classification. S₅(b) uses Mathlib’s stabilizer subgroup and A₅(b) its intersection with the native alternating group. The finite 2-group fixed-vector theorem is supplied by Tau Ceti and consumed through NeronModelsAndSemistableAbelianVarieties §6.13.
+
+General similitude groups, adequacy, Zariski images, projective lifting, potentially abelian decomposition and tidy/vast image conditions belong to ArithmeticGaloisRepresentations §§5.12, 6.3 and 7.3–7.11. PotentialAutomorphyInfrastructurePartII PL.4, Adequacy relaxed to the vanishing of H¹(H, ad), supplies relaxed adequacy and the adequate implication; ArithmeticGaloisRepresentations §7.9 supplies the trace/spanning comparison identifying its characteristic-two specialization with BCGP25 near adequacy. OrdinaryAutomorphicFormsAndModularityLiftingPartII §5.2 supplies GSp₄-reasonableness and its adequacy comparison; the integral-enormity extension is requested from ArithmeticGaloisRepresentations. SatoTateGroups §§9.1–9.4 and 9.10 supply Sp₄ Zariski containment for surfaces with scalar geometric endomorphisms, including finite-base-change and isogeny invariance. FaltingsFinitenessAndIsogenyTheorems R28.4 owns semisimplicity and the isogeny criterion, including the requested residual-image endomorphism adapters. General thin sets, Hilbert irreducibility, their integral counts and Hilbert points with simultaneous local conditions belong to InverseGaloisAndArithmeticFundamentalGroups IG.2.4–IG.2.7. This roadmap applies IG.2.7 to smooth rational genus-two parameter spaces.
+
+GSp4NonregularModularityLifting §§2.5–2.6 and 11.2–11.6 supply weight-two attachment, pure monodromy comparison and nonregular lifting. This roadmap does not plan higher Coleman theory, regular ordinary R=T or patching. EndoscopicTransferAndUnitaryTraceComparison §11.1 and ModularityAndLanglandsExtensions §3.26 own the classification, packets and spin transfer; AutomorphicLFunctionsAndLocalFactors AL.2–AL.4 owns the analytic continuation, isobaric uniqueness and exterior transfers. The finite-image Artin and functoriality inputs retain ModularityAndLanglandsExtensions §§1.9, 1.11, 1.13 and GL2AutomorphicRepresentationsAndTransfer R17.5 as owners; finite-image projective lifting to GL₂(ℂ) is R17.5.4. Modularity of odd irreducible regular rank-two compatible systems over ℚ is ClassicalSerreModularity R27.6. Cuspidal quadratic induction of an algebraic Hecke character is EndoscopicTransferAndUnitaryTraceComparison §13.3, with its all-place comparison in ModularityAndLanglandsExtensions, Automorphic induction and its cuspidality criterion. Rank-one de Rham algebraicity is AutomorphicGaloisRepresentations §3.13, and the constraint on infinity types is AutomorphicGaloisRepresentationsPartII AG2.0. Section 7.1 combines these rank-one and induction inputs; in rank four the rank-two dichotomy of BCGP25 Lemma 10.2.4 occurs only in its finite-up-to-twist branch, which ArithmeticGaloisRepresentations §§5.12 and 7.6 supply.
+
+Integral curve models and pointed specialization belong to RelativeJacobiansAndIntegralCurveModels §§0.1–0.3, 2.2 and 2.4; AlgebraicCurves Layers 5, 10 and 11 own the function-field theory, gap sequences and Weierstrass points. For unpointed local models use the unramified section-acquiring extension and descent specified below. Polarized algebraization belongs to ShimuraCompactifications §§6.4–6.6. Fine curve moduli, the universal curve and geometric Torelli belong to AbelianSchemesAndArithmeticModuliPartII B4.1, used here at genus 2 and level 3. Section 4.8 adds the framing twist, the genus-two open-complement identification, its local density and the odd-theta variant to that supplied quasi-finite Torelli map. HyperellipticCurves §§0.2 and 0.3 own the weighted-projective model and smoothness criterion; §4.4 here gives its genus-two gcd form and finite enumerations. The twisted odd-theta space and its marked and unmarked Torelli loci (§4.8), the explicit local seeds at 3 (§§4.13 and 9.3), and the compatible-system dictionary of the Galois types (§7.2) are targets here. SatoTateGroups §8.7 owns the Galois endomorphism type and §§9.7–9.8 its classification and realizability. Their generic moduli, deformation and automorphic inputs have the separate owners just named.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+Use `Matrix.J` and `Matrix.symplecticGroup` in `Mathlib/LinearAlgebra/SymplecticGroup.lean` (lines 58 and 101): the latter is the matrix submonoid defined by AJAᵀ=J, rather than a group carrying an arbitrary multiplier. Use `Matrix.charpoly` in `Mathlib/LinearAlgebra/Matrix/Charpoly/Basic.lean` (line 140), `Matrix.IsSymm` in `Mathlib/LinearAlgebra/Matrix/Symmetric.lean` (line 33), `Equiv.Perm`, `alternatingGroup` in `Mathlib/GroupTheory/SpecificGroups/Alternating.lean` (line 72), and `MulAction.stabilizer` in `Mathlib/GroupTheory/GroupAction/Defs.lean` (line 515). The stabilizer is a subgroup of the specified action, and the alternating group is the sign kernel. Use `Representation` in `Mathlib/RepresentationTheory/Basic.lean` (line 48), `groupCohomology.H1` in `Mathlib/RepresentationTheory/Homological/GroupCohomology/LowDegree.lean` (line 965), and `Polynomial.aroots` in `Mathlib/Algebra/Polynomial/Roots.lean` (line 497). A representation alone includes neither topological continuity nor finite dimension; these are explicit arithmetic hypotheses. Roots are counted with multiplicity, and no root statement is applied to the zero polynomial.
+
+Use `card_alternatingGroup` in `Mathlib/GroupTheory/SpecificGroups/Alternating.lean` (line 136), with a nontrivial finite type, and `alternatingGroup.isSimpleGroup` in `Mathlib/GroupTheory/SpecificGroups/Alternating/Simple.lean` (line 201), with at least five letters. The applications have 5!/2=60 and 6!/2=360 elements. Simplicity and these cardinalities are inputs to the A₅ image arguments.
+
+### From Tau Ceti
+
+Use `TauCeti.AlgebraicGeometry.AbelianVariety` in `TauCeti/AlgebraicGeometry/AbelianVariety/Basic.lean` (line 95), a proper geometrically integral group scheme over a field; it does not bundle a polarization or a chosen dimension. Use `TauCeti.schurMultiplier` in `TauCeti/RepresentationTheory/ProjectiveRepresentation/SchurMultiplier.lean` (line 122), the coefficient-dependent H²(G,kˣ), not the assertion that the integral Schur multiplier of A₅ is C₂. The latter finite-group fact is a target of §2.5 through BCGP25 Remark 8.2.3.
+
+Use `TauCeti.GlobalNumberFields.HeckeCharacter` in `TauCeti/NumberTheory/NumberField/Global/HeckeCharacter/Basic.lean` (line 70), a continuous homomorphism from the idele class group to ℂˣ, its predicate `TauCeti.GlobalNumberFields.HeckeCharacter.IsAlgebraic` in `HeckeCharacter/Algebraic.lean` (line 60), integer exponents on the identity component with real sign parities unconstrained, and its purity theorem `TauCeti.GlobalNumberFields.HeckeCharacter.add_conjugate_eq_add_conjugate` in `HeckeCharacter/Purity.lean` (line 98): the sum of the exponents at an embedding and at its complex conjugate is independent of the embedding. The pin does not show that the exponents factor through the maximal CM or totally real subfield; that constraint is consumed from AutomorphicGaloisRepresentationsPartII AG2.0 in §7.1.
+
+Use `Representation.exists_ne_zero_apply_eq_self_of_forall_pow_eq_one` in `TauCeti/RepresentationTheory/PGroupInvariants.lean` (line 170): a finite group whose operators have p-power order on a nonzero module over a commutative ring of characteristic prime p has a nonzero fixed vector. It requires a nontrivial module and a finite group, and no finite-dimension hypothesis. Here p=2 and the module is 𝔽₂⁴.
+
+### From TauCetiRoadmap.AbelianSchemesAndArithmeticModuli
+
+Consume A3.7–A3.8 for perfect alternating Weil pairings and level structures, A3.11 for principal quotients after finite extension, A3.12 for the even-subset realization, A4.8 for effectivity of polarized formal lifts, A4.9–A4.14 for polarized Serre–Tate and finite-level lifting, A5.7 for realization conventions, and A6.32–A6.34 for Weil restriction and quadratic twists. The odd-prime lifting input is height four, order p⁴, with a compatible polarized level-one truncated Barsotti–Tate structure. The dyadic theorem A4.13 takes, over the integers O of a finite extension of ℚ₂ and for a principally polarized ordinary abelian surface A₀ over the residue field, a finite flat group scheme over O of order 16 killed by 2 with a Cartier self-duality λ satisfying λ^∨=−λ and an identification of its special fibre with A₀[2]; it owns the comparison of such ordinary extensions with the symmetric formal-torus quotient, its Frobenius descent and the successive polarized lifting, and identifies underlying torsion without asserting that every chosen self-duality is a polarization. On a group killed by 2 the sign is immaterial, so λ^∨=−λ means λ^∨=λ. The product principal polarization has a reducible theta divisor.
+
+
+What AbelianSchemesAndArithmeticModuli must provide (gap:dyadic-selfdual-polarized-lift): For the ordinary finite flat group scheme W/ℤ₂ of order 16 killed by 2 in §9.3, prove that existence of a Cartier self-duality implies existence of a skew self-duality to which A4.13 applies, retaining the specified underlying W and distinguishing this from lifting an arbitrarily prescribed self-duality or asserting strong alternation.
+
+What AbelianSchemesAndArithmeticModuli must provide (gap:ordinary-polarized-three-model): For an ordinary finite-flat symplectic mod-3 representation over ℚ₃ with multiplier ε̄, construct the compatible polarized height-four level-one truncated Barsotti–Tate model and identify its special fibre with V extended by its multiplicative dual so that A4.12 applies to each seed.
+
+What AbelianSchemesAndArithmeticModuli must provide (gap:genus-two-level-three-monodromy): Prove geometric Sp₄(𝔽₃) level-3 monodromy for the smooth genus-two coefficient family and the universal ordered-six-branch hyperelliptic family, compatibly with characteristic-zero base change, and the resulting arithmetic GSp₄(𝔽₃) monodromy over ℚ and thin proper-image specialization loci.
+
+### From TauCetiRoadmap.AbelianSchemesAndArithmeticModuliPartII
+
+Consume F3.2, Honda–Tate simple isogeny classification, and its ordinary specialization: ordinary Weil quartics classify surface isogeny classes over 𝔽_p, including products and repeated elliptic factors. Endomorphism division-algebra invariants vanish in the ordinary irreducible case. Consume B4.1 at g=2 and ℓ=3 for the fine curve scheme over ℚ(ζ₃), its universal curve, its quasi-finite polarized Torelli map, geometric Torelli and the compatible level-change maps. Section 4.8 descends the supplied family with the prescribed framing using AlgebraicModuliForArithmeticGeometry §§3.5 and 5.2, then proves the additional open-complement and local-density statements.
+
+### From TauCetiRoadmap.CurvesOverFiniteFields
+
+Consume §1.1 for the q-Weil predicate, §1.3 for finiteness and coefficient bounds, §1.6 for polynomial p-rank, slopes and ordinarity, and §1.11 for the polynomial point-count formula. In degree four at q=p, ordinarity is p∤b. Their specialization in this roadmap's §4.1 fixes the coordinates used by the local lists.
+
+### From TauCetiRoadmap.AbelianVarietiesOverFiniteFields
+
+Consume §1.2 for #A(𝔽_q)=P_A(1), §§6.1–6.3 for geometric p-rank and its comparison with Frobenius slopes, and §10.3 for the polarized surface trichotomy over a finite field: a canonically polarized genus-two Jacobian, a product of elliptic curves with product polarization, or a quadratic Weil restriction with its descended product polarization. Section 4.5 computes the residual pairing in the last case; an unpolarized isogeny does not supply that pairing.
+
+### From TauCetiRoadmap.HyperellipticCurves
+
+Consume §0.2 for the weighted-projective model in ℙ(1,g+1,1), §0.3 for its geometric smoothness criterion in every characteristic, and §0.6 for Weierstrass points as fixed points of the involution, their 2g+2 count in characteristic different from 2, and the odd-degree model at a rational Weierstrass point. Section 4.4 specializes the supplied criterion and counts its finite equation loci.
+
+### From TauCetiRoadmap.SatoTateGroups
+
+Consume §8.7, The Galois endomorphism type, for the pair [Gal(L/F), End_L(A)⊗ℝ] up to equivariant isomorphism and its isogeny invariance, and §§9.7–9.8 for the classification and realizability of the 52 types over number fields and 34 over ℚ. Consume §9.10 to discharge their Mumford–Tate and algebraic Sato–Tate hypotheses in dimension two. Consume §§9.1–9.4 and 9.10 for polarized abelian surfaces over number fields with End⁰(A_F̄)=ℚ: scalar endomorphisms give TL(A)=Sp₄, hence each rational ℓ-adic Zariski closure contains Sp₄; finite base change and isogeny preserve this conclusion, without requiring a principal polarization (FKRS12 Definitions 2.14–2.15 and Theorem 2.16(b), p.11, lines 485–500). Section 7.2 here compares these types with the compatible-system decomposition; it does not build their Sato–Tate classification.
+
+### From TauCetiRoadmap.ArithmeticGaloisRepresentations
+
+Consume §§5.12, 6.3, 7.1, 7.3, 7.6, 7.9 and 7.11 for potentially abelian decomposition, Tate curves, symplectic similitudes, projective lifting and roots of characters, adequacy and tidy/vast images. Section 5.12 is Clifford theory over an arbitrary field: it supplies the decomposition ρ|_(G_L) ≅ ⊕χ_i^(⊕a) and the induction from the stabilizer field, but no algebraicity of the χ_i. Section 7.1, Tensor induction, supplies the positive-flip Asai construction for quadratic extensions; its quadratic-character twist is the exterior-square cross-term in §7.1. In the image tests Γ means Γ′∩Sp₄. Section 7.9 also supplies the finite-group equivalence between semisimple spanning and the eigenprojection trace condition, used with PL.4 relaxed adequacy after extending coefficients to contain eigenvalues. Residual and characteristic-zero enormousness are different conditions; no residual regular element alone implies the latter.
+
+
+What ArithmeticGaloisRepresentations must provide (gap:integral-enormity): Provide BCGP25 Definition 7.1.1 integral enormousness and Corollary 7.1.4, including its Sp₄ and induced SL₂ × SL₂ alternatives and the residual regular-semisimple and cyclotomic restriction hypotheses.
+
+### From TauCetiRoadmap.FaltingsFinitenessAndIsogenyTheorems
+
+Consume R28.4.4–R28.4.7 for semisimplicity, endomorphism centralizers and the isogeny criterion. For arbitrary surfaces in the residual A₅ argument use ZARHIN00 Theorem 4.1 on the five-point module (p.5, line 186) together with the endomorphism-subalgebra argument and Lemma 3.1 (pp.3–4, line 113); its Jacobian-only Theorem 2.1 is insufficient.
+
+What FaltingsFinitenessAndIsogenyTheorems must provide (gap:surface-residual-endomorphisms): Prove that geometric End is ℤ for a characteristic-zero abelian surface with symplectically identified mod-2 image containing A₅(b), by the five-point very-simple module and the Galois-stable endomorphism algebra, and for prime-to-3-polarized surfaces with surjective mod-3 image.
+
+### From TauCetiRoadmap.NeronModelsAndSemistableAbelianVarieties
+
+Consume §§3.5–3.6, 3.11–3.12, 5.0a–5.6 and 6.10–6.13 for saturated toric filtrations, orthogonality, semistability, good reduction, all finite local Euler factors and purity, compatible systems, ordinary isotropic submodules and the rational 2-torsion consequence. The toric submodule of a purely toric surface has rank two; the entire Tate module has rank four. The local-neighbourhood extension below is required independently of these pointwise statements. Consume §3.14 for the period-lattice torsion cone, evaluation pairing and unramified descent, after the algebraization of ShimuraCompactifications §§6.5–6.6. KIS99 Theorem 5.1 is cited by locator alone as uncertified; its integral strengthening is not attributed to that theorem.
+
+What NeronModelsAndSemistableAbelianVarieties must provide (gap:local-neighbourhoods): Prove local persistence in smooth polarized families of prescribed finite-level generic torsion, prime-to-p rational Weil–Deligne data, semistable ordinarity and distinguishedness, and separately openness of the prescribed integral ordinary W/ℤ₂ isomorphism class, without claiming constancy of the full p-adic representation.
+
+### From TauCetiRoadmap.ShimuraCompactifications
+
+Consume §§6.4–6.6 under (6-a), over ℤ₂ with radical ideal (2): the base is a complete noetherian normal domain and the tori are isotrivial. In §4.7 the abelian part is zero, the character and period lattices are X≅Y≅ℤ² with Frobenius R, the polarization map Y→X is the identity, and the period matrix is ((q,t²),(t²,q)). Its symmetric bilinear periods give the rigidified cubical datum; the valuation form v₂(q)I₂ is positive definite and admits an R-invariant square decomposition. §§6.5–6.6 algebraize this principally polarized datum and compare it with NeronModelsAndSemistableAbelianVarieties §§3.13–3.14 over the DVR.
+
+### From TauCetiRoadmap.LocalGaloisDeformationRings
+
+Consume §§6.27, 6.29 and 6.31–6.35 for ordered ordinary flags and pure weight-two points. Section 6.35 requires p>2, the finite-flat residual twist and compatible stabilizations; it puts the seed on a unique component and the target on that same component. The no-eigenvalue-ratio extension of §2.2 is required separately.
+
+What LocalGaloisDeformationRings must provide (gap:unramified-lift-rigidity): For ℓ ≠ p and unramified residual representations with no Frobenius eigenvalue ratio ℓ, prove every continuous lift to a complete local p-adic coefficient algebra is unramified, including nonreduced coefficient algebras.
+
+### From TauCetiRoadmap.FiniteFlatGroupsAndIntegralPadicHodgeTheory
+
+Consume R07.6.10, the good-reduction cyclotomic-image lemma for p≥3. It gives equality of residual images over ℚ(ζ_p) and ℚ(ζ_(p^n)), not an analogous statement without good reduction or at p=2.
+
+### From TauCetiRoadmap.PotentialAutomorphyInfrastructurePartII
+
+Consume PL.0, Soluble and cyclic CM extensions with prescribed local behaviour, for finite solvable Galois extensions with prescribed completions and linear disjointness, prescribing trivial real completions for a totally real extension and avoiding the residual field to preserve A₅. Consume PL.0, Soluble base change and descent of automorphy, for the corresponding automorphic comparisons. Consume PL.4, Strong residual oddness at a real place, for polarized absolutely irreducible pairs in even rank and characteristic two. Consume PL.4, Adequacy relaxed to the vanishing of H¹(H, ad) (PL.4/relaxed-adequacy), for its finite-image predicate over coefficients containing the eigenvalues and its adequate-implies-relaxed-adequate comparison. Together with ArithmeticGaloisRepresentations §7.9 this is BCGP25 near adequacy in characteristic two; finite coefficient extension gives the comparison over the original field. The alternating/nonalternating symmetric-form dichotomy is included there in general even rank; the translation to the symplectic matrix and its class count are the further contract below.
+
+What PotentialAutomorphyInfrastructurePartII must provide (gap:strong-odd-symplectic-criterion): Translate the general even-rank symmetric-form dichotomy of PL.4 to the matrix ψ(c_v)J of BCGP25 Lemma 5.2.7, prove its nonzero-diagonal test, and count the involution classes as n + 1 + floor(n/2) in symplectic rank n over a finite field of characteristic two.
+
+### From TauCetiRoadmap.GSp4NonregularModularityLifting
+
+Consume §§2.5–2.6 for ordinary weight-two attachment and pure general-type monodromy, and §§11.2–11.6 for the full dyadic and odd-prime seeds, nonvanishing, rank one and classical lifting. Retain the Layer 10 patching data, integral enormousness, purity, ordinary p-distinguished semistable weight two, the appropriate five seed conditions, the Zariski alternative and every hypothesis of §§11.2–11.6. A seed matches the target residually. In the odd branch it need not have regular weight. In the dyadic branch preserve the equality of images over ℚ and ℚ(i).
+
+What GSp4NonregularModularityLifting must provide (gap:ordinary-spherical-attachment): For a pure general-type weight-two system realized by an abelian surface with good ordinary reduction at finitely many primes, choose a global automorphic representation with its Arthur parameter, spherical and ordinarily stabilized at those primes, preserving the other prescribed local members and the archimedean weight, and identify its ordinary Galois attachment at each chosen prime.
+
+What GSp4NonregularModularityLifting must provide (gap:all-place-surface-comparison): For a weight-two general-type GSp₄ representation attached at p to the pure H¹ of an abelian surface, prove the compatible-system comparison with its GL₄ transfer at every finite place including ramified places above p, and compare conductors and the archimedean factors in the stated motivic normalization.
+
+### From TauCetiRoadmap.OrdinaryAutomorphicFormsAndModularityLifting
+
+Consume §2.11 Hilbert Hida weight change with fixed residual determinant only in its stated prime and weight range. The dyadic weight-one extension below is a separate requirement for §3.1.
+
+What OrdinaryAutomorphicFormsAndModularityLifting must provide (gap:dyadic-weight-one-change): Extend Hilbert ordinary weight change to a parallel-weight-one form unramified above 2, obtaining after solvable totally real base change an ordinary parallel-weight-two form of trivial central character with the prescribed residual representation.
+
+### From TauCetiRoadmap.OrdinaryAutomorphicFormsAndModularityLiftingPartII
+
+Consume §5.2 for GSp₄-reasonableness of continuous absolutely GSp₄-irreducible residual representations ρ̄:G_F→GSp₄(k), with F a number field and k finite of characteristic p≥3. For D=𝔰𝔭₄^∨ and H_n=ρ̄(G_(F(ζ_(p^n)))), retain eventual H⁰(H_n,D)=0 and semisimple detection on every nonzero simple submodule of D, together with H¹(H_n,D)=0 when ζ_p belongs to the field cut out by D. If H¹(H_1,k)=0, the groups H_n equal H_1; GSp₄-adequacy of H_1 then implies GSp₄-reasonableness (WHITMORE22 Definitions 3.15 and 3.19 and Lemma 3.20, pp.22–24, lines 936 and 1011–1024).
+
+### From TauCetiRoadmap.InverseGaloisAndArithmeticFundamentalGroups
+
+Consume IG.2.4–IG.2.7 for thin subsets of varieties, Hilbert irreducibility, the integral-box count O(H^(r−1/2) log H), and Hilbert points with weak approximation in simultaneous local opens outside any proper closed subset. Smooth geometrically integral rational varieties satisfy the weak approximation hypothesis for every finite set of places. The complement of a thin set contains a Hilbert subset outside a proper closed subset, so IG.2.5 and IG.2.7 give the approximation used here. A thin set is contained in a finite union of proper closed loci and images of generically finite covers of degree at least two. Hilbert irreducibility specializes a known monodromy group; it does not prove that monodromy group.
+
+### From TauCetiRoadmap.EndoscopicTransferAndUnitaryTraceComparison
+
+Consume §8.3 for finite-field Tate full faithfulness and isogeny classification, and §11.1 for general-type packets and the unitary-normalized transfer with its GSp₄ classification input record. Twisting back to the algebraic normalization is explicit. The forward singular-weight extension below retains the same local parameters and classification premises. Consume §13.3, Automorphic induction of a quadratic Hecke character: for a quadratic extension K/F and an algebraic Hecke character ψ of K distinct from its conjugate, the induction AI_(K/F)(ψ) is cuspidal on GL₂(𝔸_F), with the induced unramified parameters and a determinant containing the quadratic character of K/F. That section takes the identification of a Galois representation with an induction of ψ_p as its input; §7.1 here supplies it from Clifford theory and rank-one algebraicity.
+
+What EndoscopicTransferAndUnitaryTraceComparison must provide (gap:forward-singular-spin-transfer): Supply the forward cuspidal spin transfer from a singular weight-two GSp₄ representation with absolutely irreducible attached Galois representation, with every-place parameters and central-character twists, as well as the classification-based exclusion of nongeneral types.
+
+### From TauCetiRoadmap.AutomorphicLFunctionsAndLocalFactors
+
+Consume AL.2 Global Godement–Jacquet theory and Centered entire functions and paired products, AL.3 Strong multiplicity one for isobaric sums, and AL.4 Weil–Deligne normalization and factor operations and Exterior-power factors after an established transfer. Equality outside a finite set determines isobaric cuspidal support but does not supply factors at the omitted places. The completed function in §0.3 uses its stated Γ-factor convention.
+
+What AutomorphicLFunctionsAndLocalFactors must provide (gap:all-place-exterior-transfers): Supply existence and equality of every finite local factor for the established small-rank exterior-power and tensor transfers of normalized H¹ constituents, including GL₂ + GL₂ and character decompositions.
+
+### From TauCetiRoadmap.ModularityAndLanglandsExtensions
+
+Consume §1.9 odd Artin over totally real fields, §1.11 the GL₂ × GL₂ tensor product, §1.13 symmetric cube, and Automorphic induction and its cuspidality criterion. The latter gives, for a cyclic extension L/F and an essentially unitary cuspidal input on GL_m(𝔸_L), the isobaric induction whose local parameter at every place is the sum, over the places above it, of the induced local parameters; for an extension of prime degree, a cuspidal input not isomorphic to its nontrivial Galois conjugates has cuspidal induction. Section 3.26 gives the classification dependency, retaining the weighted twisted fundamental lemma and the precise trace and Arthur multiplicity premises. Local spherical choices use multiplicity one for every global representation with the specified general-type Arthur parameter; they are not inferred for a parameter outside general type.
+
+### From TauCetiRoadmap.ClassicalSerreModularity
+
+Consume R27.6, Theorem 10.1(i): regular compatible systems: every odd, irreducible, regular compatible system of two-dimensional representations of G_ℚ comes, after a twist, from a newform of weight at least two. The rank-two systems used in §7.3, the constituents of H¹ in the reducible types and the factor s of type E[D_n], are odd, irreducible and regular compatible systems with Hodge–Tate weights {0,1} (§7.2), so the newform f has weight two and, at almost all primes, the system has the Euler factors of π_f ⊗ |det|^(−1/2) in the normalization of §0.1. The equality of local factors at every finite place q is the consumer's step: compare at a coefficient prime not above q, using the Néron compatible-system factors of NeronModelsAndSemistableAbelianVarieties §6.10 for H¹ and AutomorphicGaloisRepresentations §§3.7 and 3.11 for the newform; type E[D_n] adds the tensor-product comparison of ModularityAndLanglandsExtensions §1.11.
+
+### From TauCetiRoadmap.GL2AutomorphicRepresentationsAndTransfer
+
+Consume R17.5.11 Prime-regular characters and reduction comparison, including modular-character recognition and the projective-cover/Hom comparison, and R17.5.1 and R17.5.4–R17.5.7 for the solvable Artin branch. A₅ is nonsolvable, so its odd Artin input is the distinct totally real theorem above. Consume R17.5.4, Continuous finite-image arithmetic projective lifting, also for the projective A₅ representation of §3.1: over a number field it gives a continuous finite-image lift to GL₂(ℂ) with the prescribed projectivization, any two lifts differ by a finite-order scalar character, and a lift is odd at a real place whose complex conjugation is a nontrivial projective involution. It prescribes neither the determinant nor the residual reduction; §3.1 fixes both with R17.5.11.
+
+### From TauCetiRoadmap.AutomorphicGaloisRepresentationsPartII
+
+Consume AG2.2 for attachment under twists and solvable base change and AG2.5 for RACSDC Galois systems and local comparison, with regular algebraicity, conjugate self-duality, cuspidality and coefficient embeddings retained. Consume AG2.0, The l-adic character of an algebraic Hecke character, its Hodge–Tate numbers and its weight: for an algebraic Hecke character χ of a number field K with exponents (a_τ), its avatar r_(p,ι)(χ) matches χ_v under geometric reciprocity at every place v not above p, has Hodge–Tate number a_(ι∘τ) at each embedding τ of K into ℚ̄_p, and a_τ+a_τ′ equals the weight whenever τ and τ′ restrict to complex-conjugate embeddings of the maximal subfield K₀ of K that is imaginary CM or totally real (conjugation trivial in the totally real case). Consume AG2.P, Finite-coefficient periods, descent and geometric comparison, for the de Rham property after restriction to a finite extension and on the image of a commuting idempotent.
+
+### From TauCetiRoadmap.AutomorphicGaloisRepresentations
+
+Consume §3.13, Geometric characters and algebraic Hecke characters: a continuous character of G_K, K a number field, unramified outside finitely many places and de Rham at every place above p, is after a finite coefficient enlargement the p-adic avatar of an algebraic Hecke character with the same labelled degrees; over a totally real K it is a finite-order character times an integer power of ε. Its finite-ramification hypothesis is checked in §7.1 before it is applied. Consume §§3.7 and 3.11, Carayol's Theorem B and the representation dictionary, for local–global compatibility of a weight-two newform at every finite place away from the coefficient prime, with the L-factor and conductor translations of that dictionary.
+
+### From TauCetiRoadmap.AutomorphicFormsOnReductiveGroups
+
+Consume §§2.3–2.7 for local induced representations and the archimedean parameter specialization used with the AL.2 archimedean factors; no archimedean normalization is inferred from finite Euler factors alone.
+
+### From TauCetiRoadmap.EllipticCurveModularity
+
+Consume R29.6 modularity of elliptic curves over ℚ. Products use two GL₂ constituents and no cuspidal GL₄ conclusion.
+
+### From TauCetiRoadmap.EllipticCurveModularityPartIIGL2TypeAbelianVarieties
+
+Consume GT.3 modularity of GL₂-type abelian varieties over ℚ with its coefficient-field compatible systems, not a theorem over arbitrary quadratic fields.
+
+### From TauCetiRoadmap.ShimuraVarieties
+
+Consume §5.0 Rational polarized Siegel moduli, its fine integral charts with principal polarization and full level N≥3, universal families, and level-change maps. A level-two moduli problem alone has the automorphism −1 and supplies only the stated coarse quotient. Section 4.8 specializes the fine level-three chart before adding its level-two cover; generic genus-two torsion geometry is not reconstructed here.
+
+What ShimuraVarieties must provide (gap:siegel-prime-to-level-monodromy): For each g ≥ 1 and a connected fixed-pairing fine Siegel chart of level N ≥ 3 in characteristic zero, prove that adjoining symplectic level ℓ with prime ℓ not dividing N gives a geometrically connected cover with group Sp_(2g)(𝔽_ℓ), compatibly with the universal family and level change.
+
+### From TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry
+
+Consume §§3.5 and 5.2 for polarized descent and rigid level functors. These are generic descent and representability tools, rather than a statement of odd-theta rationality; the specialized twist and marked Torelli target is §4.8.
+
+### From TauCetiRoadmap.AlgebraicCurves
+
+Consume Layer 10 for hyperelliptic function fields, their ramification, the uniqueness of the degree-two rational subfield and the characteristic-two function-field description, Layer 5 for the gap sequence at a rational place, and Layer 11 for Weierstrass points. In genus two a rational place is a Weierstrass place exactly when 2 is a pole number there; by the uniqueness of the degree-two rational subfield these are the ramified places of the hyperelliptic double cover, over every field of characteristic different from 2. Layer 11's equality case, exactly 2g+2 Weierstrass points for a hyperelliptic function field, is its algebraically closed characteristic-zero form. Use RelativeJacobiansAndIntegralCurveModels §§0.1–0.3, 2.2 and 2.4 with the section and descent hypotheses below for integral models and the good-reduction Jacobian comparison; the equation-specific two-chart smoothness criterion is §4.4 here.
+
+### From TauCetiRoadmap.RelativeJacobiansAndIntegralCurveModels
+
+Consume §§0.1–0.3 for marked integral models, proper specialization and normalization charts, and §§2.2 and 2.4 for the relative Jacobian and specialization of a pointed smooth proper geometrically connected curve family. For a smooth proper model over the integers of a finite extension of ℚ_p without a section, pass to a finite unramified extension over whose residue field the smooth special fibre has a point, and lift that point by Hensel's lemma. Apply §§2.2 and 2.4 there. Inertia is unchanged by this extension, so descend good Jacobian reduction by NeronModelsAndSemistableAbelianVarieties §5.1, using any prime ℓ different from the residue characteristic. The section-independent Jacobian comparison of §2.2 respects the canonical descent data and identifies the descended special fibre with the Jacobian of the curve fibre. The converse need not hold for a genus-two curve with a product Jacobian special fibre.
+
+### From TauCetiRoadmap.PolynomialGaloisGroups
+
+Consume Layers 0 and 4, intrinsic root permutation actions and resolvents. The degree-40 and degree-27 actions in §1.1 are mathematical permutation representations, not a replacement construction of resolvent theory.
+
+### From TauCetiRoadmap.EllipticCurves
+
+Consume Layers 3 and 4 for the finite-field Hasse bound and the Tate-curve/reduction dictionary. At 3 full rational 2-torsion forces the ordinary elliptic seed to fail: 4 divides #E(𝔽₃), the Hasse interval is [1,7], hence #E(𝔽₃)=4 and trace 0.
 
 ## References
 
