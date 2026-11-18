@@ -14,112 +14,31 @@ Its high points are:
 - Kahn's relative Stiefel–Whitney formula for transferred forms, through the value of the Evens
   norm on a Kummer class (Layer 9).
 
-## Scope and ownership
+## How to read the build
 
-**What this roadmap covers.** Layers 0 to 9 below, over a base field `K` with
-`[Invertible (2 : K)]`, in mod-2 Galois cohomology of degrees one and two. Every layer is
-implemented in Tau Ceti, and the supplier contracts below name the native declaration and file
-for each one. The layers state each milestone and cite the declaration that discharges it; a
-contributor extends the native files rather than building a second copy. The five headline
-theorems are proved in Tau Ceti, so `Suggested.lean` names the declaration that proves each and does
-not restate it. It declares the three names that a roadmap on main imports from this namespace,
-`hilbertSymbol`, `localHasse` and `hasseInvariant_eq_localHasse`, which `OrthogonalSpinGroups`
-imports: a reducible alias of Tau Ceti's symbol, the pairwise product on a diagonal tuple, and a
-theorem proved from Tau Ceti.
+Layers 0 to 4 are free of cohomology and of the Brauer group. Layer 0 comes first, because
+everything diagonal rests on it; Layer 1 follows it; Layer 2 uses Layer 1 for the isotropic
+norm-form splitting argument; Layer 3 needs Layers 0 to 2, and Layer 4 needs Layers 1 to 3.
+Layer 5 adds the tensor-product Brauer group and the Brauer-valued invariants.
 
-Every other name that a roadmap cites from this namespace is a Tau Ceti declaration, and this
-roadmap declares no copy of it. One line per cited name or section, old → new:
+Layer 6 first consumes the local-field substrate of 6A. The norm index of the symbol in 6C feeds
+the classification of 6D through the quadratic-field square-class identity, not through the
+defect tables of 6B; the defect and integral-basis computations of 6B precede the explicit
+symbol tables of 6C. Sublayer 6E compares the two Hasse invariants and needs Layer 5 and 6D. The
+identification of the Hasse invariant with the invariant map of local class field theory needs
+Layer 7B and Class Field Theory's Layer 5, and is stated in 6E but built after Layer 7B; likewise
+the comparison of the symbol with the cohomological pairing in 6C is built after Layer 7C.
 
-- RegularFormClass → `TauCeti.RegularFormClass`;
-- formClass → `TauCeti.formClass`;
-- discr → `TauCeti.RegularFormClass.discr`, valued in the additive `TauCeti.SquareClassGroup K`
-  and read in `Kˣ ⧸ (Kˣ)²` through `TauCeti.multiplicativeSquareClassEquiv`;
-- signedDiscr → `TauCeti.RegularFormClass.signedDiscr`, read in `Kˣ ⧸ (Kˣ)²` in the same way;
-- discr_mk → `TauCeti.RegularFormClass.discr_mk`, read in `Kˣ ⧸ (Kˣ)²` through
-  `TauCeti.multiplicativeSquareClassEquiv_mk`;
-- wittRing → `TauCeti.WittRing`;
-- toWittRing → `TauCeti.WittRing.mk`;
-- hasseInvariant of a diagonal tuple → `TauCeti.RegularFormClass.hasseInvariant` of the class
-  of the tuple;
-- hilbertSymbol_neg_self → `TauCeti.hilbertSymbol_neg_self`;
-- hilbertSymbol_comm → `TauCeti.hilbertSymbol_comm`, under `[Invertible (2 : K)]`;
-- hilbertSymbol_mul → `TauCeti.hilbertSymbol_mul_right`, under `(2 : K) ≠ 0`;
-- exists_hilbertSymbol_eq_neg_one → `TauCeti.exists_hilbertSymbol_eq_neg_one`, under
-  `(2 : K) ≠ 0`;
-- hilbertSymbol_unramified → `TauCeti.hilbertSymbol_unramified`, with the unit `Δ` implicit;
-  `TauCeti.exists_unramified_class`, under `(2 : K) ≠ 0`, produces a unit satisfying its
-  hypothesis;
-- localHasse_congr → `TauCeti.RegularFormClass.localHasse_congr`, stated on the classes of the
-  two tuples; `TauCeti.RegularFormClass.localHasse_mk` turns it into the statement for
-  `localHasse` of a tuple;
-- exists_of_realization → `TauCeti.RegularFormClass.exists_of_realization`, stated on classes
-  with the discriminant in `TauCeti.SquareClassGroup K`;
-- hilbertSign → `TauCeti.hilbertSign`;
-- hilbertSymbol_productFormula → `TauCeti.hilbertSymbol_productFormula`, reciprocity for the
-  norm-equation symbols at the finite places, read in the completions, and at the real places
-  (6C, item 14); its sign form over Class Field Theory's local invariants is
-  `TauCeti.ClassFieldTheory.hilbertProductFormula` read through `TauCeti.hilbertSign`, with
-  `TauCeti.hilbertSign_add` and `TauCeti.hilbertSign_sum`;
-- hilbertSymbol_eq_cohomological → `TauCeti.hilbertSymbol_eq_cohomological`, stated over every
-  field in which `2` is invertible, for an identification `H²(G_K, μ₂) ≃+ ZMod 2` taken as an
-  argument, rather than over a nonarchimedean local field (6C, item 13);
-- serreEps → `TauCeti.serreEps`, read off `u mod 8` and stated on units `u : ℤ_[2]ˣ` rather than
-  on `ℤ_[2]` (6C, item 10);
-- serreOmega → `TauCeti.serreOmega`, read off `u mod 8` and stated on units `u : ℤ_[2]ˣ` rather
-  than on `ℤ_[2]` (6C, item 10);
-- the section "Native interfaces and remaining comparisons", stages 1 and 2 (finite descent of
-  continuous cocycles, and the Brauer comparison in every universe) → Layer 7B, items 2.8, 3
-  and 5.
+Layer 7A depends on Layer 0 and on 6A; Layer 7B on Layers 5 and 7A and on the semisimple-algebras
+roadmap's Layer 6; Layer 7C on Layers 2 and 7B, and on 6C's definition of the symbol for its
+five-fold criterion and its local identification. Layer 8 depends on Layer 7. Layer 9 splits: the
+transfer half needs Layers 1 to 4, and the relative-formula half needs Layers 7C and 8 and the
+index-two Evens norm.
 
-**Excluded.** The exclusions are deliberate, and a separate roadmap for any of them is welcome.
-
-- The characteristic-2 theory of quadratic and bilinear forms, that is the Arf invariant and
-  quasilinear forms. EKM Ch. II (totally singular forms, §10, p. 55; the Arf invariant, §13,
-  p. 62) records how different that theory is, and every statement here assumes `2` invertible.
-- The deep theory of Pfister forms: function-field methods, the Arason–Pfister Hauptsatz, the
-  Milnor conjecture, the norm-residue theorem, and each classification statement that rests on
-  them. Pfister forms in every degree, and the elementary generation statements for `I`, `I²` and
-  `I³` that Layer 5 consumes, are in scope.
-- The cohomological invariant theory of Garibaldi–Merkurjev–Serre beyond Stiefel–Whitney classes.
-- Graded mod-2 Galois cohomology in every degree. Layers 7 to 9 work in degrees `1` and `2`, which
-  is what the Brauer comparison, the Hasse and Clifford comparisons, and the relative
-  Stiefel–Whitney formula for a quadratic extension need. The total Stiefel–Whitney class, the
-  Evens norm in every degree, and Kahn's Théorème 2 for an arbitrary finite separable extension
-  belong to a development of graded continuous cohomology, of which this roadmap's degree-one and
-  degree-two statements are special cases.
-- Hasse–Minkowski, weak approximation for global forms, local-global isotropy and isometry, and
-  classification or realization of forms over number fields: these are
-  [`GlobalQuadraticForms`](../GlobalQuadraticForms/README.md)'s, which consumes the local
-  invariants of 6C and 6D and the product formula of 6C through their Tau Ceti declarations.
-
-**Boundaries with neighbouring roadmaps.**
-
-- [Class Field Theory](../ClassFieldTheory/README.md) owns the cohomological Kummer-cup Hilbert
-  pairing, the local invariant and Hilbert reciprocity (its Layers 5 and 14). The norm-equation
-  symbol of Layer 6C is compared with that pairing, and the dependency runs
-  `ClassFieldTheory → QuadraticFormInvariants`, never the reverse. In Tau Ceti both the comparison
-  (`TauCeti.hilbertSymbol_eq_cohomological`) and the sign form of reciprocity
-  (`TauCeti.hilbertSymbol_productFormula`) are proved from the native class field theory, and this
-  roadmap cites them under those names.
-- [Profinite Cohomology](../ProfiniteCohomology/README.md) owns continuous cohomology and its
-  operations: the carrier, the cup product, restriction, inflation, corestriction, Kummer theory
-  and the index-two Evens norm (its Layers 1, 8–10, 12 and 13). Layers 7 to 9 here add only what
-  is specific to `μ₂` and to quadratic forms.
-- [Local Fields Ramification](../../Completed/LocalFieldsRamification/README.md) owns the general
-  arithmetic of a nonarchimedean local field: the normalized valuation, the unit filtration, the
-  Teichmüller section, ramification and residue degrees, power classes and unramified extensions
-  (its Layers 0–2). Sublayer 6A defines no second valuation or filtration.
-- [Semisimple Algebras](../RepresentationTheory/SemisimpleAlgebras/README.md) owns central simple
-  algebras, Skolem–Noether, the Brauer group and splitting fields (its Layers 4–6). Layer 5 takes
-  the quaternion and Clifford cases and the 2-torsion package; Layer 7B takes the crossed-product
-  comparison. Where both roadmaps name the same fact, the semisimple-algebras statement is the
-  statement of record.
-- The [multiquadratic roadmap](../../Completed/Multiquadratic/README.md) owns multi-root towers of
-  quadratic extensions. This roadmap covers the form theory of one quadratic step; the shared
-  language is `TauCeti.SquareClassGroup`.
-- Other formalizations cover overlapping ground, including a Hasse–Minkowski development over `ℚ`
-  and a staging repository for the Brauer group. They are evidence that the statements are
-  formalizable, not prescriptions of form and not ownership claims.
+Each milestone below states what it is, which Tau Ceti declaration discharges it, and what it
+needs. `Suggested.lean` names the Tau Ceti declarations that prove the five headline theorems
+(Layers 2, 6D, 7C and twice 9), without restating them, and declares the three names that
+`OrthogonalSpinGroups` imports.
 
 ## Conventions
 
@@ -261,151 +180,6 @@ Each layer states its results against this list.
   function of classes; the Hasse invariants, `w₁` and `w₂` are descended through it.
   `QuadraticModuleCat` is the natural alternative, and this roadmap does not use it: a roadmap
   that offers two carriers makes the first implementer choose.
-
-## Exact supplier contracts
-
-- **From Mathlib.**
-  - *Quadratic and bilinear forms* (`Mathlib/LinearAlgebra/QuadraticForm/`): `QuadraticMap`,
-    `QuadraticForm`, `QuadraticMap.polar`, `QuadraticMap.associated`, `QuadraticMap.Anisotropic`,
-    `QuadraticMap.weightedSumSquares`, `QuadraticMap.Equivalent`,
-    `QuadraticForm.equivalent_weightedSumSquares` and its units version for nondegenerate forms
-    (diagonalization is done, so consume it), `QuadraticMap.prod`, the tensor product of forms with
-    `Invertible (2 : R)`, `QuadraticMap.radical` and `QuadraticMap.Nondegenerate`, and the
-    classifications over `ℝ`, over `ℂ` and over an algebraically closed field, which are the model
-    for the local classification. `LinearMap.BilinForm.Nondegenerate` and `SeparatingLeft` with
-    orthogonality.
-  - *Quaternion algebras* (`Mathlib/Algebra/Quaternion.lean`, `QuaternionBasis.lean`):
-    `QuaternionAlgebra R c₁ c₂ c₃` with the notations `ℍ[R,c₁,c₂,c₃]`, `ℍ[R,c₁,c₂]` and `ℍ[R]`;
-    `star` with `QuaternionAlgebra.mul_star_eq_coe`; `QuaternionAlgebra.Basis` and its `lift`,
-    the universal property the splitting arguments use. `normSq` and the `DivisionRing` instance
-    exist only for Hamilton's `ℍ[R]`, which is the archimedean instance `(−1,−1)_ℝ = −1`.
-  - *Rank-2 algebras* (`Mathlib/Algebra/QuadraticAlgebra/`): `QuadraticAlgebra R a b` with `star`,
-    `QuadraticAlgebra.norm`, `isUnit_iff_norm_isUnit` and the `Field` instance when
-    `X² − bX − a` has no root. `QuadraticAlgebra K a 0` is the vehicle for `K(√a)` and its norm
-    form `x² − ay²`; do not adjoin a square root by hand where this algebra serves.
-  - *Central simple algebras and Clifford algebras*: `Algebra.IsCentral`, `CSA`,
-    `IsBrauerEquivalent` and `BrauerGroup` as a quotient with no group structure
-    (`Mathlib/Algebra/BrauerGroup/Defs.lean`); the Wedderburn theory; and
-    `Mathlib/LinearAlgebra/CliffordAlgebra/`, which supplies base change, the grading, the even
-    subalgebra and the quaternion equivalences but not central simplicity.
-  - *Local fields* (`Mathlib/NumberTheory/LocalField/Basic.lean`): `IsNonarchimedeanLocalField K`
-    for a field with a `ValuativeRel` and a topology, with `IsDiscreteValuationRing 𝒪[K]`,
-    `Finite 𝓀[K]` and local compactness; `ℚ_[p]`, `ℤ_[p]` and Hensel's lemma; `legendreSym` and
-    quadratic characters.
-  - *Trace forms and cohomology*: `Algebra.traceForm` with `traceForm_nondegenerate` for a finite
-    separable extension, which makes the trace a legitimate default functional in Layer 9;
-    `continuousCohomology` (`Mathlib/RepresentationTheory/Homological/ContCohomology/Basic.lean`);
-    `SeparableClosure K` with the Krull topology.
-- **From Tau Ceti.** These are the native files and declarations each layer cites; paths are
-  under `TauCeti/`.
-
-  | Layer | Native files | Principal declarations |
-  |---|---|---|
-  | 0 | `FieldTheory/SquareClassGroup/{Basic,Multiplicative}.lean`, `LinearAlgebra/QuadraticForm/RegularFormClass/{Basic,Descent,Semiring}.lean`, `LinearAlgebra/QuadraticForm/Diagonal/`, `LinearAlgebra/QuadraticForm/{Representation,Binary}.lean` | `TauCeti.SquareClassGroup`, `TauCeti.RegularFormClass`, `TauCeti.formClass`, `TauCeti.RegularFormClass.liftDiagonal`, `TauCeti.DiagonalChain`, `QuadraticMap.unitValueSet` |
-  | 1 | `LinearAlgebra/QuadraticForm/Hyperbolic.lean`, `Witt/{Decomposition,Cancellation,Extension}.lean`, `OrthogonalGroup/Basic.lean`, `CartanDieudonne/Basic.lean` | `TauCeti.hyperbolicPlane`, `TauCeti.exists_hyperbolicPlane_prod_equivalent` |
-  | 2 | `Algebra/Quaternion/{NormForm,Split,SquareSplit,Steinberg,SymbolEquiv,AlgEquiv,SplittingCriterion,Binary}.lean` | `QuaternionAlgebra.normForm`, `TauCeti.QuaternionAlgebra.nonempty_algEquiv_matrix_tfae` |
-  | 3 | `LinearAlgebra/QuadraticForm/RegularFormClass/{Discriminant,BaseChange}.lean` | `TauCeti.RegularFormClass.discr`, `TauCeti.RegularFormClass.signedDiscr` |
-  | 4 | `LinearAlgebra/QuadraticForm/Witt/{Ring,FundamentalIdeal,Discriminant,Round}.lean`, `Witt/Pfister/` | `TauCeti.WittGrothendieckRing`, `TauCeti.WittRing`, `TauCeti.fundamentalIdeal`, `TauCeti.pfisterFormClass`, `TauCeti.oneFoldPfister_smul_equivalent_iff`, `TauCeti.twoFoldPfister_smul_equivalent_iff` |
-  | 5 | `Algebra/BrauerGroup/Group.lean`, `Algebra/Quaternion/{BrauerClass,Subgroup}.lean`, `LinearAlgebra/QuadraticForm/RegularFormClass/{Hasse/Basic,Clifford}.lean`, `LinearAlgebra/QuadraticForm/Witt/Clifford.lean` | `TauCeti.BrauerGroup.instCommGroup`, `TauCeti.BrauerGroup.quaternionClass`, `TauCeti.RegularFormClass.hasseInvariant`, `TauCeti.RegularFormClass.cliffordInvariant`, `TauCeti.cliffordHomI2` |
-  | 6 | `NumberTheory/LocalField/{Uniformizer,Squares,SquareClass}.lean`, `NumberTheory/HilbertSymbol/`, `NumberTheory/LocalField/QuadraticForm/` | `TauCeti.dyadicLevel`, `TauCeti.IsUniformizer`, `TauCeti.quadraticDefect`, `TauCeti.hilbertSymbol`, `TauCeti.hilbertSymbol_mul_right`, `TauCeti.RegularFormClass.localHasse`, `TauCeti.RegularFormClass.eq_iff_rank_eq_and_discr_eq_and_localHasse_eq`, `TauCeti.RegularFormClass.exists_of_realization`, `TauCeti.hilbertSymbol_padicTwo` |
-  | 7 | `FieldTheory/GaloisCohomology/MuTwo/`, `Algebra/CrossedProduct/`, `Algebra/CentralSimple/FiniteGalois.lean` | `TauCeti.mu2EquivZMod2`, `TauCeti.kummerClass`, `TauCeti.h2MuToUnits`, `TauCeti.brauerCohomologyEquiv`, `TauCeti.brauer2EquivH2`, `TauCeti.brauerCohomologyEquiv_uliftEquiv`, `TauCeti.cup_kummerClass_eq_zero_iff`, `TauCeti.hilbertSymbol_eq_cohomological` |
-  | 8 | `FieldTheory/QuadraticForm/StiefelWhitney/{Class,Hasse,Clifford}.lean` | `TauCeti.sw1Class`, `TauCeti.sw2Class` |
-  | 9 | `LinearAlgebra/QuadraticForm/Transfer/`, `LinearAlgebra/Matrix/PinPlusPlane/`, `FieldTheory/GaloisCohomology/EvensNorm.lean`, `FieldTheory/QuadraticForm/StiefelWhitney/{Transfer,QuadraticExtension}.lean`, `StiefelWhitney/Evens/` | `QuadraticMap.scharlauTransfer`, `QuadraticMap.traceTransfer`, `TauCeti.galoisEvens`, `TauCeti.galoisEvens2_kummerClass`, `TauCeti.sw2Class_formClass_traceTransfer_smul_sq` |
-
-  Treat these as fixed API: cite them in consuming files, and route an improvement through their
-  own review rather than duplicating them. The mod-2 operations used throughout Layers 7 to 9 are
-  Tau Ceti's `TauCeti.trivialF2TopPairing` cup on `TauCeti.AbsoluteGaloisGroup K`,
-  `TauCeti.galoisRes`, `TauCeti.galoisCor` and `TauCeti.galoisEvens` along a `K`-embedding into
-  `SeparableClosure K`, and the open subgroup `TauCeti.galoisSubgroup` of a finite extension.
-- **From TauCetiRoadmap.LocalFieldsRamification** ([Layers 0–2](../../Completed/LocalFieldsRamification/README.md)):
-  the normalized valuation, the unit filtration with its graded pieces, `natCastValuation` read at
-  `2` (so that `e = v_K(2)`), ramification and inertia degrees, the Teichmüller section, the
-  square-class counts and the unramified norm group. Its `normalizedValuation`, `unitFiltration`,
-  `natCastValuation`, `UnitFiltrationGraded`, `ramificationIndex`, `inertiaDegree`,
-  `absoluteRamificationIndex`, `teichmuller` and `normGroup` are Tau Ceti's declarations under that
-  roadmap's names. Its `LocalFieldsRamification.square_eq_range_powMonoidHom`,
-  `LocalFieldsRamification.map_norm_unitFiltration_zero` and
-  `LocalFieldsRamification.mem_normGroup_iff_dvd_normalizedValuation` are closed wrappers of Tau
-  Ceti's `TauCeti.square_eq_range_powMonoidHom`, of `TauCeti.map_normUnits_unitFiltration` at
-  depth `0` and of `TauCeti.mem_normGroup_iff_dvd_normalizedValuation`; the last two take the
-  hypothesis `ramificationIndex K L = 1` where Tau Ceti takes the instance
-  `TauCeti.IsUnramified K L`. Its `LocalFieldsRamification.card_squareClasses_dyadic` is that
-  roadmap's prototype. Sublayer 6A uses Tau Ceti's own statements of the facts it needs.
-- **From TauCetiRoadmap.ClassFieldTheory** ([Layers 5 and 14](../ClassFieldTheory/README.md)):
-  the coefficient object `μ_n`, the Kummer class, the Kummer-cup pairing, the local symbol and
-  local Tate duality (Layer 5), and Hilbert reciprocity (Layer 14). Both layers are implemented in
-  Tau Ceti and that roadmap declares no copy of them: it, and this roadmap, consume
-  `TauCeti.ClassFieldTheory.muNRep`, `TauCeti.ClassFieldTheory.kummerClass`,
-  `TauCeti.ClassFieldTheory.kummerCupPairing`, `TauCeti.ClassFieldTheory.localSymbol`,
-  `TauCeti.ClassFieldTheory.invMap`, `TauCeti.ClassFieldTheory.finiteHilbertInvariantAt` and
-  `TauCeti.ClassFieldTheory.hilbertProductFormula` under these names
-  (`TauCeti/NumberTheory/ClassFieldTheory/`, files `MuNRep.lean`, `Local/Symbol.lean`,
-  `Brauer/Invariant.lean` and `Global/Hilbert/`). That roadmap names the degree-two identification
-  `H²(F, μ_n) ≃ ZMod n` only as the characteristic-zero existence statement
-  `TauCeti.ClassFieldTheory.h2MuEquivZMod_mixed` (its Layer 5) and as the transport
-  `TauCeti.ClassFieldTheory.h2EquivZModOfMuNRepIso` to coefficients isomorphic to `μ_n` (its table
-  of names used elsewhere). The normalized equivalence on `μ_n` itself,
-  `TauCeti.ClassFieldTheory.h2MuEquivZMod`
-  (`TauCeti/NumberTheory/ClassFieldTheory/Brauer/RootsOfUnity.lean`), from which that transport is
-  defined and which 6C item 13 and 6E's second milestone use, is Tau Ceti's and is consumed from
-  Tau Ceti directly: it reads `invMap` through the Kummer coefficient map
-  `TauCeti.ClassFieldTheory.h2MuToBr` and is defined for every nonarchimedean local field
-  `F : Type` in which `n` is invertible, local fields of odd positive characteristic included. The
-  comparisons of Layers 6C and 7C and the product formula are stated on Tau Ceti's objects
-  (`TauCeti.hilbertSymbol_eq_cohomological`, `TauCeti.hilbertSymbol_productFormula`).
-- **From TauCetiRoadmap.ProfiniteCohomology** ([Layers 0–4, 8–10, 12 and 13](../ProfiniteCohomology/README.md)):
-  discrete modules, the openness of stabilizers and continuous sections of quotient maps, through
-  which Layer 7B descends a continuous cocycle to a finite Galois level (Layer 0), the canonical
-  carrier with restriction, inflation and coefficient maps (Layer 1), the explicit
-  low-degree complex and its comparison (Layers 2–3), the finite-quotient description (Layer 4),
-  low-degree cups (Layer 8), Hilbert 90 and Kummer theory (Layer 9), corestriction (Layer 10), the
-  graded cup product (Layer 12) and the index-two Evens norm with its `D₁₆` pullback formula
-  (Layer 13). Its `AbsoluteGaloisGroup`, `trivialF2`, `coeffMap`, `KummerCoeff`,
-  `kummerMapCanonical`, `UnitsCoeff`, `h2KummerToUnits`, `galoisSubgroup`, the explicit complex
-  (`Z2`, `H2`, `explicitH2IsoContinuousCohomology`), the finite-quotient colimit
-  `explicitFiniteQuotientColimit2`, `f2Pairing`, `homClass`, `inhomogeneousCochain2`,
-  `cochainClass` and `galoisF2Iso` are reducible aliases of Tau Ceti's declarations, its `cup` is
-  a definition whose value is Tau Ceti's `TauCeti.TopPairing.cup` applied to its two arguments, and
-  its `TopRep` is Mathlib's `TopRep` (`Mathlib/RepresentationTheory/Continuous/TopRep.lean`).
-  That roadmap declares no name of its own for restriction to a subgroup and inflation with
-  arbitrary coefficients, the Kummer map into the explicit `H¹`, the Kummer isomorphism, the Kummer
-  sequence, Hilbert 90, the coboundaries `B²` or the explicit `(1, 1)` cup: these are Tau Ceti's
-  `TauCeti.ContinuousCohomology.res`, `TauCeti.ContinuousCohomology.infl`, `TauCeti.kummerMap`,
-  `TauCeti.kummerIso`, `TauCeti.kummerShortExact`, `TauCeti.hilbert90`,
-  `TauCeti.ContCohomology.B2` and `TauCeti.ContCohomology.explicitCup11`. Layers 7 to 9 are stated
-  on Tau Ceti's native operations listed above, under their Tau Ceti names.
-- **From TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras**
-  ([Layers 4 and 6](../RepresentationTheory/SemisimpleAlgebras/README.md)): the tensor product of
-  central simple algebras, `A ⊗_K Aᵒᵖ ≃ₐ[K] M_n(K)`, the Brauer group as a group under `⊗_K`, and
-  splitting by a finite separable extension. The group law used here is Tau Ceti's
-  `TauCeti.BrauerGroup.instCommGroup`, the actual tensor-product law, and the finite Galois
-  splitting field is `TauCeti.Algebra.exists_finiteGalois_splittingField`.
-
-## How to read the build
-
-Layers 0 to 4 are free of cohomology and of the Brauer group. Layer 0 comes first, because
-everything diagonal rests on it; Layer 1 follows it; Layer 2 uses Layer 1 for the isotropic
-norm-form splitting argument; Layer 3 needs Layers 0 to 2, and Layer 4 needs Layers 1 to 3.
-Layer 5 adds the tensor-product Brauer group and the Brauer-valued invariants.
-
-Layer 6 first consumes the local-field substrate of 6A. The norm index of the symbol in 6C feeds
-the classification of 6D through the quadratic-field square-class identity, not through the
-defect tables of 6B; the defect and integral-basis computations of 6B precede the explicit
-symbol tables of 6C. Sublayer 6E compares the two Hasse invariants and needs Layer 5 and 6D. The
-identification of the Hasse invariant with the invariant map of local class field theory needs
-Layer 7B and Class Field Theory's Layer 5, and is stated in 6E but built after Layer 7B; likewise
-the comparison of the symbol with the cohomological pairing in 6C is built after Layer 7C.
-
-Layer 7A depends on Layer 0 and on 6A; Layer 7B on Layers 5 and 7A and on the semisimple-algebras
-roadmap's Layer 6; Layer 7C on Layers 2 and 7B, and on 6C's definition of the symbol for its
-five-fold criterion and its local identification. Layer 8 depends on Layer 7. Layer 9 splits: the
-transfer half needs Layers 1 to 4, and the relative-formula half needs Layers 7C and 8 and the
-index-two Evens norm.
-
-Each milestone below states what it is, which Tau Ceti declaration discharges it, and what it
-needs. `Suggested.lean` names the Tau Ceti declarations that prove the five headline theorems
-(Layers 2, 6D, 7C and twice 9), without restating them, and declares the three names that
-`OrthogonalSpinGroups` imports.
 
 ## Layer 0: square classes, diagonal calculus, and chain equivalence
 
@@ -2824,6 +2598,232 @@ to this one.
   7A, 7B and 9.
 - GeometryOfNumbersAndQuadraticArithmeticPartII: the Witt theory of Layer 4, the local
   classification and the Hilbert symbol of Layer 6, and the transfer of Layer 9.
+
+## Scope and ownership
+
+**What this roadmap covers.** Layers 0 to 9 below, over a base field `K` with
+`[Invertible (2 : K)]`, in mod-2 Galois cohomology of degrees one and two. Every layer is
+implemented in Tau Ceti, and the supplier contracts below name the native declaration and file
+for each one. The layers state each milestone and cite the declaration that discharges it; a
+contributor extends the native files rather than building a second copy. The five headline
+theorems are proved in Tau Ceti, so `Suggested.lean` names the declaration that proves each and does
+not restate it. It declares the three names that a roadmap on main imports from this namespace,
+`hilbertSymbol`, `localHasse` and `hasseInvariant_eq_localHasse`, which `OrthogonalSpinGroups`
+imports: a reducible alias of Tau Ceti's symbol, the pairwise product on a diagonal tuple, and a
+theorem proved from Tau Ceti.
+
+Every other name that a roadmap cites from this namespace is a Tau Ceti declaration, and this
+roadmap declares no copy of it. One line per cited name or section, old → new:
+
+- RegularFormClass → `TauCeti.RegularFormClass`;
+- formClass → `TauCeti.formClass`;
+- discr → `TauCeti.RegularFormClass.discr`, valued in the additive `TauCeti.SquareClassGroup K`
+  and read in `Kˣ ⧸ (Kˣ)²` through `TauCeti.multiplicativeSquareClassEquiv`;
+- signedDiscr → `TauCeti.RegularFormClass.signedDiscr`, read in `Kˣ ⧸ (Kˣ)²` in the same way;
+- discr_mk → `TauCeti.RegularFormClass.discr_mk`, read in `Kˣ ⧸ (Kˣ)²` through
+  `TauCeti.multiplicativeSquareClassEquiv_mk`;
+- wittRing → `TauCeti.WittRing`;
+- toWittRing → `TauCeti.WittRing.mk`;
+- hasseInvariant of a diagonal tuple → `TauCeti.RegularFormClass.hasseInvariant` of the class
+  of the tuple;
+- hilbertSymbol_neg_self → `TauCeti.hilbertSymbol_neg_self`;
+- hilbertSymbol_comm → `TauCeti.hilbertSymbol_comm`, under `[Invertible (2 : K)]`;
+- hilbertSymbol_mul → `TauCeti.hilbertSymbol_mul_right`, under `(2 : K) ≠ 0`;
+- exists_hilbertSymbol_eq_neg_one → `TauCeti.exists_hilbertSymbol_eq_neg_one`, under
+  `(2 : K) ≠ 0`;
+- hilbertSymbol_unramified → `TauCeti.hilbertSymbol_unramified`, with the unit `Δ` implicit;
+  `TauCeti.exists_unramified_class`, under `(2 : K) ≠ 0`, produces a unit satisfying its
+  hypothesis;
+- localHasse_congr → `TauCeti.RegularFormClass.localHasse_congr`, stated on the classes of the
+  two tuples; `TauCeti.RegularFormClass.localHasse_mk` turns it into the statement for
+  `localHasse` of a tuple;
+- exists_of_realization → `TauCeti.RegularFormClass.exists_of_realization`, stated on classes
+  with the discriminant in `TauCeti.SquareClassGroup K`;
+- hilbertSign → `TauCeti.hilbertSign`;
+- hilbertSymbol_productFormula → `TauCeti.hilbertSymbol_productFormula`, reciprocity for the
+  norm-equation symbols at the finite places, read in the completions, and at the real places
+  (6C, item 14); its sign form over Class Field Theory's local invariants is
+  `TauCeti.ClassFieldTheory.hilbertProductFormula` read through `TauCeti.hilbertSign`, with
+  `TauCeti.hilbertSign_add` and `TauCeti.hilbertSign_sum`;
+- hilbertSymbol_eq_cohomological → `TauCeti.hilbertSymbol_eq_cohomological`, stated over every
+  field in which `2` is invertible, for an identification `H²(G_K, μ₂) ≃+ ZMod 2` taken as an
+  argument, rather than over a nonarchimedean local field (6C, item 13);
+- serreEps → `TauCeti.serreEps`, read off `u mod 8` and stated on units `u : ℤ_[2]ˣ` rather than
+  on `ℤ_[2]` (6C, item 10);
+- serreOmega → `TauCeti.serreOmega`, read off `u mod 8` and stated on units `u : ℤ_[2]ˣ` rather
+  than on `ℤ_[2]` (6C, item 10);
+- the section "Native interfaces and remaining comparisons", stages 1 and 2 (finite descent of
+  continuous cocycles, and the Brauer comparison in every universe) → Layer 7B, items 2.8, 3
+  and 5.
+
+**Excluded.** The exclusions are deliberate, and a separate roadmap for any of them is welcome.
+
+- The characteristic-2 theory of quadratic and bilinear forms, that is the Arf invariant and
+  quasilinear forms. EKM Ch. II (totally singular forms, §10, p. 55; the Arf invariant, §13,
+  p. 62) records how different that theory is, and every statement here assumes `2` invertible.
+- The deep theory of Pfister forms: function-field methods, the Arason–Pfister Hauptsatz, the
+  Milnor conjecture, the norm-residue theorem, and each classification statement that rests on
+  them. Pfister forms in every degree, and the elementary generation statements for `I`, `I²` and
+  `I³` that Layer 5 consumes, are in scope.
+- The cohomological invariant theory of Garibaldi–Merkurjev–Serre beyond Stiefel–Whitney classes.
+- Graded mod-2 Galois cohomology in every degree. Layers 7 to 9 work in degrees `1` and `2`, which
+  is what the Brauer comparison, the Hasse and Clifford comparisons, and the relative
+  Stiefel–Whitney formula for a quadratic extension need. The total Stiefel–Whitney class, the
+  Evens norm in every degree, and Kahn's Théorème 2 for an arbitrary finite separable extension
+  belong to a development of graded continuous cohomology, of which this roadmap's degree-one and
+  degree-two statements are special cases.
+- Hasse–Minkowski, weak approximation for global forms, local-global isotropy and isometry, and
+  classification or realization of forms over number fields: these are
+  [`GlobalQuadraticForms`](../GlobalQuadraticForms/README.md)'s, which consumes the local
+  invariants of 6C and 6D and the product formula of 6C through their Tau Ceti declarations.
+
+**Boundaries with neighbouring roadmaps.**
+
+- [Class Field Theory](../ClassFieldTheory/README.md) owns the cohomological Kummer-cup Hilbert
+  pairing, the local invariant and Hilbert reciprocity (its Layers 5 and 14). The norm-equation
+  symbol of Layer 6C is compared with that pairing, and the dependency runs
+  `ClassFieldTheory → QuadraticFormInvariants`, never the reverse. In Tau Ceti both the comparison
+  (`TauCeti.hilbertSymbol_eq_cohomological`) and the sign form of reciprocity
+  (`TauCeti.hilbertSymbol_productFormula`) are proved from the native class field theory, and this
+  roadmap cites them under those names.
+- [Profinite Cohomology](../ProfiniteCohomology/README.md) owns continuous cohomology and its
+  operations: the carrier, the cup product, restriction, inflation, corestriction, Kummer theory
+  and the index-two Evens norm (its Layers 1, 8–10, 12 and 13). Layers 7 to 9 here add only what
+  is specific to `μ₂` and to quadratic forms.
+- [Local Fields Ramification](../../Completed/LocalFieldsRamification/README.md) owns the general
+  arithmetic of a nonarchimedean local field: the normalized valuation, the unit filtration, the
+  Teichmüller section, ramification and residue degrees, power classes and unramified extensions
+  (its Layers 0–2). Sublayer 6A defines no second valuation or filtration.
+- [Semisimple Algebras](../RepresentationTheory/SemisimpleAlgebras/README.md) owns central simple
+  algebras, Skolem–Noether, the Brauer group and splitting fields (its Layers 4–6). Layer 5 takes
+  the quaternion and Clifford cases and the 2-torsion package; Layer 7B takes the crossed-product
+  comparison. Where both roadmaps name the same fact, the semisimple-algebras statement is the
+  statement of record.
+- The [multiquadratic roadmap](../../Completed/Multiquadratic/README.md) owns multi-root towers of
+  quadratic extensions. This roadmap covers the form theory of one quadratic step; the shared
+  language is `TauCeti.SquareClassGroup`.
+- Other formalizations cover overlapping ground, including a Hasse–Minkowski development over `ℚ`
+  and a staging repository for the Brauer group. They are evidence that the statements are
+  formalizable, not prescriptions of form and not ownership claims.
+
+## Exact supplier contracts
+
+- **From Mathlib.**
+  - *Quadratic and bilinear forms* (`Mathlib/LinearAlgebra/QuadraticForm/`): `QuadraticMap`,
+    `QuadraticForm`, `QuadraticMap.polar`, `QuadraticMap.associated`, `QuadraticMap.Anisotropic`,
+    `QuadraticMap.weightedSumSquares`, `QuadraticMap.Equivalent`,
+    `QuadraticForm.equivalent_weightedSumSquares` and its units version for nondegenerate forms
+    (diagonalization is done, so consume it), `QuadraticMap.prod`, the tensor product of forms with
+    `Invertible (2 : R)`, `QuadraticMap.radical` and `QuadraticMap.Nondegenerate`, and the
+    classifications over `ℝ`, over `ℂ` and over an algebraically closed field, which are the model
+    for the local classification. `LinearMap.BilinForm.Nondegenerate` and `SeparatingLeft` with
+    orthogonality.
+  - *Quaternion algebras* (`Mathlib/Algebra/Quaternion.lean`, `QuaternionBasis.lean`):
+    `QuaternionAlgebra R c₁ c₂ c₃` with the notations `ℍ[R,c₁,c₂,c₃]`, `ℍ[R,c₁,c₂]` and `ℍ[R]`;
+    `star` with `QuaternionAlgebra.mul_star_eq_coe`; `QuaternionAlgebra.Basis` and its `lift`,
+    the universal property the splitting arguments use. `normSq` and the `DivisionRing` instance
+    exist only for Hamilton's `ℍ[R]`, which is the archimedean instance `(−1,−1)_ℝ = −1`.
+  - *Rank-2 algebras* (`Mathlib/Algebra/QuadraticAlgebra/`): `QuadraticAlgebra R a b` with `star`,
+    `QuadraticAlgebra.norm`, `isUnit_iff_norm_isUnit` and the `Field` instance when
+    `X² − bX − a` has no root. `QuadraticAlgebra K a 0` is the vehicle for `K(√a)` and its norm
+    form `x² − ay²`; do not adjoin a square root by hand where this algebra serves.
+  - *Central simple algebras and Clifford algebras*: `Algebra.IsCentral`, `CSA`,
+    `IsBrauerEquivalent` and `BrauerGroup` as a quotient with no group structure
+    (`Mathlib/Algebra/BrauerGroup/Defs.lean`); the Wedderburn theory; and
+    `Mathlib/LinearAlgebra/CliffordAlgebra/`, which supplies base change, the grading, the even
+    subalgebra and the quaternion equivalences but not central simplicity.
+  - *Local fields* (`Mathlib/NumberTheory/LocalField/Basic.lean`): `IsNonarchimedeanLocalField K`
+    for a field with a `ValuativeRel` and a topology, with `IsDiscreteValuationRing 𝒪[K]`,
+    `Finite 𝓀[K]` and local compactness; `ℚ_[p]`, `ℤ_[p]` and Hensel's lemma; `legendreSym` and
+    quadratic characters.
+  - *Trace forms and cohomology*: `Algebra.traceForm` with `traceForm_nondegenerate` for a finite
+    separable extension, which makes the trace a legitimate default functional in Layer 9;
+    `continuousCohomology` (`Mathlib/RepresentationTheory/Homological/ContCohomology/Basic.lean`);
+    `SeparableClosure K` with the Krull topology.
+- **From Tau Ceti.** These are the native files and declarations each layer cites; paths are
+  under `TauCeti/`.
+
+  | Layer | Native files | Principal declarations |
+  |---|---|---|
+  | 0 | `FieldTheory/SquareClassGroup/{Basic,Multiplicative}.lean`, `LinearAlgebra/QuadraticForm/RegularFormClass/{Basic,Descent,Semiring}.lean`, `LinearAlgebra/QuadraticForm/Diagonal/`, `LinearAlgebra/QuadraticForm/{Representation,Binary}.lean` | `TauCeti.SquareClassGroup`, `TauCeti.RegularFormClass`, `TauCeti.formClass`, `TauCeti.RegularFormClass.liftDiagonal`, `TauCeti.DiagonalChain`, `QuadraticMap.unitValueSet` |
+  | 1 | `LinearAlgebra/QuadraticForm/Hyperbolic.lean`, `Witt/{Decomposition,Cancellation,Extension}.lean`, `OrthogonalGroup/Basic.lean`, `CartanDieudonne/Basic.lean` | `TauCeti.hyperbolicPlane`, `TauCeti.exists_hyperbolicPlane_prod_equivalent` |
+  | 2 | `Algebra/Quaternion/{NormForm,Split,SquareSplit,Steinberg,SymbolEquiv,AlgEquiv,SplittingCriterion,Binary}.lean` | `QuaternionAlgebra.normForm`, `TauCeti.QuaternionAlgebra.nonempty_algEquiv_matrix_tfae` |
+  | 3 | `LinearAlgebra/QuadraticForm/RegularFormClass/{Discriminant,BaseChange}.lean` | `TauCeti.RegularFormClass.discr`, `TauCeti.RegularFormClass.signedDiscr` |
+  | 4 | `LinearAlgebra/QuadraticForm/Witt/{Ring,FundamentalIdeal,Discriminant,Round}.lean`, `Witt/Pfister/` | `TauCeti.WittGrothendieckRing`, `TauCeti.WittRing`, `TauCeti.fundamentalIdeal`, `TauCeti.pfisterFormClass`, `TauCeti.oneFoldPfister_smul_equivalent_iff`, `TauCeti.twoFoldPfister_smul_equivalent_iff` |
+  | 5 | `Algebra/BrauerGroup/Group.lean`, `Algebra/Quaternion/{BrauerClass,Subgroup}.lean`, `LinearAlgebra/QuadraticForm/RegularFormClass/{Hasse/Basic,Clifford}.lean`, `LinearAlgebra/QuadraticForm/Witt/Clifford.lean` | `TauCeti.BrauerGroup.instCommGroup`, `TauCeti.BrauerGroup.quaternionClass`, `TauCeti.RegularFormClass.hasseInvariant`, `TauCeti.RegularFormClass.cliffordInvariant`, `TauCeti.cliffordHomI2` |
+  | 6 | `NumberTheory/LocalField/{Uniformizer,Squares,SquareClass}.lean`, `NumberTheory/HilbertSymbol/`, `NumberTheory/LocalField/QuadraticForm/` | `TauCeti.dyadicLevel`, `TauCeti.IsUniformizer`, `TauCeti.quadraticDefect`, `TauCeti.hilbertSymbol`, `TauCeti.hilbertSymbol_mul_right`, `TauCeti.RegularFormClass.localHasse`, `TauCeti.RegularFormClass.eq_iff_rank_eq_and_discr_eq_and_localHasse_eq`, `TauCeti.RegularFormClass.exists_of_realization`, `TauCeti.hilbertSymbol_padicTwo` |
+  | 7 | `FieldTheory/GaloisCohomology/MuTwo/`, `Algebra/CrossedProduct/`, `Algebra/CentralSimple/FiniteGalois.lean` | `TauCeti.mu2EquivZMod2`, `TauCeti.kummerClass`, `TauCeti.h2MuToUnits`, `TauCeti.brauerCohomologyEquiv`, `TauCeti.brauer2EquivH2`, `TauCeti.brauerCohomologyEquiv_uliftEquiv`, `TauCeti.cup_kummerClass_eq_zero_iff`, `TauCeti.hilbertSymbol_eq_cohomological` |
+  | 8 | `FieldTheory/QuadraticForm/StiefelWhitney/{Class,Hasse,Clifford}.lean` | `TauCeti.sw1Class`, `TauCeti.sw2Class` |
+  | 9 | `LinearAlgebra/QuadraticForm/Transfer/`, `LinearAlgebra/Matrix/PinPlusPlane/`, `FieldTheory/GaloisCohomology/EvensNorm.lean`, `FieldTheory/QuadraticForm/StiefelWhitney/{Transfer,QuadraticExtension}.lean`, `StiefelWhitney/Evens/` | `QuadraticMap.scharlauTransfer`, `QuadraticMap.traceTransfer`, `TauCeti.galoisEvens`, `TauCeti.galoisEvens2_kummerClass`, `TauCeti.sw2Class_formClass_traceTransfer_smul_sq` |
+
+  Treat these as fixed API: cite them in consuming files, and route an improvement through their
+  own review rather than duplicating them. The mod-2 operations used throughout Layers 7 to 9 are
+  Tau Ceti's `TauCeti.trivialF2TopPairing` cup on `TauCeti.AbsoluteGaloisGroup K`,
+  `TauCeti.galoisRes`, `TauCeti.galoisCor` and `TauCeti.galoisEvens` along a `K`-embedding into
+  `SeparableClosure K`, and the open subgroup `TauCeti.galoisSubgroup` of a finite extension.
+- **From TauCetiRoadmap.LocalFieldsRamification** ([Layers 0–2](../../Completed/LocalFieldsRamification/README.md)):
+  the normalized valuation, the unit filtration with its graded pieces, `natCastValuation` read at
+  `2` (so that `e = v_K(2)`), ramification and inertia degrees, the Teichmüller section, the
+  square-class counts and the unramified norm group. Its `normalizedValuation`, `unitFiltration`,
+  `natCastValuation`, `UnitFiltrationGraded`, `ramificationIndex`, `inertiaDegree`,
+  `absoluteRamificationIndex`, `teichmuller` and `normGroup` are Tau Ceti's declarations under that
+  roadmap's names. Its `LocalFieldsRamification.square_eq_range_powMonoidHom`,
+  `LocalFieldsRamification.map_norm_unitFiltration_zero` and
+  `LocalFieldsRamification.mem_normGroup_iff_dvd_normalizedValuation` are closed wrappers of Tau
+  Ceti's `TauCeti.square_eq_range_powMonoidHom`, of `TauCeti.map_normUnits_unitFiltration` at
+  depth `0` and of `TauCeti.mem_normGroup_iff_dvd_normalizedValuation`; the last two take the
+  hypothesis `ramificationIndex K L = 1` where Tau Ceti takes the instance
+  `TauCeti.IsUnramified K L`. Its `LocalFieldsRamification.card_squareClasses_dyadic` is that
+  roadmap's prototype. Sublayer 6A uses Tau Ceti's own statements of the facts it needs.
+- **From TauCetiRoadmap.ClassFieldTheory** ([Layers 5 and 14](../ClassFieldTheory/README.md)):
+  the coefficient object `μ_n`, the Kummer class, the Kummer-cup pairing, the local symbol and
+  local Tate duality (Layer 5), and Hilbert reciprocity (Layer 14). Both layers are implemented in
+  Tau Ceti and that roadmap declares no copy of them: it, and this roadmap, consume
+  `TauCeti.ClassFieldTheory.muNRep`, `TauCeti.ClassFieldTheory.kummerClass`,
+  `TauCeti.ClassFieldTheory.kummerCupPairing`, `TauCeti.ClassFieldTheory.localSymbol`,
+  `TauCeti.ClassFieldTheory.invMap`, `TauCeti.ClassFieldTheory.finiteHilbertInvariantAt` and
+  `TauCeti.ClassFieldTheory.hilbertProductFormula` under these names
+  (`TauCeti/NumberTheory/ClassFieldTheory/`, files `MuNRep.lean`, `Local/Symbol.lean`,
+  `Brauer/Invariant.lean` and `Global/Hilbert/`). That roadmap names the degree-two identification
+  `H²(F, μ_n) ≃ ZMod n` only as the characteristic-zero existence statement
+  `TauCeti.ClassFieldTheory.h2MuEquivZMod_mixed` (its Layer 5) and as the transport
+  `TauCeti.ClassFieldTheory.h2EquivZModOfMuNRepIso` to coefficients isomorphic to `μ_n` (its table
+  of names used elsewhere). The normalized equivalence on `μ_n` itself,
+  `TauCeti.ClassFieldTheory.h2MuEquivZMod`
+  (`TauCeti/NumberTheory/ClassFieldTheory/Brauer/RootsOfUnity.lean`), from which that transport is
+  defined and which 6C item 13 and 6E's second milestone use, is Tau Ceti's and is consumed from
+  Tau Ceti directly: it reads `invMap` through the Kummer coefficient map
+  `TauCeti.ClassFieldTheory.h2MuToBr` and is defined for every nonarchimedean local field
+  `F : Type` in which `n` is invertible, local fields of odd positive characteristic included. The
+  comparisons of Layers 6C and 7C and the product formula are stated on Tau Ceti's objects
+  (`TauCeti.hilbertSymbol_eq_cohomological`, `TauCeti.hilbertSymbol_productFormula`).
+- **From TauCetiRoadmap.ProfiniteCohomology** ([Layers 0–4, 8–10, 12 and 13](../ProfiniteCohomology/README.md)):
+  discrete modules, the openness of stabilizers and continuous sections of quotient maps, through
+  which Layer 7B descends a continuous cocycle to a finite Galois level (Layer 0), the canonical
+  carrier with restriction, inflation and coefficient maps (Layer 1), the explicit
+  low-degree complex and its comparison (Layers 2–3), the finite-quotient description (Layer 4),
+  low-degree cups (Layer 8), Hilbert 90 and Kummer theory (Layer 9), corestriction (Layer 10), the
+  graded cup product (Layer 12) and the index-two Evens norm with its `D₁₆` pullback formula
+  (Layer 13). Its `AbsoluteGaloisGroup`, `trivialF2`, `coeffMap`, `KummerCoeff`,
+  `kummerMapCanonical`, `UnitsCoeff`, `h2KummerToUnits`, `galoisSubgroup`, the explicit complex
+  (`Z2`, `H2`, `explicitH2IsoContinuousCohomology`), the finite-quotient colimit
+  `explicitFiniteQuotientColimit2`, `f2Pairing`, `homClass`, `inhomogeneousCochain2`,
+  `cochainClass` and `galoisF2Iso` are reducible aliases of Tau Ceti's declarations, its `cup` is
+  a definition whose value is Tau Ceti's `TauCeti.TopPairing.cup` applied to its two arguments, and
+  its `TopRep` is Mathlib's `TopRep` (`Mathlib/RepresentationTheory/Continuous/TopRep.lean`).
+  That roadmap declares no name of its own for restriction to a subgroup and inflation with
+  arbitrary coefficients, the Kummer map into the explicit `H¹`, the Kummer isomorphism, the Kummer
+  sequence, Hilbert 90, the coboundaries `B²` or the explicit `(1, 1)` cup: these are Tau Ceti's
+  `TauCeti.ContinuousCohomology.res`, `TauCeti.ContinuousCohomology.infl`, `TauCeti.kummerMap`,
+  `TauCeti.kummerIso`, `TauCeti.kummerShortExact`, `TauCeti.hilbert90`,
+  `TauCeti.ContCohomology.B2` and `TauCeti.ContCohomology.explicitCup11`. Layers 7 to 9 are stated
+  on Tau Ceti's native operations listed above, under their Tau Ceti names.
+- **From TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras**
+  ([Layers 4 and 6](../RepresentationTheory/SemisimpleAlgebras/README.md)): the tensor product of
+  central simple algebras, `A ⊗_K Aᵒᵖ ≃ₐ[K] M_n(K)`, the Brauer group as a group under `⊗_K`, and
+  splitting by a finite separable extension. The group law used here is Tau Ceti's
+  `TauCeti.BrauerGroup.instCommGroup`, the actual tensor-product law, and the finite Galois
+  splitting field is `TauCeti.Algebra.exists_finiteGalois_splittingField`.
 
 ## References
 
