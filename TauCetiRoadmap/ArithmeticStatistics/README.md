@@ -1,10 +1,16 @@
 # Roadmap: arithmetic statistics, counting fields and Selmer distributions
 
-**Summary.** Build finite-height arithmetic families and integral orbit dictionaries, prove uniform counting and sieve estimates, then compute field densities, class-group moments and Selmer averages. Compare the arithmetic results with precisely specified finite-group, quadratic-intersection and geometric probability laws. The work is carried out in the eight parts ArithmeticStatisticsPartI–ArithmeticStatisticsPartVIII listed below.
+**Summary.** Arithmetic statistics studies arithmetic objects in families rather than one at a time. The members of a family are ordered by a height, and one asks how they are distributed. With what density do fields of a given kind occur? How do their class groups behave on average? How do Selmer groups behave on average across a family?
 
-## How to read the build
+This series of roadmaps develops that subject in Lean. It builds finite-height arithmetic families and integral orbit dictionaries, and it proves uniform counting and sieve estimates. From these it computes field densities, moments of class groups and averages of Selmer groups. The arithmetic results are then compared with precisely specified probability laws. These laws are of three kinds: laws on finite groups, quadratic-intersection laws and geometric laws.
 
-Read Parts I–III for families, orbit dictionaries and uniform counts. Part IV supplies finite-group probability and moment tools before Part V applies them to field and class-group statistics. Part VI computes Selmer averages. Part VII builds quadratic probability models and their conditional twist consequences. Part VIII proves the geometric and function-field comparisons.
+This page is the entry point of the series and states no theorem of its own. The work is carried out in eight roadmaps, [ArithmeticStatisticsPartI](../ArithmeticStatisticsPartI/README.md) to [ArithmeticStatisticsPartVIII](../ArithmeticStatisticsPartVIII/README.md), which sit beside this one in Tau Ceti. The headline theorems of the series are those of the parts. This page uses no object from them; it only arranges them. Each part's README states its targets, its conventions and its references, and each part states its headline theorems in Lean.
+
+The first three parts set up the families and the means of counting them. Part I treats the families themselves, with their heights and their local specifications, the conditions a family imposes one place at a time. Part II builds the integral orbit dictionaries. These describe the arithmetic objects through integral orbits, orbits of a group action defined over the integers. Part III proves uniform counts of such orbits, together with sieves.
+
+The next three parts turn to probability and to the arithmetic results. Part IV provides the probabilistic tools: probability on finite groups, matrix laws and tools for computing moments. Part V then applies these tools to statistics of fields and of their class groups. Part VI computes Selmer averages, together with arithmetic applications.
+
+The last two parts concern the quadratic and the geometric models. Part VII builds quadratic probability models, and it derives from them consequences for twists that are conditional. Part VIII proves the geometric and function-field comparisons. Its subject is distributions over function fields and statistics of a geometric kind.
 
 ## Scope and ownership
 
