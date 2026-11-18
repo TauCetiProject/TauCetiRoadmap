@@ -27,152 +27,30 @@ Suggested home: `TauCeti/NumberTheory/QuasiRiemann/`, divided into `ZeroFree/`, 
 `CubicReflection/`, `Probe/` and `Consequences/`. [`Suggested.lean`](Suggested.lean) states the
 headline theorems against the pinned libraries; it is not the roadmap.
 
-## Scope and ownership
+## How to read the build
 
-**The sources.** The `11/12` half-plane is `openai2026quasiRH` Theorem 3.1, an unrefereed
-preprint; `liu2026improved` §§3–6 gives a second account of the same argument and
-`openai2026quasiRHalt` a second proof by a mean square of sextic-twisted Möbius sums. Every
-numerical constant of Layer 10 is a closed-form rational inequality stated with its target.
-
-### Owned here
-
-- the germ-level predicate *zero-free right of `σ`*, the zero abscissa `β*` of a family, the
-  continuation principle for an abstract family of Euler products and the choice of the height
-  exponent before the decay order (Layer 1);
-- the fixed-numerator theorem over every number field containing `μ_n`, the primary
-  normalization `c ≡ 1 (mod 3)` of `ℤ[ω]` and its translation to Tau Ceti's, the sextic symbol at
-  composite moduli, cubic reciprocity for coprime composite primary elements and its supplements
-  (Layer 2);
-- profiles with compact logarithmic support, their seminorms and separation norms, the Gaussian
-  Mellin weight, finite
-  seminorm bounds for Fourier and Mellin kernels, the self-dual normalization of `ℤ[ω]` and Poisson
-  summation on its cosets (Layer 3); AnalyticNumberTheoryPartIII §9.2 bounds the Mellin transform of
-  one compactly supported bump with a constant depending on the bump, and §3.2 here is the form with
-  explicit seminorms, uniform over families of profiles and allowing Schwartz decay at `∞`;
-- Gauss sums modulo ideals of a number field containing `μ_n` for the powers of the power residue
-  symbol, which in general are not residue characters of Hecke characters (`χ_p³(−1) = −1` at
-  `p = 1 + 3ω`),
-  and their twisted multiplicativity, the Gauss sums of the sextic symbol at primes of `ℤ[ω]`, the
-  closed form of the quadratic Gauss sum `Γ(c)`, sextic reciprocity with its phases `R` and `G`, the
-  Gauss sums at squarefree moduli and finite Fourier expansions on ray class groups (Layer 4);
-- finite Euler products at the primes of a squarefree ideal, the strip bound `(Q (3 + |t|)^d)^(3/5)`
-  (the instance of ExplicitZetaBounds §3.2 at the Hecke records, with the pole of `ζ_K` cleared) and
-  bounds for `L`, `1/L` and `L'/L` in a zero-free disc for the finite-order Hecke `L`-functions of any
-  number field, the norm-composed characters of an abelian field, the `S`-deleted base-change
-  factorization over an abelian `K` (AnalyticNumberTheoryPartI §2.18a's induction identity for the
-  restriction `σ` of `χ` to `Gal(ℚ̄/K)`, split by `Ind σ = ⊕_{ψ ∈ X(K)} χψ` and read on
-  `heckeLFunctionC` and Mathlib's Dirichlet `L`-functions) and the transfer of zero-free half-planes
-  to Dirichlet `L`-functions (Layer 5); LFunctions Layer 4 factors
-  `ζ_K` itself over quadratic and cyclotomic `K`, and §5.4 here is the factorization of the twist by
-  `χ ∘ N_{K/ℚ}` over every abelian `K`;
-- large sieves over number fields: the additive large sieve on a torus `ℝ^d/Λ`, the quadratic large
-  sieve over a number field, the Fisher–Friedberg characters and the large sieve for `n`-th order
-  characters, and its cubic and sextic residue-symbol forms over `ℤ[ω]` (Layer 6);
-- zero detection for finite-order Hecke `L`-functions: zero-free rectangles with a margin, chosen by
-  pigeonhole, upper bounds for the detecting polynomials in them, and the lower bounds that a zero
-  forces on those polynomials (Layer 7);
-- Patterson's character `κ_P` of `Γ₂ ⊂ SL₂(𝓞_F)`, the cusps and cusp stabilizers of a discrete
-  subgroup of `SL₂(ℂ)` of finite type, automorphic functions on `ℍ³` with a unitary character, their
-  Eisenstein series, continuation and functional equations, the theta functions as residues, the
-  Gauss-sum Dirichlet series of the Kubota Eisenstein coefficients, Patterson's converse theorem and
-  the cubic theta function of `ℚ(ω)` with its expansions at three cusps (Layer 8);
-- the reflection of the completed Gauss-sum series through the cubic theta function, and their mean
-  square over the frequencies (Layer 9);
-- the probe at `11/12` and the `11/12` half-plane (Layer 10);
-- the zero strip, the conditional bound for least character values and the least quadratic
-  nonresidue (Layer 11).
-
-### Consumed, not redefined
-
-- Dirichlet `L`-functions and their completions and functional equations: Mathlib
-  `DirichletCharacter.LFunction`, `DirichletCharacter.completedLFunction`; the finite-order Hecke
-  `L`-function of a presented ray class character, its primitive comparison and Euler correction:
-  Tau Ceti `TauCeti.LFunctions.heckeLFunctionC`, `PrimitiveRayClassCharacter`,
-  `RayClassCharacter.eulerCorrection`; their continuation, functional equation with root number of
-  modulus one and, for a nontrivial primitive character, nonvanishing on `Re s = 1`:
-  [LFunctions](../LFunctions/README.md) Layers 4, 5 and 7.
-- The continued `L`-function of a record and its value at the Hecke records, finite order of the
-  completed Hecke functions, local zero counts, the Weil explicit formula for the two families and
-  the prime ideal theorem: [ZerosOfLFunctions](../ZerosOfLFunctions/README.md) §§1.6, 3.1,
-  4.4–4.5, 8.4–8.6.
-- Rademacher's convexity bound on records of finite-order type:
-  [ExplicitZetaBounds](../ExplicitZetaBounds/README.md) §3.2; §5.2 here is its instance at the
-  Hecke records `heckeData ψ`, written in `Q (3 + |t|)^d` with the pole of `ζ_K` cleared.
-- The `n`-th power residue symbol at primes and ideals, the Frobenius action on `n`-th roots,
-  primary associates, prime cubic reciprocity and the supplement at `1 − ω`:
-  [ClassicalArithmeticCompletion](../ClassicalArithmeticCompletion/README.md)
-  §§1.12, 1.23, 1.33, 1.34, 1.38, 1.72, 1.75, as Tau Ceti realizes them
-  (`Ideal.powerResidueSymbol`, `Ideal.powerResidueSymbolIdeal`,
-  `TauCeti.IsPrimaryEisenstein.cubic_reciprocity`).
-- Mennicke symbols, Kubota's homomorphism `σ ↦ [b/a]` on `GL₂(A, I)` over a Dedekind domain, the
-  exponent `r(I)` and the power-residue Mennicke symbol `[b/a] = (b/a)_{r(I)}` of a totally imaginary
-  field: [KTheoryLowDegrees](../KTheoryLowDegrees/README.md) §§10.1–10.2, 11.1–11.2; §8.1 here reads
-  Kubota's normalization `(c/d)_n` as its `r(N)/n`-th power.
-- Global Artin reciprocity and ray class fields: [ClassFieldTheory](../ClassFieldTheory/README.md)
-  Layers 11 and 13. Moduli, ray class groups and characters, conductors: Tau Ceti
-  `TauCeti.GlobalNumberFields` ([GlobalNumberFields](../../Completed/GlobalNumberFields/README.md)
-  Layers 2 and 9).
-- Gauss sums over a finite ring: Mathlib `gaussSum`; their absolute value `√q` over a finite field:
-  Tau Ceti `TauCeti.norm_gaussSum`; the quadratic and small-order Gauss sums and the duplication
-  formula: CharacterSumsOverFiniteFields §§1.4–1.5 and §3.4. The Gauss sum of the
-  residue character of a finite-order Hecke character modulo an ideal, for the character
-  `x ↦ e^(2πi Tr(xy))` with `y ∈ 𝔪₀⁻¹𝔡⁻¹`, its shift law and its absolute value:
-  [LFunctions](../LFunctions/README.md) Layer 5 (`gaussSum`, `gaussSum_mul`, `norm_gaussSum`).
-- Poisson summation for a full-rank lattice: [ThetaSeries](../ThetaSeries/README.md) Layer 1 (1A).
-- The count of the ideals of a ray class with norm at most `x`, with main term a multiple of the
-  residue of `ζ_K` and error `O(x^(1 − 1/[K : ℚ]))`: Tau Ceti
-  `TauCeti.GlobalNumberFields.isBigO_rayClassIdealCountingFunction_sub`; the residue itself:
-  Mathlib `NumberField.Ideal.tendsto_norm_le_div_atTop`. §3.5 reads the ideal count of `ℤ[ω]` off
-  them.
-- The Möbius action of `SL₂(ℂ)` on `ℍ³`, discrete and cofinite subgroups, fundamental domains and
-  Dirichlet domains: KleinianGroups Layers 0–2. Bianchi groups, the hyperbolic quotient and the cusps
-  of a subgroup of `GL₂(K)`: BianchiModularForms §§0.3–0.4; §8.2 here defines the cusps of every
-  discrete subgroup of `SL₂(ℂ)` and agrees with §0.4 on the finite-index subgroups of `SL₂(𝓞_K)`. The
-  Laplacian on `ℍ³`: MaassForms §7.1. MaassForms §7.3 states the Fourier–Bessel expansion for
-  `PSL₂(ℤ[i])` with trivial character; §8.2 here is the expansion for a `Γ` of finite type with a
-  unitary character at an essential cusp, and agrees with it under `μ = n/2`. The `K`-Bessel function:
-  [AutomorphicFormsOnReductiveGroups](../AutomorphicFormsOnReductiveGroups/README.md) §4.5;
-  analytic Fredholm continuation: AutomorphicSpectralTheory §0.16.
-- The least quadratic nonresidue `SieveApplications.leastNonresidue`:
-  [SieveMethodsAndPrimePatterns](../SieveMethodsAndPrimePatterns/README.md) §2.9.
-- Carathéodory's derivative inequality: [AnalyticNumberTheoryPartIII](../AnalyticNumberTheoryPartIII/README.md)
-  §8.2.
-- The characters of an abelian field: for `K ⊆ ℚ(ζ_f)` abelian over `ℚ`, the primitive characters
-  inducing the `[K : ℚ]` Dirichlet characters modulo `f` trivial on the subgroup of `(ℤ/f)ˣ` fixing
-  `K`, with `ζ_K(s) = ∏ L(s, χ*)`: [AnalyticNumberTheoryPartI](../AnalyticNumberTheoryPartI/README.md)
-  §2.42. §5.4 here calls this set `X(K)` and twists it by `χ ∘ N_{K/ℚ}`. Artin induction at every
-  finite place and the one-dimensional comparison with primitive Hecke `L`-functions:
-  AnalyticNumberTheoryPartI §2.18a.
-
-### Not owned here
-
-- The `7/8` half-plane and its proof (`openai2026quasiRH` Part II, Sections 12–20): a second probe
-  for the continuation principle of §1.3 at `(σ₀, C) = (7/8, s − 11/16)`, with the bound
-  `|J_η| ≪ Z^(C(σ₀)+ω)` and the comparison with `f_η` that §1.3 asks of it; the Gauss sums of the
-  sextic symbol modulo prime powers and the complete correlation sums of two sextic symbols (its
-  Lemmas 13.2–13.4); a mean-value bound for a bilinear form in quadratic and cubic residue symbols
-  (its Lemma 14.2); Poisson summation for a primitive finite-order character over the elements prime
-  to a fixed ideal (its Lemma 17.5); the strip `1/8 ≤ Re ρ ≤ 7/8` and the Landau–Siegel constant
-  `(log 3)/8`: QuasiRiemannHypothesisPartII, which takes Layers 1–10 here as its base.
-- Uniform exclusion of Landau–Siegel zeros with its own proof and constant:
-  [AnalyticNumberTheoryPartI](../AnalyticNumberTheoryPartI/README.md) §0.34, which keeps its
-  statement; §10.7 here implies a stronger bound and is not its supplier.
-- The generalized Riemann hypothesis as a predicate: ZerosOfLFunctions Layer 9 and
-  AnalyticNumberTheoryPartI §1.6.
-- Large sieves over `ℚ`: SieveMethodsAndPrimePatterns §§2.2, 2.3, 2.7, 2.9 and
-  AnalyticNumberTheoryPartII §5.29, which keep their statements; §§6.1–6.2 here are the
-  number-field generalizations, and at `K = ℚ` §6.2 is implied by AnalyticNumberTheoryPartII §5.29.
-- Theta functions and Eisenstein series with a Kubota character on `(ℍ³)^r` for totally imaginary
-  fields of degree `2r > 2`: forms with a Kubota character are not automorphic forms of a reductive
-  group, so their continuation is outside AutomorphicSpectralTheory §§1.15a–1.15c (Eisenstein series
-  of connected reductive groups), and no roadmap plans it; this roadmap reads the Kubota character
-  for every totally imaginary `K ⊇ μ_n` off KTheoryLowDegrees §§10.2 and 11.2 (§8.1) and states the
-  analysis on `ℍ³` (imaginary quadratic `K`), which is all the cubic theta function needs.
-- Consequences for the counting of primes (`ψ(x) − x ≪ x^(11/12+ε)`, power savings in ray classes
-  and abelian Chebotarev over `F`, `N(σ, T, χ) = 0` for `σ > 11/12`): Part IIs of
-  ExplicitPrimeCounting, AnalyticNumberTheoryPartIII and ZerosOfLFunctions (Downstream consumers).
-- Deterministic square roots modulo `p`: the algorithmic clause of `openai2026quasiRH`
-  Corollary 1.2 is background for §11.3, not a target.
+Layer 1 is pure complex analysis and fixes what a zero-free half-plane is and how two estimates
+for one average continue a reciprocal across the rightmost zeros. Layers 2–4 are the arithmetic
+and harmonic-analytic substrate: symbols at composite moduli of `ℤ[ω]` and their general forms
+over fields containing `μ_n` (Layer 2), smooth Mellin and Fourier kernels and the self-dual lattice
+`ℤ[ω]` (Layer 3), and Gauss sums modulo ideals with the sextic reciprocity phase (Layer 4, which
+uses the symbols and cubic reciprocity of Layer 2 and Poisson summation from Layer 3). Layer 5
+supplies the uniform analytic bounds for Hecke `L`-functions and the transfer from an abelian
+field to Dirichlet `L`-functions, and uses Layer 1 (§§1.1–1.2). Layers 6 (large sieves) and 8
+(Kubota's character and theta functions) are self-contained supplier blocks: of this roadmap's
+layers, Layer 6 needs Layers 2–4 and Layer 8 needs Layers 2 and 4; beyond them Layer 6 uses the
+Hecke functional equation of LFunctions Layer 5 and Poisson summation (ThetaSeries Layer 1), and
+Layer 8 Kubota's homomorphism, the Möbius action and fundamental domains on `ℍ³`, the Bianchi
+groups, the Laplacian on `ℍ³`, the `K`-Bessel function and analytic Fredholm continuation
+(KTheoryLowDegrees, KleinianGroups, BianchiModularForms, MaassForms,
+AutomorphicFormsOnReductiveGroups, AutomorphicSpectralTheory); neither needs Layers 7 or 9–11.
+Layer 7 detects zeros of Hecke `L`-functions by large values of short Dirichlet polynomials and
+needs Layers 1 (§1.2), 3 and 5.
+Layer 9 transforms the completed sum of cubic Gauss coefficients by the cubic theta function and
+bounds its mean square; it needs Layers 2, 3, 4, 6 and 8. Layer 10 assembles the probe at `11/12`:
+the direct estimate (Layers 6 and 9), the Poisson representation with its Euler factors (Layers
+3–5), the row count (Layers 6–7) and the contour estimates, and closes with the `11/12` half-plane
+through Layer 1 and the transfer of Layer 5. Layer 11 draws the consequences from Layers 1, 5 and 10.
 
 ## Conventions
 
@@ -217,245 +95,6 @@ numerical constant of Layer 10 is a closed-form rational inequality stated with 
   characters, their moduli, `S`).
 - **Smooth.** "Smooth" is `ContDiff ℝ ∞`; an *annular* function on `(0, ∞)^d` is smooth with support
   in a fixed compact subset of `(0, ∞)^d`.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- `meromorphicOrderAt`, `meromorphicOrderAt_mul`, `meromorphicOrderAt_ne_top_iff` and
-  `MeromorphicNFOn`: order is a germ invariant with values in `WithTop ℤ`, additive on products of
-  meromorphic functions, `⊤` exactly on the germ of `0`. No regularity is read off a value.
-- `riemannZeta`, `differentiableAt_riemannZeta` (analytic off `s = 1`),
-  `riemannZeta_ne_zero_of_one_le_re`; `DirichletCharacter.LFunction`,
-  `DirichletCharacter.differentiableAt_LFunction` (analytic off `s = 1`, and at `1` for `χ ≠ 1`),
-  `DirichletCharacter.LFunction_modOne_eq` (level one is `ζ`), `DirichletCharacter.LFunction_changeLevel`
-  (imprimitive versus primitive, with the finite Euler correction),
-  `DirichletCharacter.LFunction_ne_zero_of_one_le_re`, `DirichletCharacter.LFunction_apply_one_ne_zero`,
-  `DirichletCharacter.LFunction_eq_zero_iff_of_re_nonpos` (the trivial zeros of a primitive
-  character), `DirichletCharacter.completedLFunction`, `DirichletCharacter.gammaFactor` and
-  `DirichletCharacter.IsPrimitive.completedLFunction_one_sub` (the functional equation
-  `Λ(1 − s, χ) = ε(χ) Λ(s, χ⁻¹)`).
-- `mellin`, `mellinInv`, `mellinInv_mellin_eq` (Mellin inversion under `MellinConvergent`).
-- `gaussSum` over a finite commutative ring with `gaussSum_mulShift` and
-  `gaussSum_mul_gaussSum_eq_card` (over a finite field); `AddChar.complexBasis`
-  (`Mathlib/Analysis/Fourier/FiniteAbelian/PontryaginDuality.lean`): the complex characters of a
-  finite abelian group are a basis of the complex functions on it, with no coefficient formula.
-- `Complex.borelCaratheodory`; `Complex.HadamardThreeLines.norm_le_interp_of_mem_verticalClosedStrip'`
-  (Hadamard's three-lines theorem, which gives the three-circles inequality through the exponential
-  map); `Complex.integral_boundary_rect_eq_zero_of_differentiableOn`
-  (`Mathlib/Analysis/Complex/CauchyIntegral.lean`, Cauchy's theorem on a rectangle).
-- Kummer theory `autAdjoinRootXPowSubCEquiv` (`FieldTheory/KummerExtension.lean`): for `μ_n ⊆ K`
-  the Galois group of `X^n − a` embeds in `μ_n`; `AlgHom.IsArithFrobAt`.
-- `IsAbelianGalois` (abelian extensions, §§5.4–5.5); `NumberField.Ideal.tendsto_norm_le_div_atTop`
-  (the number of ideals of norm at most `x`, divided by `x`, tends to
-  `2^(r₁) (2π)^(r₂) h R/(w √|d_K|)`); `riemannZeta_one` (Mathlib's value `ζ(1) = (γ − log 4π)/2`)
-  and `riemannZeta_one_ne_zero` (it is not `0`); `DirichletCharacter.IsPrimitive`; `MulChar`.
-- `IsCyclotomicExtension.zeta_spec`, `Ideal.absNorm`, `UniqueFactorizationMonoid.normalizedFactors`,
-  `jacobiSym`, `ZLattice.covolume`, `SchwartzMap`; the Fourier transform
-  `VectorFourier.fourierIntegral` with its real inner-product specialization `Real.fourier_eq`
-  (`𝓕f(ξ) = ∫ e^(−2πi⟨x, ξ⟩) f(x) dx`, `Mathlib/Analysis/Fourier/FourierTransform.lean`) and
-  Fourier inversion `MeasureTheory.Integrable.fourierInv_fourier_eq`.
-
-### From Tau Ceti
-
-- `TauCeti.LFunctions.heckeLFunctionC` (the canonical continuation of the series of a ray class
-  character at its presentation modulus, `0` if none exists, in meromorphic normal form),
-  `TauCeti.LFunctions.heckeLFunctionC_eventuallyEq_primitive` (the presented function has the
-  germ of the primitive one times the Euler correction at every point),
-  `TauCeti.LFunctions.PrimitiveRayClassCharacter` with `.of`, `.conductor`, `.character`;
-  `TauCeti.GlobalNumberFields.RayClassCharacter.eulerCorrection` with
-  `differentiable_eulerCorrection` and `eulerCorrection_ne_zero` (no zero on `Re s > 0`);
-  `TauCeti.LFunctions.meromorphicNFOn_heckeLFunctionC` (normal form on the whole plane, also when it
-  is `0`) and `TauCeti.LFunctions.analyticOnNhd_heckeLFunctionC` (holomorphic on `Re s > 1`). That
-  `heckeLFunctionC` agrees with its series on `Re s > 1`, that is, that a continuation exists, is
-  LFunctions Layer 5.
-- `TauCeti.GlobalNumberFields.Modulus`, `RayClassGroup`, `RayClassCharacter`
-  (`RayClassGroup 𝔪 →* ℂˣ`), `idealClass`, `RayClassCharacter.conductor`,
-  `RayClassCharacter.toMultiplicativeIdealWeight`; column orthogonality for the characters
-  `χ : G →* ℂˣ` of a finite commutative group, `CommGroup.sum_inv_mul_monoidHom_apply_eq_ite`
-  (`Σ_χ χ(σ)⁻¹ χ(g) = |G|` if `g = σ` and `0` otherwise;
-  `GroupTheory/FiniteAbelian/CharacterOrthogonality.lean`), and its form on a ray class group,
-  `TauCeti.LFunctions.sum_inv_smul_toUnitaryIdealWeight` (`#Cl_𝔪 · 1_c = Σ_χ χ(c)⁻¹ χ` on ideal weights;
-  `NumberTheory/LFunctions/Hecke/Orthogonality.lean`).
-- `Ideal.powerResidueSymbol` (prime symbol, trivial by convention when `N P` is not prime to `n`),
-  `Ideal.powerResidueSymbolIdeal` (the product over the prime factors, `0` exactly on classes not
-  prime to the ideal), `Ideal.powerResidueSymbolIdeal_mul_right`, `Ideal.powerResidueSymbolIdeal_neg`.
-- `TauCeti.IsPrimaryEisenstein` (`c ≡ 2 mod 3`),
-  `TauCeti.IsPrimaryEisenstein.cubic_reciprocity` (primary primes of different norms) and
-  `TauCeti.IsPrimaryEisenstein.cubic_reciprocity_intCast`,
-  `Ideal.gaussSum_powerResidueSymbol_three_pow_three_eq` (`g³ = N π · π` at a primary prime).
-- `TauCeti.meromorphicContinuation` and `TauCeti.eventuallyEq_of_meromorphic_of_eqOn_halfPlane`.
-- `TauCeti.GlobalNumberFields.rayClassIdealCountingFunction`,
-  `TauCeti.GlobalNumberFields.rayClassIdealMainTerm` and
-  `TauCeti.GlobalNumberFields.isBigO_rayClassIdealCountingFunction_sub`: the number of nonzero
-  integral ideals prime to `𝔪` in a ray class of `𝔪` with norm at most `x` is
-  `rayClassIdealMainTerm 𝔪 · x + O(x^(1 − 1/[K : ℚ]))` as `x → ∞`, the main term being the residue
-  of `ζ_K` at `1` divided by the order of the ray class group, times `1 − N𝔭⁻¹` at each prime of
-  `𝔪`.
-- `TauCeti.norm_gaussSum`: `|g(χ, ψ)| = √#F` over a finite field `F` for nontrivial `χ` and
-  primitive `ψ`.
-- `Ideal.powerResidueSymbolIdeal_intCast_three`: in `ℚ(ω)` the cubic symbol of a rational integer
-  at the ideal of a coprime rational integer is `1`.
-- `TauCeti.ClassFieldTheory.kroneckerWeber`: an abelian number field (`IsAbelianGalois ℚ E`) embeds
-  in a cyclotomic field.
-
-### From TauCetiRoadmap.LFunctions
-
-Layer 4 (Dirichlet `L`-functions and the quadratic factorization `ζ_K = ζ · L(·, χ_K)` with its
-three readings: on `Re s > 1`, as germs, and pointwise away from `1`), Layer 5 (continuation of
-`heckeLFunctionC` to a meromorphic function on `ℂ`, entire for a nontrivial primitive character,
-the completed function with root number of modulus one and the functional equation
-`Λ(χ, s) = W(χ) Λ(χ⁻¹, 1 − s)`; the Gauss sum `gaussSum` of a residue character against
-`x ↦ e^(2πi Tr(xy))` for `y ∈ 𝔪₀⁻¹𝔡⁻¹`, the domain on which this additive character is defined
-on `𝓞/𝔪₀`, with `gaussSum_mul` and `norm_gaussSum` under `y 𝔪₀ 𝔡` prime to `𝔪₀`; the analytic
-record `heckeData ψ` of a primitive character: degree `[K : ℚ]`, conductor `|d_K| N𝔣`, one real
-gamma shift in `{0, 1}` per real place, one complex gamma shift `0` per complex place, simple poles
-at `0` and `1` exactly for the trivial character), Layers 6 and 8 (`heckeData ψ` agrees off the
-coefficient at `0` with the record `grossencharacterData` of its Grossencharacter, which satisfies
-`HasDirichletAgreement`, `HasMeromorphicContinuation` and `HasFunctionalEquation`), Layer 7
-(for a nontrivial primitive `ψ`, `heckeLFunctionC ψ.character` has no zero on `Re s = 1`; the layer
-makes no statement for the trivial character, whose `L`-function `ζ_K` has its pole at `1`).
-
-### From TauCetiRoadmap.ZerosOfLFunctions
-
-§1.6 (*continuedL* `d`, the uncompleted `L`-function of a record, with
-`continuedL (heckeData ψ) = heckeLFunctionC ψ.character`), §3.1 (finite order of the entire
-completion of `heckeData ψ` for primitive `ψ`: *IsFiniteOrder* holds),
-§§4.4–4.5 (zeros in unit windows
-`≪ log(N𝔣 (|T| + 2))` and the counting functions, uniformly in the conductor), §§8.4 and 8.6 (the
-Weil explicit formula for primitive finite-order Hecke characters of any number field, test class
-`ContDiff ℝ ∞` with compact support in `(0, ∞)`, zero side summable), §8.5 (the prime ideal
-theorem).
-
-### From TauCetiRoadmap.ExplicitZetaBounds
-
-§3.2 (Rademacher's convexity bound `norm_continuedL_le_rademacher`): for a record `d` of
-finite-order type — the three predicates of LFunctions Layer 0, real gamma shifts in `{0, 1}` and
-complex gamma shifts `0`, polar divisor supported in `{0, 1}` with order at most one and a pole of
-the gamma factor at `0` when the completion has one there, `s (s − 1) Λ(s)` of finite order, and the
-coefficient majorant `Σ_m |a_m| m^(−σ) ≤ ζ(σ)^n` for real `σ > 1` — and for `0 < η ≤ 1/2`,
-`−η ≤ σ ≤ 1 + η`, `s ≠ 1`: `‖continuedL d s‖ ≤ P(s) (N (|1 + s|/(2π))^n)^((1+η−σ)/2) ζ(1 + η)^n`, where
-`n` is the degree, `N` the conductor, and `P(s) = 3 |(1 + s)/(1 − s)|` when the completion has a pole
-at `1` and `P(s) = 1` otherwise. Consumed in §5.2 at `η = 1/10` and the Hecke records.
-
-### From TauCetiRoadmap.ClassicalArithmeticCompletion
-
-§1.12 (primary Eisenstein integers, `≡ 2 mod 3`), §1.23 and §1.33 (the symbol at primes and at
-ideals prime to `n`), §1.34 (an arithmetic Frobenius acts on `n`-th roots by the symbol), §1.38 (every
-Eisenstein prime of norm other than `3` has exactly one primary associate), §1.72 (cubic reciprocity
-at primes), §1.75 (Eisenstein's supplement at `1 − ω`).
-
-### From TauCetiRoadmap.KTheoryLowDegrees
-
-§10.1 (a Mennicke symbol `[b/a] = s(a, b)` on the pairs with `a ≡ 1`, `b ≡ 0` modulo `I` and
-`aA + bA = A`: invariance under `b ↦ b + ta` for `t ∈ I` and under `a ↦ a + tb` for `t ∈ A`,
-multiplicativity in the numerator and in the denominator on such pairs, and the value `1` when the
-first entry is a unit), §10.2 (for a Dedekind domain `A`, `κ(g) = [b/a]`, read off the first row
-`(a, b)` of `g`, is a homomorphism on `GL₂(A, I)`, trivial on `E₂(A, I)` and on the congruence
-diagonal matrices, with `κ(gᵀ) = κ(g)⁻¹`), §11.1 (the exponent `r(I) = ∏_{p ∣ m} p^(j(I, p))` of a
-nonzero ideal `I` of the integers of a totally imaginary field with `m` roots of unity) and §11.2
-(`(b/a)_{r(I)}` is a Mennicke symbol at level `I`, surjective onto `μ_{r(I)}`), used in §8.1 through
-the first-row value `[b/a]`.
-
-### From TauCetiRoadmap.ClassFieldTheory
-
-Layer 11 (global Artin reciprocity: the Artin map of a finite abelian extension factors through
-the ray class group of an admissible modulus) and §13.1, as Tau Ceti realizes them (`TauCeti.ClassFieldTheory.rayClassField`,
-`TauCeti.ClassFieldTheory.isAdmissibleModulus_iff_le_rayClassField`;
-`TauCeti.ClassFieldTheory.abelianConductor`, the least admissible modulus, with
-`TauCeti.ClassFieldTheory.isAdmissibleModulus_abelianConductor` (it is admissible) and
-`TauCeti.ClassFieldTheory.isAdmissibleModulus_iff_abelianConductor_dvd` (the admissible moduli are its
-multiples); `TauCeti.ClassFieldTheory.conductorExponent_eq_zero_of_isUnramified`: an unramified
-extension of local fields has conductor exponent `0`, so its norms contain the local units;
-`TauCeti.ClassFieldTheory.kroneckerWeber`).
-
-### From TauCetiRoadmap.ThetaSeries
-
-Layer 1 (1A): for a full-rank lattice `L` in a finite-dimensional real inner product space, a
-Schwartz `f` and a shift `v`, `∑_ℓ f(v + ℓ) = covolume(L)⁻¹ ∑_{m ∈ L^∨} 𝓕f(m) e(⟨v, m⟩)`, with
-Mathlib's sign convention.
-
-### From TauCetiRoadmap.CharacterSumsOverFiniteFields
-
-§§1.4–1.5 (the quadratic Gauss sum over the prime field and the Gauss sums of characters of small
-order, used in Checks); §3.4 (the
-duplication formula `g(χ) g(χη) = χ(4)⁻¹ g(χ²) g(η)` in odd characteristic, `η` the quadratic
-character, for every `χ`).
-
-### From TauCetiRoadmap.KleinianGroups
-
-Layer 0 (the Möbius action of `SL₂(ℂ)`, through `PSL₂(ℂ)`, on `ℍ³` by isometries preserving the
-volume `v⁻³ dx dy dv`), Layer 1 (a discrete subgroup of `PSL₂(ℂ)` acts properly discontinuously and
-has a measurable fundamental domain; a subgroup is cofinite when it is discrete and of finite
-covolume) and Layer 2 (the Dirichlet domain of a discrete subgroup, centred at a point with trivial
-stabilizer, is a fundamental domain), used in §§8.2 and 8.4.
-
-### From TauCetiRoadmap.BianchiModularForms
-
-§0.3 (discreteness and finite covolume of the image of `Γ₀(𝔫, 𝔞)`, and of `PSL₂(𝓞_K)`, acting on
-`ℍ³`; a finite-index subgroup of `SL₂(𝓞_K)`, such as `Γ₂` or `Γ(N) ∩ SL₂(𝓞_K)`, inherits both) and
-§0.4 (cusps as `Γ`-orbits on `ℙ¹(K)`, cusp stabilizers as extensions of a finite group by a
-rank-two translation lattice), used in §§8.2–8.4.
-
-### From TauCetiRoadmap.MaassForms
-
-§7.1 (the Laplacian `Δ₃ = −v²(∂_x² + ∂_y² + ∂_v²) + v ∂_v` on `ℍ³`, invariant under `PSL₂(ℂ)`,
-symmetric for `v⁻³ dx dy dv`, with `Δ₃ v^s = s(2 − s) v^s`), used in §§8.2–8.5; §7.3 (the
-Fourier–Bessel expansion for `PSL₂(ℤ[i])` with trivial character) is compared with §8.2 in a Check.
-
-### From TauCetiRoadmap.AutomorphicFormsOnReductiveGroups
-
-§4.5 (the `K`-Bessel function `K_ν(u) = ∫₀^∞ e^(−u cosh t) cosh(νt) dt` for `u > 0` and complex
-`ν`, its differential equation and exponential decay), used in §§8.2, 8.5–8.7.
-
-### From TauCetiRoadmap.AutomorphicSpectralTheory
-
-§0.15 (weak and strong meromorphic operator families) and §0.16 (analytic Fredholm continuation),
-used as functional analysis in §8.4.
-
-### From TauCetiRoadmap.SieveMethodsAndPrimePatterns
-
-§2.9 `SieveApplications.leastNonresidue p`: the least `n ≥ 1` with `jacobiSym n p = −1` for an odd
-prime `p`, and `0` otherwise.
-
-### From TauCetiRoadmap.AnalyticNumberTheoryPartI
-
-§2.42 (for `K/ℚ` abelian and `K ⊆ ℚ(ζ_f)`, with `H ⊆ (ℤ/f)ˣ` the `a` whose automorphism
-`ζ_f ↦ ζ_f^a` fixes `K`: the `[K : ℚ]` Dirichlet characters modulo `f` trivial on `H`, their primitive
-characters `χ*`, `Gal(K/ℚ) ≅ (ℤ/f)ˣ/H`, and `ζ_K(s) = ∏_χ L(s, χ*)` as meromorphic functions), used in
-§5.4 to name the set `X(K)`; §2.18a (for a finite extension `M/F` and a finite-image character `σ` of
-`Gal(F̄/M)`, `L_F(s, Ind σ) = L_M(s, σ)` on `Re s > 1`, with local factors on inertia invariants at
-every finite place; a one-dimensional Artin `L`-function is the primitive Hecke `L`-function of the
-character attached by global reciprocity), used in §5.4.
-
-### From TauCetiRoadmap.AnalyticNumberTheoryPartIII
-
-§8.2 (Carathéodory's coefficient inequality and its derivative form), used in §5.3.
-
-## How to read the build
-
-Layer 1 is pure complex analysis and fixes what a zero-free half-plane is and how two estimates
-for one average continue a reciprocal across the rightmost zeros. Layers 2–4 are the arithmetic
-and harmonic-analytic substrate: symbols at composite moduli of `ℤ[ω]` and their general forms
-over fields containing `μ_n` (Layer 2), smooth Mellin and Fourier kernels and the self-dual lattice
-`ℤ[ω]` (Layer 3), and Gauss sums modulo ideals with the sextic reciprocity phase (Layer 4, which
-uses the symbols and cubic reciprocity of Layer 2 and Poisson summation from Layer 3). Layer 5
-supplies the uniform analytic bounds for Hecke `L`-functions and the transfer from an abelian
-field to Dirichlet `L`-functions, and uses Layer 1 (§§1.1–1.2). Layers 6 (large sieves) and 8
-(Kubota's character and theta functions) are self-contained supplier blocks: of this roadmap's
-layers, Layer 6 needs Layers 2–4 and Layer 8 needs Layers 2 and 4; beyond them Layer 6 uses the
-Hecke functional equation of LFunctions Layer 5 and Poisson summation (ThetaSeries Layer 1), and
-Layer 8 Kubota's homomorphism, the Möbius action and fundamental domains on `ℍ³`, the Bianchi
-groups, the Laplacian on `ℍ³`, the `K`-Bessel function and analytic Fredholm continuation
-(KTheoryLowDegrees, KleinianGroups, BianchiModularForms, MaassForms,
-AutomorphicFormsOnReductiveGroups, AutomorphicSpectralTheory); neither needs Layers 7 or 9–11.
-Layer 7 detects zeros of Hecke `L`-functions by large values of short Dirichlet polynomials and
-needs Layers 1 (§1.2), 3 and 5.
-Layer 9 transforms the completed sum of cubic Gauss coefficients by the cubic theta function and
-bounds its mean square; it needs Layers 2, 3, 4, 6 and 8. Layer 10 assembles the probe at `11/12`:
-the direct estimate (Layers 6 and 9), the Poisson representation with its Euler factors (Layers
-3–5), the row count (Layers 6–7) and the contour estimates, and closes with the `11/12` half-plane
-through Layer 1 and the transfer of Layer 5. Layer 11 draws the consequences from Layers 1, 5 and 10.
 
 ## Layer 1: zero-free half-planes and the continuation principle
 
@@ -2532,6 +2171,367 @@ Layers 1, 5 and 10; LFunctions Layer 5; ZerosOfLFunctions §§4.4–4.5, 8.4–8
 - The supplier blocks: Layer 6 (moments of `n`-th order twists, `bgl2014`; quadratic and sextic Hecke
   families over imaginary quadratic fields, `gaozhao2020`, `gaozhao2024`) and Layer 8 (the distribution
   of cubic Gauss sums, `dunnradziwill2024`).
+
+## Scope and ownership
+
+**The sources.** The `11/12` half-plane is `openai2026quasiRH` Theorem 3.1, an unrefereed
+preprint; `liu2026improved` §§3–6 gives a second account of the same argument and
+`openai2026quasiRHalt` a second proof by a mean square of sextic-twisted Möbius sums. Every
+numerical constant of Layer 10 is a closed-form rational inequality stated with its target.
+
+### Owned here
+
+- the germ-level predicate *zero-free right of `σ`*, the zero abscissa `β*` of a family, the
+  continuation principle for an abstract family of Euler products and the choice of the height
+  exponent before the decay order (Layer 1);
+- the fixed-numerator theorem over every number field containing `μ_n`, the primary
+  normalization `c ≡ 1 (mod 3)` of `ℤ[ω]` and its translation to Tau Ceti's, the sextic symbol at
+  composite moduli, cubic reciprocity for coprime composite primary elements and its supplements
+  (Layer 2);
+- profiles with compact logarithmic support, their seminorms and separation norms, the Gaussian
+  Mellin weight, finite
+  seminorm bounds for Fourier and Mellin kernels, the self-dual normalization of `ℤ[ω]` and Poisson
+  summation on its cosets (Layer 3); AnalyticNumberTheoryPartIII §9.2 bounds the Mellin transform of
+  one compactly supported bump with a constant depending on the bump, and §3.2 here is the form with
+  explicit seminorms, uniform over families of profiles and allowing Schwartz decay at `∞`;
+- Gauss sums modulo ideals of a number field containing `μ_n` for the powers of the power residue
+  symbol, which in general are not residue characters of Hecke characters (`χ_p³(−1) = −1` at
+  `p = 1 + 3ω`),
+  and their twisted multiplicativity, the Gauss sums of the sextic symbol at primes of `ℤ[ω]`, the
+  closed form of the quadratic Gauss sum `Γ(c)`, sextic reciprocity with its phases `R` and `G`, the
+  Gauss sums at squarefree moduli and finite Fourier expansions on ray class groups (Layer 4);
+- finite Euler products at the primes of a squarefree ideal, the strip bound `(Q (3 + |t|)^d)^(3/5)`
+  (the instance of ExplicitZetaBounds §3.2 at the Hecke records, with the pole of `ζ_K` cleared) and
+  bounds for `L`, `1/L` and `L'/L` in a zero-free disc for the finite-order Hecke `L`-functions of any
+  number field, the norm-composed characters of an abelian field, the `S`-deleted base-change
+  factorization over an abelian `K` (AnalyticNumberTheoryPartI §2.18a's induction identity for the
+  restriction `σ` of `χ` to `Gal(ℚ̄/K)`, split by `Ind σ = ⊕_{ψ ∈ X(K)} χψ` and read on
+  `heckeLFunctionC` and Mathlib's Dirichlet `L`-functions) and the transfer of zero-free half-planes
+  to Dirichlet `L`-functions (Layer 5); LFunctions Layer 4 factors
+  `ζ_K` itself over quadratic and cyclotomic `K`, and §5.4 here is the factorization of the twist by
+  `χ ∘ N_{K/ℚ}` over every abelian `K`;
+- large sieves over number fields: the additive large sieve on a torus `ℝ^d/Λ`, the quadratic large
+  sieve over a number field, the Fisher–Friedberg characters and the large sieve for `n`-th order
+  characters, and its cubic and sextic residue-symbol forms over `ℤ[ω]` (Layer 6);
+- zero detection for finite-order Hecke `L`-functions: zero-free rectangles with a margin, chosen by
+  pigeonhole, upper bounds for the detecting polynomials in them, and the lower bounds that a zero
+  forces on those polynomials (Layer 7);
+- Patterson's character `κ_P` of `Γ₂ ⊂ SL₂(𝓞_F)`, the cusps and cusp stabilizers of a discrete
+  subgroup of `SL₂(ℂ)` of finite type, automorphic functions on `ℍ³` with a unitary character, their
+  Eisenstein series, continuation and functional equations, the theta functions as residues, the
+  Gauss-sum Dirichlet series of the Kubota Eisenstein coefficients, Patterson's converse theorem and
+  the cubic theta function of `ℚ(ω)` with its expansions at three cusps (Layer 8);
+- the reflection of the completed Gauss-sum series through the cubic theta function, and their mean
+  square over the frequencies (Layer 9);
+- the probe at `11/12` and the `11/12` half-plane (Layer 10);
+- the zero strip, the conditional bound for least character values and the least quadratic
+  nonresidue (Layer 11).
+
+### Consumed, not redefined
+
+- Dirichlet `L`-functions and their completions and functional equations: Mathlib
+  `DirichletCharacter.LFunction`, `DirichletCharacter.completedLFunction`; the finite-order Hecke
+  `L`-function of a presented ray class character, its primitive comparison and Euler correction:
+  Tau Ceti `TauCeti.LFunctions.heckeLFunctionC`, `PrimitiveRayClassCharacter`,
+  `RayClassCharacter.eulerCorrection`; their continuation, functional equation with root number of
+  modulus one and, for a nontrivial primitive character, nonvanishing on `Re s = 1`:
+  [LFunctions](../LFunctions/README.md) Layers 4, 5 and 7.
+- The continued `L`-function of a record and its value at the Hecke records, finite order of the
+  completed Hecke functions, local zero counts, the Weil explicit formula for the two families and
+  the prime ideal theorem: [ZerosOfLFunctions](../ZerosOfLFunctions/README.md) §§1.6, 3.1,
+  4.4–4.5, 8.4–8.6.
+- Rademacher's convexity bound on records of finite-order type:
+  [ExplicitZetaBounds](../ExplicitZetaBounds/README.md) §3.2; §5.2 here is its instance at the
+  Hecke records `heckeData ψ`, written in `Q (3 + |t|)^d` with the pole of `ζ_K` cleared.
+- The `n`-th power residue symbol at primes and ideals, the Frobenius action on `n`-th roots,
+  primary associates, prime cubic reciprocity and the supplement at `1 − ω`:
+  [ClassicalArithmeticCompletion](../ClassicalArithmeticCompletion/README.md)
+  §§1.12, 1.23, 1.33, 1.34, 1.38, 1.72, 1.75, as Tau Ceti realizes them
+  (`Ideal.powerResidueSymbol`, `Ideal.powerResidueSymbolIdeal`,
+  `TauCeti.IsPrimaryEisenstein.cubic_reciprocity`).
+- Mennicke symbols, Kubota's homomorphism `σ ↦ [b/a]` on `GL₂(A, I)` over a Dedekind domain, the
+  exponent `r(I)` and the power-residue Mennicke symbol `[b/a] = (b/a)_{r(I)}` of a totally imaginary
+  field: [KTheoryLowDegrees](../KTheoryLowDegrees/README.md) §§10.1–10.2, 11.1–11.2; §8.1 here reads
+  Kubota's normalization `(c/d)_n` as its `r(N)/n`-th power.
+- Global Artin reciprocity and ray class fields: [ClassFieldTheory](../ClassFieldTheory/README.md)
+  Layers 11 and 13. Moduli, ray class groups and characters, conductors: Tau Ceti
+  `TauCeti.GlobalNumberFields` ([GlobalNumberFields](../../Completed/GlobalNumberFields/README.md)
+  Layers 2 and 9).
+- Gauss sums over a finite ring: Mathlib `gaussSum`; their absolute value `√q` over a finite field:
+  Tau Ceti `TauCeti.norm_gaussSum`; the quadratic and small-order Gauss sums and the duplication
+  formula: CharacterSumsOverFiniteFields §§1.4–1.5 and §3.4. The Gauss sum of the
+  residue character of a finite-order Hecke character modulo an ideal, for the character
+  `x ↦ e^(2πi Tr(xy))` with `y ∈ 𝔪₀⁻¹𝔡⁻¹`, its shift law and its absolute value:
+  [LFunctions](../LFunctions/README.md) Layer 5 (`gaussSum`, `gaussSum_mul`, `norm_gaussSum`).
+- Poisson summation for a full-rank lattice: [ThetaSeries](../ThetaSeries/README.md) Layer 1 (1A).
+- The count of the ideals of a ray class with norm at most `x`, with main term a multiple of the
+  residue of `ζ_K` and error `O(x^(1 − 1/[K : ℚ]))`: Tau Ceti
+  `TauCeti.GlobalNumberFields.isBigO_rayClassIdealCountingFunction_sub`; the residue itself:
+  Mathlib `NumberField.Ideal.tendsto_norm_le_div_atTop`. §3.5 reads the ideal count of `ℤ[ω]` off
+  them.
+- The Möbius action of `SL₂(ℂ)` on `ℍ³`, discrete and cofinite subgroups, fundamental domains and
+  Dirichlet domains: KleinianGroups Layers 0–2. Bianchi groups, the hyperbolic quotient and the cusps
+  of a subgroup of `GL₂(K)`: BianchiModularForms §§0.3–0.4; §8.2 here defines the cusps of every
+  discrete subgroup of `SL₂(ℂ)` and agrees with §0.4 on the finite-index subgroups of `SL₂(𝓞_K)`. The
+  Laplacian on `ℍ³`: MaassForms §7.1. MaassForms §7.3 states the Fourier–Bessel expansion for
+  `PSL₂(ℤ[i])` with trivial character; §8.2 here is the expansion for a `Γ` of finite type with a
+  unitary character at an essential cusp, and agrees with it under `μ = n/2`. The `K`-Bessel function:
+  [AutomorphicFormsOnReductiveGroups](../AutomorphicFormsOnReductiveGroups/README.md) §4.5;
+  analytic Fredholm continuation: AutomorphicSpectralTheory §0.16.
+- The least quadratic nonresidue `SieveApplications.leastNonresidue`:
+  [SieveMethodsAndPrimePatterns](../SieveMethodsAndPrimePatterns/README.md) §2.9.
+- Carathéodory's derivative inequality: [AnalyticNumberTheoryPartIII](../AnalyticNumberTheoryPartIII/README.md)
+  §8.2.
+- The characters of an abelian field: for `K ⊆ ℚ(ζ_f)` abelian over `ℚ`, the primitive characters
+  inducing the `[K : ℚ]` Dirichlet characters modulo `f` trivial on the subgroup of `(ℤ/f)ˣ` fixing
+  `K`, with `ζ_K(s) = ∏ L(s, χ*)`: [AnalyticNumberTheoryPartI](../AnalyticNumberTheoryPartI/README.md)
+  §2.42. §5.4 here calls this set `X(K)` and twists it by `χ ∘ N_{K/ℚ}`. Artin induction at every
+  finite place and the one-dimensional comparison with primitive Hecke `L`-functions:
+  AnalyticNumberTheoryPartI §2.18a.
+
+### Not owned here
+
+- The `7/8` half-plane and its proof (`openai2026quasiRH` Part II, Sections 12–20): a second probe
+  for the continuation principle of §1.3 at `(σ₀, C) = (7/8, s − 11/16)`, with the bound
+  `|J_η| ≪ Z^(C(σ₀)+ω)` and the comparison with `f_η` that §1.3 asks of it; the Gauss sums of the
+  sextic symbol modulo prime powers and the complete correlation sums of two sextic symbols (its
+  Lemmas 13.2–13.4); a mean-value bound for a bilinear form in quadratic and cubic residue symbols
+  (its Lemma 14.2); Poisson summation for a primitive finite-order character over the elements prime
+  to a fixed ideal (its Lemma 17.5); the strip `1/8 ≤ Re ρ ≤ 7/8` and the Landau–Siegel constant
+  `(log 3)/8`: QuasiRiemannHypothesisPartII, which takes Layers 1–10 here as its base.
+- Uniform exclusion of Landau–Siegel zeros with its own proof and constant:
+  [AnalyticNumberTheoryPartI](../AnalyticNumberTheoryPartI/README.md) §0.34, which keeps its
+  statement; §10.7 here implies a stronger bound and is not its supplier.
+- The generalized Riemann hypothesis as a predicate: ZerosOfLFunctions Layer 9 and
+  AnalyticNumberTheoryPartI §1.6.
+- Large sieves over `ℚ`: SieveMethodsAndPrimePatterns §§2.2, 2.3, 2.7, 2.9 and
+  AnalyticNumberTheoryPartII §5.29, which keep their statements; §§6.1–6.2 here are the
+  number-field generalizations, and at `K = ℚ` §6.2 is implied by AnalyticNumberTheoryPartII §5.29.
+- Theta functions and Eisenstein series with a Kubota character on `(ℍ³)^r` for totally imaginary
+  fields of degree `2r > 2`: forms with a Kubota character are not automorphic forms of a reductive
+  group, so their continuation is outside AutomorphicSpectralTheory §§1.15a–1.15c (Eisenstein series
+  of connected reductive groups), and no roadmap plans it; this roadmap reads the Kubota character
+  for every totally imaginary `K ⊇ μ_n` off KTheoryLowDegrees §§10.2 and 11.2 (§8.1) and states the
+  analysis on `ℍ³` (imaginary quadratic `K`), which is all the cubic theta function needs.
+- Consequences for the counting of primes (`ψ(x) − x ≪ x^(11/12+ε)`, power savings in ray classes
+  and abelian Chebotarev over `F`, `N(σ, T, χ) = 0` for `σ > 11/12`): Part IIs of
+  ExplicitPrimeCounting, AnalyticNumberTheoryPartIII and ZerosOfLFunctions (Downstream consumers).
+- Deterministic square roots modulo `p`: the algorithmic clause of `openai2026quasiRH`
+  Corollary 1.2 is background for §11.3, not a target.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- `meromorphicOrderAt`, `meromorphicOrderAt_mul`, `meromorphicOrderAt_ne_top_iff` and
+  `MeromorphicNFOn`: order is a germ invariant with values in `WithTop ℤ`, additive on products of
+  meromorphic functions, `⊤` exactly on the germ of `0`. No regularity is read off a value.
+- `riemannZeta`, `differentiableAt_riemannZeta` (analytic off `s = 1`),
+  `riemannZeta_ne_zero_of_one_le_re`; `DirichletCharacter.LFunction`,
+  `DirichletCharacter.differentiableAt_LFunction` (analytic off `s = 1`, and at `1` for `χ ≠ 1`),
+  `DirichletCharacter.LFunction_modOne_eq` (level one is `ζ`), `DirichletCharacter.LFunction_changeLevel`
+  (imprimitive versus primitive, with the finite Euler correction),
+  `DirichletCharacter.LFunction_ne_zero_of_one_le_re`, `DirichletCharacter.LFunction_apply_one_ne_zero`,
+  `DirichletCharacter.LFunction_eq_zero_iff_of_re_nonpos` (the trivial zeros of a primitive
+  character), `DirichletCharacter.completedLFunction`, `DirichletCharacter.gammaFactor` and
+  `DirichletCharacter.IsPrimitive.completedLFunction_one_sub` (the functional equation
+  `Λ(1 − s, χ) = ε(χ) Λ(s, χ⁻¹)`).
+- `mellin`, `mellinInv`, `mellinInv_mellin_eq` (Mellin inversion under `MellinConvergent`).
+- `gaussSum` over a finite commutative ring with `gaussSum_mulShift` and
+  `gaussSum_mul_gaussSum_eq_card` (over a finite field); `AddChar.complexBasis`
+  (`Mathlib/Analysis/Fourier/FiniteAbelian/PontryaginDuality.lean`): the complex characters of a
+  finite abelian group are a basis of the complex functions on it, with no coefficient formula.
+- `Complex.borelCaratheodory`; `Complex.HadamardThreeLines.norm_le_interp_of_mem_verticalClosedStrip'`
+  (Hadamard's three-lines theorem, which gives the three-circles inequality through the exponential
+  map); `Complex.integral_boundary_rect_eq_zero_of_differentiableOn`
+  (`Mathlib/Analysis/Complex/CauchyIntegral.lean`, Cauchy's theorem on a rectangle).
+- Kummer theory `autAdjoinRootXPowSubCEquiv` (`FieldTheory/KummerExtension.lean`): for `μ_n ⊆ K`
+  the Galois group of `X^n − a` embeds in `μ_n`; `AlgHom.IsArithFrobAt`.
+- `IsAbelianGalois` (abelian extensions, §§5.4–5.5); `NumberField.Ideal.tendsto_norm_le_div_atTop`
+  (the number of ideals of norm at most `x`, divided by `x`, tends to
+  `2^(r₁) (2π)^(r₂) h R/(w √|d_K|)`); `riemannZeta_one` (Mathlib's value `ζ(1) = (γ − log 4π)/2`)
+  and `riemannZeta_one_ne_zero` (it is not `0`); `DirichletCharacter.IsPrimitive`; `MulChar`.
+- `IsCyclotomicExtension.zeta_spec`, `Ideal.absNorm`, `UniqueFactorizationMonoid.normalizedFactors`,
+  `jacobiSym`, `ZLattice.covolume`, `SchwartzMap`; the Fourier transform
+  `VectorFourier.fourierIntegral` with its real inner-product specialization `Real.fourier_eq`
+  (`𝓕f(ξ) = ∫ e^(−2πi⟨x, ξ⟩) f(x) dx`, `Mathlib/Analysis/Fourier/FourierTransform.lean`) and
+  Fourier inversion `MeasureTheory.Integrable.fourierInv_fourier_eq`.
+
+### From Tau Ceti
+
+- `TauCeti.LFunctions.heckeLFunctionC` (the canonical continuation of the series of a ray class
+  character at its presentation modulus, `0` if none exists, in meromorphic normal form),
+  `TauCeti.LFunctions.heckeLFunctionC_eventuallyEq_primitive` (the presented function has the
+  germ of the primitive one times the Euler correction at every point),
+  `TauCeti.LFunctions.PrimitiveRayClassCharacter` with `.of`, `.conductor`, `.character`;
+  `TauCeti.GlobalNumberFields.RayClassCharacter.eulerCorrection` with
+  `differentiable_eulerCorrection` and `eulerCorrection_ne_zero` (no zero on `Re s > 0`);
+  `TauCeti.LFunctions.meromorphicNFOn_heckeLFunctionC` (normal form on the whole plane, also when it
+  is `0`) and `TauCeti.LFunctions.analyticOnNhd_heckeLFunctionC` (holomorphic on `Re s > 1`). That
+  `heckeLFunctionC` agrees with its series on `Re s > 1`, that is, that a continuation exists, is
+  LFunctions Layer 5.
+- `TauCeti.GlobalNumberFields.Modulus`, `RayClassGroup`, `RayClassCharacter`
+  (`RayClassGroup 𝔪 →* ℂˣ`), `idealClass`, `RayClassCharacter.conductor`,
+  `RayClassCharacter.toMultiplicativeIdealWeight`; column orthogonality for the characters
+  `χ : G →* ℂˣ` of a finite commutative group, `CommGroup.sum_inv_mul_monoidHom_apply_eq_ite`
+  (`Σ_χ χ(σ)⁻¹ χ(g) = |G|` if `g = σ` and `0` otherwise;
+  `GroupTheory/FiniteAbelian/CharacterOrthogonality.lean`), and its form on a ray class group,
+  `TauCeti.LFunctions.sum_inv_smul_toUnitaryIdealWeight` (`#Cl_𝔪 · 1_c = Σ_χ χ(c)⁻¹ χ` on ideal weights;
+  `NumberTheory/LFunctions/Hecke/Orthogonality.lean`).
+- `Ideal.powerResidueSymbol` (prime symbol, trivial by convention when `N P` is not prime to `n`),
+  `Ideal.powerResidueSymbolIdeal` (the product over the prime factors, `0` exactly on classes not
+  prime to the ideal), `Ideal.powerResidueSymbolIdeal_mul_right`, `Ideal.powerResidueSymbolIdeal_neg`.
+- `TauCeti.IsPrimaryEisenstein` (`c ≡ 2 mod 3`),
+  `TauCeti.IsPrimaryEisenstein.cubic_reciprocity` (primary primes of different norms) and
+  `TauCeti.IsPrimaryEisenstein.cubic_reciprocity_intCast`,
+  `Ideal.gaussSum_powerResidueSymbol_three_pow_three_eq` (`g³ = N π · π` at a primary prime).
+- `TauCeti.meromorphicContinuation` and `TauCeti.eventuallyEq_of_meromorphic_of_eqOn_halfPlane`.
+- `TauCeti.GlobalNumberFields.rayClassIdealCountingFunction`,
+  `TauCeti.GlobalNumberFields.rayClassIdealMainTerm` and
+  `TauCeti.GlobalNumberFields.isBigO_rayClassIdealCountingFunction_sub`: the number of nonzero
+  integral ideals prime to `𝔪` in a ray class of `𝔪` with norm at most `x` is
+  `rayClassIdealMainTerm 𝔪 · x + O(x^(1 − 1/[K : ℚ]))` as `x → ∞`, the main term being the residue
+  of `ζ_K` at `1` divided by the order of the ray class group, times `1 − N𝔭⁻¹` at each prime of
+  `𝔪`.
+- `TauCeti.norm_gaussSum`: `|g(χ, ψ)| = √#F` over a finite field `F` for nontrivial `χ` and
+  primitive `ψ`.
+- `Ideal.powerResidueSymbolIdeal_intCast_three`: in `ℚ(ω)` the cubic symbol of a rational integer
+  at the ideal of a coprime rational integer is `1`.
+- `TauCeti.ClassFieldTheory.kroneckerWeber`: an abelian number field (`IsAbelianGalois ℚ E`) embeds
+  in a cyclotomic field.
+
+### From TauCetiRoadmap.LFunctions
+
+Layer 4 (Dirichlet `L`-functions and the quadratic factorization `ζ_K = ζ · L(·, χ_K)` with its
+three readings: on `Re s > 1`, as germs, and pointwise away from `1`), Layer 5 (continuation of
+`heckeLFunctionC` to a meromorphic function on `ℂ`, entire for a nontrivial primitive character,
+the completed function with root number of modulus one and the functional equation
+`Λ(χ, s) = W(χ) Λ(χ⁻¹, 1 − s)`; the Gauss sum `gaussSum` of a residue character against
+`x ↦ e^(2πi Tr(xy))` for `y ∈ 𝔪₀⁻¹𝔡⁻¹`, the domain on which this additive character is defined
+on `𝓞/𝔪₀`, with `gaussSum_mul` and `norm_gaussSum` under `y 𝔪₀ 𝔡` prime to `𝔪₀`; the analytic
+record `heckeData ψ` of a primitive character: degree `[K : ℚ]`, conductor `|d_K| N𝔣`, one real
+gamma shift in `{0, 1}` per real place, one complex gamma shift `0` per complex place, simple poles
+at `0` and `1` exactly for the trivial character), Layers 6 and 8 (`heckeData ψ` agrees off the
+coefficient at `0` with the record `grossencharacterData` of its Grossencharacter, which satisfies
+`HasDirichletAgreement`, `HasMeromorphicContinuation` and `HasFunctionalEquation`), Layer 7
+(for a nontrivial primitive `ψ`, `heckeLFunctionC ψ.character` has no zero on `Re s = 1`; the layer
+makes no statement for the trivial character, whose `L`-function `ζ_K` has its pole at `1`).
+
+### From TauCetiRoadmap.ZerosOfLFunctions
+
+§1.6 (*continuedL* `d`, the uncompleted `L`-function of a record, with
+`continuedL (heckeData ψ) = heckeLFunctionC ψ.character`), §3.1 (finite order of the entire
+completion of `heckeData ψ` for primitive `ψ`: *IsFiniteOrder* holds),
+§§4.4–4.5 (zeros in unit windows
+`≪ log(N𝔣 (|T| + 2))` and the counting functions, uniformly in the conductor), §§8.4 and 8.6 (the
+Weil explicit formula for primitive finite-order Hecke characters of any number field, test class
+`ContDiff ℝ ∞` with compact support in `(0, ∞)`, zero side summable), §8.5 (the prime ideal
+theorem).
+
+### From TauCetiRoadmap.ExplicitZetaBounds
+
+§3.2 (Rademacher's convexity bound `norm_continuedL_le_rademacher`): for a record `d` of
+finite-order type — the three predicates of LFunctions Layer 0, real gamma shifts in `{0, 1}` and
+complex gamma shifts `0`, polar divisor supported in `{0, 1}` with order at most one and a pole of
+the gamma factor at `0` when the completion has one there, `s (s − 1) Λ(s)` of finite order, and the
+coefficient majorant `Σ_m |a_m| m^(−σ) ≤ ζ(σ)^n` for real `σ > 1` — and for `0 < η ≤ 1/2`,
+`−η ≤ σ ≤ 1 + η`, `s ≠ 1`: `‖continuedL d s‖ ≤ P(s) (N (|1 + s|/(2π))^n)^((1+η−σ)/2) ζ(1 + η)^n`, where
+`n` is the degree, `N` the conductor, and `P(s) = 3 |(1 + s)/(1 − s)|` when the completion has a pole
+at `1` and `P(s) = 1` otherwise. Consumed in §5.2 at `η = 1/10` and the Hecke records.
+
+### From TauCetiRoadmap.ClassicalArithmeticCompletion
+
+§1.12 (primary Eisenstein integers, `≡ 2 mod 3`), §1.23 and §1.33 (the symbol at primes and at
+ideals prime to `n`), §1.34 (an arithmetic Frobenius acts on `n`-th roots by the symbol), §1.38 (every
+Eisenstein prime of norm other than `3` has exactly one primary associate), §1.72 (cubic reciprocity
+at primes), §1.75 (Eisenstein's supplement at `1 − ω`).
+
+### From TauCetiRoadmap.KTheoryLowDegrees
+
+§10.1 (a Mennicke symbol `[b/a] = s(a, b)` on the pairs with `a ≡ 1`, `b ≡ 0` modulo `I` and
+`aA + bA = A`: invariance under `b ↦ b + ta` for `t ∈ I` and under `a ↦ a + tb` for `t ∈ A`,
+multiplicativity in the numerator and in the denominator on such pairs, and the value `1` when the
+first entry is a unit), §10.2 (for a Dedekind domain `A`, `κ(g) = [b/a]`, read off the first row
+`(a, b)` of `g`, is a homomorphism on `GL₂(A, I)`, trivial on `E₂(A, I)` and on the congruence
+diagonal matrices, with `κ(gᵀ) = κ(g)⁻¹`), §11.1 (the exponent `r(I) = ∏_{p ∣ m} p^(j(I, p))` of a
+nonzero ideal `I` of the integers of a totally imaginary field with `m` roots of unity) and §11.2
+(`(b/a)_{r(I)}` is a Mennicke symbol at level `I`, surjective onto `μ_{r(I)}`), used in §8.1 through
+the first-row value `[b/a]`.
+
+### From TauCetiRoadmap.ClassFieldTheory
+
+Layer 11 (global Artin reciprocity: the Artin map of a finite abelian extension factors through
+the ray class group of an admissible modulus) and §13.1, as Tau Ceti realizes them (`TauCeti.ClassFieldTheory.rayClassField`,
+`TauCeti.ClassFieldTheory.isAdmissibleModulus_iff_le_rayClassField`;
+`TauCeti.ClassFieldTheory.abelianConductor`, the least admissible modulus, with
+`TauCeti.ClassFieldTheory.isAdmissibleModulus_abelianConductor` (it is admissible) and
+`TauCeti.ClassFieldTheory.isAdmissibleModulus_iff_abelianConductor_dvd` (the admissible moduli are its
+multiples); `TauCeti.ClassFieldTheory.conductorExponent_eq_zero_of_isUnramified`: an unramified
+extension of local fields has conductor exponent `0`, so its norms contain the local units;
+`TauCeti.ClassFieldTheory.kroneckerWeber`).
+
+### From TauCetiRoadmap.ThetaSeries
+
+Layer 1 (1A): for a full-rank lattice `L` in a finite-dimensional real inner product space, a
+Schwartz `f` and a shift `v`, `∑_ℓ f(v + ℓ) = covolume(L)⁻¹ ∑_{m ∈ L^∨} 𝓕f(m) e(⟨v, m⟩)`, with
+Mathlib's sign convention.
+
+### From TauCetiRoadmap.CharacterSumsOverFiniteFields
+
+§§1.4–1.5 (the quadratic Gauss sum over the prime field and the Gauss sums of characters of small
+order, used in Checks); §3.4 (the
+duplication formula `g(χ) g(χη) = χ(4)⁻¹ g(χ²) g(η)` in odd characteristic, `η` the quadratic
+character, for every `χ`).
+
+### From TauCetiRoadmap.KleinianGroups
+
+Layer 0 (the Möbius action of `SL₂(ℂ)`, through `PSL₂(ℂ)`, on `ℍ³` by isometries preserving the
+volume `v⁻³ dx dy dv`), Layer 1 (a discrete subgroup of `PSL₂(ℂ)` acts properly discontinuously and
+has a measurable fundamental domain; a subgroup is cofinite when it is discrete and of finite
+covolume) and Layer 2 (the Dirichlet domain of a discrete subgroup, centred at a point with trivial
+stabilizer, is a fundamental domain), used in §§8.2 and 8.4.
+
+### From TauCetiRoadmap.BianchiModularForms
+
+§0.3 (discreteness and finite covolume of the image of `Γ₀(𝔫, 𝔞)`, and of `PSL₂(𝓞_K)`, acting on
+`ℍ³`; a finite-index subgroup of `SL₂(𝓞_K)`, such as `Γ₂` or `Γ(N) ∩ SL₂(𝓞_K)`, inherits both) and
+§0.4 (cusps as `Γ`-orbits on `ℙ¹(K)`, cusp stabilizers as extensions of a finite group by a
+rank-two translation lattice), used in §§8.2–8.4.
+
+### From TauCetiRoadmap.MaassForms
+
+§7.1 (the Laplacian `Δ₃ = −v²(∂_x² + ∂_y² + ∂_v²) + v ∂_v` on `ℍ³`, invariant under `PSL₂(ℂ)`,
+symmetric for `v⁻³ dx dy dv`, with `Δ₃ v^s = s(2 − s) v^s`), used in §§8.2–8.5; §7.3 (the
+Fourier–Bessel expansion for `PSL₂(ℤ[i])` with trivial character) is compared with §8.2 in a Check.
+
+### From TauCetiRoadmap.AutomorphicFormsOnReductiveGroups
+
+§4.5 (the `K`-Bessel function `K_ν(u) = ∫₀^∞ e^(−u cosh t) cosh(νt) dt` for `u > 0` and complex
+`ν`, its differential equation and exponential decay), used in §§8.2, 8.5–8.7.
+
+### From TauCetiRoadmap.AutomorphicSpectralTheory
+
+§0.15 (weak and strong meromorphic operator families) and §0.16 (analytic Fredholm continuation),
+used as functional analysis in §8.4.
+
+### From TauCetiRoadmap.SieveMethodsAndPrimePatterns
+
+§2.9 `SieveApplications.leastNonresidue p`: the least `n ≥ 1` with `jacobiSym n p = −1` for an odd
+prime `p`, and `0` otherwise.
+
+### From TauCetiRoadmap.AnalyticNumberTheoryPartI
+
+§2.42 (for `K/ℚ` abelian and `K ⊆ ℚ(ζ_f)`, with `H ⊆ (ℤ/f)ˣ` the `a` whose automorphism
+`ζ_f ↦ ζ_f^a` fixes `K`: the `[K : ℚ]` Dirichlet characters modulo `f` trivial on `H`, their primitive
+characters `χ*`, `Gal(K/ℚ) ≅ (ℤ/f)ˣ/H`, and `ζ_K(s) = ∏_χ L(s, χ*)` as meromorphic functions), used in
+§5.4 to name the set `X(K)`; §2.18a (for a finite extension `M/F` and a finite-image character `σ` of
+`Gal(F̄/M)`, `L_F(s, Ind σ) = L_M(s, σ)` on `Re s > 1`, with local factors on inertia invariants at
+every finite place; a one-dimensional Artin `L`-function is the primitive Hecke `L`-function of the
+character attached by global reciprocity), used in §5.4.
+
+### From TauCetiRoadmap.AnalyticNumberTheoryPartIII
+
+§8.2 (Carathéodory's coefficient inequality and its derivative form), used in §5.3.
 
 ## References
 
