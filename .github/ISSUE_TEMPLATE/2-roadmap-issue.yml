@@ -126,6 +126,7 @@ body:
         - EtaleDualityAndPerverseSheaves
         - EtaleMassFormula
         - EulerSystemsAndKolyvaginSystems
+        - EulerSystemsCyclotomicMainConjecture
         - ExplicitPrimeCounting
         - ExplicitZetaBounds
         - ExponentialCone
@@ -191,6 +192,7 @@ body:
         - JacobianChallenge
         - JacobianChallengePartII
         - K2SymbolsBrauer
+        - K3BlochGroups
         - K3Surfaces
         - K3SurfacesAndSymplecticBoundedness
         - KTheoryFiniteLocalFields
