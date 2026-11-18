@@ -2,21 +2,9 @@
 
 **Summary.** Build norm-sensitive comparisons for Berkovich analytic spaces from Banach spectra, then the metric and divisor theory of semistable curves, valued tropical cycles and faithful tropicalizations, and the model metrics, measures and integration comparisons used in nonarchimedean arithmetic. The endpoints include metric-graph and metrized-complex Riemann–Roch, a faithful tropicalization dominating any specified toric embedding, the skeleton–Jacobian comparison and the tropical correction between Berkovich–Coleman and abelian integrals.
 
-## Scope and ownership
+## How to read the build
 
-Layer 0 imports the complete Banach-spectrum core from AdicSpacesPartIII §R3.9, the Tate-normalized rank-one spectrum and maximal Hausdorff quotient from DiamondsAndVStacks §D5.13, and the Hausdorff strict analytic category and taut-adic equivalence from ClassicalAdicEtaleCohomology §3.1. AlgebraicModuliForArithmeticGeometry §7.10.2 supplies the general locally Hausdorff analytic category, including affinoid domains, refinements and gluing. This roadmap owns its norm-sensitive affinoid comparison, the native noncomplete spectrum comparison, the archimedean unit criterion, general Banach residue-field realization and general-family hybrid topology. Section 0.28 compares the specified uniform-unit norm with the supplied normalized spectrum; §0.30 identifies the strict Hausdorff specialization of the general analytic carrier with the supplied category. The input adic valuation classes, Huber pairs and rational topology belong to Tau Ceti's AdicSpaces Layer 2. Section 0.21 compares the weighted norm-sensitive charts with that general category, including its nonstrict, trivially valued and non-Hausdorff objects; no supply to these earlier owners is assumed.
-
-Layer 1 owns line points, paths, annuli, logarithmic lengths and their descent conventions. Layer 2 owns rank-one analytic semistable existence, the metric realization of the imported combinatorial dual graph, retractions, refinement and locally finite noncompact triangulations. StableReduction Layer 1 supplies the dual graph with component genera and its arithmetic-genus formula; Layer 2 supplies flat-family genus invariance in its locally noetherian range; the application to rank-one models requires the descent comparison in this roadmap. Its Layers 7–9 cover discrete valuation rings. Their statement does not establish the required theorem over a possibly nonnoetherian rank-one valuation ring.
-
-Layer 3 owns metric graphs, all-point divisors, potentials, Jacobians, metrized complexes and specialization. Layer 4 owns torus and extended tropicalization on Berkovich analytifications, initial-degeneration and weighted-cycle comparisons. Layer 5 owns faithfulness on metric graphs and marked rays. Algebraic curves and Riemann–Roch are imported. AnalyticToricGeometry Layer 0 supplies lattice, cone and fan geometry; ShimuraCompactifications §0.16 supplies finite-fan schemes over arbitrary coefficient rings, including singular cones. Section 4.0 extends that carrier to arbitrary small fans and constructs its valued analytic comparisons.
-
-Layer 6 owns local model metrics, mixed measures, graph and line potential theory, and local heights. ArithmeticDynamics owns dynamical escape-rate estimates and the convergence of its family-specific potentials on the hybrid space. Layer 7 imports the algebraic Tate curve from EllipticCurves Layer 4, local annular primitives and good-reduction integration from ColemanIntegration, and the finite-model abelian logarithm from AnabelianGeometryAndNonabelianChabauty §5.8, its arbitrary-ℂ_p-coefficient extension from ColemanIntegrationPartII §4.0, and rational endpoint integrals from EffectiveDiophantineMethods §4.3. Section 7.0 constructs the arbitrary-rank-one Raynaud interfaces. The new results here compare those objects with skeleta and path integrals.
-
-The complete spectral carrier, its bounded pullback, spectral maximum and Hausdorff topology belong to AdicSpacesPartIII §R3.9. Sections 0.1–0.9 specify only the norm-dominated native presentation and its comparison; §0.2 specializes Mathlib's contraction theorem. The algebraically closed Tate analytic quotient and its circle belong to ClassicalAdicEtaleCohomology §3.7; §7.1 extends them by descent to a general complete field and fixes their metric/differential comparison. Mathlib `Graph` owns unmetric multigraph incidence, including loops and parallel edges; §3.1 adds metric realization and subdivision.
-
-The extensions beyond the cited suppliers' ranges are owned here: isometric absolute-valued-field amalgamation in §0.15a, trivial-base faithful scalar extension in §0.17a, the small-fan extension and valued toric comparisons in §4.0, geometric intersection descent over rank-one fields in §§6.1a–6.2 and rank-one Raynaud uniformization, valuation and polarization in §7.0. ResolutionOfSingularitiesCharacteristicZero §7.7 supplies scheme pair principalization; §0.23 owns its convergent-model transport and the domination and cofinality contracts for the hybrid family. ArithmeticDynamics’ line and hybrid specializations consume these general constructions; its dynamical escape-rate and family-potential convergence results retain their own ownership.
-
-The general analytic carrier, its affinoid domains, atlas refinements, gluing, fibre products and completed residue fields over nonarchimedean K belong to AlgebraicModuliForArithmeticGeometry §7.10.2. Section 0.21 compares its charts and morphisms with the specified weighted normed presentations rather than constructing another category. Section 0.15 extends residue-field realization to general Banach spectra, and §§0.19–0.20 add the weighted rational-presentation and finite-module acyclicity comparisons.
+The complete Banach-spectrum contract precedes its native noncomplete presentation and the adic quotient comparisons. Line geometry then provides the annular local models for curve skeleta. Divisor and slope theory supplies both weighted tropicalization and the functions used to make it faithful. Measures use the same Laplacian and metric normalization, while the uniformization and integration comparisons use the resulting graph Jacobian and real period lattice. Layer 6 constructs general model measures and curvature corrections. Layer 7 extends the supplied analytic Tate quotient to general complete fields and then applies those measure results to calibrate its circle.
 
 ## Conventions
 
@@ -33,154 +21,6 @@ In p-adic integration K=ℂ_p, a branch Log is fixed and v_p(p)=1. The tropical 
 All sets, graphs, fans and diagrams are small in a fixed universe; colimits use small diagrams, and residue-field completions live in the corresponding universe or its explicit lift. Real-valued norms, lengths and Radon measures retain ℝ coefficients; divisors have ℤ coefficients, and integration has ℂ_p coefficients. Connected graphs are nonempty. A constant function on the one-point graph has Δ=0, while the empty graph is excluded from its Jacobian and rank theorems.
 
 **Normalization checks.** On uv=π² with |π|=1/3, the length is 2log 3; the unit-valuation coordinate gives length 2. On [0,2], f(s)=s has outgoing slopes +1 at 0 and −1 at 2, so divPL(f)=δ₀−δ₂, Δf=δ₂−δ₀ and the curvature change for exp(−f) is δ₀−δ₂. At p=2 with a ramified uniformizer π²=2, v_p(π)=1/2 and a branch change Log′−Log=2v_p changes Log(π) by 1. These same witnesses apply wherever the corresponding supplier conventions are transported.
-
-## Exact supplier contracts
-
-The headline signatures use Mathlib `1b1ccf4b088b32fa3f23f2de1127433254a81e1e` and Tau Ceti `2fd255d997f47c0b5d834ee416c7015d55444ce5`. The following native interfaces supply the spectrum construction:
-
-### From Mathlib
-
-- `MulRingSeminorm` (Mathlib/Analysis/Normed/Unbundled/RingSeminorm.lean): Native nonnegative additive seminorm and unital multiplicative map to the reals.
-- Mathlib `MulRingSeminorm.ext` (Mathlib/Analysis/Normed/Unbundled/RingSeminorm.lean): Extensional equality of native multiplicative seminorms.
-- Mathlib `normRingSeminorm` (Mathlib/Analysis/Normed/Unbundled/RingSeminorm.lean): The submultiplicative ring seminorm supplied by the norm.
-- Mathlib `RingHom.IsBoundedWrt` (Mathlib/Basic/Real/Basic.lean): One positive uniform bound between specified real functions.
-- Mathlib `RingHom.IsBounded` (Mathlib/Analysis/Normed/Ring/Basic.lean): One positive uniform bound between source and target norms.
-- Mathlib `contraction_of_isPowMul_of_boundedWrt` (Mathlib/Analysis/Normed/Unbundled/IsPowMulFaithful.lean): Power-multiplicative bounded pullbacks are pointwise dominated by the source ring seminorm.
-- Mathlib `IsPowMul` (Mathlib/Basic/Real/Basic.lean): Power multiplicativity for positive natural powers.
-- Mathlib `map_pow` (Mathlib/Algebra/Group/Hom/Defs.lean): A multiplicative map preserves natural powers.
-- Mathlib `normHom` (Mathlib/Analysis/Normed/Ring/Basic.lean): The native multiplicative map supplied by a multiplicative norm and norm of one equal to one.
-- Mathlib `Topology.IsEmbedding` (Mathlib/Topology/Defs/Induced.lean): Induced topology together with injectivity.
-- Mathlib `Topology.IsInducing.continuous_iff` (Mathlib/Topology/Maps/Basic.lean): Continuity into an induced topology is tested after the inducing map.
-- Mathlib `continuous_pi` (Mathlib/Topology/Constructions.lean): Coordinatewise continuity gives continuity into a product.
-- Mathlib `continuous_apply` (Mathlib/Topology/Constructions.lean): Each coordinate evaluation is continuous for the product topology.
-- Mathlib `isClosed_iInter` (Mathlib/Topology/Basic.lean): Arbitrary intersections of closed sets are closed.
-- Mathlib `isClosed_eq` (Mathlib/Topology/Separation/Hausdorff.lean): An equality of continuous real functions cuts out a closed set.
-- Mathlib `isClosed_le` (Mathlib/Topology/Order/OrderClosed.lean): An inequality of continuous real functions cuts out a closed set.
-- Mathlib `isCompact_pi_infinite` (Mathlib/Topology/Compactness/Compact.lean): Tychonoff compactness for a product of compact subsets.
-- Mathlib `CompactIccSpace` (Mathlib/Topology/Order/Compact.lean): Native compactness of closed intervals, including real intervals.
-- Mathlib `IsCompact.of_isClosed_subset` (Mathlib/Topology/Compactness/Compact.lean): A closed subset of a compact set is compact.
-- Mathlib `Topology.IsEmbedding.isCompact_iff` (Mathlib/Topology/Compactness/Compact.lean): An embedding reflects compactness from its image.
-- Mathlib `Topology.IsEmbedding.t2Space` (Mathlib/Topology/Separation/Hausdorff.lean): An embedding into a Hausdorff space has a Hausdorff domain.
-- Mathlib `NormedAlgebra.Real.nonempty_algEquiv_or` (Mathlib/Analysis/Normed/Algebra/GelfandMazur.lean): Real normed-algebra field classification. Section 0.26 adds the complete absolute-valued-field version without a chosen real scalar structure and with the norm exponent.
-- Mathlib `T2Space.of_injective_continuous` (Mathlib/Topology/Separation/Hausdorff.lean): Injective continuous maps into a Hausdorff space give Hausdorffness.
-- Mathlib `Pi.t2Space` (Mathlib/Topology/Separation/Hausdorff.lean): Products of Hausdorff spaces are Hausdorff.
-- `AlgebraicGeometry.Scheme.GlueData` and `AlgebraicGeometry.Scheme.GlueData.glued` (Mathlib/AlgebraicGeometry/Gluing.lean) supply scheme gluing along open overlaps; §4.0 uses them for the small-fan extension of the supplied finite-fan charts.
-- `Rat.AbsoluteValue.equiv_real_of_unbounded` (Mathlib/NumberTheory/Ostrowski.lean) identifies a rational absolute value not bounded by 1 on the naturals with the ordinary real absolute value up to a positive power; §0.26 extends this to the complete field.
-- `Graph`, `Graph.IsLoopAt` and `Graph.banana` (Mathlib/Combinatorics/Graph/Basic.lean) provide multigraph incidence with distinct edge identities, loops and parallel edges. They carry neither positive lengths nor a metric realization, which §3.1 constructs.
-
-### From Tau Ceti
-
-- `TauCeti.ValuationSpectrum.spa`, in `TauCeti/AlgebraicGeometry/AdicSpace/Spa/Basic.lean`, and the rational topology of AdicSpaces Layer 2 provide the adic point carrier.
-- `TauCeti.ValuationSpectrum.IsAnalyticPoint.exists_coarsenByUnits_mem_spaAnalytic`, in `TauCeti/AlgebraicGeometry/AdicSpace/Spa/Analytic.lean`, supplies an analytic rank-one coarsening of a continuous analytic valuation, with unchanged support, using an Archimedean nontrivial quotient of its value group. DiamondsAndVStacks §D5.13 supplies its uniqueness, maximality and Tate normalization; §0.28 compares that normalization with the specified uniform-unit Banach norm.
-- `TauCeti.ValuationSpectrum.spaSeparationQuotientHomeomorph`, in `TauCeti/AlgebraicGeometry/AdicSpace/Spa/SeparationQuotient.lean`, identifies Spa of A modulo the closure of zero with Spa of A. This separated-ring invariance does not provide the maximal Hausdorff quotient of the adic point space required here.
-- `TauCeti.PowerSeries.gaussNorm_mul_of_isRestricted`, in `TauCeti/RingTheory/PowerSeries/GaussNorm.lean`, provides multiplicativity of restricted Gauss norms. Layer 1 uses it for the analytic Gauss-point comparison.
-- `TauCeti.exists_isRiemannRochDivisor`, in `TauCeti/FieldTheory/FunctionField/Differential/CanonicalDivisor.lean`, and AlgebraicCurves Layer 4 provide algebraic Riemann–Roch. Layer 5 adds analytic lifting and separating functions.
-- `TauCeti.IsConvexPolyhedron`, in `TauCeti/Analysis/Convex/Polyhedron/Basic.lean`, and the lattice/cone/fan interfaces of AnalyticToricGeometry supply the underlying convex geometry. Layer 4 adds valued initial degenerations and tropical cycles.
-
-### From TauCetiRoadmap.StableReduction
-
-- StableReduction Layer 1 supplies the nodal multigraph and its component genera; Layer 2 supplies genus invariance in proper flat curve families over locally noetherian bases; the rank-one application uses the descent comparison of Layer 2 below. A simple intersection graph, such as `TauCeti.NumericalType.intersectionGraph`, does not supply this metric dual graph: loops and repeated nodes must be retained.
-- **TauCetiRoadmap.StableReduction Layer 1**: Combinatorial dual graph with component genera and p_a=Σg_v+b₁. Layer 2 adds the metric thickness/skeleton identification only. Consumed by [2.11 Formal models and metric dual graphs](#211-formal-models-and-metric-dual-graphs), [2.12 Vertex genera and analytic genus](#212-vertex-genera-and-analytic-genus).
-- **TauCetiRoadmap.StableReduction Layer 2**: Genus invariance in proper flat curve families over locally noetherian bases. Apply it to special and generic fibers through the owned rank-one model descent comparison; no second algebraic genus-invariance theorem is planned. Consumed by [2.12 Vertex genera and analytic genus](#212-vertex-genera-and-analytic-genus).
-- **TauCetiRoadmap.StableReduction Layer 7**: Semistable-reduction theorem in its DVR range, used as a compatibility check. It does not supply the owned nonnoetherian rank-one theorem. Consumed by [2.10 Rank-one semistable reduction](#210-rank-one-semistable-reduction).
-
-### From TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry
-
-- AlgebraicModuliForArithmeticGeometry §7.10.2 (`BerkovichAnalyticSpace`, `BerkovichAnalyticSpace.affinoid`, `BerkovichAnalyticSpace.refineAtlas`, `BerkovichAnalyticSpace.domain`, `BerkovichAnalyticSpace.glueDomains`, `BerkovichAnalyticSpace.fibreProduct`, `BerkovichAnalyticSpace.rigidModel`): Locally Hausdorff affinoid nets, refinement-local morphisms, affinoid domains, bounded spectra, evaluation topology and completed residue fields. Section 0.21 compares the specified weighted normed charts with these objects; the rigid equivalence is used only in the supplier's paracompact strict range.
-
-### From TauCetiRoadmap.RigidAnalyticGeometry
-
-- RigidAnalyticGeometry Layer 5: Augmented Čech exactness for finite affinoid covers of a strict affinoid over nontrivially valued K, for every algebraic A-module. Weighted nonstrict descent remains a Layer 0 target.
-
-### From TauCetiRoadmap.AdicSpacesPartII
-
-- AdicSpacesPartII §R1.3 (`analytification-functor`): Adic analytification of finite-type schemes, with the scheme and local-chart interfaces. It does not itself construct Berkovich analytification.
-- AdicSpacesPartII §R0.7 (`ValuationSpectrum.exists_amalgamation`) and §R0.18 (*banach-completed-tensor-field-exactness*): Valuation-class amalgamation and nontrivially valued nonarchimedean completed tensor exactness in their stated ranges.
-
-### From TauCetiRoadmap.AdicSpacesPartIII
-
-- AdicSpacesPartIII §R2.2 (`admissible-formal-scheme`): Flat, topologically finitely presented admissible formal K°-schemes, allowing a nonnoetherian valuation ring.
-- AdicSpacesPartIII §R2.3 (`raynaud-generic-fibre`): The analytic generic fiber, its formal affinoid charts and compatibility with admissible modifications. Layer 2 proves the metric skeleton correspondence.
-- AdicSpacesPartIII §R3.9 (`Huber.GelfandSpectrum`, `GelfandSpectrum.compactSpace_nonempty`, `GelfandSpectrum.smoothingFun_eq_sSup`): The complete bounded-seminorm spectrum, pointwise topology, compactness, nonemptiness, bounded pullback and spectral maximum.
-
-### From TauCetiRoadmap.ColemanIntegration
-
-- ColemanIntegration §L0.23: The explicit change of the logarithmic primitive under Log′−Log=c·v_p.
-- ColemanIntegration §L0.22: The convergent analytic-plus-logarithmic primitive, with its residue coefficient and differentiation identity.
-- ColemanIntegration §L0.11: The dt/t Laurent coefficient and its oriented coordinate invariance.
-- ColemanIntegration §L1.20: The good-reduction, Frobenius-normalized Coleman integration class. It is not general global path integration.
-
-### From TauCetiRoadmap.EffectiveDiophantineMethods
-
-- EffectiveDiophantineMethods §4.3: The endpoint integral for rational points over a finite extension of ℚ_p, paired with an invariant differential. The all-ℂ_p extension here uses the logarithm below.
-
-### From TauCetiRoadmap.AnabelianGeometryAndNonabelianChabauty
-
-- AnabelianGeometryAndNonabelianChabauty §5.8 (the local abelian logarithm, its compatible extension to all ℂ_p-points, its identity differential and its functoriality): The logarithm on all ℂ_p-points of an abelian variety defined over a finite p-adic field.
-
-### From TauCetiRoadmap.ColemanIntegrationPartII
-
-- ColemanIntegrationPartII §4.0: The unique locally analytic additive logarithm with identity differential for every abelian variety over ℂ_p, including those without a finite p-adic field model, and comparison with the preceding finite-model logarithm.
-- ColemanIntegrationPartII §3.1: The zero sum of oriented analytic end residues on a connected Coleman wide open, for forms extending to its specified strict neighborhood.
-
-### From TauCetiRoadmap.DiamondsAndVStacks
-
-- DiamondsAndVStacks §D5.13 (`BerkovichSpectrum`, `BerkovichSpectrum.ofSpa`, `BerkovichSpectrum.toSpa`, `BerkovichSpectrum.changeNormalization`, `TauCetiRoadmap.DiamondsAndVStacks.nonempty_t2Quotient_spa_homeomorph`): The Tate-normalized continuous real spectrum with value 1/2 on the chosen pseudouniformizer, unique rank-one maximal generization, set-theoretic section and maximal Hausdorff quotient of Spa. Section 0.28 transports that quotient through its norm-sensitive comparison.
-
-### From TauCetiRoadmap.ClassicalAdicEtaleCohomology
-
-- ClassicalAdicEtaleCohomology §3.1 (the Hausdorff strict analytic spaces, the Berkovich realization u of taut locally finite-type adic spaces and its inverse s₀, the maximal Hausdorff quotient identification, and the boundary, properness, étale and smooth comparisons): Hausdorff strict analytic atlases over a complete nontrivially valued rank-one field, their taut locally finite-type adic equivalence, and boundary, properness, étale and smooth comparisons. Sections 0.21 and 0.30 identify the strict specialization and transport these results; §0.22 uses them for the strict GAGA route.
-- ClassicalAdicEtaleCohomology §3.7 (the analytic Tate quotient and the finite étale degree-one criterion): The analytic quotient, covering, Tate analytification isomorphism and skeletal circle over a complete algebraically closed rank-one field. Section 7.1 extends this to general complete K and compares the metric and differential.
-
-### From TauCetiRoadmap.PerfectoidSpaces
-
-- PerfectoidSpaces §P1.12 (`gelfandSpectrum_isUnit_iff`): Unit detection in its nonarchimedean range; §0.14 adds the archimedean extension.
-
-### From TauCetiRoadmap.RestrictedPowerSeries
-
-- RestrictedPowerSeries §§0.1, 1.1 and 2.1: Native weighted series at arbitrary positive polyradii, Gauss norms, completeness and contractive evaluation. Section 0.17 uses these for affinoid quotients and strictification.
-
-### From TauCetiRoadmap.PadicFunctionalAnalysis
-
-- PadicFunctionalAnalysis §0.4: Tate gauge data and their topology/norm comparison; §0.27 adds uniform-unit and spectral normalization comparisons.
-
-### From TauCetiRoadmap.SchemeAndStackFoundations
-
-- **SchemeAndStackFoundations §3.3**: Integrate the native smooth connected algebraic curve, smooth proper completion and finite puncture set from AlgebraicCurves. Analytification belongs to Layer 0, not this request. Use §3.3’s `cohomologyDim_zero_structureModule` for H⁰(X̄,O)=K on a smooth proper geometrically connected curve over algebraically closed K, used with proper GAGA for analytic connectedness. Consumed by [2.1 Semistable vertex sets and their skeleta](#21-semistable-vertex-sets-and-their-skeleta), [1.4 Connected algebraic curves remain connected](#14-connected-algebraic-curves-remain-connected).
-- SchemeAndStackFoundations §4.12 (`chow_lemma`): A projective modification of a proper variety, used in §6.4 to prove the model-function estimate on projective models and descend it by projection.
-- **SchemeAndStackFoundations §§5.2–5.3**: Residue-field cycle degrees, `Chow.c1` and `proper_pushforward`. Section 5.9 treats fields, Dedekind bases and arithmetic surfaces; geometric model specialization is constructed in §6.1a and arbitrary-rank-one descent in §6.2.
-
-### From TauCetiRoadmap.AnalyticToricGeometry
-
-- **AnalyticToricGeometry Layer 0**: Lattices, cones, fans and dual semigroups, used with the coefficient-ring charts below.
-
-### From TauCetiRoadmap.ShimuraCompactifications
-
-- ShimuraCompactifications §0.16 (`TauCeti.Toric.finiteFanScheme`, `affineChart_baseChange`, `finiteFanScheme_baseChange`, `finiteFanScheme_complex`, `finiteFanScheme_torusAction`, `finiteFanScheme_glue_hom`): Schemes of finite rational fans over every commutative ring, singular cones allowed, with face localizations, coherent coefficient change and compatible chart gluing. Section 4.0 uses the specialization R=K and extends it to small fans; §§4.1–4.2 add valued analytification and tropicalization. Section 0.17 supplies the finite-fan toric morphisms induced by lattice maps.
-
-### From TauCetiRoadmap.ResolutionOfSingularitiesCharacteristicZero
-
-- ResolutionOfSingularitiesCharacteristicZero §7.7 (quasi-excellent pair principalization): Projective principalization on a reduced noetherian quasi-excellent ℚ-scheme, for a coherent ideal nonzero on every generic component, with regular source and strict-normal-crossings reduced support including the exceptional support, preserving the stated semi-strict locus. Section 0.23 proves the convergent-model excellence and analytic transport needed for complex meromorphic families, rather than identifying the scheme statement with analytic resolution.
-
-### From TauCetiRoadmap.NeronModelsAndSemistableAbelianVarieties
-
-- **NeronModelsAndSemistableAbelianVarieties §§3.13–3.14 and §§4.3–4.4**: The complete-DVR Raynaud extension (`SemiabelianExtensionClassification`), analytic quotient (`RigidUniformisation`, `RaynaudOneMotive`) and graph monodromy pairing. Section 7.0 constructs the arbitrary-rank-one extension used in §§7.5 and 7.8.
-
-### From TauCetiRoadmap.AdicSpaces
-
-- **TauCetiRoadmap.AdicSpaces Layer 2**: Native valuation classes, Spa(A,A⁺), rational topology and continuous maps; DiamondsAndVStacks §D5.13 supplies the normalized rank-one quotient and §0.28 compares it with the specified norm. Consumed by [0.28 Normalized rank-one adic quotient](#028-normalized-rank-one-adic-quotient).
-
-### From TauCetiRoadmap.AlgebraicCurves
-
-- **TauCetiRoadmap.AlgebraicCurves Layer 4**: Algebraic Riemann–Roch and prescribed-pole rational functions on the smooth proper curve; Layer 5 imports them to obtain unit-slope and coprime-pole coordinates. Consumed by [5.3 Functions separating edges and vertices](#53-functions-separating-edges-and-vertices).
-
-### From TauCetiRoadmap.EllipticCurves
-
-- **TauCetiRoadmap.EllipticCurves Layer 4**: The algebraic Tate elliptic curve and its q-parametrization; Layer 7 adds complete-field descent and measure/integral calibration. Consumed by [7.1 Tate analytic quotient and skeletal circle](#71-tate-analytic-quotient-and-skeletal-circle).
-
-## How to read the build
-
-The complete Banach-spectrum contract precedes its native noncomplete presentation and the adic quotient comparisons. Line geometry then provides the annular local models for curve skeleta. Divisor and slope theory supplies both weighted tropicalization and the functions used to make it faithful. Measures use the same Laplacian and metric normalization, while the uniformization and integration comparisons use the resulting graph Jacobian and real period lattice. Layer 6 constructs general model measures and curvature corrections. Layer 7 extends the supplied analytic Tate quotient to general complete fields and then applies those measure results to calibrate its circle.
 
 ## Layer 0: Berkovich spectra and analytic comparison
 
@@ -2531,6 +2371,166 @@ This section is secondary: it maps existing Lean code to targets of this roadmap
 `LeanPool/ChipFiring` (D. D. Mavani and N. Pflueger, Apache-2.0) works on its own carrier `CFGraph`, a finite nonempty loopless multigraph whose edges form a multiset of vertex pairs, with divisors the integer functions on its vertices. It proves that a linear-equivalence class contains at most one q-reduced divisor, and exactly one on a connected graph (`q_reduced_unique`, `exists_q_reduced_representative`); that acyclic orientations with unique source q correspond bijectively to maximal superstable configurations (`orientation_superstable_bijection`, proved by Dhar's burning); that the divisors of an orientation and of its reverse sum to the canonical divisor (`divisor_reverse_orientation`); and, on a connected graph, r(D)−r(K−D)=deg D−g+1 (`riemann_roch_for_graphs`), with Clifford's inequality and the bound gonality ≤ g+1. This is the finite-graph rank theorem that §3.5 proves first, by reduced divisors and burning, with acyclic orientations in place of vertex orders. Edge lengths and divisors at edge-interior points do not occur there, so the discrete-to-metric comparison, the simultaneous rational approximation and the real-length theorem of §3.5, the Laplacian of §3.3, the Jacobian of §3.4 and the metrized complexes of §§3.8–3.11 have no counterpart in it. Its carrier is not that of §3.1, which adds edge lengths to Mathlib `Graph`.
 
 `LeanPool/BrillNoetherGraphs` (N. Pflueger, Apache-2.0) carries its own version of those chip-firing files and builds on them the Brill–Noether theory of finite graphs: Brill–Noether generality of generic chains of cycles and of suitably marked mixed chains of cycles and theta graphs, a connected graph of genus g and divisorial gonality k for every 2 ≤ k ≤ ⌊(g+3)/2⌋ (`exists_graph_of_genus_and_gonality`), Brill–Noether existence in genus at most five, treewidth bounded by gonality (`treewidth_le_gonality`), and a graph whose divisorial gonality drops under regular subdivision. Its chip-firing core meets §3.5 as above; no layer here treats graph gonality, Brill–Noether existence or treewidth. Its rank-determining sets are vertex sets of a finite graph, not the residue-curve sets of metrized complexes in §3.9, and its divisor-class presentations are for banana graphs, not the finite-model exact sequence of §3.4.
+
+## Scope and ownership
+
+Layer 0 imports the complete Banach-spectrum core from AdicSpacesPartIII §R3.9, the Tate-normalized rank-one spectrum and maximal Hausdorff quotient from DiamondsAndVStacks §D5.13, and the Hausdorff strict analytic category and taut-adic equivalence from ClassicalAdicEtaleCohomology §3.1. AlgebraicModuliForArithmeticGeometry §7.10.2 supplies the general locally Hausdorff analytic category, including affinoid domains, refinements and gluing. This roadmap owns its norm-sensitive affinoid comparison, the native noncomplete spectrum comparison, the archimedean unit criterion, general Banach residue-field realization and general-family hybrid topology. Section 0.28 compares the specified uniform-unit norm with the supplied normalized spectrum; §0.30 identifies the strict Hausdorff specialization of the general analytic carrier with the supplied category. The input adic valuation classes, Huber pairs and rational topology belong to Tau Ceti's AdicSpaces Layer 2. Section 0.21 compares the weighted norm-sensitive charts with that general category, including its nonstrict, trivially valued and non-Hausdorff objects; no supply to these earlier owners is assumed.
+
+Layer 1 owns line points, paths, annuli, logarithmic lengths and their descent conventions. Layer 2 owns rank-one analytic semistable existence, the metric realization of the imported combinatorial dual graph, retractions, refinement and locally finite noncompact triangulations. StableReduction Layer 1 supplies the dual graph with component genera and its arithmetic-genus formula; Layer 2 supplies flat-family genus invariance in its locally noetherian range; the application to rank-one models requires the descent comparison in this roadmap. Its Layers 7–9 cover discrete valuation rings. Their statement does not establish the required theorem over a possibly nonnoetherian rank-one valuation ring.
+
+Layer 3 owns metric graphs, all-point divisors, potentials, Jacobians, metrized complexes and specialization. Layer 4 owns torus and extended tropicalization on Berkovich analytifications, initial-degeneration and weighted-cycle comparisons. Layer 5 owns faithfulness on metric graphs and marked rays. Algebraic curves and Riemann–Roch are imported. AnalyticToricGeometry Layer 0 supplies lattice, cone and fan geometry; ShimuraCompactifications §0.16 supplies finite-fan schemes over arbitrary coefficient rings, including singular cones. Section 4.0 extends that carrier to arbitrary small fans and constructs its valued analytic comparisons.
+
+Layer 6 owns local model metrics, mixed measures, graph and line potential theory, and local heights. ArithmeticDynamics owns dynamical escape-rate estimates and the convergence of its family-specific potentials on the hybrid space. Layer 7 imports the algebraic Tate curve from EllipticCurves Layer 4, local annular primitives and good-reduction integration from ColemanIntegration, and the finite-model abelian logarithm from AnabelianGeometryAndNonabelianChabauty §5.8, its arbitrary-ℂ_p-coefficient extension from ColemanIntegrationPartII §4.0, and rational endpoint integrals from EffectiveDiophantineMethods §4.3. Section 7.0 constructs the arbitrary-rank-one Raynaud interfaces. The new results here compare those objects with skeleta and path integrals.
+
+The complete spectral carrier, its bounded pullback, spectral maximum and Hausdorff topology belong to AdicSpacesPartIII §R3.9. Sections 0.1–0.9 specify only the norm-dominated native presentation and its comparison; §0.2 specializes Mathlib's contraction theorem. The algebraically closed Tate analytic quotient and its circle belong to ClassicalAdicEtaleCohomology §3.7; §7.1 extends them by descent to a general complete field and fixes their metric/differential comparison. Mathlib `Graph` owns unmetric multigraph incidence, including loops and parallel edges; §3.1 adds metric realization and subdivision.
+
+The extensions beyond the cited suppliers' ranges are owned here: isometric absolute-valued-field amalgamation in §0.15a, trivial-base faithful scalar extension in §0.17a, the small-fan extension and valued toric comparisons in §4.0, geometric intersection descent over rank-one fields in §§6.1a–6.2 and rank-one Raynaud uniformization, valuation and polarization in §7.0. ResolutionOfSingularitiesCharacteristicZero §7.7 supplies scheme pair principalization; §0.23 owns its convergent-model transport and the domination and cofinality contracts for the hybrid family. ArithmeticDynamics’ line and hybrid specializations consume these general constructions; its dynamical escape-rate and family-potential convergence results retain their own ownership.
+
+The general analytic carrier, its affinoid domains, atlas refinements, gluing, fibre products and completed residue fields over nonarchimedean K belong to AlgebraicModuliForArithmeticGeometry §7.10.2. Section 0.21 compares its charts and morphisms with the specified weighted normed presentations rather than constructing another category. Section 0.15 extends residue-field realization to general Banach spectra, and §§0.19–0.20 add the weighted rational-presentation and finite-module acyclicity comparisons.
+
+## Exact supplier contracts
+
+The headline signatures use Mathlib `1b1ccf4b088b32fa3f23f2de1127433254a81e1e` and Tau Ceti `2fd255d997f47c0b5d834ee416c7015d55444ce5`. The following native interfaces supply the spectrum construction:
+
+### From Mathlib
+
+- `MulRingSeminorm` (Mathlib/Analysis/Normed/Unbundled/RingSeminorm.lean): Native nonnegative additive seminorm and unital multiplicative map to the reals.
+- Mathlib `MulRingSeminorm.ext` (Mathlib/Analysis/Normed/Unbundled/RingSeminorm.lean): Extensional equality of native multiplicative seminorms.
+- Mathlib `normRingSeminorm` (Mathlib/Analysis/Normed/Unbundled/RingSeminorm.lean): The submultiplicative ring seminorm supplied by the norm.
+- Mathlib `RingHom.IsBoundedWrt` (Mathlib/Basic/Real/Basic.lean): One positive uniform bound between specified real functions.
+- Mathlib `RingHom.IsBounded` (Mathlib/Analysis/Normed/Ring/Basic.lean): One positive uniform bound between source and target norms.
+- Mathlib `contraction_of_isPowMul_of_boundedWrt` (Mathlib/Analysis/Normed/Unbundled/IsPowMulFaithful.lean): Power-multiplicative bounded pullbacks are pointwise dominated by the source ring seminorm.
+- Mathlib `IsPowMul` (Mathlib/Basic/Real/Basic.lean): Power multiplicativity for positive natural powers.
+- Mathlib `map_pow` (Mathlib/Algebra/Group/Hom/Defs.lean): A multiplicative map preserves natural powers.
+- Mathlib `normHom` (Mathlib/Analysis/Normed/Ring/Basic.lean): The native multiplicative map supplied by a multiplicative norm and norm of one equal to one.
+- Mathlib `Topology.IsEmbedding` (Mathlib/Topology/Defs/Induced.lean): Induced topology together with injectivity.
+- Mathlib `Topology.IsInducing.continuous_iff` (Mathlib/Topology/Maps/Basic.lean): Continuity into an induced topology is tested after the inducing map.
+- Mathlib `continuous_pi` (Mathlib/Topology/Constructions.lean): Coordinatewise continuity gives continuity into a product.
+- Mathlib `continuous_apply` (Mathlib/Topology/Constructions.lean): Each coordinate evaluation is continuous for the product topology.
+- Mathlib `isClosed_iInter` (Mathlib/Topology/Basic.lean): Arbitrary intersections of closed sets are closed.
+- Mathlib `isClosed_eq` (Mathlib/Topology/Separation/Hausdorff.lean): An equality of continuous real functions cuts out a closed set.
+- Mathlib `isClosed_le` (Mathlib/Topology/Order/OrderClosed.lean): An inequality of continuous real functions cuts out a closed set.
+- Mathlib `isCompact_pi_infinite` (Mathlib/Topology/Compactness/Compact.lean): Tychonoff compactness for a product of compact subsets.
+- Mathlib `CompactIccSpace` (Mathlib/Topology/Order/Compact.lean): Native compactness of closed intervals, including real intervals.
+- Mathlib `IsCompact.of_isClosed_subset` (Mathlib/Topology/Compactness/Compact.lean): A closed subset of a compact set is compact.
+- Mathlib `Topology.IsEmbedding.isCompact_iff` (Mathlib/Topology/Compactness/Compact.lean): An embedding reflects compactness from its image.
+- Mathlib `Topology.IsEmbedding.t2Space` (Mathlib/Topology/Separation/Hausdorff.lean): An embedding into a Hausdorff space has a Hausdorff domain.
+- Mathlib `NormedAlgebra.Real.nonempty_algEquiv_or` (Mathlib/Analysis/Normed/Algebra/GelfandMazur.lean): Real normed-algebra field classification. Section 0.26 adds the complete absolute-valued-field version without a chosen real scalar structure and with the norm exponent.
+- Mathlib `T2Space.of_injective_continuous` (Mathlib/Topology/Separation/Hausdorff.lean): Injective continuous maps into a Hausdorff space give Hausdorffness.
+- Mathlib `Pi.t2Space` (Mathlib/Topology/Separation/Hausdorff.lean): Products of Hausdorff spaces are Hausdorff.
+- `AlgebraicGeometry.Scheme.GlueData` and `AlgebraicGeometry.Scheme.GlueData.glued` (Mathlib/AlgebraicGeometry/Gluing.lean) supply scheme gluing along open overlaps; §4.0 uses them for the small-fan extension of the supplied finite-fan charts.
+- `Rat.AbsoluteValue.equiv_real_of_unbounded` (Mathlib/NumberTheory/Ostrowski.lean) identifies a rational absolute value not bounded by 1 on the naturals with the ordinary real absolute value up to a positive power; §0.26 extends this to the complete field.
+- `Graph`, `Graph.IsLoopAt` and `Graph.banana` (Mathlib/Combinatorics/Graph/Basic.lean) provide multigraph incidence with distinct edge identities, loops and parallel edges. They carry neither positive lengths nor a metric realization, which §3.1 constructs.
+
+### From Tau Ceti
+
+- `TauCeti.ValuationSpectrum.spa`, in `TauCeti/AlgebraicGeometry/AdicSpace/Spa/Basic.lean`, and the rational topology of AdicSpaces Layer 2 provide the adic point carrier.
+- `TauCeti.ValuationSpectrum.IsAnalyticPoint.exists_coarsenByUnits_mem_spaAnalytic`, in `TauCeti/AlgebraicGeometry/AdicSpace/Spa/Analytic.lean`, supplies an analytic rank-one coarsening of a continuous analytic valuation, with unchanged support, using an Archimedean nontrivial quotient of its value group. DiamondsAndVStacks §D5.13 supplies its uniqueness, maximality and Tate normalization; §0.28 compares that normalization with the specified uniform-unit Banach norm.
+- `TauCeti.ValuationSpectrum.spaSeparationQuotientHomeomorph`, in `TauCeti/AlgebraicGeometry/AdicSpace/Spa/SeparationQuotient.lean`, identifies Spa of A modulo the closure of zero with Spa of A. This separated-ring invariance does not provide the maximal Hausdorff quotient of the adic point space required here.
+- `TauCeti.PowerSeries.gaussNorm_mul_of_isRestricted`, in `TauCeti/RingTheory/PowerSeries/GaussNorm.lean`, provides multiplicativity of restricted Gauss norms. Layer 1 uses it for the analytic Gauss-point comparison.
+- `TauCeti.exists_isRiemannRochDivisor`, in `TauCeti/FieldTheory/FunctionField/Differential/CanonicalDivisor.lean`, and AlgebraicCurves Layer 4 provide algebraic Riemann–Roch. Layer 5 adds analytic lifting and separating functions.
+- `TauCeti.IsConvexPolyhedron`, in `TauCeti/Analysis/Convex/Polyhedron/Basic.lean`, and the lattice/cone/fan interfaces of AnalyticToricGeometry supply the underlying convex geometry. Layer 4 adds valued initial degenerations and tropical cycles.
+
+### From TauCetiRoadmap.StableReduction
+
+- StableReduction Layer 1 supplies the nodal multigraph and its component genera; Layer 2 supplies genus invariance in proper flat curve families over locally noetherian bases; the rank-one application uses the descent comparison of Layer 2 below. A simple intersection graph, such as `TauCeti.NumericalType.intersectionGraph`, does not supply this metric dual graph: loops and repeated nodes must be retained.
+- **TauCetiRoadmap.StableReduction Layer 1**: Combinatorial dual graph with component genera and p_a=Σg_v+b₁. Layer 2 adds the metric thickness/skeleton identification only. Consumed by [2.11 Formal models and metric dual graphs](#211-formal-models-and-metric-dual-graphs), [2.12 Vertex genera and analytic genus](#212-vertex-genera-and-analytic-genus).
+- **TauCetiRoadmap.StableReduction Layer 2**: Genus invariance in proper flat curve families over locally noetherian bases. Apply it to special and generic fibers through the owned rank-one model descent comparison; no second algebraic genus-invariance theorem is planned. Consumed by [2.12 Vertex genera and analytic genus](#212-vertex-genera-and-analytic-genus).
+- **TauCetiRoadmap.StableReduction Layer 7**: Semistable-reduction theorem in its DVR range, used as a compatibility check. It does not supply the owned nonnoetherian rank-one theorem. Consumed by [2.10 Rank-one semistable reduction](#210-rank-one-semistable-reduction).
+
+### From TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry
+
+- AlgebraicModuliForArithmeticGeometry §7.10.2 (`BerkovichAnalyticSpace`, `BerkovichAnalyticSpace.affinoid`, `BerkovichAnalyticSpace.refineAtlas`, `BerkovichAnalyticSpace.domain`, `BerkovichAnalyticSpace.glueDomains`, `BerkovichAnalyticSpace.fibreProduct`, `BerkovichAnalyticSpace.rigidModel`): Locally Hausdorff affinoid nets, refinement-local morphisms, affinoid domains, bounded spectra, evaluation topology and completed residue fields. Section 0.21 compares the specified weighted normed charts with these objects; the rigid equivalence is used only in the supplier's paracompact strict range.
+
+### From TauCetiRoadmap.RigidAnalyticGeometry
+
+- RigidAnalyticGeometry Layer 5: Augmented Čech exactness for finite affinoid covers of a strict affinoid over nontrivially valued K, for every algebraic A-module. Weighted nonstrict descent remains a Layer 0 target.
+
+### From TauCetiRoadmap.AdicSpacesPartII
+
+- AdicSpacesPartII §R1.3 (`analytification-functor`): Adic analytification of finite-type schemes, with the scheme and local-chart interfaces. It does not itself construct Berkovich analytification.
+- AdicSpacesPartII §R0.7 (`ValuationSpectrum.exists_amalgamation`) and §R0.18 (*banach-completed-tensor-field-exactness*): Valuation-class amalgamation and nontrivially valued nonarchimedean completed tensor exactness in their stated ranges.
+
+### From TauCetiRoadmap.AdicSpacesPartIII
+
+- AdicSpacesPartIII §R2.2 (`admissible-formal-scheme`): Flat, topologically finitely presented admissible formal K°-schemes, allowing a nonnoetherian valuation ring.
+- AdicSpacesPartIII §R2.3 (`raynaud-generic-fibre`): The analytic generic fiber, its formal affinoid charts and compatibility with admissible modifications. Layer 2 proves the metric skeleton correspondence.
+- AdicSpacesPartIII §R3.9 (`Huber.GelfandSpectrum`, `GelfandSpectrum.compactSpace_nonempty`, `GelfandSpectrum.smoothingFun_eq_sSup`): The complete bounded-seminorm spectrum, pointwise topology, compactness, nonemptiness, bounded pullback and spectral maximum.
+
+### From TauCetiRoadmap.ColemanIntegration
+
+- ColemanIntegration §L0.23: The explicit change of the logarithmic primitive under Log′−Log=c·v_p.
+- ColemanIntegration §L0.22: The convergent analytic-plus-logarithmic primitive, with its residue coefficient and differentiation identity.
+- ColemanIntegration §L0.11: The dt/t Laurent coefficient and its oriented coordinate invariance.
+- ColemanIntegration §L1.20: The good-reduction, Frobenius-normalized Coleman integration class. It is not general global path integration.
+
+### From TauCetiRoadmap.EffectiveDiophantineMethods
+
+- EffectiveDiophantineMethods §4.3: The endpoint integral for rational points over a finite extension of ℚ_p, paired with an invariant differential. The all-ℂ_p extension here uses the logarithm below.
+
+### From TauCetiRoadmap.AnabelianGeometryAndNonabelianChabauty
+
+- AnabelianGeometryAndNonabelianChabauty §5.8 (the local abelian logarithm, its compatible extension to all ℂ_p-points, its identity differential and its functoriality): The logarithm on all ℂ_p-points of an abelian variety defined over a finite p-adic field.
+
+### From TauCetiRoadmap.ColemanIntegrationPartII
+
+- ColemanIntegrationPartII §4.0: The unique locally analytic additive logarithm with identity differential for every abelian variety over ℂ_p, including those without a finite p-adic field model, and comparison with the preceding finite-model logarithm.
+- ColemanIntegrationPartII §3.1: The zero sum of oriented analytic end residues on a connected Coleman wide open, for forms extending to its specified strict neighborhood.
+
+### From TauCetiRoadmap.DiamondsAndVStacks
+
+- DiamondsAndVStacks §D5.13 (`BerkovichSpectrum`, `BerkovichSpectrum.ofSpa`, `BerkovichSpectrum.toSpa`, `BerkovichSpectrum.changeNormalization`, `TauCetiRoadmap.DiamondsAndVStacks.nonempty_t2Quotient_spa_homeomorph`): The Tate-normalized continuous real spectrum with value 1/2 on the chosen pseudouniformizer, unique rank-one maximal generization, set-theoretic section and maximal Hausdorff quotient of Spa. Section 0.28 transports that quotient through its norm-sensitive comparison.
+
+### From TauCetiRoadmap.ClassicalAdicEtaleCohomology
+
+- ClassicalAdicEtaleCohomology §3.1 (the Hausdorff strict analytic spaces, the Berkovich realization u of taut locally finite-type adic spaces and its inverse s₀, the maximal Hausdorff quotient identification, and the boundary, properness, étale and smooth comparisons): Hausdorff strict analytic atlases over a complete nontrivially valued rank-one field, their taut locally finite-type adic equivalence, and boundary, properness, étale and smooth comparisons. Sections 0.21 and 0.30 identify the strict specialization and transport these results; §0.22 uses them for the strict GAGA route.
+- ClassicalAdicEtaleCohomology §3.7 (the analytic Tate quotient and the finite étale degree-one criterion): The analytic quotient, covering, Tate analytification isomorphism and skeletal circle over a complete algebraically closed rank-one field. Section 7.1 extends this to general complete K and compares the metric and differential.
+
+### From TauCetiRoadmap.PerfectoidSpaces
+
+- PerfectoidSpaces §P1.12 (`gelfandSpectrum_isUnit_iff`): Unit detection in its nonarchimedean range; §0.14 adds the archimedean extension.
+
+### From TauCetiRoadmap.RestrictedPowerSeries
+
+- RestrictedPowerSeries §§0.1, 1.1 and 2.1: Native weighted series at arbitrary positive polyradii, Gauss norms, completeness and contractive evaluation. Section 0.17 uses these for affinoid quotients and strictification.
+
+### From TauCetiRoadmap.PadicFunctionalAnalysis
+
+- PadicFunctionalAnalysis §0.4: Tate gauge data and their topology/norm comparison; §0.27 adds uniform-unit and spectral normalization comparisons.
+
+### From TauCetiRoadmap.SchemeAndStackFoundations
+
+- **SchemeAndStackFoundations §3.3**: Integrate the native smooth connected algebraic curve, smooth proper completion and finite puncture set from AlgebraicCurves. Analytification belongs to Layer 0, not this request. Use §3.3’s `cohomologyDim_zero_structureModule` for H⁰(X̄,O)=K on a smooth proper geometrically connected curve over algebraically closed K, used with proper GAGA for analytic connectedness. Consumed by [2.1 Semistable vertex sets and their skeleta](#21-semistable-vertex-sets-and-their-skeleta), [1.4 Connected algebraic curves remain connected](#14-connected-algebraic-curves-remain-connected).
+- SchemeAndStackFoundations §4.12 (`chow_lemma`): A projective modification of a proper variety, used in §6.4 to prove the model-function estimate on projective models and descend it by projection.
+- **SchemeAndStackFoundations §§5.2–5.3**: Residue-field cycle degrees, `Chow.c1` and `proper_pushforward`. Section 5.9 treats fields, Dedekind bases and arithmetic surfaces; geometric model specialization is constructed in §6.1a and arbitrary-rank-one descent in §6.2.
+
+### From TauCetiRoadmap.AnalyticToricGeometry
+
+- **AnalyticToricGeometry Layer 0**: Lattices, cones, fans and dual semigroups, used with the coefficient-ring charts below.
+
+### From TauCetiRoadmap.ShimuraCompactifications
+
+- ShimuraCompactifications §0.16 (`TauCeti.Toric.finiteFanScheme`, `affineChart_baseChange`, `finiteFanScheme_baseChange`, `finiteFanScheme_complex`, `finiteFanScheme_torusAction`, `finiteFanScheme_glue_hom`): Schemes of finite rational fans over every commutative ring, singular cones allowed, with face localizations, coherent coefficient change and compatible chart gluing. Section 4.0 uses the specialization R=K and extends it to small fans; §§4.1–4.2 add valued analytification and tropicalization. Section 0.17 supplies the finite-fan toric morphisms induced by lattice maps.
+
+### From TauCetiRoadmap.ResolutionOfSingularitiesCharacteristicZero
+
+- ResolutionOfSingularitiesCharacteristicZero §7.7 (quasi-excellent pair principalization): Projective principalization on a reduced noetherian quasi-excellent ℚ-scheme, for a coherent ideal nonzero on every generic component, with regular source and strict-normal-crossings reduced support including the exceptional support, preserving the stated semi-strict locus. Section 0.23 proves the convergent-model excellence and analytic transport needed for complex meromorphic families, rather than identifying the scheme statement with analytic resolution.
+
+### From TauCetiRoadmap.NeronModelsAndSemistableAbelianVarieties
+
+- **NeronModelsAndSemistableAbelianVarieties §§3.13–3.14 and §§4.3–4.4**: The complete-DVR Raynaud extension (`SemiabelianExtensionClassification`), analytic quotient (`RigidUniformisation`, `RaynaudOneMotive`) and graph monodromy pairing. Section 7.0 constructs the arbitrary-rank-one extension used in §§7.5 and 7.8.
+
+### From TauCetiRoadmap.AdicSpaces
+
+- **TauCetiRoadmap.AdicSpaces Layer 2**: Native valuation classes, Spa(A,A⁺), rational topology and continuous maps; DiamondsAndVStacks §D5.13 supplies the normalized rank-one quotient and §0.28 compares it with the specified norm. Consumed by [0.28 Normalized rank-one adic quotient](#028-normalized-rank-one-adic-quotient).
+
+### From TauCetiRoadmap.AlgebraicCurves
+
+- **TauCetiRoadmap.AlgebraicCurves Layer 4**: Algebraic Riemann–Roch and prescribed-pole rational functions on the smooth proper curve; Layer 5 imports them to obtain unit-slope and coprime-pole coordinates. Consumed by [5.3 Functions separating edges and vertices](#53-functions-separating-edges-and-vertices).
+
+### From TauCetiRoadmap.EllipticCurves
+
+- **TauCetiRoadmap.EllipticCurves Layer 4**: The algebraic Tate elliptic curve and its q-parametrization; Layer 7 adds complete-field descent and measure/integral calibration. Consumed by [7.1 Tate analytic quotient and skeletal circle](#71-tate-analytic-quotient-and-skeletal-circle).
 
 ## References
 
