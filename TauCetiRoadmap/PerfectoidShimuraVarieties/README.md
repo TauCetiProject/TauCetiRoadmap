@@ -2,17 +2,11 @@
 
 **Summary.** Starting with canonical models at finite level, construct the infinite p-level Shimura diamonds, identify the Siegel, Hodge-type and pre-abelian towers represented by perfectoid spaces, and construct the Hodge–Tate period maps and coefficient torsors on the appropriate towers. The end results are Scholze’s Siegel and image-compactified Hodge-type theorems, Hansen–Johansson’s genuine minimal and pre-abelian representability theorems, and the toroidal and abelian-type period-map comparisons. The open tower, the image compactification and the genuine minimal compactification have different proofs and are kept distinct.
 
-## Scope and ownership
+## How to read the build
 
-This roadmap owns the perfectoid representability arguments and their applications to Shimura towers. ShimuraData supplies the data and algebraic flags; ShimuraVarieties supplies finite canonical models and their maps; ShimuraCompactifications supplies finite-level boundary geometry and cone-compatible compactifications. AdicSpaces and AdicSpacesPartII supply analytification and adic foundations. PerfectoidSpaces supplies perfectoid rings, tilting, tilde-limits and closed-locus comparison; PerfectoidQuotients supplies general quotient foundations; DiamondsAndVStacks supplies the sheaf and diamond categories and their limits. The existing TauCetiRoadmap AdicSpaces, AnalyticToricGeometry, AlgebraicVectorBundles and ProfiniteArithmetic provide their general foundations. Those theories are imported here.
+Layer 0 fixes finite towers, right actions, central kernels and infinite diamonds. Layer 0.general adds arbitrary-data and toroidal diamonds. Layer 1 identifies the supplied perfectoid Siegel tower, anticanonical Frobenius tower, boundary extension and flag charts with the tower conventions here. Layer 2 separates the Hodge-type open, image and genuine minimal constructions. Layer 3 gives the analytic period map, coefficient comparisons and compactified extensions. Layer 4 proves pre-abelian representability through connected and adjoint descent. Layer 5 identifies the modular and three Hilbert towers and their pairing and level actions. Layer 6 constructs the general toroidal map and abelian-type descent, and the analytic Bruhat domains used for Levi reductions and Hecke correspondences.
 
-General Huber-pair spectra and adic gluing are supplied by AdicSpaces Layers 0–5; regular-cone analytic charts, fan gluing and boundary strata to AnalyticToricGeometry Layers 2–5; finite locally free sheaves, polynomial operations and total-space equivalences to AlgebraicVectorBundles L0B–L2B; and the generic profinite completion, powers and continuous automorphisms to ProfiniteArithmetic Layers 0–2. The matrix adjugate and its anti-multiplicativity are supplied by `TauCeti.adjugateGL` and `TauCeti.adjugateGL_mul` in `TauCeti/LinearAlgebra/Matrix/GeneralLinearGroup/Adjugate.lean`, at the pins. The Hilbert constructions here add the moduli interpretation, polarization action, target-generator dependence and descent across the three towers.
-
-The arbitrary-data coefficient group in Layer 6 is the rank-removing quotient `G^r` of §6.1a. The quotient `G^c` supplied by ShimuraData §4.9 and AutomorphicBundles §0.1 is identified with it under the CM-split-centre hypothesis. Section 6.1a owns the general quotient, its effective-central-kernel theorem and the pullback of canonical principal and logarithmic models from the quotient datum.
-
-HodgeTateAndCanonicalSubgroups §§2.1–2.3 owns the finite p-level towers, their right and prime-to-p translations, and the infinite open/minimal limit v-sheaves. Its §§2.12–2.13 supplies the open period map and Levi/bundle pullback. Layer 3 identifies their analytic incarnation on the perfectoid representative and extends them to the stated compactifications. ReductiveGroups Layers 7–8, ShimuraData §§3.7–3.9 and AutomorphicBundles §§0.3–0.5 supply the representable flags and universal parabolic/Levi torsors. HodgeTateAndCanonicalSubgroups §§3.3–3.8, 4.1–4.7 supplies canonical subgroups, quotient radii and canonical–anticanonical comparison; its Layers 6–8 supplies log foundations and the Hodge-type finite-level logarithmic comparison with the central-cocharacter Tate twist; §6.1a here owns the arbitrary-data canonical association. Layer 1 identifies AutomorphicBundles Layer 10’s shared Siegel construction with the finite-level towers and cyclotomic conventions here; Layer 6 owns the tower triviality/log-to-v bridge.
-
-AutomorphicBundles §§10.2–10.3 supplies the Hasse charts, characteristic-p Hebbarkeitssatz, good triples, finite-cover stability and normalized traces used in §§1.3–1.22. Its §§10.4–10.6 supplies the Siegel minimal and toroidal towers and the closed Hodge-type toroidal towers. The identifications here preserve their finite-level moduli spaces, completed rings, boundary ideals and period maps. Pre-abelian representability in Layer 4 supplies no period map for arbitrary pre-abelian data. The minimal period map in Layer 6 is for abelian type. General toroidal towers are diamonds; perfectoid toroidal representability is asserted only in the Siegel case and for the specified Hodge-type cone decompositions.
+`Suggested.lean` contains no headline theorem signatures at the pins. The Siegel, Hodge-type and pre-abelian representability theorems, Hilbert tower comparisons, and toroidal and abelian-type period-map theorems require Shimura models and towers, perfectoid spaces, diamonds, geometric Hodge–Tate filtrations and coefficient torsors. These objects are absent from the pinned libraries. Tau Ceti's adic spaces and Mathlib's module-valued Grassmannians and period rings supply foundations for their construction.
 
 ## Conventions
 
@@ -25,152 +19,6 @@ For integral `GSp`, write `c` for the similitude multiplier. The group `Γ₀(p^
 Use the right flag quotient `FL=P_μ\G`. The Siegel cocharacter `μ(t)=diag(1_g,t1_g)` gives the lower-block parabolic `B=0`. Inversion transports `G/P` to `P\G`. The graph chart has row frame `(1,Z)`, symmetric `Z`, and column kernel `(−Z;1)`. For `γ=(A B;C D)`, the frame factor is A+ZC and the transformed coordinate is `(A+ZC)⁻¹(B+ZD)`. The W-dual frame carries the additional `c(γ)⁻¹` factor. A chosen Tate generator requires the corresponding transported linearization. Distance domains are neighbourhoods of every integral matrix, rather than only a disc about zero. In strict-depth groups a valuation bound `>m` means membership for some positive epsilon in depth `m+`epsilon.
 
 At a changed p-level, retain the actual cusp lattice: smoothness of a fan in the base lattice does not imply smoothness in that changed lattice. Use compatible fs logarithmic Kummer charts. A finite toroidal quotient can ramify at the boundary despite being Galois and étale on the interior. Normalization, Zariski closure and integral plus-ring completion are separate operations and require their stated comparison inputs.
-
-## Exact supplier contracts
-
-### From Mathlib and Tau Ceti
-
-The baseline is Mathlib `1b1ccf4b088b32fa3f23f2de1127433254a81e1e` and Tau Ceti `2fd255d997f47c0b5d834ee416c7015d55444ce5`. The following declarations supply only the stated portions.
-
-- `mathlib:CategoryTheory.Functor` (module `Mathlib/CategoryTheory/Functor/Basic.lean`): Functors between categories; the p-level tower is a functor from the poset of compact open subgroups of `G(ℚ_p)`.
-- `mathlib:CategoryTheory.IsCofiltered` (module `Mathlib/CategoryTheory/Filtered/Basic.lean`): Cofiltered categories; the compact open subgroups of `G(ℚ_p)` under inclusion form a cofiltered poset, the index category of the towers.
-- `mathlib:CategoryTheory.Limits.limit` (module `Mathlib/CategoryTheory/Limits/HasLimits.lean`): The chosen limit of a functor under `[HasLimit F]`. This does not establish existence of limits in v-sheaves; DiamondsAndVStacks D5 supplies that existence.
-- `mathlib:CongruenceSubgroup.Gamma` (module `Mathlib/NumberTheory/ModularForms/CongruenceSubgroups.lean`): The principal congruence subgroup `Γ(N)` of `SL(2, ℤ)`, the kernel of reduction modulo `N`; compared with `Γ(pᵐ) ⊆ GL_2(ℤ_p)` in the `g = 1` test.
-- `mathlib:CongruenceSubgroup.Gamma0` (module `Mathlib/NumberTheory/ModularForms/CongruenceSubgroups.lean`): `Γ₀(N) ⊆ SL(2, ℤ)`: lower-left entry `≡ 0 mod N`.
-- `mathlib:CongruenceSubgroup.Gamma1` (module `Mathlib/NumberTheory/ModularForms/CongruenceSubgroups.lean`): `Γ₁(N) ⊆ SL(2, ℤ): a ≡ d ≡ 1` and `c ≡ 0 mod N` (`Gamma1_mem`), the same orientation as Scholze's `Γ₁(pᵐ)`.
-- `mathlib:IsDedekindDomain.FiniteAdeleRing` (module `Mathlib/RingTheory/DedekindDomain/FiniteAdeleRing.lean`): The finite adele ring of a Dedekind domain as a restricted product of completions; `G(𝔸_f)` and its prime-to-p part are formed from it.
-- `mathlib:Matrix.GeneralLinearGroup` (module `Mathlib/LinearAlgebra/Matrix/GeneralLinearGroup/Defs.lean`): `GL n R` as the units of the matrix ring; `GSp_2g` is defined as a subgroup of it.
-- `mathlib:Matrix.J` (module `Mathlib/LinearAlgebra/SymplecticGroup.lean`): The matrix `J = fromBlocks 0 (−1) 1 0` of the standard symplectic form (the negative of Scholze's form).
-- `mathlib:Matrix.det` (module `Mathlib/LinearAlgebra/Matrix/Determinant/Basic.lean`): The determinant; `det(A + ZC)` in the strict-Iwahori bound.
-- `mathlib:Matrix.fromBlocks` (module `Mathlib/Data/Matrix/Block.lean`): Block matrices `(A B; C D)`; the graph-chart computation `(1 Z)·(A B; C D)`.
-- `mathlib:Matrix.symplecticGroup` (module `Mathlib/LinearAlgebra/SymplecticGroup.lean`): The submonoid of matrices A with `A J Aᵀ = J` (similitude factor 1); `GSp_2g` with similitude 1 is this group.
-- `mathlib:Module.Grassmannian` (module `Mathlib/RingTheory/Grassmannian.lean`): The structure of submodules with finite projective quotient of constant `rank k` (rankAtStalk), extending Submodule. It supplies a module-valued carrier, not a Grassmannian scheme or the Lagrangian closed subscheme; those geometric constructions are imported from ShimuraData D3.
-- `mathlib:MonoidHom.ker` (module `Mathlib/Algebra/Group/Subgroup/Ker.lean`): The kernel of a group homomorphism as a subgroup; effective deck groups are quotients by the kernel of the action.
-- `mathlib:MulAction.stabilizer` (module `Mathlib/GroupTheory/GroupAction/Defs.lean`): The stabilizer subgroup of a point; the stabiliser of the neutral component.
-- `mathlib:MulAction.toPermHom` (module `Mathlib/Algebra/Group/Action/End.lean`): The permutation homomorphism for a left group action. For the right translation law `T_(gh)=T_h∘T_g`, use the opposite group before taking this homomorphism and its kernel.
-- `mathlib:NumberField.RingOfIntegers` (module `Mathlib/NumberTheory/NumberField/Basic.lean`): The ring of integers `𝒪_F` of a number field, the coefficient ring of Hilbert–Blumenthal abelian varieties and of `Res_{𝒪_F/ℤ}ℙ¹`.
-- `mathlib:PadicInt` (module `Mathlib/NumberTheory/Padics/PadicIntegers.lean`): The p-adic integers `ℤ_[p]`; level groups are subgroups of `GSp_2g(ℤ_p)`.
-- `mathlib:Subgroup.topologicalClosure` (module `Mathlib/Topology/Algebra/Group/Subgroup.lean`): The closure of a subgroup of a topological group as a subgroup; the kernel `Z_{K^p}` is the closure of the rational central elements.
-- `mathlib:frobenius` (module `Mathlib/Algebra/CharP/Lemmas.lean`): The ring homomorphism `x ↦ x^p` for a commutative semiring with ExpChar `R` p. It supplies scalar Frobenius, not geometric relative Frobenius or its twists; the latter are imported from the finite-level geometry supplier.
-- `tauceti:TauCeti.exists_continuous_section` (module `TauCeti/Topology/Algebra/Group/Profinite/Section.lean`): For a closed subgroup `H` of a compact totally disconnected topological group `G`, the quotient map `G → G/H` has a continuous section sending the identity coset to 1 (Ribes–Zalesskii, Proposition 2.2.2); used for `ℤ_p^× ⊆ 𝒪_p^×` to split the contracted product `X ×^{ℤ_p^×} 𝒪_p^×`.
-
-- `tauceti:TauCeti.adjugateGL` and `TauCeti.adjugateGL_mul` (module `TauCeti/LinearAlgebra/Matrix/GeneralLinearGroup/Adjugate.lean`): the adjugate on `GL` and its reversed product law, used directly for the Hilbert level action. Mathlib's `Matrix.det` is the alternating-pairing coordinate; no separate determinant definition is needed.
-
-### From ShimuraData and ShimuraVarieties
-
-ShimuraVarieties §§P.1–P.5 supplies pure and connected data, components, Hodge cocharacters, reflex fields, levels and basic moduli. ShimuraData §§3.7–3.10, 3.14–3.18 supplies filtration parabolics, reflex-field compact duals, Kostant representatives and integral Bruhat/Schubert loci; §§4.1–4.2 supplies pre-abelian type and the Hodge/abelian/pre-abelian implications; §4.6 supplies connected-to-full lifts. Its §§4.8–4.9 supplies Lovering's reflex-torus datum, centre and Levi identities. Hilbert data are §§5.3–5.4, with the trace embedding in HilbertModularVarietiesAndShimuraCurves §H0.0.
-
-ShimuraVarieties §§0.1–0.6, 1.1, 1.4 supplies arithmetic stabilizers, effective actions, neat sublevels, component formulas, analytic points and translations; §§2.5–2.9 supplies Baily–Borel models and finite level maps. Canonical models are §§6.1–6.7 (Hodge inheritance, connected/full reconstruction, abelian existence) and §7.14 (general existence). Its §§8.1–8.8 supplies algebraic towers, translations, finite maps, datum functoriality and reciprocity on components; §§8.10–8.13, 8.16, 8.18–8.23 supplies full modular levels, determinant pairings and their fixed fibres, row-basis conventions, compact models, minimal descent, finite minimal extensions, Tate cusps, compatibility of correspondences and general-data towers. Model uniqueness is §4.12. All finite-level embedding claims are consumed through these suppliers; the targets here concern their perfectoid limits.
-
-### From ShimuraCompactifications
-
-ShimuraCompactifications §§2.8, 3.1 supplies the minimal boundary map and general toroidal canonical models; §§4.1–4.4, 5.1 supplies refinements, level/datum maps, Hecke spans, independence and their general descent. The actual cusp lattices control admissibility at every level. Integral toroidal and minimal models, properness, the ample Hodge line and higher-level normalization are §§7.3, 7.5, 7.16–7.20. Hilbert ordinary polarization quotients and modular formal cusp comparison are §§8.49, 8.52–8.54. The additional full-level boundary and cofinal closed Hodge-embedding contracts are below.
-
-### From adic geometry
-
-AdicSpaces Layers 0–5 supplies spectra and gluing. AdicSpacesPartII §§R1.3–R1.4 supplies functorial analytification and compatibility with finite, étale and smooth maps. AdicSpacesPartIII §§R2.4–R2.5, R2.10 supplies specialization, generic fibres, admissible blow-ups, fractional Hasse domains and their transitions; §R3.8 supplies finite locally free analytic traces, transitivity, scalar base change and the finite étale trace pairing. These are morphism and sheaf contracts, beyond geometric points.
-
-### From DiamondsAndVStacks
-
-DiamondsAndVStacks §§D4.4–D4.6, D4.9 supplies v-sheaves, underlying spaces, compact Hausdorff diamonds and geometric-point isomorphism criteria; §§D5.1, D5.3 supplies spatiality and qcqs cofiltered limits with finite-stage comparisons. Its §§D6.4–D6.5 supplies analytic diamondification, gluing and the étale-site comparison with the untilt/base fixed. Maps between perfectoid representatives lift uniquely; maps to the smooth analytic flag use its actual functor on perfectoid tests, rather than full faithfulness for arbitrary analytic spaces.
-
-### From PerfectoidSpaces and PerfectoidTowers
-
-PerfectoidSpaces §§P0.5–P0.7 supplies almost modules, exact limits/colimits and monoidal almost isomorphisms; §§P1.31–P1.32 supplies the cyclotomic perfectoid field. Its §§P2.2–P2.3, P2.7, P2.9–P2.10, P2.17 supplies tilting, rational localization, integral almost acyclicity, affinoid bases and fibre products over analytic bases; §§P3.9–P3.13 supplies finite étale tilting and almost purity. Strongly Zariski closed immersions, their base change and tilting are §§P4.12–P4.15, P4.21. Limits, finite-stage finite étale approximation and profinite products are §§P5.3, P5.9, P6.8. The tilde-limit, good affinoid, Frobenius-tower, cofinality, uniqueness, represented-functor, gluing/base-change and perfectoid-tower interfaces are §§P7.2, P7.4–P7.6, P7.9–P7.14.
-
-PerfectoidTowers §§P8.2, P8.7–P8.8, P8.10, P8.12, P8.14–P8.21 supplies invariant spectra, affinoid and covered quotients, rigid quotients, free finite-action torsors, Zariski embeddings, analytic separation, integral extensions, good towers and their finite quotients, and closed loci in towers. In particular finite towers over perfectoid towers use §P8.18; their good-tower refinements and finite-stage affinoid bases use §§P8.19–P8.20, and closed-subvariety pullbacks use §P8.21. Its §P8.18 also supplies the universal perfectoidization of integral extensions, including the completed generic pair and its universal property on perfectoid test pairs (Bhatt–Scholze Theorems 1.17(1), 10.11; Hansen–Johansson Lemmas 5.9–5.10).
-
-PerfectoidQuotients §2.1 supplies characteristic-p quotient/radical perfectoidization. Integral-extension perfectoidization is PerfectoidTowers §P8.18; strong Zariski closedness is PerfectoidSpaces §P4.15.
-
-### From HodgeTateAndCanonicalSubgroups
-
-HodgeTateAndCanonicalSubgroups §§2.1–2.3 supplies `ShimuraTower.pLevel`, `pLevelMin`, `toMin`, transition laws, `translate`, `primeToPHecke`, `quotientAction`, `infiniteLevel`, `infiniteLevelMin`, projections, evaluation on perfectoid tests, topology and cofinal reindexing. The open projection at neat level is separated quasi-pro-étale and becomes affinoid pro-étale over strictly totally disconnected perfectoid tests. The full C-linear tower and fixed-pairing cyclotomic fibre are compared in §1.2. Sources: [Milne] §5, Theorem 5.28 and Remark 5.29, pp.64–65; [Diamonds] Lemma 11.22, p.63. The `GL₂` neat principal transition degree at `m≥1` is `p⁴`; for `(G_m,{Nm})` at full tame level the infinite component set is `ℤ_p^×/{±1}`. A positive-dimensional constant tower has no perfectoid representative.
-
-Its §§0.5, 0.14–0.16, 0.18 supplies Fargues's cokernel bound, semi-abelian Hasse sections, ordinary loci, minimal extension and Raynaud filtration; §§2.5–2.10, 2.12–2.13 supplies absolute/relative Hodge–Tate sequences, flag points, parabolic reductions, the cyclotomically twisted Levi comparison and open-limit period/bundle pullback. Canonical-subgroup rigidity, existence, functoriality, quotient radii and canonical–anticanonical comparisons are §§3.3–3.8, 4.1, 4.3, 4.6–4.7; full-level Igusa comparison and modified models are §§5.2, 5.5–5.6. Log fs products, Kummer maps, boundary extensions, corrected pro-Kummer sites and perfectoid charts/bases are §§6.6, 6.12, 6.18–6.23, 6.27, 6.29. For Hodge-type data, canonical log systems, their period comparison, lattice filtration, parabolic reduction, cyclotomic Levi torsor and agreement with the open construction are §§7.29–7.30, 7.32, 7.34–7.36; the general logarithmic functors are §§7.24, 7.26. The canonical association for arbitrary pure data is §6.1a here. Retain the algebraizable finite-field family, radius endpoints, ramified generators, boundary and `p=2` qualifications of each input.
-
-### From AutomorphicBundles and ReductiveGroups
-
-ReductiveGroups Layers 7–8 supplies representable parabolic quotients, Levi subgroups and homogeneous torsors; ShimuraData §§3.7–3.9 and AutomorphicBundles §§0.3–0.5 identifies them with the reflex-field Hodge flag and its opposite/right-coset convention. This is the geometric supplier of the flag. AutomorphicBundles §§0.1–0.2 supplies the central split quotient and ineffective-fibre descent; §§1.2–1.7, 1.9 supplies absolute Hodge tensors, their descended frames, filtration reductions, Hodge and abelian canonical principal bundles and embedding independence; §2.5 supplies general principal models (`generalPrincipalModel`). Its §§3.1–3.2, 3.6, 3.9 supplies automorphic coefficients, filtered de Rham coefficients and the Siegel tautological sequence. Canonical/subcanonical extensions and general boundary functoriality are §§5.2–5.4, 6.1, 6.3. The classical Tate normalization, `GL₂` Hodge line, split and unsplit Hilbert coefficients are §§11.21, 11.10, 11.12, 11.14. Ramified-boundary torsor descent retains the separate contract below.
-
-The shared Hodge–Tate contracts are consumed as follows.
-
-| AutomorphicBundles supplier | Interface in this roadmap |
-| --- | --- |
-| §§10.2–10.3 | §§1.3–1.22: the same Hasse blow-up rings, anticanonical Frobenius charts, good triples, boundary ideals and normalized traces. |
-| §10.4 | §§1.23–1.28: the same represented minimal Siegel tower, affinoid charts and period map. |
-| §10.5 | §1.29: the same modified toroidal charts and induced-fan Siegel tower. |
-| §10.6 | §3.8(c): the same closed Hodge-type toroidal tower and tensor-defined flag map. |
-| §10.7 with §0.3 | §§3.6, 3.8(c): the rational Levi comparison with the opposite/dual identification and central-cocharacter Tate twist. |
-
-Each identification is the identity on the supplied finite-level moduli system. On affine charts it identifies the completed integral rings and their boundary ideals, commutes with restriction and level maps, and induces the identity on the represented limit functor. The cyclotomic presentation retains its fixed Weil-pairing system; §1.2 restores every similitude component of the full tower over `C`. Group and Galois maps retain the resulting semilinear action. Genuine-minimal, pre-abelian and general-data extensions belong to Layers 2, 4 and 6 here.
-
-ReductiveGroupsPartII §§RG2.1.2–RG2.1.3 supplies rational root data and valued commutator estimates. Layer 6 constructs the specialized analytic-depth groups and tubes. Rational nonsplit compact subgroups cannot be factored for an arbitrary splitting-field parabolic merely by regrouping split roots.
-
-### From finite moduli and general foundations
-
-PELModuli §§M5.1–M5.2, M2.8–M2.9 supplies principally polarized Siegel moduli of every genus, universal abelian schemes, levels and good-reduction models. HilbertModularVarietiesAndShimuraCurves §§H1.8–H1.9, H3.1–H3.8, H4.1–H4.19, H5.1 supplies the linearized pairing, polarization quotients, finite geometric/intermediate/arithmetic levels, effective torsors, stable connected-unit limit and `F=ℚ` comparison; the precise consumed contracts are below. SchemeAndStackFoundations §§0.6, 2.1, 4.13 supplies coherent Hartogs, higher direct images and Serre normality; its Layers 1–2 supplies quotient sheaves/stacks, effective actions and descent in the stated topology. It supplies no finite-étale descent theorem across a ramified coarse quotient. AnalyticToricGeometry Layers 2–5 supplies regular cones, analytic toric charts, fan gluing and strata; AlgebraicVectorBundles Layers L0B–L2B supplies finite locally free sheaves and polynomial/total-space operations; ProfiniteArithmetic Layers 0–2 supplies completion, powers and continuous automorphisms.
-
-### Application-specific geometric comparisons
-
-The comparisons in this subsection are local targets in the indicated application sections. The supplier sections cited here provide their finite-level foundations.
-
-Using ShimuraCompactifications §§7.16–7.20, prove in §1.22: At level `K^pΓ(pᵐ)` over `ℚ` for the Siegel datum (`K^p` contained in a level-N subgroup, `N ≥ 3` prime to `p`): the description of the boundary strata of the minimal compactification `X*_{Γ(pᵐ)}` and of the map `X*_{Γ(pᵐ)} → X*_{Γ₁(pᵐ)}` on them through lower-genus Siegel spaces (Faltings–Chai `V`, Theorem 2.5(4)–(6), pp. 152–153, at full principal level; Pilloni–Stroh Théorème A.11, p. 27), with the constancy of inertia along each stratum, as used in [Scholze] Lemma 3.2.35. The integral minimal and toroidal compactifications at good level are cited from the interfaces ShimuraCompactifications §7.16, ShimuraCompactifications §7.17, ShimuraCompactifications §7.3, ShimuraCompactifications §7.5 and ShimuraCompactifications §7.19–7.20.
-
-This is consumed by §1.22.
-
-AutomorphicBundles §10.6 supplies the closed Hodge-type toroidal embeddings over the finite models of ShimuraCompactifications §5.1. Use a strictly compatible smooth projective Hodge/Siegel fan pair at an initial principal level, with trivial effective cone stabilizers, and induce both fans at deeper levels. The embeddings identify the reduced boundary ideals and commute with level maps and the maps to the minimal models. Their perfectoid closed limits and tensor-defined period maps are the objects compared in §3.8(c) (Lan, Closed immersions of toroidal compactifications of Shimura varieties, Propositions 4.9–4.10 and 6.1, author PDF pp. 14, 18–20).
-
-This is consumed by §3.8.
-
-From ShimuraVarieties Layer 2: Baily–Borel compactifications `Sh*_Γ(G, X⁺)` of connected Shimura varieties `Γ\X⁺` for every arithmetic `Γ ⊆ G(ℚ)_+` (also non-congruence and with torsion), over `ℂ`: normal projective, finite maps `Sh*_{Γ₁} → Sh*_{Γ₂}` for `Γ₁ ⊆ Γ₂` of finite index, the identification `Sh*_{Γ₁}/(Γ₂/Γ₁) ≅ Sh*_{Γ₂}` for `Γ₁` normal in `Γ₂`, and the finite maps for `G → G^ad` sending `(G(ℚ)_+ ∩ K)\X⁺` to `π(Γ)\X⁺` ([HJ] §5.3, Propositions 5.18–5.19).
-
-This is consumed by §4.1, §4.3, §4.4.
-
-From ShimuraData Layer 4: Connected Shimura data `(G, X⁺)` (Deligne's conditions on a semisimple `G` and a `G^ad(ℝ)⁺`-orbit) with the connected data `(G^der, X⁺), (G^ad, X⁺)` attached to a Shimura datum, and the pre-abelian notion for connected data: `(G, X⁺)` is of pre-abelian type if `(G^ad, X⁺) ≅ (G̃^ad, X̃⁺)` for a Hodge-type datum (Hansen–Johansson Definition 4.1, after Moonen 2.10), agreeing with ShimuraData §4.1 for full data.
-
-This is consumed by §4.1, §4.5.
-
-From ShimuraVarieties Layer 8: For a closed embedding of Shimura data `ι: (G, X) ↪ (G′, X′)` and `K = K′ ∩ G(𝔸_f)`: the extension `Sh*_K(G, X) → Sh*_{K′}(G′, X′) ⊗ E` of the canonical-model map to minimal compactifications is finite, and maps the boundary to the boundary and the interior to the interior (used without reference by Scholze §4.1 and Hansen–Johansson Proposition 5.14).
-
-This is consumed by §2.1.
-
-From HilbertModularVarietiesAndShimuraCurves H1: For Hilbert–Blumenthal abelian varieties with `𝔠`-polarization: the `𝒪_F`-linearised Weil pairing `ẽ_n: A[pⁿ] × A^∨[pⁿ] → 𝔡⁻¹ ⊗ μ_{pⁿ}` with `e_{pⁿ} = Tr ∘ ẽ_n`, and the choice of a generator `β` of `𝔠𝔡⁻¹(1)` with its change-of-choice law (Birkbeck–Heuer–Williams Definitions 5.6–5.7).
-
-This is consumed by §5.6.
-
-From HilbertModularVarietiesAndShimuraCurves H3: The unit group `Δ(N) = 𝒪_F^{×,+}/((1 + N𝒪_F)^×)²` and the finite polarization quotient from the `G*`-variety (fixed polarization module) to the arithmetic G-variety, its `Δ(N)`-torsor over the quotient stack and its coarse torsor on the action-free locus, the maps attached to changing `𝔠` by isogenies (Birkbeck–Heuer–Williams Proposition 8.4 and Lemma 8.22).
-
-This is consumed by §5.4, §5.7, §5.9.
-
-From HilbertModularVarietiesAndShimuraCurves H4: At finite p-level: the `G*`, intermediate (G-level with fixed `G*`-polarization) and arithmetic `G` Hilbert varieties at levels `Γ*(pⁿ), Γ(pⁿ), Γ₀(pⁿ)` with the maps `β₁, β₂`; the level-structure action through `γ^∨ = det(γ)γ⁻¹` and the polarization action; the Weil-pairing components `(𝒪_F/pⁿ)^×` and `U_n`; the finite geometric/intermediate frame torsors under `Γ̄₀(p^m, pⁿ)`; the arithmetic, diagonal and polarization torsors over quotient stacks under `P̄Γ₀(p^m, pⁿ) = Γ̄₀/Z_n (Z_n = (1 + N𝒪_F)^×/(1 + pⁿN𝒪_F)^×), Ē(p^m, pⁿ), Δ(pⁿN)` and, on paired components, `Δ_n(N)`, with coarse torsors only on the respective action-free loci (the diagonal requires a free Ē-action) (Birkbeck–Heuer–Williams Lemmas 8.5–8.19, with the corrected stabilisation argument for `Δ_n(N)` when `p = 2`).
-
-This is consumed by §5.4, §5.5, §5.6, §5.7, §5.8.
-
-From HilbertModularVarietiesAndShimuraCurves H5: For `F = ℚ`: the identification of both Hilbert groups with `GL₂` and of the Hilbert moduli and level structures (`μ_N`-structures on `A, Γ(pⁿ)`-structures on `A^∨`) with the modular-curve ones of the full-level modular curves, with the sign conventions of the Weil pairing matched.
-
-This is consumed by §5.1, §5.11.
-
-From ShimuraData Layer 4: For an abelian-type datum and a Hodge-type central derived cover, construct Lovering’s auxiliary `B₁ = G₁ ×_{G₁^ab} Res_{E/ℚ}G_m` with the specified reflex-norm map, Shimura cocharacter, maps to `G₁` and `G` (through `B`), and common adjoint flag variety. Use its `Z_s, G^c` and Levi fibre-product identities in their stated range; §6.5 proves the corresponding identities for §6.1a’s rank-removing quotient. A lift through a fixed central isogeny alone does not supply these statements.
-
-This is consumed by §6.4, §6.5, §6.6, §6.9.
-
-Using AutomorphicBundles §§6.1–6.3, prove in §6.9: Prove descent of the pushed-out canonical de Rham/Levi torsor under the finite toroidal quotient in Boxer–Pilloni Theorem 4.4.43(5), arXiv v1 pp. 80–81, and Remark 4.6.6, pp. 89–90: identify boundary inertia on compatible toric charts, prove its action on the pushed-out fibres is trivial, and descend as an étale torsor; compare the logarithmic Hodge–Tate torsor. Coordinate the finite ramified quotient hypotheses with ShimuraCompactifications §5.1.
-
-This is consumed by §6.9.
-
-From DiamondsAndVStacks D6: Provide the fully faithful perfectoid-space-to-diamond functor with the analytic base/untilt fixed, so a map between diamonds represented by perfectoid spaces over `C` lifts uniquely to an analytic morphism. The general analytic diamond-functor statement does not imply full faithfulness for all analytic adic spaces. For Layer 3 also identify maps from a perfectoid space over `C` to the smooth analytic flag with maps to its diamond on perfectoid tests, using the flag’s actual analytic functor of points; full faithfulness between two perfectoid objects alone does not supply a nonperfectoid target.
-
-This is consumed by §2.8, §3.5.
-
-From ReductiveGroups Layers 7–8: Provide the reflex-field representable homogeneous Hodge–Tate flag `P_μ\G`, the universal parabolic torsor, its Levi quotient `U_P\G` and associated-bundle universal properties, including analytification and the inversion/opposite-parabolic dictionary. Coordinate with AutomorphicBundles Layer 0. This is the generic interface required by the HodgeTateAndCanonicalSubgroups Layer 2 open-tower suppliers; use it for the open-limit construction and its analytic comparison in Layer 3.
-
-This is consumed by §3.1.
-
-## How to read the build
-
-Layer 0 fixes finite towers, right actions, central kernels and infinite diamonds. Layer 0.general adds arbitrary-data and toroidal diamonds. Layer 1 identifies the supplied perfectoid Siegel tower, anticanonical Frobenius tower, boundary extension and flag charts with the tower conventions here. Layer 2 separates the Hodge-type open, image and genuine minimal constructions. Layer 3 gives the analytic period map, coefficient comparisons and compactified extensions. Layer 4 proves pre-abelian representability through connected and adjoint descent. Layer 5 identifies the modular and three Hilbert towers and their pairing and level actions. Layer 6 constructs the general toroidal map and abelian-type descent, and the analytic Bruhat domains used for Levi reductions and Hecke correspondences.
-
-`Suggested.lean` contains no headline theorem signatures at the pins. The Siegel, Hodge-type and pre-abelian representability theorems, Hilbert tower comparisons, and toroidal and abelian-type period-map theorems require Shimura models and towers, perfectoid spaces, diamonds, geometric Hodge–Tate filtrations and coefficient torsors. These objects are absent from the pinned libraries. Tau Ceti's adic spaces and Mathlib's module-valued Grassmannians and period rings supply foundations for their construction.
 
 ## Layer 0: finite and infinite towers
 
@@ -2390,6 +2238,158 @@ OverconvergentAutomorphicForms uses the perfectoid charts, graph frames, Hilbert
 TorsionCohomologyInfrastructure is a downstream consumer. It imports the Hebbarkeitssatz, good triples and boundary extension (§§1.3–1.7), normalized traces (§1.16), the Hodge-type image-compactified tower and its comparison with the genuine minimal tower (§§2.3, 2.8), the period map (§3.8), and the period-map affinoid basis (§3.13). Its TC.2, §2.1 owns the comparison of fixed-exponent compactly supported completed cohomology with the almost cohomology of the integral boundary ideal on that tower (Scholze, Theorem 4.2.1, pp. 1021–1023), for every exponent `m≥1` and degree `i≥0` under that theorem's Hodge-type embedding and tame-level hypotheses. CompletedCohomologyPartII §8.6 supplies the fixed-exponent cohomology carrier and support convention to that comparison. The geometric inputs exported here are constructed before the comparison.
 
 IgusaVarietiesAndTorsionConcentration is a downstream consumer of the represented towers, their Hodge–Tate maps and the geometric fibres studied at its IG.3. It supplies no input to this roadmap.
+
+## Scope and ownership
+
+This roadmap owns the perfectoid representability arguments and their applications to Shimura towers. ShimuraData supplies the data and algebraic flags; ShimuraVarieties supplies finite canonical models and their maps; ShimuraCompactifications supplies finite-level boundary geometry and cone-compatible compactifications. AdicSpaces and AdicSpacesPartII supply analytification and adic foundations. PerfectoidSpaces supplies perfectoid rings, tilting, tilde-limits and closed-locus comparison; PerfectoidQuotients supplies general quotient foundations; DiamondsAndVStacks supplies the sheaf and diamond categories and their limits. The existing TauCetiRoadmap AdicSpaces, AnalyticToricGeometry, AlgebraicVectorBundles and ProfiniteArithmetic provide their general foundations. Those theories are imported here.
+
+General Huber-pair spectra and adic gluing are supplied by AdicSpaces Layers 0–5; regular-cone analytic charts, fan gluing and boundary strata to AnalyticToricGeometry Layers 2–5; finite locally free sheaves, polynomial operations and total-space equivalences to AlgebraicVectorBundles L0B–L2B; and the generic profinite completion, powers and continuous automorphisms to ProfiniteArithmetic Layers 0–2. The matrix adjugate and its anti-multiplicativity are supplied by `TauCeti.adjugateGL` and `TauCeti.adjugateGL_mul` in `TauCeti/LinearAlgebra/Matrix/GeneralLinearGroup/Adjugate.lean`, at the pins. The Hilbert constructions here add the moduli interpretation, polarization action, target-generator dependence and descent across the three towers.
+
+The arbitrary-data coefficient group in Layer 6 is the rank-removing quotient `G^r` of §6.1a. The quotient `G^c` supplied by ShimuraData §4.9 and AutomorphicBundles §0.1 is identified with it under the CM-split-centre hypothesis. Section 6.1a owns the general quotient, its effective-central-kernel theorem and the pullback of canonical principal and logarithmic models from the quotient datum.
+
+HodgeTateAndCanonicalSubgroups §§2.1–2.3 owns the finite p-level towers, their right and prime-to-p translations, and the infinite open/minimal limit v-sheaves. Its §§2.12–2.13 supplies the open period map and Levi/bundle pullback. Layer 3 identifies their analytic incarnation on the perfectoid representative and extends them to the stated compactifications. ReductiveGroups Layers 7–8, ShimuraData §§3.7–3.9 and AutomorphicBundles §§0.3–0.5 supply the representable flags and universal parabolic/Levi torsors. HodgeTateAndCanonicalSubgroups §§3.3–3.8, 4.1–4.7 supplies canonical subgroups, quotient radii and canonical–anticanonical comparison; its Layers 6–8 supplies log foundations and the Hodge-type finite-level logarithmic comparison with the central-cocharacter Tate twist; §6.1a here owns the arbitrary-data canonical association. Layer 1 identifies AutomorphicBundles Layer 10’s shared Siegel construction with the finite-level towers and cyclotomic conventions here; Layer 6 owns the tower triviality/log-to-v bridge.
+
+AutomorphicBundles §§10.2–10.3 supplies the Hasse charts, characteristic-p Hebbarkeitssatz, good triples, finite-cover stability and normalized traces used in §§1.3–1.22. Its §§10.4–10.6 supplies the Siegel minimal and toroidal towers and the closed Hodge-type toroidal towers. The identifications here preserve their finite-level moduli spaces, completed rings, boundary ideals and period maps. Pre-abelian representability in Layer 4 supplies no period map for arbitrary pre-abelian data. The minimal period map in Layer 6 is for abelian type. General toroidal towers are diamonds; perfectoid toroidal representability is asserted only in the Siegel case and for the specified Hodge-type cone decompositions.
+
+## Exact supplier contracts
+
+### From Mathlib and Tau Ceti
+
+The baseline is Mathlib `1b1ccf4b088b32fa3f23f2de1127433254a81e1e` and Tau Ceti `2fd255d997f47c0b5d834ee416c7015d55444ce5`. The following declarations supply only the stated portions.
+
+- `mathlib:CategoryTheory.Functor` (module `Mathlib/CategoryTheory/Functor/Basic.lean`): Functors between categories; the p-level tower is a functor from the poset of compact open subgroups of `G(ℚ_p)`.
+- `mathlib:CategoryTheory.IsCofiltered` (module `Mathlib/CategoryTheory/Filtered/Basic.lean`): Cofiltered categories; the compact open subgroups of `G(ℚ_p)` under inclusion form a cofiltered poset, the index category of the towers.
+- `mathlib:CategoryTheory.Limits.limit` (module `Mathlib/CategoryTheory/Limits/HasLimits.lean`): The chosen limit of a functor under `[HasLimit F]`. This does not establish existence of limits in v-sheaves; DiamondsAndVStacks D5 supplies that existence.
+- `mathlib:CongruenceSubgroup.Gamma` (module `Mathlib/NumberTheory/ModularForms/CongruenceSubgroups.lean`): The principal congruence subgroup `Γ(N)` of `SL(2, ℤ)`, the kernel of reduction modulo `N`; compared with `Γ(pᵐ) ⊆ GL_2(ℤ_p)` in the `g = 1` test.
+- `mathlib:CongruenceSubgroup.Gamma0` (module `Mathlib/NumberTheory/ModularForms/CongruenceSubgroups.lean`): `Γ₀(N) ⊆ SL(2, ℤ)`: lower-left entry `≡ 0 mod N`.
+- `mathlib:CongruenceSubgroup.Gamma1` (module `Mathlib/NumberTheory/ModularForms/CongruenceSubgroups.lean`): `Γ₁(N) ⊆ SL(2, ℤ): a ≡ d ≡ 1` and `c ≡ 0 mod N` (`Gamma1_mem`), the same orientation as Scholze's `Γ₁(pᵐ)`.
+- `mathlib:IsDedekindDomain.FiniteAdeleRing` (module `Mathlib/RingTheory/DedekindDomain/FiniteAdeleRing.lean`): The finite adele ring of a Dedekind domain as a restricted product of completions; `G(𝔸_f)` and its prime-to-p part are formed from it.
+- `mathlib:Matrix.GeneralLinearGroup` (module `Mathlib/LinearAlgebra/Matrix/GeneralLinearGroup/Defs.lean`): `GL n R` as the units of the matrix ring; `GSp_2g` is defined as a subgroup of it.
+- `mathlib:Matrix.J` (module `Mathlib/LinearAlgebra/SymplecticGroup.lean`): The matrix `J = fromBlocks 0 (−1) 1 0` of the standard symplectic form (the negative of Scholze's form).
+- `mathlib:Matrix.det` (module `Mathlib/LinearAlgebra/Matrix/Determinant/Basic.lean`): The determinant; `det(A + ZC)` in the strict-Iwahori bound.
+- `mathlib:Matrix.fromBlocks` (module `Mathlib/Data/Matrix/Block.lean`): Block matrices `(A B; C D)`; the graph-chart computation `(1 Z)·(A B; C D)`.
+- `mathlib:Matrix.symplecticGroup` (module `Mathlib/LinearAlgebra/SymplecticGroup.lean`): The submonoid of matrices A with `A J Aᵀ = J` (similitude factor 1); `GSp_2g` with similitude 1 is this group.
+- `mathlib:Module.Grassmannian` (module `Mathlib/RingTheory/Grassmannian.lean`): The structure of submodules with finite projective quotient of constant `rank k` (rankAtStalk), extending Submodule. It supplies a module-valued carrier, not a Grassmannian scheme or the Lagrangian closed subscheme; those geometric constructions are imported from ShimuraData D3.
+- `mathlib:MonoidHom.ker` (module `Mathlib/Algebra/Group/Subgroup/Ker.lean`): The kernel of a group homomorphism as a subgroup; effective deck groups are quotients by the kernel of the action.
+- `mathlib:MulAction.stabilizer` (module `Mathlib/GroupTheory/GroupAction/Defs.lean`): The stabilizer subgroup of a point; the stabiliser of the neutral component.
+- `mathlib:MulAction.toPermHom` (module `Mathlib/Algebra/Group/Action/End.lean`): The permutation homomorphism for a left group action. For the right translation law `T_(gh)=T_h∘T_g`, use the opposite group before taking this homomorphism and its kernel.
+- `mathlib:NumberField.RingOfIntegers` (module `Mathlib/NumberTheory/NumberField/Basic.lean`): The ring of integers `𝒪_F` of a number field, the coefficient ring of Hilbert–Blumenthal abelian varieties and of `Res_{𝒪_F/ℤ}ℙ¹`.
+- `mathlib:PadicInt` (module `Mathlib/NumberTheory/Padics/PadicIntegers.lean`): The p-adic integers `ℤ_[p]`; level groups are subgroups of `GSp_2g(ℤ_p)`.
+- `mathlib:Subgroup.topologicalClosure` (module `Mathlib/Topology/Algebra/Group/Subgroup.lean`): The closure of a subgroup of a topological group as a subgroup; the kernel `Z_{K^p}` is the closure of the rational central elements.
+- `mathlib:frobenius` (module `Mathlib/Algebra/CharP/Lemmas.lean`): The ring homomorphism `x ↦ x^p` for a commutative semiring with ExpChar `R` p. It supplies scalar Frobenius, not geometric relative Frobenius or its twists; the latter are imported from the finite-level geometry supplier.
+- `tauceti:TauCeti.exists_continuous_section` (module `TauCeti/Topology/Algebra/Group/Profinite/Section.lean`): For a closed subgroup `H` of a compact totally disconnected topological group `G`, the quotient map `G → G/H` has a continuous section sending the identity coset to 1 (Ribes–Zalesskii, Proposition 2.2.2); used for `ℤ_p^× ⊆ 𝒪_p^×` to split the contracted product `X ×^{ℤ_p^×} 𝒪_p^×`.
+
+- `tauceti:TauCeti.adjugateGL` and `TauCeti.adjugateGL_mul` (module `TauCeti/LinearAlgebra/Matrix/GeneralLinearGroup/Adjugate.lean`): the adjugate on `GL` and its reversed product law, used directly for the Hilbert level action. Mathlib's `Matrix.det` is the alternating-pairing coordinate; no separate determinant definition is needed.
+
+### From ShimuraData and ShimuraVarieties
+
+ShimuraVarieties §§P.1–P.5 supplies pure and connected data, components, Hodge cocharacters, reflex fields, levels and basic moduli. ShimuraData §§3.7–3.10, 3.14–3.18 supplies filtration parabolics, reflex-field compact duals, Kostant representatives and integral Bruhat/Schubert loci; §§4.1–4.2 supplies pre-abelian type and the Hodge/abelian/pre-abelian implications; §4.6 supplies connected-to-full lifts. Its §§4.8–4.9 supplies Lovering's reflex-torus datum, centre and Levi identities. Hilbert data are §§5.3–5.4, with the trace embedding in HilbertModularVarietiesAndShimuraCurves §H0.0.
+
+ShimuraVarieties §§0.1–0.6, 1.1, 1.4 supplies arithmetic stabilizers, effective actions, neat sublevels, component formulas, analytic points and translations; §§2.5–2.9 supplies Baily–Borel models and finite level maps. Canonical models are §§6.1–6.7 (Hodge inheritance, connected/full reconstruction, abelian existence) and §7.14 (general existence). Its §§8.1–8.8 supplies algebraic towers, translations, finite maps, datum functoriality and reciprocity on components; §§8.10–8.13, 8.16, 8.18–8.23 supplies full modular levels, determinant pairings and their fixed fibres, row-basis conventions, compact models, minimal descent, finite minimal extensions, Tate cusps, compatibility of correspondences and general-data towers. Model uniqueness is §4.12. All finite-level embedding claims are consumed through these suppliers; the targets here concern their perfectoid limits.
+
+### From ShimuraCompactifications
+
+ShimuraCompactifications §§2.8, 3.1 supplies the minimal boundary map and general toroidal canonical models; §§4.1–4.4, 5.1 supplies refinements, level/datum maps, Hecke spans, independence and their general descent. The actual cusp lattices control admissibility at every level. Integral toroidal and minimal models, properness, the ample Hodge line and higher-level normalization are §§7.3, 7.5, 7.16–7.20. Hilbert ordinary polarization quotients and modular formal cusp comparison are §§8.49, 8.52–8.54. The additional full-level boundary and cofinal closed Hodge-embedding contracts are below.
+
+### From adic geometry
+
+AdicSpaces Layers 0–5 supplies spectra and gluing. AdicSpacesPartII §§R1.3–R1.4 supplies functorial analytification and compatibility with finite, étale and smooth maps. AdicSpacesPartIII §§R2.4–R2.5, R2.10 supplies specialization, generic fibres, admissible blow-ups, fractional Hasse domains and their transitions; §R3.8 supplies finite locally free analytic traces, transitivity, scalar base change and the finite étale trace pairing. These are morphism and sheaf contracts, beyond geometric points.
+
+### From DiamondsAndVStacks
+
+DiamondsAndVStacks §§D4.4–D4.6, D4.9 supplies v-sheaves, underlying spaces, compact Hausdorff diamonds and geometric-point isomorphism criteria; §§D5.1, D5.3 supplies spatiality and qcqs cofiltered limits with finite-stage comparisons. Its §§D6.4–D6.5 supplies analytic diamondification, gluing and the étale-site comparison with the untilt/base fixed. Maps between perfectoid representatives lift uniquely; maps to the smooth analytic flag use its actual functor on perfectoid tests, rather than full faithfulness for arbitrary analytic spaces.
+
+### From PerfectoidSpaces and PerfectoidTowers
+
+PerfectoidSpaces §§P0.5–P0.7 supplies almost modules, exact limits/colimits and monoidal almost isomorphisms; §§P1.31–P1.32 supplies the cyclotomic perfectoid field. Its §§P2.2–P2.3, P2.7, P2.9–P2.10, P2.17 supplies tilting, rational localization, integral almost acyclicity, affinoid bases and fibre products over analytic bases; §§P3.9–P3.13 supplies finite étale tilting and almost purity. Strongly Zariski closed immersions, their base change and tilting are §§P4.12–P4.15, P4.21. Limits, finite-stage finite étale approximation and profinite products are §§P5.3, P5.9, P6.8. The tilde-limit, good affinoid, Frobenius-tower, cofinality, uniqueness, represented-functor, gluing/base-change and perfectoid-tower interfaces are §§P7.2, P7.4–P7.6, P7.9–P7.14.
+
+PerfectoidTowers §§P8.2, P8.7–P8.8, P8.10, P8.12, P8.14–P8.21 supplies invariant spectra, affinoid and covered quotients, rigid quotients, free finite-action torsors, Zariski embeddings, analytic separation, integral extensions, good towers and their finite quotients, and closed loci in towers. In particular finite towers over perfectoid towers use §P8.18; their good-tower refinements and finite-stage affinoid bases use §§P8.19–P8.20, and closed-subvariety pullbacks use §P8.21. Its §P8.18 also supplies the universal perfectoidization of integral extensions, including the completed generic pair and its universal property on perfectoid test pairs (Bhatt–Scholze Theorems 1.17(1), 10.11; Hansen–Johansson Lemmas 5.9–5.10).
+
+PerfectoidQuotients §2.1 supplies characteristic-p quotient/radical perfectoidization. Integral-extension perfectoidization is PerfectoidTowers §P8.18; strong Zariski closedness is PerfectoidSpaces §P4.15.
+
+### From HodgeTateAndCanonicalSubgroups
+
+HodgeTateAndCanonicalSubgroups §§2.1–2.3 supplies `ShimuraTower.pLevel`, `pLevelMin`, `toMin`, transition laws, `translate`, `primeToPHecke`, `quotientAction`, `infiniteLevel`, `infiniteLevelMin`, projections, evaluation on perfectoid tests, topology and cofinal reindexing. The open projection at neat level is separated quasi-pro-étale and becomes affinoid pro-étale over strictly totally disconnected perfectoid tests. The full C-linear tower and fixed-pairing cyclotomic fibre are compared in §1.2. Sources: [Milne] §5, Theorem 5.28 and Remark 5.29, pp.64–65; [Diamonds] Lemma 11.22, p.63. The `GL₂` neat principal transition degree at `m≥1` is `p⁴`; for `(G_m,{Nm})` at full tame level the infinite component set is `ℤ_p^×/{±1}`. A positive-dimensional constant tower has no perfectoid representative.
+
+Its §§0.5, 0.14–0.16, 0.18 supplies Fargues's cokernel bound, semi-abelian Hasse sections, ordinary loci, minimal extension and Raynaud filtration; §§2.5–2.10, 2.12–2.13 supplies absolute/relative Hodge–Tate sequences, flag points, parabolic reductions, the cyclotomically twisted Levi comparison and open-limit period/bundle pullback. Canonical-subgroup rigidity, existence, functoriality, quotient radii and canonical–anticanonical comparisons are §§3.3–3.8, 4.1, 4.3, 4.6–4.7; full-level Igusa comparison and modified models are §§5.2, 5.5–5.6. Log fs products, Kummer maps, boundary extensions, corrected pro-Kummer sites and perfectoid charts/bases are §§6.6, 6.12, 6.18–6.23, 6.27, 6.29. For Hodge-type data, canonical log systems, their period comparison, lattice filtration, parabolic reduction, cyclotomic Levi torsor and agreement with the open construction are §§7.29–7.30, 7.32, 7.34–7.36; the general logarithmic functors are §§7.24, 7.26. The canonical association for arbitrary pure data is §6.1a here. Retain the algebraizable finite-field family, radius endpoints, ramified generators, boundary and `p=2` qualifications of each input.
+
+### From AutomorphicBundles and ReductiveGroups
+
+ReductiveGroups Layers 7–8 supplies representable parabolic quotients, Levi subgroups and homogeneous torsors; ShimuraData §§3.7–3.9 and AutomorphicBundles §§0.3–0.5 identifies them with the reflex-field Hodge flag and its opposite/right-coset convention. This is the geometric supplier of the flag. AutomorphicBundles §§0.1–0.2 supplies the central split quotient and ineffective-fibre descent; §§1.2–1.7, 1.9 supplies absolute Hodge tensors, their descended frames, filtration reductions, Hodge and abelian canonical principal bundles and embedding independence; §2.5 supplies general principal models (`generalPrincipalModel`). Its §§3.1–3.2, 3.6, 3.9 supplies automorphic coefficients, filtered de Rham coefficients and the Siegel tautological sequence. Canonical/subcanonical extensions and general boundary functoriality are §§5.2–5.4, 6.1, 6.3. The classical Tate normalization, `GL₂` Hodge line, split and unsplit Hilbert coefficients are §§11.21, 11.10, 11.12, 11.14. Ramified-boundary torsor descent retains the separate contract below.
+
+The shared Hodge–Tate contracts are consumed as follows.
+
+| AutomorphicBundles supplier | Interface in this roadmap |
+| --- | --- |
+| §§10.2–10.3 | §§1.3–1.22: the same Hasse blow-up rings, anticanonical Frobenius charts, good triples, boundary ideals and normalized traces. |
+| §10.4 | §§1.23–1.28: the same represented minimal Siegel tower, affinoid charts and period map. |
+| §10.5 | §1.29: the same modified toroidal charts and induced-fan Siegel tower. |
+| §10.6 | §3.8(c): the same closed Hodge-type toroidal tower and tensor-defined flag map. |
+| §10.7 with §0.3 | §§3.6, 3.8(c): the rational Levi comparison with the opposite/dual identification and central-cocharacter Tate twist. |
+
+Each identification is the identity on the supplied finite-level moduli system. On affine charts it identifies the completed integral rings and their boundary ideals, commutes with restriction and level maps, and induces the identity on the represented limit functor. The cyclotomic presentation retains its fixed Weil-pairing system; §1.2 restores every similitude component of the full tower over `C`. Group and Galois maps retain the resulting semilinear action. Genuine-minimal, pre-abelian and general-data extensions belong to Layers 2, 4 and 6 here.
+
+ReductiveGroupsPartII §§RG2.1.2–RG2.1.3 supplies rational root data and valued commutator estimates. Layer 6 constructs the specialized analytic-depth groups and tubes. Rational nonsplit compact subgroups cannot be factored for an arbitrary splitting-field parabolic merely by regrouping split roots.
+
+### From finite moduli and general foundations
+
+PELModuli §§M5.1–M5.2, M2.8–M2.9 supplies principally polarized Siegel moduli of every genus, universal abelian schemes, levels and good-reduction models. HilbertModularVarietiesAndShimuraCurves §§H1.8–H1.9, H3.1–H3.8, H4.1–H4.19, H5.1 supplies the linearized pairing, polarization quotients, finite geometric/intermediate/arithmetic levels, effective torsors, stable connected-unit limit and `F=ℚ` comparison; the precise consumed contracts are below. SchemeAndStackFoundations §§0.6, 2.1, 4.13 supplies coherent Hartogs, higher direct images and Serre normality; its Layers 1–2 supplies quotient sheaves/stacks, effective actions and descent in the stated topology. It supplies no finite-étale descent theorem across a ramified coarse quotient. AnalyticToricGeometry Layers 2–5 supplies regular cones, analytic toric charts, fan gluing and strata; AlgebraicVectorBundles Layers L0B–L2B supplies finite locally free sheaves and polynomial/total-space operations; ProfiniteArithmetic Layers 0–2 supplies completion, powers and continuous automorphisms.
+
+### Application-specific geometric comparisons
+
+The comparisons in this subsection are local targets in the indicated application sections. The supplier sections cited here provide their finite-level foundations.
+
+Using ShimuraCompactifications §§7.16–7.20, prove in §1.22: At level `K^pΓ(pᵐ)` over `ℚ` for the Siegel datum (`K^p` contained in a level-N subgroup, `N ≥ 3` prime to `p`): the description of the boundary strata of the minimal compactification `X*_{Γ(pᵐ)}` and of the map `X*_{Γ(pᵐ)} → X*_{Γ₁(pᵐ)}` on them through lower-genus Siegel spaces (Faltings–Chai `V`, Theorem 2.5(4)–(6), pp. 152–153, at full principal level; Pilloni–Stroh Théorème A.11, p. 27), with the constancy of inertia along each stratum, as used in [Scholze] Lemma 3.2.35. The integral minimal and toroidal compactifications at good level are cited from the interfaces ShimuraCompactifications §7.16, ShimuraCompactifications §7.17, ShimuraCompactifications §7.3, ShimuraCompactifications §7.5 and ShimuraCompactifications §7.19–7.20.
+
+This is consumed by §1.22.
+
+AutomorphicBundles §10.6 supplies the closed Hodge-type toroidal embeddings over the finite models of ShimuraCompactifications §5.1. Use a strictly compatible smooth projective Hodge/Siegel fan pair at an initial principal level, with trivial effective cone stabilizers, and induce both fans at deeper levels. The embeddings identify the reduced boundary ideals and commute with level maps and the maps to the minimal models. Their perfectoid closed limits and tensor-defined period maps are the objects compared in §3.8(c) (Lan, Closed immersions of toroidal compactifications of Shimura varieties, Propositions 4.9–4.10 and 6.1, author PDF pp. 14, 18–20).
+
+This is consumed by §3.8.
+
+From ShimuraVarieties Layer 2: Baily–Borel compactifications `Sh*_Γ(G, X⁺)` of connected Shimura varieties `Γ\X⁺` for every arithmetic `Γ ⊆ G(ℚ)_+` (also non-congruence and with torsion), over `ℂ`: normal projective, finite maps `Sh*_{Γ₁} → Sh*_{Γ₂}` for `Γ₁ ⊆ Γ₂` of finite index, the identification `Sh*_{Γ₁}/(Γ₂/Γ₁) ≅ Sh*_{Γ₂}` for `Γ₁` normal in `Γ₂`, and the finite maps for `G → G^ad` sending `(G(ℚ)_+ ∩ K)\X⁺` to `π(Γ)\X⁺` ([HJ] §5.3, Propositions 5.18–5.19).
+
+This is consumed by §4.1, §4.3, §4.4.
+
+From ShimuraData Layer 4: Connected Shimura data `(G, X⁺)` (Deligne's conditions on a semisimple `G` and a `G^ad(ℝ)⁺`-orbit) with the connected data `(G^der, X⁺), (G^ad, X⁺)` attached to a Shimura datum, and the pre-abelian notion for connected data: `(G, X⁺)` is of pre-abelian type if `(G^ad, X⁺) ≅ (G̃^ad, X̃⁺)` for a Hodge-type datum (Hansen–Johansson Definition 4.1, after Moonen 2.10), agreeing with ShimuraData §4.1 for full data.
+
+This is consumed by §4.1, §4.5.
+
+From ShimuraVarieties Layer 8: For a closed embedding of Shimura data `ι: (G, X) ↪ (G′, X′)` and `K = K′ ∩ G(𝔸_f)`: the extension `Sh*_K(G, X) → Sh*_{K′}(G′, X′) ⊗ E` of the canonical-model map to minimal compactifications is finite, and maps the boundary to the boundary and the interior to the interior (used without reference by Scholze §4.1 and Hansen–Johansson Proposition 5.14).
+
+This is consumed by §2.1.
+
+From HilbertModularVarietiesAndShimuraCurves H1: For Hilbert–Blumenthal abelian varieties with `𝔠`-polarization: the `𝒪_F`-linearised Weil pairing `ẽ_n: A[pⁿ] × A^∨[pⁿ] → 𝔡⁻¹ ⊗ μ_{pⁿ}` with `e_{pⁿ} = Tr ∘ ẽ_n`, and the choice of a generator `β` of `𝔠𝔡⁻¹(1)` with its change-of-choice law (Birkbeck–Heuer–Williams Definitions 5.6–5.7).
+
+This is consumed by §5.6.
+
+From HilbertModularVarietiesAndShimuraCurves H3: The unit group `Δ(N) = 𝒪_F^{×,+}/((1 + N𝒪_F)^×)²` and the finite polarization quotient from the `G*`-variety (fixed polarization module) to the arithmetic G-variety, its `Δ(N)`-torsor over the quotient stack and its coarse torsor on the action-free locus, the maps attached to changing `𝔠` by isogenies (Birkbeck–Heuer–Williams Proposition 8.4 and Lemma 8.22).
+
+This is consumed by §5.4, §5.7, §5.9.
+
+From HilbertModularVarietiesAndShimuraCurves H4: At finite p-level: the `G*`, intermediate (G-level with fixed `G*`-polarization) and arithmetic `G` Hilbert varieties at levels `Γ*(pⁿ), Γ(pⁿ), Γ₀(pⁿ)` with the maps `β₁, β₂`; the level-structure action through `γ^∨ = det(γ)γ⁻¹` and the polarization action; the Weil-pairing components `(𝒪_F/pⁿ)^×` and `U_n`; the finite geometric/intermediate frame torsors under `Γ̄₀(p^m, pⁿ)`; the arithmetic, diagonal and polarization torsors over quotient stacks under `P̄Γ₀(p^m, pⁿ) = Γ̄₀/Z_n (Z_n = (1 + N𝒪_F)^×/(1 + pⁿN𝒪_F)^×), Ē(p^m, pⁿ), Δ(pⁿN)` and, on paired components, `Δ_n(N)`, with coarse torsors only on the respective action-free loci (the diagonal requires a free Ē-action) (Birkbeck–Heuer–Williams Lemmas 8.5–8.19, with the corrected stabilisation argument for `Δ_n(N)` when `p = 2`).
+
+This is consumed by §5.4, §5.5, §5.6, §5.7, §5.8.
+
+From HilbertModularVarietiesAndShimuraCurves H5: For `F = ℚ`: the identification of both Hilbert groups with `GL₂` and of the Hilbert moduli and level structures (`μ_N`-structures on `A, Γ(pⁿ)`-structures on `A^∨`) with the modular-curve ones of the full-level modular curves, with the sign conventions of the Weil pairing matched.
+
+This is consumed by §5.1, §5.11.
+
+From ShimuraData Layer 4: For an abelian-type datum and a Hodge-type central derived cover, construct Lovering’s auxiliary `B₁ = G₁ ×_{G₁^ab} Res_{E/ℚ}G_m` with the specified reflex-norm map, Shimura cocharacter, maps to `G₁` and `G` (through `B`), and common adjoint flag variety. Use its `Z_s, G^c` and Levi fibre-product identities in their stated range; §6.5 proves the corresponding identities for §6.1a’s rank-removing quotient. A lift through a fixed central isogeny alone does not supply these statements.
+
+This is consumed by §6.4, §6.5, §6.6, §6.9.
+
+Using AutomorphicBundles §§6.1–6.3, prove in §6.9: Prove descent of the pushed-out canonical de Rham/Levi torsor under the finite toroidal quotient in Boxer–Pilloni Theorem 4.4.43(5), arXiv v1 pp. 80–81, and Remark 4.6.6, pp. 89–90: identify boundary inertia on compatible toric charts, prove its action on the pushed-out fibres is trivial, and descend as an étale torsor; compare the logarithmic Hodge–Tate torsor. Coordinate the finite ramified quotient hypotheses with ShimuraCompactifications §5.1.
+
+This is consumed by §6.9.
+
+From DiamondsAndVStacks D6: Provide the fully faithful perfectoid-space-to-diamond functor with the analytic base/untilt fixed, so a map between diamonds represented by perfectoid spaces over `C` lifts uniquely to an analytic morphism. The general analytic diamond-functor statement does not imply full faithfulness for all analytic adic spaces. For Layer 3 also identify maps from a perfectoid space over `C` to the smooth analytic flag with maps to its diamond on perfectoid tests, using the flag’s actual analytic functor of points; full faithfulness between two perfectoid objects alone does not supply a nonperfectoid target.
+
+This is consumed by §2.8, §3.5.
+
+From ReductiveGroups Layers 7–8: Provide the reflex-field representable homogeneous Hodge–Tate flag `P_μ\G`, the universal parabolic torsor, its Levi quotient `U_P\G` and associated-bundle universal properties, including analytification and the inversion/opposite-parabolic dictionary. Coordinate with AutomorphicBundles Layer 0. This is the generic interface required by the HodgeTateAndCanonicalSubgroups Layer 2 open-tower suppliers; use it for the open-limit construction and its analytic comparison in Layer 3.
+
+This is consumed by §3.1.
 
 ## References
 
