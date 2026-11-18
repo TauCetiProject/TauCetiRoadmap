@@ -15,6 +15,9 @@ finite dimensional, with a chosen smooth positive-definite Riemannian metric.
 Compact domains with boundary sit inside this ambient manifold. Integration sources
 may be compact oriented smooth manifolds with boundary or corners. Relative
 homology also includes the closed neighborhood-retract subsets specified in G3.
+This roadmap also owns Lipschitz singular chains on arbitrary metric spaces, their
+mass and their filling volumes (G3a); on the ambient manifold they are G3's
+Lipschitz chains.
 Use [HopfRinow L0](../../Completed/HopfRinow/README.md)'s induced-distance and native
 `IsRiemannianManifold` interfaces. No orientation, connectedness, completeness
 or compactness of M is assumed unless
@@ -518,6 +521,106 @@ Check integer point/interval/circle/disk/sphere and relative fundamental classes
 and the ℤ/2 torsion class of RP². A comparison only to real homology would fail this
 last check: allowing arbitrary real fillings is not integral-current homology.
 
+### G3a. Lipschitz chains in metric spaces, mass and filling volume
+
+Here `Y` is an arbitrary metric space with its Borel σ-algebra; an extended metric
+space is allowed, which covers a disconnected manifold with its induced extended
+distance (a Lipschitz simplex lies in one component). Hᵈ is the normalized
+`euclideanHausdorffMeasure` fixed above, on Y.
+
+**Lipschitz chains.** A singular d-simplex of Y in native `singularChainComplexFunctor`
+is a continuous map from `SimplexCategory.toTop.obj ⦋d⦌`, whose points are the weight
+vectors of `StdSimplex ℝ (Fin (d+1))`. Call it Lipschitz when it is Lipschitz for the
+distance of a norm on `Fin (d+1) → ℝ` transported along the weight embedding; all norms
+give the same simplices, and constants below use the Euclidean norm, so Δᵈ is the
+Euclidean simplex in its affine hyperplane. Define `LipschitzChain Y d`, the subgroup of
+integral singular d-chains spanned by Lipschitz simplices (free on them), and the
+subcomplex `lipschitzChainComplex Y : ChainComplex (ModuleCat ℤ) ℕ` with the singular
+boundary `∂σ=Σᵢ(−1)ⁱ σ∘δᵢ`; the face maps `SimplexCategory.toTop.map (δ i)` are affine,
+so faces of Lipschitz simplices are Lipschitz. Prove the inclusion chain map into
+singular chains, the unique expression `α=Σₖ cₖσₖ` with nonzero integers and distinct
+simplices, the compact support `supp α=⋃ₖ σₖ(Δᵈ)`, and pushforward `f_#` along Lipschitz
+`f : Y → Y′`, functorial and commuting with ∂ and with the inclusion
+(Riedweg–Schäppi, §2.2, Definition 2.4, pp. 4–5; Leuzinger–Young, §2.4, p. 15). On a
+smooth Riemannian manifold with its induced distance, and on G3's closed retracts with
+the restricted distance, this complex is the Lipschitz subcomplex of G3: one carrier,
+not a second one.
+
+**Volume and mass.** For a Lipschitz simplex σ define
+`simplexVolume σ = ∫⁻ y, #σ⁻¹(y) dHᵈ(y)`, the Hᵈ-measure of the image counted with
+multiplicity in ℕ∪{∞}. For `α=Σₖ cₖσₖ` as above define
+`lipschitzMass α = Σₖ |cₖ| simplexVolume σₖ`, the weighted integral
+`∫_α φ = Σₖ |cₖ| ∫ φ(y) #σₖ⁻¹(y) dHᵈ(y)` for bounded Borel φ, and
+`lipschitzMass_Z α = ∫_α 1_Z` for Borel Z (Leuzinger–Young, §2.4, pp. 15–16, define
+these on manifolds and simplicial complexes through the Jacobian; on a manifold the two
+agree by the area formula below). The value depends
+only on the map σ, not on an affine model of Δᵈ, and two distinct simplices with the
+same image are distinct generators. Prove `simplexVolume_map_le`: for L-Lipschitz
+`f : Y → Y′`, `simplexVolume (f∘σ) ≤ Lᵈ simplexVolume σ`. Route: over the closed
+simplices B of the iterated barycentric subdivisions of Δᵈ, `Σ_B 1_σ(B)` increases to
+the multiplicity function off the image of the subdivision skeleta, which is Hᵈ-null
+as a countable union of Lipschitz images of (d−1)-simplices; so
+`simplexVolume σ = lim Σ_B Hᵈ(σ(B))` by monotone convergence, the same holds for `f∘σ`,
+and native `LipschitzWith.hausdorffMeasure_image_le`, rescaled to Hᵈ, bounds each term
+for `f∘σ` by Lᵈ times the term for σ. Derive `simplexVolume σ ≤ Lip(σ)ᵈ Hᵈ(Δᵈ) < ∞`
+(the identity simplex of Δᵈ has multiplicity one), `lipschitzMass 0 = 0`,
+`lipschitzMass (nα) = |n| lipschitzMass α`, the triangle inequality,
+`lipschitzMass (f_#α) ≤ Lᵈ lipschitzMass α` (composites of distinct simplices may
+coincide, then the triangle inequality applies) and `∫_α φ ≤ sup|φ| · lipschitzMass α`.
+
+Prove the Riemannian area formula: for Y a smooth Riemannian manifold with its induced
+distance, `simplexVolume σ = ∫_Δᵈ √det(Dσₓ* Dσₓ) dx`, with Dσₓ the a.e. derivative
+(native `LipschitzWith.ae_differentiableAt` in charts) from the tangent space
+`{Σᵢtᵢ=0}` of Δᵈ to `T_σ(x)M` and dx Lebesgue measure on the affine hyperplane; this is
+the formula Leuzinger–Young use as the definition (§2.4, p. 16). Route: GMT G2's area
+formula with multiplicity in charts and G2's chart comparisons. On a general metric
+space the integrand is the Jacobian of the metric differential (Ambrosio–Kirchheim,
+§9, item (2), formulas (9.2)–(9.3), stated in w*-separable dual Banach spaces, which
+contain an isometric copy of every separable metric space); that metric form is not a
+target here, since only the definition by multiplicity is used. For Y = M, the
+compactly supported integral current `[α] = Σₖ cₖ σₖ#[[Δᵈ]]` (G2's Lipschitz pushforward
+of the oriented simplex current; G3's evaluation of Lipschitz chains) satisfies
+`∂[α]=[∂α]` and `M([α]) ≤ lipschitzMass α`, by G2's `M(f#T) ≤ ∫ J_k(D^Tan f) d‖T‖`
+and the area formula; the inequality is strict when sheets cancel.
+
+**Filling volume.** For d≥1 and a Lipschitz (d−1)-cycle α define
+`fillingVolume d α = ⨅ {lipschitzMass β | β ∈ LipschitzChain Y d, ∂β=α}` in [0,∞], the
+infimum of the empty set being ∞, and for V≥0
+`fillingVolumeFunction Y d V = ⨆ {fillingVolume d α | ∂α=0, lipschitzMass α ≤ V}`
+(Leuzinger–Young, §2.4, p. 16). Prove `fillingVolume_le` (any filling bounds it),
+`fillingVolume_lt_top_iff` (α is a boundary in `lipschitzChainComplex Y`),
+`fillingVolume d 0 = 0`, subadditivity, `fillingVolume d (f_#α) ≤ Lᵈ fillingVolume d α`
+for L-Lipschitz f, and monotonicity of `fillingVolumeFunction` in V. On a smooth
+Riemannian manifold, and on G3's retracts, a Lipschitz (d−1)-cycle has finite filling
+volume iff its singular homology class vanishes, by G3's quasi-isomorphism. Quasi-isometry
+invariance of these functions and the filling invariants of groups acting geometrically
+are not targets of this roadmap.
+
+Checks:
+- Degree zero: Δ⁰ is a point and H⁰ is counting measure, so every Lipschitz 0-simplex
+  has volume one and the mass of a 0-chain is the sum of the absolute values of its
+  coefficients.
+- Normalization: for the inclusion of Δ² in `EuclideanSpace ℝ (Fin 3)`,
+  `simplexVolume = √3/2`, the area of the equilateral triangle of side √2; the raw
+  `μH[2]` would give `(4/π)(√3/2) = 2√3/π`.
+- Multiplicity: the loop σ(s)=(cos 4πs, sin 4πs) in ℝ², parametrized by the second
+  barycentric coordinate s of Δ¹, is a cycle of mass 4π, while H¹ of its image is 2π.
+  A definition by the measure of the image fails this.
+- Mass is not a norm and is not the mass of a current: a constant 1-simplex is a
+  nonzero cycle of mass zero. For an affine segment σ in ℝⁿ of length ℓ>0 and
+  σ′ = σ∘ρ with ρ(1−s,s)=(1−s²,s²), the chain σ−σ′ is a cycle of mass 2ℓ whose current
+  is zero, and its filling volume `fillingVolume 2` is zero: a prism homotopy inside the
+  segment, completed by constant 2-simplices on the constant edges, fills it with
+  simplices whose images have zero H².
+- In ℝⁿ, writing ⟨y⟩ for the point 0-simplex at y,
+  `fillingVolume 1 (⟨y₁⟩−⟨y₀⟩) = |y₁−y₀|`, attained by the affine segment. For a filling
+  `β=Σₖcₖσₖ` let p be the 1-Lipschitz orthogonal projection onto the line through y₀, y₁,
+  identified isometrically with ℝ so that y₀<y₁. Since `∂σₖ=⟨σₖ(e₁)⟩−⟨σₖ(e₀)⟩`, every
+  t∈(y₀,y₁) has `Σₖcₖ(1_{pσₖ(e₁)>t}−1_{pσₖ(e₀)>t}) = 1`, and p∘σₖ takes the value t at
+  least `|1_{pσₖ(e₁)>t}−1_{pσₖ(e₀)>t}|` times. Integrating over t gives
+  `Σₖ|cₖ| simplexVolume (p∘σₖ) ≥ |y₁−y₀|`, and the left side is at most
+  `lipschitzMass β` by `simplexVolume_map_le`.
+
 ## G4. Weak and flat convergence, deformation and compactness
 
 ### G4a. Weak/flat topology, deformation and local fillings
@@ -965,6 +1068,8 @@ The item graph is
 `{G1, GMT G2–6, Calib C2 evaluation, HopfRinow L0, Morse M3 early smooth exhaustion} → G2`,
 `{G2, AT local chart topology} → G4a`,
 `{G2, G4a, Calib C2, AT/GT, DGF0 adapter} → G3`,
+`{native singular chains, normalized Hausdorff measure and Lipschitz maps} → G3a chains, mass and filling volume → G3's Lipschitz subcomplex`,
+`{G2, GMT G2 area, G3, G3a chains} → G3a area formula, current comparison and finiteness of filling volume`,
 `{G2, G4a, G3 ordinary comparison, AT2.6/AT3, DG bundles} → G3 orientation-line coefficients → twisted constancy/intersection`,
 `{G2, G4a} → G4b`, `{G3, G4a, G4b} → G5`,
 `R5a immersion geometry → R5a.1 C²-density volume → R5a.2/R5b`,
@@ -1036,6 +1141,9 @@ maps and carriers, not just abstract isomorphic groups.
   [*The coincidence of the homologies of integral currents and of integral singular
   chains, via cosheaves*](https://arxiv.org/abs/1304.0152): precise local-contraction
   hypotheses and comparison maps.
+- E. Leuzinger and R. Young, [*Filling functions of arithmetic groups*](https://arxiv.org/abs/1710.00732v1),
+  §2.4, pp. 15–17: Lipschitz chains, their mass and filling volume functions; page
+  locators are to this arXiv version.
 - N. Wickramasekera, [*A general regularity theory for stable codimension-one integral
   varifolds*](https://annals.math.princeton.edu/2014/179-3/p02): structural hypotheses
   for a stable-varifold proof route; they are not removed here.
