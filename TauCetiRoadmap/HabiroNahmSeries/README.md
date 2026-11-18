@@ -2,17 +2,9 @@
 
 **Summary.** Build the arithmetic of Nahm equations, the radial asymptotics of convergent Nahm sums, and the integrality of the formal collections attached to their signed counterparts. The analytic summit is modularity implying torsion of the distinguished Bloch class. The formal summit is membership in a specified K₃-indexed Habiro module, with its coefficient extension, Frobenius action and excluded orders visible. The two routes meet through Gaussian expansions and cyclic dilogarithms, but have different input data. Explicit cubic and quartic calculations test their normalisations; comparison maps then carry actual Habiro elements to degree-zero Habiro cohomology.
 
-## Scope and ownership
+## How to read the build
 
-This roadmap owns Nahm-specific equations and arithmetic, convergent sums, controlled radial expansions, the modularity implication, the signed formal series, finite support of their product exponents, and their Gaussian and Habiro membership comparisons. It also owns the explicit examples and the compatibility statements that export these constructions.
-
-The arithmetic endpoints require the HabiroNumberFields finite-Chern/cyclic and global-module contracts and the PadicHodgeRegulators local-K₃ lattice contract below. Those contracts are prerequisites, not constructions supplied by this roadmap: analytic convergence and formal admissibility are independent of them, whereas arithmetic descent, membership and cohomological exports retain them as hypotheses.
-
-The following foundations have other owners. HabiroCyclotomicCompletions §1.1 supplies the finite and formal q-Pochhammer toolkit. GeometryOfNumbersAndQuadraticArithmetic §4.3 owns the analytic product, shift and zero divisor. QSeriesPartitionsAndMockModularForms §1.6 supplies finite-prefix limits and the finite/infinite identity, and §§2.4 and 3.3 supplies analytic evaluation and Rogers–Ramanujan identities, and §5.2 supplies the eta multiplier. PolylogarithmFunctions §§1.1–1.7 and 3.1–3.6 supplies analytic Li₂, §§5.1–5.8 supplies Bloch–Wigner values and relations, and §§6.1–6.5 supplies the interval Rogers function. K3BlochGroups §§3.1, 3.3–3.5 owns the shared integral pre-Bloch carrier, antisymmetric tensor cokernel and boundary; ColemanIntegration Layer L2 supplies their local polylogarithmic evaluation and §L2.Fb consumes those carriers; GeneralAlgebraicKTheory §§2.5–2.6 and 3.2 supplies the K-theory carriers and KTheoryFiniteLocalFields §§1.8 and 7.4 supplies finite-coefficient Chern and local reduction inputs. The integral Bloch comparisons, finite-Chern injectivity, number-field Habiro modules and local K₃ regulator lattice use the required arithmetic contracts below. HabiroCohomologyFoundations §4.21 supplies the étale Habiro–Hodge object; its q=1 completion is the q-Hodge complex. Polylogarithms §§2.1 and 2.3 owns algebraic embedding-regulator descent and its Borel normalization; HabiroRings §5.9 and §§6.1–6.6 owns the relative ring comparison, completed scalar extension and transported-line completion. K3BlochGroups §5.8 supplies the real Suslin Rogers detector. HabiroNumberFields §1.7 owns the integral cyclotomic eta class, its quotient image and boundary, torsion and root-change laws. This roadmap owns the complementary projective-convention adapter in §1.5, the Nahm trigonometric application in §2.7 and the assembly of the conditional exponent-two comparison using that application.
-
-Finite-index arithmetic subgroups, rational cusps and strict widths are already available in Mathlib and Tau Ceti. The `FuchsianOrbifolds` roadmap, Layers 3–5, owns cusp charts, meromorphic descent and extension across a cusp. The `ModularForms` roadmap owns general-level modular-form geometry. Layer 3 below consumes these constructions and proves only the scalar growth comparisons needed here. It does not construct another modular curve. Gaussian measures, densities and polynomial integrability are also existing objects; `StandardDistributions`, Layers 1 and 5, owns their moment and covariance interfaces. The additions here are the algebraic Wick functional and its comparison with those measures, together with the lattice estimates specific to Nahm sums. Poisson summation for a full-rank ℤ-lattice, with the Gaussian Fourier transform it is applied to, belongs to the `ThetaSeries` roadmap (Layer 1); §2.4 consumes it and proves only the polynomial-Gaussian lattice estimate. Gauss sums of finite quadratic modules belong to Tau Ceti; §7.5 consumes them. QuantumEnvelopingAlgebras §QEA6 owns the integer upper-index symmetric Gaussian polynomial; §7.1 uses its q=v² specialisation and owns only the Nahm product identity. The shifted finite Euler–Maclaurin theorem in §2.2 allows arbitrary C^J functions and real shifts, unlike ComputationalNumberTheory §4.19a’s Hurwitz-power remainder. The ring-map reduction condition in §6.1 retains its kernel and product-algebra hypotheses, unlike the additive-subgroup p-saturation criterion in ComputationalNumberTheory §3.23.
-
-The downstream ArithmeticQuantumTopology application owns the passage from a triangulation or knot to its topological and Chern–Simons invariants, including presentation independence. A matrix with a knot's name does not establish that passage. Neither quantum modularity nor a knot-invariant theorem is a prerequisite for the formal constructions here. The geometric Habiro cohomology application in §7.7 specifies gap:higher-habiro-comparison against the algebraic object of HabiroCohomologyFoundations §5.13; its §§6.1–6.3 delimit the analytic comparison problem and §§8.1–8.18 supply the named algebraic comparison squares; higher cohomology, analytic convergence and crystalline or prismatic comparisons remain separate interfaces.
+Layer 1 builds the equations, fields and classes. Layer 2 supplies analytic radial expansions, distinguishing the analytic estimate from its arithmetic descent. Layer 3 isolates the small amount of cusp analysis needed by Layer 4, which proves modularity implies torsion. Layer 5 starts independently from an integral symmetric matrix and constructs admissible formal series and Gaussian comparisons. Layer 6 proves their Frobenius and Habiro membership assertions, including the full coefficient-algebra and gluing requirements. Layer 7 computes examples and states exact exports. A named comparison with an additional arithmetic or small-prime hypothesis is used only with that hypothesis; neither finite coefficient checks nor a formal branch are replacements for it.
 
 ## Conventions
 
@@ -38,137 +30,6 @@ B = R[T]/(δT²−1).
 ```
 
 It may be a product, rather than a field. Its involution sends T to −T. The normalised Gaussian bracket takes 1 to 1, whereas the full Gaussian collection retains its factor T=δ⁻¹/² and changes sign under this involution. The constant-one augmentation branch fixes T(0)=1; at rank zero it sends the full collection T to 1. A chosen component, embedding or formal branch is additional data. A theorem over B must hold on every component. The notation `H_{B,ξ}|_Δ` restricts orders to those prime to Δ; it does not silently extend the collection to all orders.
-
-## Exact supplier contracts
-
-The required arithmetic contracts specify the full interfaces consumed below. They are prerequisites of the build, with their hypotheses retained at each application; a contract does not assert the existence of a declaration with an invented name. The étale cohomological comparison uses the Habiro–Hodge object H(R,F), whose completion at q=1 is qHdg(R,F).
-
-### From Mathlib
-
-Use `Matrix.PosDef`, its Hermitian condition and `Matrix.PosDef.add_posSemidef`, positive definite diagonal matrices, and `Matrix.det`. In finite dimension `Matrix.posDef_iff_dotProduct_mulVec` identifies the matrix predicate with the strictly positive quadratic form. Use these actual carriers for analytic data and Hessians. The generated fields are `IntermediateField.adjoin`; `IntermediateField.fg_adjoin_of_finite` and `IntermediateField.essFiniteType_iff` give essential finite type for finitely generated coordinate fields. The differential argument consumes `KaehlerDifferential.D`, `KaehlerDifferential.span_range_derivation`, and `Algebra.FormallyUnramified.finite_of_free` under its essential-finite-type and formal-unramified hypotheses. Module finiteness over a field then gives algebraicity. A finite transcendence basis is not assumed to consist of the original coordinates.
-
-For §2.2 use `Polynomial.bernoulli`, `Polynomial.bernoulli_one`, `Polynomial.derivative_bernoulli`, `Polynomial.bernoulli_eval_zero`, `Polynomial.bernoulli_eval_one` and `Polynomial.bernoulli_comp_one_sub_X` in `Mathlib/NumberTheory/BernoulliPolynomials.lean`, with coefficient change from ℚ to ℝ. Piecewise integration by parts uses `intervalIntegral.integral_mul_deriv_eq_deriv_mul_of_hasDerivAt` in `Mathlib/MeasureTheory/Integral/IntervalIntegral/IntegrationByParts.lean`; its continuity, derivative and interval-integrability hypotheses hold on each closed polynomial piece for a C^J function.
-
-Use `MvPolynomial`, its partial derivatives and `MvPolynomial.aeval`; `MvPowerSeries`, its coefficient maps and `MvPowerSeries.rescale`; `PowerSeries`, Laurent series, `RatFunc`, Laurent polynomials, cyclotomic polynomials and Möbius inversion. The multivariate logarithm and plethystic transform needed below are new augmentation-complete operations, not already supplied merely by the existence of one-variable `PowerSeries.log`.
-
-For convergence use the generic summability and infinite-product APIs and the existing Euler function. `ModularForm.eta`, `ModularForm.multipliableLocallyUniformlyOn_eta` and `ModularForm.eta_ne_zero` provide the Euler-product bridge on the upper half-plane. Lattice sums of polynomial-Gaussian functions consume Poisson summation for a full-rank ℤ-lattice in a real inner product space, stated for Schwartz functions in Layer 1 of the `ThetaSeries` roadmap. For the coordinate lattice hℤ^N the same identity also follows from Mathlib's one-dimensional `SchwartzMap.tsum_eq_tsum_fourier`, iterated over coordinates after a justified Fubini argument. No arbitrary smooth decaying function is asserted to have an exponentially decaying Fourier transform; polynomial times Gaussian functions have the required stronger property.
-
-`Subgroup.isArithmetic_iff_finiteIndex` applies to Γ≤SL₂(ℤ) without a congruence hypothesis. Use Mathlib `IsCusp`, `isCusp_SL2Z_iff`, `OnePoint.exists_mem_SL2`, `CuspOrbits`, and `Subgroup.strictWidthInfty`. Tau Ceti's `TauCeti.ModularForm.cuspTranslationOrbitWidth`, in `NumberTheory/ModularForms/Norm/Cusps`, is the strict T-orbit period and has a representative formula and divisibility characterisation. When −I is absent this may be twice the projective width. Weight-zero invariant functions factor through the group with −I adjoined, and that choice must be made before calling the width the local parameter's period. Use Mathlib `MeromorphicOn` and `meromorphicOrderAt` for scalar functions, not the holomorphic `ModularForm` carrier as a carrier for meromorphic functions.
-
-### From Tau Ceti
-
-Use Mathlib's multivariate Gaussian carrier, Tau Ceti's `TauCeti.Probability.multivariateGaussianPDFReal` and `TauCeti.Probability.multivariateGaussian_eq_withDensity` in `Probability/Distributions/Gaussian/Density`, and `TauCeti.integrable_pow_gaussianReal` and `TauCeti.integrable_eval_mul_gaussianEnvelope` in `Probability/Distributions/Gaussian/PolynomialMemLp`. The latter envelope theorem requires nonzero variance; the multivariate density theorem requires a positive definite covariance matrix. Consume `StandardDistributions` Layer 1's even central moments and vanishing odd moments and Layer 5's covariance and affine-map theorems. The Wick comparison must identify its covariance with those existing objects; it does not re-found probability theory. Finally, use the structure theorem for finitely generated abelian groups for the divisibility argument in Layer 4. For the quadratic Gauss evaluations of §7.5 use the pinned Tau Ceti library's `TauCeti.FiniteQuadraticModule.gaussSum` with `TauCeti.FiniteQuadraticModule.IsNondegenerate.gaussSum_mul_conj` (|G|²=#A for a nondegenerate module) and `TauCeti.FiniteQuadraticModule.gaussSum_eq_card_mul_gaussSum_quotientOfLeQuadraticRadical` (G=#K·G(q/K) for K in the quadratic radical), in `LinearAlgebra/FiniteBilinearModule/GaussSum`; these are present at the pinned Tau Ceti commit a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039.
-
-### From TauCetiRoadmap.ThetaSeries
-
-ThetaSeries Layer 1 supplies lattice Poisson summation and the Gaussian Fourier transform for a full-rank ℤ-lattice in a finite-dimensional real inner product space, with its Haar measure and covolume.
-
-### From TauCetiRoadmap.FuchsianOrbifolds
-
-FuchsianOrbifolds Layers 3–5 supply quotient cusp charts and meromorphic compactification for cofinite Fuchsian groups, including the periodic holomorphic finite-principal-part criterion.
-
-### From TauCetiRoadmap.ModularForms
-
-ModularForms, Standing hypotheses and conventions and Layer 10A, supplies the modular-function conventions used by those charts. The scalar functions here use the native meromorphic predicates rather than a new modular-curve carrier.
-
-### From TauCetiRoadmap.StandardDistributions
-
-StandardDistributions Layer 1 supplies scalar Gaussian moments, and Layer 5 supplies multivariate covariance, affine transport and Wick–Isserlis moments for positive semidefinite covariance; density arguments below impose positive definiteness. The algebraic weighted Gaussian functional below extends polynomial Wick contraction to a specified filtered domain and arbitrary invertible symmetric quadratic matrices over a ℚ-algebra.
-
-### From TauCetiRoadmap.K3BlochGroups
-
-Consume K3BlochGroups §§3.1, 3.3–3.5 for the shared pre-Bloch carrier, antisymmetric tensor cokernel and boundary; §§3.13–3.16 for B_CGZ=B_old, B_new and their exact integral convention maps; Layer 4 for the Suslin comparison; and §6.1 for finite relation witnesses. ColemanIntegration §L2.Fb evaluates on these supplied carriers. The additional arithmetic comparison contract (gap:integral-bloch-comparisons) requires rational restriction injectivity and rational regulator injectivity modulo torsion, retaining the 2- and 6-primary convention errors (CGZ §§1–2). GeneralAlgebraicKTheory §§2.5–2.6 and 3.2 supplies the K-theory carrier. PolylogarithmFunctions §§5.1–5.8 supplies the analytic five-term relations. From Polylogarithms §2.1 consume blochWignerDesc and weightTwoRegulator, and from §2.3 their Borel-normalisation comparison weightTwoRegulator_borel. The additional rational injectivity assertions remain in this gap; the normalization comparison alone does not imply injectivity.
-
-### From TauCetiRoadmap.PolylogarithmFunctions
-
-PolylogarithmFunctions §§1.1–1.7 and 3.1–3.6 supplies analytic Li₂ and distribution, §§5.1–5.8 supplies Bloch–Wigner values and relations, and §§6.1–6.5 supplies the interval Rogers function. The Rogers convention used here is the complementary one:
-
-```text
-L_CGZ(x) = π²/6 − Li₂(x) − ½ log(x)log(1−x),   0<x<1.
-```
-
-Use the real detector of K3BlochGroups §5.8, its negation and reduction of the period to π²/2 for the projective adapter in §1.5 using CGZ (42); prove the trigonometric sum in §2.7. PolylogarithmFunctions supplies only the interval Rogers function, with the increasing convention. A real-valued expression cannot be divided by a rational denominator in a circle-valued target without an additional lift.
-
-### From TauCetiRoadmap.Polylogarithms
-
-From Polylogarithms §2.1 consume blochWignerDesc and weightTwoRegulator, and from §2.3 weightTwoRegulator_borel, with its Borel normalisation. Section 1.5 evaluates that supplied descended regulator on the Nahm class. Rational injectivity and integral convention transport retain the integral-comparison contract; the Borel-normalisation comparison alone does not imply injectivity.
-
-### From TauCetiRoadmap.HabiroNumberFields
-
-From HabiroNumberFields §§0.2 and 0.9 consume the exceptional integer `M_K=6|disc K|·|K₂(𝒪_K)|` and finite Chern injectivity on integral K₃ classes modulo n for gcd(n,M_K)=1, transported to the Bloch presentation by the specified odd-coefficient comparison. From §§1.1–1.5 consume the cyclic product
-
-```text
-D_ζ(w) = ∏_{r=1}^{m−1}(1−ζ^r w)^r,
-D_ζ(ζw)/D_ζ(w) = (1−w)^m/(1−w^m),
-```
-
-Read the ratio as an identity in F(w); evaluation of the displayed quotient requires w^m≠1. The product D_ζ(1) is instead evaluated directly and is nonzero. Consume its distribution and root-change identities, the independently proved KMS identity and the five-term regulator R_ζ. The fractional-power product sometimes also denoted D is `D_ζ(w)^(1/m)` with specified factor logarithms. These meanings must not be interchanged. The uniquely descended cyclic map at odd n requires n invertible in F and μ_n(F)={1}; for number fields gcd(n,w_F)=1 suffices, where w_F is the number of roots of unity. It does not require gcd(n,M_F)=1 (CGZ Proposition 2.5 and Theorem 2.11, pp. 11–15).
-
-From HabiroNumberFields §1.7 consume the integral projective eta sum η_ζ, its image modulo n, boundary vanishing, n-torsion and the quotient root-change law η_(ζ^a)=a²η_ζ. Sections 1.11–1.13 supply the prime-power reduction and cyclotomic-torsion comparison, with the K3BlochGroups §§3.13–3.16 convention maps. Section 2.7 below proves only the root-dependent Nahm identity and the analytic evaluation R_ζ(η_ζ)=ζ² (CGZ Lemmas 5.1 and 5.3, Theorems 5.2 and 7.4, pp. 26–28, 37–39). The quotient root-change law suffices after applying R_ζ; no stronger integral scaling law is needed here.
-
-Consume HabiroNumberFields §1.10's signed Chern evaluation only subject to its independent finiteChern_normalization_comparison, and §1.14's scalar-reading implication subject to that comparison and its exact-order premise. Combining §2.7's value with those implications gives the exponent two when c_fixed=c_plus, and exponent −2 when c_fixed=c_raw, on the good-order domain of §1.13 and its compatible CRT extension. This assembly belongs here; the supplier's regulator and Chern constructions do not depend on it. Section 6.4 retains this hypothesis and order restriction when using the calibration, and uses §1.15's independently defined all-order Chern square for ε_m. This is the precise finite-Chern/cyclic contract (gap:finite-chern-cyclic), not an all-order identification of R_ζ with the Chern square.
-
-### From TauCetiRoadmap.GeometryOfNumbersAndQuadraticArithmetic
-
-From GeometryOfNumbersAndQuadraticArithmetic §4.3 consume qPochhammer, its analytic shift and zero divisor.
-
-### From TauCetiRoadmap.HabiroCyclotomicCompletions
-
-From HabiroCyclotomicCompletions §1.1 consume QToolkit.pochhammer, pochhammerInf, reciprocalPochhammer, qBinomialSeries and integralPochhammerInf, with their finite shift, scalar-change, Euler and formal binomial identities.
-
-### From TauCetiRoadmap.QSeriesPartitionsAndMockModularForms
-
-From QSeriesPartitionsAndMockModularForms §1.6 consume locally uniform finite-prefix convergence on ℂ×{|q|<1} and the finite-prefix/tail identity, dividing only by a nonzero tail. Consume §2.4 for analytic binomial/Euler evaluation, §3.3 for Rogers–Ramanujan and §5.2 for the normalized eta multiplier, and §3.1 for the signed lower-index Gaussian adapter. This adapter does not include negative upper indices.
-
-What QSeriesPartitionsAndMockModularForms must provide (gap:qseries-root-modularity): extensions of §§3.1, 3.3 and 5.2 giving general q-Lucas evaluation, the Andrews–Gordon identities in the Nahm-matrix normalisation of §2.7, and all-cusp modular theta-quotient transformations of the normalized Rogers–Ramanujan functions. These are additional contracts, not assertions that those sections state them. The root-of-unity applications are CGZ §7.2 and GSWZ Example 4.5. QuantumEnvelopingAlgebras §QEA6 supplies the integer upper-index Laurent-polynomial extension in its symmetric parameter; §7.1 uses its standard Gaussian normalisation.
-
-### From TauCetiRoadmap.QuantumEnvelopingAlgebras
-
-From QuantumEnvelopingAlgebras §QEA6 consume the Laurent-polynomial extension of the symmetric Gaussian binomial to integer upper index r and natural lower index k. In the Laurent indeterminate v, q=v² and the standard Gaussian coefficient is v^(k(r−k)) times the symmetric one. This injective change of parameter identifies the quotient in §7.1 and its Laurent integrality, including negative upper indices. Its root-of-unity Lucas theorem retains the stated odd-order hypotheses; the all-order standard-parameter extension remains in gap:qseries-root-modularity. No quantum group or quantum Frobenius theorem is an input.
-
-### Number-field module contract
-
-Consume HabiroNumberFields §§2.1–2.7 for Taylor maps and Frobenius-twisted p-adic gluing on full cyclotomic algebras, §§1.15 and 3.1–3.7 for coherent Chern root lines and local sections with their regulator exponential, and §§3.8–3.12 for global families, effective descent, tensor equivalences and inversion of q. These supply the module contract (gap:habiro-modules-descent), including restriction to good orders and `H_ξ⊗H_η≃H_{ξ+η}`; effective descent and torsor coherence retain their stated hypotheses. HabiroRings §§6.1–6.2 transports these supplied lines along R→B and its full p-completion, including all components. Coherent pullback along the involution T↦−T supplies its compatibility, since this involution fixes R; replacing B by a preferred square root is not a substitute. The local generator criterion must impose integrality of its linear coefficient as well as its constant unit. Constant terms can cancel in sums of local generators, so an arbitrary module element need not be a generator.
-
-### From TauCetiRoadmap.QWittVectors
-
-From QWittVectors §6.1, Completed étale Frobenius, consume the unique continuous ψ_p-semilinear lift, its reduction law and naturality for maps of étale algebras over a fixed perfectly covered Λ-base. For a change f:A→A′ of base, require f∘ψ_p=ψ′_p∘f on p-completions; formal étale uniqueness then gives the coefficient-algebra square. This is the completed-frobenius-base-naturality contract required by HabiroRings, Exact supplier contracts, rather than naturality for an arbitrary specialisation. For the Laurent base with ψ_p(t_i^(1/m))=t_i^(p/m), verify perfect coverage using its Layer 1 and §2.4; §6.2 supplies only the cyclotomic completed overlaps.
-
-### From TauCetiRoadmap.HabiroRings
-
-From HabiroRings §5.9 consume the ℤ[q]-algebra comparison `κ_R:H_{R/ℤ}≃H_R`, preserving root values, Taylor expansions and completed Frobenius. From §§6.1–6.2 consume completed scalar extension along morphisms of pairs and transport of the supplied K₃-indexed lines; from §§6.3–6.6 the q−1 completion map and triviality of the completed Picard class, with their global descent, tensor and integral first-fibre hypotheses. Arithmetic Frobenius prevents an untwisted R-algebra interpretation.
-
-### From TauCetiRoadmap.HabiroCohomologyFoundations
-
-From HabiroCohomologyFoundations §4.21 consume the natural equivalence `d_R:H(R,F)≃H_{R/ℤ}` for an étale algebra R over the perfectly covered base ℤ and its empty-frame q-Hodge pair F. Both objects are concentrated in degree zero. The equivalence preserves the unit and every cyclotomic partial-completion projection and identifies their q=1 completion maps to R[[q-1]]. The completed object is qHdg(R,F)=R[[q-1]]; it is distinct from H(R,F). For R=𝒪_K[1/Δ] and finite étale coefficient algebras B/R, use HabiroRings §5.9 to identify the relative ring with the arithmetic ring, retaining all root factors (Wagner Corollary 3.13, printed p. 41).
-
-### From TauCetiRoadmap.ColemanIntegration
-
-From ColemanIntegration Layer L2 consume Coleman Li₂, the Iwasawa logarithm with log(−1)=0, reflection and distribution identities and integral modified polylogarithms. Its §L2.Fb evaluates on K3BlochGroups §§3.1, 3.3–3.5’s pre-Bloch carrier and boundary, with their aliases and field maps; it supplies no second algebraic carrier.
-
-### From TauCetiRoadmap.PadicHodgeRegulators
-
-Consume PadicHodgeRegulators §4.7 for the normalized Suslin–de Jeu comparison and §§5.6–5.9 for completed root classes, the normalized regulator, its lattice isomorphism and root generation. For p>3 and a finite unramified étale ℚ_p-algebra L, these give D_L:K₃(L;ℤ_p)≃p²𝒪_L and finite ℤ_p-linear presentations by root classes whose components are all different from 1 and whose orders are prime to p; on such a root ζ, D_L([ζ])=Li₂(ζ). The comparison retains the supplier’s normalization constant and Chern sign, and is compatible with coefficient maps and finite products (GSWZ Lemma 3.1 and Theorem 9, pp. 37–39). ColemanIntegration §L2.18 supplies `Li₂(z)+Li₂(1−z)=−log z log(1−z)` for z≠0,1 on the Iwasawa branch, giving the sign in Layer 6. These are local regulator inputs. No global p-adic Hodge comparison or higher cohomology theorem is used to prove membership of a scalar Nahm collection.
-
-### From TauCetiRoadmap.GeneralAlgebraicKTheory
-
-From GeneralAlgebraicKTheory §§2.5–2.6 and 3.2, the exact-category K-theory and field K-group constructions are used without a second carrier.
-
-### From TauCetiRoadmap.KTheoryFiniteLocalFields
-
-From KTheoryFiniteLocalFields §§1.8 and 7.4 consume the finite-coefficient Chern and local reduction inputs with their coefficient restrictions.
-
-### From TauCetiRoadmap.ArithmeticKTheory
-
-From ArithmeticKTheory §3.4 consume finiteness of K₂(𝒪_K) for every number field K and define k_K as its finite cardinality. The finite-Chern exceptional integer using this input belongs to the HabiroNumberFields finite-Chern contract (CGZ Theorem 1.2 and Remark 1.4, p. 3; CGZ line 112). No numerical tame-kernel order is assumed in §7.3.
-
-### Higher cohomological comparison
-
-The comparison target of §7.7 (gap:higher-habiro-comparison) uses the algebraic object of HabiroCohomologyFoundations §5.13 and the particular comparison squares of §§8.1–8.18 to construct the map from GW’s affine top-form classes in their actual degree, with the root completions, Frobenius, analytic-radius and base-change hypotheses of §7.7 (GW Theorem 1.18). This is not an input to scalar membership.
-
-## How to read the build
-
-Layer 1 builds the equations, fields and classes. Layer 2 supplies analytic radial expansions, distinguishing the analytic estimate from its arithmetic descent. Layer 3 isolates the small amount of cusp analysis needed by Layer 4, which proves modularity implies torsion. Layer 5 starts independently from an integral symmetric matrix and constructs admissible formal series and Gaussian comparisons. Layer 6 proves their Frobenius and Habiro membership assertions, including the full coefficient-algebra and gluing requirements. Layer 7 computes examples and states exact exports. A named comparison with an additional arithmetic or small-prime hypothesis is used only with that hypothesis; neither finite coefficient checks nor a formal branch are replacements for it.
 
 ## Layer 1: Nahm equations, fields and Bloch classes
 
@@ -2248,6 +2109,145 @@ Layers 1–6; the q-binomial, q-Lucas and Rogers–Ramanujan results of HabiroCy
 The analytic cyclic-dilogarithm acceptance calculation, explicit Nahm examples, signed and unsigned boundary calculations and quartic basis are applications owned here. HabiroNumberFields and K3BlochGroups supply the arithmetic contracts above; these applications impose no reverse prerequisite on their general constructions. The full finite étale coefficient extension and global module descent include the split determinant case.
 
 The geometric application of Habiro cohomology uses actual symmetrised Habiro elements, their degree-zero comparison and conditional coefficient-line transport. Its higher-dimensional form requires gap:higher-habiro-comparison and the data of §7.7; no real regulator tuple is identified with a global Picard class.
+
+## Scope and ownership
+
+This roadmap owns Nahm-specific equations and arithmetic, convergent sums, controlled radial expansions, the modularity implication, the signed formal series, finite support of their product exponents, and their Gaussian and Habiro membership comparisons. It also owns the explicit examples and the compatibility statements that export these constructions.
+
+The arithmetic endpoints require the HabiroNumberFields finite-Chern/cyclic and global-module contracts and the PadicHodgeRegulators local-K₃ lattice contract below. Those contracts are prerequisites, not constructions supplied by this roadmap: analytic convergence and formal admissibility are independent of them, whereas arithmetic descent, membership and cohomological exports retain them as hypotheses.
+
+The following foundations have other owners. HabiroCyclotomicCompletions §1.1 supplies the finite and formal q-Pochhammer toolkit. GeometryOfNumbersAndQuadraticArithmetic §4.3 owns the analytic product, shift and zero divisor. QSeriesPartitionsAndMockModularForms §1.6 supplies finite-prefix limits and the finite/infinite identity, and §§2.4 and 3.3 supplies analytic evaluation and Rogers–Ramanujan identities, and §5.2 supplies the eta multiplier. PolylogarithmFunctions §§1.1–1.7 and 3.1–3.6 supplies analytic Li₂, §§5.1–5.8 supplies Bloch–Wigner values and relations, and §§6.1–6.5 supplies the interval Rogers function. K3BlochGroups §§3.1, 3.3–3.5 owns the shared integral pre-Bloch carrier, antisymmetric tensor cokernel and boundary; ColemanIntegration Layer L2 supplies their local polylogarithmic evaluation and §L2.Fb consumes those carriers; GeneralAlgebraicKTheory §§2.5–2.6 and 3.2 supplies the K-theory carriers and KTheoryFiniteLocalFields §§1.8 and 7.4 supplies finite-coefficient Chern and local reduction inputs. The integral Bloch comparisons, finite-Chern injectivity, number-field Habiro modules and local K₃ regulator lattice use the required arithmetic contracts below. HabiroCohomologyFoundations §4.21 supplies the étale Habiro–Hodge object; its q=1 completion is the q-Hodge complex. Polylogarithms §§2.1 and 2.3 owns algebraic embedding-regulator descent and its Borel normalization; HabiroRings §5.9 and §§6.1–6.6 owns the relative ring comparison, completed scalar extension and transported-line completion. K3BlochGroups §5.8 supplies the real Suslin Rogers detector. HabiroNumberFields §1.7 owns the integral cyclotomic eta class, its quotient image and boundary, torsion and root-change laws. This roadmap owns the complementary projective-convention adapter in §1.5, the Nahm trigonometric application in §2.7 and the assembly of the conditional exponent-two comparison using that application.
+
+Finite-index arithmetic subgroups, rational cusps and strict widths are already available in Mathlib and Tau Ceti. The `FuchsianOrbifolds` roadmap, Layers 3–5, owns cusp charts, meromorphic descent and extension across a cusp. The `ModularForms` roadmap owns general-level modular-form geometry. Layer 3 below consumes these constructions and proves only the scalar growth comparisons needed here. It does not construct another modular curve. Gaussian measures, densities and polynomial integrability are also existing objects; `StandardDistributions`, Layers 1 and 5, owns their moment and covariance interfaces. The additions here are the algebraic Wick functional and its comparison with those measures, together with the lattice estimates specific to Nahm sums. Poisson summation for a full-rank ℤ-lattice, with the Gaussian Fourier transform it is applied to, belongs to the `ThetaSeries` roadmap (Layer 1); §2.4 consumes it and proves only the polynomial-Gaussian lattice estimate. Gauss sums of finite quadratic modules belong to Tau Ceti; §7.5 consumes them. QuantumEnvelopingAlgebras §QEA6 owns the integer upper-index symmetric Gaussian polynomial; §7.1 uses its q=v² specialisation and owns only the Nahm product identity. The shifted finite Euler–Maclaurin theorem in §2.2 allows arbitrary C^J functions and real shifts, unlike ComputationalNumberTheory §4.19a’s Hurwitz-power remainder. The ring-map reduction condition in §6.1 retains its kernel and product-algebra hypotheses, unlike the additive-subgroup p-saturation criterion in ComputationalNumberTheory §3.23.
+
+The downstream ArithmeticQuantumTopology application owns the passage from a triangulation or knot to its topological and Chern–Simons invariants, including presentation independence. A matrix with a knot's name does not establish that passage. Neither quantum modularity nor a knot-invariant theorem is a prerequisite for the formal constructions here. The geometric Habiro cohomology application in §7.7 specifies gap:higher-habiro-comparison against the algebraic object of HabiroCohomologyFoundations §5.13; its §§6.1–6.3 delimit the analytic comparison problem and §§8.1–8.18 supply the named algebraic comparison squares; higher cohomology, analytic convergence and crystalline or prismatic comparisons remain separate interfaces.
+
+## Exact supplier contracts
+
+The required arithmetic contracts specify the full interfaces consumed below. They are prerequisites of the build, with their hypotheses retained at each application; a contract does not assert the existence of a declaration with an invented name. The étale cohomological comparison uses the Habiro–Hodge object H(R,F), whose completion at q=1 is qHdg(R,F).
+
+### From Mathlib
+
+Use `Matrix.PosDef`, its Hermitian condition and `Matrix.PosDef.add_posSemidef`, positive definite diagonal matrices, and `Matrix.det`. In finite dimension `Matrix.posDef_iff_dotProduct_mulVec` identifies the matrix predicate with the strictly positive quadratic form. Use these actual carriers for analytic data and Hessians. The generated fields are `IntermediateField.adjoin`; `IntermediateField.fg_adjoin_of_finite` and `IntermediateField.essFiniteType_iff` give essential finite type for finitely generated coordinate fields. The differential argument consumes `KaehlerDifferential.D`, `KaehlerDifferential.span_range_derivation`, and `Algebra.FormallyUnramified.finite_of_free` under its essential-finite-type and formal-unramified hypotheses. Module finiteness over a field then gives algebraicity. A finite transcendence basis is not assumed to consist of the original coordinates.
+
+For §2.2 use `Polynomial.bernoulli`, `Polynomial.bernoulli_one`, `Polynomial.derivative_bernoulli`, `Polynomial.bernoulli_eval_zero`, `Polynomial.bernoulli_eval_one` and `Polynomial.bernoulli_comp_one_sub_X` in `Mathlib/NumberTheory/BernoulliPolynomials.lean`, with coefficient change from ℚ to ℝ. Piecewise integration by parts uses `intervalIntegral.integral_mul_deriv_eq_deriv_mul_of_hasDerivAt` in `Mathlib/MeasureTheory/Integral/IntervalIntegral/IntegrationByParts.lean`; its continuity, derivative and interval-integrability hypotheses hold on each closed polynomial piece for a C^J function.
+
+Use `MvPolynomial`, its partial derivatives and `MvPolynomial.aeval`; `MvPowerSeries`, its coefficient maps and `MvPowerSeries.rescale`; `PowerSeries`, Laurent series, `RatFunc`, Laurent polynomials, cyclotomic polynomials and Möbius inversion. The multivariate logarithm and plethystic transform needed below are new augmentation-complete operations, not already supplied merely by the existence of one-variable `PowerSeries.log`.
+
+For convergence use the generic summability and infinite-product APIs and the existing Euler function. `ModularForm.eta`, `ModularForm.multipliableLocallyUniformlyOn_eta` and `ModularForm.eta_ne_zero` provide the Euler-product bridge on the upper half-plane. Lattice sums of polynomial-Gaussian functions consume Poisson summation for a full-rank ℤ-lattice in a real inner product space, stated for Schwartz functions in Layer 1 of the `ThetaSeries` roadmap. For the coordinate lattice hℤ^N the same identity also follows from Mathlib's one-dimensional `SchwartzMap.tsum_eq_tsum_fourier`, iterated over coordinates after a justified Fubini argument. No arbitrary smooth decaying function is asserted to have an exponentially decaying Fourier transform; polynomial times Gaussian functions have the required stronger property.
+
+`Subgroup.isArithmetic_iff_finiteIndex` applies to Γ≤SL₂(ℤ) without a congruence hypothesis. Use Mathlib `IsCusp`, `isCusp_SL2Z_iff`, `OnePoint.exists_mem_SL2`, `CuspOrbits`, and `Subgroup.strictWidthInfty`. Tau Ceti's `TauCeti.ModularForm.cuspTranslationOrbitWidth`, in `NumberTheory/ModularForms/Norm/Cusps`, is the strict T-orbit period and has a representative formula and divisibility characterisation. When −I is absent this may be twice the projective width. Weight-zero invariant functions factor through the group with −I adjoined, and that choice must be made before calling the width the local parameter's period. Use Mathlib `MeromorphicOn` and `meromorphicOrderAt` for scalar functions, not the holomorphic `ModularForm` carrier as a carrier for meromorphic functions.
+
+### From Tau Ceti
+
+Use Mathlib's multivariate Gaussian carrier, Tau Ceti's `TauCeti.Probability.multivariateGaussianPDFReal` and `TauCeti.Probability.multivariateGaussian_eq_withDensity` in `Probability/Distributions/Gaussian/Density`, and `TauCeti.integrable_pow_gaussianReal` and `TauCeti.integrable_eval_mul_gaussianEnvelope` in `Probability/Distributions/Gaussian/PolynomialMemLp`. The latter envelope theorem requires nonzero variance; the multivariate density theorem requires a positive definite covariance matrix. Consume `StandardDistributions` Layer 1's even central moments and vanishing odd moments and Layer 5's covariance and affine-map theorems. The Wick comparison must identify its covariance with those existing objects; it does not re-found probability theory. Finally, use the structure theorem for finitely generated abelian groups for the divisibility argument in Layer 4. For the quadratic Gauss evaluations of §7.5 use the pinned Tau Ceti library's `TauCeti.FiniteQuadraticModule.gaussSum` with `TauCeti.FiniteQuadraticModule.IsNondegenerate.gaussSum_mul_conj` (|G|²=#A for a nondegenerate module) and `TauCeti.FiniteQuadraticModule.gaussSum_eq_card_mul_gaussSum_quotientOfLeQuadraticRadical` (G=#K·G(q/K) for K in the quadratic radical), in `LinearAlgebra/FiniteBilinearModule/GaussSum`; these are present at the pinned Tau Ceti commit a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039.
+
+### From TauCetiRoadmap.ThetaSeries
+
+ThetaSeries Layer 1 supplies lattice Poisson summation and the Gaussian Fourier transform for a full-rank ℤ-lattice in a finite-dimensional real inner product space, with its Haar measure and covolume.
+
+### From TauCetiRoadmap.FuchsianOrbifolds
+
+FuchsianOrbifolds Layers 3–5 supply quotient cusp charts and meromorphic compactification for cofinite Fuchsian groups, including the periodic holomorphic finite-principal-part criterion.
+
+### From TauCetiRoadmap.ModularForms
+
+ModularForms, Standing hypotheses and conventions and Layer 10A, supplies the modular-function conventions used by those charts. The scalar functions here use the native meromorphic predicates rather than a new modular-curve carrier.
+
+### From TauCetiRoadmap.StandardDistributions
+
+StandardDistributions Layer 1 supplies scalar Gaussian moments, and Layer 5 supplies multivariate covariance, affine transport and Wick–Isserlis moments for positive semidefinite covariance; density arguments below impose positive definiteness. The algebraic weighted Gaussian functional below extends polynomial Wick contraction to a specified filtered domain and arbitrary invertible symmetric quadratic matrices over a ℚ-algebra.
+
+### From TauCetiRoadmap.K3BlochGroups
+
+Consume K3BlochGroups §§3.1, 3.3–3.5 for the shared pre-Bloch carrier, antisymmetric tensor cokernel and boundary; §§3.13–3.16 for B_CGZ=B_old, B_new and their exact integral convention maps; Layer 4 for the Suslin comparison; and §6.1 for finite relation witnesses. ColemanIntegration §L2.Fb evaluates on these supplied carriers. The additional arithmetic comparison contract (gap:integral-bloch-comparisons) requires rational restriction injectivity and rational regulator injectivity modulo torsion, retaining the 2- and 6-primary convention errors (CGZ §§1–2). GeneralAlgebraicKTheory §§2.5–2.6 and 3.2 supplies the K-theory carrier. PolylogarithmFunctions §§5.1–5.8 supplies the analytic five-term relations. From Polylogarithms §2.1 consume blochWignerDesc and weightTwoRegulator, and from §2.3 their Borel-normalisation comparison weightTwoRegulator_borel. The additional rational injectivity assertions remain in this gap; the normalization comparison alone does not imply injectivity.
+
+### From TauCetiRoadmap.PolylogarithmFunctions
+
+PolylogarithmFunctions §§1.1–1.7 and 3.1–3.6 supplies analytic Li₂ and distribution, §§5.1–5.8 supplies Bloch–Wigner values and relations, and §§6.1–6.5 supplies the interval Rogers function. The Rogers convention used here is the complementary one:
+
+```text
+L_CGZ(x) = π²/6 − Li₂(x) − ½ log(x)log(1−x),   0<x<1.
+```
+
+Use the real detector of K3BlochGroups §5.8, its negation and reduction of the period to π²/2 for the projective adapter in §1.5 using CGZ (42); prove the trigonometric sum in §2.7. PolylogarithmFunctions supplies only the interval Rogers function, with the increasing convention. A real-valued expression cannot be divided by a rational denominator in a circle-valued target without an additional lift.
+
+### From TauCetiRoadmap.Polylogarithms
+
+From Polylogarithms §2.1 consume blochWignerDesc and weightTwoRegulator, and from §2.3 weightTwoRegulator_borel, with its Borel normalisation. Section 1.5 evaluates that supplied descended regulator on the Nahm class. Rational injectivity and integral convention transport retain the integral-comparison contract; the Borel-normalisation comparison alone does not imply injectivity.
+
+### From TauCetiRoadmap.HabiroNumberFields
+
+From HabiroNumberFields §§0.2 and 0.9 consume the exceptional integer `M_K=6|disc K|·|K₂(𝒪_K)|` and finite Chern injectivity on integral K₃ classes modulo n for gcd(n,M_K)=1, transported to the Bloch presentation by the specified odd-coefficient comparison. From §§1.1–1.5 consume the cyclic product
+
+```text
+D_ζ(w) = ∏_{r=1}^{m−1}(1−ζ^r w)^r,
+D_ζ(ζw)/D_ζ(w) = (1−w)^m/(1−w^m),
+```
+
+Read the ratio as an identity in F(w); evaluation of the displayed quotient requires w^m≠1. The product D_ζ(1) is instead evaluated directly and is nonzero. Consume its distribution and root-change identities, the independently proved KMS identity and the five-term regulator R_ζ. The fractional-power product sometimes also denoted D is `D_ζ(w)^(1/m)` with specified factor logarithms. These meanings must not be interchanged. The uniquely descended cyclic map at odd n requires n invertible in F and μ_n(F)={1}; for number fields gcd(n,w_F)=1 suffices, where w_F is the number of roots of unity. It does not require gcd(n,M_F)=1 (CGZ Proposition 2.5 and Theorem 2.11, pp. 11–15).
+
+From HabiroNumberFields §1.7 consume the integral projective eta sum η_ζ, its image modulo n, boundary vanishing, n-torsion and the quotient root-change law η_(ζ^a)=a²η_ζ. Sections 1.11–1.13 supply the prime-power reduction and cyclotomic-torsion comparison, with the K3BlochGroups §§3.13–3.16 convention maps. Section 2.7 below proves only the root-dependent Nahm identity and the analytic evaluation R_ζ(η_ζ)=ζ² (CGZ Lemmas 5.1 and 5.3, Theorems 5.2 and 7.4, pp. 26–28, 37–39). The quotient root-change law suffices after applying R_ζ; no stronger integral scaling law is needed here.
+
+Consume HabiroNumberFields §1.10's signed Chern evaluation only subject to its independent finiteChern_normalization_comparison, and §1.14's scalar-reading implication subject to that comparison and its exact-order premise. Combining §2.7's value with those implications gives the exponent two when c_fixed=c_plus, and exponent −2 when c_fixed=c_raw, on the good-order domain of §1.13 and its compatible CRT extension. This assembly belongs here; the supplier's regulator and Chern constructions do not depend on it. Section 6.4 retains this hypothesis and order restriction when using the calibration, and uses §1.15's independently defined all-order Chern square for ε_m. This is the precise finite-Chern/cyclic contract (gap:finite-chern-cyclic), not an all-order identification of R_ζ with the Chern square.
+
+### From TauCetiRoadmap.GeometryOfNumbersAndQuadraticArithmetic
+
+From GeometryOfNumbersAndQuadraticArithmetic §4.3 consume qPochhammer, its analytic shift and zero divisor.
+
+### From TauCetiRoadmap.HabiroCyclotomicCompletions
+
+From HabiroCyclotomicCompletions §1.1 consume QToolkit.pochhammer, pochhammerInf, reciprocalPochhammer, qBinomialSeries and integralPochhammerInf, with their finite shift, scalar-change, Euler and formal binomial identities.
+
+### From TauCetiRoadmap.QSeriesPartitionsAndMockModularForms
+
+From QSeriesPartitionsAndMockModularForms §1.6 consume locally uniform finite-prefix convergence on ℂ×{|q|<1} and the finite-prefix/tail identity, dividing only by a nonzero tail. Consume §2.4 for analytic binomial/Euler evaluation, §3.3 for Rogers–Ramanujan and §5.2 for the normalized eta multiplier, and §3.1 for the signed lower-index Gaussian adapter. This adapter does not include negative upper indices.
+
+What QSeriesPartitionsAndMockModularForms must provide (gap:qseries-root-modularity): extensions of §§3.1, 3.3 and 5.2 giving general q-Lucas evaluation, the Andrews–Gordon identities in the Nahm-matrix normalisation of §2.7, and all-cusp modular theta-quotient transformations of the normalized Rogers–Ramanujan functions. These are additional contracts, not assertions that those sections state them. The root-of-unity applications are CGZ §7.2 and GSWZ Example 4.5. QuantumEnvelopingAlgebras §QEA6 supplies the integer upper-index Laurent-polynomial extension in its symmetric parameter; §7.1 uses its standard Gaussian normalisation.
+
+### From TauCetiRoadmap.QuantumEnvelopingAlgebras
+
+From QuantumEnvelopingAlgebras §QEA6 consume the Laurent-polynomial extension of the symmetric Gaussian binomial to integer upper index r and natural lower index k. In the Laurent indeterminate v, q=v² and the standard Gaussian coefficient is v^(k(r−k)) times the symmetric one. This injective change of parameter identifies the quotient in §7.1 and its Laurent integrality, including negative upper indices. Its root-of-unity Lucas theorem retains the stated odd-order hypotheses; the all-order standard-parameter extension remains in gap:qseries-root-modularity. No quantum group or quantum Frobenius theorem is an input.
+
+### Number-field module contract
+
+Consume HabiroNumberFields §§2.1–2.7 for Taylor maps and Frobenius-twisted p-adic gluing on full cyclotomic algebras, §§1.15 and 3.1–3.7 for coherent Chern root lines and local sections with their regulator exponential, and §§3.8–3.12 for global families, effective descent, tensor equivalences and inversion of q. These supply the module contract (gap:habiro-modules-descent), including restriction to good orders and `H_ξ⊗H_η≃H_{ξ+η}`; effective descent and torsor coherence retain their stated hypotheses. HabiroRings §§6.1–6.2 transports these supplied lines along R→B and its full p-completion, including all components. Coherent pullback along the involution T↦−T supplies its compatibility, since this involution fixes R; replacing B by a preferred square root is not a substitute. The local generator criterion must impose integrality of its linear coefficient as well as its constant unit. Constant terms can cancel in sums of local generators, so an arbitrary module element need not be a generator.
+
+### From TauCetiRoadmap.QWittVectors
+
+From QWittVectors §6.1, Completed étale Frobenius, consume the unique continuous ψ_p-semilinear lift, its reduction law and naturality for maps of étale algebras over a fixed perfectly covered Λ-base. For a change f:A→A′ of base, require f∘ψ_p=ψ′_p∘f on p-completions; formal étale uniqueness then gives the coefficient-algebra square. This is the completed-frobenius-base-naturality contract required by HabiroRings, Exact supplier contracts, rather than naturality for an arbitrary specialisation. For the Laurent base with ψ_p(t_i^(1/m))=t_i^(p/m), verify perfect coverage using its Layer 1 and §2.4; §6.2 supplies only the cyclotomic completed overlaps.
+
+### From TauCetiRoadmap.HabiroRings
+
+From HabiroRings §5.9 consume the ℤ[q]-algebra comparison `κ_R:H_{R/ℤ}≃H_R`, preserving root values, Taylor expansions and completed Frobenius. From §§6.1–6.2 consume completed scalar extension along morphisms of pairs and transport of the supplied K₃-indexed lines; from §§6.3–6.6 the q−1 completion map and triviality of the completed Picard class, with their global descent, tensor and integral first-fibre hypotheses. Arithmetic Frobenius prevents an untwisted R-algebra interpretation.
+
+### From TauCetiRoadmap.HabiroCohomologyFoundations
+
+From HabiroCohomologyFoundations §4.21 consume the natural equivalence `d_R:H(R,F)≃H_{R/ℤ}` for an étale algebra R over the perfectly covered base ℤ and its empty-frame q-Hodge pair F. Both objects are concentrated in degree zero. The equivalence preserves the unit and every cyclotomic partial-completion projection and identifies their q=1 completion maps to R[[q-1]]. The completed object is qHdg(R,F)=R[[q-1]]; it is distinct from H(R,F). For R=𝒪_K[1/Δ] and finite étale coefficient algebras B/R, use HabiroRings §5.9 to identify the relative ring with the arithmetic ring, retaining all root factors (Wagner Corollary 3.13, printed p. 41).
+
+### From TauCetiRoadmap.ColemanIntegration
+
+From ColemanIntegration Layer L2 consume Coleman Li₂, the Iwasawa logarithm with log(−1)=0, reflection and distribution identities and integral modified polylogarithms. Its §L2.Fb evaluates on K3BlochGroups §§3.1, 3.3–3.5’s pre-Bloch carrier and boundary, with their aliases and field maps; it supplies no second algebraic carrier.
+
+### From TauCetiRoadmap.PadicHodgeRegulators
+
+Consume PadicHodgeRegulators §4.7 for the normalized Suslin–de Jeu comparison and §§5.6–5.9 for completed root classes, the normalized regulator, its lattice isomorphism and root generation. For p>3 and a finite unramified étale ℚ_p-algebra L, these give D_L:K₃(L;ℤ_p)≃p²𝒪_L and finite ℤ_p-linear presentations by root classes whose components are all different from 1 and whose orders are prime to p; on such a root ζ, D_L([ζ])=Li₂(ζ). The comparison retains the supplier’s normalization constant and Chern sign, and is compatible with coefficient maps and finite products (GSWZ Lemma 3.1 and Theorem 9, pp. 37–39). ColemanIntegration §L2.18 supplies `Li₂(z)+Li₂(1−z)=−log z log(1−z)` for z≠0,1 on the Iwasawa branch, giving the sign in Layer 6. These are local regulator inputs. No global p-adic Hodge comparison or higher cohomology theorem is used to prove membership of a scalar Nahm collection.
+
+### From TauCetiRoadmap.GeneralAlgebraicKTheory
+
+From GeneralAlgebraicKTheory §§2.5–2.6 and 3.2, the exact-category K-theory and field K-group constructions are used without a second carrier.
+
+### From TauCetiRoadmap.KTheoryFiniteLocalFields
+
+From KTheoryFiniteLocalFields §§1.8 and 7.4 consume the finite-coefficient Chern and local reduction inputs with their coefficient restrictions.
+
+### From TauCetiRoadmap.ArithmeticKTheory
+
+From ArithmeticKTheory §3.4 consume finiteness of K₂(𝒪_K) for every number field K and define k_K as its finite cardinality. The finite-Chern exceptional integer using this input belongs to the HabiroNumberFields finite-Chern contract (CGZ Theorem 1.2 and Remark 1.4, p. 3; CGZ line 112). No numerical tame-kernel order is assumed in §7.3.
+
+### Higher cohomological comparison
+
+The comparison target of §7.7 (gap:higher-habiro-comparison) uses the algebraic object of HabiroCohomologyFoundations §5.13 and the particular comparison squares of §§8.1–8.18 to construct the map from GW’s affine top-form classes in their actual degree, with the root completions, Frobenius, analytic-radius and base-change hypotheses of §7.7 (GW Theorem 1.18). This is not an input to scalar membership.
 
 ## References
 
