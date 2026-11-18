@@ -28,121 +28,32 @@ groups of finite homological type with its multiplicativity (8.4, 8.6) and equiv
 (8.7), Brown's denominator theorem (8.9), and the comparison of Farrell cohomology with ordinary
 cohomology above the virtual cohomological dimension (9.4).
 
-## Scope and ownership
+## How to read the build
 
-This roadmap owns the finiteness, dimension, duality and Euler-characteristic theory of discrete
-groups and the Farrell cohomology of groups of finite virtual cohomological dimension. The group
-`G` is an arbitrary group and the coefficients form an arbitrary commutative ring `R`; `R = ℤ` is an
-instance, and a statement is made over `ℤ` only where the theory is integral: Serre's theorem, the
-virtual cohomological dimension, the Euler characteristic, and Poincaré duality from abstract
-isomorphisms. No other roadmap plans these objects:
-CohomologyOfGroups excludes them by name in its Scope and describes a roadmap on finiteness
-conditions and duality groups among its downstream consumers.
+Layer 1 defines the finiteness types on Tau Ceti's pseudocoherence and finite projective dimension,
+proves a module-level criterion by directed colimits, and deduces the group criterion and the
+stability of the types under finite index, extensions, products and splittings over trees. Layer 2
+defines `cd_R` and `hd_R`, identifies them with projective dimension and Tor-vanishing, proves their
+behaviour under subgroups, extensions, directed unions and amalgams, the dichotomy for finite
+groups, and compares `cd_ℤ` with the profinite invariant. Layer 3 constructs the signed tensor
+induction of complexes and proves Serre's theorem, which Layer 4 needs to make the virtual
+cohomological dimension independent of the subgroup; Layer 4 also defines the virtual types and the
+groups of finite homological type on which Layer 8 rests. Layer 5 compares `cd` with the geometric
+dimension, proves the Eilenberg–Ganea theorem, replaces a finite-dimensional CW complex by an
+abstract simplicial complex of the same dimension, and with it builds Serre's action of a group of
+finite `vcd` with finite stabilizers on a finite-dimensional acyclic simplicial set; later layers
+use its
+comparison 5.2, in the manifold theorem 6.6, and Serre's construction 5.5, in the denominator
+theorem 8.9. Layer 6 develops duality groups from the cap product of CohomologyOfGroups and the
+finiteness criterion of Layer 1. Layer 7 is independent of Layers 2–6: it specialises the
+Hattori–Stallings trace to group rings and proves Swan's theorem and Brown's theorem on `Hom` from a
+projective module into a finite-dimensional representation, which Layer 8 uses to define and
+multiply Euler characteristics; Layer 8 also proves the classical Smith theory of finite `p`-groups
+acting on finite-dimensional simplicial sets, which with 5.5 bounds the denominator of the Euler
+characteristic. Layer 9 builds complete resolutions and Farrell cohomology from the pinned
+Gorenstein-projective objects, using Layers 2 and 4.
 
-**Already in the library and used as it stands.** Mathlib's `groupCohomology`, `groupHomology` and
-`tateCohomology` on `Rep R G`; the comparisons `groupCohomologyIsoExt`, `groupHomologyIsoTor` and
-`groupCohomologyIso`; Shapiro's lemma `groupCohomology.coindIso` and `groupHomology.indIso`; the
-equivalence `Rep.equivalenceModuleMonoidAlgebra` with modules over `MonoidAlgebra R G`;
-`HasProjectiveDimensionLE`; `Group.IsFinitelyPresented`, `Monoid.PushoutI`, `HNNExtension`; the
-cohomology of finite cyclic groups `Rep.FiniteCyclicGroup.groupCohomologyIsoEven`. Tau Ceti's
-pseudocoherence `TauCeti.Huber.IsPseudoCoherentOver` with its degree-by-degree, two-out-of-three
-and restriction-of-scalars lemmas; finite projective dimension `TauCeti.Module.IsFPD` with
-`TauCeti.Module.isFPD_iff_hasProjectiveDimensionLE`; the least bound `TauCeti.leastENatBound`;
-totally acyclic complexes of projectives and Gorenstein-projective objects in an abelian category
-(`CochainComplex.IsTotallyAcyclicProjective`, `CategoryTheory.isGorensteinProjective`) with their
-Frobenius exact structure and the comparison theorem for complete resolutions
-(`TauCeti.ExactStructure.CompleteResolution.homotopyEquiv`); the cellular resolution of an
-aspherical CW complex `TauCeti.cellularResolutionOfIsAspherical`; the universal cover
-`TauCeti.UniversalCover` as a quotient covering for the fundamental group, and semilocal simple
-connectivity of locally contractible spaces; cell attachment, the Hurewicz and Whitehead theorems;
-the vanishing of characters of projective modules at `p`-singular elements
-`TauCeti.trace_ofModule'_eq_zero_of_dvd_orderOf`; Swan's theorem for `ℤ_p[G]`,
-`TauCeti.nonempty_linearEquiv_of_projective_of_tensorRat`; the determination of
-finite-dimensional representations of a finite group by their characters in characteristic zero,
-`FDRep.nonempty_iso_of_character_eq`; and the Grothendieck group of an abelian category
-`TauCeti.AbelianK0` with its Euler–Poincaré relation for bounded complexes; Tau Ceti's CW
-structure `AbstractSimplicialComplex.realizationCWComplex` on the realization of an abstract
-simplicial complex with its ordered cellular chains `TauCeti.cellularChainComplexRealizationIso`;
-Mathlib's simplicial sets with group actions (`CategoryTheory.Action`), their homology
-`SSet.homology` and normalized chains, and induced representations `Rep.ind`; Mathlib's
-Euler characteristic of a complex of modules `HomologicalComplex.homologyEulerChar`, the cohomology
-and homology functors `groupCohomology.functor` and `groupHomology.functor` with the comparison maps
-`CategoryTheory.Limits.colimit.post` and `CategoryTheory.Limits.piComparison`; Tau Ceti's
-comparison of continuous with discrete cohomology of a finite discrete group in every degree,
-`TauCeti.ContCohomology.nonempty_continuousCohomology_addEquiv_groupCohomology`; and Tau Ceti's
-vanishing of the homology of a directed union of subgroups whose homology vanishes,
-`TauCeti.groupHomology.isZero_groupHomology_of_directed`, which is all that 2.5(a) and 6.4 use of
-the behaviour of homology under directed unions. Exact statements are under Exact supplier
-contracts.
-
-**Owned elsewhere and imported by section.**
-- CohomologyOfGroups owns the operations on group (co)homology used throughout: permutation
-  modules and Shapiro isomorphisms for `G`-sets (§1.4), the quotient action on the cohomology of a
-  normal subgroup (§1.2), the comparison of continuous and discrete cohomology of a discrete group
-  (§1.5), the orbit spectral sequence of a monomial complex (§3.2), the chain complex of a tree and
-  the tree, amalgam, HNN and free-group sequences (§§3.4–3.6), the cap product (§4.6), the universal
-  coefficient sequences (§5.2) and the Hochschild–Serre spectral sequences with convergence
-  (§§6.2–6.3). This roadmap proves no spectral sequence and no product.
-- SpectralSequencesAndConvergence owns the Euler identity of a spectral sequence converging in
-  every total degree with finite filtrations and a page with finitely many nonzero terms in a weak
-  Serre class (§3.4), and its form for the spectral sequence of a complex with a filtration finite
-  in each degree (§5.3). 8.6 and 8.7 apply it, with the finite-dimensional `ℚ`-vector spaces and
-  their dimension, to the Hochschild–Serre and orbit spectral sequences of CohomologyOfGroups.
-- FreeGroupsAndLimitGroups owns graphs of groups, the identification of one-edge splittings with
-  Mathlib's amalgams and HNN extensions (§4.5), the Bass–Serre tree (§4.7), the structure theorem
-  for actions on trees (§4.8) and the fixed points of finite groups acting on trees (§4.9).
-- EtaleCohomologyFoundations §F.10.3 owns the Hattori–Stallings trace of finite projective modules
-  over an arbitrary ring with its additivity and scalar extension, and, for a finite group, the
-  identity-coefficient trace with the centralizer formula `Tr_Λ(γ, P) = |Z_γ| · Tr^{Z_γ}_Λ(γ, P)`;
-  Layer 7 specialises the trace to group rings, and 7.2 imports the centralizer formula, proving
-  only its comparison with the conjugacy-class coordinates of the rank of 7.1.
-- ClassifyingSpaces owns `K(G, 1)` CW complexes, their uniqueness up to homotopy equivalence
-  (Stage 3 item 12), their cellular chains as free resolutions (Stage 4 item 16) and the
-  identification of their (co)homology with local coefficients with group (co)homology (Stage 4
-  item 17). AlgebraicTopology owns the local contraction of an arbitrary Hausdorff CW complex within
-  each neighbourhood of a point (§4.7), singular (co)homology with local coefficients and its
-  homotopy invariance (§6.1), cellular connectivity (§8.1), the absolute Hurewicz theorem in every
-  universe (§8.3), Whitehead's theorem (§8.5), the finite CW type of compact Hausdorff smooth
-  manifolds (§8.7), twisted Poincaré duality of manifolds (§§6.3–6.4), and the replacement of CW
-  complexes by abstract simplicial complexes (§8.11a). The form of that replacement with the
-  dimension bound of Hatcher2002 Theorem 2C.5, which §8.11a does not state and Serre's
-  construction needs, is 5.4 here.
-- ProfiniteCohomology Layer 11 owns the cohomological dimension of profinite groups, carried by Tau
-  Ceti's `TauCeti.cohomologicalDimension` (continuous cohomology with discrete torsion
-  coefficients). The invariant of this roadmap is the discrete one, under another name, compared
-  with it in 2.8. ProfiniteCohomology §13.2 owns the Evens norm, built from a tensor induction of
-  the coinduced resolution of a compact open subgroup of a profinite group in continuous
-  cohomology; the signed tensor induction 3.1 of complexes of modules over a subgroup of finite
-  index of a discrete group, the input of Serre's theorem, is a different construction and is owned
-  here.
-- Instances owned elsewhere and not restated: ArithmeticKTheory §3.2 owns the Borel–Serre duality of
-  torsion-free finite-index subgroups of `Aut(P)` with the Steinberg dualizing module, an instance
-  of Layer 6; FuchsianOrbifolds Layer 5 item 6 owns the orbifold Euler characteristic of a Fuchsian
-  group by its signature, whose value `−1/6` at `PSL(2, ℤ)` is the value 8.7 gives the free product
-  `ℤ/2 ∗ ℤ/3`; BianchiModularForms §9.3 owns the orbifold Euler characteristics of Bianchi groups;
-  BordismFormalGroups owns a complete resolution of the profinite Morava stabilizer groups, a
-  continuous theory distinct from Layer 9.
-- GorensteinHomologicalAlgebra owns Gorenstein dimensions of modules over rings and excludes
-  complete cohomology of groups. Layer 9 uses only the pinned Gorenstein-projective objects of an
-  abelian category and owns Farrell cohomology.
-- SheafTheoreticSmithTheory owns Smith restriction for prime-order actions on étale sheaves, a
-  different theory. The classical Smith theory of 8.8 (finite `p`-groups acting on
-  finite-dimensional simplicial sets with finite mod-`p` homology) and Serre's construction 5.5 of a
-  finite-dimensional acyclic simplicial set with finite stabilizers have no other owner and are
-  owned here.
-
-**Out of scope.** Stallings' theorem on ends and the Stallings–Swan theorem that a group of
-cohomological dimension one is free (so the classification of duality groups of dimension one is not
-stated). Separations of the finiteness types (Bestvina–Brady groups, a group of type `FP_2` that is
-not finitely presented) and the Eilenberg–Ganea problem in dimension two. The inequality
-`cd_R G ≤ hd_R G + 1` for countable groups, which needs the Govorov–Lazard theorem over
-noncommutative rings. Brown's refinements of the denominator theorem through the poset of nontrivial
-finite subgroups, which need its equivariant Euler characteristic and the acyclic-cover comparison
-of Brown1974 Appendix B: Theorem 5 for a nonempty family of finite subgroups, its Corollaries 2 and
-3, Theorem 6 with the formula for `χ − χ_ℚ`, and the `p`-fractional part of `χ` (Brown1974 §§6–7).
-Products on Farrell cohomology, which need a complete diagonal approximation. `L²`-invariants,
-Bieri–Neumann–Strebel invariants, and the comparison of the Hattori–Stallings and rational Euler
-characteristics beyond type `FL` (the Bass conjecture). The dimension theory of profinite groups.
+---
 
 ## Conventions
 
@@ -209,480 +120,6 @@ characteristics beyond type `FL` (the Bass conjecture). The dimension theory of 
   for `G = ℤ/2` and `M = ℤ`, `Ĥ⁰ = ℤ/2`, `Ĥ⁻¹ = 0`, `Ĥ¹ = 0`, `Ĥ² = ℤ/2`; the model shifted by one
   degree gives `Ĥ⁰ = 0`.
 - **Spectral sequences.** Indexing and convergence are those of CohomologyOfGroups §§6.2–6.3.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-Pinned at `1b1ccf4b088b32fa3f23f2de1127433254a81e1e`.
-
-- `groupCohomology`, `groupHomology`
-  (`Mathlib/RepresentationTheory/Homological/GroupCohomology/Basic.lean`,
-  `.../GroupHomology/Basic.lean`) for `{k G : Type u}`, `A : Rep.{u} k G`;
-  `groupCohomologyIsoExt A n : groupCohomology A n ≅ Extⁿ(k, A)` in `Rep k G`
-  (GroupCohomology/Basic.lean line 202) and `groupHomologyIsoTor` (GroupHomology/Basic.lean line
-  246); `groupCohomologyIso`, computing cohomology from any projective resolution of the trivial
-  representation. These identify `Hᵏ(G, −)` with `Ext^k_{RG}(R, −)` and `Hₖ(G, −)` with `Tor_k`,
-  naturally in the coefficient.
-- `groupCohomology.coindIso` (`.../GroupCohomology/Shapiro.lean` line 58) and `groupHomology.indIso`
-  (`.../GroupHomology/Shapiro.lean` line 65), Shapiro's lemma for any subgroup.
-- `tateCohomology` (`.../TateCohomology/Basic.lean`), defined for finite groups in every integer
-  degree by the norm splice, with its long exact sequence; `TateCohomology.isoGroupCohomology`.
-- `Rep.equivalenceModuleMonoidAlgebra : Rep.{w} k G ≌ ModuleCat k[G]`
-  (`Mathlib/RepresentationTheory/Rep/Iso.lean` line 157), `Representation.asModule`
-  (`Mathlib/RepresentationTheory/Basic.lean` line 142), `Representation.trivial`, `Rep.res`.
-- `groupCohomology.functor R G n`, `groupHomology.functor R G n : Rep R G ⥤ ModuleCat R`
-  (`.../GroupCohomology/Functoriality.lean` line 534, `.../GroupHomology/Functoriality.lean` line
-  831), for `R G : Type u`;
-  `CategoryTheory.Limits.colimit.post F Φ : colimit (F ⋙ Φ) ⟶ Φ.obj (colimit F)`
-  (`Mathlib/CategoryTheory/Limits/HasLimits.lean` line 490) and
-  `CategoryTheory.Limits.piComparison Φ N : Φ.obj (∏ᶜ N) ⟶ ∏ᶜ (Φ.obj ∘ N)`
-  (`Mathlib/CategoryTheory/Limits/Shapes/Products.lean` line 448), the canonical comparison maps of
-  1.5; `Rep.{u} R G` has all colimits and limits indexed by types in `Type u`.
-- `HasProjectiveDimensionLE X n` (`Mathlib/CategoryTheory/Abelian/Projective/Dimension.lean` line
-  53): `Ext^i(X, Y) = 0` for all `Y` and `i ≥ n + 1`, in an abelian category; nothing about finite
-  generation.
-- `Rep.FiniteCyclicGroup.groupCohomologyIsoEven` (`.../GroupCohomology/FiniteCyclic.lean` line 80):
-  for a finite cyclic group generated by `g` and `i > 0` even, `Hⁱ(G, A)` is the homology of
-  `A →N A →(g − 1) A`; for trivial `A = R` this is `R/|G|R`.
-- `Group.IsFinitelyPresented` (`Mathlib/GroupTheory/FinitelyPresentedGroup.lean` line 95),
-  `PresentedGroup`, `FreeGroup`, `Monoid.PushoutI` (`Mathlib/GroupTheory/PushoutI.lean` line 60),
-  `HNNExtension` (`Mathlib/GroupTheory/HNNExtension.lean` line 52), `Subgroup.index`,
-  `Subgroup.FiniteIndex`.
-- `Topology.CWComplex`, `Topology.RelCWComplex.FiniteDimensional` and `RelCWComplex.FiniteType`
-  (`Mathlib/Topology/CWComplex/Classical/Finite.lean` lines 40 and 49): finite dimensionality means
-  that `cell C n` is empty for all large `n`, finite type that each `cell C n` is finite.
-- `Module.Flat` for modules over a commutative ring (used only for `R`-modules, never for
-  `RG`-modules), `Module.Projective` and `Module.Finite` over any semiring, `PadicInt`.
-- Further carriers the layers name: `MonoidAlgebra` (`Mathlib/Algebra/MonoidAlgebra/Defs.lean` line
-  76), the group ring `RG` (1.2, 7.1); `Rep.trivial` (`Mathlib/RepresentationTheory/Rep/Basic.lean`
-  line 288), the trivial representation as an object of `Rep` (2.1); `Representation.ofModule'`
-  (`Mathlib/RepresentationTheory/Basic.lean` line 191), the representation of `G` on an `RG`-module
-  (7.2); `ConjClasses` (`Mathlib/Algebra/Group/Conj.lean` line 133), the conjugacy classes indexing
-  Hattori–Stallings ranks (7.1); `PiTensorProduct`
-  (`Mathlib/LinearAlgebra/PiTensorProduct/Basic.lean` line 104) and `HomologicalComplex`
-  (`Mathlib/Algebra/Homology/HomologicalComplex.lean` line 59) for tensor induction (3.1) and 8.1;
-  `QuasiIso` (`Mathlib/Algebra/Homology/QuasiIso.lean` line 138: an isomorphism on homology in every
-  degree) and `IsNoetherianRing` (`Mathlib/RingTheory/Noetherian/Defs.lean` line 191) for Wall's
-  finite replacement of complexes (8.1); `IsLocalRing` (`Mathlib/RingTheory/LocalRing/Defs.lean`
-  line 30) for 7.5; `Sylow` (`Mathlib/GroupTheory/Sylow.lean` line 54) with Sylow's existence
-  theorem `Sylow.exists_subgroup_card_pow_prime` (line 723: a finite group whose order is divisible
-  by `pⁿ` has a subgroup of order `pⁿ`), for 8.8 and 8.9.
-- `CategoryTheory.ProjectiveResolution`
-  (`Mathlib/CategoryTheory/Preadditive/Projective/Resolution.lean` line 37), whose `complex` is a
-  chain complex indexed by `ℕ`, and `HomologicalComplex.opcycles`
-  (`Mathlib/Algebra/Homology/ShortComplex/HomologicalComplex.lean` line 215): the cokernel of the
-  differential into degree `n`. For a projective resolution `P` of `R`, `P.complex.opcycles n` is
-  the `n`-th syzygy: `R` for `n = 0` (exactness at `P_0`), and the image of `P_n → P_{n−1}` for
-  `n ≥ 1`. Used in 9.2.
-- `HomologicalComplex.homologyEulerChar` (`Mathlib/Algebra/Homology/EulerCharacteristic.lean`
-  line 154): for a complex of modules over a ring, the `finsum` of the signed `Module.finrank` of
-  its homology, `0` when infinitely many terms are nonzero; the model of the Euler characteristics
-  of complexes in 8.2, 8.8 and 8.9 and of `rationalEulerChar` in 8.3. Over `ℤ`, `Module.finrank`
-  of a finitely generated abelian group is the rank of its free quotient (`ℤ ⊕ ℤ/2` has rank `1`).
-- `Localization.AtPrime` (`Mathlib/RingTheory/Localization/AtPrime/Basic.lean` line 55), a local
-  ring by the instance `Localization.AtPrime.isLocalRing` (line 105), and Nakayama's lemma
-  `Submodule.eq_bot_of_le_smul_of_le_jacobson` (`Mathlib/RingTheory/Nakayama.lean` line 117): a
-  finitely generated submodule `N` with `N ≤ I • N`, for an ideal `I` contained in the Jacobson
-  radical, is zero. It is stated over a commutative ring, so for modules over a group ring of a
-  finite group (7.4, 7.5) it is applied over the local coefficient ring.
-- `IsMulTorsionFree` (`Mathlib/Algebra/Group/Monoid.lean` line 552), the meaning of *torsion-free*
-  throughout: commuting elements with equal nonzero powers are equal; for a group it holds exactly
-  when no element other than `1` has finite order (`isMulTorsionFree_iff_not_isOfFinOrder`,
-  `Mathlib/GroupTheory/OrderOfElement.lean` line 911). Multiplicative `ℤ` satisfies it and `ℤ/2`
-  does not (`s² = 1²` with `s ≠ 1`).
-- `SSet`, its chain complex `SSet.chainComplex` and homology `SSet.homology`
-  (`Mathlib/AlgebraicTopology/SimplicialSet/Homology/Basic.lean` lines 67 and 124): the unnormalized
-  simplicial chains with coefficients in an object of a preadditive category, whose degree-`n` term
-  is a coproduct over all `n`-simplices, degenerate ones included, so it does not vanish above the
-  dimension (for `Δ[0]` it is `ℤ` in every degree). Homology is always `SSet.homology`; every
-  chain-level argument of 5.5, 8.8 and 8.9 uses the normalized chains of
-  `Mathlib/AlgebraicTopology/SimplicialSet/Homology/Nondegenerate.lean`:
-  `SSet.normalizedChainComplex` (line 43, built from the canonical splitting `SSet.splitting` by
-  nondegenerate simplices), whose degree-`n` term is the coproduct over the nondegenerate
-  `n`-simplices (`SSet.isColimitCofanNormalizedChainComplex`, line 167);
-  `SSet.homotopyEquivNormalizedChainComplex` (line 86), a homotopy equivalence from the unnormalized
-  to the normalized chains, so both have the homology `SSet.homology`;
-  `SSet.normalizedChainComplexMap` (line 200), the functoriality in simplicial maps;
-  `SSet.isZero_normalizedChainComplex_X_of_hasDimensionLT` (line 182) and
-  `SSet.isZero_homology_of_hasDimensionLT` (line 252): for `X.HasDimensionLT d` the normalized
-  chains and the homology vanish in degrees `≥ d`. A simplicial set is finite-dimensional when
-  `SSet.HasDimensionLE X N` holds for some `N`
-  (`Mathlib/AlgebraicTopology/SimplicialSet/Dimension.lean` lines 32 and 36: every nondegenerate
-  simplex has dimension at most `N`), and `SSet.hasDimensionLE_prod`
-  (`Mathlib/AlgebraicTopology/SimplicialSet/FiniteProd.lean` line 66) bounds the dimension of a
-  product by the sum of the dimensions.
-- `AbstractSimplicialComplex` (`Mathlib/AlgebraicTopology/SimplicialComplex/Basic.lean`), whose
-  faces are nonempty finite sets closed under passing to nonempty subsets; used in 5.5.
-- `SSet.homologyMap` (`Mathlib/AlgebraicTopology/SimplicialSet/Homology/Basic.lean` line 129), the
-  map on `SSet.homology` induced by a map of simplicial sets, used with the map
-  `CategoryTheory.Limits.terminal.from` to the point to say that a simplicial set is acyclic (5.5);
-  `ModuleCat.of` (`Mathlib/Algebra/Category/ModuleCat/Basic.lean` line 79) gives the coefficient
-  objects `ℤ` and `𝔽_p = ZMod p` of `SSet.homology` (5.5, 8.8).
-- `CategoryTheory.Action V G` (`Mathlib/CategoryTheory/Action/Basic.lean` line 48): an object `V`
-  with a monoid homomorphism `ρ : G →* End V`; in this Mathlib `CategoryTheory.End V` is a
-  structure, and `(ρ g).asHom : V ⟶ V` is the underlying morphism. With `V = SSet` it is an action
-  of `G` by simplicial automorphisms (`ρ g⁻¹` inverts `ρ g`).
-  `Action.functorCategoryEquivalence` (line 238) turns it into a functor from the one-object
-  category of `G` to `SSet`, whose limit and colimit, computed degreewise, are the simplicial sets
-  of fixed simplices and of orbits (5.5, 8.8).
-- `Rep.ind φ A` (`Mathlib/RepresentationTheory/Induced.lean` line 102), for `φ : H →* G` and
-  `A : Rep k H`, the induced representation `(k[G] ⊗_k A)_H`, the left adjoint of restriction;
-  with `φ = S.subtype` for a subgroup `S` it is `Ind_S^G A`. `ChainComplex.single₀`
-  (`Mathlib/Algebra/Homology/Single.lean` line 195), the complex
-  concentrated in degree `0`; a resolution of the trivial representation is a complex `C` with a
-  `QuasiIso` to `single₀` of it (8.7).
-- `IsCoveringMap.existsUnique_continuousMap_lifts` (`Mathlib/Topology/Homotopy/Lifting.lean`
-  line 489): a map from a simply connected, locally path-connected space lifts uniquely along a
-  covering map once the lift of one point is fixed.
-- `LocallyContractibleSpace X` (`Mathlib/Topology/Homotopy/LocallyContractible.lean` line 81): every
-  neighbourhood `U` of a point contains a neighbourhood `V` of it whose inclusion `V → U` is
-  null-homotopic (a predicate, not a class); Mathlib does not prove it for CW complexes. The
-  instance making a `DeltaGeneratedSpace` a `LocallyPathConnectedSpace`
-  (`Mathlib/Topology/Compactness/DeltaGeneratedSpace.lean` line 51). Both are used in 5.1.
-- `finite_of_finite_type_of_isJacobsonRing R S` (`Mathlib/RingTheory/Jacobson/Ring.lean` line 691,
-  Zariski's lemma): a field `S` of finite type over a Jacobson ring `R` is a finite `R`-module; and
-  the instance making an Artinian ring a Jacobson ring (same file, line 102). Mathlib does not
-  provide `IsJacobsonRing ℤ`; 7.5 obtains it from Tau Ceti's criterion below.
-- `ChartedSpace.secondCountable_of_sigmaCompact` (`Mathlib/Geometry/Manifold/ChartedSpace.lean`
-  line 236): a σ-compact charted space over a second-countable model is second countable. Mathlib's
-  `ChartedSpace` (line 141) and `IsManifold` (`Mathlib/Geometry/Manifold/IsManifold/Basic.lean`
-  line 777) include no separation axiom, so 6.6 assumes `T2Space` explicitly.
-
-### From Tau Ceti
-
-Pinned at `2fd255d997f47c0b5d834ee416c7015d55444ce5`.
-
-- `TauCeti.Huber.IsPseudoCoherentOver A M m` (`TauCeti/Algebra/Module/PseudoCoherent/Basic.lean`
-  line 89), for `[Ring A]` and `m : ℕ∞`: a resolution `⋯ → A^{n₁} → A^{n₀} → M → 0` by coordinate
-  finite free modules, exact at `M, F₀, …, F_{m−1}`. With `.zero_iff` (finitely generated),
-  `.one_iff` (finitely presented), `.mono`, `.of_equiv`, `.succ_iff_ker`, `.ker_of_projective`,
-  `.top_iff`, `.of_projective`, `.prod`, `.pi`;
-  `TauCeti.Huber.IsPseudoCoherentOver.of_isNoetherianRing` (line 391: over a noetherian ring a
-  finitely generated module is `⊤`-pseudocoherent, used in the Checks of 1.2); `.extension`,
-  `.cokernel` and `.kernel` of `TwoOutOfThree.lean` (a cokernel of an injection from an `(m − 1)`-
-  into an `m`-pseudocoherent module is `m`-pseudocoherent); and
-  `TauCeti.Huber.isPseudoCoherentOver_restrictScalars_iff` (`RestrictScalars.lean` line 155), for
-  `[Ring A] [Ring S] [Module A S] [IsScalarTower A S S]` with `S` `m`-pseudocoherent over `A`,
-  noncommutative rings allowed.
-- `TauCeti.Module.IsFPD A M m`
-  (`TauCeti/Algebra/Module/PseudoCoherent/FiniteProjectiveDimension.lean` line 69): a possibly
-  unbounded resolution `⋯ → A^{n₁} → A^{n₀} → M → 0` by finitely generated free modules, exact
-  everywhere, whose `m`-th syzygy is projective; equivalently, a resolution of length at most `m` by
-  finitely generated projective modules. It does not say that the free resolution terminates: over
-  `ℚ[ℤ/2]` the trivial module `ℚ` satisfies `IsFPD` with `m = 0` (it is projective, `2` being
-  invertible) but has no finite resolution by finitely generated free modules, since every such
-  resolution has even alternating sum of `ℚ`-dimensions while `dim_ℚ ℚ = 1`;
-  `TauCeti.Module.IsFPD.isPseudoCoherentOver`, `TauCeti.Module.IsFPD.zero_iff`, `.mono`, and
-  `TauCeti.Module.isFPD_iff_hasProjectiveDimensionLE` (line 153): for `M : Type u` in the universe
-  of `A`,
-  `IsFPD A M m ↔ IsPseudoCoherentOver A M ⊤ ∧ HasProjectiveDimensionLE (ModuleCat.of A M) m`.
-- `TauCeti.leastENatBound` with `leastENatBound_le_iff` (monotone predicates),
-  `leastENatBound_eq_top_iff`, `leastENatBound_eq_zero_iff` (`TauCeti/Data/ENat/LeastBound.lean`).
-- `TauCeti.cohomologicalDimension.{v} G`
-  (`TauCeti/RepresentationTheory/Homological/ContCohomology/CohomologicalDimension/Basic.lean` line
-  156): for a topological group `G : Type u`, the supremum over primes `p` of the least `n` such
-  that continuous cohomology of every discrete `p`-primary torsion module in `Type (max u v)` with
-  continuous action vanishes above `n`.
-- `TauCeti.ContCohomology.nonempty_continuousCohomology_addEquiv_groupCohomology`
-  (`TauCeti/RepresentationTheory/Homological/ContCohomology/DiscreteGroup.lean` line 166): for a
-  finite group `G : Type` with the discrete topology and a discrete `G`-module `M`, the continuous
-  cohomology of `M` is additively isomorphic to `groupCohomology` of `M` in every degree; it gives
-  the Checks of 2.8 at finite groups. For an infinite discrete group 2.8 uses CohomologyOfGroups
-  §1.5.
-- `CochainComplex.IsTotallyAcyclicProjective`, `CategoryTheory.isGorensteinProjective`
-  (`TauCeti/Algebra/Homology/TotallyAcyclic/Abelian.lean` lines 113 and 224), in any abelian
-  category: projective terms, acyclic, every chain map to a projective in one degree null-homotopic;
-  `CochainComplex.isTotallyAcyclicProjective_splice` (`.../Abelian/Extension.lean` line 63: a splice
-  of short exact sequences with projective middle terms and ends with `Ext¹(−, Q) = 0` for
-  projective `Q` is totally acyclic); `CategoryTheory.isGorensteinProjective.ext_eq_zero`;
-  `CategoryTheory.isGorensteinProjective_of_projective` (`.../Abelian.lean` line 263: a projective
-  object is Gorenstein projective, through the complete resolution `Q →𝟙 Q` in degrees `−1` and
-  `0`); `CategoryTheory.GorensteinProjective.exactStructure_isFrobenius`
-  (`.../Abelian/Frobenius.lean` line 195) with relative projectives and injectives the projective
-  objects; `TauCeti.ExactStructure.CompleteResolution`, `.lift`, `.nonempty_homotopy_zero_iff` and
-  `.homotopyEquiv` (`TauCeti/CategoryTheory/Exact/Resolution/Complete/Comparison.lean` lines 458 and
-  481). The finitely generated variant `CochainComplex.IsTotallyAcyclic` of
-  `TotallyAcyclic/Basic.lean` is not used.
-- `TauCeti.cellularResolutionOfIsAspherical`
-  (`TauCeti/AlgebraicTopology/EilenbergMacLane/Resolution.lean` line 57): for `E B G : Type w`, a
-  quotient covering `p : E → B` for `G` with `E` simply connected and `B` an aspherical Hausdorff CW
-  complex, the lifted cellular chains as a `ProjectiveResolution` of the trivial representation over
-  any `[CommRing k]`, free on the cells of `B` (`TauCeti.cellularChainRepIsoFree`);
-  `TauCeti.cwComplexPreimage` (lifted CW structure); `TauCeti.cellularClassifyingSpaceResolution`,
-  `TauCeti.isEilenbergMacLaneSpaceOne_cellularClassifyingSpace`,
-  `TauCeti.PresentationComplex.cellOneEquiv` and `.cellTwoEquiv` (one `1`-cell per generator, one
-  `2`-cell per relator); `TauCeti.IsAspherical`, `TauCeti.IsEilenbergMacLaneSpaceOne`
-  (`TauCeti/AlgebraicTopology/EilenbergMacLane/Basic.lean` lines 59 and 123: path-connected with
-  vanishing higher homotopy, and fundamental group isomorphic to `G`).
-- `TauCeti.cellAttachment` (`TauCeti/Topology/CWComplex/Abstract/CellAttachment.lean` line 52),
-  attaching cells along any family `ι → (∂Dⁿ ⟶ X)`; `HomotopyGroup.bijective_hurewicz`
-  (`TauCeti/AlgebraicTopology/Homotopy/Hurewicz/Absolute.lean` line 161, spaces in `Type`);
-  `TauCeti.contractibleSpace_of_subsingleton_homotopyGroup` (`.../Homotopy/Whitehead.lean` line
-  356).
-- `TauCeti.WedgeSum.isEilenbergMacLaneSpaceOne_circle` (`.../EilenbergMacLane/OneDimensional.lean`
-  line 105), `TauCeti.isZero_groupHomology_freeGroup`,
-  `TauCeti.isZero_groupHomology_pi_multiplicative_int`.
-- `TauCeti.groupHomology.isZero_groupHomology_of_directed`
-  (`TauCeti/RepresentationTheory/Homological/GroupHomology/DirectedUnion.lean` line 132): for
-  `{k G : Type u}`, `k` commutative, a nonempty directed family of subgroups `S_i` with supremum `G`
-  and `A : Rep k G`, if `Hₙ(S_i, A) = 0` for every `i` then `Hₙ(G, A) = 0`. It does not identify
-  `Hₙ(G, A)` with the colimit of the `Hₙ(S_i, A)`; the vanishing is all that 2.5(a) and 6.4 use.
-- `TauCeti.groupCohomology.corestriction` for a subgroup of finite index, with
-  `TauCeti.groupCohomology.map_subtype_id_comp_corestriction`
-  (`TauCeti/RepresentationTheory/Homological/GroupCohomology/Corestriction.lean` line 165):
-  restriction followed by corestriction is multiplication by the index on `Hⁿ(G, A)`.
-- `TauCeti.groupHomology.transfer M S n : Hₙ(G, M) ⟶ Hₙ(S, M)` for `M : Rep R G` and
-  `[S.FiniteIndex]` (`TauCeti/RepresentationTheory/Homological/GroupHomology/Transfer/Basic.lean`
-  line 79), with `TauCeti.groupHomology.transfer_comp_map_subtype_id` (line 121): transfer followed
-  by corestriction `Hₙ(S, M) ⟶ Hₙ(G, M)` is multiplication by `[G : S]` on `Hₙ(G, M)`, in every
-  degree `n`; used in 2.3(c).
-- `TauCeti.exists_linearEquiv_comp_fst_eq_comp_snd_comp`
-  (`TauCeti/Algebra/Module/Projective/Schanuel.lean` line 82): Schanuel's lemma in automorphism
-  form, over any semiring: for linear maps `a : A → E` and `b : B → E` from projective modules with
-  the same range, `a ∘ fst` and `b ∘ snd` differ by a linear automorphism of `A × B`; for surjective
-  `a`, `b` it carries `ker a × B` onto `A × ker b`. Used in 8.3, applied degree by degree to the
-  syzygies of two finite projective resolutions (the generalized Schanuel lemma), for the
-  independence of `χ̃` from the resolution.
-- `TauCeti.groupHomologyPiMultiplicativeIntExteriorPowerEquiv`
-  (`TauCeti/AlgebraicTopology/ClassifyingSpace/Torus.lean` line 243): for a commutative ring `k` and
-  a finite type `ι` in the same universe, `⋀ⁿ H₁(ℤ^ι, k) ≃ Hₙ(ℤ^ι, k)` with trivial coefficients;
-  used in the Checks of 2.4.
-- `TauCeti.cwComplexProd` (`TauCeti/Topology/CWComplex/Classical/Product.lean` line 194): the
-  product CW structure on `C ×ˢ D` for finite CW complexes `C`, `D`, with `n`-cells the pairs of a
-  `p`-cell and a `q`-cell with `p + q = n`; used in the Checks of 5.1.
-- `TauCeti.trace_ofModule'_eq_zero_of_dvd_orderOf`
-  (`TauCeti/Algebra/MonoidAlgebra/ProjectiveTrace.lean` line 67): `A` commutative local with the
-  prime `p` not a unit, `G` finite, `X` finitely generated projective over `A[G]`; if
-  `p ∣ orderOf g` then the Mathlib trace `LinearMap.trace A X` of `g` on `X` is `0` (`X` is free
-  over the local ring `A`, so this is its trace as a free module).
-- `LinearMap.projectiveTrace R M` (`TauCeti/LinearAlgebra/Trace/Projective.lean` line 72), for
-  `[CommSemiring R]`, `[Module.Finite R M]`, `[Module.Projective R M]`: the trace of an endomorphism
-  of a finite projective module, the contraction `Dual R M ⊗ M → R` transported along
-  `dualTensorHomEquiv`; with `LinearMap.projectiveTrace_cyclic` (line 96, cyclicity across two
-  finite projective modules), `LinearMap.projectiveTrace_eq_trace` (line 118, equal to Mathlib's
-  `LinearMap.trace` on finite free modules) and `LinearMap.projectiveTrace_baseChange` (line 158).
-  Mathlib's `LinearMap.trace` (`Mathlib/LinearAlgebra/Trace.lean` line 75) is defined to be `0` when
-  the module has no finite basis, so it is not the trace of a finite projective module.
-- `TauCeti.nonempty_linearEquiv_of_projective_of_tensorRat`
-  (`TauCeti/NumberTheory/Padics/GroupAlgebra/Swan.lean` line 58): finitely generated projective
-  `ℤ_p[G]`-modules with isomorphic rationalizations are isomorphic, `G` finite; and its coprime case
-  `TauCeti.nonempty_linearEquiv_of_projective_of_tensorRat_of_not_dvd`
-  (`TauCeti/NumberTheory/Padics/GroupAlgebra/Rational.lean` line 134), the same conclusion for
-  `p ∤ |G|`, used in the Checks of 7.4.
-- `TauCeti.isJacobsonRing_of_quotient_span_singleton` (`TauCeti/RingTheory/Jacobson/Ring.lean` line
-  36): a commutative ring with zero Jacobson radical whose quotients by nonzero principal ideals are
-  Jacobson rings is a Jacobson ring; used in 7.5 for `ℤ`.
-- `FDRep.nonempty_iso_of_character_eq` and `Representation.nonempty_equiv_of_character_eq`
-  (`TauCeti/RepresentationTheory/CharacterTable/Determined.lean` lines 59 and 49): over a field of
-  characteristic zero, finite-dimensional representations of a finite group with equal characters
-  are isomorphic.
-- `TauCeti.AbelianK0 C` (`TauCeti/CategoryTheory/GrothendieckGroup/Abelian.lean` line 79), for an
-  essentially small abelian category `C`: the free abelian group on isomorphism classes modulo
-  `[X₂] = [X₁] + [X₃]` for every short exact sequence; and the Euler–Poincaré relation
-  `TauCeti.AbelianK0.eulerChar_eq_homologyEulerChar`
-  (`TauCeti/CategoryTheory/GrothendieckGroup/EulerCharacteristic.lean` line 370): for a cochain
-  complex strictly supported in degrees `[a, b]`, the alternating sum of the classes of its terms
-  equals that of its cohomology objects. Used in 8.5 with `C = FDRep K Δ` for a finite group `Δ`,
-  which is abelian (Mathlib's instances on `FGModuleCat` over a noetherian ring,
-  `Mathlib/Algebra/Category/FGModuleCat/Abelian.lean` line 36, and on `Action`,
-  `Mathlib/CategoryTheory/Action/Limits.lean` line 394) and essentially small
-  (`CategoryTheory.Action.essentiallySmall`, `TauCeti/CategoryTheory/Action/EssentiallySmall.lean`
-  line 54); then `AbelianK0` is `G₀(K[Δ])` in every characteristic, the comparison with characters
-  holding only in characteristic zero.
-- `TauCeti.UniversalCover x₀` (`TauCeti/AlgebraicTopology/UniversalCover/Basic.lean` line 70), the
-  universal cover by homotopy classes of based paths, with `TauCeti.UniversalCover.isCoveringMap`
-  (`.../UniversalCover/Covering.lean` line 58) for locally path-connected, semilocally simply
-  connected spaces; `TauCeti.UniversalCover.simplyConnectedSpace` (`.../Covering.lean` line 183,
-  same hypotheses: the universal cover is simply connected); and
-  `TauCeti.UniversalCover.isQuotientCoveringMap` (`.../UniversalCover/Action.lean` line 162): for
-  `X` locally path-connected, path-connected and semilocally simply connected, the projection is a
-  quotient covering map for the action of `FundamentalGroup X x₀`. The semilocal simple
-  connectivity is supplied by `TauCeti.SemilocallySimplyConnectedSpace.of_locallyContractibleSpace`
-  (`TauCeti/AlgebraicTopology/SemilocallySimplyConnected/Basic.lean` line 131: a space satisfying
-  Mathlib's `LocallyContractibleSpace` is semilocally simply connected) and the local
-  path-connectedness by `TauCeti.instDeltaGeneratedSpaceOfCWComplexUniv`
-  (`TauCeti/Topology/CWComplex/Classical/DeltaGenerated.lean` line 66: a Hausdorff space with a CW
-  structure on `univ` is delta-generated). Neither library states that a general CW complex is
-  locally contractible or semilocally simply connected (AlgebraicTopology §4.7 supplies it); the
-  wedge of circles is, by `TauCeti.WedgeSum.instSemilocallySimplyConnectedSpaceCircle`
-  (`.../SemilocallySimplyConnected/WedgeSum.lean` line 112), used in a Check of 5.1.
-- `AbstractSimplicialComplex.Realization`
-  (`TauCeti/AlgebraicTopology/SimplicialComplex/Realization/Basic.lean` line 71), the realization of
-  an abstract simplicial complex, used in 5.4 and 5.5.
-- `AbstractSimplicialComplex.dimension K`
-  (`TauCeti/AlgebraicTopology/SimplicialComplex/Dimension.lean` line 266), valued in `WithBot ℕ∞`:
-  the supremum over the faces of `K` of the number of vertices minus one, `⊥` for the complex with
-  no face and `⊤` when the faces have unboundedly many vertices; by
-  `AbstractSimplicialComplex.dimension_le_iff` (line 283), `dimension K ≤ N` for `N : ℕ` says that
-  every face has at most `N + 1` vertices. Used in 5.4.
-- `AbstractSimplicialComplex.barycentricSubdivisionRealizationHomeomorph K`
-  (`TauCeti/AlgebraicTopology/SimplicialComplex/Subdivision/Homeomorph.lean` line 221): the
-  homeomorphism from the realization of the barycentric subdivision of `K` (its vertices are the
-  faces of `K`, its faces the nonempty chains of faces under inclusion) to the realization of `K`,
-  sending the vertex of a face to the barycentre of that face. Used in 5.4.
-- `AbstractSimplicialComplex.realizationCWComplex K`
-  (`TauCeti/AlgebraicTopology/SimplicialComplex/Realization/CWComplex/Basic.lean` line 172), for `K`
-  on a linearly ordered vertex type: the CW structure on the (Hausdorff) realization `|K|` whose
-  `n`-cells are the faces with `n + 1` vertices, enumerated increasingly; and
-  `TauCeti.cellularChainComplexRealizationIso` (`…/Realization/CWComplex/OrderedChainComplex.lean`
-  line 132), for a vertex type `ι : Type u` and a ring `R : Type u`: an isomorphism of chain
-  complexes from the cellular chains of `|K|` with this CW structure to the ordered simplicial
-  chains `TauCeti.orderedSimplicialChainComplex K R`
-  (`TauCeti/AlgebraicTopology/SimplicialComplex/ChainComplex.lean` line 186), free on the faces with
-  boundary `∂[v₀, …, vₙ₊₁] = Σ_j (−1)ʲ [v₀, …, v̂ⱼ, …, vₙ₊₁]`, sending the cellular basis vector of
-  a cell to a unit multiple, depending only on `n`, of that face. Used in 5.5(a).
-- `SSet.eilenbergZilberHomotopyEquiv`
-  (`TauCeti/AlgebraicTopology/SimplicialSet/EilenbergZilber.lean` line 761): for simplicial sets
-  `K, L`, the Alexander–Whitney map from the chains of `K ⊗ L` (the product) to the tensor product
-  of chains is a chain homotopy equivalence, with inverse the shuffle map.
-- `Subgroup.tensorInducedRepresentation` and `Representation.wreathTensor`
-  (`TauCeti/RepresentationTheory/Tensor/Induction/Basic.lean`): tensor induction of representations
-  along a transversal; the complex-level construction there is sign-free and is used only in
-  characteristic two, so 3.1 owns the signed version.
-
-### From TauCetiRoadmap.CohomologyOfGroups
-
-- §1.2: for `N ◁ G`, the representations of `G ⧸ N` on `Hᵏ(N, M)` and `Hₖ(N, M)`, natural in `M`.
-- §1.4: for a `G`-set `X` with orbit representatives `Σ`, natural isomorphisms
-  `Hₙ(G, k[X] ⊗ M) ≅ ⊕_{x ∈ Σ} Hₙ(G_x, M)` and `Hⁿ(G, Hom_k(k[X], M)) ≅ ∏_{x ∈ Σ} Hⁿ(G_x, M)`, and
-  the versions with a character of the stabilizer.
-- §1.5: for `G` discrete and a discrete representation `A`,
-  `Θₙ : continuousCohomology n A ≅ Hⁿ(G, A)`.
-- §2.3: the two spectral sequences of a complex, converging with filtrations finite in each total
-  degree.
-- §3.2: for a monomial complex `C` (each `C_p ≅ ⊕_{σ ∈ Σ_p} Ind_{G_σ}^G(k_σ)` with `k_σ` a
-  character), the orbit spectral sequence
-  `E¹_{p,q} = ⊕_{σ ∈ Σ_p} H_q(G_σ, k_σ ⊗ M) ⇒ H^G_{p+q}(C; M)`, the first sequence of §2.3, and its
-  cohomological dual; 3.1 there identifies `H^G_*(C; M)` with `H_*(G, M)` when `C` resolves `k` by
-  `k`-flat terms.
-- §3.4: for a `G`-tree (an action without inversions, with a `G`-invariant orientation `E⁺` of the
-  edges), the exact sequence `0 → k[E⁺] → k[V] → k → 0` of permutation representations, split after
-  forgetting the `G`-action (split over `k`) and not `G`-equivariantly: for `G = ℤ` translating the
-  line it is `0 → k[t, t⁻¹] →(t − 1) k[t, t⁻¹] → k → 0`, where the `k`-linear section `1 ↦ [0]` is
-  moved to `[1]` by `t`, and an equivariant section would be an invariant element of `k[ℤ]` of
-  augmentation `1`, which does not exist for `k ≠ 0`. Layers 1 and 8 use only its exactness.
-- §§3.5–3.6: the tree sequences, and for amalgams, HNN extensions and free groups the long exact
-  sequences in homology and cohomology; for `F = FreeGroup S`, `Hⁿ(F, M) = Hₙ(F, M) = 0` for `n ≥ 2`
-  and `0 → H₁(F, M) → M^{(S)} → M → H₀(F, M) → 0`.
-- §4.6: the cap product `∩ : Hᵖ(G, M) ⊗ Hₙ(G, N) → Hₙ₋ₚ(G, P)` for `μ : M ⊗ N ⟶ P`, natural in the
-  coefficients, compatible with connecting maps, with the projection formula
-  `f_*(f^*x ∩ z) = x ∩ f_*z` and, for finite index, `tr(y ∩ z) = res y ∩ tr z`.
-- §5.2: the universal coefficient sequences over a ring of global dimension at most one (Checks
-  only).
-- §§6.1–6.2: for `N ◁ G` and `M : Rep k G`, the convergent spectral sequence
-  `E₂^{p,q} = Hᵖ(G ⧸ N, H^q(N, M)) ⇒ H^{p+q}(G, M)`, natural in `M` and in morphisms of extensions,
-  with `H^{p+q}(G, M)` finitely filtered by subquotients of the `E₂^{p, n−p}`; it is realised as the
-  spectral sequence of a filtration of the normalized cochains that is finite in each degree (§6.1),
-  with the classical `E_r` on the native page `r + 1`.
-- §6.3: the homological spectral sequence `E²_{p,q} = H_p(G ⧸ N, H_q(N, M)) ⇒ H_{p+q}(G, M)`.
-
-### From TauCetiRoadmap.SpectralSequencesAndConvergence
-
-- §3.4 (Euler identity): for a spectral sequence in Mathlib's carrier with a bidegree assignment
-  (§2.1), converging weakly in every total degree to an abutment whose filtrations are finite, and a
-  page `r` whose nonzero positions are finitely many and all lie in a weak Serre class `P`, only
-  finitely many `Hⁿ` are nonzero and `Σ_n (−1)ⁿ v(Hⁿ) = Σ_{pq} (−1)^{deg pq} v(E_r(pq))` for every
-  `v` additive on short exact sequences in `P`.
-- §5.3 (Euler characteristic of a filtered complex): the same identity for Tau Ceti's spectral
-  sequence of a cochain complex with a filtration finite in each degree, on a native page `r ≥ 2`
-  (the classical `E_{r−1}`), with the sign `(−1)^{p+q}` of the total degree; the Hochschild–Serre
-  sequence of CohomologyOfGroups §6.2 and the bicomplex sequences of its §2.3 are of this form.
-
-These are used with `P` the finite-dimensional `ℚ`-vector spaces and `v` the dimension.
-
-### From TauCetiRoadmap.FreeGroupsAndLimitGroups
-
-- §4.5: one-edge graphs of groups are `Monoid.PushoutI` over `Bool` and `HNNExtension`.
-- §4.7: the Bass–Serre tree of a graph of groups, a tree with an action without inversions whose
-  vertex and edge stabilizers are conjugates of the vertex and edge groups.
-- §4.8: the structure theorem for an action without inversions on a tree; with trivial vertex and
-  edge stabilizers it makes a group acting freely without inversions on a tree free.
-- §4.9: an element of finite order acting on a tree without inversions is elliptic, and a finitely
-  generated group of elliptic elements fixes a vertex; so a finite group fixes a vertex.
-
-### From TauCetiRoadmap.EtaleCohomologyFoundations
-
-- §F.10.3: the Hattori–Stallings trace of a finite projective right module over any ring `Λ` with
-  values in `Λ/[Λ, Λ]`, with cyclicity, independence of the complement, additivity on direct sums
-  and split exact sequences, and scalar extension along ring homomorphisms. Right modules are left
-  modules over the opposite ring; 7.1 applies it to `(RG)ᵐᵒᵖ`, whose right modules are the left
-  `RG`-modules, and `(RG)ᵐᵒᵖ/[,]` is `RG/[RG, RG]` as an additive group.
-- §F.10.3: over a commutative ring, the Hattori–Stallings trace agrees with
-  `LinearMap.projectiveTrace`. For a finite group `G`, the identity coefficient
-  `ε : Λ[G]/[Λ[G], Λ[G]] → Λ/[Λ, Λ]` and `Tr^G = ε ∘ Tr_HS` on finite projective `Λ[G]`-modules. The
-  centralizer formula, proved without dividing by `|G|`: let `1 → G → Γ̃ → ℤ → 1` be an extension,
-  `Γ` the inverse image of `ℕ`, `P` a `Λ[Γ]`-module finite projective over `Λ[G]`, `γ ∈ Γ` and
-  `Z_γ = {g ∈ G | gγ = γg}`; then `Tr_Λ(γ, P) = |Z_γ| · Tr^{Z_γ}_Λ(γ, P)`. 7.2 applies it to
-  `Γ̃ = G × ℤ` with `ℤ` acting trivially and `γ = (g, 1)`, where `Z_γ = C_G(g)` and `Tr_Λ(γ, P)` is
-  the trace of `g` on `P`.
-
-### From TauCetiRoadmap.ClassifyingSpaces
-
-- Stage 2 item 10: a cellular `K(G, 1)` CW complex for every group, Hausdorff with a CW structure on
-  the whole space.
-- Stage 4 item 16: for a `K(G, 1)` CW complex `B` with universal cover `E`, the augmented cellular
-  chains of `E` are a free resolution of `ℤ` over `ℤG`, with one free generator for each cell of
-  `B`.
-- Stage 3 item 12: two `K(G, 1)` spaces of CW type are homotopy equivalent, by an equivalence
-  inducing any prescribed isomorphism of fundamental groups.
-- Stage 4 item 17: the (co)homology of the classifying space with local coefficients in a
-  `G`-module `M` is `groupHomology`, `groupCohomology` of `M`, naturally.
-
-### From TauCetiRoadmap.AlgebraicTopology
-
-- §4.7: the cell-neighbourhood local contraction of an arbitrary Hausdorff CW complex: for a point
-  `x` in an open set `U` there are an open `V` with `x ∈ V ⊆ U` and a homotopy `V × I → U` from the
-  inclusion to the constant map at `x`. Applied to the interior of a neighbourhood, this says that
-  a Hausdorff space with a CW structure on `univ` satisfies Mathlib's `LocallyContractibleSpace`
-  (Hatcher2002, Appendix, Proposition A.4, p. 522). Used in 5.1.
-- §6.1: singular (co)homology with coefficients in a local system, with its homotopy invariance;
-  used in 6.6 to pass from a closed aspherical manifold to the classifying space of its fundamental
-  group.
-- §8.1: the inclusion of the `k`-skeleton of a CW complex induces isomorphisms on `π_i` for `i < k`
-  and a surjection on `π_k`.
-- §8.3: the absolute Hurewicz theorem: an `(n − 1)`-connected space has vanishing reduced homology
-  below `n` and `π_n ≅ H_n` for `n ≥ 2`, in every universe.
-- §8.5: Whitehead's theorem for spaces of CW type.
-- §8.7: a compact Hausdorff second-countable smooth manifold with the Euclidean model has finite CW
-  type (a homotopy equivalence to a finite CW complex).
-- §6.3: the integral orientation local system `or_M` of a boundaryless manifold, built from the
-  local homology system with its transport along paths; its monodromy `π₁(M, x) → {±1}` is the
-  orientation character used in 6.6.
-- §6.4: twisted Poincaré duality of a closed `n`-manifold (compact and Hausdorff, charted on
-  `EuclideanSpace ℝ (Fin n)`): cap product with the fundamental class is an isomorphism
-  `Hᵏ(M; L) ≅ H_{n−k}(M; L ⊗ or_M)` for every local system `L` of modules.
-- §8.11a: every CW complex is homotopy equivalent to the realization of an abstract simplicial
-  complex, by skeletal simplicial approximation and mapping cylinders (Hatcher2002, Theorem 2C.5,
-  p. 182, as cited there). It states no bound on the dimension of the simplicial complex; 5.4
-  supplies the bound by the same skeletal construction.
-
-## How to read the build
-
-Layer 1 defines the finiteness types on Tau Ceti's pseudocoherence and finite projective dimension,
-proves a module-level criterion by directed colimits, and deduces the group criterion and the
-stability of the types under finite index, extensions, products and splittings over trees. Layer 2
-defines `cd_R` and `hd_R`, identifies them with projective dimension and Tor-vanishing, proves their
-behaviour under subgroups, extensions, directed unions and amalgams, the dichotomy for finite
-groups, and compares `cd_ℤ` with the profinite invariant. Layer 3 constructs the signed tensor
-induction of complexes and proves Serre's theorem, which Layer 4 needs to make the virtual
-cohomological dimension independent of the subgroup; Layer 4 also defines the virtual types and the
-groups of finite homological type on which Layer 8 rests. Layer 5 compares `cd` with the geometric
-dimension, proves the Eilenberg–Ganea theorem, replaces a finite-dimensional CW complex by an
-abstract simplicial complex of the same dimension, and with it builds Serre's action of a group of
-finite `vcd` with finite stabilizers on a finite-dimensional acyclic simplicial set; later layers
-use its
-comparison 5.2, in the manifold theorem 6.6, and Serre's construction 5.5, in the denominator
-theorem 8.9. Layer 6 develops duality groups from the cap product of CohomologyOfGroups and the
-finiteness criterion of Layer 1. Layer 7 is independent of Layers 2–6: it specialises the
-Hattori–Stallings trace to group rings and proves Swan's theorem and Brown's theorem on `Hom` from a
-projective module into a finite-dimensional representation, which Layer 8 uses to define and
-multiply Euler characteristics; Layer 8 also proves the classical Smith theory of finite `p`-groups
-acting on finite-dimensional simplicial sets, which with 5.5 bounds the denominator of the Euler
-characteristic. Layer 9 builds complete resolutions and Farrell cohomology from the pinned
-Gorenstein-projective objects, using Layers 2 and 4.
-
----
 
 ## Layer 1: finiteness types of groups
 
@@ -2580,6 +2017,569 @@ CohomologyOfGroups §3.6 for Checks.
   characteristic of cofinite Fuchsian groups under finite index, with `χ_orb(PSL(2, ℤ)) = −1/6`:
   instances of 8.4(c) and 8.7) state these instances by their own means, independently of this
   roadmap; their values are comparison points for the general invariants of Layers 4, 6 and 8.
+
+## Scope and ownership
+
+This roadmap owns the finiteness, dimension, duality and Euler-characteristic theory of discrete
+groups and the Farrell cohomology of groups of finite virtual cohomological dimension. The group
+`G` is an arbitrary group and the coefficients form an arbitrary commutative ring `R`; `R = ℤ` is an
+instance, and a statement is made over `ℤ` only where the theory is integral: Serre's theorem, the
+virtual cohomological dimension, the Euler characteristic, and Poincaré duality from abstract
+isomorphisms. No other roadmap plans these objects:
+CohomologyOfGroups excludes them by name in its Scope and describes a roadmap on finiteness
+conditions and duality groups among its downstream consumers.
+
+**Already in the library and used as it stands.** Mathlib's `groupCohomology`, `groupHomology` and
+`tateCohomology` on `Rep R G`; the comparisons `groupCohomologyIsoExt`, `groupHomologyIsoTor` and
+`groupCohomologyIso`; Shapiro's lemma `groupCohomology.coindIso` and `groupHomology.indIso`; the
+equivalence `Rep.equivalenceModuleMonoidAlgebra` with modules over `MonoidAlgebra R G`;
+`HasProjectiveDimensionLE`; `Group.IsFinitelyPresented`, `Monoid.PushoutI`, `HNNExtension`; the
+cohomology of finite cyclic groups `Rep.FiniteCyclicGroup.groupCohomologyIsoEven`. Tau Ceti's
+pseudocoherence `TauCeti.Huber.IsPseudoCoherentOver` with its degree-by-degree, two-out-of-three
+and restriction-of-scalars lemmas; finite projective dimension `TauCeti.Module.IsFPD` with
+`TauCeti.Module.isFPD_iff_hasProjectiveDimensionLE`; the least bound `TauCeti.leastENatBound`;
+totally acyclic complexes of projectives and Gorenstein-projective objects in an abelian category
+(`CochainComplex.IsTotallyAcyclicProjective`, `CategoryTheory.isGorensteinProjective`) with their
+Frobenius exact structure and the comparison theorem for complete resolutions
+(`TauCeti.ExactStructure.CompleteResolution.homotopyEquiv`); the cellular resolution of an
+aspherical CW complex `TauCeti.cellularResolutionOfIsAspherical`; the universal cover
+`TauCeti.UniversalCover` as a quotient covering for the fundamental group, and semilocal simple
+connectivity of locally contractible spaces; cell attachment, the Hurewicz and Whitehead theorems;
+the vanishing of characters of projective modules at `p`-singular elements
+`TauCeti.trace_ofModule'_eq_zero_of_dvd_orderOf`; Swan's theorem for `ℤ_p[G]`,
+`TauCeti.nonempty_linearEquiv_of_projective_of_tensorRat`; the determination of
+finite-dimensional representations of a finite group by their characters in characteristic zero,
+`FDRep.nonempty_iso_of_character_eq`; and the Grothendieck group of an abelian category
+`TauCeti.AbelianK0` with its Euler–Poincaré relation for bounded complexes; Tau Ceti's CW
+structure `AbstractSimplicialComplex.realizationCWComplex` on the realization of an abstract
+simplicial complex with its ordered cellular chains `TauCeti.cellularChainComplexRealizationIso`;
+Mathlib's simplicial sets with group actions (`CategoryTheory.Action`), their homology
+`SSet.homology` and normalized chains, and induced representations `Rep.ind`; Mathlib's
+Euler characteristic of a complex of modules `HomologicalComplex.homologyEulerChar`, the cohomology
+and homology functors `groupCohomology.functor` and `groupHomology.functor` with the comparison maps
+`CategoryTheory.Limits.colimit.post` and `CategoryTheory.Limits.piComparison`; Tau Ceti's
+comparison of continuous with discrete cohomology of a finite discrete group in every degree,
+`TauCeti.ContCohomology.nonempty_continuousCohomology_addEquiv_groupCohomology`; and Tau Ceti's
+vanishing of the homology of a directed union of subgroups whose homology vanishes,
+`TauCeti.groupHomology.isZero_groupHomology_of_directed`, which is all that 2.5(a) and 6.4 use of
+the behaviour of homology under directed unions. Exact statements are under Exact supplier
+contracts.
+
+**Owned elsewhere and imported by section.**
+- CohomologyOfGroups owns the operations on group (co)homology used throughout: permutation
+  modules and Shapiro isomorphisms for `G`-sets (§1.4), the quotient action on the cohomology of a
+  normal subgroup (§1.2), the comparison of continuous and discrete cohomology of a discrete group
+  (§1.5), the orbit spectral sequence of a monomial complex (§3.2), the chain complex of a tree and
+  the tree, amalgam, HNN and free-group sequences (§§3.4–3.6), the cap product (§4.6), the universal
+  coefficient sequences (§5.2) and the Hochschild–Serre spectral sequences with convergence
+  (§§6.2–6.3). This roadmap proves no spectral sequence and no product.
+- SpectralSequencesAndConvergence owns the Euler identity of a spectral sequence converging in
+  every total degree with finite filtrations and a page with finitely many nonzero terms in a weak
+  Serre class (§3.4), and its form for the spectral sequence of a complex with a filtration finite
+  in each degree (§5.3). 8.6 and 8.7 apply it, with the finite-dimensional `ℚ`-vector spaces and
+  their dimension, to the Hochschild–Serre and orbit spectral sequences of CohomologyOfGroups.
+- FreeGroupsAndLimitGroups owns graphs of groups, the identification of one-edge splittings with
+  Mathlib's amalgams and HNN extensions (§4.5), the Bass–Serre tree (§4.7), the structure theorem
+  for actions on trees (§4.8) and the fixed points of finite groups acting on trees (§4.9).
+- EtaleCohomologyFoundations §F.10.3 owns the Hattori–Stallings trace of finite projective modules
+  over an arbitrary ring with its additivity and scalar extension, and, for a finite group, the
+  identity-coefficient trace with the centralizer formula `Tr_Λ(γ, P) = |Z_γ| · Tr^{Z_γ}_Λ(γ, P)`;
+  Layer 7 specialises the trace to group rings, and 7.2 imports the centralizer formula, proving
+  only its comparison with the conjugacy-class coordinates of the rank of 7.1.
+- ClassifyingSpaces owns `K(G, 1)` CW complexes, their uniqueness up to homotopy equivalence
+  (Stage 3 item 12), their cellular chains as free resolutions (Stage 4 item 16) and the
+  identification of their (co)homology with local coefficients with group (co)homology (Stage 4
+  item 17). AlgebraicTopology owns the local contraction of an arbitrary Hausdorff CW complex within
+  each neighbourhood of a point (§4.7), singular (co)homology with local coefficients and its
+  homotopy invariance (§6.1), cellular connectivity (§8.1), the absolute Hurewicz theorem in every
+  universe (§8.3), Whitehead's theorem (§8.5), the finite CW type of compact Hausdorff smooth
+  manifolds (§8.7), twisted Poincaré duality of manifolds (§§6.3–6.4), and the replacement of CW
+  complexes by abstract simplicial complexes (§8.11a). The form of that replacement with the
+  dimension bound of Hatcher2002 Theorem 2C.5, which §8.11a does not state and Serre's
+  construction needs, is 5.4 here.
+- ProfiniteCohomology Layer 11 owns the cohomological dimension of profinite groups, carried by Tau
+  Ceti's `TauCeti.cohomologicalDimension` (continuous cohomology with discrete torsion
+  coefficients). The invariant of this roadmap is the discrete one, under another name, compared
+  with it in 2.8. ProfiniteCohomology §13.2 owns the Evens norm, built from a tensor induction of
+  the coinduced resolution of a compact open subgroup of a profinite group in continuous
+  cohomology; the signed tensor induction 3.1 of complexes of modules over a subgroup of finite
+  index of a discrete group, the input of Serre's theorem, is a different construction and is owned
+  here.
+- Instances owned elsewhere and not restated: ArithmeticKTheory §3.2 owns the Borel–Serre duality of
+  torsion-free finite-index subgroups of `Aut(P)` with the Steinberg dualizing module, an instance
+  of Layer 6; FuchsianOrbifolds Layer 5 item 6 owns the orbifold Euler characteristic of a Fuchsian
+  group by its signature, whose value `−1/6` at `PSL(2, ℤ)` is the value 8.7 gives the free product
+  `ℤ/2 ∗ ℤ/3`; BianchiModularForms §9.3 owns the orbifold Euler characteristics of Bianchi groups;
+  BordismFormalGroups owns a complete resolution of the profinite Morava stabilizer groups, a
+  continuous theory distinct from Layer 9.
+- GorensteinHomologicalAlgebra owns Gorenstein dimensions of modules over rings and excludes
+  complete cohomology of groups. Layer 9 uses only the pinned Gorenstein-projective objects of an
+  abelian category and owns Farrell cohomology.
+- SheafTheoreticSmithTheory owns Smith restriction for prime-order actions on étale sheaves, a
+  different theory. The classical Smith theory of 8.8 (finite `p`-groups acting on
+  finite-dimensional simplicial sets with finite mod-`p` homology) and Serre's construction 5.5 of a
+  finite-dimensional acyclic simplicial set with finite stabilizers have no other owner and are
+  owned here.
+
+**Out of scope.** Stallings' theorem on ends and the Stallings–Swan theorem that a group of
+cohomological dimension one is free (so the classification of duality groups of dimension one is not
+stated). Separations of the finiteness types (Bestvina–Brady groups, a group of type `FP_2` that is
+not finitely presented) and the Eilenberg–Ganea problem in dimension two. The inequality
+`cd_R G ≤ hd_R G + 1` for countable groups, which needs the Govorov–Lazard theorem over
+noncommutative rings. Brown's refinements of the denominator theorem through the poset of nontrivial
+finite subgroups, which need its equivariant Euler characteristic and the acyclic-cover comparison
+of Brown1974 Appendix B: Theorem 5 for a nonempty family of finite subgroups, its Corollaries 2 and
+3, Theorem 6 with the formula for `χ − χ_ℚ`, and the `p`-fractional part of `χ` (Brown1974 §§6–7).
+Products on Farrell cohomology, which need a complete diagonal approximation. `L²`-invariants,
+Bieri–Neumann–Strebel invariants, and the comparison of the Hattori–Stallings and rational Euler
+characteristics beyond type `FL` (the Bass conjecture). The dimension theory of profinite groups.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+Pinned at `1b1ccf4b088b32fa3f23f2de1127433254a81e1e`.
+
+- `groupCohomology`, `groupHomology`
+  (`Mathlib/RepresentationTheory/Homological/GroupCohomology/Basic.lean`,
+  `.../GroupHomology/Basic.lean`) for `{k G : Type u}`, `A : Rep.{u} k G`;
+  `groupCohomologyIsoExt A n : groupCohomology A n ≅ Extⁿ(k, A)` in `Rep k G`
+  (GroupCohomology/Basic.lean line 202) and `groupHomologyIsoTor` (GroupHomology/Basic.lean line
+  246); `groupCohomologyIso`, computing cohomology from any projective resolution of the trivial
+  representation. These identify `Hᵏ(G, −)` with `Ext^k_{RG}(R, −)` and `Hₖ(G, −)` with `Tor_k`,
+  naturally in the coefficient.
+- `groupCohomology.coindIso` (`.../GroupCohomology/Shapiro.lean` line 58) and `groupHomology.indIso`
+  (`.../GroupHomology/Shapiro.lean` line 65), Shapiro's lemma for any subgroup.
+- `tateCohomology` (`.../TateCohomology/Basic.lean`), defined for finite groups in every integer
+  degree by the norm splice, with its long exact sequence; `TateCohomology.isoGroupCohomology`.
+- `Rep.equivalenceModuleMonoidAlgebra : Rep.{w} k G ≌ ModuleCat k[G]`
+  (`Mathlib/RepresentationTheory/Rep/Iso.lean` line 157), `Representation.asModule`
+  (`Mathlib/RepresentationTheory/Basic.lean` line 142), `Representation.trivial`, `Rep.res`.
+- `groupCohomology.functor R G n`, `groupHomology.functor R G n : Rep R G ⥤ ModuleCat R`
+  (`.../GroupCohomology/Functoriality.lean` line 534, `.../GroupHomology/Functoriality.lean` line
+  831), for `R G : Type u`;
+  `CategoryTheory.Limits.colimit.post F Φ : colimit (F ⋙ Φ) ⟶ Φ.obj (colimit F)`
+  (`Mathlib/CategoryTheory/Limits/HasLimits.lean` line 490) and
+  `CategoryTheory.Limits.piComparison Φ N : Φ.obj (∏ᶜ N) ⟶ ∏ᶜ (Φ.obj ∘ N)`
+  (`Mathlib/CategoryTheory/Limits/Shapes/Products.lean` line 448), the canonical comparison maps of
+  1.5; `Rep.{u} R G` has all colimits and limits indexed by types in `Type u`.
+- `HasProjectiveDimensionLE X n` (`Mathlib/CategoryTheory/Abelian/Projective/Dimension.lean` line
+  53): `Ext^i(X, Y) = 0` for all `Y` and `i ≥ n + 1`, in an abelian category; nothing about finite
+  generation.
+- `Rep.FiniteCyclicGroup.groupCohomologyIsoEven` (`.../GroupCohomology/FiniteCyclic.lean` line 80):
+  for a finite cyclic group generated by `g` and `i > 0` even, `Hⁱ(G, A)` is the homology of
+  `A →N A →(g − 1) A`; for trivial `A = R` this is `R/|G|R`.
+- `Group.IsFinitelyPresented` (`Mathlib/GroupTheory/FinitelyPresentedGroup.lean` line 95),
+  `PresentedGroup`, `FreeGroup`, `Monoid.PushoutI` (`Mathlib/GroupTheory/PushoutI.lean` line 60),
+  `HNNExtension` (`Mathlib/GroupTheory/HNNExtension.lean` line 52), `Subgroup.index`,
+  `Subgroup.FiniteIndex`.
+- `Topology.CWComplex`, `Topology.RelCWComplex.FiniteDimensional` and `RelCWComplex.FiniteType`
+  (`Mathlib/Topology/CWComplex/Classical/Finite.lean` lines 40 and 49): finite dimensionality means
+  that `cell C n` is empty for all large `n`, finite type that each `cell C n` is finite.
+- `Module.Flat` for modules over a commutative ring (used only for `R`-modules, never for
+  `RG`-modules), `Module.Projective` and `Module.Finite` over any semiring, `PadicInt`.
+- Further carriers the layers name: `MonoidAlgebra` (`Mathlib/Algebra/MonoidAlgebra/Defs.lean` line
+  76), the group ring `RG` (1.2, 7.1); `Rep.trivial` (`Mathlib/RepresentationTheory/Rep/Basic.lean`
+  line 288), the trivial representation as an object of `Rep` (2.1); `Representation.ofModule'`
+  (`Mathlib/RepresentationTheory/Basic.lean` line 191), the representation of `G` on an `RG`-module
+  (7.2); `ConjClasses` (`Mathlib/Algebra/Group/Conj.lean` line 133), the conjugacy classes indexing
+  Hattori–Stallings ranks (7.1); `PiTensorProduct`
+  (`Mathlib/LinearAlgebra/PiTensorProduct/Basic.lean` line 104) and `HomologicalComplex`
+  (`Mathlib/Algebra/Homology/HomologicalComplex.lean` line 59) for tensor induction (3.1) and 8.1;
+  `QuasiIso` (`Mathlib/Algebra/Homology/QuasiIso.lean` line 138: an isomorphism on homology in every
+  degree) and `IsNoetherianRing` (`Mathlib/RingTheory/Noetherian/Defs.lean` line 191) for Wall's
+  finite replacement of complexes (8.1); `IsLocalRing` (`Mathlib/RingTheory/LocalRing/Defs.lean`
+  line 30) for 7.5; `Sylow` (`Mathlib/GroupTheory/Sylow.lean` line 54) with Sylow's existence
+  theorem `Sylow.exists_subgroup_card_pow_prime` (line 723: a finite group whose order is divisible
+  by `pⁿ` has a subgroup of order `pⁿ`), for 8.8 and 8.9.
+- `CategoryTheory.ProjectiveResolution`
+  (`Mathlib/CategoryTheory/Preadditive/Projective/Resolution.lean` line 37), whose `complex` is a
+  chain complex indexed by `ℕ`, and `HomologicalComplex.opcycles`
+  (`Mathlib/Algebra/Homology/ShortComplex/HomologicalComplex.lean` line 215): the cokernel of the
+  differential into degree `n`. For a projective resolution `P` of `R`, `P.complex.opcycles n` is
+  the `n`-th syzygy: `R` for `n = 0` (exactness at `P_0`), and the image of `P_n → P_{n−1}` for
+  `n ≥ 1`. Used in 9.2.
+- `HomologicalComplex.homologyEulerChar` (`Mathlib/Algebra/Homology/EulerCharacteristic.lean`
+  line 154): for a complex of modules over a ring, the `finsum` of the signed `Module.finrank` of
+  its homology, `0` when infinitely many terms are nonzero; the model of the Euler characteristics
+  of complexes in 8.2, 8.8 and 8.9 and of `rationalEulerChar` in 8.3. Over `ℤ`, `Module.finrank`
+  of a finitely generated abelian group is the rank of its free quotient (`ℤ ⊕ ℤ/2` has rank `1`).
+- `Localization.AtPrime` (`Mathlib/RingTheory/Localization/AtPrime/Basic.lean` line 55), a local
+  ring by the instance `Localization.AtPrime.isLocalRing` (line 105), and Nakayama's lemma
+  `Submodule.eq_bot_of_le_smul_of_le_jacobson` (`Mathlib/RingTheory/Nakayama.lean` line 117): a
+  finitely generated submodule `N` with `N ≤ I • N`, for an ideal `I` contained in the Jacobson
+  radical, is zero. It is stated over a commutative ring, so for modules over a group ring of a
+  finite group (7.4, 7.5) it is applied over the local coefficient ring.
+- `IsMulTorsionFree` (`Mathlib/Algebra/Group/Monoid.lean` line 552), the meaning of *torsion-free*
+  throughout: commuting elements with equal nonzero powers are equal; for a group it holds exactly
+  when no element other than `1` has finite order (`isMulTorsionFree_iff_not_isOfFinOrder`,
+  `Mathlib/GroupTheory/OrderOfElement.lean` line 911). Multiplicative `ℤ` satisfies it and `ℤ/2`
+  does not (`s² = 1²` with `s ≠ 1`).
+- `SSet`, its chain complex `SSet.chainComplex` and homology `SSet.homology`
+  (`Mathlib/AlgebraicTopology/SimplicialSet/Homology/Basic.lean` lines 67 and 124): the unnormalized
+  simplicial chains with coefficients in an object of a preadditive category, whose degree-`n` term
+  is a coproduct over all `n`-simplices, degenerate ones included, so it does not vanish above the
+  dimension (for `Δ[0]` it is `ℤ` in every degree). Homology is always `SSet.homology`; every
+  chain-level argument of 5.5, 8.8 and 8.9 uses the normalized chains of
+  `Mathlib/AlgebraicTopology/SimplicialSet/Homology/Nondegenerate.lean`:
+  `SSet.normalizedChainComplex` (line 43, built from the canonical splitting `SSet.splitting` by
+  nondegenerate simplices), whose degree-`n` term is the coproduct over the nondegenerate
+  `n`-simplices (`SSet.isColimitCofanNormalizedChainComplex`, line 167);
+  `SSet.homotopyEquivNormalizedChainComplex` (line 86), a homotopy equivalence from the unnormalized
+  to the normalized chains, so both have the homology `SSet.homology`;
+  `SSet.normalizedChainComplexMap` (line 200), the functoriality in simplicial maps;
+  `SSet.isZero_normalizedChainComplex_X_of_hasDimensionLT` (line 182) and
+  `SSet.isZero_homology_of_hasDimensionLT` (line 252): for `X.HasDimensionLT d` the normalized
+  chains and the homology vanish in degrees `≥ d`. A simplicial set is finite-dimensional when
+  `SSet.HasDimensionLE X N` holds for some `N`
+  (`Mathlib/AlgebraicTopology/SimplicialSet/Dimension.lean` lines 32 and 36: every nondegenerate
+  simplex has dimension at most `N`), and `SSet.hasDimensionLE_prod`
+  (`Mathlib/AlgebraicTopology/SimplicialSet/FiniteProd.lean` line 66) bounds the dimension of a
+  product by the sum of the dimensions.
+- `AbstractSimplicialComplex` (`Mathlib/AlgebraicTopology/SimplicialComplex/Basic.lean`), whose
+  faces are nonempty finite sets closed under passing to nonempty subsets; used in 5.5.
+- `SSet.homologyMap` (`Mathlib/AlgebraicTopology/SimplicialSet/Homology/Basic.lean` line 129), the
+  map on `SSet.homology` induced by a map of simplicial sets, used with the map
+  `CategoryTheory.Limits.terminal.from` to the point to say that a simplicial set is acyclic (5.5);
+  `ModuleCat.of` (`Mathlib/Algebra/Category/ModuleCat/Basic.lean` line 79) gives the coefficient
+  objects `ℤ` and `𝔽_p = ZMod p` of `SSet.homology` (5.5, 8.8).
+- `CategoryTheory.Action V G` (`Mathlib/CategoryTheory/Action/Basic.lean` line 48): an object `V`
+  with a monoid homomorphism `ρ : G →* End V`; in this Mathlib `CategoryTheory.End V` is a
+  structure, and `(ρ g).asHom : V ⟶ V` is the underlying morphism. With `V = SSet` it is an action
+  of `G` by simplicial automorphisms (`ρ g⁻¹` inverts `ρ g`).
+  `Action.functorCategoryEquivalence` (line 238) turns it into a functor from the one-object
+  category of `G` to `SSet`, whose limit and colimit, computed degreewise, are the simplicial sets
+  of fixed simplices and of orbits (5.5, 8.8).
+- `Rep.ind φ A` (`Mathlib/RepresentationTheory/Induced.lean` line 102), for `φ : H →* G` and
+  `A : Rep k H`, the induced representation `(k[G] ⊗_k A)_H`, the left adjoint of restriction;
+  with `φ = S.subtype` for a subgroup `S` it is `Ind_S^G A`. `ChainComplex.single₀`
+  (`Mathlib/Algebra/Homology/Single.lean` line 195), the complex
+  concentrated in degree `0`; a resolution of the trivial representation is a complex `C` with a
+  `QuasiIso` to `single₀` of it (8.7).
+- `IsCoveringMap.existsUnique_continuousMap_lifts` (`Mathlib/Topology/Homotopy/Lifting.lean`
+  line 489): a map from a simply connected, locally path-connected space lifts uniquely along a
+  covering map once the lift of one point is fixed.
+- `LocallyContractibleSpace X` (`Mathlib/Topology/Homotopy/LocallyContractible.lean` line 81): every
+  neighbourhood `U` of a point contains a neighbourhood `V` of it whose inclusion `V → U` is
+  null-homotopic (a predicate, not a class); Mathlib does not prove it for CW complexes. The
+  instance making a `DeltaGeneratedSpace` a `LocallyPathConnectedSpace`
+  (`Mathlib/Topology/Compactness/DeltaGeneratedSpace.lean` line 51). Both are used in 5.1.
+- `finite_of_finite_type_of_isJacobsonRing R S` (`Mathlib/RingTheory/Jacobson/Ring.lean` line 691,
+  Zariski's lemma): a field `S` of finite type over a Jacobson ring `R` is a finite `R`-module; and
+  the instance making an Artinian ring a Jacobson ring (same file, line 102). Mathlib does not
+  provide `IsJacobsonRing ℤ`; 7.5 obtains it from Tau Ceti's criterion below.
+- `ChartedSpace.secondCountable_of_sigmaCompact` (`Mathlib/Geometry/Manifold/ChartedSpace.lean`
+  line 236): a σ-compact charted space over a second-countable model is second countable. Mathlib's
+  `ChartedSpace` (line 141) and `IsManifold` (`Mathlib/Geometry/Manifold/IsManifold/Basic.lean`
+  line 777) include no separation axiom, so 6.6 assumes `T2Space` explicitly.
+
+### From Tau Ceti
+
+Pinned at `2fd255d997f47c0b5d834ee416c7015d55444ce5`.
+
+- `TauCeti.Huber.IsPseudoCoherentOver A M m` (`TauCeti/Algebra/Module/PseudoCoherent/Basic.lean`
+  line 89), for `[Ring A]` and `m : ℕ∞`: a resolution `⋯ → A^{n₁} → A^{n₀} → M → 0` by coordinate
+  finite free modules, exact at `M, F₀, …, F_{m−1}`. With `.zero_iff` (finitely generated),
+  `.one_iff` (finitely presented), `.mono`, `.of_equiv`, `.succ_iff_ker`, `.ker_of_projective`,
+  `.top_iff`, `.of_projective`, `.prod`, `.pi`;
+  `TauCeti.Huber.IsPseudoCoherentOver.of_isNoetherianRing` (line 391: over a noetherian ring a
+  finitely generated module is `⊤`-pseudocoherent, used in the Checks of 1.2); `.extension`,
+  `.cokernel` and `.kernel` of `TwoOutOfThree.lean` (a cokernel of an injection from an `(m − 1)`-
+  into an `m`-pseudocoherent module is `m`-pseudocoherent); and
+  `TauCeti.Huber.isPseudoCoherentOver_restrictScalars_iff` (`RestrictScalars.lean` line 155), for
+  `[Ring A] [Ring S] [Module A S] [IsScalarTower A S S]` with `S` `m`-pseudocoherent over `A`,
+  noncommutative rings allowed.
+- `TauCeti.Module.IsFPD A M m`
+  (`TauCeti/Algebra/Module/PseudoCoherent/FiniteProjectiveDimension.lean` line 69): a possibly
+  unbounded resolution `⋯ → A^{n₁} → A^{n₀} → M → 0` by finitely generated free modules, exact
+  everywhere, whose `m`-th syzygy is projective; equivalently, a resolution of length at most `m` by
+  finitely generated projective modules. It does not say that the free resolution terminates: over
+  `ℚ[ℤ/2]` the trivial module `ℚ` satisfies `IsFPD` with `m = 0` (it is projective, `2` being
+  invertible) but has no finite resolution by finitely generated free modules, since every such
+  resolution has even alternating sum of `ℚ`-dimensions while `dim_ℚ ℚ = 1`;
+  `TauCeti.Module.IsFPD.isPseudoCoherentOver`, `TauCeti.Module.IsFPD.zero_iff`, `.mono`, and
+  `TauCeti.Module.isFPD_iff_hasProjectiveDimensionLE` (line 153): for `M : Type u` in the universe
+  of `A`,
+  `IsFPD A M m ↔ IsPseudoCoherentOver A M ⊤ ∧ HasProjectiveDimensionLE (ModuleCat.of A M) m`.
+- `TauCeti.leastENatBound` with `leastENatBound_le_iff` (monotone predicates),
+  `leastENatBound_eq_top_iff`, `leastENatBound_eq_zero_iff` (`TauCeti/Data/ENat/LeastBound.lean`).
+- `TauCeti.cohomologicalDimension.{v} G`
+  (`TauCeti/RepresentationTheory/Homological/ContCohomology/CohomologicalDimension/Basic.lean` line
+  156): for a topological group `G : Type u`, the supremum over primes `p` of the least `n` such
+  that continuous cohomology of every discrete `p`-primary torsion module in `Type (max u v)` with
+  continuous action vanishes above `n`.
+- `TauCeti.ContCohomology.nonempty_continuousCohomology_addEquiv_groupCohomology`
+  (`TauCeti/RepresentationTheory/Homological/ContCohomology/DiscreteGroup.lean` line 166): for a
+  finite group `G : Type` with the discrete topology and a discrete `G`-module `M`, the continuous
+  cohomology of `M` is additively isomorphic to `groupCohomology` of `M` in every degree; it gives
+  the Checks of 2.8 at finite groups. For an infinite discrete group 2.8 uses CohomologyOfGroups
+  §1.5.
+- `CochainComplex.IsTotallyAcyclicProjective`, `CategoryTheory.isGorensteinProjective`
+  (`TauCeti/Algebra/Homology/TotallyAcyclic/Abelian.lean` lines 113 and 224), in any abelian
+  category: projective terms, acyclic, every chain map to a projective in one degree null-homotopic;
+  `CochainComplex.isTotallyAcyclicProjective_splice` (`.../Abelian/Extension.lean` line 63: a splice
+  of short exact sequences with projective middle terms and ends with `Ext¹(−, Q) = 0` for
+  projective `Q` is totally acyclic); `CategoryTheory.isGorensteinProjective.ext_eq_zero`;
+  `CategoryTheory.isGorensteinProjective_of_projective` (`.../Abelian.lean` line 263: a projective
+  object is Gorenstein projective, through the complete resolution `Q →𝟙 Q` in degrees `−1` and
+  `0`); `CategoryTheory.GorensteinProjective.exactStructure_isFrobenius`
+  (`.../Abelian/Frobenius.lean` line 195) with relative projectives and injectives the projective
+  objects; `TauCeti.ExactStructure.CompleteResolution`, `.lift`, `.nonempty_homotopy_zero_iff` and
+  `.homotopyEquiv` (`TauCeti/CategoryTheory/Exact/Resolution/Complete/Comparison.lean` lines 458 and
+  481). The finitely generated variant `CochainComplex.IsTotallyAcyclic` of
+  `TotallyAcyclic/Basic.lean` is not used.
+- `TauCeti.cellularResolutionOfIsAspherical`
+  (`TauCeti/AlgebraicTopology/EilenbergMacLane/Resolution.lean` line 57): for `E B G : Type w`, a
+  quotient covering `p : E → B` for `G` with `E` simply connected and `B` an aspherical Hausdorff CW
+  complex, the lifted cellular chains as a `ProjectiveResolution` of the trivial representation over
+  any `[CommRing k]`, free on the cells of `B` (`TauCeti.cellularChainRepIsoFree`);
+  `TauCeti.cwComplexPreimage` (lifted CW structure); `TauCeti.cellularClassifyingSpaceResolution`,
+  `TauCeti.isEilenbergMacLaneSpaceOne_cellularClassifyingSpace`,
+  `TauCeti.PresentationComplex.cellOneEquiv` and `.cellTwoEquiv` (one `1`-cell per generator, one
+  `2`-cell per relator); `TauCeti.IsAspherical`, `TauCeti.IsEilenbergMacLaneSpaceOne`
+  (`TauCeti/AlgebraicTopology/EilenbergMacLane/Basic.lean` lines 59 and 123: path-connected with
+  vanishing higher homotopy, and fundamental group isomorphic to `G`).
+- `TauCeti.cellAttachment` (`TauCeti/Topology/CWComplex/Abstract/CellAttachment.lean` line 52),
+  attaching cells along any family `ι → (∂Dⁿ ⟶ X)`; `HomotopyGroup.bijective_hurewicz`
+  (`TauCeti/AlgebraicTopology/Homotopy/Hurewicz/Absolute.lean` line 161, spaces in `Type`);
+  `TauCeti.contractibleSpace_of_subsingleton_homotopyGroup` (`.../Homotopy/Whitehead.lean` line
+  356).
+- `TauCeti.WedgeSum.isEilenbergMacLaneSpaceOne_circle` (`.../EilenbergMacLane/OneDimensional.lean`
+  line 105), `TauCeti.isZero_groupHomology_freeGroup`,
+  `TauCeti.isZero_groupHomology_pi_multiplicative_int`.
+- `TauCeti.groupHomology.isZero_groupHomology_of_directed`
+  (`TauCeti/RepresentationTheory/Homological/GroupHomology/DirectedUnion.lean` line 132): for
+  `{k G : Type u}`, `k` commutative, a nonempty directed family of subgroups `S_i` with supremum `G`
+  and `A : Rep k G`, if `Hₙ(S_i, A) = 0` for every `i` then `Hₙ(G, A) = 0`. It does not identify
+  `Hₙ(G, A)` with the colimit of the `Hₙ(S_i, A)`; the vanishing is all that 2.5(a) and 6.4 use.
+- `TauCeti.groupCohomology.corestriction` for a subgroup of finite index, with
+  `TauCeti.groupCohomology.map_subtype_id_comp_corestriction`
+  (`TauCeti/RepresentationTheory/Homological/GroupCohomology/Corestriction.lean` line 165):
+  restriction followed by corestriction is multiplication by the index on `Hⁿ(G, A)`.
+- `TauCeti.groupHomology.transfer M S n : Hₙ(G, M) ⟶ Hₙ(S, M)` for `M : Rep R G` and
+  `[S.FiniteIndex]` (`TauCeti/RepresentationTheory/Homological/GroupHomology/Transfer/Basic.lean`
+  line 79), with `TauCeti.groupHomology.transfer_comp_map_subtype_id` (line 121): transfer followed
+  by corestriction `Hₙ(S, M) ⟶ Hₙ(G, M)` is multiplication by `[G : S]` on `Hₙ(G, M)`, in every
+  degree `n`; used in 2.3(c).
+- `TauCeti.exists_linearEquiv_comp_fst_eq_comp_snd_comp`
+  (`TauCeti/Algebra/Module/Projective/Schanuel.lean` line 82): Schanuel's lemma in automorphism
+  form, over any semiring: for linear maps `a : A → E` and `b : B → E` from projective modules with
+  the same range, `a ∘ fst` and `b ∘ snd` differ by a linear automorphism of `A × B`; for surjective
+  `a`, `b` it carries `ker a × B` onto `A × ker b`. Used in 8.3, applied degree by degree to the
+  syzygies of two finite projective resolutions (the generalized Schanuel lemma), for the
+  independence of `χ̃` from the resolution.
+- `TauCeti.groupHomologyPiMultiplicativeIntExteriorPowerEquiv`
+  (`TauCeti/AlgebraicTopology/ClassifyingSpace/Torus.lean` line 243): for a commutative ring `k` and
+  a finite type `ι` in the same universe, `⋀ⁿ H₁(ℤ^ι, k) ≃ Hₙ(ℤ^ι, k)` with trivial coefficients;
+  used in the Checks of 2.4.
+- `TauCeti.cwComplexProd` (`TauCeti/Topology/CWComplex/Classical/Product.lean` line 194): the
+  product CW structure on `C ×ˢ D` for finite CW complexes `C`, `D`, with `n`-cells the pairs of a
+  `p`-cell and a `q`-cell with `p + q = n`; used in the Checks of 5.1.
+- `TauCeti.trace_ofModule'_eq_zero_of_dvd_orderOf`
+  (`TauCeti/Algebra/MonoidAlgebra/ProjectiveTrace.lean` line 67): `A` commutative local with the
+  prime `p` not a unit, `G` finite, `X` finitely generated projective over `A[G]`; if
+  `p ∣ orderOf g` then the Mathlib trace `LinearMap.trace A X` of `g` on `X` is `0` (`X` is free
+  over the local ring `A`, so this is its trace as a free module).
+- `LinearMap.projectiveTrace R M` (`TauCeti/LinearAlgebra/Trace/Projective.lean` line 72), for
+  `[CommSemiring R]`, `[Module.Finite R M]`, `[Module.Projective R M]`: the trace of an endomorphism
+  of a finite projective module, the contraction `Dual R M ⊗ M → R` transported along
+  `dualTensorHomEquiv`; with `LinearMap.projectiveTrace_cyclic` (line 96, cyclicity across two
+  finite projective modules), `LinearMap.projectiveTrace_eq_trace` (line 118, equal to Mathlib's
+  `LinearMap.trace` on finite free modules) and `LinearMap.projectiveTrace_baseChange` (line 158).
+  Mathlib's `LinearMap.trace` (`Mathlib/LinearAlgebra/Trace.lean` line 75) is defined to be `0` when
+  the module has no finite basis, so it is not the trace of a finite projective module.
+- `TauCeti.nonempty_linearEquiv_of_projective_of_tensorRat`
+  (`TauCeti/NumberTheory/Padics/GroupAlgebra/Swan.lean` line 58): finitely generated projective
+  `ℤ_p[G]`-modules with isomorphic rationalizations are isomorphic, `G` finite; and its coprime case
+  `TauCeti.nonempty_linearEquiv_of_projective_of_tensorRat_of_not_dvd`
+  (`TauCeti/NumberTheory/Padics/GroupAlgebra/Rational.lean` line 134), the same conclusion for
+  `p ∤ |G|`, used in the Checks of 7.4.
+- `TauCeti.isJacobsonRing_of_quotient_span_singleton` (`TauCeti/RingTheory/Jacobson/Ring.lean` line
+  36): a commutative ring with zero Jacobson radical whose quotients by nonzero principal ideals are
+  Jacobson rings is a Jacobson ring; used in 7.5 for `ℤ`.
+- `FDRep.nonempty_iso_of_character_eq` and `Representation.nonempty_equiv_of_character_eq`
+  (`TauCeti/RepresentationTheory/CharacterTable/Determined.lean` lines 59 and 49): over a field of
+  characteristic zero, finite-dimensional representations of a finite group with equal characters
+  are isomorphic.
+- `TauCeti.AbelianK0 C` (`TauCeti/CategoryTheory/GrothendieckGroup/Abelian.lean` line 79), for an
+  essentially small abelian category `C`: the free abelian group on isomorphism classes modulo
+  `[X₂] = [X₁] + [X₃]` for every short exact sequence; and the Euler–Poincaré relation
+  `TauCeti.AbelianK0.eulerChar_eq_homologyEulerChar`
+  (`TauCeti/CategoryTheory/GrothendieckGroup/EulerCharacteristic.lean` line 370): for a cochain
+  complex strictly supported in degrees `[a, b]`, the alternating sum of the classes of its terms
+  equals that of its cohomology objects. Used in 8.5 with `C = FDRep K Δ` for a finite group `Δ`,
+  which is abelian (Mathlib's instances on `FGModuleCat` over a noetherian ring,
+  `Mathlib/Algebra/Category/FGModuleCat/Abelian.lean` line 36, and on `Action`,
+  `Mathlib/CategoryTheory/Action/Limits.lean` line 394) and essentially small
+  (`CategoryTheory.Action.essentiallySmall`, `TauCeti/CategoryTheory/Action/EssentiallySmall.lean`
+  line 54); then `AbelianK0` is `G₀(K[Δ])` in every characteristic, the comparison with characters
+  holding only in characteristic zero.
+- `TauCeti.UniversalCover x₀` (`TauCeti/AlgebraicTopology/UniversalCover/Basic.lean` line 70), the
+  universal cover by homotopy classes of based paths, with `TauCeti.UniversalCover.isCoveringMap`
+  (`.../UniversalCover/Covering.lean` line 58) for locally path-connected, semilocally simply
+  connected spaces; `TauCeti.UniversalCover.simplyConnectedSpace` (`.../Covering.lean` line 183,
+  same hypotheses: the universal cover is simply connected); and
+  `TauCeti.UniversalCover.isQuotientCoveringMap` (`.../UniversalCover/Action.lean` line 162): for
+  `X` locally path-connected, path-connected and semilocally simply connected, the projection is a
+  quotient covering map for the action of `FundamentalGroup X x₀`. The semilocal simple
+  connectivity is supplied by `TauCeti.SemilocallySimplyConnectedSpace.of_locallyContractibleSpace`
+  (`TauCeti/AlgebraicTopology/SemilocallySimplyConnected/Basic.lean` line 131: a space satisfying
+  Mathlib's `LocallyContractibleSpace` is semilocally simply connected) and the local
+  path-connectedness by `TauCeti.instDeltaGeneratedSpaceOfCWComplexUniv`
+  (`TauCeti/Topology/CWComplex/Classical/DeltaGenerated.lean` line 66: a Hausdorff space with a CW
+  structure on `univ` is delta-generated). Neither library states that a general CW complex is
+  locally contractible or semilocally simply connected (AlgebraicTopology §4.7 supplies it); the
+  wedge of circles is, by `TauCeti.WedgeSum.instSemilocallySimplyConnectedSpaceCircle`
+  (`.../SemilocallySimplyConnected/WedgeSum.lean` line 112), used in a Check of 5.1.
+- `AbstractSimplicialComplex.Realization`
+  (`TauCeti/AlgebraicTopology/SimplicialComplex/Realization/Basic.lean` line 71), the realization of
+  an abstract simplicial complex, used in 5.4 and 5.5.
+- `AbstractSimplicialComplex.dimension K`
+  (`TauCeti/AlgebraicTopology/SimplicialComplex/Dimension.lean` line 266), valued in `WithBot ℕ∞`:
+  the supremum over the faces of `K` of the number of vertices minus one, `⊥` for the complex with
+  no face and `⊤` when the faces have unboundedly many vertices; by
+  `AbstractSimplicialComplex.dimension_le_iff` (line 283), `dimension K ≤ N` for `N : ℕ` says that
+  every face has at most `N + 1` vertices. Used in 5.4.
+- `AbstractSimplicialComplex.barycentricSubdivisionRealizationHomeomorph K`
+  (`TauCeti/AlgebraicTopology/SimplicialComplex/Subdivision/Homeomorph.lean` line 221): the
+  homeomorphism from the realization of the barycentric subdivision of `K` (its vertices are the
+  faces of `K`, its faces the nonempty chains of faces under inclusion) to the realization of `K`,
+  sending the vertex of a face to the barycentre of that face. Used in 5.4.
+- `AbstractSimplicialComplex.realizationCWComplex K`
+  (`TauCeti/AlgebraicTopology/SimplicialComplex/Realization/CWComplex/Basic.lean` line 172), for `K`
+  on a linearly ordered vertex type: the CW structure on the (Hausdorff) realization `|K|` whose
+  `n`-cells are the faces with `n + 1` vertices, enumerated increasingly; and
+  `TauCeti.cellularChainComplexRealizationIso` (`…/Realization/CWComplex/OrderedChainComplex.lean`
+  line 132), for a vertex type `ι : Type u` and a ring `R : Type u`: an isomorphism of chain
+  complexes from the cellular chains of `|K|` with this CW structure to the ordered simplicial
+  chains `TauCeti.orderedSimplicialChainComplex K R`
+  (`TauCeti/AlgebraicTopology/SimplicialComplex/ChainComplex.lean` line 186), free on the faces with
+  boundary `∂[v₀, …, vₙ₊₁] = Σ_j (−1)ʲ [v₀, …, v̂ⱼ, …, vₙ₊₁]`, sending the cellular basis vector of
+  a cell to a unit multiple, depending only on `n`, of that face. Used in 5.5(a).
+- `SSet.eilenbergZilberHomotopyEquiv`
+  (`TauCeti/AlgebraicTopology/SimplicialSet/EilenbergZilber.lean` line 761): for simplicial sets
+  `K, L`, the Alexander–Whitney map from the chains of `K ⊗ L` (the product) to the tensor product
+  of chains is a chain homotopy equivalence, with inverse the shuffle map.
+- `Subgroup.tensorInducedRepresentation` and `Representation.wreathTensor`
+  (`TauCeti/RepresentationTheory/Tensor/Induction/Basic.lean`): tensor induction of representations
+  along a transversal; the complex-level construction there is sign-free and is used only in
+  characteristic two, so 3.1 owns the signed version.
+
+### From TauCetiRoadmap.CohomologyOfGroups
+
+- §1.2: for `N ◁ G`, the representations of `G ⧸ N` on `Hᵏ(N, M)` and `Hₖ(N, M)`, natural in `M`.
+- §1.4: for a `G`-set `X` with orbit representatives `Σ`, natural isomorphisms
+  `Hₙ(G, k[X] ⊗ M) ≅ ⊕_{x ∈ Σ} Hₙ(G_x, M)` and `Hⁿ(G, Hom_k(k[X], M)) ≅ ∏_{x ∈ Σ} Hⁿ(G_x, M)`, and
+  the versions with a character of the stabilizer.
+- §1.5: for `G` discrete and a discrete representation `A`,
+  `Θₙ : continuousCohomology n A ≅ Hⁿ(G, A)`.
+- §2.3: the two spectral sequences of a complex, converging with filtrations finite in each total
+  degree.
+- §3.2: for a monomial complex `C` (each `C_p ≅ ⊕_{σ ∈ Σ_p} Ind_{G_σ}^G(k_σ)` with `k_σ` a
+  character), the orbit spectral sequence
+  `E¹_{p,q} = ⊕_{σ ∈ Σ_p} H_q(G_σ, k_σ ⊗ M) ⇒ H^G_{p+q}(C; M)`, the first sequence of §2.3, and its
+  cohomological dual; 3.1 there identifies `H^G_*(C; M)` with `H_*(G, M)` when `C` resolves `k` by
+  `k`-flat terms.
+- §3.4: for a `G`-tree (an action without inversions, with a `G`-invariant orientation `E⁺` of the
+  edges), the exact sequence `0 → k[E⁺] → k[V] → k → 0` of permutation representations, split after
+  forgetting the `G`-action (split over `k`) and not `G`-equivariantly: for `G = ℤ` translating the
+  line it is `0 → k[t, t⁻¹] →(t − 1) k[t, t⁻¹] → k → 0`, where the `k`-linear section `1 ↦ [0]` is
+  moved to `[1]` by `t`, and an equivariant section would be an invariant element of `k[ℤ]` of
+  augmentation `1`, which does not exist for `k ≠ 0`. Layers 1 and 8 use only its exactness.
+- §§3.5–3.6: the tree sequences, and for amalgams, HNN extensions and free groups the long exact
+  sequences in homology and cohomology; for `F = FreeGroup S`, `Hⁿ(F, M) = Hₙ(F, M) = 0` for `n ≥ 2`
+  and `0 → H₁(F, M) → M^{(S)} → M → H₀(F, M) → 0`.
+- §4.6: the cap product `∩ : Hᵖ(G, M) ⊗ Hₙ(G, N) → Hₙ₋ₚ(G, P)` for `μ : M ⊗ N ⟶ P`, natural in the
+  coefficients, compatible with connecting maps, with the projection formula
+  `f_*(f^*x ∩ z) = x ∩ f_*z` and, for finite index, `tr(y ∩ z) = res y ∩ tr z`.
+- §5.2: the universal coefficient sequences over a ring of global dimension at most one (Checks
+  only).
+- §§6.1–6.2: for `N ◁ G` and `M : Rep k G`, the convergent spectral sequence
+  `E₂^{p,q} = Hᵖ(G ⧸ N, H^q(N, M)) ⇒ H^{p+q}(G, M)`, natural in `M` and in morphisms of extensions,
+  with `H^{p+q}(G, M)` finitely filtered by subquotients of the `E₂^{p, n−p}`; it is realised as the
+  spectral sequence of a filtration of the normalized cochains that is finite in each degree (§6.1),
+  with the classical `E_r` on the native page `r + 1`.
+- §6.3: the homological spectral sequence `E²_{p,q} = H_p(G ⧸ N, H_q(N, M)) ⇒ H_{p+q}(G, M)`.
+
+### From TauCetiRoadmap.SpectralSequencesAndConvergence
+
+- §3.4 (Euler identity): for a spectral sequence in Mathlib's carrier with a bidegree assignment
+  (§2.1), converging weakly in every total degree to an abutment whose filtrations are finite, and a
+  page `r` whose nonzero positions are finitely many and all lie in a weak Serre class `P`, only
+  finitely many `Hⁿ` are nonzero and `Σ_n (−1)ⁿ v(Hⁿ) = Σ_{pq} (−1)^{deg pq} v(E_r(pq))` for every
+  `v` additive on short exact sequences in `P`.
+- §5.3 (Euler characteristic of a filtered complex): the same identity for Tau Ceti's spectral
+  sequence of a cochain complex with a filtration finite in each degree, on a native page `r ≥ 2`
+  (the classical `E_{r−1}`), with the sign `(−1)^{p+q}` of the total degree; the Hochschild–Serre
+  sequence of CohomologyOfGroups §6.2 and the bicomplex sequences of its §2.3 are of this form.
+
+These are used with `P` the finite-dimensional `ℚ`-vector spaces and `v` the dimension.
+
+### From TauCetiRoadmap.FreeGroupsAndLimitGroups
+
+- §4.5: one-edge graphs of groups are `Monoid.PushoutI` over `Bool` and `HNNExtension`.
+- §4.7: the Bass–Serre tree of a graph of groups, a tree with an action without inversions whose
+  vertex and edge stabilizers are conjugates of the vertex and edge groups.
+- §4.8: the structure theorem for an action without inversions on a tree; with trivial vertex and
+  edge stabilizers it makes a group acting freely without inversions on a tree free.
+- §4.9: an element of finite order acting on a tree without inversions is elliptic, and a finitely
+  generated group of elliptic elements fixes a vertex; so a finite group fixes a vertex.
+
+### From TauCetiRoadmap.EtaleCohomologyFoundations
+
+- §F.10.3: the Hattori–Stallings trace of a finite projective right module over any ring `Λ` with
+  values in `Λ/[Λ, Λ]`, with cyclicity, independence of the complement, additivity on direct sums
+  and split exact sequences, and scalar extension along ring homomorphisms. Right modules are left
+  modules over the opposite ring; 7.1 applies it to `(RG)ᵐᵒᵖ`, whose right modules are the left
+  `RG`-modules, and `(RG)ᵐᵒᵖ/[,]` is `RG/[RG, RG]` as an additive group.
+- §F.10.3: over a commutative ring, the Hattori–Stallings trace agrees with
+  `LinearMap.projectiveTrace`. For a finite group `G`, the identity coefficient
+  `ε : Λ[G]/[Λ[G], Λ[G]] → Λ/[Λ, Λ]` and `Tr^G = ε ∘ Tr_HS` on finite projective `Λ[G]`-modules. The
+  centralizer formula, proved without dividing by `|G|`: let `1 → G → Γ̃ → ℤ → 1` be an extension,
+  `Γ` the inverse image of `ℕ`, `P` a `Λ[Γ]`-module finite projective over `Λ[G]`, `γ ∈ Γ` and
+  `Z_γ = {g ∈ G | gγ = γg}`; then `Tr_Λ(γ, P) = |Z_γ| · Tr^{Z_γ}_Λ(γ, P)`. 7.2 applies it to
+  `Γ̃ = G × ℤ` with `ℤ` acting trivially and `γ = (g, 1)`, where `Z_γ = C_G(g)` and `Tr_Λ(γ, P)` is
+  the trace of `g` on `P`.
+
+### From TauCetiRoadmap.ClassifyingSpaces
+
+- Stage 2 item 10: a cellular `K(G, 1)` CW complex for every group, Hausdorff with a CW structure on
+  the whole space.
+- Stage 4 item 16: for a `K(G, 1)` CW complex `B` with universal cover `E`, the augmented cellular
+  chains of `E` are a free resolution of `ℤ` over `ℤG`, with one free generator for each cell of
+  `B`.
+- Stage 3 item 12: two `K(G, 1)` spaces of CW type are homotopy equivalent, by an equivalence
+  inducing any prescribed isomorphism of fundamental groups.
+- Stage 4 item 17: the (co)homology of the classifying space with local coefficients in a
+  `G`-module `M` is `groupHomology`, `groupCohomology` of `M`, naturally.
+
+### From TauCetiRoadmap.AlgebraicTopology
+
+- §4.7: the cell-neighbourhood local contraction of an arbitrary Hausdorff CW complex: for a point
+  `x` in an open set `U` there are an open `V` with `x ∈ V ⊆ U` and a homotopy `V × I → U` from the
+  inclusion to the constant map at `x`. Applied to the interior of a neighbourhood, this says that
+  a Hausdorff space with a CW structure on `univ` satisfies Mathlib's `LocallyContractibleSpace`
+  (Hatcher2002, Appendix, Proposition A.4, p. 522). Used in 5.1.
+- §6.1: singular (co)homology with coefficients in a local system, with its homotopy invariance;
+  used in 6.6 to pass from a closed aspherical manifold to the classifying space of its fundamental
+  group.
+- §8.1: the inclusion of the `k`-skeleton of a CW complex induces isomorphisms on `π_i` for `i < k`
+  and a surjection on `π_k`.
+- §8.3: the absolute Hurewicz theorem: an `(n − 1)`-connected space has vanishing reduced homology
+  below `n` and `π_n ≅ H_n` for `n ≥ 2`, in every universe.
+- §8.5: Whitehead's theorem for spaces of CW type.
+- §8.7: a compact Hausdorff second-countable smooth manifold with the Euclidean model has finite CW
+  type (a homotopy equivalence to a finite CW complex).
+- §6.3: the integral orientation local system `or_M` of a boundaryless manifold, built from the
+  local homology system with its transport along paths; its monodromy `π₁(M, x) → {±1}` is the
+  orientation character used in 6.6.
+- §6.4: twisted Poincaré duality of a closed `n`-manifold (compact and Hausdorff, charted on
+  `EuclideanSpace ℝ (Fin n)`): cap product with the fundamental class is an isomorphism
+  `Hᵏ(M; L) ≅ H_{n−k}(M; L ⊗ or_M)` for every local system `L` of modules.
+- §8.11a: every CW complex is homotopy equivalent to the realization of an abstract simplicial
+  complex, by skeletal simplicial approximation and mapping cylinders (Hatcher2002, Theorem 2C.5,
+  p. 182, as cited there). It states no bound on the dimension of the simplicial complex; 5.4
+  supplies the bound by the same skeletal construction.
 
 ## References
 
