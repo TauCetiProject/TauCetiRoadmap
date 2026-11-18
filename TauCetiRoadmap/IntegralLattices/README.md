@@ -1,54 +1,57 @@
 # Roadmap: integral quadratic forms and lattices
 
-**Summary.** This roadmap develops the arithmetic of integral symmetric lattices over `ℤ` and
-`ℤ_p` on Tau Ceti's native `TauCeti.IntegralLattice` carrier. The archived
-[integral-lattices foundation](../../Completed/IntegralLattices/README.md) stops at the carrier,
-duality, discriminant groups and forms, overlattice gluing and the ADE discriminant
-calculations, and Tau Ceti implements that foundation together with signature, radical quotient,
-scale and norm ideals, level, minima, successive minima, bounded-norm finiteness, finiteness of
-`O(L)` and Hermite's inequality (§*From Tau Ceti*). Tau Ceti also proves, at the pin, Nikulin's
-relations among his generators, the Gauss-sum invariants of all of them and his classification of
-finite quadratic forms by their bilinear form and Gauss-sum invariant, Milgram's theorem and van
-der Blij's congruence; Minkowski's second theorem and reduction theory; localization, Jordan
-splittings over a discrete valuation ring with the invariance of their ranks and parity types,
-the classification of `ℤ_p`-lattices at odd `p` and of `ℤ₂`-lattices unimodular at `2`, and Cho's
-dyadic density exponents; the genus relation with its finite test, the class sets, class numbers
-and masses, Kneser neighbours and the local stabilizers; the classification of positive definite
-unimodular lattices of rank at most 9, the rank-16 pair, `|O(E₈)|`, the mass of the genus of
-`E₈` and the failure of cancellation; the local densities with their odd-prime values and the
-convergent Euler products of their normalized good-prime factors; and the Euclidean volumes of
-`SO(n)` and `O(n)` (§*From Tau Ceti*, by declaration). This roadmap starts there and consumes
-all of it. It builds the bilinear classification of finite symmetric pairings; the general
-dyadic classification and the Conway–Sloane symbols; the binary dictionary to quadratic orders;
-the adelic class and spinor-genus interfaces; Nikulin's existence theorems and the existence
-theory of primitive embeddings; the classification of indefinite unimodular lattices; and the
-comparison of the Riemannian volume of `SO(n)` with Tau Ceti's Euclidean Haar measure.
+**Summary.** An integral lattice is a full ℤ-submodule L of a rational vector space V, with a
+symmetric rational bilinear form B that takes integer values on L. The lattice is even when every
+norm B(x, x) is even. Two lattices lie in one genus when they have the same signature and are
+isometric over the p-adic integers ℤ_p for every prime p, and in one class when they are isometric
+over ℤ. A genus can hold several classes: E₈ ⊕ E₈ and D₁₆⁺ lie in one genus and are not isometric.
 
-The principal results of this roadmap are:
+This roadmap develops the arithmetic of these lattices over ℤ and ℤ_p, and much of it turns on the
+discriminant form. The dual lattice L^⋆ is the set of vectors of V pairing integrally with L. For
+nondegenerate L the discriminant group L^⋆/L is finite, and for even L it carries the quadratic form
+x̄ ↦ B(x, x)/2 mod ℤ; Nikulin's values, taken modulo 2ℤ, are halved here. L is unimodular when its
+discriminant group is trivial.
 
-1. the classification of indefinite unimodular lattices of both parities;
-2. the Conway–Sloane symbols of the genus and the adelic class and spinor-genus dictionary;
-3. Nikulin's existence theory for even lattices, for `2`-elementary lattices and for primitive
-   embeddings into even unimodular lattices.
+Nikulin's existence theory comes first. Two even nondegenerate lattices lie in one genus exactly
+when they have the same signature and isometric discriminant forms. Evenness cannot be dropped: I₈
+and E₈ have the same signature and trivial discriminant groups, but I₈ is odd. Nikulin's
+Theorem 1.10.1 says that an even lattice of signature (t₊, t₋) with a given nondegenerate
+discriminant form q exists exactly when four explicit conditions hold. The first asks that t₊ − t₋
+be congruent modulo 8 to the Gauss-sum invariant of q, and the second that t₊ + t₋ be at least the
+least number of generators of the group of q. The other two compare determinants at primes where
+this bound is an equality for the p-primary part, the one at 2 lapsing in an explicit exceptional
+case. When the bound is strict, the first two suffice.
 
-**Where this roadmap stops.** Every result whose proof passes through Eichler's theorem is
-outside it. That is Nikulin's uniqueness theorem 1.13.2 with Corollaries 1.13.3–1.13.5, the
-surjectivity theorems 1.14.2 and 3.6.3, the uniqueness of primitive embeddings 1.14.4 (label 5H,
-the companion of the existence statement 5G here), and the statement of Theorem 3.6.2 that the
-invariants determine an indefinite 2-elementary lattice up to isometry. Eichler's theorem itself,
-strong approximation for `Spin`, the Smith–Minkowski–Siegel
-mass formula and the dyadic smooth model belong to `OrthogonalTamagawaAndLatticeMass` (OTM), which
-consumes this roadmap. The Eichler-dependent Nikulin theory is `IntegralLatticesPartII`, which
-consumes this roadmap and OTM §0.3; nothing here consumes OTM, so the supply runs one way:
-IntegralLattices, then OTM, then `IntegralLatticesPartII`.
+An embedding of lattices is primitive when its cokernel is torsion-free. Nikulin's Theorem 1.12.4
+decides from signatures alone when such embeddings exist. Every even nondegenerate lattice of
+signature (t₊, t₋) embeds primitively into some even unimodular lattice of signature (l₊, l₋) if and
+only if l₊ − l₋ ≡ 0 (mod 8), t₊ ≤ l₊, t₋ ≤ l₋ and 2(t₊ + t₋) ≤ l₊ + l₋.
 
-Suggested homes, which follow Mathlib's directory conventions:
+The second main theorem classifies indefinite unimodular lattices, those with t₊ and t₋ both
+positive: two of them with the same signature and parity are isometric. An even one is
+U^{min(t₊,t₋)} ⊕ E₈(±1)^{|t₊−t₋|/8}, with U the hyperbolic plane, E₈(−1) the lattice E₈ with negated
+form, and the sign that of t₊ − t₋. An odd one is ⟨1⟩^{t₊} ⊕ ⟨−1⟩^{t₋}. U and ⟨1⟩ ⊕ ⟨−1⟩ show that
+parity matters, and E₈ ⊕ E₈ and D₁₆⁺ that indefiniteness does.
 
-- `TauCeti/LinearAlgebra/IntegralLattice/` for Layers 1 and 2: finite quadratic forms,
-  reduction theory and automorphism groups;
-- `TauCeti/NumberTheory/IntegralLattice/` for Layers 3 to 7 and 9: localizations, Jordan
-  theory, the genus and its symbols, class numbers, spinor genera, Nikulin's existence theory,
-  the unimodular classification, and the local mass ingredients.
+The third is adelic. For nondegenerate L on V, the classes in its genus are in bijection with the
+double cosets O(V)(ℚ) \ O(V)(𝔸_f) / ∏_p K_p(L), with 𝔸_f the finite adeles and K_p(L) the stabilizer
+of the completion L_p in O(V_p). Proper classes correspond likewise to double cosets of SO(V). The
+genus of the binary lattice with norm form 4x² + 2xy + 6y² has two classes and three proper classes.
+
+The roadmap builds on Tau Ceti's lattice library, which implements the archived [integral-lattices
+foundation](../../Completed/IntegralLattices/README.md). From Global Quadratic Forms it takes the
+Hasse–Minkowski theorem and rational forms with prescribed admissible local invariants. Results
+whose proof passes through Eichler's theorem lie outside this roadmap. Eichler's theorem and the
+mass formula belong to `OrthogonalTamagawaAndLatticeMass`, which builds on this roadmap. Nikulin's
+uniqueness and surjectivity theorems belong to `IntegralLatticesPartII`, which builds on both. Theta
+Series takes the rank-16 pair from here and gives nothing back.
+
+Layers 0 and 2 are already in Tau Ceti. Layer 1 completes the theory of finite quadratic forms,
+Layer 3 builds the Conway–Sloane genus symbols, and Layer B treats binary lattices through quadratic
+orders. Layers 4 to 6 hold the main theorems; Layer 6 also shows that the Leech lattice is isometric
+to none of the 23 other reference lattices of rank 24. Layer 7 gathers the inputs of the mass
+formula, Layer 8 records what Theta Series takes, and Layer 9 tests a list of classes for
+completeness against the mass.
 
 ## How to read the build
 
@@ -3452,10 +3455,10 @@ of Layers 2, 6 or 7, and of Layer 4 only N0. Their uniqueness statements are
 ## Scope and ownership
 
 In scope: the arithmetic of integral lattices over `ℤ` and `ℤ_p`, as listed in the layers
-below. The Jordan theory over a discrete valuation ring and the dyadic Jordan combinatorics that
+above. The Jordan theory over a discrete valuation ring and the dyadic Jordan combinatorics that
 3B and 3I record are Tau Ceti's, at that generality; this roadmap consumes them.
 
-Many milestones of the layers below are proved in Tau Ceti at the pin, and this roadmap consumes
+Many milestones of the layers above are proved in Tau Ceti at the pin, and this roadmap consumes
 them rather than restating them: 1H, 1I, 1L, 2F, 2G, 3A, 3B, 3C, 3F, B1, B4, 4E, 4F, 4G, 6B, 6C,
 6D, 6F, 6G, 6H, 7A and 9B in full, 7G in ranks 0 and 1, and a part of each of 1G, 3D, 3I, B2, B3, B5,
 N0, N1, 4A, 5A, 5J, 7C and 7E. The rows of §*From Tau Ceti* name the declarations that supply
