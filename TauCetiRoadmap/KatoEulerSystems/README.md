@@ -1,42 +1,60 @@
 # Roadmap: Kato's Euler systems
 
-**Summary.** This roadmap takes the finite-level modular zeta classes of
-`PadicFamilies` §4.0, with their norm relations, explicit reciprocity law and
-cyclotomic Euler-system bound, and builds on them Kato's canonical rational zeta
-morphism `V(f) → H¹_Iw(V(f))`, its full-level and twist-one versions, the
-period-normalized scalar regulator and its comparison with the analytic p-adic
-L-function, and the arithmetic applications to elliptic curves: finite
-generation of `E(ℚ_∞)`, the ordinary and multiplicative cyclotomic divisibility,
-the absence of finite submodules, the rank-zero upper bound for the p-primary
-Tate–Shafarevich group, and Kato's finiteness theorems for Bloch–Kato Selmer groups of
-newforms and for Selmer and Mordell–Weil groups of modular abelian varieties over abelian
-fields. On the way it states the inputs those constructions use
-and no other roadmap states: the remaining identities of Siegel units and
-Beilinson elements, Kato's Eisenstein series, Beilinson's real regulator formula,
-the coefficient places at which Kato's image hypothesis holds, the passage from
-Kato's hypotheses to Rubin's, finite support over the full cyclotomic algebra,
-the compatibility of twisting with localization, the parabolic Iwasawa
-cohomology of the full-level curve, Perrin-Riou's map for de Rham
-representations, the period dictionary with modular symbols, and the
-formal-group and control inputs of the elliptic applications.
+**Summary.** Kato's Euler system ties the critical L-values of a modular form to the Galois
+cohomology of its p-adic representation. The symbol of two Siegel units is an element of K₂ of a
+modular curve. Its étale Chern class gives, after projection to a newform, classes over the
+cyclotomic fields ℚ(ζ_m) that satisfy norm relations. Kato's explicit reciprocity law relates
+them to critical L-values through the dual exponential at p. `PadicFamilies` builds these
+classes and the reciprocity law; this roadmap builds the rest of the theory on them.
 
-`README.md` is the roadmap. [`Suggested.lean`](Suggested.lean) is its acceptance test:
-it states the headline theorems that can be expressed against the pinned Mathlib and
-Tau Ceti APIs, with `sorry` proofs and only the simple definitions their statements need.
-The module docstring identifies the remaining headlines and the carriers they lack.
+Throughout, f is a normalized newform of weight k ≥ 2 with coefficient field F, and V(f) is its
+cohomological Galois representation over the completion E of F at a place λ above p. Many
+statements assume (f, λ) *admissible*: f has complex multiplication, or some element of the
+absolute Galois group of ℚ(μ_(p^∞)) has a one-dimensional fixed space on V(f). The roadmap
+proves this for all but finitely many λ, and for every p when f comes from an elliptic curve
+over ℚ.
 
-## How to read the build
+The first main result is Kato's canonical zeta morphism, an E-linear map
+`z : V(f) → H¹_Iw(V(f))` for admissible (f, λ), with no hypothesis on the reduction at p. Its
+target is Iwasawa cohomology, the inverse limit of integral Galois cohomology over the fields
+ℚ(ζ_(p^n)), with p inverted afterwards. Let γ lie in the F-structure of V(f) and 1 ≤ r ≤ k − 1.
+Twist z(γ) by k − r, specialize to ℚ(ζ_(p^n)) and apply the dual exponential at p. For each
+character χ of Gal(ℚ(ζ_(p^n))/ℚ), the χ-weighted sum of the periods of the Galois conjugates of
+the resulting cusp form has ± part `(2πi)^(k−r−1) L_{p}(f*, χ, r) γ^±`. Here f* has the
+conjugate coefficients of f, the Euler factor at p is removed, and ± is the sign
+`(−1)^(k−r−1) χ(−1)`.
 
-Layer 0 and Layer 1 refine the units and K₂ elements of `PadicFamilies` §4.0.1.
-Layer 2 pushes the two-index classes forward to the labelled classes at each conductor,
-places them in the Euler-system carrier and constructs the full-level classes. Layer 3 supplies the archimedean side: the filtration
-step in which reciprocity lands, Kato's Eisenstein series, periods, critical
-values and the real regulator. Layer 4 proves the image, nonvanishing and
-Iwasawa-theoretic inputs that precede the canonical map. Layer 5 constructs the
-canonical rational morphism and its twist-one and parabolic forms; Layer 6
-compares its regulator with the analytic p-adic L-function; Layer 7 applies the
-bounds and ends with Kato's finiteness theorems over abelian fields. This order separates nonvanishing of the geometric classes from
-nonvanishing of the subsequently constructed canonical map.
+The second is Kato's finiteness theorem. Let K be a finite abelian extension of ℚ, (f, λ)
+admissible over K (the same condition over K(μ_(p^∞))), and T a stable lattice in V(f)(r) with
+1 ≤ r ≤ k − 1. Kato's Selmer group Sel(K, T) ⊂ H¹(K, T ⊗ ℚ/ℤ) is defined by the Bloch–Kato
+conditions: zero at infinity, unramified away from p, crystalline above p. It is finite when
+r ≠ k/2. When r = k/2 and χ is a character of Gal(K/ℚ) with L(f, χ, k/2) ≠ 0, the χ-part of
+Sel(K, T) is finite: the subgroup killed by every element of ℤ[Gal(K/ℚ)] that χ sends to 0.
+
+Every elliptic curve E over ℚ is modular by `EllipticCurveModularity`. For every m ≥ 1, the
+points of E over the union of the fields ℚ(ζ_(m^n)) form a finitely generated group. If the
+twisted series `Σ a_n χ(n) n^(−s)` of E, for a Dirichlet character χ modulo m, continues to an
+entire function nonzero at s = 1, then the χ-part of E(ℚ(ζ_m)) is finite. At m = 1 this is the
+finiteness of E(ℚ) when L(E, 1) ≠ 0.
+
+The third, a divisibility in Iwasawa theory, concerns E without complex multiplication and an
+odd prime p of good ordinary or nonsplit multiplicative reduction. The Pontryagin dual of the
+Selmer group of E over the cyclotomic ℤ_p-extension of ℚ is torsion over the Iwasawa algebra.
+Its characteristic ideal divides p^t times the p-adic L-function of Mazur and Swinnerton-Dyer,
+with the Euler factors at the other bad primes removed, for some integer t. Under a surjectivity
+and an integrality condition at p, it divides the p-adic L-function itself. The reverse
+divisibility is not proved. A companion bound makes Ш(E/ℚ) finite when L(E, 1) ≠ 0.
+
+`EulerSystemsAndKolyvaginSystems` provides the general Euler-system bounds.
+`ModularIwasawaMainConjectures` uses the canonical morphisms and bounds, and
+`RankZeroOneBSDPartII` can use the elliptic results.
+
+Layers 0 and 1 refine the Siegel units and Beilinson elements of `PadicFamilies`, and Layer 2
+assembles the Euler system of a newform. Layer 3 treats the archimedean side, from Kato's
+Eisenstein series to Beilinson's real regulator formula. Layer 4 proves inputs to the canonical
+map, such as admissibility and the nonvanishing of twisted critical values. Layers 5 and 6
+construct the map and compare its p-adic regulator with the analytic p-adic L-function. Layer 7
+proves the bounds and finiteness theorems.
 
 ## Conventions
 
@@ -2870,7 +2888,7 @@ completed modular function field whose residue field has a finite p-basis
 (§4.0.2), and the rational cyclotomic bound for the geometric zeta submodule,
 its integral form under the `SL₂(ℤ_p)` image condition, the CM case through
 elliptic units, and the ordinary Selmer bound by the ordinary p-adic L-function
-with good periods (§4.0.3). The statements kept below differ from those of §4.0
+with good periods (§4.0.3). The statements kept above differ from those of §4.0
 in one of three ways, which each target names: they concern the canonical zeta
 module of Layer 5 rather than the geometric one, they use a weaker integral
 hypothesis than the `SL₂(ℤ_p)` image, or they are finer statements (symbol-level
@@ -2974,7 +2992,7 @@ normalization only; they say nothing about the open modular curve.
   `gcd(c,6pM) = gcd(d,6pN) = 1`, its products, finite-étale transfers,
   projection formula and transfer transitivity, and its étale Chern image (the
   ordered Kummer cup product); the modular zeta class with parameters c, d, M, N, k, r, r′,
-  written `c,d-z^(p)_(M,N)(k,r,r′)` below, in the degree-one arithmetic cohomology of the
+  written `c,d-z^(p)_(M,N)(k,r,r′)` above, in the degree-one arithmetic cohomology of the
   weight-`(k−2)` local system on `Y(M,N)` twisted by `k − r`, with its moment
   compatibility, its conductor norm relation (factor
   `1 − ℓ^(−r)A_ℓ + ℓ^(k−1−2r)B_ℓ` for `ℓ ∤ N`, `1 − ℓ^(−r)A_ℓ` for `ℓ | N`,
@@ -3040,7 +3058,7 @@ Mathlib's `eisensteinSeries`. Layer 7: the newform L-function with its Euler
 product, meromorphic extension and functional equation. Layer 9 (the inner-twist
 sublayer): the twist `f ⊗ χ` by a Dirichlet character with its modularity, level,
 nebentypus and primitive associate; through it the twisted values `L_S(f,χ,s)` used
-below are L-values of a newform with finitely many Euler factors removed, so Layer 7
+above are L-values of a newform with finitely many Euler factors removed, so Layer 7
 gives their continuation. Kato's
 `E^h_(α,β)`, `F^h_(α,β)` and the operator-valued zeta function are not there and
 are targets 3.2 and 3.4 here.
