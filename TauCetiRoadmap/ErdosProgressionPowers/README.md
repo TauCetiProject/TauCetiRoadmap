@@ -1088,7 +1088,7 @@ Prove the main theorem: an effectively computable absolute k0 exists such that e
 
 ### 6.1 Rational points on curves of genus at least two
 
-Consume HeightsRationalPointsAndObstructions §§5.12 and 6.4's `mordell_finite`
+Consume HeightsRationalPointsAndObstructions §6.4's `mordell_finite`
 for a smooth proper geometrically connected one-dimensional scheme C over a
 number field K, with `2 <= C.genus K` and the finite-dimensional
 H¹(C, 𝒪_C) instance. Use rational points as morphisms over Spec K throughout.
@@ -1096,7 +1096,7 @@ AlgebraicCurves Layer 12E transfers the diagonal curve's function-field genus
 to this invariant. No effective height bound is asserted.
 (Faltings1983, §6, Satz 7, p. 365; DG95, Corollary 2.1, pp. 520–521.)
 
-*Needs:* HeightsRationalPointsAndObstructions §§5.12 and 6.4; AlgebraicCurves Layer 12E’s genus comparison for the adapter.
+*Needs:* HeightsRationalPointsAndObstructions §6.4; AlgebraicCurves Layer 12E’s genus comparison for the adapter.
 
 ### 6.2 Effective prime-exponent bound
 
@@ -1122,7 +1122,7 @@ Prove `positive_fixed_exponent_finiteness`: for k≥3, ell≥2 and k+ell≥6, th
 
 Choose finite small-prime ell-powerfree coefficient classes, including signs. Eliminate n,d to get a diagonal complete intersection in P^(k-1); its projection to the ternary curve has degree ell^(k-3) and the displayed Riemann-Hurwitz computation gives2g-2=k*ell^(k-1)*(1-2/k-1/ell)>0. Prove smoothness, geometric connectedness and ramification of this diagonal intersection; apply the supplied genus comparison and §6.1's shared Mordell theorem. Each rational projective point has only finitely many primitive integral lifts, then only finitely many y. Repeat over finitely many sign patterns. The source version is the author-hosted scan listed in the references. With the source indexing t_i=a+i*d for1≤i≤k, use lambda_j*z_j^ell=(j-1)*lambda_2*z_2^ell-(j-2)*lambda_1*z_1^ell for3≤j≤k. The printed (2.2) coefficients j and j-1 shift the term by d; this local misprint does not change the distinct-branch or genus argument.
 
-*Needs:* Layer 0 — gcd of progression terms; §6.1; HeightsRationalPointsAndObstructions §§5.12 and 6.4; AlgebraicCurves Layers 7 and 12E.
+*Needs:* Layer 0 — gcd of progression terms; §6.1; HeightsRationalPointsAndObstructions §6.4; AlgebraicCurves Layers 7 and 12E.
 
 ([DG95], §2.1, Corollary 2.1 and its full proof, pp.520–521; [BS20], §1, p.357, discussion of Darmon–Granville Corollary 2.1.)
 
@@ -1174,7 +1174,7 @@ At k=5,ell=2 the diagonal genus equation gives 2g−2=8, hence genus 5. At k=4,e
 
 ### Dependencies
 
-Layer 5 for the exponent bound; Layer 0, AlgebraicCurves Layers 7 and 12E, and HeightsRationalPointsAndObstructions §§5.12 and 6.4 for signed diagonal-curve finiteness.
+Layer 5 for the exponent bound; Layer 0, AlgebraicCurves Layers 7 and 12E, and HeightsRationalPointsAndObstructions §6.4 for signed diagonal-curve finiteness.
 
 ## Layer 7: Conjectural and announced predicates
 
@@ -1553,7 +1553,7 @@ below records the sections consumed, and the progression applications remain her
 ExplicitZetaBounds §§0.2–0.4 own the bounded-height Riemann hypotheses RH(H)
 and GRH(q, H), Platt's finite-conductor theorem in that form and the recorded
 verifications for the Riemann zeta function.
-HeightsRationalPointsAndObstructions §§5.12 and 6.4 own the shared native Mordell
+HeightsRationalPointsAndObstructions §6.4 owns the shared native Mordell
 finiteness theorem; WeightsInEtaleCohomology R34.5–R34.6 own eigenform purity and
 the bound at every complex embedding. Section 7.1 owns the consecutive-product
 arithmetic and counting argument, reusing §4.3 for factorial deletion.
@@ -1840,13 +1840,12 @@ does not. No separate eigenform-purity adapter is constructed here.
 
 ### From TauCetiRoadmap.HeightsRationalPointsAndObstructions
 
-Consume §§5.12 and 6.4's `mordell_finite` on its native signature: K is a
+Consume §6.4's `mordell_finite` on its native signature: K is a
 number field and C is a smooth proper geometrically connected one-dimensional
 scheme over Spec K with genus at least two, using `C.genus K` and its
 finite-dimensional H¹(C, 𝒪_C) instance. Rational points are morphisms over
 Spec K. AlgebraicCurves Layer 12E identifies this genus with the function-field
-genus computed for the diagonal curve. MordellLawrenceVenkatesh §11.6 supplies
-an alternative proof of that same declaration. No effective height bound or
+genus computed for the diagonal curve. No effective height bound or
 point enumeration is part of the contract.
 (Faltings1983, §6, Satz 7, p. 365.)
 
