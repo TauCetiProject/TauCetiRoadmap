@@ -10,8 +10,10 @@ geometric base cases. Finally, a realisation theorem for weight-two representati
 geometric results back to residual representations and supplies a precise table of terminal weights.
 
 The endpoint is a collection of independent base cases, rather than the full induction proving
-Serre's conjecture. The consumer is `SerreModularityByCompatibleSystems:S4`. In
-particular, the argument below never assumes the level-one modularity theorem it will help prove.
+Serre's conjecture. In particular, the argument below never assumes the level-one modularity
+theorem it will help prove. The base cases are used by Layers S3 and S4 of
+SerreModularityByCompatibleSystems; the discriminant bounds, the lifting and compatible-system
+inputs and the `GL₂`-type data have further users, listed under Downstream consumers below.
 Layer 5 specifies the minimal lifting, compatible-family, ordinary and potential-modularity
 statements needed by the terminal arguments, together with the shared raw compatible-system data
 and their representation operations. Finite flat group schemes, local reciprocity,
@@ -2553,7 +2555,12 @@ with its own de Rham and residual hypotheses. Its modularity then propagates wit
 family by their common Frobenius polynomials. If the weight is six, the minimal weight-two Steinberg lift would realise a positive-dimensional semistable
 abelian variety good away from five, contradicting Schoof.
 
-The target states these two branches with the original member’s hypotheses above. Its inputs are
+The target states these two branches with the original member’s hypotheses above. By §5.11 these
+hypotheses are never met: the residual representation of the original 5-adic member is odd,
+absolutely irreducible and unramified outside five, hence of level one in characteristic five, and
+`not_isLevelOneResidual_of_mem_two_three_five_seven` excludes it; that corollary rests on §§5.7–5.9
+and not on this section. The target keeps the conditional form of Dieulefait–Pacetti's Paso 6, in
+which SerreModularityByCompatibleSystems S4 uses it. Its inputs are
 §5.0d, the modularity transfer at five, Tate–Serre, the ordinary terminal theorem,
 the `p+1` exclusion at five and the dihedral classification, which makes (A1) automatic at five. The level-one hypothesis is used to eliminate the bad-dihedral branch; it is not
 a replacement for this check in systems with nonempty ramification set. Dieulefait–Pacetti, §2, Paso
@@ -2599,10 +2606,10 @@ index or declaration name carries no mathematical proof.
 | Fontaine | Abelian variety over `ℚ`, good reduction at every prime: dimension zero | `dim_eq_zero_of_goodReduction_everywhere` at `K = ℚ` | Verify good reduction at p as well as away from p |
 | Schoof | Abelian variety over `ℚ`, semistable at `ℓ` and good away from `ℓ ∈ {2,3,5,7,13}`: dimension zero | §4.9 | S4 at `ℓ = 5`; check semistability and the exact prime set |
 | Weight two | Level-one absolutely irreducible residual representation of weight two, any p: impossible | §5.8 | Check actual Serre weight, minimal crystallinity and (A1) |
-| Selected `p+1` | Level-one residual representation, p in `{5,7,13}`, weight `p+1`: impossible | §5.9 | Check the Steinberg weight-two lift and reduction type |
+| Selected `p+1` | Level-one residual representation, p in `{5,7,13}`, weight `p+1`: impossible | §5.9 | S4 at `p = 5`; check the Steinberg weight-two lift and reduction type |
 | Ordinary terminal members | Irreducible odd crystalline p-adic member of weight k, unramified outside p, with reducible reduction, at (3,2), (3,4), (5,6), (7,8), (13,14): impossible | §5.7 | S4; check ordinarity, p-distinguishedness and level-one local–global compatibility |
 | Small weights | Level-one residual representation with actual weight between two and eight, or weight fourteen with `p ≠ 11`: impossible | §5.11 | Retain the actual-weight convention and the exception at eleven |
-| Paso 6 | Almost strictly compatible system with empty ramification set; original 5-adic member continuous, odd, finitely ramified, de Rham of weights `{0,w−1}`, `w ≥ 2`, with stable lattice and residual (A1): residual weights two and four give modularity of the original system; weight six is impossible | §5.12 | S4; check the original member’s lifting hypotheses, minimal lift, compatibility and the modularity transfer at five |
+| Paso 6 | Almost strictly compatible system with empty ramification set; original 5-adic member continuous, odd, finitely ramified, de Rham of weights `{0,w−1}`, `w ≥ 2`, with stable lattice and residual (A1): residual weights two and four give modularity of the original system; weight six is impossible; by §5.11 no such system exists | §5.12 | S4; check the original member’s lifting hypotheses, minimal lift, compatibility and the modularity transfer at five |
 
 **Checks.**
 
@@ -2645,8 +2652,14 @@ Layers 2–5. SerreModularityByCompatibleSystems consumes the table; it is not a
 
 ## Downstream consumers
 
-SerreModularityByCompatibleSystems S4 uses the characteristic-three residual base case, Schoof's theorem and the
-terminal compatible-system arguments. The table records the actual weight, coefficient, ramification
+SerreModularityByCompatibleSystems uses the base cases. Its Layer S3 uses the level-one dihedral
+exception of §5.6. Its Layer S4 uses Layers 2 and 4 and §§5.3–5.4, 5.6–5.7, 5.9 and 5.12: the
+characteristic-three residual base case, Schoof's theorem, Snowden's realisation, the `p+1`
+exclusion at five and the terminal compatible-system arguments.
+SmallRamificationAndAbelianVarietyBaseCasesPartII uses the normalised local differents of §1.1,
+Poitou's lower bound of §1.7 and the degree table of §1.9. AutomorphicGaloisRepresentationsPartII
+uses the raw compatible-system data of §5.0d, and ClassicalSerreModularity uses §§5.0b–5.0e and
+5.1–5.4. The table records the actual weight, coefficient, ramification
 and image hypotheses needed at each transition. Its exceptional characteristic-eleven rows are not
 exclusions.
 
