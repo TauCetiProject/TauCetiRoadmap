@@ -113,7 +113,9 @@ Left to other roadmaps:
   finite-dimensional eigenspaces at every nonzero eigenvalue.
 - **The circle.** `fourierBasis`, `orthonormal_fourier` and `span_fourier_closure_eq_top`
   (`Analysis/Fourier/AddCircle.lean`).
-- **`SU(2)`.** `Matrix.specialUnitaryGroup` (`LinearAlgebra/UnitaryGroup.lean`).
+- **`SU(2)`.** `Matrix.specialUnitaryGroup` (`LinearAlgebra/UnitaryGroup.lean`); Weierstrass
+  approximation on an interval, `polynomialFunctions_closure_eq_top`
+  (`Topology/ContinuousMap/Weierstrass.lean`), for the character route of §E.2.
 
 ### From Tau Ceti
 
@@ -130,7 +132,7 @@ Paths are under `TauCeti/RepresentationTheory/` unless stated otherwise.
 | §2.4 | `ContRepresentation.intertwiningMapEquiv`, `ContRepresentation.nonempty_equiv_iff` (`Continuous/Intertwining.lean`); `FDRep.ofShrink`, `FDRep.ofShrinkEquiv`, `FDRep.character_ofShrink` (`FDRep/Basic.lean`) |
 | §3.1 | `ContRepresentation.matrixCoeff` (`Continuous/MatrixCoefficient.lean`), `ContRepresentation.matrixCoeffLp` (`Compact/MatrixCoefficient.lean`), `ContRepresentation.matrixCoeff_tprod` (`Continuous/TensorProduct.lean`) |
 | §3.2 | `TauCeti.representativeSubmodule`, `TauCeti.representativeStarSubalgebra` (`Continuous/Representative.lean`) |
-| §4.1-4.3 | `ContRepresentation.schur_orthogonality_self`, `ContRepresentation.schur_orthogonality_basis`, `ContRepresentation.schur_orthogonality` (`Compact/SchurOrthogonality.lean`) |
+| §4.1-4.3 | `ContRepresentation.schur_orthogonality_self`, `ContRepresentation.schur_orthogonality_basis`, `ContRepresentation.schur_orthogonality` (`Compact/SchurOrthogonality.lean`), `ContRepresentation.schur_orthogonality_distinct` (`Compact/Intertwiner/Basic.lean`) |
 | §5.1 | `TauCeti.convolutionOperator`, `TauCeti.isCompactOperator_convolutionOperator`, `TauCeti.isSelfAdjoint_convolutionOperator`, `TauCeti.finiteDimensional_eigenspace_convolutionOperator` (`Compact/Convolution.lean`); `TauCeti.convolutionEigenspaceRepresentation` (`Compact/EigenspaceRepresentation.lean`); `TauCeti.exists_isMollifier` (`Compact/ApproximateIdentity.lean`) |
 | §5.2 | `TauCeti.representativeStarSubalgebra_dense`, `TauCeti.representativeStarSubalgebra_separatesPoints`, `TauCeti.dense_image_toLp_representativeSubmodule` (`Compact/RepresentativeDensity.lean`) |
 | §5.3-5.4 | `TauCeti.IrrepModel`, `TauCeti.IsIrrepSkeleton`, `TauCeti.IrrepClass.model`, `TauCeti.peterWeylBasis`, `TauCeti.coe_peterWeylBasis`, `TauCeti.stdPeterWeylBasis`, `TauCeti.coe_stdPeterWeylBasis` (`Compact/PeterWeyl.lean`) |
@@ -214,9 +216,10 @@ Ch. 1). *Needs:* Mathlib `MeasureTheory.Measure.haar`,
 
 For a continuous `F : G → E` into a complete normed space, the average `∫ g, F g ∂μ_G` is
 invariant under `F ↦ F(g₀ · _)`, `F ↦ F(_ · g₀)` and `F ↦ F(_⁻¹)`, and the average of a constant
-is that constant. These are Mathlib's `integral_mul_left_eq_self`, `integral_mul_right_eq_self`
-and `integral_inv_eq_self` applied to `μ_G`; integrability holds because a continuous function on a
-compact space of finite measure is integrable. *Needs:* §0.1; Mathlib's integral identities.
+is that constant. These are Mathlib's `MeasureTheory.integral_mul_left_eq_self`,
+`MeasureTheory.integral_mul_right_eq_self` and `MeasureTheory.integral_inv_eq_self` applied to
+`μ_G`; integrability holds because a continuous function on a compact space of finite measure is
+integrable. *Needs:* §0.1; Mathlib's integral identities.
 
 **Checks.**
 - On the circle, the average of `z ↦ zⁿ` is `1` for `n = 0` and `0` otherwise: invariance under
@@ -458,7 +461,11 @@ For irreducible `π` on a finite-dimensional space and irreducible `ρ` on a com
 `ρ` unitary and no equivalence between them, every matrix coefficient of `π` is `L²`-orthogonal to
 every matrix coefficient of `ρ` (`ContRepresentation.schur_orthogonality`; Knapp, Cor. 4.10(a),
 p. 241, for finite-dimensional `ρ`), by averaging into an intertwiner and §2.3. Algebraic closure
-is not needed. *Needs:* §0.2, §2.3, §3.1.
+is not needed. More generally, for continuous `π` on any inner product space and unitary continuous
+`ρ` on a complete space such that every continuous intertwiner `π → ρ` vanishes, every coefficient
+of `π` is `L²`-orthogonal to every coefficient of `ρ`
+(`ContRepresentation.schur_orthogonality_distinct`); for inequivalent irreducibles §2.3 supplies
+that hypothesis. *Needs:* §0.2, §2.3, §3.1.
 
 **Checks.**
 - For `ZMod 2`, the trivial and sign characters give `⟪1, sgn⟫ = (1 − 1)/2 = 0`.
@@ -525,12 +532,13 @@ continuous kernel gives a Hilbert-Schmidt operator, which is compact by Operator
 ### 5.2 Density of representative functions
 
 Prove that the representative `*`-subalgebra is uniformly dense in `C(G, ℂ)`
-(`TauCeti.representativeStarSubalgebra_dense`; Bump, Ch. 4; Bröcker-tom Dieck, Ch. III): convolve
-`f` with a mollifier, and write the convolution, through the spectral decomposition of the compact
-self-adjoint operator of §5.1, as a uniform limit of representative functions. Hausdorffness is
-not used. Deduce that `𝓡(G)` is dense in `L²(G)` (`TauCeti.dense_image_toLp_representativeSubmodule`,
+(`TauCeti.representativeStarSubalgebra_dense`; Kowalski, Cor. 5.4.8(2), p. 236, for a Hausdorff
+group; Bump, Ch. 4; Bröcker-tom Dieck, Ch. III): convolve `f` with a mollifier, and write the
+convolution, through the spectral decomposition of the compact self-adjoint operator of §5.1, as a
+uniform limit of representative functions. Hausdorffness is not used. Deduce that `𝓡(G)` is dense in `L²(G)` (`TauCeti.dense_image_toLp_representativeSubmodule`,
 with `ContinuousMap.toLp_denseRange`; Knapp, Thm 4.20, p. 245) and, for `[T1Space G]`, that it
-separates points (`TauCeti.representativeStarSubalgebra_separatesPoints`). *Needs:* §5.1.
+separates points (`TauCeti.representativeStarSubalgebra_separatesPoints`; Kowalski, Cor. 5.4.8(1),
+p. 235, for a Hausdorff group, which for a topological group is the same as `T1`). *Needs:* §5.1.
 
 **Checks.**
 - For the circle this is the density of trigonometric polynomials, Mathlib's
@@ -644,8 +652,9 @@ whose inner product is linear in its first slot). *Needs:* §3.1.
 Prove `⟪χ_π, χ_π⟫ = 1` for a unitary irreducible `π`
 (`ContRepresentation.character_orthonormal_self`) and `⟪χ_π, χ_ρ⟫ = 0` for unitary `π` when every
 continuous intertwiner `ρ → π` vanishes (`ContRepresentation.character_orthonormal_distinct`)
-(Knapp, Cor. 4.16, p. 243), by summing §4.1 and §4.2 over the diagonal. For a finite group this is
-Mathlib's `Representation.char_orthonormal`. *Needs:* §4.1-4.2, §6.1.
+(Knapp, Cor. 4.16, p. 243, for inequivalent irreducibles; Kowalski, Thm 5.5.1(3), (5.23), p. 238,
+for unitary `π` and `ρ`), by summing §4.1 and the general form of §4.2 over the diagonal. For a
+finite group this is Mathlib's `Representation.char_orthonormal`. *Needs:* §4.1-4.2, §6.1.
 
 **Checks.**
 - For the two-dimensional representation of `Equiv.Perm (Fin 3)`,
@@ -758,7 +767,9 @@ Thm 1.66, p. 62, through the passage from `SU(2)` to `sl(2, ℂ)` on p. 314).
 Peter-Weyl alone does not identify the irreducibles. Exhaustion has two routes: by highest
 weights, or by characters (the characters of the `Symᵈ(ℂ²)` span a uniformly dense subspace of
 the continuous class functions, so a further irreducible would have a character orthogonal to
-every class function, against §6.2). *Needs:* §2.3, §6.1-6.2, §E.1.
+every class function, against §6.2). *Needs:* §2.3, §6.1-6.2, §E.1; for the character route also
+the character on the torus of §E.3 and Mathlib's Weierstrass theorem
+`polynomialFunctions_closure_eq_top`.
 
 - `symPowerModel n` is irreducible (`TauCeti.SU2.isIrreducible_symPowerModel`; Knapp,
   Problem IV.1, pp. 269-270).
@@ -777,7 +788,7 @@ Prove that the character of `Symⁿ(ℂ²)` at `torusExp θ` is `Σ_{k=0}^{n} e^
 (`TauCeti.SU2.character_symPower_torusExp_eq_sin_div_sin`, the Weyl character formula; Knapp,
 pp. 314-315 and Thm 5.113, p. 338) and to `(n+1) cosⁿ θ` when `sin θ = 0`, that is `n + 1` at
 `θ = 0` and `(−1)ⁿ (n+1)` at `θ = π` (`TauCeti.SU2.character_symPower_torusExp_of_sin_eq_zero`).
-*Needs:* §E.1-E.2, §6.1.
+*Needs:* §E.1, the representation on `Symⁿ(ℂ²)` defined in §E.2 (not the classification), §6.1.
 
 **Checks.**
 - For `n = 1` at `θ = π/3`: `sin(2π/3)/sin(π/3) = 1 = 2 cos(π/3)`.
@@ -810,8 +821,8 @@ The orthonormality of the `SU(2)` characters computed on the torus, and the dens
 
 ### Dependencies
 
-Layers 0, 2 and 6; Mathlib `Matrix.specialUnitaryGroup`; Tau Ceti `TauCeti/RepresentationTheory/SU2/`
-and `TauCeti/Topology/Algebra/UnitaryGroup.lean`.
+Layers 0, 2 and 6; Mathlib `Matrix.specialUnitaryGroup` and `polynomialFunctions_closure_eq_top`;
+Tau Ceti `TauCeti/RepresentationTheory/SU2/` and `TauCeti/Topology/Algebra/UnitaryGroup.lean`.
 
 ---
 
@@ -867,10 +878,12 @@ case); [CharacteristicClasses](../../CharacteristicClasses/README.md) and
   isotypic projections of unitary representations (Cor. 9.6, p. 560, with the regular
   representations on pp. 561-562).
 - E. Kowalski, *Representation theory*, lecture notes, ETH Zürich (version of February 17, 2017,
-  from the author's page): unitarizability on a Hilbert space (Thm 5.2.11, p. 221), characters
-  as a Hilbert basis of the class functions (Thm 5.5.1, p. 237), the blocks of `L²(G)` as
-  representations of `G × G` (proof of Lemma 5.5.2, p. 238), the irreducible representations of
-  `SU(2)` (Thm 5.6.3, p. 243) and the Frobenius-Schur indicator (Thm 6.2.3, p. 253).
+  from the author's page): unitarizability on a Hilbert space (Thm 5.2.11, p. 221), the
+  Peter-Weyl separation and density criteria (Cor. 5.4.8, pp. 235-236), characters as a Hilbert
+  basis of the class functions and the inner product of two characters (Thm 5.5.1, (5.23),
+  pp. 237-238), the blocks of `L²(G)` as representations of `G × G` (proof of Lemma 5.5.2,
+  p. 238), the irreducible representations of `SU(2)` (Thm 5.6.3, p. 243) and the
+  Frobenius-Schur indicator (Thm 6.2.3, p. 253).
 - D. Bump, *Lie Groups*, 2nd ed., Springer GTM 225 (2013): Haar measure (Ch. 1), Schur
   orthogonality (Ch. 2), compact operators (Ch. 3), the Peter-Weyl theorem (Ch. 4), tori and
   maximal tori (Chs. 15-16) and the Weyl integration formula (Ch. 17).
