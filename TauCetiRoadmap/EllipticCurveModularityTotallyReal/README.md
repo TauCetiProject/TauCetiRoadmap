@@ -28,97 +28,18 @@ contained in K, and `π_E` is the cuspidal quadratic automorphic induction from 
 [LeHung26](#references), Theorem 1.1, p.2 (LeHung26 line 86), with the geometric inputs proved
 by the imported layers rather than assumed.
 
-## Scope and ownership
+## How to read the build
 
-**Owned here.** Layer 1: the real cyclotomic subfield over an arbitrary base and its quadratic
-character, the reflection twist of the covers, the descended character systems with their
-determinant, Hodge, compatibility and oddness properties, their integral lattices and
-congruence chain, and the two elliptic endpoints. Layer 2: the change of coefficient prime for
-rank-two systems over totally real fields, the application of the totally real weight-two
-lifting theorem to rank-two summands of abelian varieties
-([LeHung26](#references), Proposition 3.1), the 3–5 switch curve over a number field, and the
-mod-three and mod-five elliptic seeds over a totally real field ([FLHS15](#references),
-Corollary 5.1 and Theorem 3). Layer 3: one specialization satisfying every residual condition
-over L, the auxiliary seed over L and the three lifts. Layer 4: descent to the original curve,
-the all-place comparison over a totally real base, the CM branch over a totally real base and the
-endpoint.
-
-**Imported from EllipticCurveModularityImaginaryQuadratic.** Layers 1–4 (the parameter open
-`switchParameterOpen`, the covers `cyclicCover m` with rotations and reflection, both
-degenerations, the integral regular-module marking `integral_regular_module_etale`, the
-character systems `characterSystem θ` with `character_system_properties`, the quotient
-realizations `character_order_quotient`, `trivial_character_twist`, `auxiliaryEllipticCurve`
-and `cubic_character_elliptic`, the lattices `characterLattice θ` and
-`prime_switch_congruences`); §5.1 `nonCM_elliptic_large_residual_primes`; §7.1
-`character_geometric_irreducibility`; §7.4 `simultaneous_specialization`, which is stated
-there for an arbitrary number field; §0.2 `fixed_pairing_twist` and
-`fixed_pairing_twist_rational`, the fixed-pairing twisted modular curves at three and five over
-an arbitrary number field. Its CM lifting theorems (§§0.1, 5.2–5.3), its local prescription
-(Layer 6) and its CM descent and endpoint (Layer 8) are not used. The totally real lifting
-theorem needs no matching of local types at the lifting prime ([LeHung26](#references), §3.1,
-LeHung26 line 234), so no local parameter open is imposed here.
-
-**Kept variants.** Section 2.1 is the change-of-prime argument of
-EllipticCurveModularityImaginaryQuadratic §8.1 `character_automorphy_change_prime`, stated here
-for systems over a totally real field and the Hilbert attachment rather than for `V_θ` over a CM
-field. Section 4.2 replaces that roadmap's CM-field comparison (§0.3
-`modular_elliptic_all_coefficients`, §8.5) by the totally real Hilbert local–global
-compatibility, which holds at every finite place without a separate monodromy argument.
-Section 4.3 is the totally real counterpart of its §8.6 `cm_elliptic_realization`: over a totally
-real base the CM field is never contained in the base, so only the cuspidal induced branch occurs.
-It also extends ComplexMultiplicationAndExplicitReciprocity §4.2, "CM induction and
-compatible-system comparison", from rational CM curves to CM curves over a totally real field,
-whose endomorphisms are defined only over the quadratic extension `KT`.
-
-**Supplied elsewhere.** The Hilbert attachment, its determinant, oddness and irreducibility and
-its local–global compatibility at every finite place are AutomorphicGaloisRepresentations
-§§3.10–3.14, 4.4 and 4.7. Soluble base change and descent over totally real fields, with all-place
-local compatibility, are PotentialAutomorphyInfrastructure §2.3. Quadratic automorphic
-induction, local Langlands, conductors, newvectors and strong multiplicity one are
-GL2AutomorphicRepresentationsAndTransfer R16.2–R16.4 and R17.4.16. Hilbert irreducibility with
-local conditions is InverseGaloisAndArithmeticFundamentalGroups IG.2. The compatible-system
-carrier is SmallRamificationAndAbelianVarietyBaseCases §5.0d with the predicates of
-AutomorphicGaloisRepresentationsPartII AG2.P and PotentialModularityAndCompatibleSystems §1.6.
-The general weight-two lifting theorem over totally real fields belongs to GL2ModularityLifting.
-Residual modularity of solvable totally odd representations belongs to
-GL2AutomorphicRepresentationsAndTransfer R17.5. The algebraic Hecke character of a CM abelian
-variety whose endomorphisms are defined over the base, and the splitting of its Tate module into
-the realizations of that character, are ComplexMultiplicationAndExplicitReciprocity §4.1. The
-Galois-equivariant, Weil-pairing-preserving isomorphisms of finite torsion used in §2.3 are the
-notion `SymplecticTorsionEquiv` of EllipticCurveModularityImaginaryQuadratic §0.2. The field of
-definition of the geometric endomorphisms of a CM elliptic curve over a field of characteristic
-zero, through their action on the invariant differential, belongs to
-ComplexMultiplicationAndExplicitReciprocity Layer 1; it is not stated here.
-EllipticCurveModularityImaginaryQuadratic §8.6 uses the same statement over imaginary quadratic
-fields, and the criterion over a number field K that all endomorphisms are K-rational exactly
-when the CM field lies in K is its specialization. The three sections these roadmaps must add are
-specified under [Exact supplier contracts](#exact-supplier-contracts).
-
-**Outside this roadmap.** CM base fields (EllipticCurveModularityImaginaryQuadratic and its
-Part II), number fields that are neither totally real nor CM, abelian varieties of higher
-dimension and computational questions. The rational case K = ℚ is a Check of the general
-statement, not a new proof of EllipticCurveModularity's endpoint.
-
-**The Lean file.** [`Suggested.lean`](Suggested.lean) accompanies this document; the roadmap is
-this README. The file states, against the pinned Mathlib and Tau Ceti, the headline theorems whose
-objects exist there, and its module docstring names the others with the carrier each lacks.
-Mathlib has totally real and CM fields, maximal real subfields, cyclotomic extensions, Weierstrass
-curves with `WeierstrassCurve.IsElliptic` and the j-invariant `WeierstrassCurve.j`; Tau Ceti has
-the elliptic Tate representation, its cyclotomic determinant, quadratic twists, the Galois action
-`WeierstrassCurve.torsionGaloisAction` on geometric N-torsion, the Weil pairing
-`TauCeti.Isogeny.weilPairing` with its Galois equivariance
-`WeierstrassCurve.weilPairing_torsionGaloisAction`, and two-element bases of N-torsion over
-`ZMod N` (`WeierstrassCurve.nonempty_basis_torsionBy`). Two headline results are statable on these
-carriers and are stated there: the totally real case of the field statement of §1.1,
-`realCyclotomic_isCMField`, and the 3–5 switch of §2.3, `three_five_switch`, which quantifies over
-elliptic Weierstrass curves over a number field, additive isomorphisms of geometric five-torsion
-commuting with the Galois actions and preserving the Weil pairing, and the matrices of the Galois
-action on three-torsion in every basis, and concludes that a set of j-invariants is infinite.
-Neither library has cuspidal automorphic representations of `GL₂` over a number field or the
-Hilbert attachment, so the modularity statements (§§2.1, 2.2, 2.4 and 2.5 and Layers 3–4) are
-stated here on the supplier carriers named below; the statements of §§1.2–1.6 also need the
-imported covers, their étale cohomology and the raw compatible-system carrier, which the pins
-lack.
+Layer 1 works over an arbitrary number field k and a parameter `t ∈ U(k)`. It constructs the real
+cyclotomic subfield L, the reflection twist of the imported covers over L, the descended
+character systems `W_θ`, their integral lattices and congruences, and their two elliptic
+endpoints. Layer 2 proves the totally real tools: change of coefficient prime, the weight-two
+lifting theorem for rank-two summands of abelian varieties, and the elliptic seeds at three and
+five. Layer 3 fixes a non-CM curve over a totally real K, chooses one auxiliary prime p and one
+parameter t satisfying every residual condition over L, makes the cubic piece modular through
+the seed, and lifts three times. Layer 4 descends to K, removes the twists, compares all local
+factors, adds the CM branch and states the endpoint. Each target lists in its *Needs:* line what
+its statement and its route use.
 
 ## Conventions
 
@@ -199,298 +120,6 @@ lack.
   action sends ω to `ζ₃ω`. The rule `(a_g⁻¹)^* ∘ ρ(g)` gives `ζ₃ω`; the uninverted `a_g^* ∘ ρ(g)`
   would give `ζ₃⁻¹ω`. The same pullback rules govern the semilinear action on `H⁰(X_{ℚ̄}, Ω¹)` and
   the action on `H¹(X)`, where `a_g^*` has order three and so differs from its inverse.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-At `1b1ccf4b088b32fa3f23f2de1127433254a81e1e`:
-`NumberField.IsTotallyReal` and `NumberField.IsTotallyComplex`
-(`Mathlib/NumberTheory/NumberField/InfinitePlace/TotallyRealComplex.lean`: every infinite place
-real, respectively complex); `NumberField.maximalRealSubfield`, the subfield of elements fixed by
-complex conjugation under every complex embedding, with the instance
-`NumberField.isTotallyReal_maximalRealSubfield` and the maximality statement
-`NumberField.IsTotallyReal.le_maximalRealSubfield` (same file);
-`NumberField.IsCMField`, `NumberField.IsCMField.ofCMExtension` and
-`NumberField.CMExtension.eq_maximalRealSubfield`, which identifies a totally real subfield E with
-K/E quadratic and K totally complex as the maximal real subfield
-(`Mathlib/NumberTheory/NumberField/CMField.lean`); `IsCyclotomicExtension`
-(`Mathlib/NumberTheory/Cyclotomic/Basic.lean`) and `IsCyclotomicExtension.Rat.isCMField`
-(nontrivial cyclotomic extensions of ℚ are CM); `IsPrimitiveRoot`
-(`Mathlib/RingTheory/RootsOfUnity/PrimitiveRoots.lean`) and `IntermediateField.adjoin`
-(`Mathlib/FieldTheory/IntermediateField/Adjoin/Defs.lean`). These carry the statement
-`realCyclotomic_isCMField` of §1.1 and its Checks; the relative statements of §1.1 over an
-arbitrary base are proved here. `WeierstrassCurve`, `WeierstrassCurve.IsElliptic` (invertible
-discriminant) and `WeierstrassCurve.j`, defined as `Δ⁻¹c₄³`
-(`Mathlib/AlgebraicGeometry/EllipticCurve/Weierstrass.lean`), together with `AlgebraicClosure`
-(`Mathlib/FieldTheory/IsAlgClosed/AlgebraicClosure.lean`), `Module.Basis` and its coordinate
-isomorphism `Module.Basis.equivFun` (`Mathlib/LinearAlgebra/Basis/Defs.lean`) and
-`Matrix.SpecialLinearGroup` (`Mathlib/LinearAlgebra/Matrix/SpecialLinearGroup.lean`), carry the
-statement `three_five_switch` of §2.3. `WeierstrassCurve.IsMinimal`, `WeierstrassCurve.minimal`
-and the predicates `WeierstrassCurve.HasGoodReduction`, `WeierstrassCurve.HasMultiplicativeReduction`,
-`WeierstrassCurve.HasSplitMultiplicativeReduction` and `WeierstrassCurve.HasAdditiveReduction` on a
-Weierstrass equation over the fraction field of a discrete valuation ring, each of which includes
-minimality of the equation (`Mathlib/AlgebraicGeometry/EllipticCurve/Reduction.lean`), carry the
-reduction types of the Conventions and of §4.2.
-
-### From Tau Ceti
-
-At `2fd255d997f47c0b5d834ee416c7015d55444ce5`: `WeierstrassCurve.tateModuleGaloisRepresentation`
-(`TauCeti/AlgebraicGeometry/EllipticCurve/TateModule/Galois.lean`), the integral Tate
-representation of an elliptic curve; `TauCeti.det_tateModuleGaloisRepresentation`
-(`.../TateModule/Determinant.lean`), its determinant is the cyclotomic character for a
-separably closed extension in which ℓ is invertible; `WeierstrassCurve.quadraticTwistOf`,
-`WeierstrassCurve.quadraticTwist`, `WeierstrassCurve.quadraticTwistPointEquiv` and
-`WeierstrassCurve.quadraticTwistPointEquiv_map_eq_quadraticCharacter_smul_map`
-(`.../QuadraticTwist/Basic.lean`): the twist by a separable quadratic extension, its point
-isomorphism over a splitting field, and Galois equivariance up to the quadratic character. The
-last is consumed in §§1.2 and 1.6 through the Tate module and duality. For the statement of §2.3:
-`WeierstrassCurve.torsionGaloisAction` (`.../Affine/Point/Galois.lean`), the action of
-`K ≃ₐ[F] K` on the N-torsion of the points over K of a curve over F;
-`TauCeti.Isogeny.weilPairing` (`.../Isogeny/MulByInt/WeilPairing/Basic.lean`), the Weil pairing on
-N-torsion over a separably closed field in which N is invertible, valued in N-th roots of unity;
-`WeierstrassCurve.weilPairing_torsionGaloisAction` (`.../Isogeny/MulByInt/WeilPairing/Galois.lean`),
-its Galois equivariance; `TauCeti.Isogeny.pointTorsionModule` and
-`WeierstrassCurve.nonempty_basis_torsionBy` (`.../Isogeny/MulByInt/Torsion/Structure.lean`), the
-`ZMod N`-module structure on N-torsion and a `Fin 2` basis of N-torsion over `ZMod N` under the same
-hypotheses. `Suggested.lean` imports the three Tau Ceti modules that declare
-`WeierstrassCurve.torsionGaloisAction`, `TauCeti.Isogeny.weilPairing` and
-`TauCeti.Isogeny.pointTorsionModule`, the carriers of `three_five_switch`.
-
-### From TauCetiRoadmap.ModularCurves
-
-§0E, effective descent of projective relative curves with a compatibly descended relatively ample
-line bundle, and of finite group actions. Used in §1.2 to descend the twisted covers, with the
-canonical bundle as the polarization. Layers 3 and 5B, Drinfeld level structures and the
-fixed-pairing full-level curves `Y(N,ζ)` for `N ≥ 3`, used in §2.3 at levels 5 and 15.
-
-### From TauCetiRoadmap.EllipticCurves
-
-Layer 4 (the reduction types of a minimal Weierstrass equation over a discrete valuation ring, on
-Mathlib's reduction predicates, potential good reduction and the Tate curve with its split
-multiplicative reduction) and Layer 4.5a (Layer 4's local minimal data at every height-one prime
-of the integers of a number field, independent of the chosen equation): the reduction types of the
-Conventions and of §4.2, items 5, 7 and 8. Layer 5 (quadratic twists and their Galois action):
-§§1.2 and 1.6. Layer 0.5 (Galois actions on points and isogenies, and descent of morphisms): the
-action of `G_K` on `End(E_K̄)` in §4.3 and in the contract required of
-ComplexMultiplicationAndExplicitReciprocity below, whose route also names Layer 1 (the invariant
-differential and its pullback along isogenies).
-
-### From TauCetiRoadmap.JacobianChallenge
-
-Layers D–F: the Jacobian `Pic⁰` of a smooth proper geometrically connected curve over a field
-with a rational point, as an abelian variety, with its Abel–Jacobi map. The rational point is one
-of that roadmap's standing hypotheses; the curves `C^δ_m` have one, `φ⁻¹(O, 1)` of §1.2(6). Used
-for `J^δ_m = Pic⁰(C^δ_m)` in §§1.2–1.4.
-
-### From TauCetiRoadmap.EllipticCurveModularityImaginaryQuadratic
-
-The targets named under Scope and ownership, with their hypotheses: Layers 1–4 over an arbitrary
-number field k and `t ∈ U(k)`; §5.1 over an arbitrary number field with geometric non-CM and its
-finite exceptional set; §7.1 for the pairs `(m,ℓ) = (3,p), (3,5), (p,3)`; §7.4 for an arbitrary
-number field k, a prime `p > max{100, 2[k:ℚ]+1}` outside the exceptional set of §5.1 over the
-normal closure, a finite set of places containing those above 3p and nonempty local opens there,
-with conclusions over `F = k(μ_{3p})`; §0.2 for every number field and `p ∈ {3,5}`, together with
-the notion `SymplecticTorsionEquiv` of §0.2, which the statement of §2.3 writes out.
-
-### From TauCetiRoadmap.AutomorphicGaloisRepresentations
-
-§3.10 `ρ_{π,ι}` with its good polynomials, twist formula
-`ρ_{π⊗(χ∘det),ι} ≅ ρ_{π,ι} ⊗ χ_ι` for algebraic Hecke characters, coefficient conjugation and
-uniqueness; §3.13 geometric characters and algebraic Hecke characters; §3.14 determinant, total
-oddness and absolute irreducibility; §4.4 full Frobenius-semisimple Weil–Deligne comparison with
-monodromy at every finite `v∤ℓ`, for every π of type `(k,w)`; §4.7 potential semistability and
-the full Weil–Deligne comparison at every `v|ℓ`, without residual hypotheses.
-
-### From TauCetiRoadmap.AutomorphicGaloisRepresentationsPartII
-
-AG2.0: `IsAttached` and its uniqueness, twist and dual rules; the ℓ-adic character `r_{l,ι}(χ)`
-of an algebraic Hecke character. AG2.P: the weak and strict predicates on the shared carrier, and
-“Independent classical and Hilbert members”, identifying the Hilbert member normalized by
-`X² − t_vX + q_vs_v` with the AG2 member.
-
-### From TauCetiRoadmap.PotentialAutomorphyInfrastructure
-
-§2.3 `soluble_base_change_and_descent`, part (2): for F totally real, `E/F` finite Galois soluble
-with E totally real, a continuous `ρ : G_F → GL_n(ℚ̄_p)` with `ρ|G_E` irreducible and
-`ρ|G_E ≅ r_ι(Π)` for a cuspidal regular algebraic Π of weight λ descends to a cuspidal regular
-algebraic `π_F` of weight `λ_F` with `ρ ≅ r_ι(π_F)`, with all-place local compatibility. Used in
-§4.1 with n = 2 and λ = 0.
-
-### From TauCetiRoadmap.GL2AutomorphicRepresentationsAndTransfer
-
-R16.2–R16.3 local Langlands for `GL₂`, newvectors, conductors (R16.3.5), Steinberg monodromy
-(R16.3.2) and archimedean factors (R16.3.6); R16.4.4 strong multiplicity one; R16.6.3–R16.6.4
-the conversion between Hilbert cohomological weights and the weight λ of AG2.0; R17.4.16
-quadratic automorphic induction with its local parameters, central character, cuspidality
-criterion and twisting; R17.5.14 solvable residual modularity over totally real fields in
-parallel weight one.
-
-R17.5.14 produces a parallel-weight-one witness and states that weight-two lifts are separate
-inputs. R17.5 must add, after R17.5.14, the following statement, used in §2.4.
-
-What GL2AutomorphicRepresentationsAndTransfer must provide (gap:totally-real-solvable-residual-cohomological-weight):
-let F be totally real, p an odd prime and `r̄ : G_F → GL₂(𝔽̄_p)` continuous, absolutely
-irreducible and totally odd with solvable image.
-Then `r̄` is residually modular in the sense of the Conventions: it is the semisimplified reduction
-of `ρ_{π₀,ι}` for a cuspidal `π₀` of a cohomological type, all `k_τ ≥ 2`.
-
-One route begins over F with the weight-one witness that R17.5.14 obtains from Langlands–Tunnell.
-The base is then enlarged to a totally real `F′` over which `r̄` loses its ramification above p,
-meaning `r̄|G_{F′_w}` is unramified for each place w of `F′` lying over p; `F′/F` is to be finite
-and soluble, and linearly disjoint over F from the fixed field of `ker r̄`. The extension `F′/F` is
-in general ramified above p: an extension unramified at v leaves the image of the residual inertia
-group at v unchanged, so a residual inertia image generated by `diag(−1,1)` at a place above an
-odd p survives every unramified extension, while a ramified quadratic local extension kills it.
-Over `F′` the base-changed weight-one form is ordinary at the places above p, and Hida theory
-gives an ordinary parallel-weight-two form congruent to it, as in the proof of
-[BLGG13II](#references), Theorem 3.1.1, p.3 (BLGG13II lines 129–145). That proof treats p = 3
-under the hypotheses of its theorem (`r̄` already modular, reducible at the places above 3, and the
-projective image of `r̄(G_{F(ζ₃)})` isomorphic to `PSL₂(𝔽₃)`); it does not establish the statement
-for every odd p, and the return from `F′` to a cohomological weight over F is part of what the
-supplier must prove. The elliptic case is [FLHS15](#references), Theorem 6, p.9 (FLHS15 line 404).
-
-### From TauCetiRoadmap.ArithmeticGaloisRepresentations
-
-Layers 1–3 (continuous representations, stable lattices, Weil–Deligne representations, Artin
-conductors); §4.1 complex conjugations and `GaloisRep.IsOdd`; §5.3 recognition by Frobenius
-polynomials on a density-one set, `GaloisRep.iso_of_frobenius_charpoly_eq`; §§6.1–6.2 Tate
-modules, Weil pairing and determinant, including `TateModule.residualRep`.
-
-### From TauCetiRoadmap.InverseGaloisAndArithmeticFundamentalGroups
-
-IG.2.4 Hilbert subsets and Hilbert irreducibility over number fields; IG.2.6 full-group
-specialization; IG.2.7 Hilbert points with weak approximation. Used in §2.3.
-
-### From TauCetiRoadmap.ModularCurvesPartII
-
-§4.10 `fixedPairingGeometricConnectedness`: for `N ≥ 3` the fixed-pairing curve `Y(N,ζ)` is
-geometrically connected. Used in §2.3 with N = 15.
-
-### From TauCetiRoadmap.SmallRamificationAndAbelianVarietyBaseCases
-
-§5.0d, the shared raw compatible-system carrier over an arbitrary number field and rank. The
-descended systems are assembled on it at the end of §1.4, from the eigenspaces of §1.3 and the
-properties proved in §1.4. Its finite base-field restriction is used in §1.4 as supplied: it raises
-Frobenius roots to residue degrees, restricts the Hodge labels and replaces the bad set by the
-places above it together with the places ramified in the extension, so it stores no polynomial at
-a ramified place.
-
-### From TauCetiRoadmap.PotentialModularityAndCompatibleSystems
-
-§1.1 the comparison of the weak-family predicate with its specializations; §1.6 the automorphy
-predicate of a system by good Frobenius polynomials. Used in §2.1.
-
-### From TauCetiRoadmap.AbelianSchemesAndArithmeticModuli
-
-A4.1 the integral Tate module and its specialization at good reduction; A6 endomorphism actions on
-realizations, in particular A6.11, the characteristic polynomial of an endomorphism on the Tate
-module has integer coefficients independent of ℓ. Used in §§1.4, 2.2 and 4.3.
-
-### From TauCetiRoadmap.NeronModelsAndSemistableAbelianVarieties
-
-§3.10 semistable reduction after a finite extension; §5.1 Néron–Ogg–Shafarevich; §5.3 the
-`p`-adic comparison at the residue prime; §5.6 the local Euler polynomial at bad places; §6.10 the
-compatible system of an abelian variety. Used in §§1.4, 2.2 and 4.2.
-
-### From TauCetiRoadmap.FaltingsFinitenessAndIsogenyTheorems
-
-R28.4 semisimplicity of the rational Tate representation of an abelian variety over a number
-field. Used in §1.4.
-
-### From TauCetiRoadmap.ShimuraVarieties
-
-§5.3 CM abelian varieties with their algebra action. Used in §4.3 for the action of the CM field.
-This section works over ℂ; the field of definition of the CM endomorphisms over a number field is
-the contract required of ComplexMultiplicationAndExplicitReciprocity below.
-
-### From TauCetiRoadmap.EtaleCohomologyFoundations
-
-§0.11 the trace and duality of a smooth proper curve, giving the cup-product pairing into
-`H² ≅ ℚ̄_ℓ(−1)`. Used in §1.4.
-
-### From TauCetiRoadmap.GL2ModularityLifting
-
-GL2ModularityLifting §5.7 needs strong residual modularity, matching ordinary components and
-residue field `𝔽_p` at its nonordinary places; §5.10 needs every place above p nonordinary with
-residue field `𝔽_p`. Both need potentially Barsotti–Tate representations, so neither covers
-potentially multiplicative places above p or mixed local types. Layer 5 of GL2ModularityLifting
-must add, after §5.10, the following theorem, used in §2.2.
-
-What GL2ModularityLifting must provide (gap:totally-real-weight-two-lifting): let F be totally
-real, ℓ an odd prime and `r : G_F → GL₂(ℚ̄_ℓ)` continuous and unramified outside finitely many
-places, with `det r = ε_ℓ⁻¹ν` for a finite-order character ν and with r potentially semistable
-of labelled Hodge–Tate weights `{0,1}` at every `v|ℓ`. Suppose `r̄` is residually modular and
-`r̄|G_{F(ζ_ℓ)}` is absolutely irreducible. When ℓ = 5, suppose also one of the following: (a) the image of
-`r̄(G_{F(ζ₅)})` in `PGL₂(𝔽̄₅)` is not isomorphic to `PSL₂(𝔽₅)`; (b) `r̄` is the extension of scalars
-of a representation `r̄₀ : G_F → GL₂(𝔽₅)` with `det r̄₀ = ε̄₅⁻¹`. Then r is modular. No condition
-relates the local types of r at places above ℓ to those of the residual witness.
-
-For ℓ ≠ 5, and for ℓ = 5 under (a), this is the universal modularity conclusion of
-[BD14](#references), Théorème 3.2.2, pp.36–37 (BD14 lines 2144–2146 for its hypotheses, line 2171
-for the conclusion), proved from Gee's prescribed-type lifts and the ordinary lifts of
-[BLGG12](#references), Theorems 6.1.5 and 6.1.8 (BLGG12 line 2024 and line 2198), and
-[BLGG13II](#references), Theorems 2.1.2 and 3.1.2 (BLGG13II line 82 and line 149), with
-[Kisin09](#references), Theorem (3.5.5) (Kisin09 line 3976). Alternative (b) is
-[FLHS15](#references), §2, pp.5–6 (FLHS15 lines 241–265). The five-adic hypothesis of BD14 serves
-to exclude, in the construction of Taylor–Wiles systems, that the projective kernel field `K₀` of
-`r̄` has `Gal(K₀/F) ≅ PSL₂(𝔽₅)` with `ζ₅ ∈ K₀`. For an `𝔽₅`-model the composite of its projective
-image with `PGL₂(𝔽₅) → 𝔽₅^×/(𝔽₅^×)²` is `det r̄₀` modulo squares, the character of `F(√5)/F`; so a
-projective image `PSL₂(𝔽₅)` forces `√5 ∈ F`, and then `Gal(F(ζ₅)/F)`, of order two because
-`√5 ∈ F` and `ζ₅ ∉ F`, would be a quotient of the simple group `A₅`. Without an `𝔽₅`-model the
-square class of the determinant does not determine that of the projective image (§2.2, Checks), so
-(b) is not asserted for representations that have none. Skinner–Wiles' residually reducible
-theorems ([SW99](#references), Theorem A, and Theorem B under Hypothesis H) do not supply this
-statement.
-
-### From TauCetiRoadmap.ComplexMultiplicationAndExplicitReciprocity
-
-§4.1, "The algebraic Hecke character of a CM abelian variety" and "One-dimensional CM components
-of the Tate module": for an abelian variety A of dimension g over a number field k with a CM field
-of degree 2g in `End⁰_k(A)` and every endomorphism defined over k, the algebraic Hecke character
-of k attached to A and the decomposition of `V_ℓ(A) ⊗ ℚ̄_ℓ` into the rank-one realizations of its
-coefficient components. Used in §4.3 for `E ⊗_K KT`, with g = 1.
-
-§1.1 uses, for a curve over ℚ, that the action of the CM order on the Lie algebra, by the same
-scalar as on the invariant differential, is Galois equivariant; no section states the general field
-of definition. Layer 1 of ComplexMultiplicationAndExplicitReciprocity must add, before §1.1, the
-following statement, used in §4.3.
-
-What ComplexMultiplicationAndExplicitReciprocity must provide (gap:cm-elliptic-endomorphism-field):
-let K be a field of characteristic zero with algebraic closure K̄ and `G_K = Gal(K̄/K)`, and let E/K
-be an elliptic curve whose geometric endomorphism ring `End(E_K̄)` is an order in an imaginary
-quadratic field. For a nonzero invariant differential ω of E over K define
-`[·] : End(E_K̄) → K̄` by `α^*ω = [α]ω`. Then `[·]` is an injective ring homomorphism, independent
-of ω, with `[ᵍα] = g([α])` for every `g ∈ G_K`, where `ᵍα = g ∘ α ∘ g⁻¹`. With `T ⊂ K̄` the
-quadratic field generated by its image, an endomorphism α is defined over an intermediate field
-`K ⊆ K′ ⊆ K̄` exactly when `[α] ∈ K′`; in particular the kernel of the action of `G_K` on
-`End(E_K̄)` is `G_{KT}`.
-
-A route: pullback of invariant differentials is additive and reverses composition (EllipticCurves
-Layer 1; Tau Ceti `TauCeti.Isogeny.Hom.pullbackDifferential`,
-`TauCeti.Isogeny.Hom.pullbackDifferential_comp` and
-`TauCeti.Isogeny.Hom.pullbackDifferential_add_invariantDifferential`, in
-`TauCeti/AlgebraicGeometry/EllipticCurve/Isogeny/Hom/Differential.lean`); a nonzero isogeny in
-characteristic zero is separable and so pulls ω back to a nonzero differential; ω is K-rational,
-so conjugating α by g applies g to the scalar `[α]`; and descent of morphisms (EllipticCurves
-Layer 0.5) identifies the endomorphisms defined over `K′` with those fixed by `G_{K′}`
-([OpenAI26](#references), §9.4, p.27, OpenAI26 lines 1200–1202). Since `T/ℚ` is quadratic,
-`Gal(KT/K)` has order at most two, so `g([α]) = g⁻¹([α])` and the formula does not depend on
-whether Galois acts on points through g or through g⁻¹. Characteristic zero is a hypothesis: over
-a finite field the Frobenius endomorphism is nonzero and pulls ω back to zero (§4.3, Checks).
-
-## How to read the build
-
-Layer 1 works over an arbitrary number field k and a parameter `t ∈ U(k)`. It constructs the real
-cyclotomic subfield L, the reflection twist of the imported covers over L, the descended
-character systems `W_θ`, their integral lattices and congruences, and their two elliptic
-endpoints. Layer 2 proves the totally real tools: change of coefficient prime, the weight-two
-lifting theorem for rank-two summands of abelian varieties, and the elliptic seeds at three and
-five. Layer 3 fixes a non-CM curve over a totally real K, chooses one auxiliary prime p and one
-parameter t satisfying every residual condition over L, makes the cubic piece modular through
-the seed, and lifts three times. Layer 4 descends to K, removes the twists, compares all local
-factors, adds the CM branch and states the endpoint. Each target lists in its *Needs:* line what
-its statement and its route use.
 
 ## Layer 1: Reflection descent over the real cyclotomic subfield
 
@@ -1501,6 +1130,377 @@ action on endomorphisms and Layers 4 and 4.5a for the reduction types.
   L, where the `𝔽₅`-model alternative of §2.2 applies to the dual of `A_t[5]`.
 - Additive, multiplicative and good places: `y² = x³ − x` at 2 (factor 1), 11a1 at 11
   (`(1 − 11^{−s})⁻¹`), and 11a1 at 3 (`(1 + 3^{−s} + 3^{1−2s})⁻¹`).
+
+## Scope and ownership
+
+**Owned here.** Layer 1: the real cyclotomic subfield over an arbitrary base and its quadratic
+character, the reflection twist of the covers, the descended character systems with their
+determinant, Hodge, compatibility and oddness properties, their integral lattices and
+congruence chain, and the two elliptic endpoints. Layer 2: the change of coefficient prime for
+rank-two systems over totally real fields, the application of the totally real weight-two
+lifting theorem to rank-two summands of abelian varieties
+([LeHung26](#references), Proposition 3.1), the 3–5 switch curve over a number field, and the
+mod-three and mod-five elliptic seeds over a totally real field ([FLHS15](#references),
+Corollary 5.1 and Theorem 3). Layer 3: one specialization satisfying every residual condition
+over L, the auxiliary seed over L and the three lifts. Layer 4: descent to the original curve,
+the all-place comparison over a totally real base, the CM branch over a totally real base and the
+endpoint.
+
+**Imported from EllipticCurveModularityImaginaryQuadratic.** Layers 1–4 (the parameter open
+`switchParameterOpen`, the covers `cyclicCover m` with rotations and reflection, both
+degenerations, the integral regular-module marking `integral_regular_module_etale`, the
+character systems `characterSystem θ` with `character_system_properties`, the quotient
+realizations `character_order_quotient`, `trivial_character_twist`, `auxiliaryEllipticCurve`
+and `cubic_character_elliptic`, the lattices `characterLattice θ` and
+`prime_switch_congruences`); §5.1 `nonCM_elliptic_large_residual_primes`; §7.1
+`character_geometric_irreducibility`; §7.4 `simultaneous_specialization`, which is stated
+there for an arbitrary number field; §0.2 `fixed_pairing_twist` and
+`fixed_pairing_twist_rational`, the fixed-pairing twisted modular curves at three and five over
+an arbitrary number field. Its CM lifting theorems (§§0.1, 5.2–5.3), its local prescription
+(Layer 6) and its CM descent and endpoint (Layer 8) are not used. The totally real lifting
+theorem needs no matching of local types at the lifting prime ([LeHung26](#references), §3.1,
+LeHung26 line 234), so no local parameter open is imposed here.
+
+**Kept variants.** Section 2.1 is the change-of-prime argument of
+EllipticCurveModularityImaginaryQuadratic §8.1 `character_automorphy_change_prime`, stated here
+for systems over a totally real field and the Hilbert attachment rather than for `V_θ` over a CM
+field. Section 4.2 replaces that roadmap's CM-field comparison (§0.3
+`modular_elliptic_all_coefficients`, §8.5) by the totally real Hilbert local–global
+compatibility, which holds at every finite place without a separate monodromy argument.
+Section 4.3 is the totally real counterpart of its §8.6 `cm_elliptic_realization`: over a totally
+real base the CM field is never contained in the base, so only the cuspidal induced branch occurs.
+It also extends ComplexMultiplicationAndExplicitReciprocity §4.2, "CM induction and
+compatible-system comparison", from rational CM curves to CM curves over a totally real field,
+whose endomorphisms are defined only over the quadratic extension `KT`.
+
+**Supplied elsewhere.** The Hilbert attachment, its determinant, oddness and irreducibility and
+its local–global compatibility at every finite place are AutomorphicGaloisRepresentations
+§§3.10–3.14, 4.4 and 4.7. Soluble base change and descent over totally real fields, with all-place
+local compatibility, are PotentialAutomorphyInfrastructure §2.3. Quadratic automorphic
+induction, local Langlands, conductors, newvectors and strong multiplicity one are
+GL2AutomorphicRepresentationsAndTransfer R16.2–R16.4 and R17.4.16. Hilbert irreducibility with
+local conditions is InverseGaloisAndArithmeticFundamentalGroups IG.2. The compatible-system
+carrier is SmallRamificationAndAbelianVarietyBaseCases §5.0d with the predicates of
+AutomorphicGaloisRepresentationsPartII AG2.P and PotentialModularityAndCompatibleSystems §1.6.
+The general weight-two lifting theorem over totally real fields belongs to GL2ModularityLifting.
+Residual modularity of solvable totally odd representations belongs to
+GL2AutomorphicRepresentationsAndTransfer R17.5. The algebraic Hecke character of a CM abelian
+variety whose endomorphisms are defined over the base, and the splitting of its Tate module into
+the realizations of that character, are ComplexMultiplicationAndExplicitReciprocity §4.1. The
+Galois-equivariant, Weil-pairing-preserving isomorphisms of finite torsion used in §2.3 are the
+notion `SymplecticTorsionEquiv` of EllipticCurveModularityImaginaryQuadratic §0.2. The field of
+definition of the geometric endomorphisms of a CM elliptic curve over a field of characteristic
+zero, through their action on the invariant differential, belongs to
+ComplexMultiplicationAndExplicitReciprocity Layer 1; it is not stated here.
+EllipticCurveModularityImaginaryQuadratic §8.6 uses the same statement over imaginary quadratic
+fields, and the criterion over a number field K that all endomorphisms are K-rational exactly
+when the CM field lies in K is its specialization. The three sections these roadmaps must add are
+specified under [Exact supplier contracts](#exact-supplier-contracts).
+
+**Outside this roadmap.** CM base fields (EllipticCurveModularityImaginaryQuadratic and its
+Part II), number fields that are neither totally real nor CM, abelian varieties of higher
+dimension and computational questions. The rational case K = ℚ is a Check of the general
+statement, not a new proof of EllipticCurveModularity's endpoint.
+
+**The Lean file.** [`Suggested.lean`](Suggested.lean) accompanies this document; the roadmap is
+this README. The file states, against the pinned Mathlib and Tau Ceti, the headline theorems whose
+objects exist there, and its module docstring names the others with the carrier each lacks.
+Mathlib has totally real and CM fields, maximal real subfields, cyclotomic extensions, Weierstrass
+curves with `WeierstrassCurve.IsElliptic` and the j-invariant `WeierstrassCurve.j`; Tau Ceti has
+the elliptic Tate representation, its cyclotomic determinant, quadratic twists, the Galois action
+`WeierstrassCurve.torsionGaloisAction` on geometric N-torsion, the Weil pairing
+`TauCeti.Isogeny.weilPairing` with its Galois equivariance
+`WeierstrassCurve.weilPairing_torsionGaloisAction`, and two-element bases of N-torsion over
+`ZMod N` (`WeierstrassCurve.nonempty_basis_torsionBy`). Two headline results are statable on these
+carriers and are stated there: the totally real case of the field statement of §1.1,
+`realCyclotomic_isCMField`, and the 3–5 switch of §2.3, `three_five_switch`, which quantifies over
+elliptic Weierstrass curves over a number field, additive isomorphisms of geometric five-torsion
+commuting with the Galois actions and preserving the Weil pairing, and the matrices of the Galois
+action on three-torsion in every basis, and concludes that a set of j-invariants is infinite.
+Neither library has cuspidal automorphic representations of `GL₂` over a number field or the
+Hilbert attachment, so the modularity statements (§§2.1, 2.2, 2.4 and 2.5 and Layers 3–4) are
+stated here on the supplier carriers named below; the statements of §§1.2–1.6 also need the
+imported covers, their étale cohomology and the raw compatible-system carrier, which the pins
+lack.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+At `1b1ccf4b088b32fa3f23f2de1127433254a81e1e`:
+`NumberField.IsTotallyReal` and `NumberField.IsTotallyComplex`
+(`Mathlib/NumberTheory/NumberField/InfinitePlace/TotallyRealComplex.lean`: every infinite place
+real, respectively complex); `NumberField.maximalRealSubfield`, the subfield of elements fixed by
+complex conjugation under every complex embedding, with the instance
+`NumberField.isTotallyReal_maximalRealSubfield` and the maximality statement
+`NumberField.IsTotallyReal.le_maximalRealSubfield` (same file);
+`NumberField.IsCMField`, `NumberField.IsCMField.ofCMExtension` and
+`NumberField.CMExtension.eq_maximalRealSubfield`, which identifies a totally real subfield E with
+K/E quadratic and K totally complex as the maximal real subfield
+(`Mathlib/NumberTheory/NumberField/CMField.lean`); `IsCyclotomicExtension`
+(`Mathlib/NumberTheory/Cyclotomic/Basic.lean`) and `IsCyclotomicExtension.Rat.isCMField`
+(nontrivial cyclotomic extensions of ℚ are CM); `IsPrimitiveRoot`
+(`Mathlib/RingTheory/RootsOfUnity/PrimitiveRoots.lean`) and `IntermediateField.adjoin`
+(`Mathlib/FieldTheory/IntermediateField/Adjoin/Defs.lean`). These carry the statement
+`realCyclotomic_isCMField` of §1.1 and its Checks; the relative statements of §1.1 over an
+arbitrary base are proved here. `WeierstrassCurve`, `WeierstrassCurve.IsElliptic` (invertible
+discriminant) and `WeierstrassCurve.j`, defined as `Δ⁻¹c₄³`
+(`Mathlib/AlgebraicGeometry/EllipticCurve/Weierstrass.lean`), together with `AlgebraicClosure`
+(`Mathlib/FieldTheory/IsAlgClosed/AlgebraicClosure.lean`), `Module.Basis` and its coordinate
+isomorphism `Module.Basis.equivFun` (`Mathlib/LinearAlgebra/Basis/Defs.lean`) and
+`Matrix.SpecialLinearGroup` (`Mathlib/LinearAlgebra/Matrix/SpecialLinearGroup.lean`), carry the
+statement `three_five_switch` of §2.3. `WeierstrassCurve.IsMinimal`, `WeierstrassCurve.minimal`
+and the predicates `WeierstrassCurve.HasGoodReduction`, `WeierstrassCurve.HasMultiplicativeReduction`,
+`WeierstrassCurve.HasSplitMultiplicativeReduction` and `WeierstrassCurve.HasAdditiveReduction` on a
+Weierstrass equation over the fraction field of a discrete valuation ring, each of which includes
+minimality of the equation (`Mathlib/AlgebraicGeometry/EllipticCurve/Reduction.lean`), carry the
+reduction types of the Conventions and of §4.2.
+
+### From Tau Ceti
+
+At `2fd255d997f47c0b5d834ee416c7015d55444ce5`: `WeierstrassCurve.tateModuleGaloisRepresentation`
+(`TauCeti/AlgebraicGeometry/EllipticCurve/TateModule/Galois.lean`), the integral Tate
+representation of an elliptic curve; `TauCeti.det_tateModuleGaloisRepresentation`
+(`.../TateModule/Determinant.lean`), its determinant is the cyclotomic character for a
+separably closed extension in which ℓ is invertible; `WeierstrassCurve.quadraticTwistOf`,
+`WeierstrassCurve.quadraticTwist`, `WeierstrassCurve.quadraticTwistPointEquiv` and
+`WeierstrassCurve.quadraticTwistPointEquiv_map_eq_quadraticCharacter_smul_map`
+(`.../QuadraticTwist/Basic.lean`): the twist by a separable quadratic extension, its point
+isomorphism over a splitting field, and Galois equivariance up to the quadratic character. The
+last is consumed in §§1.2 and 1.6 through the Tate module and duality. For the statement of §2.3:
+`WeierstrassCurve.torsionGaloisAction` (`.../Affine/Point/Galois.lean`), the action of
+`K ≃ₐ[F] K` on the N-torsion of the points over K of a curve over F;
+`TauCeti.Isogeny.weilPairing` (`.../Isogeny/MulByInt/WeilPairing/Basic.lean`), the Weil pairing on
+N-torsion over a separably closed field in which N is invertible, valued in N-th roots of unity;
+`WeierstrassCurve.weilPairing_torsionGaloisAction` (`.../Isogeny/MulByInt/WeilPairing/Galois.lean`),
+its Galois equivariance; `TauCeti.Isogeny.pointTorsionModule` and
+`WeierstrassCurve.nonempty_basis_torsionBy` (`.../Isogeny/MulByInt/Torsion/Structure.lean`), the
+`ZMod N`-module structure on N-torsion and a `Fin 2` basis of N-torsion over `ZMod N` under the same
+hypotheses. `Suggested.lean` imports the three Tau Ceti modules that declare
+`WeierstrassCurve.torsionGaloisAction`, `TauCeti.Isogeny.weilPairing` and
+`TauCeti.Isogeny.pointTorsionModule`, the carriers of `three_five_switch`.
+
+### From TauCetiRoadmap.ModularCurves
+
+§0E, effective descent of projective relative curves with a compatibly descended relatively ample
+line bundle, and of finite group actions. Used in §1.2 to descend the twisted covers, with the
+canonical bundle as the polarization. Layers 3 and 5B, Drinfeld level structures and the
+fixed-pairing full-level curves `Y(N,ζ)` for `N ≥ 3`, used in §2.3 at levels 5 and 15.
+
+### From TauCetiRoadmap.EllipticCurves
+
+Layer 4 (the reduction types of a minimal Weierstrass equation over a discrete valuation ring, on
+Mathlib's reduction predicates, potential good reduction and the Tate curve with its split
+multiplicative reduction) and Layer 4.5a (Layer 4's local minimal data at every height-one prime
+of the integers of a number field, independent of the chosen equation): the reduction types of the
+Conventions and of §4.2, items 5, 7 and 8. Layer 5 (quadratic twists and their Galois action):
+§§1.2 and 1.6. Layer 0.5 (Galois actions on points and isogenies, and descent of morphisms): the
+action of `G_K` on `End(E_K̄)` in §4.3 and in the contract required of
+ComplexMultiplicationAndExplicitReciprocity below, whose route also names Layer 1 (the invariant
+differential and its pullback along isogenies).
+
+### From TauCetiRoadmap.JacobianChallenge
+
+Layers D–F: the Jacobian `Pic⁰` of a smooth proper geometrically connected curve over a field
+with a rational point, as an abelian variety, with its Abel–Jacobi map. The rational point is one
+of that roadmap's standing hypotheses; the curves `C^δ_m` have one, `φ⁻¹(O, 1)` of §1.2(6). Used
+for `J^δ_m = Pic⁰(C^δ_m)` in §§1.2–1.4.
+
+### From TauCetiRoadmap.EllipticCurveModularityImaginaryQuadratic
+
+The targets named under Scope and ownership, with their hypotheses: Layers 1–4 over an arbitrary
+number field k and `t ∈ U(k)`; §5.1 over an arbitrary number field with geometric non-CM and its
+finite exceptional set; §7.1 for the pairs `(m,ℓ) = (3,p), (3,5), (p,3)`; §7.4 for an arbitrary
+number field k, a prime `p > max{100, 2[k:ℚ]+1}` outside the exceptional set of §5.1 over the
+normal closure, a finite set of places containing those above 3p and nonempty local opens there,
+with conclusions over `F = k(μ_{3p})`; §0.2 for every number field and `p ∈ {3,5}`, together with
+the notion `SymplecticTorsionEquiv` of §0.2, which the statement of §2.3 writes out.
+
+### From TauCetiRoadmap.AutomorphicGaloisRepresentations
+
+§3.10 `ρ_{π,ι}` with its good polynomials, twist formula
+`ρ_{π⊗(χ∘det),ι} ≅ ρ_{π,ι} ⊗ χ_ι` for algebraic Hecke characters, coefficient conjugation and
+uniqueness; §3.13 geometric characters and algebraic Hecke characters; §3.14 determinant, total
+oddness and absolute irreducibility; §4.4 full Frobenius-semisimple Weil–Deligne comparison with
+monodromy at every finite `v∤ℓ`, for every π of type `(k,w)`; §4.7 potential semistability and
+the full Weil–Deligne comparison at every `v|ℓ`, without residual hypotheses.
+
+### From TauCetiRoadmap.AutomorphicGaloisRepresentationsPartII
+
+AG2.0: `IsAttached` and its uniqueness, twist and dual rules; the ℓ-adic character `r_{l,ι}(χ)`
+of an algebraic Hecke character. AG2.P: the weak and strict predicates on the shared carrier, and
+“Independent classical and Hilbert members”, identifying the Hilbert member normalized by
+`X² − t_vX + q_vs_v` with the AG2 member.
+
+### From TauCetiRoadmap.PotentialAutomorphyInfrastructure
+
+§2.3 `soluble_base_change_and_descent`, part (2): for F totally real, `E/F` finite Galois soluble
+with E totally real, a continuous `ρ : G_F → GL_n(ℚ̄_p)` with `ρ|G_E` irreducible and
+`ρ|G_E ≅ r_ι(Π)` for a cuspidal regular algebraic Π of weight λ descends to a cuspidal regular
+algebraic `π_F` of weight `λ_F` with `ρ ≅ r_ι(π_F)`, with all-place local compatibility. Used in
+§4.1 with n = 2 and λ = 0.
+
+### From TauCetiRoadmap.GL2AutomorphicRepresentationsAndTransfer
+
+R16.2–R16.3 local Langlands for `GL₂`, newvectors, conductors (R16.3.5), Steinberg monodromy
+(R16.3.2) and archimedean factors (R16.3.6); R16.4.4 strong multiplicity one; R16.6.3–R16.6.4
+the conversion between Hilbert cohomological weights and the weight λ of AG2.0; R17.4.16
+quadratic automorphic induction with its local parameters, central character, cuspidality
+criterion and twisting; R17.5.14 solvable residual modularity over totally real fields in
+parallel weight one.
+
+R17.5.14 produces a parallel-weight-one witness and states that weight-two lifts are separate
+inputs. R17.5 must add, after R17.5.14, the following statement, used in §2.4.
+
+What GL2AutomorphicRepresentationsAndTransfer must provide (gap:totally-real-solvable-residual-cohomological-weight):
+let F be totally real, p an odd prime and `r̄ : G_F → GL₂(𝔽̄_p)` continuous, absolutely
+irreducible and totally odd with solvable image.
+Then `r̄` is residually modular in the sense of the Conventions: it is the semisimplified reduction
+of `ρ_{π₀,ι}` for a cuspidal `π₀` of a cohomological type, all `k_τ ≥ 2`.
+
+One route begins over F with the weight-one witness that R17.5.14 obtains from Langlands–Tunnell.
+The base is then enlarged to a totally real `F′` over which `r̄` loses its ramification above p,
+meaning `r̄|G_{F′_w}` is unramified for each place w of `F′` lying over p; `F′/F` is to be finite
+and soluble, and linearly disjoint over F from the fixed field of `ker r̄`. The extension `F′/F` is
+in general ramified above p: an extension unramified at v leaves the image of the residual inertia
+group at v unchanged, so a residual inertia image generated by `diag(−1,1)` at a place above an
+odd p survives every unramified extension, while a ramified quadratic local extension kills it.
+Over `F′` the base-changed weight-one form is ordinary at the places above p, and Hida theory
+gives an ordinary parallel-weight-two form congruent to it, as in the proof of
+[BLGG13II](#references), Theorem 3.1.1, p.3 (BLGG13II lines 129–145). That proof treats p = 3
+under the hypotheses of its theorem (`r̄` already modular, reducible at the places above 3, and the
+projective image of `r̄(G_{F(ζ₃)})` isomorphic to `PSL₂(𝔽₃)`); it does not establish the statement
+for every odd p, and the return from `F′` to a cohomological weight over F is part of what the
+supplier must prove. The elliptic case is [FLHS15](#references), Theorem 6, p.9 (FLHS15 line 404).
+
+### From TauCetiRoadmap.ArithmeticGaloisRepresentations
+
+Layers 1–3 (continuous representations, stable lattices, Weil–Deligne representations, Artin
+conductors); §4.1 complex conjugations and `GaloisRep.IsOdd`; §5.3 recognition by Frobenius
+polynomials on a density-one set, `GaloisRep.iso_of_frobenius_charpoly_eq`; §§6.1–6.2 Tate
+modules, Weil pairing and determinant, including `TateModule.residualRep`.
+
+### From TauCetiRoadmap.InverseGaloisAndArithmeticFundamentalGroups
+
+IG.2.4 Hilbert subsets and Hilbert irreducibility over number fields; IG.2.6 full-group
+specialization; IG.2.7 Hilbert points with weak approximation. Used in §2.3.
+
+### From TauCetiRoadmap.ModularCurvesPartII
+
+§4.10 `fixedPairingGeometricConnectedness`: for `N ≥ 3` the fixed-pairing curve `Y(N,ζ)` is
+geometrically connected. Used in §2.3 with N = 15.
+
+### From TauCetiRoadmap.SmallRamificationAndAbelianVarietyBaseCases
+
+§5.0d, the shared raw compatible-system carrier over an arbitrary number field and rank. The
+descended systems are assembled on it at the end of §1.4, from the eigenspaces of §1.3 and the
+properties proved in §1.4. Its finite base-field restriction is used in §1.4 as supplied: it raises
+Frobenius roots to residue degrees, restricts the Hodge labels and replaces the bad set by the
+places above it together with the places ramified in the extension, so it stores no polynomial at
+a ramified place.
+
+### From TauCetiRoadmap.PotentialModularityAndCompatibleSystems
+
+§1.1 the comparison of the weak-family predicate with its specializations; §1.6 the automorphy
+predicate of a system by good Frobenius polynomials. Used in §2.1.
+
+### From TauCetiRoadmap.AbelianSchemesAndArithmeticModuli
+
+A4.1 the integral Tate module and its specialization at good reduction; A6 endomorphism actions on
+realizations, in particular A6.11, the characteristic polynomial of an endomorphism on the Tate
+module has integer coefficients independent of ℓ. Used in §§1.4, 2.2 and 4.3.
+
+### From TauCetiRoadmap.NeronModelsAndSemistableAbelianVarieties
+
+§3.10 semistable reduction after a finite extension; §5.1 Néron–Ogg–Shafarevich; §5.3 the
+`p`-adic comparison at the residue prime; §5.6 the local Euler polynomial at bad places; §6.10 the
+compatible system of an abelian variety. Used in §§1.4, 2.2 and 4.2.
+
+### From TauCetiRoadmap.FaltingsFinitenessAndIsogenyTheorems
+
+R28.4 semisimplicity of the rational Tate representation of an abelian variety over a number
+field. Used in §1.4.
+
+### From TauCetiRoadmap.ShimuraVarieties
+
+§5.3 CM abelian varieties with their algebra action. Used in §4.3 for the action of the CM field.
+This section works over ℂ; the field of definition of the CM endomorphisms over a number field is
+the contract required of ComplexMultiplicationAndExplicitReciprocity below.
+
+### From TauCetiRoadmap.EtaleCohomologyFoundations
+
+§0.11 the trace and duality of a smooth proper curve, giving the cup-product pairing into
+`H² ≅ ℚ̄_ℓ(−1)`. Used in §1.4.
+
+### From TauCetiRoadmap.GL2ModularityLifting
+
+GL2ModularityLifting §5.7 needs strong residual modularity, matching ordinary components and
+residue field `𝔽_p` at its nonordinary places; §5.10 needs every place above p nonordinary with
+residue field `𝔽_p`. Both need potentially Barsotti–Tate representations, so neither covers
+potentially multiplicative places above p or mixed local types. Layer 5 of GL2ModularityLifting
+must add, after §5.10, the following theorem, used in §2.2.
+
+What GL2ModularityLifting must provide (gap:totally-real-weight-two-lifting): let F be totally
+real, ℓ an odd prime and `r : G_F → GL₂(ℚ̄_ℓ)` continuous and unramified outside finitely many
+places, with `det r = ε_ℓ⁻¹ν` for a finite-order character ν and with r potentially semistable
+of labelled Hodge–Tate weights `{0,1}` at every `v|ℓ`. Suppose `r̄` is residually modular and
+`r̄|G_{F(ζ_ℓ)}` is absolutely irreducible. When ℓ = 5, suppose also one of the following: (a) the image of
+`r̄(G_{F(ζ₅)})` in `PGL₂(𝔽̄₅)` is not isomorphic to `PSL₂(𝔽₅)`; (b) `r̄` is the extension of scalars
+of a representation `r̄₀ : G_F → GL₂(𝔽₅)` with `det r̄₀ = ε̄₅⁻¹`. Then r is modular. No condition
+relates the local types of r at places above ℓ to those of the residual witness.
+
+For ℓ ≠ 5, and for ℓ = 5 under (a), this is the universal modularity conclusion of
+[BD14](#references), Théorème 3.2.2, pp.36–37 (BD14 lines 2144–2146 for its hypotheses, line 2171
+for the conclusion), proved from Gee's prescribed-type lifts and the ordinary lifts of
+[BLGG12](#references), Theorems 6.1.5 and 6.1.8 (BLGG12 line 2024 and line 2198), and
+[BLGG13II](#references), Theorems 2.1.2 and 3.1.2 (BLGG13II line 82 and line 149), with
+[Kisin09](#references), Theorem (3.5.5) (Kisin09 line 3976). Alternative (b) is
+[FLHS15](#references), §2, pp.5–6 (FLHS15 lines 241–265). The five-adic hypothesis of BD14 serves
+to exclude, in the construction of Taylor–Wiles systems, that the projective kernel field `K₀` of
+`r̄` has `Gal(K₀/F) ≅ PSL₂(𝔽₅)` with `ζ₅ ∈ K₀`. For an `𝔽₅`-model the composite of its projective
+image with `PGL₂(𝔽₅) → 𝔽₅^×/(𝔽₅^×)²` is `det r̄₀` modulo squares, the character of `F(√5)/F`; so a
+projective image `PSL₂(𝔽₅)` forces `√5 ∈ F`, and then `Gal(F(ζ₅)/F)`, of order two because
+`√5 ∈ F` and `ζ₅ ∉ F`, would be a quotient of the simple group `A₅`. Without an `𝔽₅`-model the
+square class of the determinant does not determine that of the projective image (§2.2, Checks), so
+(b) is not asserted for representations that have none. Skinner–Wiles' residually reducible
+theorems ([SW99](#references), Theorem A, and Theorem B under Hypothesis H) do not supply this
+statement.
+
+### From TauCetiRoadmap.ComplexMultiplicationAndExplicitReciprocity
+
+§4.1, "The algebraic Hecke character of a CM abelian variety" and "One-dimensional CM components
+of the Tate module": for an abelian variety A of dimension g over a number field k with a CM field
+of degree 2g in `End⁰_k(A)` and every endomorphism defined over k, the algebraic Hecke character
+of k attached to A and the decomposition of `V_ℓ(A) ⊗ ℚ̄_ℓ` into the rank-one realizations of its
+coefficient components. Used in §4.3 for `E ⊗_K KT`, with g = 1.
+
+§1.1 uses, for a curve over ℚ, that the action of the CM order on the Lie algebra, by the same
+scalar as on the invariant differential, is Galois equivariant; no section states the general field
+of definition. Layer 1 of ComplexMultiplicationAndExplicitReciprocity must add, before §1.1, the
+following statement, used in §4.3.
+
+What ComplexMultiplicationAndExplicitReciprocity must provide (gap:cm-elliptic-endomorphism-field):
+let K be a field of characteristic zero with algebraic closure K̄ and `G_K = Gal(K̄/K)`, and let E/K
+be an elliptic curve whose geometric endomorphism ring `End(E_K̄)` is an order in an imaginary
+quadratic field. For a nonzero invariant differential ω of E over K define
+`[·] : End(E_K̄) → K̄` by `α^*ω = [α]ω`. Then `[·]` is an injective ring homomorphism, independent
+of ω, with `[ᵍα] = g([α])` for every `g ∈ G_K`, where `ᵍα = g ∘ α ∘ g⁻¹`. With `T ⊂ K̄` the
+quadratic field generated by its image, an endomorphism α is defined over an intermediate field
+`K ⊆ K′ ⊆ K̄` exactly when `[α] ∈ K′`; in particular the kernel of the action of `G_K` on
+`End(E_K̄)` is `G_{KT}`.
+
+A route: pullback of invariant differentials is additive and reverses composition (EllipticCurves
+Layer 1; Tau Ceti `TauCeti.Isogeny.Hom.pullbackDifferential`,
+`TauCeti.Isogeny.Hom.pullbackDifferential_comp` and
+`TauCeti.Isogeny.Hom.pullbackDifferential_add_invariantDifferential`, in
+`TauCeti/AlgebraicGeometry/EllipticCurve/Isogeny/Hom/Differential.lean`); a nonzero isogeny in
+characteristic zero is separable and so pulls ω back to a nonzero differential; ω is K-rational,
+so conjugating α by g applies g to the scalar `[α]`; and descent of morphisms (EllipticCurves
+Layer 0.5) identifies the endomorphisms defined over `K′` with those fixed by `G_{K′}`
+([OpenAI26](#references), §9.4, p.27, OpenAI26 lines 1200–1202). Since `T/ℚ` is quadratic,
+`Gal(KT/K)` has order at most two, so `g([α]) = g⁻¹([α])` and the formula does not depend on
+whether Galois acts on points through g or through g⁻¹. Characteristic zero is a hypothesis: over
+a finite field the Frobenius endomorphism is nonzero and pulls ω back to zero (§4.3, Checks).
 
 ## References
 
