@@ -19,79 +19,17 @@ analytic Habiro comparison and two compatibility equalities with classical
 A_inf specializations are additional mathematical problems, with their missing
 interfaces stated below.
 
-## Scope and ownership
+## How to read the build
 
-The following ownership conventions keep the constructions reusable. Polynomial Jackson calculus, the initial differential q-Witt system, generic completion and regular-sequence Koszul acyclicity belong to the named suppliers below. Cyclotomic radical comparison and comaximal coefficient splitting belong to QWittVectors §6.2 and HabiroCyclotomicCompletions §5.2; this roadmap owns their enhanced closed-cover application. Split-torus character evaluation belongs to Tau Ceti; §1.23 adds its Laurent-algebra automorphisms over an arbitrary commutative ring and unit parameter.
-
-| Supplier | Imported mathematics and use |
-| --- | --- |
-| QWittVectors §§2.1–2.4, 4.2–4.4, 5.1–5.2 and 6.1–6.3 | Arithmetic Λ-rings and perfect coverage; relative degree-zero q-Witt rings, ghosts, Frobenius, Verschiebung, Teichmüller maps and étale base change. |
-| HabiroCyclotomicCompletions §§1.1, 4.1 and 5.2; QWittVectors §6.2 | Polynomial Jackson calculus, integral distinct-order cyclotomic intersections, comaximal product splitting and radical invariance of cyclotomic completion. Section 0.2 adds enhanced finite closed-cover descent. |
-| This roadmap, Layer 0 | Specialize generic enhanced completion to the Habiro family; construct finite cyclotomic descent and the étale coefficient lifts. HabiroRings subsequently uses these cohomological contracts to compare its ordinary models. |
-| QWittVectors §§7.1–7.7, 8.1–8.3, 9.6–9.7 and 10.1–10.2 | Positive-degree systems, initial q-Witt differential algebra, operators, ghosts, differential base change, complete framed calculus, smooth torsion and completion. This roadmap imports these and builds global q-de Rham, animation, Nygaard and Habiro applications. Polynomial Jackson calculus over arbitrary commutative rings and scalars is imported from HabiroCyclotomicCompletions §1.1. |
-| DerivedModuleAlgebra §§0.4, 0.8–0.14, 1.1–1.4; DerivedDeRhamCohomology §§1.14–1.17, 1.22, 2.22–2.27, 3.2–3.6, 4.6 | Full cotangent complexes, derived powers and generic enhanced completion; filtered completion, derived de Rham, conjugate filtrations and the torsion boundary. |
-| EnhancedDerivedSheaves E0, E1, E2 and E5 | Enhanced categories, affine/étale descent, animation, presentability and monoidal transport. The additional dual-cartesian/oplax interface is the declared gap below. E4 uses the completion of DerivedModuleAlgebra §§1.1–1.4. |
-| AInfCohomology AI.1; DerivedModuleAlgebra §0.K.1 | Generic Koszul complexes, weak-regular-sequence acyclicity, Berthelot–Ogus décalage and its filtered and completion properties. |
-| PrismaticCohomology Layers 0–2; PrismaticCohomologyPartII §§3.13–3.16, 5.2–5.11, 5.13–5.25; PerfectoidSpaces §P4.15.2 | δ-rings, bounded prisms and derived prismatic descent; relative Frobenius/Nygaard; local q-PD envelopes, framed, AΩ and uniqueness comparisons; perfect prisms and integral perfectoid rings. |
-| AInfCohomology AI.3–AI.5, DerivedDeRhamCohomology §PD.6, CrystallineCohomology CR.2/CR.4 and CohomologyComparisons §§1.2, 1.4, 1.7–1.9 and 6.10 | AΩ, canonical perfectoid specializations, ordinary PD envelopes and the PD Poincaré lemma, ordinary de Rham–Witt/crystalline comparison and their normalization. |
-| This roadmap, Layer 6 | The analytic comparison problem and its required input specification; it exports no analytic construction or algebraic prerequisite. |
-
-The cohomological completion and étale comparison interfaces are constructed
-in §§0.1–0.3, 4.21 and 4.28, before their trace applications. They allow
-HabiroRings to compare an independently constructed ordinary relative ring
-with the cohomological coefficient object. Ordinary ring presentations and
-the rootwise Taylor calculus of HabiroCyclotomicCompletions are not direct
-inputs to this construction; the relative q-Witt rings remain inputs from
-QWittVectors §§4.2–4.4 and 5.1–5.2, including those suppliers' cyclotomic prerequisites.
-HabiroRings Layer 6 and arithmetic Habiro consumers use the finite étale exports; their
-arithmetic modules do not become prerequisites for this roadmap. No six-functor
-formalism, diamond or Langlands construction is needed here. Local
-q-crystalline theory is imported from PrismaticCohomologyPartII §§5.9–5.21; the global arithmetic gluing is the
-new construction in HQ.1.
-
-CohomologyComparisons §1.7 owns compatibility of the local AΩ/prismatic specializations. Sections 8.18–8.19 here instead compare those supplied maps with the composite β_S from the global arithmetic qΩ construction. HabiroRings §§0.1–0.6 own general ordinary marked étale deformations; §0.3 here constructs the enhanced cohomological coefficient lifts and their full cyclotomic descent.
-
-The native algebraic starting point is Mathlib at
-`1b1ccf4b088b32fa3f23f2de1127433254a81e1e`, with Tau Ceti at
-`2fd255d997f47c0b5d834ee416c7015d55444ce5`. Reuse `Polynomial`, `PowerSeries`,
-`MvPolynomial`, modules, linear maps, monoid algebras, finite projectivity,
-ordinary categorical diagrams, Kähler differentials, étale and smooth
-algebras, cyclotomic polynomials and degree-zero Witt vectors. In particular:
-
-- `geom_sum_mul`, `geom_sum_succ` and `one_geom_sum` provide the q-integer
-  identities. `Polynomial.cyclotomic_prime`,
-  `Polynomial.cyclotomic_prime_mul_X_sub_one` and
-  `Polynomial.eval_one_cyclotomic_prime` provide the prime cyclotomic formula
-  and its specialization. Their prime hypothesis is `Fact p.Prime`.
-- `Algebra.Etale` means formally étale and of finite presentation;
-  `Algebra.Smooth` means formally smooth and of finite presentation.
-  `KaehlerDifferential.D` and `KaehlerDifferential.linearMapEquivDerivation`
-  supply the ordinary universal derivation and its universal property.
-- `IsAdicComplete` is ordinary completeness and separatedness of modules.
-  Its presence does not supply the enhanced derived completion used below.
-  Ordinary `DerivedCategory` does not supply the coherent totalizations,
-  homotopy fixed points and filtered enhanced categories required here.
-- `DividedPowerAlgebra.dp_mul` supplies the integral divided-power
-  multiplication relation used in the p=2 test of §1.3. This native algebra
-  does not supply the universal completed PD/q-PD envelopes below.
-- Cyclotomic association and `WittVector.fontaineTheta_teichmuller` support
-  the native coefficient calculations in HQ.8. Their presence does not
-  construct AΩ, a prismatic site or its comparison maps.
-
-HQ.4 precedes HQ.3 in construction order: its twisted q-Witt and Nygaard
-objects are inputs to the chosen-filtration descent, while its framed
-constructions do not use that descent.
-
-Tau Ceti at the pin supplies general split-torus character evaluation in
-`TauCeti/LinearAlgebra/Basis/DiagonalTorus/Basic.lean`:
-`TauCeti.torusCharacter`, `torusCharacter_add`, `torusCharacter_neg` and
-`torusCharacter_zsmul`. For the point with coordinates `q^{a_i}`, its value
-on m is `q^{Σ_i a_i m_i}`; no new character-evaluation theory is proposed.
-The torus application below instead constructs the associated algebra
-automorphisms and their coherent module descent. AlgebraicVectorBundles
-Layers L0B and L2B own ordinary finite locally free sheaves and their
-geometric total spaces; the lattice application uses that dictionary and
-adds its specified semilinear equivariance.
+Layer 0 constructs the cohomological coefficient and completion interfaces.
+Layer 1 constructs global qΩ and its framed and torus applications. Layer 2
+sets the stable filtered conventions and animates qΩ. Layer 3 (HQ.4) imports positive-degree q-Witt theory and constructs
+its twisted, animated and Nygaard applications before Layer 4 (HQ.3) uses it to
+descend chosen q-Hodge pairs; its last subsection (§4.28) collects the exported
+interface. Layer 5 gives the canonical algebraic sections and the
+finite-coefficient pairs (§5.26). Layer 6 poses the analytic
+problem, Layer 7 works the basic examples, and Layer 8 assembles the comparison
+squares. The HQ labels identify these mathematical families across the build. Subsection labels are stable locators; the text orders estimates before their rational comparison, animation before its deformation theorem, both Nygaard constructions before their comparison, the ascending q-Witt filtration before strong monoidality, and smooth completion before the étale identification.
 
 ## Conventions
 
@@ -135,134 +73,6 @@ coherent functors, mapping spaces and homotopy limits. Completeness is derived
 completeness in that enhancement. The only ordinary preimage filtration is the
 explicit static construction of Layer 5; its staticity and saturation
 hypotheses are part of its domain.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-Use the native algebraic interfaces listed in Scope and ownership. `AddMonoidAlgebra.lift` in `Mathlib/Algebra/MonoidAlgebra/Basic.lean` makes the Laurent coefficient character into a B-algebra homomorphism; no domain or nonzero-ring hypothesis is needed. `Polynomial.cyclotomic_prime` in `Mathlib/RingTheory/Polynomial/Cyclotomic/Basic.lean` gives the geometric-sum formula with `[Fact p.Prime]`; `Polynomial.eval_one_cyclotomic_prime` in `Mathlib/RingTheory/Polynomial/Cyclotomic/Eval.lean` gives its value p at one. `Algebra.Etale` and `Algebra.Smooth` in `Mathlib/RingTheory/Etale/Basic.lean` and `Mathlib/RingTheory/Smooth/Basic.lean` include finite presentation. `IsAdicComplete` in `Mathlib/RingTheory/AdicCompletion/Basic.lean` includes ordinary separatedness and completeness, with no enhanced derived-completion data.
-
-### From Tau Ceti
-
-Use `TauCeti.torusCharacter` and its addition, negation and integer-scaling laws in `TauCeti/LinearAlgebra/Basis/DiagonalTorus/Basic.lean`, as specified in Scope and ownership. These evaluate a unit-valued character of a finite lattice; the Laurent-algebra action and its coherent module descent are the distinct constructions of §§1.23–1.28.
-
-### From TauCetiRoadmap: algebraic and cohomological interfaces
-
-From **QWittVectors §§2.1–2.4**, import arithmetic Λ-rings, the perfection of arithmetic Λ-rings and the perfect-coverage predicate; use the arithmetic Λ-structure on the base, its
-commuting Adams operations and the faithfully flat perfect covers of the stated
-perfectly covered classes. QWittVectors §§5.1–5.2 and 6.1–6.3, through QWittVectors §§2.1–2.4 and the δ-ring/étale lifting
-interface of PerfectoidQuotients §0.0, supply the unique completed Frobenius lifts on étale
-algebras. No global Λ-structure on an arbitrary smooth or étale algebra is
-assumed.
-
-From **QWittVectors §§4.2–4.4 and 5.1–5.2**, import relative FV-systems, relative q-Witt rings, relative ghosts, étale base change and étale ghost pushouts; use the actual relative rings qW_m(R/A). They are the initial
-relative q-FV-system of QW Lemma 2.41 and Definition 2.42 (§2.5, p.30),
-constructed from `qW_m(R)⊗_{qW_m(A)}A[q]/(q^m−1)` by the Verschiebung
-coefficient-balancing ideal. For d|m the ghost target is exactly
-`R⊗_{A,ψ^d}A[q]/Φ_d(q)`, with the cyclotomic quotient and coefficient twist
-(QW Paragraph 2.44, §2.5, p.31). QWittVectors §§5.1–5.2 supply the étale theorem and the
-derived ghost pushouts of QW Proposition 2.48 and Corollary 2.51 (§2.6,
-pp.33–34). Neither an arbitrary family of rings with FV relations nor a product
-of rational ghost rings replaces this input. The coefficient lifts, finite
-complete descent and Habiro-complete tensor used below are constructed in
-Layer 0 from these inputs and DerivedModuleAlgebra §§1.1–1.4, not imported from a later Habiro package.
-
-From **QWittVectors §§6.1–6.3**, import the completed étale Frobenius equivalence of §6.1, the q-fixed cyclotomic completion equivalence of §6.2 and completed ghost compatibility of §6.3. Their completed linearizations are equivalences for étale algebras over perfectly covered bases; they fix q on cyclotomic overlaps and carry the displayed Adams coefficient twists. These are the inputs to §0.3.
-
-From **QWittVectors §§7.1–7.7**, import differential V-systems, differential FV-systems, the prime Verschiebung differential relation, the initial differential q-Witt algebra, differential Frobenius, differential ghosts and differential base change. In §7.1 the structure maps s_m:qW_m(R/A)→P_m⁰ satisfy s_m V_(m/d)=V_(m/d) s_d, V_1=id and composition. An arbitrary P_m⁰ need not be qW_m(R/A); that identification belongs to §7.2's initial object. The DGAs are nonnegative, graded commutative and strictly odd alternating, including at 2. Thus the zero family is allowed, but the family P_m=ℚ[q]/f_m with d=0 and V_n=0 for n>1 is excluded by the degree-zero square: V₂(1)=1+q is nonzero at level 2 (QW Definition 3.1(b), p.37).
-
-From **QWittVectors §7.7**, import the unique étale differential extension and étale descent of differential q-Witt forms. The differential on qW_m(R′/A)⊗_(qW_m(R/A))qW_mΩ for étale R→R′ is the unique extension. Its generic input requires central degree zero, graded commutativity and strict odd alternation. The associative DGA with P⁰=ℤ[q,x], P¹=P⁰u, u²=d=0 and ub=b(q,0)u is excluded: localization at x leaves a nonzero left-module generator u, whereas compatible multiplication would force u=(ux)x⁻¹=0. These underived differential base changes use ordinary degreewise tensor (QW Lemma 3.32, p.51).
-
-From **QWittVectors §§8.1–8.3**, import coordinate-scaling automorphisms, framed Jackson derivatives and the framed difference complex on any finite étale frame over a commutative base, with the h-completion and coordinate regularity needed to divide by hT_i. The p-completely étale local framing and q-PD-envelope comparison instead use PrismaticCohomologyPartII §§5.2–5.11, 5.13–5.21 as specified in §1.1. The empty frame is S[[h]]; D_q(x²)=(1+q)x and D_1(x²)=0 in characteristic 2. The global/framed equivalence is the target of §1.14; §1.2 records the imported polynomial calculus.
-
-From **QWittVectors §§9.6–9.7 and 10.1–10.2**, import prime-power smooth induction, the smooth de Rham comparison, the p-local differential decomposition, integer torsion-freeness of smooth q-Witt forms and bounded difference-parameter torsion, including degreewise completion of smooth forms. The smooth hypotheses require perfectly covered A, arbitrary smooth R/A, every positive index and every prime, including 2. For m=pᵃn, p∤n, the underived p-local product is over d|n with scalar ring C_a=A[q]/(q^(pᵃ)−1) and scalar map a↦ψ_d(a), q↦qᵈ into A_(p)[q]/Φ_d(q^(pᵃ)). Tensor is ordinary degreewise over C_a; perfect coverage makes these maps flat and identifies it with derived tensor over C_a. It is never derived tensor over A[q]. The smooth p-completed comparison instead uses Ω*_(R/A)⊗ᴸ_(A,ψ_(pᵃd))A[q]/Φ_d(q^(pᵃ)) (QW Lemma 4.36 and Proposition 4.2, pp.74–75 and p.54). The framed cohomology comparison is §9.6; integer torsion-freeness and bounded h-power torsion justify its degreewise completion.
-
-From **DerivedModuleAlgebra §0.K.1**, import vanishing of positive Koszul homology of a finite weakly regular sequence. Apply the weak-regularity component of Mathlib `RingTheory.Sequence.IsRegular` in perfect-regular presentations; this package owns no second regular-to-Koszul-regular theorem.
-
-From **PrismaticCohomologyPartII §§5.2–5.11, 5.13–5.21**, **DerivedDeRhamCohomology §PD.6** and **CrystallineCohomology CR.2**, use
-δ-rings, the local q-PD pair and universal envelopes. In the rational envelope
-argument fix p and a p-completely smooth S/Â_p, choose a surjection P↠S
-from a p-completely ind-smooth δ-Â_p-algebra, and put J=ker(P↠S). The inputs
-are D=D_P(J)^∧_p and qD, the universal (p,h)-complete q-PD envelope of
-(P[[h]],(J,h)), with δ(q)=0. Their maps are induced by the same presentation,
-and qD/h≃D is the canonical envelope base-change map. Include the envelope
-universal properties, complete flatness and p-torsion-freeness used in the
-convergence estimates; γ and γ_q are the associated actual operations.
-Rational h-completion has q↦1+h. This is the construction of QH Lemma A.4
-(§A.1, p.70), using BS Lemma 16.10 (§16.1, pp.110–111). Its envelope flatness theorem uses completely regular generators relative to the base in the local presentations; four independently
-chosen rings do not satisfy this contract. From **PrismaticCohomologyPartII §§3.13–3.16**, use actual relative
-prismatic Frobenius and its Nygaard-divisibility/descent functors.
-
-From **PrismaticCohomology §§1.4–1.10, 2.1–2.4 and 2.17**, use prismatic cohomology for a bounded prism and its
-derived (p,I)-complete animation, conjugate filtration and quasisyntomic
-descent on the stated bounded-torsion, cotangent-amplitude domains. Source
-colimits are p-completed and target colimits (p,I)-completed.
-From **PerfectoidSpaces §P4.15.2**, use the perfect-prism/integral-perfectoid equivalence and a distinguished generator ξ of the oriented kernel; PerfectoidQuotients imports this in its “From PerfectoidSpaces: derived and prism interfaces” contract. Here the explicit Nygaard calculation
-requires δ(ξ) to be a unit and uses its canonical q-divided-power monomials.
-
-From **DerivedModuleAlgebra §§0.4, 0.8–0.14 and 1.1–1.4**, use the full cotangent complex, derived exterior powers, generic module completion reflector and quotient towers. EnhancedDerivedSheaves §§0.1–0.3 and E5:animation provide coherent diagrams and animated rings. From **DerivedDeRhamCohomology §§1.14–1.17, 1.22 and 2.22–2.27**, use filtered completion/tensor, valid exchanges of derived operations, and derived de Rham with its Hodge filtration and completed base changes; §§3.2–3.6 supply conjugate filtrations, §§5.1–5.7 quasisyntomic descent, and §4.6 the torsion boundary. The arithmetic-square arrows are the natural maps of these constructions, including Adams twists. Finite-projective extension uses dualizability to exchange the entire enhanced limit and completion diagrams; ordinary flatness alone does not supply this exchange.
-From **AInfCohomology AI.1**, use the actual Koszul and Lη constructions with the
-stated regularity, filtration and completion properties.
-
-In particular, **DerivedDeRhamCohomology §4.6** retains the torsion boundary for derived de Rham
-cohomology of 𝔽_p over ℤ_p. Its derived p-completed two-term divided-power
-model differs from crystalline cohomology over (ℤ_p,(p)) with its specified
-divided powers (Bhatt, Proposition 8.5 and Corollary 8.6, §8, p.32).
-
-From **EnhancedDerivedSheaves E0/E1/E2/E5**, use stable coherent diagrams,
-module-category enhancements, sheaves on an affine basis, extension from that
-basis and their enhanced limits; E5 supplies animation, presentability and
-monoidal transport. The affine module identifications and descent
-transformations must be natural and compatible with coefficient extension.
-For the infinite discrete lattice in Layer 1, construct its action-groupoid
-prestacks, flat sheafification and the QCoh right Kan extension here, using
-E0 coherent limits and E1 affine modules and flat descent. Identify
-`Mod_{HC}` with the enhanced D(C) for the Eilenberg–Mac Lane ring HC. QCoh
-takes the groupoid realization to its totalization and is invariant under
-flat sheafification.
-This supplies the specific lattice application of DAG VIII Proposition 2.7.6,
-Definition 2.7.8 (p.71) and Proposition 2.7.14 (§2.7, p.72), including the
-pointwise t-structure and affine-local perfectness. A finite-group-only
-fixed-point interface is insufficient. General parameter-stack theory is not
-an input to this construction.
-
-From **AI.3–AI.5, CR.2/CR.4 and CohomologyComparisons §§1.2, 1.4, 1.7–1.9 and 6.10**, use the specified
-AΩ, Fontaine θ and Witt maps, PD Poincaré/de Rham–crystalline equivalences,
-and their normalization. Layer 6 is a research problem requiring an analytic coefficient ring, an analytic Habiro stack and a solid coefficient category; it has no imported analytic construction or comparison theorem.
-
-Import the distinct-order integral cyclotomic intersection classification from HabiroCyclotomicCompletions §4.1: for distinct positive a,b, the quotient ℤ[q]/(Φ_a,Φ_b) is zero unless the orders have prime-power ratio pᵏ with k≥1, when it is 𝔽_p[q]/Φ_min(a,b). Equal orders retain their integral quotient.
-
-From **QWittVectors §6.2**, use equality of the radicals of (p,Φ_d) and (p,Φ_(pd)) and the resulting equality of derived completion functors for every commutative coefficient ring. From **HabiroCyclotomicCompletions §5.2**, use comaximal cyclotomic product decomposition, with component maps the restrictions. Together with its §4.1 integral ideal classification these supply the coefficient topology in §0.2; that section constructs the enhanced category descent.
-
-The following are required extensions, not assertions that the base roadmaps already state these interfaces. Their Part II ownership preserves the earlier suppliers; the affected targets below are conditional on these contracts.
-
-What CrystallineCohomology must provide (gap:relative-witt-factorization): For every Λ-ring A that is a ℤ_(p)-algebra and every A-algebra R, prove that the absolute restriction-free FV map W_(a+1)Ω_(R/ℤ_(p))→qW_(pᵃ)Ω_(R/A), for all a≥0, kills the differentials of the image of W_(a+1)(A), hence factors through the relative ordinary complex, compatibly with Frobenius and Verschiebung. Required extension: Part II: relative restriction-free de Rham–Witt, extending CR.4.
-
-What PrismaticCohomologyPartII must provide (gap:finite-projective-nygaard): For a finite-projective Λ-map A→B of perfectly covered bases, supply coherent completed scalar-extension equivalences for the actual relative Frobenius and Nygaard filtration of every twisted smooth q-de Rham input of §§3.15 and 3.22, natural in smooth algebras and compatible with divisor maps, products, identity and composition. Required extension: finite-projective Frobenius/Nygaard transport beyond PrismaticCohomologyPartII §§3.13–3.16, owned by a further Part II extension of that roadmap.
-
-What AInfCohomology must provide (gap:finite-projective-filtered-decalage): For the finite-projective Λ-base changes and twisted q-de Rham inputs of §4.26, supply natural scalar-extension equivalences for Lη and its entire décalage filtration, with the displayed regular parameters, completed tensors, coefficient twists and coherence under identity, composition and tensor products. Required extension: Part II: finite-projective filtered décalage transport, extending AI.1.
-
-What EnhancedDerivedSheaves must provide (gap:unbounded-derived-commutative): For every commutative coefficient ring B, construct the unbounded derived commutative category DAlg_B and a conservative forgetful functor to CAlg(D(B)) creating limits and colimits, naturally under coefficient extension, with the static-ring and cosimplicial-envelope realizations used in §1.18; this is distinct from connective animated rings. Required extension: Part II: unbounded derived commutative algebras, extending E5:animation.4.
-
-What EnhancedDerivedSheaves must provide (gap:filtered-graded-derived-commutative): Supply filtered and graded refinements of the unbounded DAlg_B contract, compatible with Day tensor, associated graded, Rees modules, localization, degree-one filtered quotients, completion, animation and enhanced descent as used in §§3.18, 3.30, 4.23 and 5.22, with conservative forgetful comparisons preserving the required diagrams. Required extension: Part II: filtered and graded derived commutative algebras, extending E5:abstract and E5:animation.4.
-
-What EnhancedDerivedSheaves must provide (gap:fully-faithful-pushout): For every pushout C⊔_A B in Cat∞ with A→B fully faithful, prove C→C⊔_A B fully faithful, with the mapping-space comparison natural in the pushout diagram; generic existence of coherent pushouts or stable pushouts does not supply this theorem. Required extension: Part II: fully faithful pushouts in Cat∞, extending E0.4–E0.5.
-
-What EnhancedDerivedSheaves must provide (gap:oplax-dual-fibration): For each symmetric monoidal ∞-category C⊗→N(Fin_*), construct its dual cartesian fibration over N(Fin_*)ᵒᵖ, give the cocartesian-leg span description of its morphisms, and identify oplax symmetric monoidal functors with inert-preserving functors of the dual fibrations. Identify strong monoidality with preservation of all cartesian edges, coherently under identity and composition. Required extension: Part II: dual fibrations and oplax monoidal functors, extending E5:abstract.1–E5:abstract.3. The unit comparison is F(1)→1; the lax unit comparison 1→F(1) has the opposite direction (QH Paragraph 4.14, p.59, QH lines 2689–2701).
-
-The unbounded derived-commutative requirements are the extra input used in QH Paragraph A.13, p.76, and §3.8, p.50; EnhancedDerivedSheaves E5:animation.4 only compares connective animated rings with E∞-objects. The categorical pushout requirement is the additional theorem invoked in QH Lemma 4.9, pp.56–57.
-
-## How to read the build
-
-Layer 0 constructs the cohomological coefficient and completion interfaces.
-Layer 1 constructs global qΩ and its framed and torus applications. Layer 2
-sets the stable filtered conventions and animates qΩ. Layer 3 (HQ.4) imports positive-degree q-Witt theory and constructs
-its twisted, animated and Nygaard applications before Layer 4 (HQ.3) uses it to
-descend chosen q-Hodge pairs; its last subsection (§4.28) collects the exported
-interface. Layer 5 gives the canonical algebraic sections and the
-finite-coefficient pairs (§5.26). Layer 6 poses the analytic
-problem, Layer 7 works the basic examples, and Layer 8 assembles the comparison
-squares. The HQ labels identify these mathematical families across the build. Subsection labels are stable locators; the text orders estimates before their rational comparison, animation before its deformation theorem, both Nygaard constructions before their comparison, the ascending q-Witt filtration before strong monoidality, and smooth completion before the étale identification.
 
 ## Layer 0: Habiro completion and étale coefficients
 
@@ -2504,6 +2314,196 @@ Habiro descent, framed trace comparisons and the homotopical number-field
 application. The canonical specialization equalities and their scheme descent
 are outputs of Layer 8. Their classical comparison maps are imported from
 CohomologyComparisons §§1.2, 1.4, 1.7–1.9 and 6.10. The analytic problem does not supply any algebraic prerequisite.
+
+## Scope and ownership
+
+The following ownership conventions keep the constructions reusable. Polynomial Jackson calculus, the initial differential q-Witt system, generic completion and regular-sequence Koszul acyclicity belong to the named suppliers below. Cyclotomic radical comparison and comaximal coefficient splitting belong to QWittVectors §6.2 and HabiroCyclotomicCompletions §5.2; this roadmap owns their enhanced closed-cover application. Split-torus character evaluation belongs to Tau Ceti; §1.23 adds its Laurent-algebra automorphisms over an arbitrary commutative ring and unit parameter.
+
+| Supplier | Imported mathematics and use |
+| --- | --- |
+| QWittVectors §§2.1–2.4, 4.2–4.4, 5.1–5.2 and 6.1–6.3 | Arithmetic Λ-rings and perfect coverage; relative degree-zero q-Witt rings, ghosts, Frobenius, Verschiebung, Teichmüller maps and étale base change. |
+| HabiroCyclotomicCompletions §§1.1, 4.1 and 5.2; QWittVectors §6.2 | Polynomial Jackson calculus, integral distinct-order cyclotomic intersections, comaximal product splitting and radical invariance of cyclotomic completion. Section 0.2 adds enhanced finite closed-cover descent. |
+| This roadmap, Layer 0 | Specialize generic enhanced completion to the Habiro family; construct finite cyclotomic descent and the étale coefficient lifts. HabiroRings subsequently uses these cohomological contracts to compare its ordinary models. |
+| QWittVectors §§7.1–7.7, 8.1–8.3, 9.6–9.7 and 10.1–10.2 | Positive-degree systems, initial q-Witt differential algebra, operators, ghosts, differential base change, complete framed calculus, smooth torsion and completion. This roadmap imports these and builds global q-de Rham, animation, Nygaard and Habiro applications. Polynomial Jackson calculus over arbitrary commutative rings and scalars is imported from HabiroCyclotomicCompletions §1.1. |
+| DerivedModuleAlgebra §§0.4, 0.8–0.14, 1.1–1.4; DerivedDeRhamCohomology §§1.14–1.17, 1.22, 2.22–2.27, 3.2–3.6, 4.6 | Full cotangent complexes, derived powers and generic enhanced completion; filtered completion, derived de Rham, conjugate filtrations and the torsion boundary. |
+| EnhancedDerivedSheaves E0, E1, E2 and E5 | Enhanced categories, affine/étale descent, animation, presentability and monoidal transport. The additional dual-cartesian/oplax interface is the declared gap below. E4 uses the completion of DerivedModuleAlgebra §§1.1–1.4. |
+| AInfCohomology AI.1; DerivedModuleAlgebra §0.K.1 | Generic Koszul complexes, weak-regular-sequence acyclicity, Berthelot–Ogus décalage and its filtered and completion properties. |
+| PrismaticCohomology Layers 0–2; PrismaticCohomologyPartII §§3.13–3.16, 5.2–5.11, 5.13–5.25; PerfectoidSpaces §P4.15.2 | δ-rings, bounded prisms and derived prismatic descent; relative Frobenius/Nygaard; local q-PD envelopes, framed, AΩ and uniqueness comparisons; perfect prisms and integral perfectoid rings. |
+| AInfCohomology AI.3–AI.5, DerivedDeRhamCohomology §PD.6, CrystallineCohomology CR.2/CR.4 and CohomologyComparisons §§1.2, 1.4, 1.7–1.9 and 6.10 | AΩ, canonical perfectoid specializations, ordinary PD envelopes and the PD Poincaré lemma, ordinary de Rham–Witt/crystalline comparison and their normalization. |
+| This roadmap, Layer 6 | The analytic comparison problem and its required input specification; it exports no analytic construction or algebraic prerequisite. |
+
+The cohomological completion and étale comparison interfaces are constructed
+in §§0.1–0.3, 4.21 and 4.28, before their trace applications. They allow
+HabiroRings to compare an independently constructed ordinary relative ring
+with the cohomological coefficient object. Ordinary ring presentations and
+the rootwise Taylor calculus of HabiroCyclotomicCompletions are not direct
+inputs to this construction; the relative q-Witt rings remain inputs from
+QWittVectors §§4.2–4.4 and 5.1–5.2, including those suppliers' cyclotomic prerequisites.
+HabiroRings Layer 6 and arithmetic Habiro consumers use the finite étale exports; their
+arithmetic modules do not become prerequisites for this roadmap. No six-functor
+formalism, diamond or Langlands construction is needed here. Local
+q-crystalline theory is imported from PrismaticCohomologyPartII §§5.9–5.21; the global arithmetic gluing is the
+new construction in HQ.1.
+
+CohomologyComparisons §1.7 owns compatibility of the local AΩ/prismatic specializations. Sections 8.18–8.19 here instead compare those supplied maps with the composite β_S from the global arithmetic qΩ construction. HabiroRings §§0.1–0.6 own general ordinary marked étale deformations; §0.3 here constructs the enhanced cohomological coefficient lifts and their full cyclotomic descent.
+
+The native algebraic starting point is Mathlib at
+`1b1ccf4b088b32fa3f23f2de1127433254a81e1e`, with Tau Ceti at
+`2fd255d997f47c0b5d834ee416c7015d55444ce5`. Reuse `Polynomial`, `PowerSeries`,
+`MvPolynomial`, modules, linear maps, monoid algebras, finite projectivity,
+ordinary categorical diagrams, Kähler differentials, étale and smooth
+algebras, cyclotomic polynomials and degree-zero Witt vectors. In particular:
+
+- `geom_sum_mul`, `geom_sum_succ` and `one_geom_sum` provide the q-integer
+  identities. `Polynomial.cyclotomic_prime`,
+  `Polynomial.cyclotomic_prime_mul_X_sub_one` and
+  `Polynomial.eval_one_cyclotomic_prime` provide the prime cyclotomic formula
+  and its specialization. Their prime hypothesis is `Fact p.Prime`.
+- `Algebra.Etale` means formally étale and of finite presentation;
+  `Algebra.Smooth` means formally smooth and of finite presentation.
+  `KaehlerDifferential.D` and `KaehlerDifferential.linearMapEquivDerivation`
+  supply the ordinary universal derivation and its universal property.
+- `IsAdicComplete` is ordinary completeness and separatedness of modules.
+  Its presence does not supply the enhanced derived completion used below.
+  Ordinary `DerivedCategory` does not supply the coherent totalizations,
+  homotopy fixed points and filtered enhanced categories required here.
+- `DividedPowerAlgebra.dp_mul` supplies the integral divided-power
+  multiplication relation used in the p=2 test of §1.3. This native algebra
+  does not supply the universal completed PD/q-PD envelopes below.
+- Cyclotomic association and `WittVector.fontaineTheta_teichmuller` support
+  the native coefficient calculations in HQ.8. Their presence does not
+  construct AΩ, a prismatic site or its comparison maps.
+
+HQ.4 precedes HQ.3 in construction order: its twisted q-Witt and Nygaard
+objects are inputs to the chosen-filtration descent, while its framed
+constructions do not use that descent.
+
+Tau Ceti at the pin supplies general split-torus character evaluation in
+`TauCeti/LinearAlgebra/Basis/DiagonalTorus/Basic.lean`:
+`TauCeti.torusCharacter`, `torusCharacter_add`, `torusCharacter_neg` and
+`torusCharacter_zsmul`. For the point with coordinates `q^{a_i}`, its value
+on m is `q^{Σ_i a_i m_i}`; no new character-evaluation theory is proposed.
+The torus application below instead constructs the associated algebra
+automorphisms and their coherent module descent. AlgebraicVectorBundles
+Layers L0B and L2B own ordinary finite locally free sheaves and their
+geometric total spaces; the lattice application uses that dictionary and
+adds its specified semilinear equivariance.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+Use the native algebraic interfaces listed in Scope and ownership. `AddMonoidAlgebra.lift` in `Mathlib/Algebra/MonoidAlgebra/Basic.lean` makes the Laurent coefficient character into a B-algebra homomorphism; no domain or nonzero-ring hypothesis is needed. `Polynomial.cyclotomic_prime` in `Mathlib/RingTheory/Polynomial/Cyclotomic/Basic.lean` gives the geometric-sum formula with `[Fact p.Prime]`; `Polynomial.eval_one_cyclotomic_prime` in `Mathlib/RingTheory/Polynomial/Cyclotomic/Eval.lean` gives its value p at one. `Algebra.Etale` and `Algebra.Smooth` in `Mathlib/RingTheory/Etale/Basic.lean` and `Mathlib/RingTheory/Smooth/Basic.lean` include finite presentation. `IsAdicComplete` in `Mathlib/RingTheory/AdicCompletion/Basic.lean` includes ordinary separatedness and completeness, with no enhanced derived-completion data.
+
+### From Tau Ceti
+
+Use `TauCeti.torusCharacter` and its addition, negation and integer-scaling laws in `TauCeti/LinearAlgebra/Basis/DiagonalTorus/Basic.lean`, as specified in Scope and ownership. These evaluate a unit-valued character of a finite lattice; the Laurent-algebra action and its coherent module descent are the distinct constructions of §§1.23–1.28.
+
+### From TauCetiRoadmap: algebraic and cohomological interfaces
+
+From **QWittVectors §§2.1–2.4**, import arithmetic Λ-rings, the perfection of arithmetic Λ-rings and the perfect-coverage predicate; use the arithmetic Λ-structure on the base, its
+commuting Adams operations and the faithfully flat perfect covers of the stated
+perfectly covered classes. QWittVectors §§5.1–5.2 and 6.1–6.3, through QWittVectors §§2.1–2.4 and the δ-ring/étale lifting
+interface of PerfectoidQuotients §0.0, supply the unique completed Frobenius lifts on étale
+algebras. No global Λ-structure on an arbitrary smooth or étale algebra is
+assumed.
+
+From **QWittVectors §§4.2–4.4 and 5.1–5.2**, import relative FV-systems, relative q-Witt rings, relative ghosts, étale base change and étale ghost pushouts; use the actual relative rings qW_m(R/A). They are the initial
+relative q-FV-system of QW Lemma 2.41 and Definition 2.42 (§2.5, p.30),
+constructed from `qW_m(R)⊗_{qW_m(A)}A[q]/(q^m−1)` by the Verschiebung
+coefficient-balancing ideal. For d|m the ghost target is exactly
+`R⊗_{A,ψ^d}A[q]/Φ_d(q)`, with the cyclotomic quotient and coefficient twist
+(QW Paragraph 2.44, §2.5, p.31). QWittVectors §§5.1–5.2 supply the étale theorem and the
+derived ghost pushouts of QW Proposition 2.48 and Corollary 2.51 (§2.6,
+pp.33–34). Neither an arbitrary family of rings with FV relations nor a product
+of rational ghost rings replaces this input. The coefficient lifts, finite
+complete descent and Habiro-complete tensor used below are constructed in
+Layer 0 from these inputs and DerivedModuleAlgebra §§1.1–1.4, not imported from a later Habiro package.
+
+From **QWittVectors §§6.1–6.3**, import the completed étale Frobenius equivalence of §6.1, the q-fixed cyclotomic completion equivalence of §6.2 and completed ghost compatibility of §6.3. Their completed linearizations are equivalences for étale algebras over perfectly covered bases; they fix q on cyclotomic overlaps and carry the displayed Adams coefficient twists. These are the inputs to §0.3.
+
+From **QWittVectors §§7.1–7.7**, import differential V-systems, differential FV-systems, the prime Verschiebung differential relation, the initial differential q-Witt algebra, differential Frobenius, differential ghosts and differential base change. In §7.1 the structure maps s_m:qW_m(R/A)→P_m⁰ satisfy s_m V_(m/d)=V_(m/d) s_d, V_1=id and composition. An arbitrary P_m⁰ need not be qW_m(R/A); that identification belongs to §7.2's initial object. The DGAs are nonnegative, graded commutative and strictly odd alternating, including at 2. Thus the zero family is allowed, but the family P_m=ℚ[q]/f_m with d=0 and V_n=0 for n>1 is excluded by the degree-zero square: V₂(1)=1+q is nonzero at level 2 (QW Definition 3.1(b), p.37).
+
+From **QWittVectors §7.7**, import the unique étale differential extension and étale descent of differential q-Witt forms. The differential on qW_m(R′/A)⊗_(qW_m(R/A))qW_mΩ for étale R→R′ is the unique extension. Its generic input requires central degree zero, graded commutativity and strict odd alternation. The associative DGA with P⁰=ℤ[q,x], P¹=P⁰u, u²=d=0 and ub=b(q,0)u is excluded: localization at x leaves a nonzero left-module generator u, whereas compatible multiplication would force u=(ux)x⁻¹=0. These underived differential base changes use ordinary degreewise tensor (QW Lemma 3.32, p.51).
+
+From **QWittVectors §§8.1–8.3**, import coordinate-scaling automorphisms, framed Jackson derivatives and the framed difference complex on any finite étale frame over a commutative base, with the h-completion and coordinate regularity needed to divide by hT_i. The p-completely étale local framing and q-PD-envelope comparison instead use PrismaticCohomologyPartII §§5.2–5.11, 5.13–5.21 as specified in §1.1. The empty frame is S[[h]]; D_q(x²)=(1+q)x and D_1(x²)=0 in characteristic 2. The global/framed equivalence is the target of §1.14; §1.2 records the imported polynomial calculus.
+
+From **QWittVectors §§9.6–9.7 and 10.1–10.2**, import prime-power smooth induction, the smooth de Rham comparison, the p-local differential decomposition, integer torsion-freeness of smooth q-Witt forms and bounded difference-parameter torsion, including degreewise completion of smooth forms. The smooth hypotheses require perfectly covered A, arbitrary smooth R/A, every positive index and every prime, including 2. For m=pᵃn, p∤n, the underived p-local product is over d|n with scalar ring C_a=A[q]/(q^(pᵃ)−1) and scalar map a↦ψ_d(a), q↦qᵈ into A_(p)[q]/Φ_d(q^(pᵃ)). Tensor is ordinary degreewise over C_a; perfect coverage makes these maps flat and identifies it with derived tensor over C_a. It is never derived tensor over A[q]. The smooth p-completed comparison instead uses Ω*_(R/A)⊗ᴸ_(A,ψ_(pᵃd))A[q]/Φ_d(q^(pᵃ)) (QW Lemma 4.36 and Proposition 4.2, pp.74–75 and p.54). The framed cohomology comparison is §9.6; integer torsion-freeness and bounded h-power torsion justify its degreewise completion.
+
+From **DerivedModuleAlgebra §0.K.1**, import vanishing of positive Koszul homology of a finite weakly regular sequence. Apply the weak-regularity component of Mathlib `RingTheory.Sequence.IsRegular` in perfect-regular presentations; this package owns no second regular-to-Koszul-regular theorem.
+
+From **PrismaticCohomologyPartII §§5.2–5.11, 5.13–5.21**, **DerivedDeRhamCohomology §PD.6** and **CrystallineCohomology CR.2**, use
+δ-rings, the local q-PD pair and universal envelopes. In the rational envelope
+argument fix p and a p-completely smooth S/Â_p, choose a surjection P↠S
+from a p-completely ind-smooth δ-Â_p-algebra, and put J=ker(P↠S). The inputs
+are D=D_P(J)^∧_p and qD, the universal (p,h)-complete q-PD envelope of
+(P[[h]],(J,h)), with δ(q)=0. Their maps are induced by the same presentation,
+and qD/h≃D is the canonical envelope base-change map. Include the envelope
+universal properties, complete flatness and p-torsion-freeness used in the
+convergence estimates; γ and γ_q are the associated actual operations.
+Rational h-completion has q↦1+h. This is the construction of QH Lemma A.4
+(§A.1, p.70), using BS Lemma 16.10 (§16.1, pp.110–111). Its envelope flatness theorem uses completely regular generators relative to the base in the local presentations; four independently
+chosen rings do not satisfy this contract. From **PrismaticCohomologyPartII §§3.13–3.16**, use actual relative
+prismatic Frobenius and its Nygaard-divisibility/descent functors.
+
+From **PrismaticCohomology §§1.4–1.10, 2.1–2.4 and 2.17**, use prismatic cohomology for a bounded prism and its
+derived (p,I)-complete animation, conjugate filtration and quasisyntomic
+descent on the stated bounded-torsion, cotangent-amplitude domains. Source
+colimits are p-completed and target colimits (p,I)-completed.
+From **PerfectoidSpaces §P4.15.2**, use the perfect-prism/integral-perfectoid equivalence and a distinguished generator ξ of the oriented kernel; PerfectoidQuotients imports this in its “From PerfectoidSpaces: derived and prism interfaces” contract. Here the explicit Nygaard calculation
+requires δ(ξ) to be a unit and uses its canonical q-divided-power monomials.
+
+From **DerivedModuleAlgebra §§0.4, 0.8–0.14 and 1.1–1.4**, use the full cotangent complex, derived exterior powers, generic module completion reflector and quotient towers. EnhancedDerivedSheaves §§0.1–0.3 and E5:animation provide coherent diagrams and animated rings. From **DerivedDeRhamCohomology §§1.14–1.17, 1.22 and 2.22–2.27**, use filtered completion/tensor, valid exchanges of derived operations, and derived de Rham with its Hodge filtration and completed base changes; §§3.2–3.6 supply conjugate filtrations, §§5.1–5.7 quasisyntomic descent, and §4.6 the torsion boundary. The arithmetic-square arrows are the natural maps of these constructions, including Adams twists. Finite-projective extension uses dualizability to exchange the entire enhanced limit and completion diagrams; ordinary flatness alone does not supply this exchange.
+From **AInfCohomology AI.1**, use the actual Koszul and Lη constructions with the
+stated regularity, filtration and completion properties.
+
+In particular, **DerivedDeRhamCohomology §4.6** retains the torsion boundary for derived de Rham
+cohomology of 𝔽_p over ℤ_p. Its derived p-completed two-term divided-power
+model differs from crystalline cohomology over (ℤ_p,(p)) with its specified
+divided powers (Bhatt, Proposition 8.5 and Corollary 8.6, §8, p.32).
+
+From **EnhancedDerivedSheaves E0/E1/E2/E5**, use stable coherent diagrams,
+module-category enhancements, sheaves on an affine basis, extension from that
+basis and their enhanced limits; E5 supplies animation, presentability and
+monoidal transport. The affine module identifications and descent
+transformations must be natural and compatible with coefficient extension.
+For the infinite discrete lattice in Layer 1, construct its action-groupoid
+prestacks, flat sheafification and the QCoh right Kan extension here, using
+E0 coherent limits and E1 affine modules and flat descent. Identify
+`Mod_{HC}` with the enhanced D(C) for the Eilenberg–Mac Lane ring HC. QCoh
+takes the groupoid realization to its totalization and is invariant under
+flat sheafification.
+This supplies the specific lattice application of DAG VIII Proposition 2.7.6,
+Definition 2.7.8 (p.71) and Proposition 2.7.14 (§2.7, p.72), including the
+pointwise t-structure and affine-local perfectness. A finite-group-only
+fixed-point interface is insufficient. General parameter-stack theory is not
+an input to this construction.
+
+From **AI.3–AI.5, CR.2/CR.4 and CohomologyComparisons §§1.2, 1.4, 1.7–1.9 and 6.10**, use the specified
+AΩ, Fontaine θ and Witt maps, PD Poincaré/de Rham–crystalline equivalences,
+and their normalization. Layer 6 is a research problem requiring an analytic coefficient ring, an analytic Habiro stack and a solid coefficient category; it has no imported analytic construction or comparison theorem.
+
+Import the distinct-order integral cyclotomic intersection classification from HabiroCyclotomicCompletions §4.1: for distinct positive a,b, the quotient ℤ[q]/(Φ_a,Φ_b) is zero unless the orders have prime-power ratio pᵏ with k≥1, when it is 𝔽_p[q]/Φ_min(a,b). Equal orders retain their integral quotient.
+
+From **QWittVectors §6.2**, use equality of the radicals of (p,Φ_d) and (p,Φ_(pd)) and the resulting equality of derived completion functors for every commutative coefficient ring. From **HabiroCyclotomicCompletions §5.2**, use comaximal cyclotomic product decomposition, with component maps the restrictions. Together with its §4.1 integral ideal classification these supply the coefficient topology in §0.2; that section constructs the enhanced category descent.
+
+The following are required extensions, not assertions that the base roadmaps already state these interfaces. Their Part II ownership preserves the earlier suppliers; the affected targets below are conditional on these contracts.
+
+What CrystallineCohomology must provide (gap:relative-witt-factorization): For every Λ-ring A that is a ℤ_(p)-algebra and every A-algebra R, prove that the absolute restriction-free FV map W_(a+1)Ω_(R/ℤ_(p))→qW_(pᵃ)Ω_(R/A), for all a≥0, kills the differentials of the image of W_(a+1)(A), hence factors through the relative ordinary complex, compatibly with Frobenius and Verschiebung. Required extension: Part II: relative restriction-free de Rham–Witt, extending CR.4.
+
+What PrismaticCohomologyPartII must provide (gap:finite-projective-nygaard): For a finite-projective Λ-map A→B of perfectly covered bases, supply coherent completed scalar-extension equivalences for the actual relative Frobenius and Nygaard filtration of every twisted smooth q-de Rham input of §§3.15 and 3.22, natural in smooth algebras and compatible with divisor maps, products, identity and composition. Required extension: finite-projective Frobenius/Nygaard transport beyond PrismaticCohomologyPartII §§3.13–3.16, owned by a further Part II extension of that roadmap.
+
+What AInfCohomology must provide (gap:finite-projective-filtered-decalage): For the finite-projective Λ-base changes and twisted q-de Rham inputs of §4.26, supply natural scalar-extension equivalences for Lη and its entire décalage filtration, with the displayed regular parameters, completed tensors, coefficient twists and coherence under identity, composition and tensor products. Required extension: Part II: finite-projective filtered décalage transport, extending AI.1.
+
+What EnhancedDerivedSheaves must provide (gap:unbounded-derived-commutative): For every commutative coefficient ring B, construct the unbounded derived commutative category DAlg_B and a conservative forgetful functor to CAlg(D(B)) creating limits and colimits, naturally under coefficient extension, with the static-ring and cosimplicial-envelope realizations used in §1.18; this is distinct from connective animated rings. Required extension: Part II: unbounded derived commutative algebras, extending E5:animation.4.
+
+What EnhancedDerivedSheaves must provide (gap:filtered-graded-derived-commutative): Supply filtered and graded refinements of the unbounded DAlg_B contract, compatible with Day tensor, associated graded, Rees modules, localization, degree-one filtered quotients, completion, animation and enhanced descent as used in §§3.18, 3.30, 4.23 and 5.22, with conservative forgetful comparisons preserving the required diagrams. Required extension: Part II: filtered and graded derived commutative algebras, extending E5:abstract and E5:animation.4.
+
+What EnhancedDerivedSheaves must provide (gap:fully-faithful-pushout): For every pushout C⊔_A B in Cat∞ with A→B fully faithful, prove C→C⊔_A B fully faithful, with the mapping-space comparison natural in the pushout diagram; generic existence of coherent pushouts or stable pushouts does not supply this theorem. Required extension: Part II: fully faithful pushouts in Cat∞, extending E0.4–E0.5.
+
+What EnhancedDerivedSheaves must provide (gap:oplax-dual-fibration): For each symmetric monoidal ∞-category C⊗→N(Fin_*), construct its dual cartesian fibration over N(Fin_*)ᵒᵖ, give the cocartesian-leg span description of its morphisms, and identify oplax symmetric monoidal functors with inert-preserving functors of the dual fibrations. Identify strong monoidality with preservation of all cartesian edges, coherently under identity and composition. Required extension: Part II: dual fibrations and oplax monoidal functors, extending E5:abstract.1–E5:abstract.3. The unit comparison is F(1)→1; the lax unit comparison 1→F(1) has the opposite direction (QH Paragraph 4.14, p.59, QH lines 2689–2701).
+
+The unbounded derived-commutative requirements are the extra input used in QH Paragraph A.13, p.76, and §3.8, p.50; EnhancedDerivedSheaves E5:animation.4 only compares connective animated rings with E∞-objects. The categorical pushout requirement is the additional theorem invoked in QH Lemma 4.9, pp.56–57.
 
 ## References
 
