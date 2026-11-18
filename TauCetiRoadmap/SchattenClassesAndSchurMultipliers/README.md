@@ -1,39 +1,63 @@
 # Roadmap: Schatten classes and Schur multipliers
 
-**Summary.** Build Schur multipliers on the Schatten classes of `L²(Ω, μ)` for a σ-finite measure
-space `(Ω, μ)`, on top of the Schatten classes `S_p` of OperatorTheory/OperatorIdeals, the
-noncommutative `Lᵖ` theory of NoncommutativeIntegration and the Hilbert–Schmidt kernels of
-AutomorphicSpectralTheory. The construction runs from the Schatten scale with its compact endpoint
-and completely bounded maps defined by amplification (Layer 1), through the kernel description of
-Hilbert–Schmidt operators (Layer 2), to the multiplier `S_M(A) = T_{M·k_A}` of a symbol
-`M ∈ L^∞(Ω × Ω)`, its `S_p` and completely bounded norms (Layers 3–5). The end theorems are:
+**Summary.** A Schur multiplier multiplies the kernel of an operator by a fixed function, its
+symbol. On `L²(Ω, μ)`, the multiplier `S_M` with an essentially bounded symbol `M` on `Ω × Ω`
+sends the Hilbert–Schmidt operator with kernel `k(x, y)` to the one with kernel `M(x, y) k(x, y)`.
+On the Hilbert–Schmidt class `S₂` its norm is the essential supremum of `M`. On the other
+Schatten classes `S_p` it need not be: on `2 × 2` matrices, the triangular truncation with symbol
+`[[1, 1], [0, 1]]` has norm `1` on `S₂` and `2/√3` on `S_∞`.
 
-- `M ↦ S_M` is an isometric unital `*`-homomorphism `L^∞(Ω × Ω) → B(S₂)`; the `S_p` and the
-  completely bounded norms are unchanged under `p ↦ p'` and under transposition of the symbol,
-  are log-convex in `1/p`, and are nondecreasing in `|1/p − 1/2|`;
-- the Schur product theorem for finite index sets, with `‖S_M‖_p = ‖S_M‖_{cb,p} = max_j M(j, j)`
-  for every positive semidefinite `M` and every `1 ≤ p ≤ ∞`;
-- the Grothendieck–Haagerup characterisation: for σ-finite `(Ω, μ)` and `p ∈ {1, ∞}`, the norm and
-  the completely bounded norm of `S_M` equal the infimum of `‖ξ‖_∞ ‖η‖_∞` over measurable
-  factorisations `M(x, y) = ⟨ξ(x), η(y)⟩` through `ℓ²(ℕ)`, equivalently over factorisations
-  through all separable Hilbert spaces at once;
-- Lafforgue–de la Salle: on an atomless σ-finite measure space the norm and the completely
-  bounded norm of every Schur multiplier on `S_p` agree, for every `1 ≤ p ≤ ∞`; for a continuous
-  symbol and a σ-finite Radon measure the norm is the supremum of the norms of the finite matrix
-  restrictions to the support;
-- Fourier–Schur transference on `ℝⁿ`: for every `m ∈ L^∞(ℝⁿ)` and `1 ≤ p ≤ ∞` the
-  completely bounded norm of the Toeplitz multiplier with symbol `m(x − y)` on `S_p(L²(ℝⁿ))` equals
-  the completely bounded norm of the Fourier multiplier `T_m` on `Lᵖ(ℝⁿ)`;
-- the Hörmander–Mikhlin–Schur theorem of Conde-Alonso, González-Pérez, Parcet and Tablate: for
-  `n ≥ 1`, `1 < p < ∞` and a symbol `M` of class `C^{⌊n/2⌋+1}` off the diagonal of `ℝⁿ × ℝⁿ` with
-  `|||M|||_{HMS} < ∞`, `‖S_M‖_{S_p → S_p} = ‖S_M‖_{cb, S_p → S_p} ≤ C_n (p²/(p − 1)) |||M|||_{HMS}`,
-  through the matrix BMO space of `B(L²(ℝⁿ))` and its interpolation with `S₂`.
+This roadmap builds these multipliers and the theorems that compute or bound their norms.
+Throughout, `(Ω, μ)` is σ-finite, Hilbert spaces are complex, and symbols are almost-everywhere
+classes in `L^∞(Ω × Ω)`. The exponent is `1 ≤ p ≤ ∞`, and `S_∞` consists of the compact
+operators, not all bounded ones. The completely bounded norm `‖S_M‖_{cb,p}` is the supremum,
+over all `m`, of the norms of `S_M` applied entry by entry to `m × m` matrices of operators.
 
-[Suggested.lean](Suggested.lean) states these end theorems at the pinned libraries, with the
-Schur multiplier norm written through kernels (Conventions), except the multiplicativity and
-`*`-compatibility of `M ↦ S_M`, whose statement needs the map `A ↦ S_M(A)` and hence the kernel of
-a Hilbert–Schmidt operator on an arbitrary σ-finite space, which Layer 2 builds; its docstring
-records this.
+The map `M ↦ S_M` is an isometric unital `*`-homomorphism from `L^∞(Ω × Ω)` into the bounded
+operators on `S₂`. Both norms of `S_M` are the same on `S_p` and on the dual class `S_{p'}`, and
+transposing the symbol changes neither. They are log-convex in `1/p` and nondecreasing in
+`|1/p − 1/2|`. The Schur product theorem computes both norms for a positive semidefinite
+matrix `M`: they equal its largest diagonal entry, for every `p`.
+
+The first main theorem is the Grothendieck–Haagerup characterisation. Write
+`M(x, y) = ⟨ξ(x), η(y)⟩` almost everywhere, with `ξ` and `η` measurable from `Ω` to `ℓ²(ℕ)`.
+The norm and the completely bounded norm of `S_M` on `S_∞` and on the trace class `S₁` all
+equal the infimum of `‖ξ‖_∞ ‖η‖_∞` over such factorisations, which is `∞` if there is none. For
+example, `cos(x − y)` on `ℝ` factors through `ξ(x) = η(x) = (e^{ix}, e^{−ix})/√2`, and all four
+norms equal `1`.
+
+The second, due to Lafforgue and de la Salle: on an atomless σ-finite measure space, the norm
+and the completely bounded norm of every Schur multiplier on `S_p` agree, for every `p`. An atom
+is a measurable set of positive measure whose measurable subsets all have measure zero or
+full measure. Requiring only that points be null is weaker, and is not the hypothesis.
+
+The third is Fourier–Schur transference on `ℝⁿ`. For `m ∈ L^∞(ℝⁿ)`, the Fourier multiplier `T_m`
+multiplies the Fourier transform by `m`. For every such `m` and every `p`, the completely bounded
+norm of the Schur multiplier with symbol `m(x − y)` on `S_p(L²(ℝⁿ))` equals that of `T_m`
+on `Lᵖ(ℝⁿ)`, measured on matrix-valued functions.
+
+The fourth is the Hörmander–Mikhlin–Schur theorem of Conde-Alonso, González-Pérez, Parcet and
+Tablate. Its norm `|||M|||_{HMS}` sums, over `0 ≤ k ≤ ⌊n/2⌋ + 1`, the essential supremum of
+`|x − y|^k` times the norms of the `k`-th derivatives of `M` in `x` and in `y`. Let `n ≥ 1`
+and `1 < p < ∞`, and let `M` be of class `C^{⌊n/2⌋+1}` off the diagonal of `ℝⁿ × ℝⁿ` with finite
+HMS norm. Then both norms of `S_M` on `S_p(L²(ℝⁿ))` agree and are at most
+`(p²/(p − 1)) |||M|||_{HMS}` times a constant that depends only on `n`. In dimension one it bounds
+the triangular truncation on `L²(ℝ)`.
+
+The roadmap takes the Schatten classes with `p < ∞` from the OperatorIdeals part of
+OperatorTheory. There the class at `p = ∞` is all of `B(H)`; the compact endpoint is defined
+here. NoncommutativeIntegration supplies complex interpolation, and AutomorphicSpectralTheory
+the integral operator of a square-integrable kernel. VonNeumannAlgebras supplies the trace and
+ultraproducts of Hilbert spaces. The Sobolev form of the Hörmander–Mikhlin–Schur theorem is
+left to SchattenClassesAndSchurMultipliers, Part II.
+
+Layers 1 to 5 build the Schatten scale with its compact endpoint, the kernels of Hilbert–Schmidt
+operators and the general theory of Schur multipliers. Layers 6, 7, 9 and 11 prove the four main
+theorems. Layer 8 treats continuous symbols, which transference uses, and Layer 10 builds the
+matrix BMO space behind the last theorem.
+
+[Suggested.lean](Suggested.lean) states the main theorems in Lean, except that `M ↦ S_M` is
+multiplicative and `*`-preserving, which needs the kernels of Layer 2.
 
 ## How to read the build
 
