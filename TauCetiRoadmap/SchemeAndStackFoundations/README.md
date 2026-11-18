@@ -66,7 +66,8 @@ universal-homeomorphism equivalence of small étale sites (§0.23a),
 the remaining statements on Tau Ceti's scheme Frobenius (§0.29),
 the ideal-sheaf comparison API, algebraic spaces beyond Tau Ceti's predicate with their small étale sites,
 group algebraic spaces, groupoids, torsors and their classes, categorical and geometric quotient predicates,
-projective quotients by finite groups, algebraic stacks, moduli spaces, Galois gerbs, the
+projective quotients by finite groups, algebraic stacks, cohomologically affine morphisms of
+stacks with linear reductivity of group schemes over a base (§1.22a), moduli spaces, Galois gerbs, the
 functoriality of sheaf cohomology on sites, the comparison of the topologies of a scheme with the coefficient sheaves `𝔾_a`, `𝔾_m`, `μ_n`, the
 Nisnevich site, the pro-étale site foundations (replete topoi, w-contractible covers,
 left-completeness), coherent Grothendieck duality in the generality of the Stacks Project, the Brauer
@@ -2775,7 +2776,8 @@ presentations, points, étale-local and separation properties and the small éta
 actions, groupoids, stabilizers, torsors and their classes, contracted products, twisting,
 categorical and geometric quotients and Artin's bootstrap; stacks in groupoids, stackification,
 2-fibre products, representable morphisms, algebraic and Deligne–Mumford stacks, inertia, quotient and
-root stacks and quasi-coherent modules on stacks; moduli functors with fine and coarse moduli
+root stacks and quasi-coherent modules on stacks; cohomologically affine morphisms and linearly
+reductive group schemes; moduli functors with fine and coarse moduli
 spaces, Keel–Mori and tame stacks; and the Galois gerbs of Langlands–Rapoport.
 
 **Conventions of this layer.** Presheaves are functors `Scheme.{u}ᵒᵖ ⥤ Type u` (Tau Ceti's
@@ -3826,6 +3828,144 @@ ordinary big-site direct image need not preserve quasi-coherence (Stacks, Propos
   sections `k[x,y]`, but evaluates to zero on `Spec k → 𝔸²_k` at the origin. A quasi-coherent
   sheaf with those global sections would evaluate to `k`, so raw direct image is not quasi-coherent.
 
+### 1.22a Cohomologically affine morphisms and linearly reductive group schemes
+
+A morphism `f : X → Y` of algebraic stacks is *quasi-separated* when its diagonal, representable
+by algebraic spaces (§1.19), is quasi-compact and quasi-separated: `RepresentableProperty` (§1.19)
+of `QuasiCompactSpace` and `QuasiSeparatedSpace` (§1.9) holds for `Δ_f` (Stacks, Definition 101.4.1
+(04YW)). With `QuasiCompactStack f` (§1.20) this is the hypothesis under which §1.22 constructs
+*QCoh.pushforward*. Define *Stacks.IsCohomologicallyAffine* `f`: `f` is quasi-compact and
+quasi-separated, and *QCoh.pushforward* `f : Stacks.QCoh X ⥤ Stacks.QCoh Y` preserves
+epimorphisms. As a right adjoint it is left exact, so the condition is exactness (Alper 2013,
+Definition 3.1, p. 2357, where quasi-separatedness is a standing convention; Alper–Hall–Rydh 2020,
+§1.5, p. 5, state it in the definition). Epimorphisms are those of the abelian category
+`Stacks.QCoh Y` (Stacks, Lemma 96.15.1 (06WV)); the inclusion of quasi-coherent modules into all
+`O_Y`-modules of the big site is not exact, so exactness of the raw direct image on all modules is a
+different condition. An algebraic stack `X` is cohomologically affine when `X → Spec ℤ` is; prove
+*IsCohomologicallyAffine.iff_globalSections*: this holds iff `X` is quasi-compact and
+quasi-separated and `Γ(X, −) : Stacks.QCoh X → Ab` is exact (Alper 2013, Definition 3.7 and
+Remark 3.8, p. 2358).
+
+API:
+
+- *QCoh.flatBaseChange*: for a 2-cartesian square with `f' : X' = X ×_Y Y' → Y'`,
+  `g' : X' → X`, `f` quasi-compact and quasi-separated and `g : Y' → Y` flat, the base change map
+  `g^* f_* F → f'_* g'^* F` is an isomorphism, natural in `F`. At a flat test object `y : T → Y'`
+  the composite `g ∘ y` is a flat test object of `Y`, and §1.22's flat-test comparison (Stacks,
+  Lemma 103.11.2 (0GQQ)) identifies both sides with the sections of `F` over `X ×_Y T`; a map of
+  quasi-coherent modules that is bijective on flat test objects is an isomorphism, as one sees on
+  a smooth atlas.
+- *IsCohomologicallyAffine.of_affine* and *.comp*: affine morphisms, those representable by
+  algebraic spaces whose base change to every scheme is a scheme affine over it in the sense of
+  Mathlib's `IsAffineHom` (Stacks, Definitions 67.20.2 (03WF) and 101.9.1 (0CHQ)),
+  are cohomologically affine, and the property is stable under composition since
+  `(g ∘ f)_* = g_* ∘ f_*` (Alper 2013, Proposition 3.10(i)–(ii), p. 2358). For *of_affine*,
+  *.descend* along a smooth surjection from a disjoint union of affine schemes reduces to an affine
+  morphism of schemes over an affine base, where pushforward is restriction of scalars.
+- *IsCohomologicallyAffine.descend*: with `f` quasi-compact and quasi-separated and `g` flat and
+  surjective, if `f'` is cohomologically affine then so is `f` (Alper 2013, Proposition 3.10(v),
+  p. 2358). Route: *QCoh.flatBaseChange*, exactness of `g'^*` (Stacks, Lemma 103.4.1 (076X)), and
+  `g^*` reflects epimorphisms, which on a smooth atlas is faithfully flat descent of modules (§1.1).
+- *IsCohomologicallyAffine.baseChange_quasiAffine*: base change along a quasi-affine `g`
+  (representable, with quasi-affine base changes to schemes: every affine open has a preimage
+  satisfying Mathlib's `IsQuasiAffine`; Stacks, Definitions 29.13.1 (01SK) and 67.21.2 (03WL))
+  preserves cohomological affineness. *.baseChange_of_quasiAffineDiagonal*: if `Y` has
+  quasi-affine diagonal, base change along every morphism `Y' → Y` of algebraic stacks preserves it.
+  *.baseChange_scheme*: for `Y` over a scheme `S` and any morphism of schemes `S' → S`,
+  `X ×_S S' → Y ×_S S'` is cohomologically affine when `f` is (Alper 2013, Proposition 3.10(iv),
+  (vi), (vii), p. 2358, proofs pp. 2359–2361). Route: for a quasi-compact open immersion `g` the
+  counit `g^* g_* → id` is an isomorphism; for affine `g` and `g'` the pushforwards are exact and
+  faithful, so they detect exactness; a quasi-affine morphism is a quasi-compact open immersion
+  followed by an affine morphism. Zariski-locally on `Y`, a smooth atlas `Spec A → Y` is
+  quasi-affine when the diagonal of `Y` is, which reduces arbitrary base change to the quasi-affine
+  case and *.descend*. Over a scheme `S`, the morphism `S' → S` is affine Zariski-locally on `S`
+  and `S'`.
+- *IsCohomologicallyAffine.iff_isAffine* (Serre's criterion): a quasi-compact quasi-separated
+  morphism of algebraic spaces, viewed as stacks by `StackInGroupoids.ofSheaf` (§1.18), is
+  cohomologically affine iff it is affine (Alper 2013, Proposition 3.3 and Remark 3.4, p. 2357;
+  Rydh 2015, Theorem (8.7)). For a morphism of schemes it is §2.6's `serre_affineness_criterion` in
+  the relative form of Stacks, Lemma 30.3.4 (0F83). Route: both properties are local on the target
+  for étale coverings (*.descend*; Stacks, Lemma 74.11.16 (041Z)), so take `Y` affine; then
+  `Γ(X, −)` is exact on quasi-coherent modules, every extension of `O_X` by a quasi-coherent `F`
+  splits (lift `1` along the surjection of global sections), so `H¹(X, F) = 0`, and `X` is affine by
+  Stacks, Proposition 69.16.7 (07V6).
+- *IsTame.iff_isCohomologicallyAffine*: for `X` as in §1.23 with coarse space `ρ : X → M`, which
+  is proper and so quasi-compact and quasi-separated, `IsTame X` says exactly that `ρ` is
+  cohomologically affine.
+
+For a scheme `S` and a group scheme `G` over `S` (Convention 3) that is flat and of finite
+presentation, `BG = actionQuotient G S` (§1.21) is an algebraic stack and `BG → S` is quasi-compact
+and quasi-separated: `S → BG` is surjective, and after base change to a scheme the diagonal of
+`BG → S` is the scheme of isomorphisms between two `G`-torsors, which is fppf-locally isomorphic to
+`G`. Define *Groups.IsLinearlyReductive* `G`: `BG → S` is cohomologically affine (Alper 2013,
+Definition 12.1, p. 2392). Prove:
+
+- *Groups.isLinearlyReductive_iff*: for a field `k` and an affine group scheme `G` of finite type
+  over `k`, *Groups.IsLinearlyReductive* `G` iff Tau Ceti's
+  `TauCeti.linearlyReductiveAffineGroupSchemeProperty k G` (every finite-dimensional comodule of the
+  coordinate Hopf algebra is completely reducible). Under §1.22's identification of
+  `Stacks.QCoh (BG)` with `O(G)`-comodules, pullback along `BG → Spec k` is the trivial-comodule
+  functor, so its right adjoint *QCoh.pushforward* is the invariants functor `V ↦ V^G`, and
+  epimorphisms are surjections. Tau Ceti's
+  `TauCeti.Coalgebra.isLinearlyReductive_iff_forall_fixedMap_surjective_of_surjective` (surjections
+  of finite-dimensional comodules) and `TauCeti.Comodule.Hom.fixedMap_surjective_of_isLinearlyReductive`
+  (surjections of arbitrary comodules) give the two implications (Alper 2013, Proposition 12.6 and
+  Remark 12.7, pp. 2393–2394).
+- *Groups.IsLinearlyReductive.baseChange* along every morphism of schemes `S' → S`, and
+  *Groups.IsLinearlyReductive.descend* along flat surjective `S' → S`: `B(G_{S'}) = BG ×_S S'`, so
+  these are *.baseChange_scheme* and *.descend* (Alper 2013, Proposition 12.8, p. 2394).
+
+§1.23's `IsTame.classifying_iff` is the finite case of *Groups.isLinearlyReductive_iff* read
+through *IsTame.iff_isCohomologicallyAffine*. The classification of linearly reductive groups over a
+field (identity component reductive in characteristic zero; Nagata's theorem for smooth connected
+groups in characteristic `p`) is owned by ReductiveGroups and is not an input here. The comparison
+of cohomological affineness with the vanishing of higher direct images, valid when `Y` has
+quasi-affine diagonal and `f` has affine diagonal (Alper–Hall–Rydh 2020, §1.5, p. 5), needs the
+higher direct images of quasi-coherent modules on algebraic stacks (Stacks, Proposition 103.11.1
+(077A)), which this roadmap does not construct; it is not a target here.
+*Needs:* §1.1, §1.9, §1.18–§1.23, §2.6; Mathlib `IsAffineHom`, `IsQuasiAffine`, `Flat`,
+`LocallyOfFinitePresentation`; Tau Ceti `linearlyReductiveAffineGroupSchemeProperty`,
+`Coalgebra.isLinearlyReductive_iff_forall_fixedMap_surjective_of_surjective`,
+`Comodule.Hom.fixedMap_surjective_of_isLinearlyReductive`.
+
+**Checks.**
+- The identity of an algebraic stack and every morphism of affine schemes are cohomologically
+  affine. `j : 𝔸²_k ∖ {0} → 𝔸²_k` is quasi-compact and quasi-separated with affine fibres, but is
+  not cohomologically affine: by *iff_isAffine* it would be affine, and `𝔸²_k ∖ {0}` is not affine
+  (§2.6's Check `H¹(𝔸² ∖ {0}, O) ≠ 0`). A fibrewise test would accept it (Alper 2013, Remark 3.12,
+  p. 2361).
+- For an elliptic curve `E` over a field `k`, `p : Spec k → BE` is cohomologically affine: `p` is
+  flat and surjective, its base change along itself is the structure map `E → Spec k`, and
+  *QCoh.flatBaseChange* gives `p^* p_* V ≅ Γ(E, O_E) ⊗_k V = V`, exact in `V`, so `p_*` is exact
+  because `p^*` reflects epimorphisms. That base change `E → Spec k` is proper of dimension one,
+  hence not affine and not cohomologically affine. So the property does not survive base change
+  along `p`; the diagonal of `BE`, whose base change along `(p, p)` is `E → Spec k`, is not
+  quasi-affine (Alper 2013, Remark 3.11, p. 2361).
+- `𝔾_m`, `μ_n` and every diagonalizable group of finite type over a field are linearly reductive
+  (Tau Ceti `TauCeti.DiagonalizableGroup.linearlyReductiveAffineGroupSchemeProperty_groupScheme`),
+  so `B𝔾_m → Spec k` and `Bμ_p → Spec 𝔽_p` are cohomologically affine. `B𝔾_a → Spec k` is not, in
+  every characteristic (Tau Ceti `TauCeti.AdditiveGroup.not_isLinearlyReductive`): on `V = k²` with
+  coaction `e₁ ↦ e₁ ⊗ 1`, `e₂ ↦ e₂ ⊗ 1 + e₁ ⊗ t`, the invariants are `ke₁`, and the surjection onto
+  the trivial representation `V/ke₁` sends them to zero.
+- Over `𝔽_p`, `B(ℤ/p) → Spec 𝔽_p` is proper and quasi-finite but not cohomologically affine: the
+  augmentation `𝔽_p[ℤ/p] → 𝔽_p` is a surjection of representations whose invariants, the multiples
+  of `N = Σ_g g`, map to `p = 0`. A representable proper quasi-finite morphism is finite, hence
+  affine; a definition through finiteness would wrongly accept this `BG → S` (Alper 2013,
+  Remark 3.12, p. 2361). `GL_2` over `𝔽_p` is reductive and not linearly reductive, as its finite
+  subgroup `GL_2(𝔽_p)` has order divisible by `p` (Tau Ceti
+  `TauCeti.HopfAlgebra.natCast_card_ne_zero_of_isLinearlyReductive`); over `ℚ` it is linearly
+  reductive (`TauCeti.GeneralLinear.linearlyReductiveCommHopfAlgProperty_coordinateHopfAlgebra`).
+- For `G` linearly reductive over `S` acting on `X` affine over `S`, `[X/G] → S` is cohomologically
+  affine: `[X/G] → BG` is affine, its base change along the fppf covering `S → BG` being `X → S`, and
+  *.comp* applies. Conversely, for affine `G` acting on an algebraic space `X` with `[X/G] → S`
+  cohomologically affine, `X → S` is affine by *iff_isAffine* applied to `X → [X/G] → S` (Alper
+  2013, Example 12.9, pp. 2394–2395). For `𝔾_m` scaling `𝔸^n_k`, `[𝔸^n_k/𝔾_m] → Spec k` is
+  cohomologically affine, while its open substack `[(𝔸^n_k ∖ {0})/𝔾_m] = ℙ^{n−1}_k` is proper of
+  positive dimension over `k` for `n ≥ 2`, so not cohomologically affine over `Spec k`.
+
+Cohomologically affine morphisms, flat base change of the quasi-coherent pushforward and linear
+reductivity over a base are specified in this README only.
+
 ### 1.23 Moduli functors, fine and coarse moduli spaces, Keel–Mori, tame stacks
 
 Define `moduliFunctor X : SchemePresheaf`, `T ↦ π₀ X(T)`, with `.map`, `toModuliSheaf` (its fppf
@@ -4050,7 +4190,8 @@ dual numbers over a point separate geometric from topological quotients (§1.17)
 
 Layer 0: §0.12–§0.14 (henselian pairs), §0.21 (excellence,
 in §1.23's Keel–Mori). Layer 2: §2.3 (the torsor-class carrier) and §2.11 (Hilbert 90) are used by
-§1.15 and §1.16 only; §2.3 depends on nothing in Layer 1, so the graph is acyclic. Mathlib and Tau
+§1.15 and §1.16 only; §2.3 depends on nothing in Layer 1, so the graph is acyclic. §2.6 (Serre's
+affineness criterion) is used by §1.22a and depends on nothing in Layer 1. Mathlib and Tau
 Ceti as listed; StableReduction Layer 2.
 
 ## Layer 2: sites and scheme cohomology
@@ -8950,6 +9091,13 @@ consume nothing from this roadmap.
   https://math.stanford.edu/~conrad/papers/coarsespace.pdf.
 - Abramovich–Olsson–Vistoli 2008: *Tame stacks in positive characteristic*,
   https://arxiv.org/abs/math/0703310v1.
+- Alper 2013: J. Alper, [*Good moduli spaces for Artin stacks*](https://www.numdam.org/item/10.5802/aif.2833.pdf),
+  Ann. Inst. Fourier 63 (2013), no. 6, 2349–2402; locators are to this version of record.
+- Alper–Hall–Rydh 2020: J. Alper, J. Hall and D. Rydh, *A Luna étale slice theorem for algebraic
+  stacks*, Ann. of Math. 191 (2020); section and page locators are to
+  https://arxiv.org/abs/1504.06467v3.
+- Rydh 2015: D. Rydh, *Noetherian approximation of algebraic spaces and stacks*, J. Algebra 422
+  (2015); Theorem (8.7) is on p. 29 of https://arxiv.org/abs/0904.0227v4.
 - Nitsure 2005: *Construction of Hilbert and Quot schemes*, https://arxiv.org/abs/math/0504590v1.
 - Harpaz–Wittenberg 2023: *The Massey vanishing conjecture for number fields*,
   https://arxiv.org/abs/1904.06512v2.

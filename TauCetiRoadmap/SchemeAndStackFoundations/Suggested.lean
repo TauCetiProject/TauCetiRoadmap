@@ -36,6 +36,10 @@ Headline theorems that are not statable at the pins, and what each lacks:
 * §5.7: `K_0(X) → G_0(X)` is bijective on a regular Noetherian scheme with the resolution
   property (Stacks, Lemmas 36.38.4 (0FDI) and 36.38.5 (0FDJ)). The exact structures on finitely presented and on finite
   locally free module sheaves need their extension closure, which the pins do not prove.
+* §1.22a: an affine group scheme of finite type over a field is linearly reductive (Tau Ceti's
+  `TauCeti.linearlyReductiveAffineGroupSchemeProperty`) iff its classifying stack is
+  cohomologically affine over the field. The pins have no algebraic stack, no quasi-coherent
+  module on one and no quasi-coherent pushforward; README.md §§1.18–1.22 specify them.
 * §1.23: the Keel–Mori theorem (an algebraic stack of finite presentation with finite inertia
   has a coarse moduli space). The pins have no algebraic stack (a stack in groupoids with
   representable diagonal and a smooth atlas), no inertia stack and no coarse moduli space;
