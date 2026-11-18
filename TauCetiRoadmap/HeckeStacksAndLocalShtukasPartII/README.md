@@ -1,12 +1,20 @@
 # Roadmap: hecke stacks and local shtukas, part II — affine Deligne–Lusztig dimensions
 
-**Summary.** Build the classical and perfect affine Deligne–Lusztig loci, their spherical dimension theorem,
-and the flag-variety nonemptiness and dimension theorem in shrunken Weyl chambers. The inputs are
-reductive-group and Iwahori–Weyl geometry, integral Newton invariants, and bounded flag and Grassmannian
-moduli. The proof develops lattice charts for superbasic general linear groups, Levi and convolution
-comparisons, generic Newton strata, and two geometric correspondences to a cordial translation family. It
-treats arbitrary residue characteristic and retains the geometric transfers needed for ramified and
-mixed-characteristic flag data.
+**Summary.** Let F be a nonarchimedean local field with residue field 𝔽_q, L its completed maximal unramified extension, σ the arithmetic Frobenius, and G a connected reductive group over F with a σ-stable Iwahori subgroup I. For b∈G(L) and w in the Iwahori–Weyl group, the affine Deligne–Lusztig variety X_w(b) has as points the cosets gI∈G(L)/I with g⁻¹bσ(g)∈IwI. When G has a connected reductive model over O_F, replacing I by K=G(O_L) gives loci in the affine Grassmannian: X_μ(b), where g⁻¹bσ(g)∈Kt^μK, and the closed union X_≤μ(b). When are these loci nonempty, and what are their dimensions?
+
+This roadmap builds the loci as geometric objects (perfect spaces in mixed characteristic), with dim ∅=−∞, and proves theorems on both questions. Every residue characteristic is allowed, p=2 and 3 included.
+
+The first main theorem concerns the spherical loci, for G with an unramified reductive model over O_F and μ dominant. If X_μ(b) is nonempty, then dim X_μ(b)=dim X_≤μ(b)=⟨ρ,μ−ν_b⟩−def_G(b)/2. Here ν_b is the Newton point of b, and the defect def_G(b) is the F-rank of G minus that of the σ-centralizer J_b of b. For G=G_m, μ=0 and b=ϖ the locus is empty, although the right side is 0. A companion theorem, for a simple quasi-split G and a special maximal parahoric, says that the locus for a dominant λ is nonempty exactly when b has the Kottwitz invariant of λ and ν_b is dominated by the σ-average λ^♦ of λ.
+
+The proof reduces to superbasic b in GL_h of slope m/h, with m,h≥1 coprime, where Viehmann's lattice charts apply. On the determinant-zero component, a lattice M in X_μ(b) has a set A⊂ℤ of leading indices. It also has a function φ:ℤ→ℕ∪{−∞}, finite exactly on A, whose value at a is the largest n with ϖ^(−n)bσ(v)∈M for some v∈M of leading index a. These pairs (A,φ), the extended semi-modules for μ, index finitely many strata. The stratum of (A,φ) has dimension |V|, the number of pairs a<a′ in A with φ(a)>φ(a′)>φ(a−h). For dominant μ, that component is nonempty exactly when Σμ_i=m, and then has dimension ⟨ρ,μ−ν_b⟩−(h−1)/2.
+
+Its combinatorial core concerns subsets of ℤ alone, and is the one headline stated in Lean. For coprime m,h≥1 and increasing μ∈ℕ^h of sum m, every extended semi-module for μ has V finite and 2|V|≤Σ_(i=0)^(h−1)(2i+1−h)μ_i−(h−1). The cyclic one attached to the normalized semi-module of type μ attains equality. For h=3, m=4 and μ=(0,0,4) both sides are 6, and the component has dimension 3. The geometric theorems need moduli spaces not yet in Mathlib or Tau Ceti.
+
+The second main result, due to He, concerns the affine flag variety of a simple quasi-split G. Write w=x t^λ y in its normal form, with x,y in the finite Weyl group W₀, and put η_σ(w)=σ⁻¹(y)x. The virtual dimension d_w(b)=(ℓ(w)+ℓ(η_σ(w))−def_G(b))/2−⟨ν_b,ρ⟩ bounds dim X_w(b) above. Deleting from the apartment the open strips −1<⟨α,v⟩<0, for α a positive root of the associated reduced root system, leaves the shrunken Weyl chambers; w is shrunken if it maps the base alcove into one. Let w be shrunken. Suppose λ^♦−ν_b has strictly positive coefficients on all simple coroots, and that ν_b satisfies a second explicit bound attached to w. Then X_w(b) is nonempty exactly when w and b have the same Kottwitz invariant and every simple reflection of W₀ lies in the σ-orbit of one occurring in η_σ(w). Its dimension is then d_w(b). For basic b no Newton assumption is needed. For split PGL₂ and b=1, w=s t^(nα∨) with n≥1 gives dimension n+1, while t^(nα∨) gives the empty locus.
+
+This is the second part of HeckeStacksAndLocalShtukas; the loci here need no comparison with the local-shtuka diamonds of the first part. ReductiveGroupsPartII provides Iwahori–Weyl groups, their normal forms and lengths. BunGAndNewtonStrata provides σ-conjugacy classes with their Newton and Kottwitz invariants, and GeometricSatakeAndFusion the affine flag varieties and Grassmannians. SmoothRepresentationsOfLocalGroups provides the Iwahori–Hecke algebra, whose σ-twisted cocenter this roadmap requires as an extension.
+
+Layers 0 and 1 build the loci and relate their dimensions, through Deligne–Lusztig reduction, to degrees of class polynomials. Layers 2 and 3 prove the spherical dimension theorem and the upper bound. Layers 4 to 8 reduce a shrunken w, through two geometric correspondences, to cordial elements, whose nonempty loci all have the virtual dimension.
 
 ## How to read the build
 
