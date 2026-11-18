@@ -1,20 +1,56 @@
 # Roadmap: abelian schemes and arithmetic moduli, part II
 
-**Summary.** This roadmap builds three interfaces for abelian varieties: integral coefficients
-for completed Poincaré bundles, real analytic Betti coordinates in families, and
-integral realizations over finite fields. These interfaces connect the geometry
-of a family to computations that retain its arithmetic information. The first
-part uses universal connections to construct moments and ordinary CM trivializations.
-The second turns Betti rank into a geometric condition on subvarieties and their
-fibre powers. The third passes from Frobenius and Tate modules to isogeny classes,
-integral lattice orbits and counts of polarized and unpolarized varieties.
+**Summary.** Many arithmetic arguments about abelian varieties pass through an auxiliary structure:
+the Poincaré bundle completed near the unit of the dual, the real Betti coordinates of a complex
+family, or the lattices that classify abelian varieties over a finite field. This roadmap, the
+second part of AbelianSchemesAndArithmeticModuli, builds these three structures, one per branch of
+layers, and proves their main theorems.
 
-The objects must support their natural maps. A completed Poincaré bundle needs
-truncations, unit sections, isogeny maps and compatible connections. A Betti map
-needs changes of period frame, not just a coordinate formula in one chart. A
-lattice classification needs integral morphisms at every prime, including the
-characteristic prime. The counting statements use those interfaces rather than
-replacing them by finiteness assertions.
+The first branch completes the Poincaré bundle of an abelian scheme A → S along the unit of the
+dual, with integral coefficients; unless stated otherwise, S is noetherian and the relative
+dimension d is constant. Moments send the coefficients to symmetric tensors, the
+permutation-invariant tensors with the shuffle product. For every commutative ring R and R-module M,
+sending γ_n(v) to v^⊗n gives a graded algebra homomorphism from the divided-power algebra of M to
+its symmetric tensors, an isomorphism when M is free. For the completed Poincaré sheaf P̂, R^iπ_*(P̂
+⊗ Ω^d) is O_S when i = d and zero otherwise. Over a field of characteristic zero, the completed
+Poincaré bundle on the universal vector extension, with its universal connection, is canonically
+isomorphic to the logarithm sheaf. For ordinary CM abelian schemes over O_Cp, the moments are
+injective integrally and isomorphisms on the generic fibre.
+
+The second branch takes a polarized abelian scheme A → S over an irreducible complex
+quasi-projective base. Over a simply connected open set U in the smooth locus of S, a symplectic
+basis of the period lattice gives the Betti map, a real analytic map from A_U to the torus
+(ℝ/ℤ)^(2g), where g is the relative dimension. An irreducible subvariety X is non-degenerate when
+its generic real Betti rank is twice its complex dimension, base directions included; equivalently,
+the top power of the Betti form does not vanish identically on the smooth locus of X. For curves,
+fix a genus g ≥ 2 and a full symplectic level ℓ ≥ 3, and let M_g[ℓ] be the fine moduli scheme of
+such curves, constructed here. Pull the universal curve back to an irreducible variety S over ℚ̄
+with a quasi-finite map to M_g[ℓ]. For M ≥ 3g − 2, the image of the (M+1)-fold fibre power of this
+curve under the fibrewise difference map is non-degenerate after a complex embedding.
+
+The third branch works over finite fields. By Honda–Tate, simple isogeny classes over F_q correspond
+to conjugacy classes of Weil q-numbers, the algebraic integers all of whose complex conjugates have
+absolute value √q. Over F_p, the isomorphism classes in the isogeny class of a fixed A₀ are the
+orbits of the units of End⁰(A₀) on tuples of suitably stable lattices, one for each prime, almost
+all equal to those of A₀. At p, characteristic polynomials are identified through resultants. Let O
+be a discrete valuation ring with uniformizer π, and D a commutative ring with a ring map to O
+surjective modulo every power of π. Two monic polynomials P, Q over O are equal as soon as Res(P, ψ)
+and Res(Q, ψ) have equal valuations for every monic ψ lifted from D with both resultants nonzero.
+Density is needed: for D = 𝔽₂ inside 𝔽₂[[t]], the distinct X + t and X + t + t² pass every test.
+
+The branch ends with counts. Over a fixed finite field F_q, the g-dimensional abelian varieties fall
+into finitely many isogeny classes, inseparable isogenies allowed, and the logarithm of their number
+divided by g² tends to (log q)/4 as g → ∞. For a fixed prime p, the g-dimensional abelian varieties
+over F_p, without polarization, have finitely many isomorphism classes, and the logarithm of their
+number is O(g²), with a constant depending on p. Finiteness in both theorems comes from
+ArithmeticStatisticsPartI; the growth rates are proved here.
+
+The roadmap builds on its first part for abelian schemes, polarizations and isogenies, and on
+ArithmeticStatisticsPartI for the count of Weil polynomials and Tate's theorem at every prime.
+HeightsRationalPointsAndObstructions supplies the function-field trace and the Lang–Néron theorem.
+The results feed Eisenstein–Kronecker, height and Mordell–Lang arguments, but the roadmap stops
+before constructing Eisenstein–Kronecker classes, proving height inequalities or deriving new
+Mordell–Lang bounds. The next section orders the layers, headed P, B or F by branch.
 
 ## How to read the build
 
