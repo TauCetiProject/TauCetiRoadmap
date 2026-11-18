@@ -56,6 +56,7 @@ body:
         - AutomorphicFormsOnReductiveGroups
         - AutomorphicLFunctionsAndLocalFactors
         - AutomorphicSpectralTheory
+        - BallQuotientsAndComplexHyperbolicLattices
         - BanachAlgebras
         - BanachSpaceTheory
         - BelyiMaps
@@ -218,6 +219,7 @@ body:
         - LocallyAnalyticDistributions
         - LocallyAnalyticDistributionsPartII
         - MarkovChainsAndRenewal
+        - MarkovDecisionProcesses
         - MassFormula
         - MathematicalBilliards
         - MathematicalStatisticsAsymptotic
@@ -365,6 +367,7 @@ body:
         - VirtualFundamentalClass
         - VonNeumannAlgebras
         - WeightsInEtaleCohomology
+        - WeilConjectures
         - Yamabe
         - YangMillsConnectionsAndCaloricGauge
         - ZerosOfLFunctions
