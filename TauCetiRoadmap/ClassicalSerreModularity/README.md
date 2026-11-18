@@ -759,6 +759,6 @@ Neighbouring Tau Ceti roadmaps: [Chebotarev][cheb], [ClassFieldTheory][cft], [Mo
 [bm]: https://www.imo.universite-paris-saclay.fr/m/~breuil/PUBLICATIONS/multiplicite.pdf
 [dp]: https://arxiv.org/abs/2108.07577v2
 [ri]: https://msp.org/pjm/1997/181-3/pjm-v181-n3-p15-p.pdf
-[cheb]: https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/Chebotarev/README.md#layer-10-dirichlet-density-chebotarev
+[cheb]: ../../Completed/Chebotarev/README.md#layer-10-dirichlet-density-chebotarev
 [cft]: https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ClassFieldTheory/README.md#layer-13-norm-theorems-and-class-fields
-[mf]: https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ModularForms/README.md#layer-4-eigenforms-newforms-primitive-forms-the-conductor
+[mf]: https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ModularForms/README.md#layer-4-primitive-associates
