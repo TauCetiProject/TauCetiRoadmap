@@ -1,32 +1,59 @@
 # Roadmap: finiteness and duality of groups
 
-**Summary.** This roadmap develops the homological finiteness and dimension theory of discrete
-groups over an arbitrary commutative ring `R`, on Mathlib's carriers `groupCohomology`,
-`groupHomology`, `tateCohomology` and `Rep R G`, and on Tau Ceti's module-level notions of
-pseudocoherence, finite projective dimension and Gorenstein-projective objects. It defines the
-finiteness types `FP_n`, `FP_∞`, `FP` and `FL` of a group over `R`, proves the Bieri–Eckmann–Brown
-criterion by direct limits and products and the stability of the types under finite index,
-extensions, products, amalgams and HNN extensions; defines cohomological and homological dimension
-`cd_R` and `hd_R` with their behaviour under subgroups, extensions, directed unions and amalgams,
-and the dichotomy for finite subgroups; constructs the signed tensor induction of complexes and
-proves Serre's theorem that a torsion-free group has the cohomological dimension of each of its
-finite-index subgroups; develops virtual cohomological dimension, the virtual types and groups of
-finite homological type; defines geometric dimension and proves the Eilenberg–Ganea theorem;
-develops duality and Poincaré duality groups over `R` with their dualizing module, orientation
-character, criterion and inheritance; defines the Hattori–Stallings rank of projective modules over
-group rings and proves Swan's theorem in its rational and mod-`p` forms; defines the Euler
-characteristic of groups of finite homological type and proves its multiplicativity under finite
-index and extensions, the equivariant formula for actions on acyclic complexes, and the
-denominator theorem for groups of finite homological type, through Serre's action with finite
-stabilizers on a finite-dimensional acyclic simplicial set and the classical Smith theory of finite
-`p`-groups acting on such simplicial sets; and constructs
-complete resolutions and Farrell cohomology for groups with a finite-index subgroup of finite
-cohomological dimension, compared with ordinary cohomology above that dimension and with Tate
-cohomology for finite groups. The end theorems are the finiteness criterion (1.5), Serre's theorem
-(3.2), the Eilenberg–Ganea theorem (5.3), the duality criterion (6.3), the Euler characteristic of
-groups of finite homological type with its multiplicativity (8.4, 8.6) and equivariant formula
-(8.7), Brown's denominator theorem (8.9), and the comparison of Farrell cohomology with ordinary
-cohomology above the virtual cohomological dimension (9.4).
+**Summary.** How economically can the trivial module of a group be resolved over its group ring,
+and above which degree does its cohomology vanish? This roadmap develops the resulting finiteness
+and dimension theory of discrete groups, with duality groups, Euler characteristics and Farrell
+cohomology. G is any group and R any commutative ring of coefficients; statements are made over ℤ
+only where the theory is integral.
+
+G is of type FP_n over R when the trivial module R has a projective resolution over the group ring
+RG whose terms in degrees 0 to n are finitely generated, and of type FP when R has a finite-length
+resolution by finitely generated projective RG-modules. The cohomological dimension cd_R G is the
+least n, possibly infinite, with Hᵏ(G, M) = 0 for all representations M and k > n.
+
+The finiteness criterion of Bieri, Eckmann and Brown says that for n ∈ ℕ, G is of type FP_n over R
+exactly when, for every directed system of representations, the map from the colimit of the groups
+Hᵏ(G, −) to the cohomology of the colimit is bijective for k < n and injective for k = n.
+
+Serre's theorem says that a torsion-free group has the same integral cohomological dimension as each
+of its subgroups of finite index. Torsion-freeness is needed: ℤ/2 × ℤ has infinite dimension, while
+0 × ℤ, of index 2, has dimension 1. The virtual cohomological dimension vcd G is the infimum of the
+integral cohomological dimensions of the subgroups of finite index; when one of them is finite,
+vcd G is that of every torsion-free subgroup of finite index.
+
+By the Eilenberg–Ganea theorem, the least dimension gd G of a Hausdorff CW complex that is a
+K(G, 1) is at most the larger of 3 and the integral cohomological dimension of G, so the two agree
+once the latter is at least 3.
+
+A group has finite homological type when vcd G is finite and its torsion-free subgroups of finite
+index have finitely generated integral homology in each degree. For such G, the alternating sum of
+the rational Betti numbers of a torsion-free subgroup H of finite index, divided by [G : H], does
+not depend on H: it is the Euler characteristic χ(G), and χ(K) = [G : K] · χ(G) for every subgroup
+K of finite index. Brown's denominator theorem makes m · χ(G) an integer for every common multiple
+m of the orders of the finite subgroups; equivalently, every prime power dividing the denominator
+of χ(G) is the order of a subgroup. For example, `ℤ/4 ∗_{ℤ/2} ℤ/6` has χ = −1/12 and subgroups of
+orders 4 and 3.
+
+A duality group of dimension n over R has a dualizing module D and a fundamental class whose cap
+product gives isomorphisms `Hᵏ(G, M) ≅ Hₙ₋ₖ(G, D ⊗_R M)` for all M and k ≤ n, while Hᵏ(G, M) = 0
+for k > n. By the duality criterion, G is one exactly when it is of type FP over R, Hᵏ(G, RG) = 0
+for k ≠ n, and Hⁿ(G, RG) is flat over R. The fundamental group of a compact, connected, Hausdorff,
+aspherical smooth n-manifold without boundary is a Poincaré duality group of dimension n over every
+R: its dualizing module is free of rank one.
+
+The roadmap builds on Mathlib's group cohomology and Tau Ceti's pseudocoherence, finite projective
+dimension and Gorenstein-projective objects. CohomologyOfGroups provides the cap product and the
+Hochschild–Serre spectral sequences, and FreeGroupsAndLimitGroups the Bass–Serre trees.
+ClassifyingSpaces and AlgebraicTopology provide K(G, 1) complexes, the Hurewicz and Whitehead
+theorems, and Poincaré duality of manifolds.
+
+Layers 1 to 4 develop the finiteness types, the dimensions and the virtual invariants, proving
+Serre's theorem by a signed tensor induction of complexes. Layer 5 proves the Eilenberg–Ganea
+theorem and makes a group of finite vcd act with finite stabilizers on a finite-dimensional acyclic
+simplicial set. Layer 6 treats duality groups. Layer 7 proves Swan's theorem: for G finite, a
+finitely generated projective ℤG-module becomes free over ℚG after tensoring with ℚ. Layer 8 builds
+the Euler characteristic on it, and bounds its denominator using Smith theory and the action of
+Layer 5. Layer 9 constructs Farrell cohomology.
 
 ## How to read the build
 
