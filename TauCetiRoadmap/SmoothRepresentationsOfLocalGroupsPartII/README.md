@@ -2,17 +2,9 @@
 
 **Summary.** Build the unitary representation theory of local groups above SmoothRepresentationsOfLocalGroups SR.0–SR.6. The first part supplies the smooth category, Hecke algebras, induction and Jacquet functors, admissibility, Bernstein theory, temperedness, Steinberg representations and Satake parameters. This continuation constructs their Hilbert-space realization and coefficient topology. Its endpoints are the Fell-closure and isolated-summand theorems, the smooth/unitary dual correspondence, Steinberg and supercuspidal isolation, and the split and unramified spherical unitary classification with its half-integral, temperedness and complementary-series consequences. The analytic theory applies to general locally compact groups; the representation-theoretic theorems retain their stated field and root-datum hypotheses.
 
-## Scope and ownership
+## How to read the build
 
-This roadmap owns nonabelian group positive-type coefficients and their GNS translation action, Hilbert sums, the group unitary-equivalence quotient, coefficient weak containment, Milman’s converse, the Fell topology and the sum/closure theorem (SRU.0–SRU.1); invariant forms and smooth/Hilbert comparison, unitary admissibility and limit topology (SRU.2–SRU.3); finite Steinberg representations of split groups over finite fields (the GL₂(𝔽_q) case is already in Tau Ceti, `TauCeti.GL2Steinberg`, from the RepresentationTheory/CharacterTheory roadmap), Rodier’s Steinberg-series constituent calculation, Howe–Moore and isolation (SRU.4); real Satake parameters, the all-type generic spherical unitary region and its half-integral classification, and the Iwahori-level identification of the Gelfand–Graev representation with the sign-induced Hecke module (SRU.5); nonsplit unramified transfer with full isogeny data (SRU.6); and the general Aubert involution, enhanced Kazhdan–Lusztig dictionary and spherical complementary series (SRU.7).
-
-SmoothRepresentationsOfLocalGroups SR.0.1–SR.0.4 owns smoothness, algebraic fixed vectors, averaging and the smooth dual; SR.1.1–SR.1.5 owns Hecke algebras and their presentations; SR.2.1–SR.2.3 owns induction, Jacquet modules, pairings and Whittaker functionals; SR.3a.1–SR.3a.2 owns smooth admissibility and uniform admissibility; SR.3.1–SR.3.4 owns finite length, Bernstein theory, tempered support, the Langlands quotient, the Iwahori block and the p-adic Steinberg representation; SR.4.1–SR.4.2 owns Satake and spherical constituents; SR.5.3 owns the GLₙ Zelevinsky involution. These constructions are imported rather than targets here. The real-part convention of SRU.5 extends the supplied Satake parameter, and the general-group Aubert operator extends the GLₙ case.
-
-The monoid homomorphism into bounded operators is already in the library as Mathlib `ContRepresentation`; unitarity, unitary restriction and the inverse/adjoint identity are in Tau Ceti’s continuous representation API. Generic positive kernels, radical quotient, Hilbert completion, feature density and the Kolmogorov comparison isometry are already in the library: SRU.0 adds the nonabelian translation action and strong continuity, rather than a second Hilbert-space construction. Tau Ceti’s additive GNS action assumes an additive commutative group. Mathlib owns algebraic irreducibility, completion, orthogonal projection, Krein–Milman and Banach–Alaoglu. None is a theorem target here.
-
-NoncompactQuantumSymmetry M0 owns the shared strong-unitary convention, bounded Schur lemma and compact-group isotypic projectors; its section “Shared group C*-algebra and weak-support comparisons” owns the comparison to C*-kernel containment. SRU.0 uses these projectors on compact open subgroups and adds smooth-vector density and the comparison with smooth averaging. HilbertModules H5 owns the pure-state quotient for an abstract C*-algebra; the group-positive-type quotient and its coefficient neighborhoods here are a different realization. FactorRigidity’s correspondence Fell topology concerns von Neumann bimodules, rather than group representations. OperatorTheory/PolarDecomposition Part B owns the bounded rectangular polar factor and uniqueness. BanachSpaceTheory B5 owns the σ-finite L¹/L∞ integral duality, stated by `exists_lpInftyDualEquiv`. AutomorphicSpectralTheory §7.0b owns the whole finite-place GLₙ unitary classification; the type-A formula here is its adjoint spherical specialization within the all-type theorem.
-
-LieHighestWeight Layers 0, 2 and 4 own sl₂ theory, weights and finite-dimensional highest-weight representations. LieHighestWeightPartII N0–N2 owns Jacobson–Morozov, triple conjugacy and classical recognition, and N5 owns the highest-weight half-integrality test and the positive real part of a torus element. Both are consumed, not planned again in SRU.5. SpringerResolutionAndCharacteristicCycles §§6.2–6.5 owns the Springer resolution and the reduced Steinberg variety with its components. The additional supplier contracts below request triple centralizers, graded orbits and orbit tables from LieHighestWeightPartII, convolution and coherent equivariant K-theory on the Steinberg variety from SpringerResolutionAndCharacteristicCycles, and the Shahidi local coefficient used by the standard-module theorem from AutomorphicLFunctionsAndLocalFactors. EndoscopicTransferAndUnitaryTraceComparison §2.16 owns distribution characters. GeometryOfNumbersAndQuadraticArithmetic §4.2.1 owns the Howe–Moore theorem for connected noncompact almost-simple real Lie groups with finite centre; SRU.4.5 is the nonarchimedean statement and shares no proof input with it. Globalization and global Ramanujan–Arthur consequences belong to the named consumers.
+SRU.0 constructs the coefficient and Hilbert-space objects; SRU.1 turns them into weak containment and Fell closure. SRU.2 compares this analytic theory with the supplied smooth category. SRU.3 studies limits and SRU.4 proves isolation. SRU.5 can begin its root and spherical-parameter calculations from the smooth and invariant-form interfaces without waiting for isolation; SRU.6 extends that classification to nonsplit unramified groups. SRU.7 uses the general Aubert involution and enhanced Hecke classification to organize all spherical complementary series. Each Needs line separates a statement’s carriers from the additional inputs of the indicated proof route. Within a layer the subsections are grouped by topic; where a Needs line cites a later subsection of the same layer (SRU.3.4 uses SRU.3.5, which uses SRU.3.6; SRU.4.1, 4.4 and 4.5 use the inputs of SRU.4.9; SRU.5.3 uses SRU.5.4; SRU.5.4, 5.5, 5.8–5.11 and 5.19 use SRU.5.20; SRU.5.11, 5.14 and 5.15 use SRU.5.21, which depends on SRU.5.20 and the root data only; SRU.7.4 uses SRU.7.5; SRU.7.11 uses SRU.7.12), the cited subsection does not depend on the citing one, so the internal dependency graph is acyclic.
 
 ## Conventions
 
@@ -25,148 +17,6 @@ For SRU.5 and the simplified SRU.7 dictionary, G is quasi-simple, split and adjo
 Simple coroots αᵢ^∨ and fundamental weights ωᵢ form dual bases in the span of the coroots, ⟨αᵢ^∨, ωⱼ⟩ = δᵢⱼ, with the dot product of the coordinates below as the pairing and εᵢ the standard basis vectors. For PGL(n) the simple coroots are εᵢ − εᵢ₊₁ in the hyperplane of coordinate sum zero. The other classical types are numbered from the end of the Dynkin diagram carrying the double bond or the fork: α₁^∨ = 2ε₁ for SO(2n+1), α₁^∨ = ε₁ for PSp(2n), α₁^∨ = ε₁ + ε₂ and α₂^∨ = ε₂ − ε₁ for PSO(2n), and αᵢ^∨ = εᵢ − εᵢ₋₁ for the remaining i. The exceptional types use Bourbaki's numbering of the coroot system: for E₈, α₁^∨ = ½(1, −1, −1, −1, −1, −1, −1, 1), α₂^∨ = ε₁ + ε₂ and αᵢ^∨ = εᵢ₋₁ − εᵢ₋₂ for 3 ≤ i ≤ 8, and E₇ and E₆ use the first seven and six of these; for F₄, α₁^∨ = (1, −1, −1, −1), α₂^∨ = (0, 0, 0, 2), α₃^∨ = (0, 0, 1, −1) and α₄^∨ = (0, 1, −1, 0); for G₂, α₁^∨ = (2/3, −1/3, −1/3) and α₂^∨ = (−1, 1, 0) in the plane of coordinate sum zero. BC1 (§3.4, p. 18, and §7.2.4, p. 47) and CH26 (§§6.4–6.11, PDF pp. 20–24) use the same coordinates. Dominant alcoves include their faces on chamber walls through zero. Half-integral means pairing in ½ℤ, including zero weights, and “geometric” here is exactly this real-part condition, with no algebraicity imposed on s_c. The split and nonsplit generic temperedness tests and the finite extraneous-point lists assume s_c = 1 or a central compact factor. General noncentral compact parts use the centralizer theorem of SRU.7.13. The split companion in SRU.6 retains its full isogeny. The adjoint/simply-connected distinction is retained in every representation-weight test.
 
 For a group in universe u, positive-type functions and their quotient give a small unitary dual in universe max(u,0). Hilbert models and Hilbert sums may use larger universes; equality in the dual means existence of a unitary intertwining equivalence. No chosen orthonormal basis or separability of an arbitrary Hilbert space enters a definition. Second countability is invoked where sequences replace nets.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- `ContRepresentation` in `Mathlib/RepresentationTheory/Continuous/Basic.lean`: Monoid homomorphism into continuous linear maps; continuity in g is a separate strong-continuity hypothesis.
-- `ContinuousMap` in `Mathlib/Topology/ContinuousMap/Defs.lean`: Carries a function and its continuity proof.
-- `InnerProductSpace.Core` in `Mathlib/Analysis/InnerProductSpace/Defs.lean`: Positive-definite hermitian form on a module; does not supply completeness.
-- `LocallyConvexSpace` in `Mathlib/Topology/Algebra/Module/LocallyConvex.lean`: Use the ordered scalar field ℝ on the complex function/dual space.
-- `Matrix.PosSemidef` in `Mathlib/LinearAlgebra/Matrix/PosDef.lean`: Hermitian kernel with nonnegative finitely supported quadratic forms; arbitrary index type is allowed.
-- `MeasureTheory.Lp` in `Mathlib/MeasureTheory/Function/LpSpace/Basic.lean`: AE-equivalence classes; use p=1 or ∞ and the chosen left Haar measure.
-- `MeasureTheory.Measure.haar` in `Mathlib/MeasureTheory/Measure/Haar/Basic.lean`: Locally compact Hausdorff topological group with Borel measurable structure; normalise compact-subgroup integrals separately.
-- `MeasureTheory.Measure.Regular` in `Mathlib/MeasureTheory/Measure/Regular.lean`: Outer regularity, inner regularity of open sets by compact sets and finiteness on compact sets; the instance to `InnerRegularCompactLTTop` in the same file gives inner regularity of every measurable set of finite measure by compact sets. `regular_haarMeasure` in `Mathlib/MeasureTheory/Measure/Haar/Basic.lean` is the regularity of Mathlib's Haar measure `haarMeasure K₀`, and `Regular.of_sigmaCompactSpace_of_isLocallyFiniteMeasure` in `Mathlib/MeasureTheory/Measure/Regular.lean` makes every locally finite measure on a σ-compact metrizable space regular; neither supplies regularity of an arbitrary `IsHaarMeasure` on a non-second-countable group.
-- `Multiplicative` in `Mathlib/Algebra/Group/TypeTags/Basic.lean`: Additive-to-multiplicative type synonym; does not turn a nonabelian group into an AddCommGroup.
-- `Representation.IsIrreducible` in `Mathlib/RepresentationTheory/Irreducible.lean`: Algebraic irreducibility; compare with closed-invariant-subspace irreducibility only with the stated finite-dimensional hypothesis.
-- `Set.extremePoints` in `Mathlib/Analysis/Convex/Extreme.lean`: Extreme points over the real scalar field, as used in P₁ and P≤1.
-- `Submodule.orthogonalProjectionOnto` in `Mathlib/Analysis/InnerProductSpace/Projection/Basic.lean`: Requires HasOrthogonalProjection, supplied by a closed subspace of a Hilbert space; compose with subtypeL for an ambient endomorphism.
-- `TopologicalSpace.generateFrom` in `Mathlib/Topology/Order.lean`: Generated topology; basis axioms require the separate approximation argument.
-- `UniformSpace.Completion` in `Mathlib/Topology/UniformSpace/Completion.lean`: Uniform completion carrier; normed/Hilbert instances are separate.
-- `UniformSpace.Completion.innerProductSpace` in `Mathlib/Analysis/InnerProductSpace/Completion.lean`: Extends an inner product to the normed-space completion.
-- `WeakDual.isCompact_closedBall` in `Mathlib/Analysis/Normed/Module/WeakDual.lean`: Weak-dual compactness over a proper scalar field (ℂ qualifies); apply after the L¹/L∞ identification.
-- `closure_convexHull_extremePoints` in `Mathlib/Analysis/Convex/KreinMilman.lean`: Compact convex subset of a Hausdorff real locally convex space; does not supply the Milman converse.
-- `convexHull` in `Mathlib/Analysis/Convex/Hull.lean`: Algebraic convex hull, with closure taken separately.
-- `extremePoints_convexHull_subset` in `Mathlib/Analysis/Convex/Extreme.lean`: Only extreme points of the algebraic convex hull; the closed-convex-hull Milman converse remains its own node.
-- `lp` in `Mathlib/Analysis/Normed/Lp/lpSpace.lean`: ℓp family of normed groups; p=2 with Hilbert fibres supplies the Hilbert sum.
-
-### From Tau Ceti
-
-- `Matrix.PosSemidef.KolmogorovSpace` in `TauCeti/Analysis/PositiveDefinite/Kernel/Kolmogorov.lean`: Existing RKHS-based Hilbert carrier for the positive kernel.
-- `Matrix.PosSemidef.inner_kolmogorovFeature` in `TauCeti/Analysis/PositiveDefinite/Kernel/Kolmogorov.lean`: Inner product is K(a,b), in the second-linear convention needed here.
-- `Matrix.PosSemidef.kolmogorovEquiv` in `TauCeti/Analysis/PositiveDefinite/Kernel/Kolmogorov.lean`: Complete target with the same kernel and dense feature span gives a linear isometric equivalence.
-- `Matrix.PosSemidef.kolmogorovFeature` in `TauCeti/Analysis/PositiveDefinite/Kernel/Kolmogorov.lean`: Existing feature vector indexed by a.
-- `Matrix.PosSemidef.kolmogorovFeature_dense` in `TauCeti/Analysis/PositiveDefinite/Kernel/Kolmogorov.lean`: Topological closure of the linear feature span is the whole space.
-- `Matrix.PosSemidef.kolmogorovIsometry` in `TauCeti/Analysis/PositiveDefinite/Kernel/Kolmogorov.lean`: Complete target with matching kernel; no dense-span assumption until surjectivity is wanted.
-- `ContRepresentation.IsUnitary` in `TauCeti/RepresentationTheory/Continuous/Unitary/Basic.lean`: Preserves the inner product; no continuity of g↦π(g) is included.
-- `ContRepresentation.IsUnitary.orthogonal_mem_invtSubmodule` in `TauCeti/RepresentationTheory/Continuous/InvariantComplement.lean`: For a unitary representation of a group on an inner product space, the orthogonal complement of an invariant submodule is invariant; no completeness is assumed. The element form is `ContRepresentation.IsUnitary.apply_mem_orthogonal`.
-- `ContRepresentation.IsUnitary.starProjection_apply_comm` in `TauCeti/RepresentationTheory/Continuous/InvariantComplement.lean`: The orthogonal projection onto an invariant subspace that admits one commutes with every action operator; this is the intertwining property of the compact-open projectors e_K of SRU.0.8.
-- `ContinuousLinearEquiv.congr` in `TauCeti/RepresentationTheory/Continuous/Transport.lean`: Transport of a representation along a continuous linear equivalence e, with (congr e π) g = e ∘ π g ∘ e⁻¹ (`ContinuousLinearEquiv.congr_apply`); `ContRepresentation.congr_refl` and `ContinuousLinearEquiv.congr_congr` are the identity and composite laws, `ContRepresentation.IsUnitary.congr` keeps unitarity along a linear isometric equivalence, and `LinearIsometryEquiv.matrixCoeff_congr` keeps matrix coefficients under the operator-norm continuity hypothesis of matrixCoeff. Unitary equivalence in SRU.0.1 is transport along a linear isometric equivalence.
-- `ContRepresentation.integratedOperatorL1` in `TauCeti/RepresentationTheory/Continuous/Integrated/Basic.lean`: The integrated form π(f) v = ∫ f(g) π(g) v dμ as a bounded bilinear map L¹(G, μ) → (E →L E), for an additive group G written as `Multiplicative G`, a strongly continuous uniformly bounded π and a measure inner regular on sets of finite measure, with `ContRepresentation.norm_integratedOperatorL1_le`, `ContRepresentation.comp_integratedOperatorL1` (left translation of the weight is composition with π(h), for left-invariant μ and complete E), `ContRepresentation.continuous_comp_integratedOperatorL1`, `ContRepresentation.inner_integratedOperatorL1_apply` and `ContRepresentation.adjoint_integratedOperatorL1` (π(f)* = π(f*) with f*(g) = conj f(−g), for unitary π and inversion-invariant μ); `ContRepresentation.integratedOperatorL1_convolution` (π(f₁ ∗ f₂) = π(f₁) ∘ π(f₂)) is stated for an abelian group only. A multiplicative group G enters as Multiplicative (Additive G). The pin has no convolution identity for a nonabelian group, no modular factor for a nonunimodular group and no GNS representation of a positive L¹ functional; these are the integrated-L¹ GNS contract on OperatorAlgebraDynamics.
-- `ContRepresentation.IsUnitary.subrepresentation` in `TauCeti/RepresentationTheory/Continuous/Unitary/Basic.lean`: Restriction to an invariant submodule preserves unitarity; a Hilbert restriction also needs closedness.
-- `ContRepresentation.matrixCoeff` in `TauCeti/RepresentationTheory/Continuous/MatrixCoefficient.lean`: Requires operator-norm Continuous π and uses ⟪π(g)v,w⟫. Our strongly continuous second-linear coefficient therefore has its own node and inverse/conjugation adapter.
-- `ContRepresentation.matrixCoeff_apply` in `TauCeti/RepresentationTheory/Continuous/MatrixCoefficient.lean`: Same operator-norm continuity hypothesis and coefficient convention as matrixCoeff.
-- `ContRepresentation.subrepresentation` in `TauCeti/RepresentationTheory/Continuous/Subrepresentation.lean`: Invariant-submodule carrier; no continuity-in-g or closedness supplied.
-- `TauCeti.GL2Steinberg` in `TauCeti/RepresentationTheory/CharacterTable/GL2/Steinberg.lean`: The Steinberg representation of GL₂(𝔽_q) as an `FDRep ℂ (GL (Fin 2) F)` for a finite field F, the augmentation subrepresentation of ℂ[GL₂/B]; the 𝐆 = GL₂ case of SRU.4.1.
-- `TauCeti.finrank_GL2Steinberg` in `TauCeti/RepresentationTheory/CharacterTable/GL2/Steinberg.lean`: Its degree is `Fintype.card F`, the value q^N with N = 1.
-- `TauCeti.character_GL2Steinberg` in `TauCeti/RepresentationTheory/CharacterTable/GL2/Steinberg.lean`: Its character is the number of fixed points on GL₂/B minus 1, the J ⊆ S alternating sum for GL₂.
-- `TauCeti.character_GL2PrincipalSeries_one_one_eq_one_add` in `TauCeti/RepresentationTheory/CharacterTable/GL2/Steinberg.lean`: The character of Ind_B 1 is 1 plus the Steinberg character; an equality of characters, the isomorphism being a separate declaration.
-- `TauCeti.IsPositiveDefiniteSub` in `TauCeti/Analysis/PositiveDefinite/AddGroup.lean`: Standing AddCommGroup hypothesis; difference kernel is abelian only, so the nonabelian positive-type node is necessary.
-
-The native representation carrier only stores a monoid homomorphism into continuous linear maps; it asserts no orbit continuity. The native positive-semidefinite kernel includes Hermitian symmetry and positivity on every finitely supported vector, with no continuity or nonzero condition. The native Haar class supplies left invariance, finite mass on compact sets and positive mass on open sets, no regularity. On a second-countable locally compact Hausdorff group every Haar measure is regular (Mathlib `Regular.of_sigmaCompactSpace_of_isLocallyFiniteMeasure`); where second countability is not assumed (SRU.1.5–SRU.1.6) the Haar measure is taken regular, as Mathlib's `regular_haarMeasure` is, and Mathlib's instance from `Regular` to `InnerRegularCompactLTTop` supplies the inner regularity on sets of finite measure that `integratedOperatorL1` needs. The additive GNS space in `TauCeti/Analysis/PositiveDefinite/Function/GNS.lean` assumes `AddCommGroup`; it does not supply a nonabelian action.
-
-### From TauCetiRoadmap.SmoothRepresentationsOfLocalGroups
-
-Consume SR.0.1–SR.0.4 (smooth category, compact-open invariants, normalized averaging, admissibility, dual and character); SR.1.1–SR.1.5 (convolution, Hecke corners, module equivalence, Iwahori–Matsumoto and Bernstein presentations); SR.2.1–SR.2.3 (normalized induction, exact Jacquet functors, geometric lemma, canonical pairing and Whittaker functionals); SR.3a.1–SR.3a.2 (irreducible smooth admissibility and the fixed-level uniform bound); SR.3.1–SR.3.4 (finite length, cuspidal splitting and support, Bernstein center, square-integrability, Casselman criterion, Harish–Chandra tempered support, conditional Langlands classification, Iwahori block and Steinberg); SR.4.1–SR.4.2 (Satake and spherical parameters); and SR.5.3 (the GLₙ Zelevinsky adapter). In particular SR.3.3 explicitly states Harish–Chandra tempered support, and SR.3.4 explicitly states the connected-Iwahori components for nonsplit groups. Neither is an additional gap.
-
-**The tempered-local-topology contract.** SmoothRepresentationsOfLocalGroups must supply the finite-level topology of the tempered dual in Harish–Chandra tempered-support coordinates and the separation of a square-integrable point from proper-Levi induction at fixed unitary central character.
-
-**The Whittaker multiplicity-one contract.** SmoothRepresentationsOfLocalGroups must supply, for every quasi-split connected reductive group over a nonarchimedean local field of characteristic zero, every nondegenerate Whittaker datum (U, ψ) and every irreducible admissible complex representation V, the bound dim Hom_U(V, ψ) ≤ 1, extending the GL₂ multiplicity-one theorem of SR.2.3.
-
-### From TauCetiRoadmap.ReductiveGroupsPartII
-
-Consume RG2.0 rational-point topology; RG2.3 hyperspecial vertices and reductive special-fiber quotient; RG2.4 Iwasawa and Cartan decomposition; RG2.5 Langlands dual group, pinned automorphisms and Galois action. Hyperspecial reduction K → 𝐆(𝔽_q), with I the inverse image of a Borel, is the map used in SRU.4. Keep the full dual root datum under fixed points in SRU.6.
-
-### From TauCetiRoadmap.ReductiveGroups
-
-Consume Layer 7, structure theory: Bruhat decomposition, standard parabolics and the root subgroups generating G⁺. Layer 2 supplies the algebraic adjoint action used for dual centralizers. The finite-field parabolics of SRU.4 are rational points of these subgroups.
-
-### From TauCetiRoadmap.NoncompactQuantumSymmetry
-
-Consume M0’s bounded complex Schur lemma and vector-valued compact-type projections, with Haar(K) = 1 and the factor dim τ. Consume M0a for type-I/GCR representation comparisons and the section “Shared group C*-algebra and weak-support comparisons” for integrated kernel/coefficient compatibility. The projection is defined by vector-valued integration, not by assuming norm continuity into bounded operators.
-
-**The finite-product Fell-dual contract.** NoncompactQuantumSymmetry must supply the tensor-product classification of irreducibles for finite products of second-countable type-I locally compact groups, the homeomorphism of their unitary dual with the product Fell topology, and the compact-factor specialization.
-
-### From TauCetiRoadmap.OperatorTheory.PolarDecomposition
-
-Consume Part B, PD-B24–PD-B34 and PD-B36: the bounded rectangular polar factor identifies (ker T)⊥ with closure(range T), and its uniqueness makes this identification equivariant for a bounded intertwiner. Its adjoint alone need not be isometric; for T = 2·id the adjoint multiplies norms by 2 and the polar factor is id.
-
-### From TauCetiRoadmap.BanachSpaceTheory
-
-Consume BanachSpaceTheory B5, `exists_lpInftyDualEquiv`: the isometric complex-linear identification L∞(μ) ≃ (L¹(μ))* for every σ-finite μ, with evaluation g ↦ (f ↦ ∫ f g dμ) and norm equality. This includes left Haar measure on second-countable locally compact groups and counting measure on ℤ, despite its infinite total mass. The scalar pairing is complex bilinear; positivity is a real cone condition.
-
-### From TauCetiRoadmap.OperatorAlgebraDynamics
-
-Consume D1–D2, the full group C*-algebra and its universal integrated representations. The L¹ involution uses the modular factor fixed in Conventions.
-
-**The integrated-L¹ GNS contract.** OperatorAlgebraDynamics must supply, for a locally compact Hausdorff group G with a regular left Haar measure μ (second countability is not assumed: SRU.1.6 uses the contract without it), what Tau Ceti's integrated form `ContRepresentation.integratedOperatorL1` (From Tau Ceti) does not: the GNS representation of a bounded positive functional on L¹(G, μ) (positive on every f* ∗ f) as a nondegenerate strongly continuous unitary representation with a cyclic vector whose coefficient represents the functional; the convolution identity π(f₁ ∗ f₂) = π(f₁) ∘ π(f₂) for nonabelian G; and the adjoint identity π(f)* = π(f*) with the left-Haar modular involution f*(g) = Δ(g⁻¹) conj f(g⁻¹) for nonunimodular G. The integrated form itself, its norm bound, its left-translation law, its matrix coefficients, and the convolution and adjoint identities on an abelian, respectively inversion-invariant, group are consumed from the pin.
-
-### From TauCetiRoadmap.CStarAlgebras
-
-Consume C2, irreducible representations, primitive ideals, pure states and GNS. The polynomial-identity and bounded-trace contracts below concern additional representation theory of these same C*-algebras.
-
-**The polynomial-identity contract.** CStarAlgebras must supply the polynomial-identity theorem turning a uniform bound N on irreducible dimensions of a dense star subalgebra into the same dimension bound for irreducible Hilbert representations of its C*-completion, with the Hecke-corner compression comparison.
-
-**The bounded-trace contract.** CStarAlgebras must supply the bounded-trace C*-algebra limit theorem yielding finite positive-integer character multiplicities and equality of limit and cluster sets for the character-convergent irreducible sequences used in SRU.3.
-
-### From TauCetiRoadmap.RepresentationTheory.LieHighestWeight
-
-Consume Layers 0, 2 and 4 of RepresentationTheory/LieHighestWeight: finite-dimensional sl₂ integral spectrum; weight spaces and coroot pairings; the highest-weight theorem and the defining, fundamental and spin representations. In particular an sl₂ neutral element has integer weights, so h/2 has half-integer weights.
-
-### From TauCetiRoadmap.LieHighestWeightPartII
-
-Consume N0, Jacobson–Morozov and conjugacy of adapted triples; N1, restriction and graded weights; N2, classical partitions and spin comparisons; and N5, the highest-weight half-integrality test and N5 positive-real-part: for a complex torus with character lattice X and s in it, the positive part r(s) with |χ(s)| = χ(r(s)) for every χ ∈ X, the compact part s/r(s), multiplicativity and Weyl equivariance. N3’s verified adjoint profiles do not by themselves identify all Bala–Carter labels or their reductive centralizers. The three contracts below request exactly that mathematical data.
-
-**The triple-centralizer contract.** LieHighestWeightPartII must supply reductivity of the centralizer of an algebraic sl₂-triple in a connected complex reductive group, with its identity component and its component group.
-
-**The graded-open-orbit contract.** LieHighestWeightPartII must supply, for a semisimple element s of a connected complex reductive group and a complex number q that is not a root of unity, finiteness of the orbits of the centralizer of s on the q-eigenspace of Ad(s) and the existence of exactly one open orbit.
-
-**The orbit-tables contract.** LieHighestWeightPartII must supply the Bala–Carter lists of nilpotent orbits of the complex groups of types F₄, E₇ and E₈ with the types of the reductive centralizers of their sl₂-triples, including the C₄ centralizer of the E₈ orbit 4A₁.
-
-### From TauCetiRoadmap.SpringerResolutionAndCharacteristicCycles
-
-Consume §§6.2–6.5, the Springer resolution, the reduced Steinberg variety and its components. Convolution on the Steinberg variety and its coherent equivariant K-theory realization are specified by the additional contract below.
-
-**The coherent equivariant K-theory contract.** SpringerResolutionAndCharacteristicCycles must supply coherent G^∨ × ℂ^×-equivariant K-theory convolution on the Steinberg variety, its affine-Hecke-algebra identification and fixed-point standard modules with the Springer enhancement criterion used by the Kazhdan–Lusztig classification.
-
-### From TauCetiRoadmap.EndoscopicTransferAndUnitaryTraceComparison
-
-Consume §2.16, Harish–Chandra’s p-adic character theorem and Weyl integration formula: distribution characters on compactly supported locally constant test functions, their regular local representatives and linear independence. These are the character carriers used in SRU.3; weak convergence and its limit topology are built here.
-
-**The induced-character continuity contract.** EndoscopicTransferAndUnitaryTraceComparison must supply the normalized parabolic induced-character formula as a continuous linear pullback on compactly supported locally constant test functions, so weak convergence on a Levi implies weak convergence of induced characters.
-
-### From TauCetiRoadmap.ExcursionOperatorsAndSpectralActionPartII
-
-Consume §0.0 for the semisimple parameter and normalized spectral-Levi compatibility, §3.3 for central stability, and §§4.1–4.3 for atomic characters and their common parameter. The additional contract below specifies precisely the normalized-induction and characteristic range needed by SRU.7.2. Over ℂ one fixes a coefficient-field identification before comparing parameter classes; no continuity of that field identification is asserted.
-
-**The semisimple-parameter contract.** ExcursionOperatorsAndSpectralActionPartII must supply the semisimple local-parameter map on irreducible smooth representations over every nonarchimedean local field and its compatibility with normalized parabolic induction and cuspidal support, with the square-root and reciprocity conventions fixed.
-
-### From TauCetiRoadmap.AutomorphicLFunctionsAndLocalFactors
-
-No declared target is consumed. The two contracts below request the Langlands–Shahidi inputs of SRU.3.8, which no roadmap states for general quasi-split groups; local factors are that roadmap's subject (AL.4, parameters and local determinant comparisons).
-
-**The Shahidi local-coefficient contract.** AutomorphicLFunctionsAndLocalFactors must supply, for a quasi-split connected reductive group over a p-adic field of characteristic zero, a standard parabolic P = MN and an irreducible generic tempered representation τ of M with a compatible Whittaker datum, the meromorphic Shahidi local coefficient in ν ∈ a_M^* ⊗ ℂ with its normalisation, and its holomorphy on the negative chamber (HO Theorem 1.1).
-
-**The Heiermann–Muić contract.** AutomorphicLFunctionsAndLocalFactors must supply the theorem that negative-chamber holomorphy of these local coefficients for all generic tempered data implies that a Langlands quotient J(τ, ν) with τ generic tempered is generic exactly when its standard module i_P(τ_ν) is irreducible (HM07, as used in HO Corollary 1.2).
-
-### From TauCetiRoadmap.AutomorphicSpectralTheory
-
-Consume §7.0b, the finite-place GLₙ unitary classification and its unitary induction/Speh blocks. Only its real spherical adjoint specialization is used in the type-A line of SRU.5. Over function fields the characteristic-independent Hecke proof in SRU.5 supplies the corresponding all-type assertion.
-
-## How to read the build
-
-SRU.0 constructs the coefficient and Hilbert-space objects; SRU.1 turns them into weak containment and Fell closure. SRU.2 compares this analytic theory with the supplied smooth category. SRU.3 studies limits and SRU.4 proves isolation. SRU.5 can begin its root and spherical-parameter calculations from the smooth and invariant-form interfaces without waiting for isolation; SRU.6 extends that classification to nonsplit unramified groups. SRU.7 uses the general Aubert involution and enhanced Hecke classification to organize all spherical complementary series. Each Needs line separates a statement’s carriers from the additional inputs of the indicated proof route. Within a layer the subsections are grouped by topic; where a Needs line cites a later subsection of the same layer (SRU.3.4 uses SRU.3.5, which uses SRU.3.6; SRU.4.1, 4.4 and 4.5 use the inputs of SRU.4.9; SRU.5.3 uses SRU.5.4; SRU.5.4, 5.5, 5.8–5.11 and 5.19 use SRU.5.20; SRU.5.11, 5.14 and 5.15 use SRU.5.21, which depends on SRU.5.20 and the root data only; SRU.7.4 uses SRU.7.5; SRU.7.11 uses SRU.7.12), the cited subsection does not depend on the citing one, so the internal dependency graph is acyclic.
 
 ## Layer SRU.0: Unitary representations and functions of positive type
 
@@ -1723,6 +1573,156 @@ The statement carriers and the proposed proof inputs are the individual Needs li
 GlobalShtukasAndFunctionFieldLanglandsPartII uses the local generic temperedness tests, geometric weight patterns and complementary-series constraints in its Ramanujan–Arthur argument; it must retain the real or central-compact hypothesis when it uses the finite lists. MetaplecticAutomorphicFormsPartII uses relative isolation and the isolated-summand theorem for local-global comparisons. LocalLanglandsCorrespondenceForG2 uses the characteristic-zero isolation and weak-containment inputs. These are consumers, not prerequisites. The analytic results also apply directly to finite covers such as Mp₂ₙ(F) and to finite products with compact factors.
 
 Types and Moy–Prasad extensions, parahoric centers, density and trace Paley–Wiener, mod-p Bernstein centers, GLₙ newforms and Newton cocenters are separate continuations of the base smooth-representation roadmap. They enter none of the Needs lines here.
+
+## Scope and ownership
+
+This roadmap owns nonabelian group positive-type coefficients and their GNS translation action, Hilbert sums, the group unitary-equivalence quotient, coefficient weak containment, Milman’s converse, the Fell topology and the sum/closure theorem (SRU.0–SRU.1); invariant forms and smooth/Hilbert comparison, unitary admissibility and limit topology (SRU.2–SRU.3); finite Steinberg representations of split groups over finite fields (the GL₂(𝔽_q) case is already in Tau Ceti, `TauCeti.GL2Steinberg`, from the RepresentationTheory/CharacterTheory roadmap), Rodier’s Steinberg-series constituent calculation, Howe–Moore and isolation (SRU.4); real Satake parameters, the all-type generic spherical unitary region and its half-integral classification, and the Iwahori-level identification of the Gelfand–Graev representation with the sign-induced Hecke module (SRU.5); nonsplit unramified transfer with full isogeny data (SRU.6); and the general Aubert involution, enhanced Kazhdan–Lusztig dictionary and spherical complementary series (SRU.7).
+
+SmoothRepresentationsOfLocalGroups SR.0.1–SR.0.4 owns smoothness, algebraic fixed vectors, averaging and the smooth dual; SR.1.1–SR.1.5 owns Hecke algebras and their presentations; SR.2.1–SR.2.3 owns induction, Jacquet modules, pairings and Whittaker functionals; SR.3a.1–SR.3a.2 owns smooth admissibility and uniform admissibility; SR.3.1–SR.3.4 owns finite length, Bernstein theory, tempered support, the Langlands quotient, the Iwahori block and the p-adic Steinberg representation; SR.4.1–SR.4.2 owns Satake and spherical constituents; SR.5.3 owns the GLₙ Zelevinsky involution. These constructions are imported rather than targets here. The real-part convention of SRU.5 extends the supplied Satake parameter, and the general-group Aubert operator extends the GLₙ case.
+
+The monoid homomorphism into bounded operators is already in the library as Mathlib `ContRepresentation`; unitarity, unitary restriction and the inverse/adjoint identity are in Tau Ceti’s continuous representation API. Generic positive kernels, radical quotient, Hilbert completion, feature density and the Kolmogorov comparison isometry are already in the library: SRU.0 adds the nonabelian translation action and strong continuity, rather than a second Hilbert-space construction. Tau Ceti’s additive GNS action assumes an additive commutative group. Mathlib owns algebraic irreducibility, completion, orthogonal projection, Krein–Milman and Banach–Alaoglu. None is a theorem target here.
+
+NoncompactQuantumSymmetry M0 owns the shared strong-unitary convention, bounded Schur lemma and compact-group isotypic projectors; its section “Shared group C*-algebra and weak-support comparisons” owns the comparison to C*-kernel containment. SRU.0 uses these projectors on compact open subgroups and adds smooth-vector density and the comparison with smooth averaging. HilbertModules H5 owns the pure-state quotient for an abstract C*-algebra; the group-positive-type quotient and its coefficient neighborhoods here are a different realization. FactorRigidity’s correspondence Fell topology concerns von Neumann bimodules, rather than group representations. OperatorTheory/PolarDecomposition Part B owns the bounded rectangular polar factor and uniqueness. BanachSpaceTheory B5 owns the σ-finite L¹/L∞ integral duality, stated by `exists_lpInftyDualEquiv`. AutomorphicSpectralTheory §7.0b owns the whole finite-place GLₙ unitary classification; the type-A formula here is its adjoint spherical specialization within the all-type theorem.
+
+LieHighestWeight Layers 0, 2 and 4 own sl₂ theory, weights and finite-dimensional highest-weight representations. LieHighestWeightPartII N0–N2 owns Jacobson–Morozov, triple conjugacy and classical recognition, and N5 owns the highest-weight half-integrality test and the positive real part of a torus element. Both are consumed, not planned again in SRU.5. SpringerResolutionAndCharacteristicCycles §§6.2–6.5 owns the Springer resolution and the reduced Steinberg variety with its components. The additional supplier contracts below request triple centralizers, graded orbits and orbit tables from LieHighestWeightPartII, convolution and coherent equivariant K-theory on the Steinberg variety from SpringerResolutionAndCharacteristicCycles, and the Shahidi local coefficient used by the standard-module theorem from AutomorphicLFunctionsAndLocalFactors. EndoscopicTransferAndUnitaryTraceComparison §2.16 owns distribution characters. GeometryOfNumbersAndQuadraticArithmetic §4.2.1 owns the Howe–Moore theorem for connected noncompact almost-simple real Lie groups with finite centre; SRU.4.5 is the nonarchimedean statement and shares no proof input with it. Globalization and global Ramanujan–Arthur consequences belong to the named consumers.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- `ContRepresentation` in `Mathlib/RepresentationTheory/Continuous/Basic.lean`: Monoid homomorphism into continuous linear maps; continuity in g is a separate strong-continuity hypothesis.
+- `ContinuousMap` in `Mathlib/Topology/ContinuousMap/Defs.lean`: Carries a function and its continuity proof.
+- `InnerProductSpace.Core` in `Mathlib/Analysis/InnerProductSpace/Defs.lean`: Positive-definite hermitian form on a module; does not supply completeness.
+- `LocallyConvexSpace` in `Mathlib/Topology/Algebra/Module/LocallyConvex.lean`: Use the ordered scalar field ℝ on the complex function/dual space.
+- `Matrix.PosSemidef` in `Mathlib/LinearAlgebra/Matrix/PosDef.lean`: Hermitian kernel with nonnegative finitely supported quadratic forms; arbitrary index type is allowed.
+- `MeasureTheory.Lp` in `Mathlib/MeasureTheory/Function/LpSpace/Basic.lean`: AE-equivalence classes; use p=1 or ∞ and the chosen left Haar measure.
+- `MeasureTheory.Measure.haar` in `Mathlib/MeasureTheory/Measure/Haar/Basic.lean`: Locally compact Hausdorff topological group with Borel measurable structure; normalise compact-subgroup integrals separately.
+- `MeasureTheory.Measure.Regular` in `Mathlib/MeasureTheory/Measure/Regular.lean`: Outer regularity, inner regularity of open sets by compact sets and finiteness on compact sets; the instance to `InnerRegularCompactLTTop` in the same file gives inner regularity of every measurable set of finite measure by compact sets. `regular_haarMeasure` in `Mathlib/MeasureTheory/Measure/Haar/Basic.lean` is the regularity of Mathlib's Haar measure `haarMeasure K₀`, and `Regular.of_sigmaCompactSpace_of_isLocallyFiniteMeasure` in `Mathlib/MeasureTheory/Measure/Regular.lean` makes every locally finite measure on a σ-compact metrizable space regular; neither supplies regularity of an arbitrary `IsHaarMeasure` on a non-second-countable group.
+- `Multiplicative` in `Mathlib/Algebra/Group/TypeTags/Basic.lean`: Additive-to-multiplicative type synonym; does not turn a nonabelian group into an AddCommGroup.
+- `Representation.IsIrreducible` in `Mathlib/RepresentationTheory/Irreducible.lean`: Algebraic irreducibility; compare with closed-invariant-subspace irreducibility only with the stated finite-dimensional hypothesis.
+- `Set.extremePoints` in `Mathlib/Analysis/Convex/Extreme.lean`: Extreme points over the real scalar field, as used in P₁ and P≤1.
+- `Submodule.orthogonalProjectionOnto` in `Mathlib/Analysis/InnerProductSpace/Projection/Basic.lean`: Requires HasOrthogonalProjection, supplied by a closed subspace of a Hilbert space; compose with subtypeL for an ambient endomorphism.
+- `TopologicalSpace.generateFrom` in `Mathlib/Topology/Order.lean`: Generated topology; basis axioms require the separate approximation argument.
+- `UniformSpace.Completion` in `Mathlib/Topology/UniformSpace/Completion.lean`: Uniform completion carrier; normed/Hilbert instances are separate.
+- `UniformSpace.Completion.innerProductSpace` in `Mathlib/Analysis/InnerProductSpace/Completion.lean`: Extends an inner product to the normed-space completion.
+- `WeakDual.isCompact_closedBall` in `Mathlib/Analysis/Normed/Module/WeakDual.lean`: Weak-dual compactness over a proper scalar field (ℂ qualifies); apply after the L¹/L∞ identification.
+- `closure_convexHull_extremePoints` in `Mathlib/Analysis/Convex/KreinMilman.lean`: Compact convex subset of a Hausdorff real locally convex space; does not supply the Milman converse.
+- `convexHull` in `Mathlib/Analysis/Convex/Hull.lean`: Algebraic convex hull, with closure taken separately.
+- `extremePoints_convexHull_subset` in `Mathlib/Analysis/Convex/Extreme.lean`: Only extreme points of the algebraic convex hull; the closed-convex-hull Milman converse remains its own node.
+- `lp` in `Mathlib/Analysis/Normed/Lp/lpSpace.lean`: ℓp family of normed groups; p=2 with Hilbert fibres supplies the Hilbert sum.
+
+### From Tau Ceti
+
+- `Matrix.PosSemidef.KolmogorovSpace` in `TauCeti/Analysis/PositiveDefinite/Kernel/Kolmogorov.lean`: Existing RKHS-based Hilbert carrier for the positive kernel.
+- `Matrix.PosSemidef.inner_kolmogorovFeature` in `TauCeti/Analysis/PositiveDefinite/Kernel/Kolmogorov.lean`: Inner product is K(a,b), in the second-linear convention needed here.
+- `Matrix.PosSemidef.kolmogorovEquiv` in `TauCeti/Analysis/PositiveDefinite/Kernel/Kolmogorov.lean`: Complete target with the same kernel and dense feature span gives a linear isometric equivalence.
+- `Matrix.PosSemidef.kolmogorovFeature` in `TauCeti/Analysis/PositiveDefinite/Kernel/Kolmogorov.lean`: Existing feature vector indexed by a.
+- `Matrix.PosSemidef.kolmogorovFeature_dense` in `TauCeti/Analysis/PositiveDefinite/Kernel/Kolmogorov.lean`: Topological closure of the linear feature span is the whole space.
+- `Matrix.PosSemidef.kolmogorovIsometry` in `TauCeti/Analysis/PositiveDefinite/Kernel/Kolmogorov.lean`: Complete target with matching kernel; no dense-span assumption until surjectivity is wanted.
+- `ContRepresentation.IsUnitary` in `TauCeti/RepresentationTheory/Continuous/Unitary/Basic.lean`: Preserves the inner product; no continuity of g↦π(g) is included.
+- `ContRepresentation.IsUnitary.orthogonal_mem_invtSubmodule` in `TauCeti/RepresentationTheory/Continuous/InvariantComplement.lean`: For a unitary representation of a group on an inner product space, the orthogonal complement of an invariant submodule is invariant; no completeness is assumed. The element form is `ContRepresentation.IsUnitary.apply_mem_orthogonal`.
+- `ContRepresentation.IsUnitary.starProjection_apply_comm` in `TauCeti/RepresentationTheory/Continuous/InvariantComplement.lean`: The orthogonal projection onto an invariant subspace that admits one commutes with every action operator; this is the intertwining property of the compact-open projectors e_K of SRU.0.8.
+- `ContinuousLinearEquiv.congr` in `TauCeti/RepresentationTheory/Continuous/Transport.lean`: Transport of a representation along a continuous linear equivalence e, with (congr e π) g = e ∘ π g ∘ e⁻¹ (`ContinuousLinearEquiv.congr_apply`); `ContRepresentation.congr_refl` and `ContinuousLinearEquiv.congr_congr` are the identity and composite laws, `ContRepresentation.IsUnitary.congr` keeps unitarity along a linear isometric equivalence, and `LinearIsometryEquiv.matrixCoeff_congr` keeps matrix coefficients under the operator-norm continuity hypothesis of matrixCoeff. Unitary equivalence in SRU.0.1 is transport along a linear isometric equivalence.
+- `ContRepresentation.integratedOperatorL1` in `TauCeti/RepresentationTheory/Continuous/Integrated/Basic.lean`: The integrated form π(f) v = ∫ f(g) π(g) v dμ as a bounded bilinear map L¹(G, μ) → (E →L E), for an additive group G written as `Multiplicative G`, a strongly continuous uniformly bounded π and a measure inner regular on sets of finite measure, with `ContRepresentation.norm_integratedOperatorL1_le`, `ContRepresentation.comp_integratedOperatorL1` (left translation of the weight is composition with π(h), for left-invariant μ and complete E), `ContRepresentation.continuous_comp_integratedOperatorL1`, `ContRepresentation.inner_integratedOperatorL1_apply` and `ContRepresentation.adjoint_integratedOperatorL1` (π(f)* = π(f*) with f*(g) = conj f(−g), for unitary π and inversion-invariant μ); `ContRepresentation.integratedOperatorL1_convolution` (π(f₁ ∗ f₂) = π(f₁) ∘ π(f₂)) is stated for an abelian group only. A multiplicative group G enters as Multiplicative (Additive G). The pin has no convolution identity for a nonabelian group, no modular factor for a nonunimodular group and no GNS representation of a positive L¹ functional; these are the integrated-L¹ GNS contract on OperatorAlgebraDynamics.
+- `ContRepresentation.IsUnitary.subrepresentation` in `TauCeti/RepresentationTheory/Continuous/Unitary/Basic.lean`: Restriction to an invariant submodule preserves unitarity; a Hilbert restriction also needs closedness.
+- `ContRepresentation.matrixCoeff` in `TauCeti/RepresentationTheory/Continuous/MatrixCoefficient.lean`: Requires operator-norm Continuous π and uses ⟪π(g)v,w⟫. Our strongly continuous second-linear coefficient therefore has its own node and inverse/conjugation adapter.
+- `ContRepresentation.matrixCoeff_apply` in `TauCeti/RepresentationTheory/Continuous/MatrixCoefficient.lean`: Same operator-norm continuity hypothesis and coefficient convention as matrixCoeff.
+- `ContRepresentation.subrepresentation` in `TauCeti/RepresentationTheory/Continuous/Subrepresentation.lean`: Invariant-submodule carrier; no continuity-in-g or closedness supplied.
+- `TauCeti.GL2Steinberg` in `TauCeti/RepresentationTheory/CharacterTable/GL2/Steinberg.lean`: The Steinberg representation of GL₂(𝔽_q) as an `FDRep ℂ (GL (Fin 2) F)` for a finite field F, the augmentation subrepresentation of ℂ[GL₂/B]; the 𝐆 = GL₂ case of SRU.4.1.
+- `TauCeti.finrank_GL2Steinberg` in `TauCeti/RepresentationTheory/CharacterTable/GL2/Steinberg.lean`: Its degree is `Fintype.card F`, the value q^N with N = 1.
+- `TauCeti.character_GL2Steinberg` in `TauCeti/RepresentationTheory/CharacterTable/GL2/Steinberg.lean`: Its character is the number of fixed points on GL₂/B minus 1, the J ⊆ S alternating sum for GL₂.
+- `TauCeti.character_GL2PrincipalSeries_one_one_eq_one_add` in `TauCeti/RepresentationTheory/CharacterTable/GL2/Steinberg.lean`: The character of Ind_B 1 is 1 plus the Steinberg character; an equality of characters, the isomorphism being a separate declaration.
+- `TauCeti.IsPositiveDefiniteSub` in `TauCeti/Analysis/PositiveDefinite/AddGroup.lean`: Standing AddCommGroup hypothesis; difference kernel is abelian only, so the nonabelian positive-type node is necessary.
+
+The native representation carrier only stores a monoid homomorphism into continuous linear maps; it asserts no orbit continuity. The native positive-semidefinite kernel includes Hermitian symmetry and positivity on every finitely supported vector, with no continuity or nonzero condition. The native Haar class supplies left invariance, finite mass on compact sets and positive mass on open sets, no regularity. On a second-countable locally compact Hausdorff group every Haar measure is regular (Mathlib `Regular.of_sigmaCompactSpace_of_isLocallyFiniteMeasure`); where second countability is not assumed (SRU.1.5–SRU.1.6) the Haar measure is taken regular, as Mathlib's `regular_haarMeasure` is, and Mathlib's instance from `Regular` to `InnerRegularCompactLTTop` supplies the inner regularity on sets of finite measure that `integratedOperatorL1` needs. The additive GNS space in `TauCeti/Analysis/PositiveDefinite/Function/GNS.lean` assumes `AddCommGroup`; it does not supply a nonabelian action.
+
+### From TauCetiRoadmap.SmoothRepresentationsOfLocalGroups
+
+Consume SR.0.1–SR.0.4 (smooth category, compact-open invariants, normalized averaging, admissibility, dual and character); SR.1.1–SR.1.5 (convolution, Hecke corners, module equivalence, Iwahori–Matsumoto and Bernstein presentations); SR.2.1–SR.2.3 (normalized induction, exact Jacquet functors, geometric lemma, canonical pairing and Whittaker functionals); SR.3a.1–SR.3a.2 (irreducible smooth admissibility and the fixed-level uniform bound); SR.3.1–SR.3.4 (finite length, cuspidal splitting and support, Bernstein center, square-integrability, Casselman criterion, Harish–Chandra tempered support, conditional Langlands classification, Iwahori block and Steinberg); SR.4.1–SR.4.2 (Satake and spherical parameters); and SR.5.3 (the GLₙ Zelevinsky adapter). In particular SR.3.3 explicitly states Harish–Chandra tempered support, and SR.3.4 explicitly states the connected-Iwahori components for nonsplit groups. Neither is an additional gap.
+
+**The tempered-local-topology contract.** SmoothRepresentationsOfLocalGroups must supply the finite-level topology of the tempered dual in Harish–Chandra tempered-support coordinates and the separation of a square-integrable point from proper-Levi induction at fixed unitary central character.
+
+**The Whittaker multiplicity-one contract.** SmoothRepresentationsOfLocalGroups must supply, for every quasi-split connected reductive group over a nonarchimedean local field of characteristic zero, every nondegenerate Whittaker datum (U, ψ) and every irreducible admissible complex representation V, the bound dim Hom_U(V, ψ) ≤ 1, extending the GL₂ multiplicity-one theorem of SR.2.3.
+
+### From TauCetiRoadmap.ReductiveGroupsPartII
+
+Consume RG2.0 rational-point topology; RG2.3 hyperspecial vertices and reductive special-fiber quotient; RG2.4 Iwasawa and Cartan decomposition; RG2.5 Langlands dual group, pinned automorphisms and Galois action. Hyperspecial reduction K → 𝐆(𝔽_q), with I the inverse image of a Borel, is the map used in SRU.4. Keep the full dual root datum under fixed points in SRU.6.
+
+### From TauCetiRoadmap.ReductiveGroups
+
+Consume Layer 7, structure theory: Bruhat decomposition, standard parabolics and the root subgroups generating G⁺. Layer 2 supplies the algebraic adjoint action used for dual centralizers. The finite-field parabolics of SRU.4 are rational points of these subgroups.
+
+### From TauCetiRoadmap.NoncompactQuantumSymmetry
+
+Consume M0’s bounded complex Schur lemma and vector-valued compact-type projections, with Haar(K) = 1 and the factor dim τ. Consume M0a for type-I/GCR representation comparisons and the section “Shared group C*-algebra and weak-support comparisons” for integrated kernel/coefficient compatibility. The projection is defined by vector-valued integration, not by assuming norm continuity into bounded operators.
+
+**The finite-product Fell-dual contract.** NoncompactQuantumSymmetry must supply the tensor-product classification of irreducibles for finite products of second-countable type-I locally compact groups, the homeomorphism of their unitary dual with the product Fell topology, and the compact-factor specialization.
+
+### From TauCetiRoadmap.OperatorTheory.PolarDecomposition
+
+Consume Part B, PD-B24–PD-B34 and PD-B36: the bounded rectangular polar factor identifies (ker T)⊥ with closure(range T), and its uniqueness makes this identification equivariant for a bounded intertwiner. Its adjoint alone need not be isometric; for T = 2·id the adjoint multiplies norms by 2 and the polar factor is id.
+
+### From TauCetiRoadmap.BanachSpaceTheory
+
+Consume BanachSpaceTheory B5, `exists_lpInftyDualEquiv`: the isometric complex-linear identification L∞(μ) ≃ (L¹(μ))* for every σ-finite μ, with evaluation g ↦ (f ↦ ∫ f g dμ) and norm equality. This includes left Haar measure on second-countable locally compact groups and counting measure on ℤ, despite its infinite total mass. The scalar pairing is complex bilinear; positivity is a real cone condition.
+
+### From TauCetiRoadmap.OperatorAlgebraDynamics
+
+Consume D1–D2, the full group C*-algebra and its universal integrated representations. The L¹ involution uses the modular factor fixed in Conventions.
+
+**The integrated-L¹ GNS contract.** OperatorAlgebraDynamics must supply, for a locally compact Hausdorff group G with a regular left Haar measure μ (second countability is not assumed: SRU.1.6 uses the contract without it), what Tau Ceti's integrated form `ContRepresentation.integratedOperatorL1` (From Tau Ceti) does not: the GNS representation of a bounded positive functional on L¹(G, μ) (positive on every f* ∗ f) as a nondegenerate strongly continuous unitary representation with a cyclic vector whose coefficient represents the functional; the convolution identity π(f₁ ∗ f₂) = π(f₁) ∘ π(f₂) for nonabelian G; and the adjoint identity π(f)* = π(f*) with the left-Haar modular involution f*(g) = Δ(g⁻¹) conj f(g⁻¹) for nonunimodular G. The integrated form itself, its norm bound, its left-translation law, its matrix coefficients, and the convolution and adjoint identities on an abelian, respectively inversion-invariant, group are consumed from the pin.
+
+### From TauCetiRoadmap.CStarAlgebras
+
+Consume C2, irreducible representations, primitive ideals, pure states and GNS. The polynomial-identity and bounded-trace contracts below concern additional representation theory of these same C*-algebras.
+
+**The polynomial-identity contract.** CStarAlgebras must supply the polynomial-identity theorem turning a uniform bound N on irreducible dimensions of a dense star subalgebra into the same dimension bound for irreducible Hilbert representations of its C*-completion, with the Hecke-corner compression comparison.
+
+**The bounded-trace contract.** CStarAlgebras must supply the bounded-trace C*-algebra limit theorem yielding finite positive-integer character multiplicities and equality of limit and cluster sets for the character-convergent irreducible sequences used in SRU.3.
+
+### From TauCetiRoadmap.RepresentationTheory.LieHighestWeight
+
+Consume Layers 0, 2 and 4 of RepresentationTheory/LieHighestWeight: finite-dimensional sl₂ integral spectrum; weight spaces and coroot pairings; the highest-weight theorem and the defining, fundamental and spin representations. In particular an sl₂ neutral element has integer weights, so h/2 has half-integer weights.
+
+### From TauCetiRoadmap.LieHighestWeightPartII
+
+Consume N0, Jacobson–Morozov and conjugacy of adapted triples; N1, restriction and graded weights; N2, classical partitions and spin comparisons; and N5, the highest-weight half-integrality test and N5 positive-real-part: for a complex torus with character lattice X and s in it, the positive part r(s) with |χ(s)| = χ(r(s)) for every χ ∈ X, the compact part s/r(s), multiplicativity and Weyl equivariance. N3’s verified adjoint profiles do not by themselves identify all Bala–Carter labels or their reductive centralizers. The three contracts below request exactly that mathematical data.
+
+**The triple-centralizer contract.** LieHighestWeightPartII must supply reductivity of the centralizer of an algebraic sl₂-triple in a connected complex reductive group, with its identity component and its component group.
+
+**The graded-open-orbit contract.** LieHighestWeightPartII must supply, for a semisimple element s of a connected complex reductive group and a complex number q that is not a root of unity, finiteness of the orbits of the centralizer of s on the q-eigenspace of Ad(s) and the existence of exactly one open orbit.
+
+**The orbit-tables contract.** LieHighestWeightPartII must supply the Bala–Carter lists of nilpotent orbits of the complex groups of types F₄, E₇ and E₈ with the types of the reductive centralizers of their sl₂-triples, including the C₄ centralizer of the E₈ orbit 4A₁.
+
+### From TauCetiRoadmap.SpringerResolutionAndCharacteristicCycles
+
+Consume §§6.2–6.5, the Springer resolution, the reduced Steinberg variety and its components. Convolution on the Steinberg variety and its coherent equivariant K-theory realization are specified by the additional contract below.
+
+**The coherent equivariant K-theory contract.** SpringerResolutionAndCharacteristicCycles must supply coherent G^∨ × ℂ^×-equivariant K-theory convolution on the Steinberg variety, its affine-Hecke-algebra identification and fixed-point standard modules with the Springer enhancement criterion used by the Kazhdan–Lusztig classification.
+
+### From TauCetiRoadmap.EndoscopicTransferAndUnitaryTraceComparison
+
+Consume §2.16, Harish–Chandra’s p-adic character theorem and Weyl integration formula: distribution characters on compactly supported locally constant test functions, their regular local representatives and linear independence. These are the character carriers used in SRU.3; weak convergence and its limit topology are built here.
+
+**The induced-character continuity contract.** EndoscopicTransferAndUnitaryTraceComparison must supply the normalized parabolic induced-character formula as a continuous linear pullback on compactly supported locally constant test functions, so weak convergence on a Levi implies weak convergence of induced characters.
+
+### From TauCetiRoadmap.ExcursionOperatorsAndSpectralActionPartII
+
+Consume §0.0 for the semisimple parameter and normalized spectral-Levi compatibility, §3.3 for central stability, and §§4.1–4.3 for atomic characters and their common parameter. The additional contract below specifies precisely the normalized-induction and characteristic range needed by SRU.7.2. Over ℂ one fixes a coefficient-field identification before comparing parameter classes; no continuity of that field identification is asserted.
+
+**The semisimple-parameter contract.** ExcursionOperatorsAndSpectralActionPartII must supply the semisimple local-parameter map on irreducible smooth representations over every nonarchimedean local field and its compatibility with normalized parabolic induction and cuspidal support, with the square-root and reciprocity conventions fixed.
+
+### From TauCetiRoadmap.AutomorphicLFunctionsAndLocalFactors
+
+No declared target is consumed. The two contracts below request the Langlands–Shahidi inputs of SRU.3.8, which no roadmap states for general quasi-split groups; local factors are that roadmap's subject (AL.4, parameters and local determinant comparisons).
+
+**The Shahidi local-coefficient contract.** AutomorphicLFunctionsAndLocalFactors must supply, for a quasi-split connected reductive group over a p-adic field of characteristic zero, a standard parabolic P = MN and an irreducible generic tempered representation τ of M with a compatible Whittaker datum, the meromorphic Shahidi local coefficient in ν ∈ a_M^* ⊗ ℂ with its normalisation, and its holomorphy on the negative chamber (HO Theorem 1.1).
+
+**The Heiermann–Muić contract.** AutomorphicLFunctionsAndLocalFactors must supply the theorem that negative-chamber holomorphy of these local coefficients for all generic tempered data implies that a Langlands quotient J(τ, ν) with τ generic tempered is generic exactly when its standard module i_P(τ_ν) is irreducible (HM07, as used in HO Corollary 1.2).
+
+### From TauCetiRoadmap.AutomorphicSpectralTheory
+
+Consume §7.0b, the finite-place GLₙ unitary classification and its unitary induction/Speh blocks. Only its real spherical adjoint specialization is used in the type-A line of SRU.5. Over function fields the characteristic-independent Hecke proof in SRU.5 supplies the corresponding all-type assertion.
 
 ## References
 
