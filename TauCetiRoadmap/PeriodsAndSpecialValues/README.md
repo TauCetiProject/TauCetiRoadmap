@@ -2,47 +2,9 @@
 
 **Summary.** Build the period invariants of motives and the special-value statements made with them, from the de Rham–Betti comparison to the Birch–Swinnerton-Dyer, Bloch–Kato and equivariant Tamagawa formulations, and carry the conventions through two complete case studies. The roadmap fixes the direction of the comparison isomorphism, its determinant line, the infinity involution, period classes modulo a coefficient field, and Deligne's plus and minus periods; it transports the shared Euler products of compatible systems to motivic realizations, extends archimedean factors to general Hodge multiplicities, builds critical integers and Deligne's normalized-value predicate, and proves the Dirichlet and modular adapters; it compares the imported marked evaluation of formal periods with the inverse-comparison convention; it assembles the rational and integral fundamental lines with their regulator trivializations and local corrections (with Borel's theorem as the proved case of Beilinson's rationality for Dedekind zeta values at integers j ≥ 2), the equivariant Tamagawa obstruction, the Bloch–Kato Tamagawa measure and Sha, and the elliptic, rank-zero/one and Rankin–Selberg comparisons; and it proves period-integral error inequalities and covariance under normalization changes. The case studies are the arithmetic mirror symmetry of the Dwork quartic (marked K3 periods, Picard–Fuchs equation, integral monodromy and integrality of the mirror map) with Shapiro's boundary Frobenius for the Dwork quintic, and Brown's theorem that the Hoffman elements form a basis of the motivic multiple zeta values, with numerical spanning as a consequence. The general conjectures — Deligne's, Beilinson's, Bloch–Kato's, the equivariant Tamagawa number conjecture, Serre's and Hasse–Weil functional equations, the Beilinson–Bloch–Kato rank prediction, higher-rank BSD and the period conjecture — are stated as predicates with their hypotheses; theorems enter only in proved cases, each with its exact scope.
 
-## Scope and ownership
+## How to read the build
 
-This roadmap owns:
-
-- the comparison determinant line, the geometric infinity involution and its eigenspaces, period classes modulo the coefficient field, Deligne's periods c^± and δ, and the Tate and elliptic normalizations (Layer PS.0);
-- the motivic realization adapters for shared Euler products, archimedean factors for general Hodge multiplicities in Deligne's and BCGP's conventions, critical integers, Deligne's normalized-value predicate, the Dirichlet/Tate and modular period adapters, Serre's functional-equation predicate and the Hasse–Weil predicates for abelian varieties (Layer PS.1);
-- the comparison of the imported marked evaluation with the inverse-comparison convention, and its rank-one Tate specialization (Layer PS.2);
-- the Burns–Flach orientation of the imported rational Fukaya–Kato line, the real period–regulator trivialization, leading terms and their rationality, and Borel's theorem as the proved case of that rationality for Dedekind zeta values (Layer PS.3);
-- integral fundamental lattices, the finite lattice correction, local Euler and Tamagawa corrections, and the real dyadic restriction (Layer PS.4);
-- the equivariant Tamagawa obstruction with the extended boundary, the ETNC predicate, the orientation of the Fukaya–Kato zeta isomorphism, and the transport of proved cases (Layer PS.5);
-- Bloch–Kato motivic pairs, points, Tamagawa measure and Sha, the Bloch–Kato predicate, the elliptic fundamental-line adapter, conditional transport of rank-zero and rank-one BSD witnesses, and the Rankin–Selberg Beilinson–Bloch–Kato prediction and coefficient-extension transport (Layer PS.6);
-- period-integral transformations and error inequalities, stability of normalized quotients, covariance of normalized values, and the period conjecture (Layer PS.7);
-- the Dwork quartic and quintic case studies, including the general equivariant semistable model of the reciprocal Dwork family (Layer PS.8);
-- multiple zeta values: indices, the two-letter shuffle specialization and stuffle product, iterated integrals, regularizations, Zagier's evaluation, mixed Tate motives over ℤ and their Galois group, the motivic path torsor of ℙ¹ ∖ {0, 1, ∞}, Brown's motivic multiple zeta values and coaction, the Hoffman basis and numerical spanning (Layer PS.9).
-
-### Prerequisites and boundaries
-
-The following are imported from their named owners and sections:
-
-- **TauCetiRoadmap EllipticCurves** Layers 1, 2, 4, 6 and 7: the invariant differential, Tate modules and the Weil pairing, reduction types and local Tamagawa numbers, Mordell–Weil, canonical heights and the regulator, Selmer groups, Sha and the conditional BSD quotient over ℚ with its all-components real period. Complex uniformization is not supplied there and is not used here.
-- **SmallRamificationAndAbelianVarietyBaseCases** §5.0d: the positive-rank raw compatible-system carrier and its coefficient fields, local realization fields and operations; **AutomorphicGaloisRepresentationsPartII** AG2.P, ‘Arbitrary-rank compatible data and operations’: Weak and all-place Strict; **PotentialModularityAndCompatibleSystems** §§1.6, 1.7 and 1.15: away-coefficient strictness, the rank-zero family extension, partial/full finite Euler products, convergence and regular-system completion. PS.1 owns their motivic adapters, including the zero-motive adapter, all-place conductor assembly and the general Hodge-multiplicity and Gamma-normalization extension; its regular-completion comparison has the real-place parity restriction of PS.1.2.
-- **EllipticIntegrals** Milestones 1 and 3: canonical modulus-based K and E, their algebraic integral forms and endpoint integrability, and Legendre's relation. PS.7.1 owns the parameter adapter λ=k², rational substitution, midpoint error bound and marked-cycle comparison.
-- **ColemanIntegration** L1.12: the generic shuffle word algebra; **AnabelianGeometryAndNonabelianChabauty** §2.0 ‘Word algebra and shuffle coordinates’ and §2.4: its coordinate coalgebra and completed-dual comparison. PS.9 owns the two-letter/index specialization, admissible subalgebras, stuffle and motivic mixed Tate applications.
-- **TauCetiRoadmap ModularForms**: the L-function of a newform with its Euler product and continuation, and (Layer 8) modular symbols and the Eichler–Shimura period map.
-- **BorelRegulators** §§2.1–2.3, 5.3–5.4 and 6.0a–6.3: the Chern-normalized Borel regulator on K_(2j−1)(O_F) for every number field F and j ≥ 2, its real isomorphism, its integral image lattice with Borel's theorem on its covolume and on the rational-basis determinant, its comparison r_Bo = −2·r_Be with the shared Beilinson regulator into real Deligne cohomology, and the rational Adams weight. **ArithmeticKTheory** §§3.3–3.4: rational localization from O_F to F, the stable arithmetic comparison and Borel's ranks. PS.3.2a only places these supplied maps in the fundamental line of h⁰(Spec F)(j), and PS.3.3a only translates Borel's theorem into the rationality predicate of PS.3.3 for that line; the degree-one boundary is the Dirichlet regulator. No elliptic L(E, 2) regulator formula is used.
-- **[NumberFieldArithmetic](../../Completed/NumberFieldArithmetic/README.md)**: the Dirichlet regulator and the class number formula at s = 1, which is the degree-one case of the Borel regulator; this roadmap starts at degree j ≥ 2.
-- **TauCetiRoadmap PadicMeasuresIwasawaAlgebras** Layer 5: determinant lines of perfect complexes over commutative rings, their acyclic trivialization and specialization.
-- **TauCetiRoadmap ClassicalArithmeticCompletion** §7.10 and §7.60: reduced norms of semisimple number-field algebras and the description of their images (Hasse–Schilling–Maass).
-- **[IntegralLattices](../../Completed/IntegralLattices/README.md)** Layers 1–5: rational-ambient integral lattices, discriminant forms and gluing. The active IntegralLattices roadmap, Layer 5 milestones 5G–5H and Layer 6 milestone 6A, supplies primitive embeddings and indefinite unimodular classification.
-- **TauCetiRoadmap SchemeAndStackFoundations** §§1.17, 1.23 and 4.11: quotients by finite groups, coarse spaces, modifications and strict transforms; general blow-ups are supplied by **TauCetiRoadmap StableReduction** Layer 4.
-- **IntegralHeckeAndGaloisDeterminants** Layer 0, §0.6: the Azumaya reduced-norm determinant law, with duals and projective modules.
-
-Other roadmaps supply the following, as specified in Exact supplier contracts: MotivesAndAlgebraicCycles (Layer 1 projectors, MC.2 realizations and Layers 3–6: Tannakian categories, geometric motives, Nori diagrams and the marked period torsor); ComplexComparisonPartII C5 (de Rham–Betti comparison, Gauss–Manin connection); AlgebraicTopology Stage 6; ArithmeticGaloisRepresentations §§2.4–2.6, §3.3; AutomorphicLFunctionsAndLocalFactors AL.1, AL.3, AL.4, AL.5; AutomorphicGaloisRepresentationsPartII AG2.P and AG2.5–AG2.6; PotentialModularityAndCompatibleSystems §§1.6–1.7, 1.15; ModularSymbolsPadicLFunctions §§1.1–1.2; FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.P3, R07.P5; NeronModelsAndSemistableAbelianVarieties Layer 6 (§6.10); WeilConjectures WC.1–WC.2; EtaleDualityAndPerverseSheaves Layer 0, §§0.5–0.6; DirichletPadicLFunctions L0; ArithmeticGaloisDuality D7; SelmerIwasawaCohomology L2–L4; AlgebraicKTheory §§2.2, 3.2–3.3; GeneralAlgebraicKTheory §§4.16–4.17, 6.19, 12.11; NoncommutativeAndEquivariantIwasawa §§2.7, F.3, 7.9 and NE.7; IntegralIwasawaTheory Layer 11; K3Surfaces K1–K2; K3SurfacesAndSymplecticBoundedness §§3.1, 4.2; MotivicEtaleKTheory §§2.2–2.4; CrystallineCohomology CR.3, CR.5–CR.7; PadicDifferentialEquationsAndRigidCohomology RD.1, RD.3–RD.5 and RD.7; ModularCurvesPartII §3.6, §§14.1–14.4a and §§16.1–16.4; AlgebraicModularFormsAndSerreWeights §6.1; WeightsInEtaleCohomology §§5.2, 5.5; PolylogarithmFunctions; AnabelianGeometryAndNonabelianChabauty NC.2; ArithmeticKTheory §§3.3–3.4; BorelRegulators §§2.1–2.3, 5.3–5.4, 6.0a–6.3.
-
-PS.1.6 assembles the newform motive in homological motives from the supplied Kuga–Sato compactification, Scholl projector and primitive rank-two summand, with its marked comparison, PS.3.0 compares the motivic and Adams-weight carriers, and PS.9.15 constructs the configuration-pair framings needed for motivic stuffle. IntegralLattices 5G–5H and 6A own the abstract lattice theorems, K3Surfaces K2 owns the geometric K3 cup lattice, and MotivicEtaleKTheory §§2.2–2.4 owns the higher Chern comparison. These supplied theorems are not targets here. The arbitrary-pair comparison and marked period evaluation are MotivesAndAlgebraicCycles §§5.7, 6.7–6.9. The noncommutative determinant functor is NoncommutativeAndEquivariantIwasawa §2.7. PS.3 defines the Burns–Flach orientation of the imported rational fundamental object, and PS.4 constructs its integral pullback under an explicit rational comparison hypothesis. PS.6.4 and PS.6.7 transport explicitly given arithmetic witnesses; neither asserts a theorem supplied by an unnamed arithmetic continuation.
-
-The unit arctangent integral is the Mathlib identity `integral_one_div_one_add_sq` specialized using `Real.arctan_one`; PS.7.1 adds its signed finite-sum remainder bound. The finite-prime lattice patching and its local-projectivity criterion belong to PS.5.1; they are not supplied by the completed NumberFieldArithmetic roadmap. The newform motive of PS.1.6 differs from the primitive rank-two cohomological summand of AlgebraicModularFormsAndSerreWeights §6.1 by being a homological motive with E-action, cut out by the Scholl correspondence of WeightsInEtaleCohomology §§5.2, 5.5 and that summand's newspace projector, together with its marked Betti–de Rham comparison. The framed comparison of PS.9.15 differs from a supplied relative motive by preserving both its differential-form frame and its oriented Betti cell.
-
-### Theorems and predicates
-
-The following are predicates, used only as named hypotheses: DeligneAlgebraic (PS.1.4), SerreSystem (PS.1.7), SerreC9 and HasseWeilConjecture (PS.1.8), LeadingTermRational and the Beilinson leading-term assertion (PS.3.3; both proved for h⁰(Spec F)(j), j ≥ 2, in PS.3.3a), ETNC (PS.5.2), BlochKatoTamagawa (PS.6.5), BBKRankZeroOne (PS.6.6), higher-rank BSD (PS.6.3), PeriodConjecture (PS.7.4), QuinticBoundaryLatticeIntegral (PS.8.17), numerical independence of Hoffman values and exact numerical dimensions (PS.9.23). Everything else in the layers is a definition, construction or theorem to be proved. Numerical agreement witnesses no predicate; an analytic inequality retains its stated hypotheses and bounds.
+Layers follow proof order. PS.0 fixes periods; PS.1 the L-function side and critical values; PS.2 the evaluation of formal periods. PS.3–PS.6 run the arithmetic route from rational fundamental lines through integral lattices and equivariant statements to Bloch–Kato and BSD. PS.7 proves analytic error bounds and normalization laws and isolates the conjectural predicates. PS.8 and PS.9 are the two case studies; PS.8 uses the comparison direction of PS.0, and PS.9 uses the evaluation of PS.2 for numerical spanning. Within a layer, subsections are in proof order. README.md specifies every target. Suggested.lean states the statable headline theorems and only their necessary simple definitions; its `sorry` proofs specify goals and certify nothing.
 
 ## Conventions
 
@@ -70,182 +32,6 @@ The following are predicates, used only as named hypotheses: DeligneAlgebraic (P
 - A₁ = 24 and the mirror coordinate begins q = z + 104z² + ⋯.
 - encode([2, 1]) = 011 and ζ(2, 1) = ζ(3) in descending notation.
 - The weight-five Hoffman cut matrix [[3, −11/2], [−2, 9/2]] has determinant 5/2.
-
-## Exact supplier contracts
-
-Each entry names the supplier and the precise input consumed. The local constructions that connect these inputs are targets in the layers below.
-
-### From Mathlib at the pin
-
-Linear algebra: `Matrix.det`, `Matrix.det_mul`, `Matrix.det_fin_zero`, `Matrix.det_smul`, `Matrix.det_nonsing_inv`, `Matrix.det_of_isUpperTriangular`, `LinearIndependent`, Submodule.span, `Finsupp.single`, `Ideal.Quotient.mk`, `Ideal.quotientInfRingEquivPiQuotient`. Localization: `IsLocalization.Away`, `IsLocalization.Away.lift`, IsLocalization.Away.mul_invSelf, `LaurentPolynomial.eval₂` with `LaurentPolynomial.eval₂_T`. Special functions: `Complex.Gamma` (total, with value 0 at its poles, `Complex.Gamma_eq_zero_iff`), `Complex.Gammaℝ`, `Complex.Gammaℂ` (Deligne's normalization), `Complex.Gamma_mul_Gamma_eq_betaIntegral`, `Complex.Gamma_mul_Gamma_one_sub`, `ordinaryHypergeometric` (the ₂F₁ series; no ₃F₂ or continuation). Zeta and L-functions: riemannZeta, `riemannZeta_two`, `riemannZeta_four`, `riemannZeta_neg_nat_eq_bernoulli`, `zeta_nat_eq_tsum_of_gt_one`, `riemannZeta_eulerProduct`, completedRiemannZeta_one_sub, hurwitzZeta_neg_nat, DirichletCharacter.completedLFunction, DirichletCharacter.IsPrimitive.completedLFunction_one_sub, DirichletCharacter.rootNumber, meromorphicOrderAt. Analysis and measure: `intervalIntegral`, `intervalIntegral.norm_integral_le_of_norm_le`, `intervalIntegral.integral_comp_mul_deriv'`, MeasureTheory.tendsto_integral_of_dominated_convergence, MeasureTheory.integral_tsum, MeasureTheory.Measure.haarMeasure, MeasureTheory.Measure.infinitePi (probability measures only), PhragmenLindelof.horizontal_strip, `integral_one_div_one_add_sq`, `Real.arctan_one`. Harmonic numbers: `harmonic` (Mathlib/NumberTheory/Harmonic/Defs.lean, `H_n = 1 + 1/2 + ⋯ + 1/n` in ℚ, with `H_0 = 0`). Power series and p-adics: PowerSeries.mk, PowerSeries.derivative, PowerSeries.exp, PowerSeries.subst, PowerSeries.substInv, `Padic`, padicValRat, `sub_one_mul_padicValNat_factorial`, HasSum.
-
-### From Tau Ceti at the pin
-
-`TauCeti.Hodge.tate` and `TauCeti.Hodge.tate_F` (`TauCeti/Geometry/Hodge/Tate/Basic.lean`): the Tate Hodge structure ℤ(m) of weight −2m and type (−m, −m), whose lattice map is the inclusion ℤ → ℂ — not a geometric 2πi comparison; the geometric scalar is PS.0.5. `TauCeti.TensorWords.of` and `TauCeti.TensorWords.deconcatenation` (`TauCeti/LinearAlgebra/TensorCoalgebra/Coaugmented/Basic.lean`): tensor words including degree zero, with deconcatenation over all cuts including the two outer ones; this is not the shuffle product. In Tau Ceti at the pin, `TauCeti.IntegralLattice.form_ofGramMatrix_basisFun_apply` (TauCeti/LinearAlgebra/IntegralLattice/StandardCoordinates.lean, line 53) gives the Gram-matrix coordinates used for the quartic lattice.
-
-### TauCetiRoadmap EllipticCurves, Layers 1, 2, 4, 6, 7
-
-Layer 1: the invariant differential, its pullback and the equation-level normalization (PS.0.5). Layer 2: the Tate module and the Weil pairing for the realization h¹(E)(1) (PS.6.3). Layer 4: the reduction map, component groups and local Tamagawa numbers for the minimal model and differential (PS.4.3). Layer 6: the canonical height pairing, its nondegeneracy and the Mordell–Weil regulator with basis independence (PS.6.3). Layer 7: Selmer and Sha carriers and, as a stretch milestone of that layer, the BSD quotient over ℚ defined under finiteness of Sha, with the real period of the global minimal equation counting both real components (PS.6.3). No complex uniformization and no number-field extension of Layer 7 is assumed.
-
-### TauCetiRoadmap PadicMeasuresIwasawaAlgebras, Layer 5
-
-§5.1: projectiveDeterminant, `detLine` with detLine_quasiIso, detLine_shortExact, detLine_baseChange, `detLine_dual`, detLine_shift, `detLine_acyclic`, the cone presentation, and the rational trivialization with its characteristic divisor, over commutative rings. Used here over fields, discrete valuation rings and commutative orders (PS.0.1, PS.0.4, PS.3.1, PS.4.1, PS.4.2). For noncommutative orders the relative class of a perfect complex with a real trivialization is built in PS.5.1 from AlgebraicKTheory §§2.2, 3.2–3.3 and the non-full exactness of GeneralAlgebraicKTheory §4.17.
-
-### TauCetiRoadmap ClassicalArithmeticCompletion, §7.10 and §7.60
-
-The reduced norm of a semisimple number-field algebra with its splitting, multiplicativity and base change (§7.10), and the local and global reduced-norm images: positive elements at the real places where a component ramifies, everything at finite places (§7.60). Used for the extended boundary of PS.5.1.
-
-### From TauCetiRoadmap.IntegralLattices, Layers 5–6
-
-The completed foundational Layers 1–5 supply rational-ambient integral lattices, duals, discriminant forms and overlattice gluing. The active roadmap's Layer 5 milestones 5G–5H supply existence and uniqueness of primitive embeddings into even unimodular lattices; Layer 6 milestone 6A classifies indefinite unimodular lattices by parity and signature. PS.8.4 uses the sufficient uniqueness range with both signature differences positive and complement rank at least the discriminant-group length plus two. The half-norm discriminant convention is transported with the supplied gluing maps.
-
-### From TauCetiRoadmap.K3Surfaces, K1–K2
-
-K1 supplies Hodge numbers and the first-Chern/exponential-sequence comparison; K2 supplies torsion-freeness of the actual integral Betti H² of a complex K3 surface and its even unimodular cup form of signature (3,19), with pullback and complex orientation. PS.8.4 consumes this geometric statement before applying IntegralLattices 5G–5H and 6A.
-
-### From TauCetiRoadmap.K3SurfacesAndSymplecticBoundedness, §§3.1, 4.2
-
-Section 3.1 supplies the integral geometric étale ranks (1,0,22,0,1), the perfect cup-trace pairing and the comparison with integral singular cohomology over ℂ. Section 4.2 supplies the Picard lattice realization. K3Surfaces K1–K2 supplies the singular cup lattice, Hodge numbers and the first-Chern identification with integral (1,1)-classes; its saturated image also follows from the exponential sequence because H²(O) is torsion-free as an abelian group. These are the geometric inputs of PS.8.4.
-
-### TauCetiRoadmap SchemeAndStackFoundations, §§1.17, 1.23, 4.11
-
-Categorical and geometric quotients, coarse spaces of finite group quotients (`finite_quotient_coarse`), and modifications with strict transforms. For blow-ups §4.11 imports TauCetiRoadmap StableReduction Layer 4 (Rees algebra, relative Proj, affine charts and flat base change). Used for the quotient and resolution of PS.8.1; the resolution of the six A₃ sections is explicit and belongs to PS.8.1.
-
-### MotivesAndAlgebraicCycles Layer 1, MC.2 and Layers 3–6
-
-MC.2 supplies tensor-compatible geometric realization functors for motives with rational coefficients, including the finite-group actions and cycle maps for PS.8; a ℚ-algebra map E → End(M) makes the realizations E-modules (PS.0.1). Layer 1 supplies Chow motives with their projectors and §6.10 the equivalence of Artin motives with rational Galois representations; PS.1.5 builds the character motive A_χ from them with Deligne's construction M ⊗_ℚ E. Layers 3–4 supply Tannakian categories and Tate-stabilized geometric motives. §5.7 supplies the relative de Rham comparison for arbitrary finite-type pairs, with hypercover independence, excision, triple boundaries and products. §§6.7–6.9 supply P = P_eff[L⁻¹], its tensor-isomorphism torsor and the marked evaluation per : P → ℂ with per(L) = 2πi. PS.2 compares this β-point with PS.0's I = β⁻¹; it does not construct a second evaluation.
-
-### From TauCetiRoadmap.MotivicEtaleKTheory, §§2.2–2.4
-
-For smooth quasi-projective schemes over a field and nonnegative K-degree and weight, §§2.2–2.3 identify the rational simultaneous Adams-weight summand of Quillen K-theory with higher Chow motivic cohomology. Section 2.4 supplies products and degree-zero normalization; §2.3 transports localization boundaries. PS.3.0 composes these maps with MotivesAndAlgebraicCycles §§4.17–4.19 to obtain the number-field Tate-Hom comparison. Negative weights use the latter's Tate-Hom vanishing, not a negative-degree application of the higher Chern character.
-
-### WeightsInEtaleCohomology §§5.2, 5.5
-
-For weight k ≥ 3, r = k − 2 and a fine full level M ≥ 3, §5.5 supplies the smooth projective equivariant compactification W_r of the r-fold fibre power of the universal elliptic curve over Y(M), with its boundary resolution, and the rational idempotent correspondence e_ε averaging over translations by M-torsion, inversions and permutations with the sign character ε. Section 5.2 identifies the image of e_ε on H^(r+1)(W_r) with the parabolic Sym^r R¹ realization of ModularCurvesPartII §§14.1–14.4a, Hecke- and Galois-equivariantly. PS.1.6 uses W_r and e_ε as algebraic correspondences in homological motives; their Betti and de Rham realizations are those of MotivesAndAlgebraicCycles MC.2. No integral or saturated image of e_ε is assumed.
-
-### AlgebraicModularFormsAndSerreWeights §6.1
-
-For weight k ≥ 2 and a primitive normalized cuspidal eigenform f of level N, §6.1 supplies the filtered logarithmic de Rham parabolic realization of Sym^(k−2) of the relative H¹_dR, its comparison with the Betti image of H¹_c → H¹ for the same local system, the holomorphic and antiholomorphic Eichler–Shimura decomposition, the exact-level classical newspace Hecke eigenprojector and its compatibility with coefficient extension and level maps, and the primitive f-isotypical summand, of dimension two at every coefficient completion and the same at any two auxiliary full levels. Larger auxiliary levels carry extra oldvector copies; these are excluded by the newspace projector, not by the parabolic image.
-
-### ComplexComparisonPartII C5
-
-C5.1 (the ordinary comparison, proper smooth de Rham–Betti comparison and the multiplicative period interface), C5.2 (families and the Gauss–Manin connection), C5.6 (regular singular comparison), C5.7 (curves and residue localization). PS.0.5 constructs its particular second-kind class using the curve residue sequence, then computes the homology basis and pairing; it requests no elliptic uniformization theorem.
-
-### AlgebraicTopology Stage 6
-
-Stage 6 supplies singular cohomology with cup products, integral Poincaré duality for closed oriented manifolds of finite CW type and the intersection pairing on homology. PS.0.5 takes from it the integral first homology of a compact Riemann surface, its intersection pairing and its duality with first cohomology; the comparison of these groups with de Rham cohomology is ComplexComparisonPartII C5, not Stage 6.
-
-### ArithmeticKTheory §§3.3–3.4
-
-§3.3 rationalSIntegerEquiv: for every number field F, finite S and n ≥ 2, the rationalization of the actual inclusion K_n(O_F) → K_n(O_(F,S)) is an equivalence, with the identity at S = ∅ and the comparison toField with rationalized field K-theory. §3.4 borel_rank_order and the rank function ρ: for n ≥ 2 the rank of K_n(O_F) is r₁ + r₂ for n ≡ 1 mod 4, r₂ for n ≡ 3 mod 4 and zero in even degrees, and K_(2i)(F) is torsion for i ≥ 1. That section owns the stable comparison of arithmetic cohomology with relative Lie algebra cohomology and the primitive-homology identification behind these ranks. Used by PS.3.2a, PS.9.8 and PS.9.9.
-
-### BorelRegulators §§2.1–2.3, 5.3–5.4, 6.0a–6.3
-
-For every number field F and n ≥ 2 (here written j), §§2.1–2.2 construct the Chern-normalized Borel regulator r_Bo : K_(2n−1)(O_F) → V_n(F), into the conjugation-fixed space of functions on the complex embeddings with values in (2πi)^(n−1)ℝ, together with its rational extension to K_(2n−1)(F) ⊗ ℚ through the localization inverse; §2.3 proves that its real scalar extension is an isomorphism, that its integral kernel is the torsion and that it commutes with restriction and transfer. §5.3 proves that the integral image Λ_n(F) = r_Bo(K_(2n−1)(O_F)) is a full lattice in V_n(F), with positive covolume R_Bo(F, n) for the coordinate measure of its §1.1 (the coordinates of V_n(F) divided by (2πi)^(n−1), one per real embedding in odd n and one per complex pair), equal to the absolute determinant of r_Bo on a ℤ-basis of the torsion-free quotient and to 1 when d_n = 0. §5.4 proves Borel's theorem in both forms, R_Bo(F, n) ∈ ℚˣ·ζ_F*(1−n) and R_Bo(F, n) ∈ ℚ_>0·√Δ_F·π^(d_n−Nn)·ζ_F(n) with Δ_F = |disc F| and N = [F : ℚ], and that the signed determinant of r_Bo on any ordered ℚ-basis of K_(2n−1)(F) ⊗ ℚ, in those divided coordinates, lies in ℚˣ·√Δ_F·π^(d_n−Nn)·ζ_F(n), the rank-zero case being the statement √Δ_F·ζ_F(n)·π^(−Nn) ∈ ℚ_>0 for totally real F and even n. §6.1 identifies V_n(F) with H¹_D(Spec(F) ×_ℚ ℝ, ℝ(n)) by P_(n−1)(z) = (z + (−1)^(n−1) z̄)/2; §§6.0a–6.2 prove r_Bo = −2·r_Be for the shared universal Beilinson regulator r_Be with that roadmap's point coordinate, so that the ordered determinants differ by (−2)^(d_n), d_n = r₁ + r₂ for odd n and r₂ for even n, while Burgos's own evaluation is the negative of the shared coordinate and gives the factor +2 (Burgos, Theorem 10.9, printed pp. 95–97). §6.3: ψ^a acts on K_(2n−1)(F) ⊗ ℚ by a^n for every integer a ≥ 1. Used by PS.3.2a, PS.3.3a and PS.9.9.
-
-### ArithmeticGaloisRepresentations §§2.4–2.6, §3.3
-
-The arithmetic Weil–Deligne adapter (2.4), local factors (2.5), monodromy filtration and purity (2.6), and Conductor.globalConductor and Conductor.primeToPConductor (3.3) supply the local data and the conductor away from the coefficient prime. Frobenius semisimplification is the parameter operation of SmoothRepresentationsOfLocalGroups SR.5.2. PS.1.1 assembles the all-place conductor from strict compatibility and adds the discriminant factor. When a compatible automorphic realization is given, its local-parameter comparison is AutomorphicLFunctionsAndLocalFactors AL.4; it is not a Layer 3 theorem of ArithmeticGaloisRepresentations.
-
-### SmallRamificationAndAbelianVarietyBaseCases §5.0d and AutomorphicGaloisRepresentationsPartII AG2.P
-
-SmallRamificationAndAbelianVarietyBaseCases §5.0d supplies `AutomorphicSystemData` for rank n ≥ 1 over every number field, including the finite realization fields L_λ/E_λ without descent to E_λ, geometric Frobenius and HT(χ_cyc)=−1. AutomorphicGaloisRepresentationsPartII AG2.P, ‘Arbitrary-rank compatible data and operations’, supplies `Weak` and `Strict` on this carrier: Strict includes the common Frobenius-semisimple WD parameter with N at all finite places, including coefficient-prime comparison via D_pst. Purity is separate. PS.1 uses these predicates; it introduces no alternative system carrier.
-
-### PotentialModularityAndCompatibleSystems §§1.6–1.7, 1.15
-
-Section 1.6's away-coefficient strictness compares WD parameters only for v∤ℓ; all-place Strict above implies it. Section 1.7 supplies `rankZeroSystem`, its operations and coefficient/restriction transport, with zero members, empty Hodge multisets and L-factors 1. Section 1.15 supplies `partialLFunction`, `lFunction`, `partialLFunction_converges`, `partialLFunction_eq_of_lambda` and `completedLFunction` on its regular pure scope. PS.1.1 uses the first two as the underlying finite functions and proves their equality with motivic determinant factors; it identifies the zero-motive realization with §1.7's extension. PS.1.2 identifies the regular completion only when its real-place multiplicities agree with the geometric Hodge blocks: at real places the rank is even or congruent to 1 modulo 4; with no real places there is no rank restriction. The shared completion remains owned by §1.15. PS.1.2 constructs the motivic factors for every Hodge multiplicity and both Gamma normalizations, with their trace-based real-place comparison.
-
-### AutomorphicLFunctionsAndLocalFactors AL.1, AL.3, AL.4, AL.5
-
-AL.1: local normal forms and archimedean theory, canonical archimedean factors, local epsilon factors and Gauss sums, global completed Hecke L-functions and their functional equation (PS.1). AL.3: the Rankin–Selberg L-function of GL_n × GL_m with its duality, epsilon factor and functional equation, specialized in PS.6.6 to the conjugate self-dual GL_even × GL_odd pairs with central point 1/2; the motivic twist is specified in PS.6.6. AL.4: Weil–Deligne normalization and local parameter comparison (PS.1.1). AL.5: imprimitive functions, finite Euler corrections and leading terms, and the critical-value and sign interfaces (PS.1.5, PS.1.6, PS.4.3, PS.7.2).
-
-### EllipticIntegrals Milestones 1 and 3
-
-Milestone 1 supplies `TauCeti.Real.legendreK` and `TauCeti.Real.legendreEc` with modulus k, their algebraic forms and integrability at the algebraic endpoint for k²<1. Milestone 3 supplies Legendre's relation for 0<k<1 with complementary modulus √(1−k²). PS.7.1's local `legendreK` is only the parameter-form signature adapter K_λ; on 0≤λ<1 prove K_λ = Tau Ceti's modulus function at √λ. No comparison with that total function is asserted at λ<0 or λ≥1. PS.1.6 and PS.0.5 use the same modulus 1/√2 for the first and second kind integrals.
-
-### ModularSymbolsPadicLFunctions §§1.1–1.2
-
-The signed rational period lines and saturated integral periods of §1.1, and the twisted Mellin formula of §1.2, give critical-value algebraicity for forms of weight κ+2 and 0 ≤ j ≤ κ (κ is that roadmap's k). With its sign ε_(j,χ) = (−1)^(κ−j)χ(−1), the algebraic value is τ(χ)·j!·L(f,χ̄,j+1)/((−2πi)^j Ω_f^ε), and its period symbol includes the factor 2πi of f dq/q. PS.1.6 uses the untwisted case and matches Ω_f^ε, with j = m − 1, against (2πi)·c^((−1)^m)(M_f), not against c^ε(M_f); L/Ω alone is not asserted algebraic.
-
-### NeronModelsAndSemistableAbelianVarieties Layer 6, §6.10
-
-§6.10 StrictCompatibleSystemExport states BCGP Proposition 2.8.1 for every H^i(A), 0 ≤ i ≤ 2g: the representations form a strictly compatible system defined over ℚ, pure of weight i, at every place including those above the coefficient prime, with the coefficient-prime trace comparison and Saito's base-change argument built in that section (PS.1.8). Hodge and infinity realizations are the geometric realizations of MC.2.
-
-### WeilConjectures WC.1, WC.2
-
-WC.1: the cohomological determinant comparison for point counts (PS.1.8). WC.2: the finite-field signed functional equation, with its pairing imported from EtaleDualityAndPerverseSheaves. Number-field geometric duality is consumed directly from the latter owner.
-
-### EtaleDualityAndPerverseSheaves Layer 0, §§0.5–0.6
-
-The targets adicAndRationalPoincareDuality and `galoisFrobeniusEquivariance` supply the perfect pairing H^i(A_F̄) × `H^{2g−i}(A_F̄)(g)` → ℚ_ℓ and its Galois equivariance. MotivesAndAlgebraicCycles MC.2 transports the geometric duality through its realization functors and comparisons to the de Rham, Betti and infinity realizations (PS.1.8). The pairing is on geometric cohomology; absolute Galois cohomology over F is not substituted for it.
-
-### DirichletPadicLFunctions L0
-
-Layer 0 (0.4 generalized Bernoulli comparison and conductors): normalized complex special values in a complex embedding, with its endpoint convention (PS.1.5, PS.7.2).
-
-### NoncommutativeAndEquivariantIwasawa §§2.7, F.3, 7.9
-
-§2.7 supplies noncommutativeDeterminant, Deligne's virtual-object Picard groupoid V(R) for finite projective R-modules and its universal determinant functor on perfect complexes: quasi-isomorphism invariance, exact-sequence additivity, acyclic trivializations, shift inversion, perfect-cohomology formulas and base change. Over commutative R there is a determinant-line functor to PadicMeasuresIwasawaAlgebras §5.1; this is not an equivalence for arbitrary R. §F.3 supplies ordinary-real compact support, its comparison triangle with the Tate-modified duality complex, and the real-invariant determinant factor at odd p. Section 7.9 supplies the rational Fukaya–Kato fundamental object and its period-regulator data for this ordinary-real complex. PS.3 uses its inverse Burns–Flach orientation and PS.4 constructs the integral pullback only when its stated comparisons and perfectness hypotheses hold.
-
-### ArithmeticGaloisDuality D7
-
-D7.1 (derived tensor and Tor), D7.3 (cohomological finiteness and perfect amplitude), D7.5 (Tate-modified compact-support cochains for duality, with finite S containing the places above p and the archimedean places, and the real complete Tate cochains at 2). The ordinary-real determinant model is imported separately from NoncommutativeAndEquivariantIwasawa §F.3 (PS.4).
-
-### SelmerIwasawaCohomology L2–L4
-
-L2: compact and rational Galois Selmer groups (2.9), Selmer complexes as mapping fibres (2.21), condition-change triangles (2.23) and lattice changes (2.24). L3: the determinant line of a Selmer complex and its characteristic divisor (3.14), in the inverse-line orientation. L4: small-weight crystalline realization and extension exactness (4.7), the Bloch–Kato local condition (4.9), global finite Selmer reductions and conjugation (4.24), and uniform local annihilation away from p (4.25). §§4.24–4.25 supply the conjugate finite-condition and uniform local torsion controls used in the LTXZZ annihilator argument; they do not prove its arithmetic level-raising theorems.
-
-### FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.P3, R07.P5
-
-The fundamental period sequences with continuous sections (R07.P3) and the crystalline and de Rham realization data (R07.P5) are the period-module inputs of PS.6.1, PS.6.2 and PS.6.5. SelmerIwasawaCohomology §§4.7, 4.9 provides their small-weight realization and finite local condition, with its stated weight and coefficient hypotheses. The rational exponential has target H¹_f(ℚ_p,V_p); its lift into integral local points is used only on a sufficiently small open neighborhood of zero, with Haar measure defined by restriction and translation.
-
-### AutomorphicGaloisRepresentationsPartII AG2.5–AG2.6
-
-AG2.5's relevant conjugate-self-dual specialization (LTXZZ Proposition 3.2.4), and AG2.6 ‘Strong coefficient field’, ‘Uniform strong realization of polarized systems’, and coefficient base change. These supply the normalized Galois systems and a single finite strong field at all coefficient places. Taking a common finite extension for the two systems gives the E of PS.6.6. The different embeddings inducing one place use their respective completed scalar maps; their representations are semilinear conjugates, not automatically linearly identical. No canonical bases, minimal strong field, or admissibility at every λ is inferred.
-
-### From TauCetiRoadmap.AlgebraicKTheory, §§2.2, 3.2–3.3
-
-Section 2.2 supplies the additive automorphism presentation K₁ᴮ(C) and its projective-module comparison with matrix K₁. Section 3.2 supplies the relative triple group K₀(T) for an additive functor T:C→D between small additive categories, its difference map [P,α,Q] ↦ [P]−[Q], and commuting-square functoriality. Section 3.3 supplies the complement-independent boundary K₁ᴮ(D) → K₀(T) for summand-dense T and exactness at K₀(T) and K₀(C). On scalar extension of projective modules, an invertible matrix g has boundary [Oⁿ,g,Oⁿ]. Its stable-isomorphism equality criterion requires fullness and is not used for O→A or O→A_ℝ.
-
-### From TauCetiRoadmap.GeneralAlgebraicKTheory, §§4.16–4.17, 6.19, 12.11
-
-Section 4.16 compares the supplied automorphism presentation with split-exact Q-theory; §4.17 adds exactness at K₁ᴮ(D) for every summand-dense additive T, without fullness. Together with AlgebraicKTheory §3.3 this gives the five-term sequence exact at its three interior terms, with no terminal surjectivity assertion. Section 6.19 supplies the general Gillet–Waldhausen equivalence `K(E) ≃ K(Chᵇ(E), q)` for bounded complexes over an essentially small exact category, and §12.11 supplies vanishing of negative K-groups of regular noetherian rings of finite global dimension. The determinant Picard category is supplied by NoncommutativeAndEquivariantIwasawa §2.7.
-
-### IntegralHeckeAndGaloisDeterminants, §0.6
-
-The Azumaya reduced-norm determinant law, the unique degree-d determinant law that becomes `Matrix.det` under every faithfully flat matrix splitting, with duals and projective modules (PS.5.1).
-
-### NoncommutativeAndEquivariantIwasawa NE.7
-
-NE.7.9 the Fukaya–Kato global zeta isomorphism for ordinary-real support (as a predicate), NE.7.13 the interpolation formula for the Tate motive (BV Theorem 5.5), NE.7.14 its version for ℚ-valued characters under Leopoldt, NE.7.15 the local epsilon isomorphism. The nodes fukaya-kato-zeta-isomorphism, `tate-motive-interpolation` and `tate-motive-interpolation-rational` include the shifted complex C′ = RΓ_c,ord[1] with d(C′) ≅ d(RΓ_c,ord)⁻¹, the transported map a = ζ : 1 → d(C′), its Bockstein trivialization, order −m, relative boundary +[RΓ_c,ord] and normalization `c_γ^{−m},` and the normalized BV Theorem 5.5 and Corollary 5.7 (ℚ-valued characters) with all arithmetic hypotheses and the nonvanishing-regulator premise (PS.5.3, PS.5.4).
-
-### IntegralIwasawaTheory Layer 11
-
-§11.7 integralDeterminantMainConjecture: for every prime p, every totally real field k, every finite totally real abelian extension F/k, and every finite S containing S_∞ ∪ S_p ∪ S_ram, the inverse determinant of the Iwasawa complex of F_∞ over S is generated by the equivariant p-adic L-function, as invertible fractional lattices with the canonical acyclic trivialization; §11.1 transports the CM minus part to the totally real order. This is the Iwasawa-theoretic input of the abelian Tate case abelianTate_ETNC of PS.5.4. The descent from it to the finite-level equivariant Tamagawa number conjecture is not stated there and is part of PS.5.4.
-
-### CrystallineCohomology CR.3, CR.5–CR.7
-
-CR.3: crystalline cup products; CR.7: crystalline cohomology of proper smooth schemes with coefficients and horizontal Frobenius; CR.5: logarithmic structures and log-crystalline realization; CR.6: Hyodo–Kato complexes and the semistable comparison. CR.6.3 states **Proper one-parameter logarithmic comparison**, with the finite-level PD Poincaré map, the signed dlog-parameter triangle and the proper-cohomology inverse limit. Use it for the special fibre of the model in PS.8.17; the relative log extension and its punctured restriction are separate targets there. It does not assert torsion-freeness of the family’s integral cohomology. CR.7's finite-projectivity and base-change hypotheses must be proved for the chosen family, not inferred just from smoothness.
-
-### PadicDifferentialEquationsAndRigidCohomology RD.1, RD.3–RD.5 and RD.7
-
-RD.1.46 the Dwork exponential connection and its Frobenius structure, RD.1.63 Artin–Hasse integrality (PS.8.14, PS.8.15); RD.3 overconvergent F-isocrystals and frames (PS.8.17). RD.4.24 is the affine Monsky–Washnitzer comparison, RD.4.29 the smooth liftable Gysin comparison, RD.4.36–RD.4.38 the tube-to-completed-PD-envelope map and rational smooth-proper rigid–crystalline comparison, and RD.7.1 its Frobenius compatibility. RD.5.115 supplies the proper smooth relative overconvergent direct image only for a proper smooth formal lift with compatible compactifications, including fibrewise base change and Frobenius. RD.5.107–RD.5.109 supply relative log convergent sites, log-crystalline perfectness and derived base change for proper log smooth integral morphisms, and the relative convergent–crystalline comparison. PS.8.17 verifies these geometric hypotheses and constructs the quintic-specific relative log extension and its identification with that direct image. RD.7.10 distinguishes a comparison of de Rham vector spaces from the identification of a chosen Frobenius: PS.8.17 identifies Dwork's normalized operator of PS.8.14 with the geometric Frobenius through the uniqueness of Frobenius structures on the irreducible Picard–Fuchs module.
-
-### ModularCurvesPartII §3.6, §§14.1–14.4a and §§16.1–16.4
-
-§3.6 supplies the Tate cusp with j(q) = q⁻¹ + 744 + ⋯. TauCetiRoadmap ModularForms Layer 0 supplies the analytic invariant j = E₄³/Δ and its q-expansion. PS.8.10 owns the Schwarzian identity and the comparison used in its modular relation; no Schwarzian theorem is attributed to the formal-cusp construction. Sections 14.1–14.4a supply the geometric weight coefficient systems L_r = Symʳ of the relative H¹ of the universal elliptic curve, the Betti, finite and adic parabolic cohomology H¹_par as the image of compactly supported cohomology, its boundary sequence, the Artin comparison between the étale and Betti parabolic lattices with change of level, and the modular Borel–Serre pair. These sections do not select the primitive f-summand: at an auxiliary level they contain the oldvector copies, and the primitive projector and rank-two multiplicity are AlgebraicModularFormsAndSerreWeights §6.1. Sections 16.1–16.4 supply, for a weight-two newform f of level N ≥ 5, the modular abelian variety A_f = J₁(N)/B_f with its action of the Hecke field, dim A_f = [K_f:ℚ], V_ℓ(A_f) free of rank two over ℚ_ℓ ⊗ K_f, and the identification of its differentials with the span of the conjugates of f. PS.1.6 assembles the motive and its marked comparison from these inputs.
-
-### PolylogarithmFunctions
-
-The principal classical polylogarithm Li_n, equal to its series on the open unit disc (PS.9.3).
-
-### ColemanIntegration L1.12 and AnabelianGeometryAndNonabelianChabauty NC.2
-
-ColemanIntegration L1.12 supplies `WordAlgebra`, its word basis, shuffle multiplication with multiplicities, associativity, commutativity, length filtration and coefficient base change. For the pure two-letter algebra use A=ℚ, Ω=0 and zero forms and derivation; for iterated integrals use the given differential forms. AnabelianGeometryAndNonabelianChabauty §2.0 ‘Word algebra and shuffle coordinates’ supplies `wordShuffleDuality`, its all-cut deconcatenation and finite-word/augmentation-quotient pairing; §2.4 uses precisely the finite coefficient subcoalgebras. Layer NC.2 supplies the generic unipotent de Rham and étale groupoid (PS.9.10). PS.9.2 transports the two-letter basis through Bool≃Fin 2 and constructs only the index-specific subalgebras and stuffle structure.
-
-## How to read the build
-
-Layers follow proof order. PS.0 fixes periods; PS.1 the L-function side and critical values; PS.2 the evaluation of formal periods. PS.3–PS.6 run the arithmetic route from rational fundamental lines through integral lattices and equivariant statements to Bloch–Kato and BSD. PS.7 proves analytic error bounds and normalization laws and isolates the conjectural predicates. PS.8 and PS.9 are the two case studies; PS.8 uses the comparison direction of PS.0, and PS.9 uses the evaluation of PS.2 for numerical spanning. Within a layer, subsections are in proof order. README.md specifies every target. Suggested.lean states the statable headline theorems and only their necessary simple definitions; its `sorry` proofs specify goals and certify nothing.
 
 ## Layer PS.0: comparison spaces and period lines
 
@@ -408,6 +194,7 @@ The interface includes the following facts.
 ### Dependencies
 
 MotivesAndAlgebraicCycles MC.2; ComplexComparisonPartII C5; AlgebraicTopology Stage 6; TauCetiRoadmap PadicMeasuresIwasawaAlgebras §5.1; TauCetiRoadmap EllipticCurves Layer 1; EllipticIntegrals Milestone 1; Tau Ceti `TauCeti.Hodge.tate`; Mathlib `Matrix.det`.
+
 ## Layer PS.1: critical values and algebraicity statements
 
 This layer identifies the shared finite Euler products with motivic local factors and extends the archimedean factors to general Hodge multiplicities in both conventions in use; it builds the critical integers and Deligne's normalized-value predicate. It proves the two adapters that turn imported analytic formulas into statements about Deligne periods (Dirichlet characters with Tate twists, and modular forms), and states the functional-equation predicates of Serre and of Hasse–Weil type that the modularity roadmaps consume.
@@ -922,6 +709,7 @@ The interface includes the following facts.
 ### Dependencies
 
 Layers PS.0–PS.1; MotivesAndAlgebraicCycles §§4.17–4.19; MotivicEtaleKTheory §§2.2–2.4; TauCetiRoadmap PadicMeasuresIwasawaAlgebras §5.1; AlgebraicKTheory §§2.2, 3.2–3.3; GeneralAlgebraicKTheory §§4.16–4.17, 6.19, 12.11; NoncommutativeAndEquivariantIwasawa §§2.7, F.3, 7.9; ArithmeticKTheory §§3.3–3.4; BorelRegulators §§2.1–2.3, 5.3–5.4, 6.0a–6.3; Layer PS.3.0; MotivesAndAlgebraicCycles MC.2 and §6.10; [NumberFieldArithmetic](../../Completed/NumberFieldArithmetic/README.md) (boundary).
+
 ## Layer PS.4: integral fundamental lines and local corrections
 
 This layer puts integral structures into the rational line of Layer PS.3: the λ-adic lattice from compactly supported cohomology of a Galois-stable lattice, the exact formula for the correction a finite complex contributes, the local Euler and Tamagawa terms, and the restriction at the prime 2 forced by real places. Determinants follow TauCetiRoadmap PadicMeasuresIwasawaAlgebras Layer 5: det C = ⊗_i `det(C^i)^{(−1)^i},` and an acyclic complex has a canonical trivialization under which [A --a--> A] in degrees 0, 1 has image aA and in degrees −1, 0 has image a⁻¹A.
@@ -1509,7 +1297,6 @@ The interface includes the following facts.
 ### Dependencies
 
 Layers PS.0–PS.6; DirichletPadicLFunctions L0; AutomorphicLFunctionsAndLocalFactors AL.1, AL.5; Mathlib `intervalIntegral`, MeasureTheory.tendsto_integral_of_dominated_convergence; EllipticIntegrals Milestone 1.
-
 ## Layer PS.8: arithmetic mirror symmetry and period differential equations
 
 Two one-parameter families put Layers PS.0–PS.2 to work. For the Dwork quartic pencil of K3 surfaces the layer constructs the resolved family, its normalized residue form, its Picard–Fuchs equation, the marked rank-three orthogonal complement with integral monodromy, the Frobenius solution basis, the hypergeometric symmetric-square identity, the local reflection at the conifold point, the normalized mirror coordinate, the modular relation with 1/j, and the integrality of the mirror map. For the Dwork quintic pencil of Calabi–Yau threefolds it constructs the invariant formal cohomology with its Gauss–Manin connection, Dwork's normalized Frobenius, the convergent Dwork sums, Shapiro's boundary Frobenius matrix, and its comparison with crystalline cohomology. A differential equation shared by two expressions is never a period comparison without matching initial and monodromy data; mirror-map integrality, enumerative identities and Frobenius congruences are distinct theorems, and only those stated here are claimed.
@@ -2552,6 +2339,7 @@ The interface includes the following facts.
 ### Dependencies
 
 Layer PS.2; MotivesAndAlgebraicCycles Layers 3, 4 and 6; Layer PS.3.0; ArithmeticKTheory §3.4; BorelRegulators §§2.3, 6.3; ColemanIntegration L1.12; AnabelianGeometryAndNonabelianChabauty NC.2, especially §2.0 ‘Word algebra and shuffle coordinates’ and §2.4; PolylogarithmFunctions; Tau Ceti `TauCeti.TensorWords`; Mathlib riemannZeta, `intervalIntegral`, PowerSeries, PhragmenLindelof.horizontal_strip, padicValRat, `Matrix.det`, Submodule.span.
+
 ## Corrections to the sources
 
 The targets above already incorporate the following corrections; each is stated for the version cited in References.
@@ -2570,7 +2358,6 @@ The targets above already incorporate the following corrections; each is stated 
 - **Brown, proof of Lemma 3.8 (v1), p. 11.** In the intermediate alternating-sum display, the coefficient before the sum is −1, rather than −2: at n = 1 the identity is ζ^m(3) = ζ^m(3). Combining it with (3.8) gives the stated factor 2 in Lemma 3.8 and PS.9.15. The lemma itself is used with that factor 2.
 - **Shapiro, §§3.1–3.2 (v2), pp.3–4.** For the natural permutation pullback, the top differential and the residue generator transform by the sign character. The rank-four sector in PS.8.12 is G-invariant and S₅-stable; interpreting it as invariant under the combined group requires the determinant-character twist. In particular no S₅ average is used at p=3.
 - **Shapiro, §6 (v2).** The convergence of the two weighted Dwork sums is asserted with the estimate referred elsewhere; PS.8.15 proves it by the Artin–Hasse factorization. There is no Theorem 6.1 in this version.
-
 ## Worked examples
 
 - **The Tate motive.** ℚ(n) has I-period (2πi)^n, F∞ = (−1)^n and type (−n, −n); for ℚ(0) the critical integers are the positive even and the negative odd integers, ζ(2)/(2πi)² = −1/24, ζ(−1) = −1/12, and the Deligne ratio at every critical integer is rational. In the period algebra, L ↦ 2πi and L⁻¹ ↦ (2πi)⁻¹.
@@ -2578,10 +2365,223 @@ The targets above already incorporate the following corrections; each is stated 
 - **11a1.** Rank 0, torsion 5, c₁₁ = 5, Sha trivial: L(E, 1) = Ω_E/5; its fundamental-line consequence uses the explicit scalar identity and the comparisons of PS.6.3.
 - **The quartic mirror map.** q = z + 104z² + 15188z³ + 2585184z⁴ + ⋯ and Z = q − 104q² + 6444q³ − 311744q⁴ + ⋯, integral, with P(1/j, Z) = 0.
 - **Weight five.** ζ(2, 3) = −2ζ(3)ζ(2) + (9/2)ζ(5), ζ(3, 2) = 3ζ(3)ζ(2) − (11/2)ζ(5); the cut matrix [[3, −11/2], [−2, 9/2]] has determinant 5/2; ζ^m(2, 3), ζ^m(3, 2) form a basis of H₅, and d₅ = 2.
-
 ## Downstream consumers
 
 The outputs are interfaces for motivic completions and Hasse–Weil functional-equation statements (PS.1), p-adic interpolation with explicitly matched periods (PS.0–PS.1), leading-term and equivariant determinant comparisons (PS.3–PS.6), and mixed Tate period calculations and numerical multiple-zeta spanning (PS.9). These applications consume the supplied local factors, realizations, marked evaluation and path-groupoid constructions in the direction fixed by Exact supplier contracts.
+
+## Scope and ownership
+
+This roadmap owns:
+
+- the comparison determinant line, the geometric infinity involution and its eigenspaces, period classes modulo the coefficient field, Deligne's periods c^± and δ, and the Tate and elliptic normalizations (Layer PS.0);
+- the motivic realization adapters for shared Euler products, archimedean factors for general Hodge multiplicities in Deligne's and BCGP's conventions, critical integers, Deligne's normalized-value predicate, the Dirichlet/Tate and modular period adapters, Serre's functional-equation predicate and the Hasse–Weil predicates for abelian varieties (Layer PS.1);
+- the comparison of the imported marked evaluation with the inverse-comparison convention, and its rank-one Tate specialization (Layer PS.2);
+- the Burns–Flach orientation of the imported rational Fukaya–Kato line, the real period–regulator trivialization, leading terms and their rationality, and Borel's theorem as the proved case of that rationality for Dedekind zeta values (Layer PS.3);
+- integral fundamental lattices, the finite lattice correction, local Euler and Tamagawa corrections, and the real dyadic restriction (Layer PS.4);
+- the equivariant Tamagawa obstruction with the extended boundary, the ETNC predicate, the orientation of the Fukaya–Kato zeta isomorphism, and the transport of proved cases (Layer PS.5);
+- Bloch–Kato motivic pairs, points, Tamagawa measure and Sha, the Bloch–Kato predicate, the elliptic fundamental-line adapter, conditional transport of rank-zero and rank-one BSD witnesses, and the Rankin–Selberg Beilinson–Bloch–Kato prediction and coefficient-extension transport (Layer PS.6);
+- period-integral transformations and error inequalities, stability of normalized quotients, covariance of normalized values, and the period conjecture (Layer PS.7);
+- the Dwork quartic and quintic case studies, including the general equivariant semistable model of the reciprocal Dwork family (Layer PS.8);
+- multiple zeta values: indices, the two-letter shuffle specialization and stuffle product, iterated integrals, regularizations, Zagier's evaluation, mixed Tate motives over ℤ and their Galois group, the motivic path torsor of ℙ¹ ∖ {0, 1, ∞}, Brown's motivic multiple zeta values and coaction, the Hoffman basis and numerical spanning (Layer PS.9).
+
+### Prerequisites and boundaries
+
+The following are imported from their named owners and sections:
+
+- **TauCetiRoadmap EllipticCurves** Layers 1, 2, 4, 6 and 7: the invariant differential, Tate modules and the Weil pairing, reduction types and local Tamagawa numbers, Mordell–Weil, canonical heights and the regulator, Selmer groups, Sha and the conditional BSD quotient over ℚ with its all-components real period. Complex uniformization is not supplied there and is not used here.
+- **SmallRamificationAndAbelianVarietyBaseCases** §5.0d: the positive-rank raw compatible-system carrier and its coefficient fields, local realization fields and operations; **AutomorphicGaloisRepresentationsPartII** AG2.P, ‘Arbitrary-rank compatible data and operations’: Weak and all-place Strict; **PotentialModularityAndCompatibleSystems** §§1.6, 1.7 and 1.15: away-coefficient strictness, the rank-zero family extension, partial/full finite Euler products, convergence and regular-system completion. PS.1 owns their motivic adapters, including the zero-motive adapter, all-place conductor assembly and the general Hodge-multiplicity and Gamma-normalization extension; its regular-completion comparison has the real-place parity restriction of PS.1.2.
+- **EllipticIntegrals** Milestones 1 and 3: canonical modulus-based K and E, their algebraic integral forms and endpoint integrability, and Legendre's relation. PS.7.1 owns the parameter adapter λ=k², rational substitution, midpoint error bound and marked-cycle comparison.
+- **ColemanIntegration** L1.12: the generic shuffle word algebra; **AnabelianGeometryAndNonabelianChabauty** §2.0 ‘Word algebra and shuffle coordinates’ and §2.4: its coordinate coalgebra and completed-dual comparison. PS.9 owns the two-letter/index specialization, admissible subalgebras, stuffle and motivic mixed Tate applications.
+- **TauCetiRoadmap ModularForms**: the L-function of a newform with its Euler product and continuation, and (Layer 8) modular symbols and the Eichler–Shimura period map.
+- **BorelRegulators** §§2.1–2.3, 5.3–5.4 and 6.0a–6.3: the Chern-normalized Borel regulator on K_(2j−1)(O_F) for every number field F and j ≥ 2, its real isomorphism, its integral image lattice with Borel's theorem on its covolume and on the rational-basis determinant, its comparison r_Bo = −2·r_Be with the shared Beilinson regulator into real Deligne cohomology, and the rational Adams weight. **ArithmeticKTheory** §§3.3–3.4: rational localization from O_F to F, the stable arithmetic comparison and Borel's ranks. PS.3.2a only places these supplied maps in the fundamental line of h⁰(Spec F)(j), and PS.3.3a only translates Borel's theorem into the rationality predicate of PS.3.3 for that line; the degree-one boundary is the Dirichlet regulator. No elliptic L(E, 2) regulator formula is used.
+- **[NumberFieldArithmetic](../../Completed/NumberFieldArithmetic/README.md)**: the Dirichlet regulator and the class number formula at s = 1, which is the degree-one case of the Borel regulator; this roadmap starts at degree j ≥ 2.
+- **TauCetiRoadmap PadicMeasuresIwasawaAlgebras** Layer 5: determinant lines of perfect complexes over commutative rings, their acyclic trivialization and specialization.
+- **TauCetiRoadmap ClassicalArithmeticCompletion** §7.10 and §7.60: reduced norms of semisimple number-field algebras and the description of their images (Hasse–Schilling–Maass).
+- **[IntegralLattices](../../Completed/IntegralLattices/README.md)** Layers 1–5: rational-ambient integral lattices, discriminant forms and gluing. The active IntegralLattices roadmap, Layer 5 milestones 5G–5H and Layer 6 milestone 6A, supplies primitive embeddings and indefinite unimodular classification.
+- **TauCetiRoadmap SchemeAndStackFoundations** §§1.17, 1.23 and 4.11: quotients by finite groups, coarse spaces, modifications and strict transforms; general blow-ups are supplied by **TauCetiRoadmap StableReduction** Layer 4.
+- **IntegralHeckeAndGaloisDeterminants** Layer 0, §0.6: the Azumaya reduced-norm determinant law, with duals and projective modules.
+
+Other roadmaps supply the following, as specified in Exact supplier contracts: MotivesAndAlgebraicCycles (Layer 1 projectors, MC.2 realizations and Layers 3–6: Tannakian categories, geometric motives, Nori diagrams and the marked period torsor); ComplexComparisonPartII C5 (de Rham–Betti comparison, Gauss–Manin connection); AlgebraicTopology Stage 6; ArithmeticGaloisRepresentations §§2.4–2.6, §3.3; AutomorphicLFunctionsAndLocalFactors AL.1, AL.3, AL.4, AL.5; AutomorphicGaloisRepresentationsPartII AG2.P and AG2.5–AG2.6; PotentialModularityAndCompatibleSystems §§1.6–1.7, 1.15; ModularSymbolsPadicLFunctions §§1.1–1.2; FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.P3, R07.P5; NeronModelsAndSemistableAbelianVarieties Layer 6 (§6.10); WeilConjectures WC.1–WC.2; EtaleDualityAndPerverseSheaves Layer 0, §§0.5–0.6; DirichletPadicLFunctions L0; ArithmeticGaloisDuality D7; SelmerIwasawaCohomology L2–L4; AlgebraicKTheory §§2.2, 3.2–3.3; GeneralAlgebraicKTheory §§4.16–4.17, 6.19, 12.11; NoncommutativeAndEquivariantIwasawa §§2.7, F.3, 7.9 and NE.7; IntegralIwasawaTheory Layer 11; K3Surfaces K1–K2; K3SurfacesAndSymplecticBoundedness §§3.1, 4.2; MotivicEtaleKTheory §§2.2–2.4; CrystallineCohomology CR.3, CR.5–CR.7; PadicDifferentialEquationsAndRigidCohomology RD.1, RD.3–RD.5 and RD.7; ModularCurvesPartII §3.6, §§14.1–14.4a and §§16.1–16.4; AlgebraicModularFormsAndSerreWeights §6.1; WeightsInEtaleCohomology §§5.2, 5.5; PolylogarithmFunctions; AnabelianGeometryAndNonabelianChabauty NC.2; ArithmeticKTheory §§3.3–3.4; BorelRegulators §§2.1–2.3, 5.3–5.4, 6.0a–6.3.
+
+PS.1.6 assembles the newform motive in homological motives from the supplied Kuga–Sato compactification, Scholl projector and primitive rank-two summand, with its marked comparison, PS.3.0 compares the motivic and Adams-weight carriers, and PS.9.15 constructs the configuration-pair framings needed for motivic stuffle. IntegralLattices 5G–5H and 6A own the abstract lattice theorems, K3Surfaces K2 owns the geometric K3 cup lattice, and MotivicEtaleKTheory §§2.2–2.4 owns the higher Chern comparison. These supplied theorems are not targets here. The arbitrary-pair comparison and marked period evaluation are MotivesAndAlgebraicCycles §§5.7, 6.7–6.9. The noncommutative determinant functor is NoncommutativeAndEquivariantIwasawa §2.7. PS.3 defines the Burns–Flach orientation of the imported rational fundamental object, and PS.4 constructs its integral pullback under an explicit rational comparison hypothesis. PS.6.4 and PS.6.7 transport explicitly given arithmetic witnesses; neither asserts a theorem supplied by an unnamed arithmetic continuation.
+
+The unit arctangent integral is the Mathlib identity `integral_one_div_one_add_sq` specialized using `Real.arctan_one`; PS.7.1 adds its signed finite-sum remainder bound. The finite-prime lattice patching and its local-projectivity criterion belong to PS.5.1; they are not supplied by the completed NumberFieldArithmetic roadmap. The newform motive of PS.1.6 differs from the primitive rank-two cohomological summand of AlgebraicModularFormsAndSerreWeights §6.1 by being a homological motive with E-action, cut out by the Scholl correspondence of WeightsInEtaleCohomology §§5.2, 5.5 and that summand's newspace projector, together with its marked Betti–de Rham comparison. The framed comparison of PS.9.15 differs from a supplied relative motive by preserving both its differential-form frame and its oriented Betti cell.
+
+### Theorems and predicates
+
+The following are predicates, used only as named hypotheses: DeligneAlgebraic (PS.1.4), SerreSystem (PS.1.7), SerreC9 and HasseWeilConjecture (PS.1.8), LeadingTermRational and the Beilinson leading-term assertion (PS.3.3; both proved for h⁰(Spec F)(j), j ≥ 2, in PS.3.3a), ETNC (PS.5.2), BlochKatoTamagawa (PS.6.5), BBKRankZeroOne (PS.6.6), higher-rank BSD (PS.6.3), PeriodConjecture (PS.7.4), QuinticBoundaryLatticeIntegral (PS.8.17), numerical independence of Hoffman values and exact numerical dimensions (PS.9.23). Everything else in the layers is a definition, construction or theorem to be proved. Numerical agreement witnesses no predicate; an analytic inequality retains its stated hypotheses and bounds.
+
+## Exact supplier contracts
+
+Each entry names the supplier and the precise input consumed. The local constructions that connect these inputs are targets in the layers below.
+
+### From Mathlib at the pin
+
+Linear algebra: `Matrix.det`, `Matrix.det_mul`, `Matrix.det_fin_zero`, `Matrix.det_smul`, `Matrix.det_nonsing_inv`, `Matrix.det_of_isUpperTriangular`, `LinearIndependent`, Submodule.span, `Finsupp.single`, `Ideal.Quotient.mk`, `Ideal.quotientInfRingEquivPiQuotient`. Localization: `IsLocalization.Away`, `IsLocalization.Away.lift`, IsLocalization.Away.mul_invSelf, `LaurentPolynomial.eval₂` with `LaurentPolynomial.eval₂_T`. Special functions: `Complex.Gamma` (total, with value 0 at its poles, `Complex.Gamma_eq_zero_iff`), `Complex.Gammaℝ`, `Complex.Gammaℂ` (Deligne's normalization), `Complex.Gamma_mul_Gamma_eq_betaIntegral`, `Complex.Gamma_mul_Gamma_one_sub`, `ordinaryHypergeometric` (the ₂F₁ series; no ₃F₂ or continuation). Zeta and L-functions: riemannZeta, `riemannZeta_two`, `riemannZeta_four`, `riemannZeta_neg_nat_eq_bernoulli`, `zeta_nat_eq_tsum_of_gt_one`, `riemannZeta_eulerProduct`, completedRiemannZeta_one_sub, hurwitzZeta_neg_nat, DirichletCharacter.completedLFunction, DirichletCharacter.IsPrimitive.completedLFunction_one_sub, DirichletCharacter.rootNumber, meromorphicOrderAt. Analysis and measure: `intervalIntegral`, `intervalIntegral.norm_integral_le_of_norm_le`, `intervalIntegral.integral_comp_mul_deriv'`, MeasureTheory.tendsto_integral_of_dominated_convergence, MeasureTheory.integral_tsum, MeasureTheory.Measure.haarMeasure, MeasureTheory.Measure.infinitePi (probability measures only), PhragmenLindelof.horizontal_strip, `integral_one_div_one_add_sq`, `Real.arctan_one`. Harmonic numbers: `harmonic` (Mathlib/NumberTheory/Harmonic/Defs.lean, `H_n = 1 + 1/2 + ⋯ + 1/n` in ℚ, with `H_0 = 0`). Power series and p-adics: PowerSeries.mk, PowerSeries.derivative, PowerSeries.exp, PowerSeries.subst, PowerSeries.substInv, `Padic`, padicValRat, `sub_one_mul_padicValNat_factorial`, HasSum.
+
+### From Tau Ceti at the pin
+
+`TauCeti.Hodge.tate` and `TauCeti.Hodge.tate_F` (`TauCeti/Geometry/Hodge/Tate/Basic.lean`): the Tate Hodge structure ℤ(m) of weight −2m and type (−m, −m), whose lattice map is the inclusion ℤ → ℂ — not a geometric 2πi comparison; the geometric scalar is PS.0.5. `TauCeti.TensorWords.of` and `TauCeti.TensorWords.deconcatenation` (`TauCeti/LinearAlgebra/TensorCoalgebra/Coaugmented/Basic.lean`): tensor words including degree zero, with deconcatenation over all cuts including the two outer ones; this is not the shuffle product. In Tau Ceti at the pin, `TauCeti.IntegralLattice.form_ofGramMatrix_basisFun_apply` (TauCeti/LinearAlgebra/IntegralLattice/StandardCoordinates.lean, line 53) gives the Gram-matrix coordinates used for the quartic lattice.
+
+### TauCetiRoadmap EllipticCurves, Layers 1, 2, 4, 6, 7
+
+Layer 1: the invariant differential, its pullback and the equation-level normalization (PS.0.5). Layer 2: the Tate module and the Weil pairing for the realization h¹(E)(1) (PS.6.3). Layer 4: the reduction map, component groups and local Tamagawa numbers for the minimal model and differential (PS.4.3). Layer 6: the canonical height pairing, its nondegeneracy and the Mordell–Weil regulator with basis independence (PS.6.3). Layer 7: Selmer and Sha carriers and, as a stretch milestone of that layer, the BSD quotient over ℚ defined under finiteness of Sha, with the real period of the global minimal equation counting both real components (PS.6.3). No complex uniformization and no number-field extension of Layer 7 is assumed.
+
+### TauCetiRoadmap PadicMeasuresIwasawaAlgebras, Layer 5
+
+§5.1: projectiveDeterminant, `detLine` with detLine_quasiIso, detLine_shortExact, detLine_baseChange, `detLine_dual`, detLine_shift, `detLine_acyclic`, the cone presentation, and the rational trivialization with its characteristic divisor, over commutative rings. Used here over fields, discrete valuation rings and commutative orders (PS.0.1, PS.0.4, PS.3.1, PS.4.1, PS.4.2). For noncommutative orders the relative class of a perfect complex with a real trivialization is built in PS.5.1 from AlgebraicKTheory §§2.2, 3.2–3.3 and the non-full exactness of GeneralAlgebraicKTheory §4.17.
+
+### TauCetiRoadmap ClassicalArithmeticCompletion, §7.10 and §7.60
+
+The reduced norm of a semisimple number-field algebra with its splitting, multiplicativity and base change (§7.10), and the local and global reduced-norm images: positive elements at the real places where a component ramifies, everything at finite places (§7.60). Used for the extended boundary of PS.5.1.
+
+### From TauCetiRoadmap.IntegralLattices, Layers 5–6
+
+The completed foundational Layers 1–5 supply rational-ambient integral lattices, duals, discriminant forms and overlattice gluing. The active roadmap's Layer 5 milestones 5G–5H supply existence and uniqueness of primitive embeddings into even unimodular lattices; Layer 6 milestone 6A classifies indefinite unimodular lattices by parity and signature. PS.8.4 uses the sufficient uniqueness range with both signature differences positive and complement rank at least the discriminant-group length plus two. The half-norm discriminant convention is transported with the supplied gluing maps.
+
+### From TauCetiRoadmap.K3Surfaces, K1–K2
+
+K1 supplies Hodge numbers and the first-Chern/exponential-sequence comparison; K2 supplies torsion-freeness of the actual integral Betti H² of a complex K3 surface and its even unimodular cup form of signature (3,19), with pullback and complex orientation. PS.8.4 consumes this geometric statement before applying IntegralLattices 5G–5H and 6A.
+
+### From TauCetiRoadmap.K3SurfacesAndSymplecticBoundedness, §§3.1, 4.2
+
+Section 3.1 supplies the integral geometric étale ranks (1,0,22,0,1), the perfect cup-trace pairing and the comparison with integral singular cohomology over ℂ. Section 4.2 supplies the Picard lattice realization. K3Surfaces K1–K2 supplies the singular cup lattice, Hodge numbers and the first-Chern identification with integral (1,1)-classes; its saturated image also follows from the exponential sequence because H²(O) is torsion-free as an abelian group. These are the geometric inputs of PS.8.4.
+
+### TauCetiRoadmap SchemeAndStackFoundations, §§1.17, 1.23, 4.11
+
+Categorical and geometric quotients, coarse spaces of finite group quotients (`finite_quotient_coarse`), and modifications with strict transforms. For blow-ups §4.11 imports TauCetiRoadmap StableReduction Layer 4 (Rees algebra, relative Proj, affine charts and flat base change). Used for the quotient and resolution of PS.8.1; the resolution of the six A₃ sections is explicit and belongs to PS.8.1.
+
+### MotivesAndAlgebraicCycles Layer 1, MC.2 and Layers 3–6
+
+MC.2 supplies tensor-compatible geometric realization functors for motives with rational coefficients, including the finite-group actions and cycle maps for PS.8; a ℚ-algebra map E → End(M) makes the realizations E-modules (PS.0.1). Layer 1 supplies Chow motives with their projectors and §6.10 the equivalence of Artin motives with rational Galois representations; PS.1.5 builds the character motive A_χ from them with Deligne's construction M ⊗_ℚ E. Layers 3–4 supply Tannakian categories and Tate-stabilized geometric motives. §5.7 supplies the relative de Rham comparison for arbitrary finite-type pairs, with hypercover independence, excision, triple boundaries and products. §§6.7–6.9 supply P = P_eff[L⁻¹], its tensor-isomorphism torsor and the marked evaluation per : P → ℂ with per(L) = 2πi. PS.2 compares this β-point with PS.0's I = β⁻¹; it does not construct a second evaluation.
+
+### From TauCetiRoadmap.MotivicEtaleKTheory, §§2.2–2.4
+
+For smooth quasi-projective schemes over a field and nonnegative K-degree and weight, §§2.2–2.3 identify the rational simultaneous Adams-weight summand of Quillen K-theory with higher Chow motivic cohomology. Section 2.4 supplies products and degree-zero normalization; §2.3 transports localization boundaries. PS.3.0 composes these maps with MotivesAndAlgebraicCycles §§4.17–4.19 to obtain the number-field Tate-Hom comparison. Negative weights use the latter's Tate-Hom vanishing, not a negative-degree application of the higher Chern character.
+
+### WeightsInEtaleCohomology §§5.2, 5.5
+
+For weight k ≥ 3, r = k − 2 and a fine full level M ≥ 3, §5.5 supplies the smooth projective equivariant compactification W_r of the r-fold fibre power of the universal elliptic curve over Y(M), with its boundary resolution, and the rational idempotent correspondence e_ε averaging over translations by M-torsion, inversions and permutations with the sign character ε. Section 5.2 identifies the image of e_ε on H^(r+1)(W_r) with the parabolic Sym^r R¹ realization of ModularCurvesPartII §§14.1–14.4a, Hecke- and Galois-equivariantly. PS.1.6 uses W_r and e_ε as algebraic correspondences in homological motives; their Betti and de Rham realizations are those of MotivesAndAlgebraicCycles MC.2. No integral or saturated image of e_ε is assumed.
+
+### AlgebraicModularFormsAndSerreWeights §6.1
+
+For weight k ≥ 2 and a primitive normalized cuspidal eigenform f of level N, §6.1 supplies the filtered logarithmic de Rham parabolic realization of Sym^(k−2) of the relative H¹_dR, its comparison with the Betti image of H¹_c → H¹ for the same local system, the holomorphic and antiholomorphic Eichler–Shimura decomposition, the exact-level classical newspace Hecke eigenprojector and its compatibility with coefficient extension and level maps, and the primitive f-isotypical summand, of dimension two at every coefficient completion and the same at any two auxiliary full levels. Larger auxiliary levels carry extra oldvector copies; these are excluded by the newspace projector, not by the parabolic image.
+
+### ComplexComparisonPartII C5
+
+C5.1 (the ordinary comparison, proper smooth de Rham–Betti comparison and the multiplicative period interface), C5.2 (families and the Gauss–Manin connection), C5.6 (regular singular comparison), C5.7 (curves and residue localization). PS.0.5 constructs its particular second-kind class using the curve residue sequence, then computes the homology basis and pairing; it requests no elliptic uniformization theorem.
+
+### AlgebraicTopology Stage 6
+
+Stage 6 supplies singular cohomology with cup products, integral Poincaré duality for closed oriented manifolds of finite CW type and the intersection pairing on homology. PS.0.5 takes from it the integral first homology of a compact Riemann surface, its intersection pairing and its duality with first cohomology; the comparison of these groups with de Rham cohomology is ComplexComparisonPartII C5, not Stage 6.
+
+### ArithmeticKTheory §§3.3–3.4
+
+§3.3 rationalSIntegerEquiv: for every number field F, finite S and n ≥ 2, the rationalization of the actual inclusion K_n(O_F) → K_n(O_(F,S)) is an equivalence, with the identity at S = ∅ and the comparison toField with rationalized field K-theory. §3.4 borel_rank_order and the rank function ρ: for n ≥ 2 the rank of K_n(O_F) is r₁ + r₂ for n ≡ 1 mod 4, r₂ for n ≡ 3 mod 4 and zero in even degrees, and K_(2i)(F) is torsion for i ≥ 1. That section owns the stable comparison of arithmetic cohomology with relative Lie algebra cohomology and the primitive-homology identification behind these ranks. Used by PS.3.2a, PS.9.8 and PS.9.9.
+
+### BorelRegulators §§2.1–2.3, 5.3–5.4, 6.0a–6.3
+
+For every number field F and n ≥ 2 (here written j), §§2.1–2.2 construct the Chern-normalized Borel regulator r_Bo : K_(2n−1)(O_F) → V_n(F), into the conjugation-fixed space of functions on the complex embeddings with values in (2πi)^(n−1)ℝ, together with its rational extension to K_(2n−1)(F) ⊗ ℚ through the localization inverse; §2.3 proves that its real scalar extension is an isomorphism, that its integral kernel is the torsion and that it commutes with restriction and transfer. §5.3 proves that the integral image Λ_n(F) = r_Bo(K_(2n−1)(O_F)) is a full lattice in V_n(F), with positive covolume R_Bo(F, n) for the coordinate measure of its §1.1 (the coordinates of V_n(F) divided by (2πi)^(n−1), one per real embedding in odd n and one per complex pair), equal to the absolute determinant of r_Bo on a ℤ-basis of the torsion-free quotient and to 1 when d_n = 0. §5.4 proves Borel's theorem in both forms, R_Bo(F, n) ∈ ℚˣ·ζ_F*(1−n) and R_Bo(F, n) ∈ ℚ_>0·√Δ_F·π^(d_n−Nn)·ζ_F(n) with Δ_F = |disc F| and N = [F : ℚ], and that the signed determinant of r_Bo on any ordered ℚ-basis of K_(2n−1)(F) ⊗ ℚ, in those divided coordinates, lies in ℚˣ·√Δ_F·π^(d_n−Nn)·ζ_F(n), the rank-zero case being the statement √Δ_F·ζ_F(n)·π^(−Nn) ∈ ℚ_>0 for totally real F and even n. §6.1 identifies V_n(F) with H¹_D(Spec(F) ×_ℚ ℝ, ℝ(n)) by P_(n−1)(z) = (z + (−1)^(n−1) z̄)/2; §§6.0a–6.2 prove r_Bo = −2·r_Be for the shared universal Beilinson regulator r_Be with that roadmap's point coordinate, so that the ordered determinants differ by (−2)^(d_n), d_n = r₁ + r₂ for odd n and r₂ for even n, while Burgos's own evaluation is the negative of the shared coordinate and gives the factor +2 (Burgos, Theorem 10.9, printed pp. 95–97). §6.3: ψ^a acts on K_(2n−1)(F) ⊗ ℚ by a^n for every integer a ≥ 1. Used by PS.3.2a, PS.3.3a and PS.9.9.
+
+### ArithmeticGaloisRepresentations §§2.4–2.6, §3.3
+
+The arithmetic Weil–Deligne adapter (2.4), local factors (2.5), monodromy filtration and purity (2.6), and Conductor.globalConductor and Conductor.primeToPConductor (3.3) supply the local data and the conductor away from the coefficient prime. Frobenius semisimplification is the parameter operation of SmoothRepresentationsOfLocalGroups SR.5.2. PS.1.1 assembles the all-place conductor from strict compatibility and adds the discriminant factor. When a compatible automorphic realization is given, its local-parameter comparison is AutomorphicLFunctionsAndLocalFactors AL.4; it is not a Layer 3 theorem of ArithmeticGaloisRepresentations.
+
+### SmallRamificationAndAbelianVarietyBaseCases §5.0d and AutomorphicGaloisRepresentationsPartII AG2.P
+
+SmallRamificationAndAbelianVarietyBaseCases §5.0d supplies `AutomorphicSystemData` for rank n ≥ 1 over every number field, including the finite realization fields L_λ/E_λ without descent to E_λ, geometric Frobenius and HT(χ_cyc)=−1. AutomorphicGaloisRepresentationsPartII AG2.P, ‘Arbitrary-rank compatible data and operations’, supplies `Weak` and `Strict` on this carrier: Strict includes the common Frobenius-semisimple WD parameter with N at all finite places, including coefficient-prime comparison via D_pst. Purity is separate. PS.1 uses these predicates; it introduces no alternative system carrier.
+
+### PotentialModularityAndCompatibleSystems §§1.6–1.7, 1.15
+
+Section 1.6's away-coefficient strictness compares WD parameters only for v∤ℓ; all-place Strict above implies it. Section 1.7 supplies `rankZeroSystem`, its operations and coefficient/restriction transport, with zero members, empty Hodge multisets and L-factors 1. Section 1.15 supplies `partialLFunction`, `lFunction`, `partialLFunction_converges`, `partialLFunction_eq_of_lambda` and `completedLFunction` on its regular pure scope. PS.1.1 uses the first two as the underlying finite functions and proves their equality with motivic determinant factors; it identifies the zero-motive realization with §1.7's extension. PS.1.2 identifies the regular completion only when its real-place multiplicities agree with the geometric Hodge blocks: at real places the rank is even or congruent to 1 modulo 4; with no real places there is no rank restriction. The shared completion remains owned by §1.15. PS.1.2 constructs the motivic factors for every Hodge multiplicity and both Gamma normalizations, with their trace-based real-place comparison.
+
+### AutomorphicLFunctionsAndLocalFactors AL.1, AL.3, AL.4, AL.5
+
+AL.1: local normal forms and archimedean theory, canonical archimedean factors, local epsilon factors and Gauss sums, global completed Hecke L-functions and their functional equation (PS.1). AL.3: the Rankin–Selberg L-function of GL_n × GL_m with its duality, epsilon factor and functional equation, specialized in PS.6.6 to the conjugate self-dual GL_even × GL_odd pairs with central point 1/2; the motivic twist is specified in PS.6.6. AL.4: Weil–Deligne normalization and local parameter comparison (PS.1.1). AL.5: imprimitive functions, finite Euler corrections and leading terms, and the critical-value and sign interfaces (PS.1.5, PS.1.6, PS.4.3, PS.7.2).
+
+### EllipticIntegrals Milestones 1 and 3
+
+Milestone 1 supplies `TauCeti.Real.legendreK` and `TauCeti.Real.legendreEc` with modulus k, their algebraic forms and integrability at the algebraic endpoint for k²<1. Milestone 3 supplies Legendre's relation for 0<k<1 with complementary modulus √(1−k²). PS.7.1's local `legendreK` is only the parameter-form signature adapter K_λ; on 0≤λ<1 prove K_λ = Tau Ceti's modulus function at √λ. No comparison with that total function is asserted at λ<0 or λ≥1. PS.1.6 and PS.0.5 use the same modulus 1/√2 for the first and second kind integrals.
+
+### ModularSymbolsPadicLFunctions §§1.1–1.2
+
+The signed rational period lines and saturated integral periods of §1.1, and the twisted Mellin formula of §1.2, give critical-value algebraicity for forms of weight κ+2 and 0 ≤ j ≤ κ (κ is that roadmap's k). With its sign ε_(j,χ) = (−1)^(κ−j)χ(−1), the algebraic value is τ(χ)·j!·L(f,χ̄,j+1)/((−2πi)^j Ω_f^ε), and its period symbol includes the factor 2πi of f dq/q. PS.1.6 uses the untwisted case and matches Ω_f^ε, with j = m − 1, against (2πi)·c^((−1)^m)(M_f), not against c^ε(M_f); L/Ω alone is not asserted algebraic.
+
+### NeronModelsAndSemistableAbelianVarieties Layer 6, §6.10
+
+§6.10 StrictCompatibleSystemExport states BCGP Proposition 2.8.1 for every H^i(A), 0 ≤ i ≤ 2g: the representations form a strictly compatible system defined over ℚ, pure of weight i, at every place including those above the coefficient prime, with the coefficient-prime trace comparison and Saito's base-change argument built in that section (PS.1.8). Hodge and infinity realizations are the geometric realizations of MC.2.
+
+### WeilConjectures WC.1, WC.2
+
+WC.1: the cohomological determinant comparison for point counts (PS.1.8). WC.2: the finite-field signed functional equation, with its pairing imported from EtaleDualityAndPerverseSheaves. Number-field geometric duality is consumed directly from the latter owner.
+
+### EtaleDualityAndPerverseSheaves Layer 0, §§0.5–0.6
+
+The targets adicAndRationalPoincareDuality and `galoisFrobeniusEquivariance` supply the perfect pairing H^i(A_F̄) × `H^{2g−i}(A_F̄)(g)` → ℚ_ℓ and its Galois equivariance. MotivesAndAlgebraicCycles MC.2 transports the geometric duality through its realization functors and comparisons to the de Rham, Betti and infinity realizations (PS.1.8). The pairing is on geometric cohomology; absolute Galois cohomology over F is not substituted for it.
+
+### DirichletPadicLFunctions L0
+
+Layer 0 (0.4 generalized Bernoulli comparison and conductors): normalized complex special values in a complex embedding, with its endpoint convention (PS.1.5, PS.7.2).
+
+### NoncommutativeAndEquivariantIwasawa §§2.7, F.3, 7.9
+
+§2.7 supplies noncommutativeDeterminant, Deligne's virtual-object Picard groupoid V(R) for finite projective R-modules and its universal determinant functor on perfect complexes: quasi-isomorphism invariance, exact-sequence additivity, acyclic trivializations, shift inversion, perfect-cohomology formulas and base change. Over commutative R there is a determinant-line functor to PadicMeasuresIwasawaAlgebras §5.1; this is not an equivalence for arbitrary R. §F.3 supplies ordinary-real compact support, its comparison triangle with the Tate-modified duality complex, and the real-invariant determinant factor at odd p. Section 7.9 supplies the rational Fukaya–Kato fundamental object and its period-regulator data for this ordinary-real complex. PS.3 uses its inverse Burns–Flach orientation and PS.4 constructs the integral pullback only when its stated comparisons and perfectness hypotheses hold.
+
+### ArithmeticGaloisDuality D7
+
+D7.1 (derived tensor and Tor), D7.3 (cohomological finiteness and perfect amplitude), D7.5 (Tate-modified compact-support cochains for duality, with finite S containing the places above p and the archimedean places, and the real complete Tate cochains at 2). The ordinary-real determinant model is imported separately from NoncommutativeAndEquivariantIwasawa §F.3 (PS.4).
+
+### SelmerIwasawaCohomology L2–L4
+
+L2: compact and rational Galois Selmer groups (2.9), Selmer complexes as mapping fibres (2.21), condition-change triangles (2.23) and lattice changes (2.24). L3: the determinant line of a Selmer complex and its characteristic divisor (3.14), in the inverse-line orientation. L4: small-weight crystalline realization and extension exactness (4.7), the Bloch–Kato local condition (4.9), global finite Selmer reductions and conjugation (4.24), and uniform local annihilation away from p (4.25). §§4.24–4.25 supply the conjugate finite-condition and uniform local torsion controls used in the LTXZZ annihilator argument; they do not prove its arithmetic level-raising theorems.
+
+### FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.P3, R07.P5
+
+The fundamental period sequences with continuous sections (R07.P3) and the crystalline and de Rham realization data (R07.P5) are the period-module inputs of PS.6.1, PS.6.2 and PS.6.5. SelmerIwasawaCohomology §§4.7, 4.9 provides their small-weight realization and finite local condition, with its stated weight and coefficient hypotheses. The rational exponential has target H¹_f(ℚ_p,V_p); its lift into integral local points is used only on a sufficiently small open neighborhood of zero, with Haar measure defined by restriction and translation.
+
+### AutomorphicGaloisRepresentationsPartII AG2.5–AG2.6
+
+AG2.5's relevant conjugate-self-dual specialization (LTXZZ Proposition 3.2.4), and AG2.6 ‘Strong coefficient field’, ‘Uniform strong realization of polarized systems’, and coefficient base change. These supply the normalized Galois systems and a single finite strong field at all coefficient places. Taking a common finite extension for the two systems gives the E of PS.6.6. The different embeddings inducing one place use their respective completed scalar maps; their representations are semilinear conjugates, not automatically linearly identical. No canonical bases, minimal strong field, or admissibility at every λ is inferred.
+
+### From TauCetiRoadmap.AlgebraicKTheory, §§2.2, 3.2–3.3
+
+Section 2.2 supplies the additive automorphism presentation K₁ᴮ(C) and its projective-module comparison with matrix K₁. Section 3.2 supplies the relative triple group K₀(T) for an additive functor T:C→D between small additive categories, its difference map [P,α,Q] ↦ [P]−[Q], and commuting-square functoriality. Section 3.3 supplies the complement-independent boundary K₁ᴮ(D) → K₀(T) for summand-dense T and exactness at K₀(T) and K₀(C). On scalar extension of projective modules, an invertible matrix g has boundary [Oⁿ,g,Oⁿ]. Its stable-isomorphism equality criterion requires fullness and is not used for O→A or O→A_ℝ.
+
+### From TauCetiRoadmap.GeneralAlgebraicKTheory, §§4.16–4.17, 6.19, 12.11
+
+Section 4.16 compares the supplied automorphism presentation with split-exact Q-theory; §4.17 adds exactness at K₁ᴮ(D) for every summand-dense additive T, without fullness. Together with AlgebraicKTheory §3.3 this gives the five-term sequence exact at its three interior terms, with no terminal surjectivity assertion. Section 6.19 supplies the general Gillet–Waldhausen equivalence `K(E) ≃ K(Chᵇ(E), q)` for bounded complexes over an essentially small exact category, and §12.11 supplies vanishing of negative K-groups of regular noetherian rings of finite global dimension. The determinant Picard category is supplied by NoncommutativeAndEquivariantIwasawa §2.7.
+
+### IntegralHeckeAndGaloisDeterminants, §0.6
+
+The Azumaya reduced-norm determinant law, the unique degree-d determinant law that becomes `Matrix.det` under every faithfully flat matrix splitting, with duals and projective modules (PS.5.1).
+
+### NoncommutativeAndEquivariantIwasawa NE.7
+
+NE.7.9 the Fukaya–Kato global zeta isomorphism for ordinary-real support (as a predicate), NE.7.13 the interpolation formula for the Tate motive (BV Theorem 5.5), NE.7.14 its version for ℚ-valued characters under Leopoldt, NE.7.15 the local epsilon isomorphism. The nodes fukaya-kato-zeta-isomorphism, `tate-motive-interpolation` and `tate-motive-interpolation-rational` include the shifted complex C′ = RΓ_c,ord[1] with d(C′) ≅ d(RΓ_c,ord)⁻¹, the transported map a = ζ : 1 → d(C′), its Bockstein trivialization, order −m, relative boundary +[RΓ_c,ord] and normalization `c_γ^{−m},` and the normalized BV Theorem 5.5 and Corollary 5.7 (ℚ-valued characters) with all arithmetic hypotheses and the nonvanishing-regulator premise (PS.5.3, PS.5.4).
+
+### IntegralIwasawaTheory Layer 11
+
+§11.7 integralDeterminantMainConjecture: for every prime p, every totally real field k, every finite totally real abelian extension F/k, and every finite S containing S_∞ ∪ S_p ∪ S_ram, the inverse determinant of the Iwasawa complex of F_∞ over S is generated by the equivariant p-adic L-function, as invertible fractional lattices with the canonical acyclic trivialization; §11.1 transports the CM minus part to the totally real order. This is the Iwasawa-theoretic input of the abelian Tate case abelianTate_ETNC of PS.5.4. The descent from it to the finite-level equivariant Tamagawa number conjecture is not stated there and is part of PS.5.4.
+
+### CrystallineCohomology CR.3, CR.5–CR.7
+
+CR.3: crystalline cup products; CR.7: crystalline cohomology of proper smooth schemes with coefficients and horizontal Frobenius; CR.5: logarithmic structures and log-crystalline realization; CR.6: Hyodo–Kato complexes and the semistable comparison. CR.6.3 states **Proper one-parameter logarithmic comparison**, with the finite-level PD Poincaré map, the signed dlog-parameter triangle and the proper-cohomology inverse limit. Use it for the special fibre of the model in PS.8.17; the relative log extension and its punctured restriction are separate targets there. It does not assert torsion-freeness of the family’s integral cohomology. CR.7's finite-projectivity and base-change hypotheses must be proved for the chosen family, not inferred just from smoothness.
+
+### PadicDifferentialEquationsAndRigidCohomology RD.1, RD.3–RD.5 and RD.7
+
+RD.1.46 the Dwork exponential connection and its Frobenius structure, RD.1.63 Artin–Hasse integrality (PS.8.14, PS.8.15); RD.3 overconvergent F-isocrystals and frames (PS.8.17). RD.4.24 is the affine Monsky–Washnitzer comparison, RD.4.29 the smooth liftable Gysin comparison, RD.4.36–RD.4.38 the tube-to-completed-PD-envelope map and rational smooth-proper rigid–crystalline comparison, and RD.7.1 its Frobenius compatibility. RD.5.115 supplies the proper smooth relative overconvergent direct image only for a proper smooth formal lift with compatible compactifications, including fibrewise base change and Frobenius. RD.5.107–RD.5.109 supply relative log convergent sites, log-crystalline perfectness and derived base change for proper log smooth integral morphisms, and the relative convergent–crystalline comparison. PS.8.17 verifies these geometric hypotheses and constructs the quintic-specific relative log extension and its identification with that direct image. RD.7.10 distinguishes a comparison of de Rham vector spaces from the identification of a chosen Frobenius: PS.8.17 identifies Dwork's normalized operator of PS.8.14 with the geometric Frobenius through the uniqueness of Frobenius structures on the irreducible Picard–Fuchs module.
+
+### ModularCurvesPartII §3.6, §§14.1–14.4a and §§16.1–16.4
+
+§3.6 supplies the Tate cusp with j(q) = q⁻¹ + 744 + ⋯. TauCetiRoadmap ModularForms Layer 0 supplies the analytic invariant j = E₄³/Δ and its q-expansion. PS.8.10 owns the Schwarzian identity and the comparison used in its modular relation; no Schwarzian theorem is attributed to the formal-cusp construction. Sections 14.1–14.4a supply the geometric weight coefficient systems L_r = Symʳ of the relative H¹ of the universal elliptic curve, the Betti, finite and adic parabolic cohomology H¹_par as the image of compactly supported cohomology, its boundary sequence, the Artin comparison between the étale and Betti parabolic lattices with change of level, and the modular Borel–Serre pair. These sections do not select the primitive f-summand: at an auxiliary level they contain the oldvector copies, and the primitive projector and rank-two multiplicity are AlgebraicModularFormsAndSerreWeights §6.1. Sections 16.1–16.4 supply, for a weight-two newform f of level N ≥ 5, the modular abelian variety A_f = J₁(N)/B_f with its action of the Hecke field, dim A_f = [K_f:ℚ], V_ℓ(A_f) free of rank two over ℚ_ℓ ⊗ K_f, and the identification of its differentials with the span of the conjugates of f. PS.1.6 assembles the motive and its marked comparison from these inputs.
+
+### PolylogarithmFunctions
+
+The principal classical polylogarithm Li_n, equal to its series on the open unit disc (PS.9.3).
+
+### ColemanIntegration L1.12 and AnabelianGeometryAndNonabelianChabauty NC.2
+
+ColemanIntegration L1.12 supplies `WordAlgebra`, its word basis, shuffle multiplication with multiplicities, associativity, commutativity, length filtration and coefficient base change. For the pure two-letter algebra use A=ℚ, Ω=0 and zero forms and derivation; for iterated integrals use the given differential forms. AnabelianGeometryAndNonabelianChabauty §2.0 ‘Word algebra and shuffle coordinates’ supplies `wordShuffleDuality`, its all-cut deconcatenation and finite-word/augmentation-quotient pairing; §2.4 uses precisely the finite coefficient subcoalgebras. Layer NC.2 supplies the generic unipotent de Rham and étale groupoid (PS.9.10). PS.9.2 transports the two-letter basis through Bool≃Fin 2 and constructs only the index-specific subalgebras and stuffle structure.
 
 ## References
 
