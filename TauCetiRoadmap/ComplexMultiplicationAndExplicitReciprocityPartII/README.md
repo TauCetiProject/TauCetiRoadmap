@@ -33,7 +33,7 @@ For x∈A_g, the center order R_x is Z(End(A_x)), with one CM field per distinct
 **Checks.**
 
 - On the square elliptic torus ℂ/(ℤ+iℤ), |∫dz∧d z̄|=2. The three squared metrics are 2, 1 and 1/π; their height shifts are −log 2/2 and log(2π)/2 as above. Applying the latter twice gives an erroneous extra log(2π)/2.
-- For arithmetic Artin over ℚ₅, the unit 2 acts on Lubin–Tate 5-torsion by 2⁻¹=3 modulo 5, whereas the supplied geometric Artin action gives 2. Substituting 2⁻¹=3 into the geometric formula recovers the arithmetic action by 3. A uniformizer acts trivially on that torsion field.
+- For arithmetic Artin over ℚ₅, the unit 2 acts on Lubin–Tate 5-torsion by 2⁻¹=3 modulo 5, whereas the supplied geometric Artin action gives 2. Substituting 2⁻¹=3 into the geometric formula recovers the arithmetic action by 3. The uniformizer 5, which defines that Lubin–Tate module, acts trivially on its torsion field, whereas the uniformizer 10=5·2 acts as the unit 2 does, by 3.
 - A degree-two base change takes normalized degree a/d to 2a/(2d)=a/d.
 - For d=1 and E=ℚ(i), the total reflex stack Y₀ has one complex point as an E-stack, with automorphism group O_E×=μ₄, so deg_C Y₀=1/4, while Y₀×_ℤℂ has weighted count 2·(1/4)=1/2. A CM elliptic curve over O_E of Faltings height h has unweighted arithmetic degree [E:ℚ]h=2h over Spec O_E, so the weighted degree is deĝ(Ω♯)=2h/4 and deĝ(Ω♯)/deg_C Y₀=2h=Σ_Φ h_Falt(E,Φ), as §3.8 states; dividing instead by the weighted count of Y₀×_ℤℂ gives h, half the stated value.
 - For E=ℚ(i), D_E=4, D_F=1, d_E/F=4. For an elliptic order of conductor 2 the center-order discriminant is 16, while its maximal-field discriminant stays 4.
@@ -68,7 +68,7 @@ The complement identity for a⁰_Φ has constant d, and h_Col is additive on pro
 - On C₂×S₃ acting regularly on its twelve embeddings, take the type containing (1,p) for p equal to the identity or (12), and (0,p) for the other four permutations. Its overlaps at (0,(12)), (0,(13)), (0,(23)) are 6,2,2, with conjugacy average 10/3; at their c-translates they are 0,4,4, with average 8/3. The complementary averages sum to 6. This checks nonabelian averaging and excludes the unaveraged function.
 - For the cyclic CM Galois quotient C6 with c=r³, the class function with successive values (0,1,1,0,−1,−1) lies in CM⁰ but is not inversion-invariant and cannot lie in H_CM.
 
-*Needs:* ComplexMultiplicationAndExplicitReciprocity §§0.1–0.2; AutomorphicLFunctionsAndLocalFactors Layer AL.1, “CM quadratic completion and orbital comparisons”; AnalyticNumberTheoryPartI §§2.31d–2.32, 2.44–2.46, 3.27.
+*Needs:* ComplexMultiplicationAndExplicitReciprocity §§0.1–0.2; AnalyticNumberTheoryPartI §§2.2a, 2.18a, 2.22a, 2.31d–2.32, 2.44–2.46, 3.27.
 
 ### 0.2 CM-height invariance and Colmez linearity
 
@@ -88,7 +88,7 @@ One proof route is as follows. Count types containing any specified embedding an
 
 For d=1 the character identity reads (1+χ)/2; for d=2 it reads 1+(Indχ)/2.
 
-*Needs:* §0.1 cm class functions and analytic heights; AutomorphicLFunctionsAndLocalFactors Layer AL.1, “CM quadratic completion and orbital comparisons”; AnalyticNumberTheoryPartI §§2.31d–2.32, 2.44–2.46, 3.27.
+*Needs:* §0.1 cm class functions and analytic heights; AnalyticNumberTheoryPartI §§2.2a, 2.18a, 2.22a, 2.31d–2.32, 2.44–2.46, 3.27.
 
 ### 0.4 The individual Colmez conjecture predicate
 
@@ -120,7 +120,7 @@ For E=ℚ(i), the two overlap values are (1,0), and the averaged character is (1
 
 ### Dependencies
 
-ComplexMultiplicationAndExplicitReciprocity §§0.1–0.2; AutomorphicLFunctionsAndLocalFactors Layer AL.1, “CM quadratic completion and orbital comparisons”; AnalyticNumberTheoryPartI §§2.31d–2.32, 2.44–2.46, 3.27; ArakelovGeometryAndAbelianHeights §§3.4–3.5; ShimuraVarieties §§5.1–5.11.
+ComplexMultiplicationAndExplicitReciprocity §§0.1–0.2; AnalyticNumberTheoryPartI §§2.2a, 2.18a, 2.22a, 2.31d–2.32, 2.44–2.46, 3.27; ArakelovGeometryAndAbelianHeights §§3.4–3.5; ShimuraVarieties §§5.1–5.11.
 
 ## Layer 1: Integral CM and total reflex families
 
@@ -424,7 +424,7 @@ The trivial character has conductor exponent zero.
 - For a tamely ramified nontrivial quadratic character the exponent is 1, with no logarithm factor.
 - The inclusion ℤ_p→ℂ given by an infinite uniformly convergent digit expansion is continuous with infinite image, so it is not locally constant through a finite quotient and lies outside the conductor domain. For instance x=Σa_np^n maps to Σa_n/(2p)^(n+1), and different digits can be distinguished by the geometric tail bound.
 
-*Needs:* AutomorphicLFunctionsAndLocalFactors Layer AL.1, “CM quadratic completion and orbital comparisons”.
+*Needs:* AnalyticNumberTheoryPartI §2.2a.
 
 ### 3.5 Conductor values and positive lengths
 
@@ -434,7 +434,7 @@ One proof route is as follows. Use the ramification-group formula for conductors
 
 For Q₃(√3) split over itself, the singleton length is 1, not −1; cross-unramified terms and the empty partition give zero.
 
-*Needs:* §3.4 local conductor functional; §3.3 corrected partition length; AutomorphicLFunctionsAndLocalFactors Layer AL.1, “CM quadratic completion and orbital comparisons”.
+*Needs:* §3.4 local conductor functional; §3.3 corrected partition length; AnalyticNumberTheoryPartI §2.2a.
 
 ### 3.6 Metrized determinant and trace volume
 
@@ -472,7 +472,7 @@ Take A=ℤ₃ and B=C=ℤ₃[π], π²=3. The singleton partition quotient is C/
 
 ### Dependencies
 
-§1.5 the total reflex cm pair; §2.6 the standard cm quadratic line; §2.4 cm bundles and crystals; ArakelovGeometryAndAbelianHeights §§1.3, 1.11; AutomorphicLFunctionsAndLocalFactors Layer AL.1, “CM quadratic completion and orbital comparisons”; ArakelovGeometryAndAbelianHeights §§2.1, 2.7, 2.10; AutomorphicBundles §§3.1, 3.4–3.8; §0.3 average cm character; §1.6 total reflex characters and heights; ArakelovGeometryAndAbelianHeights §§3.4–3.5.
+§1.5 the total reflex cm pair; §2.6 the standard cm quadratic line; §2.4 cm bundles and crystals; ArakelovGeometryAndAbelianHeights §§1.3, 1.11; AnalyticNumberTheoryPartI §2.2a; ArakelovGeometryAndAbelianHeights §§2.1, 2.7, 2.10; AutomorphicBundles §§3.1, 3.4–3.8; §0.3 average cm character; §1.6 total reflex characters and heights; ArakelovGeometryAndAbelianHeights §§3.4–3.5.
 
 ## Layer 4: The orthogonal averaged-height route
 
@@ -518,11 +518,11 @@ Its API comprises:
 
 One proof route constructs the integral model and realization, defines special divisors through special endomorphisms and applies the regularized theta lift with the stated Hodge metric.
 
-*Needs:* ShimuraVarieties §§6.1–6.2 for Hodge-type canonical models; AbelianSchemesAndArithmeticModuli §§A4.3, A6.38 for the abelian realization and Hodge line; MetaplecticAutomorphicForms Layers 4–7 for the Weil representation and theta/Whittaker framework; ArakelovGeometryAndAbelianHeights §§1.3, 1.11 for arithmetic degree.
+*Needs:* ShimuraVarieties §§6.1–6.2 for Hodge-type canonical models; AbelianSchemesAndArithmeticModuli §§A4.3, A6.38 for the abelian realization and Hodge line; MetaplecticAutomorphicForms Layers 4–7 for the Weil representation and theta/Whittaker framework; QSeriesPartitionsAndMockModularForms §§8.3, 8.5 for harmonic weak Maass forms of Weil type and their holomorphic parts; OrthogonalSpinGroups milestones 1A–1C for the Clifford norm and the vector representation behind the GSpin group; ArakelovGeometryAndAbelianHeights §§1.3, 1.11 for arithmetic degree.
 
 ### 4.2a Borcherds section and vertical support
 
-For the data of §4.2 with n≥3 and a weakly holomorphic f of weight 1−n/2 with integral principal part, prove that, after replacing f by a sufficiently divisible positive integral multiple, there is a rational Borcherds section Ψ(f) of ω^(c_f(0,0)) with Φ(f)=−log‖Ψ(f)‖²+c_f(0,0)log(4π exp γ). Weakly holomorphic means that the nonholomorphic shadow vanishes; γ is Euler's constant. The vertical discrepancy E_error(f)=div Ψ(f)−Z(f) is supported at primes dividing the lattice discriminant. Its odd p component vanishes if p² does not divide that discriminant. For n≥5 only the dyadic component can remain, and it vanishes if L is self-dual at 2. These assertions retain every finite prime. ([A], Theorem 4.8.1, pp. 454–455; A line 2585.)
+For the data of §4.2 with n≥3 and a weakly holomorphic f of weight 1−n/2 with integral principal part, the Borcherds product of f is GrossZagierAndArithmeticHeights §6.20a(e): on each connected component of the complex fibre its square has weight c_f(0,0) and divisor Z(f), and at every neat level Z(f)=c_f(0,0)·c₁(ω) in the rational Chow group of the generic fibre. Prove that, after replacing f by a sufficiently divisible positive integral multiple, these squares, suitably normalized, descend to a rational section Ψ(f) of ω^(c_f(0,0)) over ℚ on the integral model of §4.2, with Φ(f)=−log‖Ψ(f)‖²+c_f(0,0)log(4π exp γ). Weakly holomorphic means that the nonholomorphic shadow vanishes; γ is Euler's constant. The vertical discrepancy E_error(f)=div Ψ(f)−Z(f) is supported at primes dividing the lattice discriminant. Its odd p component vanishes if p² does not divide that discriminant. For n≥5 only the dyadic component can remain, and it vanishes if L is self-dual at 2. These assertions retain every finite prime. ([A], Theorem 4.8.1, pp. 454–455; A line 2585.)
 
 Its API comprises:
 
@@ -536,9 +536,9 @@ Its API comprises:
 - At an odd prime with discriminant valuation 1, p² does not divide the discriminant and the error component is zero; valuation 2 does not satisfy this clause.
 - If c_f(0,0)=2, the section belongs to ω² and the metric relation has constant 2log(4π exp γ); omitting that constant changes the Green function.
 
-One proof route descends the Borcherds product and compares its integral divisor with Z(f), retaining the vertical discrepancies and proving their support by integral q-expansions.
+One proof route descends the imported product from a neat level to the integral model, compares its integral divisor with Z(f), retaining the vertical discrepancies, and proves their support by integral q-expansions.
 
-*Needs:* §4.2 gspin data and special divisors; MetaplecticAutomorphicForms Layers 4–7 for the modular and Weil-representation input.
+*Needs:* §4.2 gspin data and special divisors; GrossZagierAndArithmeticHeights §6.20a(e) for the Borcherds product and its generic-fibre divisor; MetaplecticAutomorphicForms Layers 4–7 for the modular and Weil-representation input.
 
 ### 4.2b Big-CM arithmetic degree
 
@@ -556,7 +556,7 @@ One proof route matches integral special-divisor lengths with local Eisenstein c
 - For weakly holomorphic f, ξ(f)=0 and L_shadow'(0,ξ(f))=0, leaving a(0,0)c_f(0,0)/Λ(0,χ). A nonzero shadow does not permit that deletion.
 - For degree-two finite étale pullback, [Z_hat(f):Y] and deg_C Y both double, while the displayed analytic quotient is unchanged.
 
-*Needs:* §4.2 gspin data and special divisors; §2.4 cm bundles and crystals; §0.3 average cm character; §4.1 auxiliary cm quadratic data; §1.2 the compact integral level; §1.3 finite étale cm models; MetaplecticAutomorphicForms Layers 4–7; ArakelovGeometryAndAbelianHeights §§1.3, 1.11.
+*Needs:* §4.2 gspin data and special divisors; §2.4 cm bundles and crystals; §0.3 average cm character; §4.1 auxiliary cm quadratic data; §1.2 the compact integral level; §1.3 finite étale cm models; MetaplecticAutomorphicForms Layers 4–7; QSeriesPartitionsAndMockModularForms §§8.3, 8.5 for the shadow operator ξ; ArakelovGeometryAndAbelianHeights §§1.3, 1.11.
 
 ### 4.2c Hodge-height identity
 
@@ -607,11 +607,11 @@ One proof route is as follows. Apply the narrow-class norm image theorem supplie
 
 Prove the following. For d≥2, the average height discrepancy is zero. First put it in the ℚ-span of log p using two auxiliary choices with coprime bad sets. Then for each p choose p-good data, an embedding L⊂L⋄ with L⋄ self-dual at p and rank-two positive complement Λ, and a form f with nonzero constant term and negative support avoiding numbers represented by Λ_Q. Its vertical error divisor avoids the p-fiber. Unique factorization makes the rational log-prime coefficients independent, so each coefficient vanishes. Prove existence of the support-controlled modular form with integral principal part and c_f(0,0)≠0, together with the ambient maximal lattice self-dual at the prescribed p. Negative coefficients vanish whenever the positive index is represented by the rational complement lattice, including its denominator cosets. Merely choosing two disjoint bad sets does not remove an unrestricted vertical error. ([A], Theorem 9.5.5 and Theorem 9.5.6, pp. 525–526; A line 5723.)
 
-One proof route is as follows. Compare the two supported expressions to get a global rational log-prime expansion. Use classification of quadratic spaces to select the p-self-dual enlargement. Apply prescribed-support Borcherds input and its good-prime divisor formula, then read off the p coefficient.
+One proof route is as follows. Compare the two supported expressions to get a global rational log-prime expansion. Use classification of quadratic spaces to select the p-self-dual enlargement. Obtain the support-controlled form from Borcherds' criterion for prescribed principal parts, as in the theorem of Bruinier quoted in [A] Theorem 9.5.6, apply the good-prime divisor formula of §4.2a, then read off the p coefficient.
 
 The proper-intersection and support hypotheses, p-self-duality, and c_f(0,0)≠0 are all necessary inputs; their existence is part of this target.
 
-*Needs:* §4.3 average height error on the cm cycle; §4.4 good data avoiding any finite prime set; MetaplecticAutomorphicForms Layer 7.
+*Needs:* §4.3 average height error on the cm cycle; §4.4 good data avoiding any finite prime set; MetaplecticAutomorphicForms Layer 7; GrossZagierAndArithmeticHeights §6.20a(f) for Borcherds' criterion.
 
 ### 4.6 The imaginary quadratic average
 
@@ -631,7 +631,7 @@ With F_v=ℚ_p, E_v/F_v unramified quadratic and ξ=−p², the quadratic lattic
 
 ### Dependencies
 
-§2.6 the standard cm quadratic line; §3.8 total reflex height and the standard line; AutomorphicBundles §§3.1, 3.4–3.8; §0.3 average cm character; ArakelovGeometryAndAbelianHeights §§1.3, 1.11; ComplexMultiplicationAndExplicitReciprocity §§2.1–2.3; GeometryOfNumbersAndQuadraticArithmetic §§2.2, 2.7–2.9; ClassFieldTheory Layer 13 (gap:narrow-cm-norm-different); ShimuraVarieties §§6.1–6.2; AbelianSchemesAndArithmeticModuli §§A4.3, A6.38; MetaplecticAutomorphicForms Layers 4–7; §2.4 cm bundles and crystals; §1.2 the compact integral level; §1.3 finite étale cm models; ArakelovGeometryAndAbelianHeights §§3.4–3.5; ArakelovGeometryAndAbelianHeights §§2.1, 2.7, 2.10; §0.1 cm class functions and analytic heights; AnalyticNumberTheoryPartI §§2.31d–2.32, 2.44–2.46, 3.27.
+§2.6 the standard cm quadratic line; §3.8 total reflex height and the standard line; AutomorphicBundles §§3.1, 3.4–3.8; §0.3 average cm character; ArakelovGeometryAndAbelianHeights §§1.3, 1.11; ComplexMultiplicationAndExplicitReciprocity §§2.1–2.3; GeometryOfNumbersAndQuadraticArithmetic §§2.2, 2.7–2.9; ClassFieldTheory Layer 13 (gap:narrow-cm-norm-different); ShimuraVarieties §§6.1–6.2; AbelianSchemesAndArithmeticModuli §§A4.3, A6.38; MetaplecticAutomorphicForms Layers 4–7; §2.4 cm bundles and crystals; §1.2 the compact integral level; §1.3 finite étale cm models; ArakelovGeometryAndAbelianHeights §§3.4–3.5; ArakelovGeometryAndAbelianHeights §§2.1, 2.7, 2.10; §0.1 cm class functions and analytic heights; AnalyticNumberTheoryPartI §§2.31d–2.32, 2.44–2.46, 3.27; GrossZagierAndArithmeticHeights §6.20a(e)–(f); QSeriesPartitionsAndMockModularForms §§8.3, 8.5; OrthogonalSpinGroups milestones 1A–1C.
 
 ## Layer 9: The averaged Colmez formula
 
@@ -939,7 +939,7 @@ ComplexMultiplicationAndExplicitReciprocity stops at reflex pairs and orders (§
 
 The native CM field and conjugation, class number, regulator ratio, Minkowski representatives and coarse ideal count are already in the library, as are complex abelian varieties, their endomorphism rings, isogenies and the rank of a finite flat morphism. Their exact declarations are in the supplier contracts. The field-order index-square discriminant identity and the squared-norm successive minima with simultaneous attainment are also in the library; GlobalNumberFields Layer 11 owns the finite étale order extension, and IntegralLattices milestone 2F owns the Minkowski product estimate. The class-group norm cokernel bound is stated by IntegralIwasawaTheory §3.4, in the case n=0. The varying-base quadratic Hecke estimates and near-linear ideal count are stated by AnalyticNumberTheoryPartI §§2.31f, 2.44–2.46 and 3.27. These are consumed here; the exponent argument is the kept specialization.
 
-ArakelovGeometryAndAbelianHeights §§1.11, 2.7, 3.4–3.5 and 6.5 own weighted degrees, metric adapters, stable heights and the uniform lower bound. FaltingsFinitenessAndIsogenyTheoremsPartII §5.5 owns geometric isogeny estimates. AbelianSchemesAndArithmeticModuli owns abelian schemes, polarizations, Tate and de Rham realizations and the CM isotypic decomposition. ShimuraVarieties owns canonical CM stacks and reciprocity. Quantitative hermitian/Siegel reduction belongs to GeometryOfNumbersAndQuadraticArithmetic, successive minima and the basis from the minima to SuccessiveMinima Layer 1, IntegralLattices milestone 2F and HeightsAndUnits §2.1, and the absolute scalar height, minimal-polynomial comparison and bounded-degree Northcott theorem to DiophantineApproximationAndTranscendence §§0.2–0.3. IntegralLattices and OrthogonalSpinGroups own lattice duality and orthogonal group algebra. The orthogonal special-divisor intersection and support theorems in §§4.2–4.2c, 4.3 and 4.5 are included here: the underlying lattice and group theory are supplied by IntegralLattices and OrthogonalSpinGroups.
+ArakelovGeometryAndAbelianHeights §§1.11, 2.7, 3.4–3.5 and 6.5 own weighted degrees, metric adapters, stable heights and the uniform lower bound. FaltingsFinitenessAndIsogenyTheoremsPartII §5.5 owns geometric isogeny estimates. AbelianSchemesAndArithmeticModuli owns abelian schemes, polarizations, Tate and de Rham realizations and the CM isotypic decomposition. ShimuraVarieties owns canonical CM stacks and reciprocity. Quantitative hermitian/Siegel reduction belongs to GeometryOfNumbersAndQuadraticArithmetic, successive minima and the basis from the minima to SuccessiveMinima Layer 1, IntegralLattices milestone 2F and HeightsAndUnits §2.1, and the absolute scalar height, minimal-polynomial comparison and bounded-degree Northcott theorem to DiophantineApproximationAndTranscendence §§0.2–0.3. IntegralLattices and OrthogonalSpinGroups own lattice duality and orthogonal group algebra. The orthogonal special-divisor intersection and support theorems in §§4.2–4.2c, 4.3 and 4.5 are included here: the underlying lattice and group theory are supplied by IntegralLattices and OrthogonalSpinGroups. GrossZagierAndArithmeticHeights §6.20a(e)–(f) owns the Borcherds products over ℚ with their generic-fibre divisors and Borcherds' criterion for prescribed principal parts; §4.2a keeps their integral descent, metric identity and vertical support. QSeriesPartitionsAndMockModularForms §§8.3 and 8.5 own harmonic weak Maass forms of Weil type and the shadow operator.
 
 PELModuli §§M6.1, M6.8 and M6.10 supply bounded polarized descent with marked 3-torsion and finite level-forgetting; §11.1 applies that field to the chosen ideal quotient and its transported polarization. ShimuraVarieties §4.2 supplies the AGHMP quotient reflex norm; §1.1 develops its character lattice and scalar-kernel distinction.
 
@@ -981,9 +981,7 @@ Consume §§1.3, 1.11, 1.13–1.14, 2.1, 2.7, 2.10, 3.4–3.5 and 6.5. Sections 
 
 Consume §§2.31d–2.31f, 2.32, 2.44–2.46 and 3.27: uniform fixed-degree residue bounds and Brauer–Siegel, primitive odd functional equations, regularized Hecke logarithmic derivatives and the degree-only ideal estimate. In particular |ℓ(1)|≤C_g,ε D_E^ε for every ε>0, uniformly as F varies; C_g,ε can be ineffective. Its conductor is D_E/D_F. The ideal count is at most C_n,ε X^(1+ε) for X≥1. These inputs include ramified Euler factors. General Artin holomorphy is no hypothesis.
 
-### From TauCetiRoadmap.AutomorphicLFunctionsAndLocalFactors
-
-Consume Layer AL.1, “CM quadratic completion and orbital comparisons”, for the precise quadratic finite/completed gamma adapter. Finite-image Artin local factors and induction use AdelicAlgebraicGroups §AA.2.4 through AnalyticNumberTheoryPartI §2.2 and its supplier contract. Odd-character regularity/nonvanishing at zero follows from that completed equation and the regularized endpoint interface. The trivial character uses ζ(0)=−1/2 and ζ′(0)/ζ(0)=log(2π), not an odd-character formula.
+Consume §2.2a for Artin conductor exponents of representations of finite Galois groups, local fields included, with their inflation invariance, induction formula and conductor–discriminant formula; these are the values μ_p of §3.4 on irreducible characters. Consume §2.18a for finite-image Artin L-functions, their local factors and their induction identity at every finite place. Consume §2.22a for the quadratic completion Λ_η(s)=Q^(s/2)Γ_ℝ(s+1)^g L_f(s,η) of a CM extension E/F with Q=D_E/D_F, its root number 1 and its gamma correction; this is the Λ(s,χ) of §4.2b. Odd-character regularity and nonvanishing at zero follow from the completed equations of §§2.22a and 2.44. The trivial character uses ζ(0)=−1/2 and ζ′(0)/ζ(0)=log(2π), not an odd-character formula.
 
 ### From TauCetiRoadmap.AutomorphicBundles
 
@@ -997,7 +995,7 @@ Consume §§R07.2.15–R07.2.16, R07.2.20 and Layer R07.4 for slope classificati
 
 ### From TauCetiRoadmap.LubinTateFormalModulesAndQuasiCanonicalLifts
 
-Consume LT.2, “Finite-height torsion comparison”, “Formal-module Tate module”, “Lubin–Tate character” and “Comparison with local reciprocity”. For every prime p, finite extension K/ℚ_p and uniformizer π of O_K, these supply the one-dimensional Lubin–Tate formal O_K-module G_π, its finite flat πⁿ-torsion group schemes for n≥1, identified with the π-power torsion of a p-divisible group over O_K, and its integral Tate module T_π=lim_n G_π[πⁿ](K̄) with transition maps [π], free of rank one over O_K, with T_π/πⁿT_π identified with G_π[πⁿ](K̄) equivariantly and compatibly with the transitions. The G_K-action on T_π is the continuous character χ_π:G_K→O_K×; each finite torsion action is its reduction, and its restriction to the Galois group of an extension L/K inside K̄, in particular to the groups Γ_y of §2.1, is the action on the same geometric torsion. For arithmetic reciprocity rec_K:K×→G_Kᵃᵇ the supplier proves χ_π(rec_K(πʳu))=u⁻¹ for r∈ℤ and u∈O_K×, so rec_K(π) acts trivially on the torsion tower. Its conventions place no ramification bound and include p=2. Crystallinity of T_π[1/p] and the Breuil–Kisin and Dieudonné realizations of G_π, with Frobenius, filtration and duality, are FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.4.18–R07.4.21 applied to the p-divisible group of G_π, over every complete discretely valued base of mixed characteristic with perfect residue field, which covers the geometric local rings O_y of §§2.1–2.2; at p=2 §§R07.4.18 and R07.4.21 are equivalences only up to isogeny, and the integral statement is §R07.4.23. The O_K-action on these realizations is the functorial image of the O_K-action on G_π. The variance is Kisin's contravariant one: the module attached to G_π is the module of Hom_ℤp(T_π,ℤ_p), and the covariant realization is its dual. The CM complementary-type multipliers and their comparison modulo the different are §6.2 here, not supplier material. ([A], §2.2, pp. 401–402, for T_π and M(G)=M(T_π(G)^∨), Proposition 3.5.2 and its proof, pp. 422–423, for the use of the character, and §3.6, pp. 428–429, for the Dieudonné crystal of G_q; A lines 429–450, 1310–1355 and 1569–1586.)
+Consume LT.2, “Finite-height torsion comparison”, “Formal-module Tate module”, “Lubin–Tate character” and “Comparison with local reciprocity”. For every prime p, finite extension K/ℚ_p and uniformizer π of O_K, these supply the one-dimensional Lubin–Tate formal O_K-module G_π, its finite flat πⁿ-torsion group schemes for n≥1, identified with the π-power torsion of a p-divisible group over O_K, and its integral Tate module T_π=lim_n G_π[πⁿ](K̄) with transition maps [π], free of rank one over O_K, with T_π/πⁿT_π identified with G_π[πⁿ](K̄) equivariantly and compatibly with the transitions. The G_K-action on T_π is the continuous character χ_π:G_K→O_K×; each finite torsion action is its reduction, and its restriction to the Galois group of an extension L/K inside K̄, in particular to the groups Γ_y of §2.1, is the action on the same geometric torsion. For arithmetic reciprocity rec_K:K×→G_Kᵃᵇ the supplier proves χ_π(rec_K(πʳu))=u⁻¹ for r∈ℤ and u∈O_K×, so rec_K(π) acts trivially on the torsion tower. Its conventions place no ramification bound and include p=2. Crystallinity of T_π[1/p] and the Breuil–Kisin and Dieudonné realizations of G_π, with Frobenius, filtration and duality, are FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.4.18–R07.4.21 applied to the p-divisible group of G_π, over every complete discretely valued base of mixed characteristic with perfect residue field, which covers the geometric local rings O_y of §§2.1–2.2; at p=2 §§R07.4.18 and R07.4.21 are equivalences only up to isogeny, and the integral statement is §R07.4.23. The O_K-action on these realizations is the functorial image of the O_K-action on G_π. The variance is Kisin's contravariant one: the module attached to G_π is the module of Hom_ℤp(T_π,ℤ_p), and the covariant realization is its dual. ([A], §2.2, pp. 401–402, for T_π and M(G)=M(T_π(G)^∨), Proposition 3.5.2 and its proof, pp. 422–423, for the use of the character, and §3.6, pp. 428–429, for the Dieudonné crystal of G_q; A lines 429–450, 1310–1355 and 1569–1586.)
 
 **Checks.**
 
@@ -1059,7 +1057,23 @@ The Siegel matrix estimate uses [PT], Lemmas 3.4–3.5, preprint pp. 6–7 (PT l
 
 ### From TauCetiRoadmap.MetaplecticAutomorphicForms
 
-Consume Layers 4–7 for the adelic metaplectic cover and finite Weil representation, global theta kernels, Siegel–Weil and see-saw identities, and the half-integral-weight Whittaker framework. The orthogonal proper-intersection special divisors and support-controlled Borcherds inputs are the constructions of §§4.2–4.2a and §4.5 here.
+Consume Layers 4–7 for the adelic metaplectic cover and finite Weil representation, global theta kernels, Siegel–Weil and see-saw identities, and the half-integral-weight Whittaker framework. The orthogonal proper-intersection special divisors, the integral descent and vertical support of Borcherds sections and the support-controlled forms are §§4.2–4.2a and §4.5 here; the Borcherds products on the generic fibre are GrossZagierAndArithmeticHeights §6.20a(e).
+
+### From TauCetiRoadmap.OrthogonalSpinGroups
+
+Consume milestones 1A–1C, stated on Mathlib's Lipschitz group of a nondegenerate quadratic space of positive dimension over a field of characteristic not two: the group consists exactly of the products of anisotropic vectors and contains the scalar units, the reverse Clifford norm is a character with N(ι v)=Q(v), and twisted conjugation maps the group onto O(V) with kernel the scalar units. The even products are the rational points of GSpin(V), and the Clifford norm restricts to its similitude character. The GSpin Shimura data and their integral models are ShimuraVarieties §§6.1–6.2 and §4.2 here.
+
+### From TauCetiRoadmap.QSeriesPartitionsAndMockModularForms
+
+Consume §§8.3 and 8.5: for a nondegenerate even lattice, a weight k∈½ℤ with k≠1 and a finite-index subgroup of Mp₂(ℤ), the harmonic weak Maass spaces H_k and H_k⁺ of Weil type, the unique splitting of each form into holomorphic and nonholomorphic parts with finitely many principal-part terms, and the operator ξ_k, whose kernel is the weakly holomorphic forms and which is cuspidal on H_k⁺. That roadmap normalizes ρ_L(T)e_h=e(Q(h))e_h. The forms of §§4.2–4.5 have the type ρ of (L,−Q), under which c_f(m,μ) vanishes unless m∈−Q(μ)+ℤ, so that c_f(−m,μ) pairs with Z(m,μ); this is the ω_L of [A], §4.7, p. 453 (A line 2536). Its statements are applied to the lattice (L,−Q), and the shadow ξ(f) then has type ρ_L. The weights used, 1−n/2 for n≥1 and 2−d for d≥2, are at most 1/2, so k≠1.
+
+**Checks.**
+
+- For the rank-one complement ⟨1⟩ of §4.2c, μ=1/2 has Q(μ)=1/4. Under the type of (L,−Q) the coefficient c_f(−1/4,1/2) is allowed, since −1/4∈−1/4+ℤ; under ρ_L the exponents in that coset lie in 1/4+ℤ, which excludes −1/4 and leaves no principal-part term to pair with Z(1/4,1/2).
+
+### From TauCetiRoadmap.GrossZagierAndArithmeticHeights
+
+Consume §6.20a(e)–(f), over ℚ, for a rational quadratic space of signature (p,2) with p≥3, an even lattice Λ in it and a neat level that fixes Λ̂ and acts trivially on its discriminant module. Part (e): for a weakly holomorphic form f of weight 1−p/2 and type ρ_Λ⁻, the Weil representation of (Λ,−Q) and the type of §§4.2–4.5, with integral principal part, each connected component carries a Borcherds product, automorphic of weight c_f(0,0)/2 with a character of finite order, whose divisor lies on the special divisors λ^⊥ with multiplicities read from the principal part along one ray; its square has divisor Z(f), and Z(f)=c_f(0,0)·c₁(ω) in the rational Chow group of the canonical model, ω being the tautological line. Part (f): a formal series of weight 1+p/2 and type ρ_Λ is a holomorphic modular form exactly when it pairs to zero with every weakly holomorphic form of weight 1−p/2 and type ρ_Λ⁻, and the holomorphic forms have a basis with rational coefficients; by linear duality, finitely many coefficients c(−m,μ), m≥0, are the principal part and constant terms of a weakly holomorphic form exactly when they pair to zero with every holomorphic form, which is the criterion §4.5 uses. The supplier states no Green-function identity and nothing over ℤ: the descent to the integral model of §4.2, the metric identity and the vertical support are §4.2a here.
 
 ### From TauCetiRoadmap.HeightsRationalPointsAndObstructions
 
