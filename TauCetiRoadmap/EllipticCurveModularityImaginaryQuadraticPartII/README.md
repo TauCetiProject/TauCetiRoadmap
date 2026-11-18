@@ -18,104 +18,20 @@ on `A_t` (Layer 7). The endpoints are **Theorem 2.5** (all CM fields with `ζ₅
 published lifting theorems imported through the parent), **Theorem 6.2** (the protected lifting
 theorem at five, for an arbitrary representation) and **Theorem 8.1** (all CM fields).
 
-## Scope and ownership
+## How to read the build
 
-**Where the parent stops.** EllipticCurveModularityImaginaryQuadratic ends at
-`imaginary_quadratic_modularity` (§8.6). Its section *Downstream consumers and boundaries* places
-other CM fields outside its scope and records the field `ℚ(ζ₁₅ + ζ₁₅⁻¹, i)`, over which `ζ₅ ∉ K` but
-`ζ₅ ∈ K(ζ₃)`. In the parent the imaginary-quadratic hypothesis enters through the ramification
-proof `cyclotomic_switch_field` of `ζ₅ ∉ F` (§5.1) and through the specialized statements of
-§§8.2–8.6. Its Layers 1–4, Layer 6 and §§7.2–7.4 are stated over arbitrary number fields; its
-§0.3 outputs, §5.2 `potentiallySemistableCM` and §5.3 `cm_modularity` are stated over arbitrary CM
-fields. This roadmap starts exactly there.
-
-**Owned here.**
-
-- Layer 1: CM-ness of the cyclotomic extensions of a CM field and of every field between two CM
-  fields (instances of the criterion of MordellLawrenceVenkatesh §1.3, where the CM base excludes the
-  totally real alternative), and the descent of decomposed genericity and cyclotomic absolute
-  irreducibility along a finite extension of number fields.
-- Layer 2: the auxiliary curve made modular over `K` before base change when `ζ₅ ∉ K`; the three
-  lifts, the descent along `F/K` and the removal of the twist over an arbitrary CM field; the full
-  local comparison and the CM branch over an arbitrary CM field; the endpoint for `ζ₅ ∉ K`.
-  Theorems 2.2–2.4 are the parent's §§8.3–8.6 over an arbitrary CM base; the parent states them for
-  imaginary quadratic `K` only, and their proofs are applied here, not repeated.
-- Layer 3: the detection of the exceptional class of `H¹(SL₂(𝔽₅), ad⁰)` by an order-five
-  unipotent subgroup, for the trace-zero adjoint of ArithmeticGaloisRepresentations §§7.2 and 7.9
-  restricted to `SL₂`, with the triviality of the centre and the vanishing of invariants on it for
-  every field in which `2` is invertible (ArithmeticGaloisRepresentations §7.7 states that vanishing,
-  with that of `H¹`, for finite fields of odd characteristic other than `𝔽₅`);
-  protected local residual data, their unipotent-inertia deformation condition, its tangent line and
-  its dual.
-- Layer 4: the vanishing on protected places of the exceptional global classes, Taylor–Wiles primes
-  at `p = 5` for residual image `SL₂(𝔽₅)` with a protected place, and the relative presentation in
-  which protected places are not framed.
-- Layers 5–6: Hecke-valued Galois representations at Iwahori level on the protected places, the
-  prepared lifting theorem and the general lifting theorem at five with a protected place over CM
-  fields. Theorem 5.3 is CrystallineLocalGlobalCompatibilityCM §§9.7 and 9.9 with the protected
-  places added to the Iwahori places; Theorem 6.1 is the preparation of its §9.11 with the
-  protected places kept split at odd residue characteristic and kept protected above two.
-- Layer 7: the multiplicative degeneration of `A_t` of type `I₃`, the auxiliary-prime local opens,
-  the solvable preparation and the switch at five with finitely many further places split completely
-  (the parent's §0.3 `solvable_preparation` and `switch_five` with that additional conclusion), and
-  the modular auxiliary curve over a CM field containing `μ₅`.
-- Layer 8: the headline over every CM field.
-
-**Imported, never re-planned.** The parent supplies the cover family, its degenerations, integral
-monodromy, character systems and congruences (Layers 1–4), Serre's large-prime theorem (§5.1),
-`potentiallySemistableCM` (§5.2), `cm_modularity` (§5.3), the independent seed, `switch_five` and
-`modular_elliptic_all_coefficients` (§0.3), the local opens (Layer 6), the simultaneous
-specialization (§§7.1–7.4), the change of coefficient prime and automorphic local types (§8.1) and
-the local and CM arguments of §§8.5–8.6. MordellLawrenceVenkatesh supplies the criterion for a
-number field to be totally real or CM by products of complex conjugations (§1.3) and the largest
-CM-or-totally-real subfield of a number field (§1.4); Theorem 1.1 applies them to the two
-configurations the switch needs and does not restate them.
-CrystallineLocalGlobalCompatibilityCM supplies the integral local–global compatibility, non-neat
-`PGL₂` complexes, prepared patching and the solvable preparation (§§7.5, 8.2–8.7, 9.1, 9.4–9.11).
-ArithmeticGaloisRepresentations supplies the trace-zero adjoint with its conjugation action, its
-trace pairing, the splitting `ad = A·1 ⊕ ad⁰` when `2` is invertible and its base change (§7.2, and
-§7.9 `ResidualImage.adZeroRep` for a homomorphism into `GL₂(k)`), and the cohomology of `SL₂` with
-these coefficients (§7.7); Layer 3 restricts it to `SL₂` and does not define it again.
-ComplexMultiplicationAndExplicitReciprocity supplies the algebraic Hecke character of a CM elliptic
-curve over a base containing its CM field and the splitting of its Tate module into the realizations
-of that character (§4.1); Theorem 2.4 applies it over `KM` and does not restate it. The
-deformation-theoretic, automorphic and arithmetic carriers come from the suppliers listed below.
-
-**Outside this roadmap.** Totally real fields (they use the totally real lifting theorems and are
-EllipticCurveModularityTotallyReal); number fields that are neither CM nor totally real; abelian varieties of
-`GL₂`-type; the exceptional modular-curve analysis of Caraiani–Newton §7
-(ModularityAndLanglandsExtensions §2.30); height-density statements (ModularityAndLanglandsExtensions
-§2.29).
-
-**Lean.** `Suggested.lean` declares nothing, and its module docstring says why. The headline
-theorems are Theorem 2.5 (modularity over CM fields not containing `ζ₅`), Theorem 6.2 (the
-protected lifting theorem at five) and Theorem 8.1 (modularity over every CM field), and none is
-statable against the pinned Mathlib and Tau Ceti. Theorems 2.5 and 8.1 need automorphic
-representations of `GL₂(𝔸_K)` over a number field `K` with their attached `ℓ`-adic Galois
-representations `r_ι(π)`, local Langlands parameters and `L`-functions; Theorem 6.2 needs these and,
-in addition, potentially semistable `5`-adic representations of local Galois groups with their
-labelled Hodge–Tate weights. The pins supply the elliptic-curve side: Tau Ceti's
-`WeierstrassCurve.tateModuleGaloisRepresentation` (the `ℤ_ℓ`-linear Galois action on the Tate module,
-dual to `H¹`); Mathlib's `WeierstrassCurve.LFunction` and `WeierstrassCurve.LSeries`
-(`Mathlib/AlgebraicGeometry/EllipticCurve/LFunction.lean`), the Euler product over the primes of a
-number field of the local factors of a Weierstrass curve, each taken on a minimal model over the
-completion, which is the left side of `L(E/K, s) = L(π_E, s − 1/2)`; Mathlib's `continuousCohomology`
-with Tau Ceti's local duality on it (used in §3.5); and Mathlib's `NumberField.AdeleRing`. Neither
-library has automorphic forms or automorphic representations on `GL₂(𝔸_K)`, the Galois
-representations attached to them, Weil–Deligne representations or the local Langlands
-correspondence, `L`-functions of automorphic representations of `GL₂(𝔸_K)` for a CM field `K`
-(Mathlib's `ModularForm.L` is the `L`-function of a classical modular form on the upper half-plane,
-an object over `ℚ`), or potentially semistable representations with Hodge–Tate weights. The
-field-theoretic, finite-group and local statements of Layers 1 and 3 are ingredients of the proofs,
-not headlines, and are specified here as mathematics with their Checks.
-
-**Sources.** CaptainSude26, an unrefereed pseudonymous manuscript, is cited for the
-protected local condition, the detection of the exceptional class, the protected patching and the
-degeneration of type `I₃`; LeHung26, a discussion draft, is cited for making the auxiliary curve
-modular before the cyclotomic base change; the parent cites OpenAI26. Theorem 2.5 uses as
-lifting inputs only Caraiani–Newton's Theorems 5.2 and 6.1, through the parent's §§5.2–5.3.
-Theorem 8.1 uses Layers 3–7 only for fields containing `ζ₅`. The local and finite-group statements
-of Layer 3 are proved by explicit computations recorded in their Checks.
+Layer 1 adds two lemmas the libraries lack: CM-ness of the cyclotomic extensions of a CM field and
+of the fields between two CM fields, and descent of the residual hypotheses of the lifting theorems
+along finite extensions. Layer 2 runs the parent's switch over an arbitrary CM field: given an
+automorphic seed for `V_η` over `F`, the three lifts and the descent give `E`; when `ζ₅ ∉ K` the
+seed comes from the parent's residual criterion over `K` followed by base change, which proves
+Theorem 2.5. Layers 3–6 build the lifting theorem at five with a protected place: the finite-group
+and local computations (Layer 3), the global Galois cohomology and Taylor–Wiles primes (Layer 4),
+the Hecke algebras and prepared patching (Layer 5) and the solvable preparation and descent
+(Layer 6). Layer 7 produces a protected place on the auxiliary curve from a degeneration of type `I₃`
+of the cover family, retains it through the switch at five and proves the auxiliary curve modular
+when `μ₅ ⊂ K`. Layer 8 combines Layers 2 and 7 into the headline. Layers 1–2 are independent of
+Layers 3–7.
 
 ## Conventions
 
@@ -241,271 +157,6 @@ of Layer 3 are proved by explicit computations recorded in their Checks.
   levels (compact open subgroups), as in the sources; the number field there is `F`. In the supplier
   obligations `λ` is the dominant weight of the coefficients, as in ACC23; in §§7.1–7.2 `λ` is the unit
   power series of the Tate parameter.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-Pin `1b1ccf4b088b32fa3f23f2de1127433254a81e1e`.
-
-- `NumberField.IsCMField` (`Mathlib/NumberTheory/NumberField/CMField.lean`): a characteristic-zero
-  field that is totally complex and quadratic over `maximalRealSubfield`. With it
-  `NumberField.IsCMField.of_isAbelianGalois` (an abelian totally complex number field is CM) and
-  `IsCyclotomicExtension.Rat.isCMField` (`ℚ(μ_S)` is CM when `S` contains some `n > 2`). The file has
-  no statement about composita or subfields of CM fields; MordellLawrenceVenkatesh §§1.3–1.4 supplies
-  the criterion and Theorem 1.1 the two instances needed.
-- `IsCyclotomicExtension` (`Mathlib/NumberTheory/Cyclotomic/Basic.lean`) and `IsPrimitiveRoot`.
-- `NumberField.isTotallyComplex_of_algebra`
-  (`Mathlib/NumberTheory/NumberField/InfinitePlace/TotallyRealComplex.lean`): an extension of a
-  totally complex field is totally complex.
-- `Matrix.SpecialLinearGroup.toGL` (`Mathlib/LinearAlgebra/Matrix/GeneralLinearGroup/Defs.lean`):
-  the embedding `SL₂(k) → GL₂(k)`, along which §3.1 restricts the trace-zero adjoint of
-  ArithmeticGaloisRepresentations §7.9. That adjoint lives on Mathlib's trace kernel
-  `LinearMap.ker (LinearMap.trace k (Fin 2 → k))` with the conjugation action of
-  `Representation.linHom`; ArithmeticGaloisRepresentations §7.2 adds the conjugation representation
-  and its trace pairing.
-- `groupCohomology` and `groupCohomology.map`
-  (`Mathlib/RepresentationTheory/Homological/GroupCohomology/Functoriality.lean`): the map
-  `Hⁿ(H, A) → Hⁿ(G, B)` induced by `f : G →* H` and a morphism `res f A ⟶ B`; restriction to a
-  subgroup is the case of its inclusion and the identity morphism.
-- `Rep.FiniteCyclicGroup.groupCohomologyIsoOdd`
-  (`Mathlib/RepresentationTheory/Homological/GroupCohomology/FiniteCyclic.lean`): for a finite
-  commutative group generated by `g`, odd-degree cohomology is `ker N / im(ρ(g) − 1)`.
-- `Matrix.SpecialLinearGroup` (`SL(2, ZMod 5)`) and `Matrix.SL2.commutator_eq_top`
-  (`Mathlib/LinearAlgebra/Matrix/SpecialLinearGroup.lean`): perfectness of `SL₂(k)` for `#k ≥ 4`.
-- `WeierstrassCurve.localPolynomial`, `WeierstrassCurve.LFunction` and `WeierstrassCurve.LSeries`
-  (`Mathlib/AlgebraicGeometry/EllipticCurve/LFunction.lean`): over the fraction field of a discrete
-  valuation ring with residue field of cardinality `q`, the local polynomial of a Weierstrass curve is
-  read on its minimal model and is `1 − aT + qT²` with `a = q + 1 − #W(κ)` at good reduction, `1 − T`
-  at split multiplicative, `1 + T` at nonsplit multiplicative and `1` at additive reduction; over a
-  number field `K`, `LFunction` is the formal Euler product over the primes `𝔭` of `𝓞_K` of
-  `1/f_𝔭(N𝔭^(−s))` for the local polynomial `f_𝔭` of the base change to `K_𝔭`, and `LSeries` is its
-  complex Dirichlet series. These are the finite local factor of `E` and `L(E/K, s)` in Theorems 2.3,
-  2.4 and 8.1: they depend only on `E`, since each factor is read on a minimal model over the
-  completion.
-
-### From Tau Ceti
-
-Pin `2fd255d997f47c0b5d834ee416c7015d55444ce5`.
-
-- `TauCeti.ClassFieldTheory.eulerCharacteristic_mixed`
-  (`TauCeti/NumberTheory/ClassFieldTheory/Local/EulerCharacteristic/Theorem.lean`): for a finite
-  extension `F` of `ℚ_ℓ` and a finite smooth discrete `ZMod n`-module `A`,
-  `#H¹ = #H⁰ · #H² · ℓ^([F:ℚ_ℓ]·v_ℓ(#A))`; for `#A` prime to `ℓ` the last factor is `1`. Its
-  carriers are `TauCeti.ClassFieldTheory.GalRep` (finite smooth discrete Galois modules over a
-  `p`-adic field) and their continuous cohomology.
-- `TauCeti.ClassFieldTheory.tateDualityPairing_perfect_mixed`
-  (`TauCeti/NumberTheory/ClassFieldTheory/Local/Duality/Perfect.lean`): the local Tate pairing between
-  `Hⁱ` of the Tate dual and `Hʲ`, `i + j = 2`, is perfect for finite smooth discrete modules.
-
-### From TauCetiRoadmap.EllipticCurveModularityImaginaryQuadratic
-
-- §0.2 `fixed_pairing_twist`, `fixed_pairing_twist_rational`: the twisted fixed-pairing curve
-  `Y_ρ̄` and its identification with an open of `ℙ¹` after preparation.
-- §0.3 `solvable_preparation`, `hilbert_local_selection`, `seed_modular`, `switch_five`,
-  `modular_elliptic_all_coefficients` with its components `automorphic_unique`,
-  `automorphic_all_primes`, `automorphic_wd` and `automorphic_potentially_multiplicative_ordinary`,
-  and `auxiliary_local_types`; all over an arbitrary CM field.
-- §1.1 `switchParameterOpen`, §1.3 `cyclicCover` and the reflection, §2.1 `boundary_regular_model`,
-  §2.2 `compactTypeModel` and `compact_type_jacobian`, §2.3 `nodalModel`.
-- §4.1 `characterSystem`, `character_system_properties`; §4.2 `cubic_character_elliptic`,
-  `auxiliaryEllipticCurve`, `trivial_character_twist`; §4.4 `prime_switch_congruences`.
-- §5.1 `nonCM_elliptic_large_residual_primes`; §5.2 `potentiallySemistableCM` (over any CM field, with
-  its `p = 5` projective-field clause); §5.3 `cm_modularity` (over any CM field not containing `ζ₅`).
-- §6.1 `finite_torsion_locally_constant`, §6.3 `local_reduction_constancy`, §6.5 `local_type_opens`,
-  §6.6 `character_local_types`.
-- §7.1 `switchCoefficient` and `character_regular_word`; §7.2 the general number-field prime
-  choice; §7.4 `simultaneous_specialization`, including the inclusion of the geometric monodromy in
-  the specialized image of `G_D` and the non-CM conclusion.
-- §8.1 `character_automorphy_change_prime`, `character_automorphic_local_type`; §8.3 the lifting
-  table; §8.4 the twist identity `B_t ⊗ χ_(h(t)) ≅ E` on `H¹`; §8.5 `complexInfinityParameter` and the
-  local-factor arguments of `elliptic_full_local_comparison`; §8.6 the argument of
-  `cm_elliptic_realization`.
-
-### From TauCetiRoadmap.CrystallineLocalGlobalCompatibilityCM
-
-§7.5 (local–global compatibility at `p` through deformation rings, CN23, Theorem 4.2.15); §§8.2–8.5
-(two-system patching data, propagation of automorphic components and support); §8.6 (Galois
-representations for `PGL₂` over CM fields, including the non-neat to neat comparison); §8.7
-(perfectness at non-neat level when `ζ_p ∈ F`); §9.1 (the prepared data and its clauses (5)–(15));
-§9.4 (prepared level and unitary parabolics); §9.5 (the problems `𝒮_χ`); §9.6 (patching complexes,
-CN23, Lemma 5.6.4);
-§9.7 and §9.9 (Hecke-valued representations satisfy `𝒮_χ` and `𝒮_{χ,Q}`); §9.8 (Taylor–Wiles
-problems); §9.10 (prepared lifting and the weight-zero rational comparison `q₀ = l₀ = [F⁺:ℚ]`);
-§9.11 (solvable preparation). Clause (15) of §9.1 enters the prepared lifting proof of CN only
-through Taylor–Wiles selection (CN23 line 4404); Layer 4 replaces that step.
-
-### From TauCetiRoadmap.AutomorphicGaloisRepresentationsPartII
-
-- AG2.0 (algebraic weights, algebraic Hecke characters and their Galois characters), used by the CM
-  branch of §2.4 and, through it, by ComplexMultiplicationAndExplicitReciprocity §4.1.
-- AG2.5 (local comparison away from the coefficient prime, monodromy and purity), used through the
-  parent's §0.3 and by §5.3.
-- AG2.7 (`IsDecomposedGenericPrime`, `decomposedGenericPrime_local`, `IsDecomposedGeneric`): a
-  rational prime `q ≠ ℓ` is decomposed generic for `r̄` when it splits completely in the base field and
-  `r̄` is unramified and generic at every place above it; `r̄` is decomposed generic when such a
-  prime exists. Used by §§1.2, 2.1, 2.2, 5.1, 6.1, 6.2, 7.4 and 7.5.
-
-What AutomorphicGaloisRepresentationsPartII must provide (gap:acc-torsion-inertial-comparison): a
-statement in its Layer AG2.5 of Theorem 3.1.1 of ACC23 (Allen et al., *Potential automorphy over CM
-fields*), the torsion local–global compatibility for `GL_m` at Iwahori places away from `p`. The setting is that of ACC23 §3.1 (lines 2309–2345): a CM field `F`
-containing an imaginary quadratic field, with every `p`-adic place of `F⁺` split in `F`; a good level
-`K`; a dominant weight `λ` (Theorem 5.3 uses `λ = 0`); a finite conjugation-stable set `S` of finite
-places containing those above `p`, with the conditions there on residue characteristics outside `S`;
-a subset `R ⊆ S` of places prime to `p`, each with residue characteristic split in an imaginary
-quadratic subfield, such that `Iw_{v,1} ⊆ K_v ⊆ Iw_v` for `v ∈ R` and `K_v = GL_m(O_{F_v})` for
-`v ∈ R^c ∖ R`; and a non-Eisenstein maximal ideal `𝔪`. The statement gives an integer `N` depending
-only on `m` and `[F:ℚ]`, an ideal `I_R` with `I_R^N = 0` in the localized Hecke algebra of level `K`
-and weight `λ`, generated together with the torus operators `t_{v,i}(σ)` at `R`, and a continuous
-representation of `G_{F, S ∖ (R^c ∖ R)}` over the quotient whose Frobenius characteristic polynomials
-outside `S ∖ (R^c ∖ R)` are the Hecke polynomials `P_v` and whose characteristic polynomial at every
-`σ ∈ W_{F_v}`, `v ∈ R`, is the torus polynomial `P_{v,σ}` (ACC23, Theorem 3.1.1, lines 2346–2355).
-Theorem 5.3 needs it with `m = 2`. PotentialAutomorphyInfrastructure and
-CrystallineLocalGlobalCompatibilityCM §9.7 (and §9.9 through it) consume the same statement as AG2.5,
-whose text states characteristic-zero comparisons only.
-
-### From TauCetiRoadmap.PotentialAutomorphyInfrastructure
-
-- §2.1 `genericity_normal_closure_restriction`: decomposed genericity and absolute irreducibility
-  survive restriction to `FK` for a finite Galois `K/ℚ` linearly disjoint from the Galois closure of
-  the residual-cyclotomic field; used by §6.1.
-- §2.3 `soluble_base_change_and_descent`: for `F` and a soluble Galois extension `E/F`, both CM or
-  totally real, (1) cuspidal base change of a regular algebraic `π` whose Galois representation stays
-  irreducible on `G_E`, with local–global compatibility at every finite place, and (2) descent of a
-  representation `ρ` of `G_F` that is irreducible on `G_E` and automorphic there; used by §§2.1, 2.2,
-  6.1, 6.2, 7.5 and 8.1.
-- §2.5 `auxiliary_cm_extension_prescriptions`: over any number field, for every `N ≥ 1`, a cyclic
-  extension of degree `N`, disjoint from a given finite Galois extension, in which a given finite set
-  of places, real places included, splits completely, with the CM refinement over a CM base; §6.1
-  uses it over `ℚ` for the totally real degree step, and for trivial prescribed completions at the
-  places below `P`.
-
-### From TauCetiRoadmap.MordellLawrenceVenkatesh
-
-§1.3 (a number field inside `ℚ̄` is totally real or CM exactly when `c₁c₂` fixes it pointwise for all
-complex conjugations `c₁, c₂ ∈ Gal(ℚ̄/ℚ)`) and §1.4 (the largest CM-or-totally-real subfield `E_K` of
-a number field `K`: a subfield of `K` lies in `E_K` exactly when it is totally real or CM), used by
-Theorem 1.1.
-
-### From TauCetiRoadmap.ArithmeticGaloisRepresentations
-
-- §2.1 (decomposition groups).
-- §4.3 (Sylow subgroups and `PSL₂`; perfectness of `SL₂(k)` through Mathlib
-  `Matrix.SL2.commutator_eq_top`).
-- §6.3 (the Tate curve `E` of parameter `q_E` over a finite extension of a `p`-adic field: for `ℓ`
-  different from the residue characteristic, inertia acts through a nontrivial unipotent group,
-  `WD(V_ℓ E) ≅ Sp(2)`, and `E[ℓ^n]` is unramified exactly when `ℓ^n | v(q_E)`).
-- §7.2 (*ContinuousRep.adZero*: the trace-zero adjoint of a representation of a profinite group with
-  its conjugation action; the invariant trace pairing, perfect between `ad⁰` and `ad/A·1` and hence on
-  `ad⁰` when `2 ∈ A^×` through the splitting `ad = A·1 ⊕ ad⁰`; base change).
-- §7.7 (restriction to a subgroup containing a Sylow subgroup is injective on `H¹`;
-  `H⁰(SL₂(k), ad⁰) = H¹(SL₂(k), ad⁰) = 0` for `k` finite of odd characteristic with `#k ≠ 5`;
-  `H¹(SL₂(𝔽₅), ad⁰)` is one-dimensional; change of coefficient field, in particular
-  `(M ⊗ k')^G = M^G ⊗ k'` for fields `k ⊆ k'` and `M` finite-dimensional).
-- §7.8 (`Sym^a(F̄_p²)` is absolutely irreducible for `SL₂(F)`, `F` finite of characteristic `p`,
-  `0 ≤ a ≤ p − 1`), used by §4.2 at `p = 5`, `a = 2`, and in a Check of §6.2 at `a = 1`.
-- §7.9 (`ResidualImage.adZeroRep`: the same adjoint for a homomorphism into `GL_n(k)`, on the trace
-  kernel `LinearMap.ker (LinearMap.trace k (n → k))`).
-
-### From TauCetiRoadmap.ArithmeticGaloisDuality
-
-R02.2 (inflation–restriction and the Hochschild–Serre spectral sequence), used by §4.1; R02.4.2 (the
-local Tate pairing, and the counting proof that the unramified classes of an unramified module of
-order prime to the residue characteristic and of its Cartier dual are exact annihilators), whose
-argument §3.5 runs without the hypothesis that the module be unramified.
-
-### From TauCetiRoadmap.LocalGaloisDeformationRings
-
-§1.10 (fixed determinant), §2.3 (minimally ramified lifts), §2.5 (Steinberg lifts of trivial residual
-data, which §§3.4 and 5.2 distinguish from the protected condition), §2.6 (the `q`-tame group), §2.8
-(the minimally ramified ring), §2.15 (character-type rings for Ihara avoidance), §2.16 (Taylor–Wiles
-tangent dimension), §2.21 (unipotent lifts of a regular unipotent residual monodromy are minimally
-ramified), §3.14, §§4.14–4.15 and §6.6 (fixed-determinant Barsotti–Tate and ordinary rings at `p` and
-their components).
-
-### From TauCetiRoadmap.GlobalGaloisDeformations
-
-§3.4 (representability of `T`-framed global deformations of type `𝒮`, with `n²|T| − 1` frame
-variables), §3.6 (relative tangent space and dual Selmer group with framing set `T`), §3.7
-(presentation of the global ring over the local rings), §5.1 (Taylor–Wiles data), §5.5 (inertia at
-Taylor–Wiles places and the `Δ_Q`-structure), §5.6 (shared Chebotarev selection for Selmer detection).
-
-### From TauCetiRoadmap.DeformationAndDerivedPatchingAlgebra
-
-§§8.1–8.5 (simultaneous patching of two coefficient systems, with augmentation and paired residual
-comparisons), used by §5.4.
-
-### From TauCetiRoadmap.GL2ModularityLifting
-
-§1.7 `cht_soluble_prescribed_completions` (CHT08 Lemma 4.1.2: soluble extensions with prescribed
-completions), used by §§6.1 and 7.4.
-
-### From TauCetiRoadmap.PotentialModularityAndCompatibleSystems
-
-§§2.12–2.16 (Frobenius primes, avoidance by extra split primes, disjointness through towers,
-extension of local characters, soluble prescribed-completion extensions), used by §6.1.
-
-### From TauCetiRoadmap.GL2AutomorphicRepresentationsAndTransfer
-
-R16.3.2 (Steinberg monodromy and its local factors), used by §§2.3 and 7.3; R17.4.16 (quadratic
-automorphic induction), used by §2.4.
-
-### From TauCetiRoadmap.ComplexMultiplicationAndExplicitReciprocity
-
-§4.1 (the algebraic Hecke character `ψ_A` of an abelian variety `A/k` over a number field with CM by
-a field `E ⊂ End⁰_k(A)` of degree `2 dim A`, all of whose endomorphisms are defined over `k`, and the
-splitting of `V_ℓ(A) ⊗ Q̄_ℓ` as a `G_k`-module into the one-dimensional realizations of `ψ_A` along
-the embeddings of `E`), applied to a CM elliptic curve over `KM`; used by §2.4.
-
-### From TauCetiRoadmap.FaltingsFinitenessAndIsogenyTheorems
-
-R28.6.2 (semisimplicity of `V_ℓ(E)` for an elliptic curve) and R28.6.3 (the Tate Hom comparison for
-elliptic curves). Applied over every finite extension `L` of the base, they give
-`End_{ℚ_ℓ[G_L]}(V_ℓ E) = End_L(E) ⊗ ℚ_ℓ = ℚ_ℓ` for geometrically non-CM `E`, hence absolute
-irreducibility of `H¹` on `G_L`; used by §§2.1, 2.2 and 8.1.
-
-### From TauCetiRoadmap.NeronModelsAndSemistableAbelianVarieties
-
-§3.1 (the semistable reduction predicate and toric rank), §3.12 (full level forces semistability),
-§5.1 (Néron–Ogg–Shafarevich), used by §7.2.
-
-### From TauCetiRoadmap.ShimuraVarieties
-
-§5.6 (a CM abelian variety over a number field, in particular a CM elliptic curve, has potentially
-good reduction at every finite place), used by §7.4 to exclude CM for a curve with a Tate place.
-
-### From TauCetiRoadmap.EllipticCurves
-
-Layer 4 (reduction types, minimal discriminants, the Tate curve of parameter `q_E` with
-`v(Δ) = v(q_E)` and `j = 1/q_E + 744 + ⋯`) and Layer 5 (quadratic twists).
-
-### From TauCetiRoadmap.ClassFieldTheory
-
-Layer 5 (local duality and the local Euler characteristic) and Layer 11 (global reciprocity, used to
-turn a quadratic Galois character into a Hecke character).
-
-### From TauCetiRoadmap.SchemeAndStackFoundations
-
-§§4.13 and 4.18 (regular schemes, resolution of curves, nodal families), used by §7.1.
-
-### From TauCetiRoadmap.Chebotarev
-
-Layer 10 (Dirichlet-density Chebotarev), through GlobalGaloisDeformations §5.6.
-
-## How to read the build
-
-Layer 1 adds two lemmas the libraries lack: CM-ness of the cyclotomic extensions of a CM field and
-of the fields between two CM fields, and descent of the residual hypotheses of the lifting theorems
-along finite extensions. Layer 2 runs the parent's switch over an arbitrary CM field: given an
-automorphic seed for `V_η` over `F`, the three lifts and the descent give `E`; when `ζ₅ ∉ K` the
-seed comes from the parent's residual criterion over `K` followed by base change, which proves
-Theorem 2.5. Layers 3–6 build the lifting theorem at five with a protected place: the finite-group
-and local computations (Layer 3), the global Galois cohomology and Taylor–Wiles primes (Layer 4),
-the Hecke algebras and prepared patching (Layer 5) and the solvable preparation and descent
-(Layer 6). Layer 7 produces a protected place on the auxiliary curve from a degeneration of type `I₃`
-of the cover family, retains it through the switch at five and proves the auxiliary curve modular
-when `μ₅ ⊂ K`. Layer 8 combines Layers 2 and 7 into the headline. Layers 1–2 are independent of
-Layers 3–7.
 
 ## Layer 1: Cyclotomic CM fields and descent of residual hypotheses
 
@@ -1756,6 +1407,355 @@ curve.
 - Theorem 6.2 is stated for an arbitrary representation and serves any consumer of
   CrystallineLocalGlobalCompatibilityCM §9.12 meeting residual image `SL₂(𝔽₅)` over a field
   containing `ζ₅`, provided there is a nonempty set `P` of places satisfying the conditions of §6.2.
+
+## Scope and ownership
+
+**Where the parent stops.** EllipticCurveModularityImaginaryQuadratic ends at
+`imaginary_quadratic_modularity` (§8.6). Its section *Downstream consumers and boundaries* places
+other CM fields outside its scope and records the field `ℚ(ζ₁₅ + ζ₁₅⁻¹, i)`, over which `ζ₅ ∉ K` but
+`ζ₅ ∈ K(ζ₃)`. In the parent the imaginary-quadratic hypothesis enters through the ramification
+proof `cyclotomic_switch_field` of `ζ₅ ∉ F` (§5.1) and through the specialized statements of
+§§8.2–8.6. Its Layers 1–4, Layer 6 and §§7.2–7.4 are stated over arbitrary number fields; its
+§0.3 outputs, §5.2 `potentiallySemistableCM` and §5.3 `cm_modularity` are stated over arbitrary CM
+fields. This roadmap starts exactly there.
+
+**Owned here.**
+
+- Layer 1: CM-ness of the cyclotomic extensions of a CM field and of every field between two CM
+  fields (instances of the criterion of MordellLawrenceVenkatesh §1.3, where the CM base excludes the
+  totally real alternative), and the descent of decomposed genericity and cyclotomic absolute
+  irreducibility along a finite extension of number fields.
+- Layer 2: the auxiliary curve made modular over `K` before base change when `ζ₅ ∉ K`; the three
+  lifts, the descent along `F/K` and the removal of the twist over an arbitrary CM field; the full
+  local comparison and the CM branch over an arbitrary CM field; the endpoint for `ζ₅ ∉ K`.
+  Theorems 2.2–2.4 are the parent's §§8.3–8.6 over an arbitrary CM base; the parent states them for
+  imaginary quadratic `K` only, and their proofs are applied here, not repeated.
+- Layer 3: the detection of the exceptional class of `H¹(SL₂(𝔽₅), ad⁰)` by an order-five
+  unipotent subgroup, for the trace-zero adjoint of ArithmeticGaloisRepresentations §§7.2 and 7.9
+  restricted to `SL₂`, with the triviality of the centre and the vanishing of invariants on it for
+  every field in which `2` is invertible (ArithmeticGaloisRepresentations §7.7 states that vanishing,
+  with that of `H¹`, for finite fields of odd characteristic other than `𝔽₅`);
+  protected local residual data, their unipotent-inertia deformation condition, its tangent line and
+  its dual.
+- Layer 4: the vanishing on protected places of the exceptional global classes, Taylor–Wiles primes
+  at `p = 5` for residual image `SL₂(𝔽₅)` with a protected place, and the relative presentation in
+  which protected places are not framed.
+- Layers 5–6: Hecke-valued Galois representations at Iwahori level on the protected places, the
+  prepared lifting theorem and the general lifting theorem at five with a protected place over CM
+  fields. Theorem 5.3 is CrystallineLocalGlobalCompatibilityCM §§9.7 and 9.9 with the protected
+  places added to the Iwahori places; Theorem 6.1 is the preparation of its §9.11 with the
+  protected places kept split at odd residue characteristic and kept protected above two.
+- Layer 7: the multiplicative degeneration of `A_t` of type `I₃`, the auxiliary-prime local opens,
+  the solvable preparation and the switch at five with finitely many further places split completely
+  (the parent's §0.3 `solvable_preparation` and `switch_five` with that additional conclusion), and
+  the modular auxiliary curve over a CM field containing `μ₅`.
+- Layer 8: the headline over every CM field.
+
+**Imported, never re-planned.** The parent supplies the cover family, its degenerations, integral
+monodromy, character systems and congruences (Layers 1–4), Serre's large-prime theorem (§5.1),
+`potentiallySemistableCM` (§5.2), `cm_modularity` (§5.3), the independent seed, `switch_five` and
+`modular_elliptic_all_coefficients` (§0.3), the local opens (Layer 6), the simultaneous
+specialization (§§7.1–7.4), the change of coefficient prime and automorphic local types (§8.1) and
+the local and CM arguments of §§8.5–8.6. MordellLawrenceVenkatesh supplies the criterion for a
+number field to be totally real or CM by products of complex conjugations (§1.3) and the largest
+CM-or-totally-real subfield of a number field (§1.4); Theorem 1.1 applies them to the two
+configurations the switch needs and does not restate them.
+CrystallineLocalGlobalCompatibilityCM supplies the integral local–global compatibility, non-neat
+`PGL₂` complexes, prepared patching and the solvable preparation (§§7.5, 8.2–8.7, 9.1, 9.4–9.11).
+ArithmeticGaloisRepresentations supplies the trace-zero adjoint with its conjugation action, its
+trace pairing, the splitting `ad = A·1 ⊕ ad⁰` when `2` is invertible and its base change (§7.2, and
+§7.9 `ResidualImage.adZeroRep` for a homomorphism into `GL₂(k)`), and the cohomology of `SL₂` with
+these coefficients (§7.7); Layer 3 restricts it to `SL₂` and does not define it again.
+ComplexMultiplicationAndExplicitReciprocity supplies the algebraic Hecke character of a CM elliptic
+curve over a base containing its CM field and the splitting of its Tate module into the realizations
+of that character (§4.1); Theorem 2.4 applies it over `KM` and does not restate it. The
+deformation-theoretic, automorphic and arithmetic carriers come from the suppliers listed below.
+
+**Outside this roadmap.** Totally real fields (they use the totally real lifting theorems and are
+EllipticCurveModularityTotallyReal); number fields that are neither CM nor totally real; abelian varieties of
+`GL₂`-type; the exceptional modular-curve analysis of Caraiani–Newton §7
+(ModularityAndLanglandsExtensions §2.30); height-density statements (ModularityAndLanglandsExtensions
+§2.29).
+
+**Lean.** `Suggested.lean` declares nothing, and its module docstring says why. The headline
+theorems are Theorem 2.5 (modularity over CM fields not containing `ζ₅`), Theorem 6.2 (the
+protected lifting theorem at five) and Theorem 8.1 (modularity over every CM field), and none is
+statable against the pinned Mathlib and Tau Ceti. Theorems 2.5 and 8.1 need automorphic
+representations of `GL₂(𝔸_K)` over a number field `K` with their attached `ℓ`-adic Galois
+representations `r_ι(π)`, local Langlands parameters and `L`-functions; Theorem 6.2 needs these and,
+in addition, potentially semistable `5`-adic representations of local Galois groups with their
+labelled Hodge–Tate weights. The pins supply the elliptic-curve side: Tau Ceti's
+`WeierstrassCurve.tateModuleGaloisRepresentation` (the `ℤ_ℓ`-linear Galois action on the Tate module,
+dual to `H¹`); Mathlib's `WeierstrassCurve.LFunction` and `WeierstrassCurve.LSeries`
+(`Mathlib/AlgebraicGeometry/EllipticCurve/LFunction.lean`), the Euler product over the primes of a
+number field of the local factors of a Weierstrass curve, each taken on a minimal model over the
+completion, which is the left side of `L(E/K, s) = L(π_E, s − 1/2)`; Mathlib's `continuousCohomology`
+with Tau Ceti's local duality on it (used in §3.5); and Mathlib's `NumberField.AdeleRing`. Neither
+library has automorphic forms or automorphic representations on `GL₂(𝔸_K)`, the Galois
+representations attached to them, Weil–Deligne representations or the local Langlands
+correspondence, `L`-functions of automorphic representations of `GL₂(𝔸_K)` for a CM field `K`
+(Mathlib's `ModularForm.L` is the `L`-function of a classical modular form on the upper half-plane,
+an object over `ℚ`), or potentially semistable representations with Hodge–Tate weights. The
+field-theoretic, finite-group and local statements of Layers 1 and 3 are ingredients of the proofs,
+not headlines, and are specified here as mathematics with their Checks.
+
+**Sources.** CaptainSude26, an unrefereed pseudonymous manuscript, is cited for the
+protected local condition, the detection of the exceptional class, the protected patching and the
+degeneration of type `I₃`; LeHung26, a discussion draft, is cited for making the auxiliary curve
+modular before the cyclotomic base change; the parent cites OpenAI26. Theorem 2.5 uses as
+lifting inputs only Caraiani–Newton's Theorems 5.2 and 6.1, through the parent's §§5.2–5.3.
+Theorem 8.1 uses Layers 3–7 only for fields containing `ζ₅`. The local and finite-group statements
+of Layer 3 are proved by explicit computations recorded in their Checks.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+Pin `1b1ccf4b088b32fa3f23f2de1127433254a81e1e`.
+
+- `NumberField.IsCMField` (`Mathlib/NumberTheory/NumberField/CMField.lean`): a characteristic-zero
+  field that is totally complex and quadratic over `maximalRealSubfield`. With it
+  `NumberField.IsCMField.of_isAbelianGalois` (an abelian totally complex number field is CM) and
+  `IsCyclotomicExtension.Rat.isCMField` (`ℚ(μ_S)` is CM when `S` contains some `n > 2`). The file has
+  no statement about composita or subfields of CM fields; MordellLawrenceVenkatesh §§1.3–1.4 supplies
+  the criterion and Theorem 1.1 the two instances needed.
+- `IsCyclotomicExtension` (`Mathlib/NumberTheory/Cyclotomic/Basic.lean`) and `IsPrimitiveRoot`.
+- `NumberField.isTotallyComplex_of_algebra`
+  (`Mathlib/NumberTheory/NumberField/InfinitePlace/TotallyRealComplex.lean`): an extension of a
+  totally complex field is totally complex.
+- `Matrix.SpecialLinearGroup.toGL` (`Mathlib/LinearAlgebra/Matrix/GeneralLinearGroup/Defs.lean`):
+  the embedding `SL₂(k) → GL₂(k)`, along which §3.1 restricts the trace-zero adjoint of
+  ArithmeticGaloisRepresentations §7.9. That adjoint lives on Mathlib's trace kernel
+  `LinearMap.ker (LinearMap.trace k (Fin 2 → k))` with the conjugation action of
+  `Representation.linHom`; ArithmeticGaloisRepresentations §7.2 adds the conjugation representation
+  and its trace pairing.
+- `groupCohomology` and `groupCohomology.map`
+  (`Mathlib/RepresentationTheory/Homological/GroupCohomology/Functoriality.lean`): the map
+  `Hⁿ(H, A) → Hⁿ(G, B)` induced by `f : G →* H` and a morphism `res f A ⟶ B`; restriction to a
+  subgroup is the case of its inclusion and the identity morphism.
+- `Rep.FiniteCyclicGroup.groupCohomologyIsoOdd`
+  (`Mathlib/RepresentationTheory/Homological/GroupCohomology/FiniteCyclic.lean`): for a finite
+  commutative group generated by `g`, odd-degree cohomology is `ker N / im(ρ(g) − 1)`.
+- `Matrix.SpecialLinearGroup` (`SL(2, ZMod 5)`) and `Matrix.SL2.commutator_eq_top`
+  (`Mathlib/LinearAlgebra/Matrix/SpecialLinearGroup.lean`): perfectness of `SL₂(k)` for `#k ≥ 4`.
+- `WeierstrassCurve.localPolynomial`, `WeierstrassCurve.LFunction` and `WeierstrassCurve.LSeries`
+  (`Mathlib/AlgebraicGeometry/EllipticCurve/LFunction.lean`): over the fraction field of a discrete
+  valuation ring with residue field of cardinality `q`, the local polynomial of a Weierstrass curve is
+  read on its minimal model and is `1 − aT + qT²` with `a = q + 1 − #W(κ)` at good reduction, `1 − T`
+  at split multiplicative, `1 + T` at nonsplit multiplicative and `1` at additive reduction; over a
+  number field `K`, `LFunction` is the formal Euler product over the primes `𝔭` of `𝓞_K` of
+  `1/f_𝔭(N𝔭^(−s))` for the local polynomial `f_𝔭` of the base change to `K_𝔭`, and `LSeries` is its
+  complex Dirichlet series. These are the finite local factor of `E` and `L(E/K, s)` in Theorems 2.3,
+  2.4 and 8.1: they depend only on `E`, since each factor is read on a minimal model over the
+  completion.
+
+### From Tau Ceti
+
+Pin `2fd255d997f47c0b5d834ee416c7015d55444ce5`.
+
+- `TauCeti.ClassFieldTheory.eulerCharacteristic_mixed`
+  (`TauCeti/NumberTheory/ClassFieldTheory/Local/EulerCharacteristic/Theorem.lean`): for a finite
+  extension `F` of `ℚ_ℓ` and a finite smooth discrete `ZMod n`-module `A`,
+  `#H¹ = #H⁰ · #H² · ℓ^([F:ℚ_ℓ]·v_ℓ(#A))`; for `#A` prime to `ℓ` the last factor is `1`. Its
+  carriers are `TauCeti.ClassFieldTheory.GalRep` (finite smooth discrete Galois modules over a
+  `p`-adic field) and their continuous cohomology.
+- `TauCeti.ClassFieldTheory.tateDualityPairing_perfect_mixed`
+  (`TauCeti/NumberTheory/ClassFieldTheory/Local/Duality/Perfect.lean`): the local Tate pairing between
+  `Hⁱ` of the Tate dual and `Hʲ`, `i + j = 2`, is perfect for finite smooth discrete modules.
+
+### From TauCetiRoadmap.EllipticCurveModularityImaginaryQuadratic
+
+- §0.2 `fixed_pairing_twist`, `fixed_pairing_twist_rational`: the twisted fixed-pairing curve
+  `Y_ρ̄` and its identification with an open of `ℙ¹` after preparation.
+- §0.3 `solvable_preparation`, `hilbert_local_selection`, `seed_modular`, `switch_five`,
+  `modular_elliptic_all_coefficients` with its components `automorphic_unique`,
+  `automorphic_all_primes`, `automorphic_wd` and `automorphic_potentially_multiplicative_ordinary`,
+  and `auxiliary_local_types`; all over an arbitrary CM field.
+- §1.1 `switchParameterOpen`, §1.3 `cyclicCover` and the reflection, §2.1 `boundary_regular_model`,
+  §2.2 `compactTypeModel` and `compact_type_jacobian`, §2.3 `nodalModel`.
+- §4.1 `characterSystem`, `character_system_properties`; §4.2 `cubic_character_elliptic`,
+  `auxiliaryEllipticCurve`, `trivial_character_twist`; §4.4 `prime_switch_congruences`.
+- §5.1 `nonCM_elliptic_large_residual_primes`; §5.2 `potentiallySemistableCM` (over any CM field, with
+  its `p = 5` projective-field clause); §5.3 `cm_modularity` (over any CM field not containing `ζ₅`).
+- §6.1 `finite_torsion_locally_constant`, §6.3 `local_reduction_constancy`, §6.5 `local_type_opens`,
+  §6.6 `character_local_types`.
+- §7.1 `switchCoefficient` and `character_regular_word`; §7.2 the general number-field prime
+  choice; §7.4 `simultaneous_specialization`, including the inclusion of the geometric monodromy in
+  the specialized image of `G_D` and the non-CM conclusion.
+- §8.1 `character_automorphy_change_prime`, `character_automorphic_local_type`; §8.3 the lifting
+  table; §8.4 the twist identity `B_t ⊗ χ_(h(t)) ≅ E` on `H¹`; §8.5 `complexInfinityParameter` and the
+  local-factor arguments of `elliptic_full_local_comparison`; §8.6 the argument of
+  `cm_elliptic_realization`.
+
+### From TauCetiRoadmap.CrystallineLocalGlobalCompatibilityCM
+
+§7.5 (local–global compatibility at `p` through deformation rings, CN23, Theorem 4.2.15); §§8.2–8.5
+(two-system patching data, propagation of automorphic components and support); §8.6 (Galois
+representations for `PGL₂` over CM fields, including the non-neat to neat comparison); §8.7
+(perfectness at non-neat level when `ζ_p ∈ F`); §9.1 (the prepared data and its clauses (5)–(15));
+§9.4 (prepared level and unitary parabolics); §9.5 (the problems `𝒮_χ`); §9.6 (patching complexes,
+CN23, Lemma 5.6.4);
+§9.7 and §9.9 (Hecke-valued representations satisfy `𝒮_χ` and `𝒮_{χ,Q}`); §9.8 (Taylor–Wiles
+problems); §9.10 (prepared lifting and the weight-zero rational comparison `q₀ = l₀ = [F⁺:ℚ]`);
+§9.11 (solvable preparation). Clause (15) of §9.1 enters the prepared lifting proof of CN only
+through Taylor–Wiles selection (CN23 line 4404); Layer 4 replaces that step.
+
+### From TauCetiRoadmap.AutomorphicGaloisRepresentationsPartII
+
+- AG2.0 (algebraic weights, algebraic Hecke characters and their Galois characters), used by the CM
+  branch of §2.4 and, through it, by ComplexMultiplicationAndExplicitReciprocity §4.1.
+- AG2.5 (local comparison away from the coefficient prime, monodromy and purity), used through the
+  parent's §0.3 and by §5.3.
+- AG2.7 (`IsDecomposedGenericPrime`, `decomposedGenericPrime_local`, `IsDecomposedGeneric`): a
+  rational prime `q ≠ ℓ` is decomposed generic for `r̄` when it splits completely in the base field and
+  `r̄` is unramified and generic at every place above it; `r̄` is decomposed generic when such a
+  prime exists. Used by §§1.2, 2.1, 2.2, 5.1, 6.1, 6.2, 7.4 and 7.5.
+
+What AutomorphicGaloisRepresentationsPartII must provide (gap:acc-torsion-inertial-comparison): a
+statement in its Layer AG2.5 of Theorem 3.1.1 of ACC23 (Allen et al., *Potential automorphy over CM
+fields*), the torsion local–global compatibility for `GL_m` at Iwahori places away from `p`. The setting is that of ACC23 §3.1 (lines 2309–2345): a CM field `F`
+containing an imaginary quadratic field, with every `p`-adic place of `F⁺` split in `F`; a good level
+`K`; a dominant weight `λ` (Theorem 5.3 uses `λ = 0`); a finite conjugation-stable set `S` of finite
+places containing those above `p`, with the conditions there on residue characteristics outside `S`;
+a subset `R ⊆ S` of places prime to `p`, each with residue characteristic split in an imaginary
+quadratic subfield, such that `Iw_{v,1} ⊆ K_v ⊆ Iw_v` for `v ∈ R` and `K_v = GL_m(O_{F_v})` for
+`v ∈ R^c ∖ R`; and a non-Eisenstein maximal ideal `𝔪`. The statement gives an integer `N` depending
+only on `m` and `[F:ℚ]`, an ideal `I_R` with `I_R^N = 0` in the localized Hecke algebra of level `K`
+and weight `λ`, generated together with the torus operators `t_{v,i}(σ)` at `R`, and a continuous
+representation of `G_{F, S ∖ (R^c ∖ R)}` over the quotient whose Frobenius characteristic polynomials
+outside `S ∖ (R^c ∖ R)` are the Hecke polynomials `P_v` and whose characteristic polynomial at every
+`σ ∈ W_{F_v}`, `v ∈ R`, is the torus polynomial `P_{v,σ}` (ACC23, Theorem 3.1.1, lines 2346–2355).
+Theorem 5.3 needs it with `m = 2`. PotentialAutomorphyInfrastructure and
+CrystallineLocalGlobalCompatibilityCM §9.7 (and §9.9 through it) consume the same statement as AG2.5,
+whose text states characteristic-zero comparisons only.
+
+### From TauCetiRoadmap.PotentialAutomorphyInfrastructure
+
+- §2.1 `genericity_normal_closure_restriction`: decomposed genericity and absolute irreducibility
+  survive restriction to `FK` for a finite Galois `K/ℚ` linearly disjoint from the Galois closure of
+  the residual-cyclotomic field; used by §6.1.
+- §2.3 `soluble_base_change_and_descent`: for `F` and a soluble Galois extension `E/F`, both CM or
+  totally real, (1) cuspidal base change of a regular algebraic `π` whose Galois representation stays
+  irreducible on `G_E`, with local–global compatibility at every finite place, and (2) descent of a
+  representation `ρ` of `G_F` that is irreducible on `G_E` and automorphic there; used by §§2.1, 2.2,
+  6.1, 6.2, 7.5 and 8.1.
+- §2.5 `auxiliary_cm_extension_prescriptions`: over any number field, for every `N ≥ 1`, a cyclic
+  extension of degree `N`, disjoint from a given finite Galois extension, in which a given finite set
+  of places, real places included, splits completely, with the CM refinement over a CM base; §6.1
+  uses it over `ℚ` for the totally real degree step, and for trivial prescribed completions at the
+  places below `P`.
+
+### From TauCetiRoadmap.MordellLawrenceVenkatesh
+
+§1.3 (a number field inside `ℚ̄` is totally real or CM exactly when `c₁c₂` fixes it pointwise for all
+complex conjugations `c₁, c₂ ∈ Gal(ℚ̄/ℚ)`) and §1.4 (the largest CM-or-totally-real subfield `E_K` of
+a number field `K`: a subfield of `K` lies in `E_K` exactly when it is totally real or CM), used by
+Theorem 1.1.
+
+### From TauCetiRoadmap.ArithmeticGaloisRepresentations
+
+- §2.1 (decomposition groups).
+- §4.3 (Sylow subgroups and `PSL₂`; perfectness of `SL₂(k)` through Mathlib
+  `Matrix.SL2.commutator_eq_top`).
+- §6.3 (the Tate curve `E` of parameter `q_E` over a finite extension of a `p`-adic field: for `ℓ`
+  different from the residue characteristic, inertia acts through a nontrivial unipotent group,
+  `WD(V_ℓ E) ≅ Sp(2)`, and `E[ℓ^n]` is unramified exactly when `ℓ^n | v(q_E)`).
+- §7.2 (*ContinuousRep.adZero*: the trace-zero adjoint of a representation of a profinite group with
+  its conjugation action; the invariant trace pairing, perfect between `ad⁰` and `ad/A·1` and hence on
+  `ad⁰` when `2 ∈ A^×` through the splitting `ad = A·1 ⊕ ad⁰`; base change).
+- §7.7 (restriction to a subgroup containing a Sylow subgroup is injective on `H¹`;
+  `H⁰(SL₂(k), ad⁰) = H¹(SL₂(k), ad⁰) = 0` for `k` finite of odd characteristic with `#k ≠ 5`;
+  `H¹(SL₂(𝔽₅), ad⁰)` is one-dimensional; change of coefficient field, in particular
+  `(M ⊗ k')^G = M^G ⊗ k'` for fields `k ⊆ k'` and `M` finite-dimensional).
+- §7.8 (`Sym^a(F̄_p²)` is absolutely irreducible for `SL₂(F)`, `F` finite of characteristic `p`,
+  `0 ≤ a ≤ p − 1`), used by §4.2 at `p = 5`, `a = 2`, and in a Check of §6.2 at `a = 1`.
+- §7.9 (`ResidualImage.adZeroRep`: the same adjoint for a homomorphism into `GL_n(k)`, on the trace
+  kernel `LinearMap.ker (LinearMap.trace k (n → k))`).
+
+### From TauCetiRoadmap.ArithmeticGaloisDuality
+
+R02.2 (inflation–restriction and the Hochschild–Serre spectral sequence), used by §4.1; R02.4.2 (the
+local Tate pairing, and the counting proof that the unramified classes of an unramified module of
+order prime to the residue characteristic and of its Cartier dual are exact annihilators), whose
+argument §3.5 runs without the hypothesis that the module be unramified.
+
+### From TauCetiRoadmap.LocalGaloisDeformationRings
+
+§1.10 (fixed determinant), §2.3 (minimally ramified lifts), §2.5 (Steinberg lifts of trivial residual
+data, which §§3.4 and 5.2 distinguish from the protected condition), §2.6 (the `q`-tame group), §2.8
+(the minimally ramified ring), §2.15 (character-type rings for Ihara avoidance), §2.16 (Taylor–Wiles
+tangent dimension), §2.21 (unipotent lifts of a regular unipotent residual monodromy are minimally
+ramified), §3.14, §§4.14–4.15 and §6.6 (fixed-determinant Barsotti–Tate and ordinary rings at `p` and
+their components).
+
+### From TauCetiRoadmap.GlobalGaloisDeformations
+
+§3.4 (representability of `T`-framed global deformations of type `𝒮`, with `n²|T| − 1` frame
+variables), §3.6 (relative tangent space and dual Selmer group with framing set `T`), §3.7
+(presentation of the global ring over the local rings), §5.1 (Taylor–Wiles data), §5.5 (inertia at
+Taylor–Wiles places and the `Δ_Q`-structure), §5.6 (shared Chebotarev selection for Selmer detection).
+
+### From TauCetiRoadmap.DeformationAndDerivedPatchingAlgebra
+
+§§8.1–8.5 (simultaneous patching of two coefficient systems, with augmentation and paired residual
+comparisons), used by §5.4.
+
+### From TauCetiRoadmap.GL2ModularityLifting
+
+§1.7 `cht_soluble_prescribed_completions` (CHT08 Lemma 4.1.2: soluble extensions with prescribed
+completions), used by §§6.1 and 7.4.
+
+### From TauCetiRoadmap.PotentialModularityAndCompatibleSystems
+
+§§2.12–2.16 (Frobenius primes, avoidance by extra split primes, disjointness through towers,
+extension of local characters, soluble prescribed-completion extensions), used by §6.1.
+
+### From TauCetiRoadmap.GL2AutomorphicRepresentationsAndTransfer
+
+R16.3.2 (Steinberg monodromy and its local factors), used by §§2.3 and 7.3; R17.4.16 (quadratic
+automorphic induction), used by §2.4.
+
+### From TauCetiRoadmap.ComplexMultiplicationAndExplicitReciprocity
+
+§4.1 (the algebraic Hecke character `ψ_A` of an abelian variety `A/k` over a number field with CM by
+a field `E ⊂ End⁰_k(A)` of degree `2 dim A`, all of whose endomorphisms are defined over `k`, and the
+splitting of `V_ℓ(A) ⊗ Q̄_ℓ` as a `G_k`-module into the one-dimensional realizations of `ψ_A` along
+the embeddings of `E`), applied to a CM elliptic curve over `KM`; used by §2.4.
+
+### From TauCetiRoadmap.FaltingsFinitenessAndIsogenyTheorems
+
+R28.6.2 (semisimplicity of `V_ℓ(E)` for an elliptic curve) and R28.6.3 (the Tate Hom comparison for
+elliptic curves). Applied over every finite extension `L` of the base, they give
+`End_{ℚ_ℓ[G_L]}(V_ℓ E) = End_L(E) ⊗ ℚ_ℓ = ℚ_ℓ` for geometrically non-CM `E`, hence absolute
+irreducibility of `H¹` on `G_L`; used by §§2.1, 2.2 and 8.1.
+
+### From TauCetiRoadmap.NeronModelsAndSemistableAbelianVarieties
+
+§3.1 (the semistable reduction predicate and toric rank), §3.12 (full level forces semistability),
+§5.1 (Néron–Ogg–Shafarevich), used by §7.2.
+
+### From TauCetiRoadmap.ShimuraVarieties
+
+§5.6 (a CM abelian variety over a number field, in particular a CM elliptic curve, has potentially
+good reduction at every finite place), used by §7.4 to exclude CM for a curve with a Tate place.
+
+### From TauCetiRoadmap.EllipticCurves
+
+Layer 4 (reduction types, minimal discriminants, the Tate curve of parameter `q_E` with
+`v(Δ) = v(q_E)` and `j = 1/q_E + 744 + ⋯`) and Layer 5 (quadratic twists).
+
+### From TauCetiRoadmap.ClassFieldTheory
+
+Layer 5 (local duality and the local Euler characteristic) and Layer 11 (global reciprocity, used to
+turn a quadratic Galois character into a Hecke character).
+
+### From TauCetiRoadmap.SchemeAndStackFoundations
+
+§§4.13 and 4.18 (regular schemes, resolution of curves, nodal families), used by §7.1.
+
+### From TauCetiRoadmap.Chebotarev
+
+Layer 10 (Dirichlet-density Chebotarev), through GlobalGaloisDeformations §5.6.
 
 ## References
 
