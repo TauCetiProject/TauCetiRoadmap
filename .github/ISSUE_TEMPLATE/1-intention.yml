@@ -46,6 +46,7 @@ body:
         - AnalyticNumberTheoryPartIII
         - AnalyticStableMaps
         - ArakelovGeometryAndAbelianHeights
+        - ArcTopologyAndDescent
         - ArithmeticDirichletSeriesPartII
         - ArithmeticGaloisDuality
         - ArithmeticGaloisRepresentations
@@ -118,6 +119,7 @@ body:
         - DirichletPadicLFunctions
         - DysonBrownianMotion
         - ECM
+        - EffectiveBoundsPartII
         - EllipticCohomology
         - EllipticCurves
         - EllipticIntegrals
@@ -164,6 +166,7 @@ body:
         - GeometricRepresentationCategories
         - GeometricTopology
         - GeometryOfNumbersAndQuadraticArithmetic
+        - GeometryOfNumbersAndQuadraticArithmeticPartII
         - GlobalGaloisDeformations
         - GlobalHolomorphicFunctions
         - GlobalQuadraticForms
@@ -196,6 +199,7 @@ body:
         - JacobianChallenge
         - JacobianChallengePartII
         - K2SymbolsBrauer
+        - K2SymbolsBrauerPartII
         - K3BlochGroups
         - K3Surfaces
         - K3SurfacesAndSymplecticBoundedness
@@ -335,6 +339,7 @@ body:
         - SpectralSequencesAndConvergencePartII
         - SpinGeometry
         - SporadicOrders
+        - SpringerResolutionAndCharacteristicCycles
         - StableHomotopyKTheory
         - StablePeriodicCurved
         - StableReduction
