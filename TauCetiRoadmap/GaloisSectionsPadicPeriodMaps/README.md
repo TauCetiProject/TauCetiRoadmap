@@ -161,7 +161,7 @@ For X=Spec K restriction is the unique map between singleton section sets. For E
 
 ### Dependencies
 
-TauCetiRoadmap.InverseGaloisAndArithmeticFundamentalGroups §§IG.0, IG.1.3, local systems and characteristic-zero geometric fundamental-group base change; TauCetiRoadmap.ArithmeticGaloisRepresentations §§1.3, 1.12, 2.1, induction, Mackey and local restriction; TauCetiRoadmap.AnabelianGeometryAndNonabelianChabauty §7.1 (NC.6), section classes, rational-point section map, Kummer comparison and the field-general injectivity criterion; Mathlib `Field.absoluteGaloisGroup`; Mathlib `ContinuousMonoidHom`; TauCetiRoadmap.HeightsRationalPointsAndObstructions §§2.3–2.4, 2.11, 2.11a, 3.1–3.5, adelic points, local topology and finite étale torsor descent; Mathlib `ConnectedComponents`; TauCetiRoadmap.Chebotarev Layer 10. Internal dependencies are specified in each subsection.
+TauCetiRoadmap.InverseGaloisAndArithmeticFundamentalGroups §§IG.0, IG.1.3, local systems and characteristic-zero geometric fundamental-group base change; TauCetiRoadmap.ArithmeticGaloisRepresentations §§1.3, 1.12, 2.1, induction, Mackey and local restriction; TauCetiRoadmap.AnabelianGeometryAndNonabelianChabauty §7.1 (NC.6), section classes, rational-point section map, Kummer comparison and the field-general injectivity criterion; Mathlib `Field.absoluteGaloisGroup`; Mathlib `ContinuousMonoidHom`; TauCetiRoadmap.HeightsRationalPointsAndObstructions §§2.3–2.4, 2.11, 2.11a, 3.1–3.5, adelic points, local topology and finite étale torsor descent; Mathlib `ConnectedComponents`; TauCetiRoadmap.Chebotarev Layer 10; TauCetiRoadmap.ComplexComparisonPartII §§C6.0, C6.2. Internal dependencies are specified in each subsection.
 
 ## Layer 1: Symplectic pairs attached to Galois sections
 
@@ -405,7 +405,7 @@ The API includes the following facts.
 - For V = ℚₚ and W = ℚₚ(1), both Hom spaces are zero: already φ(λ)=pλ has no nonzero solution in the algebraic unramified field, since Frobenius preserves valuation. The zero representation also maps to the zero triple, whose endomorphism space is zero.
 - For the unit object 1 = (ℚₚⁿʳ, K_v, id), `Ind_{G_w}^{G_v} 1 = H⁰_pH(Spec L_w/K_v)`, whose potentially semistable realisation is the induced function module and whose de Rham algebra is L_w. The latter is not generally a split K_v-algebra.
 
-*Needs:* TauCetiRoadmap.PadicHodgeTheory §§3.3–3.5, 5.1, 5.3, 7.3, 8.1–8.2 and the horizontal-period contract; TauCetiRoadmap.CohomologyComparisons §§6.4–6.7, naturality, cup products, trace-normalised Tate line and first Chern classes. TauCetiRoadmap.ArithmeticGaloisRepresentations §1.3, induction and Shapiro on invariants.
+*Needs:* TauCetiRoadmap.PadicHodgeTheory §§3.3–3.5, 5.1, 5.3, 7.3, 8.1–8.2 and the horizontal-period contract; TauCetiRoadmap.CohomologyComparisons §§6.4–6.7, naturality, cup products, trace-normalised Tate line and first Chern classes; TauCetiRoadmap.ArithmeticGaloisRepresentations §1.3, induction and Shapiro on invariants.
 
 ### 2.2 Automorphism groups and retwisted filtrations
 
@@ -432,13 +432,13 @@ The API includes the following facts.
 **Checks.**
 
 - For the unit object, End(1) = ℚₚ: a ℚₚⁿʳ-linear map ℚₚⁿʳ → ℚₚⁿʳ is multiplication by λ, and commuting with φ forces λ ∈ ℚₚ.
-- For K_v = `ℚ_{p²}` and D = ℚₚⁿʳ with its natural G_v-action, the G_v-equivariant ℚₚⁿʳ-linear endomorphisms are multiplication by `ℚ_{p²}`; only the condition with φ cuts them down to ℚₚ. A definition omitting φ gives the wrong group (Betts–Stix proof of Proposition 2.16, the Frobenius condition is essential).
+- For K_v = `ℚ_{p²}` and D = ℚₚⁿʳ with its natural G_v-action, the G_v-equivariant ℚₚⁿʳ-linear endomorphisms are multiplication by `ℚ_{p²}`; only the condition with φ cuts them down to ℚₚ. A definition omitting φ gives the wrong group. The proof of Betts–Stix Proposition 2.16 invokes the Galois action only; the Frobenius step of §2.4 is added here.
 - For D = 0, Aut(D) is the trivial group, while Aut^GSp(D) is G_m because the similitude factor is part of the data.
 - For D_pst(H¹_ét) of an elliptic curve over ℚₚ with good ordinary reduction, D = `ℚₚⁿʳ ⊗_{ℚₚ} D_cris` with D_cris = ℚₚ e₁ ⊕ ℚₚ e₂, φ = Frob ⊗ diag(α, β) for the roots α, β ∈ ℚₚ of X² − a_pX + p (v_p(α) = 0, v_p(β) = 1), N = 0 and `G_{ℚₚ}` acting on the first factor: End(D) = ℚₚ × ℚₚ and Aut(D) = Aut^GSp(D) = G_m², of dimension 2 ≤ d(2d + 1) + 1 = 4 for d = 1.
 - For D_dR two-dimensional with jumps {0, 1}, G = P¹ and M(Φ) for Φ a line is the filtered module with F¹ = Φ.
 - On the standard two-dimensional symplectic space, diag(2,3) has multiplier 6; the scalar 2 has multiplier 4, not 2. Over ℚ₂ these are still distinct equalities in characteristic zero.
 
-*Needs:* §2.1; TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry §1.3, flag bundles; TauCetiRoadmap.AbelianSchemesAndArithmeticModuli §§A3.5, A3.7, A4.3–A4.4, A6.30–A6.31, polarised cohomology and Weil restriction; TauCetiRoadmap.ReductiveGroups Layers 0 and 3; Tau Ceti `TauCeti.Symplectic.groupScheme`.
+*Needs:* §2.1; TauCetiRoadmap.MordellLawrenceVenkatesh §0.5; TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry §1.3, flag bundles; TauCetiRoadmap.AbelianSchemesAndArithmeticModuli §§A3.5, A3.7, A4.3–A4.4, A6.30–A6.31, polarised cohomology and Weil restriction; TauCetiRoadmap.ReductiveGroups Layers 0 and 3; Tau Ceti `TauCeti.Symplectic.groupScheme`.
 
 ### 2.3 Orbits of retwisted filtrations and the dimensions of their automorphism groups
 
@@ -456,13 +456,13 @@ A proof can proceed as follows. An isomorphism is determined by its potentially 
 
 - For K_v = ℚₚ and D_dR of dimension two with jumps {0, 1} and Aut(D_pst) = G_m² acting on P¹ through the eigenbasis, the orbits are the two eigenlines and their complement: three isomorphism classes of retwists.
 
-*Needs:* §2.2; §2.1; TauCetiRoadmap.MordellLawrenceVenkatesh §4.3 (Frobenius-centralizer orbits); TauCetiRoadmap.ReductiveGroups Layers 0 and 3.
+*Needs:* §2.2; §2.1; TauCetiRoadmap.MordellLawrenceVenkatesh §4.3 (Frobenius-centralizer orbits); TauCetiRoadmap.MordellLawrenceVenkatesh §0.18; TauCetiRoadmap.ReductiveGroups Layers 0 and 3.
 
 **2.4 Dimension bounds for automorphism groups.** (1) For a (φ, N, G_v)-module D of ℚₚⁿʳ-dimension d, End(D) is a finite-dimensional ℚₚ-algebra, the natural map `ℚₚⁿʳ ⊗_{ℚₚ} End(D) → End_{ℚₚⁿʳ}(D)` is injective, Aut(D) is an affine algebraic group over ℚₚ, and `dim_{ℚₚ} Aut(D) ≤ d²`. (2) For a symplectic (φ, N, G_v)-module (D, L, ω) of rank 2d, Aut^GSp(D) is an affine algebraic group over ℚₚ of dimension ≤ d(2d + 1) + 1, the dimension of `GSp_{2d}`.
 
 The injectivity uses both the G_v-action and the Frobenius φ: the G_v-action alone gives only traces to `K_{v,0}`.
 
-(bs, Proposition 2.16 and proof, p. 12; bs line 576; bs, §2.2.4, p. 11; bs line 528).
+(bs, Proposition 2.16 and proof, p. 12; bs line 576; the source's proof invokes the Galois action only, bs lines 603–615, and the Frobenius step is added here; bs, §2.2.4, p. 11; bs line 528).
 
 A proof can proceed as follows. In a relation Σλ_iψ_i=0 among ℚₚ-independent commuting endomorphisms, conjugation by φ applies Frobenius to the λ_i. Their coefficients lie in a finite unramified extension; multiply by any coefficient there and average Frobenius conjugates. Nondegeneracy of the trace pairing forces every λ_i=0. Thus scalar extension of End(D) injects into the d²-dimensional full endomorphism algebra. The associated unit group embeds into GL_d after scalar extension. The multiplier-retaining symplectic subgroup embeds into `GSp_{2d}`; for d=0 treat it separately as G_m, still of dimension 1.
 
@@ -479,7 +479,7 @@ For the unit, End=ℚₚ and Aut=G_m; for zero, Aut=1 but Aut^GSp=G_m. In rank 2
 
 ### Dependencies
 
-TauCetiRoadmap.PadicHodgeTheory §§3.3–3.5, 5.1, 5.3, 7.3, 8.1–8.2 and the horizontal-period contract; TauCetiRoadmap.CohomologyComparisons §§6.4–6.7, naturality, cup products, trace-normalised Tate line and first Chern classes; TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry §1.3, flag bundles; TauCetiRoadmap.AbelianSchemesAndArithmeticModuli §§A3.5, A3.7, A4.3–A4.4, A6.30–A6.31, polarised cohomology and Weil restriction; TauCetiRoadmap.ReductiveGroups Layers 0 and 3; Tau Ceti `TauCeti.Symplectic.groupScheme`; TauCetiRoadmap.MordellLawrenceVenkatesh §4.3 (Frobenius-centralizer orbits); TauCetiRoadmap.MordellLawrenceVenkatesh §§0.4–0.5, 0.9–0.12, 0.18; Mathlib `Matrix.symplecticGroup`. Internal dependencies are specified in each subsection.
+TauCetiRoadmap.PadicHodgeTheory §§3.3–3.5, 5.1, 5.3, 7.3, 8.1–8.2 and the horizontal-period contract; TauCetiRoadmap.CohomologyComparisons §§6.4–6.7, naturality, cup products, trace-normalised Tate line and first Chern classes; TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry §1.3, flag bundles; TauCetiRoadmap.AbelianSchemesAndArithmeticModuli §§A3.5, A3.7, A4.3–A4.4, A6.30–A6.31, polarised cohomology and Weil restriction; TauCetiRoadmap.ReductiveGroups Layers 0 and 3; Tau Ceti `TauCeti.Symplectic.groupScheme`; TauCetiRoadmap.MordellLawrenceVenkatesh §4.3 (Frobenius-centralizer orbits); TauCetiRoadmap.MordellLawrenceVenkatesh §§0.4–0.5, 0.9–0.12, 0.18; Mathlib `Matrix.symplecticGroup`; TauCetiRoadmap.ArithmeticGaloisRepresentations §1.3, induction and Shapiro on invariants. Internal dependencies are specified in each subsection.
 
 ## Layer 3: Self-conjugacy of places and the global weight identity
 
@@ -513,7 +513,7 @@ The API includes the following facts.
 - For K = ℚ(2^(1/3)), which has odd degree and so no CM subfield, every finite place is self-conjugate.
 - Conjugacy of places need not be reflexive: at the two primes over 5 in ℚ(i), the restrictions are exchanged, not individually fixed. Symmetry therefore does not make it an equivalence relation.
 
-*Needs:* TauCetiRoadmap.MordellLawrenceVenkatesh §§1.2, 1.4–1.16; Mathlib `NumberField.IsCMField`; Mathlib `NumberField.IsCMField.ringOfIntegersComplexConj`.
+*Needs:* TauCetiRoadmap.MordellLawrenceVenkatesh §§1.2, 1.4–1.16; Mathlib `NumberField.IsCMField`; Mathlib `NumberField.IsCMField.ringOfIntegersComplexConj`; TauCetiRoadmap.Chebotarev Layer 10.
 
 ### 3.2 The weight identity for pure characters and induced representations
 
@@ -571,7 +571,7 @@ In ℚ(i), the prime over 3 is fixed by conjugation, those over 5 are exchanged,
 
 ### Dependencies
 
-TauCetiRoadmap.MordellLawrenceVenkatesh §§1.2, 1.4–1.16; Mathlib `NumberField.IsCMField`; Mathlib `NumberField.IsCMField.ringOfIntegersComplexConj`; TauCetiRoadmap.WeightsInEtaleCohomology Layer R34.1 and §R34.2, geometric-Frobenius purity and integrality; TauCetiRoadmap.ClassFieldTheory Layers 7 and 11; TauCetiRoadmap.GlobalNumberFields Layers 2, 7 and 8; TauCetiRoadmap.ArithmeticGaloisRepresentations §§1.3, 1.12, 2.1, induction, Mackey and local restriction. Internal dependencies are specified in each subsection.
+TauCetiRoadmap.MordellLawrenceVenkatesh §§1.2, 1.4–1.16; Mathlib `NumberField.IsCMField`; Mathlib `NumberField.IsCMField.ringOfIntegersComplexConj`; TauCetiRoadmap.WeightsInEtaleCohomology Layer R34.1 and §R34.2, geometric-Frobenius purity and integrality; TauCetiRoadmap.ClassFieldTheory Layers 7 and 11; TauCetiRoadmap.GlobalNumberFields Layers 2, 7 and 8; TauCetiRoadmap.ArithmeticGaloisRepresentations §§1.3, 1.12, 2.1, induction, Mackey and local restriction; TauCetiRoadmap.Chebotarev Layer 10. Internal dependencies are specified in each subsection.
 
 ## Layer 4: Model-free period maps control D_pst
 
@@ -666,7 +666,7 @@ At the centre all transport maps are identities. For T=[[1,0],[1,1]], a fixed Ho
 
 ### Dependencies
 
-TauCetiRoadmap.PadicHodgeTheory §§3.3–3.5, 5.1, 5.3, 7.3, 8.1–8.2 and the horizontal-period contract; TauCetiRoadmap.LocalFieldsRamification Layers 0, 2 and 4; TauCetiRoadmap.ComplexComparisonPartII §C5.2, Gauss–Manin connection and comparison with complex parallel transport; TauCetiRoadmap.AdicSpacesPartII Layer R1, rigid analytification; TauCetiRoadmap.MordellLawrenceVenkatesh §§3.1–3.19 and the model-free period-map contract. Internal dependencies are specified in each subsection.
+TauCetiRoadmap.AdicEtaleGeometry §§A1.1, A1.3, finite-etale-local-to-global; TauCetiRoadmap.InverseGaloisAndArithmeticFundamentalGroups §IG.0.3; TauCetiRoadmap.PadicHodgeTheory §§3.3–3.5, 5.1, 5.3, 7.2–7.3, 8.1–8.2 and the horizontal-period contract; TauCetiRoadmap.LocalFieldsRamification Layers 0, 2 and 4; TauCetiRoadmap.ComplexComparisonPartII §C5.2, Gauss–Manin connection and comparison with complex parallel transport; TauCetiRoadmap.AdicSpacesPartII Layer R1, rigid analytification; TauCetiRoadmap.MordellLawrenceVenkatesh §§3.1–3.19 and the model-free period-map contract. Internal dependencies are specified in each subsection.
 
 ## Layer 5: Period maps of abelian-by-finite families
 
@@ -721,7 +721,7 @@ The API includes the following facts.
 - For A=F×F and V=F²⊕F² with the two standard forms, put D=diag(1,−1). The graph of D has dimension 2 and trace pairing ω(v,w)+ω(Dv,Dw)=0, since det D=−1. It is not A-stable: (1,0)·(v,Dv)=(v,0) is outside the graph for v≠0. It is excluded from the A-linear period variety despite being Lagrangian for the trace form.
 - In a symplectic four-space with ω(e₁,f₁)=1, Φ=span(e₁,f₁) has dimension 2 but ω(Φ,Φ)≠0. The filtered pairing would send F¹⊗F¹ to a nonzero element of F² of a line whose F² is zero.
 
-*Needs:* TauCetiRoadmap.MordellLawrenceVenkatesh gap:variable-rank-abelian-by-finite; §5.1; §2.2; TauCetiRoadmap.MordellLawrenceVenkatesh §§3.1–3.19 and the model-free period-map contract; TauCetiRoadmap.MordellLawrenceVenkatesh §§2.1–2.4 and the model-free polarised-fibre contract.
+*Needs:* TauCetiRoadmap.MordellLawrenceVenkatesh gap:variable-rank-abelian-by-finite; §5.1; §2.2; §2.3; TauCetiRoadmap.MordellLawrenceVenkatesh §§3.1–3.19 and the model-free period-map contract; TauCetiRoadmap.MordellLawrenceVenkatesh §§2.1–2.4 and the model-free polarised-fibre contract.
 
 ### 5.3 Period maps of abelian-by-finite families
 
@@ -852,7 +852,7 @@ The API includes the following facts.
 - P¹(F) is covered by the two compact coordinate discs |t|≤1 and |1/t|≤1, with the second containing infinity. For the extension of |p|=p⁻¹, the points p⁻ⁿ in A¹(F) have |p⁻ⁿ|=pⁿ, unbounded, so no finite union of compact coordinate discs covers them all. Local étale charts exist in both cases; proper compactness supplies the finite cover.
 - Condition (i) holds under full monodromy by the model-free extension of MordellLawrenceVenkatesh §3.18; (ii) is proved type by type in Layers 7 and 8.
 
-*Needs:* §6.2; §6.1; §5.2; §5.3; §2.1; TauCetiRoadmap.HeightsRationalPointsAndObstructions §§2.3a, 2.11, proper local-point compactness and product topology, and §2.11a, local étale charts; TauCetiRoadmap.MordellLawrenceVenkatesh §§3.1–3.19 and the model-free period-map contract.
+*Needs:* §6.2; §6.1; §5.2; §5.3; §2.1; §2.3; TauCetiRoadmap.HeightsRationalPointsAndObstructions §§2.3a, 2.11, proper local-point compactness and product topology, and §2.11a, local étale charts; TauCetiRoadmap.MordellLawrenceVenkatesh §§3.1–3.19 and the model-free period-map contract.
 
 ### 6.4 The projected adelic locus and the rational points lie in the S-good locus
 
@@ -936,7 +936,7 @@ Let K be a number field, v a self-conjugate place above p (§3.1) and (A, V) a s
 
 The coefficient algebra is finite-dimensional; Σ consists of its ℚₚ-algebra maps to ℚₚ, and the conclusion uses #Σ, not dim A, unless A is split. GSp-irreducibility means absence of a nonzero stable isotropic subspace; d>0, de Rhamness above p, purity outside a finite set and self-conjugacy of v are essential inputs to the weight argument.
 
-(bs, Proposition 6.7 and proof, pp. 46–47; Proposition 1.8 and Remark 1.9, pp. 5–6; bs line 2337; bs, §6.1, pp. 45–46; bs line 2290).
+(bs, Proposition 6.7 and proof, pp. 46–47; Proposition 1.8 and Remark 1.9, pp. 5–6; bs line 2337; the source states (c) with `dim_{ℚₚ}(A)` in place of #Σ, bs lines 277 and 2364; its proof gives #Σ, and the two agree for split A; bs, §6.1, pp. 45–46; bs line 2290).
 
 A proof can proceed as follows. Reduce to each orbit of the finite G_K-set Σ using the quotient algebra of functions on that orbit; no decomposition of a nonreduced A into those quotients is asserted. If neither (a) nor (b) holds, choose a nonzero stable isotropic W₀ of dimension m≤d. On every orbit of local size≥4, failure of (b) gives dim F¹≤(m−1)/2, whereas on a small orbit dim F¹≤m. The average-weight identity gives m#Σ/2≤(m−1)(#Σ−#Σ_<4)/2+m#Σ_<4. Thus (m+1)#Σ_<4≥#Σ and consequently (d+1)#Σ_<4≥#Σ. Sum over global orbits; if Σ is empty this is 0≥0.
 
@@ -1021,7 +1021,7 @@ The API includes the following facts.
 - If `[L_{w_i} : K_v]` ≥ 4, `H_{y′_i}(L_{w_i})_(a)` is not Zariski dense in `Res^{L_{w_i}}_{K_v} H_{y′_i}` (§7.3).
 - If δ=1 and the chosen local discrete data disagree with every qualifying global class, the associated Lagrangian set is empty, even though the ambient period variety is nonempty.
 
-*Needs:* TauCetiRoadmap.MordellLawrenceVenkatesh gap:variable-rank-abelian-by-finite; §5.2; §5.4; §2.1; §6.1; TauCetiRoadmap.MordellLawrenceVenkatesh §§1.2, 1.4–1.16 and gap:symplectic-faltings-finiteness; TauCetiRoadmap.PadicHodgeTheory §§3.3–3.5, 5.1, 5.3, 7.3, 8.1–8.2 and the horizontal-period contract.
+*Needs:* TauCetiRoadmap.MordellLawrenceVenkatesh gap:variable-rank-abelian-by-finite; §5.2; §5.4; §2.1; §2.3; §6.1; TauCetiRoadmap.MordellLawrenceVenkatesh §§1.2, 1.4–1.16 and gap:symplectic-faltings-finiteness; TauCetiRoadmap.PadicHodgeTheory §§3.3–3.5, 5.1, 5.3, 7.3, 8.1–8.2 and the horizontal-period contract.
 
 **7.2 Finiteness of the sets T_i.** Each set T_i of §7.1 is finite.
 
@@ -1079,7 +1079,7 @@ The API includes the following facts.
 - Let L/K have degree 4 and a place w with [L_w:K_v]=4, and let E/K be a non-CM elliptic curve. For the constant family over Y′=Y×_K Spec L with elliptic fibre E_L, choose suitable S. The global fibre pair is S-good and its coefficient fibre H¹_ét(E_L,ℚₚ) is GSp-irreducible. Its actual Hodge point therefore belongs to the type-(a) period locus: the index is 4, d=1 and the cohomology ranks over K_v are (4,8). The degree-one constant elliptic family instead has index 1 and empty type-(a) locus. Thus the locus is not defined to be empty, and these tests require no full monodromy.
 - At (d,r)=(1,4), the scalar-quotiented orbit bound is 1·(2·1+1)=3 while the Weil-restricted period domain has dimension 4·1·2/2=4. At r=3 both numbers are 3, so this dimension argument gives no non-density there. A definition giving the whole domain at r=4 or extending this strict inequality to r=3 fails these tests.
 
-*Needs:* §7.1; §7.3; §5.4; §5.2; §6.9; TauCetiRoadmap.PadicHodgeTheory §§3.3–3.5, 5.1, 5.3, 7.3, 8.1–8.2 and the horizontal-period contract.
+*Needs:* §7.1; §7.3; §5.4; §5.2; §5.3; §6.3; §6.9; TauCetiRoadmap.PadicHodgeTheory §§3.3–3.5, 5.1, 5.3, 7.3, 8.1–8.2 and the horizontal-period contract.
 
 **7.5 Finiteness of the type (a) locus under full monodromy.** If X → Y′ → Y has full monodromy (MordellLawrenceVenkatesh §§3.1–3.19 and the model-free period-map contract, for some complex embedding of K_v), then `Y(K_v)^LV_{X,S,(a)}` is finite.
 
@@ -1137,7 +1137,7 @@ The API includes the following facts.
 - Take F=ℚ₅, L/F unramified of degree 4 and the constant family with finite base Y_F×_F Spec L and elliptic fibre E_L for E:y²=x³−x. Here #E(𝔽₅)=8 gives the unit trace a₅=−2, so the reduction is ordinary; the CM field ℚ(i) splits at 5. The two CM summands of H¹_ét have jumps 0 and 1. The weight-one line W is stable, has dimension 1 and is isotropic, with dim F¹D_dR(W)=1 and average jump 1≥1/2. Since the coefficient index is 4, the actual Hodge point belongs to the type-(b) period locus. Replacing this locus by the empty set would lose this point.
 - In the common symplectic plane obtained in §7.6 after splitting a degree-four factor, consider the four filtration lines span(e), span(f), span(e+f), span(e+2f). Their pairwise intersection dimensions are 0; a nonzero isotropic W would be a line and would need intersection dimension at least 1 with every one. The first two already force W=span(e)=span(f), impossible. Thus any period point with this tuple is excluded. Choosing a different line W for each embedding would incorrectly give four intersections of dimension 1.
 
-*Needs:* §7.6; §5.4; §5.2; §6.9; TauCetiRoadmap.PadicHodgeTheory §§3.3–3.5, 5.1, 5.3, 7.3, 8.1–8.2 and the horizontal-period contract.
+*Needs:* §7.6; §5.4; §5.2; §5.3; §6.9; TauCetiRoadmap.PadicHodgeTheory §§3.3–3.5, 5.1, 5.3, 7.3, 8.1–8.2 and the horizontal-period contract.
 
 **7.8 Finiteness of the type (b) locus under full monodromy.** If X → Y′ → Y has full monodromy, then `Y(K_v)^LV_{X,(b)}` is finite.
 
@@ -1159,7 +1159,7 @@ At d=1 and residue degree 4 the orbit bound is 3<4, while degree 3 gives 3=3 and
 
 ### Dependencies
 
-TauCetiRoadmap.MordellLawrenceVenkatesh §§1.2, 1.4–1.16; TauCetiRoadmap.PadicHodgeTheory §§3.3–3.5, 5.1, 5.3, 7.3, 8.1–8.2 and the horizontal-period contract; TauCetiRoadmap.ArithmeticGaloisDuality §R02.3.1, Hermite finiteness with bounded degree and ramification set; TauCetiRoadmap.MordellLawrenceVenkatesh §§3.1–3.19 and the model-free period-map contract; TauCetiRoadmap.AbelianSchemesAndArithmeticModuli §§A3.5, A3.7, A4.3–A4.4, A6.30–A6.31, polarised cohomology and Weil restriction; TauCetiRoadmap.MordellLawrenceVenkatesh Layer LV.7 and the four-isotropic-Lagrangian contract. Internal dependencies are specified in each subsection.
+TauCetiRoadmap.MordellLawrenceVenkatesh gap:variable-rank-abelian-by-finite; TauCetiRoadmap.MordellLawrenceVenkatesh §§1.2, 1.4–1.16 and gap:symplectic-faltings-finiteness; TauCetiRoadmap.PadicHodgeTheory §§3.3–3.5, 5.1, 5.3, 7.3, 8.1–8.2 and the horizontal-period contract; TauCetiRoadmap.ArithmeticGaloisDuality §R02.3.1, Hermite finiteness with bounded degree and ramification set; TauCetiRoadmap.MordellLawrenceVenkatesh §§3.1–3.19 and the model-free period-map contract; TauCetiRoadmap.AbelianSchemesAndArithmeticModuli §§A3.5, A3.7, A4.3–A4.4, A6.30–A6.31, polarised cohomology and Weil restriction; TauCetiRoadmap.MordellLawrenceVenkatesh Layer LV.7 and the four-isotropic-Lagrangian contract. Internal dependencies are specified in each subsection.
 
 ## Layer 8: Kodaira–Parshin families and points of type (c)
 
@@ -1169,7 +1169,7 @@ This section defines the proportion size_v of points in G_v-orbits of size less 
 
 Let K_v be a finite extension of ℚₚ and Σ a non-empty finite set with a continuous action of G_v. Then size_v(Σ) := #{x ∈ Σ : the G_v-orbit of x has fewer than 4 elements}/#Σ ∈ [0, 1]. If f: Σ → Σ′ is G_v-equivariant and surjective and all its fibres have the same positive cardinality, then size_v(Σ) ≤ size_v(Σ′). For a nonzero split algebra A in G_v-representations and d > 0, A is of type (c) (§6.9) exactly when size_v(Σ_A) ≥ 1/(d + 1); here #Σ_A=dim A>0.
 
-The threshold 4 replaces the threshold 8 of Lawrence–Venkatesh Definition 5.2 (Betts–Stix footnote 22); the result MordellLawrenceVenkatesh Layer LV.7 and the four-isotropic-Lagrangian contract states the Lawrence–Venkatesh version for unramified sets and Frobenius orbits, while here Σ is any finite continuous G_v-set.
+The threshold 4 replaces the threshold 8 of Lawrence–Venkatesh Definition 5.2 (Betts–Stix footnote 22); MordellLawrenceVenkatesh §7.1 states the Lawrence–Venkatesh version for unramified sets and Frobenius orbits, while here Σ is any finite continuous G_v-set.
 
 (bs, Proof of Proposition 6.20 and footnote 22, p. 52; bs line 2666).
 
@@ -1192,7 +1192,7 @@ The API includes the following facts.
 - For the regular S₃-set, the single orbit has size 6 and the proportion is 0; for the S₃-set S₃/C₂ it is 1 because all three points have orbit size 3. The threshold concerns the whole acting group, not a chosen generator.
 - For A=0=ℚₚ^∅ and d=1, type (c) is the true inequality 0≥0, while size_v(Σ_A) is undefined (totalising 0/0 to 0 would give 0≥1/2, false). For A=ℚₚ the two valid forms are 1≥1/2 and 1≥1/2; for the function algebra on a transitive five-point set they are 0≥5/2 and 0≥1/2, both false. Family fibres are nonempty because Y′→Y is a covering.
 
-*Needs:* Mathlib `MulAction.orbit`; TauCetiRoadmap.LocalFieldsRamification Layers 2 and 4, the unramified quotient for the C₄ Check; TauCetiRoadmap.MordellLawrenceVenkatesh Layer LV.7 and the four-isotropic-Lagrangian contract; §6.9.
+*Needs:* Mathlib `MulAction.orbit`; TauCetiRoadmap.LocalFieldsRamification Layers 2 and 4, the unramified quotient for the C₄ Check; TauCetiRoadmap.MordellLawrenceVenkatesh §7.1; §6.9.
 
 **8.2 Counting the quadratic and cubic extensions of a local field.** For a finite extension K_v of ℚₚ let n_v be the number of subfields L ⊆ K̄_v with [L : K_v] ∈ {2, 3}. Then n_v is finite and bounded in terms of [K_v : ℚₚ] (so, for places of a number field K, in terms of K). If v ∤ 6 then n_v = 7: K_v has three quadratic extensions; if q_v ≡ 1 mod 3 it has four cubic extensions, all Galois, and if q_v ≡ 2 mod 3 it has one Galois cubic extension and three conjugate non-Galois ones.
 
@@ -1286,7 +1286,7 @@ Over ℚ₅ the quadratic subfields are ℚ₅(√2), ℚ₅(√5), ℚ₅(√10
 
 ### Dependencies
 
-TauCetiRoadmap.LocalFieldsRamification Layer 1, power classes and the dyadic square-class count; TauCetiRoadmap.ClassFieldTheory Layer 5, Kummer theory; Mathlib `MulAction.orbit`; TauCetiRoadmap.MordellLawrenceVenkatesh Layer LV.7 and the four-isotropic-Lagrangian contract; TauCetiRoadmap.LocalFieldsRamification Layers 0, 2 and 4; Mathlib `IntermediateField`; TauCetiRoadmap.MordellLawrenceVenkatesh §§0.4–0.5, 0.9–0.12, 0.18; TauCetiRoadmap.EtaleDualityAndPerverseSheaves §§0.3, 0.5, curve H¹ duality and equivariant alternating cup product; TauCetiRoadmap.MordellLawrenceVenkatesh Layer LV.8 and the characteristic-zero local-fibre contract; Mathlib `hasSum_zeta_four`; TauCetiRoadmap.MordellLawrenceVenkatesh Layer LV.10, Kodaira–Parshin full monodromy; Mathlib `Nat.forall_exists_prime_gt_and_eq_mod`; TauCetiRoadmap.MordellLawrenceVenkatesh §§1.2, 1.4–1.16; TauCetiRoadmap.Chebotarev Layers 10, 13 and 14, Dirichlet density, prime counting and natural density. Internal dependencies are specified in each subsection.
+TauCetiRoadmap.LocalFieldsRamification Layer 1, power classes and the dyadic square-class count; TauCetiRoadmap.ClassFieldTheory Layer 5, Kummer theory; Mathlib `MulAction.orbit`; TauCetiRoadmap.MordellLawrenceVenkatesh §7.1; TauCetiRoadmap.LocalFieldsRamification Layers 0, 2 and 4; Mathlib `IntermediateField`; TauCetiRoadmap.MordellLawrenceVenkatesh §§0.4–0.5, 0.9–0.12, 0.18; TauCetiRoadmap.EtaleDualityAndPerverseSheaves §§0.3, 0.5, curve H¹ duality and equivariant alternating cup product; TauCetiRoadmap.MordellLawrenceVenkatesh Layer LV.8 and the characteristic-zero local-fibre contract; Mathlib `hasSum_zeta_four`; TauCetiRoadmap.MordellLawrenceVenkatesh Layer LV.10, Kodaira–Parshin full monodromy; Mathlib `Nat.forall_exists_prime_gt_and_eq_mod`; TauCetiRoadmap.MordellLawrenceVenkatesh §§1.2, 1.4–1.16; TauCetiRoadmap.Chebotarev Layers 10, 13 and 14, Dirichlet density, prime counting and natural density; TauCetiRoadmap.LocalGaloisGroups Layer 7; TauCetiRoadmap.AnalyticNumberTheoryPartI §0.32 and gap:linnik-polynomial-least-prime. Internal dependencies are specified in each subsection.
 
 ## Layer 9: Finiteness of the Lawrence–Venkatesh locus, of Selmer localisations and of finite-descent projections
 
