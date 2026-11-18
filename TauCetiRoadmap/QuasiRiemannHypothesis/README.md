@@ -1,31 +1,60 @@
 # Roadmap: the quasi-Riemann hypothesis — a zero-free half-plane `Re s > 11/12` for Dirichlet and Hecke L-functions
 
-**Summary.** This roadmap proves that every Dirichlet `L`-function, the Riemann zeta function
-included, and every finite-order Hecke `L`-function of `F = ℚ(√−3)` has no zero in the half-plane
-`Re s > 11/12`, the pole at `s = 1` of a character induced from the trivial one being allowed. The
-argument is the first stage of the cubic-theta method of `openai2026quasiRH` (its Part I): a
-smoothed average of cubic Gauss sums is bounded directly through the automorphy of Kubota's cubic
-theta function and a quadratic large sieve, and is compared, after Poisson summation, with a Mellin
-integral whose integrand carries `1/L` of the target character; zero detection and a sextic large
-sieve control the remaining rows, and an abstract continuation principle turns the two estimates
-into the half-plane. On the way the roadmap builds the general library the argument needs: zero-free
-half-planes and the continuation principle for an abstract family of Euler products; power residue
-symbols as ray class characters over any number field containing `μ_n`, reciprocity and Gauss sums
-at composite moduli of `ℤ[ω]`; smooth Mellin and Fourier kernels; uniform analytic bounds and zero
-detection for the finite-order Hecke `L`-functions of any number field; large sieves over number
-fields (additive, quadratic and `n`-th order); Eisenstein series with a unitary character on `ℍ³`,
-Kubota's character among them, and their theta residues, with Patterson's cubic theta function of
-`ℚ(ω)`; and the transfer of half-planes from the Hecke `L`-functions of an abelian field to all
-Dirichlet `L`-functions. The end theorems are the `11/12` half-plane, the zero strip
-`1/12 ≤ Re ρ ≤ 11/12` for primitive characters, the conditional bound `(log q)^(1/(1−θ))` for the
-least character value different from `0` and `1` under a zero-free half-plane `Re s > θ`, and its
-instance: the least quadratic nonresidue modulo an odd prime `p` is at most `C (log p)^12`, which
-proves Vinogradov's conjecture `n(p) ≪_δ p^δ`.
+**Summary.** Mathlib proves that the Riemann zeta function and every Dirichlet L-function have no
+zero with `Re s ≥ 1`, but no zero-free half-plane for ζ reaching further left. The generalized
+Riemann hypothesis would push the boundary to `Re s = 1/2`. This roadmap proves a quasi-Riemann
+hypothesis: a zero-free half-plane `Re s > 11/12`, uniform over a family of L-functions.
 
-Suggested home: `TauCeti/NumberTheory/QuasiRiemann/`, divided into `ZeroFree/`, `PowerResidue/`,
-`GaussSum/`, `SmoothProfile/`, `HeckeAnalytic/`, `LargeSieve/`, `ZeroDetection/`, `Kubota/`,
-`CubicReflection/`, `Probe/` and `Consequences/`. [`Suggested.lean`](Suggested.lean) states the
-headline theorems against the pinned libraries; it is not the roadmap.
+The main theorem: every Dirichlet L-function, at every level and with ζ included, has no zero with
+`Re s > 11/12`. So has every finite-order Hecke L-function of `F = ℚ(√−3)`, that is, the L-function
+of any ray class character of `F`, primitive or not. Throughout, a zero is a point of positive
+meromorphic order: the pole at `s = 1` of a character induced from the trivial one is allowed. For
+example, a real zero `β` of the L-function of a real primitive character of conductor `q ≥ 3`
+satisfies `(1 − β) log q ≥ (log 3)/12`, a uniform Landau–Siegel bound.
+
+The Dirichlet case comes from the Hecke case by a transfer theorem. Let `K` be a number field abelian
+over `ℚ` and fix `σ₀ ≥ 0`. If the L-function of every primitive finite-order Hecke character of `K`
+has no zero with `Re s > σ₀`, then no Dirichlet L-function has one either.
+
+The half-plane comes from the first stage of the cubic-theta method of `openai2026quasiRH`, an
+unrefereed preprint. Its engine is an abstract continuation principle, valid under explicit
+conditions on a family of L-functions. Suppose an average attached to each member has a direct
+upper bound and is close to a Mellin integral whose integrand carries the reciprocal of its
+L-function, with exponents independent of the member. Then no member has a zero right of the
+line the bound was made for: otherwise the estimates would continue the reciprocal across the
+rightmost zeros. Here the average is the probe, a smoothed sum of cubic Gauss sums over `F`. Its
+direct bound comes from a quadratic large sieve and the automorphy of the cubic theta function on
+hyperbolic 3-space.
+
+Three consequences follow. First, with the functional equation, the half-plane puts every zero
+`ρ` with `Re ρ > 0` of the L-function of a primitive Dirichlet character, ζ included, in the strip
+`1/12 ≤ Re ρ ≤ 11/12`. The same holds for the primitive finite-order Hecke L-functions of `F`.
+
+Second, a zero-free half-plane forces small character values. For each `θ` with `1/2 ≤ θ < 1` there
+is a constant, depending only on `θ`, such that every nonprincipal Dirichlet character modulo `q ≥ 2`
+whose L-function has no zero with `Re s > θ` takes a value other than `0` and `1` at some positive
+integer at most that constant times `(log q)^(1/(1−θ))`. For `θ = 1/2` this is Ankeny's bound under
+the generalized Riemann hypothesis. For the nontrivial ray class characters of any number field, an
+analogue bounds the norm of a prime ideal where the character is neither `0` nor `1`, in terms of
+the finite part of the modulus rather than the conductor.
+
+Third, the case `θ = 11/12` for the Legendre symbol bounds the least quadratic nonresidue `n(p)`:
+there is an absolute constant `C` such that `n(p) ≤ C (log p)^12` for every odd prime `p`. With it
+comes Vinogradov's conjecture, `n(p) ≪_δ p^δ` for every `δ > 0`.
+
+The roadmap builds on [LFunctions](../LFunctions/README.md), for the continuation and functional
+equation of Hecke L-functions, and on [ZerosOfLFunctions](../ZerosOfLFunctions/README.md), for the
+Weil explicit formula behind the small character values. KleinianGroups and BianchiModularForms
+supply the geometry of hyperbolic 3-space. QuasiRiemannHypothesisPartII builds on the first ten
+layers to prove the `7/8` half-plane by a second probe.
+
+Layer 1 proves the continuation principle by pure complex analysis. Layers 2 to 4 build the
+arithmetic and harmonic analysis, and Layer 5 bounds Hecke L-functions uniformly and proves the
+transfer. Layers 6 and 8, large sieves over number fields and theta functions on hyperbolic
+3-space, are self-contained. Layer 7 detects zeros, and Layer 9 transforms the Gauss-sum series by
+the cubic theta function. Layer 10 assembles the probe and proves the `11/12` half-plane, and Layer
+11 draws the consequences.
+[`Suggested.lean`](Suggested.lean) states the headline theorems in Lean; it is not the roadmap.
 
 ## How to read the build
 
