@@ -2189,118 +2189,27 @@ Tangent route: for NT I 2.10’s polarized datum, assume regular noncritical tri
 
 *Needs:* PadicFunctionalAnalysis §§1.4,2.2–2.6;CompactOperators §§0.1,0.4–0.5,1.7;LAD §§0.0,0.2–0.3,3.3;RigidAnalyticGeometry §7.3;PadicFamilies §§2a.10–2a.14;SR’s stated smooth/locally analytic scope;LocalGaloisDeformationRings §0.4, `CoefficientRobbaModule`, `CoefficientRobbaModule.etaleEquivalence`, `D_rig`, `HerrCohomology`, `HerrCohomology.baseChange` and the saturated-character/`Ext`/cup/trace comparisons, together with its local deformation rings; PhiGammaModulesAndIwasawaCohomology §§1.1–1.2, 3.4–3.6, 4.4–4.5 and 7.8; GGD pseudocharacters;[§1.1];[§4.1](#41-characteristic-zero-enormous-image-and-adjoint-selmer-vanishing). Own the additional general finite-slope/Jacquet, relative compactness/distribution/coadmissibility (Emerton §§2,4.1–4.2) and Nakamura/Hellmann–Schraen deformation/`H¹_g` comparisons (NT I2.6–7) on the supplied finite-coefficient objects.
 
-### 4.4 Unitary level raising and its odd-rank local types
-
-Let E/F be CM and everywhere unramified, `n≥1`, `ℓ` a prime and `ι` fixed. Let `w₀∤ℓ` split over F; all `ℓ`-adic places of F split in E. Let `π₁`,`π₂` be cuspidal conjugate-self-dual on `GL_n(𝔸_E)`, with `π=π₁⊞π₂` RA, ramification only at split places, and `π_{i,w₀}=St_n(ξ_i)` with `ξ_i` unramified and `ι⁻¹(ξ₁(ϖ)/ξ₂(ϖ))≡q_{w₀}^n mod m`. Require `r̄_{π,ι}` not a character twist of `1⊕ε̄⁻¹⊕⋯⊕ε̄^{1−2n}`. For a totally real quadratic F′/F split at `w₀`, put `E′=EF′` and require the same exclusion after restriction to E′. Then a RACSDC `Π` on `GL_{2n}(𝔸_E′)` exists with the same **residual** representation, the same infinity infinitesimal character, a Steinberg twist at one `w′₀|w₀` and ramification only at split places. Ordinary input gives ordinary output.
-
-Route: definite `GL₂(D)` inner form,strong-approximation degeneracy injectivity,quadratic-extension positivity,and exact Jacquet–Langlands/endoscopic multiplicities. Separately,for odd `n=2k+1≥3`,CM `F/F⁺` everywhere unramified,[F⁺:ℚ] even,`p/ι`,choose split S containing p,unitary group compact at infinity/quasi-split finite and NT I§1’s Hecke normalization. Take cuspidal conjugate-self-dual `π₂`,`π_{n−2}` with RA ordinary sum `π`;disjoint nonempty `T₁`,`T₂`,`T₃` outside S of odd residue cardinality;`π` unramified outside `S∪T`. Require:
-
-- At `v∈T₁`, v is inert, `q_v` modulo p has order 6 and the residue characteristic exceeds n. Write `π₂,v=St₂(χ_v)` and `π_{n−2,v}=⊞_{i=0}^{2k−2}χ_{v,i}`, where `χ_v` and `χ_{v,0}` are unramified and every `χ_{v,i}` for `i>0` restricts on units to the quadratic character `ω_v`. The conjugate-self-dual sign forces `χ_v` to be the nontrivial unramified quadratic character and `χ_{v,0}=1`.
-- At `v∈T₂`, v splits, `q_v` modulo p has order 2, `π₂`,v contains the finite `GL₂` type `λ(Θ_v)` for an order-p regular torus character, and `π_{n−2,v}` contains `ω_v∘det`.
-- At `v∈T₃`, v splits, `q_v` modulo p has order `n−2`, `π_{n−2,v}` contains the finite `GL_{n−2}` type `λ(Θ_v)` of an order-p regular torus character, and `π₂`,v contains `ω_v∘det`.
-
-Type construction: on `T₁` use the order-p character `θ` of `ker(N:k₆×→k₃×)`, the `U₃` type `−R(θ)`, and the `GL₃` character `z↦θ(z/z^c)`, `c=q³`; inflate to the parahoric with the quadratic factors. On `T₂/T₃` use `(−1)^{d−1}R_{k_d×}(Θ)`, `d=2/n−2`, with the complementary `ω∘det`; construct integral lattices and their reductions.
-
-Odd-rank output: over every totally real quadratic `L⁺/F⁺` split at `S∪T`, obtain ordinary RACSDC `Π` on `GL_n(𝔸_L)`, unramified outside `S∪T`, with the same residual representation and the `T₁` `GL₃`, `T₂/T₃` d-block types. Route: NT I Lemmas 4.5/4.6 and exact ordinary type congruences; `T₁` excludes the partition [n−2,2], leaving [n] (Thm. 4.1 pp.59–66, with 1.8/1.17 and 1.16/1.18–22 pp.16–20). For `n=3` the `T₃` `GL₁` type is an order-p character, `q≡1` mod p, sign `+1` and trivial Weyl group; use local class field theory, not Prop. 1.18’s higher-rank calculation.
-
-Clozel–Thorne II input: `ℓ≥5`, `K/ℚ` Galois, and `SP_{ℓ−1}(K(ζ_ℓ))` (Conjecture 6.1). Thm. 6.2 gives `Sym^ℓ` automorphy for weight-zero ordinary RAESDC `π` on `GL₂` with residual image containing `SL₂(𝔽_{ℓ^a})`, `a>1`, and a Steinberg v with `q_v` primitive mod `ℓ` and ramified residual representation. Thm. 6.3 transfers `Sym^ℓ` automorphy to congruent `π′` at an auxiliary `p>2(ℓ+2)`, retaining its extra local hypotheses. Route (§6 pp.345–349): a dihedral type of order `t>ℓ²`, finiteness at fixed level/weight, Chebotarev and mod-p raising, then lowering forces residual ramification; potentially diagonalizable lifting transfers automorphy. Thm. 6.2 uses §5’s ordinary reducible seed with adequate constituents and cyclotomic avoidance, then soluble descent. Mod-`ℓ` raising alone does not suffice.
-
-**Checks.**
-
-- Output matches residual representations,not the characteristic-zero isobaric sum.
-- `n=1` gives `ξ₁/ξ₂≡q`,the rank-two level-raising congruence.
-- The excluded character twist could yield one-dimensional discrete output,defeating cuspidality.
-- Check that exclusion again after base change.
-- `n=3:T₃` is `GL₁` order-p,no ramified `T₁` quadratic complement;`n=7` split blocks2,5 require distinct `T₂/T₃` support constraints.
-- `p=2`,3 cannot supply order6 modulo p at `T₁`.
-- `Sign(−1)^{d−1}` is `−` for `d=2`,`+` for `d=5` `(n=7)`.
-- CT excludes `a=1`;without residual ramification at v the `ℓ`-unipotent element is lost.
-
-([Anastassiades–Thorne](#reference-at), Thm. 5.1 and proof, pp.19–20; the group-side Thm. 4.1, pp.14–18; [NT I], §4 pp.59–66; [Clozel–Thorne II](#reference-ct-2015), §6 pp.345–349.)
-
-*Needs:* ET, unitary transfer/multiplicity and Jacquet–Langlands at the stated inner forms; SR, normalized induction; [§3.2]; [§4.2](#42-ordinary-lifting-with-several-residual-constituents).
-
-### 4.5 Automorphy of `Sym^{n−1}` is constant on eigencurve components (NT I Theorem 2.33)
-
-For `n≥2` and refined eigencurve `E₀`(tame N,p) points `(π₀,χ₀)`,`(π′₀,χ′₀)`,assume either: `χ₀` numerically noncritical/n-regular,`χ′₀` n-regular,both local Galois Zariski closures contain `SL₂`,and `Sym^{n−1}r_{π₀,ι}` automorphic; or `χ₀` ordinary,both `π` non-CM,and the same source automorphy. If `z₀`,`z′₀` lie on one irreducible `E_{0,ℂ_p}` component,`Sym^{n−1}r_{π′₀,ι}` is automorphic.
-
-Use the Tate-normalized `GL₂` realization and `GL_n` eigenvariety of [§4.3]; `n≥2`.
-
-The ordinary branch uses the ordinary refinement on its Hida family; it has no numerical noncriticality hypothesis.
-
-([NT I], §2, Thm. 2.33, pp. 50–51.)
-
-### 4.6 The tame-level-one 2-adic eigencurve near the boundary (Buzzard–Kilford)
-
-For `p = 2` and `N = 1`, `E₀` lies over the component `W₀⁺` `(χ(−1) = 1)` of weight space, and `w = χ_u(5) − 1` identifies `W₀⁺` with `{|w| < 1}`. Over the annulus `W₀(b) = {|8| < |w| < 1}`, `E₀(b) = κ^{−1}(W₀(b))` is a disjoint union `⊔_{i≥1}X_i` of admissible opens with `κ|_{X_i}` an isomorphism onto `W₀(b)`, and on `X_i` the slope is `i·v₂(w)`.
-
-Every component meets this boundary annulus (NT I Cor. 3.9).
-
-([NT I], §3, Thm. 3.2, pp. 53–54.)
-
-*Needs:* [§4.3].
-
-### 4.7 Symmetric powers for one level-one form give them for all (NT I Theorem 3.1 = Theorem D)
-
-Fix `n ≥ 2`. If `π₀` is an everywhere unramified cuspidal `π` of weight `k ≥ 2` with `Sym^{n−1}r_{π₀,ι}` automorphic for some (equivalently any) p and `ι`, then `Sym^{n−1}r_{π,ι}` is automorphic for every everywhere unramified cuspidal `π` of weight `≥ 2`.
-
-On `X_i` and its companion `X_i′`, the crystalline root identity gives `i+i′=(k−1)/v₂(w)`.
-
-([NT I], §3, Thm. 3.1, p. 53; Introduction pp. 3–4.)
-
-*Needs:* [§4.3].
-
-### 4.8 Level raising to Steinberg for symmetric powers of theta series (NT I Theorems 4.1, 6.1, 7.1)
-
-Let `K=ℚ(i)`,`σ₀` the unique weight5 `Γ₁(4)` cuspidal newform,AI of the unramified K-character of infinity type(4,0). For `n≥3`,`p≡1` mod48n!,`ι:Q̄_p≅ℂ`,`q≠p`,finite K-places `X₀` prime to2pq,and de Rham `ω:G_K→Q̄_p×` with `ωω^c=ε³`/unramified at `X₀`,there is soluble CM F/K split at `X₀` and ordinary RACSDC `Π` on `GL_n(𝔸_F)` with `r̄_Π≅ω̄^{n−1}⊗Sym^{n−1}r̄_{σ₀}|G_F`,equal labelled HT to `ω^{n−1}⊗Sym^{n−1}r_{σ₀}|G_F`,and unramified Steinberg twist at some v|q. NT I7.1 uses7.4 for odd n,Anastassiades–Thorne for even n. Only residual matching is asserted.
-
-For `n=3` one may take the prime `p=577≡1` mod 288.
-
-([NT I], §7, Thm. 7.1 and the fixed seed, pp. 82–83; §4 Thm. 4.1, pp. 59–60; §6 Thm. 6.1, pp. 75–76.)
-
-*Needs:* [§4.3].
-
 ### 4.9 One level-one form with automorphic `Sym^{n−1}` (NT I Theorem 7.6 = Theorem E)
 
 For every `n ≥ 3` there is a cuspidal, everywhere unramified `π` of `GL₂(𝔸_ℚ)` of weight `k ≥ 2` such that `Sym^{n−1}r_{π,ι}` is automorphic for every `ι`.
 
-Proof route: the CM congruence construction and level-one propagation; retain the stated residual-image conditions.
+Proof route: every level-one `π` (for instance the one attached to `Δ`, of weight 12) is non-CM, since a quadratic twist ramifies at the primes dividing the conductor of its character, so [§4.30] at `F=ℚ` makes `Sym^{n−1}r_{π,ι}` automorphic for every `ι` (ModularityAndLanglandsExtensionsPartII §14.1).
 
-([NT I], §7, Thm. 7.6, p. 90; Introduction p. 4.)
+([NT I], §7, Thm. 7.6, p. 90; Introduction p. 4; [NT Hilbert], Thm. 6.4, §6, p. 50.)
 
-*Needs:* [§4.3].
-
-### 4.10 Congruences to n-regular forms (NT I Proposition 8.3)
-
-Let `π` be non-CM of weight `k ≥ 2` with `π_l` non-supercuspidal for every l. Then there are a prime p > max(`2(n + 1)`, `(n − 1)k`), `ι`, and `π′` of weight k with `r̄_{π,ι}(G_ℚ) ⊇ a` conjugate of `SL₂(F_p)`, `π_p` and `π′_p` unramified, `r̄_{π,ι} ≅ r̄_{π′,ι}`, and `π′_l` non-supercuspidal with all accessible refinements n-regular wherever `π′_l` is ramified.
-
-The displayed bound on p puts every `Sym^{n−1}` residual lift in the required Fontaine–Laffaille range.
-
-([NT I], §8, Prop. 8.3, pp. 92–93.)
-
-*Needs:* [§4.3].
-
-### 4.11 Automorphy lifting for symmetric powers (NT II Theorem 2.1)
-
-For totally real F,any p,`n≥1`,weight-two RA cuspidal non-CM `GL₂` `π`,`π′` nonordinary at every v|p,assume `r̄_π≅r̄_π′` (fixed `ι`),equal Steinberg-twist status at every finite `v∤p`,and conjugate `PSL₂(𝔽_{p^a})≤P` `r̄_π(G_F)≤PGL₂(𝔽_{p^a})`,`p^a`>max(5,`2n−1`). Then automorphic `Sym^{n−1}r_π′` implies automorphic `Sym^{n−1}r_π` (NT II2.1). This allows `p=2` without `p>n` or residual symmetric-power irreducibility.
-
-The `p≤n` cases use Newton–Thorne’s functoriality lifting; vanishing of the symmetric-power residual dual Selmer group is not assumed.
-
-([NT II], §2, Thm. 2.1 and proof, pp. 5–6.)
-
-*Needs:* [§1.7](#17-the-finite-field-projective-image-condition); [§4.3].
+*Needs:* [§4.30].
 
 ### 4.12 Symmetric power functoriality in level one (NT I Theorem 7.7 = Theorem A)
 
 For every `n ≥ 2` and every RAC automorphic representation `π` of `GL₂(𝔸_ℚ)` of level 1, `Sym^{n−1}π` exists as a RAC automorphic representation of `GL_n(𝔸_ℚ)`.
 
-Proof route: [§4.9] supplies a seed, [§4.7] propagates it, and [§4.15] removes the chosen prime.
+Proof route: a level-one `π` is non-CM, since a quadratic twist ramifies at the primes dividing the conductor of its character, so [§4.30] at `F=ℚ` applies; [§4.15] gives the all-place lift of [§1.10] (ModularityAndLanglandsExtensionsPartII §14.2(1)).
 
 For `Δ` this gives entire L-functions of every positive symmetric power.
 
-([NT I], Introduction, Thm. A, p. 2; §7, Thm. 7.7, p. 91.)
+([NT I], Introduction, Thm. A, p. 2; §7, Thm. 7.7, p. 91; [NT Hilbert], Thm. 6.4, §6, p. 50.)
 
-*Needs:* [§4.9]; [§4.7]; [§1.10], its all-place predicate; [§4.15].
+*Needs:* [§4.30]; [§1.10], its all-place predicate; [§4.15].
 
 ### 4.13 Symmetric powers of CM and weight-one forms (NT II Theorem A.1)
 
@@ -2429,11 +2338,11 @@ Proof route: Jacquet–Shalika on the unitary cuspidal constituents gives `|α|^
 
 Let `π` be a non-CM RAC `π` of `GL₂(𝔸_ℚ)` such that `π_l` has nonzero Jacquet module for every prime l. Then for every `n ≥ 3`, `Sym^{n−1}r_{π,ι}` is automorphic, so `Sym^{n−1}π` exists. In particular (Cor. C) for a semistable elliptic curve `E/ℚ` and each `n≥1` the completed `Λ(Sym^nE, s)` is entire.
 
-Proof route: NT I 8.2, induction on ramified primes using [§4.5](#45-automorphy-of-symn1-is-constant-on-eigencurve-components-nt-i-theorem-233) and [§4.12](#412-symmetric-power-functoriality-in-level-one-nt-i-theorem-77--theorem-a); [§4.10](#410-congruences-to-n-regular-forms-nt-i-proposition-83) and [§2.16] transfer to general `π`. For semistable E, modularity and squarefree `Γ₀(N)` give only unramified/Steinberg components; Godement–Jacquet supplies entireness.
+Proof route: [§4.30] at `F=ℚ`, which uses no condition on the Jacquet modules of `π` (ModularityAndLanglandsExtensionsPartII §14.2(2)). For semistable E, which is non-CM, modularity and squarefree `Γ₀(N)` give only unramified/Steinberg components; Godement–Jacquet gives entireness.
 
-([NT I], §8, Thm. 8.1, p. 91; Introduction, Thm. B and Cor. C, p. 2.)
+([NT I], §8, Thm. 8.1, p. 91; Introduction, Thm. B and Cor. C, p. 2; [NT Hilbert], Thm. 6.4, §6, p. 50.)
 
-*Needs:* [§1.10]; AL.2.
+*Needs:* [§4.30]; [§1.10]; AL.2.
 
 ### 4.21 Purity and potential automorphy of symmetric powers when `det r_λ = ε^{−m}` (BCGNT Theorem 6.2.1)
 
@@ -2469,9 +2378,9 @@ Proof route: ET §§6.24–6.29/PAI Layer 2’s soluble comparisons, [§2.16], [
 
 Let F be totally real, `r≥1`, p any prime, and `π`,`π′` on `GL₂` and `σ` on `GL_r` be RAESDC. Assume `π`,`π′` have weight zero and are non-CM; `r̄_π≅r̄_π′`; `r̄_π(G_F)` contains a conjugate of `SL₂(𝔽_{p^a})` with `p^a>5`. At every v|p require the same ordinary status and the same potentially crystalline status for both, and if `p=2` require both potentially crystalline. At `v∤p` require Steinberg-twist status to agree. Require a perfect subgroup H of `(r̄_π⊗r̄_σ)^{ss}(G_F)` containing an element with 2r distinct eigenvalues; labelled `HT(r_σ)={0,2,…,2r−2}`; automorphy and strong irreducibility of `r_π⊗r_σ`; irreducibility of `r_π′⊗r_σ`. Then the latter tensor product is automorphic.
 
-Proof route: NT Hilbert 4.1 pp.25–26, simultaneous rank-two/rank-2r patching and the tensor map of deformation rings; for `p=2` use the modified Khare–Wintenberger argument pp.35–36. The perfect-subgroup condition persists under soluble base change and is stronger than a size bound.
+Proof route: NT Hilbert 4.1 pp.25–26, simultaneous rank-two/rank-2r patching and the tensor map of deformation rings; for `p=2` use the modified Khare–Wintenberger argument pp.35–36 (ModularityAndLanglandsExtensionsPartII §12.7, with the symmetric-power patching of its Layer 9). The perfect-subgroup condition persists under soluble base change and is stronger than a size bound.
 
-NT Hilbert5.9 pp.44–`45: p≥5`,`0<r<p`,`M>p^{a₀(p)}`,`SP_{r−1}`,`SP_r`,`SP_{r+1}`,and **all** [§4.22](1)–(8),with `t₁`,`t₂>M`/same ray-class conditions,give residual `SL₂(𝔽_{p^a})`,`p^a>M`,and ordinary RAESDC automorphy of `ϕ_p r_π⊗Sym^{r−1}r_π` on `GL_{2r}`. `ϕ_p` is coefficient arithmetic-Frobenius lift. Route:5.5 under all-primes large image,5.9 supplies it via two good-dihedral places. This is the tensor induction input,not arbitrary tensor functoriality.
+NT Hilbert5.9 pp.44–`45: p≥5`,`0<r<p`,`M>p^{a₀(p)}`,`SP_r`,`SP_{r+1}`,`SP_{r−1}` if `r>1`,and **all** [§4.22](1)–(8),with `t₁`,`t₂>M`/same ray-class conditions,give residual `SL₂(𝔽_{p^a})`,`p^a>M`,and an ordinary RAESDC `Π` on `GL_{2r}` with `r̄_Π≅ϕ_p r̄_π⊗Sym^{r−1}r̄_π`. The statement is residual: for `r≥2` the labelled HT weights `{0,1}+{0,…,r−1}` of `ϕ_p r_π⊗Sym^{r−1}r_π` repeat, so it is the Galois representation of no RAESDC `Π`. `ϕ_p` is coefficient arithmetic-Frobenius lift. Route:5.5 under all-primes large image,5.9 obtains it via two good-dihedral places (ModularityAndLanglandsExtensionsPartII §§13.5–13.6). This is the tensor induction input,not arbitrary tensor functoriality.
 
 **Checks.**
 
@@ -2483,7 +2392,7 @@ NT Hilbert5.9 pp.44–`45: p≥5`,`0<r<p`,`M>p^{a₀(p)}`,`SP_{r−1}`,`SP_r`,`S
 
 ([NT Hilbert], Thm. 4.1 and proof, pp.25–36; Thm. 5.5 pp.40–41; Thm. 5.9 pp.44–45.)
 
-*Needs:* [§4.11]; DeformationAndDerivedPatchingAlgebra Layers 7–9, patching supports; LGD, tensor morphisms and components; GL2ML, local weight-zero lifting; the ray-class constructions of [§4.22].
+*Needs:* DeformationAndDerivedPatchingAlgebra Layers 7–9, patching supports; LGD, tensor morphisms and components; GL2ML, local weight-zero lifting; the ray-class constructions of [§4.22].
 
 ### 4.24 Purity and analytic continuation for rank-two systems of weight zero over CM fields (ACC+, Corollary 7.1.13)
 
@@ -2572,47 +2481,23 @@ Let `π` be a RA, cuspidal, non-CM automorphic representation of `GL₂(𝔸_ℚ
 
 The `n=1` lift is `π` itself; Cor. B is stated for `n≥2`.
 
-Proof route: induction on the number of supercuspidal primes, based on [§4.20]; NT II 3.1/3.7–11 constructs seasoned congruences with one fewer such prime and [§4.11] transfers automorphy. Modularity and Godement–Jacquet give Cor. B.
+Proof route: [§4.30] at `F=ℚ` (ModularityAndLanglandsExtensionsPartII §14.3). Modularity and Godement–Jacquet give Cor. B.
 
 CM and weight-one forms use [§4.13](#413-symmetric-powers-of-cm-and-weight-one-forms-nt-ii-theorem-a1).
 
-([NT II], Introduction, Thm. A and Cor. B, pp. 1–2; §3, Thm. 3.1, p. 20.)
+([NT II], Introduction, Thm. A and Cor. B, pp. 1–2; [NT Hilbert], Thm. 6.4, §6, p. 50.)
 
-*Needs:* [§1.10]; AL.2.
+*Needs:* [§4.30]; [§1.10]; AL.2.
 
 ### 4.30 Symmetric power functoriality for all non-CM regular algebraic `GL₂` representations over totally real fields (Newton–Thorne, Theorem 6.4)
 
 `SP_n` holds for all `n ≥ 2`: for every totally real F and every non-CM cuspidal RA `π` of `GL₂(𝔸_F)`, `Sym^{n−1}π` exists as a RAESDC automorphic representation of `GL_n(𝔸_F)`, in each of the senses of [§4.15].
 
-Proof route: [§1.15] starts the induction; Bertrand writes `n=p+r` with `p≥5` and `0<r<p`. Apply [§4.22], [§4.4] and [§4.23](#423-tensor-product-functoriality-lifting-over-totally-real-fields) using `SP_p`,`SP_r`,`SP_{p−r}`.
+Proof route: induction on `n` (ModularityAndLanglandsExtensionsPartII §13.10). [§1.15] starts the induction; for `n≥6` Bertrand gives a prime `p` with `n/2<p<n`, and `n=p+r` with `0<r<p`, so `p≥5`. By [§4.15] one `ι` suffices. After [§4.22] replaces `π` by `π′` over a soluble extension, the second paragraph of [§4.23](#423-tensor-product-functoriality-lifting-over-totally-real-fields) (using `SP_r`,`SP_{r+1}` and, if `r>1`, `SP_{r−1}`) and `SP_{p−r}` give ordinary residual witnesses for the two blocks of `Sym^{p+r−1}` modulo `p`; Thorne's `p`-adic level raising (ModularityAndLanglandsExtensionsPartII §6.9) and residually reducible lifting make `Sym^{p+r−1}r_{π′,ι}` automorphic, hence `Sym^{p+r−1}r_{π,ι}`.
 
 ([NT Hilbert], Thm. 6.4 and its proof, §6, p. 50.)
 
-*Needs:* [§1.12]
-
-### 4.31 Sixth and eighth symmetric powers over totally real fields (Clozel–Thorne, Theorem 6.1)
-
-For totally real F,RAESDC `GL₂` `π` not induced from quadratic CM,`Sym⁶π` is cuspidal `GL₇` if `F∩ℚ(ζ₅)=ℚ`;`Sym⁸π` is cuspidal `GL₉` if `F∩ℚ(ζ₇)=ℚ`. Theorem6.1 reduces to6.2’s Steinberg-at-q level raising via CT II§6;[§4.4] owns its congruence/local-type construction.
-
-Proof route: Clozel–Thorne II §6’s reduction to 6.2, [§4.4]’s smaller-rank premise/residual-ramification argument, and BLGGT potential automorphy.
-
-[§4.30] removes these disjointness assumptions.
-
-([CT17], §6, Thm. 6.1 `(= Thm. 1.1)`, manuscript p. 44 (Thm. 1.1 on p. 2).)
-
-*Needs:* [§1.10]; [§2.26]; [§4.22].
-
-### 4.32 Analytic continuation of symmetric power L-functions of semistable elliptic curves (Newton–Thorne I, Corollary C)
-
-Let `E/ℚ` be a semistable elliptic curve. Then for every `n ≥ 2` the completed symmetric power L-function `Λ(Sym^n E, s)` ([§4.17](#417-the-completed-symmetric-power-l-function-λsymn-e-s)) admits an analytic continuation to `ℂ`.
-
-Semistable `E/ℚ` is non-CM.
-
-Proof route: [§4.20], Godement–Jacquet and Layer 0’s completed-factor comparison.
-
-([NT I], Introduction, Cor. C, p. 2 (Publ. IHÉS 134, p. 2).)
-
-*Needs:* AL.2 (global Godement–Jacquet theory).
+*Needs:* [§1.12]; [§1.15]; [§4.15]; [§4.22]; [§4.23](#423-tensor-product-functoriality-lifting-over-totally-real-fields).
 
 ### 4.33 Purity and potential automorphy of symmetric powers of rank-two systems over CM fields (BCGNT Theorem 7.2.1 = Theorem C)
 
@@ -2689,23 +2574,20 @@ General Bianchi forms instead use [§4.42](#442-the-satotate-conjecture-in-paral
 
 *Needs:* ET §§6.24, 6.26–6.29.
 
-### 4.37 Symmetric powers up to eight and holomorphy of `L(s, Sym^n π)` (Clozel–Thorne, Corollary 7.2)
+### 4.37 Holomorphy of `L(s, Sym^n π)` for Hilbert modular forms
 
-Let F be totally real, `π` cuspidal on `GL₂(𝔸_F)` with `π_∞` essentially square-integrable, not induced from a quadratic CM extension. Then there is a cuspidal `Π` on `GL_{r+1}(𝔸_F)` with `Sym^r rec(π_v) ≅ rec(Π_v)` for all finite v in each case: (1) any F, `1 ≤ r ≤ 4`; (2) `F ∩ ℚ(ζ₅) = ℚ`, `r ∈ {5, 6}`; (3) `F ∩ ℚ(ζ₃₅) = ℚ`, `r = 7`; (4) `F ∩ ℚ(ζ₇) = ℚ`, `r = 8`. Consequently (Cor. 1.3) `L(s, Sym^n π)` is entire with the expected functional equation for `1 ≤ n ≤ 8` under the corresponding disjointness.
+Let F be totally real and `π` a non-CM cuspidal representation of `GL₂(𝔸_F)`, essentially square-integrable at every infinite place, as in [§4.35](#435-symmetric-power-functoriality-for-hilbert-modular-forms-newtonthorne-theorem-a--theorem-651). Then for every `n ≥ 1`, `L(s, Sym^n π)` is entire with the expected functional equation.
 
-Proof route: [§1.15], [§4.31](#431-sixth-and-eighth-symmetric-powers-over-totally-real-fields-clozelthorne-theorem-61), the reduction completed by Thorne 2024 §8, and Godement–Jacquet.
-
-[§4.35](#435-symmetric-power-functoriality-for-hilbert-modular-forms-newtonthorne-theorem-a--theorem-651) removes the disjointness hypotheses.
+Proof route: [§4.35](#435-symmetric-power-functoriality-for-hilbert-modular-forms-newtonthorne-theorem-a--theorem-651) gives a cuspidal `Π` on `GL_{n+1}(𝔸_F)` with `rec(Π_v) ≅ Sym^n rec(π_v)` at every place, so `L(s, Sym^n π) = L(s, Π)`; apply Godement–Jacquet to `Π`.
 
 **Checks.**
 
 - Degree one gives the original cuspidal standard L-function.
 - Degree zero gives `ζ_F(s)` with its pole at 1, including for π attached to Δ; the entireness conclusion excludes it.
-- For `F=ℚ`, all the displayed disjointness conditions hold, including the degree-eight case.
 
-([CT17], §7, Cor. 7.2, manuscript pp. 46–47 (Cors. 1.2, 1.3 on p. 2).)
+([NT Hilbert], Thm. A, §1, p. 1 = Thm. 6.5(1), §6, p. 50.)
 
-*Needs:* AL.2 (global Godement–Jacquet theory).
+*Needs:* [§4.35](#435-symmetric-power-functoriality-for-hilbert-modular-forms-newtonthorne-theorem-a--theorem-651); AL.2 (global Godement–Jacquet theory).
 
 ### 4.38 The Ramanujan conjecture in parallel weight over imaginary CM fields (BCGNT Theorem A = Theorem 7.1.1)
 
@@ -3140,7 +3022,7 @@ TauCetiRoadmap.RepresentationTheory.ClassicalGroups Layers0–1 owns standard/te
 
 ClassicalSerreModularity/EllipticCurveModularity own rational modularity;GL2AutomorphicRepresentationsAndTransfer rank-two LLC,soluble Artin/base change;PotentialModularityAndCompatibleSystems systems/operations/L-functions;AutomorphicGaloisRepresentationsPartII Galois/WD/HT realization;AutomorphicFormsOnReductiveGroups infinity,weights,purity/real cohomological packets;EndoscopicTransferAndUnitaryTraceComparison local factors,cyclic base change/weak induction;AutomorphicLFunctionsAndLocalFactors standard/Rankin–Selberg theorems and Langlands–Shahidi definitions. Own stronger induction,analytic/trace comparisons here;separate weak/all-place,isobaric/cuspidal.
 
-Layer4 owns symmetric-power propagation,level raising,tensor lifting/auxiliary curves;Layer2 Dwork projectors,coefficient-prime ordinarity and ordinary-prime density/progression arguments. EllipticCurveModularityImaginaryQuadratic §§0.3, 5.1 and 5.3 owns the typed elliptic seed, general non-CM large-prime theorem and geometric prime switch; §§2.18 and 2.29 here give specialization and normalization comparisons on its outputs. Own polarized-lifting, theta and Whittaker extensions over lower inputs. AutomorphicGaloisRepresentationsPartII AG2.6 owns the shared relative curves, bundle/Hecke categories, parameter stack and geometric spectral action; LanglandsParameterStacks LP1 supplies that stack's LCI, cotangent and singular-support package. §§5.7–5.9 compare these objects and specialize their support categories for the Whittaker adjunction. PadicHodgeTheory§3.6 owns labelled ordinary flags,crystalline characters,consecutive-weight/maximal-monodromy criteria/finite-extension descent;CrystallineCohomology§§CR.6.1–3 log boundary/Hyodo–Kato/one-parameter comparisons;here add `H₀`-equivariant Dwork specialization. Extend PotentialModularityAndCompatibleSystems§8.6’s rank-two ordinary lifting/finiteness to higher polarized rank.
+Layer4 owns tensor lifting/auxiliary curves;Layer2 Dwork projectors,coefficient-prime ordinarity and ordinary-prime density/progression arguments. EllipticCurveModularityImaginaryQuadratic §§0.3, 5.1 and 5.3 owns the typed elliptic seed, general non-CM large-prime theorem and geometric prime switch; §§2.18 and 2.29 here give specialization and normalization comparisons on its outputs. Own polarized-lifting, theta and Whittaker extensions over lower inputs. AutomorphicGaloisRepresentationsPartII AG2.6 owns the shared relative curves, bundle/Hecke categories, parameter stack and geometric spectral action; LanglandsParameterStacks LP1 supplies that stack's LCI, cotangent and singular-support package. §§5.7–5.9 compare these objects and specialize their support categories for the Whittaker adjunction. PadicHodgeTheory§3.6 owns labelled ordinary flags,crystalline characters,consecutive-weight/maximal-monodromy criteria/finite-extension descent;CrystallineCohomology§§CR.6.1–3 log boundary/Hyodo–Kato/one-parameter comparisons;here add `H₀`-equivariant Dwork specialization. Extend PotentialModularityAndCompatibleSystems§8.6’s rank-two ordinary lifting/finiteness to higher polarized rank.
 
 PadicFunctionalAnalysis/CompactOperators own Banach modules,orthonormalizability/complete continuity;LocallyAnalyticDistributions locally convex limits,strictness,completed tensors,compact duality/distribution-character spaces;RigidAnalyticGeometry quasi-Stein sheaves. §4.3 adds relative compactness,Fréchet–Stein/coadmissibility,contracting Jacquet/automorphic comparisons.
 
@@ -3300,7 +3182,7 @@ Use [SmoothRepresentationsOfLocalGroups with the ReductiveGroupsPartII conventio
 
 #### From EndoscopicTransferAndUnitaryTraceComparison, §§6.24, 6.26–6.27
 
-Import strong cyclic base change and descent from §6.24, and weak cyclic automorphic induction with its orbit criterion from §6.26. The [induction comparison](#automorphic-induction-and-its-cuspidality-criterion) specifies the additional all-place requirement. Labesse's unitary base change is consumed with its stated local conditions in the Steinberg-at-q and unitary-descent arguments.
+Import strong cyclic base change and descent from §6.24, and weak cyclic automorphic induction with its orbit criterion from §6.26. The [induction comparison](#automorphic-induction-and-its-cuspidality-criterion) specifies the additional all-place requirement. Labesse's unitary base change is consumed with its stated local conditions in the unitary-descent arguments.
 
 #### From GL2AutomorphicRepresentationsAndTransfer, Layer R16.3
 
@@ -3322,9 +3204,9 @@ Under `Φ_p` and Schur residual representation (here absolutely irreducible), th
 
 MetaplecticAutomorphicForms Layers 0–3 supplies oscillator representations and isometry-pair Howe duality; [§3.1] fixes their normalization and additional real/similitude comparisons; [§5.5](#55-local-descent-to-mp_2n-and-globalisation-of-square-integrable-representations-of-gl_2n-ganichino-appendix-a) owns the metaplectic descent and its globalization. The real compact-theta and similitude extensions are recorded with their separate source boundaries. Their local-field scope and real and similitude comparisons retain the hypotheses of §3.1.
 
-#### From PadicFamilies, Layer 2 and §§2a.10–2a.14
+#### From PadicFamilies, §§2a.10–2a.14
 
-Coleman–Mazur E (`GL₂/ℚ`, tame N, prime p) with weight/slope maps and classical `(f,α)`; abstract finite-slope machine §§2a.10–2a.14, [PadicFamilies](../PadicFamilies/README.md). AG2.3 ([AutomorphicGaloisRepresentationsPartII](../AutomorphicGaloisRepresentationsPartII/README.md)) gives Chenevier–Harris: even rank/degree, one varying p-place, spherical nonsplit places. [§4.3] constructs NT’s all-p-place Jacquet instance.
+Abstract finite-slope machine §§2a.10–2a.14, [PadicFamilies](../PadicFamilies/README.md). AG2.3 ([AutomorphicGaloisRepresentationsPartII](../AutomorphicGaloisRepresentationsPartII/README.md)) gives Chenevier–Harris: even rank/degree, one varying p-place, spherical nonsplit places. [§4.3] constructs NT’s all-p-place Jacquet instance.
 
 #### From PotentialAutomorphyInfrastructure, Layer 3
 
@@ -3486,10 +3368,6 @@ Unless marked journal/published or otherwise, locators use the linked edition be
 ### Reference: nt-selmer
 
 - James Newton and Jack Thorne, *Adjoint Selmer groups of automorphic Galois representations of unitary type*, arXiv:1912.11265v3, Theorems A–B and Definition 2.23. [Primary text](https://arxiv.org/abs/1912.11265v3).
-
-### Reference: at
-
-- Christos Anastassiades and Jack Thorne, *Raising the level of automorphic representations of `GL₂ₙ` of unitary type*, arXiv:1912.11267v2, Theorem 5.1, pp.19–20. [Primary text](https://arxiv.org/abs/1912.11267v2).
 
 ### Reference: serre-1981
 
@@ -3719,10 +3597,6 @@ Unless marked journal/published or otherwise, locators use the linked edition be
 
 - Günter Harder. [Eisenstein cohomology of arithmetic groups. The case GL₂](https://gdz.sub.uni-goettingen.de/download/pdf/PPN356556735_0089/LOG_0009.pdf). Invent. Math. 89 (1987), 37–118; §§3.1–3.2, pp.59–65, and §3.6, pp.73–74. Göttingen Digitisation Centre's article scan.
 
-### Reference: ct-2015
-
-- L. Clozel and J. A. Thorne, *Level raising and symmetric power functoriality, II*, Annals of Mathematics 181 (2015), pp.303–359. [Journal PDF](https://annals.math.princeton.edu/wp-content/uploads/annals-v181-n1-p05-p.pdf).
-
 ### Reference: gulliksen-1974
 
 - T. H. Gulliksen, *A change of ring theorem with applications to Poincaré series and intersection multiplicity*, Mathematica Scandinavica 34 (1974), pp.167–183. [Journal PDF](https://journals.msp.org/mscand/article/download/2128/2127), Theorem 3.1 and Lemma 3.2, pp.174–180.
@@ -3922,10 +3796,8 @@ Unless marked journal/published or otherwise, locators use the linked edition be
 [§4.19]: #419-purity-from-potential-weak-automorphy-of-symmetric-powers-bcgnt-lemma-613
 [Thorne 2024]: #reference-thorne-2024
 [§4.22]: #422-reductions-for-symmetric-powers-clozelthornes-theorem-71-lemma-74-proposition-76-and-newtonthornes-proposition-61
-[§4.11]: #411-automorphy-lifting-for-symmetric-powers-nt-ii-theorem-21
 [§4.14]: #414-equidistribution-from-l-functions-kedlaya-theorem-242-and-the-weyl-criterion
 [§4.20]: #420-symmetric-powers-when-no-local-component-is-supercuspidal-nt-i-theorem-81--theorem-b-corollary-c
-[§4.4]: #44-unitary-level-raising-and-its-odd-rank-local-types
 [§4.21]: #421-purity-and-potential-automorphy-of-symmetric-powers-when-det-r_λ--εm-bcgnt-theorem-621
 [§4.33]: #433-purity-and-potential-automorphy-of-symmetric-powers-of-rank-two-systems-over-cm-fields-bcgnt-theorem-721--theorem-c
 [§4.38]: #438-the-ramanujan-conjecture-in-parallel-weight-over-imaginary-cm-fields-bcgnt-theorem-a--theorem-711
@@ -3940,4 +3812,3 @@ Unless marked journal/published or otherwise, locators use the linked edition be
 [§1.13]: #113-kimshahidi-functorial-products-gl₂--gl₃--gl₆-and-the-symmetric-cube
 [Gan–Savin]: #reference-gan-savin-2023-g2
 [§4.9]: #49-one-level-one-form-with-automorphic-symn1-nt-i-theorem-76--theorem-e
-[§4.7]: #47-symmetric-powers-for-one-level-one-form-give-them-for-all-nt-i-theorem-31--theorem-d
