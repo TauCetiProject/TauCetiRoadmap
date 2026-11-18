@@ -9,7 +9,9 @@ public import TauCeti.Analysis.SpecialFunctions.RegularizedHypergeometric
 This file states the headline theorems of the roadmap against the pinned Mathlib and Tau Ceti,
 one or more per layer, as a check that the conventions of `README.md` can be stated. `README.md`
 is the definitive document and states every target; the statements here are a selection of
-them, and discharging them finishes neither a layer nor the roadmap.
+them, and discharging them finishes neither a layer nor the roadmap. Not statable at the pins:
+Olver's uniform expansion of 7.2, which needs the implicitly defined map `t(α, w)` and its Taylor
+coefficients `q_s(α)`.
 
 The definitions below are roadmap-local copies. `besselY` and `besselI` copy the definitions that
 SpecialFunctionsBessel pins, `scorerHi` copies SpecialFunctionsAiry's, and `fresnelC`, `fresnelS`
@@ -231,6 +233,12 @@ theorem struveH_recurrence (ν : ℂ) {z : ℂ} (hz : z ∈ slitPlane) :
       2 * ν / z * struveH ν z + (z / 2) ^ ν * ((Real.sqrt π : ℂ) * Gamma (ν + 3 / 2))⁻¹ := by
   sorry
 
+/-- Lommel's recurrence in `μ` for `S_{μ,ν}`, at all parameters (2.2). -/
+theorem lommelCapitalS_add_two (μ ν : ℂ) {z : ℂ} (hz : z ∈ slitPlane) :
+    lommelCapitalS (μ + 2) ν z =
+      z ^ (μ + 1) - ((μ + 1) ^ 2 - ν ^ 2) * lommelCapitalS μ ν z := by
+  sorry
+
 /-- DLMF 10.22.2 for `J`: an antiderivative of `z^ν J_ν(z)`, for `ν + ½` not a pole of `Γ`. -/
 theorem hasDerivAt_besselJ_struveH {ν : ℂ} (hν : ∀ n : ℕ, ν + 1 / 2 ≠ -n) {z : ℂ}
     (hz : z ∈ slitPlane) :
@@ -283,6 +291,12 @@ theorem angerWeberA_eq_integral {ν z : ℂ} (hz : 0 < z.re ∨ (z.re = 0 ∧ 0 
 theorem lommelCapitalS_eq_laplace (μ ν : ℂ) {z : ℂ} (hz : 0 < z.re) :
     lommelCapitalS μ ν z = z ^ μ * ∫ t in Ioi (0 : ℝ), cexp (-z * t) *
       gaussHypergeometric ((1 - μ + ν) / 2) ((1 - μ - ν) / 2) (1 / 2) (-(t : ℂ) ^ 2) := by
+  sorry
+
+/-- `S_{0,ν}(z) = ∫₀^∞ e^{−z sinh t} cosh(νt) dt` for `Re z > 0` (3.3). -/
+theorem lommelCapitalS_zero_eq_integral (ν : ℂ) {z : ℂ} (hz : 0 < z.re) :
+    lommelCapitalS 0 ν z =
+      ∫ t in Ioi (0 : ℝ), cexp (-z * Real.sinh t) * Complex.cosh (ν * t) := by
   sorry
 
 /-- DLMF 11.5.8, along the line `Re s = c` parametrized by `y`, with `ds = i dy`. -/

@@ -4,11 +4,10 @@
 inhomogeneous Bessel equation `w″ + w′/z + (1 − ν²/z²) w = f` with power or trigonometric forcing
 as a library: the Lommel functions `s_{μ,ν}`, `S_{μ,ν}` (forcing `z^{μ−1}`), the Struve functions
 `𝐇_ν`, `𝐋_ν`, `𝐊_ν`, `𝐌_ν`, and the Anger, Weber and Anger–Weber functions `𝐉_ν`, `𝐄_ν`, `𝐀_ν`.
-Neither Mathlib nor Tau Ceti has any of them. Its organization follows the structure of the
-subject rather than any one text. Lommel's functions are the general particular integrals for
-power forcing and come first; the Struve functions are the case `μ = ν`, and the Anger and Weber
-functions combine the cases `μ = 0` and `μ = −1`, as Dingle (Ch. XVIII) and
-Magnus–Oberhettinger–Soni (§3.10.2) arrange them. The theory is then developed across the three
+Neither Mathlib nor Tau Ceti has any of them. Lommel's functions are the general particular
+integrals for power forcing and come first; the Struve functions are the case `μ = ν`, and the
+Anger and Weber functions combine the cases `μ = 0` and `μ = −1` (Dingle, Ch. XVIII;
+Magnus–Oberhettinger–Soni, §3.10.2). The theory is then developed across the three
 families by method: the algebraic relations, the integral representations, Watson's lemma at large
 argument, the integrals over the half-line, large order, and the turning point `z = ν`, where
 Scorer's function enters and Olver's uniform expansion joins the regimes. The content is drawn from
@@ -50,7 +49,7 @@ The roadmap covers:
 The roadmap states the corrected forms of DLMF 11.4.15, 11.7.12, 11.11.6 and 11.11.18–11.11.19
 (see [Prior formalization](#prior-formalization)) and the corrected sector of 11.11.8 (6.3).
 
-The roadmap rests on Mathlib, Tau Ceti and six roadmaps. It consumes the Bessel functions `Y_ν`,
+The roadmap rests on Mathlib, Tau Ceti and seven roadmaps. It consumes the Bessel functions `Y_ν`,
 `I_ν`, `K_ν`, the Hankel functions and their theory from
 [SpecialFunctionsBessel](../SpecialFunctionsBessel/README.md), which every layer uses; Scorer's
 function `Hi` from [SpecialFunctionsAiry](../SpecialFunctionsAiry/README.md) for the turning point
@@ -58,9 +57,10 @@ function `Hi` from [SpecialFunctionsAiry](../SpecialFunctionsAiry/README.md) for
 [SpecialFunctionsEiLiErfIncompleteGamma](../SpecialFunctionsEiLiErfIncompleteGamma/README.md) for
 the half-odd orders of the Anger function (2.4); the Gauss function from
 [SpecialFunctionsHypergeometric](../SpecialFunctionsHypergeometric/README.md) for the Laplace
-representation of `S_{μ,ν}` (3.3); Watson's lemma, Laplace's method, the cubic normal form and the
-Mellin tools from [AsymptoticExpansions](../AsymptoticExpansions/README.md); and complex Stirling
-from [ZerosOfLFunctions](../ZerosOfLFunctions/README.md).
+representation of `S_{μ,ν}` (3.3); the holomorphy of `𝐅₁₂(b₁, b₂; x)` in its parameters from
+SpecialFunctionsGeneralizedHypergeometric (Layer 1); Watson's lemma, Laplace's method, the cubic
+normal form and the Mellin tools from [AsymptoticExpansions](../AsymptoticExpansions/README.md);
+and complex Stirling from [ZerosOfLFunctions](../ZerosOfLFunctions/README.md).
 
 Suggested home: `TauCeti/Analysis/SpecialFunctions/Struve/`, beside the Bessel functions of
 SpecialFunctionsBessel.
@@ -80,7 +80,9 @@ The roadmap is complete when Tau Ceti proves all of the following.
 The numbers are those of the layers below, and `k.n` names subsection `n` of Layer `k`.
 `Suggested.lean` states the headlines that carry a Lean name, each with every conclusion the
 README attaches to it; it is not an exhaustive acceptance test, and the other headlines are
-targets of the same standing, stated in prose.
+targets of the same standing, stated in prose. Olver's uniform expansion (7.2) is not statable at
+the pins, since it needs the implicitly defined map `t(α, w)`, and the docstring of
+`Suggested.lean` names it.
 
 **Inputs.** Mathlib and Tau Ceti already prove, and the layers consume:
 - that `𝐅₁₂(b₁, b₂; x)` is entire in `x` for fixed `b₁`, `b₂`: Mathlib's
@@ -94,7 +96,6 @@ targets of the same standing, stated in prose.
 provides:
 - superposition for `w″ + w′/z + (σ − ν²/z²) w = f` on the slit plane, `σ = ±1`: every solution is
   one particular solution plus a solution of the homogeneous equation (1.1);
-- the holomorphy of `𝐅₁₂(b₁, b₂; x)` in the parameters (1.1);
 - the removable singularities of the Lommel function `S_{μ,ν}` and of `𝐀_ν` in the parameters
   (1.2, 1.5), and the equation of `𝐀_ν` (1.5);
 - the Hankel and Laplace representations of `S_{μ,ν}` (3.2, 3.3);
@@ -111,8 +112,9 @@ provides:
   and `Complex.regularizedHGFun` (Mathlib), Scorer's functions (SpecialFunctionsAiry), the
   Fresnel integrals (SpecialFunctionsEiLiErfIncompleteGamma), the general asymptotic methods
   (AsymptoticExpansions) and complex Stirling (ZerosOfLFunctions).
-- The generalized hypergeometric functions `pFq` beyond Mathlib's series, which belong to the
-  roadmap for the generalized hypergeometric functions. This roadmap uses `𝐅₁₂` only as Mathlib's entire series.
+- The generalized hypergeometric functions `pFq` beyond Mathlib's series, and the holomorphy of
+  `𝐅₁₂(b₁, b₂; x)` in its parameters, which belong to SpecialFunctionsGeneralizedHypergeometric.
+  This roadmap uses `𝐅₁₂` only as Mathlib's entire series.
 - The Struve functions of argument `x e^{±3πi/4}`, the Lommel functions of two variables and the
   formulas of the Bessel theory through these functions other than DLMF 10.22.2 and 10.43.2; see
   the last section.
@@ -139,8 +141,9 @@ from SpecialFunctionsBessel.
   functions are introduced.
 - **The series.** `𝐅₁₂(b₁, b₂; x)` is Mathlib's `Complex.regularizedHGFun {1} {b₁, b₂} x`, entire
   in `x` for fixed `b₁`, `b₂` (Mathlib `Complex.analyticAt_regularizedHGFun_of_card_le` and the
-  radius lemma `Complex.radius_regularizedHGFunSeries_eq_top`). Its holomorphy in the parameters
-  is not in Mathlib; it is a target of 1.1. It is used only as this series.
+  radius lemma `Complex.radius_regularizedHGFunSeries_eq_top`). Its joint holomorphy in the
+  parameters and the argument is SpecialFunctionsGeneralizedHypergeometric's (1.3–1.4). It is used
+  only as this series.
 - **The definitions.** With principal powers, `J_ν = Complex.besselJ`, and SpecialFunctionsBessel's
   `Y_ν = Complex.besselY`, `I_ν = Complex.besselI`:
 
@@ -255,6 +258,12 @@ angerWeberA n z = (π cos nπ)⁻¹ ∂_ν(𝐉_ν(z) − J_ν(z))|_{ν=n}      
   3.1: the hypergeometric equation; 5.1: the connection formula 15.8.2 at `∞`. For the Laplace
   representation of 3.3.
 
+### From SpecialFunctionsGeneralizedHypergeometric
+
+- 1.3–1.4: its regularized function is Mathlib's `Complex.regularizedHGFun` for `p ≤ q`, and is
+  jointly holomorphic in the parameters and the argument; at `p = 1`, `q = 2`, the map
+  `(b₁, b₂, x) ↦ 𝐅₁₂(b₁, b₂; x)` is holomorphic on `ℂ³`. For 1.1–1.3.
+
 ### From [SpecialFunctionsEiLiErfIncompleteGamma](../SpecialFunctionsEiLiErfIncompleteGamma/README.md)
 
 - [Its Conventions](../SpecialFunctionsEiLiErfIncompleteGamma/README.md#conventions): the Fresnel
@@ -331,12 +340,9 @@ formula it checks.
 
 ### 1.1 The `₁F₂` series and superposition
 
-- **Holomorphy in the parameters** (auxiliary): for fixed `x` and entire functions `b₁(w)`,
-  `b₂(w)`, `w ↦ 𝐅₁₂(b₁(w), b₂(w); x)` is entire. On a compact set of `w` there is `k₀` with
-  `Re bⱼ(w) + k₀ ≥ 1`, and `1/Γ(bⱼ + k) = (Γ(bⱼ + k₀) (bⱼ + k₀)_{k−k₀})⁻¹` with
-  `|(bⱼ + k₀)_{k−k₀}| ≥ (k − k₀)!` bounds the terms by `C |x|ᵏ/((k − k₀)!)²`, so the series
-  converges uniformly there. The holomorphy of the Lommel and Struve functions in their orders
-  rests on it (Olver, Ch. 7 §15.1, p. 275, for `𝐇_ν`).
+The series `𝐅₁₂(b₁, b₂; x)` is Mathlib's, and its joint holomorphy in `(b₁, b₂, x)` is
+SpecialFunctionsGeneralizedHypergeometric 1.3–1.4; the holomorphy of the Lommel and Struve
+functions in their orders (1.2–1.3) rests on it. The target:
 - **Superposition** (auxiliary): for `σ = ±1`, `w` holomorphic on the slit plane solves
   `w″ + w′/z + (σ − ν²/z²) w = f` if and only if `w − w₀` solves the homogeneous equation, for
   any one solution `w₀` (Dingle, Ch. XVIII §1, p. 371).
@@ -344,11 +350,8 @@ formula it checks.
 **Checks.**
 - `𝐅₁₂(3/2, 3/2; 0) = Γ(3/2)⁻² = 4/π`, and `𝐅₁₂(3/2, 3/2; −1) = 0.79085 88495 08…`, which is
   `𝐇₀(2)` (1.3).
-- At `b₂ = −1` the terms of `𝐅₁₂(3/2, −1; x)` with `k ≤ 1` vanish, since `(Γ(−1 + k))⁻¹ = 0` for
-  `k ∈ {0, 1}`; the parameter holomorphy holds through such points, where a version with `Γ` in
-  the numerator would have poles.
 
-*Needs:* Mathlib `Complex.regularizedHGFun`, `Complex.differentiable_one_div_Gamma`.
+*Needs:* SpecialFunctionsGeneralizedHypergeometric 1.3–1.4; Mathlib `Complex.regularizedHGFun`.
 
 ### 1.2 Lommel's functions: the particular integrals for power forcing
 
@@ -381,7 +384,8 @@ The definitions of [Conventions](#conventions): `lommelSmallS`, `lommelCapitalS`
 *Suggested names:* `differentiable_lommelCapitalS` (the removable singularities),
 `lommelCapitalS_ode` (11.9.1 for `S_{μ,ν}`).
 
-*Needs:* 1.1; SpecialFunctionsBessel 1.1–1.2, 1.4.
+*Needs:* 1.1; SpecialFunctionsBessel 1.1–1.2, 1.4; SpecialFunctionsGeneralizedHypergeometric
+1.3–1.4.
 
 ### 1.3 The Struve functions
 
@@ -415,8 +419,9 @@ targets:
 
 *Suggested names:* `hasSum_struveH` (11.2.1).
 
-*Needs:* 1.1; SpecialFunctionsBessel Conventions, 1.1–1.3, 2.1; Tau Ceti
-`Complex.hasSum_regularizedHGFun`; Mathlib `Complex.regularizedHGFun`.
+*Needs:* 1.1; SpecialFunctionsBessel Conventions, 1.1–1.3, 2.1;
+SpecialFunctionsGeneralizedHypergeometric 1.3–1.4; Tau Ceti `Complex.hasSum_regularizedHGFun`;
+Mathlib `Complex.regularizedHGFun`.
 
 ### 1.4 Struve's equations and their general solutions
 
@@ -484,8 +489,8 @@ The definitions of [Conventions](#conventions): `angerJ`, `weberE`, `angerWeberA
 
 ### Dependencies
 
-SpecialFunctionsBessel Conventions, 1.1–1.5, 2.1, 5.1; Tau Ceti
-`Complex.hasSum_regularizedHGFun`; Mathlib.
+SpecialFunctionsBessel Conventions, 1.1–1.5, 2.1, 5.1; SpecialFunctionsGeneralizedHypergeometric
+1.3–1.4; Tau Ceti `Complex.hasSum_regularizedHGFun`; Mathlib.
 
 ## Layer 2: relations, recurrences and closed forms
 
@@ -552,7 +557,8 @@ SpecialFunctionsBessel Conventions, 1.1–1.5, 2.1, 5.1; Tau Ceti
   `S_{μ,ν}(z) = 0.66838 49030 77…` and `S_{μ+2,ν}(z) = 1.50693 70485 78…`, with the same forcing
   term `z^{μ+1}`, because the Bessel part of `S` satisfies the homogeneous recurrence.
 
-*Suggested names:* `struveH_recurrence` (11.4.23).
+*Suggested names:* `struveH_recurrence` (11.4.23), `lommelCapitalS_add_two` (Lommel's recurrence
+in `μ` for `S_{μ,ν}`).
 
 *Needs:* 1.2–1.5, 2.1; SpecialFunctionsBessel 1.5.
 
@@ -793,7 +799,8 @@ parameters.
   `0.65107 57495 976… − 0.08109 50059 749… i`.
 
 *Suggested names:* `struveK_eq_integral` (11.5.2), `angerWeberA_eq_integral` (11.10.4),
-`lommelCapitalS_eq_laplace` (the Laplace representation).
+`lommelCapitalS_eq_laplace` (the Laplace representation), `lommelCapitalS_zero_eq_integral`
+(the integral of `S_{0,ν}`).
 
 *Needs:* 1.2–1.5, 2.1, 3.2; SpecialFunctionsBessel 1.2, 5.1, 6.1; SpecialFunctionsHypergeometric
 1.2–1.4, 3.1, 5.1; AsymptoticExpansions 4.3.
