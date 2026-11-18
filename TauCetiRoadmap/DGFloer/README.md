@@ -1,24 +1,55 @@
 # Roadmap: Morse and Floer homology with DG local coefficients
 
-**Summary.** Classical Morse and Floer homology count only the zero- and one-dimensional spaces
-of connecting trajectories. Barraud and Cornea observed that the compactified trajectory spaces
-of *every* dimension, evaluated into a space of paths, assemble into a Maurer–Cartan element over
-the cubical chains on a loop space. Twisting by that element gives Morse and Floer complexes with
-coefficients in any differential graded module over `C_*(ΩB)`: a *DG local system*. The basic
-source of such systems is Hurewicz fibrations over `B`, and in that case the twisted Morse complex
-computes the homology of the total space. Barraud, Damian, Humilière and Oancea turned this into
-a full homological package, first for Morse theory on manifolds and on the free loop space, then
-for Hamiltonian Floer theory and symplectic homology, and proved a Viterbo isomorphism with DG
-coefficients for cotangent bundles. This roadmap builds that package on the normalized cubical
-chains, Moore paths, DG local systems and twisted complexes of the pinned Tau Ceti and on a few
-general facts of algebraic topology that no other roadmap builds, through DG Morse homology,
-Hamiltonian Floer homology of periodic orbits on the curve analysis of the Pseudoholomorphic
-curve analysis roadmap and the analytic tower of the Heegaard Floer roadmap, and symplectic
-homology, to its end theorems: the fibration theorem for DG Morse homology, the
-DG Floer comparison `FH_*(X; 𝓕) ≅ H_{*+n}(X; i_X^*𝓕)` and Theorem J, the DG Viterbo isomorphism
-(Theorem K), the capacity criteria (Theorems L and M), and the almost existence theorems for
-contractible closed characteristics on hypersurfaces of `T*Q` (Theorems A and C). It also settles,
-in a layer independent of the Floer theory, when a compact connected Lie group is aspherical.
+**Summary.** Classical Morse and Floer homology count only the zero- and one-dimensional spaces of
+connecting trajectories. Barraud and Cornea observed that the compactified trajectory spaces of
+*every* dimension, evaluated into a space of paths, assemble into a Maurer–Cartan element over the
+cubical chains `C_*(ΩB)` on the loop space. Twisting by it gives complexes with coefficients in
+any differential graded module over `C_*(ΩB)`, called a *DG local system*. Barraud, Damian,
+Humilière and Oancea built on this a homological package for Morse theory, Hamiltonian Floer
+theory and symplectic homology, and applied it to closed characteristics in cotangent bundles.
+This roadmap builds that package and part of those applications.
+
+The first main theorem is the fibration theorem. Let `F → E → B` be a Hurewicz fibration over a
+closed connected manifold. With coefficients in the chains on the fibre of its Moore-path
+replacement, the DG Morse homology of `B` is isomorphic to the homology of `E`, and its spectral
+sequence to the Serre spectral sequence from `E²` on. For the path-loop fibration over `Sⁿ` it
+gives the homology of a point, where the trivial action would give `H_*(Sⁿ) ⊗ H_*(ΩSⁿ)`.
+
+The second is a Viterbo isomorphism with DG coefficients (Theorem K). For a closed manifold `Q`
+and every DG local system `𝓕` on its free loop space `𝓛Q`, the symplectic homology of `T*Q` with
+coefficients pulled back from `𝓕` is isomorphic to the DG Morse homology of `𝓛Q` with coefficients
+in `𝓕 ⊗ η₀`. Here `η₀` is a degree-zero sign system built from the orientation of `Q` and its
+second Stiefel–Whitney class, trivial when `Q` is orientable and spin. The source proves it for
+`H_*(𝓕)` bounded below; the roadmap drops that hypothesis.
+
+A hypersurface `f⁻¹(c)` of `T*Q` has the *contractible almost existence property* if, for some
+`ε > 0`, almost every regular level `f⁻¹(c')` with `|c' − c| < ε` carries a closed characteristic
+contractible in `T*Q`. Theorem A: let `Q` be a closed connected oriented `n`-manifold, `S` a
+closed smooth oriented `n`-manifold, and `φ : S → T*Q` a map whose projection `π ∘ φ` to `Q` has
+degree `d`. If `Q` is not aspherical and `d = ±1`, or if some `π_ℓ(Q)` with `ℓ ≥ 2` is not a
+torsion group and `d ≠ 0`, then every hypersurface bounding a relatively compact domain that
+contains `φ(S)` has that property. Theorem C is the analogue for non-orientable `Q`: `S` need not
+be oriented, `π ∘ φ` is nonzero on `H_n(−; ℤ/2)`, and some `π_ℓ(Q) ⊗ ℤ/2` with `ℓ ≥ 2` is nonzero.
+For `Q = S²` every bounded hypersurface around the zero section has the property; for a torus both
+the hypotheses and the conclusion fail.
+
+Independently of the Floer theory, the roadmap proves that a compact connected Lie group is
+aspherical exactly when it is isomorphic, as a topological group, to a torus `(S¹)ʳ`.
+
+Tau Ceti already has the cubical chains, Moore loops and DG local systems behind the twisted
+complexes, and the almost existence property. The roadmap builds on AlgebraicTopology for Serre
+spectral sequences, Eilenberg–MacLane spaces and duality. Morse trajectory spaces come from the
+HeegaardFloer roadmap, and the analysis of Floer cylinders rests on it and on
+PseudoholomorphicCurveAnalysis. DGFloerPartII, a sequel, builds on this roadmap for the source's
+remaining applications, and StringOrientation uses the Lie group criterion.
+
+Layers 0–4 are reusable algebraic topology, including a mod-2 vanishing theorem: a simply
+connected space with vanishing reduced mod-2 homology has uniquely 2-divisible higher homotopy
+groups. Layer 5 is DG Morse homology and Layers 6–7 classical Hamiltonian dynamics and Floer
+theory. Layers 8–9 add DG coefficients and prove Theorem K. In Layer 10, a class of a Liouville
+domain that dies in symplectic homology but survives a wrong-way (shriek) map forces almost
+existence (Theorem L) or a finite capacity (Theorem M); Theorems A and C follow. Layer 11 is the
+Lie group criterion.
 
 Suggested homes:
 
