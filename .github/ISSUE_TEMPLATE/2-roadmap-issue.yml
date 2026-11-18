@@ -264,6 +264,7 @@ body:
         - PadicPeriodRings
         - PainleveEquations
         - PerfectoidQuotients
+        - PerfectoidQuotientsPartII
         - PerfectoidSpaces
         - PerfectoidSpacesPartII
         - PerfectoidTowers
@@ -287,6 +288,7 @@ body:
         - PurityOfBranchLocus
         - QuadraticCharactersAndReduction
         - QuadraticFormInvariants
+        - QuadraticFormInvariantsPartII
         - QuantumEnvelopingAlgebras
         - QuantumGroups
         - QuaternionicAnalysis
