@@ -135,132 +135,24 @@ are deduplicated against it when its PRs land. What the *theory* needs beyond th
 of an affine point, degrees, the fibre-counting identity, divisors. That is Layer 0, and it
 is valuation theory over the existing coordinate ring, not geometry.
 
-## Scope and ownership
+## How to read the build
 
-**No schemes.** Silverman's isogenies are morphisms of curves-as-varieties, and Mathlib has
-scheme-track work in flight that will eventually provide exactly that: the affine scheme of an
-elliptic curve ([mathlib #25983](https://github.com/leanprover-community/mathlib4/pull/25983)),
-the group-scheme structure
-([mathlib #35151](https://github.com/leanprover-community/mathlib4/pull/35151)), and a
-modular-curves project further down that road. This roadmap deliberately neither builds on,
-blocks on, nor duplicates any of it: every object here is a Weierstrass equation, its point
-group, its function field. When the scheme-level curve arrives, the anti-equivalence of curves
-and function fields identifies these isogenies with the scheme morphisms; that comparison — like
-the **Néron models** that live natively in the scheme world — belongs to a future scheme-facing
-roadmap, not this one.
+The layers are in dependency order, and each layer's Dependencies say what it needs; dependency
+order is not a schedule, and independent layers proceed in parallel.
+Layer 0 is the dictionary between Mathlib's point group and the places of the function field;
+Layer 0.5 the base change, Galois actions, translations and descent every later layer uses;
+Layer 1 the isogenies, their degree, the dual, the invariant differential and the formal group;
+Layer 2 the torsion, the Weil pairing and the Tate module; Layer 3 the theory over a finite field,
+ending in the Hasse bound and the zeta function; Layer 4 the reduction theory over a discrete
+valuation ring and the Tate curve over a complete rank-one valued field; Layers 4.5a and 4.5b the
+invariants of minimal models over a Dedekind domain and the construction of global equations over
+a number field; Layer 5 the twists; Layer 6 the Mordell–Weil theorem, explicit `2`-descent and
+Nagell–Lutz; Layer 7 Selmer groups, Sha, the Birch–Swinnerton-Dyer quotient over `ℚ` and Cassels'
+theorem; and Layer 8 the selected `ℚ`-specific database adapters. Every milestone is one of
+**port** (it exists in a pinned source, to migrate), **core** (new development on the main line)
+or **extension**; unmarked milestones are core, and the provenance section records the ports.
 
-**Out of scope.** The elliptic curve as a scheme, group schemes, and **Néron models** — the
-scheme-facing story above, including the comparison of these isogenies with scheme morphisms.
-Modular curves, moduli, and the representability questions around them are a separate project.
-**Complex uniformisation** `ℂ/Λ ≅ E(ℂ)` is left out: its honest form is analytic, not
-arithmetic — it needs a complex-manifold structure on `E(ℂ)`, a substantial and orthogonal
-development — and belongs on a dedicated complex-analytic roadmap. The **Birch–Swinnerton-Dyer
-conjecture** is not proved here, and its unconditional *statement* needs the analytic
-continuation of `L(E, s)`, which Mathlib does not have; rather than rule it out on those
-grounds, §Layer 7 carries a **statement-only milestone**: full BSD over `ℚ` with the analytic
-hypothesis pinned exactly as that layer states it — an analytic function on a connected open
-set containing both `s = 1` and part of the half-plane of convergence, agreeing with the
-Dirichlet series there, since merely assuming "a function analytic near `s = 1`" admits an
-unrelated germ and states nothing — every
-other ingredient is built by Layers 4–7, so modulo that hypothesis the statement is cheap.
-(The *arithmetic* BSD quotient **over `ℚ`**, assuming `Ш` finite, and Cassels' theorem that it
-is unchanged by isogeny are §Layer 7 milestones; *proving* the conjecture itself is out — as is the
-general-number-field quotient, whose period honestly wants complex uniformisation.) Two further
-statements are out, and §Layer 8 says so where it defines the objects they concern: **Siegel's
-theorem**, that the integral points of a model are finite, which needs Diophantine approximation
-at Thue–Siegel–Roth or Baker strength that nothing here builds; and **any bound of abc or Szpiro
-type** — proving one is not attempted, and nothing below is conditional on one. Their
-*statements*, and the implications between them, are in: §Layer 8 states the abc conjecture,
-Szpiro's conjecture and the modified Szpiro conjecture, and proves the implications a formalised
-Frey curve makes available. Everything else — through
-Mordell–Weil, Selmer/Sha, the global minimal model, and the **selected `ℚ`-specific database
-adapters** of §Layer 8: the minimal-pair model and its height, the abc quality, the Szpiro ratio,
-the named Szpiro and abc statements with the implications between them, and bounded
-integral-point search — is in.
-
-Suggested home: `TauCeti/AlgebraicGeometry/EllipticCurve/` (mirroring Mathlib's layout).
-
-**Already in Tau Ceti.** The pinned Tau Ceti carries the declarations below; the layers cite them
-and `Suggested.lean` does not restate them (files relative to `TauCeti/AlgebraicGeometry/EllipticCurve/`):
-
-- Layer 0: the place at infinity `WeierstrassCurve.Affine.infinityPlace`
-  (`Affine/FunctionField/InfinityPlace/Basic.lean`) and the point–place dictionary
-  `WeierstrassCurve.Affine.pointEquivDegreeOnePlace` (`Affine/FunctionField/PointPlace.lean`);
-  `WeierstrassCurve.Affine.Point.toClass_surjective` (`Affine/Point/ToClass.lean`).
-- Layer 0.5: base change of isogenies `TauCeti.Isogeny.map` and `TauCeti.Isogeny.baseChange`
-  (`Isogeny/BaseChange/Basic.lean`); translations and Galois descent of function-field maps
-  (`Affine/FunctionField/Translation/`, `Affine/FunctionField/Galois/`).
-- Layer 1: `TauCeti.Isogeny` (`Isogeny/Basic.lean`); `TauCeti.Isogeny.fieldPullback` and
-  `TauCeti.Isogeny.comp` (`Isogeny/FunctionField.lean`); `TauCeti.Isogeny.degree`,
-  `TauCeti.Isogeny.finiteDimensional` and `TauCeti.Isogeny.degree_pos` (`Isogeny/Degree.lean`);
-  `TauCeti.Isogeny.toPointHom` (`Isogeny/PointHom/Basic.lean`);
-  `TauCeti.Isogeny.frobeniusIsogeny` and `TauCeti.Isogeny.degree_frobeniusIsogeny`
-  (`Isogeny/Frobenius/Basic.lean`); the dual `TauCeti.Isogeny.dual` (`Isogeny/Dual/Basic.lean`);
-  Vélu's quotients (`Isogeny/Velu/`); `WeierstrassCurve.Affine.nsmul_surjective` over a
-  separably closed field (`Isogeny/MulByInt/Surjective.lean`); the elliptic formal group
-  (`FormalGroup/`).
-- Layer 2: `WeierstrassCurve.torsion_addEquiv_prod` (`Isogeny/MulByInt/Torsion/Structure.lean`);
-  the Weil pairing `TauCeti.Isogeny.weilPairing` over a separably closed field, with
-  `TauCeti.Isogeny.weilPairing_nondegenerate` (`Isogeny/MulByInt/WeilPairing/Basic.lean`), and
-  `TauCeti.Isogeny.rationalWeilPairing` over any field (`GaloisCohomology/WeilPairing/Rational.lean`),
-  both for `N` invertible; the Tate module and its Galois representation
-  `WeierstrassCurve.tateModuleGaloisRepresentation` (`TateModule/`).
-- Layer 3: `WeierstrassCurve.Affine.finite_point` (`Affine/FinitePoint.lean`);
-  `WeierstrassCurve.pointCount` and `WeierstrassCurve.frobeniusTrace` (`PointCount.lean`); the
-  Hasse bound `WeierstrassCurve.frobeniusTrace_sq_le_four_mul_card` (`HasseBound.lean`);
-  `WeierstrassCurve.IsSupersingular`, `WeierstrassCurve.IsOrdinary` and
-  `WeierstrassCurve.isSupersingular_baseChange_iff` (`Supersingular.lean`);
-  `WeierstrassCurve.isSupersingular_iff_dvd_frobeniusTrace`
-  (`Isogeny/Frobenius/Supersingular.lean`); the zeta function `WeierstrassCurve.zetaFunction`
-  (`Isogeny/Frobenius/Zeta.lean`).
-- Layer 4: Tate's algorithm and `TauCeti.ReductionSymbol` (`TateAlgorithm/`); the
-  Néron–Ogg–Shafarevich criteria
-  `WeierstrassCurve.hasGoodReduction_iff_tateModuleGaloisRepresentation_eq_one`
-  (`TateModule/GoodReduction.lean`) and
-  `WeierstrassCurve.hasPotentialGoodReduction_iff_finite_image_tateModuleGaloisRepresentation`
-  (`TateModule/PotentialGoodReduction.lean`); the Tate uniformisation map
-  `TauCeti.tateUniformization` (`TateCurve/Uniformization.lean`), its injectivity
-  `TauCeti.tateUniformization_injective` (`TateCurve/Injectivity.lean`), its Galois equivariance
-  `TauCeti.map_algEquiv_tateUniformizationBaseChange` (`TateCurve/Galois.lean`), and the split
-  multiplicative reduction of the Tate curve over a discrete valuation ring,
-  `TauCeti.hasSplitMultiplicativeReduction_tateCurveAt` (`TateCurve/Reduction.lean`).
-- Layer 4.5a, in the namespace `WeierstrassCurve`: `IsGlobalMinimal` and `IsSemiGlobalMinimal`
-  (`GlobalMinimalModel.lean`); `obstructionExponentAt` and `IsSharpSemiGlobalMinimalAt`
-  (`MinimalModel/ObstructionExponent.lean`); `minimalDiscriminantIdeal`
-  (`MinimalModel/DiscriminantIdeal.lean`); `weierstrassDefectClass`, `weierstrassClass`,
-  `globalMinimalityClass` and `weierstrassClass_eq_inv_weierstrassDefectClass`
-  (`MinimalModel/Class.lean`); `IsSemistable` (`MinimalModel/Semistable.lean`);
-  `IsReducedMinimal` (`MinimalModel/Reduced.lean`).
-- Layer 4.5b: `TauCeti.KrausLocalCondition`, `TauCeti.krausLocalCondition_iff_exists_integralModel`
-  and `TauCeti.krausGlobalCondition_iff_exists_integralModel` (`GlobalModels/Kraus.lean`);
-  `WeierstrassCurve.globalMinimalityClass_eq_one_iff` and the sharp construction at a prime
-  representing the class, `WeierstrassCurve.globalMinimalityClass_eq_classGroupMk_iff`
-  (`MinimalModel/GlobalExistence.lean`); `WeierstrassCurve.existsUnique_reducedMinimal`
-  (`MinimalModel/Reduced.lean`).
-- Layer 5: `WeierstrassCurve.pointedTwistEquivNonabelianH1` (`Twist/Classification.lean`);
-  `WeierstrassCurve.quadraticTwistOf`, `WeierstrassCurve.quadraticTwist` and
-  `WeierstrassCurve.quadraticTwistPointEquiv` (`QuadraticTwist/Basic.lean`);
-  `WeierstrassCurve.exists_quadraticTwist_hasSplitMultiplicativeReduction`
-  (`QuadraticTwist/SplitMultiplicative.lean`).
-- Layer 6: `WeierstrassCurve.Affine.fg_point_of_numberField` (`MordellWeil/FinitelyGenerated.lean`);
-  `WeierstrassCurve.lutz_nagell` (`DivisionPolynomial/ShortNagellLutz.lean`); the canonical height
-  `WeierstrassCurve.Affine.Point.canonicalHeight` (`CanonicalHeight/Basic.lean`); the regulator
-  `WeierstrassCurve.Affine.regulator` (`MordellWeil/Regulator/Basic.lean`).
-- Layer 7: `WeierstrassCurve.sha` (`GaloisCohomology/Selmer/NumberField.lean`);
-  `WeierstrassCurve.finite_selmerGroup` (`GaloisCohomology/Selmer/Finite.lean`); the quotient
-  `WeierstrassCurve.bsdQuotient` (`BirchSwinnertonDyer/Quotient.lean`) and the statement
-  `TauCeti.BirchSwinnertonDyerConjecture` (`BirchSwinnertonDyer/Statement.lean`).
-- Layer 8, in the namespace `WeierstrassCurve`: `IsMinimalPairNF`, `MinimalPairModel`,
-  `exists_minimalPairModel`, `minimalPairModel_unique`, `naiveHeight` and
-  `finite_minimalPairEquations_bounded_height` (`MinimalPairModel.lean`); `abcQuality`
-  (`AbcQuality.lean`); `integralPoints` (`Affine/Point/Integral.lean`); and `TauCeti.freyCurve`
-  (`FreyCurve/Basic.lean`), `TauCeti.AlgorithmicSzpiroConjecture` (`Szpiro.lean`) and
-  `TauCeti.AlgorithmicSzpiroConjecture.asymptoticFermat` (`FreyCurve/Szpiro.lean`).
-
-The headline theorems the pinned Tau Ceti does not prove are Tate's uniformisation of §Layer 4
-(the uniformisation map is a bijective homomorphism), the classical Nagell–Lutz bound of §Layer 6
-and, in §Layer 7, the equality of the `L`-functions of isogenous curves and Cassels' theorem;
-`Suggested.lean` states these four.
+---
 
 ## Conventions
 
@@ -336,112 +228,6 @@ and, in §Layer 7, the equality of the `L`-functions of isogenous curves and Cas
   a layer needs them, and swap in the upstream version — deleting the duplication — the moment
   it lands.** The ⚠ *mathlib-track* tags below and the provenance section record what is in
   flight where.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-This is the foundation the roadmap builds on; it is consumed, not rebuilt.
-
-- **The Weierstrass model and its invariants.** `WeierstrassCurve R`, the `a`-invariants,
-  `b₂`/`b₄`/`b₆`/`b₈`, `c₄`/`c₆`, `Δ`, `WeierstrassCurve.j`, `WeierstrassCurve.IsElliptic`, the
-  `VariableChange` group and its action, the normal forms, `ofJ` (in `ModelsWithJ.lean`), and base change
-  `WeierstrassCurve.baseChange`
-  (`Mathlib/AlgebraicGeometry/EllipticCurve/{Weierstrass,VariableChange,NormalForms,ModelsWithJ}.lean`).
-- **The group law, through the class group.** `WeierstrassCurve.Affine.Point` and its
-  `AddCommGroup` (`.../Affine/Point.lean`), with the projective and Jacobian models
-  (`.../Projective/*`, `.../Jacobian/*`). The proof is the ideal-class-group route of
-  Angdinata–Xu, and its infrastructure is load-bearing API here, not an
-  implementation detail: the coordinate ring `Affine.CoordinateRing` (`AdjoinRoot W.polynomial`,
-  an integral domain), the function field `Affine.FunctionField` (its fraction field), and the
-  injective class-group map `Point.toClass` — Layer 0 is built directly on these.
-- **Division polynomials and elliptic divisibility sequences.** `WeierstrassCurve.Ψ`, `Φ`, `ψ`
-  (`.../DivisionPolynomial/*`) and the elliptic-divisibility-sequence development
-  (`Mathlib/NumberTheory/EllipticDivisibilitySequence.lean` — cited by file: the sequence
-  predicates' names are in flux upstream, so the roadmap does not pin them).
-- **Formal group laws.** One-dimensional formal group laws over a commutative ring —
-  associativity and units, inverses, the additive and multiplicative laws, and the group
-  instance on evaluation ideals (`Mathlib/RingTheory/FormalGroup/Basic.lean`, W. Zou). Layer 1's
-  `Ê` is built as an *instance* of this API (the elliptic formal group law from the expansion at
-  `O`), not as a parallel formal-group theory.
-- **Reduction over a DVR.** The good/multiplicative/additive trichotomy, minimal models, the
-  reduction predicates `HasGood/Multiplicative/SplitMultiplicative/AdditiveReduction`, and
-  `WeierstrassCurve.minimal` (`.../EllipticCurve/Reduction.lean`).
-  ⚠ Mathlib states these only over a **DVR**, the base of Layer 4's Tate's-algorithm strand;
-  over a complete rank-1 valued field that is not discretely valued, such as `ℂ_p`, Layer 4
-  states the reduction of the Tate curve on its equation, with no reduction predicate.
-- **Heights and the `L`-function definition.** `Mathlib/NumberTheory/Height/*` (the general
-  height API and Northcott) and `.../EllipticCurve/LFunction.lean`. The point height is
-  Mathlib's (`Mathlib/NumberTheory/Height/EllipticCurve.lean`, M. Stoll): the naïve height
-  `WeierstrassCurve.Affine.Point.naiveHeight`, the height bound
-  `∃ C, ∀ x, |logHeight (fun i ↦ (addSubMap W i).eval x) − 2 * logHeight x| ≤ C`
-  (`WeierstrassCurve.Affine.abs_logHeight_addSubMap_sub_two_mul_logHeight_le`), the approximate
-  parallelogram law `WeierstrassCurve.Affine.approx_parallelogram_law`, Northcott finiteness
-  `WeierstrassCurve.Affine.finite_naiveHeight_le` and `WeierstrassCurve.Affine.finite_torsion`,
-  over a field with admissible absolute values. Layer 6 consumes them and adds weak
-  Mordell–Weil and the descent.
-- **Field theory and valuation theory.** Finite extensions and `Module.finrank`, separable and
-  purely inseparable extensions with `Field.finSepDegree`, Kähler differentials
-  (`Ω[F⁄K]`, `KaehlerDifferential.map`), and the valuation/`ValuationSubring` material on which
-  Layer 0's places are built.
-- **Continuous cohomology.** Continuous cohomology of topological groups
-  (`Mathlib/RepresentationTheory/Homological/ContCohomology/`), consumed by
-  Layer 7 through the forced-discrete constructor itemised there. (Mathlib's Weierstrass
-  `℘`-function exists but is not consumed anywhere on this roadmap — complex uniformisation
-  is out of scope; the complex-analytic successor roadmap is where it becomes relevant.)
-
-What is *not* here is the roadmap: places and the divisor calculus, isogenies and the dual, the
-Weil pairing and the Tate module, the finiteness
-and count of `E(𝔽_q)`, the Hasse bound, the reduction filtration on points and Tate's algorithm,
-the Tate curve, the twists, the Mordell–Weil theorem, and Selmer/Sha.
-
-### From Tau Ceti
-
-The four headline theorems the pinned Tau Ceti does not prove are stated against its objects:
-the uniformisation map `TauCeti.tateUniformization` (`TateCurve/Uniformization.lean`) for
-Layer 4's Tate uniformisation; the short model `WeierstrassCurve.shortCurve`
-(`ShortWeierstrass.lean`) for Layer 6's classical Nagell–Lutz bound, which sharpens the
-discriminant form `WeierstrassCurve.lutz_nagell` (`DivisionPolynomial/ShortNagellLutz.lean`) by
-the same integrality; and `TauCeti.Isogeny`,
-`WeierstrassCurve.sha` and `WeierstrassCurve.bsdQuotient`, whose period factor is
-`WeierstrassCurve.minimalRealPeriod` (`MinimalModel/RealPeriod.lean`), for Cassels' theorem in
-Layer 7, which also consumes the transfer of `Ш` finiteness across an isogeny,
-`TauCeti.Isogeny.Hom.finite_sha_iff` (`GaloisCohomology/Isogeny/Sha.lean`); the equality of
-`L`-functions is stated for Mathlib's `WeierstrassCurve.LFunction` and extends Tau Ceti's
-`TauCeti.Isogeny.localPolynomial_eq_of_hasPotentialGoodReduction` (`TateModule/Isogeny.lean`)
-to every prime. Files are relative
-to `TauCeti/AlgebraicGeometry/EllipticCurve/`; the rest of this roadmap's Tau Ceti development is
-listed in §Scope and ownership.
-
-### From TauCetiRoadmap.AlgebraicCurves
-
-- **Layer 0** (function fields, constant fields and places): the exact constants `k̃ = ⋂_P 𝒪_P`,
-  consumed by Layer 1's unramifiedness milestone.
-- **Layer 6** (extensions of function fields): the induced-place API and the fundamental identity
-  `Σ e·f = [F′ : F]`, consumed by Layer 0's induced place.
-- **Layer 10's early Weierstrass local-ring milestone**: the smooth affine local rings, the
-  normalized valuation at infinity, the classification of places and the local Kähler
-  generation by `ω`, consumed by Layers 0 and 1. It starts after AlgebraicCurves Layer 0 and uses
-  no elliptic genus, isogeny or translation-invariance result.
-
-## How to read the build
-
-The layers are in dependency order, and each layer's Dependencies say what it needs; dependency
-order is not a schedule, and independent layers proceed in parallel.
-Layer 0 is the dictionary between Mathlib's point group and the places of the function field;
-Layer 0.5 the base change, Galois actions, translations and descent every later layer uses;
-Layer 1 the isogenies, their degree, the dual, the invariant differential and the formal group;
-Layer 2 the torsion, the Weil pairing and the Tate module; Layer 3 the theory over a finite field,
-ending in the Hasse bound and the zeta function; Layer 4 the reduction theory over a discrete
-valuation ring and the Tate curve over a complete rank-one valued field; Layers 4.5a and 4.5b the
-invariants of minimal models over a Dedekind domain and the construction of global equations over
-a number field; Layer 5 the twists; Layer 6 the Mordell–Weil theorem, explicit `2`-descent and
-Nagell–Lutz; Layer 7 Selmer groups, Sha, the Birch–Swinnerton-Dyer quotient over `ℚ` and Cassels'
-theorem; and Layer 8 the selected `ℚ`-specific database adapters. Every milestone is one of
-**port** (it exists in a pinned source, to migrate), **core** (new development on the main line)
-or **extension**; unmarked milestones are core, and the provenance section records the ports.
-
----
 
 ## The build, in layers
 
@@ -2326,6 +2112,220 @@ across Layers 4, 4.5a and 8.
   conductor formula that FLT and modularity arguments consume is stated only once it exists.
   ⚠ The modularity statement this curve is famous for is not this roadmap's, and nothing here
   presupposes it.
+
+## Scope and ownership
+
+**No schemes.** Silverman's isogenies are morphisms of curves-as-varieties, and Mathlib has
+scheme-track work in flight that will eventually provide exactly that: the affine scheme of an
+elliptic curve ([mathlib #25983](https://github.com/leanprover-community/mathlib4/pull/25983)),
+the group-scheme structure
+([mathlib #35151](https://github.com/leanprover-community/mathlib4/pull/35151)), and a
+modular-curves project further down that road. This roadmap deliberately neither builds on,
+blocks on, nor duplicates any of it: every object here is a Weierstrass equation, its point
+group, its function field. When the scheme-level curve arrives, the anti-equivalence of curves
+and function fields identifies these isogenies with the scheme morphisms; that comparison — like
+the **Néron models** that live natively in the scheme world — belongs to a future scheme-facing
+roadmap, not this one.
+
+**Out of scope.** The elliptic curve as a scheme, group schemes, and **Néron models** — the
+scheme-facing story above, including the comparison of these isogenies with scheme morphisms.
+Modular curves, moduli, and the representability questions around them are a separate project.
+**Complex uniformisation** `ℂ/Λ ≅ E(ℂ)` is left out: its honest form is analytic, not
+arithmetic — it needs a complex-manifold structure on `E(ℂ)`, a substantial and orthogonal
+development — and belongs on a dedicated complex-analytic roadmap. The **Birch–Swinnerton-Dyer
+conjecture** is not proved here, and its unconditional *statement* needs the analytic
+continuation of `L(E, s)`, which Mathlib does not have; rather than rule it out on those
+grounds, §Layer 7 carries a **statement-only milestone**: full BSD over `ℚ` with the analytic
+hypothesis pinned exactly as that layer states it — an analytic function on a connected open
+set containing both `s = 1` and part of the half-plane of convergence, agreeing with the
+Dirichlet series there, since merely assuming "a function analytic near `s = 1`" admits an
+unrelated germ and states nothing — every
+other ingredient is built by Layers 4–7, so modulo that hypothesis the statement is cheap.
+(The *arithmetic* BSD quotient **over `ℚ`**, assuming `Ш` finite, and Cassels' theorem that it
+is unchanged by isogeny are §Layer 7 milestones; *proving* the conjecture itself is out — as is the
+general-number-field quotient, whose period honestly wants complex uniformisation.) Two further
+statements are out, and §Layer 8 says so where it defines the objects they concern: **Siegel's
+theorem**, that the integral points of a model are finite, which needs Diophantine approximation
+at Thue–Siegel–Roth or Baker strength that nothing here builds; and **any bound of abc or Szpiro
+type** — proving one is not attempted, and nothing below is conditional on one. Their
+*statements*, and the implications between them, are in: §Layer 8 states the abc conjecture,
+Szpiro's conjecture and the modified Szpiro conjecture, and proves the implications a formalised
+Frey curve makes available. Everything else — through
+Mordell–Weil, Selmer/Sha, the global minimal model, and the **selected `ℚ`-specific database
+adapters** of §Layer 8: the minimal-pair model and its height, the abc quality, the Szpiro ratio,
+the named Szpiro and abc statements with the implications between them, and bounded
+integral-point search — is in.
+
+Suggested home: `TauCeti/AlgebraicGeometry/EllipticCurve/` (mirroring Mathlib's layout).
+
+**Already in Tau Ceti.** The pinned Tau Ceti carries the declarations below; the layers cite them
+and `Suggested.lean` does not restate them (files relative to `TauCeti/AlgebraicGeometry/EllipticCurve/`):
+
+- Layer 0: the place at infinity `WeierstrassCurve.Affine.infinityPlace`
+  (`Affine/FunctionField/InfinityPlace/Basic.lean`) and the point–place dictionary
+  `WeierstrassCurve.Affine.pointEquivDegreeOnePlace` (`Affine/FunctionField/PointPlace.lean`);
+  `WeierstrassCurve.Affine.Point.toClass_surjective` (`Affine/Point/ToClass.lean`).
+- Layer 0.5: base change of isogenies `TauCeti.Isogeny.map` and `TauCeti.Isogeny.baseChange`
+  (`Isogeny/BaseChange/Basic.lean`); translations and Galois descent of function-field maps
+  (`Affine/FunctionField/Translation/`, `Affine/FunctionField/Galois/`).
+- Layer 1: `TauCeti.Isogeny` (`Isogeny/Basic.lean`); `TauCeti.Isogeny.fieldPullback` and
+  `TauCeti.Isogeny.comp` (`Isogeny/FunctionField.lean`); `TauCeti.Isogeny.degree`,
+  `TauCeti.Isogeny.finiteDimensional` and `TauCeti.Isogeny.degree_pos` (`Isogeny/Degree.lean`);
+  `TauCeti.Isogeny.toPointHom` (`Isogeny/PointHom/Basic.lean`);
+  `TauCeti.Isogeny.frobeniusIsogeny` and `TauCeti.Isogeny.degree_frobeniusIsogeny`
+  (`Isogeny/Frobenius/Basic.lean`); the dual `TauCeti.Isogeny.dual` (`Isogeny/Dual/Basic.lean`);
+  Vélu's quotients (`Isogeny/Velu/`); `WeierstrassCurve.Affine.nsmul_surjective` over a
+  separably closed field (`Isogeny/MulByInt/Surjective.lean`); the elliptic formal group
+  (`FormalGroup/`).
+- Layer 2: `WeierstrassCurve.torsion_addEquiv_prod` (`Isogeny/MulByInt/Torsion/Structure.lean`);
+  the Weil pairing `TauCeti.Isogeny.weilPairing` over a separably closed field, with
+  `TauCeti.Isogeny.weilPairing_nondegenerate` (`Isogeny/MulByInt/WeilPairing/Basic.lean`), and
+  `TauCeti.Isogeny.rationalWeilPairing` over any field (`GaloisCohomology/WeilPairing/Rational.lean`),
+  both for `N` invertible; the Tate module and its Galois representation
+  `WeierstrassCurve.tateModuleGaloisRepresentation` (`TateModule/`).
+- Layer 3: `WeierstrassCurve.Affine.finite_point` (`Affine/FinitePoint.lean`);
+  `WeierstrassCurve.pointCount` and `WeierstrassCurve.frobeniusTrace` (`PointCount.lean`); the
+  Hasse bound `WeierstrassCurve.frobeniusTrace_sq_le_four_mul_card` (`HasseBound.lean`);
+  `WeierstrassCurve.IsSupersingular`, `WeierstrassCurve.IsOrdinary` and
+  `WeierstrassCurve.isSupersingular_baseChange_iff` (`Supersingular.lean`);
+  `WeierstrassCurve.isSupersingular_iff_dvd_frobeniusTrace`
+  (`Isogeny/Frobenius/Supersingular.lean`); the zeta function `WeierstrassCurve.zetaFunction`
+  (`Isogeny/Frobenius/Zeta.lean`).
+- Layer 4: Tate's algorithm and `TauCeti.ReductionSymbol` (`TateAlgorithm/`); the
+  Néron–Ogg–Shafarevich criteria
+  `WeierstrassCurve.hasGoodReduction_iff_tateModuleGaloisRepresentation_eq_one`
+  (`TateModule/GoodReduction.lean`) and
+  `WeierstrassCurve.hasPotentialGoodReduction_iff_finite_image_tateModuleGaloisRepresentation`
+  (`TateModule/PotentialGoodReduction.lean`); the Tate uniformisation map
+  `TauCeti.tateUniformization` (`TateCurve/Uniformization.lean`), its injectivity
+  `TauCeti.tateUniformization_injective` (`TateCurve/Injectivity.lean`), its Galois equivariance
+  `TauCeti.map_algEquiv_tateUniformizationBaseChange` (`TateCurve/Galois.lean`), and the split
+  multiplicative reduction of the Tate curve over a discrete valuation ring,
+  `TauCeti.hasSplitMultiplicativeReduction_tateCurveAt` (`TateCurve/Reduction.lean`).
+- Layer 4.5a, in the namespace `WeierstrassCurve`: `IsGlobalMinimal` and `IsSemiGlobalMinimal`
+  (`GlobalMinimalModel.lean`); `obstructionExponentAt` and `IsSharpSemiGlobalMinimalAt`
+  (`MinimalModel/ObstructionExponent.lean`); `minimalDiscriminantIdeal`
+  (`MinimalModel/DiscriminantIdeal.lean`); `weierstrassDefectClass`, `weierstrassClass`,
+  `globalMinimalityClass` and `weierstrassClass_eq_inv_weierstrassDefectClass`
+  (`MinimalModel/Class.lean`); `IsSemistable` (`MinimalModel/Semistable.lean`);
+  `IsReducedMinimal` (`MinimalModel/Reduced.lean`).
+- Layer 4.5b: `TauCeti.KrausLocalCondition`, `TauCeti.krausLocalCondition_iff_exists_integralModel`
+  and `TauCeti.krausGlobalCondition_iff_exists_integralModel` (`GlobalModels/Kraus.lean`);
+  `WeierstrassCurve.globalMinimalityClass_eq_one_iff` and the sharp construction at a prime
+  representing the class, `WeierstrassCurve.globalMinimalityClass_eq_classGroupMk_iff`
+  (`MinimalModel/GlobalExistence.lean`); `WeierstrassCurve.existsUnique_reducedMinimal`
+  (`MinimalModel/Reduced.lean`).
+- Layer 5: `WeierstrassCurve.pointedTwistEquivNonabelianH1` (`Twist/Classification.lean`);
+  `WeierstrassCurve.quadraticTwistOf`, `WeierstrassCurve.quadraticTwist` and
+  `WeierstrassCurve.quadraticTwistPointEquiv` (`QuadraticTwist/Basic.lean`);
+  `WeierstrassCurve.exists_quadraticTwist_hasSplitMultiplicativeReduction`
+  (`QuadraticTwist/SplitMultiplicative.lean`).
+- Layer 6: `WeierstrassCurve.Affine.fg_point_of_numberField` (`MordellWeil/FinitelyGenerated.lean`);
+  `WeierstrassCurve.lutz_nagell` (`DivisionPolynomial/ShortNagellLutz.lean`); the canonical height
+  `WeierstrassCurve.Affine.Point.canonicalHeight` (`CanonicalHeight/Basic.lean`); the regulator
+  `WeierstrassCurve.Affine.regulator` (`MordellWeil/Regulator/Basic.lean`).
+- Layer 7: `WeierstrassCurve.sha` (`GaloisCohomology/Selmer/NumberField.lean`);
+  `WeierstrassCurve.finite_selmerGroup` (`GaloisCohomology/Selmer/Finite.lean`); the quotient
+  `WeierstrassCurve.bsdQuotient` (`BirchSwinnertonDyer/Quotient.lean`) and the statement
+  `TauCeti.BirchSwinnertonDyerConjecture` (`BirchSwinnertonDyer/Statement.lean`).
+- Layer 8, in the namespace `WeierstrassCurve`: `IsMinimalPairNF`, `MinimalPairModel`,
+  `exists_minimalPairModel`, `minimalPairModel_unique`, `naiveHeight` and
+  `finite_minimalPairEquations_bounded_height` (`MinimalPairModel.lean`); `abcQuality`
+  (`AbcQuality.lean`); `integralPoints` (`Affine/Point/Integral.lean`); and `TauCeti.freyCurve`
+  (`FreyCurve/Basic.lean`), `TauCeti.AlgorithmicSzpiroConjecture` (`Szpiro.lean`) and
+  `TauCeti.AlgorithmicSzpiroConjecture.asymptoticFermat` (`FreyCurve/Szpiro.lean`).
+
+The headline theorems the pinned Tau Ceti does not prove are Tate's uniformisation of §Layer 4
+(the uniformisation map is a bijective homomorphism), the classical Nagell–Lutz bound of §Layer 6
+and, in §Layer 7, the equality of the `L`-functions of isogenous curves and Cassels' theorem;
+`Suggested.lean` states these four.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+This is the foundation the roadmap builds on; it is consumed, not rebuilt.
+
+- **The Weierstrass model and its invariants.** `WeierstrassCurve R`, the `a`-invariants,
+  `b₂`/`b₄`/`b₆`/`b₈`, `c₄`/`c₆`, `Δ`, `WeierstrassCurve.j`, `WeierstrassCurve.IsElliptic`, the
+  `VariableChange` group and its action, the normal forms, `ofJ` (in `ModelsWithJ.lean`), and base change
+  `WeierstrassCurve.baseChange`
+  (`Mathlib/AlgebraicGeometry/EllipticCurve/{Weierstrass,VariableChange,NormalForms,ModelsWithJ}.lean`).
+- **The group law, through the class group.** `WeierstrassCurve.Affine.Point` and its
+  `AddCommGroup` (`.../Affine/Point.lean`), with the projective and Jacobian models
+  (`.../Projective/*`, `.../Jacobian/*`). The proof is the ideal-class-group route of
+  Angdinata–Xu, and its infrastructure is load-bearing API here, not an
+  implementation detail: the coordinate ring `Affine.CoordinateRing` (`AdjoinRoot W.polynomial`,
+  an integral domain), the function field `Affine.FunctionField` (its fraction field), and the
+  injective class-group map `Point.toClass` — Layer 0 is built directly on these.
+- **Division polynomials and elliptic divisibility sequences.** `WeierstrassCurve.Ψ`, `Φ`, `ψ`
+  (`.../DivisionPolynomial/*`) and the elliptic-divisibility-sequence development
+  (`Mathlib/NumberTheory/EllipticDivisibilitySequence.lean` — cited by file: the sequence
+  predicates' names are in flux upstream, so the roadmap does not pin them).
+- **Formal group laws.** One-dimensional formal group laws over a commutative ring —
+  associativity and units, inverses, the additive and multiplicative laws, and the group
+  instance on evaluation ideals (`Mathlib/RingTheory/FormalGroup/Basic.lean`, W. Zou). Layer 1's
+  `Ê` is built as an *instance* of this API (the elliptic formal group law from the expansion at
+  `O`), not as a parallel formal-group theory.
+- **Reduction over a DVR.** The good/multiplicative/additive trichotomy, minimal models, the
+  reduction predicates `HasGood/Multiplicative/SplitMultiplicative/AdditiveReduction`, and
+  `WeierstrassCurve.minimal` (`.../EllipticCurve/Reduction.lean`).
+  ⚠ Mathlib states these only over a **DVR**, the base of Layer 4's Tate's-algorithm strand;
+  over a complete rank-1 valued field that is not discretely valued, such as `ℂ_p`, Layer 4
+  states the reduction of the Tate curve on its equation, with no reduction predicate.
+- **Heights and the `L`-function definition.** `Mathlib/NumberTheory/Height/*` (the general
+  height API and Northcott) and `.../EllipticCurve/LFunction.lean`. The point height is
+  Mathlib's (`Mathlib/NumberTheory/Height/EllipticCurve.lean`, M. Stoll): the naïve height
+  `WeierstrassCurve.Affine.Point.naiveHeight`, the height bound
+  `∃ C, ∀ x, |logHeight (fun i ↦ (addSubMap W i).eval x) − 2 * logHeight x| ≤ C`
+  (`WeierstrassCurve.Affine.abs_logHeight_addSubMap_sub_two_mul_logHeight_le`), the approximate
+  parallelogram law `WeierstrassCurve.Affine.approx_parallelogram_law`, Northcott finiteness
+  `WeierstrassCurve.Affine.finite_naiveHeight_le` and `WeierstrassCurve.Affine.finite_torsion`,
+  over a field with admissible absolute values. Layer 6 consumes them and adds weak
+  Mordell–Weil and the descent.
+- **Field theory and valuation theory.** Finite extensions and `Module.finrank`, separable and
+  purely inseparable extensions with `Field.finSepDegree`, Kähler differentials
+  (`Ω[F⁄K]`, `KaehlerDifferential.map`), and the valuation/`ValuationSubring` material on which
+  Layer 0's places are built.
+- **Continuous cohomology.** Continuous cohomology of topological groups
+  (`Mathlib/RepresentationTheory/Homological/ContCohomology/`), consumed by
+  Layer 7 through the forced-discrete constructor itemised there. (Mathlib's Weierstrass
+  `℘`-function exists but is not consumed anywhere on this roadmap — complex uniformisation
+  is out of scope; the complex-analytic successor roadmap is where it becomes relevant.)
+
+What is *not* here is the roadmap: places and the divisor calculus, isogenies and the dual, the
+Weil pairing and the Tate module, the finiteness
+and count of `E(𝔽_q)`, the Hasse bound, the reduction filtration on points and Tate's algorithm,
+the Tate curve, the twists, the Mordell–Weil theorem, and Selmer/Sha.
+
+### From Tau Ceti
+
+The four headline theorems the pinned Tau Ceti does not prove are stated against its objects:
+the uniformisation map `TauCeti.tateUniformization` (`TateCurve/Uniformization.lean`) for
+Layer 4's Tate uniformisation; the short model `WeierstrassCurve.shortCurve`
+(`ShortWeierstrass.lean`) for Layer 6's classical Nagell–Lutz bound, which sharpens the
+discriminant form `WeierstrassCurve.lutz_nagell` (`DivisionPolynomial/ShortNagellLutz.lean`) by
+the same integrality; and `TauCeti.Isogeny`,
+`WeierstrassCurve.sha` and `WeierstrassCurve.bsdQuotient`, whose period factor is
+`WeierstrassCurve.minimalRealPeriod` (`MinimalModel/RealPeriod.lean`), for Cassels' theorem in
+Layer 7, which also consumes the transfer of `Ш` finiteness across an isogeny,
+`TauCeti.Isogeny.Hom.finite_sha_iff` (`GaloisCohomology/Isogeny/Sha.lean`); the equality of
+`L`-functions is stated for Mathlib's `WeierstrassCurve.LFunction` and extends Tau Ceti's
+`TauCeti.Isogeny.localPolynomial_eq_of_hasPotentialGoodReduction` (`TateModule/Isogeny.lean`)
+to every prime. Files are relative
+to `TauCeti/AlgebraicGeometry/EllipticCurve/`; the rest of this roadmap's Tau Ceti development is
+listed in §Scope and ownership.
+
+### From TauCetiRoadmap.AlgebraicCurves
+
+- **Layer 0** (function fields, constant fields and places): the exact constants `k̃ = ⋂_P 𝒪_P`,
+  consumed by Layer 1's unramifiedness milestone.
+- **Layer 6** (extensions of function fields): the induced-place API and the fundamental identity
+  `Σ e·f = [F′ : F]`, consumed by Layer 0's induced place.
+- **Layer 10's early Weierstrass local-ring milestone**: the smooth affine local rings, the
+  normalized valuation at infinity, the classification of places and the local Kähler
+  generation by `ω`, consumed by Layers 0 and 1. It starts after AlgebraicCurves Layer 0 and uses
+  no elliptic genus, isogeny or translation-invariance result.
 
 ## References
 
