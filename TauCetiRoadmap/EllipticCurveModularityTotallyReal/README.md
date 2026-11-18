@@ -1136,9 +1136,8 @@ action on endomorphisms and Layers 4 and 4.5a for the reduction types.
   of exact level `𝔫_E`, trivial central character, rational coefficients and equality of every
   local factor, and names the real quadratic case as its existence input. Section 4.4 supplies this
   for every totally real field.
-- ModularityAndLanglandsExtensions and its Part II consume elliptic modularity in their
-  compatible-system, L-function and symmetric-power applications; §4.4 removes degree
-  restrictions on the base field there.
+- ModularityAndLanglandsExtensions and its Part II take elliptic modularity over ℚ from
+  EllipticCurveModularity; §4.4 makes the same input available over every totally real field.
 - EllipticCurveModularity uses §4.4 with `K = ℚ` for the existence of the newform of an
   elliptic curve over ℚ, from which it derives the classical modularity statements, the
   modular parametrisation and the analytic continuation of `L(E,s)`.
@@ -1325,10 +1324,9 @@ differential and its pullback along isogenies).
 
 ### From TauCetiRoadmap.JacobianChallenge
 
-Layers D–F: the Jacobian `Pic⁰` of a smooth proper geometrically connected curve over a field
-with a rational point, as an abelian variety, with its Abel–Jacobi map. The rational point is one
-of that roadmap's standing hypotheses; the curves `C^δ_m` have one, `φ⁻¹(O, 1)` of §1.2(6). Used
-for `J^δ_m = Pic⁰(C^δ_m)` in §§1.2–1.4.
+Layers D–F: the Jacobian `Pic⁰` of a smooth proper geometrically connected curve over a field,
+as an abelian variety, constructed without a rational point; the Abel–Jacobi map needs one, and
+the curves `C^δ_m` have one, `φ⁻¹(O, 1)` of §1.2(6). Used for `J^δ_m = Pic⁰(C^δ_m)` in §§1.2–1.4.
 
 ### From TauCetiRoadmap.EllipticCurveModularityImaginaryQuadratic
 
