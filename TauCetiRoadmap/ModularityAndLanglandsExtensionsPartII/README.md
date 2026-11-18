@@ -1,34 +1,43 @@
 # Roadmap: modularity and Langlands extensions, part II — the proof of symmetric power functoriality
 
-**Summary.** This roadmap proves symmetric power functoriality for Hilbert modular forms: for every
-totally real field `F`, every non-CM regular algebraic cuspidal automorphic representation `π` of
-`GL_2(𝔸_F)` and every `n ≥ 1`, the symmetric power `Sym^{n−1}π` exists as an automorphic
-representation of `GL_n(𝔸_F)` with the expected local component at every place, and its `p`-adic
-Galois representation is `Sym^{n−1}` of that of `π` for every `p`. The statement, and the cases
-`n ≤ 5` from which the proof starts, belong to ModularityAndLanglandsExtensions; this roadmap
-supplies the proof, following Newton–Thorne's induction on `n`. Writing `n = p + r` with
-`n/2 < p < n` prime, the residual representation of `Sym^{n−1}` modulo `p` has, after
-semisimplification, two blocks: a twist of a smaller symmetric power, and the tensor product of a
-coefficient Frobenius twist of the residual representation of `π` with a symmetric power of it. Thorne's
-`p`-adic level raising on definite unitary groups and residually reducible automorphy lifting turn
-ordinary automorphic witnesses for the two blocks into automorphy of `Sym^{n−1}`. The witness for
-the twisted tensor comes from an untwisted tensor of `π` with a symmetric power of a congruent
-companion form, proved automorphic by comparing deformation problems whose local conditions have
-the same reduced special fibre, and from a functoriality lifting theorem for tensor products with
-one factor fixed, proved by patching a rank-two deformation ring simultaneously with a
-pseudodeformation ring of the tensor and propagated over the Galois group of the coefficient
-field. Over `ℚ` the theorem gives symmetric power functoriality for every non-CM newform of weight
-at least `2`, and in particular Newton–Thorne's Theorems A and E for level-one eigenforms and their
-Theorem B for forms without supercuspidal local components; consequently the symmetric power Euler
-products of level-one eigenforms, and of non-CM newforms of weight at least `2` away from their
-level, extend to entire functions, which are the statements this roadmap's Lean file records. The
-residually reducible deformation theory, the definite unitary Hecke algebras and the Taylor–Wiles
-data come from PotentialAutomorphyInfrastructurePartII, the patching templates from
-GL2ModularityLifting and DeformationAndDerivedPatchingAlgebra, and the companion forms and
-prescribed-type lifts from PotentialModularityAndCompatibleSystems. Layer 6 is Thorne's level
-raising, Layer 9 the simultaneous patching for symmetric powers, Layers 11 and 12 the untwisted
-tensor and tensor functoriality lifting, Layer 13 the residual witnesses and the induction, and
-Layer 14 the consequences over `ℚ`.
+**Summary.** This roadmap proves symmetric power functoriality for Hilbert modular forms. Let `F`
+be a totally real field and `π` a regular algebraic cuspidal automorphic representation of
+`GL_2(𝔸_F)` that is not CM. Then for every `n ≥ 1` the symmetric power `Sym^{n−1}π` exists as an
+automorphic representation of `GL_n(𝔸_F)`, with the expected local component at every place, and for
+every prime `p` its `p`-adic Galois representation is `Sym^{n−1}` of that of `π`. The statement, and
+the cases `n ≤ 5` from which the proof starts, belong to ModularityAndLanglandsExtensions; this
+roadmap supplies the proof.
+
+The proof is Newton–Thorne's induction on `n`. Write `n = p + r` with `p` a prime in the range
+`n/2 < p < n`. Modulo `p`, the residual representation of `Sym^{n−1}` has, after semisimplification,
+two blocks. One is a twist of a smaller symmetric power. The other is the tensor product of a
+coefficient Frobenius twist of the residual representation of `π` with a symmetric power of it. Given
+ordinary automorphic witnesses for the two blocks, Thorne's `p`-adic level raising on definite unitary
+groups and residually reducible automorphy lifting give the automorphy of `Sym^{n−1}`.
+
+The witness for the twisted tensor is obtained in two steps. First, an untwisted tensor of `π` with a
+symmetric power of a congruent companion form is proved automorphic, by comparing deformation
+problems whose local conditions have the same reduced special fibre. Second, a functoriality lifting
+theorem for tensor products with one factor fixed is proved, by patching a rank-two deformation ring
+simultaneously with a pseudodeformation ring of the tensor, and is propagated over the Galois group
+of the coefficient field.
+
+Over `ℚ` the theorem gives symmetric power functoriality for every non-CM newform of weight at least
+`2`. In particular it gives Newton–Thorne's Theorems A and E for level-one eigenforms, and their
+Theorem B for forms without supercuspidal local components. Consequently the symmetric power Euler
+products of level-one eigenforms extend to entire functions, and so do those of non-CM newforms of
+weight at least `2` away from their level. These last statements are the ones this roadmap's Lean
+file records.
+
+Besides that roadmap, this one builds on four others. PotentialAutomorphyInfrastructurePartII provides the residually
+reducible deformation theory, the definite unitary Hecke algebras and the Taylor–Wiles data.
+GL2ModularityLifting and DeformationAndDerivedPatchingAlgebra provide the patching templates.
+PotentialModularityAndCompatibleSystems provides the companion forms and the lifts of prescribed
+type.
+
+Layer 6 is Thorne's level raising. Layer 9 is the simultaneous patching for symmetric powers. Layers
+11 and 12 treat the untwisted tensor and tensor functoriality lifting. Layer 13 produces the residual
+witnesses and runs the induction. Layer 14 draws the consequences over `ℚ`.
 
 | Layer | Title | What it builds |
 |---|---|---|
