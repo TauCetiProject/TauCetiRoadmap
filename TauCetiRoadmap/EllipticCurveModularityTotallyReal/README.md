@@ -35,9 +35,10 @@ with all residual conditions come from EllipticCurveModularityImaginaryQuadratic
 states them over arbitrary number fields. GL2ModularityLifting provides the weight-two
 lifting theorem over totally real fields, GL2AutomorphicRepresentationsAndTransfer provides
 residual modularity of solvable representations and quadratic automorphic induction, and
-PotentialAutomorphyInfrastructure provides soluble descent. EllipticCurveModularity derives
-from the case `K = ℚ` the newform of an elliptic curve over ℚ, its modular parametrisation and
-its L-function.
+PotentialAutomorphyInfrastructure provides soluble descent. Over ℚ the main theorem gives a
+second proof, by a different route, of the existence of the newform that EllipticCurveModularity
+obtains from classical Serre modularity; that roadmap does not use this case, and the modular
+parametrisation and the other classical consequences over ℚ are built there.
 
 The first layer constructs the real cyclotomic subfield, the reflection twist and the
 descended systems with their lattices and congruences. The second proves the tools over
@@ -1105,8 +1106,6 @@ EllipticCurveModularityImaginaryQuadratic Layers 1–4 and §7.4.)
 - For K = ℚ there is no hypothesis on E: §4.1 applies to every geometrically non-CM curve,
   with `p > 100` in §3.1 since `d = 1`, and §4.3 to every CM curve. This case is
   [BCDT01](#references), Theorem A (BCDT01 line 15), which the route here does not use.
-  EllipticCurveModularity derives from it the newform of an elliptic curve over ℚ, its
-  modular parametrisation and its L-function.
 - Every real quadratic field ([FLHS15](#references), Theorem 1, FLHS15 line 87), every totally real
   cubic and quartic field, including quartic fields containing `√5`, and fields of every degree are
   covered without exclusions.
@@ -1139,11 +1138,6 @@ action on endomorphisms and Layers 4 and 4.5a for the reduction types.
 - ModularityAndLanglandsExtensions and its Part II consume elliptic modularity in their
   compatible-system, L-function and symmetric-power applications; §4.4 removes degree
   restrictions on the base field there.
-- EllipticCurveModularity uses §4.4 with `K = ℚ` for the existence of the newform of an
-  elliptic curve over ℚ, from which it derives the classical modularity statements, the
-  modular parametrisation and the analytic continuation of `L(E,s)`.
-- EllipticCurveModularityImaginaryQuadraticPartII treats CM bases with the same parent; the two
-  roadmaps together cover every totally real and every CM field.
 - The descended systems of Layer 1 and the summand lifting statement §2.2 apply to other families of
   covers with a reflection over a totally real field.
 
@@ -1224,9 +1218,13 @@ specified under [Exact supplier contracts](#exact-supplier-contracts).
 
 **Outside this roadmap.** CM base fields (EllipticCurveModularityImaginaryQuadratic and its
 Part II), number fields that are neither totally real nor CM, abelian varieties of higher
-dimension and computational questions. The classical formulations over ℚ (the newform of
-level the conductor, the modular parametrisation and the analytic continuation of the
-L-function) are derived from the case K = ℚ of §4.4 in EllipticCurveModularity.
+dimension and computational questions. The modular parametrisation, the equivalence of the
+modularity formulations and the functional equation of `L(E,s)` over ℚ are
+EllipticCurveModularity Layers R29.5–R29.6. Over ℚ, §4.4 proves again, by a route that does
+not use [BCDT01](#references), Theorem A, that the newform of an elliptic curve exists and has
+the local factors of the curve; EllipticCurveModularity obtains that newform from classical
+Serre modularity in Layer R29.3 and compares its local factors with the curve in Layer R29.4,
+without this roadmap.
 
 **The Lean file.** [`Suggested.lean`](Suggested.lean) accompanies this document; the roadmap is
 this README. The file states, against the pinned Mathlib and Tau Ceti, the headline theorems whose
