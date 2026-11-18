@@ -122,9 +122,10 @@ to `v` together with `uv` is the fundamental cycle of `uv`. For an edge `f` of `
 of `G` whose ends are not joined in `F − f` form the fundamental cut of `f`.
 
 - *Duality.* For an acyclic graph `F`, a path `p` of `F` from `u` to `v` and any `f : Sym2 V`:
-  `f ∈ p.edges` if and only if `u` and `v` are not joined in `F.deleteEdges {f}`. So `f` lies on
-  the fundamental cycle of `uv` exactly when `uv` lies in the fundamental cut of `f` (Diestel,
-  §1.9, pp. 25–26).
+  `f ∈ p.edges` if and only if `u` and `v` are not joined in `F.deleteEdges {f}`. This is Tau
+  Ceti's `SimpleGraph.Walk.IsPath.mem_edges_iff_not_reachable_deleteEdges` and is not a target; it
+  is the "duality" that the routes below cite. So `f` lies on the fundamental cycle of `uv`
+  exactly when `uv` lies in the fundamental cut of `f` (Diestel, §1.9, pp. 25–26).
 - *Exchange criterion* (`isSpanningForest_exchange_iff`). Let `F` be a spanning forest of `G`,
   `u`, `v` adjacent in `G`, `p` the forest path from `u` to `v` and `f` an edge of `F`. Then
   `F − f + uv` is a spanning forest of `G` if and only if `f ∈ p.edges`. No finiteness is assumed.
@@ -147,8 +148,9 @@ joined.
 
 *Needs:* 1.1; Mathlib `SimpleGraph.Walk.IsPath`, `SimpleGraph.deleteEdges`, `SimpleGraph.edge`,
 `SimpleGraph.IsAcyclic.subsingleton_path`, `SimpleGraph.isAcyclic_sup_fromEdgeSet_iff`,
-`SimpleGraph.isAcyclic_iff_forall_isBridge`, `SimpleGraph.isBridge_iff`. (Proved here, except as
-cited.)
+`SimpleGraph.isAcyclic_iff_forall_isBridge`, `SimpleGraph.isBridge_iff`; Tau Ceti
+`SimpleGraph.Walk.IsPath.mem_edges_iff_not_reachable_deleteEdges` (the duality). (Proved here,
+except as cited.)
 
 ### 1.3 Symmetric exchange
 
@@ -182,7 +184,8 @@ Mathlib `SimpleGraph.IsAcyclic`, `SimpleGraph.Walk.IsPath`, `SimpleGraph.deleteE
 `SimpleGraph.edge`, `SimpleGraph.IsAcyclic.subsingleton_path`,
 `SimpleGraph.IsAcyclic.ncard_edgeSet_add_card_connectedComponent`,
 `SimpleGraph.isAcyclic_sup_fromEdgeSet_iff`, `SimpleGraph.isAcyclic_iff_forall_isBridge`,
-`SimpleGraph.isBridge_iff`. No other layer.
+`SimpleGraph.isBridge_iff`; Tau Ceti
+`SimpleGraph.Walk.IsPath.mem_edges_iff_not_reachable_deleteEdges`. No other layer.
 
 ## Layer 2: minimum spanning forests
 
@@ -452,7 +455,8 @@ walks from `s` to `t`.
 
 *Needs:* Mathlib `Quiver.Path.addWeight`, `Quiver.Path.addWeight_nil`,
 `Quiver.Path.addWeight_comp`; Tau Ceti `TauCeti.ArrowWalk`, `TauCeti.ArrowWalk.arrows`,
-`TauCeti.ArrowWalk.length`, `TauCeti.Assignment`, `TauCeti.ArrowWalk.IsPath`; for the last bullet `TauCeti.PositiveHom`,
+`TauCeti.ArrowWalk.length`, `TauCeti.Assignment`, `TauCeti.ArrowWalk.IsPath`; for the last bullet
+`Quiver.Path.addWeight_const` (a constant weight counts arrows), `TauCeti.PositiveHom`,
 `TauCeti.positiveEDist`, `TauCeti.positiveEDist_ne_top_iff`,
 `TauCeti.PositiveReachable.exists_length_eq_positiveEDist`,
 `TauCeti.positiveReachable_iff_nonempty_arrowWalk`. (Proved here, except as cited.)
@@ -764,7 +768,7 @@ occurrences is proved here).
 ### 5.2 Cayley's formula and prescribed degrees
 
 - `card_isTree`: a nonempty finite type with `n` elements carries `n ^ (n − 2)` trees, with the
-  subtraction of natural numbers (Keller and Trotter, Theorem 5.40, for `V = {1, …, n}`).
+  subtraction of natural numbers (Keller and Trotter, Theorem 5.39, for `V = {1, …, n}`).
 - `card_isTree_degree_eq`: let `V` be finite with `n` elements and `d : V → ℕ` with `1 ≤ d v` for
   all `v` and `(∑ v, d v) + 2 = 2 * n`. The number of trees on `V` in which every `v` has degree
   `d v` is the multinomial coefficient `(n − 2)! / ∏ v, (d v − 1)!`, Mathlib's `Nat.multinomial`
@@ -821,7 +825,10 @@ Already in the libraries and therefore not targets:
   `SimpleGraph.Walk.IsEulerian.card_odd_degree`).
 - Topological orderings of acyclic quivers
   (`TauCeti.Quiver.IsAcyclic.exists_pairwise_isEmpty_hom`) and the partial order of strongly
-  connected components by reachability (`Quiver.StronglyConnectedComponent.instPartialOrder`).
+  connected components by reachability (`Quiver.StronglyConnectedComponent.instPartialOrder`, in
+  `TauCeti/Combinatorics/Quiver/StronglyConnectedComponent.lean`).
+- The duality between the path of an acyclic graph and the deletion of one of its edges
+  (`SimpleGraph.Walk.IsPath.mem_edges_iff_not_reachable_deleteEdges`), which 1.2 cites.
 - The weight of a path of a quiver as the sum of the weights of its arrows
   (`Quiver.Path.addWeight`), with its values on the empty path and on a composite
   (`Quiver.Path.addWeight_nil`, `Quiver.Path.addWeight_comp`); `walkWeight` above only abbreviates
@@ -902,6 +909,11 @@ finiteness.
 
 ### From Tau Ceti
 
+- `TauCeti/Combinatorics/SimpleGraph/Connectivity/EdgeSide.lean`:
+  `SimpleGraph.Walk.IsPath.mem_edges_iff_not_reachable_deleteEdges`: for an acyclic `G`, a path
+  `p : G.Walk s t` and `e : Sym2 V`, `e ∈ p.edges ↔ ¬(G.deleteEdges {e}).Reachable s t`.
+- `TauCeti/Combinatorics/Quiver/PathWeight.lean`: `Quiver.Path.addWeight_const`,
+  `p.addWeight (fun _ => c) = p.length • c`.
 - `TauCeti/Combinatorics/Network/Basic.lean`: `TauCeti.Assignment Q K`, a value in `K` for every
   arrow of the family `Q`, with strict-implicit endpoints.
 - `TauCeti/Combinatorics/Network/Walk.lean`: `TauCeti.ArrowWalk Q s t`, Mathlib's `Quiver.Path` for
