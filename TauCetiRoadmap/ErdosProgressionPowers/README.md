@@ -2094,6 +2094,7 @@ The general modular and analytic inputs above retain the hypotheses and numerica
 - **Schoenfeld1976.** Lowell Schoenfeld, *Sharper bounds for the Chebyshev functions θ(x) and ψ(x). II*, Math. Comp. 30 (1976), Theorems 6*, 7 and bounds (5.3*)–(5.4*).
 - **RamareRumely1996.** Olivier Ramaré and Robert Rumely, *Primes in arithmetic progressions*, Math. Comp. 65 (1996), Theorem 1 and the modulus-eight bounds, pp. 397–425.
 - **RosserSchoenfeld1962.** J. Barkley Rosser and Lowell Schoenfeld, *Approximate formulas for some functions of prime numbers*, Illinois J. Math. 6 (1962), Theorems 1, 5, 6.
+- **Tenenbaum1995.** Gérald Tenenbaum, *Introduction to Analytic and Probabilistic Number Theory* (1995), Theorem 9 and following remark, as located in BS20, p. 365.
 - **Platt2013v1.** David J. Platt, *Numerical computations concerning the GRH*, arXiv:1305.3087v1, Theorem 7.1, p. 14; published in Math. Comp. 85 (2016). Its consequence is consumed from ExplicitZetaBounds §0.3 as the record `PlattRecord`; no computation is specified here.
 - **OpenAI2026.** OpenAI, *Uniform exclusion of Landau–Siegel zeros*, preprint (2026), open repository, Theorem 1: the exclusion with an absolute constant, proved by contradiction along a sequence of conductors. Consumed through AnalyticNumberTheoryPartI §0.34, which supplies the effective constant by its own derivation.
 - **Green2026.** Ben Green, *On Landau–Siegel zeros*, Hexagon 2610.00311 (2026), Theorem 1.1: the inert-prime estimate of AnalyticNumberTheoryPartI §0.34c. Consumed through AnalyticNumberTheoryPartI §0.34.
