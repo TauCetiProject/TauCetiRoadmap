@@ -10,8 +10,9 @@ discharging them finishes neither a layer nor the roadmap.
 
 The statements are qualitative Serre modularity, the level-one case in some weight at least two,
 the finiteness of level-one representations, and odd Artin weight-one modularity. The definitions
-repeat, unchanged, the arithmetic interfaces of ClassicalSerreModularity: attachment is expressed
-on Tau Ceti's
+are the arithmetic interfaces of ClassicalSerreModularity: `GQ`, `IntBar`, `IsFrobAt` and
+`IsUnramifiedAt` repeat its declarations unchanged, and the residual and newform interfaces, which
+it specifies in words, are declared here. Attachment is expressed on Tau Ceti's
 `HeckeRing.GL2.Newform` by its Fourier coefficients, nebentypus and arithmetic Frobenius, over
 Mathlib's actual absolute Galois group, algebraic integers, inertia, complex conjugations and
 matrix representations.
