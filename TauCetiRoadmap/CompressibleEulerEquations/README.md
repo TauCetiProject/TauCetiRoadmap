@@ -28,140 +28,40 @@ the same data agree on their common domain is false for compressible Euler on a 
 background; the roadmap states the correct uniqueness theorems and records an explicit
 counterexample.
 
-## Scope and ownership
+## How to read the build
 
-This roadmap owns:
-
-- the equations of state with positive sound speed, the barotropic and the full compressible
-  Euler systems in material and conservative form, their Galilean invariance and the
-  constant-entropy reduction;
-- quasilinear symmetric hyperbolic systems on an open set of states as a carrier, their
-  principal symbol, round cones dominating the characteristic speeds, and the symmetrisers that
-  make both Euler systems instances;
-- for the acoustical form `g = −c² dt² + Σᵢ (dxⁱ − vⁱ dt)²` of a state on `ℝ × E`: its
-  determinant, its Galilean covariance, the explicit classification of its covectors and the
-  identification of its null covectors with the sound sheet of the characteristic variety of
-  the Euler symbol (the material sheet `ζ₀ + v·ζ′ = 0`, `ζ′ ≠ 0`, is characteristic when its
-  multiplicity is positive but is never null, and it is absent for the barotropic system with
-  `n = 1`); for sound-cone fields continuous on a subset of a half-space: the integral
-  characterisation, local existence and limit-curve compactness of time-parametrised causal
-  curves, past-inextendible extensions, causal pasts, compactness of causal pasts in domains of
-  dependence, openness and idempotence of future domains of dependence of relatively open data,
-  bounded slabs, past-closed restriction and Galilean covariance;
-- Sobolev spaces `Hᵏ_Λ` of Λ-periodic functions for a discrete period group `Λ ⊆ E`, their
-  embeddings, the Gagliardo–Nirenberg interpolation inequality, Moser estimates and Friedrichs
-  mollifiers;
-- energy identities and estimates for linear symmetric hyperbolic systems in the Sobolev class
-  on `E/Λ`, weighted energies with characteristic-monotone Lipschitz weights and moving cones,
-  linear existence in `Hᵏ_Λ`, local well-posedness of the quasilinear Cauchy problem in `Hᵏ_Λ`,
-  uniformly local data, and the Euler instances;
-- local uniqueness on lens-shaped domains and uniqueness on domains of dependence for
-  quasilinear symmetric hyperbolic systems;
-- initial data sets with an open data domain, developments, their order and compatibility, the
-  maximal common development, maximal developments, the largest development inside a given
-  solution, and the null character of the regular part of the boundary of a maximal development.
-
-Boundaries:
-
-- **Mathlib and Tau Ceti** supply everything below this roadmap. The whole-space identification
-  `Hᵏ = Wᵏ'²` and the embedding `Hᵏ(ℝⁿ) ⊆ C₀(ℝⁿ)` for `2k > n`, which the PDE roadmap lists
-  among its §1.3–§1.4 material, are already pinned Tau Ceti declarations and are cited from
-  Tau Ceti directly; nothing else of the PDE roadmap is consumed. Tau Ceti also has nine special
-  cases of Layer 4. On `ℝⁿ` and its open subsets: the product on `W^{1,p}(ℝⁿ)` for `p > n` (at
-  `p = 2`, the case `n = k = 1`, `Λ = 0` of the algebra property), the scalar weak chain rule for a
-  `C¹` function with bounded derivative, the additive interpolation inequality on `W^{2,p}(E)`,
-  and the interior embedding `W^{k+j,2}(Ω) ⊆ Cʲ(Ω)` for `2k > n`, without a bound. On the circle
-  (`n = 1`, `Λ = Tℤ`, complex values): the continuous representatives of
-  `TauCeti.CircleSobolev s A` for `s > 1/2`, the algebra property of that space, the action of
-  holomorphic functions on it, the derivative `H^{s+1} → H^s`, and, for `s > 1/2`, the
-  differentiability of the continuous representative of an element of `H^{s+1}`, with the
-  representative of its derivative as derivative. §§4.1–4.3 state the general forms, and the
-  supplier contracts say how each differs. The commutation `∂^αJ_εu = J_ε∂^αu` of a mollifier
-  with weak derivatives is already pinned for every smooth compactly supported kernel
-  (`TauCeti.HasWeakLineDerivOn.lineDeriv_convolution_right`); §4.4 consumes it and does not
-  restate it. Every statement of the PDE
-  roadmap is scalar (elliptic, parabolic and dispersive theory, with the dyadic analysis of its
-  Layer 7); it plans no hyperbolic system and no Moser estimate in `Hᵏ` (the product bounds of its
-  §7.3 are paraproduct estimates in the Hölder–Zygmund spaces `𝒞^s`). Its §7.1–§7.2 plan the
-  periodic Besov spaces on `𝕋^d = ℝ^d/ℤ^d` by Fourier series; their case `p = q = 2`, integer
-  `s = k`, is `Hᵏ_Λ` for a full-rank `Λ` after a linear change of variable (`y = x/2π` for
-  `Λ = (2πℤ)^n`), up to norm equivalence. The spaces `Hᵏ_Λ` here are for discrete period groups of
-  every rank, nothing here uses the full-rank case, and the norm comparison is a Check of §4.1.
-- **Lorentzian geometry** is LorentzianGeometry's, and this roadmap imports what it uses of it.
-  LorentzianGeometry §7.3 owns the acoustical form on `ℝ × Σ` (the form, its inverse, the
-  material vector `B`, causal vectors, its Lorentzian character and the time orientation `[B]`),
-  §6.1 the Minkowski form (and §7.3's first Check the frame carrying the acoustical form of
-  constant `c`, `v` to it), and §6.3 the causal type of hyperplanes through the sign of the
-  inverse form; §8.2 owns locally Lipschitz causal curves, their restriction and concatenation
-  and the passage from piecewise `C¹` curves; §12.6 owns causal curves in an arbitrary subset,
-  past-inextendibility, the future domain of dependence `D⁺_D(S)` in a subset, its monotonicity,
-  the slice identity `D⁺_D(S) ∩ {t = t₀} = S ∩ D`, the reduction to time-parametrised curves,
-  determination for data closed in an open set, and covering invariance. Sections 3.1–3.3 take
-  these with `Σ = E` Euclidean and state only what LorentzianGeometry does not; each kept
-  statement says how it differs. LorentzianGeometry's causal vectors are nonzero (its §7.3: a
-  causal vector `X` has `dt(X) ≠ 0`), while the closed cone `g(X, X) ≤ 0` of §3.1 contains `0`;
-  both give `g(0, 0) = 0`, and on time-parametrised curves, whose velocities `(1, ẋ)` never
-  vanish, the two conventions agree. Null hypersurfaces are LorentzianGeometry's as well
-  (§9.2 there); §8.4 states the nullity of a boundary through the conormal condition of §3.1
-  (`dφ ≠ 0` a null covector), which is §9.2's equivalent form `g⁻¹(dφ, dφ) = 0`.
-  LorentzianGeometry §12.7 proves, for a locally Lipschitz metric on a manifold without
-  boundary, the limit curve theorem and the nullity of Cauchy horizons where they are `C¹`
-  hypersurfaces; §3.2 (limit curves) and §8.4 each say how their statements differ. Null
-  generators and geodesics of `C^{1,1}` metrics are LorentzianGeometry's and are not used here.
-- **Linear symmetric hyperbolic systems with classical solutions** are
-  SymmetricHyperbolicSystems'. Its §1.2 owns the linear system carrier `LinearSystem` and the
-  predicate `LinearSystem.IsSymmetricHyperbolic`, §2.1 the pointwise energy identity, §2.2
-  finite propagation speed for a single speed, §2.3 uniqueness of classical solutions and the
-  integrated energy identity and `L²` estimate for classical solutions vanishing outside a
-  bounded set, and §7.3 existence for smooth compactly supported data and `C_b^∞` coefficients.
-  Layer 5 takes the carrier from its §1.2 and the pointwise identity from its §2.1, and states
-  what it lacks: the energy identity and estimate in the Sobolev class on the quotient `E/Λ`
-  (§5.1), weighted energies with Lipschitz weights, moving cones and periodic lifts (§5.2), and
-  existence in `Hᵏ_Λ` (§5.4). Quasilinear systems and the `Hᵏ` theory are outside its scope and
-  are owned here.
-- **Characteristic initial data** (data on `S₀ ∪ C` with `C` a null hypersurface, its
-  constraint and compatibility conditions), acoustical eikonal functions, the ruling of the
-  characteristic boundary by null geodesics issuing from the edge of the data, and shock
-  formation are not part of this roadmap; they are the subject of "Compressible Euler
-  equations, Part II", which consumes this roadmap together with LorentzianGeometry for
-  `C^{1,1}` geodesics and null generators. This roadmap stops at the nullity of the regular
-  boundary.
-- **Fractional orders.** Well-posedness is stated for integer Sobolev orders `k > n/2 + 1`,
-  which is the generality of the cited theorems. Real orders `s > n/2 + 1` need the
-  Kato–Ponce commutator estimates in Besov form, built on the paraproducts of the PDE roadmap's
-  Layer 7; they are not part of this roadmap and belong to "Compressible Euler equations,
-  Part II".
-- **Incompressible flows** (the Leray projection, the incompressible Euler and Navier–Stokes
-  equations) are not part of this roadmap. The spaces `Hᵏ_Λ` here are for discrete period
-  groups of any rank; when `Λ` has full rank, a linear change of variable taking `Λ` to `ℤⁿ`
-  identifies them, up to norm equivalence, with the integer-order `L²` Sobolev spaces of the
-  unit-period torus `UnitAddTorus (Fin n)`; nothing here uses that case, and the norm comparison
-  is a Check of §4.1. For `n = 1` and a full-rank `Λ = Tℤ`, `Hᵏ_Λ` is likewise Tau Ceti's
-  `TauCeti.CircleSobolev k ℂ`, the Fourier-side Sobolev space of `AddCircle T`, restricted to
-  real functions and up to norm equivalence; this case is not used here either, and the norm
-  comparison is a Check of §4.1. Friedrichs' lemma of §4.4 is stated for period groups of every
-  rank (`Λ = 0` and `Λ_cyl` included); after the change of variable `y = x/2π`, its case
-  `Λ = (2πℤ)^n` is the case `p = ∞`, `L²` densities, of the DiPerna–Lions commutator estimate for
-  transport by `W^{1,p}` fields on the unit torus.
-- **Periodic Sobolev classes in statistics.** MathematicalStatisticsNonparametric §6.2
-  characterises the periodic Sobolev classes `W^per(β, L)` on `[0, 1]`, integer `β`, as ellipsoids
-  of Fourier coefficients. These are balls for the top-order seminorm in the case `n = 1`,
-  `Λ = ℤ` of `Hᵏ_Λ`; §4.1 here defines the space and its norm for every `n` and every period
-  group, and nothing of that roadmap is consumed.
-- **Commutators with mollifiers on the Bessel scale.** ComplexKahlerGeometry §5.7 states, for a
-  chart-localised second-order operator `P` with smooth matrix coefficients and a convolution
-  regulariser `J_ε`, that `[P, J_ε]` is bounded from `H^r` to `H^{r−1}` uniformly for
-  `0 < ε ≤ 1` and every real `r`, and, for a smooth compactly supported matrix `f`, the multiplier
-  bound `‖fw‖_{H^s} ≤ sup‖f‖·‖w‖_{H^s} + C_{f,s}‖w‖_{H^{s−1}}`. Friedrichs' lemma of §4.4 is the
-  first-order `L²` statement on `E/Λ` for a coefficient that is only bounded and Lipschitz, and
-  the products of §4.3 are tame, with constants independent of the factors; the coefficients
-  `Mⁱ(U)` of §5.3 are `C¹` but in general not smooth (`a = |sin x|` on `Λ = 2πℤ` is bounded,
-  `1`-Lipschitz and periodic, so §4.4 applies to it, but it is not `C¹` at `0`). Neither
-  statement gives the other, and nothing of that roadmap is consumed.
-- **Flat finite propagation for Klein–Gordon** is RelativisticQuantumFieldTheory RQFT1; it is a
-  second-order scalar statement on Minkowski space and is neither consumed nor restated.
-- Vacuum boundaries `ρ = 0`, weak and entropy solutions, Riemann solvers and numerical schemes
-  are outside the roadmap.
+Layer 1 states the Euler systems and Layer 2 the symmetric hyperbolic carrier with the Euler
+symmetrisers; both are algebra and calculus on Mathlib. Layer 3 is the causal geometry of
+sound-cone fields on the Galilean carrier: on top of LorentzianGeometry's acoustical form and
+its causal curves and domains of dependence in subsets, it proves the identification with the
+Euler symbol, limit curves, compact causal pasts, openness and idempotence of domains of
+dependence and the slab statements; it needs Layer 1, LorentzianGeometry, Mathlib and, for one
+identification in §3.1, §2.2, and can be built in parallel with Layers 4 and 5. Layer 4 is the
+`Hᵏ_Λ` calculus on Tau Ceti's Sobolev spaces. Layer 5 is the Friedrichs energy method in
+`Hᵏ_Λ` for linear systems on SymmetricHyperbolicSystems' carrier (Layers 2 and 4). Layer 6
+proves local uniqueness on lens-shaped domains and uniqueness on domains of dependence (Layers
+2, 3 and 5). Layer 7 is local well-posedness (Layers 2 and 4–6, Layer 1 for the Euler statement,
+and §3.3 for uniformly local data). Layer 8 is the theory of developments (Layers 1–3, 6 and 7,
+and LorentzianGeometry §12.6).
+The headline theorems, which the acceptance test `Suggested.lean` states, are uniqueness on
+lens-shaped domains and on domains of dependence (§6.1 `QuasilinearSystem.eqOn_lens`, §6.2
+`QuasilinearSystem.eqOn_causalPast`); local well-posedness of quasilinear symmetric hyperbolic
+systems with its continuation criterion (§7.1 `QuasilinearSystem.localWellPosedness`,
+`QuasilinearSystem.exists_extension_of_lintegral_lt_top`); local well-posedness of compressible
+Euler with its continuation criterion (§7.2 `EquationOfState.localWellPosedness`,
+`EquationOfState.exists_extension_of_lintegral_lt_top`); the theory of developments (§8.2
+`EquationOfState.maximalCommonDevelopment`, `EquationOfState.compatible_iff`,
+`EquationOfState.exists_maximal_development` and
+`EquationOfState.isGreatest_development_of_solution`; §8.3
+`EquationOfState.isDevelopment_slab` and `EquationOfState.slab_subset_of_maximal`); and the causal
+character and nullity of the boundary of a development (§8.4
+`EquationOfState.boundary_futureCausal`, `EquationOfState.boundary_null`). The Euler statements are made for the full system; the
+barotropic ones are their case of a law `P(ρ, s) = p(ρ)` and constant entropy (§1.3). The
+definitions they need are the equation of state and the Euler system (§§1.1, 1.3), the
+quasilinear symmetric hyperbolic system with its symbol and dominating cones (§2.1), the causal
+curves, causal pasts and future domains of dependence of a cone field in the time-parametrised
+form to which LorentzianGeometry §12.6 reduces its notions (§§3.2–3.3), the norm of `Hᵏ_Λ`
+(§4.1), the lens function (§6.1), and the development (§8.1).
 
 ## Conventions
 
@@ -246,341 +146,6 @@ semidefinite for every `ζ` with `ζ₀ + w·ζ' ≥ c|ζ'|`. The sign is fixed 
 equation `∂_t u + a ∂_x u = 0`: its symbol is `ζ₀ + aζ₁`, and the cone `(c, a)` dominates for
 every `c > 0`, while `(1, 0)` does not dominate when `a = 3` (take `ζ = (1, −1)`: the cone
 condition `1 ≥ 1` holds and the symbol is `1 − 3 = −2`).
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- `ContDiffOn`, `fderivWithin`, `UniqueDiffOn`, the convexity criterion for unique
-  differentiability `uniqueDiffOn_convex` (`Mathlib/Analysis/Calculus/TangentCone/Real.lean:80`)
-  and its localisation `uniqueDiffWithinAt_inter`
-  (`Mathlib/Analysis/Calculus/TangentCone/Basic.lean:128`): the meaning of `C¹` on a domain and of
-  the equations at `t = t₀`.
-- `Matrix.PosDef`, `Matrix.PosSemidef` (`Mathlib/LinearAlgebra/Matrix/PosDef.lean:176,62`):
-  the definiteness conditions on `A⁰` and on the symbol.
-- `Matrix.IsHermitian` (`Mathlib/LinearAlgebra/Matrix/Hermitian.lean:45`), `Matrix.IsSymm`
-  (`Mathlib/LinearAlgebra/Matrix/Symmetric.lean:33`) and `Matrix.isHermitian_iff_isSymm`
-  (`Mathlib/LinearAlgebra/Matrix/Hermitian.lean:69`, for a trivial star, as on `ℝ`): the
-  symmetric matrices of §2.1 (`Matrix.IsHermitian`, which `Matrix.PosDef` contains) and of
-  SymmetricHyperbolicSystems §1.2 (`Matrix.IsSymm`) are the same for real matrices.
-- `Matrix.det`, `Real.sqrt` and `IsCompact`: the determinant of §2.2 and §3.1, the sound speed of
-  §1.1 and the compactness statements of §3.3.
-- `LipschitzOnWith`, `LocallyLipschitzOn`, Rademacher's theorem
-  `LipschitzOnWith.ae_differentiableWithinAt_of_mem`
-  (`Mathlib/Analysis/Calculus/Rademacher.lean:362`), `LipschitzOnWith.absolutelyContinuousOnInterval`
-  (`Mathlib/MeasureTheory/Function/AbsolutelyContinuous.lean:310`) and the fundamental theorem of
-  calculus `AbsolutelyContinuousOnInterval.integral_deriv_eq_sub`
-  (`Mathlib/MeasureTheory/Integral/IntervalIntegral/AbsolutelyContinuousFun.lean:227`, scalar
-  valued; applied coordinatewise): the analysis of locally Lipschitz causal curves in §3.2.
-- `LipschitzWith.integral_lineDeriv_mul_eq` (`Mathlib/Analysis/Calculus/Rademacher.lean:170`):
-  integration by parts `∫ (∂_v f) g = ∫ (∂_{−v} g) f` for globally Lipschitz `f`, `g` with `g`
-  compactly supported, used against the Lipschitz weights of §5.2 (for `Λ = 0`, and through the
-  localisation of §4.1 for a general period group).
-- `BoundedContinuousFunction.arzela_ascoli`
-  (`Mathlib/Topology/ContinuousMap/Bounded/ArzelaAscoli.lean:113`): compactness of families of
-  causal curves.
-- `CompactExhaustion` (`Mathlib/Topology/Compactness/SigmaCompact.lean:323`): compact sets
-  `K_n`, each contained in the interior of the next, with union the whole space;
-  `CompactExhaustion.choice` (line 418) provides one on a weakly locally compact σ-compact space,
-  such as a domain with its subspace topology (locally closed in `𝔐`, second countable). Used in
-  the limit-curve statement of §3.2.
-- `zorn_le_nonempty₀` (`Mathlib/Order/Zorn.lean:126`): existence of maximal developments and of
-  past-inextendible extensions.
-- `IsPicardLindelof` and `IsPicardLindelof.exists_eq_forall_mem_Icc_hasDerivWithinAt`
-  (`Mathlib/Analysis/ODE/PicardLindelof.lean:80`, `Mathlib/Analysis/ODE/ExistUnique.lean:57`),
-  stated for a complete normed space; `ODE_solution_unique_of_mem_Icc`
-  (`Mathlib/Analysis/ODE/ExistUnique.lean:252`): the regularised ODE of §5.4 in `Hᵏ_Λ`, and
-  material curves of a `C¹` velocity in §1.3.
-- `TemperedDistribution.MemSobolev` (`Mathlib/Analysis/Distribution/Sobolev.lean:153`), the
-  Bessel-potential scale on `E`, used only through the Tau Ceti comparison below.
-- `MeasureTheory.Lp.fourierTransformₗᵢ` (`Mathlib/Analysis/Fourier/LpSpace.lean:51`): the
-  Fourier transform on `L²(E)` as a linear isometric equivalence (Plancherel), used for the
-  interpolation inequality of §4.2 on `E`.
-- `MeasureTheory.norm_integral_le_integral_norm`
-  (`Mathlib/MeasureTheory/Integral/Bochner/Basic.lean:970`): the norm of a Bochner integral is
-  at most the integral of the norm; with the translation isometries below it gives the
-  convolution bounds of §4.4, `‖∫ k(y) τ_y w dy‖ ≤ ‖k‖_{L¹}‖w‖`, with no separate convolution
-  inequality.
-- `Real.young_inequality` (`Mathlib/Analysis/MeanInequalities.lean:547`):
-  `ab ≤ |a|ᵖ/p + |b|^q/q` for Hölder conjugate exponents `p`, `q`, the last step of the product
-  estimate of §4.3.
-- The chain rule `HasFDerivAt.comp` (`Mathlib/Analysis/Calculus/FDeriv/Comp.lean:103`) and the
-  Faà di Bruno formula `HasFTaylorSeriesUpToOn.comp`
-  (`Mathlib/Analysis/Calculus/ContDiff/FaaDiBruno.lean:1051`: if `g` and `f` have Taylor series
-  `q` and `p` up to order `m`, then `g ∘ f` has the Taylor series `q.taylorComp p`): the
-  classical derivatives of `Φ̃ ∘ u` up to order `k` for smooth `u`, `Φ̃` the compactly supported
-  cut-off of `Φ`, in the composition estimate of §4.3.
-- `MeasureTheory.IsAddFundamentalDomain` (`Mathlib/MeasureTheory/Group/FundamentalDomain.lean:59`,
-  a null-measurable set whose translates are pairwise almost disjoint and cover almost every
-  point) for the fundamental domain `F` of `Λ` acting on `E` by translation; for `Λ = 0` the set
-  `F` is `E` up to a null set. And `Finset.Nat.antidiagonalTuple`
-  (`Mathlib/Data/Fin/Tuple/NatAntidiagonal.lean:206`, the multi-indices `α : Fin n → ℕ` of order
-  exactly `m`): the norm of §4.1.
-- `derivWithin` and `DifferentiableWithinAt` for the velocity of a time-parametrised causal curve
-  (§3.2), and `frontier` for the boundary of a development (§8.4).
-- `MeasureTheory.convolution`, `ContDiffBump`, the Bochner integral, `Lp`, Hölder's and
-  Minkowski's inequalities, dominated convergence and the Lebesgue differentiation theorem.
-
-Mathlib has no symmetric hyperbolic system, no Moser estimate, no Gagliardo–Nirenberg
-interpolation inequality between `L^∞` and `Hᵏ`, no periodic or partially periodic Sobolev space
-on `E`, no Lorentzian quadratic form with a time orientation and no causal curve.
-
-### From Tau Ceti
-
-- `TauCeti.HasWeakLineDerivOn` (`TauCeti/Analysis/Sobolev/WeakDeriv/Basic.lean:212`): `u′` is a
-  weak derivative of `u` in the direction `v` on an open set `Ω` for a measure `μ` when the
-  codomain is complete, `u` and `u′` are locally integrable on `Ω`, and `∫ (∂_vφ) u = −∫ φ u′` for
-  every smooth `φ` compactly supported in `Ω`. Used with `Ω = ⊤` and Lebesgue measure for the
-  iterated weak derivatives of §4.1; local integrability is part of it, so no junk integral
-  enters.
-- `TauCeti.Wkp` (`TauCeti/Analysis/Sobolev/Wkp/Basic.lean:145`), the weak-derivative Sobolev
-  space `W^{k,p}(Ω)` of real functions, used with `Ω = ⊤`, `p = 2`, Lebesgue measure; and
-  `TauCeti.HasWeakFDerivOn` (`TauCeti/Analysis/Sobolev/WeakDeriv/Basic.lean:251`), the weak
-  derivative on an open set, which is a weak line derivative in every direction.
-- `MeasureTheory.Lp.memSobolev_natCast_iff_exists_wkp_value_eq`
-  (`TauCeti/Analysis/Sobolev/BesselPotential/Basic.lean:133`): for `1 < p < ∞` and every
-  natural `k`, a real `Lᵖ` function is in Mathlib's `MemSobolev k p` exactly when it is the
-  value of an element of `TauCeti.Wkp volume ⊤ p k`.
-- `TemperedDistribution.MemSobolev.exists_zeroAtInftyContinuousMap_ae_eq` and
-  `TauCeti.Wkp.toZeroAtInfty` (`TauCeti/Analysis/Sobolev/BesselPotential/Embedding.lean:81,194`):
-  for `2k > n` every element of `W^{k,2}(ℝⁿ)` has a unique representative in `C₀(ℝⁿ)`, and the
-  representative map is a bounded linear map. Only continuity, vanishing at infinity and the sup
-  bound are used; no Hölder modulus is assumed.
-- `TauCeti.Wkp.exists_contDiffOn_ae_eq`
-  (`TauCeti/Analysis/Sobolev/Wkp/ContDiffRepresentative.lean:101`), with
-  `TauCeti.HasWeakFDerivOn.contDiffOn_succ` (`TauCeti/Analysis/Sobolev/WeakDeriv/Classical.lean:145`:
-  a function continuous on an open set with a weak derivative of class `Cᵐ` there is of class
-  `Cᵐ⁺¹` there): for Lebesgue measure, an open `Ω ⊆ E` and `2k > n`, every element of
-  `W^{k+j,2}(Ω)` agrees almost everywhere on `Ω` with a function of class `Cʲ` on `Ω`, which need
-  not be bounded. With `Ω = ⊤`, and `k − j` in place of `k` (so that the hypothesis reads
-  `2k > n + 2j`), this is the regularity of the representative in §4.2 for `Λ = 0`; §4.2 adds the
-  bound `sup_{|α|≤j} ‖∂^αu‖_∞ ≤ C‖u‖_{Hᵏ_Λ}`, the decay and every period group. Consumed in §4.2.
-- `TauCeti.Wkp.exists_value_eq_iff_forall_exists_hasWeakLineDerivOn`, with its two directions
-  `TauCeti.Wkp.exists_hasWeakLineDerivOn_value` and
-  `TauCeti.Wkp.exists_value_eq_of_forall_hasWeakLineDerivOn`
-  (`TauCeti/Analysis/Sobolev/Wkp/LineDeriv.lean:287,156,267`): for an additive Haar measure and an
-  open `Ω`, an element of `Lᵖ(Ω)` is the value of an element of `W^{k+1,p}(Ω)` exactly when in
-  every direction it has a weak derivative that is the value of an element of `W^{k,p}(Ω)`, and
-  for the converse the directions of one orthonormal basis suffice. With `Ω = ⊤`, `p = 2` and
-  Lebesgue measure it is, by induction on `k`, the identification of §4.1 at `Λ = 0` of a family
-  `IsWeakDerivFamily k u g` whose members `g_α`, `|α| ≤ k`, lie in `L²` with an element of
-  `TauCeti.Wkp volume ⊤ 2 k` of value `u`; consumed, not proved again.
-- `TauCeti.exists_norm_le_hasWeakLineDerivOn_of_frequently_eLpNorm_inv_mul_sub_le`
-  (`TauCeti/Analysis/Sobolev/DifferenceQuotient.lean:152`): a locally integrable `u` on an
-  open set whose `L²` difference quotients in a direction `v` are bounded by `C` on every
-  compact subset, for parameters `t → 0` frequently, has a weak derivative in direction `v` of
-  `L²` norm at most `C`; the lower semicontinuity of §4.2.
-- `TauCeti.Wkp.dense_contDiff_representatives`
-  (`TauCeti/Analysis/Sobolev/Wkp/SmoothDensity.lean:92`): density of smooth functions in
-  `W^{k,p}(ℝⁿ)` for finite `p`.
-- `TauCeti.Wkp.normedBumpL` with `TauCeti.Wkp.norm_normedBumpL_le_one`,
-  `TauCeti.Wkp.lowerOrder_normedBumpL`, `TauCeti.Wkp.iteratedGradient_normedBumpL` and
-  `TauCeti.Wkp.tendsto_normedBumpL`
-  (`TauCeti/Analysis/Sobolev/Wkp/ApproximateIdentity.lean:52,67,107,118,132`): mollification of
-  `W^{k,p}(ℝⁿ)`, `p < ∞`, by a normalised smooth bump (`ContDiffBump`, radial, hence even and
-  nonnegative) as a contraction in the `Wkp` norm, commuting with the lower-order projection and
-  with the iterated gradient, and converging strongly to the identity as the bump radii tend to
-  `0`; `TauCeti.W1p.normedBumpL` (`TauCeti/Analysis/Sobolev/W1p/Mollification.lean:87`) is the
-  order-one case. The contraction and the convergence are here the `Λ = 0` statements of §4.4
-  for the normalised-bump kernels only; a general even nonnegative kernel (§4.4) need not be of
-  this form, and for it these two statements are proved in §4.4 from the translations below.
-- `TauCeti.HasWeakLineDerivOn.lineDeriv_convolution_right` with
-  `TauCeti.HasWeakLineDerivOn.hasLineDerivAt_convolution_right`
-  (`TauCeti/Analysis/Sobolev/Mollification/Basic.lean:97,73`): for a locally integrable `u` with
-  a weak derivative `u′` in the direction `v` on an open `Ω`, an s-finite left-invariant measure
-  and a smooth compactly supported scalar kernel `ρ`, the convolution `u ⋆ ρ` (Mathlib's
-  `MeasureTheory.convolution` with the flipped scalar multiplication, `x ↦ ∫ ρ(x − y) u(y) dy`)
-  has directional derivative `(u′ ⋆ ρ)(x)` in the direction `v` at every `x` with
-  `x − tsupport ρ ⊆ Ω`. With `Ω = ⊤`, Lebesgue measure and `ρ = φ_ε`, applied successively to the
-  weak derivatives of §4.1, this is `∂^αJ_εu = J_ε∂^αu` of §4.4 for every admissible kernel and
-  every period group (the identity is pointwise, and a Λ-periodic `u` with finite norm is locally
-  integrable); it is consumed, not proved again.
-- `TauCeti.Wkp.translate`, `TauCeti.Wkp.lowerOrder_translate`,
-  `TauCeti.Wkp.iteratedGradient_translate`, `TauCeti.Wkp.continuous_translate`,
-  `TauCeti.Wkp.norm_translate` and `TauCeti.Wkp.translateLIE`
-  (`TauCeti/Analysis/Sobolev/Wkp/Translation.lean:104,137,130,182,193,229`): translation of
-  `W^{k,p}(ℝⁿ)` acts on the value and every weak derivative, is a linear isometric equivalence,
-  and for finite `p` is continuous in the translation vector for each fixed element.
-  `TauCeti.Wkp.lowerOrder_translate` and `TauCeti.Wkp.iteratedGradient_translate` give the
-  translation invariance of the norm of §4.1 at `Λ = 0`; the others carry the route of §4.4.
-- `TauCeti.W1p.eLpNorm_value_comp_add_sub_value_le_mul_enorm_gradient`
-  (`TauCeti/Analysis/Sobolev/Translation.lean:133`): for `1 ≤ p ≤ ∞`, an additive Haar measure
-  `μ` on `E` and `u` in `TauCeti.w1p0Submodule μ ⊤ p`, the closure of the test functions in
-  `W^{1,p}(E)`, the translation estimate `‖u(· + h) − u‖_p ≤ |h|‖∇u‖_p`; with
-  `TauCeti.w1p0Submodule_top_eq_top` (`TauCeti/Analysis/Sobolev/W1p/Density.lean:299`), by
-  which that closure is all of `W^{1,p}(E)` for `p < ∞`, it holds for every element of
-  `TauCeti.W1p volume ⊤ 2`, which is `TauCeti.Wkp volume ⊤ 2 1`. With
-  `MeasureTheory.norm_integral_le_integral_norm` it gives the loss bound of §4.4 for `Λ = 0`,
-  and the localisation of §4.1 carries it to every `Λ`.
-- `TauCeti.HasWeakLineDerivOn.contDiffOn_smul`, `TauCeti.HasWeakFDerivOn.contDiffOn_smul` and
-  `TauCeti.HasWeakLineDerivOn.lipschitzOnWith_smul`
-  (`TauCeti/Analysis/Sobolev/Leibniz.lean:112,168,317`): the Leibniz rule for the weak derivative
-  of `ψu` with `ψ` smooth, or Lipschitz, on the open set and `u` weakly differentiable; the
-  product rule of §4.3 for two Sobolev factors is obtained from it by density.
-- `TauCeti.W1p.mul`, `TauCeti.W1p.norm_mul_le` and `TauCeti.W1p.mulL`
-  (`TauCeti/Analysis/Sobolev/W1p/SupercriticalMultiplication.lean:320,500,515`): for `p > n`
-  the product of the Morrey representatives of `u, v ∈ W^{1,p}(ℝⁿ)` lies in `W^{1,p}(ℝⁿ)` with
-  `‖uv‖ ≤ 3‖ι‖‖u‖‖v‖`, `ι` Morrey's embedding, and is a bounded bilinear map. At `p = 2` the
-  hypothesis `n < 2` leaves `n = 1`, where the `W1p` norm is the `H¹` norm: this is the case
-  `Λ = 0`, `n = 1`, `k = 1` of the algebra property of §4.3, which is stated for every `Λ` and
-  every `n`, `k` with `2k > n`, together with the product bound with `L^∞` factors.
-- `TauCeti.W1p.hasWeakFDerivOn_comp` and `TauCeti.W1p.contDiffComp`
-  (`TauCeti/Analysis/Sobolev/W1p/ChainRule.lean:375,385`): for `1 ≤ p < ∞`, a real
-  `u ∈ W^{1,p}(Ω)` on an open `Ω` and a `C¹` function `F : ℝ → ℝ` with bounded derivative,
-  `F ∘ u` has the weak gradient `F′(u)∇u` on `Ω`, and lies in `W^{1,p}(Ω)` when `F(0) = 0`. This
-  is the scalar chain rule, the case `N = 1`, `k = 1` of the composition estimate of §4.3 for a
-  `Φ` with bounded derivative on all of `ℝ`; §4.3 states vector-valued `u`, every order `k`, and
-  `Φ` smooth only on an open `G` containing the values.
-- `TauCeti.hasWeakFDerivOn_gradient_of_contDiffOn`
-  (`TauCeti/Analysis/Sobolev/WeakDeriv/Basic.lean:789`): a real function of class `C¹` on an
-  open set has its classical gradient as weak derivative there; applied componentwise to
-  `Φ̃ ∘ u`, `Φ̃` the compactly supported cut-off of `Φ` of §4.3, for the smooth approximants `u`
-  there, which may leave the domain `G` of `Φ`.
-- `TauCeti.Wkp.norm_iteratedGradient_lowerOrder_le`
-  (`TauCeti/Analysis/Sobolev/Wkp/Interpolation.lean:335`): for `1 ≤ p < ∞`, `ε > 0` and
-  `u ∈ W^{2,p}(E)`, `‖∇u‖_p ≤ ε‖D²u‖_p + (n²/ε)‖u‖_p`. At `p = 2` the infimum over `ε` gives
-  `‖∇u‖₂ ≤ 2n‖u‖₂^{1/2}‖D²u‖₂^{1/2}`, the case `j = 1`, `k = 2`, `Λ = 0` of the interpolation
-  inequality of §4.2 in additive form; §4.2 states every `0 ≤ j ≤ k` and every `Λ`, by
-  Plancherel.
-- `TauCeti.CircleSobolev s E` (`TauCeti/Analysis/Sobolev/Circle/Basic.lean:197`), the
-  Fourier-side Sobolev space of the circle with norm squared `Σ_m (1 + |m|)^{2s}‖c_m‖²`
-  (`TauCeti.CircleSobolev.norm_sq_eq_tsum`, line 375), identified at `s = 0` with
-  `L²(AddCircle T)` for the probability Haar measure by `TauCeti.CircleSobolev.toLpₗᵢ`
-  (`TauCeti/Analysis/Sobolev/Circle/Lp.lean:59`): for `n = 1`, `Λ = Tℤ` and integer `s = k` this
-  is `Hᵏ_Λ` (real functions, complexified) up to norm equivalence; nothing here uses it, and the
-  norm comparison is a Check of §4.1. The space carries five special cases of Layer 4, none of
-  them consumed; all but the derivative need `s > 1/2`. `TauCeti.CircleSobolev.toContinuousMap` with
-  `TauCeti.CircleSobolev.norm_toContinuousMap_le`
-  (`TauCeti/Analysis/Sobolev/Circle/Basic.lean:807,831`), the continuous representative as a
-  bounded linear map into `C(AddCircle T, E)`, is the embedding of §4.2 at `j = 0`.
-  `TauCeti.CircleSobolev.norm_mul_le` with `TauCeti.CircleSobolev.toContinuousMap_mul`
-  (`TauCeti/Analysis/Sobolev/Circle/Algebra.lean:288,300`), the bound `‖ab‖ ≤ C_s‖a‖‖b‖` for a
-  complete normed `ℂ`-algebra `A` with the product pointwise on representatives, is at `A = ℂ`
-  the algebra property of §4.3. `TauCeti.CircleSobolev.toContinuousMap_nemytskii` with
-  `TauCeti.CircleSobolev.analyticOnNhd_nemytskii`
-  (`TauCeti/Analysis/Sobolev/Circle/Nemytskii.lean:431,441`), by which, for `F` holomorphic on an
-  open `U ⊆ ℂ` and `u` with values in `U`, `F ∘ u` represents an element of the space and
-  `u ↦ F ∘ u` is analytic on the open set of such `u`, is the composition statement of §4.3 for
-  `N = 2` and holomorphic `Φ`, membership and continuity. `TauCeti.CircleSobolev.derivative` with
-  `TauCeti.CircleSobolev.norm_derivative_le` (`TauCeti/Analysis/Sobolev/Circle/Derivative.lean:83,98`),
-  for `s + 1 ≤ t` the operator `H^t → H^s` multiplying the `m`-th Fourier coefficient by `2πim/T`,
-  of norm at most `2π/T`, is the boundedness of `∂ᵢ : Hᵏ⁺¹_Λ → Hᵏ_Λ` of §4.1; and
-  `TauCeti.CircleSobolev.hasDerivAt_toContinuousMap` (same file, line 195), by which for
-  `s > 1/2` and `s + 1 ≤ t` the continuous representative of `a ∈ H^t` is differentiable with the
-  continuous representative of the derivative of `a` as derivative, gives, applied `j` times
-  together with `TauCeti.CircleSobolev.norm_toContinuousMap_le`, the embedding of §4.2 into
-  `C^j_b` with its bound when `2k > 1 + 2j` (at `k = 2`, `j = 1`: `s = 1 > 1/2`, `t = 2 = s + 1`).
-  At integer orders `s = k ≥ 1` these are the case `n = 1`, `Λ = Tℤ`, complex values, of
-  §§4.1–4.3, up to the norm equivalence of §4.1; §§4.1–4.3 state the tame bounds with `L^∞`
-  factors, every `n`, period groups of every rank, and real `Φ` that is only smooth on an open
-  `G ⊆ ℝ^N`, while the pinned statements also cover real orders (`s > 1/2` where a continuous
-  representative enters) and values in complex Banach spaces and algebras.
-- `TauCeti.le_mul_exp_of_le_add_mul_integral` (`TauCeti/Analysis/ODE/Gronwall.lean:59`): the
-  integral Grönwall inequality `φ(t) ≤ c + K∫ₐᵗ φ ⇒ φ(t) ≤ c e^{K(t−a)}` for continuous `φ` and
-  `K ≥ 0`, the closure step of every energy estimate.
-
-### From TauCetiRoadmap.LorentzianGeometry
-
-- §6.1, `minkowskiForm E`: the Minkowski form `−τ² + |ξ|²` on `ℝ × E`, Lorentzian; the frame
-  `(t, x) ↦ (ct, x − vt)` carrying the acoustical form of constant `c > 0`, `v` to it is §7.3's
-  first Check, which §3.1 uses and to which it adds the determinant.
-- §6.3: for a Lorentzian form and a nonzero covector `ζ`, the hyperplane `ker ζ` is spacelike,
-  timelike or null according as the inverse form `g⁻¹(ζ, ζ)` is negative, positive or zero, with
-  timelike meaning nondegenerate of index one, equivalently containing a timelike vector; used
-  for the covector classification of §3.1.
-- §7.3: the acoustical form `g = −c² dt² + h(dx − v dt, dx − v dt)` on `ℝ × Σ` for given fields
-  `c`, `v` and a Riemannian `h`, here with `Σ = E` and `h` Euclidean; at points with `c ≠ 0` it is
-  Lorentzian, `g(B, B) = −c²` for `B = ∂_t + v`, `g(X, B) = −c² dt(X)`,
-  `g⁻¹ = −c⁻² B ⊗ B + h⁻¹`, `g⁻¹(dt, dt) = −c⁻²`, every causal vector has `dt(X) ≠ 0`, `∂_t + Y`
-  is causal iff `|Y − v| ≤ |c|`, and where `c > 0` with `c`, `v` continuous, `B` is a continuous
-  timelike field orienting time. Assumed: these statements for constant and for continuous
-  `c > 0`, `v`, which is all §§3.1–3.3 use.
-- §8.2: locally Lipschitz future causal curves (velocity future causal almost everywhere),
-  their restriction and concatenation, and that piecewise `C¹` future causal curves are locally
-  Lipschitz causal curves.
-- §12.6: `TimeOrientedLorentzianFieldOn D` (a Lorentzian form field and a timelike field, both
-  continuous on the subset `D`), `IsFutureCausalCurveIn`, `IsPastInextendibleIn` and
-  `futureDomainOfDependenceIn`, written `D⁺_D(S)`, for any subset `D` of a manifold possibly
-  with boundary; `S ∩ D ⊆ D⁺_D(S)` and monotonicity in `S`; concatenation in `D`; the time
-  function statement, which for the acoustical field with the time coordinate reduces causal
-  curves in `D` to time-parametrised ones, with past-inextendibility in its extension form and
-  one-point intervals admitted; the slab identity `D⁺_D(S) ∩ {t = t₀} = S ∩ D` for
-  `D ⊆ {t ≥ t₀}` and `S ⊆ {t = t₀}`; determination `futureDomainOfDependenceIn_self` for `S`
-  closed in an open set of a manifold without boundary; and invariance under coverings that are
-  local isometries. Assumed: these for the acoustical field of a sound-cone field (§3.2) on
-  subsets of `ℝ × E` where `c > 0` and `c`, `v` are continuous.
-
-### From TauCetiRoadmap.SymmetricHyperbolicSystems
-
-- §1.2: the structure `LinearSystem n N` (coefficients `A0`, `A`, `B` on `ℝ × E`, valued in real
-  `N × N` matrices), its left-hand side `LinearSystem.apply` and the predicate
-  `LinearSystem.IsSymmetricHyperbolic` (`A⁰` and every `Aʲ` symmetric in the sense of
-  `Matrix.IsSymm`, and `λ|ξ|² ≤ ξ·A⁰ξ` with `λ > 0`). The structure and the predicate are the
-  carrier of §5.1. `LinearSystem.apply` is the classical left-hand side, built from the pointwise
-  `deriv` and `fderiv`, which are `0` where the map is not differentiable; it is used here only on
-  `C¹` maps, in the pointwise identity of §5.2. In §§5.1, 5.3 and 5.4, for
-  `W ∈ C¹([0, T]; L²_Λ) ∩ C([0, T]; H¹_Λ)`, `LW` denotes `A⁰∂_tW + Σᵢ Aⁱ∂ᵢW + BW` with `∂_tW` the
-  derivative of `t ↦ W(t)` in `L²_Λ` and `∂ᵢW` the weak derivative of §4.1; it lies in
-  `C([0, T]; L²_Λ)`, and when `W` is moreover `C¹` on `[0, T] × E`, for each `t ∈ (0, T)` the class
-  of `x ↦ LinearSystem.apply W t x` is `LW(t)`.
-- Conventions, *Propagation speed*: its notion of a speed `c ≥ 0`,
-  `|ξ·(Σⱼ ωⱼAʲ)ξ| ≤ c ξ·A⁰ξ` for all `(t, x)` and `|ω| ≤ 1` (§1.2 gives the existence of one when
-  the `Aʲ` are bounded). Compared in §5.2 with dominating cones, at a point.
-- §2.1: the pointwise energy identity
-  `∂_t⟨A⁰u, u⟩ + Σⱼ ∂ⱼ⟨Aʲu, u⟩ = ⟨Ku, u⟩ + 2⟨F, u⟩`, `K = ∂_tA⁰ + Σⱼ ∂ⱼAʲ − B − Bᵀ`, for
-  classical solutions of `Lu = F` with `A⁰`, `Aʲ` of class `C¹` and `B` continuous. Used in
-  §5.2 in local form, for an operator satisfying `LinearSystem.IsSymmetricHyperbolic` with
-  constant `λ`: at a point `p ∈ (0, T) × E` near which `u`, `A⁰` and the `Aʲ` are `C¹`, it gives
-  the identity with `Lu` in place of `F`, applied to `ψu` and to the coefficients
-  `ψA⁰ + (1 − ψ)λI`, `ψAʲ`, `ψB` for a smooth cutoff `ψ` with `0 ≤ ψ ≤ 1`, equal to `1` near `p`
-  and compactly supported in an open subset of `(0, T) × E` on which `u`, `A⁰` and the `Aʲ` are
-  `C¹`. The cut-off coefficients and `ψu` (extended by `0`) are `C¹` on all of `ℝ × E`, `ψB` is
-  continuous, and the cut-off coefficients keep the predicate with the same `λ`, since
-  `ψA⁰ + (1 − ψ)λI = λI + ψ(A⁰ − λI) ≥ λI` when `ψ ≥ 0` (with `A⁰ = 2I`, `λ = 1`: `1.5I` at
-  `ψ = 1/2`, while a value `ψ = −1` would give the matrix `0`).
-
-The statements of its §2.2, §2.3 and §7.3 (single-speed finite propagation, the integrated
-identity and `L²` estimate for classical solutions vanishing outside a bounded set, existence
-for smooth compactly supported data) are not consumed: §§5.1, 5.2 and 5.4 state the versions
-in other classes and say how they differ.
-
-The roadmap records no supplier gap: every other input is a pinned declaration or a target of
-this roadmap.
-
-## How to read the build
-
-Layer 1 states the Euler systems and Layer 2 the symmetric hyperbolic carrier with the Euler
-symmetrisers; both are algebra and calculus on Mathlib. Layer 3 is the causal geometry of
-sound-cone fields on the Galilean carrier: on top of LorentzianGeometry's acoustical form and
-its causal curves and domains of dependence in subsets, it proves the identification with the
-Euler symbol, limit curves, compact causal pasts, openness and idempotence of domains of
-dependence and the slab statements; it needs Layer 1, LorentzianGeometry, Mathlib and, for one
-identification in §3.1, §2.2, and can be built in parallel with Layers 4 and 5. Layer 4 is the
-`Hᵏ_Λ` calculus on Tau Ceti's Sobolev spaces. Layer 5 is the Friedrichs energy method in
-`Hᵏ_Λ` for linear systems on SymmetricHyperbolicSystems' carrier (Layers 2 and 4). Layer 6
-proves local uniqueness on lens-shaped domains and uniqueness on domains of dependence (Layers
-2, 3 and 5). Layer 7 is local well-posedness (Layers 2 and 4–6, Layer 1 for the Euler statement,
-and §3.3 for uniformly local data). Layer 8 is the theory of developments (Layers 1–3, 6 and 7,
-and LorentzianGeometry §12.6).
-The headline theorems, which the acceptance test `Suggested.lean` states, are uniqueness on
-lens-shaped domains and on domains of dependence (§6.1 `QuasilinearSystem.eqOn_lens`, §6.2
-`QuasilinearSystem.eqOn_causalPast`); local well-posedness of quasilinear symmetric hyperbolic
-systems with its continuation criterion (§7.1 `QuasilinearSystem.localWellPosedness`,
-`QuasilinearSystem.exists_extension_of_lintegral_lt_top`); local well-posedness of compressible
-Euler with its continuation criterion (§7.2 `EquationOfState.localWellPosedness`,
-`EquationOfState.exists_extension_of_lintegral_lt_top`); the theory of developments (§8.2
-`EquationOfState.maximalCommonDevelopment`, `EquationOfState.compatible_iff`,
-`EquationOfState.exists_maximal_development` and
-`EquationOfState.isGreatest_development_of_solution`; §8.3
-`EquationOfState.isDevelopment_slab` and `EquationOfState.slab_subset_of_maximal`); and the causal
-character and nullity of the boundary of a development (§8.4
-`EquationOfState.boundary_futureCausal`, `EquationOfState.boundary_null`). The Euler statements are made for the full system; the
-barotropic ones are their case of a law `P(ρ, s) = p(ρ)` and constant entropy (§1.3). The
-definitions they need are the equation of state and the Euler system (§§1.1, 1.3), the
-quasilinear symmetric hyperbolic system with its symbol and dominating cones (§2.1), the causal
-curves, causal pasts and future domains of dependence of a cone field in the time-parametrised
-form to which LorentzianGeometry §12.6 reduces its notions (§§3.2–3.3), the norm of `Hᵏ_Λ`
-(§4.1), the lens function (§6.1), and the development (§8.1).
 
 ## Layer 1: equations of state and the Euler systems
 
@@ -2596,6 +2161,441 @@ Layers 1, 2 (§2.2), 3, 6 and 7; LorentzianGeometry §12.6 (concatenation, for �
   data on `(−1, 1)` is `{|x| < 2√(1 + t) − (1 + t)}`, closing at `t = 3`, with null boundary.
 - *Simple wave.* `p = ρ³/3`: the Riemann invariants solve Burgers' equation and the gradient
   blows up at `T* = e^{1/2}/√2` for the data of §7.2.
+
+## Scope and ownership
+
+This roadmap owns:
+
+- the equations of state with positive sound speed, the barotropic and the full compressible
+  Euler systems in material and conservative form, their Galilean invariance and the
+  constant-entropy reduction;
+- quasilinear symmetric hyperbolic systems on an open set of states as a carrier, their
+  principal symbol, round cones dominating the characteristic speeds, and the symmetrisers that
+  make both Euler systems instances;
+- for the acoustical form `g = −c² dt² + Σᵢ (dxⁱ − vⁱ dt)²` of a state on `ℝ × E`: its
+  determinant, its Galilean covariance, the explicit classification of its covectors and the
+  identification of its null covectors with the sound sheet of the characteristic variety of
+  the Euler symbol (the material sheet `ζ₀ + v·ζ′ = 0`, `ζ′ ≠ 0`, is characteristic when its
+  multiplicity is positive but is never null, and it is absent for the barotropic system with
+  `n = 1`); for sound-cone fields continuous on a subset of a half-space: the integral
+  characterisation, local existence and limit-curve compactness of time-parametrised causal
+  curves, past-inextendible extensions, causal pasts, compactness of causal pasts in domains of
+  dependence, openness and idempotence of future domains of dependence of relatively open data,
+  bounded slabs, past-closed restriction and Galilean covariance;
+- Sobolev spaces `Hᵏ_Λ` of Λ-periodic functions for a discrete period group `Λ ⊆ E`, their
+  embeddings, the Gagliardo–Nirenberg interpolation inequality, Moser estimates and Friedrichs
+  mollifiers;
+- energy identities and estimates for linear symmetric hyperbolic systems in the Sobolev class
+  on `E/Λ`, weighted energies with characteristic-monotone Lipschitz weights and moving cones,
+  linear existence in `Hᵏ_Λ`, local well-posedness of the quasilinear Cauchy problem in `Hᵏ_Λ`,
+  uniformly local data, and the Euler instances;
+- local uniqueness on lens-shaped domains and uniqueness on domains of dependence for
+  quasilinear symmetric hyperbolic systems;
+- initial data sets with an open data domain, developments, their order and compatibility, the
+  maximal common development, maximal developments, the largest development inside a given
+  solution, and the null character of the regular part of the boundary of a maximal development.
+
+Boundaries:
+
+- **Mathlib and Tau Ceti** supply everything below this roadmap. The whole-space identification
+  `Hᵏ = Wᵏ'²` and the embedding `Hᵏ(ℝⁿ) ⊆ C₀(ℝⁿ)` for `2k > n`, which the PDE roadmap lists
+  among its §1.3–§1.4 material, are already pinned Tau Ceti declarations and are cited from
+  Tau Ceti directly; nothing else of the PDE roadmap is consumed. Tau Ceti also has nine special
+  cases of Layer 4. On `ℝⁿ` and its open subsets: the product on `W^{1,p}(ℝⁿ)` for `p > n` (at
+  `p = 2`, the case `n = k = 1`, `Λ = 0` of the algebra property), the scalar weak chain rule for a
+  `C¹` function with bounded derivative, the additive interpolation inequality on `W^{2,p}(E)`,
+  and the interior embedding `W^{k+j,2}(Ω) ⊆ Cʲ(Ω)` for `2k > n`, without a bound. On the circle
+  (`n = 1`, `Λ = Tℤ`, complex values): the continuous representatives of
+  `TauCeti.CircleSobolev s A` for `s > 1/2`, the algebra property of that space, the action of
+  holomorphic functions on it, the derivative `H^{s+1} → H^s`, and, for `s > 1/2`, the
+  differentiability of the continuous representative of an element of `H^{s+1}`, with the
+  representative of its derivative as derivative. §§4.1–4.3 state the general forms, and the
+  supplier contracts say how each differs. The commutation `∂^αJ_εu = J_ε∂^αu` of a mollifier
+  with weak derivatives is already pinned for every smooth compactly supported kernel
+  (`TauCeti.HasWeakLineDerivOn.lineDeriv_convolution_right`); §4.4 consumes it and does not
+  restate it. Every statement of the PDE
+  roadmap is scalar (elliptic, parabolic and dispersive theory, with the dyadic analysis of its
+  Layer 7); it plans no hyperbolic system and no Moser estimate in `Hᵏ` (the product bounds of its
+  §7.3 are paraproduct estimates in the Hölder–Zygmund spaces `𝒞^s`). Its §7.1–§7.2 plan the
+  periodic Besov spaces on `𝕋^d = ℝ^d/ℤ^d` by Fourier series; their case `p = q = 2`, integer
+  `s = k`, is `Hᵏ_Λ` for a full-rank `Λ` after a linear change of variable (`y = x/2π` for
+  `Λ = (2πℤ)^n`), up to norm equivalence. The spaces `Hᵏ_Λ` here are for discrete period groups of
+  every rank, nothing here uses the full-rank case, and the norm comparison is a Check of §4.1.
+- **Lorentzian geometry** is LorentzianGeometry's, and this roadmap imports what it uses of it.
+  LorentzianGeometry §7.3 owns the acoustical form on `ℝ × Σ` (the form, its inverse, the
+  material vector `B`, causal vectors, its Lorentzian character and the time orientation `[B]`),
+  §6.1 the Minkowski form (and §7.3's first Check the frame carrying the acoustical form of
+  constant `c`, `v` to it), and §6.3 the causal type of hyperplanes through the sign of the
+  inverse form; §8.2 owns locally Lipschitz causal curves, their restriction and concatenation
+  and the passage from piecewise `C¹` curves; §12.6 owns causal curves in an arbitrary subset,
+  past-inextendibility, the future domain of dependence `D⁺_D(S)` in a subset, its monotonicity,
+  the slice identity `D⁺_D(S) ∩ {t = t₀} = S ∩ D`, the reduction to time-parametrised curves,
+  determination for data closed in an open set, and covering invariance. Sections 3.1–3.3 take
+  these with `Σ = E` Euclidean and state only what LorentzianGeometry does not; each kept
+  statement says how it differs. LorentzianGeometry's causal vectors are nonzero (its §7.3: a
+  causal vector `X` has `dt(X) ≠ 0`), while the closed cone `g(X, X) ≤ 0` of §3.1 contains `0`;
+  both give `g(0, 0) = 0`, and on time-parametrised curves, whose velocities `(1, ẋ)` never
+  vanish, the two conventions agree. Null hypersurfaces are LorentzianGeometry's as well
+  (§9.2 there); §8.4 states the nullity of a boundary through the conormal condition of §3.1
+  (`dφ ≠ 0` a null covector), which is §9.2's equivalent form `g⁻¹(dφ, dφ) = 0`.
+  LorentzianGeometry §12.7 proves, for a locally Lipschitz metric on a manifold without
+  boundary, the limit curve theorem and the nullity of Cauchy horizons where they are `C¹`
+  hypersurfaces; §3.2 (limit curves) and §8.4 each say how their statements differ. Null
+  generators and geodesics of `C^{1,1}` metrics are LorentzianGeometry's and are not used here.
+- **Linear symmetric hyperbolic systems with classical solutions** are
+  SymmetricHyperbolicSystems'. Its §1.2 owns the linear system carrier `LinearSystem` and the
+  predicate `LinearSystem.IsSymmetricHyperbolic`, §2.1 the pointwise energy identity, §2.2
+  finite propagation speed for a single speed, §2.3 uniqueness of classical solutions and the
+  integrated energy identity and `L²` estimate for classical solutions vanishing outside a
+  bounded set, and §7.3 existence for smooth compactly supported data and `C_b^∞` coefficients.
+  Layer 5 takes the carrier from its §1.2 and the pointwise identity from its §2.1, and states
+  what it lacks: the energy identity and estimate in the Sobolev class on the quotient `E/Λ`
+  (§5.1), weighted energies with Lipschitz weights, moving cones and periodic lifts (§5.2), and
+  existence in `Hᵏ_Λ` (§5.4). Quasilinear systems and the `Hᵏ` theory are outside its scope and
+  are owned here.
+- **Characteristic initial data** (data on `S₀ ∪ C` with `C` a null hypersurface, its
+  constraint and compatibility conditions), acoustical eikonal functions, the ruling of the
+  characteristic boundary by null geodesics issuing from the edge of the data, and shock
+  formation are not part of this roadmap; they are the subject of "Compressible Euler
+  equations, Part II", which consumes this roadmap together with LorentzianGeometry for
+  `C^{1,1}` geodesics and null generators. This roadmap stops at the nullity of the regular
+  boundary.
+- **Fractional orders.** Well-posedness is stated for integer Sobolev orders `k > n/2 + 1`,
+  which is the generality of the cited theorems. Real orders `s > n/2 + 1` need the
+  Kato–Ponce commutator estimates in Besov form, built on the paraproducts of the PDE roadmap's
+  Layer 7; they are not part of this roadmap and belong to "Compressible Euler equations,
+  Part II".
+- **Incompressible flows** (the Leray projection, the incompressible Euler and Navier–Stokes
+  equations) are not part of this roadmap. The spaces `Hᵏ_Λ` here are for discrete period
+  groups of any rank; when `Λ` has full rank, a linear change of variable taking `Λ` to `ℤⁿ`
+  identifies them, up to norm equivalence, with the integer-order `L²` Sobolev spaces of the
+  unit-period torus `UnitAddTorus (Fin n)`; nothing here uses that case, and the norm comparison
+  is a Check of §4.1. For `n = 1` and a full-rank `Λ = Tℤ`, `Hᵏ_Λ` is likewise Tau Ceti's
+  `TauCeti.CircleSobolev k ℂ`, the Fourier-side Sobolev space of `AddCircle T`, restricted to
+  real functions and up to norm equivalence; this case is not used here either, and the norm
+  comparison is a Check of §4.1. Friedrichs' lemma of §4.4 is stated for period groups of every
+  rank (`Λ = 0` and `Λ_cyl` included); after the change of variable `y = x/2π`, its case
+  `Λ = (2πℤ)^n` is the case `p = ∞`, `L²` densities, of the DiPerna–Lions commutator estimate for
+  transport by `W^{1,p}` fields on the unit torus.
+- **Periodic Sobolev classes in statistics.** MathematicalStatisticsNonparametric §6.2
+  characterises the periodic Sobolev classes `W^per(β, L)` on `[0, 1]`, integer `β`, as ellipsoids
+  of Fourier coefficients. These are balls for the top-order seminorm in the case `n = 1`,
+  `Λ = ℤ` of `Hᵏ_Λ`; §4.1 here defines the space and its norm for every `n` and every period
+  group, and nothing of that roadmap is consumed.
+- **Commutators with mollifiers on the Bessel scale.** ComplexKahlerGeometry §5.7 states, for a
+  chart-localised second-order operator `P` with smooth matrix coefficients and a convolution
+  regulariser `J_ε`, that `[P, J_ε]` is bounded from `H^r` to `H^{r−1}` uniformly for
+  `0 < ε ≤ 1` and every real `r`, and, for a smooth compactly supported matrix `f`, the multiplier
+  bound `‖fw‖_{H^s} ≤ sup‖f‖·‖w‖_{H^s} + C_{f,s}‖w‖_{H^{s−1}}`. Friedrichs' lemma of §4.4 is the
+  first-order `L²` statement on `E/Λ` for a coefficient that is only bounded and Lipschitz, and
+  the products of §4.3 are tame, with constants independent of the factors; the coefficients
+  `Mⁱ(U)` of §5.3 are `C¹` but in general not smooth (`a = |sin x|` on `Λ = 2πℤ` is bounded,
+  `1`-Lipschitz and periodic, so §4.4 applies to it, but it is not `C¹` at `0`). Neither
+  statement gives the other, and nothing of that roadmap is consumed.
+- **Flat finite propagation for Klein–Gordon** is RelativisticQuantumFieldTheory RQFT1; it is a
+  second-order scalar statement on Minkowski space and is neither consumed nor restated.
+- Vacuum boundaries `ρ = 0`, weak and entropy solutions, Riemann solvers and numerical schemes
+  are outside the roadmap.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- `ContDiffOn`, `fderivWithin`, `UniqueDiffOn`, the convexity criterion for unique
+  differentiability `uniqueDiffOn_convex` (`Mathlib/Analysis/Calculus/TangentCone/Real.lean:80`)
+  and its localisation `uniqueDiffWithinAt_inter`
+  (`Mathlib/Analysis/Calculus/TangentCone/Basic.lean:128`): the meaning of `C¹` on a domain and of
+  the equations at `t = t₀`.
+- `Matrix.PosDef`, `Matrix.PosSemidef` (`Mathlib/LinearAlgebra/Matrix/PosDef.lean:176,62`):
+  the definiteness conditions on `A⁰` and on the symbol.
+- `Matrix.IsHermitian` (`Mathlib/LinearAlgebra/Matrix/Hermitian.lean:45`), `Matrix.IsSymm`
+  (`Mathlib/LinearAlgebra/Matrix/Symmetric.lean:33`) and `Matrix.isHermitian_iff_isSymm`
+  (`Mathlib/LinearAlgebra/Matrix/Hermitian.lean:69`, for a trivial star, as on `ℝ`): the
+  symmetric matrices of §2.1 (`Matrix.IsHermitian`, which `Matrix.PosDef` contains) and of
+  SymmetricHyperbolicSystems §1.2 (`Matrix.IsSymm`) are the same for real matrices.
+- `Matrix.det`, `Real.sqrt` and `IsCompact`: the determinant of §2.2 and §3.1, the sound speed of
+  §1.1 and the compactness statements of §3.3.
+- `LipschitzOnWith`, `LocallyLipschitzOn`, Rademacher's theorem
+  `LipschitzOnWith.ae_differentiableWithinAt_of_mem`
+  (`Mathlib/Analysis/Calculus/Rademacher.lean:362`), `LipschitzOnWith.absolutelyContinuousOnInterval`
+  (`Mathlib/MeasureTheory/Function/AbsolutelyContinuous.lean:310`) and the fundamental theorem of
+  calculus `AbsolutelyContinuousOnInterval.integral_deriv_eq_sub`
+  (`Mathlib/MeasureTheory/Integral/IntervalIntegral/AbsolutelyContinuousFun.lean:227`, scalar
+  valued; applied coordinatewise): the analysis of locally Lipschitz causal curves in §3.2.
+- `LipschitzWith.integral_lineDeriv_mul_eq` (`Mathlib/Analysis/Calculus/Rademacher.lean:170`):
+  integration by parts `∫ (∂_v f) g = ∫ (∂_{−v} g) f` for globally Lipschitz `f`, `g` with `g`
+  compactly supported, used against the Lipschitz weights of §5.2 (for `Λ = 0`, and through the
+  localisation of §4.1 for a general period group).
+- `BoundedContinuousFunction.arzela_ascoli`
+  (`Mathlib/Topology/ContinuousMap/Bounded/ArzelaAscoli.lean:113`): compactness of families of
+  causal curves.
+- `CompactExhaustion` (`Mathlib/Topology/Compactness/SigmaCompact.lean:323`): compact sets
+  `K_n`, each contained in the interior of the next, with union the whole space;
+  `CompactExhaustion.choice` (line 418) provides one on a weakly locally compact σ-compact space,
+  such as a domain with its subspace topology (locally closed in `𝔐`, second countable). Used in
+  the limit-curve statement of §3.2.
+- `zorn_le_nonempty₀` (`Mathlib/Order/Zorn.lean:126`): existence of maximal developments and of
+  past-inextendible extensions.
+- `IsPicardLindelof` and `IsPicardLindelof.exists_eq_forall_mem_Icc_hasDerivWithinAt`
+  (`Mathlib/Analysis/ODE/PicardLindelof.lean:80`, `Mathlib/Analysis/ODE/ExistUnique.lean:57`),
+  stated for a complete normed space; `ODE_solution_unique_of_mem_Icc`
+  (`Mathlib/Analysis/ODE/ExistUnique.lean:252`): the regularised ODE of §5.4 in `Hᵏ_Λ`, and
+  material curves of a `C¹` velocity in §1.3.
+- `TemperedDistribution.MemSobolev` (`Mathlib/Analysis/Distribution/Sobolev.lean:153`), the
+  Bessel-potential scale on `E`, used only through the Tau Ceti comparison below.
+- `MeasureTheory.Lp.fourierTransformₗᵢ` (`Mathlib/Analysis/Fourier/LpSpace.lean:51`): the
+  Fourier transform on `L²(E)` as a linear isometric equivalence (Plancherel), used for the
+  interpolation inequality of §4.2 on `E`.
+- `MeasureTheory.norm_integral_le_integral_norm`
+  (`Mathlib/MeasureTheory/Integral/Bochner/Basic.lean:970`): the norm of a Bochner integral is
+  at most the integral of the norm; with the translation isometries below it gives the
+  convolution bounds of §4.4, `‖∫ k(y) τ_y w dy‖ ≤ ‖k‖_{L¹}‖w‖`, with no separate convolution
+  inequality.
+- `Real.young_inequality` (`Mathlib/Analysis/MeanInequalities.lean:547`):
+  `ab ≤ |a|ᵖ/p + |b|^q/q` for Hölder conjugate exponents `p`, `q`, the last step of the product
+  estimate of §4.3.
+- The chain rule `HasFDerivAt.comp` (`Mathlib/Analysis/Calculus/FDeriv/Comp.lean:103`) and the
+  Faà di Bruno formula `HasFTaylorSeriesUpToOn.comp`
+  (`Mathlib/Analysis/Calculus/ContDiff/FaaDiBruno.lean:1051`: if `g` and `f` have Taylor series
+  `q` and `p` up to order `m`, then `g ∘ f` has the Taylor series `q.taylorComp p`): the
+  classical derivatives of `Φ̃ ∘ u` up to order `k` for smooth `u`, `Φ̃` the compactly supported
+  cut-off of `Φ`, in the composition estimate of §4.3.
+- `MeasureTheory.IsAddFundamentalDomain` (`Mathlib/MeasureTheory/Group/FundamentalDomain.lean:59`,
+  a null-measurable set whose translates are pairwise almost disjoint and cover almost every
+  point) for the fundamental domain `F` of `Λ` acting on `E` by translation; for `Λ = 0` the set
+  `F` is `E` up to a null set. And `Finset.Nat.antidiagonalTuple`
+  (`Mathlib/Data/Fin/Tuple/NatAntidiagonal.lean:206`, the multi-indices `α : Fin n → ℕ` of order
+  exactly `m`): the norm of §4.1.
+- `derivWithin` and `DifferentiableWithinAt` for the velocity of a time-parametrised causal curve
+  (§3.2), and `frontier` for the boundary of a development (§8.4).
+- `MeasureTheory.convolution`, `ContDiffBump`, the Bochner integral, `Lp`, Hölder's and
+  Minkowski's inequalities, dominated convergence and the Lebesgue differentiation theorem.
+
+Mathlib has no symmetric hyperbolic system, no Moser estimate, no Gagliardo–Nirenberg
+interpolation inequality between `L^∞` and `Hᵏ`, no periodic or partially periodic Sobolev space
+on `E`, no Lorentzian quadratic form with a time orientation and no causal curve.
+
+### From Tau Ceti
+
+- `TauCeti.HasWeakLineDerivOn` (`TauCeti/Analysis/Sobolev/WeakDeriv/Basic.lean:212`): `u′` is a
+  weak derivative of `u` in the direction `v` on an open set `Ω` for a measure `μ` when the
+  codomain is complete, `u` and `u′` are locally integrable on `Ω`, and `∫ (∂_vφ) u = −∫ φ u′` for
+  every smooth `φ` compactly supported in `Ω`. Used with `Ω = ⊤` and Lebesgue measure for the
+  iterated weak derivatives of §4.1; local integrability is part of it, so no junk integral
+  enters.
+- `TauCeti.Wkp` (`TauCeti/Analysis/Sobolev/Wkp/Basic.lean:145`), the weak-derivative Sobolev
+  space `W^{k,p}(Ω)` of real functions, used with `Ω = ⊤`, `p = 2`, Lebesgue measure; and
+  `TauCeti.HasWeakFDerivOn` (`TauCeti/Analysis/Sobolev/WeakDeriv/Basic.lean:251`), the weak
+  derivative on an open set, which is a weak line derivative in every direction.
+- `MeasureTheory.Lp.memSobolev_natCast_iff_exists_wkp_value_eq`
+  (`TauCeti/Analysis/Sobolev/BesselPotential/Basic.lean:133`): for `1 < p < ∞` and every
+  natural `k`, a real `Lᵖ` function is in Mathlib's `MemSobolev k p` exactly when it is the
+  value of an element of `TauCeti.Wkp volume ⊤ p k`.
+- `TemperedDistribution.MemSobolev.exists_zeroAtInftyContinuousMap_ae_eq` and
+  `TauCeti.Wkp.toZeroAtInfty` (`TauCeti/Analysis/Sobolev/BesselPotential/Embedding.lean:81,194`):
+  for `2k > n` every element of `W^{k,2}(ℝⁿ)` has a unique representative in `C₀(ℝⁿ)`, and the
+  representative map is a bounded linear map. Only continuity, vanishing at infinity and the sup
+  bound are used; no Hölder modulus is assumed.
+- `TauCeti.Wkp.exists_contDiffOn_ae_eq`
+  (`TauCeti/Analysis/Sobolev/Wkp/ContDiffRepresentative.lean:101`), with
+  `TauCeti.HasWeakFDerivOn.contDiffOn_succ` (`TauCeti/Analysis/Sobolev/WeakDeriv/Classical.lean:145`:
+  a function continuous on an open set with a weak derivative of class `Cᵐ` there is of class
+  `Cᵐ⁺¹` there): for Lebesgue measure, an open `Ω ⊆ E` and `2k > n`, every element of
+  `W^{k+j,2}(Ω)` agrees almost everywhere on `Ω` with a function of class `Cʲ` on `Ω`, which need
+  not be bounded. With `Ω = ⊤`, and `k − j` in place of `k` (so that the hypothesis reads
+  `2k > n + 2j`), this is the regularity of the representative in §4.2 for `Λ = 0`; §4.2 adds the
+  bound `sup_{|α|≤j} ‖∂^αu‖_∞ ≤ C‖u‖_{Hᵏ_Λ}`, the decay and every period group. Consumed in §4.2.
+- `TauCeti.Wkp.exists_value_eq_iff_forall_exists_hasWeakLineDerivOn`, with its two directions
+  `TauCeti.Wkp.exists_hasWeakLineDerivOn_value` and
+  `TauCeti.Wkp.exists_value_eq_of_forall_hasWeakLineDerivOn`
+  (`TauCeti/Analysis/Sobolev/Wkp/LineDeriv.lean:287,156,267`): for an additive Haar measure and an
+  open `Ω`, an element of `Lᵖ(Ω)` is the value of an element of `W^{k+1,p}(Ω)` exactly when in
+  every direction it has a weak derivative that is the value of an element of `W^{k,p}(Ω)`, and
+  for the converse the directions of one orthonormal basis suffice. With `Ω = ⊤`, `p = 2` and
+  Lebesgue measure it is, by induction on `k`, the identification of §4.1 at `Λ = 0` of a family
+  `IsWeakDerivFamily k u g` whose members `g_α`, `|α| ≤ k`, lie in `L²` with an element of
+  `TauCeti.Wkp volume ⊤ 2 k` of value `u`; consumed, not proved again.
+- `TauCeti.exists_norm_le_hasWeakLineDerivOn_of_frequently_eLpNorm_inv_mul_sub_le`
+  (`TauCeti/Analysis/Sobolev/DifferenceQuotient.lean:152`): a locally integrable `u` on an
+  open set whose `L²` difference quotients in a direction `v` are bounded by `C` on every
+  compact subset, for parameters `t → 0` frequently, has a weak derivative in direction `v` of
+  `L²` norm at most `C`; the lower semicontinuity of §4.2.
+- `TauCeti.Wkp.dense_contDiff_representatives`
+  (`TauCeti/Analysis/Sobolev/Wkp/SmoothDensity.lean:92`): density of smooth functions in
+  `W^{k,p}(ℝⁿ)` for finite `p`.
+- `TauCeti.Wkp.normedBumpL` with `TauCeti.Wkp.norm_normedBumpL_le_one`,
+  `TauCeti.Wkp.lowerOrder_normedBumpL`, `TauCeti.Wkp.iteratedGradient_normedBumpL` and
+  `TauCeti.Wkp.tendsto_normedBumpL`
+  (`TauCeti/Analysis/Sobolev/Wkp/ApproximateIdentity.lean:52,67,107,118,132`): mollification of
+  `W^{k,p}(ℝⁿ)`, `p < ∞`, by a normalised smooth bump (`ContDiffBump`, radial, hence even and
+  nonnegative) as a contraction in the `Wkp` norm, commuting with the lower-order projection and
+  with the iterated gradient, and converging strongly to the identity as the bump radii tend to
+  `0`; `TauCeti.W1p.normedBumpL` (`TauCeti/Analysis/Sobolev/W1p/Mollification.lean:87`) is the
+  order-one case. The contraction and the convergence are here the `Λ = 0` statements of §4.4
+  for the normalised-bump kernels only; a general even nonnegative kernel (§4.4) need not be of
+  this form, and for it these two statements are proved in §4.4 from the translations below.
+- `TauCeti.HasWeakLineDerivOn.lineDeriv_convolution_right` with
+  `TauCeti.HasWeakLineDerivOn.hasLineDerivAt_convolution_right`
+  (`TauCeti/Analysis/Sobolev/Mollification/Basic.lean:97,73`): for a locally integrable `u` with
+  a weak derivative `u′` in the direction `v` on an open `Ω`, an s-finite left-invariant measure
+  and a smooth compactly supported scalar kernel `ρ`, the convolution `u ⋆ ρ` (Mathlib's
+  `MeasureTheory.convolution` with the flipped scalar multiplication, `x ↦ ∫ ρ(x − y) u(y) dy`)
+  has directional derivative `(u′ ⋆ ρ)(x)` in the direction `v` at every `x` with
+  `x − tsupport ρ ⊆ Ω`. With `Ω = ⊤`, Lebesgue measure and `ρ = φ_ε`, applied successively to the
+  weak derivatives of §4.1, this is `∂^αJ_εu = J_ε∂^αu` of §4.4 for every admissible kernel and
+  every period group (the identity is pointwise, and a Λ-periodic `u` with finite norm is locally
+  integrable); it is consumed, not proved again.
+- `TauCeti.Wkp.translate`, `TauCeti.Wkp.lowerOrder_translate`,
+  `TauCeti.Wkp.iteratedGradient_translate`, `TauCeti.Wkp.continuous_translate`,
+  `TauCeti.Wkp.norm_translate` and `TauCeti.Wkp.translateLIE`
+  (`TauCeti/Analysis/Sobolev/Wkp/Translation.lean:104,137,130,182,193,229`): translation of
+  `W^{k,p}(ℝⁿ)` acts on the value and every weak derivative, is a linear isometric equivalence,
+  and for finite `p` is continuous in the translation vector for each fixed element.
+  `TauCeti.Wkp.lowerOrder_translate` and `TauCeti.Wkp.iteratedGradient_translate` give the
+  translation invariance of the norm of §4.1 at `Λ = 0`; the others carry the route of §4.4.
+- `TauCeti.W1p.eLpNorm_value_comp_add_sub_value_le_mul_enorm_gradient`
+  (`TauCeti/Analysis/Sobolev/Translation.lean:133`): for `1 ≤ p ≤ ∞`, an additive Haar measure
+  `μ` on `E` and `u` in `TauCeti.w1p0Submodule μ ⊤ p`, the closure of the test functions in
+  `W^{1,p}(E)`, the translation estimate `‖u(· + h) − u‖_p ≤ |h|‖∇u‖_p`; with
+  `TauCeti.w1p0Submodule_top_eq_top` (`TauCeti/Analysis/Sobolev/W1p/Density.lean:299`), by
+  which that closure is all of `W^{1,p}(E)` for `p < ∞`, it holds for every element of
+  `TauCeti.W1p volume ⊤ 2`, which is `TauCeti.Wkp volume ⊤ 2 1`. With
+  `MeasureTheory.norm_integral_le_integral_norm` it gives the loss bound of §4.4 for `Λ = 0`,
+  and the localisation of §4.1 carries it to every `Λ`.
+- `TauCeti.HasWeakLineDerivOn.contDiffOn_smul`, `TauCeti.HasWeakFDerivOn.contDiffOn_smul` and
+  `TauCeti.HasWeakLineDerivOn.lipschitzOnWith_smul`
+  (`TauCeti/Analysis/Sobolev/Leibniz.lean:112,168,317`): the Leibniz rule for the weak derivative
+  of `ψu` with `ψ` smooth, or Lipschitz, on the open set and `u` weakly differentiable; the
+  product rule of §4.3 for two Sobolev factors is obtained from it by density.
+- `TauCeti.W1p.mul`, `TauCeti.W1p.norm_mul_le` and `TauCeti.W1p.mulL`
+  (`TauCeti/Analysis/Sobolev/W1p/SupercriticalMultiplication.lean:320,500,515`): for `p > n`
+  the product of the Morrey representatives of `u, v ∈ W^{1,p}(ℝⁿ)` lies in `W^{1,p}(ℝⁿ)` with
+  `‖uv‖ ≤ 3‖ι‖‖u‖‖v‖`, `ι` Morrey's embedding, and is a bounded bilinear map. At `p = 2` the
+  hypothesis `n < 2` leaves `n = 1`, where the `W1p` norm is the `H¹` norm: this is the case
+  `Λ = 0`, `n = 1`, `k = 1` of the algebra property of §4.3, which is stated for every `Λ` and
+  every `n`, `k` with `2k > n`, together with the product bound with `L^∞` factors.
+- `TauCeti.W1p.hasWeakFDerivOn_comp` and `TauCeti.W1p.contDiffComp`
+  (`TauCeti/Analysis/Sobolev/W1p/ChainRule.lean:375,385`): for `1 ≤ p < ∞`, a real
+  `u ∈ W^{1,p}(Ω)` on an open `Ω` and a `C¹` function `F : ℝ → ℝ` with bounded derivative,
+  `F ∘ u` has the weak gradient `F′(u)∇u` on `Ω`, and lies in `W^{1,p}(Ω)` when `F(0) = 0`. This
+  is the scalar chain rule, the case `N = 1`, `k = 1` of the composition estimate of §4.3 for a
+  `Φ` with bounded derivative on all of `ℝ`; §4.3 states vector-valued `u`, every order `k`, and
+  `Φ` smooth only on an open `G` containing the values.
+- `TauCeti.hasWeakFDerivOn_gradient_of_contDiffOn`
+  (`TauCeti/Analysis/Sobolev/WeakDeriv/Basic.lean:789`): a real function of class `C¹` on an
+  open set has its classical gradient as weak derivative there; applied componentwise to
+  `Φ̃ ∘ u`, `Φ̃` the compactly supported cut-off of `Φ` of §4.3, for the smooth approximants `u`
+  there, which may leave the domain `G` of `Φ`.
+- `TauCeti.Wkp.norm_iteratedGradient_lowerOrder_le`
+  (`TauCeti/Analysis/Sobolev/Wkp/Interpolation.lean:335`): for `1 ≤ p < ∞`, `ε > 0` and
+  `u ∈ W^{2,p}(E)`, `‖∇u‖_p ≤ ε‖D²u‖_p + (n²/ε)‖u‖_p`. At `p = 2` the infimum over `ε` gives
+  `‖∇u‖₂ ≤ 2n‖u‖₂^{1/2}‖D²u‖₂^{1/2}`, the case `j = 1`, `k = 2`, `Λ = 0` of the interpolation
+  inequality of §4.2 in additive form; §4.2 states every `0 ≤ j ≤ k` and every `Λ`, by
+  Plancherel.
+- `TauCeti.CircleSobolev s E` (`TauCeti/Analysis/Sobolev/Circle/Basic.lean:197`), the
+  Fourier-side Sobolev space of the circle with norm squared `Σ_m (1 + |m|)^{2s}‖c_m‖²`
+  (`TauCeti.CircleSobolev.norm_sq_eq_tsum`, line 375), identified at `s = 0` with
+  `L²(AddCircle T)` for the probability Haar measure by `TauCeti.CircleSobolev.toLpₗᵢ`
+  (`TauCeti/Analysis/Sobolev/Circle/Lp.lean:59`): for `n = 1`, `Λ = Tℤ` and integer `s = k` this
+  is `Hᵏ_Λ` (real functions, complexified) up to norm equivalence; nothing here uses it, and the
+  norm comparison is a Check of §4.1. The space carries five special cases of Layer 4, none of
+  them consumed; all but the derivative need `s > 1/2`. `TauCeti.CircleSobolev.toContinuousMap` with
+  `TauCeti.CircleSobolev.norm_toContinuousMap_le`
+  (`TauCeti/Analysis/Sobolev/Circle/Basic.lean:807,831`), the continuous representative as a
+  bounded linear map into `C(AddCircle T, E)`, is the embedding of §4.2 at `j = 0`.
+  `TauCeti.CircleSobolev.norm_mul_le` with `TauCeti.CircleSobolev.toContinuousMap_mul`
+  (`TauCeti/Analysis/Sobolev/Circle/Algebra.lean:288,300`), the bound `‖ab‖ ≤ C_s‖a‖‖b‖` for a
+  complete normed `ℂ`-algebra `A` with the product pointwise on representatives, is at `A = ℂ`
+  the algebra property of §4.3. `TauCeti.CircleSobolev.toContinuousMap_nemytskii` with
+  `TauCeti.CircleSobolev.analyticOnNhd_nemytskii`
+  (`TauCeti/Analysis/Sobolev/Circle/Nemytskii.lean:431,441`), by which, for `F` holomorphic on an
+  open `U ⊆ ℂ` and `u` with values in `U`, `F ∘ u` represents an element of the space and
+  `u ↦ F ∘ u` is analytic on the open set of such `u`, is the composition statement of §4.3 for
+  `N = 2` and holomorphic `Φ`, membership and continuity. `TauCeti.CircleSobolev.derivative` with
+  `TauCeti.CircleSobolev.norm_derivative_le` (`TauCeti/Analysis/Sobolev/Circle/Derivative.lean:83,98`),
+  for `s + 1 ≤ t` the operator `H^t → H^s` multiplying the `m`-th Fourier coefficient by `2πim/T`,
+  of norm at most `2π/T`, is the boundedness of `∂ᵢ : Hᵏ⁺¹_Λ → Hᵏ_Λ` of §4.1; and
+  `TauCeti.CircleSobolev.hasDerivAt_toContinuousMap` (same file, line 195), by which for
+  `s > 1/2` and `s + 1 ≤ t` the continuous representative of `a ∈ H^t` is differentiable with the
+  continuous representative of the derivative of `a` as derivative, gives, applied `j` times
+  together with `TauCeti.CircleSobolev.norm_toContinuousMap_le`, the embedding of §4.2 into
+  `C^j_b` with its bound when `2k > 1 + 2j` (at `k = 2`, `j = 1`: `s = 1 > 1/2`, `t = 2 = s + 1`).
+  At integer orders `s = k ≥ 1` these are the case `n = 1`, `Λ = Tℤ`, complex values, of
+  §§4.1–4.3, up to the norm equivalence of §4.1; §§4.1–4.3 state the tame bounds with `L^∞`
+  factors, every `n`, period groups of every rank, and real `Φ` that is only smooth on an open
+  `G ⊆ ℝ^N`, while the pinned statements also cover real orders (`s > 1/2` where a continuous
+  representative enters) and values in complex Banach spaces and algebras.
+- `TauCeti.le_mul_exp_of_le_add_mul_integral` (`TauCeti/Analysis/ODE/Gronwall.lean:59`): the
+  integral Grönwall inequality `φ(t) ≤ c + K∫ₐᵗ φ ⇒ φ(t) ≤ c e^{K(t−a)}` for continuous `φ` and
+  `K ≥ 0`, the closure step of every energy estimate.
+
+### From TauCetiRoadmap.LorentzianGeometry
+
+- §6.1, `minkowskiForm E`: the Minkowski form `−τ² + |ξ|²` on `ℝ × E`, Lorentzian; the frame
+  `(t, x) ↦ (ct, x − vt)` carrying the acoustical form of constant `c > 0`, `v` to it is §7.3's
+  first Check, which §3.1 uses and to which it adds the determinant.
+- §6.3: for a Lorentzian form and a nonzero covector `ζ`, the hyperplane `ker ζ` is spacelike,
+  timelike or null according as the inverse form `g⁻¹(ζ, ζ)` is negative, positive or zero, with
+  timelike meaning nondegenerate of index one, equivalently containing a timelike vector; used
+  for the covector classification of §3.1.
+- §7.3: the acoustical form `g = −c² dt² + h(dx − v dt, dx − v dt)` on `ℝ × Σ` for given fields
+  `c`, `v` and a Riemannian `h`, here with `Σ = E` and `h` Euclidean; at points with `c ≠ 0` it is
+  Lorentzian, `g(B, B) = −c²` for `B = ∂_t + v`, `g(X, B) = −c² dt(X)`,
+  `g⁻¹ = −c⁻² B ⊗ B + h⁻¹`, `g⁻¹(dt, dt) = −c⁻²`, every causal vector has `dt(X) ≠ 0`, `∂_t + Y`
+  is causal iff `|Y − v| ≤ |c|`, and where `c > 0` with `c`, `v` continuous, `B` is a continuous
+  timelike field orienting time. Assumed: these statements for constant and for continuous
+  `c > 0`, `v`, which is all §§3.1–3.3 use.
+- §8.2: locally Lipschitz future causal curves (velocity future causal almost everywhere),
+  their restriction and concatenation, and that piecewise `C¹` future causal curves are locally
+  Lipschitz causal curves.
+- §12.6: `TimeOrientedLorentzianFieldOn D` (a Lorentzian form field and a timelike field, both
+  continuous on the subset `D`), `IsFutureCausalCurveIn`, `IsPastInextendibleIn` and
+  `futureDomainOfDependenceIn`, written `D⁺_D(S)`, for any subset `D` of a manifold possibly
+  with boundary; `S ∩ D ⊆ D⁺_D(S)` and monotonicity in `S`; concatenation in `D`; the time
+  function statement, which for the acoustical field with the time coordinate reduces causal
+  curves in `D` to time-parametrised ones, with past-inextendibility in its extension form and
+  one-point intervals admitted; the slab identity `D⁺_D(S) ∩ {t = t₀} = S ∩ D` for
+  `D ⊆ {t ≥ t₀}` and `S ⊆ {t = t₀}`; determination `futureDomainOfDependenceIn_self` for `S`
+  closed in an open set of a manifold without boundary; and invariance under coverings that are
+  local isometries. Assumed: these for the acoustical field of a sound-cone field (§3.2) on
+  subsets of `ℝ × E` where `c > 0` and `c`, `v` are continuous.
+
+### From TauCetiRoadmap.SymmetricHyperbolicSystems
+
+- §1.2: the structure `LinearSystem n N` (coefficients `A0`, `A`, `B` on `ℝ × E`, valued in real
+  `N × N` matrices), its left-hand side `LinearSystem.apply` and the predicate
+  `LinearSystem.IsSymmetricHyperbolic` (`A⁰` and every `Aʲ` symmetric in the sense of
+  `Matrix.IsSymm`, and `λ|ξ|² ≤ ξ·A⁰ξ` with `λ > 0`). The structure and the predicate are the
+  carrier of §5.1. `LinearSystem.apply` is the classical left-hand side, built from the pointwise
+  `deriv` and `fderiv`, which are `0` where the map is not differentiable; it is used here only on
+  `C¹` maps, in the pointwise identity of §5.2. In §§5.1, 5.3 and 5.4, for
+  `W ∈ C¹([0, T]; L²_Λ) ∩ C([0, T]; H¹_Λ)`, `LW` denotes `A⁰∂_tW + Σᵢ Aⁱ∂ᵢW + BW` with `∂_tW` the
+  derivative of `t ↦ W(t)` in `L²_Λ` and `∂ᵢW` the weak derivative of §4.1; it lies in
+  `C([0, T]; L²_Λ)`, and when `W` is moreover `C¹` on `[0, T] × E`, for each `t ∈ (0, T)` the class
+  of `x ↦ LinearSystem.apply W t x` is `LW(t)`.
+- Conventions, *Propagation speed*: its notion of a speed `c ≥ 0`,
+  `|ξ·(Σⱼ ωⱼAʲ)ξ| ≤ c ξ·A⁰ξ` for all `(t, x)` and `|ω| ≤ 1` (§1.2 gives the existence of one when
+  the `Aʲ` are bounded). Compared in §5.2 with dominating cones, at a point.
+- §2.1: the pointwise energy identity
+  `∂_t⟨A⁰u, u⟩ + Σⱼ ∂ⱼ⟨Aʲu, u⟩ = ⟨Ku, u⟩ + 2⟨F, u⟩`, `K = ∂_tA⁰ + Σⱼ ∂ⱼAʲ − B − Bᵀ`, for
+  classical solutions of `Lu = F` with `A⁰`, `Aʲ` of class `C¹` and `B` continuous. Used in
+  §5.2 in local form, for an operator satisfying `LinearSystem.IsSymmetricHyperbolic` with
+  constant `λ`: at a point `p ∈ (0, T) × E` near which `u`, `A⁰` and the `Aʲ` are `C¹`, it gives
+  the identity with `Lu` in place of `F`, applied to `ψu` and to the coefficients
+  `ψA⁰ + (1 − ψ)λI`, `ψAʲ`, `ψB` for a smooth cutoff `ψ` with `0 ≤ ψ ≤ 1`, equal to `1` near `p`
+  and compactly supported in an open subset of `(0, T) × E` on which `u`, `A⁰` and the `Aʲ` are
+  `C¹`. The cut-off coefficients and `ψu` (extended by `0`) are `C¹` on all of `ℝ × E`, `ψB` is
+  continuous, and the cut-off coefficients keep the predicate with the same `λ`, since
+  `ψA⁰ + (1 − ψ)λI = λI + ψ(A⁰ − λI) ≥ λI` when `ψ ≥ 0` (with `A⁰ = 2I`, `λ = 1`: `1.5I` at
+  `ψ = 1/2`, while a value `ψ = −1` would give the matrix `0`).
+
+The statements of its §2.2, §2.3 and §7.3 (single-speed finite propagation, the integrated
+identity and `L²` estimate for classical solutions vanishing outside a bounded set, existence
+for smooth compactly supported data) are not consumed: §§5.1, 5.2 and 5.4 state the versions
+in other classes and say how they differ.
+
+The roadmap records no supplier gap: every other input is a pinned declaration or a target of
+this roadmap.
 
 ## References
 
