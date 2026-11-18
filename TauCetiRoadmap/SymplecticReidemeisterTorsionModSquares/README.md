@@ -2,19 +2,9 @@
 
 **Summary.** Build signed Reidemeister torsion for nonacyclic self-dual local systems from finite cellular cochains and graded determinants, extend it over normal domains, and identify its normalized value in dimension three with the étale second Chern transgression. The end theorem is `N(M,rho) = [(-1)^(chi_half(M,rho)/2)] RT(M,rho) = <rho*c_et,[M]>` for every closed smooth oriented three-manifold with a symplectic local system over any field of characteristic different from two. The circle and mapping-torus formulas hold in every odd characteristic. A Gaussian genus-two witness, finite-field K-theory, transfer and density arguments give the comparison for all fields, rather than only a density-one set. A separate Bockstein argument proves real Chern vanishing on full mod-two homology (AV-v1, Theorem 2.1, p. 10, line 422; §1.3.3, p. 6, line 230).
 
-## Scope and ownership
+## How to read the build
 
-This roadmap owns the signed Poincaré-complex and determinant-root adapters, cellular torsion, the normalized family invariant, the odd-characteristic circle calculation, the torsion–Chern comparison and its surface and real consequences. Its constructions are general library objects: finite projective coefficients, arbitrary finite ranks where meaningful, nonacyclic systems and all fields with two invertible. The real symplectic Lagrangian notion in Tau Ceti's `Geometry/Symplectic/Lagrangian/Basic.lean` concerns real vector subspaces; the retained Lagrangian subcomplex here has an exact shifted-dual quotient over general coefficient rings.
-
-The graded-line category, tensor signs, parity reduction and general perfect-complex determinant functor are stated by KTheoryLowDegrees §§14.1–14.4 and PadicMeasuresIwasawaAlgebras §5.1. Their coherent exact-triangle, acyclic, shift, cone and base-change maps are inputs. Only the reverse-wedge and right-evaluation normalization comparisons are developed here. The orthogonal group and spinor norm are already in the library: `TauCeti.QuadraticMap.orthogonalGroup`, `CliffordAlgebra.orthogonalSpinorNorm` and `CliffordAlgebra.spinorNorm`. The reflection value at the pins is [Q(v)]; no second norm or star-norm conversion is constructed.
-
-TangentialBordism B1–B2 owns labelled smooth bordism and its fundamental-class map; B5.7 owns its connective skeletal filtration and B3.1 its low coefficient groups. This roadmap proves their degree-at-most-three orientation comparison as a consequence, rather than constructing another bordism theory. AlgebraicTopology Stages 2, 4, 5 and 6 owns local coefficients, cellular comparison, the constant-coefficient Wang sequence, finite-cover transfer and duality. GeometricTopology Layers 1 and 11 and its smoothing-and-triangulation comparison own the geometric cell changes.
-
-KTheoryFiniteLocalFields §§1.5, 1.8–1.9 owns finite-field restriction/transfer, universal equivariant finite Chern classes and the finite-rank degree-three Chern isomorphism. K3BlochGroups §§2.4–2.5 and 6.7 owns indecomposable K₃ and its stable Hurewicz and coefficient comparisons. SchemeAndStackFoundations §2.11 owns Kummer torsors as line pairs; §§0.9 and 0.21 own approximation and finite normalization. Chebotarev Layers 7, 11 and 13 owns number-field weighted density; the arithmetic-scheme detection input is its explicit supplier extension below. RepresentationTheory/LieGroups Layer 5 owns universal covering groups, and MetaplecticAutomorphicForms §2.4b owns the metaplectic cover. This roadmap owns the application to real Chern components, without reconstructing either cover.
-
-MorseNovikov §N4 owns based cellular torsion over Novikov total quotient rings with zero assigned to nonacyclic components; the retained invariant here uses the Poincaré cohomology root and is defined for nonacyclic self-dual systems. HermitianKTheoryOfPoincareCategories §4.7 owns Ranicki structures in homotopy fixed points and their cobordism groups; the retained signed cochain pairing is the strict bilinear adapter with the evaluation conventions below.
-
-The arithmetic application to central values of symplectic L-functions modulo squares and Hurwitz/PEL geometry is outside this roadmap’s ownership.
+Layer 0 fixes signed complexes and their strict models. Layer 1 adapts the supplied determinant to square-root volumes. Layer 2 constructs torsion and proves its boundary sign. Layer 3 proves evenness, family naturality and the two homology transformations. Layer 4 supplies the all-odd circle and mapping-torus formulas and the Gaussian witness. Layers 5–6 propagate that witness through Chern lifts and weighted density. Layer 7 upgrades the density result to every odd finite field, every indicated normal ring and every coefficient field, and evaluates the comparison on manifolds. Layer 8 uses the real Chern/Bockstein contract to obtain the stronger full-mod-two conclusion. Dependencies inside a layer follow the subsection order; a proof route lists its actual inputs separately from the target's hypotheses.
 
 ## Conventions
 
@@ -27,117 +17,6 @@ Determinant tensors are ordered by increasing degree. Line inversion reverses fa
 Square classes are written multiplicatively: 1 is trivial. `TauCeti.SquareClassGroup` is additive with identity 0; `TauCeti.squareClassHom` uses its multiplicative wrapper. A line square-class torsor has no preferred origin. Over rings use H¹_et(R,μ₂), including its Pic(R)[2] contribution. Unsigned discriminant means Gram determinant modulo squares, with no dimension sign. For a quadratic form Q the bilinear form in the Lean signature is its associated form B, so B(v,v)=Q(v); the polar form is 2B. Reflection values are [Q(v)] under the pinned convention. On SO, replacing B by 2B changes each even-reflection word by a square (JRV, Theorem 5.1, pp. 16–17, line 782).
 
 The source of both transformations is B_r(R)=H₃(BSp₂ᵣ(R);ℤ)/2, the integral group modulo doubling. Its manifold labels use local systems with a fibre identified with the standard free symplectic module R²ʳ; arbitrary finite-projective families use §3.5. It is not full H₃(−;𝔽₂): the homological coefficient sequence has H₂(−;ℤ)[2] as cokernel. The two agree for the finite symplectic groups over odd finite fields supplied below. The real conclusion has the larger full-mod-two domain and uses a separate proof. All group homology uses discrete groups, including real symplectic groups. Frobenius at an unramified closed point acts arithmetically by x↦x^q; quadratic character values are unchanged by inversion (AV-v1, §2.6, p. 16, line 690; §2.11, p. 21, line 921).
-
-## Exact supplier contracts
-
-### From Mathlib
-
-`CochainComplex` in `Mathlib/Algebra/Homology/HomologicalComplex.lean` and `HomologicalComplex.homology` in `Mathlib/Algebra/Homology/ShortComplex/HomologicalComplex.lean` supply cochains and their native homology. Boundedness, finite projectivity and a pairing are additional hypotheses, not fields of the bare cochain carrier. `groupHomology` in `Mathlib/RepresentationTheory/Homological/GroupHomology/Basic.lean` supplies homology of representations; trivial integral coefficients and reduction modulo two are specified explicitly. `Sylow` in `Mathlib/GroupTheory/Sylow.lean` supplies the subgroup carrier. `SymplecticGroup.det_eq_one` in `Mathlib/LinearAlgebra/SymplecticGroup.lean` holds over a commutative ring and supplies every finite-rank change-of-basis determinant. `QuadraticForm`, `QuadraticMap.associated`, `Module.Basis`, `LinearMap.ker`, `LinearMap.range`, `LinearMap.restrict`, `LinearMap.det` and `Matrix.det` supply the exact carriers in the Zassenhaus acceptance test. Its restriction witness says that A+1 preserves its stable image; it is no assumption about a spinor value. `Nat.forall_exists_prime_gt_and_eq_mod` in `Mathlib/NumberTheory/LSeries/PrimesInAP.lean` supplies a prime above any bound in any unit residue class; §6.3 uses the unit class 1+h modulo 2h for even h.
-
-### From Tau Ceti
-
-Use `TauCeti.SquareClassGroup`, `TauCeti.squareClassHom` and `TauCeti.squareClass_eq_zero_iff` from `TauCeti/FieldTheory/SquareClassGroup/Basic.lean`, and `RingHom.squareClassMap` from `TauCeti/FieldTheory/SquareClassGroup/Multiplicative.lean`. They identify a trivial scalar class with a square and supply coefficient functoriality. Use `TauCeti.QuadraticMap.orthogonalGroup` from `TauCeti/LinearAlgebra/QuadraticForm/OrthogonalGroup/Basic.lean` and `CliffordAlgebra.orthogonalSpinorNorm`, `CliffordAlgebra.orthogonalSpinorNorm_reflectionOrthogonal`, `CliffordAlgebra.spinorNorm` and `CliffordAlgebra.spinorNorm_apply` from `TauCeti/LinearAlgebra/CliffordAlgebra/Spin/SpinorNorm/Basic.lean`, with finite dimension, nondegeneracy and two invertible. A reflection with Q(v)=2 has value [2], whereas the erroneous negative convention gives [−2] over ℚ. A real positive definite plane has trivial image, so no unconditional surjectivity assertion is consumed.
-
-**Checks for the conventions.**
-
-- Over the zero ring, 0=1 and the only module and determinant map are the zero module and its unique isomorphism; the empty prime spectrum imposes no positive-rank inference. Family theorems require a nonzero domain.
-- Over ℚ[ε]/(ε²), the strict two-term model with cross matrix I₂ and differential ε[[0,1],[−1,0]] has residual H⁰ dimension 2 and parity 0. It belongs to the ring linear algebra, while the ring is nonreduced and is outside the normal-domain family hypotheses.
-- At n=0,1,2 the reverse-wedge exponents n(n−1)/2 are 0,0,1; the signs are +1,+1,−1. Empty determinants are 1, and no inverse determinant is used without a nonzero determinant.
-
-### From TauCetiRoadmap.KTheoryLowDegrees
-
-Sections 14.1–14.4: integer-graded lines and their signed coherence, parity comparison, projective determinants and the determinant of perfect complexes with ordered exact-triangle, shift, acyclic, cone and pullback comparisons. Their affine parity specialization is PadicMeasuresIwasawaAlgebras §5.1. Over an empty spectrum the line groupoid is terminal; over a field a line in odd grade has self-interchange −1. The scalar normalization for K —a→ K is a⁻¹ for its acyclic volume.
-
-### From TauCetiRoadmap.PadicMeasuresIwasawaAlgebras
-
-Section 5.1: the finite-projective determinant line with quasi-isomorphism, exact-sequence, base-change, dual, shift, acyclic and cone maps. The field cohomology comparison uses boundary/cycle exact sequences with these maps. Its AV-normalized duality compatibility is proved in Layer 1. At a=2 the based-to-acyclic ratio is 2; a=0 is not an acyclic complex.
-
-### From TauCetiRoadmap.AlgebraicTopology
-
-Stage 2: local systems and coefficient pullbacks; Stage 4: cellular chains; Stage 6.1: local-system cellular cochains and their singular comparison. Section 4.7 derives its presentation-specific crossed-homomorphism description from that cellular model. Stage 5: the constant-coefficient Wang cone of a mapping torus, with endomorphism id − f_*, and integral finite-cover transfer with inclusion after transfer equal to subgroup index. Section 4.6 derives the local-coefficient Wang triangle for a mapping torus with a chosen coefficient intertwiner from Stage 6.1's Mayer–Vietoris sequence of a binary open cover; for f = id with intertwiner −I its endomorphism is 1 − T = 2, whereas id − f_* is zero. Stage 6.2: cup and cap products; Stage 6.3: the orientation local system and fundamental classes; Stage 6.4: Poincaré–Lefschetz duality, including the compact-triad Poincaré–Lefschetz theorem: for a compact m-manifold K whose boundary is covered by two faces ∂₀K and ∂₁K with a common codimension-two edge, cap with [K,∂K] gives `H^k(K,∂₁K;L) ≅ H_(m−k)(K,∂₀K;L⊗or_K)` for every module-valued local system L. On K = [0,1] with ∂₀K = ∂K and ∂₁K empty it identifies H⁰(K;ℤ) = ℤ with H₁(K,∂K;ℤ) = ℤ, whereas making the same face relative on both sides would compare H⁰(K;ℤ) = ℤ with H₁(K;ℤ) = 0. The chain-level boundary-pairing comparison is the additional contract below. The orientation on an interval gives endpoint coefficients −1,+1. For an index-three transfer, the composite on integral homology modulo two is multiplication by 3, hence identity.
-
-The following contract extends Stage 6.4’s compact-triad Poincaré–Lefschetz theorem.
-
-What AlgebraicTopology must provide (gap:poincare-boundary-cone): Provide a chain-homotopy-compatible identification of the cone of the relative self-duality adjoint with boundary cochains, carrying its signed pairing to outward-first Poincaré duality for finite projective self-dual local systems with two invertible.
-
-### From TauCetiRoadmap.GeometricTopology
-
-Layers 1 and 11 and the smoothing-and-triangulation comparison: compact smooth cellulations, boundary-compatible dual cells and simple comparisons. A single even-rank elementary cell pair contributes determinant one; arbitrary quasi-isomorphisms need not preserve a based volume. The scope is smooth manifolds, without a triangulability assertion for arbitrary topological manifolds.
-
-What GeometricTopology must provide (gap:smooth-cell-comparison): Provide finite smooth-compatible triangulations, boundary dual cells, common subdivisions and simple comparison maps in every finite dimension, preserving transported local-coefficient cellular volumes.
-
-What GeometricTopology must provide (gap:marked-surface-twists): Provide, for marked closed smooth oriented surfaces, compatibility between orientation-preserving Dehn twists and their induced automorphisms of marked fundamental-group presentations, including basepoint-path conjugation and preservation of the oriented relator up to conjugacy with exponent +1.
-
-### From TauCetiRoadmap.TangentialBordism
-
-B1 and B2.1–B2.4 supply labelled compact smooth cycles, the witness quotient, collars/gluing, pushforward, orientation reversal and fundamental classes. B5.7 supplies the connective relative skeletal spectral sequence with E₂(p,q)=H_p(Y;Ω_q^SO), convergence and agreement with the geometric filtration; B3.1 supplies Ω₀^SO=ℤ and Ω₁^SO=Ω₂^SO=Ω₃^SO=0. A positive point maps to 1, a constant-labelled circle is zero, and the identity-labelled circle over Bℤ maps to 1 in H₁(Bℤ;ℤ). The last circle is not a nullbordism over its label.
-
-**Checks.**
-
-- The signed count of a positive point and a negative point is 1−1=0.
-- A constant-labelled circle has class 0 over a point.
-- The identity-labelled circle over Bℤ maps to 1 in integral H₁, excluding a bordism relation that forgets the parameter map.
-
-### From TauCetiRoadmap.StableHomotopyKTheory
-
-Sections 1.17 and 1.30–1.32: filtered-colimit homology of group classifying spaces and the natural bar/nerve comparisons. The classifier itself is the supplied discrete-group classifier used there. Section 1.31 supplies free homotopies for conjugate group maps, hence conjugation invariance on integral homology. The comparison carries the identity-labelled circle to the integral bar generator; it does not replace integral H₃/2 by full mod-two homology.
-
-### From TauCetiRoadmap.SchemeAndStackFoundations
-
-Sections 2.9 and 2.11: finite étale covers, μ₂ and Kummer line pairs; §0.9: finite-presentation approximation and descent; §0.21: excellence and finiteness of normalization for finite-type ℤ-algebras. Over ℚ[s]_(s), s defines a ramified generic quadratic extension and has no étale extension to the whole base; normality extends isomorphisms between existing étale covers, not arbitrary ramified covers. A unit 1+s does define an étale torsor and specializes to 1.
-
-What SchemeAndStackFoundations must provide (gap:normal-torsor-gluing): Provide generic-fibre full faithfulness for finite étale covers of an arbitrary normal integral affine scheme, including injectivity on μ₂-torsor classes and extension of generic isomorphisms between covers already defined on the base.
-
-### From TauCetiRoadmap.KTheoryFiniteLocalFields
-
-Sections 1.5 and 1.9: all odd finite fields, every positive finite symplectic rank, the order-two integral H₃ quotient and its Chern isomorphism, rank stabilization and compatible field restriction and transfer. H₂ has odd order; SL₂(𝔽₉) has H₂=ℤ/3. Under 𝔽_q→𝔽_(q²), restriction in degree three has multiplier q²+1, which is even (10 at q=3, 26 at q=5). Section 1.8: universal equivariant finite-coefficient Chern classes on commutative rings with the coefficient modulus invertible, including slant, stabilization and coefficient compatibility. Its second Chern map in degree three is additive at modulus two; the degree-two even-modulus exception is not applied here. Over 𝔽₃ the nonzero class evaluates to [−1]; over 𝔽₅ it evaluates to [2], not to [−1].
-
-What KTheoryFiniteLocalFields must provide (gap:witt-sylow-lift): Provide compatible lifts of every finite-field symplectic Sylow 2-subgroup representation through truncated Witt rings to the full Witt ring in odd residue characteristic, using smooth congruence kernels and averaging.
-
-What KTheoryFiniteLocalFields must provide (gap:real-chern-bockstein): Provide the real c₂₂ and c₃₁ components of the universal standard-representation étale c₂ for discrete Sp₂ᵣ(ℝ), r≥1, with c₂₂ equal to the discrete pullback of the real metaplectic double-cover class.
-
-What KTheoryFiniteLocalFields must provide (gap:real-chern-bockstein-compatibility): For discrete G=Sp₂ᵣ(ℝ), r≥1, prove β_et(c₃₁(z))=c₂₂(β_G z) for every z∈H₃(G;𝔽₂), where β_G:H₃(G;𝔽₂)→H₂(G;𝔽₂) is the homological coefficient Bockstein and β_et:H¹_et(ℝ,𝔽₂)→H²_et(ℝ,𝔽₂) is the étale coefficient Bockstein.
-
-### From TauCetiRoadmap.K3BlochGroups
-
-Sections 2.4–2.5: the natural stable number-field Hurewicz equivalence from indecomposable K₃ and its rank r₂. Section 6.7: genuine finite-coefficient second Chern comparison, with its K₂-torsion correction distinguished from the integral quotient. Over ℚ, stable Hurewicz is ℤ/48→ℤ/24 and has a nonzero order-two kernel; it is not an integral K₃ isomorphism. The unstable and dyadic interfaces needed here are the precise extensions below.
-
-What K3BlochGroups must provide (gap:unstable-sl2-chern-lift): Provide the natural surjection from integral H₃ of SL₂ of every infinite field onto indecomposable K3, compatible with stabilization and the number-field stable Hurewicz equivalence.
-
-What K3BlochGroups must provide (gap:dyadic-number-field-chern-rank): Provide for every number field F the standard-representation degree-three Chern surjection from indecomposable K3(F) onto H¹(F,ℤ₂(2))/2, whose F₂-dimension is at least r₂(F), including the real-place corrections.
-
-What K3BlochGroups must provide (gap:dyadic-number-field-chern-reduction): For every number field F, provide the injective coefficient reduction H¹(F,ℤ₂(2))/2→H¹(F,μ₂), compatible with the degree-three second Chern map and its real-place normalization.
-
-### From TauCetiRoadmap.Chebotarev
-
-Layers 7, 11.3 and 13: auxiliary cyclotomic disjointness, the negligible residue-degree and prime-power tails and weighted natural Chebotarev for a conjugacy-invariant subset S of a finite Galois group G. Its weighted density is |S|/|G|. The nonidentity class of C₂ has density 1/2; a finite exceptional set has limiting weight zero. Arithmetic-scheme detection is the Part II extension of the number-field theory, with its exact contract below; the number-field theorem alone does not supply it. In that affine extension, for each connected nontrivial double cover in characteristic zero require constants c>0 and Q₀≥1 such that every Q≥Q₀ has nonsplit weighted count at least cQ^d; the residue-order estimate has one constant C such that every prime power q has at most Cq^(d−1) closed points of that order. For independent quadratic classes the finite quotient detects each required character pattern, in particular (0,1), rather than merely detecting the two classes separately.
-
-**Checks.**
-
-- A nontrivial quadratic number-field character has nonsplit proportion 1/2; a finite exceptional set has weight O(1/X).
-- On Spec ℤ[1/2,t], dimension d=2 gives degree-one main term Q²/2, so its normalized total is 1/2 and a universal total limit 1 is false.
-- For Spec 𝔽₃, the nontrivial torsor is detected by its unique closed-point Frobenius; there cannot be two independent quadratic classes since H¹ has dimension 1. No norm-counting real limit is requested in this case.
-
-What Chebotarev must provide (gap:arithmetic-scheme-frobenius-detection): For every normal integral affine finite-type ℤ[1/2]-scheme, detect finite étale quadratic quotients and independent pairs of μ₂-classes by Frobenius at closed points, in every characteristic.
-
-What Chebotarev must provide (gap:arithmetic-scheme-nonsplit-weight): For every connected nontrivial double cover of a normal integral affine finite-type ℤ[1/2]-scheme of characteristic zero and Krull dimension d, provide c>0 and Q₀≥1 such that the logarithmically weighted nonsplit closed-point count of order at most Q is at least cQ^d for every Q≥Q₀.
-
-What Chebotarev must provide (gap:arithmetic-scheme-residue-order-count): For every normal integral affine finite-type ℤ[1/2]-scheme of characteristic zero and Krull dimension d, provide one constant C with at most Cq^(d-1) closed points of residue field order q for every prime power q.
-
-### From TauCetiRoadmap.RepresentationTheory/LieGroups
-
-Layer 5: the universal covering Lie group of a connected finite-dimensional Lie group with discrete central kernel its fundamental group. The symplectic kernel identification required below is an additional contract. Rank zero has a trivial group and trivial fundamental group, so the ℤ assertion is restricted to positive rank.
-
-What RepresentationTheory/LieGroups must provide (gap:symplectic-universal-cover-kernel): Identify the fundamental group of positive-rank real symplectic groups with ℤ and the quotient of their universal covering group by 2ℤ with the metaplectic double cover, preserving its central generator modulo two.
-
-### From TauCetiRoadmap.MetaplecticAutomorphicForms
-
-Section 2.4b: the real topological double cover and its central sign, including the zero-dimensional cover. For positive rank it is the cover compared with the universal symplectic covering group in the contract below. Its central sign remains the same after forgetting topology.
-
-## How to read the build
-
-Layer 0 fixes signed complexes and their strict models. Layer 1 adapts the supplied determinant to square-root volumes. Layer 2 constructs torsion and proves its boundary sign. Layer 3 proves evenness, family naturality and the two homology transformations. Layer 4 supplies the all-odd circle and mapping-torus formulas and the Gaussian witness. Layers 5–6 propagate that witness through Chern lifts and weighted density. Layer 7 upgrades the density result to every odd finite field, every indicated normal ring and every coefficient field, and evaluates the comparison on manifolds. Layer 8 uses the real Chern/Bockstein contract to obtain the stronger full-mod-two conclusion. Dependencies inside a layer follow the subsection order; a proof route lists its actual inputs separately from the target's hypotheses.
-
 
 ## Layer 0: signed Poincaré complexes
 
@@ -461,6 +340,7 @@ The rank-one acyclic pair has even cohomology but odd terms; the rank-one differ
 ### Dependencies
 
 Earlier local inputs: Layer 0. KTheoryLowDegrees §§14.1–14.4; PadicMeasuresIwasawaAlgebras §5.1; `TauCeti.SquareClassGroup`; `TauCeti.squareClassHom`; `CochainComplex`; `HomologicalComplex.homology`. The subsection Needs lines separate statement inputs from the indicated proof route.
+
 
 ## Layer 2: cellular torsion and the boundary sign
 
@@ -1256,6 +1136,126 @@ For the first genus-two Gaussian system of §4.8, the surface relator is I₂, t
 For the specialization witness, use the hyperbolic plane H with Gram matrix [[0,1],[1,0]] and coefficient ring ℚ[s]_(s). On H⊕H take A=diag(1+s,(1+s)⁻¹)⊕I₂. The generic fixed dimension is 2 and the special fixed dimension is 4. The generalized moving block has determinant factor −s²/(1+s), hence generic raw torsion [−(1+s)], while the special raw value is 1. Multiplying by the respective half-fixed-dimension signs gives generic [1+s] and special 1, which commute with specialization. This is the dimension-one strict-model witness used by §3.5; it does not assert a geometric three-dimensional symplectic counterexample. Its local root formula has s₀=Σ_(q≤0)(−1)^q rank D^q and h₀=χ≤0(D_F), with s₀−h₀=2a and ν_upper-term=(−1)^aν_upper-cohomology, so the normalized exponents differ by 2a and agree modulo two (AV-v1, B.6 and B.10, pp. 78–80, 85–86, lines 3715, 3987).
 
 For density amplification, let Γ project onto Δ×C_h and onto a group of order h2^N. The old bad fraction over the identity of C_h is δ/h; at most 1/(h2^N) also maps to the identity in the latter group. The gained fraction is therefore at least (δ−2^(−N))/h. This count needs no product decomposition with the larger group. At δ=1/2, h=8 and N=4 it gives 7/128. A partition of primes into alternating blocks whose weighted masses dominate all preceding blocks gives two sets of lower weighted density zero whose union has density one; this excludes a liminf-zero definition of exceptional sets (AV-v1, §2.11–§2.12, pp. 20–25, lines 881, 1066).
+
+## Scope and ownership
+
+This roadmap owns the signed Poincaré-complex and determinant-root adapters, cellular torsion, the normalized family invariant, the odd-characteristic circle calculation, the torsion–Chern comparison and its surface and real consequences. Its constructions are general library objects: finite projective coefficients, arbitrary finite ranks where meaningful, nonacyclic systems and all fields with two invertible. The real symplectic Lagrangian notion in Tau Ceti's `Geometry/Symplectic/Lagrangian/Basic.lean` concerns real vector subspaces; the retained Lagrangian subcomplex here has an exact shifted-dual quotient over general coefficient rings.
+
+The graded-line category, tensor signs, parity reduction and general perfect-complex determinant functor are stated by KTheoryLowDegrees §§14.1–14.4 and PadicMeasuresIwasawaAlgebras §5.1. Their coherent exact-triangle, acyclic, shift, cone and base-change maps are inputs. Only the reverse-wedge and right-evaluation normalization comparisons are developed here. The orthogonal group and spinor norm are already in the library: `TauCeti.QuadraticMap.orthogonalGroup`, `CliffordAlgebra.orthogonalSpinorNorm` and `CliffordAlgebra.spinorNorm`. The reflection value at the pins is [Q(v)]; no second norm or star-norm conversion is constructed.
+
+TangentialBordism B1–B2 owns labelled smooth bordism and its fundamental-class map; B5.7 owns its connective skeletal filtration and B3.1 its low coefficient groups. This roadmap proves their degree-at-most-three orientation comparison as a consequence, rather than constructing another bordism theory. AlgebraicTopology Stages 2, 4, 5 and 6 owns local coefficients, cellular comparison, the constant-coefficient Wang sequence, finite-cover transfer and duality. GeometricTopology Layers 1 and 11 and its smoothing-and-triangulation comparison own the geometric cell changes.
+
+KTheoryFiniteLocalFields §§1.5, 1.8–1.9 owns finite-field restriction/transfer, universal equivariant finite Chern classes and the finite-rank degree-three Chern isomorphism. K3BlochGroups §§2.4–2.5 and 6.7 owns indecomposable K₃ and its stable Hurewicz and coefficient comparisons. SchemeAndStackFoundations §2.11 owns Kummer torsors as line pairs; §§0.9 and 0.21 own approximation and finite normalization. Chebotarev Layers 7, 11 and 13 owns number-field weighted density; the arithmetic-scheme detection input is its explicit supplier extension below. RepresentationTheory/LieGroups Layer 5 owns universal covering groups, and MetaplecticAutomorphicForms §2.4b owns the metaplectic cover. This roadmap owns the application to real Chern components, without reconstructing either cover.
+
+MorseNovikov §N4 owns based cellular torsion over Novikov total quotient rings with zero assigned to nonacyclic components; the retained invariant here uses the Poincaré cohomology root and is defined for nonacyclic self-dual systems. HermitianKTheoryOfPoincareCategories §4.7 owns Ranicki structures in homotopy fixed points and their cobordism groups; the retained signed cochain pairing is the strict bilinear adapter with the evaluation conventions below.
+
+The arithmetic application to central values of symplectic L-functions modulo squares and Hurwitz/PEL geometry is outside this roadmap’s ownership.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+`CochainComplex` in `Mathlib/Algebra/Homology/HomologicalComplex.lean` and `HomologicalComplex.homology` in `Mathlib/Algebra/Homology/ShortComplex/HomologicalComplex.lean` supply cochains and their native homology. Boundedness, finite projectivity and a pairing are additional hypotheses, not fields of the bare cochain carrier. `groupHomology` in `Mathlib/RepresentationTheory/Homological/GroupHomology/Basic.lean` supplies homology of representations; trivial integral coefficients and reduction modulo two are specified explicitly. `Sylow` in `Mathlib/GroupTheory/Sylow.lean` supplies the subgroup carrier. `SymplecticGroup.det_eq_one` in `Mathlib/LinearAlgebra/SymplecticGroup.lean` holds over a commutative ring and supplies every finite-rank change-of-basis determinant. `QuadraticForm`, `QuadraticMap.associated`, `Module.Basis`, `LinearMap.ker`, `LinearMap.range`, `LinearMap.restrict`, `LinearMap.det` and `Matrix.det` supply the exact carriers in the Zassenhaus acceptance test. Its restriction witness says that A+1 preserves its stable image; it is no assumption about a spinor value. `Nat.forall_exists_prime_gt_and_eq_mod` in `Mathlib/NumberTheory/LSeries/PrimesInAP.lean` supplies a prime above any bound in any unit residue class; §6.3 uses the unit class 1+h modulo 2h for even h.
+
+### From Tau Ceti
+
+Use `TauCeti.SquareClassGroup`, `TauCeti.squareClassHom` and `TauCeti.squareClass_eq_zero_iff` from `TauCeti/FieldTheory/SquareClassGroup/Basic.lean`, and `RingHom.squareClassMap` from `TauCeti/FieldTheory/SquareClassGroup/Multiplicative.lean`. They identify a trivial scalar class with a square and supply coefficient functoriality. Use `TauCeti.QuadraticMap.orthogonalGroup` from `TauCeti/LinearAlgebra/QuadraticForm/OrthogonalGroup/Basic.lean` and `CliffordAlgebra.orthogonalSpinorNorm`, `CliffordAlgebra.orthogonalSpinorNorm_reflectionOrthogonal`, `CliffordAlgebra.spinorNorm` and `CliffordAlgebra.spinorNorm_apply` from `TauCeti/LinearAlgebra/CliffordAlgebra/Spin/SpinorNorm/Basic.lean`, with finite dimension, nondegeneracy and two invertible. A reflection with Q(v)=2 has value [2], whereas the erroneous negative convention gives [−2] over ℚ. A real positive definite plane has trivial image, so no unconditional surjectivity assertion is consumed.
+
+**Checks for the conventions.**
+
+- Over the zero ring, 0=1 and the only module and determinant map are the zero module and its unique isomorphism; the empty prime spectrum imposes no positive-rank inference. Family theorems require a nonzero domain.
+- Over ℚ[ε]/(ε²), the strict two-term model with cross matrix I₂ and differential ε[[0,1],[−1,0]] has residual H⁰ dimension 2 and parity 0. It belongs to the ring linear algebra, while the ring is nonreduced and is outside the normal-domain family hypotheses.
+- At n=0,1,2 the reverse-wedge exponents n(n−1)/2 are 0,0,1; the signs are +1,+1,−1. Empty determinants are 1, and no inverse determinant is used without a nonzero determinant.
+
+### From TauCetiRoadmap.KTheoryLowDegrees
+
+Sections 14.1–14.4: integer-graded lines and their signed coherence, parity comparison, projective determinants and the determinant of perfect complexes with ordered exact-triangle, shift, acyclic, cone and pullback comparisons. Their affine parity specialization is PadicMeasuresIwasawaAlgebras §5.1. Over an empty spectrum the line groupoid is terminal; over a field a line in odd grade has self-interchange −1. The scalar normalization for K —a→ K is a⁻¹ for its acyclic volume.
+
+### From TauCetiRoadmap.PadicMeasuresIwasawaAlgebras
+
+Section 5.1: the finite-projective determinant line with quasi-isomorphism, exact-sequence, base-change, dual, shift, acyclic and cone maps. The field cohomology comparison uses boundary/cycle exact sequences with these maps. Its AV-normalized duality compatibility is proved in Layer 1. At a=2 the based-to-acyclic ratio is 2; a=0 is not an acyclic complex.
+
+### From TauCetiRoadmap.AlgebraicTopology
+
+Stage 2: local systems and coefficient pullbacks; Stage 4: cellular chains; Stage 6.1: local-system cellular cochains and their singular comparison. Section 4.7 derives its presentation-specific crossed-homomorphism description from that cellular model. Stage 5: the constant-coefficient Wang cone of a mapping torus, with endomorphism id − f_*, and integral finite-cover transfer with inclusion after transfer equal to subgroup index. Section 4.6 derives the local-coefficient Wang triangle for a mapping torus with a chosen coefficient intertwiner from Stage 6.1's Mayer–Vietoris sequence of a binary open cover; for f = id with intertwiner −I its endomorphism is 1 − T = 2, whereas id − f_* is zero. Stage 6.2: cup and cap products; Stage 6.3: the orientation local system and fundamental classes; Stage 6.4: Poincaré–Lefschetz duality, including the compact-triad Poincaré–Lefschetz theorem: for a compact m-manifold K whose boundary is covered by two faces ∂₀K and ∂₁K with a common codimension-two edge, cap with [K,∂K] gives `H^k(K,∂₁K;L) ≅ H_(m−k)(K,∂₀K;L⊗or_K)` for every module-valued local system L. On K = [0,1] with ∂₀K = ∂K and ∂₁K empty it identifies H⁰(K;ℤ) = ℤ with H₁(K,∂K;ℤ) = ℤ, whereas making the same face relative on both sides would compare H⁰(K;ℤ) = ℤ with H₁(K;ℤ) = 0. The chain-level boundary-pairing comparison is the additional contract below. The orientation on an interval gives endpoint coefficients −1,+1. For an index-three transfer, the composite on integral homology modulo two is multiplication by 3, hence identity.
+
+The following contract extends Stage 6.4’s compact-triad Poincaré–Lefschetz theorem.
+
+What AlgebraicTopology must provide (gap:poincare-boundary-cone): Provide a chain-homotopy-compatible identification of the cone of the relative self-duality adjoint with boundary cochains, carrying its signed pairing to outward-first Poincaré duality for finite projective self-dual local systems with two invertible.
+
+### From TauCetiRoadmap.GeometricTopology
+
+Layers 1 and 11 and the smoothing-and-triangulation comparison: compact smooth cellulations, boundary-compatible dual cells and simple comparisons. A single even-rank elementary cell pair contributes determinant one; arbitrary quasi-isomorphisms need not preserve a based volume. The scope is smooth manifolds, without a triangulability assertion for arbitrary topological manifolds.
+
+What GeometricTopology must provide (gap:smooth-cell-comparison): Provide finite smooth-compatible triangulations, boundary dual cells, common subdivisions and simple comparison maps in every finite dimension, preserving transported local-coefficient cellular volumes.
+
+What GeometricTopology must provide (gap:marked-surface-twists): Provide, for marked closed smooth oriented surfaces, compatibility between orientation-preserving Dehn twists and their induced automorphisms of marked fundamental-group presentations, including basepoint-path conjugation and preservation of the oriented relator up to conjugacy with exponent +1.
+
+### From TauCetiRoadmap.TangentialBordism
+
+B1 and B2.1–B2.4 supply labelled compact smooth cycles, the witness quotient, collars/gluing, pushforward, orientation reversal and fundamental classes. B5.7 supplies the connective relative skeletal spectral sequence with E₂(p,q)=H_p(Y;Ω_q^SO), convergence and agreement with the geometric filtration; B3.1 supplies Ω₀^SO=ℤ and Ω₁^SO=Ω₂^SO=Ω₃^SO=0. A positive point maps to 1, a constant-labelled circle is zero, and the identity-labelled circle over Bℤ maps to 1 in H₁(Bℤ;ℤ). The last circle is not a nullbordism over its label.
+
+**Checks.**
+
+- The signed count of a positive point and a negative point is 1−1=0.
+- A constant-labelled circle has class 0 over a point.
+- The identity-labelled circle over Bℤ maps to 1 in integral H₁, excluding a bordism relation that forgets the parameter map.
+
+### From TauCetiRoadmap.StableHomotopyKTheory
+
+Sections 1.17 and 1.30–1.32: filtered-colimit homology of group classifying spaces and the natural bar/nerve comparisons. The classifier itself is the supplied discrete-group classifier used there. Section 1.31 supplies free homotopies for conjugate group maps, hence conjugation invariance on integral homology. The comparison carries the identity-labelled circle to the integral bar generator; it does not replace integral H₃/2 by full mod-two homology.
+
+### From TauCetiRoadmap.SchemeAndStackFoundations
+
+Sections 2.9 and 2.11: finite étale covers, μ₂ and Kummer line pairs; §0.9: finite-presentation approximation and descent; §0.21: excellence and finiteness of normalization for finite-type ℤ-algebras. Over ℚ[s]_(s), s defines a ramified generic quadratic extension and has no étale extension to the whole base; normality extends isomorphisms between existing étale covers, not arbitrary ramified covers. A unit 1+s does define an étale torsor and specializes to 1.
+
+What SchemeAndStackFoundations must provide (gap:normal-torsor-gluing): Provide generic-fibre full faithfulness for finite étale covers of an arbitrary normal integral affine scheme, including injectivity on μ₂-torsor classes and extension of generic isomorphisms between covers already defined on the base.
+
+### From TauCetiRoadmap.KTheoryFiniteLocalFields
+
+Sections 1.5 and 1.9: all odd finite fields, every positive finite symplectic rank, the order-two integral H₃ quotient and its Chern isomorphism, rank stabilization and compatible field restriction and transfer. H₂ has odd order; SL₂(𝔽₉) has H₂=ℤ/3. Under 𝔽_q→𝔽_(q²), restriction in degree three has multiplier q²+1, which is even (10 at q=3, 26 at q=5). Section 1.8: universal equivariant finite-coefficient Chern classes on commutative rings with the coefficient modulus invertible, including slant, stabilization and coefficient compatibility. Its second Chern map in degree three is additive at modulus two; the degree-two even-modulus exception is not applied here. Over 𝔽₃ the nonzero class evaluates to [−1]; over 𝔽₅ it evaluates to [2], not to [−1].
+
+What KTheoryFiniteLocalFields must provide (gap:witt-sylow-lift): Provide compatible lifts of every finite-field symplectic Sylow 2-subgroup representation through truncated Witt rings to the full Witt ring in odd residue characteristic, using smooth congruence kernels and averaging.
+
+What KTheoryFiniteLocalFields must provide (gap:real-chern-bockstein): Provide the real c₂₂ and c₃₁ components of the universal standard-representation étale c₂ for discrete Sp₂ᵣ(ℝ), r≥1, with c₂₂ equal to the discrete pullback of the real metaplectic double-cover class.
+
+What KTheoryFiniteLocalFields must provide (gap:real-chern-bockstein-compatibility): For discrete G=Sp₂ᵣ(ℝ), r≥1, prove β_et(c₃₁(z))=c₂₂(β_G z) for every z∈H₃(G;𝔽₂), where β_G:H₃(G;𝔽₂)→H₂(G;𝔽₂) is the homological coefficient Bockstein and β_et:H¹_et(ℝ,𝔽₂)→H²_et(ℝ,𝔽₂) is the étale coefficient Bockstein.
+
+### From TauCetiRoadmap.K3BlochGroups
+
+Sections 2.4–2.5: the natural stable number-field Hurewicz equivalence from indecomposable K₃ and its rank r₂. Section 6.7: genuine finite-coefficient second Chern comparison, with its K₂-torsion correction distinguished from the integral quotient. Over ℚ, stable Hurewicz is ℤ/48→ℤ/24 and has a nonzero order-two kernel; it is not an integral K₃ isomorphism. The unstable and dyadic interfaces needed here are the precise extensions below.
+
+What K3BlochGroups must provide (gap:unstable-sl2-chern-lift): Provide the natural surjection from integral H₃ of SL₂ of every infinite field onto indecomposable K3, compatible with stabilization and the number-field stable Hurewicz equivalence.
+
+What K3BlochGroups must provide (gap:dyadic-number-field-chern-rank): Provide for every number field F the standard-representation degree-three Chern surjection from indecomposable K3(F) onto H¹(F,ℤ₂(2))/2, whose F₂-dimension is at least r₂(F), including the real-place corrections.
+
+What K3BlochGroups must provide (gap:dyadic-number-field-chern-reduction): For every number field F, provide the injective coefficient reduction H¹(F,ℤ₂(2))/2→H¹(F,μ₂), compatible with the degree-three second Chern map and its real-place normalization.
+
+### From TauCetiRoadmap.Chebotarev
+
+Layers 7, 11.3 and 13: auxiliary cyclotomic disjointness, the negligible residue-degree and prime-power tails and weighted natural Chebotarev for a conjugacy-invariant subset S of a finite Galois group G. Its weighted density is |S|/|G|. The nonidentity class of C₂ has density 1/2; a finite exceptional set has limiting weight zero. Arithmetic-scheme detection is the Part II extension of the number-field theory, with its exact contract below; the number-field theorem alone does not supply it. In that affine extension, for each connected nontrivial double cover in characteristic zero require constants c>0 and Q₀≥1 such that every Q≥Q₀ has nonsplit weighted count at least cQ^d; the residue-order estimate has one constant C such that every prime power q has at most Cq^(d−1) closed points of that order. For independent quadratic classes the finite quotient detects each required character pattern, in particular (0,1), rather than merely detecting the two classes separately.
+
+**Checks.**
+
+- A nontrivial quadratic number-field character has nonsplit proportion 1/2; a finite exceptional set has weight O(1/X).
+- On Spec ℤ[1/2,t], dimension d=2 gives degree-one main term Q²/2, so its normalized total is 1/2 and a universal total limit 1 is false.
+- For Spec 𝔽₃, the nontrivial torsor is detected by its unique closed-point Frobenius; there cannot be two independent quadratic classes since H¹ has dimension 1. No norm-counting real limit is requested in this case.
+
+What Chebotarev must provide (gap:arithmetic-scheme-frobenius-detection): For every normal integral affine finite-type ℤ[1/2]-scheme, detect finite étale quadratic quotients and independent pairs of μ₂-classes by Frobenius at closed points, in every characteristic.
+
+What Chebotarev must provide (gap:arithmetic-scheme-nonsplit-weight): For every connected nontrivial double cover of a normal integral affine finite-type ℤ[1/2]-scheme of characteristic zero and Krull dimension d, provide c>0 and Q₀≥1 such that the logarithmically weighted nonsplit closed-point count of order at most Q is at least cQ^d for every Q≥Q₀.
+
+What Chebotarev must provide (gap:arithmetic-scheme-residue-order-count): For every normal integral affine finite-type ℤ[1/2]-scheme of characteristic zero and Krull dimension d, provide one constant C with at most Cq^(d-1) closed points of residue field order q for every prime power q.
+
+### From TauCetiRoadmap.RepresentationTheory/LieGroups
+
+Layer 5: the universal covering Lie group of a connected finite-dimensional Lie group with discrete central kernel its fundamental group. The symplectic kernel identification required below is an additional contract. Rank zero has a trivial group and trivial fundamental group, so the ℤ assertion is restricted to positive rank.
+
+What RepresentationTheory/LieGroups must provide (gap:symplectic-universal-cover-kernel): Identify the fundamental group of positive-rank real symplectic groups with ℤ and the quotient of their universal covering group by 2ℤ with the metaplectic double cover, preserving its central generator modulo two.
+
+### From TauCetiRoadmap.MetaplecticAutomorphicForms
+
+Section 2.4b: the real topological double cover and its central sign, including the zero-dimensional cover. For positive rank it is the cover compared with the universal symplectic covering group in the contract below. Its central sign remains the same after forgetting topology.
 
 ## References
 
