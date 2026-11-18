@@ -88,13 +88,15 @@ projectives; and Bass's Theorem P is `isPerfectCategory_tfae`, specializing to
 `isLeftPerfectRing_tfae` via `SingleObj Aᵐᵒᵖ`.
 
 **Universes and neighboring roadmaps** (`README.md`, Convention 3). Flatness, finite presentation,
-T-nilpotence, and 2.4 require no smallness, and Bass's sequence module (2.5) requires only countable
-colimits. Tensor products and `Tor` assume `EssentiallySmall.{w} C` for modules in `ModCat.{w} C`,
-setting `w = v` whenever representables also enter (Yoneda isomorphisms, Lazard's theorem, flat
-dimension, and Theorem P). From the ArtinAlgebras roadmap (§0.2), `IsKrullSchmidt` is restated here
-with the identical definition for use in 4.2. The transfer lemmas of 0.2, naturality in suppressed
-variables (stated for `Tor`–`Ext` duality by `ModCat.torExtDualityNatIso`, but not elsewhere), and
-prose-only checks outside the final section are omitted here and specified in prose in `README.md`.
+T-nilpotence, and the characterization theorems of 2.4 require no smallness (finite accessibility
+of `Flat(C)` in 2.4 uses 2.3 under `EssentiallySmall.{v} C`), and Bass's sequence module (2.5)
+requires only countable colimits. Tensor products and `Tor` assume `EssentiallySmall.{w} C` for
+modules in `ModCat.{w} C`, setting `w = v` whenever representables also enter (Yoneda isomorphisms,
+Lazard's theorem, flat dimension, and Theorem P). From the ArtinAlgebras roadmap (§0.2),
+`IsKrullSchmidt` is restated here with the identical definition for use in 4.2. The transfer lemmas
+of 0.2, naturality in suppressed variables (omitted here except for `Tor`–`Ext` duality,
+`ModCat.torExtDualityNatIso`), and prose-only checks outside the final section are omitted here and
+specified in prose in `README.md`.
 -/
 
 @[expose] public section
@@ -161,9 +163,9 @@ theorem IsFinitelyPresentedFunctor.additive {F : Cᵒᵖ ⥤ AddCommGrpCat.{v}}
 of `C` is needed. -/
 instance : (isFinitelyPresentedFunctor C).ContainsZero := sorry
 
-/-- **0.1** Finitely presented functors are closed under cokernels: a map `F ⟶ G` lifts to the
-finite sums presenting them, and `coker` adds the relations of `F` to those of `G`. No biproducts
-in `C` are needed. -/
+/-- **0.1** Finitely presented functors are closed under cokernels: lifting `U₀ ↠ F ⟶ G` across
+`V₀ ↠ G` on each representable summand presents `coker(F ⟶ G)` as `coker(V₁ ⊞ U₀ ⟶ V₀)`, adding
+the lifted generators of `F` to the relations of `G`. No biproducts in `C` are needed. -/
 instance : (isFinitelyPresentedFunctor C).IsClosedUnderCokernels := sorry
 
 /-- **0.1** Finitely presented functors are closed under finite coproducts, presented by the sums
@@ -504,11 +506,18 @@ instance : Coe (TauCeti.MorphismIdeal C) (RightMorphismIdeal C) :=
   ⟨MorphismIdeal.toRightMorphismIdeal⟩
 
 /-- **0.3** A right ideal of `C` is a left ideal of `Cᵒᵖ`, as Tau Ceti's
-`TauCeti.MorphismIdeal.op`. For a two-sided `I`, `(I : RightMorphismIdeal C).op` is `I.op` as a
-left ideal. -/
+`TauCeti.MorphismIdeal.op`. For a two-sided `I`, `(I : RightMorphismIdeal C).op` agrees with `I.op`
+as a left ideal (`MorphismIdeal.op_toRightMorphismIdeal`). -/
 def RightMorphismIdeal.op (I : RightMorphismIdeal C) : LeftMorphismIdeal Cᵒᵖ where
   hom X Y := (I.hom Y.unop X.unop).comap (CategoryTheory.unopHom X Y)
   comp_mem_left f _ hg := I.comp_mem_right f.unop hg
+
+@[simp]
+theorem MorphismIdeal.op_toRightMorphismIdeal (I : TauCeti.MorphismIdeal C) :
+    (I : RightMorphismIdeal C).op = (I.op : LeftMorphismIdeal Cᵒᵖ) := by
+  ext
+  simp [RightMorphismIdeal.op, MorphismIdeal.toRightMorphismIdeal,
+    MorphismIdeal.toLeftMorphismIdeal]
 
 /-- **0.3** A left ideal of `Cᵒᵖ` is a right ideal of `C`, inverse to `RightMorphismIdeal.op`. -/
 def LeftMorphismIdeal.unop (I : LeftMorphismIdeal Cᵒᵖ) : RightMorphismIdeal C where
@@ -720,7 +729,8 @@ theorem MorphismIdeal.restrictModCat_essImage_iff (I : TauCeti.MorphismIdeal C)
   sorry
 
 /-- **0.3, reduction modulo `I`**: `M ↦ M ⧸ I · M` as a functor to modules over `C ⧸ I`; for
-`I = J(C)` it gives the modules over the semisimple `C ⧸ J(C)` of 4.4 and 4.5. -/
+`I = J(C)` it gives modules over `C ⧸ J(C)` (semisimple when `C` is semilocal, as in 4.4 and 4.5).
+-/
 noncomputable def MorphismIdeal.quotientSmulFunctor (I : TauCeti.MorphismIdeal C) :
     ModCat.{w} C ⥤ ModCat.{w} I.Quotient :=
   sorry
@@ -1229,13 +1239,6 @@ theorem rTensor_injective_of_projective [Module.Projective A N] {f : M →ₗ[A�
   sorry
 
 variable (M N) in
-/-- **0.7, independence of `R`**: the `ℤ`- and `R`-balanced tensor products have the same
-underlying group, `m ⊗ n ↦ m ⊗ n`. -/
-noncomputable def intAddEquiv :
-    TauCeti.BalancedTensorProduct ℤ A M N ≃+ TauCeti.BalancedTensorProduct R A M N :=
-  sorry
-
-variable (M N) in
 /-- **0.7, change of base** along `R → R'` for `R'`-modules: `m ⊗ n ↦ m ⊗ n`, an `R`-linear
 equivalence onto the `R'`-balanced tensor product with scalars restricted to `R`. -/
 noncomputable def changeBaseLinearEquiv (R' : Type*) [CommRing R'] [Algebra R R'] [Algebra R' A]
@@ -1245,6 +1248,14 @@ noncomputable def changeBaseLinearEquiv (R' : Type*) [CommRing R'] [Algebra R R'
       RestrictScalars R R' (TauCeti.BalancedTensorProduct R' A M N) :=
   sorry
 
+@[simp]
+theorem changeBaseLinearEquiv_tmul (R' : Type*) [CommRing R'] [Algebra R R'] [Algebra R' A]
+    [IsScalarTower R R' A] [Module R' M] [IsScalarTower R' Aᵐᵒᵖ M] [IsScalarTower R R' M]
+    [Module R' N] [IsScalarTower R' A N] [IsScalarTower R R' N] (m : M) (n : N) :
+    changeBaseLinearEquiv R M N R' (TauCeti.BalancedTensorProduct.tmul R A m n) =
+      (RestrictScalars.addEquiv R R' _).symm (TauCeti.BalancedTensorProduct.tmul R' A m n) :=
+  sorry
+
 variable (M N) in
 /-- **0.7, change of base** on underlying groups, from `changeBaseLinearEquiv`. -/
 noncomputable def changeBaseAddEquiv (R' : Type*) [CommRing R'] [Algebra R R'] [Algebra R' A]
@@ -1252,6 +1263,21 @@ noncomputable def changeBaseAddEquiv (R' : Type*) [CommRing R'] [Algebra R R'] [
     [Module R' N] [IsScalarTower R' A N] [IsScalarTower R R' N] :
     TauCeti.BalancedTensorProduct R A M N ≃+ TauCeti.BalancedTensorProduct R' A M N :=
   (changeBaseLinearEquiv R M N R').toAddEquiv.trans (RestrictScalars.addEquiv R R' _)
+
+@[simp]
+theorem changeBaseAddEquiv_tmul (R' : Type*) [CommRing R'] [Algebra R R'] [Algebra R' A]
+    [IsScalarTower R R' A] [Module R' M] [IsScalarTower R' Aᵐᵒᵖ M] [IsScalarTower R R' M]
+    [Module R' N] [IsScalarTower R' A N] [IsScalarTower R R' N] (m : M) (n : N) :
+    changeBaseAddEquiv R M N R' (TauCeti.BalancedTensorProduct.tmul R A m n) =
+      TauCeti.BalancedTensorProduct.tmul R' A m n := by
+  simp [changeBaseAddEquiv]
+
+variable (M N) in
+/-- **0.7, independence of `R`**: the `ℤ`- and `R`-balanced tensor products have the same
+underlying group, `m ⊗ n ↦ m ⊗ n`, from `changeBaseAddEquiv`. -/
+noncomputable def intAddEquiv :
+    TauCeti.BalancedTensorProduct ℤ A M N ≃+ TauCeti.BalancedTensorProduct R A M N :=
+  changeBaseAddEquiv ℤ M N R
 
 variable (M N) in
 /-- **0.7, swap**: `M ⊗_A N ≃ N ⊗_{Aᵐᵒᵖ} M`, `m ⊗ n ↦ n ⊗ m`, with `N` a right
@@ -1410,7 +1436,9 @@ end Dual
 
 /-- `ℵ₁` is regular (Mathlib's `Cardinal.isRegular_aleph_one`): the local instance that
 `IsCardinalPresentable` needs for the countably presented modules of 0.9, 2.5, 3.5 and 4.5, so that
-their statements carry no `Fact` binder. -/
+their statements carry no `Fact` binder (external callers stating
+`[IsCardinalPresentable F (Cardinal.aleph 1)]` supply the same local `Fact` instance, following
+Mathlib's convention). -/
 local instance fact_isRegular_aleph_one : Fact (Cardinal.aleph.{t} 1).IsRegular :=
   ⟨Cardinal.isRegular_aleph_one⟩
 
@@ -1463,7 +1491,7 @@ instance : (ModCat.projYoneda C).Faithful := sorry
 variable (C) in
 /-- **0.9** `proj C ≌ Karoubi (Mat_ C)`: every finitely generated projective module is a summand of
 a finite sum of representables, and Yoneda is fully faithful. The
-one-object case is the comparison of `add M` with the finitely generated projective
+one-object case is the comparison of `add M` with the finitely generated projective right
 `End M`-modules. -/
 noncomputable def ModCat.projEquivKaroubiMat :
     (ModCat.proj C).FullSubcategory ≌ CategoryTheory.Idempotents.Karoubi (Mat_ C) :=
@@ -1735,8 +1763,18 @@ noncomputable def balancedTorZeroIso :
     BalancedTor.{v} R A 0 ≅ BalancedTensorProduct.functor.{v} R A :=
   sorry
 
+open scoped ModuleCat.Algebra in
+/-- **1.1, rings** Scalar multiplication by `r : R` on `Tor_n^A(M, N)` agrees with the map induced
+by `r • 𝟙 N` in the second variable, so `ℤ`-natural maps on `BalancedTor` upgrade to
+`R`-linearity. -/
+theorem smul_eq_balancedTor_obj_map (n : ℕ) {M : ModuleCat.{v} Aᵐᵒᵖ} {N : ModuleCat.{v} A}
+    (r : R) (z : ((BalancedTor R A n).obj M).obj N) :
+    r • z = (((BalancedTor R A n).obj M).map (r • 𝟙 N)).hom z :=
+  sorry
+
 /-- **1.1, rings** Ring `Tor` over `ℤ` is `Tor` over the one-object category `SingleObj Aᵐᵒᵖ`,
-through the equivalences of 0.2 (for an `R`-algebra, `R`-linearly with `balancedTorIntIso`). -/
+through the equivalences of 0.2 (for an `R`-algebra, `R`-linearly already in 1.1 from 0.7's
+comparison with `intAddEquiv`, without forward reference to 1.6). -/
 noncomputable def balancedTorIsoTorSingleObj (n : ℕ) :
     BalancedTor.{v} ℤ A n ⋙
         (Functor.whiskeringRight _ _ _).obj (forget₂ (ModuleCat.{v} ℤ) AddCommGrpCat.{v}) ≅
@@ -2042,7 +2080,7 @@ example : HasExt.{w} (ModCat.{w} C) := inferInstance
 Mathlib's `Abelian.linearExtFunctor` on `Mod Cᵒᵖ` composed with the dual `F ↦ F^E` (0.8)
 ([CE, VI, Prop. 5.1, p. 120]). This is proved by resolving `G` via balance (1.3) and applying
 `tensorLinearHomEquiv'` (0.4) termwise together with
-`ProjectiveResolution.extEquivCohomologyClass`. -/
+`ProjectiveResolution.extLinearEquivCohomologyClass` (`extMk_comp_mk₀` and `mk₀_comp_extMk`). -/
 noncomputable def torExtDualityNatIso (R : Type*) [CommRing R] [Linear R C]
     (E : ModuleCat.{w} R) [Injective E] (n : ℕ) :
     (linearTor (C := C) R n).op ⋙ Functor.opHom (ModCat.{w} C) (ModuleCat.{w} R) ⋙
@@ -2102,17 +2140,17 @@ section BalancedTorBase
 variable (R : Type t) [CommRing R] {A : Type u} [Ring A] [Algebra R A] [Small.{v} A]
 
 /-- **1.6, rings: change of base** along `R → R' → A`. -/
-noncomputable def balancedTorRestrictScalarsIso (R' : Type t) [CommRing R'] [Algebra R R']
+noncomputable def balancedTorRestrictScalarsIso (R' : Type*) [CommRing R'] [Algebra R R']
     [Algebra R' A] [IsScalarTower R R' A] (n : ℕ) (M : ModuleCat.{v} Aᵐᵒᵖ) (N : ModuleCat.{v} A) :
     (ModuleCat.restrictScalars (algebraMap R R')).obj (((BalancedTor R' A n).obj M).obj N) ≅
       ((BalancedTor R A n).obj M).obj N :=
   sorry
 
-/-- **1.6, rings: independence of `R`.** -/
+/-- **1.6, rings: independence of `R`**, from `balancedTorRestrictScalarsIso`. -/
 noncomputable def balancedTorIntIso (n : ℕ) (M : ModuleCat.{v} Aᵐᵒᵖ) (N : ModuleCat.{v} A) :
     (ModuleCat.restrictScalars (algebraMap ℤ R)).obj (((BalancedTor R A n).obj M).obj N) ≅
       ((BalancedTor ℤ A n).obj M).obj N :=
-  sorry
+  balancedTorRestrictScalarsIso ℤ R n M N
 
 end BalancedTorBase
 
@@ -2132,7 +2170,8 @@ noncomputable def balancedTorOneQuotientEquiv (A : Type u) [Ring A] (I : Submodu
 /-- **1.7** The category algebra `⊕_{x,y} Hom(x, y)` ([Mitchell, §7, p. 33], where it is `[C]`): the
 finitely supported families `a (x, y) : x ⟶ y` (Mathlib's `DFinsupp`), with
 `(a * b)(x, z) = ∑_y a (x, y) ≫ b (y, z)`. The product is composition in diagrammatic order, so
-that `CategoryAlgebra (SingleObj Aᵐᵒᵖ) ≅ A` (there `f ≫ g = op (unop f * unop g)`) and `Mod C` is
+that `CategoryAlgebra (SingleObj Aᵐᵒᵖ) ≅ A` (`categoryAlgebraSingleObjRingEquiv`; there
+`f ≫ g = op (unop f * unop g)`) and `Mod C` is
 the category of left modules (`modCatEquivCategoryAlgebra`). For any preadditive `C` it is a ring
 without unit with enough idempotents ([Harada, Remark 1, pp. 339–340]); for finitely many objects
 the identities on the diagonal sum to the unit. -/
@@ -2143,22 +2182,59 @@ section CategoryAlgebra
 
 variable (C : Type u) [Category.{v} C] [Preadditive C]
 
-/-- **1.7** The multiplication of the category algebra, for any preadditive `C`. -/
+instance : DFunLike (CategoryAlgebra C) (C × C) fun p ↦ p.1 ⟶ p.2 :=
+  inferInstanceAs (DFunLike (Π₀ p : C × C, (p.1 ⟶ p.2)) (C × C) fun p ↦ p.1 ⟶ p.2)
+
+instance : AddCommGroup (CategoryAlgebra C) :=
+  inferInstanceAs (AddCommGroup (Π₀ p : C × C, (p.1 ⟶ p.2)))
+
+instance (R : Type*) [CommRing R] [Linear R C] : Module R (CategoryAlgebra C) :=
+  inferInstanceAs (Module R (Π₀ p : C × C, (p.1 ⟶ p.2)))
+
+/-- **1.7** The multiplication of the category algebra, for any preadditive `C`, extending its
+`DFinsupp` additive group structure. -/
 noncomputable instance : NonUnitalRing (CategoryAlgebra C) :=
-  sorry
+  { (inferInstance : AddCommGroup (CategoryAlgebra C)) with
+    mul := sorry
+    left_distrib := sorry
+    right_distrib := sorry
+    zero_mul := sorry
+    mul_zero := sorry
+    mul_assoc := sorry }
 
 variable [Finite C]
 
+noncomputable instance : One (CategoryAlgebra C) := ⟨sorry⟩
+
 /-- **1.7** For finitely many objects the category algebra is unital, with `1 = ∑_x single (x, x)
-(𝟙 x)`; the ring structure extends the multiplication of the `NonUnitalRing` instance. The
+(𝟙 x)`; the ring structure extends the multiplication of the `NonUnitalRing` instance, with casts
+`n • 1` so `Ring.toIntAlgebra` agrees definitionally with the `R = ℤ` algebra instance below. The
 hypothesis is `Finite C`, not `Fintype C` with `DecidableEq C`, so that no second decidability
 instance enters the multiplication. -/
 noncomputable instance : Ring (CategoryAlgebra C) :=
-  sorry
+  { (inferInstance : NonUnitalRing (CategoryAlgebra C)),
+    (inferInstance : One (CategoryAlgebra C)) with
+    one_mul := sorry
+    mul_one := sorry
+    natCast := fun n ↦ n • (1 : CategoryAlgebra C)
+    natCast_zero := zero_nsmul _
+    natCast_succ := fun n ↦ succ_nsmul _ n
+    intCast := fun n ↦ n • (1 : CategoryAlgebra C)
+    intCast_ofNat := fun n ↦ natCast_zsmul _ n
+    intCast_negSucc := fun n ↦ negSucc_zsmul _ n }
 
-/-- **1.7** For an `R`-linear `C`, the category algebra is an `R`-algebra. -/
+/-- **1.7** For an `R`-linear `C`, the category algebra is an `R`-algebra, extending its
+`DFinsupp` `R`-module structure via `r ↦ r • 1`. -/
 noncomputable instance (R : Type*) [CommRing R] [Linear R C] : Algebra R (CategoryAlgebra C) :=
-  sorry
+  { (inferInstance : Module R (CategoryAlgebra C)) with
+    algebraMap :=
+      { toFun := fun r ↦ r • (1 : CategoryAlgebra C)
+        map_one' := one_smul R (1 : CategoryAlgebra C)
+        map_mul' := sorry
+        map_zero' := zero_smul R (1 : CategoryAlgebra C)
+        map_add' := fun r s ↦ add_smul r s (1 : CategoryAlgebra C) }
+    commutes' := sorry
+    smul_def' := sorry }
 
 /-- **1.7** With finitely many objects and `w`-small Hom-sets, the category algebra is `w`-small,
 so `BalancedTor` over it needs no separate smallness hypothesis. -/
@@ -2206,6 +2282,13 @@ end CategoryAlgebra
 checks the multiplication order of `CategoryAlgebra`, since `f ≫ g = op (unop f * unop g)` there. -/
 noncomputable def categoryAlgebraSingleObjRingEquiv (A : Type u) [Ring A] :
     CategoryAlgebra (SingleObj Aᵐᵒᵖ) ≃+* A :=
+  sorry
+
+@[simp]
+theorem categoryAlgebraSingleObjRingEquiv_apply (A : Type u) [Ring A]
+    (a : CategoryAlgebra (SingleObj Aᵐᵒᵖ)) :
+    categoryAlgebraSingleObjRingEquiv A a =
+      MulOpposite.unop (a (SingleObj.star Aᵐᵒᵖ, SingleObj.star Aᵐᵒᵖ)) :=
   sorry
 
 /-! ## Layer 2: flat modules and flat functors
@@ -2640,7 +2723,7 @@ theorem ModCat.flat_iff_exact_of_isWeakCokernel [HasFiniteBiproducts C]
 if and only if it is left exact ([Fisher, Prop. 1.3 and Thm. 1.4, pp. 279–280, with Thm. 2.4,
 p. 284] for left exactness implying flatness on abelian `C`; [Fisher, Cor. 2.9, p. 285], covariant,
 applied to `Cᵒᵖ`; [OR, Cor. 3.4]; [CB, §2.2]; [Simson, Thm. 2.1 (b), p. 95]), since every cokernel
-is a weak cokernel. -/
+is a weak cokernel (with `Z ⟶ 0 = coker q` giving injectivity on `q = coker f`). -/
 theorem ModCat.flat_iff_preservesFiniteLimits [HasFiniteBiproducts C] [HasCokernels C]
     (F : ModCat.{w} C) : ModCat.Flat F ↔ PreservesFiniteLimits F.obj :=
   sorry
@@ -2769,10 +2852,7 @@ theorem ModCat.bassTelescope_shortExact :
     (ShortComplex.mk _ _ (ModCat.bassTelescope_comp_bassπ c f)).ShortExact :=
   sorry
 
-/-- **2.5** Bass's module is flat, with no smallness hypothesis: a filtered colimit of
-representables (`ModCat.flat_yoneda_obj`, 2.1, and `ModCat.Flat.of_isColimit`, 2.6). -/
-instance : (ModCat.bassModule c f).Flat :=
-  sorry
+-- Flatness (`(ModCat.bassModule c f).Flat`) is proved right after `ModCat.Flat.of_isColimit` (2.6).
 
 /-- **2.5** Bass's module is countably presented, by the telescope (0.9): the `ℵ₁`-presentability
 that Theorem P (3′) uses. -/
@@ -2832,10 +2912,16 @@ theorem ModCat.flat_sigma_iff {ι : Type*} [Small.{w} ι] (F : ι → ModCat.{w}
 
 /-- **2.6** A filtered colimit of flat modules is flat: elements and relations come from a finite
 stage (equational criterion; with smallness also 2.2, `Tor` and filtered colimits). -/
-theorem ModCat.Flat.of_isColimit {J : Type w} [SmallCategory J] [IsFiltered J]
-    {D : J ⥤ ModCat.{w} C} {c : Cocone D} (hc : IsColimit c) (h : ∀ j, (D.obj j).Flat) :
-    c.pt.Flat :=
+theorem ModCat.Flat.of_isColimit {J : Type*} [Category J] [IsFiltered J]
+    [HasColimitsOfShape J AddCommGrpCat.{w}] {D : J ⥤ ModCat.{w} C} {c : Cocone D}
+    (hc : IsColimit c) (h : ∀ j, (D.obj j).Flat) : c.pt.Flat :=
   sorry
+
+/-- **2.5** Bass's module is flat, with no smallness hypothesis: a filtered colimit of
+representables (`ModCat.flat_yoneda_obj`, 2.1, and `ModCat.Flat.of_isColimit`, 2.6). -/
+instance (c : ℕ → C) (f : ∀ n, c n ⟶ c (n + 1)) : (ModCat.bassModule c f).Flat :=
+  ModCat.Flat.of_isColimit (colimit.isColimit (ModCat.bassDiagram c f)) fun i ↦
+    ModCat.flat_yoneda_obj (c i)
 
 variable [EssentiallySmall.{v} C]
 
@@ -3138,7 +3224,8 @@ theorem ModCat.globalDimension_le_iff_cyclic [EssentiallySmall.{v} C] (n : ℕ) 
   sorry
 
 /-- **3.2, universe independence**: both global dimensions are computed by the cyclic modules
-of a small model, which live in one universe. -/
+of a small model (whose projective dimensions and `IsZero` status are preserved by `ULift` on
+values). -/
 theorem ModCat.globalDimension_eq_globalDimension [EssentiallySmall.{w} C]
     [EssentiallySmall.{t} C] :
     Abelian.globalDimension (ModCat.{w} C) = Abelian.globalDimension (ModCat.{t} C) :=
@@ -3634,7 +3721,7 @@ def IsSemisimpleCategory : Prop :=
   ∀ X : C, ModCat.IsSemisimple ((ModCat.yoneda C).obj X)
 
 /-- **4.2, regularity of `C ⧸ J(C)`**. For `f : X ⟶ Y` in
-`D = C ⧸ J(C)`, the left ideal `{g ∘ f}` of the semisimple ring `End X` is `End(X) e` with
+`D = C ⧸ J(C)`, the left ideal `{g ∘ f}` of the semisimple ring `End_D(X)` is `End_D(X) e` with
 `e = g₀ ∘ f` idempotent; `u = f ∘ (1 - e)` has `g ∘ u = 0` for every `g`, so it is radical, hence
 zero in `D`; so `f = f ∘ g₀ ∘ f`. -/
 theorem IsSemilocalCategory.exists_comp_comp_eq_self [IsSemilocalCategory C]
@@ -3754,7 +3841,8 @@ theorem isSemiperfectCategory_tfae :
 variable {C}
 
 /-- **4.2** Over a semiperfect `C`, every simple module `S` admits a projective cover by a summand
-of some `Hom(-, X)` (Theorem P uses only this and (1) of `isSemiperfectCategory_tfae`): choose `X`
+of some `Hom(-, X)` (Theorem P uses only this and `(1) ↔ (4)` of `isSemiperfectCategory_tfae`):
+choose `X`
 with `S(X) ≠ 0`, decompose `1 = e₁ + ⋯ + eₙ` in `End X` with local corners, pick `i` and `x ∈ S(X)`
 with `S(eᵢ)(x) ≠ 0`, and map the projective summand `{g ≫ eᵢ}` of `Hom(-, X)` (`A eᵢ` for rings,
 with local endomorphism ring) onto `S`. -/
