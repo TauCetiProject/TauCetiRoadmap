@@ -23,6 +23,7 @@ body:
         - AbhyankarLemma
         - AdelicAlgebraicGroups
         - AdicCoefficientsAndComparisons
+        - AdicCoefficientsAndComparisonsPartII
         - AdicEtaleGeometry
         - AdicSpacesPartII
         - AdicSpacesPartIII
@@ -36,6 +37,7 @@ body:
         - AlgebraicModuliForArithmeticGeometry
         - AlgebraicModuliForArithmeticGeometryPartII
         - AlgebraicTopology
+        - AlgebraicTopologyPartII
         - AlgebraicVectorBundles
         - AmenableGroups
         - AmenableTracesOnCStarAlgebras
@@ -145,6 +147,7 @@ body:
         - FuchsianOrbifolds
         - FukayaTheory
         - GL2AutomorphicRepresentationsAndTransfer
+        - GaloisActionOnEtaleCohomology
         - GaugeQuiltFieldTheory
         - GaussianIsoperimetryAndClusters
         - GeneralAlgebraicKTheory
