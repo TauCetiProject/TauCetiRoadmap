@@ -179,7 +179,9 @@ the arm played. For a policy `π` and an environment `ρ` define the **law of th
 the history through round `n` the next arm is drawn from `π.next n`, and the next reward from
 `ρ (n + 1)` at that arm. Say that `π` **plays in** the sets `S : ℕ → (ℕ → ι × ℝ) → Set ι`
 (`Policy.PlaysIn`) if `π.first (S 0 ω) = 1` for every `ω` and
-`π.next n (frestrictLe n ω) (S (n + 1) ω) = 1` for every `n` and `ω`. Prove that:
+`π.next n (frestrictLe n ω) (S (n + 1) ω) = 1` for every `n` and `ω`. This constrains the
+kernels at every history, whether or not the policy reaches it; the congruence item below
+transfers results to a policy that obeys the rule only at almost every history. Prove that:
 
 - `envLaw ρ π` is a probability measure; under it `(A_0, X_0)` has law `π.first ⊗ₘ ρ 0`, and for
   every `n` the law of `(frestrictLe n ω, ω (n + 1))` is the law of the history through round `n`
@@ -200,6 +202,11 @@ the history through round `n` the next arm is drawn from `π.next n`, and the ne
   which satisfies the identity of the first item for every `n` is `envLaw ρ π`, because the two
   measures have the same law of every history (induction on `n`) and so are projective limits of
   one family (`MeasureTheory.IsProjectiveLimit.unique`);
+- congruence (`envLaw_congr`): if `π.first = π'.first` and, for every `n`,
+  `π.next n h = π'.next n h` for almost every history `h` under the law of the history through
+  round `n` of `envLaw ρ π`, then `envLaw ρ π = envLaw ρ π'`. It follows from the uniqueness
+  item: a composition product sees a kernel only almost everywhere, so `envLaw ρ π` satisfies
+  the identity of the first item for `π'`;
 - for countable `ι` with measurable singletons, if `π` plays in `S` then, almost surely for
   `envLaw ρ π`, `A_t ∈ S t ω` for every `t` (`ae_forall_mem_of_playsIn`). No measurability of
   `S` and no condition on which rounds `S t` depends on is needed: the event
@@ -229,6 +236,9 @@ uniqueness; the statements are proved here.)
 - `Policy.PlaysIn` with `S t ω = Set.univ` holds for every policy; with `S t ω = {a}` and
   `{a}` measurable it holds exactly for the constant policy at `a`; with `S t ω = ∅` it holds
   for no policy, because `π.first ∅ = 0`.
+- Two arms, `first = dirac 0`: two policies whose kernels `next 0` differ only at histories with
+  `A_0 = 1` have the same law, since those histories are null. If they differ at a history with
+  `A_0 = 0` and reward `x`, and `ρ 0 0` gives `x` positive mass, the laws of `A_1` differ.
 - Countability is needed in `ae_forall_mem_of_playsIn`: for `ι = ℝ`, `first` the uniform law on
   `[0, 1]` and `S 0 ω = {a | a ≠ A_0}`, every `S 0 ω` has `first`-measure `1` while
   `A_0 ∉ S 0 ω` for every `ω`.
@@ -242,7 +252,7 @@ uniqueness; the statements are proved here.)
 `Kernel.map_frestrictLe_trajMeasure_compProd_eq_map_trajMeasure`, `Kernel.compProd`,
 `Measure.compProd`, `Kernel.prodMkLeft`, `Preorder.frestrictLe`, `MeasureTheory.Measure.lintegral_compProd`, `Kernel.lintegral_compProd`;
 for the conditional law also
-`Kernel.condDistrib_trajMeasure`; for uniqueness also `MeasureTheory.IsProjectiveLimit.unique`;
+`Kernel.condDistrib_trajMeasure`; for uniqueness and congruence also `MeasureTheory.IsProjectiveLimit.unique`;
 for deterministic policies `Kernel.deterministic`.
 
 ### 1.2 Stochastic bandits and their statistics
@@ -503,13 +513,23 @@ third item of 2.2 and `HasSubgaussianMGF.measure_ge_le` with `ε = m Δ_a`. Henc
 means that 1.3 needs come from `HasSubgaussianMGF.integrable`. (Lattimore and Szepesvári 2020,
 Algorithm 1 and Theorem 6.1, for `c = 1`, exploration in cyclic order and `1 ≤ m ≤ n / K`; the
 form with a variance proxy and an arbitrary exploration order is proved here by the same
-argument.)
+argument.) The policy of the source, written with exploration kernels that ignore the history,
+does not satisfy `IsETC m`, which also constrains histories that are never reached. It agrees
+at almost every history with the policy that plays arm `t mod K` in round `t` when that arm has
+fewer than `m` plays, otherwise the least arm with fewer than `m` plays, and, when there is
+none, the same arm as the source; that policy satisfies `IsETC m`, so by the congruence item of
+1.1 the two have the same law and the bound holds for the policy of the source.
 
 **Checks.**
 
 - `m = 0`: every policy satisfies `IsETC 0`, and the bound is `n Σ_a Δ_a`, which holds by 1.3.
-- Two arms, playing arm `0`, then arm `1`, then for ever the arm with the larger first reward:
-  `IsETC 1` holds.
+- Two arms: the policy that, at every history, plays the least arm not yet played if there is
+  one and otherwise the least arm of largest `prefixSum · 1 t ω` satisfies `IsETC 1`. Almost
+  surely it plays arm `0`, then arm `1`, then for ever the arm with the larger first reward.
+- The policy with `first = dirac 0`, `next 0` constant equal to `dirac 1` and the later kernels
+  of the previous Check does not satisfy `IsETC 1`: at a history with `A_0 = 1` it plays arm
+  `1`, while `S 1 ω = {0}`. The two policies differ only at histories with `A_0 = 1`, which are
+  null, so by the congruence item of 1.1 they have the same law and the same regret.
 - Playing arm `0`, then arm `1`, then in each round the arm of largest `empMean` does not
   satisfy `IsETC 1`: after the rewards `(1, 0)` and then `−3` from arm `0` in round `2`, it
   plays arm `1` in round `3`, while `prefixSum` reads the first reward of each arm only and
@@ -520,7 +540,7 @@ argument.)
 - Gaussian arms of variance `1` with means `(0.5, 0)`, `m = 5`, `n = 100`: the bound is
   `2.5 + 45 exp (−0.3125) = 35.42`; a simulation gives a regret of about `12.1`.
 - The hypothesis `m K ≤ n` is needed: `K = 2`, `m = 1`, `n = 1`, `ν = (dirac 0, dirac 1)` and
-  the policy that starts with arm `0` satisfies `IsETC 1` and has regret `1`, while the right
+  a policy satisfying `IsETC 1` that plays arm `0` in round `0` has regret `1`, while the right
   side is `1 − exp (−1 / (4 c)) < 1` for `c > 0`.
 - The constant `4` cannot be replaced by `2`: for Gaussian arms of variance `1` with gap `4`,
   `m = 1` and two arms, the probability of committing to the worse arm is
@@ -949,8 +969,8 @@ The statements were written from the literature cited below. The library named u
 from those of this roadmap (an algorithm and an environment with observations, and a predicate
 on sequences of random variables on an arbitrary probability space, against the structure
 `Policy` and the law `envLaw` on the trajectory space here).
-[lean4-mlir](https://github.com/brettkoonce/lean4-mlir) (Lean 4, BSD-3), by the author of this
-roadmap, trains reinforcement-learning agents and contains no proofs on bandits. These are
+[lean4-mlir](https://github.com/brettkoonce/lean4-mlir) (Lean 4, BSD-3) trains
+reinforcement-learning agents and contains no proofs on bandits. These are
 reference material, not the specification.
 
 ## References

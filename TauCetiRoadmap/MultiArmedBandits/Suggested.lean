@@ -55,9 +55,19 @@ def envLaw (ρ : ℕ → Kernel ι ℝ) [∀ t, IsMarkovKernel (ρ t)] (π : Pol
   Kernel.trajMeasure (X := fun _ ↦ ι × ℝ) (π.first ⊗ₘ ρ 0)
     (fun n ↦ π.next n ⊗ₖ (ρ (n + 1)).prodMkLeft (Π _ : Iic n, ι × ℝ))
 
+/-- 1.1: two policies with the same first law whose kernels agree at almost every history of
+the first have the same law of the interaction. -/
+theorem envLaw_congr (ρ : ℕ → Kernel ι ℝ) [∀ t, IsMarkovKernel (ρ t)] {π π' : Policy ι}
+    (hfirst : π.first = π'.first)
+    (hnext : ∀ n, ∀ᵐ h ∂((envLaw ρ π).map (fun ω : ℕ → ι × ℝ ↦ frestrictLe n ω)),
+      π.next n h = π'.next n h) :
+    envLaw ρ π = envLaw ρ π' :=
+  sorry
+
 /-- 1.1: the policy `π` plays in the sets `S`: its first arm lies in `S 0 ω` and, for every
 trajectory `ω`, its arm of round `n + 1` after the history `frestrictLe n ω` lies in
-`S (n + 1) ω`, both with probability one. -/
+`S (n + 1) ω`, both with probability one. The condition is imposed at every history, reachable
+or not. -/
 def Policy.PlaysIn (π : Policy ι) (S : ℕ → (ℕ → ι × ℝ) → Set ι) : Prop :=
   (∀ ω, π.first (S 0 ω) = 1) ∧ ∀ n ω, π.next n (frestrictLe n ω) (S (n + 1) ω) = 1
 
