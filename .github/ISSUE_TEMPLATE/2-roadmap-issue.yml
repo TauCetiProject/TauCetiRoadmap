@@ -51,6 +51,7 @@ body:
         - ArithmeticLocallySymmetricSpaces
         - ArithmeticStatisticsPartI
         - ArithmeticStatisticsPartII
+        - ArithmeticStatisticsPartIII
         - ArithmeticStatisticsPartIV
         - AsymptoticExpansions
         - AutomorphicFormsOnReductiveGroups
