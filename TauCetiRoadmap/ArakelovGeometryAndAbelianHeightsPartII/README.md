@@ -1,6 +1,24 @@
 # Roadmap: arakelov geometry and abelian heights, part II
 
-**Summary.** Starting from hermitian degrees, arithmetic divisor classes and the Faltings metric, build the arbitrary-base adelic theory needed for admissible line bundles on families of curves. The end theorems are nefness and bigness of the admissible canonical bundle and its Deligne self-pairing under maximal variation, the potential-bigness criterion and its theta applications, and a comparison between admissible self-intersection and the stable Faltings height, uniform over all curves of a fixed genus g > 1 over all number fields and one-variable function fields, with constants depending only on g. Projective intersection theory, local measures and equidistribution enter through the supplier contracts; their extensions here retain all places, arbitrary residue characteristics and the boundary topology. (yuan-2026, Theorems 1.3–1.4, pp. 11–15; Theorems 4.1 and 4.5, pp. 60–70.)
+**Summary.** A curve of genus g > 1 over a number field or a function field of one variable has two measures of arithmetic complexity. One is the stable Faltings height of its Jacobian. The other is the self-intersection of its dualizing sheaf, equipped at every place with Zhang's admissible metric. Following Yuan's *Arithmetic bigness and a uniform Bogomolov-type result*, this roadmap develops admissible metrics in families of curves, proves that the resulting line bundles are big when the family varies maximally, and shows that the two measures are comparable, uniformly in the curve and the field.
+
+The setting is the Yuan–Zhang theory of adelic line bundles over a base k that is ℤ or a field. On a flat quasi-projective integral k-scheme U, such a bundle is a line bundle on U with a sequence of hermitian line bundles with rational coefficients on projective models of U (ordinary ones when k is a field) that converges in the topology defined by a boundary divisor. The roadmap constructs their intersection numbers and Deligne pairings, and then their volumes and heights. A bundle is big when its volume, which measures the growth of the sections of norm at most one of its powers, is positive.
+
+Let S be flat, quasi-projective, normal and integral over k, and X → S smooth projective with geometrically connected fibres of genus g ≥ 1. The relative dualizing sheaf has, up to isomorphism, a unique adelic extension whose metric at every point of the analytic space of S is the canonical admissible one. This is the admissible canonical bundle ω_a; its Deligne self-pairing P lives on S.
+
+There are three main theorems, all in genus g > 1. A family has maximal variation when its map to the coarse moduli space of curves is generically finite onto its image; for a function field, over its fixed constant field.
+
+The first says that if X → S has maximal variation, then ω_a is nef and big on X, and P is nef and big on S. When S is the spectrum of a global field, this is Zhang's theorem that ω_a² > 0 for a non-isotrivial curve.
+
+The second is a criterion. Let π : Y → S be projective and flat, with Y integral and geometrically integral generic fibre of relative dimension e. A nef adelic line bundle L̄ on Y of positive degree on the generic fibre is potentially big, meaning that the sum of its pullbacks to some fibre power of Y over S is big, exactly when its Deligne pairing π_*⟨L̄^(e+1)⟩ is big on S. With the first theorem, it shows that the pullbacks of the invariant twice-theta bundle of the relative Jacobian along an Abel map of positive degree, the difference map and the universal shift map are potentially big, each over its own base.
+
+The third compares the two heights. For each g > 1 there are constants c₃(g), c₄(g) > 0 such that for every number field or one-variable function field K/k and every smooth projective geometrically connected curve C over K of genus g, non-isotrivial over k̄ in the function-field case, c₃ · max{h_Fal(C), 1} ≤ [ω_a²] ≤ c₄ · max{h_Fal(C), 1}, where [·] divides by [K : ℚ] for number fields only. The constants are not uniform in g.
+
+None of these theorems can be stated in Lean with what Mathlib and Tau Ceti provide; Suggested.lean records what each lacks.
+
+This is the second part of ArakelovGeometryAndAbelianHeights, whose first part builds arithmetic divisors with smooth Green functions, heights of points and the Faltings metric. This part begins with continuous integrable metrics and their adelic limits. HeightsRationalPointsAndObstructions supplies the arithmetic intersection pairing on projective models. ArithmeticDynamics supplies the adelic theory over global fields, which the theory here extends to arbitrary bases. StableReductionPartII supplies moduli of curves, stable compactifications and positivity of the Hodge line under maximal variation. HeightsRationalPointsAndObstructionsPartII proves its uniform Bogomolov theorem using the results here.
+
+Layers 0 to 6 build the general adelic theory. Layers 7 to 9 construct the admissible metrics, on one curve and then over families. Layers 10 to 13 prove the three theorems; the next section gives a fuller guide.
 
 ## How to read the build
 
