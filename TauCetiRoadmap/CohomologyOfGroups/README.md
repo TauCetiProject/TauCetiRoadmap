@@ -1,23 +1,56 @@
 # Roadmap: cohomology of groups
 
-**Summary.** This roadmap develops the homology and cohomology of an arbitrary group `G` with
-coefficients in `k`-linear representations, `k` any commutative ring, on Mathlib's carriers
-`groupHomology`, `groupCohomology` and `tateCohomology`. Starting from those carriers and the
-operations Tau Ceti already provides (corestriction, transfer, inflation–restriction, the Tate cup
-product, cyclic periodicity), it builds conjugation and the quotient action on the (co)homology of
-a normal subgroup; hyperhomology and hypercohomology of complexes with their two spectral
-sequences; complexes of permutation modules, groups acting on trees and the Mayer–Vietoris
-sequences of amalgams and HNN extensions; cup and cap products for arbitrary equivariant
-pairings; the Künneth and universal coefficient theorems and the Pontryagin ring of an abelian
-group; a filtered realisation of the Hochschild–Serre spectral sequence of a group extension
-with its edge maps, transgression in all degrees, products and low-degree sequences, and Hopf's
-formula; the double coset formula for a subgroup of finite index; and, for finite groups, stable
-elements with arbitrary coefficients, Tate duality, the periodicity theorem, the `p`-period with
-the all-degree cup periodicity of cyclic groups, and the periodicity forced by an exact sequence of
-cohomologically trivial modules from `ℤ_χ` to `ℤ`.
-The end theorems are the Hochschild–Serre spectral sequence (6.2–6.7), the tree sequence (3.5),
-the Künneth theorem (5.1), the double coset formula (7.1), the stable element theorem (7.2), Tate
-duality (8.1) and the periodicity theorem (8.5).
+**Summary.** The homology Hₙ(G, M) and the cohomology Hⁿ(G, M) of a group G with coefficients in
+a representation M begin in degree 0 with the coinvariants and the invariants of M. Much of their
+theory compares G with its subgroups and quotients. This roadmap develops that theory for an
+arbitrary group and representations over an arbitrary commutative ring k, on Mathlib's homology,
+cohomology and Tate cohomology. For finite G, Tate cohomology Ĥⁿ(G, M) is defined for every
+integer n; it is Hⁿ(G, M) for n ≥ 1 and H₋ₙ₋₁(G, M) for n ≤ −2.
+
+For a normal subgroup N of G with quotient Q, the Hochschild–Serre spectral sequence
+`Hᵖ(Q, H^q(N, M)) ⇒ H^{p+q}(G, M)` computes the cohomology of G from that of N and of Q.
+MappingClassGroupsAndCanonicalRepresentations provides its existence and naturality; here it is
+realised by an explicit filtration of the normalized cochains of G. On that model the roadmap
+identifies the edge maps with inflation and restriction, the transgressions with differentials,
+and the product on E₂ with the cup product up to sign, and derives the exact sequences of low
+degree. For G = S₃, N = A₃ and M = 𝔽₃, the E₂ page lies in the column p = 0, and `H^q(S₃, 𝔽₃)` is
+𝔽₃ for q ≡ 0 or 3 mod 4 and zero otherwise. The same part proves Hopf's formula: if G = F/R with
+F free, then H₂(G, ℤ) ≅ (R ∩ [F, F])/[F, R].
+
+For subgroups H and K of a group G, H of finite index, the double coset formula writes
+corestriction from H to G followed by restriction to K as a sum over the double cosets KgH, each
+term passing through K ∩ gHg⁻¹. With it the roadmap proves the stable element theorem. Let G be
+finite and P a Sylow p-subgroup for a prime p, and call z ∈ Hⁿ(P, M) stable if, for every g ∈ G,
+z and its conjugate `c_g z` ∈ Hⁿ(gPg⁻¹, M) restrict to the same class on P ∩ gPg⁻¹. For n ≥ 1,
+restriction maps the p-primary part of Hⁿ(G, M), the elements killed by a power of p, bijectively
+onto the stable classes; in homology, corestriction maps the classes stable for a transfer
+condition bijectively onto the p-primary part of Hₙ(G, M). In Tate cohomology the statement for
+restriction holds in every degree.
+
+Tate duality says that, for finite G and M over ℤ, cup product followed by evaluation identifies
+Ĥⁱ(G, Hom(M, ℚ/ℤ)), with the contragredient action, with Hom(Ĥ⁻¹⁻ⁱ(G, M), ℚ/ℤ) for every
+integer i. When M is free as an abelian group, Ĥⁱ(G, Hom(M, ℤ)) is likewise identified with
+Hom(Ĥ⁻ⁱ(G, M), ℚ/ℤ).
+
+Call a finite group G periodic if, for some d > 0, cup product with some u ∈ Ĥᵈ(G, ℤ) is an
+isomorphism Ĥⁿ(G, M) → Ĥⁿ⁺ᵈ(G, M) for all n ∈ ℤ and every representation M over ℤ. The
+periodicity theorem says that this holds exactly when every abelian subgroup of G is cyclic, and
+exactly when every Sylow subgroup of G is cyclic or generalised quaternion. Another equivalent
+condition is that some Ĥᵈ(G, ℤ) with d ≠ 0 is cyclic of order |G|. So S₃ is periodic, with
+d = 4, while A₄, which contains a Klein four-group, is not. A version on p-primary parts holds for
+each prime p.
+
+The roadmap builds on Tau Ceti's corestriction, transfer and Tate cup product, and on existing
+spectral sequences: Tau Ceti's for a filtered complex and DerivedModuleAlgebra's for a double
+complex. FreeGroupsAndLimitGroups supplies groups acting on trees, and K3BlochGroups the periodic
+resolution of the generalised quaternion groups and Swan's theorem on periods. Later roadmaps, for
+instance on finiteness conditions and duality groups, are to use the general statements.
+
+The first three layers add conjugation and the action of a quotient group, coefficients in a
+complex, and groups acting on trees; with any coefficients, a free group has no homology or
+cohomology in degrees 2 and above. Layers 4 and 5 build cup and cap products and prove the
+Künneth and universal coefficient theorems, under stated conditions. Layers 6 to 8 contain the
+theorems above; the next section describes each layer.
 
 ## How to read the build
 
