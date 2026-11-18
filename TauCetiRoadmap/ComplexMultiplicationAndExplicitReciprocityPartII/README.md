@@ -1,22 +1,32 @@
 # Roadmap: complex multiplication and explicit reciprocity, part ii
 
-**Summary.** Extend ComplexMultiplicationAndExplicitReciprocity from polarized CM types, lattices and reciprocity to arithmetic heights. Construct the total reflex determinant and orthogonal arithmetic intersection route to the averaged Colmez formula, and a second route through different-torsion graph isogenies and quaternionic adjunction. Use their common average to bound individual CM heights and to prove primitive and arbitrary-center-order Galois orbit bounds. Bound the heights of CM lifts polynomially by a period-coordinate estimate that does not use the average, and combine it with the orbit bound for finiteness at bounded moduli degree. The individual Colmez conjecture is defined, without being assumed or asserted as an endpoint.
+**Summary.** The Faltings height of an abelian variety with complex multiplication by the maximal order of a CM field depends only on the field and the CM type, and Colmez conjectured an exact formula for it in terms of logarithmic derivatives of Artin L-functions at zero. This roadmap continues ComplexMultiplicationAndExplicitReciprocity from CM types, lattices and reciprocity to these heights. It proves the averaged form of Colmez's formula and draws its consequences for heights, Galois orbits and finiteness of CM points. The individual conjecture is defined, on the span of the overlap characters where total heights determine it, but it is neither assumed nor proved.
+
+The central theorem is the averaged Colmez formula. Let E/F be a CM field with [F:ℚ] = g ≥ 1 and maximal order, and average the unscaled Faltings heights of the CM abelian varieties over all 2^g CM types, imprimitive types included. The average equals −(L_f′/L_f)(0,χ_E/F)/2 − log(D_E/D_F)/4 − g log(2π)/2, where χ_E/F is the quadratic character of E/F. In the language of Layer 0, the height functional and Colmez's analytic functional agree on the averaged overlap character, whose analytic value is computed exactly.
+
+The roadmap then bounds heights and Galois orbits of CM points. By the Brauer–Siegel estimates, the ratio h_E/h_F of the class numbers of a CM field of degree 2g and of its real subfield is at least a constant times D_E^(1/4−ε). Since stable heights in dimension g are bounded below by a constant depending only on g, the average bounds each individual Faltings height by a constant times D_E^ε. With the isogeny estimate of FaltingsFinitenessAndIsogenyTheoremsPartII, a polarized abelian variety of dimension g with primitive CM by O_E has a polarized moduli field of degree at least a fixed power of D_E. The roadmap extends this to every CM point of A_g, where the invariant is the discriminant of the center of its endomorphism ring. A separate period-coordinate estimate bounds the heights of CM lifts polynomially in that discriminant, and with the orbit bound it gives finiteness of CM points of bounded moduli degree, the input used by Masser and Zannier.
+
+The averaged formula is proved by the method of Andreatta, Goren, Howard and Madapusi Pera. All CM types of E are assembled into one total reflex CM pair, whose CM abelian scheme over the integers of E has height a fixed multiple of the sum of the heights over all types. A canonical determinant section then expresses that height through the metrized degree of a Hodge line, local conductor computations accounting for the discriminant terms. That line is compared with the Hodge line of an orthogonal Shimura variety of signature (2g−2, 2) built from E, along a cycle of CM points. There the arithmetic degree of special divisors along this cycle is computed by the derivative of an incoherent Eisenstein series. Integral Borcherds products, whose vertical divisors are controlled, compare the Hodge line with special divisors. This proves the formula up to rational multiples of logarithms of finitely many bad primes, and varying the auxiliary data removes each bad prime in turn. For g = 1 the formula is the classical Chowla–Selberg case.
+
+The roadmap builds on several others. ArakelovGeometryAndAbelianHeights provides Faltings heights, metrized degrees and the uniform lower bound. ShimuraVarieties provides canonical CM stacks, reciprocity and the canonical models of the orthogonal Shimura varieties. MetaplecticAutomorphicForms provides the Weil representation, theta kernels and the Whittaker framework behind the Eisenstein series. AnalyticNumberTheoryPartI provides the Brauer–Siegel and Hecke L-function estimates.
+
+Layer 0 fixes the CM class functions, Colmez linearity and the average character. Layer 1 builds the integral CM families and the total reflex pair, and Layer 2 their crystalline and de Rham realizations. Layer 3 computes the total reflex determinant. Layer 4 carries out the orthogonal intersection argument and the bad-prime elimination, and Layer 9 states the averaged formula. Layers 10 and 11 prove the height and primitive orbit bounds, Layer 12 the bounds for arbitrary center orders, and Layer 13 the lift heights and bounded-degree finiteness.
 
 ## How to read the build
 
-Layer 0 fixes CM class functions and the precise domain of height linearity. Layers 1–4 construct the total reflex family, integral realizations, its metrized determinant and the orthogonal intersection proof. Layers 5–8 construct the independent nearby-type and different-torsion comparison and evaluate its quaternionic Hodge height by adjunction. Layer 9 identifies their common averaged formula: either proof route supplies the theorem. Layers 10–11 combine the average with uniform analytic estimates and geometric isogenies. Layer 12 retains arbitrary center orders and all smaller primitive factors; Layer 13 supplies the independent period-coordinate estimate and applies absolute Northcott. Each *Needs* line gives the statement inputs and a proof route's inputs without making that route exclusive.
+Layer 0 fixes CM class functions and the precise domain of height linearity. Layers 1–4 construct the total reflex family, integral realizations, its metrized determinant and the orthogonal intersection proof. Layer 9 states the averaged formula that they prove. Layers 10–11 combine the average with uniform analytic estimates and geometric isogenies. Layer 12 retains arbitrary center orders and all smaller primitive factors; Layer 13 supplies the independent period-coordinate estimate and applies absolute Northcott. Each *Needs* line gives the statement inputs and a proof route's inputs without making that route exclusive.
 
 ## Conventions
 
 Fix a CM field E/F with maximal order O_E, maximal real subfield F and [E:ℚ]=2g, g≥1. Write d=g in the total reflex layers. Use Mathlib's CM involution. D_E and D_F are positive absolute discriminants; d_E/F is the absolute norm of the relative different, so D_E=D_F²d_E/F. A CM algebra can be a nonempty product of fields; the empty direct-sum height is the scalar 0 convention, and is not treated as a CM field. All 2^g CM types occur with multiplicity one, including imprimitive types. The overlap functions are locally constant on the absolute Galois group; all character sums factor through finite Galois quotients.
 
-Write ℓ(s)=L_f′(s,χ_E/F)/L_f(s,χ_E/F) for the finite primitive quadratic Hecke function. Values divided by L_f are used only after regularity and nonvanishing at 0 or 1. Arithmetic Artin sends a uniformizer to arithmetic Frobenius; the Lubin–Tate unit action is inverse. ShimuraVarieties §4.1 uses the geometric map art_F(s)=rec_F(s)⁻¹; convert every supplied geometric reciprocity formula by s↦s⁻¹ before use, as in GrossZagierAndArithmeticHeights §0a.4. Complex conjugation on E is not a single local decomposition-group element that exchanges all p-adic embedding pairs. Characteristic zero, separability, full integral lattices and positive field degrees are standing hypotheses; residue characteristics 2 and 3 are included. Linear and representation spaces use characteristic-zero rational or complex coefficients, as specified, in a fixed universe; field/embedding constructions transport through isomorphisms and universe changes.
+Write ℓ(s)=L_f′(s,χ_E/F)/L_f(s,χ_E/F) for the finite primitive quadratic Hecke function. Values divided by L_f are used only after regularity and nonvanishing at 0 or 1. Arithmetic Artin sends a uniformizer to arithmetic Frobenius; the Lubin–Tate unit action is inverse. ShimuraVarieties §4.1 uses the geometric map art_F(s)=rec_F(s)⁻¹; convert every supplied geometric reciprocity formula by s↦s⁻¹ before use. Complex conjugation on E is not a single local decomposition-group element that exchanges all p-adic embedding pairs. Characteristic zero, separability, full integral lattices and positive field degrees are standing hypotheses; residue characteristics 2 and 3 are included. Linear and representation spaces use characteristic-zero rational or complex coefficients, as specified, in a fixed universe; field/embedding constructions transport through isomorphisms and universe changes.
 
-The symbol h_Falt means the unscaled squared volume metric, with squared norm |∫α∧ᾱ|. The supplier's h_Fal has squared norm 2^(−g)|∫α∧ᾱ|. Thus h_Falt=h_Fal−(g/2)log 2 and h_YZ=h_Falt+(g/2)log(2π)=h_Fal+(g/2)log π. Component heights use h_YZ. These are logarithmic heights. The target formula is
+The symbol h_Falt means the unscaled squared volume metric, with squared norm |∫α∧ᾱ|. The supplier's h_Fal has squared norm 2^(−g)|∫α∧ᾱ|. Thus h_Falt=h_Fal−(g/2)log 2 and h_YZ=h_Falt+(g/2)log(2π)=h_Fal+(g/2)log π. These are logarithmic heights. The target formula is
 
 `mean_Phi h_Falt(E,Phi) = -ell(0)/2 - log(D_E/D_F)/4 - g*log(2*pi)/2`.
 
-For a CM stack Y over O_E (the total reflex stack Y₀ of Layer 3 and the CM cycle Y of Layer 4), deg_C Y=Σ_(y∈Y(ℂ))1/|Aut(y)| is the weighted count of complex points of Y viewed as an E-stack through the fixed embedding of E, so that Y×_ℤℂ has 2d·deg_C Y weighted points ([A], §6.3, pp. 472–473; A lines 3403–3414). The arithmetic degree deĝ is taken over Spec O_E with stabilizer weights: finite places of E, and an archimedean term summed over all weighted complex points of Y×_ℤℂ, that is over all 2d embeddings of E. Every normalized degree deĝ(·)/deg_C Y uses this pair. Component heights divide by [K:ℚ]; quaternionic heights divide by [F(P):F]. All finite level or field changes act on numerator and denominator together. The constant lower bound b_g is a real number and can be negative. Trace-one top de Rham periods, rather than arbitrary integral generators, fix the determinant metric.
+For a CM stack Y over O_E (the total reflex stack Y₀ of Layer 3 and the CM cycle Y of Layer 4), deg_C Y=Σ_(y∈Y(ℂ))1/|Aut(y)| is the weighted count of complex points of Y viewed as an E-stack through the fixed embedding of E, so that Y×_ℤℂ has 2d·deg_C Y weighted points ([A], §6.3, pp. 472–473; A lines 3403–3414). The arithmetic degree deĝ is taken over Spec O_E with stabilizer weights: finite places of E, and an archimedean term summed over all weighted complex points of Y×_ℤℂ, that is over all 2d embeddings of E. Every normalized degree deĝ(·)/deg_C Y uses this pair. All finite level or field changes act on numerator and denominator together. The constant lower bound b_g is a real number and can be negative. Trace-one top de Rham periods, rather than arbitrary integral generators, fix the determinant metric.
 
 For x∈A_g, the center order R_x is Z(End(A_x)), with one CM field per distinct simple isogeny factor and one copy for each repeated isotypic block. Nonisogenous factors with abstractly isomorphic CM fields remain separate. Put D_x=|disc R_x| and J_x=[O_x:R_x]. Absolute polarized coarse orbits, marked relative orbits and fields defining objects are distinct. H_abs is absolute multiplicative Weil height; h₀(Z)=max(max|z_ij|,1/det Im Z) is a separate analytic quantity.
 
@@ -24,7 +34,7 @@ For x∈A_g, the center order R_x is Z(End(A_x)), with one CM field per distinct
 
 - On the square elliptic torus ℂ/(ℤ+iℤ), |∫dz∧d z̄|=2. The three squared metrics are 2, 1 and 1/π; their height shifts are −log 2/2 and log(2π)/2 as above. Applying the latter twice gives an erroneous extra log(2π)/2.
 - For arithmetic Artin over ℚ₅, the unit 2 acts on Lubin–Tate 5-torsion by 2⁻¹=3 modulo 5, whereas the supplied geometric Artin action gives 2. Substituting 2⁻¹=3 into the geometric formula recovers the arithmetic action by 3. A uniformizer acts trivially on that torsion field.
-- A degree-two base change takes normalized degree a/d to 2a/(2d)=a/d; with [F:ℚ]=2, replacing [F(P):F] by [F(P):ℚ] changes a/d to a/(2d).
+- A degree-two base change takes normalized degree a/d to 2a/(2d)=a/d.
 - For d=1 and E=ℚ(i), the total reflex stack Y₀ has one complex point as an E-stack, with automorphism group O_E×=μ₄, so deg_C Y₀=1/4, while Y₀×_ℤℂ has weighted count 2·(1/4)=1/2. A CM elliptic curve over O_E of Faltings height h has unweighted arithmetic degree [E:ℚ]h=2h over Spec O_E, so the weighted degree is deĝ(Ω♯)=2h/4 and deĝ(Ω♯)/deg_C Y₀=2h=Σ_Φ h_Falt(E,Φ), as §3.8 states; dividing instead by the weighted count of Y₀×_ℤℂ gives h, half the stated value.
 - For E=ℚ(i), D_E=4, D_F=1, d_E/F=4. For an elliptic order of conductor 2 the center-order discriminant is 16, while its maximal-field discriminant stays 4.
 
@@ -623,256 +633,21 @@ With F_v=ℚ_p, E_v/F_v unramified quadratic and ξ=−p², the quadratic lattic
 
 §2.6 the standard cm quadratic line; §3.8 total reflex height and the standard line; AutomorphicBundles §§3.1, 3.4–3.8; §0.3 average cm character; ArakelovGeometryAndAbelianHeights §§1.3, 1.11; ComplexMultiplicationAndExplicitReciprocity §§2.1–2.3; GeometryOfNumbersAndQuadraticArithmetic §§2.2, 2.7–2.9; ClassFieldTheory Layer 13 (gap:narrow-cm-norm-different); ShimuraVarieties §§6.1–6.2; AbelianSchemesAndArithmeticModuli §§A4.3, A6.38; MetaplecticAutomorphicForms Layers 4–7; §2.4 cm bundles and crystals; §1.2 the compact integral level; §1.3 finite étale cm models; ArakelovGeometryAndAbelianHeights §§3.4–3.5; ArakelovGeometryAndAbelianHeights §§2.1, 2.7, 2.10; §0.1 cm class functions and analytic heights; AnalyticNumberTheoryPartI §§2.31d–2.32, 2.44–2.46, 3.27.
 
-## Layer 5: Component heights and nearby types
-
-### 5.1 CM component-height invariance
-
-Prove the following. For maximal-order CM abelian varieties A,B with the same field E and type Φ, h(A,τ)=h(B,τ) for each τ∈Φ, using the imported torsion-free determinant line and its Hodge metric. Thus write h(Φ,τ). The assertion includes isogenous integral lattices and conjugation of the type; it does not assert invariance of arbitrary non-CM partial heights. ([Y], Theorem 2.2, pp. 544–546; Y line 464.)
-
-One proof route is as follows. Connect the lattices by O_E-ideal isogenies and use the local rank-one CM p-divisible module. Compute each local component cokernel for the isogeny and its dual. Pair embeddings under complex conjugation in the sum over all p-adic embeddings; do not use a single conjugation element simultaneously at all p-adic places.
-
-The determinant convention is that of ArakelovGeometryAndAbelianHeights §§4.6–4.8; local freeness required by its isogeny formula must be established, not inferred from a nonflat tensor quotient.
-
-*Needs:* ArakelovGeometryAndAbelianHeights §§4.6–4.8; ComplexMultiplicationAndExplicitReciprocity §§2.1–2.3; §0.2 cm-height invariance and colmez linearity; FiniteFlatGroupsAndIntegralPadicHodgeTheory Layer R07.4.
-
-### 5.2 CM height decomposition
-
-Prove the following. For a CM type Φ, let E_Φ be its trace reflex field and d_Φ, d_Φc the absolute norms over E_Φ of the relative discriminants of the selected and complementary reflex orders. Then h_YZ(Φ)−Σ_(τ∈Φ)h(Φ,τ)=−log(d_Φ d_Φc)/(4[E_Φ:ℚ]). Taking all 2^g types, their averaged discriminant correction is −log D_F/4. Apply the CM polynomial Hodge sequence only to monogenic local factors after unramified extension, and descend its Vandermonde determinant to the supplied torsion-free component lines; prove their agreement at ramified primes as part of this CM specialization. ([Y], Theorem 2.3, pp. 546–548; proof of Corollary 2.6, pp. 548–549; Y line 549.)
-
-One proof route is as follows. Work over each actual local factor of O_E⊗O_σ and use the filtered rank-one CM module. Compute the determinant of the embedding-evaluation map as a Vandermonde discriminant. Sum local lengths and embeddings with the exact reflex degree; use the conjugate-pair discriminant factorization for the type average.
-
-Local monogenic generators are chosen after the permitted unramified extension on each factor; O_E⊗ℤ_p is not assumed globally monogenic.
-
-*Needs:* §5.1 cm component-height invariance; ComplexMultiplicationAndExplicitReciprocity §§0.1–0.2; ArakelovGeometryAndAbelianHeights §§4.6–4.8; ArakelovGeometryAndAbelianHeights §§3.4–3.5; ArakelovGeometryAndAbelianHeights §§2.1, 2.7, 2.10.
-
-### 5.3 Nearby CM types and their height
-
-Use the following definition. Two types Φ₁,Φ₂ of a degree-2g CM field are nearby when each difference Φ_i∖Φ_(3−i) is a singleton. Let τ_i be its unique member, so τ_i∈Φ_i and τ₂=cτ₁; the labels are attached to their endpoints, not read off the symmetric difference. For the unordered edge {Φ₁,Φ₂} set h_near=(h(Φ₁,τ₁)+h(Φ₂,τ₂))/2, both terms lying in the domain τ∈Φ of §5.1. Every type has g neighbors and the type cube has g·2^(g−1) unordered edges. ([Y], §2.2, p. 548; §1.2, p. 537; Y lines 674–677.)
-
-One proof route is as follows. Identify a type with one choice in each conjugate embedding pair. Define adjacency by flipping precisely one pair. Check swapping endpoints exchanges the two summands and preserves the value.
-
-Its API comprises:
-
-- Nearby endpoints have a unique changed conjugate pair.
-- h_near is invariant under swapping endpoints.
-- There are g·2^(g−1) unordered edges and degree g at each vertex.
-- An unordered pair of CM types differing at exactly one conjugate pair determines the two distinguished embeddings and their mean component height; the definition is independent of the ordering.
-- A CM algebra isomorphism transports the type edge and component-height labels. Product additivity uses actual component heights; equality for arbitrary isogenous varieties is not an API rule.
-
-Edges are counted once; nearby does not mean disjoint unless g=1.
-
-**Checks.**
-
-- For g=1 the two complementary types form one edge.
-- For g=2 there are four vertices and four unordered edges, not eight.
-- For g=2 opposite vertices have symmetric difference of size four and fail adjacency.
-- For E=ℚ(i), Φ₁={i↦i} and Φ₂={i↦−i}, the definition forces τ₁=(i↦i) and τ₂=(i↦−i). The swapped labelling τ₁=(i↦−i), τ₂=(i↦i) also lists the symmetric difference and satisfies τ₂=cτ₁, but τ₁∉Φ₁, so h(Φ₁,τ₁) is undefined; a definition by symmetric difference alone does not determine the summands.
-
-*Needs:* ComplexMultiplicationAndExplicitReciprocity §§0.1–0.2; §5.1 cm component-height invariance.
-
-### 5.4 Average over nearby types
-
-Prove the following. For g≥1, 2^(−g)Σ_Φ h_YZ(Φ)=2^(1−g)Σ_(unordered nearby edges)h_near−log D_F/4. Each component h(Φ,τ) occurs once as an endpoint contribution of an edge, and each edge height contains the factor 1/2. ([Y], Corollary 2.6, pp. 548–549; Y line 652.)
-
-One proof route is as follows. Sum endpoint contributions over the type cube. Use the discriminant correction in the height decomposition. Divide by 2^g and check the endpoint factor two.
-
-For g=1 the coefficient on its single edge is 1 and D_F=1.
-
-*Needs:* §5.3 nearby cm types and their height; §5.2 cm height decomposition.
-
-### Examples
-
-The type cube has (vertices, unordered edges) equal to (2,1), (4,4), (8,12) in dimensions 1,2,3. Each component is counted once at an endpoint; multiplying the edge-height sum by 2 and dividing by 2^g gives the coefficient 2^(1−g). In dimension 2 the opposite vertices differ in four embeddings and are not nearby.
-
-### Dependencies
-
-ArakelovGeometryAndAbelianHeights §§4.6–4.8; ComplexMultiplicationAndExplicitReciprocity §§2.1–2.3; §0.2 cm-height invariance and colmez linearity; FiniteFlatGroupsAndIntegralPadicHodgeTheory Layer R07.4; ComplexMultiplicationAndExplicitReciprocity §§0.1–0.2; ArakelovGeometryAndAbelianHeights §§3.4–3.5; ArakelovGeometryAndAbelianHeights §§2.1, 2.7, 2.10.
-
-## Layer 6: Corrected different-torsion comparison
-
-### 6.1 Different-torsion graph datum
-
-Use the following definition. For nearby types and a finite Galois number field K/ℚ containing the chosen E, take O_E-abelian varieties A₁,A₂,A with good reduction over O_K, A_i of type Φ_i. A different-graph datum is an O_E-isogeny f:A₁×A₂→A whose kernel is the graph of a specified O_E-isomorphism A₁[δ_E/F]→A₂[δ_E/F]. The different δ_E/F is an ideal, so ideal torsion is used without choosing a global generator. ([YE], Erratum, §1, Theorem 1, pp. 1–2; YE line 4.)
-
-One proof route is as follows. Use the existing finite flat ideal-torsion and isogeny kernels. Record the two injective projections and their images as part of the graph condition. Distinguish the generic graph from its integral closure, whose extension is a theorem below.
-
-Its API comprises:
-
-- Ker f equals the graph of the specified ideal-torsion isomorphism.
-- Both kernel projections identify the kernel with the respective different-torsion group.
-- The datum pulls back to every finite extension preserving the O_E-actions.
-- A specified O_E-linear isomorphism A₁[δ_E/F]≅A₂[δ_E/F] embeds its graph in A₁×A₂ and yields the finite-kernel quotient isogeny. Its graph is not selected from an unspecified existence theorem.
-- Two such graph kernels agree iff their torsion isomorphisms agree, after the fixed projection identifications. Simultaneous O_E-isomorphisms of the two factors transport the graph by conjugating its specified map.
-
-The datum is strictly stronger than merely requiring A to be O_E-isogenous to A₁×A₂.
-
-**Checks.**
-
-- If δ_E/F is the unit ideal, both ideal-torsion groups and the graph kernel are zero.
-- For E=ℚ(√−3), F=ℚ, the relative different δ=(√−3) has norm 3 and O_E/δ≅𝔽₃. Over a field splitting the torsion, identify both A₁[δ] and A₂[δ] with C₃=ℤ/3. The graph of the identity has three elements, whereas the full product A₁[δ]×A₂[δ] has nine and is not a graph: its first projection is not injective.
-- With the same identifications, the graphs of the two O_E-linear isomorphisms 1 and −1 are {(0,0),(1,1),(2,2)} and {(0,0),(1,2),(2,1)}. Each projects bijectively onto C₃ in both factors, yet (1,1) lies only in the first and (1,2) only in the second; projection images alone do not determine the specified graph, which is why the datum records the isomorphism.
-
-*Needs:* §5.3 nearby cm types and their height; ComplexMultiplicationAndExplicitReciprocity §§2.1–2.3; AbelianSchemesAndArithmeticModuli §§A6.22, A6.25, A6.37–A6.38; FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.2.15–R07.2.16, R07.2.20.
-
-### 6.2 CM torsion comparison modulo the different
-
-Prove the following. For CM types Θ₁,Θ₂, the rank-one CM Breuil–Kisin modules over S⊗O_E have Frobenius multipliers given by the complementary-type Eisenstein products. Modulo δ_E/F these multipliers agree when the type is changed by conjugate-pair flips, since x−x̄ lies in δ_E/F. The resulting different-torsion group schemes are O_E-isomorphic, and every O_E-linear automorphism of their constant generic fiber extends over the valuation ring. This is valid also at p=2. In a residue-embedding decomposition semilinear Frobenius permutes embeddings; the linearized map is written with the correspondingly relabeled source. For the contraction choose n≥max(2,e_v). Once one integral different-torsion isomorphism is established, scalar units of O_E/δ_E/F extend every prescribed generic isomorphism; existence of an unspecified isomorphism would not determine the graph. ([YE], Erratum, §2, Theorem 2 and Propositions 4–5, pp. 3–9; YE line 73.)
-
-One proof route is as follows. Apply the CM Kisin description of Propositions 4 and 5 with its coefficient embeddings and Frobenius variance fixed. Reduce the type factors modulo the different and construct the integral module isomorphism. Lift unit automorphisms of O_E/δ by the integral module action; use the full finite-flat classification including dyadic places.
-
-Existence of one integral isomorphism is insufficient: the specified generic graph requires the automorphism-extension assertion.
-
-*Needs:* §6.1 different-torsion graph datum; FiniteFlatGroupsAndIntegralPadicHodgeTheory Layer R07.4; LubinTateFormalModulesAndQuasiCanonicalLifts LT.2, “Lubin–Tate character” and “Comparison with local reciprocity”.
-
-### 6.3 Integral graph kernel and self-duality
-
-Prove the following. After enlarging K to make the relevant different torsion constant, the finite flat kernel Q of the extended graph isogeny has both projections isomorphic to the integral A_i[δ_E/F] at every finite place. Thus it is the integral graph of the specified generic isomorphism. It is O_E-linearly isomorphic to its Cartier dual; the O_E-action factors through O_E/δ_E/F, where conjugation is trivial. ([YE], Erratum, §3, display (5) and proof, pp. 10–11; YE line 358.)
-
-One proof route is as follows. Extend the generic isomorphism, using extension of its automorphism difference from a chosen integral one. Identify the graph closure with the kernel by finite-flat uniqueness. Apply the CM torsion comparison to A₁ and its dual, with conjugate type, to obtain self-duality.
-
-No exact sequence of arbitrary Néron models is presumed from a generic isogeny.
-
-*Needs:* §6.2 cm torsion comparison modulo the different; §6.1 different-torsion graph datum; FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.2.15–R07.2.16, R07.2.20; AbelianSchemesAndArithmeticModuli §§A6.22, A6.25, A6.37–A6.38.
-
-### 6.4 Corrected nearby-height identity
-
-Prove the following. For a different-graph datum, h_near(Φ₁,Φ₂)=(h(A₁,τ₁)+h(A₂,τ₂))/2=h(A,τ)/2, where A is viewed with its O_F-action and τ is the changed place of F. The target uses the integral graph and the proven relative determinant comparison at every finite place. It does not apply to a general O_E-isogenous A. Use the ramified determinant supplier contract on the actual relative/image Hodge lattices, and prove compatibility with the component-height normalization of §5.1. The raw embedding quotient sequence is not asserted exact. ([YE], Erratum, Theorem 1, p. 2; §3 proof, pp. 10–11; YE line 33.)
-
-One proof route is as follows. Use product additivity to identify the component height on A₁×A₂. Use the integral graph’s self-duality and conjugation-trivial action. Apply the relative determinant cancellation, including its ramified comparison.
-
-*Needs:* §6.1 different-torsion graph datum; §6.3 integral graph kernel and self-duality; ArakelovGeometryAndAbelianHeights §4.7 (gap:ramified-component-determinants); §5.3 nearby cm types and their height; ArakelovGeometryAndAbelianHeights §§3.4–3.5.
-
-### 6.5 The actual quaternionic graph kernel
-
-Prove the following. For B=E+Ej, jx=x̄j, a maximal O_B containing O_E and with no finite place ramified in both B and E, set Λ₁=O_E, Λ₂=Ej∩O_B and Λ₀=O_B. The induced isogeny from the two nearby CM complex tori to (V₁⊕V₂)/Λ₀ has kernel Λ₀/(Λ₁+Λ₂), with both projections identifying it with δ_E/F⁻¹Λ_i/Λ_i. At a division prime B, E/F is unramified and the kernel is zero. At a finite place where B splits, the graph is generated by (π−π̄)⁻¹(1−j_p) after a compatible local presentation. ([YE], Erratum, §1, pp. 2–3; YE line 33.)
-
-One proof route is as follows. At split places identify O_B with End_OF(O_E) using the integral order, not just a compact subgroup. Calculate the intersection with E and Ej and the two quotient projections. At division places use unramifiedness of E/F and δ=1 locally; assemble the finite ideal-torsion graph.
-
-The calculation includes split dyadic residue-field-𝔽₂ places and uses the embedded-order supplier contract.
-
-*Needs:* §6.1 different-torsion graph datum; ComplexMultiplicationAndExplicitReciprocity §§2.1–2.3; HilbertModularVarietiesAndShimuraCurves Layer R18.1 (gap:embedded-quaternion-orders); HilbertModularVarietiesAndShimuraCurves Layer R18.5.
-
-### Examples
-
-For F_v=ℚ_p(√p), p odd, the opposite-eigenvalue quotient of a rank-one lattice is O_L/(2√p), of length 1 when v_L(√p)=1. Its torsion-free quotient is zero. At p=2 use the same valuation computation: for ℚ₂(√2), v(2√2)=3, so the quotient has length 3. Neither generic exactness nor self-duality deletes these torsion lengths without the determinant comparison.
-
-### Dependencies
-
-§5.3 nearby cm types and their height; ComplexMultiplicationAndExplicitReciprocity §§2.1–2.3; AbelianSchemesAndArithmeticModuli §§A6.22, A6.25, A6.37–A6.38; FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.2.15–R07.2.16, R07.2.20; FiniteFlatGroupsAndIntegralPadicHodgeTheory Layer R07.4; LubinTateFormalModulesAndQuasiCanonicalLifts LT.2, “Lubin–Tate character” and “Comparison with local reciprocity”; ArakelovGeometryAndAbelianHeights §§3.4–3.5; ArakelovGeometryAndAbelianHeights §4.7 (gap:ramified-component-determinants); HilbertModularVarietiesAndShimuraCurves Layer R18.1 (gap:embedded-quaternion-orders); HilbertModularVarietiesAndShimuraCurves Layer R18.5.
-
-## Layer 7: Quaternionic CM points and Hodge lines
-
-### 7.1 Existence of the auxiliary quaternion datum
-
-Prove the following. For every CM E/F of degree 2g there is a totally definite incoherent quaternion algebra 𝔹/A_F admitting A_E→𝔹, with at least two ramified places, no finite place ramified in both E and 𝔹, and a maximal finite adelic order containing Ô_E. Choose finite inert S with g+|S| odd and ≥3: S=∅ for odd g≥3, |S|=1 for even g, and |S|=2 for g=1. Put U=Ô_𝔹×. For each real τ, switching its invariant gives the coherent curve algebra B(τ). ([Y], §1.1–1.2, pp. 536–537; existence is implicit in the deduction of Theorem 1.1; Y line 120.)
-
-One proof route is as follows. Use Chebotarev Layer 9 for Gal(E/F)≅C₂: its nonidentity Frobenius class has density 1/2, unchanged on removing any prescribed finite set, so choose enough unramified inert primes outside that set. Use the local embedding criterion and odd parity to form the incoherent datum. Embed the integral order locally into maximal orders and take their finite adelic product.
-
-For g=1 two inert finite primes are necessary for this compact setup; containment of Ô_E in the order is stronger than containment of its unit group in a maximal compact.
-
-**Checks.**
-
-- For E=ℚ(i), the primes 3 and 7 are unramified inert, so S={3,7} gives g+|S|=3. Excluding either prime and any further finite set leaves density 1/2 and permits two replacements. For g=2 one inert prime gives 3; for g=3 the empty set already gives 3.
-
-*Needs:* Chebotarev Layer 9; HilbertModularVarietiesAndShimuraCurves Layer R18.1 (gap:embedded-quaternion-orders); HilbertModularVarietiesAndShimuraCurves §§R18.2.12–R18.2.18; AnalyticNumberTheoryPartI §§2.31d–2.32, 2.44–2.46, 3.27.
-
-### 7.2 Quaternionic CM point and height
-
-Use the following definition. For this datum let X=lim_U X_U with right 𝔹_f×-action. Use the compatible E×-fixed CM point P and its images P_U∈X_U(E^ab) from GrossZagierAndArithmeticHeights §0a.4, with its reflex-norm Artin action. Restrict the metrized Hodge bundle L̄_U to the Zariski closure P̄_U in the integral curve model and put h_L(P_U)=deĝ(L̄_U|P̄_U)/[F(P_U):F]. The archimedean metric is ||dz||=2 Im z. The value is constant on each Galois reciprocity orbit by functoriality of the metrized degree. Independence across all permitted CM points is a consequence of the quaternionic height formula in Layer 8; it is not assumed in this definition. ([Y], §1.2–1.3, pp. 537–539; Theorem 4.7 for the Hodge line, pp. 566–568; Y line 161.)
-
-One proof route is as follows. Use the integral curve and canonical CM-point orbit from the curve and reciprocity owners. Restrict the actual Hodge line with its Petersson metric. Use field-degree and arithmetic-degree functoriality to show level and Galois compatibilities.
-
-Its API comprises:
-
-- The Galois action on P_U is the fixed Artin action on the actual CM-point orbit.
-- The height is the indicated degree divided by [F(P_U):F].
-- The analytic Hodge metric is ||dz||=2 Im z and pulls back along the permitted level maps.
-- An E×-fixed point of the canonical tower yields its level image and the restricted hermitian ℚ-line on its closure. Define its height only after this point and line have been supplied.
-- A finite extension of a definition field scales the arithmetic degree and the relative denominator by the same factor; the resulting height is unchanged. The permitted level pullbacks preserve this normalized value.
-
-The denominator is relative to F; absolute height conventions must be converted explicitly.
-
-**Checks.**
-
-- In a normalization calculation take relative field degree 3 and arithmetic degree 6 log 2, giving height 2 log 2. A degree-two extension gives numerator 12 log 2 and denominator 6, again 2 log 2; leaving the numerator unchanged instead gives log 2. These numbers test the normalization, without specifying a CM point.
-- When [F:ℚ]>1, replacing the denominator by [F(P_U):ℚ] changes the value by 1/[F:ℚ] and is rejected.
-- For z=i and local section dz the norm is 2, not 1.
-
-*Needs:* §7.1 existence of the auxiliary quaternion datum; GrossZagierAndArithmeticHeights §0a.4; ShimuraVarieties §§4.1–4.6; HilbertModularVarietiesAndShimuraCurves §§R18.2.12–R18.2.18; ArakelovGeometryAndAbelianHeights §§1.3, 1.11.
-
-### 7.3 CM and quaternionic Hodge lines
-
-Prove the following. For the CM abelian variety A₀ over a good-reduction field K represented by the auxiliary PEL CM point, let N̄(A₀,τ) use the relative/image O_F Hodge determinants. Define N̄_U=L̄_U²(−d_𝔹). The target is an isometry N̄(A₀,τ)≅N̄_U|P̄_U⊗O_K. It includes the integral Kodaira–Spencer comparison at every prime and the complex Hodge/Petersson isometry; identifying raw ramified τ-quotients is a separate required theorem. The integral quaternionic Kodaira–Spencer line is supplied at ramified places; identify the CM relative/image determinant with that line using the ramified bridge contract. The O_B-linear tangent Hom has rank one at the varying place; the unconstrained O_E-linear Hom has rank two and does not define the same deformation problem. ([Y], Proposition 5.7, p. 577; Propositions 5.3–5.4 and Corollary 5.5, pp. 574–576; Y line 1807.)
-
-One proof route is as follows. Use the PEL family and integral Kodaira–Spencer map. Identify determinants at unramified places and prove the ramified relative/image comparison at the remaining places. Compare the complex metric on dz and the determinant Hodge metric, tracking the finite discriminant twist.
-
-*Needs:* §7.2 quaternionic cm point and height; ArakelovGeometryAndAbelianHeights §4.7 (gap:ramified-component-determinants); ArakelovGeometryAndAbelianHeights §§4.6–4.8; HilbertModularVarietiesAndShimuraCurves §§R18.2.12–R18.2.18; HilbertModularVarietiesAndShimuraCurves §§R18.2.17–R18.2.18 (gap:ramified-quaternionic-bridge); HilbertModularVarietiesAndShimuraCurves Layer R18.5; PELModuli §§M3.9, M5, M6.9.
-
-### 7.4 Average height from the quaternionic point
-
-Prove the following. For maximal order U containing Ô_E as above, 2^(−g)Σ_Φ h_YZ(Φ)=h_L(P_U)/2−log(d_𝔹 D_F)/4. This uses the corrected nearby theorem only on the actual quaternionic graph kernels and includes the integral relative Hodge-line comparisons. ([Y], Theorem 1.6, p. 537; proof §5.3, pp. 576–577, with Erratum Theorem 1 replacing Theorem 2.7; Y line 161.)
-
-One proof route is as follows. For each nearby edge use its coherent B(τ) and the actual maximal-order graph. Replace its nearby height by half the component height of the PEL family. Use the Hodge-line isometry and sum over the g distinguished real places, then insert the cube-average correction.
-
-An arbitrary isogenous A cannot replace the quaternionic family.
-
-*Needs:* §5.4 average over nearby types; §6.5 the actual quaternionic graph kernel; §6.4 corrected nearby-height identity; §7.3 cm and quaternionic hodge lines.
-
-### Examples
-
-For z=i and z=1+i, the Petersson norm of dz is 2. An extension of a CM point field by degree m takes deĝ L/n to m deĝ L/(mn). If g is odd and at least 3 choose no finite quaternion ramification; for g even choose one inert prime, and for g=1 choose two. The total ramification cardinalities are odd and at least 3, so switching one real place makes them even.
-
-### Dependencies
-
-Chebotarev Layer 9; HilbertModularVarietiesAndShimuraCurves Layer R18.1 (gap:embedded-quaternion-orders); HilbertModularVarietiesAndShimuraCurves §§R18.2.12–R18.2.18; HilbertModularVarietiesAndShimuraCurves §§R18.2.17–R18.2.18 (gap:ramified-quaternionic-bridge); AnalyticNumberTheoryPartI §§2.31d–2.32, 2.44–2.46, 3.27; ShimuraVarieties §§4.1–4.6; GrossZagierAndArithmeticHeights §0a.4; ArakelovGeometryAndAbelianHeights §§1.3, 1.11; ArakelovGeometryAndAbelianHeights §4.7 (gap:ramified-component-determinants); ArakelovGeometryAndAbelianHeights §§4.6–4.8; HilbertModularVarietiesAndShimuraCurves Layer R18.5; PELModuli §§M3.9, M5, M6.9; §5.4 average over nearby types; §6.5 the actual quaternionic graph kernel; §6.4 corrected nearby-height identity.
-
-## Layer 8: Quaternionic self-intersection and adjunction
-
-### 8.1 Modified CM self-intersection
-
-Prove the following. For the compact maximal-order quaternionic datum, e=[O_E×:O_F×] and the modified arithmetic self-intersection i₀ defined by the Gross–Zagier diagonal/Green-function contract, i₀(P,P)/e=(L_f′/L_f)(0,χ_E/F)+(1/2)log(d_E/F/d_𝔹). The modification, Green function, finite local lengths and unit factors use the imported Gross–Zagier normalization; i₀ is not the raw intersection of a horizontal divisor with itself. Use GrossZagierAndArithmeticHeights §§6.56, 7.15, 7.65–7.66 and 7.77, together with its normalization in §§0.1, 0.5 and 0.11. The noncuspidal contributions, including the S₂ compensation, are inputs rather than consequences of a cuspidal Gross–Zagier projection. ([Y], Theorem 9.1, pp. 624–628; §1.3, pp. 539–541 explains the kernel comparison; Y line 4201.)
-
-One proof route is as follows. Import the parallel-weight-two analytic derivative and full geometric height decomposition with their noncuspidal terms, using the two auxiliary split-place test functions of GrossZagierAndArithmeticHeights §6.21. Compare their pseudo-theta expansions and use automorphy to isolate the dimension-zero term. Compute its local Whittaker and intersection terms, retaining e and both discriminants.
-
-*Needs:* §7.2 quaternionic cm point and height; GrossZagierAndArithmeticHeights §§0.1, 0.5, 0.9–0.11; GrossZagierAndArithmeticHeights §§2.1, 2.9, 2.14; GrossZagierAndArithmeticHeights §§6.5–6.8, 6.21, 6.25, 6.56, 7.15, 7.65–7.66, 7.77; GrossZagierAndArithmeticHeights §§2.14, 7.28, 7.78.
-
-### 8.2 Height of the quaternionic CM point
-
-Prove the following. For the constructed compact maximal-order datum, h_L(P_U)=−(L_f′/L_f)(0,χ_E/F)+(1/2)log(d_𝔹/d_E/F). The value is independent of the chosen CM point and compatible with the integral Hodge-line convention above. ([Y], Theorem 1.7, p. 539; Theorems 9.1 and 9.3, pp. 624–635; Y line 241.)
-
-One proof route is as follows. Use adjunction to replace i₀/e by −h_L. Substitute the modified self-intersection identity. Reverse both signs and check the discriminant quotient.
-
-For the height bridge the d_𝔹 terms cancel exactly, regardless of the chosen auxiliary finite inert set.
-
-*Needs:* §8.1 modified cm self-intersection; GrossZagierAndArithmeticHeights §7.78.
-
-### Examples
-
-Writing ℓ=ℓ(0), the two identities give i₀/e=ℓ+(1/2)log(d_E/F/d_𝔹)=−h_L, hence h_L=−ℓ+(1/2)log(d_𝔹/d_E/F). At elliptic ramification e=2 the horizontal pullback has multiplicity 2; an étale fiber would have multiplicity 1 and cannot justify this comparison.
-
-### Dependencies
-
-§7.2 quaternionic cm point and height; GrossZagierAndArithmeticHeights §§0.1, 0.5, 0.9–0.11; GrossZagierAndArithmeticHeights §§2.1, 2.9, 2.14; GrossZagierAndArithmeticHeights §§6.5–6.8, 6.21, 6.25, 6.56, 7.15, 7.65–7.66, 7.77; GrossZagierAndArithmeticHeights §§2.14, 7.28, 7.78; HilbertModularVarietiesAndShimuraCurves Layer R18.5.
-
 ## Layer 9: The averaged Colmez formula
 
 ### 9.1 The averaged Colmez formula
 
-Prove the following. For every maximal-order CM field E/F with [F:ℚ]=g≥1, averaging over all 2^g types gives 2^(−g)Σ_Φ h_Falt(E,Φ)=−(L_f′/L_f)(0,χ_E/F)/2−log(D_E/D_F)/4−g log(2π)/2. Equivalently in the Yuan–Zhang metric the last term is absent. Imprimitive types are included. The individual Colmez conjecture is neither assumed nor proved. ([A], Theorem A, p. 392; Theorem 9.5.5, pp. 525–526; A line 38; [Y], Theorem 1.1, p. 535; corrected proof with Erratum Theorem 1; Y line 77.)
+Prove the following. For every maximal-order CM field E/F with [F:ℚ]=g≥1, averaging over all 2^g types gives 2^(−g)Σ_Φ h_Falt(E,Φ)=−(L_f′/L_f)(0,χ_E/F)/2−log(D_E/D_F)/4−g log(2π)/2. Equivalently in the Yuan–Zhang metric the last term is absent. Imprimitive types are included. The individual Colmez conjecture is neither assumed nor proved. ([A], Theorem A, p. 392; Theorem 9.5.5, pp. 525–526; A line 38.)
 
-One proof route is as follows. Route A: for g≥2 use prime-by-prime error elimination and the analytic average; for g=1 use the classical case. Route Y: insert the quaternionic height into its bridge, cancel d_𝔹 and use d_E/F·D_F=D_E/D_F. Convert metrics once by h_YZ=h_Falt+g log(2π)/2. Either route proves the shared target; both constructions are targets, and either supplies the averaged theorem.
+One proof route is as follows. For g≥2 use the prime-by-prime error elimination of §4.5 and the analytic average of §0.3; for g=1 use the classical case of §4.6. Convert metrics once by h_YZ=h_Falt+g log(2π)/2.
 
 All types are counted; the logarithmic term has the unscaled-metric sign and factor.
 
-*Needs:* §0.3 average cm character; §4.5 eliminate each bad-prime coefficient; §4.6 the imaginary quadratic average; §7.4 average height from the quaternionic point; §8.2 height of the quaternionic cm point; ArakelovGeometryAndAbelianHeights §§2.1, 2.7, 2.10.
-
-### Examples
-
-Substitute h_L=−ℓ(0)+(1/2)log(d_𝔹/d_E/F) into the quaternionic bridge: h_L/2−log(d_𝔹D_F)/4=−ℓ(0)/2−log(d_E/FD_F)/4. Since d_E/FD_F=D_E/D_F, the auxiliary discriminant cancels. Converting from h_YZ subtracts g log(2π)/2 once.
+*Needs:* §0.3 average cm character; §4.5 eliminate each bad-prime coefficient; §4.6 the imaginary quadratic average; ArakelovGeometryAndAbelianHeights §§2.1, 2.7, 2.10.
 
 ### Dependencies
 
-§0.3 average cm character; §4.5 eliminate each bad-prime coefficient; §4.6 the imaginary quadratic average; §7.4 average height from the quaternionic point; §8.2 height of the quaternionic cm point; ArakelovGeometryAndAbelianHeights §§2.1, 2.7, 2.10.
+§0.3 average cm character; §4.5 eliminate each bad-prime coefficient; §4.6 the imaginary quadratic average; ArakelovGeometryAndAbelianHeights §§2.1, 2.7, 2.10.
 
 ## Layer 10: Individual height bounds and distant isogenies
 
@@ -1138,9 +913,9 @@ For a ramified quadratic local field E_v/F_v, v_E(F_v×)=2Z. The quotient E_v×/
 
 ### Ramified embedding quotients require a determinant comparison
 
-Let F_p=ℚ_p(√p) with p odd and let O_L contain both embeddings. A free rank-one O_L-module on which √p acts by −√p, tensored along the embedding sending √p to +√p, becomes O_L/(2√p). This is nonzero torsion, not a locally free component of the expected rank. It blocks the inference from a generic tensor sequence to integral determinant cancellation. The relative/image Hodge comparison must prove precisely how this torsion is handled. The same issue reaches the quaternionic Kodaira–Spencer calculation.
+Let F_p=ℚ_p(√p) with p odd and let O_L contain both embeddings. A free rank-one O_L-module on which √p acts by −√p, tensored along the embedding sending √p to +√p, becomes O_L/(2√p). This is nonzero torsion, not a locally free component of the expected rank. It blocks the inference from a generic tensor sequence to integral determinant cancellation.
 
-At p=2 the degree-four CM field ℚ(√17,√−7) splits completely. Its integral local algebra is Z₂⁴; its reduction F₂⁴ has no single generator over F₂, since any such generator takes at most two distinct values. Factorwise local generators after suitable unramified extension are required in the Vandermonde calculation.
+At p=2 the degree-four CM field ℚ(√17,√−7) splits completely. Its integral local algebra is Z₂⁴; its reduction F₂⁴ has no single generator over F₂, since any such generator takes at most two distinct values. Factorwise local generators after suitable unramified extension are required in the partition-length calculation of §3.3.
 
 ### From an average to an individual height
 
@@ -1160,13 +935,13 @@ The embeddings of the product center algebra number at most 2g. Its normal closu
 
 ## Scope and ownership
 
-ComplexMultiplicationAndExplicitReciprocity stops at reflex pairs and orders (§§0.1–0.2), polarized CM lattices and marked reciprocity (§§2.1–2.3), and CM characters and reduction (Layers 4–5). This Part II owns CM height linearity, total reflex integral realizations, the CM-specific determinant and conductor comparisons, both averaged-height proofs, their quantitative CM consequences, and the center order attached to a polarized CM point. Its relative class-number estimate covers arbitrary CM fields; the abelian character-product results of CyclotomicClassGroupsAndStickelberger §3.4 have a different hypothesis and conclusion.
+ComplexMultiplicationAndExplicitReciprocity stops at reflex pairs and orders (§§0.1–0.2), polarized CM lattices and marked reciprocity (§§2.1–2.3), and CM characters and reduction (Layers 4–5). This Part II owns CM height linearity, total reflex integral realizations, the CM-specific determinant and conductor comparisons, the averaged-height proof, its quantitative CM consequences, and the center order attached to a polarized CM point. Its relative class-number estimate covers arbitrary CM fields; the abelian character-product results of CyclotomicClassGroupsAndStickelberger §3.4 have a different hypothesis and conclusion.
 
-The native CM field and conjugation, class number, regulator ratio, Minkowski representatives and coarse ideal count are already in the library, as are complex abelian varieties, their endomorphism rings, isogenies and the rank of a finite flat morphism. Their exact declarations are in the supplier contracts. The field-order index-square discriminant identity and the squared-norm successive minima with simultaneous attainment are also in the library; GlobalNumberFields Layer 11 owns the finite étale order extension, and IntegralLattices milestone 2F owns the Minkowski product estimate. The class-group norm cokernel bound is stated by IntegralIwasawaTheory §3.4, in the case n=0. The varying-base quadratic Hecke estimates and near-linear ideal count are stated by AnalyticNumberTheoryPartI §§2.31f, 2.44–2.46 and 3.27. The general ramified component determinant comparison belongs to ArakelovGeometryAndAbelianHeights §4.7. These are consumed here; the CM decomposition, different-graph application and exponent argument are the kept specializations.
+The native CM field and conjugation, class number, regulator ratio, Minkowski representatives and coarse ideal count are already in the library, as are complex abelian varieties, their endomorphism rings, isogenies and the rank of a finite flat morphism. Their exact declarations are in the supplier contracts. The field-order index-square discriminant identity and the squared-norm successive minima with simultaneous attainment are also in the library; GlobalNumberFields Layer 11 owns the finite étale order extension, and IntegralLattices milestone 2F owns the Minkowski product estimate. The class-group norm cokernel bound is stated by IntegralIwasawaTheory §3.4, in the case n=0. The varying-base quadratic Hecke estimates and near-linear ideal count are stated by AnalyticNumberTheoryPartI §§2.31f, 2.44–2.46 and 3.27. These are consumed here; the exponent argument is the kept specialization.
 
-ArakelovGeometryAndAbelianHeights §§1.11, 2.7, 3.4–3.5, 4.6–4.8 and 6.5 own weighted degrees, metric adapters, stable heights, component lines and the uniform lower bound. FaltingsFinitenessAndIsogenyTheoremsPartII §5.5 owns geometric isogeny estimates. AbelianSchemesAndArithmeticModuli owns abelian schemes, polarizations, Tate and de Rham realizations and the CM isotypic decomposition. ShimuraVarieties owns canonical CM stacks and reciprocity; HilbertModularVarietiesAndShimuraCurves owns quaternionic integral models and its saturated integral Kodaira–Spencer line. Only the comparison to the actual CM Hodge determinants is built here. Generic admissible intersections and analytic/arithmetic kernels belong to GrossZagierAndArithmeticHeights, quantitative hermitian/Siegel reduction to GeometryOfNumbersAndQuadraticArithmetic, successive minima and the basis from the minima to SuccessiveMinima Layer 1, IntegralLattices milestone 2F and HeightsAndUnits §2.1, and the absolute scalar height, minimal-polynomial comparison and bounded-degree Northcott theorem to DiophantineApproximationAndTranscendence §§0.2–0.3. IntegralLattices and OrthogonalSpinGroups own lattice duality and orthogonal group algebra. The orthogonal special-divisor intersection and support theorems in §§4.2–4.2c, 4.3 and 4.5 are included here: the underlying lattice and group theory are supplied by IntegralLattices and OrthogonalSpinGroups.
+ArakelovGeometryAndAbelianHeights §§1.11, 2.7, 3.4–3.5 and 6.5 own weighted degrees, metric adapters, stable heights and the uniform lower bound. FaltingsFinitenessAndIsogenyTheoremsPartII §5.5 owns geometric isogeny estimates. AbelianSchemesAndArithmeticModuli owns abelian schemes, polarizations, Tate and de Rham realizations and the CM isotypic decomposition. ShimuraVarieties owns canonical CM stacks and reciprocity. Quantitative hermitian/Siegel reduction belongs to GeometryOfNumbersAndQuadraticArithmetic, successive minima and the basis from the minima to SuccessiveMinima Layer 1, IntegralLattices milestone 2F and HeightsAndUnits §2.1, and the absolute scalar height, minimal-polynomial comparison and bounded-degree Northcott theorem to DiophantineApproximationAndTranscendence §§0.2–0.3. IntegralLattices and OrthogonalSpinGroups own lattice duality and orthogonal group algebra. The orthogonal special-divisor intersection and support theorems in §§4.2–4.2c, 4.3 and 4.5 are included here: the underlying lattice and group theory are supplied by IntegralLattices and OrthogonalSpinGroups.
 
-The arithmetic adjunction identity i₀(P,P)/e=−h_L(P_U) is stated by GrossZagierAndArithmeticHeights §7.78. Its §0a.4 supplies the quaternionic CM point and its Artin action; §7.2 here defines only its normalized Hodge height. Its §§6.56, 7.15, 7.65–7.66 and 7.77 supply the analytic derivative, nonvanishing theta input, full height-series decomposition and local comparison with the noncuspidal terms retained. PELModuli §§M6.1, M6.8 and M6.10 supply bounded polarized descent with marked 3-torsion and finite level-forgetting; §11.1 applies that field to the chosen ideal quotient and its transported polarization. ShimuraVarieties §4.2 supplies the AGHMP quotient reflex norm; §1.1 develops its character lattice and scalar-kernel distinction.
+PELModuli §§M6.1, M6.8 and M6.10 supply bounded polarized descent with marked 3-torsion and finite level-forgetting; §11.1 applies that field to the chosen ideal quotient and its transported polarization. ShimuraVarieties §4.2 supplies the AGHMP quotient reflex norm; §1.1 develops its character lattice and scalar-kernel distinction.
 
 The endpoints concern distinct polarized coarse CM points. André–Oort, o-minimal counting, functional transcendence and Jacobian isogeny counts are outside this scope. No good-prime restriction is placed on a global theorem.
 
@@ -1200,17 +975,11 @@ Consume §§A4.1, A4.3, A4.CR.7.2, A5.1–A5.7, A6.22, A6.25 and A6.37–A6.38 f
 
 ### From TauCetiRoadmap.ArakelovGeometryAndAbelianHeights
 
-Consume §§1.3, 1.11, 1.13–1.14, 2.1, 2.7, 2.10, 3.4–3.5, 4.6–4.8 and 6.5. Sections 1.13–1.14 compare metrized projective heights with absolute sup heights and retain bounded absolute degree in Northcott. Their component line takes torsion-free quotients before determinants; §4.7's raw embedding-quotient formula assumes local freeness. The unscaled-to-Yuan–Zhang shift is +(g/2)log(2π); this adapter is applied exactly once. The polynomial Hodge comparison in §4.8 is used factorwise after unramified decomposition, with rank-one freeness established by the CM realization, rather than global monogenicity.
-
-What ArakelovGeometryAndAbelianHeights must provide (gap:ramified-component-determinants): Extend §4.7 to relative/image component determinants over every mixed-characteristic DVR with ramified coefficient field, proving Cartier-dual length cancellation for a self-dual kernel with conjugation-invariant action and identifying its metrized height with §4.6.
+Consume §§1.3, 1.11, 1.13–1.14, 2.1, 2.7, 2.10, 3.4–3.5 and 6.5. Sections 1.13–1.14 compare metrized projective heights with absolute sup heights and retain bounded absolute degree in Northcott. The unscaled-to-Yuan–Zhang shift is +(g/2)log(2π); this adapter is applied exactly once.
 
 ### From TauCetiRoadmap.AnalyticNumberTheoryPartI
 
 Consume §§2.31d–2.31f, 2.32, 2.44–2.46 and 3.27: uniform fixed-degree residue bounds and Brauer–Siegel, primitive odd functional equations, regularized Hecke logarithmic derivatives and the degree-only ideal estimate. In particular |ℓ(1)|≤C_g,ε D_E^ε for every ε>0, uniformly as F varies; C_g,ε can be ineffective. Its conductor is D_E/D_F. The ideal count is at most C_n,ε X^(1+ε) for X≥1. These inputs include ramified Euler factors. General Artin holomorphy is no hypothesis.
-
-### From TauCetiRoadmap.Chebotarev
-
-Consume Layer 9, abelian Chebotarev: for the nonidentity element of Gal(E/F)≅C₂, unramified inert primes have Dirichlet density 1/2. Removing any finite set preserves that density and leaves infinitely many primes, supplying the auxiliary inert set in §7.1.
 
 ### From TauCetiRoadmap.AutomorphicLFunctionsAndLocalFactors
 
@@ -1224,7 +993,7 @@ What AutomorphicBundles must provide (gap:absolute-hodge-padic-comparison), exte
 
 ### From TauCetiRoadmap.FiniteFlatGroupsAndIntegralPadicHodgeTheory
 
-Consume §§R07.2.15–R07.2.16, R07.2.20 and Layer R07.4 for slope classification, Cartier duality, covariant/cohomological conversion and the all-prime integral Breuil–Kisin functor. Frobenius-pullback specializations are φ*M/u and φ*M/E_y(u). Geometric fibers use W(k̄_y). The CM multipliers and their equality modulo the relative different are proved in §6.2 here.
+Consume §§R07.2.15–R07.2.16, R07.2.20 and Layer R07.4 for slope classification, Cartier duality, covariant/cohomological conversion and the all-prime integral Breuil–Kisin functor. Frobenius-pullback specializations are φ*M/u and φ*M/E_y(u). Geometric fibers use W(k̄_y).
 
 ### From TauCetiRoadmap.LubinTateFormalModulesAndQuasiCanonicalLifts
 
@@ -1252,7 +1021,7 @@ What ShimuraVarieties must provide (gap:quantitative-cm-torus-orbit): For a dime
 
 ### From TauCetiRoadmap.PELModuli
 
-Consume §§M2.1–M2.3, M3.9, M5, M6.1–M6.2 and M6.8–M6.10 for polarized rigidity, Siegel moduli, stacks, Hodge lines, bounded polarized descent and finite level-forgetting. Only polarized full level removes the positive-rank unit automorphisms of an unpolarized CM variety.
+Consume §§M2.1–M2.3, M6.1–M6.2 and M6.8–M6.10 for polarized rigidity, Siegel moduli, stacks, bounded polarized descent and finite level-forgetting. Only polarized full level removes the positive-rank unit automorphisms of an unpolarized CM variety.
 
 ### From TauCetiRoadmap.FaltingsFinitenessAndIsogenyTheoremsPartII
 
@@ -1288,18 +1057,6 @@ What GeometryOfNumbersAndQuadraticArithmetic must provide (gap:quantitative-herm
 
 The Siegel matrix estimate uses [PT], Lemmas 3.4–3.5, preprint pp. 6–7 (PT lines 213–284). The independent-vector argument for hermitian balancing uses [PT], Lemma 3.7 and its proof, preprint p. 9 (PT lines 362–385); the contract also retains the index of the generated R-lattice.
 
-### From TauCetiRoadmap.HilbertModularVarietiesAndShimuraCurves
-
-Consume Layer R18.1, §§R18.2.12–R18.2.18 and Layer R18.5 for quaternionic curves, the rational Hodge line with ‖dz‖=2 Im z, saturated relative Kodaira–Spencer, pointwise filtered bridge comparisons and bad-place models. At z=i and 1+i both norms are 2. The bridge determinant statements in §§R18.2.17–R18.2.18 assume F_v/ℚ_p unramified, even though §R18.2.14 allows ramification.
-
-What HilbertModularVarietiesAndShimuraCurves must provide (gap:ramified-quaternionic-bridge): Extend the pointwise bridge determinant comparison of §§R18.2.17–R18.2.18 to ramified F_v/ℚ_p on relative/image Hodge lattices with the exact different twist and archimedean isometry, retaining finite-local crystalline descent and proving independence of the pro-level lift.
-
-What HilbertModularVarietiesAndShimuraCurves must provide (gap:embedded-quaternion-orders): Provide the local maximal-order descriptions with an embedded quadratic integer ring in split and division quaternion algebras, including dyadic residue field 𝔽₂, sufficient to identify the different-torsion projection lattices of §6.5.
-
-### From TauCetiRoadmap.GrossZagierAndArithmeticHeights
-
-Consume §§0a.4, 0.1, 0.5, 0.9–0.11, 2.1, 2.9, 2.14, 6.5–6.8, 6.21, 6.25, 6.56, 7.15, 7.28, 7.65–7.67 and 7.77–7.78 for the actual CM point and Artin action, arithmetic pairings, residue lines, analytic derivative and full height-series decomposition, local pseudo-theta comparison, split-place compensation and adjunction. The height normalization divides by [F(P):F]. The parallel-weight-two analytic projection in §6.56 retains the noncuspidal terms needed here; it is not replaced by a cuspidal Gross–Zagier projection.
-
 ### From TauCetiRoadmap.MetaplecticAutomorphicForms
 
 Consume Layers 4–7 for the adelic metaplectic cover and finite Weil representation, global theta kernels, Siegel–Weil and see-saw identities, and the half-integral-weight Whittaker framework. The orthogonal proper-intersection special divisors and support-controlled Borcherds inputs are the constructions of §§4.2–4.2a and §4.5 here.
@@ -1314,12 +1071,10 @@ Consume §§0.2–0.3 for absolute multiplicative scalar and tuple height, its M
 
 ## References
 
-Square-bracket keys refer to the legally available editions below. Each claim also records an exact printed locator and a line in the source-service extraction. PT and T12 use their cited arXiv pagination; YE uses the 18 December 2022 author revision. No equality of their numbering with another edition is assumed.
+Square-bracket keys refer to the legally available editions below. Each claim also records an exact printed locator and a line in the source-service extraction. PT and T12 use their cited arXiv pagination. No equality of their numbering with another edition is assumed.
 
 - [T] Jacob Tsimerman, [The André–Oort conjecture for A_g](https://annals.math.princeton.edu/wp-content/uploads/annals-v187-n2-p02-p.pdf), Annals 187 (2018), 379–390. Locators used in the build: §2.2, p. 382; Proposition 2.2 and preceding proof, p. 382; Corollary 3.3 proof, pp. 383–384, repaired via the quadratic average; Corollary 3.3, pp. 383–384, with its averaging proof and corrected sign convention; Lemma 4.1 and proof of Theorem 4.2, pp. 384–385, with polarized-moduli and quotient-polarization corrections; Proof of Theorem 4.2, p. 385; explicit exponent and bounded-range adapter; Theorem 1.2, p. 379 and Theorem 4.2, p. 385, interpreted through polarized coarse moduli; §5, p. 385; §5, p. 386, with relative/absolute and marked/unmarked orbit corrections; §5, p. 386; §5, pp. 385–386; Theorem 5.2, pp. 385–386; §6.2, p. 387, using the corrected splitting-field degree adapter; §6.2, p. 387.
 - [A] Fabrizio Andreatta; Eyal Z. Goren; Benjamin Howard; Keerthi Madapusi Pera, [Faltings heights of abelian varieties with complex multiplication](https://annals.math.princeton.edu/wp-content/uploads/annals-v187-n2-p03-p.pdf), Annals 187 (2018), 391–531. Locators used in the build: §§4.1–4.7, pp. 431–454; Theorem 4.8.1, pp. 454–455; (6.0.1)–(6.0.2), p. 465; §§6.1–6.3, pp. 466–473; Theorem 6.4.2, p. 474; Hypothesis 8.3.1 and Proposition 8.3.3, pp. 505–507; Definition 9.1.1, (9.1.2), Definition 9.1.3, pp. 508–509; Theorem 9.1.5 and Remark 9.1.2, pp. 509–510; citing Colmez (1993), Theorem 0.3; Proposition 9.3.1, equation (9.3.1), p. 511; §3.1, (3.1.1)–(3.1.2), pp. 415–416; §3.2, (3.2.1) and Proposition 3.2.1, pp. 416–417, with the corrected subgroup; §3.1 and Proposition 3.2.1, pp. 416–417; §3.4, Proposition 3.4.2, pp. 420–421; §9.2, p. 510; Proposition 3.4.1, pp. 419–420; Proposition 9.2.1, Proposition 9.3.2 and Corollary 9.3.3, pp. 510–512; Proposition 3.5.2 and Remark 3.5.3, pp. 422–424; Corollary 3.5.4, pp. 424–425; Proposition 3.5.5(1)–(5), pp. 425–427; Proof of Proposition 3.5.5, pp. 426–427; Proposition 3.5.6, pp. 427–428; §3.6, pp. 428–429; §9.4, pp. 513–514 (metric on p. 514), with the positive-metric correction; §3.6, pp. 428–429, preceding Proposition 3.6.1; Propositions 3.6.1–3.6.2 and Lemma 3.6.3, pp. 430–431; §9.4, equation (9.4.3), pp. 513–514; §9.4, Lemma 9.4.4, pp. 516–518; Lemma 9.4.4, pp. 516–518, corrected final formula; §9.4, p. 518, before Proposition 9.4.5; Proposition 9.4.5 and equation (9.4.7), pp. 518–519; Proof of Theorem 9.4.2, pp. 515–516; Lemma 9.4.3 with corrected generator and period; Proof of Proposition 9.4.1, equations (9.4.8)–(9.4.13), pp. 519–522; Proposition 9.4.1, Theorem 9.4.2 and (9.4.4), pp. 515–516; end of the local calculation on p. 522; Proposition 9.5.1, proof pp. 522–523; the full-lattice scaling assertion is corrected; Theorem 8.3.4, pp. 507–508; Proposition 9.5.1, (9.5.1)–(9.5.3), pp. 521–523; Definition 5.3.3, p. 460; §9.5, pp. 522–525; Proposition 9.5.2 and Lemmas 9.5.3–9.5.4, pp. 523–525; Theorem 9.5.5 and Theorem 9.5.6, pp. 525–526; §1.1, p. 392, remark preceding Theorem A; the classical input is cited there; Theorem A, p. 392; Theorem 9.5.5, pp. 525–526; Conjecture 9.1.6, p. 510.
-- [Y] Xinyi Yuan; Shou-Wu Zhang, [On the averaged Colmez conjecture](https://annals.math.princeton.edu/wp-content/uploads/annals-v187-n2-p04-p.pdf), Annals 187 (2018), 533–638. Locators used in the build: Theorem 2.2, pp. 544–546; Theorem 2.3, pp. 546–548; proof of Corollary 2.6, pp. 548–549; §2.2, p. 548; §1.2, p. 537; Corollary 2.6, pp. 548–549; Proposition 5.4, p. 575; §1.1–1.2, pp. 536–537; existence is implicit in the deduction of Theorem 1.1; §1.2–1.3, pp. 537–539; Theorem 4.7 for the Hodge line, pp. 566–568; Proposition 5.7, p. 577; Propositions 5.3–5.4 and Corollary 5.5, pp. 574–576; Theorem 1.6, p. 537; proof §5.3, pp. 576–577, with Erratum Theorem 1 replacing Theorem 2.7; Theorem 9.1, pp. 624–628; §1.3, pp. 539–541 explains the kernel comparison; Theorem 9.3 and §9.2, pp. 629–635; setup pp. 629–631; Theorem 1.7, p. 539; Theorems 9.1 and 9.3, pp. 624–635; Theorem 1.1, p. 535; corrected proof with Erratum Theorem 1; Theorem 1.1, p. 535.
-- [YE] Xinyi Yuan; Shou-Wu Zhang, [Erratum to On the Averaged Colmez Conjecture](https://web.math.princeton.edu/~shouwu/publications/Erratum5.pdf), Author revision dated 18 December 2022, 11 pages; journal erratum Annals 198 (2023), 867–878 not collated. Locators used in the build: Erratum, §1, Theorem 1, pp. 1–2; Erratum, §2, Theorem 2 and Propositions 4–5, pp. 3–9; Erratum, §3, display (5) and proof, pp. 10–11; Author erratum, §3, Proposition 6 and proof, pp. 9–10; Erratum, Theorem 1, p. 2; §3 proof, pp. 10–11; Erratum, §1, pp. 2–3.
 - [T12] Jacob Tsimerman, [Brauer–Siegel for arithmetic tori and lower bounds for Galois orbits of special points](https://arxiv.org/pdf/1103.5619v2), arXiv:1103.5619v2, preprint pagination; JAMS 25 (2012), 1091–1117 edition identified but not collated. Locators used in the build: §7.1–7.2, preprint pp. 15–18; §7.2, preprint p. 18, with the order index distinguished from the compact index; Proof of Theorem 7.1, preprint pp. 17–18; Tsimerman (2012), Lemmas 7.2–7.5, preprint pp. 18–20; Theorem 7.1 and equations (4)–(5), preprint pp. 17–20.
 - [PT] Jonathan Pila; Jacob Tsimerman, [The André–Oort conjecture for the moduli space of Abelian surfaces](https://arxiv.org/pdf/1106.4023v1), arXiv:1106.4023v1, preprint pagination; Compositio 149 (2013), 204–216 edition identified but not collated. Locators used in the build: Lemma 3.2, preprint p. 4; §3, preprint pp. 3–9; Pila–Tsimerman (2013), Lemmas 3.2–3.3, preprint pp. 3–5; Pila–Tsimerman (2013), §3, Lemmas 3.4–3.7, preprint pp. 5–9; Theorem 3.1, preprint pp. 3–9.
 - [PT14] Jonathan Pila; Jacob Tsimerman, [Ax–Lindemann for A_g](https://annals.math.princeton.edu/wp-content/uploads/annals-v179-n2-p05-p.pdf), Annals 179 (2014), 659–681. Locators used in the build: Conjecture 7.1, p. 673; Lemma 7.4 and proof, p. 675.

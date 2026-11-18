@@ -12,15 +12,12 @@ headline theorems against the pinned APIs, using native mathematical carriers.
 The following headlines are not statable at the pins:
 * CM height linearity on the overlap span: CM types, the component-period functional
   and stable Faltings heights of CM abelian varieties are missing.
-* All-prime integral CM realizations and different-torsion graph comparison:
-  integral CM families and tensor-compatible Breuil–Kisin realization carriers are missing.
+* All-prime integral CM realizations: integral CM families and tensor-compatible
+  Breuil–Kisin realization carriers are missing.
 * Total reflex metrized determinant and height identity: the total reflex family,
   filtered integral Hodge bundles and arithmetic Picard degrees are missing.
 * Orthogonal big-CM arithmetic intersection and prime elimination: integral GSpin
   special divisors, their metrized Hodge line and CM arithmetic intersections are missing.
-* Corrected nearby-type identity and quaternionic CM height by arithmetic adjunction:
-  component Hodge heights, quaternionic integral curves and the modified intersection
-  pairing are missing.
 * Averaged Colmez, including its imaginary quadratic case: CM types and stable heights
   on actual CM abelian varieties are missing.
 * Subpolynomial individual CM heights: stable Faltings heights of CM abelian varieties
