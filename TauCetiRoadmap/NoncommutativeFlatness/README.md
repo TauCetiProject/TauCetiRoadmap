@@ -176,9 +176,10 @@ remains reserved for characteristic `p`.
     4.5 (aside from the explicit product cover of 4.2) use `TauCeti.exists_isProjectiveCover`'s
     submodule form:
     `∃ P : Submodule A (M →₀ A), IsProjectiveCover (Finsupp.linearCombination A id ∘ₗ P.subtype)`.
-13. **Declaration names.** Proposed Lean names appear in parentheses with the `TauCeti.` prefix here
-    and live under `TauCetiRoadmap.NoncommutativeFlatness` in `Suggested.lean` (except connecting
-    maps `ShortComplex.ShortExact.torδ`, `torδ'`, `balancedTorδ`, `balancedTorδ'`).
+13. **Declaration names.** `Suggested.lean` prototypes core definitions, classes, and headline
+    theorems under `TauCetiRoadmap.NoncommutativeFlatness`, whose proposed names appear in
+    parentheses with the `TauCeti.` prefix here; companion API lemmas and checks are specified in
+    prose below, with auxiliary names left to the implementer.
 14. **Source variance.** [OR], [St], [CB], [Fisher] (except Cor. 2.9), [Krause-Smashing], and
     [Mitchell, §10] use contravariant functors matching `Mod C` (note [OR] writes `S ⊗_X F` with the
     contravariant factor first, reversing our `Tor` arguments). Covariant sources—[Simson] (except
@@ -267,8 +268,8 @@ Layers 1–3 each build on the preceding layers. Layer 4 has two branches: Secti
 only Layer 0, the sequence-module definitions and vanishing criterion of 2.5 (which use only 0.1),
 and ArtinAlgebras §0.2, so they can proceed in parallel with Layers 1–3; Sections 4.5 and 4.6 join
 both branches. Outside the Krull–Schmidt clause of `isSemiperfectRing_tfae`, a direct proof of the
-ring items of 4.2 needs only Mathlib and Tau Ceti. Names in parentheses are headline declarations;
-auxiliary names in `Suggested.lean` are for the implementer to choose.
+ring items of 4.2 needs only Mathlib and Tau Ceti. `Suggested.lean` states core definitions,
+classes, and headline theorems; companion API and checks are specified here in prose.
 
 ## Layer 0: modules over a preadditive category and their tensor product
 
@@ -281,15 +282,12 @@ We set `TauCeti.ModCat C := Cᵒᵖ ⥤+ AddCommGrpCat.{w}`; covariant additive 
 `TauCeti.ModCat Cᵒᵖ`.
 
 - **Finite presentation by finite sums of representables**, the first milestone
-  (`TauCeti.matrixMap`, `TauCeti.ModCat.matrixMap`, `TauCeti.exists_eq_matrixMap`,
-  `TauCeti.IsFinitelyGeneratedFunctor`, `TauCeti.IsFinitelyPresentedFunctor`,
-  `TauCeti.isFinitelyPresentedFunctor`, `TauCeti.IsFinitelyPresentedFunctor.additive`). A functor
-  `F : Cᵒᵖ ⥤ AddCommGrpCat.{v}` is finitely generated if it is a quotient of a finite coproduct of
-  representables `Hom(-, Y₁) ⊕ ⋯ ⊕ Hom(-, Yₙ)`, and finitely presented if it is the cokernel of a
-  morphism between two such coproducts; by Yoneda, morphisms between finite sums of representables
-  come from morphism matrices via `matrixMap`. When `C` has finite biproducts, single
-  representables suffice (`TauCeti.isFinitelyGeneratedFunctor_iff_exists_epi`,
-  `TauCeti.isFinitelyPresentedFunctor_iff_exists_hom`).
+  (`TauCeti.IsFinitelyGeneratedFunctor`, `TauCeti.IsFinitelyPresentedFunctor`,
+  `TauCeti.isFinitelyPresentedFunctor`). A functor `F : Cᵒᵖ ⥤ AddCommGrpCat.{v}` is finitely
+  generated if it is a quotient of a finite coproduct of representables `Hom(-, Y₁) ⊕ ⋯ ⊕
+  Hom(-, Yₙ)`, and finitely presented if it is the cokernel of a morphism between two such
+  coproducts (hence additive); by Yoneda, morphisms between finite sums of representables come from
+  morphism matrices. When `C` has finite biproducts, single representables suffice.
 
   Zero is finitely presented via empty sums without requiring `C` to be nonempty
   (`ObjectProperty.ContainsZero`). Finitely presented functors are closed under cokernels and finite
@@ -316,10 +314,9 @@ We set `TauCeti.ModCat C := Cᵒᵖ ⥤+ AddCommGrpCat.{w}`; covariant additive 
   (coatom of `Subobject M`), proved via Zorn's lemma (`zorn_le_nonempty₀`) on proper additive
   subfunctors, since a chain union cannot contain all finitely many generators of `M` unless one
   member already does (used in 4.1).
-- **`R`-linearity and `mod C ⊆ Mod C`** (`TauCeti.Functor.objModule`, `TauCeti.Functor.toModuleCat`,
-  `Linear R (ModCat C)`, `TauCeti.isFinitelyPresentedFunctor_le_additiveFunctor`,
-  `TauCeti.ModCat.ιFinitelyPresented`). When `[Linear R C]`, `r ∈ R` acts on `F(c)` by `F(r • 𝟙 c)`,
-  making `F` a functor to `ModuleCat R` and `Mod C` an `R`-linear category ([Mitchell, §11, p. 51]).
+- **`R`-linearity and `mod C ⊆ Mod C`** (`Linear R (ModCat C)`). When `[Linear R C]`, `r ∈ R` acts
+  on `F(c)` by `F(r • 𝟙 c)`, lifting `F` to `ModuleCat R` and making `Mod C` an `R`-linear category
+  ([Mitchell, §11, p. 51]), with full subcategory inclusion `mod C ⥤ Mod C`.
 
 **Checks.** Over the `k`-linear quiver category `1 → 2`, `Mod C` consists of linear maps `V₂ → V₁`
 with projectives `Hom(-, 1) = (0 → k)` and `Hom(-, 2) = (k → k)`, while `Mod Cᵒᵖ` consists of
@@ -329,17 +326,16 @@ representables.
 ### 0.2 Rings as one-object categories
 
 - **Module and opposite equivalences** (`TauCeti.moduleCatEquivModCat A : ModuleCat.{v} A ≌
-  ModCat.{v} (SingleObj Aᵐᵒᵖ)`, `TauCeti.moduleCatMulOppositeEquivModCatOp A`,
-  `TauCeti.moduleCatEquivModCatRegularIso`, `TauCeti.moduleCatMulOppositeEquivModCatOpRegularIso`,
-  `TauCeti.singleObjMulOppositeEquiv A : SingleObj Aᵐᵒᵖ ≌ (SingleObj A)ᵒᵖ`). In every module
+  ModCat.{v} (SingleObj Aᵐᵒᵖ)`, `TauCeti.moduleCatMulOppositeEquivModCatOp A`). In every module
   universe `v`, a left `A`-module `M` corresponds to the functor on `SingleObj Aᵐᵒᵖ` with value `M`
-  and `op a` acting as left multiplication by `a` ([ML, IX.6, p. 226]), sending `A` to `Hom(-, ∗)`;
-  `singleObjMulOppositeEquiv Aᵐᵒᵖ` identifies `SingleObj Aᵐᵒᵖᵐᵒᵖ` with `(SingleObj Aᵐᵒᵖ)ᵒᵖ` (1.3).
+  and `op a` acting as left multiplication by `a` ([ML, IX.6, p. 226]), sending `A` to `Hom(-, ∗)`
+  (and right `A`-modules to `Hom(∗, -)`), while `SingleObj Aᵐᵒᵖ ≌ (SingleObj A)ᵒᵖ` identifies
+  `SingleObj Aᵐᵒᵖᵐᵒᵖ` with `(SingleObj Aᵐᵒᵖ)ᵒᵖ` (1.3).
 - **Linearity, smallness, and transfer.** For `[Algebra R A]`, `SingleObj A` (and hence
-  `SingleObj Aᵐᵒᵖ`) is `R`-linear, matching scalar restriction along `algebraMap R A` at `∗`
-  (`TauCeti.moduleCatEquivModCatToModuleCatIso`). Under `[Small.{v} A]`, `SingleObj A` is
-  `EssentiallySmall.{v}` and `Small.{v} Aᵐᵒᵖ` holds (`TauCeti.small_mulOpposite`). Transfer lemmas
-  preserve projectivity, exactness, finite generation/presentation, `Tor`, flatness, and dimensions.
+  `SingleObj Aᵐᵒᵖ`) is `R`-linear, matching scalar restriction along `algebraMap R A` at `∗`. Under
+  `[Small.{v} A]`, `SingleObj A` is `EssentiallySmall.{v}` and `Small.{v} Aᵐᵒᵖ` holds
+  (`TauCeti.small_mulOpposite`). Transfer lemmas preserve projectivity, exactness, finite
+  generation/presentation, `Tor`, flatness, and dimensions.
 
 **Checks.** Over `A = k[x]`, `Mod (SingleObj Aᵐᵒᵖ)` is a `k`-vector space with an endomorphism; on
 `SingleObj A` itself, contravariant functors satisfy `F(a b) = F(b) ∘ F(a)` (right modules).
@@ -349,32 +345,27 @@ representables.
 ### 0.3 Ideals of `C` and their action on modules
 
 - **One-sided ideals** (`TauCeti.LeftMorphismIdeal C`, `TauCeti.RightMorphismIdeal C`,
-  `TauCeti.RightMorphismIdeal.opOrderIso : RightMorphismIdeal C ≃o LeftMorphismIdeal Cᵒᵖ`,
-  `TauCeti.MorphismIdeal.op_toRightMorphismIdeal`). Left ideals are Hom-subgroups closed under
-  precomposition (`I(-, Y) ⊆ Hom(-, Y)`), right ideals under postcomposition (`I(X, -) ⊆ Hom(X, -)`),
-  with coercions from `TauCeti.MorphismIdeal`. Single-object ideals of [Mitchell, §3, p. 18] and
-  [OR, pp. 93–96] embed via extension by `0` (`TauCeti.LeftMorphismIdeal.ofSubobject`,
-  `TauCeti.RightMorphismIdeal.ofSubobject`, `TauCeti.RightMorphismIdeal.principal`). Over
-  `SingleObj Aᵐᵒᵖ`, `TauCeti.idealOrderIsoLeftMorphismIdeal` and
-  `TauCeti.submoduleOrderIsoRightMorphismIdeal` identify left and right ideals of `A` with those of
-  `SingleObj Aᵐᵒᵖ`, sending `aA` to the principal right ideal of `op a`.
-- **Superfluous elements** (`TauCeti.IsSuperfluous`, `TauCeti.isSuperfluous_bot`,
-  `TauCeti.isSuperfluous_sup_iff`, `TauCeti.isSuperfluous_iSup`,
-  `TauCeti.isEssentialEpi_iff_isSuperfluous_kernelSubobject`). Refactors `TauCeti.IsSuperfluous`
-  from `Submodule R M` to any lattice with `⊤` (`a ⊔ b = ⊤ → b = ⊤`): `⊥` and binary `⊔` are `simp`
+  `TauCeti.RightMorphismIdeal.op`, `TauCeti.MorphismIdeal.op_toRightMorphismIdeal`). Left ideals are
+  Hom-subgroups closed under precomposition (`I(-, Y) ⊆ Hom(-, Y)`), right ideals under
+  postcomposition (`I(X, -) ⊆ Hom(X, -)`), order-isomorphic to left ideals of `Cᵒᵖ` and receiving
+  coercions from `TauCeti.MorphismIdeal`. Single-object ideals of [Mitchell, §3, p. 18] and [OR,
+  pp. 93–96] embed via extension by `0` (`TauCeti.RightMorphismIdeal.ofSubobject`,
+  `TauCeti.RightMorphismIdeal.principal`). Over `SingleObj Aᵐᵒᵖ`, order isomorphisms identify left
+  and right ideals of `A` with those of `SingleObj Aᵐᵒᵖ`, sending `aA` to the principal right ideal
+  of `op a`.
+- **Superfluous elements** (`TauCeti.IsSuperfluous`). Refactors `TauCeti.IsSuperfluous` from
+  `Submodule R M` to any lattice with `⊤` (`a ⊔ b = ⊤ → b = ⊤`): `⊥` and binary `⊔` are `simp`
   lemmas, finite suprema preserve superfluousness, superfluous elements lie below coatoms and vanish
   when complemented, and an epimorphism `p` in an abelian category is essential iff
   `kernelSubobject p` is superfluous.
-- **Action of left ideals and reduction modulo `I`** (`TauCeti.LeftMorphismIdeal.smul`,
-  `TauCeti.LeftMorphismIdeal.smul_sigma`, `TauCeti.MorphismIdeal.restrictModCat`,
-  `TauCeti.MorphismIdeal.quotientSmulFunctor : ModCat C ⥤ ModCat (C ⧸ I)`,
-  `TauCeti.MorphismIdeal.quotientSmulAdjunction`). For a left ideal `I` and `M : Mod C`, `(I · M)(c)`
-  consists of finite sums `∑ M(fᵢ)(xᵢ)` with `fᵢ ∈ I(c, dᵢ)` (closed under `M(h)` by precomposition
-  closure of `I`), commuting with small coproducts (`I · (⊕ Mᵢ) = ⊕ I · Mᵢ`, used in 4.4) and
-  specializing at `SingleObj Aᵐᵒᵖ` to `J • ⊤`. For two-sided `I`, restriction along `C ⥤ C ⧸ I` is
-  fully faithful with essential image `{M | I · M = 0}` and left adjoint `M ↦ M ⧸ I · M` (unit equal
-  to `M ⟶ M ⧸ I · M`, preserving all colimits); at `I = J(C)` this produces modules over `C ⧸ J(C)`
-  (semisimple when `C` is semilocal, 4.2, as in 4.4 and 4.5).
+- **Action of left ideals and reduction modulo `I`** (`TauCeti.LeftMorphismIdeal.smul`). For a left
+  ideal `I` and `M : Mod C`, `(I · M)(c)` consists of finite sums `∑ M(fᵢ)(xᵢ)` with `fᵢ ∈ I(c, dᵢ)`
+  (closed under `M(h)` by precomposition closure of `I`), commuting with small coproducts
+  (`I · (⊕ Mᵢ) = ⊕ I · Mᵢ`, used in 4.4) and specializing at `SingleObj Aᵐᵒᵖ` to `J • ⊤`. For
+  two-sided `I`, restriction `Mod (C ⧸ I) ⥤ Mod C` along `C ⥤ C ⧸ I` is fully faithful with
+  essential image `{M | I · M = 0}` and left adjoint `M ↦ M ⧸ I · M` (unit equal to `M ⟶ M ⧸ I · M`,
+  preserving all colimits); at `I = J(C)` this produces modules over `C ⧸ J(C)` (semisimple when `C`
+  is semilocal, 4.2, as in 4.4 and 4.5).
 
 **Checks.** In `SingleObj Aᵐᵒᵖ`, `Aa` corresponds to `{op (b a)}` (precomposition-closed only); over
 `ℤ`, `2ℤ · ℚ = ℚ` is not superfluous because `2ℤ` is not T-nilpotent (4.1).
@@ -388,23 +379,17 @@ Under `[EssentiallySmall.{w} C]`, the tensor product `G ⊗_C F` (`TauCeti.ModCa
 (`TauCeti.tensorBifunctor` specialized to `Cᵒᵖ`), i.e., the quotient of `⊕_c G(c) ⊗ F(c)` by
 `x ⊗ F(f) y - G(f) x ⊗ y` ([Mitchell, §6, pp. 26–27]).
 
-- **Universal property and bifunctors** (`TauCeti.ModCat.tmul`, `TauCeti.ModCat.tmul_balance`,
-  `TauCeti.ModCat.tensorLift`, `TauCeti.ModCat.tensor`, `TauCeti.ModCat.linearTensor`): pure
-  tensors, induction/extensionality, additive bifunctor `tensor`, and—when `[Linear R C]`—the
-  `Module R` action `r • z = (G ⊗_C (r • 𝟙 F)) z = ((r • 𝟙 G) ⊗_C F) z`
-  (`TauCeti.ModCat.smul_eq_tensor_obj_map`, `TauCeti.ModCat.smul_eq_tensor_map_app`) assembled into
+- **Universal property and bifunctors** (`TauCeti.ModCat.tensor`, `TauCeti.ModCat.linearTensor`):
+  pure tensors, balancing, induction/extensionality, additive bifunctor `tensor`, and—when `[Linear
+  R C]`—the `Module R` action `r • z = (G ⊗_C (r • 𝟙 F)) z = ((r • 𝟙 G) ⊗_C F) z` assembled into
   `linearTensor : ModCat Cᵒᵖ ⥤ ModCat C ⥤ ModuleCat R`.
-- **Adjunctions, colimits, and Yoneda** (`TauCeti.ModCat.tensorAdjunction`,
-  `TauCeti.ModCat.tensorAdjunction'`, `TauCeti.ModCat.tensorLinearHomEquiv`,
-  `TauCeti.ModCat.tensorLinearHomEquiv'`, `TauCeti.ModCat.preservesColimits_tensor_obj`,
-  `TauCeti.ModCat.preservesColimits_tensor_flip_obj`, `TauCeti.ModCat.tensorObjYonedaIso`,
+- **Adjunctions, colimits, and Yoneda** (`TauCeti.ModCat.tensorObjYonedaIso`,
   `TauCeti.ModCat.yonedaTensorObjIso`): `Hom_R(G ⊗_C F, X) ≃ₗ[R] Hom(F, Hom_R(G(-), X))` and its
   mirror ([Mitchell, §6, p. 26]; [St, Thm. 1, p. 355]), whence both partial tensor functors preserve
   colimits and are right exact; `G ⊗_C Hom(-, X) ≅ G(X)` and `Hom(X, -) ⊗_C F ≅ F(X)`.
-- **Quotient representables** (`TauCeti.MorphismIdeal.quotientYoneda`,
-  `TauCeti.ModCat.tensorObjCokernelIso`, `TauCeti.ModCat.tensorObjQuotientYonedaIso`): for
-  `S ⊆ Hom(X, -)`, `(Hom(X, -) ⧸ S) ⊗_C M ≅ M(X) ⧸ (S · M)(X)` ([OR, Lemma 1.2, p. 94]); for
-  two-sided `I`, `(C ⧸ I)(X, -) ⊗_C M ≅ (M ⧸ I · M)(X)` (4.6).
+- **Quotient representables** (`TauCeti.MorphismIdeal.quotientYoneda`): for `S ⊆ Hom(X, -)`,
+  `(Hom(X, -) ⧸ S) ⊗_C M ≅ M(X) ⧸ (S · M)(X)` ([OR, Lemma 1.2, p. 94]); for two-sided `I`,
+  `(C ⧸ I)(X, -) ⊗_C M ≅ (M ⧸ I · M)(X)` (4.6).
 
 **Checks.** Over `1 → 2`, `Hom(1, -) ⊗_C F ≅ F(1)`; over `SingleObj Aᵐᵒᵖ`, `G ⊗_C F` matches
 `M ⊗_A N` (0.7).
@@ -414,10 +399,8 @@ Under `[EssentiallySmall.{w} C]`, the tensor product `G ⊗_C F` (`TauCeti.ModCa
 ### 0.5 Projective factors
 
 If `F : Mod C` (or `G : Mod Cᵒᵖ`) is projective, `- ⊗_C F` (respectively `G ⊗_C -`) preserves
-monomorphisms (`TauCeti.ModCat.mono_tensor_map_app_of_projective`,
-`TauCeti.ModCat.mono_tensor_obj_map_of_projective`; [Mitchell, Prop. 10.1, Cor. 10.2, p. 47]):
-Yoneda handles representables, colimit preservation extends to coproducts, and projectives are
-retracts of coproducts of representables.
+monomorphisms ([Mitchell, Prop. 10.1, Cor. 10.2, p. 47]): Yoneda handles representables, colimit
+preservation extends to coproducts, and projectives are retracts of coproducts of representables.
 
 *Needs:* 0.1, 0.4.
 
@@ -434,22 +417,23 @@ deduced from `Mod C` applied to `Cᵒᵖ` and preserving suprema in 3.3 and 4.6.
 For an `R`-algebra `A`, ring tensor products extend `TauCeti.BalancedTensorProduct R A M N`:
 
 - **Functoriality, adjunction, and projective factors** (`TauCeti.BalancedTensorProduct.rTensor`,
-  `lTensor`, `functor`, `homRight`, `adjunction`, `rTensor_exact`, `lTensor_exact`,
-  `lTensor_injective_of_projective`, `rTensor_injective_of_projective`, `comm`): `- ⊗_A N` is left
-  adjoint to `Hom_R(N, -)` (`MatlisDual R X N`), giving right exactness ([Lam-FC, (24.20), p. 365]);
-  projective factors preserve injections; `comm` swaps `M ⊗_A N ≃ₗ[R] N ⊗_{Aᵐᵒᵖ} M` via
-  `RingEquiv.opOp A`.
+  `TauCeti.BalancedTensorProduct.functor`, `TauCeti.BalancedTensorProduct.homRight`): `- ⊗_A N` is
+  left adjoint to `Hom_R(N, -)` (`MatlisDual R X N`), giving right exactness in both variables
+  ([Lam-FC, (24.20), p. 365]); projective factors preserve injections; `m ⊗ n ↦ n ⊗ m` swaps
+  `M ⊗_A N ≃ₗ[R] N ⊗_{Aᵐᵒᵖ} M` via `RingEquiv.opOp A`.
 - **Change of base and comparisons** (`TauCeti.BalancedTensorProduct.changeBaseLinearEquiv`,
-  `changeBaseLinearEquiv_tmul`, `changeBaseAddEquiv`, `changeBaseAddEquiv_tmul`, `intAddEquiv`,
-  `tensorObjSingleObjIso`, `equivTensorProduct`): along `R → R' → A` (in independent universes),
-  `m ⊗ n ↦ m ⊗ n` gives an `R`-linear isomorphism onto `RestrictScalars R R' (M ⊗_A N)`, specializing
-  at `ℤ → R` to `intAddEquiv`; `tensorObjSingleObjIso` compares `G ⊗_C F` on `SingleObj Aᵐᵒᵖ` with
-  `M ⊗_A N` over `ℤ` (and `R`-linearly via `intAddEquiv`); over commutative `R`,
-  `equivTensorProduct` identifies `BalancedTensorProduct R R M N` with `M ⊗[R] N`.
-- **Duals** (`TauCeti.MatlisDual`, `TauCeti.BalancedTensorProduct.homEquiv`,
-  `TauCeti.BalancedTensorProduct.rTensor_injective_iff_surjective_comp`): `Hom_R(M ⊗_A N, E) ≃ₗ[R]
-  Hom_{Aᵐᵒᵖ}(M, MatlisDual R E N)`; at `R = ℤ`, `E = ℚ ⧸ ℤ`, `i ⊗ N` is injective iff precomposition
-  into `N⁺` is surjective (`TauCeti.CharacterModule.eval_injective`; [Lambek, Prop. 1, p. 241]).
+  `TauCeti.BalancedTensorProduct.changeBaseLinearEquiv_tmul`,
+  `TauCeti.BalancedTensorProduct.changeBaseAddEquiv`,
+  `TauCeti.BalancedTensorProduct.changeBaseAddEquiv_tmul`,
+  `TauCeti.BalancedTensorProduct.intAddEquiv`,
+  `TauCeti.BalancedTensorProduct.tensorObjSingleObjIso`): along `R → R' → A` (in independent
+  universes), `m ⊗ n ↦ m ⊗ n` gives an `R`-linear isomorphism onto `RestrictScalars R R' (M ⊗_A N)`,
+  specializing at `ℤ → R` to `intAddEquiv`; `tensorObjSingleObjIso` compares `G ⊗_C F` on
+  `SingleObj Aᵐᵒᵖ` with `M ⊗_A N` over `ℤ` (and `R`-linearly via `intAddEquiv`); over commutative
+  `R`, `BalancedTensorProduct R R M N` agrees `R`-linearly with `M ⊗[R] N`.
+- **Duals** (`TauCeti.MatlisDual`): `Hom_R(M ⊗_A N, E) ≃ₗ[R] Hom_{Aᵐᵒᵖ}(M, MatlisDual R E N)`; at
+  `R = ℤ`, `E = ℚ ⧸ ℤ`, `i ⊗ N` is injective iff precomposition into `N⁺` is surjective
+  (`TauCeti.CharacterModule.eval_injective`; [Lambek, Prop. 1, p. 241]).
 
 **Checks.** `(A ⧸ I) ⊗_A N ≅ N ⧸ I N` recovers `ℤ ⧸ m ⊗_ℤ ℤ ⧸ n ≃+ ℤ ⧸ gcd(m, n)`; `ℤ ⧸ 2 ⊗_ℤ (2ℤ →
 ℤ) = 0` while `ℤ ⧸ 2 ⊗_ℤ 2ℤ ≅ ℤ ⧸ 2`; `eA ⊗_A Af ≅ eAf`.
@@ -459,13 +443,11 @@ For an `R`-algebra `A`, ring tensor products extend `TauCeti.BalancedTensorProdu
 ### 0.8 Duals with respect to an `R`-module `E`
 
 Evaluating the `R`-linear Hom bifunctors of 0.4 at `E : ModuleCat.{w} R` defines
-`TauCeti.ModCat.dual R E : (ModCat C)ᵒᵖ ⥤ ModCat Cᵒᵖ` (`F^E = Hom_R(F(-), E)`) and
-`TauCeti.ModCat.dualOp R E`. When `E` is injective, `(-)^E` is exact (`TauCeti.ModCat.dual_shortExact`);
-when `E` is a cogenerator (`IsCoseparator`), `F^E = 0 → F = 0` (`TauCeti.ModCat.isZero_of_isZero_dual`);
-when `E` is an injective cogenerator, `i ⊗_C F` is monic iff `Hom(G', F^E) → Hom(G, F^E)` is
-surjective (`TauCeti.ModCat.mono_tensor_map_app_iff`; [Lambek, p. 241]). Injectivity of `E` is
-needed: over `ℤ` with `E = ℚ ⧸ ℤ ⊕ ℤ` and `i = 2 : ℤ → ℤ`, `i ⊗ ℤ` is injective but `2 : E → E`
-misses `(0, 1)`.
+`TauCeti.ModCat.dual R E : (ModCat C)ᵒᵖ ⥤ ModCat Cᵒᵖ` (`F^E = Hom_R(F(-), E)`) and its covariant
+mate. When `E` is injective, `(-)^E` is exact; when `E` is a cogenerator (`IsCoseparator`),
+`F^E = 0 → F = 0`; when `E` is an injective cogenerator, `i ⊗_C F` is monic iff `Hom(G', F^E) →
+Hom(G, F^E)` is surjective ([Lambek, p. 241]). Injectivity of `E` is needed: over `ℤ` with
+`E = ℚ ⧸ ℤ ⊕ ℤ` and `i = 2 : ℤ → ℤ`, `i ⊗ ℤ` is injective but `2 : E → E` misses `(0, 1)`.
 
 *Needs:* 0.4, 0.7.
 
@@ -474,36 +456,29 @@ misses `(0, 1)`.
 Let `proj C` (`TauCeti.ModCat.proj C`) be the full subcategory of finitely generated (0.1)
 projective modules in `Mod C`.
 
-- **Structure and Karoubi envelope** (`TauCeti.ModCat.proj_iff_exists_retract`,
-  `TauCeti.ModCat.projYoneda`, `TauCeti.ModCat.projEquivKaroubiMat : proj C ≌ Karoubi (Mat_ C)`):
-  `proj C` has finite biproducts, split idempotents, and consists of the retracts of finite
-  coproducts of representables; `projYoneda` is fully faithful (an equivalence when `C` is additive
-  and idempotent complete), and `projEquivKaroubiMat` recovers projectivization (`add M` versus
-  finitely generated projective right `End M`-modules) in the one-object case.
+- **Structure and Karoubi envelope** (`TauCeti.ModCat.projEquivKaroubiMat : proj C ≌ Karoubi
+  (Mat_ C)`): `proj C` has finite biproducts, split idempotents, and consists of the retracts of
+  finite coproducts of representables; `C ⥤ proj C` is fully faithful (an equivalence when `C` is
+  additive and idempotent complete), and `projEquivKaroubiMat` recovers projectivization (`add M`
+  versus finitely generated projective right `End M`-modules) in the one-object case.
 - **Projective duality** (`TauCeti.ModCat.projDual : (proj C)ᵒᵖ ≌ proj Cᵒᵖ`,
-  `TauCeti.ModCat.projDualYonedaIso`, `TauCeti.ModCat.homAddEquivTensorObjProjDual`): `(-)^∨ =
-  Hom(-, C)` sends `Hom(-, X)` to `Hom(X, -)` via matrix transposition on `Karoubi (Mat_ C)` and
-  satisfies `Hom(P, F) ≅ P^∨ ⊗_C F` naturally for `P ∈ proj C` (used for the transpose in 1.4).
+  `TauCeti.ModCat.homAddEquivTensorObjProjDual`): `(-)^∨ = Hom(-, C)` sends `Hom(-, X)` to
+  `Hom(X, -)` via matrix transposition on `Karoubi (Mat_ C)` and satisfies `Hom(P, F) ≅ P^∨ ⊗_C F`
+  naturally for `P ∈ proj C` (used for the transpose in 1.4).
 - **Finite-presentation and presentability bridges** (`TauCeti.ModCat.isFinitelyPresentedFunctor_tfae`,
-  `TauCeti.isFinitelyPresentedFunctor_iff_finitePresentation`,
-  `TauCeti.ModuleCat.isFinitelyPresentable_iff_finitePresentation`,
-  `TauCeti.ModCat.isFinitelyGeneratedFunctor_iff_exists_epi_proj`,
-  `TauCeti.isFinitelyGeneratedFunctor_iff_finite`,
-  `TauCeti.ModCat.isCardinalFilteredGenerator_isFinitelyPresentedFunctor`,
-  `TauCeti.ModuleCat.isCardinalFilteredGenerator_finitePresentation`,
   `TauCeti.ModCat.isCardinalPresentable_aleph_one_iff`, plus `IsLocallyFinitelyPresentable.{v}
   (ModCat.{v} C)`). Under `EssentiallySmall.{v} C`, being a cokernel in `proj C`, being finitely
   presented in the sense of 0.1, and `IsFinitelyPresentable` coincide (and match
-  `Module.FinitePresentation` over rings): representables are finitely presentable and form a strong
-  generator of `Mod C`, so `IsStrongGenerator.colimitsCardinalClosure_eq_isCardinalPresentable`
-  identifies `IsFinitelyPresentable` with the finite-colimit closure of representables (0.1), while
+  `Module.FinitePresentation` over rings, with 0.1 finite generation matching `Module.Finite`):
+  representables are finitely presentable and form a strong generator of `Mod C`, so
+  `IsStrongGenerator.colimitsCardinalClosure_eq_isCardinalPresentable` identifies
+  `IsFinitelyPresentable` with the finite-colimit closure of representables (0.1), while
   `isDense_colimitsCardinalClosure_ι` expresses every module as a filtered colimit of finitely
   presented modules ([CB, §1.2, p. 1645]; representables alone do not generate under filtered
   colimits, as `ℤ ⧸ 2` is not flat). Likewise, `IsCardinalPresentable` at `ℵ₁` coincides with
   cokernels of maps between countable coproducts of representables (2.5, 3.5, 4.5).
-- **Rings** (`TauCeti.finiteProjectiveModulesEquivProj A`, `TauCeti.finiteProjectiveModulesDual A`):
-  `TauCeti.finiteProjectiveModules A ≌ proj (SingleObj Aᵐᵒᵖ)`, with duality `Hom_A(-, A)` onto
-  `finiteProjectiveModules Aᵐᵒᵖ`.
+- **Rings:** `TauCeti.finiteProjectiveModules A ≌ proj (SingleObj Aᵐᵒᵖ)`, with duality `Hom_A(-, A)`
+  onto `TauCeti.finiteProjectiveModules Aᵐᵒᵖ`.
 
 **Checks.** Over `1 → 2`, `proj C` is Krull–Schmidt and every object is a finite sum of
 representables (ArtinAlgebras §0.3); over `ℤ`, `ℤ²` satisfies all four finite-presentation
@@ -519,18 +494,17 @@ modules and `Tor` live in universe `w`.
 ### 1.1 Definition
 
 `TauCeti.ModCat.tor n : ModCat Cᵒᵖ ⥤ ModCat C ⥤ AddCommGrpCat` is defined at `G` as
-`(ModCat.tensor.obj G).leftDerived n` and on morphisms via `NatTrans.leftDerived`, with basic API
-`TauCeti.ModCat.torZeroIso`, `TauCeti.ModCat.isZero_tor_succ_of_projective`, and
-`TauCeti.ModCat.torObjIsoHomology`. When `[Linear R C]`, `r ∈ R` acts via `Tor_n(G, r • 𝟙 F) =
-Tor_n(r • 𝟙 G, F)` (`TauCeti.ModCat.smul_eq_tor_obj_map`, `TauCeti.ModCat.smul_eq_tor_map_app`),
-packaged into `TauCeti.ModCat.linearTor R n : ModCat Cᵒᵖ ⥤ ModCat C ⥤ ModuleCat R`. Comparisons in
-`Suggested.lean` stated over `ℤ` upgrade to `R`-linearity by naturality via these scalar-action
-lemmas.
+`(ModCat.tensor.obj G).leftDerived n` and on morphisms via `NatTrans.leftDerived`, identifying
+`Tor_0` with `⊗_C`, vanishing in degree `n + 1` on projective `F`, and computing `Tor_n(G, F)` from
+the homology of `G ⊗_C P` on any projective resolution `P` of `F`. When `[Linear R C]`, `r ∈ R` acts
+via `Tor_n(G, r • 𝟙 F) = Tor_n(r • 𝟙 G, F)`, packaged into `TauCeti.ModCat.linearTor R n :
+ModCat Cᵒᵖ ⥤ ModCat C ⥤ ModuleCat R`. Comparisons in `Suggested.lean` stated over `ℤ` upgrade to
+`R`-linearity by naturality via these scalar-action lemmas.
 
 **Rings** (`TauCeti.BalancedTor R A n : ModuleCat.{v} Aᵐᵒᵖ ⥤ ModuleCat.{v} A ⥤ ModuleCat.{v} R`),
 under `[Small.{v} A]`, derives `(BalancedTensorProduct.functor R A).obj M` in the left-module
-variable, with `TauCeti.balancedTorZeroIso`, `TauCeti.smul_eq_balancedTor_obj_map`,
-`TauCeti.isZero_balancedTor_succ_of_projective`, and the one-object comparison
+variable, with `Tor_0` matching `BalancedTensorProduct.functor`, scalar action via `r • 𝟙 N`,
+projective vanishing in degree `n + 1`, and the one-object comparison
 `TauCeti.balancedTorIsoTorSingleObj` (upgrading to `R`-linearity directly from 0.7's comparison with
 `intAddEquiv`, with no forward dependency on 1.6).
 
@@ -540,9 +514,8 @@ variable, with `TauCeti.balancedTorZeroIso`, `TauCeti.smul_eq_balancedTor_obj_ma
 
 For a short exact sequence `0 → G₁ → G₂ → G₃ → 0` in `Mod Cᵒᵖ` and a projective resolution `Q` of
 `F`, `0 → G₁ ⊗_C Q → G₂ ⊗_C Q → G₃ ⊗_C Q → 0` is short exact in each degree (0.4, 0.5), giving
-connecting maps `ShortComplex.ShortExact.torδ : Tor_{n+1}(G₃, F) → Tor_n(G₁, F)` and exactness
-(`TauCeti.ModCat.tor_exact₁`, `tor_exact₂`, `tor_exact₃`), with ring counterparts
-`ShortComplex.ShortExact.balancedTorδ` and `TauCeti.balancedTor_exact₁`–`balancedTor_exact₃`.
+connecting maps `Tor_{n+1}(G₃, F) → Tor_n(G₁, F)` and long exact sequences for both `ModCat.tor` and
+`BalancedTor`.
 
 *Needs:* 0.4, 0.5, 1.1.
 
@@ -552,11 +525,9 @@ Resolving both `G` and `F` by projectives `P`, `Q` and applying
 `HomologicalComplex₂.quasiIso_totalAugmentation_of_rows` to `P_p ⊗_C Q_q` and its transpose
 ([Weibel, Thm. 2.7.2, pp. 58–59, with the Acyclic Assembly Lemma 2.7.3, p. 59]) together with the
 swap of 0.6 yields `TauCeti.ModCat.torBalanceIso : Tor^C_n(G, F) ≅ Tor^{Cᵒᵖ}_n(F, G)`, giving left
-projective vanishing (`TauCeti.ModCat.isZero_tor_succ_of_projective_left`) and the long exact
-sequence in `F` (`ShortComplex.ShortExact.torδ'`, `TauCeti.ModCat.tor_exact₁'`–`tor_exact₃'`).
-Combining with 0.2 and 1.1 gives the ring swap `TauCeti.balancedTorSwapIso : Tor_n^A(M, N) ≅
-Tor_n^{Aᵐᵒᵖ}(N, M)`, `TauCeti.isZero_balancedTor_succ_of_projective_left`, and
-`ShortComplex.ShortExact.balancedTorδ'` with `TauCeti.balancedTor_exact₁'`–`balancedTor_exact₃'`.
+projective vanishing and the long exact sequence in `F`. Combining with 0.2 and 1.1 gives the ring
+swap `TauCeti.balancedTorSwapIso : Tor_n^A(M, N) ≅ Tor_n^{Aᵐᵒᵖ}(N, M)`, left projective vanishing,
+and the long exact sequence in the left-module variable.
 
 *Needs:* 0.4–0.6, 1.1, 1.2; Tau Ceti `quasiIso_totalAugmentation_of_rows`,
 `totalComplexShapeSymmetryDownNat`.
@@ -564,9 +535,9 @@ Tor_n^{Aᵐᵒᵖ}(N, M)`, `TauCeti.isZero_balancedTor_succ_of_projective_left`,
 ### 1.4 `Tor` of the transpose
 
 For `X = coker(f : P₁ → P₀)` with `P₀, P₁ ∈ proj C`, its Auslander–Bridger transpose is
-`Tr X = coker(P₀^∨ → P₁^∨)` in `Mod Cᵒᵖ` (`TauCeti.ModCat.transpose`, described on representable
-matrices by `TauCeti.ModCat.projSigma`, `TauCeti.ModCat.matrixTranspose`,
-`TauCeti.ModCat.transposeMatrixIso`), and for every `N : Mod C` there is an isomorphism
+`Tr X = coker(P₀^∨ → P₁^∨)` in `Mod Cᵒᵖ` (`TauCeti.ModCat.transpose`, given on representable
+matrices by the cokernel of the transposed matrix), and for every `N : Mod C` there is an
+isomorphism
 
     stable Hom(X, N) ≅ Tor_1(Tr X, N)
 
@@ -592,17 +563,17 @@ lemma identifies `stable Hom(X, N) = coker(Hom(X, P) → Hom(X, N))` with `ker(H
 For an `R`-linear `C` and an injective `R`-module `E`, resolving `G` via balance (1.3) and applying
 0.4's `R`-linear adjunction termwise together with `ProjectiveResolution.extLinearEquivCohomologyClass`
 (`extMk_comp_mk₀`, `mk₀_comp_extMk`) yields a natural isomorphism of bifunctors
-`TauCeti.ModCat.torExtDualityNatIso` ([CE, VI, Prop. 5.1, p. 120]; [Lambek, p. 241]), with
-pointwise component `TauCeti.ModCat.torExtDualityEquiv : Hom_R(Tor_n^C(G, F), E) ≃ₗ[R]
-Ext^n(G, F^E)` and ring counterpart `TauCeti.balancedTorExtDualityEquiv : Hom_R(Tor_n^A(M, N), E)
-≃ₗ[R] Ext^n_{Aᵐᵒᵖ}(M, MatlisDual R E N)`.
+`TauCeti.ModCat.torExtDualityNatIso` ([CE, VI, Prop. 5.1, p. 120]; [Lambek, p. 241]), giving
+`Hom_R(Tor_n^C(G, F), E) ≃ₗ[R] Ext^n(G, F^E)` and the ring counterpart
+`TauCeti.balancedTorExtDualityEquiv : Hom_R(Tor_n^A(M, N), E) ≃ₗ[R] Ext^n_{Aᵐᵒᵖ}(M, MatlisDual R E
+N)`.
 
 *Needs:* 0.7, 0.8, 1.1, 1.3.
 
 ### 1.6 Comparisons and first computations
 
-- **Commutative rings** (`TauCeti.balancedTorIsoTor`, `TauCeti.torIsoTor'`): `equivTensorProduct`
-  (0.7) identifies `BalancedTor R R n` with Mathlib's `CategoryTheory.Tor (ModuleCat R) n`, and
+- **Commutative rings** (`TauCeti.balancedTorIsoTor`, `TauCeti.torIsoTor'`): 0.7's commutative
+  comparison identifies `BalancedTor R R n` with Mathlib's `CategoryTheory.Tor (ModuleCat R) n`, and
   balance (1.3) then supplies `Tor (ModuleCat R) n ≅ Tor' (ModuleCat R) n`.
 - **Change of base for rings** (`TauCeti.balancedTorRestrictScalarsIso`,
   `TauCeti.balancedTorIntIso`): along `R → R' → A` (in independent universes), scalar restriction
@@ -628,10 +599,10 @@ to `unop (a (∗, ∗))` (`TauCeti.categoryAlgebraSingleObjRingEquiv_apply`).
 
 - **Morita equivalence and `Tor` comparison** (`TauCeti.modCatEquivCategoryAlgebra : ModCat C ≌
   ModuleCat (CategoryAlgebra C)`, `TauCeti.modCatOpEquivCategoryAlgebra`,
-  `TauCeti.tensorObjCategoryAlgebraIso`, `TauCeti.torCategoryAlgebraIso`): for `[Finite C]`,
-  `F ↦ ⊕_x F(x)` gives `R`-linear equivalences intertwining `⊗_C` and `Tor^C_n` with the balanced
-  tensor product and `BalancedTor` over `CategoryAlgebra C` ([Mitchell, Thm. 7.1 and p. 37]); full
-  subcategories correspond to corners `e Λ e` (`IsIdempotentElem.isMoritaEquivalent_corner`).
+  `TauCeti.torCategoryAlgebraIso`): for `[Finite C]`, `F ↦ ⊕_x F(x)` gives `R`-linear equivalences
+  intertwining `⊗_C` and `Tor^C_n` with the balanced tensor product and `BalancedTor` over
+  `CategoryAlgebra C` ([Mitchell, Thm. 7.1 and p. 37]); full subcategories correspond to corners
+  `e Λ e` (`IsIdempotentElem.isMoritaEquivalent_corner`).
 
 **Checks.**
 - For the `k`-linear quiver `1 → 2`, `CategoryAlgebra C ≅ T₂(k)` (under
@@ -667,9 +638,9 @@ ideals at `X` are the images `TauCeti.ModCat.coyonedaSpan β ⊆ Hom(X, -)` of f
 
 **Rings** (`TauCeti.Module.BalancedFlat A M`): `I ⊗_A M → A ⊗_A M` (over `ℤ`) is injective for every
 finitely generated right ideal `I`, equivalent in every module universe to `ModCat.Flat` on
-`SingleObj Aᵐᵒᵖ` (`TauCeti.Module.balancedFlat_iff_flat_singleObj`, via 0.2 and `rTensor_exact` on
-finite free presentations `ker(Aⁿ → I) → Aⁿ → I → 0`) and, over commutative rings, to `Module.Flat`
-(`TauCeti.Module.balancedFlat_iff_flat`).
+`SingleObj Aᵐᵒᵖ` (`TauCeti.Module.balancedFlat_iff_flat_singleObj`, via 0.2 and right exactness of
+`- ⊗_A M` on finite free presentations `ker(Aⁿ → I) → Aⁿ → I → 0`) and, over commutative rings, to
+`Module.Flat` (`TauCeti.Module.balancedFlat_iff_flat`).
 
 *Needs:* 0.1–0.3, 0.6, 0.7.
 
@@ -682,33 +653,29 @@ Under `EssentiallySmall.{v} C`, the following conditions on `F : ModCat.{v} C` a
 2. **ideal test:** `I ⊗_C F → Hom(X, -) ⊗_C F ≅ F(X)` is monic for every finitely generated
    `I = coyonedaSpan β ⊆ Hom(X, -)` ([Lam-LMR, (4.12), p. 125]);
 3. `I ⊗_C F → Hom(X, -) ⊗_C F` is monic for every right ideal `I ⊆ Hom(X, -)`;
-4. `- ⊗_C F` preserves monomorphisms ([OR, Thm. 3.2 (1), p. 96], with covariant counterpart
-   `TauCeti.ModCat.Flat.mono_tensor_obj_map`);
-5. `Tor_1(-, F) = 0`, whence `Tor_n(-, F) = 0` for all `n ≥ 1` (`TauCeti.ModCat.Flat.isZero_tor_succ`);
+4. `- ⊗_C F` preserves monomorphisms ([OR, Thm. 3.2 (1), p. 96], with covariant counterpart for
+   `G ⊗_C -`);
+5. `Tor_1(-, F) = 0`, whence `Tor_n(-, F) = 0` for all `n ≥ 1`;
 6. `Tor_1(Hom(X, -) ⧸ I, F) = 0` for every finitely generated `I ⊆ Hom(X, -)` ([OR, Thm. 3.2 (3)]);
 7. **Lambek's criterion:** `F^E` (0.8) is injective in `Mod Cᵒᵖ` for an injective cogenerator `E` of
-   `R`-modules (`TauCeti.ModCat.flat_iff_injective_dual`; [Lambek, Theorem, p. 239]; [St, Thm. 3 (d),
-   p. 357]).
+   `R`-modules ([Lambek, Theorem, p. 239]; [St, Thm. 3 (d), p. 357]).
 
 **Proof route.** For fixed `β_j : X → Y_j`, let `b : ⊕_j Hom(Y_j, -) → Hom(X, -)` have kernel `K`
 and image `I = coyonedaSpan β`. Right exactness and Yoneda give `K ⊗_C F → ⊕_j F(Y_j) → I ⊗_C F → 0`
-whose image from `K ⊗_C F` is the subgroup of trivial relations, proving
-`TauCeti.ModCat.isTrivialRelation_tfae` and hence (2) ⇒ (1); (1) ⇒ (3) balances elements of
-`I ⊗_C F` against witnesses from (1) ([OR, p. 98]), and (3) ⇒ (2) is immediate. For
-(3) ⇒ (7) ⇒ (4) ⇔ (5) ⇒ (6) ⇒ (2), 0.8 and **Baer's criterion for `Mod C`**
-(`TauCeti.ModCat.Baer`, `TauCeti.ModCat.baer_iff_injective`: injectivity tested on subfunctors of
-individual representables via Zorn's lemma) give (3) ⇒ (7) ⇒ (4), while 1.2 and 1.3 give
-(4) ⇔ (5) ⇒ (6) ⇒ (2).
+whose image from `K ⊗_C F` is the subgroup of trivial relations, giving (2) ⇒ (1); (1) ⇒ (3)
+balances elements of `I ⊗_C F` against witnesses from (1) ([OR, p. 98]), and (3) ⇒ (2) is immediate.
+For (3) ⇒ (7) ⇒ (4) ⇔ (5) ⇒ (6) ⇒ (2), 0.8 and **Baer's criterion for `Mod C`** (`TauCeti.ModCat.Baer`,
+`TauCeti.ModCat.baer_iff_injective`: injectivity tested on subfunctors of individual representables
+via Zorn's lemma) give (3) ⇒ (7) ⇒ (4), while 1.2 and 1.3 give (4) ⇔ (5) ⇒ (6) ⇒ (2).
 
 - **Finitely presented flat modules are projective**
   (`TauCeti.ModCat.Flat.projective_of_isFinitelyPresentedFunctor`): `Tor_1(Tr F, F) = 0` by (5), so
   1.4 applies ([CB, §1.3, p. 1646]).
 - **`Tor` and filtered colimits** (`TauCeti.ModCat.preservesFilteredColimits_tor_obj`; [OR,
   Lemma 3.1, p. 96]): resolve `G` via 1.3 and apply 0.4 and `AB5`.
-- **Rings** (`TauCeti.Module.balancedFlat_tfae`, `TauCeti.isZero_balancedTor_succ_of_balancedFlat`,
-  `TauCeti.preservesFilteredColimits_balancedTor_obj`,
-  `TauCeti.Module.BalancedFlat.projective_of_finitePresentation`): matching ring equivalences and
-  corollaries under `[Small.{v} A]` ([Lambek, p. 239]; [Lam-LMR, (4.9), p. 125]).
+- **Rings** (`TauCeti.Module.balancedFlat_tfae`): matching ring equivalences and corollaries
+  (vanishing of higher `BalancedTor`, commutation with filtered colimits, and projectivity of
+  finitely presented flat modules) under `[Small.{v} A]` ([Lambek, p. 239]; [Lam-LMR, (4.9), p. 125]).
 
 *Needs:* 0.3–0.5, 0.8, 0.9, 1.1–1.4.
 
@@ -716,41 +683,37 @@ individual representables via Zorn's lemma) give (3) ⇒ (7) ⇒ (4), while 1.2 
 
 Over general preadditive `C`, Lazard's theorem must use finite coproducts of representables
 (`TauCeti.ModCat.isFiniteFree`) rather than single representables (`ℤ²` over `ℤ`). First, with no
-smallness hypothesis, **finitely many relations can be trivialized simultaneously**
-(`TauCeti.ModCat.Flat.exists_factorization_of_comp_eq_zero`): given finite sums of representables
-`U, V` and `d : U → V`, `f : V → F` with `F` flat and `f ∘ d = 0`, `f` factors through `a : V → W`
-(`W` a finite sum of representables) with `a ∘ d = 0`, proved by induction over the summands of `U`
-([Lazard, Lemme 1.1, p. 84]; [Stacks, Tag 058D]).
+smallness hypothesis, **finitely many relations can be trivialized simultaneously**: given finite
+sums of representables `U, V` and `d : U → V`, `f : V → F` with `F` flat and `f ∘ d = 0`, `f`
+factors through `a : V → W` (`W` a finite sum of representables) with `a ∘ d = 0`, proved by
+induction over the summands of `U` ([Lazard, Lemme 1.1, p. 84]; [Stacks, Tag 058D]).
 
 Under `EssentiallySmall.{v} C`, each of the following on `F : ModCat.{v} C` is equivalent to
 flatness ([OR, Thm. 3.2 (5)–(6), p. 97]; [Lazard, Thm. 1.2, Cor. 1.3, pp. 84–85]; [St, Thm. 3,
 p. 357]; [CB, §1.3, p. 1646]):
 
-- **Factorization** (`TauCeti.ModCat.flat_iff_forall_exists_factorization`): every map to `F` from a
-  finitely presented module factors through a finite sum of representables
-  (`exists_factorization_of_comp_eq_zero` forward; conversely, a relation `∑ F(β_j)(y_j) = 0`
-  defines a map out of `coker(Hom(-, X) → ⊕ Hom(-, Y_j))` whose factorization yields triviality
-  witnesses).
+- **Factorization:** every map to `F` from a finitely presented module factors through a finite sum
+  of representables (simultaneous relation trivialization forward; conversely, a relation
+  `∑ F(β_j)(y_j) = 0` defines a map out of `coker(Hom(-, X) → ⊕ Hom(-, Y_j))` whose factorization
+  yields triviality witnesses).
 - **Filtered category of elements and Lazard–Govorov** (`TauCeti.ModCat.FiniteFreeOver F`,
   `TauCeti.ModCat.flat_iff_isFiltered_finiteFreeOver`,
   `TauCeti.ModCat.essentiallySmall_finiteFreeOver`, `TauCeti.ModCat.flat_iff_exists_isColimit`,
   [Govorov]): `FiniteFreeOver F` is essentially `v`-small and filtered, expressing `F` as a small
   filtered colimit of finite sums of representables (single representables when `C` has finite
-  biproducts, `TauCeti.ModCat.flat_iff_isFiltered_costructuredArrow_yoneda`).
+  biproducts).
 - **Purity** (`TauCeti.ModCat.IsPureEpi`, `TauCeti.ModCat.flat_iff_forall_isPureEpi`,
-  `TauCeti.ModCat.isPureEpi_iff_isCardinalPure`, `TauCeti.ModCat.IsPureProjective`,
-  `TauCeti.ModCat.Flat.projective_of_isPureProjective`): every epimorphism onto `F` is pure (lifts
-  maps from finitely presented modules), so pure-projective flat modules are projective; in any
-  short exact `0 → K → L → M → 0`, `L → M` is pure epic iff `K → L` satisfies Mathlib's
-  `IsCardinalPure` at `ℵ₀`.
+  `TauCeti.ModCat.isPureEpi_iff_isCardinalPure`): every epimorphism onto `F` is pure (lifts maps
+  from finitely presented modules), so pure-projective flat modules are projective; in any short
+  exact `0 → K → L → M → 0`, `L → M` is pure epic iff `K → L` satisfies Mathlib's `IsCardinalPure`
+  at `ℵ₀`.
 
-**Rings and set-valued bridges** (`TauCeti.Module.balancedFlat_iff_isFiltered_finiteFreeOver`,
-`TauCeti.Module.BalancedFlat.denseAt`,
-`TauCeti.Module.BalancedFlat.exists_factorization_of_finitePresentation`, reproving
-`TauCeti.flatModuleFilteredFree` without shims; `TauCeti.ModCat.flat_iff_isIndObject`,
-`TauCeti.ModCat.flat_iff_isCofiltered_elements`). For additive `C`, `Flat F` agrees with
-`IsIndObject` on `F ⋙ forget` ([Krause-Smashing, §2.3, p. 115]) and cofilteredness of its category
-of elements (whereas Mathlib's covariant `RepresentablyFlat` corresponds to `Mod Cᵒᵖ`).
+**Rings and set-valued bridges** (`TauCeti.Module.BalancedFlat.denseAt`, reproving
+`TauCeti.flatModuleFilteredFree` without shims, with filtered `TauCeti.FiniteFreeOver A M` and
+finite-free factorization of maps from finitely presented modules;
+`TauCeti.ModCat.flat_iff_isIndObject`). For additive `C`, `Flat F` agrees with `IsIndObject` on
+`F ⋙ forget` ([Krause-Smashing, §2.3, p. 115]) and cofilteredness of its category of elements
+(whereas Mathlib's covariant `RepresentablyFlat` corresponds to `Mod Cᵒᵖ`).
 
 *Needs:* 0.9, 2.1, 2.2; Tau Ceti `FiniteFreeOver`, `FiniteFreeModuleCat` (pattern),
 `finiteFreeModuleInclusion`, `flatModuleFilteredFree`.
@@ -760,7 +723,7 @@ of elements (whereas Mathlib's covariant `RepresentablyFlat` corresponds to `Mod
 Outside the final accessibility item on `Flat(C)` (which uses 2.3 under `EssentiallySmall.{v} C`),
 2.4 assumes no smallness on `C` and allows modules in any universe.
 
-- **Weak cokernels and left exactness** (`TauCeti.IsWeakCokernel`, `TauCeti.isWeakCokernel_iff`,
+- **Weak cokernels and left exactness** (`TauCeti.IsWeakCokernel`,
   `TauCeti.ModCat.flat_iff_exact_of_isWeakCokernel`,
   `TauCeti.ModCat.flat_iff_preservesFiniteLimits`). Defining weak cokernels via `IsWeakLimit` on
   `Cᵒᵖ`, over an additive category `C` with weak cokernels `F : Mod C` is flat iff `F(Z) → F(Y) →
@@ -791,8 +754,7 @@ For `f_i : c_i → c_{i+1}` in `C` with `q_n = f_0 ≫ ⋯ ≫ f_{n-1} : c_0 →
 `B = colim(Hom(-, c_0) → Hom(-, c_1) → ⋯)` (`TauCeti.ModCat.bassDiagram`,
 `TauCeti.ModCat.bassModule`; [Bass, Lemmas 1.1–1.3, pp. 468–470]; [Harada, Remark 1, pp. 339–340]).
 
-- **Telescope, flatness, and vanishing** (`TauCeti.ModCat.bassTelescope`, `TauCeti.ModCat.bassπ`,
-  `TauCeti.ModCat.bassTelescope_shortExact`, `TauCeti.ModCat.isZero_bassModule_iff`): `B` has short
+- **Telescope, flatness, and vanishing** (`TauCeti.ModCat.isZero_bassModule_iff`): `B` has short
   exact presentation `0 → ⊕_i Hom(-, c_i) → ⊕_i Hom(-, c_i) → B → 0` via `ι_i - Hom(-, f_i) ≫
   ι_{i+1}` (hence `ℵ₁`-presentable under `EssentiallySmall.{v} C`, 0.9), is flat without smallness
   (from 2.1 and 2.6), and satisfies `B = 0` iff for every `i` some composite `c_i → c_j` (`j ≥ i`)
@@ -802,32 +764,27 @@ For `f_i : c_i → c_{i+1}` in `C` with `q_n = f_0 ≫ ⋯ ≫ f_{n-1} : c_0 →
   `Functor.ofSequence f` is factorizable—for each `i` there exists `j ≥ i` such that for all
   `k ≥ j`, `(c_i → c_j) = (c_i → c_k) ≫ t` ([Simson, Def. 3.1, p. 99]), proved by finite support of
   a telescope splitting at `c_0` and passing to tails.
-- **Rings** (`TauCeti.bassRelations`, `TauCeti.balancedFlat_bassRelations`,
-  `TauCeti.exists_span_prod_eq_of_projective_bassRelations`): `(ℕ →₀ A) ⧸ ⟨eᵢ - aᵢ • eᵢ₊₁⟩` is flat,
-  and when it is projective the chain `a₀A ⊇ a₀a₁A ⊇ ⋯` stabilizes ([Lam-FC, (24.24), pp. 367–368]).
+- **Rings:** `(ℕ →₀ A) ⧸ ⟨eᵢ - aᵢ • eᵢ₊₁⟩` is flat, and when it is projective the chain
+  `a₀A ⊇ a₀a₁A ⊇ ⋯` stabilizes ([Lam-FC, (24.24), pp. 367–368]).
 
 *Needs:* 0.1 (definition and vanishing criterion), 0.2, 0.9 (`ℵ₁`-presentability), 2.1, 2.6
 (filtered colimits, for flatness).
 
 ### 2.6 Closure properties
 
-`ModCat.Flat` contains projectives (`TauCeti.ModCat.Flat.of_projective`, 0.5), is closed under
-retracts (`TauCeti.ModCat.Flat.of_retract`), `w`-small coproducts (`TauCeti.ModCat.flat_sigma_iff`),
-and filtered colimits (`TauCeti.ModCat.Flat.of_isColimit`, without smallness), satisfies
-`F_2` flat `↔ F_1` flat when `F_3` is flat in `0 → F_1 → F_2 → F_3 → 0`
-(`TauCeti.ModCat.flat_iff_of_shortExact`, [Mitchell, Cor. 10.4b, p. 49]), and for flat `P` in `0 →
-K → P → F → 0` characterizes flatness of `F` by monicity of `N ⊗_C K → N ⊗_C P` for all `N`
-(`TauCeti.ModCat.flat_iff_mono_tensor_of_shortExact`, [Lam-FC, (24.23), p. 367]). Matching ring
-lemmas (`TauCeti.Module.BalancedFlat.of_projective`, `of_linearEquiv`, `balancedFlat_directSum_iff`,
-`balancedFlat_iff_of_exact`, and `TauCeti.Submodule.inf_smul_eq_smul_of_balancedFlat` for `K ⊓ I •
-F = I • K`, [Lam-LMR, (4.13)–(4.14), p. 126]) also hold. (Product closure—equivalent over additive
-`C` to weak cokernels, [CB, Thm. 2.1], [OR, Thm. 4.1 (5)], though holding over the non-additive
-one-object category of `k[x, y] ⧸ (x, y)²`—is out of scope.)
+`ModCat.Flat` contains projectives (0.5), is closed under retracts, `w`-small coproducts, and
+filtered colimits (`TauCeti.ModCat.Flat.of_isColimit`, without smallness), satisfies `F_2` flat `↔
+F_1` flat when `F_3` is flat in `0 → F_1 → F_2 → F_3 → 0` (`TauCeti.ModCat.flat_iff_of_shortExact`,
+[Mitchell, Cor. 10.4b, p. 49]), and for flat `P` in `0 → K → P → F → 0` characterizes flatness of
+`F` by monicity of `N ⊗_C K → N ⊗_C P` for all `N` ([Lam-FC, (24.23), p. 367]). Matching ring lemmas
+for `Module.BalancedFlat` (projectives, linear equivalences, direct sums, short exact sequences, and
+`K ⊓ I • F = I • K` for two-sided `I`, [Lam-LMR, (4.13)–(4.14), p. 126]) also hold. (Product
+closure—equivalent over additive `C` to weak cokernels, [CB, Thm. 2.1], [OR, Thm. 4.1 (5)], though
+holding over the non-additive one-object category of `k[x, y] ⧸ (x, y)²`—is out of scope.)
 
-**Checks.** Over `ℤ`, `ℚ` is flat and non-projective (`TauCeti.balancedFlat_rat_and_not_projective`),
-`ℤ[1/p]` is Bass's module for `p`, and `ℤ ⧸ n` (`n ≥ 2`) is not flat
-(`TauCeti.not_balancedFlat_zmod`); `k` is not flat over `k[ε]/(ε²)`; `T₂(k) ⧸ J` has one projective
-and one non-flat simple summand; and over `0 → 1 → 2 → ⋯` Bass's module for `i → i + 1` is flat and
+**Checks.** Over `ℤ`, `ℚ` is flat and non-projective, `ℤ[1/p]` is Bass's module for `p`, and
+`ℤ ⧸ n` (`n ≥ 2`) is not flat; `k` is not flat over `k[ε]/(ε²)`; `T₂(k) ⧸ J` has one projective and
+one non-flat simple summand; and over `0 → 1 → 2 → ⋯` Bass's module for `i → i + 1` is flat and
 non-projective.
 
 *Needs:* 0.5, 2.1–2.3.
@@ -843,38 +800,31 @@ modules live in `ModCat.{v} C`.
 `Tor_i(Hom(X, -) ⧸ I, F) = 0` for all `i ≥ n`, `X : C`, and finitely generated
 `I = coyonedaSpan β ⊆ Hom(X, -)`. Setting `TauCeti.ModCat.HasFlatDimensionLE F n` to
 `HasFlatDimensionLT F (n + 1)`, `TauCeti.ModCat.flatDimension F : WithBot ℕ∞` is the infimum of `d`
-such that `HasFlatDimensionLT F i` holds for all `i > d` (`TauCeti.ModCat.flatDimension_le_iff`,
-`TauCeti.ModCat.flatDimension_eq_bot_iff`, `TauCeti.ModCat.hasFlatDimensionLE_zero_iff`).
+such that `HasFlatDimensionLT F i` holds for all `i > d` (equal to `⊥` iff `IsZero F`, and `≤ 0`
+iff `F.Flat`).
 
 **Resolutions and syzygies** (`TauCeti.ModCat.hasFlatDimensionLE_tfae`). For `n : ℕ`, the following
 are equivalent: (1) `HasFlatDimensionLE F n`; (2) `Tor_i(G, F) = 0` for all `G : ModCat.{v} Cᵒᵖ` and
 `i > n`; (3) `Tor_{n+1}(G, F) = 0` for all `G`; (4) `F` has a flat resolution of length `≤ n`;
 (5) the `n`-th syzygy `P.complex.opcycles n` of every projective resolution `P` of `F` is flat;
 (6) the `n`-th syzygy of some projective resolution is flat—proved by dimension shifting (1.2, 1.3)
-and computing `Tor` from flat resolutions (`TauCeti.ModCat.torObjIsoHomologyOfFlat`, resolving `G`
-via 1.3). Companion API includes `TauCeti.ModCat.flatDimension_le_projectiveDimension`, dimension
-shifting (`TauCeti.ModCat.hasFlatDimensionLE_succ_iff`), and duality
-`TauCeti.ModCat.flatDimension_eq_injectiveDimension_dual` (`flatDimension F = injectiveDimension
-(F^E)` for any injective cogenerator `E`, via 0.8 and 1.5).
+and computing `Tor` from flat resolutions (resolving `G` via 1.3). Companion API includes
+`flatDimension F ≤ projectiveDimension F`, dimension shifting along flat short exact sequences, and
+duality `TauCeti.ModCat.flatDimension_eq_injectiveDimension_dual` (`flatDimension F =
+injectiveDimension (F^E)` for any injective cogenerator `E`, via 0.8 and 1.5).
 
 **Rings** (`TauCeti.HasFlatDimensionLT`, `TauCeti.HasFlatDimensionLE`, `TauCeti.flatDimension`):
 defined natively on `ModuleCat.{v} A` under `[Small.{v} A]` via `Tor_i^A(A ⧸ I, M) = 0`, with
-`TauCeti.flatDimension_eq_bot_iff`, `TauCeti.hasFlatDimensionLE_zero_iff`,
-`TauCeti.hasFlatDimensionLE_tfae`, `TauCeti.flatDimension_le_projectiveDimension`,
-`TauCeti.hasFlatDimensionLE_succ_iff`, the character-module formula
-`TauCeti.flatDimension_eq_injectiveDimension_characterModule` ([Lam-LMR, (5.57), p. 184]), and
-`TauCeti.hasFlatDimensionLT_iff_singleObj`.
+matching `Tor`/syzygy equivalences, comparison with `SingleObj Aᵐᵒᵖ`, and the character-module
+formula `TauCeti.flatDimension_eq_injectiveDimension_characterModule` ([Lam-LMR, (5.57), p. 184]).
 
 *Needs:* 1.1–1.3, 1.5, 2.1, 2.2, 2.6.
 
 ### 3.2 Global dimension of an abelian category
 
 For any abelian category `𝒜`, `TauCeti.Abelian.globalDimension 𝒜 := ⨆ X : 𝒜, projectiveDimension X`
-([Mitchell, §9, p. 42]), with basic bounds (`TauCeti.Abelian.projectiveDimension_le_globalDimension`,
-`globalDimension_le_iff`, `globalDimension_eq_bot_iff`), injective and opposite symmetry
-(`TauCeti.Abelian.globalDimension_eq_iSup_injectiveDimension`,
-`TauCeti.Abelian.globalDimension_opposite`), and equivalence invariance
-(`TauCeti.Abelian.globalDimension_eq_of_equivalence`).
+([Mitchell, §9, p. 42]), with basic upper bounds, characterization of `= ⊥`, equality with
+`⨆ X, injectiveDimension X`, opposite symmetry `gldim 𝒜ᵒᵖ = gldim 𝒜`, and equivalence invariance.
 
 - **Auslander's lemma** (`TauCeti.ModCat.globalDimension_le_iff_cyclic`): `globalDimension (ModCat
   C) ≤ n` iff every cyclic module `Hom(-, X) ⧸ I` has projective dimension `≤ n` ([Au, Thm. 1,
@@ -886,30 +836,24 @@ For any abelian category `𝒜`, `TauCeti.Abelian.globalDimension 𝒜 := ⨆ X 
   case are preserved by `ULift` on values); in particular, the global dimension of a ring `A` is
   independent of the module universe across universes with `[Small.{w} A]`.
 - **Rings (refactor):** `TauCeti.globalDimension A` becomes `Abelian.globalDimension (ModuleCat.{v}
-  A)` (`TauCeti.globalDimension_eq_abelianGlobalDimension`) without shims, reproving
-  `TauCeti.globalDimension_le_tfae` from Auslander's lemma and adding
-  `TauCeti.globalDimension_eq_globalDimension_singleObj`.
+  A)` without shims, reproving `TauCeti.globalDimension_le_tfae` from Auslander's lemma and
+  identifying `globalDimension A` with `Abelian.globalDimension (ModCat (SingleObj Aᵐᵒᵖ))`.
 
 *Needs:* 0.1, 0.2, 2.2; Tau Ceti `globalDimension`.
 
 ### 3.3 Weak global dimension
 
 For essentially small `C`, `TauCeti.ModCat.weakGlobalDimension C := ⨆ F : ModCat C, flatDimension F`
-([OR, p. 103]), characterized by `Tor_{n+1} = 0` (`TauCeti.ModCat.weakGlobalDimension_le_iff`),
-symmetric under `Cᵒᵖ` via 0.6 and 1.3 (`TauCeti.ModCat.weakGlobalDimension_op`; [Au, p. 70];
-[Lam-LMR, (5.63), p. 185]), testable on finitely presented or cyclic covariant functors
-(`TauCeti.ModCat.weakGlobalDimension_le_tfae`; [Lam-LMR, (5.69), p. 187]), and bounded above by the
-global dimensions of `Mod C` and `Mod Cᵒᵖ` (`TauCeti.ModCat.weakGlobalDimension_le_globalDimension`,
-`weakGlobalDimension_le_globalDimension_op`,
-`TauCeti.ModCat.weakGlobalDimension_le_of_forall_isFinitelyPresentedFunctor`). Moreover,
+([OR, p. 103]), characterized by `Tor_{n+1} = 0`, symmetric under `Cᵒᵖ` via 0.6 and 1.3
+(`TauCeti.ModCat.weakGlobalDimension_op`; [Au, p. 70]; [Lam-LMR, (5.63), p. 185]), testable on
+finitely presented or cyclic covariant functors (`TauCeti.ModCat.weakGlobalDimension_le_tfae`;
+[Lam-LMR, (5.69), p. 187]), and bounded above by the global dimensions of `Mod C` and `Mod Cᵒᵖ`
+(and by any uniform projective-dimension bound on finitely presented covariant functors). Moreover,
 `weakGlobalDimension C = ⊥` iff every object of `C` is zero, and `≤ 0` iff `C` is von Neumann
-regular (`TauCeti.ModCat.weakGlobalDimension_eq_bot_iff`, `weakGlobalDimension_le_zero_iff`; [St,
-Thm. 4, p. 359]). Native ring counterparts (`TauCeti.weakGlobalDimension`,
-`weakGlobalDimension_le_iff`, `weakGlobalDimension_mulOpposite`,
-`weakGlobalDimension_le_globalDimension`, `weakGlobalDimension_le_globalDimension_mulOpposite`,
-`weakGlobalDimension_le_tfae`, `weakGlobalDimension_le_of_forall_finitePresentation`,
-`weakGlobalDimension_eq_bot_iff`, `weakGlobalDimension_eq_zero_of_isSemisimpleRing`,
-`weakGlobalDimension_eq_weakGlobalDimension_singleObj`) follow.
+regular ([St, Thm. 4, p. 359]). Native ring counterparts (`TauCeti.weakGlobalDimension`,
+`TauCeti.weakGlobalDimension_mulOpposite`, plus `Tor_{n+1}`/finitely-presented/cyclic tests, bounds
+by left and right global dimension, vanishing on semisimple rings, and agreement with
+`SingleObj Aᵐᵒᵖ`) follow.
 
 *Needs:* 1.3, 2.2, 3.1, 3.2.
 
@@ -918,11 +862,9 @@ Thm. 4, p. 359]). Native ring counterparts (`TauCeti.weakGlobalDimension`,
 - **The `FP_∞` lemma** (`TauCeti.ModCat.flatDimension_eq_projectiveDimension_of_projectiveResolution`):
   with no Noetherian hypothesis, any module admitting a resolution in `proj C` (0.9) has equal flat
   and projective dimensions, as its `n`-th syzygy at `n = flatDimension` is both flat (3.1) and
-  finitely presented, hence projective (2.2; [CE, VI, pp. 120–122]). The ring counterpart
-  `TauCeti.flatDimension_eq_projectiveDimension_of_projectiveResolution` likewise assumes a
-  resolution by finitely generated projectives with no Noetherian hypothesis; over a left Noetherian
-  ring every finitely generated module has such a resolution, giving
-  `TauCeti.flatDimension_eq_projectiveDimension_of_finite`.
+  finitely presented, hence projective (2.2; [CE, VI, pp. 120–122]). The ring counterpart likewise
+  assumes a resolution by finitely generated projectives with no Noetherian hypothesis (applying in
+  particular to every finitely generated module over a left Noetherian ring).
 - **Auslander's theorem** (`TauCeti.ModCat.globalDimension_eq_weakGlobalDimension`): if every
   `Hom(-, X)` is a Noetherian object (`IsNoetherianObject`), every cyclic module `Hom(-, X) ⧸ I` has
   a resolution in `proj C`, so Auslander's lemma (3.2), the `FP_∞` lemma, and 3.3 give
@@ -930,10 +872,9 @@ Thm. 4, p. 359]). Native ring counterparts (`TauCeti.weakGlobalDimension`,
   (5.59), p. 184]; cf. [OR, Thm. 4.3, p. 103] for coherent functors). Corollaries give the one-sided
   bound `TauCeti.ModCat.globalDimension_le_of_forall_isFinitelyPresentedFunctor` (with ring form
   `TauCeti.globalDimension_le_of_forall_finitePresentation_mulOpposite` for ArtinAlgebras §7.5),
-  two-sided Noetherian symmetry `TauCeti.ModCat.globalDimension_op_eq_of_isNoetherianObject` ([Au,
-  Cor. 5, p. 70]), and ring equality `TauCeti.globalDimension_eq_weakGlobalDimension` (replacing
-  Tau Ceti's character-module proofs of ArtinAlgebras §7.2's left-right comparisons while keeping
-  their statements).
+  two-sided Noetherian symmetry ([Au, Cor. 5, p. 70]), and ring equality
+  `TauCeti.globalDimension_eq_weakGlobalDimension` (replacing Tau Ceti's character-module proofs of
+  ArtinAlgebras §7.2's left-right comparisons while keeping their statements).
 
 *Needs:* 2.2, 2.3, 3.1–3.3.
 
@@ -942,39 +883,34 @@ Thm. 4, p. 359]). Native ring counterparts (`TauCeti.weakGlobalDimension`,
 - **Closure under kernels** (`TauCeti.ModCat.forall_flat_kernel_iff`): flat modules in `Mod C` are
   closed under kernels iff `weakGlobalDimension C ≤ 2` ([CB, Thm. 2.3, p. 1651]), by dimension
   shifting.
-- **Countably presented flat modules** (`TauCeti.ModCat.hasProjectiveDimensionLE_one_colimit`,
-  `TauCeti.ModCat.Flat.hasProjectiveDimensionLE_one`): sequential colimits of projectives have
-  projective dimension `≤ 1` via the telescope (2.5), and every `ℵ₁`-presentable flat module `F` is
-  a retract of such a sequential colimit, hence has projective dimension `≤ 1` ([Jensen, Lemma 2,
-  pp. 98–100]; [Osofsky-Nagoya, Lemma 1.2, p. 316]): writing `F = colim D_k` over finite sums of
-  representables (2.3) and choosing a countable presentation (0.9), recursively lift generators and
-  trivialize relations along `k_0 → k_1 → ⋯` to construct a section `F → colim_n D_{k_n}` of the
-  canonical map to `F`. (Higher cardinal bounds for `ℵ_n`-presented flat modules—[Simson, Thm. 2.12
-  (c)], [Osofsky-Nagoya, Thm. 1.3], [Mitchell, Thm. 36.8]—are out of scope.)
+- **Countably presented flat modules** (`TauCeti.ModCat.Flat.hasProjectiveDimensionLE_one`):
+  sequential colimits of projectives have projective dimension `≤ 1` via the telescope (2.5), and
+  every `ℵ₁`-presentable flat module `F` is a retract of such a sequential colimit, hence has
+  projective dimension `≤ 1` ([Jensen, Lemma 2, pp. 98–100]; [Osofsky-Nagoya, Lemma 1.2, p. 316]):
+  writing `F = colim D_k` over finite sums of representables (2.3) and choosing a countable
+  presentation (0.9), recursively lift generators and trivialize relations along `k_0 → k_1 → ⋯` to
+  construct a section `F → colim_n D_{k_n}` of the canonical map to `F`. (Higher cardinal bounds for
+  `ℵ_n`-presented flat modules—[Simson, Thm. 2.12 (c)], [Osofsky-Nagoya, Thm. 1.3], [Mitchell,
+  Thm. 36.8]—are out of scope.)
 
 **Checks.**
-- *In Lean (`Suggested.lean`):* `weakGlobalDimension` is `0` for fields
-  (`TauCeti.weakGlobalDimension_field`), `⊥` for `PUnit` (`TauCeti.weakGlobalDimension_punit`), `1`
-  for `ℤ` (`TauCeti.weakGlobalDimension_int`), `⊤` for `DualNumber k`
-  (`TauCeti.weakGlobalDimension_dualNumber`), and `1` for `T₂(k)`
-  (`TauCeti.weakGlobalDimension_upperTriangular`); `CategoryTheory.Free k (Fin 2)` has global
-  dimension `1` (`TauCeti.globalDimension_free_fin_two`, via 1.7).
-- *In prose (sharpness of Noetherian hypotheses):*
-  - **Small's triangular ring** `R = [[ℤ, ℚ], [0, ℚ]]` ([Lam-LMR, (2.33), (5.62b)]): in Small's
-    construction, let `D` be a commutative Noetherian domain of global dimension `n > 0` with
-    fraction field `Q`. The triangular ring `T(D) = [[D, Q], [0, Q]]` is right but not left
-    Noetherian and has right global dimension `n`; its left global dimension is `n + 1` if `Q`
-    contains a `D`-submodule of projective dimension `n`, and `n` otherwise (*Proc. Nat. Acad. Sci.
-    U.S.A.* 54 (1965), Thm., p. 1035). For `D = ℤ`, `R` is right hereditary (`gldim Rᵐᵒᵖ =
-    wgldim R = 1`) but not left hereditary (p. 1036), so Auslander's equality holds on the right and
-    fails on the left.
-  - **Pierce's free Boolean ring** `B = 𝔽₂[x_j : j ∈ J] ⧸ (x_j² - x_j)` for `|J| = ℵ₂` is von
-    Neumann regular (`wgldim B = 0`) with `gldim B = 3` ([Osofsky-Card, Thm. A, p. 644];
-    [Osofsky-Nagoya, Cor. 1.4, p. 318]; [Pierce, Cor. 5.2, p. 97]).
-  - **Jategaonkar's domains** ([Jategaonkar, Thm. 4.10, pp. 438–439]) give principal left ideal
-    domains `D` (`gldim D = wgldim D = 1`) of any right global dimension `1 ≤ n ≤ ∞`.
-  - **Linear `A_∞`** (`0 → 1 → 2 → ⋯`) is hereditary on both sides (`gldim = wgldim = 1`), with
-    non-projective flat Bass module of projective dimension `1`.
+- `weakGlobalDimension` is `0` for fields, `⊥` for `PUnit`, `1` for `ℤ`, `⊤` for `DualNumber k`, and
+  `1` for `T₂(k)`; `CategoryTheory.Free k (Fin 2)` has global dimension `1` (via 1.7).
+- **Small's triangular ring** `R = [[ℤ, ℚ], [0, ℚ]]` ([Lam-LMR, (2.33), (5.62b)]): in Small's
+  construction, let `D` be a commutative Noetherian domain of global dimension `n > 0` with
+  fraction field `Q`. The triangular ring `T(D) = [[D, Q], [0, Q]]` is right but not left
+  Noetherian and has right global dimension `n`; its left global dimension is `n + 1` if `Q`
+  contains a `D`-submodule of projective dimension `n`, and `n` otherwise (*Proc. Nat. Acad. Sci.
+  U.S.A.* 54 (1965), Thm., p. 1035). For `D = ℤ`, `R` is right hereditary (`gldim Rᵐᵒᵖ =
+  wgldim R = 1`) but not left hereditary (p. 1036), so Auslander's equality holds on the right and
+  fails on the left.
+- **Pierce's free Boolean ring** `B = 𝔽₂[x_j : j ∈ J] ⧸ (x_j² - x_j)` for `|J| = ℵ₂` is von
+  Neumann regular (`wgldim B = 0`) with `gldim B = 3` ([Osofsky-Card, Thm. A, p. 644];
+  [Osofsky-Nagoya, Cor. 1.4, p. 318]; [Pierce, Cor. 5.2, p. 97]).
+- **Jategaonkar's domains** ([Jategaonkar, Thm. 4.10, pp. 438–439]) give principal left ideal
+  domains `D` (`gldim D = wgldim D = 1`) of any right global dimension `1 ≤ n ≤ ∞`.
+- **Linear `A_∞`** (`0 → 1 → 2 → ⋯`) is hereditary on both sides (`gldim = wgldim = 1`), with
+  non-projective flat Bass module of projective dimension `1`.
 
 *Needs:* 0.9, 2.3, 2.5, 3.1, 3.3.
 
@@ -990,16 +926,14 @@ need no smallness; theorems using object-indexed sums of representables or `⊗_
 
 A left ideal `I` of `C` (0.3) is **T-nilpotent** (`TauCeti.LeftMorphismIdeal.IsTNilpotent I`) if
 every `I`-sequence `c₀ → c₁ → ⋯` has a vanishing composite `q_n = f₀ ≫ ⋯ ≫ f_{n-1}` (Convention 8),
-covering nilpotent two-sided ideals and their opposites
-(`TauCeti.MorphismIdeal.isTNilpotent_of_pow_eq_bot`, `isTNilpotent_op_of_pow_eq_bot`).
+covering nilpotent two-sided ideals and their opposites.
 
-- **Nakayama's lemma for all modules** (`TauCeti.LeftMorphismIdeal.isTNilpotent_tfae`,
-  `TauCeti.LeftMorphismIdeal.isTNilpotent_iff_forall_isZero_bassModule`, and universe-polymorphic
-  `TauCeti.LeftMorphismIdeal.IsTNilpotent.isZero_of_smul_eq_top`, `isSuperfluous_smul`; [Simson,
-  Lemma 5.3, p. 108]; [Bass, pp. 473–474]): for a left ideal `I`, (1) `I` is T-nilpotent iff (2) for
-  every `M : ModCat.{v} C`, `I · M = M → M = 0`, iff (3) `I · M` is superfluous in every `M`. Here
-  (1) ⇒ (2) chooses `f_n ∈ I` and `x_{n+1}` by dependent choice keeping `M(q_{n+1})(x_{n+1}) ≠ 0`,
-  (2) ⇔ (3) passes to `M ⧸ N`, and (2) ⇒ (1) applies (2) to Bass's module `B` of a non-vanishing
+- **Nakayama's lemma for all modules** (`TauCeti.LeftMorphismIdeal.isTNilpotent_tfae`; [Simson,
+  Lemma 5.3, p. 108]; [Bass, pp. 473–474]): for a left ideal `I`, (1) `I` is T-nilpotent (equivalently
+  Bass modules of `I`-sequences vanish) iff (2) for every `M : ModCat.{v} C`, `I · M = M → M = 0`,
+  iff (3) `I · M` is superfluous in every `M` (with `(1) ⇒ (2), (3)` holding in every universe).
+  Here (1) ⇒ (2) chooses `f_n ∈ I` and `x_{n+1}` by dependent choice keeping `M(q_{n+1})(x_{n+1}) ≠
+  0`, (2) ⇔ (3) passes to `M ⧸ N`, and (2) ⇒ (1) applies (2) to Bass's module `B` of a non-vanishing
   `I`-sequence (2.5), where `[g] = B(g ≫ fᵢ)([𝟙 cᵢ₊₁])` gives `B = I · B` with `B ≠ 0`.
 - **Nakayama for finitely generated modules and finite-sum rigidity**
   (`TauCeti.ModCat.isSuperfluous_jacobson_smul_of_isFinitelyGeneratedFunctor`): for any `C` without
@@ -1009,67 +943,51 @@ covering nilpotent two-sided ideals and their opposites
   invertible. Consequently, any endomorphism `u` of a finite sum `Q` of representables equal to `𝟙`
   modulo `J(C) · Q` satisfies `u ≫ q = q` on the essential epimorphism `q : Q → Q ⧸ J(C) · Q` and is
   invertible by `TauCeti.IsEssentialEpi.isIso_of_comp_eq` (4.2).
-- **Rings** (`TauCeti.IsLeftTNilpotent`, `TauCeti.isLeftTNilpotent_of_isNilpotent`,
-  `TauCeti.isLeftTNilpotent_iff_isTNilpotent_singleObj`,
-  `TauCeti.toLeftMorphismIdeal_jacobsonRadicalIdeal_singleObj`, `TauCeti.isLeftTNilpotent_tfae`;
-  [AF, 28.3, pp. 314–315]; [Lam-FC, (23.16), p. 352]): `J : Ideal A` is left T-nilpotent iff `J •
-  ⊤ = ⊤ → M = 0`, iff `J • ⊤` is superfluous in all `M` (or in `ℕ →₀ A`).
+- **Rings** (`TauCeti.IsLeftTNilpotent`, `TauCeti.isLeftTNilpotent_tfae`, bridged to `SingleObj
+  Aᵐᵒᵖ`; [AF, 28.3, pp. 314–315]; [Lam-FC, (23.16), p. 352]): `J : Ideal A` is left T-nilpotent iff
+  `J • ⊤ = ⊤ → M = 0`, iff `J • ⊤` is superfluous in all `M` (or in `ℕ →₀ A`).
 
-**Check.** In `PowerSeries k`, `(X)` is not left T-nilpotent (`TauCeti.not_isLeftTNilpotent_span_X`),
-as `G = ⟨eᵢ - X • eᵢ₊₁⟩ ⊊ F = ℕ →₀ k⟦X⟧` satisfies `G + X • F = F`.
+**Check.** In `PowerSeries k`, `(X)` is not left T-nilpotent, as `G = ⟨eᵢ - X • eᵢ₊₁⟩ ⊊ F = ℕ →₀
+k⟦X⟧` satisfies `G + X • F = F`.
 
 *Needs:* 0.1, 0.3, 2.5; Tau Ceti `jacobsonRadicalIdeal`, `IsEssentialEpi.isIso_of_comp_eq`,
 `MorphismIdeal`, `Ring.mem_jacobson_mulOpposite_iff`.
 
 ### 4.2 Semilocal and semiperfect rings and categories
 
-- **Semilocal rings and categories** (`TauCeti.IsSemilocalRing R`,
-  `TauCeti.IsSemilocalRing.of_surjective`, `TauCeti.isSemilocalRing_iff_finite_isMaximal`,
-  `TauCeti.IsSemilocalCategory C`, `TauCeti.isSemilocalCategory_iff_isSemisimpleCategory`,
-  `TauCeti.IsSemisimpleCategory`, `TauCeti.ModCat.IsSemisimple`). `IsSemilocalRing R` wraps
-  `IsSemisimpleRing (R ⧸ Ring.jacobson R)`
+- **Semilocal rings and categories** (`TauCeti.IsSemilocalRing R`, `TauCeti.IsSemilocalCategory C`,
+  `TauCeti.isSemilocalCategory_iff_isSemisimpleCategory`, `TauCeti.IsSemisimpleCategory`,
+  `TauCeti.ModCat.IsSemisimple`). `IsSemilocalRing R` wraps `IsSemisimpleRing (R ⧸ Ring.jacobson R)`
   (closed under `Rᵐᵒᵖ` and surjections; finitely many maximal ideals in the commutative case). A
   category `C` has semilocal endomorphism rings iff `D = C ⧸ J(C)` is semisimple (every `Hom(-, X)`
-  has complemented subobjects; [Simson, pp. 93–94]): `J(D) = ⊥`
-  (`TauCeti.jacobsonRadicalIdeal_quotient_jacobsonRadicalIdeal`) and `End_D(X) ≅ End X ⧸
-  Ring.jacobson (End X)` (`TauCeti.endQuotientJacobsonRadicalIdealRingEquiv`), giving von Neumann
-  regularity of `D` (`TauCeti.IsSemilocalCategory.exists_comp_comp_eq_self`, writing `{g ∘ f}` in
-  `End_D(X)` as `End_D(X) e`).
-- **Semisimple modules** (`TauCeti.ModCat.isSemisimple_iff_exists_iso_sigma`,
-  `TauCeti.isSemisimpleCategory_iff_forall_isSemisimple`): `Subobject M` is complemented iff `M` is
-  a coproduct of simple modules, and `C` is semisimple iff every module in `Mod C` is semisimple.
-  Modularity and compact generation (0.1) produce an independent family of simple atoms with
-  supremum `⊤`; for each finite subfamily, independence makes the sum map into `M` a monomorphism,
-  and passing to the filtered colimit over finite subfamilies gives a monomorphism from the full
-  coproduct because `Mod C` satisfies AB5 (0.1).
-- **Semiperfect categories and covers** (`TauCeti.IsSemiperfectCategory C`,
-  `TauCeti.IsKrullSchmidt.isSemiperfectCategory`, `TauCeti.IsSemiperfectRing.corner`,
+  has complemented subobjects; [Simson, pp. 93–94]): `J(D) = ⊥` and `End_D(X) ≅ End X ⧸
+  Ring.jacobson (End X)`, giving von Neumann regularity of `D` (writing `{g ∘ f}` in `End_D(X)` as
+  `End_D(X) e`).
+- **Semisimple modules** (`TauCeti.ModCat.isSemisimple_iff_exists_iso_sigma`): `Subobject M` is
+  complemented iff `M` is a coproduct of simple modules, and `C` is semisimple iff every module in
+  `Mod C` is semisimple. Modularity and compact generation (0.1) produce an independent family of
+  simple atoms with supremum `⊤`; for each finite subfamily, independence makes the sum map into `M`
+  a monomorphism, and passing to the filtered colimit over finite subfamilies gives a monomorphism
+  from the full coproduct because `Mod C` satisfies AB5 (0.1).
+- **Semiperfect categories and covers** (`TauCeti.IsSemiperfectCategory C`, `TauCeti.IsKrullSchmidt`,
   `TauCeti.isKrullSchmidt_iff_isIdempotentComplete_and_isSemiperfectCategory`,
-  `TauCeti.HasProjectiveCover`, `TauCeti.isSemiperfectCategory_tfae`,
-  `TauCeti.ModCat.hasProjectiveCover_of_simple`, `TauCeti.isEssentialEpi_iff_forall_isIso`).
-  `IsSemiperfectCategory C` requires every `End X` to be semiperfect, restating Krause's criterion
-  ([Krause, Cor. 4.4, p. 546], ArtinAlgebras §0.2). Equivalent conditions ([Simson, Thm. 5.6,
-  p. 110]; [Krause, Prop. 4.1]): (1) `C` is semiperfect; (2) every `Hom(-, X)` is a finite coproduct
-  of projectives with local endomorphism rings; (3) every finitely generated module has a projective
-  cover; (4) every simple module has a projective cover (constructed directly from local idempotent
-  summands `{g ≫ eᵢ} ⊆ Hom(-, X)`); (5) `proj C` is Krull–Schmidt. For any projective `P`, an
-  epimorphism `P → F` is essential iff it is right minimal (`isEssentialEpi_iff_forall_isIso`).
-- **Radical of a projective module** (`TauCeti.ModCat.jacobson_smul_ne_top_of_projective`,
-  `TauCeti.ModCat.le_jacobson_smul_of_isSuperfluous`): under `EssentiallySmall.{v} C` with no
-  assumption on `J(C)`, every superfluous subobject of a projective `P` lies in `J(C) · P`
-  (intersection of maximal subobjects), and every nonzero projective `P` satisfies `J(C) · P ≠ P`
-  ([Bass, Prop. 2.7, p. 474]; [Lam-FC, (24.7), p. 360]): embed `P` as a retract `r ∘ s = 1` of a
-  coproduct `F` of representables; if `J(C) · P = P`, any `f : Hom(-, c) → P` factors `s ∘ f = j ∘
-  g` through a finite subsum `Q` (`π ∘ j = 1`), and `a = π ∘ s ∘ r ∘ j` maps `Q` into `J(C) · Q`,
-  making `1 - a` invertible by 4.1's rigidity and forcing `(1 - a) ∘ g = 0`, `g = 0`, `P = 0`.
-- **Rings** (`TauCeti.IsProjectiveCover.bijective_of_projective`,
-  `TauCeti.isProjectiveCover_of_isLocalRing_end`, `TauCeti.IsProjectiveCover.isLocalRing_end`,
-  `TauCeti.IsProjectiveCover.exists_isProjectiveCover_comp_subtype`,
-  `TauCeti.jacobson_eq_jacobson_smul_top_of_projective`, `TauCeti.jacobson_ne_top_of_projective`,
-  `TauCeti.exists_isProjectiveCover_pi_of_forall_isCoatom_exists_isProjectiveCover`,
-  `TauCeti.exists_isProjectiveCover_of_isSemiperfectRing`,
-  `TauCeti.IsSemiperfectRing.of_linearEquiv_pi`, `TauCeti.isSemiperfectRing_tfae`,
-  `TauCeti.FiniteProjectivePresentation.exists_isMinimal`,
+  `TauCeti.HasProjectiveCover`, `TauCeti.isSemiperfectCategory_tfae`). `IsSemiperfectCategory C`
+  requires every `End X` to be semiperfect (symmetric and closed under corners on rings), restating
+  Krause's criterion ([Krause, Cor. 4.4, p. 546], ArtinAlgebras §0.2). Equivalent conditions
+  ([Simson, Thm. 5.6, p. 110]; [Krause, Prop. 4.1]): (1) `C` is semiperfect; (2) every `Hom(-, X)`
+  is a finite coproduct of projectives with local endomorphism rings; (3) every finitely generated
+  module has a projective cover; (4) every simple module has a projective cover (constructed
+  directly from local idempotent summands `{g ≫ eᵢ} ⊆ Hom(-, X)`); (5) `proj C` is Krull–Schmidt.
+  For any projective `P`, an epimorphism `P → F` is essential iff it is right minimal.
+- **Radical of a projective module** (`TauCeti.ModCat.jacobson_smul_ne_top_of_projective`): under
+  `EssentiallySmall.{v} C` with no assumption on `J(C)`, every superfluous subobject of a projective
+  `P` lies in `J(C) · P` (intersection of maximal subobjects), and every nonzero projective `P`
+  satisfies `J(C) · P ≠ P` ([Bass, Prop. 2.7, p. 474]; [Lam-FC, (24.7), p. 360]): embed `P` as a
+  retract `r ∘ s = 1` of a coproduct `F` of representables; if `J(C) · P = P`, any `f : Hom(-, c) →
+  P` factors `s ∘ f = j ∘ g` through a finite subsum `Q` (`π ∘ j = 1`), and `a = π ∘ s ∘ r ∘ j` maps
+  `Q` into `J(C) · Q`, making `1 - a` invertible by 4.1's rigidity and forcing `(1 - a) ∘ g = 0`,
+  `g = 0`, `P = 0`.
+- **Rings** (`TauCeti.isSemiperfectRing_tfae`, `TauCeti.FiniteProjectivePresentation.exists_isMinimal`,
   `TauCeti.isSemiperfectRing_iff_exists_ringEquiv_pi`): cover transport across universes lifts `g :
   Q → M` across a cover `f : P → M` (surjective by superfluousness of `ker f`) and splits the lift;
   finitely generated covers are built from irredundant finite subfamilies of simple-quotient covers
@@ -1078,8 +996,8 @@ as `G = ⟨eᵢ - X • eᵢ₊₁⟩ ⊊ F = ℕ →₀ k⟦X⟧` satisfies `G 
   presentations over semiperfect rings, and finite products of local rings in the commutative case
   ([Lam-FC, (23.11), p. 350]).
 
-**Checks.** `ℤ` is not semiperfect (`TauCeti.not_isSemiperfectRing_int`); `PowerSeries k` is local
-hence semiperfect; `T₂(k) = T e₁₁ × T e₂₂` decomposes into simple-module covers.
+**Checks.** `ℤ` is not semiperfect; `PowerSeries k` is local hence semiperfect; `T₂(k) = T e₁₁ × T
+e₂₂` decomposes into simple-module covers.
 
 *Needs:* 0.1, 0.3, 0.9, 4.1; ArtinAlgebras §0.2; Tau Ceti `IsSemiperfectRing`, `IsEssentialEpi`,
 `IsProjectiveCover`, `FiniteProjectivePresentation`, `IsMinimalProjectivePresentation`.
@@ -1088,39 +1006,33 @@ hence semiperfect; `T₂(k) = T e₁₁ × T e₂₂` decomposes into simple-mod
 
 `TauCeti.IsPerfectCategory C` extends `IsSemilocalCategory C` with T-nilpotence of `J(C)`, giving
 `IsSemiperfectCategory C` (lifting idempotents across nil `J(C)(X, X)`) and covering semilocal
-categories with nilpotent radical on both sides (`TauCeti.IsPerfectCategory.of_pow_eq_bot`,
-`op_of_pow_eq_bot`).
+categories with nilpotent radical on both sides.
 
-**Rings** (`TauCeti.IsLeftPerfectRing A`, bridged by `TauCeti.isLeftPerfectRing_iff_singleObj`):
+**Rings** (`TauCeti.IsLeftPerfectRing A`, bridged to `SingleObj Aᵐᵒᵖ`):
 
 - **Hierarchy and surjections** (`TauCeti.IsLeftPerfectRing.of_isSemiprimaryRing`,
-  `TauCeti.IsLeftPerfectRing.isSemiperfectRing`,
-  `TauCeti.IsLeftPerfectRing.of_isArtinianRing_mulOpposite`,
-  `TauCeti.IsLeftPerfectRing.of_surjective`; [Lam-FC, (23.19), (24.19)]; [AF, 28.7]): semiprimary
-  and left or right Artinian rings are perfect on both sides, and left perfectness passes to
-  surjective ring images.
+  `TauCeti.IsLeftPerfectRing.isSemiperfectRing`; [Lam-FC, (23.19), (24.19)]; [AF, 28.7]):
+  semiprimary and left or right Artinian rings are perfect on both sides, and left perfectness
+  passes to surjective ring images.
 - **Endomorphism rings of finite-length modules** (`TauCeti.Module.End.isSemiprimaryRing` under
   `[IsNoetherian R M] [IsArtinian R M]`; [AF, Cor. 29.3, p. 324]): `S = Module.End R M` (`f * g =
   f ∘ g`) is semiprimary via four targets:
-  1. *Nil implies T-nilpotent* (`TauCeti.Module.End.isLeftTNilpotent_of_isArtinian`,
-     `isLeftTNilpotent_op_of_isNoetherian`; [Fisher-Nil, Thms. 1.5, 2.1, pp. 76–77], in the
-     exposition of [AF, Thm. 29.2, pp. 323–324]): for a multiplicatively closed set `I ⊆ S` of
-     nilpotent endomorphisms, if `M` is Artinian and `I` has a sequence with no vanishing product,
-     inductively choose the next term among sequences with no vanishing product extending the
-     already chosen prefix so as to minimize its image; if `M` is Noetherian, choose `s₁, s₂, …`
-     with maximal kernels so that `pₙ = sₙ ∘ ⋯ ∘ s₁` satisfies `Im pₙ ∩ Ker sₙ₊₁ = 0` and `sₘ ∘ pₙ =
-     0` for `n ≥ m`, contradicting ascending sums of images.
-  2. *T-nilpotent implies nilpotent* (`TauCeti.Module.End.exists_prod_eq_zero_of_isLeftTNilpotent`,
-     `exists_prod_eq_zero_of_isLeftTNilpotent_op`): stabilize `Iʳ M` when `M` is Artinian and
-     `ann_M(Iʳ)` when `M` is Noetherian ([AF, Prop. 29.1, p. 323]; [Fisher-Nil, Lemmas 1.1–1.2,
-     pp. 75–76] for subrings of `End_R(M)` when `M` is Artinian, via left annihilators in `S`).
-  3. *Small–Fisher theorem* (`TauCeti.Module.End.exists_prod_eq_zero_of_isNilpotent`, with wrappers
-     `exists_prod_eq_zero_of_ideal` and `exists_prod_eq_zero_of_rightIdeal`): combines steps 1–2.
+  1. *Nil implies T-nilpotent* ([Fisher-Nil, Thms. 1.5, 2.1, pp. 76–77], in the exposition of [AF,
+     Thm. 29.2, pp. 323–324]): for a multiplicatively closed set `I ⊆ S` of nilpotent endomorphisms,
+     if `M` is Artinian and `I` has a sequence with no vanishing product, inductively choose the
+     next term among sequences with no vanishing product extending the already chosen prefix so as
+     to minimize its image; if `M` is Noetherian, choose `s₁, s₂, …` with maximal kernels so that
+     `pₙ = sₙ ∘ ⋯ ∘ s₁` satisfies `Im pₙ ∩ Ker sₙ₊₁ = 0` and `sₘ ∘ pₙ = 0` for `n ≥ m`,
+     contradicting ascending sums of images.
+  2. *T-nilpotent implies nilpotent:* stabilize `Iʳ M` when `M` is Artinian and `ann_M(Iʳ)` when `M`
+     is Noetherian ([AF, Prop. 29.1, p. 323]; [Fisher-Nil, Lemmas 1.1–1.2, pp. 75–76] for subrings
+     of `End_R(M)` when `M` is Artinian, via left annihilators in `S`).
+  3. *Small–Fisher theorem* (`TauCeti.Module.End.exists_prod_eq_zero_of_isNilpotent`, covering nil
+     left or right ideals): combines steps 1–2.
   4. *Finite-length corollary:* `M` is a finite sum of local-endomorphism summands (`S` semiperfect),
      and `Ring.jacobson S` is nil by Fitting's lemma, hence nilpotent by step 3.
-- **Commutative perfect rings** (`TauCeti.isLeftPerfectRing_iff_exists_ringEquiv_pi`,
-  `TauCeti.isLeftPerfectRing_iff_isArtinianRing`; [Lam-FC, (23.24), p. 357]): finite products of
-  local rings with T-nilpotent maximal ideals, and Artinian iff perfect when Noetherian.
+- **Commutative perfect rings** ([Lam-FC, (23.24), p. 357]): finite products of local rings with
+  T-nilpotent maximal ideals, and Artinian iff perfect when Noetherian.
 
 *Needs:* 4.1, 4.2; Tau Ceti `IsSemiprimaryRing.mulOpposite`, `isSemiprimaryRing_mulOpposite_iff`.
 
@@ -1167,15 +1079,13 @@ yields `TauCeti.IsLeftPerfectRing.exists_isProjectiveCover` ([Lam-FC, (24.12), p
   *Proof route:* **1 ⇒ 2** is 4.4; **2 ⇒ 3 ⇒ 3′** uses `projective_of_isEssentialEpi`; **3′ ⇒ 4′**
   applies 3′ to Bass's module (2.5); **4′ ⇒ 1** gets `q_n = 0` on `J(C)`-sequences via invertibility
   of `1 - f_n ≫ t`, and gets DCC on principal left ideals of `End X ⧸ J(End X)` on constant-object
-  sequences, giving semilocality by `TauCeti.isSemisimpleRing_of_wellFoundedLT_isPrincipal`
-  ([Lam-FC, (4.14), pp. 57–58]); **4 ⇔ 4′** translates chains `g₀ C ⊇ g₁ C ⊇ ⋯` to sequences;
-  **3 ⇔ 5** uses 3.1 on syzygies; **3 ⇔ 6** uses 2.3 and 2.6; and for **2′ ⇒ 1**, simple covers give
-  semiperfectness (4.2), lifting a cover `P → F ⧸ J · F` for a coproduct `F` of representables splits
-  `F → P` with kernel `K = J · K = 0` (`jacobson_smul_ne_top_of_projective`, 4.2), so `J · F` is
-  superfluous and Bass modules of `J(C)`-sequences vanish (4.1).
-- **Rings** (`TauCeti.isLeftPerfectRing_tfae`,
-  `TauCeti.Module.BalancedFlat.projective_of_isProjectiveCover`,
-  `TauCeti.isSemisimpleRing_of_wellFoundedLT_isPrincipal`): specializes `isPerfectCategory_tfae` at
+  sequences, giving semilocality by [Lam-FC, (4.14), pp. 57–58] (a Jacobson-semisimple ring with DCC
+  on principal left ideals is semisimple); **4 ⇔ 4′** translates chains `g₀ C ⊇ g₁ C ⊇ ⋯` to
+  sequences; **3 ⇔ 5** uses 3.1 on syzygies; **3 ⇔ 6** uses 2.3 and 2.6; and for **2′ ⇒ 1**, simple
+  covers give semiperfectness (4.2), lifting a cover `P → F ⧸ J · F` for a coproduct `F` of
+  representables splits `F → P` with kernel `K = J · K = 0` (`jacobson_smul_ne_top_of_projective`,
+  4.2), so `J · F` is superfluous and Bass modules of `J(C)`-sequences vanish (4.1).
+- **Rings** (`TauCeti.isLeftPerfectRing_tfae`): specializes `isPerfectCategory_tfae` at
   `SingleObj Aᵐᵒᵖ`, expressing 2 and 2′ with `TauCeti.IsProjectiveCover` (Convention 12 and
   `TauCeti.isProjectiveCover_iff_forall_surjective`), 3 and 3′ with `Module.BalancedFlat`, 4 on
   `{I : Submodule Aᵐᵒᵖ A // I.IsPrincipal}` (0.3), 4′ on `a₀A ⊇ a₀a₁A ⊇ ⋯`, and 5–6 in
@@ -1187,15 +1097,13 @@ yields `TauCeti.IsLeftPerfectRing.exists_isProjectiveCover` ([Lam-FC, (24.12), p
 
 - **Equality, symmetry, and Bass–Eilenberg**
   (`TauCeti.ModCat.globalDimension_eq_weakGlobalDimension_of_isPerfectCategory`,
-  `TauCeti.ModCat.globalDimension_op_eq_of_isPerfectCategory`,
-  `TauCeti.ModCat.hasProjectiveDimensionLE_iff_isZero_tor`,
-  `TauCeti.ModCat.globalDimension_eq_iSup_flatDimension_quotientYoneda`; [Bass, p. 475]; [Eilenberg
-  1956, Prop. 10, Thm. 11, p. 333]): over perfect `C`, Theorem P (5) gives `globalDimension (ModCat
-  C) = weakGlobalDimension C` (hence symmetry when `C` and `Cᵒᵖ` are perfect, 3.3). Iterating
-  projective covers (4.4) builds a minimal projective resolution `P_•` of `M` whose differentials
-  land in `J · P_n` (4.2), giving `Tor_n((C ⧸ J)(X, -), M) ≅ (P_n ⧸ J · P_n)(X)` (0.4); these groups
-  vanish for every `X` if and only if `P_n ⧸ J · P_n = 0`, and hence if and only if `P_n = 0` by
-  Nakayama's lemma (4.1), yielding `pd M ≤ n ↔ ∀ X, Tor_{n+1}((C ⧸ J)(X, -), M) = 0` and
+  `TauCeti.ModCat.hasProjectiveDimensionLE_iff_isZero_tor`; [Bass, p. 475]; [Eilenberg 1956, Prop.
+  10, Thm. 11, p. 333]): over perfect `C`, Theorem P (5) gives `globalDimension (ModCat C) =
+  weakGlobalDimension C` (hence symmetry when `C` and `Cᵒᵖ` are perfect, 3.3). Iterating projective
+  covers (4.4) builds a minimal projective resolution `P_•` of `M` whose differentials land in
+  `J · P_n` (4.2), giving `Tor_n((C ⧸ J)(X, -), M) ≅ (P_n ⧸ J · P_n)(X)` (0.4); these groups vanish
+  for every `X` if and only if `P_n ⧸ J · P_n = 0`, and hence if and only if `P_n = 0` by Nakayama's
+  lemma (4.1), yielding `pd M ≤ n ↔ ∀ X, Tor_{n+1}((C ⧸ J)(X, -), M) = 0` and
   `globalDimension (ModCat C) = ⨆ X, flatDimension ((C ⧸ J)(X, -))`.
 - **Rings** (`TauCeti.globalDimension_eq_weakGlobalDimension_of_isLeftPerfectRing`,
   `TauCeti.globalDimension_mulOpposite_of_isLeftPerfectRing`; [Au, Cor. 9, p. 73]; [Lam-LMR,
@@ -1207,22 +1115,17 @@ yields `TauCeti.IsLeftPerfectRing.exists_isProjectiveCover` ([Lam-FC, (24.12), p
 
 ### Layer 4 checks
 
-- *In Lean (`Suggested.lean`):* in `PowerSeries k`, the ideal `(X)` is not left T-nilpotent
-  (`TauCeti.not_isLeftTNilpotent_span_X`), so the local (hence semiperfect) ring `PowerSeries k` is
-  not left perfect (`TauCeti.isSemiperfectRing_powerSeries_and_not_isLeftPerfectRing`), with Bass
-  module `LaurentSeries k` (`TauCeti.bassRelations_X_linearEquiv_laurentSeries`); `ℤ` is not
-  semiperfect; `T₂(k)` and `DualNumber k` are perfect (`TauCeti.isLeftPerfectRing_upperTriangular`,
-  `TauCeti.isLeftPerfectRing_dualNumber`); `k[x₀, x₁, …] ⧸ (xᵢxⱼ)`
-  (`TauCeti.squareZeroPolynomialRing k`) is non-Noetherian semiprimary
-  (`TauCeti.isSemiprimaryRing_squareZeroPolynomialRing`); Bass's ring `k[x₀, x₁, …] ⧸ (xᵢ^{i+2},
-  xᵢxⱼ)` (`TauCeti.bassPolynomialRing k`, [Bass, p. 475]) is perfect without being semiprimary
-  (`TauCeti.isLeftPerfectRing_bassPolynomialRing`); linear `A_∞` (`CategoryTheory.Free k ℕ`, arrows
-  `TauCeti.aInftyArrow`) is semilocal, non-perfect on `Mod C`, and perfect on `Mod Cᵒᵖ`
-  (`TauCeti.isSemilocalCategory_free_nat`, `TauCeti.bassModule_free_nat`); and `Free k (Fin 2)` is
-  two-sided perfect with Krull–Schmidt `proj C` (`TauCeti.isPerfectCategory_free_fin_two`).
-- *In prose:* **Lam's ring** `R = k · 1 + J ⊆ End_k(ℕ →₀ k)` of strictly upper-triangular finite
-  matrices ([Lam-FC, (23.22), p. 356]) is local and right perfect (`IsLeftPerfectRing Rᵐᵒᵖ`), but
-  not left perfect (`E₀₁ ⋯ Eₙ₋₁,ₙ = E₀ₙ ≠ 0`), mirroring linear `A_∞`.
+- In `PowerSeries k`, the ideal `(X)` is not left T-nilpotent, so the local (hence semiperfect) ring
+  `PowerSeries k` is not left perfect, with Bass module `LaurentSeries k`; `ℤ` is not semiperfect;
+  `T₂(k)` and `DualNumber k` are perfect; `k[x₀, x₁, …] ⧸ (xᵢxⱼ)` is non-Noetherian semiprimary;
+  Bass's ring `k[x₀, x₁, …] ⧸ (xᵢ^{i+2}, xᵢxⱼ)` ([Bass, p. 475]) is perfect without being
+  semiprimary (with DCC on principal ideals despite non-Noetherianness); linear `A_∞`
+  (`CategoryTheory.Free k ℕ`) is semilocal, non-perfect on `Mod C` (where Bass's module `B` for the
+  arrows `i → i + 1` satisfies `B = J · B ≠ 0`), and perfect on `Mod Cᵒᵖ`; and `Free k (Fin 2)` is
+  two-sided perfect with Krull–Schmidt `proj C`.
+- **Lam's ring** `R = k · 1 + J ⊆ End_k(ℕ →₀ k)` of strictly upper-triangular finite matrices
+  ([Lam-FC, (23.22), p. 356]) is local and right perfect (`IsLeftPerfectRing Rᵐᵒᵖ`), but not left
+  perfect (`E₀₁ ⋯ Eₙ₋₁,ₙ = E₀ₙ ≠ 0`), mirroring linear `A_∞`.
 
 ## Downstream consumers
 
@@ -1237,10 +1140,10 @@ yields `TauCeti.IsLeftPerfectRing.exists_isProjectiveCover` ([Lam-FC, (24.12), p
   Theorem, p. 275]; [Xi, §1, p. 34]).
 - **Tau Ceti refactors (no shims):**
   - From 0.1, generalize Tau Ceti's basic single-representable finite-generation and
-    finite-presentation API to finite sums via `matrixMap`, retaining single-representable versions
-    under suitable biproduct hypotheses, and migrate downstream additive, abelian, and Krull–Schmidt
-    consumers to that interface (with right-minimal representable covers identified with essential
-    epimorphisms in 4.2).
+    finite-presentation API to finite sums via morphism matrices, retaining single-representable
+    versions under suitable biproduct hypotheses, and migrate downstream additive, abelian, and
+    Krull–Schmidt consumers to that interface (with right-minimal representable covers identified
+    with essential epimorphisms in 4.2).
   - From 0.2, `TauCeti.small_mulOpposite` removes redundant `[Small.{v} Aᵐᵒᵖ]` binders.
   - From 0.3, `TauCeti.IsSuperfluous` generalizes from `Submodule R M` to lattices with `⊤`.
   - From 2.3, `TauCeti.flatModuleFilteredFree` is reproved from `BalancedFlat.denseAt`.
