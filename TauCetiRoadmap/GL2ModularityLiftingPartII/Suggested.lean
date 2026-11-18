@@ -136,7 +136,8 @@ def IsMinimalLift (p : ℕ) {A k : Type*} [CommRing A] [IsLocalRing A]
 /-- A lift admitting a finite-order twist unramified at p that satisfies the
 normalized residual and minimal conditions, over the integers of a finite extension
 of ℚₚ, is realized by a primitive weight-one newform of level prime to p. The embedding
-into ℂ compares its Frobenius traces with the normalized q-coefficients.
+into ℂ compares its Frobenius traces with the normalized q-coefficients. The residual
+conditions on ρ̄ itself follow from those on its twist.
 CG18 Corollary 1.5 with Definition 3.1 minimality after twisting; includes vexing primes. -/
 theorem minimal_weight_one_modularity
     (p : ℕ) [Fact p.Prime]
@@ -148,11 +149,6 @@ theorem minimal_weight_one_modularity
     (e : IsLocalRing.ResidueField O ≃+* k)
     (ρbar : (AlgebraicClosure ℚ ≃ₐ[ℚ] AlgebraicClosure ℚ) →* Matrix.GeneralLinearGroup (Fin 2) k)
     (ρ : (AlgebraicClosure ℚ ≃ₐ[ℚ] AlgebraicClosure ℚ) →* Matrix.GeneralLinearGroup (Fin 2) O)
-    (hres : 3 ≤ p ∧ IsAdicallyContinuous ρbar ∧ ¬ IsReducibleOn ρbar ⊤ ∧
-      IsUnramifiedAt ρbar p ∧
-      ∃ (c : AlgebraicClosure ℚ ≃ₐ[ℚ] AlgebraicClosure ℚ)
-        (ι : AlgebraicClosure ℚ →+* ℂ),
-        (∀ z, ι (c z) = star (ι z)) ∧ Matrix.det (ρbar c).val = -1)
     (hcont : IsAdicallyContinuous ρ)
     (η : (AlgebraicClosure ℚ ≃ₐ[ℚ] AlgebraicClosure ℚ) →* Oˣ)
     (hηcont : @Continuous _ _ inferInstance (IsLocalRing.maximalIdeal O).adicTopology
@@ -178,7 +174,8 @@ theorem minimal_weight_one_modularity
 /-- Every lift minimal up to a continuous finite-order character twist unramified at p,
 of an odd absolutely irreducible residual representation
 unramified at p to a complete Noetherian local O-algebra with its finite residue
-field has finite image, including torsion and nilpotent coefficient rings.
+field has finite image, including torsion and nilpotent coefficient rings. These residual
+conditions on ρ̄ follow from those on its twist.
 CG18 Corollary 1.6 and Lemma 4.14; includes vexing primes. -/
 theorem minimal_lift_finite_image
     (p : ℕ) [Fact p.Prime]
@@ -196,11 +193,6 @@ theorem minimal_lift_finite_image
       eO (IsLocalRing.residue O x))
     (ρbar : (AlgebraicClosure ℚ ≃ₐ[ℚ] AlgebraicClosure ℚ) →* Matrix.GeneralLinearGroup (Fin 2) k)
     (ρ : (AlgebraicClosure ℚ ≃ₐ[ℚ] AlgebraicClosure ℚ) →* Matrix.GeneralLinearGroup (Fin 2) A)
-    (hres : 3 ≤ p ∧ IsAdicallyContinuous ρbar ∧ ¬ IsReducibleOn ρbar ⊤ ∧
-      IsUnramifiedAt ρbar p ∧
-      ∃ (c : AlgebraicClosure ℚ ≃ₐ[ℚ] AlgebraicClosure ℚ)
-        (ι : AlgebraicClosure ℚ →+* ℂ),
-        (∀ z, ι (c z) = star (ι z)) ∧ Matrix.det (ρbar c).val = -1)
     (hcont : IsAdicallyContinuous ρ)
     (η : (AlgebraicClosure ℚ ≃ₐ[ℚ] AlgebraicClosure ℚ) →* Aˣ)
     (hηcont : @Continuous _ _ inferInstance (IsLocalRing.maximalIdeal A).adicTopology
