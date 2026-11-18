@@ -217,6 +217,7 @@ body:
         - ModularCurves
         - ModularCurvesPartII
         - ModularForms
+        - ModularSymbolsPadicLFunctions
         - MorseNovikov
         - MorseTheory
         - MotivesAndAlgebraicCycles
