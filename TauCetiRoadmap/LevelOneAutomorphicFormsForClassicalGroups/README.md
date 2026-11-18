@@ -1,26 +1,60 @@
 # Roadmap: level-one automorphic forms for classical groups
 
-**Summary.** Build, on top of the adelic, spectral, L-function, Arthur-classification and theta
-roadmaps, the level-one theory of Chenevier and Taïbi. Starting from the unitary algebraic
-level-one cuspidal spectrum `Π_alg` of the groups `PGL_m` over `ℚ`, this roadmap develops the
-real Weil representation ring and its classical-group weight dictionary (Layer 1); the
-Rankin–Selberg form of Weil's explicit formula and the resulting Stark–Odlyzko cone inequality,
-with its finite-dimensional exclusion method, Miller's vanishing theorem and the repeated-weight
-`PGL₄` vanishing (Layer 2); the level-one Arthur parameters of `Sp_{2g}` and `SO_n`, their
-component groups and explicit holomorphic packet characters, and the triangular relation between
-Euler–Poincaré characteristics and self-dual cuspidal counts (Layer 3); the masses of torsion
-conjugacy classes in the geometric side of Arthur's `L²`-Lefschetz trace formula, the spinor
-obstruction on their characteristic polynomials and their exact recovery for `SO_d` (`d ≤ 17`)
-and `Sp_{2n}` (`n ≤ 8`) (Layer 4); and the complete classifications of level-one algebraic
-cuspidal representations in motivic weight at most 22, of the top-simple ones in weight 23 and of
-the regular self-dual ones in weight 24 (Layer 5). The second half turns to Siegel modular forms
-for `Γ_g = Sp_{2g}(ℤ)`: the genus-`g` and harmonic lattice theta maps, first occurrence and the
-Rallis relation (Layer 6); the dimension of `S_k(Γ_g)` for every regular weight in genus at most
-eight, the twenty-nine nonscalar spaces and all scalar spaces in weight at most 13, and the four
-weight-13 cusp forms of genera 8, 12, 16 and 24 (Layer 7); and their realization as harmonic theta
-series of the Leech lattice, the Eichler basis theorem in weights 4, 8 and 12, and the stable
-range `g ≥ 2k` (Layer 8). The end theorems are Chenevier–Taïbi's Theorems 1–7, Corollary 1 and
-§§5.4–5.5, and Theorems 1–2 of their weight-13 Leech paper.
+**Summary.** In low motivic weight, the cuspidal automorphic representations of general linear
+groups over `ℚ` that are unramified at every prime and algebraic at infinity can all be listed.
+Chenevier and Lannes listed them up to weight 22. Chenevier and Taïbi went on to weights 23 and 24,
+and computed dimensions of Siegel modular forms for `Sp_{2g}(ℤ)`. This roadmap builds their
+theory.
+
+Its central object is the set `Π_alg` of irreducible unitary cuspidal automorphic representations
+of `PGL_m(𝔸_ℚ)`, `m ≥ 1`, that have a nonzero `PGL_m(ℤ_p)`-fixed vector at every prime `p`
+and are algebraic in Chenevier–Taïbi's sense, a condition on the archimedean Weil parameter. The
+motivic weight is twice the largest weight of that parameter. A cusp eigenform of weight `w + 1` for
+`SL₂(ℤ)` gives an element `Δ_w` of motivic weight `w`. The Siegel modular and cusp forms for
+`Γ_g = Sp_{2g}(ℤ)` of weight `k = (k₁ ≥ ⋯ ≥ k_g)` form spaces `M_k(Γ_g) ⊃ S_k(Γ_g)`.
+
+Arthur's classification for classical groups is imported from ModularityAndLanglandsExtensions,
+with that roadmap's premises (its twisted weighted fundamental lemma and trace inputs). The
+classifications, dimension formulas and weight 13 theorems below carry these premises as
+hypotheses. The explicit-formula inequalities, the spinor obstruction and the Leech lattice
+computations are unconditional.
+
+The first main theorem is a classification: exactly eleven elements of `Π_alg` have motivic weight
+at most 22. Besides the trivial representation, five come from the cusp eigenforms of weights 12, 16,
+18, 20 and 22. The other five are four self-dual representations of `PGL₄` and the symmetric square
+of `Δ₁₁`. In weight 23, exactly thirteen elements have the weight `23/2` with multiplicity one, all of
+them symplectic. In weight 24, exactly three are self-dual and regular: no weight repeats, except
+that zero may occur twice when the rank is divisible by four.
+
+The second is a dimension formula. For `1 ≤ g ≤ 8` and every `k` with `k_g > g`, the dimension of
+`S_k(Γ_g)` is a finite count of level-one Arthur parameters of `Sp_{2g}`, selected by conditions
+including a sign test. The count is computed from the masses of `SO_d` (`d ≤ 17`) and `Sp_{2n}`
+(`n ≤ 8`): signed rational numbers that the geometric side of Arthur's `L²`-Lefschetz trace formula
+attaches to torsion conjugacy classes. Scalar weights up to 13 are settled in every genus; for
+instance `S₁₂(Γ_g)` has dimension `1, 1, 1, 2, 2, 3, 3, 4, 2, 2, 1, 1` for `g = 1, …, 12`.
+
+The third concerns weight 13. For every `g ≥ 1`, `M₁₃(Γ_g) = S₁₃(Γ_g)` is a line when `g` is 8,
+12, 16 or 24 and zero otherwise. These four forms are theta series of the Leech lattice: for every
+`g ≥ 1`, the theta map with invariant alternating `g`-form coefficients on the positive definite
+even unimodular lattices of rank 24 is an isomorphism onto `S₁₃(Γ_g)`. For such a lattice without
+roots (vectors of norm 2), that is the Leech lattice, the alternating `g`-forms invariant under all
+its isometries form a line for `g ∈ {0, 8, 12, 16, 24}` and vanish otherwise; for
+`g ∈ {8, 12, 16, 24}`, every nonzero one has a nonzero theta Fourier coefficient. An integral
+lattice whose roots span its rational space has no nonzero one for `g ≥ 1`; this covers the 23
+other such lattices.
+
+Within Tau Ceti, the roadmap builds on AutomorphicFormsOnReductiveGroups for cuspidal
+representations and Clozel purity, on AnalyticNumberTheoryPartI for Weil's explicit formula, and on
+AutomorphicSpectralTheory for Arthur's `L²`-Lefschetz formula. SiegelModularForms uses its lattice
+theta maps and checks its own dimension formulas against these.
+
+In Layers 1 to 5, the Rankin–Selberg explicit formula of Layer 2 excludes hypothetical
+representations, and Layer 5 combines it with the masses of Layer 4 into the classifications.
+Layer 4 also proves the spinor obstruction. Let `q` be a regular quadratic form on `ℤⁿ` (its polar
+form has determinant `±1` in even rank, `±2` in odd rank), and `P = (X − 1)^a (X + 1)^{2b} Q`
+with `Q(1)Q(−1) ≠ 0`. If for every prime `p` some element of `SO(q)(ℤ_p)` has characteristic
+polynomial `P`, then `|Q(−1)|` is an integer square when `b = 0`, and `|Q(1)|` is one when `a = 0`.
+Layers 6 to 8 treat Siegel modular forms.
 
 ## How to read the build
 
