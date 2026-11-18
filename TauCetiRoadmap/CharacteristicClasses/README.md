@@ -9,63 +9,25 @@ Todd, L and Â multiplicative classes, including their relative and supported
 interfaces. Classes carry their coefficient ring, degree, orientation and
 bundle; formal roots are a proved splitting device.
 
-## Scope and ownership
+## How to read the build
 
-This roadmap owns the topological characteristic classes of real and complex vector bundles and
-of principal bundles, and their comparison with curvature:
-
-- C1: universal principal bundles of Hausdorff topological groups over CW bases and of compact
-  Lie groups over paracompact bases, finite smooth universal
-  approximations, trivializations and clutching, the support excision and collared-pair triangle
-  of C1.2a S5, the singular counit and the Čech/singular comparison on spaces of CW type
-  (C1.2b), the line classes, the Eilenberg–MacLane identifications of RP∞ and CP∞, and the
-  classification of line bundles;
-- C2: Thom and Euler classes, the Gysin sequence, the Euler class as primary obstruction, the
-  Euler number `⟨e(TM),[M]⟩=χ(M)`, embedding Gysin maps, the projective-hyperplane adapter with
-  the embedded representatives of homology classes in codimensions one and two (C2.4a), and
-  fibre integration;
-- C3: Leray–Hirsch, Stiefel–Whitney, Chern and Pontryagin classes defined by projective
-  relations, the integral Bockstein classes W_k, the universal rings of BU(r), BO(n) and BSO(n)
-  mod 2 and away from 2, partial-frame obstructions, and w₂ as the spin obstruction;
-- C4 and C5: Chern–Weil forms, the universal Chern–Weil map, compact-Lie Chevalley restriction,
-  and the rational universal rings with Borel's theorem;
-- C5a: the real and rational cohomology of compact connected Lie groups through invariant forms,
-  the Weil algebra and universal transgression;
-- C6 and C7: multiplicative sequences on bundles, the Chern character and its Thom correction,
-  the characteristic-number formulas and the acceptance calculations, including the Hopf
-  instance of AlgebraicTopology's essential map T³→S² (C7.6).
-
-The labels C1–C7 and C5a, and the item labels C1.0, …, C7.AdjointHopfObstruction, are the ones
-other roadmaps cite; every heading below carries its label.
-
-Left to other roadmaps:
-
-- The compactly supported local-coefficient cochain foundation (support colimits and H_c,
-  support enlargement, cofinality, proper pullback, open extension, supported and mixed-support
-  cups, jointly proper homotopy invariance), labelled S0–S4 in C1.2a, is AlgebraicTopology's
-  supported-cellular supplement after Stage 6.2; the absolute-relative, same-pair and
-  union-relative products on excisive couples are AlgebraicTopology Stage 6.2's.
-- Singular (co)homology with local coefficients, cup, cap and cross products, CW structures,
-  Künneth, the fibration homotopy sequence, the Serre spectral sequences and the
-  Eilenberg–MacLane models, the smoothing of maps into compact manifolds, parametric and
-  relative transversality and the transverse circle classifying map of a degree-one integral
-  class are AlgebraicTopology's; continuous vector bundles, Grassmannians,
-  Stiefel spaces, numerable BO/BU classification, continuous principal bundles and K-theory are
-  TopologicalKTheory's; smooth principal bundles, connections, curvature and the normalized
-  integral circle class are SmoothBundlesConnections'; forms, integration and the de Rham
-  comparison are DifferentialGeometry's; the finite faithful unitary representation of a compact
-  Lie group is LieGroups Layer 7's.
-- The Lefschetz fixed-point formula, its graph/diagonal trace expression and the fixed-point
-  index sum belong to MorseNovikov N6 and are not restated here; C2.3 states only the
-  Euler-class pullback identity for a self-map.
-- The algebraic-vector-bundle roadmap concerns schemes and Chow/étale realization. Tau Ceti's
-  quadratic-form `sw1`/`sw2` concern Galois cohomology of fields; they are distinct from the
-  topological classes constructed here.
-- ClassifyingSpaces treats discrete groups with the weak-topology countable join; C1 compares
-  that specialization and constructs the classifiers of compact Lie and general Hausdorff groups.
-- Spin lifts, geometric chirality, Dirac operators and index theorems are geometric consumers of
-  C3.5, C6 and C7; the KKS root-plane Hessian/Morse comparison is a symplectic application at the
-  HamiltonianReduction/SchubertGeometry boundary.
+C1 builds universal principal bundles and their finite smooth approximations, the cohomological
+infrastructure (the Bockstein, compactly supported relative cochains, the singular counit and
+the Čech comparison) and the line classes with their Eilenberg–MacLane identifications. C2 builds
+Thom and Euler classes, the Gysin sequence, the primary obstruction, the Euler number, embedding
+Gysin maps with their hyperplane-section application to embedded representatives of homology
+classes in codimensions one and two, and fibre integration. C3 defines Stiefel–Whitney,
+Chern and Pontryagin classes by projective splitting
+and computes the universal rings mod 2 and away from 2, with w₂ as the spin obstruction. C4
+builds Chern–Weil forms and the universal Chern–Weil map, and C5 proves Chevalley restriction
+and Borel's theorem for the rational universal rings. C5a computes the cohomology of compact
+connected Lie groups by invariant forms, the Weil algebra and universal transgression. C6
+builds multiplicative sequences on bundles and the Chern character with its Thom correction, and
+C7 fixes the characteristic-number formulas and the acceptance calculations. C1–C3 precede the
+curvature layers; the projective cohomology theorem is independent of K-theoretic Bott and Thom
+theory, C7.3a uses no layer of this roadmap after C3, C7.6 uses C1.5 and no later layer of
+this roadmap, with AlgebraicTopology's theorem on Serre fibrations S³→S², and nothing here has an analytic-index or pseudodifferential
+prerequisite.
 
 ## Conventions
 
@@ -167,173 +129,6 @@ line curvature is i dα and its Euler form is −dα/(2π). This matches the
 standard-character associated line, whose c₁ is the negative of SBC B6's
 principal circle class defined using the dual-character line. CKG's O(1)
 curvature is −2πiω_FS, so the Chern form is +ω_FS.
-
-## Exact supplier contracts
-
-| Supplier | Exact interface consumed |
-| --- | --- |
-| Mathlib, at the pin | `FiberBundle`, `VectorBundle`, `VectorBundleCore`, `Bundle.TotalSpace` and `ContMDiffVectorBundle` with their pullback and Hom/dual constructions; `CompactlyGenerated` and `CompactlyGenerated.compactlyGeneratedToTop`; `sSetTopAdj`, `SSet.KanComplex` and `SSet.π₀`; `cechComplexFunctor` and `CategoryTheory.Sheaf.H`; `MvPolynomial.symmetricSubalgebra`, `esymm`, `psum` and `esymmAlgEquiv`; `LieAlgebra.HasCentralRadical`, `LieAlgebra.IsKilling` and `LieModule.Cohomology.d₁₂_apply_apply_ofTrivial`; `exists_embedding_euclidean_of_compact`; `bernoulli'PowerSeries` and `bernoulliPowerSeries`; `Projectivization`; `Manifold.IsSmoothEmbedding` (C2.4a); `Manifold.IsImmersion`, `Manifold.IsImmersion.id`, `MulAction.instChartedSpaceQuotient`, `contMDiff_neg_sphere` and `contMDiff_id` (C7.3a); `onePointEquivSphereOfFinrankEq` and `Diffeomorph.toHomeomorph` (C7.6). |
-| Tau Ceti, at the pin | Singular cohomology `TopCat.singularCohomology`, `TopPair.singularCohomology`, `singularCohomologyMap`, `singularCup` and `singularCohomologyδ`, and the Bocksteins `TopCat.singularCohomologyBockstein` and `TopPair.singularCohomologyBockstein` (C1.2); the Serre-fibration class `TauCeti.TopCat.serreFibrations` with its membership theorems (C1.1b, C3.1); `TauCeti.OrthonormalFrameBundle`, the orientation cover `TauCeti.VectorBundleOrientationCover` with its sign local system, and `TauCeti.VectorBundleOrientation` (C1.0, C1.1a); the principal-bundle class `TauCeti.PrincipalBundle` with its division map `TauCeti.PrincipalBundle.division` and the trivialization `TauCeti.PrincipalBundle.trivializationOfSection` of a section (C1.1d); the finite Grassmannians `TauCeti.finiteGrassmannian` and `TauCeti.finiteOrientedGrassmannian` (C1.1a); `TauCeti.thomPair`, `TauCeti.IsThomClass`, `TauCeti.eulerClass` and the Thom-class gluing and existence theorems (C2.1–C2.2); `TauCeti.FiberBundle.t2Space_totalSpace` and `TauCeti.hasHomotopyExtensionProperty_base` (C2.0); `TauCeti.HomologicalOrientation.evalFundamentalClass`, `TauCeti.localOrientationOfManifoldOrientation`, `Orientation.localOrientation`, `TauCeti.eulerChar`, `TauCeti.FiniteCWType` and `TauCeti.Manifold.Orientation.toVectorBundleOrientation` (C2.3); the intrinsic normal bundle `TauCeti.SmoothEmbedding.NormalSpace` and the tubular neighbourhood theorem `TauCeti.SmoothEmbedding.exists_diffeomorph_normalBundle_subset` (C2.4); `TauCeti.HomologicalOrientation.mapFundamentalClass` and `TauCeti.HomologicalOrientation.fundamentalClass` (C2.4a); the weak Whitney topology `ContMDiffMap.manifoldWeakWhitneyTopology` and its agreement with the strong Whitney topology on compact sources, `ContMDiffMap.manifoldStrongWhitneyTopology_eq_manifoldWeakWhitneyTopology` (C2.5); the Milnor sequence of a tower of complexes and the Mittag–Leffler vanishing (C3.1); the real Clifford spin-cover declarations (C3.5); `TauCeti.lieCartanRestriction`, `LieSubalgebra.lieChevalleyRestrictionIso` and the Killing symmetric-algebra maps (C5.1); `PowerSeries.multiplicativeSequence`, `TauCeti.aHatSeries`, `TauCeti.hirzebruchLSeries` and the genus polynomials (C6.1, C7.1); `Quaternion.toComplexMatrix` and `Quaternion.unitaryEquivSpecialUnitaryGroup` (C7.AdjointHopfObstruction); `TauCeti.FiniteRankBundleCore.ofBundle`, `TauCeti.RealProjectiveSpace` and `TauCeti.instIsManifoldQuotient` (C7.3a); the sphere-quotient model `TauCeti.ComplexProjectiveSpace` (C7.6). Each item names the files and the exact declarations it consumes. |
-| AlgebraicTopology | Stages 2–6 and 8.1–8.7: singular chains and cochains, local systems, cup, cap and cross products, pair sequences, excision, cellular comparison and Künneth; Stage 2.5 (the sup-ball disk homeomorphism), 4.5 (the relative CW pushouts), 4.6 (the finite real projective spaces), 4.8 (compact generation), 4.10 (CW approximation and the connected-map comparison), 5.5 (the fibration homotopy sequence and the Serre spectral sequences), 6.0–6.2 (the tower Milnor sequence, local-coefficient cochains, the Bockstein, products on excisive couples) and its supported-cellular supplement, 6.4 (Poincaré duality), 7 (the Euler characteristic of a triangulation); Stages 8.2, 8.3, 8.5, 8.7, 8.8, 8.9, 8.10, 8.12, 8.13 and 8.16 (the Kan/cubical comparison, Hurewicz, Whitehead, manifold triangulations with their dimension bound, the bar model of ℤ/2 with its normalized π₁ identification and its classification of pointed maps, primary obstructions, the ordinary Eilenberg–MacLane models and representability, the native circle comparison, the smoothing, transversality and transverse circle classifying-map targets, the essential map T³→S² through a Serre fibration S³→S²). |
-| TopologicalKTheory | T1 (continuous finite-rank bundles, metrics, embeddings), T1.3–T1.4 (fibre metrics and the disk-bundle homotopy invariance), T1.5 and T1.5a (finite Grassmannians, Stiefel quotients, the sphere-bundle sequences of SO(k) and π₁(SO(k))), T1.6 and T1.6a (BO(n), BU(n), the finite oriented carriers and their colimits, the countable-colour producer), T2–T5 (K-rings, relative K-theory, compact supports, λ-operations, Bott periodicity, the dual-Koszul Thom class and the embedding pushforward of T5 item 5), T3.4 and T4.8 (right suspension and cone boundary), T6.4 (continuous principal and associated bundles), T7.4 (the doubled-space kernel comparison). |
-| DifferentialGeometry | Layers 0–2 and 5–10: forms, wedge, d, orientations, integration and Stokes, compact supports, the multiplicative singular/de Rham comparison (Layer 8) and the manifold Sard theorem (10.2). |
-| SmoothBundlesConnections | B1.4 (free proper quotients and homogeneous spaces), B2 (associated bundles, frames, metrics, Hom/dual/sum), B3–B4 (connections, curvature, Bianchi), B6.0 (smooth good covers), B6 (the normalized circle class, rank-one Chern–Weil, the lens-space flat bundles). |
-| ComplexKahlerGeometry | K4 (Hermitian holomorphic bundles and Chern connections), K7.1–K7.2 (the projective carrier and atlas, tautological and dual lines, the Fubini–Study form and the O(1) curvature), and K7.1's comparison of the sphere-quotient model with `Projectivization ℂ (Fin 2 → ℂ)` and its Riemann-sphere diffeomorphism on Mathlib's topology (C7.6). |
-| GeometricTopology | §1.5 (the uniqueness of tubular neighbourhoods up to isotopy), §11.3 (smooth triangulations). |
-| LieGroups | Layer 1 (Ad), Layer 2 (`SU(2)≃S³` by the first column), Layer 5 (`Ad : SU(2) → SO(3)`), Layer 5A (B_G, the splitting 𝔤=𝔷(𝔤)⊕[𝔤,𝔤], the radical/centre and bracket-orthogonality arguments, the negative-definite Killing form of [𝔤,𝔤]), Layer 6 (maximal tori, Weyl groups, the root-pairing isomorphism), Layer 7 (finite faithful unitary representations of compact Lie groups) and the universal-cover and central-quotient classification. |
-| CompactGroups | Layers 0–1 (Haar probability, averaging). |
-| LieHighestWeight | L1 (Cartan and root decompositions and the root system). |
-| LieGroupoidsPoisson | G1.3a (the all-degree real Lie-algebra Chevalley–Eilenberg complex). |
-| ReflectionInvariantTheory | §§1–3 (fixed-polynomial algebra, basic invariants, regular sequences, coinvariants), §4 (degrees and exponents). |
-| SchubertGeometry | S9.6 (rational acyclicity of K/N(T) and the integral SU(2) normalizer comparison). |
-| TopologicalSheafCohomology | TS1.1–TS1.2 (fixed-cover Čech complexes, refinement maps and their homotopies). |
-| ClassifyingSpaces | the weak-topology join model of a discrete group. |
-| SpinRepresentations | exterior and half-spin modules and their weight characters. |
-
-Every declaration named in this table is consumed, never restated. The contract with each
-supplier roadmap in detail:
-
-- [AlgebraicTopology Stages2–6,8.1–8.7](../AlgebraicTopology/README.md) owns singular
-  chains/cochains, local systems, cup/cap/cross products and pair
-  sequences, excision, cellular comparison, Künneth and homotopy
-  comparison. Consume actual Tau Ceti `TopCat.singularCohomology`,
-  `singularCohomologyMap`, `singularCup`, `TopPair.singularCohomology`,
-  `singularCohomologyδ` and the relative exactness/naturality lemmas. The
-  cup module already proves associativity and units; its full graded
-  and relative packaging is that supplier's target.
-  C2's primary Euler obstruction additionally consumes AT8.9. C1.5a's
-  Eilenberg–MacLane identification of the rank-one projective carriers
-  consumes AT8.5, AT8.8's bar model of ℤ/2 with its normalized π₁
-  identification, AT8.10's ordinary models and
-  representability and AT8.12's native circle comparison, after C1.5's
-  independent carrier/cellular calculations; ordinary line classification in
-  C1.6 consumes AT8.10 and C1.5a. C1.5's comparison portion and C2.0–C2.4 consume
-  no AT8.8, AT8.10 or AT8.12.
-  C2.4a's projective-hyperplane adapter, transverse-preimage Gysin identity and
-  embedded representatives of homology classes in codimensions one and two
-  consume AT6.4's Poincaré duality, AT8.7's smooth triangulation with its
-  dimension bound, AT8.10, AT8.12 and AT8.13's smoothing, relative
-  transversality and transverse circle classifying map; AT8.13 owns those three
-  targets and this roadmap owns the adapter, the identity and the
-  representation theorem. C7.6 consumes AT8.16's theorem for Serre fibrations
-  S³→S² whose fibres have vanishing third homology and proves its two
-  hypotheses for the Hopf projection.
-  For the support lane, C1.2a consumes the compactly supported
-  local-coefficient cochain foundation of AT's supported-cellular supplement
-  after Stage 6.2 (the support colimit and H_c, support enlargement,
-  cofinality, proper pullback, open extension, supported and mixed-support
-  cups, and jointly proper homotopy invariance), together with ordinary AT2–4
-  and AT6.1–6.2. AlgebraicTopology consumes nothing of C1.2a. C1.2a S5
-  compares its collared-pair triangle with that supplement's supported
-  CW-pair triangle.
-- [AlgebraicTopology Stage 4.10 and Stage 5.5](../AlgebraicTopology/README.md)
-  supply the generic homotopy-theoretic inputs. Serre fibrations themselves
-  are the pinned Tau Ceti class `TauCeti.TopCat.serreFibrations`
-  (`Topology/Homotopy/SerreFibration/Basic.lean`, the right lifting property
-  against the disk-cylinder inclusions, with `mem_serreFibrations_iff_cube`,
-  closure under composition, retracts and base change, and
-  `IsCoveringMap.mem_serreFibrations`). Membership of locally trivial maps is
-  pinned too, with no hypothesis on the base:
-  `TauCeti.hasHomotopyLiftingProperty_cube_of_exists_trivialization` and
-  `TauCeti.TopCat.mem_serreFibrations_of_exists_trivialization` for a map
-  every point of whose base lies in the base set of a `Bundle.Trivialization F`,
-  and `TauCeti.TopCat.mem_serreFibrations_proj` for the projection of a native
-  `FiberBundle F E` (`SerreFibration/FiberBundle.lean`). Those pinned theorems
-  use one common typical fibre F for every chart of the map. Consume them by
-  name. On that pinned class Stage 5.5 supplies, as its own targets, the
-  fibration homotopy exact sequence including components and the homological
-  and multiplicative cohomological Serre spectral sequences. Stage 4.10
-  supplies CW approximation, weak-equivalence invariance of singular homology
-  with local coefficients, and the connected-map homology comparison with its
-  coefficient-chain/Hom form. Those are supplier targets, not library
-  theorems. Variable-rank bundles are treated on their rank strata. C1.1b specializes
-  the homotopy exact sequence to its numerable bundles; C1.2b consumes the
-  connected-map comparison for its singular counit; C5a.5 applies the
-  multiplicative cohomological Serre comparison and C5a.6 reuses it. The
-  actual Milnor counit theorem remains C1.2b, distinct from the abstract
-  CW-approximation existence theorem.
-- [DifferentialGeometry Layers 0–2, 5–10](../DifferentialGeometry/README.md) owns
-  forms and wedge (Layer 0), d (Layer 1), orientations (Layer 2),
-  integration/Stokes, compact supports and the multiplicative singular/de Rham
-  comparison. C2 builds cohomological Thom,
-  fibre integration and their comparison on those objects, including the
-  compact-support singular/de Rham comparison.
-- [SmoothBundlesConnections B1–B4,B6](../SmoothBundlesConnections/README.md)
-  owns principal/associated smooth bundles, connections, curvature, Bianchi,
-  local transition conventions and the normalized integral circle class.
-  [ComplexKahlerGeometry K4](../ComplexKahlerGeometry/README.md)
-  supplies Hermitian holomorphic bundles and Chern connections;
-  [K7.1/K7.2](../ComplexKahlerGeometry/README.md)
-  supplies the single projective carrier/atlas, tautological and dual lines,
-  normalized Fubini–Study form and O(1) curvature −2πiω_FS. C1.5 consumes
-  K7.1 and only K7.2's CW/cellular/cup subitems, with positive hyperplane
-  generator and inclusion compatibility, before the universal-class
-  comparison. The line-curvature/smooth comparison uses K4 and K7.2's
-  independent form and SBC B6 circle-class comparisons. C7.6 uses only
-  K7.1's comparison of the sphere-quotient model `TauCeti.ComplexProjectiveSpace`
-  with `Projectivization ℂ (Fin 2 → ℂ)` and K7.1's Riemann-sphere diffeomorphism
-  from `OnePoint ℂ` to `Projectivization ℂ (Fin 2 → ℂ)` with Mathlib's topology.
-  Tau Ceti's `OnePoint.diffeomorphProjectivization` is stated on Tau Ceti's own
-  copy of the projectivization topology, whose module does not import together
-  with Mathlib.
-- [GeometricTopology §§1.5, 11.3](../GeometricTopology/README.md) owns the
-  uniqueness of tubular neighbourhoods up to isotopy, which C2.4's independence
-  of the tube uses, and the smooth triangulations that C2.3a's worked example
-  uses. The intrinsic normal bundle and the tubular neighbourhood theorem, which
-  GeometricTopology §1.5 cites from Tau Ceti, and the weak and strong Whitney
-  topologies on smooth maps are pinned and consumed by name (supplier table).
-- [LieGroups](../RepresentationTheory/LieGroups/README.md) owns Lie groups,
-  closed subgroups, adjoint action, tori, Weyl groups and root planes;
-  [CompactGroups](../RepresentationTheory/CompactGroups/README.md) owns Haar
-  averaging and Peter–Weyl. C1.3 consumes LieGroups Layer 7's finite faithful unitary
-  representation. C5 builds invariant-polynomial restriction;
-  it uses LieGroups Layer5A for the Ad-invariant metric, the splitting
-  𝔤=𝔷(𝔤)⊕[𝔤,𝔤] and the semisimplicity and negative-definite Killing form of
-  [𝔤,𝔤], LieGroups Layer6 for the Cartan subalgebra t_ss,C and the
-  root-pairing isomorphism,
-  [LieHighestWeight L1](../RepresentationTheory/LieHighestWeight/README.md)
-  for the Cartan/root decomposition, Mathlib's `LieAlgebra.HasCentralRadical`
-  for reductivity, and the pinned Tau Ceti Chevalley restriction isomorphism
-  with its homogeneous compatibility (C5.1) for the generic Lie-algebra
-  restriction.
-- LieGroupoidsPoisson G1.3a
-  owns the all-degree real Lie-algebra CE complex, its coefficient modules
-  and low-degree native comparison. C5a constructs the compact-group
-  invariant-form and Haar homotopies on that complex.
-  [ReflectionInvariantTheory §§1–3](../ReflectionInvariantTheory/README.md)
-  owns the early fixed-polynomial algebra, homogeneous basic-invariant
-  evaluation, regular sequence, coinvariant and character-lattice scalar-change
-  interfaces independently of topology. C5a consumes those maps and owns
-  their compact cohomology/transgression application. Its exterior theorem is
-  not a premise for the reflection invariant-algebra theorem.
-- [TopologicalKTheory T2–T5](../TopologicalKTheory/README.md) owns actual SplitK0
-  K-rings, relative triples/complexes, compact supports, λ-operations, Bott and
-  the dual-Koszul Thom class. C6 constructs ch on these functors and its Thom
-  correction, rather than replacing relative classes by their absolute image.
-- [SpinRepresentations](../RepresentationTheory/SpinRepresentations/README.md)
-  supplies exterior/half-spin modules and weight characters. C7 translates
-  specified root characters into characteristic series; spin lifts, geometric
-  chirality, Dirac operators and index theorems are geometric consumers.
-
-## How to read the build
-
-C1 builds universal principal bundles and their finite smooth approximations, the cohomological
-infrastructure (the Bockstein, compactly supported relative cochains, the singular counit and
-the Čech comparison) and the line classes with their Eilenberg–MacLane identifications. C2 builds
-Thom and Euler classes, the Gysin sequence, the primary obstruction, the Euler number, embedding
-Gysin maps with their hyperplane-section application to embedded representatives of homology
-classes in codimensions one and two, and fibre integration. C3 defines Stiefel–Whitney,
-Chern and Pontryagin classes by projective splitting
-and computes the universal rings mod 2 and away from 2, with w₂ as the spin obstruction. C4
-builds Chern–Weil forms and the universal Chern–Weil map, and C5 proves Chevalley restriction
-and Borel's theorem for the rational universal rings. C5a computes the cohomology of compact
-connected Lie groups by invariant forms, the Weil algebra and universal transgression. C6
-builds multiplicative sequences on bundles and the Chern character with its Thom correction, and
-C7 fixes the characteristic-number formulas and the acceptance calculations. C1–C3 precede the
-curvature layers; the projective cohomology theorem is independent of K-theoretic Bott and Thom
-theory, C7.3a uses no layer of this roadmap after C3, C7.6 uses C1.5 and no later layer of
-this roadmap, with AlgebraicTopology's theorem on Serre fibrations S³→S², and nothing here has an analytic-index or pseudodifferential
-prerequisite.
 
 ## C1: Universal principal bundles and cohomology infrastructure
 
@@ -3395,6 +3190,211 @@ theorem and Mathlib's `onePointEquivSphereOfFinrankEq`, independently of C2–C6
   roadmap's classes, carriers and Thom/Gysin maps and AlgebraicTopology's supported cochains,
   Eilenberg–MacLane models, transversality targets and Serre-fibration theorem; they consume
   those sections, and none of them is an input to AlgebraicTopology.
+
+## Scope and ownership
+
+This roadmap owns the topological characteristic classes of real and complex vector bundles and
+of principal bundles, and their comparison with curvature:
+
+- C1: universal principal bundles of Hausdorff topological groups over CW bases and of compact
+  Lie groups over paracompact bases, finite smooth universal
+  approximations, trivializations and clutching, the support excision and collared-pair triangle
+  of C1.2a S5, the singular counit and the Čech/singular comparison on spaces of CW type
+  (C1.2b), the line classes, the Eilenberg–MacLane identifications of RP∞ and CP∞, and the
+  classification of line bundles;
+- C2: Thom and Euler classes, the Gysin sequence, the Euler class as primary obstruction, the
+  Euler number `⟨e(TM),[M]⟩=χ(M)`, embedding Gysin maps, the projective-hyperplane adapter with
+  the embedded representatives of homology classes in codimensions one and two (C2.4a), and
+  fibre integration;
+- C3: Leray–Hirsch, Stiefel–Whitney, Chern and Pontryagin classes defined by projective
+  relations, the integral Bockstein classes W_k, the universal rings of BU(r), BO(n) and BSO(n)
+  mod 2 and away from 2, partial-frame obstructions, and w₂ as the spin obstruction;
+- C4 and C5: Chern–Weil forms, the universal Chern–Weil map, compact-Lie Chevalley restriction,
+  and the rational universal rings with Borel's theorem;
+- C5a: the real and rational cohomology of compact connected Lie groups through invariant forms,
+  the Weil algebra and universal transgression;
+- C6 and C7: multiplicative sequences on bundles, the Chern character and its Thom correction,
+  the characteristic-number formulas and the acceptance calculations, including the Hopf
+  instance of AlgebraicTopology's essential map T³→S² (C7.6).
+
+The labels C1–C7 and C5a, and the item labels C1.0, …, C7.AdjointHopfObstruction, are the ones
+other roadmaps cite; every heading below carries its label.
+
+Left to other roadmaps:
+
+- The compactly supported local-coefficient cochain foundation (support colimits and H_c,
+  support enlargement, cofinality, proper pullback, open extension, supported and mixed-support
+  cups, jointly proper homotopy invariance), labelled S0–S4 in C1.2a, is AlgebraicTopology's
+  supported-cellular supplement after Stage 6.2; the absolute-relative, same-pair and
+  union-relative products on excisive couples are AlgebraicTopology Stage 6.2's.
+- Singular (co)homology with local coefficients, cup, cap and cross products, CW structures,
+  Künneth, the fibration homotopy sequence, the Serre spectral sequences and the
+  Eilenberg–MacLane models, the smoothing of maps into compact manifolds, parametric and
+  relative transversality and the transverse circle classifying map of a degree-one integral
+  class are AlgebraicTopology's; continuous vector bundles, Grassmannians,
+  Stiefel spaces, numerable BO/BU classification, continuous principal bundles and K-theory are
+  TopologicalKTheory's; smooth principal bundles, connections, curvature and the normalized
+  integral circle class are SmoothBundlesConnections'; forms, integration and the de Rham
+  comparison are DifferentialGeometry's; the finite faithful unitary representation of a compact
+  Lie group is LieGroups Layer 7's.
+- The Lefschetz fixed-point formula, its graph/diagonal trace expression and the fixed-point
+  index sum belong to MorseNovikov N6 and are not restated here; C2.3 states only the
+  Euler-class pullback identity for a self-map.
+- The algebraic-vector-bundle roadmap concerns schemes and Chow/étale realization. Tau Ceti's
+  quadratic-form `sw1`/`sw2` concern Galois cohomology of fields; they are distinct from the
+  topological classes constructed here.
+- ClassifyingSpaces treats discrete groups with the weak-topology countable join; C1 compares
+  that specialization and constructs the classifiers of compact Lie and general Hausdorff groups.
+- Spin lifts, geometric chirality, Dirac operators and index theorems are geometric consumers of
+  C3.5, C6 and C7; the KKS root-plane Hessian/Morse comparison is a symplectic application at the
+  HamiltonianReduction/SchubertGeometry boundary.
+
+## Exact supplier contracts
+
+| Supplier | Exact interface consumed |
+| --- | --- |
+| Mathlib, at the pin | `FiberBundle`, `VectorBundle`, `VectorBundleCore`, `Bundle.TotalSpace` and `ContMDiffVectorBundle` with their pullback and Hom/dual constructions; `CompactlyGenerated` and `CompactlyGenerated.compactlyGeneratedToTop`; `sSetTopAdj`, `SSet.KanComplex` and `SSet.π₀`; `cechComplexFunctor` and `CategoryTheory.Sheaf.H`; `MvPolynomial.symmetricSubalgebra`, `esymm`, `psum` and `esymmAlgEquiv`; `LieAlgebra.HasCentralRadical`, `LieAlgebra.IsKilling` and `LieModule.Cohomology.d₁₂_apply_apply_ofTrivial`; `exists_embedding_euclidean_of_compact`; `bernoulli'PowerSeries` and `bernoulliPowerSeries`; `Projectivization`; `Manifold.IsSmoothEmbedding` (C2.4a); `Manifold.IsImmersion`, `Manifold.IsImmersion.id`, `MulAction.instChartedSpaceQuotient`, `contMDiff_neg_sphere` and `contMDiff_id` (C7.3a); `onePointEquivSphereOfFinrankEq` and `Diffeomorph.toHomeomorph` (C7.6). |
+| Tau Ceti, at the pin | Singular cohomology `TopCat.singularCohomology`, `TopPair.singularCohomology`, `singularCohomologyMap`, `singularCup` and `singularCohomologyδ`, and the Bocksteins `TopCat.singularCohomologyBockstein` and `TopPair.singularCohomologyBockstein` (C1.2); the Serre-fibration class `TauCeti.TopCat.serreFibrations` with its membership theorems (C1.1b, C3.1); `TauCeti.OrthonormalFrameBundle`, the orientation cover `TauCeti.VectorBundleOrientationCover` with its sign local system, and `TauCeti.VectorBundleOrientation` (C1.0, C1.1a); the principal-bundle class `TauCeti.PrincipalBundle` with its division map `TauCeti.PrincipalBundle.division` and the trivialization `TauCeti.PrincipalBundle.trivializationOfSection` of a section (C1.1d); the finite Grassmannians `TauCeti.finiteGrassmannian` and `TauCeti.finiteOrientedGrassmannian` (C1.1a); `TauCeti.thomPair`, `TauCeti.IsThomClass`, `TauCeti.eulerClass` and the Thom-class gluing and existence theorems (C2.1–C2.2); `TauCeti.FiberBundle.t2Space_totalSpace` and `TauCeti.hasHomotopyExtensionProperty_base` (C2.0); `TauCeti.HomologicalOrientation.evalFundamentalClass`, `TauCeti.localOrientationOfManifoldOrientation`, `Orientation.localOrientation`, `TauCeti.eulerChar`, `TauCeti.FiniteCWType` and `TauCeti.Manifold.Orientation.toVectorBundleOrientation` (C2.3); the intrinsic normal bundle `TauCeti.SmoothEmbedding.NormalSpace` and the tubular neighbourhood theorem `TauCeti.SmoothEmbedding.exists_diffeomorph_normalBundle_subset` (C2.4); `TauCeti.HomologicalOrientation.mapFundamentalClass` and `TauCeti.HomologicalOrientation.fundamentalClass` (C2.4a); the weak Whitney topology `ContMDiffMap.manifoldWeakWhitneyTopology` and its agreement with the strong Whitney topology on compact sources, `ContMDiffMap.manifoldStrongWhitneyTopology_eq_manifoldWeakWhitneyTopology` (C2.5); the Milnor sequence of a tower of complexes and the Mittag–Leffler vanishing (C3.1); the real Clifford spin-cover declarations (C3.5); `TauCeti.lieCartanRestriction`, `LieSubalgebra.lieChevalleyRestrictionIso` and the Killing symmetric-algebra maps (C5.1); `PowerSeries.multiplicativeSequence`, `TauCeti.aHatSeries`, `TauCeti.hirzebruchLSeries` and the genus polynomials (C6.1, C7.1); `Quaternion.toComplexMatrix` and `Quaternion.unitaryEquivSpecialUnitaryGroup` (C7.AdjointHopfObstruction); `TauCeti.FiniteRankBundleCore.ofBundle`, `TauCeti.RealProjectiveSpace` and `TauCeti.instIsManifoldQuotient` (C7.3a); the sphere-quotient model `TauCeti.ComplexProjectiveSpace` (C7.6). Each item names the files and the exact declarations it consumes. |
+| AlgebraicTopology | Stages 2–6 and 8.1–8.7: singular chains and cochains, local systems, cup, cap and cross products, pair sequences, excision, cellular comparison and Künneth; Stage 2.5 (the sup-ball disk homeomorphism), 4.5 (the relative CW pushouts), 4.6 (the finite real projective spaces), 4.8 (compact generation), 4.10 (CW approximation and the connected-map comparison), 5.5 (the fibration homotopy sequence and the Serre spectral sequences), 6.0–6.2 (the tower Milnor sequence, local-coefficient cochains, the Bockstein, products on excisive couples) and its supported-cellular supplement, 6.4 (Poincaré duality), 7 (the Euler characteristic of a triangulation); Stages 8.2, 8.3, 8.5, 8.7, 8.8, 8.9, 8.10, 8.12, 8.13 and 8.16 (the Kan/cubical comparison, Hurewicz, Whitehead, manifold triangulations with their dimension bound, the bar model of ℤ/2 with its normalized π₁ identification and its classification of pointed maps, primary obstructions, the ordinary Eilenberg–MacLane models and representability, the native circle comparison, the smoothing, transversality and transverse circle classifying-map targets, the essential map T³→S² through a Serre fibration S³→S²). |
+| TopologicalKTheory | T1 (continuous finite-rank bundles, metrics, embeddings), T1.3–T1.4 (fibre metrics and the disk-bundle homotopy invariance), T1.5 and T1.5a (finite Grassmannians, Stiefel quotients, the sphere-bundle sequences of SO(k) and π₁(SO(k))), T1.6 and T1.6a (BO(n), BU(n), the finite oriented carriers and their colimits, the countable-colour producer), T2–T5 (K-rings, relative K-theory, compact supports, λ-operations, Bott periodicity, the dual-Koszul Thom class and the embedding pushforward of T5 item 5), T3.4 and T4.8 (right suspension and cone boundary), T6.4 (continuous principal and associated bundles), T7.4 (the doubled-space kernel comparison). |
+| DifferentialGeometry | Layers 0–2 and 5–10: forms, wedge, d, orientations, integration and Stokes, compact supports, the multiplicative singular/de Rham comparison (Layer 8) and the manifold Sard theorem (10.2). |
+| SmoothBundlesConnections | B1.4 (free proper quotients and homogeneous spaces), B2 (associated bundles, frames, metrics, Hom/dual/sum), B3–B4 (connections, curvature, Bianchi), B6.0 (smooth good covers), B6 (the normalized circle class, rank-one Chern–Weil, the lens-space flat bundles). |
+| ComplexKahlerGeometry | K4 (Hermitian holomorphic bundles and Chern connections), K7.1–K7.2 (the projective carrier and atlas, tautological and dual lines, the Fubini–Study form and the O(1) curvature), and K7.1's comparison of the sphere-quotient model with `Projectivization ℂ (Fin 2 → ℂ)` and its Riemann-sphere diffeomorphism on Mathlib's topology (C7.6). |
+| GeometricTopology | §1.5 (the uniqueness of tubular neighbourhoods up to isotopy), §11.3 (smooth triangulations). |
+| LieGroups | Layer 1 (Ad), Layer 2 (`SU(2)≃S³` by the first column), Layer 5 (`Ad : SU(2) → SO(3)`), Layer 5A (B_G, the splitting 𝔤=𝔷(𝔤)⊕[𝔤,𝔤], the radical/centre and bracket-orthogonality arguments, the negative-definite Killing form of [𝔤,𝔤]), Layer 6 (maximal tori, Weyl groups, the root-pairing isomorphism), Layer 7 (finite faithful unitary representations of compact Lie groups) and the universal-cover and central-quotient classification. |
+| CompactGroups | Layers 0–1 (Haar probability, averaging). |
+| LieHighestWeight | L1 (Cartan and root decompositions and the root system). |
+| LieGroupoidsPoisson | G1.3a (the all-degree real Lie-algebra Chevalley–Eilenberg complex). |
+| ReflectionInvariantTheory | §§1–3 (fixed-polynomial algebra, basic invariants, regular sequences, coinvariants), §4 (degrees and exponents). |
+| SchubertGeometry | S9.6 (rational acyclicity of K/N(T) and the integral SU(2) normalizer comparison). |
+| TopologicalSheafCohomology | TS1.1–TS1.2 (fixed-cover Čech complexes, refinement maps and their homotopies). |
+| ClassifyingSpaces | the weak-topology join model of a discrete group. |
+| SpinRepresentations | exterior and half-spin modules and their weight characters. |
+
+Every declaration named in this table is consumed, never restated. The contract with each
+supplier roadmap in detail:
+
+- [AlgebraicTopology Stages2–6,8.1–8.7](../AlgebraicTopology/README.md) owns singular
+  chains/cochains, local systems, cup/cap/cross products and pair
+  sequences, excision, cellular comparison, Künneth and homotopy
+  comparison. Consume actual Tau Ceti `TopCat.singularCohomology`,
+  `singularCohomologyMap`, `singularCup`, `TopPair.singularCohomology`,
+  `singularCohomologyδ` and the relative exactness/naturality lemmas. The
+  cup module already proves associativity and units; its full graded
+  and relative packaging is that supplier's target.
+  C2's primary Euler obstruction additionally consumes AT8.9. C1.5a's
+  Eilenberg–MacLane identification of the rank-one projective carriers
+  consumes AT8.5, AT8.8's bar model of ℤ/2 with its normalized π₁
+  identification, AT8.10's ordinary models and
+  representability and AT8.12's native circle comparison, after C1.5's
+  independent carrier/cellular calculations; ordinary line classification in
+  C1.6 consumes AT8.10 and C1.5a. C1.5's comparison portion and C2.0–C2.4 consume
+  no AT8.8, AT8.10 or AT8.12.
+  C2.4a's projective-hyperplane adapter, transverse-preimage Gysin identity and
+  embedded representatives of homology classes in codimensions one and two
+  consume AT6.4's Poincaré duality, AT8.7's smooth triangulation with its
+  dimension bound, AT8.10, AT8.12 and AT8.13's smoothing, relative
+  transversality and transverse circle classifying map; AT8.13 owns those three
+  targets and this roadmap owns the adapter, the identity and the
+  representation theorem. C7.6 consumes AT8.16's theorem for Serre fibrations
+  S³→S² whose fibres have vanishing third homology and proves its two
+  hypotheses for the Hopf projection.
+  For the support lane, C1.2a consumes the compactly supported
+  local-coefficient cochain foundation of AT's supported-cellular supplement
+  after Stage 6.2 (the support colimit and H_c, support enlargement,
+  cofinality, proper pullback, open extension, supported and mixed-support
+  cups, and jointly proper homotopy invariance), together with ordinary AT2–4
+  and AT6.1–6.2. AlgebraicTopology consumes nothing of C1.2a. C1.2a S5
+  compares its collared-pair triangle with that supplement's supported
+  CW-pair triangle.
+- [AlgebraicTopology Stage 4.10 and Stage 5.5](../AlgebraicTopology/README.md)
+  supply the generic homotopy-theoretic inputs. Serre fibrations themselves
+  are the pinned Tau Ceti class `TauCeti.TopCat.serreFibrations`
+  (`Topology/Homotopy/SerreFibration/Basic.lean`, the right lifting property
+  against the disk-cylinder inclusions, with `mem_serreFibrations_iff_cube`,
+  closure under composition, retracts and base change, and
+  `IsCoveringMap.mem_serreFibrations`). Membership of locally trivial maps is
+  pinned too, with no hypothesis on the base:
+  `TauCeti.hasHomotopyLiftingProperty_cube_of_exists_trivialization` and
+  `TauCeti.TopCat.mem_serreFibrations_of_exists_trivialization` for a map
+  every point of whose base lies in the base set of a `Bundle.Trivialization F`,
+  and `TauCeti.TopCat.mem_serreFibrations_proj` for the projection of a native
+  `FiberBundle F E` (`SerreFibration/FiberBundle.lean`). Those pinned theorems
+  use one common typical fibre F for every chart of the map. Consume them by
+  name. On that pinned class Stage 5.5 supplies, as its own targets, the
+  fibration homotopy exact sequence including components and the homological
+  and multiplicative cohomological Serre spectral sequences. Stage 4.10
+  supplies CW approximation, weak-equivalence invariance of singular homology
+  with local coefficients, and the connected-map homology comparison with its
+  coefficient-chain/Hom form. Those are supplier targets, not library
+  theorems. Variable-rank bundles are treated on their rank strata. C1.1b specializes
+  the homotopy exact sequence to its numerable bundles; C1.2b consumes the
+  connected-map comparison for its singular counit; C5a.5 applies the
+  multiplicative cohomological Serre comparison and C5a.6 reuses it. The
+  actual Milnor counit theorem remains C1.2b, distinct from the abstract
+  CW-approximation existence theorem.
+- [DifferentialGeometry Layers 0–2, 5–10](../DifferentialGeometry/README.md) owns
+  forms and wedge (Layer 0), d (Layer 1), orientations (Layer 2),
+  integration/Stokes, compact supports and the multiplicative singular/de Rham
+  comparison. C2 builds cohomological Thom,
+  fibre integration and their comparison on those objects, including the
+  compact-support singular/de Rham comparison.
+- [SmoothBundlesConnections B1–B4,B6](../SmoothBundlesConnections/README.md)
+  owns principal/associated smooth bundles, connections, curvature, Bianchi,
+  local transition conventions and the normalized integral circle class.
+  [ComplexKahlerGeometry K4](../ComplexKahlerGeometry/README.md)
+  supplies Hermitian holomorphic bundles and Chern connections;
+  [K7.1/K7.2](../ComplexKahlerGeometry/README.md)
+  supplies the single projective carrier/atlas, tautological and dual lines,
+  normalized Fubini–Study form and O(1) curvature −2πiω_FS. C1.5 consumes
+  K7.1 and only K7.2's CW/cellular/cup subitems, with positive hyperplane
+  generator and inclusion compatibility, before the universal-class
+  comparison. The line-curvature/smooth comparison uses K4 and K7.2's
+  independent form and SBC B6 circle-class comparisons. C7.6 uses only
+  K7.1's comparison of the sphere-quotient model `TauCeti.ComplexProjectiveSpace`
+  with `Projectivization ℂ (Fin 2 → ℂ)` and K7.1's Riemann-sphere diffeomorphism
+  from `OnePoint ℂ` to `Projectivization ℂ (Fin 2 → ℂ)` with Mathlib's topology.
+  Tau Ceti's `OnePoint.diffeomorphProjectivization` is stated on Tau Ceti's own
+  copy of the projectivization topology, whose module does not import together
+  with Mathlib.
+- [GeometricTopology §§1.5, 11.3](../GeometricTopology/README.md) owns the
+  uniqueness of tubular neighbourhoods up to isotopy, which C2.4's independence
+  of the tube uses, and the smooth triangulations that C2.3a's worked example
+  uses. The intrinsic normal bundle and the tubular neighbourhood theorem, which
+  GeometricTopology §1.5 cites from Tau Ceti, and the weak and strong Whitney
+  topologies on smooth maps are pinned and consumed by name (supplier table).
+- [LieGroups](../RepresentationTheory/LieGroups/README.md) owns Lie groups,
+  closed subgroups, adjoint action, tori, Weyl groups and root planes;
+  [CompactGroups](../RepresentationTheory/CompactGroups/README.md) owns Haar
+  averaging and Peter–Weyl. C1.3 consumes LieGroups Layer 7's finite faithful unitary
+  representation. C5 builds invariant-polynomial restriction;
+  it uses LieGroups Layer5A for the Ad-invariant metric, the splitting
+  𝔤=𝔷(𝔤)⊕[𝔤,𝔤] and the semisimplicity and negative-definite Killing form of
+  [𝔤,𝔤], LieGroups Layer6 for the Cartan subalgebra t_ss,C and the
+  root-pairing isomorphism,
+  [LieHighestWeight L1](../RepresentationTheory/LieHighestWeight/README.md)
+  for the Cartan/root decomposition, Mathlib's `LieAlgebra.HasCentralRadical`
+  for reductivity, and the pinned Tau Ceti Chevalley restriction isomorphism
+  with its homogeneous compatibility (C5.1) for the generic Lie-algebra
+  restriction.
+- LieGroupoidsPoisson G1.3a
+  owns the all-degree real Lie-algebra CE complex, its coefficient modules
+  and low-degree native comparison. C5a constructs the compact-group
+  invariant-form and Haar homotopies on that complex.
+  [ReflectionInvariantTheory §§1–3](../ReflectionInvariantTheory/README.md)
+  owns the early fixed-polynomial algebra, homogeneous basic-invariant
+  evaluation, regular sequence, coinvariant and character-lattice scalar-change
+  interfaces independently of topology. C5a consumes those maps and owns
+  their compact cohomology/transgression application. Its exterior theorem is
+  not a premise for the reflection invariant-algebra theorem.
+- [TopologicalKTheory T2–T5](../TopologicalKTheory/README.md) owns actual SplitK0
+  K-rings, relative triples/complexes, compact supports, λ-operations, Bott and
+  the dual-Koszul Thom class. C6 constructs ch on these functors and its Thom
+  correction, rather than replacing relative classes by their absolute image.
+- [SpinRepresentations](../RepresentationTheory/SpinRepresentations/README.md)
+  supplies exterior/half-spin modules and weight characters. C7 translates
+  specified root characters into characteristic series; spin lifts, geometric
+  chirality, Dirac operators and index theorems are geometric consumers.
 
 ## References
 

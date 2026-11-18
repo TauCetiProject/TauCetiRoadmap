@@ -37,89 +37,16 @@ The end theorems are `Scheme.Hom.exists_etale_of_formallyUnramified_stalk_codimO
 `Scheme.Hom.etale_of_etaleAt_codimOne` (§2.2) and
 `Scheme.Hom.ringKrullDim_stalk_eq_one_of_maximal_branchLocus` (§2.3).
 
-## Scope and ownership
+## How to read the build
 
-**This roadmap owns** purity of the branch locus (Stacks, Lemma 58.21.4 (0BMB)) in its stalkwise,
-Stacks and affine forms (§2.1); its global corollary for finite generically étale morphisms
-(§2.2); and the codimension-one purity of the ramification and branch loci of a dominant locally
-quasi-finite morphism, locally of finite type, from a normal integral scheme to a regular integral
-scheme (SGA 1, Exposé X, Théorème 3.1; §2.3).
-
-**Owned elsewhere and consumed here.**
-
-- *Purity for regular local rings* (Stacks, Lemma 58.21.3 (0BMA) (2), with the torsion-free
-  correction of LocalPurity Convention 5): [LocalPurity](../LocalPurity/README.md) §2.1,
-  `Algebra.etale_of_finiteNormal_of_isRegularLocalRing`.
-- *The pointwise vocabulary and the loci*: Tau Ceti's stalkwise characterizations of unramified
-  points for `f` locally of finite type, of étale points for `f` locally of finite presentation, and
-  of quasi-finite points (Stacks 02G4, 02GU, 01TD), and its `Scheme.Hom.ramificationLocus`,
-  `Scheme.Hom.nonEtaleLocus` and `Scheme.Hom.branchLocus` with their API, including
-  `Scheme.Hom.ramificationLocus_eq_nonEtaleLocus` for a dominant morphism of integral schemes,
-  locally of finite type, onto a locally Noetherian normal scheme (SGA 1, Exposé I, 9.5 (ii)).
-- *Étale localization and étale invariance*: Tau Ceti's elementary étale localization of a
-  morphism locally of finite type at a point where it is quasi-finite (Stacks 02LK, with its
-  persistence clause), descent of étaleness along flat
-  morphisms (Stacks 036W for `f` locally of finite presentation), normality along étale
-  homomorphisms of local rings (Stacks 025P, without Noetherian hypotheses), and the invariance of
-  the dimension and the regularity of local rings under étale morphisms (Stacks 039S, 025N).
-- *Dimensions of local rings*: Tau Ceti's `Scheme.Hom.ringKrullDim_stalk_eq_of_locallyQuasiFinite`
-  and `Scheme.Hom.ringKrullDim_stalk_eq_of_quasiFiniteAt` (equality of local dimensions for a
-  dominant morphism of integral schemes, locally of finite type, quasi-finite at the point, with
-  normal target).
-- *Normal and regular schemes, regular local rings*: Tau Ceti's
-  `TauCeti.AlgebraicGeometry.IsNormalScheme`, `TauCeti.AlgebraicGeometry.IsRegular`, the instance
-  `TauCeti.AlgebraicGeometry.IsRegular.isNormal` (Stacks 0569), Serre's characterization of
-  regular local rings by finite global dimension (Stacks 00OC), both sentences of Stacks 0AFS (the
-  second as the instance making a regular local ring Mathlib's `IsRegularRing`), the instance
-  making a regular ring integrally closed, and the dimension-one and dimension-two cases of 0BMB.
-- *Descent of étaleness along fpqc covers* (Descent, Lemma 35.23.31 (02VN)), *going down* (Algebra,
-  Proposition 10.38.7 (00H8)) and *the dimension formula* (Lemma 10.112.7 (00ON)): Mathlib.
-
-The exact declarations, files and hypotheses are in the supplier contracts. Sections of this
-roadmap whose targets are at the Tau Ceti pin are cited by their former numbers elsewhere; they
-resolve as follows (paths under `TauCeti/`).
-
-| Former section | Content | Owner at the pins |
-|---|---|---|
-| §0.1 | stalk forms of "unramified at `x`" and "étale at `x`", affine comparisons, quasi-finiteness from an affine chart | Tau Ceti `AlgebraicGeometry.Scheme.Hom.unramifiedAt_iff_stalkMap`, `Scheme.Hom.etaleAt_iff_stalkMap`, `Scheme.Hom.etaleAt_spec_iff`, `Scheme.Hom.unramifiedAt_spec_iff`, `Scheme.Hom.quasiFiniteAt_of_appLE`, `Scheme.Hom.exists_appLE_quasiFiniteAt_iff` (`AlgebraicGeometry/Morphisms/StalkMap.lean`) |
-| §0.2 | normality under étale homomorphisms of local rings (025P) | Tau Ceti `TauCeti.Algebra.isNormalDomain_iff_of_etale` (`RingTheory/Etale/Normal.lean`) |
-| §0.3 | global dimension, finite free and minimal resolutions of finite modules over a Noetherian local ring under a projective-dimension bound (0CXF, 00MT), comparison maps into exact augmented complexes (00LS), Auslander–Buchsbaum, Serre's characterization of regular local rings, 0AFS | Tau Ceti, by target in the next table |
-| §0.4 | the ramification, non-étale and branch loci and their API | Tau Ceti `AlgebraicGeometry/Morphisms/RamificationLocus.lean` |
-| §1.1 | elementary étale neighbourhoods (02LK), étaleness étale local on the source (036W, used here for `f` locally of finite presentation) | Tau Ceti `Scheme.Hom.exists_elementaryEtale_finite_of_isolated` (`AlgebraicGeometry/Morphisms/ElementaryEtale/Basic.lean`), `Scheme.Hom.exists_finite_open_baseChange` (`…/ElementaryEtale/BaseChange.lean`), `AlgebraicGeometry.Etale.of_comp_surjective` (`AlgebraicGeometry/Morphisms/StalkMap.lean`) |
-
-The targets formerly stated in §0.3 and §2.3 resolve to these declarations (paths under
-`TauCeti/`).
-
-| Former target | Tau Ceti declaration |
-|---|---|
-| *globalDimension* (00O6) | `TauCeti.globalDimension` (`RingTheory/GlobalDimension.lean`) |
-| *globalDimension_le_iff* (065T) | `TauCeti.globalDimension_le_tfae` (`RingTheory/GlobalDimension.lean`) |
-| *globalDimension_le_iff_hasProjectiveDimensionLE* | `TauCeti.globalDimension_le_iff_hasProjectiveDimensionLE` (`RingTheory/GlobalDimension.lean`) |
-| *globalDimension_localization_le* (00O8) | `Submonoid.globalDimension_localization_le` (`RingTheory/GlobalDimension.lean`) |
-| *projectiveDimension_localization_le* (00O8) | Mathlib's `ModuleCat.projectiveDimension_le_projectiveDimension_of_isLocalizedModule` |
-| *finite free resolution of a finite module, zero above a projective-dimension bound* (0CXF) | `ModuleCat.exists_projectiveResolution_finite` (`Algebra/Category/ModuleCat/Projective/FiniteResolution.lean`): over a Noetherian ring, a finite module with `HasProjectiveDimensionLE M n` has a `ProjectiveResolution` with finite terms vanishing above degree `n`; over a local ring these terms are free by Mathlib's `Module.free_of_flat_of_isLocalRing` |
-| *minimization of that resolution* (00MT) | `ModuleCat.exists_projectiveResolution_finite_free_minimal` (`Algebra/Category/ModuleCat/Projective/MinimalResolution/ChainComplex.lean`): over a Noetherian local ring `(R, 𝔪)`, the resolution can be taken finite free, vanishing above degree `n`, with every differential landing in `𝔪` times its target |
-| *augmentation-preserving comparison into an exact augmented complex* (00LS) | `ChainComplex.liftToAugmented` (`Algebra/Homology/HomologicalComplex/Augmented.lean`): only the target complex is assumed exact |
-| *Module.free_of_quotSMulTop_free* (00NS) | Mathlib's `Module.free_quotSMulTop_iff_free`, for `M` finitely presented and `x` an `M`-regular element of the Jacobson radical |
-| *exists_resolution_maximalCohenMacaulay* (00NG) | `TauCeti.exists_resolution_maximalCohenMacaulay` (`RingTheory/CohenMacaulay/Resolution.lean`) |
-| *auslander_buchsbaum* (090V) | `ModuleCat.projectiveDimension_add_depth_eq_depth` (`RingTheory/Depth/AuslanderBuchsbaum.lean`) |
-| *IsRegularLocalRing.free_of_isCohenMacaulay* (00NT) | `TauCeti.IsRegularLocalRing.free_of_isCohenMacaulay` (`RingTheory/RegularLocalRing/Free.lean`) |
-| *IsRegularLocalRing.globalDimension_le* (00O7) | `TauCeti.IsRegularLocalRing.globalDimension_eq_ringKrullDim` (`RingTheory/RegularLocalRing/ProjectiveDimension.lean`) |
-| *projectiveDimension_residueField_ge* (00OA) | `TauCeti.finrank_cotangentSpace_le_projectiveDimension_quotient_maximalIdeal` (`RingTheory/RegularLocalRing/ProjectiveDimension.lean`) |
-| *projectiveDimension_residueField_le* (00OB) | `IsLocalRing.projectiveDimension_quotient_maximalIdeal_le_ringKrullDim` (`RingTheory/Depth/AuslanderBuchsbaum.lean`) |
-| *isRegularLocalRing_tfae* (00OC) | `TauCeti.isRegularLocalRing_tfae` (`RingTheory/RegularLocalRing/ProjectiveDimension.lean`) |
-| *isRegularLocalRing_of_projectiveDimension_residueField* (00OC) | `TauCeti.IsRegularLocalRing.of_hasProjectiveDimensionLE`, with the residue field as `Shrink (R ⧸ maximalIdeal R)` (`RingTheory/RegularLocalRing/ProjectiveDimension.lean`) |
-| *isRegularLocalRing_iff_finite_globalDimension* (0AFS, first sentence) | `TauCeti.isRegularLocalRing_iff_globalDimension_lt_top` (`RingTheory/RegularLocalRing/ProjectiveDimension.lean`) |
-| *IsRegularLocalRing.isRegularLocalRing_localization* (0AFS, second sentence) | the instance `TauCeti.isRegularRing_of_isRegularLocalRing` (`RingTheory/RegularLocalRing/ProjectiveDimension.lean`) with Mathlib's `IsRegularRing.isRegularLocalRing_localization` |
-| *isRegularRing_of_isRegularLocalRing* | the instance `TauCeti.isRegularRing_of_isRegularLocalRing` (`RingTheory/RegularLocalRing/ProjectiveDimension.lean`) |
-| *ringKrullDim_stalk_eq_of_locallyQuasiFinite* (§2.3) | `AlgebraicGeometry.Scheme.Hom.ringKrullDim_stalk_eq_of_locallyQuasiFinite` (`AlgebraicGeometry/Morphisms/LocallyQuasiFinite.lean`) |
-| *ramificationLocus_eq_nonEtaleLocus* (§2.3) | `AlgebraicGeometry.Scheme.Hom.ramificationLocus_eq_nonEtaleLocus` (`AlgebraicGeometry/Morphisms/RamificationLocus.lean`) |
-
-Extension of finite étale covers, ramification in codimension one and Abhyankar's lemma are
-[AbhyankarLemma](../AbhyankarLemma/README.md). Purity of the ramification locus without
-quasi-finiteness, for morphisms étale in codimension one (Stacks, Lemma 58.28.3 (0EA4), attributed
-there to Gabber), is not a target here; nor is Stacks 036W for `f` not locally of finite
-presentation, which no statement here uses.
+The roadmap has one layer, numbered 2 so that citations of its sections keep their numbers; the
+pointwise vocabulary, the loci and étale localization on which it rests are Tau Ceti's and form no
+layer here. §2.1 proves 0BMB by induction on the dimension: the dimension-one case is Tau Ceti's,
+and in higher dimension Tau Ceti's elementary étale localization and étale invariance reduce to a
+finite local homomorphism of local rings, where the induction hypothesis on the punctured spectrum
+and LocalPurity §2.1 conclude. §2.2 and §2.3 apply 0BMB pointwise, with Tau Ceti's equality of local
+dimensions supplying its dimension hypothesis. Each *Needs:* line lists the inputs of its statement
+and route, so that a target proved by another route is not blocked behind an unrelated one.
 
 ## Conventions
 
@@ -165,120 +92,6 @@ presentation, which no statement here uses.
 6. Names: ring-level statements live in the `Algebra` namespace, scheme-level statements in
    `AlgebraicGeometry.Scheme.Hom`; the acceptance file `Suggested.lean` states them in
    `TauCetiRoadmap.PurityOfBranchLocus`.
-
-## Exact supplier contracts
-
-**From Mathlib.**
-
-- `Scheme`, `Scheme.Hom.stalkMap`, `Scheme.Opens.ι`, `IsLocallyNoetherian`, `IsIntegral`,
-  `genericPoint`, `IsDominant` (`Mathlib/AlgebraicGeometry/Morphisms/UnderlyingMap.lean`),
-  `IsFinite` (`Mathlib/AlgebraicGeometry/Morphisms/Finite.lean`), `LocallyOfFiniteType`,
-  `LocallyOfFinitePresentation`, `Etale`, `FormallyUnramified`, `LocallyQuasiFinite` (defined by
-  quasi-finiteness of the ring maps between affine opens; it does not include finite type) and
-  `Scheme.Hom.QuasiFiniteAt`, with `Scheme.Hom.quasiFiniteAt` (a locally quasi-finite morphism is
-  quasi-finite at every point) (`Mathlib/AlgebraicGeometry/Morphisms/QuasiFinite.lean`).
-- `AlgebraicGeometry.FormallyUnramified.stalkMap`: the stalk maps of a formally unramified
-  morphism are formally unramified (`Mathlib/AlgebraicGeometry/Morphisms/FormallyUnramified.lean`).
-- `LocallyOfFiniteType.isLocallyNoetherian`: a scheme locally of finite type over a locally
-  Noetherian scheme is locally Noetherian (`Mathlib/AlgebraicGeometry/Noetherian.lean`).
-- The instance `DescendsAlong @Etale (@Surjective ⊓ @Flat ⊓ @QuasiCompact)` (Stacks 02VN,
-  `Mathlib/AlgebraicGeometry/Morphisms/LocalFlatDescent.lean`).
-- `IsRegularLocalRing` and `IsRegularRing`, with the field `IsRegularRing.isRegularLocalRing_localization`
-  (`Mathlib/RingTheory/RegularLocalRing/Defs.lean`); `ringKrullDim`, `Ideal.height`.
-- `Algebra.QuasiFiniteAt`, `Algebra.IsEtaleAt`, `Algebra.IsUnramifiedAt`, `Algebra.Etale`,
-  `Algebra.FiniteType`.
-- `Algebra.HasGoingDown` and its instance for an integral extension of an integrally closed domain
-  by a domain (`@[stacks 00H8]`, `Mathlib/RingTheory/IntegralClosure/GoingDown.lean`), and the
-  dimension formula under going down `Ideal.height_eq_height_add_of_liesOver_of_hasGoingDown`
-  (`@[stacks 00ON]`, `Mathlib/RingTheory/Ideal/KrullsHeightTheorem.lean`).
-- `Algebra.exists_etale_isIdempotentElem_forall_liesOver_eq` (`@[stacks 00UJ]`,
-  `Mathlib/RingTheory/Etale/QuasiFinite.lean`), the affine input of Tau Ceti's 02LK.
-
-**From Tau Ceti.** Paths are under `TauCeti/`. All the declarations below are proved at the pin.
-
-- *Stalk forms* (`AlgebraicGeometry/Morphisms/StalkMap.lean`), in `AlgebraicGeometry.Scheme.Hom`:
-  `unramifiedAt_iff_stalkMap` (for `f` locally of finite type, Stacks' "unramified at `x`" iff the
-  stalk map is formally unramified; 02G4); `etaleAt_iff_stalkMap` (for `f` locally of finite
-  presentation, étale at `x` iff the stalk map is flat and formally unramified; 02GU (1) ⇔ (4));
-  `etaleAt_spec_iff` and `unramifiedAt_spec_iff` (on `Spec S ⟶ Spec R`, with `Algebra.IsEtaleAt` and
-  `Algebra.IsUnramifiedAt`); `quasiFiniteAt_spec_iff` (on `Spec S ⟶ Spec R`, with
-  `Algebra.QuasiFiniteAt`); `quasiFiniteAt_of_appLE` and `exists_appLE_quasiFiniteAt_iff`
-  (Stacks' quasi-finiteness at `x` iff local finite type near `x` and `f.QuasiFiniteAt x`; 01TD).
-  In `AlgebraicGeometry`: `formallyUnramified_stalkMap_specMap_iff` (on `Spec S ⟶ Spec R`, the
-  stalk map at `𝔮` is formally unramified iff `Algebra.IsUnramifiedAt R 𝔮`).
-- *Purity in dimensions one and two and the unramified-over-normal criterion* (the same file):
-  `exists_etale_of_formallyUnramified_stalkMap_of_isDedekindDomain` (`f` locally of finite
-  presentation, the local ring at `x` a domain and not a field, the local ring at `f x` a Dedekind
-  domain, the stalk map formally unramified: `f` is étale at `x`);
-  `exists_etale_of_formallyUnramified_stalkMap_of_ringKrullDim_le` (`Y` locally Noetherian, `f`
-  locally of finite type, the local ring at `f x` a normal domain of dimension at most that at `x`,
-  the stalk map formally unramified: `f` is étale at `x`; SGA 1, Exposé I, 9.5 (ii));
-  `exists_etale_of_etale_comp` (`f` locally of finite presentation, `g ≫ f` étale and `g` flat at
-  `x'`: `f` is étale at `g x'`); and `AlgebraicGeometry.Etale.of_comp_surjective` (`f` locally of
-  finite presentation, `g` flat and surjective, `g ≫ f` étale: `f` is étale; 036W for such `f`).
-  In `RingTheory/RegularLocalRing/Purity.lean`:
-  `TauCeti.Algebra.etale_of_isUnramifiedAt_height_eq_one_of_ringKrullDim_le_two` (a finite
-  torsion-free algebra over a regular local ring of dimension one or two, normal at its maximal
-  ideals and unramified at its primes of height one, is étale; 0BMB in that case).
-- *Elementary étale localization* (02LK): `Scheme.Hom.exists_elementaryEtale_finite_of_isolated`
-  (`AlgebraicGeometry/Morphisms/ElementaryEtale/Basic.lean`; `f` locally of finite type and
-  quasi-finite at `x`: an étale `φ : U ⟶ Y` and `u` over `f x` with trivial residue field
-  extension, and an open `V` of `X ×_Y U`, finite over `U`, whose only point `v` over `u` maps to
-  `x` with trivial residue field extension) and its persistence clause
-  `Scheme.Hom.exists_finite_open_baseChange` (`…/ElementaryEtale/BaseChange.lean`).
-- *Étale invariance*: `TauCeti.Algebra.isNormalDomain_iff_of_etale` (`RingTheory/Etale/Normal.lean`;
-  for a local homomorphism `A → B` with `B ≅ C_𝔮`, `C` étale over `A` and `A` local, `A` is a normal
-  domain iff `B` is; 025P without Noetherian hypotheses); `Scheme.Hom.ringKrullDim_stalk_eq_of_etale`
-  (`AlgebraicGeometry/Morphisms/Etale/Stalk.lean`; `f` étale and the local ring at `f x`
-  Noetherian; 039S at stalks); `Scheme.Hom.isRegularLocalRing_stalk_iff_of_etale`
-  (`AlgebraicGeometry/Scheme/Regular/LocalRing.lean`; `f` étale; 025N at stalks).
-- *Dimensions of local rings* (`AlgebraicGeometry/Morphisms/LocallyQuasiFinite.lean`):
-  `Scheme.Hom.ringKrullDim_stalk_eq_of_quasiFiniteAt` (`X`, `Y` integral, `f` dominant and locally
-  of finite type, quasi-finite at `x`, the local ring at `f x` integrally closed:
-  `dim 𝒪_{X,x} = dim 𝒪_{Y,f x}`) and `Scheme.Hom.ringKrullDim_stalk_eq_of_locallyQuasiFinite`
-  (the same for `f` locally quasi-finite and `Y` normal, at every point).
-- *The loci* (`AlgebraicGeometry/Morphisms/RamificationLocus.lean`), in
-  `AlgebraicGeometry.Scheme.Hom`: `ramificationLocus`, `nonEtaleLocus`, `branchLocus` (Convention 5);
-  `ramificationLocus_eq_setOf_not_exists` (for `f` locally of finite type, the complement of the
-  points with an open neighbourhood on which `f` is unramified in Stacks' sense; 02G4);
-  `isClosed_ramificationLocus` (`f` locally of finite type), `isClosed_nonEtaleLocus` (no
-  hypothesis), `ramificationLocus_subset_nonEtaleLocus`, `isClosed_branchLocus` (`f` universally
-  closed and locally of finite type, in particular finite; 01WM);
-  `ramificationLocus_eq_nonEtaleLocus` (`Y` locally Noetherian and normal, `X`, `Y` integral, `f`
-  dominant and locally of finite type; normality of `X` and quasi-finiteness are not needed); the
-  affine comparisons `ramificationLocus_specMap`, `branchLocus_specMap` and `nonEtaleLocus_specMap`
-  (the last for `S` of finite presentation) with `Algebra.unramifiedLocus` and `Algebra.etaleLocus`.
-- *Normal and regular schemes*: `TauCeti.AlgebraicGeometry.IsNormalScheme`
-  (`AlgebraicGeometry/Scheme/Normal.lean`; every local ring a domain and integrally closed; 033I),
-  `TauCeti.AlgebraicGeometry.IsRegular` (`AlgebraicGeometry/Scheme/Regular/Scheme.lean`; extends
-  `IsLocallyNoetherian`, every local ring regular; 02IT) and its instance
-  `TauCeti.AlgebraicGeometry.IsRegular.isNormal` (0569).
-- *Regular local rings*: `TauCeti.IsRegularLocalRing.isDomain` (instance),
-  `TauCeti.IsRegularRing.isIntegrallyClosed` (instance, `RingTheory/RegularLocalRing/Normal.lean`),
-  `TauCeti.IsRegularLocalRing.isDiscreteValuationRing_iff_ringKrullDim_eq_one`
-  (`RingTheory/RegularLocalRing/Basic.lean`); `TauCeti.IsRegularLocalRing.of_hasProjectiveDimensionLE`
-  (00OC), `TauCeti.isRegularLocalRing_iff_globalDimension_lt_top` (0AFS, first sentence) and the
-  instance `TauCeti.isRegularRing_of_isRegularLocalRing` (0AFS, second sentence)
-  (`RingTheory/RegularLocalRing/ProjectiveDimension.lean`); with Mathlib's
-  `IsRegularRing.isRegularLocalRing_localization` the last makes every localization of a regular
-  local ring at a prime a regular local ring.
-
-**From TauCetiRoadmap.LocalPurity.** §2.1 `Algebra.etale_of_finiteNormal_of_isRegularLocalRing`:
-for `A` regular local of dimension `≥ 2` and `B` a finite `A`-algebra that is torsion free and
-normal, with `Algebra.IsEtaleAt A 𝔮` for every prime `𝔮` of `B` not lying over the maximal ideal
-of `A`, `Algebra.Etale A B` (Stacks 0BMA (2) with the torsion-free correction). Only this clause is
-consumed.
-
-## How to read the build
-
-The roadmap has one layer, numbered 2 so that citations of its sections keep their numbers; the
-pointwise vocabulary, the loci and étale localization on which it rests are Tau Ceti's and form no
-layer here. §2.1 proves 0BMB by induction on the dimension: the dimension-one case is Tau Ceti's,
-and in higher dimension Tau Ceti's elementary étale localization and étale invariance reduce to a
-finite local homomorphism of local rings, where the induction hypothesis on the punctured spectrum
-and LocalPurity §2.1 conclude. §2.2 and §2.3 apply 0BMB pointwise, with Tau Ceti's equality of local
-dimensions supplying its dimension hypothesis. Each *Needs:* line lists the inputs of its statement
-and route, so that a target proved by another route is not blocked behind an unrelated one.
 
 ## Layer 2: purity of the branch locus
 
@@ -545,6 +358,193 @@ the commit that Tau Ceti's `RamificationLocus.lean` cites; later commits move th
 | § | Existing declarations | Files |
 | --- | --- | --- |
 | 2.1 | `Pcf.Stacks.zariskiNagataPurity` (affine), `Pcf.Stacks.isStacksEtaleAt_of_zariskiNagataPurity` (Stacks form), `Pcf.Stacks.exists_etale_of_zariskiNagataPurity` (scheme form) | `Stacks/Purity/Tag0BMA.lean`, `Stacks/Purity/Tag0BMBScheme.lean`, `Stacks/Purity/Tag0BMBSchemeAPI.lean` |
+
+## Scope and ownership
+
+**This roadmap owns** purity of the branch locus (Stacks, Lemma 58.21.4 (0BMB)) in its stalkwise,
+Stacks and affine forms (§2.1); its global corollary for finite generically étale morphisms
+(§2.2); and the codimension-one purity of the ramification and branch loci of a dominant locally
+quasi-finite morphism, locally of finite type, from a normal integral scheme to a regular integral
+scheme (SGA 1, Exposé X, Théorème 3.1; §2.3).
+
+**Owned elsewhere and consumed here.**
+
+- *Purity for regular local rings* (Stacks, Lemma 58.21.3 (0BMA) (2), with the torsion-free
+  correction of LocalPurity Convention 5): [LocalPurity](../LocalPurity/README.md) §2.1,
+  `Algebra.etale_of_finiteNormal_of_isRegularLocalRing`.
+- *The pointwise vocabulary and the loci*: Tau Ceti's stalkwise characterizations of unramified
+  points for `f` locally of finite type, of étale points for `f` locally of finite presentation, and
+  of quasi-finite points (Stacks 02G4, 02GU, 01TD), and its `Scheme.Hom.ramificationLocus`,
+  `Scheme.Hom.nonEtaleLocus` and `Scheme.Hom.branchLocus` with their API, including
+  `Scheme.Hom.ramificationLocus_eq_nonEtaleLocus` for a dominant morphism of integral schemes,
+  locally of finite type, onto a locally Noetherian normal scheme (SGA 1, Exposé I, 9.5 (ii)).
+- *Étale localization and étale invariance*: Tau Ceti's elementary étale localization of a
+  morphism locally of finite type at a point where it is quasi-finite (Stacks 02LK, with its
+  persistence clause), descent of étaleness along flat
+  morphisms (Stacks 036W for `f` locally of finite presentation), normality along étale
+  homomorphisms of local rings (Stacks 025P, without Noetherian hypotheses), and the invariance of
+  the dimension and the regularity of local rings under étale morphisms (Stacks 039S, 025N).
+- *Dimensions of local rings*: Tau Ceti's `Scheme.Hom.ringKrullDim_stalk_eq_of_locallyQuasiFinite`
+  and `Scheme.Hom.ringKrullDim_stalk_eq_of_quasiFiniteAt` (equality of local dimensions for a
+  dominant morphism of integral schemes, locally of finite type, quasi-finite at the point, with
+  normal target).
+- *Normal and regular schemes, regular local rings*: Tau Ceti's
+  `TauCeti.AlgebraicGeometry.IsNormalScheme`, `TauCeti.AlgebraicGeometry.IsRegular`, the instance
+  `TauCeti.AlgebraicGeometry.IsRegular.isNormal` (Stacks 0569), Serre's characterization of
+  regular local rings by finite global dimension (Stacks 00OC), both sentences of Stacks 0AFS (the
+  second as the instance making a regular local ring Mathlib's `IsRegularRing`), the instance
+  making a regular ring integrally closed, and the dimension-one and dimension-two cases of 0BMB.
+- *Descent of étaleness along fpqc covers* (Descent, Lemma 35.23.31 (02VN)), *going down* (Algebra,
+  Proposition 10.38.7 (00H8)) and *the dimension formula* (Lemma 10.112.7 (00ON)): Mathlib.
+
+The exact declarations, files and hypotheses are in the supplier contracts. Sections of this
+roadmap whose targets are at the Tau Ceti pin are cited by their former numbers elsewhere; they
+resolve as follows (paths under `TauCeti/`).
+
+| Former section | Content | Owner at the pins |
+|---|---|---|
+| §0.1 | stalk forms of "unramified at `x`" and "étale at `x`", affine comparisons, quasi-finiteness from an affine chart | Tau Ceti `AlgebraicGeometry.Scheme.Hom.unramifiedAt_iff_stalkMap`, `Scheme.Hom.etaleAt_iff_stalkMap`, `Scheme.Hom.etaleAt_spec_iff`, `Scheme.Hom.unramifiedAt_spec_iff`, `Scheme.Hom.quasiFiniteAt_of_appLE`, `Scheme.Hom.exists_appLE_quasiFiniteAt_iff` (`AlgebraicGeometry/Morphisms/StalkMap.lean`) |
+| §0.2 | normality under étale homomorphisms of local rings (025P) | Tau Ceti `TauCeti.Algebra.isNormalDomain_iff_of_etale` (`RingTheory/Etale/Normal.lean`) |
+| §0.3 | global dimension, finite free and minimal resolutions of finite modules over a Noetherian local ring under a projective-dimension bound (0CXF, 00MT), comparison maps into exact augmented complexes (00LS), Auslander–Buchsbaum, Serre's characterization of regular local rings, 0AFS | Tau Ceti, by target in the next table |
+| §0.4 | the ramification, non-étale and branch loci and their API | Tau Ceti `AlgebraicGeometry/Morphisms/RamificationLocus.lean` |
+| §1.1 | elementary étale neighbourhoods (02LK), étaleness étale local on the source (036W, used here for `f` locally of finite presentation) | Tau Ceti `Scheme.Hom.exists_elementaryEtale_finite_of_isolated` (`AlgebraicGeometry/Morphisms/ElementaryEtale/Basic.lean`), `Scheme.Hom.exists_finite_open_baseChange` (`…/ElementaryEtale/BaseChange.lean`), `AlgebraicGeometry.Etale.of_comp_surjective` (`AlgebraicGeometry/Morphisms/StalkMap.lean`) |
+
+The targets formerly stated in §0.3 and §2.3 resolve to these declarations (paths under
+`TauCeti/`).
+
+| Former target | Tau Ceti declaration |
+|---|---|
+| *globalDimension* (00O6) | `TauCeti.globalDimension` (`RingTheory/GlobalDimension.lean`) |
+| *globalDimension_le_iff* (065T) | `TauCeti.globalDimension_le_tfae` (`RingTheory/GlobalDimension.lean`) |
+| *globalDimension_le_iff_hasProjectiveDimensionLE* | `TauCeti.globalDimension_le_iff_hasProjectiveDimensionLE` (`RingTheory/GlobalDimension.lean`) |
+| *globalDimension_localization_le* (00O8) | `Submonoid.globalDimension_localization_le` (`RingTheory/GlobalDimension.lean`) |
+| *projectiveDimension_localization_le* (00O8) | Mathlib's `ModuleCat.projectiveDimension_le_projectiveDimension_of_isLocalizedModule` |
+| *finite free resolution of a finite module, zero above a projective-dimension bound* (0CXF) | `ModuleCat.exists_projectiveResolution_finite` (`Algebra/Category/ModuleCat/Projective/FiniteResolution.lean`): over a Noetherian ring, a finite module with `HasProjectiveDimensionLE M n` has a `ProjectiveResolution` with finite terms vanishing above degree `n`; over a local ring these terms are free by Mathlib's `Module.free_of_flat_of_isLocalRing` |
+| *minimization of that resolution* (00MT) | `ModuleCat.exists_projectiveResolution_finite_free_minimal` (`Algebra/Category/ModuleCat/Projective/MinimalResolution/ChainComplex.lean`): over a Noetherian local ring `(R, 𝔪)`, the resolution can be taken finite free, vanishing above degree `n`, with every differential landing in `𝔪` times its target |
+| *augmentation-preserving comparison into an exact augmented complex* (00LS) | `ChainComplex.liftToAugmented` (`Algebra/Homology/HomologicalComplex/Augmented.lean`): only the target complex is assumed exact |
+| *Module.free_of_quotSMulTop_free* (00NS) | Mathlib's `Module.free_quotSMulTop_iff_free`, for `M` finitely presented and `x` an `M`-regular element of the Jacobson radical |
+| *exists_resolution_maximalCohenMacaulay* (00NG) | `TauCeti.exists_resolution_maximalCohenMacaulay` (`RingTheory/CohenMacaulay/Resolution.lean`) |
+| *auslander_buchsbaum* (090V) | `ModuleCat.projectiveDimension_add_depth_eq_depth` (`RingTheory/Depth/AuslanderBuchsbaum.lean`) |
+| *IsRegularLocalRing.free_of_isCohenMacaulay* (00NT) | `TauCeti.IsRegularLocalRing.free_of_isCohenMacaulay` (`RingTheory/RegularLocalRing/Free.lean`) |
+| *IsRegularLocalRing.globalDimension_le* (00O7) | `TauCeti.IsRegularLocalRing.globalDimension_eq_ringKrullDim` (`RingTheory/RegularLocalRing/ProjectiveDimension.lean`) |
+| *projectiveDimension_residueField_ge* (00OA) | `TauCeti.finrank_cotangentSpace_le_projectiveDimension_quotient_maximalIdeal` (`RingTheory/RegularLocalRing/ProjectiveDimension.lean`) |
+| *projectiveDimension_residueField_le* (00OB) | `IsLocalRing.projectiveDimension_quotient_maximalIdeal_le_ringKrullDim` (`RingTheory/Depth/AuslanderBuchsbaum.lean`) |
+| *isRegularLocalRing_tfae* (00OC) | `TauCeti.isRegularLocalRing_tfae` (`RingTheory/RegularLocalRing/ProjectiveDimension.lean`) |
+| *isRegularLocalRing_of_projectiveDimension_residueField* (00OC) | `TauCeti.IsRegularLocalRing.of_hasProjectiveDimensionLE`, with the residue field as `Shrink (R ⧸ maximalIdeal R)` (`RingTheory/RegularLocalRing/ProjectiveDimension.lean`) |
+| *isRegularLocalRing_iff_finite_globalDimension* (0AFS, first sentence) | `TauCeti.isRegularLocalRing_iff_globalDimension_lt_top` (`RingTheory/RegularLocalRing/ProjectiveDimension.lean`) |
+| *IsRegularLocalRing.isRegularLocalRing_localization* (0AFS, second sentence) | the instance `TauCeti.isRegularRing_of_isRegularLocalRing` (`RingTheory/RegularLocalRing/ProjectiveDimension.lean`) with Mathlib's `IsRegularRing.isRegularLocalRing_localization` |
+| *isRegularRing_of_isRegularLocalRing* | the instance `TauCeti.isRegularRing_of_isRegularLocalRing` (`RingTheory/RegularLocalRing/ProjectiveDimension.lean`) |
+| *ringKrullDim_stalk_eq_of_locallyQuasiFinite* (§2.3) | `AlgebraicGeometry.Scheme.Hom.ringKrullDim_stalk_eq_of_locallyQuasiFinite` (`AlgebraicGeometry/Morphisms/LocallyQuasiFinite.lean`) |
+| *ramificationLocus_eq_nonEtaleLocus* (§2.3) | `AlgebraicGeometry.Scheme.Hom.ramificationLocus_eq_nonEtaleLocus` (`AlgebraicGeometry/Morphisms/RamificationLocus.lean`) |
+
+Extension of finite étale covers, ramification in codimension one and Abhyankar's lemma are
+[AbhyankarLemma](../AbhyankarLemma/README.md). Purity of the ramification locus without
+quasi-finiteness, for morphisms étale in codimension one (Stacks, Lemma 58.28.3 (0EA4), attributed
+there to Gabber), is not a target here; nor is Stacks 036W for `f` not locally of finite
+presentation, which no statement here uses.
+
+## Exact supplier contracts
+
+**From Mathlib.**
+
+- `Scheme`, `Scheme.Hom.stalkMap`, `Scheme.Opens.ι`, `IsLocallyNoetherian`, `IsIntegral`,
+  `genericPoint`, `IsDominant` (`Mathlib/AlgebraicGeometry/Morphisms/UnderlyingMap.lean`),
+  `IsFinite` (`Mathlib/AlgebraicGeometry/Morphisms/Finite.lean`), `LocallyOfFiniteType`,
+  `LocallyOfFinitePresentation`, `Etale`, `FormallyUnramified`, `LocallyQuasiFinite` (defined by
+  quasi-finiteness of the ring maps between affine opens; it does not include finite type) and
+  `Scheme.Hom.QuasiFiniteAt`, with `Scheme.Hom.quasiFiniteAt` (a locally quasi-finite morphism is
+  quasi-finite at every point) (`Mathlib/AlgebraicGeometry/Morphisms/QuasiFinite.lean`).
+- `AlgebraicGeometry.FormallyUnramified.stalkMap`: the stalk maps of a formally unramified
+  morphism are formally unramified (`Mathlib/AlgebraicGeometry/Morphisms/FormallyUnramified.lean`).
+- `LocallyOfFiniteType.isLocallyNoetherian`: a scheme locally of finite type over a locally
+  Noetherian scheme is locally Noetherian (`Mathlib/AlgebraicGeometry/Noetherian.lean`).
+- The instance `DescendsAlong @Etale (@Surjective ⊓ @Flat ⊓ @QuasiCompact)` (Stacks 02VN,
+  `Mathlib/AlgebraicGeometry/Morphisms/LocalFlatDescent.lean`).
+- `IsRegularLocalRing` and `IsRegularRing`, with the field `IsRegularRing.isRegularLocalRing_localization`
+  (`Mathlib/RingTheory/RegularLocalRing/Defs.lean`); `ringKrullDim`, `Ideal.height`.
+- `Algebra.QuasiFiniteAt`, `Algebra.IsEtaleAt`, `Algebra.IsUnramifiedAt`, `Algebra.Etale`,
+  `Algebra.FiniteType`.
+- `Algebra.HasGoingDown` and its instance for an integral extension of an integrally closed domain
+  by a domain (`@[stacks 00H8]`, `Mathlib/RingTheory/IntegralClosure/GoingDown.lean`), and the
+  dimension formula under going down `Ideal.height_eq_height_add_of_liesOver_of_hasGoingDown`
+  (`@[stacks 00ON]`, `Mathlib/RingTheory/Ideal/KrullsHeightTheorem.lean`).
+- `Algebra.exists_etale_isIdempotentElem_forall_liesOver_eq` (`@[stacks 00UJ]`,
+  `Mathlib/RingTheory/Etale/QuasiFinite.lean`), the affine input of Tau Ceti's 02LK.
+
+**From Tau Ceti.** Paths are under `TauCeti/`. All the declarations below are proved at the pin.
+
+- *Stalk forms* (`AlgebraicGeometry/Morphisms/StalkMap.lean`), in `AlgebraicGeometry.Scheme.Hom`:
+  `unramifiedAt_iff_stalkMap` (for `f` locally of finite type, Stacks' "unramified at `x`" iff the
+  stalk map is formally unramified; 02G4); `etaleAt_iff_stalkMap` (for `f` locally of finite
+  presentation, étale at `x` iff the stalk map is flat and formally unramified; 02GU (1) ⇔ (4));
+  `etaleAt_spec_iff` and `unramifiedAt_spec_iff` (on `Spec S ⟶ Spec R`, with `Algebra.IsEtaleAt` and
+  `Algebra.IsUnramifiedAt`); `quasiFiniteAt_spec_iff` (on `Spec S ⟶ Spec R`, with
+  `Algebra.QuasiFiniteAt`); `quasiFiniteAt_of_appLE` and `exists_appLE_quasiFiniteAt_iff`
+  (Stacks' quasi-finiteness at `x` iff local finite type near `x` and `f.QuasiFiniteAt x`; 01TD).
+  In `AlgebraicGeometry`: `formallyUnramified_stalkMap_specMap_iff` (on `Spec S ⟶ Spec R`, the
+  stalk map at `𝔮` is formally unramified iff `Algebra.IsUnramifiedAt R 𝔮`).
+- *Purity in dimensions one and two and the unramified-over-normal criterion* (the same file):
+  `exists_etale_of_formallyUnramified_stalkMap_of_isDedekindDomain` (`f` locally of finite
+  presentation, the local ring at `x` a domain and not a field, the local ring at `f x` a Dedekind
+  domain, the stalk map formally unramified: `f` is étale at `x`);
+  `exists_etale_of_formallyUnramified_stalkMap_of_ringKrullDim_le` (`Y` locally Noetherian, `f`
+  locally of finite type, the local ring at `f x` a normal domain of dimension at most that at `x`,
+  the stalk map formally unramified: `f` is étale at `x`; SGA 1, Exposé I, 9.5 (ii));
+  `exists_etale_of_etale_comp` (`f` locally of finite presentation, `g ≫ f` étale and `g` flat at
+  `x'`: `f` is étale at `g x'`); and `AlgebraicGeometry.Etale.of_comp_surjective` (`f` locally of
+  finite presentation, `g` flat and surjective, `g ≫ f` étale: `f` is étale; 036W for such `f`).
+  In `RingTheory/RegularLocalRing/Purity.lean`:
+  `TauCeti.Algebra.etale_of_isUnramifiedAt_height_eq_one_of_ringKrullDim_le_two` (a finite
+  torsion-free algebra over a regular local ring of dimension one or two, normal at its maximal
+  ideals and unramified at its primes of height one, is étale; 0BMB in that case).
+- *Elementary étale localization* (02LK): `Scheme.Hom.exists_elementaryEtale_finite_of_isolated`
+  (`AlgebraicGeometry/Morphisms/ElementaryEtale/Basic.lean`; `f` locally of finite type and
+  quasi-finite at `x`: an étale `φ : U ⟶ Y` and `u` over `f x` with trivial residue field
+  extension, and an open `V` of `X ×_Y U`, finite over `U`, whose only point `v` over `u` maps to
+  `x` with trivial residue field extension) and its persistence clause
+  `Scheme.Hom.exists_finite_open_baseChange` (`…/ElementaryEtale/BaseChange.lean`).
+- *Étale invariance*: `TauCeti.Algebra.isNormalDomain_iff_of_etale` (`RingTheory/Etale/Normal.lean`;
+  for a local homomorphism `A → B` with `B ≅ C_𝔮`, `C` étale over `A` and `A` local, `A` is a normal
+  domain iff `B` is; 025P without Noetherian hypotheses); `Scheme.Hom.ringKrullDim_stalk_eq_of_etale`
+  (`AlgebraicGeometry/Morphisms/Etale/Stalk.lean`; `f` étale and the local ring at `f x`
+  Noetherian; 039S at stalks); `Scheme.Hom.isRegularLocalRing_stalk_iff_of_etale`
+  (`AlgebraicGeometry/Scheme/Regular/LocalRing.lean`; `f` étale; 025N at stalks).
+- *Dimensions of local rings* (`AlgebraicGeometry/Morphisms/LocallyQuasiFinite.lean`):
+  `Scheme.Hom.ringKrullDim_stalk_eq_of_quasiFiniteAt` (`X`, `Y` integral, `f` dominant and locally
+  of finite type, quasi-finite at `x`, the local ring at `f x` integrally closed:
+  `dim 𝒪_{X,x} = dim 𝒪_{Y,f x}`) and `Scheme.Hom.ringKrullDim_stalk_eq_of_locallyQuasiFinite`
+  (the same for `f` locally quasi-finite and `Y` normal, at every point).
+- *The loci* (`AlgebraicGeometry/Morphisms/RamificationLocus.lean`), in
+  `AlgebraicGeometry.Scheme.Hom`: `ramificationLocus`, `nonEtaleLocus`, `branchLocus` (Convention 5);
+  `ramificationLocus_eq_setOf_not_exists` (for `f` locally of finite type, the complement of the
+  points with an open neighbourhood on which `f` is unramified in Stacks' sense; 02G4);
+  `isClosed_ramificationLocus` (`f` locally of finite type), `isClosed_nonEtaleLocus` (no
+  hypothesis), `ramificationLocus_subset_nonEtaleLocus`, `isClosed_branchLocus` (`f` universally
+  closed and locally of finite type, in particular finite; 01WM);
+  `ramificationLocus_eq_nonEtaleLocus` (`Y` locally Noetherian and normal, `X`, `Y` integral, `f`
+  dominant and locally of finite type; normality of `X` and quasi-finiteness are not needed); the
+  affine comparisons `ramificationLocus_specMap`, `branchLocus_specMap` and `nonEtaleLocus_specMap`
+  (the last for `S` of finite presentation) with `Algebra.unramifiedLocus` and `Algebra.etaleLocus`.
+- *Normal and regular schemes*: `TauCeti.AlgebraicGeometry.IsNormalScheme`
+  (`AlgebraicGeometry/Scheme/Normal.lean`; every local ring a domain and integrally closed; 033I),
+  `TauCeti.AlgebraicGeometry.IsRegular` (`AlgebraicGeometry/Scheme/Regular/Scheme.lean`; extends
+  `IsLocallyNoetherian`, every local ring regular; 02IT) and its instance
+  `TauCeti.AlgebraicGeometry.IsRegular.isNormal` (0569).
+- *Regular local rings*: `TauCeti.IsRegularLocalRing.isDomain` (instance),
+  `TauCeti.IsRegularRing.isIntegrallyClosed` (instance, `RingTheory/RegularLocalRing/Normal.lean`),
+  `TauCeti.IsRegularLocalRing.isDiscreteValuationRing_iff_ringKrullDim_eq_one`
+  (`RingTheory/RegularLocalRing/Basic.lean`); `TauCeti.IsRegularLocalRing.of_hasProjectiveDimensionLE`
+  (00OC), `TauCeti.isRegularLocalRing_iff_globalDimension_lt_top` (0AFS, first sentence) and the
+  instance `TauCeti.isRegularRing_of_isRegularLocalRing` (0AFS, second sentence)
+  (`RingTheory/RegularLocalRing/ProjectiveDimension.lean`); with Mathlib's
+  `IsRegularRing.isRegularLocalRing_localization` the last makes every localization of a regular
+  local ring at a prime a regular local ring.
+
+**From TauCetiRoadmap.LocalPurity.** §2.1 `Algebra.etale_of_finiteNormal_of_isRegularLocalRing`:
+for `A` regular local of dimension `≥ 2` and `B` a finite `A`-algebra that is torsion free and
+normal, with `Algebra.IsEtaleAt A 𝔮` for every prime `𝔮` of `B` not lying over the maximal ideal
+of `A`, `Algebra.Etale A B` (Stacks 0BMA (2) with the torsion-free correction). Only this clause is
+consumed.
 
 ## References
 

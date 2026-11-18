@@ -21,100 +21,30 @@ it states the headline theorems that are statable against the pinned Mathlib and
 names the others with the carrier each lacks. Implementation homes are
 `TauCeti/AlgebraicTopology/Spectra/` and `TauCeti/AlgebraicTopology/GeneralizedCohomology/`.
 
-## Scope and ownership
+## How to read the build
 
-This roadmap owns the axiomatic generalized theories of G1, the spectral model and its
-represented theories of G2, the infinite and representability theory of G3, the generalized
-bundle theory of G4 and the duality, Thom-spectrum and rational theory of G5. All CW statements
-include arbitrary cell sets and unbounded dimension in the chosen universe. Finite or countable
-hypotheses occur only on results that use them. Spaces of CW type are included by comparison,
-and the spectrum-defined extension to arbitrary spaces uses singular simplicial sets. No
-dimension axiom is imposed on generalized theories. The construction of a spectrum does not
-substitute for its homotopy theory: naive colimits of homotopy groups do not define stable
-equivalences of arbitrary symmetric spectra.
+G1 states the axiomatic theories on the pointed CW substrate of AlgebraicTopology, independently
+of any spectral model. G2 equips Tau Ceti's symmetric spectra with the stable model structure,
+compares them with spaces and sequential spectra, constructs the represented theories, the
+Eilenberg–Mac Lane spectra, the multiplicative infinite-loop machine, the general classifying
+spaces and the mapping-path replacements, and closes with the quasicategorical and monoidal
+foundations of G2.11 that G5.7 and the downstream equivariant roadmaps instantiate. G3 proves
+Brown representability and the infinite comparisons, using G1 for the axioms and G2 for the
+spectra. G4 proves the generalized Leray–Hirsch and Thom theorems from G1 and G3, with the
+quaternionic adapters of G4.0 built first. G5 constructs duality, Thom spectra, the canonical
+ring spectra and their orientations, and the rational comparisons, from G2–G4. Each layer ends
+with its examples and its dependencies.
 
-**Already in the pinned libraries, consumed rather than planned again.**
+The G-prefixed subsection identifiers retain their numbering. The layer headings correspond as
+follows, so citations using the former numbering have an explicit destination.
 
-- Tau Ceti's pointed simplicial sets `TauCeti.PointedSSet`, with their degreewise smash
-  product, its symmetric monoidal closed structure, simplicial tensors and cotensors, the
-  simplicial circle and the suspension–loop adjunction; the finite-bijection groupoid
-  `TauCeti.FiniteBijection`, symmetric sequences `TauCeti.SymmetricSequence` with Day
-  convolution and its wedge formula, the sphere `TauCeti.SymmetricSequence.sphere`, symmetric
-  spectra `TauCeti.SymmetricSpectrum` as modules over it, free spectra and evaluation, limits and
-  colimits, the sphere monoids for higher-dimensional spheres, the point-set smash product and
-  function spectra. G2.1 and G2.2 build the homotopy theory of these carriers, not the carriers.
-- Tau Ceti's Hurewicz fibrations `TauCeti.IsHurewiczFibration`, their universal lifting
-  functions, mapping-path spaces `TauCeti.MappingPathSpace` and fibres
-  `TauCeti.MappingPathFiber`, the path and loop comparisons of the fibres, the fibre inclusion
-  and fibre transport homotopy equivalences, and the relative lifting theorem for NDR pairs.
-  G2.10 owns only what these lack.
-- Tau Ceti's marked simplicial sets `TauCeti.MarkedSSet` with their limits, colimits and
-  mapping spaces, joins `SSet.join`, slices `SSet.slice`, Cartesian edges
-  `SSet.Edge.IsCartesian`, Cartesian fibrations `SSet.CartesianFibration`, equivalence edges
-  `SSet.Edge.IsEquivalence` and the core `SSet.core`. G2.11 owns the model structures,
-  straightening and the theorems about these objects, not the objects.
-- Tau Ceti's quaternionic projective space `TauCeti.QuaternionicProjectiveSpace n`, the quotient
-  of the unit sphere of ℍⁿ⁺¹ by right multiplication by the unit quaternions, compact, Hausdorff
-  and path connected, with its homogeneous-ratio charts and its smooth real 4n-manifold
-  structure. G4.0 builds the CW structure, the Hopf line and the Grassmannian, Lie-quotient and
-  sphere comparisons on this carrier; it defines no second HPⁿ.
-- Tau Ceti's towers of modules `TauCeti.ModuleTower` with lim, lim¹, the six-term sequence,
-  Mittag-Leffler vanishing and the Milnor sequences of towers of complexes, and the nonabelian
-  lim¹ of towers of groups `TauCeti.GroupTower.limOne`. G3 builds the telescopes and the Milnor
-  sequences of theories and spectra on these algebraic carriers.
-- Tau Ceti's based topological pairs `TauCeti.BasedTopPair`, their relative homotopy sets
-  `TauCeti.RelHomotopyGroup` with induced maps, boundary maps and the compression lemma, and the
-  pairs of nested subsets `TopPair.ofInclusion` with their maps `TopPair.ofInclusionMap`. G2.5
-  states homotopy excision on these carriers.
-- Tau Ceti's gaps `PartitionOfUnity.gap` of a partition of unity and the countable partition of
-  unity `PartitionOfUnity.gapPartition` grouping them by size, with the glued trivializations
-  `PartitionOfUnity.gapTrivialization` of a bundle with nonempty model fibre and nonempty
-  fibres over its positive sets: the countable
-  refinement of a numerable cover by disjoint unions of open sets each inside a member of the
-  cover. G3.5 consumes it and supplies the empty-fibre case and transport for arbitrary projections.
-- Tau Ceti's intrinsic normal bundles and tubular neighbourhoods of smooth embeddings, in plain,
-  Riemannian, closed-disc and Euclidean forms, and smooth Riemannian metrics on vector bundles.
-  G5.2 and G5.7 consume them.
-
-**Owned here and consumed elsewhere.** G2.1's Kan–Quillen model structure and G2.11's enriched,
-quasicategorical, straightening, coherent-diagram, stable and operadic foundations are owned
-here, together with the reduced mapping cone and Puppe sequence of G1.3, the pointed smash of
-compactly generated spaces, CW homotopy excision, the topological Freudenthal theorem and the
-stabilized sphere colimit of G2.5, the Hurewicz–Dold theorem `numerableFiberBundle_hurewicz` of
-G2.10, and the complex graded Clifford conventions of G5.5. The roadmaps listed under
-Downstream consumers take these from here rather than planning them again.
-
-**Left to the roadmaps named in the supplier contracts.** Singular chains, ordinary
-homology and cohomology, CW topology, homotopy groups, compact generation, the realization
-product comparison, the pointed quotient, smash and suspension carriers of compact Hausdorff and
-CW inputs, the based suspension–loop adjunction, the ordinary Eilenberg–Mac Lane models and
-Serre classes remain in AlgebraicTopology. Vector bundles, classifiers, bundle-level Bott
-periodicity, the coefficient ring of real K-theory and the eightfold stable Bott equivalence
-ℤ×BO → Ω⁸(ℤ×BO) remain in TopologicalKTheory; ordinary characteristic classes and the
-classical Eilenberg–Mac Lane comparisons of RP∞ and CP∞ remain in CharacteristicClasses.
-BordismFormalGroups consumes G2–G5 and owns formal group laws,
-orientation changes and coefficient-ring universality, so G4.5 states no formal-group
-universality.
-
-**Moved identifiers.** The realization product comparison is AlgebraicTopology Stage 4.9's
-single simplicial-realization product comparison; G2.1 builds only its pointed smash and quotient
-versions. The G2.1, G2.2, G2.10 and G4.0 carriers below are Tau Ceti's.
-
-- G2.1 realizationProductKelleyComparison → AlgebraicTopology Stage 4.9, simplicial-realization
-  product comparison.
-- G2.10 IsHurewiczFibration, MappingPathSpace and MappingPathFiber → Tau Ceti
-  `TauCeti.IsHurewiczFibration`, `TauCeti.MappingPathSpace` and `TauCeti.MappingPathFiber`.
-- G2.10 mappingPathFiberConstHomeomorphPath and mappingPathFiberConstHomeomorphLoopSpace → Tau Ceti
-  `TauCeti.mappingPathFiberConstHomeomorphPath` and `TauCeti.mappingPathFiberConstHomeomorphLoopSpace`.
-- G2.10 zeroSetSDR_liftingInclusion → Tau Ceti
-  `TauCeti.HasHomotopyLiftingProperty.zeroSetSDR_liftingInclusion`.
-- G2.1 and G2.2 pointed simplicial sets, finite bijections, symmetric sequences and symmetric spectra
-  → Tau Ceti `TauCeti.PointedSSet`, `TauCeti.FiniteBijection`, `TauCeti.SymmetricSequence` and
-  `TauCeti.SymmetricSpectrum`.
-- G4.0 quaternionicProjectiveSpace and its smooth real 4n-manifold structure → Tau Ceti
-  `TauCeti.QuaternionicProjectiveSpace`, `TauCeti.QuaternionicProjectiveSpace.instChartedSpace` and
-  `TauCeti.QuaternionicProjectiveSpace.instIsManifold`; G4.0 keeps the CW structure, the Hopf line
-  and the Grassmannian, Lie-quotient and sphere comparisons on that carrier.
+| Former heading and numbering | Layer |
+| --- | --- |
+| G1. Reduced, relative and multiplicative theories | [Layer 1](#layer-1-reduced-relative-and-multiplicative-theories) |
+| G2. A concrete spectral model and represented theories | [Layer 2](#layer-2-a-concrete-spectral-model-and-represented-theories) |
+| G3. Brown representation, arbitrary CW and infinite comparisons | [Layer 3](#layer-3-brown-representation-arbitrary-cw-and-infinite-comparisons) |
+| G4. Generalized Leray–Hirsch, Thom and Euler theory | [Layer 4](#layer-4-generalized-lerayhirsch-thom-and-euler-theory) |
+| G5. Finite duality, Thom spectra and rational Hurewicz | [Layer 5](#layer-5-finite-duality-thom-spectra-and-rational-hurewicz) |
 
 ## Conventions
 
@@ -194,303 +124,6 @@ versions. The G2.1, G2.2, G2.10 and G4.0 carriers below are Tau Ceti's.
   the relevant universal property. For a spectral construction supply stable
   equivalence invariance and the stated topological/simplicial comparison.
 
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- `SSet`, `SSet.boundary`, `SSet.horn`, `SSet.KanComplex`, `SSet.Quasicategory`, the inner
-  fibrations and the internal hom of simplicial sets; `SSet.modelCategoryQuillen.I` and
-  `SSet.modelCategoryQuillen.J` with their cofibration and fibration classes
-  (`AlgebraicTopology/SimplicialSet/CategoryWithFibrations.lean`). Mathlib has no
-  `ModelCategory SSet`; G2.1 proves the model axioms for these classes and Tau Ceti's weak
-  equivalences.
-- `HomotopicalAlgebra.ModelCategory`, `HomotopicalAlgebra.ReedyStructure`, categorical
-  localization, `HasShift`, `Pretriangulated` and `IsTriangulated`; `CategoryTheory.Under`,
-  `Action`, `Mon`, `Mod`, `CommMon`, `DayFunctor`, `EnrichedCat`, `EnrichedFunctor`,
-  `ForgetEnrichment`, `CategoryTheory.SimplicialCategory`, `SimplicialThickening` and
-  `SimplicialNerve`.
-- `TopCat`, `TopCat.toSSet`, `CompactlyGenerated` with `CompactlyGenerated.compactlyGeneratedToTop`
-  and `TopologicalSpace.compactlyGenerated`, `Topology.CWComplex`, `Topology.RelCWComplex` and
-  its subcomplexes `Topology.RelCWComplex.Subcomplex`, closed unions of open cells
-  (`Topology/CWComplex/Classical/Basic.lean`), `TopPair` (`Topology/Category/TopPair.lean`),
-  `HomotopyGroup`, `LoopSpace`, `Path`, `JoinedIn`, `OnePoint`, `Bundle.Trivialization`,
-  `FiberBundle`, `VectorBundle` and `PartitionOfUnity`.
-- `TopPair.HomologyPretheory` with `IsExtraordinaryEilenbergSteenrod`
-  (`AlgebraicTopology/EilenbergSteenrod.lean`): the shape of the unreduced homology theories of G1
-  and the carrier of the homology form of the comparison theorem in G3.3.
-- `FormalGroup` and `FormalGroup.IsComm` (`RingTheory/FormalGroup/Basic.lean`), `CliffordAlgebra`,
-  `Quaternion`, `CStarModule`, `WithCStarModule`, `LinearPMap` and the continuous functional
-  calculus classes; `EMetricSpace.ofRiemannianMetric` (`Geometry/Manifold/Riemannian/Basic.lean`),
-  the extended distance of a Riemannian metric on a T3 manifold, inducing its topology.
-
-### From Tau Ceti
-
-- Pointed simplicial sets: `TauCeti.PointedSSet`
-  (`AlgebraicTopology/SimplicialSet/Pointed/Basic.lean`) as `Under Δ[0]`, its comparison with
-  simplicial objects in `Pointed`, the smash product with
-  `TauCeti.PointedSSet.monoidalCategory` and `TauCeti.PointedSSet.symmetricCategory`
-  (`Pointed/Smash/Basic.lean`), its closed structure `TauCeti.PointedSSet.monoidalClosed`
-  (`Pointed/Closed.lean`), simplicial tensors and cotensors (`Pointed/Tensor.lean`), the circle
-  `TauCeti.PointedSSet.circle` (`Pointed/Circle.lean`) and
-  `TauCeti.PointedSSet.suspensionLoopAdjunction` (`Pointed/Suspension.lean`).
-- Kan–Quillen weak equivalences: the scoped instance
-  `SSet.modelCategoryQuillen.instCategoryWithWeakEquivalences`
-  (`AlgebraicTopology/SimplicialSet/WeakEquivalence.lean`), whose weak equivalences are the maps
-  whose realization lies in `TauCeti.TopCat.weakEquivalences`
-  (`Topology/Category/TopCat/WeakEquivalence.lean`), the weak homotopy equivalences, with
-  `SSet.modelCategoryQuillen.weakEquivalence_iff`, two out of three, retract stability and
-  `SSet.modelCategoryQuillen.weakEquivalence_of_stdSimplex`; and `SSet.rlp_monomorphisms_iff`
-  (`AlgebraicTopology/SimplicialSet/TrivialFibration.lean`): a map has the right lifting property
-  against all monomorphisms exactly when it is a Kan fibration admitting a shrinking.
-- Pointed homotopy and wedges: the pointed homotopy category `TauCeti.PointedHomotopyCat`
-  (`AlgebraicTopology/Homotopy/PointedHomotopyCat.lean`), based spaces with pointed homotopy
-  classes of based maps; the wedge sum `TauCeti.WedgeSum` of a family of pointed spaces, the point
-  for the empty family, with its inclusions and universal property `TauCeti.WedgeSum.lift`
-  (`Topology/WedgeSum.lean`); a CW structure on a wedge of circles only
-  (`Topology/CWComplex/Classical/WedgeCircles.lean`).
-- Symmetric spectra: `TauCeti.FiniteBijection` (`CategoryTheory/FiniteBijection.lean`),
-  `TauCeti.SymmetricSequence` with Day convolution, its wedge formula and its closed symmetric
-  monoidal structure (`AlgebraicTopology/Spectra/SymmetricSequence.lean`),
-  `TauCeti.SymmetricSequence.sphere` and `TauCeti.SymmetricSpectrum`
-  (`Spectra/SymmetricSpectrum.lean`), free spectra and `freeEvaluationAdjunction`
-  (`Spectra/Free.lean`), levelwise limits and colimits (`Spectra/Limits.lean`,
-  `Spectra/Colimits.lean`), mapping spaces (`Spectra/MappingSpace.lean`), the sphere monoids
-  `TauCeti.SymmetricSequence.sphereMonoid` and their modules (`Spectra/SphereMonoid.lean`), and
-  structure maps (`Spectra/StructureMap.lean`). The point-set smash product and function spectra
-  are `CategoryTheory.Mod.monoidalCategory`, `CategoryTheory.Mod.symmetricCategory` and
-  `CategoryTheory.Mod.internalHom` on these modules. Tau Ceti has no stable equivalences.
-- Fibrations and path spaces: `TauCeti.IsHurewiczFibration` with its Serre comparison, composition
-  and base change (`Topology/Homotopy/HurewiczFibration/Basic.lean`), its universe comparison
-  (`HurewiczFibration/Universe.lean`), lifting functions and
-  `TauCeti.isHurewiczFibration_iff_nonempty_liftingFunction`
-  (`Topology/Homotopy/MappingPath/LiftingFunction.lean`), `TauCeti.MappingPathSpace`
-  (`MappingPath/Basic.lean`), `TauCeti.MappingPathFiber` with its endpoint, path and loop
-  comparisons (`MappingPath/Fiber.lean`), the path fibration (`MappingPath/PathFibration.lean`),
-  the fibre inclusion and loop homotopy equivalence (`HurewiczFibration/FiberInclusion.lean`), fibre
-  transport (`HurewiczFibration/Transport.lean`),
-  `TauCeti.HasHomotopyLiftingProperty.zeroSetSDR_liftingInclusion`
-  (`Topology/Homotopy/Lifting/Relative.lean`) and
-  `TauCeti.IsHurewiczFibration.exists_lift_of_ndrPair`
-  (`HurewiczFibration/RelativeLifting.lean`), and `TauCeti.TopCat.serreFibrations`.
-- Quasicategories: `TauCeti.MarkedSSet` (`AlgebraicTopology/SimplicialSet/Marked/Basic.lean`),
-  marked edges containing the degenerate edges, with limits and colimits (`Marked/Limits.lean`)
-  and the mapping functors `TauCeti.MarkedSSet.mapFlat` and `TauCeti.MarkedSSet.mapSharp`
-  (`Marked/MappingSpace.lean`); `SSet.join` (`SimplicialSet/Join/Basic.lean`); `SSet.slice`
-  (`SimplicialSet/Slice.lean`); `SSet.Edge.IsCartesian` and `SSet.CartesianFibration`
-  (`Quasicategory/Cartesian.lean`); `SSet.Edge.IsEquivalence` and `SSet.core`
-  (`Quasicategory/Core.lean`).
-- Homotopy: `HomotopyGroup.hurewiczHom` (`AlgebraicTopology/Homotopy/Hurewicz/Basic.lean`), the
-  Hurewicz homomorphism `π_(n+1)(X,x) → (R ⟶ H_(n+1)(X;R))`.
-- Relative homotopy for G2.5: `TauCeti.BasedTopPair` (`Topology/Category/BasedTopPair.lean`), a
-  topological pair with a basepoint in its subspace; `TauCeti.RelHomotopyGroup N X`
-  (`AlgebraicTopology/Homotopy/Relative/Basic.lean`), the relative homotopy set
-  `π_(n+1)(X, A, a₀)` for `n` the cardinality of `N`, in the cubical model of Mathlib's
-  `HomotopyGroup` (relative cubes `I × I^N → X` sending `{0} × I^N` into `A` and the rest of the
-  boundary to `a₀`), defined in positive degrees only, with induced maps
-  `TauCeti.RelHomotopyGroup.map`; the compression lemma
-  `TauCeti.exists_homotopicRel_range_subset_of_relHomotopyGroup` (`Relative/Disk.lean`); the
-  connectivity of a CW pair from the dimensions of its cells,
-  `TauCeti.subsingleton_relHomotopyGroup_of_isEmpty_cell` (`Relative/CellDimension.lean`); and
-  the pairs of nested subsets `TopPair.ofInclusion`, `(t, s)` for `s ⊆ t`, with their maps
-  `TopPair.ofInclusionMap` (`Topology/Category/TopPair.lean`).
-- Countable refinement for G3.5: `PartitionOfUnity.gap` (`Topology/PartitionOfUnity/Gap.lean`),
-  the gap `max(0, min_(i∈E) ρ_i − sup_(i∉E) ρ_i)` of a finite set E of indices, with an empty
-  supremum read as 0; it is continuous (`PartitionOfUnity.continuous_gap`), positive exactly
-  where E is nonempty and its weights are positive and exceed every weight outside E
-  (`PartitionOfUnity.gap_pos_iff`), positive at a point for at most one set of each size
-  (`PartitionOfUnity.eq_of_gap_pos_of_card_eq`), and, for ρ subordinate to a cover, positive only
-  inside the cover member of every index of E (`PartitionOfUnity.IsSubordinate.mem_of_gap_pos`);
-  `PartitionOfUnity.gapPartition`, the locally finite partition of unity indexed by ℕ whose n-th
-  function is n times the sum of the gaps of the n-element sets; and
-  `PartitionOfUnity.gapTrivialization` (`Topology/FiberBundle/GapTrivialization.lean`), for a
-  family E over B with a topology on `Bundle.TotalSpace F E`, requires `Nonempty F` and
-  `∀ b, Nonempty (E b)`. For a partition subordinate to charts of its projection it gives the
-  glued trivialization over the positive set of the n-th function, these base sets covering
-  (`PartitionOfUnity.subset_iUnion_gapTrivialization_baseSet`) and locally finite
-  (`PartitionOfUnity.locallyFinite_gapTrivialization_baseSet`). No metric, rank, countability
-  or paracompactness hypothesis is imposed.
-- Clifford and Lie data for G4.0 and G5.5: `TauCeti.Complexification`, `TauCeti.realCliffordForm`,
-  `TauCeti.realSpinFourEquivQuaternionUnitaryProd`, `TauCeti.Lie.EmbeddedLieSubgroupData` and the
-  embedded-unitary Lie subgroup data.
-- Quaternionic projective space for G4.0: `TauCeti.QuaternionicProjectiveSpace n`
-  (`Topology/QuaternionicProjectiveSpace/Basic.lean`), the orbit quotient of the unit sphere of
-  `PiLp 2 (fun _ : Fin (n + 1) ↦ ℍ)` by right multiplication by unit quaternions, with the
-  projection `TauCeti.QuaternionicProjectiveSpace.mk`, an open quotient map
-  (`TauCeti.QuaternionicProjectiveSpace.isOpenQuotientMap_mk`);
-  `TauCeti.QuaternionicProjectiveSpace.mk_eq_mk_iff`, two unit vectors give the same point exactly
-  when they differ by a unit quaternion on the right; descent of invariant functions
-  `TauCeti.QuaternionicProjectiveSpace.lift`; and the compact, Hausdorff and path-connected
-  instances. The homogeneous ratios `TauCeti.QuaternionicProjectiveSpace.ratio`, `X_j X_k⁻¹`, the
-  open sets `TauCeti.QuaternionicProjectiveSpace.affineOpen` where `X_k ≠ 0`, the charts
-  `TauCeti.QuaternionicProjectiveSpace.affineChart` onto `Fin n → ℍ` with inverse
-  `TauCeti.QuaternionicProjectiveSpace.affineParam` inserting the coordinate 1, and their
-  transitions `TauCeti.QuaternionicProjectiveSpace.affineChart_transition`
-  (`QuaternionicProjectiveSpace/Charts.lean`). The smooth structure
-  `TauCeti.QuaternionicProjectiveSpace.instChartedSpace` and
-  `TauCeti.QuaternionicProjectiveSpace.instIsManifold`, modelled on `𝓘(ℝ, Fin n → ℍ)`, a real
-  space of dimension 4n, at every order of smoothness
-  (`Geometry/Manifold/Instances/QuaternionicProjectiveSpace.lean`).
-- Towers for G3: `TauCeti.ModuleTower` (`Algebra/Category/ModuleCat/Tower/Basic.lean`), towers
-  `ℕᵒᵖ ⥤ ModuleCat R` over any ring, with the shift `TauCeti.ModuleTower.shift`,
-  `δ(x)_n = x_n − φ_n(x_(n+1))`, its kernel `TauCeti.ModuleTower.lim`, the categorical limit, and its
-  cokernel `TauCeti.ModuleTower.limOne`, and the vanishing
-  `TauCeti.ModuleTower.subsingleton_limOne_of_surjective`; the connecting map
-  `TauCeti.ModuleTower.connecting` of the six-term sequence (`Tower/Exact.lean`); Mittag-Leffler
-  vanishing `TauCeti.ModuleTower.subsingleton_limOne_of_isMittagLeffler`
-  (`Tower/MittagLeffler.lean`); the cofinal-subsequence isomorphism
-  `TauCeti.ModuleTower.limOneSubsequenceEquiv` (`Tower/Subsequence/LimOne.lean`); towers of
-  complexes `TauCeti.ComplexTower` with their Milnor sequences
-  `0 → lim¹ H_i(C_n) → H_j(lim C) → lim H_j(C_n) → 0` for `c.Rel i j` when the shift of every
-  tower of terms is surjective (`Tower/Milnor/Basic.lean`);
-  and the nonabelian lim¹ `TauCeti.GroupTower.limOne` of a tower of groups, the orbit set of the
-  twisted action `(g·h)_n = g_n h_n r_n(g_(n+1))⁻¹` (`Algebra/Group/Tower.lean`), with
-  `TauCeti.ModuleTower.groupTowerLimOneEquiv` identifying it with `limOne` for abelian towers
-  (`Tower/GroupTower.lean`).
-- Tubular neighbourhoods and metrics for G5.2 and G5.7:
-  `TauCeti.SmoothEmbedding.exists_diffeomorph_normalBundle_subset`
-  (`Geometry/Manifold/TubularNeighborhood/Existence.lean`): for a smooth embedding between
-  finite-dimensional boundaryless manifolds with Hausdorff second-countable target, the whole
-  intrinsic normal bundle `TauCeti.SmoothEmbedding.NormalSpace` is diffeomorphic to an open
-  neighbourhood of the image inside any prescribed open set, the zero section going to the
-  embedding, with no compactness or closed-image hypothesis; its Riemannian normal-exponential form
-  `TauCeti.SmoothEmbedding.exists_diffeomorph_normalBundle_riemannian_subset`
-  (`TubularNeighborhood/Riemannian/Coordinates.lean`); for a compact source, closed normal disc
-  bundles of positive smooth radius with their bounding sphere bundles,
-  `TauCeti.SmoothEmbedding.exists_isClosedEmbedding_normalExp_disc`
-  (`TubularNeighborhood/Riemannian/DiscSphere.lean`); the Euclidean tube `TauCeti.normalTube`
-  (`TubularNeighborhood/Euclidean.lean`); and `TauCeti.nonempty_contMDiffRiemannianMetric`
-  (`Geometry/Manifold/VectorBundle/Riemannian/Existence.lean`): a smooth real vector bundle with
-  finite-dimensional fibres over a Hausdorff σ-compact manifold with finite-dimensional model has a
-  smooth Riemannian metric.
-
-### From TauCetiRoadmap.AlgebraicTopology
-
-- Stages 2–5 and 8: CW cells, skeleta and cellular approximation, homotopy groups and Whitehead's
-  theorem, ordinary pair and triple homology and products. Singular chains and ordinary homology
-  and cohomology remain there. Stage 2.5's sup-ball-to-Euclidean-disk homeomorphism.
-- Stage 4.4: the pointed quotient carrier `ordinaryPairQuotient`, the disk-quotient sphere
-  homeomorphism on native `TopCat.disk n` and the image of `TopCat.diskBoundaryInclusion n`, the
-  compact based smash and reduced suspension
-  carriers for compact Hausdorff inputs and pointed Hausdorff CW spaces, and their raw-to-kified
-  comparisons.
-- Stage 4.5: the Kelley product CW structure, `ordinaryPairQuotientComparison` and
-  `ordinaryPairQuotientCohomologyComparison`, with the pair-to-mapping-cone comparison.
-- Stage 4.8: compact generation, the coreflection k given by
-  `TopologicalSpace.compactlyGenerated`, right adjoint to
-  `CompactlyGenerated.compactlyGeneratedToTop`, with its counit, the CW and locally compact product
-  comparisons and the based suspension–loop adjunction on based interval loops. Stage 4.9's single
-  simplicial-realization product comparison |K×L| ≃ k(|K|×|L|). Stage 8.11a's interval-product
-  comparison.
-- Stage 4.7's realization CW structure of a simplicial set; Stage 4.10's abstract CW
-  approximation and Stage 5.5's ordinary Serre homology and cohomology spectral sequences with
-  their multiplicative convergence; Stage 5.0's spectral sequence of a filtered complex.
-- Stage 6.4: the Poincaré–Lefschetz isomorphisms for compact manifolds with boundary, with their
-  pair-map zigzag.
-- Stage 8.2: the Kan property of simplicial groups, the Moore comparison and the Kan
-  realization-unit comparison.
-- Stage 8.8c's functorial abelian Eilenberg–Mac Lane models on arbitrary CW spaces; Stage 8.8d's
-  Serre classes, including torsion, and Hurewicz modulo a class; Stage 8.10's ordinary cohomology
-  representability `ordinaryEMRepresentability`, its universal class and its relative
-  representability for CW pairs; Stage 8.11b's ordinary Eilenberg–Mac Lane loop comparison on the
-  native fixed-interval loops and its ordinary cohomology suspension.
-
-### From TauCetiRoadmap.TopologicalKTheory
-
-- T1, T5–T7: numerable vector bundles and classifiers, T1.5's frame connectivity bounds and
-  first-column stabilizer comparisons, T1.5a's last-vector Stiefel fibrations with sphere fibre
-  and their first homotopy groups, T1.5's smooth real and complex
-  Grassmannian graph-chart upgrade and rank-one projective diffeomorphisms, T1.6's stable
-  classifiers BO, BSO and their Whitney sums, bundle-level real and complex Bott isomorphisms,
-  T7.0's based shear inverse on BO, and T7.1's eightfold stable Bott equivalence, a based map
-  ℤ×BO → Ω⁸(ℤ×BO) inducing the product with the degree −8 class b on homotopy groups, with the
-  coefficient ring of real K-theory.
-
-### From TauCetiRoadmap.CharacteristicClasses
-
-- C1–C3: C1.1b's numerable join carrier and universal bundle, C1.2's weak equivalence
-  |Sing X| → X and ordinary compact supports, C1.5's finite torus classifier, C1.5a's classical
-  Eilenberg–Mac Lane comparisons (the map f_h whose restriction to complex-oriented CP¹ pairs
-  to +1), C2.1's disc and sphere quotients and ordinary Thom classes, C2.4's ordinary embedding
-  Gysin map and C2.5's fibrewise graph embedding and tubular comparison, with the chosen
-  ordinary class conventions.
-
-### From TauCetiRoadmap.ComplexKahlerGeometry
-
-- K1 and K7.1: the complex orientation of K1 and K7.1's native CP complex and real atlases.
-  G4.0b compares its HP¹ ≃ S⁴ adapter with K7's CP¹ ≃ S², and G5.7 uses K7.1's projective stage
-  charts.
-
-### From TauCetiRoadmap.ComplexManifolds
-
-- Milestones 1–2: restriction of scalars and the canonical real orientation of a complex
-  manifold, as consumed by ComplexKahlerGeometry K1.
-
-### From TauCetiRoadmap.SmoothBundlesConnections
-
-- B1.4: proper free-action smooth quotients and the principal-bundle and submersion comparisons.
-
-### From TauCetiRoadmap.RepresentationTheory
-
-- SpinRepresentations Layer 7: real Clifford algebras and the native Spin(3) data.
-- LieGroups Layer 2: the closed-subgroup theorem, making the closed matrix groups Lie groups.
-- CompactGroups Layer 0: normalized Haar measure and averaging.
-
-### From TauCetiRoadmap.SpinGeometry
-
-- G1.3: the scalar-part trace τ of a Clifford algebra and its ℂ-linear extension τ_ℂ, their
-  normalized regular-module trace formulas and algebra-isomorphism transport. G5.5 proves positivity and faithfulness for its
-  mixed Cartan adjoint.
-- G4.1: the Spin-cover frame and form adapters.
-
-### From TauCetiRoadmap.GeometricTopology
-
-- Layer 1: smooth collars of manifolds with boundary (1.1) and the uniqueness of tubular
-  neighbourhoods up to isotopy through tubular neighbourhoods (1.5); the normal bundles and tubes
-  themselves are Tau Ceti's.
-- Layer 11.3: smooth triangulations (the Cairns–Whitehead theorem), which give compact smooth
-  manifolds, and with Layer 1.1's collars compact collared pairs, finite CW models.
-
-### From TauCetiRoadmap.HilbertModules
-
-- H2, H4–H6: adjointable maps and module compact operators, countable generation and Kasparov
-  stabilization, continuous fields, and closed module operators with their regularity and
-  functional calculus.
-
-### From TauCetiRoadmap.CStarAlgebras
-
-- C5: the minimal and maximal C*-tensor products and their comparison, direct sums and
-  inductive limits, and the path, cone, suspension and mapping-cone constructions.
-
-### From TauCetiRoadmap.OperatorTheory
-
-- SelfAdjointSpectralTheory Parts C–D (SA-D15–D17): closed operators on `LinearPMap`, their
-  resolvents and self-adjointness criteria.
-
-## How to read the build
-
-G1 states the axiomatic theories on the pointed CW substrate of AlgebraicTopology, independently
-of any spectral model. G2 equips Tau Ceti's symmetric spectra with the stable model structure,
-compares them with spaces and sequential spectra, constructs the represented theories, the
-Eilenberg–Mac Lane spectra, the multiplicative infinite-loop machine, the general classifying
-spaces and the mapping-path replacements, and closes with the quasicategorical and monoidal
-foundations of G2.11 that G5.7 and the downstream equivariant roadmaps instantiate. G3 proves
-Brown representability and the infinite comparisons, using G1 for the axioms and G2 for the
-spectra. G4 proves the generalized Leray–Hirsch and Thom theorems from G1 and G3, with the
-quaternionic adapters of G4.0 built first. G5 constructs duality, Thom spectra, the canonical
-ring spectra and their orientations, and the rational comparisons, from G2–G4. Each layer ends
-with its examples and its dependencies.
-
-The G-prefixed subsection identifiers retain their numbering. The layer headings correspond as
-follows, so citations using the former numbering have an explicit destination.
-
-| Former heading and numbering | Layer |
-| --- | --- |
-| G1. Reduced, relative and multiplicative theories | [Layer 1](#layer-1-reduced-relative-and-multiplicative-theories) |
-| G2. A concrete spectral model and represented theories | [Layer 2](#layer-2-a-concrete-spectral-model-and-represented-theories) |
-| G3. Brown representation, arbitrary CW and infinite comparisons | [Layer 3](#layer-3-brown-representation-arbitrary-cw-and-infinite-comparisons) |
-| G4. Generalized Leray–Hirsch, Thom and Euler theory | [Layer 4](#layer-4-generalized-lerayhirsch-thom-and-euler-theory) |
-| G5. Finite duality, Thom spectra and rational Hurewicz | [Layer 5](#layer-5-finite-duality-thom-spectra-and-rational-hurewicz) |
 
 ## Layer 1: Reduced, relative and multiplicative theories
 
@@ -4959,6 +4592,373 @@ G5.0 uses G2.9, G3.10, G4.0a, G4.5, G4.6, TopologicalKTheory T1.6, T7.0 and T7.1
   graded Hilbert modules, the Cl₂ matrix model and the swapped period reduction Cl₁⊗̂Cl₁→Cl₂.
 - GeneralAlgebraicKTheory and StableHomotopyKTheory consume G2.3–2.7: the stable model
   structures, the derived symmetric monoidal category and the sequential comparison.
+
+## Scope and ownership
+
+This roadmap owns the axiomatic generalized theories of G1, the spectral model and its
+represented theories of G2, the infinite and representability theory of G3, the generalized
+bundle theory of G4 and the duality, Thom-spectrum and rational theory of G5. All CW statements
+include arbitrary cell sets and unbounded dimension in the chosen universe. Finite or countable
+hypotheses occur only on results that use them. Spaces of CW type are included by comparison,
+and the spectrum-defined extension to arbitrary spaces uses singular simplicial sets. No
+dimension axiom is imposed on generalized theories. The construction of a spectrum does not
+substitute for its homotopy theory: naive colimits of homotopy groups do not define stable
+equivalences of arbitrary symmetric spectra.
+
+**Already in the pinned libraries, consumed rather than planned again.**
+
+- Tau Ceti's pointed simplicial sets `TauCeti.PointedSSet`, with their degreewise smash
+  product, its symmetric monoidal closed structure, simplicial tensors and cotensors, the
+  simplicial circle and the suspension–loop adjunction; the finite-bijection groupoid
+  `TauCeti.FiniteBijection`, symmetric sequences `TauCeti.SymmetricSequence` with Day
+  convolution and its wedge formula, the sphere `TauCeti.SymmetricSequence.sphere`, symmetric
+  spectra `TauCeti.SymmetricSpectrum` as modules over it, free spectra and evaluation, limits and
+  colimits, the sphere monoids for higher-dimensional spheres, the point-set smash product and
+  function spectra. G2.1 and G2.2 build the homotopy theory of these carriers, not the carriers.
+- Tau Ceti's Hurewicz fibrations `TauCeti.IsHurewiczFibration`, their universal lifting
+  functions, mapping-path spaces `TauCeti.MappingPathSpace` and fibres
+  `TauCeti.MappingPathFiber`, the path and loop comparisons of the fibres, the fibre inclusion
+  and fibre transport homotopy equivalences, and the relative lifting theorem for NDR pairs.
+  G2.10 owns only what these lack.
+- Tau Ceti's marked simplicial sets `TauCeti.MarkedSSet` with their limits, colimits and
+  mapping spaces, joins `SSet.join`, slices `SSet.slice`, Cartesian edges
+  `SSet.Edge.IsCartesian`, Cartesian fibrations `SSet.CartesianFibration`, equivalence edges
+  `SSet.Edge.IsEquivalence` and the core `SSet.core`. G2.11 owns the model structures,
+  straightening and the theorems about these objects, not the objects.
+- Tau Ceti's quaternionic projective space `TauCeti.QuaternionicProjectiveSpace n`, the quotient
+  of the unit sphere of ℍⁿ⁺¹ by right multiplication by the unit quaternions, compact, Hausdorff
+  and path connected, with its homogeneous-ratio charts and its smooth real 4n-manifold
+  structure. G4.0 builds the CW structure, the Hopf line and the Grassmannian, Lie-quotient and
+  sphere comparisons on this carrier; it defines no second HPⁿ.
+- Tau Ceti's towers of modules `TauCeti.ModuleTower` with lim, lim¹, the six-term sequence,
+  Mittag-Leffler vanishing and the Milnor sequences of towers of complexes, and the nonabelian
+  lim¹ of towers of groups `TauCeti.GroupTower.limOne`. G3 builds the telescopes and the Milnor
+  sequences of theories and spectra on these algebraic carriers.
+- Tau Ceti's based topological pairs `TauCeti.BasedTopPair`, their relative homotopy sets
+  `TauCeti.RelHomotopyGroup` with induced maps, boundary maps and the compression lemma, and the
+  pairs of nested subsets `TopPair.ofInclusion` with their maps `TopPair.ofInclusionMap`. G2.5
+  states homotopy excision on these carriers.
+- Tau Ceti's gaps `PartitionOfUnity.gap` of a partition of unity and the countable partition of
+  unity `PartitionOfUnity.gapPartition` grouping them by size, with the glued trivializations
+  `PartitionOfUnity.gapTrivialization` of a bundle with nonempty model fibre and nonempty
+  fibres over its positive sets: the countable
+  refinement of a numerable cover by disjoint unions of open sets each inside a member of the
+  cover. G3.5 consumes it and supplies the empty-fibre case and transport for arbitrary projections.
+- Tau Ceti's intrinsic normal bundles and tubular neighbourhoods of smooth embeddings, in plain,
+  Riemannian, closed-disc and Euclidean forms, and smooth Riemannian metrics on vector bundles.
+  G5.2 and G5.7 consume them.
+
+**Owned here and consumed elsewhere.** G2.1's Kan–Quillen model structure and G2.11's enriched,
+quasicategorical, straightening, coherent-diagram, stable and operadic foundations are owned
+here, together with the reduced mapping cone and Puppe sequence of G1.3, the pointed smash of
+compactly generated spaces, CW homotopy excision, the topological Freudenthal theorem and the
+stabilized sphere colimit of G2.5, the Hurewicz–Dold theorem `numerableFiberBundle_hurewicz` of
+G2.10, and the complex graded Clifford conventions of G5.5. The roadmaps listed under
+Downstream consumers take these from here rather than planning them again.
+
+**Left to the roadmaps named in the supplier contracts.** Singular chains, ordinary
+homology and cohomology, CW topology, homotopy groups, compact generation, the realization
+product comparison, the pointed quotient, smash and suspension carriers of compact Hausdorff and
+CW inputs, the based suspension–loop adjunction, the ordinary Eilenberg–Mac Lane models and
+Serre classes remain in AlgebraicTopology. Vector bundles, classifiers, bundle-level Bott
+periodicity, the coefficient ring of real K-theory and the eightfold stable Bott equivalence
+ℤ×BO → Ω⁸(ℤ×BO) remain in TopologicalKTheory; ordinary characteristic classes and the
+classical Eilenberg–Mac Lane comparisons of RP∞ and CP∞ remain in CharacteristicClasses.
+BordismFormalGroups consumes G2–G5 and owns formal group laws,
+orientation changes and coefficient-ring universality, so G4.5 states no formal-group
+universality.
+
+**Moved identifiers.** The realization product comparison is AlgebraicTopology Stage 4.9's
+single simplicial-realization product comparison; G2.1 builds only its pointed smash and quotient
+versions. The G2.1, G2.2, G2.10 and G4.0 carriers below are Tau Ceti's.
+
+- G2.1 realizationProductKelleyComparison → AlgebraicTopology Stage 4.9, simplicial-realization
+  product comparison.
+- G2.10 IsHurewiczFibration, MappingPathSpace and MappingPathFiber → Tau Ceti
+  `TauCeti.IsHurewiczFibration`, `TauCeti.MappingPathSpace` and `TauCeti.MappingPathFiber`.
+- G2.10 mappingPathFiberConstHomeomorphPath and mappingPathFiberConstHomeomorphLoopSpace → Tau Ceti
+  `TauCeti.mappingPathFiberConstHomeomorphPath` and `TauCeti.mappingPathFiberConstHomeomorphLoopSpace`.
+- G2.10 zeroSetSDR_liftingInclusion → Tau Ceti
+  `TauCeti.HasHomotopyLiftingProperty.zeroSetSDR_liftingInclusion`.
+- G2.1 and G2.2 pointed simplicial sets, finite bijections, symmetric sequences and symmetric spectra
+  → Tau Ceti `TauCeti.PointedSSet`, `TauCeti.FiniteBijection`, `TauCeti.SymmetricSequence` and
+  `TauCeti.SymmetricSpectrum`.
+- G4.0 quaternionicProjectiveSpace and its smooth real 4n-manifold structure → Tau Ceti
+  `TauCeti.QuaternionicProjectiveSpace`, `TauCeti.QuaternionicProjectiveSpace.instChartedSpace` and
+  `TauCeti.QuaternionicProjectiveSpace.instIsManifold`; G4.0 keeps the CW structure, the Hopf line
+  and the Grassmannian, Lie-quotient and sphere comparisons on that carrier.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- `SSet`, `SSet.boundary`, `SSet.horn`, `SSet.KanComplex`, `SSet.Quasicategory`, the inner
+  fibrations and the internal hom of simplicial sets; `SSet.modelCategoryQuillen.I` and
+  `SSet.modelCategoryQuillen.J` with their cofibration and fibration classes
+  (`AlgebraicTopology/SimplicialSet/CategoryWithFibrations.lean`). Mathlib has no
+  `ModelCategory SSet`; G2.1 proves the model axioms for these classes and Tau Ceti's weak
+  equivalences.
+- `HomotopicalAlgebra.ModelCategory`, `HomotopicalAlgebra.ReedyStructure`, categorical
+  localization, `HasShift`, `Pretriangulated` and `IsTriangulated`; `CategoryTheory.Under`,
+  `Action`, `Mon`, `Mod`, `CommMon`, `DayFunctor`, `EnrichedCat`, `EnrichedFunctor`,
+  `ForgetEnrichment`, `CategoryTheory.SimplicialCategory`, `SimplicialThickening` and
+  `SimplicialNerve`.
+- `TopCat`, `TopCat.toSSet`, `CompactlyGenerated` with `CompactlyGenerated.compactlyGeneratedToTop`
+  and `TopologicalSpace.compactlyGenerated`, `Topology.CWComplex`, `Topology.RelCWComplex` and
+  its subcomplexes `Topology.RelCWComplex.Subcomplex`, closed unions of open cells
+  (`Topology/CWComplex/Classical/Basic.lean`), `TopPair` (`Topology/Category/TopPair.lean`),
+  `HomotopyGroup`, `LoopSpace`, `Path`, `JoinedIn`, `OnePoint`, `Bundle.Trivialization`,
+  `FiberBundle`, `VectorBundle` and `PartitionOfUnity`.
+- `TopPair.HomologyPretheory` with `IsExtraordinaryEilenbergSteenrod`
+  (`AlgebraicTopology/EilenbergSteenrod.lean`): the shape of the unreduced homology theories of G1
+  and the carrier of the homology form of the comparison theorem in G3.3.
+- `FormalGroup` and `FormalGroup.IsComm` (`RingTheory/FormalGroup/Basic.lean`), `CliffordAlgebra`,
+  `Quaternion`, `CStarModule`, `WithCStarModule`, `LinearPMap` and the continuous functional
+  calculus classes; `EMetricSpace.ofRiemannianMetric` (`Geometry/Manifold/Riemannian/Basic.lean`),
+  the extended distance of a Riemannian metric on a T3 manifold, inducing its topology.
+
+### From Tau Ceti
+
+- Pointed simplicial sets: `TauCeti.PointedSSet`
+  (`AlgebraicTopology/SimplicialSet/Pointed/Basic.lean`) as `Under Δ[0]`, its comparison with
+  simplicial objects in `Pointed`, the smash product with
+  `TauCeti.PointedSSet.monoidalCategory` and `TauCeti.PointedSSet.symmetricCategory`
+  (`Pointed/Smash/Basic.lean`), its closed structure `TauCeti.PointedSSet.monoidalClosed`
+  (`Pointed/Closed.lean`), simplicial tensors and cotensors (`Pointed/Tensor.lean`), the circle
+  `TauCeti.PointedSSet.circle` (`Pointed/Circle.lean`) and
+  `TauCeti.PointedSSet.suspensionLoopAdjunction` (`Pointed/Suspension.lean`).
+- Kan–Quillen weak equivalences: the scoped instance
+  `SSet.modelCategoryQuillen.instCategoryWithWeakEquivalences`
+  (`AlgebraicTopology/SimplicialSet/WeakEquivalence.lean`), whose weak equivalences are the maps
+  whose realization lies in `TauCeti.TopCat.weakEquivalences`
+  (`Topology/Category/TopCat/WeakEquivalence.lean`), the weak homotopy equivalences, with
+  `SSet.modelCategoryQuillen.weakEquivalence_iff`, two out of three, retract stability and
+  `SSet.modelCategoryQuillen.weakEquivalence_of_stdSimplex`; and `SSet.rlp_monomorphisms_iff`
+  (`AlgebraicTopology/SimplicialSet/TrivialFibration.lean`): a map has the right lifting property
+  against all monomorphisms exactly when it is a Kan fibration admitting a shrinking.
+- Pointed homotopy and wedges: the pointed homotopy category `TauCeti.PointedHomotopyCat`
+  (`AlgebraicTopology/Homotopy/PointedHomotopyCat.lean`), based spaces with pointed homotopy
+  classes of based maps; the wedge sum `TauCeti.WedgeSum` of a family of pointed spaces, the point
+  for the empty family, with its inclusions and universal property `TauCeti.WedgeSum.lift`
+  (`Topology/WedgeSum.lean`); a CW structure on a wedge of circles only
+  (`Topology/CWComplex/Classical/WedgeCircles.lean`).
+- Symmetric spectra: `TauCeti.FiniteBijection` (`CategoryTheory/FiniteBijection.lean`),
+  `TauCeti.SymmetricSequence` with Day convolution, its wedge formula and its closed symmetric
+  monoidal structure (`AlgebraicTopology/Spectra/SymmetricSequence.lean`),
+  `TauCeti.SymmetricSequence.sphere` and `TauCeti.SymmetricSpectrum`
+  (`Spectra/SymmetricSpectrum.lean`), free spectra and `freeEvaluationAdjunction`
+  (`Spectra/Free.lean`), levelwise limits and colimits (`Spectra/Limits.lean`,
+  `Spectra/Colimits.lean`), mapping spaces (`Spectra/MappingSpace.lean`), the sphere monoids
+  `TauCeti.SymmetricSequence.sphereMonoid` and their modules (`Spectra/SphereMonoid.lean`), and
+  structure maps (`Spectra/StructureMap.lean`). The point-set smash product and function spectra
+  are `CategoryTheory.Mod.monoidalCategory`, `CategoryTheory.Mod.symmetricCategory` and
+  `CategoryTheory.Mod.internalHom` on these modules. Tau Ceti has no stable equivalences.
+- Fibrations and path spaces: `TauCeti.IsHurewiczFibration` with its Serre comparison, composition
+  and base change (`Topology/Homotopy/HurewiczFibration/Basic.lean`), its universe comparison
+  (`HurewiczFibration/Universe.lean`), lifting functions and
+  `TauCeti.isHurewiczFibration_iff_nonempty_liftingFunction`
+  (`Topology/Homotopy/MappingPath/LiftingFunction.lean`), `TauCeti.MappingPathSpace`
+  (`MappingPath/Basic.lean`), `TauCeti.MappingPathFiber` with its endpoint, path and loop
+  comparisons (`MappingPath/Fiber.lean`), the path fibration (`MappingPath/PathFibration.lean`),
+  the fibre inclusion and loop homotopy equivalence (`HurewiczFibration/FiberInclusion.lean`), fibre
+  transport (`HurewiczFibration/Transport.lean`),
+  `TauCeti.HasHomotopyLiftingProperty.zeroSetSDR_liftingInclusion`
+  (`Topology/Homotopy/Lifting/Relative.lean`) and
+  `TauCeti.IsHurewiczFibration.exists_lift_of_ndrPair`
+  (`HurewiczFibration/RelativeLifting.lean`), and `TauCeti.TopCat.serreFibrations`.
+- Quasicategories: `TauCeti.MarkedSSet` (`AlgebraicTopology/SimplicialSet/Marked/Basic.lean`),
+  marked edges containing the degenerate edges, with limits and colimits (`Marked/Limits.lean`)
+  and the mapping functors `TauCeti.MarkedSSet.mapFlat` and `TauCeti.MarkedSSet.mapSharp`
+  (`Marked/MappingSpace.lean`); `SSet.join` (`SimplicialSet/Join/Basic.lean`); `SSet.slice`
+  (`SimplicialSet/Slice.lean`); `SSet.Edge.IsCartesian` and `SSet.CartesianFibration`
+  (`Quasicategory/Cartesian.lean`); `SSet.Edge.IsEquivalence` and `SSet.core`
+  (`Quasicategory/Core.lean`).
+- Homotopy: `HomotopyGroup.hurewiczHom` (`AlgebraicTopology/Homotopy/Hurewicz/Basic.lean`), the
+  Hurewicz homomorphism `π_(n+1)(X,x) → (R ⟶ H_(n+1)(X;R))`.
+- Relative homotopy for G2.5: `TauCeti.BasedTopPair` (`Topology/Category/BasedTopPair.lean`), a
+  topological pair with a basepoint in its subspace; `TauCeti.RelHomotopyGroup N X`
+  (`AlgebraicTopology/Homotopy/Relative/Basic.lean`), the relative homotopy set
+  `π_(n+1)(X, A, a₀)` for `n` the cardinality of `N`, in the cubical model of Mathlib's
+  `HomotopyGroup` (relative cubes `I × I^N → X` sending `{0} × I^N` into `A` and the rest of the
+  boundary to `a₀`), defined in positive degrees only, with induced maps
+  `TauCeti.RelHomotopyGroup.map`; the compression lemma
+  `TauCeti.exists_homotopicRel_range_subset_of_relHomotopyGroup` (`Relative/Disk.lean`); the
+  connectivity of a CW pair from the dimensions of its cells,
+  `TauCeti.subsingleton_relHomotopyGroup_of_isEmpty_cell` (`Relative/CellDimension.lean`); and
+  the pairs of nested subsets `TopPair.ofInclusion`, `(t, s)` for `s ⊆ t`, with their maps
+  `TopPair.ofInclusionMap` (`Topology/Category/TopPair.lean`).
+- Countable refinement for G3.5: `PartitionOfUnity.gap` (`Topology/PartitionOfUnity/Gap.lean`),
+  the gap `max(0, min_(i∈E) ρ_i − sup_(i∉E) ρ_i)` of a finite set E of indices, with an empty
+  supremum read as 0; it is continuous (`PartitionOfUnity.continuous_gap`), positive exactly
+  where E is nonempty and its weights are positive and exceed every weight outside E
+  (`PartitionOfUnity.gap_pos_iff`), positive at a point for at most one set of each size
+  (`PartitionOfUnity.eq_of_gap_pos_of_card_eq`), and, for ρ subordinate to a cover, positive only
+  inside the cover member of every index of E (`PartitionOfUnity.IsSubordinate.mem_of_gap_pos`);
+  `PartitionOfUnity.gapPartition`, the locally finite partition of unity indexed by ℕ whose n-th
+  function is n times the sum of the gaps of the n-element sets; and
+  `PartitionOfUnity.gapTrivialization` (`Topology/FiberBundle/GapTrivialization.lean`), for a
+  family E over B with a topology on `Bundle.TotalSpace F E`, requires `Nonempty F` and
+  `∀ b, Nonempty (E b)`. For a partition subordinate to charts of its projection it gives the
+  glued trivialization over the positive set of the n-th function, these base sets covering
+  (`PartitionOfUnity.subset_iUnion_gapTrivialization_baseSet`) and locally finite
+  (`PartitionOfUnity.locallyFinite_gapTrivialization_baseSet`). No metric, rank, countability
+  or paracompactness hypothesis is imposed.
+- Clifford and Lie data for G4.0 and G5.5: `TauCeti.Complexification`, `TauCeti.realCliffordForm`,
+  `TauCeti.realSpinFourEquivQuaternionUnitaryProd`, `TauCeti.Lie.EmbeddedLieSubgroupData` and the
+  embedded-unitary Lie subgroup data.
+- Quaternionic projective space for G4.0: `TauCeti.QuaternionicProjectiveSpace n`
+  (`Topology/QuaternionicProjectiveSpace/Basic.lean`), the orbit quotient of the unit sphere of
+  `PiLp 2 (fun _ : Fin (n + 1) ↦ ℍ)` by right multiplication by unit quaternions, with the
+  projection `TauCeti.QuaternionicProjectiveSpace.mk`, an open quotient map
+  (`TauCeti.QuaternionicProjectiveSpace.isOpenQuotientMap_mk`);
+  `TauCeti.QuaternionicProjectiveSpace.mk_eq_mk_iff`, two unit vectors give the same point exactly
+  when they differ by a unit quaternion on the right; descent of invariant functions
+  `TauCeti.QuaternionicProjectiveSpace.lift`; and the compact, Hausdorff and path-connected
+  instances. The homogeneous ratios `TauCeti.QuaternionicProjectiveSpace.ratio`, `X_j X_k⁻¹`, the
+  open sets `TauCeti.QuaternionicProjectiveSpace.affineOpen` where `X_k ≠ 0`, the charts
+  `TauCeti.QuaternionicProjectiveSpace.affineChart` onto `Fin n → ℍ` with inverse
+  `TauCeti.QuaternionicProjectiveSpace.affineParam` inserting the coordinate 1, and their
+  transitions `TauCeti.QuaternionicProjectiveSpace.affineChart_transition`
+  (`QuaternionicProjectiveSpace/Charts.lean`). The smooth structure
+  `TauCeti.QuaternionicProjectiveSpace.instChartedSpace` and
+  `TauCeti.QuaternionicProjectiveSpace.instIsManifold`, modelled on `𝓘(ℝ, Fin n → ℍ)`, a real
+  space of dimension 4n, at every order of smoothness
+  (`Geometry/Manifold/Instances/QuaternionicProjectiveSpace.lean`).
+- Towers for G3: `TauCeti.ModuleTower` (`Algebra/Category/ModuleCat/Tower/Basic.lean`), towers
+  `ℕᵒᵖ ⥤ ModuleCat R` over any ring, with the shift `TauCeti.ModuleTower.shift`,
+  `δ(x)_n = x_n − φ_n(x_(n+1))`, its kernel `TauCeti.ModuleTower.lim`, the categorical limit, and its
+  cokernel `TauCeti.ModuleTower.limOne`, and the vanishing
+  `TauCeti.ModuleTower.subsingleton_limOne_of_surjective`; the connecting map
+  `TauCeti.ModuleTower.connecting` of the six-term sequence (`Tower/Exact.lean`); Mittag-Leffler
+  vanishing `TauCeti.ModuleTower.subsingleton_limOne_of_isMittagLeffler`
+  (`Tower/MittagLeffler.lean`); the cofinal-subsequence isomorphism
+  `TauCeti.ModuleTower.limOneSubsequenceEquiv` (`Tower/Subsequence/LimOne.lean`); towers of
+  complexes `TauCeti.ComplexTower` with their Milnor sequences
+  `0 → lim¹ H_i(C_n) → H_j(lim C) → lim H_j(C_n) → 0` for `c.Rel i j` when the shift of every
+  tower of terms is surjective (`Tower/Milnor/Basic.lean`);
+  and the nonabelian lim¹ `TauCeti.GroupTower.limOne` of a tower of groups, the orbit set of the
+  twisted action `(g·h)_n = g_n h_n r_n(g_(n+1))⁻¹` (`Algebra/Group/Tower.lean`), with
+  `TauCeti.ModuleTower.groupTowerLimOneEquiv` identifying it with `limOne` for abelian towers
+  (`Tower/GroupTower.lean`).
+- Tubular neighbourhoods and metrics for G5.2 and G5.7:
+  `TauCeti.SmoothEmbedding.exists_diffeomorph_normalBundle_subset`
+  (`Geometry/Manifold/TubularNeighborhood/Existence.lean`): for a smooth embedding between
+  finite-dimensional boundaryless manifolds with Hausdorff second-countable target, the whole
+  intrinsic normal bundle `TauCeti.SmoothEmbedding.NormalSpace` is diffeomorphic to an open
+  neighbourhood of the image inside any prescribed open set, the zero section going to the
+  embedding, with no compactness or closed-image hypothesis; its Riemannian normal-exponential form
+  `TauCeti.SmoothEmbedding.exists_diffeomorph_normalBundle_riemannian_subset`
+  (`TubularNeighborhood/Riemannian/Coordinates.lean`); for a compact source, closed normal disc
+  bundles of positive smooth radius with their bounding sphere bundles,
+  `TauCeti.SmoothEmbedding.exists_isClosedEmbedding_normalExp_disc`
+  (`TubularNeighborhood/Riemannian/DiscSphere.lean`); the Euclidean tube `TauCeti.normalTube`
+  (`TubularNeighborhood/Euclidean.lean`); and `TauCeti.nonempty_contMDiffRiemannianMetric`
+  (`Geometry/Manifold/VectorBundle/Riemannian/Existence.lean`): a smooth real vector bundle with
+  finite-dimensional fibres over a Hausdorff σ-compact manifold with finite-dimensional model has a
+  smooth Riemannian metric.
+
+### From TauCetiRoadmap.AlgebraicTopology
+
+- Stages 2–5 and 8: CW cells, skeleta and cellular approximation, homotopy groups and Whitehead's
+  theorem, ordinary pair and triple homology and products. Singular chains and ordinary homology
+  and cohomology remain there. Stage 2.5's sup-ball-to-Euclidean-disk homeomorphism.
+- Stage 4.4: the pointed quotient carrier `ordinaryPairQuotient`, the disk-quotient sphere
+  homeomorphism on native `TopCat.disk n` and the image of `TopCat.diskBoundaryInclusion n`, the
+  compact based smash and reduced suspension
+  carriers for compact Hausdorff inputs and pointed Hausdorff CW spaces, and their raw-to-kified
+  comparisons.
+- Stage 4.5: the Kelley product CW structure, `ordinaryPairQuotientComparison` and
+  `ordinaryPairQuotientCohomologyComparison`, with the pair-to-mapping-cone comparison.
+- Stage 4.8: compact generation, the coreflection k given by
+  `TopologicalSpace.compactlyGenerated`, right adjoint to
+  `CompactlyGenerated.compactlyGeneratedToTop`, with its counit, the CW and locally compact product
+  comparisons and the based suspension–loop adjunction on based interval loops. Stage 4.9's single
+  simplicial-realization product comparison |K×L| ≃ k(|K|×|L|). Stage 8.11a's interval-product
+  comparison.
+- Stage 4.7's realization CW structure of a simplicial set; Stage 4.10's abstract CW
+  approximation and Stage 5.5's ordinary Serre homology and cohomology spectral sequences with
+  their multiplicative convergence; Stage 5.0's spectral sequence of a filtered complex.
+- Stage 6.4: the Poincaré–Lefschetz isomorphisms for compact manifolds with boundary, with their
+  pair-map zigzag.
+- Stage 8.2: the Kan property of simplicial groups, the Moore comparison and the Kan
+  realization-unit comparison.
+- Stage 8.8c's functorial abelian Eilenberg–Mac Lane models on arbitrary CW spaces; Stage 8.8d's
+  Serre classes, including torsion, and Hurewicz modulo a class; Stage 8.10's ordinary cohomology
+  representability `ordinaryEMRepresentability`, its universal class and its relative
+  representability for CW pairs; Stage 8.11b's ordinary Eilenberg–Mac Lane loop comparison on the
+  native fixed-interval loops and its ordinary cohomology suspension.
+
+### From TauCetiRoadmap.TopologicalKTheory
+
+- T1, T5–T7: numerable vector bundles and classifiers, T1.5's frame connectivity bounds and
+  first-column stabilizer comparisons, T1.5a's last-vector Stiefel fibrations with sphere fibre
+  and their first homotopy groups, T1.5's smooth real and complex
+  Grassmannian graph-chart upgrade and rank-one projective diffeomorphisms, T1.6's stable
+  classifiers BO, BSO and their Whitney sums, bundle-level real and complex Bott isomorphisms,
+  T7.0's based shear inverse on BO, and T7.1's eightfold stable Bott equivalence, a based map
+  ℤ×BO → Ω⁸(ℤ×BO) inducing the product with the degree −8 class b on homotopy groups, with the
+  coefficient ring of real K-theory.
+
+### From TauCetiRoadmap.CharacteristicClasses
+
+- C1–C3: C1.1b's numerable join carrier and universal bundle, C1.2's weak equivalence
+  |Sing X| → X and ordinary compact supports, C1.5's finite torus classifier, C1.5a's classical
+  Eilenberg–Mac Lane comparisons (the map f_h whose restriction to complex-oriented CP¹ pairs
+  to +1), C2.1's disc and sphere quotients and ordinary Thom classes, C2.4's ordinary embedding
+  Gysin map and C2.5's fibrewise graph embedding and tubular comparison, with the chosen
+  ordinary class conventions.
+
+### From TauCetiRoadmap.ComplexKahlerGeometry
+
+- K1 and K7.1: the complex orientation of K1 and K7.1's native CP complex and real atlases.
+  G4.0b compares its HP¹ ≃ S⁴ adapter with K7's CP¹ ≃ S², and G5.7 uses K7.1's projective stage
+  charts.
+
+### From TauCetiRoadmap.ComplexManifolds
+
+- Milestones 1–2: restriction of scalars and the canonical real orientation of a complex
+  manifold, as consumed by ComplexKahlerGeometry K1.
+
+### From TauCetiRoadmap.SmoothBundlesConnections
+
+- B1.4: proper free-action smooth quotients and the principal-bundle and submersion comparisons.
+
+### From TauCetiRoadmap.RepresentationTheory
+
+- SpinRepresentations Layer 7: real Clifford algebras and the native Spin(3) data.
+- LieGroups Layer 2: the closed-subgroup theorem, making the closed matrix groups Lie groups.
+- CompactGroups Layer 0: normalized Haar measure and averaging.
+
+### From TauCetiRoadmap.SpinGeometry
+
+- G1.3: the scalar-part trace τ of a Clifford algebra and its ℂ-linear extension τ_ℂ, their
+  normalized regular-module trace formulas and algebra-isomorphism transport. G5.5 proves positivity and faithfulness for its
+  mixed Cartan adjoint.
+- G4.1: the Spin-cover frame and form adapters.
+
+### From TauCetiRoadmap.GeometricTopology
+
+- Layer 1: smooth collars of manifolds with boundary (1.1) and the uniqueness of tubular
+  neighbourhoods up to isotopy through tubular neighbourhoods (1.5); the normal bundles and tubes
+  themselves are Tau Ceti's.
+- Layer 11.3: smooth triangulations (the Cairns–Whitehead theorem), which give compact smooth
+  manifolds, and with Layer 1.1's collars compact collared pairs, finite CW models.
+
+### From TauCetiRoadmap.HilbertModules
+
+- H2, H4–H6: adjointable maps and module compact operators, countable generation and Kasparov
+  stabilization, continuous fields, and closed module operators with their regularity and
+  functional calculus.
+
+### From TauCetiRoadmap.CStarAlgebras
+
+- C5: the minimal and maximal C*-tensor products and their comparison, direct sums and
+  inductive limits, and the path, cone, suspension and mapping-cone constructions.
+
+### From TauCetiRoadmap.OperatorTheory
+
+- SelfAdjointSpectralTheory Parts C–D (SA-D15–D17): closed operators on `LinearPMap`, their
+  resolvents and self-adjointness criteria.
 
 ## References
 

@@ -16,973 +16,6 @@ Suggested homes are `TauCeti/AlgebraicTopology/FundamentalGroupoid/`,
 `TauCeti/AlgebraicTopology/Singular/`, `TauCeti/AlgebraicTopology/Cellular/`,
 `TauCeti/AlgebraicTopology/Cohomology/`, and `TauCeti/AlgebraicTopology/Homotopy/`.
 
-## Scope and ownership
-
-The roadmap is complete when Tau Ceti supplies all of the following, with naturality and the
-stated coefficient generality.
-
-1. The fundamental-groupoid functor sends an open cover to the appropriate colimit and yields
-   based van Kampen and presentation corollaries without connectedness assumptions on
-   intersections.
-2. Relative singular homology is a functor on `TopPair`, obtained through `SSetPair`, and satisfies
-   the long exact sequence, homotopy invariance, excision, Mayer--Vietoris, dimension, and
-   additivity axioms, including local-coefficient pair/triple sequences,
-   transported homotopy invariance, excision and Mayer--Vietoris.
-3. Mathlib's `CWComplex` and `RelCWComplex` structures have cellular chain complexes whose
-   homology is naturally isomorphic to singular homology, including module-valued local
-   systems with attaching-path transport. Cofibration, mapping-cylinder,
-   cellular-approximation, and skeletal-induction APIs make those comparisons usable.
-4. Mapping tori, finite covers, finite open covers, and fibre bundles have reusable chain-level
-   tools: Wang and transfer sequences, coefficient-sensitive Kunneth theorems, Cartan--Leray and
-   Serre spectral sequences, torus calculations, and a finite-open-cover Čech double complex.
-5. Singular cohomology, cup and cap products, twisted relative fundamental
-   classes, both local-coefficient Poincare--Lefschetz forms and their oriented
-   integral corollaries, and Euler characteristic are available with naturality.
-6. On Tau Ceti's based pairs, relative homotopy groups and Hurewicz maps, absolute Hurewicz
-   holds in every universe and relative Hurewicz for a simply connected subspace; Hurewicz
-   modulo a Serre class holds for simply connected spaces; homological
-   Whitehead is proved for CW complexes and then for spaces of CW type.  The cubical and
-   Kan-simplicial models of homotopy groups are naturally compared rather than allowed to form
-   separate incompatible APIs.
-7. Singular and cellular restriction towers are compared with cochains on the whole
-   CW pair, using Tau Ceti's lim/lim¹ and Milnor sequences, with
-   cofinal-shift naturality and the specified-homotopy-square maps of Layer 6.0.
-
-8. Ordinary cohomology in positive degree is represented on spaces of CW type by every
-   Eilenberg–MacLane space, and on CW pairs by this roadmap's functorial abelian
-   Eilenberg–MacLane models (Layer 8.8c);
-   nonabelian classifying spaces, universal classes, loop comparisons,
-   and primary relative obstruction cochains have explicit normalization and transport maps.
-
-The scope includes ordinary cohomology on arbitrary CW complexes and the tools needed for
-compact manifolds and finite CW-type spaces.  It
-does not include generalized cohomology theories, spectra, bordism, or surgery obstruction
-groups.  Those theories consume this roadmap's chain, CW, duality, and homotopy interfaces.
-
-### Ownership boundaries
-
-- Tau Ceti already proves, at the revision the supplier contracts are read at, a part of
-  this subject that this roadmap consumes and does not restate: the no-retraction and
-  Brouwer fixed-point theorems, the chain transfer of a finite covering with its degree and
-  deck-sum formulas, Lusternik–Schnirelmann categorical covers and their unnormalized count,
-  based top pairs with their relative homotopy groups, exact sequence, basepoint change,
-  cell-dimension connectivity and Hurewicz maps, absolute Hurewicz for spaces in `Type` and
-  relative Hurewicz when both spaces are highly connected, ordinary Whitehead for spaces of CW
-  type, spaces of CW type and of finite CW type, simple connectivity at infinity, proper
-  homotopy equivalences, the Euler characteristic of spaces of finite CW type with its
-  homotopy invariance and product, covering, Mayer–Vietoris and standard values, the field
-  and hereditary-ring Künneth theorems, the hereditary-ring universal coefficient sequence,
-  barycentric subdivision with its prism homotopy (also with local coefficients), the
-  small-chain theorem, the pair and triple sequences and homotopy invariance with local
-  coefficients, the Wang sequence of the mapping torus of a homeomorphism, the homology of tori
-  as exterior powers, the ordered Čech double complex with its quasi-isomorphism to singular
-  chains and its spectral sequence, the coefficient Bockstein, the constant-coefficient cup and
-  cap products with their naturality, associativity, unit and graded commutativity,
-  the local homology system of a manifold, Hatcher's Lemma 3.27 (p.236) and the description of the
-  top homology of a compact manifold by transport-invariant local classes with module
-  coefficients over any ring, integral homological orientations and integral fundamental
-  classes of closed manifolds, the based van Kampen presentations, the cube, ball and disk
-  homeomorphisms and the cube quotient of the sphere, lifted CW structures on covering spaces,
-  incidence numbers as local degrees, real projective space with its CW structure and
-  incidences, neighbourhood-deformation-retract (NDR) data, closed embeddings and separation of pushouts and sequential colimits
-  with their finite-stage factorization, homotopy groups of Kan complexes with their
-  comparison to cubical ones, Moore's theorem with the abelian Moore comparison, and the ends
-  of a space. It also proves the degree-one Hurewicz isomorphism of a path-connected space,
-  the invariance of singular homology with constant and local coefficients under weak
-  homotopy equivalences, CW approximation of path-connected spaces with its lifts, the
-  spectral sequence of a filtered complex with its filtered-space instance on singular
-  chains, Hurewicz fibrations with their lifting functions, mapping-path fibrations and
-  fibre transport, the torsion Serre classes, the killing tower of homotopy groups, the
-  finite CW structure of complex projective space on its sphere-quotient carrier and the
-  comparison of the circle with Milnor's classifying space of ℤ.
-  Mathlib has the compact-generation coreflection and the quotient topology of
-  projective space. The supplier contracts name each declaration and file; the layers below
-  build only what those files lack.
-- The [universal-covers roadmap](../../Completed/UniversalCovers/README.md) owns universal-cover
-  construction, deck transformations, quotient covers, basepoint change, and induced maps on
-  homotopy groups.  This roadmap consumes those maps, extends the higher-homotopy API with
-  relative groups and comparison theorems, and does not construct another universal cover.
-- The [geometric-topology roadmap](../GeometricTopology/README.md) owns smooth and PL
-  triangulations, manifold boundaries and collars, gluing, connected sum, cobordism carriers,
-  and geometric surgery.  This roadmap owns algebraic topology of CW pairs and proves results
-  about any space of CW type. The finite-dimensional Hausdorff second-countable
-  smooth-manifold CW comparison consumes GeometricTopology §11.3's smooth triangulation;
-  compact manifolds have finite CW type. Layer 8.13 consumes geometric topology's Layer 1
-  tubular neighbourhood theorem and owns, for boundaryless sigma-compact Hausdorff
-  second-countable sources, an arbitrary compact boundaryless target manifold and an
-  arbitrary closed embedded submanifold, the smoothing of continuous maps relative to a
-  closed set, the parametric transversality theorem and relative transversality.
-  TangentialBordism B1.6 consumes these three for boundaryless sources and extends them to
-  sources with corners (facewise transversality), together with its own Sard theorem in
-  unequal dimensions on manifolds with corners; nothing in this roadmap consumes
-  TangentialBordism. DeRhamCohomologyAndDuality Layer 5 states the analogue for families
-  against maps into a vector space by its own route and consumes nothing here.
-- The [differential-geometry roadmap](../DifferentialGeometry/README.md) owns the
-  Mathlib-compatible manifold orientation and degree API (its layers 2 and 10),
-  and the outward-normal-first boundary orientation of Layer 5.1, which the
-  [Heegaard Floer roadmap](../HeegaardFloer/README.md) also consumes.  This roadmap consumes it to
-  compare smooth orientations with sections of the homological orientation
-  system using DifferentialGeometry Layer 2 and DifferentialGeometry Layer 5.1, construct twisted relative fundamental classes and
-  their oriented integral specializations, and own the chain-level proof and
-  consequences of manifold duality. Layer 6.3 builds its local-homology determinant-sign
-  calculation from relative chains and excision.
-- The differential-geometry roadmap consumes this roadmap's singular chains and cochains, relative
-  cohomology, subdivision and small chains (Layers 2, 3 and 6), and needs Layer 6's universal
-  coefficients, cup product and cochain Mayer–Vietoris sequence for the de Rham theorem. It owns
-  smooth singular chains, integration over them and the de Rham comparison. Layer 6.3 consumes
-  DifferentialGeometry Layer 2's tangent-orientation API and DifferentialGeometry Layer 5.1's outward-first boundary orientation; DifferentialGeometry Layer 9.3 consumes
-  Layer 6.3's homological orientation system, chart-normalized point generators, chosen local
-  section, relative twisted class datum and compact-support class factory. DifferentialGeometry Layer 9.3 owns the
-  smooth/constant-system/real-coefficient conversions and the integration comparison.
-  After this independent Layer 6.3 class construction, Layer 6.5 compares its
-  homological degree characterization with DifferentialGeometry Layer 10's smooth mapping degree.
-  DifferentialGeometry Layer 9.3 and DifferentialGeometry Layer 10 do not consume Layer 6.5's degree comparison; neither is a
-  prerequisite for the Layer 6.3 orientation-system or fundamental-class construction.
-- The [profinite-cohomology roadmap](../ProfiniteCohomology/README.md) owns continuous
-  cohomology of profinite groups.  The singular cohomology here is cohomology of topological
-  spaces; neither development introduces a second version of the other's objects.
-- Milnor's classifying space, its K(G,1) property, the uniqueness of K(G,1) spaces of CW
-  type, its functoriality, the cellular and presentation models and the identification of
-  its singular and local-coefficient (co)homology with Mathlib's group (co)homology are Tau
-  Ceti's and are consumed through the supplier contracts; the
-  [ClassifyingSpaces](../ClassifyingSpaces/README.md) roadmap builds on the same
-  declarations, and Layer 8.8 and §8.14 consume its items 1.1 and 1.2 for the pointed
-  classification of maps into an aspherical space, and nothing else of it. Layer 8.8 owns only
-  the nerve model:
-  Layer 8.8a the raw nerve/bar construction and its K(G,1) property, Layer 8.8b its
-  comparison with Milnor's model normalized to the identity on π₁, obtained from Tau Ceti's
-  uniqueness theorem, and the transport of the native group-(co)homology identifications
-  along that comparison. The raw bar also supplies the abelian input used by Layer 8.8c.
-- The ordinary Serre and Eilenberg–MacLane machinery is owned here wherever the pinned
-  Tau Ceti does not already prove it. Tau Ceti proves the degree-one Hurewicz isomorphism,
-  absolute Hurewicz for spaces in `Type`, relative Hurewicz for highly connected pairs,
-  Whitehead's theorem, the homology invariance of weak equivalences and CW approximation
-  of path-connected spaces (supplier contracts); every layer consumes them and no layer
-  restates them. Layer 4.10 consumes the native weak-equivalence invariance and owns its
-  connected-map refinement with local coefficients, CW approximation of arbitrary spaces
-  and of pairs. Layer 5.0 consumes the native spectral sequence of a filtered complex and
-  owns its homological regrading under degreewise filtration bounds, its
-  decreasing-filtration reindexing and its complete-convergence form. Layer 5.5 owns
-  homotopy lifting for a Serre fibration against every relative CW pair, the fibration
-  homotopy long exact sequence (LES) on native `TauCeti.TopCat.serreFibrations`, the free
-  path fibration and its pullbacks, fibre transport for Serre fibrations, and the
-  homological and cohomological Serre spectral sequences on singular chains, over CW and
-  arbitrary bases, built on the native filtered-space spectral sequence. The
-  Serre-fibration morphism property itself, with its disc and cube characterizations,
-  base change and the covering-map, product-projection and locally-trivial-bundle
-  instances, is Tau Ceti's (supplier contracts) and is not restated. Layer 8.8c owns the
-  single functorial abelian K(A,n) family, whose degree-one model aliases Layer 8.8a's
-  generic bar construction and whose n≥2 models are the fixed Dold–Kan Γ(A[n])
-  realizations, with the coefficient-natural normalized π_n identification, including the
-  comparison of Γ(A[1]) with the abelian nerve. Layer 8.8d consumes the native torsion
-  Serre classes and owns Hurewicz modulo a class. Layer 8.8 owns the generic
-  discrete-group bar/CW/cover proof. Layer 8.3 consumes the native degree-one Hurewicz
-  isomorphism π₁(X)ᵃᵇ ≅ H₁(X;ℤ) and the native absolute theorem and owns their comparison
-  with the sphere normalization of Layer 4.4, and Layer 8.10 consumes the 8.8c family and
-  that degree-one isomorphism. The 8.8c constructor uses only Layers 4.7, 4.10 and
-  8.1–8.8a, with 5.5's based path fibration for its loop identification, preceding
-  representability and obstruction theory.
-  [DGFloer](../DGFloer/README.md) Layer 1 consumes these ordinary targets for its cubical
-  transports and comparisons; GeneralizedCohomology G2 and G5, TopologicalKTheory T1.5
-  and ComplexKahlerGeometry K8 consume them directly. DGFloer's standing Moore-loop
-  conventions and its Layer 2 item 3 consume 8.11b's fixed-interval loops for their
-  carrier comparisons.
-- The compact-generation coreflection itself is Mathlib's `GeneratedByTopCat.adj`, taken
-  for the family of all spaces of `CompHaus`, with its coreflectivity, created colimits and
-  limits (supplier contracts). Layer 4.8 owns its identification with Mathlib's
-  `CompactlyGenerated`, and on that coreflection the convenient products, exponentials, CW
-  comparisons and the foundational pointed suspension–loop adjunction.
-  Pointed cones, Puppe sequences and stabilization are consumers of this
-  foundation and of this roadmap's cofibration and relative-homotopy results; supply
-  runs from this roadmap to those applications. Layer 4.4 owns the
-  additional raw-quotient comparisons
-  and their interval-last normalization. Layer 4.9 owns the single
-  simplicial-realization product comparison, consumed by 8.10 and 8.11b; it rests on
-  Layer 4.7's realization CW structure, Layer 4.5's Kelley product CW structure and this
-  coreflection, with no ordinary representability or Eilenberg–MacLane family input.
-  [GeneralizedCohomology G2.1](../GeneralizedCohomology/README.md) consumes that
-  comparison for its pointed smash/quotient versions and monoidal diagrams.
-- The generic algebra of countable towers of modules is Tau Ceti's
-  (`TauCeti.ModuleTower`, `TauCeti.ComplexTower`; supplier contracts): the product
-  difference map, lim and lim¹, the six-term sequence, Mittag–Leffler vanishing,
-  Milnor sequences for towers of complexes of every shape, cofinal subsequences and the
-  derived limit as the shifted cone of the difference map. Layer 6.0 owns the one
-  generic tower construction the library lacks, the maps of shifted cones induced by
-  tower maps whose squares commute up to specified homotopies, with their composition
-  and second-homotopy laws; it has no topological prerequisite, and its algebraic
-  consumers take it from 6.0 (DerivedModuleAlgebra §1.1's localization of the derived
-  limit consumes it for its exact-functor comparison). Layer 6.0 also owns the singular and cellular restriction-tower
-  adapters and their limit comparisons; Layer 6.1 extends these comparisons to direct
-  local-system cochains.
-- TopologicalSheafCohomology §§1.1–1.2 owns raw Čech refinements, the comparison
-  of ordered and tuple complexes, refinement homotopies and the cohomology colimit.
-  CharacteristicClasses §C1.2b owns the constant-coefficient Čech/singular comparison;
-  ImplicitAtlases §0.7 uses the shared sheaf-coefficient theory for its atlas engine.
-  Compact closed-pair Čech theory, continuity and cube-module extensions are outside
-  this base roadmap's singular-cohomology completion criterion.
-- [Topological K-theory](../TopologicalKTheory/README.md) T1.6 consumes the
-  earlier CW/Whitehead tools for its named fixed-rank infinite Grassmannian
-  carriers, their final/weak CW topology and universal bundles.
-  [CharacteristicClasses C1.5](../CharacteristicClasses/README.md) consumes
-  Layers 4 and 6 for the finite-projective/cellular/cup comparisons on the
-  rank-one RP∞ and CP∞ carriers, and CharacteristicClasses C1.5a consumes Layer 8.8's
-  bar model of ℤ/2 with its normalized π₁ identification, Layer 8.10's ordinary models
-  and representability and Layer 8.12's native circle comparison for its identification
-  of those carriers as the ordinary EM spaces K(ℤ/2,1) and K(ℤ,2), with the generator
-  normalizations on them. No layer here consumes those carriers, comparisons or
-  that identification. CharacteristicClasses C1.2a consumes the compactly
-  supported local-coefficient cochains of the supported-cellular supplement
-  after Layer 6.2 (their support colimit, enlargement and cofinality
-  comparisons, proper pullback, open extension and jointly proper homotopy
-  invariance) for its support excision and collared-pair triangle; no layer
-  here consumes that excision or that triangle.
-- Layer 8.13 owns the smoothing and transversality targets and the transverse circle
-  classifying map of an integral degree-one class. The projective-hyperplane adapter
-  (the Thom classes of the hyperplane normal lines of RP^N and CP^N and their
-  single-point intersection counts), the Gysin comparison i_*[N]=PD_M(f*u) of a
-  transverse preimage and the resulting representation of mod 2 classes of codimension
-  one and integral classes of codimensions one and two by embedded submanifolds need
-  Thom, Euler and Gysin maps and the projective carriers with their classes;
-  CharacteristicClasses C2.4a consumes Layers 6.4, 8.7, 8.10, 8.12 and 8.13 for them, and no
-  layer here consumes them. Layer 8.16 owns its statement for every Serre fibration
-  S³→S² whose fibres have vanishing third homology; CharacteristicClasses C7.6 consumes it
-  for the Hopf projection of its principal circle bundle S³→CP¹, and no layer here
-  consumes that bundle model.
-- The high-dimensional differential-topology and homotopy-sphere roadmap consumes Hurewicz,
-  Whitehead, duality, finite CW type, and the homology of spheres from this roadmap.  Stable
-  homotopy, framed bordism, and the Kervaire--Milnor calculation live there.
-
-## Conventions
-
-These choices are part of the specification.
-
-- **Use genuine CW models.** A CW complex here carries both the native
-  `CWComplex` structure and `T2Space` on its carrier. Finite CW type is Tau
-  Ceti's `TauCeti.FiniteCWType`: a homotopy equivalence to a CW complex C⊆K
-  with finitely many cells in a Hausdorff space K of the same universe; general
-  CW type is the same condition without finiteness, Tau Ceti's `TauCeti.CWType`.
-  Statements about spaces of CW type take that class as a hypothesis.
-  Retain and install the model's topology, Hausdorff, CW and finiteness
-  witnesses when using a finite model.
-  Hausdorffness of an original space is not transported to a chosen model
-  by homotopy equivalence. A bare native CW instance without separation
-  does not supply the cellular comparison or Whitehead hypotheses.
-
-- **Use Mathlib's categories.**  Spaces and maps live in `TopCat`; pairs live in `TopPair` and
-  `SSetPair`; chains live in `ChainComplex`; exact sequences use the existing homological-complex,
-  `ShortComplex`, and exactness APIs.  Do not bundle a space together with claimed homology.
-- **Keep maps visible.**  Every induced map is the image of a continuous map, a pair map, or a
-  chain map.  A result expressed only as unrelated equivalences in each degree is incomplete.
-- **Work at natural coefficient generality.**  Singular chains and relative homology take a
-   coefficient object in the appropriate preadditive category.  Module-valued corollaries state
-   the ring and module hypotheses they use.  Field isomorphisms, principal ideal domain (PID) or hereditary-ring short
-   exact sequences, and general-ring spectral sequences are separate theorems.  Integral
-   specialization occurs only where orientations, torsion, degree, or Euler characteristic
-   require it.
-- **Use groupoids before groups.**  Van Kampen is first a colimit theorem for the fundamental
-  groupoid on a set of basepoints.  The familiar based group theorem is derived under explicit
-  path-connectedness hypotheses.  Disconnected intersections never acquire arbitrary paths.
-- **Use actual CW structures.**  Cellular chains use `CWComplex.cell` and characteristic maps;
-  relative statements use `RelCWComplex`.  Attaching degrees define differentials, and the proof
-  that consecutive differentials compose to zero comes from the filtration exact couple.
-- **Pin reduced and unreduced conventions.**  Reduced homology is the kernel of augmentation in
-  degree zero and agrees with ordinary homology in positive degrees.  Relative homology of
-  `(X, empty)` agrees naturally with ordinary homology.  All connecting morphisms use the
-  homological grading convention `d : C_(n+1) -> C_n`.
-- **Pin signs once.**  The singular boundary uses the alternating deletion convention.  The
-  Mayer--Vietoris map from an intersection is `(i_U, -i_V)`, the cochain differential is induced
-  by precomposition with the chain differential, and cup/cap signs follow the
-  Alexander--Whitney convention. Pin cap to Hatcher's front-face/back-face formula
-  `σ⌢φ=φ(σ|[v₀,…,v_k])·σ|[v_k,…,v_n]`. In the local-coefficient version,
-  pair coefficients at v₀ and transport the result along [v₀,v_k] to the
-  first vertex of the surviving back face. Its boundary identity is
-  `∂(c⌢φ)=(−1)^k(∂c⌢φ−c⌢δφ)` for φ of degree k.
-  Convention-checking examples below must compute with these signs.
-- **Treat homotopy models by comparison.**  Mathlib's cubical `HomotopyGroup` remains a public
-  interface.  Kan-simplicial homotopy groups are also constructed because they interact well
-  with `TopCat.toSSet`; a natural comparison identifies the two, including induced maps,
-  basepoint change, suspension, and relative boundary morphisms.
-- **Base relative homotopy in the subspace.**  Relative homology remains a functor on unbased
-  `TopPair`, but relative homotopy uses Tau Ceti's based top pair `TauCeti.BasedTopPair`, with
-  `pair : TopPair` and `basepoint : pair.snd`. Its morphisms are pair maps whose subspace
-  component preserves that point. Relative cubes, groups, boundary maps, the long exact
-  sequence, basepoint change, functoriality, and relative Hurewicz all take this based carrier;
-  no declaration chooses a point from a bare pair.
-- **Finiteness is a hypothesis.**  Euler characteristic is Tau Ceti's alternating cell count
-  `TauCeti.cwEulerChar` of a finite CW complex and its transport `TauCeti.eulerChar` to spaces of
-  finite CW type.  Additivity and multiplicativity state the necessary cofibration, excision,
-  and finite-generation hypotheses.
-
-## Exact supplier contracts
-
-### From Mathlib and Tau Ceti
-
-The development starts from these pinned APIs, read at the revisions the content
-repository's manifest records: Tau Ceti `2fd255d997f47c0b5d834ee416c7015d55444ce5` and
-Mathlib `1b1ccf4b088b32fa3f23f2de1127433254a81e1e`. Every declaration, module and file
-named in this section is cited as it is at those revisions.
-
-- `CompactlyGenerated`, `CompactlyGenerated.compactlyGeneratedToTop` and
-  `CompactlyGenerated.fullyFaithfulCompactlyGeneratedToTop` in
-  `Mathlib/Topology/Category/CompactlyGenerated.lean` supply the category and
-  its fully faithful inclusion, without a separation axiom. The topology
-  `TopologicalSpace.compactlyGenerated`, `eq_compactlyGenerated`,
-  `continuous_from_compactlyGenerated` and
-  `continuous_from_uCompactlyGeneratedSpace` in
-  `Mathlib/Topology/Compactness/CompactlyGeneratedSpace.lean` supply the compact-test
-  topology and continuity criterion. Layer 4.8 identifies this category with Mathlib's
-  coreflective category of generated spaces (next item) and builds the pointed
-  constructions on it; it does not redefine the topology.
-- Generated spaces in `Mathlib/Topology/Convenient/`: for a family of spaces `X i`, the
-  generated topology `TopologicalSpace.generatedBy`, coinduced by all continuous maps from the
-  `X i`, written as one coinduced topology from a sigma type by
-  `TopologicalSpace.generatedBy_eq_coinduced` (`GeneratedBy.lean`); the full subcategory
-  `GeneratedByTopCat X` of `TopCat` with the adjunction `GeneratedByTopCat.adj`, whose left
-  adjoint is the inclusion and whose right adjoint `TopCat.toGeneratedByTopCat` retopologizes
-  a space by the generated topology, with invertible unit, and the instances `Coreflective`,
-  `CreatesColimits`, `HasLimits` and `HasColimits` (`Category.lean`); and, when every `X i` is
-  locally compact and every product `X i × X j` is generated by the family, the currying
-  bijection `Topology.ContinuousMapGeneratedBy.curryEquiv` and the evaluation
-  `Topology.ContinuousMapGeneratedBy.ev` (`HomSpace.lean`). With Mathlib's instances that
-  sequential spaces and Hausdorff weakly locally compact spaces are compactly generated
-  (`Mathlib/Topology/Compactness/CompactlyGeneratedSpace.lean`) and that delta-generated spaces
-  are sequential (`DeltaGeneratedSpace.lean`), and Tau Ceti's instance
-  `TauCeti.instDeltaGeneratedSpaceCWComplex` that a Hausdorff CW complex is delta-generated
-  (`Topology/CWComplex/Classical/DeltaGenerated.lean`), these are what Layer 4.8 consumes for
-  the family of all spaces of `CompHaus`; it constructs no second coreflection.
-- `TopCat`, `TopCat.toSSet`, `SSet.chainComplex`, `singularChainComplexFunctor`, and
-  `singularHomologyFunctor`.
-- `TopPair`, `TopPair.ofSubset`, `TopPair.incl`, `TopPair.diag`, and the
-  `TopPair.HomologyPretheory` classes already present at the dependency pin.
-- `TopPair.singularHomology`, `TopPair.singularHomologyMap`,
-  `TopPair.singularHomologyMap_id`, `TopPair.singularHomologyMap_comp` and
-  `TopPair.singularHomologyFunctor` in
-  `TauCeti/AlgebraicTopology/Singular/Relative.lean`, and
-  `TopPair.singularHomologyInclIso` with its quotient-induced component
-  `TopPair.singularHomologyInclIso_hom_app` in
-  `TauCeti/AlgebraicTopology/Singular/Empty.lean`. For spaces in universe w,
-  these use a preadditive category C with w-small coproducts and
-  `CategoryWithHomology C`, and a coefficient object R of C. The natural
-  isomorphism goes from absolute homology to relative homology of (X,∅);
-  its inverse gives the reverse comparison. No abelian-category hypothesis
-  is added to these declarations; short exact chain sequences use one separately.
-- `FundamentalGroupoid`, `FundamentalGroup`, induced maps, homotopy invariance, and Mathlib's
-  covering and homotopy-lifting APIs.
-- Native `FundamentalGroup.cast_map_prod_mul` and `FundamentalGroup.instCommGroup` in
-  `TauCeti.AlgebraicTopology.FundamentalGroup.TopologicalMonoid`: for a space with a
-  continuous multiplication and a two-sided unit, the class of the pointwise product of
-  two loops at `1` is their product in `FundamentalGroup`, and that group is commutative.
-  Layer 1.6 consumes both and adds only naturality and the comparison with
-  `FundamentalGroup.mul_def`.
-- Tau Ceti's native local coefficient system and its constant/pullback/
-  transport API in `TauCeti.AlgebraicTopology.LocalCoefficient`, absolute
-  twisted chains in `TauCeti.AlgebraicTopology.Singular.Twisted.Basic`, and
-  `TopPair.twistedChainComplex`/`twistedHomology` in its `Twisted.Relative`
-  module. Ordinary relative chains use `TopPair.singularChainComplexFunctor`
-  from `TauCeti.AlgebraicTopology.Singular.Relative`; ordinary cohomology uses
-  `TopCat.singularCohomology` from `TauCeti.AlgebraicTopology.Cohomology.Basic`.
-  Native `LocalCoefficientSystem.twistedCochainComplex` and
-  `TopPair.twistedCochainComplex` in `Cohomology.Twisted.Basic`/`Relative`
-  apply Hom to L-twisted chains, so they compute dual-system cochains.
-  Consume those constructions with their dual-system convention, and build
-  direct L-valued cochains without assuming fibrewise reflexivity.
-  Consume these carriers and extend their APIs for the comparisons below.
-- Native relative quotient colimits and short exact sequences in `Singular.Relative`,
-  pair/triple sequences in `Singular.Triple`, `singularHomologyPretheory` in
-  `Singular.HomologyPretheory`, and the `DiskSphere`, `DiscretePair` and
-  `Additivity` modules. Consume their constant-coefficient objects and proofs,
-  extending the comparisons and local-coefficient theory below. The long exact
-  sequence of a pair (Hatcher, §2.1, pp.117 and 127) is the short exact sequence
-  `TopPair.shortExact_singularChainComplexShortComplex`, the connecting morphism
-  `TopPair.singularHomologyδ`, exactness at the three terms
-  `TopPair.singularHomology_exact_subspace`, `TopPair.singularHomology_exact_space` and
-  `TopPair.singularHomology_exact_relative`, and naturality
-  `TopPair.singularHomologyδ_naturality` (`Singular/Relative.lean`). That of a triple
-  B⊆A⊆X, from `0 → C_n(A,B) → C_n(X,B) → C_n(X,A) → 0` (Hatcher, §2.1, pp.118 and 128),
-  is `TauCeti.TopTriple.shortExact_singularChainComplexShortComplex`,
-  `TauCeti.TopTriple.singularHomologyδ`, `TauCeti.TopTriple.singularHomology_exact_inner`,
-  `TauCeti.TopTriple.singularHomology_exact_total`,
-  `TauCeti.TopTriple.singularHomology_exact_outer` and
-  `TauCeti.TopTriple.singularHomologyδ_naturality` (`Singular/Triple.lean`). Both
-  connecting morphisms are Mathlib's `CategoryTheory.ShortComplex.ShortExact.δ` of these
-  short exact sequences, so the description of δ as the class of the boundary of a
-  relative cycle is `CategoryTheory.ShortComplex.ShortExact.δ_eq`. §§3.3, 5.2 and 8.4
-  consume these sequences.
-- Native `FundamentalGroupoid.CoverGeneration`, groupoid `Pushout`,
-  `FundamentalGroup.VanKampen` and `WedgeSum`, and `FundamentalGroupoid.Circle`:
-  cover generation, two-open-set groupoid/group pushouts, the wide-groupoid
-  van Kampen equivalence, wedge-of-circles free groups and the disconnected
-  two-arc circle test. Extend their naturality and example computations.
-- Native `TopCat.eilenbergZilberHomotopyEquiv`, Alexander–Whitney and shuffle
-  maps in `Singular.EilenbergZilber`/`AlexanderWhitney`/`Shuffle`, and the native
-  homology cross product `TopCat.singularHomologyCross` in `Singular.CrossProduct`:
-  the map `H_p(X;R) ⊗ H_q(Y;S) → H_n(X × Y;R ⊗ S)` for `p + q = n`, with its value on
-  cycle classes (`homologyπ_tensorHom_singularHomologyCross`), its naturality in the
-  spaces (`singularHomologyCross_naturality`) and in the coefficients
-  (`singularHomologyCross_coefficient_naturality`), and its comparison with the
-  algebraic cross product of the singular chain complexes under Alexander–Whitney
-  (`singularHomologyCross_comp_homologyMap_alexanderWhitney`). The pin states these
-  for a preadditive monoidal category with homology and the colimit-preservation
-  hypotheses that `ModuleCat` satisfies by instance search. The local-coefficient,
-  relative and spectral-sequence extensions use these maps.
-- The Künneth theorems in `Singular.Kunneth.Basic` and `Singular.Kunneth.Sequence`:
-  `TopCat.singularHomologyKunnethIso`, the isomorphism from the degree-n part of
-  `H_*(X;M) ⊗ H_*(Y;N)` to `H_n(X × Y;M ⊗ N)` given by the native cross products, for
-  semisimple coefficient modules (in particular over a field), with
-  `TopCat.isIso_singularHomologyKunneth_of_projective` and
-  `TopCat.isIso_singularHomologyKunneth_of_projective_homology` when the homology is
-  projective; and over a hereditary commutative ring the short exact Künneth sequence
-  `TopCat.singularHomologyKunnethUnitShortComplex_shortExact` with its Tor term and the
-  splitting `TopCat.singularHomologyKunnethUnitSplitting`, which depends on chosen splittings
-  of the cycles and is not natural. Layer 5.1 consumes these and adds the spectral sequence
-  over a general ring.
-- The universal coefficient sequence in `Cohomology.UniversalCoefficient`: over a
-  hereditary commutative ring, for projective R and every M, the exact sequence
-  `TopCat.exact_singularExtToCohomology_singularKronecker` from `Ext¹(H_n(X;R),M)` to
-  `H^(n+1)(X;R,M)` and onto `Hom(H_(n+1)(X;R),M)` through the Kronecker map
-  (`TopCat.singularKronecker_surjective`), natural in X, and the non-natural decomposition
-  `TopCat.singularUniversalCoefficientEquiv`. Layer 6.1 consumes it and adds the local-system,
-  relative and general-ring forms. The Kronecker map itself is `TopCat.singularKronecker`, with
-  its naturality `TopCat.singularKronecker_naturality` (`Cohomology.Kronecker`); with the
-  naturality `HomotopyGroup.hurewicz_map` of the absolute Hurewicz map it fixes the class of
-  §8.10.
-- The Euler characteristic in `Cellular.EulerCharacteristic`: the alternating cell count
-  `TauCeti.cwEulerChar` of a finite CW complex (`TauCeti.cwEulerChar_def`), its Euler–Poincaré
-  equality `finsum_finrank_singularHomology_of_finite_cwComplex`, the Euler characteristic
-  `TauCeti.eulerChar` of a space of finite CW type, independent of the model
-  (`TauCeti.eulerChar_eq_cwEulerChar`) and homotopy invariant
-  (`ContinuousMap.HomotopyEquiv.eulerChar_eq`), with
-  `TauCeti.eulerChar_eq_finsum_finrank_singularHomology` over every division ring; the
-  product formulas `TauCeti.cwEulerChar_prod`, `TauCeti.eulerChar_prod` and
-  `TauCeti.eulerChar_pi` (`Product`); the covering formulas
-  `TauCeti.cwEulerChar_preimage_of_card_fiber` and `TauCeti.eulerChar_eq_mul_of_isCoveringMap`
-  (`Covering`); the open-cover formula `TauCeti.eulerChar_union_add_eulerChar_inter`
-  (`MayerVietoris`) and the subcomplex formulas of `Subcomplex`; and the standard values
-  `TauCeti.eulerChar_sphere`, `TauCeti.eulerChar_torus` and
-  `TauCeti.eulerChar_complexProjectiveSpace`. No other cellular Euler invariant is
-  introduced; Layer 7 adds the bundle formula, the relative and local-system Euler–Poincaré
-  equalities and stratification additivity.
-- Brouwer's theorem in `Singular.BrouwerFixedPoint`: `TauCeti.noRetraction_diskBoundary`,
-  `TauCeti.brouwerFixedPoint_topCatDisk`, `TauCeti.brouwerFixedPoint_compactConvex` (every
-  continuous self-map of a nonempty compact convex subset of a finite-dimensional real normed
-  space, possibly with empty interior, has a fixed point),
-  `TauCeti.brouwerFixedPoint_compactConvex_continuousOn`, `TauCeti.brouwerFixedPoint_closedBall`
-  and `TauCeti.brouwerFixedPoint_compactConvex_finiteSpan`. This roadmap restates none of them.
-- Milnor's classifying space in `ClassifyingSpace`: `TauCeti.classifyingSpace` and
-  `TauCeti.classifyingSpaceBasepoint` (`Basic`); `TauCeti.isEilenbergMacLaneSpaceOne_classifyingSpace`
-  and `TauCeti.exists_isEilenbergMacLaneSpaceOne`, for every group and with no hypothesis on it
-  (`EilenbergMacLane`); `TauCeti.IsEilenbergMacLaneSpaceOne.nonempty_homotopyEquiv`, two K(G,1)
-  spaces of CW type (`TauCeti.CWType`, in one universe) are homotopy equivalent, and
-  `TauCeti.IsAspherical.exists_homotopyEquiv`, realizing a prescribed isomorphism of fundamental
-  groups up to basepoint change along a path (`Uniqueness`); `MonoidHom.classifyingSpaceMap` with
-  its identity and composition laws (`Functoriality`), `TauCeti.classifyingSpaceHomotopyFunctor`
-  into the pointed homotopy category and
-  `TauCeti.fundamentalGroupFunctor_map_bijective_cellularClassifyingSpace`, pointed maps out of
-  the cellular model into a space with vanishing higher homotopy are classified by π₁
-  (`HomotopyFunctor`); `TauCeti.classifyingSpaceSingularCohomologyIsoGroupCohomology`, landing
-  in `groupCohomology (Rep.trivial k G M) n` for a k-module M (the trivial representation
-  only), with its coefficient naturality and Bockstein compatibility (`Cohomology`),
-  `TauCeti.classifyingSpaceSingularHomologyIsoGroupHomology` (`Homology`),
-  `TauCeti.classifyingSpaceLocalSystem` with `TauCeti.classifyingSpaceTwistedHomologyIsoGroupHomology`,
-  group homology of A for every representation A, and
-  `TauCeti.classifyingSpaceTwistedCohomologyIsoGroupCohomology`, whose source is the
-  Hom-of-twisted-chains cohomology with values in a k-module N and whose target is
-  `groupCohomology ((Rep.ihom A).obj (Rep.trivial k G N)) n`, group cohomology of the dual
-  representation Hom(A,N) rather than of A (`LocalCoefficients`); the free resolution
-  `TauCeti.universalGSpaceResolution` (`Resolution`); the
-  cellular model `TauCeti.cellularClassifyingSpace` with `TauCeti.cellularClassifyingSpaceHomotopyEquiv`
-  (`Cellular`, `Comparison`) and `TauCeti.PresentationComplex` (`PresentationComplex`); and, for any
-  quotient covering map with contractible total space,
-  `IsQuotientCoveringMap.singularCohomologyIsoGroupCohomology`, again into the trivial
-  representation `Rep.trivial k G M` (`Cohomology.GroupCohomology`). The
-  nerve model of Layer 8.8 is not among them: that layer builds it, proves it is a K(G,1) and
-  compares it with Milnor's model, and restates none of these.
-- The transfer of a finite covering in `Singular.Transfer.Basic`/`Degree`/`PermutationLocalSystem`
-  and `Singular.Coinvariants`: `IsCoveringMap.singularTransfer`, the chain map sending a simplex
-  to the sum of its lifts (`IsCoveringMap.ιChainComplex_singularTransfer_f`), the degree formula
-  `IsCoveringMap.singularTransfer_comp_chainComplexMap` (`p_* ∘ transfer = d • id` when every
-  fibre has d points) and its locally constant form, the deck-sum formula
-  `IsQuotientCoveringMap.chainComplexMap_comp_singularTransfer`, the permutation local system of
-  a finite cover, and the coinvariant comparison of a free finite group action.
-- Lusternik–Schnirelmann covers in `Topology.Homotopy.LusternikSchnirelmann`:
-  `TauCeti.LSCategoricalCover X A n` (n open sets covering A, each with nullhomotopic inclusion
-  into X), with restriction, concatenation, padding, pullback and pushforward, and
-  `TauCeti.lsCategoryCount X A`, the infimum in ℕ∞ of the sizes of such covers, with
-  `TauCeti.lsCategoryCount_le_iff`, monotonicity, union subadditivity, the deformation
-  inequality `TauCeti.lsCategoryCount_le_of_homotopic_id`, the values on ∅ and contractible
-  spaces, and finiteness on compact locally contractible spaces.
-- Relative homotopy in `Topology.Category.BasedTopPair` and `AlgebraicTopology.Homotopy.Relative`:
-  `TauCeti.BasedTopPair`, `TauCeti.RelHomotopyGroup` with its group structure in degrees at
-  least two, commutativity in degrees at least three, the exact sequence of a based pair,
-  basepoint change, the group- and module-valued functors with the abelianization in degree
-  two (`TauCeti.RelHomotopyGroup.abelianizationFunctor`), the cell-dimension connectivity of
-  relative CW complexes (`TauCeti.subsingleton_relHomotopyGroup_of_isEmpty_cell`) with its
-  transport along weak equivalences, and the relative Hurewicz map
-  `TauCeti.RelHomotopyGroup.hurewicz`, natural and compatible with the absolute Hurewicz map
-  `HomotopyGroup.hurewicz`. In `AlgebraicTopology.Homotopy.Hurewicz`: absolute Hurewicz
-  `HomotopyGroup.bijective_hurewicz` for spaces in `Type`, surjectivity of the relative map
-  `TauCeti.RelHomotopyGroup.surjective_hurewicz`, and its bijectivity
-  `TauCeti.RelHomotopyGroup.bijective_hurewicz_of_subsingleton_homotopyGroup` when the subspace
-  and the space are both (n−1)-connected, again for spaces in `Type`.
-- The fundamental group acting on homotopy groups, in
-  `Topology/Homotopy/HomotopyGroup/FundamentalGroupAction.lean`: the action
-  `TauCeti.homotopyGroupMulAction` of π₁(X,x) on π_n(X,x) by transport around loops
-  (conjugation when n=1), by group automorphisms in positive dimensions
-  (`TauCeti.homotopyGroupMulDistribMulAction`), the transport
-  `TauCeti.homotopyGroupTransportQuotient` along a homotopy class of paths with its identity
-  and composition laws, and the orbits of the action as the free homotopy classes
-  (`TauCeti.homotopyGroup_mem_orbit_iff_exists_homotopyAlong`); in `BasepointChange.lean`,
-  the change of basepoint along a path `TauCeti.homotopyGroupEquivOfPath`, a group
-  isomorphism `TauCeti.homotopyGroupMulEquivOfPath` in positive dimensions. Consumed by
-  §§8.9, 8.10 and 8.14.
-- Ordinary Whitehead and CW type: `TauCeti.CWType` (`Topology.CWComplex.Classical.CWType`) and
-  `TauCeti.FiniteCWType` (`Topology.CWComplex.Classical.FiniteCWType`), with the finite CW type
-  of compact triangulable spaces `TauCeti.IsTriangulable.finiteCWType`
-  (`Topology.Triangulable.FiniteCWType`), the weak homotopy
-  equivalence predicate `ContinuousMap.IsWeakHomotopyEquivalence`
-  (`Topology.Homotopy.HomotopyGroup.WeakHomotopyEquivalence`: every point of the target is joined
-  to the image, and every induced map on homotopy groups at every point is bijective), and
-  Whitehead's theorem `ContinuousMap.IsWeakHomotopyEquivalence.homotopyEquiv` for spaces of CW
-  type, whose forward map is the given map
-  (`ContinuousMap.IsWeakHomotopyEquivalence.homotopyEquiv_toFun`), in
-  `AlgebraicTopology.Homotopy.Whitehead`, with the two halves of Hatcher's Proposition 4.22 for
-  sources of CW type in the same file: maps into the target lift through a weak homotopy
-  equivalence up to homotopy (`ContinuousMap.IsWeakHomotopyEquivalence.exists_comp_homotopic`),
-  and two maps whose composites with it are homotopic are homotopic
-  (`ContinuousMap.IsWeakHomotopyEquivalence.homotopic_of_comp_homotopic`). A weak homotopy
-  equivalence induces isomorphisms on singular homology with coefficients in any ring
-  (`ContinuousMap.IsWeakHomotopyEquivalence.isIso_singularHomologyMap`,
-  `AlgebraicTopology.Singular.Homotopy.WeakHomotopyEquivalence`). §8.10 consumes these three.
-  Simple connectivity at infinity is
-  `TauCeti.SimplyConnectedAtInfinity` (`AlgebraicTopology.Homotopy.SimplyConnectedAtInfinity`).
-  Proper homotopy equivalences are `ContinuousMap.HasProperHomotopyInverse`
-  (`Topology.Homotopy.Proper`: a proper map with a proper homotopy inverse and both homotopies
-  proper on the whole cylinder).
-- Local homology and orientations in `AlgebraicTopology.Singular.LocalHomology`, for a
-  Hausdorff space M modelled on a real normed space E of finite dimension n (a manifold
-  without boundary), M and E in one universe. In `System`: the local homology system
-  `TauCeti.localHomologySystem`, the groups H_k(M,M∖{x};R) with their transport
-  `TauCeti.localHomologyTransport` along path classes, for coefficients R in any abelian
-  category with coproducts; with values in `ModuleCat S` it is a
-  `TauCeti.LocalCoefficientSystem`. In `Compact`, for a compact subset A and coefficients in
-  a module N over any ring: vanishing of H_k(M,M∖A;N) for k>n
-  (`TauCeti.isZero_localHomology_of_isCompact`, Hatcher Lemma 3.27(b), p.236), detection of a
-  degree-n class by its local images (`TauCeti.eq_zero_of_forall_localHomologyRestriction_eq_zero`)
-  and the unique gluing of locally represented families of local classes
-  (`TauCeti.existsUnique_localHomologyRestriction_eq_of_isCompact`, Hatcher Lemma 3.27(a), p.236),
-  with the transport-invariant form `TauCeti.existsUnique_localHomologyRestriction_eq_of_invariant`
-  in `Section`, and for compact M the vanishing of H_k(M;N) for k>n
-  (`TauCeti.isZero_singularHomology_of_compactSpace`), consumed by Layer 8.15. In
-  `TopHomology`, for compact M and module coefficients: H_n(M;N) is the
-  limit of the local homology system (`TauCeti.isLimitLocalHomologySystemCone`), and for
-  compact connected M restriction to a point is injective
-  (`TauCeti.localHomologySystemCone_π_app_injective`) with image the local classes fixed by
-  transport along every loop (`TauCeti.mem_range_localHomologySystemCone_π_app_iff`).
-  Integrally: local orientations, `TauCeti.HomologicalOrientation M E n`, and for a compact
-  oriented manifold its integral fundamental class
-  `TauCeti.HomologicalOrientation.fundamentalClass`, the unique class with the given local
-  images. Layer 6.3 consumes all of these for boundaryless manifolds and constant module
-  coefficients, and builds only the twisted-coefficient, boundary and corner extensions.
-- Tau Ceti's native `FundamentalGroupoid.cechDiagram`, `cechCocone` and
-  `isColimitCechCocone` in `FundamentalGroupoid.Cech.Diagram`/`Colimit`, using
-  the `Grpd` category and native nonempty finite-intersection `CechIndex`.
-  Its map/refinement modules supply functoriality; consume the colimit and
-  extend the group-presentation and example consequences below.
-- Native `TopPair.excisionMap` and its singular-homology isomorphism theorems
-  in `Singular.Excision`, and `TopCat.mayerVietorisδ`/`mayerVietoris_exact₁`–`₃`
-  in `Singular.MayerVietoris.Basic`. Consume these maps and extend them to local
-  coefficients.
-- Subdivision, small chains and local-coefficient sequences. Barycentric subdivision
-  `TauCeti.singularSubdivision` (`Singular/Subdivision/Basic.lean`) and the prism homotopy
-  `TauCeti.singularSubdivisionHomotopy` from the identity to it (`Subdivision/Homotopy.lean`),
-  with the twisted operators `TauCeti.LocalCoefficientSystem.twistedSubdivisionChainMap` and
-  `TauCeti.LocalCoefficientSystem.twistedSubdivisionHomotopy`, natural in the space and the
-  coefficient system (`Singular/Twisted/Subdivision.lean`). The subcomplex
-  `TopCat.smallSingularSubcomplex` of simplices subordinate to a family of sets and the
-  small-chain theorem `TauCeti.smallSingularChainHomotopyEquiv` for an open cover
-  (`Subdivision/Small/Chains.lean`, `Small/Equiv.lean`; Hatcher, Proposition 2.21, p.119), with
-  the relative form `TopPair.isIso_homologyMap_restrictι_smallSingularSubcomplex`
-  (`Small/Relative.lean`), for constant coefficients. The twisted pair sequence
-  `TopPair.shortExact_twistedChainComplexShortComplex` with its connecting map
-  `TopPair.twistedHomologyδ` and exactness (`Singular/Twisted/Relative.lean`), natural in maps of
-  pairs (`TopPair.twistedHomologyδ_naturality`, `Twisted/Functoriality.lean`) and in coefficient
-  morphisms; the twisted triple sequence
-  `TauCeti.TopTriple.shortExact_twistedChainComplexShortComplex` with its connecting map
-  `TauCeti.TopTriple.twistedHomologyδ`, natural in coefficient morphisms
-  (`Twisted/Triple.lean`); and twisted homotopy invariance, the chain homotopies
-  `TopCat.Homotopy.twistedChainComplexHomotopy` and `TopPair.Homotopy.twistedChainComplexHomotopy`
-  after transport of the coefficient system along the homotopy, with
-  `ContinuousMap.HomotopyEquiv.isIso_twistedHomologyMap` (`Twisted/HomotopyInvariance/Basic.lean`,
-  `Relative.lean`). The pin has no twisted small-chain theorem, twisted excision or twisted
-  Mayer–Vietoris sequence; Layer 3 adds them.
-- Mapping tori, tori and Čech complexes. The Wang sequence of the mapping torus
-  `TauCeti.MappingTorus φ` of a self-homeomorphism φ (`Singular/MappingTorus/`): the chain
-  endomorphism `TauCeti.MappingTorus.wangEndomorphism`, `id − φ_*`, the mapping-cone model
-  `TauCeti.MappingTorus.wangMappingConeMap` with its naturality
-  `TauCeti.MappingTorus.wangMappingConeMap_naturality` and
-  `TauCeti.MappingTorus.wangMappingConeMapOfSemiconj` for maps intertwining two monodromies
-  (`Basic`, `Naturality`), the connecting map `TauCeti.MappingTorus.wangδ`, exactness
-  `TauCeti.MappingTorus.wang_exact₁`–`₃` and the cokernel identification
-  `TauCeti.MappingTorus.wangCokernelEquiv` (`Wang`). The homology of the torus `ι → S¹` as
-  exterior powers of its first homology over every commutative ring,
-  `TauCeti.bijective_pontryaginExteriorPower_torus` and `TauCeti.torusExteriorPowerEquiv`
-  (`Singular/Torus/Exterior.lean`), natural under morphisms of commutative monoid objects
-  (`TopCat.pontryaginExteriorPower_naturality`, `Singular/Pontryagin/Exterior.lean`). The
-  ordered Čech double complex `TauCeti.cechDoubleComplex` of a family of opens indexed by a
-  linearly ordered type, on tuples i₀<…<i_p, with alternating Čech differential (on two
-  indices a<b it is (−i_a, i_b)) and the total-complex sign of Mathlib's
-  `HomologicalComplex₂.total` (`Singular/Cech.lean`), its maps along maps of covers
-  `TauCeti.cechSingularChainsMap` (`Cech/Map.lean`), the quasi-isomorphism
-  `TauCeti.quasiIso_cechTotalAugmentation` of its augmented total complex with singular chains
-  for an open cover (`Cech/OrderedQuasiIso.lean`), and its spectral sequence
-  `TauCeti.cechSpectralSequence` with first page `TauCeti.cechSpectralSequenceFirstPageXIso`
-  and abutment `TauCeti.cechSpectralSequenceAbutmentIso` (`Cech/SpectralSequence.lean`), for
-  constant coefficients in an abelian category. Layer 5 consumes these and adds only what
-  §§5.2, 5.4, 5.6 and 5.7 name.
-- Constant-coefficient cohomology operations. Absolute and relative singular cochains
-  (`Cohomology/Basic.lean`, `Cohomology/Relative.lean`); the coefficient Bocksteins
-  `TopCat.singularCohomologyBockstein` and `TopPair.singularCohomologyBockstein` of a short
-  exact sequence of coefficients, with the exact coefficient sequences
-  (`TopCat.singularCohomology_exact_coefficient₁`–`₃`) and naturality in maps, pairs and
-  coefficient sequences (`TopCat.singularCohomologyBockstein_naturality`,
-  `TopPair.singularCohomologyBockstein_naturality`; `Cohomology/Bockstein.lean`), and for local
-  systems with projective fibres the Bockstein of a sequence of value modules
-  `TauCeti.LocalCoefficientSystem.twistedCohomologyBockstein` (`Cohomology/Twisted/Bockstein.lean`);
-  the cup product `TopCat.singularCup` with `TopCat.singularCup_naturality`,
-  `TopCat.singularCup_assoc`, its unit and graded commutativity `TopCat.singularCup_gradedComm`
-  (`Cohomology/Cup.lean`, `GradedCommutativity.lean`), and the cohomology cross product with its
-  diagonal comparison `TauCeti.singularCross_diagonal` (`Cohomology/CrossProduct.lean`); the
-  cap product `TopCat.singularCap` with `TopCat.singularCap_naturality`,
-  `TopCat.singularCap_assoc` and `TauCeti.singularCap_unit` (`Cap/Basic.lean`,
-  `Cap/Associativity.lean`, `Cap/Unit.lean`). Layer 6 consumes these and adds the cap boundary
-  formula, the direct-local-system, relative and local-coefficient forms, and the
-  cup–Bockstein Leibniz signs.
-- Native `TauCeti.cellularChainComplex`, `cellularChainGroupIso` and
-  `TauCeti.cellularSingularHomologyIso` in `Cellular.Chains`/`Coproduct`/`Comparison`.
-  They use relative CW skeleta, T2 ambient spaces, abelian-category coefficients
-  and exact cell-indexed coproducts. The homology comparison needs the inclusion
-  of the (n+1)-skeleton to induce an isomorphism on Hₙ; the pin supplies this for
-  every finite-dimensional relative CW complex
-  (`TauCeti.isIso_singularHomologyMap_skeletonBasePairToComplex_succ_of_finiteDimensional`)
-  and, when sequential colimits are exact in the coefficient category, as in
-  `ModuleCat R`, for every relative CW complex
-  (`TauCeti.isIso_singularHomologyMap_skeletonBasePairToComplex_succ_of_hasExactColimitsOfShape`).
-  Layer 4 extends that carrier to chosen chain representatives and local systems.
-- The Serre-fibration API in `TauCeti.Topology.Homotopy.SerreFibration.Basic`,
-  `.FiberBundle` and `.RelativeCube`: `TauCeti.TopCat.serreFibrations`, the
-  `MorphismProperty` of `TopCat.{u}` defined as the right lifting property against the
-  bottom inclusions `Dⁿ ⟶ Dⁿ ⊗ I` for every n ≥ 0, with no surjectivity built in; its
-  composition, isomorphism, base-change, retract and product instances;
-  `TauCeti.TopCat.mem_serreFibrations_iff` (homotopy lifting for every closed unit ball)
-  and `TauCeti.TopCat.mem_serreFibrations_iff_cube` (for every cube `Fin n → I`);
-  `TauCeti.TopCat.mem_serreFibrations_pullbackFst`, `TauCeti.TopCat.mem_serreFibrations_fst`
-  and `IsCoveringMap.mem_serreFibrations`;
-  `TauCeti.TopCat.mem_serreFibrations_of_exists_trivialization` and
-  `TauCeti.TopCat.mem_serreFibrations_proj` (a locally trivial map, or the projection of
-  a `FiberBundle`, is a Serre fibration, with no paracompactness hypothesis on the base:
-  the disc case of Hatcher Proposition 4.48, p.379, whose relative-CW form follows with
-  §5.5's lifting against relative CW pairs); and `TauCeti.TopCat.exists_lift_openBox_of_mem_serreFibrations`
-  (lifting with a prescribed lift on the bottom and the sides of a finite cube). Layer 5
-  consumes these as stated and does not restate them.
-- The tower algebra in `TauCeti.Algebra.Category.ModuleCat.Tower`: `TauCeti.ModuleTower`
-  (functors `ℕᵒᵖ ⥤ ModuleCat R` over an associative unital ring), the difference map
-  `TauCeti.ModuleTower.shift`, δ(x)ₙ = xₙ − φₙ(xₙ₊₁), with kernel `TauCeti.ModuleTower.lim`
-  and cokernel `TauCeti.ModuleTower.limOne`, their functoriality, the connecting map
-  `TauCeti.ModuleTower.connecting` of the six-term sequence with
-  `TauCeti.ModuleTower.connecting_naturality`, and
-  `TauCeti.ModuleTower.subsingleton_limOne_of_isMittagLeffler`; towers of complexes
-  `TauCeti.ComplexTower` of an arbitrary complex shape with their Milnor sequences
-  (`TauCeti.ComplexTower.limOneToHomology_injective`,
-  `TauCeti.ComplexTower.exact_limOneToHomology_homologyToLim`,
-  `TauCeti.ComplexTower.homologyToLim_surjective`) and their naturality
-  (`TauCeti.ComplexTower.homologyToLim_naturality`,
-  `TauCeti.ComplexTower.limOneToHomology_naturality`), under degreewise surjectivity
-  of the difference map; the cofinal comparisons `TauCeti.ModuleTower.limSubsequenceEquiv`,
-  `TauCeti.ModuleTower.limOneSubsequenceEquiv` and
-  `TauCeti.ComplexTower.limComplexSubsequenceIso`; and the homotopy limit
-  `TauCeti.ModuleTower.homotopyLimitFunctor`, the shifted cone of δ on the product
-  complex for strict maps of complexes of towers, which preserves quasi-isomorphisms,
-  with the derived limit `TauCeti.ModuleTower.derivedLimit` and its identification
-  `TauCeti.ModuleTower.derivedLimitIsoLimComplex` with the limit complex when every
-  lim¹ vanishes. Layer 6.0 consumes these and adds only what they do not contain.
-- Native `TopCat.singularCap` and singular cup products in `Cohomology.Cap.Basic`
-  and `Cohomology.Cup`. Consume their Alexander–Whitney maps and pairings,
-  extending to direct local-system cochains, relative products and duality.
-- Abstract and classical `CWComplex`/`RelCWComplex`, subcomplexes, skeleta,
-  `CWComplex.FiniteDimensional`, `CWComplex.FiniteType`, and `CWComplex.Finite`.
-- Existing `TauCeti.MappingCylinder`, its `incl`, `proj`, `proj_comp_incl`,
-  `isClosedEmbedding_incl` and `homotopyEquiv`, and
-  `TauCeti.MappingCylinder.hasHomotopyExtensionProperty_range_incl` in
-  `Topology.Homotopy.MappingCylinder` / `Extension.MappingCylinder`.
-  Consume the homotopy extension property (HEP), relative-CW and strong-deformation-retraction APIs in
-  `Extension.Basic` / `CWComplex` / `DeformationRetract`.
-- Cofibration and CW tools: Strøm's product theorem for closed cofibrations and its cylinder
-  case `TauCeti.HasHomotopyExtensionProperty.zero_one_prod_univ_union_univ_prod`
-  (`Topology/Homotopy/Extension/Prod.lean`), homotopy inverses relative to subspaces with the
-  homotopy extension property `TauCeti.HasHomotopyExtensionProperty.exists_inverse_homotopicRel`
-  and relative to base points `TauCeti.HasHomotopyExtensionProperty.exists_basedInverse_homotopicRel`
-  (`Extension/HomotopyEquivRel.lean`), the relative cylinder CW structure
-  `TauCeti.relCWComplexCylinder` (`Topology/CWComplex/Classical/Cylinder.lean`) and cellular
-  approximation `TauCeti.exists_isCellular_homotopicRel` and `TauCeti.exists_isCellular_homotopic`
-  (`CellularApproximation.lean`).
-- CW approximation of path-connected spaces in `AlgebraicTopology.Homotopy.CWApproximation.Basic`:
-  `TauCeti.cwApproximation` with `TauCeti.cwApproximationMap`, the instance
-  `TauCeti.cwType_cwApproximation` and `TauCeti.isWeakHomotopyEquivalence_cwApproximationMap`
-  for a path-connected target, consumed by Layer 8.15; with its lifts
-  `TauCeti.cwApproximationLift`, unique up to homotopy (`CWApproximation.Naturality`), and
-  the local-coefficient form
-  `ContinuousMap.IsWeakHomotopyEquivalence.isIso_twistedHomologyMap` of the homology
-  invariance of weak homotopy equivalences
-  (`AlgebraicTopology.Singular.Homotopy.WeakHomotopyEquivalence`), consumed by §4.10.
-- Degree-one Hurewicz in `AlgebraicTopology/Homotopy/Hurewicz/One/`: for a path-connected
-  space X and a point x, the isomorphism `TauCeti.HurewiczOne.hurewiczHomologyAddEquiv` from
-  the abelianization of π₁(X,x) to H₁(X;ℤ), sending the class of a loop to the class of the
-  singular 1-simplex it traces (`Basic.lean`, stated in universe zero; Hatcher 2A.1), its
-  naturality in pointed maps `TauCeti.HurewiczOne.homologyMap_hurewiczHomologyAddEquiv`
-  (`Naturality.lean`), and its comparison with the cubical Hurewicz homomorphism
-  `HomotopyGroup.hurewiczHom` in degree one, whose value at 1 on the class of a loop is minus
-  that class (`HomotopyGroup.hurewiczHom_hom_one_eq_neg_hurewicz₁`, `Comparison.lean`).
-  Consumed by §§8.3 and 8.10.
-- The spectral sequence of a filtered complex in
-  `Algebra/Homology/SpectralSequence/Filtered/`: for an increasing filtration of a cochain
-  complex indexed by ℤ, the spectral sequence `CochainComplex.spectralSequence` of
-  `CochainComplex.filtrationFunctor`, its first page and first differential
-  `CochainComplex.spectralSequence_first_page_d_eq` (`FirstPage.lean`), the abutment
-  `CochainComplex.filtrationAbutmentIso` with its image filtration and strong convergence
-  for finite filtrations (`Convergence.lean`), and for module coefficients exhaustion of the
-  abutment filtration `CochainComplex.exists_mem_range_filtrationAbutmentFiltrationι`, the
-  page-to-graded identification
-  `CochainComplex.filtrationSpectralSequencePageXIsoGradedOfExhaustive` and the comparison
-  theorem `CochainComplex.isIso_homologyMap_of_isIso_spectralSequence_page_of_exhaustive`
-  for exhaustive filtrations (`Exhaustive.lean`), with naturality
-  `CochainComplex.filtrationFunctorMap` (`Naturality.lean`). Its topological instance is the
-  filtered-space spectral sequence of singular chains, `TauCeti.singularChainFiltration` and
-  `TauCeti.filteredSpaceSpectralSequence` for an increasing family of subsets, with first
-  page `TauCeti.filteredSpaceSpectralSequenceFirstPageXIso` the relative homology of
-  consecutive stages, first differential
-  `TauCeti.filteredSpaceSpectralSequence_first_page_d_eq` the triple connecting map, abutment
-  `TauCeti.filteredSpaceAbutmentIso` and strong convergence for finite filtrations
-  `TauCeti.filteredSpaceSpectralSequencePageXIsoGradedOfFinite`
-  (`AlgebraicTopology/Singular/FilteredSpace.lean`). Consumed by §§5.0, 5.5 and 5.7.
-- Path fibrations in `Topology/Homotopy/MappingPath/`: `TauCeti.LiftingFunction`,
-  `TauCeti.IsHurewiczFibration` with
-  `TauCeti.isHurewiczFibration_iff_nonempty_liftingFunction`, the mapping-path fibre
-  projection `TauCeti.MappingPathFiber.isHurewiczFibration_proj`, its base-change
-  description `TauCeti.MappingPathFiber.pullbackHomeomorph`, its homotopy invariance
-  `ContinuousMap.Homotopy.mappingPathFiberHomotopyEquiv`, and the mapping-path space
-  `TauCeti.MappingPathSpace` with its constant-path inclusion a homotopy equivalence
-  (`TauCeti.MappingPathSpace.homotopyEquiv`, by the shrinking homotopy
-  `TauCeti.MappingPathSpace.shrinkHomotopy`) compatible with the endpoint map
-  (`TauCeti.MappingPathSpace.endpoint_comp_incl`). Consumed by §5.5.
-- Hurewicz fibrations in `Topology/Homotopy/HurewiczFibration/` and
-  `Topology/MappingSpace/Fibration.lean`: every Hurewicz fibration is a Serre fibration,
-  `TauCeti.IsHurewiczFibration.mem_serreFibrations` (`Basic.lean`); restriction
-  `C(K,X)→C(A,X)` along a closed cofibration `A⊆K` of a locally compact `K` is a Hurewicz
-  fibration of compact-open mapping spaces,
-  `TauCeti.HasHomotopyExtensionProperty.isHurewiczFibration_restrict`; relative lifting for
-  NDR pairs `TauCeti.IsHurewiczFibration.exists_lift_of_ndrPair` (`RelativeLifting.lean`);
-  fibre transport `TauCeti.LiftingFunction.transport` with its homotopy invariance and
-  composition laws (`Transport.lean`), the comparison of the fibres over a path
-  `TauCeti.PathPullback.fiberHomotopyEquiv` (`PathPullback.lean`), the identification of the
-  homotopy fibre of the fibre inclusion with the loop space of the base
-  `TauCeti.FiberInclusionPathFiber.loopFiberHomotopyEquiv` (`FiberInclusion.lean`), and the
-  fibre-homology local system `TauCeti.fiberLocalSystem` of a Hurewicz fibration with a
-  lifting function (`AlgebraicTopology/Singular/Fibration/LocalSystem.lean`). Consumed by
-  §5.5.
-- Serre classes in `AlgebraicTopology/SerreClass/`: the torsion class
-  `AddCommGrpCat.isTorsion` and, for each `d`, the class
-  `AddCommGrpCat.isKilledBySomePower d` of groups annihilated by a power of `d`, with
-  Mathlib's `IsSerreClass` instances and their tensor and Tor closure; and, for finite
-  groups, the torsion of the positive-degree homology of Milnor's classifying space,
-  `TauCeti.isAddTorsion_classifyingSpace_singularHomology` and
-  `TauCeti.isKilledBySomePower_classifyingSpace_singularHomology`
-  (`ClassifyingSpace/Torsion.lean`). From Mathlib, the morphisms modulo a Serre class
-  (`CategoryTheory/Abelian/SerreClass/MorphismProperty.lean`):
-  `CategoryTheory.ObjectProperty.isoModSerre` (kernel and cokernel in the class),
-  `CategoryTheory.ObjectProperty.epiModSerre` (cokernel in the class) and
-  `CategoryTheory.ObjectProperty.monoModSerre` (kernel in the class), with their closure
-  under composition, the two-out-of-three property of the first, and stability under
-  retracts and base change. Consumed by §8.8d.
-- The killing tower `TauCeti.killHomotopyGroups n X x` of a pointed Hausdorff space
-  (`AlgebraicTopology/Homotopy/KillHomotopyGroups.lean`) with
-  `TauCeti.bijective_homotopyGroupMap_killHomotopyGroupsIncl` (`π_k` unchanged for `k<n`),
-  `TauCeti.subsingleton_homotopyGroup_killHomotopyGroups` (`π_k=0` for `k≥n`),
-  `TauCeti.killHomotopyGroupsCWComplex` and `TauCeti.cwType_killHomotopyGroups` (a Hausdorff
-  CW source without cells above dimension `n`),
-  `TauCeti.isEilenbergMacLaneSpaceOne_killHomotopyGroups` (`n=2`) and the extension theorems
-  `TopCat.Hom.exists_killHomotopyGroupsIncl_comp_eq` and
-  `TauCeti.exists_mapOfEq_comp_killHomotopyGroupsFundamentalGroupMulEquiv` into a target with
-  vanishing homotopy from dimension `n` on. Consumed by §8.8c.
-- The circle as a classifying space: `AddCircle.isEilenbergMacLaneSpaceOne`, a real circle
-  of nonzero period is a K(ℤ,1) (`UniversalCover/Circle/EilenbergMacLane.lean`), its finite
-  CW type `TauCeti.finiteCWType_addCircle` (`Topology/CWComplex/Classical/Circle.lean`), and
-  the homotopy equivalence `TauCeti.circleHomotopyEquivClassifyingSpace` of Mathlib's
-  `Circle` with Milnor's classifying space of `Multiplicative ℤ`, whose forward map induces
-  the identity of ℤ on fundamental groups (`ClassifyingSpace/Circle.lean`). Consumed by
-  §8.12.
-- Complex projective space: the carrier `TauCeti.ComplexProjectiveSpace n`, the quotient of
-  the unit sphere of `EuclideanSpace ℂ (Fin (n+1))` by unit scalars
-  (`Topology/ComplexProjectiveSpace/Basic.lean`), with its finite CW structure
-  `TauCeti.ComplexProjectiveSpace.cwComplex`, one cell in each even dimension 0,2,…,2n and
-  none in odd dimensions, and its characteristic maps
-  `TauCeti.ComplexProjectiveSpace.cellMap`
-  (`Topology/CWComplex/Classical/ComplexProjective.lean`). Consumed by §4.6.
-- Smoothing and transversality inputs of Layer 8.13: Mathlib's Whitney embedding
-  `exists_embedding_euclidean_of_compact` (`Mathlib/Geometry/Manifold/WhitneyEmbedding.lean`)
-  and relative smooth approximation `Continuous.exists_contMDiff_approx_and_eqOn`
-  (`Mathlib/Geometry/Manifold/SmoothApprox.lean`); Tau Ceti's slice-chart implicit function
-  theorem `HasStrictFDerivAt.exists_isSliceChart_preimage_zero`
-  (`Analysis/Calculus/ImplicitFunctionTheorem.lean`) and flat Morse–Sard theorem
-  `TauCeti.addHaar_image_criticalPoints_eq_zero` (`Analysis/Calculus/Sard/OutermostStratum.lean`),
-  which imposes no relation between the source and target dimensions.
-- The two-periodic resolution of a finite cyclic group in Mathlib's
-  `RepresentationTheory.Homological.GroupCohomology.FiniteCyclic`
-  (`Rep.FiniteCyclicGroup.groupCohomologyπEven`, `Rep.FiniteCyclicGroup.groupCohomologyπOdd`),
-  with Tau Ceti's surjectivity of both maps in the module of the same name, consumed by
-  Layer 8.15.
-- Van Kampen presentations in `AlgebraicTopology/FundamentalGroup/VanKampen/`: for sets U_i
-  containing x₀ whose interiors cover X, surjectivity of the inclusion-induced map from the
-  free product of the π₁(U_i,x₀) when every pairwise intersection is path connected
-  (`TauCeti.vanKampenWideLift_surjective`, `Basic.lean`), its kernel, the normal closure of the
-  pairwise overlap relators, when every triple intersection is path connected
-  (`TauCeti.ker_vanKampenWideLift_of_isPathConnected_triple`), and the resulting presentation
-  `TauCeti.vanKampenCoverQuotientEquiv` (`Presentation/Cover.lean`); the two-set forms
-  `TauCeti.ker_vanKampenLift` and `TauCeti.vanKampenQuotientEquiv` (`Presentation/Basic.lean`).
-  Consumed by §§1.3–1.4.
-- Cube, ball and disk maps: the cube-to-sup-ball homeomorphism `TauCeti.cubeHomeomorphClosedBall`,
-  t↦(2t_j−1)_j (`TauCeti.coe_cubeHomeomorphClosedBall_apply`;
-  `Analysis/Normed/Module/Ball/Homeomorph.lean`); the radial homeomorphism
-  `TauCeti.diskHomeomorphClosedBall` from `TopCat.disk n` onto the sup-norm closed unit ball,
-  y↦(‖y‖₂/‖y‖∞)y through `EuclideanSpace.equiv`, carrying the boundary sphere onto the sup-norm
-  unit sphere, and the composite `TauCeti.diskHomeomorphCube` with
-  `TauCeti.diskHomeomorphCube_mem_boundary_iff` (`AlgebraicTopology/Disk.lean`); and, for
-  n≥1, the pointed homeomorphism `TauCeti.cubeQuotientHomeomorphSphere` from Iⁿ/∂Iⁿ onto the
-  unit sphere of `EuclideanSpace ℝ (Fin (n+1))`, induced by the disk map
-  x↦(2√(1−‖x‖²)x, 2‖x‖²−1) (`TauCeti.closedBallToSphere`) after the inverse of
-  `TauCeti.diskHomeomorphCube`, with pole e_last, and `HomotopyGroup.sphereEquiv` identifying
-  generalized loops with pointed maps out of (Sⁿ,e_last)
-  (`AlgebraicTopology/Sphere/CubeQuotient.lean`). Consumed by §§2.5 and 4.4.
-- Cellular structures: for a covering map p:E→B and a CW complex C in a Hausdorff space B, the
-  lifted CW complex `TauCeti.cwComplexPreimage` on p⁻¹(C), whose n-cells are the pairs of an
-  n-cell of C and a point over its centre (`TauCeti.cellPreimageEquiv`), finite for finite C and
-  finite fibres (`TauCeti.finite_cwComplexPreimage`; `Topology/CWComplex/Classical/Covering.lean`);
-  incidence numbers as local degrees of attaching maps,
-  `TauCeti.singularHomologyπ_cellAttachingMap_eq_cellularIncidence_smul`
-  (`AlgebraicTopology/Cellular/LocalDegree.lean`); the product CW structure
-  `TauCeti.cwComplexProd` of two finite CW complexes on the ordinary product
-  (`Topology/CWComplex/Classical/Product.lean`); real projective space
-  `TauCeti.RealProjectiveSpace n`, the antipodal quotient of Sⁿ
-  (`AlgebraicTopology/UniversalCover/RealProjective/Basic.lean`), with its CW structure
-  `TauCeti.RealProjectiveSpace.cwComplex`, one cell in each dimension 0,…,n
-  (`Topology/CWComplex/Classical/RealProjective.lean`), and its incidences: the i-cell occurs in
-  the boundary of the (i+1)-cell with coefficient 0 for even i
-  (`TauCeti.RealProjectiveSpace.cellularIncidence_cwComplex_eq_zero_of_even`) and ±2 over ℤ for
-  odd i (`TauCeti.RealProjectiveSpace.cellularIncidence_cwComplex_eq_two_or_eq_neg_two_of_odd`;
-  `AlgebraicTopology/Cellular/RealProjective/Basic.lean`); and the cellular differential of a
-  sphere with one cell attached by a map of degree m, which is m times a unit independent of
-  the map (`TauCeti.exists_cellularDifferential_sphereMappingCone_eq_smul`;
-  `AlgebraicTopology/Cellular/SphereMappingCone/Basic.lean`). Consumed by §§4.1, 4.2, 4.5 and 4.6.
-- Pushouts, colimits and NDR data: NDR data `TauCeti.NDRPair` (a control function vanishing
-  exactly on the subspace and a deformation fixing it), which exist exactly for closed
-  subspaces with the homotopy extension property (`TauCeti.nonempty_ndrPair_iff`;
-  `Topology/Homotopy/Extension/NDRPair.lean`); in `Topology/Category/TopCat/`, the cobase
-  change of a closed embedding is a closed embedding
-  (`TauCeti.TopCat.isClosedEmbedding_of_isPushout`, `ClosedEmbedding.lean`), attaching a normal
-  space along a closed subspace of a normal space gives a normal space
-  (`TauCeti.TopCat.normalSpace_of_isPushout`), a directed colimit of T1 spaces along injective
-  maps is T1 (`TauCeti.TopCat.t1Space_of_isColimit`) and a sequential colimit of normal spaces
-  along closed embeddings is normal (`TauCeti.TopCat.normalSpace_of_isColimit`, `Normal.lean`),
-  the stages of a directed colimit along closed embeddings embed as closed subspaces
-  (`TauCeti.TopCat.isClosedEmbedding_ι_of_isColimit`, `ClosedEmbedding.lean`),
-  and in a sequential colimit of T1 spaces along injective maps every compact subset lies in
-  the image of a stage (`TauCeti.TopCat.exists_subset_range_ι_of_isCompact`) and, when the
-  stages embed, every map from a compact space factors through a stage
-  (`TauCeti.TopCat.exists_lift_of_compactSpace`, `Compact.lean`); a categorical relative CW
-  complex on a Hausdorff space has Hausdorff target (`TopCat.RelativeCWComplex.t2Space`,
-  `Topology/CWComplex/Abstract/Hausdorff.lean`). Consumed by §4.5.
-- Projective spaces: Mathlib's quotient topology on `Projectivization 𝕜 V`,
-  `Projectivization.instTopologicalSpace`, with `Projectivization.isQuotientMap_mk'`,
-  `Projectivization.continuous_iff` and, for a continuous action of the units on V, the open
-  quotient map `Projectivization.isOpenQuotientMap_mk'`
-  (`Mathlib/Topology/Algebra/Projectivization.lean`), with the Hausdorff criterion for open
-  quotient maps `t2Space_iff_of_isOpenQuotientMap` (`Mathlib/Topology/Separation/Hausdorff.lean`);
-  Mathlib states no Hausdorff instance on this topology, and §4.6 proves it for
-  `Projectivization ℝ (Fin (n+1) → ℝ)`; Tau
-  Ceti's affine-chart atlas `Projectivization.instChartedSpace` and manifold structure
-  `Projectivization.instIsManifold` of `Projectivization 𝕜 (Fin (n+1) → 𝕜)`, for every
-  nontrivially normed field and every order of smoothness
-  (`Geometry/Manifold/Instances/Projectivization.lean`). At the pins that atlas is built on Tau
-  Ceti's own copy of the quotient topology (`Topology/Algebra/Projectivization.lean`), which
-  declares the same instance name as Mathlib's, so the two modules are not imported together.
-  Consumed by §4.6.
-- Kan complexes and simplicial groups: homotopy groups of Kan complexes `SSet.KanComplex.π` with
-  their group structure in positive degrees and induced maps `SSet.KanComplex.π.map`
-  (`AlgebraicTopology/SimplicialSet/KanComplex/HomotopyGroup.lean`); the Kan property of
-  singular simplicial sets `TopCat.kanComplex_toSSet_obj` (`SimplicialSet/KanComplex.lean`);
-  the natural comparison with cubical homotopy groups `TopCat.toSSetPiEquivHomotopyGroup` with
-  `TopCat.toSSetPiEquivHomotopyGroup_map`, which reverses products, so that in every positive
-  degree it is a group isomorphism onto the opposite of Mathlib's `HomotopyGroup`
-  (`TopCat.toSSetPiMulEquivHomotopyGroupMulOpposite`) and in degrees at least two onto
-  Mathlib's group itself (`TopCat.toSSetPiMulEquivHomotopyGroup`;
-  `AlgebraicTopology/Homotopy/SingularSet.lean`); Moore's theorem that a simplicial group is
-  Kan, `SSet.kanComplex_of_group` and
-  `CategoryTheory.SimplicialObject.kanComplex_comp_forget_grpCat`
-  (`KanComplex/SimplicialGroup.lean`); and for a simplicial module G, natural in G,
-  `CategoryTheory.SimplicialObject.piAddEquivNormalizedMooreComplexHomology`,
-  π_(n+1)(G,0)≃H_(n+1)(NG), and
-  `CategoryTheory.SimplicialObject.piZeroEquivNormalizedMooreComplexHomology`,
-  π₀(G)≃H₀(NG) (`KanComplex/MooreComplex.lean`). Consumed by §8.2.
-- Ends: `TauCeti.EndComponents X`, decreasing components of complements of compact sets,
-  eventually disjoint from every compact set, modulo mutual cofinal containment, for every
-  topological space X, with its inverse-limit description `TauCeti.endComponentsEquivSections`
-  along a monotone sequence of compact sets cofinal among all compact sets, and
-  `TauCeti.natCard_endComponents_real` (`Topology/Connected/Ends.lean`). Consumed by §8.5.
-- `HomotopyGroup`, based cubes, `ContinuousMap.HomotopyEquiv`, mapping cones and pointed cones,
-  category-theoretic colimits, chain homotopies, homology functors, and exact couples.
-
-### From TauCetiRoadmap.UniversalCovers
-
-Universal-cover construction, deck transformations, quotient covers, basepoint change
-and the induced maps on homotopy groups (the completed roadmap). Layer 8 consumes the
-induced-map and basepoint API with its path-connectedness hypotheses; nothing here
-constructs another universal cover.
-
-### From TauCetiRoadmap.GeometricTopology
-
-§11.3, the Cairns–Whitehead smooth triangulation of a smooth manifold with its realization
-homeomorphism, consumed by 8.7 for CW type of smooth manifolds; Layer 1's
-boundary, collar and two-sided tube conventions, consumed by 6.3–6.4 for the compact
-codimension-0 excision comparisons; Layer 1's tubular neighbourhood theorem, consumed by
-8.13's smoothing and relative-transversality targets for the smooth retraction onto a
-compact embedded target; Layer 11's ordered-complex realization, cited by 4.7
-only as a consumer route. Every use keeps the smooth, Hausdorff and second-countable
-hypotheses of those items.
-
-### From TauCetiRoadmap.DifferentialGeometry
-
-Layer 2 (tangent orientations, `orientationAt`, `Orientation.map`, Layer 2.2 pullback
-along local diffeomorphisms) and Layer 5.1 (the outward-normal-first boundary
-orientation), consumed by 6.3. The sphere comparison with the coordinate-local
-generator is constructed in §§2.5 and 6.3 here; Layer 10's smooth
-mapping degree, consumed only by 6.5's comparison; 10.5 consumes Tau Ceti's Brouwer theorem
-(supplier contracts), not a theorem of this roadmap. Layer 9.3 consumes 6.3's classes and is not a supplier of them.
-
-### From TauCetiRoadmap.ClassifyingSpaces
-
-Layer 1, items 1.1 and 1.2, the classification of pointed maps into an aspherical space
-(Hatcher, Proposition 1B.9, p.90), with that roadmap's hypotheses: the source X is a
-path-connected Hausdorff CW complex with an arbitrary base point x, the target (Y,y) is a
-pointed space with `TauCeti.IsAspherical Y y` and no CW structure, and X and Y lie in
-independent universes. Item 1.1 realizes every homomorphism π₁(X,x)→π₁(Y,y) by a map
-sending x to y; item 1.2 makes two such maps inducing the same homomorphism homotopic
-relative to {x}. Consumed by 8.8 with target the nerve model Bπ, aspherical by 8.8a, and by
-the case n=1 of 8.14. Nothing else of that roadmap is consumed, and it consumes nothing of
-this one.
-
-Each use below retains the supplier's hypotheses and names the needed portion. The
-roadmaps that build on this one are not suppliers of it; the Downstream consumers section
-lists what each of them takes.
-
 ## How to read the build
 
 Layers 1 and 2 establish groupoid and chain interfaces; Layer 3 supplies local-coefficient
@@ -1044,6 +77,67 @@ Items map to sections as follows.
   surfaces); §8.15 the classifying spaces of finite groups and their free actions, including the
   non-freeness of C_p×C_p actions on spheres; §8.16 the essential map T³→S² invisible to
   homotopy groups and reduced homology.
+
+## Conventions
+
+These choices are part of the specification.
+
+- **Use genuine CW models.** A CW complex here carries both the native
+  `CWComplex` structure and `T2Space` on its carrier. Finite CW type is Tau
+  Ceti's `TauCeti.FiniteCWType`: a homotopy equivalence to a CW complex C⊆K
+  with finitely many cells in a Hausdorff space K of the same universe; general
+  CW type is the same condition without finiteness, Tau Ceti's `TauCeti.CWType`.
+  Statements about spaces of CW type take that class as a hypothesis.
+  Retain and install the model's topology, Hausdorff, CW and finiteness
+  witnesses when using a finite model.
+  Hausdorffness of an original space is not transported to a chosen model
+  by homotopy equivalence. A bare native CW instance without separation
+  does not supply the cellular comparison or Whitehead hypotheses.
+
+- **Use Mathlib's categories.**  Spaces and maps live in `TopCat`; pairs live in `TopPair` and
+  `SSetPair`; chains live in `ChainComplex`; exact sequences use the existing homological-complex,
+  `ShortComplex`, and exactness APIs.  Do not bundle a space together with claimed homology.
+- **Keep maps visible.**  Every induced map is the image of a continuous map, a pair map, or a
+  chain map.  A result expressed only as unrelated equivalences in each degree is incomplete.
+- **Work at natural coefficient generality.**  Singular chains and relative homology take a
+   coefficient object in the appropriate preadditive category.  Module-valued corollaries state
+   the ring and module hypotheses they use.  Field isomorphisms, principal ideal domain (PID) or hereditary-ring short
+   exact sequences, and general-ring spectral sequences are separate theorems.  Integral
+   specialization occurs only where orientations, torsion, degree, or Euler characteristic
+   require it.
+- **Use groupoids before groups.**  Van Kampen is first a colimit theorem for the fundamental
+  groupoid on a set of basepoints.  The familiar based group theorem is derived under explicit
+  path-connectedness hypotheses.  Disconnected intersections never acquire arbitrary paths.
+- **Use actual CW structures.**  Cellular chains use `CWComplex.cell` and characteristic maps;
+  relative statements use `RelCWComplex`.  Attaching degrees define differentials, and the proof
+  that consecutive differentials compose to zero comes from the filtration exact couple.
+- **Pin reduced and unreduced conventions.**  Reduced homology is the kernel of augmentation in
+  degree zero and agrees with ordinary homology in positive degrees.  Relative homology of
+  `(X, empty)` agrees naturally with ordinary homology.  All connecting morphisms use the
+  homological grading convention `d : C_(n+1) -> C_n`.
+- **Pin signs once.**  The singular boundary uses the alternating deletion convention.  The
+  Mayer--Vietoris map from an intersection is `(i_U, -i_V)`, the cochain differential is induced
+  by precomposition with the chain differential, and cup/cap signs follow the
+  Alexander--Whitney convention. Pin cap to Hatcher's front-face/back-face formula
+  `σ⌢φ=φ(σ|[v₀,…,v_k])·σ|[v_k,…,v_n]`. In the local-coefficient version,
+  pair coefficients at v₀ and transport the result along [v₀,v_k] to the
+  first vertex of the surviving back face. Its boundary identity is
+  `∂(c⌢φ)=(−1)^k(∂c⌢φ−c⌢δφ)` for φ of degree k.
+  Convention-checking examples below must compute with these signs.
+- **Treat homotopy models by comparison.**  Mathlib's cubical `HomotopyGroup` remains a public
+  interface.  Kan-simplicial homotopy groups are also constructed because they interact well
+  with `TopCat.toSSet`; a natural comparison identifies the two, including induced maps,
+  basepoint change, suspension, and relative boundary morphisms.
+- **Base relative homotopy in the subspace.**  Relative homology remains a functor on unbased
+  `TopPair`, but relative homotopy uses Tau Ceti's based top pair `TauCeti.BasedTopPair`, with
+  `pair : TopPair` and `basepoint : pair.snd`. Its morphisms are pair maps whose subspace
+  component preserves that point. Relative cubes, groups, boundary maps, the long exact
+  sequence, basepoint change, functoriality, and relative Hurewicz all take this based carrier;
+  no declaration chooses a point from a bare pair.
+- **Finiteness is a hypothesis.**  Euler characteristic is Tau Ceti's alternating cell count
+  `TauCeti.cwEulerChar` of a finite CW complex and its transport `TauCeti.eulerChar` to spaces of
+  finite CW type.  Additivity and multiplicativity state the necessary cofibration, excision,
+  and finite-generation hypotheses.
 
 ## Layer 1: van Kampen through the fundamental groupoid
 
@@ -1150,6 +244,7 @@ The two-arc circle cover has two intersection components and fundamental group �
 ### Dependencies
 
 *Needs:* Mathlib fundamental groupoids, path homotopies and covering maps; the pinned van Kampen contracts above.
+
 ## Layer 2: relative singular chains and homology
 
 ### 2.1 Relative chain quotients
@@ -1294,6 +389,7 @@ For I, ∂[I]=[1]−[0]; for the ordered square the diagonal cancels and the bou
 ### Dependencies
 
 *Needs:* Native singular chains, topological pairs and relative homology; the coefficient and sign conventions above.
+
 ## Layer 3: subdivision, excision, and Mayer--Vietoris
 
 This layer consumes Layer 2.
@@ -5302,7 +4398,6 @@ Identity maps on ∅, a point, S¹ and S² induce identity maps on components an
 ### Dependencies
 
 *Needs:* Layers 2–4 for relative homotopy and cellular induction; Layer 6 for cohomology; the named supplier sections in each item for EM and bundle applications.
-
 ## Downstream consumers
 
 CharacteristicClasses consumes cohomology, compact supports and the tower comparison;
@@ -5490,7 +4585,6 @@ In particular, Layer 1 is independent; the chain `2 -> 3 -> 4` is strict; Layers
 Layer 5, except that Layer 2 alone feeds the product maps of Layer 5 item 1; and every layer from
 2 through 6 feeds Layer 7.  No implementation may reverse one of these arrows by assuming a
 downstream comparison theorem as input.
-
 ## Worked examples
 
 - A two-open-set cover with disconnected intersection is handled by the groupoid colimit and
@@ -5562,6 +4656,912 @@ downstream comparison theorem as input.
 - The continuous product-ball maps of §6.6 meet in the original product of balls, with no
   smoothness or transversality hypothesis, and the boundary-degree form detects the
   intersection through the coefficient (−1)^q·d_f·d_g.
+
+## Scope and ownership
+
+The roadmap is complete when Tau Ceti supplies all of the following, with naturality and the
+stated coefficient generality.
+
+1. The fundamental-groupoid functor sends an open cover to the appropriate colimit and yields
+   based van Kampen and presentation corollaries without connectedness assumptions on
+   intersections.
+2. Relative singular homology is a functor on `TopPair`, obtained through `SSetPair`, and satisfies
+   the long exact sequence, homotopy invariance, excision, Mayer--Vietoris, dimension, and
+   additivity axioms, including local-coefficient pair/triple sequences,
+   transported homotopy invariance, excision and Mayer--Vietoris.
+3. Mathlib's `CWComplex` and `RelCWComplex` structures have cellular chain complexes whose
+   homology is naturally isomorphic to singular homology, including module-valued local
+   systems with attaching-path transport. Cofibration, mapping-cylinder,
+   cellular-approximation, and skeletal-induction APIs make those comparisons usable.
+4. Mapping tori, finite covers, finite open covers, and fibre bundles have reusable chain-level
+   tools: Wang and transfer sequences, coefficient-sensitive Kunneth theorems, Cartan--Leray and
+   Serre spectral sequences, torus calculations, and a finite-open-cover Čech double complex.
+5. Singular cohomology, cup and cap products, twisted relative fundamental
+   classes, both local-coefficient Poincare--Lefschetz forms and their oriented
+   integral corollaries, and Euler characteristic are available with naturality.
+6. On Tau Ceti's based pairs, relative homotopy groups and Hurewicz maps, absolute Hurewicz
+   holds in every universe and relative Hurewicz for a simply connected subspace; Hurewicz
+   modulo a Serre class holds for simply connected spaces; homological
+   Whitehead is proved for CW complexes and then for spaces of CW type.  The cubical and
+   Kan-simplicial models of homotopy groups are naturally compared rather than allowed to form
+   separate incompatible APIs.
+7. Singular and cellular restriction towers are compared with cochains on the whole
+   CW pair, using Tau Ceti's lim/lim¹ and Milnor sequences, with
+   cofinal-shift naturality and the specified-homotopy-square maps of Layer 6.0.
+
+8. Ordinary cohomology in positive degree is represented on spaces of CW type by every
+   Eilenberg–MacLane space, and on CW pairs by this roadmap's functorial abelian
+   Eilenberg–MacLane models (Layer 8.8c);
+   nonabelian classifying spaces, universal classes, loop comparisons,
+   and primary relative obstruction cochains have explicit normalization and transport maps.
+
+The scope includes ordinary cohomology on arbitrary CW complexes and the tools needed for
+compact manifolds and finite CW-type spaces.  It
+does not include generalized cohomology theories, spectra, bordism, or surgery obstruction
+groups.  Those theories consume this roadmap's chain, CW, duality, and homotopy interfaces.
+
+### Ownership boundaries
+
+- Tau Ceti already proves, at the revision the supplier contracts are read at, a part of
+  this subject that this roadmap consumes and does not restate: the no-retraction and
+  Brouwer fixed-point theorems, the chain transfer of a finite covering with its degree and
+  deck-sum formulas, Lusternik–Schnirelmann categorical covers and their unnormalized count,
+  based top pairs with their relative homotopy groups, exact sequence, basepoint change,
+  cell-dimension connectivity and Hurewicz maps, absolute Hurewicz for spaces in `Type` and
+  relative Hurewicz when both spaces are highly connected, ordinary Whitehead for spaces of CW
+  type, spaces of CW type and of finite CW type, simple connectivity at infinity, proper
+  homotopy equivalences, the Euler characteristic of spaces of finite CW type with its
+  homotopy invariance and product, covering, Mayer–Vietoris and standard values, the field
+  and hereditary-ring Künneth theorems, the hereditary-ring universal coefficient sequence,
+  barycentric subdivision with its prism homotopy (also with local coefficients), the
+  small-chain theorem, the pair and triple sequences and homotopy invariance with local
+  coefficients, the Wang sequence of the mapping torus of a homeomorphism, the homology of tori
+  as exterior powers, the ordered Čech double complex with its quasi-isomorphism to singular
+  chains and its spectral sequence, the coefficient Bockstein, the constant-coefficient cup and
+  cap products with their naturality, associativity, unit and graded commutativity,
+  the local homology system of a manifold, Hatcher's Lemma 3.27 (p.236) and the description of the
+  top homology of a compact manifold by transport-invariant local classes with module
+  coefficients over any ring, integral homological orientations and integral fundamental
+  classes of closed manifolds, the based van Kampen presentations, the cube, ball and disk
+  homeomorphisms and the cube quotient of the sphere, lifted CW structures on covering spaces,
+  incidence numbers as local degrees, real projective space with its CW structure and
+  incidences, neighbourhood-deformation-retract (NDR) data, closed embeddings and separation of pushouts and sequential colimits
+  with their finite-stage factorization, homotopy groups of Kan complexes with their
+  comparison to cubical ones, Moore's theorem with the abelian Moore comparison, and the ends
+  of a space. It also proves the degree-one Hurewicz isomorphism of a path-connected space,
+  the invariance of singular homology with constant and local coefficients under weak
+  homotopy equivalences, CW approximation of path-connected spaces with its lifts, the
+  spectral sequence of a filtered complex with its filtered-space instance on singular
+  chains, Hurewicz fibrations with their lifting functions, mapping-path fibrations and
+  fibre transport, the torsion Serre classes, the killing tower of homotopy groups, the
+  finite CW structure of complex projective space on its sphere-quotient carrier and the
+  comparison of the circle with Milnor's classifying space of ℤ.
+  Mathlib has the compact-generation coreflection and the quotient topology of
+  projective space. The supplier contracts name each declaration and file; the layers below
+  build only what those files lack.
+- The [universal-covers roadmap](../../Completed/UniversalCovers/README.md) owns universal-cover
+  construction, deck transformations, quotient covers, basepoint change, and induced maps on
+  homotopy groups.  This roadmap consumes those maps, extends the higher-homotopy API with
+  relative groups and comparison theorems, and does not construct another universal cover.
+- The [geometric-topology roadmap](../GeometricTopology/README.md) owns smooth and PL
+  triangulations, manifold boundaries and collars, gluing, connected sum, cobordism carriers,
+  and geometric surgery.  This roadmap owns algebraic topology of CW pairs and proves results
+  about any space of CW type. The finite-dimensional Hausdorff second-countable
+  smooth-manifold CW comparison consumes GeometricTopology §11.3's smooth triangulation;
+  compact manifolds have finite CW type. Layer 8.13 consumes geometric topology's Layer 1
+  tubular neighbourhood theorem and owns, for boundaryless sigma-compact Hausdorff
+  second-countable sources, an arbitrary compact boundaryless target manifold and an
+  arbitrary closed embedded submanifold, the smoothing of continuous maps relative to a
+  closed set, the parametric transversality theorem and relative transversality.
+  TangentialBordism B1.6 consumes these three for boundaryless sources and extends them to
+  sources with corners (facewise transversality), together with its own Sard theorem in
+  unequal dimensions on manifolds with corners; nothing in this roadmap consumes
+  TangentialBordism. DeRhamCohomologyAndDuality Layer 5 states the analogue for families
+  against maps into a vector space by its own route and consumes nothing here.
+- The [differential-geometry roadmap](../DifferentialGeometry/README.md) owns the
+  Mathlib-compatible manifold orientation and degree API (its layers 2 and 10),
+  and the outward-normal-first boundary orientation of Layer 5.1, which the
+  [Heegaard Floer roadmap](../HeegaardFloer/README.md) also consumes.  This roadmap consumes it to
+  compare smooth orientations with sections of the homological orientation
+  system using DifferentialGeometry Layer 2 and DifferentialGeometry Layer 5.1, construct twisted relative fundamental classes and
+  their oriented integral specializations, and own the chain-level proof and
+  consequences of manifold duality. Layer 6.3 builds its local-homology determinant-sign
+  calculation from relative chains and excision.
+- The differential-geometry roadmap consumes this roadmap's singular chains and cochains, relative
+  cohomology, subdivision and small chains (Layers 2, 3 and 6), and needs Layer 6's universal
+  coefficients, cup product and cochain Mayer–Vietoris sequence for the de Rham theorem. It owns
+  smooth singular chains, integration over them and the de Rham comparison. Layer 6.3 consumes
+  DifferentialGeometry Layer 2's tangent-orientation API and DifferentialGeometry Layer 5.1's outward-first boundary orientation; DifferentialGeometry Layer 9.3 consumes
+  Layer 6.3's homological orientation system, chart-normalized point generators, chosen local
+  section, relative twisted class datum and compact-support class factory. DifferentialGeometry Layer 9.3 owns the
+  smooth/constant-system/real-coefficient conversions and the integration comparison.
+  After this independent Layer 6.3 class construction, Layer 6.5 compares its
+  homological degree characterization with DifferentialGeometry Layer 10's smooth mapping degree.
+  DifferentialGeometry Layer 9.3 and DifferentialGeometry Layer 10 do not consume Layer 6.5's degree comparison; neither is a
+  prerequisite for the Layer 6.3 orientation-system or fundamental-class construction.
+- The [profinite-cohomology roadmap](../ProfiniteCohomology/README.md) owns continuous
+  cohomology of profinite groups.  The singular cohomology here is cohomology of topological
+  spaces; neither development introduces a second version of the other's objects.
+- Milnor's classifying space, its K(G,1) property, the uniqueness of K(G,1) spaces of CW
+  type, its functoriality, the cellular and presentation models and the identification of
+  its singular and local-coefficient (co)homology with Mathlib's group (co)homology are Tau
+  Ceti's and are consumed through the supplier contracts; the
+  [ClassifyingSpaces](../ClassifyingSpaces/README.md) roadmap builds on the same
+  declarations, and Layer 8.8 and §8.14 consume its items 1.1 and 1.2 for the pointed
+  classification of maps into an aspherical space, and nothing else of it. Layer 8.8 owns only
+  the nerve model:
+  Layer 8.8a the raw nerve/bar construction and its K(G,1) property, Layer 8.8b its
+  comparison with Milnor's model normalized to the identity on π₁, obtained from Tau Ceti's
+  uniqueness theorem, and the transport of the native group-(co)homology identifications
+  along that comparison. The raw bar also supplies the abelian input used by Layer 8.8c.
+- The ordinary Serre and Eilenberg–MacLane machinery is owned here wherever the pinned
+  Tau Ceti does not already prove it. Tau Ceti proves the degree-one Hurewicz isomorphism,
+  absolute Hurewicz for spaces in `Type`, relative Hurewicz for highly connected pairs,
+  Whitehead's theorem, the homology invariance of weak equivalences and CW approximation
+  of path-connected spaces (supplier contracts); every layer consumes them and no layer
+  restates them. Layer 4.10 consumes the native weak-equivalence invariance and owns its
+  connected-map refinement with local coefficients, CW approximation of arbitrary spaces
+  and of pairs. Layer 5.0 consumes the native spectral sequence of a filtered complex and
+  owns its homological regrading under degreewise filtration bounds, its
+  decreasing-filtration reindexing and its complete-convergence form. Layer 5.5 owns
+  homotopy lifting for a Serre fibration against every relative CW pair, the fibration
+  homotopy long exact sequence (LES) on native `TauCeti.TopCat.serreFibrations`, the free
+  path fibration and its pullbacks, fibre transport for Serre fibrations, and the
+  homological and cohomological Serre spectral sequences on singular chains, over CW and
+  arbitrary bases, built on the native filtered-space spectral sequence. The
+  Serre-fibration morphism property itself, with its disc and cube characterizations,
+  base change and the covering-map, product-projection and locally-trivial-bundle
+  instances, is Tau Ceti's (supplier contracts) and is not restated. Layer 8.8c owns the
+  single functorial abelian K(A,n) family, whose degree-one model aliases Layer 8.8a's
+  generic bar construction and whose n≥2 models are the fixed Dold–Kan Γ(A[n])
+  realizations, with the coefficient-natural normalized π_n identification, including the
+  comparison of Γ(A[1]) with the abelian nerve. Layer 8.8d consumes the native torsion
+  Serre classes and owns Hurewicz modulo a class. Layer 8.8 owns the generic
+  discrete-group bar/CW/cover proof. Layer 8.3 consumes the native degree-one Hurewicz
+  isomorphism π₁(X)ᵃᵇ ≅ H₁(X;ℤ) and the native absolute theorem and owns their comparison
+  with the sphere normalization of Layer 4.4, and Layer 8.10 consumes the 8.8c family and
+  that degree-one isomorphism. The 8.8c constructor uses only Layers 4.7, 4.10 and
+  8.1–8.8a, with 5.5's based path fibration for its loop identification, preceding
+  representability and obstruction theory.
+  [DGFloer](../DGFloer/README.md) Layer 1 consumes these ordinary targets for its cubical
+  transports and comparisons; GeneralizedCohomology G2 and G5, TopologicalKTheory T1.5
+  and ComplexKahlerGeometry K8 consume them directly. DGFloer's standing Moore-loop
+  conventions and its Layer 2 item 3 consume 8.11b's fixed-interval loops for their
+  carrier comparisons.
+- The compact-generation coreflection itself is Mathlib's `GeneratedByTopCat.adj`, taken
+  for the family of all spaces of `CompHaus`, with its coreflectivity, created colimits and
+  limits (supplier contracts). Layer 4.8 owns its identification with Mathlib's
+  `CompactlyGenerated`, and on that coreflection the convenient products, exponentials, CW
+  comparisons and the foundational pointed suspension–loop adjunction.
+  Pointed cones, Puppe sequences and stabilization are consumers of this
+  foundation and of this roadmap's cofibration and relative-homotopy results; supply
+  runs from this roadmap to those applications. Layer 4.4 owns the
+  additional raw-quotient comparisons
+  and their interval-last normalization. Layer 4.9 owns the single
+  simplicial-realization product comparison, consumed by 8.10 and 8.11b; it rests on
+  Layer 4.7's realization CW structure, Layer 4.5's Kelley product CW structure and this
+  coreflection, with no ordinary representability or Eilenberg–MacLane family input.
+  [GeneralizedCohomology G2.1](../GeneralizedCohomology/README.md) consumes that
+  comparison for its pointed smash/quotient versions and monoidal diagrams.
+- The generic algebra of countable towers of modules is Tau Ceti's
+  (`TauCeti.ModuleTower`, `TauCeti.ComplexTower`; supplier contracts): the product
+  difference map, lim and lim¹, the six-term sequence, Mittag–Leffler vanishing,
+  Milnor sequences for towers of complexes of every shape, cofinal subsequences and the
+  derived limit as the shifted cone of the difference map. Layer 6.0 owns the one
+  generic tower construction the library lacks, the maps of shifted cones induced by
+  tower maps whose squares commute up to specified homotopies, with their composition
+  and second-homotopy laws; it has no topological prerequisite, and its algebraic
+  consumers take it from 6.0 (DerivedModuleAlgebra §1.1's localization of the derived
+  limit consumes it for its exact-functor comparison). Layer 6.0 also owns the singular and cellular restriction-tower
+  adapters and their limit comparisons; Layer 6.1 extends these comparisons to direct
+  local-system cochains.
+- TopologicalSheafCohomology §§1.1–1.2 owns raw Čech refinements, the comparison
+  of ordered and tuple complexes, refinement homotopies and the cohomology colimit.
+  CharacteristicClasses §C1.2b owns the constant-coefficient Čech/singular comparison;
+  ImplicitAtlases §0.7 uses the shared sheaf-coefficient theory for its atlas engine.
+  Compact closed-pair Čech theory, continuity and cube-module extensions are outside
+  this base roadmap's singular-cohomology completion criterion.
+- [Topological K-theory](../TopologicalKTheory/README.md) T1.6 consumes the
+  earlier CW/Whitehead tools for its named fixed-rank infinite Grassmannian
+  carriers, their final/weak CW topology and universal bundles.
+  [CharacteristicClasses C1.5](../CharacteristicClasses/README.md) consumes
+  Layers 4 and 6 for the finite-projective/cellular/cup comparisons on the
+  rank-one RP∞ and CP∞ carriers, and CharacteristicClasses C1.5a consumes Layer 8.8's
+  bar model of ℤ/2 with its normalized π₁ identification, Layer 8.10's ordinary models
+  and representability and Layer 8.12's native circle comparison for its identification
+  of those carriers as the ordinary EM spaces K(ℤ/2,1) and K(ℤ,2), with the generator
+  normalizations on them. No layer here consumes those carriers, comparisons or
+  that identification. CharacteristicClasses C1.2a consumes the compactly
+  supported local-coefficient cochains of the supported-cellular supplement
+  after Layer 6.2 (their support colimit, enlargement and cofinality
+  comparisons, proper pullback, open extension and jointly proper homotopy
+  invariance) for its support excision and collared-pair triangle; no layer
+  here consumes that excision or that triangle.
+- Layer 8.13 owns the smoothing and transversality targets and the transverse circle
+  classifying map of an integral degree-one class. The projective-hyperplane adapter
+  (the Thom classes of the hyperplane normal lines of RP^N and CP^N and their
+  single-point intersection counts), the Gysin comparison i_*[N]=PD_M(f*u) of a
+  transverse preimage and the resulting representation of mod 2 classes of codimension
+  one and integral classes of codimensions one and two by embedded submanifolds need
+  Thom, Euler and Gysin maps and the projective carriers with their classes;
+  CharacteristicClasses C2.4a consumes Layers 6.4, 8.7, 8.10, 8.12 and 8.13 for them, and no
+  layer here consumes them. Layer 8.16 owns its statement for every Serre fibration
+  S³→S² whose fibres have vanishing third homology; CharacteristicClasses C7.6 consumes it
+  for the Hopf projection of its principal circle bundle S³→CP¹, and no layer here
+  consumes that bundle model.
+- The high-dimensional differential-topology and homotopy-sphere roadmap consumes Hurewicz,
+  Whitehead, duality, finite CW type, and the homology of spheres from this roadmap.  Stable
+  homotopy, framed bordism, and the Kervaire--Milnor calculation live there.
+
+## Exact supplier contracts
+
+### From Mathlib and Tau Ceti
+
+The development starts from these pinned APIs, read at the revisions the content
+repository's manifest records: Tau Ceti `2fd255d997f47c0b5d834ee416c7015d55444ce5` and
+Mathlib `1b1ccf4b088b32fa3f23f2de1127433254a81e1e`. Every declaration, module and file
+named in this section is cited as it is at those revisions.
+
+- `CompactlyGenerated`, `CompactlyGenerated.compactlyGeneratedToTop` and
+  `CompactlyGenerated.fullyFaithfulCompactlyGeneratedToTop` in
+  `Mathlib/Topology/Category/CompactlyGenerated.lean` supply the category and
+  its fully faithful inclusion, without a separation axiom. The topology
+  `TopologicalSpace.compactlyGenerated`, `eq_compactlyGenerated`,
+  `continuous_from_compactlyGenerated` and
+  `continuous_from_uCompactlyGeneratedSpace` in
+  `Mathlib/Topology/Compactness/CompactlyGeneratedSpace.lean` supply the compact-test
+  topology and continuity criterion. Layer 4.8 identifies this category with Mathlib's
+  coreflective category of generated spaces (next item) and builds the pointed
+  constructions on it; it does not redefine the topology.
+- Generated spaces in `Mathlib/Topology/Convenient/`: for a family of spaces `X i`, the
+  generated topology `TopologicalSpace.generatedBy`, coinduced by all continuous maps from the
+  `X i`, written as one coinduced topology from a sigma type by
+  `TopologicalSpace.generatedBy_eq_coinduced` (`GeneratedBy.lean`); the full subcategory
+  `GeneratedByTopCat X` of `TopCat` with the adjunction `GeneratedByTopCat.adj`, whose left
+  adjoint is the inclusion and whose right adjoint `TopCat.toGeneratedByTopCat` retopologizes
+  a space by the generated topology, with invertible unit, and the instances `Coreflective`,
+  `CreatesColimits`, `HasLimits` and `HasColimits` (`Category.lean`); and, when every `X i` is
+  locally compact and every product `X i × X j` is generated by the family, the currying
+  bijection `Topology.ContinuousMapGeneratedBy.curryEquiv` and the evaluation
+  `Topology.ContinuousMapGeneratedBy.ev` (`HomSpace.lean`). With Mathlib's instances that
+  sequential spaces and Hausdorff weakly locally compact spaces are compactly generated
+  (`Mathlib/Topology/Compactness/CompactlyGeneratedSpace.lean`) and that delta-generated spaces
+  are sequential (`DeltaGeneratedSpace.lean`), and Tau Ceti's instance
+  `TauCeti.instDeltaGeneratedSpaceCWComplex` that a Hausdorff CW complex is delta-generated
+  (`Topology/CWComplex/Classical/DeltaGenerated.lean`), these are what Layer 4.8 consumes for
+  the family of all spaces of `CompHaus`; it constructs no second coreflection.
+- `TopCat`, `TopCat.toSSet`, `SSet.chainComplex`, `singularChainComplexFunctor`, and
+  `singularHomologyFunctor`.
+- `TopPair`, `TopPair.ofSubset`, `TopPair.incl`, `TopPair.diag`, and the
+  `TopPair.HomologyPretheory` classes already present at the dependency pin.
+- `TopPair.singularHomology`, `TopPair.singularHomologyMap`,
+  `TopPair.singularHomologyMap_id`, `TopPair.singularHomologyMap_comp` and
+  `TopPair.singularHomologyFunctor` in
+  `TauCeti/AlgebraicTopology/Singular/Relative.lean`, and
+  `TopPair.singularHomologyInclIso` with its quotient-induced component
+  `TopPair.singularHomologyInclIso_hom_app` in
+  `TauCeti/AlgebraicTopology/Singular/Empty.lean`. For spaces in universe w,
+  these use a preadditive category C with w-small coproducts and
+  `CategoryWithHomology C`, and a coefficient object R of C. The natural
+  isomorphism goes from absolute homology to relative homology of (X,∅);
+  its inverse gives the reverse comparison. No abelian-category hypothesis
+  is added to these declarations; short exact chain sequences use one separately.
+- `FundamentalGroupoid`, `FundamentalGroup`, induced maps, homotopy invariance, and Mathlib's
+  covering and homotopy-lifting APIs.
+- Native `FundamentalGroup.cast_map_prod_mul` and `FundamentalGroup.instCommGroup` in
+  `TauCeti.AlgebraicTopology.FundamentalGroup.TopologicalMonoid`: for a space with a
+  continuous multiplication and a two-sided unit, the class of the pointwise product of
+  two loops at `1` is their product in `FundamentalGroup`, and that group is commutative.
+  Layer 1.6 consumes both and adds only naturality and the comparison with
+  `FundamentalGroup.mul_def`.
+- Tau Ceti's native local coefficient system and its constant/pullback/
+  transport API in `TauCeti.AlgebraicTopology.LocalCoefficient`, absolute
+  twisted chains in `TauCeti.AlgebraicTopology.Singular.Twisted.Basic`, and
+  `TopPair.twistedChainComplex`/`twistedHomology` in its `Twisted.Relative`
+  module. Ordinary relative chains use `TopPair.singularChainComplexFunctor`
+  from `TauCeti.AlgebraicTopology.Singular.Relative`; ordinary cohomology uses
+  `TopCat.singularCohomology` from `TauCeti.AlgebraicTopology.Cohomology.Basic`.
+  Native `LocalCoefficientSystem.twistedCochainComplex` and
+  `TopPair.twistedCochainComplex` in `Cohomology.Twisted.Basic`/`Relative`
+  apply Hom to L-twisted chains, so they compute dual-system cochains.
+  Consume those constructions with their dual-system convention, and build
+  direct L-valued cochains without assuming fibrewise reflexivity.
+  Consume these carriers and extend their APIs for the comparisons below.
+- Native relative quotient colimits and short exact sequences in `Singular.Relative`,
+  pair/triple sequences in `Singular.Triple`, `singularHomologyPretheory` in
+  `Singular.HomologyPretheory`, and the `DiskSphere`, `DiscretePair` and
+  `Additivity` modules. Consume their constant-coefficient objects and proofs,
+  extending the comparisons and local-coefficient theory below. The long exact
+  sequence of a pair (Hatcher, §2.1, pp.117 and 127) is the short exact sequence
+  `TopPair.shortExact_singularChainComplexShortComplex`, the connecting morphism
+  `TopPair.singularHomologyδ`, exactness at the three terms
+  `TopPair.singularHomology_exact_subspace`, `TopPair.singularHomology_exact_space` and
+  `TopPair.singularHomology_exact_relative`, and naturality
+  `TopPair.singularHomologyδ_naturality` (`Singular/Relative.lean`). That of a triple
+  B⊆A⊆X, from `0 → C_n(A,B) → C_n(X,B) → C_n(X,A) → 0` (Hatcher, §2.1, pp.118 and 128),
+  is `TauCeti.TopTriple.shortExact_singularChainComplexShortComplex`,
+  `TauCeti.TopTriple.singularHomologyδ`, `TauCeti.TopTriple.singularHomology_exact_inner`,
+  `TauCeti.TopTriple.singularHomology_exact_total`,
+  `TauCeti.TopTriple.singularHomology_exact_outer` and
+  `TauCeti.TopTriple.singularHomologyδ_naturality` (`Singular/Triple.lean`). Both
+  connecting morphisms are Mathlib's `CategoryTheory.ShortComplex.ShortExact.δ` of these
+  short exact sequences, so the description of δ as the class of the boundary of a
+  relative cycle is `CategoryTheory.ShortComplex.ShortExact.δ_eq`. §§3.3, 5.2 and 8.4
+  consume these sequences.
+- Native `FundamentalGroupoid.CoverGeneration`, groupoid `Pushout`,
+  `FundamentalGroup.VanKampen` and `WedgeSum`, and `FundamentalGroupoid.Circle`:
+  cover generation, two-open-set groupoid/group pushouts, the wide-groupoid
+  van Kampen equivalence, wedge-of-circles free groups and the disconnected
+  two-arc circle test. Extend their naturality and example computations.
+- Native `TopCat.eilenbergZilberHomotopyEquiv`, Alexander–Whitney and shuffle
+  maps in `Singular.EilenbergZilber`/`AlexanderWhitney`/`Shuffle`, and the native
+  homology cross product `TopCat.singularHomologyCross` in `Singular.CrossProduct`:
+  the map `H_p(X;R) ⊗ H_q(Y;S) → H_n(X × Y;R ⊗ S)` for `p + q = n`, with its value on
+  cycle classes (`homologyπ_tensorHom_singularHomologyCross`), its naturality in the
+  spaces (`singularHomologyCross_naturality`) and in the coefficients
+  (`singularHomologyCross_coefficient_naturality`), and its comparison with the
+  algebraic cross product of the singular chain complexes under Alexander–Whitney
+  (`singularHomologyCross_comp_homologyMap_alexanderWhitney`). The pin states these
+  for a preadditive monoidal category with homology and the colimit-preservation
+  hypotheses that `ModuleCat` satisfies by instance search. The local-coefficient,
+  relative and spectral-sequence extensions use these maps.
+- The Künneth theorems in `Singular.Kunneth.Basic` and `Singular.Kunneth.Sequence`:
+  `TopCat.singularHomologyKunnethIso`, the isomorphism from the degree-n part of
+  `H_*(X;M) ⊗ H_*(Y;N)` to `H_n(X × Y;M ⊗ N)` given by the native cross products, for
+  semisimple coefficient modules (in particular over a field), with
+  `TopCat.isIso_singularHomologyKunneth_of_projective` and
+  `TopCat.isIso_singularHomologyKunneth_of_projective_homology` when the homology is
+  projective; and over a hereditary commutative ring the short exact Künneth sequence
+  `TopCat.singularHomologyKunnethUnitShortComplex_shortExact` with its Tor term and the
+  splitting `TopCat.singularHomologyKunnethUnitSplitting`, which depends on chosen splittings
+  of the cycles and is not natural. Layer 5.1 consumes these and adds the spectral sequence
+  over a general ring.
+- The universal coefficient sequence in `Cohomology.UniversalCoefficient`: over a
+  hereditary commutative ring, for projective R and every M, the exact sequence
+  `TopCat.exact_singularExtToCohomology_singularKronecker` from `Ext¹(H_n(X;R),M)` to
+  `H^(n+1)(X;R,M)` and onto `Hom(H_(n+1)(X;R),M)` through the Kronecker map
+  (`TopCat.singularKronecker_surjective`), natural in X, and the non-natural decomposition
+  `TopCat.singularUniversalCoefficientEquiv`. Layer 6.1 consumes it and adds the local-system,
+  relative and general-ring forms. The Kronecker map itself is `TopCat.singularKronecker`, with
+  its naturality `TopCat.singularKronecker_naturality` (`Cohomology.Kronecker`); with the
+  naturality `HomotopyGroup.hurewicz_map` of the absolute Hurewicz map it fixes the class of
+  §8.10.
+- The Euler characteristic in `Cellular.EulerCharacteristic`: the alternating cell count
+  `TauCeti.cwEulerChar` of a finite CW complex (`TauCeti.cwEulerChar_def`), its Euler–Poincaré
+  equality `finsum_finrank_singularHomology_of_finite_cwComplex`, the Euler characteristic
+  `TauCeti.eulerChar` of a space of finite CW type, independent of the model
+  (`TauCeti.eulerChar_eq_cwEulerChar`) and homotopy invariant
+  (`ContinuousMap.HomotopyEquiv.eulerChar_eq`), with
+  `TauCeti.eulerChar_eq_finsum_finrank_singularHomology` over every division ring; the
+  product formulas `TauCeti.cwEulerChar_prod`, `TauCeti.eulerChar_prod` and
+  `TauCeti.eulerChar_pi` (`Product`); the covering formulas
+  `TauCeti.cwEulerChar_preimage_of_card_fiber` and `TauCeti.eulerChar_eq_mul_of_isCoveringMap`
+  (`Covering`); the open-cover formula `TauCeti.eulerChar_union_add_eulerChar_inter`
+  (`MayerVietoris`) and the subcomplex formulas of `Subcomplex`; and the standard values
+  `TauCeti.eulerChar_sphere`, `TauCeti.eulerChar_torus` and
+  `TauCeti.eulerChar_complexProjectiveSpace`. No other cellular Euler invariant is
+  introduced; Layer 7 adds the bundle formula, the relative and local-system Euler–Poincaré
+  equalities and stratification additivity.
+- Brouwer's theorem in `Singular.BrouwerFixedPoint`: `TauCeti.noRetraction_diskBoundary`,
+  `TauCeti.brouwerFixedPoint_topCatDisk`, `TauCeti.brouwerFixedPoint_compactConvex` (every
+  continuous self-map of a nonempty compact convex subset of a finite-dimensional real normed
+  space, possibly with empty interior, has a fixed point),
+  `TauCeti.brouwerFixedPoint_compactConvex_continuousOn`, `TauCeti.brouwerFixedPoint_closedBall`
+  and `TauCeti.brouwerFixedPoint_compactConvex_finiteSpan`. This roadmap restates none of them.
+- Milnor's classifying space in `ClassifyingSpace`: `TauCeti.classifyingSpace` and
+  `TauCeti.classifyingSpaceBasepoint` (`Basic`); `TauCeti.isEilenbergMacLaneSpaceOne_classifyingSpace`
+  and `TauCeti.exists_isEilenbergMacLaneSpaceOne`, for every group and with no hypothesis on it
+  (`EilenbergMacLane`); `TauCeti.IsEilenbergMacLaneSpaceOne.nonempty_homotopyEquiv`, two K(G,1)
+  spaces of CW type (`TauCeti.CWType`, in one universe) are homotopy equivalent, and
+  `TauCeti.IsAspherical.exists_homotopyEquiv`, realizing a prescribed isomorphism of fundamental
+  groups up to basepoint change along a path (`Uniqueness`); `MonoidHom.classifyingSpaceMap` with
+  its identity and composition laws (`Functoriality`), `TauCeti.classifyingSpaceHomotopyFunctor`
+  into the pointed homotopy category and
+  `TauCeti.fundamentalGroupFunctor_map_bijective_cellularClassifyingSpace`, pointed maps out of
+  the cellular model into a space with vanishing higher homotopy are classified by π₁
+  (`HomotopyFunctor`); `TauCeti.classifyingSpaceSingularCohomologyIsoGroupCohomology`, landing
+  in `groupCohomology (Rep.trivial k G M) n` for a k-module M (the trivial representation
+  only), with its coefficient naturality and Bockstein compatibility (`Cohomology`),
+  `TauCeti.classifyingSpaceSingularHomologyIsoGroupHomology` (`Homology`),
+  `TauCeti.classifyingSpaceLocalSystem` with `TauCeti.classifyingSpaceTwistedHomologyIsoGroupHomology`,
+  group homology of A for every representation A, and
+  `TauCeti.classifyingSpaceTwistedCohomologyIsoGroupCohomology`, whose source is the
+  Hom-of-twisted-chains cohomology with values in a k-module N and whose target is
+  `groupCohomology ((Rep.ihom A).obj (Rep.trivial k G N)) n`, group cohomology of the dual
+  representation Hom(A,N) rather than of A (`LocalCoefficients`); the free resolution
+  `TauCeti.universalGSpaceResolution` (`Resolution`); the
+  cellular model `TauCeti.cellularClassifyingSpace` with `TauCeti.cellularClassifyingSpaceHomotopyEquiv`
+  (`Cellular`, `Comparison`) and `TauCeti.PresentationComplex` (`PresentationComplex`); and, for any
+  quotient covering map with contractible total space,
+  `IsQuotientCoveringMap.singularCohomologyIsoGroupCohomology`, again into the trivial
+  representation `Rep.trivial k G M` (`Cohomology.GroupCohomology`). The
+  nerve model of Layer 8.8 is not among them: that layer builds it, proves it is a K(G,1) and
+  compares it with Milnor's model, and restates none of these.
+- The transfer of a finite covering in `Singular.Transfer.Basic`/`Degree`/`PermutationLocalSystem`
+  and `Singular.Coinvariants`: `IsCoveringMap.singularTransfer`, the chain map sending a simplex
+  to the sum of its lifts (`IsCoveringMap.ιChainComplex_singularTransfer_f`), the degree formula
+  `IsCoveringMap.singularTransfer_comp_chainComplexMap` (`p_* ∘ transfer = d • id` when every
+  fibre has d points) and its locally constant form, the deck-sum formula
+  `IsQuotientCoveringMap.chainComplexMap_comp_singularTransfer`, the permutation local system of
+  a finite cover, and the coinvariant comparison of a free finite group action.
+- Lusternik–Schnirelmann covers in `Topology.Homotopy.LusternikSchnirelmann`:
+  `TauCeti.LSCategoricalCover X A n` (n open sets covering A, each with nullhomotopic inclusion
+  into X), with restriction, concatenation, padding, pullback and pushforward, and
+  `TauCeti.lsCategoryCount X A`, the infimum in ℕ∞ of the sizes of such covers, with
+  `TauCeti.lsCategoryCount_le_iff`, monotonicity, union subadditivity, the deformation
+  inequality `TauCeti.lsCategoryCount_le_of_homotopic_id`, the values on ∅ and contractible
+  spaces, and finiteness on compact locally contractible spaces.
+- Relative homotopy in `Topology.Category.BasedTopPair` and `AlgebraicTopology.Homotopy.Relative`:
+  `TauCeti.BasedTopPair`, `TauCeti.RelHomotopyGroup` with its group structure in degrees at
+  least two, commutativity in degrees at least three, the exact sequence of a based pair,
+  basepoint change, the group- and module-valued functors with the abelianization in degree
+  two (`TauCeti.RelHomotopyGroup.abelianizationFunctor`), the cell-dimension connectivity of
+  relative CW complexes (`TauCeti.subsingleton_relHomotopyGroup_of_isEmpty_cell`) with its
+  transport along weak equivalences, and the relative Hurewicz map
+  `TauCeti.RelHomotopyGroup.hurewicz`, natural and compatible with the absolute Hurewicz map
+  `HomotopyGroup.hurewicz`. In `AlgebraicTopology.Homotopy.Hurewicz`: absolute Hurewicz
+  `HomotopyGroup.bijective_hurewicz` for spaces in `Type`, surjectivity of the relative map
+  `TauCeti.RelHomotopyGroup.surjective_hurewicz`, and its bijectivity
+  `TauCeti.RelHomotopyGroup.bijective_hurewicz_of_subsingleton_homotopyGroup` when the subspace
+  and the space are both (n−1)-connected, again for spaces in `Type`.
+- The fundamental group acting on homotopy groups, in
+  `Topology/Homotopy/HomotopyGroup/FundamentalGroupAction.lean`: the action
+  `TauCeti.homotopyGroupMulAction` of π₁(X,x) on π_n(X,x) by transport around loops
+  (conjugation when n=1), by group automorphisms in positive dimensions
+  (`TauCeti.homotopyGroupMulDistribMulAction`), the transport
+  `TauCeti.homotopyGroupTransportQuotient` along a homotopy class of paths with its identity
+  and composition laws, and the orbits of the action as the free homotopy classes
+  (`TauCeti.homotopyGroup_mem_orbit_iff_exists_homotopyAlong`); in `BasepointChange.lean`,
+  the change of basepoint along a path `TauCeti.homotopyGroupEquivOfPath`, a group
+  isomorphism `TauCeti.homotopyGroupMulEquivOfPath` in positive dimensions. Consumed by
+  §§8.9, 8.10 and 8.14.
+- Ordinary Whitehead and CW type: `TauCeti.CWType` (`Topology.CWComplex.Classical.CWType`) and
+  `TauCeti.FiniteCWType` (`Topology.CWComplex.Classical.FiniteCWType`), with the finite CW type
+  of compact triangulable spaces `TauCeti.IsTriangulable.finiteCWType`
+  (`Topology.Triangulable.FiniteCWType`), the weak homotopy
+  equivalence predicate `ContinuousMap.IsWeakHomotopyEquivalence`
+  (`Topology.Homotopy.HomotopyGroup.WeakHomotopyEquivalence`: every point of the target is joined
+  to the image, and every induced map on homotopy groups at every point is bijective), and
+  Whitehead's theorem `ContinuousMap.IsWeakHomotopyEquivalence.homotopyEquiv` for spaces of CW
+  type, whose forward map is the given map
+  (`ContinuousMap.IsWeakHomotopyEquivalence.homotopyEquiv_toFun`), in
+  `AlgebraicTopology.Homotopy.Whitehead`, with the two halves of Hatcher's Proposition 4.22 for
+  sources of CW type in the same file: maps into the target lift through a weak homotopy
+  equivalence up to homotopy (`ContinuousMap.IsWeakHomotopyEquivalence.exists_comp_homotopic`),
+  and two maps whose composites with it are homotopic are homotopic
+  (`ContinuousMap.IsWeakHomotopyEquivalence.homotopic_of_comp_homotopic`). A weak homotopy
+  equivalence induces isomorphisms on singular homology with coefficients in any ring
+  (`ContinuousMap.IsWeakHomotopyEquivalence.isIso_singularHomologyMap`,
+  `AlgebraicTopology.Singular.Homotopy.WeakHomotopyEquivalence`). §8.10 consumes these three.
+  Simple connectivity at infinity is
+  `TauCeti.SimplyConnectedAtInfinity` (`AlgebraicTopology.Homotopy.SimplyConnectedAtInfinity`).
+  Proper homotopy equivalences are `ContinuousMap.HasProperHomotopyInverse`
+  (`Topology.Homotopy.Proper`: a proper map with a proper homotopy inverse and both homotopies
+  proper on the whole cylinder).
+- Local homology and orientations in `AlgebraicTopology.Singular.LocalHomology`, for a
+  Hausdorff space M modelled on a real normed space E of finite dimension n (a manifold
+  without boundary), M and E in one universe. In `System`: the local homology system
+  `TauCeti.localHomologySystem`, the groups H_k(M,M∖{x};R) with their transport
+  `TauCeti.localHomologyTransport` along path classes, for coefficients R in any abelian
+  category with coproducts; with values in `ModuleCat S` it is a
+  `TauCeti.LocalCoefficientSystem`. In `Compact`, for a compact subset A and coefficients in
+  a module N over any ring: vanishing of H_k(M,M∖A;N) for k>n
+  (`TauCeti.isZero_localHomology_of_isCompact`, Hatcher Lemma 3.27(b), p.236), detection of a
+  degree-n class by its local images (`TauCeti.eq_zero_of_forall_localHomologyRestriction_eq_zero`)
+  and the unique gluing of locally represented families of local classes
+  (`TauCeti.existsUnique_localHomologyRestriction_eq_of_isCompact`, Hatcher Lemma 3.27(a), p.236),
+  with the transport-invariant form `TauCeti.existsUnique_localHomologyRestriction_eq_of_invariant`
+  in `Section`, and for compact M the vanishing of H_k(M;N) for k>n
+  (`TauCeti.isZero_singularHomology_of_compactSpace`), consumed by Layer 8.15. In
+  `TopHomology`, for compact M and module coefficients: H_n(M;N) is the
+  limit of the local homology system (`TauCeti.isLimitLocalHomologySystemCone`), and for
+  compact connected M restriction to a point is injective
+  (`TauCeti.localHomologySystemCone_π_app_injective`) with image the local classes fixed by
+  transport along every loop (`TauCeti.mem_range_localHomologySystemCone_π_app_iff`).
+  Integrally: local orientations, `TauCeti.HomologicalOrientation M E n`, and for a compact
+  oriented manifold its integral fundamental class
+  `TauCeti.HomologicalOrientation.fundamentalClass`, the unique class with the given local
+  images. Layer 6.3 consumes all of these for boundaryless manifolds and constant module
+  coefficients, and builds only the twisted-coefficient, boundary and corner extensions.
+- Tau Ceti's native `FundamentalGroupoid.cechDiagram`, `cechCocone` and
+  `isColimitCechCocone` in `FundamentalGroupoid.Cech.Diagram`/`Colimit`, using
+  the `Grpd` category and native nonempty finite-intersection `CechIndex`.
+  Its map/refinement modules supply functoriality; consume the colimit and
+  extend the group-presentation and example consequences below.
+- Native `TopPair.excisionMap` and its singular-homology isomorphism theorems
+  in `Singular.Excision`, and `TopCat.mayerVietorisδ`/`mayerVietoris_exact₁`–`₃`
+  in `Singular.MayerVietoris.Basic`. Consume these maps and extend them to local
+  coefficients.
+- Subdivision, small chains and local-coefficient sequences. Barycentric subdivision
+  `TauCeti.singularSubdivision` (`Singular/Subdivision/Basic.lean`) and the prism homotopy
+  `TauCeti.singularSubdivisionHomotopy` from the identity to it (`Subdivision/Homotopy.lean`),
+  with the twisted operators `TauCeti.LocalCoefficientSystem.twistedSubdivisionChainMap` and
+  `TauCeti.LocalCoefficientSystem.twistedSubdivisionHomotopy`, natural in the space and the
+  coefficient system (`Singular/Twisted/Subdivision.lean`). The subcomplex
+  `TopCat.smallSingularSubcomplex` of simplices subordinate to a family of sets and the
+  small-chain theorem `TauCeti.smallSingularChainHomotopyEquiv` for an open cover
+  (`Subdivision/Small/Chains.lean`, `Small/Equiv.lean`; Hatcher, Proposition 2.21, p.119), with
+  the relative form `TopPair.isIso_homologyMap_restrictι_smallSingularSubcomplex`
+  (`Small/Relative.lean`), for constant coefficients. The twisted pair sequence
+  `TopPair.shortExact_twistedChainComplexShortComplex` with its connecting map
+  `TopPair.twistedHomologyδ` and exactness (`Singular/Twisted/Relative.lean`), natural in maps of
+  pairs (`TopPair.twistedHomologyδ_naturality`, `Twisted/Functoriality.lean`) and in coefficient
+  morphisms; the twisted triple sequence
+  `TauCeti.TopTriple.shortExact_twistedChainComplexShortComplex` with its connecting map
+  `TauCeti.TopTriple.twistedHomologyδ`, natural in coefficient morphisms
+  (`Twisted/Triple.lean`); and twisted homotopy invariance, the chain homotopies
+  `TopCat.Homotopy.twistedChainComplexHomotopy` and `TopPair.Homotopy.twistedChainComplexHomotopy`
+  after transport of the coefficient system along the homotopy, with
+  `ContinuousMap.HomotopyEquiv.isIso_twistedHomologyMap` (`Twisted/HomotopyInvariance/Basic.lean`,
+  `Relative.lean`). The pin has no twisted small-chain theorem, twisted excision or twisted
+  Mayer–Vietoris sequence; Layer 3 adds them.
+- Mapping tori, tori and Čech complexes. The Wang sequence of the mapping torus
+  `TauCeti.MappingTorus φ` of a self-homeomorphism φ (`Singular/MappingTorus/`): the chain
+  endomorphism `TauCeti.MappingTorus.wangEndomorphism`, `id − φ_*`, the mapping-cone model
+  `TauCeti.MappingTorus.wangMappingConeMap` with its naturality
+  `TauCeti.MappingTorus.wangMappingConeMap_naturality` and
+  `TauCeti.MappingTorus.wangMappingConeMapOfSemiconj` for maps intertwining two monodromies
+  (`Basic`, `Naturality`), the connecting map `TauCeti.MappingTorus.wangδ`, exactness
+  `TauCeti.MappingTorus.wang_exact₁`–`₃` and the cokernel identification
+  `TauCeti.MappingTorus.wangCokernelEquiv` (`Wang`). The homology of the torus `ι → S¹` as
+  exterior powers of its first homology over every commutative ring,
+  `TauCeti.bijective_pontryaginExteriorPower_torus` and `TauCeti.torusExteriorPowerEquiv`
+  (`Singular/Torus/Exterior.lean`), natural under morphisms of commutative monoid objects
+  (`TopCat.pontryaginExteriorPower_naturality`, `Singular/Pontryagin/Exterior.lean`). The
+  ordered Čech double complex `TauCeti.cechDoubleComplex` of a family of opens indexed by a
+  linearly ordered type, on tuples i₀<…<i_p, with alternating Čech differential (on two
+  indices a<b it is (−i_a, i_b)) and the total-complex sign of Mathlib's
+  `HomologicalComplex₂.total` (`Singular/Cech.lean`), its maps along maps of covers
+  `TauCeti.cechSingularChainsMap` (`Cech/Map.lean`), the quasi-isomorphism
+  `TauCeti.quasiIso_cechTotalAugmentation` of its augmented total complex with singular chains
+  for an open cover (`Cech/OrderedQuasiIso.lean`), and its spectral sequence
+  `TauCeti.cechSpectralSequence` with first page `TauCeti.cechSpectralSequenceFirstPageXIso`
+  and abutment `TauCeti.cechSpectralSequenceAbutmentIso` (`Cech/SpectralSequence.lean`), for
+  constant coefficients in an abelian category. Layer 5 consumes these and adds only what
+  §§5.2, 5.4, 5.6 and 5.7 name.
+- Constant-coefficient cohomology operations. Absolute and relative singular cochains
+  (`Cohomology/Basic.lean`, `Cohomology/Relative.lean`); the coefficient Bocksteins
+  `TopCat.singularCohomologyBockstein` and `TopPair.singularCohomologyBockstein` of a short
+  exact sequence of coefficients, with the exact coefficient sequences
+  (`TopCat.singularCohomology_exact_coefficient₁`–`₃`) and naturality in maps, pairs and
+  coefficient sequences (`TopCat.singularCohomologyBockstein_naturality`,
+  `TopPair.singularCohomologyBockstein_naturality`; `Cohomology/Bockstein.lean`), and for local
+  systems with projective fibres the Bockstein of a sequence of value modules
+  `TauCeti.LocalCoefficientSystem.twistedCohomologyBockstein` (`Cohomology/Twisted/Bockstein.lean`);
+  the cup product `TopCat.singularCup` with `TopCat.singularCup_naturality`,
+  `TopCat.singularCup_assoc`, its unit and graded commutativity `TopCat.singularCup_gradedComm`
+  (`Cohomology/Cup.lean`, `GradedCommutativity.lean`), and the cohomology cross product with its
+  diagonal comparison `TauCeti.singularCross_diagonal` (`Cohomology/CrossProduct.lean`); the
+  cap product `TopCat.singularCap` with `TopCat.singularCap_naturality`,
+  `TopCat.singularCap_assoc` and `TauCeti.singularCap_unit` (`Cap/Basic.lean`,
+  `Cap/Associativity.lean`, `Cap/Unit.lean`). Layer 6 consumes these and adds the cap boundary
+  formula, the direct-local-system, relative and local-coefficient forms, and the
+  cup–Bockstein Leibniz signs.
+- Native `TauCeti.cellularChainComplex`, `cellularChainGroupIso` and
+  `TauCeti.cellularSingularHomologyIso` in `Cellular.Chains`/`Coproduct`/`Comparison`.
+  They use relative CW skeleta, T2 ambient spaces, abelian-category coefficients
+  and exact cell-indexed coproducts. The homology comparison needs the inclusion
+  of the (n+1)-skeleton to induce an isomorphism on Hₙ; the pin supplies this for
+  every finite-dimensional relative CW complex
+  (`TauCeti.isIso_singularHomologyMap_skeletonBasePairToComplex_succ_of_finiteDimensional`)
+  and, when sequential colimits are exact in the coefficient category, as in
+  `ModuleCat R`, for every relative CW complex
+  (`TauCeti.isIso_singularHomologyMap_skeletonBasePairToComplex_succ_of_hasExactColimitsOfShape`).
+  Layer 4 extends that carrier to chosen chain representatives and local systems.
+- The Serre-fibration API in `TauCeti.Topology.Homotopy.SerreFibration.Basic`,
+  `.FiberBundle` and `.RelativeCube`: `TauCeti.TopCat.serreFibrations`, the
+  `MorphismProperty` of `TopCat.{u}` defined as the right lifting property against the
+  bottom inclusions `Dⁿ ⟶ Dⁿ ⊗ I` for every n ≥ 0, with no surjectivity built in; its
+  composition, isomorphism, base-change, retract and product instances;
+  `TauCeti.TopCat.mem_serreFibrations_iff` (homotopy lifting for every closed unit ball)
+  and `TauCeti.TopCat.mem_serreFibrations_iff_cube` (for every cube `Fin n → I`);
+  `TauCeti.TopCat.mem_serreFibrations_pullbackFst`, `TauCeti.TopCat.mem_serreFibrations_fst`
+  and `IsCoveringMap.mem_serreFibrations`;
+  `TauCeti.TopCat.mem_serreFibrations_of_exists_trivialization` and
+  `TauCeti.TopCat.mem_serreFibrations_proj` (a locally trivial map, or the projection of
+  a `FiberBundle`, is a Serre fibration, with no paracompactness hypothesis on the base:
+  the disc case of Hatcher Proposition 4.48, p.379, whose relative-CW form follows with
+  §5.5's lifting against relative CW pairs); and `TauCeti.TopCat.exists_lift_openBox_of_mem_serreFibrations`
+  (lifting with a prescribed lift on the bottom and the sides of a finite cube). Layer 5
+  consumes these as stated and does not restate them.
+- The tower algebra in `TauCeti.Algebra.Category.ModuleCat.Tower`: `TauCeti.ModuleTower`
+  (functors `ℕᵒᵖ ⥤ ModuleCat R` over an associative unital ring), the difference map
+  `TauCeti.ModuleTower.shift`, δ(x)ₙ = xₙ − φₙ(xₙ₊₁), with kernel `TauCeti.ModuleTower.lim`
+  and cokernel `TauCeti.ModuleTower.limOne`, their functoriality, the connecting map
+  `TauCeti.ModuleTower.connecting` of the six-term sequence with
+  `TauCeti.ModuleTower.connecting_naturality`, and
+  `TauCeti.ModuleTower.subsingleton_limOne_of_isMittagLeffler`; towers of complexes
+  `TauCeti.ComplexTower` of an arbitrary complex shape with their Milnor sequences
+  (`TauCeti.ComplexTower.limOneToHomology_injective`,
+  `TauCeti.ComplexTower.exact_limOneToHomology_homologyToLim`,
+  `TauCeti.ComplexTower.homologyToLim_surjective`) and their naturality
+  (`TauCeti.ComplexTower.homologyToLim_naturality`,
+  `TauCeti.ComplexTower.limOneToHomology_naturality`), under degreewise surjectivity
+  of the difference map; the cofinal comparisons `TauCeti.ModuleTower.limSubsequenceEquiv`,
+  `TauCeti.ModuleTower.limOneSubsequenceEquiv` and
+  `TauCeti.ComplexTower.limComplexSubsequenceIso`; and the homotopy limit
+  `TauCeti.ModuleTower.homotopyLimitFunctor`, the shifted cone of δ on the product
+  complex for strict maps of complexes of towers, which preserves quasi-isomorphisms,
+  with the derived limit `TauCeti.ModuleTower.derivedLimit` and its identification
+  `TauCeti.ModuleTower.derivedLimitIsoLimComplex` with the limit complex when every
+  lim¹ vanishes. Layer 6.0 consumes these and adds only what they do not contain.
+- Native `TopCat.singularCap` and singular cup products in `Cohomology.Cap.Basic`
+  and `Cohomology.Cup`. Consume their Alexander–Whitney maps and pairings,
+  extending to direct local-system cochains, relative products and duality.
+- Abstract and classical `CWComplex`/`RelCWComplex`, subcomplexes, skeleta,
+  `CWComplex.FiniteDimensional`, `CWComplex.FiniteType`, and `CWComplex.Finite`.
+- Existing `TauCeti.MappingCylinder`, its `incl`, `proj`, `proj_comp_incl`,
+  `isClosedEmbedding_incl` and `homotopyEquiv`, and
+  `TauCeti.MappingCylinder.hasHomotopyExtensionProperty_range_incl` in
+  `Topology.Homotopy.MappingCylinder` / `Extension.MappingCylinder`.
+  Consume the homotopy extension property (HEP), relative-CW and strong-deformation-retraction APIs in
+  `Extension.Basic` / `CWComplex` / `DeformationRetract`.
+- Cofibration and CW tools: Strøm's product theorem for closed cofibrations and its cylinder
+  case `TauCeti.HasHomotopyExtensionProperty.zero_one_prod_univ_union_univ_prod`
+  (`Topology/Homotopy/Extension/Prod.lean`), homotopy inverses relative to subspaces with the
+  homotopy extension property `TauCeti.HasHomotopyExtensionProperty.exists_inverse_homotopicRel`
+  and relative to base points `TauCeti.HasHomotopyExtensionProperty.exists_basedInverse_homotopicRel`
+  (`Extension/HomotopyEquivRel.lean`), the relative cylinder CW structure
+  `TauCeti.relCWComplexCylinder` (`Topology/CWComplex/Classical/Cylinder.lean`) and cellular
+  approximation `TauCeti.exists_isCellular_homotopicRel` and `TauCeti.exists_isCellular_homotopic`
+  (`CellularApproximation.lean`).
+- CW approximation of path-connected spaces in `AlgebraicTopology.Homotopy.CWApproximation.Basic`:
+  `TauCeti.cwApproximation` with `TauCeti.cwApproximationMap`, the instance
+  `TauCeti.cwType_cwApproximation` and `TauCeti.isWeakHomotopyEquivalence_cwApproximationMap`
+  for a path-connected target, consumed by Layer 8.15; with its lifts
+  `TauCeti.cwApproximationLift`, unique up to homotopy (`CWApproximation.Naturality`), and
+  the local-coefficient form
+  `ContinuousMap.IsWeakHomotopyEquivalence.isIso_twistedHomologyMap` of the homology
+  invariance of weak homotopy equivalences
+  (`AlgebraicTopology.Singular.Homotopy.WeakHomotopyEquivalence`), consumed by §4.10.
+- Degree-one Hurewicz in `AlgebraicTopology/Homotopy/Hurewicz/One/`: for a path-connected
+  space X and a point x, the isomorphism `TauCeti.HurewiczOne.hurewiczHomologyAddEquiv` from
+  the abelianization of π₁(X,x) to H₁(X;ℤ), sending the class of a loop to the class of the
+  singular 1-simplex it traces (`Basic.lean`, stated in universe zero; Hatcher 2A.1), its
+  naturality in pointed maps `TauCeti.HurewiczOne.homologyMap_hurewiczHomologyAddEquiv`
+  (`Naturality.lean`), and its comparison with the cubical Hurewicz homomorphism
+  `HomotopyGroup.hurewiczHom` in degree one, whose value at 1 on the class of a loop is minus
+  that class (`HomotopyGroup.hurewiczHom_hom_one_eq_neg_hurewicz₁`, `Comparison.lean`).
+  Consumed by §§8.3 and 8.10.
+- The spectral sequence of a filtered complex in
+  `Algebra/Homology/SpectralSequence/Filtered/`: for an increasing filtration of a cochain
+  complex indexed by ℤ, the spectral sequence `CochainComplex.spectralSequence` of
+  `CochainComplex.filtrationFunctor`, its first page and first differential
+  `CochainComplex.spectralSequence_first_page_d_eq` (`FirstPage.lean`), the abutment
+  `CochainComplex.filtrationAbutmentIso` with its image filtration and strong convergence
+  for finite filtrations (`Convergence.lean`), and for module coefficients exhaustion of the
+  abutment filtration `CochainComplex.exists_mem_range_filtrationAbutmentFiltrationι`, the
+  page-to-graded identification
+  `CochainComplex.filtrationSpectralSequencePageXIsoGradedOfExhaustive` and the comparison
+  theorem `CochainComplex.isIso_homologyMap_of_isIso_spectralSequence_page_of_exhaustive`
+  for exhaustive filtrations (`Exhaustive.lean`), with naturality
+  `CochainComplex.filtrationFunctorMap` (`Naturality.lean`). Its topological instance is the
+  filtered-space spectral sequence of singular chains, `TauCeti.singularChainFiltration` and
+  `TauCeti.filteredSpaceSpectralSequence` for an increasing family of subsets, with first
+  page `TauCeti.filteredSpaceSpectralSequenceFirstPageXIso` the relative homology of
+  consecutive stages, first differential
+  `TauCeti.filteredSpaceSpectralSequence_first_page_d_eq` the triple connecting map, abutment
+  `TauCeti.filteredSpaceAbutmentIso` and strong convergence for finite filtrations
+  `TauCeti.filteredSpaceSpectralSequencePageXIsoGradedOfFinite`
+  (`AlgebraicTopology/Singular/FilteredSpace.lean`). Consumed by §§5.0, 5.5 and 5.7.
+- Path fibrations in `Topology/Homotopy/MappingPath/`: `TauCeti.LiftingFunction`,
+  `TauCeti.IsHurewiczFibration` with
+  `TauCeti.isHurewiczFibration_iff_nonempty_liftingFunction`, the mapping-path fibre
+  projection `TauCeti.MappingPathFiber.isHurewiczFibration_proj`, its base-change
+  description `TauCeti.MappingPathFiber.pullbackHomeomorph`, its homotopy invariance
+  `ContinuousMap.Homotopy.mappingPathFiberHomotopyEquiv`, and the mapping-path space
+  `TauCeti.MappingPathSpace` with its constant-path inclusion a homotopy equivalence
+  (`TauCeti.MappingPathSpace.homotopyEquiv`, by the shrinking homotopy
+  `TauCeti.MappingPathSpace.shrinkHomotopy`) compatible with the endpoint map
+  (`TauCeti.MappingPathSpace.endpoint_comp_incl`). Consumed by §5.5.
+- Hurewicz fibrations in `Topology/Homotopy/HurewiczFibration/` and
+  `Topology/MappingSpace/Fibration.lean`: every Hurewicz fibration is a Serre fibration,
+  `TauCeti.IsHurewiczFibration.mem_serreFibrations` (`Basic.lean`); restriction
+  `C(K,X)→C(A,X)` along a closed cofibration `A⊆K` of a locally compact `K` is a Hurewicz
+  fibration of compact-open mapping spaces,
+  `TauCeti.HasHomotopyExtensionProperty.isHurewiczFibration_restrict`; relative lifting for
+  NDR pairs `TauCeti.IsHurewiczFibration.exists_lift_of_ndrPair` (`RelativeLifting.lean`);
+  fibre transport `TauCeti.LiftingFunction.transport` with its homotopy invariance and
+  composition laws (`Transport.lean`), the comparison of the fibres over a path
+  `TauCeti.PathPullback.fiberHomotopyEquiv` (`PathPullback.lean`), the identification of the
+  homotopy fibre of the fibre inclusion with the loop space of the base
+  `TauCeti.FiberInclusionPathFiber.loopFiberHomotopyEquiv` (`FiberInclusion.lean`), and the
+  fibre-homology local system `TauCeti.fiberLocalSystem` of a Hurewicz fibration with a
+  lifting function (`AlgebraicTopology/Singular/Fibration/LocalSystem.lean`). Consumed by
+  §5.5.
+- Serre classes in `AlgebraicTopology/SerreClass/`: the torsion class
+  `AddCommGrpCat.isTorsion` and, for each `d`, the class
+  `AddCommGrpCat.isKilledBySomePower d` of groups annihilated by a power of `d`, with
+  Mathlib's `IsSerreClass` instances and their tensor and Tor closure; and, for finite
+  groups, the torsion of the positive-degree homology of Milnor's classifying space,
+  `TauCeti.isAddTorsion_classifyingSpace_singularHomology` and
+  `TauCeti.isKilledBySomePower_classifyingSpace_singularHomology`
+  (`ClassifyingSpace/Torsion.lean`). From Mathlib, the morphisms modulo a Serre class
+  (`CategoryTheory/Abelian/SerreClass/MorphismProperty.lean`):
+  `CategoryTheory.ObjectProperty.isoModSerre` (kernel and cokernel in the class),
+  `CategoryTheory.ObjectProperty.epiModSerre` (cokernel in the class) and
+  `CategoryTheory.ObjectProperty.monoModSerre` (kernel in the class), with their closure
+  under composition, the two-out-of-three property of the first, and stability under
+  retracts and base change. Consumed by §8.8d.
+- The killing tower `TauCeti.killHomotopyGroups n X x` of a pointed Hausdorff space
+  (`AlgebraicTopology/Homotopy/KillHomotopyGroups.lean`) with
+  `TauCeti.bijective_homotopyGroupMap_killHomotopyGroupsIncl` (`π_k` unchanged for `k<n`),
+  `TauCeti.subsingleton_homotopyGroup_killHomotopyGroups` (`π_k=0` for `k≥n`),
+  `TauCeti.killHomotopyGroupsCWComplex` and `TauCeti.cwType_killHomotopyGroups` (a Hausdorff
+  CW source without cells above dimension `n`),
+  `TauCeti.isEilenbergMacLaneSpaceOne_killHomotopyGroups` (`n=2`) and the extension theorems
+  `TopCat.Hom.exists_killHomotopyGroupsIncl_comp_eq` and
+  `TauCeti.exists_mapOfEq_comp_killHomotopyGroupsFundamentalGroupMulEquiv` into a target with
+  vanishing homotopy from dimension `n` on. Consumed by §8.8c.
+- The circle as a classifying space: `AddCircle.isEilenbergMacLaneSpaceOne`, a real circle
+  of nonzero period is a K(ℤ,1) (`UniversalCover/Circle/EilenbergMacLane.lean`), its finite
+  CW type `TauCeti.finiteCWType_addCircle` (`Topology/CWComplex/Classical/Circle.lean`), and
+  the homotopy equivalence `TauCeti.circleHomotopyEquivClassifyingSpace` of Mathlib's
+  `Circle` with Milnor's classifying space of `Multiplicative ℤ`, whose forward map induces
+  the identity of ℤ on fundamental groups (`ClassifyingSpace/Circle.lean`). Consumed by
+  §8.12.
+- Complex projective space: the carrier `TauCeti.ComplexProjectiveSpace n`, the quotient of
+  the unit sphere of `EuclideanSpace ℂ (Fin (n+1))` by unit scalars
+  (`Topology/ComplexProjectiveSpace/Basic.lean`), with its finite CW structure
+  `TauCeti.ComplexProjectiveSpace.cwComplex`, one cell in each even dimension 0,2,…,2n and
+  none in odd dimensions, and its characteristic maps
+  `TauCeti.ComplexProjectiveSpace.cellMap`
+  (`Topology/CWComplex/Classical/ComplexProjective.lean`). Consumed by §4.6.
+- Smoothing and transversality inputs of Layer 8.13: Mathlib's Whitney embedding
+  `exists_embedding_euclidean_of_compact` (`Mathlib/Geometry/Manifold/WhitneyEmbedding.lean`)
+  and relative smooth approximation `Continuous.exists_contMDiff_approx_and_eqOn`
+  (`Mathlib/Geometry/Manifold/SmoothApprox.lean`); Tau Ceti's slice-chart implicit function
+  theorem `HasStrictFDerivAt.exists_isSliceChart_preimage_zero`
+  (`Analysis/Calculus/ImplicitFunctionTheorem.lean`) and flat Morse–Sard theorem
+  `TauCeti.addHaar_image_criticalPoints_eq_zero` (`Analysis/Calculus/Sard/OutermostStratum.lean`),
+  which imposes no relation between the source and target dimensions.
+- The two-periodic resolution of a finite cyclic group in Mathlib's
+  `RepresentationTheory.Homological.GroupCohomology.FiniteCyclic`
+  (`Rep.FiniteCyclicGroup.groupCohomologyπEven`, `Rep.FiniteCyclicGroup.groupCohomologyπOdd`),
+  with Tau Ceti's surjectivity of both maps in the module of the same name, consumed by
+  Layer 8.15.
+- Van Kampen presentations in `AlgebraicTopology/FundamentalGroup/VanKampen/`: for sets U_i
+  containing x₀ whose interiors cover X, surjectivity of the inclusion-induced map from the
+  free product of the π₁(U_i,x₀) when every pairwise intersection is path connected
+  (`TauCeti.vanKampenWideLift_surjective`, `Basic.lean`), its kernel, the normal closure of the
+  pairwise overlap relators, when every triple intersection is path connected
+  (`TauCeti.ker_vanKampenWideLift_of_isPathConnected_triple`), and the resulting presentation
+  `TauCeti.vanKampenCoverQuotientEquiv` (`Presentation/Cover.lean`); the two-set forms
+  `TauCeti.ker_vanKampenLift` and `TauCeti.vanKampenQuotientEquiv` (`Presentation/Basic.lean`).
+  Consumed by §§1.3–1.4.
+- Cube, ball and disk maps: the cube-to-sup-ball homeomorphism `TauCeti.cubeHomeomorphClosedBall`,
+  t↦(2t_j−1)_j (`TauCeti.coe_cubeHomeomorphClosedBall_apply`;
+  `Analysis/Normed/Module/Ball/Homeomorph.lean`); the radial homeomorphism
+  `TauCeti.diskHomeomorphClosedBall` from `TopCat.disk n` onto the sup-norm closed unit ball,
+  y↦(‖y‖₂/‖y‖∞)y through `EuclideanSpace.equiv`, carrying the boundary sphere onto the sup-norm
+  unit sphere, and the composite `TauCeti.diskHomeomorphCube` with
+  `TauCeti.diskHomeomorphCube_mem_boundary_iff` (`AlgebraicTopology/Disk.lean`); and, for
+  n≥1, the pointed homeomorphism `TauCeti.cubeQuotientHomeomorphSphere` from Iⁿ/∂Iⁿ onto the
+  unit sphere of `EuclideanSpace ℝ (Fin (n+1))`, induced by the disk map
+  x↦(2√(1−‖x‖²)x, 2‖x‖²−1) (`TauCeti.closedBallToSphere`) after the inverse of
+  `TauCeti.diskHomeomorphCube`, with pole e_last, and `HomotopyGroup.sphereEquiv` identifying
+  generalized loops with pointed maps out of (Sⁿ,e_last)
+  (`AlgebraicTopology/Sphere/CubeQuotient.lean`). Consumed by §§2.5 and 4.4.
+- Cellular structures: for a covering map p:E→B and a CW complex C in a Hausdorff space B, the
+  lifted CW complex `TauCeti.cwComplexPreimage` on p⁻¹(C), whose n-cells are the pairs of an
+  n-cell of C and a point over its centre (`TauCeti.cellPreimageEquiv`), finite for finite C and
+  finite fibres (`TauCeti.finite_cwComplexPreimage`; `Topology/CWComplex/Classical/Covering.lean`);
+  incidence numbers as local degrees of attaching maps,
+  `TauCeti.singularHomologyπ_cellAttachingMap_eq_cellularIncidence_smul`
+  (`AlgebraicTopology/Cellular/LocalDegree.lean`); the product CW structure
+  `TauCeti.cwComplexProd` of two finite CW complexes on the ordinary product
+  (`Topology/CWComplex/Classical/Product.lean`); real projective space
+  `TauCeti.RealProjectiveSpace n`, the antipodal quotient of Sⁿ
+  (`AlgebraicTopology/UniversalCover/RealProjective/Basic.lean`), with its CW structure
+  `TauCeti.RealProjectiveSpace.cwComplex`, one cell in each dimension 0,…,n
+  (`Topology/CWComplex/Classical/RealProjective.lean`), and its incidences: the i-cell occurs in
+  the boundary of the (i+1)-cell with coefficient 0 for even i
+  (`TauCeti.RealProjectiveSpace.cellularIncidence_cwComplex_eq_zero_of_even`) and ±2 over ℤ for
+  odd i (`TauCeti.RealProjectiveSpace.cellularIncidence_cwComplex_eq_two_or_eq_neg_two_of_odd`;
+  `AlgebraicTopology/Cellular/RealProjective/Basic.lean`); and the cellular differential of a
+  sphere with one cell attached by a map of degree m, which is m times a unit independent of
+  the map (`TauCeti.exists_cellularDifferential_sphereMappingCone_eq_smul`;
+  `AlgebraicTopology/Cellular/SphereMappingCone/Basic.lean`). Consumed by §§4.1, 4.2, 4.5 and 4.6.
+- Pushouts, colimits and NDR data: NDR data `TauCeti.NDRPair` (a control function vanishing
+  exactly on the subspace and a deformation fixing it), which exist exactly for closed
+  subspaces with the homotopy extension property (`TauCeti.nonempty_ndrPair_iff`;
+  `Topology/Homotopy/Extension/NDRPair.lean`); in `Topology/Category/TopCat/`, the cobase
+  change of a closed embedding is a closed embedding
+  (`TauCeti.TopCat.isClosedEmbedding_of_isPushout`, `ClosedEmbedding.lean`), attaching a normal
+  space along a closed subspace of a normal space gives a normal space
+  (`TauCeti.TopCat.normalSpace_of_isPushout`), a directed colimit of T1 spaces along injective
+  maps is T1 (`TauCeti.TopCat.t1Space_of_isColimit`) and a sequential colimit of normal spaces
+  along closed embeddings is normal (`TauCeti.TopCat.normalSpace_of_isColimit`, `Normal.lean`),
+  the stages of a directed colimit along closed embeddings embed as closed subspaces
+  (`TauCeti.TopCat.isClosedEmbedding_ι_of_isColimit`, `ClosedEmbedding.lean`),
+  and in a sequential colimit of T1 spaces along injective maps every compact subset lies in
+  the image of a stage (`TauCeti.TopCat.exists_subset_range_ι_of_isCompact`) and, when the
+  stages embed, every map from a compact space factors through a stage
+  (`TauCeti.TopCat.exists_lift_of_compactSpace`, `Compact.lean`); a categorical relative CW
+  complex on a Hausdorff space has Hausdorff target (`TopCat.RelativeCWComplex.t2Space`,
+  `Topology/CWComplex/Abstract/Hausdorff.lean`). Consumed by §4.5.
+- Projective spaces: Mathlib's quotient topology on `Projectivization 𝕜 V`,
+  `Projectivization.instTopologicalSpace`, with `Projectivization.isQuotientMap_mk'`,
+  `Projectivization.continuous_iff` and, for a continuous action of the units on V, the open
+  quotient map `Projectivization.isOpenQuotientMap_mk'`
+  (`Mathlib/Topology/Algebra/Projectivization.lean`), with the Hausdorff criterion for open
+  quotient maps `t2Space_iff_of_isOpenQuotientMap` (`Mathlib/Topology/Separation/Hausdorff.lean`);
+  Mathlib states no Hausdorff instance on this topology, and §4.6 proves it for
+  `Projectivization ℝ (Fin (n+1) → ℝ)`; Tau
+  Ceti's affine-chart atlas `Projectivization.instChartedSpace` and manifold structure
+  `Projectivization.instIsManifold` of `Projectivization 𝕜 (Fin (n+1) → 𝕜)`, for every
+  nontrivially normed field and every order of smoothness
+  (`Geometry/Manifold/Instances/Projectivization.lean`). At the pins that atlas is built on Tau
+  Ceti's own copy of the quotient topology (`Topology/Algebra/Projectivization.lean`), which
+  declares the same instance name as Mathlib's, so the two modules are not imported together.
+  Consumed by §4.6.
+- Kan complexes and simplicial groups: homotopy groups of Kan complexes `SSet.KanComplex.π` with
+  their group structure in positive degrees and induced maps `SSet.KanComplex.π.map`
+  (`AlgebraicTopology/SimplicialSet/KanComplex/HomotopyGroup.lean`); the Kan property of
+  singular simplicial sets `TopCat.kanComplex_toSSet_obj` (`SimplicialSet/KanComplex.lean`);
+  the natural comparison with cubical homotopy groups `TopCat.toSSetPiEquivHomotopyGroup` with
+  `TopCat.toSSetPiEquivHomotopyGroup_map`, which reverses products, so that in every positive
+  degree it is a group isomorphism onto the opposite of Mathlib's `HomotopyGroup`
+  (`TopCat.toSSetPiMulEquivHomotopyGroupMulOpposite`) and in degrees at least two onto
+  Mathlib's group itself (`TopCat.toSSetPiMulEquivHomotopyGroup`;
+  `AlgebraicTopology/Homotopy/SingularSet.lean`); Moore's theorem that a simplicial group is
+  Kan, `SSet.kanComplex_of_group` and
+  `CategoryTheory.SimplicialObject.kanComplex_comp_forget_grpCat`
+  (`KanComplex/SimplicialGroup.lean`); and for a simplicial module G, natural in G,
+  `CategoryTheory.SimplicialObject.piAddEquivNormalizedMooreComplexHomology`,
+  π_(n+1)(G,0)≃H_(n+1)(NG), and
+  `CategoryTheory.SimplicialObject.piZeroEquivNormalizedMooreComplexHomology`,
+  π₀(G)≃H₀(NG) (`KanComplex/MooreComplex.lean`). Consumed by §8.2.
+- Ends: `TauCeti.EndComponents X`, decreasing components of complements of compact sets,
+  eventually disjoint from every compact set, modulo mutual cofinal containment, for every
+  topological space X, with its inverse-limit description `TauCeti.endComponentsEquivSections`
+  along a monotone sequence of compact sets cofinal among all compact sets, and
+  `TauCeti.natCard_endComponents_real` (`Topology/Connected/Ends.lean`). Consumed by §8.5.
+- `HomotopyGroup`, based cubes, `ContinuousMap.HomotopyEquiv`, mapping cones and pointed cones,
+  category-theoretic colimits, chain homotopies, homology functors, and exact couples.
+
+### From TauCetiRoadmap.UniversalCovers
+
+Universal-cover construction, deck transformations, quotient covers, basepoint change
+and the induced maps on homotopy groups (the completed roadmap). Layer 8 consumes the
+induced-map and basepoint API with its path-connectedness hypotheses; nothing here
+constructs another universal cover.
+
+### From TauCetiRoadmap.GeometricTopology
+
+§11.3, the Cairns–Whitehead smooth triangulation of a smooth manifold with its realization
+homeomorphism, consumed by 8.7 for CW type of smooth manifolds; Layer 1's
+boundary, collar and two-sided tube conventions, consumed by 6.3–6.4 for the compact
+codimension-0 excision comparisons; Layer 1's tubular neighbourhood theorem, consumed by
+8.13's smoothing and relative-transversality targets for the smooth retraction onto a
+compact embedded target; Layer 11's ordered-complex realization, cited by 4.7
+only as a consumer route. Every use keeps the smooth, Hausdorff and second-countable
+hypotheses of those items.
+
+### From TauCetiRoadmap.DifferentialGeometry
+
+Layer 2 (tangent orientations, `orientationAt`, `Orientation.map`, Layer 2.2 pullback
+along local diffeomorphisms) and Layer 5.1 (the outward-normal-first boundary
+orientation), consumed by 6.3. The sphere comparison with the coordinate-local
+generator is constructed in §§2.5 and 6.3 here; Layer 10's smooth
+mapping degree, consumed only by 6.5's comparison; 10.5 consumes Tau Ceti's Brouwer theorem
+(supplier contracts), not a theorem of this roadmap. Layer 9.3 consumes 6.3's classes and is not a supplier of them.
+
+### From TauCetiRoadmap.ClassifyingSpaces
+
+Layer 1, items 1.1 and 1.2, the classification of pointed maps into an aspherical space
+(Hatcher, Proposition 1B.9, p.90), with that roadmap's hypotheses: the source X is a
+path-connected Hausdorff CW complex with an arbitrary base point x, the target (Y,y) is a
+pointed space with `TauCeti.IsAspherical Y y` and no CW structure, and X and Y lie in
+independent universes. Item 1.1 realizes every homomorphism π₁(X,x)→π₁(Y,y) by a map
+sending x to y; item 1.2 makes two such maps inducing the same homomorphism homotopic
+relative to {x}. Consumed by 8.8 with target the nerve model Bπ, aspherical by 8.8a, and by
+the case n=1 of 8.14. Nothing else of that roadmap is consumed, and it consumes nothing of
+this one.
+
+Each use below retains the supplier's hypotheses and names the needed portion. The
+roadmaps that build on this one are not suppliers of it; the Downstream consumers section
+lists what each of them takes.
 
 ## References
 

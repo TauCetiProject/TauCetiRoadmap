@@ -33,26 +33,46 @@ Every milestone and check below is required. This README is definitive;
 theorems of §§4.4, 4.6, 4.7, 5.3, 5.4, 5.5 and 5.6 that the pinned libraries do
 not prove.
 
-## Scope and ownership
+## How to read the build
 
-| Area | In the pinned library | Targets here | Owned elsewhere |
-| --- | --- | --- | --- |
-| Banach–Tate analysis | Normed Tate data, gauges, norm comparisons, ring-scalar operator norms and mapping theorems (§§0.1–1.2) | Promotion of a gauge to a normed model (§0.4), discretely valued orthogonal bases (§1.3), the finite-module norm bridge (§1.4) | Huber rings, pairs of definition and topological open mapping: [AdicSpaces](../../Completed/AdicSpaces/README.md), Layer 0 |
-| Model spaces | `C₀`, bounded-family extension, bases, (Pr), Serre's theorem, splitting, duality, matrices, finite coordinates, triangular perturbations (§§2.1–2.7) | Coordinate projections of ONable modules (§2.2), the completed-extension corollary (§2.4), the input-first adapter and closed finite submodules (§2.6) | Complete continuity, Fredholm determinants, Riesz theory and spectral transforms belong to CompactOperators |
-| Restricted series | — | Their use as analytic charts and coefficient spaces (Layers 4–5) | Carriers, norms, evaluation, substitution, translation, Hasse derivatives and Strassmann: [RestrictedPowerSeries](../RestrictedPowerSeries/README.md), Layers 0–2 |
-| Valuations | Logarithmic gauge of a pseudo-uniformiser (§0.4) | Comparison with the field normalisation of polygons (§0.4) | Additive normalisations, `ℂ_p` value group and polygons: [NewtonPolygons](../NewtonPolygons/README.md), Layer 1; local-field arithmetic: [LocalFieldsRamification](../../Completed/LocalFieldsRamification/README.md) |
-| Measures | Mahler duality, the integral dual unit ball, `φ,ψ`, coefficient extension, character integration and the measure/completed-group-algebra equivalence (§§3.1–3.4, 5.3) | The Amice-coordinate comparison on `ℤ_p` (§5.3) | General clopen calculus, measure topologies, pseudo-measures and characteristic ideals belong to PadicMeasuresIwasawaAlgebras |
-| Locally analytic functions | Analytic stages, transitions, the algebraic direct limit, polynomial density, Amice polynomials and map, character coefficients and the Amice inequalities (§§4.1–4.7) | Translations (§4.2), Amice's theorem and its consequences (§4.4), exp/log on Banach algebras (§4.5), the stage criterion for characters (§4.6), distributions and the unbounded Amice transform (§4.7) | Locally convex limit topologies, strong duals, manifolds and geometric Mellin theory belong to LocallyAnalyticDistributions |
-| Iwasawa algebra and weights | The decomposition of `ℤ_pˣ`, the weight space, its normed parametrisation and measure functions (§§5.1–5.3) | Algebraic weights (§5.2), `Λ≃ℤ_p[Δ]⟦T⟧` and the adic universal character (§5.3), analytic levels (§5.4) | Completed group algebra and procyclic coordinate: [ProfiniteProPGroups](../../Completed/ProfiniteProPGroups/README.md), Layer 9 prerequisites |
-| Automorphic applications | — | Scalar expansions of `κ(cz+d)` (§5.5) and the annular coefficient ring (§5.6) | Matrix actions, automorphy-factor cocycles, Hecke operators and classicality belong to quaternionic modular-form theory |
+Layers 0–2 (ultrametric Banach modules, Tate gauges, operators, model spaces
+and bases) precede the bounded duality of Layer 3 (continuous functions, Mahler
+coordinates and bounded measures); Layer 4 (analytic stages, Amice's theorem
+and locally analytic distributions) consumes RestrictedPowerSeries and Layer 3;
+Layer 5 (weights, universal characters, analytic levels and the annular
+coefficient ring) consumes both. Within the remaining targets, Amice's theorem
+(§4.4) precedes the Mahler criterion, §4.6, §4.7 and §5.4; the completed group
+algebra of `ℤ_pˣ` precedes the adic universal character and the
+Amice-coordinate comparison of §5.3; §5.4 precedes §5.5. Only the last
+corollary of §2.4 uses completed tensors, and it takes them from the pinned
+`TauCeti.Huber.BanachModule.CompletedTensor`. The Amice-coordinate comparison
+of §5.3 uses §3.4, the pinned completed-group-algebra equivalence and
+ProfiniteProPGroups alone.
 
-Neither a second Tate algebra nor a second completed group algebra is
-constructed here. Compactness, Fredholm theory and automorphic operator actions
-are consumers of this library, not prerequisites for it. General Hahn–Banach
-theory, reflexivity, nuclear spaces, geometric weight spaces and analytic
-Laurent/Robba-ring libraries are outside the scope. The coefficient ring of
-§5.6 is a Banach–Tate example motivated by the boundary-of-weight-space
-calculations in [LWX].
+Each section first lists, under "In the pinned library", the pinned
+declarations that already prove its statements; these are inputs, not targets.
+What follows under "Target" or "Targets" is the remaining work, with `*Needs:*`
+naming the pinned declarations or earlier targets it rests on. Each layer ends
+with its Examples, the Checks of the layer, and its Dependencies. Names
+without a namespace in the target lists (`amiceMap_bijective_and_norm_eq`,
+`isOrthonormalBasis_amiceTerm`, `exists_eval_eq_addChar_iff`, `distributions`,
+`binomialLA`, `amiceTransform_distribution_bijective`,
+`exists_character_of_hasEval`, `eq_aeval_binomialSeries`,
+`amiceTransform_completedGroupAlgebra_compat`, `measurePairing_injective`,
+`exists_eval_eq_weight_iff`, `exists_powerSeries_hasSum_weight_factor`,
+`mem_span_iff_forall_eval_annulus`) are the
+declarations of
+[Suggested.lean](Suggested.lean), stated against the pinned carriers. A Check
+marked as an example in a pinned file is already formalised; the others are
+required.
+
+A target is complete when its definitions use native structures, its
+statements and comparison maps are proved, its stated checks are formalised,
+and its supplier and consumer hypotheses agree. Test zero objects and empty
+indices, non-Noetherian versus Noetherian coefficients, all primes, and the
+strict radius boundaries. Admitted signatures are not completed results.
+Integration must not introduce `sorry`-based instances or silently change the
+topology of an imported object.
 
 ## Conventions
 
@@ -142,99 +162,6 @@ calculations in [LWX].
     equivalent to `‖T_κ‖<1`
     (`TauCeti.isTopologicallyNilpotent_iff_norm_lt_one_of_isPowMul`); in general
     `‖T_κ‖` can be `1`, as for the dual-number weight in the Layer 5 Checks.
-
-## Exact supplier contracts
-
-### Pinned Mathlib and Tau Ceti
-
-Mathlib supplies ultrametric summability, `C₀`, continuous linear maps and field
-operator norms, normed quotients, finite-dimensional topology, the Mahler
-isometry `PadicInt.mahlerEquiv`, continuous additive characters
-(`PadicInt.addChar_of_value_at_one`, `PadicInt.continuousAddCharEquiv`),
-`AbstractMeasure` with `AbstractMeasure.amiceTransform`,
-`AbstractMeasure.coeff_amiceTransform`, `AbstractMeasure.injective_amiceTransform`,
-the integral equivalence `AbstractMeasure.amiceTransformEquiv` and its
-convolution forms `AbstractMeasure.amiceTransformₐ` and
-`AbstractMeasure.amiceTransformEquivₐ`, power series, binomial coefficients and
-`p`-adic fields. The pinned Tau Ceti files below supply the results cited in
-each section; a section's remaining targets consume exactly these declarations.
-
-| Sections | Pinned Tau Ceti declarations | Files |
-| --- | --- | --- |
-| §0.1 | `HasSum.norm_lt_of_forall_norm_lt`, `HasSum.norm_eq_of_forall_norm_lt`, `TauCeti.summable_bilinear_of_nonarchimedean` | `Analysis/Normed/Group/NullFamily.lean`, `Analysis/Normed/Module/InfiniteSum.lean` |
-| §0.2 | `TauCeti.unitBallIdeal`, `TauCeti.norm_inverse_one_sub`, `TauCeti.unitBallIdeal_le_jacobson_bot`, `TauCeti.NormedRing.norm_units_inv_of_norm_mul` | `Analysis/Normed/Ring/UnitBall.lean`, `Analysis/Normed/Monoid/MulUnit.lean` |
-| §0.3 | `TauCeti.adaptedNorm`, `RingEquiv.exists_pos_norm_le_mul_rpow`, `TauCeti.zpowCeil`, `TauCeti.ResidueModule` | `Analysis/Normed/Module/AdaptedNorm.lean`, `Analysis/Normed/Ring/PowerComparison.lean`, `Analysis/Normed/Group/Rounding.lean`, `Analysis/Normed/Module/Residue.lean` |
-| §0.4 | `TauCeti.NormedRing.IsTate`, `TauCeti.NormedRing.IsTate.isTateRing`, `TauCeti.NormedRing.PseudoUniformizer.logGauge`, `TauCeti.Huber.tateGauge`, `TauCeti.Huber.exists_tateSeminorm` | `Analysis/Normed/Ring/PseudoUniformizer.lean`, `Analysis/Normed/Ring/LogGauge.lean`, `RingTheory/Huber/TateGauge/Basic.lean`, `RingTheory/Huber/TateGauge/UnitBall.lean` |
-| §§1.1–1.2 | `ContinuousLinearMap.ringOpNorm`, `ContinuousLinearMap.le_ringOpNorm`, `ContinuousLinearMap.exists_preimage_norm_le_of_isTate`, `TauCeti.NormedRing.IsTate.banach_steinhaus` | `Analysis/Normed/Operator/RingOpNorm.lean`, `Analysis/Normed/Operator/RingOpNorm/{Banach,OpenMapping,UniformBoundedness}.lean` |
-| §§1.3–1.4 | `TauCeti.exists_basis_isTOrthogonalFamily`, `TauCeti.Huber.IsTateRing.isModuleTopology`, `LinearEquiv.exists_norm_bounds_of_module_finite` | `Analysis/Normed/Module/Bases/CountableType.lean`, `RingTheory/Huber/OpenMapping.lean`, `Analysis/Normed/Module/Finite/Basic.lean` |
-| §§2.1–2.3 | `ZeroAtInftyContinuousMap.linearCombinationEquiv`, `TauCeti.exists_isOrthonormalBasis_iff`, `TauCeti.hasPr_iff_forall_exists_comp_eq_id`, `TauCeti.isONable_iff_free_residueModule` | `Topology/ContinuousMap/ZeroAtInfty/LinearCombination.lean`, `Analysis/Normed/Module/Bases/{Orthonormal,PotentiallyONable,ResidueBasis,DiscreteNorm}.lean` |
-| §2.4 | `TauCeti.exists_isTOrthogonalBasis_of_dense_span`, `TauCeti.exists_continuousLinearEquiv_prod_of_countableType`, `TauCeti.Huber.BanachModule.CompletedTensor` | `Analysis/Normed/Module/Bases/{CountableType,ModelSpace,Splitting}.lean`, `RingTheory/Huber/BanachModule/CompletedTensor.lean` |
-| §§2.5–2.7 | `ZeroAtInftyContinuousMap.toLpInftyDual`, `ContinuousLinearMap.matrixCoeff`, `Submodule.exists_finset_norm_le`, `Matrix.toZeroAtInftySMulLinearIsometryEquiv` | `Topology/ContinuousMap/ZeroAtInfty/{UltrametricDual,Matrix,FiniteCoordinates,Triangular}.lean` |
-| §§3.2–3.3 | `PadicInt.mahlerLinearIsometryEquiv`, `PadicInt.vanDerPutEquiv`, `PadicInt.mahlerToVanDerPut` | `NumberTheory/Padics/MahlerBasis/`, `NumberTheory/Padics/VanDerPut/` |
-| §3.4 | `AbstractMeasure.mahlerMomentsEquiv`, `AbstractMeasure.norm_toCLMEquiv_eq_iSup_coeff`, `AbstractMeasure.existsUnique_integral_iff_norm_le_one`, `AbstractMeasure.existsUnique_psiMeasure` | `NumberTheory/Padics/Measure/{MahlerDuality,IntegralUnitBall,PhiPsi,Multiples,Weight}.lean` |
-| §§4.1–4.7 | `TauCeti.AnalyticStage`, `TauCeti.LocallyAnalytic`, `TauCeti.AnalyticStage.amiceMap`, `TauCeti.tendsto_amiceCharCoeff_iff`, `TauCeti.amiceDualNorm` | `NumberTheory/Padics/Distribution/{AnalyticStage,LocallyAnalytic,Polynomial,Torsion}.lean`, `NumberTheory/Padics/Distribution/Amice/{Basis,Character,Norm}.lean` |
-| §§5.1–5.3 | `TauCeti.padicIntUnitsEquivZModUnitsProd`, `TauCeti.WeightSpace`, `TauCeti.weightSpaceEquiv`, `AbstractMeasure.extendCoefficients`, `AbstractMeasure.completedGroupAlgebraEquiv`, `TauCeti.measureFun` | `NumberTheory/Padics/UnitsDecomposition/Logarithm.lean`, `NumberTheory/Padics/WeightSpace.lean`, `NumberTheory/Padics/Measure/{ExtendCoefficients/Basic,CompletedGroupAlgebra,CharacterIntegral,Units/WeightIntegral}.lean` |
-
-### Roadmaps
-
-- [AdicSpaces](../../Completed/AdicSpaces/README.md), Layer 0: Huber and Tate
-  rings and pairs of definition, as `TauCeti.Huber.IsHuberRing`,
-  `TauCeti.Huber.IsTateRing` and `TauCeti.Huber.IsPseudoUniformizer`
-  (`RingTheory/Huber/Basic.lean`), and the topological open mapping theorems
-  of `RingTheory/Huber/OpenMapping.lean`.
-- [RestrictedPowerSeries](../RestrictedPowerSeries/README.md), Layers 0–2 and
-  §7.1 (series on an open disc): restricted carriers, Gauss norms, evaluation,
-  substitution, translation, Hasse derivatives, the field-separation hypothesis
-  and coefficient estimates, for Layers 4–5.
-- [NewtonPolygons](../NewtonPolygons/README.md), Layer 1: the additive
-  normalisation compared with the logarithmic gauge in §0.4.
-- [ProfiniteProPGroups](../../Completed/ProfiniteProPGroups/README.md), Layer 9
-  prerequisites: the completed group algebra and the procyclic coordinate
-  `TauCeti.completedGroupAlgebra.powerSeriesCoordinate`, with the finite-factor
-  coordinate `TauCeti.completedGroupAlgebra.prodPowerSeriesCoordinate`.
-- [LocalFieldsRamification](../../Completed/LocalFieldsRamification/README.md):
-  the local-field exponential and logarithm used in §§4.5 and 5.1.
-
-## How to read the build
-
-Layers 0–2 (ultrametric Banach modules, Tate gauges, operators, model spaces
-and bases) precede the bounded duality of Layer 3 (continuous functions, Mahler
-coordinates and bounded measures); Layer 4 (analytic stages, Amice's theorem
-and locally analytic distributions) consumes RestrictedPowerSeries and Layer 3;
-Layer 5 (weights, universal characters, analytic levels and the annular
-coefficient ring) consumes both. Within the remaining targets, Amice's theorem
-(§4.4) precedes the Mahler criterion, §4.6, §4.7 and §5.4; the completed group
-algebra of `ℤ_pˣ` precedes the adic universal character and the
-Amice-coordinate comparison of §5.3; §5.4 precedes §5.5. Only the last
-corollary of §2.4 uses completed tensors, and it takes them from the pinned
-`TauCeti.Huber.BanachModule.CompletedTensor`. The Amice-coordinate comparison
-of §5.3 uses §3.4, the pinned completed-group-algebra equivalence and
-ProfiniteProPGroups alone.
-
-Each section first lists, under "In the pinned library", the pinned
-declarations that already prove its statements; these are inputs, not targets.
-What follows under "Target" or "Targets" is the remaining work, with `*Needs:*`
-naming the pinned declarations or earlier targets it rests on. Each layer ends
-with its Examples, the Checks of the layer, and its Dependencies. Names
-without a namespace in the target lists (`amiceMap_bijective_and_norm_eq`,
-`isOrthonormalBasis_amiceTerm`, `exists_eval_eq_addChar_iff`, `distributions`,
-`binomialLA`, `amiceTransform_distribution_bijective`,
-`exists_character_of_hasEval`, `eq_aeval_binomialSeries`,
-`amiceTransform_completedGroupAlgebra_compat`, `measurePairing_injective`,
-`exists_eval_eq_weight_iff`, `exists_powerSeries_hasSum_weight_factor`,
-`mem_span_iff_forall_eval_annulus`) are the
-declarations of
-[Suggested.lean](Suggested.lean), stated against the pinned carriers. A Check
-marked as an example in a pinned file is already formalised; the others are
-required.
-
-A target is complete when its definitions use native structures, its
-statements and comparison maps are proved, its stated checks are formalised,
-and its supplier and consumer hypotheses agree. Test zero objects and empty
-indices, non-Noetherian versus Noetherian coefficients, all primes, and the
-strict radius boundaries. Admitted signatures are not completed results.
-Integration must not introduce `sorry`-based instances or silently change the
-topology of an imported object.
 
 ## Layer 0: Ultrametric Banach modules and Tate gauges
 
@@ -1715,6 +1642,79 @@ and [LWX] §§2–3, Lemma 3.15.
   | §5.3, clauses 1 and 3 | §5.3, the completed group algebra of `ℤ_pˣ` and the adic target, with the normed case `TauCeti.WeightSpace.ofCoord` in the pinned library |
   | §5.3, clause 4 | §5.3, the Amice-coordinate comparison |
   | §5.3, clause 5 | §5.3, `TauCeti.measureFun` in the pinned library, with the targets separation by weights and specialisation of measure functions |
+
+## Scope and ownership
+
+| Area | In the pinned library | Targets here | Owned elsewhere |
+| --- | --- | --- | --- |
+| Banach–Tate analysis | Normed Tate data, gauges, norm comparisons, ring-scalar operator norms and mapping theorems (§§0.1–1.2) | Promotion of a gauge to a normed model (§0.4), discretely valued orthogonal bases (§1.3), the finite-module norm bridge (§1.4) | Huber rings, pairs of definition and topological open mapping: [AdicSpaces](../../Completed/AdicSpaces/README.md), Layer 0 |
+| Model spaces | `C₀`, bounded-family extension, bases, (Pr), Serre's theorem, splitting, duality, matrices, finite coordinates, triangular perturbations (§§2.1–2.7) | Coordinate projections of ONable modules (§2.2), the completed-extension corollary (§2.4), the input-first adapter and closed finite submodules (§2.6) | Complete continuity, Fredholm determinants, Riesz theory and spectral transforms belong to CompactOperators |
+| Restricted series | — | Their use as analytic charts and coefficient spaces (Layers 4–5) | Carriers, norms, evaluation, substitution, translation, Hasse derivatives and Strassmann: [RestrictedPowerSeries](../RestrictedPowerSeries/README.md), Layers 0–2 |
+| Valuations | Logarithmic gauge of a pseudo-uniformiser (§0.4) | Comparison with the field normalisation of polygons (§0.4) | Additive normalisations, `ℂ_p` value group and polygons: [NewtonPolygons](../NewtonPolygons/README.md), Layer 1; local-field arithmetic: [LocalFieldsRamification](../../Completed/LocalFieldsRamification/README.md) |
+| Measures | Mahler duality, the integral dual unit ball, `φ,ψ`, coefficient extension, character integration and the measure/completed-group-algebra equivalence (§§3.1–3.4, 5.3) | The Amice-coordinate comparison on `ℤ_p` (§5.3) | General clopen calculus, measure topologies, pseudo-measures and characteristic ideals belong to PadicMeasuresIwasawaAlgebras |
+| Locally analytic functions | Analytic stages, transitions, the algebraic direct limit, polynomial density, Amice polynomials and map, character coefficients and the Amice inequalities (§§4.1–4.7) | Translations (§4.2), Amice's theorem and its consequences (§4.4), exp/log on Banach algebras (§4.5), the stage criterion for characters (§4.6), distributions and the unbounded Amice transform (§4.7) | Locally convex limit topologies, strong duals, manifolds and geometric Mellin theory belong to LocallyAnalyticDistributions |
+| Iwasawa algebra and weights | The decomposition of `ℤ_pˣ`, the weight space, its normed parametrisation and measure functions (§§5.1–5.3) | Algebraic weights (§5.2), `Λ≃ℤ_p[Δ]⟦T⟧` and the adic universal character (§5.3), analytic levels (§5.4) | Completed group algebra and procyclic coordinate: [ProfiniteProPGroups](../../Completed/ProfiniteProPGroups/README.md), Layer 9 prerequisites |
+| Automorphic applications | — | Scalar expansions of `κ(cz+d)` (§5.5) and the annular coefficient ring (§5.6) | Matrix actions, automorphy-factor cocycles, Hecke operators and classicality belong to quaternionic modular-form theory |
+
+Neither a second Tate algebra nor a second completed group algebra is
+constructed here. Compactness, Fredholm theory and automorphic operator actions
+are consumers of this library, not prerequisites for it. General Hahn–Banach
+theory, reflexivity, nuclear spaces, geometric weight spaces and analytic
+Laurent/Robba-ring libraries are outside the scope. The coefficient ring of
+§5.6 is a Banach–Tate example motivated by the boundary-of-weight-space
+calculations in [LWX].
+
+## Exact supplier contracts
+
+### Pinned Mathlib and Tau Ceti
+
+Mathlib supplies ultrametric summability, `C₀`, continuous linear maps and field
+operator norms, normed quotients, finite-dimensional topology, the Mahler
+isometry `PadicInt.mahlerEquiv`, continuous additive characters
+(`PadicInt.addChar_of_value_at_one`, `PadicInt.continuousAddCharEquiv`),
+`AbstractMeasure` with `AbstractMeasure.amiceTransform`,
+`AbstractMeasure.coeff_amiceTransform`, `AbstractMeasure.injective_amiceTransform`,
+the integral equivalence `AbstractMeasure.amiceTransformEquiv` and its
+convolution forms `AbstractMeasure.amiceTransformₐ` and
+`AbstractMeasure.amiceTransformEquivₐ`, power series, binomial coefficients and
+`p`-adic fields. The pinned Tau Ceti files below supply the results cited in
+each section; a section's remaining targets consume exactly these declarations.
+
+| Sections | Pinned Tau Ceti declarations | Files |
+| --- | --- | --- |
+| §0.1 | `HasSum.norm_lt_of_forall_norm_lt`, `HasSum.norm_eq_of_forall_norm_lt`, `TauCeti.summable_bilinear_of_nonarchimedean` | `Analysis/Normed/Group/NullFamily.lean`, `Analysis/Normed/Module/InfiniteSum.lean` |
+| §0.2 | `TauCeti.unitBallIdeal`, `TauCeti.norm_inverse_one_sub`, `TauCeti.unitBallIdeal_le_jacobson_bot`, `TauCeti.NormedRing.norm_units_inv_of_norm_mul` | `Analysis/Normed/Ring/UnitBall.lean`, `Analysis/Normed/Monoid/MulUnit.lean` |
+| §0.3 | `TauCeti.adaptedNorm`, `RingEquiv.exists_pos_norm_le_mul_rpow`, `TauCeti.zpowCeil`, `TauCeti.ResidueModule` | `Analysis/Normed/Module/AdaptedNorm.lean`, `Analysis/Normed/Ring/PowerComparison.lean`, `Analysis/Normed/Group/Rounding.lean`, `Analysis/Normed/Module/Residue.lean` |
+| §0.4 | `TauCeti.NormedRing.IsTate`, `TauCeti.NormedRing.IsTate.isTateRing`, `TauCeti.NormedRing.PseudoUniformizer.logGauge`, `TauCeti.Huber.tateGauge`, `TauCeti.Huber.exists_tateSeminorm` | `Analysis/Normed/Ring/PseudoUniformizer.lean`, `Analysis/Normed/Ring/LogGauge.lean`, `RingTheory/Huber/TateGauge/Basic.lean`, `RingTheory/Huber/TateGauge/UnitBall.lean` |
+| §§1.1–1.2 | `ContinuousLinearMap.ringOpNorm`, `ContinuousLinearMap.le_ringOpNorm`, `ContinuousLinearMap.exists_preimage_norm_le_of_isTate`, `TauCeti.NormedRing.IsTate.banach_steinhaus` | `Analysis/Normed/Operator/RingOpNorm.lean`, `Analysis/Normed/Operator/RingOpNorm/{Banach,OpenMapping,UniformBoundedness}.lean` |
+| §§1.3–1.4 | `TauCeti.exists_basis_isTOrthogonalFamily`, `TauCeti.Huber.IsTateRing.isModuleTopology`, `LinearEquiv.exists_norm_bounds_of_module_finite` | `Analysis/Normed/Module/Bases/CountableType.lean`, `RingTheory/Huber/OpenMapping.lean`, `Analysis/Normed/Module/Finite/Basic.lean` |
+| §§2.1–2.3 | `ZeroAtInftyContinuousMap.linearCombinationEquiv`, `TauCeti.exists_isOrthonormalBasis_iff`, `TauCeti.hasPr_iff_forall_exists_comp_eq_id`, `TauCeti.isONable_iff_free_residueModule` | `Topology/ContinuousMap/ZeroAtInfty/LinearCombination.lean`, `Analysis/Normed/Module/Bases/{Orthonormal,PotentiallyONable,ResidueBasis,DiscreteNorm}.lean` |
+| §2.4 | `TauCeti.exists_isTOrthogonalBasis_of_dense_span`, `TauCeti.exists_continuousLinearEquiv_prod_of_countableType`, `TauCeti.Huber.BanachModule.CompletedTensor` | `Analysis/Normed/Module/Bases/{CountableType,ModelSpace,Splitting}.lean`, `RingTheory/Huber/BanachModule/CompletedTensor.lean` |
+| §§2.5–2.7 | `ZeroAtInftyContinuousMap.toLpInftyDual`, `ContinuousLinearMap.matrixCoeff`, `Submodule.exists_finset_norm_le`, `Matrix.toZeroAtInftySMulLinearIsometryEquiv` | `Topology/ContinuousMap/ZeroAtInfty/{UltrametricDual,Matrix,FiniteCoordinates,Triangular}.lean` |
+| §§3.2–3.3 | `PadicInt.mahlerLinearIsometryEquiv`, `PadicInt.vanDerPutEquiv`, `PadicInt.mahlerToVanDerPut` | `NumberTheory/Padics/MahlerBasis/`, `NumberTheory/Padics/VanDerPut/` |
+| §3.4 | `AbstractMeasure.mahlerMomentsEquiv`, `AbstractMeasure.norm_toCLMEquiv_eq_iSup_coeff`, `AbstractMeasure.existsUnique_integral_iff_norm_le_one`, `AbstractMeasure.existsUnique_psiMeasure` | `NumberTheory/Padics/Measure/{MahlerDuality,IntegralUnitBall,PhiPsi,Multiples,Weight}.lean` |
+| §§4.1–4.7 | `TauCeti.AnalyticStage`, `TauCeti.LocallyAnalytic`, `TauCeti.AnalyticStage.amiceMap`, `TauCeti.tendsto_amiceCharCoeff_iff`, `TauCeti.amiceDualNorm` | `NumberTheory/Padics/Distribution/{AnalyticStage,LocallyAnalytic,Polynomial,Torsion}.lean`, `NumberTheory/Padics/Distribution/Amice/{Basis,Character,Norm}.lean` |
+| §§5.1–5.3 | `TauCeti.padicIntUnitsEquivZModUnitsProd`, `TauCeti.WeightSpace`, `TauCeti.weightSpaceEquiv`, `AbstractMeasure.extendCoefficients`, `AbstractMeasure.completedGroupAlgebraEquiv`, `TauCeti.measureFun` | `NumberTheory/Padics/UnitsDecomposition/Logarithm.lean`, `NumberTheory/Padics/WeightSpace.lean`, `NumberTheory/Padics/Measure/{ExtendCoefficients/Basic,CompletedGroupAlgebra,CharacterIntegral,Units/WeightIntegral}.lean` |
+
+### Roadmaps
+
+- [AdicSpaces](../../Completed/AdicSpaces/README.md), Layer 0: Huber and Tate
+  rings and pairs of definition, as `TauCeti.Huber.IsHuberRing`,
+  `TauCeti.Huber.IsTateRing` and `TauCeti.Huber.IsPseudoUniformizer`
+  (`RingTheory/Huber/Basic.lean`), and the topological open mapping theorems
+  of `RingTheory/Huber/OpenMapping.lean`.
+- [RestrictedPowerSeries](../RestrictedPowerSeries/README.md), Layers 0–2 and
+  §7.1 (series on an open disc): restricted carriers, Gauss norms, evaluation,
+  substitution, translation, Hasse derivatives, the field-separation hypothesis
+  and coefficient estimates, for Layers 4–5.
+- [NewtonPolygons](../NewtonPolygons/README.md), Layer 1: the additive
+  normalisation compared with the logarithmic gauge in §0.4.
+- [ProfiniteProPGroups](../../Completed/ProfiniteProPGroups/README.md), Layer 9
+  prerequisites: the completed group algebra and the procyclic coordinate
+  `TauCeti.completedGroupAlgebra.powerSeriesCoordinate`, with the finite-factor
+  coordinate `TauCeti.completedGroupAlgebra.prodPowerSeriesCoordinate`.
+- [LocalFieldsRamification](../../Completed/LocalFieldsRamification/README.md):
+  the local-field exponential and logarithm used in §§4.5 and 5.1.
 
 ## References
 

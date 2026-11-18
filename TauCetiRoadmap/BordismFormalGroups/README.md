@@ -23,229 +23,6 @@ application (F6.6–F6.7). A chosen complex orientation is data; its formal
 group does not by itself prove a coefficient-ring universality theorem or
 supply an E∞ orientation.
 
-## Scope and ownership
-
-This roadmap owns, by layer: F1, the algebraic theory of p-typical formal
-group laws (Cartier's theorem, the universal p-typical ring V and its
-Hopf algebroid) and the height classification of
-one-dimensional commutative formal groups over separably closed fields,
-built on the pinned Tau Ceti formal-group tree, which F1 consumes by name
-and never plans again; F2, complex and real orientations with their
-formal laws, the mod-p Steenrod algebras and HF_p-based Adams towers
-with the identification of the HF_p-nilpotent completion of a
-bounded-below spectrum with its derived p-completion, the
-unoriented coefficient ring MO_*, Thom's and Quillen's coefficient
-theorems for MO and MU, and the Conner–Floyd and graded Eilenberg–MacLane
-comparisons; F3, the splitting of idempotents of spectra, the
-p-typicalization of MU_(p), Brown–Peterson theories and their
-cooperations, the height-n Honda laws, and the theories BP⟨n⟩, E(n) and
-K(n) with the Adams summands; F4, comodule algebra, the Adams–Novikov
-spectral sequence, the BP-homology Atiyah–Hirzebruch spectral sequence,
-the three-fold Toda brackets of pointed spaces, the higher Toda
-operations and the Ω-spectrum Hopf rings of BP⟨n⟩; F5, invariant prime
-ideals, Landweber exactness and the Lubin–Tate universal deformation
-theorem; F6, homological Bousfield localization, the nilpotence theorem
-with its James-construction proof and the loop comparison ΩBU≃U it
-uses, thick subcategories and periodicity,
-the Bousfield classes of the Johnson–Wilson theories, the smashing
-theorem and the chromatic fracture square, local group actions with
-their Tate comparisons, and the torus Euler cancellation on finite MU
-pieces with its module-extension nullhomotopy application.
-
-It leaves to other roadmaps, which it cites by section where it consumes
-them: GeneralizedCohomology G2–G5 supplies spectral models, derived
-smash/function objects, represented theories, projective/Thom
-orientations, MU and its multiplicative model, connective K spectra and
-generic spectral Postnikov covers, and G2.11's enriched, quasicategorical,
-straightening, monoidal-localization and operadic foundations.
-TopologicalKTheory's Conventions fix the Bott class β=[O(−1)]−1 on
-CP¹=S² that F2 uses for K-theory's multiplicative law, its T1.5 and
-T1.6a supply the complex frame-span bundles and the stable Grassmannian
-BU on which F6.2 proves ΩBU≃U, and its T2.5 supplies the Adams
-operations by which F6.3 detects Adams' v₁ maps.
-AlgebraicTopology supplies ordinary (co)homology with cup products,
-Stage 5.5's Serre spectral sequences, Stage 8.3's Hurewicz theorem,
-Stage 8.7's finite CW type of compact smooth manifolds and Stage
-8.8–8.10's Eilenberg–MacLane models and representability;
-CharacteristicClasses C3 supplies the Stiefel–Whitney classes and the
-mod-2 cohomology of BO(n) and BO. TangentialBordism
-consumes F1–F2's formal laws, Steenrod and Adams carriers and coefficient
-rings; it owns geometric cycles, the Pontryagin–Thom comparison and the
-integral oriented/Spin coefficient calculations, none of which is an
-input here. The ordinary-operation items of TangentialBordism's Layer 4
-and its additive MO splitting are F2 targets, which TangentialBordism
-consumes, one line each:
-
-- TangentialBordism B4.1, the Steenrod squares Sq^i → F2.2, **Steenrod
-  algebras and mod-p Adams towers** (the operations by the extended-power
-  construction; a cup-i model of them is a comparison with these);
-- TangentialBordism B4.2, the Steenrod algebra with its admissible basis
-  and dual, the transgression with Kudo's and Borel's theorems, and
-  HF_p-Adams convergence → F2.2, the same section;
-- TangentialBordism B4.7, the odd-prime operations P^i and β and Borel's
-  theorem for p-simple systems → F2.2, the same section;
-- TangentialBordism B4.4, the additive splitting MO≃⋁_α Σ^(|α|)HF₂ →
-  F2.4, **Unoriented coefficients**.
-
-StringOrientation consumes F3–F5, including F3's Adams-summand splitting
-of ko_(p) for its own space-level splitting of BO⟨d⟩_(p), and owns the
-Hovey specialization to MString and its geometric Cayley-plane kernel.
-EllipticCohomology owns elliptic realization, descent and tmf; it
-consumes formal-group exactness and deformation theory here, and the
-Bauer bracket forms of F4 are its applications, not generic definitions.
-EllipticCurves owns the elliptic logarithm and exponential instances of
-the pinned generic formal-group API; ModularCurves consumes F1's height
-classification. Nothing geometric (manifolds, cycles, transversality) is
-constructed here.
-
-The generic enriched, quasicategorical and monoidal foundations that F6.5
-applies to Borel actions are GeneralizedCohomology G2.11's (its item 11).
-Identifiers of F6.5 that other roadmaps cite for them, with their owner,
-one line each:
-
-- F6.5, **Categorical model and functor spaces** → GeneralizedCohomology
-  G2.11, the same heading;
-- F6.5, **Enriched diagram foundations before straightening** →
-  GeneralizedCohomology G2.11, the same heading;
-- F6.5, **Unmarked straightening and the categorical model** →
-  GeneralizedCohomology G2.11, the same heading;
-- F6.5, **Marked fibrations and Kan extensions** → GeneralizedCohomology
-  G2.11, the same heading;
-- F6.5, **Coherent model diagrams and stable enhancements**, with the
-  homotopy (co)limit comparison, coherent and absolute Kan extensions and
-  adjunctions, relative and Dwyer–Kan localization, Cat∞ colimits and
-  descent → GeneralizedCohomology G2.11, the same heading;
-- F6.5's monoidal/fibration sub-lane (finite pointed sets, coCartesian
-  Segal fibrations, operads, the two-coloured associative algebra/module
-  operad with its rectification, unit-adjoined monoidal localization,
-  relative adjunctions and the universal exact lax-monoidal approximation,
-  the lax-refinement categories A and B) → GeneralizedCohomology G2.11,
-  under **Coherent model diagrams and stable enhancements**;
-- F6.5's quotient/Ind sub-lane (stable quotients, space-valued Ind_κ,
-  monoidal Ind and Day convolution) → GeneralizedCohomology G2.11, under
-  **Coherent model diagrams and stable enhancements**.
-
-F6.5, **Local group actions and completion comparisons**, owns the
-application of these foundations to Borel actions: the induced-object
-ideal, the lax symmetric monoidal Tate functor, norms, transfers and Tate
-vanishing.
-
-## Conventions
-
-Formal groups are Mathlib's `FormalGroup R`, one-dimensional over a
-commutative ring R, with `FormalGroup.IsComm` where commutativity is a
-hypothesis; homomorphisms, isomorphisms and strict isomorphisms are Tau
-Ceti's bundled ones. Ravenel's formal group laws are commutative by
-definition (Definition A2.1.1(ii), p. 352), so a statement taken from his
-Appendix 2 is read with `FormalGroup.IsComm` on every law it mentions. A
-prime p is fixed within each layer that mentions
-it, and p=2 is treated by its own constructions wherever the odd-prime
-argument divides by two. Spectra, smash products and function spectra are
-GeneralizedCohomology G2's model and its homotopy category; a complex
-orientation of a ring spectrum is data, a chosen class in cohomological
-degree 2 restricting to the unit on CP¹. Gk and Gk.n denote
-GeneralizedCohomology's layer Gk and its item n; Fk and Fk.n denote this
-roadmap's layers and sections.
-
-Use homological grading: |v_i|=2(p^i−1), |b_i|=2i and a complex
-orientation in cohomological degree 2. A formal-group coefficient a_ij has
-homological degree 2(i+j−1). For graded coefficients, retain the direct-sum
-graded ring and the homogeneous-degree equations; do not replace a
-completed projective-space cohomology ring by a direct sum. Formal-group
-coordinates, p-typical generators and strict coordinate changes are specified
-choices, with explicit comparison maps between choices.
-
-## Exact supplier contracts
-
-- **From Mathlib:** `FormalGroup R`, `FormalGroup.IsComm`,
-  `FormalGroup.Point`, `FormalGroup.map`, `FormalGroup.𝔾ₐ` and
-  `FormalGroup.𝔾ₘ` (`Mathlib/RingTheory/FormalGroup/Basic.lean`), and
-  `MvPowerSeries (Fin 2) R` with the existing substitution and coefficient
-  APIs; `IsSepClosed` and `CharP` for the field hypotheses of F1's
-  classification. A `FormalGroup R` is one-dimensional and carries no
-  commutativity: `IsComm` is a separate class. For F5's Lubin–Tate
-  theorem: `MvPowerSeries (Fin (h - 1)) R` with
-  `MvPowerSeries.constantCoeff` and `MvPowerSeries.X`, `PowerSeries.map`,
-  `IsLocalRing` with `IsLocalRing.maximalIdeal`, `IsNoetherianRing`,
-  `IsAdicComplete` (`Mathlib/RingTheory/AdicCompletion/Basic.lean`, which
-  includes Hausdorffness: it extends `IsHausdorff` and `IsPrecomplete`),
-  and Witt vectors `WittVector` with the residue map
-  `WittVector.constantCoeff` (`Mathlib/RingTheory/WittVector/Basic.lean`)
-  for the standard coefficient ring. For F5's invariant prime ideals:
-  `Ideal.IsHomogeneous` for a `GradedRing`
-  (`Mathlib/RingTheory/GradedAlgebra/Homogeneous/Ideal.lean`), `Ideal.map`,
-  `Ideal.IsPrime` and `MvPolynomial.C`.
-- **From Tau Ceti:** the formal-group tree `TauCeti.RingTheory.FormalGroup`:
-  the bundled homomorphisms `TauCeti.FormalGroupHom` and isomorphisms
-  `TauCeti.FormalGroupIso` (strict ones through
-  `TauCeti.FormalGroupIso.IsStrict`, module `Hom`), the inverse series
-  `FormalGroup.addInvX` (module `AddInv`), the n-series
-  `FormalGroup.nsmulSeries` (module `NSMul.Basic`), the topologically
-  nilpotent point carrier `FormalGroup.TopNilpotentPoint` (module
-  `TopNilpotentPoint.Basic`), coordinate changes `TauCeti.FormalCoordinate`
-  (module `CoordinateChange.Basic`), the Lazard ring `TauCeti.LazardRing`
-  (modules `LazardRing.Basic`, `LazardRing.Polynomial`,
-  `LazardRing.Indecomposable`), the symmetric cocycle lemma (module
-  `SymmetricCocycle.Classification`), the invariant differential,
-  logarithm and exponential (modules `Logarithm.Basic`,
-  `Logarithm.Naturality`, `Logarithm.InfiniteHeight`), the exponent-two
-  logarithm and its universal ring (modules `ExponentTwo.Basic`,
-  `ExponentTwo.Iso`, `ExponentTwo.Universal`), the height
-  `FormalGroup.height` and height ideals `FormalGroup.heightIdeal`
-  (modules `Height.Basic`, `Height.Ideal`), the Frobenius factorization
-  (module `Frobenius.Factorization`) and the obstruction and
-  leading-difference lemmas (modules `Obstruction`, `LeadingDifference`).
-  For F5: the invariance of the height ideals of the Lazard ring,
-  `TauCeti.LazardRing.map_rightUnit_heightIdeal` (module
-  `CoordinateChange.HopfAlgebroid`), their presentation
-  `FormalGroup.heightIdeal_eq_span` (module `Height.Ideal`), and Lubin–Tate
-  rigidity `TauCeti.FormalGroupIso.eq_of_map_residue_eq` (module
-  `Rigidity`): over a local ring Hausdorff for its maximal ideal, with
-  residue field of characteristic p, two isomorphisms between commutative
-  formal groups with the same reduction are equal when the reduction of
-  the source has finite height.
-  F1 names each consumed declaration where it is used; the height is
-  defined over a field, and the classification's separable closure is a
-  hypothesis of this roadmap's target, not of the library's height.
-- **From TauCetiRoadmap.GeneralizedCohomology:** G2–G5 and G2.11 as
-  described under Scope and ownership: G2's spectral model and cofiber
-  sequences, G2.7's mod-p Eilenberg–MacLane spectrum, G3.2's presentation
-  of a spectrum by its levels with the Milnor sequence of their
-  restriction tower, G3.3's arbitrary-CW comparison, G3.4's telescopes
-  with the Milnor sequence of the cohomology of a telescope, G3.8's
-  homotopy limits with their homotopy Milnor sequence and connective
-  covers, G3.9's derived p-completion, G4's projective-bundle comparison and G4.3's Thom
-  isomorphism, G5.3–G5.5 and G5.7's Thom models, Thom product, finite
-  duality, module families and extension classification. G3 owns integer
-  spectral localization and derived p-completion; it supplies no chromatic
-  localization or smashing theorem.
-- **From TauCetiRoadmap.AlgebraicTopology:** ordinary (co)homology with
-  cup products, Stage 5.5's cohomological Serre spectral sequence of a
-  fibration, Stage 8.3's Hurewicz theorem, Stage 8.7's finite CW type of
-  compact smooth manifolds (F6.6's finite CW models), Stage 8.8's bar/CW
-  models, Stage 8.8c's functorial abelian Eilenberg–MacLane models K(A,n)
-  and Stage 8.10's universal classes and representability of
-  Eilenberg–MacLane spaces.
-- **From TauCetiRoadmap.CharacteristicClasses:** C3's Stiefel–Whitney
-  classes, the Whitney formula and `H^*(BO(n);𝔽₂)=𝔽₂[w₁,…,w_n]`.
-- **From TauCetiRoadmap.TopologicalKTheory:** the Conventions' Bott class
-  β=[O(−1)]−1 on CP¹=S²; T1.5's orthonormal frame-span maps
-  V_n(ℂ^N)→Gr_n(ℂ^N) as principal U(n)-bundles and T1.6a's stable complex
-  Grassmannian BU, for F6.2's loop comparison ΩBU≃U; and T2.5's Adams
-  operations ψ^k, k≥1, with
-  ψ^kβ_n=k^nβ_n on the Bott classes of the spheres S^(2n), for F6.3's
-  detection of Adams' v₁ maps.
-- **From TauCetiRoadmap.ProfiniteCohomology:** the continuous-cohomology
-  carrier and the closed-subgroup and cohomological-dimension tools that
-  F6.4's Morava stabilizer computation consumes.
-- **From TauCetiRoadmap.RepresentationTheory:** SchurWeyl Layers 0, 2 and 5
-  (Young diagrams, Young symmetrizers and the hook formula) for F6.3's
-  Smith idempotents; CompactGroups Layers 1–2 (unitarizability, complete
-  reducibility and the circle Fourier-series engine) for F6.6's torus
-  characters.
-- **From TauCetiRoadmap.DGAInfinity:** Layer 8's matric and higher Massey
-  defining systems, consumed by F4's higher Toda operations.
-
 ## How to read the build
 
 F1 precedes F2, and no section of F1 uses a later layer: F1.5 contains
@@ -313,6 +90,31 @@ SymplecticGeometry/ConvexityToric T2, **Morse–Bott and moment-map topology**,
 instantiates F6.7 on its own geometric cofiber/diagonal data for the
 full integral MU-module finite moment filtration. The Euler proof uses the
 generic coefficient constructions and the stated module-family/duality inputs.
+
+## Conventions
+
+Formal groups are Mathlib's `FormalGroup R`, one-dimensional over a
+commutative ring R, with `FormalGroup.IsComm` where commutativity is a
+hypothesis; homomorphisms, isomorphisms and strict isomorphisms are Tau
+Ceti's bundled ones. Ravenel's formal group laws are commutative by
+definition (Definition A2.1.1(ii), p. 352), so a statement taken from his
+Appendix 2 is read with `FormalGroup.IsComm` on every law it mentions. A
+prime p is fixed within each layer that mentions
+it, and p=2 is treated by its own constructions wherever the odd-prime
+argument divides by two. Spectra, smash products and function spectra are
+GeneralizedCohomology G2's model and its homotopy category; a complex
+orientation of a ring spectrum is data, a chosen class in cohomological
+degree 2 restricting to the unit on CP¹. Gk and Gk.n denote
+GeneralizedCohomology's layer Gk and its item n; Fk and Fk.n denote this
+roadmap's layers and sections.
+
+Use homological grading: |v_i|=2(p^i−1), |b_i|=2i and a complex
+orientation in cohomological degree 2. A formal-group coefficient a_ij has
+homological degree 2(i+j−1). For graded coefficients, retain the direct-sum
+graded ring and the homogeneous-degree equations; do not replace a
+completed projective-space cohomology ring by a direct sum. Formal-group
+coordinates, p-typical generators and strict coordinate changes are specified
+choices, with explicit comparison maps between choices.
 
 ## Layer 1: F1. Formal-group algebra and universality
 
@@ -3880,6 +3682,204 @@ ModularCurves consumes F1's height classification. EllipticCurves
 instantiates the pinned logarithm and exponential on elliptic formal
 groups. SymplecticGeometry/ConvexityToric T2 instantiates F6.7's
 module-extension nullhomotopy on its moment-map stratification.
+
+## Scope and ownership
+
+This roadmap owns, by layer: F1, the algebraic theory of p-typical formal
+group laws (Cartier's theorem, the universal p-typical ring V and its
+Hopf algebroid) and the height classification of
+one-dimensional commutative formal groups over separably closed fields,
+built on the pinned Tau Ceti formal-group tree, which F1 consumes by name
+and never plans again; F2, complex and real orientations with their
+formal laws, the mod-p Steenrod algebras and HF_p-based Adams towers
+with the identification of the HF_p-nilpotent completion of a
+bounded-below spectrum with its derived p-completion, the
+unoriented coefficient ring MO_*, Thom's and Quillen's coefficient
+theorems for MO and MU, and the Conner–Floyd and graded Eilenberg–MacLane
+comparisons; F3, the splitting of idempotents of spectra, the
+p-typicalization of MU_(p), Brown–Peterson theories and their
+cooperations, the height-n Honda laws, and the theories BP⟨n⟩, E(n) and
+K(n) with the Adams summands; F4, comodule algebra, the Adams–Novikov
+spectral sequence, the BP-homology Atiyah–Hirzebruch spectral sequence,
+the three-fold Toda brackets of pointed spaces, the higher Toda
+operations and the Ω-spectrum Hopf rings of BP⟨n⟩; F5, invariant prime
+ideals, Landweber exactness and the Lubin–Tate universal deformation
+theorem; F6, homological Bousfield localization, the nilpotence theorem
+with its James-construction proof and the loop comparison ΩBU≃U it
+uses, thick subcategories and periodicity,
+the Bousfield classes of the Johnson–Wilson theories, the smashing
+theorem and the chromatic fracture square, local group actions with
+their Tate comparisons, and the torus Euler cancellation on finite MU
+pieces with its module-extension nullhomotopy application.
+
+It leaves to other roadmaps, which it cites by section where it consumes
+them: GeneralizedCohomology G2–G5 supplies spectral models, derived
+smash/function objects, represented theories, projective/Thom
+orientations, MU and its multiplicative model, connective K spectra and
+generic spectral Postnikov covers, and G2.11's enriched, quasicategorical,
+straightening, monoidal-localization and operadic foundations.
+TopologicalKTheory's Conventions fix the Bott class β=[O(−1)]−1 on
+CP¹=S² that F2 uses for K-theory's multiplicative law, its T1.5 and
+T1.6a supply the complex frame-span bundles and the stable Grassmannian
+BU on which F6.2 proves ΩBU≃U, and its T2.5 supplies the Adams
+operations by which F6.3 detects Adams' v₁ maps.
+AlgebraicTopology supplies ordinary (co)homology with cup products,
+Stage 5.5's Serre spectral sequences, Stage 8.3's Hurewicz theorem,
+Stage 8.7's finite CW type of compact smooth manifolds and Stage
+8.8–8.10's Eilenberg–MacLane models and representability;
+CharacteristicClasses C3 supplies the Stiefel–Whitney classes and the
+mod-2 cohomology of BO(n) and BO. TangentialBordism
+consumes F1–F2's formal laws, Steenrod and Adams carriers and coefficient
+rings; it owns geometric cycles, the Pontryagin–Thom comparison and the
+integral oriented/Spin coefficient calculations, none of which is an
+input here. The ordinary-operation items of TangentialBordism's Layer 4
+and its additive MO splitting are F2 targets, which TangentialBordism
+consumes, one line each:
+
+- TangentialBordism B4.1, the Steenrod squares Sq^i → F2.2, **Steenrod
+  algebras and mod-p Adams towers** (the operations by the extended-power
+  construction; a cup-i model of them is a comparison with these);
+- TangentialBordism B4.2, the Steenrod algebra with its admissible basis
+  and dual, the transgression with Kudo's and Borel's theorems, and
+  HF_p-Adams convergence → F2.2, the same section;
+- TangentialBordism B4.7, the odd-prime operations P^i and β and Borel's
+  theorem for p-simple systems → F2.2, the same section;
+- TangentialBordism B4.4, the additive splitting MO≃⋁_α Σ^(|α|)HF₂ →
+  F2.4, **Unoriented coefficients**.
+
+StringOrientation consumes F3–F5, including F3's Adams-summand splitting
+of ko_(p) for its own space-level splitting of BO⟨d⟩_(p), and owns the
+Hovey specialization to MString and its geometric Cayley-plane kernel.
+EllipticCohomology owns elliptic realization, descent and tmf; it
+consumes formal-group exactness and deformation theory here, and the
+Bauer bracket forms of F4 are its applications, not generic definitions.
+EllipticCurves owns the elliptic logarithm and exponential instances of
+the pinned generic formal-group API; ModularCurves consumes F1's height
+classification. Nothing geometric (manifolds, cycles, transversality) is
+constructed here.
+
+The generic enriched, quasicategorical and monoidal foundations that F6.5
+applies to Borel actions are GeneralizedCohomology G2.11's (its item 11).
+Identifiers of F6.5 that other roadmaps cite for them, with their owner,
+one line each:
+
+- F6.5, **Categorical model and functor spaces** → GeneralizedCohomology
+  G2.11, the same heading;
+- F6.5, **Enriched diagram foundations before straightening** →
+  GeneralizedCohomology G2.11, the same heading;
+- F6.5, **Unmarked straightening and the categorical model** →
+  GeneralizedCohomology G2.11, the same heading;
+- F6.5, **Marked fibrations and Kan extensions** → GeneralizedCohomology
+  G2.11, the same heading;
+- F6.5, **Coherent model diagrams and stable enhancements**, with the
+  homotopy (co)limit comparison, coherent and absolute Kan extensions and
+  adjunctions, relative and Dwyer–Kan localization, Cat∞ colimits and
+  descent → GeneralizedCohomology G2.11, the same heading;
+- F6.5's monoidal/fibration sub-lane (finite pointed sets, coCartesian
+  Segal fibrations, operads, the two-coloured associative algebra/module
+  operad with its rectification, unit-adjoined monoidal localization,
+  relative adjunctions and the universal exact lax-monoidal approximation,
+  the lax-refinement categories A and B) → GeneralizedCohomology G2.11,
+  under **Coherent model diagrams and stable enhancements**;
+- F6.5's quotient/Ind sub-lane (stable quotients, space-valued Ind_κ,
+  monoidal Ind and Day convolution) → GeneralizedCohomology G2.11, under
+  **Coherent model diagrams and stable enhancements**.
+
+F6.5, **Local group actions and completion comparisons**, owns the
+application of these foundations to Borel actions: the induced-object
+ideal, the lax symmetric monoidal Tate functor, norms, transfers and Tate
+vanishing.
+
+## Exact supplier contracts
+
+- **From Mathlib:** `FormalGroup R`, `FormalGroup.IsComm`,
+  `FormalGroup.Point`, `FormalGroup.map`, `FormalGroup.𝔾ₐ` and
+  `FormalGroup.𝔾ₘ` (`Mathlib/RingTheory/FormalGroup/Basic.lean`), and
+  `MvPowerSeries (Fin 2) R` with the existing substitution and coefficient
+  APIs; `IsSepClosed` and `CharP` for the field hypotheses of F1's
+  classification. A `FormalGroup R` is one-dimensional and carries no
+  commutativity: `IsComm` is a separate class. For F5's Lubin–Tate
+  theorem: `MvPowerSeries (Fin (h - 1)) R` with
+  `MvPowerSeries.constantCoeff` and `MvPowerSeries.X`, `PowerSeries.map`,
+  `IsLocalRing` with `IsLocalRing.maximalIdeal`, `IsNoetherianRing`,
+  `IsAdicComplete` (`Mathlib/RingTheory/AdicCompletion/Basic.lean`, which
+  includes Hausdorffness: it extends `IsHausdorff` and `IsPrecomplete`),
+  and Witt vectors `WittVector` with the residue map
+  `WittVector.constantCoeff` (`Mathlib/RingTheory/WittVector/Basic.lean`)
+  for the standard coefficient ring. For F5's invariant prime ideals:
+  `Ideal.IsHomogeneous` for a `GradedRing`
+  (`Mathlib/RingTheory/GradedAlgebra/Homogeneous/Ideal.lean`), `Ideal.map`,
+  `Ideal.IsPrime` and `MvPolynomial.C`.
+- **From Tau Ceti:** the formal-group tree `TauCeti.RingTheory.FormalGroup`:
+  the bundled homomorphisms `TauCeti.FormalGroupHom` and isomorphisms
+  `TauCeti.FormalGroupIso` (strict ones through
+  `TauCeti.FormalGroupIso.IsStrict`, module `Hom`), the inverse series
+  `FormalGroup.addInvX` (module `AddInv`), the n-series
+  `FormalGroup.nsmulSeries` (module `NSMul.Basic`), the topologically
+  nilpotent point carrier `FormalGroup.TopNilpotentPoint` (module
+  `TopNilpotentPoint.Basic`), coordinate changes `TauCeti.FormalCoordinate`
+  (module `CoordinateChange.Basic`), the Lazard ring `TauCeti.LazardRing`
+  (modules `LazardRing.Basic`, `LazardRing.Polynomial`,
+  `LazardRing.Indecomposable`), the symmetric cocycle lemma (module
+  `SymmetricCocycle.Classification`), the invariant differential,
+  logarithm and exponential (modules `Logarithm.Basic`,
+  `Logarithm.Naturality`, `Logarithm.InfiniteHeight`), the exponent-two
+  logarithm and its universal ring (modules `ExponentTwo.Basic`,
+  `ExponentTwo.Iso`, `ExponentTwo.Universal`), the height
+  `FormalGroup.height` and height ideals `FormalGroup.heightIdeal`
+  (modules `Height.Basic`, `Height.Ideal`), the Frobenius factorization
+  (module `Frobenius.Factorization`) and the obstruction and
+  leading-difference lemmas (modules `Obstruction`, `LeadingDifference`).
+  For F5: the invariance of the height ideals of the Lazard ring,
+  `TauCeti.LazardRing.map_rightUnit_heightIdeal` (module
+  `CoordinateChange.HopfAlgebroid`), their presentation
+  `FormalGroup.heightIdeal_eq_span` (module `Height.Ideal`), and Lubin–Tate
+  rigidity `TauCeti.FormalGroupIso.eq_of_map_residue_eq` (module
+  `Rigidity`): over a local ring Hausdorff for its maximal ideal, with
+  residue field of characteristic p, two isomorphisms between commutative
+  formal groups with the same reduction are equal when the reduction of
+  the source has finite height.
+  F1 names each consumed declaration where it is used; the height is
+  defined over a field, and the classification's separable closure is a
+  hypothesis of this roadmap's target, not of the library's height.
+- **From TauCetiRoadmap.GeneralizedCohomology:** G2–G5 and G2.11 as
+  described under Scope and ownership: G2's spectral model and cofiber
+  sequences, G2.7's mod-p Eilenberg–MacLane spectrum, G3.2's presentation
+  of a spectrum by its levels with the Milnor sequence of their
+  restriction tower, G3.3's arbitrary-CW comparison, G3.4's telescopes
+  with the Milnor sequence of the cohomology of a telescope, G3.8's
+  homotopy limits with their homotopy Milnor sequence and connective
+  covers, G3.9's derived p-completion, G4's projective-bundle comparison and G4.3's Thom
+  isomorphism, G5.3–G5.5 and G5.7's Thom models, Thom product, finite
+  duality, module families and extension classification. G3 owns integer
+  spectral localization and derived p-completion; it supplies no chromatic
+  localization or smashing theorem.
+- **From TauCetiRoadmap.AlgebraicTopology:** ordinary (co)homology with
+  cup products, Stage 5.5's cohomological Serre spectral sequence of a
+  fibration, Stage 8.3's Hurewicz theorem, Stage 8.7's finite CW type of
+  compact smooth manifolds (F6.6's finite CW models), Stage 8.8's bar/CW
+  models, Stage 8.8c's functorial abelian Eilenberg–MacLane models K(A,n)
+  and Stage 8.10's universal classes and representability of
+  Eilenberg–MacLane spaces.
+- **From TauCetiRoadmap.CharacteristicClasses:** C3's Stiefel–Whitney
+  classes, the Whitney formula and `H^*(BO(n);𝔽₂)=𝔽₂[w₁,…,w_n]`.
+- **From TauCetiRoadmap.TopologicalKTheory:** the Conventions' Bott class
+  β=[O(−1)]−1 on CP¹=S²; T1.5's orthonormal frame-span maps
+  V_n(ℂ^N)→Gr_n(ℂ^N) as principal U(n)-bundles and T1.6a's stable complex
+  Grassmannian BU, for F6.2's loop comparison ΩBU≃U; and T2.5's Adams
+  operations ψ^k, k≥1, with
+  ψ^kβ_n=k^nβ_n on the Bott classes of the spheres S^(2n), for F6.3's
+  detection of Adams' v₁ maps.
+- **From TauCetiRoadmap.ProfiniteCohomology:** the continuous-cohomology
+  carrier and the closed-subgroup and cohomological-dimension tools that
+  F6.4's Morava stabilizer computation consumes.
+- **From TauCetiRoadmap.RepresentationTheory:** SchurWeyl Layers 0, 2 and 5
+  (Young diagrams, Young symmetrizers and the hook formula) for F6.3's
+  Smith idempotents; CompactGroups Layers 1–2 (unitarizability, complete
+  reducibility and the circle Fourier-series engine) for F6.6's torus
+  characters.
+- **From TauCetiRoadmap.DGAInfinity:** Layer 8's matric and higher Massey
+  defining systems, consumed by F4's higher Toda operations.
 
 ## References
 

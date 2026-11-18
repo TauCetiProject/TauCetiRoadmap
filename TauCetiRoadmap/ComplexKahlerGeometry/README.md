@@ -32,111 +32,28 @@ of the same file make them statable. Every construction is a reusable theory wit
 gluing, functoriality and transport laws, not only a statement of Hodge decomposition or of the
 Kähler identities.
 
-## Scope and ownership
+## How to read the build
 
-This roadmap owns, by layer:
-
-- **Layer 1 (K1):** the one-variable holomorphy criterion, the manifold transport, composition and
-  inverse laws of the holomorphic inverse and implicit function theorems around the pinned joint
-  implicit map, holomorphic submanifolds with their tangent and normal sequences in every
-  codimension, the eigenbundles of the complexified tangent bundle as smooth subbundles, the
-  `N′=N/4` evaluation formulas, and the Newlander–Nirenberg theorem.
-- **Layer 2 (K2):** the joint parameter-dependent one-variable `∂̄` solver with the parameter form
-  of the finite-rank Runge operator it uses, Taylor and Laurent approximation on product domains,
-  the whole-polydisc
-  Dolbeault–Grothendieck lemma, Dolbeault cohomology with its functoriality and products, the
-  sheaves Ω^p, the Čech/derived comparison on paracompact manifolds and the scalar and
-  bundle-valued Dolbeault theorems.
-- **Layer 3 (K3):** the chart transports of the pinned several-variable calculus and realified
-  atlas (K3.0), the convergent power-series comparison of the pinned holomorphic stalk, Weierstrass
-  preparation and division, the Laurent-coefficient comparison on the pinned meromorphic germ
-  field, Noetherianity, regularity, Krull dimension and factoriality of the local rings, local
-  parametrization, Rückert's Nullstellensatz, Oka and Cartan coherence in primitive local form,
-  reduced analytic subsets with their regular and singular loci and the finite regular-piece
-  partition, and the Riemann and Hartogs extension theorems.
-- **Layer 4 (K4):** holomorphic sections and the section/reconstruction equivalence, Chern
-  connections, Koszul–Malgrange, holomorphic connections and local systems, the componentwise
-  finite-rank assembly, and (K4.P) the unit sheaf, `Pic_hol`, the holomorphic exponential
-  sequence, the conditional `c₁` isomorphism and the smooth/continuous line comparison F_M on every
-  complex manifold.
-- **Layer 5 (K5):** on real manifolds (K5a), the orientation line, densities, bundle tests and
-  distributions, distribution local structure, the Fréchet section topology with its Montel
-  property, the compact-bundle Sobolev scale, complex-coefficient integration and de Rham
-  cohomology with the vanishing of `H²_dR(Ω;ℂ)` on plane domains, Laplace-type regularity and
-  spectral theory, the real
-  Hodge theorem and the componentwise compact adapter; on complex manifolds (K5b), the local
-  Hermitian identities, Dolbeault Hodge theory and Serre duality.
-- **Layer 6 (K6):** Kähler metrics and normal coordinates, the pointwise Lefschetz algebra, the
-  Kähler and Akizuki–Nakano identities on Kähler manifolds with the Nakano bound, the planar star,
-  codifferential and Laplacian, the `∂∂̄`-lemma, Hodge decomposition and symmetry, Hard Lefschetz,
-  the Hodge–Riemann relations and polarizations, and integration over compact analytic cycles with
-  their real and integral classes.
-- **Layer 7 (K7):** the comparison of the two models of ℂPⁿ, the transport of the pinned CW
-  structure, the tautological bundles and Fubini–Study form, projective cohomology and the cup
-  ring, the incidence blowup, the rational quartic, the Hodge numbers of complex tori, compact
-  Riemann surfaces with their integral dictionary, the lattice-character lines on an elliptic
-  curve and the primary Hopf surface.
-- **Layer 8 (K8):** the Frölicher spectral sequence, nilpotent central reduction, the nilmanifold
-  de Rham and Dolbeault comparisons and the Iwasawa manifold.
-
-It leaves to named roadmaps and to the pins:
-
-- ComplexManifolds: real restriction, atlas transport and the canonical complex orientation with
-  its compatibility laws in DifferentialGeometry's orientation carrier (Milestones 1–2), the
-  Riemann-sphere atlas on `OnePoint ℂ` consumed by K7.1 (Milestone 3), discrete holomorphic
-  quotients, open gluing and their topology (Milestones 4–6), and the holomorphic-transition mixin,
-  bundle cocycle gluing and operations on native vector bundles (Milestone 7). ComplexTori: the
-  maps of tori induced by linear maps and the universal-cover and homology identifications
-  (Milestone 1, items 3–4); the quotient manifold, the Lie group structure and the compactness of a
-  complex torus (its items 1–2) are pinned in Tau Ceti.
-- DifferentialGeometry: generic smooth forms, the exterior derivative, pullback, wedge,
-  orientations, densities, integration, Stokes and the real de Rham comparison; its chain
-  integration and Stokes allow complete vector-valued coefficients, and its de Rham comparison is
-  stated over ℝ. DeRhamCohomologyAndDuality: the relative smooth chain comparison (§2.4), the
-  relative de Rham complex of an open pair, relative integration and the relative de Rham
-  isomorphism (§§3.1–3.3), and the integration comparison with fundamental classes (§4.1), which
-  K6.1 consumes in their boundaryless instances.
-- GlobalHolomorphicFunctions: the finite-rank Runge operator on plane domains (Layer 2.5), which
-  K2 applies with parameters; the global scalar `∂̄` solver on every open subset of ℂ (Layer 7.1),
-  the parameter-free case of K2's joint solver; and the exactness of smooth complex-valued
-  two-forms on open subsets of ℂ (Layer 7.2), from which K5a deduces the vanishing of its complex
-  `H²_dR`.
-- SmoothBundlesConnections: real smooth bundles with complex structure, tensor, dual, Hom and
-  complexification, Hermitian fibre metrics and square-integrable sections, connections,
-  curvature, parallel transport and their principal-bundle comparisons; its B6.1 owns the manifold
-  good-cover/sheaf/singular comparison, B6.2 the circle-bundle classification by `H²(M;ℤ)`,
-  which B2's associated-bundle comparison turns into the smooth complex-line classification
-  consumed in K4.P, and B6.3 the rank-one Chern–Weil comparison of the real first Chern class
-  with the curvature class, consumed in K4.P and in 7.3's comparison of the hyperplane class with
-  `[ω_FS]`.
-- PDE: scalar real-domain Sobolev, Hölder, embedding, Rellich and elliptic estimates, not system
-  estimates. PseudodifferentialOperators P1.0: differential-operator carriers, jets, symbols and
-  formal density adjoints, after K5a's initial density-line construction and before its analytic
-  scale; the pseudodifferential calculus and its Peetre theorem consume K5a's analysis, whose
-  analytic operator layer consumes only P1.0.
-- AlgebraicTopology: singular homology and cohomology with products, CW structures and the
-  cellular comparison, homological orientations, Poincaré duality, the intersection pairing and
-  the regrading of a decreasing filtration for the filtered-complex spectral sequence.
-  GeometricTopology Layer 11: simplicial complexes and their star/link API. RealAnalyticGeometry
-  R0–R5: semianalytic sets and the compatible analytic triangulation; it owns the native coherent
-  `SheafOfModules` predicate and the Stein theory, and consumes K1–K4, K5a's local estimates,
-  K5b.0 and K6.0.
-- RealAlgebraicGeometry Layer 7: analytic inversion and local real-germ complexification.
-  ContourIntegration: residues and the argument principle. HopfRinow Layer 1: the Levi-Civita
-  connection. StableReduction Layer 4: the Rees algebra of a blowup. LieGroupoidsPoisson G1.3: the
-  Chevalley–Eilenberg complex. HodgeStructures: linear Hodge structures, the target of K6.1's
-  comparison, not a proof of analytic Hodge theory.
-- Owned elsewhere and not consumed: scheme analytification and the algebraic-to-holomorphic
-  comparison (ComplexComparisonPartII C−1.1, C0.4 and C5.1–C5.2), the general elementary-divisor
-  normal form (AbelianSchemesAndArithmeticModuli A5.4, whose unimodular case K7 owns), the
-  point-supported analytic-functional interpretation and factorial-square comparison
-  (Hyperfunctions HF5), and the theta sections of positive torus line bundles with their
-  quantization (GeometricQuantization). TopologicalKTheory is a consumer, not a supplier: K4.P's
-  rank-one smooth/continuous comparison through the two exponential sequences differs from its
-  arbitrary-rank smoothing of continuous bundles by partitions and matrix models.
-- Not in this roadmap: general isolated essential singularities and global Mittag–Leffler
-  constructions, and the forms of the Kähler and Bochner–Kodaira–Nakano identities with the
-  torsion operator of a non-Kähler Hermitian metric.
+Layer 1 builds the complex-structure calculus on Mathlib's complex manifolds and Tau Ceti's type
+forms and ends with the Newlander–Nirenberg theorem; its orientation part precedes K7.1 and its
+eigenbundles consume SmoothBundlesConnections B2. Layer 2 builds, on GlobalHolomorphicFunctions'
+finite-rank Runge operator, the parameter-dependent one-variable solver, hence the whole-polydisc
+Dolbeault–Grothendieck lemma, Dolbeault cohomology and, after Layer 4's bundles, the bundle-valued Dolbeault theorem.
+Layer 3 (whose several-variable part K3.0 precedes Layer 1) gives the local algebra of holomorphic
+germs and analytic subsets; its singular-locus targets precede RealAnalyticGeometry R1, which in
+turn supplies K3's finite regular-piece partition. Layer 4 builds holomorphic bundles, Chern and
+holomorphic connections and the holomorphic Picard group. Layer 5 is the elliptic theory: K5a on
+real manifolds, whose density line precedes PseudodifferentialOperators P1.0 and whose analytic
+scale consumes P1.0, and K5b's Dolbeault Hodge theory and Serre duality. Layer 6 proves the
+Kähler identities locally and the Hodge, Lefschetz and analytic-cycle theorems on compact Kähler
+manifolds; RealAnalyticGeometry R3 consumes its local part. Layer 7 computes the projective, torus,
+Riemann-surface, elliptic-line and Hopf examples, and Layer 8 the Frölicher spectral sequence and
+the Iwasawa manifold. The labels K1–K8, K3.0, K4.P, K5a, K5b.0, K5b.1, K6.0, K6.1, K7.1 and K7.2
+name the layers and sections in the text and in citing roadmaps, and appear in their headings.
+In the former numbering of the headings, K1 is now Layer 1, K2 is now Layer 2, K3 is now Layer 3,
+K4 is now Layer 4, K5 is now Layer 5, K6 is now Layer 6, K7 is now Layer 7 and K8 is now Layer 8;
+"Conventions and suppliers" is now Conventions and Exact supplier contracts, and "Order and
+references" is now How to read the build and References.
 
 ## Conventions
 
@@ -188,213 +105,6 @@ dual-character line in SmoothBundlesConnections and GeometricQuantization.
 Hodge Laplacians are the nonnegative operators `Δ_d=dd*+d*d` and `Δ_∂̄=∂̄∂̄*+∂̄*∂̄`. On
 functions the real one is the negative of DifferentialGeometry's `div grad`
 Laplace–Beltrami operator. Do not use one sign for both without the comparison theorem.
-
-## Exact supplier contracts
-
-Every pinned declaration below is used with the hypotheses it carries at the pin (finite
-dimension, completeness, boundarylessness, an open domain); the layer that applies it restates
-them.
-
-### From Mathlib
-
-- Complex manifolds and maps: `IsManifold`, `MDifferentiable.exists_eq_const_of_compactSpace`,
-  `MDifferentiable.isLocallyConstant`, `differentiableAt_complex_iff_differentiableAt_real`,
-  `real_linearMap_map_smul_complex`, `ContinuousLinearMap.complexOfReal`,
-  `LinearMap.det_restrictScalars`, `Algebra.norm_complex_eq`, `ContDiffAt.to_localInverse`,
-  `ContDiffAt.implicitFunction` and `ImplicitFunctionData.contDiffAt_implicitFunction` (Layer 1).
-- Sheaves and local algebra: `smoothSheafCommRing`, `ChartedSpace.locallyRingedSpace`,
-  `SheafOfModules`, `Opens.overPullbackSheafEquivOver`, the Ext-based sheaf cohomology,
-  `AnalyticOnNhd.eqOn_of_preconnected_of_eventuallyEq`, `MvPolynomial.mul_esymm_eq_sum`,
-  `PowerSeries.IsWeierstrassFactorization`, `ringKrullDim_le_spanFinrank_maximalIdeal`,
-  `IsFractionRing.algEquiv`, `meromorphicOrderAt_eq_int_iff` and `CommRing.Pic` (Layers 2–4).
-- Analysis: `Complex.norm_deriv_le_of_forall_mem_sphere_norm_le`,
-  `Differentiable.exists_eq_const_of_bounded`, `TestFunction` with
-  `TestFunction.continuous_iff_continuous_comp`, `TemperedDistribution`,
-  `SchwartzMap.fourierMultiplierCLM`, `TemperedDistribution.fourierMultiplierCLM`,
-  `BesselPotentialSpace`, `Complex.HadamardThreeLines.norm_le_interp_of_mem_verticalClosedStrip'`,
-  `MontelSpace`, `ContinuousLinearEquiv.toCompactConvergenceCLM`, `MeasureTheory.Lp`,
-  `InnerProductSpace.laplacian_eq_iteratedFDeriv_complexPlane`,
-  `IsCoveringMap.existsUnique_continuousMap_lifts`, `Complex.isCoveringMap_exp` and
-  `PartitionOfUnity.exists_isSubordinate` (Layers 2, 4, 5 and 7).
-- Topology and homological algebra: `Projectivization.instTopologicalSpace`,
-  `isOpenQuotientMap_mk'`, `Topology.IsOpenQuotientMap.secondCountableTopology`,
-  `OnePoint.equivProjectivization`, `CWComplex` and
-  `CategoryTheory.Abelian.SpectralObject` (Layers 7–8).
-
-### From Tau Ceti
-
-- Complex orientation (`TauCeti.Geometry.Manifold.Complex.Orientation`):
-  `TauCeti.complexManifoldOrientation`, `TauCeti.complexOrientationLift` with
-  `TauCeti.complexOrientationLift_sign`, and
-  `IsLocalDiffeomorphAt.isOrientationPreservingAt_complexManifoldOrientation` (Layer 1).
-- Forms and the almost complex calculus: the complex scalar action and coefficient maps
-  (`TauCeti.SmoothForm.instModule`, `TauCeti.SmoothForm.mapCoeff_conj_smul`), the types and type
-  projections (`TauCeti.SmoothForm.IsOfType`, `SmoothAlmostComplexStructure.typeProjection`), the
-  Nijenhuis tensor `SmoothAlmostComplexStructure.nijenhuis`, the operators
-  `SmoothAlmostComplexStructure.del` and `delBar` with their complex-manifold identities, the
-  eigenbundle criterion `SmoothAlmostComplexStructure.isInvolutiveComplexDistribution_eigenspace_I_iff`,
-  and the structure `SmoothAlmostComplexStructure.ofComplexManifold` with
-  `nijenhuis_ofComplexManifold` (Layers 1–2).
-- Implicit maps: `TauCeti.exists_jointImplicitFunction_of_eventually_differentiableAt`,
-  `TauCeti.exists_jointImplicitFunction_of_eventually_mdifferentiableAt` and
-  `ImplicitFunctionData.analyticAt_implicitFunction` (Layer 1).
-- One-variable analysis: the Cauchy transform (`TauCeti.Analysis.Complex.Pompeiu.Basic`) and its
-  parameter dependence (`TauCeti.Analysis.Complex.Pompeiu.Parameter`), `TauCeti.IsFilledIn` and
-  `IsOpen.exists_isFilledIn_compact_exhaustion` (Layer 2); the meromorphic germ field, principal
-  parts and circle Laurent coefficients (`TauCeti.Analysis.Meromorphic.Germ`,
-  `TauCeti.Analysis.Meromorphic.PrincipalPart`, `TauCeti.Analysis.Complex.Laurent.Basic`)
-  (Layer 3).
-- Several variables: `TauCeti.Analysis.Complex.CauchyIntegralPolydisc`,
-  `TauCeti.analyticOnNhd_iff_differentiableOn_of_finiteDimensional`,
-  `ContinuousOn.analyticAt_of_differentiableAt_update`, `IsManifold.restrictScalars_of_ne_zero`,
-  `TauCeti.contMDiff_iff_mdifferentiable`, and the holomorphic structure sheaf
-  `TauCeti.holomorphicStructureSheaf` with its smooth comparison, stalks, maximal ideal and germ
-  maps (`TauCeti.Geometry.Manifold.Complex.StructureSheaf.Basic` and its companions) (Layer 3).
-- Pointwise Hodge algebra and Riemannian analysis: `TauCeti.exteriorPower_innerₗ`,
-  `Orientation.complexHodgeStar`, `Orientation.barHodgeStar`, `TauCeti.SmoothForm.hodgeStar`,
-  `TauCeti.SmoothForm.codifferential`, `TauCeti.riemannianVolume`, the delta series of
-  `TauCeti.Analysis.Distribution.DeltaSeries` and the flat Poincaré lemma on star-convex open
-  sets `StarConvex.exists_contDiffOn_forall_extDeriv_eq`, for complete coefficients (Layer 5); the
-  variational and compact-resolvent
-  spectral theory (`TauCeti.Analysis.InnerProductSpace.Variational.Spectrum`,
-  `LinearPMap.HasCompactResolvent`) (Layer 5).
-- Cohomology: the real de Rham cohomology `deRhamCohomology` with its wedge
-  `deRhamCohomology.wedge`, `SmoothTwoForm.Compatible`, `SmoothForm.IsClosed`, the fundamental
-  classes `TauCeti.HomologicalOrientation.fundamentalClass` and `fundamentalClassOn`, the integral
-  cup product `TopCat.integralCup`, `TopCat.singularUniversalCoefficientEquiv` and the spectral
-  sequence of a filtered cochain complex `CochainComplex.spectralSequence` with its first page,
-  finite-filtration convergence, naturality and comparison theorem; K8 owns only its Frölicher and
-  base-degree filtration adapters (Layers 6–8).
-- Examples: the affine atlas and the Riemann-sphere diffeomorphism
-  `OnePoint.diffeomorphProjectivization`
-  (`TauCeti.Topology.Algebra.Projectivization`, `TauCeti.Geometry.Manifold.Instances.Projectivization`,
-  `TauCeti.Geometry.Manifold.Instances.OnePoint.Projectivization`), stated on Tau Ceti's own copy
-  of the quotient topology, whose proofs K7.1 repeats on Mathlib's; the sphere-quotient model
-  `TauCeti.ComplexProjectiveSpace` with its compactness, Hausdorff and path-connectedness
-  instances, which K7.1 transports to Mathlib's topology, its charts and manifold structure,
-  `cwComplex` and `TauCeti.eulerChar_complexProjectiveSpace` with `Homeomorph.finiteCWType` and
-  `Homeomorph.eulerChar_eq`;
-  and the complex torus `AddAction.orbitRel.Quotient L E` with `Submodule.instLieAddGroupOrbitRelQuotient`
-  and `Submodule.instCompactSpaceOrbitRelQuotient` (Layer 7).
-
-### From TauCetiRoadmap.ComplexManifolds
-
-Milestones 1–2 (real restriction, atlas transport, the canonical complex orientation, its
-atlas independence, product law and preservation by biholomorphisms), Milestone 3 (the
-`OnePoint ℂ` atlas), Milestones 4–6 (free properly discontinuous holomorphic quotients, open
-gluing and their topology) and Milestone 7 (the holomorphic-transition mixin, cocycle gluing,
-tensor, dual and exterior operations, the canonical bundle, and the codimension-one normal bundle
-of 7.4), each with its model and tangent comparisons.
-
-### From TauCetiRoadmap.ComplexTori
-
-Milestone 1, items 3–4: the holomorphic homomorphisms induced by linear maps carrying one lattice
-into another, and the universal-cover, `π₁` and integral-homology identifications of a torus.
-
-### From TauCetiRoadmap.DifferentialGeometry
-
-DifferentialGeometry 0.3–0.4 (rough and smooth forms), DifferentialGeometry 1.1 (the exterior derivative), DifferentialGeometry 2.1–2.2 (orientations),
-DifferentialGeometry 5 (integration of top forms, `integralTopForm`, finite additivity, Stokes; 5.4's
-`homotopyOperator`; 5.5's `RoughDensity`), DifferentialGeometry 6–7 (de Rham cohomology and Mayer–Vietoris), DifferentialGeometry 8.3–8.5
-(smoothing, chain integration with `deRhamHom`, the de Rham theorem `deRhamEquiv`), DifferentialGeometry 12.1
-(pullback metrics), DifferentialGeometry 12.3 (`laplaceBeltrami`) and DifferentialGeometry 12.4 (the Riemannian volume comparison).
-
-### From TauCetiRoadmap.DeRhamCohomologyAndDuality
-
-§2.4 (relative smooth chains of an open pair and their comparison with relative singular chains,
-natural under smooth maps of pairs and enlargement of the subset), §§3.1–3.3 (the relative form
-complex `Ω^q(M)⊕Ω^(q−1)(U)` with differential `(α,β)↦(dα,α|_U−dβ)`, relative integration with
-evaluation `∫_cα−∫_(∂c)β` and absolute image `deRhamHom[α]` for `(α,0)`, and the relative de
-Rham isomorphism) and §4.1 (the integration comparison for compact oriented manifolds and its
-compact-support form, independent of the compact set), all in their boundaryless instances.
-
-### From TauCetiRoadmap.GlobalHolomorphicFunctions
-
-Layer 2.5's `exists_finite_rank_runge_operator`: for a Runge pair `IsRungeCompactPair Ω K` (Ω⊆ℂ
-open, K⊆Ω compact and `TauCeti.IsFilledIn K Ω`) and an open U⊇K, a compact collar L⊆U∩Ω with
-K⊆int L and, for every ε>0, finitely many points of int L, weights and functions holomorphic on Ω,
-independent of f, whose evaluation operator approximates every f holomorphic on U within
-`ε sup_L|f|` on K (2.2–2.3). Layer 7.2's `exists_mextDeriv_eq_complex_two_form`: every smooth
-complex-valued two-form on an open subset of ℂ, on Tau Ceti's form carrier over the open subtype
-with model `𝓘(ℝ,ℂ)`, is the exterior derivative of a smooth complex-valued one-form (5.6).
-
-### From TauCetiRoadmap.SmoothBundlesConnections
-
-B1 (principal bundles, for K8's torus bundles), B2 (associated bundles, complexification, the
-RCLike square-integrable sections and B2.2's continuous fibre metrics h with
-`h.inner x : E x →L⋆[𝕜] E x →L[𝕜] 𝕜`), B3–B4 (connections, curvature, gauge), B5 (parallel
-transport and holonomy) and B6.1–B6.3 (the manifold sheaf/singular comparison, the circle-bundle
-classification and the rank-one Chern–Weil comparison).
-
-### From TauCetiRoadmap.PDE
-
-§1.3 (A3), the Euclidean comparison `W^(k,2)=H^(k,2)` with equivalent norms for every
-nonnegative integer k, applied componentwise in finite-dimensional fibre models; §1.7 (A7) Hölder
-spaces and the scalar Schauder estimates of Layer 5 for the Newlander–Nirenberg iteration; the
-scalar Sobolev embedding and Rellich theorems (§§1.4, 1.6) for comparison with K5a's
-integer-order conclusions. §2.2 (B9)'s `L^p` Riesz–Thorin theorem is distinct from K5a's
-Hilbert-scale interpolation and is not consumed.
-
-### From TauCetiRoadmap.PseudodifferentialOperators
-
-P1.0: the differential-operator carrier, the Laplace-type predicate, restriction-compatible
-symbol and formal-adjoint maps, the bilinear density transpose and their local coordinate
-formulas.
-
-### From TauCetiRoadmap.AlgebraicTopology
-
-Stage 4 (CW pairs, cellular homology, `cwSubcomplexNeighborhoods`, 4.6's cells of ℂPⁿ on the
-sphere-quotient carrier `TauCeti.ComplexProjectiveSpace`, 4.7's `simplicialRealizationCW`),
-Stage 5.0 (the regrading of a decreasing filtration as an increasing one, for K8), Stage 6
-(cohomology, cup products, universal coefficients; 6.3's homological orientation and fundamental
-classes; 6.4's Poincaré duality; 6.5's intersection pairing) and Stage 8, item 7 (finite CW type of compact manifolds).
-
-### From TauCetiRoadmap.GeometricTopology
-
-Layer 11: the realization `|K|` of a simplicial complex, its star/link API and subcomplex images.
-
-### From TauCetiRoadmap.RealAnalyticGeometry
-
-R0–R5: real semianalytic normal decomposition, the affine Łojasiewicz theorem, real-analytic
-embedding and transport (R0–R4), R1's local semianalytic and component results that supply K3's
-finite regular-piece partition, and R5's compatible analytic triangulation of a finite family.
-
-### From TauCetiRoadmap.StableReduction
-
-Layer 4: the Rees algebra and blowup of an ideal, used for the incidence blowup of K7.2.
-
-### From TauCetiRoadmap.LieGroupoidsPoisson
-
-§G1.3: the all-degree real Chevalley–Eilenberg differential of a Lie algebra.
-
-### From completed roadmaps
-
-RealAlgebraicGeometry Layer 7 (analytic inversion and local real-germ complexification),
-ContourIntegration (residues and the argument principle), HopfRinow Layer 1 (the Levi-Civita
-connection, through P1.0) and HodgeStructures (linear Hodge structures).
-
-## How to read the build
-
-Layer 1 builds the complex-structure calculus on Mathlib's complex manifolds and Tau Ceti's type
-forms and ends with the Newlander–Nirenberg theorem; its orientation part precedes K7.1 and its
-eigenbundles consume SmoothBundlesConnections B2. Layer 2 builds, on GlobalHolomorphicFunctions'
-finite-rank Runge operator, the parameter-dependent one-variable solver, hence the whole-polydisc
-Dolbeault–Grothendieck lemma, Dolbeault cohomology and, after Layer 4's bundles, the bundle-valued Dolbeault theorem.
-Layer 3 (whose several-variable part K3.0 precedes Layer 1) gives the local algebra of holomorphic
-germs and analytic subsets; its singular-locus targets precede RealAnalyticGeometry R1, which in
-turn supplies K3's finite regular-piece partition. Layer 4 builds holomorphic bundles, Chern and
-holomorphic connections and the holomorphic Picard group. Layer 5 is the elliptic theory: K5a on
-real manifolds, whose density line precedes PseudodifferentialOperators P1.0 and whose analytic
-scale consumes P1.0, and K5b's Dolbeault Hodge theory and Serre duality. Layer 6 proves the
-Kähler identities locally and the Hodge, Lefschetz and analytic-cycle theorems on compact Kähler
-manifolds; RealAnalyticGeometry R3 consumes its local part. Layer 7 computes the projective, torus,
-Riemann-surface, elliptic-line and Hopf examples, and Layer 8 the Frölicher spectral sequence and
-the Iwasawa manifold. The labels K1–K8, K3.0, K4.P, K5a, K5b.0, K5b.1, K6.0, K6.1, K7.1 and K7.2
-name the layers and sections in the text and in citing roadmaps, and appear in their headings.
-In the former numbering of the headings, K1 is now Layer 1, K2 is now Layer 2, K3 is now Layer 3,
-K4 is now Layer 4, K5 is now Layer 5, K6 is now Layer 6, K7 is now Layer 7 and K8 is now Layer 8;
-"Conventions and suppliers" is now Conventions and Exact supplier contracts, and "Order and
-references" is now How to read the build and References.
 
 ## Layer 1: complex structures and type calculus (K1)
 
@@ -3632,6 +3342,296 @@ filtered-complex spectral sequence supplies convergence after those inputs.
   `TauCeti.ComplexProjectiveSpace 1` with `Projectivization ℂ (Fin 2 → ℂ)` and its Riemann-sphere
   diffeomorphism from `OnePoint ℂ` to `Projectivization ℂ (Fin 2 → ℂ)` on Mathlib's topology;
   MorseTheory uses K7.1 and K7.2, and GeneralizedCohomology K1 and K7.1.
+
+## Scope and ownership
+
+This roadmap owns, by layer:
+
+- **Layer 1 (K1):** the one-variable holomorphy criterion, the manifold transport, composition and
+  inverse laws of the holomorphic inverse and implicit function theorems around the pinned joint
+  implicit map, holomorphic submanifolds with their tangent and normal sequences in every
+  codimension, the eigenbundles of the complexified tangent bundle as smooth subbundles, the
+  `N′=N/4` evaluation formulas, and the Newlander–Nirenberg theorem.
+- **Layer 2 (K2):** the joint parameter-dependent one-variable `∂̄` solver with the parameter form
+  of the finite-rank Runge operator it uses, Taylor and Laurent approximation on product domains,
+  the whole-polydisc
+  Dolbeault–Grothendieck lemma, Dolbeault cohomology with its functoriality and products, the
+  sheaves Ω^p, the Čech/derived comparison on paracompact manifolds and the scalar and
+  bundle-valued Dolbeault theorems.
+- **Layer 3 (K3):** the chart transports of the pinned several-variable calculus and realified
+  atlas (K3.0), the convergent power-series comparison of the pinned holomorphic stalk, Weierstrass
+  preparation and division, the Laurent-coefficient comparison on the pinned meromorphic germ
+  field, Noetherianity, regularity, Krull dimension and factoriality of the local rings, local
+  parametrization, Rückert's Nullstellensatz, Oka and Cartan coherence in primitive local form,
+  reduced analytic subsets with their regular and singular loci and the finite regular-piece
+  partition, and the Riemann and Hartogs extension theorems.
+- **Layer 4 (K4):** holomorphic sections and the section/reconstruction equivalence, Chern
+  connections, Koszul–Malgrange, holomorphic connections and local systems, the componentwise
+  finite-rank assembly, and (K4.P) the unit sheaf, `Pic_hol`, the holomorphic exponential
+  sequence, the conditional `c₁` isomorphism and the smooth/continuous line comparison F_M on every
+  complex manifold.
+- **Layer 5 (K5):** on real manifolds (K5a), the orientation line, densities, bundle tests and
+  distributions, distribution local structure, the Fréchet section topology with its Montel
+  property, the compact-bundle Sobolev scale, complex-coefficient integration and de Rham
+  cohomology with the vanishing of `H²_dR(Ω;ℂ)` on plane domains, Laplace-type regularity and
+  spectral theory, the real
+  Hodge theorem and the componentwise compact adapter; on complex manifolds (K5b), the local
+  Hermitian identities, Dolbeault Hodge theory and Serre duality.
+- **Layer 6 (K6):** Kähler metrics and normal coordinates, the pointwise Lefschetz algebra, the
+  Kähler and Akizuki–Nakano identities on Kähler manifolds with the Nakano bound, the planar star,
+  codifferential and Laplacian, the `∂∂̄`-lemma, Hodge decomposition and symmetry, Hard Lefschetz,
+  the Hodge–Riemann relations and polarizations, and integration over compact analytic cycles with
+  their real and integral classes.
+- **Layer 7 (K7):** the comparison of the two models of ℂPⁿ, the transport of the pinned CW
+  structure, the tautological bundles and Fubini–Study form, projective cohomology and the cup
+  ring, the incidence blowup, the rational quartic, the Hodge numbers of complex tori, compact
+  Riemann surfaces with their integral dictionary, the lattice-character lines on an elliptic
+  curve and the primary Hopf surface.
+- **Layer 8 (K8):** the Frölicher spectral sequence, nilpotent central reduction, the nilmanifold
+  de Rham and Dolbeault comparisons and the Iwasawa manifold.
+
+It leaves to named roadmaps and to the pins:
+
+- ComplexManifolds: real restriction, atlas transport and the canonical complex orientation with
+  its compatibility laws in DifferentialGeometry's orientation carrier (Milestones 1–2), the
+  Riemann-sphere atlas on `OnePoint ℂ` consumed by K7.1 (Milestone 3), discrete holomorphic
+  quotients, open gluing and their topology (Milestones 4–6), and the holomorphic-transition mixin,
+  bundle cocycle gluing and operations on native vector bundles (Milestone 7). ComplexTori: the
+  maps of tori induced by linear maps and the universal-cover and homology identifications
+  (Milestone 1, items 3–4); the quotient manifold, the Lie group structure and the compactness of a
+  complex torus (its items 1–2) are pinned in Tau Ceti.
+- DifferentialGeometry: generic smooth forms, the exterior derivative, pullback, wedge,
+  orientations, densities, integration, Stokes and the real de Rham comparison; its chain
+  integration and Stokes allow complete vector-valued coefficients, and its de Rham comparison is
+  stated over ℝ. DeRhamCohomologyAndDuality: the relative smooth chain comparison (§2.4), the
+  relative de Rham complex of an open pair, relative integration and the relative de Rham
+  isomorphism (§§3.1–3.3), and the integration comparison with fundamental classes (§4.1), which
+  K6.1 consumes in their boundaryless instances.
+- GlobalHolomorphicFunctions: the finite-rank Runge operator on plane domains (Layer 2.5), which
+  K2 applies with parameters; the global scalar `∂̄` solver on every open subset of ℂ (Layer 7.1),
+  the parameter-free case of K2's joint solver; and the exactness of smooth complex-valued
+  two-forms on open subsets of ℂ (Layer 7.2), from which K5a deduces the vanishing of its complex
+  `H²_dR`.
+- SmoothBundlesConnections: real smooth bundles with complex structure, tensor, dual, Hom and
+  complexification, Hermitian fibre metrics and square-integrable sections, connections,
+  curvature, parallel transport and their principal-bundle comparisons; its B6.1 owns the manifold
+  good-cover/sheaf/singular comparison, B6.2 the circle-bundle classification by `H²(M;ℤ)`,
+  which B2's associated-bundle comparison turns into the smooth complex-line classification
+  consumed in K4.P, and B6.3 the rank-one Chern–Weil comparison of the real first Chern class
+  with the curvature class, consumed in K4.P and in 7.3's comparison of the hyperplane class with
+  `[ω_FS]`.
+- PDE: scalar real-domain Sobolev, Hölder, embedding, Rellich and elliptic estimates, not system
+  estimates. PseudodifferentialOperators P1.0: differential-operator carriers, jets, symbols and
+  formal density adjoints, after K5a's initial density-line construction and before its analytic
+  scale; the pseudodifferential calculus and its Peetre theorem consume K5a's analysis, whose
+  analytic operator layer consumes only P1.0.
+- AlgebraicTopology: singular homology and cohomology with products, CW structures and the
+  cellular comparison, homological orientations, Poincaré duality, the intersection pairing and
+  the regrading of a decreasing filtration for the filtered-complex spectral sequence.
+  GeometricTopology Layer 11: simplicial complexes and their star/link API. RealAnalyticGeometry
+  R0–R5: semianalytic sets and the compatible analytic triangulation; it owns the native coherent
+  `SheafOfModules` predicate and the Stein theory, and consumes K1–K4, K5a's local estimates,
+  K5b.0 and K6.0.
+- RealAlgebraicGeometry Layer 7: analytic inversion and local real-germ complexification.
+  ContourIntegration: residues and the argument principle. HopfRinow Layer 1: the Levi-Civita
+  connection. StableReduction Layer 4: the Rees algebra of a blowup. LieGroupoidsPoisson G1.3: the
+  Chevalley–Eilenberg complex. HodgeStructures: linear Hodge structures, the target of K6.1's
+  comparison, not a proof of analytic Hodge theory.
+- Owned elsewhere and not consumed: scheme analytification and the algebraic-to-holomorphic
+  comparison (ComplexComparisonPartII C−1.1, C0.4 and C5.1–C5.2), the general elementary-divisor
+  normal form (AbelianSchemesAndArithmeticModuli A5.4, whose unimodular case K7 owns), the
+  point-supported analytic-functional interpretation and factorial-square comparison
+  (Hyperfunctions HF5), and the theta sections of positive torus line bundles with their
+  quantization (GeometricQuantization). TopologicalKTheory is a consumer, not a supplier: K4.P's
+  rank-one smooth/continuous comparison through the two exponential sequences differs from its
+  arbitrary-rank smoothing of continuous bundles by partitions and matrix models.
+- Not in this roadmap: general isolated essential singularities and global Mittag–Leffler
+  constructions, and the forms of the Kähler and Bochner–Kodaira–Nakano identities with the
+  torsion operator of a non-Kähler Hermitian metric.
+
+## Exact supplier contracts
+
+Every pinned declaration below is used with the hypotheses it carries at the pin (finite
+dimension, completeness, boundarylessness, an open domain); the layer that applies it restates
+them.
+
+### From Mathlib
+
+- Complex manifolds and maps: `IsManifold`, `MDifferentiable.exists_eq_const_of_compactSpace`,
+  `MDifferentiable.isLocallyConstant`, `differentiableAt_complex_iff_differentiableAt_real`,
+  `real_linearMap_map_smul_complex`, `ContinuousLinearMap.complexOfReal`,
+  `LinearMap.det_restrictScalars`, `Algebra.norm_complex_eq`, `ContDiffAt.to_localInverse`,
+  `ContDiffAt.implicitFunction` and `ImplicitFunctionData.contDiffAt_implicitFunction` (Layer 1).
+- Sheaves and local algebra: `smoothSheafCommRing`, `ChartedSpace.locallyRingedSpace`,
+  `SheafOfModules`, `Opens.overPullbackSheafEquivOver`, the Ext-based sheaf cohomology,
+  `AnalyticOnNhd.eqOn_of_preconnected_of_eventuallyEq`, `MvPolynomial.mul_esymm_eq_sum`,
+  `PowerSeries.IsWeierstrassFactorization`, `ringKrullDim_le_spanFinrank_maximalIdeal`,
+  `IsFractionRing.algEquiv`, `meromorphicOrderAt_eq_int_iff` and `CommRing.Pic` (Layers 2–4).
+- Analysis: `Complex.norm_deriv_le_of_forall_mem_sphere_norm_le`,
+  `Differentiable.exists_eq_const_of_bounded`, `TestFunction` with
+  `TestFunction.continuous_iff_continuous_comp`, `TemperedDistribution`,
+  `SchwartzMap.fourierMultiplierCLM`, `TemperedDistribution.fourierMultiplierCLM`,
+  `BesselPotentialSpace`, `Complex.HadamardThreeLines.norm_le_interp_of_mem_verticalClosedStrip'`,
+  `MontelSpace`, `ContinuousLinearEquiv.toCompactConvergenceCLM`, `MeasureTheory.Lp`,
+  `InnerProductSpace.laplacian_eq_iteratedFDeriv_complexPlane`,
+  `IsCoveringMap.existsUnique_continuousMap_lifts`, `Complex.isCoveringMap_exp` and
+  `PartitionOfUnity.exists_isSubordinate` (Layers 2, 4, 5 and 7).
+- Topology and homological algebra: `Projectivization.instTopologicalSpace`,
+  `isOpenQuotientMap_mk'`, `Topology.IsOpenQuotientMap.secondCountableTopology`,
+  `OnePoint.equivProjectivization`, `CWComplex` and
+  `CategoryTheory.Abelian.SpectralObject` (Layers 7–8).
+
+### From Tau Ceti
+
+- Complex orientation (`TauCeti.Geometry.Manifold.Complex.Orientation`):
+  `TauCeti.complexManifoldOrientation`, `TauCeti.complexOrientationLift` with
+  `TauCeti.complexOrientationLift_sign`, and
+  `IsLocalDiffeomorphAt.isOrientationPreservingAt_complexManifoldOrientation` (Layer 1).
+- Forms and the almost complex calculus: the complex scalar action and coefficient maps
+  (`TauCeti.SmoothForm.instModule`, `TauCeti.SmoothForm.mapCoeff_conj_smul`), the types and type
+  projections (`TauCeti.SmoothForm.IsOfType`, `SmoothAlmostComplexStructure.typeProjection`), the
+  Nijenhuis tensor `SmoothAlmostComplexStructure.nijenhuis`, the operators
+  `SmoothAlmostComplexStructure.del` and `delBar` with their complex-manifold identities, the
+  eigenbundle criterion `SmoothAlmostComplexStructure.isInvolutiveComplexDistribution_eigenspace_I_iff`,
+  and the structure `SmoothAlmostComplexStructure.ofComplexManifold` with
+  `nijenhuis_ofComplexManifold` (Layers 1–2).
+- Implicit maps: `TauCeti.exists_jointImplicitFunction_of_eventually_differentiableAt`,
+  `TauCeti.exists_jointImplicitFunction_of_eventually_mdifferentiableAt` and
+  `ImplicitFunctionData.analyticAt_implicitFunction` (Layer 1).
+- One-variable analysis: the Cauchy transform (`TauCeti.Analysis.Complex.Pompeiu.Basic`) and its
+  parameter dependence (`TauCeti.Analysis.Complex.Pompeiu.Parameter`), `TauCeti.IsFilledIn` and
+  `IsOpen.exists_isFilledIn_compact_exhaustion` (Layer 2); the meromorphic germ field, principal
+  parts and circle Laurent coefficients (`TauCeti.Analysis.Meromorphic.Germ`,
+  `TauCeti.Analysis.Meromorphic.PrincipalPart`, `TauCeti.Analysis.Complex.Laurent.Basic`)
+  (Layer 3).
+- Several variables: `TauCeti.Analysis.Complex.CauchyIntegralPolydisc`,
+  `TauCeti.analyticOnNhd_iff_differentiableOn_of_finiteDimensional`,
+  `ContinuousOn.analyticAt_of_differentiableAt_update`, `IsManifold.restrictScalars_of_ne_zero`,
+  `TauCeti.contMDiff_iff_mdifferentiable`, and the holomorphic structure sheaf
+  `TauCeti.holomorphicStructureSheaf` with its smooth comparison, stalks, maximal ideal and germ
+  maps (`TauCeti.Geometry.Manifold.Complex.StructureSheaf.Basic` and its companions) (Layer 3).
+- Pointwise Hodge algebra and Riemannian analysis: `TauCeti.exteriorPower_innerₗ`,
+  `Orientation.complexHodgeStar`, `Orientation.barHodgeStar`, `TauCeti.SmoothForm.hodgeStar`,
+  `TauCeti.SmoothForm.codifferential`, `TauCeti.riemannianVolume`, the delta series of
+  `TauCeti.Analysis.Distribution.DeltaSeries` and the flat Poincaré lemma on star-convex open
+  sets `StarConvex.exists_contDiffOn_forall_extDeriv_eq`, for complete coefficients (Layer 5); the
+  variational and compact-resolvent
+  spectral theory (`TauCeti.Analysis.InnerProductSpace.Variational.Spectrum`,
+  `LinearPMap.HasCompactResolvent`) (Layer 5).
+- Cohomology: the real de Rham cohomology `deRhamCohomology` with its wedge
+  `deRhamCohomology.wedge`, `SmoothTwoForm.Compatible`, `SmoothForm.IsClosed`, the fundamental
+  classes `TauCeti.HomologicalOrientation.fundamentalClass` and `fundamentalClassOn`, the integral
+  cup product `TopCat.integralCup`, `TopCat.singularUniversalCoefficientEquiv` and the spectral
+  sequence of a filtered cochain complex `CochainComplex.spectralSequence` with its first page,
+  finite-filtration convergence, naturality and comparison theorem; K8 owns only its Frölicher and
+  base-degree filtration adapters (Layers 6–8).
+- Examples: the affine atlas and the Riemann-sphere diffeomorphism
+  `OnePoint.diffeomorphProjectivization`
+  (`TauCeti.Topology.Algebra.Projectivization`, `TauCeti.Geometry.Manifold.Instances.Projectivization`,
+  `TauCeti.Geometry.Manifold.Instances.OnePoint.Projectivization`), stated on Tau Ceti's own copy
+  of the quotient topology, whose proofs K7.1 repeats on Mathlib's; the sphere-quotient model
+  `TauCeti.ComplexProjectiveSpace` with its compactness, Hausdorff and path-connectedness
+  instances, which K7.1 transports to Mathlib's topology, its charts and manifold structure,
+  `cwComplex` and `TauCeti.eulerChar_complexProjectiveSpace` with `Homeomorph.finiteCWType` and
+  `Homeomorph.eulerChar_eq`;
+  and the complex torus `AddAction.orbitRel.Quotient L E` with `Submodule.instLieAddGroupOrbitRelQuotient`
+  and `Submodule.instCompactSpaceOrbitRelQuotient` (Layer 7).
+
+### From TauCetiRoadmap.ComplexManifolds
+
+Milestones 1–2 (real restriction, atlas transport, the canonical complex orientation, its
+atlas independence, product law and preservation by biholomorphisms), Milestone 3 (the
+`OnePoint ℂ` atlas), Milestones 4–6 (free properly discontinuous holomorphic quotients, open
+gluing and their topology) and Milestone 7 (the holomorphic-transition mixin, cocycle gluing,
+tensor, dual and exterior operations, the canonical bundle, and the codimension-one normal bundle
+of 7.4), each with its model and tangent comparisons.
+
+### From TauCetiRoadmap.ComplexTori
+
+Milestone 1, items 3–4: the holomorphic homomorphisms induced by linear maps carrying one lattice
+into another, and the universal-cover, `π₁` and integral-homology identifications of a torus.
+
+### From TauCetiRoadmap.DifferentialGeometry
+
+DifferentialGeometry 0.3–0.4 (rough and smooth forms), DifferentialGeometry 1.1 (the exterior derivative), DifferentialGeometry 2.1–2.2 (orientations),
+DifferentialGeometry 5 (integration of top forms, `integralTopForm`, finite additivity, Stokes; 5.4's
+`homotopyOperator`; 5.5's `RoughDensity`), DifferentialGeometry 6–7 (de Rham cohomology and Mayer–Vietoris), DifferentialGeometry 8.3–8.5
+(smoothing, chain integration with `deRhamHom`, the de Rham theorem `deRhamEquiv`), DifferentialGeometry 12.1
+(pullback metrics), DifferentialGeometry 12.3 (`laplaceBeltrami`) and DifferentialGeometry 12.4 (the Riemannian volume comparison).
+
+### From TauCetiRoadmap.DeRhamCohomologyAndDuality
+
+§2.4 (relative smooth chains of an open pair and their comparison with relative singular chains,
+natural under smooth maps of pairs and enlargement of the subset), §§3.1–3.3 (the relative form
+complex `Ω^q(M)⊕Ω^(q−1)(U)` with differential `(α,β)↦(dα,α|_U−dβ)`, relative integration with
+evaluation `∫_cα−∫_(∂c)β` and absolute image `deRhamHom[α]` for `(α,0)`, and the relative de
+Rham isomorphism) and §4.1 (the integration comparison for compact oriented manifolds and its
+compact-support form, independent of the compact set), all in their boundaryless instances.
+
+### From TauCetiRoadmap.GlobalHolomorphicFunctions
+
+Layer 2.5's `exists_finite_rank_runge_operator`: for a Runge pair `IsRungeCompactPair Ω K` (Ω⊆ℂ
+open, K⊆Ω compact and `TauCeti.IsFilledIn K Ω`) and an open U⊇K, a compact collar L⊆U∩Ω with
+K⊆int L and, for every ε>0, finitely many points of int L, weights and functions holomorphic on Ω,
+independent of f, whose evaluation operator approximates every f holomorphic on U within
+`ε sup_L|f|` on K (2.2–2.3). Layer 7.2's `exists_mextDeriv_eq_complex_two_form`: every smooth
+complex-valued two-form on an open subset of ℂ, on Tau Ceti's form carrier over the open subtype
+with model `𝓘(ℝ,ℂ)`, is the exterior derivative of a smooth complex-valued one-form (5.6).
+
+### From TauCetiRoadmap.SmoothBundlesConnections
+
+B1 (principal bundles, for K8's torus bundles), B2 (associated bundles, complexification, the
+RCLike square-integrable sections and B2.2's continuous fibre metrics h with
+`h.inner x : E x →L⋆[𝕜] E x →L[𝕜] 𝕜`), B3–B4 (connections, curvature, gauge), B5 (parallel
+transport and holonomy) and B6.1–B6.3 (the manifold sheaf/singular comparison, the circle-bundle
+classification and the rank-one Chern–Weil comparison).
+
+### From TauCetiRoadmap.PDE
+
+§1.3 (A3), the Euclidean comparison `W^(k,2)=H^(k,2)` with equivalent norms for every
+nonnegative integer k, applied componentwise in finite-dimensional fibre models; §1.7 (A7) Hölder
+spaces and the scalar Schauder estimates of Layer 5 for the Newlander–Nirenberg iteration; the
+scalar Sobolev embedding and Rellich theorems (§§1.4, 1.6) for comparison with K5a's
+integer-order conclusions. §2.2 (B9)'s `L^p` Riesz–Thorin theorem is distinct from K5a's
+Hilbert-scale interpolation and is not consumed.
+
+### From TauCetiRoadmap.PseudodifferentialOperators
+
+P1.0: the differential-operator carrier, the Laplace-type predicate, restriction-compatible
+symbol and formal-adjoint maps, the bilinear density transpose and their local coordinate
+formulas.
+
+### From TauCetiRoadmap.AlgebraicTopology
+
+Stage 4 (CW pairs, cellular homology, `cwSubcomplexNeighborhoods`, 4.6's cells of ℂPⁿ on the
+sphere-quotient carrier `TauCeti.ComplexProjectiveSpace`, 4.7's `simplicialRealizationCW`),
+Stage 5.0 (the regrading of a decreasing filtration as an increasing one, for K8), Stage 6
+(cohomology, cup products, universal coefficients; 6.3's homological orientation and fundamental
+classes; 6.4's Poincaré duality; 6.5's intersection pairing) and Stage 8, item 7 (finite CW type of compact manifolds).
+
+### From TauCetiRoadmap.GeometricTopology
+
+Layer 11: the realization `|K|` of a simplicial complex, its star/link API and subcomplex images.
+
+### From TauCetiRoadmap.RealAnalyticGeometry
+
+R0–R5: real semianalytic normal decomposition, the affine Łojasiewicz theorem, real-analytic
+embedding and transport (R0–R4), R1's local semianalytic and component results that supply K3's
+finite regular-piece partition, and R5's compatible analytic triangulation of a finite family.
+
+### From TauCetiRoadmap.StableReduction
+
+Layer 4: the Rees algebra and blowup of an ideal, used for the incidence blowup of K7.2.
+
+### From TauCetiRoadmap.LieGroupoidsPoisson
+
+§G1.3: the all-degree real Chevalley–Eilenberg differential of a Lie algebra.
+
+### From completed roadmaps
+
+RealAlgebraicGeometry Layer 7 (analytic inversion and local real-germ complexification),
+ContourIntegration (residues and the argument principle), HopfRinow Layer 1 (the Levi-Civita
+connection, through P1.0) and HodgeStructures (linear Hodge structures).
 
 ## References
 

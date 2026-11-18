@@ -20,79 +20,29 @@ theorems the pinned libraries do not prove, and its module docstring names the h
 the Tau Ceti pin already proves. Production modules import library mathematics, not a
 roadmap's acceptance file.
 
-## Scope and ownership
+## How to read the build
 
-This roadmap owns general function-field places, divisors and `L(D)`, Weil differentials and
-Riemann–Roch, ramification in extensions of function fields with the different and the
-Hurwitz genus formula, constant-field extensions, the regular projective model of a function
-field and the curve/function-field anti-equivalence. Most of this is implemented in Tau Ceti at
-the pin under `TauCeti/FieldTheory/FunctionField/` and `TauCeti/AlgebraicGeometry/Curves/`; each
-layer cites the pinned declarations by name and states the targets the pin does not prove.
-[BelyiMaps](../BelyiMaps/README.md) consumes the pinned carriers `TauCeti.IsFunctionField`,
-`TauCeti.Place` and `TauCeti.Divisor` and defines no parallel place, divisor or Riemann–Roch
-theory.
-
-**The route.** The development is function-field-first, following Stichtenoth: a curve is its
-field of algebraic functions, places are normalized discrete valuations, and Riemann–Roch is
-linear algebra over `k` inside the restricted product of copies of `F` indexed by the places
-(Weil's repartitions), with no sheaves and no cohomology. This matches the pinned Mathlib,
-which supplies valuations, Dedekind domains, `RatFunc` and Laurent series but no divisor on a
-scheme and no coherent cohomology. The pinned Tau Ceti also carries the scheme side: Weil
-divisors on schemes (`TauCeti.AlgebraicGeometry.SchemeWeilDivisor`,
-`TauCeti/AlgebraicGeometry/WeilDivisor/Scheme/Basic.lean`), finite-dimensional quasi-coherent
-cohomology vanishing above degree one on a proper curve
-(`TauCeti/AlgebraicGeometry/Curves/Cohomology.lean`) and the two-chart model of a function field
-(`TauCeti/AlgebraicGeometry/Curves/TwoChartModel/`). Layer 12 consumes those carriers: it is
-where the function-field theory meets the scheme-theoretic one of
-[JacobianChallenge](../JacobianChallenge/README.md) (scheme divisors, coherent cohomology,
-Riemann–Roch in the form `χ(L) = deg L + 1 − g` with `g := dim H¹(X, 𝒪_X)`, Serre duality), by a
-comparison contract instead of a second proof.
-
-**Left to other roadmaps.**
-
-- *Zeta functions and the arithmetic of curves over finite fields* (Stichtenoth Ch. 5:
-  rationality, functional equation, Hasse–Weil): CurvesOverFiniteFields
-  and FunctionFieldArithmetic, which consume this
-  roadmap. The Riemann–Roch inputs they need (finiteness of `Cl⁰(F)` over a finite constant
-  field, Stichtenoth Lemma 5.1.1 and Prop. 5.1.3, and the class-group bridge to Mathlib's
-  `ClassGroup`) are §5.6 here.
-- *Jacobians and abelian varieties*: [JacobianChallenge](../JacobianChallenge/README.md) constructs
-  the Jacobian; here `Cl⁰(F)` is a plain abelian group.
-- *Elliptic-curve arithmetic* (isogenies, torsion, heights, Mordell–Weil):
-  [EllipticCurves](../EllipticCurves/README.md). Elliptic function fields appear here once, as
-  the genus-one model class of §§10.1–10.3, with the compatibility statements EllipticCurves
-  consumes.
-- *Hyperelliptic arithmetic invariants* (Igusa invariants, minimal models, cluster pictures):
-  HyperellipticCurves, which consumes §10.4 here.
-- *Modular curves*: the moduli-theoretic theory is no part of this roadmap.
-  [ModularForms](../ModularForms/README.md) builds the analytic quotient `Γ\ℍ*`, its genus and an
-  analytic Riemann–Roch inside its own Layer 10 and consumes nothing from here.
-- *The local ramification filtration* (upper numbering, Herbrand functions, Hasse–Arf) for
-  completions with finite residue field: [LocalFieldsRamification](../../Completed/LocalFieldsRamification/README.md)
-  Layer 3; §8.9 states the boundary.
-- *Moduli of stable curves* and the finiteness of automorphism groups of stable curves over a
-  base: [SchemeAndStackFoundations](../SchemeAndStackFoundations/README.md) §4.15, which takes no
-  input from this roadmap; §11.4 here proves the function-field statement over every field, under
-  positive genus over the algebraic closure, without moduli.
-- *The scheme forms of curve theory* (the affine-or-projective dichotomy, the genus of a proper
-  curve under extension of the base field, Riemann–Hurwitz with the ramification divisor of
-  `Ω_{X/Y}`, degrees of vector bundles on curves): SchemeAndStackFoundations Layer 3 (§§3.1–3.3),
-  which takes no input from this roadmap and restates none of Layers 0–12. The function-field
-  forms and their comparisons with the scheme side are here: the Cartier ramification divisor
-  against the trace-dual different on the separable-residue branch (12B.0d), genus and divisor
-  base change on the smooth model (§8.2 with 12B.0b), and the dictionary of 12A–12E.
-  [AlgebraicVectorBundles](../AlgebraicVectorBundles/README.md) also takes no input from this
-  roadmap; the curve-specific degree theory it assigns here is the degree of places and divisors
-  (§§0.4, 3.1) and its agreement with the degree of scheme Weil divisors (12D).
-
-**Outside the roadmap.** Nonspecial-divisor refinements and Brill–Noether theory; generic
-classicality of gap sequences and the Weierstrass-point theory of positive characteristic
-(Hasse–Schmidt orders); the quantitative positive-characteristic automorphism bounds of
-Roquette and Stichtenoth and the classification of curves with large automorphism groups;
-singular plane curves through intersection theory (Bézout is not at the pin); the projective
-`PSL₂(𝔽₇)` action on the Klein quartic and the full group `PGU₃(q)` of a Hermitian curve;
-refinements of Castelnuovo's inequality beyond §8.11; the comparison with compact Riemann
-surfaces over `ℂ`, which needs a GAGA development; zeta functions.
+Layer 0 sets up function fields, their constant fields and their places; Layer 1 classifies the
+places of the rational function field; Layer 2 identifies the places of a function field with
+the height-one primes of two affine normalizations. Layer 3 builds divisors, the product
+formula, `L(D)`, Riemann's theorem and the genus; Layer 4 builds repartitions and Weil
+differentials and proves Riemann–Roch; Layer 5 derives its consequences and the local components
+of Weil differentials. Layer 6 develops extensions of function fields without Riemann–Roch;
+Layer 7 the different, the cotrace and the Hurwitz genus formula; Layer 8 constant-field
+extensions, ramification groups and the inseparable pathologies. Layer 9 compares Weil with
+Kähler differentials and proves the residue theorem; Layer 10 computes the model classes;
+Layer 11 proves finiteness of automorphism groups and the Hurwitz bound; Layer 12 builds the
+regular projective model, the anti-equivalence and the comparison with the scheme-theoretic
+Riemann–Roch. Layers 0–1 are sequential; Layer 2 needs Layer 0 only; Layer 4 is the critical
+path; Layer 6 needs Layers 0–3 and runs in parallel with Layers 4–5; Layer 7 needs Layers 4–6;
+Layer 9's first section needs Layers 0–3 and its comparison Layer 7. Layer 8 and §12B.0
+interleave item by item: §8.1 items 1–2 (Layer 0 only), then the early model of §12B.0 (Layers 0
+and 2) with 12B.0a–b, then §8.1 item 3, then 12B.0c (after Layers 3–5) and §§8.2 and 8.5. Each
+layer ends with its examples and its dependencies; a `*Needs:*` line lists what each target's
+statement and route use, so that a target proved by another route is not blocked behind an
+unrelated layer. The anchor `#layer-8-constant-field-extensions-galois-ramification-and-inseparability-`
+of the former Layer 8 heading is now
+`#layer-8-constant-field-extensions-galois-ramification-and-inseparability`.
 
 ## Conventions
 
@@ -150,173 +100,6 @@ Shimura curves), finite fields and `ℂ`.
 confusion is possible. Mathlib's `FunctionField Fq F` is an `abbrev` for
 `FiniteDimensional (RatFunc Fq) F` relative to a chosen `Algebra (RatFunc Fq) F`; the intrinsic
 predicate has its own name and a comparison theorem, never a redefinition.
-
-## Exact supplier contracts
-
-| Supplier | Interface used here | Boundary |
-| --- | --- | --- |
-| Mathlib at the pin | valuations and Dedekind domains, `RatFunc` with its places, ramification bookkeeping, the different ideal, Kähler differentials, transcendence degree, Weierstrass curves, scheme vocabulary | consumed by name below; what the pin lacks is built here in Mathlib's shape |
-| Tau Ceti at the pin: `TauCeti/FieldTheory/FunctionField/`, `TauCeti/FieldTheory/Separable/`, `TauCeti/AlgebraicGeometry/Curves/`, `TauCeti/AlgebraicGeometry/WeilDivisor/` | the carriers `TauCeti.IsFunctionField`, `TauCeti.Place`, `TauCeti.Divisor`, `TauCeti.genus`, `TauCeti.constantCompositum`, the two-chart model and the scheme Weil divisors, and the theorems cited by name at each layer | the targets each layer states beyond the cited names are this roadmap's |
-| [JacobianChallenge](../JacobianChallenge/README.md) Layers A–B and E–F | the sheaf `𝒪_X(D)`, coherent cohomology over `k`, `χ`-form Riemann–Roch and Serre duality (12E); abelian varieties, the Jacobian and the Abel–Jacobi map with its Albanese property (§11.4) | 12E is a comparison contract, not a second proof; the relative theory (cohomology and base change, Layer C) is no part of this roadmap |
-| [FormalLaurentPuiseux](../FormalLaurentPuiseux/README.md) L1–L3 | coordinate substitutions, continuous Laurent derivations and the residue transformation in every characteristic | transported through the completion charts of §9.2 at places with finite separable residue extension |
-| [LocalFieldsRamification](../../Completed/LocalFieldsRamification/README.md) Layer 3 | Herbrand functions, the upper numbering and Hasse–Arf for complete discretely valued fields with finite residue field | used only for completions with finite residue field (§8.9); Hasse–Arf also needs an abelian Galois extension |
-
-### From Mathlib
-
-- **The chosen-generator predicate**, `Mathlib/NumberTheory/FunctionField.lean`:
-  `FunctionField Fq F` (for an arbitrary field `Fq`, despite the file's framing),
-  `functionField_iff`, `FunctionField.ringOfIntegers` with `IsDedekindDomain` under
-  `[Algebra.IsSeparable (RatFunc Fq) F]`, `FunctionField.finiteDimensional_of_adjoin_transcendental`
-  (any transcendental `y` has `F/Fq(y)` finite) and
-  `FunctionField.finiteDimensional_of_constantExtension` (finiteness of the constant field). The
-  infinity place is `RatFunc.inftyValuation`, `RatFunc.inftyValued` and
-  `RatFunc.CompletionAtInfty` in `Mathlib/FieldTheory/RatFunc/Valuation.lean`.
-- **The rational function field**, `Mathlib/FieldTheory/RatFunc/`: `num`/`denom`, `intDegree`,
-  `RatFunc.inftyValuation` with `v_∞(f) = exp (intDegree f)` and the instances
-  `Valuation.IsNontrivial` and `Valuation.IsTrivialOn`; `RatFunc.algEquivOfTranscendental`
-  (`RatFunc K ≃ₐ[K] K(f)` for transcendental `f`); `Polynomial.idealX`;
-  `RatFunc.finrank_eq_max_natDegree` (`[K(X) : K(f)] = max (natDegree f.num) (natDegree f.denom)`);
-  `RatFunc.adjoin_X`; Lüroth's theorem (`Luroth.lean`). The relative algebraic closure
-  `algebraicClosure k F` (`FieldTheory/AlgebraicClosure.lean`) and `IsIntegrallyClosedIn`
-  (`RingTheory/IntegralClosure/IntegrallyClosed.lean`) are the constant-field vocabulary.
-- **Ostrowski for `RatFunc`**, `Mathlib/NumberTheory/RatFunc/Ostrowski.lean`:
-  `RatFunc.valuation_isEquiv_infty_or_adic`, every rank-one discrete valuation of `RatFunc K`
-  trivial on `K` is equivalent to exactly one of `v_∞` and a `p(X)`-adic valuation, over an
-  arbitrary field `K`. Layer 1 repackages it in place vocabulary.
-- **The Dedekind substrate**, `Mathlib/RingTheory/DedekindDomain/`:
-  `IsDedekindDomain.HeightOneSpectrum` with `intValuation`, `valuation`,
-  `valuation_exists_uniformizer`, `valuation_surjective`, `eq_of_valuation_isEquiv_valuation`
-  and `valuationSubringAtPrime` (`AdicValuation.lean`); `FractionalIdeal.count` with `count_mul`,
-  `count_inv`, `count_zpow`, `count_finsuppProd`, `FractionalIdeal.finite_factors` and
-  `finprod_heightOneSpectrum_factorization'` (`Factorization.lean`); `ClassGroup` with
-  `ClassGroup.mk0` and `ClassGroup.equivPic` (`Mathlib/RingTheory/PicardGroup.lean`); S-integers
-  (`SInteger.lean`); `IsIntegralClosure.isDedekindDomain` and
-  `integralClosure.isFractionRing_of_finite_extension`;
-  `IsDedekindDomain.HeightOneSpectrum.valuationOfNeZero` (`SelmerGroup.lean`).
-- **Ramification bookkeeping**, `Mathlib/RingTheory/RamificationInertia/`: `Ideal.ramificationIdx`
-  (the length of `S_q/pS_q` at a prime `q` of `S` over `p`) and `Ideal.inertiaDeg`, with the
-  fundamental identity `Ideal.sum_ramification_inertia_eq_finrank` (`Basic.lean`:
-  `∑_{q ∣ p} e · f = rank_R S` for a domain `R`, a finite flat `R`-algebra `S` and a prime `p`); the
-  Galois action on `primesOver`, `Ideal.ramificationIdxIn`, `Ideal.inertiaDegIn` and
-  `Ideal.ncard_primesOver_mul_ramificationIdxIn_mul_inertiaDegIn` in
-  `Mathlib/NumberTheory/RamificationInertia/Galois.lean`. The module
-  `Mathlib/NumberTheory/RamificationInertia/Basic.lean`, with `Ideal.sum_ramification_inertia`
-  stated for the older `Ideal.ramificationIdx'` and `Ideal.inertiaDeg'`, is deprecated at the pin
-  and is not consumed. Reconciliation lemmas with the place invariants `e` and `f` are stated once,
-  and consumers stay off the raw definitions.
-- **The different ideal**, `Mathlib/RingTheory/DedekindDomain/Different.lean`:
-  `Submodule.traceDual`, `FractionalIdeal.dual`, `differentIdeal` with `coeIdeal_differentIdeal`,
-  the tower law `differentIdeal_eq_differentIdeal_mul_differentIdeal`, the conductor formula
-  `conductor_mul_differentIdeal`, `pow_sub_one_dvd_differentIdeal` and `dvd_differentIdeal_iff`.
-  The exact tame value `v_P(𝔡) = e − 1` is not there.
-- **Kähler differentials**, `Mathlib/RingTheory/Kaehler/`: `KaehlerDifferential` with base
-  change and localization, `KaehlerDifferential.polynomialEquiv`, the second fundamental sequence
-  `KaehlerDifferential.exact_kerCotangentToTensor_mapBaseChange`,
-  `KaehlerDifferential.tensorKaehlerEquivOfFormallyEtale` (`RingTheory/Etale/Kaehler.lean`),
-  `Algebra.Presentation.differentialsRelations`
-  (`Mathlib/Algebra/Module/Presentation/Differentials.lean`), `Algebra.FormallyUnramified`,
-  `Algebra.FormallyUnramified.iff_isSeparable` under `Algebra.EssFiniteType`,
-  `Algebra.FormallySmooth.of_algebraicIndependent_of_isSeparable` and
-  `exists_isTranscendenceBasis_and_isSeparable_of_perfectField`
-  (`Mathlib/FieldTheory/SeparablyGenerated.lean`). `KaehlerDifferential` does not occur in
-  `Mathlib/FieldTheory/`, so `dim_F Ω[F⁄k] = 1` is Tau Ceti's (§9.1).
-- **Transcendence**, `Mathlib/RingTheory/AlgebraicIndependent/`: `Algebra.trdeg`, `trdeg_add_eq`,
-  `Polynomial.trdeg_of_isDomain`, `exists_isTranscendenceBasis`, `Transcendental`;
-  `Algebra.EssFiniteType` and `IntermediateField.fg_top_iff`.
-- **Completions**: `IsDedekindDomain.HeightOneSpectrum.adicCompletion` and
-  `adicCompletionIntegers`, `FiniteAdeleRing`, and the `X`-adic comparison with Laurent series
-  (`Mathlib/RingTheory/LaurentSeries.lean`: `LaurentSeriesRingEquiv`, `powerSeriesAlgEquiv`,
-  `coe_range_dense`). `CompletionAtInfty` carries no equivalence with `K((1/X))`, and
-  `FiniteAdeleRing` no `A(D)` filtration.
-- **Elliptic curves**, `Mathlib/AlgebraicGeometry/EllipticCurve/`: `WeierstrassCurve` with
-  `WeierstrassCurve.IsElliptic`, `WeierstrassCurve.Affine.CoordinateRing` (an `AdjoinRoot`, a
-  domain, with no `IsDedekindDomain` instance), `WeierstrassCurve.Affine.FunctionField`
-  (`Affine/Point.lean`), `WeierstrassCurve.Affine.Point.toClass` (injective), normal forms,
-  `j`-invariants and reduction types (`Reduction.lean`).
-- **Plane curves**: the `Polynomial.Bivariate` namespace (`R[X][Y]`, `evalEval`, `swap`), `MvPolynomial.IsHomogeneous`
-  with `homogeneousComponent`, `Polynomial.resultant` and `Polynomial.discr`
-  (`Mathlib/RingTheory/Polynomial/Resultant/Basic.lean`), `AdjoinRoot`. No homogenization
-  operator, Bézout theorem or intersection multiplicity.
-- **Schemes** (Layer 12): `AlgebraicGeometry.Scheme.functionField`, `Spec`, `Proj` with properness
-  over `Spec 𝒜₀` (`ProjectiveSpectrum/Proper.lean`), the valuative criterion, `IsProper`,
-  `IsSeparated`, `LocallyOfFiniteType`, smooth morphisms of relative dimension `n`, the
-  geometric properties of `Geometrically/`, `finite_appTop_of_universallyClosed`, `AlgebraicGeometry.Scheme.Modules`
-  and `SheafOfModules.IsQuasicoherent`, the order of vanishing
-  (`Mathlib/AlgebraicGeometry/OrderOfVanishing.lean`) and algebraic cycles
-  (`Mathlib/AlgebraicGeometry/AlgebraicCycle/Basic.lean`).
-
-### From Tau Ceti
-
-The homes are `TauCeti/FieldTheory/FunctionField/` for Layers 0–11 (with subdirectories `Place/`,
-`AffineModel/`, `Divisor/`, `RiemannRoch/`, `Repartition/`, `Consequences/`, `Different/`,
-`ConstantExtension/`, `Differential/`, `Elliptic/`, `Hyperelliptic/`, `PlaneCurve/`,
-`ArtinSchreier/`, `Hermitian/`, `Automorphism/`) and `TauCeti/AlgebraicGeometry/Curves/` for
-Layer 12, next to JacobianChallenge's scheme-side carriers. The carriers consumed throughout:
-
-- `TauCeti.IsFunctionField` (`TauCeti/FieldTheory/FunctionField/Basic.lean`), the intrinsic
-  predicate of the conventions table;
-- `TauCeti.Place` (`TauCeti/FieldTheory/FunctionField/Place/Basic.lean`) with its order
-  function, valuation ring, residue field and degree;
-- `TauCeti.Divisor`, its degree, `TauCeti.Divisor.principal` and the Riemann–Roch space
-  (`TauCeti/FieldTheory/FunctionField/Divisor/`, `RiemannRoch/`);
-- `TauCeti.genus` (`TauCeti/FieldTheory/FunctionField/RiemannRoch/Genus.lean`), Stichtenoth's
-  definition as in the conventions table;
-- `TauCeti.adeleFiltration`, `TauCeti.repartitionDualComponent` and the Weil-differential divisor
-  `TauCeti.weilDifferentialDivisor` (`Repartition/`, `Differential/`);
-- `TauCeti.constantCompositum` and `TauCeti.geometricDegree`
-  (`TauCeti/FieldTheory/FunctionField/GeometricDegree.lean`);
-- `TauCeti.Place.ramificationGroup` and `TauCeti.Place.IsTame` (`Different/`);
-- `TauCeti.AlgebraicGeometry.twoChartModel` (`TauCeti/AlgebraicGeometry/Curves/TwoChartModel/`)
-  and `TauCeti.AlgebraicGeometry.SchemeWeilDivisor`
-  (`TauCeti/AlgebraicGeometry/WeilDivisor/Scheme/Basic.lean`).
-
-New targets are stated on these carriers, through a comparison with any differently spelled
-statement, never on a parallel copy. The pinned theorems each layer consumes are named in that
-layer.
-
-### From TauCetiRoadmap.JacobianChallenge
-
-Layers A–B: the sheaf `𝒪_X(D)`, coherent cohomology over `k`, Riemann–Roch as
-`χ(L) = deg L + 1 − g` with `g := dim H¹(X, 𝒪_X)`, and Serre duality, used by 12E only for a
-separably generated `F/k` whose regular model is smooth, proper and geometrically connected.
-Layers E–F: abelian varieties on Tau Ceti's `AbelianVariety`, the Jacobian `Jac X` and the
-Abel–Jacobi map with its Albanese property, used by the route of §11.4.
-
-### From TauCetiRoadmap.FormalLaurentPuiseux
-
-L1–L3: formal coordinate substitutions, continuous derivations of Laurent series and the
-transformation of residues under a change of uniformizer, in every characteristic. §9.2
-transports them along its completion isomorphisms.
-
-### From TauCetiRoadmap.LocalFieldsRamification
-
-Layer 3: Herbrand functions and the upper numbering, and Hasse–Arf for finite abelian Galois
-extensions of complete discretely valued fields with finite residue field. §8.9 uses them for
-completions of function fields at places with finite residue field only.
-
-## How to read the build
-
-Layer 0 sets up function fields, their constant fields and their places; Layer 1 classifies the
-places of the rational function field; Layer 2 identifies the places of a function field with
-the height-one primes of two affine normalizations. Layer 3 builds divisors, the product
-formula, `L(D)`, Riemann's theorem and the genus; Layer 4 builds repartitions and Weil
-differentials and proves Riemann–Roch; Layer 5 derives its consequences and the local components
-of Weil differentials. Layer 6 develops extensions of function fields without Riemann–Roch;
-Layer 7 the different, the cotrace and the Hurwitz genus formula; Layer 8 constant-field
-extensions, ramification groups and the inseparable pathologies. Layer 9 compares Weil with
-Kähler differentials and proves the residue theorem; Layer 10 computes the model classes;
-Layer 11 proves finiteness of automorphism groups and the Hurwitz bound; Layer 12 builds the
-regular projective model, the anti-equivalence and the comparison with the scheme-theoretic
-Riemann–Roch. Layers 0–1 are sequential; Layer 2 needs Layer 0 only; Layer 4 is the critical
-path; Layer 6 needs Layers 0–3 and runs in parallel with Layers 4–5; Layer 7 needs Layers 4–6;
-Layer 9's first section needs Layers 0–3 and its comparison Layer 7. Layer 8 and §12B.0
-interleave item by item: §8.1 items 1–2 (Layer 0 only), then the early model of §12B.0 (Layers 0
-and 2) with 12B.0a–b, then §8.1 item 3, then 12B.0c (after Layers 3–5) and §§8.2 and 8.5. Each
-layer ends with its examples and its dependencies; a `*Needs:*` line lists what each target's
-statement and route use, so that a target proved by another route is not blocked behind an
-unrelated layer. The anchor `#layer-8-constant-field-extensions-galois-ramification-and-inseparability-`
-of the former Layer 8 heading is now
-`#layer-8-constant-field-extensions-galois-ramification-and-inseparability`.
 
 ## Layer 0: function fields, constant fields, and places
 
@@ -2430,6 +2213,223 @@ schemes; Tau Ceti's two-chart model, scheme Weil divisors and the anti-equivalen
   HyperellipticCurves consumes Layers 10–11;
   CanonicalModelsAndGonality consumes the carriers, Layer 8's constant-field extensions and
   Layer 12's regular projective model.
+
+## Scope and ownership
+
+This roadmap owns general function-field places, divisors and `L(D)`, Weil differentials and
+Riemann–Roch, ramification in extensions of function fields with the different and the
+Hurwitz genus formula, constant-field extensions, the regular projective model of a function
+field and the curve/function-field anti-equivalence. Most of this is implemented in Tau Ceti at
+the pin under `TauCeti/FieldTheory/FunctionField/` and `TauCeti/AlgebraicGeometry/Curves/`; each
+layer cites the pinned declarations by name and states the targets the pin does not prove.
+[BelyiMaps](../BelyiMaps/README.md) consumes the pinned carriers `TauCeti.IsFunctionField`,
+`TauCeti.Place` and `TauCeti.Divisor` and defines no parallel place, divisor or Riemann–Roch
+theory.
+
+**The route.** The development is function-field-first, following Stichtenoth: a curve is its
+field of algebraic functions, places are normalized discrete valuations, and Riemann–Roch is
+linear algebra over `k` inside the restricted product of copies of `F` indexed by the places
+(Weil's repartitions), with no sheaves and no cohomology. This matches the pinned Mathlib,
+which supplies valuations, Dedekind domains, `RatFunc` and Laurent series but no divisor on a
+scheme and no coherent cohomology. The pinned Tau Ceti also carries the scheme side: Weil
+divisors on schemes (`TauCeti.AlgebraicGeometry.SchemeWeilDivisor`,
+`TauCeti/AlgebraicGeometry/WeilDivisor/Scheme/Basic.lean`), finite-dimensional quasi-coherent
+cohomology vanishing above degree one on a proper curve
+(`TauCeti/AlgebraicGeometry/Curves/Cohomology.lean`) and the two-chart model of a function field
+(`TauCeti/AlgebraicGeometry/Curves/TwoChartModel/`). Layer 12 consumes those carriers: it is
+where the function-field theory meets the scheme-theoretic one of
+[JacobianChallenge](../JacobianChallenge/README.md) (scheme divisors, coherent cohomology,
+Riemann–Roch in the form `χ(L) = deg L + 1 − g` with `g := dim H¹(X, 𝒪_X)`, Serre duality), by a
+comparison contract instead of a second proof.
+
+**Left to other roadmaps.**
+
+- *Zeta functions and the arithmetic of curves over finite fields* (Stichtenoth Ch. 5:
+  rationality, functional equation, Hasse–Weil): CurvesOverFiniteFields
+  and FunctionFieldArithmetic, which consume this
+  roadmap. The Riemann–Roch inputs they need (finiteness of `Cl⁰(F)` over a finite constant
+  field, Stichtenoth Lemma 5.1.1 and Prop. 5.1.3, and the class-group bridge to Mathlib's
+  `ClassGroup`) are §5.6 here.
+- *Jacobians and abelian varieties*: [JacobianChallenge](../JacobianChallenge/README.md) constructs
+  the Jacobian; here `Cl⁰(F)` is a plain abelian group.
+- *Elliptic-curve arithmetic* (isogenies, torsion, heights, Mordell–Weil):
+  [EllipticCurves](../EllipticCurves/README.md). Elliptic function fields appear here once, as
+  the genus-one model class of §§10.1–10.3, with the compatibility statements EllipticCurves
+  consumes.
+- *Hyperelliptic arithmetic invariants* (Igusa invariants, minimal models, cluster pictures):
+  HyperellipticCurves, which consumes §10.4 here.
+- *Modular curves*: the moduli-theoretic theory is no part of this roadmap.
+  [ModularForms](../ModularForms/README.md) builds the analytic quotient `Γ\ℍ*`, its genus and an
+  analytic Riemann–Roch inside its own Layer 10 and consumes nothing from here.
+- *The local ramification filtration* (upper numbering, Herbrand functions, Hasse–Arf) for
+  completions with finite residue field: [LocalFieldsRamification](../../Completed/LocalFieldsRamification/README.md)
+  Layer 3; §8.9 states the boundary.
+- *Moduli of stable curves* and the finiteness of automorphism groups of stable curves over a
+  base: [SchemeAndStackFoundations](../SchemeAndStackFoundations/README.md) §4.15, which takes no
+  input from this roadmap; §11.4 here proves the function-field statement over every field, under
+  positive genus over the algebraic closure, without moduli.
+- *The scheme forms of curve theory* (the affine-or-projective dichotomy, the genus of a proper
+  curve under extension of the base field, Riemann–Hurwitz with the ramification divisor of
+  `Ω_{X/Y}`, degrees of vector bundles on curves): SchemeAndStackFoundations Layer 3 (§§3.1–3.3),
+  which takes no input from this roadmap and restates none of Layers 0–12. The function-field
+  forms and their comparisons with the scheme side are here: the Cartier ramification divisor
+  against the trace-dual different on the separable-residue branch (12B.0d), genus and divisor
+  base change on the smooth model (§8.2 with 12B.0b), and the dictionary of 12A–12E.
+  [AlgebraicVectorBundles](../AlgebraicVectorBundles/README.md) also takes no input from this
+  roadmap; the curve-specific degree theory it assigns here is the degree of places and divisors
+  (§§0.4, 3.1) and its agreement with the degree of scheme Weil divisors (12D).
+
+**Outside the roadmap.** Nonspecial-divisor refinements and Brill–Noether theory; generic
+classicality of gap sequences and the Weierstrass-point theory of positive characteristic
+(Hasse–Schmidt orders); the quantitative positive-characteristic automorphism bounds of
+Roquette and Stichtenoth and the classification of curves with large automorphism groups;
+singular plane curves through intersection theory (Bézout is not at the pin); the projective
+`PSL₂(𝔽₇)` action on the Klein quartic and the full group `PGU₃(q)` of a Hermitian curve;
+refinements of Castelnuovo's inequality beyond §8.11; the comparison with compact Riemann
+surfaces over `ℂ`, which needs a GAGA development; zeta functions.
+
+## Exact supplier contracts
+
+| Supplier | Interface used here | Boundary |
+| --- | --- | --- |
+| Mathlib at the pin | valuations and Dedekind domains, `RatFunc` with its places, ramification bookkeeping, the different ideal, Kähler differentials, transcendence degree, Weierstrass curves, scheme vocabulary | consumed by name below; what the pin lacks is built here in Mathlib's shape |
+| Tau Ceti at the pin: `TauCeti/FieldTheory/FunctionField/`, `TauCeti/FieldTheory/Separable/`, `TauCeti/AlgebraicGeometry/Curves/`, `TauCeti/AlgebraicGeometry/WeilDivisor/` | the carriers `TauCeti.IsFunctionField`, `TauCeti.Place`, `TauCeti.Divisor`, `TauCeti.genus`, `TauCeti.constantCompositum`, the two-chart model and the scheme Weil divisors, and the theorems cited by name at each layer | the targets each layer states beyond the cited names are this roadmap's |
+| [JacobianChallenge](../JacobianChallenge/README.md) Layers A–B and E–F | the sheaf `𝒪_X(D)`, coherent cohomology over `k`, `χ`-form Riemann–Roch and Serre duality (12E); abelian varieties, the Jacobian and the Abel–Jacobi map with its Albanese property (§11.4) | 12E is a comparison contract, not a second proof; the relative theory (cohomology and base change, Layer C) is no part of this roadmap |
+| [FormalLaurentPuiseux](../FormalLaurentPuiseux/README.md) L1–L3 | coordinate substitutions, continuous Laurent derivations and the residue transformation in every characteristic | transported through the completion charts of §9.2 at places with finite separable residue extension |
+| [LocalFieldsRamification](../../Completed/LocalFieldsRamification/README.md) Layer 3 | Herbrand functions, the upper numbering and Hasse–Arf for complete discretely valued fields with finite residue field | used only for completions with finite residue field (§8.9); Hasse–Arf also needs an abelian Galois extension |
+
+### From Mathlib
+
+- **The chosen-generator predicate**, `Mathlib/NumberTheory/FunctionField.lean`:
+  `FunctionField Fq F` (for an arbitrary field `Fq`, despite the file's framing),
+  `functionField_iff`, `FunctionField.ringOfIntegers` with `IsDedekindDomain` under
+  `[Algebra.IsSeparable (RatFunc Fq) F]`, `FunctionField.finiteDimensional_of_adjoin_transcendental`
+  (any transcendental `y` has `F/Fq(y)` finite) and
+  `FunctionField.finiteDimensional_of_constantExtension` (finiteness of the constant field). The
+  infinity place is `RatFunc.inftyValuation`, `RatFunc.inftyValued` and
+  `RatFunc.CompletionAtInfty` in `Mathlib/FieldTheory/RatFunc/Valuation.lean`.
+- **The rational function field**, `Mathlib/FieldTheory/RatFunc/`: `num`/`denom`, `intDegree`,
+  `RatFunc.inftyValuation` with `v_∞(f) = exp (intDegree f)` and the instances
+  `Valuation.IsNontrivial` and `Valuation.IsTrivialOn`; `RatFunc.algEquivOfTranscendental`
+  (`RatFunc K ≃ₐ[K] K(f)` for transcendental `f`); `Polynomial.idealX`;
+  `RatFunc.finrank_eq_max_natDegree` (`[K(X) : K(f)] = max (natDegree f.num) (natDegree f.denom)`);
+  `RatFunc.adjoin_X`; Lüroth's theorem (`Luroth.lean`). The relative algebraic closure
+  `algebraicClosure k F` (`FieldTheory/AlgebraicClosure.lean`) and `IsIntegrallyClosedIn`
+  (`RingTheory/IntegralClosure/IntegrallyClosed.lean`) are the constant-field vocabulary.
+- **Ostrowski for `RatFunc`**, `Mathlib/NumberTheory/RatFunc/Ostrowski.lean`:
+  `RatFunc.valuation_isEquiv_infty_or_adic`, every rank-one discrete valuation of `RatFunc K`
+  trivial on `K` is equivalent to exactly one of `v_∞` and a `p(X)`-adic valuation, over an
+  arbitrary field `K`. Layer 1 repackages it in place vocabulary.
+- **The Dedekind substrate**, `Mathlib/RingTheory/DedekindDomain/`:
+  `IsDedekindDomain.HeightOneSpectrum` with `intValuation`, `valuation`,
+  `valuation_exists_uniformizer`, `valuation_surjective`, `eq_of_valuation_isEquiv_valuation`
+  and `valuationSubringAtPrime` (`AdicValuation.lean`); `FractionalIdeal.count` with `count_mul`,
+  `count_inv`, `count_zpow`, `count_finsuppProd`, `FractionalIdeal.finite_factors` and
+  `finprod_heightOneSpectrum_factorization'` (`Factorization.lean`); `ClassGroup` with
+  `ClassGroup.mk0` and `ClassGroup.equivPic` (`Mathlib/RingTheory/PicardGroup.lean`); S-integers
+  (`SInteger.lean`); `IsIntegralClosure.isDedekindDomain` and
+  `integralClosure.isFractionRing_of_finite_extension`;
+  `IsDedekindDomain.HeightOneSpectrum.valuationOfNeZero` (`SelmerGroup.lean`).
+- **Ramification bookkeeping**, `Mathlib/RingTheory/RamificationInertia/`: `Ideal.ramificationIdx`
+  (the length of `S_q/pS_q` at a prime `q` of `S` over `p`) and `Ideal.inertiaDeg`, with the
+  fundamental identity `Ideal.sum_ramification_inertia_eq_finrank` (`Basic.lean`:
+  `∑_{q ∣ p} e · f = rank_R S` for a domain `R`, a finite flat `R`-algebra `S` and a prime `p`); the
+  Galois action on `primesOver`, `Ideal.ramificationIdxIn`, `Ideal.inertiaDegIn` and
+  `Ideal.ncard_primesOver_mul_ramificationIdxIn_mul_inertiaDegIn` in
+  `Mathlib/NumberTheory/RamificationInertia/Galois.lean`. The module
+  `Mathlib/NumberTheory/RamificationInertia/Basic.lean`, with `Ideal.sum_ramification_inertia`
+  stated for the older `Ideal.ramificationIdx'` and `Ideal.inertiaDeg'`, is deprecated at the pin
+  and is not consumed. Reconciliation lemmas with the place invariants `e` and `f` are stated once,
+  and consumers stay off the raw definitions.
+- **The different ideal**, `Mathlib/RingTheory/DedekindDomain/Different.lean`:
+  `Submodule.traceDual`, `FractionalIdeal.dual`, `differentIdeal` with `coeIdeal_differentIdeal`,
+  the tower law `differentIdeal_eq_differentIdeal_mul_differentIdeal`, the conductor formula
+  `conductor_mul_differentIdeal`, `pow_sub_one_dvd_differentIdeal` and `dvd_differentIdeal_iff`.
+  The exact tame value `v_P(𝔡) = e − 1` is not there.
+- **Kähler differentials**, `Mathlib/RingTheory/Kaehler/`: `KaehlerDifferential` with base
+  change and localization, `KaehlerDifferential.polynomialEquiv`, the second fundamental sequence
+  `KaehlerDifferential.exact_kerCotangentToTensor_mapBaseChange`,
+  `KaehlerDifferential.tensorKaehlerEquivOfFormallyEtale` (`RingTheory/Etale/Kaehler.lean`),
+  `Algebra.Presentation.differentialsRelations`
+  (`Mathlib/Algebra/Module/Presentation/Differentials.lean`), `Algebra.FormallyUnramified`,
+  `Algebra.FormallyUnramified.iff_isSeparable` under `Algebra.EssFiniteType`,
+  `Algebra.FormallySmooth.of_algebraicIndependent_of_isSeparable` and
+  `exists_isTranscendenceBasis_and_isSeparable_of_perfectField`
+  (`Mathlib/FieldTheory/SeparablyGenerated.lean`). `KaehlerDifferential` does not occur in
+  `Mathlib/FieldTheory/`, so `dim_F Ω[F⁄k] = 1` is Tau Ceti's (§9.1).
+- **Transcendence**, `Mathlib/RingTheory/AlgebraicIndependent/`: `Algebra.trdeg`, `trdeg_add_eq`,
+  `Polynomial.trdeg_of_isDomain`, `exists_isTranscendenceBasis`, `Transcendental`;
+  `Algebra.EssFiniteType` and `IntermediateField.fg_top_iff`.
+- **Completions**: `IsDedekindDomain.HeightOneSpectrum.adicCompletion` and
+  `adicCompletionIntegers`, `FiniteAdeleRing`, and the `X`-adic comparison with Laurent series
+  (`Mathlib/RingTheory/LaurentSeries.lean`: `LaurentSeriesRingEquiv`, `powerSeriesAlgEquiv`,
+  `coe_range_dense`). `CompletionAtInfty` carries no equivalence with `K((1/X))`, and
+  `FiniteAdeleRing` no `A(D)` filtration.
+- **Elliptic curves**, `Mathlib/AlgebraicGeometry/EllipticCurve/`: `WeierstrassCurve` with
+  `WeierstrassCurve.IsElliptic`, `WeierstrassCurve.Affine.CoordinateRing` (an `AdjoinRoot`, a
+  domain, with no `IsDedekindDomain` instance), `WeierstrassCurve.Affine.FunctionField`
+  (`Affine/Point.lean`), `WeierstrassCurve.Affine.Point.toClass` (injective), normal forms,
+  `j`-invariants and reduction types (`Reduction.lean`).
+- **Plane curves**: the `Polynomial.Bivariate` namespace (`R[X][Y]`, `evalEval`, `swap`), `MvPolynomial.IsHomogeneous`
+  with `homogeneousComponent`, `Polynomial.resultant` and `Polynomial.discr`
+  (`Mathlib/RingTheory/Polynomial/Resultant/Basic.lean`), `AdjoinRoot`. No homogenization
+  operator, Bézout theorem or intersection multiplicity.
+- **Schemes** (Layer 12): `AlgebraicGeometry.Scheme.functionField`, `Spec`, `Proj` with properness
+  over `Spec 𝒜₀` (`ProjectiveSpectrum/Proper.lean`), the valuative criterion, `IsProper`,
+  `IsSeparated`, `LocallyOfFiniteType`, smooth morphisms of relative dimension `n`, the
+  geometric properties of `Geometrically/`, `finite_appTop_of_universallyClosed`, `AlgebraicGeometry.Scheme.Modules`
+  and `SheafOfModules.IsQuasicoherent`, the order of vanishing
+  (`Mathlib/AlgebraicGeometry/OrderOfVanishing.lean`) and algebraic cycles
+  (`Mathlib/AlgebraicGeometry/AlgebraicCycle/Basic.lean`).
+
+### From Tau Ceti
+
+The homes are `TauCeti/FieldTheory/FunctionField/` for Layers 0–11 (with subdirectories `Place/`,
+`AffineModel/`, `Divisor/`, `RiemannRoch/`, `Repartition/`, `Consequences/`, `Different/`,
+`ConstantExtension/`, `Differential/`, `Elliptic/`, `Hyperelliptic/`, `PlaneCurve/`,
+`ArtinSchreier/`, `Hermitian/`, `Automorphism/`) and `TauCeti/AlgebraicGeometry/Curves/` for
+Layer 12, next to JacobianChallenge's scheme-side carriers. The carriers consumed throughout:
+
+- `TauCeti.IsFunctionField` (`TauCeti/FieldTheory/FunctionField/Basic.lean`), the intrinsic
+  predicate of the conventions table;
+- `TauCeti.Place` (`TauCeti/FieldTheory/FunctionField/Place/Basic.lean`) with its order
+  function, valuation ring, residue field and degree;
+- `TauCeti.Divisor`, its degree, `TauCeti.Divisor.principal` and the Riemann–Roch space
+  (`TauCeti/FieldTheory/FunctionField/Divisor/`, `RiemannRoch/`);
+- `TauCeti.genus` (`TauCeti/FieldTheory/FunctionField/RiemannRoch/Genus.lean`), Stichtenoth's
+  definition as in the conventions table;
+- `TauCeti.adeleFiltration`, `TauCeti.repartitionDualComponent` and the Weil-differential divisor
+  `TauCeti.weilDifferentialDivisor` (`Repartition/`, `Differential/`);
+- `TauCeti.constantCompositum` and `TauCeti.geometricDegree`
+  (`TauCeti/FieldTheory/FunctionField/GeometricDegree.lean`);
+- `TauCeti.Place.ramificationGroup` and `TauCeti.Place.IsTame` (`Different/`);
+- `TauCeti.AlgebraicGeometry.twoChartModel` (`TauCeti/AlgebraicGeometry/Curves/TwoChartModel/`)
+  and `TauCeti.AlgebraicGeometry.SchemeWeilDivisor`
+  (`TauCeti/AlgebraicGeometry/WeilDivisor/Scheme/Basic.lean`).
+
+New targets are stated on these carriers, through a comparison with any differently spelled
+statement, never on a parallel copy. The pinned theorems each layer consumes are named in that
+layer.
+
+### From TauCetiRoadmap.JacobianChallenge
+
+Layers A–B: the sheaf `𝒪_X(D)`, coherent cohomology over `k`, Riemann–Roch as
+`χ(L) = deg L + 1 − g` with `g := dim H¹(X, 𝒪_X)`, and Serre duality, used by 12E only for a
+separably generated `F/k` whose regular model is smooth, proper and geometrically connected.
+Layers E–F: abelian varieties on Tau Ceti's `AbelianVariety`, the Jacobian `Jac X` and the
+Abel–Jacobi map with its Albanese property, used by the route of §11.4.
+
+### From TauCetiRoadmap.FormalLaurentPuiseux
+
+L1–L3: formal coordinate substitutions, continuous derivations of Laurent series and the
+transformation of residues under a change of uniformizer, in every characteristic. §9.2
+transports them along its completion isomorphisms.
+
+### From TauCetiRoadmap.LocalFieldsRamification
+
+Layer 3: Herbrand functions and the upper numbering, and Hasse–Arf for finite abelian Galois
+extensions of complete discretely valued fields with finite residue field. §8.9 uses them for
+completions of function fields at places with finite residue field only.
 
 ## References
 
