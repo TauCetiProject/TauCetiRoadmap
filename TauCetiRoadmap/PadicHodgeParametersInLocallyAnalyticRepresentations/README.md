@@ -1,39 +1,59 @@
 # Roadmap: p-adic Hodge parameters in locally analytic representations of GL_n
 
-**Summary.** For a generic noncritical crystabelline (φ,Γ)-module D of rank n over the Robba ring
-`R_{K,E}`, the smooth representation π_sm(φ) and the Hodge–Tate–Sen weights h (normalised so that the
-cyclotomic character has weight +1, see Conventions) fix the locally algebraic
-representation π_alg(φ,h) of GL_n(K), but they forget the Hodge filtration of D: ΦΓ_nc(φ,h) has
-more than one isomorphism class as soon as n ≥ 3, or n = 2 and K ≠ ℚ_p. From rank three on the
-kernel below is nonzero and records part of the forgotten filtration (Layer 4 says which part).
-This roadmap constructs Ding's comparison: the unique surjection
-`t_D : Ext¹_{GL_n(K)}(π_alg(φ,h), π_1(φ,h)) ↠ Ext¹(D,D)/Ext¹_0(D,D)` that matches, refinement by
-refinement, the locally analytic principal-series extensions with the trianguline first-order
-deformations of D. Its kernel has dimension `(2^n − n(n+1)/2 − 1)·[K:ℚ_p]`. The tautological
-extension of π_alg(φ,h) ⊗ Ker(t_D) by π_1(φ,h) is the locally analytic representation π_min(D).
-The end theorems are: the comparison theorem and its kernel dimension; the characterisation of
-π_min(D) by its first two socle layers and its Ext¹ group; its central and infinitesimal
-characters; its compatibility with parabolic induction and its decomposition over the embeddings of
-K; the recovery theorem, which says that π_min(D) determines, embedding by embedding, the modified
-modules D_σ (hence D itself when K = ℚ_p); and the realisation of π_min(D) as the annihilator of the
-maximal ideal of a first-order Artinian algebra A_D acting on the universal extension. These results
-are located in Ding, *p-adic Hodge parameters in the crystabelline representations of GL_n* (DING25),
-§3.2, pp. 47–59; each target gives its locator.
+**Summary.** Let K be a finite extension of ℚ_p, and D a generic noncritical crystabelline
+(φ,Γ)-module of rank n over the Robba ring `R_{K,E}`, not necessarily étale. Its smooth
+parameters φ = (φ_1,…,φ_n) and Hodge–Tate–Sen weights h (the cyclotomic character having weight +1,
+see Conventions) fix the locally algebraic representation π_alg(φ,h) of GL_n(K). They forget the
+Hodge filtration of D, however: the class ΦΓ_nc(φ,h) of such modules has more than one isomorphism
+class as soon as n ≥ 3, or n = 2 and K ≠ ℚ_p. Following Ding (DING25, §3.2), this roadmap
+records part of the forgotten filtration in a locally analytic representation π_min(D). Unless it
+says otherwise, every theorem assumes the standing hypotheses (H) of the Conventions.
 
-## How to read the build
+Two spaces are compared. The first, 𝔈, consists of the extensions of π_alg(φ,h) by π_1(φ,h), a locally
+analytic representation built from principal series, with socle π_alg(φ,h). The second, Q, is the
+space Ext¹(D,D) of first-order deformations of D modulo a subspace Ext¹_0(D,D). Each refinement
+w ∈ S_n, an ordering of the φ_i giving a triangulation of D, parametrises a subspace of each by the
+space H_T of additive characters of the diagonal torus: on 𝔈 through locally analytic principal
+series (a map ζ_w), on Q through trianguline deformations of D (a map κ_w).
 
-Layer 0 fixes the combinatorics of the induction (endpoint refinement families, block character
-directions and their spanning identity) and the common presentation of 𝔈 and Q by the direct sum of
-refinement quotients. Layer 1 constructs t_D by induction on n, gluing the two endpoint block
-comparisons and extending to all refinements, and computes its kernel. Layer 2 builds π_min(D) and
-π_fs(D), identifies their Ext¹ with Q, characterises π_min(D) intrinsically and computes its scalar
-characters. Layer 3 compares parabolic blocks, restricts to one embedding, splits the kernel over the
-embeddings and transports everything to the modified modules D_σ. Layer 4 proves the recovery
-theorem. Layer 5 reformulates Theorem 1.4 (DING25 Theorem 3.21) through first-order Artinian
-algebras acting on the universal extension. Layer 2 depends on Layer 1. Layer 5 depends on Layer 1: §§5.1–5.4 reformulate
-Theorem 1.4 through universal extensions, and §5.5 also uses Layer 2's minimal representation
-π_min(D) (§2.1); nothing in Layer 2 uses Layer 5. Layer 3 depends on Layers 1–2, and Layer 4 on
-Layer 3.
+Ding's comparison theorem says that exactly one linear map t_D : 𝔈 → Q matches the two
+parametrisations for every refinement, sending ζ_w(ψ) to the deformation with κ_w-parameter ψ. This
+map is surjective, and its kernel has dimension (2^n − n(n+1)/2 − 1)·[K:ℚ_p]. The kernel vanishes for
+n ≤ 2; for n = 3 and K = ℚ_p it is a line, 𝔈 and Q having dimensions 10 and 9.
+
+The minimal representation π_min(D) is the extension of Ker(t_D) ⊗ π_alg(φ,h) by π_1(φ,h) whose
+class is the inclusion of Ker(t_D) into 𝔈. Ding characterises it: among admissible
+locally analytic extensions of dim Ker(t_D) copies of π_alg(φ,h) by π_1(φ,h), it is the only one, up
+to isomorphism, that has the first two socle layers of π_1(φ,h) and whose Ext¹ from π_alg(φ,h) can be
+identified with Q compatibly with every refinement.
+
+The recovery theorem says what π_min(D) remembers. For each embedding σ : K ↪ E, the modified module
+D_σ ⊃ D has the same σ-filtered de Rham module as D, and all its weights at each other embedding τ
+equal `h_{n,τ}`. For D and D′ in ΦΓ_nc(φ,h), π_min(D) ≅ π_min(D′) if and only if D_σ ≅ D′_σ for
+every σ. More precisely, D_σ ≅ D′_σ exactly when the largest subrepresentations of π_min(D) and
+π_min(D′) algebraic at every embedding other than σ are isomorphic. When K = ℚ_p, D_σ = D, so
+π_min(D) determines D; for n = 3 the kernel line of t_D then determines the position of the Hodge
+flag relative to the Frobenius eigenbasis. For general K the family of the D_σ need not determine D.
+
+A first-order Artinian algebra A_D with tangent space Q, built from the deformation ring of D and a
+completed Bernstein centre, acts uniquely, compatibly with GL_n(K) and with every refinement, on
+the universal extension of 𝔈 ⊗ π_alg(φ,h) by π_1(φ,h). The part killed by the maximal ideal of
+A_D is isomorphic to π_min(D).
+
+LocallyAnalyticRepresentationsOfLocalGroups supplies the representation side, including π_1(φ,h)
+and the maps ζ_w. TriangulineVarietyAndItsLocalModel supplies the (φ,Γ)-module side, including the
+maps κ_w and the modules D_σ. LocalGaloisDeformationRings and SmoothRepresentationsOfLocalGroups give
+the ingredients of A_D. The local–global applications of Ding's §4 lie outside this roadmap and
+would build on its Layers 2 and 5.
+
+Layer 0 prepares the induction on n and presents 𝔈 and Q as quotients of a common direct sum. Layer
+1 builds t_D by that induction, gluing two lower-rank comparisons and extending to every refinement,
+and computes its kernel. Layer 2 builds π_min(D) and its push-out π_fs(D), proves the
+characterisation and computes the central and infinitesimal characters. Layer 3 proves
+compatibility with parabolic induction, splits the kernel over the embeddings and transports
+everything to the D_σ. Layer 4 proves the recovery theorem. Layers 1 to 4 each build on the
+preceding ones. Layer 5, which builds A_D and its action, needs only Layer 1, except that its last
+step uses π_min(D) from Layer 2.
 
 ## Conventions
 
