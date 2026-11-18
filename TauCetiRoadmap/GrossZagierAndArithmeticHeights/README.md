@@ -953,31 +953,6 @@ Its API consists of the following facts:
 
 *Needs:* [2.2 Arakelov probability form](#22-arakelov-probability-form), [2.8 Normalized Arakelov Green function](#28-normalized-arakelov-green-function), [2.10 Arakelov dualizing metric](#210-arakelov-dualizing-metric), ArakelovGeometryAndAbelianHeights §1.8 `ArithmeticDivisor`, ArakelovGeometryAndAbelianHeights §1.10 `ArithmeticChow1.pairing`.
 
-### 2.14 Residue-normalized adjunction line
-
-Over H, the Hilbert class field of E, let Pbar be the admissible arithmetic CM divisor, e its generic elliptic ramification index, and Mbar=LU,OH⊗O(Pbar/e). Residue gives a canonical generic trivialization M|P≃H; its integral image is a fractional ideal N with induced metric.
-
-Assume the CM quaternionic data (Q) and the Colmez computation data (Q′).
-
-*Outline.* Use the orbifold Hodge bundle identity to identify its tensor with O(P/e) at P with (ω⊗O(P))|P. Use the residue coordinate to trivialize the generic fibre and take the image of the integral lattice with its metric.
-
-Its API consists of the following facts:
-
-- The residue image fractional ideal N of (L_U⊗O(P/e))|P, with induced metric.
-- The generic residue trivialization is independent of the local coordinate.
-- At w, N_w is the image integral lattice in H_w.
-- The arithmetic degree equals the sum of residue-lattice lengths and negative log norms.
-
-**Checks.**
-
-- Replacing local coordinate z by az+O(z²), a≠0, preserves the residue trivialization.
-- For e=1 the bundle is L_U⊗O(P).
-- For e>1, replacing O(P/e) by O(P) gives the wrong orbifold adjunction line.
-
-([On the averaged Colmez conjecture](https://annals.math.princeton.edu/wp-content/uploads/annals-v187-n2-p04-p.pdf), published Annals 187 (2018), §9.2, pp. 629–630.)
-
-*Needs:* [2.9 Admissible arithmetic extension](#29-admissible-arithmetic-extension), HilbertModularVarietiesAndShimuraCurves R18.2.12.
-
 ### 2.15 Archimedean CM height sum
 
 In the marked classical CM setting, assume r_A(m) = 0, so that c and T_m d^σ have disjoint support. Define ⟨c, T_m d^σ⟩_∞ := Σ_(v|∞) ⟨c, T_m d^σ⟩_v, the sum over the h complex places of H of Néron's archimedean local symbols. Since Gal(H/K) ≅ Cl_K permutes these places simply transitively, ⟨c, T_m d^σ⟩_∞ = Σ_(A₁, A₂ ∈ Cl_K, A₁A₂⁻¹ = A) ⟨(τ_(A₁,𝔫)) − (∞), T_m((τ_(A₂,𝔫)) − (0))⟩_ℂ, where τ_(A,𝔫) ∈ 𝔥 are the points of Chap. II §1 (roots of aτ² + bτ + c = 0 of discriminant D with N | a) attached to the class A and the ideal 𝔫.
@@ -3167,18 +3142,6 @@ Assume the CM quaternionic data (Q) and the Colmez computation data (Q′).
 
 *Needs:* HilbertModularVarietiesAndShimuraCurves Layer R18.5, [6.21 Special test function and integral j](#621-special-test-function-and-integral-j).
 
-### 7.15 Nonzero associated weight-one theta
-
-Fix (F,E,𝔹,U,φ), as in (Q′) (Yuan–Zhang §7.2). The weight-one theta series θ_(Ω,1)(g) = Σ_(u∈μ_U²\F^×) Σ_(y∈E) r_E(g)φ(y,u), which is the outer theta series of Ω_φ, is not identically zero. Take g_v = [[0,1],[−1,0]] at v ∈ Σ_f ∪ S2 and g_v = 1 elsewhere. Every term r_E(g)φ(0,u) is ε times a nonnegative number, with ε = Π_(v∈Σ_f)λ(E_v/F_v,ψ_v) ∈ {±1}, and |r_E(g)φ(0,1)| > 0. At v ∈ S2, ∫_(E_v)φ_v(y,1)dy = (1−N_v^(-1))²(1 − 3/(1+N_v+N_v²)) > 0. So the finite sum over u ∈ O_F^(×,+)/μ_U² is nonzero.
-
-Assume the CM quaternionic data (Q) and the Colmez computation data (Q′).
-
-*Outline.* Use the Weil action of E itself, rather than the ambient quaternion algebra, at the specified g. Inert division places contribute their Weil index λ(E_v/F_v,ψ_v), which is independent of u on the allowed support. Their product is the common sign ε. Every constant-term summand is ε times a nonnegative quantity. At S2 the integral is (1−N_v^(-1))²(1−3/(1+N_v+N_v²)) > 0, and the remaining factors at u = 1 have nonzero absolute value. Therefore |r_E(g)φ(0,1)| > 0; the finite sum over O_F^(×,+)/μ_U² has sign ε and cannot vanish. Positivity of the signed constant term is not required.
-
-([On the averaged Colmez conjecture](https://annals.math.princeton.edu/wp-content/uploads/annals-v187-n2-p04-p.pdf), published Annals 187 (2018), §9.1, p. 628.)
-
-*Needs:* [6.21 Special test function and integral j](#621-special-test-function-and-integral-j), MetaplecticAutomorphicForms Layer 5.
-
 ### 7.16 Archimedean derivative kernel
 
 At a real place use B(v)_v=E_v+E_v j, y=y₁+y₂ of positive norm outside E×, and λ=q(y₂)/q(y)<0. Define k_(v,s)(y)=Γ(s+1)/(2(4π)^s)∫₁^∞dt/[t(1−λt)^(s+1)], and K_φ^(v) as the Laurent finite part of its μ_U⧵(B(v)×_+−E×) sum, weighted by the a-th Whittaker coefficients and w_U∑_(a∈F×). The projected derivative is twice its normalized diagonal C_U average. To compare with the Green sum retain A(s)=Γ(2s+2)/((4π)^sΓ(s+2)). The underlying integral is 2Γ(2s+2)/(Γ(s+1)Γ(s+2))Q_s(1−2λ)+O_s(|λ|^(−s−2)), with error vanishing at s=0. Since A(0)=1 but A′(0)=1−γ−log(4π), multiplying a Green sum with a pole changes its finite part. Before auxiliary degeneracy, K_φ^(v)−M_φ^(v)=½(γ+log(4π)−1)E*(0,g,r(t₁,t₂)φ). The two auxiliary split-place conditions kill this correction; they are used when identifying the two regularized kernels.
@@ -3448,30 +3411,6 @@ Assume the CM quaternionic data (Q) and the Colmez computation data (Q′).
 ([On the averaged Colmez conjecture](https://annals.math.princeton.edu/wp-content/uploads/annals-v187-n2-p04-p.pdf), published Annals 187 (2018), Lemma8.9,Remark8.10 pp622–624.)
 
 *Needs:* [7.13 Superspecial multiplicity by uniformization](#713-superspecial-multiplicity-by-uniformization), [6.5 Pseudo-theta datum](#65-pseudo-theta-datum), [2.9 Admissible arithmetic extension](#29-admissible-arithmetic-extension), HilbertModularVarietiesAndShimuraCurves R18.5.15, [6.21 Special test function and integral j](#621-special-test-function-and-integral-j).
-
-### 7.33 Archimedean adjunction constant
-
-With Petersson norm ||dz||=2 Im z and Q0(t)=(1/2)log((t+1)/(t−1)), the limit of m0(z0,z1)−log(2 Im z1/|z1−z0|) as z1→z0 is 0, so −log||1||w=iw(P,P)/e.
-
-Assume the CM quaternionic data (Q) and the Colmez computation data (Q′).
-
-*Outline.* Algebraically rewrite as (1/2)log(1+|z1−z0|²/(4Imz0 Imz1))−(1/2)log(Imz1/Imz0); both limits vanish.
-
-([On the averaged Colmez conjecture](https://annals.math.princeton.edu/wp-content/uploads/annals-v187-n2-p04-p.pdf), published Annals 187 (2018), §9.2 pp631–632.)
-
-*Needs:* [7.11 Regularized archimedean multiplicity](#711-regularized-archimedean-multiplicity), [2.14 Residue-normalized adjunction line](#214-residue-normalized-adjunction-line), [6.21 Special test function and integral j](#621-special-test-function-and-integral-j).
-
-### 7.34 Extended local diagonal vanishes at small away-v level
-
-For nonsplit finite v, with U'v sufficiently small and U'v normal in Uv away from v as in Yuan–Zhang §9.2, ivbar([1]U',[1]U')=0. For split v it is zero without shrinking.
-
-Assume the CM quaternionic data (Q) and the Colmez computation data (Q′).
-
-*Outline.* Bound support in a compact local subgroup; in a totally definite nearby algebra global units modulo central μ are finite; shrink the away-v level to exclude the noncentral cosets.
-
-([On the averaged Colmez conjecture](https://annals.math.princeton.edu/wp-content/uploads/annals-v187-n2-p04-p.pdf), published Annals 187 (2018), §9.2, Lemma 9.5, p. 634 (split case, p. 635).)
-
-*Needs:* [7.12 Finite local multiplicities and diagonal omission](#712-finite-local-multiplicities-and-diagonal-omission), HilbertModularVarietiesAndShimuraCurves R18.5.15, [6.21 Special test function and integral j](#621-special-test-function-and-integral-j).
 
 ### 7.35 CM multiplicity at 𝔹-split, E-nonsplit places
 
@@ -3768,18 +3707,6 @@ Assume the CM quaternionic data (Q) and the Colmez computation data (Q′).
 
 *Needs:* [7.30 Ordinary multiplicity and local pairing](#730-ordinary-multiplicity-and-local-pairing), [7.12 Finite local multiplicities and diagonal omission](#712-finite-local-multiplicities-and-diagonal-omission), [6.21 Special test function and integral j](#621-special-test-function-and-integral-j), [7.10 Finite zero-term correction](#710-finite-zero-term-correction).
 
-### 7.53 Geometric realization of extended self-intersection
-
-Fix (B,E,U), as in (Q′) (Yuan–Zhang §7.2) with |Σ| > 1, P = [1]_U ∈ X_U(H) (H the Hilbert class field of E), w a finite place of H over v, and R = O_(H_w^ur). Let U′ = U_vU′^v, where U′^v ⊂ U^v is open, normal and small enough that X_(U′,R) is regular, E^× ∩ U′μ_U = μ_U, and Yuan–Zhang Lemma 9.5 (p. 634) holds. Let π: X_(U′,R) → X_(U,R) be the projection. Prove that every irreducible component 𝒫′ of the divisor π^*𝒫_R is the image of a section Spec R → X_(U′,R) and occurs in π^*𝒫_R with multiplicity e = [O_E^×:O_F^×]. Moreover i_w(P,P) = ī_v(P,P) = ⟨π^*𝒫_R − e𝒫′, 𝒫′⟩, a proper intersection on the special fibre of X_(U′,R). If v is split in E, both sides are 0.
-
-Assume the CM quaternionic data (Q) and the Colmez computation data (Q′).
-
-*Outline.* Choose U′ away from v so the model is regular and E^× ∩ U′μ_U = μ_U. Since U′_v = U_v contains O_(E_v)^×, the class fields defining the CM lifts and their U-translates are unramified at w over the Hilbert class field H. Thus the lifts are H_w^ur-rational; properness extends them to sections over R. The stabilizer condition gives ramification multiplicity e in π^*𝒫_R. Use small-level diagonal vanishing, Yuan–Zhang Lemma 9.5 (p. 634) and the U/U′ projection sum, dividing by [μ_U:μ_(U′)], to obtain the proper intersection. The coarse projection need not be étale.
-
-([On the averaged Colmez conjecture](https://annals.math.princeton.edu/wp-content/uploads/annals-v187-n2-p04-p.pdf), published Annals 187 (2018), Lemma9.4 pp632–635, )
-
-*Needs:* [7.34 Extended local diagonal vanishes at small away-v level](#734-extended-local-diagonal-vanishes-at-small-away-v-level), [7.28 Diagonal coefficient and modified self-intersection](#728-diagonal-coefficient-and-modified-self-intersection), HilbertModularVarietiesAndShimuraCurves Layer R18.5, TauCetiRoadmap.StableReduction Layer 4, [6.21 Special test function and integral j](#621-special-test-function-and-integral-j).
-
 ### 7.54 Resolvent cusp expansion
 
 At the cusp ∞, the Fourier expansion in z gives G_(N,s)(z, z′) = −(4π/(2s − 1)) E_N(z′, s) y^(1−s) + O(e^(−y)) as y = Im z → ∞; at any other cusp G_(N,s)(z, z′) = α(s) Y^(1−s) + O(e^(−Y)), Y = Im(γz) for a width-one scaling γ ∈ SL₂(ℝ): γ carries the cusp to ∞ and conjugates its effective stabilizer to {z↦z+n : n∈ℤ}. With an arbitrary scaling γ, replace the remainder by O(e^(−c_γY)) for some c_γ>0; the constant depends on its cusp width. The remainders are holomorphic near s=1 and locally uniform there, as in the source convention.
@@ -4072,30 +3999,6 @@ Assume the CM quaternionic data (Q) and the Colmez computation data (Q′).
 
 *Needs:* [7.48 Archimedean proper-height expression](#748-archimedean-proper-height-expression), [7.29 Nonsplit proper-height expression](#729-nonsplit-proper-height-expression), [7.49 Split proper height and zero extended diagonal](#749-split-proper-height-and-zero-extended-diagonal), [7.28 Diagonal coefficient and modified self-intersection](#728-diagonal-coefficient-and-modified-self-intersection), [6.9 Two auxiliary split places](#69-two-auxiliary-split-places), [6.52 Hodge-class terms vanish and the height series splits into horizontal and vertical parts](#652-hodge-class-terms-vanish-and-the-height-series-splits-into-horizontal-and-vertical-parts), [6.21 Special test function and integral j](#621-special-test-function-and-integral-j).
 
-### 7.66 Split diagonal cancellation
-
-For split finite v, with the chosen order and original 𝔧_v of test-function, d_φ(1,y,u) = −log|d_v q(𝔧_v)| φ_v(y,u). At v ∉ S2 use the usual local-n and c-finite formulas. At v ∈ S2 one has c_φ = 2n_φ log N_v, log|u q(y)| = 0 on support, q(𝔧_v) = −1 and |d_v| = 1, so both sides are zero.
-
-Assume the CM quaternionic data (Q) and the Colmez computation data (Q′).
-
-*Outline.* For v ∉ S2, n_φ = ½v(q(y))φ_v, c_φ = φ_v log|d_v q(𝔧_v)|, and u is a unit on support. Substitute in d_φ = 2n_φ log N_v − c_φ + log|u q(y)|φ_v (p. 626). Since log|q(y)| = −v(q(y))log N_v, the valuation terms cancel, leaving −c_φ. At S2 use the separate formulas n_φ = −ψ2/(1+N_v+N_v²), c_φ = 2n_φ log N_v and log|u q(y)| = 0. With the same d_φ convention as Yuan–Zhang Proposition 9.2 (p. 628), the two correction contributions cancel, giving d_φ = 0. The different is a unit since F_v/Q_p is unramified, and the original 𝔧_v has norm −1. Never replace the S2 computation by the usual valuation formula.
-
-([On the averaged Colmez conjecture](https://annals.math.princeton.edu/wp-content/uploads/annals-v187-n2-p04-p.pdf), published Annals 187 (2018), Proposition9.2(2) p628.)
-
-*Needs:* [7.52 Diagonal-correction local coefficient](#752-diagonal-correction-local-coefficient), [7.10 Finite zero-term correction](#710-finite-zero-term-correction), [6.21 Special test function and integral j](#621-special-test-function-and-integral-j).
-
-### 7.67 Finite adjunction lattice identity
-
-For the residue image N at a finite place w, Nw contains OHw and length(Nw/OHw)=iw(P,P)/e.
-
-Assume the CM quaternionic data (Q) and the Colmez computation data (Q′).
-
-*Outline.* Pull to the small-level regular model; compare π*O(P/e)|P' with O(P')|P', take the ideal of π*P/e−P', and apply the proper intersection formula.
-
-([On the averaged Colmez conjecture](https://annals.math.princeton.edu/wp-content/uploads/annals-v187-n2-p04-p.pdf), published Annals 187 (2018), §9.2 pp633–634.)
-
-*Needs:* [7.53 Geometric realization of extended self-intersection](#753-geometric-realization-of-extended-self-intersection), [2.14 Residue-normalized adjunction line](#214-residue-normalized-adjunction-line), [2.1 Global arithmetic intersection on curves](#21-global-arithmetic-intersection-on-curves), [6.21 Special test function and integral j](#621-special-test-function-and-integral-j).
-
 ### 7.69 Atkin–Lehner kernel invariance
 
 For every d ‖ N: G^m_(N,s)(w_d z, w_d z′) = G^m_(N,s)(z, z′) (in particular for m = 1), because g_s(γz, γz′) = g_s(z, z′) for γ ∈ SL₂(ℝ) and w_d normalises {γ ∈ R_N : det γ = m}; compatible with the invariance of the height pairing under automorphisms.
@@ -4234,18 +4137,6 @@ Assume the CM quaternionic data (Q) and the Colmez computation data (Q′).
 ([On the averaged Colmez conjecture](https://annals.math.princeton.edu/wp-content/uploads/annals-v187-n2-p04-p.pdf), published Annals 187 (2018), §9.1 pp625–627.)
 
 *Needs:* [7.26 Inert logarithmic singularity and diagonal extension](#726-inert-logarithmic-singularity-and-diagonal-extension), [7.27 Ramified logarithmic singularity and diagonal extension](#727-ramified-logarithmic-singularity-and-diagonal-extension), [7.10 Finite zero-term correction](#710-finite-zero-term-correction), [7.52 Diagonal-correction local coefficient](#752-diagonal-correction-local-coefficient), [7.32 Vertical correction is nonsingular pseudo-theta](#732-vertical-correction-is-nonsingular-pseudo-theta), [6.56 Projected derivative decomposition](#656-projected-derivative-decomposition), [7.65 Full local decomposition of the height series](#765-full-local-decomposition-of-the-height-series), [7.48 Archimedean proper-height expression](#748-archimedean-proper-height-expression), [6.21 Special test function and integral j](#621-special-test-function-and-integral-j).
-
-### 7.78 Arithmetic adjunction for the CM point
-
-For compact (Q′) data, i0(P,P)/[OE*:OF*]=−h_LU(P).
-
-Assume the CM quaternionic data (Q) and the Colmez computation data (Q′).
-
-*Outline.* Sum finite residue-lattice lengths and archimedean norms; the arithmetic degree of the residue-normalized line gives the identity.
-
-([On the averaged Colmez conjecture](https://annals.math.princeton.edu/wp-content/uploads/annals-v187-n2-p04-p.pdf), published Annals 187 (2018), Theorem9.3 pp629–635.)
-
-*Needs:* [7.33 Archimedean adjunction constant](#733-archimedean-adjunction-constant), [7.67 Finite adjunction lattice identity](#767-finite-adjunction-lattice-identity), [2.1 Global arithmetic intersection on curves](#21-global-arithmetic-intersection-on-curves), [6.21 Special test function and integral j](#621-special-test-function-and-integral-j).
 
 ### 7.79 Modular Green constant
 
