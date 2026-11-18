@@ -2,17 +2,9 @@
 
 **Summary.** Extend ComplexMultiplicationAndExplicitReciprocity from polarized CM types, lattices and reciprocity to arithmetic heights. Construct the total reflex determinant and orthogonal arithmetic intersection route to the averaged Colmez formula, and a second route through different-torsion graph isogenies and quaternionic adjunction. Use their common average to bound individual CM heights and to prove primitive and arbitrary-center-order Galois orbit bounds. Bound the heights of CM lifts polynomially by a period-coordinate estimate that does not use the average, and combine it with the orbit bound for finiteness at bounded moduli degree. The individual Colmez conjecture is defined, without being assumed or asserted as an endpoint.
 
-## Scope and ownership
+## How to read the build
 
-ComplexMultiplicationAndExplicitReciprocity stops at reflex pairs and orders (§§0.1–0.2), polarized CM lattices and marked reciprocity (§§2.1–2.3), and CM characters and reduction (Layers 4–5). This Part II owns CM height linearity, total reflex integral realizations, the CM-specific determinant and conductor comparisons, both averaged-height proofs, their quantitative CM consequences, and the center order attached to a polarized CM point. Its relative class-number estimate covers arbitrary CM fields; the abelian character-product results of CyclotomicClassGroupsAndStickelberger §3.4 have a different hypothesis and conclusion.
-
-The native CM field and conjugation, class number, regulator ratio, Minkowski representatives and coarse ideal count are already in the library, as are complex abelian varieties, their endomorphism rings, isogenies and the rank of a finite flat morphism. Their exact declarations are in the supplier contracts. The field-order index-square discriminant identity and the squared-norm successive minima with simultaneous attainment are also in the library; GlobalNumberFields Layer 11 owns the finite étale order extension, and IntegralLattices milestone 2F owns the Minkowski product estimate. The class-group norm cokernel bound is stated by IntegralIwasawaTheory §3.4, in the case n=0. The varying-base quadratic Hecke estimates and near-linear ideal count are stated by AnalyticNumberTheoryPartI §§2.31f, 2.44–2.46 and 3.27. The general ramified component determinant comparison belongs to ArakelovGeometryAndAbelianHeights §4.7. These are consumed here; the CM decomposition, different-graph application and exponent argument are the kept specializations.
-
-ArakelovGeometryAndAbelianHeights §§1.11, 2.7, 3.4–3.5, 4.6–4.8 and 6.5 own weighted degrees, metric adapters, stable heights, component lines and the uniform lower bound. FaltingsFinitenessAndIsogenyTheoremsPartII §5.5 owns geometric isogeny estimates. AbelianSchemesAndArithmeticModuli owns abelian schemes, polarizations, Tate and de Rham realizations and the CM isotypic decomposition. ShimuraVarieties owns canonical CM stacks and reciprocity; HilbertModularVarietiesAndShimuraCurves owns quaternionic integral models and its saturated integral Kodaira–Spencer line. Only the comparison to the actual CM Hodge determinants is built here. Generic admissible intersections and analytic/arithmetic kernels belong to GrossZagierAndArithmeticHeights, quantitative hermitian/Siegel reduction to GeometryOfNumbersAndQuadraticArithmetic, successive minima and the basis from the minima to SuccessiveMinima Layer 1, IntegralLattices milestone 2F and HeightsAndUnits §2.1, and the absolute scalar height, minimal-polynomial comparison and bounded-degree Northcott theorem to DiophantineApproximationAndTranscendence §§0.2–0.3. IntegralLattices and OrthogonalSpinGroups own lattice duality and orthogonal group algebra. The orthogonal special-divisor intersection and support theorems in §§4.2–4.2c, 4.3 and 4.5 are included here: the underlying lattice and group theory are supplied by IntegralLattices and OrthogonalSpinGroups.
-
-The arithmetic adjunction identity i₀(P,P)/e=−h_L(P_U) is stated by GrossZagierAndArithmeticHeights §7.78. Its §0a.4 supplies the quaternionic CM point and its Artin action; §7.2 here defines only its normalized Hodge height. Its §§6.56, 7.15, 7.65–7.66 and 7.77 supply the analytic derivative, nonvanishing theta input, full height-series decomposition and local comparison with the noncuspidal terms retained. PELModuli §§M6.1, M6.8 and M6.10 supply bounded polarized descent with marked 3-torsion and finite level-forgetting; §11.1 applies that field to the chosen ideal quotient and its transported polarization. ShimuraVarieties §4.2 supplies the AGHMP quotient reflex norm; §1.1 develops its character lattice and scalar-kernel distinction.
-
-The endpoints concern distinct polarized coarse CM points. André–Oort, o-minimal counting, functional transcendence and Jacobian isogeny counts are outside this scope. No good-prime restriction is placed on a global theorem.
+Layer 0 fixes CM class functions and the precise domain of height linearity. Layers 1–4 construct the total reflex family, integral realizations, its metrized determinant and the orthogonal intersection proof. Layers 5–8 construct the independent nearby-type and different-torsion comparison and evaluate its quaternionic Hodge height by adjunction. Layer 9 identifies their common averaged formula: either proof route supplies the theorem. Layers 10–11 combine the average with uniform analytic estimates and geometric isogenies. Layer 12 retains arbitrary center orders and all smaller primitive factors; Layer 13 supplies the independent period-coordinate estimate and applies absolute Northcott. Each *Needs* line gives the statement inputs and a proof route's inputs without making that route exclusive.
 
 ## Conventions
 
@@ -35,152 +27,6 @@ For x∈A_g, the center order R_x is Z(End(A_x)), with one CM field per distinct
 - A degree-two base change takes normalized degree a/d to 2a/(2d)=a/d; with [F:ℚ]=2, replacing [F(P):F] by [F(P):ℚ] changes a/d to a/(2d).
 - For d=1 and E=ℚ(i), the total reflex stack Y₀ has one complex point as an E-stack, with automorphism group O_E×=μ₄, so deg_C Y₀=1/4, while Y₀×_ℤℂ has weighted count 2·(1/4)=1/2. A CM elliptic curve over O_E of Faltings height h has unweighted arithmetic degree [E:ℚ]h=2h over Spec O_E, so the weighted degree is deĝ(Ω♯)=2h/4 and deĝ(Ω♯)/deg_C Y₀=2h=Σ_Φ h_Falt(E,Φ), as §3.8 states; dividing instead by the weighted count of Y₀×_ℤℂ gives h, half the stated value.
 - For E=ℚ(i), D_E=4, D_F=1, d_E/F=4. For an elliptic order of conductor 2 the center-order discriminant is 16, while its maximal-field discriminant stays 4.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-Use `NumberField.IsCMField` in `Mathlib/NumberTheory/NumberField/CMField.lean` (line 70): it asserts total complexity and quadraticity over `NumberField.maximalRealSubfield`, with a field and characteristic zero. It does not assert finite degree; carry `NumberField` as well. Its `NumberField.IsCMField.complexConj` (line 142) additionally uses integrality over ℚ; number fields supply it. `NumberField.IsCMField.complexConj_apply_apply` (line 164) fixes the involution. `NumberField.IsCMField.indexRealUnits_eq_one_or_two` (line 373) and `NumberField.IsCMField.regulator_div_regulator_eq_two_pow_mul_indexRealUnits_inv` (line 439) give R_E/R_F=2^(g−1)/Q_E, Q_E∈{1,2}. In degree six the ratio is 2 or 4, not 1.
-
-Use `NumberField.classNumber`, `NumberField.classNumber_pos` and `NumberField.exists_ideal_in_class_of_norm_le` in `Mathlib/NumberTheory/NumberField/ClassNumber.lean` (lines 65, 70 and 78); the class number is that of the maximal order and the representative ideal is nonzero. `NumberField.discr` supplies its integral field discriminant. These are the native objects in `relative_class_number_growth`.
-
-Use `AlgebraicGeometry.Scheme.Hom.finrank` in `Mathlib/AlgebraicGeometry/Morphisms/FlatRank.lean` (line 89), the rank of a morphism at a point of its target, computed on an affine neighbourhood as the local rank of the algebra the morphism defines. For a finite flat morphism it is at least 1 everywhere exactly when the morphism is surjective (`AlgebraicGeometry.Scheme.Hom.one_le_finrank_iff_surjective`, line 202), and it is locally constant when the morphism is also locally of finite presentation (`AlgebraicGeometry.Scheme.Hom.isLocallyConstant_finrank`, line 232). It is the degree of an isogeny in `distant_cm_isogenies`; the library does not prove that isogenies are flat, and the theorem only evaluates it on isogenies. `NumberField.RingOfIntegers` supplies the maximal order O_E.
-
-### From Tau Ceti
-
-`NumberField.card_ideal_absNorm_le`, `TauCeti/NumberTheory/EffectiveBounds/IdealCount/Basic.lean`, line 399, gives a finite count bounded by X²2^[E:ℚ] for X≥1. `NumberField.abs_discr_le_of_basis_isIntegral`, `TauCeti/NumberTheory/EffectiveBounds/Discriminant/Basic.lean`, line 61, bounds the field discriminant by the trace discriminant of an integral rational basis. The near-linear count comes from the analytic contract below.
-
-`TauCeti.AlgebraicGeometry.AbelianVariety` (`TauCeti/AlgebraicGeometry/AbelianVariety/Basic.lean`, line 95) is a proper geometrically integral group scheme over a field; `TauCeti.AlgebraicGeometry.AbelianVariety.dim` (line 118) is the Krull dimension of the underlying scheme and `TauCeti.AlgebraicGeometry.AbelianVariety.zeroPoint` (line 171) is the identity point. `TauCeti.AlgebraicGeometry.AbelianVariety.End` (`TauCeti/AlgebraicGeometry/AbelianVariety/End/Basic.lean`, line 74) is the endomorphism ring, with `TauCeti.AlgebraicGeometry.AbelianVariety.End.toHom` (line 83) recovering the endomorphism. `TauCeti.AlgebraicGeometry.AbelianVariety.IsIsogeny` (`TauCeti/AlgebraicGeometry/AbelianVariety/Isogeny.lean`, line 61) says that the underlying scheme morphism `TauCeti.AlgebraicGeometry.AbelianVariety.Hom.toSchemeHom` (`TauCeti/AlgebraicGeometry/AbelianVariety/Hom/Basic.lean`, line 133) is finite and surjective; it does not record a degree. These are the native carriers of `distant_cm_isogenies`.
-
-Use `TauCeti.GlobalNumberFields.NumberFieldOrder.index`, `TauCeti.GlobalNumberFields.NumberFieldOrder.discr` and `TauCeti.GlobalNumberFields.NumberFieldOrder.discr_eq_index_sq_mul` in `TauCeti/NumberTheory/NumberField/Global/Orders/Discriminant.lean` (lines 70, 85 and 115). For a full order O in a number field K, these give disc O=[O_K:O]² disc K. The finite-product extension below must also handle orders that couple the factors.
-
-Use `TauCeti.IntegralLattice.successiveMinimum`, `TauCeti.IntegralLattice.successiveMinimum_le_iff`, `TauCeti.IntegralLattice.IsPosSemidef.exists_linearIndependent_integralNorm_eq_successiveMinimum` and `TauCeti.IntegralLattice.IsPosDef.successiveMinimum_pos` in `TauCeti/LinearAlgebra/IntegralLattice/PosDef/SuccessiveMinima.lean` (lines 47, 84, 186 and 255). Their carrier is the full integral symmetric bilinear lattice `TauCeti.IntegralLattice`; positive semidefiniteness is required for simultaneous equality with the squared norms, and positive definiteness for positivity. The attaining vectors are independent, without a basis assertion. The real-minimum comparison, Minkowski product estimate and bounded basis are the separate supplier contracts below.
-
-### From TauCetiRoadmap.ComplexMultiplicationAndExplicitReciprocity
-
-Consume §§0.1–0.2 for inverse-coset reflex pairs, integral reflex orders and trace fields, and §§2.1–2.3 for arbitrary-dimensional polarized classification, ideal actions, class maps, unit obstructions and relative marked moduli orbits. Use its integral-versus-rational distinction, not an assumption that every isogeny preserves a chosen principal polarization. ShimuraVarieties §5.1 supplies the underlying embedding partitions and primitive induction.
-
-### From TauCetiRoadmap.AbelianSchemesAndArithmeticModuli
-
-Consume §§A4.1, A4.3, A4.CR.7.2, A5.1–A5.7, A6.22, A6.25 and A6.37–A6.38 for Tate/de Rham/crystalline realizations, integral Riemann forms, polarized equivalence, finite isogeny kernels, relative Hom extension over locally noetherian normal bases, simple-factor centers and the Hodge line. Consume §A6.1 for the degree of a homomorphism, defined there as the same Mathlib rank at the zero point that `distant_cm_isogenies` uses, and §§A6.4–A6.5 and A6.8 for simplicity, Poincaré reducibility and semisimplicity of End⁰. Covariant Tate lattices are dual to H¹. An integral polarization need not be principal. Extension of homomorphisms is §A6.25, separate from realizing the family.
-
-### From TauCetiRoadmap.ArakelovGeometryAndAbelianHeights
-
-Consume §§1.3, 1.11, 1.13–1.14, 2.1, 2.7, 2.10, 3.4–3.5, 4.6–4.8 and 6.5. Sections 1.13–1.14 compare metrized projective heights with absolute sup heights and retain bounded absolute degree in Northcott. Their component line takes torsion-free quotients before determinants; §4.7's raw embedding-quotient formula assumes local freeness. The unscaled-to-Yuan–Zhang shift is +(g/2)log(2π); this adapter is applied exactly once. The polynomial Hodge comparison in §4.8 is used factorwise after unramified decomposition, with rank-one freeness established by the CM realization, rather than global monogenicity.
-
-What ArakelovGeometryAndAbelianHeights must provide (gap:ramified-component-determinants): Extend §4.7 to relative/image component determinants over every mixed-characteristic DVR with ramified coefficient field, proving Cartier-dual length cancellation for a self-dual kernel with conjugation-invariant action and identifying its metrized height with §4.6.
-
-### From TauCetiRoadmap.AnalyticNumberTheoryPartI
-
-Consume §§2.31d–2.31f, 2.32, 2.44–2.46 and 3.27: uniform fixed-degree residue bounds and Brauer–Siegel, primitive odd functional equations, regularized Hecke logarithmic derivatives and the degree-only ideal estimate. In particular |ℓ(1)|≤C_g,ε D_E^ε for every ε>0, uniformly as F varies; C_g,ε can be ineffective. Its conductor is D_E/D_F. The ideal count is at most C_n,ε X^(1+ε) for X≥1. These inputs include ramified Euler factors. General Artin holomorphy is no hypothesis.
-
-### From TauCetiRoadmap.Chebotarev
-
-Consume Layer 9, abelian Chebotarev: for the nonidentity element of Gal(E/F)≅C₂, unramified inert primes have Dirichlet density 1/2. Removing any finite set preserves that density and leaves infinitely many primes, supplying the auxiliary inert set in §7.1.
-
-### From TauCetiRoadmap.AutomorphicLFunctionsAndLocalFactors
-
-Consume Layer AL.1, “CM quadratic completion and orbital comparisons”, for the precise quadratic finite/completed gamma adapter. Finite-image Artin local factors and induction use AdelicAlgebraicGroups §AA.2.4 through AnalyticNumberTheoryPartI §2.2 and its supplier contract. Odd-character regularity/nonvanishing at zero follows from that completed equation and the regularized endpoint interface. The trivial character uses ζ(0)=−1/2 and ζ′(0)/ζ(0)=log(2π), not an odd-character formula.
-
-### From TauCetiRoadmap.AutomorphicBundles
-
-Consume §§1.1–1.3 for defining tensors, absolute Hodge tensor realizations with their Betti–de Rham and Betti–étale comparisons and descent to the reflex field; §§3.1, 3.4–3.8 for associated bundles, Betti and étale coefficients, filtered de Rham coefficients and tensor/Hecke compatibility. These sections make no crystalline or B_dR assertion (§3.7 excludes them explicitly); the p-adic comparison of the tensors is the contract below. The integral CM torsor on the locus with reductive unramified torus model is §2.3 here. Rational tensor descent does not imply an integral torsor at an arbitrary ramified prime.
-
-What AutomorphicBundles must provide (gap:absolute-hodge-padic-comparison), extending §1.3: For an abelian variety A over a number field K, every finite place v of K and every rational absolute Hodge tensor on A in a tensor construction of H¹, its dual and Tate twists whose de Rham and p-adic étale realizations are defined over K, prove that the B_dR comparison of A over K_v carries the étale realization to the algebraic de Rham realization, compatibly with tensor operations, Tate twists and finite base extension, and, where A has good reduction at v, with the B_cris comparison.
-
-### From TauCetiRoadmap.FiniteFlatGroupsAndIntegralPadicHodgeTheory
-
-Consume §§R07.2.15–R07.2.16, R07.2.20 and Layer R07.4 for slope classification, Cartier duality, covariant/cohomological conversion and the all-prime integral Breuil–Kisin functor. Frobenius-pullback specializations are φ*M/u and φ*M/E_y(u). Geometric fibers use W(k̄_y). The CM multipliers and their equality modulo the relative different are proved in §6.2 here.
-
-### From TauCetiRoadmap.LubinTateFormalModulesAndQuasiCanonicalLifts
-
-Consume LT.2, “Finite-height torsion comparison”, “Formal-module Tate module”, “Lubin–Tate character” and “Comparison with local reciprocity”. For every prime p, finite extension K/ℚ_p and uniformizer π of O_K, these supply the one-dimensional Lubin–Tate formal O_K-module G_π, its finite flat πⁿ-torsion group schemes for n≥1, identified with the π-power torsion of a p-divisible group over O_K, and its integral Tate module T_π=lim_n G_π[πⁿ](K̄) with transition maps [π], free of rank one over O_K, with T_π/πⁿT_π identified with G_π[πⁿ](K̄) equivariantly and compatibly with the transitions. The G_K-action on T_π is the continuous character χ_π:G_K→O_K×; each finite torsion action is its reduction, and its restriction to the Galois group of an extension L/K inside K̄, in particular to the groups Γ_y of §2.1, is the action on the same geometric torsion. For arithmetic reciprocity rec_K:K×→G_Kᵃᵇ the supplier proves χ_π(rec_K(πʳu))=u⁻¹ for r∈ℤ and u∈O_K×, so rec_K(π) acts trivially on the torsion tower. Its conventions place no ramification bound and include p=2. Crystallinity of T_π[1/p] and the Breuil–Kisin and Dieudonné realizations of G_π, with Frobenius, filtration and duality, are FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.4.18–R07.4.21 applied to the p-divisible group of G_π, over every complete discretely valued base of mixed characteristic with perfect residue field, which covers the geometric local rings O_y of §§2.1–2.2; at p=2 §§R07.4.18 and R07.4.21 are equivalences only up to isogeny, and the integral statement is §R07.4.23. The O_K-action on these realizations is the functorial image of the O_K-action on G_π. The variance is Kisin's contravariant one: the module attached to G_π is the module of Hom_ℤp(T_π,ℤ_p), and the covariant realization is its dual. The CM complementary-type multipliers and their comparison modulo the different are §6.2 here, not supplier material. ([A], §2.2, pp. 401–402, for T_π and M(G)=M(T_π(G)^∨), Proposition 3.5.2 and its proof, pp. 422–423, for the use of the character, and §3.6, pp. 428–429, for the Dieudonné crystal of G_q; A lines 429–450, 1310–1355 and 1569–1586.)
-
-**Checks.**
-
-- For K=ℚ₅, π=5 and n=1, arithmetic reciprocity sends u=2 to scalar 3 on G_π[5], sends u=1 to 1, and sends π to 1. The geometric convention gives 2 on u=2; the trivial character gives 1 there, so both fail.
-- For the same K and u=2, the scalar at n=2 is 13 modulo 25, reducing to 3 modulo 5, and 2·13≡1 modulo 25. Thus the finite actions come from one integral character, rather than unrelated level choices.
-- For K=ℚ₂ and π=2, G_π[2] has two geometric points and its unit action is trivial; G_π[4] has four and u=3 acts by 3 modulo 4. Triviality on the first torsion level must not imply triviality on the Tate module. For G_2≅Ĝ_m the cohomological dual has Frobenius multiplier 2 and Fil¹ of rank one, whereas the covariant rational module has multiplier 1/2 and its nonzero graded piece in degree −1.
-
-### From TauCetiRoadmap.NeronModelsAndSemistableAbelianVarieties
-
-Consume §§5.1–5.2 for Néron–Ogg–Shafarevich, good reduction and isogeny compatibility; extension of homomorphisms over the integral models is AbelianSchemesAndArithmeticModuli §A6.25. Inertia triviality is proved on the CM model before applying this criterion.
-
-### From TauCetiRoadmap.ReductiveGroups and TauCetiRoadmap.ReductiveGroupsPartII
-
-Consume ReductiveGroups Layer 4 for tori, character lattices, quotient tori and exactness, and ReductiveGroupsPartII §RG2.0a.2 for Weil restriction and norm maps. The CM character annihilator and scalar μ_g kernel are §1.1 here; the distinguished cocharacter and its quotient reflex norm are consumed from ShimuraVarieties §4.2.
-
-### From TauCetiRoadmap.ShimuraData and TauCetiRoadmap.ShimuraVarieties
-
-Consume ShimuraData Layers 1 and 3 for polarized rational Hodge data, Mumford–Tate groups and their Hodge cocharacters. Consume ShimuraVarieties §§4.1–4.6, 5.1–5.11, 6.1–6.2 and 8.1–8.6 for reciprocity in its geometric normalization, converted by s↦s⁻¹, finite étale generic CM stacks, actual CM varieties, potential good reduction, Hodge-type canonical models and the canonical Hecke tower.
-
-What ShimuraVarieties must provide (gap:quantitative-cm-torus-orbit): For a dimension-g CM Mumford–Tate torus T in GSp, maximal compact T(Ẑ), K=T(A_f)∩GSp(Ẑ), I=[T(Ẑ):K], bad set S={p:p divides [O_x:R_x]} and normal-closure reflex image r_T:Cl(L)→T(ℚ)\T(A_f)/T(Ẑ), prove after a dimension-bounded rigid level change that the absolute polarized orbit is at least c_g B_g^(#S) I |im r_T| with c_g>0 and 0<B_g≤1, compatibly with all primitive-factor projections.
-
-### From TauCetiRoadmap.PELModuli
-
-Consume §§M2.1–M2.3, M3.9, M5, M6.1–M6.2 and M6.8–M6.10 for polarized rigidity, Siegel moduli, stacks, Hodge lines, bounded polarized descent and finite level-forgetting. Only polarized full level removes the positive-rank unit automorphisms of an unpolarized CM variety.
-
-### From TauCetiRoadmap.FaltingsFinitenessAndIsogenyTheoremsPartII
-
-Consume §5.5, “Geometric isogeny estimate”: for geometrically isogenous dimension-g A,B over a common number field k, there is a geometric isogeny of degree at most C_g max(1,h_Fal(A),[k:ℚ])^κ_g with C_g,κ_g>0 depending only on g. A dimension-only height shift changes C_g and leaves κ_g available for §11.2. The map need not be k-defined or polarized.
-
-### From TauCetiRoadmap.ClassFieldTheory
-
-Consume Layer 13 for Hilbert and narrow Hilbert class fields and their Artin identifications. The narrow quadratic sign input is required in the following exact form.
-
-What ClassFieldTheory must provide (gap:narrow-cm-norm-different): For quadratic CM E/F, identify Nm Cl(E) in Cl⁺(F) as all of Cl⁺(F) if some finite place ramifies and as ker χ_E/F otherwise, and in the latter case prove g even and χ_E/F(d_F)=(-1)^(g/2).
-
-### From TauCetiRoadmap.IntegralIwasawaTheory
-
-Consume §3.4, `classNorm_cokernel`, at n=0: for every finite number-field extension L/K, the norm cokernel on full ideal class groups is Gal((L∩H(K))/K), so its order is at most [L:K]. For a following homomorphism r, this gives |im(r∘Nm_L/K)|≥|im r|/[L:K].
-
-### From TauCetiRoadmap.GlobalNumberFields
-
-Consume Layer 11 for full orders, multiplier rings and the distinction between proper and invertible ideals; use the pinned field-order discriminant declarations in the Tau Ceti contract for its field case.
-
-What GlobalNumberFields must provide (gap:etale-order-discriminant): Extend the trace-discriminant index-square formula to a full ℤ-order R in a finite product ∏K_i, giving |disc R|=[∏O_Ki:R]²∏|disc K_i| with no assumption that R decomposes as a product.
-
-### From TauCetiRoadmap.GeometryOfNumbersAndQuadraticArithmetic
-
-Consume §1.2 for the comparison 1.2.14 of the real successive minima of a positive definite integral lattice in its real model with its squared-norm minima (λ_i²=successive squared minimum), and §§2.2, 2.7–2.9 for integral quadratic and hermitian lattices and local comparisons. The CM order-sensitive rescaling argument and its algebraic-coordinate conversion are §13.2–§13.4 here.
-
-### From TauCetiRoadmap.SuccessiveMinima, TauCetiRoadmap.IntegralLattices and TauCetiRoadmap.HeightsAndUnits
-
-Consume SuccessiveMinima Layer 1 for the real successive minima of a discrete full lattice with respect to a symmetric convex body and their simultaneous attainment by independent lattice vectors (its 1.5); IntegralLattices milestone 2F for the squared-norm successive minima of a positive definite integral lattice of rank n and Minkowski's second theorem ∏_i λ_i≤γ_n^n det L; and HeightsAndUnits §2.1, minima form, for a ℤ-basis b with b_i∈max(1,(i+1)/2)·λ_i·K. The real-minimum comparison, product estimate and basis bound are roadmap targets. Use the pinned squared-norm minima and simultaneous-attainment declarations in the Tau Ceti contract on `TauCeti.IntegralLattice` (`TauCeti/LinearAlgebra/IntegralLattice/Basic.lean`, line 63). For a full lattice I⊂O_E the form β(x,y)=Tr_E/ℚ(x̄y) is positive definite and integral of determinant D_E[O_E:I]², and every nonzero x∈I has β(x,x)≥2g|Nm x|^(1/g)≥2g. In ordinary Lebesgue measure on ℂ^g the CM ideal covolume is 2^(−g)√D_E[O_E:I], from Mathlib `NumberField.mixedEmbedding.covolume_integerLattice` (`Mathlib/NumberTheory/NumberField/Discriminant/Basic.lean`, line 126) and `ZLattice.covolume_div_covolume_eq_relIndex'` (`Mathlib/Algebra/Module/ZLattice/Covolume.lean`, line 171); ℤ[i] gives 1.
-
-What GeometryOfNumbersAndQuadraticArithmetic must provide (gap:quantitative-siegel-hermitian-reduction): For each fixed g≥1 there are C_g,a_g>0 such that every Z in genus-g Siegel space admits γ∈Sp_(2g)(ℤ) with γZ in the chosen standard fundamental set and every entry of γ bounded in absolute value by C_g max(1,max_ij|z_ij|,1/det Im Z)^a_g.
-
-What GeometryOfNumbersAndQuadraticArithmetic must provide (gap:quantitative-hermitian-lattice-balancing): For fixed n,r≥1 there are C_n,r,a_n,r>0 such that, for every degree-2n CM field E, conjugation-stable full order R⊂E, full R-stable lattice L⊂E^r, hermitian form h positive definite at every archimedean place, and integer N≥1 for which q=N Tr_E/ℚ h is integral on L, setting D=max(2,|disc R|,N,det Gram_L(q)), there are E-linearly independent v₁,…,v_r∈L for which every |σ(h(v_i,v_j))| and the finite index [L:Σ_i Rv_i] are at most C_n,r D^a_n,r.
-
-The Siegel matrix estimate uses [PT], Lemmas 3.4–3.5, preprint pp. 6–7 (PT lines 213–284). The independent-vector argument for hermitian balancing uses [PT], Lemma 3.7 and its proof, preprint p. 9 (PT lines 362–385); the contract also retains the index of the generated R-lattice.
-
-### From TauCetiRoadmap.HilbertModularVarietiesAndShimuraCurves
-
-Consume Layer R18.1, §§R18.2.12–R18.2.18 and Layer R18.5 for quaternionic curves, the rational Hodge line with ‖dz‖=2 Im z, saturated relative Kodaira–Spencer, pointwise filtered bridge comparisons and bad-place models. At z=i and 1+i both norms are 2. The bridge determinant statements in §§R18.2.17–R18.2.18 assume F_v/ℚ_p unramified, even though §R18.2.14 allows ramification.
-
-What HilbertModularVarietiesAndShimuraCurves must provide (gap:ramified-quaternionic-bridge): Extend the pointwise bridge determinant comparison of §§R18.2.17–R18.2.18 to ramified F_v/ℚ_p on relative/image Hodge lattices with the exact different twist and archimedean isometry, retaining finite-local crystalline descent and proving independence of the pro-level lift.
-
-What HilbertModularVarietiesAndShimuraCurves must provide (gap:embedded-quaternion-orders): Provide the local maximal-order descriptions with an embedded quadratic integer ring in split and division quaternion algebras, including dyadic residue field 𝔽₂, sufficient to identify the different-torsion projection lattices of §6.5.
-
-### From TauCetiRoadmap.GrossZagierAndArithmeticHeights
-
-Consume §§0a.4, 0.1, 0.5, 0.9–0.11, 2.1, 2.9, 2.14, 6.5–6.8, 6.21, 6.25, 6.56, 7.15, 7.28, 7.65–7.67 and 7.77–7.78 for the actual CM point and Artin action, arithmetic pairings, residue lines, analytic derivative and full height-series decomposition, local pseudo-theta comparison, split-place compensation and adjunction. The height normalization divides by [F(P):F]. The parallel-weight-two analytic projection in §6.56 retains the noncuspidal terms needed here; it is not replaced by a cuspidal Gross–Zagier projection.
-
-### From TauCetiRoadmap.MetaplecticAutomorphicForms
-
-Consume Layers 4–7 for the adelic metaplectic cover and finite Weil representation, global theta kernels, Siegel–Weil and see-saw identities, and the half-integral-weight Whittaker framework. The orthogonal proper-intersection special divisors and support-controlled Borcherds inputs are the constructions of §§4.2–4.2a and §4.5 here.
-
-### From TauCetiRoadmap.HeightsRationalPointsAndObstructions
-
-Consume §§0.11–0.13 and 0.16 for normalized tuple heights, finite-base-change conventions and the real/imaginary coordinate adapters. The absolute scalar foundation and Northcott inputs are supplied by DiophantineApproximationAndTranscendence §§0.2–0.3, and the metrized ample-height version by ArakelovGeometryAndAbelianHeights §§1.13–1.14.
-
-### From TauCetiRoadmap.DiophantineApproximationAndTranscendence
-
-Consume §§0.2–0.3 for absolute multiplicative scalar and tuple height, its Mahler/primitive-minimal-polynomial comparison and Northcott over an algebraic closure with bounded absolute degree. These inputs include the leading coefficient of the primitive minimal polynomial. For i, the polynomial X²+1 has coefficient height 1 and H_abs(i)=1; for 2i, X²+4 has coefficient height 4 and H_abs(2i)=2. A fixed-number-field Northcott theorem alone does not supply the endpoint.
-
-## How to read the build
-
-Layer 0 fixes CM class functions and the precise domain of height linearity. Layers 1–4 construct the total reflex family, integral realizations, its metrized determinant and the orthogonal intersection proof. Layers 5–8 construct the independent nearby-type and different-torsion comparison and evaluate its quaternionic Hodge height by adjunction. Layer 9 identifies their common averaged formula: either proof route supplies the theorem. Layers 10–11 combine the average with uniform analytic estimates and geometric isogenies. Layer 12 retains arbitrary center orders and all smaller primitive factors; Layer 13 supplies the independent period-coordinate estimate and applies absolute Northcott. Each *Needs* line gives the statement inputs and a proof route's inputs without making that route exclusive.
 
 ## Layer 0: CM characters and height linearity
 
@@ -1311,6 +1157,160 @@ For an elliptic CM order R=Z+fO_E, J=[O_E:R]=f and |disc R|=f²D_E. A discrimina
 ### Coordinate bounds and the Northcott consumer
 
 The embeddings of the product center algebra number at most 2g. Its normal closure therefore has degree≤(2g)!, and adjoining i bounds the degree of each real/imaginary coordinate by 2(2g)!. In dimensions one and two these safe real-coordinate bounds are 4 and 48. They need not be optimal. Given [ℚ(x):ℚ]≤N, the general orbit theorem bounds D_x. Polynomial coordinate height in D_x and these uniform coordinate degrees place each real/imaginary tuple in a finite Northcott set. This counts distinct moduli points, not repeated parameters mapping to the same point.
+
+## Scope and ownership
+
+ComplexMultiplicationAndExplicitReciprocity stops at reflex pairs and orders (§§0.1–0.2), polarized CM lattices and marked reciprocity (§§2.1–2.3), and CM characters and reduction (Layers 4–5). This Part II owns CM height linearity, total reflex integral realizations, the CM-specific determinant and conductor comparisons, both averaged-height proofs, their quantitative CM consequences, and the center order attached to a polarized CM point. Its relative class-number estimate covers arbitrary CM fields; the abelian character-product results of CyclotomicClassGroupsAndStickelberger §3.4 have a different hypothesis and conclusion.
+
+The native CM field and conjugation, class number, regulator ratio, Minkowski representatives and coarse ideal count are already in the library, as are complex abelian varieties, their endomorphism rings, isogenies and the rank of a finite flat morphism. Their exact declarations are in the supplier contracts. The field-order index-square discriminant identity and the squared-norm successive minima with simultaneous attainment are also in the library; GlobalNumberFields Layer 11 owns the finite étale order extension, and IntegralLattices milestone 2F owns the Minkowski product estimate. The class-group norm cokernel bound is stated by IntegralIwasawaTheory §3.4, in the case n=0. The varying-base quadratic Hecke estimates and near-linear ideal count are stated by AnalyticNumberTheoryPartI §§2.31f, 2.44–2.46 and 3.27. The general ramified component determinant comparison belongs to ArakelovGeometryAndAbelianHeights §4.7. These are consumed here; the CM decomposition, different-graph application and exponent argument are the kept specializations.
+
+ArakelovGeometryAndAbelianHeights §§1.11, 2.7, 3.4–3.5, 4.6–4.8 and 6.5 own weighted degrees, metric adapters, stable heights, component lines and the uniform lower bound. FaltingsFinitenessAndIsogenyTheoremsPartII §5.5 owns geometric isogeny estimates. AbelianSchemesAndArithmeticModuli owns abelian schemes, polarizations, Tate and de Rham realizations and the CM isotypic decomposition. ShimuraVarieties owns canonical CM stacks and reciprocity; HilbertModularVarietiesAndShimuraCurves owns quaternionic integral models and its saturated integral Kodaira–Spencer line. Only the comparison to the actual CM Hodge determinants is built here. Generic admissible intersections and analytic/arithmetic kernels belong to GrossZagierAndArithmeticHeights, quantitative hermitian/Siegel reduction to GeometryOfNumbersAndQuadraticArithmetic, successive minima and the basis from the minima to SuccessiveMinima Layer 1, IntegralLattices milestone 2F and HeightsAndUnits §2.1, and the absolute scalar height, minimal-polynomial comparison and bounded-degree Northcott theorem to DiophantineApproximationAndTranscendence §§0.2–0.3. IntegralLattices and OrthogonalSpinGroups own lattice duality and orthogonal group algebra. The orthogonal special-divisor intersection and support theorems in §§4.2–4.2c, 4.3 and 4.5 are included here: the underlying lattice and group theory are supplied by IntegralLattices and OrthogonalSpinGroups.
+
+The arithmetic adjunction identity i₀(P,P)/e=−h_L(P_U) is stated by GrossZagierAndArithmeticHeights §7.78. Its §0a.4 supplies the quaternionic CM point and its Artin action; §7.2 here defines only its normalized Hodge height. Its §§6.56, 7.15, 7.65–7.66 and 7.77 supply the analytic derivative, nonvanishing theta input, full height-series decomposition and local comparison with the noncuspidal terms retained. PELModuli §§M6.1, M6.8 and M6.10 supply bounded polarized descent with marked 3-torsion and finite level-forgetting; §11.1 applies that field to the chosen ideal quotient and its transported polarization. ShimuraVarieties §4.2 supplies the AGHMP quotient reflex norm; §1.1 develops its character lattice and scalar-kernel distinction.
+
+The endpoints concern distinct polarized coarse CM points. André–Oort, o-minimal counting, functional transcendence and Jacobian isogeny counts are outside this scope. No good-prime restriction is placed on a global theorem.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+Use `NumberField.IsCMField` in `Mathlib/NumberTheory/NumberField/CMField.lean` (line 70): it asserts total complexity and quadraticity over `NumberField.maximalRealSubfield`, with a field and characteristic zero. It does not assert finite degree; carry `NumberField` as well. Its `NumberField.IsCMField.complexConj` (line 142) additionally uses integrality over ℚ; number fields supply it. `NumberField.IsCMField.complexConj_apply_apply` (line 164) fixes the involution. `NumberField.IsCMField.indexRealUnits_eq_one_or_two` (line 373) and `NumberField.IsCMField.regulator_div_regulator_eq_two_pow_mul_indexRealUnits_inv` (line 439) give R_E/R_F=2^(g−1)/Q_E, Q_E∈{1,2}. In degree six the ratio is 2 or 4, not 1.
+
+Use `NumberField.classNumber`, `NumberField.classNumber_pos` and `NumberField.exists_ideal_in_class_of_norm_le` in `Mathlib/NumberTheory/NumberField/ClassNumber.lean` (lines 65, 70 and 78); the class number is that of the maximal order and the representative ideal is nonzero. `NumberField.discr` supplies its integral field discriminant. These are the native objects in `relative_class_number_growth`.
+
+Use `AlgebraicGeometry.Scheme.Hom.finrank` in `Mathlib/AlgebraicGeometry/Morphisms/FlatRank.lean` (line 89), the rank of a morphism at a point of its target, computed on an affine neighbourhood as the local rank of the algebra the morphism defines. For a finite flat morphism it is at least 1 everywhere exactly when the morphism is surjective (`AlgebraicGeometry.Scheme.Hom.one_le_finrank_iff_surjective`, line 202), and it is locally constant when the morphism is also locally of finite presentation (`AlgebraicGeometry.Scheme.Hom.isLocallyConstant_finrank`, line 232). It is the degree of an isogeny in `distant_cm_isogenies`; the library does not prove that isogenies are flat, and the theorem only evaluates it on isogenies. `NumberField.RingOfIntegers` supplies the maximal order O_E.
+
+### From Tau Ceti
+
+`NumberField.card_ideal_absNorm_le`, `TauCeti/NumberTheory/EffectiveBounds/IdealCount/Basic.lean`, line 399, gives a finite count bounded by X²2^[E:ℚ] for X≥1. `NumberField.abs_discr_le_of_basis_isIntegral`, `TauCeti/NumberTheory/EffectiveBounds/Discriminant/Basic.lean`, line 61, bounds the field discriminant by the trace discriminant of an integral rational basis. The near-linear count comes from the analytic contract below.
+
+`TauCeti.AlgebraicGeometry.AbelianVariety` (`TauCeti/AlgebraicGeometry/AbelianVariety/Basic.lean`, line 95) is a proper geometrically integral group scheme over a field; `TauCeti.AlgebraicGeometry.AbelianVariety.dim` (line 118) is the Krull dimension of the underlying scheme and `TauCeti.AlgebraicGeometry.AbelianVariety.zeroPoint` (line 171) is the identity point. `TauCeti.AlgebraicGeometry.AbelianVariety.End` (`TauCeti/AlgebraicGeometry/AbelianVariety/End/Basic.lean`, line 74) is the endomorphism ring, with `TauCeti.AlgebraicGeometry.AbelianVariety.End.toHom` (line 83) recovering the endomorphism. `TauCeti.AlgebraicGeometry.AbelianVariety.IsIsogeny` (`TauCeti/AlgebraicGeometry/AbelianVariety/Isogeny.lean`, line 61) says that the underlying scheme morphism `TauCeti.AlgebraicGeometry.AbelianVariety.Hom.toSchemeHom` (`TauCeti/AlgebraicGeometry/AbelianVariety/Hom/Basic.lean`, line 133) is finite and surjective; it does not record a degree. These are the native carriers of `distant_cm_isogenies`.
+
+Use `TauCeti.GlobalNumberFields.NumberFieldOrder.index`, `TauCeti.GlobalNumberFields.NumberFieldOrder.discr` and `TauCeti.GlobalNumberFields.NumberFieldOrder.discr_eq_index_sq_mul` in `TauCeti/NumberTheory/NumberField/Global/Orders/Discriminant.lean` (lines 70, 85 and 115). For a full order O in a number field K, these give disc O=[O_K:O]² disc K. The finite-product extension below must also handle orders that couple the factors.
+
+Use `TauCeti.IntegralLattice.successiveMinimum`, `TauCeti.IntegralLattice.successiveMinimum_le_iff`, `TauCeti.IntegralLattice.IsPosSemidef.exists_linearIndependent_integralNorm_eq_successiveMinimum` and `TauCeti.IntegralLattice.IsPosDef.successiveMinimum_pos` in `TauCeti/LinearAlgebra/IntegralLattice/PosDef/SuccessiveMinima.lean` (lines 47, 84, 186 and 255). Their carrier is the full integral symmetric bilinear lattice `TauCeti.IntegralLattice`; positive semidefiniteness is required for simultaneous equality with the squared norms, and positive definiteness for positivity. The attaining vectors are independent, without a basis assertion. The real-minimum comparison, Minkowski product estimate and bounded basis are the separate supplier contracts below.
+
+### From TauCetiRoadmap.ComplexMultiplicationAndExplicitReciprocity
+
+Consume §§0.1–0.2 for inverse-coset reflex pairs, integral reflex orders and trace fields, and §§2.1–2.3 for arbitrary-dimensional polarized classification, ideal actions, class maps, unit obstructions and relative marked moduli orbits. Use its integral-versus-rational distinction, not an assumption that every isogeny preserves a chosen principal polarization. ShimuraVarieties §5.1 supplies the underlying embedding partitions and primitive induction.
+
+### From TauCetiRoadmap.AbelianSchemesAndArithmeticModuli
+
+Consume §§A4.1, A4.3, A4.CR.7.2, A5.1–A5.7, A6.22, A6.25 and A6.37–A6.38 for Tate/de Rham/crystalline realizations, integral Riemann forms, polarized equivalence, finite isogeny kernels, relative Hom extension over locally noetherian normal bases, simple-factor centers and the Hodge line. Consume §A6.1 for the degree of a homomorphism, defined there as the same Mathlib rank at the zero point that `distant_cm_isogenies` uses, and §§A6.4–A6.5 and A6.8 for simplicity, Poincaré reducibility and semisimplicity of End⁰. Covariant Tate lattices are dual to H¹. An integral polarization need not be principal. Extension of homomorphisms is §A6.25, separate from realizing the family.
+
+### From TauCetiRoadmap.ArakelovGeometryAndAbelianHeights
+
+Consume §§1.3, 1.11, 1.13–1.14, 2.1, 2.7, 2.10, 3.4–3.5, 4.6–4.8 and 6.5. Sections 1.13–1.14 compare metrized projective heights with absolute sup heights and retain bounded absolute degree in Northcott. Their component line takes torsion-free quotients before determinants; §4.7's raw embedding-quotient formula assumes local freeness. The unscaled-to-Yuan–Zhang shift is +(g/2)log(2π); this adapter is applied exactly once. The polynomial Hodge comparison in §4.8 is used factorwise after unramified decomposition, with rank-one freeness established by the CM realization, rather than global monogenicity.
+
+What ArakelovGeometryAndAbelianHeights must provide (gap:ramified-component-determinants): Extend §4.7 to relative/image component determinants over every mixed-characteristic DVR with ramified coefficient field, proving Cartier-dual length cancellation for a self-dual kernel with conjugation-invariant action and identifying its metrized height with §4.6.
+
+### From TauCetiRoadmap.AnalyticNumberTheoryPartI
+
+Consume §§2.31d–2.31f, 2.32, 2.44–2.46 and 3.27: uniform fixed-degree residue bounds and Brauer–Siegel, primitive odd functional equations, regularized Hecke logarithmic derivatives and the degree-only ideal estimate. In particular |ℓ(1)|≤C_g,ε D_E^ε for every ε>0, uniformly as F varies; C_g,ε can be ineffective. Its conductor is D_E/D_F. The ideal count is at most C_n,ε X^(1+ε) for X≥1. These inputs include ramified Euler factors. General Artin holomorphy is no hypothesis.
+
+### From TauCetiRoadmap.Chebotarev
+
+Consume Layer 9, abelian Chebotarev: for the nonidentity element of Gal(E/F)≅C₂, unramified inert primes have Dirichlet density 1/2. Removing any finite set preserves that density and leaves infinitely many primes, supplying the auxiliary inert set in §7.1.
+
+### From TauCetiRoadmap.AutomorphicLFunctionsAndLocalFactors
+
+Consume Layer AL.1, “CM quadratic completion and orbital comparisons”, for the precise quadratic finite/completed gamma adapter. Finite-image Artin local factors and induction use AdelicAlgebraicGroups §AA.2.4 through AnalyticNumberTheoryPartI §2.2 and its supplier contract. Odd-character regularity/nonvanishing at zero follows from that completed equation and the regularized endpoint interface. The trivial character uses ζ(0)=−1/2 and ζ′(0)/ζ(0)=log(2π), not an odd-character formula.
+
+### From TauCetiRoadmap.AutomorphicBundles
+
+Consume §§1.1–1.3 for defining tensors, absolute Hodge tensor realizations with their Betti–de Rham and Betti–étale comparisons and descent to the reflex field; §§3.1, 3.4–3.8 for associated bundles, Betti and étale coefficients, filtered de Rham coefficients and tensor/Hecke compatibility. These sections make no crystalline or B_dR assertion (§3.7 excludes them explicitly); the p-adic comparison of the tensors is the contract below. The integral CM torsor on the locus with reductive unramified torus model is §2.3 here. Rational tensor descent does not imply an integral torsor at an arbitrary ramified prime.
+
+What AutomorphicBundles must provide (gap:absolute-hodge-padic-comparison), extending §1.3: For an abelian variety A over a number field K, every finite place v of K and every rational absolute Hodge tensor on A in a tensor construction of H¹, its dual and Tate twists whose de Rham and p-adic étale realizations are defined over K, prove that the B_dR comparison of A over K_v carries the étale realization to the algebraic de Rham realization, compatibly with tensor operations, Tate twists and finite base extension, and, where A has good reduction at v, with the B_cris comparison.
+
+### From TauCetiRoadmap.FiniteFlatGroupsAndIntegralPadicHodgeTheory
+
+Consume §§R07.2.15–R07.2.16, R07.2.20 and Layer R07.4 for slope classification, Cartier duality, covariant/cohomological conversion and the all-prime integral Breuil–Kisin functor. Frobenius-pullback specializations are φ*M/u and φ*M/E_y(u). Geometric fibers use W(k̄_y). The CM multipliers and their equality modulo the relative different are proved in §6.2 here.
+
+### From TauCetiRoadmap.LubinTateFormalModulesAndQuasiCanonicalLifts
+
+Consume LT.2, “Finite-height torsion comparison”, “Formal-module Tate module”, “Lubin–Tate character” and “Comparison with local reciprocity”. For every prime p, finite extension K/ℚ_p and uniformizer π of O_K, these supply the one-dimensional Lubin–Tate formal O_K-module G_π, its finite flat πⁿ-torsion group schemes for n≥1, identified with the π-power torsion of a p-divisible group over O_K, and its integral Tate module T_π=lim_n G_π[πⁿ](K̄) with transition maps [π], free of rank one over O_K, with T_π/πⁿT_π identified with G_π[πⁿ](K̄) equivariantly and compatibly with the transitions. The G_K-action on T_π is the continuous character χ_π:G_K→O_K×; each finite torsion action is its reduction, and its restriction to the Galois group of an extension L/K inside K̄, in particular to the groups Γ_y of §2.1, is the action on the same geometric torsion. For arithmetic reciprocity rec_K:K×→G_Kᵃᵇ the supplier proves χ_π(rec_K(πʳu))=u⁻¹ for r∈ℤ and u∈O_K×, so rec_K(π) acts trivially on the torsion tower. Its conventions place no ramification bound and include p=2. Crystallinity of T_π[1/p] and the Breuil–Kisin and Dieudonné realizations of G_π, with Frobenius, filtration and duality, are FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.4.18–R07.4.21 applied to the p-divisible group of G_π, over every complete discretely valued base of mixed characteristic with perfect residue field, which covers the geometric local rings O_y of §§2.1–2.2; at p=2 §§R07.4.18 and R07.4.21 are equivalences only up to isogeny, and the integral statement is §R07.4.23. The O_K-action on these realizations is the functorial image of the O_K-action on G_π. The variance is Kisin's contravariant one: the module attached to G_π is the module of Hom_ℤp(T_π,ℤ_p), and the covariant realization is its dual. The CM complementary-type multipliers and their comparison modulo the different are §6.2 here, not supplier material. ([A], §2.2, pp. 401–402, for T_π and M(G)=M(T_π(G)^∨), Proposition 3.5.2 and its proof, pp. 422–423, for the use of the character, and §3.6, pp. 428–429, for the Dieudonné crystal of G_q; A lines 429–450, 1310–1355 and 1569–1586.)
+
+**Checks.**
+
+- For K=ℚ₅, π=5 and n=1, arithmetic reciprocity sends u=2 to scalar 3 on G_π[5], sends u=1 to 1, and sends π to 1. The geometric convention gives 2 on u=2; the trivial character gives 1 there, so both fail.
+- For the same K and u=2, the scalar at n=2 is 13 modulo 25, reducing to 3 modulo 5, and 2·13≡1 modulo 25. Thus the finite actions come from one integral character, rather than unrelated level choices.
+- For K=ℚ₂ and π=2, G_π[2] has two geometric points and its unit action is trivial; G_π[4] has four and u=3 acts by 3 modulo 4. Triviality on the first torsion level must not imply triviality on the Tate module. For G_2≅Ĝ_m the cohomological dual has Frobenius multiplier 2 and Fil¹ of rank one, whereas the covariant rational module has multiplier 1/2 and its nonzero graded piece in degree −1.
+
+### From TauCetiRoadmap.NeronModelsAndSemistableAbelianVarieties
+
+Consume §§5.1–5.2 for Néron–Ogg–Shafarevich, good reduction and isogeny compatibility; extension of homomorphisms over the integral models is AbelianSchemesAndArithmeticModuli §A6.25. Inertia triviality is proved on the CM model before applying this criterion.
+
+### From TauCetiRoadmap.ReductiveGroups and TauCetiRoadmap.ReductiveGroupsPartII
+
+Consume ReductiveGroups Layer 4 for tori, character lattices, quotient tori and exactness, and ReductiveGroupsPartII §RG2.0a.2 for Weil restriction and norm maps. The CM character annihilator and scalar μ_g kernel are §1.1 here; the distinguished cocharacter and its quotient reflex norm are consumed from ShimuraVarieties §4.2.
+
+### From TauCetiRoadmap.ShimuraData and TauCetiRoadmap.ShimuraVarieties
+
+Consume ShimuraData Layers 1 and 3 for polarized rational Hodge data, Mumford–Tate groups and their Hodge cocharacters. Consume ShimuraVarieties §§4.1–4.6, 5.1–5.11, 6.1–6.2 and 8.1–8.6 for reciprocity in its geometric normalization, converted by s↦s⁻¹, finite étale generic CM stacks, actual CM varieties, potential good reduction, Hodge-type canonical models and the canonical Hecke tower.
+
+What ShimuraVarieties must provide (gap:quantitative-cm-torus-orbit): For a dimension-g CM Mumford–Tate torus T in GSp, maximal compact T(Ẑ), K=T(A_f)∩GSp(Ẑ), I=[T(Ẑ):K], bad set S={p:p divides [O_x:R_x]} and normal-closure reflex image r_T:Cl(L)→T(ℚ)\T(A_f)/T(Ẑ), prove after a dimension-bounded rigid level change that the absolute polarized orbit is at least c_g B_g^(#S) I |im r_T| with c_g>0 and 0<B_g≤1, compatibly with all primitive-factor projections.
+
+### From TauCetiRoadmap.PELModuli
+
+Consume §§M2.1–M2.3, M3.9, M5, M6.1–M6.2 and M6.8–M6.10 for polarized rigidity, Siegel moduli, stacks, Hodge lines, bounded polarized descent and finite level-forgetting. Only polarized full level removes the positive-rank unit automorphisms of an unpolarized CM variety.
+
+### From TauCetiRoadmap.FaltingsFinitenessAndIsogenyTheoremsPartII
+
+Consume §5.5, “Geometric isogeny estimate”: for geometrically isogenous dimension-g A,B over a common number field k, there is a geometric isogeny of degree at most C_g max(1,h_Fal(A),[k:ℚ])^κ_g with C_g,κ_g>0 depending only on g. A dimension-only height shift changes C_g and leaves κ_g available for §11.2. The map need not be k-defined or polarized.
+
+### From TauCetiRoadmap.ClassFieldTheory
+
+Consume Layer 13 for Hilbert and narrow Hilbert class fields and their Artin identifications. The narrow quadratic sign input is required in the following exact form.
+
+What ClassFieldTheory must provide (gap:narrow-cm-norm-different): For quadratic CM E/F, identify Nm Cl(E) in Cl⁺(F) as all of Cl⁺(F) if some finite place ramifies and as ker χ_E/F otherwise, and in the latter case prove g even and χ_E/F(d_F)=(-1)^(g/2).
+
+### From TauCetiRoadmap.IntegralIwasawaTheory
+
+Consume §3.4, `classNorm_cokernel`, at n=0: for every finite number-field extension L/K, the norm cokernel on full ideal class groups is Gal((L∩H(K))/K), so its order is at most [L:K]. For a following homomorphism r, this gives |im(r∘Nm_L/K)|≥|im r|/[L:K].
+
+### From TauCetiRoadmap.GlobalNumberFields
+
+Consume Layer 11 for full orders, multiplier rings and the distinction between proper and invertible ideals; use the pinned field-order discriminant declarations in the Tau Ceti contract for its field case.
+
+What GlobalNumberFields must provide (gap:etale-order-discriminant): Extend the trace-discriminant index-square formula to a full ℤ-order R in a finite product ∏K_i, giving |disc R|=[∏O_Ki:R]²∏|disc K_i| with no assumption that R decomposes as a product.
+
+### From TauCetiRoadmap.GeometryOfNumbersAndQuadraticArithmetic
+
+Consume §1.2 for the comparison 1.2.14 of the real successive minima of a positive definite integral lattice in its real model with its squared-norm minima (λ_i²=successive squared minimum), and §§2.2, 2.7–2.9 for integral quadratic and hermitian lattices and local comparisons. The CM order-sensitive rescaling argument and its algebraic-coordinate conversion are §13.2–§13.4 here.
+
+### From TauCetiRoadmap.SuccessiveMinima, TauCetiRoadmap.IntegralLattices and TauCetiRoadmap.HeightsAndUnits
+
+Consume SuccessiveMinima Layer 1 for the real successive minima of a discrete full lattice with respect to a symmetric convex body and their simultaneous attainment by independent lattice vectors (its 1.5); IntegralLattices milestone 2F for the squared-norm successive minima of a positive definite integral lattice of rank n and Minkowski's second theorem ∏_i λ_i≤γ_n^n det L; and HeightsAndUnits §2.1, minima form, for a ℤ-basis b with b_i∈max(1,(i+1)/2)·λ_i·K. The real-minimum comparison, product estimate and basis bound are roadmap targets. Use the pinned squared-norm minima and simultaneous-attainment declarations in the Tau Ceti contract on `TauCeti.IntegralLattice` (`TauCeti/LinearAlgebra/IntegralLattice/Basic.lean`, line 63). For a full lattice I⊂O_E the form β(x,y)=Tr_E/ℚ(x̄y) is positive definite and integral of determinant D_E[O_E:I]², and every nonzero x∈I has β(x,x)≥2g|Nm x|^(1/g)≥2g. In ordinary Lebesgue measure on ℂ^g the CM ideal covolume is 2^(−g)√D_E[O_E:I], from Mathlib `NumberField.mixedEmbedding.covolume_integerLattice` (`Mathlib/NumberTheory/NumberField/Discriminant/Basic.lean`, line 126) and `ZLattice.covolume_div_covolume_eq_relIndex'` (`Mathlib/Algebra/Module/ZLattice/Covolume.lean`, line 171); ℤ[i] gives 1.
+
+What GeometryOfNumbersAndQuadraticArithmetic must provide (gap:quantitative-siegel-hermitian-reduction): For each fixed g≥1 there are C_g,a_g>0 such that every Z in genus-g Siegel space admits γ∈Sp_(2g)(ℤ) with γZ in the chosen standard fundamental set and every entry of γ bounded in absolute value by C_g max(1,max_ij|z_ij|,1/det Im Z)^a_g.
+
+What GeometryOfNumbersAndQuadraticArithmetic must provide (gap:quantitative-hermitian-lattice-balancing): For fixed n,r≥1 there are C_n,r,a_n,r>0 such that, for every degree-2n CM field E, conjugation-stable full order R⊂E, full R-stable lattice L⊂E^r, hermitian form h positive definite at every archimedean place, and integer N≥1 for which q=N Tr_E/ℚ h is integral on L, setting D=max(2,|disc R|,N,det Gram_L(q)), there are E-linearly independent v₁,…,v_r∈L for which every |σ(h(v_i,v_j))| and the finite index [L:Σ_i Rv_i] are at most C_n,r D^a_n,r.
+
+The Siegel matrix estimate uses [PT], Lemmas 3.4–3.5, preprint pp. 6–7 (PT lines 213–284). The independent-vector argument for hermitian balancing uses [PT], Lemma 3.7 and its proof, preprint p. 9 (PT lines 362–385); the contract also retains the index of the generated R-lattice.
+
+### From TauCetiRoadmap.HilbertModularVarietiesAndShimuraCurves
+
+Consume Layer R18.1, §§R18.2.12–R18.2.18 and Layer R18.5 for quaternionic curves, the rational Hodge line with ‖dz‖=2 Im z, saturated relative Kodaira–Spencer, pointwise filtered bridge comparisons and bad-place models. At z=i and 1+i both norms are 2. The bridge determinant statements in §§R18.2.17–R18.2.18 assume F_v/ℚ_p unramified, even though §R18.2.14 allows ramification.
+
+What HilbertModularVarietiesAndShimuraCurves must provide (gap:ramified-quaternionic-bridge): Extend the pointwise bridge determinant comparison of §§R18.2.17–R18.2.18 to ramified F_v/ℚ_p on relative/image Hodge lattices with the exact different twist and archimedean isometry, retaining finite-local crystalline descent and proving independence of the pro-level lift.
+
+What HilbertModularVarietiesAndShimuraCurves must provide (gap:embedded-quaternion-orders): Provide the local maximal-order descriptions with an embedded quadratic integer ring in split and division quaternion algebras, including dyadic residue field 𝔽₂, sufficient to identify the different-torsion projection lattices of §6.5.
+
+### From TauCetiRoadmap.GrossZagierAndArithmeticHeights
+
+Consume §§0a.4, 0.1, 0.5, 0.9–0.11, 2.1, 2.9, 2.14, 6.5–6.8, 6.21, 6.25, 6.56, 7.15, 7.28, 7.65–7.67 and 7.77–7.78 for the actual CM point and Artin action, arithmetic pairings, residue lines, analytic derivative and full height-series decomposition, local pseudo-theta comparison, split-place compensation and adjunction. The height normalization divides by [F(P):F]. The parallel-weight-two analytic projection in §6.56 retains the noncuspidal terms needed here; it is not replaced by a cuspidal Gross–Zagier projection.
+
+### From TauCetiRoadmap.MetaplecticAutomorphicForms
+
+Consume Layers 4–7 for the adelic metaplectic cover and finite Weil representation, global theta kernels, Siegel–Weil and see-saw identities, and the half-integral-weight Whittaker framework. The orthogonal proper-intersection special divisors and support-controlled Borcherds inputs are the constructions of §§4.2–4.2a and §4.5 here.
+
+### From TauCetiRoadmap.HeightsRationalPointsAndObstructions
+
+Consume §§0.11–0.13 and 0.16 for normalized tuple heights, finite-base-change conventions and the real/imaginary coordinate adapters. The absolute scalar foundation and Northcott inputs are supplied by DiophantineApproximationAndTranscendence §§0.2–0.3, and the metrized ample-height version by ArakelovGeometryAndAbelianHeights §§1.13–1.14.
+
+### From TauCetiRoadmap.DiophantineApproximationAndTranscendence
+
+Consume §§0.2–0.3 for absolute multiplicative scalar and tuple height, its Mahler/primitive-minimal-polynomial comparison and Northcott over an algebraic closure with bounded absolute degree. These inputs include the leading coefficient of the primitive minimal polynomial. For i, the polynomial X²+1 has coefficient height 1 and H_abs(i)=1; for 2i, X²+4 has coefficient height 4 and H_abs(2i)=2. A fixed-number-field Northcott theorem alone does not supply the endpoint.
 
 ## References
 
