@@ -60,7 +60,7 @@ APIs to measure-valued derivatives; prove the comparison rather than inventing a
 derivative. Its Lane A.5–A.6 owns Sobolev Poincaré, domain traces, extensions, and Rellich.
 This roadmap owns BV versions and their agreement with those Sobolev results.
 
-[ConformalMapping](../ConformalMapping/README.md), L5, owns Jordan separation and the
+[ConformalMapping](../../Completed/ConformalMapping/README.md), L5, owns Jordan separation and the
 filled-hull topology. [DifferentialGeometry](../DifferentialGeometry/README.md), whose
 [Green layer 5.6 targets](https://github.com/TauCetiProject/TauCetiRoadmap/pull/826) specify
 the flat planar extension, owns

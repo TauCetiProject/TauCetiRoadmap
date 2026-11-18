@@ -1,0 +1,211 @@
+CliffordAlgebra.orthogonalSpinorNorm.{u, v} {K : Type u} {V : Type v} [Field K] [AddCommGroup V] [Module K V]
+  [FiniteDimensional K V] [Invertible 2] (Q : QuadraticForm K V) (hQ : QuadraticMap.Nondegenerate) :
+  ↥(orthogonalGroup Q) →* Kˣ ⧸ Subgroup.square Kˣ
+CliffordAlgebra.spinorNorm.{u, v} {K : Type u} {V : Type v} [Field K] [AddCommGroup V] [Module K V]
+  [FiniteDimensional K V] [Invertible 2] (Q : QuadraticForm K V) (hQ : QuadraticMap.Nondegenerate) :
+  ↥(specialOrthogonalGroup Q) →* Kˣ ⧸ Subgroup.square Kˣ
+CliffordAlgebra.orthogonalSpinorNorm_reflectionOrthogonal.{u, v} {K : Type u} {V : Type v} [Field K] [AddCommGroup V]
+  [Module K V] [FiniteDimensional K V] [Invertible 2] (Q : QuadraticForm K V) (hQ : QuadraticMap.Nondegenerate) (v : V)
+  [Invertible (Q v)] : (orthogonalSpinorNorm Q hQ) (reflectionOrthogonal Q v) = squareClassHom (unitOfInvertible (Q v))
+CliffordAlgebra.range_spinToSpecialOrthogonal_eq_ker_spinorNorm.{u, v} {K : Type u} {V : Type v} [Field K]
+  [AddCommGroup V] [Module K V] [FiniteDimensional K V] [Invertible 2] (Q : QuadraticForm K V)
+  (hQ : QuadraticMap.Nondegenerate) : (CliffordAlgebra.spinToSpecialOrthogonal Q).range = (spinorNorm Q hQ).ker
+CliffordAlgebra.spinorNorm_hyperbolicTorus.{u_1} {K : Type u_1} [Field K] [Invertible 2] (t : Kˣ) :
+  (spinorNorm (hyperbolicPlane K) ⋯) ((hyperbolicTorus K) t) = squareClassHom t
+CliffordAlgebra.hyperbolicTorus_mem_range_spinToSpecialOrthogonal_iff.{u_1} {K : Type u_1} [Field K] [Invertible 2]
+  (t : Kˣ) : (hyperbolicTorus K) t ∈ (CliffordAlgebra.spinToSpecialOrthogonal (hyperbolicPlane K)).range ↔ IsSquare t
+CliffordAlgebra.evenUnitaryGroup_le_lipschitzGroup.{u, v} {K : Type u} {V : Type v} [Field K] [AddCommGroup V]
+  [Module K V] [Invertible 2] (Q : QuadraticForm K V) (hQ : QuadraticMap.Nondegenerate) (hV0 : 0 < Module.finrank K V)
+  (hV : Module.finrank K V ≤ 5) : evenUnitaryGroup Q ≤ lipschitzGroup Q
+CliffordAlgebra.exists_spinGroup_ne_evenUnitaryGroup_finrank_six :
+  ∃ Q, QuadraticMap.Nondegenerate ∧ spinGroup.toUnits.range ≠ evenUnitaryGroup Q
+CliffordAlgebra.exists_spinGroupEquivQuaternionUnitaryOverCenter_of_finrank_eq_four.{u, v} {K : Type u} {V : Type v}
+  [Field K] [AddCommGroup V] [Module K V] [Invertible 2] (Q : QuadraticForm K V) (hQ : QuadraticMap.Nondegenerate)
+  (hV : Module.finrank K V = 4) (hfield : IsField ↥(Subalgebra.center K ↥(even Q))) :
+  ∃ a b, Nonempty (↥(spinGroup Q) ≃* ↥(unitary (QuaternionAlgebra (↥(Subalgebra.center K ↥(even Q))) (↑a) 0 ↑b)))
+TauCeti.rationalNonsplitQuaternaryForm_apply (v : Fin 4 → ℚ) :
+  rationalNonsplitQuaternaryForm v = v 0 ^ 2 + v 1 ^ 2 + v 2 ^ 2 + 2 * v 3 ^ 2
+TauCeti.isField_center_even_rationalNonsplitQuaternaryForm :
+  IsField ↥(Subalgebra.center ℚ ↥(even rationalNonsplitQuaternaryForm))
+TauCeti.realSpinFourEquivSpecialUnitaryProd :
+  ↥(spinGroup (realCliffordForm 4 0)) ≃*
+    ↥(Matrix.specialUnitaryGroup (Fin 2) ℂ) × ↥(Matrix.specialUnitaryGroup (Fin 2) ℂ)
+CliffordAlgebra.isProperMap_spinToSpecialOrthogonal.{u_1, u_2} {K : Type u_1} {V : Type u_2} [NontriviallyNormedField K]
+  [WeaklyLocallyCompactSpace K] [Invertible 2] [AddCommGroup V] [Module K V] [FiniteDimensional K V]
+  (Q : QuadraticForm K V) (hQ : QuadraticMap.Nondegenerate) : IsProperMap ⇑(CliffordAlgebra.spinToSpecialOrthogonal Q)
+CliffordAlgebra.isCompact_spinGroup_iff_posDef_or_negDef.{u_3} {W : Type u_3} [AddCommGroup W] [Module ℝ W]
+  [FiniteDimensional ℝ W] (Q : QuadraticForm ℝ W) (hQ : QuadraticMap.Nondegenerate) :
+  IsCompact ↑(spinGroup Q) ↔ QuadraticMap.PosDef Q ∨ QuadraticMap.PosDef (-Q)
+CliffordAlgebra.continuous_spinorNorm.{u_1, u_2} {K : Type u_1} {V : Type u_2} [NontriviallyNormedField K]
+  [LocallyCompactSpace K] [Invertible 2] [AddCommGroup V] [Module K V] [FiniteDimensional K V] (Q : QuadraticForm K V)
+  (hQ : QuadraticMap.Nondegenerate) (hsq : IsOpen ↑(Subgroup.square Kˣ)) : Continuous ⇑(spinorNorm Q hQ)
+TauCeti.QuadraticMap.OrthogonalCompactOpens.fullAdelicOrthogonalToFinite.{u_1} {V : Type u_1} [AddCommGroup V]
+  [Module ℚ V] {Q : QuadraticForm ℚ V} (U : OrthogonalCompactOpens Q) :
+  U.fullAdelicOrthogonal →* U.finiteAdelicOrthogonal
+TauCeti.QuadraticMap.OrthogonalCompactOpens.fullAdelicSpecialOrthogonalToFinite.{u_1} {V : Type u_1} [AddCommGroup V]
+  [Module ℚ V] {Q : QuadraticForm ℚ V} (U : OrthogonalCompactOpens Q) :
+  U.fullAdelicSpecialOrthogonal →* U.finiteAdelicSpecialOrthogonal
+TauCeti.QuadraticMap.OrthogonalCompactOpens.fullAdelicSpinToFinite.{u_1} {V : Type u_1} [AddCommGroup V] [Module ℚ V]
+  {Q : QuadraticForm ℚ V} (U : OrthogonalCompactOpens Q) : U.fullAdelicSpin →* U.finiteAdelicSpin
+TauCeti.QuadraticMap.OrthogonalCompactOpens.fullAdelicSpinToSpecialOrthogonal.{u_1} {V : Type u_1} [AddCommGroup V]
+  [Module ℚ V] {Q : QuadraticForm ℚ V} (U : OrthogonalCompactOpens Q) :
+  U.fullAdelicSpin →* U.fullAdelicSpecialOrthogonal
+TauCeti.QuadraticMap.OrthogonalCompactOpens.fullAdelicSpecialOrthogonalToOrthogonal.{u_1} {V : Type u_1}
+  [AddCommGroup V] [Module ℚ V] {Q : QuadraticForm ℚ V} (U : OrthogonalCompactOpens Q) :
+  U.fullAdelicSpecialOrthogonal →* U.fullAdelicOrthogonal
+TauCeti.QuadraticMap.OrthogonalCompactOpens.awayAdelicOrthogonalEmptyEquiv.{u_1} {V : Type u_1} [AddCommGroup V]
+  [Module ℚ V] {Q : QuadraticForm ℚ V} (U : OrthogonalCompactOpens Q) :
+  U.awayAdelicOrthogonal ∅ ≃ₜ* U.finiteAdelicOrthogonal
+TauCeti.QuadraticMap.OrthogonalCompactOpens.awayAdelicSpecialOrthogonalEmptyEquiv.{u_1} {V : Type u_1} [AddCommGroup V]
+  [Module ℚ V] {Q : QuadraticForm ℚ V} (U : OrthogonalCompactOpens Q) :
+  U.awayAdelicSpecialOrthogonal ∅ ≃ₜ* U.finiteAdelicSpecialOrthogonal
+TauCeti.QuadraticMap.OrthogonalCompactOpens.awayAdelicSpinEmptyEquiv.{u_1} {V : Type u_1} [AddCommGroup V] [Module ℚ V]
+  {Q : QuadraticForm ℚ V} (U : OrthogonalCompactOpens Q) : U.awayAdelicSpin ∅ ≃ₜ* U.finiteAdelicSpin
+TauCeti.QuadraticMap.OrthogonalCompactOpens.awayAdelicSpecialOrthogonalEmptyEquiv_spinToSpecialOrthogonal.{u_1}
+  {V : Type u_1} [AddCommGroup V] [Module ℚ V] {Q : QuadraticForm ℚ V} (U : OrthogonalCompactOpens Q)
+  (x : U.awayAdelicSpin ∅) :
+  U.awayAdelicSpecialOrthogonalEmptyEquiv ((U.awayAdelicSpinToSpecialOrthogonal ∅) x) =
+    U.finiteAdelicSpinToSpecialOrthogonal (U.awayAdelicSpinEmptyEquiv x)
+TauCeti.QuadraticMap.OrthogonalCompactOpens.awayAdelicOrthogonalEmptyEquiv_specialOrthogonalToOrthogonal.{u_1}
+  {V : Type u_1} [AddCommGroup V] [Module ℚ V] {Q : QuadraticForm ℚ V} (U : OrthogonalCompactOpens Q)
+  (x : U.awayAdelicSpecialOrthogonal ∅) :
+  U.awayAdelicOrthogonalEmptyEquiv ((U.awayAdelicSpecialOrthogonalToOrthogonal ∅) x) =
+    U.finiteAdelicSpecialOrthogonalToOrthogonal (U.awayAdelicSpecialOrthogonalEmptyEquiv x)
+TauCeti.QuadraticMap.OrthogonalCompactOpens.awayAdelicOrthogonalEmptyEquiv_diagonal.{u_1} {V : Type u_1}
+  [AddCommGroup V] [Module ℚ V] {Q : QuadraticForm ℚ V} (U : OrthogonalCompactOpens Q) (g : ↥(orthogonalGroup Q)) :
+  U.awayAdelicOrthogonalEmptyEquiv ((U.awayAdelicOrthogonalDiagonal ∅) g) = U.finiteAdelicOrthogonalDiagonal g
+TauCeti.QuadraticMap.OrthogonalCompactOpens.awayAdelicSpecialOrthogonalEmptyEquiv_diagonal.{u_1} {V : Type u_1}
+  [AddCommGroup V] [Module ℚ V] {Q : QuadraticForm ℚ V} (U : OrthogonalCompactOpens Q) [FiniteDimensional ℚ V]
+  (g : ↥(specialOrthogonalGroup Q)) :
+  U.awayAdelicSpecialOrthogonalEmptyEquiv ((U.awayAdelicSpecialOrthogonalDiagonal ∅) g) =
+    U.finiteAdelicSpecialOrthogonalDiagonal g
+TauCeti.QuadraticMap.OrthogonalCompactOpens.awayAdelicSpinEmptyEquiv_diagonal.{u_1} {V : Type u_1} [AddCommGroup V]
+  [Module ℚ V] {Q : QuadraticForm ℚ V} (U : OrthogonalCompactOpens Q) (x : ↥(spinGroup Q)) :
+  U.awayAdelicSpinEmptyEquiv ((U.awayAdelicSpinDiagonal ∅) x) = U.finiteAdelicSpinDiagonal x
+TauCeti.QuadraticMap.OrthogonalCompactOpens.fullAdelicSpinToSpecialOrthogonal_comp_fullAdelicSpinDiagonal.{u_1}
+  {V : Type u_1} [AddCommGroup V] [Module ℚ V] {Q : QuadraticForm ℚ V} (U : OrthogonalCompactOpens Q)
+  [FiniteDimensional ℚ V] :
+  U.fullAdelicSpinToSpecialOrthogonal.comp U.fullAdelicSpinDiagonal =
+    U.fullAdelicSpecialOrthogonalDiagonal.comp (CliffordAlgebra.spinToSpecialOrthogonal Q)
+TauCeti.QuadraticMap.OrthogonalCompactOpens.fullAdelicSpecialOrthogonalToOrthogonal_comp_fullAdelicSpecialOrthogonalDiagonal.{u_1}
+  {V : Type u_1} [AddCommGroup V] [Module ℚ V] {Q : QuadraticForm ℚ V} (U : OrthogonalCompactOpens Q)
+  [FiniteDimensional ℚ V] :
+  U.fullAdelicSpecialOrthogonalToOrthogonal.comp U.fullAdelicSpecialOrthogonalDiagonal =
+    U.fullAdelicOrthogonalDiagonal.comp (QuadraticMap.specialOrthogonalToOrthogonal Q)
+TauCeti.QuadraticMap.OrthogonalCompactOpens.discreteTopology_range_fullAdelicOrthogonalDiagonal.{u_1} {V : Type u_1}
+  [AddCommGroup V] [Module ℚ V] [FiniteDimensional ℚ V] {Q : QuadraticForm ℚ V} (U : OrthogonalCompactOpens Q)
+  (hQ : QuadraticMap.Nondegenerate) : DiscreteTopology ↥U.fullAdelicOrthogonalDiagonal.range
+TauCeti.QuadraticMap.OrthogonalCompactOpens.discreteTopology_range_fullAdelicSpecialOrthogonalDiagonal.{u_1}
+  {V : Type u_1} [AddCommGroup V] [Module ℚ V] [FiniteDimensional ℚ V] {Q : QuadraticForm ℚ V}
+  (U : OrthogonalCompactOpens Q) (hQ : QuadraticMap.Nondegenerate) :
+  DiscreteTopology ↥U.fullAdelicSpecialOrthogonalDiagonal.range
+TauCeti.QuadraticMap.OrthogonalCompactOpens.discreteTopology_range_fullAdelicSpinDiagonal.{u_1} {V : Type u_1}
+  [AddCommGroup V] [Module ℚ V] [FiniteDimensional ℚ V] {Q : QuadraticForm ℚ V} (U : OrthogonalCompactOpens Q)
+  (hQ : QuadraticMap.Nondegenerate) : DiscreteTopology ↥U.fullAdelicSpinDiagonal.range
+TauCeti.QuadraticMap.OrthogonalCompactOpens.not_discreteTopology_range_finiteAdelicSpecialOrthogonalDiagonal.{u_1}
+  {V : Type u_1} [AddCommGroup V] [Module ℚ V] [FiniteDimensional ℚ V] {Q : QuadraticForm ℚ V}
+  (U : OrthogonalCompactOpens Q) (hQ : QuadraticMap.Nondegenerate) (hdim : 3 ≤ Module.finrank ℚ V)
+  (hiso : ∃ u, u ≠ 0 ∧ Q u = 0) : ¬DiscreteTopology ↥U.finiteAdelicSpecialOrthogonalDiagonal.range
+TauCeti.QuadraticMap.OrthogonalCompactOpens.not_discreteTopology_range_finiteAdelicSpinDiagonal.{u_1} {V : Type u_1}
+  [AddCommGroup V] [Module ℚ V] [FiniteDimensional ℚ V] {Q : QuadraticForm ℚ V} (U : OrthogonalCompactOpens Q)
+  (hQ : QuadraticMap.Nondegenerate) (hdim : 3 ≤ Module.finrank ℚ V) (hiso : ∃ u, u ≠ 0 ∧ Q u = 0) :
+  ¬DiscreteTopology ↥U.finiteAdelicSpinDiagonal.range
+TauCeti.QuadraticMap.OrthogonalCompactOpens.finiteAdelicOrthogonalDoubleCosetMapOfLE_surjective.{u_1} {V : Type u_1}
+  [AddCommGroup V] [Module ℚ V] {Q : QuadraticForm ℚ V} (U : OrthogonalCompactOpens Q)
+  (K : Subgroup U.finiteAdelicOrthogonal) (hK : integralSubgroup U.orthogonal ≤ K) :
+  Function.Surjective (U.finiteAdelicOrthogonalDoubleCosetMapOfLE K hK)
+TauCeti.QuadraticMap.OrthogonalCompactOpens.finiteAdelicSpecialOrthogonalDoubleCosetMapOfLE_surjective.{u_1}
+  {V : Type u_1} [AddCommGroup V] [Module ℚ V] {Q : QuadraticForm ℚ V} (U : OrthogonalCompactOpens Q)
+  [FiniteDimensional ℚ V] (K : Subgroup U.finiteAdelicSpecialOrthogonal)
+  (hK : integralSubgroup U.specialOrthogonal ≤ K) :
+  Function.Surjective (U.finiteAdelicSpecialOrthogonalDoubleCosetMapOfLE K hK)
+TauCeti.QuadraticMap.OrthogonalCompactOpens.finiteAdelicSpinDoubleCosetMapOfLE_surjective.{u_1} {V : Type u_1}
+  [AddCommGroup V] [Module ℚ V] {Q : QuadraticForm ℚ V} (U : OrthogonalCompactOpens Q) (K : Subgroup U.finiteAdelicSpin)
+  (hK : integralSubgroup U.spin ≤ K) : Function.Surjective (U.finiteAdelicSpinDoubleCosetMapOfLE K hK)
+TauCeti.QuadraticMap.OrthogonalCompactOpens.adelicSpinorNorm_apply.{u_1} {V : Type u_1} [AddCommGroup V] [Module ℚ V]
+  [FiniteDimensional ℚ V] {Q : QuadraticForm ℚ V} (U : OrthogonalCompactOpens Q) (hQ : QuadraticMap.Nondegenerate)
+  (g : U.finiteAdelicSpecialOrthogonal) (p : Nat.Primes) :
+  ((U.adelicSpinorNorm hQ) g) p = (spinorNorm (QuadraticForm.baseChange ℚ_[↑p] Q) ⋯) (g p)
+TauCeti.QuadraticMap.OrthogonalCompactOpens.mem_adelicSpinorKernel_iff.{u_1} {V : Type u_1} [AddCommGroup V]
+  [Module ℚ V] [FiniteDimensional ℚ V] {Q : QuadraticForm ℚ V} (U : OrthogonalCompactOpens Q)
+  (hQ : QuadraticMap.Nondegenerate) (g : U.finiteAdelicSpecialOrthogonal) :
+  g ∈ U.adelicSpinorKernel hQ ↔ ∀ (p : Nat.Primes), (spinorNorm (QuadraticForm.baseChange ℚ_[↑p] Q) ⋯) (g p) = 1
+'CliffordAlgebra.range_spinToSpecialOrthogonal_eq_ker_spinorNorm' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CliffordAlgebra.evenUnitaryGroup_le_lipschitzGroup' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CliffordAlgebra.exists_spinGroup_ne_evenUnitaryGroup_finrank_six' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CliffordAlgebra.isProperMap_spinToSpecialOrthogonal' depends on axioms: [propext, Classical.choice, Quot.sound]
+'TauCeti.QuadraticMap.OrthogonalCompactOpens.discreteTopology_range_fullAdelicSpinDiagonal' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'TauCeti.QuadraticMap.OrthogonalCompactOpens.not_discreteTopology_range_finiteAdelicSpinDiagonal' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'TauCeti.QuadraticMap.OrthogonalCompactOpens.awayAdelicSpecialOrthogonalEmptyEquiv_spinToSpecialOrthogonal' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'TauCeti.QuadraticMap.OrthogonalCompactOpens.awayAdelicSpinEmptyEquiv_diagonal' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'TauCeti.QuadraticMap.OrthogonalCompactOpens.adelicSpinorNorm_apply' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+TauCeti.awayEmptyContinuousMulEquiv.{u, v} {ι : Type u} {G : ι → Type v} [(i : ι) → Group (G i)]
+  [(i : ι) → TopologicalSpace (G i)] (U : (i : ι) → Subgroup (G i)) :
+  RestrictedProductGroupAway ∅ U ≃ₜ* RestrictedProductGroup U
+TauCeti.awayEmptyContinuousMulEquiv_symm_apply.{u, v} {ι : Type u} {G : ι → Type v} [(i : ι) → Group (G i)]
+  [(i : ι) → TopologicalSpace (G i)] (U : (i : ι) → Subgroup (G i)) (x : RestrictedProductGroup U) :
+  (awayEmptyContinuousMulEquiv U).symm x = (restrictAway ∅ U) x
+TauCeti.addAwayEmptyContinuousAddEquiv.{u, v} {ι : Type u} {G : ι → Type v} [(i : ι) → AddGroup (G i)]
+  [(i : ι) → TopologicalSpace (G i)] (U : (i : ι) → AddSubgroup (G i)) :
+  RestrictedProductAddGroupAway ∅ U ≃ₜ+ RestrictedProductAddGroup U
+TauCeti.addAwayEmptyContinuousAddEquiv_symm_apply.{u, v} {ι : Type u} {G : ι → Type v} [(i : ι) → AddGroup (G i)]
+  [(i : ι) → TopologicalSpace (G i)] (U : (i : ι) → AddSubgroup (G i)) (x : RestrictedProductAddGroup U) :
+  (addAwayEmptyContinuousAddEquiv U).symm x = (addRestrictAway ∅ U) x
+CliffordAlgebra.spinorNorm_eq_one_of_posDef.{v} {V : Type v} [AddCommGroup V] [Module ℝ V] [FiniteDimensional ℝ V]
+  (Q : QuadraticForm ℝ V) (hQ : QuadraticMap.PosDef Q) : spinorNorm Q ⋯ = 1
+CliffordAlgebra.spinorNorm_eq_one_of_negDef.{v} {V : Type v} [AddCommGroup V] [Module ℝ V] [FiniteDimensional ℝ V]
+  (Q : QuadraticForm ℝ V) (hneg : QuadraticMap.PosDef (-Q)) : spinorNorm Q ⋯ = 1
+CliffordAlgebra.orthogonalSpinorNorm_surjective_of_negValue.{v} {V : Type v} [AddCommGroup V] [Module ℝ V]
+  [FiniteDimensional ℝ V] (Q : QuadraticForm ℝ V) (hQ : QuadraticMap.Nondegenerate) (hneg : ∃ v, Q v < 0) :
+  Function.Surjective ⇑(orthogonalSpinorNorm Q hQ)
+CliffordAlgebra.spinorNorm_surjective_of_indefinite.{v} {V : Type v} [AddCommGroup V] [Module ℝ V]
+  [FiniteDimensional ℝ V] (Q : QuadraticForm ℝ V) (hQ : QuadraticMap.Nondegenerate) (hpos : ∃ v, 0 < Q v)
+  (hneg : ∃ v, Q v < 0) : Function.Surjective ⇑(spinorNorm Q hQ)
+CliffordAlgebra.index_range_spinorNorm_of_finrank_eq_two_of_anisotropic.{u_1, u_2} {K : Type u_1} [Field K]
+  [ValuativeRel K] [TopologicalSpace K] [IsNonarchimedeanLocalField K] [Invertible 2] {V : Type u_2} [AddCommGroup V]
+  [Module K V] [FiniteDimensional K V] (Q : QuadraticForm K V) (hQ : QuadraticMap.Nondegenerate)
+  (hV : Module.finrank K V = 2) (hani : QuadraticMap.Anisotropic Q) : (spinorNorm Q hQ).range.index = 2
+TauCeti.QuadraticMap.spinorNorm_surjective_of_three_le_finrank.{u_1, u_2} {K : Type u_1} [Field K] [ValuativeRel K]
+  [TopologicalSpace K] [IsNonarchimedeanLocalField K] [Invertible 2] {V : Type u_2} [AddCommGroup V] [Module K V]
+  [FiniteDimensional K V] (Q : QuadraticForm K V) (hQ : QuadraticMap.Nondegenerate) (hV : 3 ≤ Module.finrank K V) :
+  Function.Surjective ⇑(spinorNorm Q hQ)
+TauCeti.QuadraticMap.index_range_spinToSpecialOrthogonal_eq_four_of_three_le_finrank.{u_1, u_2} {K : Type u_1} [Field K]
+  [ValuativeRel K] [TopologicalSpace K] [IsNonarchimedeanLocalField K] [Invertible 2] {V : Type u_2} [AddCommGroup V]
+  [Module K V] [FiniteDimensional K V] (Q : QuadraticForm K V) (hQ : QuadraticMap.Nondegenerate)
+  (hV : 3 ≤ Module.finrank K V) (h2 : IsUnit 2) : (CliffordAlgebra.spinToSpecialOrthogonal Q).range.index = 4
+TauCeti.QuadraticMap.index_range_spinToSpecialOrthogonal_eq_eight_of_three_le_finrank.{u_1} {V : Type u_1}
+  [AddCommGroup V] [Module ℚ_[2] V] [FiniteDimensional ℚ_[2] V] (Q : QuadraticForm ℚ_[2] V)
+  (hQ : QuadraticMap.Nondegenerate) (hV : 3 ≤ Module.finrank ℚ_[2] V) :
+  (CliffordAlgebra.spinToSpecialOrthogonal Q).range.index = 8
+TauCeti.hyperbolicFourSpinEquivSpecialLinearProd.{u} (K : Type u) [Field K] [NeZero 2] :
+  ↥(spinGroup (splitEvenForm K 2)) ≃* Matrix.SpecialLinearGroup (Fin 2) K × Matrix.SpecialLinearGroup (Fin 2) K
+TauCeti.hyperbolicSixEvenUnitaryEquivGeneralLinear.{u} (K : Type u) [Field K] [NeZero 2] :
+  ↥(evenUnitaryGroup (splitEvenForm K 3)) ≃* GL (Fin 4) K
+TauCeti.hyperbolicSixSpinEquivSpecialLinear.{u_1} (K : Type u_1) [Field K] [NeZero 2] :
+  ↥(spinGroup (splitEvenForm K 3)) ≃* Matrix.SpecialLinearGroup (Fin 4) K
+TauCeti.mem_range_spinGroupToEvenUnitary_iff_det_hyperbolicSixEvenUnitaryEquivGeneralLinear.{u_1} (K : Type u_1)
+  [Field K] [NeZero 2] (x : ↥(evenUnitaryGroup (splitEvenForm K 3))) :
+  x ∈ (spinGroupToEvenUnitary (splitEvenForm K 3)).range ↔ (↑((hyperbolicSixEvenUnitaryEquivGeneralLinear K) x)).det = 1
+CliffordAlgebra.exists_spinGroupEquivSymplecticGroup_of_finrank_eq_five.{u_1, u_2} {K : Type u_1} {V : Type u_2}
+  [Field K] [AddCommGroup V] [Module K V] [Invertible 2] (Q : QuadraticForm K V) (hQ : QuadraticMap.Nondegenerate)
+  (hV : Module.finrank K V = 5) (hsplit : Nonempty (↥(even Q) ≃ₐ[K] Matrix (Fin 4) (Fin 4) K)) :
+  Nonempty (↥(spinGroup Q) ≃* ↥(Matrix.symplecticGroup (Fin 2) K))
+CliffordAlgebra.not_surjective_spinToSpecialOrthogonal_weightedSumSquares_one_rat :
+  ¬Function.Surjective ⇑(CliffordAlgebra.spinToSpecialOrthogonal (QuadraticMap.weightedSumSquares ℚ ![1, 1, 1]))
+'TauCeti.hyperbolicFourSpinEquivSpecialLinearProd' depends on axioms: [propext, Classical.choice, Quot.sound]
+'TauCeti.hyperbolicSixEvenUnitaryEquivGeneralLinear' depends on axioms: [propext, Classical.choice, Quot.sound]
+'TauCeti.hyperbolicSixSpinEquivSpecialLinear' depends on axioms: [propext, Classical.choice, Quot.sound]

@@ -126,7 +126,7 @@ the contour integral at all, and Dixon's argument needs differentiability off a 
 make the winding number integer-valued. (The off-curve base point Dixon picks, by contrast, exists
 already from continuity and compactness — the image of `[[a, b]]` is compact, so it cannot fill a
 nonempty open `Ω` — and is not what this regularity is for.) This mirrors
-`TauCeti.Contour.IsPiecewiseC1On`; it is the base regularity the homology Cauchy theorem (Layer 3)
+`TauCeti.IsPiecewiseC1On`; it is the base regularity the homology Cauchy theorem (Layer 3)
 carries. The **on-cycle** residue theorems (Layer 4) need the stronger `IsPwC1ImmersionOn` below. -/
 def IsPiecewiseC1On (γ : ℝ → ℂ) (a b : ℝ) : Prop :=
   ContinuousOn γ (Set.uIcc a b) ∧
