@@ -145,7 +145,7 @@ Suggested home: `TauCeti/NumberTheory/AdelicImages/`, with subdirectories `GL2Zh
   *IsGaloisGeneric* with their API (finite index, base change, framing; AGR §6.4), read here for
   `A = E`, `g = 1`, where the similitude group `GSp₂` is `GL₂`. Serre's local weight recipe:
   AlgebraicModularFormsAndSerreWeights Layer 4. Serre's modularity conjecture in its strong form:
-  ClassicalSerreModularity Layer R27.6.
+  SerreModularityByCompatibleSystems Layer S6.
 - The `ℓ`-adic open image theorems for elliptic curves, non-CM and CM, at every `ℓ`:
   NoncommutativeAndEquivariantIwasawa §4.0 (`elliptic_nonCM_openImage`,
   `elliptic_CM_openImage`). The inclusion `SL₂(𝔽_ℓ) ⊆ ρ̄_{E,ℓ}(G_K)` for all but finitely many
@@ -464,8 +464,8 @@ The roadmaps consumed, with the relative links used throughout:
   (AMFSW): §§4.1–4.3 (Serre's local weight recipe: the tame inertia alternatives, the tame weight
   table and the extension-sensitive wild weight table), read at the restriction of `ρ̄_{E,ℓ}` to a
   decomposition group at `ℓ`, as its §7.6 reads it for a global `ρ̄`.
-- [ClassicalSerreModularity](../ClassicalSerreModularity/README.md) (CSM): Layer R27.6
-  (`R27.6/full-classical-serre-theorem`: an odd, absolutely irreducible `ρ̄ : G_ℚ → GL₂(𝔽̄_p)`
+- [SerreModularityByCompatibleSystems](../SerreModularityByCompatibleSystems/README.md) (SMC): Layer S6
+  (`S6/strong-form-of-serre-conjecture`: an odd, absolutely irreducible `ρ̄ : G_ℚ → GL₂(𝔽̄_p)`
   arises from a newform of weight `k(ρ̄)` and level `N(ρ̄)`), for the reading of the Serre
   invariants in 3.4.
 
@@ -517,7 +517,7 @@ Every object below is used under its supplier's name and is not defined again he
 | Model data, complete models and closed immersions, instantiated at six modular curves in 6.4 | CMG §§2.1, 2.5, 9.1 |
 | The prime-to-`p` conductor `N(ρ̄)` of a residual representation | AGR §3.3 |
 | Serre's local weight recipe `k(ρ_p)` | AMFSW §§4.1–4.3 |
-| Serre's modularity conjecture, strong form | CSM Layer R27.6 |
+| Serre's modularity conjecture, strong form | SMC Layer S6 |
 | The norm of divisors along a finite extension of function fields, with norm after conorm the multiplication by the degree | CMG §1.6 |
 | `TauCeti.Divisor.conorm`, `conorm_principal`, `degree_conorm`; `HeckeRing.GL2.Newform`, `HeckeRing.GL2.Newform.analyticRank` | Tau Ceti |
 | The main theorem of complex multiplication | SV §5.10 |
@@ -1648,10 +1648,10 @@ For `K` a number field:
   decomposition group at `ℓ` (as AMFSW §7.6 reads it for a global `ρ̄`); `serreInvariants E :=
   {(ℓ, k, M) : (k, M) ≠ (2, N_E)}`, finite. The knowl's characterisation — `(k, M)` is the least
   `(level, weight)` of a newform `f` with `ρ̄_f ≅ ρ̄_{E,ℓ}` — is read through Serre's modularity
-  conjecture in its strong form (Khare–Wintenberger, CSM Layer R27.6, consumed), which says that
+  conjecture in its strong form (Khare–Wintenberger, SMC Layer S6, consumed), which says that
   `(k, M)` is attained when `ρ̄_{E,ℓ}` is absolutely irreducible; it is not a definition.
 
-*Needs:* 0.2, 1.2, 2.1–2.3, 3.3; AGR §3.3; AMFSW §§4.1–4.3; CSM Layer R27.6; Tau Ceti
+*Needs:* 0.2, 1.2, 2.1–2.3, 3.3; AGR §3.3; AMFSW §§4.1–4.3; SMC Layer S6; Tau Ceti
 `GeometricEnd`, `HasGeometricCM`.
 
 `adelicLevel`, `adelicIndex`, `adelicGenus` and `nonmaximalPrimes` have no declaration in
@@ -1783,7 +1783,7 @@ Worked examples 4, 5 and 6: the image `S_{37}` of `37.a1`, the mod-`5` images in
 Layers 0–2; Tau Ceti `TateModule`, `tateModuleGaloisRepresentation`,
 `det_tateModuleGaloisRepresentation`, `tateModuleWeilPairing`, `ClosedSubgroupConjClasses`;
 PA 0.4, 2.3; EC Layers 1, 4–6; Tau Ceti `GeometricEnd`, `HasGeometricCM`; AGR §3.3, §§6.1, 6.4;
-AMFSW §§4.1–4.3; CSM Layer R27.6; FF R28.6.1; MC Layer 8D.
+AMFSW §§4.1–4.3; SMC Layer S6; FF R28.6.1; MC Layer 8D.
 
 ## Layer 4: Serre's open image theorem and the CM counterpart
 
