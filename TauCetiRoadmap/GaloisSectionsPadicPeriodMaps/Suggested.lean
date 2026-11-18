@@ -24,9 +24,6 @@ rather than a few simple definitions on native carriers.
 * README §9.3, finiteness of Selmer localisations at self-conjugate places over any number field (Betts–Stix §1.1), is not statable: it lacks arithmetic curve section classes, Selmer sections and their localisation into the actual curve points over completions.
 * README §9.4, finiteness of the Selmer-localisation image at every finite place without CM subfields (Betts–Stix Theorem A), is not statable: it lacks arithmetic curve section classes, Selmer sections and their localisation into the actual curve points over completions.
 * README §9.5, finiteness of the finite-descent projection at every finite place without CM subfields (Betts–Stix Theorem B), is not statable: it lacks modified adelic points of a curve and its finite étale torsor descent locus.
-
-The Mordell consequence has its owner in MordellLawrenceVenkatesh, Layer LV.11. The roadmap
-uses its new locus theorem to give another proof, without adding a second declaration here.
 -/
 
 namespace TauCetiRoadmap.GaloisSectionsPadicPeriodMaps

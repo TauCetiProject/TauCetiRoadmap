@@ -856,7 +856,7 @@ The API includes the following facts.
 
 ### 6.4 The projected adelic locus and the rational points lie in the S-good locus
 
-This section shows that a pair interpolating an adelic point is S-good, so that the projection of the adelic Lawrence–Venkatesh locus and the image of Y(K) lie in `Y(K_v)^LV_{X,S}`. Section 9.3 uses §6.4, §9.2 uses §6.5, and §9.6 uses both.
+This section shows that a pair interpolating an adelic point is S-good, so that the projection of the adelic Lawrence–Venkatesh locus and the image of Y(K) lie in `Y(K_v)^LV_{X,S}`. Section 9.3 uses §6.4, and §9.6 uses §§6.4 and 6.5.
 
 Let X → Y′ → Y, p and S be as in §6.2 (S suitable). If (A, V) interpolates an adelic point (y_u)_u ∈ Y(A_K)^LV_X (§1.7), then (A, V) is S-good. Hence Y(K_v)^LV_X ⊆ `Y(K_v)^LV_{X,S}` for every p-adic place v.
 
@@ -1219,7 +1219,7 @@ The API includes the following facts.
 
 **8.3 Few torsion classes lie in small G_v-orbits.** Let Y be a smooth projective geometrically connected curve of genus g over a finite extension K_v of ℚₚ, and k ≥ 1 an odd integer prime to p with gcd(k, q_v^i − 1) = 1 for i = 1, 2, 3. Let M := `H¹_ét(Y_{K̄_v}, ℤ/k)` ≅ `(ℤ/k)^{2g}` with its G_v-equivariant perfect alternating Weil pairing M × M → μ_k^∨. For every open G_w ≤ G_v of index 2 or 3, `M^{G_w}` is isotropic, so `#M^{G_w}` ≤ k^g; hence at most n_v·k^g elements of M lie in G_v-orbits of size less than 4.
 
-p ∤ k, so μ_k is unramified at v and an element of G_v acts on it through its image in the Galois group of the residue field. No reduction hypothesis on Y at v (contrast MordellLawrenceVenkatesh Layer LV.11, admissible primes and the Mordell theorem, which uses good reduction).
+p ∤ k, so μ_k is unramified at v and an element of G_v acts on it through its image in the Galois group of the residue field. No reduction hypothesis on Y at v (contrast the original argument of Lawrence and Venkatesh, which uses good reduction).
 
 (bs, Proof of Proposition 6.20, p. 53; bs line 2712).
 
@@ -1278,7 +1278,7 @@ A proof can proceed as follows. For the density-one assertion choose r₀ above 
 - Over ℚ with g = 3: every q_v makes 3, 5 and 7 divide `q_v·∏_{i≤7}(q_v^i − 1)`, so q − 1 ≡ 2 mod 4 must avoid 3, 5, 7; q = 3 fails (3°) since 4·ζ(6)·8/8 > 1/6, and q = 7, 11, 19 are excluded, leaving 23, with 4·ζ(6)·8/22³ ≈ 0.0031 < 1/56. For (1)–(3), q = 11 works at a good place with q_v ≡ 2 or 3 mod 5, since 2·ζ(6)·8/10³ ≈ 0.0163 < 1/26.
 - Over the totally real field K = ℚ(√5, ζ₁₁ + ζ₁₁⁻¹) every residue cardinality q_v = p^f with p ≠ 5 satisfies q_v ≡ ±1 mod 5, because f is a multiple of the residue degree of p in ℚ(√5), which is 2 exactly when p ≡ ±2 mod 5 (including p = 2); likewise q_v ≡ ±1 mod 11 for p ≠ 11, because f is a multiple of the order of p in (ℤ/11)^×/{±1} = Gal(ℚ(ζ₁₁ + ζ₁₁⁻¹)/ℚ). Hence 5 divides q_v(q_v² − 1) and 11 divides q_v(q_v² − 1) at every place, so q = 11 violates (2) and q = 23 violates (2°) everywhere: the genus-three minima over ℚ do not transfer to this K.
 
-*Needs:* §8.4; §8.5; §3.1; TauCetiRoadmap.MordellLawrenceVenkatesh §§1.2, 1.4–1.16; TauCetiRoadmap.MordellLawrenceVenkatesh Layer LV.11, admissible primes and the Mordell theorem; TauCetiRoadmap.Chebotarev Layers 10, 13 and 14, Dirichlet density, prime counting and natural density; TauCetiRoadmap.AnalyticNumberTheoryPartI §0.32 and gap:linnik-polynomial-least-prime.
+*Needs:* §8.4; §8.5; §3.1; TauCetiRoadmap.MordellLawrenceVenkatesh §§1.2, 1.4–1.16; TauCetiRoadmap.Chebotarev Layers 10, 13 and 14, Dirichlet density, prime counting and natural density; TauCetiRoadmap.AnalyticNumberTheoryPartI §0.32 and gap:linnik-polynomial-least-prime.
 
 ### Examples
 
@@ -1286,7 +1286,7 @@ Over ℚ₅ the quadratic subfields are ℚ₅(√2), ℚ₅(√5), ℚ₅(√10
 
 ### Dependencies
 
-TauCetiRoadmap.LocalFieldsRamification Layer 1, power classes and the dyadic square-class count; TauCetiRoadmap.ClassFieldTheory Layer 5, Kummer theory; Mathlib `MulAction.orbit`; TauCetiRoadmap.MordellLawrenceVenkatesh Layer LV.7 and the four-isotropic-Lagrangian contract; TauCetiRoadmap.LocalFieldsRamification Layers 0, 2 and 4; Mathlib `IntermediateField`; TauCetiRoadmap.MordellLawrenceVenkatesh §§0.4–0.5, 0.9–0.12, 0.18; TauCetiRoadmap.EtaleDualityAndPerverseSheaves §§0.3, 0.5, curve H¹ duality and equivariant alternating cup product; TauCetiRoadmap.MordellLawrenceVenkatesh Layer LV.8 and the characteristic-zero local-fibre contract; Mathlib `hasSum_zeta_four`; TauCetiRoadmap.MordellLawrenceVenkatesh Layer LV.10, Kodaira–Parshin full monodromy; Mathlib `Nat.forall_exists_prime_gt_and_eq_mod`; TauCetiRoadmap.MordellLawrenceVenkatesh §§1.2, 1.4–1.16; TauCetiRoadmap.MordellLawrenceVenkatesh Layer LV.11, admissible primes and the Mordell theorem; TauCetiRoadmap.Chebotarev Layers 10, 13 and 14, Dirichlet density, prime counting and natural density. Internal dependencies are specified in each subsection.
+TauCetiRoadmap.LocalFieldsRamification Layer 1, power classes and the dyadic square-class count; TauCetiRoadmap.ClassFieldTheory Layer 5, Kummer theory; Mathlib `MulAction.orbit`; TauCetiRoadmap.MordellLawrenceVenkatesh Layer LV.7 and the four-isotropic-Lagrangian contract; TauCetiRoadmap.LocalFieldsRamification Layers 0, 2 and 4; Mathlib `IntermediateField`; TauCetiRoadmap.MordellLawrenceVenkatesh §§0.4–0.5, 0.9–0.12, 0.18; TauCetiRoadmap.EtaleDualityAndPerverseSheaves §§0.3, 0.5, curve H¹ duality and equivariant alternating cup product; TauCetiRoadmap.MordellLawrenceVenkatesh Layer LV.8 and the characteristic-zero local-fibre contract; Mathlib `hasSum_zeta_four`; TauCetiRoadmap.MordellLawrenceVenkatesh Layer LV.10, Kodaira–Parshin full monodromy; Mathlib `Nat.forall_exists_prime_gt_and_eq_mod`; TauCetiRoadmap.MordellLawrenceVenkatesh §§1.2, 1.4–1.16; TauCetiRoadmap.Chebotarev Layers 10, 13 and 14, Dirichlet density, prime counting and natural density. Internal dependencies are specified in each subsection.
 
 ## Layer 9: Finiteness of the Lawrence–Venkatesh locus, of Selmer localisations and of finite-descent projections
 
@@ -1302,22 +1302,9 @@ A proof can proceed as follows. Choose q as in §8.5. The trichotomy puts the S-
 
 **Checks.**
 
-- With the inclusion Y(K) ⊆ `Y(K_v)^LV_{X_q,S}` it gives the finiteness of Y(K) (§9.2).
 - With §1.8 and §6.4 it gives the finiteness of loc_v(Sec^Sel(Y/K)) (§9.3).
 
 *Needs:* §6.9; §7.5; §7.8; §8.4; §8.5; TauCetiRoadmap.MordellLawrenceVenkatesh Layer LV.10, Kodaira–Parshin full monodromy; §6.2.
-
-### 9.2 The Mordell consequence
-
-Apply the finiteness in §9.1 and the rational-point inclusion of §6.5 to any self-conjugate place, whose existence follows from §3.1 and Chebotarev. The embedding Y(K)→Y(Kᵥ) is injective, so this gives another proof of the Mordell theorem owned by MordellLawrenceVenkatesh Layer LV.11. (bs, §6, after Theorem 6.5, p. 44; bs line 2249).
-
-**Checks.**
-
-- Over a field without a CM subfield any finite place supplies the proof; in the CM case a place of K above a prime of E_K⁺ inert in E_K supplies it.
-- For an empty local curve the global point set is empty, with cardinality 0.
-- The genus hypothesis excludes an elliptic curve of positive rank: its infinitely many rational points would contradict the conclusion.
-
-*Needs:* §9.1; §6.5; §3.1; TauCetiRoadmap.Chebotarev Layer 10.
 
 ### 9.3 Finiteness of Selmer localisations at self-conjugate places
 
@@ -1347,7 +1334,7 @@ A proof can proceed as follows. Without a CM subfield every finite place is self
 
 **Checks.**
 
-- Under the section conjecture (AnabelianGeometryAndNonabelianChabauty §7.1) Sec^Sel(Y/K) = κ_Y(Y(K)), which is finite by §9.2, so §9.4 is a consequence of the section conjecture; here it is proved without it.
+- Under the section conjecture (AnabelianGeometryAndNonabelianChabauty §7.1) Sec^Sel(Y/K) = κ_Y(Y(K)), which is finite by HeightsRationalPointsAndObstructions §6.4, so §9.4 is a consequence of the section conjecture; here it is proved without it.
 - For K = Q every finite place is covered, including p = 2, places of bad reduction of Y and ramified places of larger totally real fields.
 
 *Needs:* §9.3; §3.1; §0.3; TauCetiRoadmap.AnabelianGeometryAndNonabelianChabauty §7.1 (NC.6), section classes, rational-point section map, Kummer comparison and the field-general injectivity criterion.
@@ -1402,7 +1389,7 @@ AnabelianGeometryAndNonabelianChabauty §7.1 (NC.6) supplies section classes, th
 
 Mathlib supplies absolute Galois groups, continuous homomorphisms, connected components, completions, alternating and perfect pairings, CM fields, intermediate fields and group orbits. Tau Ceti supplies the symplectic group scheme. These objects are used directly. Ordinary induction, Mackey decomposition and decomposition groups belong to ArithmeticGaloisRepresentations §§1.3, 1.12 and 2.1; the new induction here is the filtered discrete-module construction. General adelic points, their topology and torsor descent belong to HeightsRationalPointsAndObstructions §§2.3–2.4, 2.11 and 3.1–3.5. This roadmap owns the modified adelic points of every proper finite-type K-scheme, and, for smooth projective geometrically connected varieties, the finite-cover locus and its comparison with sections; that roadmap's §3.17d uses modified adeles only for torsors under an abelian variety and does not construct the general carrier. ArithmeticGaloisDuality §R02.4.6 owns the Tate-modified adelic groups and duality of tori; their restricted products and real norm quotients are distinct from the proper-scheme carrier here.
 
-MordellLawrenceVenkatesh §§0.5 and 0.18 own unit groups of finite-dimensional algebras and orbit-dimension geometry. Its §§1.4–1.16 own maximal CM subfields, infinity types, friendly places, filtration weights, induced de Rham periods and abelian-variety representation properties. Its §§2.1, 3.1–3.11, LV.8 and LV.10 own abelian-by-finite families, Lagrangian Grassmannians and period varieties, Kodaira–Parshin families and full monodromy. Its LV.11 owns the Mordell theorem. The application in Layer 9 gives another proof through the new locus; it introduces no second Mordell declaration. The dimension formula for that family is used rather than redefined. The self-conjugate and model-free variants below differ by admitting ramified places, every residue characteristic and families without a good model; the variable-rank supplier contract also admits locally constant relative dimension over the finite étale base.
+MordellLawrenceVenkatesh §§0.5 and 0.18 own unit groups of finite-dimensional algebras and orbit-dimension geometry. Its §§1.4–1.16 own maximal CM subfields, infinity types, friendly places, filtration weights, induced de Rham periods and abelian-variety representation properties. Its §§2.1, 3.1–3.11, LV.8 and LV.10 own abelian-by-finite families, Lagrangian Grassmannians and period varieties, Kodaira–Parshin families and full monodromy. The Mordell theorem is HeightsRationalPointsAndObstructions §6.4 and is not proved here. The dimension formula for that family is used rather than redefined. The self-conjugate and model-free variants below differ by admitting ramified places, every residue characteristic and families without a good model; the variable-rank supplier contract also admits locally constant relative dimension over the finite étale base.
 
 PadicHodgeTheory §§3.3–3.5, 5.1, 5.3 and 7.3 supplies period functors, finite-level filtered monodromy modules, de Rham monodromy and de Rham pairs. CohomologyComparisons §§6.4–6.7 owns cup, trace, duality and Chern-class compatibility for Scholze's comparison. AbelianSchemesAndArithmeticModuli §§A3.5, A3.7, A4.3–A4.4 owns the abelian cohomology and polarisation ingredients; §§A6.30–A6.31 owns Weil restriction and its splitting. This roadmap assembles these into symplectic pairs and their section and period constructions, rather than reconstructing those generic theories.
 
@@ -1452,7 +1439,7 @@ Sections 6.4–6.7 supply naturality, scalar extension, cup products, the trace-
 
 ### From `TauCetiRoadmap.MordellLawrenceVenkatesh`
 
-Sections 0.4–0.5 supply semilinear centralizer finiteness and unit-group representability. Sections 0.9–0.12 supply the affine-group centralizer, commutator-product count, primitive cyclic tuples and the cardinality bound for isotropic finite subgroups. Section 0.18 supplies orbit maps and the dimension of their geometric closure, hence the bound after quotienting a scalar torus. Sections 1.4–1.16 supply the maximal CM subfield, infinity-type factorisation, the conjugation identity for pure characters, local algebraicity, the friendly-place specialisations, filtration weights and induction of de Rham periods. Sections 2.1–2.4 supply families and good models. Section 2.11 and §§4.1–4.2 supply crystalline transport and its good-model fibre comparison in their unramified p>2 setting; §4.3 supplies Frobenius-centralizer orbits. Sections 3.1–3.11 supply Lagrangian geometry and full monodromy, including dimension d(d+1)/2. Layer LV.7 supplies the five-Lagrangian comparison and its unramified Frobenius small-orbit variant. Layers LV.8 and LV.10 supply the Kodaira–Parshin family and its full monodromy. Layer LV.11 supplies the original admissible-prime argument and Mordell theorem. The contracts below state the larger domains used here.
+Sections 0.4–0.5 supply semilinear centralizer finiteness and unit-group representability. Sections 0.9–0.12 supply the affine-group centralizer, commutator-product count, primitive cyclic tuples and the cardinality bound for isotropic finite subgroups. Section 0.18 supplies orbit maps and the dimension of their geometric closure, hence the bound after quotienting a scalar torus. Sections 1.4–1.16 supply the maximal CM subfield, infinity-type factorisation, the conjugation identity for pure characters, local algebraicity, the friendly-place specialisations, filtration weights and induction of de Rham periods. Sections 2.1–2.4 supply families and good models. Section 2.11 and §§4.1–4.2 supply crystalline transport and its good-model fibre comparison in their unramified p>2 setting; §4.3 supplies Frobenius-centralizer orbits. Sections 3.1–3.11 supply Lagrangian geometry and full monodromy, including dimension d(d+1)/2. Layer LV.7 supplies the five-Lagrangian comparison and its unramified Frobenius small-orbit variant. Layers LV.8 and LV.10 supply the Kodaira–Parshin family and its full monodromy. The contracts below state the larger domains used here.
 
 What MordellLawrenceVenkatesh must provide (gap:variable-rank-abelian-by-finite): Extend §§2.1–2.4 and 3.8–3.9 to a polarised abelian scheme of locally constant relative dimension over a surjective finite étale cover, with its finite locally free H¹ module and the product of Weil-restricted Lagrangian varieties indexed by the constant-rank components.
 
