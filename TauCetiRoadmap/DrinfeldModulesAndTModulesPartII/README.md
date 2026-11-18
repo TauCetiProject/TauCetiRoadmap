@@ -2,19 +2,9 @@
 
 **Summary.** Develop the multiple-depth extension of the Carlitz special-value theory over every polynomial ring A = 𝔽_q[θ], with q a prime power. The build passes from power sums and Carlitz multiple polylogarithms through product relations, Brown generation and Frobenius difference systems to Thakur’s basis theorem, Todd’s dimension formula, the Hoffman-like basis for alternating values, and the complete description of linear relations. It includes the Carlitz and Frobenius foundations, Ngo Dac’s independent small-weight theorems, direct alternating small-weight bounds, and the construction and dimension bound for finite-place values.
 
-## Scope and ownership
+## How to read the build
 
-This Part II develops the multiple-depth extension of depth-one Carlitz special values. Its foundation targets in §0.0 construct the Carlitz products, analytic field, exponential, logarithm, period, Ω, effective dual t-motives and Frobenius interfaces used by Layers 0–5. The power-sum degree theorem belongs to §0.2, the generating-series identity to §3.2, and finite-place specialisation to §5.14. The multiple-depth targets include both the direct MZV route and the CMPL route to the basis theorem. These constructions constitute the Carlitz special-value foundation needed for this extension; the elliptic-sheaf carrier and its comparison with one-leg shtukas belong to GlobalShtukasAndFunctionFieldLanglands §2.7.
-
-No other roadmap constructs the depth-one theory that this Part II extends: the Carlitz exponential and logarithm, the period π̃, Ω, the ring E, effective dual t-motives, Anderson t-modules, ABP entireness and lifting, and the rational Frobenius comparisons. Section 0.0 owns them, and later work on depth-one Carlitz values cites §0.0 rather than constructing them again.
-
-Mathlib’s `Composition`, `Composition.blocks`, `Composition.length`, `Composition.blocksFun`, `composition_card`, `Polynomial`, `Polynomial.Monic`, `RatFunc`, `RatFunc.inftyValuation`, `RatFunc.CompletionAtInfty`, `Finsupp`, `Submodule.span`, `Nat.choose` and `FiniteField.sum_pow_units` already supply the generic composition, coefficient, valuation and linear-algebra objects. They are consumed without a second carrier or a second proof of their basic APIs. The positive-index operations below extend `Composition`; their weight is its parameter and their depth is its length. The free index space is a native finitely supported function space.
-
-Tau Ceti’s `TauCeti.RingTheory.PowerSeries.TateAlgebra` supplies the normed restricted-series structure at radius one. RestrictedPowerSeries §§0.1–0.3, 1.1–1.2, 2.1 and 7.2 supply the general restricted and entire-series interfaces. The ring E here is the arithmetic subring of those entire series with algebraic coefficients contained in one finite extension of K∞; its arithmetic conditions and Frobenius statements are constructed in §0.0, using that general entire-series theory.
-
-PeriodsAndSpecialValues §PS.9.1–§PS.9.4 owns classical real MZVs, their word encodings and their products. Its §PS.9.2 is also the owner of the generic positive-index harmonic (stuffle) product. Its ordered merges with multiplicity are consumed here; §1.3 constructs their integral form and coefficient extension to characteristic p, extending the rational presentation without a second ordered-merge construction. Layer 1 extends coefficients integrally and adds the q-shuffle correction and the two function-field realisations. Their analytic carriers and admissibility condition differ from the function-field series here; no real-period theorem is a prerequisite. FunctionFieldArithmetic Layers 0–5 and GlobalShtukasAndFunctionFieldLanglands Layers 0–3 own global fields, curve arithmetic and shtukas. The present objects are special-value series for A = 𝔽_q[θ], with degree characters and the Carlitz denominators, not the divisor zeta function or automorphic L-functions. Gamma values with CM periods and Anderson class formulas are depth-one topics outside these layers; no target here uses them.
-
-PadicDifferentialEquationsAndRigidCohomology §RD.0.33 owns algebraic closedness of the completed algebraic closure in every characteristic; ReductiveGroupsPartII §RG2.3.7 owns Lang’s theorem. Section 0.0 uses these general theorems on the Carlitz coefficient field and on GL_ℓ, respectively.
+Layer 0 first constructs the Carlitz and Frobenius foundations in §0.0, then fixes positive indices, degree characters, both power-sum realisations and their value spaces. Layer 1 develops products on the shared index space. Layer 2 derives finite, homogeneous relation reductions and the generation theorems. Layer 3 builds the analytic deformations and translates relations into Frobenius equations. Layer 4 determines the solution spaces. Layer 5 combines spanning and independence into bases, dimensions and relation kernels. The direct small-weight proof and the two full-basis proofs use the same earlier constructions; each target’s needs distinguish statement data from its indicated proof route.
 
 ## Conventions
 
@@ -36,47 +26,6 @@ A matrix acts on a column from the left, and a trivialisation satisfies Ψ⁽⁻
 - At q = 3, Ω⁽¹⁾(θ) = −π̃⁻¹/D₁, and ζ_A(2)/π̃² = −1/D₁. Also v∞(π̃) = −3/2; replacing the period by a scalar in K∞ cannot preserve this value.
 - In depth one, Φ = ((t−θ,0),(Q⁽⁻¹⁾(t−θ),1)) and ψ = (Ω,𝔏(1;Q))ᵀ. Its second row is Q⁽⁻¹⁾(t−θ)Ω + 𝔏(1;Q), fixing the lower-triangular convention and its essential factor t−θ.
 - At q = 4, the entry 2 is q-indivisible although p = 2 divides it. At q = 1 there is no finite field and the denominator q−1 is not licensed. The zero ring is excluded by `Field`.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- `Composition` in `Mathlib/Combinatorics/Enumerative/Composition.lean`: positive block lists with prescribed sum, `Composition.length`, `Composition.blocksFun`, their positivity and sum laws, `Composition.sizeUpTo`, and `composition_card`. Its empty composition is present at weight zero; no real-MZV admissibility condition is included.
-- `Polynomial` in `Mathlib/Algebra/Polynomial/Basic.lean`, `Polynomial.Monic` in `Mathlib/Algebra/Polynomial/Degree/Defs.lean`, and `RatFunc` in `Mathlib/FieldTheory/RatFunc/Defs.lean`: A, K and the polynomial coefficient maps. Monicity means leading coefficient one and excludes zero over a field.
-- `RatFunc.inftyValuation`, `RatFunc.inftyValuation.polynomial`, `RatFunc.inftyValuation.X`, `RatFunc.inftyValuation.X_inv` and `RatFunc.CompletionAtInfty` in `Mathlib/FieldTheory/RatFunc/Valuation.lean`: the multiplicative integer-valued infinity valuation and its completion. Passing to |·|∞ = q to the degree is a normalization; the native value group is not the real numbers. The completion derives `Field` and `Algebra (RatFunc F)`.
-- `Submodule.span` in `Mathlib/LinearAlgebra/Span/Defs.lean`, `Finsupp` in `Mathlib/Data/Finsupp/Defs.lean`, `Finsupp.single` in `Mathlib/Data/Finsupp/Single.lean`, `LinearIndependent`, `Module.finrank`, `HasSum` and `tsum`: finite support, spans, dimensions and convergence on the native carriers. `Finsupp.single a b` sends a to b and every other index to 0; for b = 0 its support is empty.
-- `Submodule.mul` and `Submodule.mul_le` in `Mathlib/Algebra/Algebra/Operations.lean`: the product M·N of two submodules of an algebra is the span of the products mn, and M·N ≤ P exactly when every such product lies in P. For M = N = K·1 inside K∞ the product is K·1 again.
-- `iSupIndep` in `Mathlib/Order/SupIndep.lean`: a family of submodules is independent when each meets the supremum of the others only in zero. Over K̄, the lines spanned by 1 and by a nonzero x are independent exactly when x ∉ K̄; for x = −1/D₁ they coincide.
-- `FiniteField.card'` in `Mathlib/FieldTheory/Finite/Basic.lean` identifies the cardinality of a finite field as a positive power of a prime. At F₄ it gives 4 = 2², matching the q-versus-p Check.
-- `Nat.choose` in `Mathlib/Data/Nat/Choose/Basic.lean` and `FiniteField.sum_pow_units` in `Mathlib/FieldTheory/Finite/Basic.lean`: binomial coefficients and the sum of natural powers over Fˣ. Negative powers are transferred by the inversion bijection. At q = 3, the sums of first and second powers of units are 0 and 2 = −1; the exponent-zero sum is also −1.
-
-- `FiniteField.frobeniusAlgHom` in `Mathlib/FieldTheory/Finite/Basic.lean` and `Polynomial.mapRingHom` and `Polynomial.comp` in `Mathlib/Algebra/Polynomial/Eval/Defs.lean` give the forward coefficient twist on K̄[t] used in the forward-twisted form of §4.6 and the θ-substitution used in §4.1. The first map acts by x ↦ xᑫ on an F-algebra, and its polynomial coefficient map fixes t. On t + θ it gives t + θᑫ.
-
-- `spectralNorm.normedField`, `spectralNorm.normedAlgebra`, `spectralNorm_extends` and `spectralNorm_unique` in `Mathlib/Analysis/Normed/Unbundled/SpectralNorm.lean`: the multiplicative extension of the norm to an algebraic field extension of a complete nontrivially normed nonarchimedean field. Apply them to the algebraic closure before its completion. The norm on K∞ used here is normalised by |θ|∞ = q; its multiplicative native integer-valued valuation and this real norm have the same topology.
-
-### From Tau Ceti
-
-`TauCeti.PowerSeries.norm_eq_gaussNorm`, `TauCeti.PowerSeries.norm_coeff_mul_pow_le`, `TauCeti.PowerSeries.norm_C` and `TauCeti.PowerSeries.norm_X`, in `TauCeti/RingTheory/PowerSeries/TateAlgebra.lean`, give the radius-one Gauss norm on `PowerSeries.IsRestricted.subring`. For every ultrametric normed ring R and radius c > 0, the first three statements apply; the variable-norm formula also assumes `NormOneClass R`. The restricted subring is complete when R is complete. At radius one over C∞, ‖1 + at‖ is max(1,|a|); at a = 0 it is one. These facts do not supply an arithmetic coefficient twist or the finite-extension condition defining E.
-
-### From TauCetiRoadmap.RestrictedPowerSeries
-
-Sections 0.1–0.3 and 1.1–1.2 supply native restricted-series coefficient and Gauss structures; §2.1 supplies evaluation where the radius condition permits it; §7.2 supplies entire series at every positive radius, their evaluation and their maps to restricted series. The polynomial t has value θ at θ, even though |θ|∞ = q > 1 and a radius-one restricted series alone need not be evaluable there. Every use of evaluation at θ or θ^(qʲ) in Layer 3 therefore consumes entire-ness, not only membership of the Tate algebra. The arithmetic specialisation and twist formulas are the targets of §0.0.
-
-### From TauCetiRoadmap.PeriodsAndSpecialValues
-
-Section PS.9.2 supplies ordered merges of positive-index words with their integer multiplicities, multilinear concatenation, and the rational harmonic product on the free word module; PS.9.1 fixes the positive-index and empty-word conventions. Section 1.3 extends these same multiplicities to arbitrary commutative coefficient rings; there is no ring map from ℚ to a field of characteristic p. Its recursion is ∅ ∗ P = P and (a,s) ∗ (b,t) = [a,s ∗ (b,t)] + [b,(a,s) ∗ t] + [a+b,s ∗ t]. At [1] ∗ [1], the integer coefficient of [1,1] is 2; it becomes zero in characteristic two and stays 2 in characteristic three. No analytic real-MZV theorem is required.
-
-### From TauCetiRoadmap.PadicDifferentialEquationsAndRigidCohomology
-
-Section RD.0.33 supplies the completed algebraic closure of a complete nontrivially valued nonarchimedean field, and its algebraic closedness in every characteristic. Use it for K∞. The construction retains the unique extension of the absolute value; the resulting field is perfect. At q = 3 its element θ^(1/3) has valuation −1/3. Mathlib’s `IsAlgClosed.of_denseRange` in `Mathlib/Analysis/Normed/Field/Dense.lean` assumes characteristic zero, so it does not discharge this instance.
-
-### From TauCetiRoadmap.ReductiveGroupsPartII
-
-Section RG2.3.7, Lang’s theorem, supplies surjectivity of g ↦ g⁻¹F(g) for a smooth geometrically connected finite-type group over F_q. In §0.0 use GL_ℓ: after base change of the Lang morphism to the algebraically closed coefficient field K̄, this solves the matrix equation U⁽⁻¹⁾b₀U⁻¹ = I for b₀ ∈ GL_ℓ(K̄). The extension from F̄_q-points follows because the Lang morphism is of finite type, its image contains all closed points, and surjectivity is stable under algebraically closed field extension. In rank one write u = v^q; the equation becomes v^(q−1) = b₀. For b₀ = 1, v = u = 1 works. For b₀ = −θ, take v = ρ and u = ρ^q: u^(1/q)b₀/u = ρ(−θ)/ρ^q = 1. Connectedness is essential: the Lang map on the constant group of order two is 1 and misses its other element.
-
-## How to read the build
-
-Layer 0 first constructs the Carlitz and Frobenius foundations in §0.0, then fixes positive indices, degree characters, both power-sum realisations and their value spaces. Layer 1 develops products on the shared index space. Layer 2 derives finite, homogeneous relation reductions and the generation theorems. Layer 3 builds the analytic deformations and translates relations into Frobenius equations. Layer 4 determines the solution spaces. Layer 5 combines spanning and independence into bases, dimensions and relation kernels. The direct small-weight proof and the two full-basis proofs use the same earlier constructions; each target’s needs distinguish statement data from its indicated proof route.
 
 ## Layer 0: indices, power sums and multiple-depth values
 
@@ -1536,6 +1485,57 @@ At q = 2, ζ_A(1) = log_C(1), ζ_A(1)² = ζ_A(2), and ζ_A(2) + D₁ζ_A(1,1) =
 At q = 3, weight four has Iᵀ₄ = {(1,1,1,1),(1,1,2),(1,2,1),(2,1,1),(2,2),(3,1)}. The q-indivisible compositions replace (3,1) by (4). Their depths contribute 2⁴ + 3·2³ + 2² + 2 = 46 alternating arrays, while all arrays on Iᵀ₄ contribute 16 + 24 + 4 + 4 = 48. This distinguishes the strong and weak Brown generating families. The basis theorem gives dim_K Z₄ = 6 and dim_K AZ₄ = 46.
 
 The negative-control relation ζ_A(2q−1) + D₁ζ_A(1,2q−2) = 0 lies entirely in IND_(2q−1) when q > 2. It prevents replacing the CMPL basis on IND by the corresponding MZVs beyond Ngo Dac’s weight range. The Thakur family still gives a basis in every weight.
+
+## Scope and ownership
+
+This Part II develops the multiple-depth extension of depth-one Carlitz special values. Its foundation targets in §0.0 construct the Carlitz products, analytic field, exponential, logarithm, period, Ω, effective dual t-motives and Frobenius interfaces used by Layers 0–5. The power-sum degree theorem belongs to §0.2, the generating-series identity to §3.2, and finite-place specialisation to §5.14. The multiple-depth targets include both the direct MZV route and the CMPL route to the basis theorem. These constructions constitute the Carlitz special-value foundation needed for this extension; the elliptic-sheaf carrier and its comparison with one-leg shtukas belong to GlobalShtukasAndFunctionFieldLanglands §2.7.
+
+No other roadmap constructs the depth-one theory that this Part II extends: the Carlitz exponential and logarithm, the period π̃, Ω, the ring E, effective dual t-motives, Anderson t-modules, ABP entireness and lifting, and the rational Frobenius comparisons. Section 0.0 owns them, and later work on depth-one Carlitz values cites §0.0 rather than constructing them again.
+
+Mathlib’s `Composition`, `Composition.blocks`, `Composition.length`, `Composition.blocksFun`, `composition_card`, `Polynomial`, `Polynomial.Monic`, `RatFunc`, `RatFunc.inftyValuation`, `RatFunc.CompletionAtInfty`, `Finsupp`, `Submodule.span`, `Nat.choose` and `FiniteField.sum_pow_units` already supply the generic composition, coefficient, valuation and linear-algebra objects. They are consumed without a second carrier or a second proof of their basic APIs. The positive-index operations below extend `Composition`; their weight is its parameter and their depth is its length. The free index space is a native finitely supported function space.
+
+Tau Ceti’s `TauCeti.RingTheory.PowerSeries.TateAlgebra` supplies the normed restricted-series structure at radius one. RestrictedPowerSeries §§0.1–0.3, 1.1–1.2, 2.1 and 7.2 supply the general restricted and entire-series interfaces. The ring E here is the arithmetic subring of those entire series with algebraic coefficients contained in one finite extension of K∞; its arithmetic conditions and Frobenius statements are constructed in §0.0, using that general entire-series theory.
+
+PeriodsAndSpecialValues §PS.9.1–§PS.9.4 owns classical real MZVs, their word encodings and their products. Its §PS.9.2 is also the owner of the generic positive-index harmonic (stuffle) product. Its ordered merges with multiplicity are consumed here; §1.3 constructs their integral form and coefficient extension to characteristic p, extending the rational presentation without a second ordered-merge construction. Layer 1 extends coefficients integrally and adds the q-shuffle correction and the two function-field realisations. Their analytic carriers and admissibility condition differ from the function-field series here; no real-period theorem is a prerequisite. FunctionFieldArithmetic Layers 0–5 and GlobalShtukasAndFunctionFieldLanglands Layers 0–3 own global fields, curve arithmetic and shtukas. The present objects are special-value series for A = 𝔽_q[θ], with degree characters and the Carlitz denominators, not the divisor zeta function or automorphic L-functions. Gamma values with CM periods and Anderson class formulas are depth-one topics outside these layers; no target here uses them.
+
+PadicDifferentialEquationsAndRigidCohomology §RD.0.33 owns algebraic closedness of the completed algebraic closure in every characteristic; ReductiveGroupsPartII §RG2.3.7 owns Lang’s theorem. Section 0.0 uses these general theorems on the Carlitz coefficient field and on GL_ℓ, respectively.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- `Composition` in `Mathlib/Combinatorics/Enumerative/Composition.lean`: positive block lists with prescribed sum, `Composition.length`, `Composition.blocksFun`, their positivity and sum laws, `Composition.sizeUpTo`, and `composition_card`. Its empty composition is present at weight zero; no real-MZV admissibility condition is included.
+- `Polynomial` in `Mathlib/Algebra/Polynomial/Basic.lean`, `Polynomial.Monic` in `Mathlib/Algebra/Polynomial/Degree/Defs.lean`, and `RatFunc` in `Mathlib/FieldTheory/RatFunc/Defs.lean`: A, K and the polynomial coefficient maps. Monicity means leading coefficient one and excludes zero over a field.
+- `RatFunc.inftyValuation`, `RatFunc.inftyValuation.polynomial`, `RatFunc.inftyValuation.X`, `RatFunc.inftyValuation.X_inv` and `RatFunc.CompletionAtInfty` in `Mathlib/FieldTheory/RatFunc/Valuation.lean`: the multiplicative integer-valued infinity valuation and its completion. Passing to |·|∞ = q to the degree is a normalization; the native value group is not the real numbers. The completion derives `Field` and `Algebra (RatFunc F)`.
+- `Submodule.span` in `Mathlib/LinearAlgebra/Span/Defs.lean`, `Finsupp` in `Mathlib/Data/Finsupp/Defs.lean`, `Finsupp.single` in `Mathlib/Data/Finsupp/Single.lean`, `LinearIndependent`, `Module.finrank`, `HasSum` and `tsum`: finite support, spans, dimensions and convergence on the native carriers. `Finsupp.single a b` sends a to b and every other index to 0; for b = 0 its support is empty.
+- `Submodule.mul` and `Submodule.mul_le` in `Mathlib/Algebra/Algebra/Operations.lean`: the product M·N of two submodules of an algebra is the span of the products mn, and M·N ≤ P exactly when every such product lies in P. For M = N = K·1 inside K∞ the product is K·1 again.
+- `iSupIndep` in `Mathlib/Order/SupIndep.lean`: a family of submodules is independent when each meets the supremum of the others only in zero. Over K̄, the lines spanned by 1 and by a nonzero x are independent exactly when x ∉ K̄; for x = −1/D₁ they coincide.
+- `FiniteField.card'` in `Mathlib/FieldTheory/Finite/Basic.lean` identifies the cardinality of a finite field as a positive power of a prime. At F₄ it gives 4 = 2², matching the q-versus-p Check.
+- `Nat.choose` in `Mathlib/Data/Nat/Choose/Basic.lean` and `FiniteField.sum_pow_units` in `Mathlib/FieldTheory/Finite/Basic.lean`: binomial coefficients and the sum of natural powers over Fˣ. Negative powers are transferred by the inversion bijection. At q = 3, the sums of first and second powers of units are 0 and 2 = −1; the exponent-zero sum is also −1.
+
+- `FiniteField.frobeniusAlgHom` in `Mathlib/FieldTheory/Finite/Basic.lean` and `Polynomial.mapRingHom` and `Polynomial.comp` in `Mathlib/Algebra/Polynomial/Eval/Defs.lean` give the forward coefficient twist on K̄[t] used in the forward-twisted form of §4.6 and the θ-substitution used in §4.1. The first map acts by x ↦ xᑫ on an F-algebra, and its polynomial coefficient map fixes t. On t + θ it gives t + θᑫ.
+
+- `spectralNorm.normedField`, `spectralNorm.normedAlgebra`, `spectralNorm_extends` and `spectralNorm_unique` in `Mathlib/Analysis/Normed/Unbundled/SpectralNorm.lean`: the multiplicative extension of the norm to an algebraic field extension of a complete nontrivially normed nonarchimedean field. Apply them to the algebraic closure before its completion. The norm on K∞ used here is normalised by |θ|∞ = q; its multiplicative native integer-valued valuation and this real norm have the same topology.
+
+### From Tau Ceti
+
+`TauCeti.PowerSeries.norm_eq_gaussNorm`, `TauCeti.PowerSeries.norm_coeff_mul_pow_le`, `TauCeti.PowerSeries.norm_C` and `TauCeti.PowerSeries.norm_X`, in `TauCeti/RingTheory/PowerSeries/TateAlgebra.lean`, give the radius-one Gauss norm on `PowerSeries.IsRestricted.subring`. For every ultrametric normed ring R and radius c > 0, the first three statements apply; the variable-norm formula also assumes `NormOneClass R`. The restricted subring is complete when R is complete. At radius one over C∞, ‖1 + at‖ is max(1,|a|); at a = 0 it is one. These facts do not supply an arithmetic coefficient twist or the finite-extension condition defining E.
+
+### From TauCetiRoadmap.RestrictedPowerSeries
+
+Sections 0.1–0.3 and 1.1–1.2 supply native restricted-series coefficient and Gauss structures; §2.1 supplies evaluation where the radius condition permits it; §7.2 supplies entire series at every positive radius, their evaluation and their maps to restricted series. The polynomial t has value θ at θ, even though |θ|∞ = q > 1 and a radius-one restricted series alone need not be evaluable there. Every use of evaluation at θ or θ^(qʲ) in Layer 3 therefore consumes entire-ness, not only membership of the Tate algebra. The arithmetic specialisation and twist formulas are the targets of §0.0.
+
+### From TauCetiRoadmap.PeriodsAndSpecialValues
+
+Section PS.9.2 supplies ordered merges of positive-index words with their integer multiplicities, multilinear concatenation, and the rational harmonic product on the free word module; PS.9.1 fixes the positive-index and empty-word conventions. Section 1.3 extends these same multiplicities to arbitrary commutative coefficient rings; there is no ring map from ℚ to a field of characteristic p. Its recursion is ∅ ∗ P = P and (a,s) ∗ (b,t) = [a,s ∗ (b,t)] + [b,(a,s) ∗ t] + [a+b,s ∗ t]. At [1] ∗ [1], the integer coefficient of [1,1] is 2; it becomes zero in characteristic two and stays 2 in characteristic three. No analytic real-MZV theorem is required.
+
+### From TauCetiRoadmap.PadicDifferentialEquationsAndRigidCohomology
+
+Section RD.0.33 supplies the completed algebraic closure of a complete nontrivially valued nonarchimedean field, and its algebraic closedness in every characteristic. Use it for K∞. The construction retains the unique extension of the absolute value; the resulting field is perfect. At q = 3 its element θ^(1/3) has valuation −1/3. Mathlib’s `IsAlgClosed.of_denseRange` in `Mathlib/Analysis/Normed/Field/Dense.lean` assumes characteristic zero, so it does not discharge this instance.
+
+### From TauCetiRoadmap.ReductiveGroupsPartII
+
+Section RG2.3.7, Lang’s theorem, supplies surjectivity of g ↦ g⁻¹F(g) for a smooth geometrically connected finite-type group over F_q. In §0.0 use GL_ℓ: after base change of the Lang morphism to the algebraically closed coefficient field K̄, this solves the matrix equation U⁽⁻¹⁾b₀U⁻¹ = I for b₀ ∈ GL_ℓ(K̄). The extension from F̄_q-points follows because the Lang morphism is of finite type, its image contains all closed points, and surjectivity is stable under algebraically closed field extension. In rank one write u = v^q; the equation becomes v^(q−1) = b₀. For b₀ = 1, v = u = 1 works. For b₀ = −θ, take v = ρ and u = ρ^q: u^(1/q)b₀/u = ρ(−θ)/ρ^q = 1. Connectedness is essential: the Lang map on the constant group of order two is 1 and misses its other element.
 
 ## References
 
