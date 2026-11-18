@@ -22,9 +22,7 @@ Donsker–Varadhan formula and empirical measures, and on the definition of the 
   lemma on exposed points of the Legendre transform of an essentially smooth function, and the
   full principle;
 - Sanov's theorem: the method of types and the finite-alphabet theorem with its upper bound for
-  arbitrary sets, the identification of the Giry and Borel σ-algebras on probability measures
-  over a Polish space, exponential tightness of empirical laws, and Sanov's theorem on Polish
-  spaces.
+  arbitrary sets, exponential tightness of empirical laws, and Sanov's theorem on Polish spaces.
 
 The material is the common core of Dembo–Zeitouni (1998), Kallenberg (2021, Chapter 24),
 Klenke (2020, Chapter 23), Ellis (1985, Chapter II) and Dupuis–Ellis (1997, Chapters 1–2), with
@@ -50,7 +48,8 @@ The roadmap is complete when Tau Ceti proves all of the following.
    existence of a zero of a good rate; the limit on `I`-continuity sets; exponential decay of
    closed sets without zeros of a good rate; the principle of the largest term; uniqueness of the
    rate function on regular spaces; the weak principle from ball asymptotics on pseudometric
-   spaces; the full principle and goodness from the weak principle and exponential tightness;
+   spaces; the upper bound on closed sets from the upper bound on compact sets and exponential
+   tightness; the full principle and goodness from the weak principle and exponential tightness;
    exponential tightness from a good rate on Polish spaces.
 2. **Exponential moments.** The exponential Chebyshev upper bound on compact sets; Varadhan's
    lemma for bounded continuous functions, and for continuous functions under the tail
@@ -68,8 +67,7 @@ The roadmap is complete when Tau Ceti proves all of the following.
 5. **The Gärtner–Ellis theorem.** Exposed points and essential smoothness; the upper bound with
    goodness and convexity of the rate; the lower bound over exposed points; Rockafellar's lemma;
    the full principle for essentially smooth lower semicontinuous limits.
-6. **Sanov's theorem.** The method of types; Sanov's theorem for a finite alphabet; the Borel
-   property of the Giry σ-algebra on probability measures over a Polish space; exponential
+6. **Sanov's theorem.** The method of types; Sanov's theorem for a finite alphabet; exponential
    tightness of empirical laws; Sanov's theorem on Polish spaces with the relative entropy as
    good rate.
 
@@ -94,8 +92,9 @@ The roadmap is complete when Tau Ceti proves all of the following.
 - Empirical measures of finite samples and their measurability and continuity: Tau Ceti.
 - The Fenchel conjugate with its lower semicontinuity, convexity and the Fenchel–Moreau theorem:
   Tau Ceti.
-- The strong law of large numbers, Prokhorov's theorem and the metrizability of the weak
-  topology on probability measures over a separable space: Mathlib.
+- The Borel property of the Giry σ-algebra on probability measures over a Polish space: Tau Ceti
+  (Exact supplier contracts).
+- The strong law of large numbers and Prokhorov's theorem: Mathlib.
 
 Every result that is not listed in a layer belongs to the
 [boundary list](#beyond-this-roadmap-a-roadmap-for-a-roadmap-do-not-implement).
@@ -162,9 +161,7 @@ Every result that is not listed in a layer belongs to the
   (`Mathlib/InformationTheory/KullbackLeibler/Basic.lean`).
 - **Weak convergence:** `ProbabilityMeasure` with its Giry σ-algebra
   (`Mathlib/MeasureTheory/Measure/ProbabilityMeasure.lean`) and
-  `ProbabilityMeasure.tendsto_iff_forall_integral_tendsto`; the Lévy–Prokhorov metrizability of
-  the weak topology for separable pseudometrizable spaces
-  (`Mathlib/MeasureTheory/Measure/LevyProkhorovMetric.lean`); Prokhorov's theorem
+  `ProbabilityMeasure.tendsto_iff_forall_integral_tendsto`; Prokhorov's theorem
   `isCompact_closure_of_isTightMeasureSet` (`Mathlib/MeasureTheory/Measure/Prokhorov.lean`) and
   `isTightMeasureSet_singleton` (`Mathlib/MeasureTheory/Measure/Tight.lean`); weak regularity of
   finite measures on pseudometrizable spaces,
@@ -175,8 +172,7 @@ Every result that is not listed in a layer belongs to the
 
 Mathlib has no large deviation principle, no Cramér, Sanov, Varadhan or Gärtner–Ellis theorem,
 no `EReal`-valued logarithmic moment generating function, and no `BorelSpace` instance for
-`ProbabilityMeasure`. A search of open Mathlib pull requests for large deviations, Cramér's
-theorem and Varadhan's lemma found none.
+`ProbabilityMeasure`.
 
 ### From Tau Ceti
 
@@ -198,6 +194,14 @@ theorem and Varadhan's lemma found none.
   `TauCeti.Probability.continuous_empiricalMeasureOfFintype` and
   `TauCeti.Probability.integral_empiricalMeasureOfFintype`
   (`TauCeti/Probability/Process/EmpiricalMeasure.lean`).
+- **Borel property of the Giry σ-algebra:** the instance
+  `TauCeti.MeasureTheory.ProbabilityMeasure.borelSpace`, `BorelSpace (ProbabilityMeasure X)` for a
+  Borel space `X` with `HasOuterApproxClosed X` whose `ProbabilityMeasure X` is hereditarily
+  Lindelöf (`TauCeti/MeasureTheory/Measure/ProbabilityMeasure/Borel.lean`), and the instance
+  `MeasureTheory.ProbabilityMeasure.instSecondCountableTopology` for a second-countable standard
+  Borel pseudometrizable `X` (`TauCeti/MeasureTheory/Measure/ProbabilityMeasure/Separable.lean`).
+  On a Polish space with its Borel σ-algebra they give `BorelSpace (ProbabilityMeasure E)` by
+  instance search once a complete metric is chosen, and on a finite discrete alphabet directly.
 
 ### From other roadmaps
 
@@ -304,6 +308,10 @@ is monotone in `δ`, so `-I` is an infimum of upper semicontinuous functions of 
 
 ### 1.5 Exponential tightness
 
+- **Compact to closed** (`IsExponentiallyTight.limsup_log_measure_le`): for an exponentially
+  tight family and `a → ∞`, if every compact set obeys the upper bound with a rate `I`, then
+  every closed set obeys it; neither a lower bound nor any property of `I` is used
+  (Dembo–Zeitouni, Lemma 1.2.18(a), p. 8).
 - **Weak plus tight is full** (`WeakLargeDeviationPrinciple.of_isExponentiallyTight`): on a
   Hausdorff space, with `a → ∞`, an exponentially tight family satisfying the weak principle
   satisfies the principle, and its rate is good (Dembo–Zeitouni, Lemma 1.2.18, p. 8;
@@ -312,14 +320,19 @@ is monotone in `δ`, so `-I` is an infimum of upper semicontinuous functions of 
   a principle for probability measures with a good rate is exponentially tight (Kallenberg,
   Lemma 24.9(iii), p. 539; Dembo–Zeitouni, Exercise 4.1.10, p. 119).
 
-*Proof route.* Weak plus tight: `μₙ(F) ≤ μₙ(F ∩ K_M) + μₙ(K_Mᶜ)`, the compact upper bound on
-`F ∩ K_M`, 1.3 and `M → ∞`; the lower bound on the open set `K_Mᶜ` gives `I > M` off `K_M`, so
-`{I ≤ M}` is a closed subset of a compact set. Polish: for each `k`, the compact `{I ≤ M + 1}` has
-a finite cover by open `1/k`-balls whose union `U_k` has `limsup (a n)⁻¹ log μₙ(U_kᶜ) < -M`; each
-single `μ n` is tight (`isTightMeasureSet_singleton`), which handles finitely many `n`; the
-closure of `⋂ₖ U_k` with those finitely many compacts is totally bounded and complete.
+*Proof route.* Compact to closed: `μₙ(F) ≤ μₙ(F ∩ K_M) + μₙ(K_Mᶜ)` with `F ∩ K_M` compact, the
+compact upper bound on `F ∩ K_M`, 1.3 and `M → ∞`. Weak plus tight: the upper bound is the
+previous bullet; the lower bound on the open set `K_Mᶜ` gives `I > M` off `K_M`, so `{I ≤ M}` is a
+closed subset of a compact set. Polish (Kallenberg, proof of Lemma 24.9(iii), p. 540): fix
+`M > 0` and, for each `k ≥ 1`, a countable cover of `X` by open `1/k`-balls. Some finite union of
+these balls contains the compact `{I ≤ M k + 1}`, so the upper bound on its closed complement
+holds with `-(M k + 1)`; enlarging the finite union handles the finitely many remaining `n`, by
+continuity from above of each `μ n`. This gives a finite union `U_k` of `1/k`-balls with
+`μₙ(U_kᶜ) ≤ exp (-a n M k)` for every `n` with `a n > 0`. Summing the geometric series,
+`limsup (a n)⁻¹ log μₙ((⋂ₖ U_k)ᶜ) ≤ -M`, and the closure of `⋂ₖ U_k` is totally bounded and
+complete, hence compact.
 
-*Needs:* 1.3, 1.4; Mathlib `isTightMeasureSet_singleton`.
+*Needs:* 1.3, 1.4.
 
 **Checks.**
 
@@ -419,10 +432,11 @@ on `{φ ≤ M}`, the tail condition for `{φ ≥ M}`, and 1.3; goodness makes `s
 
 ### 2.4 Exponential tilting
 
-- **Tilted principle** (`LargeDeviationPrinciple.tilted`): for probability measures, a good rate,
-  `a → ∞` and a bounded continuous `F`, the tilted family `(μ n).tilted (a n · F)` satisfies the
-  principle with rate `I - F + sup (F - I)` (Ellis, Theorem II.7.2, p. 52; Klenke,
-  Theorem 23.19, p. 605; Anderson–Guionnet–Zeitouni, Theorem D.8, p. 429).
+- **Tilted principle** (`LargeDeviationPrinciple.tilted`): for probability measures, `a → ∞` and
+  a bounded continuous `F`, the tilted family `(μ n).tilted (a n · F)` satisfies the principle
+  with rate `I - F + sup (F - I)` (Ellis, Theorem II.7.2, p. 52; Klenke, Theorem 23.19, p. 605;
+  Anderson–Guionnet–Zeitouni, Theorem D.8, p. 429, which prints the supremum with the wrong
+  sign). The sources assume a good rate; the proof route does not use goodness.
 
 The rate is formed in `EReal` and returned to `ℝ≥0∞` by `EReal.toENNReal`; it is nonnegative
 because `sup (F - I) ≥ F x - I x` for every `x`, and it is `⊤` exactly where `I` is.
@@ -574,8 +588,8 @@ the projections are measurable.
 
 ### 4.1 The logarithmic moment generating function and its transform
 
-Let `E` be a real inner product space with a measurable structure and `ν` a probability law on
-`E`.
+Let `E` be a real inner product space with a measurable structure in which open sets are
+measurable, and `ν` a probability law on `E`.
 
 - `logMGF ν t` (Conventions), `legendreRate Λ x` (Conventions) and `sampleMeanLaw ν n`.
 - **Convexity and lower semicontinuity**
@@ -592,7 +606,8 @@ Let `E` be a real inner product space with a measurable structure and `ν` a pro
   `E[X e^{⟪t, X⟫}]/E[e^{⟪t, X⟫}]`, and if `∇Λ(η) = y` then the rate at `y` is `⟪η, y⟫ - Λ(η)`
   (Dembo–Zeitouni, Lemma 2.2.5(c), (2.2.9)–(2.2.10), p. 28).
 
-*Proof route.* Convexity of `logMGF` by Hölder; `logMGF ν 0 = 0`, so the conjugate is `≥ 0` and
+*Proof route.* Convexity of `logMGF` by Hölder, applied to the measurable functions
+`x ↦ exp ⟪t, x⟫`; `logMGF ν 0 = 0`, so the conjugate is `≥ 0` and
 the truncation is the identity. Lower semicontinuity and convexity of the conjugate are
 `lowerSemicontinuous_fenchelConjugate_innerₗ` and `convex_epigraph_fenchelConjugate`. The zero at
 the mean is Jensen, `logMGF ν t ≥ ⟪t, m⟫`. Goodness: `logMGF ν t ≤ C` on a ball of radius `δ`
@@ -615,9 +630,12 @@ semicontinuity. Differentiability on `ℝ` is Mathlib's `deriv_cgf` on the inter
 `P(X̄ ≥ x) ≤ exp (-(n+1)(λ x - Λ(λ)))` (Mathlib `measure_ge_le_exp_mul_mgf`,
 `iIndepFun.mgf_sum` where the moment is finite, and trivially where it is `⊤`). For `λ ≤ 0`,
 Jensen gives `λ x - Λ(λ) ≤ λ (x - m) ≤ 0`, so the supremum over `λ > 0` together with `0` is the
-whole transform. The limit's lower bound is the lower bound of 4.3 on the open set `(x - ε, ∞)`
-together with the right-continuity of the transform on `[m, ∞)` within its domain, and the case
-`P = 0` eventually when `x` exceeds the essential supremum.
+whole transform. Let `M ≤ ∞` be the essential supremum of `ν`. For `x < M`, the lower bound of
+4.3 on the open set `(x, ∞)` gives `liminf ≥ -inf_{y > x} legendreRate (logMGF ν) y`, which is
+`-legendreRate (logMGF ν) x` because the transform is finite, convex and nondecreasing on
+`[m, M)`, hence right-continuous there. For `x = M` finite, `P(X̄ ≥ M) = ν{M}^(n+1)` exactly and
+the transform at `M` is `-log ν{M}`; for `x > M`, `P(X̄ ≥ x) = 0` for every `n` and the transform
+is `⊤`.
 
 *Needs:* 4.1, 4.3 for the limit; Mathlib `measure_ge_le_exp_mul_mgf`, `iIndepFun.mgf_sum`.
 
@@ -745,9 +763,14 @@ exponentially. Undoing the tilt costs at most `⟪η, y⟫ - Λ η + |η| δ` on
 
 ### 5.3 Essential smoothness and the full principle
 
-- `IsEssentiallySmooth Λ`: the interior of `{Λ < ⊤}` is nonempty, `Λ` is differentiable there,
+- `IsEssentiallySmoothSteep Λ`, essential smoothness in the steep form of Dembo–Zeitouni
+  (Definition 2.3.5, p. 44): the interior of `{Λ < ⊤}` is nonempty, `Λ` is differentiable there,
   and it is steep: the norm of the gradient tends to `∞` at every point of the frontier of that
-  interior (Dembo–Zeitouni, Definition 2.3.5, p. 44).
+  interior. It differs from essential smoothness in convex analysis, whose third clause is the
+  emptiness of the subdifferential off the interior of the domain, and agrees with it for proper
+  closed convex `Λ`; essential smoothness in that sense is owned by the convex-analysis roadmap,
+  and this roadmap owns only the steep predicate in which the Gärtner–Ellis theorem uses it.
+
 - **Rockafellar's lemma** (`exists_isExposedPoint_of_mem_intrinsicInterior`): if `Λ` has
   `Λ 0 = 0`, never takes the value `⊥`, has a convex real epigraph, and is lower semicontinuous
   and essentially smooth, every point of the relative interior of `{legendreRate Λ < ⊤}` is an
@@ -777,18 +800,19 @@ Theorem 2.3.6(c)).
 - `IsExposedPoint` (negative control): for the rate of a non-steep `Λ` (below), every `y > 1` has
   `x ↦ x - legendreRate Λ x` constant `1/2` on `[1, ∞)`, so `y` is not exposed, and no other `η`
   is a supporting slope at `y`.
-- `IsEssentiallySmooth`: `Λ t = t²/2` is essentially smooth (domain `ℝ`, empty frontier); so is
-  `Λ t = -log (1 - t)` on `t < 1`, `⊤` for `t ≥ 1`, whose derivative `1/(1 - t)` tends to `∞` at
-  `1`.
-- `IsEssentiallySmooth` (negative control, steepness; Dembo–Zeitouni, Exercise 2.3.17(a),
+- `IsEssentiallySmoothSteep`: `Λ t = t²/2` is essentially smooth (domain `ℝ`, empty frontier);
+  so is `Λ t = -log (1 - t)` on `t < 1`, `⊤` for `t ≥ 1`, whose derivative `1/(1 - t)` tends
+  to `∞` at `1`.
+- `IsEssentiallySmoothSteep` (negative control, steepness; Dembo–Zeitouni, Exercise 2.3.17(a),
   p. 51, asks for such a function among logarithmic moment generating functions):
   `Λ t = t²/2` for `t ≤ 1` and `⊤` for `t > 1` is convex and lower semicontinuous with domain
   `(-∞, 1]`, but the derivative tends to `1` at `1`. Its transform is `x²/2` for `x ≤ 1` and
   `x - 1/2` for `x > 1` (`1.5` at `x = 2`, `2.5` at `x = 3`), and no point `x > 1` of the relative
   interior `ℝ` of its domain is exposed, so Rockafellar's lemma fails without steepness.
-- `IsEssentiallySmooth` (negative control, differentiability; Ellis, Example II.6.2, pp. 47–48):
-  for `μₙ = (δ₋₁ + δ₁)/2` at speed `n + 1`, `Λ t = lim (n+1)⁻¹ log cosh ((n+1) t) = |t|`
-  (`0.630685` at `n + 1 = 10`, `0.693069` at `100` for `t = 0.7`, against the limit `0.7`). `Λ` is
+- `IsEssentiallySmoothSteep` (negative control, differentiability; Ellis, Example II.6.2,
+  pp. 47–48): for `μₙ = (δ₋₁ + δ₁)/2` at speed `n + 1`,
+  `Λ t = lim (n+1)⁻¹ log cosh ((n+1) t) = |t|` (`0.630685` at `n + 1 = 10`, `0.693069` at
+  `100` for `t = 0.7`, against the limit `0.7`). `Λ` is
   not differentiable at `0`, its transform is `0` on `[-1, 1]` and `⊤` outside, and the lower bound
   fails on the open set `(-1/2, 1/2)`, which has measure `0` for every `n`.
 
@@ -843,24 +867,16 @@ semicontinuity of `klDiv`.
 
 Let `E` be a Polish space with its Borel σ-algebra and `μ` a probability measure on `E`.
 
-- **Borel σ-algebra** (`borelSpace_probabilityMeasure`): the Giry σ-algebra on
-  `ProbabilityMeasure E` is the Borel σ-algebra of the topology of weak convergence
-  (Dembo–Zeitouni, Exercise 6.2.18, p. 267).
 - **Exponential tightness** (`isExponentiallyTight_empiricalLaw`): `empiricalLaw μ` is
   exponentially tight at speed `n + 1` (Dembo–Zeitouni, Lemma 6.2.6, p. 261; Kallenberg,
   Lemma 24.17, p. 549).
 
-*Proof route.* Borel: the weak topology is metrizable and separable (Lévy–Prokhorov), so it is
-generated by countably many sets `{ν | ∫ f dν < c}` with `f` from a countable convergence
-determining family of bounded continuous functions, each measurable for the Giry σ-algebra; the
-converse inclusion is the measurability of `ν ↦ ν s` for closed `s` by approximation with bounded
-continuous functions and a monotone class argument. Tightness: choose compacts `K_k` with
+*Proof route.* Choose compacts `K_k` with
 `μ(K_kᶜ) ≤ exp (-2 k²)`; Chernoff for the sums of the indicators of `K_kᶜ` gives
 `P(L_n(K_kᶜ) > 1/k) ≤ exp (-(n+1) k)`, and the set of `ν` with `ν(K_kᶜ) ≤ 1/k` for all `k ≥ M`
 is tight, hence relatively compact by Prokhorov's theorem, and closed.
 
-*Needs:* 1.3, 4.2 (bound); Mathlib `isCompact_closure_of_isTightMeasureSet`, the Lévy–Prokhorov
-metric.
+*Needs:* 1.3, 4.2 (bound); Mathlib `isCompact_closure_of_isTightMeasureSet`.
 
 ### 6.3 Sanov's theorem
 
@@ -878,7 +894,8 @@ functions, `F f ν = ∫ f dν` (continuous in the weak topology), and the exact
 `sup_f (∫ f dν - log ∫ exp f dμ)` is `klDiv ν μ` by
 `TauCeti.klDiv_eq_iSup_boundedContinuousFunction_integral_sub_log_integral_exp` (a Polish space
 is normal, and the sum of two finite measures is weakly regular there). Closed sets: 6.2 and
-1.5, with 6.2 also making closed sets measurable. Lower bound at `ν ∈ G` with
+1.5; the Tau Ceti instance `TauCeti.MeasureTheory.ProbabilityMeasure.borelSpace` makes closed
+sets of `ProbabilityMeasure E` measurable. Lower bound at `ν ∈ G` with
 `klDiv ν μ < ⊤`: the weak topology is induced by finitely many integrals at a time, so `G`
 contains `{ν' | |∫ fᵢ dν' - ∫ fᵢ dν| < ε, i ≤ k}`. Change measure from `μ^{n+1}` to `ν^{n+1}`
 with density `exp (-∑ log (dν/dμ)(Xᵢ))`; under `ν^{n+1}` the strong law for the `k` functions
@@ -888,7 +905,8 @@ compact metric space, Cramér in `ℝ^m`, Dawson–Gärtner and inverse contract
 the alternative through 3.1, 3.3 and 4.4.
 
 *Needs:* 1.5, 2.1, 6.2; Tau Ceti Donsker–Varadhan formula, lower semicontinuity and tightness of
-sublevel sets of `klDiv`; Mathlib `strong_law_ae`, Prokhorov's theorem.
+sublevel sets of `klDiv`, the Borel property of the Giry σ-algebra; Mathlib `strong_law_ae`,
+Prokhorov's theorem.
 
 **Checks.**
 
@@ -902,7 +920,8 @@ sublevel sets of `klDiv`; Mathlib `strong_law_ae`, Prokhorov's theorem.
   `μ(b) = 0` and `y = (b)`, the probability is `0`, `klDiv δ_b μ = ⊤` and both sides are `⊥`;
   with `Real.log` and a real-valued entropy the left side would be `0` and the bound would fail.
 - Sanov and Cramér agree on a finite alphabet: for the fair coin, the contraction
-  `ν ↦ ∫ x dν` of the rate `klDiv ν μ` is the coin rate of 4.4 Checks, `0.130812` at `3/4`.
+  `ν ↦ ∫ x dν` of the rate `klDiv ν μ` is the fair-coin rate of the Layer 4 Examples, `0.130812`
+  at `3/4`.
 
 ### Examples
 
@@ -950,9 +969,10 @@ under this roadmap.
 
 ## Prior formalization
 
-The charter entries of this roadmap are entries 06.60–06.64 of lean-CKMA's synopsis (Cramér,
-Sanov, Varadhan, contraction principle, Gärtner–Ellis), which lean-CKMA records as not covered
-by Mathlib. Its admitted files, design ideas only and not prescriptive:
+[lean-CKMA](https://github.com/bjbraams/lean-CKMA), the Core Knowledge in Mathematical Analysis
+project (Apache 2.0), lists Cramér's, Sanov's and Varadhan's theorems, the contraction principle
+and the Gärtner–Ellis theorem as entries 06.60–06.64 of its synopsis of results, recorded there
+as not covered by Mathlib. Its files below are design ideas only and not prescriptive:
 - `CKMA/Probability/LargeDeviations.lean`: a good rate function, a principle at the fixed speed
   `n + 1` with an `EReal`-valued normalized logarithm, and Varadhan's lemma for bounded continuous
   functions, proved;
@@ -981,7 +1001,7 @@ The locators refer to these editions; page numbers are printed page numbers.
   2.2.3 and 2.2.30, Exercise 2.2.23), §2.3 (Gärtner–Ellis, Definitions 2.3.3 and 2.3.5,
   Theorem 2.3.6, Lemmas 2.3.9 and 2.3.12, Exercise 2.3.17), §§4.1–4.6 (Lemma 4.1.4, Theorems
   4.1.11, 4.2.1, 4.2.4, 4.2.13, 4.3.1, 4.4.2, 4.5.3, 4.6.1), §6.1 (Corollary 6.1.6) and §6.2
-  (Lemma 6.2.6, Theorem 6.2.10, Exercise 6.2.18).
+  (Lemma 6.2.6, Theorem 6.2.10).
 - P. Dupuis and R. S. Ellis, *A Weak Convergence Approach to the Theory of Large Deviations*,
   Wiley, 1997. Chapter 1 (Definition 1.2.2, Theorems 1.2.1, 1.2.3, 1.3.2, 1.3.3, 1.3.8,
   Proposition 1.4.2) and Theorem 2.2.1.

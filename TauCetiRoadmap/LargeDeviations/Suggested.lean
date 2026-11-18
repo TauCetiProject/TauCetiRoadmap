@@ -4,6 +4,8 @@ public import Mathlib
 public import TauCeti.Analysis.Convex.Conjugate
 public import TauCeti.Analysis.Convex.FenchelMoreau
 public import TauCeti.InformationTheory.KullbackLeibler.Variational
+public import TauCeti.MeasureTheory.Measure.ProbabilityMeasure.Borel
+public import TauCeti.MeasureTheory.Measure.ProbabilityMeasure.Separable
 public import TauCeti.Probability.Process.EmpiricalMeasure
 
 /-!
@@ -141,6 +143,16 @@ theorem weakLargeDeviationPrinciple_of_ball {Y : Type*} [PseudoMetricSpace Y] [M
       (𝓝[>] 0) (𝓝 (-(I x : EReal)))) :
     WeakLargeDeviationPrinciple μ a I := sorry
 
+/-- **1.5** For an exponentially tight family, the upper bound on compact sets implies the upper
+bound on closed sets, for any `I`. -/
+theorem IsExponentiallyTight.limsup_log_measure_le {μ : ℕ → Measure X} {a : ℕ → ℝ}
+    (ha : Tendsto a atTop atTop) (ht : IsExponentiallyTight μ a) {I : X → ℝ≥0∞}
+    (hK : ∀ K : Set X, IsCompact K →
+      limsup (fun n ↦ ((a n)⁻¹ : ℝ) * ENNReal.log (μ n K)) atTop ≤ -(⨅ x ∈ K, (I x : EReal)))
+    {F : Set X} (hF : IsClosed F) :
+    limsup (fun n ↦ ((a n)⁻¹ : ℝ) * ENNReal.log (μ n F)) atTop ≤ -(⨅ x ∈ F, (I x : EReal)) :=
+  sorry
+
 /-- **1.5** An exponentially tight family satisfying the weak principle satisfies the full
 principle, with a good rate function. -/
 theorem WeakLargeDeviationPrinciple.of_isExponentiallyTight [T2Space X] {μ : ℕ → Measure X}
@@ -219,7 +231,7 @@ theorem laplacePrinciple_iff {Y : Type*} [PseudoMetricSpace Y] [MeasurableSpace 
 /-- **2.4** Exponential tilting by a bounded continuous function. -/
 theorem LargeDeviationPrinciple.tilted [OpensMeasurableSpace X]
     {μ : ℕ → Measure X} [∀ n, IsProbabilityMeasure (μ n)] {a : ℕ → ℝ}
-    (ha : Tendsto a atTop atTop) {I : X → ℝ≥0∞} (hI : IsGoodRateFunction I)
+    (ha : Tendsto a atTop atTop) {I : X → ℝ≥0∞}
     (h : LargeDeviationPrinciple μ a I) (F : X →ᵇ ℝ) :
     LargeDeviationPrinciple (fun n ↦ (μ n).tilted (fun x ↦ a n * F x)) a
       (fun x ↦ ((I x : EReal) - F x + ⨆ y, ((F y : EReal) - I y)).toENNReal) := sorry
@@ -311,7 +323,8 @@ def sampleMeanLaw (ν : Measure E) [IsProbabilityMeasure ν] (n : ℕ) : Measure
 
 /-- **4.1** The Cramér rate is a convex rate function, it is the Legendre transform of
 `logMGF ν` without truncation, and `logMGF ν` is convex. -/
-theorem lowerSemicontinuous_legendreRate_logMGF (ν : Measure E) [IsProbabilityMeasure ν] :
+theorem lowerSemicontinuous_legendreRate_logMGF [OpensMeasurableSpace E] (ν : Measure E)
+    [IsProbabilityMeasure ν] :
     LowerSemicontinuous (legendreRate (logMGF ν)) ∧
       Convex ℝ {p : E × ℝ | (legendreRate (logMGF ν) p.1 : EReal) ≤ p.2} ∧
       (∀ x, ((legendreRate (logMGF ν) x : ℝ≥0∞) : EReal) =
@@ -319,12 +332,13 @@ theorem lowerSemicontinuous_legendreRate_logMGF (ν : Measure E) [IsProbabilityM
       Convex ℝ {p : E × ℝ | logMGF ν p.1 ≤ p.2} := sorry
 
 /-- **4.1** The Cramér rate vanishes at the mean. -/
-theorem legendreRate_logMGF_integral [CompleteSpace E] (ν : Measure E) [IsProbabilityMeasure ν]
-    (hν : Integrable id ν) : legendreRate (logMGF ν) (∫ x, x ∂ν) = 0 := sorry
+theorem legendreRate_logMGF_integral [OpensMeasurableSpace E] [CompleteSpace E] (ν : Measure E)
+    [IsProbabilityMeasure ν] (hν : Integrable id ν) :
+    legendreRate (logMGF ν) (∫ x, x ∂ν) = 0 := sorry
 
 /-- **4.1** The Cramér rate is good when the exponential moments are finite near `0`. -/
-theorem isGoodRateFunction_legendreRate_logMGF [FiniteDimensional ℝ E] (ν : Measure E)
-    [IsProbabilityMeasure ν] (h0 : (0 : E) ∈ interior {t | logMGF ν t < ⊤}) :
+theorem isGoodRateFunction_legendreRate_logMGF [OpensMeasurableSpace E] [FiniteDimensional ℝ E]
+    (ν : Measure E) [IsProbabilityMeasure ν] (h0 : (0 : E) ∈ interior {t | logMGF ν t < ⊤}) :
     IsGoodRateFunction (legendreRate (logMGF ν)) := sorry
 
 /-- **4.2** The Chernoff bound for upper tails of real sample means. -/
@@ -366,10 +380,13 @@ variable {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E] [Measurabl
 def IsExposedPoint (I : E → ℝ≥0∞) (y η : E) : Prop :=
   ∀ x, x ≠ y → ((⟪η, x⟫_ℝ : ℝ) : EReal) - I x < ((⟪η, y⟫_ℝ : ℝ) : EReal) - I y
 
-/-- `Λ : E → EReal` is essentially smooth: the interior of its effective domain is nonempty,
-`Λ` is differentiable there, and it is steep, the gradient norm tending to infinity at every
-boundary point of that interior (Dembo–Zeitouni, Definition 2.3.5). -/
-def IsEssentiallySmooth [CompleteSpace E] (Λ : E → EReal) : Prop :=
+/-- `Λ : E → EReal` is essentially smooth in the steep form of Dembo–Zeitouni: the interior of
+its effective domain is nonempty, `Λ` is differentiable there, and it is steep, the gradient
+norm tending to infinity at every boundary point of that interior (Dembo–Zeitouni,
+Definition 2.3.5). Essential smoothness in the sense of convex analysis (subdifferential empty
+off the interior of the domain) is owned by the convex-analysis roadmap; the two agree for
+proper closed convex `Λ`. -/
+def IsEssentiallySmoothSteep [CompleteSpace E] (Λ : E → EReal) : Prop :=
   (interior {t | Λ t < ⊤}).Nonempty ∧
     (∀ t ∈ interior {t | Λ t < ⊤}, DifferentiableAt ℝ (fun s ↦ (Λ s).toReal) t) ∧
     ∀ t₀ ∈ frontier (interior {t | Λ t < ⊤}),
@@ -405,7 +422,7 @@ with `Λ 0 = 0`, every point of the relative interior of the domain of its Legen
 exposed, with exposing hyperplane in the interior of the domain of `Λ`. -/
 theorem exists_isExposedPoint_of_mem_intrinsicInterior {Λ : E → EReal} (hΛ0 : Λ 0 = 0)
     (hbot : ∀ t, ⊥ < Λ t) (hconv : Convex ℝ {p : E × ℝ | Λ p.1 ≤ p.2})
-    (hlsc : LowerSemicontinuous Λ) (hsmooth : IsEssentiallySmooth Λ) {x : E}
+    (hlsc : LowerSemicontinuous Λ) (hsmooth : IsEssentiallySmoothSteep Λ) {x : E}
     (hx : x ∈ intrinsicInterior ℝ {y | legendreRate Λ y < ⊤}) :
     ∃ η ∈ interior {t | Λ t < ⊤}, IsExposedPoint (legendreRate Λ) x η := sorry
 
@@ -414,7 +431,7 @@ theorem gartnerEllis {μ : ℕ → Measure E} [∀ n, IsProbabilityMeasure (μ n
     (ha : Tendsto a atTop atTop) {Λ : E → EReal}
     (hΛ : ∀ t, Tendsto (fun n ↦ ((a n)⁻¹ : ℝ) *
       ENNReal.log (∫⁻ x, ENNReal.ofReal (Real.exp (a n * ⟪t, x⟫_ℝ)) ∂μ n)) atTop (𝓝 (Λ t)))
-    (h0 : (0 : E) ∈ interior {t | Λ t < ⊤}) (hsmooth : IsEssentiallySmooth Λ)
+    (h0 : (0 : E) ∈ interior {t | Λ t < ⊤}) (hsmooth : IsEssentiallySmoothSteep Λ)
     (hlsc : LowerSemicontinuous Λ) :
     IsGoodRateFunction (legendreRate Λ) ∧ LargeDeviationPrinciple μ a (legendreRate Λ) :=
   sorry
@@ -461,10 +478,6 @@ theorem sanov_fintype {α : Type*} [Fintype α] [TopologicalSpace α] [DiscreteT
 
 variable {E : Type*} [TopologicalSpace E] [PolishSpace E] [MeasurableSpace E] [BorelSpace E]
 
-/-- **6.2** On a Polish space the Giry σ-algebra of the probability measures is the Borel
-σ-algebra of the topology of weak convergence. -/
-theorem borelSpace_probabilityMeasure : BorelSpace (ProbabilityMeasure E) := sorry
-
 /-- **6.2** The laws of empirical measures are exponentially tight. -/
 theorem isExponentiallyTight_empiricalLaw (μ : Measure E) [IsProbabilityMeasure μ] :
     IsExponentiallyTight (empiricalLaw μ) (fun n ↦ ((n + 1 : ℕ) : ℝ)) := sorry
@@ -495,6 +508,9 @@ end Layer6
 #check @TauCeti.Probability.continuous_empiricalMeasureOfFintype
 #check @TauCeti.Probability.measurable_empiricalMeasureOfFintype
 #check @TauCeti.Probability.integral_empiricalMeasureOfFintype
+#check @TauCeti.MeasureTheory.ProbabilityMeasure.borelSpace
+#check @MeasureTheory.ProbabilityMeasure.instSecondCountableTopology
+#check @HasOuterApproxClosed
 #check @ENNReal.log
 #check @EReal.toENNReal
 #check @LowerSemicontinuous
