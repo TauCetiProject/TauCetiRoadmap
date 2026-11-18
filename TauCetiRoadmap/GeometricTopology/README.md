@@ -31,322 +31,51 @@ class inequality on closed irreducible `3`-manifolds with its closed hyperbolic 
 theorem that infinitely many closed hyperbolic `3`-manifolds violate Thurston's Euler class one
 conjecture.
 
-## Scope and ownership
+## How to read the build
 
-This roadmap owns the following, by layer.
+The layers group the targets by subject; the build order is the order of the `*Needs:*` lines,
+target by target, and it is not the numerical order of the layers. Layer 1 is the spine:
+everything later that cuts a manifold open and reglues it is an instance of its constructions. Six
+groups of targets are built before the layer numbering suggests. The disc theorem for arbitrary
+centres of Layer 3.3, which needs only the tubes of Layer 1.5 and the pinned disc theorem,
+precedes the cut-and-glue description of the pinned connected sum in Layer 1.4. Layers 3.1, 3.3
+and 3.4, which need among the other layers only the tubes of Layer 1.5, precede the
+two-dimensional comparison of Layer 11.2.1 and the mapping class groups of Layer 1.7.2. The
+handlebodies and Heegaard splittings of Layer 9.1, which need Layers 1.3, 1.7, 1.7.2 and 11.2,
+precede the Lickorish–Wallace theorem of Layer 5.2. The realizations and smooth triangulations of
+Layers 11.1 and 11.3, which need only Layer 1.6, then the surface theorems of Layer 11.2.1, which
+need in addition Layers 1.1, 3.3 and 3.4, then Moise's theorems of Layer 11.2, which need Layer
+11.2.1, precede Layer 1.7, the three-dimensional case of the annulus theorem in Layer 2.3, Löh's
+comparison in Layer 7.2, and Layers 8 and 9. The smooth structure of the pinned exterior in
+Layer 5.1, built from Layers 1.5,
+3.3 and 4.1, precedes the Alexander module of Layer 4.4. The decomposition theorems of Layers 8.1–8.4, which need Layers 1,
+4.4, 5.1 and 11.2, precede the cyclic surgery theorem of Layer 5.4 and the finite-volume theory of
+Layer 7.3. With these edges the graph of targets is acyclic. Otherwise Layers 2 and 3 are
+independent of each other and of Layer 4; Layer 6 (concordance) needs Layers 1, 2 and 4, and
+the reduction of Levine's theorem in Layer 6.4 also Layer 5.2, and its PL form Layer 11.3; Layer 7
+needs Layer 1 and the Riemannian suppliers, for Löh's comparison the smooth triangulations of
+Layer 11.3, and for its finite-volume part the Dehn filling of
+Layer 5.2 and the irreducibility of Layer 8.2; Layer 9 (Heegaard splittings) needs Layers 1, 7, 8
+and 11; and Layer 10 (foliations) needs Layers 1, 2, 5, 7, 8 and 9. Each layer ends with its
+examples and its dependencies on the others.
+The following edges keep the graph acyclic. Moise's theorem of Layer 11.2 also precedes the smooth
+structure of a filling in Layer 5.2, and the concordance relation of Layer 6.1 precedes the
+Akbulut–Kirby statement of Layer 5.3. Layer 9 also needs the bicollars of Layer 2. Layers
+10.3–10.5 need in addition the pinned Thom classes, Euler classes and Euler class inequalities,
+AlgebraicTopology's cohomology and fundamental classes, the locally flat surfaces of Layer 2.1,
+the hyperbolic manifolds of Layer 7.2, the irreducibility of Layer 8.2 and the incompressible
+surfaces of Layer 8.3.
 
-- **Layer 1.** Smooth collars of boundaries as data, complements of embedded balls, gluing
-  along codimension-zero boundary faces, handle attachment, the cut-and-glue description of the
-  pinned connected sum with its associativity, fundamental group and Euler characteristic, the
-  uniqueness of tubular neighbourhoods up to isotopy and the retraction of a tube onto its core,
-  the relative triangulation and smoothing comparison
-  of compact surfaces, the smooth classification of compact surfaces (Layer 1.7), and their
-  mapping class groups with Dehn twists and Lickorish's twist theorem (Layer 1.7.2); the
-  comparison of the topological, PL and smooth categories in dimension two is Layer 11.2.1's.
-  It also owns `C^k` collars of compact boundaries (Layer 1.1), the tubular-neighbourhood data
-  `TauCeti.IsTubularNeighborhood` of a `C^k` embedding in a manifold with the complement of a
-  tube (Layer 1.5), and PL manifolds through charts (Layer 1.6), with the compatibility of the
-  pinned forgetful map from PL to topological manifolds with the smooth-to-PL passage of Layer
-  11.3, and, with Layer 11.3, the comparison of the pinned PL groupoid with the PL structures of
-  combinatorial manifolds.
-- **Layer 2.** The structural theory of locally flat embeddings beyond what Tau Ceti has at
-  the pins (composition and codimension-one collaring), Brown's generalized Schoenflies
-  theorem, and the statement of the annulus theorem in every dimension.
-  It also owns the three boundary variants of local flatness, the link-pair criterion for local
-  flatness of PL embeddings, Brown's separating-hypersurface theorem, the topological collar
-  theorem and the comparison of the pinned collaring theorems with Brown's global theorem for
-  compact boundaries (Layer 2.1), and it names
-  the topological normal bundles of locally flat submanifolds (Kirby–Siebenmann, *Foundational
-  Essays*, Essay IV) as the input of the high-dimensional proof of the annulus theorem, which
-  GeometricTopology, Part II builds.
-- **Layer 3.** The comparison of the weak topology on `Diff(M)` with the Whitney and
-  compact-open topologies, the restriction fibration, isotopy extension for continuous families
-  and relative to an open set, the disc theorem for balls with different centres, the classical
-  cases `Diff(S¹) ≃ O(2)` and `Diff(S²) ≃ O(3)`, `Γ₄ = 0` from Cerf's theorem, and the statement of
-  the Smale conjecture.
-  It also owns the relative groups `Diff(M, ∂M)` with their topology, the orientation-preserving
-  subgroup and the degree (Layers 3.1 and 3.2), the comparison of the pinned orientation-free form
-  of Cerf's theorem with `π₀(Diff⁺(S³)) = 0` (Layer 3.4), and the statements of Cerf's theorem and
-  Watanabe's theorem on their pinned carriers.
-- **Layer 4.** Knot and link theory in a general manifold and in `S³`: the geometric
-  presentation and its combinatorial presentations (diagrams, braid closures, polygons), the
-  equivalence relations of each and the Reidemeister, Alexander and Markov theorems comparing
-  them; the smooth geometric braid carrier, the reading of a braid word off a generic
-  projection, the based Artin action and the faithfulness of braids among relative tangles
-  (Layer 4.2.8; the identification of strand systems with the presented braid group is
-  ReductiveGroups §11A's); Seifert surfaces, the Alexander module and polynomial, the Conway,
-  Jones, HOMFLY and Kauffman polynomials, Fox colourings and the determinant, the knot and
-  proper-link Arf invariant, fourth-root evaluations and the integral W quotient; the finite
-  nonsingular `F₂` quadratic Arf algebra and its Seifert-form dictionary (Layer 4.3.1; consumed
-  by TangentialBordism and FourManifolds); the finite algebraic even-Clifford model of the
-  Temperley–Lieb algebra at `δ = √2` (the even Clifford algebra `Cl_m⁰` with its ordered-monomial
-  basis, the scalar trace `s_m`, the surjection `F_m` from `TL_m` with kernel the trace radical
-  and the induced radical quotient, the coordinate inclusions and the braid phases) and the
-  Jones–Arf comparison built on it (Layer 4.5.3); TemperleyLiebOperatorAlgebras §1.7 consumes
-  this finite model and adds the analytic adjoint, the identification with Subfactors §3.3's
-  positive Jones quotient `Q_n`, the matrix blocks, the tower and the order of the braid image;
-  positive-trace kernel and
-  braid-index criteria (Layer 4.5.6, which consumes Jones's positivity theorem, the trace
-  radical and the positive Jones quotients from Subfactors §§3.1–3.3 and adds only the
-  faithfulness of the trace on all of `TL_n` at `δ = 2cos(π/k)` for `k ≥ n + 2`), and the
-  nonexchange families with the five-strand cubic/Burau comparison (Layer 4.5.7); the genus,
-  crossing, unknotting, bridge
-  and braid-index minima, prime decomposition of knots and of non-split links, rational tangles
-  and two-bridge knots, torus knots and satellites, the Garside structure of braid groups, the
-  Morton–Franks–Williams bound, Kondo's realization theorem and exponential bounds on the
-  number of knot types.
-  It also owns the comparison of the pinned Gauss-code and PD-code presentations (Layer 4.2), the
-  Seifert matrix of a diagram (Layer 4.4) and the agreement of the pinned Alexander, Jones and
-  HOMFLY routes (Layers 4.4–4.6).
-- **Layer 5.** The smooth structure and isotopy invariance of the pinned link exterior, the
-  uniqueness, smoothness and homology of Dehn fillings, surgery on framed links, the
-  Lickorish–Wallace theorem, Moser's classification of the lens-space surgeries on torus knots,
-  Mathieu's chirally cosmetic family (its first member being the pinned proposition), the Montesinos
-  trick, Scharlemann's theorem that unknotting-number-one knots are prime, the statements of
-  Property P, Property R and the cyclic surgery theorem, and the Kanenobu–Murakami criterion
-  derived from the cyclic surgery theorem as stated.
-  It also owns knot and link exteriors as compact manifolds with boundary (Layer 5.1); the
-  identification of the pinned preferred longitude with the boundary of a Seifert surface, the
-  completion of the pinned well-definedness of Dehn filling through the isotopy classification of
-  torus homeomorphisms of Layer 1.7.2, the smooth structure and diffeomorphism type of a filling
-  and the `1/n` identities on the unknot (Layer 5.2); the statement of the Gordon–Luecke theorem
-  in its filling form (Layer 5.3); and the statement of the classification of the pinned lens
-  spaces with the proof of its sufficiency (Layer 5.4.2).
-- **Layer 6.** Smooth and topological concordance of knots, the concordance group, the
-  Levine–Tristram signatures and their concordance invariance, the vanishing of Layer 4.3.1's
-  knot Arf invariant on smoothly and topologically slice knots and its concordance invariance
-  (Layer 6.2.1), torus-knot signatures and
-  chirality, the signature bound on the unknotting number, Conway mutation and the statement
-  that it does not preserve smooth concordance, the statement of Levine's theorem on
-  winding-number-one satellite operators with the proof of its reduction to knots in homology
-  spheres bounding no disc with conical singularities, hence to the pinned
-  `TauCeti.LevineHomologyConcordanceTheorem`, and, assuming the PL smoothing input stated there,
-  bounding no PL disc (Layer 6.4), and the statement of Freedman's theorem.
-  It also owns the bounds `g_s^{top} ≤ g_s ≤ g` between the slice genera and the Seifert genus
-  (Layer 6.1), and link cobordisms with the slice genus inequalities, among them
-  `|σ(K₀, ω) − σ(K₁, ω)| ≤ 2g` for a cobordism of genus `g` between knots (Layer 6.5).
-- **Layer 7.** Hyperbolic manifolds, Mostow rigidity and the finite-volume Mostow–Prasad
-  theorem in dimension three with their volume and isometry-group consequences, Thurston's
-  smooth measure homology with Löh's isometric comparison to singular homology, through the
-  bounded cohomology of spaces and its duality principles, and the
-  proportionality of simplicial volume and hyperbolic volume (Layer 7.2), the
-  Margulis and cusp theory, the hyperbolicity of the pinned Weeks manifold and the statement of
-  its minimality, and the statements of the virtual fibering and virtual Haken theorems.
-  It also owns the total Riemannian volume with its invariance, its scaling and the volumes of the
-  standard models (Layer 7.1), and the uniqueness and first homology of the pinned Weeks manifold,
-  the isometric form of its minimality through Mostow rigidity and the elementary relations
-  between fibering over the circle, Haken manifolds and finite covers (Layer 7.4).
-- **Layer 8.** The sphere theorem, Dehn's lemma and the loop theorem, the proofs of the pinned
-  Kneser and Milnor prime-decomposition propositions, Kneser's finiteness, incompressible and normal surfaces, the Haken hierarchy,
-  Waldhausen's theorem on homotopy equivalences of closed Haken manifolds, the Seifert
-  fibration API, and the statements of the Gordon–Luecke theorem, the JSJ theorem,
-  geometrization and the Poincaré conjecture, the statement of the relative JSJ theorem
-  for compact manifolds with torus boundary (Layer 8.5.1), and the reduction of the rigidity of
-  prime-knot groups to that relative JSJ theorem and the cyclic surgery theorem of Layer 5.4
-  (Layer 8.5.2).
-  It also owns irreducibility against primeness (`S¹ × S²` is the only closed orientable prime
-  `3`-manifold that is not irreducible) and the free-product decomposition of `π₁` along a prime
-  decomposition (Layer 8.2), and the comparison of the pinned geometric torus decomposition with
-  Thurston's formulation through the eight model geometries (Layer 8.6).
-- **Layer 9.** The existence, gluing-map description and stabilization of the pinned Heegaard
-  splittings, the Reidemeister–Singer theorem, Waldhausen's theorem on splittings of `S³`, the
-  genus-zero and genus-one classifications and the additivity of the Heegaard genus under
-  connected sum, and the statement of Li's theorem.
-  It also owns the boundary surface and the handle description of the pinned handlebody, and the
-  non-orientable handlebodies with the Heegaard splittings and Heegaard genus of non-orientable
-  closed `3`-manifolds (Layers 9.1 and 9.2).
-- **Layer 10.** Codimension-one transversely oriented foliations of 3-manifolds, Reeb
-  components, Reeb stability, the Novikov–Rosenberg theorem and the existence of foliations
-  on closed orientable 3-manifolds.
-  It also owns the smooth closed transversals of taut foliations (Layer 10.1); the rank-two Thom
-  class and the Euler class of an oriented plane bundle with the obstruction-theoretic description
-  of the pinned Euler class, and the Euler class of a transversely oriented foliation with its
-  pairing on embedded surfaces (Layer 10.3); the Thurston norm of a closed oriented `3`-manifold,
-  its dual norm and the comparison of the pinned Euler class inequality with the dual norm (Layer
-  10.4); and the parity of the Euler classes of plane fields and the deduction of the pinned
-  closed hyperbolic forms from the general ones, with the statements of the general (irreducible)
-  form of Thurston's inequality, Gabai's realization theorem, the Euler class one conjecture and
-  Yazdi's infinite family (Layer 10.5).
-- **Layer 11.** Geometric realization of simplicial complexes beyond the pinned API (stellar
-  subdivision of infinite complexes and the geometric join laws of faces), the triangulation
-  theorem and Hauptvermutung in dimension three; in dimension two, the existence and uniqueness up
-  to isotopy of smooth
-  structures on topological surfaces, Radó's theorem, the two-dimensional Hauptvermutung
-  and the comparison of smooth and topological isotopy of surface diffeomorphisms
-  (Layer 11.2.1); the converse of the pinned theorem that combinatorial manifolds are PL
-  manifolds, hence their equivalence, the existence of smooth triangulations in every
-  dimension and uniqueness of smoothings in dimension at most three, the statement of Manolescu's
-  theorem and the statement of Zeeman's conjecture.
-  It also owns compact subsets of realizations and the cellular chain complex of a polyhedron
-  (Layer 11.1), Moise's theorem in PL form in dimensions at most three (Layer 11.2), the
-  uniqueness of the PL structure
-  induced by a smooth triangulation (Layer 11.3), and the statement of the connected form of
-  Manolescu's theorem (Layer 11.4).
+Section anchors that other roadmaps link to resolve as follows:
 
-This roadmap leaves the following to other roadmaps.
-
-- **Mathlib and Tau Ceti** already have, at the pins, the carriers listed under *Exact supplier
-  contracts*: the model geometries and geometric structures, hyperbolic metrics and their
-  volumes, locally flat embeddings and Brown's bicollaring theorem, the diffeomorphism group
-  with its weak Whitney topology, smooth embeddings and their intrinsic normal bundles, the
-  tubular neighbourhood theorem, isotopy extension on compact sets, the homogeneity lemma and
-  the disc theorem, connected sums with their independence of the balls, prime manifolds,
-  knot and link exteriors, Dehn fillings and surgery on framed spheres, the cosmetic-surgery
-  predicates, the Weeks manifold, handlebodies, Heegaard splittings and the Heegaard genus with
-  the rank bound, the topological slice genus, homology cobordisms and the homology concordance
-  of knots in homology spheres, the Euler class of a foliation, Sard's theorem in its flat and its
-  boundaryless-manifold forms, the Jordan curve theorem and the Schoenflies theorem in the
-  plane and on the `2`-sphere, slopes and framed boundary tori, the CW structure of a
-  simplicial realization and its transport along homeomorphisms, the PL structure of a
-  combinatorial manifold, the smooth-triangulation predicate, products of PL manifolds and the
-  compact PL comparison on coordinate spaces,
-  Seifert fibrations, the sphere-bounds-a-ball condition, JSJ and geometric torus
-  decompositions, Haken and virtually Haken manifolds, mapping tori, the PL groupoid,
-  simplicial realization, combinatorial manifolds, collapse, triangulability, and the
-  propositions naming the Smale conjecture, Cerf's theorem, Watanabe's theorem, the annulus
-  conjecture, Freedman's theorem, Levine's homology-concordance theorem, Mostow rigidity, the
-  virtual fibering and virtual Haken conjectures, the JSJ theorem, geometrization, Kneser's and Milnor's prime decomposition
-  theorems, Mathieu's first chirally cosmetic pair, the theorem of Gabai, Meyerhoff and Milley,
-  Li's theorem, the triangulation conjecture and Zeeman's conjecture. None
-  of these is planned again here; each is cited by name where it is used.
-  The same holds for the Riemannian volume measure and the curvature tensors (Layer 7 consumes
-  `TauCeti.riemannianVolume` with `TauCeti.HyperbolicMetric` and `TauCeti.hypVolume`); the
-  lens spaces `L(p, q) = TauCeti.LensSpace p ![1, q]` with their analytic manifold structure,
-  their fundamental group `ℤ/p`, the invariance of `p` under homeomorphism, their spherical
-  geometric structure and the `p/q`-surgery on the unknot inside them (Layer 5.2 proves on that
-  carrier the unoriented surgery description `S³_U(p/q) ≃ₜ L(p, q)`, and Layer 8.6 consumes the
-  spherical structure); the oriented connected sum with its commutativity, its independence of the
-  balls and `M # Sⁿ ≃ M` (Layers 1.4 and 8.2); Cerf's theorem in its two-component form and its
-  derivation from the Smale conjecture (Layer 3.4); the framing number, the preferred framing, the
-  surgery coefficients of a link, the Ni–Wu and Hanselman cosmetic surgery theorems, the
-  Akbulut–Kirby conjecture and Yasui's theorem (Layer 5); the Whitehead link with the Weeks
-  manifold as its `5, 5/2` filling (Layer 7.4); the standard handlebodies, the rank inequality and
-  Waldhausen's rank-versus-genus conjecture (Layer 9); and tautness through `C¹` closed
-  transversals, the leaves of a foliation, the Thom pair, Thom classes and Euler class of a vector
-  bundle and of the tangent field of a foliation, the Euler class inequality on embedded surfaces,
-  and the propositions naming Thurston's inequality, the Euler class one conjecture and Yazdi's
-  theorem in their closed hyperbolic forms (Layer 10).
-- **DifferentialGeometry** owns faces of manifolds with corners, flows, involutive
-  distributions and the Frobenius theorem, integration of forms, smooth singular chains with the
-  smoothing theorem comparing them with singular chains, Stokes' formula for smooth simplices
-  and chains, Riemannian metrics and the existence of a smooth metric. Layer 7.2 keeps only the
-  `ℓ¹` norm estimates for that smoothing which Löh's isometric comparison needs. **HopfRinow**
-  owns the Levi-Civita connection, geodesics, the exponential map, normal neighbourhoods and the
-  Hopf–Rinow theorem.
-- **CharacteristicClasses** C2 owns the Thom isomorphism and the Euler classes of oriented bundles
-  of every rank beyond the pinned `TauCeti.eulerClass`. Layer 10.3 consumes the pinned Euler class
-  in rank two and owns the rank-two Thom class of an oriented plane bundle and the
-  obstruction-theoretic description of its Euler class; C2 compares its rank-two restriction with
-  that plane construction, so Layer 10.3 consumes nothing of C2.
-- The handle calculus of compact cobordisms (the ordered handle decomposition of a Morse
-  function as a structure, reordering, creation and cancellation of handle pairs, handle
-  slides and the same-index basis change, the local Whitney move, and Whitney discs in
-  codimension at least three and on the five-dimensional level) is not a target of this
-  roadmap, and no layer uses it: Layer 1.7 iterates only Layer 1.3.1's elementary handle
-  step over the critical points of a Morse function on a surface. **MorseTheory** owns the Morse theory of
-  functions on boundaryless manifolds and of their compact bands, and **HeegaardFloer** the
-  generic Morse functions of Morse homology; both consume this roadmap, and Layer 1.3.1 takes
-  the boundaryless results from Tau Ceti directly.
-- Layer 1.7.2 is the single owner of the mapping class groups of compact surfaces, their Dehn
-  twists with the sign convention pinned there, and Lickorish's theorem:
-  **MordellLawrenceVenkatesh** (LV.5, §§5.9–5.12, whose punctured surfaces and marked points are
-  its own) and **TeichmullerGeometry** (Layer 3.1) take them from Layer 1.7.2 and compare
-  homeomorphism with diffeomorphism classes through Layer 11.2.1. MordellLawrenceVenkatesh's
-  positive twist turns left, which is `T_c⁻¹` in Layer 1.7.2's convention (a Check there).
-  **TypeAHeckeAlgebras** owns the Hecke algebras and the Ocneanu trace. **TemperleyLieb** owns the
-  Temperley–Lieb diagram category and linear category, the Temperley–Lieb algebras over a
-  commutative ring, their diagram basis, the uniqueness of the Markov trace, the cellular
-  semisimplicity theory and the Jones–Wenzl projections with their recursion and traces;
-  **Subfactors** owns the analytic adjoint of `TL_n(ℂ, δ)`, Jones's positivity theorem, the trace
-  radical and the positive Jones quotients with their C*-tower (§§3.1–3.3). **SuccessiveMinima**
-  owns the successive minima of a discrete full lattice for a convex body and their attainment by a
-  real basis of lattice vectors; Layer 7.3.1 uses the first two minima of a cusp lattice for the
-  closed unit disc of `ℂ` and adds only the two-dimensional facts that the two witnesses form a
-  `ℤ`-basis and the treatment of ties.
-- **Proofs of the end theorems owned elsewhere.** The proof of geometrization, hence of the
-  Poincaré conjecture, is Ricci-flow analysis (RicciFlow); Poincare3D, which consumes this
-  roadmap, owns the Ricci-surgery proof of the Poincaré theorem and states its smooth forms,
-  including Mathlib's `ContinuousMap.HomotopyEquiv.NonemptyDiffeomorphSphere M 3` (Layer 8.6). The proof of Freedman's theorem is
-  the disc embedding theorem in dimension four (FourManifolds), which also owns the
-  dimension-four case of the annulus theorem and the existence of normal bundles for
-  locally flat surfaces in topological four-manifolds stated in Layer 2.1. Manolescu's theorem is proved by
-  Pin(2)-equivariant Seiberg–Witten Floer homology, Watanabe's theorem by configuration-space
-  integrals, and Agol's theorems by the theory of special cube complexes; their proofs are the
-  work of later roadmaps. This roadmap states these theorems against its carriers and owns
-  every topological reduction named in the layers below.
-  The `E₈` manifold (Freedman's closed simply connected topological `4`-manifold with
-  intersection form `E₈`) and Casson's theorem that it is not triangulable belong to the topology
-  of four-manifolds; this roadmap states nothing on that manifold, and Layer 11.2 cites it from the
-  literature, as a Check, for why its theorems carry a dimension bound.
-- **GeometricTopology, Part II** starts where this roadmap stops, at the statements and
-  carriers of the end theorems, and owns their proofs that this roadmap does not: Cerf's
-  theorem and Hatcher's proof of the Smale conjecture (from Layers 3.1–3.3), the cyclic
-  surgery theorem (from Layers 5.2 and 8, through the Culler–Shalen theory of essential
-  surfaces at ideal points of the character variety), Thurston's hyperbolic Dehn surgery theorem
-  stated in Layer 7.3 (from Layers 5.2 and 7.1–7.3, through the deformation space of the holonomy
-  of the compact core near the complete structure, Thurston, Theorem 5.6 and Lemma 5.8.1, and
-  Mostow–Prasad rigidity), the Gordon–Luecke theorem with its
-  corollary on `S³` fillings (from Layers 5 and 8.1), and the JSJ theorem, including its
-  compact torus-boundary relative extension stated in Layer 8.5.1 (from Layers 8.1–8.4 and
-  11.2). It also owns the developments that consume roadmaps downstream of this one: the torus
-  trick and the high-dimensional proof of the annulus theorem (surgery on homotopy tori and
-  the Kirby–Siebenmann obstruction), topological microbundles, the TOP/PL
-  comparison and the smoothing theory beyond dimension three, including the smoothing of
-  collared PL discs in smooth `4`-manifolds to discs with conical singularities stated in
-  Layer 6.4; the Lee deformation of Khovanov
-  homology and Rasmussen's invariant with the Conway-knot and zero-shake-genus applications
-  (Piccirillo, *The Conway knot is not slice*, Proposition 1.4 and Theorem 1.5; Kirby's Problem
-  1.41 for the shake genus);
-  the connected-sum and descent comparison for the grid invariant of CombinatorialHeegaardFloer;
-  the proof of Levine's theorem on satellite operators stated in Layer 6.4, through Hom's `ε`
-  and the `τ` and `ε` formulas for Mazur satellites on the knot Floer complexes of
-  HeegaardFloer and CombinatorialHeegaardFloer (`τ` and the bound `|τ(K)| ≤ g_s(K)` are
-  CombinatorialHeegaardFloer Lane G, items 7 and 10); the Thurston seminorm beyond the integral
-  surface minimum of Layer 5.4.1 and beyond the Thurston norm of a closed oriented `3`-manifold
-  and its dual norm, which are Layer 10.4's, and the proofs of
-  Thurston's Euler class inequality and of Yazdi's Euler-class-one counterexamples, whose
-  closed hyperbolic statements and the Euler class of a foliation are Tau Ceti's and whose general
-  statements are Layer 10.5's, with the proofs of the polyhedrality of the Thurston unit ball, of
-  the singular-surface form of the norm (Gabai) and of Gabai's realization theorem, which Layers
-  10.4 and 10.5 state;
-  the constructive hyperbolization of closed Haken manifolds; disc bundles, clutching, plumbing and
-  intersection forms; and sphere-target transversality with the Pontryagin–Thom
-  construction. It also owns the proofs of two theorems that Layers 4.8.3 and 5.4.2 state and
-  consume as stated: the necessity half of the classification of lens spaces (by the
-  Reidemeister–Franz torsion of 5.4.2's cellular complex of the cyclic cover, on MorseNovikov's
-  based cellular torsion, or by the uniqueness up to isotopy of the torus splitting a lens space
-  into two solid tori) and Kawamura's theorem `u(10₁₃₉) = 4` (through the Seiberg–Witten
-  adjunction inequality). Those developments need AlgebraicTopology,
-  CharacteristicClasses, GeneralizedCohomology, TopologicalKTheory, MorseTheory, MorseNovikov,
-  RiemannianGeometry, KhovanovHomology, CombinatorialHeegaardFloer, HeegaardFloer,
-  TeichmullerGeometry, TangentialBordism or FourManifolds, every one of which consumes this
-  roadmap.
-- **The Milnor conjecture** `u(T(p, q)) = g₄(T(p, q)) = (p − 1)(q − 1)/2` for coprime
-  `p, q ≥ 1`, which 4.8.3 consumes as stated, is CombinatorialHeegaardFloer's: its end goal v1,
-  through Lane G, items 7 (`|τ(K)| ≤ u(K)` and `τ(T(p, q))`) and 10 (`|τ(K)| ≤ g_s(K)`), carried
-  to Layer 4's knots by its Lane K. That roadmap consumes this one, so it is not a supplier here.
-- **The Kirby–Siebenmann theorem** belongs to the TOP/PL comparison of GeometricTopology, Part II:
-  a closed topological manifold `M` of dimension at least five has a PL structure exactly when its
-  class `ks(M) ∈ H⁴(M; ℤ/2)` vanishes, the PL structures up to concordance then forming a torsor
-  under `H³(M; ℤ/2)` (Kirby–Siebenmann, *Foundational Essays*, Essays IV and V). Its statement
-  needs the stable tangent microbundle of a topological manifold, the classifying spaces `BTOP`
-  and `BPL` and the obstruction to lifting the classifying map, which exist neither at the pins
-  nor in any roadmap this one cites. This roadmap states the comparison of structures that needs
-  no obstruction class (Layers 1.6, 11.2 and 11.3: dimension at most three, through Moise's
-  theorem); Part II, which consumes those layers, builds the
-  stable tangent microbundle, `BTOP` and `BPL` and owns the Kirby–Siebenmann theorem, and that is
-  where FourManifolds' contract `gap:tangent-microbundle-stable-classifier` is addressed.
-- **Knot tables and computation.** Tabulated volumes, knot tables and finite enumerations are
-  not targets. Small computed values appear only as Checks on the definitions they test.
-- **Recorded at the pin, not targets.** Yasui's theorem `TauCeti.YasuiTheorem`, the negation of
-  the Akbulut–Kirby conjecture `TauCeti.AkbulutKirbyConjecture` (Kirby's Problem 1.19), and the
-  Ni–Wu and Hanselman cosmetic surgery theorems `TauCeti.NiWuCosmeticSurgeryTheorem` and
-  `TauCeti.HanselmanCosmeticSurgeryTheorem` are named in Layer 5.3, which claims nothing about
-  them: their proofs rest on Heegaard Floer invariants of the kind GeometricTopology, Part II
-  takes from HeegaardFloer and CombinatorialHeegaardFloer. Waldhausen's rank-versus-genus
-  conjecture `TauCeti.RankGenusConjecture` is recorded at the pin and refuted by Li's theorem
-  (Layer 9.2). Kirby's Problem 4.82 (a smooth structure on `(⋆ℝP⁴) # (⋆ℂP²)`), which Kirby's
-  remarks record as unresolved, is not a target.
+- `#layer-1-manifold-library-buildout-general-dimension-general-structure-group` → Layer 1;
+- `#layer-4-knot-theory-done-properly-owned-here` → Layer 4;
+- `#the-smoothing-and-triangulation-comparison-far-horizon` and
+  `#the-smoothing-and-triangulation-comparison`, the section *The smoothing-and-triangulation
+  comparison*: its item 1 (smooth triangulations, smooth implies PL) → Layer 11.3; its
+  item 2 (PL implies Top) → Layer 1.6, through `TauCeti.PLGroupoid_le_continuousGroupoid`;
+  its item 3 (the Kirby–Siebenmann obstruction and the TOP/PL comparison) → GeometricTopology,
+  Part II.
 
 ## Conventions
 
@@ -466,800 +195,6 @@ This roadmap leaves the following to other roadmaps.
   geometrization 3.45, virtual fibering 3.51, minimal volume 3.60, `Diff(S⁴)` 4.34 (which asks
   about `S⁴`; Hatcher's `S³` theorem is the Smale conjecture proper), `Diff(D⁴, ∂)` 4.126, Zeeman
   5.2.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- Manifolds: `ModelWithCorners`, `IsManifold`, `ChartedSpace`, the boundary and interior of a
-  manifold (`ModelWithCorners.boundary`, `ModelWithCorners.interior`,
-  `ModelWithCorners.IsInteriorPoint`), the half-space model `modelWithCornersEuclideanHalfSpace`
-  and the quadrant model (`Mathlib/Geometry/Manifold/IsManifold/`,
-  `Mathlib/Geometry/Manifold/Instances/Real.lean`); `TangentSpace`, `TangentBundle`, `mfderiv`,
-  `ContMDiff`, `ContMDiffMap`; `Diffeomorph` with notation `M ≃ₘ^n⟮I, I'⟯ M'`;
-  `Manifold.IsSmoothEmbedding` and `Manifold.IsImmersion`; structure groupoids
-  (`StructureGroupoid`, `Pregroupoid`, `contDiffGroupoid`, `continuousGroupoid`, `HasGroupoid`);
-  the sphere `Metric.sphere` as an analytic manifold and `Circle` as a Lie group
-  (`Mathlib/Geometry/Manifold/Instances/Sphere.lean`);
-  `SmoothPartitionOfUnity.exists_isSubordinate`
-  (`Mathlib/Geometry/Manifold/PartitionOfUnity.lean`), subordinate smooth partitions on
-  Hausdorff sigma-compact finite-dimensional smooth manifolds.
-  Also `Pregroupoid.groupoid`, `ModelWithCorners.IsBoundaryPoint`, the quadrant model
-  `modelWithCornersEuclideanQuadrant`, `Manifold.IsSmoothEmbedding I J n f` with
-  `Manifold.IsImmersion` in its chart normal form, `Matrix.orthogonalGroup (Fin n) ℝ` and
-  `LieGroup`; Mathlib's `analyticGroupoid` is not at the pin and is not used.
-- Riemannian geometry: `RiemannianBundle`, `IsRiemannianManifold`, `riemannianEDist`,
-  `EMetricSpace.ofRiemannianMetric`, `MetricSpace.ofRiemannianMetric`, path length
-  (`Mathlib/Geometry/Manifold/Riemannian/`).
-  Also the smooth metrics `Bundle.ContMDiffRiemannianMetric`.
-- Topology: `Homeomorph`, `IsEmbedding`, `IsOpenEmbedding`, `IsClosedEmbedding`,
-  `ContinuousMap.HomotopyEquiv`, `ContinuousMap.Homotopic`, `Path`, `Joined`,
-  `IsCoveringMap`, `FundamentalGroup`, `SimplyConnectedSpace`, `HomotopyGroup` (notation
-  `π_ n X x`), `ContractibleSpace`, the compact-open topology on `C(X, Y)`; singular homology
-  `Mathlib/AlgebraicTopology/SingularHomology/`; `AbstractSimplicialComplex` and
-  `PreAbstractSimplicialComplex` (`Mathlib/AlgebraicTopology/SimplicialComplex/Basic.lean`).
-  The statement of the smooth Poincaré conjecture,
-  `ContinuousMap.HomotopyEquiv.NonemptyDiffeomorphSphere M n`
-  (`Mathlib/Geometry/Manifold/PoincareConjecture.lean`): for a Hausdorff space `M`, every smooth
-  `n`-manifold structure on `M` (a `ChartedSpace` on `ℝⁿ` with `IsManifold (𝓡 n) ∞`) for which `M`
-  is homotopy equivalent to `Sⁿ` makes `M` diffeomorphic to the round `Sⁿ ⊆ ℝⁿ⁺¹`; it asks for no
-  compactness or second countability. Its case `n = 3` is Poincare3D's target 15.2, stated and
-  proved there with the smooth Poincaré theorem (Layer 8.6), and is not restated here.
-  Also `Topology.IsEmbedding` (`Mathlib/Topology/Defs/Induced.lean`), `OpenPartialHomeomorph`, the
-  one-point compactification `OnePoint ℚ`, `ContinuousMap.Homotopy`, `unitInterval`; the singular
-  homology functor `singularHomologyFunctor`, the classical CW complexes `Topology.CWComplex` and
-  `Topology.RelCWComplex`, the geometric `Geometry.SimplicialComplex`, and the simplicial-set
-  realization with `SimplexCategory.toTopHomeo`, the realization of a standard simplex as the
-  topological simplex.
-- Algebra: `Matrix.orthogonalGroup`, `Matrix.specialOrthogonalGroup`, `LaurentPolynomial`
-  (notation `R[T;T⁻¹]`) and `LaurentPolynomial.eval₂`, `LaurentPolynomial.eval₂_T`,
-  `LaurentPolynomial.eval₂_C` (`Mathlib/Algebra/Polynomial/Laurent.lean`): evaluation at a
-  specified unit along a coefficient ring homomorphism; `RatFunc`, `Quandle` and `Quandle.Dihedral`
-  (`Mathlib/Algebra/Quandle.lean`), `PresentedGroup`, `Group.rank` for finitely generated groups
-  (`Mathlib/GroupTheory/Rank.lean`), `Group.IsPerfect`, `commutator`, `ZMod`.
-  `Group.rank` needs `[Group.FG G]`; also `Matrix.det` and `PresentedMonoid`.
-
-### From Tau Ceti (commit 2fd255d9)
-
-The following pinned declarations supply the carriers and results used below. Layer 1.6
-transfers the pinned compact PL comparison from coordinate spaces to finite-dimensional normed
-spaces, Layer 4.6 constructs the HOMFLY coefficient substitution, and
-Layer 5.1 adds the smooth structure of the pinned link exterior.
-
-- **Boundaries and collars** (`Geometry/Manifold/Boundary/`): `TauCeti.isManifold_boundary`
-  (the boundary of a `C^k` manifold over `𝓡∂ (n+1)` is a `C^k` manifold over `𝓡 n`) and
-  `TauCeti.isSmoothEmbedding_subtypeVal_boundary`; the topological collar predicates
-  `TauCeti.IsCollar`, `TauCeti.IsCollared`, `TauCeti.IsLocallyCollared` (`Collar/Global.lean`);
-  the Euclidean half-space collar `TauCeti.EuclideanHalfSpace.boundaryCollar` and the product
-  collar charts of `Collar/Local.lean`.
-  The boundary results are in `Geometry/Manifold/Boundary/Charts.lean`, the inclusion of the
-  boundary being a closed smooth embedding; the smooth local collars are
-  `TauCeti.IsProductCollarChart`, `TauCeti.exists_isProductCollarChart_of_mem_boundary` and
-  `TauCeti.IsProductCollarChart.diffeomorphProd` (`Boundary/Collar/Local.lean`,
-  `Boundary/Collar/Diffeomorph.lean`); the collar predicates are in `Boundary/Collar/Global.lean`,
-  and Brown's collaring theorem `TauCeti.IsLocallyCollared.isCollared` for a compact domain is in
-  `Boundary/Collar/Brown.lean`.
-- **Gluing of atlases** (`Geometry/Manifold/Gluing.lean`): `TauCeti.chartedSpaceOfIsOpenEmbedding`
-  builds a charted space and `IsManifold` instance from an open cover by manifolds with smooth
-  transition maps.
-- **Smooth embeddings and normal spaces** (`Geometry/Manifold/SmoothEmbedding/`): the bundled
-  `TauCeti.SmoothEmbedding I J n M N`, its quotient normal space
-  `TauCeti.SmoothEmbedding.NormalSpace` with `normalClass` and `normalClassL`;
-  `TauCeti.SmoothEmbedding.Concordant` and the collared `TauCeti.SmoothEmbedding.Concordance`
-  between two smooth embeddings (`Concordance.lean`), with reflexivity, symmetry, transitivity
-  and invariance under diffeomorphisms of either side.
-  In `SmoothEmbedding/Concordance.lean` these are `refl`, `symm`, `trans`, `ofDiffeotopy` and
-  `Concordant.equivalence`; `TauCeti.SmoothEmbedding` is in `SmoothEmbedding/Basic.lean`, and the
-  normal spaces in `NormalSpace/Basic.lean` and its siblings.
-- **Euclidean tubular neighbourhoods** (`Geometry/Manifold/TubularNeighborhood/Euclidean.lean`):
-  `TauCeti.IsTubularNeighborhood`, `TauCeti.normalSubspace`, `TauCeti.normalTube`, and
-  `TauCeti.exists_isOpenEmbedding_normalTube` for a compact boundaryless `C²` source,
-  a `C²` injective map into a finite-dimensional real inner product space, and injective
-  differential at every point. The instance
-  `TauCeti.instTopologicalSpaceTotalSpaceNormalSubspace` gives the normal total space its
-  subspace topology, the one used by the bundle structures of `VectorBundle.lean` below.
-  `TauCeti.IsTubularNeighborhood` is defined in `TubularNeighborhood/Basic.lean`, and
-  `TauCeti.exists_isTubularNeighborhood_normalBundle` restates the theorem as a tubular
-  neighbourhood formed by the normal vectors of norm less than some `ε > 0`.
-- **Intrinsic normal bundles and tubular neighbourhoods**
-  (`Geometry/Manifold/SmoothEmbedding/NormalSpace/VectorBundle/`,
-  `Geometry/Manifold/TubularNeighborhood/`): the normal spaces of a positive-regularity embedding
-  form a vector bundle, smooth for a smooth embedding, with smooth orthogonal representatives for
-  an ambient Riemannian metric; the smooth tubular neighbourhood theorem
-  `TauCeti.SmoothEmbedding.exists_diffeomorph_normalBundle_subset` (`Existence.lean`): for a smooth
-  embedding between finite-dimensional boundaryless manifolds with Hausdorff second-countable
-  target, the whole normal bundle is diffeomorphic to an open neighbourhood of the image inside
-  any prescribed open set, zero section to the embedding, with no compactness or closed-image
-  hypothesis; its Riemannian form
-  `TauCeti.SmoothEmbedding.exists_diffeomorph_normalBundle_riemannian_subset`
-  (`Riemannian/Coordinates.lean`); closed normal disc and sphere bundles of a compact submanifold,
-  `TauCeti.SmoothEmbedding.exists_isClosedEmbedding_normalExp_disc` (`Riemannian/DiscSphere.lean`);
-  the Euclidean normal bundle of an immersion (`VectorBundle.lean`).
-- **Isotopy extension, homogeneity and the disc theorem**: the compactly supported smooth isotopy
-  extension on a compact subset of the source,
-  `TauCeti.SmoothIsotopy.exists_diffeotopy_apply_eq`, and
-  `TauCeti.smoothAmbientIsotopic_iff_smoothIsotopic` for a compact source
-  (`Geometry/Manifold/SmoothIsotopy/Extension.lean`); the homogeneity lemma for connected
-  finite-dimensional manifolds (`Geometry/Diffeomorphism/Diffeotopy/Homogeneity.lean`); the disc
-  theorem for smooth embeddings of `E` into a boundaryless manifold modelled on `E` with a common
-  centre and derivatives of the same orientation,
-  `TauCeti.SmoothEmbedding.exists_smoothIsotopy_of_det_chartAt_mul_pos` and, for a Hausdorff
-  σ-compact target, the ambient form
-  `TauCeti.SmoothEmbedding.exists_diffeotopy_eqOn_of_det_chartAt_mul_pos`
-  (`Geometry/Manifold/SmoothIsotopy/DiscTheorem.lean`).
-- **Connected sums and prime manifolds** (`Geometry/Manifold/ConnectedSum/`,
-  `LowDimTopology/PrimeDecomposition.lean`): `TauCeti.ConnectedSum e₁ e₂` along coordinate balls
-  (`Basic.lean`), a smooth manifold (`TauCeti.ConnectedSum.isManifold`, `Smooth.lean`), Hausdorff,
-  compact, and connected in dimension at least two (`Topology.lean`), commutative
-  (`TauCeti.ConnectedSum.commDiffeomorph`, `Congr.lean`), oriented when the balls induce opposite
-  orientations (`TauCeti.ConnectedSum.orientable`, `Orientation.lean`), independent of the balls
-  (`TauCeti.ConnectedSum.nonempty_diffeomorph_of_isOrientationPreservingAt` and
-  `TauCeti.ConnectedSum.nonempty_diffeomorph_of_isOrientationReversingAt`, `Independence.lean`);
-  the oriented sum `TauCeti.OrientedConnectedSum` with
-  `TauCeti.OrientedConnectedSum.nonempty_diffeomorph_comm` and
-  `TauCeti.OrientedConnectedSum.nonempty_diffeomorph_sphere` (`Oriented.lean`); the predicates
-  `TauCeti.IsConnectedSumOf`, `TauCeti.IsPrimeManifold` and `TauCeti.IsIteratedConnectedSum`
-  (`Prime.lean`); the propositions `TauCeti.KneserPrimeDecompositionTheorem` and
-  `TauCeti.MilnorPrimeDecompositionTheorem`, with `TauCeti.MilnorPrimeDecompositionTheorem.card_eq`.
-  In detail: `TauCeti.ConnectedSum e₁ e₂` is the sum of two spaces along open embeddings
-  `e₁ : E → M`, `e₂ : E → N` of a real inner product space `E`, the centres removed and the
-  punctured balls glued by the inversion `v ↦ v/‖v‖²`, with `ConnectedSum.inl`, `inr`, `mk`,
-  `isOpenEmbedding_inl`, `isLocalHomeomorph_mk` and `ConnectedSum.t2Space`
-  (`Geometry/Manifold/ConnectedSum/Basic.lean`); its charts `ConnectedSum.chartedSpace` with
-  `ConnectedSum.isManifold` and `isLocalDiffeomorph_mk` (`ConnectedSum/Smooth.lean`);
-  `ConnectedSum.compactSpace` and `ConnectedSum.connectedSpace` for `dim E ≥ 2`
-  (`ConnectedSum/Topology.lean`); `ConnectedSum.orientation` and `ConnectedSum.orientable`
-  (`ConnectedSum/Orientation.lean`) on the pinned orientations
-  `TauCeti.Manifold.Orientation I M ι` (`Orientation/Basic.lean`); the independence theorems in
-  `ConnectedSum/Independence.lean`; `TauCeti.OrientedConnectedSum oM oN` with
-  `nonempty_diffeomorph_connectedSum`, `nonempty_diffeomorph_comm`, `nonempty_diffeomorph_neg` and
-  `nonempty_diffeomorph_sphere` (`ConnectedSum/Oriented.lean`); `TauCeti.IsComplementaryBall` and
-  `TauCeti.connectedSumSphereDiffeomorph` (`ConnectedSum/Sphere.lean`); and, for primeness,
-  `TauCeti.IsConnectedSumOf I k M N₁ N₂`, `TauCeti.IsPrimeManifold n M`,
-  `TauCeti.IsIteratedConnectedSum n P M`, `TauCeti.not_isPrimeManifold_sphere`,
-  `TauCeti.IsConnectedSumOf.not_isPrimeManifold`, `TauCeti.isIteratedConnectedSum_zero_iff` and
-  `Diffeomorph.isPrimeManifold_iff` (`Geometry/Manifold/ConnectedSum/Prime.lean`).
-- **Immersions** (`Geometry/Manifold/Immersion/Basic.lean`): `TauCeti.isImmersion_iff_forall_isImmersionAt`.
-- **Morse functions** (`Geometry/Manifold/Morse/`, `Analysis/Calculus/Morse/`):
-  `TauCeti.IsMorseOn` and `TauCeti.IsMorse` (`Basic.lean`), `TauCeti.manifoldMorseIndex`
-  (`Index.lean`); on a boundaryless finite-dimensional Hausdorff manifold, the existence
-  `TauCeti.exists_isMorse` on a compact one and the relative compact approximation
-  `ContMDiffMap.exists_isMorseOn_hasCompactSupport_sub_compl` (`Generic/`), the unit-speed
-  descending flow `TauCeti.exists_flow_apply_eq_sub` and the sublevel diffeomorphism
-  `TauCeti.exists_diffeomorph_sublevel` across a compact band without critical points
-  (`Deformation.lean`); the Morse lemma in a vector space,
-  `TauCeti.IsNondegenerateCriticalPoint.exists_morse_chart` (`NormalForm.lean`). Manifolds
-  with boundary are Layer 1.3.1's.
-- **Sard's theorem** (`Analysis/Calculus/Sard/OutermostStratum.lean`,
-  `Geometry/Manifold/Sard/Meagre.lean`): the flat Morse–Sard theorem
-  `ContDiff.addHaar_image_criticalPoints_eq_zero`, for a `C^n` map between finite-dimensional
-  real normed spaces with `(dim E)² + 1 ≤ n`, so for every smooth map, with no relation between
-  the two dimensions: its critical values are null for every additive Haar measure; its
-  measure-free form `ContDiff.dense_compl_image_criticalPoints`, the regular values are dense;
-  and on manifolds `ContMDiff.isMeagre_image_criticalPoints`, the critical values of a smooth
-  map from a Lindelöf finite-dimensional boundaryless manifold to a finite-dimensional
-  boundaryless manifold, of any dimensions, form a meagre set. Sources with boundary are
-  Layer 1.7.1's.
-  The `TauCeti`-namespace form `TauCeti.addHaar_image_criticalPoints_eq_zero` and the density of
-  regular values are consumed in charts by Layers 4.2 and 10.4.
-- **The PL groupoid** (`Geometry/Manifold/PLGroupoid/Basic.lean`, `Topology/PL/`):
-  `TauCeti.IsPiecewiseAffineOn`, `TauCeti.IsPLOn`, `TauCeti.PLPregroupoid`,
-  `TauCeti.PLGroupoid I`, `TauCeti.PLGroupoid_le_continuousGroupoid`, closure under restriction
-  (`TauCeti.ofSet_mem_PLGroupoid`),
-  and the witness `TauCeti.doubleRight_mem_PLGroupoid` of a PL map that is not affine; PL maps
-  between PL manifolds `TauCeti.IsPLMap` with `TauCeti.IsPLMap.comp` (`PLGroupoid/Map.lean`),
-  products `TauCeti.hasGroupoid_PLGroupoid_prod` (`PLGroupoid/Product.lean`), the compact
-  comparison `TauCeti.IsPLOn.isPiecewiseAffineOn_of_isCompact` on `ι → ℝ`
-  (`Topology/PL/Compact.lean`)
-  and the inverse criterion `TauCeti.isPiecewiseAffineOn_inverse_of_finite_simplex_cover`
-  (`Topology/PL/Inverse.lean`).
-- **Locally flat embeddings** (`Geometry/Manifold/LocallyFlat/`): `TauCeti.IsSliceChart`,
-  `TauCeti.IsSliceEmbedding`, `TauCeti.IsLocallyFlat F F' f` (slice charts with model `F × F'`)
-  with restriction, composition with open embeddings and homeomorphisms on either side, and
-  products (`Basic.lean`); smooth embeddings between boundaryless manifolds are locally flat
-  (`TauCeti.SmoothEmbedding.isLocallyFlat`, `Smooth.lean`) and the neat boundary variant
-  (`Neat.lean`); `TauCeti.IsBicollar`, `TauCeti.IsBicollared`, `TauCeti.IsLocallyBicollared`
-  (`Bicollar.lean`); Brown's bicollaring theorem `TauCeti.BrownBicollaring n` and its proof
-  `TauCeti.brownBicollaring` (`Sphere.lean`, `Brown.lean`); the annulus conjecture
-  `TauCeti.CoboundAnnulus` and `TauCeti.AnnulusConjecture n` with the round case
-  `TauCeti.coboundAnnulus_smul_coe_sphere` (`Annulus.lean`); topological concordance
-  `TauCeti.TopologicallyConcordant` (`Concordance/Basic.lean`) and the passage from smooth
-  concordance (`Concordance/Smooth.lean`).
-  The closure API of `TauCeti.IsLocallyFlat` in `Geometry/Manifold/LocallyFlat/Basic.lean`
-  comprises `restrict`, `of_forall_exists_isOpen`, `homeomorph_comp`, `comp_homeomorph`,
-  `isOpenEmbedding_comp`, `codRestrict`, `transHomeomorph`, `prodMap`, `comp` under its
-  chart-compatibility hypothesis, `isLocallyFlat_iff_isOpenEmbedding` in codimension zero,
-  `isLocallyClosed_range` and `exists_isOpenEmbedding_prod`; further
-  `TauCeti.IsLocallyFlat.of_isSmoothEmbedding` (`LocallyFlat/Smooth.lean`),
-  `TauCeti.IsLocallyFlat.of_isSmoothEmbedding_of_preimage_boundary` for neat embeddings
-  (`LocallyFlat/Neat.lean`), `TauCeti.SimplePolygon.isLocallyFlat_realize` for simple polygons
-  (`LocallyFlat/Polygon.lean`), `TauCeti.isLocallyFlat_iff_isEmbedding_and_isLocallyBicollared`
-  (`LocallyFlat/Bicollar.lean`), `TauCeti.IsLocallyBicollaredWithSides.exists_isBicollar`
-  (`LocallyFlat/TwoSided.lean`) and
-  `TauCeti.IsLocallyBicollared.isBicollared_of_not_isPreconnected_compl_range`
-  (`LocallyFlat/Separation.lean`); the files of Brown's theorem and of the annulus conjecture are
-  `LocallyFlat/Sphere.lean`, `LocallyFlat/Brown.lean` and `LocallyFlat/Annulus.lean`; the
-  topological concordance carrier `TauCeti.TopologicalConcordance`
-  (`LocallyFlat/Concordance/Basic.lean`) and the passage
-  `TauCeti.SmoothEmbedding.Concordant.exists_topologicallyConcordant`
-  (`LocallyFlat/Concordance/`).
-- **Isotopy** (`Topology/Homotopy/`): `TauCeti.Isotopy`, `TauCeti.Isotopic`,
-  `TauCeti.AmbientIsotopy` with `final` and `finalHomeomorph`, `TauCeti.AmbientIsotopic`;
-  `TauCeti.Diffeotopy J n M` with `timeSlice`, `final`, `trans`, `symm`, `toAmbientIsotopy`
-  (`Geometry/Diffeomorphism/Diffeotopy/`).
-  The files are `Topology/Homotopy/Isotopy/Basic.lean`, `AmbientIsotopic/Basic.lean` and
-  `Diffeomorphism/Diffeotopy/Basic.lean`.
-- **Diffeomorphism groups** (`Geometry/Diffeomorphism/`): the `Group` instance on
-  `M ≃ₘ^n⟮I, I⟯ M` and the abbreviation `TauCeti.Diff I M n` (`Group.lean`); the weak Whitney
-  topology `Diffeomorph.weakWhitneyTopology` as the scoped instance of
-  `TauCeti.DiffeomorphWeakWhitney`, with `Diffeomorph.ofSmoothFamily` turning a smooth family
-  of diffeomorphisms into a continuous map (`Topology.lean`); `Diffeomorph.fixingSubgroup`,
-  `TauCeti.RelativeDiff` and `TauCeti.DiscDiff n` for `Diff(Dⁿ, ∂)` (`FixingSubgroup/`,
-  `Disc.lean`); the reference inclusion `TauCeti.orthogonalToDiffSphere n m` and its continuous
-  form `TauCeti.continuousOrthogonalToDiffSphere` (`Sphere.lean`); the propositions
-  `TauCeti.SmaleConjecture` (`Smale.lean`) and `TauCeti.WatanabeTheorem` (`Disc.lean`); Cerf's
-  theorem in orientation-free form `TauCeti.CerfTheorem`, derived from the Smale conjecture by
-  `TauCeti.SmaleConjecture.cerfTheorem` and equivalent to `Diff(S³)` having two path components
-  (`TauCeti.cerfTheorem_iff_natCard_zerothHomotopy_eq_two`, `Cerf.lean`).
-  In detail: the group is in `Geometry/Diffeomorphism/Group.lean`; the weak Whitney topology, for
-  compact `M`, comes with `Diffeomorph.continuous_eval_const` and
-  `Diffeomorph.t2Space_weakWhitney` (`Diffeomorphism/Topology.lean`) and is selected by
-  `open scoped TauCeti.DiffeomorphWeakWhitney`; continuity of multiplication is in
-  `Diffeomorphism/Composition.lean`, and continuity of inversion with the topological-group
-  instance `Diffeomorph.isTopologicalGroup` in `Diffeomorphism/Inversion.lean`; the fixing
-  subgroups and the closedness of `TauCeti.RelativeDiff` are in `Diffeomorphism/FixingSubgroup/`;
-  the remaining files are `Diffeomorphism/Disc.lean`, `Diffeomorphism/Sphere.lean`,
-  `Diffeomorphism/Smale.lean` and `Diffeomorphism/Cerf.lean`; and
-  `TauCeti.joined_orthogonalToDiffSphere_iff` and `TauCeti.not_pathConnectedSpace_diff_sphere` are
-  in `Diffeomorphism/Sphere/Isotopy.lean`.
-- **Knots and links** (`KnotTheory/`): `TauCeti.SmoothCircleEmbedding I M` with `rotate`,
-  `reverse`, `TauCeti.SmoothCircleEmbedding.greatCircle` and `TauCeti.unknot`
-  (`SmoothCircle.lean`); `TauCeti.SmoothLinkEmbedding I M n` with `empty`, `singleton`,
-  `relabel`, `reverse` (`SmoothLink/Basic.lean`), `TauCeti.SmoothLinkEmbedding.SmoothAmbientIsotopic`
-  and `TauCeti.SmoothLinkEmbedding.ContinuousAmbientIsotopic` with their equivalence laws and
-  complement homeomorphisms (`SmoothLink/`); the knot group
-  `TauCeti.SmoothCircleEmbedding.KnotGroup` and `HasPerfectCommutatorSubgroup`
-  (`KnotGroup.lean`); sliceness `TauCeti.IsSmoothlySlice`, `TauCeti.IsTopologicallySlice`,
-  `TauCeti.SmoothSliceSurface`, `TauCeti.sliceGenus`, the topological slice genus
-  `TauCeti.topologicalSliceGenus` with `TauCeti.topologicalSliceGenus_le_sliceGenus`, the
-  topological sliceness of a knot concordant to the unknot
-  (`TauCeti.isTopologicallySlice_of_topologicallyConcordant_unknot`) and of a knot plus its
-  reverse mirror image
-  (`TauCeti.SmoothCircleEmbedding.isTopologicallySlice_connectedSum_reverseMirror`) (`Slice/`),
-  and the proposition
-  `TauCeti.FreedmanSliceTheorem` (`Slice/Freedman.lean`); integral homology cobordisms
-  `TauCeti.IsHomologyCobordism` (`Geometry/Manifold/HomologyCobordism.lean`), homology
-  concordance of smooth embeddings `TauCeti.SmoothEmbedding.HomologyConcordant`
-  (`Geometry/Manifold/SmoothEmbedding/HomologyConcordance.lean`) and the proposition
-  `TauCeti.LevineHomologyConcordanceTheorem`, that some knot in the boundary of a smooth compact
-  contractible `4`-manifold is homology concordant to no knot in `S³`
-  (`KnotTheory/HomologyConcordance.lean`); solid-torus neighbourhoods
-  `TauCeti.IsSolidTorusNeighborhood` and its
-  `TauCeti.IsSolidTorusNeighborhood.exteriorFrontierHomeomorph`, identifying the frontier
-  of the complement of the open solid torus with its boundary torus in a Hausdorff ambient
-  space (`LowDimTopology/SolidTorusNeighborhood/Basic.lean`).
-  In detail: the circle embeddings are in `KnotTheory/SmoothCircle.lean`; the unoriented quotient
-  `TauCeti.UnorientedSmoothCircleEmbedding` is in `UnorientedSmoothCircle.lean`; the link
-  embeddings have `transDiffeomorph` and `singletonEquiv`, with their isotopies in
-  `SmoothLink/Isotopy.lean` and `SmoothLink/AmbientIsotopy.lean`; sliceness has
-  `TauCeti.IsSmoothSliceDisc`, `TauCeti.IsTopologicalSliceDisc`,
-  `TauCeti.IsSmoothlySlice.isTopologicallySlice` and `TauCeti.isSmoothlySlice_unknot`
-  (`Slice/Basic.lean`), and the slice genus `TauCeti.sliceGenus : ℕ∞` (`⊤` when there is no slice
-  surface) has `TauCeti.IsSmoothlySlice.sliceGenus_eq_zero` (`Slice/Genus.lean`); the right-handed
-  trefoil `TauCeti.rightHandedTrefoil` is in `KnotTheory/TorusKnot.lean`; and the Whitehead link
-  `TauCeti.whiteheadLink`, whose component `1` is the Whitehead curve `TauCeti.whiteheadCurve`, is
-  in `KnotTheory/SmoothLink/Whitehead.lean`.
-- **Combinatorial knot theory** (`KnotTheory/`): `TauCeti.PDCode n`, `TauCeti.OrientedPDCode n`,
-  `TauCeti.PDCode.IsPlanar`, the face permutation and face count (`PDCode/Planar.lean`), the
-  state sum `TauCeti.PDCode.kauffmanBracket`, `normalizedKauffmanBracket`,
-  `TauCeti.PDCode.stateLoopCount` (`PDCode/Kauffman.lean`), `TauCeti.OrientedPDCode.jonesPolynomial`
-  with its Reidemeister, mirror and reversal laws (`PDCode/Jones/`);
-  `TauCeti.BasedOrientedGaussCode` and `TauCeti.BasedOrientedGaussCode.toOrientedPDCode`
-  (`GaussCode/`); `TauCeti.BraidGroup n`, `TauCeti.BraidWord n`, `TauCeti.BraidWord.closure`
-  (`GroupTheory/SpecificGroups/Braid/`, `BraidWord/PDCode.lean`); `TauCeti.MarkovBraid`,
-  `TauCeti.MarkovEquiv`, `TauCeti.MarkovBraid.componentCount` (`Markov/Basic.lean`); the matrix
-  Alexander polynomial `TauCeti.KnotTheory.alexanderMatrix`, `TauCeti.KnotTheory.alexander`,
-  `TauCeti.KnotTheory.trefoilSeifertMatrix`, `TauCeti.KnotTheory.figureEightSeifertMatrix`
-  (`Alexander.lean`); S-equivalence `TauCeti.KnotTheory.IntegralSquareMatrix.SEquivalent`
-  (`SeifertMatrix/SEquivalence.lean`); the Burau representation and
-  `TauCeti.MarkovBraid.burauAlexander` (`Burau/`); `TauCeti.KnotTheory.tristramLevineForm`,
-  `TauCeti.KnotTheory.tristramLevineSignature` with the Hermitian signature
-  `Matrix.IsHermitian.signature` (`TristramLevine/`, `Analysis/Matrix/HermitianSignature/Basic.lean`);
-  `TauCeti.KnotTheory.jimboWeightedTrace` (a weighted trace, before writhe normalization),
-  the Markov trace on the Temperley–Lieb algebra (`Jimbo/` and the
-  `MarkovTrace` module of the `Algebra` folder).
-  In detail: `TauCeti.BraidWord.toBraid`, the closure
-  `TauCeti.BraidWord.closure : OrientedPDCode w.length` (`KnotTheory/BraidWord/PDCode.lean`) and
-  `TauCeti.BraidWord.ArtinEquiv`, whose classes have Reidemeister-equivalent closures
-  (`BraidWord/ArtinEquivalence.lean`); `TauCeti.IsMarkovMove` (`KnotTheory/Markov/Basic.lean`)
-  and `TauCeti.MarkovEquiv.reidemeisterEquiv_closure`, the forward direction of the
-  combinatorial Markov theorem (`Markov/Closure.lean`); `TauCeti.BraidWord.jonesTrace_toBraid`
-  and `TauCeti.BraidWord.jonesTrace_toBraid_eq_eval₂_jonesPolynomial`, the agreement of the
-  Jones trace of a braid with the Jones polynomial of its closure (`BraidWord/Jones.lean`);
-  the PD-codes with `writhe`, `mirror`, `reverse` and `relabel` (`PDCode/Basic.lean`),
-  `TauCeti.OrientedPDCode.IsReidemeisterMove` and `ReidemeisterEquiv`
-  (`PDCode/Oriented/Reidemeister/Equivalence.lean`); the Gauss codes
-  `FramedBasedOrientedGaussCode` and `BasedUnorientedGaussCode`;
-  `TauCeti.OrientedPDCode.normalizedKauffmanBracket`; the invariance
-  `TauCeti.OrientedPDCode.ReidemeisterEquiv.jonesPolynomial_eq`, `jonesPolynomial_mirror`,
-  `jonesPolynomial_reverse`, `jonesPolynomial_unknot` and
-  `TauCeti.jonesPolynomial_rightHandedTrefoilPDCode` (`PDCode/Jones/Basic.lean`); the Alexander
-  lemmas `enlargeColumn`, `enlargeRow`, `invert_alexander`, `eval₂_one_alexander`,
-  `alexander_congruence_of_det_sq_eq_one`, `alexander_trefoilSeifertMatrix` and
-  `alexander_figureEightSeifertMatrix` (`KnotTheory/Alexander.lean`); the module
-  `TauCeti.OrientedPDCode.AlexanderModule` and its `elementaryIdeal`, with their Reidemeister
-  invariance (`PDCode/Alexander/`); `TauCeti.KnotTheory.burau`,
-  `TauCeti.MarkovEquiv.associated_burauAlexander` and
-  `TauCeti.KnotTheory.associated_burauAlexander_alexander_trefoilSeifertMatrix`;
-  `TauCeti.KnotTheory.jimbo`, the loop value `jonesDelta a = −(a² + a⁻²)`, the writhe-normalized
-  Jones trace `TauCeti.MarkovBraid.jonesTrace` with its Markov invariance, `jonesTrace_one_strand`
-  and `jonesTrace_sigma_pow_three` (`Jimbo/`, `TemperleyLieb.lean`), and
-  `TauCeti.normalizedKauffmanBracket_rightHandedTrefoilPDCode` (`PDCode/Trefoil.lean`); and the
-  HOMFLY substitutions `TauCeti.KnotTheory.homflySpecialization N` (`a = q^N`, `z = q − q⁻¹`, into
-  `RatFunc K`) with their joint injectivity
-  `TauCeti.KnotTheory.homflySpecialization_jointly_injective` (`Homfly/Specialization.lean`), a
-  uniqueness statement asserting no existence.
-- **Signatures** (`LinearAlgebra/Matrix/Signature.lean`, `KnotTheory/Signature.lean`,
-  `TristramLevine/`): `Matrix.signature` with `signature_trefoilSeifertMatrix`,
-  `signature_figureEightSeifertMatrix`, `signature_enlargeColumn` and `signature_enlargeRow`;
-  `tristramLevineSignature_neg_one`, `tristramLevineSignature_one`,
-  `tristramLevineSignature_congr`, `tristramLevineSignature_neg_transpose`,
-  `tristramLevineSignature_fromBlocks_zero` and the invariance under enlargement.
-- **Grid diagrams** (`KnotTheory/Grid/`): `TauCeti.GridDiagram`, `GridLink` and
-  `GridDiagram.MovesTo` (`Grid/Move/Basic.lean`).
-- **Plane topology** (`Topology/JordanCurve/Basic.lean`, `Topology/FilledHull.lean`,
-  `Analysis/Complex/PlaneSeparation/`, `Analysis/Complex/Conformal/Jordan/Schoenflies.lean`):
-  the Jordan-curve predicate `TauCeti.IsJordanCurve` (a set homeomorphic to the circle) and
-  the filled hull `TauCeti.filledHull` (the set together with the bounded components of
-  its complement); the Jordan curve theorem in `ℂ`: the complement of a Jordan curve `C` is not
-  connected (`TauCeti.IsJordanCurve.not_isPreconnected_compl`), its inside
-  `filledHull C \ C` is nonempty and is a single complementary component
-  (`TauCeti.IsJordanCurve.nonempty_filledHull_sdiff`,
-  `TauCeti.IsJordanCurve.filledHull_sdiff_eq_connectedComponentIn`), and every
-  complementary component has frontier `C` (`TauCeti.IsJordanCurve.frontier_connectedComponentIn`);
-  the Schoenflies theorem: a homeomorphism of `ℂ` carries the unit circle, the open unit
-  disc and the closed unit disc onto `C`, its inside and `filledHull C`
-  (`TauCeti.IsJordanCurve.exists_homeomorph_image_sphere`, with a prescribed image of `0`
-  in `TauCeti.IsJordanCurve.exists_homeomorph_image_sphere_of_mem`), and on the unit sphere
-  of a three-dimensional real inner product space a homeomorphism fixing a point `v ∉ C`
-  carries the great circle orthogonal to `v` onto `C`
-  (`TauCeti.IsJordanCurve.exists_homeomorph_image_inner_eq_zero`).
-- **Slopes** (`LowDimTopology/DehnSurgery/Slope.lean`): `TauCeti.Slope M` (primitive classes
-  up to sign), `TauCeti.BoundaryTorus`, `TauCeti.FramedBoundaryTorus` with `meridian`,
-  `longitude`, `value` and `TauCeti.FramedBoundaryTorus.slopeEquiv : Slope T.H ≃ OnePoint ℚ`.
-  Also `TauCeti.IsPrimitive` and `TauCeti.slopeEquivStd`.
-- **Knot exteriors, Dehn filling and surgery** (`LowDimTopology/SolidTorusNeighborhood/`,
-  `LowDimTopology/DehnSurgery/`, `Topology/Surgery/Basic.lean`): solid-torus neighbourhoods of
-  `C²` knots in `ℝ³` and in `S³` and disjoint ones for links
-  (`TauCeti.exists_isSolidTorusNeighborhood`,
-  `TauCeti.exists_isSolidTorusLinkNeighborhood_of_forall_nhdsSet`); the exteriors
-  `TauCeti.knotExterior` and `TauCeti.linkExterior`, the exterior of the half-radius tori as a
-  topological `3`-manifold with torus boundary
-  (`TauCeti.IsSolidTorusLinkNeighborhood.exteriorChartedSpace`); the meridian generating
-  `H₁` of the complement (`TauCeti.IsSolidTorusNeighborhood.complementHomologyEquiv`), the
-  preferred longitude (`TauCeti.IsSolidTorusNeighborhood.ker_boundaryHomologyMap`) and framing
-  `TauCeti.IsSolidTorusNeighborhood.preferredFramedBoundaryTorus`; the exterior of the unknot as a
-  solid torus, `TauCeti.unknotExteriorHomeomorph`; Dehn fillings `TauCeti.DehnFilling h s Y` and
-  `TauCeti.LinkDehnFilling`, recorded inside the filled space, with existence along every slope
-  (`TauCeti.IsSolidTorusNeighborhood.exists_dehnFilling`,
-  `TauCeti.IsSolidTorusLinkNeighborhood.exists_linkDehnFilling`), uniqueness for gluings isotopic to
-  matrix gluings (`TauCeti.DehnFilling.exists_homeomorph_of_isotopic_torusHomeomorph`), the
-  `∞`-filling (`TauCeti.DehnFilling.nonempty_homeomorph_of_fillingSlope_meridian`), the unknot's
-  lens-space and `S¹ × S²` fillings
-  (`TauCeti.DehnFilling.nonempty_homeomorph_lensSpace_of_unknot_slopeValue`,
-  `TauCeti.DehnFilling.nonempty_homeomorph_circle_prod_sphere_of_unknot_longitude`) and compatible
-  orientations `TauCeti.DehnFilling.IsOrientationCompatible`; surgery on a framed sphere in every
-  dimension, `TauCeti.SphereSurgery`, with `TauCeti.SphereSurgery.toDehnFilling` for integral
-  surgery on a framed knot; the cosmetic predicates
-  `TauCeti.IsSolidTorusNeighborhood.IsPurelyCosmetic` and
-  `TauCeti.IsSolidTorusNeighborhood.IsChirallyCosmetic`, the propositions
-  `TauCeti.CosmeticSurgeryConjecture` and `TauCeti.MathieuChirallyCosmeticTheorem` (the case
-  `k = 0` of Mathieu's family, `Cosmetic.lean`); the Weeks manifold `TauCeti.IsWeeksManifold` with
-  `TauCeti.exists_isWeeksManifold` (`Link/Weeks.lean`).
-  In detail: `IsSolidTorusNeighborhood.frontier_image`
-  (`LowDimTopology/SolidTorusNeighborhood/Basic.lean`); `TauCeti.knotExterior`
-  (`SolidTorusNeighborhood/Exterior.lean`); `TauCeti.unknotSolidTorus` and
-  `TauCeti.unknotExteriorHomeomorph` (`SolidTorusNeighborhood/Unknot.lean`);
-  `TauCeti.exists_isSolidTorusNeighborhood_sphere` (`SolidTorusNeighborhood/Sphere.lean`);
-  `TauCeti.IsSolidTorusLinkNeighborhood` (`SolidTorusNeighborhood/Link/Basic.lean`);
-  `TauCeti.IsOrientationPreservingAtCore` (`SolidTorusNeighborhood/Orientation.lean`);
-  `FramedBoundaryTorus.ofHomeomorph`, `FramedBoundaryTorus.torusCurveClass`,
-  `FramedBoundaryTorus.value_mk_torusCurveClass` and
-  `IsSolidTorusNeighborhood.framedBoundaryTorus` (`DehnSurgery/Framing.lean`);
-  `IsSolidTorusNeighborhood.framingNumber`, `preferredFramedBoundaryTorus`,
-  `complementHomologyEquiv`, `complementHomologyEquiv_boundaryHomologyMap_preferred` and
-  `ker_boundaryHomologyMap`, under the vanishing of the reduced integral homology of the ambient
-  space in degrees `1` and `2`, which for `S³` is
-  `TauCeti.isZero_reducedSingularHomologyFunctor_one_sphere_euclideanSpace_fin_four` and its
-  degree-two sibling (`DehnSurgery/SeifertFraming.lean`); `IsSolidTorusNeighborhood.fillingSlope`
-  with `fillingSlope_refl` and `fillingSlope_prodComm`, `DehnFilling.desc`,
-  `DehnFilling.transHomeomorph`, `DehnFilling.openExteriorEmbedding` and
-  `IsSolidTorusNeighborhood.meridianDehnFilling` (`DehnSurgery/Filling.lean`);
-  `IsSolidTorusNeighborhood.dehnFillingSpace` with the existence theorems
-  (`DehnSurgery/Existence.lean`);
-  `IsSolidTorusNeighborhood.exists_fillingSlope_torusHomeomorph_eq` and
-  `DehnFilling.exists_homeomorph_of_isotopic` with the uniqueness theorems
-  (`DehnSurgery/Uniqueness.lean`); `TauCeti.framingNumber_unknotSolidTorus`,
-  `TauCeti.preferredFramedBoundaryTorus_unknotSolidTorus` and `TauCeti.unknotZeroDehnFilling` with
-  `unknotZeroDehnFilling_gluing` (`DehnSurgery/Unknot.lean`); `TauCeti.unknotLensSpaceDehnFilling`
-  (`DehnSurgery/LensSpace.lean`); `TauCeti.LinkDehnFilling` (`DehnSurgery/Link/Filling.lean`) and
-  `IsSolidTorusLinkNeighborhood.surgerySlope` with `value_surgerySlope_framedBoundaryTorus`
-  (`DehnSurgery/Link/Surgery.lean`); `DehnFilling.IsOrientationCompatible`
-  (`DehnSurgery/Orientation.lean`) on `TauCeti.HomologicalOrientation`
-  (`AlgebraicTopology/Singular/LocalHomology/Orientation/Homological.lean`); the propositions
-  `TauCeti.NiWuCosmeticSurgeryTheorem` and `TauCeti.HanselmanCosmeticSurgeryTheorem` with the
-  cosmetic predicates (`DehnSurgery/Cosmetic.lean`); `TauCeti.AkbulutKirbyConjecture` and its
-  negation `TauCeti.YasuiTheorem` (`DehnSurgery/AkbulutKirby.lean`); `TauCeti.sphereExterior`
-  (`Topology/Surgery/Basic.lean`), `TauCeti.solidTorusFramedSphere` and
-  `SphereSurgery.toDehnFilling` (`DehnSurgery/SphereSurgery.lean`); and
-  `TauCeti.isWeeksManifold_congr` (`LowDimTopology/DehnSurgery/Link/Weeks.lean`).
-- **Handlebodies and Heegaard splittings** (`LowDimTopology/Handlebody/`,
-  `LowDimTopology/Heegaard/`): `TauCeti.handlebody g` with its free fundamental group
-  (`TauCeti.nonempty_fundamentalGroup_handlebody_mulEquiv_freeGroup`);
-  `TauCeti.HeegaardSplitting M` (`Splitting.lean`), the genus `TauCeti.heegaardGenus` with
-  `TauCeti.heegaardGenus_congr` and `TauCeti.heegaardGenus_sphere`; the rank bound
-  `TauCeti.rank_fundamentalGroup_le_heegaardGenus` (`FundamentalGroup.lean`); the propositions
-  `TauCeti.RankGenusConjecture` and `TauCeti.LiRankGenusTheorem` (`RankGenus.lean`).
-  In detail: `TauCeti.planarSurface g`, `TauCeti.handlebody_zero` and
-  `TauCeti.nonempty_homeomorph_handlebody_one` (`LowDimTopology/Handlebody/Basic.lean`);
-  `TauCeti.rank_fundamentalGroup_handlebody_le`, `TauCeti.isPathConnected_frontier_handlebody` and
-  `TauCeti.fundamentalGroup_map_frontier_handlebody_surjective`
-  (`Handlebody/FundamentalGroup.lean`); the splittings with `symm`, `transHomeomorph` and
-  `ofIsClosed`, the genus `TauCeti.heegaardGenus M` under `[Nonempty (HeegaardSplitting M)]` with
-  `heegaardGenus_le`, `exists_genus_eq_heegaardGenus` and `heegaardGenus_eq_zero_iff`, and
-  `TauCeti.hemisphereHeegaardSplitting` (`LowDimTopology/Heegaard/Splitting.lean`);
-  `TauCeti.cliffordHeegaardSplitting` and `TauCeti.exists_heegaardSplitting_genus_eq_one`
-  (`Heegaard/Clifford.lean`); `HeegaardSplitting.fundamentalGroup_map_left_surjective`,
-  `HeegaardSplitting.fg_fundamentalGroup` and `HeegaardSplitting.rank_fundamentalGroup_le_genus`
-  (`Heegaard/FundamentalGroup.lean`); `LiRankGenusTheorem.not_rankGenusConjecture` and
-  `TauCeti.exists_heegaardGenus_sphere_eq_rank` (`Heegaard/RankGenus.lean`);
-  `LensSpace.heegaardSplitting` and `LensSpace.heegaardGenus_eq_one`
-  (`Heegaard/LensSpace/Splitting.lean`); `DehnFilling.heegaardSplitting`,
-  `DehnFilling.heegaardGenus_le_one` and `TauCeti.heegaardGenus_circle_prod_sphere`
-  (`Heegaard/DehnFilling.lean`).
-- **Lens spaces** (`Geometry/Manifold/Instances/LensSpace.lean`,
-  `AlgebraicTopology/UniversalCover/LensSpace/`): `TauCeti.lensGroup m ℓ`, the quotient
-  `TauCeti.LensSpace m ℓ` of the unit sphere with its analytic manifold structure, and its fundamental
-  group `Multiplicative (ZMod m)`.
-  Here `m ≥ 1` and `ℓ : Fin (k + 1) → (ZMod m)ˣ`, the orbit space of the unit sphere of `ℂ^{k+1}`
-  under `ℤ/m` rotating the `i`-th coordinate by `2πℓᵢ/m`
-  (`AlgebraicTopology/UniversalCover/LensSpace/Basic.lean`), of dimension `2k + 1`;
-  `LensSpace.fundamentalGroupMulEquiv` (`π₁ ≅ ℤ/m` for `k ≥ 1`), `LensSpace.card_fundamentalGroup`
-  and the invariance of `m` under homeomorphism `LensSpace.eq_of_homeomorph`
-  (`LensSpace/FundamentalGroup.lean`). The three-dimensional `L(p, q)` is
-  `TauCeti.LensSpace p ![1, q]`; its spherical structure is
-  `TauCeti.LensSpace.hasGeometricStructure_spherical`, and its genus-one splittings
-  `LensSpace.heegaardSplitting` and `LensSpace.heegaardGenus_eq_one` are listed under
-  *Handlebodies and Heegaard splittings*.
-- **Seifert fibrations** (`LowDimTopology/SeifertFibration.lean`): `TauCeti.SolidTorus`,
-  `TauCeti.SolidTorus.fiberSetoid p q`, `TauCeti.IsSeifertFibration`, `TauCeti.IsSeifertFibered`,
-  invariance under homeomorphism, and the products `F × Circle`.
-- **Fundamental groups and van Kampen** (`FundamentalGroup/VanKampen/Basic.lean`,
-  `FundamentalGroup/VanKampen/Presentation/`, `Topology/Homotopy/`):
-  `TauCeti.isPushout_fundamentalGroup` (the pushout square of fundamental groups for an
-  open cover by two sets with path-connected intersection, used for punctured discs),
-  `TauCeti.vanKampen_hom_ext`, `FundamentalGroup.homeomorphMulEquivOfEq` and
-  `HomotopyGroup.homeomorphMulEquivOfEq` (the isomorphisms of fundamental and higher homotopy
-  groups induced by a homeomorphism carrying one base point to the other;
-  `AlgebraicTopology/FundamentalGroup/Homeomorph.lean`,
-  `Topology/Homotopy/HomotopyGroup/Homeomorph.lean`).
-- **Irreducibility, incompressibility, Haken manifolds** (`Geometry/Manifold/`,
-  `AlgebraicTopology/FundamentalGroup/Incompressible.lean`): `TauCeti.IsSphereBoundsBall`,
-  `TauCeti.IsIncompressible` (embedding and injective on `π₁` at every base point),
-  `TauCeti.IsClosedIncompressibleSurfaceEmbedding`, `TauCeti.IsHakenSurfaceEmbedding`,
-  `TauCeti.IsPossiblyNonorientableHakenThreeManifold` and its closed variant,
-  `TauCeti.IsVirtuallyHaken`; `TauCeti.IsAspherical X x`
-  (`AlgebraicTopology/EilenbergMacLane/Basic.lean`): `X` is path-connected and `π_(n+2)(X, x)` is
-  trivial for every `n`, with `TauCeti.IsAspherical.of_basepoint` moving the base point and
-  `TauCeti.IsAspherical.of_homotopyEquiv` (`EilenbergMacLane/HomotopyEquiv.lean`) transporting it
-  along homotopy equivalences; `TauCeti.Orientable I M` (`Geometry/Manifold/Orientation/Basic.lean`),
-  the existence of a manifold orientation, an orientation of the tangent spaces compatible
-  with the chart Jacobians, for a model over a finite-dimensional space; it takes no
-  smoothness index and needs no `IsManifold` instance. `TauCeti.IsOrientedAtlas I n A`
-  (`Geometry/Manifold/Orientation/OrientedAtlas.lean`), for `n ≠ 0`: `A` is a set of charts of
-  the maximal `C^n` atlas covering `M` whose coordinate changes lie in
-  `TauCeti.orientationPreservingGroupoid I`, that is, have derivatives of positive determinant
-  read through `I`; `TauCeti.IsOrientedAtlas.orientable`
-  (`Geometry/Manifold/Orientation/Atlas.lean`) makes a `C¹` manifold `M` (`IsManifold I 1 M`)
-  orientable from such an atlas. Over a boundaryless model `ℝⁿ`, `n ≥ 1`, every orientable
-  manifold has one (restrict charts to the components of their domains and reflect where they
-  reverse orientation); with boundary this fails (the Check under 8.1). `sphere_theorem` and
-  `waldhausen_theorem` state orientability as the existence of an oriented smooth atlas.
-  `TauCeti.IsSphereBoundsBall` is in `Geometry/Manifold/Irreducible.lean` and
-  `TauCeti.IsClosedIncompressibleSurfaceEmbedding` in `Geometry/Manifold/Incompressible.lean`; the
-  Haken predicates `TauCeti.IsClosedHakenSurfaceEmbedding` and
-  `TauCeti.IsPossiblyNonorientableClosedHakenThreeManifold` are in `Geometry/Manifold/Haken.lean`,
-  and `TauCeti.IsVirtuallyHaken` with `TauCeti.VirtualHakenConjecture` in
-  `Geometry/Manifold/VirtuallyHaken.lean` and `Riemannian/Hyperbolic/VirtualHaken.lean`.
-- **Manifold predicates** (`Geometry/Manifold/Basic.lean`):
-  `TauCeti.IsClosedConnectedManifold n M` (compact, connected, Hausdorff, second-countable and
-  boundaryless) and `TauCeti.IsCompactConnectedThreeManifold` (compact and connected, possibly
-  with boundary).
-- **Torus decompositions** (`LowDimTopology/JSJDecomposition.lean`,
-  `LowDimTopology/Geometrization.lean`): `TauCeti.IsPeripheralTorus`, `TauCeti.IsAtoroidal`,
-  `TauCeti.IsTorusDecomposition`, `TauCeti.IsJSJDecomposition` (minimality under inclusion),
-  `TauCeti.JSJTheorem`, `TauCeti.IsGeometricTorusDecomposition`, `TauCeti.GeometrizationConjecture`.
-- **Geometric structures and hyperbolic metrics** (`Geometry/Manifold/Riemannian/`):
-  `TauCeti.ModelGeometry` (the eight Thurston geometries as a finite type) with `Space`,
-  `model`, `TauCeti.HasGeometricStructure M G` and its quotient characterization
-  (`GeometricStructure/Basic.lean`); `TauCeti.HyperbolicMetric` (complete, constant curvature
-  `−1`), `TauCeti.IsHyperbolic` (`Hyperbolic.lean`); `TauCeti.HyperbolicMetric.Isometry`,
-  `TauCeti.RiemannianIsometry`, the isometry group `TauCeti.Isom I M` with `toDiff`
-  (`Isometry/`); `TauCeti.hypVolumeOfMetric`, `TauCeti.hypVolume`,
-  `TauCeti.hypVolumeOfMetric_eq_of_mostow` (`Hyperbolic/Volume.lean`);
-  `TauCeti.HyperbolicMetric.HasFiniteVolume`, `TauCeti.IsFiniteVolumeHyperbolic`
-  (`Hyperbolic/FiniteVolume.lean`); `TauCeti.IsMostowRigid`, `TauCeti.MostowRigidity`
-  (`Hyperbolic/Mostow.lean`); the simplicial volume of a closed oriented manifold
-  `TauCeti.HomologicalOrientation.simplicialVolume`, the `ℓ¹`-seminorm `SSet.homologyL1Seminorm`
-  of its real fundamental class, with its homotopy invariance
-  `TauCeti.HomologicalOrientation.simplicialVolume_eq_of_homotopyEquiv` and its vanishing
-  `TauCeti.HomologicalOrientation.simplicialVolume_eq_zero_of_one_lt_abs` under a self-map of
-  degree of absolute value at least two (`AlgebraicTopology/Singular/LocalHomology/SimplicialVolume.lean`,
-  `AlgebraicTopology/SimplicialSet/Homology/L1Norm.lean`), the proportionality with hyperbolic
-  volume not being proved there; the smooth singular simplices `TauCeti.SmoothSimplex I M k`,
-  smooth near each point of the full-dimensional simplex `Δᵏ ⊆ ℝᵏ`, forming the subcomplex
-  `TauCeti.smoothSingularSubcomplex` of the singular simplicial set
-  (`Geometry/Manifold/SmoothSingular/Basic.lean`), with derivatives within `Δᵏ` unique by
-  `TauCeti.uniqueDiffOn_fullSimplex` (`Geometry/Convex/FullSimplex.lean`), and the integral of a
-  `k`-form over a smooth `k`-simplex `TauCeti.SmoothSimplex.integral`, linear and natural under
-  smooth maps (`Geometry/Manifold/SmoothSingular/Integral.lean`), with no topology on the
-  simplices, no comparison with singular homology and no Stokes formula there (the last two are
-  DifferentialGeometry Layers 8.3 and 8.4); the upper half
-  space `TauCeti.UpperHalfSpace E`
-  (`Hyperbolic/UpperHalfSpace/Basic.lean`) with its complete metric of curvature `−1`,
-  `TauCeti.UpperHalfSpace.hyperbolicMetric` and `TauCeti.UpperHalfSpace.isHyperbolic`
-  (`UpperHalfSpace/Metric.lean`); `TauCeti.riemannianVolume` and
-  `TauCeti.riemannianTotalVolume` (`VolumeDensity/`); the theorem of Gabai, Meyerhoff and Milley
-  as the proposition `TauCeti.GabaiMeyerhoffMilleyTheorem` (`Hyperbolic/Weeks.lean`).
-  The model geometries with their eight constructors and `ModelGeometry.Space` are in
-  `Riemannian/ModelGeometry/Basic.lean`, the geometric structures in
-  `Riemannian/GeometricStructure/Basic.lean`, `TauCeti.HyperbolicMetric` and
-  `TauCeti.IsHyperbolic` in `Riemannian/Hyperbolic.lean`, `TauCeti.riemannianVolume` in
-  `Riemannian/VolumeDensity/Volume.lean`, and the theorem of Gabai, Meyerhoff and Milley in
-  `Riemannian/Hyperbolic/Weeks.lean`.
-- **Mapping tori and virtual properties** (`Topology/`): `TauCeti.MappingTorus φ`,
-  `TauCeti.FibersOverCircle`, `TauCeti.IsFiniteCover`, `TauCeti.IsVirtuallyFibered`,
-  `TauCeti.VirtualFiberingConjecture`, `TauCeti.VirtualHakenConjecture`.
-  Also `TauCeti.MappingTorusPresentation` (`Topology/MappingTorus/Basic.lean`), with
-  `TauCeti.IsFiniteCover` in `Topology/Covering/IsFiniteCover.lean` and
-  `TauCeti.IsVirtuallyFibered` in `Topology/VirtuallyFibered.lean`.
-- **Foliations** (`Geometry/Manifold/Foliation/`): `TauCeti.Foliation I n M k`, the leaf
-  relation `TauCeti.Foliation.SameLeaf` and `TauCeti.Foliation.leaf`,
-  `TauCeti.Foliation.IsClosedTransversal`, `TauCeti.Foliation.Taut`, the linear
-  foliations `TauCeti.Foliation.ofSubmodule`, and the Euler class of the tangent field
-  `TauCeti.Foliation.eulerClass` with the propositions `TauCeti.ThurstonEulerClassInequality`,
-  `TauCeti.EulerClassOneConjecture` and `TauCeti.YazdiEulerClassOneTheorem` (`EulerClass.lean`).
-  In detail: `TauCeti.Foliation` and `Foliation.ofSubmodule` are in `Foliation/Basic.lean`, on the
-  distribution interfaces `TauCeti.IsContMDiffDistribution` and `TauCeti.IsInvolutiveDistribution`
-  (`Geometry/Manifold/Distribution.lean`); the leaves are in `Foliation/Leaf.lean`; tautness, with
-  `TauCeti.Foliation.not_taut_ofSubmodule_ker` (the foliation of a normed space by the cosets of
-  the kernel of a functional is not taut), is in `Foliation/Taut.lean`; and
-  `Foliation/EulerClass.lean` has `Foliation.thomPair`, `Foliation.IsThomClass`,
-  `Foliation.IsEulerClass` (a class is an Euler class of `F` when it is the Euler class of some
-  Thom class of the tangent field), `IsEulerClass.neg`,
-  `Foliation.eulerClass_eq_zero_of_forall_ne_zero`, the inequality predicates
-  `TauCeti.EulerClassBounded` with `eulerClassBounded_neg_iff` and `TauCeti.EulerClassNormOne`
-  with `not_eulerClassNormOne_zero`, and the refutation
-  `YazdiEulerClassOneTheorem.not_eulerClassOneConjecture`.
-- **Euler classes of vector bundles and fundamental classes**
-  (`Topology/VectorBundle/EulerClass.lean`, `AlgebraicTopology/`): the Thom pair
-  `TauCeti.thomPair` of a real vector bundle, the Thom classes `TauCeti.IsThomClass` with
-  `IsThomClass.singularCohomologyMap`, and the Euler class `TauCeti.eulerClass` with
-  `eulerClass_naturality`, `eulerClass_pullback`, `eulerClass_eq_zero_of_forall_ne_zero` and
-  `eulerClass_trivial_eq_zero`; `TauCeti.HomologicalOrientation.evalFundamentalClass`
-  (`AlgebraicTopology/Cohomology/FundamentalClass.lean`); `TauCeti.FiniteCWType`
-  (`Topology/CWComplex/Classical/FiniteCWType.lean`) and the Euler characteristic
-  `TauCeti.eulerChar` (`AlgebraicTopology/Cellular/EulerCharacteristic/FiniteCWType.lean`).
-- **Simplicial complexes** (`AlgebraicTopology/SimplicialComplex/`, `Topology/`):
-  `AbstractSimplicialComplex.Realization K` with face inclusions and barycentric coordinates,
-  the realization of maps, subcomplexes and locally finite complexes;
-  `AbstractSimplicialComplex.instT2SpaceRealization`,
-  `AbstractSimplicialComplex.exists_finset_support_subset_of_isCompact`,
-  `PreAbstractSimplicialComplex.SimplicialMap.realizationMap` with `realizationMap_id` and
-  `realizationMap_comp` (`Realization/`); the CW structure
-  `AbstractSimplicialComplex.realizationCWComplex` (`Realization/CWComplex/Basic.lean`) and its
-  transport `Topology.IsClosedEmbedding.relCWComplex` (`Topology/CWComplex/Classical/Image.lean`);
-  the finite stellar homeomorphism
-  `PreAbstractSimplicialComplex.exists_homeomorph_stellarSubdivision`
-  (`Subdivision/Stellar/Homeomorph.lean`) and the point-set bijection of arbitrary stellar moves
-  (`Subdivision/Stellar/Realization.lean`, `Geometry.lean`); joins with the closed-star laws
-  `PreAbstractSimplicialComplex.map_closedStar_eq_join` and
-  `PreAbstractSimplicialComplex.map_closedStar_inf_deletion_eq_join` (`Join/`);
-  `PreAbstractSimplicialComplex.IsCombinatorialManifold.exists_chartedSpace_hasGroupoid_PLGroupoid`
-  (`CombinatorialManifold/PL.lean`); the smooth-triangulation predicate
-  `TauCeti.IsSmoothTriangulation` with secant approximation on edgewise subdivisions
-  (`Geometry/Manifold/SmoothTriangulation/`); `PreAbstractSimplicialComplex.closedStar`,
-  `link`, `deletion` (`LinkStar.lean`); stellar subdivision (`Subdivision/`); the ordered
-  cylinder `AbstractSimplicialComplex.orderedCylinder` (`Product.lean`);
-  `PreAbstractSimplicialComplex.IsCombinatorialBall`, `IsCombinatorialSphere`,
-  `IsCombinatorialManifold` by pattern matching on the dimension (`CombinatorialManifold/`);
-  `PreAbstractSimplicialComplex.IsFreePair`, `ElementaryCollapsesTo`, `CollapsesTo`,
-  `Collapsible` (`ElementaryCollapse.lean`, `Collapse/`); `TauCeti.IsTriangulable`,
-  `TauCeti.IsCombinatoriallyTriangulable`, `TauCeti.TriangulationConjecture n`,
-  `AbstractSimplicialComplex.Contractible2Complex`, `TauCeti.ZeemanConjecture`.
-  In detail: the realization with `faceInclusion`, `carrier`, `vertex` and `realizationMap` for
-  inclusions (`SimplicialComplex/Realization/Basic.lean`);
-  `PreAbstractSimplicialComplex.SimplicialMap` (`SimplicialComplex/Maps.lean`) with
-  `SimplicialMap.realizationMap` and `realizationHomeomorph` (`Realization/Map.lean`); the
-  compactness of finite realizations and the closed coordinate embedding
-  (`Realization/Finite.lean`), local compactness for finite vertex stars
-  (`Realization/LocallyFinite.lean`), subcomplexes as closed embeddings
-  (`Realization/Subcomplex.lean`) and glued homotopies (`Realization/Homotopy.lean`);
-  `PreAbstractSimplicialComplex.link` (`SimplicialComplex/LinkStar.lean`);
-  `AbstractSimplicialComplex.orderedProd` and `orderedCylinder`
-  (`SimplicialComplex/Product.lean`); `PreAbstractSimplicialComplex.ElementaryCollapsesTo`,
-  `CollapsesTo` and `Collapsible` (`SimplicialComplex/ElementaryCollapse.lean`,
-  `Collapse/Basic.lean`) with the collapse of cones and of cylinders of cones
-  (`Collapse/Cone.lean`, `Collapse/Cylinder/Basic.lean`); the combinatorial balls, spheres and
-  manifolds with the dimension-zero case (`CombinatorialManifold/Basic.lean`);
-  `AbstractSimplicialComplex.realizationStandardSuccSimplexBoundaryHomeomorphSphere n : |∂Δⁿ⁺¹| ≃ₜ Sⁿ`
-  (`Simplex/BoundarySphere.lean`); the Zeeman declarations in `SimplicialComplex/Zeeman.lean`;
-  `TauCeti.IsTriangulable` in `Topology/Triangulable/Basic.lean`; and `TauCeti.FiniteCWType`.
-
-### From TauCetiRoadmap.DifferentialGeometry
-
-Faces of manifolds with corners and the abstract boundary (the *Boundary and corners*
-section); the fundamental theorem of flows on finite-dimensional manifolds and the two-time
-flow of a time-dependent vector field (Layer 3); involutive distributions, the Frobenius
-theorem and leaves (Layer 4); integration of densities and forms (Layer 5); existence of a
-smooth Riemannian metric on a paracompact manifold and the comparison of densities with
-`TauCeti.riemannianVolume` (Layer 12).
-
-Layer 8.3: the smooth singular chains, whose simplices are the pinned `TauCeti.SmoothSimplex`,
-and the smoothing theorem: for a Hausdorff σ-compact smooth manifold modelled on a
-finite-dimensional space, the inclusion of the smooth singular chains into the real singular
-chains is a chain homotopy equivalence, with a chosen homotopy inverse and both chain homotopies;
-for a manifold without boundary it is built by relative Whitney approximation inductively over
-faces, a singular simplex whose faces are smooth being homotopic relative to its boundary to a
-smooth simplex with the same faces. Layer 8.4: Stokes' formula for a smooth simplex, the integral
-of `dω` over a smooth `(p + 1)`-simplex being the alternating sum `Σᵢ (−1)ⁱ` of the integrals of
-the `C¹` form `ω` over its faces, and for smooth chains by linearity. Layer 7.2 consumes Layer 8.3
-for Löh's Propositions 5.3 and 5.5 and Layer 8.4 for Stokes' formula on measure chains; nothing
-is assumed of them beyond these statements and, without boundary, the face-by-face construction.
-
-The consumers of the other items: Layer 1.3 glues along the faces of a manifold with corners and
-the abstract boundary of DifferentialGeometry 5.5; Layer 10.1 takes distributions, involutivity,
-the flat charts, the Frobenius theorem and the leaves of a foliation from DifferentialGeometry
-Layer 4, on the pinned `TauCeti.Foliation`; and Layer 7.1 consumes DifferentialGeometry 12.4, the
-comparison of `TauCeti.riemannianVolume` with densities and form integration, for the statement
-that the hyperbolic volume form integrates to the volume.
-
-### From TauCetiRoadmap.HopfRinow
-
-The Levi-Civita connection and its regularity, the geodesic flow, the exponential map and its
-domain (Layer 1); normal neighbourhoods and the Gauss lemma (Layer 2); the Hopf–Rinow theorem
-(Layer 3).
-
-Layer 4: smooth Riemannian isometries and the transport of the Levi-Civita connection, geodesics
-and exponential maps along them, consumed by Layer 7.2.
-
-### From TauCetiRoadmap.AlgebraicTopology
-
-Stage 1: van Kampen through the fundamental groupoid, with the two-open-set pushout and its
-group-presentation corollaries, consumed by Layer 1.4 (the fundamental group of a connected sum),
-Layer 2.1 (the trefoil group in the Check on the cone on a polygonal trefoil), Layer 5.2 (the
-fundamental groups of fillings), Layers 8.2 and 8.6 (the free-product decomposition of `π₁` along
-a prime decomposition, Kneser's finiteness and the simple connectivity of the summands of a simply
-connected sum) and Layers 9.1 and 9.2 (the fundamental groups of the non-orientable handlebodies
-and of splittings). Stages 2 and 3: singular homology and the Mayer–Vietoris sequence, consumed by
-Layers 4.1, 5.1, 5.2 and 7.4 (the first homology of exteriors, of fillings and of the Weeks
-manifold). Stage 4: CW pairs, the cellular chain complex and its comparison with singular
-homology, consumed by Layer 11.1 (the cellular chain complex of a polyhedron and its boundary
-formula) and Layer 10.3 (cellular cochains, for the obstruction-theoretic Euler class). Stage 5:
-covering spaces, consumed by Layer 6.4 for the infinite cyclic cover. Stage 6: singular cohomology
-of CW complexes, cup products, fundamental classes and Poincaré duality, consumed by Layers 10.3
-and 10.4 (the Euler class and its pairing, and `H₂(M; ℤ)` for the Thurston norm); and its item
-6.5, the homological characterization of the degree of a map of closed oriented connected
-manifolds (`f_*[M] = deg f · [N]` on the fundamental classes), consumed by Layers 3.1 and 3.2 and
-by Layer 10.3 (the degree on the boundary circle of a `2`-cell of a section over the
-`1`-skeleton). Stage 7: the Euler characteristic of a finite decomposition, consumed by Layer 1.4.
-Stage 8: ordinary representability, consumed by Layer 10.4 for the representation of a class of
-`H¹` by a map to the circle. Nothing is assumed of them beyond their statements.
-
-### From TauCetiRoadmap.TypeAHeckeAlgebras
-
-H1 supplies the finite type-A Hecke algebras and H2 the Ocneanu trace and its braid-closure
-invariance. Layer 4 consumes them for the HOMFLY trace theorem and the low-strand
-Jones/Burau block comparisons; it owns the geometric closure and native-matrix comparisons.
-
-### From TauCetiRoadmap.TemperleyLieb
-
-Layer 2: the Temperley–Lieb diagram category, composition gluing along the middle boundary and
-counting the closed circles formed; Layer 3: the linear category `TL(R, δ)` over a commutative
-ring, a circle evaluating to `δ`, with the diagram bases of its hom-modules; Layer 4: the
-comparison of the native `TauCeti.TemperleyLieb R δ n` with the diagram algebra, its
-diagram basis `exists_basis_planarMatching` (free of rank `catalan n` over every commutative ring),
-the strand inclusions, the closure trace and `existsUnique_isMarkovTrace` (exactly one Markov
-family at every `δ`, equal to the native `markovTrace q hδ` when `δ = −(q + q⁻¹)`); Layer 5: cell
-modules, Gram determinants and the semisimplicity criteria `isSemisimpleRing_of_qInt_ne_zero` and
-`isSemisimpleRing_iff_of_charZero`; Layer 6: the Jones–Wenzl projections, with
-`existsUnique_jonesWenzl` (when the quantum integers `[1], …, [n]` are units there is exactly one
-idempotent `f_n` of augmentation `1` killed on both sides by every `e_i`), the Wenzl recursion
-`f_(n+1) = f_n − ([n]/[n+1]) f_n e_n f_n`, the partial trace of `f_(n+1)` equal to
-`([n+2]/[n+1]) f_n`, and `IsMarkovTrace.apply_jonesWenzl` (every Markov trace takes the value
-`[n+1]` on `f_n`). Layers 4.5.1, 4.5.3 and 4.5.6 consume Layers 4–5 for the diagram basis, base
-change, algebraic Markov uniqueness and generic blocks; Layer 4.8.1 consumes Layers 2–4 and 6
-for the colored cabling, over `ℚ(A)` at `δ = −A² − A⁻²`, where every `[k]` with `k ≥ 1` is
-nonzero. Nothing is assumed of them beyond their statements.
-
-### From TauCetiRoadmap.Subfactors
-
-§3.1: the conjugate-linear adjoint `†` on `TL_n(ℂ, δ)` for real `δ`, fixing every generator and
-compatible with strand inclusions. §3.2: Jones's positivity theorem `markovTrace_nonneg_iff` (for
-`δ > 0` and `δ = −(q + q⁻¹)`, `T_n(x† x) ≥ 0` for every `n` and `x` exactly when `δ` lies in
-`jonesLoopParameters = {2cos(π/m) : m ≥ 3} ∪ [2, ∞)`), the trace radical `R_n`, a two-sided
-`†`-stable ideal, and Cauchy–Schwarz, by which `R_n` is the null space of `x ↦ T_n(x† x)`. §3.3:
-the positive path representations `π_n` on the half-line for `δ ≥ 2` and on `A_(m−1)` for
-`δ = 2cos(π/m)`, with `ker π_n = R_n`, the quotient `Q_n = TL_n / R_n` a finite direct sum of
-matrix algebras with faithful positive trace, and `R_n = 0` for `δ ≥ 2`. Layer 4.5.6 consumes
-these at the parameters `δ = u + u⁻¹` it uses, with `q = −u`.
-
-### From TauCetiRoadmap.ReductiveGroups
-
-§11A (*Plane configurations, geometric braids and their basepoints*) supplies the ordered and
-unordered configuration spaces of `n` points of the plane, the homeomorphism between the
-plane and the open unit disc, the identification of relative homotopy classes of
-collision-free strand systems in `ℂ×[0,1]` with `TauCeti.BraidGroup n` with stacking matched
-to the fundamental-group product, the endpoint permutation as `permHom`, the pure part as
-`pureSubgroup n`, the exact sequence `1 → P_n → B_n → S_n → 1` and the convention of its
-positive half-twist. Layer 4.2.8 consumes it for smooth geometric braids, owning the smooth
-carrier, the smooth comparison, the calibration of that half-twist against the pinned closure
-and the reading of a braid word off a generic projection.
-
-### From TauCetiRoadmap.SuccessiveMinima
-
-Layer 1: the successive minima `λ_i(L, K)` of a discrete full lattice `L` in a finite-dimensional
-real normed space for a convex body `K` with `0` in its interior, their positivity, the threshold
-characterization by independent lattice vectors, and target 1.5 `exists_successiveMin_witnesses`
-(a real basis of lattice vectors `b_i` with gauge `λ_i`, every lattice vector of gauge `< λ_i`
-lying in the span of the earlier `b_j`). Layer 7.3.1 consumes them for `E = ℂ` and `K` the closed
-unit disc, where the gauge is the norm.
-
-## How to read the build
-
-The layers group the targets by subject; the build order is the order of the `*Needs:*` lines,
-target by target, and it is not the numerical order of the layers. Layer 1 is the spine:
-everything later that cuts a manifold open and reglues it is an instance of its constructions. Six
-groups of targets are built before the layer numbering suggests. The disc theorem for arbitrary
-centres of Layer 3.3, which needs only the tubes of Layer 1.5 and the pinned disc theorem,
-precedes the cut-and-glue description of the pinned connected sum in Layer 1.4. Layers 3.1, 3.3
-and 3.4, which need among the other layers only the tubes of Layer 1.5, precede the
-two-dimensional comparison of Layer 11.2.1 and the mapping class groups of Layer 1.7.2. The
-handlebodies and Heegaard splittings of Layer 9.1, which need Layers 1.3, 1.7, 1.7.2 and 11.2,
-precede the Lickorish–Wallace theorem of Layer 5.2. The realizations and smooth triangulations of
-Layers 11.1 and 11.3, which need only Layer 1.6, then the surface theorems of Layer 11.2.1, which
-need in addition Layers 1.1, 3.3 and 3.4, then Moise's theorems of Layer 11.2, which need Layer
-11.2.1, precede Layer 1.7, the three-dimensional case of the annulus theorem in Layer 2.3, Löh's
-comparison in Layer 7.2, and Layers 8 and 9. The smooth structure of the pinned exterior in
-Layer 5.1, built from Layers 1.5,
-3.3 and 4.1, precedes the Alexander module of Layer 4.4. The decomposition theorems of Layers 8.1–8.4, which need Layers 1,
-4.4, 5.1 and 11.2, precede the cyclic surgery theorem of Layer 5.4 and the finite-volume theory of
-Layer 7.3. With these edges the graph of targets is acyclic. Otherwise Layers 2 and 3 are
-independent of each other and of Layer 4; Layer 6 (concordance) needs Layers 1, 2 and 4, and
-the reduction of Levine's theorem in Layer 6.4 also Layer 5.2, and its PL form Layer 11.3; Layer 7
-needs Layer 1 and the Riemannian suppliers, for Löh's comparison the smooth triangulations of
-Layer 11.3, and for its finite-volume part the Dehn filling of
-Layer 5.2 and the irreducibility of Layer 8.2; Layer 9 (Heegaard splittings) needs Layers 1, 7, 8
-and 11; and Layer 10 (foliations) needs Layers 1, 2, 5, 7, 8 and 9. Each layer ends with its
-examples and its dependencies on the others.
-The following edges keep the graph acyclic. Moise's theorem of Layer 11.2 also precedes the smooth
-structure of a filling in Layer 5.2, and the concordance relation of Layer 6.1 precedes the
-Akbulut–Kirby statement of Layer 5.3. Layer 9 also needs the bicollars of Layer 2. Layers
-10.3–10.5 need in addition the pinned Thom classes, Euler classes and Euler class inequalities,
-AlgebraicTopology's cohomology and fundamental classes, the locally flat surfaces of Layer 2.1,
-the hyperbolic manifolds of Layer 7.2, the irreducibility of Layer 8.2 and the incompressible
-surfaces of Layer 8.3.
-
-Section anchors that other roadmaps link to resolve as follows:
-
-- `#layer-1-manifold-library-buildout-general-dimension-general-structure-group` → Layer 1;
-- `#layer-4-knot-theory-done-properly-owned-here` → Layer 4;
-- `#the-smoothing-and-triangulation-comparison-far-horizon` and
-  `#the-smoothing-and-triangulation-comparison`, the section *The smoothing-and-triangulation
-  comparison*: its item 1 (smooth triangulations, smooth implies PL) → Layer 11.3; its
-  item 2 (PL implies Top) → Layer 1.6, through `TauCeti.PLGroupoid_le_continuousGroupoid`;
-  its item 3 (the Kirby–Siebenmann obstruction and the TOP/PL comparison) → GeometricTopology,
-  Part II.
 
 ## Layer 1: manifolds with boundary, gluing, tubular neighbourhoods and handles
 
@@ -7158,6 +6093,7 @@ are Layer 5.4's; both consume this layer.
 Mathlib's `PresentedMonoid`, `LaurentPolynomial` and matrices and the native presentations, moves,
 polynomials and knot-group declarations of the supplier contracts enter through 4.1–4.6; Layer 1.5's
 tubular neighbourhoods give the framings of 4.1.
+
 ## Layer 5: Dehn surgery
 
 Dehn surgery removes a tubular neighbourhood of a knot and reglues a solid torus along a
@@ -8467,7 +7403,6 @@ annuli and slice surfaces); the native slice, knot-group and signature declarati
 supplier contracts; AlgebraicTopology Stage 5 (the infinite cyclic cover, for the hypothesis of
 Freedman's theorem). Nothing of CombinatorialHeegaardFloer is consumed: its `τ` consumes this
 layer.
-
 ## Layer 7: hyperbolic structures, volume and rigidity
 
 Hyperbolic metrics (`TauCeti.HyperbolicMetric`, `TauCeti.IsHyperbolic`), their volumes
@@ -9122,6 +8057,7 @@ constant-curvature, mapping-torus, finite-cover, incompressibility, Whitehead li
 manifold declarations, Layer 5.2 for the link fillings and framings behind the Weeks manifold,
 Layer 1.5 for the uniqueness of tubular neighbourhoods, and AlgebraicTopology Stage 3
 (Mayer–Vietoris).
+
 ## Layer 8: decompositions of 3-manifolds and geometrization
 
 The decomposition theorems of `3`-manifold topology are statable against Tau Ceti's
@@ -10003,7 +8939,6 @@ Also Layer 1.1 (corners), Layer 2.1 (bicollars), Layer 5.2 (the `0`-surgery on t
 the native splitting of `S¹ × S²`), Layer 7.2 (hyperbolic manifolds for Li's theorem) and
 AlgebraicTopology Stage 1 (van Kampen); the native handlebodies, splittings, genus, rank inequality
 and rank-versus-genus declarations of the supplier contracts.
-
 ## Layer 10: foliations of 3-manifolds
 
 Foliations are Tau Ceti's at the pin (*From Tau Ceti*): `TauCeti.Foliation I n M k` is a `C^n`
@@ -10984,6 +9919,7 @@ product, cellular-chain, finite-CW-type and connected-manifold declarations of t
 contracts, with AlgebraicTopology's cellular chains; Layer 1.6 (the PL groupoid and its forgetful
 map) for the PL form of Moise's theorem. The
 Kirby–Siebenmann obstruction theory is GeometricTopology, Part II's and is no input of this layer.
+
 ## Downstream consumers
 
 - **AlgebraicTopology** consumes Layer 11.3's smooth triangulations, through which a smooth
@@ -11056,6 +9992,1070 @@ Kirby–Siebenmann obstruction theory is GeometricTopology, Part II's and is no 
   not restate.
 - **GeometricTopology, Part II** consumes the foundational layers needed by each of its
   developments and owns the developments listed under *Scope and ownership*.
+
+## Scope and ownership
+
+This roadmap owns the following, by layer.
+
+- **Layer 1.** Smooth collars of boundaries as data, complements of embedded balls, gluing
+  along codimension-zero boundary faces, handle attachment, the cut-and-glue description of the
+  pinned connected sum with its associativity, fundamental group and Euler characteristic, the
+  uniqueness of tubular neighbourhoods up to isotopy and the retraction of a tube onto its core,
+  the relative triangulation and smoothing comparison
+  of compact surfaces, the smooth classification of compact surfaces (Layer 1.7), and their
+  mapping class groups with Dehn twists and Lickorish's twist theorem (Layer 1.7.2); the
+  comparison of the topological, PL and smooth categories in dimension two is Layer 11.2.1's.
+  It also owns `C^k` collars of compact boundaries (Layer 1.1), the tubular-neighbourhood data
+  `TauCeti.IsTubularNeighborhood` of a `C^k` embedding in a manifold with the complement of a
+  tube (Layer 1.5), and PL manifolds through charts (Layer 1.6), with the compatibility of the
+  pinned forgetful map from PL to topological manifolds with the smooth-to-PL passage of Layer
+  11.3, and, with Layer 11.3, the comparison of the pinned PL groupoid with the PL structures of
+  combinatorial manifolds.
+- **Layer 2.** The structural theory of locally flat embeddings beyond what Tau Ceti has at
+  the pins (composition and codimension-one collaring), Brown's generalized Schoenflies
+  theorem, and the statement of the annulus theorem in every dimension.
+  It also owns the three boundary variants of local flatness, the link-pair criterion for local
+  flatness of PL embeddings, Brown's separating-hypersurface theorem, the topological collar
+  theorem and the comparison of the pinned collaring theorems with Brown's global theorem for
+  compact boundaries (Layer 2.1), and it names
+  the topological normal bundles of locally flat submanifolds (Kirby–Siebenmann, *Foundational
+  Essays*, Essay IV) as the input of the high-dimensional proof of the annulus theorem, which
+  GeometricTopology, Part II builds.
+- **Layer 3.** The comparison of the weak topology on `Diff(M)` with the Whitney and
+  compact-open topologies, the restriction fibration, isotopy extension for continuous families
+  and relative to an open set, the disc theorem for balls with different centres, the classical
+  cases `Diff(S¹) ≃ O(2)` and `Diff(S²) ≃ O(3)`, `Γ₄ = 0` from Cerf's theorem, and the statement of
+  the Smale conjecture.
+  It also owns the relative groups `Diff(M, ∂M)` with their topology, the orientation-preserving
+  subgroup and the degree (Layers 3.1 and 3.2), the comparison of the pinned orientation-free form
+  of Cerf's theorem with `π₀(Diff⁺(S³)) = 0` (Layer 3.4), and the statements of Cerf's theorem and
+  Watanabe's theorem on their pinned carriers.
+- **Layer 4.** Knot and link theory in a general manifold and in `S³`: the geometric
+  presentation and its combinatorial presentations (diagrams, braid closures, polygons), the
+  equivalence relations of each and the Reidemeister, Alexander and Markov theorems comparing
+  them; the smooth geometric braid carrier, the reading of a braid word off a generic
+  projection, the based Artin action and the faithfulness of braids among relative tangles
+  (Layer 4.2.8; the identification of strand systems with the presented braid group is
+  ReductiveGroups §11A's); Seifert surfaces, the Alexander module and polynomial, the Conway,
+  Jones, HOMFLY and Kauffman polynomials, Fox colourings and the determinant, the knot and
+  proper-link Arf invariant, fourth-root evaluations and the integral W quotient; the finite
+  nonsingular `F₂` quadratic Arf algebra and its Seifert-form dictionary (Layer 4.3.1; consumed
+  by TangentialBordism and FourManifolds); the finite algebraic even-Clifford model of the
+  Temperley–Lieb algebra at `δ = √2` (the even Clifford algebra `Cl_m⁰` with its ordered-monomial
+  basis, the scalar trace `s_m`, the surjection `F_m` from `TL_m` with kernel the trace radical
+  and the induced radical quotient, the coordinate inclusions and the braid phases) and the
+  Jones–Arf comparison built on it (Layer 4.5.3); TemperleyLiebOperatorAlgebras §1.7 consumes
+  this finite model and adds the analytic adjoint, the identification with Subfactors §3.3's
+  positive Jones quotient `Q_n`, the matrix blocks, the tower and the order of the braid image;
+  positive-trace kernel and
+  braid-index criteria (Layer 4.5.6, which consumes Jones's positivity theorem, the trace
+  radical and the positive Jones quotients from Subfactors §§3.1–3.3 and adds only the
+  faithfulness of the trace on all of `TL_n` at `δ = 2cos(π/k)` for `k ≥ n + 2`), and the
+  nonexchange families with the five-strand cubic/Burau comparison (Layer 4.5.7); the genus,
+  crossing, unknotting, bridge
+  and braid-index minima, prime decomposition of knots and of non-split links, rational tangles
+  and two-bridge knots, torus knots and satellites, the Garside structure of braid groups, the
+  Morton–Franks–Williams bound, Kondo's realization theorem and exponential bounds on the
+  number of knot types.
+  It also owns the comparison of the pinned Gauss-code and PD-code presentations (Layer 4.2), the
+  Seifert matrix of a diagram (Layer 4.4) and the agreement of the pinned Alexander, Jones and
+  HOMFLY routes (Layers 4.4–4.6).
+- **Layer 5.** The smooth structure and isotopy invariance of the pinned link exterior, the
+  uniqueness, smoothness and homology of Dehn fillings, surgery on framed links, the
+  Lickorish–Wallace theorem, Moser's classification of the lens-space surgeries on torus knots,
+  Mathieu's chirally cosmetic family (its first member being the pinned proposition), the Montesinos
+  trick, Scharlemann's theorem that unknotting-number-one knots are prime, the statements of
+  Property P, Property R and the cyclic surgery theorem, and the Kanenobu–Murakami criterion
+  derived from the cyclic surgery theorem as stated.
+  It also owns knot and link exteriors as compact manifolds with boundary (Layer 5.1); the
+  identification of the pinned preferred longitude with the boundary of a Seifert surface, the
+  completion of the pinned well-definedness of Dehn filling through the isotopy classification of
+  torus homeomorphisms of Layer 1.7.2, the smooth structure and diffeomorphism type of a filling
+  and the `1/n` identities on the unknot (Layer 5.2); the statement of the Gordon–Luecke theorem
+  in its filling form (Layer 5.3); and the statement of the classification of the pinned lens
+  spaces with the proof of its sufficiency (Layer 5.4.2).
+- **Layer 6.** Smooth and topological concordance of knots, the concordance group, the
+  Levine–Tristram signatures and their concordance invariance, the vanishing of Layer 4.3.1's
+  knot Arf invariant on smoothly and topologically slice knots and its concordance invariance
+  (Layer 6.2.1), torus-knot signatures and
+  chirality, the signature bound on the unknotting number, Conway mutation and the statement
+  that it does not preserve smooth concordance, the statement of Levine's theorem on
+  winding-number-one satellite operators with the proof of its reduction to knots in homology
+  spheres bounding no disc with conical singularities, hence to the pinned
+  `TauCeti.LevineHomologyConcordanceTheorem`, and, assuming the PL smoothing input stated there,
+  bounding no PL disc (Layer 6.4), and the statement of Freedman's theorem.
+  It also owns the bounds `g_s^{top} ≤ g_s ≤ g` between the slice genera and the Seifert genus
+  (Layer 6.1), and link cobordisms with the slice genus inequalities, among them
+  `|σ(K₀, ω) − σ(K₁, ω)| ≤ 2g` for a cobordism of genus `g` between knots (Layer 6.5).
+- **Layer 7.** Hyperbolic manifolds, Mostow rigidity and the finite-volume Mostow–Prasad
+  theorem in dimension three with their volume and isometry-group consequences, Thurston's
+  smooth measure homology with Löh's isometric comparison to singular homology, through the
+  bounded cohomology of spaces and its duality principles, and the
+  proportionality of simplicial volume and hyperbolic volume (Layer 7.2), the
+  Margulis and cusp theory, the hyperbolicity of the pinned Weeks manifold and the statement of
+  its minimality, and the statements of the virtual fibering and virtual Haken theorems.
+  It also owns the total Riemannian volume with its invariance, its scaling and the volumes of the
+  standard models (Layer 7.1), and the uniqueness and first homology of the pinned Weeks manifold,
+  the isometric form of its minimality through Mostow rigidity and the elementary relations
+  between fibering over the circle, Haken manifolds and finite covers (Layer 7.4).
+- **Layer 8.** The sphere theorem, Dehn's lemma and the loop theorem, the proofs of the pinned
+  Kneser and Milnor prime-decomposition propositions, Kneser's finiteness, incompressible and normal surfaces, the Haken hierarchy,
+  Waldhausen's theorem on homotopy equivalences of closed Haken manifolds, the Seifert
+  fibration API, and the statements of the Gordon–Luecke theorem, the JSJ theorem,
+  geometrization and the Poincaré conjecture, the statement of the relative JSJ theorem
+  for compact manifolds with torus boundary (Layer 8.5.1), and the reduction of the rigidity of
+  prime-knot groups to that relative JSJ theorem and the cyclic surgery theorem of Layer 5.4
+  (Layer 8.5.2).
+  It also owns irreducibility against primeness (`S¹ × S²` is the only closed orientable prime
+  `3`-manifold that is not irreducible) and the free-product decomposition of `π₁` along a prime
+  decomposition (Layer 8.2), and the comparison of the pinned geometric torus decomposition with
+  Thurston's formulation through the eight model geometries (Layer 8.6).
+- **Layer 9.** The existence, gluing-map description and stabilization of the pinned Heegaard
+  splittings, the Reidemeister–Singer theorem, Waldhausen's theorem on splittings of `S³`, the
+  genus-zero and genus-one classifications and the additivity of the Heegaard genus under
+  connected sum, and the statement of Li's theorem.
+  It also owns the boundary surface and the handle description of the pinned handlebody, and the
+  non-orientable handlebodies with the Heegaard splittings and Heegaard genus of non-orientable
+  closed `3`-manifolds (Layers 9.1 and 9.2).
+- **Layer 10.** Codimension-one transversely oriented foliations of 3-manifolds, Reeb
+  components, Reeb stability, the Novikov–Rosenberg theorem and the existence of foliations
+  on closed orientable 3-manifolds.
+  It also owns the smooth closed transversals of taut foliations (Layer 10.1); the rank-two Thom
+  class and the Euler class of an oriented plane bundle with the obstruction-theoretic description
+  of the pinned Euler class, and the Euler class of a transversely oriented foliation with its
+  pairing on embedded surfaces (Layer 10.3); the Thurston norm of a closed oriented `3`-manifold,
+  its dual norm and the comparison of the pinned Euler class inequality with the dual norm (Layer
+  10.4); and the parity of the Euler classes of plane fields and the deduction of the pinned
+  closed hyperbolic forms from the general ones, with the statements of the general (irreducible)
+  form of Thurston's inequality, Gabai's realization theorem, the Euler class one conjecture and
+  Yazdi's infinite family (Layer 10.5).
+- **Layer 11.** Geometric realization of simplicial complexes beyond the pinned API (stellar
+  subdivision of infinite complexes and the geometric join laws of faces), the triangulation
+  theorem and Hauptvermutung in dimension three; in dimension two, the existence and uniqueness up
+  to isotopy of smooth
+  structures on topological surfaces, Radó's theorem, the two-dimensional Hauptvermutung
+  and the comparison of smooth and topological isotopy of surface diffeomorphisms
+  (Layer 11.2.1); the converse of the pinned theorem that combinatorial manifolds are PL
+  manifolds, hence their equivalence, the existence of smooth triangulations in every
+  dimension and uniqueness of smoothings in dimension at most three, the statement of Manolescu's
+  theorem and the statement of Zeeman's conjecture.
+  It also owns compact subsets of realizations and the cellular chain complex of a polyhedron
+  (Layer 11.1), Moise's theorem in PL form in dimensions at most three (Layer 11.2), the
+  uniqueness of the PL structure
+  induced by a smooth triangulation (Layer 11.3), and the statement of the connected form of
+  Manolescu's theorem (Layer 11.4).
+
+This roadmap leaves the following to other roadmaps.
+
+- **Mathlib and Tau Ceti** already have, at the pins, the carriers listed under *Exact supplier
+  contracts*: the model geometries and geometric structures, hyperbolic metrics and their
+  volumes, locally flat embeddings and Brown's bicollaring theorem, the diffeomorphism group
+  with its weak Whitney topology, smooth embeddings and their intrinsic normal bundles, the
+  tubular neighbourhood theorem, isotopy extension on compact sets, the homogeneity lemma and
+  the disc theorem, connected sums with their independence of the balls, prime manifolds,
+  knot and link exteriors, Dehn fillings and surgery on framed spheres, the cosmetic-surgery
+  predicates, the Weeks manifold, handlebodies, Heegaard splittings and the Heegaard genus with
+  the rank bound, the topological slice genus, homology cobordisms and the homology concordance
+  of knots in homology spheres, the Euler class of a foliation, Sard's theorem in its flat and its
+  boundaryless-manifold forms, the Jordan curve theorem and the Schoenflies theorem in the
+  plane and on the `2`-sphere, slopes and framed boundary tori, the CW structure of a
+  simplicial realization and its transport along homeomorphisms, the PL structure of a
+  combinatorial manifold, the smooth-triangulation predicate, products of PL manifolds and the
+  compact PL comparison on coordinate spaces,
+  Seifert fibrations, the sphere-bounds-a-ball condition, JSJ and geometric torus
+  decompositions, Haken and virtually Haken manifolds, mapping tori, the PL groupoid,
+  simplicial realization, combinatorial manifolds, collapse, triangulability, and the
+  propositions naming the Smale conjecture, Cerf's theorem, Watanabe's theorem, the annulus
+  conjecture, Freedman's theorem, Levine's homology-concordance theorem, Mostow rigidity, the
+  virtual fibering and virtual Haken conjectures, the JSJ theorem, geometrization, Kneser's and Milnor's prime decomposition
+  theorems, Mathieu's first chirally cosmetic pair, the theorem of Gabai, Meyerhoff and Milley,
+  Li's theorem, the triangulation conjecture and Zeeman's conjecture. None
+  of these is planned again here; each is cited by name where it is used.
+  The same holds for the Riemannian volume measure and the curvature tensors (Layer 7 consumes
+  `TauCeti.riemannianVolume` with `TauCeti.HyperbolicMetric` and `TauCeti.hypVolume`); the
+  lens spaces `L(p, q) = TauCeti.LensSpace p ![1, q]` with their analytic manifold structure,
+  their fundamental group `ℤ/p`, the invariance of `p` under homeomorphism, their spherical
+  geometric structure and the `p/q`-surgery on the unknot inside them (Layer 5.2 proves on that
+  carrier the unoriented surgery description `S³_U(p/q) ≃ₜ L(p, q)`, and Layer 8.6 consumes the
+  spherical structure); the oriented connected sum with its commutativity, its independence of the
+  balls and `M # Sⁿ ≃ M` (Layers 1.4 and 8.2); Cerf's theorem in its two-component form and its
+  derivation from the Smale conjecture (Layer 3.4); the framing number, the preferred framing, the
+  surgery coefficients of a link, the Ni–Wu and Hanselman cosmetic surgery theorems, the
+  Akbulut–Kirby conjecture and Yasui's theorem (Layer 5); the Whitehead link with the Weeks
+  manifold as its `5, 5/2` filling (Layer 7.4); the standard handlebodies, the rank inequality and
+  Waldhausen's rank-versus-genus conjecture (Layer 9); and tautness through `C¹` closed
+  transversals, the leaves of a foliation, the Thom pair, Thom classes and Euler class of a vector
+  bundle and of the tangent field of a foliation, the Euler class inequality on embedded surfaces,
+  and the propositions naming Thurston's inequality, the Euler class one conjecture and Yazdi's
+  theorem in their closed hyperbolic forms (Layer 10).
+- **DifferentialGeometry** owns faces of manifolds with corners, flows, involutive
+  distributions and the Frobenius theorem, integration of forms, smooth singular chains with the
+  smoothing theorem comparing them with singular chains, Stokes' formula for smooth simplices
+  and chains, Riemannian metrics and the existence of a smooth metric. Layer 7.2 keeps only the
+  `ℓ¹` norm estimates for that smoothing which Löh's isometric comparison needs. **HopfRinow**
+  owns the Levi-Civita connection, geodesics, the exponential map, normal neighbourhoods and the
+  Hopf–Rinow theorem.
+- **CharacteristicClasses** C2 owns the Thom isomorphism and the Euler classes of oriented bundles
+  of every rank beyond the pinned `TauCeti.eulerClass`. Layer 10.3 consumes the pinned Euler class
+  in rank two and owns the rank-two Thom class of an oriented plane bundle and the
+  obstruction-theoretic description of its Euler class; C2 compares its rank-two restriction with
+  that plane construction, so Layer 10.3 consumes nothing of C2.
+- The handle calculus of compact cobordisms (the ordered handle decomposition of a Morse
+  function as a structure, reordering, creation and cancellation of handle pairs, handle
+  slides and the same-index basis change, the local Whitney move, and Whitney discs in
+  codimension at least three and on the five-dimensional level) is not a target of this
+  roadmap, and no layer uses it: Layer 1.7 iterates only Layer 1.3.1's elementary handle
+  step over the critical points of a Morse function on a surface. **MorseTheory** owns the Morse theory of
+  functions on boundaryless manifolds and of their compact bands, and **HeegaardFloer** the
+  generic Morse functions of Morse homology; both consume this roadmap, and Layer 1.3.1 takes
+  the boundaryless results from Tau Ceti directly.
+- Layer 1.7.2 is the single owner of the mapping class groups of compact surfaces, their Dehn
+  twists with the sign convention pinned there, and Lickorish's theorem:
+  **MordellLawrenceVenkatesh** (LV.5, §§5.9–5.12, whose punctured surfaces and marked points are
+  its own) and **TeichmullerGeometry** (Layer 3.1) take them from Layer 1.7.2 and compare
+  homeomorphism with diffeomorphism classes through Layer 11.2.1. MordellLawrenceVenkatesh's
+  positive twist turns left, which is `T_c⁻¹` in Layer 1.7.2's convention (a Check there).
+  **TypeAHeckeAlgebras** owns the Hecke algebras and the Ocneanu trace. **TemperleyLieb** owns the
+  Temperley–Lieb diagram category and linear category, the Temperley–Lieb algebras over a
+  commutative ring, their diagram basis, the uniqueness of the Markov trace, the cellular
+  semisimplicity theory and the Jones–Wenzl projections with their recursion and traces;
+  **Subfactors** owns the analytic adjoint of `TL_n(ℂ, δ)`, Jones's positivity theorem, the trace
+  radical and the positive Jones quotients with their C*-tower (§§3.1–3.3). **SuccessiveMinima**
+  owns the successive minima of a discrete full lattice for a convex body and their attainment by a
+  real basis of lattice vectors; Layer 7.3.1 uses the first two minima of a cusp lattice for the
+  closed unit disc of `ℂ` and adds only the two-dimensional facts that the two witnesses form a
+  `ℤ`-basis and the treatment of ties.
+- **Proofs of the end theorems owned elsewhere.** The proof of geometrization, hence of the
+  Poincaré conjecture, is Ricci-flow analysis (RicciFlow); Poincare3D, which consumes this
+  roadmap, owns the Ricci-surgery proof of the Poincaré theorem and states its smooth forms,
+  including Mathlib's `ContinuousMap.HomotopyEquiv.NonemptyDiffeomorphSphere M 3` (Layer 8.6). The proof of Freedman's theorem is
+  the disc embedding theorem in dimension four (FourManifolds), which also owns the
+  dimension-four case of the annulus theorem and the existence of normal bundles for
+  locally flat surfaces in topological four-manifolds stated in Layer 2.1. Manolescu's theorem is proved by
+  Pin(2)-equivariant Seiberg–Witten Floer homology, Watanabe's theorem by configuration-space
+  integrals, and Agol's theorems by the theory of special cube complexes; their proofs are the
+  work of later roadmaps. This roadmap states these theorems against its carriers and owns
+  every topological reduction named in the layers below.
+  The `E₈` manifold (Freedman's closed simply connected topological `4`-manifold with
+  intersection form `E₈`) and Casson's theorem that it is not triangulable belong to the topology
+  of four-manifolds; this roadmap states nothing on that manifold, and Layer 11.2 cites it from the
+  literature, as a Check, for why its theorems carry a dimension bound.
+- **GeometricTopology, Part II** starts where this roadmap stops, at the statements and
+  carriers of the end theorems, and owns their proofs that this roadmap does not: Cerf's
+  theorem and Hatcher's proof of the Smale conjecture (from Layers 3.1–3.3), the cyclic
+  surgery theorem (from Layers 5.2 and 8, through the Culler–Shalen theory of essential
+  surfaces at ideal points of the character variety), Thurston's hyperbolic Dehn surgery theorem
+  stated in Layer 7.3 (from Layers 5.2 and 7.1–7.3, through the deformation space of the holonomy
+  of the compact core near the complete structure, Thurston, Theorem 5.6 and Lemma 5.8.1, and
+  Mostow–Prasad rigidity), the Gordon–Luecke theorem with its
+  corollary on `S³` fillings (from Layers 5 and 8.1), and the JSJ theorem, including its
+  compact torus-boundary relative extension stated in Layer 8.5.1 (from Layers 8.1–8.4 and
+  11.2). It also owns the developments that consume roadmaps downstream of this one: the torus
+  trick and the high-dimensional proof of the annulus theorem (surgery on homotopy tori and
+  the Kirby–Siebenmann obstruction), topological microbundles, the TOP/PL
+  comparison and the smoothing theory beyond dimension three, including the smoothing of
+  collared PL discs in smooth `4`-manifolds to discs with conical singularities stated in
+  Layer 6.4; the Lee deformation of Khovanov
+  homology and Rasmussen's invariant with the Conway-knot and zero-shake-genus applications
+  (Piccirillo, *The Conway knot is not slice*, Proposition 1.4 and Theorem 1.5; Kirby's Problem
+  1.41 for the shake genus);
+  the connected-sum and descent comparison for the grid invariant of CombinatorialHeegaardFloer;
+  the proof of Levine's theorem on satellite operators stated in Layer 6.4, through Hom's `ε`
+  and the `τ` and `ε` formulas for Mazur satellites on the knot Floer complexes of
+  HeegaardFloer and CombinatorialHeegaardFloer (`τ` and the bound `|τ(K)| ≤ g_s(K)` are
+  CombinatorialHeegaardFloer Lane G, items 7 and 10); the Thurston seminorm beyond the integral
+  surface minimum of Layer 5.4.1 and beyond the Thurston norm of a closed oriented `3`-manifold
+  and its dual norm, which are Layer 10.4's, and the proofs of
+  Thurston's Euler class inequality and of Yazdi's Euler-class-one counterexamples, whose
+  closed hyperbolic statements and the Euler class of a foliation are Tau Ceti's and whose general
+  statements are Layer 10.5's, with the proofs of the polyhedrality of the Thurston unit ball, of
+  the singular-surface form of the norm (Gabai) and of Gabai's realization theorem, which Layers
+  10.4 and 10.5 state;
+  the constructive hyperbolization of closed Haken manifolds; disc bundles, clutching, plumbing and
+  intersection forms; and sphere-target transversality with the Pontryagin–Thom
+  construction. It also owns the proofs of two theorems that Layers 4.8.3 and 5.4.2 state and
+  consume as stated: the necessity half of the classification of lens spaces (by the
+  Reidemeister–Franz torsion of 5.4.2's cellular complex of the cyclic cover, on MorseNovikov's
+  based cellular torsion, or by the uniqueness up to isotopy of the torus splitting a lens space
+  into two solid tori) and Kawamura's theorem `u(10₁₃₉) = 4` (through the Seiberg–Witten
+  adjunction inequality). Those developments need AlgebraicTopology,
+  CharacteristicClasses, GeneralizedCohomology, TopologicalKTheory, MorseTheory, MorseNovikov,
+  RiemannianGeometry, KhovanovHomology, CombinatorialHeegaardFloer, HeegaardFloer,
+  TeichmullerGeometry, TangentialBordism or FourManifolds, every one of which consumes this
+  roadmap.
+- **The Milnor conjecture** `u(T(p, q)) = g₄(T(p, q)) = (p − 1)(q − 1)/2` for coprime
+  `p, q ≥ 1`, which 4.8.3 consumes as stated, is CombinatorialHeegaardFloer's: its end goal v1,
+  through Lane G, items 7 (`|τ(K)| ≤ u(K)` and `τ(T(p, q))`) and 10 (`|τ(K)| ≤ g_s(K)`), carried
+  to Layer 4's knots by its Lane K. That roadmap consumes this one, so it is not a supplier here.
+- **The Kirby–Siebenmann theorem** belongs to the TOP/PL comparison of GeometricTopology, Part II:
+  a closed topological manifold `M` of dimension at least five has a PL structure exactly when its
+  class `ks(M) ∈ H⁴(M; ℤ/2)` vanishes, the PL structures up to concordance then forming a torsor
+  under `H³(M; ℤ/2)` (Kirby–Siebenmann, *Foundational Essays*, Essays IV and V). Its statement
+  needs the stable tangent microbundle of a topological manifold, the classifying spaces `BTOP`
+  and `BPL` and the obstruction to lifting the classifying map, which exist neither at the pins
+  nor in any roadmap this one cites. This roadmap states the comparison of structures that needs
+  no obstruction class (Layers 1.6, 11.2 and 11.3: dimension at most three, through Moise's
+  theorem); Part II, which consumes those layers, builds the
+  stable tangent microbundle, `BTOP` and `BPL` and owns the Kirby–Siebenmann theorem, and that is
+  where FourManifolds' contract `gap:tangent-microbundle-stable-classifier` is addressed.
+- **Knot tables and computation.** Tabulated volumes, knot tables and finite enumerations are
+  not targets. Small computed values appear only as Checks on the definitions they test.
+- **Recorded at the pin, not targets.** Yasui's theorem `TauCeti.YasuiTheorem`, the negation of
+  the Akbulut–Kirby conjecture `TauCeti.AkbulutKirbyConjecture` (Kirby's Problem 1.19), and the
+  Ni–Wu and Hanselman cosmetic surgery theorems `TauCeti.NiWuCosmeticSurgeryTheorem` and
+  `TauCeti.HanselmanCosmeticSurgeryTheorem` are named in Layer 5.3, which claims nothing about
+  them: their proofs rest on Heegaard Floer invariants of the kind GeometricTopology, Part II
+  takes from HeegaardFloer and CombinatorialHeegaardFloer. Waldhausen's rank-versus-genus
+  conjecture `TauCeti.RankGenusConjecture` is recorded at the pin and refuted by Li's theorem
+  (Layer 9.2). Kirby's Problem 4.82 (a smooth structure on `(⋆ℝP⁴) # (⋆ℂP²)`), which Kirby's
+  remarks record as unresolved, is not a target.
+## Exact supplier contracts
+
+### From Mathlib
+
+- Manifolds: `ModelWithCorners`, `IsManifold`, `ChartedSpace`, the boundary and interior of a
+  manifold (`ModelWithCorners.boundary`, `ModelWithCorners.interior`,
+  `ModelWithCorners.IsInteriorPoint`), the half-space model `modelWithCornersEuclideanHalfSpace`
+  and the quadrant model (`Mathlib/Geometry/Manifold/IsManifold/`,
+  `Mathlib/Geometry/Manifold/Instances/Real.lean`); `TangentSpace`, `TangentBundle`, `mfderiv`,
+  `ContMDiff`, `ContMDiffMap`; `Diffeomorph` with notation `M ≃ₘ^n⟮I, I'⟯ M'`;
+  `Manifold.IsSmoothEmbedding` and `Manifold.IsImmersion`; structure groupoids
+  (`StructureGroupoid`, `Pregroupoid`, `contDiffGroupoid`, `continuousGroupoid`, `HasGroupoid`);
+  the sphere `Metric.sphere` as an analytic manifold and `Circle` as a Lie group
+  (`Mathlib/Geometry/Manifold/Instances/Sphere.lean`);
+  `SmoothPartitionOfUnity.exists_isSubordinate`
+  (`Mathlib/Geometry/Manifold/PartitionOfUnity.lean`), subordinate smooth partitions on
+  Hausdorff sigma-compact finite-dimensional smooth manifolds.
+  Also `Pregroupoid.groupoid`, `ModelWithCorners.IsBoundaryPoint`, the quadrant model
+  `modelWithCornersEuclideanQuadrant`, `Manifold.IsSmoothEmbedding I J n f` with
+  `Manifold.IsImmersion` in its chart normal form, `Matrix.orthogonalGroup (Fin n) ℝ` and
+  `LieGroup`; Mathlib's `analyticGroupoid` is not at the pin and is not used.
+- Riemannian geometry: `RiemannianBundle`, `IsRiemannianManifold`, `riemannianEDist`,
+  `EMetricSpace.ofRiemannianMetric`, `MetricSpace.ofRiemannianMetric`, path length
+  (`Mathlib/Geometry/Manifold/Riemannian/`).
+  Also the smooth metrics `Bundle.ContMDiffRiemannianMetric`.
+- Topology: `Homeomorph`, `IsEmbedding`, `IsOpenEmbedding`, `IsClosedEmbedding`,
+  `ContinuousMap.HomotopyEquiv`, `ContinuousMap.Homotopic`, `Path`, `Joined`,
+  `IsCoveringMap`, `FundamentalGroup`, `SimplyConnectedSpace`, `HomotopyGroup` (notation
+  `π_ n X x`), `ContractibleSpace`, the compact-open topology on `C(X, Y)`; singular homology
+  `Mathlib/AlgebraicTopology/SingularHomology/`; `AbstractSimplicialComplex` and
+  `PreAbstractSimplicialComplex` (`Mathlib/AlgebraicTopology/SimplicialComplex/Basic.lean`).
+  The statement of the smooth Poincaré conjecture,
+  `ContinuousMap.HomotopyEquiv.NonemptyDiffeomorphSphere M n`
+  (`Mathlib/Geometry/Manifold/PoincareConjecture.lean`): for a Hausdorff space `M`, every smooth
+  `n`-manifold structure on `M` (a `ChartedSpace` on `ℝⁿ` with `IsManifold (𝓡 n) ∞`) for which `M`
+  is homotopy equivalent to `Sⁿ` makes `M` diffeomorphic to the round `Sⁿ ⊆ ℝⁿ⁺¹`; it asks for no
+  compactness or second countability. Its case `n = 3` is Poincare3D's target 15.2, stated and
+  proved there with the smooth Poincaré theorem (Layer 8.6), and is not restated here.
+  Also `Topology.IsEmbedding` (`Mathlib/Topology/Defs/Induced.lean`), `OpenPartialHomeomorph`, the
+  one-point compactification `OnePoint ℚ`, `ContinuousMap.Homotopy`, `unitInterval`; the singular
+  homology functor `singularHomologyFunctor`, the classical CW complexes `Topology.CWComplex` and
+  `Topology.RelCWComplex`, the geometric `Geometry.SimplicialComplex`, and the simplicial-set
+  realization with `SimplexCategory.toTopHomeo`, the realization of a standard simplex as the
+  topological simplex.
+- Algebra: `Matrix.orthogonalGroup`, `Matrix.specialOrthogonalGroup`, `LaurentPolynomial`
+  (notation `R[T;T⁻¹]`) and `LaurentPolynomial.eval₂`, `LaurentPolynomial.eval₂_T`,
+  `LaurentPolynomial.eval₂_C` (`Mathlib/Algebra/Polynomial/Laurent.lean`): evaluation at a
+  specified unit along a coefficient ring homomorphism; `RatFunc`, `Quandle` and `Quandle.Dihedral`
+  (`Mathlib/Algebra/Quandle.lean`), `PresentedGroup`, `Group.rank` for finitely generated groups
+  (`Mathlib/GroupTheory/Rank.lean`), `Group.IsPerfect`, `commutator`, `ZMod`.
+  `Group.rank` needs `[Group.FG G]`; also `Matrix.det` and `PresentedMonoid`.
+
+### From Tau Ceti (commit 2fd255d9)
+
+The following pinned declarations supply the carriers and results used below. Layer 1.6
+transfers the pinned compact PL comparison from coordinate spaces to finite-dimensional normed
+spaces, Layer 4.6 constructs the HOMFLY coefficient substitution, and
+Layer 5.1 adds the smooth structure of the pinned link exterior.
+
+- **Boundaries and collars** (`Geometry/Manifold/Boundary/`): `TauCeti.isManifold_boundary`
+  (the boundary of a `C^k` manifold over `𝓡∂ (n+1)` is a `C^k` manifold over `𝓡 n`) and
+  `TauCeti.isSmoothEmbedding_subtypeVal_boundary`; the topological collar predicates
+  `TauCeti.IsCollar`, `TauCeti.IsCollared`, `TauCeti.IsLocallyCollared` (`Collar/Global.lean`);
+  the Euclidean half-space collar `TauCeti.EuclideanHalfSpace.boundaryCollar` and the product
+  collar charts of `Collar/Local.lean`.
+  The boundary results are in `Geometry/Manifold/Boundary/Charts.lean`, the inclusion of the
+  boundary being a closed smooth embedding; the smooth local collars are
+  `TauCeti.IsProductCollarChart`, `TauCeti.exists_isProductCollarChart_of_mem_boundary` and
+  `TauCeti.IsProductCollarChart.diffeomorphProd` (`Boundary/Collar/Local.lean`,
+  `Boundary/Collar/Diffeomorph.lean`); the collar predicates are in `Boundary/Collar/Global.lean`,
+  and Brown's collaring theorem `TauCeti.IsLocallyCollared.isCollared` for a compact domain is in
+  `Boundary/Collar/Brown.lean`.
+- **Gluing of atlases** (`Geometry/Manifold/Gluing.lean`): `TauCeti.chartedSpaceOfIsOpenEmbedding`
+  builds a charted space and `IsManifold` instance from an open cover by manifolds with smooth
+  transition maps.
+- **Smooth embeddings and normal spaces** (`Geometry/Manifold/SmoothEmbedding/`): the bundled
+  `TauCeti.SmoothEmbedding I J n M N`, its quotient normal space
+  `TauCeti.SmoothEmbedding.NormalSpace` with `normalClass` and `normalClassL`;
+  `TauCeti.SmoothEmbedding.Concordant` and the collared `TauCeti.SmoothEmbedding.Concordance`
+  between two smooth embeddings (`Concordance.lean`), with reflexivity, symmetry, transitivity
+  and invariance under diffeomorphisms of either side.
+  In `SmoothEmbedding/Concordance.lean` these are `refl`, `symm`, `trans`, `ofDiffeotopy` and
+  `Concordant.equivalence`; `TauCeti.SmoothEmbedding` is in `SmoothEmbedding/Basic.lean`, and the
+  normal spaces in `NormalSpace/Basic.lean` and its siblings.
+- **Euclidean tubular neighbourhoods** (`Geometry/Manifold/TubularNeighborhood/Euclidean.lean`):
+  `TauCeti.IsTubularNeighborhood`, `TauCeti.normalSubspace`, `TauCeti.normalTube`, and
+  `TauCeti.exists_isOpenEmbedding_normalTube` for a compact boundaryless `C²` source,
+  a `C²` injective map into a finite-dimensional real inner product space, and injective
+  differential at every point. The instance
+  `TauCeti.instTopologicalSpaceTotalSpaceNormalSubspace` gives the normal total space its
+  subspace topology, the one used by the bundle structures of `VectorBundle.lean` below.
+  `TauCeti.IsTubularNeighborhood` is defined in `TubularNeighborhood/Basic.lean`, and
+  `TauCeti.exists_isTubularNeighborhood_normalBundle` restates the theorem as a tubular
+  neighbourhood formed by the normal vectors of norm less than some `ε > 0`.
+- **Intrinsic normal bundles and tubular neighbourhoods**
+  (`Geometry/Manifold/SmoothEmbedding/NormalSpace/VectorBundle/`,
+  `Geometry/Manifold/TubularNeighborhood/`): the normal spaces of a positive-regularity embedding
+  form a vector bundle, smooth for a smooth embedding, with smooth orthogonal representatives for
+  an ambient Riemannian metric; the smooth tubular neighbourhood theorem
+  `TauCeti.SmoothEmbedding.exists_diffeomorph_normalBundle_subset` (`Existence.lean`): for a smooth
+  embedding between finite-dimensional boundaryless manifolds with Hausdorff second-countable
+  target, the whole normal bundle is diffeomorphic to an open neighbourhood of the image inside
+  any prescribed open set, zero section to the embedding, with no compactness or closed-image
+  hypothesis; its Riemannian form
+  `TauCeti.SmoothEmbedding.exists_diffeomorph_normalBundle_riemannian_subset`
+  (`Riemannian/Coordinates.lean`); closed normal disc and sphere bundles of a compact submanifold,
+  `TauCeti.SmoothEmbedding.exists_isClosedEmbedding_normalExp_disc` (`Riemannian/DiscSphere.lean`);
+  the Euclidean normal bundle of an immersion (`VectorBundle.lean`).
+- **Isotopy extension, homogeneity and the disc theorem**: the compactly supported smooth isotopy
+  extension on a compact subset of the source,
+  `TauCeti.SmoothIsotopy.exists_diffeotopy_apply_eq`, and
+  `TauCeti.smoothAmbientIsotopic_iff_smoothIsotopic` for a compact source
+  (`Geometry/Manifold/SmoothIsotopy/Extension.lean`); the homogeneity lemma for connected
+  finite-dimensional manifolds (`Geometry/Diffeomorphism/Diffeotopy/Homogeneity.lean`); the disc
+  theorem for smooth embeddings of `E` into a boundaryless manifold modelled on `E` with a common
+  centre and derivatives of the same orientation,
+  `TauCeti.SmoothEmbedding.exists_smoothIsotopy_of_det_chartAt_mul_pos` and, for a Hausdorff
+  σ-compact target, the ambient form
+  `TauCeti.SmoothEmbedding.exists_diffeotopy_eqOn_of_det_chartAt_mul_pos`
+  (`Geometry/Manifold/SmoothIsotopy/DiscTheorem.lean`).
+- **Connected sums and prime manifolds** (`Geometry/Manifold/ConnectedSum/`,
+  `LowDimTopology/PrimeDecomposition.lean`): `TauCeti.ConnectedSum e₁ e₂` along coordinate balls
+  (`Basic.lean`), a smooth manifold (`TauCeti.ConnectedSum.isManifold`, `Smooth.lean`), Hausdorff,
+  compact, and connected in dimension at least two (`Topology.lean`), commutative
+  (`TauCeti.ConnectedSum.commDiffeomorph`, `Congr.lean`), oriented when the balls induce opposite
+  orientations (`TauCeti.ConnectedSum.orientable`, `Orientation.lean`), independent of the balls
+  (`TauCeti.ConnectedSum.nonempty_diffeomorph_of_isOrientationPreservingAt` and
+  `TauCeti.ConnectedSum.nonempty_diffeomorph_of_isOrientationReversingAt`, `Independence.lean`);
+  the oriented sum `TauCeti.OrientedConnectedSum` with
+  `TauCeti.OrientedConnectedSum.nonempty_diffeomorph_comm` and
+  `TauCeti.OrientedConnectedSum.nonempty_diffeomorph_sphere` (`Oriented.lean`); the predicates
+  `TauCeti.IsConnectedSumOf`, `TauCeti.IsPrimeManifold` and `TauCeti.IsIteratedConnectedSum`
+  (`Prime.lean`); the propositions `TauCeti.KneserPrimeDecompositionTheorem` and
+  `TauCeti.MilnorPrimeDecompositionTheorem`, with `TauCeti.MilnorPrimeDecompositionTheorem.card_eq`.
+  In detail: `TauCeti.ConnectedSum e₁ e₂` is the sum of two spaces along open embeddings
+  `e₁ : E → M`, `e₂ : E → N` of a real inner product space `E`, the centres removed and the
+  punctured balls glued by the inversion `v ↦ v/‖v‖²`, with `ConnectedSum.inl`, `inr`, `mk`,
+  `isOpenEmbedding_inl`, `isLocalHomeomorph_mk` and `ConnectedSum.t2Space`
+  (`Geometry/Manifold/ConnectedSum/Basic.lean`); its charts `ConnectedSum.chartedSpace` with
+  `ConnectedSum.isManifold` and `isLocalDiffeomorph_mk` (`ConnectedSum/Smooth.lean`);
+  `ConnectedSum.compactSpace` and `ConnectedSum.connectedSpace` for `dim E ≥ 2`
+  (`ConnectedSum/Topology.lean`); `ConnectedSum.orientation` and `ConnectedSum.orientable`
+  (`ConnectedSum/Orientation.lean`) on the pinned orientations
+  `TauCeti.Manifold.Orientation I M ι` (`Orientation/Basic.lean`); the independence theorems in
+  `ConnectedSum/Independence.lean`; `TauCeti.OrientedConnectedSum oM oN` with
+  `nonempty_diffeomorph_connectedSum`, `nonempty_diffeomorph_comm`, `nonempty_diffeomorph_neg` and
+  `nonempty_diffeomorph_sphere` (`ConnectedSum/Oriented.lean`); `TauCeti.IsComplementaryBall` and
+  `TauCeti.connectedSumSphereDiffeomorph` (`ConnectedSum/Sphere.lean`); and, for primeness,
+  `TauCeti.IsConnectedSumOf I k M N₁ N₂`, `TauCeti.IsPrimeManifold n M`,
+  `TauCeti.IsIteratedConnectedSum n P M`, `TauCeti.not_isPrimeManifold_sphere`,
+  `TauCeti.IsConnectedSumOf.not_isPrimeManifold`, `TauCeti.isIteratedConnectedSum_zero_iff` and
+  `Diffeomorph.isPrimeManifold_iff` (`Geometry/Manifold/ConnectedSum/Prime.lean`).
+- **Immersions** (`Geometry/Manifold/Immersion/Basic.lean`): `TauCeti.isImmersion_iff_forall_isImmersionAt`.
+- **Morse functions** (`Geometry/Manifold/Morse/`, `Analysis/Calculus/Morse/`):
+  `TauCeti.IsMorseOn` and `TauCeti.IsMorse` (`Basic.lean`), `TauCeti.manifoldMorseIndex`
+  (`Index.lean`); on a boundaryless finite-dimensional Hausdorff manifold, the existence
+  `TauCeti.exists_isMorse` on a compact one and the relative compact approximation
+  `ContMDiffMap.exists_isMorseOn_hasCompactSupport_sub_compl` (`Generic/`), the unit-speed
+  descending flow `TauCeti.exists_flow_apply_eq_sub` and the sublevel diffeomorphism
+  `TauCeti.exists_diffeomorph_sublevel` across a compact band without critical points
+  (`Deformation.lean`); the Morse lemma in a vector space,
+  `TauCeti.IsNondegenerateCriticalPoint.exists_morse_chart` (`NormalForm.lean`). Manifolds
+  with boundary are Layer 1.3.1's.
+- **Sard's theorem** (`Analysis/Calculus/Sard/OutermostStratum.lean`,
+  `Geometry/Manifold/Sard/Meagre.lean`): the flat Morse–Sard theorem
+  `ContDiff.addHaar_image_criticalPoints_eq_zero`, for a `C^n` map between finite-dimensional
+  real normed spaces with `(dim E)² + 1 ≤ n`, so for every smooth map, with no relation between
+  the two dimensions: its critical values are null for every additive Haar measure; its
+  measure-free form `ContDiff.dense_compl_image_criticalPoints`, the regular values are dense;
+  and on manifolds `ContMDiff.isMeagre_image_criticalPoints`, the critical values of a smooth
+  map from a Lindelöf finite-dimensional boundaryless manifold to a finite-dimensional
+  boundaryless manifold, of any dimensions, form a meagre set. Sources with boundary are
+  Layer 1.7.1's.
+  The `TauCeti`-namespace form `TauCeti.addHaar_image_criticalPoints_eq_zero` and the density of
+  regular values are consumed in charts by Layers 4.2 and 10.4.
+- **The PL groupoid** (`Geometry/Manifold/PLGroupoid/Basic.lean`, `Topology/PL/`):
+  `TauCeti.IsPiecewiseAffineOn`, `TauCeti.IsPLOn`, `TauCeti.PLPregroupoid`,
+  `TauCeti.PLGroupoid I`, `TauCeti.PLGroupoid_le_continuousGroupoid`, closure under restriction
+  (`TauCeti.ofSet_mem_PLGroupoid`),
+  and the witness `TauCeti.doubleRight_mem_PLGroupoid` of a PL map that is not affine; PL maps
+  between PL manifolds `TauCeti.IsPLMap` with `TauCeti.IsPLMap.comp` (`PLGroupoid/Map.lean`),
+  products `TauCeti.hasGroupoid_PLGroupoid_prod` (`PLGroupoid/Product.lean`), the compact
+  comparison `TauCeti.IsPLOn.isPiecewiseAffineOn_of_isCompact` on `ι → ℝ`
+  (`Topology/PL/Compact.lean`)
+  and the inverse criterion `TauCeti.isPiecewiseAffineOn_inverse_of_finite_simplex_cover`
+  (`Topology/PL/Inverse.lean`).
+- **Locally flat embeddings** (`Geometry/Manifold/LocallyFlat/`): `TauCeti.IsSliceChart`,
+  `TauCeti.IsSliceEmbedding`, `TauCeti.IsLocallyFlat F F' f` (slice charts with model `F × F'`)
+  with restriction, composition with open embeddings and homeomorphisms on either side, and
+  products (`Basic.lean`); smooth embeddings between boundaryless manifolds are locally flat
+  (`TauCeti.SmoothEmbedding.isLocallyFlat`, `Smooth.lean`) and the neat boundary variant
+  (`Neat.lean`); `TauCeti.IsBicollar`, `TauCeti.IsBicollared`, `TauCeti.IsLocallyBicollared`
+  (`Bicollar.lean`); Brown's bicollaring theorem `TauCeti.BrownBicollaring n` and its proof
+  `TauCeti.brownBicollaring` (`Sphere.lean`, `Brown.lean`); the annulus conjecture
+  `TauCeti.CoboundAnnulus` and `TauCeti.AnnulusConjecture n` with the round case
+  `TauCeti.coboundAnnulus_smul_coe_sphere` (`Annulus.lean`); topological concordance
+  `TauCeti.TopologicallyConcordant` (`Concordance/Basic.lean`) and the passage from smooth
+  concordance (`Concordance/Smooth.lean`).
+  The closure API of `TauCeti.IsLocallyFlat` in `Geometry/Manifold/LocallyFlat/Basic.lean`
+  comprises `restrict`, `of_forall_exists_isOpen`, `homeomorph_comp`, `comp_homeomorph`,
+  `isOpenEmbedding_comp`, `codRestrict`, `transHomeomorph`, `prodMap`, `comp` under its
+  chart-compatibility hypothesis, `isLocallyFlat_iff_isOpenEmbedding` in codimension zero,
+  `isLocallyClosed_range` and `exists_isOpenEmbedding_prod`; further
+  `TauCeti.IsLocallyFlat.of_isSmoothEmbedding` (`LocallyFlat/Smooth.lean`),
+  `TauCeti.IsLocallyFlat.of_isSmoothEmbedding_of_preimage_boundary` for neat embeddings
+  (`LocallyFlat/Neat.lean`), `TauCeti.SimplePolygon.isLocallyFlat_realize` for simple polygons
+  (`LocallyFlat/Polygon.lean`), `TauCeti.isLocallyFlat_iff_isEmbedding_and_isLocallyBicollared`
+  (`LocallyFlat/Bicollar.lean`), `TauCeti.IsLocallyBicollaredWithSides.exists_isBicollar`
+  (`LocallyFlat/TwoSided.lean`) and
+  `TauCeti.IsLocallyBicollared.isBicollared_of_not_isPreconnected_compl_range`
+  (`LocallyFlat/Separation.lean`); the files of Brown's theorem and of the annulus conjecture are
+  `LocallyFlat/Sphere.lean`, `LocallyFlat/Brown.lean` and `LocallyFlat/Annulus.lean`; the
+  topological concordance carrier `TauCeti.TopologicalConcordance`
+  (`LocallyFlat/Concordance/Basic.lean`) and the passage
+  `TauCeti.SmoothEmbedding.Concordant.exists_topologicallyConcordant`
+  (`LocallyFlat/Concordance/`).
+- **Isotopy** (`Topology/Homotopy/`): `TauCeti.Isotopy`, `TauCeti.Isotopic`,
+  `TauCeti.AmbientIsotopy` with `final` and `finalHomeomorph`, `TauCeti.AmbientIsotopic`;
+  `TauCeti.Diffeotopy J n M` with `timeSlice`, `final`, `trans`, `symm`, `toAmbientIsotopy`
+  (`Geometry/Diffeomorphism/Diffeotopy/`).
+  The files are `Topology/Homotopy/Isotopy/Basic.lean`, `AmbientIsotopic/Basic.lean` and
+  `Diffeomorphism/Diffeotopy/Basic.lean`.
+- **Diffeomorphism groups** (`Geometry/Diffeomorphism/`): the `Group` instance on
+  `M ≃ₘ^n⟮I, I⟯ M` and the abbreviation `TauCeti.Diff I M n` (`Group.lean`); the weak Whitney
+  topology `Diffeomorph.weakWhitneyTopology` as the scoped instance of
+  `TauCeti.DiffeomorphWeakWhitney`, with `Diffeomorph.ofSmoothFamily` turning a smooth family
+  of diffeomorphisms into a continuous map (`Topology.lean`); `Diffeomorph.fixingSubgroup`,
+  `TauCeti.RelativeDiff` and `TauCeti.DiscDiff n` for `Diff(Dⁿ, ∂)` (`FixingSubgroup/`,
+  `Disc.lean`); the reference inclusion `TauCeti.orthogonalToDiffSphere n m` and its continuous
+  form `TauCeti.continuousOrthogonalToDiffSphere` (`Sphere.lean`); the propositions
+  `TauCeti.SmaleConjecture` (`Smale.lean`) and `TauCeti.WatanabeTheorem` (`Disc.lean`); Cerf's
+  theorem in orientation-free form `TauCeti.CerfTheorem`, derived from the Smale conjecture by
+  `TauCeti.SmaleConjecture.cerfTheorem` and equivalent to `Diff(S³)` having two path components
+  (`TauCeti.cerfTheorem_iff_natCard_zerothHomotopy_eq_two`, `Cerf.lean`).
+  In detail: the group is in `Geometry/Diffeomorphism/Group.lean`; the weak Whitney topology, for
+  compact `M`, comes with `Diffeomorph.continuous_eval_const` and
+  `Diffeomorph.t2Space_weakWhitney` (`Diffeomorphism/Topology.lean`) and is selected by
+  `open scoped TauCeti.DiffeomorphWeakWhitney`; continuity of multiplication is in
+  `Diffeomorphism/Composition.lean`, and continuity of inversion with the topological-group
+  instance `Diffeomorph.isTopologicalGroup` in `Diffeomorphism/Inversion.lean`; the fixing
+  subgroups and the closedness of `TauCeti.RelativeDiff` are in `Diffeomorphism/FixingSubgroup/`;
+  the remaining files are `Diffeomorphism/Disc.lean`, `Diffeomorphism/Sphere.lean`,
+  `Diffeomorphism/Smale.lean` and `Diffeomorphism/Cerf.lean`; and
+  `TauCeti.joined_orthogonalToDiffSphere_iff` and `TauCeti.not_pathConnectedSpace_diff_sphere` are
+  in `Diffeomorphism/Sphere/Isotopy.lean`.
+- **Knots and links** (`KnotTheory/`): `TauCeti.SmoothCircleEmbedding I M` with `rotate`,
+  `reverse`, `TauCeti.SmoothCircleEmbedding.greatCircle` and `TauCeti.unknot`
+  (`SmoothCircle.lean`); `TauCeti.SmoothLinkEmbedding I M n` with `empty`, `singleton`,
+  `relabel`, `reverse` (`SmoothLink/Basic.lean`), `TauCeti.SmoothLinkEmbedding.SmoothAmbientIsotopic`
+  and `TauCeti.SmoothLinkEmbedding.ContinuousAmbientIsotopic` with their equivalence laws and
+  complement homeomorphisms (`SmoothLink/`); the knot group
+  `TauCeti.SmoothCircleEmbedding.KnotGroup` and `HasPerfectCommutatorSubgroup`
+  (`KnotGroup.lean`); sliceness `TauCeti.IsSmoothlySlice`, `TauCeti.IsTopologicallySlice`,
+  `TauCeti.SmoothSliceSurface`, `TauCeti.sliceGenus`, the topological slice genus
+  `TauCeti.topologicalSliceGenus` with `TauCeti.topologicalSliceGenus_le_sliceGenus`, the
+  topological sliceness of a knot concordant to the unknot
+  (`TauCeti.isTopologicallySlice_of_topologicallyConcordant_unknot`) and of a knot plus its
+  reverse mirror image
+  (`TauCeti.SmoothCircleEmbedding.isTopologicallySlice_connectedSum_reverseMirror`) (`Slice/`),
+  and the proposition
+  `TauCeti.FreedmanSliceTheorem` (`Slice/Freedman.lean`); integral homology cobordisms
+  `TauCeti.IsHomologyCobordism` (`Geometry/Manifold/HomologyCobordism.lean`), homology
+  concordance of smooth embeddings `TauCeti.SmoothEmbedding.HomologyConcordant`
+  (`Geometry/Manifold/SmoothEmbedding/HomologyConcordance.lean`) and the proposition
+  `TauCeti.LevineHomologyConcordanceTheorem`, that some knot in the boundary of a smooth compact
+  contractible `4`-manifold is homology concordant to no knot in `S³`
+  (`KnotTheory/HomologyConcordance.lean`); solid-torus neighbourhoods
+  `TauCeti.IsSolidTorusNeighborhood` and its
+  `TauCeti.IsSolidTorusNeighborhood.exteriorFrontierHomeomorph`, identifying the frontier
+  of the complement of the open solid torus with its boundary torus in a Hausdorff ambient
+  space (`LowDimTopology/SolidTorusNeighborhood/Basic.lean`).
+  In detail: the circle embeddings are in `KnotTheory/SmoothCircle.lean`; the unoriented quotient
+  `TauCeti.UnorientedSmoothCircleEmbedding` is in `UnorientedSmoothCircle.lean`; the link
+  embeddings have `transDiffeomorph` and `singletonEquiv`, with their isotopies in
+  `SmoothLink/Isotopy.lean` and `SmoothLink/AmbientIsotopy.lean`; sliceness has
+  `TauCeti.IsSmoothSliceDisc`, `TauCeti.IsTopologicalSliceDisc`,
+  `TauCeti.IsSmoothlySlice.isTopologicallySlice` and `TauCeti.isSmoothlySlice_unknot`
+  (`Slice/Basic.lean`), and the slice genus `TauCeti.sliceGenus : ℕ∞` (`⊤` when there is no slice
+  surface) has `TauCeti.IsSmoothlySlice.sliceGenus_eq_zero` (`Slice/Genus.lean`); the right-handed
+  trefoil `TauCeti.rightHandedTrefoil` is in `KnotTheory/TorusKnot.lean`; and the Whitehead link
+  `TauCeti.whiteheadLink`, whose component `1` is the Whitehead curve `TauCeti.whiteheadCurve`, is
+  in `KnotTheory/SmoothLink/Whitehead.lean`.
+- **Combinatorial knot theory** (`KnotTheory/`): `TauCeti.PDCode n`, `TauCeti.OrientedPDCode n`,
+  `TauCeti.PDCode.IsPlanar`, the face permutation and face count (`PDCode/Planar.lean`), the
+  state sum `TauCeti.PDCode.kauffmanBracket`, `normalizedKauffmanBracket`,
+  `TauCeti.PDCode.stateLoopCount` (`PDCode/Kauffman.lean`), `TauCeti.OrientedPDCode.jonesPolynomial`
+  with its Reidemeister, mirror and reversal laws (`PDCode/Jones/`);
+  `TauCeti.BasedOrientedGaussCode` and `TauCeti.BasedOrientedGaussCode.toOrientedPDCode`
+  (`GaussCode/`); `TauCeti.BraidGroup n`, `TauCeti.BraidWord n`, `TauCeti.BraidWord.closure`
+  (`GroupTheory/SpecificGroups/Braid/`, `BraidWord/PDCode.lean`); `TauCeti.MarkovBraid`,
+  `TauCeti.MarkovEquiv`, `TauCeti.MarkovBraid.componentCount` (`Markov/Basic.lean`); the matrix
+  Alexander polynomial `TauCeti.KnotTheory.alexanderMatrix`, `TauCeti.KnotTheory.alexander`,
+  `TauCeti.KnotTheory.trefoilSeifertMatrix`, `TauCeti.KnotTheory.figureEightSeifertMatrix`
+  (`Alexander.lean`); S-equivalence `TauCeti.KnotTheory.IntegralSquareMatrix.SEquivalent`
+  (`SeifertMatrix/SEquivalence.lean`); the Burau representation and
+  `TauCeti.MarkovBraid.burauAlexander` (`Burau/`); `TauCeti.KnotTheory.tristramLevineForm`,
+  `TauCeti.KnotTheory.tristramLevineSignature` with the Hermitian signature
+  `Matrix.IsHermitian.signature` (`TristramLevine/`, `Analysis/Matrix/HermitianSignature/Basic.lean`);
+  `TauCeti.KnotTheory.jimboWeightedTrace` (a weighted trace, before writhe normalization),
+  the Markov trace on the Temperley–Lieb algebra (`Jimbo/` and the
+  `MarkovTrace` module of the `Algebra` folder).
+  In detail: `TauCeti.BraidWord.toBraid`, the closure
+  `TauCeti.BraidWord.closure : OrientedPDCode w.length` (`KnotTheory/BraidWord/PDCode.lean`) and
+  `TauCeti.BraidWord.ArtinEquiv`, whose classes have Reidemeister-equivalent closures
+  (`BraidWord/ArtinEquivalence.lean`); `TauCeti.IsMarkovMove` (`KnotTheory/Markov/Basic.lean`)
+  and `TauCeti.MarkovEquiv.reidemeisterEquiv_closure`, the forward direction of the
+  combinatorial Markov theorem (`Markov/Closure.lean`); `TauCeti.BraidWord.jonesTrace_toBraid`
+  and `TauCeti.BraidWord.jonesTrace_toBraid_eq_eval₂_jonesPolynomial`, the agreement of the
+  Jones trace of a braid with the Jones polynomial of its closure (`BraidWord/Jones.lean`);
+  the PD-codes with `writhe`, `mirror`, `reverse` and `relabel` (`PDCode/Basic.lean`),
+  `TauCeti.OrientedPDCode.IsReidemeisterMove` and `ReidemeisterEquiv`
+  (`PDCode/Oriented/Reidemeister/Equivalence.lean`); the Gauss codes
+  `FramedBasedOrientedGaussCode` and `BasedUnorientedGaussCode`;
+  `TauCeti.OrientedPDCode.normalizedKauffmanBracket`; the invariance
+  `TauCeti.OrientedPDCode.ReidemeisterEquiv.jonesPolynomial_eq`, `jonesPolynomial_mirror`,
+  `jonesPolynomial_reverse`, `jonesPolynomial_unknot` and
+  `TauCeti.jonesPolynomial_rightHandedTrefoilPDCode` (`PDCode/Jones/Basic.lean`); the Alexander
+  lemmas `enlargeColumn`, `enlargeRow`, `invert_alexander`, `eval₂_one_alexander`,
+  `alexander_congruence_of_det_sq_eq_one`, `alexander_trefoilSeifertMatrix` and
+  `alexander_figureEightSeifertMatrix` (`KnotTheory/Alexander.lean`); the module
+  `TauCeti.OrientedPDCode.AlexanderModule` and its `elementaryIdeal`, with their Reidemeister
+  invariance (`PDCode/Alexander/`); `TauCeti.KnotTheory.burau`,
+  `TauCeti.MarkovEquiv.associated_burauAlexander` and
+  `TauCeti.KnotTheory.associated_burauAlexander_alexander_trefoilSeifertMatrix`;
+  `TauCeti.KnotTheory.jimbo`, the loop value `jonesDelta a = −(a² + a⁻²)`, the writhe-normalized
+  Jones trace `TauCeti.MarkovBraid.jonesTrace` with its Markov invariance, `jonesTrace_one_strand`
+  and `jonesTrace_sigma_pow_three` (`Jimbo/`, `TemperleyLieb.lean`), and
+  `TauCeti.normalizedKauffmanBracket_rightHandedTrefoilPDCode` (`PDCode/Trefoil.lean`); and the
+  HOMFLY substitutions `TauCeti.KnotTheory.homflySpecialization N` (`a = q^N`, `z = q − q⁻¹`, into
+  `RatFunc K`) with their joint injectivity
+  `TauCeti.KnotTheory.homflySpecialization_jointly_injective` (`Homfly/Specialization.lean`), a
+  uniqueness statement asserting no existence.
+- **Signatures** (`LinearAlgebra/Matrix/Signature.lean`, `KnotTheory/Signature.lean`,
+  `TristramLevine/`): `Matrix.signature` with `signature_trefoilSeifertMatrix`,
+  `signature_figureEightSeifertMatrix`, `signature_enlargeColumn` and `signature_enlargeRow`;
+  `tristramLevineSignature_neg_one`, `tristramLevineSignature_one`,
+  `tristramLevineSignature_congr`, `tristramLevineSignature_neg_transpose`,
+  `tristramLevineSignature_fromBlocks_zero` and the invariance under enlargement.
+- **Grid diagrams** (`KnotTheory/Grid/`): `TauCeti.GridDiagram`, `GridLink` and
+  `GridDiagram.MovesTo` (`Grid/Move/Basic.lean`).
+- **Plane topology** (`Topology/JordanCurve/Basic.lean`, `Topology/FilledHull.lean`,
+  `Analysis/Complex/PlaneSeparation/`, `Analysis/Complex/Conformal/Jordan/Schoenflies.lean`):
+  the Jordan-curve predicate `TauCeti.IsJordanCurve` (a set homeomorphic to the circle) and
+  the filled hull `TauCeti.filledHull` (the set together with the bounded components of
+  its complement); the Jordan curve theorem in `ℂ`: the complement of a Jordan curve `C` is not
+  connected (`TauCeti.IsJordanCurve.not_isPreconnected_compl`), its inside
+  `filledHull C \ C` is nonempty and is a single complementary component
+  (`TauCeti.IsJordanCurve.nonempty_filledHull_sdiff`,
+  `TauCeti.IsJordanCurve.filledHull_sdiff_eq_connectedComponentIn`), and every
+  complementary component has frontier `C` (`TauCeti.IsJordanCurve.frontier_connectedComponentIn`);
+  the Schoenflies theorem: a homeomorphism of `ℂ` carries the unit circle, the open unit
+  disc and the closed unit disc onto `C`, its inside and `filledHull C`
+  (`TauCeti.IsJordanCurve.exists_homeomorph_image_sphere`, with a prescribed image of `0`
+  in `TauCeti.IsJordanCurve.exists_homeomorph_image_sphere_of_mem`), and on the unit sphere
+  of a three-dimensional real inner product space a homeomorphism fixing a point `v ∉ C`
+  carries the great circle orthogonal to `v` onto `C`
+  (`TauCeti.IsJordanCurve.exists_homeomorph_image_inner_eq_zero`).
+- **Slopes** (`LowDimTopology/DehnSurgery/Slope.lean`): `TauCeti.Slope M` (primitive classes
+  up to sign), `TauCeti.BoundaryTorus`, `TauCeti.FramedBoundaryTorus` with `meridian`,
+  `longitude`, `value` and `TauCeti.FramedBoundaryTorus.slopeEquiv : Slope T.H ≃ OnePoint ℚ`.
+  Also `TauCeti.IsPrimitive` and `TauCeti.slopeEquivStd`.
+- **Knot exteriors, Dehn filling and surgery** (`LowDimTopology/SolidTorusNeighborhood/`,
+  `LowDimTopology/DehnSurgery/`, `Topology/Surgery/Basic.lean`): solid-torus neighbourhoods of
+  `C²` knots in `ℝ³` and in `S³` and disjoint ones for links
+  (`TauCeti.exists_isSolidTorusNeighborhood`,
+  `TauCeti.exists_isSolidTorusLinkNeighborhood_of_forall_nhdsSet`); the exteriors
+  `TauCeti.knotExterior` and `TauCeti.linkExterior`, the exterior of the half-radius tori as a
+  topological `3`-manifold with torus boundary
+  (`TauCeti.IsSolidTorusLinkNeighborhood.exteriorChartedSpace`); the meridian generating
+  `H₁` of the complement (`TauCeti.IsSolidTorusNeighborhood.complementHomologyEquiv`), the
+  preferred longitude (`TauCeti.IsSolidTorusNeighborhood.ker_boundaryHomologyMap`) and framing
+  `TauCeti.IsSolidTorusNeighborhood.preferredFramedBoundaryTorus`; the exterior of the unknot as a
+  solid torus, `TauCeti.unknotExteriorHomeomorph`; Dehn fillings `TauCeti.DehnFilling h s Y` and
+  `TauCeti.LinkDehnFilling`, recorded inside the filled space, with existence along every slope
+  (`TauCeti.IsSolidTorusNeighborhood.exists_dehnFilling`,
+  `TauCeti.IsSolidTorusLinkNeighborhood.exists_linkDehnFilling`), uniqueness for gluings isotopic to
+  matrix gluings (`TauCeti.DehnFilling.exists_homeomorph_of_isotopic_torusHomeomorph`), the
+  `∞`-filling (`TauCeti.DehnFilling.nonempty_homeomorph_of_fillingSlope_meridian`), the unknot's
+  lens-space and `S¹ × S²` fillings
+  (`TauCeti.DehnFilling.nonempty_homeomorph_lensSpace_of_unknot_slopeValue`,
+  `TauCeti.DehnFilling.nonempty_homeomorph_circle_prod_sphere_of_unknot_longitude`) and compatible
+  orientations `TauCeti.DehnFilling.IsOrientationCompatible`; surgery on a framed sphere in every
+  dimension, `TauCeti.SphereSurgery`, with `TauCeti.SphereSurgery.toDehnFilling` for integral
+  surgery on a framed knot; the cosmetic predicates
+  `TauCeti.IsSolidTorusNeighborhood.IsPurelyCosmetic` and
+  `TauCeti.IsSolidTorusNeighborhood.IsChirallyCosmetic`, the propositions
+  `TauCeti.CosmeticSurgeryConjecture` and `TauCeti.MathieuChirallyCosmeticTheorem` (the case
+  `k = 0` of Mathieu's family, `Cosmetic.lean`); the Weeks manifold `TauCeti.IsWeeksManifold` with
+  `TauCeti.exists_isWeeksManifold` (`Link/Weeks.lean`).
+  In detail: `IsSolidTorusNeighborhood.frontier_image`
+  (`LowDimTopology/SolidTorusNeighborhood/Basic.lean`); `TauCeti.knotExterior`
+  (`SolidTorusNeighborhood/Exterior.lean`); `TauCeti.unknotSolidTorus` and
+  `TauCeti.unknotExteriorHomeomorph` (`SolidTorusNeighborhood/Unknot.lean`);
+  `TauCeti.exists_isSolidTorusNeighborhood_sphere` (`SolidTorusNeighborhood/Sphere.lean`);
+  `TauCeti.IsSolidTorusLinkNeighborhood` (`SolidTorusNeighborhood/Link/Basic.lean`);
+  `TauCeti.IsOrientationPreservingAtCore` (`SolidTorusNeighborhood/Orientation.lean`);
+  `FramedBoundaryTorus.ofHomeomorph`, `FramedBoundaryTorus.torusCurveClass`,
+  `FramedBoundaryTorus.value_mk_torusCurveClass` and
+  `IsSolidTorusNeighborhood.framedBoundaryTorus` (`DehnSurgery/Framing.lean`);
+  `IsSolidTorusNeighborhood.framingNumber`, `preferredFramedBoundaryTorus`,
+  `complementHomologyEquiv`, `complementHomologyEquiv_boundaryHomologyMap_preferred` and
+  `ker_boundaryHomologyMap`, under the vanishing of the reduced integral homology of the ambient
+  space in degrees `1` and `2`, which for `S³` is
+  `TauCeti.isZero_reducedSingularHomologyFunctor_one_sphere_euclideanSpace_fin_four` and its
+  degree-two sibling (`DehnSurgery/SeifertFraming.lean`); `IsSolidTorusNeighborhood.fillingSlope`
+  with `fillingSlope_refl` and `fillingSlope_prodComm`, `DehnFilling.desc`,
+  `DehnFilling.transHomeomorph`, `DehnFilling.openExteriorEmbedding` and
+  `IsSolidTorusNeighborhood.meridianDehnFilling` (`DehnSurgery/Filling.lean`);
+  `IsSolidTorusNeighborhood.dehnFillingSpace` with the existence theorems
+  (`DehnSurgery/Existence.lean`);
+  `IsSolidTorusNeighborhood.exists_fillingSlope_torusHomeomorph_eq` and
+  `DehnFilling.exists_homeomorph_of_isotopic` with the uniqueness theorems
+  (`DehnSurgery/Uniqueness.lean`); `TauCeti.framingNumber_unknotSolidTorus`,
+  `TauCeti.preferredFramedBoundaryTorus_unknotSolidTorus` and `TauCeti.unknotZeroDehnFilling` with
+  `unknotZeroDehnFilling_gluing` (`DehnSurgery/Unknot.lean`); `TauCeti.unknotLensSpaceDehnFilling`
+  (`DehnSurgery/LensSpace.lean`); `TauCeti.LinkDehnFilling` (`DehnSurgery/Link/Filling.lean`) and
+  `IsSolidTorusLinkNeighborhood.surgerySlope` with `value_surgerySlope_framedBoundaryTorus`
+  (`DehnSurgery/Link/Surgery.lean`); `DehnFilling.IsOrientationCompatible`
+  (`DehnSurgery/Orientation.lean`) on `TauCeti.HomologicalOrientation`
+  (`AlgebraicTopology/Singular/LocalHomology/Orientation/Homological.lean`); the propositions
+  `TauCeti.NiWuCosmeticSurgeryTheorem` and `TauCeti.HanselmanCosmeticSurgeryTheorem` with the
+  cosmetic predicates (`DehnSurgery/Cosmetic.lean`); `TauCeti.AkbulutKirbyConjecture` and its
+  negation `TauCeti.YasuiTheorem` (`DehnSurgery/AkbulutKirby.lean`); `TauCeti.sphereExterior`
+  (`Topology/Surgery/Basic.lean`), `TauCeti.solidTorusFramedSphere` and
+  `SphereSurgery.toDehnFilling` (`DehnSurgery/SphereSurgery.lean`); and
+  `TauCeti.isWeeksManifold_congr` (`LowDimTopology/DehnSurgery/Link/Weeks.lean`).
+- **Handlebodies and Heegaard splittings** (`LowDimTopology/Handlebody/`,
+  `LowDimTopology/Heegaard/`): `TauCeti.handlebody g` with its free fundamental group
+  (`TauCeti.nonempty_fundamentalGroup_handlebody_mulEquiv_freeGroup`);
+  `TauCeti.HeegaardSplitting M` (`Splitting.lean`), the genus `TauCeti.heegaardGenus` with
+  `TauCeti.heegaardGenus_congr` and `TauCeti.heegaardGenus_sphere`; the rank bound
+  `TauCeti.rank_fundamentalGroup_le_heegaardGenus` (`FundamentalGroup.lean`); the propositions
+  `TauCeti.RankGenusConjecture` and `TauCeti.LiRankGenusTheorem` (`RankGenus.lean`).
+  In detail: `TauCeti.planarSurface g`, `TauCeti.handlebody_zero` and
+  `TauCeti.nonempty_homeomorph_handlebody_one` (`LowDimTopology/Handlebody/Basic.lean`);
+  `TauCeti.rank_fundamentalGroup_handlebody_le`, `TauCeti.isPathConnected_frontier_handlebody` and
+  `TauCeti.fundamentalGroup_map_frontier_handlebody_surjective`
+  (`Handlebody/FundamentalGroup.lean`); the splittings with `symm`, `transHomeomorph` and
+  `ofIsClosed`, the genus `TauCeti.heegaardGenus M` under `[Nonempty (HeegaardSplitting M)]` with
+  `heegaardGenus_le`, `exists_genus_eq_heegaardGenus` and `heegaardGenus_eq_zero_iff`, and
+  `TauCeti.hemisphereHeegaardSplitting` (`LowDimTopology/Heegaard/Splitting.lean`);
+  `TauCeti.cliffordHeegaardSplitting` and `TauCeti.exists_heegaardSplitting_genus_eq_one`
+  (`Heegaard/Clifford.lean`); `HeegaardSplitting.fundamentalGroup_map_left_surjective`,
+  `HeegaardSplitting.fg_fundamentalGroup` and `HeegaardSplitting.rank_fundamentalGroup_le_genus`
+  (`Heegaard/FundamentalGroup.lean`); `LiRankGenusTheorem.not_rankGenusConjecture` and
+  `TauCeti.exists_heegaardGenus_sphere_eq_rank` (`Heegaard/RankGenus.lean`);
+  `LensSpace.heegaardSplitting` and `LensSpace.heegaardGenus_eq_one`
+  (`Heegaard/LensSpace/Splitting.lean`); `DehnFilling.heegaardSplitting`,
+  `DehnFilling.heegaardGenus_le_one` and `TauCeti.heegaardGenus_circle_prod_sphere`
+  (`Heegaard/DehnFilling.lean`).
+- **Lens spaces** (`Geometry/Manifold/Instances/LensSpace.lean`,
+  `AlgebraicTopology/UniversalCover/LensSpace/`): `TauCeti.lensGroup m ℓ`, the quotient
+  `TauCeti.LensSpace m ℓ` of the unit sphere with its analytic manifold structure, and its fundamental
+  group `Multiplicative (ZMod m)`.
+  Here `m ≥ 1` and `ℓ : Fin (k + 1) → (ZMod m)ˣ`, the orbit space of the unit sphere of `ℂ^{k+1}`
+  under `ℤ/m` rotating the `i`-th coordinate by `2πℓᵢ/m`
+  (`AlgebraicTopology/UniversalCover/LensSpace/Basic.lean`), of dimension `2k + 1`;
+  `LensSpace.fundamentalGroupMulEquiv` (`π₁ ≅ ℤ/m` for `k ≥ 1`), `LensSpace.card_fundamentalGroup`
+  and the invariance of `m` under homeomorphism `LensSpace.eq_of_homeomorph`
+  (`LensSpace/FundamentalGroup.lean`). The three-dimensional `L(p, q)` is
+  `TauCeti.LensSpace p ![1, q]`; its spherical structure is
+  `TauCeti.LensSpace.hasGeometricStructure_spherical`, and its genus-one splittings
+  `LensSpace.heegaardSplitting` and `LensSpace.heegaardGenus_eq_one` are listed under
+  *Handlebodies and Heegaard splittings*.
+- **Seifert fibrations** (`LowDimTopology/SeifertFibration.lean`): `TauCeti.SolidTorus`,
+  `TauCeti.SolidTorus.fiberSetoid p q`, `TauCeti.IsSeifertFibration`, `TauCeti.IsSeifertFibered`,
+  invariance under homeomorphism, and the products `F × Circle`.
+- **Fundamental groups and van Kampen** (`FundamentalGroup/VanKampen/Basic.lean`,
+  `FundamentalGroup/VanKampen/Presentation/`, `Topology/Homotopy/`):
+  `TauCeti.isPushout_fundamentalGroup` (the pushout square of fundamental groups for an
+  open cover by two sets with path-connected intersection, used for punctured discs),
+  `TauCeti.vanKampen_hom_ext`, `FundamentalGroup.homeomorphMulEquivOfEq` and
+  `HomotopyGroup.homeomorphMulEquivOfEq` (the isomorphisms of fundamental and higher homotopy
+  groups induced by a homeomorphism carrying one base point to the other;
+  `AlgebraicTopology/FundamentalGroup/Homeomorph.lean`,
+  `Topology/Homotopy/HomotopyGroup/Homeomorph.lean`).
+- **Irreducibility, incompressibility, Haken manifolds** (`Geometry/Manifold/`,
+  `AlgebraicTopology/FundamentalGroup/Incompressible.lean`): `TauCeti.IsSphereBoundsBall`,
+  `TauCeti.IsIncompressible` (embedding and injective on `π₁` at every base point),
+  `TauCeti.IsClosedIncompressibleSurfaceEmbedding`, `TauCeti.IsHakenSurfaceEmbedding`,
+  `TauCeti.IsPossiblyNonorientableHakenThreeManifold` and its closed variant,
+  `TauCeti.IsVirtuallyHaken`; `TauCeti.IsAspherical X x`
+  (`AlgebraicTopology/EilenbergMacLane/Basic.lean`): `X` is path-connected and `π_(n+2)(X, x)` is
+  trivial for every `n`, with `TauCeti.IsAspherical.of_basepoint` moving the base point and
+  `TauCeti.IsAspherical.of_homotopyEquiv` (`EilenbergMacLane/HomotopyEquiv.lean`) transporting it
+  along homotopy equivalences; `TauCeti.Orientable I M` (`Geometry/Manifold/Orientation/Basic.lean`),
+  the existence of a manifold orientation, an orientation of the tangent spaces compatible
+  with the chart Jacobians, for a model over a finite-dimensional space; it takes no
+  smoothness index and needs no `IsManifold` instance. `TauCeti.IsOrientedAtlas I n A`
+  (`Geometry/Manifold/Orientation/OrientedAtlas.lean`), for `n ≠ 0`: `A` is a set of charts of
+  the maximal `C^n` atlas covering `M` whose coordinate changes lie in
+  `TauCeti.orientationPreservingGroupoid I`, that is, have derivatives of positive determinant
+  read through `I`; `TauCeti.IsOrientedAtlas.orientable`
+  (`Geometry/Manifold/Orientation/Atlas.lean`) makes a `C¹` manifold `M` (`IsManifold I 1 M`)
+  orientable from such an atlas. Over a boundaryless model `ℝⁿ`, `n ≥ 1`, every orientable
+  manifold has one (restrict charts to the components of their domains and reflect where they
+  reverse orientation); with boundary this fails (the Check under 8.1). `sphere_theorem` and
+  `waldhausen_theorem` state orientability as the existence of an oriented smooth atlas.
+  `TauCeti.IsSphereBoundsBall` is in `Geometry/Manifold/Irreducible.lean` and
+  `TauCeti.IsClosedIncompressibleSurfaceEmbedding` in `Geometry/Manifold/Incompressible.lean`; the
+  Haken predicates `TauCeti.IsClosedHakenSurfaceEmbedding` and
+  `TauCeti.IsPossiblyNonorientableClosedHakenThreeManifold` are in `Geometry/Manifold/Haken.lean`,
+  and `TauCeti.IsVirtuallyHaken` with `TauCeti.VirtualHakenConjecture` in
+  `Geometry/Manifold/VirtuallyHaken.lean` and `Riemannian/Hyperbolic/VirtualHaken.lean`.
+- **Manifold predicates** (`Geometry/Manifold/Basic.lean`):
+  `TauCeti.IsClosedConnectedManifold n M` (compact, connected, Hausdorff, second-countable and
+  boundaryless) and `TauCeti.IsCompactConnectedThreeManifold` (compact and connected, possibly
+  with boundary).
+- **Torus decompositions** (`LowDimTopology/JSJDecomposition.lean`,
+  `LowDimTopology/Geometrization.lean`): `TauCeti.IsPeripheralTorus`, `TauCeti.IsAtoroidal`,
+  `TauCeti.IsTorusDecomposition`, `TauCeti.IsJSJDecomposition` (minimality under inclusion),
+  `TauCeti.JSJTheorem`, `TauCeti.IsGeometricTorusDecomposition`, `TauCeti.GeometrizationConjecture`.
+- **Geometric structures and hyperbolic metrics** (`Geometry/Manifold/Riemannian/`):
+  `TauCeti.ModelGeometry` (the eight Thurston geometries as a finite type) with `Space`,
+  `model`, `TauCeti.HasGeometricStructure M G` and its quotient characterization
+  (`GeometricStructure/Basic.lean`); `TauCeti.HyperbolicMetric` (complete, constant curvature
+  `−1`), `TauCeti.IsHyperbolic` (`Hyperbolic.lean`); `TauCeti.HyperbolicMetric.Isometry`,
+  `TauCeti.RiemannianIsometry`, the isometry group `TauCeti.Isom I M` with `toDiff`
+  (`Isometry/`); `TauCeti.hypVolumeOfMetric`, `TauCeti.hypVolume`,
+  `TauCeti.hypVolumeOfMetric_eq_of_mostow` (`Hyperbolic/Volume.lean`);
+  `TauCeti.HyperbolicMetric.HasFiniteVolume`, `TauCeti.IsFiniteVolumeHyperbolic`
+  (`Hyperbolic/FiniteVolume.lean`); `TauCeti.IsMostowRigid`, `TauCeti.MostowRigidity`
+  (`Hyperbolic/Mostow.lean`); the simplicial volume of a closed oriented manifold
+  `TauCeti.HomologicalOrientation.simplicialVolume`, the `ℓ¹`-seminorm `SSet.homologyL1Seminorm`
+  of its real fundamental class, with its homotopy invariance
+  `TauCeti.HomologicalOrientation.simplicialVolume_eq_of_homotopyEquiv` and its vanishing
+  `TauCeti.HomologicalOrientation.simplicialVolume_eq_zero_of_one_lt_abs` under a self-map of
+  degree of absolute value at least two (`AlgebraicTopology/Singular/LocalHomology/SimplicialVolume.lean`,
+  `AlgebraicTopology/SimplicialSet/Homology/L1Norm.lean`), the proportionality with hyperbolic
+  volume not being proved there; the smooth singular simplices `TauCeti.SmoothSimplex I M k`,
+  smooth near each point of the full-dimensional simplex `Δᵏ ⊆ ℝᵏ`, forming the subcomplex
+  `TauCeti.smoothSingularSubcomplex` of the singular simplicial set
+  (`Geometry/Manifold/SmoothSingular/Basic.lean`), with derivatives within `Δᵏ` unique by
+  `TauCeti.uniqueDiffOn_fullSimplex` (`Geometry/Convex/FullSimplex.lean`), and the integral of a
+  `k`-form over a smooth `k`-simplex `TauCeti.SmoothSimplex.integral`, linear and natural under
+  smooth maps (`Geometry/Manifold/SmoothSingular/Integral.lean`), with no topology on the
+  simplices, no comparison with singular homology and no Stokes formula there (the last two are
+  DifferentialGeometry Layers 8.3 and 8.4); the upper half
+  space `TauCeti.UpperHalfSpace E`
+  (`Hyperbolic/UpperHalfSpace/Basic.lean`) with its complete metric of curvature `−1`,
+  `TauCeti.UpperHalfSpace.hyperbolicMetric` and `TauCeti.UpperHalfSpace.isHyperbolic`
+  (`UpperHalfSpace/Metric.lean`); `TauCeti.riemannianVolume` and
+  `TauCeti.riemannianTotalVolume` (`VolumeDensity/`); the theorem of Gabai, Meyerhoff and Milley
+  as the proposition `TauCeti.GabaiMeyerhoffMilleyTheorem` (`Hyperbolic/Weeks.lean`).
+  The model geometries with their eight constructors and `ModelGeometry.Space` are in
+  `Riemannian/ModelGeometry/Basic.lean`, the geometric structures in
+  `Riemannian/GeometricStructure/Basic.lean`, `TauCeti.HyperbolicMetric` and
+  `TauCeti.IsHyperbolic` in `Riemannian/Hyperbolic.lean`, `TauCeti.riemannianVolume` in
+  `Riemannian/VolumeDensity/Volume.lean`, and the theorem of Gabai, Meyerhoff and Milley in
+  `Riemannian/Hyperbolic/Weeks.lean`.
+- **Mapping tori and virtual properties** (`Topology/`): `TauCeti.MappingTorus φ`,
+  `TauCeti.FibersOverCircle`, `TauCeti.IsFiniteCover`, `TauCeti.IsVirtuallyFibered`,
+  `TauCeti.VirtualFiberingConjecture`, `TauCeti.VirtualHakenConjecture`.
+  Also `TauCeti.MappingTorusPresentation` (`Topology/MappingTorus/Basic.lean`), with
+  `TauCeti.IsFiniteCover` in `Topology/Covering/IsFiniteCover.lean` and
+  `TauCeti.IsVirtuallyFibered` in `Topology/VirtuallyFibered.lean`.
+- **Foliations** (`Geometry/Manifold/Foliation/`): `TauCeti.Foliation I n M k`, the leaf
+  relation `TauCeti.Foliation.SameLeaf` and `TauCeti.Foliation.leaf`,
+  `TauCeti.Foliation.IsClosedTransversal`, `TauCeti.Foliation.Taut`, the linear
+  foliations `TauCeti.Foliation.ofSubmodule`, and the Euler class of the tangent field
+  `TauCeti.Foliation.eulerClass` with the propositions `TauCeti.ThurstonEulerClassInequality`,
+  `TauCeti.EulerClassOneConjecture` and `TauCeti.YazdiEulerClassOneTheorem` (`EulerClass.lean`).
+  In detail: `TauCeti.Foliation` and `Foliation.ofSubmodule` are in `Foliation/Basic.lean`, on the
+  distribution interfaces `TauCeti.IsContMDiffDistribution` and `TauCeti.IsInvolutiveDistribution`
+  (`Geometry/Manifold/Distribution.lean`); the leaves are in `Foliation/Leaf.lean`; tautness, with
+  `TauCeti.Foliation.not_taut_ofSubmodule_ker` (the foliation of a normed space by the cosets of
+  the kernel of a functional is not taut), is in `Foliation/Taut.lean`; and
+  `Foliation/EulerClass.lean` has `Foliation.thomPair`, `Foliation.IsThomClass`,
+  `Foliation.IsEulerClass` (a class is an Euler class of `F` when it is the Euler class of some
+  Thom class of the tangent field), `IsEulerClass.neg`,
+  `Foliation.eulerClass_eq_zero_of_forall_ne_zero`, the inequality predicates
+  `TauCeti.EulerClassBounded` with `eulerClassBounded_neg_iff` and `TauCeti.EulerClassNormOne`
+  with `not_eulerClassNormOne_zero`, and the refutation
+  `YazdiEulerClassOneTheorem.not_eulerClassOneConjecture`.
+- **Euler classes of vector bundles and fundamental classes**
+  (`Topology/VectorBundle/EulerClass.lean`, `AlgebraicTopology/`): the Thom pair
+  `TauCeti.thomPair` of a real vector bundle, the Thom classes `TauCeti.IsThomClass` with
+  `IsThomClass.singularCohomologyMap`, and the Euler class `TauCeti.eulerClass` with
+  `eulerClass_naturality`, `eulerClass_pullback`, `eulerClass_eq_zero_of_forall_ne_zero` and
+  `eulerClass_trivial_eq_zero`; `TauCeti.HomologicalOrientation.evalFundamentalClass`
+  (`AlgebraicTopology/Cohomology/FundamentalClass.lean`); `TauCeti.FiniteCWType`
+  (`Topology/CWComplex/Classical/FiniteCWType.lean`) and the Euler characteristic
+  `TauCeti.eulerChar` (`AlgebraicTopology/Cellular/EulerCharacteristic/FiniteCWType.lean`).
+- **Simplicial complexes** (`AlgebraicTopology/SimplicialComplex/`, `Topology/`):
+  `AbstractSimplicialComplex.Realization K` with face inclusions and barycentric coordinates,
+  the realization of maps, subcomplexes and locally finite complexes;
+  `AbstractSimplicialComplex.instT2SpaceRealization`,
+  `AbstractSimplicialComplex.exists_finset_support_subset_of_isCompact`,
+  `PreAbstractSimplicialComplex.SimplicialMap.realizationMap` with `realizationMap_id` and
+  `realizationMap_comp` (`Realization/`); the CW structure
+  `AbstractSimplicialComplex.realizationCWComplex` (`Realization/CWComplex/Basic.lean`) and its
+  transport `Topology.IsClosedEmbedding.relCWComplex` (`Topology/CWComplex/Classical/Image.lean`);
+  the finite stellar homeomorphism
+  `PreAbstractSimplicialComplex.exists_homeomorph_stellarSubdivision`
+  (`Subdivision/Stellar/Homeomorph.lean`) and the point-set bijection of arbitrary stellar moves
+  (`Subdivision/Stellar/Realization.lean`, `Geometry.lean`); joins with the closed-star laws
+  `PreAbstractSimplicialComplex.map_closedStar_eq_join` and
+  `PreAbstractSimplicialComplex.map_closedStar_inf_deletion_eq_join` (`Join/`);
+  `PreAbstractSimplicialComplex.IsCombinatorialManifold.exists_chartedSpace_hasGroupoid_PLGroupoid`
+  (`CombinatorialManifold/PL.lean`); the smooth-triangulation predicate
+  `TauCeti.IsSmoothTriangulation` with secant approximation on edgewise subdivisions
+  (`Geometry/Manifold/SmoothTriangulation/`); `PreAbstractSimplicialComplex.closedStar`,
+  `link`, `deletion` (`LinkStar.lean`); stellar subdivision (`Subdivision/`); the ordered
+  cylinder `AbstractSimplicialComplex.orderedCylinder` (`Product.lean`);
+  `PreAbstractSimplicialComplex.IsCombinatorialBall`, `IsCombinatorialSphere`,
+  `IsCombinatorialManifold` by pattern matching on the dimension (`CombinatorialManifold/`);
+  `PreAbstractSimplicialComplex.IsFreePair`, `ElementaryCollapsesTo`, `CollapsesTo`,
+  `Collapsible` (`ElementaryCollapse.lean`, `Collapse/`); `TauCeti.IsTriangulable`,
+  `TauCeti.IsCombinatoriallyTriangulable`, `TauCeti.TriangulationConjecture n`,
+  `AbstractSimplicialComplex.Contractible2Complex`, `TauCeti.ZeemanConjecture`.
+  In detail: the realization with `faceInclusion`, `carrier`, `vertex` and `realizationMap` for
+  inclusions (`SimplicialComplex/Realization/Basic.lean`);
+  `PreAbstractSimplicialComplex.SimplicialMap` (`SimplicialComplex/Maps.lean`) with
+  `SimplicialMap.realizationMap` and `realizationHomeomorph` (`Realization/Map.lean`); the
+  compactness of finite realizations and the closed coordinate embedding
+  (`Realization/Finite.lean`), local compactness for finite vertex stars
+  (`Realization/LocallyFinite.lean`), subcomplexes as closed embeddings
+  (`Realization/Subcomplex.lean`) and glued homotopies (`Realization/Homotopy.lean`);
+  `PreAbstractSimplicialComplex.link` (`SimplicialComplex/LinkStar.lean`);
+  `AbstractSimplicialComplex.orderedProd` and `orderedCylinder`
+  (`SimplicialComplex/Product.lean`); `PreAbstractSimplicialComplex.ElementaryCollapsesTo`,
+  `CollapsesTo` and `Collapsible` (`SimplicialComplex/ElementaryCollapse.lean`,
+  `Collapse/Basic.lean`) with the collapse of cones and of cylinders of cones
+  (`Collapse/Cone.lean`, `Collapse/Cylinder/Basic.lean`); the combinatorial balls, spheres and
+  manifolds with the dimension-zero case (`CombinatorialManifold/Basic.lean`);
+  `AbstractSimplicialComplex.realizationStandardSuccSimplexBoundaryHomeomorphSphere n : |∂Δⁿ⁺¹| ≃ₜ Sⁿ`
+  (`Simplex/BoundarySphere.lean`); the Zeeman declarations in `SimplicialComplex/Zeeman.lean`;
+  `TauCeti.IsTriangulable` in `Topology/Triangulable/Basic.lean`; and `TauCeti.FiniteCWType`.
+
+### From TauCetiRoadmap.DifferentialGeometry
+
+Faces of manifolds with corners and the abstract boundary (the *Boundary and corners*
+section); the fundamental theorem of flows on finite-dimensional manifolds and the two-time
+flow of a time-dependent vector field (Layer 3); involutive distributions, the Frobenius
+theorem and leaves (Layer 4); integration of densities and forms (Layer 5); existence of a
+smooth Riemannian metric on a paracompact manifold and the comparison of densities with
+`TauCeti.riemannianVolume` (Layer 12).
+
+Layer 8.3: the smooth singular chains, whose simplices are the pinned `TauCeti.SmoothSimplex`,
+and the smoothing theorem: for a Hausdorff σ-compact smooth manifold modelled on a
+finite-dimensional space, the inclusion of the smooth singular chains into the real singular
+chains is a chain homotopy equivalence, with a chosen homotopy inverse and both chain homotopies;
+for a manifold without boundary it is built by relative Whitney approximation inductively over
+faces, a singular simplex whose faces are smooth being homotopic relative to its boundary to a
+smooth simplex with the same faces. Layer 8.4: Stokes' formula for a smooth simplex, the integral
+of `dω` over a smooth `(p + 1)`-simplex being the alternating sum `Σᵢ (−1)ⁱ` of the integrals of
+the `C¹` form `ω` over its faces, and for smooth chains by linearity. Layer 7.2 consumes Layer 8.3
+for Löh's Propositions 5.3 and 5.5 and Layer 8.4 for Stokes' formula on measure chains; nothing
+is assumed of them beyond these statements and, without boundary, the face-by-face construction.
+
+The consumers of the other items: Layer 1.3 glues along the faces of a manifold with corners and
+the abstract boundary of DifferentialGeometry 5.5; Layer 10.1 takes distributions, involutivity,
+the flat charts, the Frobenius theorem and the leaves of a foliation from DifferentialGeometry
+Layer 4, on the pinned `TauCeti.Foliation`; and Layer 7.1 consumes DifferentialGeometry 12.4, the
+comparison of `TauCeti.riemannianVolume` with densities and form integration, for the statement
+that the hyperbolic volume form integrates to the volume.
+
+### From TauCetiRoadmap.HopfRinow
+
+The Levi-Civita connection and its regularity, the geodesic flow, the exponential map and its
+domain (Layer 1); normal neighbourhoods and the Gauss lemma (Layer 2); the Hopf–Rinow theorem
+(Layer 3).
+
+Layer 4: smooth Riemannian isometries and the transport of the Levi-Civita connection, geodesics
+and exponential maps along them, consumed by Layer 7.2.
+
+### From TauCetiRoadmap.AlgebraicTopology
+
+Stage 1: van Kampen through the fundamental groupoid, with the two-open-set pushout and its
+group-presentation corollaries, consumed by Layer 1.4 (the fundamental group of a connected sum),
+Layer 2.1 (the trefoil group in the Check on the cone on a polygonal trefoil), Layer 5.2 (the
+fundamental groups of fillings), Layers 8.2 and 8.6 (the free-product decomposition of `π₁` along
+a prime decomposition, Kneser's finiteness and the simple connectivity of the summands of a simply
+connected sum) and Layers 9.1 and 9.2 (the fundamental groups of the non-orientable handlebodies
+and of splittings). Stages 2 and 3: singular homology and the Mayer–Vietoris sequence, consumed by
+Layers 4.1, 5.1, 5.2 and 7.4 (the first homology of exteriors, of fillings and of the Weeks
+manifold). Stage 4: CW pairs, the cellular chain complex and its comparison with singular
+homology, consumed by Layer 11.1 (the cellular chain complex of a polyhedron and its boundary
+formula) and Layer 10.3 (cellular cochains, for the obstruction-theoretic Euler class). Stage 5:
+covering spaces, consumed by Layer 6.4 for the infinite cyclic cover. Stage 6: singular cohomology
+of CW complexes, cup products, fundamental classes and Poincaré duality, consumed by Layers 10.3
+and 10.4 (the Euler class and its pairing, and `H₂(M; ℤ)` for the Thurston norm); and its item
+6.5, the homological characterization of the degree of a map of closed oriented connected
+manifolds (`f_*[M] = deg f · [N]` on the fundamental classes), consumed by Layers 3.1 and 3.2 and
+by Layer 10.3 (the degree on the boundary circle of a `2`-cell of a section over the
+`1`-skeleton). Stage 7: the Euler characteristic of a finite decomposition, consumed by Layer 1.4.
+Stage 8: ordinary representability, consumed by Layer 10.4 for the representation of a class of
+`H¹` by a map to the circle. Nothing is assumed of them beyond their statements.
+
+### From TauCetiRoadmap.TypeAHeckeAlgebras
+
+H1 supplies the finite type-A Hecke algebras and H2 the Ocneanu trace and its braid-closure
+invariance. Layer 4 consumes them for the HOMFLY trace theorem and the low-strand
+Jones/Burau block comparisons; it owns the geometric closure and native-matrix comparisons.
+
+### From TauCetiRoadmap.TemperleyLieb
+
+Layer 2: the Temperley–Lieb diagram category, composition gluing along the middle boundary and
+counting the closed circles formed; Layer 3: the linear category `TL(R, δ)` over a commutative
+ring, a circle evaluating to `δ`, with the diagram bases of its hom-modules; Layer 4: the
+comparison of the native `TauCeti.TemperleyLieb R δ n` with the diagram algebra, its
+diagram basis `exists_basis_planarMatching` (free of rank `catalan n` over every commutative ring),
+the strand inclusions, the closure trace and `existsUnique_isMarkovTrace` (exactly one Markov
+family at every `δ`, equal to the native `markovTrace q hδ` when `δ = −(q + q⁻¹)`); Layer 5: cell
+modules, Gram determinants and the semisimplicity criteria `isSemisimpleRing_of_qInt_ne_zero` and
+`isSemisimpleRing_iff_of_charZero`; Layer 6: the Jones–Wenzl projections, with
+`existsUnique_jonesWenzl` (when the quantum integers `[1], …, [n]` are units there is exactly one
+idempotent `f_n` of augmentation `1` killed on both sides by every `e_i`), the Wenzl recursion
+`f_(n+1) = f_n − ([n]/[n+1]) f_n e_n f_n`, the partial trace of `f_(n+1)` equal to
+`([n+2]/[n+1]) f_n`, and `IsMarkovTrace.apply_jonesWenzl` (every Markov trace takes the value
+`[n+1]` on `f_n`). Layers 4.5.1, 4.5.3 and 4.5.6 consume Layers 4–5 for the diagram basis, base
+change, algebraic Markov uniqueness and generic blocks; Layer 4.8.1 consumes Layers 2–4 and 6
+for the colored cabling, over `ℚ(A)` at `δ = −A² − A⁻²`, where every `[k]` with `k ≥ 1` is
+nonzero. Nothing is assumed of them beyond their statements.
+
+### From TauCetiRoadmap.Subfactors
+
+§3.1: the conjugate-linear adjoint `†` on `TL_n(ℂ, δ)` for real `δ`, fixing every generator and
+compatible with strand inclusions. §3.2: Jones's positivity theorem `markovTrace_nonneg_iff` (for
+`δ > 0` and `δ = −(q + q⁻¹)`, `T_n(x† x) ≥ 0` for every `n` and `x` exactly when `δ` lies in
+`jonesLoopParameters = {2cos(π/m) : m ≥ 3} ∪ [2, ∞)`), the trace radical `R_n`, a two-sided
+`†`-stable ideal, and Cauchy–Schwarz, by which `R_n` is the null space of `x ↦ T_n(x† x)`. §3.3:
+the positive path representations `π_n` on the half-line for `δ ≥ 2` and on `A_(m−1)` for
+`δ = 2cos(π/m)`, with `ker π_n = R_n`, the quotient `Q_n = TL_n / R_n` a finite direct sum of
+matrix algebras with faithful positive trace, and `R_n = 0` for `δ ≥ 2`. Layer 4.5.6 consumes
+these at the parameters `δ = u + u⁻¹` it uses, with `q = −u`.
+
+### From TauCetiRoadmap.ReductiveGroups
+
+§11A (*Plane configurations, geometric braids and their basepoints*) supplies the ordered and
+unordered configuration spaces of `n` points of the plane, the homeomorphism between the
+plane and the open unit disc, the identification of relative homotopy classes of
+collision-free strand systems in `ℂ×[0,1]` with `TauCeti.BraidGroup n` with stacking matched
+to the fundamental-group product, the endpoint permutation as `permHom`, the pure part as
+`pureSubgroup n`, the exact sequence `1 → P_n → B_n → S_n → 1` and the convention of its
+positive half-twist. Layer 4.2.8 consumes it for smooth geometric braids, owning the smooth
+carrier, the smooth comparison, the calibration of that half-twist against the pinned closure
+and the reading of a braid word off a generic projection.
+
+### From TauCetiRoadmap.SuccessiveMinima
+
+Layer 1: the successive minima `λ_i(L, K)` of a discrete full lattice `L` in a finite-dimensional
+real normed space for a convex body `K` with `0` in its interior, their positivity, the threshold
+characterization by independent lattice vectors, and target 1.5 `exists_successiveMin_witnesses`
+(a real basis of lattice vectors `b_i` with gauge `λ_i`, every lattice vector of gauge `< λ_i`
+lying in the span of the earlier `b_j`). Layer 7.3.1 consumes them for `E = ℂ` and `K` the closed
+unit disc, where the gauge is the norm.
 
 ## References
 
