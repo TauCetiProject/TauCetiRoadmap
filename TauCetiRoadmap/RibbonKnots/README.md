@@ -500,36 +500,50 @@ geometric properties.
 
 ## Open problems
 
-- **Slice–ribbon conjecture**: Prove or disprove that every smoothly slice knot is ribbon. This
-  is one of the most famous open problems in knot theory, dating back to Fox (1962). Recent work
-  by Dunfield and Gong (2025) provides strong evidence in favor of the conjecture, as all
-  computationally verified slice knots in their census are ribbon.
-- **Ribbon concordance group**: Characterize the structure of the ribbon concordance group
-  (ribbon knots under connected sum, modulo ribbon concordance). In particular, determine
-  whether it is trivial, cyclic, or has more complex structure.
-- **Ribbon concordance vs. smooth concordance**: Understand the precise relationship between
-  ribbon concordance and smooth concordance. In particular, determine the kernel of the map
-  from smooth concordance to ribbon concordance.
-- **Homotopy ribbon vs. ribbon**: In the topological category, determine whether every homotopy
-  ribbon knot is ribbon. Friedl and Powell (2020) have established bounds on Alexander
-  polynomials for homotopy ribbon knots.
-- **Ribbon concordance and knot Floer homology**: Characterize which knots are ribbon
-  concordant in terms of their knot Floer homology. Zemke (2019) showed that certain knots
-  are not ribbon, but a complete characterization remains open.
-- **Ribbon concordance and Casson-Gordon invariants**: Investigate whether Casson-Gordon
-  invariants can obstruct a knot from being ribbon. These invariants have been successful in
-  studying slice knots but their relationship to ribbon concordance is less understood.
-- **Ribbon concordance in higher dimensions**: Generalize the notion of ribbon concordance
-  to higher-dimensional knots and study its properties.
-- **Ribbon concordance and knot polynomials**: Determine which knot polynomials provide
-  obstructions to ribbon concordance. Currently, no polynomial invariant is known to obstruct
-  ribbon concordance.
-- **Ribbon concordance and 4-manifolds**: Investigate the relationship between ribbon
-  concordance and the topology of 4-manifolds, particularly through the study of slice discs
-  and their complements.
-- **Ribbon concordance and L-spaces**: Understand the relationship between ribbon
-  concordance and the property of being an L-space.
+### Specific mathematical problem statements
 
+1. **Slice-ribbon conjecture (Fox 1962)**: Prove or disprove: Every smoothly slice knot in S³ is ribbon.
+   Equivalently: Every knot that bounds a smoothly embedded disc in B⁴ also bounds a ribbon disc in B⁴.
+
+2. **Property 2R conjecture**: Prove or disprove: Every slice knot has Property 2R (i.e., its Alexander
+   polynomial satisfies Δ(t) = f(t)f(t⁻¹) for some Laurent polynomial f).
+
+3. **Ribbon concordance implies smooth concordance**: Prove or disprove: If two knots are ribbon
+   concordant, then they are smoothly concordant.
+
+4. **Homotopy ribbon implies ribbon**: Prove or disprove: In the topological category, every homotopy
+   ribbon knot is ribbon.
+
+5. **Zemke's question**: Characterize the knots K for which HFK⁻(S³, K) = 0 implies K is ribbon.
+
+6. **Ribbon concordance and tau-invariant**: Prove or disprove: If K₁ and K₂ are ribbon concordant,
+   then τ(K₁) = τ(K₂).
+
+7. **Ribbon concordance and signature**: Prove or disprove: If K₁ and K₂ are ribbon concordant,
+   then σ(K₁) = σ(K₂).
+
+8. **Ribbon concordance group triviality**: Prove or disprove: The ribbon concordance group is trivial.
+
+9. **Ribbon concordance and genus**: Prove or disprove: If K₁ and K₂ are ribbon concordant, then
+   g(K₁) = g(K₂).
+
+10. **Ribbon concordance and Alexander polynomial**: Prove or disprove: If K₁ and K₂ are ribbon
+    concordant, then Δₖ₁(t) = Δₖ₂(t).
+
+11. **Ribbon knot characterization via plumbing**: Prove or disprove: A knot is ribbon iff it bounds
+    a disc in a plumbing of D²-bundles over S² with Euler number ≤ 0.
+
+12. **Ribbon concordance and Casson-Gordon**: Prove or disprove: If K is not ribbon, then there
+    exists a metabolic subspace V and character χ such that σ(K, χ, V) ≠ 0.
+
+13. **Ribbon concordance and d-invariants**: Prove or disprove: If K₁ and K₂ are ribbon concordant,
+    then d(S³₁(K₁)) = d(S³₁(K₂)).
+
+14. **Ribbon concordance and Khovanov homology**: Prove or disprove: If K₁ and K₂ are ribbon
+    concordant, then Kh(K₁) ≅ Kh(K₂).
+
+15. **Ribbon concordance and 4-genus**: Prove or disprove: If K₁ and K₂ are ribbon concordant,
+    then g₄(K₁) = g₄(K₂).
 ## References
 
 - I. Agol, *Ribbon concordance of knots is a partial ordering*, Comm. Amer. Math. Soc. 2 (2022),
