@@ -2,38 +2,9 @@
 
 **Summary.** ModularIwasawaMainConjectures formulates Kato's cyclotomic main conjecture for a modular form (its §§0.6–0.7) and proves it in the ordinary, signed and family ranges where the automorphic reverse bounds apply. It stops before the forms with complex multiplication, where the residual image is dihedral and those bounds do not apply, and before the prime 2. This Part II proves the rational form of Kato's main conjecture for every CM newform of weight `k ≥ 2` at every prime `p`, including `p = 2` and `p = 3` (Burungale–Tian, Theorem 2.6). The route goes through the imaginary quadratic CM field `K`. Over the two-variable ray tower `K(p^∞f)` it builds the tower Iwasawa cohomology, the norm limits `h¹` of `p`-units and `h²` of class groups, the elliptic-unit module and its cotorsion, and the elliptic-unit Euler system, on Kato's CM theta functions, elliptic units, CM realizations and reciprocity law for elliptic units as NonordinaryCMSpecialValues states them for every prime. With these it proves Johnson-Leung and Kings' main conjecture for every finite-order character at every prime and Rubin's two-variable main conjecture with its all-prime classical form. At a split prime it proves the Katz-measure form, its anticyclotomic `θ`-components and the functional-equation comparison of their μ- and λ-invariants used by Castella–Grossi–Lee–Skinner. It then proves the rational equivariant main conjecture over `ℤ_p[[Gal(K(p^∞f)/K)]] ⊗ ℚ`, with the Euler factors at the primes of `f` prime to `p` that its printed form omits. It identifies the elliptic-unit generator in the CM Iwasawa cohomology of KatoEulerSystems §4.4, and finally descends the equivariant equality to the cyclotomic tower over `ℚ` through Kato's comparison of elliptic units with Beilinson–Kato elements. The descent proves an equality, not just Kato's one-sided inequality.
 
-## Scope and ownership
+## How to read the build
 
-This roadmap owns the Iwasawa theory of elliptic units over imaginary quadratic fields at every prime and its CM-modular consequences:
-
-- the arithmetic specialization of the completed group algebra to the CM ray group `Gal(K(p^∞f)/K)`, its normalization (an isomorphism after inverting `p`), and the characteristic ideals over it (Layer 0);
-- the tower modules `h¹`, `h²`, their Kummer and Brauer comparisons, the Euler-factor sequence for `H²` and the weak Leopoldt and rank-one statements for the ray tower (Layer 1);
-- the theta-function identities through Eisenstein–Kronecker series, the elliptic units `a ζ_m` of every modulus with their Euler-system norm relation, the elliptic-unit module `z`, its auxiliary ideal and its cotorsion (Layer 2);
-- auxiliary ideals that make Kato's smoothed period formula invertible, for Hecke characters of type `(−r, 0)` and every `r ≥ 1` (Layer 3);
-- the elliptic-unit Euler system, the Tamagawa number conjecture at `s = 0` for abelian extensions of `K`, Rubin's Euler-system bound, Johnson-Leung–Kings' main conjecture and Rubin's Theorem 4.1 (Layer 4);
-- the Coleman power series of the height-one formal group of the CM curve at a split prime, the split-prime two-variable Coleman map, the elliptic-unit/Katz identification, the Katz form of the main conjecture, the anticyclotomic `θ`-component theorem and the functional-equation λ-identity (Layer 5);
-- the rational equivariant main conjecture with its Euler factors (Layer 6);
-- the general-weight normalization of CM induction, Kato's CM comparison map, the descent lemmas including the contained case `K ⊂ ℚ(μ_{p^∞})`, Kato's length lemma, the elliptic-unit generator at height zero and Kato's lattice inequality (Layer 7);
-- the archimedean normalization of the induction, the reciprocity law in `V(f)`-coefficients, the bridge from elliptic units to Beilinson–Kato elements, the equality descent and the endpoint (Layer 8).
-
-It leaves the following to their owners, by section:
-
-- The formulation of Kato's main conjecture, the modular Iwasawa datum and Kato's Iwasawa cohomology `H^i(T)` over `ℤ[ζ_{p^n}, 1/p]` are ModularIwasawaMainConjectures §§0.1, 0.6 and 0.7. The endpoint here is the rational form `KMC_ℚ` of §0.7 for CM forms; it is not a second definition.
-- Kato's zeta morphism `γ ↦ z_γ(f)` and the zeta submodule `Z(f)` are KatoEulerSystems §5.1, their critical interpolation is KatoEulerSystems §5.3, and the nonvanishing of twisted critical values (Jacquet–Shalika on the edge, Rohrlich's finiteness at the centre) is KatoEulerSystems §4.2. The rational and integral module structure of Kato's Theorem 12.4 for CM forms is KatoEulerSystems §4.4, and the rational Euler-system inequality is KatoEulerSystems §7.2 and PadicFamilies §4.0.3. Section 7.8 here identifies the elliptic-unit generator at height zero, which is stronger than the unmarked rank-one assertion and supplies the generator needed for equality descent. Section 7.9 keeps Kato's lattice inequality, whose additional conclusion at primes containing p under Rubin's condition (b) is distinct from the rational bound. The CM predicate and unnormalized Galois induction are AutomorphicGaloisRepresentations §3.15; §§7.1–7.2 here give the explicit weight dictionary and Kato's de Rham normalization.
-- Kato's CM theta function `aθ_E` (uniqueness, the specialization `(c)θ_E = cθ_E`, the norm law along `O_K`-linear isogenies whose kernel meets `E[a]` trivially, and (15.4.3)–(15.4.4)), canonical CM pairs with their Artin action, the standard elliptic units `a z_f = aθ_E(α)⁻¹` with Kronecker's limit formula, the zeta element `z_{p∞f}` with its smoothing, integrality and finite-layer Kronecker formula, Kato's realizations `V_L(ψ)`, `V_{L_λ}(ψ)`, `S(ψ)` and `per_ψ` in the cohomological convention, the height-one explicit reciprocity law in the form Kato applies, and Kato's reciprocity law for elliptic units (Kato, Proposition 15.9) are NonordinaryCMSpecialValues §§2.1–2.6, stated there for every imaginary quadratic `K`, every prime `p` (2 and 3 included) and every `r ≥ 1`. Layers 2–3 here add the units `a ζ_m` of general modulus with their Euler norm relation, the module `z`, the ideal `J`, the level-change formula, cotorsion and the admissible auxiliary ideals.
-- The normalized theta unit `cθ` attached to an integer `c` prime to 6 and its distribution and isogeny laws are PadicFamilies §4.0.1.
-- The generalized Eisenstein–Kronecker series and their meromorphic continuation are AutomorphicPadicLFunctionsPartII §§3.3–3.4. Katz's two-variable `p`-adic measure on `Gal(K(p^∞f)/K)` at an ordinary prime is AutomorphicPadicLFunctionsPartII §8.5. The functional equation of Katz's measure is stated here (§5.5) because no supplier states it.
-- Iwasawa algebras of `ℤ_p^d × Δ`, twists `Tw_κ`, Iwasawa cohomology for a profinite group, Shapiro, descent and control are SelmerIwasawaCohomology §§3.0–3.3 and 3.7. The S-unit Kummer identification is SelmerIwasawaCohomology §0.9. The étale and Galois comparison in Kato's `j_*` convention is SelmerIwasawaCohomology §3.15. The local cofreeness at `p` for the CGLS characters is SelmerIwasawaCohomology §3.17.
-- Characteristic ideals, pseudo-null modules and determinants are PadicMeasuresIwasawaAlgebras §§4.1, 4.6 and 5.1.
-- Euler systems and their twists are EulerSystemsAndKolyvaginSystems §§2.2 and 2.5. Rubin's Iwasawa-theoretic theorems over `ℤ_p^d`-extensions (hypotheses, weak Leopoldt from an Euler system, divisibility) are EulerSystemsAndKolyvaginSystems §§8.1–8.2, 8.6, 8.14, 8.25 and 8.37.
-- The full elliptic CM L-factorization and the weight-two CM induction comparison are ComplexMultiplicationAndExplicitReciprocity §4.2. Its ideal isogenies, CM periods, idele–torsion dictionary, ray-level fields and CM Tate components (§§1.2, 2.2, 3.2 and 4.1) enter through NonordinaryCMSpecialValues §§2.1–2.6.
-- The elliptic units of a rational CM curve `E/ℚ` with `End(E) = O_K` at a prime `p ≥ 5` of good ordinary reduction, built from Siegel functions on the ray class fields of its class-number-one field, the Coleman map of its formal group on the ray tower `K(𝔣p^∞)` with its explicit reciprocity law in Coleman form, the identification of `char((U_∞/𝒞̄_∞)^χ)` with Katz's measure and Rubin's two-variable main conjecture for such `E`, are NoncommutativeAndEquivariantIwasawa §4.3. The statements of Layers 4 and 5 differ from them by their generality: any imaginary quadratic `K` of any class number, Rubin's abelian `K₀ ⊃ H` with `p ∤ [K₀ : K]`, every prime in §4.5 and in the classical form of §4.8, the inert and ramified primes in §4.8(ii), and any CM curve with good reduction at the chosen split place in §5.1. The height-two Coleman interpolation at an inert prime is AnticyclotomicLocalUnits §1.1.
-- The elliptic units `a ζ_m` of every modulus with their Euler-system norm relations, and the module `z`, are §§2.2 and 2.4 here. EllipticCurvePeriodsAndModularParametrizations takes, in its one-variable `𝔩`-adic tower over ring class fields, norm limits of closures of elliptic units given as norms of CM values of modular units in ray class fields; those units are built from the same modular units as the units of §2.2 and are not cited here, and nothing of that roadmap is restated.
-- The inert anticyclotomic main conjecture of Burungale–Kobayashi–Ota (their Theorems 6.1–6.2), with Rubin's signed `p`-adic L-function, the signed Selmer groups and their control, is InertAnticyclotomicCMMainConjecture. Nothing here is consumed from it, and nothing of it is restated here.
-
-The former numbering CZ.4 is now Layer 6 (rational-equivariant-main-conjecture is §6.2); CZ.5 is now Layer 7 (cm-contained-descent is §7.6, and cm-h2-torsion is supplied by KatoEulerSystems §4.4, with the identified-generator strengthening in §7.8); CZ.6 is now Layer 8 (cm-kato-main-conjecture is §8.6 and cm-kato-normalization-dictionary is §8.7).
-
-The vanishing of the μ-invariant of anticyclotomic Katz `p`-adic L-functions (Hida), which Castella–Grossi–Lee–Skinner combine with §§5.4–5.5, is not a theorem of this roadmap; §5.4 asserts the characteristic-ideal and λ statements only, and §5.5 proves that μ vanishes on a branch `θ` exactly when it vanishes on the dual branch `θ⁻¹ω`, with equal λ-invariants when it does. The Kato equality at a prime containing `p`, the integral equivariant (`Ω`-) form of the imaginary quadratic main conjecture at singular primes, and the integral refinement of Theorem 2.6 (Burungale–Tian, Remark 2.7) are not theorems of this roadmap. The first two need Johnson-Leung and Kings' μ-hypothesis (their Conjecture 5.5), known only for split `p ∤ 6`. The rational statements here make no claim about them.
+Layer 0 fixes the CM ray group, its Iwasawa algebra, the regular/singular dichotomy and `ξ`. Layer 1 builds the tower cohomology and the modules `h¹`, `h²`, and proves their comparisons and module structure, keeping the Euler terms at primes of `f` prime to `p`. Layer 2 builds the elliptic units of every modulus and the module `z` on the theta functions, elliptic units and zeta element of NonordinaryCMSpecialValues, fixes the squared norm in Kronecker's limit formula and proves cotorsion. Layer 3 supplies auxiliary ideals for Kato's period formula, whose realizations and reciprocity law are NonordinaryCMSpecialValues §§2.4–2.6. Layer 4 proves the integral character-wise main conjecture of Johnson-Leung and Kings at every prime, and Rubin's theorem. Layer 5 treats split primes through Coleman maps and Katz's measure; it is used by no later layer. Layer 6 assembles the regular-prime lengths into the rational equivariant main conjecture. Layer 7 fixes the normalization of the supplied CM induction, identifies the elliptic-unit generator in the supplied rank-one cohomology and descends from the ray tower to the cyclotomic tower over `ℚ`. Layer 8 proves that elliptic units become Beilinson–Kato elements and deduces Kato's equality. Layers 7–8 use Layers 2–4 and 6, not Layer 5.
 
 ## Conventions
 
@@ -47,103 +18,6 @@ The vanishing of the μ-invariant of anticyclotomic Katz `p`-adic L-functions (H
 - `G_∞ = Gal(ℚ(μ_{p^∞})/ℚ) ≅ ℤ_p^×`, including its torsion (`ℤ/(p − 1)` for odd `p`, `ℤ/2` for `p = 2`). `Λ = O_λ[[G_∞]]` and `Λ_ℚ = Λ[1/p]`.
 - The dual exponential is Kato's (PadicHodgeRegulators §1.4). Periods `per_ψ`, `per_f` are Kato's (15.8 and 6.3).
 - For `u ∈ ℂ^×`, `log|u|` in Kronecker's limit formula (§2.3) and in the regulator of §4.2 is taken with the squared norm `|u| = u·ū`, Dirichlet's normalization at a complex place; the Checks of §§2.3 and 4.2 pin it, and at `p = 2` it is part of the integral statements of Layer 4.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- `ClassGroup` of `O_{K′}` gives the ideal class groups whose `p`-primary parts form `h²`.
-- `Module.length`, `IsLocalization.AtPrime` and `Ideal.height` give the height-one lengths in `ξ` and in Kato's length lemma. `Module.length` is the Krull dimension of the submodule lattice; it is `⊤` for a module of infinite length.
-- `NumberField.Units.logEmbedding` and `NumberField.Units.logEmbedding_eq_zero_iff` identify the kernel of the logarithmic embedding with torsion; `NumberField.Units.regulator` and `NumberField.Units.regulator_ne_zero` give the positive covolume, rather than a map or its injectivity. `NumberField.Units.logEmbedding` weights a complex place by `mult w = 2`, so this regulator is Dirichlet's, the squared-norm normalization of §4.2.
-- `NumberField.IsTotallyComplex` gives the absence of real places, which removes the dyadic real-place terms at `p = 2`.
-- `IsCyclotomicExtension` and `cyclotomicCharacter` give the cyclotomic fields and the character whose kernel is the auxiliary ideal of §2.4.
-- `PowerSeries` and `MvPowerSeries` give the coordinate rings of `O[[Γ]]`.
-
-### From Tau Ceti
-
-- `TauCeti.completedGroupAlgebra` with its projections, `map`, `lift` and topology is the ring `R_O` (SelmerIwasawaCohomology §3.0 specifies its coordinates and twists).
-- `TauCeti.GlobalNumberFields.Modulus`, `TauCeti.GlobalNumberFields.RayClassGroup` and `TauCeti.GlobalNumberFields.HeckeCharacter` are the ray class groups and Hecke characters. The native ray class field and reciprocity are `TauCeti.ClassFieldTheory.rayClassField` and `TauCeti.ClassFieldTheory.rayClassArtinEquiv` in `TauCeti/NumberTheory/ClassFieldTheory/ClassFields/RayClassField.lean`; ClassFieldTheory Layer 13 specifies their class-field-theoretic interface.
-- `HeckeRing.GL2.Newform` is the newform carrier.
-
-### From TauCetiRoadmap.GlobalNumberFields, ClassFieldTheory and ProfiniteProPGroups
-
-GlobalNumberFields Layers 2 (moduli and ray class carriers), 9 (Hecke and ray class characters) and 10 (infinity types) supply moduli, characters and infinity types. ClassFieldTheory Layer 10 supplies the Brauer sequence and the sum of local invariants, Layer 11 global Artin reciprocity and Layer 13 ray class fields with their Artin isomorphisms. ProfiniteProPGroups Layer 9 ("The completed group algebra of the orientation image") specifies the completed group algebra.
-
-### From TauCetiRoadmap.ModularForms and EllipticCurves
-
-ModularForms Layers 4–5 and 9 supply newforms, strong multiplicity one and the self-twist invariant, and Layer 7 their L-functions. EllipticCurves Layer 1 supplies isogenies, invariant differentials and formal groups.
-
-### From TauCetiRoadmap.PadicMeasuresIwasawaAlgebras
-
-Layer 1 supplies completed group rings and convolution, and Layer 4 Weierstrass theory and module structure, for the Coleman measures and one-variable specializations of Layer 5. §4.1 supplies pseudo-null modules and pseudo-isomorphisms. §4.6 supplies `charIdeal` over a noetherian normal factorial domain, multiplicative in short exact sequences and invariant under pseudo-isomorphism. §5.1 supplies determinant lines of perfect complexes. Characteristic ideals over `R_O[1/p]` are formed on each normal factor by §4.6.
-
-### From SelmerIwasawaCohomology
-
-§0.9 (Kummer identification for S-units) and §0.10 (inverse-limit hypotheses); §3.0 (Iwasawa algebras of `ℤ_p^d × Δ`, the involution and twists `Tw_κ`); §3.1 (Iwasawa cohomology `H^i_Iw(G, H; M)` for a profinite group with closed normal `H`, its corestriction-limit description under condition (F), and `H⁰_Iw = 0`); §3.2 (Shapiro); §3.3 (descent and control); §3.7 (twisting); §3.15 (étale cohomology of `Spec O_{F,S}` and the `j_*` comparison in degree one); §3.17 (local cofreeness at `p` and the away-`p` Euler factor for the CGLS characters); §2.8 (Greenberg's local condition). Its §3.13 rank formula is stated for the cyclotomic `ℤ_p`-extension and odd `p`. The ray-tower rank statement of §1.7 is proved here from the finite-level Euler characteristic and is not taken from §3.13.
-
-### From ArithmeticGaloisDuality
-
-§R02.4.3 (Poitou–Tate), §R02.4.4 (finiteness, cohomological dimension and Tate's global Euler characteristic formula) and §D7.5 (compact support and derived global duality).
-
-### From IntegralIwasawaTheory
-
-§2.6 (weak Leopoldt in every cyclotomic tower), §7.1 (integral norm and interpolation on `O[[T]]` for unramified `O`), §7.2 (the normalized arithmetic Coleman map for odd `p`, whose factor `1 − Φ` the local Coleman measure of §5.1 follows) and §10.0 (compact coefficients, Shapiro and mapping fibres).
-
-### From EulerSystemsAndKolyvaginSystems
-
-§2.2 (the module of Euler systems), §2.5 (twisting Euler systems by characters of finite order), §8.1 (`ℤ_p^d`-extensions in which no finite prime splits completely), §8.2 (Rubin's hypotheses `Hyp(K_∞, T)`), §8.6 (`Hyp(K_∞/K)`), §8.7 (the `Λ`-adic index of divisibility), §8.14 (invariance under twisting), §8.25 (weak Leopoldt from an Euler system, Rubin II.3.2) and §8.37 (Rubin's divisibility `char(X_∞) | ind_Λ(c)`, Rubin II.3.3).
-
-### From ComplexMultiplicationAndExplicitReciprocity
-
-§4.2 (the full elliptic CM L-factorization and the weight-two CM induction comparison).
-
-### From AutomorphicGaloisRepresentations and AutomorphicGaloisRepresentationsPartII
-
-AutomorphicGaloisRepresentations §3.15 supplies the CM predicate and algebraic-character induction, with the weight and dual dictionary of §§7.1–7.2. Its §1.5 (rank-two newform realization) and §7.3 (the fixed-eigenform compatible family) supply `V_{F_λ}(f)` and its Frobenius polynomials. AutomorphicGaloisRepresentationsPartII AG2.0 supplies the `λ`-adic Galois characters of algebraic Hecke characters.
-
-### From AnalyticNumberTheoryPartI and LFunctions
-
-AnalyticNumberTheoryPartI §2.3a supplies continuation and the functional equation of unitary Hecke L-functions, with the norm shifts for algebraic Hecke characters. LFunctions Layer 7 (intrinsic nonvanishing) supplies that a nontrivial primitive finite-order Hecke L-function has no zero on `Re s = 1`.
-
-### From ColemanPowerSeries
-
-Layer 1 (integral norm, trace and Coleman interpolation over `O[[T]]`, `p = 2` included), §2.37 (the raw Coleman map `Col₀` from norm-compatible local units to measures on `ℤ_p^×`, through Coleman interpolation, the boundary `1 − φ` and the Amice transform), §2.39 (the sign-adjusted map `Col = −Col₀`, for every prime including 2) and §2.44 (Galois equivariance `Col₀(a·u) = a_*Col₀(u)`). Section 5.1 transports them along `θ : Ĝ_m → F` to the height-one formal group of a CM curve.
-
-### From PadicHodgeRegulators
-
-§1.4 (Kato's dual exponential).
-
-### From AutomorphicPadicLFunctionsPartII
-
-§§3.3–3.4 supply the Eisenstein–Kronecker series `K^ν(H, z, w, s, Λ)` with their continuation and residues. In dimension one with `w = 0`, `(z + λ)^{−k}|z + λ|^{−s} = conj(z + λ)^k·|z + λ|^{−2k−s}`, so Kato's `E(k, τ, z, s)` is that series with `ν = k` at the variable `k + s/2`. §8.5 supplies the bounded measure `μ_f` on `Gal(K(p^∞f)/K)` interpolating critical Hecke values for an ordinary lifted type. For `K` imaginary quadratic and `p = v v̄` split this is Katz's two-variable measure.
-
-### From NonordinaryCMSpecialValues
-
-§2.1 (Kato's CM theta function `aθ_E` for `a` prime to 6: uniqueness, `(c)θ_E = cθ_E`, the norm law along `O_K`-linear isogenies whose kernel meets `E[a]` trivially, and (15.4.3)–(15.4.4)); §2.2 (canonical CM pairs of modulus `f`, their base change and Artin action; the standard elliptic units `a z_f = aθ_E(α)⁻¹` for `a` prime to `6f`, their unit property and norm compatibility in the `p`-tower; Kronecker's limit formula); §2.3 (the zeta element `z_{p∞f} ∈ H¹_{p∞f}(ℤ_p(1)) ⊗ Q(Λ)`, its independence of `a`, the integrality of `(N(a) − σ_a)·z_{p∞f}` and the finite-layer Kronecker formula (15.6.5)); §2.4 (the realizations `V_L(ψ)`, `V_{L_λ}(ψ)`, `S(ψ)`, `per_ψ` and the de Rham comparison, in the cohomological convention, for type `(−r, 0)` and every `r ≥ 1`); §2.5 (the height-one explicit reciprocity law in the form Kato applies); §2.6 (Kato's Proposition 15.9 and the smoothed period formula (15.9.1)–(15.9.2)). All of these are stated for every prime `p`. The supplier uses ordinary absolute values and an explicit factor 2; here `log(uū) = 2 log|u|_ordinary`, so its formulas and generators are unchanged.
-
-### From PadicFamilies
-
-§4.0.1 supplies the normalized theta unit `cθ` (divisor `c²[0] − [c]⁎[0]`, distribution law, isogeny norm, Tate expansion). §4.0.3 supplies the rational cyclotomic Euler-system inequality for eigenforms, including CM forms; §7.9 records the stronger lattice variant under condition (b).
-
-### From KatoEulerSystems
-
-§4.2 (nonvanishing of twisted critical values: for every sign and every character component of `G_∞`, infinitely many finite-order characters `χ` of `p`-power conductor with `L_{{p}}(f*, χ, k − 1) ≠ 0`, through Jacquet–Shalika for `k ≥ 3` and Rohrlich for `k = 2`), §5.1 (the rational zeta morphism `γ ↦ z_γ(f)`, its conjugation law `z_{ιγ} = −σ_{−1}z_γ`, and `Z(f)` as the `Λ_ℚ`-span of its values) and §5.3 (critical interpolation `Σ_σ χ(σ) per_f(ω_{γ,r,n}^σ)^± = (2πi)^{k−r−1}L_{{p}}(f*, χ, r)γ^±`). Its §4.4 supplies the CM module structure, including dyadic torsion-freeness and rational rank one, before the identification of the elliptic-unit generator in §7.8. Its §7.2 supplies the rational cohomological upper bound; §7.9 adds the integral condition-(b) variant.
-
-### From NoncommutativeAndEquivariantIwasawa
-
-§4.3 (its Construction of the elliptic units and of the two-variable `𝔭`-adic measure `ν_𝔣` of a rational CM curve at `p ≥ 5` ordinary, its Coleman map `Col_𝔣` on the ray tower `K(𝔣p^∞)` with image the annihilator ideal of `ℤ_p(1)` and the law `Col_𝔣(β(𝔞)) = (σ_𝔞 − N𝔞)ν_𝔣`, the characteristic-ideal identity `char((U_∞/𝒞̄_∞)^χ)·A_D = (μ_χ)`, and its Theorem, Rubin's two-variable main conjecture `char X_∞^χ = char (U_∞/𝒞̄_∞)^χ` for every `χ`). It is the case `E/ℚ`, `End(E) = O_K`, `p ≥ 5` of good ordinary reduction of §§4.8(i), 5.1–5.3, which the routes there do not reprove.
-
-### From PeriodsAndSpecialValues
-
-PS.5.2 (the equivariant Tamagawa number conjecture `ETNC(M, O)` as a predicate: continuation, the predicted order, rationality and integrality of the obstruction, stored separately). PS.6.5 states the Bloch–Kato predicate for triples of weight at most `−3` and does not cover `h⁰(F)(0)`.
-
-### From ModularIwasawaMainConjectures
-
-§0.1 (the modular Iwasawa datum), §0.6 (`H^i(T_K) = lim_n H^i_ét(ℤ[ζ_{p^n}, 1/p], j_*T_K)`) and §0.7 (`KMC^η` and its rational form `KMC_ℚ`, comparing `char(H¹/Z(f))` and `char(H²)` in `Λ[1/p]`).
-
-## How to read the build
-
-Layer 0 fixes the CM ray group, its Iwasawa algebra, the regular/singular dichotomy and `ξ`. Layer 1 builds the tower cohomology and the modules `h¹`, `h²`, and proves their comparisons and module structure, keeping the Euler terms at primes of `f` prime to `p`. Layer 2 builds the elliptic units of every modulus and the module `z` on the theta functions, elliptic units and zeta element of NonordinaryCMSpecialValues, fixes the squared norm in Kronecker's limit formula and proves cotorsion. Layer 3 supplies auxiliary ideals for Kato's period formula, whose realizations and reciprocity law are NonordinaryCMSpecialValues §§2.4–2.6. Layer 4 proves the integral character-wise main conjecture of Johnson-Leung and Kings at every prime, and Rubin's theorem. Layer 5 treats split primes through Coleman maps and Katz's measure; it is used by no later layer. Layer 6 assembles the regular-prime lengths into the rational equivariant main conjecture. Layer 7 fixes the normalization of the supplied CM induction, identifies the elliptic-unit generator in the supplied rank-one cohomology and descends from the ray tower to the cyclotomic tower over `ℚ`. Layer 8 proves that elliptic units become Beilinson–Kato elements and deduces Kato's equality. Layers 7–8 use Layers 2–4 and 6, not Layer 5.
 
 ## Layer 0: the CM ray tower and its Iwasawa algebra
 
@@ -922,6 +796,132 @@ The rank-zero `p`-converse for CM elliptic curves and CM newforms at every prime
 - **The Gaussian field at `p = 2`.** `K = ℚ(i)`, `p = 2`, `f = (1)`: `Δ = 1`, `G ≅ ℤ_2²`, `R` is a domain, `h¹` is torsion-free of rank one, `z_{2∞} ≠ 0`, and §4.5 is an integral equality for the elliptic-unit module `J_χζ(χ)`, `χ = 1`, over `ℤ_2[[ℤ_2²]]`. Rubin's hypothesis excludes this case (`μ(K) = μ_4`); Johnson-Leung–Kings' theorem does not.
 - **A tame Euler factor.** `K = ℚ(i)`, `p = 5`, `f = (3)`: on the trivial finite-character component, where the inertia at (3), cyclic of order 8, acts trivially, `ξ((h¹/z)_ℚ) = ξ(h²_ℚ)·(1 − Frob_{(3)}⁻¹)`. On inertia-trivial components with finite Frobenius eigenvalue −1, the factor has augmentation 2 and is a unit; on inertia-nontrivial components the Euler module is zero.
 - **A residue-characteristic obstruction in Lemma 15.13.** For `K = ℚ(i)`, `p = 2` and `f = (3)`, `Δ ≅ ℤ/8` (§0.1), so `#Δ` is not invertible in residue characteristic 2, and the hypothesis of §7.5 fails at primes whose residue field has characteristic 2. Only primes not containing `p` enter §8.6.
+
+## Scope and ownership
+
+This roadmap owns the Iwasawa theory of elliptic units over imaginary quadratic fields at every prime and its CM-modular consequences:
+
+- the arithmetic specialization of the completed group algebra to the CM ray group `Gal(K(p^∞f)/K)`, its normalization (an isomorphism after inverting `p`), and the characteristic ideals over it (Layer 0);
+- the tower modules `h¹`, `h²`, their Kummer and Brauer comparisons, the Euler-factor sequence for `H²` and the weak Leopoldt and rank-one statements for the ray tower (Layer 1);
+- the theta-function identities through Eisenstein–Kronecker series, the elliptic units `a ζ_m` of every modulus with their Euler-system norm relation, the elliptic-unit module `z`, its auxiliary ideal and its cotorsion (Layer 2);
+- auxiliary ideals that make Kato's smoothed period formula invertible, for Hecke characters of type `(−r, 0)` and every `r ≥ 1` (Layer 3);
+- the elliptic-unit Euler system, the Tamagawa number conjecture at `s = 0` for abelian extensions of `K`, Rubin's Euler-system bound, Johnson-Leung–Kings' main conjecture and Rubin's Theorem 4.1 (Layer 4);
+- the Coleman power series of the height-one formal group of the CM curve at a split prime, the split-prime two-variable Coleman map, the elliptic-unit/Katz identification, the Katz form of the main conjecture, the anticyclotomic `θ`-component theorem and the functional-equation λ-identity (Layer 5);
+- the rational equivariant main conjecture with its Euler factors (Layer 6);
+- the general-weight normalization of CM induction, Kato's CM comparison map, the descent lemmas including the contained case `K ⊂ ℚ(μ_{p^∞})`, Kato's length lemma, the elliptic-unit generator at height zero and Kato's lattice inequality (Layer 7);
+- the archimedean normalization of the induction, the reciprocity law in `V(f)`-coefficients, the bridge from elliptic units to Beilinson–Kato elements, the equality descent and the endpoint (Layer 8).
+
+It leaves the following to their owners, by section:
+
+- The formulation of Kato's main conjecture, the modular Iwasawa datum and Kato's Iwasawa cohomology `H^i(T)` over `ℤ[ζ_{p^n}, 1/p]` are ModularIwasawaMainConjectures §§0.1, 0.6 and 0.7. The endpoint here is the rational form `KMC_ℚ` of §0.7 for CM forms; it is not a second definition.
+- Kato's zeta morphism `γ ↦ z_γ(f)` and the zeta submodule `Z(f)` are KatoEulerSystems §5.1, their critical interpolation is KatoEulerSystems §5.3, and the nonvanishing of twisted critical values (Jacquet–Shalika on the edge, Rohrlich's finiteness at the centre) is KatoEulerSystems §4.2. The rational and integral module structure of Kato's Theorem 12.4 for CM forms is KatoEulerSystems §4.4, and the rational Euler-system inequality is KatoEulerSystems §7.2 and PadicFamilies §4.0.3. Section 7.8 here identifies the elliptic-unit generator at height zero, which is stronger than the unmarked rank-one assertion and supplies the generator needed for equality descent. Section 7.9 keeps Kato's lattice inequality, whose additional conclusion at primes containing p under Rubin's condition (b) is distinct from the rational bound. The CM predicate and unnormalized Galois induction are AutomorphicGaloisRepresentations §3.15; §§7.1–7.2 here give the explicit weight dictionary and Kato's de Rham normalization.
+- Kato's CM theta function `aθ_E` (uniqueness, the specialization `(c)θ_E = cθ_E`, the norm law along `O_K`-linear isogenies whose kernel meets `E[a]` trivially, and (15.4.3)–(15.4.4)), canonical CM pairs with their Artin action, the standard elliptic units `a z_f = aθ_E(α)⁻¹` with Kronecker's limit formula, the zeta element `z_{p∞f}` with its smoothing, integrality and finite-layer Kronecker formula, Kato's realizations `V_L(ψ)`, `V_{L_λ}(ψ)`, `S(ψ)` and `per_ψ` in the cohomological convention, the height-one explicit reciprocity law in the form Kato applies, and Kato's reciprocity law for elliptic units (Kato, Proposition 15.9) are NonordinaryCMSpecialValues §§2.1–2.6, stated there for every imaginary quadratic `K`, every prime `p` (2 and 3 included) and every `r ≥ 1`. Layers 2–3 here add the units `a ζ_m` of general modulus with their Euler norm relation, the module `z`, the ideal `J`, the level-change formula, cotorsion and the admissible auxiliary ideals.
+- The normalized theta unit `cθ` attached to an integer `c` prime to 6 and its distribution and isogeny laws are PadicFamilies §4.0.1.
+- The generalized Eisenstein–Kronecker series and their meromorphic continuation are AutomorphicPadicLFunctionsPartII §§3.3–3.4. Katz's two-variable `p`-adic measure on `Gal(K(p^∞f)/K)` at an ordinary prime is AutomorphicPadicLFunctionsPartII §8.5. The functional equation of Katz's measure is stated here (§5.5) because no supplier states it.
+- Iwasawa algebras of `ℤ_p^d × Δ`, twists `Tw_κ`, Iwasawa cohomology for a profinite group, Shapiro, descent and control are SelmerIwasawaCohomology §§3.0–3.3 and 3.7. The S-unit Kummer identification is SelmerIwasawaCohomology §0.9. The étale and Galois comparison in Kato's `j_*` convention is SelmerIwasawaCohomology §3.15. The local cofreeness at `p` for the CGLS characters is SelmerIwasawaCohomology §3.17.
+- Characteristic ideals, pseudo-null modules and determinants are PadicMeasuresIwasawaAlgebras §§4.1, 4.6 and 5.1.
+- Euler systems and their twists are EulerSystemsAndKolyvaginSystems §§2.2 and 2.5. Rubin's Iwasawa-theoretic theorems over `ℤ_p^d`-extensions (hypotheses, weak Leopoldt from an Euler system, divisibility) are EulerSystemsAndKolyvaginSystems §§8.1–8.2, 8.6, 8.14, 8.25 and 8.37.
+- The full elliptic CM L-factorization and the weight-two CM induction comparison are ComplexMultiplicationAndExplicitReciprocity §4.2. Its ideal isogenies, CM periods, idele–torsion dictionary, ray-level fields and CM Tate components (§§1.2, 2.2, 3.2 and 4.1) enter through NonordinaryCMSpecialValues §§2.1–2.6.
+- The elliptic units of a rational CM curve `E/ℚ` with `End(E) = O_K` at a prime `p ≥ 5` of good ordinary reduction, built from Siegel functions on the ray class fields of its class-number-one field, the Coleman map of its formal group on the ray tower `K(𝔣p^∞)` with its explicit reciprocity law in Coleman form, the identification of `char((U_∞/𝒞̄_∞)^χ)` with Katz's measure and Rubin's two-variable main conjecture for such `E`, are NoncommutativeAndEquivariantIwasawa §4.3. The statements of Layers 4 and 5 differ from them by their generality: any imaginary quadratic `K` of any class number, Rubin's abelian `K₀ ⊃ H` with `p ∤ [K₀ : K]`, every prime in §4.5 and in the classical form of §4.8, the inert and ramified primes in §4.8(ii), and any CM curve with good reduction at the chosen split place in §5.1. The height-two Coleman interpolation at an inert prime is AnticyclotomicLocalUnits §1.1.
+- The elliptic units `a ζ_m` of every modulus with their Euler-system norm relations, and the module `z`, are §§2.2 and 2.4 here. EllipticCurvePeriodsAndModularParametrizations takes, in its one-variable `𝔩`-adic tower over ring class fields, norm limits of closures of elliptic units given as norms of CM values of modular units in ray class fields; those units are built from the same modular units as the units of §2.2 and are not cited here, and nothing of that roadmap is restated.
+- The inert anticyclotomic main conjecture of Burungale–Kobayashi–Ota (their Theorems 6.1–6.2), with Rubin's signed `p`-adic L-function, the signed Selmer groups and their control, is InertAnticyclotomicCMMainConjecture. Nothing here is consumed from it, and nothing of it is restated here.
+
+The former numbering CZ.4 is now Layer 6 (rational-equivariant-main-conjecture is §6.2); CZ.5 is now Layer 7 (cm-contained-descent is §7.6, and cm-h2-torsion is supplied by KatoEulerSystems §4.4, with the identified-generator strengthening in §7.8); CZ.6 is now Layer 8 (cm-kato-main-conjecture is §8.6 and cm-kato-normalization-dictionary is §8.7).
+
+The vanishing of the μ-invariant of anticyclotomic Katz `p`-adic L-functions (Hida), which Castella–Grossi–Lee–Skinner combine with §§5.4–5.5, is not a theorem of this roadmap; §5.4 asserts the characteristic-ideal and λ statements only, and §5.5 proves that μ vanishes on a branch `θ` exactly when it vanishes on the dual branch `θ⁻¹ω`, with equal λ-invariants when it does. The Kato equality at a prime containing `p`, the integral equivariant (`Ω`-) form of the imaginary quadratic main conjecture at singular primes, and the integral refinement of Theorem 2.6 (Burungale–Tian, Remark 2.7) are not theorems of this roadmap. The first two need Johnson-Leung and Kings' μ-hypothesis (their Conjecture 5.5), known only for split `p ∤ 6`. The rational statements here make no claim about them.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- `ClassGroup` of `O_{K′}` gives the ideal class groups whose `p`-primary parts form `h²`.
+- `Module.length`, `IsLocalization.AtPrime` and `Ideal.height` give the height-one lengths in `ξ` and in Kato's length lemma. `Module.length` is the Krull dimension of the submodule lattice; it is `⊤` for a module of infinite length.
+- `NumberField.Units.logEmbedding` and `NumberField.Units.logEmbedding_eq_zero_iff` identify the kernel of the logarithmic embedding with torsion; `NumberField.Units.regulator` and `NumberField.Units.regulator_ne_zero` give the positive covolume, rather than a map or its injectivity. `NumberField.Units.logEmbedding` weights a complex place by `mult w = 2`, so this regulator is Dirichlet's, the squared-norm normalization of §4.2.
+- `NumberField.IsTotallyComplex` gives the absence of real places, which removes the dyadic real-place terms at `p = 2`.
+- `IsCyclotomicExtension` and `cyclotomicCharacter` give the cyclotomic fields and the character whose kernel is the auxiliary ideal of §2.4.
+- `PowerSeries` and `MvPowerSeries` give the coordinate rings of `O[[Γ]]`.
+
+### From Tau Ceti
+
+- `TauCeti.completedGroupAlgebra` with its projections, `map`, `lift` and topology is the ring `R_O` (SelmerIwasawaCohomology §3.0 specifies its coordinates and twists).
+- `TauCeti.GlobalNumberFields.Modulus`, `TauCeti.GlobalNumberFields.RayClassGroup` and `TauCeti.GlobalNumberFields.HeckeCharacter` are the ray class groups and Hecke characters. The native ray class field and reciprocity are `TauCeti.ClassFieldTheory.rayClassField` and `TauCeti.ClassFieldTheory.rayClassArtinEquiv` in `TauCeti/NumberTheory/ClassFieldTheory/ClassFields/RayClassField.lean`; ClassFieldTheory Layer 13 specifies their class-field-theoretic interface.
+- `HeckeRing.GL2.Newform` is the newform carrier.
+
+### From TauCetiRoadmap.GlobalNumberFields, ClassFieldTheory and ProfiniteProPGroups
+
+GlobalNumberFields Layers 2 (moduli and ray class carriers), 9 (Hecke and ray class characters) and 10 (infinity types) supply moduli, characters and infinity types. ClassFieldTheory Layer 10 supplies the Brauer sequence and the sum of local invariants, Layer 11 global Artin reciprocity and Layer 13 ray class fields with their Artin isomorphisms. ProfiniteProPGroups Layer 9 ("The completed group algebra of the orientation image") specifies the completed group algebra.
+
+### From TauCetiRoadmap.ModularForms and EllipticCurves
+
+ModularForms Layers 4–5 and 9 supply newforms, strong multiplicity one and the self-twist invariant, and Layer 7 their L-functions. EllipticCurves Layer 1 supplies isogenies, invariant differentials and formal groups.
+
+### From TauCetiRoadmap.PadicMeasuresIwasawaAlgebras
+
+Layer 1 supplies completed group rings and convolution, and Layer 4 Weierstrass theory and module structure, for the Coleman measures and one-variable specializations of Layer 5. §4.1 supplies pseudo-null modules and pseudo-isomorphisms. §4.6 supplies `charIdeal` over a noetherian normal factorial domain, multiplicative in short exact sequences and invariant under pseudo-isomorphism. §5.1 supplies determinant lines of perfect complexes. Characteristic ideals over `R_O[1/p]` are formed on each normal factor by §4.6.
+
+### From SelmerIwasawaCohomology
+
+§0.9 (Kummer identification for S-units) and §0.10 (inverse-limit hypotheses); §3.0 (Iwasawa algebras of `ℤ_p^d × Δ`, the involution and twists `Tw_κ`); §3.1 (Iwasawa cohomology `H^i_Iw(G, H; M)` for a profinite group with closed normal `H`, its corestriction-limit description under condition (F), and `H⁰_Iw = 0`); §3.2 (Shapiro); §3.3 (descent and control); §3.7 (twisting); §3.15 (étale cohomology of `Spec O_{F,S}` and the `j_*` comparison in degree one); §3.17 (local cofreeness at `p` and the away-`p` Euler factor for the CGLS characters); §2.8 (Greenberg's local condition). Its §3.13 rank formula is stated for the cyclotomic `ℤ_p`-extension and odd `p`. The ray-tower rank statement of §1.7 is proved here from the finite-level Euler characteristic and is not taken from §3.13.
+
+### From ArithmeticGaloisDuality
+
+§R02.4.3 (Poitou–Tate), §R02.4.4 (finiteness, cohomological dimension and Tate's global Euler characteristic formula) and §D7.5 (compact support and derived global duality).
+
+### From IntegralIwasawaTheory
+
+§2.6 (weak Leopoldt in every cyclotomic tower), §7.1 (integral norm and interpolation on `O[[T]]` for unramified `O`), §7.2 (the normalized arithmetic Coleman map for odd `p`, whose factor `1 − Φ` the local Coleman measure of §5.1 follows) and §10.0 (compact coefficients, Shapiro and mapping fibres).
+
+### From EulerSystemsAndKolyvaginSystems
+
+§2.2 (the module of Euler systems), §2.5 (twisting Euler systems by characters of finite order), §8.1 (`ℤ_p^d`-extensions in which no finite prime splits completely), §8.2 (Rubin's hypotheses `Hyp(K_∞, T)`), §8.6 (`Hyp(K_∞/K)`), §8.7 (the `Λ`-adic index of divisibility), §8.14 (invariance under twisting), §8.25 (weak Leopoldt from an Euler system, Rubin II.3.2) and §8.37 (Rubin's divisibility `char(X_∞) | ind_Λ(c)`, Rubin II.3.3).
+
+### From ComplexMultiplicationAndExplicitReciprocity
+
+§4.2 (the full elliptic CM L-factorization and the weight-two CM induction comparison).
+
+### From AutomorphicGaloisRepresentations and AutomorphicGaloisRepresentationsPartII
+
+AutomorphicGaloisRepresentations §3.15 supplies the CM predicate and algebraic-character induction, with the weight and dual dictionary of §§7.1–7.2. Its §1.5 (rank-two newform realization) and §7.3 (the fixed-eigenform compatible family) supply `V_{F_λ}(f)` and its Frobenius polynomials. AutomorphicGaloisRepresentationsPartII AG2.0 supplies the `λ`-adic Galois characters of algebraic Hecke characters.
+
+### From AnalyticNumberTheoryPartI and LFunctions
+
+AnalyticNumberTheoryPartI §2.3a supplies continuation and the functional equation of unitary Hecke L-functions, with the norm shifts for algebraic Hecke characters. LFunctions Layer 7 (intrinsic nonvanishing) supplies that a nontrivial primitive finite-order Hecke L-function has no zero on `Re s = 1`.
+
+### From ColemanPowerSeries
+
+Layer 1 (integral norm, trace and Coleman interpolation over `O[[T]]`, `p = 2` included), §2.37 (the raw Coleman map `Col₀` from norm-compatible local units to measures on `ℤ_p^×`, through Coleman interpolation, the boundary `1 − φ` and the Amice transform), §2.39 (the sign-adjusted map `Col = −Col₀`, for every prime including 2) and §2.44 (Galois equivariance `Col₀(a·u) = a_*Col₀(u)`). Section 5.1 transports them along `θ : Ĝ_m → F` to the height-one formal group of a CM curve.
+
+### From PadicHodgeRegulators
+
+§1.4 (Kato's dual exponential).
+
+### From AutomorphicPadicLFunctionsPartII
+
+§§3.3–3.4 supply the Eisenstein–Kronecker series `K^ν(H, z, w, s, Λ)` with their continuation and residues. In dimension one with `w = 0`, `(z + λ)^{−k}|z + λ|^{−s} = conj(z + λ)^k·|z + λ|^{−2k−s}`, so Kato's `E(k, τ, z, s)` is that series with `ν = k` at the variable `k + s/2`. §8.5 supplies the bounded measure `μ_f` on `Gal(K(p^∞f)/K)` interpolating critical Hecke values for an ordinary lifted type. For `K` imaginary quadratic and `p = v v̄` split this is Katz's two-variable measure.
+
+### From NonordinaryCMSpecialValues
+
+§2.1 (Kato's CM theta function `aθ_E` for `a` prime to 6: uniqueness, `(c)θ_E = cθ_E`, the norm law along `O_K`-linear isogenies whose kernel meets `E[a]` trivially, and (15.4.3)–(15.4.4)); §2.2 (canonical CM pairs of modulus `f`, their base change and Artin action; the standard elliptic units `a z_f = aθ_E(α)⁻¹` for `a` prime to `6f`, their unit property and norm compatibility in the `p`-tower; Kronecker's limit formula); §2.3 (the zeta element `z_{p∞f} ∈ H¹_{p∞f}(ℤ_p(1)) ⊗ Q(Λ)`, its independence of `a`, the integrality of `(N(a) − σ_a)·z_{p∞f}` and the finite-layer Kronecker formula (15.6.5)); §2.4 (the realizations `V_L(ψ)`, `V_{L_λ}(ψ)`, `S(ψ)`, `per_ψ` and the de Rham comparison, in the cohomological convention, for type `(−r, 0)` and every `r ≥ 1`); §2.5 (the height-one explicit reciprocity law in the form Kato applies); §2.6 (Kato's Proposition 15.9 and the smoothed period formula (15.9.1)–(15.9.2)). All of these are stated for every prime `p`. The supplier uses ordinary absolute values and an explicit factor 2; here `log(uū) = 2 log|u|_ordinary`, so its formulas and generators are unchanged.
+
+### From PadicFamilies
+
+§4.0.1 supplies the normalized theta unit `cθ` (divisor `c²[0] − [c]⁎[0]`, distribution law, isogeny norm, Tate expansion). §4.0.3 supplies the rational cyclotomic Euler-system inequality for eigenforms, including CM forms; §7.9 records the stronger lattice variant under condition (b).
+
+### From KatoEulerSystems
+
+§4.2 (nonvanishing of twisted critical values: for every sign and every character component of `G_∞`, infinitely many finite-order characters `χ` of `p`-power conductor with `L_{{p}}(f*, χ, k − 1) ≠ 0`, through Jacquet–Shalika for `k ≥ 3` and Rohrlich for `k = 2`), §5.1 (the rational zeta morphism `γ ↦ z_γ(f)`, its conjugation law `z_{ιγ} = −σ_{−1}z_γ`, and `Z(f)` as the `Λ_ℚ`-span of its values) and §5.3 (critical interpolation `Σ_σ χ(σ) per_f(ω_{γ,r,n}^σ)^± = (2πi)^{k−r−1}L_{{p}}(f*, χ, r)γ^±`). Its §4.4 supplies the CM module structure, including dyadic torsion-freeness and rational rank one, before the identification of the elliptic-unit generator in §7.8. Its §7.2 supplies the rational cohomological upper bound; §7.9 adds the integral condition-(b) variant.
+
+### From NoncommutativeAndEquivariantIwasawa
+
+§4.3 (its Construction of the elliptic units and of the two-variable `𝔭`-adic measure `ν_𝔣` of a rational CM curve at `p ≥ 5` ordinary, its Coleman map `Col_𝔣` on the ray tower `K(𝔣p^∞)` with image the annihilator ideal of `ℤ_p(1)` and the law `Col_𝔣(β(𝔞)) = (σ_𝔞 − N𝔞)ν_𝔣`, the characteristic-ideal identity `char((U_∞/𝒞̄_∞)^χ)·A_D = (μ_χ)`, and its Theorem, Rubin's two-variable main conjecture `char X_∞^χ = char (U_∞/𝒞̄_∞)^χ` for every `χ`). It is the case `E/ℚ`, `End(E) = O_K`, `p ≥ 5` of good ordinary reduction of §§4.8(i), 5.1–5.3, which the routes there do not reprove.
+
+### From PeriodsAndSpecialValues
+
+PS.5.2 (the equivariant Tamagawa number conjecture `ETNC(M, O)` as a predicate: continuation, the predicted order, rationality and integrality of the obstruction, stored separately). PS.6.5 states the Bloch–Kato predicate for triples of weight at most `−3` and does not cover `h⁰(F)(0)`.
+
+### From ModularIwasawaMainConjectures
+
+§0.1 (the modular Iwasawa datum), §0.6 (`H^i(T_K) = lim_n H^i_ét(ℤ[ζ_{p^n}, 1/p], j_*T_K)`) and §0.7 (`KMC^η` and its rational form `KMC_ℚ`, comparing `char(H¹/Z(f))` and `char(H²)` in `Λ[1/p]`).
 
 ## References
 
