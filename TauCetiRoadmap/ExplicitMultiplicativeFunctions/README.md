@@ -52,167 +52,24 @@ Suggested home: `TauCeti/NumberTheory/Explicit/MultiplicativeFunctions/`, divide
 [`Suggested.lean`](Suggested.lean) states the headline theorems against the pinned libraries; it is
 not the roadmap.
 
-## Scope and ownership
+## How to read the build
 
-### Owned here
-
-- the real-argument summatory carriers of the Möbius function, their semigroup-restricted and
-  character-twisted variants, the real-argument harmonic remainder, the squarefree remainder, the
-  first Stieltjes constant, and the propositions that isolate the finite computations the sources
-  rely on (Layer 0);
-- Meissel's identity, MacLeod's Bernoulli identities, Balazard's identities, the elementary linear
-  and logarithmic bounds for `M(x)` (with their iteration to `x/(log x)^{2.35}`), the linear bounds
-  from a Möbius table, Ramaré's transfer from explicit Chebyshev estimates to explicit Möbius
-  estimates as a parametric theorem with every finite computation named, with its 2013 instance and
-  Ramaré–Zuniga Alterman's instance, the coprime variants, the linear bounds from finitely many zeros
-  of `ζ` under a named residue-sum hypothesis, Daval's linear-to-linear conversion, and Lee–Leong's
-  bound of de la Vallée Poussin shape given the Riemann hypothesis verified to the height
-  `3 000 175 332 800` and the records `BrentPlattTrudgianRecord` and `LeongRecord` of
-  ExplicitZetaBounds §0.4b, with the two bounds of Leong near that height that the join of its
-  contour uses, and the Liouville summatory function with its identities with `M` and the transfer
-  of bounds between the two (Layer 1);
-- Gram's and Tao's bound `|m_S(x)| ≤ 1`, Ramaré's mollified bound, Balazard's conversion theorem and
-  Daval's weighted form of it, the thresholded and decaying bounds for `m(x)`, the coprime variants,
-  the explicit tails of `Σ μ(d)/d²`, and the `m`-bound of Ramaré–Zuniga Alterman (Layer 2);
-- the identities and bounds for `m̌(x)`, with the sign correction of the corrigendum, the coprime
-  positivity theorem, and the decaying bounds with the exact
-  value of `sup_{x ≥ 1} (log² x)|m̌(x) − 1|` (Layer 3);
-- the character-twisted logarithmic Möbius sum with a Pólya–Vinogradov bound as a parameter
-  (Layer 4);
-- the comparison theorem of the convolution method for a general exponent, its weighted variant,
-  the harmonic and Dirichlet-divisor models (including the exponent `2/5`), the second model, the
-  hyperbola refinement of Akhilesh–Ramaré, the explicit Levin–Fainleib theorem and the squarefree
-  comparison at the critical exponent (Layer 5);
-- explicit upper bounds for averages of nonnegative multiplicative functions: the product bound,
-  the Daboussi–Rivat tail bound, the Hall–Tenenbaum theorem, Bordellès' monotone-local-factor bound
-  and the van Lint–Richert coprimality removal (Layer 6);
-- the explicit averages of `μ²`, `μ²/n`, `μ²/φ`, the Riesel–Vaughan sum, `τ_k`, `τ_4`, `τ²`,
-  `2^ω`, `φ/n` and `nφ`, Ramaré's logarithmic tail estimates for `Σ μ(d)/d²`, the square-root
-  bounds for the Dirichlet-divisor remainder with the constants `0.961`, `0.482` and `0.397` and its
-  smoothed form, the squarefree count and remainder written through `M`, the squarefree remainder
-  from finitely many zeros with squarefree integers in short intervals, and the explicit Piltz
-  remainders `Δ_k` (Layer 7);
-- the identification of the Meissel–Mertens constant with Tau Ceti's `mertensConstant ℚ`, the
-  explicit Mertens product with Axler's cubic refinement, Dusart's two-sided cubic form and its
-  form under the Riemann hypothesis, the tilted products and Bordellès'
-  products over a progression with Languasco–Zaccagnini's constants as an enclosure (Layer 8);
-- the pointwise bounds for `ω(n)`, `τ_k(n)` (among them `k^{ω(n)} ≤ τ_k(n) ≤ k^{Ω(n)}`), `σ(n)`,
-  `σ*(n)` and `n/φ(n)` with the superior-highly-composite and primorial tables as hypotheses, and
-  highly abundant numbers with the six-prime criterion and its steps, and the theorem that
-  `lcm(1, …, n)` is not highly abundant for `n ≥ X₀²` beyond every threshold `X₀` with
-  `log X₀ ≥ 5` of primes in the intervals `(y, y(1 + 1/log³ y)]`, in particular for `n ≥ 89 693²`
-  (Layer 9).
-
-### Consumed, not redefined
-
-- the arithmetic functions `μ`, `σ_k`, `ω`, `Ω`, `Λ`, `ζ`, the Liouville function,
-  `IsMultiplicative`, Dirichlet convolution, `Chebyshev.psi`, `Chebyshev.theta`, the least common
-  multiple `Nat.lcmUpto`, Abel summation, the harmonic bounds, Euler's constant with its
-  bounds `1/2 < γ < 2/3`, `ζ(2) = π²/6`, Dirichlet characters with `L(1, χ) ≠ 0`, the primorial, and
-  the decimal bounds for `π`, `e` and `log 2`: Mathlib, as listed in the supplier contracts;
-- the summatory Abel formulas of Tau Ceti and its Mertens constant `mertensConstant K`;
-- the explicit prime estimates with constants (for `ψ`, `θ`, `π`, the `k`-th prime,
-  `Σ_{n ≤ x} Λ(n)/n`, `Σ_{p ≤ x} 1/p`, `θ` in progressions and primes in short intervals), the
-  verified range of Büthe, the decimal enclosures of `γ` and of the Meissel–Mertens constant, the
-  hypothesis `RH(H)` and the real-zero gap with its named instances, and Büthe's asymptotic for the
-  diagonal sum `Σ_{n ≤ z} μ²(n)/φ(n)`: ExplicitPrimeCounting §§0.1, 1.1, 1.3, 1.6, 1.7, 3.1–3.3,
-  3.5, 4.2, 4.3, 4.7, 5.3, 6.1, 6.3 and 7.4, as listed in its contract; the estimates it does not
-  state in the shape a proof here needs are supplier gaps of that contract. No prime estimate is restated: every
-  theorem that uses one takes it as a hypothesis of the stated shape;
-- the Rosser–Schoenfeld reciprocal-prime estimate `|Σ_{p ≤ x} 1/p − log log x − B| < 1/(2 log² x)`
-  for `x ≥ 286`, Mertens' theorems with qualitative remainders, the qualitative exclusion of
-  Landau–Siegel zeros, the Dirichlet divisor asymptotic, the harmonic remainder
-  `0 < H_N − log N − γ < log(1 + 1/N)` at integers, the divisor hyperbola identity, the
-  Dirichlet-divisor remainder `divisorError` (`Δ`) with its square-root and cubic bounds and their
-  finite input `BBRFiniteInput`, the divisor subpower bound, the asymptotic maximal order of `τ`,
-  Rankin's smooth-number bound, the asymptotic coprime Möbius sums and Davenport's
-  `M(y) = O_A(y (log y)^{−A})`: AnalyticNumberTheoryPartI
-  §§0.11, 0.19, 0.21, 0.26, 0.34, 1.2, 3.1, 3.7, 3.9, 3.12, 3.22, 3.22a, 3.22b, 3.23a, 3.35, 3.35a,
-  never restated; Layer 0.3 extends §3.22a to real arguments with the sharper `6/(11X)`, and Layer
-  7.4 sharpens the constant of §3.23a's square-root bound from `1` to `0.961`;
-- the asymptotic Levin–Fainleib mean value and its uniform dimension-one form, and the logarithmic
-  sieve dimension predicate: SieveMethodsAndPrimePatterns §§0.5 and 1.1, cited for the statement
-  shape of Layer 5.5, which refines it with explicit constants;
-- the semantics of verified zeros (*AllOnCriticalLine*): ZerosOfLFunctions Layer 9; it enters this
-  roadmap only through ExplicitPrimeCounting §1.1 and is never restated;
-- the Selberg diagonal sum `selbergDiagonal`, `S(z) = Σ_{n ≤ z} μ²(n)/φ(n)` for real `z`, with its
-  coprime comparison `S_k(z) ≥ (φ(k)/k) S(z)`: ExplicitCharacterSumsAndSieves §5.1; and Büthe's
-  explicit asymptotic `S(z) = log z + c₀ + O*(58/√z)` for real `z ≥ 10^9`, where
-  `c₀ = γ + Σ_p log p/(p(p − 1))` is the constant of Layer 7.2: ExplicitPrimeCounting §0.1, which
-  defines the same sum and which ExplicitCharacterSumsAndSieves §5.1 cites for it; neither is
-  restated. Layer 6.5 differs in
-  proving the comparison for every nonnegative multiplicative `f` in place of `1/φ` and in adding
-  the upper inequality through `x·rad(d)`; Layers 5.6 and 7.2 differ in proving other explicit
-  forms of `S` and of its coprime restrictions (Ramaré's `O*(2.44/√D)` from `D ≥ 1`,
-  Akhilesh–Ramaré's coprime form, Zuniga Alterman's `X^{−1/3}` forms for every `X > 0`).
-
-### Not owned here
-
-- zero-free regions, the explicit formula for `ψ`, zero counting, decimal zero-free constants and
-  explicit bounds for `1/ζ` and for the moments of `ζ` (ZerosOfLFunctions, ExplicitPrimeCounting,
-  ExplicitZetaBounds); the explicit formula for `M` with a smoothed kernel (1.7) is proved here from
-  the zero data named in *ZetaResidueSumVerified*; the bounds for `1/ζ` that the route of
-  Lee–Leong's bound of 1.9 takes from a supplier are ExplicitZetaBounds §7.10's, each given
-  `RH(3 000 175 332 800)` and `BrentPlattTrudgianRecord`, and Leong's line bound and the bound on
-  `σ ≥ 3/4` also given `LeongRecord` (records of its §0.4b). Two further bounds of Leong that only
-  the join of that contour uses, at heights just below the verified one, are stated in 1.9: a row
-  of the corollary whose classical-region row §7.10 states, and the bound for `ζ'/ζ` that §7.10's
-  route uses without stating it. The bound for `1/ζ` on `σ = 3/4`, `|t| ≤ 14`, a computation on a
-  compact segment, is the proposition *ZetaReciprocalSegmentVerified* of Layer 0.7;
-- the explicit Pólya–Vinogradov and Burgess inequalities and the explicit sieve bounds
-  (ExplicitCharacterSumsAndSieves): Layer 4 takes a Pólya–Vinogradov bound as a parameter, and what
-  this roadmap consumes from that roadmap is its §5.1 (above);
-- any computational algorithm: sieving `M(x)`, evaluating a constant, verifying a table. A page on
-  exact computation contributes a verified value only, as a proposition that this roadmap states
-  and does not discharge (Layer 0.7);
-- Vanlalngaia's constant `0.841` for the tilted products (`vanlalngaia2017` Theorem 5, p. 3): its
-  input is that paper's Theorem 4, a remainder for `Σ_{p ≤ x} 1/p` in terms of `θ(x) − x`
-  (`vanlalngaia2017` lines 90–108, proved at lines 423–429 by Stieltjes integration against `θ`),
-  which no section of ExplicitPrimeCounting states (its §4.3 uses it only inside the route of
-  Vanlalngaia's Corollary 3); Layer 8.2 proves the transfer with the cubic reciprocal-prime
-  remainder instead;
-- the `(log log x)^k/(log x)^k` family of bounds for `M(x)` of El Marraki 1995, Théorème 4, and the
-  double-logarithmic sum `Σ_{n ≤ x} μ(n) log²(x/n)/n` of Ramaré 2015, Theorems 1.7–1.8 and
-  1.16–1.17, with its coprime consequence `0 ≤ Σ_{n ≤ x, (n, q) = 1} μ(n) log²(x/n)/n ≤ 2 (q/φ(q)) log x`
-  (Corollary 1.11): they belong to ExplicitMultiplicativeFunctions, Part II, which starts where
-  Layers 1 and 3 stop;
-- the statements whose proofs rest on inputs that no supplier states and that only their sources
-  fix: Ramaré–Zuniga Alterman's identity-factory results (`ramareZunigaAlterman2026` Theorems 1.2,
-  1.7 and 1.8: the coprime sums `Σ_{n ≤ X, (n, q) = 1} μ(n) n^{−σ} log^k(X/n)` for `σ ≥ 1` and their
-  asymptotics for `1 ≤ σ ≤ 2`, which use bounds for the Möbius sums over odd integers taken from
-  Helfgott's monograph, the source's Lemma 5.4 and direct checks for `X < 47`, and, for `k ≥ 2`, the
-  double-logarithmic sums of the previous item); the odd form
-  `Σ_{d ≤ X, d odd} μ²(d)/d = (4/π²)(log X + C₂ + (log 2)/3) + O*(0.79/√X)` of Zuniga Alterman
-  (`zunigaAlterman2022` Lemma 4.1, second part, which uses a count of odd squarefree integers from
-  the same monograph), with its consequence
-  `Σ_{ℓ ≤ X, ℓ odd} μ²(ℓ)/φ(ℓ) = ½(log X + a_2) + O*(2.169/√X)` for every real `X > 0`
-  (`zunigaAlterman2022` Lemma 4.7 at `q = 2`, the source's Theorem 4.6 at the exponent `1/2` over that
-  odd model, with `a_2` of Layer 5.6 and the Euler product `∏_{p > 2}(1 + 1/((p − 1)(√p − 1)))`);
-  Palojärvi–Tudzi's Piltz remainders (`palojarviTudzi2026`
-  Theorem 1.1, which use explicit bounds for the second and fourth moments of `ζ` on the critical
-  line); and Lee–Leong's bounds for `M(x)` of Littlewood and Korobov–Vinogradov shape
-  (`leeLeong2022` (10) and (11), beside the de la Vallée Poussin member (9) of 1.9; they use their
-  bounds (7) and (8) for `1/ζ` in the Littlewood and Korobov–Vinogradov zero-free regions, which no
-  supplier states). They belong
-  to ExplicitMultiplicativeFunctions, Part II, which starts where Layers 1, 2, 3, 5 and 7 stop;
-- Nicolas' Théorème 3 (the constant `2.597` for every `n ≥ 3` outside a table of twelve exceptional
-  integers): it belongs to ExplicitMultiplicativeFunctions, Part II, and Layer 9.3 states Théorème 2,
-  whose constant is attained;
-- the ordered-divisor majorants `Σ_{n ≤ Z} τ_k(n)/n ≤ (1 + log Z)^k` and
-  `Σ_{n ≤ Z} τ_k(n) ≤ Z (1 + log Z)^{k−1}` for real `Z ≥ 1` (SieveMethodsAndPrimePatterns §1.1);
-  Bordellès' bound of Layer 7.5 differs in having `γ + 1/x` in place of `1`, which is smaller for
-  every `x > 1/(1 − γ) = 2.365…`;
-- the Rankin-type bound `Σ_{n ≤ x} f(n) ≤ x exp(Σ_{p ≤ x} (f(p) − 1)/p)` for every real `x ≥ 1` and
-  every multiplicative `f` with `f(p^ν) = f(p) ≥ 1` for every prime `p` and `ν ≥ 1`
-  (ProbabilisticAndMetricNumberTheory §3.7, which precedes this roadmap in the order of supply);
-  Bordellès' bound of Layer 6.4 differs in keeping the product `∏_{p ≤ x}(1 + (f(p) − 1)/p)` in
-  place of its exponential and in allowing `f(p^ν)` to increase with `ν`;
-- the qualitative maximal orders `τ(n) ≤ exp((log 2 + ε) log n/log log n)` for large `n` and
-  `n/φ(n) ≤ C log log n` (AnalyticNumberTheoryPartI §§3.7 and 3.11), of which Layer 9 proves the
-  explicit forms;
-- the class-number applications (ExplicitNumberFields) and the least-nonresidue and large-sieve
-  applications (ExplicitCharacterSumsAndSieves and ExplicitZetaBounds, in their Part II wherever they
-  use this roadmap, since both precede it in the order of supply).
+Layer 0 fixes the carriers, the elementary remainders, the Euler-product derivatives and the
+propositions that record finite computations. Layers 1–3 treat the three summatory functions of `μ`
+in turn: `M` from the identities and the prime estimates, `m` from `M` through Balazard's
+identities, `m̌` likewise; Layer 4 twists by a character. Layer 5 is the convolution method: a
+comparison theorem that transports an explicit asymptotic from a model `k` to any `g = h ⋆ k` with a
+small `h`, with its models, and the explicit Levin–Fainleib theorem. Layer 6 gives upper bounds for
+averages of nonnegative multiplicative functions that need no main term. Layer 7 applies Layers 5–6
+to the classical functions. Layer 8 turns the explicit reciprocal-prime sums into explicit Euler
+products. Layer 9 proves the pointwise maximal orders. Each layer ends with the targets that carry
+the sharpest constants of later work (1.7–1.10, 2.6, 3.4, 5.6, 7.8–7.9, 9.4's large-`n` forms):
+they reuse the identities and schemes of the earlier subsections with sharper inputs, and the
+refereed statements they improve are kept beside them, so that a preprint is never the only source
+of a statement. Within each layer the identities come first, then the parametric theorems, then the
+numerical instances; an implementer who proves an instance by another route is not blocked behind a
+parametric theorem, since each instance's *Needs:* line lists the identity and the hypotheses it
+uses.
 
 ## Conventions
 
@@ -279,334 +136,6 @@ Sources are cited by the identifiers of the References with a locator: a theorem
 number, a page, or a line of the cited text (`ramare2013aa` line 251). A source marked
 *uncertified* is cited by its published locator only; where a statement taken from it is also
 quoted by another source, that quotation is cited beside it.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- `ArithmeticFunction.moebius`, `ArithmeticFunction.vonMangoldt`, `ArithmeticFunction.zeta`,
-  `ArithmeticFunction.sigma`, `ArithmeticFunction.cardDistinctFactors`,
-  `ArithmeticFunction.IsMultiplicative`, the convolution `*` on `ArithmeticFunction R` and its powers
-  (`ArithmeticFunction.zeta ^ k` is `τ_k`), `ArithmeticFunction.moebius_mul_coe_zeta`
-  (`μ ⋆ ζ = 1`), `ArithmeticFunction.coe_moebius_mul_coe_zeta`,
-  `ArithmeticFunction.vonMangoldt_mul_zeta` (`Λ ⋆ ζ = log`),
-  `ArithmeticFunction.isMultiplicative_moebius`, `ArithmeticFunction.isMultiplicative_sigma`,
-  `ArithmeticFunction.sigma_zero_apply` (`σ 0 n = #n.divisors`), `ArithmeticFunction.prodPrimeFactors`
-  with `prodPrimeFactors_apply`, `ArithmeticFunction.IsMultiplicative.prodPrimeFactors_one_sub`,
-  `Nat.card_divisors` (`#n.divisors = ∏_{p} (v_p(n) + 1)` for `n ≠ 0`),
-  `Nat.sum_divisors_filter_squarefree`, `Nat.totient`, `Nat.factoredNumbers`, `Nat.smoothNumbers`,
-  `Nat.equivProdNatFactoredNumbers`, `Nat.primesBelow`, `Nat.primesLE` (the primes `≤ n`,
-  `Mathlib/NumberTheory/PrimeCounting.lean`), `Nat.nth` with `Nat.nth_prime_zero_eq_two`, and
-  `primorial` (`Mathlib/NumberTheory/Primorial.lean`, the product of the primes `≤ n`);
-- `Chebyshev.psi`, `Chebyshev.theta` (sums over `Ioc 0 ⌊x⌋₊`), `Chebyshev.psi_nonneg`,
-  `Chebyshev.theta_le_log4_mul_x` (`θ x ≤ log 4 · x` for `x ≥ 0`), `Chebyshev.psi_le_const_mul_self`
-  (`ψ x ≤ (log 4 + 4) x` for `x ≥ 0`), `Chebyshev.psi_eq_theta_add_sum_theta`,
-  `Chebyshev.abs_psi_sub_theta_le_sqrt_mul_log`;
-- `sum_mul_eq_sub_sub_integral_mul` (Abel summation: for `0 ≤ a ≤ b`, `f` differentiable on
-  `[a, b]` with integrable derivative,
-  `Σ_{a < k ≤ b} f(k) c(k) = f(b) C(b) − f(a) C(a) − ∫_a^b f'(t) C(t) dt` with `C(t) = Σ_{k ≤ t} c(k)`), and its variants
-  `sum_mul_eq_sub_integral_mul`, `sum_mul_eq_sub_integral_mul₀`;
-- `harmonic`, `harmonic_le_one_add_log` (`H_n ≤ 1 + log n`), `log_add_one_le_harmonic`
-  (`log(n + 1) ≤ H_n`), `Real.eulerMascheroniConstant`, `Real.eulerMascheroniSeq`,
-  `Real.eulerMascheroniSeq'`, `Real.eulerMascheroniSeq_lt_eulerMascheroniConstant`,
-  `Real.eulerMascheroniConstant_lt_eulerMascheroniSeq'`, `Real.one_half_lt_eulerMascheroniConstant`,
-  `Real.eulerMascheroniConstant_lt_two_thirds` (no decimal enclosure of `γ` finer than these is
-  at the pin; the two `eulerMascheroniSeq` inequalities enclose `γ` in an interval of width
-  `log(1 + 1/n)` at every index `n`);
-- `hasSum_zeta_two` (`Σ 1/n² = π²/6`), `Real.pi_gt_d6`, `Real.pi_lt_d6`, `Real.exp_one_gt_d9`,
-  `Real.exp_one_lt_d9`, `Real.log_two_gt_d9`, `Real.log_two_lt_d9`, `riemannZeta`, `Real.Gamma`;
-- `DirichletCharacter ℂ N`, `DirichletCharacter.LFunction`,
-  `DirichletCharacter.LFunction_apply_one_ne_zero`
-  (`χ ≠ 1 → LFunction χ 1 ≠ 0`), `DirichletCharacter.LFunction_ne_zero_of_one_le_re`;
-- `EulerProduct.eulerProduct_hasProd`, `EulerProduct.eulerProduct_completely_multiplicative`
-  (the Euler product of an absolutely summable multiplicative `f`, as finite products over
-  `primesBelow` and their limit), `EulerProduct.summable_and_hasSum_smoothNumbers_prod_primesBelow_tsum`
-  (for `f` with `f 1 = 1`, multiplicative on coprime arguments and with absolutely summable local
-  series, the sum over the `N`-smooth numbers is `∏_{p < N} Σ_n f(p^n)`; used in Layer 6.1),
-  `Real.summable_nat_rpow_inv`, `hasDerivAt_tsum`;
-- `ArithmeticFunction.LSeriesSummable_moebius_iff` (the `L`-series of `μ` converges absolutely
-  exactly on `Re s > 1`), `LSeries_one_mul_Lseries_moebius` and `LSeries_one_eq_riemannZeta`
-  (together: the `L`-series of `μ` is `1/ζ` on `Re s > 1`), used in the route of Layer 1.9;
-- `Complex.borelCaratheodory` (`Mathlib/Analysis/Complex/BorelCaratheodory.lean`: for `f`
-  differentiable on the open ball of radius `R` about `0` with `Re f ≤ M` there and `M > 0`,
-  `‖f z‖ ≤ 2M‖z‖/(R − ‖z‖) + ‖f 0‖(R + ‖z‖)/(R − ‖z‖)` for `‖z‖ < R`), used in the route of the
-  items (a) and (b) of Layer 1.9;
-- `Polynomial.bernoulli` (the Bernoulli polynomials with `B₁ = −1/2`), `Nat.Coprime`,
-  `Nat.primeFactors`, `Squarefree`, `Nat.factorization`, `Real.log_le_sub_one_of_pos`,
-  `Real.add_one_le_exp`;
-- `ArithmeticFunction.liouville` (`λ(n) = (−1)^{Ω(n)}` for `n ≥ 1`,
-  `Mathlib/NumberTheory/ArithmeticFunction/Liouville.lean`) with
-  `ArithmeticFunction.isMultiplicative_liouville`, `ArithmeticFunction.cardFactors` (`Ω`),
-  `ArithmeticFunction.isMultiplicative_zeta` and `ArithmeticFunction.IsMultiplicative.pow`, used in
-  Layers 1.6a and 9.2;
-- `Nat.lcmUpto` (`lcm(1, …, n)` as `(Icc 1 n).lcm id`, `Mathlib/NumberTheory/Chebyshev.lean`),
-  `Nat.factorization_lcmUpto` (`v_p(lcm(1, …, n)) = Nat.log p n` for prime `p`) and
-  `Chebyshev.psi_eq_log_lcmUpto` (`ψ(n) = log lcm(1, …, n)`), used in Layer 9.3a.
-
-What these do not include: no real-argument summatory function of `μ`, no bound on `M(x)` or
-`m(x)` of any shape, no explicit remainder for `Σ_{n ≤ x} τ(n)`, no Stieltjes constant, no explicit
-Mertens product, no pointwise bound for `ω`, `τ_k` or `σ` beyond `Nat.card_divisors_le_self`; the
-Chebyshev bounds at the pin are the Chebyshev-type constants `log 4` and `log 4 + 4` only.
-
-### From Tau Ceti
-
-- `TauCeti/NumberTheory/AbelSummation.lean`: `TauCeti.sum_Icc_rpow_mul_eq` (Abel summation against a
-  real power on `Icc 1 ⌊x⌋₊`) and `TauCeti.tendsto_rpow_inv_mul_sum_Icc_rpow_mul`;
-- `TauCeti/NumberTheory/ArithmeticDirichletSeries/AbelSummation.lean`:
-  `TauCeti.summatory_mul_eq_sub_sub_integral_mul`, `TauCeti.summatory_mul_eq_sub_integral_mul_of_le`,
-  `TauCeti.summatory_mul_le_of_summatory_le`, `TauCeti.tsum_mul_le_of_summatory_le` (summatory Abel formulas and
-  the transfer of a summatory bound to a weighted sum and to a tail);
-- `TauCeti/NumberTheory/LFunctions/Mertens.lean`: `TauCeti.LFunctions.mertensConstant K` (the limit
-  of `Σ_{N𝔭 ≤ x} 1/N𝔭 − log log x`), `TauCeti.LFunctions.tendsto_primeSummatory_inv_absNorm_sub_log_log`,
-  `TauCeti.LFunctions.isBigO_primeSummatory_inv_absNorm_sub_log_log_sub_mertensConstant`; used at
-  `K = ℚ`, where the prime ideals of norm `≤ x` are the rational primes `p ≤ x`; `Suggested.lean`
-  imports this module;
-- `TauCeti/NumberTheory/ArithmeticFunction/DivisorBounds.lean`: `TauCeti.sigma_le_rpow_mul_tsum`
-  (`σ_k(n) ≤ n^s Σ_d d^{−s}` for `k ≤ s`, `s > 1`, every `n` including `0`); its `k = 0` case is the
-  `k = 2` case of Layer 9.2's `τ_k(n) ≤ n^s ζ(s)^{k−1}`;
-- `TauCeti/NumberTheory/ArithmeticDirichletSeries/EulerProduct/Basic.lean`: `TauCeti.IdealArithmeticFunction.localArithmeticFactor`,
-  `TauCeti.IdealArithmeticFunction.normCoeff_eq_eulerProduct`, `TauCeti.IdealArithmeticFunction.isMultiplicative_eulerProduct`, used
-  only as the comparison point for the local factors of Layer 0.6; the Dirichlet series of this
-  roadmap are over `ℕ`, not over ideals;
-- `TauCeti/NumberTheory/PrimeCounting.lean`: `Nat.primeCounting_nth_prime` (`π(p_{k+1}) = k + 1`
-  for Mathlib's `nth Nat.Prime k`);
-- `TauCeti/NumberTheory/SumPrimeReciprocals.lean`:
-  `Nat.tendsto_prod_primesLE_filter_notMem_one_sub_inv_inv_atTop` (divergence of the Euler product
-  over the primes outside a finite set);
-- `TauCeti/NumberTheory/ArithmeticDirichletSeries/Perron/Formula.lean`:
-  `TauCeti.norm_truncatedPerron_LSeries_sub_sum_le` (the truncated Perron formula: for real `x > 0`,
-  `c > 0`, `T > 0`, and `f : ℕ → ℂ` whose `L`-series converges absolutely at `c` and that vanishes at
-  `x` when `x` is a natural number, the integral `(2π)^{−1} ∫_{−T}^{T} L(f, c + it) x^{c+it}/(c + it) dt`
-  differs from `Σ_{1 ≤ n < x} f(n)` by at most `Σ_n |f(n)| (x/n)^c/(πT|log(x/n)|)`); used at
-  `f = μ` in the route of Layer 1.9.
-
-What these do not include: no explicit constant in any prime estimate, no explicit remainder for
-`mertensConstant`, no summatory bound for `μ`.
-
-### From TauCetiRoadmap.AnalyticNumberTheoryPartI
-
-- §0.11: `Σ_{p < X} (log p)/p = log X + O(1)`, the qualitative input of Layer 6.3's hypothesis `A`
-  and of the Checks of Layer 5.5;
-- §0.19: there is a real `B` with `|Σ_{p ≤ x} 1/p − log log x − B| < 1/(2 log² x)` for every real
-  `x ≥ 286` (Rosser–Schoenfeld Theorem 5), unconditional; Layer 8.1 identifies this `B` with
-  `mertensConstant ℚ`, and Layer 1.4 uses its lower half for Schoenfeld's inequality;
-- §0.21: `Σ_{p ≤ x} 1/p = log log x + B + O(1/log x)` for `x ≥ 2`, and §0.26:
-  `∏_{p ≤ x}(1 − 1/p)^{−1} = e^γ log x + O(1)` for `x ≥ 2`; together they give the identity
-  `B = γ + Σ_p (log(1 − 1/p) + 1/p)` used in Layer 8.1;
-- §0.34: the uniform exclusion of Landau–Siegel zeros (`landau_siegel_exclusion`), the qualitative
-  statement whose explicit forms are ExplicitPrimeCounting §1.7's; cited only;
-- §1.2: Davenport's bound `davenport_moebius`, for every `A > 0` a constant `C_A` with
-  `sup_{α ∈ ℝ} |Σ_{1 ≤ r ≤ y} μ(r) e^{irα}| ≤ C_A y (log y)^{−A}` for every real `y ≥ 2`; used at
-  `α = 0`, where the sum is `M(y)`, for the unconditional `o(x)` of Layer 1.6a;
-- §3.22: `Σ_{n ≤ x} τ(n) = x log x + (2γ − 1) x + O(√x)`; §3.22a:
-  `0 < H_N − log N − γ < log(1 + 1/N) ≤ 1/N` for every integer `N ≥ 1`, which Layer 0.3 extends to real arguments;
-  §3.22b: the hyperbola identity `Σ_{n ≤ x} τ(n) + M² = 2 Σ_{a ≤ M} ⌊x/a⌋` with `M = ⌊√x⌋` for real
-  `x ≥ 1`, used in Layer 7.4;
-- §3.23a: `divisorError`, `Δ(x) = Σ_{n ≤ x} τ(n) − x (log x + 2γ − 1)` with the inclusive real
-  cutoff, the carrier of Layers 5.2, 7.4 and 7.5; its square-root bound `|Δ(x)| ≤ √x` for `x ≥ 1`,
-  whose constant Layer 7.4 sharpens to `0.961`; its cubic bound `|Δ(x)| ≤ 0.764 x^{1/3} log x` for
-  `x ≥ 9995`, consumed as stated; and the finite input `BBRFiniteInput` of both bounds, whose first
-  conjunct is `|Δ(x)| ≤ 0.961 √x` for every real `1 ≤ x ≤ 10^{10}` and whose fourth is
-  `|Δ(x)| ≤ 0.475 √x` for every real `4033 ≤ x ≤ 10^{10}`; Layer 7.4 takes it as stated there;
-- §3.1 and §3.7: the explicit subpower bound `τ(n) ≤ max(1, (ε log 2)^{−1})^B n^ε` and the asymptotic
-  maximal order of `τ`: the predecessors of Layer 9.2;
-- §3.9 and §3.12: the asymptotic coprime Möbius sums weighted by `log t/t` and by `1/t`,
-  `Σ_{t ≤ T, (t, q) = 1} μ(t)/t = O_A((log T)^{−A})`: the qualitative forms of Layer 2.4, used in the
-  Checks of Layer 5.4;
-- §3.35 and §3.35a: Rankin's bound `Ψ(x, y) ≤ x^σ ∏_{p ≤ y}(1 − p^{−σ})^{−1}` and the finite-prime
-  smooth Dirichlet series: used in Layers 6.1 and 6.2.
-
-### From TauCetiRoadmap.SieveMethodsAndPrimePatterns
-
-- §0.5: the predicate *HasLogSieveDimension* `(P, g, κ, C)`: `Σ_{p ∈ P, p ≤ z} g(p) log p ≤ κ log z + C`
-  for every real `z ≥ 2`. Layer 5.5 states its hypothesis in this shape with a two-sided bound;
-- §1.1: the asymptotic Selberg denominator
-  `Σ_{d < z} μ²(d) ∏_{p ∣ d} g(p)/(1 − g(p)) ∼ (log z)^κ / (Γ(κ + 1) H_g)` and the uniform lower bound `Σ_{d < z, (d, k) = 1} μ²(d)/φ(d) ≥ c (φ(k)/k) log z`:
-  the statement shape that Layer 5.5 makes explicit; nothing is restated.
-
-### From TauCetiRoadmap.ZerosOfLFunctions
-
-- Layer 9, *AllOnCriticalLine*: the meaning of "the zeros of `ζ` up to height `T` lie on the
-  critical line". It enters only through ExplicitPrimeCounting §1.1 and is not restated.
-
-### From TauCetiRoadmap.ExplicitPrimeCounting
-
-Each estimate below is used as a hypothesis of exactly the displayed shape; the section named proves
-it (under that roadmap's own hypotheses), and the theorems here do not depend on how.
-
-- §0.1: the diagonal sum `S(u) = Σ_{q ≤ u} μ²(q)/φ(q)` for real `u ≥ 1` (the sum
-  `selbergDiagonal` of ExplicitCharacterSumsAndSieves §5.1 and `G₁` of Layer 7.2) and Büthe's
-  explicit asymptotic `S(u) = log u + γ + Σ_p log p/(p(p − 1)) + O*(58/√u)` for every real
-  `u ≥ 10^9`, against which the forms of Layer 7.2 are compared; no proof here uses it.
-- §1.1: the proposition `RH(H)` (every zero of `riemannZeta` with `0 < Re s < 1` and `|Im s| ≤ H` has
-  `Re s = 1/2`), the first clause of *ZetaResidueSumVerified* (Layer 0.7), and, at the height
-  `3 000 175 332 800` of Platt and Trudgian's verification recorded in ExplicitZetaBounds §0.4, the
-  verified-height hypothesis of Layer 1.9. The proposition is ExplicitZetaBounds §0.2's, which §1.1
-  cites; by its antitonicity `RH(3 000 175 332 800)` gives `RH(3·10¹²)`, the verification that the
-  supplier statements 1.9 uses ask for beside their records (ExplicitZetaBounds contract below).
-- §1.3, the proposition *ButheVerified*: `|ψ(x) − x| ≤ 0.94 √x` for every real `11 < x ≤ 10^{19}`.
-  Used in Layers 1.8 and 1.10; it also gives the first clause of `gap:psi-initial-range` on
-  `(11, 10^{10}]`.
-- §1.6: the decimal enclosures *EulerGammaEnclosure* (`|γ − 0.5772156649| < 10^{−9}`) and
-  *MeisselMertensEnclosure* (`|B − 0.2614972128| < 10^{−9}` for `B = mertensConstant ℚ`), stated
-  there once for both roadmaps. Used wherever a proof here evaluates `γ` or `B` numerically
-  (Layers 5.2, 7.6, 8.1).
-- §1.7: the proposition *RealZeroGap* `c Q` with its two instances *RealZeroGap* `(1/5) 10^{10}`
-  given `LuZamanZhaoRecord` (the record of ExplicitZetaBounds §0.4b) and *RealZeroGap*
-  `(3.0·10^{−3}) ∞` given `LuZamanZhaoRecord` (Banks's instance, a preprint), which a statement
-  that uses it takes itself as a hypothesis (zero-free inputs, below).
-- §3.2: `ψ(x) < 1.03883 x` for every real `x > 0` (Rosser–Schoenfeld Theorem 12), used as
-  `ψ(x) ≤ 1.04 x` for `x ≥ 0` in Layers 1.5 and 1.10; and `θ(x) > x(1 − 1/(2 log x))` for every real
-  `x ≥ 563` (Rosser–Schoenfeld Theorem 4), used in Layer 9.4.
-- §3.3: `|ψ(x) − x| ≤ 0.006409 x/log x` for every real `x > e^{22}` (Dusart), used as
-  `|ψ(x) − x| ≤ 0.0065 x/log x` for `x > e^{22}` in Layers 1.4, 1.5 and 1.10.
-- §3.5: `π(x) > x/log x` for every real `x ≥ 17` (Rosser–Schoenfeld Corollary 1), used in Layer
-  9.3.
-- §4.2: `|Σ_{n ≤ x} Λ(n)/n − log x + γ| ≤ 0.0067/log x` for every real `x ≥ 1 520 000` (Ramaré's
-  corrected corollary; the range `x ≥ 23` printed at `ramare2013aa` line 251 is false at `x = 23`),
-  used in Layers 1.5 and 1.8; and `|Σ_{n ≤ x} Λ(n)/n − log x + γ| ≤ 1/(4 log x)` for every real
-  `x ≥ 115` (the same corollary), used in Layer 1.4.
-- §4.3: `|Σ_{p ≤ x} 1/p − log log x − B| ≤ 1/log³ x` for every real `x ≥ 24 284`, with
-  `B = mertensConstant ℚ` (Vanlalngaia's Corollary 1), used in Layers 8.1, 8.2 and 9.4; and Axler's
-  `|Σ_{p ≤ x} 1/p − log log x − B| ≤ f(x) = (0.024334/(3 log³ x))(1 + 15/(4 log x))` for every real
-  `x ≥ 1 757 126 630 797`, used in Layers 8.1 and 8.2; and the row `(0.19992, 2 278 383)` of
-  Broadbent–Fiori–Kadiri–Ng–Wilk (a preprint), `|Σ_{p ≤ x} 1/p − log log x − B| ≤ 0.19992/log³ x`
-  for every real `x ≥ 2 278 383`, whose upper half is used in Layer 8.1a.
-- §4.7: under `RiemannHypothesis`, `|Σ_{p ≤ x} 1/p − log log x − B| ≤ 3 log x/(8π√x)` for every real
-  `x ≥ 24.4`; that section leaves the two product forms of its source to this roadmap, and Layer
-  8.1 proves them from it.
-- §5.3: `p_k ≥ k(log k + log log k − 1)` for every natural `k ≥ 2` (Dusart's Theorem 3), used in
-  Layers 9.1 and 9.3.
-- §6.1, the row `(1, 0.000213, 10^{10})` of *RamareRumelyTable1*: `|ψ(x) − x| ≤ 0.000213 x` for every
-  real `x ≥ 10^{10}`, used in Layers 1.2 and 1.5 (it also follows from §1.3 on `[10^{10}, 10^{19}]`,
-  where `0.94/√x ≤ 9.4·10^{−6}`, and from §3.3 beyond `10^{19}`, where `0.006409/log x ≤ 1.5·10^{−4}`).
-- §6.3: for every natural `q ≥ 3` and every `a` coprime to `q`, `|θ(x; q, a) − x/φ(q)| < c_θ(q) x/log x`
-  for every real `x ≥ x_θ(q)`, with `c_θ(q) ≤ 1/840` for `3 ≤ q ≤ 10^4` and `x_θ(q) ≤ 8·10^9` for
-  `3 ≤ q ≤ 10^5` (Bennett–Martin–O'Bryant–Rechnitzer), used in Layer 8.3.
-- §7.4: Dusart's interval, a prime in `(y, y(1 + 1/log³ y)]` for every real `y ≥ 89 693`
-  (`dusart2018` Proposition 5.4 in print), used in Layer 9.3a.
-
-What ExplicitPrimeCounting must provide (gap:psi-initial-range): `|ψ(x) − x| ≤ √x` for every real
-`x` with `8 ≤ x ≤ 10^{10}`, and `|ψ(x) − x| ≤ 0.8 √x` for every real `x` with `1500 ≤ x ≤ 10^{10}`
-(`ramare2013aa` lines 205–207, (4.1)–(4.2), a verification under the zeros of `ζ` verified to a
-height). Needed by Layers 1.2, 1.5 and 1.10.
-
-What ExplicitPrimeCounting must provide (gap:mertens-reciprocal-axler): with
-`η_A(x) = 1/(20 log³ x) + 3/(16 log⁴ x)` and `B = mertensConstant ℚ`,
-`Σ_{p ≤ x} 1/p − log log x − B ≥ −η_A(x)` for every real `x > 1` and
-`Σ_{p ≤ x} 1/p − log log x − B ≤ η_A(x)` for every real `x ≥ 46 909 074` (Axler 2018,
-Proposition 5.1, which refines Dusart's `1/(5 log³ x)` for `x > 2 278 382` and rests on a direct
-computation up to `19 035 709 163`). Needed by Layer 8.1.
-
-What ExplicitPrimeCounting must provide (gap:psi-relative-bklnw): `|ψ(x) − x| ≤ 8·10^{−5} x` for
-every real `x ≥ 10^8`, `≤ 2.58843·10^{−5} x` for every real `x ≥ e^{21}` and `≤ 9·10^{−7} x/log x`
-for every real `x ≥ 10^{19}` (the tables of Broadbent–Kadiri–Lumley–Ng–Wilk with Büthe's verified
-range, as used by Ramaré–Zuniga Alterman, (12)–(16)); the row `|ψ(x) − x| ≤ 1.93378·10^{−8} x` for
-`x ≥ e^{40}` is §3.1's *BKLNWPsiTable* at `b = 40`. Needed by Layers 1.8 and 1.10.
-
-What ExplicitPrimeCounting must provide (gap:psi-tilde-difference): with
-`r(x) = Σ_{n ≤ x} Λ(n)/n − log x + γ`, `|r(x) − (ψ(x) − x)/x| ≤ 0.05/√x + 1.75·10^{−12}` for every real `x ≥ 394 385`
-(Vanlalngaia 2017, Theorem 9, second part; §4.2 states the weaker `1/(2√x) + 1.75·10^{−12}` from
-`8950`). Needed by Layer 1.10. Its finite extension below `394 385` that Layer 1.10 also uses,
-`≤ 0.052/√x` on `[144 913, 394 385]`, is not part of the contract: it is the proposition
-*PsiTildeDifferenceRangeVerified* of Layer 0.7.
-
-What ExplicitPrimeCounting must provide (gap:psi-log-power): `|ψ(x) − ⌊x⌋| < B_β x/log^β x` for every
-real `x ≥ e^{20}` and `β = 1, 2, 3, 4`, with
-`(B₁, B₂, B₃, B₄) = (8.96237·10^{−4}, 0.0188209, 0.395239, 75.1090)` (Johnston–Leong–Tudzi's Lemma A.5, from the tables of Broadbent et al. to
-`e^{3000}` and Fiori–Kadiri–Swidinsky's de la Vallée Poussin bound beyond). Needed by Layer 1.4.
-
-The finite extensions of these estimates that Ramaré 2013 computes below their ranges are not part
-of the contract: they are fields of `RamareTransferComputations` (Layer 0.7).
-
-### From TauCetiRoadmap.ExplicitCharacterSumsAndSieves
-
-- §5.1: `selbergDiagonal`, `S(z) = Σ_{1 ≤ n ≤ z} μ²(n)/φ(n)` for real `z` (the sum `G₁` of Layer 7.2
-  and the case `f = 1/φ` of Layer 6.5); its coprime comparison `S_k(z) ≥ (φ(k)/k) S(z)` for natural
-  `k ≥ 1` and real `z ≥ 1`, which is the first inequality of Layer 6.5 at `f = 1/φ`. The carrier is
-  the sum `G₁` of Layer 7.2; no proof here uses the comparison, which Layer 6.5 strengthens. Its
-  explicit asymptotic with error `58/√z` is ExplicitPrimeCounting §0.1's (above), which §5.1 cites.
-
-### From TauCetiRoadmap.ExplicitZetaBounds
-
-Below, `H₀ = 3 000 175 332 800`.
-
-- §0.4: Platt and Trudgian's verification `RH(H₀)`, recorded there as a hypothesis; it is the
-  hypothesis of Layer 1.9, taken as the proposition `RH(H)` of ExplicitPrimeCounting §1.1 (above).
-- §0.4b: the records `BrentPlattTrudgianRecord` (Brent, Platt and Trudgian's value of
-  `Σ_{γ>0} γ^{−2}` over the zeros of `ζ`, to within `5·10^{−28}`) and `LeongRecord` (Leong's
-  computation, for `t ≤ 500`, of his bounds for `1/ζ` on and near the line one), recorded there as
-  hypotheses: hypotheses of the statements of §§7.3 and 7.10 below, and so of Layer 1.9; neither is
-  discharged here.
-- §6.1: the smoothed truncated Perron formula, whose error term stays finite when `x` is an integer;
-  an alternative to Tau Ceti's `TauCeti.norm_truncatedPerron_LSeries_sub_sum_le` in the route of
-  Layer 1.9.
-- §7.3, the classical zero-free region in its `5.558691` instance: given `RH(3·10¹²)` and
-  `BrentPlattTrudgianRecord`, `ζ(σ + it) ≠ 0` for every real `t` with `|t| ≥ 2` and every real
-  `σ ≥ 1 − 1/(5.558691 log|t|)`, hence for every `R₀ ≥ 5.558691` in place of `5.558691`; at
-  `R₀ = 5.56` it keeps the zeros out of the region that the contour of Layer 1.9 encloses above the
-  height `H₀`.
-- §7.10: the bounds for `1/ζ` that the route of Layer 1.9 uses, each given `RH(H₀)` and
-  `BrentPlattTrudgianRecord`, and the second and third also given `LeongRecord`: Lee and
-  Leong's `1/|ζ(σ + it)| ≤ 1237 (log t)^{11/12}` for every real `t ≥ H₀` and every real
-  `σ ≥ 1 − 1/(5.56 log t)`; their `1/|ζ(σ + it)| ≤ e^{146} log t` for every real `σ ≥ 3/4` and every
-  real `t` with `14 ≤ t ≤ H₀ − 1/2`; and Leong's `1/|ζ(1 + it)| ≤ 29.388 log t` for every real
-  `t ≥ 2`. The other items of §7.10 do not serve the route: none bounds `1/ζ` to the left of
-  `σ = 1` between the heights `H₀ − 1/2` and `H₀` at a size the contour absorbs (1.9).
-- §§4.8 and 4.10: the bounds for `|ζ(1 + it)|` and the Richert-type bounds for `|ζ(σ + it)|` on
-  `1/2 ≤ σ ≤ 1`, used only in the route of the items (a) and (b) of Layer 1.9 (the
-  Borel–Carathéodory step above the verified height).
-- §4.1: the Kusmin–Landau inequality (`|Σ_{X<n≤X+Y} e(f(n))| ≤ cot(πθ/2)` for monotone `f'` with
-  `θ ≤ f' − k ≤ 1 − θ`), used in the route of Bordellès–Daval's smoothed divisor remainder (Layer 7.4).
-
-§7.10 meets the supplier gap `gap:zeta-reciprocal-bounds` of Layer 1.9: it states, given `RH(H₀)`
-and `BrentPlattTrudgianRecord`, the bound `1237 (log t)^{11/12}` above `H₀`, and, given
-`LeongRecord` as well, the bound `30.812 log t` on `σ ≥ 1` for `t ≥ 13` and the bound
-`e^{146} log t` on `σ ≥ 3/4`, the last for `14 ≤ t ≤ H₀ − 1/2`, the range its proof reaches (a zero
-just above `H₀` is not excluded). The Littlewood and Korobov–Vinogradov companions of the first
-serve only the members (10) and (11) of Lee and Leong's theorem, which belong to Part II (Scope).
-The join of the contour of 1.9 needs two further bounds of Leong that §7.10 does not state; they
-are targets of 1.9, items (a) and (b). The bound on `σ = 3/4` for `|t| ≤ 14` is the proposition
-*ZetaReciprocalSegmentVerified* of Layer 0.7.
-
-### Zero-free inputs: exceptional zeros and half-planes
-
-Two results bear on the constants of this roadmap without changing any statement in it.
-
-- The exclusion of Landau–Siegel zeros. Its qualitative form is AnalyticNumberTheoryPartI §0.34
-  (`openai2026siegel` Theorem 1, an unrefereed preprint); its numerically explicit forms are
-  ExplicitPrimeCounting §1.7's *RealZeroGap* `c Q`, with the instances *RealZeroGap*
-  `(1/5) 10^{10}` (the computation of `luZamanZhao2026`, given its record `LuZamanZhaoRecord` of
-  ExplicitZetaBounds §0.4b) and *RealZeroGap* `(3.0·10^{−3}) ∞` given `LuZamanZhaoRecord`
-  (`banks2026`, an unrefereed preprint, whose instance any statement that uses it takes itself as a
-  hypothesis). No theorem of this roadmap is proved from them. They bear on two inputs only: the
-  exceptional-zero branch of ExplicitPrimeCounting §6.3 for moduli beyond `10^5`, which Layer 8.3
-  consumes only through that section, and any lower bound for `|L(1, χ)|` uniform in `q` that a
-  consumer of Layer 4.1 supplies; no numerical lower bound for `L(1, χ)` derived from them is in
-  print, so `|L(1, χ)|` is a parameter of 4.1.
-- The zero-free half-plane `Re s > 7/8` for every Dirichlet `L`-function (`openai2026quasiRH`
-  Theorem 1.1, an unrefereed preprint with no numerical constants): a qualitative supplier of
-  power-saving remainders such as `M(x) = O_ε(x^{7/8 + ε})`; it changes no explicit statement here,
-  and none of its consequences is planned.
-
-## How to read the build
-
-Layer 0 fixes the carriers, the elementary remainders, the Euler-product derivatives and the
-propositions that record finite computations. Layers 1–3 treat the three summatory functions of `μ`
-in turn: `M` from the identities and the prime estimates, `m` from `M` through Balazard's
-identities, `m̌` likewise; Layer 4 twists by a character. Layer 5 is the convolution method: a
-comparison theorem that transports an explicit asymptotic from a model `k` to any `g = h ⋆ k` with a
-small `h`, with its models, and the explicit Levin–Fainleib theorem. Layer 6 gives upper bounds for
-averages of nonnegative multiplicative functions that need no main term. Layer 7 applies Layers 5–6
-to the classical functions. Layer 8 turns the explicit reciprocal-prime sums into explicit Euler
-products. Layer 9 proves the pointwise maximal orders. Each layer ends with the targets that carry
-the sharpest constants of later work (1.7–1.10, 2.6, 3.4, 5.6, 7.8–7.9, 9.4's large-`n` forms):
-they reuse the identities and schemes of the earlier subsections with sharper inputs, and the
-refereed statements they improve are kept beside them, so that a preprint is never the only source
-of a statement. Within each layer the identities come first, then the parametric theorems, then the
-numerical instances; an implementer who proves an instance by another route is not blocked behind a
-parametric theorem, since each instance's *Needs:* line lists the identity and the hypotheses it
-uses.
 
 ## Layer 0: carriers, elementary remainders and computational hypotheses
 
@@ -4428,6 +3957,477 @@ Tau Ceti `TauCeti.sigma_le_rpow_mul_tsum`; AnalyticNumberTheoryPartI §§3.1, 3.
   its contract above, so that use belongs to a Part II of that roadmap.
 - SieveMethodsAndPrimePatterns, Part II: the explicit Levin–Fainleib theorem (5.5) and
   `Σ μ²(d)/φ(d)` (7.2) as explicit Selberg main terms; the effective divisor bounds (9.2).
+
+## Scope and ownership
+
+### Owned here
+
+- the real-argument summatory carriers of the Möbius function, their semigroup-restricted and
+  character-twisted variants, the real-argument harmonic remainder, the squarefree remainder, the
+  first Stieltjes constant, and the propositions that isolate the finite computations the sources
+  rely on (Layer 0);
+- Meissel's identity, MacLeod's Bernoulli identities, Balazard's identities, the elementary linear
+  and logarithmic bounds for `M(x)` (with their iteration to `x/(log x)^{2.35}`), the linear bounds
+  from a Möbius table, Ramaré's transfer from explicit Chebyshev estimates to explicit Möbius
+  estimates as a parametric theorem with every finite computation named, with its 2013 instance and
+  Ramaré–Zuniga Alterman's instance, the coprime variants, the linear bounds from finitely many zeros
+  of `ζ` under a named residue-sum hypothesis, Daval's linear-to-linear conversion, and Lee–Leong's
+  bound of de la Vallée Poussin shape given the Riemann hypothesis verified to the height
+  `3 000 175 332 800` and the records `BrentPlattTrudgianRecord` and `LeongRecord` of
+  ExplicitZetaBounds §0.4b, with the two bounds of Leong near that height that the join of its
+  contour uses, and the Liouville summatory function with its identities with `M` and the transfer
+  of bounds between the two (Layer 1);
+- Gram's and Tao's bound `|m_S(x)| ≤ 1`, Ramaré's mollified bound, Balazard's conversion theorem and
+  Daval's weighted form of it, the thresholded and decaying bounds for `m(x)`, the coprime variants,
+  the explicit tails of `Σ μ(d)/d²`, and the `m`-bound of Ramaré–Zuniga Alterman (Layer 2);
+- the identities and bounds for `m̌(x)`, with the sign correction of the corrigendum, the coprime
+  positivity theorem, and the decaying bounds with the exact
+  value of `sup_{x ≥ 1} (log² x)|m̌(x) − 1|` (Layer 3);
+- the character-twisted logarithmic Möbius sum with a Pólya–Vinogradov bound as a parameter
+  (Layer 4);
+- the comparison theorem of the convolution method for a general exponent, its weighted variant,
+  the harmonic and Dirichlet-divisor models (including the exponent `2/5`), the second model, the
+  hyperbola refinement of Akhilesh–Ramaré, the explicit Levin–Fainleib theorem and the squarefree
+  comparison at the critical exponent (Layer 5);
+- explicit upper bounds for averages of nonnegative multiplicative functions: the product bound,
+  the Daboussi–Rivat tail bound, the Hall–Tenenbaum theorem, Bordellès' monotone-local-factor bound
+  and the van Lint–Richert coprimality removal (Layer 6);
+- the explicit averages of `μ²`, `μ²/n`, `μ²/φ`, the Riesel–Vaughan sum, `τ_k`, `τ_4`, `τ²`,
+  `2^ω`, `φ/n` and `nφ`, Ramaré's logarithmic tail estimates for `Σ μ(d)/d²`, the square-root
+  bounds for the Dirichlet-divisor remainder with the constants `0.961`, `0.482` and `0.397` and its
+  smoothed form, the squarefree count and remainder written through `M`, the squarefree remainder
+  from finitely many zeros with squarefree integers in short intervals, and the explicit Piltz
+  remainders `Δ_k` (Layer 7);
+- the identification of the Meissel–Mertens constant with Tau Ceti's `mertensConstant ℚ`, the
+  explicit Mertens product with Axler's cubic refinement, Dusart's two-sided cubic form and its
+  form under the Riemann hypothesis, the tilted products and Bordellès'
+  products over a progression with Languasco–Zaccagnini's constants as an enclosure (Layer 8);
+- the pointwise bounds for `ω(n)`, `τ_k(n)` (among them `k^{ω(n)} ≤ τ_k(n) ≤ k^{Ω(n)}`), `σ(n)`,
+  `σ*(n)` and `n/φ(n)` with the superior-highly-composite and primorial tables as hypotheses, and
+  highly abundant numbers with the six-prime criterion and its steps, and the theorem that
+  `lcm(1, …, n)` is not highly abundant for `n ≥ X₀²` beyond every threshold `X₀` with
+  `log X₀ ≥ 5` of primes in the intervals `(y, y(1 + 1/log³ y)]`, in particular for `n ≥ 89 693²`
+  (Layer 9).
+
+### Consumed, not redefined
+
+- the arithmetic functions `μ`, `σ_k`, `ω`, `Ω`, `Λ`, `ζ`, the Liouville function,
+  `IsMultiplicative`, Dirichlet convolution, `Chebyshev.psi`, `Chebyshev.theta`, the least common
+  multiple `Nat.lcmUpto`, Abel summation, the harmonic bounds, Euler's constant with its
+  bounds `1/2 < γ < 2/3`, `ζ(2) = π²/6`, Dirichlet characters with `L(1, χ) ≠ 0`, the primorial, and
+  the decimal bounds for `π`, `e` and `log 2`: Mathlib, as listed in the supplier contracts;
+- the summatory Abel formulas of Tau Ceti and its Mertens constant `mertensConstant K`;
+- the explicit prime estimates with constants (for `ψ`, `θ`, `π`, the `k`-th prime,
+  `Σ_{n ≤ x} Λ(n)/n`, `Σ_{p ≤ x} 1/p`, `θ` in progressions and primes in short intervals), the
+  verified range of Büthe, the decimal enclosures of `γ` and of the Meissel–Mertens constant, the
+  hypothesis `RH(H)` and the real-zero gap with its named instances, and Büthe's asymptotic for the
+  diagonal sum `Σ_{n ≤ z} μ²(n)/φ(n)`: ExplicitPrimeCounting §§0.1, 1.1, 1.3, 1.6, 1.7, 3.1–3.3,
+  3.5, 4.2, 4.3, 4.7, 5.3, 6.1, 6.3 and 7.4, as listed in its contract; the estimates it does not
+  state in the shape a proof here needs are supplier gaps of that contract. No prime estimate is restated: every
+  theorem that uses one takes it as a hypothesis of the stated shape;
+- the Rosser–Schoenfeld reciprocal-prime estimate `|Σ_{p ≤ x} 1/p − log log x − B| < 1/(2 log² x)`
+  for `x ≥ 286`, Mertens' theorems with qualitative remainders, the qualitative exclusion of
+  Landau–Siegel zeros, the Dirichlet divisor asymptotic, the harmonic remainder
+  `0 < H_N − log N − γ < log(1 + 1/N)` at integers, the divisor hyperbola identity, the
+  Dirichlet-divisor remainder `divisorError` (`Δ`) with its square-root and cubic bounds and their
+  finite input `BBRFiniteInput`, the divisor subpower bound, the asymptotic maximal order of `τ`,
+  Rankin's smooth-number bound, the asymptotic coprime Möbius sums and Davenport's
+  `M(y) = O_A(y (log y)^{−A})`: AnalyticNumberTheoryPartI
+  §§0.11, 0.19, 0.21, 0.26, 0.34, 1.2, 3.1, 3.7, 3.9, 3.12, 3.22, 3.22a, 3.22b, 3.23a, 3.35, 3.35a,
+  never restated; Layer 0.3 extends §3.22a to real arguments with the sharper `6/(11X)`, and Layer
+  7.4 sharpens the constant of §3.23a's square-root bound from `1` to `0.961`;
+- the asymptotic Levin–Fainleib mean value and its uniform dimension-one form, and the logarithmic
+  sieve dimension predicate: SieveMethodsAndPrimePatterns §§0.5 and 1.1, cited for the statement
+  shape of Layer 5.5, which refines it with explicit constants;
+- the semantics of verified zeros (*AllOnCriticalLine*): ZerosOfLFunctions Layer 9; it enters this
+  roadmap only through ExplicitPrimeCounting §1.1 and is never restated;
+- the Selberg diagonal sum `selbergDiagonal`, `S(z) = Σ_{n ≤ z} μ²(n)/φ(n)` for real `z`, with its
+  coprime comparison `S_k(z) ≥ (φ(k)/k) S(z)`: ExplicitCharacterSumsAndSieves §5.1; and Büthe's
+  explicit asymptotic `S(z) = log z + c₀ + O*(58/√z)` for real `z ≥ 10^9`, where
+  `c₀ = γ + Σ_p log p/(p(p − 1))` is the constant of Layer 7.2: ExplicitPrimeCounting §0.1, which
+  defines the same sum and which ExplicitCharacterSumsAndSieves §5.1 cites for it; neither is
+  restated. Layer 6.5 differs in
+  proving the comparison for every nonnegative multiplicative `f` in place of `1/φ` and in adding
+  the upper inequality through `x·rad(d)`; Layers 5.6 and 7.2 differ in proving other explicit
+  forms of `S` and of its coprime restrictions (Ramaré's `O*(2.44/√D)` from `D ≥ 1`,
+  Akhilesh–Ramaré's coprime form, Zuniga Alterman's `X^{−1/3}` forms for every `X > 0`).
+
+### Not owned here
+
+- zero-free regions, the explicit formula for `ψ`, zero counting, decimal zero-free constants and
+  explicit bounds for `1/ζ` and for the moments of `ζ` (ZerosOfLFunctions, ExplicitPrimeCounting,
+  ExplicitZetaBounds); the explicit formula for `M` with a smoothed kernel (1.7) is proved here from
+  the zero data named in *ZetaResidueSumVerified*; the bounds for `1/ζ` that the route of
+  Lee–Leong's bound of 1.9 takes from a supplier are ExplicitZetaBounds §7.10's, each given
+  `RH(3 000 175 332 800)` and `BrentPlattTrudgianRecord`, and Leong's line bound and the bound on
+  `σ ≥ 3/4` also given `LeongRecord` (records of its §0.4b). Two further bounds of Leong that only
+  the join of that contour uses, at heights just below the verified one, are stated in 1.9: a row
+  of the corollary whose classical-region row §7.10 states, and the bound for `ζ'/ζ` that §7.10's
+  route uses without stating it. The bound for `1/ζ` on `σ = 3/4`, `|t| ≤ 14`, a computation on a
+  compact segment, is the proposition *ZetaReciprocalSegmentVerified* of Layer 0.7;
+- the explicit Pólya–Vinogradov and Burgess inequalities and the explicit sieve bounds
+  (ExplicitCharacterSumsAndSieves): Layer 4 takes a Pólya–Vinogradov bound as a parameter, and what
+  this roadmap consumes from that roadmap is its §5.1 (above);
+- any computational algorithm: sieving `M(x)`, evaluating a constant, verifying a table. A page on
+  exact computation contributes a verified value only, as a proposition that this roadmap states
+  and does not discharge (Layer 0.7);
+- Vanlalngaia's constant `0.841` for the tilted products (`vanlalngaia2017` Theorem 5, p. 3): its
+  input is that paper's Theorem 4, a remainder for `Σ_{p ≤ x} 1/p` in terms of `θ(x) − x`
+  (`vanlalngaia2017` lines 90–108, proved at lines 423–429 by Stieltjes integration against `θ`),
+  which no section of ExplicitPrimeCounting states (its §4.3 uses it only inside the route of
+  Vanlalngaia's Corollary 3); Layer 8.2 proves the transfer with the cubic reciprocal-prime
+  remainder instead;
+- the `(log log x)^k/(log x)^k` family of bounds for `M(x)` of El Marraki 1995, Théorème 4, and the
+  double-logarithmic sum `Σ_{n ≤ x} μ(n) log²(x/n)/n` of Ramaré 2015, Theorems 1.7–1.8 and
+  1.16–1.17, with its coprime consequence `0 ≤ Σ_{n ≤ x, (n, q) = 1} μ(n) log²(x/n)/n ≤ 2 (q/φ(q)) log x`
+  (Corollary 1.11): they belong to ExplicitMultiplicativeFunctions, Part II, which starts where
+  Layers 1 and 3 stop;
+- the statements whose proofs rest on inputs that no supplier states and that only their sources
+  fix: Ramaré–Zuniga Alterman's identity-factory results (`ramareZunigaAlterman2026` Theorems 1.2,
+  1.7 and 1.8: the coprime sums `Σ_{n ≤ X, (n, q) = 1} μ(n) n^{−σ} log^k(X/n)` for `σ ≥ 1` and their
+  asymptotics for `1 ≤ σ ≤ 2`, which use bounds for the Möbius sums over odd integers taken from
+  Helfgott's monograph, the source's Lemma 5.4 and direct checks for `X < 47`, and, for `k ≥ 2`, the
+  double-logarithmic sums of the previous item); the odd form
+  `Σ_{d ≤ X, d odd} μ²(d)/d = (4/π²)(log X + C₂ + (log 2)/3) + O*(0.79/√X)` of Zuniga Alterman
+  (`zunigaAlterman2022` Lemma 4.1, second part, which uses a count of odd squarefree integers from
+  the same monograph), with its consequence
+  `Σ_{ℓ ≤ X, ℓ odd} μ²(ℓ)/φ(ℓ) = ½(log X + a_2) + O*(2.169/√X)` for every real `X > 0`
+  (`zunigaAlterman2022` Lemma 4.7 at `q = 2`, the source's Theorem 4.6 at the exponent `1/2` over that
+  odd model, with `a_2` of Layer 5.6 and the Euler product `∏_{p > 2}(1 + 1/((p − 1)(√p − 1)))`);
+  Palojärvi–Tudzi's Piltz remainders (`palojarviTudzi2026`
+  Theorem 1.1, which use explicit bounds for the second and fourth moments of `ζ` on the critical
+  line); and Lee–Leong's bounds for `M(x)` of Littlewood and Korobov–Vinogradov shape
+  (`leeLeong2022` (10) and (11), beside the de la Vallée Poussin member (9) of 1.9; they use their
+  bounds (7) and (8) for `1/ζ` in the Littlewood and Korobov–Vinogradov zero-free regions, which no
+  supplier states). They belong
+  to ExplicitMultiplicativeFunctions, Part II, which starts where Layers 1, 2, 3, 5 and 7 stop;
+- Nicolas' Théorème 3 (the constant `2.597` for every `n ≥ 3` outside a table of twelve exceptional
+  integers): it belongs to ExplicitMultiplicativeFunctions, Part II, and Layer 9.3 states Théorème 2,
+  whose constant is attained;
+- the ordered-divisor majorants `Σ_{n ≤ Z} τ_k(n)/n ≤ (1 + log Z)^k` and
+  `Σ_{n ≤ Z} τ_k(n) ≤ Z (1 + log Z)^{k−1}` for real `Z ≥ 1` (SieveMethodsAndPrimePatterns §1.1);
+  Bordellès' bound of Layer 7.5 differs in having `γ + 1/x` in place of `1`, which is smaller for
+  every `x > 1/(1 − γ) = 2.365…`;
+- the Rankin-type bound `Σ_{n ≤ x} f(n) ≤ x exp(Σ_{p ≤ x} (f(p) − 1)/p)` for every real `x ≥ 1` and
+  every multiplicative `f` with `f(p^ν) = f(p) ≥ 1` for every prime `p` and `ν ≥ 1`
+  (ProbabilisticAndMetricNumberTheory §3.7, which precedes this roadmap in the order of supply);
+  Bordellès' bound of Layer 6.4 differs in keeping the product `∏_{p ≤ x}(1 + (f(p) − 1)/p)` in
+  place of its exponential and in allowing `f(p^ν)` to increase with `ν`;
+- the qualitative maximal orders `τ(n) ≤ exp((log 2 + ε) log n/log log n)` for large `n` and
+  `n/φ(n) ≤ C log log n` (AnalyticNumberTheoryPartI §§3.7 and 3.11), of which Layer 9 proves the
+  explicit forms;
+- the class-number applications (ExplicitNumberFields) and the least-nonresidue and large-sieve
+  applications (ExplicitCharacterSumsAndSieves and ExplicitZetaBounds, in their Part II wherever they
+  use this roadmap, since both precede it in the order of supply).
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- `ArithmeticFunction.moebius`, `ArithmeticFunction.vonMangoldt`, `ArithmeticFunction.zeta`,
+  `ArithmeticFunction.sigma`, `ArithmeticFunction.cardDistinctFactors`,
+  `ArithmeticFunction.IsMultiplicative`, the convolution `*` on `ArithmeticFunction R` and its powers
+  (`ArithmeticFunction.zeta ^ k` is `τ_k`), `ArithmeticFunction.moebius_mul_coe_zeta`
+  (`μ ⋆ ζ = 1`), `ArithmeticFunction.coe_moebius_mul_coe_zeta`,
+  `ArithmeticFunction.vonMangoldt_mul_zeta` (`Λ ⋆ ζ = log`),
+  `ArithmeticFunction.isMultiplicative_moebius`, `ArithmeticFunction.isMultiplicative_sigma`,
+  `ArithmeticFunction.sigma_zero_apply` (`σ 0 n = #n.divisors`), `ArithmeticFunction.prodPrimeFactors`
+  with `prodPrimeFactors_apply`, `ArithmeticFunction.IsMultiplicative.prodPrimeFactors_one_sub`,
+  `Nat.card_divisors` (`#n.divisors = ∏_{p} (v_p(n) + 1)` for `n ≠ 0`),
+  `Nat.sum_divisors_filter_squarefree`, `Nat.totient`, `Nat.factoredNumbers`, `Nat.smoothNumbers`,
+  `Nat.equivProdNatFactoredNumbers`, `Nat.primesBelow`, `Nat.primesLE` (the primes `≤ n`,
+  `Mathlib/NumberTheory/PrimeCounting.lean`), `Nat.nth` with `Nat.nth_prime_zero_eq_two`, and
+  `primorial` (`Mathlib/NumberTheory/Primorial.lean`, the product of the primes `≤ n`);
+- `Chebyshev.psi`, `Chebyshev.theta` (sums over `Ioc 0 ⌊x⌋₊`), `Chebyshev.psi_nonneg`,
+  `Chebyshev.theta_le_log4_mul_x` (`θ x ≤ log 4 · x` for `x ≥ 0`), `Chebyshev.psi_le_const_mul_self`
+  (`ψ x ≤ (log 4 + 4) x` for `x ≥ 0`), `Chebyshev.psi_eq_theta_add_sum_theta`,
+  `Chebyshev.abs_psi_sub_theta_le_sqrt_mul_log`;
+- `sum_mul_eq_sub_sub_integral_mul` (Abel summation: for `0 ≤ a ≤ b`, `f` differentiable on
+  `[a, b]` with integrable derivative,
+  `Σ_{a < k ≤ b} f(k) c(k) = f(b) C(b) − f(a) C(a) − ∫_a^b f'(t) C(t) dt` with `C(t) = Σ_{k ≤ t} c(k)`), and its variants
+  `sum_mul_eq_sub_integral_mul`, `sum_mul_eq_sub_integral_mul₀`;
+- `harmonic`, `harmonic_le_one_add_log` (`H_n ≤ 1 + log n`), `log_add_one_le_harmonic`
+  (`log(n + 1) ≤ H_n`), `Real.eulerMascheroniConstant`, `Real.eulerMascheroniSeq`,
+  `Real.eulerMascheroniSeq'`, `Real.eulerMascheroniSeq_lt_eulerMascheroniConstant`,
+  `Real.eulerMascheroniConstant_lt_eulerMascheroniSeq'`, `Real.one_half_lt_eulerMascheroniConstant`,
+  `Real.eulerMascheroniConstant_lt_two_thirds` (no decimal enclosure of `γ` finer than these is
+  at the pin; the two `eulerMascheroniSeq` inequalities enclose `γ` in an interval of width
+  `log(1 + 1/n)` at every index `n`);
+- `hasSum_zeta_two` (`Σ 1/n² = π²/6`), `Real.pi_gt_d6`, `Real.pi_lt_d6`, `Real.exp_one_gt_d9`,
+  `Real.exp_one_lt_d9`, `Real.log_two_gt_d9`, `Real.log_two_lt_d9`, `riemannZeta`, `Real.Gamma`;
+- `DirichletCharacter ℂ N`, `DirichletCharacter.LFunction`,
+  `DirichletCharacter.LFunction_apply_one_ne_zero`
+  (`χ ≠ 1 → LFunction χ 1 ≠ 0`), `DirichletCharacter.LFunction_ne_zero_of_one_le_re`;
+- `EulerProduct.eulerProduct_hasProd`, `EulerProduct.eulerProduct_completely_multiplicative`
+  (the Euler product of an absolutely summable multiplicative `f`, as finite products over
+  `primesBelow` and their limit), `EulerProduct.summable_and_hasSum_smoothNumbers_prod_primesBelow_tsum`
+  (for `f` with `f 1 = 1`, multiplicative on coprime arguments and with absolutely summable local
+  series, the sum over the `N`-smooth numbers is `∏_{p < N} Σ_n f(p^n)`; used in Layer 6.1),
+  `Real.summable_nat_rpow_inv`, `hasDerivAt_tsum`;
+- `ArithmeticFunction.LSeriesSummable_moebius_iff` (the `L`-series of `μ` converges absolutely
+  exactly on `Re s > 1`), `LSeries_one_mul_Lseries_moebius` and `LSeries_one_eq_riemannZeta`
+  (together: the `L`-series of `μ` is `1/ζ` on `Re s > 1`), used in the route of Layer 1.9;
+- `Complex.borelCaratheodory` (`Mathlib/Analysis/Complex/BorelCaratheodory.lean`: for `f`
+  differentiable on the open ball of radius `R` about `0` with `Re f ≤ M` there and `M > 0`,
+  `‖f z‖ ≤ 2M‖z‖/(R − ‖z‖) + ‖f 0‖(R + ‖z‖)/(R − ‖z‖)` for `‖z‖ < R`), used in the route of the
+  items (a) and (b) of Layer 1.9;
+- `Polynomial.bernoulli` (the Bernoulli polynomials with `B₁ = −1/2`), `Nat.Coprime`,
+  `Nat.primeFactors`, `Squarefree`, `Nat.factorization`, `Real.log_le_sub_one_of_pos`,
+  `Real.add_one_le_exp`;
+- `ArithmeticFunction.liouville` (`λ(n) = (−1)^{Ω(n)}` for `n ≥ 1`,
+  `Mathlib/NumberTheory/ArithmeticFunction/Liouville.lean`) with
+  `ArithmeticFunction.isMultiplicative_liouville`, `ArithmeticFunction.cardFactors` (`Ω`),
+  `ArithmeticFunction.isMultiplicative_zeta` and `ArithmeticFunction.IsMultiplicative.pow`, used in
+  Layers 1.6a and 9.2;
+- `Nat.lcmUpto` (`lcm(1, …, n)` as `(Icc 1 n).lcm id`, `Mathlib/NumberTheory/Chebyshev.lean`),
+  `Nat.factorization_lcmUpto` (`v_p(lcm(1, …, n)) = Nat.log p n` for prime `p`) and
+  `Chebyshev.psi_eq_log_lcmUpto` (`ψ(n) = log lcm(1, …, n)`), used in Layer 9.3a.
+
+What these do not include: no real-argument summatory function of `μ`, no bound on `M(x)` or
+`m(x)` of any shape, no explicit remainder for `Σ_{n ≤ x} τ(n)`, no Stieltjes constant, no explicit
+Mertens product, no pointwise bound for `ω`, `τ_k` or `σ` beyond `Nat.card_divisors_le_self`; the
+Chebyshev bounds at the pin are the Chebyshev-type constants `log 4` and `log 4 + 4` only.
+
+### From Tau Ceti
+
+- `TauCeti/NumberTheory/AbelSummation.lean`: `TauCeti.sum_Icc_rpow_mul_eq` (Abel summation against a
+  real power on `Icc 1 ⌊x⌋₊`) and `TauCeti.tendsto_rpow_inv_mul_sum_Icc_rpow_mul`;
+- `TauCeti/NumberTheory/ArithmeticDirichletSeries/AbelSummation.lean`:
+  `TauCeti.summatory_mul_eq_sub_sub_integral_mul`, `TauCeti.summatory_mul_eq_sub_integral_mul_of_le`,
+  `TauCeti.summatory_mul_le_of_summatory_le`, `TauCeti.tsum_mul_le_of_summatory_le` (summatory Abel formulas and
+  the transfer of a summatory bound to a weighted sum and to a tail);
+- `TauCeti/NumberTheory/LFunctions/Mertens.lean`: `TauCeti.LFunctions.mertensConstant K` (the limit
+  of `Σ_{N𝔭 ≤ x} 1/N𝔭 − log log x`), `TauCeti.LFunctions.tendsto_primeSummatory_inv_absNorm_sub_log_log`,
+  `TauCeti.LFunctions.isBigO_primeSummatory_inv_absNorm_sub_log_log_sub_mertensConstant`; used at
+  `K = ℚ`, where the prime ideals of norm `≤ x` are the rational primes `p ≤ x`; `Suggested.lean`
+  imports this module;
+- `TauCeti/NumberTheory/ArithmeticFunction/DivisorBounds.lean`: `TauCeti.sigma_le_rpow_mul_tsum`
+  (`σ_k(n) ≤ n^s Σ_d d^{−s}` for `k ≤ s`, `s > 1`, every `n` including `0`); its `k = 0` case is the
+  `k = 2` case of Layer 9.2's `τ_k(n) ≤ n^s ζ(s)^{k−1}`;
+- `TauCeti/NumberTheory/ArithmeticDirichletSeries/EulerProduct/Basic.lean`: `TauCeti.IdealArithmeticFunction.localArithmeticFactor`,
+  `TauCeti.IdealArithmeticFunction.normCoeff_eq_eulerProduct`, `TauCeti.IdealArithmeticFunction.isMultiplicative_eulerProduct`, used
+  only as the comparison point for the local factors of Layer 0.6; the Dirichlet series of this
+  roadmap are over `ℕ`, not over ideals;
+- `TauCeti/NumberTheory/PrimeCounting.lean`: `Nat.primeCounting_nth_prime` (`π(p_{k+1}) = k + 1`
+  for Mathlib's `nth Nat.Prime k`);
+- `TauCeti/NumberTheory/SumPrimeReciprocals.lean`:
+  `Nat.tendsto_prod_primesLE_filter_notMem_one_sub_inv_inv_atTop` (divergence of the Euler product
+  over the primes outside a finite set);
+- `TauCeti/NumberTheory/ArithmeticDirichletSeries/Perron/Formula.lean`:
+  `TauCeti.norm_truncatedPerron_LSeries_sub_sum_le` (the truncated Perron formula: for real `x > 0`,
+  `c > 0`, `T > 0`, and `f : ℕ → ℂ` whose `L`-series converges absolutely at `c` and that vanishes at
+  `x` when `x` is a natural number, the integral `(2π)^{−1} ∫_{−T}^{T} L(f, c + it) x^{c+it}/(c + it) dt`
+  differs from `Σ_{1 ≤ n < x} f(n)` by at most `Σ_n |f(n)| (x/n)^c/(πT|log(x/n)|)`); used at
+  `f = μ` in the route of Layer 1.9.
+
+What these do not include: no explicit constant in any prime estimate, no explicit remainder for
+`mertensConstant`, no summatory bound for `μ`.
+
+### From TauCetiRoadmap.AnalyticNumberTheoryPartI
+
+- §0.11: `Σ_{p < X} (log p)/p = log X + O(1)`, the qualitative input of Layer 6.3's hypothesis `A`
+  and of the Checks of Layer 5.5;
+- §0.19: there is a real `B` with `|Σ_{p ≤ x} 1/p − log log x − B| < 1/(2 log² x)` for every real
+  `x ≥ 286` (Rosser–Schoenfeld Theorem 5), unconditional; Layer 8.1 identifies this `B` with
+  `mertensConstant ℚ`, and Layer 1.4 uses its lower half for Schoenfeld's inequality;
+- §0.21: `Σ_{p ≤ x} 1/p = log log x + B + O(1/log x)` for `x ≥ 2`, and §0.26:
+  `∏_{p ≤ x}(1 − 1/p)^{−1} = e^γ log x + O(1)` for `x ≥ 2`; together they give the identity
+  `B = γ + Σ_p (log(1 − 1/p) + 1/p)` used in Layer 8.1;
+- §0.34: the uniform exclusion of Landau–Siegel zeros (`landau_siegel_exclusion`), the qualitative
+  statement whose explicit forms are ExplicitPrimeCounting §1.7's; cited only;
+- §1.2: Davenport's bound `davenport_moebius`, for every `A > 0` a constant `C_A` with
+  `sup_{α ∈ ℝ} |Σ_{1 ≤ r ≤ y} μ(r) e^{irα}| ≤ C_A y (log y)^{−A}` for every real `y ≥ 2`; used at
+  `α = 0`, where the sum is `M(y)`, for the unconditional `o(x)` of Layer 1.6a;
+- §3.22: `Σ_{n ≤ x} τ(n) = x log x + (2γ − 1) x + O(√x)`; §3.22a:
+  `0 < H_N − log N − γ < log(1 + 1/N) ≤ 1/N` for every integer `N ≥ 1`, which Layer 0.3 extends to real arguments;
+  §3.22b: the hyperbola identity `Σ_{n ≤ x} τ(n) + M² = 2 Σ_{a ≤ M} ⌊x/a⌋` with `M = ⌊√x⌋` for real
+  `x ≥ 1`, used in Layer 7.4;
+- §3.23a: `divisorError`, `Δ(x) = Σ_{n ≤ x} τ(n) − x (log x + 2γ − 1)` with the inclusive real
+  cutoff, the carrier of Layers 5.2, 7.4 and 7.5; its square-root bound `|Δ(x)| ≤ √x` for `x ≥ 1`,
+  whose constant Layer 7.4 sharpens to `0.961`; its cubic bound `|Δ(x)| ≤ 0.764 x^{1/3} log x` for
+  `x ≥ 9995`, consumed as stated; and the finite input `BBRFiniteInput` of both bounds, whose first
+  conjunct is `|Δ(x)| ≤ 0.961 √x` for every real `1 ≤ x ≤ 10^{10}` and whose fourth is
+  `|Δ(x)| ≤ 0.475 √x` for every real `4033 ≤ x ≤ 10^{10}`; Layer 7.4 takes it as stated there;
+- §3.1 and §3.7: the explicit subpower bound `τ(n) ≤ max(1, (ε log 2)^{−1})^B n^ε` and the asymptotic
+  maximal order of `τ`: the predecessors of Layer 9.2;
+- §3.9 and §3.12: the asymptotic coprime Möbius sums weighted by `log t/t` and by `1/t`,
+  `Σ_{t ≤ T, (t, q) = 1} μ(t)/t = O_A((log T)^{−A})`: the qualitative forms of Layer 2.4, used in the
+  Checks of Layer 5.4;
+- §3.35 and §3.35a: Rankin's bound `Ψ(x, y) ≤ x^σ ∏_{p ≤ y}(1 − p^{−σ})^{−1}` and the finite-prime
+  smooth Dirichlet series: used in Layers 6.1 and 6.2.
+
+### From TauCetiRoadmap.SieveMethodsAndPrimePatterns
+
+- §0.5: the predicate *HasLogSieveDimension* `(P, g, κ, C)`: `Σ_{p ∈ P, p ≤ z} g(p) log p ≤ κ log z + C`
+  for every real `z ≥ 2`. Layer 5.5 states its hypothesis in this shape with a two-sided bound;
+- §1.1: the asymptotic Selberg denominator
+  `Σ_{d < z} μ²(d) ∏_{p ∣ d} g(p)/(1 − g(p)) ∼ (log z)^κ / (Γ(κ + 1) H_g)` and the uniform lower bound `Σ_{d < z, (d, k) = 1} μ²(d)/φ(d) ≥ c (φ(k)/k) log z`:
+  the statement shape that Layer 5.5 makes explicit; nothing is restated.
+
+### From TauCetiRoadmap.ZerosOfLFunctions
+
+- Layer 9, *AllOnCriticalLine*: the meaning of "the zeros of `ζ` up to height `T` lie on the
+  critical line". It enters only through ExplicitPrimeCounting §1.1 and is not restated.
+
+### From TauCetiRoadmap.ExplicitPrimeCounting
+
+Each estimate below is used as a hypothesis of exactly the displayed shape; the section named proves
+it (under that roadmap's own hypotheses), and the theorems here do not depend on how.
+
+- §0.1: the diagonal sum `S(u) = Σ_{q ≤ u} μ²(q)/φ(q)` for real `u ≥ 1` (the sum
+  `selbergDiagonal` of ExplicitCharacterSumsAndSieves §5.1 and `G₁` of Layer 7.2) and Büthe's
+  explicit asymptotic `S(u) = log u + γ + Σ_p log p/(p(p − 1)) + O*(58/√u)` for every real
+  `u ≥ 10^9`, against which the forms of Layer 7.2 are compared; no proof here uses it.
+- §1.1: the proposition `RH(H)` (every zero of `riemannZeta` with `0 < Re s < 1` and `|Im s| ≤ H` has
+  `Re s = 1/2`), the first clause of *ZetaResidueSumVerified* (Layer 0.7), and, at the height
+  `3 000 175 332 800` of Platt and Trudgian's verification recorded in ExplicitZetaBounds §0.4, the
+  verified-height hypothesis of Layer 1.9. The proposition is ExplicitZetaBounds §0.2's, which §1.1
+  cites; by its antitonicity `RH(3 000 175 332 800)` gives `RH(3·10¹²)`, the verification that the
+  supplier statements 1.9 uses ask for beside their records (ExplicitZetaBounds contract below).
+- §1.3, the proposition *ButheVerified*: `|ψ(x) − x| ≤ 0.94 √x` for every real `11 < x ≤ 10^{19}`.
+  Used in Layers 1.8 and 1.10; it also gives the first clause of `gap:psi-initial-range` on
+  `(11, 10^{10}]`.
+- §1.6: the decimal enclosures *EulerGammaEnclosure* (`|γ − 0.5772156649| < 10^{−9}`) and
+  *MeisselMertensEnclosure* (`|B − 0.2614972128| < 10^{−9}` for `B = mertensConstant ℚ`), stated
+  there once for both roadmaps. Used wherever a proof here evaluates `γ` or `B` numerically
+  (Layers 5.2, 7.6, 8.1).
+- §1.7: the proposition *RealZeroGap* `c Q` with its two instances *RealZeroGap* `(1/5) 10^{10}`
+  given `LuZamanZhaoRecord` (the record of ExplicitZetaBounds §0.4b) and *RealZeroGap*
+  `(3.0·10^{−3}) ∞` given `LuZamanZhaoRecord` (Banks's instance, a preprint), which a statement
+  that uses it takes itself as a hypothesis (zero-free inputs, below).
+- §3.2: `ψ(x) < 1.03883 x` for every real `x > 0` (Rosser–Schoenfeld Theorem 12), used as
+  `ψ(x) ≤ 1.04 x` for `x ≥ 0` in Layers 1.5 and 1.10; and `θ(x) > x(1 − 1/(2 log x))` for every real
+  `x ≥ 563` (Rosser–Schoenfeld Theorem 4), used in Layer 9.4.
+- §3.3: `|ψ(x) − x| ≤ 0.006409 x/log x` for every real `x > e^{22}` (Dusart), used as
+  `|ψ(x) − x| ≤ 0.0065 x/log x` for `x > e^{22}` in Layers 1.4, 1.5 and 1.10.
+- §3.5: `π(x) > x/log x` for every real `x ≥ 17` (Rosser–Schoenfeld Corollary 1), used in Layer
+  9.3.
+- §4.2: `|Σ_{n ≤ x} Λ(n)/n − log x + γ| ≤ 0.0067/log x` for every real `x ≥ 1 520 000` (Ramaré's
+  corrected corollary; the range `x ≥ 23` printed at `ramare2013aa` line 251 is false at `x = 23`),
+  used in Layers 1.5 and 1.8; and `|Σ_{n ≤ x} Λ(n)/n − log x + γ| ≤ 1/(4 log x)` for every real
+  `x ≥ 115` (the same corollary), used in Layer 1.4.
+- §4.3: `|Σ_{p ≤ x} 1/p − log log x − B| ≤ 1/log³ x` for every real `x ≥ 24 284`, with
+  `B = mertensConstant ℚ` (Vanlalngaia's Corollary 1), used in Layers 8.1, 8.2 and 9.4; and Axler's
+  `|Σ_{p ≤ x} 1/p − log log x − B| ≤ f(x) = (0.024334/(3 log³ x))(1 + 15/(4 log x))` for every real
+  `x ≥ 1 757 126 630 797`, used in Layers 8.1 and 8.2; and the row `(0.19992, 2 278 383)` of
+  Broadbent–Fiori–Kadiri–Ng–Wilk (a preprint), `|Σ_{p ≤ x} 1/p − log log x − B| ≤ 0.19992/log³ x`
+  for every real `x ≥ 2 278 383`, whose upper half is used in Layer 8.1a.
+- §4.7: under `RiemannHypothesis`, `|Σ_{p ≤ x} 1/p − log log x − B| ≤ 3 log x/(8π√x)` for every real
+  `x ≥ 24.4`; that section leaves the two product forms of its source to this roadmap, and Layer
+  8.1 proves them from it.
+- §5.3: `p_k ≥ k(log k + log log k − 1)` for every natural `k ≥ 2` (Dusart's Theorem 3), used in
+  Layers 9.1 and 9.3.
+- §6.1, the row `(1, 0.000213, 10^{10})` of *RamareRumelyTable1*: `|ψ(x) − x| ≤ 0.000213 x` for every
+  real `x ≥ 10^{10}`, used in Layers 1.2 and 1.5 (it also follows from §1.3 on `[10^{10}, 10^{19}]`,
+  where `0.94/√x ≤ 9.4·10^{−6}`, and from §3.3 beyond `10^{19}`, where `0.006409/log x ≤ 1.5·10^{−4}`).
+- §6.3: for every natural `q ≥ 3` and every `a` coprime to `q`, `|θ(x; q, a) − x/φ(q)| < c_θ(q) x/log x`
+  for every real `x ≥ x_θ(q)`, with `c_θ(q) ≤ 1/840` for `3 ≤ q ≤ 10^4` and `x_θ(q) ≤ 8·10^9` for
+  `3 ≤ q ≤ 10^5` (Bennett–Martin–O'Bryant–Rechnitzer), used in Layer 8.3.
+- §7.4: Dusart's interval, a prime in `(y, y(1 + 1/log³ y)]` for every real `y ≥ 89 693`
+  (`dusart2018` Proposition 5.4 in print), used in Layer 9.3a.
+
+What ExplicitPrimeCounting must provide (gap:psi-initial-range): `|ψ(x) − x| ≤ √x` for every real
+`x` with `8 ≤ x ≤ 10^{10}`, and `|ψ(x) − x| ≤ 0.8 √x` for every real `x` with `1500 ≤ x ≤ 10^{10}`
+(`ramare2013aa` lines 205–207, (4.1)–(4.2), a verification under the zeros of `ζ` verified to a
+height). Needed by Layers 1.2, 1.5 and 1.10.
+
+What ExplicitPrimeCounting must provide (gap:mertens-reciprocal-axler): with
+`η_A(x) = 1/(20 log³ x) + 3/(16 log⁴ x)` and `B = mertensConstant ℚ`,
+`Σ_{p ≤ x} 1/p − log log x − B ≥ −η_A(x)` for every real `x > 1` and
+`Σ_{p ≤ x} 1/p − log log x − B ≤ η_A(x)` for every real `x ≥ 46 909 074` (Axler 2018,
+Proposition 5.1, which refines Dusart's `1/(5 log³ x)` for `x > 2 278 382` and rests on a direct
+computation up to `19 035 709 163`). Needed by Layer 8.1.
+
+What ExplicitPrimeCounting must provide (gap:psi-relative-bklnw): `|ψ(x) − x| ≤ 8·10^{−5} x` for
+every real `x ≥ 10^8`, `≤ 2.58843·10^{−5} x` for every real `x ≥ e^{21}` and `≤ 9·10^{−7} x/log x`
+for every real `x ≥ 10^{19}` (the tables of Broadbent–Kadiri–Lumley–Ng–Wilk with Büthe's verified
+range, as used by Ramaré–Zuniga Alterman, (12)–(16)); the row `|ψ(x) − x| ≤ 1.93378·10^{−8} x` for
+`x ≥ e^{40}` is §3.1's *BKLNWPsiTable* at `b = 40`. Needed by Layers 1.8 and 1.10.
+
+What ExplicitPrimeCounting must provide (gap:psi-tilde-difference): with
+`r(x) = Σ_{n ≤ x} Λ(n)/n − log x + γ`, `|r(x) − (ψ(x) − x)/x| ≤ 0.05/√x + 1.75·10^{−12}` for every real `x ≥ 394 385`
+(Vanlalngaia 2017, Theorem 9, second part; §4.2 states the weaker `1/(2√x) + 1.75·10^{−12}` from
+`8950`). Needed by Layer 1.10. Its finite extension below `394 385` that Layer 1.10 also uses,
+`≤ 0.052/√x` on `[144 913, 394 385]`, is not part of the contract: it is the proposition
+*PsiTildeDifferenceRangeVerified* of Layer 0.7.
+
+What ExplicitPrimeCounting must provide (gap:psi-log-power): `|ψ(x) − ⌊x⌋| < B_β x/log^β x` for every
+real `x ≥ e^{20}` and `β = 1, 2, 3, 4`, with
+`(B₁, B₂, B₃, B₄) = (8.96237·10^{−4}, 0.0188209, 0.395239, 75.1090)` (Johnston–Leong–Tudzi's Lemma A.5, from the tables of Broadbent et al. to
+`e^{3000}` and Fiori–Kadiri–Swidinsky's de la Vallée Poussin bound beyond). Needed by Layer 1.4.
+
+The finite extensions of these estimates that Ramaré 2013 computes below their ranges are not part
+of the contract: they are fields of `RamareTransferComputations` (Layer 0.7).
+
+### From TauCetiRoadmap.ExplicitCharacterSumsAndSieves
+
+- §5.1: `selbergDiagonal`, `S(z) = Σ_{1 ≤ n ≤ z} μ²(n)/φ(n)` for real `z` (the sum `G₁` of Layer 7.2
+  and the case `f = 1/φ` of Layer 6.5); its coprime comparison `S_k(z) ≥ (φ(k)/k) S(z)` for natural
+  `k ≥ 1` and real `z ≥ 1`, which is the first inequality of Layer 6.5 at `f = 1/φ`. The carrier is
+  the sum `G₁` of Layer 7.2; no proof here uses the comparison, which Layer 6.5 strengthens. Its
+  explicit asymptotic with error `58/√z` is ExplicitPrimeCounting §0.1's (above), which §5.1 cites.
+
+### From TauCetiRoadmap.ExplicitZetaBounds
+
+Below, `H₀ = 3 000 175 332 800`.
+
+- §0.4: Platt and Trudgian's verification `RH(H₀)`, recorded there as a hypothesis; it is the
+  hypothesis of Layer 1.9, taken as the proposition `RH(H)` of ExplicitPrimeCounting §1.1 (above).
+- §0.4b: the records `BrentPlattTrudgianRecord` (Brent, Platt and Trudgian's value of
+  `Σ_{γ>0} γ^{−2}` over the zeros of `ζ`, to within `5·10^{−28}`) and `LeongRecord` (Leong's
+  computation, for `t ≤ 500`, of his bounds for `1/ζ` on and near the line one), recorded there as
+  hypotheses: hypotheses of the statements of §§7.3 and 7.10 below, and so of Layer 1.9; neither is
+  discharged here.
+- §6.1: the smoothed truncated Perron formula, whose error term stays finite when `x` is an integer;
+  an alternative to Tau Ceti's `TauCeti.norm_truncatedPerron_LSeries_sub_sum_le` in the route of
+  Layer 1.9.
+- §7.3, the classical zero-free region in its `5.558691` instance: given `RH(3·10¹²)` and
+  `BrentPlattTrudgianRecord`, `ζ(σ + it) ≠ 0` for every real `t` with `|t| ≥ 2` and every real
+  `σ ≥ 1 − 1/(5.558691 log|t|)`, hence for every `R₀ ≥ 5.558691` in place of `5.558691`; at
+  `R₀ = 5.56` it keeps the zeros out of the region that the contour of Layer 1.9 encloses above the
+  height `H₀`.
+- §7.10: the bounds for `1/ζ` that the route of Layer 1.9 uses, each given `RH(H₀)` and
+  `BrentPlattTrudgianRecord`, and the second and third also given `LeongRecord`: Lee and
+  Leong's `1/|ζ(σ + it)| ≤ 1237 (log t)^{11/12}` for every real `t ≥ H₀` and every real
+  `σ ≥ 1 − 1/(5.56 log t)`; their `1/|ζ(σ + it)| ≤ e^{146} log t` for every real `σ ≥ 3/4` and every
+  real `t` with `14 ≤ t ≤ H₀ − 1/2`; and Leong's `1/|ζ(1 + it)| ≤ 29.388 log t` for every real
+  `t ≥ 2`. The other items of §7.10 do not serve the route: none bounds `1/ζ` to the left of
+  `σ = 1` between the heights `H₀ − 1/2` and `H₀` at a size the contour absorbs (1.9).
+- §§4.8 and 4.10: the bounds for `|ζ(1 + it)|` and the Richert-type bounds for `|ζ(σ + it)|` on
+  `1/2 ≤ σ ≤ 1`, used only in the route of the items (a) and (b) of Layer 1.9 (the
+  Borel–Carathéodory step above the verified height).
+- §4.1: the Kusmin–Landau inequality (`|Σ_{X<n≤X+Y} e(f(n))| ≤ cot(πθ/2)` for monotone `f'` with
+  `θ ≤ f' − k ≤ 1 − θ`), used in the route of Bordellès–Daval's smoothed divisor remainder (Layer 7.4).
+
+§7.10 meets the supplier gap `gap:zeta-reciprocal-bounds` of Layer 1.9: it states, given `RH(H₀)`
+and `BrentPlattTrudgianRecord`, the bound `1237 (log t)^{11/12}` above `H₀`, and, given
+`LeongRecord` as well, the bound `30.812 log t` on `σ ≥ 1` for `t ≥ 13` and the bound
+`e^{146} log t` on `σ ≥ 3/4`, the last for `14 ≤ t ≤ H₀ − 1/2`, the range its proof reaches (a zero
+just above `H₀` is not excluded). The Littlewood and Korobov–Vinogradov companions of the first
+serve only the members (10) and (11) of Lee and Leong's theorem, which belong to Part II (Scope).
+The join of the contour of 1.9 needs two further bounds of Leong that §7.10 does not state; they
+are targets of 1.9, items (a) and (b). The bound on `σ = 3/4` for `|t| ≤ 14` is the proposition
+*ZetaReciprocalSegmentVerified* of Layer 0.7.
+
+### Zero-free inputs: exceptional zeros and half-planes
+
+Two results bear on the constants of this roadmap without changing any statement in it.
+
+- The exclusion of Landau–Siegel zeros. Its qualitative form is AnalyticNumberTheoryPartI §0.34
+  (`openai2026siegel` Theorem 1, an unrefereed preprint); its numerically explicit forms are
+  ExplicitPrimeCounting §1.7's *RealZeroGap* `c Q`, with the instances *RealZeroGap*
+  `(1/5) 10^{10}` (the computation of `luZamanZhao2026`, given its record `LuZamanZhaoRecord` of
+  ExplicitZetaBounds §0.4b) and *RealZeroGap* `(3.0·10^{−3}) ∞` given `LuZamanZhaoRecord`
+  (`banks2026`, an unrefereed preprint, whose instance any statement that uses it takes itself as a
+  hypothesis). No theorem of this roadmap is proved from them. They bear on two inputs only: the
+  exceptional-zero branch of ExplicitPrimeCounting §6.3 for moduli beyond `10^5`, which Layer 8.3
+  consumes only through that section, and any lower bound for `|L(1, χ)|` uniform in `q` that a
+  consumer of Layer 4.1 supplies; no numerical lower bound for `L(1, χ)` derived from them is in
+  print, so `|L(1, χ)|` is a parameter of 4.1.
+- The zero-free half-plane `Re s > 7/8` for every Dirichlet `L`-function (`openai2026quasiRH`
+  Theorem 1.1, an unrefereed preprint with no numerical constants): a qualitative supplier of
+  power-saving remainders such as `M(x) = O_ε(x^{7/8 + ε})`; it changes no explicit statement here,
+  and none of its consequences is planned.
 
 ## References
 
