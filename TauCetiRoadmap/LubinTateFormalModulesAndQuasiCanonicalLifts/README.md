@@ -1,38 +1,60 @@
 # Roadmap: lubin–tate formal modules and quasi-canonical lifts
 
-**Summary.** This roadmap builds the theory of one-dimensional formal modules over the integers of
-local fields, starting from Mathlib's one-dimensional `FormalGroup`, Tau Ceti's formal-group
-homomorphisms, logarithms and evaluated points, and the formal Lie groups and `p`-divisible groups
-of FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.1. It equips a commutative formal group law with a
-coefficient-ring action, constructs the Lubin–Tate formal module of a uniformizer by Lubin–Tate
-interpolation, computes its torsion and Tate module, identifies the supplied division fields in
-primitive-root coordinates, and compares its Galois character with the arithmetic local Artin map
-of Tau Ceti and ClassFieldTheory. It then proves the
-finite-height deformation theorem for formal `O_K`-modules with a specified coefficient ring,
-Honda's functional-equation theory (its converse over unramified bases) and its supersingular
-elliptic specialization, integral lattice quotients, finite-residue quasi-canonical lifts with their
-comparison to the supplied quadratic ones, higher-degree lattice classification and marked fields of
-moduli (the ring class fields of Gross and Yu), and the explicit tame and anticyclotomic towers of
-Burungale–Kobayashi–Ota with the formal traces between them. The end theorems are the Lubin–Tate
-existence and uniqueness theorem with its formal-module structure, the degree of the Lubin–Tate
-division fields, the explicit reciprocity law `Art_K(π^r u) = [u⁻¹]_f` on their torsion and their
-norm groups, the representability of marked finite-height deformations, the Lubin–Tate structure of
-the formal group of a supersingular elliptic curve with scalar Frobenius, the classification and
-fields of moduli of quasi-canonical lifts, and the trace-compatible comparison of the two BKO
-towers.
+**Summary.** A one-dimensional formal group law over a commutative ring is a power series `F(X, Y)`
+that is `X + Y` plus higher terms and is associative. Over `ℤ_p` the torsion points of the
+multiplicative law `X + Y + XY` generate the fields `ℚ_p(ζ_(p^m))`. Lubin and Tate attached to each
+uniformizer of a nonarchimedean local field `K` a formal group whose torsion generates abelian
+extensions of `K`, on which the Artin map acts explicitly. This roadmap builds that theory and
+carries it to deformations, Honda's theory of logarithms and the quasi-canonical lifts of Gross and
+Yu.
 
-The formal-module foundations of Layer 0 hold over an arbitrary commutative coefficient ring, and
-the Lubin–Tate construction of Layer 1 over any discrete valuation ring with finite residue field
-(either characteristic, complete or not). The torsion, Tate-module, division-field and
-reciprocity results of Layer 2 and the deformation theory of Layer 3 hold for every
-nonarchimedean local field `K`, and the lattice quotients, quasi-canonical lifts, fields of moduli,
-quadratic degrees and uniformizing moduli of Layers 5–6 and §§7.1–7.2 for every nonarchimedean local
-field `F₀` and finite separable `F/F₀`; their comparisons with `p`-divisible groups, with the
-`p`-adic deformation suppliers, with the strict-base quadratic lifts of
-GrossZagierAndArithmeticHeights §7.2 and with elliptic curves are stated for finite extensions of
-`ℚ_p`. For the CM construction the coefficient field `F₀` and the CM field `F` are distinguished;
-the quadratic results cover ramified and unramified `F/F₀`, including residue characteristic two.
-Only the BKO layers impose `p ≥ 5` and `Φ/ℚ_p` unramified quadratic.
+Its objects are formal `O`-modules: commutative formal group laws on which a ring `O` acts by
+endomorphisms `[a]`, additive for the formal sum, multiplicative for composition, with `[1] = X` and
+the linear coefficient of `[a]` the image of `a`.
+
+The first theorem is Lubin and Tate's. Let `O` be a discrete valuation ring, complete or not, whose
+residue field has `q` elements, and `π` a uniformizer. A Lubin–Tate series for `π` has zero constant
+term, linear coefficient `π` and reduction `X^q`, for instance `πX + X^q`. For each such series `f`
+there is a formal group law over `O` with a formal `O`-module structure in which `π` acts by `f`. It
+is the only formal group law over `O` of which `f` is an endomorphism.
+
+The second concerns torsion. Let `O_K` be the integers of a nonarchimedean local field `K` of either
+characteristic, and `f` a Lubin–Tate polynomial, monic of degree `q`. If `t` is a root of the `m`-th
+iterate of `f`, with `m ≥ 1`, but not of the previous one, then `K(t)` has degree `(q − 1)q^(m−1)`
+over `K` and contains all roots of that iterate. For `u ∈ O_K^×` and `r ∈ ℤ`, every lift of the
+arithmetically normalized Artin symbol of `π^r u` sends every root `t` of that iterate to
+`[u⁻¹]_f(t)`. So the field they generate has norm group `π^ℤ · (1 + 𝔪_K^m)`.
+
+Supersingular elliptic curves give the third. Let `p` be prime and `E` a Weierstrass curve with unit
+discriminant over the Witt vectors `W(𝔽_(p²))`, whose reduction has `p² + 1 − 2sp` points over
+`𝔽_(p²)`, with `s = ±1`. Then multiplication by `sp` on its formal group is a Lubin–Tate series for
+`sp`, so the formal group is the Lubin–Tate module for `sp`. By Honda's theory, every commutative
+formal group law over `W(𝔽_(p²))` whose reduction has `p²`-power Frobenius `[sp]` is isomorphic over
+that ring, by a series with linear coefficient one, to the law with logarithm
+`Σ_j (sp)^(−j) X^(p^(2j))`.
+
+The fourth concerns quasi-canonical lifts. Let `F/F₀` be a separable quadratic extension of
+nonarchimedean local fields of either characteristic, with `ϖ₀` a uniformizer of `F₀` and `q₀` its
+residue cardinality. The canonical lift is the Lubin–Tate module of a uniformizer of `F`, a formal
+module of height two over the integers of `F₀`. Its quotients by lattices containing its Tate module
+are the quasi-canonical lifts. The one of level `s ≥ 1` has endomorphism ring the order of all
+`a + ϖ₀^s b`, with `a` integral in `F₀` and `b` integral in `F`. Its field of moduli, the smallest
+field containing `F` over which it is defined with its marking, an identification of its special
+fibre, is totally ramified over `F` of degree `q₀^(s−1)(q₀ + 1)` or `q₀^s` as `F/F₀` is unramified
+or ramified.
+
+The roadmap builds on Mathlib's formal group laws and Tau Ceti's homomorphisms and logarithms. For
+`K/ℚ_p` finite, torsion is compared with the `p`-divisible groups of
+FiniteFlatGroupsAndIntegralPadicHodgeTheory. The reciprocity law is a comparison with Tau Ceti's
+local Artin map and ClassFieldTheory, not a second construction. The mixed-characteristic quadratic
+lifts of GrossZagierAndArithmeticHeights are compared with those built here.
+AnticyclotomicLocalUnits uses all but the deformation theory.
+
+Layers 0–2 build formal modules, the Lubin–Tate module and its torsion. Layer 3 represents the
+marked deformations of a formal module of finite height `h` by a power series ring in `h − 1`
+variables. Layer 4 is Honda's theory, and Layers 5–7 build quasi-canonical lifts as lattice
+quotients. For `p ≥ 5`, Layers 8–9 build the towers of Burungale, Kobayashi and Ota over the
+unramified quadratic extension of `ℚ_p` and the formal traces between them.
 
 ## How to read the build
 
