@@ -1,14 +1,75 @@
 # Roadmap: galois representations attached to modular and Hilbert modular forms
 
-**Summary.** Build the arithmetic realization of a cuspidal eigenform from
-parabolic cohomology, coefficient projectors and local comparison, then identify
-its rank-two Galois representations, fixed integral lattices and whole-ring
-Hecke determinant. Higher-weight classical and geometric Hilbert constructions
-lead to the unrestricted Hilbert constructor and full local compatibility;
-in weight one the supplied finite-image Artin representation is placed in the
-same normalization. The end results include strict fixed-eigenform compatible systems,
-ordinary/crystalline realizations, large-image theorems and deformation maps
-over integral Hecke algebras, with ramified monodromy and nilpotents retained.
+**Summary.** The Hecke eigenvalues of a cuspidal eigenform are, for each prime
+ℓ, the Frobenius data of a two-dimensional Galois representation with ℓ-adic
+coefficients. This roadmap builds these representations for Hilbert modular
+forms over a totally real field F of any degree, compares them with the
+classical ones for elliptic modular forms, and studies them locally, integrally
+and as ℓ varies.
+
+The forms are cuspidal automorphic representations π of GL₂ over F of regular
+type. At each real place the component of π is a discrete series of some weight
+k ≥ 2, with central character t ↦ sgn(t)^k |t|^(−w), for one integer w of the
+same parity as every weight. The weights need not be parallel. The coefficients
+are the completion of a number field E, enlarged when needed, at a place λ above
+ℓ. The representation ρ attached to π and λ is characterized by its Frobenius
+polynomials. At a finite place v outside a finite bad set and not above ℓ,
+geometric Frobenius has characteristic polynomial X² − tX + qs, where t and s
+are the eigenvalues of the Hecke operators of diag(ϖ, 1) and ϖ·I₂ for a
+uniformizer ϖ at v, and q is the size of the residue field.
+
+The first main theorem is existence. For every such π and every finite λ there
+is a continuous semisimple ρ, unramified outside the bad set and the places
+above ℓ, with these Frobenius polynomials. When the degree of F is even, no
+finite place at which π is discrete series is needed. The determinant of ρ is
+the Galois character of the central character of π divided by the ℓ-adic
+cyclotomic character. Complex conjugation at every real place has determinant
+−1, and ρ is absolutely irreducible.
+
+The second main theorem is compatibility with the local Langlands correspondence
+at every finite place v. If v does not lie above ℓ, the Frobenius-semisimplified
+Weil–Deligne representation of ρ at v is the local Langlands parameter of the
+component of π at v twisted by |·|^(−1/2). The monodromy operator is part of
+this statement: it is nonzero exactly when that component is a twist of the
+Steinberg representation. If v lies above ℓ, ρ is potentially semistable with
+the prescribed Hodge–Tate degrees, and its periods give the same local
+parameter; following Skinner, neither residual irreducibility nor a
+discrete-series place is assumed.
+
+The local theorems make the representations ρ, over one large enough E, a
+strictly compatible system. By the Ramanujan–Petersson theorem, every root of a
+good Frobenius polynomial has complex absolute value q^((w+1)/2), and the system
+is pure of weight w + 1.
+
+The third main theorem concerns a weight-two newform f of squarefree level N
+with trivial nebentypus; these hypotheses rule out complex multiplication. Call
+a prime p not dividing N ordinary if the p-th coefficient of f, an algebraic
+integer, lies outside at least one prime above p of the coefficient field of f.
+The ordinary primes have natural density one; Suggested.lean states this. For
+the newform 11a1, with coefficient field ℚ, 3 is ordinary (its coefficient is
+−1) and 19 is not (its coefficient is 0). For every sufficiently large such p,
+the residual representation at every prime above p is absolutely irreducible and
+ramified at each prime dividing N.
+
+AlgebraicModularFormsAndSerreWeights constructs the representations of elliptic
+modular forms, weight one included; here they are compared, not rebuilt.
+HilbertModularVarietiesAndShimuraCurves provides Shimura curves and the
+attachment in parallel weight, which Layer 3 extends.
+GL2AutomorphicRepresentationsAndTransfer provides the local Langlands and
+Jacquet–Langlands correspondences. IntegralHeckeAndGaloisDeterminants provides
+determinant laws and reconstructs representations from them. Serre-weight and
+level optimization, ordinary modularity lifting and deformation arguments use
+the results.
+
+Layer 0 builds p-adic periods, p-adic families of quaternionic forms and
+geometric realizations. Layers 1 and 2 treat elliptic modular forms. Layer 3
+constructs the Hilbert representations and Layer 4 proves their local
+properties. Layer 5 treats ordinary filtrations and crystalline factors. Layer 6
+works over completed local Hecke algebras, finite and flat over a complete
+discrete valuation ring, nilpotents included; it builds a determinant law over
+the whole algebra and, under a residual irreducibility hypothesis, a
+representation into GL₂ of the algebra. Layer 7 assembles the compatible
+systems, large-image theorems and density theorem.
 
 ## How to read the build
 
@@ -3359,13 +3420,13 @@ The cyclotomic reciprocity formulas of TauCetiRoadmap.LocalGaloisGroups Layer 5
 are already in the pinned Tau Ceti library as
 `TauCeti.ClassFieldTheory.localCyclotomicCharacter_artinMap_unit` and
 `TauCeti.ClassFieldTheory.localCyclotomicCharacter_artinMap_uniformizer`; their
-geometric normalization is an input to the attached-character comparison below.
+geometric normalization is an input to the attached-character comparison above.
 Generic determinant laws, Cayley–Hamilton reconstruction and coefficient descent
 belong to TauCetiRoadmap.IntegralHeckeAndGaloisDeterminants; the new targets here
 extract the geometric Hecke module and apply those laws to that module.
 Its Layer 3a.1 also supplies characteristic-polynomial duality, character
 scaling and the classical `k≥2` coefficient normalization. The coefficient
-formulas below fix the additional weight-one and inverse-Hecke-operator
+formulas above fix the additional weight-one and inverse-Hecke-operator
 conventions; they do not introduce another determinant or scaling theory.
 
 SmallRamificationAndAbelianVarietyBaseCases §5.0d supplies the arbitrary-rank
@@ -3412,7 +3473,7 @@ these interfaces. No such later theorem is a prerequisite of the attached
 representation. The algebraic-character and generic period interfaces of
 AutomorphicGaloisRepresentationsPartII, AG2.0 and AG2.P, are independent
 suppliers. The unitary and `GL₃` geometric instances used here are targets of
-§0.6; comparison of the resulting rank-two members uses the local theorems below.
+§0.6; comparison of the resulting rank-two members uses the local theorems above.
 
 The Wach construction, including dyadic primes, finite coefficients, lattice
 recovery and filtered reduction, belongs to PhiGammaModulesAndIwasawaCohomology
