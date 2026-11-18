@@ -312,6 +312,46 @@ rural hospitals theorem (Roth 1986), and matching with contracts (Hatfield–Mil
 the marriage model; the Archive of Formal Proofs entry of Gammie (2016) formalizes in Isabelle the
 results of matching with contracts and several of the theorems above.
 
+The stable marriage problem has applications beyond economics: in computer science, it underpins
+the design of matching platforms; in biology, it models stable pairings in animal populations;
+and in social sciences, it provides insights into coalition formation. The lattice structure of
+stable matchings (Conway) connects to order theory and has implications for algorithmic game
+theory. The incentive properties (Roth, Dubins–Freedman) are foundational for mechanism design
+theory, a central area of economic theory with applications to auction design, voting systems,
+and resource allocation.
+
+## Open problems
+
+- **Stable matching with ties**: Extending the current model to allow for ties in preference
+  lists (non-strict preferences) remains an active area. While the existence of stable matchings
+  is preserved, the lattice structure and uniqueness properties may not hold. The algorithmic
+  aspects also become more complex, as the deferred acceptance algorithm needs modification.
+- **Three-sided matching**: Generalizing the two-sided stable matching problem to three or more
+  sides (e.g., students, colleges, and professors) presents significant challenges. Known results
+  are partial, and no complete analogue of the Gale–Shapley algorithm exists.
+- **Dynamic matching markets**: When agents arrive and depart over time, maintaining stability
+  becomes non-trivial. The notion of stability itself needs to be redefined for dynamic settings.
+- **Matching with externalities**: When an agent's preferences depend on the matches of others
+  (positive or negative externalities), the stable matching problem becomes significantly more
+  complex. Existence results are known only for special cases.
+- **Approximate stability**: In large markets, finding exactly stable matchings may be computationally
+  infeasible. Understanding the properties of approximately stable matchings and developing
+  efficient algorithms to find them is an open direction.
+- **Fairness in stable matching**: Beyond stability and individual rationality, incorporating
+  additional fairness constraints (e.g., envy-freeness, proportionality) while maintaining
+  computational tractability is a current research challenge.
+- **Random matching markets**: Analyzing the properties of stable matchings in random preference
+  models, including the distribution of the number of stable matchings and their structural
+  properties, remains an active area of research.
+- **Strategy-proofness beyond deferred acceptance**: Characterizing all strategy-proof mechanisms
+  for the stable matching problem, or understanding the trade-offs between strategy-proofness
+  and other desirable properties, is an open question.
+- **Stable matching in infinite markets**: Extending the current finite model to countably infinite
+  markets with appropriate topological or measure-theoretic conditions is a natural generalization.
+- **Quantum matching**: Exploring whether quantum algorithms can provide speedups for computing
+  stable matchings in large markets is an emerging direction at the intersection of theoretical
+  computer science and quantum computing.
+
 ## Provenance: existing formalizations outside Tau Ceti
 
 This section is secondary: it maps existing Lean code to targets and prescribes nothing. The
@@ -352,3 +392,50 @@ deferred acceptance. It has nothing on 1.1, 1.3 or Layers 2–3.
 - LeanPool, *lean-pool*. Lean 4 formalizations at commit f8b9b721d616a2cc0b22fc226e4a9e3dd6cea2d0,
   Lean and Mathlib v4.35.0; projects `LeanPool/ClassicalGraphColouring/Galvin`.
   https://github.com/LeanPool/lean-pool/tree/f8b9b721d616a2cc0b22fc226e4a9e3dd6cea2d0/LeanPool
+
+## Additional bibliography
+
+- D. Gusfield, *Three fast algorithms for four problems in stable marriage*, SIAM J. Comput.
+  16 (1987), 1119–1133; doi:10.1137/0216074.
+- D. Gusfield, R. W. Irving, *The stable marriage problem: structure and algorithms*, MIT Press
+  (1989).
+- R. W. Irving, P. Leather, *An efficient algorithm for the "optimal" stable marriage*, J.
+  Algorithms 10 (1989), 539–554; doi:10.1016/0196-6774(89)90030-5.
+- R. W. Irving, D. F. Manlove, S. Scott, *Algorithms for the stable fiance and roommates
+  problems*, Ann. Oper. Res. 101 (2001), 85–100; doi:10.1023/A:1017523212680.
+- D. E. Knuth, *Stable marriage and its relation to other combinatorial problems*, in
+  Combinatorial Algorithms (J. D. Horton, ed.), 1999, 259–295.
+- A. Roth, M. A. O. Sobel, *On the existence of stable matchings*, Math. Oper. Res. 12
+  (1987), 446–450.
+- A. Roth, M. Sotomayor, *Two-sided matching*, in Handbook of Game Theory with Economic
+  Applications, Vol. 2 (R. J. Aumann, S. Hart, eds.), North-Holland, 1992, 841–880.
+- M. Sotomayor, *Stable matching problems and their applications: a survey*, in Advances in
+  Applied Mathematics and Global Optimization (C. A. Floudas, P. M. Pardalos, eds.),
+  Kluwer Academic, 2001, 199–222.
+- F. Chung, P. Lu, *On the maximum number of stable matchings*, SIAM J. Discrete Math. 18
+  (2004), 565–572; doi:10.1137/S0895480102412106.
+- A. E. Roth, *What have we learned from market design?* Economic J. 115 (2005),
+  F7–F22; doi:10.1111/j.1468-0297.2005.01003.x.
+- A. E. Roth, *Deferred acceptance algorithms: history, theory, practice, and open questions*,
+  in The Nobel Memorial Laureates in Economics: Perspectives on Contemporary Issues
+  (M. Sjöström, ed.), Edward Elgar, 2014.
+- P. Biró, D. F. Manlove, *College admissions with lower quotas*, Theoret. Comput. Sci.
+  501 (2013), 1–15; doi:10.1016/j.tcs.2013.04.035.
+- P. Biró, D. J. Abraham, *Strategy-proof matching mechanisms*, in Handbook of Computational
+  Social Choice (F. Brandt, V. Conitzer, U. Endriss, J. Lang, A. D. Procaccia, eds.),
+  Cambridge University Press, 2016, 623–658.
+- A. E. Roth, *Who gets what — and why: the new economics of matchmaking and market design*,
+  Eamon Dolan/Houghton Mifflin Harcourt, 2015.
+- A. Tamura, *Recent developments in matching theory*, Japanese Economic Review 71 (2020),
+  1–37; doi:10.1007/s42973-019-00039-7.
+- J. Arulampalam, A. E. Roth, U. G. M. Sönmez, T. Ünver, M. Utku Ünkür, *Promoting
+  transparency in the college admissions process*, J. Econ. Perspect. 29 (2015),
+  109–134; doi:10.1257/jep.29.2.109.
+- I. Ashlagi, A. E. Roth, *Free riding and participation in large scale, multi-hospital kidney
+  exchange*, Theoret. Econ. 15 (2020), 1695–1728; doi:10.3982/TE3874.
+- A. E. Roth, *Marketplace design*, in The Palgrave Companion to Applied Economics
+  (M. Blaug, C. Pignol, eds.), Palgrave Macmillan, 2019.
+- B. Kominers, A. Pathak, *Matching in practice*, in The Oxford Handbook of Market Design
+  (N. Lamp, A. E. Roth, I. Sönmez, M. Utku Ünkür, eds.), Oxford University Press, 2023.
+- A. E. Roth, *The contributions of Lloyd Shapley to game theory and economics*, Games
+  Econom. Behav. 100 (2016), 326–335; doi:10.1016/j geba.2016.09.008.
