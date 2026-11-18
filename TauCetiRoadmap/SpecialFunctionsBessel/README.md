@@ -192,6 +192,17 @@ AutomorphicSpectralTheory, and excludes formulas through the Struve, Whittaker, 
 functions and, except DLMF 10.22.49 and 10.22.64, the Gauss function, the Airy-type uniform theory
 for large order, imaginary order, transforms and numerics.
 
+**Former numbering.** [SpecialFunctionsAiry](../SpecialFunctionsAiry/README.md) and
+[SpecialFunctionsHypergeometric](../SpecialFunctionsHypergeometric/README.md) cite sections of this
+roadmap by an earlier numbering. The cited sections are now:
+
+| Cited as | Section | Content |
+|---|---|---|
+| 3.1 | 5.1 | 10.9.1, consumed from SpecialFunctionsAiry 8.3 |
+| 4.3 | 8.1 | the Kummer forms 10.16.5 and 10.39.5 |
+| 8.2 | 11.2 | 10.22.49, and 10.22.57 through Gauss's sum (SpecialFunctionsHypergeometric 4.2) |
+| 11.1 | 8.2 | the Airy functions as Bessel functions of order `±1/3` |
+
 ## Conventions
 
 - **Names.** The complex functions live in `Complex`, beside Mathlib's `Complex.besselJ`:
@@ -398,10 +409,10 @@ The following are consumed with the hypotheses and conventions stated there.
 
 ### From [SpecialFunctionsAiry](../SpecialFunctionsAiry/README.md)
 
-- `TauCeti.airyAi`, `TauCeti.airyBi`, `TauCeti.scorerHi` and the generalized Airy functions
-  `A_n`, `B_n` of its Layer 9, with Airy's equation, the connection formulas of its 1.4, the
-  `J_ν` and real `I_ν` forms of its 1.7, the modulus and phase of its 4.1 and the integral
-  representations of its 9.3, for 8.2.
+- `TauCeti.airyAi`, `TauCeti.airyBi`, `TauCeti.scorerGi`, `TauCeti.scorerHi` (its Conventions) and
+  the generalized Airy functions `A_n`, `B_n` of its Layer 9, with Airy's equation, the connection
+  formulas of its 1.4, the `J_ν` and real `I_ν` forms of its 1.7, the modulus and phase of its 4.1
+  and the integral representations of its 9.3, for 8.2.
 - Kummer's second transformation `exp_neg_mul_kummer_two_mul`
   (`e^{−x} 𝐌(a, 2a, 2x) = Γ(a + ½) Γ(2a)⁻¹ 𝐅(a + ½, x²/4)` for `2a ∉ {0, −1, −2, …}`,
   [its 1.7](../SpecialFunctionsAiry/README.md#17-relations-to-bessel-and-kummer-functions)), for
@@ -1300,14 +1311,16 @@ Layers 1–6; AsymptoticExpansions Layer 2.
 
 DLMF 10.16.3–10.16.5 and 10.39.3–10.39.5:
 - the parabolic cylinder forms 10.16.3–10.16.4 for `z = x > 0`, through `W(0, ±2x^{1/2})` and its
-  derivative, and 10.39.3–10.39.4 through `U(a, 2z^{1/2})` for `z` in the slit plane;
+  derivative, and 10.39.3–10.39.4 through `U(a, 2z^{1/2})` for `z` in the slit plane. The forms
+  10.16.3–10.16.4 are SpecialFunctionsParabolicCylinder 9.6 (DLMF 12.14.13–12.14.14) at
+  `x ↦ 2x^{1/2}`, solved for `J_{±1/4}` and `J_{±3/4}` by adding and subtracting the two signs;
 - the Kummer forms 10.16.5 and 10.39.5 with `M = Γ(b) 𝐌` and `2ν ∉ {−1, −2, …}`
   (`besselJ_eq_kummer`; Andrews–Askey–Roy (4.5.3), p. 200; Lebedev (9.13.11) and (9.13.14), p. 274;
   Beals–Wong (7.3.2), p. 231), from Kummer's second transformation (SpecialFunctionsAiry 1.7,
   `exp_neg_mul_kummer_two_mul`) at `a = ν + ½` and `x = ±iz` (for `J_ν`) or `x = ±z` (for `I_ν`),
   multiplied by `(z/2)^ν Γ(2ν + 1)/Γ(ν + 1)` (Mathlib `Complex.besselJ_def`).
 
-*Needs:* 1.1, 1.3; SpecialFunctionsParabolicCylinder; SpecialFunctionsAiry 1.7.
+*Needs:* 1.1, 1.3; SpecialFunctionsParabolicCylinder 9.6; SpecialFunctionsAiry 1.7.
 
 ### 8.2 Airy functions as Bessel functions of order `±1/3`
 
@@ -1322,7 +1335,9 @@ complex `I_ν`. This roadmap proves:
   phase of 6.4: `|x|^{1/2} M(x)² = ½ξ M_{1/3}(ξ)²`, `|x|^{−1/2} N(x)² = ½ξ M_{2/3}(ξ)²`,
   `θ(x) = 2π/3 + θ_{1/3}(ξ)` and `φ(x) = π/3 + θ_{2/3}(ξ)`. DLMF's `arctan` forms agree with these
   modulo `π`. The constants are fixed by `θ(0) = −φ(0) = π/6` and `θ_ν(0+) = −π/2` (10.18.3);
-- DLMF 9.12.22–9.12.23, the Scorer integrals of `K_{1/3}`;
+- DLMF 9.12.22–9.12.23, the Scorer integrals of `K_{1/3}`: 9.12.22 for `Hi(−z)`, `|ph z| < π/3`,
+  and 9.12.23 for `Gi(x)`, `x > 0`, whose integral is a Cauchy principal value, the limit as
+  `ε → 0+` of the integral over `(0, ζ − ε) ∪ (ζ + ε, ∞)`;
 - the `K` forms of DLMF 9.13.2 and 9.13.4 for the generalized Airy functions.
 
 Sources for the Bessel forms of `Ai` and `Bi`: Temme Exercise 9.13, pp. 254–255; Beals–Wong
@@ -1569,12 +1584,32 @@ Olver Ch. 7, (6.03), pp. 247–248; Temme Table 9.1 and (9.57), p. 242).
 
 ### 10.6 Zeros of the cross-products
 
-DLMF 10.21.48–10.21.54, for `ν ≥ 0` and `λ > 1`: the `m`th positive zeros of the cross-products
-10.21.48 and 10.21.49 have the expansions 10.21.50 with the coefficients 10.21.51 and 10.21.52 as
-`m → ∞`; for 10.21.53 there is an integer `m₀`, depending on `ν` and `λ`, such that the `(m + m₀)`th
-positive zero has the expansion 10.21.50 with the coefficients 10.21.54. The route: the
-cross-product 10.21.48 equals `M_ν(x) M_ν(λx) sin(θ_ν(λx) − θ_ν(x))` by 10.18.4, so the zeros solve
-`θ_ν(λx) − θ_ν(x) = mπ`, which 10.18.18 and reversion invert.
+DLMF 10.21.48–10.21.54, for `λ > 1`, as `m → ∞`:
+- for `ν ≥ 0`, the `m`th positive zero of the cross-product 10.21.48 has the expansion 10.21.50
+  with the coefficients 10.21.51;
+- for `ν > 0`, the `m`th positive zero of the cross-product 10.21.49 has the expansion 10.21.50
+  with the coefficients 10.21.52;
+- at `ν = 0`, the cross-product 10.21.49 is 10.21.48 at order `1`, since `J′₀ = −J₁` and
+  `Y′₀ = −Y₁`, so its `m`th positive zero has the expansion 10.21.50 with `α = mπ/(λ − 1)` and the
+  coefficients 10.21.51 at `μ = 4`. DLMF states 10.21.52, with `α = (m − 1)π/(λ − 1)`, for all
+  `ν ≥ 0`; at `ν = 0` that formula gives the `(m − 1)`th zero;
+- for `ν ≥ 0`, there is an integer `m₀`, depending on `ν` and `λ`, such that the `(m + m₀)`th
+  positive zero of the cross-product 10.21.53 has the expansion 10.21.50 with the coefficients
+  10.21.54.
+
+The route: the cross-product 10.21.48 equals `M_ν(x) M_ν(λx) sin(θ_ν(λx) − θ_ν(x))` by 10.18.4, so
+the zeros solve `θ_ν(λx) − θ_ν(x) = mπ`, which 10.18.18 and reversion invert. The cross-product
+10.21.49 is `N_ν(x) N_ν(λx) sin(φ_ν(λx) − φ_ν(x))`. For `ν > 0` the phase `φ_ν` decreases on
+`(0, ν)` by 10.18.8, so `φ_ν(λx) − φ_ν(x)` returns to `0` once, at one extra small zero; for
+`ν = 0` it does not.
+
+**Checks.**
+- At `ν = 0`, `λ = 2`, the first positive zeros of 10.21.49 are `3.19658…`, `6.31235…`,
+  `9.44446…`; the corrected expansion at `m = 1, 2, 3` gives `3.19708…`, `6.31236…`, `9.44447…`.
+- Negative control: DLMF's 10.21.52 at `ν = 0`, `λ = 2` gives the same three values at
+  `m = 2, 3, 4`, one index too high.
+- At `ν = 0.3`, `λ = 2`, the zeros of 10.21.49 are `0.20387…`, `3.20437…`, `6.31603…`, and
+  10.21.52 at `m = 2, 3` gives `3.20469…`, `6.31604…`: the count is right for `ν > 0`.
 
 *Needs:* 6.4, 10.5.
 
@@ -1847,9 +1882,12 @@ under this roadmap.
 - **Formulas through Struve, Whittaker, Kummer `U`, Legendre and Gauss functions**: DLMF
   10.16.6–10.16.8, 10.16.10, 10.22.2, 10.22.50, 10.22.56, 10.22.58, 10.22.66,
   10.22.71–10.22.72, 10.39.6–10.39.8, 10.39.10, 10.43.2, 10.43.22, 10.43.26, 10.54.4–10.54.5,
-  and DLMF 9.6.21–9.6.24 and 12.7.14. They belong to the Struve, confluent hypergeometric and
-  Legendre roadmaps, and those through the Gauss function to SpecialFunctionsHypergeometricPartII,
-  which consumes SpecialFunctionsHypergeometric, SpecialFunctionsConfluent and this roadmap.
+  and DLMF 9.6.21–9.6.24 and 12.7.14. Those through Struve, Whittaker and Kummer `U` functions
+  belong to the Struve and confluent hypergeometric roadmaps; those through Legendre functions
+  (10.22.66, 10.22.71–10.22.72, 10.43.22, 10.54.4–10.54.5) to a roadmap that consumes
+  SpecialFunctionsLegendre and this one; and those through the Gauss function to
+  SpecialFunctionsHypergeometricPartII, which consumes SpecialFunctionsHypergeometric,
+  SpecialFunctionsConfluent and this roadmap.
 - **Bessel functions as limits of orthogonal polynomials and Legendre functions**: Laguerre
   expansions (DLMF 8.7.6), the Mehler–Heine limits (Andrews–Askey–Roy Theorem 4.11.6, p. 220, and
   (6.2.34), p. 290; Whittaker–Watson §17.4, pp. 367–368), and the Legendre functions as integrals
