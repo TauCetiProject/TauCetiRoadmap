@@ -1297,14 +1297,17 @@ applied to this system gives the model and its property over some `D(f)`. Prove 
 separated of finite type with `S` Noetherian, normal and integral, an `S'`-point of `X` for `S'`
 the integral closure of `S` in a finite extension of its function field `K` that is defined over
 `K` is an `S`-point. Route: the closure `Z` of the `K`-point in `X` is the image of `S'`, which is
-integral over `S`, so `Z → S` is proper (Stacks, Lemma 29.42.9 (03GN)) and quasi-finite (residue
-fields of points of `Z`, like those of `S'`, are algebraic over those of `S`), hence
-finite (EGA IV₃, Theorem 8.11.1, p. 41) and birational, hence an isomorphism as `S` is normal.
+integral over `S`, so `Z → S` is proper (Stacks, Lemma 29.42.9 (03GN); Mathlib
+`UniversallyClosed.of_comp_surjective`, applied to the surjection `S' → Z` and the integral
+`S' → S`) and quasi-finite (residue fields of points of `Z`, like those of `S'`, are algebraic over
+those of `S`), hence finite (EGA IV₃, Theorem 8.11.1, p. 41; Mathlib
+`IsFinite.of_isProper_of_locallyQuasiFinite`) and birational, hence an isomorphism as `S` is normal.
 Klevdal–Patrikis 2024, footnote 8 to Lemma 3.9, p. 21, treats the case `S = Spec O_E[1/N]` for a
 number field `E` and a Galois extension of `E`. Prove
 `projectiveLine_to_affine_constant`: every `S`-morphism from `ℙ^1_S` to an affine `S`-scheme factors
 through `S` (Stacks, Lemma 30.8.1 (01XT), case `q = 0, d = 0`: `Γ(ℙ^1_S, O) = Γ(S, O)`). *Needs:*
-§0.4; Mathlib `Limits`, `LocallyOfFinitePresentation`, `Scheme.Hom.normalization`.
+§0.4; Mathlib `Limits`, `LocallyOfFinitePresentation`, `Scheme.Hom.normalization`,
+`UniversallyClosed.of_comp_surjective`, `IsFinite.of_isProper_of_locallyQuasiFinite`.
 
 ### 0.10 Geometrically unibranch local rings and schemes
 
@@ -3945,8 +3948,8 @@ of cohomological affineness with the vanishing of higher direct images, valid wh
 quasi-affine diagonal and `f` has affine diagonal (Alper–Hall–Rydh 2020, §1.5, p. 5), needs the
 higher direct images of quasi-coherent modules on algebraic stacks (Stacks, Proposition 103.11.1
 (077A)), which this roadmap does not construct; it is not a target here.
-*Needs:* §1.1, §1.9, §1.18–§1.22, §2.6; Mathlib `IsAffineHom`, `IsQuasiAffine`, `Flat`,
-`LocallyOfFinitePresentation`; Tau Ceti `linearlyReductiveAffineGroupSchemeProperty`,
+*Needs:* §1.1, §1.9, §1.10, §1.11, §1.18–§1.22, §2.6; Mathlib `IsAffineHom`, `IsQuasiAffine`,
+`Flat`, `LocallyOfFinitePresentation`, `Sheaf.H`; Tau Ceti `linearlyReductiveAffineGroupSchemeProperty`,
 `Coalgebra.isLinearlyReductive_iff_forall_fixedMap_surjective_of_surjective`,
 `Comodule.Hom.fixedMap_surjective_of_isLinearlyReductive`.
 
