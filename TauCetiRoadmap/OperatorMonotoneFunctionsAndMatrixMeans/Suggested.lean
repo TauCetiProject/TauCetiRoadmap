@@ -71,12 +71,15 @@ def IsOperatorConvexOn (f : ℝ → ℝ) (I : Set ℝ) : Prop :=
 def IsOperatorConcaveOn (f : ℝ → ℝ) (I : Set ℝ) : Prop :=
   IsOperatorConvexOn (fun t ↦ -f t) I
 
-/-- Composition: an operator monotone function of an operator monotone function. -/
+/-- Composition: an operator monotone function of an operator monotone function. A closure lemma
+of the definition, stated as part of its basic API. -/
 theorem IsOperatorMonotoneOn.comp {f g : ℝ → ℝ} {I J : Set ℝ}
     (hf : IsOperatorMonotoneOn f J) (hg : IsOperatorMonotoneOn g I) (hgIJ : MapsTo g I J) :
     IsOperatorMonotoneOn (f ∘ g) I := sorry
 
-/-- Pointwise limits of operator monotone functions are operator monotone. -/
+/-- Pointwise limits of operator monotone functions are operator monotone. A closure lemma of the
+definition, stated as part of its basic API; it carries the easy direction of Loewner's theorem
+in 4.1. -/
 theorem isOperatorMonotoneOn_of_tendsto {F : ℕ → ℝ → ℝ} {f : ℝ → ℝ} {I : Set ℝ}
     (hF : ∀ k, IsOperatorMonotoneOn (F k) I)
     (hlim : ∀ x ∈ I, Tendsto (fun k ↦ F k x) atTop (𝓝 (f x))) :
@@ -87,12 +90,15 @@ theorem isOperatorMonotoneOn_neg_inv :
     IsOperatorMonotoneOn (fun x ↦ -x⁻¹) (Ioi 0) ∧ IsOperatorConvexOn (fun x ↦ x⁻¹) (Ioi 0) :=
   sorry
 
-/-- `t ^ 2` is operator convex on `ℝ` but not matrix monotone of order `2` on `[0, ∞)`. -/
+/-- `t ^ 2` is operator convex on `ℝ` but not matrix monotone of order `2` on `[0, ∞)`. A sanity
+check of the definitions: the negative half is witnessed by the explicit `2 × 2` matrices of the
+README's Checks of 1.2. -/
 theorem isOperatorConvexOn_sq_and_not_isMatrixMonotoneOn :
     IsOperatorConvexOn (fun x ↦ x ^ 2) univ ∧ ¬ IsMatrixMonotoneOn 2 (fun x ↦ x ^ 2) (Ici 0) :=
   sorry
 
-/-- Neither `t ^ 3` on `[0, ∞)` nor `|t|` on `ℝ` is matrix convex of order `2`. -/
+/-- Neither `t ^ 3` on `[0, ∞)` nor `|t|` on `ℝ` is matrix convex of order `2`. A sanity check of
+the definitions, witnessed by the explicit `2 × 2` matrices of the README's Checks of 1.2. -/
 theorem not_isMatrixConvexOn_cube_abs :
     ¬ IsMatrixConvexOn 2 (fun x ↦ x ^ 3) (Ici 0) ∧ ¬ IsMatrixConvexOn 2 (fun x ↦ |x|) univ :=
   sorry
@@ -149,13 +155,10 @@ theorem isOperatorMonotoneOn_log :
 
 /-! ## Layer 3: the differential theory -/
 
-/-- The first divided difference, with the derivative on the diagonal. -/
-def divDiff (f : ℝ → ℝ) (x y : ℝ) : ℝ :=
-  if x = y then deriv f x else (f x - f y) / (x - y)
-
-/-- The Loewner matrix of `f` at the points `x`. -/
+/-- The Loewner matrix of `f` at the points `x`: the first divided differences, through
+Mathlib's `dslope` (the slope off the diagonal and the derivative on it). -/
 def loewnerMatrix {n : ℕ} (f : ℝ → ℝ) (x : Fin n → ℝ) : Mat n :=
-  Matrix.of fun i j ↦ (divDiff f (x i) (x j) : ℂ)
+  Matrix.of fun i j ↦ ((dslope f (x i) (x j) : ℝ) : ℂ)
 
 /-- **The Daleckii–Krein formula.** -/
 theorem hasDerivAt_cfc_add_smul {f : ℝ → ℝ} {I : Set ℝ} (hI : IsOpen I)
@@ -201,11 +204,12 @@ theorem isOperatorMonotoneOn_Ioi_iff {f : ℝ → ℝ} (hpos : ∀ t, 0 < t → 
         p.2.2 (Ioi 0)ᶜ = 0 ∧
         ∀ t, 0 < t → f t = p.1 + p.2.1 * t + ∫ s, t * (1 + s) / (t + s) ∂p.2.2 := sorry
 
-/-- Transfer to unital C⋆-algebras: a nonnegative operator monotone function on `(0, ∞)` is
-monotone on the strictly positive elements. -/
+/-- Transfer to unital C⋆-algebras: an operator monotone function on an open interval `I` is
+monotone on the self-adjoint elements with spectra in `I`. -/
 theorem cfc_le_cfc_of_isOperatorMonotoneOn {𝒜 : Type*} [CStarAlgebra 𝒜] [PartialOrder 𝒜]
-    [StarOrderedRing 𝒜] {f : ℝ → ℝ} (hf : IsOperatorMonotoneOn f (Ioi 0))
-    (hpos : ∀ t, 0 < t → 0 ≤ f t) {a b : 𝒜} (ha : IsStrictlyPositive a) (hab : a ≤ b) :
+    [StarOrderedRing 𝒜] {f : ℝ → ℝ} {I : Set ℝ} (hIo : IsOpen I) (hI : I.OrdConnected)
+    (hf : IsOperatorMonotoneOn f I) {a b : 𝒜} (ha : IsSelfAdjoint a) (hb : IsSelfAdjoint b)
+    (haI : spectrum ℝ a ⊆ I) (hbI : spectrum ℝ b ⊆ I) (hab : a ≤ b) :
     cfc f a ≤ cfc f b := sorry
 
 /-! ## Layer 5: Kubo–Ando means -/
@@ -339,6 +343,20 @@ theorem riemDist_congr_inv_symm {n : ℕ} {A B X : Mat n} (hA : A.PosDef) (hB : 
     riemDist (Xᴴ * A * X) (Xᴴ * B * X) = riemDist A B ∧ riemDist A⁻¹ B⁻¹ = riemDist A B ∧
       riemDist B A = riemDist A B := sorry
 
+open scoped Matrix.Norms.L2Operator in
+/-- The length of a path in the positive definite cone; the derivative is taken in the
+operator-norm structure on matrices, which induces the usual topology. -/
+def pathLength {n : ℕ} (γ : ℝ → Mat n) : ℝ :=
+  ∫ t in (0 : ℝ)..1, frob (misqrt (γ t) * deriv γ t * misqrt (γ t))
+
+open scoped Matrix.Norms.L2Operator in
+/-- The distance is the least length of a `C¹` path in the cone, attained by `t ↦ A #_t B`. -/
+theorem riemDist_le_pathLength_and_pathLength_wgm {n : ℕ} {A B : Mat n} (hA : A.PosDef)
+    (hB : B.PosDef) :
+    (∀ γ : ℝ → Mat n, ContDiff ℝ 1 γ → (∀ t ∈ Icc (0 : ℝ) 1, (γ t).PosDef) → γ 0 = A →
+        γ 1 = B → riemDist A B ≤ pathLength γ) ∧
+      pathLength (fun t ↦ wgm t A B) = riemDist A B := sorry
+
 /-- **The exponential metric increasing property.** -/
 theorem frob_log_sub_log_le_riemDist {n : ℕ} {A B : Mat n} (hA : A.PosDef) (hB : B.PosDef) :
     frob (cfc Real.log A - cfc Real.log B) ≤ riemDist A B := sorry
@@ -356,20 +374,6 @@ theorem riemDist_wgm {n : ℕ} {A B : Mat n} (hA : A.PosDef) (hB : B.PosDef) {t 
       riemDist (wgm t A B) B = (1 - t) * riemDist A B ∧
       ∀ X : Mat n, X.PosDef → riemDist A X = t * riemDist A B →
         riemDist X B = (1 - t) * riemDist A B → X = wgm t A B := sorry
-
-open scoped Matrix.Norms.L2Operator in
-/-- The length of a path in the positive definite cone; the derivative is taken in the
-operator-norm structure on matrices, which induces the usual topology. -/
-def pathLength {n : ℕ} (γ : ℝ → Mat n) : ℝ :=
-  ∫ t in (0 : ℝ)..1, frob (misqrt (γ t) * deriv γ t * misqrt (γ t))
-
-open scoped Matrix.Norms.L2Operator in
-/-- The distance is the least length of a `C¹` path in the cone, attained by `t ↦ A #_t B`. -/
-theorem riemDist_le_pathLength_and_pathLength_wgm {n : ℕ} {A B : Mat n} (hA : A.PosDef)
-    (hB : B.PosDef) :
-    (∀ γ : ℝ → Mat n, ContDiff ℝ 1 γ → (∀ t ∈ Icc (0 : ℝ) 1, (γ t).PosDef) → γ 0 = A →
-        γ 1 = B → riemDist A B ≤ pathLength γ) ∧
-      pathLength (fun t ↦ wgm t A B) = riemDist A B := sorry
 
 /-- **The semiparallelogram law** (nonpositive curvature). -/
 theorem riemDist_wgm_sq_le {n : ℕ} {A B C : Mat n} (hA : A.PosDef) (hB : B.PosDef)
@@ -432,7 +436,8 @@ theorem UnitarilyInvariantSeminorm.mat_heinz_le {n : ℕ}
         cfc (fun x : ℝ ↦ x ^ (1 - t)) A * X * cfc (fun x : ℝ ↦ x ^ t) B) ≤
       N.mat (A * X + X * B) := sorry
 
-/-- **Zhan's inequality** `4 ‖AB‖ ≤ ‖(A + B)²‖` for positive semidefinite `A`, `B`. -/
+/-- **The Bhatia–Kittaneh product inequality** `4 ‖AB‖ ≤ ‖(A + B)²‖` for positive semidefinite
+`A`, `B`. -/
 theorem UnitarilyInvariantSeminorm.four_mul_mat_mul_le {n : ℕ}
     (N : UnitarilyInvariantSeminorm ℂ (EuclideanSpace ℂ (Fin n)) (EuclideanSpace ℂ (Fin n)))
     {A B : Mat n} (hA : A.PosSemidef) (hB : B.PosSemidef) :
@@ -444,8 +449,16 @@ theorem UnitarilyInvariantSeminorm.four_mul_mat_mul_le {n : ℕ}
 #check @Matrix.IsHermitian.cfc_eq
 #check @Matrix.IsHermitian.eigenvectorUnitary
 #check @Matrix.IsHermitian.eigenvalues
+#check @Matrix.IsHermitian.spectral_theorem
+#check @Matrix.unitaryGroup
+#check @Matrix.PosDef.fromBlocks₁₁
+#check @dslope
+#check @polynomialFunctions_closure_eq_top
+#check @ContDiffBump
+#check @BoundedContinuousFunction.arzela_ascoli
+#check @intervalIntegral.integral_eq_sub_of_hasDerivAt
+#check @RealRMK.integral_rieszMeasure
 #check @Matrix.PosSemidef.hadamard
-#check @Matrix.PosSemidef.kronecker
 #check @Matrix.nonneg_iff_posSemidef
 #check @Matrix.isStrictlyPositive_iff_posDef
 #check @Matrix.charpoly_mul_comm
@@ -453,7 +466,6 @@ theorem UnitarilyInvariantSeminorm.four_mul_mat_mul_le {n : ℕ}
 #check @Matrix.fromBlocks
 #check @LinearMap.singularValues
 #check @CFC.monotone_rpow
-#check @CFC.rpow_le_rpow
 #check @CFC.concaveOn_rpow
 #check @CFC.sqrt_le_sqrt
 #check @CFC.log_monotoneOn
@@ -462,11 +474,9 @@ theorem UnitarilyInvariantSeminorm.four_mul_mat_mul_le {n : ℕ}
 #check @CStarAlgebra.inv_le_inv
 #check @CStarAlgebra.convexOn_ringInverse
 #check @Real.rpowIntegrand₀₁
-#check @Real.exists_measure_rpow_eq_integral_rpowIntegrand₀₁
 #check @cfc_integral
 #check @cfc_comp
 #check @closure_convexHull_extremePoints
-#check @CStarMatrix
 #check @TauCeti.geometricMean
 #check @TauCeti.geometricMean_comm
 #check @TauCeti.geometricMean_mul_ringInverse_mul_geometricMean

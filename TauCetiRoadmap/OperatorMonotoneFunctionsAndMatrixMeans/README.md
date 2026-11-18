@@ -23,7 +23,7 @@ Pick-function representation and geometric mean, and on the unitarily invariant 
   the exponential metric increasing property, geodesics and lengths, the semiparallelogram law,
   completeness and barycenters;
 - norm inequalities: Kittaneh's lemma, the matrix arithmetic–geometric mean inequality of Bhatia
-  and Kittaneh, the Heinz inequality and Zhan's inequality.
+  and Kittaneh with its product form `4‖AB‖ ≤ ‖(A + B)²‖`, and the Heinz inequality.
 
 The material is the theory of Bhatia (1997, Chapters V and IX), Simon's monograph on Loewner's
 theorem (2019), Zhan (2002, Chapters 1 and 4) and Horn–Johnson (1991, Section 6.6), with the
@@ -57,8 +57,8 @@ The roadmap is complete when Tau Ceti proves all of the following.
    matrix monotone functions of order two.
 4. **Loewner's theorem.** Integral representation on `(-1, 1)` with a unique measure, the Pick
    characterization on bounded open intervals, the representation of nonnegative operator
-   monotone functions on the half-line with unique data, and monotonicity on strictly positive
-   elements of unital C⋆-algebras.
+   monotone functions on the half-line with unique data, and monotonicity on self-adjoint
+   elements of unital C⋆-algebras with spectra in an open interval.
 5. **Kubo–Ando means.** Representing functions, the formula mean, its extension to positive
    semidefinite arguments, the axioms, the representation theorem with uniqueness, transposes,
    the bounds for symmetric means, Ando's inequality and joint concavity.
@@ -71,7 +71,7 @@ The roadmap is complete when Tau Ceti proves all of the following.
    length of paths, the semiparallelogram law, completeness and the Karcher barycenter.
 8. **Norm inequalities.** Kittaneh's lemma, the Bhatia–Kittaneh inequality for singular values and
    for every unitarily invariant seminorm, the Bhatia–Davis inequality, the Heinz inequality and
-   Zhan's inequality `4‖AB‖ ≤ ‖(A + B)²‖`.
+   the Bhatia–Kittaneh product inequality `4‖AB‖ ≤ ‖(A + B)²‖`.
 
 **Not owned here.**
 - Majorization, Ky Fan sums, unitarily invariant seminorms, Fan dominance and the block-sum
@@ -86,9 +86,14 @@ The roadmap is complete when Tau Ceti proves all of the following.
 - Completely positive maps, Stinespring dilation and the Kadison–Schwarz inequality in C⋆-algebras:
   [CStarAlgebras](../CStarAlgebras/README.md). The matrix inequalities of Layer 2 are proved here
   for positive maps between matrix algebras without that machinery.
-- The Riemannian-manifold structure of the cone (metric tensor, Levi-Civita connection, sectional
-  curvature, Cartan–Hadamard): the metric statements of Layer 7 are proved by matrix analysis,
-  and the manifold statements are Beyond.
+- The Riemannian-manifold structure of the cone of real positive definite matrices (the metric
+  tensor `tr(X⁻¹UX⁻¹W)` as a Riemannian metric, its Riemannian distance as the metric-space
+  structure, the exponential map, completeness of that manifold): the roadmap
+  ManifoldOptimization, catalogue item O0.3. Layer 7 here owns the closed-form distance `δ` on
+  complex positive definite matrices and its matrix-analytic theory (7.1–7.4); the path-length
+  statement of 7.2 identifies `δ` with the least length of a `C¹` path, and it is the input for
+  the distance formula and the geodesic midpoint of O0.3. The connection, curvature and
+  Cartan–Hadamard on the complex cone are Beyond.
 
 ## Conventions
 
@@ -140,33 +145,43 @@ The roadmap is complete when Tau Ceti proves all of the following.
 Paths are relative to `Mathlib/`.
 
 - Order and functional calculus of matrices: `Matrix.le_iff`, `Matrix.nonneg_iff_posSemidef`,
-  `Matrix.isStrictlyPositive_iff_posDef`, `Matrix.PosSemidef.kronecker`
-  (`Analysis/Matrix/Order.lean`); `Matrix.IsHermitian.cfc_eq` with the instance for Hermitian
-  matrices (`Analysis/Matrix/HermitianFunctionalCalculus.lean`);
-  `Matrix.IsHermitian.eigenvectorUnitary` and `Matrix.IsHermitian.eigenvalues`
-  (`LinearAlgebra/Matrix/Spectrum.lean`); the C⋆-algebra structure on matrices under
+  `Matrix.isStrictlyPositive_iff_posDef` (`Analysis/Matrix/Order.lean`);
+  `Matrix.IsHermitian.cfc_eq` with the instance for Hermitian matrices
+  (`Analysis/Matrix/HermitianFunctionalCalculus.lean`); `Matrix.IsHermitian.eigenvectorUnitary`,
+  `Matrix.IsHermitian.eigenvalues` and the spectral theorem `Matrix.IsHermitian.spectral_theorem`
+  (`Analysis/Matrix/Spectrum.lean`); the C⋆-algebra structure on matrices under
   `open scoped Matrix.Norms.L2Operator` (`Analysis/CStarAlgebra/Matrix.lean`).
 - Schur products: `Matrix.PosSemidef.hadamard` (`Analysis/Matrix/Order.lean`).
 - Products in both orders: `Matrix.charpoly_mul_comm` (`LinearAlgebra/Matrix/Charpoly/Basic.lean`).
-- Block matrices and Euclidean operators: `Matrix.fromBlocks`, `Matrix.toEuclideanLin`.
+- Block matrices, unitaries and Euclidean operators: `Matrix.fromBlocks`, `Matrix.unitaryGroup`,
+  `Matrix.toEuclideanLin`; the Schur complement criterion `Matrix.PosDef.fromBlocks₁₁`
+  (`LinearAlgebra/Matrix/PosDef.lean`).
 - Singular values: `LinearMap.singularValues` (`Analysis/InnerProductSpace/SingularValues.lean`).
-- C⋆-algebra order: `CFC.monotone_rpow`, `CFC.rpow_le_rpow` and `CFC.concaveOn_rpow` for
-  exponents in `[0, 1]`, and `CFC.sqrt_le_sqrt`
-  (`Analysis/SpecialFunctions/ContinuousFunctionalCalculus/Rpow/Order.lean`); `CFC.log_monotoneOn`
-  and `CFC.concaveOn_log` (`…/ExpLog/Order.lean`); `CStarAlgebra.inv_le_inv`
+- C⋆-algebra order: `CFC.monotone_rpow` and `CFC.concaveOn_rpow` for exponents in `[0, 1]`, and
+  `CFC.sqrt_le_sqrt` (`Analysis/SpecialFunctions/ContinuousFunctionalCalculus/Rpow/Order.lean`);
+  `CFC.log_monotoneOn` and `CFC.concaveOn_log` (`…/ExpLog/Order.lean`); `CStarAlgebra.inv_le_inv`
   (`Analysis/CStarAlgebra/ContinuousFunctionalCalculus/Order.lean`);
   `CStarAlgebra.convexOn_ringInverse` (`…/Rpow/RingInverseOrder.lean`); `CFC.conjSqrt`
   (`…/Rpow/ConjSqrt.lean`).
-- Integral representation of the powers: `Real.rpowIntegrand₀₁` and
-  `Real.exists_measure_rpow_eq_integral_rpowIntegrand₀₁` (`…/Rpow/IntegralRepresentation.lean`).
+- Integral representation of the powers: `Real.rpowIntegrand₀₁`
+  (`…/Rpow/IntegralRepresentation.lean`), the model for 4.4.
 - Calculus under the functional calculus: `cfc_comp`, and `cfc_integral`
   (`Analysis/CStarAlgebra/ContinuousFunctionalCalculus/Integral.lean`).
+- Divided differences: `dslope` (`Analysis/Calculus/DSlope.lean`), the slope off the diagonal and
+  `deriv f a` on it.
+- Approximation and compactness: Weierstrass approximation `polynomialFunctions_closure_eq_top`
+  (`Topology/ContinuousMap/Weierstrass.lean`); `ContDiffBump` for mollifiers
+  (`Analysis/Calculus/BumpFunction/Basic.lean`); Arzelà–Ascoli
+  `BoundedContinuousFunction.arzela_ascoli` (`Topology/ContinuousMap/Bounded/ArzelaAscoli.lean`).
+- Integration: the fundamental theorem `intervalIntegral.integral_eq_sub_of_hasDerivAt`
+  (`MeasureTheory/Integral/IntervalIntegral/FundThmCalculus.lean`); Riesz–Markov–Kakutani
+  `RealRMK.integral_rieszMeasure` (`MeasureTheory/Integral/RieszMarkovKakutani/Real.lean`).
 - Krein–Milman: `closure_convexHull_extremePoints` (`Analysis/Convex/KreinMilman.lean`).
 
-No operator monotone or operator convex predicate exists in Mathlib or Tau Ceti at the pin. The
-open Mathlib pull request #39734 adds specializations of the operator monotonicity of `rpow`, `log`
-and the square root to `CStarMatrix`; it does not define the general notion. This roadmap defers
-to Mathlib's names when they land and does not wait for them.
+No operator monotone or operator convex predicate exists in Mathlib or Tau Ceti at the pin; Mathlib
+has the C⋆-algebra statements for the powers, the logarithm and the square root listed above. This
+roadmap defers to Mathlib's names for the general notion when they land and does not wait for
+them.
 
 ### From Tau Ceti
 
@@ -178,8 +193,9 @@ Paths are relative to `TauCeti/`.
   `TauCeti.eq_geometricMean_of_mul_ringInverse_mul`, and joint superadditivity
   `TauCeti.geometricMean_add_geometricMean_le`
   (`Analysis/SpecialFunctions/ContinuousFunctionalCalculus/GeometricMean.lean`).
-- Matrix specialization: `Matrix.PosDef.existsUnique_posSemidef_mul_mul` and
-  `Matrix.isHermitian_geometricMean` (`Analysis/Matrix/GeometricMean.lean`).
+- Matrix specialization: the Riccati uniqueness `Matrix.PosDef.existsUnique_posSemidef_mul_mul`
+  (used in 6.1) and `Matrix.isHermitian_geometricMean` (used in 6.4)
+  (`Analysis/Matrix/GeometricMean.lean`).
 - Pick functions: `TauCeti.nevanlinnaKernel` and the Nevanlinna representation
   `TauCeti.exists_isFiniteMeasure_eq_nevanlinnaKernel_add`
   (`Analysis/Complex/Pick/Nevanlinna.lean`);
@@ -191,9 +207,8 @@ Paths are relative to `TauCeti/`.
 
 - **OperatorTheory/Majorization.** Part A: Ky Fan sums (MAJ-A26) and the Ky Fan variational upper
   bound (MAJ-A28). Part B: the structure of unitarily invariant seminorms (MAJ-B01), determination
-  by singular values (MAJ-B19), Fan dominance (MAJ-B21), modulus invariance (MAJ-B46) and the
-  orthogonal block sums. `Suggested.lean` keeps a local copy of the structure, named after the
-  owner's.
+  by singular values (MAJ-B19), Fan dominance (MAJ-B21) and the orthogonal block sums.
+  `Suggested.lean` keeps a local copy of the structure, named after the owner's.
 - **OperatorTheory/PolarDecomposition.** Eigenvalue monotonicity under the Loewner order
   (PD-A52) and the polar decomposition of square matrices.
 - **CStarAlgebras.** Section 1.1, for the compression criterion `pTp ≤ T ↔ Commute p T` that
@@ -221,8 +236,10 @@ Kubo–Ando theorem and Ando's inequality, Layer 6 specializes to the powers and
 geometric mean, and Layer 7 puts a metric on the positive definite cone in which `t ↦ A #ₜ B` is
 the geodesic. Layer 8 is independent of Layers 4–7: it uses Layer 1 and Majorization only.
 
-The layers are in build order. Layer 8 may be built right after Layer 1; Layer 3 needs only
-Layer 1; Layer 4 needs Layers 2 and 3.
+The layers are in build order with one exception: the operator convex range of the powers in 2.6
+excludes `r < -1` through the second-order criterion of 3.2, so that one part of 2.6 waits for
+Section 3.2. Layer 3 needs only Layer 1, and may be built before Layer 2; Layer 8 may be built
+right after Layer 1; Layer 4 needs Layers 2 and 3.
 
 ## Layer 1: the notions and the basic examples
 
@@ -257,11 +274,11 @@ step uses `Matrix.fromBlocks` with a `1 × 1` block `c`.
 - `IsMatrixMonotoneOn`: the identity is matrix monotone of every order on `ℝ`. Every `f` is
   matrix monotone of order `0` on every `I`, since `Mat 0` has a single element.
 - `IsMatrixMonotoneOn`: `t ↦ t²` is matrix monotone of order `1` on `[0, ∞)` but not of order
-  `2` (1.3). Order matters, and a definition that tested only diagonal matrices would accept it.
+  `2` (1.2). Order matters, and a definition that tested only diagonal matrices would accept it.
 - `IsMatrixMonotoneOn`: `t ↦ -t` is not matrix monotone of order `1` on any interval with two
   points: `0 ≤ 1` but `-0 > -1`.
-- `IsMatrixConvexOn`: `t ↦ t²` is matrix convex of every order on `ℝ` (1.3), and `t ↦ |t|` is
-  convex at order `1` on `ℝ` but not at order `2` (1.3). The test at order `1` alone is too weak.
+- `IsMatrixConvexOn`: `t ↦ t²` is matrix convex of every order on `ℝ` (1.2), and `t ↦ |t|` is
+  convex at order `1` on `ℝ` but not at order `2` (1.2). The test at order `1` alone is too weak.
 - `IsMatrixConvexOn`: the hypothesis `t ∈ [0, 1]` matters: for `f(t) = t²`, `A = 0`, `B = 1`
   (`1 × 1`) and `t = 2`, the left side `cfc f (2B) = 4` exceeds `(1 - 2) · 0 + 2 · 1 = 2`.
 - `IsOperatorConcaveOn`: `Real.log` is operator concave on `(0, ∞)` (2.6), `t ↦ t²` is not operator
@@ -345,7 +362,7 @@ whose top-left block is `Vᴴ A V` (Bhatia, Thm V.2.1, p. 117). Operator convexi
 `[[√(1 - t) · 1], [√t · 1]]`. The spectrum of `Vᴴ A V` lies in the convex hull of the spectrum of
 `A`, hence in `I`; this is where `I.OrdConnected` is used.
 
-*Needs:* 1.1; Mathlib's unitary group of matrices and `Matrix.fromBlocks`.
+*Needs:* 1.1; Mathlib's `Matrix.unitaryGroup` and `Matrix.fromBlocks`.
 
 ### 2.2 The Jensen operator inequality and the Hansen–Pedersen inequality
 
@@ -361,9 +378,13 @@ whose top-left block is `Vᴴ A V` (Bhatia, Thm V.2.1, p. 117). Operator convexi
   convex and `f(0) ≤ 0` (Bhatia, Thm V.2.3, (ii) ⇒ (i), p. 119; take `K = 0` for the sign).
 
 *Proof route.* Jensen: the isometry `V = (K₁, …, Kₖ)` and Davis's criterion applied to
-`diag(A₁, …, Aₖ)`. Contraction: add `Kₖ₊₁ = (1 - Kᴴ K)^(1/2)` and `Aₖ₊₁ = 0` to get a family with
-`∑ Kⱼᴴ Kⱼ = 1`, and drop the term `Kₖ₊₁ᴴ f(0) Kₖ₊₁ ≤ 0` (Simon's argument on p. 122). The
-spectrum of the zero block is `{0} ⊆ I`.
+`diag(A₁, …, Aₖ)`. Contraction: the completing block `(1 - Kᴴ K)^(1/2)` is `n × n` while `K` is
+`m × n`, so pad both to `(m + n) × n`: `K₁ = [[K], [0]]` with `A₁ = diag(A, 0)` in `Mat (m + n)`,
+and `K₂ = [[0], [(1 - Kᴴ K)^(1/2)]]` with `A₂ = 0`. Then `K₁ᴴ K₁ + K₂ᴴ K₂ = 1`, the spectra of
+`A₁` and `A₂` lie in `spectrum ℝ A ∪ {0} ⊆ I` (here `0 ∈ I` is used), `K₁ᴴ A₁ K₁ = Kᴴ A K` and
+`K₁ᴴ cfc f (A₁) K₁ = Kᴴ cfc f (A) K` because the padded rows of `K₁` vanish. The Jensen inequality
+for this family gives `cfc f (Kᴴ A K) ≤ Kᴴ cfc f (A) K + f(0) K₂ᴴ K₂`, and the last term is
+`≤ 0` (Simon's argument on p. 122).
 
 *Needs:* 2.1.
 
@@ -383,7 +404,7 @@ Put `Kₖ = Qₖ^(1/2)`, so `∑ Kₖᴴ Kₖ = 1` and `Φ(A) = ∑ Kₖᴴ (λ�
 claim. No complete positivity is needed: the positive map is only evaluated on a commuting family.
 `Φ(A)` has spectrum in `[min λ, max λ] ⊆ I`.
 
-*Needs:* 2.2; Mathlib's spectral theorem for Hermitian matrices.
+*Needs:* 2.2; Mathlib's `Matrix.IsHermitian.spectral_theorem`.
 
 ### 2.4 Monotone versus concave on the half-line
 
@@ -475,8 +496,9 @@ Layer 1 and Section 3.2 for the convex range of the powers.
 
 ### 3.1 Divided differences and the Daleckii–Krein formula
 
-- `divDiff f x y` is `(f x - f y)/(x - y)` for `x ≠ y` and `deriv f x` for `x = y`;
-  `loewnerMatrix f x` is the `n × n` matrix of `divDiff f (x i) (x j)` (Bhatia, Section V.3,
+- The first divided difference is Mathlib's `dslope f x y`: `(f y - f x)/(y - x)` for `y ≠ x`
+  and `deriv f x` for `y = x`. `loewnerMatrix f x` is the `n × n` matrix of `dslope f (x i) (x j)`
+  (Bhatia, Section V.3,
   p. 123; Horn–Johnson, Section 6.6, p. 536; Simon, Chapter 5, p. 43).
 - **Daleckii–Krein** (`hasDerivAt_cfc_add_smul`): for `f` of class `C¹` on an open set `I` and
   Hermitian `A`, `H` with the spectrum of `A` in `I`, the derivative of `t ↦ cfc f (A + tH)` at
@@ -494,7 +516,8 @@ uniformly on a compact neighbourhood of the spectrum by a polynomial and its der
 `A - |t| ‖H‖ ≤ A + tH ≤ A + |t| ‖H‖` and eigenvalue monotonicity (PolarDecomposition PD-A52). The
 divided differences converge with `f` and `f'`, uniformly on compacts, by the mean value theorem.
 
-*Needs:* Layer 1; Mathlib's polynomial approximation and eigenvalue perturbation.
+*Needs:* Layer 1; Mathlib's `dslope` and `polynomialFunctions_closure_eq_top`; PolarDecomposition
+PD-A52 for the eigenvalue bounds.
 
 ### 3.2 Loewner's criterion
 
@@ -514,7 +537,8 @@ the limit of distinct ones. (⇒) At diagonal `A = diag(x)`, monotonicity along 
 `L ⊙ ξξᴴ ≥ 0` for every `ξ`, and `ξ = (1, …, 1)` gives `L ≥ 0` (Horn–Johnson, Thm 6.6.36, proof,
 p. 537).
 
-*Needs:* 3.1.
+*Needs:* 3.1; Mathlib's `intervalIntegral.integral_eq_sub_of_hasDerivAt` and
+`Matrix.PosSemidef.hadamard`.
 
 ### 3.3 Regularity
 
@@ -532,17 +556,17 @@ equicontinuity of `f_ε'`; Arzelà–Ascoli and the uniform convergence `f_ε �
 the bound has no jumps) give `f ∈ C¹` (Bhatia's proof of Thm V.3.6, which uses only `2 × 2`
 matrices).
 
-*Needs:* 3.2; Mathlib's mollifiers and Arzelà–Ascoli.
+*Needs:* 3.2; Mathlib's `ContDiffBump` and `BoundedContinuousFunction.arzela_ascoli`.
 
 **Checks.**
 
-- `divDiff`: for `f(t) = t²`, `divDiff f x y = x + y` for `x ≠ y` and `2x` on the diagonal, so it
-  equals `x + y` everywhere.
-- `divDiff`: for `f = id` it is `1` everywhere. A convention putting `0` on the diagonal (as `x/0`
-  would) gives the Loewner matrix `[[0, 1], [1, 0]]` at two points, of eigenvalue `-1`, and would
+- `loewnerMatrix`: for `f(t) = t²` the entries are `x i + x j`, off the diagonal as slopes and on
+  it as `deriv f (x i) = 2 x i`.
+- `loewnerMatrix`: for `f = id` every entry is `1`. A convention putting `0` on the diagonal (as
+  `x/0` would) gives the matrix `[[0, 1], [1, 0]]` at two points, of eigenvalue `-1`, and would
   wrongly reject the identity in 3.2.
-- `divDiff`: for `f = exp` at `x = 0`, `y = 1`, the value is `e - 1 ≈ 1.718`, between
-  `exp' 0 = 1` and `exp' 1 = e`.
+- `loewnerMatrix`: for `f = exp` at the points `0`, `1`, the off-diagonal entry is
+  `e - 1 ≈ 1.718`, between the diagonal entries `exp' 0 = 1` and `exp' 1 = e`.
 - `loewnerMatrix`: for `√t` at the points `1`, `4`, the matrix is `[[1/2, 1/3], [1/3, 1/4]]` with
   determinant `1/8 - 1/9 = 1/72 > 0`.
 - `loewnerMatrix`: for `t²` at `a ≠ b`, the matrix is `[[2a, a + b], [a + b, 2b]]` with
@@ -584,7 +608,8 @@ Prop V.4.2, pp. 131–132), its extreme points are the functions `t/(1 - αt)` w
 constant `f` has `ν = 0`. Uniqueness: the family `λ ↦ x/(1 + λx)` for `x ↓ 0` spans a dense set in
 `C([-1, 1])` (Simon, Lemma 1.4, p. 7).
 
-*Needs:* Layers 2 and 3; Mathlib's Krein–Milman and Riesz–Markov.
+*Needs:* Layers 2 and 3; Mathlib's `closure_convexHull_extremePoints` and
+`RealRMK.integral_rieszMeasure`.
 
 ### 4.2 The Pick form
 
@@ -627,16 +652,24 @@ on `(-∞, 0]`, and reflecting `s ↦ -s` and renormalizing the kernel gives the
 
 ### 4.4 Transfer to unital C⋆-algebras
 
-- **C⋆ transfer** (`cfc_le_cfc_of_isOperatorMonotoneOn`): if `f ≥ 0` is operator monotone on
-  `(0, ∞)`, then `a ≤ b` implies `cfc f a ≤ cfc f b` for strictly positive `a` in a unital
-  C⋆-algebra with its order (Simon, Thm 2.7, p. 14, for bounded operators).
+- **C⋆ transfer** (`cfc_le_cfc_of_isOperatorMonotoneOn`): if `f` is operator monotone on an open
+  interval `I`, then `a ≤ b` implies `cfc f a ≤ cfc f b` for self-adjoint `a`, `b` with spectra
+  in `I` in a unital C⋆-algebra with its order (Simon, Thm 2.7, p. 14, for bounded operators).
+- In particular, an operator monotone function on `(0, ∞)`, such as `log` or `-1/t`, is monotone
+  on the strictly positive elements; at `f = log` this is Mathlib's `CFC.log_monotoneOn`.
 
-*Proof route.* By 4.3, `cfc f a = α + β a + ∫ cfc (fun t ↦ t(1 + s)/(t + s)) a dρ(s)`
-(`cfc_integral`, with the bound `t(1 + s)/(t + s) ≤ t + 1 ≤ ‖a‖ + 1` uniform in `s`). Each
-integrand is `(1 + s)(1 - s (a + s)⁻¹)`, monotone in `a` by `CStarAlgebra.inv_le_inv`. This is the
-pattern of Mathlib's proof of `CFC.monotone_rpow` through `Real.rpowIntegrand₀₁`.
+*Proof route.* The spectra of `a` and `b` are compact, so they lie in a closed subinterval `[c, d]`
+of `I`; as `I` is open there are `c' < c` and `d' > d` with `[c', d'] ⊆ I`, and `f` is operator
+monotone on `(c', d')` by restriction. Let `T` be the increasing affine map of `(-1, 1)` onto
+`(c', d')`; then `g = f ∘ T` is operator monotone on `(-1, 1)` (4.2), and 4.1 gives
+`cfc f a = cfc g a₁ = g(0) + ∫ cfc (fun x ↦ x/(1 + λx)) a₁ dν(λ)` with `a₁ = T⁻¹(a)` (`cfc_comp` and
+`cfc_integral`; the spectrum of `a₁` lies in `[-r, r]` for some `r < 1`, so
+`|x/(1 + λx)| ≤ 1/(1 - r)` uniformly in `λ ∈ [-1, 1]`), and likewise for `b`, with `a₁ ≤ b₁`. For
+`λ ≠ 0` the integrand is `(1 - (1 + λx)⁻¹)/λ`, with `1 + λa₁` and `1 + λb₁` strictly positive, so it
+is monotone by `CStarAlgebra.inv_le_inv` (for `λ < 0` the order reverses twice); for `λ = 0` it is
+`x`. This is the pattern of Mathlib's proof of `CFC.monotone_rpow` through `Real.rpowIntegrand₀₁`.
 
-*Needs:* 4.3; Mathlib's `cfc_integral` and C⋆-algebra order.
+*Needs:* 4.1, 4.2; Mathlib's `cfc_integral` and C⋆-algebra order.
 
 **Checks.**
 
@@ -653,7 +686,11 @@ pattern of Mathlib's proof of `CFC.monotone_rpow` through `Real.rpowIntegrand₀
   representation, matching 1.2.
 - 4.3 needs `f ≥ 0`: `f(t) = -1/t` is operator monotone on `(0, ∞)` but has `f(0+) = -∞`; it is
   represented by the general half-line form of Bhatia's (V.53), not by the nonnegative form.
-- 4.4 at `𝒜 = ℂ` is scalar monotonicity on `(0, ∞)`.
+- 4.4 at `𝒜 = ℂ` is scalar monotonicity on `I`.
+- 4.4 needs operator monotonicity, not scalar monotonicity: `t ↦ t²` is monotone on `(0, ∞)`, and
+  on `Mat 2` with the C⋆-algebra structure of the conventions the square check of 1.2, shifted
+  by `1` to make the matrices strictly positive (`A + 1 ≤ B + 1`, with `(B + 1)² - (A + 1)²` of
+  determinant `-1`), violates the conclusion.
 
 ### Examples
 
@@ -674,18 +711,27 @@ Layers 2–3 (for the hard direction of 4.1); Tau Ceti's Pick functions; Mathlib
   `f(1) = 1` (Simon, Thm 37.1, p. 379; Hiai, Appendix D, p. 175).
 - `opMean f A B = msqrt A * cfc f (misqrt A * B * misqrt A) * msqrt A` (Simon, Prop 37.5, (37.16),
   p. 381).
+- **The formula mean through parallel sums.** For a representing function `f` with the data
+  `(α, β, ρ)` of 4.3 and positive definite `A`, `B`,
+  `opMean f A B = α A + β B + ∫ ((1 + s)/s) ((sA) : B) dρ(s)`, where
+  `(sA) : B = ((sA)⁻¹ + B⁻¹)⁻¹` is the parallel sum; hence `opMean f A B` is jointly monotone on
+  positive definite arguments: `A ≤ A'` and `B ≤ B'` give `opMean f A B ≤ opMean f A' B'`
+  (Simon, (37.4) in Thm 37.1, p. 379, and Prop 37.5, pp. 381–382).
 - `opMeanPSD f A B` is the limit of `opMean f (A + ε) (B + ε)` as `ε ↓ 0`.
 - **The regularized limit** (`tendsto_opMean_add_smul_one`): for a representing function `f` and
   positive semidefinite `A`, `B`, the limit exists, and it equals `opMean f A B` when `A` is
   positive definite (Simon, axioms on p. 378; Hiai, Appendix D, p. 175, for the downward
   continuity that defines the extension).
 
-*Proof route.* `ε ↦ opMean f (A + ε) (B + ε)` is monotone in `ε` (5.2 applied to the formula mean
-on positive definite arguments, which needs only the transformer equality under congruence and
-operator monotonicity of `f`), and bounded below by `0`; a monotone bounded family of Hermitian
-matrices converges. For positive definite `A` the formula is continuous in `(A, B)`.
+*Proof route.* Parallel sums: with `X = A^(-1/2) B A^(-1/2)`, the kernel of 4.3 gives
+`A^(1/2) X (X + s)⁻¹ A^(1/2) = (A⁻¹ + s B⁻¹)⁻¹ = s⁻¹ ((sA) : B)`, since
+`A^(-1/2) X⁻¹ A^(-1/2) = B⁻¹`; integrate with `cfc_integral` as in 4.4. Each parallel sum is
+monotone in each argument by `CStarAlgebra.inv_le_inv` applied twice. The regularized limit:
+`ε ↦ opMean f (A + ε) (B + ε)` is monotone in `ε` by the joint monotonicity, and bounded below
+by `0`; a monotone bounded family of Hermitian matrices converges. For positive definite `A` the
+formula is continuous in `(A, B)`.
 
-*Needs:* Layer 4 for operator monotone `f` (the half-line representation of 4.3).
+*Needs:* 4.3, 4.4 (the integral under `cfc`).
 
 ### 5.2 The Kubo–Ando theorem
 
@@ -807,7 +853,8 @@ Layers 2 and 4.
 - **Weight one half** (`wgm_half_eq_geometricMean`): for positive definite `A` and positive
   semidefinite `B`, `A #₁/₂ B = TauCeti.geometricMean A B`.
 - `A # B` is the unique positive semidefinite solution of `X A⁻¹ X = B` (Simon, Prop 36.7,
-  pp. 376–377; Tau Ceti's `TauCeti.eq_geometricMean_of_mul_ringInverse_mul`), and `A # B = B # A`
+  pp. 376–377; Tau Ceti's `TauCeti.eq_geometricMean_of_mul_ringInverse_mul`, with its matrix form
+  `Matrix.PosDef.existsUnique_posSemidef_mul_mul`), and `A # B = B # A`
   (Simon, Cor 36.8, p. 377; `TauCeti.geometricMean_comm`).
 
 *Proof route.* Both sides are `A^(1/2) (A^(-1/2) B A^(-1/2))^(1/2) A^(1/2)`: Tau Ceti defines the
@@ -861,9 +908,10 @@ and `0 < t < 1` is the strict concavity of `log`.
 *Proof route.* By the Schur complement (Simon, Thm 36.1), the block matrix is positive semidefinite
 iff `X B⁻¹ X ≤ A`; by Simon's Prop 36.7, `Y A⁻¹ Y ≤ B` implies `Y ≤ A # B` through the operator
 monotone square root (`CFC.sqrt_le_sqrt`), and the two forms are exchanged by `A # B = B # A`. The
-mean itself attains the bound because `(A # B) A⁻¹ (A # B) = B`.
+mean itself is Hermitian (`Matrix.isHermitian_geometricMean`), positive semidefinite, and attains
+the bound because `(A # B) A⁻¹ (A # B) = B`.
 
-*Needs:* 6.1; Mathlib's Schur complement lemmas for `Matrix.fromBlocks`.
+*Needs:* 6.1; Mathlib's Schur complement criterion `Matrix.PosDef.fromBlocks₁₁`.
 
 **Checks.**
 
@@ -896,40 +944,59 @@ Layer 5; Tau Ceti's geometric mean.
   positive definite matrices).
 - **Invariance** (`riemDist_congr_inv_symm`): `δ(XᴴAX, XᴴBX) = δ(A, B)` for invertible `X`,
   `δ(A⁻¹, B⁻¹) = δ(A, B)`, and `δ(B, A) = δ(A, B)`.
-- **Exponential metric increasing** (`frob_log_sub_log_le_riemDist`):
-  `‖log A - log B‖_F ≤ δ(A, B)`. This is an adaptation, through the Daleckii–Krein formula 3.1.
-- **Metric** (`riemDist_triangle`): `δ(A, C) ≤ δ(A, B) + δ(B, C)`, and `δ(A, B) = 0` iff `A = B`.
+- **The infinitesimal bound**: for Hermitian `H`, `K`,
+  `‖e^(-H/2) (D exp(H)(K)) e^(-H/2)‖_F ≥ ‖K‖_F`, where `D exp(H)` is the derivative of 3.1 for
+  `f = exp`. Equivalently, along a `C¹` path `γ = exp(η)` with Hermitian `η`, the invariant speed
+  `‖γ^(-1/2) γ' γ^(-1/2)‖_F` is at least `‖η'‖_F`. This is an adaptation, through the
+  Daleckii–Krein formula 3.1.
 
 *Proof route.* Invariance: the eigenvalues of `A⁻¹B` are those of `A^(-1/2) B A^(-1/2)` and are
 unchanged by `A ↦ XᴴAX`, `B ↦ XᴴBX` (`Matrix.charpoly_mul_comm`); inversion maps them to their
-inverses, and symmetry to their inverses as well; `(log λ)²` is invariant under `λ ↦ 1/λ`. EMI:
-congruence-reduce to `A = 1`, write `H = log B`, and compare `‖D exp(0)(K)‖` with
-`‖e^(-H/2) D exp(H)(K) e^(-H/2)‖` by 3.1: in the eigenbasis of `H` the Schur multiplier is
-`sinh((hᵢ - hⱼ)/2)/((hᵢ - hⱼ)/2) ≥ 1` entrywise, so the length of the curve
-`s ↦ exp(log A + s(log B - log A))` in the invariant metric dominates `‖log B - log A‖_F`, and
-7.2 bounds it by `δ`. Triangle: from 7.2, `δ` is the infimum of path lengths, which is
-subadditive under concatenation. Definiteness: `δ = 0` forces all eigenvalues of `A⁻¹B` to be `1`.
+inverses, and symmetry to their inverses as well; `(log λ)²` is invariant under `λ ↦ 1/λ`.
+Infinitesimal bound: in the eigenbasis of `H`, with eigenvalues `hᵢ`, 3.1 gives
+`D exp(H)(K)ᵢⱼ = Kᵢⱼ (e^(hᵢ) - e^(hⱼ))/(hᵢ - hⱼ)`, so conjugation by `e^(-H/2)` multiplies `Kᵢⱼ` by
+`sinh(uᵢⱼ)/uᵢⱼ ≥ 1` with `uᵢⱼ = (hᵢ - hⱼ)/2` (the value `1` on the diagonal), and the Frobenius
+norm is unitarily invariant. For the path form, `γ' = D exp(η)(η')` and `γ^(-1/2) = e^(-η/2)`.
 
-*Needs:* 3.1, 6.2.
+*Needs:* 3.1; Mathlib's `Matrix.charpoly_mul_comm`.
 
-### 7.2 Geodesics and lengths
+### 7.2 Lengths, the metric and geodesics
 
-- **Geodesic** (`riemDist_wgm`): for `t ∈ [0, 1]`, `δ(A, A #ₜ B) = t δ(A, B)` and
-  `δ(A #ₜ B, B) = (1 - t) δ(A, B)`; and `A #ₜ B` is the only positive definite `X` with these two
-  distances (Terras, Thm 1.1.1, pp. 17–18, for real positive definite matrices).
 - `pathLength γ` is `∫₀¹ ‖γ(t)^(-1/2) γ'(t) γ(t)^(-1/2)‖_F dt`.
 - **Length** (`riemDist_le_pathLength_and_pathLength_wgm`): every `C¹` path of positive definite
   matrices from `A` to `B` has length at least `δ(A, B)`, and the path `t ↦ A #ₜ B` has length
   exactly `δ(A, B)` (Terras, Thm 1.1.1, pp. 17–18, and (1.11), p. 12).
+- **Exponential metric increasing** (`frob_log_sub_log_le_riemDist`):
+  `‖log A - log B‖_F ≤ δ(A, B)`. This is an adaptation, through the infinitesimal bound of 7.1.
+- **Metric** (`riemDist_triangle`): `δ(A, C) ≤ δ(A, B) + δ(B, C)`, and `δ(A, B) = 0` iff `A = B`.
+- **Geodesic** (`riemDist_wgm`): for `t ∈ [0, 1]`, `δ(A, A #ₜ B) = t δ(A, B)` and
+  `δ(A #ₜ B, B) = (1 - t) δ(A, B)`; and `A #ₜ B` is the only positive definite `X` with these two
+  distances (Terras, Thm 1.1.1, pp. 17–18, for real positive definite matrices).
 
-*Proof route.* Congruence by `A^(-1/2)` reduces to `A = 1`, where `A #ₜ B = B^t` and
-`δ(1, B^t) = t ‖log B‖_F`. Length: along `γ(t) = B^t`, `γ^(-1/2) γ' γ^(-1/2) = log B`, so the length
-is `‖log B‖_F`. Lower bound: with `γ = exp(η)`, the EMI computation of 7.1 shows the invariant
-speed dominates `‖η'‖_F`, and `∫ ‖η'‖_F ≥ ‖η(1) - η(0)‖_F = ‖log B‖_F`. Uniqueness: if `X` attains
-both distances, the triangle inequality is an equality at `X`, and equality in the EMI bound forces
-`log X` to be a multiple of `log B` (strictness of `sinh u/u > 1` for `u ≠ 0`); then `X = B^t`.
+*Proof route.* The items are proved in the order listed. Reduction: the speed satisfies
+`‖γ^(-1/2) γ' γ^(-1/2)‖_F² = tr((γ⁻¹γ')²)`, which is unchanged by `γ ↦ XᴴγX` for invertible `X`,
+so `pathLength` is congruence invariant, as is `δ` (7.1); and `A #ₜ B` is congruence covariant
+(6.2). Congruence by `A^(-1/2)` therefore reduces Length and Geodesic to `A = 1`, where
+`A #ₜ B = B^t` and `δ(1, B) = ‖log B‖_F`.
+Length: along `γ(t) = B^t`, `γ^(-1/2) γ' γ^(-1/2) = log B`, so the length is `‖log B‖_F`. Lower
+bound: for a `C¹` path `γ` from `1` to `B`, `η = log γ` is `C¹` (3.1 for `log` on `(0, ∞)`), and
+by the infinitesimal bound of 7.1 the length is at least `∫ ‖η'‖_F ≥ ‖η(1) - η(0)‖_F = ‖log B‖_F`
+(`intervalIntegral.integral_eq_sub_of_hasDerivAt`).
+Exponential metric increasing: apply the infinitesimal bound to the geodesic `γ(t) = A #ₜ B` itself,
+with `η = log γ` (no congruence reduction, since `‖log A - log B‖_F` is not congruence
+invariant): `δ(A, B) = pathLength γ ≥ ∫ ‖η'‖_F ≥ ‖log B - log A‖_F`.
+Triangle: reparametrize the geodesic paths from `A` to `B` and from `B` to `C` by
+`s ↦ 3s² - 2s³`, whose derivative vanishes at both ends, and concatenate; the result is `C¹`,
+reparametrization does not change length, and Length gives
+`δ(A, C) ≤ δ(A, B) + δ(B, C)`. Definiteness: `δ = 0` forces all eigenvalues of the Hermitian
+`A^(-1/2) B A^(-1/2)` to be `1`, so it is `1` and `B = A`.
+Geodesic: at `A = 1`, `δ(1, B^t) = ‖t log B‖_F` and `δ(B^t, B) = ‖(1 - t) log B‖_F`. Uniqueness: if
+`X` has both distances, then `‖log X‖_F = δ(1, X) = t ‖log B‖_F`, and the exponential metric
+increasing property gives `‖log B - log X‖_F ≤ δ(X, B) = (1 - t) ‖log B‖_F`. The Euclidean
+triangle inequality for the Frobenius inner product is then an equality, so `log X` and
+`log B - log X` are nonnegatively proportional, and `log X = t log B`, that is `X = B^t`.
 
-*Needs:* 7.1; Mathlib's interval integrals.
+*Needs:* 7.1, 6.1, 6.2; Mathlib's `intervalIntegral.integral_eq_sub_of_hasDerivAt`.
 
 ### 7.3 Nonpositive curvature
 
@@ -940,11 +1007,11 @@ both distances, the triangle inequality is an equality at `X`, and equality in t
   statement for this cone is an adaptation.
 
 *Proof route.* Midpoint first: congruence moves `A # B` to `1`, so `B = A⁻¹` and
-`δ(A, B) = 2‖log A‖_F`. With `a = log A`, `c = log C`, EMI gives `δ(C, A) ≥ ‖c - a‖_F` and
-`δ(C, B) ≥ ‖c + a‖_F`, while `δ(C, 1) = ‖c‖_F`; the Euclidean parallelogram law
-`‖c - a‖² + ‖c + a‖² = 2‖c‖² + 2‖a‖²` gives the midpoint inequality. General `t`: the midpoint
-inequality and the geodesic identity of 7.2 imply the weighted one for dyadic `t` by induction,
-and continuity of `t ↦ A #ₜ B` gives all `t`.
+`δ(A, B) = 2‖log A‖_F`. With `a = log A`, `c = log C`, the exponential metric increasing property
+(7.2) gives `δ(C, A) ≥ ‖c - a‖_F` and `δ(C, B) ≥ ‖c + a‖_F`, while `δ(C, 1) = ‖c‖_F`; the Euclidean
+parallelogram law `‖c - a‖² + ‖c + a‖² = 2‖c‖² + 2‖a‖²` gives the midpoint inequality. General `t`:
+the midpoint inequality and the geodesic identity of 7.2 imply the weighted one for dyadic `t` by
+induction, and continuity of `t ↦ A #ₜ B` gives all `t`.
 
 *Needs:* 7.1, 7.2.
 
@@ -956,14 +1023,14 @@ and continuity of `t ↦ A #ₜ B` gives all `t`.
   weights `w` with sum `1`, there is a unique positive definite minimizer of
   `X ↦ ∑ wᵢ δ(X, Aᵢ)²` (Jost, Thm 3.2.1, p. 65, for global nonpositively curved spaces).
 
-*Proof route.* Completeness: by EMI, `log uₖ` is Cauchy in the Frobenius norm, hence converges to
-a Hermitian `L`; the eigenvalues of `uₖ` stay in a compact subset of `(0, ∞)`, and
-`δ(uₖ, exp L) → 0` by continuity of `δ` on such sets. Barycenter: the function is continuous and
-coercive (a closed `δ`-ball is compact by the same eigenvalue bounds), so a minimizer exists;
-uniqueness from 7.3: for two minimizers `X ≠ Y`, the midpoint `X # Y` has a strictly smaller
-value, because each `δ(X # Y, Aᵢ)²` is at most the average minus `δ(X, Y)²/4`.
+*Proof route.* Completeness: by the exponential metric increasing property (7.2), `log uₖ` is Cauchy
+in the Frobenius norm, hence converges to a Hermitian `L`; the eigenvalues of `uₖ` stay in a compact
+subset of `(0, ∞)`, and `δ(uₖ, exp L) → 0` by continuity of `δ` on such sets. Barycenter: the
+function is continuous and coercive (a closed `δ`-ball is compact by the same eigenvalue bounds), so
+a minimizer exists; uniqueness from 7.3: for two minimizers `X ≠ Y`, the midpoint `X # Y` has a
+strictly smaller value, because each `δ(X # Y, Aᵢ)²` is at most the average minus `δ(X, Y)²/4`.
 
-*Needs:* 7.1, 7.3.
+*Needs:* 7.1, 7.2, 7.3.
 
 **Checks.**
 
@@ -1047,12 +1114,13 @@ of the function `g`; `g` is continuous and even, hence convex with minimum at `0
 
 *Needs:* 8.1; Majorization Part B.
 
-### 8.4 Zhan's inequality
+### 8.4 The product inequality
 
-- **Zhan** (`UnitarilyInvariantSeminorm.four_mul_mat_mul_le`): for positive semidefinite `A`, `B`,
-  `4‖AB‖ ≤ ‖(A + B)²‖` (Zhan, Thm 4.25, p. 77).
+- **Bhatia–Kittaneh, product form** (`UnitarilyInvariantSeminorm.four_mul_mat_mul_le`): for positive
+  semidefinite `A`, `B`, `4‖AB‖ ≤ ‖(A + B)²‖` (Zhan, Thm 4.25, p. 77, attributed there to Bhatia and
+  Kittaneh, p. 78).
 
-*Proof route.* Zhan's: by Bhatia–Davis applied to `A^(1/2) (A^(1/2) B^(1/2)) B^(1/2) = AB`,
+*Proof route.* Zhan's proof: by Bhatia–Davis applied to `A^(1/2) (A^(1/2) B^(1/2)) B^(1/2) = AB`,
 `2‖AB‖ ≤ ‖A^(3/2) B^(1/2) + A^(1/2) B^(3/2)‖`. With `X = [[A^(1/2), 0], [B^(1/2), 0]]` and
 `T = XXᴴ`, `T` is unitarily equivalent to `XᴴX = diag(A + B, 0)`, and the off-diagonal block of `T²`
 is `A^(3/2) B^(1/2) + A^(1/2) B^(3/2)`; the off-diagonal block lemma of 8.2 gives
@@ -1074,7 +1142,7 @@ is `A^(3/2) B^(1/2) + A^(1/2) B^(3/2)`; the off-diagonal block lemma of 8.2 give
   `A = diag(1, 0)`, `B = [[0, 0], [1, 0]]`, `AᴴB = 0` while `AAᴴ + BBᴴ = 1`.
 - Heinz at `n = 1` is the scalar `a^t b^(1-t) + a^(1-t) b^t ≤ a + b`: at `a = 4`, `b = 1`,
   `t = 1/2` it reads `4 ≤ 5`.
-- Zhan at `A = diag(1, 0)`, `B = [[1/2, 1/2], [1/2, 1/2]]` in the operator norm:
+- The product inequality at `A = diag(1, 0)`, `B = [[1/2, 1/2], [1/2, 1/2]]` in the operator norm:
   `4‖AB‖ = 2√2 ≈ 2.828` and `‖(A + B)²‖ ≈ 2.914`; in the trace norm `2.828 ≤ 3`.
 
 ### Examples
@@ -1096,59 +1164,38 @@ Layer 1, OperatorTheory/Majorization, OperatorTheory/PolarDecomposition.
   the cone geometry of Layer 7.
 - [CStarAlgebras](../CStarAlgebras/README.md), Section 1.1: its matrix-order examples are the
   `2 × 2` checks of Layer 1 in C⋆ form, and the C⋆ transfer 4.4 extends its consumption of
-  `CFC.sqrt_le_sqrt` to every nonnegative operator monotone function.
+  `CFC.sqrt_le_sqrt` to every operator monotone function on an open interval.
 
 ## Beyond this roadmap (a roadmap for a roadmap; do not implement)
 
 - **Holomorphic functional calculus of general matrices.** The resolvent-contour calculus and its
   derivative for non-normal matrices; nothing here uses it, and it belongs with Banach algebras.
 - **Trace inequalities and quantum entropy.** Lieb–Ruskai strong subadditivity, relative entropy
-  monotonicity, operator perspectives and the trace inequalities of the matrix-analysis synopsis
-  (CKMA 13.45–13.62): a later roadmap that consumes Layers 2 and 5.
+  monotonicity, operator perspectives and the trace inequalities of matrix analysis: a later
+  roadmap that consumes Layers 2 and 5.
 - **Loewner's theorem on unions of intervals.** The Chandler and Rosenblum–Rovnyak extensions
   (Simon, Thm 1.7 and Thm 1.8, p. 8): extra work on Pick functions with gaps.
 - **Finite-order Loewner theory.** The local characterization of `M_n` by Hankel matrices and
   Heinävaara's localization (Simon, Thm 9.3, p. 98): needed only for finite `n`.
 - **Operator monotone functions of unbounded operators** and the form order (Simon, Thm 2.9,
   p. 15, in the unbounded sense): requires unbounded functional calculus.
-- **The Riemannian manifold of positive definite matrices.** The metric tensor
-  `g_A(H, K) = tr(A⁻¹HA⁻¹K)`, its Levi-Civita connection and curvature, and Cartan–Hadamard; Layer 7
-  proves the metric statements without the manifold structure.
+- **The Riemannian manifold of complex positive definite matrices.** The metric tensor
+  `g_A(H, K) = tr(A⁻¹HA⁻¹K)` on the complex cone, its Levi-Civita connection and curvature, and
+  Cartan–Hadamard; Layer 7 proves the metric statements without the manifold structure, and the
+  real cone is ManifoldOptimization's (see Scope and ownership).
 - **Norm inequalities beyond Heinz.** Ando's inequalities `‖f(A) - f(B)‖ ≤ ‖f(|A - B|)‖` for
   operator monotone `f` (Simon, Thm 43.1, p. 409) and Zhan's general family (Zhan, Thm 4.24,
   p. 76): natural sequels to Layer 8.
 
 ## Prior formalization
 
-lean-CKMA has no admitted statement for the material of this roadmap. Its structure report for
-the matrix-analysis area records the existing partial coverage: the spectral form of the
-functional calculus (Mathlib), the Loewner–Heinz inequality, the inverse order and the logarithm
-(Mathlib), the Pick-function half of Loewner's theorem and the unweighted geometric mean with its
-Riccati characterization, symmetry and inversion (Tau Ceti). Mathlib proves the operator
-monotonicity and concavity of `rpow` for exponents in `[0, 1]` through the Loewner-style integral
-`Real.rpowIntegrand₀₁`, which is the model for 4.4. The open Mathlib pull request #39734
-specializes these to `CStarMatrix`.
-
-Coverage of the allocated entries of the matrix-analysis synopsis (non-prescriptive):
-
-| CKMA entry | Here |
-|---|---|
-| 13.28 functional calculus and its derivative | 1.1, 3.1; holomorphic calculus: Beyond |
-| 13.32 Loewner's theorem | 4.1, 4.2 |
-| 13.33 half-line representation | 4.3 |
-| 13.34 Bendat–Sherman | 2.5 |
-| 13.35 Choi–Davis–Jensen | 2.3 |
-| 13.36 Hansen–Pedersen | 2.2 |
-| 13.37 Davis compression | 2.1 |
-| 13.38 positive concavity and monotonicity | 2.4 |
-| 13.39 geometric mean identities | 6.1, 6.2 |
-| 13.40 harmonic–geometric–arithmetic order | 6.3 |
-| 13.41 Kubo–Ando representation | 5.1, 5.2 |
-| 13.42 joint concavity and positive maps | 5.4 |
-| 13.43 affine-invariant distance | 7.1, 7.2 |
-| 13.44 nonpositive curvature and barycenters | 7.3, 7.4 |
-| 13.71 Heinz | 8.3 |
-| 13.74 matrix arithmetic–geometric mean | 8.2 |
+No operator monotone or operator convex predicate exists in Mathlib or Tau Ceti at the pin. The
+existing partial coverage is: the spectral form of the functional calculus, the Loewner–Heinz
+inequality for exponents in `[0, 1]`, the inverse order and the logarithm (Mathlib), and the
+Pick-function half of Loewner's theorem and the unweighted geometric mean with its Riccati
+characterization, symmetry and inversion (Tau Ceti). Mathlib proves the operator monotonicity
+and concavity of `rpow` for exponents in `[0, 1]` through the Loewner-style integral
+`Real.rpowIntegrand₀₁`, which is the model for 4.4.
 
 ## References
 
