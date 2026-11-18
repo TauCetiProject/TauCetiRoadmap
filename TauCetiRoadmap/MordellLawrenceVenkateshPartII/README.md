@@ -1,27 +1,60 @@
 # Roadmap: the Mordell conjecture after Lawrence and Venkatesh, part II
 
-**Summary.** This roadmap builds the higher-dimensional form of the Lawrence–Venkatesh period-map
-method and applies it twice. A Hodge–Deligne system on a smooth arithmetic base packages a rational
-local system, an étale local system, a filtered flat bundle and a filtered F-isocrystal with their
-comparison isomorphisms; a rational integral point of the base then gives a global Galois
-representation whose restriction to a decomposition group is read off, on a p-adic residue disk,
-from the value of a p-adic period map. Coefficient algebras, their semilinear normalizer groups and
-tensor filtrations on these groups make Frobenius and arithmetic descent part of one algebraic group.
-Faltings's finiteness lemma leaves finitely many global semisimplifications; a fixed
-semisimplification gives finitely many local graded types, which record the auxiliary flag only
-through its parabolic, and global purity over ℚ forces the induced Hodge filtrations to be balanced. A
-root-pairing estimate bounds the semibalanced filtrations with a prescribed associated graded, and
-strongly balanced monodromy distributes the estimate over independent factors in one Frobenius
-cycle. The pure Ax–Schanuel theorem for period maps, transferred to p-adic coefficients through
-Rückert's Nullstellensatz and Krull intersection, turns the resulting codimension bounds into
-non-density.
-The end theorems are the coefficient non-density theorem (Lawrence–Sawin, Theorem 8.17), the
-higher-dimensional Lawrence–Venkatesh theorem (Theorem 10.1) with its finiteness clause, the
-non-density of integral parameters of smooth hypersurfaces of large dimension and degree in `ℙⁿ`
-(Proposition 10.2), and Shafarevich finiteness up to `A(K)`-translation for smooth ample
-hypersurfaces in abelian varieties of dimension at least 4, of dimension 3 away from an explicit
-exceptional set of degrees, and of dimension 2 (Lawrence–Sawin, Theorem 9.2, Corollary 9.3,
-Theorems 9.4–9.6).
+**Summary.** Lawrence and Venkatesh showed how to prove that the integral points of a variety are not
+Zariski dense by studying a family of varieties over it. Each integral point gives a fibre whose
+cohomology carries a global Galois representation, and Faltings's finiteness lemma leaves finitely many
+possibilities for its semisimplification. On a p-adic residue disk, the representation's restriction to
+a decomposition group is read off from a p-adic period map. When the monodromy is large and the Hodge
+numbers satisfy suitable inequalities, the points with a given semisimplification lie in a proper
+Zariski-closed subset. The first part of this project, MordellLawrenceVenkatesh, carries out the
+one-dimensional arguments. This roadmap builds the higher-dimensional method and applies it to
+hypersurfaces in projective space and in abelian varieties.
+
+Its basic object is a Hodge–Deligne system on a smooth model of a variety over the S-integers of a
+number field: compatible Betti, étale, de Rham and crystalline realizations linked by comparison
+isomorphisms. The cohomology of a smooth projective family gives the basic examples. The Galois
+representation of a fibre need not be semisimple, but over ℚ global purity of weight w forces every
+global graded subquotient to have average de Rham degree w/2. This balance drives the codimension
+estimates.
+
+The first main theorem is the higher-dimensional Lawrence–Venkatesh theorem. Let 𝒴 be smooth of finite
+type over ℤ[S⁻¹] with smooth geometrically connected generic fibre Y of positive dimension, and let
+𝒵 → 𝒴 be smooth projective with geometrically connected fibres and a relatively ample class. Assume that
+the Zariski closure of geometric monodromy on primitive middle cohomology contains the identity
+component of the automorphism group of the intersection pairing. Assume also two explicit inequalities
+between dim Y and the Hodge numbers induced on the Lie algebra of the similitude group. Then 𝒴(ℤ[S⁻¹])
+is not Zariski dense in Y. It is finite if the monodromy hypothesis also holds over the smooth locus of
+every positive-dimensional closed geometrically irreducible subvariety.
+
+The second concerns projective hypersurfaces. For every sufficiently large n, every degree d
+sufficiently large in terms of n and every finite set S of primes, the integral forms of degree d in
+n + 1 variables that define smooth hypersurfaces modulo every prime outside S all satisfy one nonzero
+homogeneous equation in their coefficients. Thus the ℤ[S⁻¹]-points of the parameter space of smooth
+degree-d hypersurfaces in ℙⁿ are not Zariski dense. Nothing is claimed about its quotient by PGL.
+
+The third is the coefficient non-density theorem of Lawrence and Sawin. It concerns a pure polarized
+integral Hodge–Deligne system with integral Frobenius on a base as in the first theorem, with integer
+Frobenius polynomials outside S. The system has rank N > 0 at every embedding of a nonzero constant
+étale coefficient algebra, with a general linear, symplectic or orthogonal similitude structure, and
+the same adjoint Hodge numbers at every embedding. Its monodromy must be strongly c-balanced: two
+factors share a class when the monodromy does not project onto their product, the classes have equal
+size, and Frobenius preserves them with every orbit meeting at least c classes. Under two explicit
+inequalities involving c, the integral points are not Zariski dense. No semisimplicity is assumed.
+
+The fourth is Shafarevich finiteness. Let A be an abelian variety over a number field K with an abelian
+scheme model over O_K[S⁻¹], and fix an ample class φ. The smooth hypersurfaces of class φ whose closure
+in the model is smooth fall into finitely many classes under translation by `A(K)` when dim A is 2 or
+at least 4. In dimension 3 this holds when the normalized degree φ³/6 is divisible by none of the
+exceptional degrees of SheafConvolutionOnAbelianVarieties, the first of which is 8855.
+
+Besides its first part, the roadmap builds on SheafConvolutionOnAbelianVarieties for character sheaves
+and the big monodromy of their twists. The Ax–Schanuel theorem for period maps, which turns codimension
+bounds into non-density, is to be provided by AbelianSchemesAndArithmeticModuliPartII.
+LogicAndDefinabilityInNumberTheory states, for the objects defined here, the complex codimension
+consequence of Ax–Schanuel.
+
+Layers 0 to 6 build the general machinery and end with the coefficient theorem. Layer 7 proves the
+Lawrence–Venkatesh theorem, Layer 8 the numerical criteria, and Layers 9 and 10 the two applications.
 
 ## How to read the build
 
