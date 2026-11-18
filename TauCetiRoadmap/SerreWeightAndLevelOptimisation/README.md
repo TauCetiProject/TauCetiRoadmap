@@ -1348,7 +1348,7 @@ Prove scalar local restrictions unramified by local reciprocity and odd-order im
 
 - A Jordan block with equal roots is nonscalar.
 
-- Every early optimisation argument is independent of the SerreModularityByCompatibleSystems’s scalar dyadic completion scalar completion.
+- Every early optimisation argument is independent of the scalar dyadic completion in SerreModularityByCompatibleSystems (`S6/strong-form-by-minimal-lifts`).
 
 ### Examples
 
