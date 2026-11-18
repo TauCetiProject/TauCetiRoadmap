@@ -2,13 +2,9 @@
 
 **Summary.** This roadmap extends FunctionFieldArithmetic from global arithmetic and ray class geometry to infinite roots of line bundles with sections and geometric class field theory with quadratic ramification. It builds coordinate comparisons over arbitrary commutative rings, the coherent infinite root stack and its fpqc quotient, the graded root Picard stack and its signed adelic presentation, symmetric lisse lines, high-degree Abel–Jacobi descent, and a normalized character sheaf in every integer degree. Its end theorem (§10.20) is that, for a geometrically connected double cover X′→X of smooth projective curves over a finite field of odd characteristic with reduced branch divisor R, the Frobenius trace function of the quadratic character sheaf on the root Picard stack equals the quadratic idele class character η_(F′/F) under the signed adelic presentation, with value +1 at split and −1 at inert unramified points (Yun–Zhang, Appendix A). Infinite roots and character sheaves share finite-root interfaces; the infinite tower is independent of the character-sheaf proof.
 
-## Scope and ownership
+## How to read the build
 
-FunctionFieldArithmetic §§2–4 owns completions, adeles, ideles, local and global Artin maps, ray characters and ordinary rigidified Picard geometry. This Part II begins with root data and retains their inertia, nilpotent sections and coherence. It owns the affine root torsor comparison, coherent infinite roots, fpqc Kummer towers and their DVR gerbes; root Picard objects, effective root divisors and signed adelic groupoids; symmetric local systems and their exterior cohomology; all-degree character descent; and ramified norms and trace comparison.
-
-SchemeAndStackFoundations §§1.18–1.23 owns generic stackification, two-fibre products, quotient stacks, algebraicity, finite root stacks, their affine charts and full nonreduced finite branch fibres. Its §§3.3–3.7 own ordinary curve cohomology, Picard groupoids and stacks, degree components, universal sections, Abel maps and line-bundle norms. AlgebraicVectorBundles L0A–L0C owns tensor sections, tensor coherence, duals, polynomial powers and strong monoidal pullback. These constructions are imported. The finite DVR root chart, finite two-pullback presentation and finite affine quotient presentation are supplier contracts, rather than local targets. Coordinates, coframe signs, relative stack-base geometry and infinite coherent limits are the additional comparisons developed here.
-
-Mathlib supplies polynomial quotients, their root relation and their finite presentation (`AdjoinRoot.finitePresentation`, used for the normalization algebra in every exponent), character-basis powers, tensor products, group algebras and directed colimits. Tau Ceti supplies the tensor/exterior projection, factorial and antisymmetrizer composites, their naturality, tensor permutation representation and finite-group corestriction. These are already in the library; only compatibility with the Koszul action and its invariant-image consequence remains a target. Ordinary finite-cover monodromy, scheme inertia, adic coefficients, scheme duality and Künneth are stated by EtaleCohomologyFoundations §§F.0.2, F.0.A1–F.0.A2, F.3a, F.4–F.6. DeligneWeightsAndPurity §8.24 owns rational étale coefficients on finite-type DM stacks, and GlobalShtukasAndFunctionFieldLanglands §1.4 owns the constructible derived categories of finite-type algebraic stacks with their six operations, perverse t-structure and intermediate extensions; both are imported. The finite-rank lisse descent and monodromy comparisons with their rank-one specialization, proper degree-zero base change, coarse-stalk calculations, and the perverse t-exactness of proper quasi-finite pushforward between tame DM stacks with its intermediate-extension comparison (§7.7) are targets in Layer 7, and the projective-space simple-connectivity input is in Layer 8. Unramified geometric class field theory in the Serre–Lang form, where abelian covers of a curve are pulled back from isogenies of its Jacobian, is PadicDifferentialEquationsAndRigidCohomology §RD.6.62; Layers 7–10 construct the ramified quadratic character sheaf instead. Symplectic central-L-value theory is outside this roadmap.
+Layers 1–2 give finite-root coordinates and relative geometry; Layer 3 passes to coherent fpqc towers. Layers 4–6 independently build root Picard, effective-divisor and adelic interfaces. Layer 7 constructs symmetric lisse lines and their cohomology, Layer 8 proves effective descent, Layer 9 extends and normalizes in every degree, and Layer 10 identifies the quadratic trace. Each subsection states its exact hypotheses and proof inputs. A proof route is one way to establish the target; its named inputs identify the theory it uses. Every *Needs:* item precedes its consumer: the finite chart-point groupoid of §§1.20–1.22 is in Layer 1, finite-root fpqc descent (§2.4) precedes affine stackification (§2.7), and the stack coefficient interfaces of §§7.4–7.7 precede the symmetric lisse lines that use them.
 
 ## Conventions
 
@@ -27,90 +23,6 @@ Coefficients are ℚ̄_ℓ with ℓ≠p, interpreted through finite coefficient 
 The uniform bound is B=ρ+max(2g−1,1). For d≥B put n=d−g+1 and a=n−ρ≥1. A split Abel–Jacobi fibre retains (u,α), and its section coordinate is (u,α²). The proper scalar quotient has weights (2^a,1^ρ) for ρ>0, and ordinary weight one for ρ=0. For g=0, ρ=1, d=2 the bound is 2, n=3, a=2 and weights are (2,2,1); setting α=0 leaves the two kernel coordinates, rather than identifying all points with their squared section coordinates.
 
 For an idele a put E(a)=Σ_x v_x(a_x)x and associate O_X(−E(a)). Hence π_x⁻¹ has E=−x and gives O_X(x), of degree [k(x):k]. The signed right-action groupoid retains a generic frame and all modified-unit labels; quotienting further by F× gives the root Picard groupoid. The modified-unit map is not required injective. Norm statements use based torsor fibres, compatible nullhomotopies and H² obstructions. For the quadratic chart t²=a, the norm of c+dt is c²−ad², reducing to c² on a=0; this fixes the norm sign.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-Use `AlgebraicGeometry.Scheme` and its module-sheaf and site APIs; `CategoryTheory.Core`; `AlgebraicGeometry.Scheme.fppfTopology` and `AlgebraicGeometry.Scheme.fpqcTopology`; `CategoryTheory.Pseudofunctor.IsStack` and `CategoryTheory.Pseudofunctor.Grothendieck`. Stack descent on a pseudofunctor supplies no algebraic atlas by itself. Affine carriers are `AdjoinRoot`, `AdjoinRoot.eval₂_root`, `AdjoinRoot.liftAlgHom`, `AdjoinRoot.algHom_ext` and `AdjoinRoot.powerBasis'` in `Mathlib/RingTheory/AdjoinRoot.lean`. Finite presentation of the normalization algebra D=B[T]/(Tⁿ−u) over B is the instance `AdjoinRoot.finitePresentation` of the same file, applied with coefficient algebra B over itself; it holds for every natural n, including n=0 where D=B[T]/(1−u) (which is B[T] when u=1), and for the zero ring, with no positivity or invertibility of n. Character calculations use `rootsOfUnity` in `Mathlib/RingTheory/RootsOfUnity/Basic.lean`, `MonoidAlgebra.single_pow` in `Mathlib/Algebra/MonoidAlgebra/Defs.lean`, and the group-algebra Hopf structure. Tensor products, `Module.Basis`, matrix determinant, kernels and module quotients supply the affine algebra. Use `DirectLimit.exists_eq_mk` in `Mathlib/Order/DirectedInverseSystem.lean:130` for a component representative of every directed-limit element; it requires the directed system, not any root-parameter hypothesis. Its applications to the factorial and positive-divisibility diagrams are imported in §§3.31–3.32. For a closed point of a finite-type ℚ-chart use `finite_of_finite_type_of_isJacobsonRing` in `Mathlib/RingTheory/Jacobson/Ring.lean:676`, applied to the finite-type residue quotient field.
-
-The quotient-root relation gives t²=0 in 𝔽₂[t]/t² and t⁴=4 in ℤ[t]/(t²−2). At exponent zero it says 1=f in the quotient by 1−f; that quotient has no positive-exponent covering assertion. The total definitions `rootChart`, `rootChartCoaction` and `rootChartComparison` admit n=0 as quotient-algebra formulas: their unit-root factor is then A[h], and no μ₀ or Hopf-algebra interpretation is asserted. The action and sharp comparison theorems require n>0. A character e₁ satisfies e₁²=1 over 𝔽₂ even though μ₂ is non-étale. These Checks distinguish the quotient relation from reduced geometric points.
-
-The lower-coordinate count is imported from `Finset.card_product_filter_lt` in `Mathlib/Data/Finset/Prod.lean` and `Nat.choose_two_right` in `Mathlib/Data/Nat/Choose/Basic.lean`: at n=0 and n=1 it is 0, at n=2 it is 1, and at n=3 it is 3.
-
-### From Tau Ceti
-
-Use `TauCeti.AlgebraicGeometry.InvertibleSheaf` and its trivial line and tensor product in `TauCeti/AlgebraicGeometry/LineBundle/`; sections and pullback are transported through the suppliers' coherent monoidal comparisons. Use `TauCeti.RootsOfUnityGroup.groupScheme` (μ_n as the diagonalizable group scheme of ℤ/n, `TauCeti/Algebra/AlgebraicGroup/RootsOfUnity/Scheme.lean`), `TauCeti.RootsOfUnityGroup.pointsMulEquiv` (algebra-valued points of the character Hopf algebra are the n-th roots of unity, `…/RootsOfUnity/Basic.lean`) and `TauCeti.RootsOfUnityGroup.schemePointsMulEquiv` (scheme-valued points over Spec R, `…/RootsOfUnity/Scheme.lean`). Use places, residue fields, completions, divisors and finite-precision approximation from `TauCeti/FieldTheory/FunctionField/`; the empty residue family must yield the unit 1.
-
-Use `exteriorPower.toTensorPower_injective`, `exteriorPower.fromTensorPower`, `exteriorPower.fromTensorPower_comp_toTensorPower`, `exteriorPower.toTensorPower_comp_fromTensorPower`, `exteriorPower.toTensorPower_comp_map`, `exteriorPower.map_comp_fromTensorPower` and `exteriorPower.range_toTensorPower` in `TauCeti/LinearAlgebra/ExteriorPower/Basic.lean`; these hold over commutative rings and arbitrary modules, with unit-factorial assumptions only for injectivity. Use `PiTensorProduct.reindexRepresentation` in `TauCeti/RepresentationTheory/Symmetric/TensorAction/Basic.lean`. Use `groupCohomology.natCard_nsmul_eq_zero` in `TauCeti/RepresentationTheory/Homological/GroupCohomology/Corestriction.lean` for positive-degree finite-group annihilation. The geometric signed-invariant and averaging consequences are proved in Layer 7. Use `AddCircle.exists_mem_torsionBy_rat` and `AddCircle.exists_zsmul_eq_of_mem_torsionBy` from `TauCeti/Algebra/AddCircle.lean` for rational torsion characters.
-
-### From TauCetiRoadmap.SchemeAndStackFoundations
-
-Consume §0.9's affine transition limits and finite-presentation descent; §1.1's effective fpqc descent; §§1.18–1.23's stacks, two-fibre products, quotients, finite roots and coarse spaces; §§1.15 and 2.3’s torsors and H¹, and §2.11’s Kummer sequence; §§3.3–3.7's curve cohomology, ordinary Picard objects, all-degree components, family sections and line norms; §4.13's regular schemes. Finite-root imports include exponent one, agreement away from the zero divisor, arbitrary base change and transitions, plus the full branch fibre [Spec k[t]/tⁿ /μ_n]. At n=1 the root is X; at n=2, f=0 the nilpotent root survives; at characteristic p and n=p the branch stabilizer μ_p prevents DM, while a unit section still gives X. Tensor-unit sections give t⁰=1, t¹=t and t²=t⊗t, including t=0. These are supplier Checks, with their coordinate uses retained below.
-
-What SchemeAndStackFoundations must provide (gap:finite-diagonalizable-coarse): Extend §1.23’s affine finite-group coarse quotient contract to finite locally free diagonalizable group schemes, including nonreduced ones, with invariants and arbitrary base-change compatibility.
-
-What SchemeAndStackFoundations must provide (gap:zero-dimensional-dm-residual-gerbes): For an algebraically closed field K, the reduction of a finite-type Deligne–Mumford stack over K whose underlying space is finite and discrete is the disjoint union of its residual gerbes, and a chosen K-object of each component identifies that component with the classifying stack of its finite constant automorphism group.
-
-What SchemeAndStackFoundations must provide (gap:coherent-site-universe-lifts): Provide coherent universe enlargement of the scheme site and its stack pullback, restricted to the essential image of the smaller site.
-
-The finite transition takes an mn-th root to its m-th power; m=1 is the identity, and the 2- then 3-power route has exponent 6 on both line and section. Finite-root base change includes a nonreduced closed immersion and an inseparable field extension.
-
-### From TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry
-
-Consume §4.3's `neutralizationEquivalence` and `rootGerbe`, §4.4's `GerbeLimitFamily`, `limitStackDescent` and `nonemptyAffineLimitGerbe`, and §4.23's coherent affine-gerbe limits over a field with their nonemptiness hypothesis. The neutralization functor is y↦Isom(x,y), preserving the specified band. The étale `rootGerbe` input requires invertible exponent; arbitrary-exponent fppf root gerbes here use SchemeAndStackFoundations §1.21 and fppf Kummer, rather than widening that étale contract. Section 3.12 extends the field-gerbe application to torsor towers over an arbitrary scheme T with explicit finite pushforwards.
-
-### From TauCetiRoadmap.AlgebraicVectorBundles
-
-Consume L0A's tensor sections, tensor-unit comparisons and strong symmetric monoidal pullback; L0B's finite locally free rank-one comparison; L0C's symmetric and exterior powers. The coordinate adapter must send the tensor of two trivial-line sections z,w to zw and the unit section to 1. Exponents 0,1,2 give O, M and M⊗M under the specified unit comparisons; positive powers of the zero section are zero.
-
-What AlgebraicVectorBundles must provide (gap:invertible-section-coordinates): Identify its coherent tensor-section, free-unit and pullback maps with invertible-sheaf coordinates, so that tensor sections evaluate to multiplication and the unit evaluates to one.
-
-What AlgebraicVectorBundles must provide (gap:invertible-sheaf-universe-lifts): Make coherent universe enlargement on the essential image compatible with invertible sheaves, their sections, tensor product and pullback.
-
-### From TauCetiRoadmap.ModularCurves
-
-Consume §0F's affine finite-presentation Weil restriction along a finite locally free map and its arbitrary-base-change comparison. For the finite étale R/k of Layer 4 this represents Res_(R/k)𝔾_m and, for an invertible sheaf K on R×S, the S-scheme Res_(R×S/S)Isom(O,K), using SchemeAndStackFoundations §1.15’s line-frame torsor; the latter is the frame torsor used in §4.6. The root-specific square action is constructed there. (StacksRes line 729, §97.11.)
-
-### From TauCetiRoadmap.AlgebraicCurves and TauCetiRoadmap.JacobianChallenge
-
-Consume AlgebraicCurves Layer 12's closed-point/place, valuation/local-ring, divisor and line-bundle dictionary. Consume JacobianChallenge Layers A–D's line-bundle degree, coherent cohomology and family base change, ordinary symmetric powers and Picard representability, through SchemeAndStackFoundations §§3.3–3.7. The degree of a closed point x is [k(x):k]; over 𝔽_q a degree-two point contributes two geometric points, not one.
-
-Residue root frames are constructed in §6.5.
-
-What AlgebraicCurves must provide (gap:completed-lattice-root-dictionary): Compare completed local lattices with rationally framed line bundles, preserving weighted degrees and the sign π_x⁻¹↦O_X(x).
-
-### From TauCetiRoadmap.FunctionFieldArithmetic
-
-Consume §2.1's completed adelic lattices and §§0.1, 4.1–4.2 and 4.5’s local Artin and norm-quotient comparisons, and §§4.5–4.10's ray characters, rigidified Picard objects and finite ray covers. This extension uses their modified-unit image and arithmetic reciprocity: by FunctionFieldArithmetic §0.1, π_x maps to arithmetic Frobenius and π_x⁻¹ maps to geometric Frobenius, without assuming a unit inclusion or a rational point of degree one. FunctionFieldArithmetic §4.8 uses b↦O(E(b)), while this roadmap uses a↦O(−E(a)); the comparison sends a to b=a⁻¹ and inverts its local rigidification. For a local unit 2 over 𝔽₅, b=3 and its inverse rigidification is 2. A divisor idele π_x⁻¹ here corresponds to b=π_x there, and both give O(x).
-
-What FunctionFieldArithmetic must provide (gap:quadratic-root-residue-character): For a ramified quadratic extension of local function fields in odd characteristic, identify its local Artin unit character with the quadratic character of the residue field.
-
-### From TauCetiRoadmap.EtaleCohomologyFoundations
-
-Consume §§F.0.2, F.0.A1–F.0.A2 and F.3a's finite-cover monodromy, arithmetic sequence and tame inertia; §§F.2.1, F.2.6–F.2.7's proper base change and Künneth; §§F.4.1–F.4.6's normalized adic systems and rational scalar extension; §§0.11 and F.5–F.6's curve and smooth-scheme duality; §F.8's intermediate extensions. All are used on their specified coefficient and geometric domains. Extension to stack lisse categories and nonrepresentable ordered maps is owned in Layers 7–8 here.
-
-What EtaleCohomologyFoundations must provide (gap:normal-proper-hyperplane-covers): For every algebraically closed field k, proper normal irreducible k-scheme X, morphism g:X→ℙʳ_k with dim g(X)≥2 and hyperplane H, prove that Y=X×_(ℙʳ)H is connected and π₁(Y)→π₁(X) is surjective, equivalently every connected finite étale cover of X pulls back to a connected cover of Y (SGA1 Exposé X, Lemme 2.10 and Corollaire 2.11).
-
-### From TauCetiRoadmap.InverseGaloisAndArithmeticFundamentalGroups
-
-Consume §IG.5.7's target *Finite-cover criteria for full monodromy image*: a nonempty dense open immersion into a connected normal locally noetherian DM stack induces a surjection on the fundamental groups of representable finite étale covers. Apply §7.4's lattice and rational monodromy dictionary, in every finite rank, to obtain fully faithful restriction of the lisse categories used here. For a connected cycle cover of a nodal cubic of degree m≥2, restriction to the smooth locus gives m disjoint copies of 𝔾_m; normality cannot be omitted.
-
-### From TauCetiRoadmap.DeligneWeightsAndPurity
-
-Consume the stack clause of §8.24: for a finite-type Deligne–Mumford stack over a finite field with ℓ≠p, the rational constructible étale coefficient category built by effective étale descent from scheme atlases, with its atlas-descent equivalence, independence of the atlas with composition coherence, pullback and Frobenius functoriality, and finite-dimensionality of proper rational cohomology. This is the rational constructible coefficient category consumed here; finite-rank lattice descent with its monodromy dictionary and the proper/coarse maps used here are §§7.4–7.6, and the perverse t-exactness of proper quasi-finite pushforward with its intermediate-extension comparison is §7.7; the perverse t-structure itself is GlobalShtukasAndFunctionFieldLanglands §1.4.
-
-### From TauCetiRoadmap.GlobalShtukasAndFunctionFieldLanglands
-
-Consume §1.4: for an algebraic stack locally of finite type over a finite field k, ℓ invertible and coefficients E, the constructible derived category D_c(𝒳,E) on the lisse-étale site with f^*, Rf_*, Rf_!, Rf^!, the perverse t-structure glued from a smooth atlas, its heart and intermediate extensions, and, on a Deligne–Mumford stack, its identification with the étale theory, which for rational coefficients over a finite field is the coefficient category of DeligneWeightsAndPurity §8.24. Section 7.7 uses this category, its perverse heart and j_!* on finite-type DM stacks; §7.4 uses its lisse objects on the smooth Artin stacks of Layer 8. The coefficient witness: on Bμ₂ over 𝔽_q with q odd and E coefficients, the sign line has H⁰=0 and the constant line has H⁰=E, also for ℓ=2.
-
-### From TauCetiRoadmap.ProfiniteCohomology and TauCetiRoadmap.RepresentationTheory/SchurWeyl
-
-Consume ProfiniteCohomology Layer 10's continuous cohomology on genuine continuous coefficient objects, and RepresentationTheory/SchurWeyl Layer 8's tensor permutation background. Finite-group averaging here is rational; it makes no claim that integral invariants are exact.
-
-## How to read the build
-
-Layers 1–2 give finite-root coordinates and relative geometry; Layer 3 passes to coherent fpqc towers. Layers 4–6 independently build root Picard, effective-divisor and adelic interfaces. Layer 7 constructs symmetric lisse lines and their cohomology, Layer 8 proves effective descent, Layer 9 extends and normalizes in every degree, and Layer 10 identifies the quadratic trace. Each subsection states its exact hypotheses and proof inputs. A proof route is one way to establish the target; its named inputs identify the theory it uses. Every *Needs:* item precedes its consumer: the finite chart-point groupoid of §§1.20–1.22 is in Layer 1, finite-root fpqc descent (§2.4) precedes affine stackification (§2.7), and the stack coefficient interfaces of §§7.4–7.7 precede the symmetric lisse lines that use them.
 
 ## Layer 1: root coordinates and affine comparison
 
@@ -9540,6 +9452,94 @@ For the root Picard section quotient over 𝔽₅, take γ=α=1 and change the r
 Over 𝔽₃[ε]/ε² in the split high-degree chart, (u,α)=(0,ε) is a nonzero tuple whose section coordinate is (0,0), so it lies outside the effective open. The tuple (1,ε) is effective and keeps its nilpotent root coordinate, although its section coordinate is (1,0). Changing the evaluation splitting by t changes the kernel coordinate from u to u−t(α²), a quadratic coordinate transition that respects weights (2,1). (YZ19 line 7536, proof of Lemma A.9, p.521; StacksBaseChange line 2818, Lemma 30.22.1.)
 
 For the cover ℙ¹_𝔽₅→ℙ¹_𝔽₅ given by t↦t² with R={0,∞}, global root units are (c,v₀,v∞) with c=v₀²=v∞². There are 2·2·2=8 such units. Norms of global upstairs units have form (w²,w,w), giving an image of size 4. The unit c=(1,1,−1) is outside that image, so its connecting K-torsor class is nonzero and has order two. If a norm trivialization changes by τ_new=c⁻¹τ, its based fibre class changes by this connecting class. The quotient obstruction in H²(A)/im(δ_q¹δ_N⁰) is independent of the choice, whereas the obstruction for a fixed norm trivialization remains in H²(A). The upstairs line O(1) is invariant but has degree 1, outside the pullback degrees 2ℤ. (YZ19 line 7850, Appendix A.3.3, pp.524–525; MILNE-LEC, §9 property (c), pp.64–66 and §11, pp.76–79.)
+
+## Scope and ownership
+
+FunctionFieldArithmetic §§2–4 owns completions, adeles, ideles, local and global Artin maps, ray characters and ordinary rigidified Picard geometry. This Part II begins with root data and retains their inertia, nilpotent sections and coherence. It owns the affine root torsor comparison, coherent infinite roots, fpqc Kummer towers and their DVR gerbes; root Picard objects, effective root divisors and signed adelic groupoids; symmetric local systems and their exterior cohomology; all-degree character descent; and ramified norms and trace comparison.
+
+SchemeAndStackFoundations §§1.18–1.23 owns generic stackification, two-fibre products, quotient stacks, algebraicity, finite root stacks, their affine charts and full nonreduced finite branch fibres. Its §§3.3–3.7 own ordinary curve cohomology, Picard groupoids and stacks, degree components, universal sections, Abel maps and line-bundle norms. AlgebraicVectorBundles L0A–L0C owns tensor sections, tensor coherence, duals, polynomial powers and strong monoidal pullback. These constructions are imported. The finite DVR root chart, finite two-pullback presentation and finite affine quotient presentation are supplier contracts, rather than local targets. Coordinates, coframe signs, relative stack-base geometry and infinite coherent limits are the additional comparisons developed here.
+
+Mathlib supplies polynomial quotients, their root relation and their finite presentation (`AdjoinRoot.finitePresentation`, used for the normalization algebra in every exponent), character-basis powers, tensor products, group algebras and directed colimits. Tau Ceti supplies the tensor/exterior projection, factorial and antisymmetrizer composites, their naturality, tensor permutation representation and finite-group corestriction. These are already in the library; only compatibility with the Koszul action and its invariant-image consequence remains a target. Ordinary finite-cover monodromy, scheme inertia, adic coefficients, scheme duality and Künneth are stated by EtaleCohomologyFoundations §§F.0.2, F.0.A1–F.0.A2, F.3a, F.4–F.6. DeligneWeightsAndPurity §8.24 owns rational étale coefficients on finite-type DM stacks, and GlobalShtukasAndFunctionFieldLanglands §1.4 owns the constructible derived categories of finite-type algebraic stacks with their six operations, perverse t-structure and intermediate extensions; both are imported. The finite-rank lisse descent and monodromy comparisons with their rank-one specialization, proper degree-zero base change, coarse-stalk calculations, and the perverse t-exactness of proper quasi-finite pushforward between tame DM stacks with its intermediate-extension comparison (§7.7) are targets in Layer 7, and the projective-space simple-connectivity input is in Layer 8. Unramified geometric class field theory in the Serre–Lang form, where abelian covers of a curve are pulled back from isogenies of its Jacobian, is PadicDifferentialEquationsAndRigidCohomology §RD.6.62; Layers 7–10 construct the ramified quadratic character sheaf instead. Symplectic central-L-value theory is outside this roadmap.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+Use `AlgebraicGeometry.Scheme` and its module-sheaf and site APIs; `CategoryTheory.Core`; `AlgebraicGeometry.Scheme.fppfTopology` and `AlgebraicGeometry.Scheme.fpqcTopology`; `CategoryTheory.Pseudofunctor.IsStack` and `CategoryTheory.Pseudofunctor.Grothendieck`. Stack descent on a pseudofunctor supplies no algebraic atlas by itself. Affine carriers are `AdjoinRoot`, `AdjoinRoot.eval₂_root`, `AdjoinRoot.liftAlgHom`, `AdjoinRoot.algHom_ext` and `AdjoinRoot.powerBasis'` in `Mathlib/RingTheory/AdjoinRoot.lean`. Finite presentation of the normalization algebra D=B[T]/(Tⁿ−u) over B is the instance `AdjoinRoot.finitePresentation` of the same file, applied with coefficient algebra B over itself; it holds for every natural n, including n=0 where D=B[T]/(1−u) (which is B[T] when u=1), and for the zero ring, with no positivity or invertibility of n. Character calculations use `rootsOfUnity` in `Mathlib/RingTheory/RootsOfUnity/Basic.lean`, `MonoidAlgebra.single_pow` in `Mathlib/Algebra/MonoidAlgebra/Defs.lean`, and the group-algebra Hopf structure. Tensor products, `Module.Basis`, matrix determinant, kernels and module quotients supply the affine algebra. Use `DirectLimit.exists_eq_mk` in `Mathlib/Order/DirectedInverseSystem.lean:130` for a component representative of every directed-limit element; it requires the directed system, not any root-parameter hypothesis. Its applications to the factorial and positive-divisibility diagrams are imported in §§3.31–3.32. For a closed point of a finite-type ℚ-chart use `finite_of_finite_type_of_isJacobsonRing` in `Mathlib/RingTheory/Jacobson/Ring.lean:676`, applied to the finite-type residue quotient field.
+
+The quotient-root relation gives t²=0 in 𝔽₂[t]/t² and t⁴=4 in ℤ[t]/(t²−2). At exponent zero it says 1=f in the quotient by 1−f; that quotient has no positive-exponent covering assertion. The total definitions `rootChart`, `rootChartCoaction` and `rootChartComparison` admit n=0 as quotient-algebra formulas: their unit-root factor is then A[h], and no μ₀ or Hopf-algebra interpretation is asserted. The action and sharp comparison theorems require n>0. A character e₁ satisfies e₁²=1 over 𝔽₂ even though μ₂ is non-étale. These Checks distinguish the quotient relation from reduced geometric points.
+
+The lower-coordinate count is imported from `Finset.card_product_filter_lt` in `Mathlib/Data/Finset/Prod.lean` and `Nat.choose_two_right` in `Mathlib/Data/Nat/Choose/Basic.lean`: at n=0 and n=1 it is 0, at n=2 it is 1, and at n=3 it is 3.
+
+### From Tau Ceti
+
+Use `TauCeti.AlgebraicGeometry.InvertibleSheaf` and its trivial line and tensor product in `TauCeti/AlgebraicGeometry/LineBundle/`; sections and pullback are transported through the suppliers' coherent monoidal comparisons. Use `TauCeti.RootsOfUnityGroup.groupScheme` (μ_n as the diagonalizable group scheme of ℤ/n, `TauCeti/Algebra/AlgebraicGroup/RootsOfUnity/Scheme.lean`), `TauCeti.RootsOfUnityGroup.pointsMulEquiv` (algebra-valued points of the character Hopf algebra are the n-th roots of unity, `…/RootsOfUnity/Basic.lean`) and `TauCeti.RootsOfUnityGroup.schemePointsMulEquiv` (scheme-valued points over Spec R, `…/RootsOfUnity/Scheme.lean`). Use places, residue fields, completions, divisors and finite-precision approximation from `TauCeti/FieldTheory/FunctionField/`; the empty residue family must yield the unit 1.
+
+Use `exteriorPower.toTensorPower_injective`, `exteriorPower.fromTensorPower`, `exteriorPower.fromTensorPower_comp_toTensorPower`, `exteriorPower.toTensorPower_comp_fromTensorPower`, `exteriorPower.toTensorPower_comp_map`, `exteriorPower.map_comp_fromTensorPower` and `exteriorPower.range_toTensorPower` in `TauCeti/LinearAlgebra/ExteriorPower/Basic.lean`; these hold over commutative rings and arbitrary modules, with unit-factorial assumptions only for injectivity. Use `PiTensorProduct.reindexRepresentation` in `TauCeti/RepresentationTheory/Symmetric/TensorAction/Basic.lean`. Use `groupCohomology.natCard_nsmul_eq_zero` in `TauCeti/RepresentationTheory/Homological/GroupCohomology/Corestriction.lean` for positive-degree finite-group annihilation. The geometric signed-invariant and averaging consequences are proved in Layer 7. Use `AddCircle.exists_mem_torsionBy_rat` and `AddCircle.exists_zsmul_eq_of_mem_torsionBy` from `TauCeti/Algebra/AddCircle.lean` for rational torsion characters.
+
+### From TauCetiRoadmap.SchemeAndStackFoundations
+
+Consume §0.9's affine transition limits and finite-presentation descent; §1.1's effective fpqc descent; §§1.18–1.23's stacks, two-fibre products, quotients, finite roots and coarse spaces; §§1.15 and 2.3’s torsors and H¹, and §2.11’s Kummer sequence; §§3.3–3.7's curve cohomology, ordinary Picard objects, all-degree components, family sections and line norms; §4.13's regular schemes. Finite-root imports include exponent one, agreement away from the zero divisor, arbitrary base change and transitions, plus the full branch fibre [Spec k[t]/tⁿ /μ_n]. At n=1 the root is X; at n=2, f=0 the nilpotent root survives; at characteristic p and n=p the branch stabilizer μ_p prevents DM, while a unit section still gives X. Tensor-unit sections give t⁰=1, t¹=t and t²=t⊗t, including t=0. These are supplier Checks, with their coordinate uses retained below.
+
+What SchemeAndStackFoundations must provide (gap:finite-diagonalizable-coarse): Extend §1.23’s affine finite-group coarse quotient contract to finite locally free diagonalizable group schemes, including nonreduced ones, with invariants and arbitrary base-change compatibility.
+
+What SchemeAndStackFoundations must provide (gap:zero-dimensional-dm-residual-gerbes): For an algebraically closed field K, the reduction of a finite-type Deligne–Mumford stack over K whose underlying space is finite and discrete is the disjoint union of its residual gerbes, and a chosen K-object of each component identifies that component with the classifying stack of its finite constant automorphism group.
+
+What SchemeAndStackFoundations must provide (gap:coherent-site-universe-lifts): Provide coherent universe enlargement of the scheme site and its stack pullback, restricted to the essential image of the smaller site.
+
+The finite transition takes an mn-th root to its m-th power; m=1 is the identity, and the 2- then 3-power route has exponent 6 on both line and section. Finite-root base change includes a nonreduced closed immersion and an inseparable field extension.
+
+### From TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry
+
+Consume §4.3's `neutralizationEquivalence` and `rootGerbe`, §4.4's `GerbeLimitFamily`, `limitStackDescent` and `nonemptyAffineLimitGerbe`, and §4.23's coherent affine-gerbe limits over a field with their nonemptiness hypothesis. The neutralization functor is y↦Isom(x,y), preserving the specified band. The étale `rootGerbe` input requires invertible exponent; arbitrary-exponent fppf root gerbes here use SchemeAndStackFoundations §1.21 and fppf Kummer, rather than widening that étale contract. Section 3.12 extends the field-gerbe application to torsor towers over an arbitrary scheme T with explicit finite pushforwards.
+
+### From TauCetiRoadmap.AlgebraicVectorBundles
+
+Consume L0A's tensor sections, tensor-unit comparisons and strong symmetric monoidal pullback; L0B's finite locally free rank-one comparison; L0C's symmetric and exterior powers. The coordinate adapter must send the tensor of two trivial-line sections z,w to zw and the unit section to 1. Exponents 0,1,2 give O, M and M⊗M under the specified unit comparisons; positive powers of the zero section are zero.
+
+What AlgebraicVectorBundles must provide (gap:invertible-section-coordinates): Identify its coherent tensor-section, free-unit and pullback maps with invertible-sheaf coordinates, so that tensor sections evaluate to multiplication and the unit evaluates to one.
+
+What AlgebraicVectorBundles must provide (gap:invertible-sheaf-universe-lifts): Make coherent universe enlargement on the essential image compatible with invertible sheaves, their sections, tensor product and pullback.
+
+### From TauCetiRoadmap.ModularCurves
+
+Consume §0F's affine finite-presentation Weil restriction along a finite locally free map and its arbitrary-base-change comparison. For the finite étale R/k of Layer 4 this represents Res_(R/k)𝔾_m and, for an invertible sheaf K on R×S, the S-scheme Res_(R×S/S)Isom(O,K), using SchemeAndStackFoundations §1.15’s line-frame torsor; the latter is the frame torsor used in §4.6. The root-specific square action is constructed there. (StacksRes line 729, §97.11.)
+
+### From TauCetiRoadmap.AlgebraicCurves and TauCetiRoadmap.JacobianChallenge
+
+Consume AlgebraicCurves Layer 12's closed-point/place, valuation/local-ring, divisor and line-bundle dictionary. Consume JacobianChallenge Layers A–D's line-bundle degree, coherent cohomology and family base change, ordinary symmetric powers and Picard representability, through SchemeAndStackFoundations §§3.3–3.7. The degree of a closed point x is [k(x):k]; over 𝔽_q a degree-two point contributes two geometric points, not one.
+
+Residue root frames are constructed in §6.5.
+
+What AlgebraicCurves must provide (gap:completed-lattice-root-dictionary): Compare completed local lattices with rationally framed line bundles, preserving weighted degrees and the sign π_x⁻¹↦O_X(x).
+
+### From TauCetiRoadmap.FunctionFieldArithmetic
+
+Consume §2.1's completed adelic lattices and §§0.1, 4.1–4.2 and 4.5’s local Artin and norm-quotient comparisons, and §§4.5–4.10's ray characters, rigidified Picard objects and finite ray covers. This extension uses their modified-unit image and arithmetic reciprocity: by FunctionFieldArithmetic §0.1, π_x maps to arithmetic Frobenius and π_x⁻¹ maps to geometric Frobenius, without assuming a unit inclusion or a rational point of degree one. FunctionFieldArithmetic §4.8 uses b↦O(E(b)), while this roadmap uses a↦O(−E(a)); the comparison sends a to b=a⁻¹ and inverts its local rigidification. For a local unit 2 over 𝔽₅, b=3 and its inverse rigidification is 2. A divisor idele π_x⁻¹ here corresponds to b=π_x there, and both give O(x).
+
+What FunctionFieldArithmetic must provide (gap:quadratic-root-residue-character): For a ramified quadratic extension of local function fields in odd characteristic, identify its local Artin unit character with the quadratic character of the residue field.
+
+### From TauCetiRoadmap.EtaleCohomologyFoundations
+
+Consume §§F.0.2, F.0.A1–F.0.A2 and F.3a's finite-cover monodromy, arithmetic sequence and tame inertia; §§F.2.1, F.2.6–F.2.7's proper base change and Künneth; §§F.4.1–F.4.6's normalized adic systems and rational scalar extension; §§0.11 and F.5–F.6's curve and smooth-scheme duality; §F.8's intermediate extensions. All are used on their specified coefficient and geometric domains. Extension to stack lisse categories and nonrepresentable ordered maps is owned in Layers 7–8 here.
+
+What EtaleCohomologyFoundations must provide (gap:normal-proper-hyperplane-covers): For every algebraically closed field k, proper normal irreducible k-scheme X, morphism g:X→ℙʳ_k with dim g(X)≥2 and hyperplane H, prove that Y=X×_(ℙʳ)H is connected and π₁(Y)→π₁(X) is surjective, equivalently every connected finite étale cover of X pulls back to a connected cover of Y (SGA1 Exposé X, Lemme 2.10 and Corollaire 2.11).
+
+### From TauCetiRoadmap.InverseGaloisAndArithmeticFundamentalGroups
+
+Consume §IG.5.7's target *Finite-cover criteria for full monodromy image*: a nonempty dense open immersion into a connected normal locally noetherian DM stack induces a surjection on the fundamental groups of representable finite étale covers. Apply §7.4's lattice and rational monodromy dictionary, in every finite rank, to obtain fully faithful restriction of the lisse categories used here. For a connected cycle cover of a nodal cubic of degree m≥2, restriction to the smooth locus gives m disjoint copies of 𝔾_m; normality cannot be omitted.
+
+### From TauCetiRoadmap.DeligneWeightsAndPurity
+
+Consume the stack clause of §8.24: for a finite-type Deligne–Mumford stack over a finite field with ℓ≠p, the rational constructible étale coefficient category built by effective étale descent from scheme atlases, with its atlas-descent equivalence, independence of the atlas with composition coherence, pullback and Frobenius functoriality, and finite-dimensionality of proper rational cohomology. This is the rational constructible coefficient category consumed here; finite-rank lattice descent with its monodromy dictionary and the proper/coarse maps used here are §§7.4–7.6, and the perverse t-exactness of proper quasi-finite pushforward with its intermediate-extension comparison is §7.7; the perverse t-structure itself is GlobalShtukasAndFunctionFieldLanglands §1.4.
+
+### From TauCetiRoadmap.GlobalShtukasAndFunctionFieldLanglands
+
+Consume §1.4: for an algebraic stack locally of finite type over a finite field k, ℓ invertible and coefficients E, the constructible derived category D_c(𝒳,E) on the lisse-étale site with f^*, Rf_*, Rf_!, Rf^!, the perverse t-structure glued from a smooth atlas, its heart and intermediate extensions, and, on a Deligne–Mumford stack, its identification with the étale theory, which for rational coefficients over a finite field is the coefficient category of DeligneWeightsAndPurity §8.24. Section 7.7 uses this category, its perverse heart and j_!* on finite-type DM stacks; §7.4 uses its lisse objects on the smooth Artin stacks of Layer 8. The coefficient witness: on Bμ₂ over 𝔽_q with q odd and E coefficients, the sign line has H⁰=0 and the constant line has H⁰=E, also for ℓ=2.
+
+### From TauCetiRoadmap.ProfiniteCohomology and TauCetiRoadmap.RepresentationTheory/SchurWeyl
+
+Consume ProfiniteCohomology Layer 10's continuous cohomology on genuine continuous coefficient objects, and RepresentationTheory/SchurWeyl Layer 8's tensor permutation background. Finite-group averaging here is rational; it makes no claim that integral invariants are exact.
 
 ## References
 
