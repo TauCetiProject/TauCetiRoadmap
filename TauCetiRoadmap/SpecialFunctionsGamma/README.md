@@ -122,6 +122,8 @@ nor the consumed roadmaps provide:
   holomorphy off the poles and their reality on the positive axis (1.3);
 - the Maclaurin coefficients `c_k` of `1/Γ` (`Complex.invGammaCoeff`, 6.2);
 - the sine integral `∫₀^∞ sin(at)/(e^{2πt} − 1) dt = ¼ coth(a/2) − 1/(2a)` for `a > 0` (3.3);
+- the local convergence test for Fourier series: a `1`-periodic function, integrable on `[0, 1]`
+  and differentiable at `x`, is at `x` the limit of its symmetric partial Fourier sums (4.6);
 - the Laplace representation `ψ⁽ⁿ⁾(z) = (−1)ⁿ⁺¹ ∫₀^∞ tⁿ e^{−zt}/(1 − e^{−t}) dt` for `n ≥ 1`,
   `Re z > 0` (3.5);
 - Carlson's theorem, whose periodic case is SpecialFunctionsHypergeometric 4.2, and Landau's
@@ -131,9 +133,11 @@ nor the consumed roadmaps provide:
 
 **What it does not own:**
 - Stirling's formula on sectors, the holomorphic `log Γ` there, the Gamma function on vertical
-  strips and the asymptotics and reality of `ψ` (ZerosOfLFunctions 1.1–1.4), and the complex
-  Gamma integral, Watson's lemma in a sector, the rotation of the path and the Gamma bound on
-  vertical strips (AsymptoticExpansions 4.1–4.3 and 8.6); it consumes them.
+  strips and the asymptotics and reality of `ψ` (ZerosOfLFunctions 1.1–1.4), the bound
+  `|Γ(x + iy)| ≤ Γ(x)` for `x > 0` (DLMF 5.6.6; ZerosOfLFunctions 1.3a), which 7.3 extends to the
+  negative non-integers `x` through the product of SpecialFunctionsParabolicCylinder 6.6(a), and
+  the complex Gamma integral, Watson's lemma in a sector, the rotation of the path and the Gamma
+  bound on vertical strips (AsymptoticExpansions 4.1–4.3 and 8.6); it consumes them.
 - The Mellin–Barnes integral of `(1 + u)^{−a}` for `u > 0`, the half-line Beta integral for
   complex parameters (DLMF 5.12.3) and Barnes's first lemma (DLMF 5.13.3)
   (SpecialFunctionsHypergeometric 6.3); it consumes them.
@@ -215,8 +219,8 @@ everything that rests on its remainder, the continued fraction for Binet's funct
   value on the null set `Δ = 0` does not matter.
 - **Names.** New functions and theorems live in `Complex` and `Real` beside Mathlib's
   `Complex.Gamma`, `Complex.digamma` and `Real.Gamma` (`Complex.polygamma`,
-  `Complex.invGammaCoeff`, `Complex.lah`), and the multidimensional integrals in the root
-  namespace of Tau Ceti. Names in the layers are suggestions.
+  `Complex.invGammaCoeff`, `Complex.lah`), and the multidimensional integrals and the Fourier
+  convergence test of 4.6 in the root namespace of Tau Ceti. Names in the layers are suggestions.
 
 ## Exact supplier contracts
 
@@ -228,6 +232,8 @@ everything that rests on its remainder, the continued fraction for Binet's funct
   real line (9.3, 10.3).
 - 1.3: `log |Γ(σ + it)| = (σ − ½) log|t| − π|t|/2 + ½ log 2π + O(1/|t|)` uniformly for `σ` in a
   compact interval, which bounds `|Γ|` and `|1/Γ|` on vertical strips (10.2).
+- 1.3a: `|Γ(s)| ≤ Γ(Re s)` for `Re s > 0` (DLMF 5.6.6) (the case `x > 0` of 7.3, and the Check
+  of 4.1).
 - 1.4: for real `x > 0`, `ψ(x)` is real and `(Complex.digamma x).re = deriv (log ∘ Real.Gamma) x`,
   and `ψ(s) = log s + O(1/|s|)` on sectors (7.2).
 
@@ -297,6 +303,9 @@ everything that rests on its remainder, the continued fraction for Binet's funct
   `riemannZeta`, `riemannZeta_two`, `bernoulli`, `ascPochhammer`, `descPochhammer`,
   `Nat.doubleFactorial_two_mul`, `Matrix.vandermonde`, `Matrix.det_vandermonde`, `Complex.cot`,
   `cot_series_rep`.
+- `fourierCoeffOn`, `tendsto_integral_exp_smul_cocompact`,
+  `Antitone.cauchySeq_series_mul_of_tendsto_zero_of_bounded`,
+  `Complex.tendsto_tsum_powerSeries_nhdsWithin_stolzSet` (4.6).
 - `integral_rpow_mul_exp_neg_mul_rpow`, `HasProd`, `iteratedDeriv`,
   `Complex.VerticalIntegrable`, `mellinInv_mellin_eq`, the identity theorem
   (`AnalyticOnNhd.eqOn_of_preconnected_of_eventuallyEq`), Liouville's theorem
@@ -325,11 +334,13 @@ prove; they test the conventions on explicit values.
 
 ```text
 Layer 1 ──┬──► Layer 3 ──► Layer 4 ──┬──► Layer 5
-          │                          ├──► Layer 6
-          │                          └──► Layer 7
-          │
-Layer 2 ──┼──► Layer 8 ──► Layer 9
-          └──────────────────────────► Layer 10
+          │                          ├──► Layer 7
+          │                          └──► Layer 9 ◄──┐
+          └──► Layer 6                               │
+                                                     │
+Layer 2 ──┬──► Layer 8                               │
+          ├──► Layer 10                              │
+          └──────────────────────────────────────────┘
 ```
 
 ## Layer 1: poles, partial fractions and the derivatives of `ψ`
@@ -736,8 +747,8 @@ Euler's limit for `Γ(x)`.
 `Complex.Gamma_mul_Gamma_one_sub`.
 
 **Checks.**
-- `F = Γ` satisfies the hypotheses of Wielandt's theorem: `|Γ(z)| ≤ Γ(Re z)` (7.3) is bounded on
-  the strip.
+- `F = Γ` satisfies the hypotheses of Wielandt's theorem: `|Γ(z)| ≤ Γ(Re z)`
+  (ZerosOfLFunctions 1.3a) is bounded on the strip.
 - `F(z) = Γ(z) sin(2πz)` satisfies the functional equation and `F(1) = 0`, but `F ≠ 0`: it is
   unbounded on the strip, `|F(1.5 + 3i)| = 5.26 · 10⁶`, so boundedness cannot be dropped.
 - `f(x) = Γ(x)(1 + sin²πx)` satisfies `f(1) = 1` and the functional equation, and
@@ -850,25 +861,41 @@ on the unit circle.
 
 ### 4.6 Kummer's Fourier series of `log Γ`
 
-For `0 < x < 1`, with partial sums over `k = 1, …, N`,
-`Σ_{k≥1} (log k/k) sin 2πkx = π (log Γ(x) − ½ log 2π + ½ log(2 sin πx) − (γ + log 2π)(½ − x))`
-(`Real.tendsto_sum_log_Gamma_sine`; Andrews–Askey–Roy, Thm. 1.7.1, p. 29).
+- **Kummer's series.** For `0 < x < 1`, with partial sums over `k = 1, …, N`,
+  `Σ_{k≥1} (log k/k) sin 2πkx = π (log Γ(x) − ½ log 2π + ½ log(2 sin πx) − (γ + log 2π)(½ − x))`
+  (`Real.tendsto_sum_log_Gamma_sine`; Andrews–Askey–Roy, Thm. 1.7.1, p. 29).
+- **The local convergence test.** Let `f : ℝ → ℂ` be `1`-periodic and integrable on `[0, 1]`,
+  with Fourier coefficients `f̂(k) = ∫₀¹ f(t) e^{−2πikt} dt`, and differentiable at `x`. Then
+  `Σ_{|k|≤N} f̂(k) e^{2πikx} → f(x)` as `N → ∞`
+  (`TauCeti.tendsto_sum_fourierCoeffOn_of_differentiableAt`). Route: the partial sum minus `f(x)`
+  is `∫_{−1/2}^{1/2} g(t) sin((2N + 1)πt) dt` with `g(t) = (f(x + t) − f(x))/sin πt` (the Dirichlet
+  kernel); `g` is integrable on `[−½, ½]`, being bounded near `0` by differentiability, so the
+  Riemann–Lebesgue lemma gives the limit `0`.
 
-Route: Kummer's Fourier series of `log Γ` on `(0, 1)`: the Fourier coefficients are
+Route: Kummer's Fourier series of `log Γ` on `(0, 1)`. The `1`-periodic extension of `log Γ` on
+`(0, 1)` is integrable on `[0, 1]` (`log Γ(x) ∼ −log x` as `x → 0⁺`) and differentiable at every
+`x ∈ (0, 1)`, so the local convergence test applies at `x`. The Fourier coefficients are
 `∫₀¹ log Γ(x) dx = ½ log 2π`, `∫₀¹ log Γ(x) cos 2πkx dx = 1/(4k)` and
 `∫₀¹ log Γ(x) sin 2πkx dx = (γ + log 2πk)/(2πk)`. The cosine coefficients come from the reflection
-formula and the Fourier series of `log(2 sin πx)`; the sine coefficients by integrating Dirichlet's
-integral for `ψ` (3.3) against `sin 2πkx` and Fubini, as in the proof of Andrews–Askey–Roy,
-Thm. 1.7.1. Then `Σ_{k≥1} cos(2πkx)/k = −log(2 sin πx)` and `Σ_{k≥1} sin(2πkx)/k = π(½ − x)`
-remove the cosine part and the `γ + log 2π` part. The series converges conditionally, so the
-target is the limit of partial sums, for each `x` in `(0, 1)`.
+formula and the Fourier series of `log(2 sin πx)` (its coefficients are `−1/(2k)` for `k ≥ 1`:
+the series `−Σ cos(2πkx)/k` below converges in `L²` and pointwise on `(0, 1)`); the sine
+coefficients by integrating Dirichlet's integral for `ψ` (3.3) against `sin 2πkx` and Fubini, as
+in the proof of Andrews–Askey–Roy, Thm. 1.7.1. Then `Σ_{k≥1} cos(2πkx)/k = −log(2 sin πx)` and
+`Σ_{k≥1} sin(2πkx)/k = π(½ − x)` remove the cosine part and the `γ + log 2π` part; they are the
+real and imaginary parts of `Σ_{k≥1} w^k/k = −log(1 − w)` at `w = e^{2πix}`, where the series
+converges by Dirichlet's test and its sum is the radial limit by Abel's theorem. The series
+converges conditionally, so the target is the limit of partial sums, for each `x` in `(0, 1)`.
 
-*Needs:* 3.3; Mathlib `Complex.Gamma_mul_Gamma_one_sub`, Fourier series on the circle and the
-pointwise convergence of the Fourier series of a function of bounded variation.
+*Needs:* 3.3; the local convergence test above; Mathlib `Complex.Gamma_mul_Gamma_one_sub`,
+`fourierCoeffOn`, `tendsto_integral_exp_smul_cocompact` (the Riemann–Lebesgue lemma),
+`Antitone.cauchySeq_series_mul_of_tendsto_zero_of_bounded` (Dirichlet's test) and
+`Complex.tendsto_tsum_powerSeries_nhdsWithin_stolzSet` (Abel's theorem).
 
 **Checks.**
 - `x = ½`: every `sin πk = 0`, and `log Γ(½) − ½ log 2π + ½ log 2 = 0`, so both sides are `0`.
 - `x = 0.3`: both sides are `−0.2059414`; at `x = ¼` both are `−0.1929013`.
+- The convergence test needs differentiability at `x`: the `1`-periodic `f` equal to `π(½ − x)` on
+  `[0, 1)` has `f̂(0) = 0` and purely sine partial sums, which vanish at `x = 0`, where `f = π/2`.
 - The sign of the linear term: with `(x − ½)` in place of `(½ − x)` the right side at `x = 0.3`
   would be `2.8289537`, not `−0.2059414`.
 
@@ -881,7 +908,7 @@ pointwise convergence of the Fourier series of a function of bounded variation.
 
 ### Dependencies
 
-Layers 1 and 3; Mathlib.
+Layers 1 and 3; ZerosOfLFunctions 1.3a (a Check of 4.1); Mathlib.
 
 ## Layer 5: series summed by `ψ`, and balanced products
 
@@ -1076,7 +1103,8 @@ tends to `0` as `x → ∞` (by Gautschi's inequality and `ψ(x) − log x → 0
 
 - For real `x ∉ {0, −1, −2, …}` and real `y`, `|Γ(x + iy)| ≤ |Γ(x)|`
   (`Complex.norm_Gamma_add_mul_I_le`; Olver, Ch. 2, Ex. 1.4, p. 38; Remmert, Ch. 2, §2.1, (4),
-  p. 40, for `x > 0`; DLMF 5.6.6).
+  p. 40, for `x > 0`; DLMF 5.6.6). The case `x > 0` is ZerosOfLFunctions 1.3a; the target is the
+  extension to the negative non-integers `x`.
 - For real `x ≥ ½` and `y`, `|Γ(x + iy)| ≥ (sech πy)^{1/2} Γ(x)` (`Complex.norm_Gamma_add_mul_I_ge`;
   DLMF 5.6.7).
 
@@ -1084,7 +1112,7 @@ Route: for the upper bound, every factor `1 + y²/(x + k)²` of the product of
 SpecialFunctionsParabolicCylinder 6.6(a) is at least `1`, so `Γ(x)²/|Γ(x + iy)|² ≥ 1`. For the
 lower bound, the comparison in `x` of 6.6(a) from `½` to `x`, and 4.4.
 
-*Needs:* SpecialFunctionsParabolicCylinder 6.6(a); 4.4.
+*Needs:* ZerosOfLFunctions 1.3a; SpecialFunctionsParabolicCylinder 6.6(a); 4.4.
 
 **Checks.**
 - The upper bound at `y = 0`: equality.
@@ -1120,7 +1148,7 @@ the path to the ray `ph u = −ph z` (AsymptoticExpansions 4.3), where `zu = |z|
 
 ### Dependencies
 
-Layers 1 and 4; ZerosOfLFunctions 1.4; SpecialFunctionsParabolicCylinder 6.6(a);
+Layers 1 and 4; ZerosOfLFunctions 1.3a, 1.4; SpecialFunctionsParabolicCylinder 6.6(a);
 AsymptoticExpansions 4.1, 4.3.
 
 ## Layer 8: loop contours
@@ -1172,6 +1200,8 @@ identity theorem.
 - `z = 1`: `(e/2π) ∫ e^{−Φ(t)} dt = 1`.
 - Laplace's method at `t = 0`, where `Φ(t) = t²/2 + O(t⁴)`, gives `1/Γ(x) ∼ e^x x^{½−x}/√(2π)`,
   Stirling's formula.
+- `Φ(±π/2) = 1 + log(π/2) = 1.4515827`: `Φ` is even and the cotangent term vanishes there; with
+  `log(sin t/t)` in place of `log(t/sin t)` the value would be `0.5484173`.
 
 ### 8.3 Loop and Pochhammer contours for the Beta integral
 

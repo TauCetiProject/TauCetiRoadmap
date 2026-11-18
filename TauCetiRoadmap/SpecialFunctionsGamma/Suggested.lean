@@ -391,6 +391,16 @@ theorem Real.tendsto_sum_log_Gamma_sine {x : ℝ} (h₀ : 0 < x) (h₁ : x < 1) 
         Real.log (2 * Real.sin (π * x)) / 2 - (γ + Real.log (2 * π)) * (1 / 2 - x)))) := by
   sorry
 
+/-- README 4.6, the local convergence test: a `1`-periodic function, integrable on `[0, 1]` and
+differentiable at `x`, is at `x` the limit of its symmetric partial Fourier sums. -/
+theorem TauCeti.tendsto_sum_fourierCoeffOn_of_differentiableAt {f : ℝ → ℂ}
+    (hf : Function.Periodic f 1) (hint : IntervalIntegrable f volume 0 1) {x : ℝ}
+    (hx : DifferentiableAt ℝ f x) :
+    Tendsto (fun N : ℕ => ∑ k ∈ Finset.Icc (-(N : ℤ)) N,
+        fourierCoeffOn (zero_lt_one' ℝ) f k * Complex.exp (2 * π * I * k * x)) atTop
+      (𝓝 (f x)) := by
+  sorry
+
 /-! ## Layer 5: series summed by `ψ`, and balanced products -/
 
 /-- README 5.1, series of rational functions. -/
@@ -483,7 +493,8 @@ theorem Real.kershaw {x s : ℝ} (hx : 0 < x) (hs₀ : 0 < s) (hs₁ : s < 1) :
         Real.exp ((1 - s) * (digamma (x + (s + 1) / 2 : ℝ)).re) := by
   sorry
 
-/-- README 7.3; DLMF 5.6.6 for every real `x` off the poles. -/
+/-- README 7.3; DLMF 5.6.6 for every real `x` off the poles (the case `x > 0` is
+ZerosOfLFunctions 1.3a). -/
 theorem Complex.norm_Gamma_add_mul_I_le {x : ℝ} (hx : ∀ m : ℕ, x ≠ -m) (y : ℝ) :
     ‖Gamma (x + I * y)‖ ≤ |Real.Gamma x| := by
   sorry
@@ -576,8 +587,10 @@ theorem Complex.integral_norm_Gamma_sq_mul_exp {a b : ℝ} (ha : 0 < a) (hb₀ :
       Real.Gamma (2 * a) / (2 * Real.sin b) ^ (2 * a) := by
   sorry
 
-/-- README 9.3; DLMF 5.13.4, Ramanujan's integral. -/
+/-- README 9.3; DLMF 5.13.4, Ramanujan's integral, with the integrability of the integrand. -/
 theorem Complex.integral_inv_Gamma_four {a b c d : ℂ} (h : 3 < (a + b + c + d).re) :
+    Integrable (fun t : ℝ =>
+      (Gamma (a + t))⁻¹ * (Gamma (b + t))⁻¹ * (Gamma (c - t))⁻¹ * (Gamma (d - t))⁻¹) ∧
     ∫ t : ℝ, (Gamma (a + t))⁻¹ * (Gamma (b + t))⁻¹ * (Gamma (c - t))⁻¹ * (Gamma (d - t))⁻¹ =
       Gamma (a + b + c + d - 3) * (Gamma (a + c - 1))⁻¹ * (Gamma (a + d - 1))⁻¹ *
         (Gamma (b + c - 1))⁻¹ * (Gamma (b + d - 1))⁻¹ := by
@@ -688,6 +701,10 @@ theorem TauCeti.integral_dyson {n : ℕ} (hn : 1 ≤ n) {b : ℂ} (hb : 0 < 1 + 
 #check @descPochhammer_eval_eq_descFactorial
 #check @Differentiable.apply_eq_apply_of_bounded
 #check @hasDerivAt_integral_of_dominated_loc_of_deriv_le
+#check @fourierCoeffOn
+#check @tendsto_integral_exp_smul_cocompact
+#check @Antitone.cauchySeq_series_mul_of_tendsto_zero_of_bounded
+#check @Complex.tendsto_tsum_powerSeries_nhdsWithin_stolzSet
 #check @HasProd
 #check @_root_.integral_rpow_mul_exp_neg_mul_rpow
 #check @iteratedDeriv
