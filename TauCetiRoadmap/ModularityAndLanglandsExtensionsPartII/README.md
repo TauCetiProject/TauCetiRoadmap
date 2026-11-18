@@ -4,9 +4,10 @@
 be a totally real field and `π` a regular algebraic cuspidal automorphic representation of
 `GL_2(𝔸_F)` that is not CM. Then for every `n ≥ 1` the symmetric power `Sym^{n−1}π` exists as an
 automorphic representation of `GL_n(𝔸_F)`, with the expected local component at every place, and for
-every prime `p` its `p`-adic Galois representation is `Sym^{n−1}` of that of `π`. The statement, and
-the cases `n ≤ 5` from which the proof starts, belong to ModularityAndLanglandsExtensions; this
-roadmap supplies the proof.
+every prime `p` its `p`-adic Galois representation is `Sym^{n−1}` of that of `π`. The statement
+`SP_n` and its cases `n ≤ 5`, from which the induction starts, come from
+ModularityAndLanglandsExtensions; the theorem for every `n`, with its proof and its consequences over
+`ℚ`, is stated and proved here.
 
 The proof is Newton–Thorne's induction on `n`. Write `n = p + r` with `p` a prime in the range
 `n/2 < p < n`. Modulo `p`, the residual representation of `Sym^{n−1}` has, after semisimplification,
@@ -60,7 +61,9 @@ witnesses for the two blocks of `Sym^{p+r−1}` modulo `p` and proves `SP_n` for
 totally real field, by induction from the cases `n ≤ 5` of ModularityAndLanglandsExtensions.
 Layer 14 specialises `SP_n` to `ℚ` and deduces the holomorphy of symmetric power `L`-functions.
 Each target's `*Needs:*` line lists what its statement and its route use, so an implementer who
-proves it another way is not blocked behind an unrelated layer.
+proves it another way is not blocked behind an unrelated layer. Layer and section numbers are
+identifiers, not a count: the layers are 6, 9 and 11–14, Layer 6 has the single section §6.9, and
+Layer 13 has no §13.9; nothing is missing at these gaps.
 
 ## Conventions
 
@@ -132,9 +135,10 @@ Hecke-localized derived tensor product of Drinfeld-space cohomology with the aut
 non-zero middle-degree part would detect a Steinberg constituent, contrary to assumption; hence the
 tensor vanishes, and Corollary 6.3 gives the vanishing of twisted `Hom`-spaces at every weight.
 Choose an anticyclotomic `ψ ≡ 1` with the Frobenius value of Lemma 6.10 and twist the first block
-only: `(r_{π_1|·|^{(n_1−n)/2}} ⊗ ψ) ⊕ r_{π_2|·|^{(n_2−n)/2}}`; Propositions 6.7 and 6.9 reduce its
-local constituents at `ṽ_0` to Steinberg or the specified two-block constituent, either of which
-gives non-zero derived `Hom` in a degree forbidden by that vanishing. The inputs from th24 §§3–6 are
+only: `(r_{π_1|·|^{(n_1−n)/2}} ⊗ ψ) ⊕ r_{π_2|·|^{(n_2−n)/2}}`. Proposition 6.7 and Corollary 6.6
+give its Hecke eigensystem, and Corollary 6.8 (with Lemma 6.9) reduces its Iwahori-spherical local
+constituents at `ṽ_0` to Steinberg or the specified two-block constituent, either of which gives
+non-zero derived `Hom` in a degree forbidden by that vanishing. The inputs from th24 §§3–6 are
 supplied by CompletedCohomologyAndLocalGlobalCompatibility (supplier contracts).
 
 **Checks.**
@@ -975,13 +979,17 @@ of `π` to `F_2` is unramified above `v_0`), compatible maps of the pseudodeform
 contains `J_{𝒮_{F_3}}` (nt26 the comparison diagram, p. 24; Proposition 3.14 and proof, p. 24).
 
 *Proof sketch.* The restriction and ordinary Hecke base-change diagram, with the same
-pseudodeformation subrings (PotentialAutomorphyInfrastructurePartII Layer 2), and the surjection
-`P → 𝕋` for problems whose local rings are fixed-type or unipotent rings
-(PotentialAutomorphyInfrastructurePartII §3.10). The ordinary Hecke algebra of the Steinberg seed
-of §11.6 is faithful over `Λ`; with finiteness and
-equidimensionality this gives a minimal characteristic-`p` component containing the Hecke kernel.
-Propagate along the connected graph of §11.7: at each edge, pull its witness in `𝒫` back to `F_3`,
-where it is locally scalar by Proposition 3.12; Proposition 3.13 puts the Hecke kernel into both
+pseudodeformation subrings (PotentialAutomorphyInfrastructurePartII Layer 2), and the two Hecke
+maps. For `𝒮_{F_3}`, whose local rings at `T_{F_3}` are unipotent, `P_{𝒮_{F_3}} → 𝕋_{F_3}` is the
+surjection of PotentialAutomorphyInfrastructurePartII §3.10. That section excludes Steinberg choices,
+so for the Steinberg problem `𝒮′_{F_2}` the map `P_{𝒮′_{F_2}} → 𝕋_{F_2}` is the map `η` of the ANT
+set-up of PotentialAutomorphyInfrastructurePartII Layer 8, with `B = T_{F_2}` (so `𝕋_{F_2}` is the
+ordinary Hecke algebra of the definite unitary group of the algebra ramified at `T_{F_2}`) and with the
+places above `v_a` in place of `A`, as in §8.16 there (nt26 p. 23). The ordinary Hecke algebra of the
+Steinberg seed of §11.6 is faithful over `Λ`; with finiteness and equidimensionality this gives a
+minimal characteristic-`p` component containing the Hecke kernel. Propagate along the connected
+graph of §11.7: at each edge, pull its witness in `𝒫` back to `F_3`, where it is locally scalar by
+Proposition 3.12; Proposition 3.13 puts the Hecke kernel into both
 adjacent component primes. Every vertex, and hence every prime above a vertex, contains the
 pulled-back kernel.
 
@@ -994,7 +1002,8 @@ pulled-back kernel.
 
 *Needs:* §§11.6–11.8; PotentialAutomorphyInfrastructurePartII Layer 3 ("Ordinary deformation data and
 their Hecke comparison", §3.10), Layer 7 ("Twisting and soluble base change for residually reducible
-rings and Hecke algebras").
+rings and Hecke algebras"), Layer 8 ("The ANT set-up", with the auxiliary place of "Finiteness with an
+unobstructed auxiliary place", §8.16).
 
 ### 11.10 Automorphy of the untwisted tensor `r_π ⊗ Sym^{r−1} r_σ` (Newton–Thorne 2026 Theorem 3.2)
 
@@ -1044,11 +1053,10 @@ This layer proves that automorphy of `r_π ⊗ r_σ` passes to `r_{π′} ⊗ r_
 with `σ` fixed (nt26 Theorem 4.1, pp. 25–37), by the simultaneous patching of Layer 9: the rank-two
 deformation ring of `r̄_π` and the rank-`2r` conjugate self-dual pseudodeformation ring of the tensor
 are patched simultaneously, and regularity at the automorphic point (from characteristic-zero
-enormous image and adjoint Selmer vanishing) transfers automorphy. This proves the first paragraph
-of ModularityAndLanglandsExtensions §4.23. Throughout `Σ_π` is the ramification set of `π` (and `π′`)
-and `Σ = Σ_π ∪ Σ_σ`; the quaternion algebra is ramified only at `Σ_π` away from `p`, while `S` and the
-unitary level use all of `Σ`. The printed proof takes `S = S_p ∪ Σ_π` only, which does not cover the
-application in §13.4, where `σ = Sym^{r−1} σ′` is ramified where `π` is not. The places of `Σ_σ − Σ_π`
+enormous image and adjoint Selmer vanishing) transfers automorphy. Throughout `Σ_π` is the
+ramification set of `π` (and `π′`) and `Σ = Σ_π ∪ Σ_σ`; the quaternion algebra is ramified only at
+`Σ_π` away from `p`, while `S` and the unitary level use all of `Σ`. The printed proof takes
+`S = S_p ∪ Σ_π` only, which does not cover the application in §13.4, where `σ = Sym^{r−1} σ′` is ramified where `π` is not. The places of `Σ_σ − Σ_π`
 away from `p` are added to `S` and to the unitary Iwahori level, with unramified rank-two local
 conditions and split quaternion algebra. The places of `Σ_σ` above `p` lie in `S_p` already and are in
 the unitary Iwahori level; there the rank-two local condition is the one `π` determines (crystalline,
@@ -1349,9 +1357,8 @@ potentially crystalline if `p = 2`; (5) at each `v ∤ p`, `π_v` a twist of Ste
 is; (6) a perfect subgroup of `(r̄_{π,ι} ⊗ r̄_{σ,ι})^{ss}(G_F)` containing an element with `2r` distinct
 eigenvalues; (7) `HT_τ(r_{σ,ι}) = {0, 2, …, 2r − 2}` for every `τ`; (8) `r_{π,ι} ⊗ r_{σ,ι}` automorphic
 and strongly irreducible; (9) `r_{π′,ι} ⊗ r_{σ,ι}` irreducible. Prove that `r_{π′,ι} ⊗ r_{σ,ι}` is
-automorphic (nt26 Theorem 4.1, pp. 25–26; proof and component argument, pp. 34–36). This proves the first
-paragraph of ModularityAndLanglandsExtensions §4.23, including the case where `σ` is ramified at
-places where `π` is not.
+automorphic (nt26 Theorem 4.1, pp. 25–26; proof and component argument, pp. 34–36). The theorem
+includes the case where `σ` is ramified at places where `π` is not.
 
 *Proof sketch.* Reduce by §12.1. Characteristic-zero enormousness (§12.5) and adjoint Selmer vanishing
 give `P_{(𝔭)} = E` at the automorphic characteristic-zero prime (PotentialAutomorphyInfrastructurePartII
@@ -1419,9 +1426,11 @@ Fix `M > 5`. Let `π` be RAESDC on `GL_2(𝔸_F)` of weight `0` with (1) primes 
 `v_1`, `v_2` of residue characteristics `p_1, p_2 > 3`, unramified in `F`, with `π_{v_i}` tamely dihedral
 of order `t_i` and `p_1, p_2, t_1, t_2` distinct; (2) with `S` the finite places `v ≠ v_1, v_2` where `π`
 is ramified or `v` is ramified over `ℚ`, together with the places above `2` and `3`, `v_1` splits in
-`F(S ∪ {v_2})` and `v_2` splits in `F(S ∪ {v_1})`. Prove that for every prime `p` and `ι : ℚ̄_p ≅ ℂ`,
-`r̄_{π,ι}(G_F)` contains a conjugate of `SL_2(𝔽_{p^a})` for some `p^a > M` (nt26 Proposition 5.4 and
-proof, pp. 39–40). The printed proof infers the strict bound `q > t − 1` on the projective field size
+`F(S ∪ {v_2})` and `v_2` splits in `F(S ∪ {v_1})`, where for a set `T` of finite places `F(T)` is the
+maximal abelian extension of `F` of exponent two unramified at every finite place outside `T`, the real
+places being allowed to ramify (nt26 p. 38; ArithmeticGaloisDuality §R02.3.5). Prove that for every
+prime `p` and `ι : ℚ̄_p ≅ ℂ`, `r̄_{π,ι}(G_F)` contains a conjugate of `SL_2(𝔽_{p^a})` for some
+`p^a > M` (nt26 Proposition 5.4 and proof, pp. 39–40). The printed proof infers the strict bound `q > t − 1` on the projective field size
 from one projective element of order `t`; for odd residual characteristic parity excludes `q = t − 1`,
 and in characteristic two both places are used.
 
@@ -1643,9 +1652,6 @@ Under `S5-local` (with `SP_r`, `SP_{r+1}` and `SP_{r−1}` when `r > 1`), prove 
 `SL_2(𝔽_{p^a})` with `p^a > M`, and that there is an ι-ordinary RAESDC `Π` on `GL_{2r}(𝔸_F)` with
 `r̄_{Π,ι} ≅ φ_p(r̄_{π,ι}) ⊗ Sym^{r−1} r̄_{π,ι}`; `π` remains Steinberg at `v_1` for the later level raising,
 while no Steinberg condition at `v_1` is asserted for `Π` (nt26 Theorem 5.9, p. 44; proof, pp. 44–45).
-This is the second paragraph of ModularityAndLanglandsExtensions §4.23 read residually, with
-`φ_p(r̄_{π,ι}) ⊗ Sym^{r−1} r̄_{π,ι}` in place of `φ_p r_π ⊗ Sym^{r−1} r_π`; the characteristic-zero
-reading of that paragraph is not proved here, and for `r ≥ 2` it fails (first Check).
 
 *Proof sketch.* Large image at every prime by §13.2. Remove the extra Steinberg place: a congruent
 ι-ordinary RAESDC `π′` of weight `0`, determinant `ε^{−1}`, Steinberg at all `p`-adic places, with
@@ -1801,8 +1807,7 @@ beside "Finiteness with an unobstructed auxiliary place", §8.16); ArithmeticGal
 
 Prove that `SP_n` holds for every `n ≥ 1`: for every totally real `F` and every non-CM RAESDC `π` on
 `GL_2(𝔸_F)` there is a RAESDC `Π` on `GL_n(𝔸_F)` with `r_{Π,ι} ≅ Sym^{n−1} r_{π,ι}` for every `ι` (nt26
-Theorem 6.4 and proof, p. 50). This proves ModularityAndLanglandsExtensions §4.30 and, through its
-§§4.35–4.36, Newton–Thorne 2026 Theorem A. The printed list of induction hypotheses contains `SP_0` when
+Theorem 6.4 and proof, p. 50). The printed list of induction hypotheses contains `SP_0` when
 `r = 1`, which is not a statement; the case `r = 1` uses the coefficient-conjugate branch directly. The
 ordinarity of the smaller witness is supplied by the Steinberg-at-`p` condition.
 
@@ -1844,17 +1849,16 @@ PotentialAutomorphyInfrastructurePartII Layers 0, 1, 5–8 (gap:auxiliary-place-
 
 ## Layer 14: endpoints over ℚ
 
-This layer specialises §13.10 to `F = ℚ`: it proves the endpoints over `ℚ` that
-ModularityAndLanglandsExtensions states in §§4.9, 4.12, 4.20 and 4.29, and deduces the holomorphy of
-symmetric power `L`-functions of level-one eigenforms and of non-CM newforms away from their level,
-which are the statements of this roadmap's Lean file.
+This layer specialises §13.10 to `F = ℚ`: it proves Newton–Thorne's Theorems A, B and E and
+symmetric power functoriality for every non-CM newform, and deduces the holomorphy of symmetric power
+`L`-functions of level-one eigenforms and of non-CM newforms away from their level, which are the
+statements of this roadmap's Lean file.
 
 ### 14.1 Theorem E in every rank
 
 Prove that for every `n ≥ 3` there is a cuspidal, everywhere unramified `π` of `GL_2(𝔸_ℚ)` of weight
-`k ≥ 2` with `Sym^{n−1} r_{π,ι}` automorphic for every `ι` (Theorem E, the statement of
-ModularityAndLanglandsExtensions §4.9); indeed every such `π` has this property (nt21 Theorem 7.6,
-p. 90; nt26 Theorem 6.4, p. 50).
+`k ≥ 2` with `Sym^{n−1} r_{π,ι}` automorphic for every `ι` (Theorem E); indeed every such `π` has
+this property (nt21 Theorem 7.6, p. 90; nt26 Theorem 6.4, p. 50).
 
 *Proof sketch.* Level-one eigenforms are non-CM and regular algebraic, so §13.10 over `F = ℚ` gives
 `SP_n` for them.
@@ -1871,11 +1875,10 @@ p. 90; nt26 Theorem 6.4, p. 50).
 ### 14.2 Theorem A in level one and Theorem B
 
 Prove: (1) for every `n ≥ 2` and every RAC automorphic `π` of `GL_2(𝔸_ℚ)` of level one,
-`Sym^{n−1} π` exists as a cuspidal automorphic representation of `GL_n(𝔸_ℚ)` (Theorem A, the statement
-of ModularityAndLanglandsExtensions §4.12); (2) for every `n ≥ 2` and every non-CM cuspidal `π` of
-`GL_2(𝔸_ℚ)` of weight `≥ 2` with no supercuspidal local component, `Sym^{n−1} π` exists (Theorem B, the
-statement of ModularityAndLanglandsExtensions §4.20) (nt21 Theorem A, p. 2, Theorem 7.7, p. 91,
-Theorem 8.1, p. 91; nt26 Theorem 6.4, p. 50).
+`Sym^{n−1} π` exists as a cuspidal automorphic representation of `GL_n(𝔸_ℚ)` (Theorem A); (2) for
+every `n ≥ 2` and every non-CM cuspidal `π` of `GL_2(𝔸_ℚ)` of weight `≥ 2` with no supercuspidal local
+component, `Sym^{n−1} π` exists (Theorem B) (nt21 Theorem A, p. 2, Theorem 7.7, p. 91, Theorem 8.1,
+p. 91; nt26 Theorem 6.4, p. 50).
 
 *Proof sketch.* Both are specialisations of §13.10 to `F = ℚ`, with the all-place lift of
 ModularityAndLanglandsExtensions §4.15. Cuspidality: for a non-CM `π` the image of `r_{π,ι}` is
@@ -1895,8 +1898,7 @@ irreducible and `Sym^{n−1} π` is not an isobaric sum of smaller blocks.
 ### 14.3 Symmetric power functoriality for every non-CM newform (Newton–Thorne II Theorem A)
 
 Prove that for every `n ≥ 1` and every non-CM regular algebraic cuspidal `π` of `GL_2(𝔸_ℚ)`, `Sym^{n−1} π`
-exists (nt21b Theorem A, p. 1; nt26 Theorem 6.4, p. 50). This proves
-ModularityAndLanglandsExtensions §4.29. Non-CM is the self-twist condition of
+exists (nt21b Theorem A, p. 1; nt26 Theorem 6.4, p. 50). Non-CM is the self-twist condition of
 GL2AutomorphicRepresentationsAndTransfer §R16.4.6; the consequence for the Euler products of
 newforms away from their level is §14.5.
 
@@ -2069,10 +2071,6 @@ ModularityAndLanglandsExtensions §§1.10, 1.15, 4.13, 4.15; Tau Ceti `HeckeRing
 
 ## Downstream consumers
 
-- ModularityAndLanglandsExtensions: its statements in §§4.9, 4.12, 4.20, 4.23 (its second paragraph
-  in residual form, §13.6), 4.29 and 4.30 are proved here (§§14.1, 14.2, 12.7, 13.6, 14.3, 13.10),
-  and its consequences (Sato–Tate in §4.34, the Hilbert statements of §§4.35–4.36, the holomorphy
-  statement of §4.37) use them.
 - Roadmaps on the cuspidal cohomology of `GL_n(ℤ)` and level-one change of weight consume §§13.10 and
   14.2.
 - The technique of Layer 9 and Layer 12 (patching a pseudodeformation ring against a rank-two
@@ -2086,14 +2084,16 @@ ModularityAndLanglandsExtensions §§1.10, 1.15, 4.13, 4.15; Tau Ceti `HeckeRing
 
 ## Scope and ownership
 
-This roadmap owns the proofs of the theorems that ModularityAndLanglandsExtensions states in
-§4.23 (tensor-product functoriality lifting and the residual twisted-tensor witness) and §4.30
-(`SP_n` for every `n`), and of the routes of its §§4.9, 4.12, 4.20 and 4.29, which are
-specialisations of §4.30 to `ℚ`. The statements stay in that roadmap; the targets here restate them
-only to the extent needed to fix hypotheses for their proofs, and each says which section it proves.
-It also owns every intermediate object of those proofs that no earlier roadmap states: the
-deformation data of Layers 9, 11 and 12, the companion forms of Newton–Thorne 2026 Lemmas 5.6 and
-5.7 and the hypotheses `S5-global`, `S5-local`.
+This roadmap owns the statements and the proofs of Thorne's level raising to Steinberg (§6.9), the
+automorphy of the untwisted tensor (§11.10), tensor-product functoriality lifting with one factor
+fixed (§12.7), the residual twisted-tensor witnesses (§§13.5–13.6), `SP_n` for every `n` over every
+totally real field (§13.10), and the endpoints over `ℚ` of Layer 14: Newton–Thorne's Theorems A, B
+and E, symmetric power functoriality for every non-CM newform and the holomorphy statements of
+§§14.4–14.5. ModularityAndLanglandsExtensions, a supplier, formulates `SP_n` (§1.12) and proves it
+for `n ≤ 5` (§1.15); no section of that roadmap is proved here. This roadmap also owns every
+intermediate object of those proofs that no earlier roadmap states: the deformation data of Layers
+9, 11 and 12, the companion forms of Newton–Thorne 2026 Lemmas 5.6 and 5.7 and the hypotheses
+`S5-global`, `S5-local`.
 
 It imports, by section and never re-plans:
 
@@ -2240,7 +2240,9 @@ supplier's sections.
   restriction" (§7.13), "Weak primitivity over a splitting coefficient field" (§7.15), "The
   weak-primitive generic `R = T` theorem" (§7.19). "Primitive" below means weakly primitive in the
   sense of §7.1 (Conventions).
-- Layer 8: "Connectedness: every minimal prime is potentially pro-automorphic" (§8.5, with its
+- Layer 8: "The ANT set-up" (the ordinary Hecke algebra `𝕋₁` of the definite unitary group of the
+  algebra ramified at `B`, and the map `η : P₁ → 𝕋₁` for the problem with Steinberg conditions at
+  `B`), "Connectedness: every minimal prime is potentially pro-automorphic" (§8.5, with its
   connectedness bound from the local and global presentations), "Global lifts with prescribed local
   components (Schur form)" (§8.14), "Finiteness of ordinary locally Steinberg deformation rings"
   (§8.7), "Finiteness with an unobstructed auxiliary place" (§8.16).
@@ -2249,6 +2251,8 @@ supplier's sections.
   semistability in the fixed Hodge interval, the fixed multiplier, splitting of `S` in the CM field
   and enormous cyclotomic image. Adjoint Selmer vanishing is imported from
   ModularityAndLanglandsExtensions §4.1.
+
+What PotentialAutomorphyInfrastructurePartII must provide (gap:auxiliary-place-reducible-lifting): in Layer 8, beside "Finiteness with an unobstructed auxiliary place" (§8.16), its lifting form, Thorne 2024 Theorem 7.5 (th24 p. 44; proof, p. 45). Let `F` be imaginary CM, `n ≥ 2`, `l > 3` a prime with `l ∤ n`, and `ρ : G_F → GL_n(ℚ̄_l)` continuous, semisimple, ramified at finitely many places, ordinary of some weight, with `ρ^c ≅ ρ^∨ε^{1−n}`. Assume the hypotheses of ModularityAndLanglandsExtensions §4.2: `ρ̄^{ss} ≅ ρ̄_1 ⊕ ⋯ ⊕ ρ̄_d` with the `ρ̄_i` absolutely irreducible, pairwise non-isomorphic and each with `ρ̄_i^c ≅ ρ̄_i^∨ε̄^{1−n}`; a place `v₀ ∤ l` at which `ρ|^{ss}_{G_{F_{v₀}}}` is an unramified twist of `⊕_{i=1}^{n} ε^{1−i}`; an ι-ordinary RACSDC `π` of `GL_n(𝔸_F)` with `r̄_ι(π)^{ss} ≅ ρ̄^{ss}` and `π_{v₀}` an unramified twist of Steinberg; `F ⊄ F⁺(ζ_l)`; the `ρ̄_i|_{G_{F(ζ_l)}}` absolutely irreducible and pairwise non-isomorphic; `ρ̄^{ss}` weakly primitive over `k̄`, with `ρ̄^{ss}(G_F)` without quotient of order `l`. Replace its clause `F(ζ_l) ⊄ F̄^{ker ad(ρ̄^{ss})}` by a place `w ∤ l` of `F` at which `ρ̄^{ss}` is unramified and `H⁰(G_{F_w}, ad ρ̄^{ss}(1)) = 0`, and add the hypothesis of §8.16 that `ρ̄^{ss}(G_{F(ζ_l)})` has no non-trivial quotient of `l`-power order. Then `ρ ≅ r_ι(Π)` for an ι-ordinary RACSDC `Π` of `GL_n(𝔸_F)`. The finiteness of §8.16 and the route of ModularityAndLanglandsExtensions §4.2 are its inputs.
 
 ### From TauCetiRoadmap.AutomorphicFormsOnReductiveGroups and OrdinaryAutomorphicFormsAndModularityLiftingPartII
 
