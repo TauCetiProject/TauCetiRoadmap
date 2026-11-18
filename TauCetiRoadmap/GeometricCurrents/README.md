@@ -7,8 +7,8 @@ minimization, and interior regularity of codimension-one minimizers. The same
 integral carrier supports geometric-chain comparisons in Morse theory and the
 minimizing-hypersurface input to nonspin positive mass in ambient dimensions 3–7.
 Every construction includes its restriction, locality, naturality, change-of-chart
-and normalization API. [Suggested.lean](Suggested.lean) gives selected interfaces;
-this README is definitive.
+and normalization API. [Suggested.lean](Suggested.lean) names the headline theorems
+and the carriers the pinned libraries lack to state them; this README is definitive.
 
 The ambient manifold M is Hausdorff, second countable, smooth, boundaryless and
 finite dimensional, with a chosen smooth positive-definite Riemannian metric.
@@ -44,7 +44,7 @@ locally integral, finite integral and compactly supported integral subgroups. Th
 are subobjects of the same current theory, not independent models. Put
 `A_k = Λ^k T* M`, let `D = DensityBundle M`, and put `V_k = A_k* ⊗ D`.
 Consume the early real finite-rank `BundleTest(V_k* ⊗ D)` foundation of
-[ComplexKahlerGeometry K5a](https://github.com/TauCetiProject/TauCetiRoadmap/blob/17de96c131cb4bba925c11191595b59dd39cde98/TauCetiRoadmap/ComplexKahlerGeometry/README.md).
+[ComplexKahlerGeometry K5a](../ComplexKahlerGeometry/README.md) (§5.1).
 The canonical evaluation/bidual and density-dual cancellation give
 `V_k* ⊗ D ≃ A_k`. G1 specializes this test space to forms and owns its
 current-specific differential, boundary and mass. In a Euclidean chart the test
@@ -78,7 +78,7 @@ Consume the following suppliers at their indicated item boundaries:
 
 | Supplier | Input used here |
 | --- | --- |
-| [ComplexKahlerGeometry K5a early real bundle-test foundation](https://github.com/TauCetiProject/TauCetiRoadmap/blob/17de96c131cb4bba925c11191595b59dd39cde98/TauCetiRoadmap/ComplexKahlerGeometry/README.md) | Density line, compactly supported smooth finite-rank bundle tests, fixed-compact derivative seminorms, canonical LF topology, native chart/frame extension maps and their linear universal property, restriction/gluing and real scalar compatibility. G1 owns the real form specialization below; no later PDO, elliptic, Hodge or complex-current comparison is an input. |
+| [ComplexKahlerGeometry K5a early real bundle-test foundation](../ComplexKahlerGeometry/README.md) (§5.1) | Density line, compactly supported smooth finite-rank bundle tests, fixed-compact derivative seminorms, canonical LF topology, native chart/frame extension maps and their linear universal property, restriction/gluing and real scalar compatibility. G1 owns the real form specialization below; no later PDO, elliptic, Hodge or complex-current comparison is an input. |
 | [GeometricMeasureTheory G2–G6](../GeometricMeasureTheory/README.md) | Countable rectifiability, approximate tangents/tangential differentiation, weighted area/coarea, BV/local perimeter, De Giorgi structure, trace and Gauss–Green. Build their manifold/chart and current comparison here. GMT does not own currents or minimizing-current regularity. |
 | [DifferentialGeometry0–2,5,8–9,12](../DifferentialGeometry/README.md) | Generic alternating form bundles, exterior derivative/pullback, orientation, outward-first integration/Stokes/corners, smooth simplices, real smooth-chain comparison and induced metrics/densities. Use its actual form and simplex carriers. |
 | [CalibratedGeometry C1/C2](../CalibratedGeometry/README.md) | Comass; the **single integral finite smooth-chain complex** on DG8.3's `SmoothSimplex →₀ ℤ`, integral smooth-to-singular comparison, and finite oriented relative fundamental chains from GT's smooth triangulation. G2–G3 build their evaluation into currents, not another integral smooth complex. |
@@ -89,8 +89,8 @@ Consume the following suppliers at their indicated item boundaries:
 | [TopologicalKTheory T1.5](../TopologicalKTheory/README.md) | The finite coordinate real Grassmannian/submodule carrier used for the auxiliary tangent-plane bundle; GC constructs its intrinsic fibre comparison and proves compactness; no bundle classification or Bott theorem is needed. |
 | [RiemannianGeometry R5](../RiemannianGeometry/README.md) | Earlier immersion geometry B/S/H, Gauss/Codazzi/Ricci and first volume variation; R5a.1's density-volume theorem and R5b's general smooth normal Hessian/Jacobi/stability and Dirichlet API. |
 | [CalibratedGeometry C3](../CalibratedGeometry/README.md) | C3's calibration-minimum/stability consequence and oriented-chain comparison, consuming R5a.1's orientation-free C² relative-volume theorem. C6 retains its specialized Lagrangian Hessian. |
-| [PDE scalar Sobolev/trace, harmonic theory, ABP and non-divergence estimates](https://github.com/TauCetiProject/TauCetiRoadmap/blob/90cd3694d4b5bd2a5b4d3b89652a958b951210a1/TauCetiRoadmap/PDE/README.md) | Lane A Sobolev/trace and Hölder carriers; B.8–10 interpolation and Mihlin–Hörmander/CZ bounds; C.12–13 harmonic comparison and the single generic strong-solution ABP/contact engine with GMT's area input; D16–19 variational/represented operators; the **non-divergence Calderón–Zygmund** and **non-divergence Schauder/classical Dirichlet** families (E.26/E.25 in this edition). G6 constructs the additional Hessian-intersection/common-fixed-point and nonlinear graph upgrade. Divergence-form estimates are not substituted for those non-divergence families. |
-| [RiemannianGeometry R5b](https://github.com/TauCetiProject/TauCetiRoadmap/blob/fe24665114fd3848f928d85e00f717f248bc6c56/TauCetiRoadmap/RiemannianGeometry/README.md), with [VariationalMethods V2.3–V2.4/V3–V5.2](https://github.com/TauCetiProject/TauCetiRoadmap/blob/515847c411b9f9642d7c1d180b2a6e82bb976e3a/TauCetiRoadmap/VariationalMethods/README.md) and [UnboundedOperators UO-D06](https://github.com/TauCetiProject/TauCetiRoadmap/blob/24e97bb6ab2f84e01c5a3caca0b6cd4d8ec72787/TauCetiRoadmap/OperatorTheory/UnboundedOperators/README.md) | R5b's named normal Hessian/Jacobi/full-scalar stability and boundary-H²/Dirichlet-domain exports consume the single generic closed-form/represented-operator and compact-form comparisons. Use that finite-chart Riemannian metric/normal-bundle specialization, not another generic spectral or Jacobi construction. A compact-boundaryless PDO theorem is not a Dirichlet boundary theorem. All geometric excess/height/iteration and nonlinear minimizing-graph constructions remain targets here. |
+| [PDE scalar Sobolev/trace, harmonic theory, ABP and non-divergence estimates](../PDE/README.md) | Lane A Sobolev/trace and Hölder carriers; B.8–10 interpolation and Mihlin–Hörmander/CZ bounds; C.12–13 harmonic comparison and the single generic strong-solution ABP/contact engine with GMT's area input; D16–19 variational/represented operators; the **non-divergence Calderón–Zygmund** and **non-divergence Schauder/classical Dirichlet** families (E26, §5.7, and E25, §5.6). G6 constructs the additional Hessian-intersection/common-fixed-point and nonlinear graph upgrade. Divergence-form estimates are not substituted for those non-divergence families. |
+| [RiemannianGeometry R5b](../RiemannianGeometry/README.md) | R5b's normal second variation, hypersurface Jacobi operator and full-scalar stability, its Dirichlet realization of the normal Jacobi operator on W¹,²₀ through Tau Ceti's coercive-form solution operator, its boundary H² estimate and its Dirichlet-domain identification. Use that finite-chart Riemannian metric/normal-bundle specialization, not another generic spectral or Jacobi construction. A compact-boundaryless PDO theorem is not a Dirichlet boundary theorem. All geometric excess/height/iteration and nonlinear minimizing-graph constructions remain targets here. |
 
 [CalibratedGeometry C2](../CalibratedGeometry/README.md#c2-calibrated-immersions-and-integration)
 supplies the integral smooth-to-singular quasi-isomorphism: integer generator
@@ -100,7 +100,7 @@ GC constructs the evaluation/current and Lipschitz comparisons on that same
 integral smooth complex.
 
 [RiemannianGeometry R5a.1](../RiemannianGeometry/README.md)
-supplies `volumeVariation_isContDiff` through native orientation-free densities,
+supplies the C² relative-volume theorem through native orientation-free densities,
 including finite relative volume for variations fixed outside a compact interior
 set on a noncompact source. R5a.2 supplies first variation; R5b supplies the
 normal Hessian/Jacobi/full-scalar stability and normal-Dirichlet comparison used
@@ -126,6 +126,18 @@ the Levi-Civita connection for the geometric formulas. The volume construction
 uses a continuous RiemannianBundle, Borel structure, C¹ manifold and Lindelöfness;
 it does not require orientation. Compare hypersurface measure and smooth integration
 with this same volume, without defining another Riemannian measure.
+
+Consume Tau Ceti's Euclidean chart model of currents on an open Ω of a
+finite-dimensional real normed space: the exterior derivative of test forms
+`TestFunction.extDerivCLM`, with `TestFunction.extDerivCLM_extDerivCLM`
+(`TauCeti/Analysis/Distribution/TestFunction/ExtDeriv.lean`), so that the boundary
+of a current T is `T∘d`; the extended mass `Distribution.mass`, the local mass
+`Distribution.localMass`, locally finite mass `Distribution.HasLocallyFiniteMass`
+and the unit mass of a degree-zero point current `Distribution.mass_apply_finZero`
+(`TauCeti/Analysis/Distribution/Mass/Basic.lean`); and the mass measure of G1. Its
+pointwise norm on forms is the operator norm, which is the comass when Ω lies in an
+inner-product space. G1 builds the manifold carrier and compares it with this model
+in charts.
 
 Follow [Mathlib's area-formula design #39120](https://github.com/leanprover-community/mathlib4/pull/39120),
 [normalized-measure design #37310](https://github.com/leanprover-community/mathlib4/pull/37310),
@@ -190,8 +202,13 @@ restriction/localization. **For locally finite-mass currents** construct the uni
 locally finite Radon mass measure ‖T‖ with minimal evaluation domination. Its measure
 on an open set is the corresponding local supremum, and its total mass is M(T).
 An arbitrary higher-order current need not have such a Radon representation.
-On a Euclidean open Ω the mass measure lives on Ω; it need not be locally finite
-at the frontier of Ω in the ambient space.
+On a Euclidean open Ω the mass measure is Tau Ceti's `Distribution.massMeasure`
+(`TauCeti/Analysis/Distribution/Mass/Measure.lean`), with its values on open sets
+`Distribution.massMeasure_preimage_coe`, total mass `Distribution.massMeasure_univ`,
+domination `Distribution.enorm_apply_le_lintegral_massMeasure`, and minimality and
+uniqueness among outer regular measures `Distribution.massMeasure_le_of_enorm_apply_le`
+and `Distribution.eq_massMeasure_of_preimage_coe`; it lives on Ω and need not be
+locally finite at the frontier of Ω in the ambient space.
 
 Prove the local measure-valued representation in the **native normed dual of
 the comass-form fibre**. Its dual norm is the k-vector mass norm. Identify its
@@ -434,10 +451,10 @@ comparison and proves it induces isomorphisms in that smooth/open-pair scope,
 using local chart contractions/cone fillings, subdivision, G4a deformation/
 approximation and relative gluing. For the closed retract pairs (X,A), use the
 Lipschitz subcomplex below; do not assume smooth simplices recover the homology
-of a nonsmooth closed retract. A Lipschitz singular
-complex used in this proof is a new subcomplex of native singular chains with the
-same simplex carrier plus the Lipschitz condition; build its basic API and both
-comparison maps; GC proves the Lipschitz-to-singular inclusion is an integral
+of a nonsmooth closed retract. The Lipschitz singular
+complex used in this proof is G3a's Lipschitz chain complex (below) of M with its
+induced distance, or of X with the restricted distance; build its evaluation
+into currents here; GC proves that G3a's inclusion into singular chains is an integral
 quasi-isomorphism by local contractions/subdivision and compatibility with
 C2's integer smooth comparison. Do not redefine the already-owned integral smooth-to-singular
 comparison. Prove compact smooth simplices are locally/globally Lipschitz on their
@@ -533,10 +550,10 @@ is a continuous map from `SimplexCategory.toTop.obj ⦋d⦌`, whose points are t
 vectors of `StdSimplex ℝ (Fin (d+1))`. Call it Lipschitz when it is Lipschitz for the
 distance of a norm on `Fin (d+1) → ℝ` transported along the weight embedding; all norms
 give the same simplices, and constants below use the Euclidean norm, so Δᵈ is the
-Euclidean simplex in its affine hyperplane. Define `LipschitzChain Y d`, the subgroup of
-integral singular d-chains spanned by Lipschitz simplices (free on them), and the
-subcomplex `lipschitzChainComplex Y : ChainComplex (ModuleCat ℤ) ℕ` with the singular
-boundary `∂σ=Σᵢ(−1)ⁱ σ∘δᵢ`; the face maps `SimplexCategory.toTop.map (δ i)` are affine,
+Euclidean simplex in its affine hyperplane. Define the group `C^Lip_d(Y)` of Lipschitz
+d-chains, the subgroup of integral singular d-chains spanned by Lipschitz simplices (free
+on them), and the Lipschitz chain complex `C^Lip_•(Y)`, a subcomplex in
+`ChainComplex (ModuleCat ℤ) ℕ`, with the singular boundary `∂σ=Σᵢ(−1)ⁱ σ∘δᵢ`; the face maps `SimplexCategory.toTop.map (δ i)` are affine,
 so faces of Lipschitz simplices are Lipschitz. Prove the inclusion chain map into
 singular chains, the unique expression `α=Σₖ cₖσₖ` with nonzero integers and distinct
 simplices, the compact support `supp α=⋃ₖ σₖ(Δᵈ)`, and pushforward `f_#` along Lipschitz
@@ -546,51 +563,58 @@ smooth Riemannian manifold with its induced distance, and on G3's closed retract
 the restricted distance, this complex is the Lipschitz subcomplex of G3: one carrier,
 not a second one.
 
-**Volume and mass.** For a Lipschitz simplex σ define
-`simplexVolume σ = ∫⁻ y, #σ⁻¹(y) dHᵈ(y)`, the Hᵈ-measure of the image counted with
-multiplicity in ℕ∪{∞}. For `α=Σₖ cₖσₖ` as above define
-`lipschitzMass α = Σₖ |cₖ| simplexVolume σₖ`, the weighted integral
+**Volume and mass.** For a Lipschitz d-simplex σ define its volume
+`vol(σ) = ∫⁻ y, #σ⁻¹(y) dHᵈ(y)`, the Hᵈ-measure of the image counted with
+multiplicity in ℕ∪{∞}. For `α=Σₖ cₖσₖ` as above define its mass
+`mass(α) = Σₖ |cₖ| vol(σₖ)`, the weighted integral
 `∫_α φ = Σₖ |cₖ| ∫ φ(y) #σₖ⁻¹(y) dHᵈ(y)` for bounded Borel φ, and
-`lipschitzMass_Z α = ∫_α 1_Z` for Borel Z (Leuzinger–Young, §2.4, pp. 15–16, define
+`mass_Z(α) = ∫_α 1_Z` for Borel Z (Leuzinger–Young, §2.4, pp. 15–16, define
 these on manifolds and simplicial complexes through the Jacobian; on a manifold the two
 agree by the area formula below). The value depends
 only on the map σ, not on an affine model of Δᵈ, and two distinct simplices with the
-same image are distinct generators. Prove `simplexVolume_map_le`: for L-Lipschitz
-`f : Y → Y′`, `simplexVolume (f∘σ) ≤ Lᵈ simplexVolume σ`. Route: over the closed
-simplices B of the iterated barycentric subdivisions of Δᵈ, `Σ_B 1_σ(B)` increases to
-the multiplicity function off the image of the subdivision skeleta, which is Hᵈ-null
-as a countable union of Lipschitz images of (d−1)-simplices; so
-`simplexVolume σ = lim Σ_B Hᵈ(σ(B))` by monotone convergence, the same holds for `f∘σ`,
+same image are distinct generators. Prove the Lipschitz bound for volume: for
+L-Lipschitz `f : Y → Y′`, `vol(f∘σ) ≤ Lᵈ vol(σ)`. Route: take the closed simplices B
+of the n-th barycentric subdivision of Δᵈ, the images of the simplices of Tau Ceti's
+`TauCeti.AffineChain.subdivision` iterated n times on the identity simplex. Prove that
+they cover Δᵈ, that each lies in a simplex of the previous subdivision, and that a point
+off their (d−1)-dimensional faces lies in exactly one of them; their diameters tend to
+zero, since their vertices are at distance at most `(d/(d+1))ⁿ` in the sup metric of
+the weights (`TauCeti.AffineChain.dist_weights_le_of_mem_support_subdivision_iterate`).
+So `Σ_B 1_σ(B)` increases with n to the multiplicity function off the image of these
+faces, which is Hᵈ-null as a countable union of Lipschitz images of (d−1)-simplices;
+hence `vol(σ) = lim Σ_B Hᵈ(σ(B))` by monotone convergence, the same holds for `f∘σ`,
 and native `LipschitzWith.hausdorffMeasure_image_le`, rescaled to Hᵈ, bounds each term
-for `f∘σ` by Lᵈ times the term for σ. Derive `simplexVolume σ ≤ Lip(σ)ᵈ Hᵈ(Δᵈ) < ∞`
-(the identity simplex of Δᵈ has multiplicity one), `lipschitzMass 0 = 0`,
-`lipschitzMass (nα) = |n| lipschitzMass α`, the triangle inequality,
-`lipschitzMass (f_#α) ≤ Lᵈ lipschitzMass α` (composites of distinct simplices may
-coincide, then the triangle inequality applies) and `∫_α φ ≤ sup|φ| · lipschitzMass α`.
+for `f∘σ` by Lᵈ times the term for σ. Derive `vol(σ) ≤ Lip(σ)ᵈ Hᵈ(Δᵈ) < ∞`
+(the identity simplex of Δᵈ has multiplicity one), `mass(0) = 0`,
+`mass(nα) = |n| mass(α)`, the triangle inequality,
+`mass(f_#α) ≤ Lᵈ mass(α)` (composites of distinct simplices may
+coincide, then the triangle inequality applies) and `∫_α φ ≤ sup|φ| · mass(α)`.
 
 Prove the Riemannian area formula: for Y a smooth Riemannian manifold with its induced
-distance, `simplexVolume σ = ∫_Δᵈ √det(Dσₓ* Dσₓ) dx`, with Dσₓ the a.e. derivative
+distance, `vol(σ) = ∫_Δᵈ √det(Dσₓ* Dσₓ) dx`, with Dσₓ the a.e. derivative
 (native `LipschitzWith.ae_differentiableAt` in charts) from the tangent space
 `{Σᵢtᵢ=0}` of Δᵈ to `T_σ(x)M` and dx Lebesgue measure on the affine hyperplane; this is
 the formula Leuzinger–Young use as the definition (§2.4, p. 16). Route: GMT G2's area
 formula with multiplicity in charts and G2's chart comparisons. On a general metric
 space the integrand is the Jacobian of the metric differential (Ambrosio–Kirchheim,
-§9, item (2), formulas (9.2)–(9.3), stated in w*-separable dual Banach spaces, which
-contain an isometric copy of every separable metric space); that metric form is not a
+§9, item (2), formulas (9.2)–(9.3), stated for Lipschitz maps from ℝᵈ into any metric
+space, where the metric differential exists almost everywhere); that metric form is not a
 target here, since only the definition by multiplicity is used. For Y = M, the
 compactly supported integral current `[α] = Σₖ cₖ σₖ#[[Δᵈ]]` (G2's Lipschitz pushforward
 of the oriented simplex current; G3's evaluation of Lipschitz chains) satisfies
-`∂[α]=[∂α]` and `M([α]) ≤ lipschitzMass α`, by G2's `M(f#T) ≤ ∫ J_k(D^Tan f) d‖T‖`
+`∂[α]=[∂α]` and `M([α]) ≤ mass(α)`, by G2's `M(f#T) ≤ ∫ J_k(D^Tan f) d‖T‖`
 and the area formula; the inequality is strict when sheets cancel.
 
-**Filling volume.** For d≥1 and a Lipschitz (d−1)-cycle α define
-`fillingVolume d α = ⨅ {lipschitzMass β | β ∈ LipschitzChain Y d, ∂β=α}` in [0,∞], the
-infimum of the empty set being ∞, and for V≥0
-`fillingVolumeFunction Y d V = ⨆ {fillingVolume d α | ∂α=0, lipschitzMass α ≤ V}`
-(Leuzinger–Young, §2.4, p. 16). Prove `fillingVolume_le` (any filling bounds it),
-`fillingVolume_lt_top_iff` (α is a boundary in `lipschitzChainComplex Y`),
-`fillingVolume d 0 = 0`, subadditivity, `fillingVolume d (f_#α) ≤ Lᵈ fillingVolume d α`
-for L-Lipschitz f, and monotonicity of `fillingVolumeFunction` in V. On a smooth
+**Filling volume.** For d≥1 and a Lipschitz (d−1)-cycle α define its filling volume
+`FV_d(α) = ⨅ {mass(β) | β ∈ C^Lip_d(Y), ∂β=α}` in [0,∞], the
+infimum of the empty set being ∞, and for V≥0 the filling volume function
+`FV_d(Y, V) = ⨆ {FV_d(α) | ∂α=0, mass(α) ≤ V}`
+(Leuzinger–Young, §2.4, p. 16). Leuzinger–Young define this function only for
+(d−1)-connected Y; here it is the same supremum without that hypothesis, so it is ∞ as
+soon as a cycle of mass at most V does not bound (Checks below). Prove that any filling
+bounds it, `FV_d(α) ≤ mass(β)` whenever `∂β=α`; that `FV_d(α) < ∞` exactly when α is a
+boundary in `C^Lip_•(Y)`; `FV_d(0) = 0`, subadditivity, `FV_d(f_#α) ≤ Lᵈ FV_d(α)`
+for L-Lipschitz f, and monotonicity of `FV_d(Y, V)` in V. On a smooth
 Riemannian manifold, and on G3's retracts, a Lipschitz (d−1)-cycle has finite filling
 volume iff its singular homology class vanishes, by G3's quasi-isomorphism. Quasi-isometry
 invariance of these functions and the filling invariants of groups acting geometrically
@@ -601,7 +625,7 @@ Checks:
   has volume one and the mass of a 0-chain is the sum of the absolute values of its
   coefficients.
 - Normalization: for the inclusion of Δ² in `EuclideanSpace ℝ (Fin 3)`,
-  `simplexVolume = √3/2`, the area of the equilateral triangle of side √2; the raw
+  `vol(σ) = √3/2`, the area of the equilateral triangle of side √2; the raw
   `μH[2]` would give `(4/π)(√3/2) = 2√3/π`.
 - Multiplicity: the loop σ(s)=(cos 4πs, sin 4πs) in ℝ², parametrized by the second
   barycentric coordinate s of Δ¹, is a cycle of mass 4π, while H¹ of its image is 2π.
@@ -609,17 +633,26 @@ Checks:
 - Mass is not a norm and is not the mass of a current: a constant 1-simplex is a
   nonzero cycle of mass zero. For an affine segment σ in ℝⁿ of length ℓ>0 and
   σ′ = σ∘ρ with ρ(1−s,s)=(1−s²,s²), the chain σ−σ′ is a cycle of mass 2ℓ whose current
-  is zero, and its filling volume `fillingVolume 2` is zero: a prism homotopy inside the
+  is zero, and its filling volume `FV_2(σ−σ′)` is zero: a prism homotopy inside the
   segment, completed by constant 2-simplices on the constant edges, fills it with
   simplices whose images have zero H².
 - In ℝⁿ, writing ⟨y⟩ for the point 0-simplex at y,
-  `fillingVolume 1 (⟨y₁⟩−⟨y₀⟩) = |y₁−y₀|`, attained by the affine segment. For a filling
+  `FV_1(⟨y₁⟩−⟨y₀⟩) = |y₁−y₀|`, attained by the affine segment. For a filling
   `β=Σₖcₖσₖ` let p be the 1-Lipschitz orthogonal projection onto the line through y₀, y₁,
   identified isometrically with ℝ so that y₀<y₁. Since `∂σₖ=⟨σₖ(e₁)⟩−⟨σₖ(e₀)⟩`, every
   t∈(y₀,y₁) has `Σₖcₖ(1_{pσₖ(e₁)>t}−1_{pσₖ(e₀)>t}) = 1`, and p∘σₖ takes the value t at
   least `|1_{pσₖ(e₁)>t}−1_{pσₖ(e₀)>t}|` times. Integrating over t gives
-  `Σₖ|cₖ| simplexVolume (p∘σₖ) ≥ |y₁−y₀|`, and the left side is at most
-  `lipschitzMass β` by `simplexVolume_map_le`.
+  `Σₖ|cₖ| vol(p∘σₖ) ≥ |y₁−y₀|`, and the left side is at most
+  `mass(β)` by the Lipschitz bound for volume.
+- Degree one, on any nonempty Y: a point 0-cycle ⟨y⟩ has mass 1, while every boundary
+  `∂σ=⟨σ(e₁)⟩−⟨σ(e₀)⟩` of a 1-simplex has coefficient sum 0, so ⟨y⟩ does not bound and
+  `FV_1(Y, V) = ∞` for V≥1, also for connected Y; for V<1 the zero chain is the only
+  0-cycle of mass at most V, so `FV_1(Y, V) = 0`.
+- Without (d−1)-connectedness: on the unit circle S¹ ⊂ ℝ² with the restricted
+  distance, the loop s ↦ (cos 2πs, sin 2πs), parametrized by the second barycentric
+  coordinate s of Δ¹, is a 1-cycle of mass 2π whose singular homology class generates
+  `H₁(S¹;ℤ) ≅ ℤ`. It is not even a singular boundary, so `FV_2(S¹, V) = ∞` for
+  V≥2π; S¹ is not 1-connected, and Leuzinger–Young do not define the function there.
 
 ## G4. Weak and flat convergence, deformation and compactness
 
@@ -815,10 +848,9 @@ native Vitali/Besicovitch coverings for the Lipschitz-approximation selection
 estimates; construct the actual geometric selection and bounds here before
 the excess-decay argument.
 
-Consume Riem R5a.1's `volumeVariation_isContDiff` and R5b's
-`minimalNormalSecondVariation`, `hypersurfaceJacobiOperator`,
-`minimalHypersurface_scalarGauss` and `minimalHypersurface_stability_fullScalar`
-on the same smooth normal bundle. For a two-sided regular minimizing sheet
+Consume Riem R5a.1's C² relative volume and R5b's normal second variation,
+hypersurface Jacobi operator, full-scalar Gauss equation and full-scalar stability
+inequality on the same smooth normal bundle. For a two-sided regular minimizing sheet
 with unit normal ν, use their normalization
 `L=Δ⁺−(|A|²+Ric_N(ν,ν))` and `Q(φ,ψ)=∫φ Lψ`; the trace-mean-curvature
 linearization is `−Lφ`, with averaged version `−Lφ/m` for m>0. R5b's full-scalar
@@ -828,9 +860,8 @@ Gauss identity gives the stability inequality
 
 Transport these smooth formulas to the regular current support with its integer
 multiplicity and native mass/volume comparison. On each relatively compact
-smooth domain of the regular sheet, use R5b's W¹,²₀ form extension,
-`normalJacobi_boundaryH2Estimate` and
-`normalJacobi_dirichletDomain_eq_sobolevTwo_inter_zeroTrace` to identify the
+smooth domain of the regular sheet, use R5b's W¹,²₀ form extension, boundary
+H² estimate and Dirichlet-domain identification to identify the
 Dirichlet realization and deduce nonnegative spectrum from minimizing stability.
 This is an application of the single R5b operator, not another Jacobi construction.
 The nonlinear minimizing-graph proof below consumes PDE directly. One-sided
@@ -858,7 +889,7 @@ Prove finite-cover gluing: membership on balls forming a finite cover of V̄ ins
 for Hölder seminorms use a Lebesgue number δ for close pairs and
 `2 sup|Dʲu| δ^(−α)` for pairs separated by at least δ. These are local versions
 of the same spaces, not new weak-derivative definitions.
-Prove C² functions belong to W^{2,p}_loc for every finite `1≤p<∞`, with matching
+Prove C² functions belong to `W^{2,p}_loc` for every finite `1≤p<∞`, with matching
 classical/weak derivatives. Consume native
 `TauCeti.hasWeakFDerivOn_of_differentiableOn` at each derivative stage and the
 native Sobolev constructors; bounded derivatives on compact subsets supply the
@@ -897,7 +928,7 @@ inputs rather than assuming they already assert this qualitative upgrade.
 - Construct `constCoeffHessianOperator A₀ p`, abbreviated R_A₀, as a bounded
   linear map from scalar Lᵖ to matrix-valued Lᵖ using PDE B10's singular-integral
   bounds and its **non-divergence Calderón–Zygmund** constant-coefficient theorem
-  (E26 in the linked edition). For a symmetric positive-definite A₀ its multiplier is
+  (PDE E26, §5.7). For a symmetric positive-definite A₀ its multiplier is
   `ξᵢξⱼ/(A₀ξ·ξ)` away from ξ=0, with value zero there, using the fixed PDE
   Fourier convention. Prove its Lᵖ bounds for `1<p<∞`, real-valued restriction,
   Hessian/inverse identity for compactly supported W²,ᵖ functions,
@@ -916,11 +947,11 @@ inputs rather than assuming they already assert this qualitative upgrade.
   `u∈W²,ᑫ_loc`. For q≤2 use local finite-volume inclusion; for q>2 the
   iteration stops at q. No W²,ᵖ Dirichlet theorem is assumed here.
 - On a smaller ball use PDE's **non-divergence Schauder/classical Dirichlet**
-  theorem (E25 in the linked edition) for C^{2,α} Dirichlet solvability with smooth
+  theorem (PDE E25, §5.6) for `C^{2,α}` Dirichlet solvability with smooth
   approximations of the continuous boundary data. Apply the consumed ABP theorem
   with g=0 to both signs of the difference of classical approximants; their
   sup-norm difference is bounded by that of the boundary data. This and the same
-  non-divergence interior estimates give a C^{2,α}_loc solution with those boundary
+  non-divergence interior estimates give a `C^{2,α}_loc` solution with those boundary
   values. The strong-solution ABP instance above identifies it with u. Prove the
   approximation, compactness and localization steps, using native Arzelà–Ascoli
   for the functions and derivatives on smaller compact balls and preserving the
@@ -928,7 +959,7 @@ inputs rather than assuming they already assert this qualitative upgrade.
 - For higher orders use coordinate difference quotients on nested interior balls:
   `aⁱʲDᵢDⱼ(δ_hu)=δ_hf−(δ_haⁱʲ)DᵢDⱼu(·+h)`.
   The same non-divergence Schauder interior estimates bound the quotients uniformly
-  in C^{2,α} when a,f are C^{1,α}. Pass to the derivative limit, retaining the
+  in `C^{2,α}` when a,f are `C^{1,α}`. Pass to the derivative limit, retaining the
   α-seminorm bound; iterate this difference-quotient argument at each order. Do not
   assume a differentiated solution already has the Sobolev regularity one is proving.
 
@@ -1068,7 +1099,7 @@ The item graph is
 `{G1, GMT G2–6, Calib C2 evaluation, HopfRinow L0, Morse M3 early smooth exhaustion} → G2`,
 `{G2, AT local chart topology} → G4a`,
 `{G2, G4a, Calib C2, AT/GT, DGF0 adapter} → G3`,
-`{native singular chains, normalized Hausdorff measure and Lipschitz maps} → G3a chains, mass and filling volume → G3's Lipschitz subcomplex`,
+`{native singular chains, normalized Hausdorff measure, Lipschitz maps, Tau Ceti's barycentric subdivision of Δᵈ} → G3a chains, mass and filling volume → G3's Lipschitz subcomplex`,
 `{G2, GMT G2 area, G3, G3a chains} → G3a area formula, current comparison and finiteness of filling volume`,
 `{G2, G4a, G3 ordinary comparison, AT2.6/AT3, DG bundles} → G3 orientation-line coefficients → twisted constancy/intersection`,
 `{G2, G4a} → G4b`, `{G3, G4a, G4b} → G5`,
@@ -1081,9 +1112,8 @@ The item graph is
 
 K5a's early real density/test foundation precedes all its PDO/elliptic/Hodge
 applications and C5.4's real/complex current comparison. Only that early cut enters
-G1; C5.4 later consumes the G1 specialization. R5b's normal Jacobi and represented
-Dirichlet exports consume VM/UO's single generic form engine and do not require
-current regularity. The finite Euclidean nonproper confinement adapter uses G4
+G1; C5.4 later consumes the G1 specialization. R5b's normal Jacobi operator and its
+Dirichlet realization do not require current regularity. The finite Euclidean nonproper confinement adapter uses G4
 closure before G5, so its integral limit does not assume Plateau existence.
 
 The local current homology proof uses its deformation/filling portion of G4 before
@@ -1098,8 +1128,8 @@ oriented carrier, its GC unoriented quotient, and the isometry-independent compa
 TopK T1.5's coordinate subtype. Derive compactness from orthonormal-frame
 quotients (or its finite CW structure) before Grassmann-bundle compactness. No later smooth graph-chart or
 classifying-space/Bott comparison is required for this fibre construction.
-C1's later smooth comparison targets also consume GenCoh G4.0b, CC C1.1a
-and HomotopySpheres §4A; those comparisons are not prerequisites of its earlier
+C1's later smooth comparison targets also consume GenCoh G4.0b and CC C1.1a;
+those comparisons are not prerequisites of its earlier
 comass algebra or oriented-frame quotient topology used here. The integral
 smooth-chain part of C2 uses DG/AT/GT independently of its calibration bound.
 No characteristic/Bott theorem is a prerequisite of these early constructions. The ordinary Morse and Bott-current comparison consumers follow G3, whereas minimizing
