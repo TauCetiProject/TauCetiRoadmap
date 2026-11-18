@@ -2,33 +2,9 @@
 
 **Summary.** Prove the geometric statistics and function-field comparisons through local densities, polarized counting, homological stability of Hurwitz spaces, monodromy, Hurwitz components and uniform trace bounds. Keep fixed-`q` degree limits, fixed-degree large-`q` limits and whole-component `liminf/limsup` statements distinct.
 
-## Scope and ownership
+## How to read the build
 
-This part owns Layer 5 §§5.12–5.22 of the arithmetic-statistics roadmap, the geometric and function-field statistics. Section numbers keep the six-layer numbering shared by the eight parts (Layer 0 families and heights, Layer 1 orbit dictionaries, Layer 2 counts, Layer 3 field and finite-group tools, Layer 4 Selmer means, Layer 5 probability models and geometric comparisons); a lower layer named in a proof is reached through the link to the part that states it. The targets fall into five groups.
-
-- §5.12: first and second moments of the local densities of random primitive hypersurfaces, with the Taylor and Hensel lifting lemmas they need (Browning–Le Boudec–Sawin, §5).
-
-- §§5.13–5.14: concentration of the isogeny types of principally polarized abelian varieties over a prime field, conditional on Lipnowski–Tsimerman's Conjecture 5.2 and its analogue with the real-Weil surface, and its two consequences: an atom at zero in the averaged eigenangle spacing law, and the failure of the enhanced Cohen–Lenstra model for this family.
-
-- §§5.15–5.19: the Ellenberg–Venkatesh–Westerland theorem. Class-group surjection moments of imaginary quadratic function fields become point counts of generalized-dihedral Hurwitz schemes. A uniform trace estimate, the symplectic monodromy of the odd-degree hyperelliptic family (Achter–Pries, Vasiu) and the uniqueness of the Frobenius-stable symplectic orbit then give the large-`q` Cohen–Lenstra theorem for the upper and lower degree densities.
-
-- §§5.20–5.21: Wood's nonabelian moments in the eventual-degree large-`q` mode, the `liminf` bound for bad types and the whole fixed-degree component profile, which decides when an ordinary limit exists.
-
-- §5.22: the Liu–Wood–Zureick-Brown moments of unramified semidirect extensions of `𝔽_q(t)`, and the Cohen–Lenstra–Martinet corollary.
-
-The following boundaries fix the carriers.
-
-- InverseGaloisAndArithmeticFundamentalGroups owns Hurwitz moduli, their fixed-degree cohomology and point counts, component invariants, reduced Schur multipliers, coprime complements and the marked-extension dictionary. Existence and conjugacy of coprime complements are its §IG.4.5 *Coprime profinite complements*; §5.22 adds only the count `[H : H^Γ]` of sections. Its §IG.5.5 *Fixed-degree uniform Hurwitz point estimate* is the per-component bound used in §§5.20–5.21. The trace estimate of §5.16 differs from it in being uniform in the dimension under an explicit Betti-number bound, and §5.16 proves that bound for nonsplitting data: homological stability of Hurwitz spaces (Ellenberg–Venkatesh–Westerland) and the uniform étale Betti theorem for Hurwitz schemes are targets of this part, built on the braid-orbit monoid, the topological Hurwitz spaces, the analytic comparison and the fixed-degree comparisons of InverseGaloisAndArithmeticFundamentalGroups §§IG.3, IG.5.1–IG.5.3 and IG.5.5, which assert no stability. Its §IG.5.3 also owns the affine-branch variant with ramified or unramified infinity and Wood’s tangentially marked scheme; §IG.5.5 owns their marked-extension comparisons. This part adds the statistical comparisons and the surviving-parity fixed-fibre formula for tangential infinity in item IG-b, beyond §IG.5.6’s identity-boundary formula. The exact contracts appear below.
-
-- AbelianSchemesAndArithmeticModuli §§A2, A3.2–A3.7, A6.18–A6.19 own torsion subschemes, Weil pairings, polarizations, Rosati orbits of principal polarizations and finiteness of polarized automorphism groups. JacobianChallengePartII §§1.2–1.4 supply the relative Jacobian and its canonical principal polarization for the positive-genus hyperelliptic family, with arbitrary-base-change comparisons; genus zero uses the trivial principally polarized abelian scheme. GeometryOfNumbersAndQuadraticArithmetic §§0.2–0.3, 2.8, 3.3 own lattice indices, hermitian lattices and masses. EtaleDualityAndPerverseSheaves §§0.5–0.6 own Poincaré duality. DeligneWeightsAndPurity item 7.12 and §§1.4–1.6 supply Deligne's weight bounds and the point-count formulas for curves and abelian varieties over finite fields. Tau Ceti supplies the Hasse bound `WeierstrassCurve.hasse_bound`.
-
-- Mathlib supplies distribution functions and the equality of probability measures with equal distribution functions; the Kolmogorov distance built on them here is new. Mathlib's `Matrix.symplecticGroup` is the multiplier-one case of the similitude cosets of §5.18. Tau Ceti proves in `TauCeti.GLSymplecticFin.eq_top_of_adjacent_of_long` that a subgroup of its symplectic matrix group over a field containing both orientations of the adjacent short-root elements and the positive and negative long-root subgroups at one coordinate is the whole group. Section 5.17 derives transvection generation from this supplied theorem.
-
-- AlgebraicTopology Stages 4–6 own cellular homology, finite covers with transfer and the Cartan–Leray identification, the Künneth isomorphism and cochains; DGFloer Layer 1 item 3 owns the spectral sequence of a filtered complex; DerivedModuleAlgebra §S.1 owns the two spectral sequences of a first-quadrant double complex and their convergence; DGAInfinity Layers 1 and 5 own graded modules over noncommutative graded algebras, their balanced tensor product and the derived tensor product. Section 5.16 consumes these for the homology of Hurwitz spaces, and owns the bigraded `Tor^R_i(N, M)` with its internal grading and the `Tor` spectral sequences it uses (the `Tor` terms of the two spectral sequences of the double complex `C_• ⊗_R F_•` for a complex `C_•` of graded right modules and a graded free resolution `F_• → M`, universal coefficients for a complex of free modules and change of rings along a map of graded algebras), stated in *Tor spectral sequences over graded algebras*.
-
-- InverseGaloisAndArithmeticFundamentalGroupsPartII, later in the build, develops Hurwitz homological stability for general nonsplitting pairs with its own constants and estimates; nothing is imported from it here, and §5.16 states the stability theorem and the uniform Betti bound that §5.19 consumes.
-
-- Earlier parts supply the remaining inputs: Part I the local-density, two-column minor-content and saturation-index API (§0.10, *Coefficient vector form*), polarized-count, function-field and Wood-normalization targets; Part IV Cohen–Lenstra measures and the moment tools; Part V the nonabelian quadratic moment interface and embedded types; Part VII the enhanced Cohen–Lenstra finite-level law. The analytic prerequisites enter through the earlier parts.
+The groups are read in order. §5.12 is self-contained apart from the Part I density carriers and item GN-a. §§5.13–5.14 rest on the Lipnowski–Tsimerman hypotheses and items GN-b to GN-d. §§5.15–5.19 form one chain: the class-group dictionary (§5.15), homological stability of Hurwitz spaces and the trace estimate (§5.16), monodromy (§5.17), the orbit count (§5.18) and the large-`q` theorem (§5.19). §§5.20–5.21 apply the Wood normalizations of Part I to the components of item IG-b. §5.22 uses only group theory and the Hurwitz counts of IG Layer IG.5. Each target states its hypotheses, source locator and Checks. `Suggested.lean` states the local-density moment bounds, the integral symplectic lifting criterion and the unique similitude-stable orbit theorem. Its module docstring identifies the objects needed to state the other arithmetic headlines; the definitions and basic theory specified below are part of the roadmap.
 
 ## Conventions
 
@@ -37,182 +13,6 @@ A finite-field cardinality `q` is a prime power greater than one; the moment the
 On torsion points and Tate modules, Frobenius means arithmetic Frobenius, which multiplies the Weil pairing by `q`. The trace formula uses geometric Frobenius on compactly supported cohomology. The two are never interchanged. Symplectic matrices follow Mathlib: `Matrix.J l R = fromBlocks 0 (-1) 1 0` and `Matrix.symplecticGroup l R = {h | h * J * hᵀ = J}`; the similitude coset of multiplier `m` is `{h | h J hᵀ = m J}`.
 
 Three limit modes are kept distinct. EVW's upper and lower densities take odd `n → ∞` at fixed `q`, then `q → ∞`. Wood's eventual-degree mode fixes a large `n` and lets `q → ∞`. Liu–Wood–Zureick-Brown take `lim_b` of `limsup_q` and `liminf_q` of averages over degrees at most `b`. No two are interchanged without a stated uniform estimate. Convergence of distributions does not give convergence of unbounded moments. Every conjecture is a proposition, never an axiom. The Haar measure on `M_g(ℤ_ℓ)` has total mass one.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-The pinned Mathlib supplies the following:
-
-- polynomial evaluation and partial derivatives: `MvPolynomial.eval_map`, `MvPolynomial.induction_on`, `MvPolynomial.pderiv`, `MvPolynomial.pderiv_mul`, `Ideal.Quotient.eq_zero_iff_mem`, `Nat.findGreatest`;
-
-- counting: `Nat.choose`, `Finset.Nat.antidiagonalTuple`, `PowerSeries`;
-
-- admissible field sizes: `Nat.chineseRemainder` (`Mathlib/Data/Nat/ModEq.lean`) and `Nat.forall_exists_prime_gt_and_modEq` (`Mathlib/NumberTheory/LSeries/PrimesInAP.lean`); coprime positive moduli give a simultaneous residue, and a residue coprime to a nonzero modulus contains primes above every bound;
-
-- probability: `MeasureTheory.ProbabilityMeasure`, `MeasureTheory.diracProba`, `MeasureTheory.Measure.dirac`, `ProbabilityTheory.cdf`, `cdf_le_one`, `cdf_eq_real` and the equality criterion `MeasureTheory.Measure.eq_of_cdf`;
-
-- angles and roots: `Multiset.sort`, `Multiset.count`, `Polynomial.roots`, `Complex.arg`, `toIcoMod`;
-
-- order and limits: `le_ciSup`, `Real.log_nonneg`, `Filter.Tendsto`, `Filter.atTop`, `Filter.limsup` and its dual `liminf`, `tendsto_nhds_unique`, `Filter.tendsto_pure`, `Finite.instDiscreteTopology`;
-
-- matrices and `p`-adics: `Matrix.J`, `Matrix.symplecticGroup`, `SymplecticGroup.mem_iff`, `Matrix.GeneralLinearGroup`, `PadicInt`, `ZMod`, `Module.End.maxGenEigenspace` (the algebraic union of exact kernels, not a topological primary space);
-
-- groups: `SemidirectProduct` with `inl`, `inr` and `rightHom`, `MulEquiv.inv`, `Subgroup.center`, the Schur–Zassenhaus existence theorem `Subgroup.exists_right_complement'_of_coprime`, `CommGroup.primaryComponent`;
-
-- class groups: `ClassGroup` and `integralClosure`.
-
-### From Tau Ceti
-
-`TauCeti.AlgebraicGeometry.EllipticCurve.HasseBound` supplies `WeierstrassCurve.hasse_bound` and `WeierstrassCurve.frobeniusTrace_sq_le_four_mul_card` for an elliptic Weierstrass curve over any finite field, with the point at infinity included. Applied at `q = p²` this gives `#E(F_{p²}) ≤ (p + 1)²` (Silverman, AEC V.1.1).
-
-`TauCeti.LinearAlgebra.Matrix.GeneralLinearGroup.Symplectic.TorusGeneration` supplies `TauCeti.GLSymplecticFin.eq_top_of_adjacent_of_long`: over a field, a subgroup containing both adjacent difference-root orientations and the positive and negative long-root subgroups at one coordinate is the whole symplectic group. Section 5.17 uses this generation theorem to obtain transvection generation; it does not specify another root-generation theorem.
-
-### From InverseGaloisAndArithmeticFundamentalGroups
-
-*Uses*:
-
-- Layer IG.0. §IG.0.T4 is the constant-sheaf Grothendieck–Lefschetz formula `#X(k_r) = Σ_i (−1)^i Tr(Frob_{q^r} | H^i_c(X_k̄, ℚ_ℓ))` for separated `X` of finite type. §IG.0.3 identifies finite étale covers of a connected normal base with finite continuous `π₁`-sets; hence the connected components of a finite étale cover are the `π₁`-orbits on a geometric fibre.
-
-- Layer IG.1. §IG.1.2 gives tame quotients. The geometric/arithmetic fundamental-group sequence over `𝔽_q` shows that a geometric component is defined over `𝔽_q` exactly when Frobenius preserves its orbit.
-
-- Layer IG.3. §IG.3.4 gives the reduced Schur multiplier `M(G, c) = M(G)/Q_c` (Wood's `H₂(G, c)`) and the reduced Schur covers. Its item *Coprime semidirect products and admissible inertia* covers `H ⋊ Γ` with `c` the elements of order equal to the order of their image; for `A ⋊ ℤ/2` with `A` odd it gives (iii) and the conjugation and power stability in (ii) of the generalized dihedral datum. §IG.3.5 gives the action of units; §IG.3.6 gives lifting invariants, the stable classification of braid orbits and the Tate-twisted arithmetic lifting invariants. Its targets *The Hurwitz braid action* (`σ_i : (a, b) ↦ (aba⁻¹, a)` on adjacent entries), *The braid-orbit monoid* (`⊔_n c^n/B_n` under concatenation, with product-one orbits central) and *Extracting an element of a single class* (EVW Proposition 3.4: for a generating single class, every generating tuple of large length is braid equivalent to one beginning with any prescribed `g ∈ c` and with generating tail) are the combinatorial inputs of §5.16.
-
-- Layer IG.4. §IG.4.5 gives *Coprime profinite complements* and the unramified admissible `Γ`-groups `Gal(K^#/K)` (Liu–Wood–Zureick-Brown, Definition 2.1). §IG.4.6 gives *Marked extensions and their infinity types* (Wood, Proposition 4.4, with the swap and coordinate-projection hypotheses stated there, and `Disc M = Disc K^{|G′|/2}` for tame quadratic function fields) and *The marked extension count over `𝔽_q(t)`*, which defines `N(H, Γ, D, 𝔽_q(t))`.
-
-- Layer IG.5.
-  - §IG.5.1 *Configurations and punctured-disc groups*: `Conf_n(𝔻)` is a `K(B_n, 1)` with fundamental group Tau Ceti's `TauCeti.BraidGroup n`. §IG.5.2 *Marked topological Hurwitz spaces* and *Forgetting the boundary marking*: the finite covers `Hur^c_{G,n}`, `CHur^c_{G,n}` of `Conf_n(𝔻)` with fibres `c^n` and the generating tuples in `c^n`, the conjugation action of `G` commuting with the braid action, with stabilizer `C_G(H)` on a component of monodromy group `H`, hence free on `CHur` for centre-free `G`.
-  - §IG.5.3 *Arithmetic Hurwitz stacks and schemes*: the affine-branch Hurwitz space is the union of the ramified- and unramified-infinity variants, finite étale over `Conf_n(A¹)` over `ℤ[1/|G|]`, with the supplied base-change comparisons. Rational inertia-class unions define open and closed loci; for `Z(G) = 1`, field-valued points classify covers defined over that field. The section also supplies Wood’s tangentially marked scheme for centre-free groups generated by involutions, with its specified infinity type. The same section’s *Component bound from finite étale degree* gives `D_n`, and its *Analytic and topological Hurwitz comparison* identifies `Hn^c_{G,n}(ℂ)` with `CHur^c_{G,n}/G` for centre-free `G` (EVW Lemma 7.4).
-  - §IG.5.4: admissible covers and the compact-type locus.
-  - §IG.5.5: tame cohomological specialization (EVW, Proposition 7.7); *Fixed-degree Hurwitz mod-ℓ comparison* (`H^i(Hn^c_{G,n}(ℂ), 𝔽_λ) ≅ H^i_ét(Hn^c_{G,n} ⊗ 𝔽̄_q, 𝔽_λ)` for one `n` at a time and `λ > max(|G|, q, n)`, EVW (7.8.2)) and *Coefficient towers and rational Betti dimensions* (the `ℚ_λ`-dimension is at most the `𝔽_λ`-dimension; LWZB, Lemma 10.3), both asserting nothing uniform in `n`; *Finite Hurwitz cohomology and the trace formula*; the *Fixed-degree uniform Hurwitz point estimate* `|#C(𝔽_q) − q^n| ≤ K_n q^{n−1/2}` (Wood, Theorem 4.7); and *Hurwitz points and marked extensions* (LWZB, Lemma 10.2, for the ordinary marking at unramified `∞`; Wood, Theorem 4.5(2), for her separate tangential marking, with inertia `g ∈ c ∪ {1}` and Frobenius lift one).
-  - §IG.5.6: component lifting invariants, the *General rational-class fixed-fiber formula* (`|A[q − 1]|` or zero per stable multiplicity vector, for the unramified-`∞` marking) and *Semidirect components versus quotient components* (LWZB, Theorem 10.4).
-  - §IG.5.7: *The labelled hyperelliptic quotient family* `[PConf_n(A¹)/Ã_n]`, with `Ã_n` the lifted affine coordinate group, written `B_n` below, and the *Finite-cover criteria for full monodromy image*. These criteria cover a dense open substack of a connected normal stack, a representable smooth surjection with geometrically connected fibres, and the passage from the compact-type locus to the smooth locus.
-
-*Hurwitz interfaces used below:*
-
-- (IG-a) Write `Hn^c_{G,n}` for the affine-branch scheme of §IG.5.3 with finite inertia class `c`, allowing ramification at `∞`. Its finite étale branch map, base-change comparisons and centre-free rational-point classification are the contracts just specified. Sections 5.15–5.19 form the class-group and statistical comparisons for this scheme (EVW §§7.1, 7.3 and Proposition 8.7).
-
-- (IG-b) Use Wood’s scheme `CHur^{c,g}_{F,m}` from §IG.5.3 and its marked-extension comparison from §IG.5.5. Here `F` is centre-free, `c` is a union of conjugacy classes of involutions generating `F`, the characteristic is prime to `|F|`, and `g ∈ c ∪ {1}` is the tangential infinity type. The additional target is the arithmetic component comparison: for every multiplicity vector with `m_i ≥ N₀`, identify Frobenius-fixed geometric components with the `q⁻¹`-fixed component invariants; on Wood’s surviving parity vectors their number is `|H₂(F,c)[q − 1]|`, and it is zero on incompatible vectors. Retain the branch-degree and infinity-type maps of the supplied scheme in this comparison, including when `g ≠ 1` (Wood, Theorem 4.5(3), Proposition 4.1 and Remark 4.2, pp.18–21).
-
-The API for the IG-b comparison identifies the stable component invariants, intertwines Frobenius with the `q⁻¹` action, and gives the surviving-parity count and zero for incompatible parities. Its source is the set of geometric components of the supplied tangentially marked scheme and its target is Wood’s lifting-invariant set with the same multiplicities and infinity type. *Needs:* InverseGaloisAndArithmeticFundamentalGroups §§IG.3.4–IG.3.6, IG.5.3, IG.5.5–IG.5.6; Wood Proposition 4.1, Remark 4.2 and Theorem 4.5(3).
-
-**Checks.**
-
-- For IG-a, the trivial group at `n = 0` gives one trivial cover. For `S₃` with transposition inertia at three fixed finite branch points, `3³ − 3 = 24` tuples generate `S₃`; simultaneous conjugation is free, so there are `24/6 = 4` unmarked covers, all with ramified infinity. Imposing identity boundary product would incorrectly give zero.
-- In the `A = C₃` torsion comparison, the eight nonzero maps from `𝔽₃²` modulo sign give `8/2 = 4` points. Counting labelled surjections instead would double the fibre.
-- For IG-b, the imaginary discriminant slice of exponent `2n` has finite branch degree `2n − 1` and nontrivial infinity inertia; the real slice has degree `2n` and `g = 1`. At `n = 1` these finite degrees are 1 and 2, so forgetting infinity changes the degree.
-- An incompatible parity vector gives zero rational components. On a surviving stable vector with trivial reduced multiplier, the count is `|0[q − 1]| = 1`; if the reduced multiplier is `C₃`, its contribution is 1 for `q = 5` and 3 for `q = 7`, whenever these satisfy the tame hypotheses of the datum. A constant-one rule would miss the second contribution.
-
-### From AlgebraicTopology, DGFloer, DerivedModuleAlgebra and DGAInfinity
-
-*Uses*: AlgebraicTopology Stage 4 (cellular chain groups indexed by the cells of a finite CW complex, so that `dim H_p` is at most the number of `p`-cells); Stage 5 item 1 (the Künneth isomorphism over a field); Stage 5 item 3 (finite coverings, transfer, and for a regular finite cover with group `G` and `|G|` invertible the identification of the homology of the quotient with the coinvariants; a finite cover of a finite CW complex is a finite CW complex with one lifted cell per sheet); Stage 6 (cochains over a field as duals of chains). DGFloer Layer 1 item 3: the spectral sequence of a filtered chain complex with its `E¹` term and convergence, applied in §5.16 to the skeletal filtration of a semisimplicial Borel construction. DerivedModuleAlgebra §S.1, homological form: for a first-quadrant chain double complex `D` in an abelian category, the spectral sequence of the column filtration, with `E¹_(p,q) = H_q(D_(p,•))`, `E²_(p,q) = H_p(H_q(D))`, `d_r` of bidegree `(−r, r − 1)` and convergence to `H_(p+q)(Tot D)`, stable for `r > max(p, q + 1)`; applied in §5.16 in each internal degree to `C_• ⊗_R F_•` and to its transpose. DGAInfinity Layer 1: graded modules and bimodules over a graded noncommutative `k`-algebra (a DG algebra with zero differential), restriction and extension of scalars along a map of graded algebras, and the balanced tensor product of a right module against a left module; Layer 5: the derived tensor product, consumed only as the single-graded total of `P_• ⊗_R M` for a graded free resolution `P_• → N`; the bigraded `Tor^R_i(N, M)`, with its internal grading and the balance between resolutions of either side, is defined and proved in *Tor spectral sequences over graded algebras*. Neither layer states a spectral sequence: the `Tor` spectral sequences of §5.16 (*Tor spectral sequences over graded algebras*) are targets of this part, built on these modules and on the double-complex spectral sequences of DerivedModuleAlgebra §S.1. Section 5.16 uses these for the Hurwitz spaces `Hur^c_{G,n}`, which are finite covers of `Conf_n(𝔻)`, and for the component ring `R`.
-
-**Checks.**
-
-- For `G = S₃` with transposition inertia and `n = 2`, `CHur^c_{S₃,2} → Conf_2(𝔻)` has degree `6` and the quotient by the free `S₃`-action has degree `1`; the coinvariant identification gives `H_0 = k` on the quotient.
-- The cell bound is used with the cell count `2^{n−1}` of `Conf_n(𝔻)` and the sheet count `|c|^n`; omitting the sheet count would bound `b_0(CHur^c_{S₃,2}) = 2` by `1`.
-- The Künneth isomorphism is used over a field only; the `Tor` term of the integral Künneth sequence never enters §5.16.
-- The derived tensor product of DGAInfinity is used only through its homology: the change-of-rings spectral sequence for `k[x] → k[x]/(x²)` with `N = M = k` has nonzero `d²` differentials (§5.16, *Tor spectral sequences over graded algebras*), so its statement is a target of this part and not a consequence of the derived-tensor API alone.
-
-### From AbelianSchemesAndArithmeticModuli
-
-*Uses*:
-
-- §A2: polarizations and duality.
-
-- §A3.2: `A[n]` is finite locally free of rank `n^{2g}`, étale where `n` is invertible, and compatible with base change.
-
-- §A3.5: the Cartier-dual pairing `e_n`.
-
-- §A3.7: the pairing `e_{λ,n}` of a polarization is strongly alternating, and perfect when `λ` is principal.
-
-- §A6.5: Poincaré complete reducibility.
-
-- §A6.18: finiteness of `Aut(A, λ)`.
-
-- §A6.19: principal polarizations correspond to the Rosati-symmetric totally positive units, and their isomorphism classes are the orbits of `s ↦ u^†su`.
-
-### From JacobianChallengePartII
-
-*Uses:* §§1.2–1.4 supply the relative Jacobian of a smooth projective relative curve with geometrically connected fibres of constant genus `g > 0` over a noetherian base, its canonical principal polarization and their comparisons under every base change.
-
-For odd `n = 2g + 1`, let `S = Conf_n ⊗ ℤ[1/2]` and let `C/S` be the smooth projective completion of the family `y² = f(x)`, with its section at `∞`. The base `S` is noetherian and the fibres are geometrically connected of genus `g`. Define the hyperelliptic relative Jacobian for `g > 0` as the instance of JacobianChallengePartII §§1.2–1.4 for `C/S`, with its canonical principal polarization; for `g = 0` use the trivial abelian scheme `S → S` with its unique principal polarization. This roadmap owns the hyperelliptic-model comparisons: identify the field fibres with the pointed curves' Jacobians and their polarizations, identify the relative dimension with `g`, and retain the supplied comparisons for every `T → S`, including nonreduced and non-noetherian `T`. Apply AbelianSchemesAndArithmeticModuli §§A3.2, A3.5, A3.7 to obtain the perfect alternating Weil pairing on each invertible torsion sheaf. Counting and local-condition statements for this parameter family belong here. Sources: EVW proof of Theorem 8.8, pp.779–780; Achter–Pries §3.1 and Lemma 3.1.
-
-**Checks.** In characteristic different from two, at `n = 1` the Jacobian is the zero-dimensional trivial abelian scheme with its unique principal polarization; at `n = 3` it is the elliptic curve with its point at `∞`; at invertible `ℓ` the `ℓ^m`-torsion has rank `ℓ^{2mg}`, while this étale assertion does not extend to `ℓ` equal to the characteristic. For `T = Spec(k[ε]/ε²) → S`, the base-change comparison respects the group law and principal polarization over all of `T`. In characteristic two, `f = x³ + x + 1` is squarefree but `y² = f` is singular at `(1,1)` and has rational normalization, so it is excluded.
-
-### From NeronModelsAndSemistableAbelianVarieties
-
-Sections 4.2 and 4.4 identify the Jacobian’s toric character lattice with integral graph cycles and its monodromy pairing with the edge-thickness pairing, including nodal contractions. Section 4.3 supplies the integral prime-to-residue-characteristic inertia formula over a henselian discrete valuation ring, with surjective tame character and the positive valuation convention; it includes residue characteristic zero. Section 5.17 applies these contracts to the pullback of the genus-one hyperelliptic family along `t ↦ (0,1,t)`; the general degeneration and monodromy constructions remain with this supplier.
-
-### From GeometryOfNumbersAndQuadraticArithmetic
-
-*Uses*: Layer 0, primitive vectors, saturation and covolumes (§§0.2–0.3); Layer 2, quaternionic hermitian lattices (§2.8); Layer 3, masses of genera (§3.3).
-
-*Additional targets here:* the following four inputs extend the supplied lattice and mass theory.
-
-- (GN-a) For linearly independent primitive `c, d ∈ ℤ^N` and `Q ≥ 1`, prove that the lattice `{y : ⟨c, y⟩ ≡ ⟨d, y⟩ ≡ 0 mod Q}` has index `Q²/gcd(G(c, d), Q)` in `ℤ^N`, where `G(c,d)` is Part I’s two-column minor gcd. This is the congruence-lattice extension of the supplied saturation-index identity, used in §5.12’s two-point incidence count (Browning–Le Boudec–Sawin, arXiv v1, Definition 3.7 and Lemma 3.9, p.11).
-
-- (GN-b) Lipnowski–Tsimerman, Definition 5.1: the model ring `R_{L,n} = ∏ M_{n_i}(O_{L_i})` with the conjugate-transpose involution, and its quaternionic analogue `M_m(O_D)`.
-
-- (GN-c) The corrected Lipnowski–Tsimerman bound (55), `log n_{L,n} ≤ (1/2) Σ_i [K_i:ℚ] n_i² log n_i + C_p g²`.
-
-- (GN-d) The quaternionic bound `log n_D(m) ≤ 2m² log m + O_p(m²)`, from Gan–Hanke–Yu, [[52]](#ref-52), §9, (9.1)–(9.2) and Proposition 9.3, pp.121–122 of the author PDF.
-
-For GN-a use ArithmeticStatisticsPartI §0.10, *Coefficient vector form*: `FormDensity.minorGCD`, `FormDensity.minorGCD_eq_index`, and the targets *minorGCD_basisChange* and *minorGCD_eq_zero_iff*. Their nonnegative content, basis-change invariance, independent-column saturation index and dependent-pair zero criterion retain those hypotheses. The new API here is the displayed two-congruence lattice index and its specialization when `Q` is coprime to the minor content. In Smith coordinates the first factor is 1 because each column is primitive, and the second is `G(c,d)`; reduction modulo `Q` therefore has image of size `Q · (Q/gcd(G(c,d),Q))`. The positive integer `gcd(G(c,d),Q)` divides `Q`, so the quotient is integral. *Needs:* ArithmeticStatisticsPartI §0.10, *Coefficient vector form*; GeometryOfNumbersAndQuadraticArithmetic §§0.2–0.3.
-
-For GN-b specify the CM model ring and the quaternionic model ring with their conjugate-transpose involutions; require the product projections, involution laws and the positive-symmetric-unit conjugation action. For GN-c and GN-d define the CM and quaternionic positive-unit orbit cardinalities, prove finiteness and invariance under isomorphism of rings with involution, and prove the displayed logarithmic bounds with constants depending only on `p`. Here `L_i` form an indexed finite family of CM fields generated by `p`-Weil numbers, allowing repetitions as abstract fields; the indices label distinct simple isogeny factors. Write `K_i` for their maximal totally real subfields and `g = Σ_i [K_i:ℚ]n_i`. The algebra `D` is the quaternion algebra over `ℚ(√p)` ramified exactly at its two infinite places, as in §5.13.
-
-For GN-c prove the product formula for positive-unit orbit counts: for a finite product of rings with componentwise involution and positivity, the positive-unit orbit count is the product of the individual counts. Units act componentwise even when two rings are isomorphic. Apply the single-block estimate to each indexed block and sum its logarithm; `Σ_i ([K_i:ℚ]n_i)² ≤ g²` absorbs the errors. Nonisogenous simple factors with isomorphic endomorphism fields have no cross-homomorphisms and remain separate blocks.
-
-For GN-d identify positive symmetric units modulo `GL_m(O_D)` with free unimodular positive quaternion-hermitian `O_D`-lattices. Prove that all such lattices lie in the single genus of the standard lattice: positivity fixes the infinite forms, and at every finite place `D` splits and a self-dual lattice is the standard symplectic lattice under Morita equivalence. For the rational-space comparison, diagonalize the positive hermitian form. Each diagonal coefficient is totally positive and hence a reduced norm from `D`: apply GlobalQuadraticForms Layer 5, Hasse–Minkowski, to the reduced-norm form with the negative of that coefficient adjoined. It is isotropic at every completion, and the norm form of the division algebra is anisotropic over the number field, so the last coordinate of a global isotropic vector is nonzero. Rescaling each diagonal basis vector then identifies the rational form with the standard one. Their local stabilizers are hyperspecial, so Proposition 9.3 gives the mass of this genus as
-`Mass_D(m) = 2^{−2m} ∏_{r=1}^m |ζ_{ℚ(√p)}(1−2r)|` for `m ≥ 1`.
-The genus includes projective lattices, so its mass is not the free-class count. A lattice's finite automorphism group embeds in `GL_{8m}(ℤ)`; the integral finite-subgroup bound of Lipnowski–Tsimerman §5.4.4, (52), p.31 gives order at most `exp(O(m log(m+1)))`. Consequently `n_D(m) ≤ exp(O(m log(m+1))) Mass_D(m)`. The functional equation of the quadratic Dedekind zeta function and Stirling's estimate give `log Mass_D(m) = 2m² log m + O_p(m²)`: the factorial contribution is `2Σ_{r≤m} log((2r−1)!)`. This proves the required upper bound without applying the CM-hermitian formula (55). This uses GlobalQuadraticForms Layer 5 for the norm argument, GeometryOfNumbersAndQuadraticArithmetic §2.8 for quaternionic lattices and Morita stabilizers, and GeometryOfNumbersAndQuadraticArithmetic §3.3, *Positive- and negative-integer zeta values in the mass formula*, for the continued Dedekind zeta values and their functional-equation comparison at negative odd integers.
-
-**Checks.**
-
-- For GN-a the columns `(1,0), (0,1)` have content 1 and congruence-lattice index `Q²`; at `Q = 1` this is 1.
-- For GN-a the columns `(1,0), (1,3)` have content and saturation index 3. At `Q = 3` the congruence lattice is `3ℤ × ℤ`, of index `3 = 9/gcd(3,3)`; at `Q = 2` its index is `4 = 4/gcd(3,2)`.
-- For GN-a equal columns `(1,0), (1,0)` have content 0; the independent-column saturation formula is inapplicable. Nonprimitive columns `(2,0), (0,2)` at `Q = 2` give the whole congruence lattice, of index 1, whereas `Q²/gcd(4,Q) = 2`; this excludes dropping primitivity.
-
-- For the CM model ring, in `ℤ[i]` one has `i* = −i`; `[[0,1+i],[2,0]]* = [[0,2],[1−i,0]]`; in `ℤ[i] × ℤ[i]`, `(i,1+i)* = (−i,1−i)`.
-
-- For the quaternionic model ring, with Hamilton generators in `ℍ_ℚ ⊗_ℚ ℚ(√2)`, `i* = −i`, `(ij)* = j*i* = −ij`, and `[[0,i],[j,0]]* = [[0,−j],[−i,0]]`.
-
-- For the CM positive-unit orbit count, the empty product has count one; a single imaginary-quadratic rank-one block has count one; the `ℤ[i]` rank-eight count is at least two, since `I₈` has a norm-one vector and the `E₈` Gram matrix has only even hermitian norms (write a Gaussian vector as `a+ib`). The product of the rank-eight block and a rank-one block still has count at least two.
-
-- For the quaternionic positive-unit orbit count, rank zero has count one, and rank one has count one over both `ℚ(√2)` and `ℚ(√5)`: their totally positive units are squares of central units, so every positive symmetric unit is conjugate to 1.
-
-- For GN-d the empty genus has mass one; `Mass_D(1) = |ζ_{ℚ(√p)}(−1)|/4`; and `Mass_D(2)/Mass_D(1) = |ζ_{ℚ(√p)}(−3)|/4`. The dimension is `2m`, giving `2m² log m = (1/2)(2m)² log(2m) + O(m²)`.
-
-### From EtaleDualityAndPerverseSheaves
-
-*Uses*: Layer 0, §0.5, Poincaré duality for smooth varieties with torsion coefficients, and §0.6, its `ℓ`-adic and rational form. The pairing `H^i_c × H^{2d−i}(F^∨(d)) → E` is perfect and Frobenius-compatible, and the top-degree trace is an isomorphism for geometrically connected `X`. Two consequences are used here. For a smooth `X` of pure dimension `n, dim H^j_c = dim H^{2n−j}`. For a geometrically connected smooth `C` of dimension `n, H^{2n}_c(C, ℚ_λ) ≅ ℚ_λ(−n)`.
-
-### From DeligneWeightsAndPurity
-
-*Uses*:
-
-- Item 7.12 (Weil II 3.3.4): every eigenvalue of geometric Frobenius on `H^j_c(X_{𝔽̄_q}, ℚ_λ)` has absolute value at most `q^{j/2}`.
-
-- §§1.4–1.5: the Frobenius roots of an abelian variety over `𝔽_q` are Weil `q`-numbers of weight one, and `#A(F_{q^m}) = P_{π^m}(1)`.
-
-- §1.6: the point count of a curve.
-
-Hence the characteristic polynomial of an isogeny factor divides that of `A`, and `#B₀(𝔽_p) = (p − 1)²`.
-
-### From earlier arithmetic-statistics parts
-
-From ArithmeticStatisticsPartI require [ArithmeticStatisticsPartI: local density of a form modulo q][part-1], [ArithmeticStatisticsPartI: coefficient vector form][part-2], [ArithmeticStatisticsPartI: primitive hypersurface family][part-3], [ArithmeticStatisticsPartI: finite local hypersurface set][part-4], [ArithmeticStatisticsPartI: arithmetic family][part-5], [ArithmeticStatisticsPartI: principally polarized count][part-6], [ArithmeticStatisticsPartI: polarization fiber count][part-7], [ArithmeticStatisticsPartI: support abelian counts][part-8], [ArithmeticStatisticsPartI: odd degree quadratic function field family][part-9], [ArithmeticStatisticsPartI: support function fields][part-10], [ArithmeticStatisticsPartI: size of the odd degree quadratic family][part-11], [ArithmeticStatisticsPartI: imaginary exact slice parametrization][part-12], [ArithmeticStatisticsPartI: wood average normalizations][part-13], [ArithmeticStatisticsPartI: wood infinity and type adapter][part-14], [ArithmeticStatisticsPartI: real exact slice parametrization][part-15]. Their hypotheses, weights, cutoffs and normalizations are retained at the point of use below.
-
-From ArithmeticStatisticsPartIV require [ArithmeticStatisticsPartIV: cohen lenstra measure][part-16], [ArithmeticStatisticsPartIV: surjection count][part-17], [ArithmeticStatisticsPartIV: isomorphism classes of finite abelian p groups][part-18], [ArithmeticStatisticsPartIV: surjection moment][part-19], [ArithmeticStatisticsPartIV: finite moment control of masses][part-20]. Their hypotheses, weights, cutoffs and normalizations are retained at the point of use below.
-
-From ArithmeticStatisticsPartV require [ArithmeticStatisticsPartV: nonabelian quadratic moment interface][part-21], [ArithmeticStatisticsPartV: support embedded types][part-22]. Their hypotheses, weights, cutoffs and normalizations are retained at the point of use below.
-
-From ArithmeticStatisticsPartVII require [ArithmeticStatisticsPartVII: zero cokernel probability at two][part-23], [ArithmeticStatisticsPartVII: zero cokernel probability lower bound at odd primes][part-24], [ArithmeticStatisticsPartVII: enhanced cohen lenstra finite level law][part-25], [ArithmeticStatisticsPartVII: enhanced cohen lenstra conjecture][part-26]. Their hypotheses, weights, cutoffs and normalizations are retained at the point of use below.
-
-## How to read the build
-
-The groups are read in order. §5.12 is self-contained apart from the Part I density carriers and item GN-a. §§5.13–5.14 rest on the Lipnowski–Tsimerman hypotheses and items GN-b to GN-d. §§5.15–5.19 form one chain: the class-group dictionary (§5.15), homological stability of Hurwitz spaces and the trace estimate (§5.16), monodromy (§5.17), the orbit count (§5.18) and the large-`q` theorem (§5.19). §§5.20–5.21 apply the Wood normalizations of Part I to the components of item IG-b. §5.22 uses only group theory and the Hurwitz counts of IG Layer IG.5. Each target states its hypotheses, source locator and Checks. `Suggested.lean` states the local-density moment bounds, the integral symplectic lifting criterion and the unique similitude-stable orbit theorem. Its module docstring identifies the objects needed to state the other arithmetic headlines; the definitions and basic theory specified below are part of the roadmap.
 
 ## Layer 5: Function-field distributions and geometric statistics
 
@@ -1986,6 +1786,206 @@ Parts I, IV, V and VII, linked at each use. InverseGaloisAndArithmeticFundamenta
 ## Downstream consumers
 
 This is the last of the eight arithmetic-statistics parts. Section 5.18 supplies the matrix-subset and orbit interface used by the function-field component comparison. The integral similitude group and multiplier consumed by LocalGaloisDeformationRings are supplied by ArithmeticGaloisRepresentations §7.3. ModularityAndLanglandsExtensions and CrystallineLocalGlobalCompatibilityCM are downstream applications of the arithmetic-statistics comparisons.
+
+## Scope and ownership
+
+This part owns Layer 5 §§5.12–5.22 of the arithmetic-statistics roadmap, the geometric and function-field statistics. Section numbers keep the six-layer numbering shared by the eight parts (Layer 0 families and heights, Layer 1 orbit dictionaries, Layer 2 counts, Layer 3 field and finite-group tools, Layer 4 Selmer means, Layer 5 probability models and geometric comparisons); a lower layer named in a proof is reached through the link to the part that states it. The targets fall into five groups.
+
+- §5.12: first and second moments of the local densities of random primitive hypersurfaces, with the Taylor and Hensel lifting lemmas they need (Browning–Le Boudec–Sawin, §5).
+
+- §§5.13–5.14: concentration of the isogeny types of principally polarized abelian varieties over a prime field, conditional on Lipnowski–Tsimerman's Conjecture 5.2 and its analogue with the real-Weil surface, and its two consequences: an atom at zero in the averaged eigenangle spacing law, and the failure of the enhanced Cohen–Lenstra model for this family.
+
+- §§5.15–5.19: the Ellenberg–Venkatesh–Westerland theorem. Class-group surjection moments of imaginary quadratic function fields become point counts of generalized-dihedral Hurwitz schemes. A uniform trace estimate, the symplectic monodromy of the odd-degree hyperelliptic family (Achter–Pries, Vasiu) and the uniqueness of the Frobenius-stable symplectic orbit then give the large-`q` Cohen–Lenstra theorem for the upper and lower degree densities.
+
+- §§5.20–5.21: Wood's nonabelian moments in the eventual-degree large-`q` mode, the `liminf` bound for bad types and the whole fixed-degree component profile, which decides when an ordinary limit exists.
+
+- §5.22: the Liu–Wood–Zureick-Brown moments of unramified semidirect extensions of `𝔽_q(t)`, and the Cohen–Lenstra–Martinet corollary.
+
+The following boundaries fix the carriers.
+
+- InverseGaloisAndArithmeticFundamentalGroups owns Hurwitz moduli, their fixed-degree cohomology and point counts, component invariants, reduced Schur multipliers, coprime complements and the marked-extension dictionary. Existence and conjugacy of coprime complements are its §IG.4.5 *Coprime profinite complements*; §5.22 adds only the count `[H : H^Γ]` of sections. Its §IG.5.5 *Fixed-degree uniform Hurwitz point estimate* is the per-component bound used in §§5.20–5.21. The trace estimate of §5.16 differs from it in being uniform in the dimension under an explicit Betti-number bound, and §5.16 proves that bound for nonsplitting data: homological stability of Hurwitz spaces (Ellenberg–Venkatesh–Westerland) and the uniform étale Betti theorem for Hurwitz schemes are targets of this part, built on the braid-orbit monoid, the topological Hurwitz spaces, the analytic comparison and the fixed-degree comparisons of InverseGaloisAndArithmeticFundamentalGroups §§IG.3, IG.5.1–IG.5.3 and IG.5.5, which assert no stability. Its §IG.5.3 also owns the affine-branch variant with ramified or unramified infinity and Wood’s tangentially marked scheme; §IG.5.5 owns their marked-extension comparisons. This part adds the statistical comparisons and the surviving-parity fixed-fibre formula for tangential infinity in item IG-b, beyond §IG.5.6’s identity-boundary formula. The exact contracts appear below.
+
+- AbelianSchemesAndArithmeticModuli §§A2, A3.2–A3.7, A6.18–A6.19 own torsion subschemes, Weil pairings, polarizations, Rosati orbits of principal polarizations and finiteness of polarized automorphism groups. JacobianChallengePartII §§1.2–1.4 supply the relative Jacobian and its canonical principal polarization for the positive-genus hyperelliptic family, with arbitrary-base-change comparisons; genus zero uses the trivial principally polarized abelian scheme. GeometryOfNumbersAndQuadraticArithmetic §§0.2–0.3, 2.8, 3.3 own lattice indices, hermitian lattices and masses. EtaleDualityAndPerverseSheaves §§0.5–0.6 own Poincaré duality. DeligneWeightsAndPurity item 7.12 and §§1.4–1.6 supply Deligne's weight bounds and the point-count formulas for curves and abelian varieties over finite fields. Tau Ceti supplies the Hasse bound `WeierstrassCurve.hasse_bound`.
+
+- Mathlib supplies distribution functions and the equality of probability measures with equal distribution functions; the Kolmogorov distance built on them here is new. Mathlib's `Matrix.symplecticGroup` is the multiplier-one case of the similitude cosets of §5.18. Tau Ceti proves in `TauCeti.GLSymplecticFin.eq_top_of_adjacent_of_long` that a subgroup of its symplectic matrix group over a field containing both orientations of the adjacent short-root elements and the positive and negative long-root subgroups at one coordinate is the whole group. Section 5.17 derives transvection generation from this supplied theorem.
+
+- AlgebraicTopology Stages 4–6 own cellular homology, finite covers with transfer and the Cartan–Leray identification, the Künneth isomorphism and cochains; DGFloer Layer 1 item 3 owns the spectral sequence of a filtered complex; DerivedModuleAlgebra §S.1 owns the two spectral sequences of a first-quadrant double complex and their convergence; DGAInfinity Layers 1 and 5 own graded modules over noncommutative graded algebras, their balanced tensor product and the derived tensor product. Section 5.16 consumes these for the homology of Hurwitz spaces, and owns the bigraded `Tor^R_i(N, M)` with its internal grading and the `Tor` spectral sequences it uses (the `Tor` terms of the two spectral sequences of the double complex `C_• ⊗_R F_•` for a complex `C_•` of graded right modules and a graded free resolution `F_• → M`, universal coefficients for a complex of free modules and change of rings along a map of graded algebras), stated in *Tor spectral sequences over graded algebras*.
+
+- InverseGaloisAndArithmeticFundamentalGroupsPartII, later in the build, develops Hurwitz homological stability for general nonsplitting pairs with its own constants and estimates; nothing is imported from it here, and §5.16 states the stability theorem and the uniform Betti bound that §5.19 consumes.
+
+- Earlier parts supply the remaining inputs: Part I the local-density, two-column minor-content and saturation-index API (§0.10, *Coefficient vector form*), polarized-count, function-field and Wood-normalization targets; Part IV Cohen–Lenstra measures and the moment tools; Part V the nonabelian quadratic moment interface and embedded types; Part VII the enhanced Cohen–Lenstra finite-level law. The analytic prerequisites enter through the earlier parts.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+The pinned Mathlib supplies the following:
+
+- polynomial evaluation and partial derivatives: `MvPolynomial.eval_map`, `MvPolynomial.induction_on`, `MvPolynomial.pderiv`, `MvPolynomial.pderiv_mul`, `Ideal.Quotient.eq_zero_iff_mem`, `Nat.findGreatest`;
+
+- counting: `Nat.choose`, `Finset.Nat.antidiagonalTuple`, `PowerSeries`;
+
+- admissible field sizes: `Nat.chineseRemainder` (`Mathlib/Data/Nat/ModEq.lean`) and `Nat.forall_exists_prime_gt_and_modEq` (`Mathlib/NumberTheory/LSeries/PrimesInAP.lean`); coprime positive moduli give a simultaneous residue, and a residue coprime to a nonzero modulus contains primes above every bound;
+
+- probability: `MeasureTheory.ProbabilityMeasure`, `MeasureTheory.diracProba`, `MeasureTheory.Measure.dirac`, `ProbabilityTheory.cdf`, `cdf_le_one`, `cdf_eq_real` and the equality criterion `MeasureTheory.Measure.eq_of_cdf`;
+
+- angles and roots: `Multiset.sort`, `Multiset.count`, `Polynomial.roots`, `Complex.arg`, `toIcoMod`;
+
+- order and limits: `le_ciSup`, `Real.log_nonneg`, `Filter.Tendsto`, `Filter.atTop`, `Filter.limsup` and its dual `liminf`, `tendsto_nhds_unique`, `Filter.tendsto_pure`, `Finite.instDiscreteTopology`;
+
+- matrices and `p`-adics: `Matrix.J`, `Matrix.symplecticGroup`, `SymplecticGroup.mem_iff`, `Matrix.GeneralLinearGroup`, `PadicInt`, `ZMod`, `Module.End.maxGenEigenspace` (the algebraic union of exact kernels, not a topological primary space);
+
+- groups: `SemidirectProduct` with `inl`, `inr` and `rightHom`, `MulEquiv.inv`, `Subgroup.center`, the Schur–Zassenhaus existence theorem `Subgroup.exists_right_complement'_of_coprime`, `CommGroup.primaryComponent`;
+
+- class groups: `ClassGroup` and `integralClosure`.
+
+### From Tau Ceti
+
+`TauCeti.AlgebraicGeometry.EllipticCurve.HasseBound` supplies `WeierstrassCurve.hasse_bound` and `WeierstrassCurve.frobeniusTrace_sq_le_four_mul_card` for an elliptic Weierstrass curve over any finite field, with the point at infinity included. Applied at `q = p²` this gives `#E(F_{p²}) ≤ (p + 1)²` (Silverman, AEC V.1.1).
+
+`TauCeti.LinearAlgebra.Matrix.GeneralLinearGroup.Symplectic.TorusGeneration` supplies `TauCeti.GLSymplecticFin.eq_top_of_adjacent_of_long`: over a field, a subgroup containing both adjacent difference-root orientations and the positive and negative long-root subgroups at one coordinate is the whole symplectic group. Section 5.17 uses this generation theorem to obtain transvection generation; it does not specify another root-generation theorem.
+
+### From InverseGaloisAndArithmeticFundamentalGroups
+
+*Uses*:
+
+- Layer IG.0. §IG.0.T4 is the constant-sheaf Grothendieck–Lefschetz formula `#X(k_r) = Σ_i (−1)^i Tr(Frob_{q^r} | H^i_c(X_k̄, ℚ_ℓ))` for separated `X` of finite type. §IG.0.3 identifies finite étale covers of a connected normal base with finite continuous `π₁`-sets; hence the connected components of a finite étale cover are the `π₁`-orbits on a geometric fibre.
+
+- Layer IG.1. §IG.1.2 gives tame quotients. The geometric/arithmetic fundamental-group sequence over `𝔽_q` shows that a geometric component is defined over `𝔽_q` exactly when Frobenius preserves its orbit.
+
+- Layer IG.3. §IG.3.4 gives the reduced Schur multiplier `M(G, c) = M(G)/Q_c` (Wood's `H₂(G, c)`) and the reduced Schur covers. Its item *Coprime semidirect products and admissible inertia* covers `H ⋊ Γ` with `c` the elements of order equal to the order of their image; for `A ⋊ ℤ/2` with `A` odd it gives (iii) and the conjugation and power stability in (ii) of the generalized dihedral datum. §IG.3.5 gives the action of units; §IG.3.6 gives lifting invariants, the stable classification of braid orbits and the Tate-twisted arithmetic lifting invariants. Its targets *The Hurwitz braid action* (`σ_i : (a, b) ↦ (aba⁻¹, a)` on adjacent entries), *The braid-orbit monoid* (`⊔_n c^n/B_n` under concatenation, with product-one orbits central) and *Extracting an element of a single class* (EVW Proposition 3.4: for a generating single class, every generating tuple of large length is braid equivalent to one beginning with any prescribed `g ∈ c` and with generating tail) are the combinatorial inputs of §5.16.
+
+- Layer IG.4. §IG.4.5 gives *Coprime profinite complements* and the unramified admissible `Γ`-groups `Gal(K^#/K)` (Liu–Wood–Zureick-Brown, Definition 2.1). §IG.4.6 gives *Marked extensions and their infinity types* (Wood, Proposition 4.4, with the swap and coordinate-projection hypotheses stated there, and `Disc M = Disc K^{|G′|/2}` for tame quadratic function fields) and *The marked extension count over `𝔽_q(t)`*, which defines `N(H, Γ, D, 𝔽_q(t))`.
+
+- Layer IG.5.
+  - §IG.5.1 *Configurations and punctured-disc groups*: `Conf_n(𝔻)` is a `K(B_n, 1)` with fundamental group Tau Ceti's `TauCeti.BraidGroup n`. §IG.5.2 *Marked topological Hurwitz spaces* and *Forgetting the boundary marking*: the finite covers `Hur^c_{G,n}`, `CHur^c_{G,n}` of `Conf_n(𝔻)` with fibres `c^n` and the generating tuples in `c^n`, the conjugation action of `G` commuting with the braid action, with stabilizer `C_G(H)` on a component of monodromy group `H`, hence free on `CHur` for centre-free `G`.
+  - §IG.5.3 *Arithmetic Hurwitz stacks and schemes*: the affine-branch Hurwitz space is the union of the ramified- and unramified-infinity variants, finite étale over `Conf_n(A¹)` over `ℤ[1/|G|]`, with the supplied base-change comparisons. Rational inertia-class unions define open and closed loci; for `Z(G) = 1`, field-valued points classify covers defined over that field. The section also supplies Wood’s tangentially marked scheme for centre-free groups generated by involutions, with its specified infinity type. The same section’s *Component bound from finite étale degree* gives `D_n`, and its *Analytic and topological Hurwitz comparison* identifies `Hn^c_{G,n}(ℂ)` with `CHur^c_{G,n}/G` for centre-free `G` (EVW Lemma 7.4).
+  - §IG.5.4: admissible covers and the compact-type locus.
+  - §IG.5.5: tame cohomological specialization (EVW, Proposition 7.7); *Fixed-degree Hurwitz mod-ℓ comparison* (`H^i(Hn^c_{G,n}(ℂ), 𝔽_λ) ≅ H^i_ét(Hn^c_{G,n} ⊗ 𝔽̄_q, 𝔽_λ)` for one `n` at a time and `λ > max(|G|, q, n)`, EVW (7.8.2)) and *Coefficient towers and rational Betti dimensions* (the `ℚ_λ`-dimension is at most the `𝔽_λ`-dimension; LWZB, Lemma 10.3), both asserting nothing uniform in `n`; *Finite Hurwitz cohomology and the trace formula*; the *Fixed-degree uniform Hurwitz point estimate* `|#C(𝔽_q) − q^n| ≤ K_n q^{n−1/2}` (Wood, Theorem 4.7); and *Hurwitz points and marked extensions* (LWZB, Lemma 10.2, for the ordinary marking at unramified `∞`; Wood, Theorem 4.5(2), for her separate tangential marking, with inertia `g ∈ c ∪ {1}` and Frobenius lift one).
+  - §IG.5.6: component lifting invariants, the *General rational-class fixed-fiber formula* (`|A[q − 1]|` or zero per stable multiplicity vector, for the unramified-`∞` marking) and *Semidirect components versus quotient components* (LWZB, Theorem 10.4).
+  - §IG.5.7: *The labelled hyperelliptic quotient family* `[PConf_n(A¹)/Ã_n]`, with `Ã_n` the lifted affine coordinate group, written `B_n` below, and the *Finite-cover criteria for full monodromy image*. These criteria cover a dense open substack of a connected normal stack, a representable smooth surjection with geometrically connected fibres, and the passage from the compact-type locus to the smooth locus.
+
+*Hurwitz interfaces used below:*
+
+- (IG-a) Write `Hn^c_{G,n}` for the affine-branch scheme of §IG.5.3 with finite inertia class `c`, allowing ramification at `∞`. Its finite étale branch map, base-change comparisons and centre-free rational-point classification are the contracts just specified. Sections 5.15–5.19 form the class-group and statistical comparisons for this scheme (EVW §§7.1, 7.3 and Proposition 8.7).
+
+- (IG-b) Use Wood’s scheme `CHur^{c,g}_{F,m}` from §IG.5.3 and its marked-extension comparison from §IG.5.5. Here `F` is centre-free, `c` is a union of conjugacy classes of involutions generating `F`, the characteristic is prime to `|F|`, and `g ∈ c ∪ {1}` is the tangential infinity type. The additional target is the arithmetic component comparison: for every multiplicity vector with `m_i ≥ N₀`, identify Frobenius-fixed geometric components with the `q⁻¹`-fixed component invariants; on Wood’s surviving parity vectors their number is `|H₂(F,c)[q − 1]|`, and it is zero on incompatible vectors. Retain the branch-degree and infinity-type maps of the supplied scheme in this comparison, including when `g ≠ 1` (Wood, Theorem 4.5(3), Proposition 4.1 and Remark 4.2, pp.18–21).
+
+The API for the IG-b comparison identifies the stable component invariants, intertwines Frobenius with the `q⁻¹` action, and gives the surviving-parity count and zero for incompatible parities. Its source is the set of geometric components of the supplied tangentially marked scheme and its target is Wood’s lifting-invariant set with the same multiplicities and infinity type. *Needs:* InverseGaloisAndArithmeticFundamentalGroups §§IG.3.4–IG.3.6, IG.5.3, IG.5.5–IG.5.6; Wood Proposition 4.1, Remark 4.2 and Theorem 4.5(3).
+
+**Checks.**
+
+- For IG-a, the trivial group at `n = 0` gives one trivial cover. For `S₃` with transposition inertia at three fixed finite branch points, `3³ − 3 = 24` tuples generate `S₃`; simultaneous conjugation is free, so there are `24/6 = 4` unmarked covers, all with ramified infinity. Imposing identity boundary product would incorrectly give zero.
+- In the `A = C₃` torsion comparison, the eight nonzero maps from `𝔽₃²` modulo sign give `8/2 = 4` points. Counting labelled surjections instead would double the fibre.
+- For IG-b, the imaginary discriminant slice of exponent `2n` has finite branch degree `2n − 1` and nontrivial infinity inertia; the real slice has degree `2n` and `g = 1`. At `n = 1` these finite degrees are 1 and 2, so forgetting infinity changes the degree.
+- An incompatible parity vector gives zero rational components. On a surviving stable vector with trivial reduced multiplier, the count is `|0[q − 1]| = 1`; if the reduced multiplier is `C₃`, its contribution is 1 for `q = 5` and 3 for `q = 7`, whenever these satisfy the tame hypotheses of the datum. A constant-one rule would miss the second contribution.
+
+### From AlgebraicTopology, DGFloer, DerivedModuleAlgebra and DGAInfinity
+
+*Uses*: AlgebraicTopology Stage 4 (cellular chain groups indexed by the cells of a finite CW complex, so that `dim H_p` is at most the number of `p`-cells); Stage 5 item 1 (the Künneth isomorphism over a field); Stage 5 item 3 (finite coverings, transfer, and for a regular finite cover with group `G` and `|G|` invertible the identification of the homology of the quotient with the coinvariants; a finite cover of a finite CW complex is a finite CW complex with one lifted cell per sheet); Stage 6 (cochains over a field as duals of chains). DGFloer Layer 1 item 3: the spectral sequence of a filtered chain complex with its `E¹` term and convergence, applied in §5.16 to the skeletal filtration of a semisimplicial Borel construction. DerivedModuleAlgebra §S.1, homological form: for a first-quadrant chain double complex `D` in an abelian category, the spectral sequence of the column filtration, with `E¹_(p,q) = H_q(D_(p,•))`, `E²_(p,q) = H_p(H_q(D))`, `d_r` of bidegree `(−r, r − 1)` and convergence to `H_(p+q)(Tot D)`, stable for `r > max(p, q + 1)`; applied in §5.16 in each internal degree to `C_• ⊗_R F_•` and to its transpose. DGAInfinity Layer 1: graded modules and bimodules over a graded noncommutative `k`-algebra (a DG algebra with zero differential), restriction and extension of scalars along a map of graded algebras, and the balanced tensor product of a right module against a left module; Layer 5: the derived tensor product, consumed only as the single-graded total of `P_• ⊗_R M` for a graded free resolution `P_• → N`; the bigraded `Tor^R_i(N, M)`, with its internal grading and the balance between resolutions of either side, is defined and proved in *Tor spectral sequences over graded algebras*. Neither layer states a spectral sequence: the `Tor` spectral sequences of §5.16 (*Tor spectral sequences over graded algebras*) are targets of this part, built on these modules and on the double-complex spectral sequences of DerivedModuleAlgebra §S.1. Section 5.16 uses these for the Hurwitz spaces `Hur^c_{G,n}`, which are finite covers of `Conf_n(𝔻)`, and for the component ring `R`.
+
+**Checks.**
+
+- For `G = S₃` with transposition inertia and `n = 2`, `CHur^c_{S₃,2} → Conf_2(𝔻)` has degree `6` and the quotient by the free `S₃`-action has degree `1`; the coinvariant identification gives `H_0 = k` on the quotient.
+- The cell bound is used with the cell count `2^{n−1}` of `Conf_n(𝔻)` and the sheet count `|c|^n`; omitting the sheet count would bound `b_0(CHur^c_{S₃,2}) = 2` by `1`.
+- The Künneth isomorphism is used over a field only; the `Tor` term of the integral Künneth sequence never enters §5.16.
+- The derived tensor product of DGAInfinity is used only through its homology: the change-of-rings spectral sequence for `k[x] → k[x]/(x²)` with `N = M = k` has nonzero `d²` differentials (§5.16, *Tor spectral sequences over graded algebras*), so its statement is a target of this part and not a consequence of the derived-tensor API alone.
+
+### From AbelianSchemesAndArithmeticModuli
+
+*Uses*:
+
+- §A2: polarizations and duality.
+
+- §A3.2: `A[n]` is finite locally free of rank `n^{2g}`, étale where `n` is invertible, and compatible with base change.
+
+- §A3.5: the Cartier-dual pairing `e_n`.
+
+- §A3.7: the pairing `e_{λ,n}` of a polarization is strongly alternating, and perfect when `λ` is principal.
+
+- §A6.5: Poincaré complete reducibility.
+
+- §A6.18: finiteness of `Aut(A, λ)`.
+
+- §A6.19: principal polarizations correspond to the Rosati-symmetric totally positive units, and their isomorphism classes are the orbits of `s ↦ u^†su`.
+
+### From JacobianChallengePartII
+
+*Uses:* §§1.2–1.4 supply the relative Jacobian of a smooth projective relative curve with geometrically connected fibres of constant genus `g > 0` over a noetherian base, its canonical principal polarization and their comparisons under every base change.
+
+For odd `n = 2g + 1`, let `S = Conf_n ⊗ ℤ[1/2]` and let `C/S` be the smooth projective completion of the family `y² = f(x)`, with its section at `∞`. The base `S` is noetherian and the fibres are geometrically connected of genus `g`. Define the hyperelliptic relative Jacobian for `g > 0` as the instance of JacobianChallengePartII §§1.2–1.4 for `C/S`, with its canonical principal polarization; for `g = 0` use the trivial abelian scheme `S → S` with its unique principal polarization. This roadmap owns the hyperelliptic-model comparisons: identify the field fibres with the pointed curves' Jacobians and their polarizations, identify the relative dimension with `g`, and retain the supplied comparisons for every `T → S`, including nonreduced and non-noetherian `T`. Apply AbelianSchemesAndArithmeticModuli §§A3.2, A3.5, A3.7 to obtain the perfect alternating Weil pairing on each invertible torsion sheaf. Counting and local-condition statements for this parameter family belong here. Sources: EVW proof of Theorem 8.8, pp.779–780; Achter–Pries §3.1 and Lemma 3.1.
+
+**Checks.** In characteristic different from two, at `n = 1` the Jacobian is the zero-dimensional trivial abelian scheme with its unique principal polarization; at `n = 3` it is the elliptic curve with its point at `∞`; at invertible `ℓ` the `ℓ^m`-torsion has rank `ℓ^{2mg}`, while this étale assertion does not extend to `ℓ` equal to the characteristic. For `T = Spec(k[ε]/ε²) → S`, the base-change comparison respects the group law and principal polarization over all of `T`. In characteristic two, `f = x³ + x + 1` is squarefree but `y² = f` is singular at `(1,1)` and has rational normalization, so it is excluded.
+
+### From NeronModelsAndSemistableAbelianVarieties
+
+Sections 4.2 and 4.4 identify the Jacobian’s toric character lattice with integral graph cycles and its monodromy pairing with the edge-thickness pairing, including nodal contractions. Section 4.3 supplies the integral prime-to-residue-characteristic inertia formula over a henselian discrete valuation ring, with surjective tame character and the positive valuation convention; it includes residue characteristic zero. Section 5.17 applies these contracts to the pullback of the genus-one hyperelliptic family along `t ↦ (0,1,t)`; the general degeneration and monodromy constructions remain with this supplier.
+
+### From GeometryOfNumbersAndQuadraticArithmetic
+
+*Uses*: Layer 0, primitive vectors, saturation and covolumes (§§0.2–0.3); Layer 2, quaternionic hermitian lattices (§2.8); Layer 3, masses of genera (§3.3).
+
+*Additional targets here:* the following four inputs extend the supplied lattice and mass theory.
+
+- (GN-a) For linearly independent primitive `c, d ∈ ℤ^N` and `Q ≥ 1`, prove that the lattice `{y : ⟨c, y⟩ ≡ ⟨d, y⟩ ≡ 0 mod Q}` has index `Q²/gcd(G(c, d), Q)` in `ℤ^N`, where `G(c,d)` is Part I’s two-column minor gcd. This is the congruence-lattice extension of the supplied saturation-index identity, used in §5.12’s two-point incidence count (Browning–Le Boudec–Sawin, arXiv v1, Definition 3.7 and Lemma 3.9, p.11).
+
+- (GN-b) Lipnowski–Tsimerman, Definition 5.1: the model ring `R_{L,n} = ∏ M_{n_i}(O_{L_i})` with the conjugate-transpose involution, and its quaternionic analogue `M_m(O_D)`.
+
+- (GN-c) The corrected Lipnowski–Tsimerman bound (55), `log n_{L,n} ≤ (1/2) Σ_i [K_i:ℚ] n_i² log n_i + C_p g²`.
+
+- (GN-d) The quaternionic bound `log n_D(m) ≤ 2m² log m + O_p(m²)`, from Gan–Hanke–Yu, [[52]](#ref-52), §9, (9.1)–(9.2) and Proposition 9.3, pp.121–122 of the author PDF.
+
+For GN-a use ArithmeticStatisticsPartI §0.10, *Coefficient vector form*: `FormDensity.minorGCD`, `FormDensity.minorGCD_eq_index`, and the targets *minorGCD_basisChange* and *minorGCD_eq_zero_iff*. Their nonnegative content, basis-change invariance, independent-column saturation index and dependent-pair zero criterion retain those hypotheses. The new API here is the displayed two-congruence lattice index and its specialization when `Q` is coprime to the minor content. In Smith coordinates the first factor is 1 because each column is primitive, and the second is `G(c,d)`; reduction modulo `Q` therefore has image of size `Q · (Q/gcd(G(c,d),Q))`. The positive integer `gcd(G(c,d),Q)` divides `Q`, so the quotient is integral. *Needs:* ArithmeticStatisticsPartI §0.10, *Coefficient vector form*; GeometryOfNumbersAndQuadraticArithmetic §§0.2–0.3.
+
+For GN-b specify the CM model ring and the quaternionic model ring with their conjugate-transpose involutions; require the product projections, involution laws and the positive-symmetric-unit conjugation action. For GN-c and GN-d define the CM and quaternionic positive-unit orbit cardinalities, prove finiteness and invariance under isomorphism of rings with involution, and prove the displayed logarithmic bounds with constants depending only on `p`. Here `L_i` form an indexed finite family of CM fields generated by `p`-Weil numbers, allowing repetitions as abstract fields; the indices label distinct simple isogeny factors. Write `K_i` for their maximal totally real subfields and `g = Σ_i [K_i:ℚ]n_i`. The algebra `D` is the quaternion algebra over `ℚ(√p)` ramified exactly at its two infinite places, as in §5.13.
+
+For GN-c prove the product formula for positive-unit orbit counts: for a finite product of rings with componentwise involution and positivity, the positive-unit orbit count is the product of the individual counts. Units act componentwise even when two rings are isomorphic. Apply the single-block estimate to each indexed block and sum its logarithm; `Σ_i ([K_i:ℚ]n_i)² ≤ g²` absorbs the errors. Nonisogenous simple factors with isomorphic endomorphism fields have no cross-homomorphisms and remain separate blocks.
+
+For GN-d identify positive symmetric units modulo `GL_m(O_D)` with free unimodular positive quaternion-hermitian `O_D`-lattices. Prove that all such lattices lie in the single genus of the standard lattice: positivity fixes the infinite forms, and at every finite place `D` splits and a self-dual lattice is the standard symplectic lattice under Morita equivalence. For the rational-space comparison, diagonalize the positive hermitian form. Each diagonal coefficient is totally positive and hence a reduced norm from `D`: apply GlobalQuadraticForms Layer 5, Hasse–Minkowski, to the reduced-norm form with the negative of that coefficient adjoined. It is isotropic at every completion, and the norm form of the division algebra is anisotropic over the number field, so the last coordinate of a global isotropic vector is nonzero. Rescaling each diagonal basis vector then identifies the rational form with the standard one. Their local stabilizers are hyperspecial, so Proposition 9.3 gives the mass of this genus as
+`Mass_D(m) = 2^{−2m} ∏_{r=1}^m |ζ_{ℚ(√p)}(1−2r)|` for `m ≥ 1`.
+The genus includes projective lattices, so its mass is not the free-class count. A lattice's finite automorphism group embeds in `GL_{8m}(ℤ)`; the integral finite-subgroup bound of Lipnowski–Tsimerman §5.4.4, (52), p.31 gives order at most `exp(O(m log(m+1)))`. Consequently `n_D(m) ≤ exp(O(m log(m+1))) Mass_D(m)`. The functional equation of the quadratic Dedekind zeta function and Stirling's estimate give `log Mass_D(m) = 2m² log m + O_p(m²)`: the factorial contribution is `2Σ_{r≤m} log((2r−1)!)`. This proves the required upper bound without applying the CM-hermitian formula (55). This uses GlobalQuadraticForms Layer 5 for the norm argument, GeometryOfNumbersAndQuadraticArithmetic §2.8 for quaternionic lattices and Morita stabilizers, and GeometryOfNumbersAndQuadraticArithmetic §3.3, *Positive- and negative-integer zeta values in the mass formula*, for the continued Dedekind zeta values and their functional-equation comparison at negative odd integers.
+
+**Checks.**
+
+- For GN-a the columns `(1,0), (0,1)` have content 1 and congruence-lattice index `Q²`; at `Q = 1` this is 1.
+- For GN-a the columns `(1,0), (1,3)` have content and saturation index 3. At `Q = 3` the congruence lattice is `3ℤ × ℤ`, of index `3 = 9/gcd(3,3)`; at `Q = 2` its index is `4 = 4/gcd(3,2)`.
+- For GN-a equal columns `(1,0), (1,0)` have content 0; the independent-column saturation formula is inapplicable. Nonprimitive columns `(2,0), (0,2)` at `Q = 2` give the whole congruence lattice, of index 1, whereas `Q²/gcd(4,Q) = 2`; this excludes dropping primitivity.
+
+- For the CM model ring, in `ℤ[i]` one has `i* = −i`; `[[0,1+i],[2,0]]* = [[0,2],[1−i,0]]`; in `ℤ[i] × ℤ[i]`, `(i,1+i)* = (−i,1−i)`.
+
+- For the quaternionic model ring, with Hamilton generators in `ℍ_ℚ ⊗_ℚ ℚ(√2)`, `i* = −i`, `(ij)* = j*i* = −ij`, and `[[0,i],[j,0]]* = [[0,−j],[−i,0]]`.
+
+- For the CM positive-unit orbit count, the empty product has count one; a single imaginary-quadratic rank-one block has count one; the `ℤ[i]` rank-eight count is at least two, since `I₈` has a norm-one vector and the `E₈` Gram matrix has only even hermitian norms (write a Gaussian vector as `a+ib`). The product of the rank-eight block and a rank-one block still has count at least two.
+
+- For the quaternionic positive-unit orbit count, rank zero has count one, and rank one has count one over both `ℚ(√2)` and `ℚ(√5)`: their totally positive units are squares of central units, so every positive symmetric unit is conjugate to 1.
+
+- For GN-d the empty genus has mass one; `Mass_D(1) = |ζ_{ℚ(√p)}(−1)|/4`; and `Mass_D(2)/Mass_D(1) = |ζ_{ℚ(√p)}(−3)|/4`. The dimension is `2m`, giving `2m² log m = (1/2)(2m)² log(2m) + O(m²)`.
+
+### From EtaleDualityAndPerverseSheaves
+
+*Uses*: Layer 0, §0.5, Poincaré duality for smooth varieties with torsion coefficients, and §0.6, its `ℓ`-adic and rational form. The pairing `H^i_c × H^{2d−i}(F^∨(d)) → E` is perfect and Frobenius-compatible, and the top-degree trace is an isomorphism for geometrically connected `X`. Two consequences are used here. For a smooth `X` of pure dimension `n, dim H^j_c = dim H^{2n−j}`. For a geometrically connected smooth `C` of dimension `n, H^{2n}_c(C, ℚ_λ) ≅ ℚ_λ(−n)`.
+
+### From DeligneWeightsAndPurity
+
+*Uses*:
+
+- Item 7.12 (Weil II 3.3.4): every eigenvalue of geometric Frobenius on `H^j_c(X_{𝔽̄_q}, ℚ_λ)` has absolute value at most `q^{j/2}`.
+
+- §§1.4–1.5: the Frobenius roots of an abelian variety over `𝔽_q` are Weil `q`-numbers of weight one, and `#A(F_{q^m}) = P_{π^m}(1)`.
+
+- §1.6: the point count of a curve.
+
+Hence the characteristic polynomial of an isogeny factor divides that of `A`, and `#B₀(𝔽_p) = (p − 1)²`.
+
+### From earlier arithmetic-statistics parts
+
+From ArithmeticStatisticsPartI require [ArithmeticStatisticsPartI: local density of a form modulo q][part-1], [ArithmeticStatisticsPartI: coefficient vector form][part-2], [ArithmeticStatisticsPartI: primitive hypersurface family][part-3], [ArithmeticStatisticsPartI: finite local hypersurface set][part-4], [ArithmeticStatisticsPartI: arithmetic family][part-5], [ArithmeticStatisticsPartI: principally polarized count][part-6], [ArithmeticStatisticsPartI: polarization fiber count][part-7], [ArithmeticStatisticsPartI: support abelian counts][part-8], [ArithmeticStatisticsPartI: odd degree quadratic function field family][part-9], [ArithmeticStatisticsPartI: support function fields][part-10], [ArithmeticStatisticsPartI: size of the odd degree quadratic family][part-11], [ArithmeticStatisticsPartI: imaginary exact slice parametrization][part-12], [ArithmeticStatisticsPartI: wood average normalizations][part-13], [ArithmeticStatisticsPartI: wood infinity and type adapter][part-14], [ArithmeticStatisticsPartI: real exact slice parametrization][part-15]. Their hypotheses, weights, cutoffs and normalizations are retained at the point of use below.
+
+From ArithmeticStatisticsPartIV require [ArithmeticStatisticsPartIV: cohen lenstra measure][part-16], [ArithmeticStatisticsPartIV: surjection count][part-17], [ArithmeticStatisticsPartIV: isomorphism classes of finite abelian p groups][part-18], [ArithmeticStatisticsPartIV: surjection moment][part-19], [ArithmeticStatisticsPartIV: finite moment control of masses][part-20]. Their hypotheses, weights, cutoffs and normalizations are retained at the point of use below.
+
+From ArithmeticStatisticsPartV require [ArithmeticStatisticsPartV: nonabelian quadratic moment interface][part-21], [ArithmeticStatisticsPartV: support embedded types][part-22]. Their hypotheses, weights, cutoffs and normalizations are retained at the point of use below.
+
+From ArithmeticStatisticsPartVII require [ArithmeticStatisticsPartVII: zero cokernel probability at two][part-23], [ArithmeticStatisticsPartVII: zero cokernel probability lower bound at odd primes][part-24], [ArithmeticStatisticsPartVII: enhanced cohen lenstra finite level law][part-25], [ArithmeticStatisticsPartVII: enhanced cohen lenstra conjecture][part-26]. Their hypotheses, weights, cutoffs and normalizations are retained at the point of use below.
 
 ## References
 
