@@ -1,6 +1,20 @@
 # Roadmap: number-field Habiro rings, finite regulators and K₃-graded modules
 
-**Summary.** Construct Frobenius-twisted Habiro rings for number fields and lines over them indexed by algebraic K₃. The arithmetic input is a finite Chern class, compared with a regulator built from the cyclic dilogarithm. The local input is a Coleman regulator and the formal expansion of a half-shifted Pochhammer product. The end targets are an effective descent theorem, tensor equivalences for the indexed lines, their Picard character, and functorial pullback and multiplicative transfer. The finite identities, arithmetic gluing, and local constructions precede these end targets; local freeness by itself does not supply the global descent theorem.
+**Summary.** Habiro's ring is the completion of ℤ[q] at the products of cyclotomic polynomials. Its elements are determined by their Taylor expansions at all roots of unity. Garoufalidis, Scholze, Wheeler and Zagier attach such a ring to a number field, and over it a line for every class in algebraic K₃. This roadmap builds both, with the arithmetic they rest on: finite Chern classes of K₃ and a finite regulator made from a cyclic dilogarithm. Throughout, K is a number field, Δ a positive integer divisible by |disc K|, and R = O_K[1/Δ]. For the local sections and the lines, 6 also divides Δ.
+
+An element of the arithmetic Habiro ring H_R is a family of power series f_m ∈ A_m(R)[[x]] for m > 0. Here A_m(R) = R ⊗ ℤ[t]/(Φ_m(t)) is the full cyclotomic algebra, not a field factor, and x = q − ζ_m. For each prime p ∤ Δ, re-expanding f_m around the p-adically nearby root ζ_pm must give the Frobenius twist of f_pm. For K = ℚ the twist is trivial, and the Taylor map from the cyclotomic completion of ℤ[1/Δ][q] is a ring isomorphism onto H_R; at Δ = 1 this is Habiro's ring.
+
+For ζ a primitive n-th root of unity, the cyclic dilogarithm is the integral finite product `D_ζ(x) = ∏_(0≤k<n) (1−ζ^k x)^k`. Put `f(x,y|z) = Σ_(0≤k<n) z^k ∏_(0≤j<k) (1−ζ^(j+1)y)/(1−ζ^(j+1)x)`. The identity of Kashaev, Mangazeev and Stroganov holds over every field in which n is invertible. If x, y, z are nonzero, X = x^n and Y = y^n differ from 1 and from each other, and `(1−Y)z^n = 1−X`, then
+
+`f(x,y|z)^n D(1/x) D(ζy) D(ζ/z) = (ζy)^(n(n−1)/2) D(1) D(ζy/x) D(x/(yz))`.
+
+Let F be a number field and n odd, prime to the number of roots of unity in F. The finite regulator attaches to a symbol [X] the class of D_ζ(x)/D_ζ(1) modulo n-th powers, where x^n = X. On the Bloch group of F these classes descend to the χ⁻¹ part of F(ζ_n)ˣ/(F(ζ_n)ˣ)ⁿ, on which Gal(F(ζ_n)/F) acts through the inverse of the cyclotomic character χ. The KMS identity gives the five-term relation. Let n > 0 be prime to 6|disc F|·#K₂(O_F). Then the finite Chern map injects K₃(F)/n into the χ⁻¹ part of the units of F(ζ_n) modulo n-th powers. When n is also squarefree, it is onto. For the same n, and through the comparison of K₃ with the Bloch group, the regulator is the finite Chern map raised to a unit γ ∈ (ℤ/n)ˣ independent of F. Its value is proved only conditionally: if the regulator sends a cyclotomic eta class to ζ², as HabiroNahmSeries computes, γ = 2 for the positively normalized Chern map.
+
+For ξ ∈ K₃(K) and m > 0, the square ε_m(ξ) of the finite Chern class of ξ defines a line of m-th roots of ε_m(ξ). The module M_ξ consists of families of power series at all roots of unity with values in these lines. At each prime p ∤ Δ they satisfy a local condition built from local sections: series whose logarithms satisfy a Frobenius condition in which the p-adic regulator of ξ enters as a simple pole. Such sections exist, built from regularized half-shifted Pochhammer products, and any two differ by a local unit, so the local module is free of rank one. Globally, M_ξ is a finitely presented projective H_R-module of rank one. This effective descent does not follow from local freeness alone. Multiplication M_ξ ⊗_(H_R) M_η → M_(ξ+η) is an isomorphism, so ξ ↦ [M_ξ] is a homomorphism K₃(K) → Pic(H_R). The lines are functorial in the number field, with a multiplicative transfer of sections by determinant norms.
+
+Within Tau Ceti, HabiroCyclotomicCompletions supplies cyclotomic completions, Taylor maps and convergent re-expansion. KTheoryFiniteLocalFields supplies finite Chern classes and completed local K₃, and PadicHodgeRegulators the normalized p-adic regulator. HabiroNahmSeries uses the regulator, the ring and the lines to say where perturbative Nahm series live. HabiroRings compares its relative Habiro ring with this one.
+
+Layer 0 proves the unit theorem. Layer 1 proves the KMS identity and the regulator comparison. Layer 2 builds the ring. Layer 3 builds the lines, proving local freeness, then descent, then the tensor and functoriality statements.
 
 ## How to read the build
 
@@ -1229,7 +1243,7 @@ From **HabiroCyclotomicCompletions §§1.2–1.5, Layers 3–4 and §§5.2–5.4
 ### From TauCetiRoadmap.QWittVectors
 
 From **QWittVectors §§2.4 and 6.1**, consume perfect coverage of ℤ with ψ_p=id and the unique continuous completed Frobenius for étale R/ℤ, its invertible linearization and naturality; its linearization here is φ_R itself. The complete local chart
-`ℤ_p[q]^(p,Φ_m) ≃ A_m(ℤ_p)[[q−ζ_m]]` for p prime to m, including every factor of A_m, remains primeToPLocalChart of §2.6, proved from Mathlib's étale lifting theorems. The proof cannot assume Φ_m irreducible mod p. The arithmetic p-chain comparison and all-order assembly are in Layer 2 below. No derived completion or relative Habiro cohomology is reconstructed here.
+`ℤ_p[q]^(p,Φ_m) ≃ A_m(ℤ_p)[[q−ζ_m]]` for p prime to m, including every factor of A_m, remains primeToPLocalChart of §2.6, proved from Mathlib's étale lifting theorems. The proof cannot assume Φ_m irreducible mod p. The arithmetic p-chain comparison and all-order assembly are in Layer 2 above. No derived completion or relative Habiro cohomology is reconstructed here.
 
 ### From TauCetiRoadmap.QSeriesPartitionsAndMockModularForms
 
