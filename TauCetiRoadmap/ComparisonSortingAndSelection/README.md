@@ -455,8 +455,11 @@ network is the smallest input value, which depends on every input wire: the inpu
 
 Route: delete the comparators `(i, i)`; this does not increase the depth. Then go through the
 list from the front: at the first comparator `(i, j)` with `i > j`, replace it by `(j, i)` and
-exchange the wires `i` and `j` in all comparators after it. Each step keeps the length and the
-pairs of positions that share a wire, hence the depth, and the output of the new network is the
+exchange the wires `i` and `j` in all comparators after it. Each step keeps the length. It keeps
+the depth as well: immediately after the comparator the wires `i` and `j` have the same depth, so
+exchanging them in the later comparators exchanges the final depths of these two wires and
+changes no other, and the largest value is the same. (A step does not keep the pairs of
+positions that share a wire.) The output of the new network is the
 output of the old one with one fixed permutation `ρ` of the wires applied, the same for all
 inputs. The final network is standard. On a strictly increasing input the old network, which
 sorts it by 4.2, and the new one, which is standard, both return the input, so `ρ` is the
@@ -703,7 +706,8 @@ wires; and decision trees for Boolean functions.
 
 - Jeff Erickson, *Algorithms*, lecture notes, Lecture 12, "Lower Bounds", and Lecture 13,
   "Adversary Arguments", the revision marked Fall 2013; freely available from the author's site,
-  `jeffe.cs.illinois.edu/teaching/algorithms`.
+  `jeffe.cs.illinois.edu/teaching/algorithms`, as the files `notes/12-lowerbounds.pdf` and
+  `notes/13-adversary.pdf`.
 - Lecture notes of the course 15-451, *Algorithms*, Carnegie Mellon University, Fall 2011
   (instructors Avrim Blum and Manuel Blum; the notes name no author), Lecture 5,
   "Comparison-based Lower Bounds for Sorting", and Lecture 6, "Concrete models and tight
