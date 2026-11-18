@@ -1,34 +1,59 @@
 # Roadmap: surface group character varieties
 
-**Summary.** This roadmap builds the interface between the mapping class groups of punctured
-surfaces and the representation theory of their fundamental groups into real reductive groups.
-It starts from the abstract group theory of outer automorphisms (the action of TeichmullerGeometry's
-outer automorphism group `Out(Γ)` of an arbitrary group on conjugacy classes of homomorphisms
-`Hom(Γ, H)/H`), completes the
-punctured-surface mapping class group of MordellLawrenceVenkatesh Layer LV.5 by the group of ambient
-isotopy classes of an arbitrary space, the comparison of punctures with marked points, the
-permutation of the punctures underlying MappingClassGroupsAndCanonicalRepresentations' pure mapping
-class group and the standard model of a closed surface, and constructs the outer action
-`Ψ : Mod_{g,n} → Out(π₁(Σ_{g,n}, x))`
-with all its laws. It then builds the representation scheme `Hom(Γ, G)` of a finitely generated
-group, the real reductive groups `G^ℝ` (open subgroups of the real points of a connected reductive
-`ℝ`-group, given by its coordinate Hopf algebra in Tau Ceti's library of affine groups, among them
-RealSemisimpleLieGroups' real forms given by antiholomorphic involutive automorphisms, together with
-the uniqueness of the `ℝ`-form such an automorphism determines), the real
-Kempf–Ness theory of minimal vectors, the six equivalent characterizations of reductive
-representations, and the character variety `𝒳(Γ, G^ℝ) = Hom^red(Γ, G^ℝ)/G^ℝ` of a finitely
-generated group `Γ`. The end theorems are:
-`𝒳(Γ, G^ℝ)` is Hausdorff, locally compact and second countable and is homeomorphic to the space of
-minimal vectors modulo a maximal compact subgroup; for complex groups it is homeomorphic to the
-complex points of the affine quotient `Hom(Γ, G)//G`, which is the universal Hausdorff quotient of
-`Hom(Γ, G(ℂ))/G(ℂ)`; and `Out(Γ)`, hence `Mod_{g,n}` through `Ψ`, acts on it by homeomorphisms
-(the action of `Out(Γ)` for every group `Γ` and every subgroup of the points of an affine group),
-compatibly with change of basepoint and with the action on conjugacy classes of all
-representations. `Suggested.lean` states, against the pinned libraries, the non-descent theorem of
-§1.3, the extension over punctures of §2.2, the outer action of §3.3, the real Kempf–Ness theorem of
-§5.4, four of the six characterizations of §6.7, the topology of `𝒳(Γ, G^ℝ)` of §7.1, the universal
-Hausdorff quotient of §7.2 and the outer action of §7.4; its module docstring names the headline
-clauses that the pins cannot state and what each lacks.
+**Summary.** A homeomorphism of a surface acts on its fundamental group only up to inner
+automorphisms. So the mapping class group acts on conjugacy classes of representations of the
+fundamental group. The natural action on the representations themselves is that of the mapping
+classes fixing a basepoint, and in general it does not factor through the mapping class group. This
+roadmap makes that precise and builds the space where the action lives: the character variety
+`𝒳(Γ, G^ℝ)` of a finitely generated group `Γ`. Here `G^ℝ` is an open subgroup of the real points of
+a connected reductive group `𝐆` over `ℝ`. A homomorphism `ρ : Γ → G^ℝ` is reductive when the adjoint
+representation `Ad ∘ ρ` on the Lie algebra is semisimple. The character variety is the set of
+reductive homomorphisms modulo conjugation, with the quotient topology induced by pointwise
+convergence.
+
+Behind this is a fact about arbitrary groups `Γ` and `H`: the action
+`φ · ρ = ρ ∘ φ⁻¹` of the automorphisms of `Γ` on `Hom(Γ, H)` descends to `Out(Γ)` exactly when every
+homomorphism `Γ → H` has commutative image. The bridge to surfaces is the outer action.
+For a path-connected space `X` with a point `x`, a homeomorphism `f` and a path from `x` to `f(x)`
+induce an automorphism of `π₁(X, x)`, whose class in `Out(π₁(X, x))` does not depend on the path.
+This defines a homomorphism `Ψ_x` on the group `Mod^±(X)` of ambient isotopy classes of
+homeomorphisms. On a closed connected oriented surface `Σ` of genus at least one, `Ψ_x` corresponds
+to TeichmullerGeometry's Dehn–Nielsen–Baer isomorphism, so it is an isomorphism onto
+`Out(π₁(Σ, x))`. It maps the orientation-preserving classes onto the subgroup of index two acting
+trivially on `H₂(π₁(Σ, x); ℤ)`.
+
+The algebraic tool is a real Kempf–Ness theorem. Let `V` be a finite-dimensional real inner product
+space and `G` a closed subgroup of `GL(V)` whose every element is `k exp(A)`, with `k` in `G ∩ O(V)`
+and `A` symmetric with `exp(tA) ∈ G` for all real `t`. Call `v` minimal when `⟨A v, v⟩ = 0` for all
+such `A`. The minimal vectors are exactly the vectors of least norm in their orbit. An orbit is
+closed exactly when it contains one, and the closure of every orbit contains exactly one closed
+orbit. The roadmap then proves six equivalent characterizations of reductivity. For a finitely
+generated `Γ` and `ρ : Γ → G^ℝ`, `ρ` is reductive exactly when its `G^ℝ`-orbit is closed in
+`Hom(Γ, G^ℝ)`. Equivalently, its orbit under the complex points of `G = 𝐆_ℂ` is closed in
+`Hom(Γ, G(ℂ))`, or the Zariski closure of `ρ(Γ)` in `G` has reductive identity component.
+
+Then `𝒳(Γ, G^ℝ)` is Hausdorff, locally compact and second countable. Restricting to reductive
+homomorphisms matters: for `Γ = ℤ` and `G^ℝ = SL₂(ℝ)` the naive orbit space `Hom(ℤ, SL₂(ℝ))/SL₂(ℝ)`
+is not Hausdorff, and of the classes of `[[1,1],[0,1]]` and of `1` only the second is a point of
+`𝒳`. For a connected reductive group `G` over `ℂ`, `𝒳(Γ, G(ℂ))` is homeomorphic to the complex
+points of the affine quotient `Hom(Γ, G)//G` of the representation scheme. Sending a homomorphism to
+the unique closed orbit in its orbit closure is the universal Hausdorff quotient of `Hom(Γ, G(ℂ))`
+by conjugation. Finally, `Out(Γ)` acts on `𝒳(Γ, G^ℝ)` by homeomorphisms, and for the fundamental
+group of a closed oriented surface with `n` punctures so does its mapping class group, through
+`Ψ_x`.
+
+The roadmap builds on TeichmullerGeometry for the outer automorphism group and the classification
+of compact surfaces. From MordellLawrenceVenkatesh it takes punctured surfaces and their mapping
+class groups, whose action on finite coverings it recovers through `Ψ_x`. Connected reductive groups
+come from Tau Ceti's library of affine groups, and quotients by them from
+ArithmeticGaloisRepresentations and LanglandsParameterStacks. GeometricTopology, Part II uses the
+representation scheme and the complex comparison for Culler–Shalen theory.
+
+Layers 1–3 treat conjugacy classes and outer automorphisms, isotopy classes and punctures, and
+`Ψ_x`. Layers 4–6 build the representation scheme, real reductive groups with the Kempf–Ness
+theorem, and reductive representations. The two halves are independent, and Layer 7 uses both.
+`Suggested.lean` states the parts of these theorems that Mathlib and Tau Ceti can express, and its
+module docstring names the others and what each lacks.
 
 ## How to read the build
 
