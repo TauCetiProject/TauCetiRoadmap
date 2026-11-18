@@ -1488,9 +1488,10 @@ Numbers follow arXiv:2404.07953v3.
 ## Scope and ownership
 
 **In scope.** The source paper's Theorem B (Theorem 5.14) with the Theorem B forms of
-Corollaries D and E, every numbered statement of its §§6.3–6.4 and §7, its Remark 6.2 for the
-finite coverings of a closed manifold (4.2), which the base roadmap does not state, and the
-carriers, comparisons and explicit maps those statements consume. The
+Corollaries D and E, every numbered statement of its §§6.3–6.4 and §7 except Lemma 6.35 (listed
+under out of scope below), its Remark 6.2 for the finite coverings of a closed manifold (4.2),
+which the base roadmap does not state, and the carriers, comparisons and explicit maps those
+statements consume. The
 [source coverage](#source-coverage) section assigns each of them to a layer. The base roadmap,
 cited as **DGFloer** by layer and item, owns every other numbered statement of the source and its
 standing conventions; an unqualified "Layer `k`" or "`k.n`" refers to this roadmap.
