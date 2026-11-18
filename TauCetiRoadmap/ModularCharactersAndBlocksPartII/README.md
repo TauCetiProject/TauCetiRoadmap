@@ -1,37 +1,59 @@
 # Roadmap: modular characters and blocks, Part II — the Glauberman correspondence and heights of characters
 
-**Summary.** This roadmap continues ModularCharactersAndBlocks, which builds `p`-modular systems,
-Brauer characters, blocks, defect groups, Brauer's three main theorems and the behaviour of blocks
-under normal `p`- and `p'`-subgroups, and stops before the arithmetic of character degrees inside
-a block and before any character correspondence attached to a group action. Part II develops two
-strands on that base. The first is the character theory of coprime actions: for finite groups `S`
-and `Γ` of coprime orders with `S` acting on `Γ` by automorphisms, the action of `S` on `Irr(Γ)`,
-Gallagher's normalised extension of an invariant representation to `Γ ⋊ S`, the canonical
-extension and Gallagher's correspondence, Brauer's permutation lemma, the cyclic, `p`-group and
-solvable cases of Glauberman's construction, the uniqueness of the resulting family of bijections
-and its compatibility with normal subgroups of `S`, and the degree relations, ending in the
-**Glauberman correspondence** `θ ↦ θ*` between `Irr_S(Γ)` and `Irr(C_Γ(S))` and the divisibility
-`θ(1) ∣ |Γ : C_Γ(S)| θ*(1)`. The second strand is the theory of heights: the central characters of
-blocks and Osima's formula, **Brauer's theorem on heights**, heights and height zero characters,
-the Min–Max theorem, block covering through central characters, domination modulo an arbitrary
-normal subgroup, the **Fong–Reynolds correspondence** with its preservation of heights, Fong's
-theorem, the extended first main theorem, the structure of blocks of `P C_G(P)` with defect group
-`P`, and **Reynolds' theorem**: a block with a normal defect group `D` has all its characters of
-height zero exactly when `D` is abelian. Brauer's height zero conjecture and the Alperin–McKay
-conjecture are stated as predicates on blocks, with their proved instances. The block strand is
-stated for every splitting `p`-modular system of `G`.
+**Summary.** Let a finite group `S` act by automorphisms on a finite group `Γ` of coprime order.
+Glauberman constructed, for `S` solvable, a bijection between the irreducible characters of `Γ`
+fixed by `S` and those of the fixed-point subgroup `C = C_Γ(S)`. The second subject is block
+theory, where the power of `p` dividing the degrees of the characters in a `p`-block is controlled
+by a `p`-subgroup attached to the block, its defect group. This roadmap continues
+ModularCharactersAndBlocks and develops both theories.
 
-The end theorems are the canonical extension (`existsUnique_canonicalExtension`) and its values
-(`canonicalExtension_values`), Gallagher's correspondence (`gallagher_bijOn`), the `p`-group
-characterisation of the correspondent (`existsUnique_restrict_pairing_not_dvd`), the count of
-invariant characters (`ncard_invariantIrreducibleCharacters`), the existence and uniqueness of the
-Glauberman family (`exists_isGlaubermanFamily`, `IsGlaubermanFamily.apply_eq`) with its sign
-formula for a cyclic acting group (`IsGlaubermanFamily.exists_sign_of_isCyclic`) and its
-constituent, field-of-values and degree laws (`IsGlaubermanFamily.restrict_pairing_ne_zero`,
-`IsGlaubermanFamily.adjoin_range_eq`, `IsGlaubermanFamily.index_mul_degree_eq`), Brauer's theorem
-on heights (`brauer_height`), the Fong–Reynolds correspondence (`fongReynolds`,
-`existsUnique_fongReynolds`), Reynolds' height formula (`reynolds_heights`) and Reynolds' theorem
-(`reynolds`).
+Write `Irr_S(Γ)` for the set of `S`-invariant irreducible complex characters of `Γ`. Without any
+solvability, every `χ` in `Irr_S(Γ)` has exactly one extension to an irreducible character of
+`Γ ⋊ S` afforded by a representation of determinant `1` on `S`, its canonical extension. Its field
+of values is that of `χ`, and its values on `S` are rational integers.
+
+Let `S` moreover be solvable. There is exactly one way to choose, for all such pairs, bijections
+`χ ↦ χ*` from `Irr_S(Γ)` onto the irreducible characters of `C` obeying two rules. When `S` is a
+`p`-group, `χ*` is an irreducible constituent of the restriction `χ|_C` of multiplicity prime to
+`p`; exactly one constituent qualifies, and its multiplicity is congruent to `±1` modulo `p`. For
+a normal subgroup `T` of `S`, the bijection for `S` is the one for `T` followed by the one for
+`S/T` acting on `C_Γ(T)`. This is the **Glauberman correspondence**. For `SL(2,3) = Q₈ ⋊ C₃`,
+the two-dimensional character of `Q₈` restricts to `C = {±1}` as twice its correspondent, the
+sign character. In general `χ*` has the same field of values as `χ`, and `χ(1)` divides
+`|Γ : C| χ*(1)`.
+
+The second part, for a finite group `G` and a prime `p`, holds for every splitting `p`-modular
+system of `G`: a complete discrete valuation ring of residue characteristic `p` whose fraction
+field has characteristic zero and contains a primitive `exp(G)`-th root of unity. Let `B` be a
+block with defect group `D`, `|G|_p = p^a` and `|D| = p^d`. **Brauer's theorem on heights** says
+that `p^{a−d}` divides the degree of every ordinary character of `B`, and is the exact power of `p`
+dividing some of these degrees. The height of `χ` is the exponent of `p` in `χ(1)`, minus `a − d`.
+For a block `b` of a normal subgroup, with stabiliser `T` in `G`, the **Fong–Reynolds
+correspondence** says that induction from `T` to `G` maps the blocks of `T` covering `b`
+bijectively onto those of `G` covering `b`. Inducing characters is then a bijection between
+corresponding blocks; it preserves heights, and every defect group of the block of `T` is one of
+its image.
+
+Now let `D` be normal in `G`. Reynolds' height formula says that the heights occurring in the
+block are exactly the `p`-adic valuations of the degrees of the irreducible characters of `D`.
+**Reynolds' theorem** follows: all heights vanish exactly when `D` is abelian. For the single block
+of `SL(2,3)` at `p = 2`, with defect group `Q₈`, heights `0` and `1` both occur. Brauer's height
+zero conjecture asserts this equivalence for every block of every finite group. The Alperin–McKay
+conjecture says that a block and its Brauer correspondent in `N_G(D)` have equally many characters
+of height zero. Both are stated as properties, proved here for blocks of defect zero and blocks
+with a normal defect group. Their known proofs, of the first at every prime and the second at
+`p = 2`, rest on the classification of finite simple groups and on Lusztig's theory; they are cited,
+not built here.
+
+The base, ModularCharactersAndBlocks, provides blocks with their defect groups, Brauer
+characters, and Brauer's first and second main theorems. InductionRestriction provides Clifford
+theory, and is also to provide a divisibility of degrees from Clifford theory that Reynolds'
+height formula uses. InverseGaloisAndArithmeticFundamentalGroups provides the conjugacy of coprime
+complements. The intended users are roadmaps on the local–global conjectures for finite groups.
+
+Layers 1–5 treat coprime actions and use no block theory; they end with the Glauberman
+correspondence and its degree relations. Layers 6–9 treat blocks, from Brauer's theorem on heights
+to Reynolds' theorem and the two conjectures. The next section describes each layer.
 
 Suggested homes: `TauCeti/RepresentationTheory/CharacterTable/Glauberman/` and
 `TauCeti/RepresentationTheory/Block/Height.lean`, beside the base's
