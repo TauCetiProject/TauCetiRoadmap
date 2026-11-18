@@ -4,11 +4,11 @@
 
 ## How to read the build
 
-Layers 0–2 establish normalized norms, boundaries and primitive equations on the supplied carriers. Layers 3–5 turn zeros into weighted divisors, products and closed ideals. Layers 6–7 prove the eigenvector exact sequences and arbitrary-perfect-field Dedekind charts. Layers 8–9 establish the interval site, uniform generation, effective gluing and continuous descent before Layer 10 uses them for Frobenius lines, finite covers and reconstruction. Layer 11 gives the arithmetic and valued-field examples. Each statement carries its standing hypotheses plus its explicit additional hypotheses; its Needs line lists the inputs to the stated route. A different proof may use a different subset of those inputs. Suggested.lean states the three native-carrier headlines expressible at the pins (§§11.2, 11.3 and 11.5); the other headline carriers and their full mathematics live here.
+Layers 0–2 establish normalized norms, boundaries and primitive equations on the supplied carriers. Layers 3–5 turn zeros into weighted divisors, products and closed ideals. Layers 6–7 prove the eigenvector exact sequences and arbitrary-perfect-field Dedekind charts. Layers 8–9 establish the interval site, uniform generation, effective gluing and continuous descent before Layer 10 uses them for Frobenius lines, finite covers and reconstruction. Layer 11 gives the arithmetic and valued-field examples. Each statement carries its standing hypotheses plus its explicit additional hypotheses; its Needs line lists the inputs to the stated route. A different proof may use a different subset of those inputs. Suggested.lean states the four native-carrier headlines expressible at the pins (§§11.1, 11.2, 11.3 and 11.5); the other headline carriers and their full mathematics live here.
 
 ## Conventions
 
-Fix a prime p and q=p^f with f≥1. The coefficient field E is complete discretely valued with finite residue field 𝔽_q and chosen uniformizer π, with |π|_E=q⁻¹. Mixed characteristic allows every finite extension of ℚ_p; equal characteristic allows 𝔽_q((π)). Fix a nontrivially valued, perfect, complete rank-one field F of characteristic p with an embedding 𝔽_q→F. Its value group need not be discrete. Put v_F=−log_q|·|_F, O_F={|x|≤1}, m_F={|x|<1}, and let k_F be its residue field. A choice 0<|ϖ|<1 specifies a dense localization, not additional geometric structure. All rings are commutative unless a general Fréchet–Stein statement specifies left and right modules. Universes are arbitrary; classical point and divisor index sets live in the universe of the coefficient field, and limits may use its successor. Complete topologies are separated.
+Fix a prime p and q=p^f with f≥1. The coefficient field E is complete discretely valued with finite residue field 𝔽_q and chosen uniformizer π, with |π|_E=q⁻¹. Mixed characteristic allows every finite extension of ℚ_p; equal characteristic allows 𝔽_q((π)). Fix a nontrivially valued, perfect, complete rank-one field F of characteristic p with an embedding 𝔽_q→F. Its value group need not be discrete. Put v_F=−log_q|·|_F, O_F={|x|≤1}, m_F={|x|<1}, and let k_F be its residue field. A choice 0<|ϖ|<1 specifies a dense localization, not additional geometric structure. All rings are commutative. Universes are arbitrary; classical point and divisor index sets live in the universe of the coefficient field, and limits may use its successor. Complete topologies are separated.
 
 Write A=W_OE(O_F), Bᵇ=A[1/π,1/[ϖ]], Bᵇ⁺=A[1/π], B_I for the supplied separated completion on a nonempty interval I⊆[0,1], and B=B_(0,1). A has unique one-sided Teichmüller coefficients Σ_(n≥0)[x_n]π^n. At 0<ρ≤1 use the raw norm |Σ[x_n]π^n|_ρ=sup_n|x_n|ρ^n. At radius zero use the separate norm q^(−v_π(x)); substitution ρ=0 into the supremum is not its definition. For ρ=q^(−r) put v_r=−log_q|·|_ρ; at r=0 this means the coefficient infimum, which is different from v_π. For nonzero functions valuations are finite at interior radii; zero has additive value +∞. No divisor or fraction formula uses a zero denominator.
 
@@ -1429,7 +1429,7 @@ One proof route uses the following steps. Apply the Newton scaling v_r(φ x)=qv_
 
 ### 6.9 Orbit products and Lubin–Tate logarithms
 
-For the Lubin–Tate primitive equation u_ε=Q([ε^(1/q)]_Q)/[ε^(1/q)]_Q, its full orbit product agrees up to E× with log_LT([ε]_Q). The logarithm is the limit of π^(-n)[π^n]_LT on the open unit disc. Its product expansion is grouped by finite torsion levels; no unconditional ordering of individual torsion factors is asserted. In equal characteristic the logarithm and this identity require the all-local-field extension supplied by the all-local-field Lubin–Tate contract.
+For the Lubin–Tate primitive equation u_ε=Q([ε^(1/q)]_Q)/[ε^(1/q)]_Q, its full orbit product agrees up to E× with log_LT([ε]_Q). The logarithm is the limit of π^(-n)[π^n]_LT on the open unit disc. Its product expansion is grouped by finite torsion levels; no unconditional ordering of individual torsion factors is asserted. In equal characteristic the formal logarithm is LubinTateFormalModulesAndQuasiCanonicalLifts §3.2, and its convergence and the limit formula are the all-local-field Lubin–Tate contract.
 
 One proof route uses the following steps. Use the imported formal and analytic logarithm in characteristic zero. Telescope the finite product of Q-iterates, then take the normalized-iterate limit on each compact subdisc. The compatible root [ε^(1/q)]_Q gives the negative-half difference-equation solution. Compare the full product through the eigen-equation and divisor; retain only the scalar-independent normalization, avoiding a spurious extra π factor.
 
@@ -1439,7 +1439,7 @@ One proof route uses the following steps. Use the imported formal and analytic l
 
 - The logarithm normalization π^(−n)[π^n]_LT has derivative 1. Without π^(−n) its derivative tends to 0, so the limit cannot be the normalized logarithm.
 
-*Needs:* §6.6; §2.10; TauCetiRoadmap.LubinTateFormalModulesAndQuasiCanonicalLifts §LT.0, Analytic logarithm; TauCetiRoadmap.LubinTateFormalModulesAndQuasiCanonicalLifts §LT.1, Lubin–Tate formal module.
+*Needs:* §6.6; §2.10; TauCetiRoadmap.LubinTateFormalModulesAndQuasiCanonicalLifts §LT.0, Analytic logarithm; TauCetiRoadmap.LubinTateFormalModulesAndQuasiCanonicalLifts §LT.1, Lubin–Tate formal module; TauCetiRoadmap.LubinTateFormalModulesAndQuasiCanonicalLifts §3.2, The coefficient algebra of formal O-modules, for the formal logarithm in equal characteristic; the all-local-field Lubin–Tate contract.
 
 ### 6.10 Fundamental exact sequence with finite jets
 
@@ -1498,7 +1498,7 @@ One proof route uses the following steps. Use the supplied chart identification 
 - Be means invariant functions after inverting t; it is not Frac(B)^(φ=1). A nonnegative additive pole degree that vanishes exactly on units supplies the additional hypothesis for the minimum-degree principality argument.
 - For a,b of pole orders 2 and 3, ν(ab)=5; a nonzero constant has ν=0. The weak remainder bound ν(r)≤3 permits equality 3, so it cannot establish strict Euclidean descent.
 
-*Needs:* §6.7; §6.10; TauCetiRoadmap.VectorBundlesAndIsocrystals Layer 2, Regular noetherian geometric curve and PID complements; TauCetiRoadmap.VectorBundlesAndIsocrystals Layer 2, Classical points and annular Dedekind rings; `IsBezout`; `IsBezout.TFAE`.
+*Needs:* §6.7; §6.10; TauCetiRoadmap.VectorBundlesAndIsocrystals Layer 2, Regular noetherian geometric curve and PID complements; TauCetiRoadmap.VectorBundlesAndIsocrystals Layer 2, Classical points and annular Dedekind rings; `IsBezout`; `IsBezout.tfae`.
 
 ### 7.2 Continuous descent of de Rham jets
 
@@ -1603,7 +1603,7 @@ Earlier layers: 2, 4, 5, 6. Suppliers: TauCetiRoadmap.PerfectoidSpaces, TauCetiR
 
 ## Layer 8: Interval sheaves, coherent systems and gluing
 
-Build the interval topology and general Fréchet–Stein system interface, then prove uniform generation, gluing and the interval section equivalence.
+Build the interval topology, prove that the interval rings are Fréchet–Stein, then prove uniform generation, gluing and the interval section equivalence.
 
 ### 8.1 The period interval site
 
@@ -1664,31 +1664,17 @@ One proof route uses the following steps. Use endpoint splitting for additive su
 
 ### 8.4 Period functions as a Frechet–Stein algebra
 
-Construct the general Fréchet–Stein and coadmissible-system interface over any complete nontrivially valued nonarchimedean field K; its distribution-algebra specialization D(H,L), for compact H over a discretely valued L, is PadicLocalLanglandsForGL2Qp §0.1 and is not restated. A defining increasing sequence of submultiplicative seminorms has left-noetherian Banach completions A_n and right-flat dense transition maps A_(n+1)→A_n. A coherent system consists of finite left A_n-modules M_n with A_n⊗_(A_(n+1))M_(n+1)≅M_n and the cocycle laws; a coadmissible module is their inverse limit. Prove independence of a cofinal presentation, the abelian category, exact global sections, dense projections, and A_n⊗_AΓ(M)≅M_n. Apply this to B_I for every nonempty I⊆[0,1), using compact fields or PIDs and normalized endpoint norms. The commutative annular specialization keeps ordinary scalar extension, not a completed tensor product of arbitrary algebraic modules.
+Fréchet–Stein algebras over a field complete for a nontrivial nonarchimedean absolute value, their coherent sheaves and coadmissible modules, the independence of the defining sequence, Theorems A and B, A_n⊗_AΓ(M)≅M_n and the abelian category of coadmissible modules are LocallyAnalyticDistributionsPartII §1.4 (ST02, §3, pp. 7–11), and are not restated; the distribution-algebra specialization D(H,L) is PadicLocalLanglandsForGL2Qp §0.1. Prove that B_I is a Fréchet–Stein E-algebra in that sense for every nonempty I⊆[0,1): for a cofinal increasing sequence of compact intervals J_n⊆I, with B_(J_n) normed by the maximum of its normalized endpoint norms, each B_(J_n) is noetherian (a field or a PID, §5.1) and each restriction B_(J_(n+1))→B_(J_n) is flat with dense image. The commutative annular specialization keeps ordinary scalar extension, not a completed tensor product of arbitrary algebraic modules.
 
-**API.**
+One proof route uses the following steps. Use the compact field/PID dichotomy of §5.1 for noetherianity. Each restriction is an injective map of domains (§0.6), so B_(J_n) is torsion-free, hence flat, over the PID or field B_(J_(n+1)). The common dense ring Bᵇ gives density, and B_I is the inverse limit of the B_(J_n) by the definition of its completion. No assertion that every coadmissible module is finitely generated is made.
 
-- A cofinal subsequence yields the same topological algebra and equivalent coherent systems.
-- Global sections and Banach-stage scalar extension are inverse on coherent systems and coadmissible modules.
-- Kernels and cokernels remain coherent, and global sections preserves short exact sequences.
-- Images of sections in a Banach stage are dense, while finite algebraic base change recovers the whole stage module.
-
-**Checks.**
-
-- For A_n=K and M_n=K² with identity transitions, the limits are K and K² and stage base change is identity.
-- For A_n=K and M_n=0, all kernels, cokernels and sections are 0.
-- The quotient K[ε]/(ε²)→K is not flat, so noetherian Banach stages without flat transitions do not define this structure.
-
-One proof route uses the following steps. Prove the general system theorem by canonical Banach quotient topologies and complete dense inverse-limit correction, with right-flat transitions making kernels coherent. Use the compact field/PID dichotomy, torsion-free restriction and the common dense ring to verify the annular hypotheses. No assertion that every coadmissible module is finitely generated is made.
-
-(FF17, §11.2.1, pp. 369–370; ST02, §3, definition and Theorems A/B, pp. 7–9; Corollaries 3.1–3.5, pp. 9–11; Lemma 3.6, p. 11.)
+(FF17, §11.2.1, p. 369.)
 
 **Checks.**
 
 - The defining Banach algebras have the usual local-field scalar topology because 1 is excluded.
-- A constant Banach field system A_n=K gives A=K and Γ(K^d)=K^d, including d=0. A transition K[ε]/(ε²)→K is not flat: its length is 1, not a multiple of 2.
 
-*Needs:* §5.1; §0.6; TauCetiRoadmap.LocallyAnalyticDistributions §0.0; Mathlib noetherian-ring and module flatness vocabulary.
+*Needs:* §5.1; §0.6; TauCetiRoadmap.LocallyAnalyticDistributionsPartII §1.4; TauCetiRoadmap.LocallyAnalyticDistributions §0.0; Mathlib noetherian-ring and module flatness vocabulary.
 
 ### 8.5 Bundles and coherent systems on intervals
 
@@ -1730,7 +1716,7 @@ One proof route uses the following steps. Apply the imported Fréchet–Stein ex
 - A compatible zero-rank system has sections 0. For a trivial rank-two system, sections are B_I² and scalar extension is B_J²; the identity matrix lifts the splitting.
 - On I=(0,ρ] let D be an effective divisor whose points have radii tending to 0. The rank-one system (a_D B_J)_J has compact generators, the finite primitive products of D restricted to J, which change with J; its global sections a_D are free of rank one by §§5.3–5.4, generated by a Weierstrass product. No finite product of primitive factors generates every compact restriction, so the global generator is not one of the compact ones.
 
-*Needs:* §8.5; §8.4; §5.4.
+*Needs:* §8.5; §8.4; §5.4; TauCetiRoadmap.LocallyAnalyticDistributionsPartII §1.4.
 
 ### 8.7 Coherent systems and bounded fibres
 
@@ -1745,7 +1731,7 @@ One proof route uses the following steps. Use the imported coadmissible equivale
 - The bound is on fibre dimension, not torsion length. A cyclic jet B_dR,y⁺/(xi_y^n) has fibre dimension one for every n.
 - A cyclic jet O_y/(ξ^n) has fibre dimension 1 for every n≥1, while its length is n. Jets of lengths 1,2,3,… at escaping points pass the fibre bound; multiplicities O_y/(ξ)^(⊕n) do not.
 
-*Needs:* §8.6; §8.4; TauCetiRoadmap.VectorBundlesAndIsocrystals Layer 0, Completed local period rings.
+*Needs:* §8.6; §8.4; TauCetiRoadmap.LocallyAnalyticDistributionsPartII §1.4; TauCetiRoadmap.VectorBundlesAndIsocrystals Layer 0, Completed local period rings.
 
 ### 8.8 Matrix factorization with a surjective tangent map
 
@@ -1799,7 +1785,7 @@ For Z=diag(T,T⁻¹), conjugation sends the lower-left matrix unit E₂₁ to T�
 
 ### Dependencies
 
-Earlier layers: 0, 1, 5. Suppliers: TauCetiRoadmap.AdicSpacesPartIII, TauCetiRoadmap.LocallyAnalyticDistributions, TauCetiRoadmap.VectorBundlesAndIsocrystals. The subsection Needs lines give the exact sections and hypotheses.
+Earlier layers: 0, 1, 5. Suppliers: TauCetiRoadmap.AdicSpacesPartIII, TauCetiRoadmap.LocallyAnalyticDistributions, TauCetiRoadmap.LocallyAnalyticDistributionsPartII, TauCetiRoadmap.VectorBundlesAndIsocrystals. The subsection Needs lines give the exact sections and hypotheses.
 
 ## Layer 9: Finite extensions and continuous descent
 
@@ -1822,7 +1808,7 @@ One proof route uses the following steps. Choose an integral primitive element a
 
 ### 9.2 Completed algebraic-closure invariants on compact annuli
 
-For the same compact intervals I, B_(C,I)^(G_F)=B_(F,I) as topological E-algebras, C=completion(Fbar). Restrictions to smaller such intervals commute with this equality. This extends the global invariant assertion to each compact Banach annulus, including the boundary-0 field.
+For the same compact intervals I, B_(C,I)^(G_F)=B_(F,I) as topological E-algebras, C=completion(Fbar). Restrictions to smaller such intervals commute with this equality. This extends the global invariant assertion to each compact Banach annulus, including the boundary-0 field. The module descent of §§9.3–9.4 is stated only for intervals avoiding 0: for the radius-zero norm q^(−v_π) the group G_F does not act continuously on B_(C,I) when 0∈I and F is not algebraically closed (§9.3, Checks).
 
 One proof route uses the following steps. Use the finite-extension almost trace estimates uniformly on the compact interval. Approximate a G_F-invariant C-coefficient function by finite-extension functions and correct the invariant error by traces whose norm loss tends to 1. Take a complete Banach limit in B_(F,I), and prove the inclusion is isometric in the chosen endpoint norm. At radius 0 use the unique Witt expansion directly.
 
@@ -1837,7 +1823,7 @@ One proof route uses the following steps. Use the finite-extension almost trace 
 
 ### 9.3 Effective continuous semilinear descent
 
-For I compact in [0,1) with endpoints in |F|∩[0,1), the endpoint 0 allowed, extension of scalars gives an equivalence between finite free B_(F,I)-modules and finite free B_(C,I)-modules with continuous semilinear G_F-action; its inverse is fixed vectors and the canonical base-change map is an isomorphism. Continuity uses the Banach norm of the module. The necessary uniform matrix-cocycle corrections are the quantitative input in the quantitative cochain contract.
+For I compact in (0,1) with endpoints in |F×|, extension of scalars gives an equivalence between finite free B_(F,I)-modules and finite free B_(C,I)-modules with continuous semilinear G_F-action; its inverse is fixed vectors and the canonical base-change map is an isomorphism. Continuity uses the Banach norm of the module. FF17 also allows the endpoint 0, but for the Banach norm the action is then not continuous, so 0 is excluded here. The necessary uniform matrix-cocycle corrections are the quantitative input in the quantitative cochain contract.
 
 Establish uniform noncommutative small-cocycle correction on the root-refined annular approximation. The constants belong to the normalized compact norm and remain controlled as the finite-extension approximation improves.
 
@@ -1847,16 +1833,17 @@ One proof route uses the following steps. Full faithfulness follows from the sca
 
 **Checks.**
 
-- For c∈C× let B_(C,I)e carry σ(e)=[σ(c)/c]e. A vector fe is fixed exactly when f[c] is G_F-invariant, so by §9.2 the descended module is B_(F,I)[c]⁻¹e, of rank one. If σ(c)≠c for some σ, then e itself is not fixed; taking the given basis as the descended basis is wrong.
+- For c∈C× let B_(C,I)e carry σ(e)=[σ(c)/c]e; for 0∉I this action is continuous. A vector fe is fixed exactly when f[c] is G_F-invariant, so by §9.2 the descended module is B_(F,I)[c]⁻¹e, of rank one. If σ(c)≠c for some σ, then e itself is not fixed; taking the given basis as the descended basis is wrong.
+- At I={0}, B_(C,I)=W_OE(C)[1/π] with the norm q^(−v_π). Let F be not algebraically closed, so that Fbar has infinite degree over F, is not complete, and some c∈C is not algebraic over F. An open subgroup G_L, L/F finite, has C^(G_L)=L by §4.1 applied to L, so it contains σ with σ(c)≠c; then σ[c]−[c] has zeroth Witt coordinate σ(c)−c≠0, so v_π(σ[c]−[c])=0 and its norm is 1. The trivial module B_(C,{0}) is therefore not continuous, and the same holds for every compact I containing 0, whose norm is at least q^(−v_π). This is why 0 is excluded.
 - The trivial rank-one cocycle is 1 and descends to B_(F,I); rank zero descends to 0. Matrix composition in rank 2 is noncommutative: E₁₂E₂₁=E₁₁ and E₂₁E₁₂=E₂₂.
 
 *Needs:* §9.2; §9.1; TauCetiRoadmap.PerfectoidSpaces Layer P3; TauCetiRoadmap.AdicEtaleGeometry §A4.2a.
 
 ### 9.4 Continuous descent of interval bundles
 
-For every I ⊆ [0,1), Fib(Y_(F,I)) is equivalent to bundles on Y_(C,I) with a semilinear G_F-action whose action on sections over every compact subinterval is continuous. The equivalence and fixed-vector inverse commute with interval restriction, tensor products and Frobenius. The compact descent theorem for value-group endpoints must be extended to arbitrary compact subintervals by arbitrary-compact descent before taking the limit; density of |F×| alone does not cover an irrational singleton or an included irrational endpoint.
+For every I ⊆ (0,1), Fib(Y_(F,I)) is equivalent to bundles on Y_(C,I) with a semilinear G_F-action whose action on sections over every compact subinterval is continuous for its Banach norm. The equivalence and fixed-vector inverse commute with interval restriction, tensor products and Frobenius. The compact descent theorem for value-group endpoints must be extended to arbitrary compact subintervals by arbitrary-compact descent before taking the limit; density of |F×| alone does not cover an irrational singleton or an included irrational endpoint.
 
-For every compact J⊆[0,1), prove finite-extension completed base change from any enclosing value-group compact K, B_(L,K) ⊗̂_(B_(F,K)) B_(F,J)≅B_(L,J), and derive trace and noncommutative cocycle estimates in the J-norm itself. Do not assume a module or cocycle on J extends to K. This includes irrational singletons and included irrational endpoints.
+For every compact J⊆(0,1), prove finite-extension completed base change from any enclosing value-group compact K⊆(0,1), B_(L,K) ⊗̂_(B_(F,K)) B_(F,J)≅B_(L,J), and derive trace and noncommutative cocycle estimates in the J-norm itself. Do not assume a module or cocycle on J extends to K. This includes irrational singletons and included irrational endpoints.
 
 One proof route uses the following steps. Value-group compact intervals form convenient enclosing neighborhoods of any compact J away from 1, but need not be a cofinal exhaustion contained in the given interval. Prove arbitrary-compact base change and estimates: finite-extension completed base change and the quantitative trace and matrix-cocycle estimates on J itself, with uniform constants from enclosing intervals, without assuming its object or cocycle extends to a neighborhood. With this arbitrary-compact descent input, descend each compact module and its overlap identifications. Full faithfulness makes the cocycles and restriction comparisons unique. Take the 2-limit over every compact subinterval and apply the interval bundle/global-section equivalence. Check continuity and Frobenius on exactly these compact module topologies.
 
@@ -2054,7 +2041,7 @@ Give examples separating positive, global and completed carriers, and topologica
 
 ### 11.1 A nonprincipal ideal of B-plus
 
-For E=ℚ_p and F=ℂ_p^♭, choose a convex decreasing sequence beta_j in ℤ[1/p] tending to an irrational beta>0. With Y=[p^♭], put f=Σ_(i≥0) p^i Y^(beta_(2i)) and g=Σ_(i≥0) p^i Y^(beta_(2i+1)). The two-generated ideal (f,g) is not principal in A[1/p], and remains nonprincipal in B⁺. Thus B⁺ is not Bézout in this example. This does not settle whether B itself is Bézout.
+For E=ℚ_p and F=ℂ_p^♭, choose a convex decreasing sequence beta_j in ℤ[1/p] tending to an irrational beta>0. With Y=[p^♭], put f=Σ_(i≥0) p^i Y^(beta_(2i)) and g=Σ_(i≥0) p^i Y^(beta_(2i+1)). The two-generated ideal (f,g) is not principal in A[1/p], and remains nonprincipal in B⁺. Thus A[1/p] and B⁺ are not Bézout in this example. The native signature of the first assertion is `not_isBezout_wittVector_preTilt_padicComplexInt_invert_p`: the localization at p, `Localization.Away`, of the p-typical `WittVector` ring of `PreTilt` of `𝓞_ℂ_[p]`, which is the valuation ring of ℂ_p^♭, is not `IsBezout`. The assertion for B⁺ is not statable at the pins, which lack B⁺. This does not settle whether B itself is Bézout.
 
 One proof route uses the following steps. Successively subtract the initial terms and divide by p to create elements of the ideal whose first residual coefficient valuations approach beta from above. A hypothetical principal generator h can be normalized into A ∖ p A. The divisibility bounds from both sides force v_F(h mod p)=beta. The value group of ℂ_p^♭ is rational, contradicting irrationality. In B⁺ first use the Newton bounds to show a hypothetical generator can be chosen in the bounded subring, then apply the same argument.
 
@@ -2065,7 +2052,7 @@ One proof route uses the following steps. Successively subtract the initial term
 - The explicit example has rational value group. No universal non-Bézout statement over all algebraically closed F is inferred.
 - Choose β_j∈ℤ[1/p] decreasing convexly to √2. A hypothetical generator forces v_F(h mod p)≤β_j for every j and ≥√2, hence equality √2∉ℚ. A rational limiting value gives no such contradiction.
 
-*Needs:* §1.7; §1.6.
+*Needs:* §1.7; §1.6; the native Witt-vector, tilt and localization carriers in the Mathlib contract.
 
 ### 11.2 A strict endomorphism of a completed algebraic closure
 
@@ -2194,7 +2181,7 @@ Mathlib already provides the p-typical tilt, Fontaine map and algebraic de Rham 
 
 PadicDifferentialEquationsAndRigidCohomology §RD.0.54 states the general-local-field bounded period ring, multiplicative raw Gauss norms, Frobenius, henselian overconvergent field, Robba germ, equal-characteristic annulus and finite coefficient change. Those constructions and assertions are excluded here; §§0.2, 0.10, 1.4 and 1.10 refine finite coefficient bounds, normalized endpoint comparisons, finite-extension degrees and two-variable symmetry. Its §§RD.0.18–RD.0.23 own ordinary Laurent-analytic divisors and closed ideals over complete coefficient fields. Our mixed-characteristic Witt annuli are different objects; equal-characteristic comparisons identify the specializations with that theory. AdicSpaces §§6.1–6.4 owns the p-typical adic annuli and quotient; AlgebraicVectorBundles owns generic affine bundle comparison; AdicSpacesPartIII §R3.2 owns Tate-ring gluing; SchemeAndStackFoundations §0.3 owns Proj, base change and positive Veronese invariance; OptimalTransport Layer 5 owns the general closed convex and conjugate theory. No second version of these generic theories is a target.
 
-VectorBundlesAndIsocrystals Layer 0 owns the ramified Witt functor on arbitrary O_E-algebras. RelativeFarguesFontaine §§0.11–0.12 own the Q-twisted Witt comparison and the Q-Teichmüller lift [a]_Q built on it for coefficient fields of characteristic zero, its §0.13 owns the agreement of the weak (π,[ϖ])-adic topology of A with the topology of each interior Gauss norm, and its §0.14 owns the weak Lubin–Tate Teichmüller lift [x]_LT in characteristic zero; none of these is constructed again. The finite truncations W_OE,n and the coefficient diagonal belong to §0.1, together with the equal-characteristic Q-Teichmüller lift on perfect algebras, which differs from the supplied lift by the coefficient characteristic alone; the equal-characteristic weak Lubin–Tate lift belongs to §2.10 for the same reason; Q-compatible inverse limits to §2.1; the general Fréchet–Stein interface over an arbitrary complete nontrivially valued field to §8.4, whose distribution-algebra specialization D(H,L) over a discretely valued field is PadicLocalLanglandsForGL2Qp §0.1 and is not planned again; and the analytic-field differential criterion to §11.2 here. Their specializations supply integral period geometry and Berkovich arithmetic. Generic Lubin–Tate theory belongs to LubinTateFormalModulesAndQuasiCanonicalLifts LT.0–LT.2; its all-local-field contract is explicit below. The p-typical Witt covectors belong to FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.2.28a; §1.12 extends them to every coefficient field and owns the bivectors, their growth condition and their summation into B⁺. The positive-degree-two Banach–Colmez obstruction belongs to VectorBundlesAndIsocrystals Layer 5, and is consumed as a model constraint in §11.6.
+VectorBundlesAndIsocrystals Layer 0 owns the ramified Witt functor on arbitrary O_E-algebras. RelativeFarguesFontaine §§0.11–0.12 own the Q-twisted Witt comparison and the Q-Teichmüller lift [a]_Q built on it for coefficient fields of characteristic zero, its §0.13 owns the agreement of the weak (π,[ϖ])-adic topology of A with the topology of each interior Gauss norm, and its §0.14 owns the weak Lubin–Tate Teichmüller lift [x]_LT in characteristic zero; none of these is constructed again. The finite truncations W_OE,n and the coefficient diagonal belong to §0.1, together with the equal-characteristic Q-Teichmüller lift on perfect algebras, which differs from the supplied lift by the coefficient characteristic alone; the equal-characteristic weak Lubin–Tate lift belongs to §2.10 for the same reason; Q-compatible inverse limits to §2.1; and the analytic-field differential criterion to §11.2 here. The general Fréchet–Stein and coadmissible-module theory is LocallyAnalyticDistributionsPartII §1.4, and its distribution-algebra specialization D(H,L) over a discretely valued field is PadicLocalLanglandsForGL2Qp §0.1; §8.4 proves only that the rings B_I are Fréchet–Stein. Their specializations supply integral period geometry and Berkovich arithmetic. Generic Lubin–Tate theory belongs to LubinTateFormalModulesAndQuasiCanonicalLifts LT.0–LT.2 and §3.2; of these only the convergence of the logarithm is restricted to finite extensions of ℚ_p, and its equal-characteristic form is the all-local-field contract below. The p-typical Witt covectors belong to FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.2.28a; §1.12 extends them to every coefficient field and owns the bivectors, their growth condition and their summation into B⁺. The positive-degree-two Banach–Colmez obstruction belongs to VectorBundlesAndIsocrystals Layer 5, and is consumed as a model constraint in §11.6.
 
 NewtonPolygons §§0.1–0.6 supplies the common discrete convex envelope, supporting-value and slope-presentation geometry. Section 0.4 adds the real decreasing envelope of ramified Witt coefficients with right horizontal rays and its negative-geometric-slope convention; §0.5 proves the period-ring product comparison.
 
@@ -2202,21 +2189,21 @@ NewtonPolygons §§0.1–0.6 supplies the common discrete convex envelope, suppo
 
 ### From Mathlib
 
-Use `WittVector`, `PreTilt`, `WittVector.fontaineTheta`, `WittVector.fontaineTheta_teichmuller` and the root-namespace `surjective_fontaineTheta` from `Mathlib/RingTheory/Perfectoid/FontaineTheta.lean` (lines 165, 182, 195). The map requires a p-adically complete commutative ring, prime p and the indicated nonunit condition; surjectivity additionally requires surjective Frobenius modulo p. `fontaineThetaInvertP`, `BDeRhamPlus` and `BDeRham` in `Mathlib/RingTheory/Perfectoid/BDeRham.lean` (lines 62, 75, 88) supply the p-localized map, kernel completion and generator localization. If p=0 in the base ring these localized constructions are zero rings; equal-characteristic Cartier completions use their own supplied interface.
+Use `WittVector`, `PreTilt`, `WittVector.fontaineTheta`, `WittVector.fontaineTheta_teichmuller` and the root-namespace `surjective_fontaineTheta` from `Mathlib/RingTheory/Perfectoid/FontaineTheta.lean` (lines 166, 183, 196). The map requires a p-adically complete commutative ring, prime p and the indicated nonunit condition; surjectivity additionally requires surjective Frobenius modulo p. `fontaineThetaInvertP`, `BDeRhamPlus` and `BDeRham` in `Mathlib/RingTheory/Perfectoid/BDeRham.lean` (lines 62, 75, 88) supply the p-localized map, kernel completion and generator localization. If p=0 in the base ring these localized constructions are zero rings; equal-characteristic Cartier completions use their own supplied interface.
 
-Use `WittVector.Isocrystal` in `Mathlib/RingTheory/WittVector/Isocrystal.lean` (line 113), a Frobenius-semilinear automorphism over the Witt fraction field of a perfect characteristic-p domain. Finite dimensionality is an additional hypothesis; no algebraic-closedness or fixed maximal-unramified coefficient field is imposed. Use `IsBezout` in `Mathlib/RingTheory/PrincipalIdealDomain.lean` (line 65) for finite-generated ideals and `IsBezout.TFAE` in `Mathlib/RingTheory/Bezout.lean` (line 55) with the domain hypothesis; the latter requires an additional noetherianity or equivalent condition to obtain principality of all ideals.
+Use `WittVector.Isocrystal` in `Mathlib/RingTheory/WittVector/Isocrystal.lean` (line 112), a Frobenius-semilinear automorphism over the Witt fraction field of a perfect characteristic-p domain. Finite dimensionality is an additional hypothesis; no algebraic-closedness or fixed maximal-unramified coefficient field is imposed. Use `IsBezout` in `Mathlib/RingTheory/PrincipalIdealDomain.lean` (line 65) for finite-generated ideals and `IsBezout.tfae` in `Mathlib/RingTheory/Bezout.lean` (line 55) with the domain hypothesis; the latter requires an additional noetherianity or equivalent condition to obtain principality of all ideals.
 
-Use `ContinuousLinearMap.isOpenMap` and `ContinuousLinearMap.exists_nonlinearRightInverse_of_surjective` in `Mathlib/Analysis/Normed/Operator/Banach.lean` (lines 228 and 278), for complete normed spaces over a complete nontrivially normed field. The second provides a bounded nonlinear right inverse, with no continuous-linear-section assertion. `ApproximatesLinearOn.image_mem_nhds` in `Mathlib/Analysis/Calculus/InverseFunctionTheorem/ApproximatesLinearOn.lean` (line 290) supplies the local-surjectivity principle after the actual derivative and quadratic bounds are verified.
+Use `ContinuousLinearMap.isOpenMap` and `ContinuousLinearMap.exists_nonlinearRightInverse_of_surjective` in `Mathlib/Analysis/Normed/Operator/Banach.lean` (lines 229 and 279), for complete normed spaces over a complete nontrivially normed field. The second provides a bounded nonlinear right inverse, with no continuous-linear-section assertion. `ApproximatesLinearOn.image_mem_nhds` in `Mathlib/Analysis/Calculus/InverseFunctionTheorem/ApproximatesLinearOn.lean` (line 290) supplies the local-surjectivity principle after the actual derivative and quadratic bounds are verified.
 
-For §11.3 use `PadicComplex` (notation `ℂ_[p]`), its valuation `PadicComplex.valued`, `PadicComplex.isAlgClosed` and `PadicComplexInt` (notation `𝓞_ℂ_[p]`, a `ValuationSubring`) in `Mathlib/NumberTheory/Padics/Complex.lean` (lines 137, 145, 244, 251), and `PreTilt` in `Mathlib/RingTheory/Perfection.lean` (line 633), whose ring structure requires the class `Fact (¬ IsUnit (p : O))`; for `O=𝓞_ℂ_[p]` that class is provided by the instance `fact_not_isUnit_natCast_padicComplexInt` of `Suggested.lean`, proved from `PadicComplex.valuation_p` (the same file, line 162, the valuation of `p` is `1/p`) and `PadicComplexInt.integers` (line 257, `𝓞_ℂ_[p]` is the ring of integers of the valuation, so its units have valuation one). `PreTilt.untilt` in `Mathlib/RingTheory/Perfectoid/Untilt.lean` (line 49) is the multiplicative untilt map. `PadicComplexInt` carries no perfectoid or tilting-equivalence API. For §11.5 use `HahnSeries` with its field structure `HahnSeries.instField` in `Mathlib/RingTheory/HahnSeries/Summable.lean` (line 885, over an ordered additive group and a field), `HahnSeries.order` in `Mathlib/RingTheory/HahnSeries/Basic.lean` (line 358, with junk value 0 at 0), `HahnSeries.C` in `Mathlib/RingTheory/HahnSeries/Multiplication.lean` (line 790) and `AlgebraicClosure`; no maximal-completeness or Kaplansky embedding theorem is supplied.
+For §11.1 use `WittVector`, `Localization.Away` and `IsBezout`, with `PreTilt` of `𝓞_ℂ_[p]` and its ring instance as described next for §11.3. For §11.3 use `PadicComplex` (notation `ℂ_[p]`), its valuation `PadicComplex.valued`, `PadicComplex.isAlgClosed` and `PadicComplexInt` (notation `𝓞_ℂ_[p]`, a `ValuationSubring`) in `Mathlib/NumberTheory/Padics/Complex.lean` (lines 137, 145, 244, 251), and `PreTilt` in `Mathlib/RingTheory/Perfection.lean` (line 623), whose ring structure requires the class `Fact (¬ IsUnit (p : O))`; for `O=𝓞_ℂ_[p]` that class is provided by the instance `fact_not_isUnit_natCast_padicComplexInt` of `Suggested.lean`, proved from `PadicComplex.valuation_p` (the same file, line 162, the valuation of `p` is `1/p`) and `PadicComplexInt.integers` (line 257, `𝓞_ℂ_[p]` is the ring of integers of the valuation, so its units have valuation one). `PreTilt.untilt` in `Mathlib/RingTheory/Perfectoid/Untilt.lean` (line 49) is the multiplicative untilt map. `PadicComplexInt` carries no perfectoid or tilting-equivalence API. For §11.5 use `HahnSeries` with its field structure `HahnSeries.instField` in `Mathlib/RingTheory/HahnSeries/Summable.lean` (line 885, over an ordered additive group and a field), `HahnSeries.order` in `Mathlib/RingTheory/HahnSeries/Basic.lean` (line 358, with junk value 0 at 0), `HahnSeries.C` in `Mathlib/RingTheory/HahnSeries/Multiplication.lean` (line 790) and `AlgebraicClosure`; no maximal-completeness or Kaplansky embedding theorem is supplied.
 
-For §11.2 use `LaurentSeries` with `LaurentSeries.valued` in `Mathlib/RingTheory/LaurentSeries.lean` (line 502), `IsAlgClosure` in `Mathlib/FieldTheory/IsAlgClosed/Basic.lean` (line 264), `NormedField`, `Valued.v`, `UniformSpace.Completion`, `Continuous` and `Function.Surjective`. The algebraic-closure class records algebraicity and algebraic closedness; it includes no topology. The signature separately requires the norm on K to induce exactly the Laurent valuation ordering on the embedded base field. It asserts no isometry of the eventual endomorphism.
+For §11.2 use `LaurentSeries` with `LaurentSeries.valued` in `Mathlib/RingTheory/LaurentSeries.lean` (line 504), `IsAlgClosure` in `Mathlib/FieldTheory/IsAlgClosed/Basic.lean` (line 280), whose class also takes a `Module.IsTorsionFree` instance, `NormedField`, `Valued.v`, `UniformSpace.Completion`, `Continuous` and `Function.Surjective`. The algebraic-closure class records algebraicity and algebraic closedness; it includes no topology. The signature separately requires the norm on K to induce exactly the Laurent valuation ordering on the embedded base field. It asserts no isometry of the eventual endomorphism.
 
 For the analytic-field support use `KaehlerDifferential` and `KaehlerDifferential.D` in `Mathlib/RingTheory/Kaehler/Basic.lean` (lines 148 and 226), and `KaehlerDifferential.linearMapEquivDerivation` there (line 355). They give the algebraic differential module and universal derivation for commutative algebra extensions, with no seminorm or separated norm completion. The additional nonexpanding seminorm and completed universal property belong to §11.2.
 
 ### From Tau Ceti
 
-Use `TauCeti.AlgebraicGeometry.WeilDivisor`, `TauCeti.AlgebraicGeometry.WeilDivisor.ofPoint` and `TauCeti.AlgebraicGeometry.WeilDivisor.weightedDegree` in `TauCeti/AlgebraicGeometry/WeilDivisor/Basic.lean` (lines 45, 99, 339). Their carrier is the finitely supported integer functions on a point set and the degree is the weighted sum. Specialize it to finite-support and orbit divisors; it includes no noncompact local-finiteness condition. Use `TauCeti.AlgebraicGeometry.FiniteLocallyFreeSheaf.finiteProjectiveEquiv` in `TauCeti/AlgebraicGeometry/VectorBundle/Affine/Basic.lean` (line 102) for affine schemes, with its finite-locally-free hypothesis.
+Use `TauCeti.AlgebraicGeometry.WeilDivisor`, `TauCeti.AlgebraicGeometry.WeilDivisor.ofPoint` and `TauCeti.AlgebraicGeometry.WeilDivisor.weightedDegree` in `TauCeti/AlgebraicGeometry/WeilDivisor/Basic.lean` (lines 43, 105, 358). Their carrier is the finitely supported integer functions on a point set and the degree is the weighted sum. Specialize it to finite-support and orbit divisors; it includes no noncompact local-finiteness condition. Use `TauCeti.AlgebraicGeometry.FiniteLocallyFreeSheaf.finiteProjectiveEquiv` in `TauCeti/AlgebraicGeometry/VectorBundle/Affine/Basic.lean` (line 112) for affine schemes, with its finite-locally-free hypothesis.
 
 For E=ℚ_p use `TauCeti.FarguesFontaine.spaY` in `TauCeti/AlgebraicGeometry/AdicSpace/FarguesFontaine/Y.lean` and `TauCeti.FarguesFontaine.spaX` with `TauCeti.FarguesFontaine.isOpenQuotientMap_quotientMap` in `TauCeti/AlgebraicGeometry/AdicSpace/FarguesFontaine/Quotient.lean`. The companion `Window.lean` gives the rational wandering windows, radius inequalities and free iterated action. These are topological carriers and quotient maps; sheaf and affinoid-chart identifications use the roadmap contracts below.
 
@@ -2250,9 +2237,9 @@ What CrystallineCohomology must provide (the pro-final-radius contract): Identif
 
 ### From TauCetiRoadmap.LubinTateFormalModulesAndQuasiCanonicalLifts
 
-Use LT.0 Analytic logarithm, LT.1 Lubin–Tate formal module, and LT.2 Tate module and its comparison. The mixed-characteristic input retains its finite-ℚ_p hypotheses. The following extension supplies the equal-characteristic formal coefficient action; §§2.10 and 6.9 compare its periods, rather than dropping a characteristic hypothesis.
+Use LT.1, Lubin–Tate formal module (§1.3), and LT.2, Tate module (§2.2), in both coefficient characteristics, as stated there; for E=𝔽_q((π)) and Q=πX+X^q the Lubin–Tate module is the additive law with [π]=Q. Use §3.2 for the formal logarithm over E in either characteristic, the unique strict isomorphism onto the additive law with [a]=aX. LT.0, Analytic logarithm (§0.3), proves convergence of the logarithm for finite extensions of ℚ_p only, and §6.9 uses it in mixed characteristic.
 
-What LubinTateFormalModulesAndQuasiCanonicalLifts must provide (the all-local-field Lubin–Tate contract): Provide the formal-module, inverse-division Tate-module and normalized convergent logarithm interfaces over every complete discretely valued field with finite residue field, including equal characteristic and its additive coefficient action.
+What LubinTateFormalModulesAndQuasiCanonicalLifts must provide (the all-local-field Lubin–Tate contract): for E of characteristic p, convergence of the §3.2 logarithm of a Lubin–Tate module on the open unit disc of every complete valued extension of E, its O_E-linearity log([a]x)=a·log(x) there, and the identity log=lim_n π^(−n)[π^n]_LT on that disc.
 
 ### From TauCetiRoadmap.OptimalTransport
 
@@ -2270,6 +2257,10 @@ What SchemeAndStackFoundations must provide (the scheme-torsor contract): For a 
 
 Section 0.0 supplies nonarchimedean locally convex spaces, separated completion, projective limits and their initial topology over a complete nontrivially valued ultrametric field. Its §0.2 supplies spherical-completeness language. Countable compact-type regularity and strong-dual results retain their finite-ℚ_p or spherical-completeness hypotheses; none is applied to arbitrary inverse systems merely because they are complete.
 
+### From TauCetiRoadmap.LocallyAnalyticDistributionsPartII
+
+Section 1.4, Fréchet–Stein algebras and coadmissible modules, supplies, over any field complete for a nontrivial nonarchimedean absolute value, the definition by an increasing sequence of algebra seminorms with left noetherian Banach completions and flat transitions, coherent sheaves and coadmissible modules, independence of the sequence, Theorems A and B, A_n⊗_AΓ(M)≅M_n and the abelian category of coadmissible modules. Sections 8.4, 8.6 and 8.7 apply it to the commutative E-algebras B_I, I⊆[0,1), with E as the complete field.
+
 ### From TauCetiRoadmap.PadicDifferentialEquationsAndRigidCohomology
 
 Use §RD.0.54 for the dense bounded period ring, multiplicative raw norms, Frobenius, E†, ℛ, equal-characteristic Laurent comparison and finite coefficient change, including the chosen residue factor. Use §§RD.0.18–RD.0.23 for ordinary Laurent preparation, divisors, interpolation and closed ideals in the equal-characteristic comparison; its discrete-Cohen-coefficient analytic Bézout theorem is not an arbitrary-perfect-field Witt theorem. Use §RD.0.51(b) for the fixed field of the completed algebraic closure of a complete characteristic-p field, namely the completed perfection of that field, and §RD.0.52 for the mixed-characteristic ramified Witt-coefficient fixed field; §4.1 specializes them to the perfect complete F and derives the integral and equal-characteristic Witt forms by coefficient uniqueness.
@@ -2285,7 +2276,7 @@ Use §§0.1–0.6 for discrete convex envelopes, extended supporting values, int
 
 ## References
 
-- **FF17:** Laurent Fargues and Jean-Marc Fontaine, *Courbes et fibrés vectoriels en théorie de Hodge p-adique*, public author copy dated 16 April 2017. The cited theorem numbers and printed pages are those of this copy, a precursor to Astérisque 406 (2018); published numbering is not identified with it. [Author copy](https://www.imo.universite-paris-saclay.fr/~fontaine/courbe.pdf). Chapter 1, Chapters 2–7, §§11.1–11.2 and the explicitly located preface results support the targets above.
+- **FF17:** Laurent Fargues and Jean-Marc Fontaine, *Courbes et fibrés vectoriels en théorie de Hodge p-adique*, public author copy dated 16 April 2017. The cited theorem numbers and printed pages are those of this copy, a precursor to Astérisque 406 (2018); published numbering is not identified with it. [Author copy](https://www.imo.universite-paris-saclay.fr/~fontaine/courbe.pdf). Chapter 1, Chapters 2–7, §§11.1–11.2 and the explicitly located preface results support the targets above. Locators written "Préface" refer to the preface of this volume, *La courbe de Fargues et Fontaine*, by Pierre Colmez.
 - **KT16:** Kiran S. Kedlaya and Michael Temkin, *Endomorphisms of power series fields and residue fields of Fargues–Fontaine curves*, author version 6, 29 March 2016, Theorems 1.2–1.3 and Lemma 2.4, printed pp. 1–5. [Author copy](https://math.huji.ac.il/~temkin/papers/Endomorphisms_of_Power_Series.pdf).
 - **Berger08:** Laurent Berger, *Construction de (φ,Γ)-modules: représentations p-adiques et B-paires*, Algebra & Number Theory 2 (2008), pp. 91–120, Remark 1.1.3, p. 96. [Publisher open archive](https://msp.org/ant/2008/2-1/ant-v2-n1-p04-p.pdf).
 - **ST02:** Peter Schneider and Jeremy Teitelbaum, *Algebras of p-adic distributions and admissible representations*, arXiv math/0206056v1 (2002), §3, definition, Theorems A/B, Corollaries 3.1–3.5 and Lemma 3.6, printed pp. 7–11. [Version read](https://arxiv.org/abs/math/0206056v1). The general complete nonarchimedean-field system theorem is distinct from the distribution-algebra specialization over local fields.
