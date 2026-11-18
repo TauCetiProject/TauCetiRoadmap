@@ -1,10 +1,18 @@
 # Roadmap: p-adic local Langlands for GL₂(ℚ_p), Part II: geometric realisation in the Drinfeld tower
 
-**Summary.** PadicLocalLanglandsForGL2Qp builds the p-adic local Langlands correspondence for G = GL₂(ℚ_p). Its §6.9 identifies the analytic quotient Π^an/π with the strong dual of functions on a Drinfeld cover. It does this for a supercuspidal π with trivial central character, conditionally on a global nonzero map and global de Rham data. This Part II starts from that comparison and the correspondence. It discharges the global hypotheses and extends the comparison to every supercuspidal type on which p acts trivially. It refines the comparison by the P-finite Kirillov model, the embedded common dual and the homographic covariance of the coordinate operator. It then extracts the Galois and Banach multiplicities of the geometric p-adic étale cohomology of the Drinfeld tower, and factors the arithmetic completed cohomology at a fixed level over blocks and full Weil–Deligne type rings. The end theorems are:
+**Summary.** PadicLocalLanglandsForGL2Qp builds the p-adic local Langlands correspondence V ↦ Π(V) for G = GL₂(ℚ_p). For a supercuspidal π with trivial central character it also identifies the analytic quotient Π^an/π with the strong dual of the functions on a Drinfeld cover, conditionally on a global nonzero map and global de Rham data. This Part II realises the correspondence in the cohomology of the Drinfeld tower. It discharges the global hypotheses, extends the comparison to every supercuspidal type on which p acts trivially, and reads off the Galois and Banach multiplicities of the p-adic étale cohomology of the tower at a fixed level.
 
-- the Galois-socle theorem: for a supercuspidal type M of level at most n with p acting trivially on JL(M) (M ∈ ΦNᵖ_n of Conventions), the multiplicity of V_(M,ℒ) in H¹_ét(M^p_(n,C), L(1)) is Π(V_(M,ℒ))*⊗JL(M), with Π(V_(M,ℒ))* the Banach dual in the topology of compact convergence, and every absolutely irreducible V of dimension at least three has zero multiplicity (Dospinescu–Le Bras, Colmez–Dospinescu–Nizioł);
-- the factorisation of the arithmetic completed cohomology H¹_ét(M^p_(n,ℚ̄_p), L(1)) for p > 3;
-- the weighted realisation with its BGG row (§7.2) and its first-cover form on Teitelbaum's semistable model (§7.3), the description of the diag(p,1)-invariant functions on a Drinfeld cover by Iwasawa classes with exponential specialisations (§7.4), the infinitely primitivable functions (§7.5) and the filtered derived realisation of D_dR(V) (§7.6).
+Throughout, M^p_n is the quotient by p^ℤ of the Drinfeld cover of level K_D(n), where D is the quaternion division algebra over ℚ_p and Ǧ = D^×. The types M are the special and supercuspidal rank-two (φ,N,G_ℚ_p)-modules; such an M lies in ΦNᵖ_n when p acts trivially on its Jacquet–Langlands representation JL(M) and JL(M) is trivial on K_D(n). For a supercuspidal type M of slope 1/2 and a line ℒ in its de Rham module, V_(M,ℒ) is the absolutely irreducible two-dimensional representation of weights {0,1} cut out by ℒ, and Π_(M,ℒ) = Π(V_(M,ℒ)).
+
+The main theorem is the Galois-socle theorem of Dospinescu–Le Bras and Colmez–Dospinescu–Nizioł. Let V be an absolutely irreducible continuous L-representation of Gal(ℚ̄_p/ℚ_p). Its multiplicity in H¹_ét(M^p_(n,C), L(1)) is Π(V)*⊗JL(M) when V ≅ V_(M,ℒ) with M supercuspidal in ΦNᵖ_n, and (St^cont⊗δ∘det)*⊗δ∘Nrd when V = δ is a character with Sp⊗δ in ΦNᵖ_n. It is zero otherwise, in particular whenever dim V ≥ 3, at every prime p. Here Π* is the continuous dual of a Banach space with the topology of compact convergence, on which G acts continuously. The proof of the vanishing in dimension at least three goes through the occurrence theorem: the strong dual of the Galois multiplicity of a finite-dimensional V in a supercuspidal sector is an admissible unitary Banach representation of finite length, nonzero exactly when V has a quotient V_(M,ℒ) after a finite extension of L.
+
+Alongside it the roadmap computes Banach multiplicities. For an absolutely irreducible admissible unitary Banach representation Π ≅ Π_(M,ℒ) with M supercuspidal in ΦNᵖ_n, the continuous G-maps from Π* to the differentials on the tower form ℒ⊗JL(M), and those to the étale cohomology form V_(M,ℒ)⊗JL(M). The comparison of functions with the analytic quotient holds for every supercuspidal M in ΦNᵖ_n, without the trivial central character, with its de Rham identification equal to the Hyodo–Kato one.
+
+For p > 3 the arithmetic completed cohomology H¹_ét(M^p_(n,ℚ̄_p), L(1)) factors as a finite sum over the types M in ΦNᵖ_n of completed sums over blocks B, tensored with JL(M). Each term is the tensor product, over the full Weil–Deligne type ring R_(B,M), of the interpolated Banach dual Π*(ρ_(B,M)), the universal Galois family ρ_(B,M) and the continuous dual of R_(B,M). Further consequences are a weighted realisation with its BGG row, a description of the diag(p,1)-invariant functions on a Drinfeld cover by Iwasawa classes, the infinitely primitivable functions, a filtered derived realisation of D_dR(V) and a boundary-function sheaf.
+
+Besides the base roadmap, this one builds on ProetaleCohomologyOfPAdicCurvesAndTowers for the p-adic geometry of the tower and its fundamental diagram, and on EndoscopicTransferAndUnitaryTraceComparison for the tower itself, its Weil descent and its central quotients. ScholzeFunctorAndModpCohomologyOfTheLubinTateTower supplies the finite length of the mod p cohomology used in the arithmetic block decomposition.
+
+Layer 0 fixes types, levels and normalisations. Layers 1 and 2 build the P-finite Kirillov model, the embedded common dual and the homographic covariance of the coordinate operator. Layer 3 completes the Breuil–Strauch realisation, and Layer 4 computes the multiplicities. Layers 5 and 6 decompose the arithmetic cohomology into blocks and interpolate over the type rings, and Layer 7 draws the further consequences.
 
 ## How to read the build
 
@@ -720,10 +728,7 @@ For an absolutely irreducible continuous L-representation V of G_ℚ_p, prove th
 
 In particular the multiplicity is 0 for dim V ≥ 3. Sources: CDN20, Théorème 0.2 (line 130) and Corollaire 2.16 (line 1108); CDN23, Théorème 5.1 (line 2357) and Théorème 5.10 (line 2541). On the full tower M_n the source condition is level ≤ n (CDN23, Théorème 5.1); on the p-central quotient it is membership in ΦNᵖ_n (source correction E15). Weil equivariance extends to G_ℚ_p-equivariance by continuity of the descended action.
 
-For dimension two the route uses §§4.6 and 4.10, and for dimension one §4.2. For dimension at least three there are two routes:
-
-- the occurrence theorem §4.11, valid for every p;
-- for p > 2, the finite length of the mod p cohomology (ScholzeFunctorAndModpCohomologyOfTheLubinTateTower §5.4). It makes the strong dual Π_n(V) of Hom_(W_ℚ_p)(V, H¹_ét(M^p_(n,C), L(1))) an admissible unitary Banach representation of finite length. After a finite extension of L it has an absolutely irreducible quotient Π. The transpose of Π_n(V) → Π embeds Π* into Hom_(W_ℚ_p)(V, H¹_ét(M^p_(n,C), L(1))), the Banach dual of Π_n(V), and so gives a nonzero, hence injective, W_ℚ_p-map from V into Hom_G(Π*, H¹_ét(M^p_(n,C), L(1))). For dim V ≥ 3 this contradicts §4.13, whose answers have Galois constituents of dimension at most two (source correction E24).
+For dimension two the route uses §§4.6 and 4.10, and for dimension one §4.2. For dimension at least three the route is the occurrence theorem §4.11, valid for every p. By §0.2 the multiplicity is the finite sum over M ∈ ΦNᵖ_n of Hom_(W_ℚ_p)(V, H¹_ét[M])⊗JL(M). For supercuspidal M the summand vanishes by §4.11, since an absolutely irreducible V of dimension at least three has no quotient V_(M,ℒ), even after a finite extension of L. For special M = Sp⊗δ, G_ℚ_p acts on H¹_ét[M] ≅ (St^cont⊗δ_G)*⊗δ through the character δ (§4.2), and an irreducible V of dimension at least two has no nonzero equivariant map to it.
 
 **Checks.**
 
@@ -731,7 +736,7 @@ For dimension two the route uses §§4.6 and 4.10, and for dimension one §4.2. 
 - A character δ with δ(p)² = 1 and δ∘Nrd of level ≤ n contributes through the Steinberg branch. It is not a supercuspidal exception.
 - The unramified twist with χ(p) = 1+p of §0.1 gives V ≅ V_(M,ℒ) with M ∉ ΦNᵖ. Its multiplicity on M^p_n is 0, although on the full tower it is nonzero.
 
-*Needs:* §§4.2, 4.6, 4.10, 4.11 and 4.13; PadicLocalLanglandsForGL2Qp §0.1; ScholzeFunctorAndModpCohomologyOfTheLubinTateTower §5.4.
+*Needs:* §§0.2, 4.2, 4.6, 4.10 and 4.11; PadicLocalLanglandsForGL2Qp §0.1.
 
 ### Examples
 
@@ -745,7 +750,7 @@ For the Steinberg type Sp, H¹_ét[Sp] is (St^cont)* with trivial Galois action.
 
 ### Dependencies
 
-Layers 0 and 3; PadicLocalLanglandsForGL2Qp §§0.1, 2.5, 3.8, 3.11, 4.2 and 4.8; LocallyAnalyticRepresentationsOfLocalGroups §5.1; CompletedCohomologyAndLocalGlobalCompatibility §6.3; ProetaleCohomologyOfPAdicCurvesAndTowers §§0.3, 0.4, 6.2, 6.5, 6.9, 7.1–7.3 and 7.5; ScholzeFunctorAndModpCohomologyOfTheLubinTateTower §5.4; EndoscopicTransferAndUnitaryTraceComparison §§12.4, 12.5, 12.7, 12.14 and 12.19; LocallyAnalyticDistributions §§0.0, 0.2 and 0.3; gap:continuous-galois-tensor-comparison; PadicHodgeTheory §§3.3, 4.4 and 5.3–5.4; SmoothRepresentationsOfLocalGroups SR.2; Mathlib `Bornology.IsVonNBounded`, `NormedSpace.image_isVonNBounded_iff`, `WithSeminorms.image_isVonNBounded_iff_seminorm_bounded`, `WithSeminorms.banach_steinhaus`, `Submodule`, `LinearMap`, `Module.finrank` and `Module.Basis`.
+Layers 0 and 3; PadicLocalLanglandsForGL2Qp §§0.1, 2.5, 3.8, 3.11, 4.2 and 4.8; LocallyAnalyticRepresentationsOfLocalGroups §5.1; CompletedCohomologyAndLocalGlobalCompatibility §6.3; ProetaleCohomologyOfPAdicCurvesAndTowers §§0.3, 0.4, 6.2, 6.5, 6.9, 7.1–7.3 and 7.5; EndoscopicTransferAndUnitaryTraceComparison §§12.4, 12.5, 12.7, 12.14 and 12.19; LocallyAnalyticDistributions §§0.0, 0.2 and 0.3; gap:continuous-galois-tensor-comparison; PadicHodgeTheory §§3.3, 4.4 and 5.3–5.4; SmoothRepresentationsOfLocalGroups SR.2; Mathlib `Bornology.IsVonNBounded`, `NormedSpace.image_isVonNBounded_iff`, `WithSeminorms.image_isVonNBounded_iff_seminorm_bounded`, `WithSeminorms.banach_steinhaus`, `Submodule`, `LinearMap`, `Module.finrank` and `Module.Basis`.
 
 ## Layer 5: The integral arithmetic block decomposition
 
