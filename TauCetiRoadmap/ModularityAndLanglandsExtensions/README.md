@@ -14,7 +14,7 @@ The layer numbers organize the targets; the following dependencies fix the const
 
 API bullets state the mathematical properties to prove. The acceptance statement in `Suggested.lean` is the elliptic Sato–Tate theorem in §4.34; its module documentation identifies the missing carriers for the other headline statements.
 
-Supplier abbreviations in the build (their contracts and hypotheses are in the supplier contracts below): AG2 = AutomorphicGaloisRepresentationsPartII; AG = AutomorphicGaloisRepresentations; AF = AutomorphicFormsOnReductiveGroups; AL = AutomorphicLFunctionsAndLocalFactors; PMCS = PotentialModularityAndCompatibleSystems; PAI = PotentialAutomorphyInfrastructure; ET = EndoscopicTransferAndUnitaryTraceComparison; GL2T = GL2AutomorphicRepresentationsAndTransfer; GL2ML = GL2ModularityLifting; CSM = ClassicalSerreModularity; SWLO = SerreWeightAndLevelOptimisation; LGD = LocalGaloisDeformationRings; GGD = GlobalGaloisDeformations; ALS = ArithmeticLocallySymmetricSpaces; HMV = HilbertModularVarietiesAndShimuraCurves; SR = SmoothRepresentationsOfLocalGroups; PH = PadicHodgeTheory; CR = CrystallineCohomology; LAD = LocallyAnalyticDistributions; RAG = RigidAnalyticGeometry; IG = InverseGaloisAndArithmeticFundamentalGroups. Local links use the target’s section number.
+Supplier abbreviations in the build (their contracts and hypotheses are in the supplier contracts below): AG2 = AutomorphicGaloisRepresentationsPartII; AG = AutomorphicGaloisRepresentations; AF = AutomorphicFormsOnReductiveGroups; AL = AutomorphicLFunctionsAndLocalFactors; PMCS = PotentialModularityAndCompatibleSystems; PAI = PotentialAutomorphyInfrastructure; ET = EndoscopicTransferAndUnitaryTraceComparison; GL2T = GL2AutomorphicRepresentationsAndTransfer; GL2ML = GL2ModularityLifting; SMC = SerreModularityByCompatibleSystems; SWLO = SerreWeightAndLevelOptimisation; LGD = LocalGaloisDeformationRings; GGD = GlobalGaloisDeformations; ALS = ArithmeticLocallySymmetricSpaces; HMV = HilbertModularVarietiesAndShimuraCurves; SR = SmoothRepresentationsOfLocalGroups; PH = PadicHodgeTheory; CR = CrystallineCohomology; LAD = LocallyAnalyticDistributions; RAG = RigidAnalyticGeometry; IG = InverseGaloisAndArithmeticFundamentalGroups. Local links use the target’s section number.
 
 ## Conventions
 
@@ -198,7 +198,7 @@ Proof route: the supplied eigensystem isomorphism and twist laws give the weak A
 - If ρ has arithmetic Frobenius eigenvalues `(ζ₃,ζ₃)`, its geometric eigenvalues are `(ζ₃⁻¹,ζ₃⁻¹)`; `ofGaloisRep (ρ∨)` restores `(ζ₃,ζ₃)`, giving `(t_v,s_v)=(2ζ₃,q_v⁻¹ζ₃²)`.
 - Cofinite matching without an infinity comparison does not meet R17.5.5's hypotheses: the archimedean factors cannot be cancelled in its functional-equation argument.
 
-The proved rank-two cases are [CSM §R27.6](../ClassicalSerreModularity/README.md) over `ℚ` and [§1.9] over totally real fields.
+The proved rank-two cases are [SMC Layers S6–S7](../SerreModularityByCompatibleSystems/README.md) over `ℚ` and [§1.9] over totally real fields.
 
 ([KW09], §10.2, pp. 20–21 (author copy results.pdf); GL2AutomorphicRepresentationsAndTransfer R16.4.4 and R17.5.5, with the latter’s local recognition input from Bushnell–Henniart, §27.1–8, pp.170–176.)
 
@@ -208,13 +208,13 @@ The proved rank-two cases are [CSM §R27.6](../ClassicalSerreModularity/README.m
 
 An E-rational rank-two compatible system on `G_ℚ`, continuous, semisimple and finitely ramified at every coefficient embedding, WD-compatible away from `ℓ` and crystalline at `ℓ`≫0 with HT list (a,b), if irreducible, odd and irregular `(a=b)`, comes up to twist from a weight-one newform. After twisting to (0,0), every realization has finite image.
 
-Proof route: Sen–Fontaine, residual irreducibility/strong Serre/weight lowering and CSM R27.6’s weight-one descent. Take `N′=N` `(N≥5)`, else 5N; omit primes dividing 2N′ or coherent `H¹` torsion. Eigenvalue lifting/finite eigensystems give infinitely many congruences; denominator clearing and Chebotarev give equality. Level divides N′; no omitted-prime lifting or bad-Hecke equality is claimed.
+Proof route: Sen–Fontaine, residual irreducibility/strong Serre/weight lowering and SMC S7’s weight-one descent. Take `N′=N` `(N≥5)`, else 5N; omit primes dividing 2N′ or coherent `H¹` torsion. Eigenvalue lifting/finite eigensystems give infinitely many congruences; denominator clearing and Chebotarev give equality. Level divides N′; no omitted-prime lifting or bad-Hecke equality is claimed.
 
 The converse: newforms of weight one give irregular irreducible odd compatible systems (Deligne–Serre).
 
 ([KW09], Thm. 10.1(ii), §10.1, p. 20 (author copy results.pdf); Proof of Thm. 10.1(ii), p. 20 (author copy results.pdf); §5, p. 8 (author copy results.pdf).)
 
-*Needs:* CSM R27.6 (weight-one descent from infinitely many primes); CSM R27.6 (unramified residual representations arise in weight one); CSM R27.6 (full classical Serre theorem); PMCS §13.1 (residual members); PH §§3.3–3.6 and 5.3–5.4 (`D_cris` of Tate twists and unramified characters); SWLO §3.4 (weight-one forms unramified at p); AG §2.10 (weight-one Artin representation).
+*Needs:* SMC `S7/weight-one-descent-from-infinitely-many-primes`; SMC `S7/unramified-residual-representations-arise-in-weight-one`; SMC `S6/strong-form-of-serre-conjecture`; PMCS §13.1 (residual members); PH §§3.3–3.6 and 5.3–5.4 (`D_cris` of Tate twists and unramified characters); SWLO §3.4 (weight-one forms unramified at p); AG §2.10 (weight-one Artin representation).
 
 ### 1.4 Modularity of non-solvable mod 5 representations of totally real fields with cyclotomic determinant
 
@@ -317,7 +317,7 @@ Proof route: RT2.8 Hasse lifts (weight divisible by `ℓ−1`,q-expansion1 `mod�
 
 ([Rogawski–Tunnell, On Artin L-functions associated to Hilbert modular forms of weight one](https://gdz.sub.uni-goettingen.de/id/PPN356556735_0074), Invent. Math. 74 (1983), Prop. 2.8 p.25; Thm. 3.1 pp.28–29; Prop. 3.3 pp.29–30, Lemma 3.5 p.31 and Prop. 3.6 with the proof of Thm. 3.1(a) p.32. The replacement of Prop. 3.4(a) is the deduction just described.)
 
-*Needs:* HMV, Hilbert varieties, automorphic line bundles and q-expansion; PadicFamilies, overconvergent sections and compact operators; HodgeTateAndCanonicalSubgroups Layer 3, canonical subgroup; GL2ML, ordinary patching; AG §3.10, unrestricted regular Hilbert realization, and §3.14, its determinant/oddness; CSM R27.6, Deligne–Serre eigenvalue lifting; ArithmeticGaloisRepresentations, finite-image coefficient descent and Chebotarev; AL, comparison of twisted local factors.
+*Needs:* HMV, Hilbert varieties, automorphic line bundles and q-expansion; PadicFamilies, overconvergent sections and compact operators; HodgeTateAndCanonicalSubgroups Layer 3, canonical subgroup; GL2ML, ordinary patching; AG §3.10, unrestricted regular Hilbert realization, and §3.14, its determinant/oddness; AlgebraicModularFormsAndSerreWeights §5.10, Deligne–Serre eigenvalue lifting; ArithmeticGaloisRepresentations, finite-image coefficient descent and Chebotarev; AL, comparison of twisted local factors.
 
 ### 1.9 The odd Artin conjecture over totally real fields (Pilloni–Stroh), as used for `A₅` images
 
@@ -1599,7 +1599,7 @@ The classification-dependent steps use the [Trace inputs].
 
 Proof route: choose an absolutely irreducible ordinary-type residual prime, apply the premise, and move regular weight to parallel weight two by BCGP Hida theory/modularity lifting.
 
-The rank-two analogue is [CSM R27.6](../ClassicalSerreModularity/README.md).
+The rank-two analogue is [SMC Layers S6–S7](../SerreModularityByCompatibleSystems/README.md).
 
 ([BCGP, modularity], Lemma 10.4.1, §10.4, p. 222; Remark 10.4.2, p. 222.)
 
@@ -1967,7 +1967,7 @@ Thus an absolutely irreducible residual realization is symplectic.
 
 ([Calegari–Geraghty](#reference-cg-2020), Lemma 6.4 and its Hecke-equivariant injection, arXiv v1 pp.27–28; Proposition 6.8, pp.29–30; Lemma 6.9 and proof, p.30, publ. p.840. [Bellaïche–Chenevier, The sign of Galois representations attached to automorphic forms for unitary groups](https://arxiv.org/pdf/0804.2860v1), Theorem 1.2, p.2, and the sign comparison on p.3.)
 
-*Needs:* [§3.26]; ET §§6.24, 11.0d–11.0e and 11.1 with the symplectic classification contract of §§11.0g–11.0h; AG2.2; CSM R27.6, eigenvalue lifting. The imaginary-quadratic unitary descent and pairing transport have the field scope specified in this target.
+*Needs:* [§3.26]; ET §§6.24, 11.0d–11.0e and 11.1 with the symplectic classification contract of §§11.0g–11.0h; AG2.2; AlgebraicModularFormsAndSerreWeights §5.10, Deligne–Serre eigenvalue lifting. The imaginary-quadratic unitary descent and pairing transport have the field scope specified in this target.
 
 ### 3.31 Global packets with a holomorphic limit of discrete series at infinity are of general, Yoshida or Saito–Kurokawa type
 
@@ -2838,7 +2838,7 @@ Own the endpoint implications, normalization comparisons and additional prerequi
 
 TauCetiRoadmap.RepresentationTheory.ClassicalGroups Layers0–1 owns standard/tensor/symmetric/exterior representations;CompactGroups Layers5–6/`SU₂` owns Peter–Weyl,characters,Haar,`SU₂` irreducibles/Weyl integration. Own arithmetic Frobenius classes/equidistribution here. The finite-field image predicate specializes Mathlib projective groups.
 
-ClassicalSerreModularity/EllipticCurveModularity own rational modularity;GL2AutomorphicRepresentationsAndTransfer rank-two LLC,soluble Artin/base change;PotentialModularityAndCompatibleSystems systems/operations/L-functions;AutomorphicGaloisRepresentationsPartII Galois/WD/HT realization;AutomorphicFormsOnReductiveGroups infinity,weights,purity/real cohomological packets;EndoscopicTransferAndUnitaryTraceComparison local factors,cyclic base change/weak induction, and in its Layer 11 the weighted fundamental lemma and twisted stabilization (§§11.0a–11.0c), Mok's and Arthur's classifications (§§11.0d–11.0e, 11.0g–11.0h), Kim's exterior square and the weak tensor transfer (§§11.0f, 11.0h) and the tempered and generic inner-form unitary classification (§§11.2–11.4);AutomorphicLFunctionsAndLocalFactors standard/Rankin–Selberg theorems and Langlands–Shahidi definitions. Own stronger induction,analytic/trace comparisons here;separate weak/all-place,isobaric/cuspidal.
+SerreModularityByCompatibleSystems/EllipticCurveModularity own rational modularity;GL2AutomorphicRepresentationsAndTransfer rank-two LLC,soluble Artin/base change;PotentialModularityAndCompatibleSystems systems/operations/L-functions;AutomorphicGaloisRepresentationsPartII Galois/WD/HT realization;AutomorphicFormsOnReductiveGroups infinity,weights,purity/real cohomological packets;EndoscopicTransferAndUnitaryTraceComparison local factors,cyclic base change/weak induction, and in its Layer 11 the weighted fundamental lemma and twisted stabilization (§§11.0a–11.0c), Mok's and Arthur's classifications (§§11.0d–11.0e, 11.0g–11.0h), Kim's exterior square and the weak tensor transfer (§§11.0f, 11.0h) and the tempered and generic inner-form unitary classification (§§11.2–11.4);AutomorphicLFunctionsAndLocalFactors standard/Rankin–Selberg theorems and Langlands–Shahidi definitions. Own stronger induction,analytic/trace comparisons here;separate weak/all-place,isobaric/cuspidal.
 
 Layer 3 imports those classifications and states only what they leave out, among them the co-tempered intertwining relations (§3.2), the nongeneric and non-pure inner-form unitary statement (§3.16), the unbounded localizations, exact multiplicities and transfer consequences of Arthur's formula (§3.17), and the `GSp₄`, Xu, Adams–Johnson, Mœglin–Renard and Gan–Ichino targets. The section numbers 3.12 and 3.15 are not used: Mok's classification is ET §§11.0d–11.0e and Arthur's local classification is ET §11.0g. Section 1.11 strengthens ET §11.0h's weak tensor transfer to every finite place, and §1.14 builds the symmetric fourth power on ET's exterior square.
 
@@ -3106,11 +3106,11 @@ NT§1.2/BLGGT share geometric Frobenius,`HT(ε)=−1`,`recᵀ=rec(π|det|^{(1−
 
 #### Field and weight boundaries
 
-ClassicalSerreModularity, Layer R27.6, supplies rational weight-one descent and odd Artin modularity; GL2AutomorphicRepresentationsAndTransfer, Layer R17.5, supplies the soluble cases. Its R17.4 supplies rank-two base change. EllipticCurveModularity supplies elliptic modularity over `ℚ` and its Galois comparison. The retained results extend to totally real weight one, irregular compatible systems, non-solvable residual representations, and the stated imaginary-quadratic modularity criterion. Over an arbitrary number field the elliptic conclusion is potential modularity, with Calegari–Geraghty’s Conjecture B kept as a hypothesis where required.
+SerreModularityByCompatibleSystems, Layer S7, supplies rational weight-one descent and odd Artin modularity; GL2AutomorphicRepresentationsAndTransfer, Layer R17.5, supplies the soluble cases. Its R17.4 supplies rank-two base change. EllipticCurveModularity supplies elliptic modularity over `ℚ` and its Galois comparison. The retained results extend to totally real weight one, irregular compatible systems, non-solvable residual representations, and the stated imaginary-quadratic modularity criterion. Over an arbitrary number field the elliptic conclusion is potential modularity, with Calegari–Geraghty’s Conjecture B kept as a hypothesis where required.
 
 ([KW09], §10.1, paragraph after Thm. 10.1, p. 20 (author copy results.pdf).)
 
-*Needs:* [ClassicalSerreModularity §R27.6, rational odd Artin modularity](../ClassicalSerreModularity/README.md); [§1.9]; [§2.52](#252-modularity-of-elliptic-curves-over-imaginary-quadratic-fields-with-x₀15f-finite-caraianinewton); [§1.3](#13-irregular-odd-compatible-systems-arise-from-weight-one-newforms-kharewintenberger-theorem-101ii); [§1.4].
+*Needs:* [SerreModularityByCompatibleSystems `S7/odd-artin-weight-one-modularity`, rational odd Artin modularity](../SerreModularityByCompatibleSystems/README.md); [§1.9]; [§2.52](#252-modularity-of-elliptic-curves-over-imaginary-quadratic-fields-with-x₀15f-finite-caraianinewton); [§1.3](#13-irregular-odd-compatible-systems-arise-from-weight-one-newforms-kharewintenberger-theorem-101ii); [§1.4].
 
 #### Trace formula and intertwining inputs
 
