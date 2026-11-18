@@ -456,8 +456,8 @@ when `σ` is a Nash equilibrium, and exactly when it is a coarse correlated equi
 `ε = 0`.
 
 (Aumann 1974, Section 3 for equilibria in correlated strategies and Example 2.7 for the chicken
-game; Moulin and Vial 1978 for the coarse notion, and Hannan 1957 for the no-regret property
-behind it; proved here.)
+game; Hart and Mas-Colell 2000, Section 4(c), for the no-regret property behind the coarse
+notion, attributed there to Hannan; proved here.)
 
 **Checks.**
 
@@ -497,7 +497,14 @@ statements are proved here.)
 
 - `T = 1`: `μ` is a product, and the statements read off the regret of one round.
 - `T = 0`: `empiricalDistribution σ 0 = 0` is not a distribution, so `T ≥ 1` is used.
+- `empiricalDistribution`: for two players with two actions who both play action `0` at time `0`
+  and action `1` at time `1`, and `T = 2`, it is `1/2` on `(0, 0)` and on `(1, 1)` and `0`
+  elsewhere; the product of the averaged marginals is `1/4` everywhere.
 - For two players with `u 1 = M`, `deviationPayoff u σ 1 t = M *ᵥ σ t 2`.
+- `deviationPayoff`: in matching pennies with `σ t 2 = (1, 0)`, `deviationPayoff u σ 1 t = (1, −1)`
+  whatever `σ t 1` is.
+- `deviationPayoff`: `⟨σ t i, deviationPayoff u σ i t⟩ = U i (σ t)`; in the previous example with
+  `σ t 1 = (1/4, 3/4)` both sides are `−1/2`.
 - Regret matching self-play in rock-paper-scissors with payoffs in `[−1, 1]`: `R i ≤ 2√(3T)`, so
   `μ` is a coarse correlated equilibrium with `ε i = 2√(3/T)`; regret matching controls external
   regret only, so this gives no correlated-equilibrium bound.
@@ -590,6 +597,14 @@ game trees with perfect recall; the statements for decision processes are proved
 
 **Checks.**
 
+- `IsSequenceForm`: with `j₀` (actions `a`, `a'`, parent `none`) and `j₁` (actions `c`, `c'`, parent
+  `⟨j₀, a⟩`), `b j₀ = (1/2, 1/2)` and `b j₁ = (1/4, 3/4)` give `x = (1; 1/2, 1/2; 1/8, 3/8)`, and
+  `1/8 + 3/8 = x (some ⟨j₀, a⟩)`; setting `x (some ⟨j, a⟩) = b j a` would give `(1/4, 3/4)` at
+  `j₁`, of sum `1 ≠ 1/2`.
+- `IsSequenceForm`: with `b j₀ = (0, 1)` in the same process, `x` vanishes on both sequences of
+  `j₁` for every `b j₁`, so distinct behavioral strategies have the same sequence form.
+- `IsSequenceForm`: for one decision point and `b j = (2, −1)`, `x = (1; 2, −1)` is the sequence
+  form of `b` and is not in `Q`; the realization theorem uses `b j ∈ simplex (A j)`.
 - A single decision point with `k` actions: `Q` is `{1} × simplex (Fin k)`, and the best response
   value is `ℓ none + max_a ℓ (some ⟨j, a⟩)`.
 - `J` empty: `Q = {1}`, and the maximum is `ℓ none`.
@@ -694,8 +709,8 @@ maximizes and player 2 minimizes `xᵀ G y = x ⬝ᵥ (G *ᵥ y)`. Prove:
   card), with sequences `KuhnSeq`, parent maps `kuhnParent₁` (the second decision of player 1
   follows "check") and `kuhnParent₂` (all at the root), and showdown sign `kuhnWin`.
 
-The averages are averages of sequence forms, not of behavioral strategies. (Kuhn 1950 for the
-value; Zinkevich, Johanson, Bowling and Piccione 2007, Theorem 2, and Farina, Kroer and Sandholm
+The averages are averages of sequence forms, not of behavioral strategies. (The value `−1/18` is
+proved here; Zinkevich, Johanson, Bowling and Piccione 2007, Theorem 2, and Farina, Kroer and Sandholm
 2019, Theorem 3, for self-play; proved here.)
 
 **Checks.**
@@ -768,18 +783,12 @@ the specification.
   application to boosting*, J. Comput. System Sci. **55** (1997), 119–139.
 - Y. Freund and R. E. Schapire, *Adaptive game playing using multiplicative weights*, Games
   Econom. Behav. **29** (1999), 79–103.
-- J. Hannan, *Approximation to Bayes risk in repeated play*, in *Contributions to the theory of
-  games III*, Princeton University Press, 1957, 97–139.
 - S. Hart and A. Mas-Colell, *A simple adaptive procedure leading to correlated equilibrium*,
   Econometrica **68** (2000), 1127–1150.
 - S. Hart and A. Mas-Colell, *A general class of adaptive strategies*, J. Econom. Theory **98**
   (2001), 26–54.
 - D. Koller, N. Megiddo and B. von Stengel, *Fast algorithms for finding randomized strategies in
   game trees*, STOC 1994, 750–759.
-- H. W. Kuhn, *A simplified two-person poker*, in *Contributions to the theory of games I*,
-  Princeton University Press, 1950, 97–103.
-- H. Moulin and J.-P. Vial, *Strategically zero-sum games: the class of games whose completely
-  mixed equilibria cannot be improved upon*, Internat. J. Game Theory **7** (1978), 201–221.
 - J. Nash, *Non-cooperative games*, Ann. of Math. **54** (1951), 286–295.
 - O. Tammelin, *Solving large imperfect information games using CFR+*, arXiv:1407.5042, 2014.
 - O. Tammelin, N. Burch, M. Johanson and M. Bowling, *Solving heads-up limit Texas hold'em*,
