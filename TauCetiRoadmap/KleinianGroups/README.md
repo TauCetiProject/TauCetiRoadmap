@@ -1,666 +1,776 @@
 # Roadmap: Kleinian groups, hyperbolic 3-manifolds, and arithmetic volume
 
-This roadmap develops discrete subgroups of `PSL(2,C)` acting on hyperbolic 3-space, their
-fundamental domains and covolumes, the Bianchi groups and their congruence subgroups, and the
-arithmetic volume of the quotients. Volumes are computed from explicit fundamental domains and
-named constants, not asserted.
+**Summary.** Develop discrete subgroups of `PSL(2, ℂ)` acting on hyperbolic 3-space, their
+fundamental domains and covolumes, the Bianchi groups `PSL(2, 𝒪_F)` of the imaginary quadratic
+fields and their congruence subgroups, and the volumes of the quotients. Hyperbolic 3-space is
+Tau Ceti's upper half-space model `TauCeti.UpperHalfSpace ℂ`, written `ℍ³`, with its Riemannian
+metric, distance and volume. There are four endpoints:
 
-Hyperbolic 3-space is Tau Ceti's upper half-space model `TauCeti.UpperHalfSpace C`, written
-`ℍ³` below, with its Riemannian metric, Riemannian distance and Riemannian volume. This roadmap
-adds the Moebius action of `PSL(2,C)` on it and everything Kleinian built on that action.
-
-The main reusable endpoint is the covolume of the two Bianchi groups of smallest discriminant,
-computed by integrating over their explicit fundamental domains: the covolume of
-`PSL(2, Z[i])` is Catalan's constant over three, and the covolume of `PSL(2, Z[omega])` is
-`sqrt 3 * L(2, chi_(-3)) / 8`. These are the two cases of Humbert's formula,
-`covolume (PSL(2, O_F)) = |d_F|^(3/2) * zeta_F 2 / (4 * pi^2)`, in which the zeta value factors
-through a classical constant; the general formula is stated in layer 4 as motivation and
-labeled a roadmap-for-a-roadmap, not a target. A second endpoint is two manifold volumes
-obtained from those covolumes by the index law, `20 * catalanConstant` for
-`Gamma(2 + i) \ ℍ³` and `21 * sqrt 3 * L(2, chi_(-3))` for `Gamma(3 + omega) \ ℍ³`, as members
-of the set of volumes of hyperbolic 3-manifolds. A third endpoint is a faithful statement of
-Thurston's twenty-third question, that the volumes of hyperbolic 3-manifolds are not all
-rationally related, which is open, together with one explicit finite approximation of it that
-is provable.
-
-This roadmap is the three-dimensional counterpart of
-[FuchsianOrbifolds](../FuchsianOrbifolds/README.md), which excludes general Kleinian groups
-and higher-dimensional symmetric spaces from its scope. It is the explicit, arithmetic
-counterpart of layer 7.1 of [GeometricTopology](../GeometricTopology/README.md), which owns
-the general theory of hyperbolic `n`-manifolds as quotients `ℍⁿ / Γ`, the statement that the
-volume of `ℍⁿ / Γ` is the volume of a fundamental domain, the volume form `y⁻ⁿ dx dy` of the
-upper half space, and the identification of the whole of `Isom(ℍ³)` with `PSL₂(ℂ) ⋊ ℤ/2`. This
-roadmap consumes the first three of those statements, in layers 0 and 5, and nothing else from
-that layer.
-
-Suggested homes: `TauCeti/Geometry/Manifold/Riemannian/Hyperbolic/UpperHalfSpace/Moebius.lean`
-for the action; `TauCeti/Geometry/Hyperbolic/Kleinian/` for discrete subgroups, fundamental
-domains, and covolume; `TauCeti/NumberTheory/Bianchi/` for the Bianchi groups and their
-covolumes; `TauCeti/Analysis/SpecialFunctions/Lobachevsky.lean` for the log-sine integrals.
-
-## Scope and completion criterion
-
-The scope is discrete subgroups of `PSL(2,C)` acting on `ℍ³`, with special attention to
-Bianchi groups, congruence subgroups, torsion-free subgroups of finite index, and covolume. It
-computes the covolumes of the Bianchi groups of the two smallest discriminants from explicit
-fundamental domains; it does not prove Humbert's formula for a general imaginary quadratic
-field, does not classify Kleinian groups, does not develop deformation theory, and does not
-touch the hyperbolic Dehn surgery that would construct the Weeks manifold.
-
-Mostow rigidity, geometrization, the classification of cusped 3-manifolds by volume,
-Teichmueller and quasi-Fuchsian theory, and the irrationality of any ratio of volumes are
-outside this roadmap. The last of these is open mathematics, not a missing layer: what this
-roadmap delivers about it is a faithful statement and the finite approximations of it that
-are provable, never the theorem itself.
-
-The roadmap is complete when Tau Ceti proves the following.
-
-1. `PSL(2,C)` acts on `ℍ³` by Moebius transformations, through an injective homomorphism to
-   the Riemannian isometry group `TauCeti.Isom`, so each element is an isometry for the
-   Riemannian distance and preserves the Riemannian volume; that volume is `t⁻³ dx dy dt`, and
-   the distance satisfies the closed `cosh` formula.
-2. A discrete subgroup acts properly discontinuously, its non-free locus is null, and it has
-   a measurable fundamental domain; a torsion-free discrete subgroup acts freely; the
-   covolume of a discrete subgroup is independent of the fundamental domain, and a subgroup
-   of index `n` has `n` times the covolume.
-3. For an imaginary quadratic ring of integers `O_F`, the Bianchi group `PSL(2, O_F)` is
-   discrete; explicit domains above the unit sphere are fundamental domains for
-   `PSL(2, Z[i])` and `PSL(2, Z[omega])`; and the congruence subgroups `Gamma(2 + i)` and
-   `Gamma(3 + omega)` are torsion free, of index `60` and `168`.
-4. The covolumes of `PSL(2, Z[i])` and `PSL(2, Z[omega])` are `catalanConstant / 3` and
-   `sqrt 3 * L 2 chi_(-3) / 8`, by integration over those domains, and the covolumes of
-   `Gamma(2 + i)` and `Gamma(3 + omega)` are `20 * catalanConstant` and
-   `21 * sqrt 3 * L 2 chi_(-3)`, by the index law.
-5. `zeta_(Q(i)) 2 = zeta 2 * L 2 chi_(-4)` and `zeta_(Q(omega)) 2 = zeta 2 * L 2 chi_(-3)`,
-   so the two Bianchi covolumes are the values `|d_F|^(3/2) * zeta_F 2 / (4 * pi^2)` that
-   Humbert's formula predicts.
-6. The set of volumes of hyperbolic 3-manifolds is defined by a witnessing group, contains
-   the two manifold volumes of item 4, is closed under multiplication by the index of a
-   finite-index subgroup of a witnessing group, and each of its members is the Riemannian
-   volume of a finite-volume hyperbolic 3-manifold; Thurston's question is stated against it,
-   with `NoSmallRationalRatio 1000` proved as its finite approximation.
+- **Humbert's formula.** For every imaginary quadratic field `F` with discriminant `d_F`, the
+  covolume of `PSL(2, 𝒪_F)` is `|d_F|^(3/2) ζ_F(2) / (4π²)` (§4.6).
+- **The two smallest discriminants by integration.** The covolume of `PSL(2, ℤ[i])` is
+  `catalanConstant / 3` and that of `PSL(2, ℤ[ω])` is `√3 · L(2, χ₋₃) / 8`, computed by
+  integrating over explicit fundamental domains (§§3.5, 4.3). These two values calibrate the
+  archimedean constant in the proof of Humbert's formula.
+- **Torsion-free congruence subgroups.** For `I ≠ ⊤` with `2, 3 ∉ I`, the principal congruence
+  subgroup `Γ(I)` is torsion free (§3.3); the quotients by `Γ(2 + i)` and `Γ(3 + ω)` are
+  hyperbolic 3-manifolds of volume `20 · catalanConstant` and `21 · √3 · L(2, χ₋₃)` (§4.4).
+- **Thurston's twenty-third question.** The set of volumes of hyperbolic 3-manifolds is defined
+  by a witnessing group, and the question whether its members are all rationally related is
+  stated against it (§5.3). The question is open; this roadmap states it and proves nothing
+  about it.
 
 ## Scope and ownership
 
-Tau Ceti already has hyperbolic space, and this roadmap does not plan it again:
-`TauCeti.UpperHalfSpace E` with `TauCeti.UpperHalfSpace.riemannianMetric`,
-`TauCeti.UpperHalfSpace.hyperbolicMetric` (curvature `-1` and completeness), the similarities
-and inversions of `Riemannian/Isometry/UpperHalfSpace.lean` with their classification
-`exists_eq_similarity_or_exists_eq_inversion_mul_similarity`, the Riemannian distance
-`TauCeti.MetricSpace.ofRiemannianMetric`, the Riemannian volume `TauCeti.riemannianVolume`,
-and its isometry invariance `TauCeti.RiemannianIsometry.measurePreserving_riemannianVolume`.
+This roadmap owns:
 
-This roadmap **owns** the Moebius action of `SL(2,C)` and `PSL(2,C)` on
-`TauCeti.UpperHalfSpace C`, its coordinate formula and quaternionic description, the
-measure and metric instances on `TauCeti.UpperHalfSpace C`, and everything Kleinian:
-discreteness, the non-free locus, fundamental domains and covolume in dimension three, Bianchi
-groups, their covolumes, and the set of volumes. The action is stated on the carrier
-`TauCeti.UpperHalfSpace C`, and a development that needs `PSL(2,C)` acting on the upper
-half-space uses it there rather than defining a second action.
+- the action of `SL(2, ℂ)` and `PSL(2, ℂ)` on the carrier `TauCeti.UpperHalfSpace ℂ`, as an
+  instance, with its quaternionic description, the injective homomorphism to `TauCeti.Isom`,
+  and the measure, metric and topological instances on that carrier (Layer 0);
+- discreteness, proper discontinuity, the non-free locus, fundamental domains, Dirichlet domains
+  and covolume for subgroups of `PSL(2, ℂ)` (Layers 1–2);
+- the Bianchi groups of every imaginary quadratic field, their principal congruence subgroups,
+  their torsion, their indices and the Bianchi domains of `ℤ[i]` and `ℤ[ω]` (Layer 3);
+- the constants `catalanConstant` and `lchi3`, the volumes of the two Bianchi domains, the
+  factorizations of `ζ_F(2)` for `ℚ(i)` and `ℚ(ω)`, and Humbert's formula (Layer 4);
+- the set of volumes of hyperbolic 3-manifolds and the statement of Thurston's question
+  (Layer 5).
 
-It **consumes** rather than rebuilds:
+Boundaries with other roadmaps:
 
-- From Mathlib, `MeasureTheory.IsFundamentalDomain`, `HasFundamentalDomain` and
-  `MeasureTheory.covolume`.
-- From Tau Ceti's `MeasureTheory/Group/FundamentalDomain.lean`, the subgroup construction
+- **Polylogarithms §2.4** owns the coordinate formula of the Möbius action on its upper
+  half-space model `upperHalfHyperbolicModel`, its composition law, its independence of the sign
+  of the matrix and its preservation of the metric. This roadmap transports the action to
+  `TauCeti.UpperHalfSpace ℂ` and proves none of those properties again. Polylogarithms §2.4 also
+  owns the Lobachevsky function; this roadmap does not define it, and evaluates the three
+  log-sine integrals it needs directly from PolylogarithmFunctions (§4.2).
+- **PolylogarithmFunctions** owns `polylog`, its derivative recursion on `ℂ ∖ [1, ∞)` and its
+  closed-disc series and continuity at `1`, from which §4.2 evaluates
+  `∫₀^θ log(2 sin u) du` at `θ = π/6, π/4, π/3`.
+- **GeometricTopology §7.1** owns the general theory of hyperbolic `n`-manifolds `ℍⁿ / Γ`, the
+  density of the Riemannian volume of the upper half space, the statement that the volume of a
+  quotient is the volume of a fundamental domain, and the identification of `Isom(ℍ³)` with
+  `PSL₂(ℂ) ⋊ ℤ/2`. The homomorphism of `exists_toIsom` is the `PSL₂(ℂ)` factor of that
+  identification, transported along `UpperHalfSpace.congr` (§0.2).
+- **AdelicAlgebraicGroups** owns arithmetic discreteness (AA.3.4), Tamagawa measures and the
+  local volumes of `SL_n` (AA.2.4) and strong approximation (AA.4.2).
+  **EndoscopicTransferAndUnitaryTraceComparison §6.2** owns `τ(S) = 1` for simply connected
+  semisimple `S`. Humbert's formula (§4.6) combines these; this roadmap adds the Euler product
+  of `ζ_F(2)` and the archimedean comparison.
+- **FuchsianOrbifolds** is the two-dimensional counterpart, with discreteness as its input;
+  §0.4 keeps the two distances equal on the slice `w ∈ ℝ`.
+
+Out of scope: classification of Kleinian groups, deformation theory, Mostow rigidity,
+geometrization, Teichmüller and quasi-Fuchsian theory, hyperbolic Dehn surgery, the
+classification of cusped 3-manifolds by volume, and any proof about the rationality of ratios
+of volumes, which is open mathematics.
+
+## Conventions
+
+- **Carrier.** `ℍ³` is `TauCeti.UpperHalfSpace ℂ`: points `(w, t)` with `w : ℂ`, `t : ℝ`,
+  `0 < t`, in `WithLp 2 (ℂ × ℝ)`, read through `w` and `TauCeti.UpperHalfSpace.height`. The
+  horizontal factor is `ℂ`, not `EuclideanSpace ℝ (Fin 2)`, because the Möbius formula is
+  complex arithmetic in `w` and Bianchi groups are matrices over subrings of `ℂ`. Comparisons
+  with `TauCeti.ModelGeometry.hyperbolic`, whose space is
+  `TauCeti.UpperHalfSpace (EuclideanSpace ℝ (Fin 2))`, go through `UpperHalfSpace.congr` at the
+  linear isometry `ℂ ≃ₗᵢ[ℝ] EuclideanSpace ℝ (Fin 2)` of `Complex.orthonormalBasisOneI`.
+- **Measure.** The measurable structure is `borel`, and `volume` is the `MeasureSpace` instance
+  `TauCeti.riemannianVolume 𝓘(ℝ, WithLp 2 (ℂ × ℝ)) ℍ³`, as `UpperHalfPlane` has in dimension
+  two. Its density `t⁻³` is the theorem `volume_eq_withDensity`.
+- **Distance.** `dist` is the `MetricSpace` instance
+  `TauCeti.MetricSpace.ofRiemannianMetric 𝓘(ℝ, WithLp 2 (ℂ × ℝ)) ℍ³`, with
+  `cosh (dist p q) = 1 + ‖p − q‖² / (2 · height p · height q)` for the Euclidean norm of
+  `WithLp 2 (ℂ × ℝ)`.
+- **Action.** `A = (a b; c d)` in `SL(2, ℂ)` acts by `mobius`:
+  `J = |c w + d|² + |c|² t²` (`denom`, positive by `denom_pos`) and
+  `A • (w, t) = (((a w + b) conj (c w + d) + a conj c t²) / J, t / J)`. This is the formula of
+  Polylogarithms §2.4 in the coordinates of `TauCeti.UpperHalfSpace ℂ`. The action of
+  `PSL(2, ℂ)`, Mathlib's `Matrix.ProjectiveSpecialLinearGroup (Fin 2) ℂ` with its quotient
+  topology, is the action on representatives; stabilizer and effectiveness statements are for
+  the projective action.
+- **Kleinian.** A *Kleinian group* is a discrete subgroup of `PSL(2, ℂ)`.
+  `IsTorsionFreeKleinian Γ` says that `Γ` acts properly discontinuously and freely, which is
+  equivalent to discrete and torsion free (`isTorsionFreeKleinian_iff_discrete_and_torsionFree`);
+  its quotient is a manifold.
+- **Covolume.** Covolume is Mathlib's `MeasureTheory.covolume Γ ℍ³ volume`, valued in `ℝ≥0∞`.
+  `IsCofinite Γ` has the fields `DiscreteTopology Γ` and finite covolume, in the shape of Tau
+  Ceti's Fuchsian `Subgroup.IsCofinite`: a nondiscrete group can have covolume `0`.
+- **Bianchi groups.** `bianchi F ι` is the image in `PSL(2, ℂ)` of `SL(2, 𝒪_F)` under
+  `ι.comp (algebraMap (𝒪 F) F)`, for a number field `F` and `ι : F →+* ℂ`. Theorems assume `F`
+  imaginary quadratic, written `Module.finrank ℚ F = 2` and `IsTotallyComplex F`. The group does
+  not depend on `ι` (`bianchi_comp_algEquiv`); `ι` is data because congruence subgroups depend
+  on it.
+- **Congruence subgroups.** `bianchiGamma F ι I` is the image in `PSL(2, ℂ)` of the kernel of
+  `SL(2, 𝒪_F) → SL(2, 𝒪_F / I)`. Its quotient in `bianchi F ι` is `SL(2, 𝒪_F / I)` modulo the
+  image of `{±1}`, which is Mathlib's `PSL(2, 𝒪_F / I)` only when the centre of
+  `SL(2, 𝒪_F / I)` is the image of `{±1}`.
+- **Named fields.** `GaussianField` is `CyclotomicField 4 ℚ` and `EisensteinField` is
+  `CyclotomicField 3 ℚ`, embedded in `ℂ` by `IsAlgClosed.lift` (`gaussianEmbedding`,
+  `eisensteinEmbedding`), with `gaussianI` and `eisensteinOmega` the integral primitive roots
+  `(IsCyclotomicExtension.zeta_spec n ℚ _).toInteger`.
+- **Constants.** `catalanConstant` is `∑ (−1)ⁿ / (2n + 1)²`; Mathlib's `catalan` is the Catalan
+  numbers `ℕ → ℕ`. `lchi3` is `∑ (1/(3n + 1)² − 1/(3n + 2)²)`, which is `L(2, χ₋₃)`. Volume
+  theorems state these constants, never a decimal enclosure.
+- **Decidability.** No `native_decide`. Rational arithmetic on explicit matrices is `decide` or
+  `norm_num`.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- `MeasureTheory.IsFundamentalDomain`, `MeasureTheory.HasFundamentalDomain`,
+  `MeasureTheory.covolume` and `IsFundamentalDomain.covolume_eq_volume` in
+  `Mathlib/MeasureTheory/Group/FundamentalDomain.lean`.
+- `Matrix.ProjectiveSpecialLinearGroup` with the scoped `PSL(n, R)` notation; `Quaternion` and
+  `Mathlib/Analysis/Quaternion.lean`; `ProperlyDiscontinuousSMul` in
+  `Mathlib/Topology/Algebra/ConstMulAction.lean`.
+- `UpperHalfPlane.volume_def`, `UpperHalfPlane.cosh_dist` and `UpperHalfPlane.dist_eq` in
+  `Mathlib/Analysis/Complex/UpperHalfPlane/`, the two-dimensional models of §§0.3–0.4.
+- `intervalIntegrable_log_sin` in `Mathlib/Analysis/SpecialFunctions/Integrability/Log.lean`
+  and `integral_log_sin_zero_pi_div_two` in `Mathlib/Analysis/SpecialFunctions/Integrals/Log.lean`,
+  for §4.2.
+- `NumberField.dedekindZeta` (the `LSeries` of ideal counts), `NumberField.discr`,
+  `DirichletCharacter.LFunction`, `riemannZeta`, `CyclotomicField`,
+  `IsCyclotomicExtension.zeta_spec`, `IsPrimitiveRoot.toInteger`, and the Euler-product
+  machinery of `Mathlib/NumberTheory/EulerProduct/`.
+
+### From Tau Ceti
+
+- `TauCeti.UpperHalfSpace E`, `TauCeti.UpperHalfSpace.height`,
+  `TauCeti.UpperHalfSpace.riemannianMetric` and `TauCeti.UpperHalfSpace.hyperbolicMetric` in
+  `Geometry/Manifold/Riemannian/Hyperbolic/UpperHalfSpace/`; completeness
+  `TauCeti.UpperHalfSpace.completeSpace_of_riemannianMetric` in
+  `Geometry/Manifold/Riemannian/Hyperbolic/Completeness.lean`.
+- `TauCeti.Isom` in `Geometry/Manifold/Riemannian/Isometry/Group.lean` and its evaluation
+  action in `Isometry/Action.lean`; the similarities, inversions and their classification
+  `exists_eq_similarity_or_exists_eq_inversion_mul_similarity` in
+  `Isometry/UpperHalfSpace.lean`.
+- `TauCeti.MetricSpace.ofRiemannianMetric` in `Riemannian/Distance.lean`;
+  `TauCeti.riemannianVolume` in `Riemannian/VolumeDensity/Volume.lean`;
+  `TauCeti.RiemannianIsometry.measurePreserving_riemannianVolume` in
+  `VolumeDensity/Isometry.lean`; `hasGeometricStructure_quotient` in
+  `Riemannian/GeometricStructure/Basic.lean`.
+- In `MeasureTheory/Group/FundamentalDomain.lean`:
   `IsFundamentalDomain.subgroup_iUnion_out_inv_smul`, the index law
-  `covolume_eq_card_mul_covolume`, `covolume_pos`, `covolume_conjAct_smul`, and the tiling
-  criterion `IsFundamentalDomain.of_disjoint_smul_interior`; from
-  `MeasureTheory/Group/ProperlyDiscontinuous.lean`,
-  `exists_isFundamentalDomain_of_properlyDiscontinuousSMul`; from
-  `Topology/Algebra/GroupAction/FreeLocus.lean`, `TauCeti.freeLocus` and
-  `isCoveringMap_quotientMk_freeLocus`. These are stated for a general group action and are
-  exactly what layers 1 and 2 need; no second copy is made in dimension three.
-- From GeometricTopology layer 7.1, the density formula of the Riemannian volume of the upper
-  half space, the quotient theorem for discrete torsion-free groups of isometries, and the
-  statement that the volume of the quotient is the volume of a fundamental domain.
-- From AdelicAlgebraicGroups AA.3.4, arithmetic discreteness, through the adapter described in
-  layer 3.
-- Mathlib's `DirichletCharacter`, `LSeries`, `NumberField` and cyclotomic-field machinery, for
-  layers 3 and 4.
+  `covolume_eq_card_mul_covolume` (for `Δ ≤ Γ` with `Γ` countable and having a fundamental
+  domain, `covolume Δ = ENat.card (Γ ⧸ Δ.subgroupOf Γ) · covolume Γ`), `covolume_pos`,
+  `covolume_conjAct_smul` and `IsFundamentalDomain.of_disjoint_smul_interior`.
+- `exists_isFundamentalDomain_of_properlyDiscontinuousSMul` in
+  `MeasureTheory/Group/ProperlyDiscontinuous.lean`; `TauCeti.freeLocus` and
+  `isCoveringMap_quotientMk_freeLocus` in `Topology/Algebra/GroupAction/FreeLocus.lean`.
+- `Subgroup.IsCofinite` and `Subgroup.isCofinite_iff_covolume_ne_top` in
+  `Analysis/Complex/Fuchsian/Covolume.lean`, the two-dimensional models of §1.3.
+- `T2Space PSL(2, ℂ)`, through `Subgroup.isClosed_center` in
+  `Topology/Algebra/Group/Subgroup.lean`.
 
-## Pinned conventions
+### From Polylogarithms §2.4
 
-These conventions prevent two agents from building locally plausible but mutually unusable
-APIs, and they are the places where a three-dimensional development can silently diverge
-from the two-dimensional one.
+On `upperHalfHyperbolicModel`, the points `(w, h) ∈ ℂ × ℝ` with `h > 0`: the coordinate action
+of `SL(2, ℂ)` with `J > 0`, the composition law, independence under `−1`, preservation of the
+metric and orientation, and the coordinate identification of the model with the bundled
+hyperbolic metric.
 
-- `ℍ³` is `TauCeti.UpperHalfSpace C`: the points `(w, t)` with `w : C`, `t : R`, `0 < t`, in
-  `WithLp 2 (C × R)`, reached through Tau Ceti's coercion and `TauCeti.UpperHalfSpace.height`.
-  The horizontal factor is `C` rather than `EuclideanSpace R (Fin 2)`, because the Moebius
-  formula is complex arithmetic in `w` and the Bianchi groups are matrices over subrings of
-  `C`. The linear isometry `C ≃ₗᵢ[R] EuclideanSpace R (Fin 2)` given by
-  `Complex.orthonormalBasisOneI` induces a Riemannian isometry from `ℍ³` to
-  `TauCeti.ModelGeometry.hyperbolic.Space`; that isometry is a layer-0 target, and every
-  comparison with GeometricTopology goes through it. No private type of hyperbolic space is
-  introduced.
-- The measurable structure on `ℍ³` is `borel`, and hyperbolic volume is a `MeasureSpace`
-  instance whose `volume` is `TauCeti.riemannianVolume 𝓘(R, WithLp 2 (C × R)) ℍ³`, so that
-  `volume` names it, exactly as `UpperHalfPlane` does in dimension two. Its description as
-  Lebesgue measure on the open half-space weighted by `t⁻³`, `volume_eq_withDensity`, is a
-  theorem, the analogue of Mathlib's `UpperHalfPlane.volume_def`, and the integrals of layer 4
-  are computed from it.
-- Hyperbolic distance is the `MetricSpace` instance
-  `TauCeti.MetricSpace.ofRiemannianMetric 𝓘(R, WithLp 2 (C × R)) ℍ³`. The formula
-  `cosh (dist p q) = 1 + ‖p - q‖² / (2 * height p * height q)`, with `‖p - q‖` the Euclidean
-  distance in `WithLp 2 (C × R)`, and its form `dist_eq` through `arsinh`, are theorems, the
-  exact analogues of `UpperHalfPlane.cosh_dist` and `UpperHalfPlane.dist_eq`. On the slice
-  `w ∈ R` the distance agrees with Mathlib's `UpperHalfPlane.dist`, so that this roadmap and
-  FuchsianOrbifolds cannot drift apart. The name is `dist`, through the instance, not a private
-  `hdist`.
-- The acting group is `PSL(2,C)`, Mathlib's `Matrix.ProjectiveSpecialLinearGroup (Fin 2) C`,
-  as in FuchsianOrbifolds, with the quotient topology Mathlib supplies. `A = (a b; c d)` in
-  `SL(2,C)` acts by `J = |c w + d|² + |c|² t²`,
-  `A • (w, t) = (((a w + b) * conj (c w + d) + a * conj c * t²) / J, t / J)`. This coordinate
-  formula is the definition; `J > 0` because `c = 0` forces `d ≠ 0`. The action factors
-  through `PSL(2,C)` because `-A` gives the same formula, and stabilizer and effectiveness
-  results are stated for the projective action, whose kernel on `ℍ³` is trivial.
-- The group law is not derived from the coordinates. The point `(w, t)` is the quaternion
-  `q = re w + (im w) i + t j`, and `toQuaternion (A • p) = (a q + b) (c q + d)⁻¹`, with the
-  entries of `A` embedded in `ℍ[R]` along `1, i`; the composition law follows from
-  associativity in `ℍ[R]`. Deriving it from the coordinate formula directly is the known way to
-  make this layer unpleasant.
-- The isometry property is not a Jacobian computation. An element with `c = 0` acts as Tau
-  Ceti's `UpperHalfSpace.similarity`: `(a b; 0 a⁻¹)` has scale `|a|²`, rotation
-  `w ↦ (a / conj a) w`, and translation `a b`. An element with `c ≠ 0` factors as
-  `(1/c a; 0 c) * (0 -1; 1 0) * (1 d/c; 0 1)`, and `(0 -1; 1 0)` acts as
-  `UpperHalfSpace.inversion 0 1` followed by the linear isometry `w ↦ -conj w`. So every
-  element of `PSL(2,C)` acts by an element of `TauCeti.Isom`, and isometry and volume
-  invariance are consequences of Tau Ceti's theorems for `Isom`.
-- A **Kleinian action** is free and properly discontinuous by isometries. Discreteness and
-  torsion-freeness are derived, not assumed. This is the opposite of the two-dimensional
-  convention in FuchsianOrbifolds, where discreteness is the input, and the difference is
-  deliberate: a manifold quotient, not an orbifold, is what a volume is being attached to.
-  Both directions are proved, so the two entry points meet.
-- Covolume is Mathlib's `MeasureTheory.covolume`, valued in `ℝ≥0∞`, of the subgroup acting
-  on `ℍ³` with `volume`. Its value on a given fundamental domain comes from
-  `IsFundamentalDomain.covolume_eq_volume`, and existence from `HasFundamentalDomain`; this
-  roadmap adds no second notion of covolume. A group is **cofinite** exactly when it is
-  discrete and its covolume is not `⊤`, the shape of Tau Ceti's `Subgroup.IsCofinite` for
-  Fuchsian groups, with discreteness a field of the structure and not a consequence of the
-  covolume condition: a nondiscrete group can have covolume `0`, so finiteness alone is not
-  a lattice condition. Positivity of the covolume of a cofinite group is a theorem, not part
-  of the definition.
-- `bianchi F ι` is the image in `PSL(2,C)` of `SL(2, O_F)` under the ring map
-  `ι.comp (algebraMap (𝓞 F) F)`, for a number field `F` and an embedding `ι : F →+* C`. The
-  definition needs nothing more; the theorems about it assume that `F` is imaginary quadratic,
-  stated in Mathlib's vocabulary as `Module.finrank Q F = 2` and `IsTotallyComplex F`. Nothing
-  is claimed for other number fields; `PSL(2, Z)` inside `PSL(2,C)` has infinite covolume on
-  `ℍ³`. The full group does not depend on the embedding: an automorphism `σ` of `F` permutes
-  `O_F`, so `bianchi F (ι.comp σ) = bianchi F ι` as subgroups of `PSL(2,C)`. The embedding is
-  still data, because a congruence subgroup of a fixed level does depend on it.
-- `bianchiGamma F ι I` is the image in `PSL(2,C)` of the kernel of reduction
-  `SL(2, O_F) → SL(2, O_F / I)`. Its quotient in `bianchi F ι` is `SL(2, O_F / I)` modulo the
-  image of `{±1}`. That is Mathlib's `PSL(2, O_F / I)`, the quotient by the full centre, only
-  when the centre of `SL(2, O_F / I)` is the image of `{±1}`, which holds for a prime `I` but
-  not in general: for `O_F = Z[i]` and `I = (5)` the matrix `(2i 5; -5 12i)` has determinant
-  `1` and reduces to the central scalar `2i`, which is neither `1` nor `-1`, so the kernel of
-  reduction to Mathlib's `PSL(2, O_F / I)` has index `3600` while `bianchiGamma` has index
-  `7200`. Embeddings transport levels: `bianchiGamma F (ι.comp σ) I` is
-  `bianchiGamma F ι (σ I)`, so the two complex embeddings of `Q(i)` exchange the levels
-  `(2 + i)` and `(2 - i)`. Complex conjugation, which relates the two embeddings, acts on
-  `ℍ³` as the orientation-reversing isometry `(w, t) ↦ (conj w, t)`; it is not an element of
-  `PSL(2,C)`, and it carries `bianchiGamma F ι I` to `bianchiGamma F (conj ∘ ι) I`, so the
-  two have the same covolume.
-- The two named fields are `CyclotomicField 4 Q` and `CyclotomicField 3 Q`, each embedded in
-  `C` by `IsAlgClosed.lift`, with `i` and `omega` the integral primitive roots
-  `(IsCyclotomicExtension.zeta_spec n Q _).toInteger`. The two named congruence subgroups are
-  `bianchiGamma` at the ideals `(2 + i)` and `(3 + omega)`, of norms `5` and `7`. Their indices,
-  `60` and `168`, are the orders of `PSL(2, F_5)` and `PSL(2, F_7)`, since reduction is onto and
-  `-1` is not in the kernel; both are torsion free, so the quotients are manifolds.
-- Catalan's constant has no name in Mathlib, so layer 4 introduces `catalanConstant`, as the
-  sum `∑ (-1)^n / (2n+1)^2`, and proves it equal to `DirichletCharacter.LFunction` at the
-  character mod `4` and `s = 2`; `L(2, χ₋₃)` is `lchi3`, treated the same way. The name is not
-  `catalan`, which in Mathlib is the Catalan *numbers* `ℕ → ℕ`. Every theorem about volumes
-  states the constant, not a decimal enclosure. Numerical enclosures may exist as separate
-  lemmas and may never appear in the statement of a volume.
-- No `native_decide`, in line with the library's axiom audit. Rational arithmetic on explicit
-  matrices is `decide` or `norm_num`.
+### From PolylogarithmFunctions
 
-## Existing foundations to consume
+`polylog n z`, written `Liₙ(z)`, with `Li₁(z) = −Log(1 − z)`; §1.5, the derivative recursion
+`z · Li₂′(z) = Li₁(z)` on `Ω = ℂ ∖ [1, ∞)`; §1.7, the closed-disc series
+`Li₂(z) = ∑_{m ≥ 1} z^m / m²` for `|z| ≤ 1` and continuity of `Li₂` at `1`, with
+`Li₂(1) = ζ(2)`.
 
-The two-dimensional case is largely in Mathlib and Tau Ceti, and this roadmap is written to
-mirror it declaration by declaration rather than to reinvent it.
+### From GeometricTopology §7.1
 
-- **The upper half-plane, in Mathlib.** `Mathlib/Analysis/Complex/UpperHalfPlane/Measure.lean`
-  gives `UpperHalfPlane.volume` as a `MeasureSpace` instance, its `volume_def` through
-  `withDensity`, and `SMulInvariantMeasure (GL (Fin 2) R) H volume`.
-  `Mathlib/Analysis/Complex/UpperHalfPlane/Metric.lean` gives the `Dist` instance, `dist_eq`,
-  and `cosh_dist`. Layer 0 states the three-dimensional counterparts of these, on Tau Ceti's
-  half-space.
-- **Hyperbolic space, in Tau Ceti.** `Geometry/Manifold/Riemannian/Hyperbolic/UpperHalfSpace/`
-  (`Basic.lean`, `Metric.lean`, `Curvature.lean`), `Hyperbolic/Completeness.lean`,
-  `Riemannian/Isometry/UpperHalfSpace.lean`, `Riemannian/Isometry/Action.lean` (the evaluation
-  action of `Isom` and its faithfulness), `Riemannian/Distance.lean`,
-  `Riemannian/VolumeDensity/Volume.lean` and `Riemannian/VolumeDensity/Isometry.lean`, as listed
-  under ownership; `Riemannian/ModelGeometry/Basic.lean` for `ModelGeometry.hyperbolic`, whose
-  space is `TauCeti.UpperHalfSpace (EuclideanSpace R (Fin 2))`; and
-  `Riemannian/GeometricStructure/Basic.lean` for `hasGeometricStructure_quotient`.
-- **Fundamental domains.** In Mathlib, `MeasureTheory.IsFundamentalDomain`,
-  `HasFundamentalDomain`, `covolume` valued in `ℝ≥0∞`, and
-  `IsFundamentalDomain.covolume_eq_volume`, in
-  `Mathlib/MeasureTheory/Group/FundamentalDomain.lean`. In Tau Ceti, the declarations of
-  `MeasureTheory/Group/FundamentalDomain.lean`, `MeasureTheory/Group/ProperlyDiscontinuous.lean`
-  and `Topology/Algebra/GroupAction/FreeLocus.lean` listed under ownership, and
-  `Analysis/Complex/Fuchsian/Covolume.lean`, whose `volume_compl_freeLocus`,
-  `hasFundamentalDomain` and cofiniteness criterion are the two-dimensional models for layer 1.
-- **Groups and quaternions, in Mathlib.** `Matrix.ProjectiveSpecialLinearGroup` with the
-  scoped `PSL(n, R)` notation and its quotient topology; `Quaternion` and the normed structure
-  in `Mathlib/Analysis/Quaternion.lean`; `ProperlyDiscontinuousSMul` in
-  `Mathlib/Topology/Algebra/ConstMulAction.lean`. `T2Space PSL(2,C)` is already an instance,
-  from Tau Ceti's `Subgroup.isClosed_center` (`Topology/Algebra/Group/Subgroup.lean`) and
-  Mathlib's Hausdorff quotient by a closed normal subgroup; it is not proved again.
-- **Number theory, in Mathlib.** `NumberField.dedekindZeta`, `NumberField.discr`,
-  `DirichletCharacter.LFunction`, and `CyclotomicField` with `IsCyclotomicExtension.zeta_spec`
-  and `IsPrimitiveRoot.toInteger`. Mathlib has the Dedekind zeta function and no special
-  values of it at `s = 2`; producing the two this roadmap needs is layer 4's work.
-- **What does not exist.** Neither library has an action of `PSL(2,C)` on hyperbolic 3-space,
-  a name for Catalan's constant, the Lobachevsky function, or a fundamental domain for a
-  Bianchi group. The first is a target of layer 0, the second and third of layer 4, and the
-  fourth of layer 2.
+The Riemannian volume of `TauCeti.UpperHalfSpace (EuclideanSpace ℝ (Fin (n − 1)))` has density
+`y⁻ⁿ` against Lebesgue measure; a discrete torsion-free group acting freely by isometries has a
+complete hyperbolic quotient; the volume of the quotient is the volume of a fundamental domain;
+and `Isom(ℍ³) ≅ PSL₂(ℂ) ⋊ ℤ/2`.
 
-## Layer 0: the Moebius action, the measure, and the distance
+### From AdelicAlgebraicGroups AA.2.4, AA.3.4, AA.4.2
 
-**What to build.** The coordinate action of `SL(2,C)` on `ℍ³`, its quaternionic description
-and group law, its factoring through `PSL(2,C)`, and the homomorphism
-`toIsom : PSL(2,C) →* TauCeti.Isom 𝓘(R, WithLp 2 (C × R)) ℍ³` obtained from the
-decomposition into similarities and inversions described under the pinned conventions:
-`toIsom g` is the element of `Isom` whose underlying map is `p ↦ g • p`, and it is a
-homomorphism because the action is. Then the measure and metric instances on
-`ℍ³`, their coordinate descriptions, and the comparisons with the two-dimensional model and
-with `ModelGeometry.hyperbolic`.
+AA.2.4: the Tamagawa measure `τ_G = |d_F|^(−d/2) ρ_G⁻¹ ∏_v λ_v |ω|_v` with the local
+normalizations `dx`, `2 dx dy` and `vol(𝒪_v) = 1`; for `SL₂`, whose character lattice is zero,
+`λ_v = ρ_G = 1`; the corrected volume `#SL₂(k_v) q_v⁻³ = 1 − q_v⁻²`; and the Tamagawa number
+`τ(G) = vol(G(F)\G(𝔸_F))`. AA.3.4: discreteness of `Reduction.levelArithmetic`. AA.4.2,
+*strong-approximation-sufficiency*: an absolutely almost simple simply connected group with
+noncompact `G_S` has strong approximation with respect to `S`.
 
-**Deliverables.** The `MulAction SL(2,C) ℍ³` and `MulAction PSL(2,C) ℍ³` instances, `smul_def`
-(the coordinate formula) and `toQuaternion_smul`; `toIsom` and `toIsom_injective`;
-`isometry_smul`; the `MeasurableSpace`, `BorelSpace` and `MeasureSpace` instances on `ℍ³`, and
-`volume_eq_withDensity`; the `MetricSpace` instance, `dist_eq` and `cosh_dist`; the instances
-`SecondCountableTopology ℍ³`, `LocallyCompactSpace ℍ³`, `SecondCountableTopology PSL(2,C)`,
-`ContinuousConstSMul PSL(2,C) ℍ³`, `MeasurableConstSMul PSL(2,C) ℍ³` and
-`SMulInvariantMeasure PSL(2,C) ℍ³ volume`; `ofUpperHalfPlane` and `dist_ofUpperHalfPlane`, the
-agreement of the slice `w ∈ R` with Mathlib's upper half-plane distance, together with the
-equivariance `ofUpperHalfPlane (g • z) = g • ofUpperHalfPlane z` for `g` in `SL(2,R)`; and
-`UpperHalfSpace.congr`, the Riemannian isometry `UpperHalfSpace E ≃ UpperHalfSpace F` induced
-by a linear isometry `E ≃ₗᵢ[R] F`, applied to `Complex.orthonormalBasisOneI` to identify `ℍ³`
-with `ModelGeometry.hyperbolic.Space`.
+### From EndoscopicTransferAndUnitaryTraceComparison §6.2
 
-`volume_eq_withDensity` is the case `E = C` of the density formula of GeometricTopology layer
-7.1, transported along `UpperHalfSpace.congr` by
-`RiemannianIsometry.measurePreserving_riemannianVolume`.
-*Needs:* GeometricTopology layer 7.1 (the volume form `y⁻ⁿ dx dy` of the upper half space).
+`τ(S) = 1` for every simply connected semisimple group `S` over a number field; its Checks
+include `τ(SL_n) = 1`.
 
-**API.** `volume` carries sigma-finiteness, local finiteness, `IsOpenPosMeasure`, the value on
-a box in closed form, and absolute continuity in both directions against Lebesgue measure on
-the open half-space. `dist` carries the formula for two points on a vertical line, the
-geodesic through two points, and completeness, the last from Tau Ceti's
-`UpperHalfSpace.completeSpace_of_riemannianMetric`. The action carries continuity, the
-stabilizer of a point, transitivity, and the identification of the stabilizer of `(0, 1)` with
-`PSU(2)`.
+## How to read the build
 
-**Unlocks.** Everything below.
+Layer 0 puts the action, the volume and the distance on `ℍ³`. Layer 1 turns discreteness into
+proper discontinuity, proves the non-free locus null and gives every discrete group a
+fundamental domain and a covolume. Layer 2 builds Dirichlet domains. Layer 3 defines the Bianchi
+groups and congruence subgroups, proves discreteness and torsion-freeness, and gives the two
+explicit Bianchi domains. Layer 4 integrates over those domains, evaluates three log-sine
+integrals, applies the index law, and proves Humbert's formula for every imaginary quadratic
+field, using the Gaussian value to fix the archimedean constant. Layer 5 defines the set of
+volumes and states Thurston's question.
 
-## Layer 1: discrete subgroups, fundamental domains, and covolume
+## Layer 0: the action, the volume and the distance
 
-**What to build.** Discreteness implies proper discontinuity on `ℍ³`; a torsion-free discrete
-subgroup acts freely; `IsKleinian` as the predicate for the quotient being a manifold, with
-both implications to the discrete-and-torsion-free form. Then the measure theory of the
-non-free locus, which is what lets groups with torsion, the Bianchi groups among them, have
-fundamental domains and covolumes:
+### 0.1 The Möbius action
 
-1. The fixed-point set in `ℍ³` of an element `g ≠ 1` of `PSL(2,C)` is empty or a complete
-   geodesic: by the classification of elements by trace (Elstrodt–Grunewald–Mennicke,
-   chapter 1), only elliptic elements have fixed points, and an elliptic element fixes its axis
-   pointwise and nothing else. A geodesic lies in a vertical plane, which is Lebesgue-null, so
-   the fixed-point set is `volume`-null by `volume_eq_withDensity`. Both steps are needed:
-   `diag(i, -i)` fixes the whole vertical geodesic `{(0, t)}`, an uncountable set, so the
-   countability argument of the two-dimensional `volume_compl_freeLocus` does not transfer;
-   and in `SL(2,C)` the element `-1` fixes all of `ℍ³`, so the statement is for the projective
-   action.
-2. For a countable `Γ ≤ PSL(2,C)`, `volume (freeLocus Γ ℍ³)ᶜ = 0`, as a countable union of the
-   null sets of item 1.
-3. A discrete subgroup is countable, from second countability of `PSL(2,C)`, and has a
-   measurable fundamental domain, from
-   `exists_isFundamentalDomain_of_properlyDiscontinuousSMul` with item 2 as its null-set
-   hypothesis and the layer-0 instances as its topological ones. This is the
-   `HasFundamentalDomain` statement every covolume below uses.
+Define `mobius A p` by the formula of the conventions and prove `one_smul'` and `mul_smul'` by
+transporting Polylogarithms §2.4's composition law along the coordinate identification
+`(w, h) ↦ (w, h)` of `upperHalfHyperbolicModel` with `ℍ³`; give the `MulAction SL(2, ℂ) ℍ³`
+instance with these fields. Prove `smul_eq_of_mem_center`, that `±1` act trivially, and give
+`MulAction PSL(2, ℂ) ℍ³` on representatives. Prove `toQuaternion_smul`: with `toQuaternion`
+sending `(w, t)` to `re w + (im w) i + t j` and `ofComplex` embedding `ℂ` in `ℍ[ℝ]` along
+`1, i`, `toQuaternion (A • p) = (a q + b)(c q + d)⁻¹`.
 
-Then covolume: independence of the fundamental domain, the index law, positivity, and the
-cofiniteness criterion in the shape of `Fuchsian.Covolume.isCofinite_iff_covolume_ne_top`.
-The index law is Tau Ceti's `covolume_eq_card_mul_covolume` specialized to `ℍ³`, and it is
-stated with that theorem's orientation and hypotheses: for `Δ ≤ Γ`, the covolume of `Δ` is
-`ENat.card (Γ ⧸ Δ.subgroupOf Γ)` times the covolume of `Γ`, the index `[Γ : Δ]` counted in
-`ℕ∞` so that infinite index gives `⊤` rather than the zero-totalized `ℕ`-valued
-`Subgroup.index`, under `[Countable Γ]` and `[HasFundamentalDomain Γ ℍ³ volume]`. A discrete
-`Γ` satisfies both by item 3. A Bianchi group satisfies both without any appeal to
-discreteness: it is countable as an image of `SL(2, O_F)`, and its explicit domain of layer 2
-is a fundamental domain.
+- The action is continuous, transitive, and the stabilizer of `(0, 1)` in `PSL(2, ℂ)` is the
+  image of `SU(2)`.
+- The projective action is faithful: only the identity of `PSL(2, ℂ)` fixes every point.
+- `height (A • p) = height p / denom A p`.
 
-**Deliverables.** `properlyDiscontinuousSMul_of_discrete`, `IsKleinian`,
-`isKleinian_iff_discrete_and_torsionFree`, `volume_fixedPoints_eq_zero`,
-`volume_compl_freeLocus`, `countable_of_discrete`, `hasFundamentalDomain_of_discrete`,
-`covolume_eq_index_mul_covolume` as a corollary of the general lemma, `IsCofinite` as a
-structure with `DiscreteTopology Γ` and `covolume Γ ℍ³ volume ≠ ⊤` as its fields,
-`isCofinite_iff_covolume_ne_top`, and `IsCofinite.covolume_pos`, the last from Tau Ceti's
-`covolume_pos`.
-*Needs:* layer 0 (the action, the instances, `volume_eq_withDensity`).
+**Checks.**
 
-**API.** `IsKleinian` is closed under passing to a subgroup and under conjugation, and is
-preserved by the two constructions that produce new groups here, intersection and finite
-index. Covolume carries monotonicity under inclusion, invariance under conjugation (Tau
-Ceti's `covolume_conjAct_smul`), the value on the trivial group, and the two-sided relation
-with commensurability: commensurable cofinite groups have covolumes with rational ratio,
-and a group commensurable with a cofinite group is cofinite.
+- `(0 −1; 1 0)` sends `(w, t)` to `(−conj w / (|w|² + t²), t / (|w|² + t²))`; it fixes `(0, 1)`
+  and sends `(1, 1)` to `(−1/2, 1/2)`. Omitting `|c|² t²` from `J` makes it undefined over the
+  vertical axis `w = 0`.
+- `−1` acts trivially, and `diag(i, −i)` acts as `(w, t) ↦ (−w, t)`, fixing exactly the vertical
+  geodesic over `0`.
+- `(1 b; 0 1)` acts as `(w, t) ↦ (w + b, t)`, and `diag(a, a⁻¹)` with `a > 0` as
+  `(w, t) ↦ (a² w, a² t)`.
 
-**Design note.** The index law gives a rational relation between the volumes of any two
-commensurable groups. It is not the only source of rational relations: there are
-incommensurable hyperbolic knot complements of equal volume (Millichap). Layer 5 uses the index
-law for closure of the set of volumes and for `rat_ratio_of_commensurable`.
+### 0.2 Isometries
 
-## Layer 2: fundamental domains
+Prove `isometry_smul` and `exists_toIsom`: there is an injective homomorphism
+`PSL(2, ℂ) →* TauCeti.Isom 𝓘(ℝ, WithLp 2 (ℂ × ℝ)) ℍ³` whose evaluation at `p` is `g • p`. Each
+element is an isometry by Polylogarithms §2.4's preservation of the metric, transported; the
+homomorphism property is the composition law, and injectivity is faithfulness (§0.1). Prove
+`UpperHalfSpace.congr`: a linear isometry `E ≃ₗᵢ[ℝ] F` induces a Riemannian isometry
+`TauCeti.UpperHalfSpace E ≃ TauCeti.UpperHalfSpace F`; at `Complex.orthonormalBasisOneI` it
+identifies `ℍ³` with `ModelGeometry.hyperbolic.Space`, and along it the image of
+`exists_toIsom` is the `PSL₂(ℂ)` factor of GeometricTopology §7.1's `PSL₂(ℂ) ⋊ ℤ/2`.
 
-**What to build.** Dirichlet domains for a discrete subgroup, centred at a point with trivial
-stabilizer, which exists by `volume_compl_freeLocus`; and the explicit fundamental domains of
-the two Bianchi groups of smallest discriminant.
+**Checks.**
 
-The explicit domains, with `p = (w, t)` and `w = x + y i`:
+- The image of `(0 −1; 1 0)` is Tau Ceti's `UpperHalfSpace.inversion 0 1` followed by the
+  linear isometry `w ↦ −conj w`.
+- The image of `(a b; 0 a⁻¹)` is the similarity of scale `|a|²`, rotation `w ↦ (a / conj a) w`
+  and translation `a b`.
+- Complex conjugation `(w, t) ↦ (conj w, t)` is an isometry not in the image: it reverses
+  orientation.
 
-- `gaussianDomain`: `|x| ≤ 1/2`, `0 ≤ y ≤ 1/2`, `|w|² + t² ≥ 1`, for `bianchiGaussian`;
-- `eisensteinDomain`: `0 ≤ x ≤ 1/2`, `0 ≤ x + sqrt 3 * y ≤ 1`, `|w|² + t² ≥ 1`, for
-  `bianchiEisenstein`.
+### 0.3 Volume
 
-Each is the region above the unit sphere over a fundamental domain in `C` for the stabilizer of
-`∞`, which acts on `w` by `w ↦ u² w + b` with `u` a unit and `b` in the ring of integers: for
-`Z[i]` the half-square of area `1/2`, since `u² = ±1`; for `Z[omega]` the rhombus with vertices
-`0`, `(1/2, ± 1/(2 sqrt 3))`, `(0, 1/sqrt 3)`, of area `1/(2 sqrt 3)`, since `u²` is a cube root
-of unity. Each floor lies in the Voronoi cell of `0` for the lattice of integers, so over it the
-unit hemisphere about `0` is the highest of the hemispheres `|w - b|² + t² = 1`. These are the
-Bianchi domains of Elstrodt–Grunewald–Mennicke, chapter 7.
+Give `MeasurableSpace ℍ³ := borel`, `BorelSpace`, `SecondCountableTopology ℍ³`,
+`LocallyCompactSpace ℍ³` and the `MeasureSpace` instance of the conventions. Prove
+`volume_eq_withDensity`, the case `E = ℂ` of GeometricTopology §7.1's density formula
+transported along `UpperHalfSpace.congr` by
+`RiemannianIsometry.measurePreserving_riemannianVolume`. Prove `smulInvariantMeasure`,
+`continuousConstSMul` and `secondCountableTopology_psl`, and register them, together with
+`MeasurableConstSMul PSL(2, ℂ) ℍ³`, as instances.
 
-The proof that each is a fundamental domain applies Tau Ceti's
-`IsFundamentalDomain.of_disjoint_smul_interior` (null-measurable, almost-everywhere covering,
-null translated frontiers, disjoint interiors) with these inputs, each a separate lemma:
+- `volume` is sigma-finite, locally finite and `IsOpenPosMeasure`, and is mutually absolutely
+  continuous with Lebesgue measure on the open half-space.
+- The volume of a box `[x₀, x₁] × [y₀, y₁] × [t₀, t₁]` with `0 < t₀ < t₁ ≤ ∞` is
+  `(x₁ − x₀)(y₁ − y₀)(t₀⁻² − t₁⁻²)/2`.
 
-1. *Height.* For `g = (a b; c d)`, `height (g • p) = t / (|c w + d|² + |c|² t²)`.
-2. *Covering.* Every orbit meets the domain. For fixed `p` only finitely many pairs `(c, d)` of
-   integers have `|c w + d|² + |c|² t² < 1`, so the orbit has a point of maximal height. Move
-   such a point over the floor by the stabilizer of `∞`, which does not change its height. It
-   then satisfies `|w|² + t² ≥ 1`, since otherwise `(0 -1; 1 0)` would raise its height.
-3. *Disjoint interiors.* Let `p` and `g • p` both lie in the interior, with `g` not fixing `∞`,
-   so `c ≠ 0`. If `|c| = 1`, then `d / c` is an integer and `|w + d/c|² + t² > 1` in the
-   interior, by the Voronoi property. If `|c|² ≥ 2` (Gaussian) or `|c|² ≥ 3` (Eisenstein), then
-   `|c|² t² > 1`, because `t² > 1 - |w|²` and `|w|² ≤ 1/2` or `|w|² ≤ 1/3` on the floor. Either
-   way `height (g • p) < height p`, and the same argument for `g⁻¹` gives the reverse
-   inequality. If `g` fixes `∞`, the floor is a fundamental domain for its action on `C`.
-4. *Null frontier.* The frontier lies in finitely many vertical planes and one sphere, each
-   Lebesgue-null.
+**Checks.**
 
-The torsion of the Bianchi groups plays no part: `IsFundamentalDomain` is stated for any
-action, and torsion-freeness is needed only for the membership statements of layer 5.
+- The cusp box `[0, 1] × [0, 1] × [1, ∞)` has volume `1/2`; the box with `t ∈ [1, 2]` has
+  `3/8`. A density `t⁻²` would make the cusp box infinite.
+- Translations and `diag(a, a⁻¹)` with `a > 0` preserve the volume of a box: the second scales
+  the base by `a⁴` and divides `t₀⁻² − t₁⁻²` by `a⁴`.
 
-**Deliverables.** `dirichletDomain` and `isFundamentalDomain_dirichletDomain`;
-`gaussianDomain`, `eisensteinDomain`, `isFundamentalDomain_gaussianDomain` and
-`isFundamentalDomain_eisensteinDomain`.
-*Needs:* layer 1 (`volume_compl_freeLocus`, for the Dirichlet domain of a group with torsion);
-layer 3 (`bianchiGaussian`, `bianchiEisenstein`, their stabilizers of `∞`), for the explicit
-domains only.
+### 0.4 Distance
 
-**API.** A Dirichlet domain is open, is star-shaped about its centre, is locally finite, and
-changes by the expected equivariance when the centre moves or the group is conjugated. The
-congruence subgroups get no explicit domain of their own: theirs are the finite unions of
-translates that `IsFundamentalDomain.subgroup_iUnion_out_inv_smul` already supplies, and their
-covolumes come from the index law.
+Give the `MetricSpace` instance of the conventions and prove `cosh_dist` and the `arsinh` form
+`dist p q = 2 arsinh (‖p − q‖ / (2 √(height p · height q)))`. Define `ofUpperHalfPlane`, the
+slice `w ∈ ℝ`, and prove `dist_ofUpperHalfPlane` and the equivariance
+`ofUpperHalfPlane (g • z) = g • ofUpperHalfPlane z` for `g ∈ SL(2, ℝ)`.
 
-**Design note.** The explicit route is the one that reaches a number. The Dirichlet route is
-the one that gives a theorem for every group. Build both; do not try to derive the explicit
-domains from the general construction.
+- On a vertical line, `dist (w, s) (w, t) = |log (t / s)|`; the vertical line is a geodesic.
+- The distance is complete, by `TauCeti.UpperHalfSpace.completeSpace_of_riemannianMetric`.
+
+**Checks.**
+
+- `dist (0, 1) (0, 2) = log 2`, since `cosh d = 1 + 1/4 = 5/4`.
+- `cosh (dist (0, 1) (1, 1)) = 3/2`; the Euclidean distance is `1`.
+- On the slice, `cosh_dist` has exactly the shape of `UpperHalfPlane.cosh_dist`.
+
+### Examples
+
+The element `(0 −1; 1 0)` is an isometric involution of `ℍ³` fixing the geodesic
+`{|w|² + t² = 1, w ∈ i ℝ}`; `diag(i, −i)` is a rotation by `π` about the vertical axis over `0`.
+
+### Dependencies
+
+Polylogarithms §2.4 (the action on its model); GeometricTopology §7.1 (density of the volume,
+`PSL₂(ℂ) ⋊ ℤ/2`); the Tau Ceti suppliers listed above.
+
+## Layer 1: discrete groups, fundamental domains and covolume
+
+### 1.1 Proper discontinuity and torsion-free Kleinian groups
+
+Prove `properlyDiscontinuousSMul_of_discrete`: a discrete subgroup acts properly
+discontinuously, since stabilizers of points are compact. Define `IsTorsionFreeKleinian` and
+prove `isTorsionFreeKleinian_iff_discrete_and_torsionFree`: an element of finite order of
+`PSL(2, ℂ)` fixes a point, and a properly discontinuous action has finite stabilizers.
+
+- `IsTorsionFreeKleinian` passes to subgroups and is invariant under conjugation.
+- A finite-index subgroup of a discrete group is discrete.
+
+**Checks.**
+
+- The trivial group and the translation group `w ↦ w + b`, `b ∈ ℤ[i]`, satisfy
+  `IsTorsionFreeKleinian`.
+- The group of order two generated by `diag(i, −i)` is discrete but not torsion free; it fixes
+  the axis over `0`.
+- `SL(2, ℤ)` maps onto a discrete subgroup of `PSL(2, ℂ)` that is not torsion free: it contains
+  `(0 −1; 1 0)` of order two.
+
+### 1.2 The non-free locus and fundamental domains
+
+Prove `volume_fixedPoints_eq_zero`: the fixed set of `g ≠ 1` in `PSL(2, ℂ)` is empty or a
+geodesic, by the classification of elements by trace (Elstrodt–Grunewald–Mennicke,
+Chapter 1); a geodesic lies in a vertical plane or a sphere, which is Lebesgue-null, so the fixed set
+is null by `volume_eq_withDensity`. Prove `volume_compl_freeLocus` for countable `Γ`, as a
+countable union. Prove `countable_of_discrete`, from `secondCountableTopology_psl`, and
+`hasFundamentalDomain_of_discrete`, from
+`exists_isFundamentalDomain_of_properlyDiscontinuousSMul` with `volume_compl_freeLocus` as its
+null-set hypothesis.
+
+**Checks.**
+
+- `diag(i, −i)` fixes the vertical geodesic `{(0, t)}`, an uncountable null set: the
+  countability argument of the two-dimensional `volume_compl_freeLocus` does not transfer.
+- In `SL(2, ℂ)` the element `−1` fixes all of `ℍ³`; the statement is for `PSL(2, ℂ)`.
+- A parabolic element `(1 1; 0 1)` has no fixed point in `ℍ³`.
+
+### 1.3 Covolume and cofiniteness
+
+Define `IsCofinite` and prove `IsCofinite.covolume_pos` from Tau Ceti's `covolume_pos`. For
+`Δ ≤ Γ` with `Γ` countable and having a fundamental domain, the covolume of `Δ` is
+`ENat.card (Γ ⧸ Δ.subgroupOf Γ)` times that of `Γ`: this is Tau Ceti's
+`covolume_eq_card_mul_covolume` applied to `ℍ³`, with infinite index giving `⊤`. A discrete group
+has both hypotheses by §1.2; a Bianchi group has them through its explicit domain (§3.5),
+without discreteness. For discrete `Γ`, `IsCofinite Γ` holds iff the covolume is not `⊤`, as in
+`Subgroup.isCofinite_iff_covolume_ne_top`.
+
+- Covolume is invariant under conjugation (`covolume_conjAct_smul`).
+- For `Δ ≤ Γ`, `covolume Γ ≤ covolume Δ`, by the index law with index at least `1`.
+- Commensurable cofinite groups have covolumes with rational ratio, and a group commensurable
+  with a cofinite group is cofinite.
+
+**Checks.**
+
+- The translation group by `ℤ[i]` has the fundamental domain `[0, 1)² × (0, ∞)`, of infinite
+  volume, so it is discrete and not cofinite.
+- `PSL(2, ℤ)` inside `PSL(2, ℂ)` is discrete with covolume `⊤`.
+- The index law at `Γ(2 + i) ≤ PSL(2, ℤ[i])` gives `60 · catalanConstant / 3`.
+
+### Examples
+
+Through §§3.5 and 4.3, `PSL(2, ℤ[i])` is cofinite with covolume `catalanConstant / 3`, although
+it has torsion.
+
+### Dependencies
+
+Layer 0; the Tau Ceti fundamental-domain, proper-discontinuity and free-locus suppliers.
+
+## Layer 2: Dirichlet domains
+
+### 2.1 Dirichlet domains at a free point
+
+Define `dirichletDomain Γ p₀`, the points at least as close to `p₀` as to every `g • p₀`, and
+prove `isFundamentalDomain_dirichletDomain` for discrete `Γ` and `p₀` in the free locus, which
+exists by `volume_compl_freeLocus`. The proof: the domain is closed and an intersection of
+half-spaces bounded by geodesic planes, so its frontier is null; every orbit has a point
+nearest `p₀`, by proper discontinuity; and two points of the interior in one orbit are equal,
+because `p₀` has trivial stabilizer.
+
+- A Dirichlet domain is star-shaped about its centre and locally finite, and
+  `dirichletDomain (g Γ g⁻¹) (g • p₀) = g • dirichletDomain Γ p₀`.
+
+**Checks.**
+
+- For the group generated by `w ↦ w + 1`, the domain at `(0, 1)` is `{|re w| ≤ 1/2}`, since
+  `cosh (dist p (n, 1)) = 1 + (|w − n|² + (t − 1)²)/(2t)`.
+- At a centre fixed by `diag(i, −i)`, the "domain" contains each point together with its image,
+  so it is not a fundamental domain: the free-point hypothesis is needed.
+
+### Examples
+
+For the translation group by `ℤ[i]`, the Dirichlet domain at `(0, 1)` is the column
+`|re w|, |im w| ≤ 1/2`, of infinite volume, as in §1.3.
+
+### Dependencies
+
+Layers 0–1.
 
 ## Layer 3: Bianchi groups
 
-**What to build.** `bianchi F ι` and `bianchiGamma F ι I` as pinned; their compatibility with
-change of embedding; discreteness; the stabilizer of `∞` and the translation subgroup; the
-torsion-freeness of the two named congruence subgroups; and their indices
-`[PSL(2, Z[i]) : Gamma(2 + i)] = 60` and `[PSL(2, Z[omega]) : Gamma(3 + omega)] = 168`, each a
-finite computation in a matrix group over a finite field: reduction mod the ideal is onto
-`SL(2, F_5)`, of order `120`, and `SL(2, F_7)`, of order `336`, and `-1` lies in neither kernel.
+### 3.1 Definitions and change of embedding
 
-`isDiscrete_bianchi` is the imaginary-quadratic case of AdelicAlgebraicGroups AA.3.4, the
-discreteness of `Reduction.levelArithmetic`, at `x = 1` and the compact open level
-`∏_{v finite} SL₂(𝒪_v)`, whose rational preimage is `SL(2, O_F)`. The proof is the adapter
-that roadmap describes: `ι` identifies `F_∞` with `C` and transports the archimedean topology,
-and discreteness passes to the image in `PSL(2,C)` through the finite centre of `SL(2,C)`. It
-does not give a second arithmetic-discreteness proof.
-*Needs:* AdelicAlgebraicGroups AA.3.4.
+Define `bianchi` and `bianchiGamma` as in the conventions. Prove `bianchi_comp_algEquiv`, that
+`bianchi F (ι ∘ σ) = bianchi F ι` for `σ ∈ Aut(F)`, since `σ` permutes `𝒪_F`, and
+`bianchiGamma_comp_algEquiv`, that `bianchiGamma F (ι ∘ σ) I = bianchiGamma F ι (σ I)`.
 
-**Deliverables.** `bianchi`, `bianchiGamma`, `bianchi_comp_algEquiv`,
-`bianchiGamma_comp_algEquiv`, `isDiscrete_bianchi`, `bianchiGaussian`, `bianchiEisenstein`,
-`gammaGaussian`, `gammaEisenstein`, `index_gammaGaussian` and `index_gammaEisenstein` with the
-values `60` and `168`, and `isKleinian_gammaGaussian` and `isKleinian_gammaEisenstein`.
+- `bianchiGamma F ι I` is normal in `bianchi F ι`, reduction `SL(2, 𝒪_F) → SL(2, 𝒪_F / I)` is
+  onto, and the index is `|SL(2, 𝒪_F / I)| / |{±1 mod I}|`, with `|SL(2, 𝒪_F / I)|` the product
+  over the prime powers dividing `I`.
+- The stabilizer of `∞` in `bianchi F ι` acts on `w` by `w ↦ u² w + b`, `u ∈ 𝒪_F^×`, `b ∈ 𝒪_F`;
+  its translation subgroup is `𝒪_F`.
+- `PSL(2, ℤ)` is a subgroup preserving the plane `im w = 0` and acting on it through Mathlib's
+  upper half-plane action. `diag(i, −i)` also preserves that plane, acting as `x ↦ −x`, and is
+  in `PSL(2, ℤ[i])` but not in `PSL(2, ℤ)`.
+- Complex conjugation carries `bianchiGamma F ι I` to `bianchiGamma F (conj ∘ ι) I`.
 
-**API.** The Bianchi group carries its generators for the two smallest discriminants, the
-stabilizer of `∞` and its description as `w ↦ u² w + b`, the translation subgroup and its
-identification with `O_F`, the parabolic elements and the cusps they fix, and the inclusion of
-`PSL(2, Z)` as a subgroup preserving the vertical plane `y = 0` and acting on it through
-Mathlib's upper half-plane action. `PSL(2, Z)` is not the full setwise stabilizer of that
-plane: `diag(i, -i)` also preserves it, acting on it as the reflection `x ↦ -x`, and lies in
-`PSL(2, Z[i])` but not in `PSL(2, Z)`. The stabilizer itself is not a target. For a nonzero
-ideal `I`, the congruence subgroup carries normality, the isomorphism of its quotient with
-`SL(2, O_F / I)` modulo the image of `{±1}`, the surjectivity of reduction, and the index
-`|SL(2, O_F / I)| / |{±1 mod I}|`, with `|SL(2, O_F / I)|` the product over the prime powers
-dividing `I`. Finiteness of the index is stated for `I ≠ ⊥` only, and torsion-freeness for the
-two named levels only.
+**Checks.**
 
-## Layer 4: the two Bianchi covolumes and their special values
+- `bianchi` takes the same value at the two complex embeddings of `GaussianField`, while
+  `bianchiGamma` at `(2 + i)` for one embedding is `bianchiGamma` at `(2 − i)` for the other.
+- For `ℤ[i]` and `I = (5)`, `(2i 5; −5 12i)` has determinant `1` and reduces to the central
+  scalar `2i`, neither `1` nor `−1`: its class lies in the kernel of reduction to Mathlib's
+  `PSL(2, ℤ[i]/(5))` but not in `bianchiGamma` at `(5)`, and the two indices are `3600` and
+  `7200`.
+- At `I = (2)` in `ℤ[i]`, `−1 ≡ 1`, so the index is `|SL(2, ℤ[i]/(2))| = 48`, not `24`.
 
-**What to build.** The volumes of the two explicit domains of layer 2, which are the covolumes
-of the two Bianchi groups; then the covolumes of the two congruence subgroups, by the index
-law; then the factorizations of the two Dedekind zeta values.
+### 3.2 Discreteness
 
-The integration is pinned so that no constant is left to guesswork. Write
-`Л(θ) = -∫₀^θ log |2 sin u| du` for the Lobachevsky function. By `volume_eq_withDensity` and
-`∫_{√(1-|w|²)}^∞ t⁻³ dt = 1 / (2 (1 - |w|²))`, the volume of a domain above the unit sphere over
-a floor `P` is `∫_P dA / (2 (1 - |w|²))`.
+Prove `isDiscrete_bianchi`, the imaginary-quadratic case of AA.3.4, the discreteness of
+`Reduction.levelArithmetic`, at `x = 1` and the compact open level `∏_{v finite} SL₂(𝒪_v)`,
+whose rational preimage is `SL(2, 𝒪_F)`. The adapter: `ι` identifies `F_∞` with `ℂ`, and
+discreteness passes to `PSL(2, ℂ)` through the finite centre of `SL(2, ℂ)`.
 
-- The Gaussian floor is four copies of the right triangle `0 ≤ y ≤ x ≤ 1/2`, under the
-  symmetries `x ↦ -x` and `x ↔ y`, and in polar coordinates that triangle is
-  `0 ≤ θ ≤ π/4`, `0 ≤ r ≤ 1 / (2 cos θ)`. So the volume is
-  `-∫₀^{π/4} log (1 - 1 / (4 cos² θ)) dθ`.
-- The Eisenstein floor is four copies of the right triangle with angle `π/6` at `0` and
-  adjacent side `1/2`, cut out by the rays at angles `-π/6`, `0`, `π/6`, `π/3`, `π/2` and the
-  lines `x = 1/2` and `x + sqrt 3 * y = 1`. So the volume is
-  `-∫₀^{π/6} log (1 - 1 / (4 cos² θ)) dθ`.
-- The identity `4 cos² θ - 1 = sin 3θ / sin θ` splits the integrand as
-  `log |2 sin 3θ| - log |2 sin θ| - 2 log |2 cos θ|`, and the substitutions `u = 3θ` and
-  `u = π/2 - θ` turn the two integrals into `(2/3) Л(π/4)` and `2 Л(π/3) - Л(π/6)`, using
-  `Л(π/2) = 0` and that `Л` is odd and `π`-periodic.
-- `Л(π/6) = (3/2) Л(π/3)`, from the duplication formula `Л(2θ) = 2 Л(θ) + 2 Л(θ + π/2)` at
-  `θ = π/6`. So the Eisenstein volume is `Л(π/3) / 2`.
-- `Л(θ) = (1/2) ∑_{n ≥ 1} sin (2 n θ) / n²`, from `-log |2 sin θ| = ∑_{n ≥ 1} cos (2 n θ) / n` on
-  `(0, π)`. At `π/4` this gives `Л(π/4) = catalanConstant / 2`, and at `π/3`, where
-  `sin (2 n π / 3) = (sqrt 3 / 2) χ₋₃(n)`, it gives `Л(π/3) = sqrt 3 * lchi3 / 4`.
+**Checks.**
 
-So the Gaussian covolume is `(2/3) (catalanConstant / 2) = catalanConstant / 3` and the
-Eisenstein covolume is `(1/2) (sqrt 3 * lchi3 / 4) = sqrt 3 * lchi3 / 8`. The index law with
-the indices `60` and `168` gives the manifold volumes `60 * catalanConstant / 3 =
-20 * catalanConstant` and `168 * sqrt 3 * lchi3 / 8 = 21 * sqrt 3 * lchi3`.
+- For `F = ℚ` the image of `SL(2, ℤ)` is discrete too, but has infinite covolume (§1.3); the
+  imaginary-quadratic hypothesis is for the covolume statements, not for discreteness.
+- `SL(2, ℤ[√2])` embedded in `SL(2, ℂ)` by a real embedding is not discrete: `ℤ[√2]` is dense
+  in `ℝ`.
 
-Separately, the factorizations `zeta_(Q(i)) 2 = zeta 2 * L 2 chi_(-4)` and
-`zeta_(Q(omega)) 2 = zeta 2 * L 2 chi_(-3)` identify the two Bianchi covolumes as the values
-Humbert's formula predicts. This layer needs no zeta function except in the factorizations,
-and its covolumes are what layer 5 consumes.
+### 3.3 Torsion in congruence subgroups
 
-**Deliverables.** `catalanConstant` and `lchi3` as definitions, each proved equal to
-`DirichletCharacter.LFunction` at its character and `s = 2`; `lobachevsky` as a definition,
-with `lobachevsky_neg`, `lobachevsky_add_pi`, `lobachevsky_pi_div_two`, the duplication
-formula, the Fourier series `hasSum_lobachevsky`, `lobachevsky_pi_div_four` and
-`lobachevsky_pi_div_three`, in `TauCeti/Analysis/SpecialFunctions/Lobachevsky.lean`;
-`volume_gaussianDomain` and `volume_eisensteinDomain`; `covolume_bianchiGaussian` and
-`covolume_bianchiEisenstein`, the two Bianchi covolumes; `covolume_gammaGaussian` and
-`covolume_gammaEisenstein`, the two manifold volumes; and `zeta_gaussian_two` and
-`zeta_eisenstein_two`, the factorizations of those zeta values, stated with
-`NumberField.dedekindZeta` of the two cyclotomic fields.
-*Needs:* layers 1, 2 and 3 for the covolumes, with the index law applied under the
-countability and fundamental-domain hypotheses of layer 1, so not `isDiscrete_bianchi`;
-nothing for the Lobachevsky function.
+Prove `isTorsionFreeKleinian_bianchiGamma`: for `F` imaginary quadratic and an ideal
+`I ≠ ⊤` with `2 ∉ I` and `3 ∉ I`, `bianchiGamma F ι I` is torsion free, hence, with §3.2,
+`IsTorsionFreeKleinian`. The proof: if `A ≢ ±1` maps to an element of finite order, its
+eigenvalues are roots of unity `ζ, ζ̄`, so `tr A = ζ + ζ̄` is real, lies in `𝒪_F ∩ ℝ = ℤ`, and has
+absolute value below `2`, so `tr A ∈ {−1, 0, 1}`. `A ≡ 1 mod I` gives `tr A ≡ 2 mod I`, so `3`,
+`2` or `1` lies in `I`.
 
-**Humbert's formula: a roadmap-for-a-roadmap, not a target.** For every imaginary quadratic
-field `F`, with a chosen embedding `ι : F →+* ℂ`, the covolume of `PSL(2, O_F)` is
-`|d_F|^(3/2) * zeta_F 2 / (4 * pi^2)`. The statement this roadmap would want, once the
-definitions of layer 3 exist, is
+**Checks.**
 
-```lean
-theorem covolume_bianchi (F : Type) [Field F] [NumberField F] [IsTotallyComplex F]
-    (hF : Module.finrank ℚ F = 2) (ι : F →+* ℂ) :
-    (covolume (bianchi F ι) ℍ³ volume).toReal =
-      |(discr F : ℝ)| ^ ((3 : ℝ) / 2) * (dedekindZeta F 2).re / (4 * Real.pi ^ 2)
+- At `I = (1 + i)` in `ℤ[i]`, `(1, 1 + i; −1 + i, −1)` has determinant `1`, trace `0`, lies in
+  the kernel since `2 ∈ (1 + i)`, and has order `2` in `PSL`: the hypothesis `2 ∉ I` is needed.
+- At `I = (√−3)` in `ℤ[ω]`, with `√−3 = 1 + 2ω`, `3 ∈ I`, and `(1, √−3; √−3, −2)` has
+  determinant `−2 + 3 = 1`, trace `−1`, lies in the kernel, and has order `3`: the hypothesis
+  `3 ∉ I` is needed.
+- `(2 + i)` has norm `5` and `(3 + ω)` has norm `7`; neither divides `2` or `3`.
+
+### 3.4 The named fields and groups
+
+Define `GaussianField`, `EisensteinField`, `gaussianEmbedding`, `eisensteinEmbedding`,
+`gaussianI`, `eisensteinOmega`, `bianchiGaussian`, `bianchiEisenstein`, and the congruence
+subgroups `gammaGaussian` at `(2 + gaussianI)` and `gammaEisenstein` at `(3 + eisensteinOmega)`.
+Prove `index_gammaGaussian` and `index_gammaEisenstein`: the indices are `60` and `168`, the
+orders of `PSL(2, 𝔽₅)` and `PSL(2, 𝔽₇)`, since reduction is onto `SL(2, 𝔽₅)`, of order `120`, and
+`SL(2, 𝔽₇)`, of order `336`, and `−1` is in neither kernel.
+
+**Checks.**
+
+- `gaussianI ^ 2 = −1` and `eisensteinOmega ^ 2 + eisensteinOmega + 1 = 0`.
+- `𝒪_F / (2 + i) ≅ 𝔽₅` with `i ↦ 3`, and `𝒪_F / (3 + ω) ≅ 𝔽₇` with `ω ↦ 4`.
+- Both `gammaGaussian` and `gammaEisenstein` are `IsTorsionFreeKleinian` by §3.3.
+
+### 3.5 The Bianchi domains
+
+With `p = (w, t)` and `w = x + y i`, define
+
+- `gaussianDomain`: `|x| ≤ 1/2`, `0 ≤ y ≤ 1/2`, `|w|² + t² ≥ 1`;
+- `eisensteinDomain`: `0 ≤ x ≤ 1/2`, `0 ≤ x + √3 y ≤ 1`, `|w|² + t² ≥ 1`.
+
+Each is the region above the unit sphere over a fundamental domain in `ℂ` for the stabilizer of
+`∞`: for `ℤ[i]` the half-square of area `1/2`, since `u² = ±1`; for `ℤ[ω]` the rhombus with
+vertices `0`, `(1/2, ±1/(2√3))`, `(0, 1/√3)`, of area `1/(2√3)`, since `u²` is a cube root of
+unity. Each floor lies in the Voronoi cell of `0` for `𝒪_F`, so over it the unit hemisphere about
+`0` is the highest of the hemispheres `|w − b|² + t² = 1` (Elstrodt–Grunewald–Mennicke,
+Chapter 7).
+
+Prove `isFundamentalDomain_gaussianDomain` and `isFundamentalDomain_eisensteinDomain` by
+`IsFundamentalDomain.of_disjoint_smul_interior`, with four lemmas:
+
+1. *Height.* `height (g • p) = t / (|c w + d|² + |c|² t²)`.
+2. *Covering.* For fixed `p` only finitely many `(c, d)` have `|c w + d|² + |c|² t² < 1`, so the
+   orbit has a point of maximal height. The stabilizer of `∞` moves it over the floor without
+   changing its height, and then `|w|² + t² ≥ 1`, since otherwise `(0 −1; 1 0)` raises it.
+3. *Disjoint interiors.* If `p` and `g • p` are interior and `c ≠ 0`: for `|c| = 1`, `d/c` is
+   integral and `|w + d/c|² + t² > 1` by the Voronoi property; for `|c|² ≥ 2` (Gaussian) or
+   `|c|² ≥ 3` (Eisenstein), `|c|² t² > 1` because `t² > 1 − |w|²` and `|w|² ≤ 1/2` or `≤ 1/3` on
+   the floor. Either way `height (g • p) < height p`, and `g⁻¹` gives the reverse. If `c = 0`,
+   the floor is a fundamental domain for the stabilizer of `∞`.
+4. *Null frontier.* The frontier lies in finitely many vertical planes and one sphere.
+
+Torsion plays no part: `IsFundamentalDomain` is stated for any action.
+
+**Checks.**
+
+- `(0, 1/2)` is outside `gaussianDomain`, and `(0 −1; 1 0)` sends it to `(0, 2)`, inside.
+- The Gaussian floor has area `1/2` and the Eisenstein floor `1/(2√3) ≈ 0.2887`.
+- The full square `|x|, |y| ≤ 1/2` would contain `p` and `diag(i, −i) • p` for `p` off the
+  axis, so it is not a fundamental domain: `u² = −1` must be quotiented.
+
+### Examples
+
+The congruence subgroups get no explicit domain: theirs are the finite unions of translates of
+`IsFundamentalDomain.subgroup_iUnion_out_inv_smul`, and their covolumes come from the index law.
+
+### Dependencies
+
+Layers 0–1; AA.3.4 for §3.2.
+
+## Layer 4: covolumes, special values and Humbert's formula
+
+### 4.1 The constants
+
+Define `catalanConstant` and `lchi3` and prove each equal to `DirichletCharacter.LFunction` at
+the character modulo `4`, respectively `3`, and `s = 2`.
+
+**Checks.**
+
+- The partial sums `1 − 1/9 + 1/25 − 1/49 ≈ 0.90848` and `1 − 1/4 + 1/16 − 1/25 = 0.7725`; the
+  limits are `0.915966` and `0.781302`.
+- `catalan 2 = 2` in Mathlib is a Catalan number, not this constant.
+
+### 4.2 Three log-sine integrals
+
+Write `I(θ) = ∫₀^θ log(2 sin u) du` for `0 ≤ θ ≤ π`; the integrand is integrable by Mathlib's
+`intervalIntegrable_log_sin`, and `I(π/2) = 0` by `integral_log_sin_zero_pi_div_two`. Prove
+`integral_log_two_sin_pi_div_four`, `I(π/4) = −catalanConstant / 2`,
+`integral_log_two_sin_pi_div_three`, `I(π/3) = −√3 · lchi3 / 4`, and
+`integral_log_two_sin_pi_div_six`, `I(π/6) = −3√3 · lchi3 / 8`.
+
+- For `0 < φ < 2π`, `e^{iφ} ∈ Ω`, so PolylogarithmFunctions §1.5 gives
+  `d/dφ Li₂(e^{iφ}) = i Li₁(e^{iφ}) = −i Log(1 − e^{iφ})`, whose imaginary part is
+  `−log|1 − e^{iφ}| = −log(2 sin(φ/2))`.
+- Continuity of `Li₂` at `1` (§1.7), `Im Li₂(1) = 0` and the fundamental theorem of calculus with
+  an integrable derivative give `Im Li₂(e^{2iθ}) = −2 I(θ)` for `0 ≤ θ ≤ π`.
+- The closed-disc series gives `Im Li₂(e^{2iθ}) = ∑_{m ≥ 1} sin(2mθ)/m²`. At `θ = π/4`,
+  `sin(mπ/2) = χ₋₄(m)`; at `θ = π/3`, `sin(2mπ/3) = (√3/2) χ₋₃(m)`; at `θ = π/6`,
+  `sin(mπ/3) = (√3/2)(χ₋₃(m) + 2χ₋₃(m/2))`, with the second term only for even `m`, so the sum is
+  `(√3/2)(3/2) lchi3`.
+
+This is the Lobachevsky function `Λ(θ) = −I(θ)` of Polylogarithms §2.4 at three points; no
+property of `Λ` beyond these values is used.
+
+**Checks.**
+
+- `−I(π/4) ≈ 0.457983`, `−I(π/3) ≈ 0.338314` and `−I(π/6) ≈ 0.507470`.
+- `I(π/6) = (3/2) I(π/3)`, consistent with the duplication formula of Polylogarithms §2.4 at
+  `θ = π/6`.
+- The integrand `log |sin u|` without the factor `2` gives `I(π/2) = −(π/2) log 2 ≠ 0`.
+
+### 4.3 Volumes of the Bianchi domains
+
+Prove `volume_gaussianDomain` and `volume_eisensteinDomain`. By `volume_eq_withDensity` and
+`∫_{√(1 − |w|²)}^∞ t⁻³ dt = 1/(2(1 − |w|²))`, the volume over a floor `P` is
+`∫_P dA / (2(1 − |w|²))`.
+
+- The Gaussian floor is four copies of the triangle `0 ≤ y ≤ x ≤ 1/2`, in polar coordinates
+  `0 ≤ θ ≤ π/4`, `0 ≤ r ≤ 1/(2 cos θ)`, so its volume is `−∫₀^{π/4} log(1 − 1/(4 cos² θ)) dθ`.
+- The Eisenstein floor is four copies of the right triangle with angle `π/6` at `0` and adjacent
+  side `1/2`, so its volume is `−∫₀^{π/6} log(1 − 1/(4 cos² θ)) dθ`.
+- `4 cos² θ − 1 = sin 3θ / sin θ` splits the integrand as
+  `log|2 sin 3θ| − log|2 sin θ| − 2 log|2 cos θ|`. With `u = 3θ`, `u = π/2 − θ`, `u = π − θ`
+  and `I(π/2) = 0`, the Gaussian volume is `−(2/3) I(π/4)` and the Eisenstein volume is
+  `I(π/6) − 2 I(π/3)`.
+
+So the volumes are `catalanConstant / 3` and `√3 · lchi3 / 8`, and with §3.5,
+`covolume_bianchiGaussian` and `covolume_bianchiEisenstein`.
+
+**Checks.**
+
+- `catalanConstant / 3 ≈ 0.305322` and `√3 · lchi3 / 8 ≈ 0.169157`.
+- Integrating `t⁻²` instead of `t⁻³` would make both volumes infinite.
+
+### 4.4 The two manifold volumes
+
+Prove `covolume_gammaGaussian` and `covolume_gammaEisenstein` by the index law with the indices
+`60` and `168`: `60 · catalanConstant / 3 = 20 · catalanConstant` and
+`168 · √3 · lchi3 / 8 = 21 · √3 · lchi3`.
+
+**Checks.**
+
+- `20 · catalanConstant ≈ 18.3193` and `21 · √3 · lchi3 ≈ 28.4184`.
+- The index enters as a factor, not an exponent: `catalanConstant / 3` raised to the index
+  would not be a covolume.
+
+### 4.5 Zeta factorizations
+
+Prove `zeta_gaussian_two`, `ζ_{ℚ(i)}(2) = ζ(2) · catalanConstant`, and `zeta_eisenstein_two`,
+`ζ_{ℚ(ω)}(2) = ζ(2) · lchi3`, from the splitting of primes in the two fields and the Euler
+product `dedekindZeta_two_eq_tprod`: `ζ_F(2) = ∏_𝔭 (1 − N𝔭⁻²)⁻¹` over the maximal ideals of
+`𝒪_F`, from `NumberField.dedekindZeta` as the `LSeries` of ideal counts, unique factorization of
+ideals and multiplicativity of the norm.
+
+**Checks.**
+
+- At `p = 5`, split in `ℤ[i]`, the local factor is `(1 − 5⁻²)⁻²`; at `p = 3`, inert, it is
+  `(1 − 9⁻²)⁻¹ = (1 − 3⁻²)⁻¹ (1 + 3⁻²)⁻¹`, matching `χ₋₄(3) = −1`.
+- At `p = 2`, ramified in `ℤ[i]`, the factor is `(1 − 2⁻²)⁻¹`, matching `χ₋₄(2) = 0`.
+
+### 4.6 Humbert's formula
+
+Prove `covolume_bianchi`: for `F` imaginary quadratic and any `ι`,
+
+```text
+covolume (bianchi F ι) = |d_F|^(3/2) · ζ_F(2) / (4π²).
 ```
 
-and the two covolumes of this layer are its values at the two smallest discriminants. It is
-**not** a target of this roadmap, and contributors should not attempt it from here, because
-no route to it is grounded in material that exists or is a target: the standard proof
-(Elstrodt, Grunewald, Mennicke, chapter 8) goes through the Eisenstein series of
-`PSL(2, O_F)`, its Fourier expansion with `zeta_F(2s) / zeta_F(2s - 1)` in the constant
-term, its meromorphic continuation, and the residue at the edge of the critical strip, which
-is `1 / covolume` up to the class number; the cusps of `PSL(2, O_F) \ ℍ³` correspond to the
-ideal classes of `F`, and the constant term is a sum over them. None of that machinery, in
-any dimension, is in Mathlib or Tau Ceti, and it is not a layer of this roadmap. A roadmap
-for it would start from the cusp-class correspondence and the Eisenstein series on `ℍ³`,
-and would consume this roadmap's layers 0 to 3 and its two covolumes as its test cases.
+The route is the Tamagawa number of `SL₂`:
+
+1. *Local volumes.* For the standard model of `SL₂` over `𝒪_F` and its standard gauge form,
+   `|ω|_v(SL₂(𝒪_v)) = 1 − q_v⁻²` at every finite `v` (AA.2.4, corrected volumes), so by
+   `dedekindZeta_two_eq_tprod` the product over finite `v` is `ζ_F(2)⁻¹`.
+2. *Strong approximation.* `SL₂` is simply connected and `SL₂(ℂ)` is noncompact, so by AA.4.2
+   `SL₂(𝔸_F) = SL₂(F) · (SL₂(ℂ) × ∏_v SL₂(𝒪_v))`, and
+   `SL₂(F)\SL₂(𝔸_F)` is `SL₂(𝒪_F)\SL₂(ℂ) × ∏_v SL₂(𝒪_v)` as a measure space.
+3. *Tamagawa number one.* `τ(SL₂) = 1` (EndoscopicTransfer §6.2) with
+   `τ = |d_F|^(−3/2) ∏_v |ω|_v` (AA.2.4, `λ_v = ρ = 1`) gives
+   `|ω|_∞(SL₂(𝒪_F)\SL₂(ℂ)) = |d_F|^(3/2) ζ_F(2)`.
+4. *Archimedean comparison.* There is `c > 0` with `|ω|_∞({g | g • (0, 1) ∈ E}) = c · volume E`
+   for every measurable `E ⊆ ℍ³`, both sides being `SL₂(ℂ)`-invariant Radon measures on
+   `SL₂(ℂ)/SU(2) = ℍ³`. For a discrete `Γ ∋ −1` with image `Γ̄` in `PSL(2, ℂ)`, the preimage `D′`
+   of a fundamental domain of `Γ̄` satisfies `−D′ = D′`, and its `Γ`-translates cover `SL₂(ℂ)`
+   twice, so `|ω|_∞(Γ\SL₂(ℂ)) = (c/2) · covolume Γ̄`.
+5. *The constant.* At `F = ℚ(i)`, steps 3 and 4 with `covolume_bianchiGaussian` and
+   `zeta_gaussian_two` give `8 · ζ(2) · catalanConstant = (c/2) · catalanConstant / 3`, so
+   `c = 8π²`. Steps 3 and 4 at a general `F` then give the formula.
+
+**Checks.**
+
+- At `d_F = −4`: `8 · ζ(2) · catalanConstant / (4π²) = catalanConstant / 3 ≈ 0.305322`.
+- At `d_F = −3`, an independent check of the constant `c`:
+  `3√3 · ζ(2) · lchi3 / (4π²) = √3 · lchi3 / 8 ≈ 0.169157`, the value of §4.3.
+- At `d_F = −7`: `7^(3/2) · ζ(2) · L(2, χ₋₇) / (4π²) ≈ 0.888785`, with `L(2, χ₋₇) ≈ 1.151757`.
+- For `F = ℚ`, `SL₂(ℝ)/SO(2)` is two-dimensional; the formula is not claimed, and `PSL(2, ℤ)` has
+  infinite covolume on `ℍ³`.
+
+### Examples
+
+`covolume_bianchi` at the two named fields recovers §4.3 through `zeta_gaussian_two` and
+`zeta_eisenstein_two`; at `ℚ(i)` that agreement is used in step 5, at `ℚ(ω)` it is a consequence.
+
+### Dependencies
+
+Layers 1 and 3. PolylogarithmFunctions §§1.5 and 1.7 and Mathlib's log-sine integrals for
+§4.2. AA.2.4, AA.4.2 and EndoscopicTransfer §6.2 for
+§4.6. The index law of §4.4 uses the countability and fundamental-domain hypotheses of §1.3,
+not `isDiscrete_bianchi`.
 
 ## Layer 5: the set of volumes, and Thurston's question
 
-**What to build.** The set of volumes of finite-volume hyperbolic 3-manifolds, defined by
-its witness: `v` is a volume when some Kleinian cofinite subgroup of `PSL(2,C)` has real
-covolume `v`. Then the fact that it is nonempty, witnessed by a Bianchi congruence quotient;
-closure under the index of a finite cover, from the index law; the geometric meaning of the
-witness; and the statement of Thurston's question. Commensurable groups have rationally
-related volumes, which is what makes the question non-trivial.
+### 5.1 The set of volumes
 
-The closure statement is the one the index law actually gives: if `v` is witnessed by `Γ`
-and `Δ ≤ Γ` has finite index `n`, then `n * v` is a volume, witnessed by `Δ`, since a
-finite-index subgroup of a Kleinian cofinite group is Kleinian and cofinite. That every
-positive integer multiple of every volume is a volume is **not** claimed: it would need an
-index-`n` subgroup of some witnessing group for every `n`, and no target here supplies one.
+Define `hyperbolicVolumes`: `v` is a member when some `IsTorsionFreeKleinian` and `IsCofinite`
+subgroup of `PSL(2, ℂ)` has real covolume `v`. Prove `twenty_catalan_mem_hyperbolicVolumes` and
+`eisenstein_mem_hyperbolicVolumes` from §§3.3 and 4.4; `mul_index_mem_hyperbolicVolumes`, that a
+finite-index subgroup `Δ` of a witness `Γ` witnesses `[Γ : Δ] · v`; and
+`rat_ratio_of_commensurable`.
 
-The geometric meaning is `quotient_isFiniteVolumeHyperbolic`. For a Kleinian cofinite `Γ`, the
-image of `Γ` under `toIsom` and `UpperHalfSpace.congr` is a subgroup of
-`Isom(ModelGeometry.hyperbolic.Space)` acting freely and properly discontinuously, so Tau Ceti's
-`hasGeometricStructure_quotient` and GeometricTopology layer 7.1 make
-`MulAction.orbitRel.Quotient Γ ℍ³` a complete hyperbolic 3-manifold, with the quotient map of
-`isCoveringMap_quotientMk_freeLocus` a local isometry. It satisfies `IsFiniteVolumeHyperbolic`,
-and the `TauCeti.riemannianVolume` of the whole quotient is `covolume Γ ℍ³ volume`, the cusped,
-noncompact case included, by layer 7.1's statement that the volume of the quotient is the
-volume of a fundamental domain. This connects `hyperbolicVolumes` to the volume notion of
-GeometricTopology without introducing another one.
-*Needs:* GeometricTopology layer 7.1 (the quotient theorem and the volume of a quotient);
-layers 0 and 1.
+- Members are positive, by `IsCofinite.covolume_pos`; the set is nonempty.
+- Closure under every positive integer multiple is not a target: it needs an index-`n` subgroup
+  of some witness for every `n`.
 
-**Deliverables.** `hyperbolicVolumes`, `hyperbolicVolumes_nonempty`,
-`mul_index_mem_hyperbolicVolumes`, `quotient_isFiniteVolumeHyperbolic`,
-`rat_ratio_of_commensurable`, the statement `ThurstonQuestion23`, as a `Prop` that is *not*
-proved:
-`exists v w, v in hyperbolicVolumes and w in hyperbolicVolumes and forall q : Q, v != q * w`,
-the predicate `NoSmallRationalRatio N`, and its one explicit instance
-`noSmallRationalRatio_thousand : NoSmallRationalRatio 1000`.
+**Checks.**
 
-**API.** The set of volumes contains the two manifold volumes of layer 4,
-`20 * catalanConstant` and `21 * sqrt 3 * L 2 chi_(-3)`, consists of positive reals, and does
-not contain `0`; membership is witnessed by a group, and the witness is recoverable from the
-membership proof. The two Bianchi covolumes themselves, `catalanConstant / 3` and
-`sqrt 3 * L 2 chi_(-3) / 8`, are **not** members: the Bianchi groups have torsion, so those
-are orbifold volumes, about `0.3053` and `0.1692`, below the minimum volume `0.9427` of an
-orientable hyperbolic 3-manifold (Milley), and a theorem placing them in the set would be
-false.
+- `catalanConstant / 3 ≈ 0.3053` and `√3 · lchi3 / 8 ≈ 0.1692` are not members: the Bianchi
+  groups have torsion, and both values are below the minimum `0.9427` of a closed orientable
+  hyperbolic 3-manifold (Milley, Theorem 1.3) and the minimum `2.0299` of a cusped one
+  (Cao–Meyerhoff). A theorem placing them in the set would be false.
+- `125 · 20 · catalanConstant` is a member, witnessed by `Γ((2 + i)²)`: it is torsion free by
+  §3.3 and has index `5³ = 125` in `Γ(2 + i)`.
 
-**The finite approximation.** `NoSmallRationalRatio N` says that no rational with denominator
-below `N` equals the ratio of the two manifold volumes. The target is one explicit bound,
-`N = 1000`; the predicate for every `N` would be the open question itself, since a rational `q`
-is excluded by any `N > q.den`, so no target quantifies over `N`. The proof is elementary and
-pinned. Write `G_N` and `L_N` for the sums of the first `N` terms of the series defining
-`catalanConstant` and `lchi3`. For even `N`,
-`G_N ≤ catalanConstant ≤ G_N + 1 / (2N + 1)²`, by alternation, and
-`L_N ≤ lchi3 ≤ L_N + 2 / (3N + 1)³ + 1 / (3 (3N + 1)²)`, bounding the `n`-th summand by
-`2 / (3n + 1)³` and the tail by the integral test. With `N = 2000` and
-`1732050807 / 10⁹ < sqrt 3 < 1732050808 / 10⁹`, exact rational arithmetic places the ratio
-`20 * catalanConstant / (21 * sqrt 3 * lchi3)` strictly between `78/121` and `595/923`. These
-are Farey neighbours, `595 * 121 - 78 * 923 = 1`, so every rational strictly between them has
-denominator at least `121 + 923 = 1044`. The partial sums, the two tail bounds and the Farey
-lemma are named lemmas; the final comparison is `norm_num` on rationals.
+### 5.2 Geometric meaning
 
-**Design note.** This is the one layer whose headline is a statement rather than a theorem,
-and the roadmap says so. The candidate pair is the two manifold volumes layer 4 builds,
-`20 * catalanConstant` and `21 * sqrt 3 * L 2 chi_(-3)`, which come from fields with different
-discriminants and whose ratio is expected to be irrational; irrationality of that ratio would
-answer the question. Their ratio is `5 / 14` times the ratio of the two Bianchi covolumes, so
-the two irrationality questions are the same, but only the manifold volumes are members of the
-set. `ThurstonQuestion23` is the existential statement. It is not the converse of
-`rat_ratio_of_commensurable`, which is false, since incommensurable manifolds of equal volume
-exist. State the bound in the theorem, never as a claim about the ratio itself.
+Prove `quotient_isFiniteVolumeHyperbolic`: for `IsTorsionFreeKleinian` and `IsCofinite` `Γ`,
+the image of `Γ` under `exists_toIsom` and `UpperHalfSpace.congr` acts freely and properly
+discontinuously on `ModelGeometry.hyperbolic.Space`, so `hasGeometricStructure_quotient` and
+GeometricTopology §7.1 make `MulAction.orbitRel.Quotient Γ ℍ³` a complete hyperbolic
+3-manifold, the quotient map of `isCoveringMap_quotientMk_freeLocus` is a local isometry, the
+quotient satisfies `IsFiniteVolumeHyperbolic`, and its `TauCeti.riemannianVolume` is
+`covolume Γ ℍ³ volume`, cusped case included.
 
-## Dependency order and parallel work
+**Checks.**
 
-Layer 0 blocks everything. Layer 1 needs layer 0. The Dirichlet domains of layer 2 need layer
-1; its explicit domains need layer 3's definitions of the two Bianchi groups and their
-stabilizers of `∞`, but not layer 3's indices or torsion-freeness. Layer 3's definitions need
-nothing; its discreteness needs AdelicAlgebraicGroups AA.3.4, and its Kleinian statements need
-layer 1. Layer 4's Lobachevsky material is independent of every other layer and can start
-immediately; its covolume half needs layers 1, 2 and 3, but not the discreteness of layer 3. Layer 5 needs layers 1, 3 and 4, and
-its geometric interpretation needs GeometricTopology layer 7.1.
+- For `Γ(2 + i)` the quotient is noncompact: the parabolic `(1, 2 + i; 0, 1)` lies in `Γ`.
+- A group with torsion, such as `PSL(2, ℤ[i])`, gives an orbifold, and the theorem's hypothesis
+  excludes it.
 
-The two-dimensional material in FuchsianOrbifolds is not a prerequisite anywhere, but the
-slice comparison in layer 0 must be kept in step with it.
+### 5.3 Thurston's question
 
-## Acceptance checks
+Define `ThurstonQuestion23`: some two members `v, w` of `hyperbolicVolumes` have `v ≠ q · w`
+for every rational `q`. Thurston, Bull. AMS 6 (1982), question 23, p. 380. It is a statement and
+not a target. Incommensurable manifolds of equal volume exist (Millichap), so it is not the
+converse of `rat_ratio_of_commensurable`.
 
-1. The `volume` of the cusp box `[0,1] × [0,1] × [1, ∞)` in coordinates `(re w, im w, t)` is
-   `1/2`, by direct integration of `t⁻³`.
-2. `dist` on the slice `w ∈ R` equals Mathlib's `UpperHalfPlane.dist`, and `cosh_dist` has the
-   same shape as `UpperHalfPlane.cosh_dist`.
-3. `(0 -1; 1 0)` sends `(w, t)` to `(-conj w / (|w|² + t²), t / (|w|² + t²))`, and its `toIsom`
-   image is `UpperHalfSpace.inversion 0 1` followed by the linear isometry `w ↦ -conj w`.
-4. `-1` acts trivially on `ℍ³`, and `diag(i, -i)` acts as `(w, t) ↦ (-w, t)`, fixing exactly the
-   vertical geodesic over `0`.
-5. `bianchi` takes the same value at the two complex embeddings of `CyclotomicField 4 Q`, and
-   `bianchiGamma` at the ideal `(2 + i)` for one embedding equals `bianchiGamma` at `(2 - i)`
-   for the other.
-6. For `Z[i]` and `I = (5)`, the matrix `(2i 5; -5 12i)` lies in the kernel of reduction to
-   Mathlib's `PSL(2, Z[i] / (5))` but its class is not in `bianchiGamma` at `(5)`; the two
-   indices are `3600` and `7200`.
-7. The volume of `gaussianDomain` is `catalanConstant / 3`, about `0.3053`, and the volume of
-   `eisensteinDomain` is `sqrt 3 * lchi3 / 8`, about `0.1692`; the covolume of `Gamma(2 + i)` is
-   `20 * catalanConstant` and that of `Gamma(3 + omega)` is `21 * sqrt 3 * lchi3`, with the
-   indices `60` and `168` computed, not existentially quantified.
-8. `lobachevsky (π/4) = catalanConstant / 2` and `lobachevsky (π/3) = sqrt 3 * lchi3 / 4`.
-9. `NoSmallRationalRatio 1000` is proved from the enclosures above, and nothing about the ratio
-   is stated without a bound.
-10. The statement of Thurston's question elaborates and is not provable by `decide` or by
-    `simp` from the definitions; an auditor given only the Lean statement, with all prose
-    stripped, reports back the question Thurston asked.
+**Checks.**
+
+- `ThurstonQuestion23` unfolds to an existential over two members and a universal over `ℚ`; it
+  is not closed by `decide` or `simp` from the definitions.
+- Its negation says that all members are rational multiples of one another, not that they are
+  rational.
+
+### Examples
+
+The pair `20 · catalanConstant` and `21 · √3 · lchi3` comes from fields with different
+discriminants; irrationality of their ratio would answer the question. A worked bound:
+with `N = 2000` partial terms, `G_N ≤ catalanConstant ≤ G_N + 1/(2N + 1)²` by alternation, and
+`L_N ≤ lchi3 ≤ L_N + 2/(3N + 1)³ + 1/(3(3N + 1)²)` by bounding the `n`-th summand by
+`2/(3n + 1)³` and the tail by the integral test. With `1732050807/10⁹ < √3 < 1732050808/10⁹`,
+the ratio `≈ 0.6446293` lies strictly between `78/121` and `595/923`. These are Farey
+neighbours, `595 · 121 − 78 · 923 = 1`, so a rational equal to the ratio has denominator at
+least `121 + 923 = 1044`.
+
+### Dependencies
+
+Layers 1, 3 and 4; GeometricTopology §7.1 for §5.2.
+
+## Downstream consumers
+
+- **AdelicAlgebraicGroups** cites `isDiscrete_bianchi` (§3.2) as its imaginary-quadratic
+  application of AA.3.4.
+- **ArithmeticLocallySymmetricSpaces** cites `properlyDiscontinuousSMul_of_discrete` (§1.1) as
+  its outbound proper-action boundary.
+- **BianchiModularForms** and **MaassForms** use `bianchi`, the Bianchi domains and the
+  covolumes of §§4.3 and 4.6.
 
 ## References
 
 - Thurston, *Three-dimensional manifolds, Kleinian groups and hyperbolic geometry*,
-  Bull. AMS 6 (1982), 357-381; question 23 is on p. 380.
-- Elstrodt, Grunewald, Mennicke, *Groups Acting on Hyperbolic Space*, Springer 1998: chapter 1
-  for the quaternionic Moebius action and the classification of elements, chapter 7 for the
-  Bianchi domains, chapter 8 for Humbert's formula.
-- Maclachlan, Reid, *The Arithmetic of Hyperbolic 3-Manifolds*, GTM 219, for commensurability
-  and invariant trace fields.
-- Ratcliffe, *Foundations of Hyperbolic Manifolds*, GTM 149, for fundamental polyhedra.
-- Milnor, *Hyperbolic geometry: the first 150 years*, Bull. AMS 6 (1982), 9-24, for the
-  Lobachevsky function and its duplication formula.
-- Humbert, *Sur la mesure des classes d'Hermite de discriminant donne*, C. R. Acad. Sci. Paris
+  Bull. AMS 6 (1982), 357–381; question 23 on p. 380.
+- Elstrodt, Grunewald, Mennicke, *Groups Acting on Hyperbolic Space*, Springer 1998: Chapter 1
+  for the classification of elements by trace; Chapter 7 for the Bianchi domains;
+  Chapter 8 for Humbert's formula by Eisenstein series, a different route from §4.6.
+- Maclachlan, Reid, *The Arithmetic of Hyperbolic 3-Manifolds*, GTM 219, Springer 2003:
+  Chapter 7 for Tamagawa number one of the norm-one group of a quaternion algebra, and
+  Chapter 11, Theorem 11.1.3, for the volume formula that specializes to Humbert's.
+- Borel, *Commensurability classes and volumes of hyperbolic 3-manifolds*, Ann. Sc. Norm. Sup.
+  Pisa 8 (1981), 1–33, for the Tamagawa route to volumes of arithmetic groups.
+- Ratcliffe, *Foundations of Hyperbolic Manifolds*, GTM 149, for fundamental polyhedra and
+  Dirichlet domains.
+- Milnor, *Hyperbolic geometry: the first 150 years*, Bull. AMS 6 (1982), 9–24, for the
+  log-sine integrals as volumes.
+- Humbert, *Sur la mesure des classes d'Hermite de discriminant donné*, C. R. Acad. Sci. Paris
   169 (1919).
-- Neumann, Yang, *Bloch invariants of hyperbolic 3-manifolds*, Duke Math. J. 96 (1999), for
-  why the question is arithmetic.
-- Milley, *Minimum volume hyperbolic 3-manifolds*, J. Topol. 2 (2009), 181-192,
-  [arXiv:0809.0346](https://arxiv.org/abs/0809.0346), for the bound `0.9427` that keeps the
-  Bianchi covolumes out of the set of manifold volumes.
+- Neumann, Yang, *Bloch invariants of hyperbolic 3-manifolds*, Duke Math. J. 96 (1999), for why
+  the question is arithmetic.
+- Milley, *Minimum volume hyperbolic 3-manifolds*, J. Topol. 2 (2009), 181–192,
+  [arXiv:0809.0346](https://arxiv.org/abs/0809.0346), Theorem 1.3.
+- Cao, Meyerhoff, *The orientable cusped hyperbolic 3-manifolds of minimum volume*, Invent.
+  Math. 146 (2001), 451–478.
 - Millichap, *Mutations and short geodesics in hyperbolic 3-manifolds*, Comm. Anal. Geom. 25
-  (2017), 625-683, [arXiv:1406.6033](https://arxiv.org/abs/1406.6033), for incommensurable
-  manifolds of equal volume.
+  (2017), 625–683, [arXiv:1406.6033](https://arxiv.org/abs/1406.6033).
 
 ## Provenance
 
 The Bianchi domains, the index computations, the integration route and the bound on the ratio
-were first formalized in [t4v1/thurston23](https://github.com/t4v1/thurston23), whose README
-and `Thurston23Eisenstein.lean` state the domains above. That repository is a cited source,
-not the specification.
+were first formalized in [t4v1/thurston23](https://github.com/t4v1/thurston23), by the author of
+this roadmap, whose README and `Thurston23Eisenstein.lean` state the domains above. It is a
+cited source, not the specification.

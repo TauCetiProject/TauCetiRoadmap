@@ -1,6 +1,7 @@
 import Mathlib
 import TauCeti.Geometry.Manifold.Riemannian.Distance
 import TauCeti.Geometry.Manifold.Riemannian.Hyperbolic.UpperHalfSpace.Metric
+import TauCeti.Geometry.Manifold.Riemannian.Isometry.Action
 import TauCeti.Geometry.Manifold.Riemannian.Isometry.UpperHalfSpace
 import TauCeti.Geometry.Manifold.Riemannian.VolumeDensity.Volume
 import TauCeti.MeasureTheory.Group.FundamentalDomain
@@ -11,24 +12,20 @@ import TauCeti.Topology.Algebra.Matrix.ProjectiveSpecialLinearGroup
 # Kleinian groups and arithmetic volume: target signatures
 
 **This file is not the roadmap and is not exhaustive.** The definitive document is
-`README.md`. These declarations pin the Moebius action of `PSL(2, ℂ)` on Tau Ceti's upper
-half-space model `TauCeti.UpperHalfSpace ℂ`, written `ℍ³`, its measure and distance, the
-Kleinian predicate, covolume, the Bianchi groups and their congruence subgroups, the explicit
-fundamental domains, the two Bianchi covolumes, and the shape of Thurston's question. Humbert's
-general formula is a roadmap-for-a-roadmap in the markdown, not a target, so it has no
-declaration here.
+`README.md`, and these declarations are suggested forms, not a checklist. They pin the Möbius
+action of `PSL(2, ℂ)` on Tau Ceti's upper half-space model `TauCeti.UpperHalfSpace ℂ`, written
+`ℍ³`, its measure and distance, torsion-free Kleinian groups, covolume, Dirichlet domains, the
+Bianchi groups and their congruence subgroups, the Bianchi domains, the covolumes, Humbert's
+formula, and the statement of Thurston's question.
 
-Every definition has a real body. The action is the coordinate formula; its group laws are the
-theorems `one_smul'` and `mul_smul'`, which the `MulAction` instance cites. The measure and the
-distance are Tau Ceti's Riemannian volume and Riemannian distance of the half-space metric. The
-Bianchi groups are images of `SL(2, 𝓞 F)` in `PSL(2, ℂ)`, and their congruence subgroups are
-images of kernels of reduction. The `Prop`-valued classes that the README asks for as instances
-(`ContinuousConstSMul`, `MeasurableConstSMul`, `SMulInvariantMeasure`, second countability of
-`PSL(2, ℂ)`) are stated here as theorems, so that no instance has a `sorry` body.
+Every definition has a real body. The `Prop`-valued classes that the README asks for as instances
+(`ContinuousConstSMul`, `SMulInvariantMeasure`, second countability of `PSL(2, ℂ)`) are stated
+as theorems, so that no instance has a `sorry` body.
 
-The Dirichlet domains, the homomorphism to `TauCeti.Isom`, the comparison with
-`TauCeti.ModelGeometry.hyperbolic`, the Lobachevsky function, the zeta factorizations and the
-quotient manifold of layer 5 are specified in the markdown rather than represented here.
+Not represented here, because their carriers are not in Tau Ceti: `UpperHalfSpace.congr`, a
+Riemannian isometry between two half-space models; the Tamagawa measures and the archimedean
+comparison of §4.6 (AdelicAlgebraicGroups); and the quotient manifold of §5.2
+(GeometricTopology §7.1).
 -/
 
 namespace TauCetiRoadmap.KleinianGroups
@@ -64,9 +61,9 @@ theorem denom_pos (A : SL(2, ℂ)) (p : ℍ³) : 0 < denom A p := by
   · exact add_pos_of_nonneg_of_pos (Complex.normSq_nonneg _)
       (mul_pos (Complex.normSq_pos.2 hc) (pow_pos (UpperHalfSpace.height_pos p) 2))
 
-/-- The Moebius transformation of `A = (a b; c d)` in coordinates:
-`(w, t) ↦ (((a w + b) conj (c w + d) + a conj c t²) / J, t / J)`. This is the definition of the
-action; its quaternionic description is the theorem `toQuaternion_smul`. -/
+/-- The Möbius transformation of `A = (a b; c d)` in coordinates:
+`(w, t) ↦ (((a w + b) conj (c w + d) + a conj c t²) / J, t / J)`, the formula of
+Polylogarithms §2.4 on the carrier `TauCeti.UpperHalfSpace ℂ`. -/
 noncomputable def mobius (A : SL(2, ℂ)) (p : ℍ³) : ℍ³ :=
   TauCeti.UpperHalfSpace.mk
     (WithLp.toLp 2
@@ -78,8 +75,7 @@ noncomputable def mobius (A : SL(2, ℂ)) (p : ℍ³) : ℍ³ :=
 theorem one_smul' (p : ℍ³) : mobius 1 p = p := by
   sorry
 
-/-- The composition law, proved through `toQuaternion_smul` and associativity in `ℍ[ℝ]` rather
-than from the coordinate formula. -/
+/-- The composition law, transported from Polylogarithms §2.4. -/
 theorem mul_smul' (A B : SL(2, ℂ)) (p : ℍ³) : mobius (A * B) p = mobius A (mobius B p) := by
   sorry
 
@@ -87,10 +83,6 @@ noncomputable instance : MulAction SL(2, ℂ) ℍ³ where
   smul := mobius
   one_smul := one_smul'
   mul_smul := mul_smul'
-
-/-- The coordinate formula. -/
-theorem smul_def (A : SL(2, ℂ)) (p : ℍ³) : A • p = mobius A p :=
-  rfl
 
 /-- The point `(w, t)` as the quaternion `re w + (im w) i + t j`. -/
 noncomputable def toQuaternion (p : ℍ³) : ℍ[ℝ] :=
@@ -100,8 +92,7 @@ noncomputable def toQuaternion (p : ℍ³) : ℍ[ℝ] :=
 noncomputable def ofComplex (z : ℂ) : ℍ[ℝ] :=
   { re := z.re, imI := z.im, imJ := 0, imK := 0 }
 
-/-- The quaternionic description `q ↦ (a q + b) (c q + d)⁻¹`, from which the group law
-follows. -/
+/-- The quaternionic description `q ↦ (a q + b) (c q + d)⁻¹`. -/
 theorem toQuaternion_smul (A : SL(2, ℂ)) (p : ℍ³) :
     toQuaternion (A • p) =
       (ofComplex (A 0 0) * toQuaternion p + ofComplex (A 0 1)) *
@@ -118,10 +109,6 @@ noncomputable instance : MulAction PSL(2, ℂ) ℍ³ where
     smul_eq_of_mem_center (QuotientGroup.leftRel_apply.1 h) p
   one_smul := one_smul'
   mul_smul g h p := Quotient.inductionOn₂' g h fun A B ↦ mul_smul' A B p
-
-/-- The projective action on representatives. -/
-theorem mk_smul (A : SL(2, ℂ)) (p : ℍ³) : (QuotientGroup.mk A : PSL(2, ℂ)) • p = A • p :=
-  rfl
 
 end UpperHalfSpace
 
@@ -158,15 +145,18 @@ theorem cosh_dist (p q : ℍ³) :
       1 + dist (p : WithLp 2 (ℂ × ℝ)) q ^ 2 / (2 * height p * height q) := by
   sorry
 
-/-- Every element of `PSL(2, ℂ)` acts by an isometry; the README's `toIsom` packages these as a
-homomorphism to `TauCeti.Isom`. -/
+/-- Every element of `PSL(2, ℂ)` acts by an isometry of the distance. -/
 theorem isometry_smul (g : PSL(2, ℂ)) : Isometry fun p : ℍ³ ↦ g • p := by
   sorry
 
-theorem continuousConstSMul : ContinuousConstSMul PSL(2, ℂ) ℍ³ := by
+/-- The action is an injective homomorphism to the Riemannian isometry group: the `PSL₂(ℂ)`
+factor of GeometricTopology §7.1's `Isom(ℍ³) ≅ PSL₂(ℂ) ⋊ ℤ/2`. -/
+theorem exists_toIsom :
+    ∃ f : PSL(2, ℂ) →* Isom 𝓘(ℝ, WithLp 2 (ℂ × ℝ)) ℍ³,
+      Function.Injective f ∧ ∀ (g : PSL(2, ℂ)) (p : ℍ³), f g • p = g • p := by
   sorry
 
-theorem measurableConstSMul : MeasurableConstSMul PSL(2, ℂ) ℍ³ := by
+theorem continuousConstSMul : ContinuousConstSMul PSL(2, ℂ) ℍ³ := by
   sorry
 
 /-- Invariance of the volume, the analogue of `SMulInvariantMeasure (GL (Fin 2) ℝ) ℍ volume`. -/
@@ -186,20 +176,20 @@ theorem dist_ofUpperHalfPlane (z z' : UpperHalfPlane) :
     dist (ofUpperHalfPlane z) (ofUpperHalfPlane z') = dist z z' := by
   sorry
 
-/-! ## Layer 1: Kleinian groups and covolume -/
+/-! ## Layer 1: discrete groups, fundamental domains and covolume -/
 
-/-- A Kleinian action: free and properly discontinuous, so that the quotient is a manifold.
-It is by isometries because every element of `PSL(2, ℂ)` is one (`isometry_smul`), so that
-is not a condition. Discreteness and torsion freeness are consequences. -/
-def IsKleinian (Γ : Subgroup PSL(2, ℂ)) : Prop :=
+/-- A torsion-free Kleinian group: one acting properly discontinuously and freely, so that the
+quotient is a manifold. A *Kleinian group* is a discrete subgroup; this predicate is equivalent
+to discrete and torsion free (`isTorsionFreeKleinian_iff_discrete_and_torsionFree`). -/
+def IsTorsionFreeKleinian (Γ : Subgroup PSL(2, ℂ)) : Prop :=
   ProperlyDiscontinuousSMul Γ ℍ³ ∧ ∀ p : ℍ³, stabilizer Γ p = ⊥
 
 theorem properlyDiscontinuousSMul_of_discrete (Γ : Subgroup PSL(2, ℂ)) [DiscreteTopology Γ] :
     ProperlyDiscontinuousSMul Γ ℍ³ := by
   sorry
 
-theorem isKleinian_iff_discrete_and_torsionFree (Γ : Subgroup PSL(2, ℂ)) :
-    IsKleinian Γ ↔ (DiscreteTopology Γ ∧ ∀ g : Γ, g ≠ 1 → ¬ IsOfFinOrder g) := by
+theorem isTorsionFreeKleinian_iff_discrete_and_torsionFree (Γ : Subgroup PSL(2, ℂ)) :
+    IsTorsionFreeKleinian Γ ↔ (DiscreteTopology Γ ∧ ∀ g : Γ, g ≠ 1 → ¬ IsOfFinOrder g) := by
   sorry
 
 /-- The fixed-point set of a nontrivial element is empty or a geodesic, hence null. It need not
@@ -222,17 +212,6 @@ theorem hasFundamentalDomain_of_discrete (Γ : Subgroup PSL(2, ℂ)) [DiscreteTo
     HasFundamentalDomain Γ ℍ³ volume := by
   sorry
 
-/-- The index law, Tau Ceti's `covolume_eq_card_mul_covolume` specialized to `ℍ³` and not a
-second proof of it, with that theorem's orientation and hypotheses: the index `[Γ : Δ]` is
-`ENat.card (Γ ⧸ Δ.subgroupOf Γ)`, so that infinite index gives `⊤` rather than the
-zero-totalized `Subgroup.index`, and `Γ` is countable with a fundamental domain. A discrete
-subgroup satisfies both, by `countable_of_discrete` and `hasFundamentalDomain_of_discrete`; a
-Bianchi group satisfies both through its explicit domain, without discreteness. -/
-theorem covolume_eq_index_mul_covolume {Γ Δ : Subgroup PSL(2, ℂ)} [Countable Γ]
-    [HasFundamentalDomain Γ ℍ³ volume] (h : Δ ≤ Γ) :
-    covolume Δ ℍ³ volume = ENat.card (Γ ⧸ Δ.subgroupOf Γ) * covolume Γ ℍ³ volume := by
-  sorry
-
 /-- Cofiniteness, in the shape of Tau Ceti's Fuchsian `Subgroup.IsCofinite`: discrete, with
 finite covolume. Discreteness is a field and not a consequence of the covolume condition,
 since a nondiscrete group can have covolume `0`; positivity of the covolume is the theorem
@@ -241,20 +220,26 @@ structure IsCofinite (Γ : Subgroup PSL(2, ℂ)) : Prop where
   discreteTopology : DiscreteTopology Γ
   covolume_ne_top : covolume Γ ℍ³ volume ≠ ⊤
 
-/-- The criterion in the shape of `Fuchsian.Covolume.isCofinite_iff_covolume_ne_top`. -/
-theorem isCofinite_iff_covolume_ne_top {Γ : Subgroup PSL(2, ℂ)} [DiscreteTopology Γ] :
-    IsCofinite Γ ↔ covolume Γ ℍ³ volume ≠ ⊤ :=
-  ⟨IsCofinite.covolume_ne_top, fun h ↦ ⟨inferInstance, h⟩⟩
-
 /-- A cofinite group has positive covolume, from Tau Ceti's `covolume_pos`. -/
 theorem IsCofinite.covolume_pos {Γ : Subgroup PSL(2, ℂ)} (hΓ : IsCofinite Γ) :
     0 < covolume Γ ℍ³ volume := by
   sorry
 
-/-! ## Layer 3: Bianchi groups
+/-! ## Layer 2: Dirichlet domains -/
 
-The definitions of layer 3 come before the explicit domains of layer 2, which are stated for
-them. -/
+/-- The Dirichlet domain of `Γ` centred at `p₀`: the points at least as close to `p₀` as to every
+point of its orbit. -/
+def dirichletDomain (Γ : Subgroup PSL(2, ℂ)) (p₀ : ℍ³) : Set ℍ³ :=
+  {p | ∀ g : Γ, dist p p₀ ≤ dist p ((g : PSL(2, ℂ)) • p₀)}
+
+/-- At a centre with trivial stabilizer, the Dirichlet domain of a discrete group is a
+fundamental domain. -/
+theorem isFundamentalDomain_dirichletDomain (Γ : Subgroup PSL(2, ℂ)) [DiscreteTopology Γ]
+    {p₀ : ℍ³} (hp₀ : p₀ ∈ (freeLocus Γ ℍ³ : Set ℍ³)) :
+    IsFundamentalDomain Γ (dirichletDomain Γ p₀) volume := by
+  sorry
+
+/-! ## Layer 3: Bianchi groups -/
 
 /-- The Bianchi group `PSL(2, 𝓞 F)`: the image in `PSL(2, ℂ)` of `SL(2, 𝓞 F)` under the
 embedding `ι`. The definition makes sense for every number field; the theorems below assume
@@ -291,15 +276,27 @@ theorem isDiscrete_bianchi (F : Type*) [Field F] [NumberField F] [IsTotallyCompl
     (hF : Module.finrank ℚ F = 2) (ι : F →+* ℂ) : DiscreteTopology (bianchi F ι) := by
   sorry
 
+/-- Torsion-freeness of principal congruence subgroups: an element of finite order has trace in
+`{-1, 0, 1}`, and trace `≡ 2 mod I` puts `3`, `2` or `1` in `I`. -/
+theorem isTorsionFreeKleinian_bianchiGamma (F : Type*) [Field F] [NumberField F]
+    [IsTotallyComplex F] (hF : Module.finrank ℚ F = 2) (ι : F →+* ℂ) (I : Ideal (𝓞 F))
+    (hI : I ≠ ⊤) (h2 : (2 : 𝓞 F) ∉ I) (h3 : (3 : 𝓞 F) ∉ I) :
+    IsTorsionFreeKleinian (bianchiGamma F ι I) := by
+  sorry
+
 /-- `ℚ(i)`, as the fourth cyclotomic field. -/
 abbrev GaussianField : Type := CyclotomicField 4 ℚ
 
 /-- `ℚ(ω)`, as the third cyclotomic field. -/
 abbrev EisensteinField : Type := CyclotomicField 3 ℚ
 
+/-- Not found by instance search: `CyclotomicField 4 ℚ` carries its algebra structure through a
+different path from the one `IsCyclotomicExtension.zeta_spec` asks for, so `gaussianI` does not
+elaborate without it. -/
 instance : IsCyclotomicExtension {4} ℚ GaussianField :=
   CyclotomicField.isCyclotomicExtension 4 ℚ
 
+/-- Needed by `eisensteinOmega`, for the same reason. -/
 instance : IsCyclotomicExtension {3} ℚ EisensteinField :=
   CyclotomicField.isCyclotomicExtension 3 ℚ
 
@@ -344,15 +341,7 @@ theorem index_gammaGaussian : gammaGaussian.relIndex bianchiGaussian = 60 := by
 theorem index_gammaEisenstein : gammaEisenstein.relIndex bianchiEisenstein = 168 := by
   sorry
 
-/-- `Γ(2 + i)` is torsion free, so its quotient is a manifold. -/
-theorem isKleinian_gammaGaussian : IsKleinian gammaGaussian := by
-  sorry
-
-/-- `Γ(3 + ω)` is torsion free, so its quotient is a manifold. -/
-theorem isKleinian_gammaEisenstein : IsKleinian gammaEisenstein := by
-  sorry
-
-/-! ## Layer 2: the explicit fundamental domains -/
+/-! ### 3.5 The Bianchi domains -/
 
 /-- The Bianchi domain of `PSL(2, ℤ[i])`: above the unit sphere, over the half-square
 `|x| ≤ 1/2`, `0 ≤ y ≤ 1/2`. -/
@@ -374,7 +363,7 @@ theorem isFundamentalDomain_eisensteinDomain :
     IsFundamentalDomain bianchiEisenstein eisensteinDomain volume := by
   sorry
 
-/-! ## Layer 4: the two Bianchi covolumes and their special values -/
+/-! ## Layer 4: covolumes, special values and Humbert's formula -/
 
 /-- Catalan's constant. Mathlib has no name for it — its `catalan` is the Catalan *numbers*
 `ℕ → ℕ` — so this roadmap introduces `catalanConstant`; identifying it with
@@ -385,21 +374,26 @@ noncomputable def catalanConstant : ℝ := ∑' n : ℕ, (-1) ^ n / ((2 * n + 1 
 noncomputable def lchi3 : ℝ :=
   ∑' n : ℕ, (1 / ((3 * n + 1 : ℝ) ^ 2) - 1 / ((3 * n + 2 : ℝ) ^ 2))
 
-/-- The Lobachevsky function `Л(θ) = -∫₀^θ log |2 sin u| du`. -/
-noncomputable def lobachevsky (θ : ℝ) : ℝ :=
-  -∫ u in (0 : ℝ)..θ, Real.log |2 * Real.sin u|
-
-theorem lobachevsky_pi_div_four : lobachevsky (Real.pi / 4) = catalanConstant / 2 := by
+/-- `∫₀^{π/4} log (2 sin u) du = -G/2`, from `Im Li₂(i) = G` (PolylogarithmFunctions). -/
+theorem integral_log_two_sin_pi_div_four :
+    ∫ u in (0 : ℝ)..Real.pi / 4, Real.log (2 * Real.sin u) = -(catalanConstant / 2) := by
   sorry
 
-theorem lobachevsky_pi_div_three : lobachevsky (Real.pi / 3) = √3 * lchi3 / 4 := by
+/-- `∫₀^{π/3} log (2 sin u) du = -√3 L(2, χ₋₃) / 4`. -/
+theorem integral_log_two_sin_pi_div_three :
+    ∫ u in (0 : ℝ)..Real.pi / 3, Real.log (2 * Real.sin u) = -(√3 * lchi3 / 4) := by
   sorry
 
-/-- `(2/3) Л(π/4)`, by integration over the domain. -/
+/-- `∫₀^{π/6} log (2 sin u) du = -3√3 L(2, χ₋₃) / 8`. -/
+theorem integral_log_two_sin_pi_div_six :
+    ∫ u in (0 : ℝ)..Real.pi / 6, Real.log (2 * Real.sin u) = -(3 * √3 * lchi3 / 8) := by
+  sorry
+
+/-- `-(2/3) I(π/4)`, with `I(θ) = ∫₀^θ log (2 sin u) du`, by integration over the domain. -/
 theorem volume_gaussianDomain : volume gaussianDomain = ENNReal.ofReal (catalanConstant / 3) := by
   sorry
 
-/-- `2 Л(π/3) - Л(π/6) = Л(π/3) / 2`, by integration over the domain. -/
+/-- `I(π/6) - 2 I(π/3)`, by integration over the domain. -/
 theorem volume_eisensteinDomain :
     volume eisensteinDomain = ENNReal.ofReal (√3 * lchi3 / 8) := by
   sorry
@@ -428,21 +422,40 @@ theorem covolume_gammaEisenstein :
     (covolume gammaEisenstein ℍ³ volume).toReal = 21 * √3 * lchi3 := by
   sorry
 
+/-- The Euler product of `ζ_F(2)` over the maximal ideals of `𝓞 F`. -/
+theorem dedekindZeta_two_eq_tprod (F : Type*) [Field F] [NumberField F] :
+    dedekindZeta F 2 =
+      ∏' 𝔭 : {𝔭 : Ideal (𝓞 F) // 𝔭.IsMaximal}, (1 - ((Ideal.absNorm 𝔭.1 : ℂ) ^ 2)⁻¹)⁻¹ := by
+  sorry
+
+theorem zeta_gaussian_two :
+    dedekindZeta GaussianField 2 = riemannZeta 2 * (catalanConstant : ℂ) := by
+  sorry
+
+theorem zeta_eisenstein_two :
+    dedekindZeta EisensteinField 2 = riemannZeta 2 * (lchi3 : ℂ) := by
+  sorry
+
+/-- **Humbert's formula**, by the Tamagawa number of `SL₂`, with the archimedean constant fixed
+by `covolume_bianchiGaussian`. -/
+theorem covolume_bianchi (F : Type*) [Field F] [NumberField F] [IsTotallyComplex F]
+    (hF : Module.finrank ℚ F = 2) (ι : F →+* ℂ) :
+    (covolume (bianchi F ι) ℍ³ volume).toReal =
+      |(discr F : ℝ)| ^ ((3 : ℝ) / 2) * (dedekindZeta F 2).re / (4 * Real.pi ^ 2) := by
+  sorry
+
 /-! ## Layer 5: the set of volumes, and Thurston's question -/
 
-/-- The volumes of finite-volume hyperbolic `3`-manifolds: `v` is one when some Kleinian
-cofinite subgroup of `PSL(2, ℂ)` has real covolume `v`. The witness is the group, so
+/-- The volumes of finite-volume hyperbolic `3`-manifolds: `v` is one when some torsion-free
+Kleinian cofinite subgroup of `PSL(2, ℂ)` has real covolume `v`. The witness is the group, so
 membership carries it, and `0` is excluded by `IsCofinite.covolume_pos`. -/
 def hyperbolicVolumes : Set ℝ :=
   {v | ∃ Γ : Subgroup PSL(2, ℂ),
-    IsKleinian Γ ∧ IsCofinite Γ ∧ (covolume Γ ℍ³ volume).toReal = v}
-
-/-- Nonempty, witnessed by `Γ(2 + i)`. -/
-theorem hyperbolicVolumes_nonempty : hyperbolicVolumes.Nonempty := by
-  sorry
+    IsTorsionFreeKleinian Γ ∧ IsCofinite Γ ∧ (covolume Γ ℍ³ volume).toReal = v}
 
 /-- The volume of the manifold `Γ(2 + i) \ ℍ³` is a hyperbolic volume; the Bianchi covolume
-`catalanConstant / 3` itself is not, being an orbifold volume below Milley's bound. -/
+`catalanConstant / 3` itself is not, being an orbifold volume below the
+minimum volumes of Milley (closed) and Cao–Meyerhoff (cusped). -/
 theorem twenty_catalan_mem_hyperbolicVolumes : 20 * catalanConstant ∈ hyperbolicVolumes := by
   sorry
 
@@ -450,11 +463,11 @@ theorem eisenstein_mem_hyperbolicVolumes : 21 * √3 * lchi3 ∈ hyperbolicVolum
   sorry
 
 /-- Closure under the degree of a finite cover, which is what the index law gives: a
-finite-index subgroup of a Kleinian cofinite group is Kleinian and cofinite, with the index
-times the covolume. Closure under every positive integer is not claimed; it would need an
-index-`n` subgroup of a witness for every `n`. -/
-theorem mul_index_mem_hyperbolicVolumes {Γ Δ : Subgroup PSL(2, ℂ)} (hΓ : IsKleinian Γ)
-    (hΓ' : IsCofinite Γ) (h : Δ ≤ Γ) (hn : Δ.relIndex Γ ≠ 0) :
+finite-index subgroup of a witness is a witness, with the index times the covolume. Closure
+under every positive integer is not a target; it would need an index-`n` subgroup of a witness
+for every `n`. -/
+theorem mul_index_mem_hyperbolicVolumes {Γ Δ : Subgroup PSL(2, ℂ)}
+    (hΓ : IsTorsionFreeKleinian Γ) (hΓ' : IsCofinite Γ) (h : Δ ≤ Γ) (hn : Δ.relIndex Γ ≠ 0) :
     (Δ.relIndex Γ : ℝ) * (covolume Γ ℍ³ volume).toReal ∈ hyperbolicVolumes := by
   sorry
 
@@ -470,19 +483,6 @@ theorem rat_ratio_of_commensurable {Γ Δ : Subgroup PSL(2, ℂ)} (h : Subgroup.
 rationally related. This roadmap delivers the statement; the mathematics is open. -/
 def ThurstonQuestion23 : Prop :=
   ∃ v ∈ hyperbolicVolumes, ∃ w ∈ hyperbolicVolumes, ∀ q : ℚ, v ≠ (q : ℝ) * w
-
-/-- The finite approximation of layer 5, for a denominator bound `N`: no rational with
-denominator below `N` is the ratio of the two manifold volumes. This predicate for every `N`
-is `ThurstonQuestion23` itself for this pair, since a rational `q` is excluded by any
-`N > q.den`, so the target is the one explicit bound below and nothing quantifies over `N`. -/
-def NoSmallRationalRatio (N : ℕ) : Prop :=
-  ∀ q : ℚ, q.den < N → 20 * catalanConstant ≠ (q : ℝ) * (21 * √3 * lchi3)
-
-/-- The explicit bound: with `N = 2000` terms of each series and their tail bounds, the ratio
-lies strictly between the Farey neighbours `78/121` and `595/923`, so every rational equal to it
-has denominator at least `1044`. -/
-theorem noSmallRationalRatio_thousand : NoSmallRationalRatio 1000 := by
-  sorry
 
 end
 
