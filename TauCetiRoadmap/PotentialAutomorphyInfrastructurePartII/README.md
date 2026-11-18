@@ -10,99 +10,11 @@
 
 The lifting theorems of BLGGT14 with adequate image, potential diagonalizability, the vanishing of adjoint Selmer groups (NT23, Theorem A) and the Allen–Newton–Thorne lifting theorem are ModularityAndLanglandsExtensions; this roadmap imports them by section and states only the forms and the general theory that roadmap does not.
 
-## Scope and ownership
+## How to read the build
 
-This is Part II of PotentialAutomorphyInfrastructure. The parent treats unpolarized representations through the cohomology of locally symmetric spaces of `GL_n` and derived patching. This roadmap treats the polarized case through definite unitary groups, whose arithmetic cohomology is concentrated in degree zero, so that classical patching suffices. From the parent it uses:
+Layer 0 supplies polarized automorphy, ordinarity and transport. Layer 1 builds component conditions and two criteria for potential diagonalizability, while Layer 2 independently supplies Schur residual data and the determinant subring. Layer 3 uses Layers 0 and 2 to build the definite-unitary Hecke modules on the carrier of CompletedCohomologyAndLocalGlobalCompatibility §0.7, and Layer 4 patches them using Layer 1. Layer 5 uses Layers 0–4 for Thorne's minimal lifting and finiteness theorems, the 2-adic theorem and the relaxed-adequacy forms of ordinary lifting and finiteness. Layer 6 uses Layer 0 together with the supplied Dwork geometry and imported ordinary lifting for potential ordinary automorphy with prescribed Steinberg places. Layer 7 uses Layers 0 and 2–4 for residually reducible deformation theory, and Layer 8 uses Layers 0 and 2–7 for its finiteness and lifting theorems. Layer 9 uses Layers 0 and 2 for adjoint Selmer groups, semistable pseudodeformation rings and their tangent spaces. Layer 10 uses Layers 0, 1, 3–5 and §8.16 for rigid integral `R = T` and lifting from generic local domains.
 
-- integral dual Weyl modules (§0.4);
-- auxiliary soluble and cyclic extensions (§§2.3, 2.5);
-- `ι`-ordinary automorphic representations of `GL_n`, the twisted Steinberg criterion, and `ι`-ordinarity under soluble base change (§§3.44–3.48).
-
-From ModularityAndLanglandsExtensions it imports potential diagonalizability with its criteria (§2.1), BLGGT14's lifting and finiteness theorems with adequate image and its potential ordinary automorphy theorem (§§2.2, 2.14), the vanishing of adjoint Bloch–Kato Selmer groups of unitary type (§4.1) and the Allen–Newton–Thorne lifting theorem (§4.2); the targets here that extend those statements say in one clause how they differ.
-
-This roadmap owns:
-
-- the global polarized notions of automorphy, ordinarity of weight `λ`, twisting and soluble descent (Layer 0);
-- component deformation problems, and the potential diagonalizability of potentially Barsotti–Tate representations and of symmetric powers (Layer 1);
-- the Schur condition and the determinant subring, with its bounded generation and the finiteness of the deformation ring over it (Layer 2);
-- the division-algebra variant of the definite unitary group, algebraic modular forms with twisted coefficients and their comparison with automorphic forms, and the integral, Iwahori, ordinary and `Λ`-adic Hecke theory with its Galois representations (Layer 3);
-- Taylor–Wiles data and the patching `R = T` theorems (Layer 4);
-- Thorne's minimal lifting and finiteness theorems, the 2-adic theorem, relaxed adequacy with the ordinary lifting and finiteness theorems in that form, and characteristic-zero lifts (Layer 5);
-- potential ordinary automorphy with prescribed Steinberg places, using the supplied self-dual Dwork family (Layer 6);
-- residually reducible deformation theory, the Allen–Newton–Thorne finiteness theorem and Thorne's two-constituent lifting theorem (Layers 7–8); the Allen–Newton–Thorne lifting theorem and its route belong to ModularityAndLanglandsExtensions §4.2, and §§2.2(3), 7.7 and 8.5 state only the forms of three of its ingredients that the theorems of these layers use;
-- adjoint Selmer groups, semistable pseudodeformation rings and their tangent comparison (Layer 9);
-- rigid `R = T` and lifting from generic local domains (Layer 10).
-
-The general objects have the following owners; each layer names the exact sections it uses.
-
-- **Mathlib** owns absolute Galois groups, CM fields, the cyclotomic character, induced representations, Krull dimension, minimal primes, finite ring maps, normal closures and linear disjointness. It has no automorphic representations, no Galois representations attached to them and no Galois deformation rings, so none of the headline theorems below is statable against it.
-- **ArithmeticGaloisRepresentations** owns:
-  - induction and lattices, Brauer–Nesbitt, and recognition by Frobenius elements;
-  - Weil–Deligne representations;
-  - the group `𝒢_n` with polarized representations and their oddness;
-  - adequate, Guralnick–Herzig–Tiep adequate and enormous subgroups.
-- **LocalGaloisDeformationRings** owns every local lifting ring and condition used here:
-  - the Fontaine–Laffaille condition;
-  - ordinary representations of weight `λ` of a local Galois group, with their flag rings and Geraghty's ordinary rings;
-  - smooth points of generic fibres;
-  - Steinberg, minimally ramified, Ihara-avoidance and level-raising rings, and the Taylor–Wiles block condition;
-  - rigidity of a residual representation;
-  - potentially semistable rings of fixed type, and rank-two Barsotti–Tate components;
-  - the relation "connects" between local lifts;
-  - continuous pseudodeformation rings.
-- **GlobalGaloisDeformations** owns polarized global deformation problems, their representability, tangent and obstruction spaces and presentations, Taylor–Wiles places, restriction and twisting.
-- **DeformationAndDerivedPatchingAlgebra** owns relative cotangent spaces, characteristic-zero points from finiteness, module patching, support, connectedness dimension and the descent from patched modules.
-- **IntegralHeckeAndGaloisDeterminants** owns continuous determinants, Cayley–Hamilton algebras, reducibility ideals and non-Eisenstein maximal ideals.
-- **AutomorphicGaloisRepresentationsPartII** owns polarized automorphic representations, their Galois representations with local–global compatibility, the genericity of Weil–Deligne representations with its local Langlands criterion, and their residual representations.
-- **AutomorphicFormsOnReductiveGroups** and **AdelicAlgebraicGroups** own algebraic modular forms with coefficients and the adelic groups behind them.
-- **CompletedCohomologyAndLocalGlobalCompatibility** §0.7 owns the rank-`n` unitary group of a CM extension that is compact at infinity and quasi-split at every finite place, with its integral model and split identifications, its forms `S(U, A)` with class-set evaluation, level maps and traces, and the split-place operators `T_w^{(j)}` with the tame Hecke algebra. Layer 3 adds the division-algebra variant, the twisted coefficients at the places of `R` with Thorne's comparison to automorphic forms, the integral structure of the Hecke algebras and the Iwahori, ordinary and `Λ`-adic theory.
-- **ModularityAndLanglandsExtensions** owns potential diagonalizability with its ordinary and Fontaine–Laffaille criteria and its operations (§2.1), BLGGT14's minimal and ordinary lifting and finiteness theorems with adequate image (§2.2), potential ordinary automorphy of symplectic residual representations, ordinary lifts with prescribed local components and potentially diagonalizable lifting (§§2.14–2.16), the vanishing of adjoint Bloch–Kato Selmer groups of unitary type (§4.1), and the Allen–Newton–Thorne lifting theorem for residually reducible representations with its route (§4.2): the `µ₂^d`-action on the Schur deformation ring and the invariant pseudodeformation subring with étaleness on the irreducible locus (ANT20, Proposition 3.2), the reducible-locus dimension bound at the Steinberg place (ANT20, Lemma 3.6), and connectedness of the finite ordinary ring with the lifting conclusion drawn from it (ANT20, Theorem 5.1). Here §2.2(3) states the first for every polarized problem with `µ₂^d`-stable local conditions, §7.7 the second for a set of Steinberg places and an arbitrary finite `Λ`-algebra, and §8.5 the propagation of potential pro-automorphy to every minimal prime under bounds one larger than the printed ones; these are the forms that §§7.9, 7.16–7.19 and 8.6–8.16 use, and none of them restates the lifting theorem. Also §§1.4–1.5 add the potentially Barsotti–Tate and symmetric-power cases, §§5.5 and 5.7 the relaxed-adequacy forms, and §6.1 the prescribed Steinberg places.
-- **SmoothRepresentationsOfLocalGroups** owns smooth representations and types.
-- **EndoscopicTransferAndUnitaryTraceComparison** owns:
-  - local Langlands for `GL_n`;
-  - Arthur–Clozel base change and automorphic induction;
-  - Labesse's comparison between definite unitary groups and `GL_n`.
-- **PadicHodgeTheory**, **SelmerIwasawaCohomology** and **ArithmeticGaloisDuality** own period rings, Bloch–Kato local conditions, Selmer groups and Poitou–Tate duality.
-- **PotentialModularityAndCompatibleSystems** owns Moret-Bailly's theorem, used here through the symplectic switch of PotentialAutomorphyDworkMotivesPartII §9.4, and the extension of finite local characters.
-- **PotentialAutomorphyDworkMotivesPartII** owns the self-dual Dwork family: the pencil and symmetry data (§§1.1–1.4), eigen-local-systems, real forms and pairings (§§2.3–2.7), monodromy and symplectic level-structure torsors (§§4.6, 5.6, 5.10–5.12), compatible Frobenius polynomials (§6.8), local Hodge and Steinberg properties (§§7.4, 7.7–7.10), and the geometric symplectic switch (§9.4). This roadmap adds the automorphic conclusion with prescribed Steinberg places in §6.1.
-- **PotentialModularityAndCompatibleSystems** §§8.3–8.6 owns the rank-two definite-unitary ordinary theory. Layers 3–4 here extend its automorphic side and patching to arbitrary rank, with the same rank-two specialization, and Layers 5 and 8 add Thorne's minimal, the dyadic, the relaxed-adequacy and the residually reducible forms. **ClassicalSerreModularity** `R33.1/global-arithmetic-action` owns its rank-two finite-level Hecke action; no second rank-two carrier is constructed.
-- The abstract nilpotent-kernel finiteness step in §8.6 uses Mathlib `Module.finite_of_surjective_of_ker_le_nilradical`; §8.6 owns its deformation-ring application and the reduction to minimal-prime quotients.
-- The characteristic-zero enormous-image and adequacy predicates are imported by section from ArithmeticGaloisRepresentations §§7.9–7.10; their proposed declaration spellings are not pinned library declarations.
-
-Statements outside this roadmap:
-
-- The final potential automorphy theorems (BLGGT14, Proposition 3.3.1, Theorems 4.3.1–4.5.1 and §5), symmetric power functoriality and Sato–Tate are ModularityAndLanglandsExtensions, as are the lifting theorems listed in its bullet above.
-- The unpolarized lifting theorems of Calegari–Geraghty, Caraiani–Newton and Boxer–Calegari–Gee–Newton–Thorne are not treated here.
-- The generic Serre weight theorem of Le–Le Hung–Levin–Morra (LLHLM23, Theorem 9.1.6, `W(r̄) = W^?(r̄_p|I)`) and the change-of-weight form of §10.5 that it yields (LLHLM23, Remark 9.2.2(1): the seed `π` with prescribed weight and `K`-type replaced by bare residual automorphy) are not stated here. Both rest on the modularity of the obvious Serre weights of a residually automorphic `r̄` (LLHLM23, proof of Lemma A.1.1(2), through LLHL19, Theorem 4.3.8), a Serre weight result for `GL_n` that this roadmap does not develop; it produces automorphic lifts with prescribed potentially diagonalizable types by change of weight and level (BLGGT14, Theorem 4.4.1; ModularityAndLanglandsExtensions §2.32). §10.5 is stated with the source's seed hypothesis, and no weakened form with an assumed modular weight is stated in its place.
-
-Other roadmaps cite this one by the identifiers of its design. The table gives the section of each.
-
-| Design identifier (earlier numbering) | Section |
-|---|---|
-| PL.0 | Layer 0 |
-| PL.0/soluble-descent | §0.9 |
-| PL.0/auxiliary-cm-extensions | PotentialAutomorphyInfrastructure §§2.3, 2.5 |
-| PL.0/auxiliary-characters | §0.11 |
-| PL.1 | Layer 1 |
-| PL.1/potentially-diagonalizable, PL.1/pd-criteria | ModularityAndLanglandsExtensions §2.1 |
-| PL.1/potentially-barsotti-tate-diagonalizable | §1.4 |
-| PL.1/pd-operations | ModularityAndLanglandsExtensions §2.1; symmetric powers §1.5 |
-| PL.2 | Layer 3 |
-| PL.3 | Layer 4 |
-| PL.4 | Layer 5 |
-| PL.4/strongly-residually-odd | §5.2 |
-| PL.4/relaxed-adequacy | §5.4 |
-| PL.4/ordinary-automorphy-lifting | §5.5; with adequate image ModularityAndLanglandsExtensions §2.2 |
-| PL.5 | Layer 6 |
-| PL.5/dwork-potential-ordinary-automorphy | §6.1; without the Steinberg places ModularityAndLanglandsExtensions §2.14 |
-| PL.5/ordinary-lifts-prescribed-local, PL.5/tensor-product-trick-lifting, PL.5/pd-automorphy-lifting | ModularityAndLanglandsExtensions §§2.15–2.16 |
-| PL.6 | Layers 2 and 7 |
-| PL.7 | Layer 8 |
-| PL.7/residually-reducible-automorphy-lifting, PL.7/source-primitive-ant-lifting | ModularityAndLanglandsExtensions §4.2 |
-| PL.8 | Layer 9 |
-| PL.8/adjoint-selmer-vanishing | ModularityAndLanglandsExtensions §4.1 |
-| PL.9 | Layer 10 |
-| §8.17, the ANT lifting theorem with weak primitivity | ModularityAndLanglandsExtensions §4.2 |
+Each target states its hypotheses, gives a route through the sources with locators, lists what it needs, and ends with discriminating checks.
 
 ## Conventions
 
@@ -138,200 +50,6 @@ Rings, notation and locators.
 - In Layers 7–8, `A = k⟦T⟧` and `Frac A` are the equal-characteristic rings at a generic prime. The set-up of ANT20 §4 is fixed in Layer 8.
 - Layer 10 keeps the source convention `HT(ε) = +1` of LLHLM23 for its genericity polynomial, types and Serre weights, and converts Galois weights by §10.4.
 - Locators cite the version listed under References. Geraghty is cited in the numbering of the 2010 preprint, which BLGGT14 and Thorne use. Tho15 and Tho17 are cited by the pages of their accepted manuscripts. ANT20 is cited by the pages of arXiv v2.
-
-## Exact supplier contracts
-
-### From Mathlib (commit 1b1ccf4)
-
-Use the following, each at its definition in Mathlib:
-
-- `Field.absoluteGaloisGroup` in `Mathlib/FieldTheory/AbsoluteGaloisGroup.lean:42`, for the Galois groups `G_F`, `G_{F_v}`.
-- `NumberField.IsCMField` in `Mathlib/NumberTheory/NumberField/CMField.lean:70`, for CM fields; it requires total complexity and quadraticity over the maximal real subfield, but not finiteness over `ℚ`, which is supplied separately by the number-field hypothesis.
-- `cyclotomicCharacter` in `Mathlib/NumberTheory/Cyclotomic/CyclotomicCharacter.lean:308`, for `ε_l`. It is the arithmetic action on roots of unity; the sign of its Hodge–Tate weight is the convention above.
-- `Representation.ind` in `Mathlib/RepresentationTheory/Induced.lean:77`, for induction along a group homomorphism. Continuous induction from open subgroups is ArithmeticGaloisRepresentations §1.3.
-- `ringKrullDim` in `Mathlib/RingTheory/KrullDimension/Basic.lean:29`, for the dimension counts of Layers 5, 7, 8 and 10.
-- `Ideal.minimalPrimes` and `Ideal.finite_minimalPrimes_of_isNoetherianRing`, for components of complete local Noetherian rings.
-- `RingHom.Finite` in `Mathlib/RingTheory/Finiteness/Defs.lean:174` and `Module.finite_of_surjective_of_ker_le_nilradical`, for finiteness of deformation rings over `Λ`.
-- `IntermediateField.normalClosure`, `IntermediateField.LinearDisjoint`, `Group.IsSolvable` and `Ideal.primesOver`, for the soluble extensions of Layers 0, 6 and 8.
-
-No Mathlib carrier exists for automorphic representations, Galois representations attached to them, `𝒢_n`-valued representations or Galois deformation rings.
-
-### From Tau Ceti (commit 2fd255d)
-
-Use the following Tau Ceti theorems:
-
-- `NumberField.Chebotarev.hasDirichletDensity_frobeniusPrimeSet` in `TauCeti/NumberTheory/Chebotarev/Density/Chebotarev.lean:51`. It gives Frobenius classes of positive density for every Taylor–Wiles and auxiliary-prime choice in Layers 2, 4, 7 and 8; these choices cite Chebotarev Layer 10.
-- `NumberField.ncard_primesOver_eq_finrank_iff_of_isGalois` in `TauCeti/NumberTheory/NumberField/SplitsCompletely/Basic.lean:74`. It detects complete splitting in Galois extensions (§8.1).
-
-- `TauCeti.ClassFieldTheory.geometricArtinMap`, in `TauCeti/NumberTheory/ClassFieldTheory/Local/GeometricArtinMap.lean:68`, is the local map `Kˣ → G_K^ab` for a nonarchimedean local field with its valuation topology. Use `continuous_geometricArtinMap` (line 76), `isArithFrobeniusLift_inv_of_mk_eq_geometricArtinMap_uniformizer` (line 112), and `geometricArtinMap_norm` (line 145). Uniformizers map to geometric Frobenius; the norm comparison retains the finite extension, its embedding and compatible valuation. The map alone asserts no Hodge–Tate comparison.
-
-The global class field correspondence is ClassFieldTheory Layer 12. ClassFieldTheory Layer 7 supplies the surrounding local character dictionary with the geometric normalization fixed above.
-
-### From TauCetiRoadmap.PotentialAutomorphyInfrastructure
-
-Use integral dual Weyl modules (§0.4), auxiliary soluble and cyclic extensions with prescribed local behaviour (§§2.3, 2.5), and `ι`-ordinary automorphic representations of `GL_n`. The last includes the twisted Steinberg criterion and soluble base change (§§3.44–3.48).
-
-### From TauCetiRoadmap.ArithmeticGaloisRepresentations
-
-Use the following sections:
-
-- §1.3: continuous induction from open subgroups, Frobenius reciprocity and the Mackey decomposition.
-- §§1.6, 1.8, 1.12: lattices, Brauer–Nesbitt, restriction and induction.
-- §§2.4–2.5: Weil–Deligne representations and Frobenius semisimplification.
-- §5.3: recognition of semisimple representations from Frobenius elements.
-- §§7.1–7.2: tensor operations, the adjoint and Schur's lemma.
-- §7.4: `𝒢_n`, polarized representations and oddness.
-- §7.9: adequate and Guralnick–Herzig–Tiep adequate subgroups with their criteria and eigenprojectors.
-- §7.10: enormous images in the characteristic-zero sense (the characteristic-zero enormous-image predicate).
-
-What ArithmeticGaloisRepresentations must provide (gap:equal-characteristic-projective-image): Let `k` be finite of characteristic `l > 3`, `A = k⟦T⟧`, `E = Frac A`, `Γ = Δ ⋊ {1, c}` profinite and `r : Γ → 𝒢_n(A)` continuous with `Δ = r^{−1}(𝒢_n⁰(A))`, such that `r|N ⊗_A E` is absolutely irreducible for every open `N ⊂ Δ`, some `σ₀ ∈ Δ` has `r(σ₀)` regular semisimple with eigenvalues in `A^×` satisfying no nontrivial multiplicative relation with integer exponents, `l ∤ n`, and `ν(r(c)) = −1`. Then the image of `r(Δ)` in `PGL_n(E)` is an open compact subgroup of `H(K)` for a closed subfield `K ⊂ E` and a form `H` of `PGL_n` over `K` (Tho15, Proposition 5.1, after Pink). For every closed normal `Δ′ ⊂ Δ` with `Δ/Δ′` abelian: the image of `r(Δ′)` has finite index in that of `r(Δ)`; there is `K₀ ≥ 1` such that for all `a, m ≥ 0` every `A[r(Δ′)]`-submodule of `ad⁰r ⊗_A A/T^m` containing an element of exact order `m − a` contains `T^{a+K₀}(ad⁰r ⊗_A A/T^m)`; and if moreover `ν ∘ r` is trivial on `Δ′` and `c` normalizes `Δ′`, there is `K₁ ≥ 1` with `T^{K₁}H¹(r(Δ′), ad⁰r ⊗_A A/T^m)^{c=−1} = 0` for all `m ≥ 0` (Tho15, Lemma 5.2). Irreducibility on open subgroups alone does not suffice: the standard representation of `Sp₄(𝔽₅⟦T⟧)` is absolutely irreducible on every open subgroup, but its projective Zariski closure is `PSp₄`, of dimension `10` against `15` for `PGL₄`, and its torus eigenvalues `a, b, a^{−1}, b^{−1}` have product `1`.
-
-### From TauCetiRoadmap.LocalGaloisDeformationRings
-
-Use the following sections:
-
-- §§F.0.1, F.1.5, F.1.9–F.1.10, F.2.1–F.2.2, F.2.7, F.2.11, F.3.1: generic deformation foundations and continuous pseudodeformation rings.
-- §§0.3, 1.1, 1.3, 1.6–1.9, 1.12–1.14, 1.18, 1.22: framed rings, character coefficient rings, the Fontaine–Laffaille condition, ordinary representations of weight `λ` and their flag rings, odd archimedean rings, and smooth points.
-- §§2.2–2.5, 2.12, 2.15, 2.18, 2.20–2.21, 2.23–2.24, 2.26, 2.28: unramified, minimally ramified, Steinberg, level-raising and Ihara-avoidance rings, rigidity of a residual representation, and the Taylor–Wiles block condition.
-- §§3.2, 3.4, 3.7, 3.9–3.11, 3.13: semistable and potentially semistable rings of fixed type, their dimension, and `G`-valued variants.
-- §§4.10–4.14: rank-two Barsotti–Tate components.
-- §§6.8, 6.12, 6.24, 6.30: the relation "connects", Geraghty's ordinary rings and the trivial-residual flag ring.
-- §8.7: odd archimedean rings at `p = 2`.
-
-What LocalGaloisDeformationRings must provide (gap:barsotti-tate-components-general-base): For `l > 2` and every finite `K/ℚ_l`, with trivial residual representation and `ζ_l ∈ K`, the rank-two Barsotti–Tate lifting ring has connected non-ordinary locus, and each ordinary component contains a split ordinary lift.
-
-What LocalGaloisDeformationRings must provide (gap:cht-archimedean-ring-two-adic): The `𝒢_n`-valued deformation ring at a real place for `p = 2`, a strongly residually odd complex conjugation and multiplier `−1`, formally smooth with the archimedean local term `n(n + 1)/2` of Thorne 2017's Euler characteristic count.
-
-What LocalGaloisDeformationRings must provide (gap:completed-product-components): For a completed tensor product over `O` of local Ihara-avoidance rings at finitely many places, each minimal prime of the special fibre lies under a unique minimal prime of the ring.
-
-What LocalGaloisDeformationRings must provide (gap:semistable-stable-category), two separate results used by §§9.4 and 9.6:
-  1. the finite `ℤ_p[G_{F,S}]`-modules that are, at each `v | p`, subquotients of lattices in semistable representations with Hodge–Tate weights in `[a, b]` form a stable condition in the sense of Wake–Wang-Erickson, so that determinants with a Cayley–Hamilton model in it form a quotient of `R_{D̄,S}` (NT23, Proposition 2.14);
-  2. limits of torsion semistable representations with Hodge–Tate weights in `[a, b]` are semistable (Liu's theorem, as used in NT23, proofs of Proposition 2.17 and Lemma 2.19, pp. 17–18).
-
-What LocalGaloisDeformationRings must provide (gap:nonsplit-minimally-ramified): Minimally ramified `𝒢_N`-valued liftings at places of `F⁺` not split in `F`, for `ℓ ≥ N` (LTXZZ, Definition 3.4.8), whose problem is a formally smooth irreducible component of relative dimension `N²` with bounded types (Proposition 3.4.12, Corollary 3.4.10), so that rigidity applies at nonsplit places of `Σ⁺_min`.
-
-What LocalGaloisDeformationRings must provide (gap:generic-tame-pcris-domain): For `K/ℚ_p` unramified, or a finite product of such fields, a tame type with a `P_{λ+η,e}`-generic lowest alcove presentation and a semisimple residual representation, the potentially crystalline lifting ring of type `(λ + η, τ)` is a domain or zero (LLHLM23, Theorem 7.3.2(2), Remark 7.3.4), in the source convention `HT(ε) = +1`.
-
-### From TauCetiRoadmap.GlobalGaloisDeformations
-
-Use polarized deformation problems with representability, tangent and obstruction spaces and presentations (§§8.1–8.4). Also use relative tangent spaces as Selmer groups (§3.6), restriction to finite extensions (§§4.1–4.2) and twisting (§4.4).
-
-What GlobalGaloisDeformations must provide (gap:two-adic-polarized-presentation): Tangent, obstruction and presentation formulas for polarized deformation problems at `p = 2`, with strongly residually odd complex conjugations and `F/F⁺` unramified at every finite place (Tho17, §§2.1–2.15).
-
-What GlobalGaloisDeformations must provide (gap:nonsplit-polarized-problems): Polarized deformation problems whose set of places contains places of `F⁺` not split in `F`, with local conditions on `𝒢_n`-valued lifts there, representability for absolutely irreducible `r̄|G_F`, and the presentation formula with `T = S` and the actual tangent defects at those places, which in the set-up of §10.1 gives `g = b − f − N[F⁺ : ℚ]δ − aκ_µ` generators.
-
-What GlobalGaloisDeformations must provide (gap:square-zero-determinant-cotangent): For a complete equal-characteristic DVR `A` and a polarized ordinary problem with Schur residual representation, the `A`-dual of the relative cotangent module of the deformation ring over its determinant subring at a generic prime is the space of determinant-fixed polarized deformations over `A ⊕ ε(Frac A/A)`, uniformly in the Taylor–Wiles level (Tho15, §3).
-
-What GlobalGaloisDeformations must provide (gap:rank-one-ordinary-finiteness): For `p` odd, `S` finite containing the `p`-adic places and split over `F⁺`, a residual character `χ̄` with `χ̄χ̄^c = µ̄|G_F` and an odd multiplier `µ` unramified outside `S`, the rank-one polarized ordinary deformation ring, with extra Steinberg places read as unramified, is finite over `O⟦∏_{v|p} I^{ab}_{F_ṽ}(p)⟧` with `dim R/(ϖ) ≤ [F⁺ : ℚ]`.
-
-### From TauCetiRoadmap.DeformationAndDerivedPatchingAlgebra
-
-Use relative cotangent spaces and presentations (§1.9) and characteristic-zero points from finiteness and dimension (§§4.1–4.2). Use patching of rings and free modules, balanced patching and patching over `Λ` (§§5.4–5.6, 5.8). Use near faithfulness on support, descent from patched modules, reduced identification, connectedness dimension, and generic and special components (§§6.1, 6.4–6.7).
-
-What DeformationAndDerivedPatchingAlgebra must provide (gap:group-equivariant-patching): Patching that is equivariant for a fixed finite group acting on the rings, modules and character variations, with compact diagonal choices, so that the patched comparison map is equivariant.
-
-### From TauCetiRoadmap.DerivedModuleAlgebra
-
-Use Matlis duality and completion (§§1.M.1–1.M.2) in §7.17: over the complete DVR `A = k⟦T⟧`, duality with the injective hull `Frac A/A` sends a finite free cotangent summand `A^r` to `(Frac A/A)^r` and finite-length modules to finite-length modules. DeformationAndDerivedPatchingAlgebraPartII §K0.7 consumes this duality for a different, local-duality comparison.
-
-### From TauCetiRoadmap.IntegralHeckeAndGaloisDeterminants
-
-Use the following sections:
-
-- §§0.2, 0.5: continuous determinants, scalar extension and trace comparisons.
-- §§1.1–1.4: Cayley–Hamilton algebras, semisimple reconstruction, generalized matrix algebras and reducibility ideals.
-- §3b.1: Galois-type and non-Eisenstein maximal ideals.
-
-What IntegralHeckeAndGaloisDeterminants must provide (gap:bounded-denominator-determinant-lifts): For `ρ : Γ → GL_n(O)` absolutely irreducible over `E`, a constant `k₀` depending only on `ρ(Γ)` such that, after scaling `ε` by `p^{k₀}`, every determinant lift to `O ⊕ ε(E/O)` comes from a lift of `ρ`, lifts with equal determinant are conjugate under `1 + εM_n(E/O)`, and centralizers are scalar (NT23, Proposition 2.7).
-
-### From TauCetiRoadmap.AutomorphicGaloisRepresentationsPartII
-
-Use the following layers:
-
-- AG2.0: weights, polarized and RAECSDC representations, the multiplier parity, Hodge–Tate multisets and strong multiplicity one.
-- AG2.2: algebraic twisting into unitary type, base change and the assembly of discrete sums from supplied constituents (its own geometric existence theorem keeps Shin's regularity and field restrictions and is not used for existence).
-- AG2.3: existence of the Galois representation of every regular algebraic conjugate self-dual cuspidal representation, with no regularity or field restriction (arbitrary regular conjugate-self-dual existence).
-- AG2.5–AG2.6: local–global compatibility, including the full polarized comparison at the coefficient prime.
-- AG2.6 (generic monodromy orbits and local genericity): the genericity predicate `Hom_{WD}((r, N), (r(1), N)) = 0` for Weil–Deligne representations and the criterion that an irreducible admissible representation of `GL_n(K)` is generic exactly when its parameter is; §9.1 uses them for Galois representations.
-- AG2.7: residual representations, finite realization and local residual genericity.
-
-What AutomorphicGaloisRepresentationsPartII must provide (gap:unitary-shimura-integral-cohomology), three separate results used by §10.2:
-  1. the étale cohomology of unitary Shimura varieties `Sh(V, K)` of arbitrary signature with `O`-local systems `L_ξ`, with its Hecke and Galois actions, at Taylor–Wiles levels (LTXZZ, §3.6, p. 29, and Lemma 3.6.5);
-  2. the base change to `GL_N` of the constituents of its rational cohomology, with local–global compatibility (LTXZZ, Propositions 2.3.3 and 2.3.6);
-  3. for `N` even, rank-one monodromy at inert places where `V` is non-split and `K` is special maximal (LTXZZ, Corollary 2.3.7).
-
-### From TauCetiRoadmap.AutomorphicFormsOnReductiveGroups
-
-Use highest-weight characters and duals (§5.1), algebraic modular forms with arbitrary continuous coefficient action (§7.4), and finite stabilizers, base change and automorphic realization (§7.5).
-
-What AutomorphicFormsOnReductiveGroups must provide (gap:unitary-dual-conjugate-self-duality): An irreducible unitary `(𝔤, K)`-module of `GL_n(ℝ)` or `GL_n(ℂ)` with half-integral Harish-Chandra parameter satisfies `π^c ≅ π^∨`, by Tadić's classification of the unitary dual (BLGGT14, Lemma 2.2.3).
-
-### From TauCetiRoadmap.CompletedCohomologyAndLocalGlobalCompatibility
-
-Use §0.7 for a CM extension `L/L⁺` and rank `n`: the unitary group that is compact at infinity and quasi-split at every finite place, with its integral model and the split identifications `ι_w`, chosen in conjugate pairs `ι_{w^c}(g) = c(ᵗι_w(g)^{−1})`; its forms `S(U, A)` for a coefficient module with a right action of a submonoid containing `U`, with class-set evaluation, restriction, trace and the diamond action of `U/U′` for normal `U′ ⊂ U`; and the split-place operators `T_w^{(j)}`, the relation `T_{w^c}^{(j)} = (T_w^{(n)})^{−1}T_w^{(n−j)}` and the commutative tame Hecke algebra `𝕋^S(U, A)`, finite over `O` for finite free coefficients and compact open `U`. §§3.1–3.3 use them for `S(B) = ∅`.
-
-### From TauCetiRoadmap.AdelicAlgebraicGroups and TauCetiRoadmap.ArithmeticLocallySymmetricSpaces
-
-Use adelic points and their local and integral projections (AdelicAlgebraicGroups §§1.1, 1.5), and finiteness of class numbers with compactness of anisotropic quotients (§3.4). Use neat levels and double cosets (§§4.3–4.4), and algebraic weights at infinity (ArithmeticLocallySymmetricSpaces §ALS.F.7).
-
-### From TauCetiRoadmap.SmoothRepresentationsOfLocalGroups and TauCetiRoadmap.EndoscopicTransferAndUnitaryTraceComparison
-
-Use the following:
-
-- SmoothRepresentationsOfLocalGroups §SR.1: Hecke algebras over rings.
-- §§SR.2.2–SR.2.3, SR.3.4: Iwahori invariants and the Iwahori block.
-- §SR.5.2: types.
-- EndoscopicTransferAndUnitaryTraceComparison §§10.23, 10.30: local Langlands for `GL_n` and its segments.
-- §§6.24, 6.26: cyclic base change and automorphic induction.
-- §6.29, with §4.7a at the places of `S(B)`: Labesse's stable comparison between definite unitary groups and `GL_n`.
-
-### From TauCetiRoadmap.PadicHodgeTheory and TauCetiRoadmap.SelmerIwasawaCohomology
-
-Use the following:
-
-- PadicHodgeTheory §§3.3–3.6: period functors, filtered `(φ, N)`-modules and labelled ordinary flags.
-- §5.3: potentially semistable periods.
-- §6.3: ordinary filtrations and semistability of de Rham extensions.
-- Layer 8: rational geometric comparison.
-- SelmerIwasawaCohomology §§2.1, 2.9, 4.9: Selmer data and the Bloch–Kato local condition.
-
-### From TauCetiRoadmap.ArithmeticGaloisDuality
-
-Use the following sections:
-
-- §R02.2.3: Hochschild–Serre and inflation–restriction.
-- §§R02.4.2–R02.4.3, R02.4.5a: local Tate duality, the local Euler characteristic, and finite-level Poitou–Tate.
-- §R02.5.1: Greenberg–Wiles.
-- §D7.4: derived local duality.
-- §D8.1: adjoint coefficients and first-order lifts.
-
-### From TauCetiRoadmap.PadicFamilies, TauCetiRoadmap.PotentialModularityAndCompatibleSystems and TauCetiRoadmap.ReductiveGroupsPartII
-
-Use the following:
-
-- PadicFamilies §§0a.2, 0a.4, 0a.14: the finite ordinary projector and its independence of the uniformizer.
-- PotentialModularityAndCompatibleSystems §2.15: extension of finite local characters.
-- ReductiveGroupsPartII §RG2.2.1: the extended building of `GL_n` as splittable norms, for the selfdual lattice argument of §7.12.
-
-### From TauCetiRoadmap.ModularityAndLanglandsExtensions
-
-Use the following sections, as stated there:
-
-- §2.1: diagonalizable and potentially diagonalizable representations, their invariance under restriction, coefficient extension and the connects relation, their stability under direct sums, tensor products, duals and twists, and the criteria for full character flags and for the Fontaine–Laffaille range (BLGGT14, Lemmas 1.4.1–1.4.3). §§1.4–1.5 use the notion.
-- §2.2: BLGGT14's minimal and ordinary automorphy lifting theorems with adequate image, with their finiteness inputs (Theorems 2.3.1–2.3.2 and 2.4.1–2.4.2). §6.1 applies the ordinary one; §§5.1, 5.5–5.7 state the forms it does not.
-- §2.14: potential ordinary automorphy of symplectic residual representations (BLGGT14, Theorem 3.1.2), of which §6.1 is the refinement with prescribed Steinberg places.
-- §4.1: the vanishing of adjoint Bloch–Kato Selmer groups of unitary type with enormous image (NT23, Theorem A). §9.7 draws its consequence for pseudodeformation rings.
-- §4.2: automorphy lifting for residually reducible representations with a Steinberg place (ANT20, Theorem 6.1), with its route: the `µ₂^d`-invariant pseudodeformation subring and étaleness on the irreducible locus, the reducible-locus dimension bound at the Steinberg place, and connectedness of the finite ordinary ring with the automorphy of its `O`-points (ANT20, Proposition 3.2, Lemma 3.6 and Theorem 5.1). §8.15 applies the theorem; §§2.2(3), 7.7 and 8.5 cite the three ingredients and state the forms the other targets of Layers 7–8 use.
-
-### From TauCetiRoadmap.PotentialAutomorphyDworkMotivesPartII
-
-Use the self-dual family with `N` odd, `n ≥ 2` even and `N > n + 1`: the auxiliary modulus and pencil (§§1.1–1.4), the real eigen-local-systems and their alternating pairing on `V_λ((N−1−n)/2)` with values in `O⁺_λ(1−n)` (§§2.3–2.7), single-block monodromy at infinity (§4.6), full symplectic monodromy and the geometrically irreducible pairing-preserving level torsors at distinct coefficient characteristics (§§5.6, 5.10–5.12), and coefficient-independent Frobenius polynomials (§6.8). Use the consecutive Hodge–Tate weights, crystallinity at good reduction, ordinarity near the Fermat point, Fermat inertial characters and Steinberg fibres (§§7.4, 7.7–7.10). The geometric symplectic switch (§9.4) supplies the simultaneous fibres over a totally real extension with avoidance and the prescribed signs of `v(t)`, including `v(t) < 0` above a prescribed finite set of places prime to `N` and to the auxiliary prime; §6.1 adds automorphy using ordinary lifting (ModularityAndLanglandsExtensions §2.2). The pairing has full multiplier `ε_l^{1−n}`. For `n = 2`, `N = 5` and residue cardinality `11`, geometric Frobenius on the Steinberg fibre has roots `±11, ±121` before twisting and `±1, ±11` on `V_λ(1)`, with products `1331` and `11`, respectively (BLGHT11, Lemma 5.1(2), corrected using the pairing of §4, BLGHT11 lines 1018–1021 and 1269–1273). Only pairing-preserving isomorphisms form the connected symplectic torsor.
-
-## How to read the build
-
-Layer 0 supplies polarized automorphy, ordinarity and transport. Layer 1 builds component conditions and two criteria for potential diagonalizability, while Layer 2 independently supplies Schur residual data and the determinant subring. Layer 3 uses Layers 0 and 2 to build the definite-unitary Hecke modules on the carrier of CompletedCohomologyAndLocalGlobalCompatibility §0.7, and Layer 4 patches them using Layer 1. Layer 5 uses Layers 0–4 for Thorne's minimal lifting and finiteness theorems, the 2-adic theorem and the relaxed-adequacy forms of ordinary lifting and finiteness. Layer 6 uses Layer 0 together with the supplied Dwork geometry and imported ordinary lifting for potential ordinary automorphy with prescribed Steinberg places. Layer 7 uses Layers 0 and 2–4 for residually reducible deformation theory, and Layer 8 uses Layers 0 and 2–7 for its finiteness and lifting theorems. Layer 9 uses Layers 0 and 2 for adjoint Selmer groups, semistable pseudodeformation rings and their tangent spaces. Layer 10 uses Layers 0, 1, 3–5 and §8.16 for rigid integral `R = T` and lifting from generic local domains.
-
-Each target states its hypotheses, gives a route through the sources with locators, lists what it needs, and ends with discriminating checks.
 
 ## Layer 0: Polarized automorphy: ordinarity, twisting and soluble descent
 
@@ -2212,6 +1930,288 @@ Layers 0, 1, 3, 4, 5 and 8 (§§0.9, 1.3, 3.2, 3.4, 3.5, 4.2–4.3, 4.8, 5.8–5
 The geometric switch of PotentialAutomorphyDworkMotivesPartII §9.4 is consumed by §6.1; it uses its own local ordinary predicate from LocalGaloisDeformationRings §1.7 and does not depend on the global automorphy predicates here.
 
 The integral `R = T` theorem of Layer 10 is the input of the Beilinson–Bloch–Kato arguments for unitary Shimura varieties.
+
+## Scope and ownership
+
+This is Part II of PotentialAutomorphyInfrastructure. The parent treats unpolarized representations through the cohomology of locally symmetric spaces of `GL_n` and derived patching. This roadmap treats the polarized case through definite unitary groups, whose arithmetic cohomology is concentrated in degree zero, so that classical patching suffices. From the parent it uses:
+
+- integral dual Weyl modules (§0.4);
+- auxiliary soluble and cyclic extensions (§§2.3, 2.5);
+- `ι`-ordinary automorphic representations of `GL_n`, the twisted Steinberg criterion, and `ι`-ordinarity under soluble base change (§§3.44–3.48).
+
+From ModularityAndLanglandsExtensions it imports potential diagonalizability with its criteria (§2.1), BLGGT14's lifting and finiteness theorems with adequate image and its potential ordinary automorphy theorem (§§2.2, 2.14), the vanishing of adjoint Bloch–Kato Selmer groups of unitary type (§4.1) and the Allen–Newton–Thorne lifting theorem (§4.2); the targets here that extend those statements say in one clause how they differ.
+
+This roadmap owns:
+
+- the global polarized notions of automorphy, ordinarity of weight `λ`, twisting and soluble descent (Layer 0);
+- component deformation problems, and the potential diagonalizability of potentially Barsotti–Tate representations and of symmetric powers (Layer 1);
+- the Schur condition and the determinant subring, with its bounded generation and the finiteness of the deformation ring over it (Layer 2);
+- the division-algebra variant of the definite unitary group, algebraic modular forms with twisted coefficients and their comparison with automorphic forms, and the integral, Iwahori, ordinary and `Λ`-adic Hecke theory with its Galois representations (Layer 3);
+- Taylor–Wiles data and the patching `R = T` theorems (Layer 4);
+- Thorne's minimal lifting and finiteness theorems, the 2-adic theorem, relaxed adequacy with the ordinary lifting and finiteness theorems in that form, and characteristic-zero lifts (Layer 5);
+- potential ordinary automorphy with prescribed Steinberg places, using the supplied self-dual Dwork family (Layer 6);
+- residually reducible deformation theory, the Allen–Newton–Thorne finiteness theorem and Thorne's two-constituent lifting theorem (Layers 7–8); the Allen–Newton–Thorne lifting theorem and its route belong to ModularityAndLanglandsExtensions §4.2, and §§2.2(3), 7.7 and 8.5 state only the forms of three of its ingredients that the theorems of these layers use;
+- adjoint Selmer groups, semistable pseudodeformation rings and their tangent comparison (Layer 9);
+- rigid `R = T` and lifting from generic local domains (Layer 10).
+
+The general objects have the following owners; each layer names the exact sections it uses.
+
+- **Mathlib** owns absolute Galois groups, CM fields, the cyclotomic character, induced representations, Krull dimension, minimal primes, finite ring maps, normal closures and linear disjointness. It has no automorphic representations, no Galois representations attached to them and no Galois deformation rings, so none of the headline theorems below is statable against it.
+- **ArithmeticGaloisRepresentations** owns:
+  - induction and lattices, Brauer–Nesbitt, and recognition by Frobenius elements;
+  - Weil–Deligne representations;
+  - the group `𝒢_n` with polarized representations and their oddness;
+  - adequate, Guralnick–Herzig–Tiep adequate and enormous subgroups.
+- **LocalGaloisDeformationRings** owns every local lifting ring and condition used here:
+  - the Fontaine–Laffaille condition;
+  - ordinary representations of weight `λ` of a local Galois group, with their flag rings and Geraghty's ordinary rings;
+  - smooth points of generic fibres;
+  - Steinberg, minimally ramified, Ihara-avoidance and level-raising rings, and the Taylor–Wiles block condition;
+  - rigidity of a residual representation;
+  - potentially semistable rings of fixed type, and rank-two Barsotti–Tate components;
+  - the relation "connects" between local lifts;
+  - continuous pseudodeformation rings.
+- **GlobalGaloisDeformations** owns polarized global deformation problems, their representability, tangent and obstruction spaces and presentations, Taylor–Wiles places, restriction and twisting.
+- **DeformationAndDerivedPatchingAlgebra** owns relative cotangent spaces, characteristic-zero points from finiteness, module patching, support, connectedness dimension and the descent from patched modules.
+- **IntegralHeckeAndGaloisDeterminants** owns continuous determinants, Cayley–Hamilton algebras, reducibility ideals and non-Eisenstein maximal ideals.
+- **AutomorphicGaloisRepresentationsPartII** owns polarized automorphic representations, their Galois representations with local–global compatibility, the genericity of Weil–Deligne representations with its local Langlands criterion, and their residual representations.
+- **AutomorphicFormsOnReductiveGroups** and **AdelicAlgebraicGroups** own algebraic modular forms with coefficients and the adelic groups behind them.
+- **CompletedCohomologyAndLocalGlobalCompatibility** §0.7 owns the rank-`n` unitary group of a CM extension that is compact at infinity and quasi-split at every finite place, with its integral model and split identifications, its forms `S(U, A)` with class-set evaluation, level maps and traces, and the split-place operators `T_w^{(j)}` with the tame Hecke algebra. Layer 3 adds the division-algebra variant, the twisted coefficients at the places of `R` with Thorne's comparison to automorphic forms, the integral structure of the Hecke algebras and the Iwahori, ordinary and `Λ`-adic theory.
+- **ModularityAndLanglandsExtensions** owns potential diagonalizability with its ordinary and Fontaine–Laffaille criteria and its operations (§2.1), BLGGT14's minimal and ordinary lifting and finiteness theorems with adequate image (§2.2), potential ordinary automorphy of symplectic residual representations, ordinary lifts with prescribed local components and potentially diagonalizable lifting (§§2.14–2.16), the vanishing of adjoint Bloch–Kato Selmer groups of unitary type (§4.1), and the Allen–Newton–Thorne lifting theorem for residually reducible representations with its route (§4.2): the `µ₂^d`-action on the Schur deformation ring and the invariant pseudodeformation subring with étaleness on the irreducible locus (ANT20, Proposition 3.2), the reducible-locus dimension bound at the Steinberg place (ANT20, Lemma 3.6), and connectedness of the finite ordinary ring with the lifting conclusion drawn from it (ANT20, Theorem 5.1). Here §2.2(3) states the first for every polarized problem with `µ₂^d`-stable local conditions, §7.7 the second for a set of Steinberg places and an arbitrary finite `Λ`-algebra, and §8.5 the propagation of potential pro-automorphy to every minimal prime under bounds one larger than the printed ones; these are the forms that §§7.9, 7.16–7.19 and 8.6–8.16 use, and none of them restates the lifting theorem. Also §§1.4–1.5 add the potentially Barsotti–Tate and symmetric-power cases, §§5.5 and 5.7 the relaxed-adequacy forms, and §6.1 the prescribed Steinberg places.
+- **SmoothRepresentationsOfLocalGroups** owns smooth representations and types.
+- **EndoscopicTransferAndUnitaryTraceComparison** owns:
+  - local Langlands for `GL_n`;
+  - Arthur–Clozel base change and automorphic induction;
+  - Labesse's comparison between definite unitary groups and `GL_n`.
+- **PadicHodgeTheory**, **SelmerIwasawaCohomology** and **ArithmeticGaloisDuality** own period rings, Bloch–Kato local conditions, Selmer groups and Poitou–Tate duality.
+- **PotentialModularityAndCompatibleSystems** owns Moret-Bailly's theorem, used here through the symplectic switch of PotentialAutomorphyDworkMotivesPartII §9.4, and the extension of finite local characters.
+- **PotentialAutomorphyDworkMotivesPartII** owns the self-dual Dwork family: the pencil and symmetry data (§§1.1–1.4), eigen-local-systems, real forms and pairings (§§2.3–2.7), monodromy and symplectic level-structure torsors (§§4.6, 5.6, 5.10–5.12), compatible Frobenius polynomials (§6.8), local Hodge and Steinberg properties (§§7.4, 7.7–7.10), and the geometric symplectic switch (§9.4). This roadmap adds the automorphic conclusion with prescribed Steinberg places in §6.1.
+- **PotentialModularityAndCompatibleSystems** §§8.3–8.6 owns the rank-two definite-unitary ordinary theory. Layers 3–4 here extend its automorphic side and patching to arbitrary rank, with the same rank-two specialization, and Layers 5 and 8 add Thorne's minimal, the dyadic, the relaxed-adequacy and the residually reducible forms. **ClassicalSerreModularity** `R33.1/global-arithmetic-action` owns its rank-two finite-level Hecke action; no second rank-two carrier is constructed.
+- The abstract nilpotent-kernel finiteness step in §8.6 uses Mathlib `Module.finite_of_surjective_of_ker_le_nilradical`; §8.6 owns its deformation-ring application and the reduction to minimal-prime quotients.
+- The characteristic-zero enormous-image and adequacy predicates are imported by section from ArithmeticGaloisRepresentations §§7.9–7.10; their proposed declaration spellings are not pinned library declarations.
+
+Statements outside this roadmap:
+
+- The final potential automorphy theorems (BLGGT14, Proposition 3.3.1, Theorems 4.3.1–4.5.1 and §5), symmetric power functoriality and Sato–Tate are ModularityAndLanglandsExtensions, as are the lifting theorems listed in its bullet above.
+- The unpolarized lifting theorems of Calegari–Geraghty, Caraiani–Newton and Boxer–Calegari–Gee–Newton–Thorne are not treated here.
+- The generic Serre weight theorem of Le–Le Hung–Levin–Morra (LLHLM23, Theorem 9.1.6, `W(r̄) = W^?(r̄_p|I)`) and the change-of-weight form of §10.5 that it yields (LLHLM23, Remark 9.2.2(1): the seed `π` with prescribed weight and `K`-type replaced by bare residual automorphy) are not stated here. Both rest on the modularity of the obvious Serre weights of a residually automorphic `r̄` (LLHLM23, proof of Lemma A.1.1(2), through LLHL19, Theorem 4.3.8), a Serre weight result for `GL_n` that this roadmap does not develop; it produces automorphic lifts with prescribed potentially diagonalizable types by change of weight and level (BLGGT14, Theorem 4.4.1; ModularityAndLanglandsExtensions §2.32). §10.5 is stated with the source's seed hypothesis, and no weakened form with an assumed modular weight is stated in its place.
+
+Other roadmaps cite this one by the identifiers of its design. The table gives the section of each.
+
+| Design identifier (earlier numbering) | Section |
+|---|---|
+| PL.0 | Layer 0 |
+| PL.0/soluble-descent | §0.9 |
+| PL.0/auxiliary-cm-extensions | PotentialAutomorphyInfrastructure §§2.3, 2.5 |
+| PL.0/auxiliary-characters | §0.11 |
+| PL.1 | Layer 1 |
+| PL.1/potentially-diagonalizable, PL.1/pd-criteria | ModularityAndLanglandsExtensions §2.1 |
+| PL.1/potentially-barsotti-tate-diagonalizable | §1.4 |
+| PL.1/pd-operations | ModularityAndLanglandsExtensions §2.1; symmetric powers §1.5 |
+| PL.2 | Layer 3 |
+| PL.3 | Layer 4 |
+| PL.4 | Layer 5 |
+| PL.4/strongly-residually-odd | §5.2 |
+| PL.4/relaxed-adequacy | §5.4 |
+| PL.4/ordinary-automorphy-lifting | §5.5; with adequate image ModularityAndLanglandsExtensions §2.2 |
+| PL.5 | Layer 6 |
+| PL.5/dwork-potential-ordinary-automorphy | §6.1; without the Steinberg places ModularityAndLanglandsExtensions §2.14 |
+| PL.5/ordinary-lifts-prescribed-local, PL.5/tensor-product-trick-lifting, PL.5/pd-automorphy-lifting | ModularityAndLanglandsExtensions §§2.15–2.16 |
+| PL.6 | Layers 2 and 7 |
+| PL.7 | Layer 8 |
+| PL.7/residually-reducible-automorphy-lifting, PL.7/source-primitive-ant-lifting | ModularityAndLanglandsExtensions §4.2 |
+| PL.8 | Layer 9 |
+| PL.8/adjoint-selmer-vanishing | ModularityAndLanglandsExtensions §4.1 |
+| PL.9 | Layer 10 |
+| §8.17, the ANT lifting theorem with weak primitivity | ModularityAndLanglandsExtensions §4.2 |
+
+## Exact supplier contracts
+
+### From Mathlib (commit 1b1ccf4)
+
+Use the following, each at its definition in Mathlib:
+
+- `Field.absoluteGaloisGroup` in `Mathlib/FieldTheory/AbsoluteGaloisGroup.lean:42`, for the Galois groups `G_F`, `G_{F_v}`.
+- `NumberField.IsCMField` in `Mathlib/NumberTheory/NumberField/CMField.lean:70`, for CM fields; it requires total complexity and quadraticity over the maximal real subfield, but not finiteness over `ℚ`, which is supplied separately by the number-field hypothesis.
+- `cyclotomicCharacter` in `Mathlib/NumberTheory/Cyclotomic/CyclotomicCharacter.lean:308`, for `ε_l`. It is the arithmetic action on roots of unity; the sign of its Hodge–Tate weight is the convention above.
+- `Representation.ind` in `Mathlib/RepresentationTheory/Induced.lean:77`, for induction along a group homomorphism. Continuous induction from open subgroups is ArithmeticGaloisRepresentations §1.3.
+- `ringKrullDim` in `Mathlib/RingTheory/KrullDimension/Basic.lean:29`, for the dimension counts of Layers 5, 7, 8 and 10.
+- `Ideal.minimalPrimes` and `Ideal.finite_minimalPrimes_of_isNoetherianRing`, for components of complete local Noetherian rings.
+- `RingHom.Finite` in `Mathlib/RingTheory/Finiteness/Defs.lean:174` and `Module.finite_of_surjective_of_ker_le_nilradical`, for finiteness of deformation rings over `Λ`.
+- `IntermediateField.normalClosure`, `IntermediateField.LinearDisjoint`, `Group.IsSolvable` and `Ideal.primesOver`, for the soluble extensions of Layers 0, 6 and 8.
+
+No Mathlib carrier exists for automorphic representations, Galois representations attached to them, `𝒢_n`-valued representations or Galois deformation rings.
+
+### From Tau Ceti (commit 2fd255d)
+
+Use the following Tau Ceti theorems:
+
+- `NumberField.Chebotarev.hasDirichletDensity_frobeniusPrimeSet` in `TauCeti/NumberTheory/Chebotarev/Density/Chebotarev.lean:51`. It gives Frobenius classes of positive density for every Taylor–Wiles and auxiliary-prime choice in Layers 2, 4, 7 and 8; these choices cite Chebotarev Layer 10.
+- `NumberField.ncard_primesOver_eq_finrank_iff_of_isGalois` in `TauCeti/NumberTheory/NumberField/SplitsCompletely/Basic.lean:74`. It detects complete splitting in Galois extensions (§8.1).
+
+- `TauCeti.ClassFieldTheory.geometricArtinMap`, in `TauCeti/NumberTheory/ClassFieldTheory/Local/GeometricArtinMap.lean:68`, is the local map `Kˣ → G_K^ab` for a nonarchimedean local field with its valuation topology. Use `continuous_geometricArtinMap` (line 76), `isArithFrobeniusLift_inv_of_mk_eq_geometricArtinMap_uniformizer` (line 112), and `geometricArtinMap_norm` (line 145). Uniformizers map to geometric Frobenius; the norm comparison retains the finite extension, its embedding and compatible valuation. The map alone asserts no Hodge–Tate comparison.
+
+The global class field correspondence is ClassFieldTheory Layer 12. ClassFieldTheory Layer 7 supplies the surrounding local character dictionary with the geometric normalization fixed above.
+
+### From TauCetiRoadmap.PotentialAutomorphyInfrastructure
+
+Use integral dual Weyl modules (§0.4), auxiliary soluble and cyclic extensions with prescribed local behaviour (§§2.3, 2.5), and `ι`-ordinary automorphic representations of `GL_n`. The last includes the twisted Steinberg criterion and soluble base change (§§3.44–3.48).
+
+### From TauCetiRoadmap.ArithmeticGaloisRepresentations
+
+Use the following sections:
+
+- §1.3: continuous induction from open subgroups, Frobenius reciprocity and the Mackey decomposition.
+- §§1.6, 1.8, 1.12: lattices, Brauer–Nesbitt, restriction and induction.
+- §§2.4–2.5: Weil–Deligne representations and Frobenius semisimplification.
+- §5.3: recognition of semisimple representations from Frobenius elements.
+- §§7.1–7.2: tensor operations, the adjoint and Schur's lemma.
+- §7.4: `𝒢_n`, polarized representations and oddness.
+- §7.9: adequate and Guralnick–Herzig–Tiep adequate subgroups with their criteria and eigenprojectors.
+- §7.10: enormous images in the characteristic-zero sense (the characteristic-zero enormous-image predicate).
+
+What ArithmeticGaloisRepresentations must provide (gap:equal-characteristic-projective-image): Let `k` be finite of characteristic `l > 3`, `A = k⟦T⟧`, `E = Frac A`, `Γ = Δ ⋊ {1, c}` profinite and `r : Γ → 𝒢_n(A)` continuous with `Δ = r^{−1}(𝒢_n⁰(A))`, such that `r|N ⊗_A E` is absolutely irreducible for every open `N ⊂ Δ`, some `σ₀ ∈ Δ` has `r(σ₀)` regular semisimple with eigenvalues in `A^×` satisfying no nontrivial multiplicative relation with integer exponents, `l ∤ n`, and `ν(r(c)) = −1`. Then the image of `r(Δ)` in `PGL_n(E)` is an open compact subgroup of `H(K)` for a closed subfield `K ⊂ E` and a form `H` of `PGL_n` over `K` (Tho15, Proposition 5.1, after Pink). For every closed normal `Δ′ ⊂ Δ` with `Δ/Δ′` abelian: the image of `r(Δ′)` has finite index in that of `r(Δ)`; there is `K₀ ≥ 1` such that for all `a, m ≥ 0` every `A[r(Δ′)]`-submodule of `ad⁰r ⊗_A A/T^m` containing an element of exact order `m − a` contains `T^{a+K₀}(ad⁰r ⊗_A A/T^m)`; and if moreover `ν ∘ r` is trivial on `Δ′` and `c` normalizes `Δ′`, there is `K₁ ≥ 1` with `T^{K₁}H¹(r(Δ′), ad⁰r ⊗_A A/T^m)^{c=−1} = 0` for all `m ≥ 0` (Tho15, Lemma 5.2). Irreducibility on open subgroups alone does not suffice: the standard representation of `Sp₄(𝔽₅⟦T⟧)` is absolutely irreducible on every open subgroup, but its projective Zariski closure is `PSp₄`, of dimension `10` against `15` for `PGL₄`, and its torus eigenvalues `a, b, a^{−1}, b^{−1}` have product `1`.
+
+### From TauCetiRoadmap.LocalGaloisDeformationRings
+
+Use the following sections:
+
+- §§F.0.1, F.1.5, F.1.9–F.1.10, F.2.1–F.2.2, F.2.7, F.2.11, F.3.1: generic deformation foundations and continuous pseudodeformation rings.
+- §§0.3, 1.1, 1.3, 1.6–1.9, 1.12–1.14, 1.18, 1.22: framed rings, character coefficient rings, the Fontaine–Laffaille condition, ordinary representations of weight `λ` and their flag rings, odd archimedean rings, and smooth points.
+- §§2.2–2.5, 2.12, 2.15, 2.18, 2.20–2.21, 2.23–2.24, 2.26, 2.28: unramified, minimally ramified, Steinberg, level-raising and Ihara-avoidance rings, rigidity of a residual representation, and the Taylor–Wiles block condition.
+- §§3.2, 3.4, 3.7, 3.9–3.11, 3.13: semistable and potentially semistable rings of fixed type, their dimension, and `G`-valued variants.
+- §§4.10–4.14: rank-two Barsotti–Tate components.
+- §§6.8, 6.12, 6.24, 6.30: the relation "connects", Geraghty's ordinary rings and the trivial-residual flag ring.
+- §8.7: odd archimedean rings at `p = 2`.
+
+What LocalGaloisDeformationRings must provide (gap:barsotti-tate-components-general-base): For `l > 2` and every finite `K/ℚ_l`, with trivial residual representation and `ζ_l ∈ K`, the rank-two Barsotti–Tate lifting ring has connected non-ordinary locus, and each ordinary component contains a split ordinary lift.
+
+What LocalGaloisDeformationRings must provide (gap:cht-archimedean-ring-two-adic): The `𝒢_n`-valued deformation ring at a real place for `p = 2`, a strongly residually odd complex conjugation and multiplier `−1`, formally smooth with the archimedean local term `n(n + 1)/2` of Thorne 2017's Euler characteristic count.
+
+What LocalGaloisDeformationRings must provide (gap:completed-product-components): For a completed tensor product over `O` of local Ihara-avoidance rings at finitely many places, each minimal prime of the special fibre lies under a unique minimal prime of the ring.
+
+What LocalGaloisDeformationRings must provide (gap:semistable-stable-category), two separate results used by §§9.4 and 9.6:
+  1. the finite `ℤ_p[G_{F,S}]`-modules that are, at each `v | p`, subquotients of lattices in semistable representations with Hodge–Tate weights in `[a, b]` form a stable condition in the sense of Wake–Wang-Erickson, so that determinants with a Cayley–Hamilton model in it form a quotient of `R_{D̄,S}` (NT23, Proposition 2.14);
+  2. limits of torsion semistable representations with Hodge–Tate weights in `[a, b]` are semistable (Liu's theorem, as used in NT23, proofs of Proposition 2.17 and Lemma 2.19, pp. 17–18).
+
+What LocalGaloisDeformationRings must provide (gap:nonsplit-minimally-ramified): Minimally ramified `𝒢_N`-valued liftings at places of `F⁺` not split in `F`, for `ℓ ≥ N` (LTXZZ, Definition 3.4.8), whose problem is a formally smooth irreducible component of relative dimension `N²` with bounded types (Proposition 3.4.12, Corollary 3.4.10), so that rigidity applies at nonsplit places of `Σ⁺_min`.
+
+What LocalGaloisDeformationRings must provide (gap:generic-tame-pcris-domain): For `K/ℚ_p` unramified, or a finite product of such fields, a tame type with a `P_{λ+η,e}`-generic lowest alcove presentation and a semisimple residual representation, the potentially crystalline lifting ring of type `(λ + η, τ)` is a domain or zero (LLHLM23, Theorem 7.3.2(2), Remark 7.3.4), in the source convention `HT(ε) = +1`.
+
+### From TauCetiRoadmap.GlobalGaloisDeformations
+
+Use polarized deformation problems with representability, tangent and obstruction spaces and presentations (§§8.1–8.4). Also use relative tangent spaces as Selmer groups (§3.6), restriction to finite extensions (§§4.1–4.2) and twisting (§4.4).
+
+What GlobalGaloisDeformations must provide (gap:two-adic-polarized-presentation): Tangent, obstruction and presentation formulas for polarized deformation problems at `p = 2`, with strongly residually odd complex conjugations and `F/F⁺` unramified at every finite place (Tho17, §§2.1–2.15).
+
+What GlobalGaloisDeformations must provide (gap:nonsplit-polarized-problems): Polarized deformation problems whose set of places contains places of `F⁺` not split in `F`, with local conditions on `𝒢_n`-valued lifts there, representability for absolutely irreducible `r̄|G_F`, and the presentation formula with `T = S` and the actual tangent defects at those places, which in the set-up of §10.1 gives `g = b − f − N[F⁺ : ℚ]δ − aκ_µ` generators.
+
+What GlobalGaloisDeformations must provide (gap:square-zero-determinant-cotangent): For a complete equal-characteristic DVR `A` and a polarized ordinary problem with Schur residual representation, the `A`-dual of the relative cotangent module of the deformation ring over its determinant subring at a generic prime is the space of determinant-fixed polarized deformations over `A ⊕ ε(Frac A/A)`, uniformly in the Taylor–Wiles level (Tho15, §3).
+
+What GlobalGaloisDeformations must provide (gap:rank-one-ordinary-finiteness): For `p` odd, `S` finite containing the `p`-adic places and split over `F⁺`, a residual character `χ̄` with `χ̄χ̄^c = µ̄|G_F` and an odd multiplier `µ` unramified outside `S`, the rank-one polarized ordinary deformation ring, with extra Steinberg places read as unramified, is finite over `O⟦∏_{v|p} I^{ab}_{F_ṽ}(p)⟧` with `dim R/(ϖ) ≤ [F⁺ : ℚ]`.
+
+### From TauCetiRoadmap.DeformationAndDerivedPatchingAlgebra
+
+Use relative cotangent spaces and presentations (§1.9) and characteristic-zero points from finiteness and dimension (§§4.1–4.2). Use patching of rings and free modules, balanced patching and patching over `Λ` (§§5.4–5.6, 5.8). Use near faithfulness on support, descent from patched modules, reduced identification, connectedness dimension, and generic and special components (§§6.1, 6.4–6.7).
+
+What DeformationAndDerivedPatchingAlgebra must provide (gap:group-equivariant-patching): Patching that is equivariant for a fixed finite group acting on the rings, modules and character variations, with compact diagonal choices, so that the patched comparison map is equivariant.
+
+### From TauCetiRoadmap.DerivedModuleAlgebra
+
+Use Matlis duality and completion (§§1.M.1–1.M.2) in §7.17: over the complete DVR `A = k⟦T⟧`, duality with the injective hull `Frac A/A` sends a finite free cotangent summand `A^r` to `(Frac A/A)^r` and finite-length modules to finite-length modules. DeformationAndDerivedPatchingAlgebraPartII §K0.7 consumes this duality for a different, local-duality comparison.
+
+### From TauCetiRoadmap.IntegralHeckeAndGaloisDeterminants
+
+Use the following sections:
+
+- §§0.2, 0.5: continuous determinants, scalar extension and trace comparisons.
+- §§1.1–1.4: Cayley–Hamilton algebras, semisimple reconstruction, generalized matrix algebras and reducibility ideals.
+- §3b.1: Galois-type and non-Eisenstein maximal ideals.
+
+What IntegralHeckeAndGaloisDeterminants must provide (gap:bounded-denominator-determinant-lifts): For `ρ : Γ → GL_n(O)` absolutely irreducible over `E`, a constant `k₀` depending only on `ρ(Γ)` such that, after scaling `ε` by `p^{k₀}`, every determinant lift to `O ⊕ ε(E/O)` comes from a lift of `ρ`, lifts with equal determinant are conjugate under `1 + εM_n(E/O)`, and centralizers are scalar (NT23, Proposition 2.7).
+
+### From TauCetiRoadmap.AutomorphicGaloisRepresentationsPartII
+
+Use the following layers:
+
+- AG2.0: weights, polarized and RAECSDC representations, the multiplier parity, Hodge–Tate multisets and strong multiplicity one.
+- AG2.2: algebraic twisting into unitary type, base change and the assembly of discrete sums from supplied constituents (its own geometric existence theorem keeps Shin's regularity and field restrictions and is not used for existence).
+- AG2.3: existence of the Galois representation of every regular algebraic conjugate self-dual cuspidal representation, with no regularity or field restriction (arbitrary regular conjugate-self-dual existence).
+- AG2.5–AG2.6: local–global compatibility, including the full polarized comparison at the coefficient prime.
+- AG2.6 (generic monodromy orbits and local genericity): the genericity predicate `Hom_{WD}((r, N), (r(1), N)) = 0` for Weil–Deligne representations and the criterion that an irreducible admissible representation of `GL_n(K)` is generic exactly when its parameter is; §9.1 uses them for Galois representations.
+- AG2.7: residual representations, finite realization and local residual genericity.
+
+What AutomorphicGaloisRepresentationsPartII must provide (gap:unitary-shimura-integral-cohomology), three separate results used by §10.2:
+  1. the étale cohomology of unitary Shimura varieties `Sh(V, K)` of arbitrary signature with `O`-local systems `L_ξ`, with its Hecke and Galois actions, at Taylor–Wiles levels (LTXZZ, §3.6, p. 29, and Lemma 3.6.5);
+  2. the base change to `GL_N` of the constituents of its rational cohomology, with local–global compatibility (LTXZZ, Propositions 2.3.3 and 2.3.6);
+  3. for `N` even, rank-one monodromy at inert places where `V` is non-split and `K` is special maximal (LTXZZ, Corollary 2.3.7).
+
+### From TauCetiRoadmap.AutomorphicFormsOnReductiveGroups
+
+Use highest-weight characters and duals (§5.1), algebraic modular forms with arbitrary continuous coefficient action (§7.4), and finite stabilizers, base change and automorphic realization (§7.5).
+
+What AutomorphicFormsOnReductiveGroups must provide (gap:unitary-dual-conjugate-self-duality): An irreducible unitary `(𝔤, K)`-module of `GL_n(ℝ)` or `GL_n(ℂ)` with half-integral Harish-Chandra parameter satisfies `π^c ≅ π^∨`, by Tadić's classification of the unitary dual (BLGGT14, Lemma 2.2.3).
+
+### From TauCetiRoadmap.CompletedCohomologyAndLocalGlobalCompatibility
+
+Use §0.7 for a CM extension `L/L⁺` and rank `n`: the unitary group that is compact at infinity and quasi-split at every finite place, with its integral model and the split identifications `ι_w`, chosen in conjugate pairs `ι_{w^c}(g) = c(ᵗι_w(g)^{−1})`; its forms `S(U, A)` for a coefficient module with a right action of a submonoid containing `U`, with class-set evaluation, restriction, trace and the diamond action of `U/U′` for normal `U′ ⊂ U`; and the split-place operators `T_w^{(j)}`, the relation `T_{w^c}^{(j)} = (T_w^{(n)})^{−1}T_w^{(n−j)}` and the commutative tame Hecke algebra `𝕋^S(U, A)`, finite over `O` for finite free coefficients and compact open `U`. §§3.1–3.3 use them for `S(B) = ∅`.
+
+### From TauCetiRoadmap.AdelicAlgebraicGroups and TauCetiRoadmap.ArithmeticLocallySymmetricSpaces
+
+Use adelic points and their local and integral projections (AdelicAlgebraicGroups §§1.1, 1.5), and finiteness of class numbers with compactness of anisotropic quotients (§3.4). Use neat levels and double cosets (§§4.3–4.4), and algebraic weights at infinity (ArithmeticLocallySymmetricSpaces §ALS.F.7).
+
+### From TauCetiRoadmap.SmoothRepresentationsOfLocalGroups and TauCetiRoadmap.EndoscopicTransferAndUnitaryTraceComparison
+
+Use the following:
+
+- SmoothRepresentationsOfLocalGroups §SR.1: Hecke algebras over rings.
+- §§SR.2.2–SR.2.3, SR.3.4: Iwahori invariants and the Iwahori block.
+- §SR.5.2: types.
+- EndoscopicTransferAndUnitaryTraceComparison §§10.23, 10.30: local Langlands for `GL_n` and its segments.
+- §§6.24, 6.26: cyclic base change and automorphic induction.
+- §6.29, with §4.7a at the places of `S(B)`: Labesse's stable comparison between definite unitary groups and `GL_n`.
+
+### From TauCetiRoadmap.PadicHodgeTheory and TauCetiRoadmap.SelmerIwasawaCohomology
+
+Use the following:
+
+- PadicHodgeTheory §§3.3–3.6: period functors, filtered `(φ, N)`-modules and labelled ordinary flags.
+- §5.3: potentially semistable periods.
+- §6.3: ordinary filtrations and semistability of de Rham extensions.
+- Layer 8: rational geometric comparison.
+- SelmerIwasawaCohomology §§2.1, 2.9, 4.9: Selmer data and the Bloch–Kato local condition.
+
+### From TauCetiRoadmap.ArithmeticGaloisDuality
+
+Use the following sections:
+
+- §R02.2.3: Hochschild–Serre and inflation–restriction.
+- §§R02.4.2–R02.4.3, R02.4.5a: local Tate duality, the local Euler characteristic, and finite-level Poitou–Tate.
+- §R02.5.1: Greenberg–Wiles.
+- §D7.4: derived local duality.
+- §D8.1: adjoint coefficients and first-order lifts.
+
+### From TauCetiRoadmap.PadicFamilies, TauCetiRoadmap.PotentialModularityAndCompatibleSystems and TauCetiRoadmap.ReductiveGroupsPartII
+
+Use the following:
+
+- PadicFamilies §§0a.2, 0a.4, 0a.14: the finite ordinary projector and its independence of the uniformizer.
+- PotentialModularityAndCompatibleSystems §2.15: extension of finite local characters.
+- ReductiveGroupsPartII §RG2.2.1: the extended building of `GL_n` as splittable norms, for the selfdual lattice argument of §7.12.
+
+### From TauCetiRoadmap.ModularityAndLanglandsExtensions
+
+Use the following sections, as stated there:
+
+- §2.1: diagonalizable and potentially diagonalizable representations, their invariance under restriction, coefficient extension and the connects relation, their stability under direct sums, tensor products, duals and twists, and the criteria for full character flags and for the Fontaine–Laffaille range (BLGGT14, Lemmas 1.4.1–1.4.3). §§1.4–1.5 use the notion.
+- §2.2: BLGGT14's minimal and ordinary automorphy lifting theorems with adequate image, with their finiteness inputs (Theorems 2.3.1–2.3.2 and 2.4.1–2.4.2). §6.1 applies the ordinary one; §§5.1, 5.5–5.7 state the forms it does not.
+- §2.14: potential ordinary automorphy of symplectic residual representations (BLGGT14, Theorem 3.1.2), of which §6.1 is the refinement with prescribed Steinberg places.
+- §4.1: the vanishing of adjoint Bloch–Kato Selmer groups of unitary type with enormous image (NT23, Theorem A). §9.7 draws its consequence for pseudodeformation rings.
+- §4.2: automorphy lifting for residually reducible representations with a Steinberg place (ANT20, Theorem 6.1), with its route: the `µ₂^d`-invariant pseudodeformation subring and étaleness on the irreducible locus, the reducible-locus dimension bound at the Steinberg place, and connectedness of the finite ordinary ring with the automorphy of its `O`-points (ANT20, Proposition 3.2, Lemma 3.6 and Theorem 5.1). §8.15 applies the theorem; §§2.2(3), 7.7 and 8.5 cite the three ingredients and state the forms the other targets of Layers 7–8 use.
+
+### From TauCetiRoadmap.PotentialAutomorphyDworkMotivesPartII
+
+Use the self-dual family with `N` odd, `n ≥ 2` even and `N > n + 1`: the auxiliary modulus and pencil (§§1.1–1.4), the real eigen-local-systems and their alternating pairing on `V_λ((N−1−n)/2)` with values in `O⁺_λ(1−n)` (§§2.3–2.7), single-block monodromy at infinity (§4.6), full symplectic monodromy and the geometrically irreducible pairing-preserving level torsors at distinct coefficient characteristics (§§5.6, 5.10–5.12), and coefficient-independent Frobenius polynomials (§6.8). Use the consecutive Hodge–Tate weights, crystallinity at good reduction, ordinarity near the Fermat point, Fermat inertial characters and Steinberg fibres (§§7.4, 7.7–7.10). The geometric symplectic switch (§9.4) supplies the simultaneous fibres over a totally real extension with avoidance and the prescribed signs of `v(t)`, including `v(t) < 0` above a prescribed finite set of places prime to `N` and to the auxiliary prime; §6.1 adds automorphy using ordinary lifting (ModularityAndLanglandsExtensions §2.2). The pairing has full multiplier `ε_l^{1−n}`. For `n = 2`, `N = 5` and residue cardinality `11`, geometric Frobenius on the Steinberg fibre has roots `±11, ±121` before twisting and `±1, ±11` on `V_λ(1)`, with products `1331` and `11`, respectively (BLGHT11, Lemma 5.1(2), corrected using the pairing of §4, BLGHT11 lines 1018–1021 and 1269–1273). Only pairing-preserving isomorphisms form the connected symplectic torsor.
 
 ## References
 
