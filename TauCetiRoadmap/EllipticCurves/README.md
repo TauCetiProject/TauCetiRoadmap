@@ -1,139 +1,61 @@
 # Roadmap: elliptic curves
 
-**Summary.** Mathlib knows what an elliptic curve *is*. It has the Weierstrass model
-(`WeierstrassCurve R`, its `a`-invariants, `b`/`c₄`/`c₆`/`Δ`/`j`, and the elliptic-curve
-condition `WeierstrassCurve.IsElliptic`, i.e. `IsUnit Δ`), the group law on the points
-(`WeierstrassCurve.Affine.Point` with its `AddCommGroup`, plus the projective and Jacobian
-models), variable changes and normal forms, the division polynomials and elliptic divisibility
-sequences, and reduction over a discrete valuation ring. What it does **not** have is much of the
-further theory that every graduate student in the area learns: the **isogenies** and the
-**Weil pairing**, the number of points over a finite field and the **Hasse bound**, the fine
-behaviour under reduction (the filtration `E₁(K) ⊆ E₀(K) ⊆ E(K)`, the conductor, **Tate's
-algorithm**), the **Tate curve**, the **twists**, the **Mordell–Weil theorem**, and **Selmer
-groups and Sha**. This roadmap builds that theory on the function field of a Weierstrass curve.
-Its end theorems are the Hasse bound over `𝔽_q`, the Mordell–Weil theorem over a number field,
-the finiteness of Selmer groups, the criterion for a global minimal model, the
-Néron–Ogg–Shafarevich criteria and, over `ℚ`, the classical Nagell–Lutz theorem and Cassels'
-isogeny invariance of the Birch–Swinnerton-Dyer quotient.
+**Summary.** An elliptic curve over a field K is given by a Weierstrass equation
+y² + a₁xy + a₃y = x³ + a₂x² + a₄x + a₆ whose discriminant is nonzero, and its points form an
+abelian group. Mathlib has these objects, with the division polynomials and reduction over a
+discrete valuation ring. Much of the further theory in Silverman's *The Arithmetic of Elliptic
+Curves* (AEC) and its sequel (ATAEC) is missing. This roadmap builds it: isogenies over an
+arbitrary field, point counts and reduction over finite and local fields, and the Mordell–Weil and
+Selmer theory over number fields.
 
-The mathematics is standard, and the layers cite J. H. Silverman,
-*The Arithmetic of Elliptic Curves* (AEC, GTM 106) and *Advanced Topics in the Arithmetic of
-Elliptic Curves* (ATAEC, GTM 151), and
-other sources for definiteness — but the specification is a **thorough, Mathlib-style API** for
-each object, not a transcription of any one book.
+The foundation is the function field of the curve, the fraction field of its coordinate ring. A
+regular proper curve, with its nonconstant morphisms, corresponds contravariantly to its function
+field (AEC II.2.4). The word is regular, not smooth: over an imperfect field a regular curve need
+not be smooth. Accordingly an isogeny from a Weierstrass curve W₁ to W₂ is defined backwards, as a
+`pullback`: an algebra map from the coordinate ring of W₂ into the function field of W₁. It
+carries the condition `mapsInfinity`, that the coordinate ring of W₁ be integral over the
+pulled-back ring of W₂. That condition says exactly that the point at infinity goes to the point
+at infinity, and it needs no ellipticity or normality hypothesis. Degree and separability are
+those of the field extension. The map on points is built through ideal class groups of the
+coordinate rings, the route by which Mathlib proves the group law, so it is a homomorphism by
+construction. No schemes appear.
 
-**The function field is the foundation.** An elliptic curve is more than a Weierstrass equation
-and a group law on its points: Layers 1–3 need honest *morphisms* — isogenies, Frobenius, the
-dual — with degrees, separability, and kernels. The classical dictionary supplies them without
-leaving the commutative algebra Mathlib already has: a **regular** proper curve with its
-nonconstant morphisms is equivalent, contravariantly, to its function field with the `K`-algebra
-embeddings (AEC II.2.4). ⚠ Say *regular*, not *smooth*: over an imperfect `K` the normalization
-of a curve is a regular proper model but need not be smooth over `K` (`y² = x³ + t` over
-`𝔽₃(t)` acquires a cusp after adjoining `t^{1/3}`), and this roadmap works over arbitrary
-fields — the separable-closure convention below exists for exactly this reason. Mathlib holds the function-field side of this dictionary for Weierstrass
-curves — the coordinate ring `Affine.CoordinateRing` (`AdjoinRoot W.polynomial`, an integral
-domain) and the function field `Affine.FunctionField` (its fraction field) — and the group law on
-the points is *already proved* through that algebra, as the ideal class group of the coordinate
-ring (Angdinata–Xu, Mathlib's `Point.toClass`). So an **isogeny is defined by a
-coordinate-ring pullback, backwards** — an `F`-algebra map out of the target's affine ring
-into the source's function field — its pointedness expressed
-through **integrality over the coordinate rings**:
+Four theorems show where this leads. For an elliptic curve E over a field with q elements, let
+a_q = q + 1 − #E(𝔽_q). The Hasse bound says that a_q² ≤ 4q, so #E(𝔽_q) lies within 2√q of q + 1.
+The proof treats the degree as a positive definite quadratic form on endomorphisms, with
+deg(1 − π_q) = #E(𝔽_q) for the Frobenius π_q.
 
-```lean
-/-- A contravariant pullback out of the target's affine coordinate ring into the source's
-function field. -/
-abbrev CoordinatePullback (W₁ W₂ : Affine F) :=
-  W₂.CoordinateRing →ₐ[F] W₁.FunctionField
+For an elliptic curve E over a number field K, the Mordell–Weil theorem says that E(K) is finitely
+generated. Selmer groups make the bound on its rank computable. For every m ≥ 2 the m-Selmer group
+is finite. It contains a copy of E(K)/mE(K), and the quotient is the m-torsion of the
+Shafarevich–Tate group Ш(E/K), the classes in H¹(K, E(Kˢᵉᵖ)) that are trivial at every place.
 
-/-- The source point at infinity maps to the target point at infinity. -/
-def CoordinatePullback.MapsInfinity (pullback : CoordinatePullback W₁ W₂) : Prop :=
-  letI := pullback.toRingHom.toAlgebra
-  ∀ x : W₁.CoordinateRing,
-    algebraMap W₁.CoordinateRing W₁.FunctionField x ∈
-      integralClosure W₂.CoordinateRing W₁.FunctionField
+The third theorem is Tate's uniformisation. Let K be complete for a non-archimedean absolute
+value, not necessarily discretely valued (ℂ_p is allowed), and let q ∈ K^× with |q| < 1. The Tate
+curve E_q is y² + xy = x³ + a₄(q)x + a₆(q), whose coefficients are power series in q with integer
+coefficients. An explicit map K^×/q^ℤ → E_q(K) is then a group isomorphism, in every
+characteristic.
 
-/-- The pullback data of an isogeny. -/
-structure Isogeny (W₁ W₂ : Affine F) where
-  pullback : CoordinatePullback W₁ W₂
-  mapsInfinity : pullback.MapsInfinity
-```
+For an elliptic curve E over ℚ with Ш(E/ℚ) finite, the Birch–Swinnerton-Dyer quotient is
+`Ω · Reg · #Ш · ∏ c_p / #E(ℚ)_tors²`. Here Ω is the real period of a global minimal equation, Reg
+the regulator of the canonical height, and the Tamagawa numbers c_p come from Tate's algorithm.
+Cassels' theorem says that two elliptic curves over ℚ with finite Ш, related by an isogeny defined
+over ℚ, have the same quotient. On the isogenous curves 11.a2 and 11.a3 the factor
+∏ c_p / #E(ℚ)_tors² is 1/5 and 1/25, but times Ω it is 0.25384 on both. The conjecture itself is
+only stated, assuming a suitable analytic continuation of L(E, s).
 
-— the coordinate-ring form of D. Angdinata's definition and development,
-shared with this roadmap ahead of its mathlib PRs (this roadmap **coordinates with that
-work**, it does not fork it): a conditioned pullback is injective — a maximal kernel would
-make the image a finite extension of `F`, forcing `x`, which has a pole at `O₁`, to be
-integral over the constants — and extends uniquely across the fraction field to that
-development's function-field embedding, so the two forms are the same data after
-localization, and its theorems transfer intact. (⚠ For *singular* Weierstrass curves the
-pullback formalism is unchanged, but reading a pullback as an everywhere-defined morphism of
-the singular projective curve is a separate descent statement — the elliptic theory
-downstream assumes `IsElliptic` exactly as before.)
-`pullback` is the contravariant map out of the affine ring; `MapsInfinity` demands that every affine
-function of `W₁` be **integral** over the pulled-back coordinate ring of `W₂`. That is
-exactly `φ(O₁) = O₂`: the integral closure is the ring of functions regular away from the
-*whole fibre* `φ⁻¹(O₂)` — which contains every kernel point, not only `O₁` — and
-`W₁.CoordinateRing` consists of functions regular away from `O₁` (the full ring of those is
-its normalization, equal to it exactly when the coordinate ring is integrally closed), so
-asking it to sit inside says precisely that `O₁` lies in that fibre. ⚠ Note the equivalence
-`MapsInfinity ⟺ φ(O₁) = O₂` needs **no ellipticity and no normality hypothesis** on either
-curve: the point at infinity `[0 : 1 : 0]` of *every* Weierstrass cubic — singular ones
-included — is a smooth point in every characteristic (Mathlib's
-`WeierstrassCurve.Projective.nonsingular_zero`), with `ord_O x = −2`, so `x ∈ W₁.CoordinateRing`
-has a pole exactly there and forces `O₁ ∈ φ⁻¹(O₂)`; the converse is the inclusion
-`W₁.CoordinateRing ⊆ 𝒪(C₁ ∖ {O₁})`, which holds normal or not. No places in the statement.
-Why this is the right foundation, and a cheap one:
+Tau Ceti already proves the first two theorems; a companion Lean file states the last two.
 
-- **Nonzero comes with the condition.** A conditioned pullback is injective (the pole
-  argument above), and its fraction-field extension is automatically **finite** (both sides
-  have transcendence degree `1` over `K`), so an `Isogeny` is a *nonzero* isogeny by
-  construction. The zero morphism appears only as the Layer-1 hom carrier's **zero map** — a
-  formal representative, not a pullback (§Layer 1) — with no `WithZero` adjunction anywhere.
-- **Degree and separability are field theory.** `deg φ` is `Module.finrank` of
-  `W₁.FunctionField` over the fraction field of the pulled-back coordinate ring — the
-  pulled-back copy of `W₂.FunctionField`; the separable and
-  inseparable degrees, and separability of `φ`, are those of the field extension — Mathlib's
-  existing `FieldTheory`, not a flatness theory of morphisms. Multiplicativity of `deg` under
-  composition is the finrank tower formula.
-- **Frobenius is a one-liner.** Over `𝔽_q`, `f ↦ f ^ q` out of the coordinate ring into the
-  function field is an `𝔽_q`-algebra map satisfying `MapsInfinity` (the coordinates are
-  integral over their `q`-th powers): the Frobenius isogeny `π_q`, purely inseparable of degree `q` — the key input to
-  Layer 3.
-- **`[n]` is division polynomials.** For `n ≠ 0`, multiplication-by-`n` is an isogeny of
-  degree `n²` (in characteristic `p ∣ n` its inseparable part is a Frobenius power): the
-  pullback is pinned by the division-polynomial multiplication formula, already proved at the
-  point level in the Lutz–Nagell provenance through J. Xu's work
-  ([mathlib #13782](https://github.com/leanprover-community/mathlib4/pull/13782) /
-  `ZSMul.lean`) — the mathlib-track anchor Layer 1 consumes.
-- **Points come along, with the group law for free.** The **intermediate ring** — the integral
-  closure of `W₂.CoordinateRing` in `W₁.FunctionField`, the normalization `mapsInfinity`
-  names — receives *both* coordinate rings, is **module-finite** over `W₂.CoordinateRing`
-  (inseparable case and Frobenius included) and integrally closed. Extending an ideal of
-  `W₁.CoordinateRing` into it and taking the **relative ideal norm** down to
-  `W₂.CoordinateRing` gives a homomorphism of class groups (`pushClass`), and conjugating by
-  the class-group description of the point group (`toClassEquiv` — injectivity is Mathlib's,
-  surjectivity the Layer-0 anchor) yields the induced map `toPointHom : W₁.Point →+ W₂.Point`
-  — additive **by construction**: the group law comes along through the *same* algebra that
-  proves Mathlib's group law, with no separate rigidity theorem.
-- **Use Mathlib's differential vocabulary.** The invariant differential is an element of
-  Mathlib's Kähler module `Ω[W.FunctionField⁄K]`, and `φ^*` is `KaehlerDifferential.map` along
-  `pullback`; separability of `φ` is `φ^*ω ≠ 0`. Layer 1 consumes
-  AlgebraicCurves' early Weierstrass local-generation milestone for the
-  regular/nonvanishing differential and separable-isogeny unramifiedness.
-  Translation-invariance follows directly from native addition formulas.
+Besides Mathlib, the roadmap builds on [AlgebraicCurves](../AlgebraicCurves/README.md). That
+roadmap supplies the places of a function field, the local rings of a Weierstrass curve, and the
+identity Σ e·f = [F′ : F] for extensions of function fields. Downstream, SelmerIwasawaCohomology
+and EulerSystemsAndKolyvaginSystems take its Selmer groups and Ш, and
+NeronModelsAndSemistableAbelianVarieties takes its reduction types.
 
-The definition itself needs nothing Mathlib lacks — `CoordinateRing`, `FunctionField`, and
-`integralClosure` are upstream — and it is Tau Ceti's `TauCeti.Isogeny`
-(`TauCeti/AlgebraicGeometry/EllipticCurve/Isogeny/Basic.lean`), with its injectivity and unique
-fraction-field extension, its degree (`Module.finrank` over the extension's field range),
-automatic finiteness, the point map, and the Frobenius isogeny (§Scope and ownership lists the
-files). The same opening theory — finiteness
-(inseparable included), the intermediate ring's finiteness and normality, `pushClass`,
-`toPointHom`, and the Layer-0 `toClass` surjectivity — is also **proven in the shared
-upstream development** (provenance), so those declarations carry ⚠ *mathlib-track* status: they
-are deduplicated against it when its PRs land. What the *theory* needs beyond that, and Mathlib lacks, is the
-**places-and-divisors dictionary** of the function field — the place at infinity, the place
-of an affine point, degrees, the fibre-counting identity, divisors. That is Layer 0, and it
-is valuation theory over the existing coordinate ring, not geometry.
+The layers follow dependency order, and the next section describes each. Layers 0 to 2 work over
+an arbitrary field: places and divisors, then isogenies, then torsion and the Weil pairing. Layers
+3 and 4 work over finite and local fields. The later layers treat global equations and twists,
+then Mordell–Weil and Selmer groups.
 
 ## How to read the build
 
@@ -2147,7 +2069,7 @@ general-number-field quotient, whose period honestly wants complex uniformisatio
 statements are out, and §Layer 8 says so where it defines the objects they concern: **Siegel's
 theorem**, that the integral points of a model are finite, which needs Diophantine approximation
 at Thue–Siegel–Roth or Baker strength that nothing here builds; and **any bound of abc or Szpiro
-type** — proving one is not attempted, and nothing below is conditional on one. Their
+type** — proving one is not attempted, and nothing above is conditional on one. Their
 *statements*, and the implications between them, are in: §Layer 8 states the abc conjecture,
 Szpiro's conjecture and the modified Szpiro conjecture, and proves the implications a formalised
 Frey curve makes available. Everything else — through
