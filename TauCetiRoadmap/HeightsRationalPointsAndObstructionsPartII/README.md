@@ -2,15 +2,9 @@
 
 **Summary.** Uniformity for small points and for Mordell–Lang on subvarieties of abelian varieties, extending HeightsRationalPointsAndObstructions where its Layer 5 stops (qualitative Mordell–Lang, Bogomolov over number fields, equidistribution). The construction follows Dimitrov–Gao–Habegger’s height inequality for non-degenerate subvarieties, Kühne’s equidistribution in families, Gao–Ge–Kühne’s gap principle, uniform Bogomolov and uniform Mordell–Lang via Rémond’s quantitative Vojta method, the geometric Bogomolov conjecture over function fields (Gao–Habegger in characteristic 0 over curves, Xie–Yuan in general), Yuan’s uniform Bogomolov-type theorem for curves over all global fields with the relative Bogomolov theorem for curve families, and DeMarco–Krieger–Ye’s bielliptic family as a worked case. Betti maps come from AbelianSchemesAndArithmeticModuliPartII, adelic line bundles, bigness and Moriwaki heights from ArakelovGeometryAndAbelianHeightsPartII, moduli from PELModuli, StableReductionPartII and JacobianChallengePartII.
 
-## Scope and ownership
+## How to read the build
 
-HeightsRationalPointsAndObstructions ends Layer 5 with qualitative finite-rank Mordell–Lang, number-field Bogomolov and equidistribution on a fixed abelian variety; §§0.31–0.35 and 1.9–1.11 supply polarized function-field heights and the trace. This Part II owns constants uniform in the abelian variety and field, the geometric level-case intersection estimates, bounded Hilbert-family uniformity, quantitative Vojta–Mumford counting, the geometric Bogomolov theorem in all characteristics, and Yuan's relative and global-field curve bounds. No bound restricts the set of residue characteristics.
-
-The following objects are supplied by earlier owners. HeightsRationalPointsAndObstructions §§5.9b, 5.17a–g owns cycle heights, the Chow coefficient comparison, arithmetic Bézout and minima; §§0.10–0.12, 0.31–0.35 owns the function-field projective height and its extension laws. JacobianChallengePartII §§3.2–3.13 owns the canonical twice-theta bundle. AbelianSchemesAndArithmeticModuliPartII §§B2.13, B2.21–B2.23 owns the generically special locus over a curve, its finite maximal members and its Betti-rank criterion. ClassicalArithmeticCompletion §3.19 owns existence and uniqueness of reduced row echelon forms. These constructions have no second definition here. Their interface facts and discriminating Checks are recorded in the contracts below. The total degree in §0.1 differs from the degree of a pure cycle by summing reduced components in every dimension.
-
-Betti maps and forms, degeneracy loci and geometric fibre-power criteria belong to AbelianSchemesAndArithmeticModuliPartII B0–B4. General adelic heights, invariant extensions, non-degenerate dynamical height inequalities, generic equidistribution, Moriwaki heights and potential bigness belong to ArakelovGeometryAndAbelianHeightsPartII §§3.1–3.3, 4.6–4.8, 5.1–5.4, 6.1–6.4, 8.4, 9.1–9.2, 12.1–12.6, 13.1, 13.7. Section 3.1 compares the supplied measure with Kühne's graph-degree normalization; §3.2 derives its uniform test-function form. Section 2.8 compares the general adelic export with this roadmap's geometric level case. Hilbert and Chow parameter spaces belong to AlgebraicModuliForArithmeticGeometry §§1.5–1.6, 2.1; §1.1 restricts them to fixed-degree geometrically integral subvarieties of an abelian variety. Relative Jacobians and all five Abel/difference/shift maps belong to JacobianChallengePartII Layers 0–7; Layer 10 proves their small-point consequences. Fine level moduli belongs to PELModuli M5–M6 and StableReductionPartII §§4.2, 4.4, 4.8, 6.3, 6.6–6.7, 7.13, 7.15. Néron models and semistable reduction belong to NeronModelsAndSemistableAbelianVarieties Layers 1–5. ArithmeticDynamics §§6.57–6.64, 6.93, 6.110–6.112 supplies the elliptic quotient dynamics used in Layer 12.
-
-Section 8.1 extends the curve-field bounded-degree torsion input of AbelianSchemesAndArithmeticModuliPartII §B2.3 to a smooth base of arbitrary dimension. Section 8.2 extends its §B2.21 product statement to those bases. Layer 9 owns descent through intersecting constant fields and the geometric Bogomolov proof; the linear-algebra argument is a supporting result. Hasse principles for random hypersurfaces or fibrations, homogeneous spaces, Massey products and zero-cycles are separate directions of the parent.
+Layers 0–2 develop degree bookkeeping, bounded Hilbert families and the geometric level-case height inequality. Layer 3 proves uniform Bogomolov; Layers 4–6 combine the gap principle with quantitative Vojta–Mumford estimates and specialization to prove uniform Mordell–Lang. Layers 7–9 establish geometric Bogomolov over polarized function fields in all characteristics. Layers 10–11 use adelic potential bigness to prove the relative theorem and the uniform curve bound over every global field. Layer 12 identifies the bielliptic genus-two case through its elliptic quotients. Each Needs line names both statement carriers and inputs to the displayed proof route.
 
 ## Conventions
 
@@ -25,130 +19,6 @@ Number-field heights are absolute: [2:1] has height log 2 over both ℚ and ℚ(
 For a polarized (A,L), uniformity uses the symmetric bundle L⁺=L⊗[−1]*L. The principal curve height is ĥ=ĥ_Θ₂/2 for the canonical twice-theta bundle Θ₂. Thus ĥ_Θ₂(P)=2ĥ(P) and ĥ(2P)=4ĥ(P). On the level-four universal family c₁(𝔏_g)=2c₁(L), hence deg_(𝔏_g⁴)(X)=8^r deg_L(X) and ĥ_(𝔏_g⁴)=4ĥ_(L⁺). For a genus-two Abel curve these degrees are 2 and 16. The stable Faltings height uses Faltings' metric normalization, as in ArakelovGeometryAndAbelianHeights §§2.7, 3.4; constants absorbing its genus-dependent lower bound use that same normalization.
 
 All fields in the Lean signature lie in a single arbitrary universe, matching native abelian-variety base change. Isogenies mean finite surjective homomorphisms, including inseparable ones. Source numbering follows the editions in References: GGK uses published pages 189–235, DKY published pages 949–1001, and the remaining manuscripts their recorded version.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-Use `Metric.coveringNumber`, `Metric.coveringNumber_le_packingNumber` and `Metric.maximalSeparatedSet` from Mathlib/Topology/MetricSpace/CoveringNumbers.lean:74,351,288, together with `Metric.IsSeparated` from Mathlib/Topology/MetricSpace/MetricSeparated.lean:43. The covering number counts closed balls with centres in the set and has values in ℕ∞; these definitions impose no compactness or finiteness. The finite-dimensional volume estimate in §0.4 is the additional target. Use `EuclideanSpace` from Mathlib/Analysis/InnerProductSpace/PiL2.lean:111, `Metric.closedBall` from Mathlib/Topology/MetricSpace/Pseudo/Defs.lean:418 and `MeasureTheory.Measure.addHaar_closedBall` from Mathlib/MeasureTheory/Measure/Lebesgue/EqHaar.lean:500 for the packing argument. The last theorem assumes a finite-dimensional real normed space, the measurable/Borel structures and additive Haar measure, and a nonnegative radius. A closed ball is defined by dist≤radius, without a separation hypothesis in the pseudometric definition: radius zero is the distance-zero class, a singleton in the Euclidean spaces used here, while negative radius gives the empty set. Our packing theorem assumes strictly positive small radius before division. Use `Module.finrank` (Mathlib/LinearAlgebra/Dimension/Finrank.lean:61), `IntermediateField` (Mathlib/FieldTheory/IntermediateField/Basic.lean:52), `Algebra.trdeg` (Mathlib/RingTheory/AlgebraicIndependent/Basic.lean:45), `Submodule.span` (Mathlib/LinearAlgebra/Span/Defs.lean:46) and `Matrix.IsReducedRowEchelon` (Mathlib/LinearAlgebra/Matrix/Echelon/Basic.lean:87) for finite-rank linear algebra and intersection-field descent. The reduced-row-echelon predicate supplies leading-entry conditions, not a field-of-definition theorem.
-
-Use `Projectivization.logHeight` from Mathlib/NumberTheory/Height/Projectivization.lean:51 with its admissible absolute-value family. It is the logarithm of the corresponding multiplicative height, not intrinsically the absolute number-field normalization; the factor [K:ℚ] is supplied by the parent.
-
-### From Tau Ceti
-
-Use `TauCeti.AlgebraicGeometry.AbelianVariety` and `TauCeti.AlgebraicGeometry.AbelianVariety.baseChange` from TauCeti/AlgebraicGeometry/AbelianVariety/Basic.lean:95,281 and `TauCeti.AlgebraicGeometry.AbelianVariety.IsIsogeny` from TauCeti/AlgebraicGeometry/AbelianVariety/Isogeny.lean:61. The carrier bundles a group scheme, properness and geometric integrality; it does not bundle a polarization or any height. The isogeny predicate is finite surjectivity of the underlying scheme homomorphism, so it includes [p] in characteristic p. Native elliptic canonical heights use the full x-height and are twice the degree-one O(0) height; Layer 12 uses the geometric degree-one height and the dynamical projection identity specified below (the native normalization is read in TauCeti/AlgebraicGeometry/EllipticCurve/CanonicalHeight/Basic.lean and Limit.lean).
-
-
-Use `TauCeti.AlgebraicGeometry.AbelianVariety.IsAlbanese` from TauCeti/AlgebraicGeometry/AbelianVariety/Albanese.lean:84. It requires the chosen point to map to the identity and uniquely factors pointed morphisms through homomorphisms; it does not itself assert that X is a curve or that its map is an immersion. The headline signatures explicitly impose smoothness, properness, geometric integrality, dimension one and J.dim=g≥2. The point group is `CategoryTheory.MonObj.Hom.group` (Mathlib/CategoryTheory/Monoidal/Cartesian/Grp.lean:58), in the `CategoryTheory.MonObj` scope. Its multiplication writes the abelian-variety addition used in §§3.6, 6.8 and 6.12.
-
-### From TauCetiRoadmap.SchemeAndStackFoundations
-
-Sections 5.1–5.6 supply Chow groups, degree on proper zero-cycles, first Chern operations, projection formulas, external products and refined intersections; §5.12 supplies refined Bézout, including improper intersections. Its equidimensional inequality extends to total reduced degree by summing componentwise and discarding contained components. Sections 0.3 and 4.14 supply projective constructions and Hilbert families; §§4.11, 4.13 supply blow-ups of pencil base loci and Bertini. Generic pencil members are normalized before they are used as polarization models.
-
-What SchemeAndStackFoundations must provide (the flat non-proper intersection contract): For a flat morphism g:B→Y of smooth projective varieties over an algebraically closed field, an integral closed X⊆B with f=g|X surjective, e=dim X−dim Y, and an integral closed V⊆Y not contained in Y_(e+1)={y:dim f⁻¹(y)≥e+1}, with V∩Y_(e+1) finite and contained in V^sm, prove Σ_i m_i[Z_i]≤g*[V]·[X] in CH_(dim V+e)(B)_ℚ, where Z_i are the components of f⁻¹(V) dominating V and m_i their scheme-theoretic multiplicities (xy-2022, Proposition 2.1, pp. 7–8).
-
-### From TauCetiRoadmap.HeightsRationalPointsAndObstructions
-
-Sections 0.16–0.30 supply the Weil machine, canonical abelian heights and pairings, quartic duplication, Silverman–Tate, independence of the fibrewise model and specialization. Sections 0.31–0.35 supply canonical cycle heights over polarized function fields, their nonnegative intersection formula, base/constant extension and good-reduction comparison. Sections 1.7–1.11 supply Mordell–Weil, the geometric trace, Lang–Néron and the kernel of the function-field height. Sections 5.1–5.5 supply cosets, stabilizers, the abelian variety generated by X−X with its degree bound, Ueno complements and finite rank. Sections 5.6–5.8 supply Manin–Mumford, including the trace-free positive-characteristic form and uniformity in fixed algebraic families. Sections 5.9a–f, 5.10–5.13c supply the qualitative Vojta method, difference bundles, nef-difference sections, dimension descent and specialization. Sections 5.17–5.19 supply minima, number-field Bogomolov and fixed-variety equidistribution.
-
-The supplied function-field projective height is nonnegative, independent of common homogeneous-coordinate scaling and the finite coordinate field K′, and vanishes exactly when every coordinate ratio is algebraic over the fixed k. Over algebraically closed constants it agrees with the parent’s polarized height for the one-dimensional model.
-
-Section 5.9b supplies its projective cycle height: for a pure r-cycle Z in Pⁿ over a number field K, take the arithmetic intersection of r+1 copies of O(1), with the Fubini–Study metric at infinity and standard integral-model metrics at finite places, divided by [K:ℚ]. Its API is additivity on effective cycles, projection, arithmetic Bézout, coefficient-height comparison and nonnegativity in this fixed metric normalization. The zero cycle has intersection height zero. The coefficient maximum height of the Chow form is the comparison quantity, rather than the definition of this cycle height. The arithmetic intersection height is unnormalized in degree; the canonical subvariety height of Layer 7 divides by (dim X+1)deg_L X. These two normalizations are kept distinct in interpolation (dgh-2021 §6.1; dmy-2026 §5).
-
-**Checks.**
-
-- The point [2:1] has supplied projective cycle height (log 5)/2. Its Chow form 2u₀+u₁ has coefficient height log 2 under the supplied comparison; equating these heights would give the wrong value.
-- The coordinate point [1:0] has projective cycle height 0. Multiplying its homogeneous coordinates by 7 leaves that height 0; an unnormalized coordinate norm would instead add log 7.
-- For the function-field projective height, [1:t] over k(t) has value 1, [1:c] for algebraic constant c has value 0, and [1:1/(t²+1)] over ℝ(t) has value 2. Omitting residue degrees gives the false value 1 in the last example.
-- A double cycle has twice its unnormalized intersection height, whereas the normalized height of a subvariety does not acquire that multiplicity. This distinguishes the two notions used in Layers 5 and 7.
-
-What HeightsRationalPointsAndObstructions must provide (the arithmetic interpolation contract): For a projectively normal complete abelian embedding by L on a g-dimensional A, irreducible X of dimension r≥1 and finite nonempty S⊆X not contained in a codimension-one equidimensional subset of degree at most deg_L(A)(deg_L X)²/g!, prove h(X)≤(deg_L(A)/g!+1)^(r+1)deg_L(X)(max_(x∈S)h(x)+3log(deg_L(A)/g!)) in the projective cycle-height normalization of HeightsRationalPointsAndObstructions §5.9b.
-
-
-
-### From TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry
-
-Sections 1.5–1.6 supply finiteness of Hilbert polynomials of geometrically integral subvarieties of fixed dimension and degree in a fixed projective ambient family, Chow forms with their projective coefficient embedding and base change. Section 2.1 supplies the relative Hilbert scheme, universal proper flat family and the geometrically integral fibre locus. The family in Layer 1 is this supplied family restricted to the reduced integral locus, rather than another representing scheme.
-
-### From TauCetiRoadmap.PELModuli
-
-Sections M5.1–M5.3 supply fine Siegel moduli with prime-to-characteristic full symplectic level, particularly level four over Q̄; M6.9–M6.10 supply the universal abelian scheme and Hodge line. The symmetric universal bundle in Layer 1 represents twice the principal polarization, so its fourth tensor power has class eight times that polarization. A principal genus-two Abel curve therefore has degree 16 in that embedding, not 8. The integral fixed-pairing level component uses Spec Z[1/N,ζ_N], not an unmarked component over Z[1/N].
-
-### From TauCetiRoadmap.AbelianSchemesAndArithmeticModuli
-
-A1 supplies rigidification, the theorem of the cube and torsion restriction; A2 supplies polarizations, projectively normal powers, relative ampleness and polarized isogenies; A3 supplies multiplication, quotient isogenies and torsion density; A6 supplies homomorphisms, normal-base extension, Poincaré reducibility and quotients. A2.7 supplies ample intersection positivity for §9.8 and the ample-limit argument of §9.17; A2.9 supplies the nef normalized bundles and nef differences over a smooth projective curve used in §§9.11 and 9.17. No projective-coordinate change is allowed to alter a controlled height bound without tracking its coefficient height.
-
-
-### From TauCetiRoadmap.AbelianSchemesAndArithmeticModuliPartII
-
-B0.1–B0.2 supply period-coordinate Betti maps and generic-rank invariance; B1.1–B1.5 supply the descended semipositive form, pointwise kernel identity, non-degeneracy and its positive top-power witness. B3.7–B3.9 and B4.2–B4.6 supply degeneracy loci, quotient criteria, fibre powers and difference products. B2.13 and B2.21–B2.23 supply generically special subvarieties over a smooth curve, their finite maximal members, openness of X* and full-rank points outside the special locus. B2.3 supplies the bounded-degree torsion assertion over a curve field. Section 8.1's higher-dimensional-base extension retains geometric trace zero.
-
-The supplied X* API is openness, emptiness exactly for a generically special dominant X, finite maximal special members and X*∩Z⊆Z* for integral closed Z⊆X. These statements use the GH dominant convention; vertical components are treated by the convention above (gh-2019 Definition 1.2, Proposition 1.3, §3.1 and equation (10.4)).
-
-**Checks.**
-
-- A torsion section has X*=∅, as does the full abelian scheme.
-- A non-torsion section in a geometrically trace-free elliptic family has X*=X; permitting arbitrary translates as special would give the wrong empty set.
-- For a constant curve C₀ in a constant Jacobian, C₀×S is generically special even when C₀ has genus two; special does not mean only a torsion coset.
-- On E×S with multisection 2x=s, its self fibre product has four components. Product-rank arguments apply to geometric generic integral fibres or to the separate components.
-
-### From TauCetiRoadmap.ComplexComparisonPartII
-
-C5 supplies integration over analytic cycles, extension across singular sets, the comparison of Chern integrals with algebraic intersections, and inequalities for wedges of semipositive forms. The cut-off form in §2.2 is semipositive but usually not closed: d(θω)=dθ∧ω. The intersection comparison uses the closed projective curvature representative above it.
-
-### From TauCetiRoadmap.ArakelovGeometryAndAbelianHeights
-
-Sections 2.7 and 3.4 supply the Faltings metric and stable height; §§4.2–4.4 supply isogeny-height changes; §§5.5–5.8 supply modular heights, theta heights, their comparison and bounded-degree Northcott. Section 6.3 bounds the field degree needed for level structures. These comparisons are used with fixed embeddings, including their bounded and logarithmic errors.
-
-What ArakelovGeometryAndAbelianHeights must provide (the controlled polarization embeddings contract): For every dimension and polarization degree, choose a symmetric very ample projectively normal abelian embedding and addition/difference polynomials whose c_NT and joint coefficient height are bounded by C(g,deg_L A)max{1,h_Fal(A)}, retaining the tensor-power and isogeny rescalings needed to pass back to every original ample polarization.
-
-### From TauCetiRoadmap.ArakelovGeometryAndAbelianHeightsPartII
-
-Section 0.3 supplies the geometric two-nef Siu inequality: on an integral projective d-fold with d≥1 over a field, nef line bundles F,M satisfy vol(F−M)≥Fᵈ−d(Fᵈ⁻¹·M); applied to qF and qtM with q clearing the denominators of a rational t≥0, a positive right side makes qF−qtM big. Sections 3.1–3.3 supply adelic intersections, Deligne pairings and projection formulas. Sections 4.6–4.8 supply algebraic-point heights, the big-bundle height inequality and the fundamental inequality between the essential minimum and the height of a subvariety. Sections 5.1–5.4 supply invariant extensions, adelic non-degeneracy, the general dynamical height inequality with generic equidistribution, and the Hodge bundle computing stable Faltings heights. Sections 6.1–6.4 supply Moriwaki heights and specialization; §6.4(1), the Silverman–Tate comparison, holds for every nef polarization, and §6.4(2), the specialization limit, keeps bigness. The height machine §6.2 holds for every polarization except Northcott, which needs bigness. Sections 8.4, 9.1–9.2 supply canonical theta and shift identities. Sections 12.1–12.6 supply potential bigness, its relative-power criterion, the product-grid degree bound, theta potential bigness after restriction to every integral parameter subvariety and cross-characteristic restriction. Section 13.1 supplies function-field Faltings heights, and §13.7 supplies the positive comparison height on the relative Jacobian obtained from Bost's lower bound (ArakelovGeometryAndAbelianHeights §6.5), both in Faltings' normalization.
-
-For the function-field branches of Layer 10, bigness is over the field of constants. A constant genus-two curve over K with S=Spec K has a quasi-finite K-moduli map but does not meet this absolute bigness hypothesis. Its difference image C−C=J contains all constant torsion, so the stronger relative-K-only hypothesis would give a false theorem.
-
-### From TauCetiRoadmap.StableReductionPartII
-
-Sections 4.2 (full symplectic level on smooth curves), 4.4 (rigidity of full curve level) and 4.8 (the fine smooth full-level curve scheme) supply the fine scheme over the fixed-pairing cyclotomic base. Sections 6.3 (the smooth full-level Torelli morphism), 6.6 (finite Torelli fibres) and 6.7 (Hodge pullback along smooth full-level Torelli) supply Torelli with finite fibres and the pulled-back Hodge line. Sections 7.13 (fine-level and Picard export for DGH) and 7.15 (stable, level and Picard export for Yuan) supply the universal curve, the relative Picard parameter scheme and its universal classes. The level N is at least three and invertible on the base.
-
-### From TauCetiRoadmap.JacobianChallengePartII
-
-Sections 0.2–0.4 and 1.1–1.4 supply relative Picard degree components, Jacobians and principal polarizations. Sections 2.1–2.7 supply section-free Abel maps, the degree-one immersion and curve differences. Sections 3.2–3.13 supply degree-one theta and canonical twice-theta, its geometric class, symmetry, zero rigidification and ampleness. Layer 5 supplies the canonical Abel, universal shift and Faltings–Zhang maps; Layer 7 specializes them over full-level curve moduli. Layer 10 here proves non-degeneracy and small-point results for those actual maps.
-
-**Checks.**
-
-- On a genus-two curve with Weierstrass base point, theta is symmetric and Θ₂=O(2θ); the principal height is exactly half its height.
-- At the origin both heights are zero; at a point of principal height a the twice-theta height is 2a and the height of twice the point is 4a.
-- Replacing the principal height by the full twice-theta height doubles every threshold. These two normalizations must not share a numerical threshold constant.
-
-### From TauCetiRoadmap.NeronModelsAndSemistableAbelianVarieties
-
-Sections 1.1–1.10 supply Néron models and the abelian-scheme case; §3.10 supplies semistable reduction after finite extension over curve fields; §§5.1–5.2 supply good reduction under isogeny; §§3.13–3.14 supply Raynaud extensions and polarized uniformization. Potential good reduction at every geometric divisorial place is used in the nowhere-degenerate construction, and is not identified with a good model over the original field before finite extension.
-
-### From TauCetiRoadmap.TropicalAndBerkovichArithmetic
-
-Sections 6.2–6.4 supply Chambert-Loir model measures, semipositive and integrable metrics and local intersection heights, and §7.0 supplies Raynaud uniformization over rank-one fields; the four gaps below extend them to subvarieties of abelian varieties, and together they supply the measure inputs to Yamaki's Theorem E (yamaki-strict-support Corollary 7.22, p. 41).
-
-What TropicalAndBerkovichArithmetic must provide (the abelian valuation map contract): At every geometric divisorial place v of K=k(B), with k algebraically closed and B normal projective of positive dimension, construct for every abelian variety A/K̄ with Raynaud uniformization over the completed algebraic closure at v the valuation map val_A:A_v^an→ℝ^n/Λ, with n the torus rank and Λ the valuation image of the period lattice, functorial for homomorphisms and compatible with products (yamaki-strict-support §§3.1–3.2, (3.0.13)–(3.0.14), pp. 12–15).
-
-What TropicalAndBerkovichArithmetic must provide (the abelian canonical measure contract): At every geometric divisorial place v of K=k(B), with k algebraically closed and B normal projective of positive dimension, for an integral closed X of dimension d in an abelian variety A/K̄ with a symmetric ample canonically metrized L, prove that for every semistable alteration f:X′→X the normalized measure μ_(X′,f*L) is a positive sum of Lebesgue measures on non-degenerate canonical simplices with f_*μ_(X′,f*L)=μ_X=c₁(L|X)^d/deg_L X, so that supp μ_X is the union of the f-images of those simplices (yamaki-strict-support §5.3, pp. 25–27).
-
-What TropicalAndBerkovichArithmetic must provide (the strict support dimension contract): At every geometric divisorial place v of K=k(B), with k algebraically closed and B normal projective of positive dimension, for X⊆A as in the abelian canonical measure contract, a semistable alteration f:X′→X, a rational polytope σ of a compatible subdivision of supp μ_X that is a strict support (μ_X−εδ_σ positive for some ε>0, δ_σ Lebesgue measure on σ), and a canonical simplex Δ with a rational u∈relint Δ and f(u)∈relint σ, prove dim f_aff(Δ)=dim Δ (yamaki-strict-support, Proposition 5.12, p. 29).
-
-What TropicalAndBerkovichArithmetic must provide (the nonarchimedean small-point equidistribution contract): At every geometric divisorial place v of K=k(B), with k algebraically closed and B normal projective of positive dimension, for X⊆A as in the abelian canonical measure contract and a generic net of algebraic points of X whose canonical heights tend to zero, prove that the normalized Galois-orbit measures converge weakly to μ_X on A_v^an, and that α_*μ_Z=μ_Y for a generically finite surjective α:Z→Y between such subvarieties carrying a small generic net and its image (yamaki-strict-support, proof of Theorem 6.2, p. 31).
-
-### From TauCetiRoadmap.ClassicalArithmeticCompletion
-
-Section 3.19 supplies existence and uniqueness of the reduced row echelon form over an arbitrary field: every matrix is left-multiplied by an invertible matrix to a reduced row echelon matrix, and two reduced row echelon matrices related by an invertible left factor are equal. Section 9.3 uses it over K for basis matrices of a subspace descended to a subfield; the reduced form does not depend on the field over which it is computed.
-
-### From the remaining earlier roadmaps
-
-InverseGaloisAndArithmeticFundamentalGroups IG.2 supplies Hilbert irreducibility for finitely generated characteristic-zero models used in simultaneous specialization; §IG.3.1, “Finitely many covers of bounded degree”, supplies finiteness up to isomorphism of connected finite étale covers of bounded degree of a connected smooth quasi-projective variety over an algebraically closed field of characteristic zero, used in §8.1. AlgebraicCurves Layers 10–11 supplies hyperelliptic involutions, Weierstrass points and the characteristic-zero Hurwitz bound 84(g−1). JacobianChallenge Layer F supplies the pointed Abel–Jacobi universal property. ArithmeticDynamics §§6.57–6.64 supplies standard elliptic projections and translation by two-torsion, with §6.64 supplying the identity h_E=ĥ_Lattès/2 for the degree-one O(0) height; §6.93 supplies unbounded common torsion orders, §6.110 the joint small-point bound, and §§6.111–6.112 the three-common-branch-values bound. For a point of projection height 2a, h_E=a. Two elliptic factors therefore give h_(L_X)=(ĥ₁+ĥ₂)/2, which is the normalization in §12.3.
-
-## How to read the build
-
-Layers 0–2 develop degree bookkeeping, bounded Hilbert families and the geometric level-case height inequality. Layer 3 proves uniform Bogomolov; Layers 4–6 combine the gap principle with quantitative Vojta–Mumford estimates and specialization to prove uniform Mordell–Lang. Layers 7–9 establish geometric Bogomolov over polarized function fields in all characteristics. Layers 10–11 use adelic potential bigness to prove the relative theorem and the uniform curve bound over every global field. Layer 12 identifies the bielliptic genus-two case through its elliptic quotients. Each Needs line names both statement carriers and inputs to the displayed proof route.
 
 ## Layer 0: Degrees and heights of subvarieties, product sets and packing
 
@@ -2152,6 +2022,136 @@ Layer 3 for comparison with the general uniform theorems; ArithmeticDynamics §�
 ## Downstream consumers
 
 The uniform theorems supply height-independent finite-rank intersection bounds and bounded small-point sets for subvarieties of abelian varieties. Applications to a fixed curve use §6.8 and §11.7; the geometric theorem over arbitrary constants is §9.19.
+
+## Scope and ownership
+
+HeightsRationalPointsAndObstructions ends Layer 5 with qualitative finite-rank Mordell–Lang, number-field Bogomolov and equidistribution on a fixed abelian variety; §§0.31–0.35 and 1.9–1.11 supply polarized function-field heights and the trace. This Part II owns constants uniform in the abelian variety and field, the geometric level-case intersection estimates, bounded Hilbert-family uniformity, quantitative Vojta–Mumford counting, the geometric Bogomolov theorem in all characteristics, and Yuan's relative and global-field curve bounds. No bound restricts the set of residue characteristics.
+
+The following objects are supplied by earlier owners. HeightsRationalPointsAndObstructions §§5.9b, 5.17a–g owns cycle heights, the Chow coefficient comparison, arithmetic Bézout and minima; §§0.10–0.12, 0.31–0.35 owns the function-field projective height and its extension laws. JacobianChallengePartII §§3.2–3.13 owns the canonical twice-theta bundle. AbelianSchemesAndArithmeticModuliPartII §§B2.13, B2.21–B2.23 owns the generically special locus over a curve, its finite maximal members and its Betti-rank criterion. ClassicalArithmeticCompletion §3.19 owns existence and uniqueness of reduced row echelon forms. These constructions have no second definition here. Their interface facts and discriminating Checks are recorded in the contracts below. The total degree in §0.1 differs from the degree of a pure cycle by summing reduced components in every dimension.
+
+Betti maps and forms, degeneracy loci and geometric fibre-power criteria belong to AbelianSchemesAndArithmeticModuliPartII B0–B4. General adelic heights, invariant extensions, non-degenerate dynamical height inequalities, generic equidistribution, Moriwaki heights and potential bigness belong to ArakelovGeometryAndAbelianHeightsPartII §§3.1–3.3, 4.6–4.8, 5.1–5.4, 6.1–6.4, 8.4, 9.1–9.2, 12.1–12.6, 13.1, 13.7. Section 3.1 compares the supplied measure with Kühne's graph-degree normalization; §3.2 derives its uniform test-function form. Section 2.8 compares the general adelic export with this roadmap's geometric level case. Hilbert and Chow parameter spaces belong to AlgebraicModuliForArithmeticGeometry §§1.5–1.6, 2.1; §1.1 restricts them to fixed-degree geometrically integral subvarieties of an abelian variety. Relative Jacobians and all five Abel/difference/shift maps belong to JacobianChallengePartII Layers 0–7; Layer 10 proves their small-point consequences. Fine level moduli belongs to PELModuli M5–M6 and StableReductionPartII §§4.2, 4.4, 4.8, 6.3, 6.6–6.7, 7.13, 7.15. Néron models and semistable reduction belong to NeronModelsAndSemistableAbelianVarieties Layers 1–5. ArithmeticDynamics §§6.57–6.64, 6.93, 6.110–6.112 supplies the elliptic quotient dynamics used in Layer 12.
+
+Section 8.1 extends the curve-field bounded-degree torsion input of AbelianSchemesAndArithmeticModuliPartII §B2.3 to a smooth base of arbitrary dimension. Section 8.2 extends its §B2.21 product statement to those bases. Layer 9 owns descent through intersecting constant fields and the geometric Bogomolov proof; the linear-algebra argument is a supporting result. Hasse principles for random hypersurfaces or fibrations, homogeneous spaces, Massey products and zero-cycles are separate directions of the parent.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+Use `Metric.coveringNumber`, `Metric.coveringNumber_le_packingNumber` and `Metric.maximalSeparatedSet` from Mathlib/Topology/MetricSpace/CoveringNumbers.lean:74,351,288, together with `Metric.IsSeparated` from Mathlib/Topology/MetricSpace/MetricSeparated.lean:43. The covering number counts closed balls with centres in the set and has values in ℕ∞; these definitions impose no compactness or finiteness. The finite-dimensional volume estimate in §0.4 is the additional target. Use `EuclideanSpace` from Mathlib/Analysis/InnerProductSpace/PiL2.lean:111, `Metric.closedBall` from Mathlib/Topology/MetricSpace/Pseudo/Defs.lean:418 and `MeasureTheory.Measure.addHaar_closedBall` from Mathlib/MeasureTheory/Measure/Lebesgue/EqHaar.lean:500 for the packing argument. The last theorem assumes a finite-dimensional real normed space, the measurable/Borel structures and additive Haar measure, and a nonnegative radius. A closed ball is defined by dist≤radius, without a separation hypothesis in the pseudometric definition: radius zero is the distance-zero class, a singleton in the Euclidean spaces used here, while negative radius gives the empty set. Our packing theorem assumes strictly positive small radius before division. Use `Module.finrank` (Mathlib/LinearAlgebra/Dimension/Finrank.lean:61), `IntermediateField` (Mathlib/FieldTheory/IntermediateField/Basic.lean:52), `Algebra.trdeg` (Mathlib/RingTheory/AlgebraicIndependent/Basic.lean:45), `Submodule.span` (Mathlib/LinearAlgebra/Span/Defs.lean:46) and `Matrix.IsReducedRowEchelon` (Mathlib/LinearAlgebra/Matrix/Echelon/Basic.lean:87) for finite-rank linear algebra and intersection-field descent. The reduced-row-echelon predicate supplies leading-entry conditions, not a field-of-definition theorem.
+
+Use `Projectivization.logHeight` from Mathlib/NumberTheory/Height/Projectivization.lean:51 with its admissible absolute-value family. It is the logarithm of the corresponding multiplicative height, not intrinsically the absolute number-field normalization; the factor [K:ℚ] is supplied by the parent.
+
+### From Tau Ceti
+
+Use `TauCeti.AlgebraicGeometry.AbelianVariety` and `TauCeti.AlgebraicGeometry.AbelianVariety.baseChange` from TauCeti/AlgebraicGeometry/AbelianVariety/Basic.lean:95,281 and `TauCeti.AlgebraicGeometry.AbelianVariety.IsIsogeny` from TauCeti/AlgebraicGeometry/AbelianVariety/Isogeny.lean:61. The carrier bundles a group scheme, properness and geometric integrality; it does not bundle a polarization or any height. The isogeny predicate is finite surjectivity of the underlying scheme homomorphism, so it includes [p] in characteristic p. Native elliptic canonical heights use the full x-height and are twice the degree-one O(0) height; Layer 12 uses the geometric degree-one height and the dynamical projection identity specified below (the native normalization is read in TauCeti/AlgebraicGeometry/EllipticCurve/CanonicalHeight/Basic.lean and Limit.lean).
+
+
+Use `TauCeti.AlgebraicGeometry.AbelianVariety.IsAlbanese` from TauCeti/AlgebraicGeometry/AbelianVariety/Albanese.lean:84. It requires the chosen point to map to the identity and uniquely factors pointed morphisms through homomorphisms; it does not itself assert that X is a curve or that its map is an immersion. The headline signatures explicitly impose smoothness, properness, geometric integrality, dimension one and J.dim=g≥2. The point group is `CategoryTheory.MonObj.Hom.group` (Mathlib/CategoryTheory/Monoidal/Cartesian/Grp.lean:58), in the `CategoryTheory.MonObj` scope. Its multiplication writes the abelian-variety addition used in §§3.6, 6.8 and 6.12.
+
+### From TauCetiRoadmap.SchemeAndStackFoundations
+
+Sections 5.1–5.6 supply Chow groups, degree on proper zero-cycles, first Chern operations, projection formulas, external products and refined intersections; §5.12 supplies refined Bézout, including improper intersections. Its equidimensional inequality extends to total reduced degree by summing componentwise and discarding contained components. Sections 0.3 and 4.14 supply projective constructions and Hilbert families; §§4.11, 4.13 supply blow-ups of pencil base loci and Bertini. Generic pencil members are normalized before they are used as polarization models.
+
+What SchemeAndStackFoundations must provide (the flat non-proper intersection contract): For a flat morphism g:B→Y of smooth projective varieties over an algebraically closed field, an integral closed X⊆B with f=g|X surjective, e=dim X−dim Y, and an integral closed V⊆Y not contained in Y_(e+1)={y:dim f⁻¹(y)≥e+1}, with V∩Y_(e+1) finite and contained in V^sm, prove Σ_i m_i[Z_i]≤g*[V]·[X] in CH_(dim V+e)(B)_ℚ, where Z_i are the components of f⁻¹(V) dominating V and m_i their scheme-theoretic multiplicities (xy-2022, Proposition 2.1, pp. 7–8).
+
+### From TauCetiRoadmap.HeightsRationalPointsAndObstructions
+
+Sections 0.16–0.30 supply the Weil machine, canonical abelian heights and pairings, quartic duplication, Silverman–Tate, independence of the fibrewise model and specialization. Sections 0.31–0.35 supply canonical cycle heights over polarized function fields, their nonnegative intersection formula, base/constant extension and good-reduction comparison. Sections 1.7–1.11 supply Mordell–Weil, the geometric trace, Lang–Néron and the kernel of the function-field height. Sections 5.1–5.5 supply cosets, stabilizers, the abelian variety generated by X−X with its degree bound, Ueno complements and finite rank. Sections 5.6–5.8 supply Manin–Mumford, including the trace-free positive-characteristic form and uniformity in fixed algebraic families. Sections 5.9a–f, 5.10–5.13c supply the qualitative Vojta method, difference bundles, nef-difference sections, dimension descent and specialization. Sections 5.17–5.19 supply minima, number-field Bogomolov and fixed-variety equidistribution.
+
+The supplied function-field projective height is nonnegative, independent of common homogeneous-coordinate scaling and the finite coordinate field K′, and vanishes exactly when every coordinate ratio is algebraic over the fixed k. Over algebraically closed constants it agrees with the parent’s polarized height for the one-dimensional model.
+
+Section 5.9b supplies its projective cycle height: for a pure r-cycle Z in Pⁿ over a number field K, take the arithmetic intersection of r+1 copies of O(1), with the Fubini–Study metric at infinity and standard integral-model metrics at finite places, divided by [K:ℚ]. Its API is additivity on effective cycles, projection, arithmetic Bézout, coefficient-height comparison and nonnegativity in this fixed metric normalization. The zero cycle has intersection height zero. The coefficient maximum height of the Chow form is the comparison quantity, rather than the definition of this cycle height. The arithmetic intersection height is unnormalized in degree; the canonical subvariety height of Layer 7 divides by (dim X+1)deg_L X. These two normalizations are kept distinct in interpolation (dgh-2021 §6.1; dmy-2026 §5).
+
+**Checks.**
+
+- The point [2:1] has supplied projective cycle height (log 5)/2. Its Chow form 2u₀+u₁ has coefficient height log 2 under the supplied comparison; equating these heights would give the wrong value.
+- The coordinate point [1:0] has projective cycle height 0. Multiplying its homogeneous coordinates by 7 leaves that height 0; an unnormalized coordinate norm would instead add log 7.
+- For the function-field projective height, [1:t] over k(t) has value 1, [1:c] for algebraic constant c has value 0, and [1:1/(t²+1)] over ℝ(t) has value 2. Omitting residue degrees gives the false value 1 in the last example.
+- A double cycle has twice its unnormalized intersection height, whereas the normalized height of a subvariety does not acquire that multiplicity. This distinguishes the two notions used in Layers 5 and 7.
+
+What HeightsRationalPointsAndObstructions must provide (the arithmetic interpolation contract): For a projectively normal complete abelian embedding by L on a g-dimensional A, irreducible X of dimension r≥1 and finite nonempty S⊆X not contained in a codimension-one equidimensional subset of degree at most deg_L(A)(deg_L X)²/g!, prove h(X)≤(deg_L(A)/g!+1)^(r+1)deg_L(X)(max_(x∈S)h(x)+3log(deg_L(A)/g!)) in the projective cycle-height normalization of HeightsRationalPointsAndObstructions §5.9b.
+
+
+
+### From TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry
+
+Sections 1.5–1.6 supply finiteness of Hilbert polynomials of geometrically integral subvarieties of fixed dimension and degree in a fixed projective ambient family, Chow forms with their projective coefficient embedding and base change. Section 2.1 supplies the relative Hilbert scheme, universal proper flat family and the geometrically integral fibre locus. The family in Layer 1 is this supplied family restricted to the reduced integral locus, rather than another representing scheme.
+
+### From TauCetiRoadmap.PELModuli
+
+Sections M5.1–M5.3 supply fine Siegel moduli with prime-to-characteristic full symplectic level, particularly level four over Q̄; M6.9–M6.10 supply the universal abelian scheme and Hodge line. The symmetric universal bundle in Layer 1 represents twice the principal polarization, so its fourth tensor power has class eight times that polarization. A principal genus-two Abel curve therefore has degree 16 in that embedding, not 8. The integral fixed-pairing level component uses Spec Z[1/N,ζ_N], not an unmarked component over Z[1/N].
+
+### From TauCetiRoadmap.AbelianSchemesAndArithmeticModuli
+
+A1 supplies rigidification, the theorem of the cube and torsion restriction; A2 supplies polarizations, projectively normal powers, relative ampleness and polarized isogenies; A3 supplies multiplication, quotient isogenies and torsion density; A6 supplies homomorphisms, normal-base extension, Poincaré reducibility and quotients. A2.7 supplies ample intersection positivity for §9.8 and the ample-limit argument of §9.17; A2.9 supplies the nef normalized bundles and nef differences over a smooth projective curve used in §§9.11 and 9.17. No projective-coordinate change is allowed to alter a controlled height bound without tracking its coefficient height.
+
+
+### From TauCetiRoadmap.AbelianSchemesAndArithmeticModuliPartII
+
+B0.1–B0.2 supply period-coordinate Betti maps and generic-rank invariance; B1.1–B1.5 supply the descended semipositive form, pointwise kernel identity, non-degeneracy and its positive top-power witness. B3.7–B3.9 and B4.2–B4.6 supply degeneracy loci, quotient criteria, fibre powers and difference products. B2.13 and B2.21–B2.23 supply generically special subvarieties over a smooth curve, their finite maximal members, openness of X* and full-rank points outside the special locus. B2.3 supplies the bounded-degree torsion assertion over a curve field. Section 8.1's higher-dimensional-base extension retains geometric trace zero.
+
+The supplied X* API is openness, emptiness exactly for a generically special dominant X, finite maximal special members and X*∩Z⊆Z* for integral closed Z⊆X. These statements use the GH dominant convention; vertical components are treated by the convention above (gh-2019 Definition 1.2, Proposition 1.3, §3.1 and equation (10.4)).
+
+**Checks.**
+
+- A torsion section has X*=∅, as does the full abelian scheme.
+- A non-torsion section in a geometrically trace-free elliptic family has X*=X; permitting arbitrary translates as special would give the wrong empty set.
+- For a constant curve C₀ in a constant Jacobian, C₀×S is generically special even when C₀ has genus two; special does not mean only a torsion coset.
+- On E×S with multisection 2x=s, its self fibre product has four components. Product-rank arguments apply to geometric generic integral fibres or to the separate components.
+
+### From TauCetiRoadmap.ComplexComparisonPartII
+
+C5 supplies integration over analytic cycles, extension across singular sets, the comparison of Chern integrals with algebraic intersections, and inequalities for wedges of semipositive forms. The cut-off form in §2.2 is semipositive but usually not closed: d(θω)=dθ∧ω. The intersection comparison uses the closed projective curvature representative above it.
+
+### From TauCetiRoadmap.ArakelovGeometryAndAbelianHeights
+
+Sections 2.7 and 3.4 supply the Faltings metric and stable height; §§4.2–4.4 supply isogeny-height changes; §§5.5–5.8 supply modular heights, theta heights, their comparison and bounded-degree Northcott. Section 6.3 bounds the field degree needed for level structures. These comparisons are used with fixed embeddings, including their bounded and logarithmic errors.
+
+What ArakelovGeometryAndAbelianHeights must provide (the controlled polarization embeddings contract): For every dimension and polarization degree, choose a symmetric very ample projectively normal abelian embedding and addition/difference polynomials whose c_NT and joint coefficient height are bounded by C(g,deg_L A)max{1,h_Fal(A)}, retaining the tensor-power and isogeny rescalings needed to pass back to every original ample polarization.
+
+### From TauCetiRoadmap.ArakelovGeometryAndAbelianHeightsPartII
+
+Section 0.3 supplies the geometric two-nef Siu inequality: on an integral projective d-fold with d≥1 over a field, nef line bundles F,M satisfy vol(F−M)≥Fᵈ−d(Fᵈ⁻¹·M); applied to qF and qtM with q clearing the denominators of a rational t≥0, a positive right side makes qF−qtM big. Sections 3.1–3.3 supply adelic intersections, Deligne pairings and projection formulas. Sections 4.6–4.8 supply algebraic-point heights, the big-bundle height inequality and the fundamental inequality between the essential minimum and the height of a subvariety. Sections 5.1–5.4 supply invariant extensions, adelic non-degeneracy, the general dynamical height inequality with generic equidistribution, and the Hodge bundle computing stable Faltings heights. Sections 6.1–6.4 supply Moriwaki heights and specialization; §6.4(1), the Silverman–Tate comparison, holds for every nef polarization, and §6.4(2), the specialization limit, keeps bigness. The height machine §6.2 holds for every polarization except Northcott, which needs bigness. Sections 8.4, 9.1–9.2 supply canonical theta and shift identities. Sections 12.1–12.6 supply potential bigness, its relative-power criterion, the product-grid degree bound, theta potential bigness after restriction to every integral parameter subvariety and cross-characteristic restriction. Section 13.1 supplies function-field Faltings heights, and §13.7 supplies the positive comparison height on the relative Jacobian obtained from Bost's lower bound (ArakelovGeometryAndAbelianHeights §6.5), both in Faltings' normalization.
+
+For the function-field branches of Layer 10, bigness is over the field of constants. A constant genus-two curve over K with S=Spec K has a quasi-finite K-moduli map but does not meet this absolute bigness hypothesis. Its difference image C−C=J contains all constant torsion, so the stronger relative-K-only hypothesis would give a false theorem.
+
+### From TauCetiRoadmap.StableReductionPartII
+
+Sections 4.2 (full symplectic level on smooth curves), 4.4 (rigidity of full curve level) and 4.8 (the fine smooth full-level curve scheme) supply the fine scheme over the fixed-pairing cyclotomic base. Sections 6.3 (the smooth full-level Torelli morphism), 6.6 (finite Torelli fibres) and 6.7 (Hodge pullback along smooth full-level Torelli) supply Torelli with finite fibres and the pulled-back Hodge line. Sections 7.13 (fine-level and Picard export for DGH) and 7.15 (stable, level and Picard export for Yuan) supply the universal curve, the relative Picard parameter scheme and its universal classes. The level N is at least three and invertible on the base.
+
+### From TauCetiRoadmap.JacobianChallengePartII
+
+Sections 0.2–0.4 and 1.1–1.4 supply relative Picard degree components, Jacobians and principal polarizations. Sections 2.1–2.7 supply section-free Abel maps, the degree-one immersion and curve differences. Sections 3.2–3.13 supply degree-one theta and canonical twice-theta, its geometric class, symmetry, zero rigidification and ampleness. Layer 5 supplies the canonical Abel, universal shift and Faltings–Zhang maps; Layer 7 specializes them over full-level curve moduli. Layer 10 here proves non-degeneracy and small-point results for those actual maps.
+
+**Checks.**
+
+- On a genus-two curve with Weierstrass base point, theta is symmetric and Θ₂=O(2θ); the principal height is exactly half its height.
+- At the origin both heights are zero; at a point of principal height a the twice-theta height is 2a and the height of twice the point is 4a.
+- Replacing the principal height by the full twice-theta height doubles every threshold. These two normalizations must not share a numerical threshold constant.
+
+### From TauCetiRoadmap.NeronModelsAndSemistableAbelianVarieties
+
+Sections 1.1–1.10 supply Néron models and the abelian-scheme case; §3.10 supplies semistable reduction after finite extension over curve fields; §§5.1–5.2 supply good reduction under isogeny; §§3.13–3.14 supply Raynaud extensions and polarized uniformization. Potential good reduction at every geometric divisorial place is used in the nowhere-degenerate construction, and is not identified with a good model over the original field before finite extension.
+
+### From TauCetiRoadmap.TropicalAndBerkovichArithmetic
+
+Sections 6.2–6.4 supply Chambert-Loir model measures, semipositive and integrable metrics and local intersection heights, and §7.0 supplies Raynaud uniformization over rank-one fields; the four gaps below extend them to subvarieties of abelian varieties, and together they supply the measure inputs to Yamaki's Theorem E (yamaki-strict-support Corollary 7.22, p. 41).
+
+What TropicalAndBerkovichArithmetic must provide (the abelian valuation map contract): At every geometric divisorial place v of K=k(B), with k algebraically closed and B normal projective of positive dimension, construct for every abelian variety A/K̄ with Raynaud uniformization over the completed algebraic closure at v the valuation map val_A:A_v^an→ℝ^n/Λ, with n the torus rank and Λ the valuation image of the period lattice, functorial for homomorphisms and compatible with products (yamaki-strict-support §§3.1–3.2, (3.0.13)–(3.0.14), pp. 12–15).
+
+What TropicalAndBerkovichArithmetic must provide (the abelian canonical measure contract): At every geometric divisorial place v of K=k(B), with k algebraically closed and B normal projective of positive dimension, for an integral closed X of dimension d in an abelian variety A/K̄ with a symmetric ample canonically metrized L, prove that for every semistable alteration f:X′→X the normalized measure μ_(X′,f*L) is a positive sum of Lebesgue measures on non-degenerate canonical simplices with f_*μ_(X′,f*L)=μ_X=c₁(L|X)^d/deg_L X, so that supp μ_X is the union of the f-images of those simplices (yamaki-strict-support §5.3, pp. 25–27).
+
+What TropicalAndBerkovichArithmetic must provide (the strict support dimension contract): At every geometric divisorial place v of K=k(B), with k algebraically closed and B normal projective of positive dimension, for X⊆A as in the abelian canonical measure contract, a semistable alteration f:X′→X, a rational polytope σ of a compatible subdivision of supp μ_X that is a strict support (μ_X−εδ_σ positive for some ε>0, δ_σ Lebesgue measure on σ), and a canonical simplex Δ with a rational u∈relint Δ and f(u)∈relint σ, prove dim f_aff(Δ)=dim Δ (yamaki-strict-support, Proposition 5.12, p. 29).
+
+What TropicalAndBerkovichArithmetic must provide (the nonarchimedean small-point equidistribution contract): At every geometric divisorial place v of K=k(B), with k algebraically closed and B normal projective of positive dimension, for X⊆A as in the abelian canonical measure contract and a generic net of algebraic points of X whose canonical heights tend to zero, prove that the normalized Galois-orbit measures converge weakly to μ_X on A_v^an, and that α_*μ_Z=μ_Y for a generically finite surjective α:Z→Y between such subvarieties carrying a small generic net and its image (yamaki-strict-support, proof of Theorem 6.2, p. 31).
+
+### From TauCetiRoadmap.ClassicalArithmeticCompletion
+
+Section 3.19 supplies existence and uniqueness of the reduced row echelon form over an arbitrary field: every matrix is left-multiplied by an invertible matrix to a reduced row echelon matrix, and two reduced row echelon matrices related by an invertible left factor are equal. Section 9.3 uses it over K for basis matrices of a subspace descended to a subfield; the reduced form does not depend on the field over which it is computed.
+
+### From the remaining earlier roadmaps
+
+InverseGaloisAndArithmeticFundamentalGroups IG.2 supplies Hilbert irreducibility for finitely generated characteristic-zero models used in simultaneous specialization; §IG.3.1, “Finitely many covers of bounded degree”, supplies finiteness up to isomorphism of connected finite étale covers of bounded degree of a connected smooth quasi-projective variety over an algebraically closed field of characteristic zero, used in §8.1. AlgebraicCurves Layers 10–11 supplies hyperelliptic involutions, Weierstrass points and the characteristic-zero Hurwitz bound 84(g−1). JacobianChallenge Layer F supplies the pointed Abel–Jacobi universal property. ArithmeticDynamics §§6.57–6.64 supplies standard elliptic projections and translation by two-torsion, with §6.64 supplying the identity h_E=ĥ_Lattès/2 for the degree-one O(0) height; §6.93 supplies unbounded common torsion orders, §6.110 the joint small-point bound, and §§6.111–6.112 the three-common-branch-values bound. For a point of projection height 2a, h_E=a. Two elliptic factors therefore give h_(L_X)=(ĥ₁+ĥ₂)/2, which is the normalization in §12.3.
 
 ## References
 
