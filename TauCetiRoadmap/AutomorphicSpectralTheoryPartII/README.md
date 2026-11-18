@@ -2,19 +2,9 @@
 
 **Summary.** Build the Schwartz multiplier method for a connected reductive group over a number field: finite-order entire interpolation produces symbols with controlled growth on real-form spectral lattices; real harmonic analysis turns them into continuous Schwartz multipliers; polynomial cuspidal counting and spherical Hecke separation give a multiplier normalized at any prescribed spectral character. Its automorphic range lies in the cuspidal-support components where that character occurs. Weighted quotient spaces, cuspidal-support projections, regular wave packets and Schwartz kernel expansions provide the analytic interfaces. The principal endpoints are BPLZZ Theorem 2.13 and Theorems 3.6–3.7 and 3.19, together with the weighted and spectral results of BPCZ §§2.5 and 2.9–2.10.
 
-## Scope and ownership
+## How to read the build
 
-AutomorphicSpectralTheory supplies nuclear Fréchet and LF test spaces, vector integration, the function-space kernel theorem, vector-valued Schwartz spaces and meromorphic operator families (§§0.11–0.15), restricted tensor factorization (§0.50), the finite Weyl constant-term formula, Paley–Wiener pseudo-Eisenstein series, their inner products and the orthogonal cuspidal-data decomposition of L²([G]¹) (§§1.5–1.10), intertwining operators with the GLₙ normalized intertwining estimates and their local–global factorization (§§2.1–2.5), truncation (§§3.1–3.4), the spectral decomposition of L²([G]¹) by discrete data with its residual and finite-multiplicity statements (§§4.1–4.5), the finite-place Luo–Rudnick–Sarnak bound (§7.1a), and the real Paley–Wiener theorems, compact-support multipliers and compact-test kernels `K_f`, `K_{P,f}` (§§6.1–6.4). That roadmap works with compactly supported tests on G(𝔸)¹ and stops before the moderate-symbol Schwartz multiplier theorem and the weighted quotient Schwartz spectral extensions built here. Its generic definitions and compact theorems are imported rather than restated as targets. This Part II owns the further extensions of that theory which it uses: the Nash Schwartz product comparison (§1.1), Delorme's rapid-symbol multipliers with their split-torus and joint-continuity inputs (§1.2a), the K_f-isotypic description of SLF representations (§2.5), holomorphy of completed tensor families (§2.15), the transport of cuspidal data to [G] and to a fixed split central character (§2.15a), Arthur's finite differentiability factorization (§3.2), Lapid's hereditary property for products of general linear groups (§3.6a), the support components and spectral expansion of convolution kernels, starting from compactly supported tests (§§3.8 and 3.10), Müller's polynomial bound for the discrete spectrum (§4.5a) and the Langlands discrete-data refinement of the cuspidal-support decomposition (§5.7). AutomorphicSpectralTheory §§5.1–5.9 owns Franke’s admissible-weight spaces on [G]. Sections 2.6 and 2.14 here use BPCZ’s arbitrary comparable measurable weights on [G]_P: at P=G, after matching central quotient, measure and level, the individual smooth weighted-L² stages agree with Franke’s S_p when w=p², and §2.14 forms the specified intersections and unions of those stages.
-
-AutomorphicFormsOnReductiveGroups §§0.1–0.5 owns smooth adelic functions, the adelic test Schwartz algebra, uniform moderate growth and smoothing; §§2.1–2.4 and 2.7 owns real representations, induction, infinitesimal characters, globalizations and the continuous nondegenerate integrated Schwartz action; §§3.4–3.5 owns restricted tensor factorization; §§4.1–4.2 owns constant terms and cuspidal realizations. Here the real/adelic comparisons are topology and multiplier compatibility statements, and the growth spaces add specified quotient weights. The generic Kostant centralizer and principal-series inputs belong to its real representation layer; §1.4 retains only their rational-difference spectral comparison. Generic SF closed-subspace and globalization theory is not rebuilt here. SpectralManifolds SM3 owns the Fréchet open mapping theorem and closed-subspace quotient topology; §§2.5 and 2.18 apply them to the specified SLF stages.
-
-AdelicAlgebraicGroups §§2.1–2.3, 3.1 and 3.4–3.6 owns heights, quotient measures, split-centre conventions, Iwasawa and reduction theory; §§4.6–4.7 owns compact central quotients and character theory. SmoothRepresentationsOfLocalGroups SR.1–SR.4 owns finite-place Hecke algebras, normalized induction, Jacquet modules and Satake theory. AutomorphicLFunctionsAndLocalFactors AL.R.4, **GLₙ isobaric sums**, and AL.3.7.2, **Strong multiplicity one for isobaric sums**, owns the GLₙ construction and uniqueness inputs. The quotient-weight applications and spectral interpolation are owned here.
-
-ReductiveGroups Layer 7 and LieGroups Layer 7 own the group root datum and real descent. The finite involution coset and its shifted spectral lattices in §0.4 specialize those structures. NoncommutativeGeometry N1 owns completed projective tensor products. LocallyConvexDuality §§5.1–5.2 owns the completed injective tensor product and Grothendieck's identification of the projective and injective completions on nuclear spaces; §2.15 applies it only to separate points in its tensor holomorphy criterion. OperatorTheory/SelfAdjointSpectralTheory Parts A–E owns generic spectral calculus; OperatorTheory/OperatorIdeals OI-B32–OI-B41, OI-B84 and Part C owns Hilbert–Schmidt and trace-class tools. BanachSpaceTheory B4 owns the nuclear Banach-operator carrier and its isometric Hilbert trace-class comparison. PDE Lane A owns local Sobolev analysis, and PseudodifferentialOperators Layer 6 owns elliptic parametrices. The quotient nuclear inclusions and spectral realizations here differ by their automorphic weight and support estimates.
-
-GlobalHolomorphicFunctions, **Preparatory primary factors and locally uniform products**, owns the elementary factors, locally uniform product construction and exact zero divisor. Here §0.2 adds the fixed-genus finite-rank global growth bound, including rank zero and an origin factor. The native formulas in Suggested.lean spell the supplied product for this acceptance test. ZerosOfLFunctions, standing **finite order** convention and Layer 5.1–5.6, owns order bounds and genus-one Hadamard theory; the predicate in §0.2 is only the existential integral global-bound specialization needed for interpolation. ModularCurvesPartII §1.4a, **Lattice sigma function**, owns the rank-two period-lattice sigma specialization. No Hadamard factorization or elliptic sigma theory is developed here.
-
-Mathlib supplies Euclidean Schwartz functions, entire holomorphy, exponential and polynomial evaluation, unordered sums/products, almost-everywhere Lp classes and algebraic centroids. Their generic definitions are not targets here. CongruenceSpectralGap Layers 0–5 (from the congruence quotient and positive spectrum to the parameter bound and congruence gap) owns the congruence Laplacian gap, including its continuous threshold and curvature normalization; no target here uses that gap. Its Luo–Rudnick–Sarnak bound (§5.1) is the O(m)-spherical case over ℚ of the archimedean parameter bound that §3.6a proves for every number field and archimedean type. GanGrossPrasadUnitaryGroups §§6.3–6.4 owns relative period applications and trace comparison, and its §6.3a owns the theorem that base-change-compatible multipliers preserve matching and smooth transfer (BPLZZ §4.2, Proposition 4.8, pp.34–35; bplzz line 1685); §4.3 here supplies the scalar multiplier action that theorem uses. Harmonic analysis on reductive groups over nonarchimedean local fields (Plancherel inversion, tempered matrix-coefficient bounds, smoothing traces, Harish-Chandra descent, Schwartz germs and Fourier-averaging extensions) is outside this roadmap. Harish-Chandra's real Plancherel decomposition, used in §§1.2 and 1.6, is the AutomorphicFormsOnReductiveGroups contract real-plancherel-decomposition below, the same request with the same owner as in GanGrossPrasadUnitaryGroups.
+Layer 0 constructs analytic zero sets and spectral symbol algebras independently of the automorphic quotient. Layer 1 realizes these symbols as real Schwartz multipliers and compares their adelic stages. Layer 2 develops weighted quotient analysis and the constant-term maps. Layer 3 extends support projections, regular wave packets and kernels to these spaces. Layer 4 combines polynomial counting with interpolation to leave finitely many cuspidal-support blocks. Layer 5 separates the remaining unwanted blocks using finitely supported spherical operators and normalizes at the target character. Sections 1.2a, 2.15a, 3.6a and 4.5a extend AutomorphicSpectralTheory beyond compactly supported tests on G(𝔸)¹ and precede the sections that use them. Every subsection lists the inputs to both its statement and the indicated proof route; alternative proofs can use fewer route inputs. Suggested.lean states the three analytic headlines on native carriers; its module docstring names the automorphic headlines and their missing carriers.
 
 ## Conventions
 
@@ -29,148 +19,6 @@ Write [G]_P=M_P(F)N_P(𝔸)∖G(𝔸), [G]=[G]_G, n_P≥1 for its proper quotien
 Use the linear-first pairing ⟨φ,ψ⟩=∫φ·conj(ψ). Mathlib's inner product is conjugate-first, so exchange its slots. For scalars 1 and i these pairings are −i and i respectively. The adjoint test is f*(g)=conj(f(g⁻¹)) on the unimodular group. On ℝ/ℤ with mass-one Haar measure, right convolution by e₋ₙ, where eₙ(x)=exp(2πinx), projects onto eₙ, and convolution by eₙ projects onto e₋ₙ. Central disintegration uses δ_P⁻¹ᐟ²: for the GL₂ upper Borel and diag(a,1) with |a|=4, δ_P=4, normalized induction contributes 2 and disintegration contributes 1/2 (BPCZ §§2.5.5 and 2.10.1, bpcz line 1252 and line 2420).
 
 Adelic smoothness includes a common compact open finite level. Test Schwartz functions have compact finite-place support and Nash decay at infinity. S([G]_P) and C([G]_P) are quotient function spaces, with algebraic-height and Harish-Chandra logarithmic decay respectively. A quotient-volume Ξ_P is different from a local spherical Ξ. All completed tensors are Hausdorff projective tensors at the indicated levels. Weighted L² uses the measure w dx: raising w strengthens integrability. Polynomially weighted measures use the reciprocal weight in total variation. Neither point evaluation on an arbitrary Lp representative nor norm continuity of a moving Dirac measure is assumed.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-Use `SchwartzMap` in Mathlib/Analysis/Distribution/SchwartzSpace/Basic.lean:75, whose fields require real smoothness and bounds on every weighted iterated derivative between real normed vector spaces; it does not define a reductive-group Schwartz space. Use `Differentiable` in Mathlib/Analysis/Calculus/FDeriv/Defs.lean:170, `Complex.exp` in Mathlib/Analysis/Complex/Exponential.lean, `MvPolynomial.eval` in Mathlib/Algebra/MvPolynomial/Eval.lean and `Polynomial.eval` in Mathlib/Algebra/Polynomial/Eval/Defs.lean. Use `Summable` and `Multipliable` in Mathlib/Topology/Algebra/InfiniteSum/Defs.lean:114 for unordered families. Countability of the zero set and exclusion of its origin are specified separately.
-
-Use `MeasureTheory.Lp` in Mathlib/MeasureTheory/Function/LpSpace/Basic.lean:89 as an almost-everywhere quotient with finite norm; a smooth pointwise representative requires the theorem in §2.6. Use `CentroidHom` in Mathlib/Algebra/Ring/CentroidHom.lean:56 for an additive map satisfying both multiplication identities; continuity and complex linearity are additional requirements of §1.7. Native finite-dimensional complex coordinate spaces, `LinearIndependent`, `Finset`, `deriv` and the unconditional product are the carriers in Suggested.lean.
-
-### From Tau Ceti
-
-No Tau Ceti module is imported by Suggested.lean. The library pin is 358314d4ab97483df4fc4cb8adcc02e74a8d9f5a, with Mathlib f6090c7095e1e56b3464c1daba5f24631f1290d2. The roadmap contracts below are mathematical supply, not declarations claimed at those pins.
-
-### From TauCetiRoadmap.AutomorphicSpectralTheory
-
-Consume §0.11 for nuclear Fréchet and strict LF test spaces and bounded sets in strict LF limits, §0.12 for quasi-complete vector integration and summation, §0.13 for the nuclear function-space kernel theorem, §0.14 for vector-valued Schwartz spaces, and §0.15 for meromorphic operator families, whose weak-to-strong criterion under one common denominator, barrelled source, quasi-complete target and locally bounded regularized maps is used here with denominator 1 for holomorphic families. Consume §0.50 for restricted tensor factorization. Consume §1.5 for the finite Weyl constant-term formula, §§1.6–1.8 for Paley–Wiener pseudo-Eisenstein series, their square-integrability and the Langlands inner-product formula, and §§1.9–1.10 for cuspidal data, the Weyl-associate classes χ of pairs (P,σ) with σ occurring in L²_cusp([M_P]¹), and the orthogonal decomposition L²([G]¹)=⊕̂_χL²_χ. Consume §§2.1–2.5 for local and global intertwining operators, the Harish-Chandra μ-function, the GLₙ normalized intertwining estimates of §2.3a, continuation and functional equations, and the local–global factorization with M(w,λ)*=M(w⁻¹,−conj(wλ)). Consume §§3.1–3.4 for Arthur truncation and §§3.5–3.6 for the Maass–Selberg relations. Consume §§4.1–4.5 for the symmetric associate parameter fields, the unitary Eisenstein spectral map onto L²([G]¹), the residual spectrum and finite multiplicity in the discrete spectrum, and §7.1a for the finite-place Luo–Rudnick–Sarnak bound for unitary cuspidal representations of GL_m. Consume §§6.1–6.3 for the real invariant and operator Paley–Wiener theorems and Arthur's multipliers of compactly supported W-invariant distributions, and §6.4 for the compact-test kernels with `K_f(x,y)=Σ_{γ∈G(F)}f(x⁻¹γy)` and the parabolic kernels `K_{P,f}`.
-
-These statements use G(𝔸)¹, equivalently the trivial A_G(ℝ)⁰-character, and compactly supported tests. Section 2.15a transports the cuspidal-data statements to [G] and to a fixed unitary character of the split centre, preserving quotient measures; §§3.8 and 3.10 extend the kernels to support components and to Schwartz tests. Compact Paley–Wiener multipliers alone are not the rapid-symbol multiplier input, which is §1.2a.
-
-### From TauCetiRoadmap.AutomorphicFormsOnReductiveGroups
-
-Consume §§0.1–0.5 for the fixed-support/level Schwartz algebra, convolution, compact-test density, uniform growth and smoothing; §§2.1–2.4 and 2.7 for compact types, normalized real induction, infinitesimal characters and SF/SAF globalizations. In particular §2.7 supplies the continuous nondegenerate integrated Schwartz action on every smooth moderate-growth Fréchet representation, with its convolution law and compact-test restriction; §1.2 here compares its derivative conventions. Consume §§3.4–3.5 for restricted tensors and spherical lines; §§4.1–4.2 for constant terms and cusp spaces. The multiplier acts on these same carriers.
-
-What AutomorphicFormsOnReductiveGroups must provide (gap:real-plancherel-decomposition): Supply Harish-Chandra's Plancherel decomposition of the Nash Schwartz algebra of a real reductive group with the chosen Haar measure, retaining finitely many real components.
-
-The section contract is §§2.4, 2.7.
-
-What AutomorphicFormsOnReductiveGroups must provide (gap:tempered-characters-in-torus-strips): Supply containment of every tempered infinitesimal character in the union, over realized maximal real tori, of the shifted spectral lattice strips of §0.4 with purely imaginary split part.
-
-The section contract is §§2.2–2.4.
-
-What AutomorphicFormsOnReductiveGroups must provide (gap:kostant-centralizer): Supply Kostant’s finite-free enveloping-algebra centralizer theorem with its tensor-character annihilator for finite-dimensional algebraic representations.
-
-The section contract is §2.2.
-
-What AutomorphicFormsOnReductiveGroups must provide (gap:generic-tensor-semisimplicity): Supply generic semisimplicity of minimal principal series tensored with a finite-dimensional algebraic representation, away from reducibility and character-collision hyperplanes.
-
-The section contract is §2.3.
-
-What AutomorphicFormsOnReductiveGroups must provide (gap:minimal-type-detection): Supply finite minimal-K-type detection for bounded discrete inducing parameters, uniformly under split twists and including limits of discrete series.
-
-The section contract is §2.4.
-
-What AutomorphicFormsOnReductiveGroups must provide (gap:k-type-growth): Supply polynomial compact-Casimir bounds for K-type dimensions and smooth seminorms in finite-length admissible moderate-growth Fréchet representations at each fixed finite level.
-
-The section contract is §2.1.
-
-### From TauCetiRoadmap.AdelicAlgebraicGroups
-
-Consume §§2.1–2.3 for rational characters, split-centre quotients, homogeneous measures and integration in stages; §§3.1, 3.4–3.6 for relative roots, Iwasawa coordinates, group heights and Siegel covers; §§4.6–4.7 for compact abelian quotients and Fourier characters. All quotient maps retain their domains and compatible measures.
-
-What AdelicAlgebraicGroups must provide (gap:quotient-height-comparison): Supply proper heights on intermediate adelic parabolic quotients and their polynomial comparison with fixed Siegel-chart group heights.
-
-The section contract is §3.5.
-
-What AdelicAlgebraicGroups must provide (gap:cusp-fiber-bounds): Supply, for standard P⊂Q, the polynomial bound c ε^(−r) for fibers of P(F)N_Q(𝔸)∖G(𝔸)→[G]_Q restricted to its Siegel cusp region of threshold ε, uniformly for 0 < ε ≤ 1.
-
-The section contract is §3.6.
-
-What AdelicAlgebraicGroups must provide (gap:deep-cusp-uniqueness): Supply, for standard P⊂Q, deep-cusp uniqueness for P(F)N_Q(𝔸)∖G(𝔸)→[G]_Q: for every positive Siegel cusp threshold ε there is C > 0 such that points in the ε-region and C-region with the same image coincide.
-
-The section contract is §3.6.
-
-What AdelicAlgebraicGroups must provide (gap:quotient-neighborhood-volumes): Supply comparison of quotient identity-neighborhood volumes on [G]_P with exp(−2⟨ρ₀,H₀(x)⟩) on fixed Siegel charts, uniformly at each fixed finite level.
-
-The section contract is §3.6.
-
-What AdelicAlgebraicGroups must provide (gap:central-character-affine-lattice): Identify the fixed-level norm-one central quotient as a compact abelian Lie quotient and compare its character differentials, the fixed split-central character and normalized unramified twists in i(a_M^G)* (trivial on the split centre Z(𝔸)) with a discrete affine lattice in the remaining central parameter space having complex-linearly independent generators and finitely many component characters at each differential.
-
-The section contract is §§2.1–2.3, 4.6–4.7.
-
-### From TauCetiRoadmap.SmoothRepresentationsOfLocalGroups
-
-Consume SR.1.1–SR.1.3 for Hecke algebras and integrated actions, SR.2.2 for normalized induction/Jacquet modules and SR.4.1–SR.4.2 for Satake and spherical characters, for every supplied nonarchimedean local field and every specified hyperspecial subgroup.
-
-What SmoothRepresentationsOfLocalGroups must provide (gap:satake-exponential-family): Supply normalized spherical Hecke characters under parabolic induction and restriction to an unramified Levi, with each fixed Hecke value a finite exponential polynomial in the common complex twist parameter.
-
-The section contract is SR.4.1–SR.4.2.
-
-### From TauCetiRoadmap.ReductiveGroups
-
-Consume Layer 7, structure theory, for root data, character lattices and central/derived isogenies.
-
-What ReductiveGroups must provide (gap:real-point-root-data): Supply the based Cartan root datum, torus character lattices and finite central/derived product covering after taking real points, with finite components explicit.
-
-The section contract is Layer 7.
-
-### From TauCetiRoadmap.LieGroups
-
-Consume RepresentationTheory/LieGroups Layer 7, complexification and real forms, and Layer 6 for maximal compact tori and their character geometry.
-
-What LieGroups must provide (gap:real-descent-cartan): Supply real descent on the abstract Cartan root datum, Weyl change of Cartan identification and the split/compact eigenspaces of each maximal real torus, compatibly with infinitesimal characters.
-
-The section contract is Layer 7.
-
-### From TauCetiRoadmap.PDE
-
-Consume Lane A, Sobolev spaces, local embedding and distributional regularity; the application with quotient volume and arbitrary comparable weights is §2.7 here.
-
-What PDE must provide (gap:local-sobolev-evaluation): Supply the compact-chart derivative-to-point-evaluation estimate and distributional smoothness from all local Sobolev derivatives used for weighted quotient evaluation in §2.7.
-
-The section contract is Lane A, Sobolev embedding and local regularity.
-
-### From TauCetiRoadmap.PseudodifferentialOperators
-
-Consume Layer 6, §6.1 (P6), for ellipticity of differential operators and their two-sided parametrices modulo smoothing operators, and Layer 5, §5.1 (P5), for Sobolev mapping orders. Section 3.2 applies them, on a compact neighbourhood of the identity, to a power of a left-invariant elliptic operator on G∞; a parametrix of order −N has a Schwartz kernel of class Cᵐ once N>m+dim G∞.
-
-### From TauCetiRoadmap.OperatorTheory and NoncommutativeGeometry
-
-Consume OperatorTheory/SelfAdjointSpectralTheory Parts A–E for spectral measures and unbounded self-adjoint calculus, OperatorTheory/OperatorIdeals OI-B32–OI-B41 and OI-B84 for Hilbert–Schmidt ideals and Part C for their column realization, and the Hilbert–Schmidt composition supplement below. Consume NoncommutativeGeometry N1 for the completed projective tensor, its dense algebraic image, functoriality and complete-target universal property. These generic inputs are used by the automorphic nuclear inclusions and tensor comparisons.
-
-### From TauCetiRoadmap.VonNeumannAlgebras
-
-Consume V4.Core for the Hilbert–Schmidt product pairing and complex trace, with OperatorTheory/OperatorIdeals OI-B29–OI-B41 for the ideal carriers.
-
-What VonNeumannAlgebras must provide (gap:hilbert-schmidt-nuclear-composition): Supply the trace-class and Banach-nuclear factorization of a composite of two Hilbert–Schmidt maps between complete complex Hilbert spaces, with nuclear norm bounded by the product of the two Hilbert–Schmidt norms and compatibility with the locally convex nuclear-map convention. Use BanachSpaceTheory B4's nuclear/trace-class identification for the norm comparison.
-
-The section contract is V4.Core, Hilbert–Schmidt pairings and trace-class comparison.
-
-### From TauCetiRoadmap.BanachSpaceTheory
-
-Consume B4, **Approximation and Banach tensor products**, for the quotient-norm nuclear Banach-operator carrier, its absolutely summable rank-one expansions and its isometric identification with the trace-class gauge on complete Hilbert pairs. The Hilbert–Schmidt composite in the preceding contract uses this identification; §2.8 applies the resulting nuclear map separately at each Banach seminorm completion.
-
-### From TauCetiRoadmap.LocallyConvexDuality
-
-Consume §5.1, **The injective tensor product**, for the completed injective tensor product E⊗̂εF and its embedding, for complete E and F, in the bilinear forms on the weak duals, and §5.2, **Nuclear spaces**, for Grothendieck's theorem that for E nuclear in the sense of AutomorphicSpectralTheory §0.11 the canonical map E⊗̂πF→E⊗̂εF is a topological isomorphism. Section 2.15 uses the two together: on complete nuclear Fréchet spaces the elementary functionals ℓ⊗m separate the points of E⊗̂πF.
-
-### From TauCetiRoadmap.GlobalHolomorphicFunctions and ZerosOfLFunctions
-
-Consume GlobalHolomorphicFunctions, **Preparatory primary factors and locally uniform products**, for the primary-factor formula, compact-dependent locally uniform convergence and exact multiplicities. Apply it to the nonzero-point subtype with constant genus p and multiplicity one; rank summability supplies its compact majorants. Consume ZerosOfLFunctions, standing **finite order** convention and Layer 5.1–5.6, only for comparison with its order-bound predicate; its order-one factorization is outside the inputs to the interpolation proof.
-
-### From TauCetiRoadmap.AutomorphicLFunctionsAndLocalFactors
-
-Consume AL.R.4, **GLₙ isobaric sums**, for normalized isobaric construction, and AL.3.7.2, **Strong multiplicity one for isobaric sums**, for uniqueness, including arbitrary unramified norm twists and multiplicities of cuspidal constituents. Equality at almost all unramified places identifies the inducing multiset in §5.6, not an arbitrary irreducible constituent of an induction.
-
-### From TauCetiRoadmap.SpectralManifolds
-
-Consume SM3, **Smooth projective modules, functions and spectral measure**, for the open mapping theorem between complete metrizable locally convex complex spaces and the topology and completeness of quotients by closed linear subspaces. Applied to a continuous linear map of Fréchet spaces with closed image, it identifies the quotient by its kernel topologically with that image. Sections 2.5 and 2.18 use this theorem on fixed-level Fréchet stages.
-
-## How to read the build
-
-Layer 0 constructs analytic zero sets and spectral symbol algebras independently of the automorphic quotient. Layer 1 realizes these symbols as real Schwartz multipliers and compares their adelic stages. Layer 2 develops weighted quotient analysis and the constant-term maps. Layer 3 extends support projections, regular wave packets and kernels to these spaces. Layer 4 combines polynomial counting with interpolation to leave finitely many cuspidal-support blocks. Layer 5 separates the remaining unwanted blocks using finitely supported spherical operators and normalizes at the target character. Sections 1.2a, 2.15a, 3.6a and 4.5a extend AutomorphicSpectralTheory beyond compactly supported tests on G(𝔸)¹ and precede the sections that use them. Every subsection lists the inputs to both its statement and the indicated proof route; alternative proofs can use fewer route inputs. Suggested.lean states the three analytic headlines on native carriers; its module docstring names the automorphic headlines and their missing carriers.
 
 ## Layer 0: Entire interpolation and real-form symbol algebras
 
@@ -1671,6 +1519,158 @@ Relative period comparisons, such as GanGrossPrasadUnitaryGroups §§6.2a–6.4,
 For the compact real torus U(1), θ={−1} and Y=ℤ. The constant symbol is moderate but fails sharpness. The damped sinc symbol exp(z²)sin(πz)/(πz), with value 1 at 0, is sharp and retains the trivial character. At z=1 it has value 0 and at z=0 it has value 1; treating the sharp algebra as unital loses this finite-support condition. In contrast a split torus has θ={1}, Y={0}, so sharpness adds no lattice restriction.
 
 For G=GL₂ and an inducing pair of distinct Hecke characters, the relative Weyl stabilizer is trivial and the regular weighted constant-term theorem applies. With repeated characters it has order 2, and that theorem's regularity hypothesis fails. The residual constant representation and continuous Eisenstein spectrum can share a coarse torus cuspidal-support component; §5.7 uses discrete Langlands data to refine it. Thus neither the coarse isolation theorem nor its value-one normalization is an orthogonal-projector statement.
+
+## Scope and ownership
+
+AutomorphicSpectralTheory supplies nuclear Fréchet and LF test spaces, vector integration, the function-space kernel theorem, vector-valued Schwartz spaces and meromorphic operator families (§§0.11–0.15), restricted tensor factorization (§0.50), the finite Weyl constant-term formula, Paley–Wiener pseudo-Eisenstein series, their inner products and the orthogonal cuspidal-data decomposition of L²([G]¹) (§§1.5–1.10), intertwining operators with the GLₙ normalized intertwining estimates and their local–global factorization (§§2.1–2.5), truncation (§§3.1–3.4), the spectral decomposition of L²([G]¹) by discrete data with its residual and finite-multiplicity statements (§§4.1–4.5), the finite-place Luo–Rudnick–Sarnak bound (§7.1a), and the real Paley–Wiener theorems, compact-support multipliers and compact-test kernels `K_f`, `K_{P,f}` (§§6.1–6.4). That roadmap works with compactly supported tests on G(𝔸)¹ and stops before the moderate-symbol Schwartz multiplier theorem and the weighted quotient Schwartz spectral extensions built here. Its generic definitions and compact theorems are imported rather than restated as targets. This Part II owns the further extensions of that theory which it uses: the Nash Schwartz product comparison (§1.1), Delorme's rapid-symbol multipliers with their split-torus and joint-continuity inputs (§1.2a), the K_f-isotypic description of SLF representations (§2.5), holomorphy of completed tensor families (§2.15), the transport of cuspidal data to [G] and to a fixed split central character (§2.15a), Arthur's finite differentiability factorization (§3.2), Lapid's hereditary property for products of general linear groups (§3.6a), the support components and spectral expansion of convolution kernels, starting from compactly supported tests (§§3.8 and 3.10), Müller's polynomial bound for the discrete spectrum (§4.5a) and the Langlands discrete-data refinement of the cuspidal-support decomposition (§5.7). AutomorphicSpectralTheory §§5.1–5.9 owns Franke’s admissible-weight spaces on [G]. Sections 2.6 and 2.14 here use BPCZ’s arbitrary comparable measurable weights on [G]_P: at P=G, after matching central quotient, measure and level, the individual smooth weighted-L² stages agree with Franke’s S_p when w=p², and §2.14 forms the specified intersections and unions of those stages.
+
+AutomorphicFormsOnReductiveGroups §§0.1–0.5 owns smooth adelic functions, the adelic test Schwartz algebra, uniform moderate growth and smoothing; §§2.1–2.4 and 2.7 owns real representations, induction, infinitesimal characters, globalizations and the continuous nondegenerate integrated Schwartz action; §§3.4–3.5 owns restricted tensor factorization; §§4.1–4.2 owns constant terms and cuspidal realizations. Here the real/adelic comparisons are topology and multiplier compatibility statements, and the growth spaces add specified quotient weights. The generic Kostant centralizer and principal-series inputs belong to its real representation layer; §1.4 retains only their rational-difference spectral comparison. Generic SF closed-subspace and globalization theory is not rebuilt here. SpectralManifolds SM3 owns the Fréchet open mapping theorem and closed-subspace quotient topology; §§2.5 and 2.18 apply them to the specified SLF stages.
+
+AdelicAlgebraicGroups §§2.1–2.3, 3.1 and 3.4–3.6 owns heights, quotient measures, split-centre conventions, Iwasawa and reduction theory; §§4.6–4.7 owns compact central quotients and character theory. SmoothRepresentationsOfLocalGroups SR.1–SR.4 owns finite-place Hecke algebras, normalized induction, Jacquet modules and Satake theory. AutomorphicLFunctionsAndLocalFactors AL.R.4, **GLₙ isobaric sums**, and AL.3.7.2, **Strong multiplicity one for isobaric sums**, owns the GLₙ construction and uniqueness inputs. The quotient-weight applications and spectral interpolation are owned here.
+
+ReductiveGroups Layer 7 and LieGroups Layer 7 own the group root datum and real descent. The finite involution coset and its shifted spectral lattices in §0.4 specialize those structures. NoncommutativeGeometry N1 owns completed projective tensor products. LocallyConvexDuality §§5.1–5.2 owns the completed injective tensor product and Grothendieck's identification of the projective and injective completions on nuclear spaces; §2.15 applies it only to separate points in its tensor holomorphy criterion. OperatorTheory/SelfAdjointSpectralTheory Parts A–E owns generic spectral calculus; OperatorTheory/OperatorIdeals OI-B32–OI-B41, OI-B84 and Part C owns Hilbert–Schmidt and trace-class tools. BanachSpaceTheory B4 owns the nuclear Banach-operator carrier and its isometric Hilbert trace-class comparison. PDE Lane A owns local Sobolev analysis, and PseudodifferentialOperators Layer 6 owns elliptic parametrices. The quotient nuclear inclusions and spectral realizations here differ by their automorphic weight and support estimates.
+
+GlobalHolomorphicFunctions, **Preparatory primary factors and locally uniform products**, owns the elementary factors, locally uniform product construction and exact zero divisor. Here §0.2 adds the fixed-genus finite-rank global growth bound, including rank zero and an origin factor. The native formulas in Suggested.lean spell the supplied product for this acceptance test. ZerosOfLFunctions, standing **finite order** convention and Layer 5.1–5.6, owns order bounds and genus-one Hadamard theory; the predicate in §0.2 is only the existential integral global-bound specialization needed for interpolation. ModularCurvesPartII §1.4a, **Lattice sigma function**, owns the rank-two period-lattice sigma specialization. No Hadamard factorization or elliptic sigma theory is developed here.
+
+Mathlib supplies Euclidean Schwartz functions, entire holomorphy, exponential and polynomial evaluation, unordered sums/products, almost-everywhere Lp classes and algebraic centroids. Their generic definitions are not targets here. CongruenceSpectralGap Layers 0–5 (from the congruence quotient and positive spectrum to the parameter bound and congruence gap) owns the congruence Laplacian gap, including its continuous threshold and curvature normalization; no target here uses that gap. Its Luo–Rudnick–Sarnak bound (§5.1) is the O(m)-spherical case over ℚ of the archimedean parameter bound that §3.6a proves for every number field and archimedean type. GanGrossPrasadUnitaryGroups §§6.3–6.4 owns relative period applications and trace comparison, and its §6.3a owns the theorem that base-change-compatible multipliers preserve matching and smooth transfer (BPLZZ §4.2, Proposition 4.8, pp.34–35; bplzz line 1685); §4.3 here supplies the scalar multiplier action that theorem uses. Harmonic analysis on reductive groups over nonarchimedean local fields (Plancherel inversion, tempered matrix-coefficient bounds, smoothing traces, Harish-Chandra descent, Schwartz germs and Fourier-averaging extensions) is outside this roadmap. Harish-Chandra's real Plancherel decomposition, used in §§1.2 and 1.6, is the AutomorphicFormsOnReductiveGroups contract real-plancherel-decomposition below, the same request with the same owner as in GanGrossPrasadUnitaryGroups.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+Use `SchwartzMap` in Mathlib/Analysis/Distribution/SchwartzSpace/Basic.lean:75, whose fields require real smoothness and bounds on every weighted iterated derivative between real normed vector spaces; it does not define a reductive-group Schwartz space. Use `Differentiable` in Mathlib/Analysis/Calculus/FDeriv/Defs.lean:170, `Complex.exp` in Mathlib/Analysis/Complex/Exponential.lean, `MvPolynomial.eval` in Mathlib/Algebra/MvPolynomial/Eval.lean and `Polynomial.eval` in Mathlib/Algebra/Polynomial/Eval/Defs.lean. Use `Summable` and `Multipliable` in Mathlib/Topology/Algebra/InfiniteSum/Defs.lean:114 for unordered families. Countability of the zero set and exclusion of its origin are specified separately.
+
+Use `MeasureTheory.Lp` in Mathlib/MeasureTheory/Function/LpSpace/Basic.lean:89 as an almost-everywhere quotient with finite norm; a smooth pointwise representative requires the theorem in §2.6. Use `CentroidHom` in Mathlib/Algebra/Ring/CentroidHom.lean:56 for an additive map satisfying both multiplication identities; continuity and complex linearity are additional requirements of §1.7. Native finite-dimensional complex coordinate spaces, `LinearIndependent`, `Finset`, `deriv` and the unconditional product are the carriers in Suggested.lean.
+
+### From Tau Ceti
+
+No Tau Ceti module is imported by Suggested.lean. The library pin is 358314d4ab97483df4fc4cb8adcc02e74a8d9f5a, with Mathlib f6090c7095e1e56b3464c1daba5f24631f1290d2. The roadmap contracts below are mathematical supply, not declarations claimed at those pins.
+
+### From TauCetiRoadmap.AutomorphicSpectralTheory
+
+Consume §0.11 for nuclear Fréchet and strict LF test spaces and bounded sets in strict LF limits, §0.12 for quasi-complete vector integration and summation, §0.13 for the nuclear function-space kernel theorem, §0.14 for vector-valued Schwartz spaces, and §0.15 for meromorphic operator families, whose weak-to-strong criterion under one common denominator, barrelled source, quasi-complete target and locally bounded regularized maps is used here with denominator 1 for holomorphic families. Consume §0.50 for restricted tensor factorization. Consume §1.5 for the finite Weyl constant-term formula, §§1.6–1.8 for Paley–Wiener pseudo-Eisenstein series, their square-integrability and the Langlands inner-product formula, and §§1.9–1.10 for cuspidal data, the Weyl-associate classes χ of pairs (P,σ) with σ occurring in L²_cusp([M_P]¹), and the orthogonal decomposition L²([G]¹)=⊕̂_χL²_χ. Consume §§2.1–2.5 for local and global intertwining operators, the Harish-Chandra μ-function, the GLₙ normalized intertwining estimates of §2.3a, continuation and functional equations, and the local–global factorization with M(w,λ)*=M(w⁻¹,−conj(wλ)). Consume §§3.1–3.4 for Arthur truncation and §§3.5–3.6 for the Maass–Selberg relations. Consume §§4.1–4.5 for the symmetric associate parameter fields, the unitary Eisenstein spectral map onto L²([G]¹), the residual spectrum and finite multiplicity in the discrete spectrum, and §7.1a for the finite-place Luo–Rudnick–Sarnak bound for unitary cuspidal representations of GL_m. Consume §§6.1–6.3 for the real invariant and operator Paley–Wiener theorems and Arthur's multipliers of compactly supported W-invariant distributions, and §6.4 for the compact-test kernels with `K_f(x,y)=Σ_{γ∈G(F)}f(x⁻¹γy)` and the parabolic kernels `K_{P,f}`.
+
+These statements use G(𝔸)¹, equivalently the trivial A_G(ℝ)⁰-character, and compactly supported tests. Section 2.15a transports the cuspidal-data statements to [G] and to a fixed unitary character of the split centre, preserving quotient measures; §§3.8 and 3.10 extend the kernels to support components and to Schwartz tests. Compact Paley–Wiener multipliers alone are not the rapid-symbol multiplier input, which is §1.2a.
+
+### From TauCetiRoadmap.AutomorphicFormsOnReductiveGroups
+
+Consume §§0.1–0.5 for the fixed-support/level Schwartz algebra, convolution, compact-test density, uniform growth and smoothing; §§2.1–2.4 and 2.7 for compact types, normalized real induction, infinitesimal characters and SF/SAF globalizations. In particular §2.7 supplies the continuous nondegenerate integrated Schwartz action on every smooth moderate-growth Fréchet representation, with its convolution law and compact-test restriction; §1.2 here compares its derivative conventions. Consume §§3.4–3.5 for restricted tensors and spherical lines; §§4.1–4.2 for constant terms and cusp spaces. The multiplier acts on these same carriers.
+
+What AutomorphicFormsOnReductiveGroups must provide (gap:real-plancherel-decomposition): Supply Harish-Chandra's Plancherel decomposition of the Nash Schwartz algebra of a real reductive group with the chosen Haar measure, retaining finitely many real components.
+
+The section contract is §§2.4, 2.7.
+
+What AutomorphicFormsOnReductiveGroups must provide (gap:tempered-characters-in-torus-strips): Supply containment of every tempered infinitesimal character in the union, over realized maximal real tori, of the shifted spectral lattice strips of §0.4 with purely imaginary split part.
+
+The section contract is §§2.2–2.4.
+
+What AutomorphicFormsOnReductiveGroups must provide (gap:kostant-centralizer): Supply Kostant’s finite-free enveloping-algebra centralizer theorem with its tensor-character annihilator for finite-dimensional algebraic representations.
+
+The section contract is §2.2.
+
+What AutomorphicFormsOnReductiveGroups must provide (gap:generic-tensor-semisimplicity): Supply generic semisimplicity of minimal principal series tensored with a finite-dimensional algebraic representation, away from reducibility and character-collision hyperplanes.
+
+The section contract is §2.3.
+
+What AutomorphicFormsOnReductiveGroups must provide (gap:minimal-type-detection): Supply finite minimal-K-type detection for bounded discrete inducing parameters, uniformly under split twists and including limits of discrete series.
+
+The section contract is §2.4.
+
+What AutomorphicFormsOnReductiveGroups must provide (gap:k-type-growth): Supply polynomial compact-Casimir bounds for K-type dimensions and smooth seminorms in finite-length admissible moderate-growth Fréchet representations at each fixed finite level.
+
+The section contract is §2.1.
+
+### From TauCetiRoadmap.AdelicAlgebraicGroups
+
+Consume §§2.1–2.3 for rational characters, split-centre quotients, homogeneous measures and integration in stages; §§3.1, 3.4–3.6 for relative roots, Iwasawa coordinates, group heights and Siegel covers; §§4.6–4.7 for compact abelian quotients and Fourier characters. All quotient maps retain their domains and compatible measures.
+
+What AdelicAlgebraicGroups must provide (gap:quotient-height-comparison): Supply proper heights on intermediate adelic parabolic quotients and their polynomial comparison with fixed Siegel-chart group heights.
+
+The section contract is §3.5.
+
+What AdelicAlgebraicGroups must provide (gap:cusp-fiber-bounds): Supply, for standard P⊂Q, the polynomial bound c ε^(−r) for fibers of P(F)N_Q(𝔸)∖G(𝔸)→[G]_Q restricted to its Siegel cusp region of threshold ε, uniformly for 0 < ε ≤ 1.
+
+The section contract is §3.6.
+
+What AdelicAlgebraicGroups must provide (gap:deep-cusp-uniqueness): Supply, for standard P⊂Q, deep-cusp uniqueness for P(F)N_Q(𝔸)∖G(𝔸)→[G]_Q: for every positive Siegel cusp threshold ε there is C > 0 such that points in the ε-region and C-region with the same image coincide.
+
+The section contract is §3.6.
+
+What AdelicAlgebraicGroups must provide (gap:quotient-neighborhood-volumes): Supply comparison of quotient identity-neighborhood volumes on [G]_P with exp(−2⟨ρ₀,H₀(x)⟩) on fixed Siegel charts, uniformly at each fixed finite level.
+
+The section contract is §3.6.
+
+What AdelicAlgebraicGroups must provide (gap:central-character-affine-lattice): Identify the fixed-level norm-one central quotient as a compact abelian Lie quotient and compare its character differentials, the fixed split-central character and normalized unramified twists in i(a_M^G)* (trivial on the split centre Z(𝔸)) with a discrete affine lattice in the remaining central parameter space having complex-linearly independent generators and finitely many component characters at each differential.
+
+The section contract is §§2.1–2.3, 4.6–4.7.
+
+### From TauCetiRoadmap.SmoothRepresentationsOfLocalGroups
+
+Consume SR.1.1–SR.1.3 for Hecke algebras and integrated actions, SR.2.2 for normalized induction/Jacquet modules and SR.4.1–SR.4.2 for Satake and spherical characters, for every supplied nonarchimedean local field and every specified hyperspecial subgroup.
+
+What SmoothRepresentationsOfLocalGroups must provide (gap:satake-exponential-family): Supply normalized spherical Hecke characters under parabolic induction and restriction to an unramified Levi, with each fixed Hecke value a finite exponential polynomial in the common complex twist parameter.
+
+The section contract is SR.4.1–SR.4.2.
+
+### From TauCetiRoadmap.ReductiveGroups
+
+Consume Layer 7, structure theory, for root data, character lattices and central/derived isogenies.
+
+What ReductiveGroups must provide (gap:real-point-root-data): Supply the based Cartan root datum, torus character lattices and finite central/derived product covering after taking real points, with finite components explicit.
+
+The section contract is Layer 7.
+
+### From TauCetiRoadmap.LieGroups
+
+Consume RepresentationTheory/LieGroups Layer 7, complexification and real forms, and Layer 6 for maximal compact tori and their character geometry.
+
+What LieGroups must provide (gap:real-descent-cartan): Supply real descent on the abstract Cartan root datum, Weyl change of Cartan identification and the split/compact eigenspaces of each maximal real torus, compatibly with infinitesimal characters.
+
+The section contract is Layer 7.
+
+### From TauCetiRoadmap.PDE
+
+Consume Lane A, Sobolev spaces, local embedding and distributional regularity; the application with quotient volume and arbitrary comparable weights is §2.7 here.
+
+What PDE must provide (gap:local-sobolev-evaluation): Supply the compact-chart derivative-to-point-evaluation estimate and distributional smoothness from all local Sobolev derivatives used for weighted quotient evaluation in §2.7.
+
+The section contract is Lane A, Sobolev embedding and local regularity.
+
+### From TauCetiRoadmap.PseudodifferentialOperators
+
+Consume Layer 6, §6.1 (P6), for ellipticity of differential operators and their two-sided parametrices modulo smoothing operators, and Layer 5, §5.1 (P5), for Sobolev mapping orders. Section 3.2 applies them, on a compact neighbourhood of the identity, to a power of a left-invariant elliptic operator on G∞; a parametrix of order −N has a Schwartz kernel of class Cᵐ once N>m+dim G∞.
+
+### From TauCetiRoadmap.OperatorTheory and NoncommutativeGeometry
+
+Consume OperatorTheory/SelfAdjointSpectralTheory Parts A–E for spectral measures and unbounded self-adjoint calculus, OperatorTheory/OperatorIdeals OI-B32–OI-B41 and OI-B84 for Hilbert–Schmidt ideals and Part C for their column realization, and the Hilbert–Schmidt composition supplement below. Consume NoncommutativeGeometry N1 for the completed projective tensor, its dense algebraic image, functoriality and complete-target universal property. These generic inputs are used by the automorphic nuclear inclusions and tensor comparisons.
+
+### From TauCetiRoadmap.VonNeumannAlgebras
+
+Consume V4.Core for the Hilbert–Schmidt product pairing and complex trace, with OperatorTheory/OperatorIdeals OI-B29–OI-B41 for the ideal carriers.
+
+What VonNeumannAlgebras must provide (gap:hilbert-schmidt-nuclear-composition): Supply the trace-class and Banach-nuclear factorization of a composite of two Hilbert–Schmidt maps between complete complex Hilbert spaces, with nuclear norm bounded by the product of the two Hilbert–Schmidt norms and compatibility with the locally convex nuclear-map convention. Use BanachSpaceTheory B4's nuclear/trace-class identification for the norm comparison.
+
+The section contract is V4.Core, Hilbert–Schmidt pairings and trace-class comparison.
+
+### From TauCetiRoadmap.BanachSpaceTheory
+
+Consume B4, **Approximation and Banach tensor products**, for the quotient-norm nuclear Banach-operator carrier, its absolutely summable rank-one expansions and its isometric identification with the trace-class gauge on complete Hilbert pairs. The Hilbert–Schmidt composite in the preceding contract uses this identification; §2.8 applies the resulting nuclear map separately at each Banach seminorm completion.
+
+### From TauCetiRoadmap.LocallyConvexDuality
+
+Consume §5.1, **The injective tensor product**, for the completed injective tensor product E⊗̂εF and its embedding, for complete E and F, in the bilinear forms on the weak duals, and §5.2, **Nuclear spaces**, for Grothendieck's theorem that for E nuclear in the sense of AutomorphicSpectralTheory §0.11 the canonical map E⊗̂πF→E⊗̂εF is a topological isomorphism. Section 2.15 uses the two together: on complete nuclear Fréchet spaces the elementary functionals ℓ⊗m separate the points of E⊗̂πF.
+
+### From TauCetiRoadmap.GlobalHolomorphicFunctions and ZerosOfLFunctions
+
+Consume GlobalHolomorphicFunctions, **Preparatory primary factors and locally uniform products**, for the primary-factor formula, compact-dependent locally uniform convergence and exact multiplicities. Apply it to the nonzero-point subtype with constant genus p and multiplicity one; rank summability supplies its compact majorants. Consume ZerosOfLFunctions, standing **finite order** convention and Layer 5.1–5.6, only for comparison with its order-bound predicate; its order-one factorization is outside the inputs to the interpolation proof.
+
+### From TauCetiRoadmap.AutomorphicLFunctionsAndLocalFactors
+
+Consume AL.R.4, **GLₙ isobaric sums**, for normalized isobaric construction, and AL.3.7.2, **Strong multiplicity one for isobaric sums**, for uniqueness, including arbitrary unramified norm twists and multiplicities of cuspidal constituents. Equality at almost all unramified places identifies the inducing multiset in §5.6, not an arbitrary irreducible constituent of an induction.
+
+### From TauCetiRoadmap.SpectralManifolds
+
+Consume SM3, **Smooth projective modules, functions and spectral measure**, for the open mapping theorem between complete metrizable locally convex complex spaces and the topology and completeness of quotients by closed linear subspaces. Applied to a continuous linear map of Fréchet spaces with closed image, it identifies the quotient by its kernel topologically with that image. Sections 2.5 and 2.18 use this theorem on fixed-level Fréchet stages.
 
 ## References
 
