@@ -11,8 +11,9 @@ import TauCeti.AlgebraicGeometry.LineBundle.Basic
 # Faltings finiteness and isogeny theorems: target signatures
 
 **This file is not the roadmap and is not exhaustive.** The definitive document is
-`README.md`. These state the roadmap’s headline theorems against the pinned APIs; discharging them finishes
-neither a layer nor the roadmap. The definitions have real bodies and the theorems use `sorry`.
+`README.md`. These state the roadmap’s headline theorems against the pinned APIs; discharging
+them finishes neither a layer nor the roadmap. The definitions have real bodies and the
+theorems use `sorry`.
 
 On Tau Ceti's abelian varieties, this file states finiteness of isogeny classes with good
 reduction outside a finite set (R28.5.3), finiteness of direct factors over any field
@@ -27,7 +28,7 @@ the vector-space rank of the first cohomology of the structure sheaf; good reduc
 the existence of a smooth proper model with geometrically connected fibres.
 
 It also states finite classification of stable full lattices in a finite-dimensional
-semisimple rational l-adic representation admitting a stable lattice (R28.5.9).
+semisimple rational l-adic representation (R28.5.9).
 
 For Weierstrass elliptic curves over number fields, it states semisimplicity, the integral
 Tate Hom comparison, the isogeny criteria by rational Tate representations and by almost
@@ -38,7 +39,7 @@ these coefficients outside a finite set states the trace criterion.
 
 The remaining headline signatures require interfaces absent at the pins:
 
-* R28.1.11, R28.2.1, R28.2.9 and R28.3.4 need semiabelian models, their metrized Hodge
+* R28.1.6, R28.2.1, R28.2.9 and R28.3.4 need semiabelian models, their metrized Hodge
   lines and modular heights, and the local and global divisible-group towers with their
   invariant differentials. The fractional-ideal degree formula alone does not supply these.
 * R28.4.5–R28.4.8 and R28.6.7 need the Tate representation and its functorial Hom action
@@ -84,14 +85,15 @@ def isStableLattice {l : ℕ} [Fact l.Prime] {Γ V : Type*} [Group Γ]
     [AddCommGroup V] [Module ℚ_[l] V] [Module ℤ_[l] V] [IsScalarTower ℤ_[l] ℚ_[l] V]
     (ρ : Representation ℚ_[l] Γ V) (L : Submodule ℤ_[l] V) : Prop :=
   L.IsLattice ℚ_[l] ∧ ∀ γ x, x ∈ L → ρ γ x ∈ L
-/-- A finite-dimensional semisimple rational l-adic representation admitting a stable
-full integral lattice has finitely many stable lattices up to equivariant rational
-automorphism (R28.5.9, Faltings 1983, p. 363). -/
+
+/-- A finite-dimensional semisimple rational l-adic representation has finitely many stable
+full integral lattices up to equivariant rational automorphism; the finite set is empty when
+there is no stable lattice (R28.5.9, Faltings 1983, p. 363). -/
 theorem finite_stableLattices {l : ℕ} [Fact l.Prime] {Γ V : Type*} [Group Γ]
-    [AddCommGroup V] [Module ℚ_[l] V] [Module ℤ_[l] V] [IsScalarTower ℤ_[l] ℚ_[l] V] [FiniteDimensional ℚ_[l] V]
+    [AddCommGroup V] [Module ℚ_[l] V] [Module ℤ_[l] V] [IsScalarTower ℤ_[l] ℚ_[l] V]
+    [FiniteDimensional ℚ_[l] V]
     (ρ : Representation ℚ_[l] Γ V)
-    [IsSemisimpleModule (MonoidAlgebra ℚ_[l] Γ) ρ.asModule]
-    (h : ∃ L, isStableLattice ρ L) :
+    [IsSemisimpleModule (MonoidAlgebra ℚ_[l] Γ) ρ.asModule] :
     ∃ F : Finset (Submodule ℤ_[l] V),
       (∀ L ∈ F, isStableLattice ρ L) ∧ ∀ L, isStableLattice ρ L →
         ∃ L₀ ∈ F, ∃ e : V ≃ₗ[ℚ_[l]] V,
