@@ -529,7 +529,7 @@ Sources: [Ribet92](#references), Proposition 3.6, p. 7.
 
 This group provides the hypotheses of the weight-two Serre step: absolute irreducibility of `A′[λ]` for almost all λ, bounded conductors of the λ-adic and residual representations, and crystallinity with weights 0 and 1 at good primes with finite flat λ-torsion. §3.2 consumes all three; §§2.3 and 4.3 also use §2.11.
 
-Prove the following. For an integral model A′, the `G_ℚ`-action on `A′[λ]` is absolutely irreducible for all but finitely many maximal ideals λ of `𝒪_E`. In dimension one this specializes to the almost-all irreducibility of elliptic prime torsion in R29.1.
+Prove the following. For an integral model A′, the `G_ℚ`-action on `A′[λ]` is absolutely irreducible for all but finitely many maximal ideals λ of `𝒪_E`.
 
 The proof uses the following steps.
 
@@ -538,7 +538,7 @@ The proof uses the following steps.
 
 **Checks.**
 
-- Compatible with the parent: for an elliptic curve over ℚ, `E[p]` is irreducible for all but finitely many p.
+- For an elliptic curve over ℚ, `E[p]` is irreducible for all but finitely many p.
 - Exceptions occur: `X₀(11)` has reducible `X₀(11)[5]` (a rational 5-torsion point).
 
 *Needs:* §2.1; `FaltingsFinitenessAndIsogenyTheorems R28.6`; `AbelianSchemesAndArithmeticModuli A6`.
@@ -556,7 +556,7 @@ The proof uses the following steps.
 
 **Checks.**
 
-- For an elliptic curve E₀ over ℚ, `N(ρ̄_{E₀,p}) | N_{E₀}` (EllipticCurveModularity R29.1).
+- For an elliptic curve E₀ over ℚ, `N(ρ̄_{E₀,p}) | N_{E₀}` (the case `dim A = 1`).
 - `f_p(A) = 0` for `p ∉ S`.
 - In the semistable elliptic case, EllipticCurves Layers 4 and 4.5a give the squarefree bad-prime product, identified with `N_{E₀}` by EllipticCurveModularity R29.4. The curve `y² = x³ − x` has conductor 32 and bad-prime product 2: its additive reduction at 2 excludes this formula.
 
@@ -649,7 +649,7 @@ The proof uses the following steps.
 
 **Checks.**
 
-- For `dim A = 1` the witnesses have trivial character, as in the parent `(ε = 1)`.
+- For `dim A = 1` the witnesses have trivial character `(ε = 1)`.
 - For `J₀(23)` and λ above ℓ ≡ `±1` mod 5, `g_λ` can be taken to be the newform of level 23.
 - The prime `λ = 5` for `X₀(11)` is excluded: its rational point of order 5
   makes the residual representation reducible, despite good reduction at 5.
@@ -665,16 +665,15 @@ Prove the following. From the witnesses choose one normalized weight-two newform
 The proof uses the following steps.
 
 1. Prove here that there are finitely many normalized weight-two newforms of level dividing `cond(A)`: for each of the finitely many `M | cond(A)`, distinct normalized newforms of level `M` are linearly independent in `S₂(Γ₁(M))`, since they form an orthogonal basis of its new subspace (ModularForms Layer 5), and `S₂(Γ₁(M))` is finite-dimensional (ModularForms Layer 10). The native cusp-form spaces already decompose into diamond-character spaces by `isInternal_cuspFormCharSpace`; this is finiteness on the existing carrier, rather than a new character decomposition.
-2. `λ ↦ g_λ` maps the infinite set Λ to this finite set, so some fibre is infinite (EllipticCurveModularity R29.3). At this point reduction lands in `𝔽_{λ′}`, with the good Hecke values in its embedded subfield `𝔽_λ`.
+2. `λ ↦ g_λ` maps the infinite set Λ to this finite set, so some fibre is infinite (Mathlib `Finite.exists_infinite_fiber`). At this point reduction lands in `𝔽_{λ′}`, with the good Hecke values in its embedded subfield `𝔽_λ`.
 3. Choose finitely many good-prime `a_p(f)` generating `K_f`: use §1.6, the Frobenius comparison of ModularCurvesPartII §§16.1–16.7, and §2.7 applied to `A_f`. The order they generate has finite index in `𝒪_{K_f}`. Delete the finitely many λ whose residue characteristic divides this index or is one of the chosen primes. The remaining `Λ_f` is infinite, and reduction of every element of `𝒪_{K_f}` lies in the embedded `𝔽_λ`. Thus `φ_λ` has the stated codomain `𝔽_λ = 𝔽_ℓ`.
 
 **Checks.**
 
-- For `dim A = 1` this is the parent's pigeonhole step.
 - For `cond(A) = 529` the levels are 1, 23 and 529. `S₂(Γ₁(1)) = 0`, and `S₂(Γ₁(23))` has dimension 12, the genus of `X₁(23)`; as there are no oldforms from level 1, it is spanned by exactly 12 normalized newforms, of which the two with trivial character span the two-dimensional `S₂(Γ₀(23))`. A count that used `S₂(Γ₀(M))` instead of `S₂(Γ₁(M))` would see only those two and miss the ten with nontrivial character.
 - The level of f divides `cond(A)`; its exact value is §4.2.
 
-*Needs:* §3.2; `EllipticCurveModularity R29.3`; `ModularForms Layers 5 and 10`; `HeckeRing.GL2.Newform`; `isInternal_cuspFormCharSpace`; `cuspFormCharSpace`; `CongruenceSubgroup.Gamma1`; §2.7; §1.6; `ModularCurvesPartII §§16.1–16.7`; `ModularForms Layer 8`.
+*Needs:* §3.2; Mathlib `Finite.exists_infinite_fiber`; `ModularForms Layers 5 and 10`; `HeckeRing.GL2.Newform`; `isInternal_cuspFormCharSpace`; `cuspFormCharSpace`; `CongruenceSubgroup.Gamma1`; §2.7; §1.6; `ModularCurvesPartII §§16.1–16.7`; `ModularForms Layer 8`.
 
 Sources: [Ribet92](#references), proof of Theorem 4.4, pp. 8–9.
 
@@ -696,13 +695,13 @@ The proof uses the following steps.
    The pair `(φ_λ, 𝒪_E → 𝔽_λ)` defines `R → 𝔽_ℓ`, which extends uniquely
    through `R[1/D] = B[1/D]`. Its kernel therefore selects a unique factor.
    Infinitely many select one L, with embeddings `u : K_f → L`, `v : E → L`
-   (the finite pigeonhole argument of EllipticCurveModularity R29.3).
-2. For `p ∉ S`, `p ∤ N_f`, the element `u(a_p(f)) − v(a_p(A)) ∈ 𝒪_L` lies in primes above infinitely many ℓ, hence vanishes (EllipticCurveModularity R29.3).
+   (Mathlib `Finite.exists_infinite_fiber`).
+2. For `p ∉ S`, `p ∤ N_f`, the element `u(a_p(f)) − v(a_p(A)) ∈ 𝒪_L` lies in primes above infinitely many ℓ, hence vanishes (EllipticCurveModularity R29.3, Vanishing of an algebraic integer).
 3. `K_f` is generated by these `a_p(f)` (ModularCurvesPartII §§16.1–16.7 with §2.7 applied to `A_f`, §1.6) and E by these `a_p(A)` (§2.7), so `u(K_f) = v(E)` and `j = v⁻¹ ∘ u`. To identify characters, first use the resulting equality of good traces and Chebotarev–Brauer–Nesbitt (ArithmeticGaloisRepresentations §5.3) to identify the characteristic-zero representations. Their determinants then identify `j(ε_f)` with ε. Trace congruences alone do not give determinant congruences.
 
 **Checks.**
 
-- For `dim A = 1`, `K_f = ℚ` and `a_p(f) = a_p(A)`: the parent's exact equality.
+- For `dim A = 1`, `K_f = ℚ` and `a_p(f) = a_p(A)`.
 - For `J₀(23)` and its newform f, j is the identity of `ℚ(√5)` once E is identified with the Hecke field through the Hecke action; j is unique, as the `a_p` generate.
 - For `K_f = E = ℚ(√5)` at characteristic 5, the rational factors
   `√5 ↦ ±√5` give the same residual map `√5 ↦ 0`; this characteristic
@@ -1463,7 +1462,7 @@ cocycles or Weil restrictions.
 
 ## Scope and ownership
 
-EllipticCurveModularity R29 proves the dimension-one theorem. Layers 3–4 generalise its constructions and compare the pointed parametrisations when the same quotient and Abel–Jacobi map are chosen. This roadmap owns the structural results specific to GL₂-type varieties, their modularity and exact level, and the forward ℚ-curve construction. The `GL₂(E)`-type bundle itself belongs to SmallRamificationAndAbelianVarietyBaseCases §5.1, and its Tate modules belong to ArithmeticGaloisRepresentations §§6.1–6.4. Other roadmaps cite this roadmap by the identifiers GT.1–GT.6 for Layers 1–6 and by slugs such as GT.1/primitive for §1.2 and GT.3/modularity-theorem for §3.6; those identifiers name the layers and targets numbered here.
+EllipticCurveModularity R29 states the dimension-one theorem. Layer 3 proves modularity in every dimension, dimension one included, by Ribet's argument from Serre's conjecture, and Layers 3–4 compare the pointed parametrisations with those of EllipticCurveModularity when the same quotient and Abel–Jacobi map are chosen. This roadmap owns the structural results specific to GL₂-type varieties, their modularity and exact level, and the forward ℚ-curve construction. The `GL₂(E)`-type bundle itself belongs to SmallRamificationAndAbelianVarietyBaseCases §5.1, and its Tate modules belong to ArithmeticGaloisRepresentations §§6.1–6.4. Other roadmaps cite this roadmap by the identifiers GT.1–GT.6 for Layers 1–6 and by slugs such as GT.1/primitive for §1.2 and GT.3/modularity-theorem for §3.6; those identifiers name the layers and targets numbered here.
 
 AbelianSchemesAndArithmeticModuli A1–A3 and A6 supply geometry, rational endomorphisms, polarizations, images, isogenies and Weil restriction. ModularCurvesPartII Layers 3–6, 13, 16 and §17.3 supply the curves, Jacobians, Hecke quotients `A_f` and rational pointed Abel–Jacobi maps. AutomorphicGaloisRepresentations §§1.5, 4.4–4.9 and 6.1–6.4 supply newform representations and local compatibility; ClassicalSerreModularity R27.6 supplies the strong Serre theorem. Faltings' comparison theorems, p-adic Hodge theory, Néron models, automorphic base change and reciprocity are imported at the layers specified below.
 
@@ -1500,7 +1499,7 @@ These interfaces describe the inputs to the targets. Each is attached to its own
 | ArithmeticGaloisRepresentations §7.6, “Projective lifting” | Tate's vanishing for trivial-action ℚ/ℤ coefficients, from which the ℚ̄ˣ version follows. |
 | GL2AutomorphicRepresentationsAndTransfer §§R17.4.3–R17.4.9 and R17.6.17–R17.6.18; ClassFieldTheory Layer 11 | Solvable base change, rank-two finite quotient character extraction, finite character twists, local compatibility, coherent algebraic characters across auxiliary coefficient primes, and global Artin reciprocity. §6.1 owns the extension of character extraction to arbitrary positive finite rank. |
 | AbelianSchemesAndArithmeticModuli §§A5.1–A5.3; EllipticCurves Layer 1, “Isogenies, the dual, the invariant differential, and formal groups” | Complex lattice uniformization, algebraicity of analytic homomorphisms and geometric endomorphism actions. §5.1 proves its CM conjugate-isogeny consequence. |
-| EllipticCurveModularity R29.3–R29.6 | Infinite congruence-to-equality arguments; the newform of an elliptic curve (R29.3, The newform of an elliptic curve), attached through its `IsNewformOf` predicate; R29.4's targets The level is the conductor and The conductor and its semistable comparison; and the dimension-one modularity and pointed parametrisation with which Layer 4 compares its choices. The general conductor includes additive and wild reduction; the squarefree bad-prime product requires semistability. |
+| EllipticCurveModularity R29.3–R29.6 | The vanishing of an algebraic integer that lies in primes above infinitely many rational primes (R29.3, Vanishing of an algebraic integer); the newform of an elliptic curve (R29.3, The newform of an elliptic curve), attached through its `IsNewformOf` predicate; R29.4's targets The level is the conductor and The conductor and its semistable comparison; and the dimension-one modularity and pointed parametrisation with which Layer 4 compares its choices. The general conductor includes additive and wild reduction; the squarefree bad-prime product requires semistability. |
 
 ### From Mathlib and Tau Ceti
 
