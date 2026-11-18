@@ -2,6 +2,7 @@ import Mathlib
 import TauCeti.AlgebraicGeometry.EllipticCurve.BirchSwinnertonDyer.Quotient
 import TauCeti.AlgebraicGeometry.EllipticCurve.Isogeny.Basic
 import TauCeti.AlgebraicGeometry.EllipticCurve.ShortWeierstrass
+import TauCeti.AlgebraicGeometry.EllipticCurve.TateCurve.Uniformization
 
 /-!
 # Elliptic curves: target signatures
@@ -12,20 +13,41 @@ reviewers converge on names and signatures; discharging all of them finishes nei
 the roadmap.
 
 This file states the roadmap's headline theorems that the pinned Tau Ceti does not prove, against
-the pinned Mathlib and Tau Ceti APIs: the classical Nagell–Lutz bound of Layer 6, and the two
-isogeny invariances of Layer 7, of the `L`-function over a number field and (Cassels) of the
-Birch–Swinnerton-Dyer quotient over `ℚ`. Every carrier they
+the pinned Mathlib and Tau Ceti APIs: Tate's uniformisation of Layer 4, the classical Nagell–Lutz
+bound of Layer 6, and the two isogeny invariances of Layer 7, of the `L`-function over a number
+field and (Cassels) of the Birch–Swinnerton-Dyer quotient over `ℚ`. Every carrier they
 mention exists at the pins, those beyond Mathlib's Weierstrass curves and points being Tau Ceti's
-(`WeierstrassCurve.shortCurve`, `TauCeti.Isogeny`, `WeierstrassCurve.sha`,
-`WeierstrassCurve.bsdQuotient`), so nothing is defined here. The other
+(`TauCeti.tateUniformization`, `WeierstrassCurve.shortCurve`, `TauCeti.Isogeny`,
+`WeierstrassCurve.sha`, `WeierstrassCurve.bsdQuotient`), so nothing is defined here. The other
 headline theorems of `README.md` (the Hasse bound, the Mordell–Weil theorem, the structure of
 `E[N]`, the Weil pairing, the finiteness of Selmer groups, the global-minimal-model criterion,
-the quadratic-twist and Tate-curve theorems, the Néron–Ogg–Shafarevich criteria) are proved in the
-pinned Tau Ceti; `README.md` §Scope and ownership cites each by name and file, and they are not
-restated here. Every headline of the roadmap is statable at the pins.
+the quadratic-twist theorems, the split multiplicative reduction of the Tate curve over a discrete
+valuation ring, the Néron–Ogg–Shafarevich criteria) are proved in the pinned Tau Ceti;
+`README.md` §Scope and ownership cites each by name and file, and they are not restated here.
+Every headline of the roadmap is statable at the pins.
 -/
 
 namespace TauCetiRoadmap.EllipticCurves
+
+/-! ## Layer 4: elliptic curves over local fields — reduction, Tate's algorithm, the Tate curve -/
+
+/-- **Tate's uniformisation** (ATAEC V.3.1 in the discretely valued case; J. Tate, *A review of
+non-Archimedean elliptic functions*, 1995, and P. Roquette, 1970, over a general complete
+non-archimedean field). Let `K` be complete for a non-archimedean absolute value and let `q ∈ Kˣ`
+with `|q| < 1`. Tau Ceti's map `Kˣ / q^ℤ → E_q(K)`, which sends the identity class to the point
+at infinity and the class of `u ∉ q^ℤ` to the point with Tate coordinates `(X(u, q), Y(u, q))` on
+`E_q : y² + xy = x³ + a₄(q) x + a₆(q)`, is bijective and carries the product of classes to the
+sum of points: it is a group isomorphism. The pin proves that the map is injective
+(`TauCeti.tateUniformization_injective`) and Galois-equivariant; that it is additive and onto is
+the open part. No discreteness of the value group and no restriction on the characteristic is
+assumed. -/
+theorem tateUniformization_bijective_and_map_mul {K : Type*} [NormedField K] [CompleteSpace K]
+    [IsUltrametricDist K] [DecidableEq K] (q : Kˣ) (hq : ‖(q : K)‖ < 1) :
+    Function.Bijective (TauCeti.tateUniformization q hq) ∧
+      ∀ x y : Kˣ ⧸ Subgroup.zpowers q,
+        TauCeti.tateUniformization q hq (x * y) =
+          TauCeti.tateUniformization q hq x + TauCeti.tateUniformization q hq y :=
+  sorry
 
 /-! ## Layer 6: the Mordell–Weil theorem (AEC VIII) -/
 

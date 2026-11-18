@@ -218,8 +218,12 @@ and `Suggested.lean` does not restate them (files relative to `TauCeti/Algebraic
   `WeierstrassCurve.hasGoodReduction_iff_tateModuleGaloisRepresentation_eq_one`
   (`TateModule/GoodReduction.lean`) and
   `WeierstrassCurve.hasPotentialGoodReduction_iff_finite_image_tateModuleGaloisRepresentation`
-  (`TateModule/PotentialGoodReduction.lean`); the Tate curve `TauCeti.tateUniformization`
-  (`TateCurve/Uniformization.lean`).
+  (`TateModule/PotentialGoodReduction.lean`); the Tate uniformisation map
+  `TauCeti.tateUniformization` (`TateCurve/Uniformization.lean`), its injectivity
+  `TauCeti.tateUniformization_injective` (`TateCurve/Injectivity.lean`), its Galois equivariance
+  `TauCeti.map_algEquiv_tateUniformizationBaseChange` (`TateCurve/Galois.lean`), and the split
+  multiplicative reduction of the Tate curve over a discrete valuation ring,
+  `TauCeti.hasSplitMultiplicativeReduction_tateCurveAt` (`TateCurve/Reduction.lean`).
 - Layer 4.5a, in the namespace `WeierstrassCurve`: `IsGlobalMinimal` and `IsSemiGlobalMinimal`
   (`GlobalMinimalModel.lean`); `obstructionExponentAt` and `IsSharpSemiGlobalMinimalAt`
   (`MinimalModel/ObstructionExponent.lean`); `minimalDiscriminantIdeal`
@@ -253,9 +257,10 @@ and `Suggested.lean` does not restate them (files relative to `TauCeti/Algebraic
   (`FreyCurve/Basic.lean`), `TauCeti.AlgorithmicSzpiroConjecture` (`Szpiro.lean`) and
   `TauCeti.AlgorithmicSzpiroConjecture.asymptoticFermat` (`FreyCurve/Szpiro.lean`).
 
-The headline theorems the pinned Tau Ceti does not prove are the classical Nagell–Lutz bound of
-§Layer 6 and, in §Layer 7, the equality of the `L`-functions of isogenous curves and Cassels'
-theorem; `Suggested.lean` states these three.
+The headline theorems the pinned Tau Ceti does not prove are Tate's uniformisation of §Layer 4
+(the uniformisation map is a bijective homomorphism), the classical Nagell–Lutz bound of §Layer 6
+and, in §Layer 7, the equality of the `L`-functions of isogenous curves and Cassels' theorem;
+`Suggested.lean` states these four.
 
 ## Conventions
 
@@ -362,13 +367,9 @@ This is the foundation the roadmap builds on; it is consumed, not rebuilt.
 - **Reduction over a DVR.** The good/multiplicative/additive trichotomy, minimal models, the
   reduction predicates `HasGood/Multiplicative/SplitMultiplicative/AdditiveReduction`, and
   `WeierstrassCurve.minimal` (`.../EllipticCurve/Reduction.lean`).
-  ⚠ Mathlib states these only over a **DVR** — the right base for Layer 4's Tate's-algorithm
-  strand, which stays there. But multiplicative/split reduction is also wanted over **rank-1
-  valued** fields (so one can speak of `E/ℂ_p`, needed for `p`-adic analysis), where the valuation
-  is not discrete; the target shape re-founds the
-  reduction predicates over **an arbitrary ring with a valuation** — no fraction field in the
-  definitions at all — with the DVR and valued-field statements derived; that refactor is an
-  **upstream prerequisite** for Layer 4's Tate-curve strand, flagged here.
+  ⚠ Mathlib states these only over a **DVR**, the base of Layer 4's Tate's-algorithm strand;
+  over a complete rank-1 valued field that is not discretely valued, such as `ℂ_p`, Layer 4
+  states the reduction of the Tate curve on its equation, with no reduction predicate.
 - **Heights and the `L`-function definition.** `Mathlib/NumberTheory/Height/*` (the general
   height API and Northcott) and `.../EllipticCurve/LFunction.lean`. The point height is
   Mathlib's (`Mathlib/NumberTheory/Height/EllipticCurve.lean`, M. Stoll): the naïve height
@@ -396,10 +397,12 @@ the Tate curve, the twists, the Mordell–Weil theorem, and Selmer/Sha.
 
 ### From Tau Ceti
 
-The three headline theorems the pinned Tau Ceti does not prove are stated against its objects:
-the short model `WeierstrassCurve.shortCurve` (`ShortWeierstrass.lean`) for Layer 6's classical
-Nagell–Lutz bound, which sharpens the discriminant form `WeierstrassCurve.lutz_nagell`
-(`DivisionPolynomial/ShortNagellLutz.lean`) by the same integrality; and `TauCeti.Isogeny`,
+The four headline theorems the pinned Tau Ceti does not prove are stated against its objects:
+the uniformisation map `TauCeti.tateUniformization` (`TateCurve/Uniformization.lean`) for
+Layer 4's Tate uniformisation; the short model `WeierstrassCurve.shortCurve`
+(`ShortWeierstrass.lean`) for Layer 6's classical Nagell–Lutz bound, which sharpens the
+discriminant form `WeierstrassCurve.lutz_nagell` (`DivisionPolynomial/ShortNagellLutz.lean`) by
+the same integrality; and `TauCeti.Isogeny`,
 `WeierstrassCurve.sha` and `WeierstrassCurve.bsdQuotient`, whose period factor is
 `WeierstrassCurve.minimalRealPeriod` (`MinimalModel/RealPeriod.lean`), for Cassels' theorem in
 Layer 7, which also consumes the transfer of `Ш` finiteness across an isogeny,
@@ -1323,18 +1326,24 @@ future scheme-facing roadmap.
   rigid-space quotient is in scope: for each finite extension `L/K` (complete, or completed),
   a group isomorphism `L^× / q^ℤ ≅ E_q(L)`, compatible in `L` and Galois-equivariant, with
   the subgroup `q^ℤ`, the uniformisation map, its kernel and surjectivity all named
-  milestones. The coefficients are explicit `q`-series **defined over `ℤ⟦q⟧` first**:
+  milestones. Tau Ceti has the map `TauCeti.tateUniformization`, its injectivity and its Galois
+  equivariance; that it is a bijective homomorphism over every such `K` (each finite extension
+  `L` is again one) is `tateUniformization_bijective_and_map_mul` in `Suggested.lean`. The
+  coefficients are explicit `q`-series **defined over `ℤ⟦q⟧` first**:
   `a₄ = −5s₃(q)` and, for `a₆`, the series `−(5s₃ + 7s₅)/12` — where the divisibility of the
   numerator's coefficients by `12` is a **theorem** (so the division happens in `ℤ⟦q⟧`, and
   only then is the series mapped to `K`; no division by `12` in the field, which residue
   characteristics `2` and `3` would forbid), `s_k(q) = Σ_{n≥1} n^k qⁿ/(1 − qⁿ)` — convergent
   from `|q| < 1` and completeness alone; Mathlib's complex `℘` is nowhere involved. Named
-  outputs: `Δ(q)`, `j(q) = 1/q + 744 + ⋯`, `v(Δ) = v(q)`, and the split-multiplicative-
-  reduction theorem for `E_q`. Sources: ATAEC V.3.1 and
+  outputs, over every such `K`: `Δ(q)` with `|Δ(q)| = |q|`, `j(q) = 1/q + 744 + ⋯` with
+  `|j(q)| = 1/|q|`, and `|a₄(q)|, |a₆(q)| < 1` with `|c₄(q)| = 1`, so that the equation is
+  integral and reduces to the nodal cubic `y² + xy = x³`, whose tangents `y = 0` and `y = −x` at
+  the node are rational over the residue field; and, when the valuation ring of `K` is a discrete
+  valuation ring, the split-multiplicative-reduction theorem for `E_q` in Mathlib's sense
+  (`TauCeti.hasSplitMultiplicativeReduction_tateCurveAt`). Sources: ATAEC V.3.1 and
   V.5.3 for the discretely valued case; Tate, *A review of non-Archimedean elliptic
   functions* (1995, circulated since 1959) and Roquette (1970) for a general complete
-  rank-1 field (references). This strand consumes the rank-1 generalisation of Mathlib's
-  reduction predicates flagged in the consume-section above.
+  rank-1 field (references).
 
   **Checks.**
 
@@ -1365,9 +1374,7 @@ future scheme-facing roadmap.
 
 Mathlib's reduction theory over a discrete valuation ring; Layer 1's formal group; Layer 2's Tate
 module for Néron–Ogg–Shafarevich; Layer 3's dichotomy for good ordinary and supersingular
-reduction. Layer 5's split-reduction statement feeds back into the analytic strand, so the two land
-together, not in numeric order, and the Tate-curve strand consumes the rank-one generalisation of
-Mathlib's reduction predicates flagged in §Exact supplier contracts.
+reduction.
 
 ### Layer 4.5a: invariant theory over a Dedekind domain (AEC VIII.8)
 
