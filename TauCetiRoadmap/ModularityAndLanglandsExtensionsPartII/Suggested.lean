@@ -27,20 +27,15 @@ pinned Mathlib and Tau Ceti, the headline theorems of the roadmap that are stata
 
 The other headline theorems need carriers that neither Mathlib nor Tau Ceti has: cuspidal
 automorphic representations of `GL_n` over number fields and of definite unitary groups, their
-`p`-adic Galois representations and the automorphy predicate, rigid-analytic eigenvarieties and
-spaces of pseudocharacters, Hilbert modular forms, local Langlands parameters and Arthur packets
-of unitary groups, and Galois deformation and pseudodeformation rings. Hence:
+`p`-adic Galois representations and the automorphy predicate, Hilbert modular forms, and Galois
+deformation and pseudodeformation rings. Hence:
 
-* Theorem 2.33 of Newton–Thorne I (§2.4) and Theorem D (§3.8) lack the eigencurve, the unitary
-  eigenvariety and the automorphy predicate for `Sym^{n−1} r_{π,ι}`.
-* Level raising to types and to Steinberg (§§5.4, 5.10, 6.4, 6.7–6.9) lacks automorphic
-  representations of definite unitary groups, depth-zero types and their Galois representations.
-* Theorem E and Theorem 7.1 (§§7.5, 7.6, 14.1), the Clozel–Thorne powers `Sym^6`, `Sym^8`
-  (§7.7) and Theorem B (§§8.3, 14.2) lack the automorphy predicate for `GL_n` over `ℚ` and over
-  CM fields.
-* Automorphy lifting for symmetric powers (§9.8), tensor functoriality lifting (§12.7), the
-  untwisted tensor (§11.10) and the residual twisted-tensor witnesses (§§13.5, 13.6) lack
-  Galois representations of automorphic representations, deformation rings and patching.
+* Level raising to Steinberg (§6.9) lacks automorphic representations of definite unitary groups
+  and their Galois representations.
+* Theorem E (§14.1) and Theorem B (§14.2) lack the automorphy predicate for `GL_n` over `ℚ`.
+* Tensor functoriality lifting (§12.7), the untwisted tensor (§11.10) and the residual
+  twisted-tensor witnesses (§§13.5, 13.6) lack Galois representations of automorphic
+  representations, deformation rings and patching.
 * `SP_n` over totally real fields (§13.10) lacks Hilbert modular forms and automorphic
   representations of `GL_n` over totally real fields.
 * Symmetric power functoriality for every non-CM newform (§14.3), as the existence of the
