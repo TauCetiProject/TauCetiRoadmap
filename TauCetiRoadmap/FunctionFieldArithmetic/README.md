@@ -23,169 +23,23 @@ abelian existence in equal characteristic (§4.2), finite ray-cover classificati
 conductors (§4.10), Harder's finiteness theorem with integral
 coefficients (§6.4–§6.5) and the Feng–Yun–Zhang coefficient formula (§7.6).
 
-## Scope and ownership
+## How to read the build
 
-AlgebraicCurves owns places, divisors, `L(D)`, Weil differentials and Riemann–Roch, completions
-and local expansions at a place, extensions of function fields with their ramification, the
-different and Riemann–Hurwitz, constant-field extensions, Kummer and Artin–Schreier covers with
-their genus formulas, and the curve/function-field dictionary. Its scope section names zeta
-functions and the arithmetic of finite constant fields as the subject of a separate roadmap that
-consumes it; this is that roadmap. The divisor-degree formula and product formula are
-consumed from `TauCeti.Divisor.degree` and `TauCeti.Divisor.degree_principal`; the
-chosen-generator comparison with Mathlib's `FunctionField` is AlgebraicCurves Layer 0.
-Neither is a separate target here.
-It starts from AlgebraicCurves Layers 0–12 and the finiteness of `Cl⁰(F)` over a finite constant
-field (AlgebraicCurves Layer 5; Stichtenoth, §5.1, Definition 5.1.2 and Proposition 5.1.3,
-p. 186), and plans nothing those layers state. In particular, finite
-exact constants are supplied by `TauCeti.IsFunctionField.finiteDimensional_algebraicClosure`,
-`TauCeti.isIntegrallyClosedIn_algebraicClosure` and `TauCeti.IsFunctionField.algebraicClosure`
-in `TauCeti/FieldTheory/FunctionField/ConstantField.lean`. For example, the exact constants of
-`𝔽_q(t)` are `𝔽_q`, whereas `𝔽_{q²}(t)` viewed over `𝔽_q` has `dim_{𝔽_q} L(0) = 2` and must
-be viewed over `𝔽_{q²}` for the geometrically connected curve dictionary. Constant extensions,
-including the perfect-field hypotheses and the inseparable genus-drop warning, are consumed from
-AlgebraicCurves Layer 8. The one-pole Artin–Schreier genus and different are also supplied there
-(Layer 10), implemented by
-`TauCeti.two_mul_genus_eq_of_exists_reduced_artinSchreier_pole_ratFunc` in
-`TauCeti/FieldTheory/FunctionField/ArtinSchreier/Genus.lean`; §3.3 adds the comparison with Witt
-classes and their localization maps.
-
-This roadmap owns:
-
-- the conventions for finite exact constants, valuation and idele degrees, and arithmetic
-  versus geometric Frobenius (Layer 0);
-- the reduced-basis description of `L(D)` relative to a polynomial subring `k[x] ⊆ F` (Layer 1);
-- divisor lattices in the completed adeles, their volumes for the self-dual measure of
-  AutomorphicLFunctionsAndLocalFactors §AL.0.6.1 and the Fourier transforms of their indicators
-  (Layer 2);
-- Artin–Schreier–Witt theory of fields of characteristic `p` and reduced representatives over
-  `k((T))` (Layer 3);
-- the torsion of Lubin–Tate formal modules in equal characteristic, its ramification and the
-  action of the local Artin map on it, `p`-primary local existence, local
-  Kronecker–Weber and injectivity of the local Artin map in equal characteristic, the
-  Schmid–Witt symbol and the Artin–Schreier–Witt conductor formula; affineness over the
-  ordinary Picard scheme and the additional structure assertions for rigidified Picard
-  spaces, Rosenlicht's perfect-field universal property at a fixed modulus, and the extension
-  of the supplied rank-one Lang-cover dictionary to arbitrary finite abelian groups (Layer 4);
-- the zeta function and `L`-polynomial of a function field over `𝔽_q`, their Riemann–Roch
-  properties, their comparison with the scheme-theoretic zeta function, recovery from `g` point
-  counts, finite-coefficient `L`-functions of local systems, and quantitative degree-sensitive
-  Chebotarev with an explicit error term (Layer 5);
-- adelic points of affine groups over a function field, automorphic function modules with
-  coefficients in a `ℤ[1/p]`-algebra, constant terms, cusp modules, Harder's finiteness theorem,
-  integral coefficient models, the global unramified Hecke action and Yu's degree-zero
-  nonvanishing (Layer 6);
-- inducing characters with their unramified obstruction and finite ramification, unitary
-  Eisenstein continuation from all parabolics and discrete data, the Siegel series and its
-  Hermitian Fourier coefficients, split Hermitian local densities, the local Whittaker–density
-  identity and the Feng–Yun–Zhang global coefficient formula (Layer 7).
-
-It leaves the following to the roadmaps that state them, and states none of them again:
-
-- **ArithmeticGaloisDuality**, §R02.3.2, *Function-field places, ideles and `S`-units*: the
-  idele group `J_F`, the idele class group `C_F`, the
-  valuation degree `deg`, F. K. Schmidt's degree-surjectivity theorem, compactness of the
-  degree-zero idele classes and the splitting `C_F ≅ ker(deg) × ℤ`, `S`-units and
-  `S`-class groups; *The class formation of a global function field*: the Brauer sequence, the
-  class formation, the reciprocity isomorphisms `C_F/N_{L/F}C_L ≅ Gal(L/F)^ab` compatible with
-  local reciprocity, the description of norm groups as the open subgroups of finite index, and the
-  `S`-version with cokernel `Ẑ/ℤ`.
-- **AutomorphicLFunctionsAndLocalFactors**, Layer AL.0, §AL.0.6.1 *Curve additive analysis* (the
-  completion-valued adeles `𝔸_K` with their topology, the identification of `𝔸_Kˣ` with the
-  ideles above, the valuation-divisor map with kernel `∏_v O_vˣ` and quotient `Pic(X)`, the
-  discrete cocompact diagonal with quotient volume `q^(g−1)` for local integral volume one,
-  compact rational unipotent quotients with integration in stages, the residue character of a
-  differential with its conductor, self-dual measures and Poisson summation, the comparison of the
-  self-dual measures with the integral ones and quotient volume, and their compatibility with
-  `ω ↦ fω`); §AL.0.3.1 *The local Schwartz–Bruhat space `S(F)`, its `F^×`-action and tempered
-  distributions* (in positive characteristic: the conductor `ν(ψ)` with `ν(ψ_b) = ν(ψ) + ord b`,
-  the lattice duality `(P^m)^∨ = P^(−ν−m)` and the self-dual volume `vol(O) = q^(−ν/2)`);
-  §§AL.0.1.7–AL.0.1.8 *Fourier transform of a subgroup indicator* and *Fourier transform of a
-  coset indicator*; §AL.R.3 *Restricted tensor realizations* (the complex `GLₙ` automorphic spaces compared in §6.2);
-  Layer AL.3: §AL.3.10.2 *Rank-one unramified reciprocity* (the zero-modulus Picard and
-  Lang-cover comparison, including the constant-field direction); §AL.3.10.4 *Ramified rank-one
-  curve reciprocity* (the finite-field generalized Picard objects for every effective modulus,
-  ray-class comparison, Abel and Lang maps, finite-cover comparison and rank-one character
-  dictionary with least conductor); §AL.3.4.1 *The `GL(n)` cuspidal Fourier expansion*,
-  §AL.3.4.2 *Global Whittaker factorization* and §AL.3.14.1 *Spherical Whittaker normalization
-  at nonzero conductor*; and §AL.3.10.3 *Function-field local factors, multiplicity one and
-  converse theorem*.
-- **ArithmeticGaloisRepresentations**: §2.5 *Local factors* (`GaloisRep.localEulerFactor` on
-  inertia invariants, for any coefficient field); §3.7 *Computations and Artin–Schreier characters* (break `m`,
-  Swan conductor `m`, Artin conductor `m + 1`, different exponent `(p − 1)(m + 1)`); §5.13
-  *Function fields over finite fields* (restricted-ramification groups and Frobenius, the curve
-  point-counting input, Chebotarev for function fields including enlarged constant fields, with
-  the degree-`n` Frobenius count `π_B(n)` and its vanishing outside the compatible degrees,
-  profinite Frobenius density and recognition of semisimple representations by Frobenius
-  characteristic polynomials); §1.8 Brauer–Nesbitt.
-- **DeligneWeightsAndPurity**: §1.6 (the Weil estimate for curves through the Jacobian and
-  `Z(C, t) = P^rev_{π_J}(t)/((1 − t)(1 − qt))`) and §1.9 (base extension).
-  Its §3.7 supplies the Haar-null density-zero consequence of the degree-refined
-  Chebotarev theorem in ArithmeticGaloisRepresentations §5.13; §5.8 here adds an explicit
-  error estimate with the same constant-field Frobenius congruence and main term.
-- **WeilConjectures**: §1.16 *A curve numerator before root bounds* and §5.20
-  *Recurrences and Newton recovery*.
-- **SchemeAndStackFoundations**: §2.16 *Tsen's theorem, `𝔾_m` on curves and proper
-  hypercoverings*, §3.3 *Degrees of vector bundles, Riemann–Roch and Serre duality on curves*,
-  §3.6 *Picard torsors of a curve without a rational point and rational divisor classes*, and
-  §5.11 *The Weil bound via surfaces*.
-- **AutomorphicSpectralTheory**: §§1.11–1.13 (function-field `GLₙ` character tori, spherical
-  sections and induction normalization), §§2.15–2.16 (intertwiners), §§4.11–4.17
-  (discrete and residual data). These are its everywhere-unramified `GLₙ` branch; they do not
-  supply the unitary-group Eisenstein theory of Layer 7.
-- **LubinTateFormalModulesAndQuasiCanonicalLifts**: §§0.1–0.2 (formal modules with their
-  tangent-compatible coefficient actions, and their adic points), §§1.1–1.4 (Lubin–Tate
-  series, interpolation, the Lubin–Tate formal module and its coordinate independence, over
-  every discrete valuation ring with finite residue field, so in equal characteristic too)
-  and §§2.1–2.5 (torsion, division fields, the Lubin–Tate character and its comparison with
-  local reciprocity, over finite extensions of `ℚ_p`). Section 4.1 adds the
-  equal-characteristic torsion, ramification and reciprocity on these same carriers.
-- **ClassFieldTheory** (Tau Ceti): class formations and Tate's theorem (Layers 1–4), local
-  invariants (Layer 5), the local class formation, finite and absolute reciprocity and
-  conductors (Layers 6–7) and the prime-to-`p` local existence theorem of Layer 8. Its scope
-  section excludes Lubin–Tate theory, Artin–Schreier–Witt theory and `p`-primary existence in
-  equal characteristic; those are Layers 3–4 here.
-- **Already in the library**: the lower and upper ramification groups, Herbrand functions,
-  Herbrand's theorem for quotients, Hasse–Arf and the upper-numbering form of the norm-group
-  conductor are proved in the pinned Tau Ceti for every nonarchimedean local field, equal
-  characteristic included (exact names under *From Tau Ceti*). Unit-filtration reciprocity
-  follows from these and ClassFieldTheory Layers 6–7 (§4.2) and is not a target here. So
-  are the absolute local Artin map, norm subgroups of abelian layers with their uniqueness and
-  index, and the conductor exponent of a finite separable extension as an attained minimum,
-  in every characteristic, and local existence and injectivity of the Artin map in
-  characteristic zero. The conductor of the class field of an open subgroup `H` of finite
-  index is therefore the least `n` with `U^(n) ⊆ H` once §4.2 supplies that class field, and
-  is not a target here. Homomorphisms and isomorphisms of one-dimensional formal group laws
-  and their points in topologically nilpotent elements are also in the pinned Tau Ceti.
-- **ReductiveGroupsPartII**: §RG2.3.7 Lang's theorem, Layer RG2.4 Iwasawa and Cartan
-  decompositions. **SmoothRepresentationsOfLocalGroups**: §SR.4.1 the Satake transform and
-  isomorphism, §SR.4.4 unramified unitary groups. **AdelicAlgebraicGroups**: Layer AA.0
-  restricted products of Haar measures (stated for countable families of second countable
-  locally compact groups, so it applies to function fields unchanged).
-- **GeometryOfNumbersAndQuadraticArithmetic**, §3.2: Hermitian local densities, the normalized
-  Siegel polynomial and the Cho–Yamauchi overlattice formula over an unramified quadratic field
-  extension of a nonarchimedean local field of characteristic other than two; §3.1 supplies
-  finite-field Hermitian embedding and isotropic-frame counts, including in characteristic two.
-
-The adelic points of an affine group over a function field (§6.1) are built here because
-AdelicAlgebraicGroups Layer 1 is written for number fields only. The split and inert equal-characteristic-two cases of Hermitian
-local density (§7.4) are built here because GeometryOfNumbersAndQuadraticArithmetic §3.2
-supplies the inert case over base fields of characteristic different from two, including
-dyadic residue fields.
-
-RelativeJacobiansAndIntegralCurveModels §§1.3–1.5 supplies the finite-flat rigidified
-Picard sheaf, unit sequence, smooth representing algebraic space and universal rigidified
-family, and its §1.8 the theorem that a separated smooth locally finite-type group algebraic
-space over a Dedekind base, a field included, is a scheme. Section 4.6 specializes these
-objects to perfect-field curves and proves what they do not state: the forgetful map to the
-ordinary Picard scheme is affine (which gives the separatedness that §1.8 requires),
-geometric connectedness of the components, the torsor structure, the dimension and the
-forgetful-map compatibilities; §4.7 proves Rosenlicht's fixed-modulus
-universal property over every perfect field. AutomorphicLFunctionsAndLocalFactors §AL.3.10.4
-*Ramified rank-one curve reciprocity* supplies the finite-field generalized Picard objects,
-ray-class comparison, Abel and Lang maps and finite-character dictionary with least modulus.
-Sections 4.5 and 4.8–4.10 consume those constructions, specify coordinate conventions and
-extend the rank-one dictionary to arbitrary finite abelian groups. ArithmeticGaloisDuality
-§R02.3.2 supplies the compatible finite Artin maps and constant-field projection.
+Layer 0 fixes the setting and conventions and transports F. K. Schmidt's theorem to divisors.
+Layers 1–3 are independent of each other: Layer 1 is the polynomial-lattice description of
+`L(D)`, Layer 2 the volumes and Fourier transforms of divisor lattices, Layer 3
+Artin–Schreier–Witt theory. Layer 4 needs Layer 3 for the Schmid–Witt symbol and Layer 0 for
+the valuation degree and the degree-one divisors used in §4.5; its local-coordinate comparison
+uses the residue conductor and the local self-dual volume of AutomorphicLFunctionsAndLocalFactors
+§§AL.0.3.1 and AL.0.6.1.
+Its geometric branch (§§4.6–4.10) uses the supplied rigidified Picard spaces and
+finite-field Lang covers, curve Riemann–Roch and compatible finite Artin reciprocity. It does not
+depend on Layer 5's Chebotarev estimate or on the higher-rank automorphic results.
+Layer 5 needs Layer 0 and AlgebraicCurves Layers 3–5. Layer 6
+needs Layer 2 (divisor-lattice volumes, for the integrality of unipotent volumes) and Layer 0.
+Layer 7 needs Layers 0, 5 and 6; it uses Layer 5 only through §§5.1–5.5, to continue the good
+Euler product of §7.6, and takes its additive measures from §§AL.0.3.1 and AL.0.6.1. The worked
+examples after Layer 7 use Layers 0, 1, 2, 3 and 5.
 
 ## Conventions
 
@@ -225,417 +79,6 @@ Layer 12) `F = k(X)` for a smooth projective geometrically connected curve `X/k`
   hypotheses of Layer 5. In particular `pointCount 0 = 0`, since `Nat.divisors 0` is empty.
   Fractions in `T` are identities of rational functions, and formal Euler factors are inverted
   only when their constant coefficient is a unit. A finite field has `q ≥ 2`, so `q−1 ≠ 0`.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-`WittVector`, `WittVector.frobenius`, `WittVector.verschiebung`, `WittVector.truncate`,
-`WittVector.teichmuller`, `WittVector.map`, `TruncatedWittVector`, `TruncatedWittVector.out`;
-`Algebra.trace`; `PowerSeries`, `Polynomial`, `Polynomial.reverse`; `RestrictedProduct`
-and `RestrictedProduct.unitsEquiv`; `Valuation.Completion`; `LaurentSeries` and
-`LaurentSeries.ratfuncAdicComplRingEquiv`; `FormalGroup` (one-dimensional formal group laws;
-commutativity is a separate hypothesis); `Field.absoluteGaloisGroup`; `IsIntegrallyClosedIn`,
-`algebraicClosure`; `MeasureTheory.Measure.haar`; `Algebra.trace_surjective`
-(`Mathlib/RingTheory/Trace/Basic.lean`, for a finite-dimensional separable field extension).
-
-### From Tau Ceti
-
-`TauCeti.IsFunctionField` (an explicit proposition, not a class);
-`TauCeti.IsFunctionField.finiteDimensional_algebraicClosure`,
-`TauCeti.isIntegrallyClosedIn_algebraicClosure`, `TauCeti.IsFunctionField.algebraicClosure` and
-`TauCeti.IsFunctionField.exists_intermediateField_isIntegrallyClosedIn` (passage to finite exact
-constants); `TauCeti.Place`, `TauCeti.Place.degree`, `TauCeti.Place.one_le_degree_of_isFunctionField`;
-`TauCeti.Divisor := WeilDivisor (Place k F)`, `TauCeti.Divisor.degree`,
-`TauCeti.Divisor.principal`, `TauCeti.Divisor.degree_principal`, `TauCeti.Divisor.dim`;
-`TauCeti.Divisor.degree_eq_zero_iff` (`TauCeti/FieldTheory/FunctionField/Divisor/Basic.lean`,
-for an effective divisor and an explicit function-field hypothesis);
-`TauCeti.riemannRochSpace`; `TauCeti.genus`; `TauCeti.Divisor.finite_setOf_isEffective_degree_le`,
-`TauCeti.Divisor.finite_ker_degreeClass`, `TauCeti.Divisor.classNumber`,
-`TauCeti.Divisor.classNumber_pos`; `TauCeti.weilDifferentialSpace`,
-`TauCeti.degree_weilDifferentialDivisor` (a nonzero Weil differential over exact constants has
-divisor degree `2g − 2`); `TauCeti.ReductiveAffineGroupSchemeCat`; and `AlgHom.convGroupOfSemiring`
-(`TauCeti/Algebra/AlgebraicGroup/FunctorOfPoints.lean`: for a Hopf algebra `H` over `R` and a
-commutative `R`-algebra `A`, the convolution points `WithConv (H →ₐ[R] A)` form a group).
-Tau Ceti also has `TauCeti.Place.Completion := P.valuation.Completion` with
-`completionEmbedding`, the AlgebraicCurves Layer 5 completion target, and the AlgebraicCurves
-Layer 9 expansions at a place `P` of any degree: in
-`TauCeti/FieldTheory/FunctionField/Place/Expansion/Laurent/CoefficientField.lean`,
-`TauCeti.Place.completionEquivLaurentSeriesOfSection`, the ring isomorphism
-`P.Completion ≃+* LaurentSeries P.ResidueField` determined by a coefficient-field section of the
-completed valuation ring lifting the residue map and a uniformizer sent to `T`, which preserves
-the valuation (`TauCeti.Place.valuation_completionEquivLaurentSeriesOfSection`), and
-`TauCeti.Place.completionEquivLaurentSeriesResidueField`, a `k`-algebra isomorphism under
-`[Algebra.IsSeparable k P.ResidueField]`, which holds over a finite (perfect) `k`; in
-`TauCeti/FieldTheory/FunctionField/Place/Expansion/CoefficientField.lean`, their integral forms
-`TauCeti.Place.completionIntegersEquivPowerSeriesOfSection` and
-`TauCeti.Place.completionIntegersEquivPowerSeriesResidueField` onto
-`PowerSeries P.ResidueField`. The older `TauCeti.Place.completionIntegersEquivPowerSeries` is the
-rational-place case, onto `PowerSeries k`. This roadmap uses those names.
-
-The point topology on adelic and local points is pinned in
-`TauCeti/Topology/Algebra/PointTopology/`, for every topological coefficient algebra `R`:
-`TauCeti.PointTopology.instTopologicalSpaceWithConv` (`Basic.lean`), the coarsest topology on
-`WithConv (A →ₐ[k] R)` making every evaluation continuous;
-`TauCeti.PointTopology.isTopologicalGroup` (`Group.lean`), the convolution points of a Hopf
-algebra form a topological group when `R` is a topological semiring;
-`BialgHom.continuous_mapDomain` (`Group.lean`), a bialgebra map induces a continuous
-homomorphism of points; `TauCeti.PointTopology.instLocallyCompactSpaceWithConv`
-(`Separation.lean`), the points of a finite-type algebra over a locally compact `T1`
-topological ring are locally compact; and `TauCeti.PointTopology.tensorProductHomeomorph`
-(`Functoriality.lean`), the points of `A ⊗[k] B` are homeomorphic to the product of the point
-spaces.
-
-Repartitions are pinned in `TauCeti/FieldTheory/FunctionField/Repartition/`, the implementation
-of AlgebraicCurves Layers 4–5 consumed by §2.1. In `Basic.lean`: `TauCeti.repartitionSpace k F`,
-the repartitions `A_F` inside `Place k F → F`; `TauCeti.adeleFiltration D`, the subspace
-`A_F(D)` cut out by `P.valuation (a P) ≤ exp (D P)` at every place (so `0 ∈ A_F(D)` for every
-`D`); and `TauCeti.diagonalRepartitions k F`, the constant families. In `IndexOfSpecialty.lean`:
-`TauCeti.finrank_quotient_repartitionSpace`, for a function field with
-`IsIntegrallyClosedIn k F`, the `k`-dimension of `A_F ⧸ (A_F(D) + F)` is
-`TauCeti.Divisor.indexOfSpecialty D = ℓ(D) − deg D − 1 + g` (defined in `RiemannRoch/Genus.lean`).
-In `FiniteAdele.lean`, for a Dedekind `k`-algebra `R` with fraction field `F`:
-`TauCeti.repartitionToFiniteAdeles`, the additive map from repartitions to the finite adeles of
-`R`, and `TauCeti.denseRange_repartitionToFiniteAdeles`, its range is dense. In `Quotient.lean`:
-`TauCeti.adeleFiltrationQuotientEquiv`, for divisors `D`, `E` agreeing away from a place `P`, the
-`k`-linear isomorphism of `A_F(E) ⧸ A_F(D)` with the local quotient
-`𝔪_P^(−E P) ⧸ 𝔪_P^(−D P)`. In `Place/Filtration.lean`: `TauCeti.Place.finrank_quotient_filtration`,
-`dim_k(𝔪_P^a ⧸ 𝔪_P^b) = (b − a) deg P` for `a ≤ b`.
-
-Extensions of places are pinned in `TauCeti/FieldTheory/FunctionField/Place/Extension/`, for an
-integral extension `M/F` of fields over `k`. In `Basic.lean`: `TauCeti.Place.restrict k F P`, the
-place of `F` below a place `P` of `M`, and `TauCeti.Place.ramificationIdx F P`, the ramification
-index `e(P ∣ P ∩ F)`. In `Inertia.lean`: `TauCeti.Place.residueAut F P`, the homomorphism from
-the decomposition group (Mathlib's `ValuationSubring.decompositionSubgroup` of the valuation ring
-of `P`) to the automorphisms of the residue field of `P` over that of the place below; its kernel
-is Mathlib's `ValuationSubring.inertiaSubgroup` (`TauCeti.Place.ker_residueAut`), and for `M/F`
-finite Galois it is surjective (`TauCeti.Place.residueAut_surjective`). The decomposition group
-acts on the valuation ring of `P` (Mathlib's `ValuationSubring.decompositionSubgroupMulSemiringAction`)
-over the valuation ring of the place below (`TauCeti.Place.instAlgebraIntegers`,
-`TauCeti.Place.instSMulCommClassIntegers`), so Mathlib's `IsArithFrobAt`
-(`Mathlib/RingTheory/Frobenius.lean`: `σ • x ≡ x^(#(R ⧸ Q ∩ R))` modulo the ideal `Q`, for a
-monoid acting on a ring) applies at the maximal ideal of that valuation ring; §5.8's
-`IsArithFrobAtPlace` is this specialization. In
-`TauCeti/FieldTheory/FunctionField/Divisor/Conorm.lean`, for an algebraic extension with finite
-restriction fibres: `TauCeti.Divisor.conorm`, the pullback of divisors
-`P ↦ Σ_{P′ ∣ P} e(P′ ∣ P) P′`; `TauCeti.Divisor.conorm_principal`, the conorm of `div z` is the
-divisor of `z` upstairs; and `TauCeti.Divisor.conormClassGroup`, the induced map of divisor class
-groups. This is the pullback `ν^* : Pic(X) → Pic(X′)` of §7.1.
-
-Local ramification is consumed from Tau Ceti directly, for finite extensions of any
-`IsNonarchimedeanLocalField`, equal characteristic included. In
-`TauCeti/NumberTheory/LocalField/`: `TauCeti.LocalFieldsRamification.lowerRamificationGroup`
-(`RamificationGroup.lean`); `TauCeti.LocalFieldsRamification.herbrand` and
-`TauCeti.LocalFieldsRamification.upperRamificationGroup`, with `G^v = G_{ψ(v)}`
-(`Herbrand/Basic.lean`); Herbrand's theorem in the upper numbering,
-`TauCeti.LocalFieldsRamification.map_restrictNormalHom_upperRamificationGroup`: for a tower
-`M/L/K` with `L/K` and `M/K` finite Galois, restriction carries `Gal(M/K)^v` onto `Gal(L/K)^v`
-(`Herbrand/UpperQuotient.lean`); and Hasse–Arf, `TauCeti.LocalFieldsRamification.hasseArf`:
-every upper break of a finite abelian extension is an integer (`Herbrand/HasseArf/Abelian.lean`).
-In `TauCeti/NumberTheory/ClassFieldTheory/Local/Conductor/UpperNumbering.lean`,
-`TauCeti.ClassFieldTheory.unitFiltration_le_normGroup_iff_upperRamificationGroup_eq_bot`
-states, for a finite abelian `M/K` and `v : ℕ`, that `U(K,v) ⊆ N_{M/K}(Mˣ)` exactly when
-`Gal(M/K)^v = 1`, in either characteristic. Here
-`TauCeti.unitFiltration K v` is `O_Kˣ` at `v = 0` and `1 + 𝔭_K^v` for `v ≥ 1`, and
-`TauCeti.normGroup K M` is the image of the norm on units.
-
-Local reciprocity is consumed from Tau Ceti in `TauCeti/NumberTheory/ClassFieldTheory/`, for
-every `IsNonarchimedeanLocalField K` unless a characteristic is named. In
-`Local/ArtinMap.lean`: the absolute local Artin map
-`TauCeti.ClassFieldTheory.artinMap K : Kˣ →* G_K^ab`, arithmetically normalized, into the
-topological abelianization `Field.absoluteGaloisGroupAbelianization K`; its finite restrictions
-`TauCeti.ClassFieldTheory.artinMap_restrict`; and `TauCeti.ClassFieldTheory.ker_artinMap_eq_iInf`
-(its kernel is the intersection of the norm subgroups). In `Formation/AbelianLayer.lean`:
-`OpenNormalSubgroup.IsAbelianClassFieldLayer` (an open normal subgroup of
-`TauCeti.AbsoluteGaloisGroup K = Gal(Kˢ/K)` containing the closed commutator subgroup, that is,
-a finite abelian extension inside `Kˢ`). In `LocalExistence/`:
-`TauCeti.ClassFieldTheory.localNormSubgroup K V`, the norm group of the class field of `V`, open
-and of finite index (`NormSubgroup.lean`); `TauCeti.ClassFieldTheory.index_localNormSubgroup`,
-index equal to degree for an abelian layer (`AbelianLayer.lean`);
-`TauCeti.ClassFieldTheory.localClassField_unique`, two abelian layers with the same norm subgroup
-are equal (`Correspondence.lean`); and, under `[CharZero K]` only,
-`TauCeti.ClassFieldTheory.localAbelianExistence` (`Existence.lean`),
-`TauCeti.ClassFieldTheory.injective_artinMap` and
-`TauCeti.ClassFieldTheory.profiniteCompletionArtinEquiv`, the isomorphism of topological groups
-from the profinite completion of `Kˣ` onto `G_K^ab` extending `artinMap K` (`ArtinMap.lean`, whose
-module docstring claims neither injectivity nor this isomorphism in characteristic `p`), and
-`TauCeti.ClassFieldTheory.localClassFieldCorrespondence`, the order isomorphism from the open
-subgroups of finite index of `Kˣ` (`TauCeti.ClassFieldTheory.LocalNormSubgroups K`) onto the
-abelian layers of `TauCeti.AbsoluteGaloisGroup K` (`Correspondence.lean`). In every characteristic `Existence.lean` gives only
-`TauCeti.ClassFieldTheory.localAbelianExistence_primeToResidueCharacteristic`, for index prime
-to `p`. `TauCeti.ClassFieldTheory.profiniteCompletionArtinMap` (`LocalExistence/ArtinMap.lean`)
-extends `artinMap K` to Mathlib's profinite completion
-`ProfiniteGrp.ProfiniteCompletion.completion (GrpCat.of Kˣ)`, the completion for all subgroups
-of finite index; it is surjective in every characteristic. In `Local/Conductor/Basic.lean`, for
-a finite separable `L/K`: `TauCeti.ClassFieldTheory.conductorExponent K L`, the least `n` with
-`U(K,n) ⊆ N_{L/K}(Lˣ)`, attained (`TauCeti.ClassFieldTheory.unitFiltration_conductorExponent_le_normGroup`)
-and characterized by `TauCeti.ClassFieldTheory.conductorExponent_le_iff`. In
-`TauCeti/RingTheory/LaurentSeries/LocalField.lean`,
-`TauCeti.LaurentSeries.isNonarchimedeanLocalField` makes `k((T))` a nonarchimedean local field for
-finite `k`.
-
-Formal group laws are consumed from Tau Ceti in `TauCeti/RingTheory/FormalGroup/`:
-`TauCeti.FormalGroupHom` and `TauCeti.FormalGroupIso` (homomorphisms as power series without
-constant term, composition by substitution, base change; `Hom.lean`) and
-`FormalGroup.TopNilpotentPoint` (the group of points in the topologically nilpotent elements of
-a complete Hausdorff linearly topologized algebra, with continuous functoriality;
-`TopNilpotentPoint/Basic.lean`).
-
-Descent of schemes and morphisms is consumed from Tau Ceti and Mathlib. A descent datum
-`TauCeti.DescentDatum p X` on `X` over `S'` relative to `p : S' ⟶ S` is an action
-`S' ×_S X ⟶ X` satisfying the normalization and cocycle laws
-(`TauCeti/CategoryTheory/Limits/Shapes/Pullback/DescentDatum.lean`). In
-`TauCeti/AlgebraicGeometry/Descent/AffineMorphism.lean`, for `p` affine (`[IsAffineHom p]`) and `X`
-affine over `S'` (`[IsAffineHom X.hom]`), over an arbitrary base `S`:
-`TauCeti.DescentDatum.descended`, the descended scheme, affine over `S`;
-`TauCeti.DescentDatum.isIso_toBaseChangeDescended_hom`, for `[Flat p]`, the comparison of `D`
-with the canonical datum on the base change of `D.descended` is an isomorphism; and
-`TauCeti.DescentDatum.isPullback_toDescended`, for `[Flat p]`, `X` is the base change of
-`D.descended` along `p`. A morphism `Y ⟶ Z` over `S` descends from its base change along `p` by
-`TauCeti.homDescentEquiv` (`TauCeti/CategoryTheory/EffectiveEpi/Descent.lean`) when
-`Y ×_S S' ⟶ Y` is an effective epimorphism; Mathlib's `AlgebraicGeometry/Sites/Fpqc.lean`
-proves this for every flat surjective morphism that is quasi-compact or locally of finite
-presentation, from the subcanonicity of `AlgebraicGeometry.Scheme.fpqcTopology` and
-`AlgebraicGeometry.Scheme.fppfTopology`. Section 4.6 uses the affine forms for
-`p : Pic_X ⊗_k k′ → Pic_X`, the base change of a finite separable `Spec k′ → Spec k`, which is
-affine, flat and surjective, and identifies the descended scheme with the supplied algebraic
-space through the fppf sheaf property of that space. Section 4.7 uses `TauCeti.homDescentEquiv`
-along the smooth surjective high-degree Abel map and along `Spec k̄ → Spec k`.
-
-### From TauCetiRoadmap.AlgebraicCurves
-
-AlgebraicCurves Layers 0–12 provide intrinsic function fields and the chosen-generator
-comparison, finite normalization over both rational charts, divisors and Riemann–Roch,
-finite degree-zero classes, completion and expansion maps, ramification and the different,
-constant extensions, one-pole Artin–Schreier genus and the curve/function-field dictionary.
-Layer 1 uses finite normalization without a separability assumption; all geometrically
-connected finite-field statements use exact constants.
-
-### From TauCetiRoadmap.ArithmeticGaloisDuality
-
-ArithmeticGaloisDuality §R02.3.2 states its function-field results for Mathlib's
-`FunctionField 𝔽_q F` with `𝔽_q` algebraically closed in `F`. AlgebraicCurves Layer 0's
-chosen-generator comparison transports this contract to the intrinsic
-`TauCeti.IsFunctionField` setting.
-Its compatible finite Artin quotients give the dense reciprocity map
-`C_F → Gal(F^ab/F)` and the isomorphism from the profinite completion of `C_F` onto that
-Galois group. Its *Function-field places, ideles and `S`-units* degree-surjectivity API
-supplies a degree-one idele under these same finite exact-constant hypotheses.
-The constant-field projection is arithmetic Frobenius to the valuation degree;
-equivalently it is inverse Frobenius to Yu's degree. The discrete `ℤ` degree direction is
-completed to `ℤ̂`, so the uncompleted idele class group is not itself profinite.
-
-### From TauCetiRoadmap.AutomorphicLFunctionsAndLocalFactors
-
-AutomorphicLFunctionsAndLocalFactors §AL.0.6.1 *Curve additive analysis* constructs the
-completed adeles `𝔸_K`, the residue
-character `ψ_ω(a) = ψ₀(Σ_v Tr_{κ(v)/k} res_v(a_v ω))` of a nonzero rational differential `ω`
-and a nontrivial `ψ₀ : 𝔽_q → ℂˣ`, the conductor exponent `n_v = ord_v(ω)` (triviality on
-`π_v^(−n_v) O_v`, nontriviality on `π_v^(−n_v−1) O_v`), self-dual measures and Poisson
-summation, together with the compact rational unipotent quotients and integration in stages;
-it compares the self-dual measures with the integral local Haar measures and the quotient
-volume `q^(g−1)`, and makes the self-dual measures compatible with `ω ↦ fω`. Its §AL.0.3.1
-*The local Schwartz–Bruhat space `S(F)`, its `F^×`-action and tempered distributions* gives, on
-every nonarchimedean local field of positive characteristic with a nontrivial continuous additive
-character `ψ`, the conductor `ν(ψ)` (`ψ` trivial on `P^(−ν)`, nontrivial on `P^(−ν−1)`) with
-`ν(ψ_b) = ν(ψ) + ord b` for `ψ_b(x) = ψ(bx)`, the dual lattice `(P^m)^∨ = P^(−ν−m)` for the
-pairing `ψ(xy)` and the self-dual Haar measure, with `vol(O) = q^(−ν/2)`. At `K_v` with
-`ψ = ψ_{ω,v}` the conductor is `ν = n_v`, so the local self-dual measure `μ_{ω,v}` gives `O_v`
-volume `q_v^(−n_v/2)` and `O_v` has annihilator `π_v^(−n_v) O_v`. Its §§AL.0.1.7–AL.0.1.8
-*Fourier transform of a subgroup indicator* and *Fourier transform of a coset indicator* give, for
-any bilinear character pairing `L` and a translation-invariant measure `μ`,
-`F(1_U) = μ(U) · 1_(U⊥)` and `F(1_(a+U))(w) = ψ(−L(a,w)) · μ(U) · 1_(U⊥)(w)`, in the
-negative-kernel convention of Mathlib's `VectorFourier.fourierIntegral`.
-Layers 0, 2, 4, 6 and 7 use exactly these objects. Its §AL.3.10.4 *Ramified rank-one curve
-reciprocity* supplies the finite-field objects and comparisons consumed in §§4.5 and 4.8–4.10,
-including every positive modulus. Its convention is `χ(a)=ρ(Art_ar(a)⁻¹)` for a
-rank-one local system; the deck action on a Lang torsor below instead records
-arithmetic Artin itself, so passing to that local system inverts the character. Layer 6
-consumes §AL.R.3 *Restricted tensor realizations* (the complex `GLₙ` automorphic spaces with
-fixed unitary central character, in §6.2) and, in §6.7, §AL.3.4.1 *The `GL(n)` cuspidal Fourier
-expansion* in its function-field case, §AL.3.4.2 *Global Whittaker factorization* and
-§AL.3.14.1 *Spherical Whittaker normalization at nonzero conductor* (`W(t_v) ≠ 0` for a nonzero
-spherical `W`, with `t_v` built from `ϖ_v^(−n_v)`).
-
-### From TauCetiRoadmap.ArithmeticGaloisRepresentations
-
-ArithmeticGaloisRepresentations §2.5 defines `GaloisRep.localEulerFactor` as
-`det(1 − X ρ(Fr) | V^{ρ(I)})` for any coefficient field, independent of the lift of `Fr`;
-Layer 5.7 substitutes `X = T^(d_v)`. Section 5.13, *Chebotarev for function fields*,
-supplies degree-refined counts for connected finite étale Galois covers, with the
-prescribed constant-field Frobenius coset and main coefficient `|C|/|G_geom|`: the count `π_B(n)`
-of degree-`n` closed points with Frobenius in a class `B`, its vanishing for `n ≢ b mod a`, and
-its asymptotic. Section 5.8 here takes that count, realized on the pinned place carriers as
-`frobeniusPlaceCount`, and proves an explicit error estimate in the compatible degrees.
-
-### From TauCetiRoadmap.ClassFieldTheory
-
-ClassFieldTheory Layers 1–4 provide class formations and Tate's theorem; Layers 5–7
-provide local invariants, unramified extensions and arithmetic local reciprocity.
-Layer 8 supplies local existence for finite extensions of `ℚ_p` and the prime-to-residue-
-characteristic existence theorem in equal characteristic. These are the domains used here.
-Layer 7's conductors are minima of unit-kernel depths. Two of these statements carry the
-unit-filtration argument of §4.2: Layer 6's finite reciprocity map has kernel the norm group,
-and Layer 7's `artinMap_restrict` makes each finite map the restriction of the absolute one.
-Together with the Tau Ceti conductor criterion above they give unit-filtration reciprocity in
-both characteristics, consumed by §4.4.
-
-### From TauCetiRoadmap.LubinTateFormalModulesAndQuasiCanonicalLifts
-
-LubinTateFormalModulesAndQuasiCanonicalLifts precedes this roadmap in the dependency order;
-Layer 4 uses the following of its sections.
-
-- §0.1, *One-dimensional formal modules*: a formal `A`-module over an `A`-algebra `R` is a
-  commutative Mathlib `FormalGroup R` with a unital ring map `a ↦ [a]_F` into its endomorphisms
-  whose linear coefficient is the image of `a` in `R`, for any commutative ring `A`. The
-  endomorphisms are formal-group homomorphisms, the pinned `TauCeti.FormalGroupHom`.
-- §0.2, *The module of adic points*: the `A`-module of points `F(I)` for an ideal `I` of
-  topologically nilpotent elements of a complete Hausdorff linearly topologized algebra, with
-  continuous coefficient maps, and `F(𝔪_(K̄))` as the union of the `F(𝔪_L)` over finite
-  subextensions with its Galois action.
-- §§1.1–1.4, *The Lubin–Tate construction*: Lubin–Tate series for an irreducible `π` and the
-  residue cardinality `q`, Lubin–Tate interpolation, the Lubin–Tate formal module `F_f` with
-  `[π]_f = f` as the unique formal group law of which `f` is an endomorphism, and the unique strict
-  `O`-linear comparison `F_g → F_f` for two series for the same `π`. That layer works over every
-  discrete valuation ring with finite residue field, of either characteristic and complete or
-  not; in equal characteristic `πX + X^q` gives the additive law.
-- §§2.1–2.5, *Torsion, Tate modules and the Artin comparison*: torsion, division fields, the
-  Lubin–Tate character and its comparison with `TauCeti.ClassFieldTheory.artinMap`, for finite
-  extensions of `ℚ_p` only. This is the mixed-characteristic case that §4.1 parallels.
-
-Sections 4.1–4.2 use `A = R = O` and maximal ideals of rings of integers of finite separable
-extensions, taking their union for algebraic torsion points, and add the torsion, ramification
-and reciprocity statements in characteristic `p`.
-
-### From TauCetiRoadmap.DeligneWeightsAndPurity
-
-DeligneWeightsAndPurity §§1.6 and 1.9 provide the Jacobian numerator, the Weil bound and
-base extension. Section 3.7 supplies the Haar-null density-zero consequence, using
-ArithmeticGaloisRepresentations §5.13 for degree-refined finite-cover Chebotarev.
-
-### From TauCetiRoadmap.WeilConjectures
-
-WeilConjectures §1.16, *A curve numerator before root bounds*, supplies the
-scheme-theoretic curve numerator. Section 5.20, *Recurrences and Newton recovery*,
-supplies the recurrence and Newton identities for a known-degree polynomial; §5.6 here
-uses reciprocal symmetry to recover the numerator from only `g` point counts.
-
-### From TauCetiRoadmap.SchemeAndStackFoundations
-
-SchemeAndStackFoundations §3.6 (`picardComponent`, `picardComponent_torsor`,
-`picardComponent_point_iff`) supplies ordinary Picard components and torsors, using
-JacobianChallenge Layer D for representability and the Picard–Brauer obstruction.
-SchemeAndStackFoundations §3.7 `abelMaps_highDegree` supplies ordinary high-degree Abel
-maps with Brauer–Severi descent. JacobianChallenge Layers A–C supply line bundles,
-coherent curve cohomology and pushforward vanishing and base change. Section 4.6 adds
-affineness over the ordinary Picard scheme and the torsor, dimension and connectedness
-structure to the rigidified algebraic space supplied by
-RelativeJacobiansAndIntegralCurveModels §§1.3–1.5, whose scheme structure is that roadmap's
-§1.8; §4.7 adds the perfect-field modulus universal property.
-SchemeAndStackFoundations §1.1 supplies quasi-coherent module descent. Effective descent of
-schemes affine over the base and descent of morphisms are the pinned Tau Ceti declarations
-listed under *From Tau Ceti*.
-
-### From TauCetiRoadmap.JacobianChallenge
-
-JacobianChallenge Layers A–C supply line bundles, coherent curve cohomology, pushforward
-vanishing and base change. Layer D supplies ordinary Picard representability and its
-Picard–Brauer comparison, through SchemeAndStackFoundations §3.6.
-
-### From TauCetiRoadmap.RelativeJacobiansAndIntegralCurveModels
-
-RelativeJacobiansAndIntegralCurveModels §§1.3–1.5 supplies the rigidified sheaf for a
-finite-flat rigidificator, its unit sequence, smooth algebraic-space representability
-for curves and universal family. Its §1.8, *Quotients and scheme structure for group algebraic
-spaces*, supplies scheme structure for a separated smooth locally finite-type group algebraic
-space over a Dedekind scheme, together with its identity open subgroup and base change; §4.6
-applies it over `Spec k` to `⨆_d Pic_m^d` once separatedness is proved. A nonzero effective
-divisor on the geometrically connected smooth projective curve is a rigidificator because
-universal global functions are the base functions and its finite positive length is
-faithfully flat. The supplier's
-rigidification `O_m ≅ L|_m` is the convention used here; no inversion is required.
-A presentation using `L|_m ≅ O_m` must invert its trivialization before comparison.
-
-### From TauCetiRoadmap.ReductiveGroupsPartII
-
-ReductiveGroupsPartII §RG2.3.7 states Lang's theorem for a smooth connected group over `𝔽_q`.
-Section 4.9 uses its commutative form `Frob_q − id` on a generalized Jacobian, including its
-unipotent part. RG2.0a supplies affine restriction of scalars along finite locally free
-maps, so `Res_{m/k} 𝔾_m` includes nonreduced finite `m`.
-
-ReductiveGroupsPartII RG2.0 plans affine point topologies, their functoriality and the
-topological group of points over every topological base algebra; the pinned declarations it
-names are listed under *From Tau Ceti*. Section 6.1 uses them at the adeles and adds the
-function-field restricted-product comparison.
-
-### From TauCetiRoadmap.SmoothRepresentationsOfLocalGroups
-
-SmoothRepresentationsOfLocalGroups §§SR.2.1–SR.2.3 supply smooth/parabolic induction,
-its finite-level double-coset description and Whittaker functionals. Section SR.4.1 gives the Satake isomorphism of the spherical Hecke
-algebra with `Z[q_v^(±1/2)]`-coefficients and its compatibility with parabolic restriction.
-
-### From TauCetiRoadmap.AdelicAlgebraicGroups
-
-AdelicAlgebraicGroups Layer AA.0 supplies restricted products of Haar measures for
-countable families of second countable locally compact groups. The places of a finite-
-constant-field function field satisfy these hypotheses.
-
-### From TauCetiRoadmap.GeometryOfNumbersAndQuadraticArithmetic
-
-GeometryOfNumbersAndQuadraticArithmetic §3.2 supplies Hermitian local densities,
-normalized Siegel polynomials and the Cho–Yamauchi overlattice formula for an unramified
-quadratic field extension when the base field has characteristic different from two,
-including dyadic residue fields. Section 3.1 supplies `hermitianEmbeddingCount`,
-`finite_hermitian_isometry_formula` and `finite_hermitian_norm_fiber` over `𝔽_{q²}/𝔽_q`
-with its nontrivial involution, for every prime power `q≥2`; these residue counts are
-also used in the equal-characteristic-two reciprocity argument of §7.4.
-
-### From TauCetiRoadmap.AutomorphicSpectralTheory
-
-AutomorphicSpectralTheory §§1.11–1.13 supply function-field `GL_n` unramified character
-parameters, including every component of the fixed-centre diagonalizable group, spherical
-sections and induction normalization. Sections 2.15–2.16 and 4.11–4.17 provide the
-corresponding intertwiner and discrete/residual interfaces for comparison.
-
-### From TauCetiRoadmap.EtaleCohomologyFoundations
-
-EtaleCohomologyFoundations §§F.2.5 and F.3 give the actual compact-support functor and
-perfectness for bounded constructible finite-Tor-amplitude coefficients; §§F.10.2–F.10.3
-give Frobenius comparison and finite-projective trace/determinant algebra. These are roadmap contracts, rather than implementation declarations at the pins. Section 5.7 adds the finite-coefficient Euler-product
-identity; equality of power traces alone is not its supplier.
-
-### From TauCetiRoadmap.PadicMeasuresIwasawaAlgebras
-
-PadicMeasuresIwasawaAlgebras §5.1 supplies `detLine`, `detLine_quasiIso`,
-`detLine_shortExact`, `detLine_baseChange`, `detLine_shift` and `detLine_acyclic` for
-perfect complexes over commutative rings. Section 5.7 forms the characteristic series
-from this functor; EtaleCohomologyFoundations §F.10.3 supplies traces and determinants
-of finite projective modules, not this derived determinant construction.
-
-### From TauCetiRoadmap.MetaplecticAutomorphicForms
-
-MetaplecticAutomorphicForms §§2.5, 3.2a, 3.3 and 3.3b supply the local Schrödinger
-operators, split étale comparison, unitary dual-pair splittings and Hermitian oscillator
-normalizations. Section 7.5 constructs the local Siegel–Weil section and its density
-comparison from these interfaces, for the odd-characteristic global branch of Layer 7.
-
-## How to read the build
-
-Layer 0 fixes the setting and conventions and transports F. K. Schmidt's theorem to divisors.
-Layers 1–3 are independent of each other: Layer 1 is the polynomial-lattice description of
-`L(D)`, Layer 2 the volumes and Fourier transforms of divisor lattices, Layer 3
-Artin–Schreier–Witt theory. Layer 4 needs Layer 3 for the Schmid–Witt symbol and Layer 0 for
-the valuation degree and the degree-one divisors used in §4.5; its local-coordinate comparison
-uses the residue conductor and the local self-dual volume of AutomorphicLFunctionsAndLocalFactors
-§§AL.0.3.1 and AL.0.6.1.
-Its geometric branch (§§4.6–4.10) uses the supplied rigidified Picard spaces and
-finite-field Lang covers, curve Riemann–Roch and compatible finite Artin reciprocity. It does not
-depend on Layer 5's Chebotarev estimate or on the higher-rank automorphic results.
-Layer 5 needs Layer 0 and AlgebraicCurves Layers 3–5. Layer 6
-needs Layer 2 (divisor-lattice volumes, for the integrality of unipotent volumes) and Layer 0.
-Layer 7 needs Layers 0, 5 and 6; it uses Layer 5 only through §§5.1–5.5, to continue the good
-Euler product of §7.6, and takes its additive measures from §§AL.0.3.1 and AL.0.6.1. The worked
-examples after Layer 7 use Layers 0, 1, 2, 3 and 5.
 
 ## Layer 0: finite constant fields, degrees and normalisations
 
@@ -3618,6 +3061,563 @@ wrong; each is a test of the layers cited.
 - **AbelianVarietiesOverFiniteFields** (§§5.3–5.4) and **HyperellipticCurves** (§§5.1, 5.3 and
   5.6): the zeta functions, point counts and `L`-polynomials of Layer 5.
 - **GlobalGaloisDeformationsPartII**: degree-sensitive Chebotarev (§5.8).
+
+## Scope and ownership
+
+AlgebraicCurves owns places, divisors, `L(D)`, Weil differentials and Riemann–Roch, completions
+and local expansions at a place, extensions of function fields with their ramification, the
+different and Riemann–Hurwitz, constant-field extensions, Kummer and Artin–Schreier covers with
+their genus formulas, and the curve/function-field dictionary. Its scope section names zeta
+functions and the arithmetic of finite constant fields as the subject of a separate roadmap that
+consumes it; this is that roadmap. The divisor-degree formula and product formula are
+consumed from `TauCeti.Divisor.degree` and `TauCeti.Divisor.degree_principal`; the
+chosen-generator comparison with Mathlib's `FunctionField` is AlgebraicCurves Layer 0.
+Neither is a separate target here.
+It starts from AlgebraicCurves Layers 0–12 and the finiteness of `Cl⁰(F)` over a finite constant
+field (AlgebraicCurves Layer 5; Stichtenoth, §5.1, Definition 5.1.2 and Proposition 5.1.3,
+p. 186), and plans nothing those layers state. In particular, finite
+exact constants are supplied by `TauCeti.IsFunctionField.finiteDimensional_algebraicClosure`,
+`TauCeti.isIntegrallyClosedIn_algebraicClosure` and `TauCeti.IsFunctionField.algebraicClosure`
+in `TauCeti/FieldTheory/FunctionField/ConstantField.lean`. For example, the exact constants of
+`𝔽_q(t)` are `𝔽_q`, whereas `𝔽_{q²}(t)` viewed over `𝔽_q` has `dim_{𝔽_q} L(0) = 2` and must
+be viewed over `𝔽_{q²}` for the geometrically connected curve dictionary. Constant extensions,
+including the perfect-field hypotheses and the inseparable genus-drop warning, are consumed from
+AlgebraicCurves Layer 8. The one-pole Artin–Schreier genus and different are also supplied there
+(Layer 10), implemented by
+`TauCeti.two_mul_genus_eq_of_exists_reduced_artinSchreier_pole_ratFunc` in
+`TauCeti/FieldTheory/FunctionField/ArtinSchreier/Genus.lean`; §3.3 adds the comparison with Witt
+classes and their localization maps.
+
+This roadmap owns:
+
+- the conventions for finite exact constants, valuation and idele degrees, and arithmetic
+  versus geometric Frobenius (Layer 0);
+- the reduced-basis description of `L(D)` relative to a polynomial subring `k[x] ⊆ F` (Layer 1);
+- divisor lattices in the completed adeles, their volumes for the self-dual measure of
+  AutomorphicLFunctionsAndLocalFactors §AL.0.6.1 and the Fourier transforms of their indicators
+  (Layer 2);
+- Artin–Schreier–Witt theory of fields of characteristic `p` and reduced representatives over
+  `k((T))` (Layer 3);
+- the torsion of Lubin–Tate formal modules in equal characteristic, its ramification and the
+  action of the local Artin map on it, `p`-primary local existence, local
+  Kronecker–Weber and injectivity of the local Artin map in equal characteristic, the
+  Schmid–Witt symbol and the Artin–Schreier–Witt conductor formula; affineness over the
+  ordinary Picard scheme and the additional structure assertions for rigidified Picard
+  spaces, Rosenlicht's perfect-field universal property at a fixed modulus, and the extension
+  of the supplied rank-one Lang-cover dictionary to arbitrary finite abelian groups (Layer 4);
+- the zeta function and `L`-polynomial of a function field over `𝔽_q`, their Riemann–Roch
+  properties, their comparison with the scheme-theoretic zeta function, recovery from `g` point
+  counts, finite-coefficient `L`-functions of local systems, and quantitative degree-sensitive
+  Chebotarev with an explicit error term (Layer 5);
+- adelic points of affine groups over a function field, automorphic function modules with
+  coefficients in a `ℤ[1/p]`-algebra, constant terms, cusp modules, Harder's finiteness theorem,
+  integral coefficient models, the global unramified Hecke action and Yu's degree-zero
+  nonvanishing (Layer 6);
+- inducing characters with their unramified obstruction and finite ramification, unitary
+  Eisenstein continuation from all parabolics and discrete data, the Siegel series and its
+  Hermitian Fourier coefficients, split Hermitian local densities, the local Whittaker–density
+  identity and the Feng–Yun–Zhang global coefficient formula (Layer 7).
+
+It leaves the following to the roadmaps that state them, and states none of them again:
+
+- **ArithmeticGaloisDuality**, §R02.3.2, *Function-field places, ideles and `S`-units*: the
+  idele group `J_F`, the idele class group `C_F`, the
+  valuation degree `deg`, F. K. Schmidt's degree-surjectivity theorem, compactness of the
+  degree-zero idele classes and the splitting `C_F ≅ ker(deg) × ℤ`, `S`-units and
+  `S`-class groups; *The class formation of a global function field*: the Brauer sequence, the
+  class formation, the reciprocity isomorphisms `C_F/N_{L/F}C_L ≅ Gal(L/F)^ab` compatible with
+  local reciprocity, the description of norm groups as the open subgroups of finite index, and the
+  `S`-version with cokernel `Ẑ/ℤ`.
+- **AutomorphicLFunctionsAndLocalFactors**, Layer AL.0, §AL.0.6.1 *Curve additive analysis* (the
+  completion-valued adeles `𝔸_K` with their topology, the identification of `𝔸_Kˣ` with the
+  ideles above, the valuation-divisor map with kernel `∏_v O_vˣ` and quotient `Pic(X)`, the
+  discrete cocompact diagonal with quotient volume `q^(g−1)` for local integral volume one,
+  compact rational unipotent quotients with integration in stages, the residue character of a
+  differential with its conductor, self-dual measures and Poisson summation, the comparison of the
+  self-dual measures with the integral ones and quotient volume, and their compatibility with
+  `ω ↦ fω`); §AL.0.3.1 *The local Schwartz–Bruhat space `S(F)`, its `F^×`-action and tempered
+  distributions* (in positive characteristic: the conductor `ν(ψ)` with `ν(ψ_b) = ν(ψ) + ord b`,
+  the lattice duality `(P^m)^∨ = P^(−ν−m)` and the self-dual volume `vol(O) = q^(−ν/2)`);
+  §§AL.0.1.7–AL.0.1.8 *Fourier transform of a subgroup indicator* and *Fourier transform of a
+  coset indicator*; §AL.R.3 *Restricted tensor realizations* (the complex `GLₙ` automorphic spaces compared in §6.2);
+  Layer AL.3: §AL.3.10.2 *Rank-one unramified reciprocity* (the zero-modulus Picard and
+  Lang-cover comparison, including the constant-field direction); §AL.3.10.4 *Ramified rank-one
+  curve reciprocity* (the finite-field generalized Picard objects for every effective modulus,
+  ray-class comparison, Abel and Lang maps, finite-cover comparison and rank-one character
+  dictionary with least conductor); §AL.3.4.1 *The `GL(n)` cuspidal Fourier expansion*,
+  §AL.3.4.2 *Global Whittaker factorization* and §AL.3.14.1 *Spherical Whittaker normalization
+  at nonzero conductor*; and §AL.3.10.3 *Function-field local factors, multiplicity one and
+  converse theorem*.
+- **ArithmeticGaloisRepresentations**: §2.5 *Local factors* (`GaloisRep.localEulerFactor` on
+  inertia invariants, for any coefficient field); §3.7 *Computations and Artin–Schreier characters* (break `m`,
+  Swan conductor `m`, Artin conductor `m + 1`, different exponent `(p − 1)(m + 1)`); §5.13
+  *Function fields over finite fields* (restricted-ramification groups and Frobenius, the curve
+  point-counting input, Chebotarev for function fields including enlarged constant fields, with
+  the degree-`n` Frobenius count `π_B(n)` and its vanishing outside the compatible degrees,
+  profinite Frobenius density and recognition of semisimple representations by Frobenius
+  characteristic polynomials); §1.8 Brauer–Nesbitt.
+- **DeligneWeightsAndPurity**: §1.6 (the Weil estimate for curves through the Jacobian and
+  `Z(C, t) = P^rev_{π_J}(t)/((1 − t)(1 − qt))`) and §1.9 (base extension).
+  Its §3.7 supplies the Haar-null density-zero consequence of the degree-refined
+  Chebotarev theorem in ArithmeticGaloisRepresentations §5.13; §5.8 here adds an explicit
+  error estimate with the same constant-field Frobenius congruence and main term.
+- **WeilConjectures**: §1.16 *A curve numerator before root bounds* and §5.20
+  *Recurrences and Newton recovery*.
+- **SchemeAndStackFoundations**: §2.16 *Tsen's theorem, `𝔾_m` on curves and proper
+  hypercoverings*, §3.3 *Degrees of vector bundles, Riemann–Roch and Serre duality on curves*,
+  §3.6 *Picard torsors of a curve without a rational point and rational divisor classes*, and
+  §5.11 *The Weil bound via surfaces*.
+- **AutomorphicSpectralTheory**: §§1.11–1.13 (function-field `GLₙ` character tori, spherical
+  sections and induction normalization), §§2.15–2.16 (intertwiners), §§4.11–4.17
+  (discrete and residual data). These are its everywhere-unramified `GLₙ` branch; they do not
+  supply the unitary-group Eisenstein theory of Layer 7.
+- **LubinTateFormalModulesAndQuasiCanonicalLifts**: §§0.1–0.2 (formal modules with their
+  tangent-compatible coefficient actions, and their adic points), §§1.1–1.4 (Lubin–Tate
+  series, interpolation, the Lubin–Tate formal module and its coordinate independence, over
+  every discrete valuation ring with finite residue field, so in equal characteristic too)
+  and §§2.1–2.5 (torsion, division fields, the Lubin–Tate character and its comparison with
+  local reciprocity, over finite extensions of `ℚ_p`). Section 4.1 adds the
+  equal-characteristic torsion, ramification and reciprocity on these same carriers.
+- **ClassFieldTheory** (Tau Ceti): class formations and Tate's theorem (Layers 1–4), local
+  invariants (Layer 5), the local class formation, finite and absolute reciprocity and
+  conductors (Layers 6–7) and the prime-to-`p` local existence theorem of Layer 8. Its scope
+  section excludes Lubin–Tate theory, Artin–Schreier–Witt theory and `p`-primary existence in
+  equal characteristic; those are Layers 3–4 here.
+- **Already in the library**: the lower and upper ramification groups, Herbrand functions,
+  Herbrand's theorem for quotients, Hasse–Arf and the upper-numbering form of the norm-group
+  conductor are proved in the pinned Tau Ceti for every nonarchimedean local field, equal
+  characteristic included (exact names under *From Tau Ceti*). Unit-filtration reciprocity
+  follows from these and ClassFieldTheory Layers 6–7 (§4.2) and is not a target here. So
+  are the absolute local Artin map, norm subgroups of abelian layers with their uniqueness and
+  index, and the conductor exponent of a finite separable extension as an attained minimum,
+  in every characteristic, and local existence and injectivity of the Artin map in
+  characteristic zero. The conductor of the class field of an open subgroup `H` of finite
+  index is therefore the least `n` with `U^(n) ⊆ H` once §4.2 supplies that class field, and
+  is not a target here. Homomorphisms and isomorphisms of one-dimensional formal group laws
+  and their points in topologically nilpotent elements are also in the pinned Tau Ceti.
+- **ReductiveGroupsPartII**: §RG2.3.7 Lang's theorem, Layer RG2.4 Iwasawa and Cartan
+  decompositions. **SmoothRepresentationsOfLocalGroups**: §SR.4.1 the Satake transform and
+  isomorphism, §SR.4.4 unramified unitary groups. **AdelicAlgebraicGroups**: Layer AA.0
+  restricted products of Haar measures (stated for countable families of second countable
+  locally compact groups, so it applies to function fields unchanged).
+- **GeometryOfNumbersAndQuadraticArithmetic**, §3.2: Hermitian local densities, the normalized
+  Siegel polynomial and the Cho–Yamauchi overlattice formula over an unramified quadratic field
+  extension of a nonarchimedean local field of characteristic other than two; §3.1 supplies
+  finite-field Hermitian embedding and isotropic-frame counts, including in characteristic two.
+
+The adelic points of an affine group over a function field (§6.1) are built here because
+AdelicAlgebraicGroups Layer 1 is written for number fields only. The split and inert equal-characteristic-two cases of Hermitian
+local density (§7.4) are built here because GeometryOfNumbersAndQuadraticArithmetic §3.2
+supplies the inert case over base fields of characteristic different from two, including
+dyadic residue fields.
+
+RelativeJacobiansAndIntegralCurveModels §§1.3–1.5 supplies the finite-flat rigidified
+Picard sheaf, unit sequence, smooth representing algebraic space and universal rigidified
+family, and its §1.8 the theorem that a separated smooth locally finite-type group algebraic
+space over a Dedekind base, a field included, is a scheme. Section 4.6 specializes these
+objects to perfect-field curves and proves what they do not state: the forgetful map to the
+ordinary Picard scheme is affine (which gives the separatedness that §1.8 requires),
+geometric connectedness of the components, the torsor structure, the dimension and the
+forgetful-map compatibilities; §4.7 proves Rosenlicht's fixed-modulus
+universal property over every perfect field. AutomorphicLFunctionsAndLocalFactors §AL.3.10.4
+*Ramified rank-one curve reciprocity* supplies the finite-field generalized Picard objects,
+ray-class comparison, Abel and Lang maps and finite-character dictionary with least modulus.
+Sections 4.5 and 4.8–4.10 consume those constructions, specify coordinate conventions and
+extend the rank-one dictionary to arbitrary finite abelian groups. ArithmeticGaloisDuality
+§R02.3.2 supplies the compatible finite Artin maps and constant-field projection.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+`WittVector`, `WittVector.frobenius`, `WittVector.verschiebung`, `WittVector.truncate`,
+`WittVector.teichmuller`, `WittVector.map`, `TruncatedWittVector`, `TruncatedWittVector.out`;
+`Algebra.trace`; `PowerSeries`, `Polynomial`, `Polynomial.reverse`; `RestrictedProduct`
+and `RestrictedProduct.unitsEquiv`; `Valuation.Completion`; `LaurentSeries` and
+`LaurentSeries.ratfuncAdicComplRingEquiv`; `FormalGroup` (one-dimensional formal group laws;
+commutativity is a separate hypothesis); `Field.absoluteGaloisGroup`; `IsIntegrallyClosedIn`,
+`algebraicClosure`; `MeasureTheory.Measure.haar`; `Algebra.trace_surjective`
+(`Mathlib/RingTheory/Trace/Basic.lean`, for a finite-dimensional separable field extension).
+
+### From Tau Ceti
+
+`TauCeti.IsFunctionField` (an explicit proposition, not a class);
+`TauCeti.IsFunctionField.finiteDimensional_algebraicClosure`,
+`TauCeti.isIntegrallyClosedIn_algebraicClosure`, `TauCeti.IsFunctionField.algebraicClosure` and
+`TauCeti.IsFunctionField.exists_intermediateField_isIntegrallyClosedIn` (passage to finite exact
+constants); `TauCeti.Place`, `TauCeti.Place.degree`, `TauCeti.Place.one_le_degree_of_isFunctionField`;
+`TauCeti.Divisor := WeilDivisor (Place k F)`, `TauCeti.Divisor.degree`,
+`TauCeti.Divisor.principal`, `TauCeti.Divisor.degree_principal`, `TauCeti.Divisor.dim`;
+`TauCeti.Divisor.degree_eq_zero_iff` (`TauCeti/FieldTheory/FunctionField/Divisor/Basic.lean`,
+for an effective divisor and an explicit function-field hypothesis);
+`TauCeti.riemannRochSpace`; `TauCeti.genus`; `TauCeti.Divisor.finite_setOf_isEffective_degree_le`,
+`TauCeti.Divisor.finite_ker_degreeClass`, `TauCeti.Divisor.classNumber`,
+`TauCeti.Divisor.classNumber_pos`; `TauCeti.weilDifferentialSpace`,
+`TauCeti.degree_weilDifferentialDivisor` (a nonzero Weil differential over exact constants has
+divisor degree `2g − 2`); `TauCeti.ReductiveAffineGroupSchemeCat`; and `AlgHom.convGroupOfSemiring`
+(`TauCeti/Algebra/AlgebraicGroup/FunctorOfPoints.lean`: for a Hopf algebra `H` over `R` and a
+commutative `R`-algebra `A`, the convolution points `WithConv (H →ₐ[R] A)` form a group).
+Tau Ceti also has `TauCeti.Place.Completion := P.valuation.Completion` with
+`completionEmbedding`, the AlgebraicCurves Layer 5 completion target, and the AlgebraicCurves
+Layer 9 expansions at a place `P` of any degree: in
+`TauCeti/FieldTheory/FunctionField/Place/Expansion/Laurent/CoefficientField.lean`,
+`TauCeti.Place.completionEquivLaurentSeriesOfSection`, the ring isomorphism
+`P.Completion ≃+* LaurentSeries P.ResidueField` determined by a coefficient-field section of the
+completed valuation ring lifting the residue map and a uniformizer sent to `T`, which preserves
+the valuation (`TauCeti.Place.valuation_completionEquivLaurentSeriesOfSection`), and
+`TauCeti.Place.completionEquivLaurentSeriesResidueField`, a `k`-algebra isomorphism under
+`[Algebra.IsSeparable k P.ResidueField]`, which holds over a finite (perfect) `k`; in
+`TauCeti/FieldTheory/FunctionField/Place/Expansion/CoefficientField.lean`, their integral forms
+`TauCeti.Place.completionIntegersEquivPowerSeriesOfSection` and
+`TauCeti.Place.completionIntegersEquivPowerSeriesResidueField` onto
+`PowerSeries P.ResidueField`. The older `TauCeti.Place.completionIntegersEquivPowerSeries` is the
+rational-place case, onto `PowerSeries k`. This roadmap uses those names.
+
+The point topology on adelic and local points is pinned in
+`TauCeti/Topology/Algebra/PointTopology/`, for every topological coefficient algebra `R`:
+`TauCeti.PointTopology.instTopologicalSpaceWithConv` (`Basic.lean`), the coarsest topology on
+`WithConv (A →ₐ[k] R)` making every evaluation continuous;
+`TauCeti.PointTopology.isTopologicalGroup` (`Group.lean`), the convolution points of a Hopf
+algebra form a topological group when `R` is a topological semiring;
+`BialgHom.continuous_mapDomain` (`Group.lean`), a bialgebra map induces a continuous
+homomorphism of points; `TauCeti.PointTopology.instLocallyCompactSpaceWithConv`
+(`Separation.lean`), the points of a finite-type algebra over a locally compact `T1`
+topological ring are locally compact; and `TauCeti.PointTopology.tensorProductHomeomorph`
+(`Functoriality.lean`), the points of `A ⊗[k] B` are homeomorphic to the product of the point
+spaces.
+
+Repartitions are pinned in `TauCeti/FieldTheory/FunctionField/Repartition/`, the implementation
+of AlgebraicCurves Layers 4–5 consumed by §2.1. In `Basic.lean`: `TauCeti.repartitionSpace k F`,
+the repartitions `A_F` inside `Place k F → F`; `TauCeti.adeleFiltration D`, the subspace
+`A_F(D)` cut out by `P.valuation (a P) ≤ exp (D P)` at every place (so `0 ∈ A_F(D)` for every
+`D`); and `TauCeti.diagonalRepartitions k F`, the constant families. In `IndexOfSpecialty.lean`:
+`TauCeti.finrank_quotient_repartitionSpace`, for a function field with
+`IsIntegrallyClosedIn k F`, the `k`-dimension of `A_F ⧸ (A_F(D) + F)` is
+`TauCeti.Divisor.indexOfSpecialty D = ℓ(D) − deg D − 1 + g` (defined in `RiemannRoch/Genus.lean`).
+In `FiniteAdele.lean`, for a Dedekind `k`-algebra `R` with fraction field `F`:
+`TauCeti.repartitionToFiniteAdeles`, the additive map from repartitions to the finite adeles of
+`R`, and `TauCeti.denseRange_repartitionToFiniteAdeles`, its range is dense. In `Quotient.lean`:
+`TauCeti.adeleFiltrationQuotientEquiv`, for divisors `D`, `E` agreeing away from a place `P`, the
+`k`-linear isomorphism of `A_F(E) ⧸ A_F(D)` with the local quotient
+`𝔪_P^(−E P) ⧸ 𝔪_P^(−D P)`. In `Place/Filtration.lean`: `TauCeti.Place.finrank_quotient_filtration`,
+`dim_k(𝔪_P^a ⧸ 𝔪_P^b) = (b − a) deg P` for `a ≤ b`.
+
+Extensions of places are pinned in `TauCeti/FieldTheory/FunctionField/Place/Extension/`, for an
+integral extension `M/F` of fields over `k`. In `Basic.lean`: `TauCeti.Place.restrict k F P`, the
+place of `F` below a place `P` of `M`, and `TauCeti.Place.ramificationIdx F P`, the ramification
+index `e(P ∣ P ∩ F)`. In `Inertia.lean`: `TauCeti.Place.residueAut F P`, the homomorphism from
+the decomposition group (Mathlib's `ValuationSubring.decompositionSubgroup` of the valuation ring
+of `P`) to the automorphisms of the residue field of `P` over that of the place below; its kernel
+is Mathlib's `ValuationSubring.inertiaSubgroup` (`TauCeti.Place.ker_residueAut`), and for `M/F`
+finite Galois it is surjective (`TauCeti.Place.residueAut_surjective`). The decomposition group
+acts on the valuation ring of `P` (Mathlib's `ValuationSubring.decompositionSubgroupMulSemiringAction`)
+over the valuation ring of the place below (`TauCeti.Place.instAlgebraIntegers`,
+`TauCeti.Place.instSMulCommClassIntegers`), so Mathlib's `IsArithFrobAt`
+(`Mathlib/RingTheory/Frobenius.lean`: `σ • x ≡ x^(#(R ⧸ Q ∩ R))` modulo the ideal `Q`, for a
+monoid acting on a ring) applies at the maximal ideal of that valuation ring; §5.8's
+`IsArithFrobAtPlace` is this specialization. In
+`TauCeti/FieldTheory/FunctionField/Divisor/Conorm.lean`, for an algebraic extension with finite
+restriction fibres: `TauCeti.Divisor.conorm`, the pullback of divisors
+`P ↦ Σ_{P′ ∣ P} e(P′ ∣ P) P′`; `TauCeti.Divisor.conorm_principal`, the conorm of `div z` is the
+divisor of `z` upstairs; and `TauCeti.Divisor.conormClassGroup`, the induced map of divisor class
+groups. This is the pullback `ν^* : Pic(X) → Pic(X′)` of §7.1.
+
+Local ramification is consumed from Tau Ceti directly, for finite extensions of any
+`IsNonarchimedeanLocalField`, equal characteristic included. In
+`TauCeti/NumberTheory/LocalField/`: `TauCeti.LocalFieldsRamification.lowerRamificationGroup`
+(`RamificationGroup.lean`); `TauCeti.LocalFieldsRamification.herbrand` and
+`TauCeti.LocalFieldsRamification.upperRamificationGroup`, with `G^v = G_{ψ(v)}`
+(`Herbrand/Basic.lean`); Herbrand's theorem in the upper numbering,
+`TauCeti.LocalFieldsRamification.map_restrictNormalHom_upperRamificationGroup`: for a tower
+`M/L/K` with `L/K` and `M/K` finite Galois, restriction carries `Gal(M/K)^v` onto `Gal(L/K)^v`
+(`Herbrand/UpperQuotient.lean`); and Hasse–Arf, `TauCeti.LocalFieldsRamification.hasseArf`:
+every upper break of a finite abelian extension is an integer (`Herbrand/HasseArf/Abelian.lean`).
+In `TauCeti/NumberTheory/ClassFieldTheory/Local/Conductor/UpperNumbering.lean`,
+`TauCeti.ClassFieldTheory.unitFiltration_le_normGroup_iff_upperRamificationGroup_eq_bot`
+states, for a finite abelian `M/K` and `v : ℕ`, that `U(K,v) ⊆ N_{M/K}(Mˣ)` exactly when
+`Gal(M/K)^v = 1`, in either characteristic. Here
+`TauCeti.unitFiltration K v` is `O_Kˣ` at `v = 0` and `1 + 𝔭_K^v` for `v ≥ 1`, and
+`TauCeti.normGroup K M` is the image of the norm on units.
+
+Local reciprocity is consumed from Tau Ceti in `TauCeti/NumberTheory/ClassFieldTheory/`, for
+every `IsNonarchimedeanLocalField K` unless a characteristic is named. In
+`Local/ArtinMap.lean`: the absolute local Artin map
+`TauCeti.ClassFieldTheory.artinMap K : Kˣ →* G_K^ab`, arithmetically normalized, into the
+topological abelianization `Field.absoluteGaloisGroupAbelianization K`; its finite restrictions
+`TauCeti.ClassFieldTheory.artinMap_restrict`; and `TauCeti.ClassFieldTheory.ker_artinMap_eq_iInf`
+(its kernel is the intersection of the norm subgroups). In `Formation/AbelianLayer.lean`:
+`OpenNormalSubgroup.IsAbelianClassFieldLayer` (an open normal subgroup of
+`TauCeti.AbsoluteGaloisGroup K = Gal(Kˢ/K)` containing the closed commutator subgroup, that is,
+a finite abelian extension inside `Kˢ`). In `LocalExistence/`:
+`TauCeti.ClassFieldTheory.localNormSubgroup K V`, the norm group of the class field of `V`, open
+and of finite index (`NormSubgroup.lean`); `TauCeti.ClassFieldTheory.index_localNormSubgroup`,
+index equal to degree for an abelian layer (`AbelianLayer.lean`);
+`TauCeti.ClassFieldTheory.localClassField_unique`, two abelian layers with the same norm subgroup
+are equal (`Correspondence.lean`); and, under `[CharZero K]` only,
+`TauCeti.ClassFieldTheory.localAbelianExistence` (`Existence.lean`),
+`TauCeti.ClassFieldTheory.injective_artinMap` and
+`TauCeti.ClassFieldTheory.profiniteCompletionArtinEquiv`, the isomorphism of topological groups
+from the profinite completion of `Kˣ` onto `G_K^ab` extending `artinMap K` (`ArtinMap.lean`, whose
+module docstring claims neither injectivity nor this isomorphism in characteristic `p`), and
+`TauCeti.ClassFieldTheory.localClassFieldCorrespondence`, the order isomorphism from the open
+subgroups of finite index of `Kˣ` (`TauCeti.ClassFieldTheory.LocalNormSubgroups K`) onto the
+abelian layers of `TauCeti.AbsoluteGaloisGroup K` (`Correspondence.lean`). In every characteristic `Existence.lean` gives only
+`TauCeti.ClassFieldTheory.localAbelianExistence_primeToResidueCharacteristic`, for index prime
+to `p`. `TauCeti.ClassFieldTheory.profiniteCompletionArtinMap` (`LocalExistence/ArtinMap.lean`)
+extends `artinMap K` to Mathlib's profinite completion
+`ProfiniteGrp.ProfiniteCompletion.completion (GrpCat.of Kˣ)`, the completion for all subgroups
+of finite index; it is surjective in every characteristic. In `Local/Conductor/Basic.lean`, for
+a finite separable `L/K`: `TauCeti.ClassFieldTheory.conductorExponent K L`, the least `n` with
+`U(K,n) ⊆ N_{L/K}(Lˣ)`, attained (`TauCeti.ClassFieldTheory.unitFiltration_conductorExponent_le_normGroup`)
+and characterized by `TauCeti.ClassFieldTheory.conductorExponent_le_iff`. In
+`TauCeti/RingTheory/LaurentSeries/LocalField.lean`,
+`TauCeti.LaurentSeries.isNonarchimedeanLocalField` makes `k((T))` a nonarchimedean local field for
+finite `k`.
+
+Formal group laws are consumed from Tau Ceti in `TauCeti/RingTheory/FormalGroup/`:
+`TauCeti.FormalGroupHom` and `TauCeti.FormalGroupIso` (homomorphisms as power series without
+constant term, composition by substitution, base change; `Hom.lean`) and
+`FormalGroup.TopNilpotentPoint` (the group of points in the topologically nilpotent elements of
+a complete Hausdorff linearly topologized algebra, with continuous functoriality;
+`TopNilpotentPoint/Basic.lean`).
+
+Descent of schemes and morphisms is consumed from Tau Ceti and Mathlib. A descent datum
+`TauCeti.DescentDatum p X` on `X` over `S'` relative to `p : S' ⟶ S` is an action
+`S' ×_S X ⟶ X` satisfying the normalization and cocycle laws
+(`TauCeti/CategoryTheory/Limits/Shapes/Pullback/DescentDatum.lean`). In
+`TauCeti/AlgebraicGeometry/Descent/AffineMorphism.lean`, for `p` affine (`[IsAffineHom p]`) and `X`
+affine over `S'` (`[IsAffineHom X.hom]`), over an arbitrary base `S`:
+`TauCeti.DescentDatum.descended`, the descended scheme, affine over `S`;
+`TauCeti.DescentDatum.isIso_toBaseChangeDescended_hom`, for `[Flat p]`, the comparison of `D`
+with the canonical datum on the base change of `D.descended` is an isomorphism; and
+`TauCeti.DescentDatum.isPullback_toDescended`, for `[Flat p]`, `X` is the base change of
+`D.descended` along `p`. A morphism `Y ⟶ Z` over `S` descends from its base change along `p` by
+`TauCeti.homDescentEquiv` (`TauCeti/CategoryTheory/EffectiveEpi/Descent.lean`) when
+`Y ×_S S' ⟶ Y` is an effective epimorphism; Mathlib's `AlgebraicGeometry/Sites/Fpqc.lean`
+proves this for every flat surjective morphism that is quasi-compact or locally of finite
+presentation, from the subcanonicity of `AlgebraicGeometry.Scheme.fpqcTopology` and
+`AlgebraicGeometry.Scheme.fppfTopology`. Section 4.6 uses the affine forms for
+`p : Pic_X ⊗_k k′ → Pic_X`, the base change of a finite separable `Spec k′ → Spec k`, which is
+affine, flat and surjective, and identifies the descended scheme with the supplied algebraic
+space through the fppf sheaf property of that space. Section 4.7 uses `TauCeti.homDescentEquiv`
+along the smooth surjective high-degree Abel map and along `Spec k̄ → Spec k`.
+
+### From TauCetiRoadmap.AlgebraicCurves
+
+AlgebraicCurves Layers 0–12 provide intrinsic function fields and the chosen-generator
+comparison, finite normalization over both rational charts, divisors and Riemann–Roch,
+finite degree-zero classes, completion and expansion maps, ramification and the different,
+constant extensions, one-pole Artin–Schreier genus and the curve/function-field dictionary.
+Layer 1 uses finite normalization without a separability assumption; all geometrically
+connected finite-field statements use exact constants.
+
+### From TauCetiRoadmap.ArithmeticGaloisDuality
+
+ArithmeticGaloisDuality §R02.3.2 states its function-field results for Mathlib's
+`FunctionField 𝔽_q F` with `𝔽_q` algebraically closed in `F`. AlgebraicCurves Layer 0's
+chosen-generator comparison transports this contract to the intrinsic
+`TauCeti.IsFunctionField` setting.
+Its compatible finite Artin quotients give the dense reciprocity map
+`C_F → Gal(F^ab/F)` and the isomorphism from the profinite completion of `C_F` onto that
+Galois group. Its *Function-field places, ideles and `S`-units* degree-surjectivity API
+supplies a degree-one idele under these same finite exact-constant hypotheses.
+The constant-field projection is arithmetic Frobenius to the valuation degree;
+equivalently it is inverse Frobenius to Yu's degree. The discrete `ℤ` degree direction is
+completed to `ℤ̂`, so the uncompleted idele class group is not itself profinite.
+
+### From TauCetiRoadmap.AutomorphicLFunctionsAndLocalFactors
+
+AutomorphicLFunctionsAndLocalFactors §AL.0.6.1 *Curve additive analysis* constructs the
+completed adeles `𝔸_K`, the residue
+character `ψ_ω(a) = ψ₀(Σ_v Tr_{κ(v)/k} res_v(a_v ω))` of a nonzero rational differential `ω`
+and a nontrivial `ψ₀ : 𝔽_q → ℂˣ`, the conductor exponent `n_v = ord_v(ω)` (triviality on
+`π_v^(−n_v) O_v`, nontriviality on `π_v^(−n_v−1) O_v`), self-dual measures and Poisson
+summation, together with the compact rational unipotent quotients and integration in stages;
+it compares the self-dual measures with the integral local Haar measures and the quotient
+volume `q^(g−1)`, and makes the self-dual measures compatible with `ω ↦ fω`. Its §AL.0.3.1
+*The local Schwartz–Bruhat space `S(F)`, its `F^×`-action and tempered distributions* gives, on
+every nonarchimedean local field of positive characteristic with a nontrivial continuous additive
+character `ψ`, the conductor `ν(ψ)` (`ψ` trivial on `P^(−ν)`, nontrivial on `P^(−ν−1)`) with
+`ν(ψ_b) = ν(ψ) + ord b` for `ψ_b(x) = ψ(bx)`, the dual lattice `(P^m)^∨ = P^(−ν−m)` for the
+pairing `ψ(xy)` and the self-dual Haar measure, with `vol(O) = q^(−ν/2)`. At `K_v` with
+`ψ = ψ_{ω,v}` the conductor is `ν = n_v`, so the local self-dual measure `μ_{ω,v}` gives `O_v`
+volume `q_v^(−n_v/2)` and `O_v` has annihilator `π_v^(−n_v) O_v`. Its §§AL.0.1.7–AL.0.1.8
+*Fourier transform of a subgroup indicator* and *Fourier transform of a coset indicator* give, for
+any bilinear character pairing `L` and a translation-invariant measure `μ`,
+`F(1_U) = μ(U) · 1_(U⊥)` and `F(1_(a+U))(w) = ψ(−L(a,w)) · μ(U) · 1_(U⊥)(w)`, in the
+negative-kernel convention of Mathlib's `VectorFourier.fourierIntegral`.
+Layers 0, 2, 4, 6 and 7 use exactly these objects. Its §AL.3.10.4 *Ramified rank-one curve
+reciprocity* supplies the finite-field objects and comparisons consumed in §§4.5 and 4.8–4.10,
+including every positive modulus. Its convention is `χ(a)=ρ(Art_ar(a)⁻¹)` for a
+rank-one local system; the deck action on a Lang torsor below instead records
+arithmetic Artin itself, so passing to that local system inverts the character. Layer 6
+consumes §AL.R.3 *Restricted tensor realizations* (the complex `GLₙ` automorphic spaces with
+fixed unitary central character, in §6.2) and, in §6.7, §AL.3.4.1 *The `GL(n)` cuspidal Fourier
+expansion* in its function-field case, §AL.3.4.2 *Global Whittaker factorization* and
+§AL.3.14.1 *Spherical Whittaker normalization at nonzero conductor* (`W(t_v) ≠ 0` for a nonzero
+spherical `W`, with `t_v` built from `ϖ_v^(−n_v)`).
+
+### From TauCetiRoadmap.ArithmeticGaloisRepresentations
+
+ArithmeticGaloisRepresentations §2.5 defines `GaloisRep.localEulerFactor` as
+`det(1 − X ρ(Fr) | V^{ρ(I)})` for any coefficient field, independent of the lift of `Fr`;
+Layer 5.7 substitutes `X = T^(d_v)`. Section 5.13, *Chebotarev for function fields*,
+supplies degree-refined counts for connected finite étale Galois covers, with the
+prescribed constant-field Frobenius coset and main coefficient `|C|/|G_geom|`: the count `π_B(n)`
+of degree-`n` closed points with Frobenius in a class `B`, its vanishing for `n ≢ b mod a`, and
+its asymptotic. Section 5.8 here takes that count, realized on the pinned place carriers as
+`frobeniusPlaceCount`, and proves an explicit error estimate in the compatible degrees.
+
+### From TauCetiRoadmap.ClassFieldTheory
+
+ClassFieldTheory Layers 1–4 provide class formations and Tate's theorem; Layers 5–7
+provide local invariants, unramified extensions and arithmetic local reciprocity.
+Layer 8 supplies local existence for finite extensions of `ℚ_p` and the prime-to-residue-
+characteristic existence theorem in equal characteristic. These are the domains used here.
+Layer 7's conductors are minima of unit-kernel depths. Two of these statements carry the
+unit-filtration argument of §4.2: Layer 6's finite reciprocity map has kernel the norm group,
+and Layer 7's `artinMap_restrict` makes each finite map the restriction of the absolute one.
+Together with the Tau Ceti conductor criterion above they give unit-filtration reciprocity in
+both characteristics, consumed by §4.4.
+
+### From TauCetiRoadmap.LubinTateFormalModulesAndQuasiCanonicalLifts
+
+LubinTateFormalModulesAndQuasiCanonicalLifts precedes this roadmap in the dependency order;
+Layer 4 uses the following of its sections.
+
+- §0.1, *One-dimensional formal modules*: a formal `A`-module over an `A`-algebra `R` is a
+  commutative Mathlib `FormalGroup R` with a unital ring map `a ↦ [a]_F` into its endomorphisms
+  whose linear coefficient is the image of `a` in `R`, for any commutative ring `A`. The
+  endomorphisms are formal-group homomorphisms, the pinned `TauCeti.FormalGroupHom`.
+- §0.2, *The module of adic points*: the `A`-module of points `F(I)` for an ideal `I` of
+  topologically nilpotent elements of a complete Hausdorff linearly topologized algebra, with
+  continuous coefficient maps, and `F(𝔪_(K̄))` as the union of the `F(𝔪_L)` over finite
+  subextensions with its Galois action.
+- §§1.1–1.4, *The Lubin–Tate construction*: Lubin–Tate series for an irreducible `π` and the
+  residue cardinality `q`, Lubin–Tate interpolation, the Lubin–Tate formal module `F_f` with
+  `[π]_f = f` as the unique formal group law of which `f` is an endomorphism, and the unique strict
+  `O`-linear comparison `F_g → F_f` for two series for the same `π`. That layer works over every
+  discrete valuation ring with finite residue field, of either characteristic and complete or
+  not; in equal characteristic `πX + X^q` gives the additive law.
+- §§2.1–2.5, *Torsion, Tate modules and the Artin comparison*: torsion, division fields, the
+  Lubin–Tate character and its comparison with `TauCeti.ClassFieldTheory.artinMap`, for finite
+  extensions of `ℚ_p` only. This is the mixed-characteristic case that §4.1 parallels.
+
+Sections 4.1–4.2 use `A = R = O` and maximal ideals of rings of integers of finite separable
+extensions, taking their union for algebraic torsion points, and add the torsion, ramification
+and reciprocity statements in characteristic `p`.
+
+### From TauCetiRoadmap.DeligneWeightsAndPurity
+
+DeligneWeightsAndPurity §§1.6 and 1.9 provide the Jacobian numerator, the Weil bound and
+base extension. Section 3.7 supplies the Haar-null density-zero consequence, using
+ArithmeticGaloisRepresentations §5.13 for degree-refined finite-cover Chebotarev.
+
+### From TauCetiRoadmap.WeilConjectures
+
+WeilConjectures §1.16, *A curve numerator before root bounds*, supplies the
+scheme-theoretic curve numerator. Section 5.20, *Recurrences and Newton recovery*,
+supplies the recurrence and Newton identities for a known-degree polynomial; §5.6 here
+uses reciprocal symmetry to recover the numerator from only `g` point counts.
+
+### From TauCetiRoadmap.SchemeAndStackFoundations
+
+SchemeAndStackFoundations §3.6 (`picardComponent`, `picardComponent_torsor`,
+`picardComponent_point_iff`) supplies ordinary Picard components and torsors, using
+JacobianChallenge Layer D for representability and the Picard–Brauer obstruction.
+SchemeAndStackFoundations §3.7 `abelMaps_highDegree` supplies ordinary high-degree Abel
+maps with Brauer–Severi descent. JacobianChallenge Layers A–C supply line bundles,
+coherent curve cohomology and pushforward vanishing and base change. Section 4.6 adds
+affineness over the ordinary Picard scheme and the torsor, dimension and connectedness
+structure to the rigidified algebraic space supplied by
+RelativeJacobiansAndIntegralCurveModels §§1.3–1.5, whose scheme structure is that roadmap's
+§1.8; §4.7 adds the perfect-field modulus universal property.
+SchemeAndStackFoundations §1.1 supplies quasi-coherent module descent. Effective descent of
+schemes affine over the base and descent of morphisms are the pinned Tau Ceti declarations
+listed under *From Tau Ceti*.
+
+### From TauCetiRoadmap.JacobianChallenge
+
+JacobianChallenge Layers A–C supply line bundles, coherent curve cohomology, pushforward
+vanishing and base change. Layer D supplies ordinary Picard representability and its
+Picard–Brauer comparison, through SchemeAndStackFoundations §3.6.
+
+### From TauCetiRoadmap.RelativeJacobiansAndIntegralCurveModels
+
+RelativeJacobiansAndIntegralCurveModels §§1.3–1.5 supplies the rigidified sheaf for a
+finite-flat rigidificator, its unit sequence, smooth algebraic-space representability
+for curves and universal family. Its §1.8, *Quotients and scheme structure for group algebraic
+spaces*, supplies scheme structure for a separated smooth locally finite-type group algebraic
+space over a Dedekind scheme, together with its identity open subgroup and base change; §4.6
+applies it over `Spec k` to `⨆_d Pic_m^d` once separatedness is proved. A nonzero effective
+divisor on the geometrically connected smooth projective curve is a rigidificator because
+universal global functions are the base functions and its finite positive length is
+faithfully flat. The supplier's
+rigidification `O_m ≅ L|_m` is the convention used here; no inversion is required.
+A presentation using `L|_m ≅ O_m` must invert its trivialization before comparison.
+
+### From TauCetiRoadmap.ReductiveGroupsPartII
+
+ReductiveGroupsPartII §RG2.3.7 states Lang's theorem for a smooth connected group over `𝔽_q`.
+Section 4.9 uses its commutative form `Frob_q − id` on a generalized Jacobian, including its
+unipotent part. RG2.0a supplies affine restriction of scalars along finite locally free
+maps, so `Res_{m/k} 𝔾_m` includes nonreduced finite `m`.
+
+ReductiveGroupsPartII RG2.0 plans affine point topologies, their functoriality and the
+topological group of points over every topological base algebra; the pinned declarations it
+names are listed under *From Tau Ceti*. Section 6.1 uses them at the adeles and adds the
+function-field restricted-product comparison.
+
+### From TauCetiRoadmap.SmoothRepresentationsOfLocalGroups
+
+SmoothRepresentationsOfLocalGroups §§SR.2.1–SR.2.3 supply smooth/parabolic induction,
+its finite-level double-coset description and Whittaker functionals. Section SR.4.1 gives the Satake isomorphism of the spherical Hecke
+algebra with `Z[q_v^(±1/2)]`-coefficients and its compatibility with parabolic restriction.
+
+### From TauCetiRoadmap.AdelicAlgebraicGroups
+
+AdelicAlgebraicGroups Layer AA.0 supplies restricted products of Haar measures for
+countable families of second countable locally compact groups. The places of a finite-
+constant-field function field satisfy these hypotheses.
+
+### From TauCetiRoadmap.GeometryOfNumbersAndQuadraticArithmetic
+
+GeometryOfNumbersAndQuadraticArithmetic §3.2 supplies Hermitian local densities,
+normalized Siegel polynomials and the Cho–Yamauchi overlattice formula for an unramified
+quadratic field extension when the base field has characteristic different from two,
+including dyadic residue fields. Section 3.1 supplies `hermitianEmbeddingCount`,
+`finite_hermitian_isometry_formula` and `finite_hermitian_norm_fiber` over `𝔽_{q²}/𝔽_q`
+with its nontrivial involution, for every prime power `q≥2`; these residue counts are
+also used in the equal-characteristic-two reciprocity argument of §7.4.
+
+### From TauCetiRoadmap.AutomorphicSpectralTheory
+
+AutomorphicSpectralTheory §§1.11–1.13 supply function-field `GL_n` unramified character
+parameters, including every component of the fixed-centre diagonalizable group, spherical
+sections and induction normalization. Sections 2.15–2.16 and 4.11–4.17 provide the
+corresponding intertwiner and discrete/residual interfaces for comparison.
+
+### From TauCetiRoadmap.EtaleCohomologyFoundations
+
+EtaleCohomologyFoundations §§F.2.5 and F.3 give the actual compact-support functor and
+perfectness for bounded constructible finite-Tor-amplitude coefficients; §§F.10.2–F.10.3
+give Frobenius comparison and finite-projective trace/determinant algebra. These are roadmap contracts, rather than implementation declarations at the pins. Section 5.7 adds the finite-coefficient Euler-product
+identity; equality of power traces alone is not its supplier.
+
+### From TauCetiRoadmap.PadicMeasuresIwasawaAlgebras
+
+PadicMeasuresIwasawaAlgebras §5.1 supplies `detLine`, `detLine_quasiIso`,
+`detLine_shortExact`, `detLine_baseChange`, `detLine_shift` and `detLine_acyclic` for
+perfect complexes over commutative rings. Section 5.7 forms the characteristic series
+from this functor; EtaleCohomologyFoundations §F.10.3 supplies traces and determinants
+of finite projective modules, not this derived determinant construction.
+
+### From TauCetiRoadmap.MetaplecticAutomorphicForms
+
+MetaplecticAutomorphicForms §§2.5, 3.2a, 3.3 and 3.3b supply the local Schrödinger
+operators, split étale comparison, unitary dual-pair splittings and Hermitian oscillator
+normalizations. Section 7.5 constructs the local Siegel–Weil section and its density
+comparison from these interfaces, for the odd-characteristic global branch of Layer 7.
 
 ## References
 
