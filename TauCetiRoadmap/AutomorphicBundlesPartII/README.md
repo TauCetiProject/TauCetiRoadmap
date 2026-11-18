@@ -2,17 +2,9 @@
 
 **Summary.** This extends AutomorphicBundles Layers 0–12, whose endpoint is the coefficient bundle and its section Hecke operators, to integral coherent cohomology, equivariant perfect complexes and Hecke operators in every degree. It proves integral small-weight vanishing for Siegel threefolds, compares canonical and interior coherent cohomology with automorphic forms, and derives non-Eisenstein boundary vanishing and multiplicity-counted cuspidal decompositions. Over ℚ the boundary result holds in every degree; over a totally real field the boundary input is in degree zero. Conditional hypotheses on packets give the final degree-one/degree-zero dimension comparison. The coefficient, support, compact-group and arithmetic normalizations are part of these statements.
 
-## Scope and ownership
+## How to read the build
 
-The roadmap extends the good-prime integral Levi realization of AutomorphicBundles 5.10 to normalized deep-level models and the integral dual-Weyl lattice of ReductiveGroups §10B, and owns finite-coefficient coherent homology, group-ring perfect models, higher cohomological Hecke comparisons, integral EO detection of relations, coherent automorphic image comparisons and the localized boundary and cuspidal conclusions. It imports VStackSheavesAndLisseCategories VS2.1’s solidification and VS2.2’s analytic-ring interface and supplies the (A,A)■ solid/discrete scheme interface and Hilbert–Siegel EO geometry used by those constructions. It includes arbitrary complete DVR coefficients where the statement is coefficient algebra, and states every geometric reduction and logarithmic lifting hypothesis separately.
-
-AutomorphicBundles Layers 0–12 owns associated bundles, coefficient tensor operations, canonical and subcanonical extensions and section Hecke convolution; its 5.10 owns the good-prime integral Levi torsor, associated locally free coefficients and their formal canonical/subcanonical expansions, and its Layer 9 owns the dual BGG construction. AlgebraicVectorBundles L0A–L0C owns the generic vector-bundle operations. SchemeAndStackFoundations §§2.6–2.8, 2.18–2.21 and 4.8–4.10 owns generic Čech, Cousin, relative duality and formal functions. EnhancedDerivedSheaves E1.9 owns perfectness of proper-support pushforward and its arbitrary base change. DerivedModuleAlgebra §§1.3–1.5, 1.E.0–1.E.1 and 1.M.1–1.M.2 owns object completion, perfectness/retracts, effectivity and Matlis duality, and DeformationAndDerivedPatchingAlgebra §§7.5–7.10 owns nilpotent lifting, dual complexes, strict tower actions, finite derived Hom completion, isolated derived-action blocks and coefficient spectral sequences. Here the perfectness and localization targets identify the actual geometric complexes and operators with those constructions.
-
-ShimuraCompactifications Layers 4, 6 and 7 (refinements and Hecke maps; degenerations of polarized abelian schemes; integral PEL compactifications) own fans, toroidal/minimal models, refinements, polarized degenerations and normalized deeper-level models, in particular 7.19–7.21 and 7.31; 6.16 owns the rational compactified Klingen span. Its 7.21 owns the formally canonical definition and its verification on its stated models. Section 5.1 here verifies its additional quotient and p-level applications. Its 7.29 owns the logarithmic canonical-bundle formula; §5.7 applies it to the actual Serre-dual coefficient.
-
-Tau Ceti’s divisor-sheaf Serre duality for a curve over a field is in `TauCeti/AlgebraicGeometry/WeilDivisor/Scheme/SerreDuality.lean`, with `TauCeti.AlgebraicGeometry.SchemeWeilDivisor.cohomologyOneDualEquivCohomologyZero`. SchemeAndStackFoundations §2.20's `cm_serre_duality` is Serre duality for a proper Cohen–Macaulay scheme over a field. Section 1.6 instead treats arbitrary relative dimension over a finite DVR quotient, with its Matlis comparison and equivariance; over a field it contains the cases of the curve statement and of `cm_serre_duality` in which the scheme is smooth and the coefficient sheaf is locally free. The generic existence and uniqueness-up-to-homotopy of lifts are already in the library as Mathlib's K-projective theorems. AutomorphicFormsOnReductiveGroups §§6.3–6.7 states the closed chambers, infinitesimal characters, Kostant representatives, component transport and local coherent classifications; these are imported rather than defined again. The geometric tempered-image restriction in Layer 7 applies those results to the images constructed in Layer 6. IntegralHeckeAndGaloisDeterminants §§3a–3b owns spin polynomials and residual predicates; §4.3 identifies the geometric generators, and §5.15 applies the predicates to their coherent action. SmoothRepresentationsOfLocalGroups SR.4 owns normalized Satake. Its local Klingen restriction is an explicit supplier contract below; §8.4 identifies the geometric boundary coefficient.
-
-The scheme solid six operations and their discrete comparison are §3.0a. IgusaVarietiesAndTorsionConcentration §§2.12–2.13 owns the G-zip Ekedahl–Oort stratification, its Hasse sections and the affineness of partial minimal EO strata for its unitary PEL datum; the genus-two Hilbert–Siegel EO geometry of §5.0 is the type-C case for Res_(F/ℚ)GSp₄, with its codimension filtration, Cohen–Macaulay thickenings and boundary regularity, and is not deduced from the unitary case. The Hilbert–Siegel EO geometry and quotient descent are §5.0, and the application of EndoscopicTransferAndUnitaryTraceComparison §11.1’s conditional comparison of GSp₄ L-packets and of the supplied lower-rank Galois polynomials is §7.0. Locally analytic weights, ordinary projectors and p-adic families belong to OverconvergentAutomorphicForms; no such projector enters the classical comparison here.
+Layers 1 and 2 construct integral coefficients, duality and equivariant perfect models. Layer 3 constructs the permitted correspondences and separates completion/compact-support filtrations from ordinary local cohomology. Layer 4 fixes normalization and compares geometric operators with the tower. Layer 5 proves vanishing, then the integral convolution relations, then Hecke localization. Layer 6 constructs the distinct automorphic images. Layer 7 applies the supplied local coherent calculations and the explicit conditional global contract. Layer 8 computes the two boundary problems in their separate degree ranges and obtains the cuspidal and dimension conclusions. The roadmap is this README; `Suggested.lean` documents which genuine headline carriers exist at the pins.
 
 ## Conventions
 
@@ -39,132 +31,6 @@ For §3.0a, affine coordinate rings A, including O, carry the discrete analytic 
 Complexes use integer cohomological degrees; a sheaf has no negative cohomology, and the subtraction d−i in duality is integer subtraction.
 
 All schemes, sites, modules and index sets lie in fixed universes, enlarged together for sheaf and derived constructions. Covers used for bounded Čech models are finite affine covers of quasi-compact separated schemes. A DVR is a nonzero domain of dimension one; neither the zero ring nor a field is treated as a DVR. Rank-zero coefficients and empty boundaries are allowed. No claim with a divided factor is evaluated where that factor is zero.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-Use `AlgebraicGeometry.Scheme`, `AlgebraicGeometry.Scheme.Modules`, `SheafOfModules.IsLocallyFree`, `SheafOfModules.IsFinitePresentation`, `CategoryTheory.DerivedCategory` and native module/group-ring carriers. In `Mathlib/Algebra/Homology/HomotopyCategory/KProjective.lean`, `CochainComplex.isKProjective_of_projective` assumes an upper degree bound and projective terms. In `Mathlib/Algebra/Homology/DerivedCategory/KProjective.lean`, `CochainComplex.IsKProjective.Qh_map_bijective` assumes a K-projective source and a derived-category instance. Apply the bijection to the actual geometric endomorphisms, including equalities of their homotopy classes.
-
-### From Tau Ceti
-
-`TauCeti.AlgebraicGeometry.Scheme.Modules.Cohomology`, `TauCeti.AlgebraicGeometry.Scheme.Modules.cohomologyFunctor`, `TauCeti.AlgebraicGeometry.Scheme.Modules.cohomologyZeroEquiv` and `TauCeti.AlgebraicGeometry.Scheme.Modules.cohomologyZeroEquiv_naturality`, in `TauCeti/AlgebraicGeometry/Cohomology/Basic.lean`, supply underlying additive sheaf cohomology, coefficient functoriality and natural identification of H⁰ with sections. The underlying construction uses abelian sheaves. For a commutative base ring R and X over Spec R, `AlgebraicGeometry.Scheme.Modules.cohomologyBaseModule`, `AlgebraicGeometry.Scheme.Modules.cohomologyMapBaseLinear`, `AlgebraicGeometry.Scheme.Modules.cohomologyZeroBaseLinearEquiv` and `AlgebraicGeometry.Scheme.Modules.cohomologyZeroBaseLinearEquiv_naturality`, in `TauCeti/AlgebraicGeometry/Cohomology/Module/Base.lean` (lines 45, 57, 110, 127), supply the R-module structures, linear coefficient maps and natural linear H⁰/sections identification. For a short exact coefficient sequence, `TauCeti.AlgebraicGeometry.Scheme.Modules.cohomologyδBaseLinear`, in `TauCeti/AlgebraicGeometry/Cohomology/LongExactSequence.lean` (line 242), supplies the R-linear connecting map. These declarations impose no properness or finite-dimensionality; identification with scalar-linear derived global sections and equivariant perfectness are separate inputs.
-
-`SheafOfModules.exteriorPower` in `TauCeti/Algebra/Category/ModuleCat/Sheaf/ExteriorPower/Basic.lean` (line 60) sheafifies the sectionwise exterior power and supplies det Ω in arbitrary relative dimension. `AlgebraicGeometry.Scheme.relativeDifferentials` in `TauCeti/AlgebraicGeometry/Modules/Differentials/Basic.lean` (line 85) is the sheaf of relative Kähler differentials. `AlgebraicGeometry.Scheme.Modules.instMonoidalClosed` in `TauCeti/AlgebraicGeometry/Modules/TensorProduct.lean` (line 66) supplies internal Hom. These are carriers for §1.6, not a coherent Serre-duality theorem.
-
-The field-valued curve sanity check uses `TauCeti.AlgebraicGeometry.SchemeWeilDivisor.cohomologyOneDualEquivCohomologyZero` in `TauCeti/AlgebraicGeometry/WeilDivisor/Scheme/SerreDuality.lean`: an integral separated Noetherian curve over a field, DVR codimension-one stalks, the valuative existence condition, coheight at most one, the function-field and constant-field hypotheses, and a canonical divisor determined by a nonzero Weil differential. It compares the dual of H¹ of a divisor sheaf with H⁰ of the complementary canonical divisor. It is not used to infer relative finite-coefficient duality.
-
-### From TauCetiRoadmap.AutomorphicBundles
-
-Layers 0–12, in particular 5.10 (`integralLeviCoefficient`), 9.2–9.3 and 12.11 (`ClassicalHecke.operator`): associated coefficients and frame functors (Layer 0); canonical principal bundles (Layer 1); associated bundles and realizations (Layer 3); canonical and boundary-ideal extensions (Layer 5); integral good-prime coefficients (5.10); the Siegel dual BGG complex and its coefficient convention (Layer 9); classical forms and explicit weights (Layer 11); section Hecke operators, convolution and logarithmic Kodaira–Spencer (Layer 12).
-
-What AutomorphicBundles must provide (the integral small-weight dual BGG contract): Extend the coefficient dual BGG graded comparison to the integral p-small Lan–Suh weights, with the correct Weyl or dual-Weyl lattice, cohomological length shifts and canonical/subcanonical boundary twists, and identify its characteristic-zero specialization. The supplying section is 9.2–9.3 (`siegelDualBGGComplex`, `siegelBGGGradedComparison`).
-
-### From TauCetiRoadmap.AlgebraicVectorBundles
-
-L0A–L0C: The scheme-module tensor, dual, pullback, determinant and finite locally free operations, with their coherence and affine comparisons.
-
-### From TauCetiRoadmap.SchemeAndStackFoundations
-
-§§0.18, 1.1, 2.6–2.8, 2.18–2.21, 2.23, 4.8–4.10: Scheme-theoretic support and Cohen–Macaulay schemes (§0.18), quasi-coherent fpqc descent (§1.1), equivariant cohomological descent (§2.23), affine Čech comparison, scalar-linear derived cohomology, ordinary support triangles and Cousin resolutions, depth vanishing, proper coherent upper shriek, the lci upper-shriek identification `upperShriek_lci` (§2.19) consumed by AlgebraicModuliForArithmeticGeometry §7.5's fundamental class, smooth-proper duality and formal functions; use the Noetherian, Tor-independence, perfectness and boundedness conditions stated in those sections.
-
-What SchemeAndStackFoundations must provide (the coefficient-linear coherent comparison contract): Identify Hⁱ of the scalar-linear RΓ(X,F) in D(O) of §2.18 with Tau Ceti’s base-linear scheme-module cohomology, compatibly with cohomologyMapBaseLinear, cohomologyδBaseLinear and the natural linear H⁰/global-sections equivalence. The supplying section is §2.18.
-
-### From TauCetiRoadmap.DerivedModuleAlgebra
-
-§§0.2–0.3, 1.1.1, 1.3–1.5, 1.E.0–1.E.1, 1.M.1–1.M.2, S.1: Native module-derived tensor and Hom, perfect objects and retracts, object completion (§§1.3–1.5) and perfect inverse-system effectivity (§1.E.1), Matlis duality with its chosen injective hull and signed spectral sequences; arbitrary residue fields use §1.M.2.
-
-### From TauCetiRoadmap.DeformationAndDerivedPatchingAlgebra
-
-§§7.1, 7.3–7.10: Infinite-rank nilpotent lifting and local freeness (§7.5), signed coefficient duality (§7.6), compatible strict coefficient-tower actions (§7.7), completion of finite derived Hom (§7.8), isolated finite derived-action blocks (§7.9), and coefficient/hyper-Tor spectral sequences with finite filtrations on the actual abutment (§7.10). Object completion and effectivity use DerivedModuleAlgebra §§1.3–1.5 and §1.E.1.
-
-### From TauCetiRoadmap.ShimuraCompactifications
-
-4.3–4.10, 6.1–6.11, 6.16–6.17, 7.3–7.17, 7.19–7.31: Toroidal models and polarized degeneration data; common refinements; boundary ideals and fan-independent cohomology; minimal contractions and ample Hodge powers; finite-normalization and normalized-blow-up models with their lattice collections; formally canonical coefficients (7.21); the rational Klingen span (6.16). Normalized models carry no automatic smoothness assertion.
-
-### From TauCetiRoadmap.ReductiveGroups
-
-§§9A, 10B: the induced module ∇(λ)=Ind_(B⁻)^G k_λ of a split connected reductive group over a field, with f(gb)=λ(b)⁻¹f(g) and left translation a·f(g)=f(a⁻¹g), the Weyl module Δ(λ)=∇(−w₀λ)*, their highest-weight and dominance theory, their arbitrary-field base change, and the integral Weyl lattices with their freeness, action equations and the perfect integral evaluation pairing with the dual (§10B); the finite free admissible ℤ-lattice generated from the highest line by divided powers, for every dominant weight (§9A). The integral induced (dual-Weyl) lattice in its function realization is the contract below.
-
-What ReductiveGroups must provide (the integral dual-Weyl lattice contract): Construct the integral induced (dual-Weyl) lattice ∇(λ)_ℤ as the ℤ-dual of the Weyl lattice Δ(−w₀λ)_ℤ in the right-B function realization f(gb)=λ(b)⁻¹f(g) with left translation, for every dominant weight of the split Siegel Levi GL_g×G_m over ℤ, with the symmetric-power versus divided-power identification in residue characteristic and the base-change comparison to the field modules ∇(λ) and Δ(λ) of §10B. The supplying section is §10B.
-
-### From TauCetiRoadmap.ComplexComparisonPartII
-
-C1.9, C2, C3.3: Projective and proper coherent GAGA and derived GAGA for proper algebraic spaces, with the coefficient, pullback and proper-pushforward comparisons. Trace compatibility is specified below.
-
-What ComplexComparisonPartII must provide (the GAGA duality trace contract): Make projective/proper coherent GAGA compatible with the proper duality counit and the actual coherent trace, coefficient twists and boundary-ideal arrows in the toroidal Hecke spans. The supplying section is C1.9, C3.3.
-
-### From TauCetiRoadmap.SmoothRepresentationsOfLocalGroups
-
-SR.0, SR.1, SR.2, SR.3, SR.4.1, SR.4.5: Smooth towers, characteristic-zero exact finite invariants, integral convolution and opposite-algebra conventions, parabolic induction and admissibility, normalized Satake and the GSp₄ generator comparison.
-
-What SmoothRepresentationsOfLocalGroups must provide (the boundary spin Satake contract): Prove the local normalized Klingen-Levi GL₂×GL₁ Satake identity P_spin(X)=P₂(X)(X²−uAX+u²D) over coefficient rings with q invertible, where P₂(X)=X²−AX+D has roots α,β, the four spin roots are α,β,uα,uβ, u is the unit value of the unramified GL₁ character at the uniformizer, and q³T₀=uD (equivalently q³T₀=uqS when D=qS); retain the four distinct spin monomials and use X⁴P_spin(1/X) for det(1−X·spin). The supplying section is SR.4.5.
-
-### From TauCetiRoadmap.IntegralHeckeAndGaloisDeterminants
-
-§§2.2–2.3, 3a.1–3a.2, 3b.1–3b.2: Finite integral derived Hecke images and block localization; the spherical spin polynomial and multiplier; residual Galois-type and non-Eisenstein predicates; dual and character-twist transport of full characteristic polynomials.
-
-### From TauCetiRoadmap.AutomorphicFormsOnReductiveGroups
-
-§§1.1–1.3, 4.1–4.2, 5.5, 6.1–6.7: Relative Lie cochains with their Koszul signs, fixed Hermitian pair, central balancing and actual automorphic occurrences; cuspidal GLₙ purity `clozelPurity` (§5.5) for algebraic cuspidal representations in its fixed Clozel normalization, used for the GL₄ transfer in §8.7; closed GSp₄ chambers (§6.3), component transport (§6.4), coherent discrete-series and limit calculations (§6.5), large-weight and lowest-weight classifications (§6.6), and higher-rank Kostant representatives (§6.7). Its first, global assertion of §6.6 fixes F before its root-separation constant; §8.8 uses the uniform form specified below, in the |·|² central normalization. Its separate negative-parameter singular bound R_sing is used only in §7.3.
-
-What AutomorphicFormsOnReductiveGroups must provide (the uniform global GSp₄ separation contract): Strengthen the first global assertion of §6.6 to: there is R_sep>2 such that for every totally real F, every discrete occurrence and every admissible coefficient in the fixed |·|² central normalization, root separation at every real place implies essential temperedness, with R_sep independent of F, level, coefficient, occurrence and degree. The supplying section is §6.6 (BCGP21 Theorem 3.10.1(2), p. 236).
-
-### From TauCetiRoadmap.AutomorphicSpectralTheory
-
-§§4.1–4.5, 4.10, 5.1–5.8: Multiplicity-counted discrete cuspidal and L² spectra; Petersson adjoints; Wallach’s semisimple arithmetic tempered cuspidality criterion (§4.10); fixed-weight de Rham regularization for the full (m_G,K_∞) pair (§5.2); derived finite-character comparisons (§§5.3–5.4); logarithmically weighted core acyclicity (§5.7a); and uniform-moderate-growth Fin_J acyclicity (§5.8). Su’s parabolic-pair regularization is the separate contract below.
-
-What AutomorphicSpectralTheory must provide (the Su parabolic regularization contract): For a Shimura datum with connected reductive G over ℚ, maximal ℚ-split central torus A_G also maximal ℝ-split in the centre, neat finite level K and finite-dimensional holomorphic P_h-coefficient V, prove that C∞_umg(G)^K→C∞_dmg(G)^K induces isomorphisms on H^i(p_o,K_o;−⊗V) for every i, naturally in V and finite Hecke maps, with G(A_f)-equivariance on the tower after the inverse central action on V_o. The supplying section is §5.2 (Su24 Proposition 4.1, p. 38; coefficient action in §1.1).
-
-### From TauCetiRoadmap.EndoscopicTransferAndUnitaryTraceComparison
-
-§11.1, under the symplectic classification contract of its §§11.0g–11.0h and its fixed unitary normalization: general-type GSp₄ transfer, cuspidality and local-parameter comparison, with every permitted member of its global L-packets automorphic of multiplicity one. Apply this after the stated norm twist to the unitary normalization and transport back. Section 7.0 supplies the geometric application and exclusion of nongeneral types.
-
-### From TauCetiRoadmap.ArithmeticGaloisRepresentations
-
-§§1.1–1.2, 1.7–1.12; Layer 5: Continuous residual representations, coefficient extension and semisimplification; §1.12’s induction from an open subgroup, for the dihedral summand of §7.0 case (c); recognition from full Frobenius polynomials by Chebotarev and Brauer–Nesbitt, including characteristic two. Retain the symplectic form and its multiplier.
-
-### From TauCetiRoadmap.WeightsInEtaleCohomology
-
-R34.5–R34.6: the classical rank-two eigensummand, its normalized good-prime Frobenius polynomial and every-coefficient-field comparison; R34.6’s Hilbert eigensummands and source-qualified coefficient descent. The underlying continuous representation and geometric/arithmetic Frobenius transport are ArithmeticGaloisRepresentations §§1.1–1.12, 2.2 and 5.1–5.3.
-
-Classical weights at least two use R34.5–R34.6 with ModularCurvesPartII §§14.1–14.4a. Stable lattices, reduction, contragredients and character twists use ArithmeticGaloisRepresentations §§1.1–1.2, 1.7–1.11 and IntegralHeckeAndGaloisDeterminants §§3a–3b.
-
-What WeightsInEtaleCohomology must provide (the classical weight-one realization contract): Supply the continuous rank-two realization of every normalized classical cuspidal weight-one Hecke eigenform, with its full unramified Hecke polynomial outside the level and coefficient characteristic, in the geometric-Frobenius normalization of §7.0; it is consumed by the weight-one Klingen boundary terms of §8.2 through §7.0’s boundary inputs. The supplying section is R34.6.
-
-### From TauCetiRoadmap.ModularCurvesPartII
-
-§§14.1–14.4a: Classical parabolic coefficient realizations and their Hecke and level transport for weights at least two, consumed through WeightsInEtaleCohomology R34.5–R34.6.
-
-### From TauCetiRoadmap.HilbertModularVarietiesAndShimuraCurves
-
-R18.3.29(a): Rank-two realizations for every totally real field and parallel weight k≥2, with unramified polynomial X²−T_vX+q_vS_v at every v outside the level and coefficient characteristic. Its existence branch includes the even-degree case without a finite discrete-series place. Its arithmetic-Frobenius representation is the contragredient of the geometric-Frobenius realization used here; transport the polynomial and central character by that dual, as specified in R18.3.29's Normalization paragraph.
-
-What HilbertModularVarietiesAndShimuraCurves must provide (the non-parallel Hilbert realization contract): Extend the good-prime rank-two realization of R18.3.29 to every non-parallel algebraic Hilbert cusp eigenpacket of weights (k_v) with k_v≥2 and common parity, over every totally real field, without a finite discrete-series-place restriction on its unramified Hecke polynomial. The supplying section is R18.3.29.
-
-### From TauCetiRoadmap.CrystallineCohomology
-
-CR.5.1–CR.5.4, CR.DDR.6.11–CR.DDR.6.14: Logarithmic structures, Cartier-type differentials, exactification and logarithmic PD envelopes (CR.5.2), and logarithmic crystalline/de Rham comparisons with their lifts and residue conditions. The relative logarithmic vanishing needed for the integral vanishing theorem is specified below.
-
-What CrystallineCohomology must provide (the coefficient logarithmic splitting contract): Supply the relative logarithmic vanishing of Lan–Suh Theorem 3.24, pp. 20–21, as verified for PEL pairs in Proposition 7.21, pp. 41–42: a proper log-smooth log-integral morphism of relative dimension n between proper smooth SNC pairs over perfect k, with target dimension e, admits a W(k)-lifting satisfying Assumption 1.4, the coefficient has nilpotent residues and degree m<p−e (or its dual degree 2n−m<p−e with Proposition 1.7), and the line bundle satisfies ampleness condition (3.25). The supplying section is CR.5.4.
-
-### From TauCetiRoadmap.EnhancedDerivedSheaves
-
-§§0.1–0.3, E1.3, E2:towers, E3.2–E3.3, E5:abstract: Stable enhanced sheaf categories, coherent filtered diagrams, derived limits, tensor/Hom, localization and descent on small ringed sites. A triangulated category alone does not supply functorial cones.
-
-E1.9 (`perfect_proper_pushforward`): for a finitely presented morphism f, a perfect complex E and a bounded complex G• of finitely presented modules, termwise flat over the target with proper support, Rf_*(E⊗ᴸG•) is perfect and commutes with arbitrary derived base change. It is used here with G•=O_X[0] for a proper, flat, finitely presented model; target flatness is not dropped.
-
-### From TauCetiRoadmap.VStackSheavesAndLisseCategories
-
-VS2.1 (solidification, the solid abelian subcategory and its closed derived tensor on the compact-Hausdorff site) and VS2.2, analytic measures: the general analytic-ring axiom, complete modules with their reflection, the enhanced complete tensor/Hom and coefficient extension and restriction along morphisms of analytic rings, all on the κ-condensed site. Its integer-solid spectrum is used only to distinguish conventions; the scheme construction here uses (A,A)■ and the scheme Zariski opens.
-
-### From TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry
-
-§7.5: Fundamental classes and the boundary-twisted trace construction on the admitted projectively embeddable correspondences, retaining the relative Cartier and inverse-image boundary hypotheses.
-
-## How to read the build
-
-Layers 1 and 2 construct integral coefficients, duality and equivariant perfect models. Layer 3 constructs the permitted correspondences and separates completion/compact-support filtrations from ordinary local cohomology. Layer 4 fixes normalization and compares geometric operators with the tower. Layer 5 proves vanishing, then the integral convolution relations, then Hecke localization. Layer 6 constructs the distinct automorphic images. Layer 7 applies the supplied local coherent calculations and the explicit conditional global contract. Layer 8 computes the two boundary problems in their separate degree ranges and obtains the cuspidal and dimension conclusions. The roadmap is this README; `Suggested.lean` documents which genuine headline carriers exist at the pins.
 
 ## Layer 1: integral coefficients and coherent duality
 
@@ -1611,6 +1477,140 @@ For a totally real field with two real places, fix R_gap as in §8.8 and suppose
 ## Downstream consumers
 
 GSp4NonregularModularityLifting uses the integral coherent complexes, duality and equivariant perfect models of Layers 1–2, the correspondences and normalized Hecke operators of Layers 3–4, the vanishing, relations and localizations of Layer 5 and the boundary and cuspidal conclusions of Layers 6–8. Higher Hida theory and p-adic families of singular-weight forms use the integral derived Hecke maps, normalization and support comparisons of Layers 1–5. Automorphic Galois constructions use the actual normalized polynomial dictionary and residual localizations in Layers 4–5. Congruence and patching constructions use the equivariant perfect complexes of Layer 2 and their localized summands in Layer 5. Classical singular-weight applications use the precise boundary and multiplicity-counted statements of Layers 6–8. Each consumer retains the model, degree, coefficient and conditional hypotheses on packets of the result it uses.
+
+## Scope and ownership
+
+The roadmap extends the good-prime integral Levi realization of AutomorphicBundles 5.10 to normalized deep-level models and the integral dual-Weyl lattice of ReductiveGroups §10B, and owns finite-coefficient coherent homology, group-ring perfect models, higher cohomological Hecke comparisons, integral EO detection of relations, coherent automorphic image comparisons and the localized boundary and cuspidal conclusions. It imports VStackSheavesAndLisseCategories VS2.1’s solidification and VS2.2’s analytic-ring interface and supplies the (A,A)■ solid/discrete scheme interface and Hilbert–Siegel EO geometry used by those constructions. It includes arbitrary complete DVR coefficients where the statement is coefficient algebra, and states every geometric reduction and logarithmic lifting hypothesis separately.
+
+AutomorphicBundles Layers 0–12 owns associated bundles, coefficient tensor operations, canonical and subcanonical extensions and section Hecke convolution; its 5.10 owns the good-prime integral Levi torsor, associated locally free coefficients and their formal canonical/subcanonical expansions, and its Layer 9 owns the dual BGG construction. AlgebraicVectorBundles L0A–L0C owns the generic vector-bundle operations. SchemeAndStackFoundations §§2.6–2.8, 2.18–2.21 and 4.8–4.10 owns generic Čech, Cousin, relative duality and formal functions. EnhancedDerivedSheaves E1.9 owns perfectness of proper-support pushforward and its arbitrary base change. DerivedModuleAlgebra §§1.3–1.5, 1.E.0–1.E.1 and 1.M.1–1.M.2 owns object completion, perfectness/retracts, effectivity and Matlis duality, and DeformationAndDerivedPatchingAlgebra §§7.5–7.10 owns nilpotent lifting, dual complexes, strict tower actions, finite derived Hom completion, isolated derived-action blocks and coefficient spectral sequences. Here the perfectness and localization targets identify the actual geometric complexes and operators with those constructions.
+
+ShimuraCompactifications Layers 4, 6 and 7 (refinements and Hecke maps; degenerations of polarized abelian schemes; integral PEL compactifications) own fans, toroidal/minimal models, refinements, polarized degenerations and normalized deeper-level models, in particular 7.19–7.21 and 7.31; 6.16 owns the rational compactified Klingen span. Its 7.21 owns the formally canonical definition and its verification on its stated models. Section 5.1 here verifies its additional quotient and p-level applications. Its 7.29 owns the logarithmic canonical-bundle formula; §5.7 applies it to the actual Serre-dual coefficient.
+
+Tau Ceti’s divisor-sheaf Serre duality for a curve over a field is in `TauCeti/AlgebraicGeometry/WeilDivisor/Scheme/SerreDuality.lean`, with `TauCeti.AlgebraicGeometry.SchemeWeilDivisor.cohomologyOneDualEquivCohomologyZero`. SchemeAndStackFoundations §2.20's `cm_serre_duality` is Serre duality for a proper Cohen–Macaulay scheme over a field. Section 1.6 instead treats arbitrary relative dimension over a finite DVR quotient, with its Matlis comparison and equivariance; over a field it contains the cases of the curve statement and of `cm_serre_duality` in which the scheme is smooth and the coefficient sheaf is locally free. The generic existence and uniqueness-up-to-homotopy of lifts are already in the library as Mathlib's K-projective theorems. AutomorphicFormsOnReductiveGroups §§6.3–6.7 states the closed chambers, infinitesimal characters, Kostant representatives, component transport and local coherent classifications; these are imported rather than defined again. The geometric tempered-image restriction in Layer 7 applies those results to the images constructed in Layer 6. IntegralHeckeAndGaloisDeterminants §§3a–3b owns spin polynomials and residual predicates; §4.3 identifies the geometric generators, and §5.15 applies the predicates to their coherent action. SmoothRepresentationsOfLocalGroups SR.4 owns normalized Satake. Its local Klingen restriction is an explicit supplier contract below; §8.4 identifies the geometric boundary coefficient.
+
+The scheme solid six operations and their discrete comparison are §3.0a. IgusaVarietiesAndTorsionConcentration §§2.12–2.13 owns the G-zip Ekedahl–Oort stratification, its Hasse sections and the affineness of partial minimal EO strata for its unitary PEL datum; the genus-two Hilbert–Siegel EO geometry of §5.0 is the type-C case for Res_(F/ℚ)GSp₄, with its codimension filtration, Cohen–Macaulay thickenings and boundary regularity, and is not deduced from the unitary case. The Hilbert–Siegel EO geometry and quotient descent are §5.0, and the application of EndoscopicTransferAndUnitaryTraceComparison §11.1’s conditional comparison of GSp₄ L-packets and of the supplied lower-rank Galois polynomials is §7.0. Locally analytic weights, ordinary projectors and p-adic families belong to OverconvergentAutomorphicForms; no such projector enters the classical comparison here.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+Use `AlgebraicGeometry.Scheme`, `AlgebraicGeometry.Scheme.Modules`, `SheafOfModules.IsLocallyFree`, `SheafOfModules.IsFinitePresentation`, `CategoryTheory.DerivedCategory` and native module/group-ring carriers. In `Mathlib/Algebra/Homology/HomotopyCategory/KProjective.lean`, `CochainComplex.isKProjective_of_projective` assumes an upper degree bound and projective terms. In `Mathlib/Algebra/Homology/DerivedCategory/KProjective.lean`, `CochainComplex.IsKProjective.Qh_map_bijective` assumes a K-projective source and a derived-category instance. Apply the bijection to the actual geometric endomorphisms, including equalities of their homotopy classes.
+
+### From Tau Ceti
+
+`TauCeti.AlgebraicGeometry.Scheme.Modules.Cohomology`, `TauCeti.AlgebraicGeometry.Scheme.Modules.cohomologyFunctor`, `TauCeti.AlgebraicGeometry.Scheme.Modules.cohomologyZeroEquiv` and `TauCeti.AlgebraicGeometry.Scheme.Modules.cohomologyZeroEquiv_naturality`, in `TauCeti/AlgebraicGeometry/Cohomology/Basic.lean`, supply underlying additive sheaf cohomology, coefficient functoriality and natural identification of H⁰ with sections. The underlying construction uses abelian sheaves. For a commutative base ring R and X over Spec R, `AlgebraicGeometry.Scheme.Modules.cohomologyBaseModule`, `AlgebraicGeometry.Scheme.Modules.cohomologyMapBaseLinear`, `AlgebraicGeometry.Scheme.Modules.cohomologyZeroBaseLinearEquiv` and `AlgebraicGeometry.Scheme.Modules.cohomologyZeroBaseLinearEquiv_naturality`, in `TauCeti/AlgebraicGeometry/Cohomology/Module/Base.lean` (lines 45, 57, 110, 127), supply the R-module structures, linear coefficient maps and natural linear H⁰/sections identification. For a short exact coefficient sequence, `TauCeti.AlgebraicGeometry.Scheme.Modules.cohomologyδBaseLinear`, in `TauCeti/AlgebraicGeometry/Cohomology/LongExactSequence.lean` (line 242), supplies the R-linear connecting map. These declarations impose no properness or finite-dimensionality; identification with scalar-linear derived global sections and equivariant perfectness are separate inputs.
+
+`SheafOfModules.exteriorPower` in `TauCeti/Algebra/Category/ModuleCat/Sheaf/ExteriorPower/Basic.lean` (line 60) sheafifies the sectionwise exterior power and supplies det Ω in arbitrary relative dimension. `AlgebraicGeometry.Scheme.relativeDifferentials` in `TauCeti/AlgebraicGeometry/Modules/Differentials/Basic.lean` (line 85) is the sheaf of relative Kähler differentials. `AlgebraicGeometry.Scheme.Modules.instMonoidalClosed` in `TauCeti/AlgebraicGeometry/Modules/TensorProduct.lean` (line 66) supplies internal Hom. These are carriers for §1.6, not a coherent Serre-duality theorem.
+
+The field-valued curve sanity check uses `TauCeti.AlgebraicGeometry.SchemeWeilDivisor.cohomologyOneDualEquivCohomologyZero` in `TauCeti/AlgebraicGeometry/WeilDivisor/Scheme/SerreDuality.lean`: an integral separated Noetherian curve over a field, DVR codimension-one stalks, the valuative existence condition, coheight at most one, the function-field and constant-field hypotheses, and a canonical divisor determined by a nonzero Weil differential. It compares the dual of H¹ of a divisor sheaf with H⁰ of the complementary canonical divisor. It is not used to infer relative finite-coefficient duality.
+
+### From TauCetiRoadmap.AutomorphicBundles
+
+Layers 0–12, in particular 5.10 (`integralLeviCoefficient`), 9.2–9.3 and 12.11 (`ClassicalHecke.operator`): associated coefficients and frame functors (Layer 0); canonical principal bundles (Layer 1); associated bundles and realizations (Layer 3); canonical and boundary-ideal extensions (Layer 5); integral good-prime coefficients (5.10); the Siegel dual BGG complex and its coefficient convention (Layer 9); classical forms and explicit weights (Layer 11); section Hecke operators, convolution and logarithmic Kodaira–Spencer (Layer 12).
+
+What AutomorphicBundles must provide (the integral small-weight dual BGG contract): Extend the coefficient dual BGG graded comparison to the integral p-small Lan–Suh weights, with the correct Weyl or dual-Weyl lattice, cohomological length shifts and canonical/subcanonical boundary twists, and identify its characteristic-zero specialization. The supplying section is 9.2–9.3 (`siegelDualBGGComplex`, `siegelBGGGradedComparison`).
+
+### From TauCetiRoadmap.AlgebraicVectorBundles
+
+L0A–L0C: The scheme-module tensor, dual, pullback, determinant and finite locally free operations, with their coherence and affine comparisons.
+
+### From TauCetiRoadmap.SchemeAndStackFoundations
+
+§§0.18, 1.1, 2.6–2.8, 2.18–2.21, 2.23, 4.8–4.10: Scheme-theoretic support and Cohen–Macaulay schemes (§0.18), quasi-coherent fpqc descent (§1.1), equivariant cohomological descent (§2.23), affine Čech comparison, scalar-linear derived cohomology, ordinary support triangles and Cousin resolutions, depth vanishing, proper coherent upper shriek, the lci upper-shriek identification `upperShriek_lci` (§2.19) consumed by AlgebraicModuliForArithmeticGeometry §7.5's fundamental class, smooth-proper duality and formal functions; use the Noetherian, Tor-independence, perfectness and boundedness conditions stated in those sections.
+
+What SchemeAndStackFoundations must provide (the coefficient-linear coherent comparison contract): Identify Hⁱ of the scalar-linear RΓ(X,F) in D(O) of §2.18 with Tau Ceti’s base-linear scheme-module cohomology, compatibly with cohomologyMapBaseLinear, cohomologyδBaseLinear and the natural linear H⁰/global-sections equivalence. The supplying section is §2.18.
+
+### From TauCetiRoadmap.DerivedModuleAlgebra
+
+§§0.2–0.3, 1.1.1, 1.3–1.5, 1.E.0–1.E.1, 1.M.1–1.M.2, S.1: Native module-derived tensor and Hom, perfect objects and retracts, object completion (§§1.3–1.5) and perfect inverse-system effectivity (§1.E.1), Matlis duality with its chosen injective hull and signed spectral sequences; arbitrary residue fields use §1.M.2.
+
+### From TauCetiRoadmap.DeformationAndDerivedPatchingAlgebra
+
+§§7.1, 7.3–7.10: Infinite-rank nilpotent lifting and local freeness (§7.5), signed coefficient duality (§7.6), compatible strict coefficient-tower actions (§7.7), completion of finite derived Hom (§7.8), isolated finite derived-action blocks (§7.9), and coefficient/hyper-Tor spectral sequences with finite filtrations on the actual abutment (§7.10). Object completion and effectivity use DerivedModuleAlgebra §§1.3–1.5 and §1.E.1.
+
+### From TauCetiRoadmap.ShimuraCompactifications
+
+4.3–4.10, 6.1–6.11, 6.16–6.17, 7.3–7.17, 7.19–7.31: Toroidal models and polarized degeneration data; common refinements; boundary ideals and fan-independent cohomology; minimal contractions and ample Hodge powers; finite-normalization and normalized-blow-up models with their lattice collections; formally canonical coefficients (7.21); the rational Klingen span (6.16). Normalized models carry no automatic smoothness assertion.
+
+### From TauCetiRoadmap.ReductiveGroups
+
+§§9A, 10B: the induced module ∇(λ)=Ind_(B⁻)^G k_λ of a split connected reductive group over a field, with f(gb)=λ(b)⁻¹f(g) and left translation a·f(g)=f(a⁻¹g), the Weyl module Δ(λ)=∇(−w₀λ)*, their highest-weight and dominance theory, their arbitrary-field base change, and the integral Weyl lattices with their freeness, action equations and the perfect integral evaluation pairing with the dual (§10B); the finite free admissible ℤ-lattice generated from the highest line by divided powers, for every dominant weight (§9A). The integral induced (dual-Weyl) lattice in its function realization is the contract below.
+
+What ReductiveGroups must provide (the integral dual-Weyl lattice contract): Construct the integral induced (dual-Weyl) lattice ∇(λ)_ℤ as the ℤ-dual of the Weyl lattice Δ(−w₀λ)_ℤ in the right-B function realization f(gb)=λ(b)⁻¹f(g) with left translation, for every dominant weight of the split Siegel Levi GL_g×G_m over ℤ, with the symmetric-power versus divided-power identification in residue characteristic and the base-change comparison to the field modules ∇(λ) and Δ(λ) of §10B. The supplying section is §10B.
+
+### From TauCetiRoadmap.ComplexComparisonPartII
+
+C1.9, C2, C3.3: Projective and proper coherent GAGA and derived GAGA for proper algebraic spaces, with the coefficient, pullback and proper-pushforward comparisons. Trace compatibility is specified below.
+
+What ComplexComparisonPartII must provide (the GAGA duality trace contract): Make projective/proper coherent GAGA compatible with the proper duality counit and the actual coherent trace, coefficient twists and boundary-ideal arrows in the toroidal Hecke spans. The supplying section is C1.9, C3.3.
+
+### From TauCetiRoadmap.SmoothRepresentationsOfLocalGroups
+
+SR.0, SR.1, SR.2, SR.3, SR.4.1, SR.4.5: Smooth towers, characteristic-zero exact finite invariants, integral convolution and opposite-algebra conventions, parabolic induction and admissibility, normalized Satake and the GSp₄ generator comparison.
+
+What SmoothRepresentationsOfLocalGroups must provide (the boundary spin Satake contract): Prove the local normalized Klingen-Levi GL₂×GL₁ Satake identity P_spin(X)=P₂(X)(X²−uAX+u²D) over coefficient rings with q invertible, where P₂(X)=X²−AX+D has roots α,β, the four spin roots are α,β,uα,uβ, u is the unit value of the unramified GL₁ character at the uniformizer, and q³T₀=uD (equivalently q³T₀=uqS when D=qS); retain the four distinct spin monomials and use X⁴P_spin(1/X) for det(1−X·spin). The supplying section is SR.4.5.
+
+### From TauCetiRoadmap.IntegralHeckeAndGaloisDeterminants
+
+§§2.2–2.3, 3a.1–3a.2, 3b.1–3b.2: Finite integral derived Hecke images and block localization; the spherical spin polynomial and multiplier; residual Galois-type and non-Eisenstein predicates; dual and character-twist transport of full characteristic polynomials.
+
+### From TauCetiRoadmap.AutomorphicFormsOnReductiveGroups
+
+§§1.1–1.3, 4.1–4.2, 5.5, 6.1–6.7: Relative Lie cochains with their Koszul signs, fixed Hermitian pair, central balancing and actual automorphic occurrences; cuspidal GLₙ purity `clozelPurity` (§5.5) for algebraic cuspidal representations in its fixed Clozel normalization, used for the GL₄ transfer in §8.7; closed GSp₄ chambers (§6.3), component transport (§6.4), coherent discrete-series and limit calculations (§6.5), large-weight and lowest-weight classifications (§6.6), and higher-rank Kostant representatives (§6.7). Its first, global assertion of §6.6 fixes F before its root-separation constant; §8.8 uses the uniform form specified below, in the |·|² central normalization. Its separate negative-parameter singular bound R_sing is used only in §7.3.
+
+What AutomorphicFormsOnReductiveGroups must provide (the uniform global GSp₄ separation contract): Strengthen the first global assertion of §6.6 to: there is R_sep>2 such that for every totally real F, every discrete occurrence and every admissible coefficient in the fixed |·|² central normalization, root separation at every real place implies essential temperedness, with R_sep independent of F, level, coefficient, occurrence and degree. The supplying section is §6.6 (BCGP21 Theorem 3.10.1(2), p. 236).
+
+### From TauCetiRoadmap.AutomorphicSpectralTheory
+
+§§4.1–4.5, 4.10, 5.1–5.8: Multiplicity-counted discrete cuspidal and L² spectra; Petersson adjoints; Wallach’s semisimple arithmetic tempered cuspidality criterion (§4.10); fixed-weight de Rham regularization for the full (m_G,K_∞) pair (§5.2); derived finite-character comparisons (§§5.3–5.4); logarithmically weighted core acyclicity (§5.7a); and uniform-moderate-growth Fin_J acyclicity (§5.8). Su’s parabolic-pair regularization is the separate contract below.
+
+What AutomorphicSpectralTheory must provide (the Su parabolic regularization contract): For a Shimura datum with connected reductive G over ℚ, maximal ℚ-split central torus A_G also maximal ℝ-split in the centre, neat finite level K and finite-dimensional holomorphic P_h-coefficient V, prove that C∞_umg(G)^K→C∞_dmg(G)^K induces isomorphisms on H^i(p_o,K_o;−⊗V) for every i, naturally in V and finite Hecke maps, with G(A_f)-equivariance on the tower after the inverse central action on V_o. The supplying section is §5.2 (Su24 Proposition 4.1, p. 38; coefficient action in §1.1).
+
+### From TauCetiRoadmap.EndoscopicTransferAndUnitaryTraceComparison
+
+§11.1, under the symplectic classification contract of its §§11.0g–11.0h and its fixed unitary normalization: general-type GSp₄ transfer, cuspidality and local-parameter comparison, with every permitted member of its global L-packets automorphic of multiplicity one. Apply this after the stated norm twist to the unitary normalization and transport back. Section 7.0 supplies the geometric application and exclusion of nongeneral types.
+
+### From TauCetiRoadmap.ArithmeticGaloisRepresentations
+
+§§1.1–1.2, 1.7–1.12; Layer 5: Continuous residual representations, coefficient extension and semisimplification; §1.12’s induction from an open subgroup, for the dihedral summand of §7.0 case (c); recognition from full Frobenius polynomials by Chebotarev and Brauer–Nesbitt, including characteristic two. Retain the symplectic form and its multiplier.
+
+### From TauCetiRoadmap.WeightsInEtaleCohomology
+
+R34.5–R34.6: the classical rank-two eigensummand, its normalized good-prime Frobenius polynomial and every-coefficient-field comparison; R34.6’s Hilbert eigensummands and source-qualified coefficient descent. The underlying continuous representation and geometric/arithmetic Frobenius transport are ArithmeticGaloisRepresentations §§1.1–1.12, 2.2 and 5.1–5.3.
+
+Classical weights at least two use R34.5–R34.6 with ModularCurvesPartII §§14.1–14.4a. Stable lattices, reduction, contragredients and character twists use ArithmeticGaloisRepresentations §§1.1–1.2, 1.7–1.11 and IntegralHeckeAndGaloisDeterminants §§3a–3b.
+
+What WeightsInEtaleCohomology must provide (the classical weight-one realization contract): Supply the continuous rank-two realization of every normalized classical cuspidal weight-one Hecke eigenform, with its full unramified Hecke polynomial outside the level and coefficient characteristic, in the geometric-Frobenius normalization of §7.0; it is consumed by the weight-one Klingen boundary terms of §8.2 through §7.0’s boundary inputs. The supplying section is R34.6.
+
+### From TauCetiRoadmap.ModularCurvesPartII
+
+§§14.1–14.4a: Classical parabolic coefficient realizations and their Hecke and level transport for weights at least two, consumed through WeightsInEtaleCohomology R34.5–R34.6.
+
+### From TauCetiRoadmap.HilbertModularVarietiesAndShimuraCurves
+
+R18.3.29(a): Rank-two realizations for every totally real field and parallel weight k≥2, with unramified polynomial X²−T_vX+q_vS_v at every v outside the level and coefficient characteristic. Its existence branch includes the even-degree case without a finite discrete-series place. Its arithmetic-Frobenius representation is the contragredient of the geometric-Frobenius realization used here; transport the polynomial and central character by that dual, as specified in R18.3.29's Normalization paragraph.
+
+What HilbertModularVarietiesAndShimuraCurves must provide (the non-parallel Hilbert realization contract): Extend the good-prime rank-two realization of R18.3.29 to every non-parallel algebraic Hilbert cusp eigenpacket of weights (k_v) with k_v≥2 and common parity, over every totally real field, without a finite discrete-series-place restriction on its unramified Hecke polynomial. The supplying section is R18.3.29.
+
+### From TauCetiRoadmap.CrystallineCohomology
+
+CR.5.1–CR.5.4, CR.DDR.6.11–CR.DDR.6.14: Logarithmic structures, Cartier-type differentials, exactification and logarithmic PD envelopes (CR.5.2), and logarithmic crystalline/de Rham comparisons with their lifts and residue conditions. The relative logarithmic vanishing needed for the integral vanishing theorem is specified below.
+
+What CrystallineCohomology must provide (the coefficient logarithmic splitting contract): Supply the relative logarithmic vanishing of Lan–Suh Theorem 3.24, pp. 20–21, as verified for PEL pairs in Proposition 7.21, pp. 41–42: a proper log-smooth log-integral morphism of relative dimension n between proper smooth SNC pairs over perfect k, with target dimension e, admits a W(k)-lifting satisfying Assumption 1.4, the coefficient has nilpotent residues and degree m<p−e (or its dual degree 2n−m<p−e with Proposition 1.7), and the line bundle satisfies ampleness condition (3.25). The supplying section is CR.5.4.
+
+### From TauCetiRoadmap.EnhancedDerivedSheaves
+
+§§0.1–0.3, E1.3, E2:towers, E3.2–E3.3, E5:abstract: Stable enhanced sheaf categories, coherent filtered diagrams, derived limits, tensor/Hom, localization and descent on small ringed sites. A triangulated category alone does not supply functorial cones.
+
+E1.9 (`perfect_proper_pushforward`): for a finitely presented morphism f, a perfect complex E and a bounded complex G• of finitely presented modules, termwise flat over the target with proper support, Rf_*(E⊗ᴸG•) is perfect and commutes with arbitrary derived base change. It is used here with G•=O_X[0] for a proper, flat, finitely presented model; target flatness is not dropped.
+
+### From TauCetiRoadmap.VStackSheavesAndLisseCategories
+
+VS2.1 (solidification, the solid abelian subcategory and its closed derived tensor on the compact-Hausdorff site) and VS2.2, analytic measures: the general analytic-ring axiom, complete modules with their reflection, the enhanced complete tensor/Hom and coefficient extension and restriction along morphisms of analytic rings, all on the κ-condensed site. Its integer-solid spectrum is used only to distinguish conventions; the scheme construction here uses (A,A)■ and the scheme Zariski opens.
+
+### From TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry
+
+§7.5: Fundamental classes and the boundary-twisted trace construction on the admitted projectively embeddable correspondences, retaining the relative Cartier and inverse-image boundary hypotheses.
 
 ## References
 
