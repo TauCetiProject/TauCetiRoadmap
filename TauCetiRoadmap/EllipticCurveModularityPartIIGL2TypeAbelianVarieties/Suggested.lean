@@ -27,8 +27,9 @@ parameters; its L-function and functional equation cannot be stated without them
 assertion of §1.5 and the Weil-restriction and quadratic endomorphism-algebra assertions of
 Layer 5 need native polarizations and Weil restriction. The solvable-field automorphy and
 quadratic-field modularity of Layer 6 need automorphic representations and their local
-factors, including the CM alternative. Tate's vanishing `H²(G_ℚ, ℚ̄ˣ) = 0` (§5.3) is a
-supplier's theorem and is not restated here.
+factors, including the CM alternative. Tate's vanishing `H²(G_ℚ, ℚ̄ˣ) = 0` (§5.3) is derived
+in the roadmap from the supplier's `ℚ/ℤ` form; it is an auxiliary result, not a headline, and is
+not stated in this file.
 -/
 
 noncomputable section

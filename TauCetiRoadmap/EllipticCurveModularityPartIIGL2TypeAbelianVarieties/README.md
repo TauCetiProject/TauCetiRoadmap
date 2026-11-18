@@ -216,14 +216,15 @@ The proof uses the following steps.
 1. The commutant D of E in X is a division algebra: a nonzero endomorphism commuting with E has image `B ⊆ A` on which E acts, so `B = A` by §1.1, and the endomorphism is an isogeny (A6).
 2. `Lie(A/ℚ)` is a D-module, so `dim_ℚ D` divides `dim A = [E : ℚ]` (§1.1); as `E ⊆ D`, `D = E`. Hence E is a maximal commutative subalgebra of the semisimple algebra X (A6) and the centre F of X lies in E.
 3. X is simple (its centre F is a field), so `X ≅ M_n(Q)` with Q a division algebra of dimension `t²` over F, and maximality of E gives `nt = [E : F]`. A is isogenous to `Bⁿ` with `End⁰(B) = Q` (A6, Poincaré reducibility), and the Lie argument gives `n t² [F : ℚ] | [E : ℚ] = nt[F : ℚ]`, so `t = 1`, `Q = F` and `n = [E : F]`.
-4. Each of (i)–(iii) is equivalent to `n = 1`.
+4. Transport ι along the F-algebra isomorphism `X ≅ M_n(F)` given by the isogeny `Bⁿ → A`. As `[E : F] = n`, this embedding and the regular representation of E on an F-basis each make `Fⁿ` a one-dimensional E-vector space, so an E-linear isomorphism between the two is an element of `GL_n(F) ⊆ GL_n(End⁰_ℚ(B))` conjugating one embedding into the other (the maximal-subfield case of Skolem–Noether). Composing the isogeny with an integer multiple of it makes it E-equivariant, giving `A ∼ E ⊗_F B`.
+5. Each of (i)–(iii) is equivalent to `n = 1`.
 
 **Checks.**
 
 - For `A = B × B` with B an elliptic curve over ℚ without CM and `E = ℚ(i)`: `X = M₂(ℚ)`, `F = ℚ`, `n = 2`.
 - For `J₀(23)`: `X = ℚ(√5)`, `n = 1`.
 
-*Needs:* §1.1; §1.2; `AbelianSchemesAndArithmeticModuli A6`; `SmallRamificationAndAbelianVarietyBaseCases §5.1`; `IsSemisimpleRing.exists_algEquiv_pi_matrix_divisionRing`.
+*Needs:* §1.1; §1.2; `AbelianSchemesAndArithmeticModuli A6`; `SmallRamificationAndAbelianVarietyBaseCases §5.1`; `IsSemisimpleRing.exists_algEquiv_pi_matrix_divisionRing`; `Algebra.leftMulMatrix`.
 
 Sources: [Ribet92](#references), Theorem 2.1, p. 3; [Ribet92](#references), proof of Theorem 2.1, p. 3.
 
@@ -650,7 +651,9 @@ The proof uses the following steps.
 **Checks.**
 
 - For `dim A = 1` the witnesses have trivial character `(ε = 1)`.
-- For `J₀(23)` and λ above ℓ ≡ `±1` mod 5, `g_λ` can be taken to be the newform of level 23.
+- For `J₀(23)` and λ above ℓ ≡ `±1` mod 5 with `ρ̄_λ` absolutely irreducible, `g_λ` can be taken to be the newform of level 23.
+  The prime `λ = (11, a₂ − 3)` is excluded although 11 is good and split: as `3² + 3 − 1 = 11`, modulo λ one has
+  `a₂ ≡ 3 = 1 + 2` and `a₃ = −2a₂ − 1 ≡ 4 = 1 + 3`, the Eisenstein congruences of the rational point of order 11.
 - The prime `λ = 5` for `X₀(11)` is excluded: its rational point of order 5
   makes the residual representation reducible, despite good reduction at 5.
 - A nonsplit residual extension and its semisimplification have the same good Frobenius polynomials. The shared attachment predicate cannot distinguish them; absolute irreducibility is what makes its integral-model comparison an isomorphism with `ρ̄_λ` itself.
@@ -709,7 +712,7 @@ The proof uses the following steps.
 
 *Needs:* §3.3; `EllipticCurveModularity R29.3`; §2.7; §1.6; `ModularCurvesPartII §§16.1–16.7`; §2.3; `ArithmeticGaloisRepresentations §5.3`; `ModularForms Layer 8`.
 
-Sources: [Ribet92](#references), proof of Theorem 4.4, p. 8.
+Sources: consequence of [Ribet92](#references), Theorem 4.4, pp. 8–9, with [Ribet80](#references), Corollary 4.2, p. 51; the route above is the roadmap's own and differs from Ribet's.
 
 ### 3.5 Comparison of λ-adic representations with those of the newform
 
@@ -734,7 +737,7 @@ The proof uses the following steps.
 
 *Needs:* §3.4; §2.5; `AutomorphicGaloisRepresentations §1.5`; `AutomorphicGaloisRepresentations §§6.1–6.4`; `ArithmeticGaloisRepresentations §5.3`; `ArithmeticGaloisRepresentations Layer 1`; `Chebotarev Layer 10`; `ArithmeticGaloisRepresentations §§6.1–6.4`.
 
-Sources: [Ribet92](#references), proof of Theorem 4.4, p. 8.
+Sources: consequence of [Ribet92](#references), Theorem 4.4, pp. 8–9, with [Ribet80](#references), Corollary 4.2, p. 51; the route above is the roadmap's own and differs from Ribet's.
 
 ### 3.6 Modularity of abelian varieties of GL₂-type
 
@@ -817,7 +820,7 @@ Sources: [KW-I](#references), §10.2, p. 21; [Ribet92](#references), §1, p. 2.
 
 ### 3.9 Totally real endomorphism field, trivial character and quotients of `J₀(N)`
 
-Prove the following. For ℚ-simple GL₂-type A, total reality of E, triviality of ε, and Γ₀ modularity are equivalent. When they hold, A is a quotient of `J₀(N_f)`. Applying the conductor theorem in Layer 4 identifies this level as `cond(A)^{1/dim A}`. This is the Γ₀ form of the modular characterization that Serre predicted ([Ribet92](#references), §1, p. 2) and specializes to the parent’s quotient at the elliptic conductor.
+Prove the following. For ℚ-simple GL₂-type A, total reality of E, triviality of ε, and Γ₀ modularity are equivalent. When they hold, A is a quotient of `J₀(N_f)`. Applying the conductor theorem in Layer 4 identifies this level as `cond(A)^{1/dim A}`. This is the Γ₀ refinement of [Ribet92](#references), Theorem 4.4, p. 8, and specializes to the parent’s quotient at the elliptic conductor.
 
 The nebentypus conclusion uses the native newform carrier, the simple
 GL₂-type action and dimension hypotheses, total reality of E, the newform
@@ -1392,8 +1395,11 @@ one in Caraiani–Newton's definition. A quadratic curve failing the squared-tra
 
 ## Downstream consumers
 
-EllipticCurveModularityImaginaryQuadratic uses §6.4 for
-non-CM ℚ-curves over quadratic fields in the Caraiani–Newton sense. The output is a
+AbelianSurfacesModularity uses the modularity of GL₂-type varieties over ℚ (§3.6), and
+SatoTateGroups the rational endomorphism algebras and primitivity of Layer 1, the endomorphism
+fields of §§1.4–1.5 and the ℚ-curves of §5.1. §6.4 is the ℚ-curve input of Caraiani–Newton's
+Corollaries 7.2.5 and 7.3.4 and of Freitas–Le Hung–Siksek §12, for non-CM ℚ-curves over
+quadratic fields in the Caraiani–Newton sense. The output is a
 cuspidal parallel-weight-two representation with every finite local factor, including
 bad places, and `L(Π,s−1/2) = L(C,s)`; it does not require conjugate isogenies to be
 defined over the original quadratic field. §5.8 adds the sharper
