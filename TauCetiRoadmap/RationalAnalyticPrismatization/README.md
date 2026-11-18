@@ -2,15 +2,9 @@
 
 **Summary.** Build Gelfand analytic geometry over ℚ_p — bounded solid ℚ_p-algebras, Gelfand rings and their Berkovich spectra, Gelfand stacks with the six-functor formalism obtained by transmutation into Scholze–Stefanich Gestalten, derived Berkovich spaces, analytic de Rham stacks, cones, deformation theory, Fargues–Fontaine curves and Hyodo–Kato stacks as Gelfand stacks — and on it the rational analytic prismatization of Anschütz–Le Bras–Rodríguez Camargo–Scholze: rational δ-spaces and analytic δ-stacks, the prismatization X^Δ of a Gelfand stack, its perfection, the p-adic twistor stack `X^{Div¹}` and the analytic Hodge–Tate stack X^HT, with the Breuil–Kisin twist, the prismatic logarithm and Faltings' extension. Independently, prove the decompletion theorem for Berkovich spaces with a continuous action of a p-adic Lie group and verify it in arithmetic, geometric and mixed Sen theory. The end theorems are: for a smooth partially proper rigid space X over a finite extension of ℚ_p, pullback along `FF_{X^⋄} → X^{Div¹}` is fully faithful and an equivalence on perfect complexes, also over every Berkovich-étale Y → `X^{Div¹}` (ALRS Theorem 6.3.1), with its perfectoid-base and arithmetic variants; `Γ(X^{Div¹}, O)` is pro-étale ℚ_p-cohomology; Hodge–Tate stacks recover v-perfect complexes with their arithmetic and geometric Sen operators and the inverse Faltings' extension; pro-étale torsors under p-adic Lie groups decomplete; Div¹ is cohomologically smooth with dualizing complex O{1}[2], for a rigid smooth map of relative dimension d to a smooth partially proper rigid space over ℚ_p the induced map of twistor stacks has dualizing complex O{d}[2d] in the Breuil–Kisin twist, and smooth proper maps satisfy Poincaré duality; the prismatic first Chern class satisfies the projective bundle formula; and formal Hodge–Tate stacks recover Scholze's Riemann–Hilbert functor.
 
-## Scope and ownership
+## How to read the build
 
-This roadmap owns the part of the theory of Gestalten on which the six-functor formalism of Gelfand stacks is built (Layer 0: higher presentable categories, Stefanich rings, n-affine, n-prim, n-proper, n-suave and n-étale maps, their locality on the target, and the transmutation of a six-functor formalism into Gestalten), the Gelfand analytic geometry over ℚ_p that the prismatization uses (Layers 1–6: bounded solid ℚ_p-algebras, Gelfand rings and stacks, derived Berkovich spaces, analytic de Rham stacks, deformation theory, cones, and Fargues–Fontaine discs, curves and Hyodo–Kato stacks as Gelfand stacks), the rational analytic prismatization with its δ-spaces, twistor and Hodge–Tate stacks, its comparison theorems and their consequences for duality and Chern classes (Layers 7–9, 11 and 12), and the decompletion of semilinear representations over Gelfand rings by locally analytic vectors (Layer 10). No other roadmap defines Gestalten, Gelfand rings or stacks, derived Berkovich spaces, analytic de Rham or Hyodo–Kato stacks, rational δ-spaces, analytic δ-stacks, the analytic prismatization, the p-adic twistor stack, analytic Hodge–Tate stacks or decompletions over Gelfand rings. Layers 0–7 form a self-contained public interface for downstream consumers, such as a rational analytic syntomification or an integral analytic prismatization.
-
-The following are imported, not rebuilt. Light profinite sets and light condensed sets are already in the library (Mathlib `LightProfinite`, `LightCondensed`); light solid abelian groups are SolidAnalyticRings §1.5. The Berkovich spectrum of a normed ring is TropicalAndBerkovichArithmetic §§0.1–0.24 and AdicSpacesPartIII §R3.9; this roadmap only identifies M(A) := M(A^u) with it. Rigid spaces, the rigid–adic comparison, partially proper and smooth morphisms and dagger spaces are RigidAnalyticGeometry §6.2, AdicSpacesPartII §§R0.4, R0.10, R0.16, R1.1 and AdicSpacesPartIV §F1; the Banach arc-site and Marc(A) are MotivesAndAlgebraicCyclesPartII Layer 0, of which this roadmap uses the light qfd hypersheaf version of ABLB with a comparison (2.8). Perfectoid rings, tilting, A_inf and Fontaine's θ are PerfectoidSpaces §§P1–P2 and P7.16; diamonds and the diamond of an analytic adic space are DiamondsAndVStacks §§D2, D4, D6. Relative Fargues–Fontaine curves, untilt divisors and Div¹ as v-sheaves are RelativeFarguesFontaine §§1.2, 2.1–2.2, 3.2, 4.7, FarguesFontaineDiamonds §§F2, F4 and VectorBundlesAndIsocrystals Layers 0, 1, 2, 5 and 6; this roadmap realizes them as Gelfand stacks and proves the comparisons. Period sheaves, the classical Faltings' extension, Sen operators of C_p-representations and Scholze's associated local system functor E ↦ M(E) are PadicHodgeTheory §§2.2–2.3, 4.4, 7.1 with FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.P7.2; Tate's normalized traces and Tate's calculation of H⁰ and H¹(G_K, C_p(i)) for K/ℚ_p finite are PadicPeriodRings §§1.3–1.4, the latter recovered from the arithmetic Hodge–Tate stack in 11.2; the cyclotomic decompletion of Robba (φ, Γ)-modules is PhiGammaModulesAndIwasawaCohomology §1.4. The linear theory of locally analytic vectors is LocallyAnalyticRepresentationsOfLocalGroups §2.3 (Banach representations) and §3.8 (solid representations); uniform groups, compact p-adic analytic groups, ordered coordinates, finite-rank p-valuations with ordered bases and the resolution of ℤ_p by finitely generated free modules over the Iwasawa algebra of a uniform group are NoncommutativeAndEquivariantIwasawa §§0.1, 0.2, 0.6, 0.7, 0.11; this roadmap builds the light, semilinear version on Gelfand stacks and compares. Amice's theorem on the Mahler coefficients of locally analytic functions on ℤ_p with values in a Banach ℚ_p-space is PadicFunctionalAnalysis §4.4, and its form in d variables for functions ℤ_p^d → K, K a complete discretely valued extension of ℚ_p, is LocallyAnalyticDistributionsPartII §1.5; 10.4 keeps only Lazard's criterion in d variables with values in a ℚ_p-Banach space, which differs from the latter in the coefficients, and derives it from PadicFunctionalAnalysis §4.4 by induction on d. The integral prismatic objects of PrismaticCohomology §1.5, PrismaticCohomologyPartII §§3.8–3.9, 3.11, 4.12–4.13 and PrismaticCohomologyPartIII §6.10, the étale Chern classes and Poincaré duality of ClassicalAdicEtaleCohomology §9.3 and ClassicalAdicEtaleCohomologyPartII §5.9, and the Chern class comparison of CohomologyComparisons §6.7 are used only as Checks.
-
-The general theory of analytic stacks — light analytic rings over `ℚ_{p,■}`, the ∞-topos of analytic stacks for !-equivalences, its quasi-coherent six-functor formalism and the Heyer–Mann extension theorem, suave, prim and cohomologically smooth or proper maps, Betti stacks, nuclear modules, perfect complexes on analytic stacks of Fredholm rings, the cotangent complex of analytic rings, Cartier duality for analytic vector bundles and algebraic stacks as analytic stacks — is AnalyticStacks (Layers 0–7), consumed at the sections named in the supplier contracts. Following ALRS Construction 2.1.2, the six-functor formalism on Gelfand stacks (2.2) is the one enlarged along Scholze–Stefanich's Gestalten. AnalyticStacks places Gestalten, their n-affine and n-proper maps and the transmutation of six-functor formalisms into them outside its scope (its Scope and ownership, Left to other roadmaps), and no other roadmap states them, so Layer 0 states the part of that theory used here, for arbitrary Stefanich rings and arbitrary six-functor formalisms on small ∞-categories with finite limits, on the presentable ∞-categories of EnhancedDerivedSheaves and the correspondences and six-functor formalisms of AnalyticStacks Layer 0. AnalyticStacks §7.3 defines 1-suave, 1-étale, 0-suave and 0-prim maps of commutative algebras in V-linear κ-presentable categories, the two-level case of these notions used for its Cartier dualities; Layer 0 defines them at every categorical level for Stefanich rings, as the transmutation of 0.5 requires, and compares the two in a Check of 0.4. Maps that ALRS proves 0-affine or 0-proper are stated as such, and Δ-!-ability is stated for all locally †-finitely presented maps of Berkovich spaces (12.1, 12.4).
-
-Outside the scope: ℤ_p-coefficient analytic prismatization (ALRS Remark 1.27); filtered prismatization and syntomification (Hauck); characteristic-p geometry; the p-adic monodromy theorem (ABLB Theorem 7.1.1; for Galois representations, de Rham implies potentially semistable, NoncommutativeAndEquivariantIwasawa §F.6); the Bhatt–Zhang Simpson gerbe and its Cartier duality (ALRS Remark 4.4.6); the identification of `X^{Div¹}` with `FF^la_{X̃}/G^la` (ALRS Remark 1.22, open); the comparison of Hyodo–Kato stacks with Colmez–Nizioł Hyodo–Kato cohomology (ABLB Remark 6.1.3); the bases W(k)[1/p] and relative prisms of ALRS footnotes 48 and 50; the geometrization of the locally analytic Langlands programme.
+Layer 0 states the part of the theory of Gestalten from which the six-functor formalism of Gelfand stacks is built: Stefanich rings, the n-affine, n-prim and n-proper maps with their stability and locality, and the transmutation of a six-functor formalism into Gestalten; it is general higher category theory and depends only on EnhancedDerivedSheaves and AnalyticStacks. Layer 1 builds Gelfand rings from bounded solid ℚ_p-algebras and identifies their Berkovich spectra with those of the supplier Banach-ring theory; Layer 2 glues them into Gelfand stacks, proves that perfect complexes are dualizable and descend, that nilperfectoid rings form a basis, and embeds derived Berkovich and rigid spaces; Layer 3 adds the analytic de Rham stack, analytification and Cartier divisors. Layer 4 fixes the morphism classes, pushouts and deformation theory used later, and Layer 5 the cone construction and the filtered de Rham stack. Layer 6 realizes Fargues–Fontaine discs, curves and Hyodo–Kato stacks as Gelfand stacks. Layers 7–9 are the core of the prismatization: δ-spaces and δ-stacks, the prismatization with its twistor and Hodge–Tate stacks, and their explicit geometry (Hodge–Tate gerbes, Faltings' extension, ℚ_p, the Breuil–Kisin twist, the prismatic logarithm). Layer 10 is the decompletion theory; it depends only on Layers 0–7 and is placed before its first use in Layer 11. Layer 11 combines Layers 9 and 10 into the comparison theorems, with the headline 11.6, and Layer 12 derives duality, Chern classes and the relation to the Riemann–Hilbert functor. Each subsection states its target with hypotheses and locators; a proof route names one route and its inputs without making it mandatory, and the *Needs:* line lists what the statement and that route use.
 
 ## Conventions
 
@@ -31,179 +25,6 @@ Sen operators and actions. The arithmetic Sen operator of O{n} on X^HT is multip
 Universes and cardinals: Gelfand rings range over an essentially small model of κ-compact separable Gelfand rings for a fixed uncountable regular cardinal κ (ABLB footnote 27), and arc-stacks over separable perfectoid spaces; every construction is made for this fixed κ.
 
 Gestalten. Layer 0 is stated for the same κ: presentable means κ-presentable, nPr is the ∞-category of presentable (∞, n)-categories relative to κ, and Gestalten are κ-small, as in ALRS Construction 2.1.2 (ALRS line 704). The source of Layer 0 works with κ = ℵ₁; its statements are used with “countably presented”, “countable” and “ℵ₁-compact” read as “κ-presented”, “κ-small” and “κ-compact”, the adaptation that the source describes for another uncountable regular cardinal (Gest line 2271–2273) and that ALRS line 705 uses. For a Stefanich ring A = (A_0, A_1, …) the term A_n lies in CAlg(nPr), and for the Gestalt X = Gest(A) one writes O(X)_n = A_n; the index is that of Gest, so that O(X)_1 is the ∞-category of 1-sheaves on X, and for the transmutation [Y]_D of 0.5 it is D(Y).
-
-## Exact supplier contracts
-
-### From Mathlib
-
-Use Mathlib pin 1b1ccf4b088b32fa3f23f2de1127433254a81e1e.
-
-- `LightProfinite` (Mathlib/Topology/Category/LightProfinite/Basic.lean:44) is the category of second countable profinite spaces, a CompHausLike category with total disconnectedness and second countability; it supplies the light test objects of 1.1 and the Betti realization of 2.5. `LightCondensed` (Mathlib/Condensed/Light/Basic.lean:29) is the category of ordinary light condensed objects for the coherent topology; it is used as the underlying site of light condensed anima, whose enhanced version CondAni is AnalyticStacks §2.1.
-- `MulRingSeminorm` (Mathlib/Analysis/Normed/Unbundled/RingSeminorm.lean:61) is the carrier of points of Berkovich spectra in 1.5, through TropicalAndBerkovichArithmetic §0.1; Mathlib's `spectralNorm` (Mathlib/Analysis/Normed/Unbundled/SpectralNorm.lean:381) concerns algebraic field extensions and is not the spectral seminorm of a Banach algebra.
-- `WittVector` (Mathlib/RingTheory/WittVector/Defs.lean:52) supplies A_inf(A) = W(A°) for the Fargues–Fontaine discs of 6.1. `WittVector.fontaineTheta` (Mathlib/RingTheory/Perfectoid/FontaineTheta.lean:166) and `BDeRhamPlus` (Mathlib/RingTheory/Perfectoid/BDeRham.lean:75), the kernel-adic completion of W(R♭)[1/p] at ker θ, supply Fontaine's θ and B⁺_dR for 9.5 and 9.7; both take the integral ring R, p-adically complete with p not a unit, and are applied to the rings of power-bounded elements A° of the nonzero perfectoid ℚ_p-algebras A used here (for instance `O_{C_p}` for C_p), not to A itself, in which p is a unit; `BDeRhamPlus` is the zero ring when p = 0 in R, which does not occur for these A°.
-- `CondensedMod.IsSolid` (Mathlib/Condensed/Solid.lean:83) is the solidity predicate on condensed modules over a ring, for all profinite test objects; this roadmap works with the light solid theory of SolidAnalyticRings §1.5 and does not use it.
-- `PadicComplex` (Mathlib/NumberTheory/Padics/Complex.lean:137), the completion of an algebraic closure of ℚ_p, is C_p in the Checks of 1.8 and Layer 11.
-- `continuousCohomology` (Mathlib/RepresentationTheory/Homological/ContCohomology/Basic.lean:131), the n-th continuous cohomology of a continuous representation of a topological group, the homology of its complex of homogeneous continuous cochains; it is the Galois cohomology H^i(Gal_K, V) of the Checks of 6.4, 11.1, 11.2, 11.7 and 12.2 and of PadicPeriodRings §1.4. It is a sequence of cohomology groups, not a derived complex, and the pin does not identify it with the cohomology of the classifying stacks BG^cont of 10.2; where a Check writes RΓ(Gal_K, V), only its cohomology groups are used.
-- `PadicInt.mahlerEquiv` (Mathlib/NumberTheory/Padics/MahlerBasis.lean:353) is Mahler's theorem: for a complete ultrametric normed ℤ_[p]-module E with bounded scalar action, the isometric ℤ_[p]-linear equivalence C(ℤ_[p], E) ≃ C₀(ℕ, E) sending f to its iterated forward differences at 0; iterated over the coordinates of ℤ_p^d it gives the binomial expansions of 10.4.
-
-### From Tau Ceti
-
-Use Tau Ceti pin 2fd255d997f47c0b5d834ee416c7015d55444ce5. The pinned library contains no Gelfand rings, prismatization, locally analytic vectors of representations, Sen operators or Hyodo–Kato theory. It contains `TauCeti.LocallyAnalytic` (TauCeti/NumberTheory/Padics/Distribution/LocallyAnalytic.lean:45), the algebraic direct limit, along re-expansion on smaller discs, of the analytic stages of coefficient families of functions on ℤ_p that are analytic on every disc a + p^hℤ_p, with its evaluation `TauCeti.LocallyAnalytic.eval` (LocallyAnalytic.lean:85) into C(ℤ_p, E), injective when E has no p-torsion; it carries no topology. Its stages carry Amice's basis map `TauCeti.AnalyticStage.amiceMap` (TauCeti/NumberTheory/Padics/Distribution/Amice/Basis.lean:494), the norm-nonincreasing continuous linear map C₀(ℕ, E) → LA_h(E), (c_n) ↦ Σ_n ⌊n/p^h⌋!·binom(x, n)·c_n, for complete ultrametric E; Amice's theorem (PadicFunctionalAnalysis §4.4), that this map is an isometric isomorphism and hence identifies the image of the evaluation by a condition on Mahler coefficients, is not proved at the pin. A Check of 10.4 compares the case d = 1 of Lazard's criterion with these declarations. The library also contains the classical adic Fargues–Fontaine space, which is the adic carrier that 6.1–6.2 realize as Gelfand stacks and compare with:
-
-- `TauCeti.FarguesFontaine.spaY` (TauCeti/AlgebraicGeometry/AdicSpace/FarguesFontaine/Y.lean:116), the subset 𝒴 = D(p) ∩ D([ϖ]) of Spa(W(R), W(R)) for a commutative ring R of characteristic p, ϖ ∈ R and a topology on W(R); `TauCeti.FarguesFontaine.frobeniusHomeomorph` (Y.lean:220), Witt-vector Frobenius as a self-homeomorphism of 𝒴 when R is perfect and W(R) carries the (p, [ϖ])-adic topology.
-- `TauCeti.FarguesFontaine.IsRadiusLowerBound` and `TauCeti.FarguesFontaine.IsRadiusUpperBound` (TauCeti/AlgebraicGeometry/AdicSpace/FarguesFontaine/Window.lean:102, :108), the bounds q ≤ κ(v) and κ(v) ≤ q for κ(v) = log v([ϖ])/log v(p), stated without forming the logarithm; `TauCeti.FarguesFontaine.isRadiusLowerBound_comap_frobenius_iff` (Window.lean:149), which says that Frobenius multiplies κ by p, the normalization κ_ϖ ∘ φ = p·κ_ϖ of 6.1; the windows `TauCeti.FarguesFontaine.windowU` and `TauCeti.FarguesFontaine.windowV` (Window.lean:260, :267).
-- `TauCeti.FarguesFontaine.spaX` (TauCeti/AlgebraicGeometry/AdicSpace/FarguesFontaine/Quotient.lean:59), the topological orbit space 𝒴/φ^ℤ, with `TauCeti.FarguesFontaine.compactSpace_spaX` (Quotient.lean:259) and `TauCeti.FarguesFontaine.t0Space_spaX` (Quotient.lean:271).
-
-These are topological spaces of valuations, not Gelfand stacks; the Berkovich-space realization `D^×_{FF,S}` and its comparison with them are 6.1.
-
-### From TauCetiRoadmap.SolidAnalyticRings
-
-Light solid abelian groups, the light null test, solidification and solid tensor (§1.5); the solid group algebras ℤ_■[Π] of Layer 10 are built on them. Sections consumed: §1.5.
-
-### From TauCetiRoadmap.AnalyticStacks
-
-The general theory of analytic stacks over `ℚ_{p,■}` is consumed at the sections below; each item says what is assumed of the section and which source passages it restates.
-
-- **Light solid analytic rings (§2.11, with §2.3(1), (7) and §3.6).** The light solid analytic ring `ℚ_{p,■}` and, on every animated commutative algebra in light solid ℚ_p-vector spaces, the analytic ring structure induced from it, base change and colimits of induced analytic rings being computed on the underlying algebras (RCSolid §§3–4, RCSolid line 732, RCSolid line 1417). Used in 1.1–1.4, 1.6, 2.1 and 10.1.
-- **Analytic stacks (§3.3).** For a small category of analytic rings stable under pushouts and finite products, the ∞-topos of analytic stacks: presheaves of anima inverting countably presented !-equivalences, a map being a !-equivalence when every base change of every iterated diagonal induces an equivalence on !-categories; descendable maps of analytic rings are !-covers, and D(−) satisfies !-descent (ABLB Definition 4.2.1, ABLB line 2109; RCSolid Definition 6.3.13 and Corollary 6.3.15, RCSolid line 4295, RCSolid line 4330). Used in 2.1, 2.3, 2.4 and 3.1.
-- **The quasi-coherent six-functor formalism (§§3.2–3.3, with §§0.5–0.6).** The six-functor formalism D(−) on affinoid analytic stacks with induced analytic structure, with f_! = f_*, base change and the projection formula (RCSolid Corollary 6.3.4, RCSolid line 4101); its extension to analytic stacks by the Heyer–Mann extension theorem (HM Theorem 3.4.11, HM line 2258; RCSolid Theorem 6.2.11, RCSolid line 3924; SixFF Proposition 5.16); and the construction of a three-functor formalism from a geometric setup in which pullback along the maps of a class P has base-changing right adjoints (HM Proposition 3.3.3, HM line 1924). Used in 2.2 and 6.4.
-- **Suave, prim, smooth, proper and étale maps (§§0.8–0.11).** For a six-functor formalism, f-suave and f-prim objects, and D-suave, D-prim, D-smooth, D-proper and D-étale maps (HM Definitions 4.4.1, 4.5.1 and 4.6.1, HM line 3225, HM line 3505, HM line 3731), with their stability, locality and dualizing-complex calculus (HM Lemmas 4.4.5–4.4.11, 4.5.7–4.5.18 and 4.6.3–4.6.4, HM line 3288, HM line 3339, HM line 3569, HM line 3783), and, for a stable formalism, prim descendable descent: a D-prim map g with g_*1 descendable is of universal ∗- and !-descent (§0.11(ii); HM Lemma 4.7.4(i), HM line 3858), and a map f with f∘g D-prim is then D-prim (§0.9; HM Corollary 4.7.5(ii), HM line 3895). Used in 2.2, 2.7, 3.3, 5.3, 6.3, 6.4, 10.2, 10.3, 12.1, 12.2 and 12.4.
-- **Classifying stacks of locally profinite groups (§4.2).** For a second-countable locally pro-p group G and ℚ_p-coefficients, the classifying stack of locally constant ℚ_p-valued functions on G is !-able and cohomologically smooth, with dualizing complex the unit in degree 0 on which G acts through the modulus δ(g) = [gKg⁻¹ : K], K an open pro-p subgroup `(HM Example 5.3.21, HM line 4911, in the quasi-coherent formalism over ℚ_{p,■})`. Used in 10.3 and 12.2.
-- **Perfect complexes on analytic stacks of Fredholm rings (§4.5).** For an essentially small category C₀ of affinoid analytic stacks of Fredholm analytic rings, closed under finite limits and finite coproducts, and integers a ≤ b, the unique extension of A ↦ `Perf^{[a,b]}(A)` to a sheaf of categories on AnStk(C₀) inverting !-equivalences, perfectness and amplitude being tested on a jointly surjective family of affinoids (ABLB Lemma 4.2.11, Definition 4.2.12 and Remark 4.2.13, ABLB line 2235, ABLB line 2253, ABLB line 2257, stated there for Gelfand rings). It is applied to C₀ = `GelfRing_{ω₁}^op`, every Gelfand ring being Fredholm by 1.7. Used in 2.3.
-- **Betti stacks (§4.1, with §2.1).** The Betti realization of light condensed anima, the ∞-category CondAni of §2.1, in analytic stacks over `ℚ_{p,■}`, preserving colimits and finite limits, with S^Betti = AnSpec(C^lc(S, ℚ_p)) for light profinite S, and the descent of D along hypercovers of light profinite sets (RCSolid §6.5, RCSolid line 4745; ABLB Lemma 4.2.9, ABLB line 2214). Used in 2.5.
-- **Nuclear modules (§4.3, with RefinedTraceMethods §4.3).** Nuclear objects of D(A) for a solid ℚ_p-algebra A, characterized by the Hom criterion in the opening of §4.3 (ABLB Definition A.0.4, ABLB line 6767), and, for nuclear A, §4.3(1): nuclearity tested on the underlying ℚ_p-module and on homotopy groups, with closure under countable limits (ABLB Lemmas A.0.7–A.0.8, ABLB line 6789, ABLB line 6795). Closure of nuclear objects under colimits and tensor products and the identification of the ω₁-compact nuclear objects with the basic nuclear ones (ABLB Lemma A.0.6, ABLB line 6781) are RefinedTraceMethods §4.3 (Nuclear objects; Closure and generation of nuclear objects), applied to D(A), which is compactly generated with compact unit. Descent of nuclear modules along descendable maps of Gelfand rings is 2.3. Used in 2.3, 3.2 and 10.2.
-- **Fredholm criteria (§4.4(1), (3)–(5)).** For a map of analytic rings A → B with − ⊗_A B conservative, descent of connectivity and of perfect amplitude, and !-local perfectness over Fredholm rings (Sch24 Proposition VI.1.2, Corollaries VI.1.3–VI.1.4, Sch24 line 1720); A is Fredholm if and only if the cone of 1 − f is perfect for every trace-class endomorphism f of a compact object (Sch24 Proposition VI.1.5, Sch24 line 1743); and for A → Ā surjective on π₀ with Ā Fredholm and the Nakayama condition on finitely presented static modules, A is Fredholm (Sch24 Proposition VI.1.7, Sch24 line 1755). The Fredholm property of Banach ℚ_p-algebras with the induced structure is 1.7. Used in 1.7, 2.3 and 3.5.
-- **The cotangent complex of analytic rings (§§5.1–5.3).** For maps A → B of solid animated ℤ-algebras and of analytic rings with induced structure, `L_{B/A} ∈ D_{≥0}(B)` corepresenting M ↦ Der_A(B, M), with `L_{B′/A′} = L_{B/A}` ⊗_B B′ for pushouts, compatibility with colimits, the transitivity fibre sequence and `L_{B/A}` = 0 for idempotent A → B (RCSolid Definition 7.4.1 and Lemma 7.4.3, RCSolid line 5257, RCSolid line 5276; ALRS Lemma A.1.1, ALRS line 9427); agreement with the animated cotangent complex of EnhancedDerivedSheaves §E5:cotangent-export.1 on discrete rings, so that for discrete A, `L_{A/ℤ}` is discrete with `L_{A/ℤ}(*) = L_{A(*)/ℤ}` (RCSolid Example 7.4.4(1), RCSolid line 5295); and descent of exterior powers along descendable maps, ∧^m_A `L_{A/R} ≃ Tot(∧^m_{A^•} L_{A^•/R})` (ALRS Lemma A.1.2, ALRS line 9435). Used in 4.5.
-- **Cartier duality of the overconvergent and analytic vector groups (§7.5(4), with §7.2(3)).** The 1-categorical Cartier duality between the overconvergent group `G_a^{♯,†}` and the analytic group G_a^an through the pairing `G_a^{♯,†}` × G_a^an → G_m (RC26a Proposition 3.2.27, RC26a line 1936; ALRS cites it as RC26a Theorem 3.2.27). Used in 5.3, 11.2, 11.5, 11.8 and 12.6.
-- **Stacky Cartier duality (§7.6).** Cartier duality for transmuted vector bundles over the ring stacks of RC26a Example 3.2.36, exchanging ∗- and !-functors in the category of kernels (RC26a Theorem 3.2.37, RC26a line 2085). Used in 5.3, 11.2, 11.5, 11.8 and 12.6.
-- **Classifying stack of the analytic multiplicative group (§7.7).** The identification of D(BG_m) with modules over the dual nuclear Fréchet algebra of sequences `(a_n)_{n∈ℤ}` with |a_n| `r^{|n|}` → 0 for some r > 0 (RJRC Proposition 4.4.8, RJRC line 2134). Used in 5.3.
-- **Algebraic stacks as analytic stacks (§3.8, with §1.6).** The realization (−)^cond of algebraic stacks as analytic stacks, with D(X^cond) = `Fun_{QCoh(ℤ)}(QCoh^!(X), D(ℤ^cond))` and, for !-able X, D(X^cond) = QCoh(X) `⊗_{QCoh(ℤ)}` D(ℤ^cond) (RCSolid §6.4 and Remark 6.4.1, RCSolid line 4457, RCSolid line 4465), with the resulting descriptions of sheaves on BG_m^alg, `A^{1,alg}/G_m^alg` and Â¹/G_m^alg as graded, filtered and complete filtered modules (ALRS Remark 2.9.1, ALRS line 1866). Used in 5.3, 9.5 and 12.6.
-- **The formal line and shearing (§1.7, with §3.8).** Over `ℚ_{p,■}`, the identification Â¹ = BG_a[−1] and the shearing equivalence identifying the heart of the Beilinson t-structure on BG_a[−1]/G_m^alg with chain complexes of solid ℚ_p-vector spaces (ALRS Remarks 2.9.1–2.9.2, ALRS line 1866, ALRS line 1900); AnalyticStacks §1.7 fixes the direction of the differential, which raises the weight. Used in 5.3.
-- **Cones and the adic filtration (§6.5(3)–(4)).** For a map A → B of analytic rings with induced structure, surjective on π₀, the algebraic cone of AnSpec B → AnSpec A is the relative spectrum over `A^{1,alg}/G_m^alg` of the adic filtration of A → B, and its algebraic formal cone is the restriction to Â¹/G_m^alg (RCSolid Remarks 7.7.17–7.7.18, RCSolid line 6063, RCSolid line 6072). The extension to !-Zariski closed maps of Gelfand stacks by descent (ALRS Remark 2.9.7(2), ALRS line 2086) is 5.1. Used in 5.1 and 9.5.
-- **Regular immersions (§6.3(1)).** A regular Zariski closed immersion A → A/(a_1, …, a_c) of analytic rings with trivial analytic structure is suave, with dualizing complex det(I/I²)^∨[−c], I = (a_1, …, a_c) (RCSolid Lemma 6.3.5, RCSolid line 4111). Used in 12.1 and 12.2.
-- **Solid Serre duality (§§6.4 and 6.6).** For a locally solid smooth map g of solid Huber rings of relative dimension d, cohomological smoothness with dualizing complex ω_g ≅ det(L_g)[d] = Ω^d_g[d], canonical up to a sign depending only on d; in relative dimension one, ω_g ≅ L_g[1] (RCSolid Theorems 7.7.1 and 7.7.21, RCSolid line 5827, RCSolid line 6208), as used in ALRS Remark 6.5.6 (ALRS line 8825), which writes L_g[d] for det(L_g)[d]; the two agree for the one-dimensional maps the remark applies it to. Used in 3.3 and 12.2.
-- **Correspondences, six-functor formalisms and D-stacks (§§0.2, 0.4, 0.12–0.13, with §2.3(7) and §3.2).** The symmetric monoidal ∞-category Corr(C) of a small ∞-category with finite limits, three- and six-functor formalisms on it, Künneth formalisms, and the ∞-topos of presheaves inverting !-equivalences; the quasi-coherent formalism on affinoids satisfies the Künneth formula; and, for a Künneth formalism, descent of linear categories along a family of universal ∗- and !-descent (§0.12(d)). Used in Layer 0, 10.2 and 10.3; the two-level suave and prim maps of §7.3 are compared with those of Layer 0 in a Check of 0.4.
-
-Sections consumed: §0.2, §0.4, §0.5, §0.6, §0.8, §0.9, §0.10, §0.11, §0.12, §0.13, §1.6, §1.7, §2.1, §2.3, §2.11, §3.2, §3.3, §3.6, §3.8, §4.1, §4.2, §4.3, §4.4, §4.5, §5.1, §5.2, §5.3, §6.3, §6.4, §6.5, §6.6, §7.2, §7.3, §7.5, §7.6, §7.7.
-
-### From TauCetiRoadmap.EnhancedDerivedSheaves
-
-Spaces and ∞-categories (§E0.5), κ-filtered diagrams, accessibility and presentability (§E0.8), hypercovers and descent (§E2.6), sheaves of spaces (§E2.7), algebras and modules (§E5:abstract.2), the Barr–Beck–Lurie monadicity theorem (§E5:abstract.5), compact generation and Ind-completion (§E5:presentability.1), presentable ∞-categories and their limits (§E5:presentability.2), dualizable presentable categories (§E5:presentability.4), descendable algebras and module descent with the uniform-index colimit criterion (§E5:descent), animation and sifted left Kan extension from polynomial rings to animated rings (§E5:animation.1), and the animated cotangent complex and its animated exterior powers (§E5:cotangent-export.1, §E5:cotangent-export.2). Sections consumed: §E0.5, §E0.8, §E2.7, §E5:descent, §E5:presentability.1, §E5:presentability.2, §E5:presentability.4, §E2.6, §E5:cotangent-export.1, §E5:abstract.2, §E5:abstract.5, §E5:animation.1, §E5:cotangent-export.2.
-
-### From TauCetiRoadmap.DerivedModuleAlgebra
-
-The classical cotangent complex (§0.4), square-zero extensions (§0.5), cotangent obstruction theory (§0.25) and perfect complexes over discrete rings (§1.E.0). Sections consumed: §1.E.0, §0.4, §0.5, §0.25.
-
-### From TauCetiRoadmap.MotivesAndAlgebraicCyclesPartII
-
-The Banach arc-site, Marc(A) = Marc(A^u), strictly totally disconnected Banach rings and quasi-pro-étale maps (Layer 0); compared with ABLB light qfd arc-stacks in 2.8. Sections consumed: Layer 0.
-
-### From TauCetiRoadmap.TropicalAndBerkovichArithmetic
-
-Berkovich spectra of normed rings, compactness, nonemptiness, spectra of normed fields, completed residue fields, Berkovich analytic spaces and the uniform Gelfand representation (§§0.1–0.24). Sections consumed: §0.8, §0.7, §0.1, §0.11, §0.13, §0.15, §0.17, §0.19.
-
-### From TauCetiRoadmap.AdicSpacesPartIII
-
-The Gel'fand spectrum of a Banach ring and Berkovich's spectral seminorm formula (§R3.9). Sections consumed: §R3.9.
-
-### From TauCetiRoadmap.AdicSpacesPartII
-
-Spectral seminorm and uniformization (§R0.4), partially proper morphisms (§R0.10), smooth morphisms (§R0.16), rigid-analytic spaces (§R1.1). Sections consumed: §R0.4, §R1.1, §R0.10, §R0.16.
-
-### From TauCetiRoadmap.AdicSpacesPartIV
-
-Overconvergent Tate algebras, dagger algebras and dagger spaces (§§F1.1–F1.2, F1.7). Sections consumed: §F1.2, §F1.1, §F1.7.
-
-### From TauCetiRoadmap.RigidAnalyticGeometry
-
-The classical presentation of rigid spaces over a complete nonarchimedean field (§6.2). Sections consumed: §6.2.
-
-### From TauCetiRoadmap.PerfectoidSpaces
-
-Perfectoid Tate rings and fields (§§P1.1, P1.10), W(R⁺) (§P1.16), the tilting equivalence (§P1.27), perfectoid spaces (§P2.10) and the pro-étale site of a rigid space (§P7.16). Sections consumed: §P1.1, §P1.10, §P2.10, §P1.27, §P1.16, §P7.16.
-
-### From TauCetiRoadmap.SchemeAndStackFoundations
-
-Stacks in groupoids, algebraic stacks and quasi-coherent sheaves on them (§§1.18, 1.19, 1.22), quotient stacks and [𝔸¹/𝔾_m] (§1.21), line bundles and 𝔾_m-torsors (§1.15), deformation to the normal cone (§5.5). Sections consumed: §1.18, §1.19, §1.22, §1.21, §1.15, §5.5.
-
-### From TauCetiRoadmap.ReductiveGroups
-
-Representations as comodules and Tannakian reconstruction for affine group schemes (Layer 1). Sections consumed: Layer 1.
-
-### From TauCetiRoadmap.AdicEtaleGeometry
-
-Smooth morphisms by ball charts (§A2.4) and the pro-étale site of an analytic adic space (§A1.12). Sections consumed: §A2.4, §A1.12.
-
-### From TauCetiRoadmap.EtaleCohomologyFoundations
-
-Algebraic Kummer Chern classes and the étale projective bundle formula (§0.9). Sections consumed: §0.9.
-
-### From TauCetiRoadmap.ClassicalAdicEtaleCohomology
-
-The proper algebraic comparison for adic étale cohomology (§8.2) and Kummer Chern classes of line bundles on rigid spaces (§9.3), used in the proof of the projective bundle formula and compared with prismatic Chern classes in 12.5. Sections consumed: §8.2, §9.3.
-
-### From TauCetiRoadmap.RelativeFarguesFontaine
-
-Radius functions and period annuli (§1.2), the relative curve (§2.1), its diamond (§2.2), untilts as closed Cartier divisors (§3.2) and Div¹ (§4.7). Sections consumed: §2.2, §1.2, §2.1, §4.7, §3.2.
-
-### From TauCetiRoadmap.VectorBundlesAndIsocrystals
-
-Relative period domains, curves, untilt divisors and twists (Layer 0), isocrystals and slope blocks (Layer 1), vector bundles on curves, their cohomology and v-descent, with RΓ_proét(S, ℚ_p) = RΓ(X_S, O) (Layer 2), Banach–Colmez spaces, the fundamental exact sequence and the properness of the moduli Div^d of effective divisors over ∗ (Layer 5), slope-zero bundles and local systems (Layer 6). Sections consumed: Layer 0, Layer 1, Layer 2, Layer 5, Layer 6.
-
-### From TauCetiRoadmap.FarguesFontaineDiamonds
-
-The Frobenius quotient and its diamond (§F2) and marked untilts as analytic Cartier divisors (§F4). Sections consumed: §F2, §F4.
-
-### From TauCetiRoadmap.DiamondsAndVStacks
-
-The diamond of an analytic adic space (§D6.4), used for the diamonds X^⋄ of rigid and Berkovich spaces throughout Layers 6–12, and the étale-site comparison for analytic adic spaces over ℤ_p (§D6.5), which 11.7 extends to pro-étale cohomology with p-adic coefficients through the requirement below. Sections consumed: §D6.4, §D6.5.
-
-What DiamondsAndVStacks must provide (gap:proetale-v-comparison): For a rigid space X over a complete nonarchimedean extension K of ℚ_p, natural equivalences RΓ_proét(X, Ẑ_p) ≃ RΓ_v(X^⋄, ℤ_p) and RΓ_proét(X, ℚ̂_p) ≃ RΓ_v(X^⋄, ℚ_p), compatible with restriction, between pro-étale cohomology with coefficients Ẑ_p and ℚ̂_p = Ẑ_p[1/p] and v-cohomology of the diamond with coefficients ℤ_p and the topological ℚ_p (§D6.5).
-
-Here X_proét is the pro-étale site of AdicEtaleGeometry §A1.12 and X^⋄ the diamond of §D6.4. The rational equivalence is obtained for qcqs X by inverting p in the integral one and in general by descent along the affinoid opens of X, both sides being hypersheaves on the analytic site of X; it extends the étale-site comparison of §D6.5 to pro-étale cohomology with p-adic coefficients, and it is used in 11.7.
-
-### From TauCetiRoadmap.PadicHodgeTheory
-
-Horizontal and structural de Rham period sheaves and the classical Faltings' extension (§§2.2–2.3), Sen operators of C-representations (§4.4) and Scholze's associated local system functor E ↦ M(E) (§7.1). Sections consumed: §2.2, §2.3, §4.4, §7.1.
-
-### From TauCetiRoadmap.AInfCohomology
-
-Integral pro-étale period sheaves and the structural de Rham periods (§AI.3.1). Sections consumed: §AI.3.1.
-
-### From TauCetiRoadmap.PadicPeriodRings
-
-Normalized cyclotomic traces and the Tate–Sen calculation (§§1.3–1.4), used in 10.10; Tate's calculation of H⁰ and H¹(G_K, C_p(i)) for K/ℚ_p finite in continuous cohomology (§1.4), which 11.2 recovers from the arithmetic Hodge–Tate stack and compares in a Check. Sections consumed: §1.3, §1.4.
-
-### From TauCetiRoadmap.FiniteFlatGroupsAndIntegralPadicHodgeTheory
-
-Labelled Sen operators with HT(χ_p) = +1 (§R07.P7.2), used to pin the sign of the arithmetic Sen operator. Sections consumed: §R07.P7.2.
-
-### From TauCetiRoadmap.PadicFunctionalAnalysis
-
-Amice's analytic basis (§4.4): for a complete ultrametric module E with bounded ℤ_p-action, the isometry C₀(ℕ, E) ≃ LA_h(E), (c_n) ↦ Σ_n ⌊n/p^h⌋!·binom(x, n)·c_n, onto the stage LA_h(E) of coefficient families of functions analytic on every disc a + p^hℤ_p, and, for a Banach ℚ_p-space E, the characterization of LA_h and of local analyticity of continuous functions ℤ_p → E by their Mahler coefficients; 10.4 applies it with E a Banach space of analytic functions in the remaining variables. Sections consumed: §4.4.
-
-### From TauCetiRoadmap.NoncommutativeAndEquivariantIwasawa
-
-Uniform pro-p groups (§0.1), compact p-adic analytic groups with an open normal uniform subgroup and their analytic structure (§0.2), the ordered coordinates of a uniform group (§0.6), and finite-rank p-valuations with ordered bases, saturation and the compatible analytic structure (§0.7), and, for a uniform group U of dimension d, its p-cohomological dimension d and the resolution of the trivial module ℤ_p of length d by finitely generated free Λ(U)-modules, with the finite global dimension of Λ(G) for G without elements of order p (§0.11); 10.2 reads this resolution in solid `ℤ_{p,■}[U]`-modules. Sections consumed: §0.1, §0.2, §0.6, §0.7, §0.11.
-
-### From TauCetiRoadmap.RefinedTraceMethods
-
-The derived HKR filtration on Hochschild homology of commutative rings, complete, left Kan extended from polynomial rings, with graded pieces ∧^n L[n] (§1.10), and Hochschild homology of a commutative or animated ring as its tensor with the circle, functorial in the space (§1.7); 4.5 uses them, with the same left Kan extension from polynomial rings to animated rings, for p-completeness of the solid cotangent complex. Nuclear and basic nuclear objects of a compactly generated presentable symmetric monoidal stable ∞-category with compact unit, their closure under colimits and tensor products, and the identification of the ω₁-compact nuclear objects with the basic nuclear ones (§4.3); 2.3, 3.2 and 10.2 use them for D(A), A a solid ℚ_p-algebra. Sections consumed: §1.7, §1.10, §4.3.
-
-### Comparison partners used only in Checks
-
-- TauCetiRoadmap.LocallyAnalyticRepresentationsOfLocalGroups: Pan's derived functors R^iLA of locally analytic vectors of Banach representations (§2.3) and the κ-condensed derived locally analytic vectors V^Rla of solid representations (§3.8), compared with Layer 10 in Checks.
-- TauCetiRoadmap.LocallyAnalyticDistributionsPartII: Amice's theorem in d variables for functions ℤ_p^d → K, K a complete discretely valued extension of ℚ_p (§1.5), the case M = K of Lazard's criterion in 10.4, compared in a Check.
-- TauCetiRoadmap.PhiGammaModulesAndIwasawaCohomology: The cyclotomic decompletion between ordinary and extended Robba (φ, Γ)-modules (§1.4, extended descent and arbitrary-module decompletion), compared with 11.1 in a Check.
-- TauCetiRoadmap.ClassicalAdicEtaleCohomologyPartII: Rational p-adic Poincaré duality for smooth proper rigid spaces (§5.9), recovered in a Check of 12.4.
-- TauCetiRoadmap.CohomologyComparisons: The first Chern class comparison (§6.7), a Check of 12.5.
-- TauCetiRoadmap.PrismaticCohomology: Breuil–Kisin twists of A/I-modules (§1.5), a normalization Check.
-- TauCetiRoadmap.PrismaticCohomologyPartII: Breuil–Kisin twists of transversal prisms and of all prisms (§§3.8–3.9), the generator e_A of the twist of the q-de Rham prism with φ(e_A) = `[p]_q^{-1}e_A` and (q − 1)e_A = log_Δ(q^p) (§3.11), WCart^HT ≅ BG_m^♯ (§4.12) and the Sen operator `Θ_{O{n}}` = n (§4.13), normalization Checks for 9.7–9.9.
-- TauCetiRoadmap.PrismaticCohomologyPartIII: The integral prismatic logarithm (§6.10), a normalization Check for 9.9.
-
-## How to read the build
-
-Layer 0 states the part of the theory of Gestalten from which the six-functor formalism of Gelfand stacks is built: Stefanich rings, the n-affine, n-prim and n-proper maps with their stability and locality, and the transmutation of a six-functor formalism into Gestalten; it is general higher category theory and depends only on EnhancedDerivedSheaves and AnalyticStacks. Layer 1 builds Gelfand rings from bounded solid ℚ_p-algebras and identifies their Berkovich spectra with those of the supplier Banach-ring theory; Layer 2 glues them into Gelfand stacks, proves that perfect complexes are dualizable and descend, that nilperfectoid rings form a basis, and embeds derived Berkovich and rigid spaces; Layer 3 adds the analytic de Rham stack, analytification and Cartier divisors. Layer 4 fixes the morphism classes, pushouts and deformation theory used later, and Layer 5 the cone construction and the filtered de Rham stack. Layer 6 realizes Fargues–Fontaine discs, curves and Hyodo–Kato stacks as Gelfand stacks. Layers 7–9 are the core of the prismatization: δ-spaces and δ-stacks, the prismatization with its twistor and Hodge–Tate stacks, and their explicit geometry (Hodge–Tate gerbes, Faltings' extension, ℚ_p, the Breuil–Kisin twist, the prismatic logarithm). Layer 10 is the decompletion theory; it depends only on Layers 0–7 and is placed before its first use in Layer 11. Layer 11 combines Layers 9 and 10 into the comparison theorems, with the headline 11.6, and Layer 12 derives duality, Chern classes and the relation to the Riemann–Hilbert functor. Each subsection states its target with hypotheses and locators; a proof route names one route and its inputs without making it mandatory, and the *Needs:* line lists what the statement and that route use.
 
 ## Layer 0: Gestalten and the transmutation of six-functor formalisms
 
@@ -2211,6 +2032,185 @@ Layers 2–11; EtaleCohomologyFoundations §0.9; ClassicalAdicEtaleCohomology §
 ## Downstream consumers
 
 No roadmap in the merge order consumes this one. Its interfaces are designed for: a Part II on the filtered prismatization and rational analytic syntomification of Hauck (Hauck, abstract, Hauck line 7), which needs Layers 4–9 and 12; an integral analytic prismatization with ℤ_p-coefficients (ALRS Remark 1.27, ALRS line 551), which would extend Layers 1–9; pro-étale cohomology and duality of p-adic curves and towers through the twistor stack, which needs 11.7 and 12.2–12.4; and a geometrization of the locally analytic p-adic Langlands programme along Pan's geometric Sen theory (ALRS Remark 1.23, ALRS line 472; Pan22 Remark 1.0.15), which needs Layers 10–11.
+
+## Scope and ownership
+
+This roadmap owns the part of the theory of Gestalten on which the six-functor formalism of Gelfand stacks is built (Layer 0: higher presentable categories, Stefanich rings, n-affine, n-prim, n-proper, n-suave and n-étale maps, their locality on the target, and the transmutation of a six-functor formalism into Gestalten), the Gelfand analytic geometry over ℚ_p that the prismatization uses (Layers 1–6: bounded solid ℚ_p-algebras, Gelfand rings and stacks, derived Berkovich spaces, analytic de Rham stacks, deformation theory, cones, and Fargues–Fontaine discs, curves and Hyodo–Kato stacks as Gelfand stacks), the rational analytic prismatization with its δ-spaces, twistor and Hodge–Tate stacks, its comparison theorems and their consequences for duality and Chern classes (Layers 7–9, 11 and 12), and the decompletion of semilinear representations over Gelfand rings by locally analytic vectors (Layer 10). No other roadmap defines Gestalten, Gelfand rings or stacks, derived Berkovich spaces, analytic de Rham or Hyodo–Kato stacks, rational δ-spaces, analytic δ-stacks, the analytic prismatization, the p-adic twistor stack, analytic Hodge–Tate stacks or decompletions over Gelfand rings. Layers 0–7 form a self-contained public interface for downstream consumers, such as a rational analytic syntomification or an integral analytic prismatization.
+
+The following are imported, not rebuilt. Light profinite sets and light condensed sets are already in the library (Mathlib `LightProfinite`, `LightCondensed`); light solid abelian groups are SolidAnalyticRings §1.5. The Berkovich spectrum of a normed ring is TropicalAndBerkovichArithmetic §§0.1–0.24 and AdicSpacesPartIII §R3.9; this roadmap only identifies M(A) := M(A^u) with it. Rigid spaces, the rigid–adic comparison, partially proper and smooth morphisms and dagger spaces are RigidAnalyticGeometry §6.2, AdicSpacesPartII §§R0.4, R0.10, R0.16, R1.1 and AdicSpacesPartIV §F1; the Banach arc-site and Marc(A) are MotivesAndAlgebraicCyclesPartII Layer 0, of which this roadmap uses the light qfd hypersheaf version of ABLB with a comparison (2.8). Perfectoid rings, tilting, A_inf and Fontaine's θ are PerfectoidSpaces §§P1–P2 and P7.16; diamonds and the diamond of an analytic adic space are DiamondsAndVStacks §§D2, D4, D6. Relative Fargues–Fontaine curves, untilt divisors and Div¹ as v-sheaves are RelativeFarguesFontaine §§1.2, 2.1–2.2, 3.2, 4.7, FarguesFontaineDiamonds §§F2, F4 and VectorBundlesAndIsocrystals Layers 0, 1, 2, 5 and 6; this roadmap realizes them as Gelfand stacks and proves the comparisons. Period sheaves, the classical Faltings' extension, Sen operators of C_p-representations and Scholze's associated local system functor E ↦ M(E) are PadicHodgeTheory §§2.2–2.3, 4.4, 7.1 with FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.P7.2; Tate's normalized traces and Tate's calculation of H⁰ and H¹(G_K, C_p(i)) for K/ℚ_p finite are PadicPeriodRings §§1.3–1.4, the latter recovered from the arithmetic Hodge–Tate stack in 11.2; the cyclotomic decompletion of Robba (φ, Γ)-modules is PhiGammaModulesAndIwasawaCohomology §1.4. The linear theory of locally analytic vectors is LocallyAnalyticRepresentationsOfLocalGroups §2.3 (Banach representations) and §3.8 (solid representations); uniform groups, compact p-adic analytic groups, ordered coordinates, finite-rank p-valuations with ordered bases and the resolution of ℤ_p by finitely generated free modules over the Iwasawa algebra of a uniform group are NoncommutativeAndEquivariantIwasawa §§0.1, 0.2, 0.6, 0.7, 0.11; this roadmap builds the light, semilinear version on Gelfand stacks and compares. Amice's theorem on the Mahler coefficients of locally analytic functions on ℤ_p with values in a Banach ℚ_p-space is PadicFunctionalAnalysis §4.4, and its form in d variables for functions ℤ_p^d → K, K a complete discretely valued extension of ℚ_p, is LocallyAnalyticDistributionsPartII §1.5; 10.4 keeps only Lazard's criterion in d variables with values in a ℚ_p-Banach space, which differs from the latter in the coefficients, and derives it from PadicFunctionalAnalysis §4.4 by induction on d. The integral prismatic objects of PrismaticCohomology §1.5, PrismaticCohomologyPartII §§3.8–3.9, 3.11, 4.12–4.13 and PrismaticCohomologyPartIII §6.10, the étale Chern classes and Poincaré duality of ClassicalAdicEtaleCohomology §9.3 and ClassicalAdicEtaleCohomologyPartII §5.9, and the Chern class comparison of CohomologyComparisons §6.7 are used only as Checks.
+
+The general theory of analytic stacks — light analytic rings over `ℚ_{p,■}`, the ∞-topos of analytic stacks for !-equivalences, its quasi-coherent six-functor formalism and the Heyer–Mann extension theorem, suave, prim and cohomologically smooth or proper maps, Betti stacks, nuclear modules, perfect complexes on analytic stacks of Fredholm rings, the cotangent complex of analytic rings, Cartier duality for analytic vector bundles and algebraic stacks as analytic stacks — is AnalyticStacks (Layers 0–7), consumed at the sections named in the supplier contracts. Following ALRS Construction 2.1.2, the six-functor formalism on Gelfand stacks (2.2) is the one enlarged along Scholze–Stefanich's Gestalten. AnalyticStacks places Gestalten, their n-affine and n-proper maps and the transmutation of six-functor formalisms into them outside its scope (its Scope and ownership, Left to other roadmaps), and no other roadmap states them, so Layer 0 states the part of that theory used here, for arbitrary Stefanich rings and arbitrary six-functor formalisms on small ∞-categories with finite limits, on the presentable ∞-categories of EnhancedDerivedSheaves and the correspondences and six-functor formalisms of AnalyticStacks Layer 0. AnalyticStacks §7.3 defines 1-suave, 1-étale, 0-suave and 0-prim maps of commutative algebras in V-linear κ-presentable categories, the two-level case of these notions used for its Cartier dualities; Layer 0 defines them at every categorical level for Stefanich rings, as the transmutation of 0.5 requires, and compares the two in a Check of 0.4. Maps that ALRS proves 0-affine or 0-proper are stated as such, and Δ-!-ability is stated for all locally †-finitely presented maps of Berkovich spaces (12.1, 12.4).
+
+Outside the scope: ℤ_p-coefficient analytic prismatization (ALRS Remark 1.27); filtered prismatization and syntomification (Hauck); characteristic-p geometry; the p-adic monodromy theorem (ABLB Theorem 7.1.1; for Galois representations, de Rham implies potentially semistable, NoncommutativeAndEquivariantIwasawa §F.6); the Bhatt–Zhang Simpson gerbe and its Cartier duality (ALRS Remark 4.4.6); the identification of `X^{Div¹}` with `FF^la_{X̃}/G^la` (ALRS Remark 1.22, open); the comparison of Hyodo–Kato stacks with Colmez–Nizioł Hyodo–Kato cohomology (ABLB Remark 6.1.3); the bases W(k)[1/p] and relative prisms of ALRS footnotes 48 and 50; the geometrization of the locally analytic Langlands programme.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+Use Mathlib pin 1b1ccf4b088b32fa3f23f2de1127433254a81e1e.
+
+- `LightProfinite` (Mathlib/Topology/Category/LightProfinite/Basic.lean:44) is the category of second countable profinite spaces, a CompHausLike category with total disconnectedness and second countability; it supplies the light test objects of 1.1 and the Betti realization of 2.5. `LightCondensed` (Mathlib/Condensed/Light/Basic.lean:29) is the category of ordinary light condensed objects for the coherent topology; it is used as the underlying site of light condensed anima, whose enhanced version CondAni is AnalyticStacks §2.1.
+- `MulRingSeminorm` (Mathlib/Analysis/Normed/Unbundled/RingSeminorm.lean:61) is the carrier of points of Berkovich spectra in 1.5, through TropicalAndBerkovichArithmetic §0.1; Mathlib's `spectralNorm` (Mathlib/Analysis/Normed/Unbundled/SpectralNorm.lean:381) concerns algebraic field extensions and is not the spectral seminorm of a Banach algebra.
+- `WittVector` (Mathlib/RingTheory/WittVector/Defs.lean:52) supplies A_inf(A) = W(A°) for the Fargues–Fontaine discs of 6.1. `WittVector.fontaineTheta` (Mathlib/RingTheory/Perfectoid/FontaineTheta.lean:166) and `BDeRhamPlus` (Mathlib/RingTheory/Perfectoid/BDeRham.lean:75), the kernel-adic completion of W(R♭)[1/p] at ker θ, supply Fontaine's θ and B⁺_dR for 9.5 and 9.7; both take the integral ring R, p-adically complete with p not a unit, and are applied to the rings of power-bounded elements A° of the nonzero perfectoid ℚ_p-algebras A used here (for instance `O_{C_p}` for C_p), not to A itself, in which p is a unit; `BDeRhamPlus` is the zero ring when p = 0 in R, which does not occur for these A°.
+- `CondensedMod.IsSolid` (Mathlib/Condensed/Solid.lean:83) is the solidity predicate on condensed modules over a ring, for all profinite test objects; this roadmap works with the light solid theory of SolidAnalyticRings §1.5 and does not use it.
+- `PadicComplex` (Mathlib/NumberTheory/Padics/Complex.lean:137), the completion of an algebraic closure of ℚ_p, is C_p in the Checks of 1.8 and Layer 11.
+- `continuousCohomology` (Mathlib/RepresentationTheory/Homological/ContCohomology/Basic.lean:131), the n-th continuous cohomology of a continuous representation of a topological group, the homology of its complex of homogeneous continuous cochains; it is the Galois cohomology H^i(Gal_K, V) of the Checks of 6.4, 11.1, 11.2, 11.7 and 12.2 and of PadicPeriodRings §1.4. It is a sequence of cohomology groups, not a derived complex, and the pin does not identify it with the cohomology of the classifying stacks BG^cont of 10.2; where a Check writes RΓ(Gal_K, V), only its cohomology groups are used.
+- `PadicInt.mahlerEquiv` (Mathlib/NumberTheory/Padics/MahlerBasis.lean:353) is Mahler's theorem: for a complete ultrametric normed ℤ_[p]-module E with bounded scalar action, the isometric ℤ_[p]-linear equivalence C(ℤ_[p], E) ≃ C₀(ℕ, E) sending f to its iterated forward differences at 0; iterated over the coordinates of ℤ_p^d it gives the binomial expansions of 10.4.
+
+### From Tau Ceti
+
+Use Tau Ceti pin 2fd255d997f47c0b5d834ee416c7015d55444ce5. The pinned library contains no Gelfand rings, prismatization, locally analytic vectors of representations, Sen operators or Hyodo–Kato theory. It contains `TauCeti.LocallyAnalytic` (TauCeti/NumberTheory/Padics/Distribution/LocallyAnalytic.lean:45), the algebraic direct limit, along re-expansion on smaller discs, of the analytic stages of coefficient families of functions on ℤ_p that are analytic on every disc a + p^hℤ_p, with its evaluation `TauCeti.LocallyAnalytic.eval` (LocallyAnalytic.lean:85) into C(ℤ_p, E), injective when E has no p-torsion; it carries no topology. Its stages carry Amice's basis map `TauCeti.AnalyticStage.amiceMap` (TauCeti/NumberTheory/Padics/Distribution/Amice/Basis.lean:494), the norm-nonincreasing continuous linear map C₀(ℕ, E) → LA_h(E), (c_n) ↦ Σ_n ⌊n/p^h⌋!·binom(x, n)·c_n, for complete ultrametric E; Amice's theorem (PadicFunctionalAnalysis §4.4), that this map is an isometric isomorphism and hence identifies the image of the evaluation by a condition on Mahler coefficients, is not proved at the pin. A Check of 10.4 compares the case d = 1 of Lazard's criterion with these declarations. The library also contains the classical adic Fargues–Fontaine space, which is the adic carrier that 6.1–6.2 realize as Gelfand stacks and compare with:
+
+- `TauCeti.FarguesFontaine.spaY` (TauCeti/AlgebraicGeometry/AdicSpace/FarguesFontaine/Y.lean:116), the subset 𝒴 = D(p) ∩ D([ϖ]) of Spa(W(R), W(R)) for a commutative ring R of characteristic p, ϖ ∈ R and a topology on W(R); `TauCeti.FarguesFontaine.frobeniusHomeomorph` (Y.lean:220), Witt-vector Frobenius as a self-homeomorphism of 𝒴 when R is perfect and W(R) carries the (p, [ϖ])-adic topology.
+- `TauCeti.FarguesFontaine.IsRadiusLowerBound` and `TauCeti.FarguesFontaine.IsRadiusUpperBound` (TauCeti/AlgebraicGeometry/AdicSpace/FarguesFontaine/Window.lean:102, :108), the bounds q ≤ κ(v) and κ(v) ≤ q for κ(v) = log v([ϖ])/log v(p), stated without forming the logarithm; `TauCeti.FarguesFontaine.isRadiusLowerBound_comap_frobenius_iff` (Window.lean:149), which says that Frobenius multiplies κ by p, the normalization κ_ϖ ∘ φ = p·κ_ϖ of 6.1; the windows `TauCeti.FarguesFontaine.windowU` and `TauCeti.FarguesFontaine.windowV` (Window.lean:260, :267).
+- `TauCeti.FarguesFontaine.spaX` (TauCeti/AlgebraicGeometry/AdicSpace/FarguesFontaine/Quotient.lean:59), the topological orbit space 𝒴/φ^ℤ, with `TauCeti.FarguesFontaine.compactSpace_spaX` (Quotient.lean:259) and `TauCeti.FarguesFontaine.t0Space_spaX` (Quotient.lean:271).
+
+These are topological spaces of valuations, not Gelfand stacks; the Berkovich-space realization `D^×_{FF,S}` and its comparison with them are 6.1.
+
+### From TauCetiRoadmap.SolidAnalyticRings
+
+Light solid abelian groups, the light null test, solidification and solid tensor (§1.5); the solid group algebras ℤ_■[Π] of Layer 10 are built on them. Sections consumed: §1.5.
+
+### From TauCetiRoadmap.AnalyticStacks
+
+The general theory of analytic stacks over `ℚ_{p,■}` is consumed at the sections below; each item says what is assumed of the section and which source passages it restates.
+
+- **Light solid analytic rings (§2.11, with §2.3(1), (7) and §3.6).** The light solid analytic ring `ℚ_{p,■}` and, on every animated commutative algebra in light solid ℚ_p-vector spaces, the analytic ring structure induced from it, base change and colimits of induced analytic rings being computed on the underlying algebras (RCSolid §§3–4, RCSolid line 732, RCSolid line 1417). Used in 1.1–1.4, 1.6, 2.1 and 10.1.
+- **Analytic stacks (§3.3).** For a small category of analytic rings stable under pushouts and finite products, the ∞-topos of analytic stacks: presheaves of anima inverting countably presented !-equivalences, a map being a !-equivalence when every base change of every iterated diagonal induces an equivalence on !-categories; descendable maps of analytic rings are !-covers, and D(−) satisfies !-descent (ABLB Definition 4.2.1, ABLB line 2109; RCSolid Definition 6.3.13 and Corollary 6.3.15, RCSolid line 4295, RCSolid line 4330). Used in 2.1, 2.3, 2.4 and 3.1.
+- **The quasi-coherent six-functor formalism (§§3.2–3.3, with §§0.5–0.6).** The six-functor formalism D(−) on affinoid analytic stacks with induced analytic structure, with f_! = f_*, base change and the projection formula (RCSolid Corollary 6.3.4, RCSolid line 4101); its extension to analytic stacks by the Heyer–Mann extension theorem (HM Theorem 3.4.11, HM line 2258; RCSolid Theorem 6.2.11, RCSolid line 3924; SixFF Proposition 5.16); and the construction of a three-functor formalism from a geometric setup in which pullback along the maps of a class P has base-changing right adjoints (HM Proposition 3.3.3, HM line 1924). Used in 2.2 and 6.4.
+- **Suave, prim, smooth, proper and étale maps (§§0.8–0.11).** For a six-functor formalism, f-suave and f-prim objects, and D-suave, D-prim, D-smooth, D-proper and D-étale maps (HM Definitions 4.4.1, 4.5.1 and 4.6.1, HM line 3225, HM line 3505, HM line 3731), with their stability, locality and dualizing-complex calculus (HM Lemmas 4.4.5–4.4.11, 4.5.7–4.5.18 and 4.6.3–4.6.4, HM line 3288, HM line 3339, HM line 3569, HM line 3783), and, for a stable formalism, prim descendable descent: a D-prim map g with g_*1 descendable is of universal ∗- and !-descent (§0.11(ii); HM Lemma 4.7.4(i), HM line 3858), and a map f with f∘g D-prim is then D-prim (§0.9; HM Corollary 4.7.5(ii), HM line 3895). Used in 2.2, 2.7, 3.3, 5.3, 6.3, 6.4, 10.2, 10.3, 12.1, 12.2 and 12.4.
+- **Classifying stacks of locally profinite groups (§4.2).** For a second-countable locally pro-p group G and ℚ_p-coefficients, the classifying stack of locally constant ℚ_p-valued functions on G is !-able and cohomologically smooth, with dualizing complex the unit in degree 0 on which G acts through the modulus δ(g) = [gKg⁻¹ : K], K an open pro-p subgroup `(HM Example 5.3.21, HM line 4911, in the quasi-coherent formalism over ℚ_{p,■})`. Used in 10.3 and 12.2.
+- **Perfect complexes on analytic stacks of Fredholm rings (§4.5).** For an essentially small category C₀ of affinoid analytic stacks of Fredholm analytic rings, closed under finite limits and finite coproducts, and integers a ≤ b, the unique extension of A ↦ `Perf^{[a,b]}(A)` to a sheaf of categories on AnStk(C₀) inverting !-equivalences, perfectness and amplitude being tested on a jointly surjective family of affinoids (ABLB Lemma 4.2.11, Definition 4.2.12 and Remark 4.2.13, ABLB line 2235, ABLB line 2253, ABLB line 2257, stated there for Gelfand rings). It is applied to C₀ = `GelfRing_{ω₁}^op`, every Gelfand ring being Fredholm by 1.7. Used in 2.3.
+- **Betti stacks (§4.1, with §2.1).** The Betti realization of light condensed anima, the ∞-category CondAni of §2.1, in analytic stacks over `ℚ_{p,■}`, preserving colimits and finite limits, with S^Betti = AnSpec(C^lc(S, ℚ_p)) for light profinite S, and the descent of D along hypercovers of light profinite sets (RCSolid §6.5, RCSolid line 4745; ABLB Lemma 4.2.9, ABLB line 2214). Used in 2.5.
+- **Nuclear modules (§4.3, with RefinedTraceMethods §4.3).** Nuclear objects of D(A) for a solid ℚ_p-algebra A, characterized by the Hom criterion in the opening of §4.3 (ABLB Definition A.0.4, ABLB line 6767), and, for nuclear A, §4.3(1): nuclearity tested on the underlying ℚ_p-module and on homotopy groups, with closure under countable limits (ABLB Lemmas A.0.7–A.0.8, ABLB line 6789, ABLB line 6795). Closure of nuclear objects under colimits and tensor products and the identification of the ω₁-compact nuclear objects with the basic nuclear ones (ABLB Lemma A.0.6, ABLB line 6781) are RefinedTraceMethods §4.3 (Nuclear objects; Closure and generation of nuclear objects), applied to D(A), which is compactly generated with compact unit. Descent of nuclear modules along descendable maps of Gelfand rings is 2.3. Used in 2.3, 3.2 and 10.2.
+- **Fredholm criteria (§4.4(1), (3)–(5)).** For a map of analytic rings A → B with − ⊗_A B conservative, descent of connectivity and of perfect amplitude, and !-local perfectness over Fredholm rings (Sch24 Proposition VI.1.2, Corollaries VI.1.3–VI.1.4, Sch24 line 1720); A is Fredholm if and only if the cone of 1 − f is perfect for every trace-class endomorphism f of a compact object (Sch24 Proposition VI.1.5, Sch24 line 1743); and for A → Ā surjective on π₀ with Ā Fredholm and the Nakayama condition on finitely presented static modules, A is Fredholm (Sch24 Proposition VI.1.7, Sch24 line 1755). The Fredholm property of Banach ℚ_p-algebras with the induced structure is 1.7. Used in 1.7, 2.3 and 3.5.
+- **The cotangent complex of analytic rings (§§5.1–5.3).** For maps A → B of solid animated ℤ-algebras and of analytic rings with induced structure, `L_{B/A} ∈ D_{≥0}(B)` corepresenting M ↦ Der_A(B, M), with `L_{B′/A′} = L_{B/A}` ⊗_B B′ for pushouts, compatibility with colimits, the transitivity fibre sequence and `L_{B/A}` = 0 for idempotent A → B (RCSolid Definition 7.4.1 and Lemma 7.4.3, RCSolid line 5257, RCSolid line 5276; ALRS Lemma A.1.1, ALRS line 9427); agreement with the animated cotangent complex of EnhancedDerivedSheaves §E5:cotangent-export.1 on discrete rings, so that for discrete A, `L_{A/ℤ}` is discrete with `L_{A/ℤ}(*) = L_{A(*)/ℤ}` (RCSolid Example 7.4.4(1), RCSolid line 5295); and descent of exterior powers along descendable maps, ∧^m_A `L_{A/R} ≃ Tot(∧^m_{A^•} L_{A^•/R})` (ALRS Lemma A.1.2, ALRS line 9435). Used in 4.5.
+- **Cartier duality of the overconvergent and analytic vector groups (§7.5(4), with §7.2(3)).** The 1-categorical Cartier duality between the overconvergent group `G_a^{♯,†}` and the analytic group G_a^an through the pairing `G_a^{♯,†}` × G_a^an → G_m (RC26a Proposition 3.2.27, RC26a line 1936; ALRS cites it as RC26a Theorem 3.2.27). Used in 5.3, 11.2, 11.5, 11.8 and 12.6.
+- **Stacky Cartier duality (§7.6).** Cartier duality for transmuted vector bundles over the ring stacks of RC26a Example 3.2.36, exchanging ∗- and !-functors in the category of kernels (RC26a Theorem 3.2.37, RC26a line 2085). Used in 5.3, 11.2, 11.5, 11.8 and 12.6.
+- **Classifying stack of the analytic multiplicative group (§7.7).** The identification of D(BG_m) with modules over the dual nuclear Fréchet algebra of sequences `(a_n)_{n∈ℤ}` with |a_n| `r^{|n|}` → 0 for some r > 0 (RJRC Proposition 4.4.8, RJRC line 2134). Used in 5.3.
+- **Algebraic stacks as analytic stacks (§3.8, with §1.6).** The realization (−)^cond of algebraic stacks as analytic stacks, with D(X^cond) = `Fun_{QCoh(ℤ)}(QCoh^!(X), D(ℤ^cond))` and, for !-able X, D(X^cond) = QCoh(X) `⊗_{QCoh(ℤ)}` D(ℤ^cond) (RCSolid §6.4 and Remark 6.4.1, RCSolid line 4457, RCSolid line 4465), with the resulting descriptions of sheaves on BG_m^alg, `A^{1,alg}/G_m^alg` and Â¹/G_m^alg as graded, filtered and complete filtered modules (ALRS Remark 2.9.1, ALRS line 1866). Used in 5.3, 9.5 and 12.6.
+- **The formal line and shearing (§1.7, with §3.8).** Over `ℚ_{p,■}`, the identification Â¹ = BG_a[−1] and the shearing equivalence identifying the heart of the Beilinson t-structure on BG_a[−1]/G_m^alg with chain complexes of solid ℚ_p-vector spaces (ALRS Remarks 2.9.1–2.9.2, ALRS line 1866, ALRS line 1900); AnalyticStacks §1.7 fixes the direction of the differential, which raises the weight. Used in 5.3.
+- **Cones and the adic filtration (§6.5(3)–(4)).** For a map A → B of analytic rings with induced structure, surjective on π₀, the algebraic cone of AnSpec B → AnSpec A is the relative spectrum over `A^{1,alg}/G_m^alg` of the adic filtration of A → B, and its algebraic formal cone is the restriction to Â¹/G_m^alg (RCSolid Remarks 7.7.17–7.7.18, RCSolid line 6063, RCSolid line 6072). The extension to !-Zariski closed maps of Gelfand stacks by descent (ALRS Remark 2.9.7(2), ALRS line 2086) is 5.1. Used in 5.1 and 9.5.
+- **Regular immersions (§6.3(1)).** A regular Zariski closed immersion A → A/(a_1, …, a_c) of analytic rings with trivial analytic structure is suave, with dualizing complex det(I/I²)^∨[−c], I = (a_1, …, a_c) (RCSolid Lemma 6.3.5, RCSolid line 4111). Used in 12.1 and 12.2.
+- **Solid Serre duality (§§6.4 and 6.6).** For a locally solid smooth map g of solid Huber rings of relative dimension d, cohomological smoothness with dualizing complex ω_g ≅ det(L_g)[d] = Ω^d_g[d], canonical up to a sign depending only on d; in relative dimension one, ω_g ≅ L_g[1] (RCSolid Theorems 7.7.1 and 7.7.21, RCSolid line 5827, RCSolid line 6208), as used in ALRS Remark 6.5.6 (ALRS line 8825), which writes L_g[d] for det(L_g)[d]; the two agree for the one-dimensional maps the remark applies it to. Used in 3.3 and 12.2.
+- **Correspondences, six-functor formalisms and D-stacks (§§0.2, 0.4, 0.12–0.13, with §2.3(7) and §3.2).** The symmetric monoidal ∞-category Corr(C) of a small ∞-category with finite limits, three- and six-functor formalisms on it, Künneth formalisms, and the ∞-topos of presheaves inverting !-equivalences; the quasi-coherent formalism on affinoids satisfies the Künneth formula; and, for a Künneth formalism, descent of linear categories along a family of universal ∗- and !-descent (§0.12(d)). Used in Layer 0, 10.2 and 10.3; the two-level suave and prim maps of §7.3 are compared with those of Layer 0 in a Check of 0.4.
+
+Sections consumed: §0.2, §0.4, §0.5, §0.6, §0.8, §0.9, §0.10, §0.11, §0.12, §0.13, §1.6, §1.7, §2.1, §2.3, §2.11, §3.2, §3.3, §3.6, §3.8, §4.1, §4.2, §4.3, §4.4, §4.5, §5.1, §5.2, §5.3, §6.3, §6.4, §6.5, §6.6, §7.2, §7.3, §7.5, §7.6, §7.7.
+
+### From TauCetiRoadmap.EnhancedDerivedSheaves
+
+Spaces and ∞-categories (§E0.5), κ-filtered diagrams, accessibility and presentability (§E0.8), hypercovers and descent (§E2.6), sheaves of spaces (§E2.7), algebras and modules (§E5:abstract.2), the Barr–Beck–Lurie monadicity theorem (§E5:abstract.5), compact generation and Ind-completion (§E5:presentability.1), presentable ∞-categories and their limits (§E5:presentability.2), dualizable presentable categories (§E5:presentability.4), descendable algebras and module descent with the uniform-index colimit criterion (§E5:descent), animation and sifted left Kan extension from polynomial rings to animated rings (§E5:animation.1), and the animated cotangent complex and its animated exterior powers (§E5:cotangent-export.1, §E5:cotangent-export.2). Sections consumed: §E0.5, §E0.8, §E2.7, §E5:descent, §E5:presentability.1, §E5:presentability.2, §E5:presentability.4, §E2.6, §E5:cotangent-export.1, §E5:abstract.2, §E5:abstract.5, §E5:animation.1, §E5:cotangent-export.2.
+
+### From TauCetiRoadmap.DerivedModuleAlgebra
+
+The classical cotangent complex (§0.4), square-zero extensions (§0.5), cotangent obstruction theory (§0.25) and perfect complexes over discrete rings (§1.E.0). Sections consumed: §1.E.0, §0.4, §0.5, §0.25.
+
+### From TauCetiRoadmap.MotivesAndAlgebraicCyclesPartII
+
+The Banach arc-site, Marc(A) = Marc(A^u), strictly totally disconnected Banach rings and quasi-pro-étale maps (Layer 0); compared with ABLB light qfd arc-stacks in 2.8. Sections consumed: Layer 0.
+
+### From TauCetiRoadmap.TropicalAndBerkovichArithmetic
+
+Berkovich spectra of normed rings, compactness, nonemptiness, spectra of normed fields, completed residue fields, Berkovich analytic spaces and the uniform Gelfand representation (§§0.1–0.24). Sections consumed: §0.8, §0.7, §0.1, §0.11, §0.13, §0.15, §0.17, §0.19.
+
+### From TauCetiRoadmap.AdicSpacesPartIII
+
+The Gel'fand spectrum of a Banach ring and Berkovich's spectral seminorm formula (§R3.9). Sections consumed: §R3.9.
+
+### From TauCetiRoadmap.AdicSpacesPartII
+
+Spectral seminorm and uniformization (§R0.4), partially proper morphisms (§R0.10), smooth morphisms (§R0.16), rigid-analytic spaces (§R1.1). Sections consumed: §R0.4, §R1.1, §R0.10, §R0.16.
+
+### From TauCetiRoadmap.AdicSpacesPartIV
+
+Overconvergent Tate algebras, dagger algebras and dagger spaces (§§F1.1–F1.2, F1.7). Sections consumed: §F1.2, §F1.1, §F1.7.
+
+### From TauCetiRoadmap.RigidAnalyticGeometry
+
+The classical presentation of rigid spaces over a complete nonarchimedean field (§6.2). Sections consumed: §6.2.
+
+### From TauCetiRoadmap.PerfectoidSpaces
+
+Perfectoid Tate rings and fields (§§P1.1, P1.10), W(R⁺) (§P1.16), the tilting equivalence (§P1.27), perfectoid spaces (§P2.10) and the pro-étale site of a rigid space (§P7.16). Sections consumed: §P1.1, §P1.10, §P2.10, §P1.27, §P1.16, §P7.16.
+
+### From TauCetiRoadmap.SchemeAndStackFoundations
+
+Stacks in groupoids, algebraic stacks and quasi-coherent sheaves on them (§§1.18, 1.19, 1.22), quotient stacks and [𝔸¹/𝔾_m] (§1.21), line bundles and 𝔾_m-torsors (§1.15), deformation to the normal cone (§5.5). Sections consumed: §1.18, §1.19, §1.22, §1.21, §1.15, §5.5.
+
+### From TauCetiRoadmap.ReductiveGroups
+
+Representations as comodules and Tannakian reconstruction for affine group schemes (Layer 1). Sections consumed: Layer 1.
+
+### From TauCetiRoadmap.AdicEtaleGeometry
+
+Smooth morphisms by ball charts (§A2.4) and the pro-étale site of an analytic adic space (§A1.12). Sections consumed: §A2.4, §A1.12.
+
+### From TauCetiRoadmap.EtaleCohomologyFoundations
+
+Algebraic Kummer Chern classes and the étale projective bundle formula (§0.9). Sections consumed: §0.9.
+
+### From TauCetiRoadmap.ClassicalAdicEtaleCohomology
+
+The proper algebraic comparison for adic étale cohomology (§8.2) and Kummer Chern classes of line bundles on rigid spaces (§9.3), used in the proof of the projective bundle formula and compared with prismatic Chern classes in 12.5. Sections consumed: §8.2, §9.3.
+
+### From TauCetiRoadmap.RelativeFarguesFontaine
+
+Radius functions and period annuli (§1.2), the relative curve (§2.1), its diamond (§2.2), untilts as closed Cartier divisors (§3.2) and Div¹ (§4.7). Sections consumed: §2.2, §1.2, §2.1, §4.7, §3.2.
+
+### From TauCetiRoadmap.VectorBundlesAndIsocrystals
+
+Relative period domains, curves, untilt divisors and twists (Layer 0), isocrystals and slope blocks (Layer 1), vector bundles on curves, their cohomology and v-descent, with RΓ_proét(S, ℚ_p) = RΓ(X_S, O) (Layer 2), Banach–Colmez spaces, the fundamental exact sequence and the properness of the moduli Div^d of effective divisors over ∗ (Layer 5), slope-zero bundles and local systems (Layer 6). Sections consumed: Layer 0, Layer 1, Layer 2, Layer 5, Layer 6.
+
+### From TauCetiRoadmap.FarguesFontaineDiamonds
+
+The Frobenius quotient and its diamond (§F2) and marked untilts as analytic Cartier divisors (§F4). Sections consumed: §F2, §F4.
+
+### From TauCetiRoadmap.DiamondsAndVStacks
+
+The diamond of an analytic adic space (§D6.4), used for the diamonds X^⋄ of rigid and Berkovich spaces throughout Layers 6–12, and the étale-site comparison for analytic adic spaces over ℤ_p (§D6.5), which 11.7 extends to pro-étale cohomology with p-adic coefficients through the requirement below. Sections consumed: §D6.4, §D6.5.
+
+What DiamondsAndVStacks must provide (gap:proetale-v-comparison): For a rigid space X over a complete nonarchimedean extension K of ℚ_p, natural equivalences RΓ_proét(X, Ẑ_p) ≃ RΓ_v(X^⋄, ℤ_p) and RΓ_proét(X, ℚ̂_p) ≃ RΓ_v(X^⋄, ℚ_p), compatible with restriction, between pro-étale cohomology with coefficients Ẑ_p and ℚ̂_p = Ẑ_p[1/p] and v-cohomology of the diamond with coefficients ℤ_p and the topological ℚ_p (§D6.5).
+
+Here X_proét is the pro-étale site of AdicEtaleGeometry §A1.12 and X^⋄ the diamond of §D6.4. The rational equivalence is obtained for qcqs X by inverting p in the integral one and in general by descent along the affinoid opens of X, both sides being hypersheaves on the analytic site of X; it extends the étale-site comparison of §D6.5 to pro-étale cohomology with p-adic coefficients, and it is used in 11.7.
+
+### From TauCetiRoadmap.PadicHodgeTheory
+
+Horizontal and structural de Rham period sheaves and the classical Faltings' extension (§§2.2–2.3), Sen operators of C-representations (§4.4) and Scholze's associated local system functor E ↦ M(E) (§7.1). Sections consumed: §2.2, §2.3, §4.4, §7.1.
+
+### From TauCetiRoadmap.AInfCohomology
+
+Integral pro-étale period sheaves and the structural de Rham periods (§AI.3.1). Sections consumed: §AI.3.1.
+
+### From TauCetiRoadmap.PadicPeriodRings
+
+Normalized cyclotomic traces and the Tate–Sen calculation (§§1.3–1.4), used in 10.10; Tate's calculation of H⁰ and H¹(G_K, C_p(i)) for K/ℚ_p finite in continuous cohomology (§1.4), which 11.2 recovers from the arithmetic Hodge–Tate stack and compares in a Check. Sections consumed: §1.3, §1.4.
+
+### From TauCetiRoadmap.FiniteFlatGroupsAndIntegralPadicHodgeTheory
+
+Labelled Sen operators with HT(χ_p) = +1 (§R07.P7.2), used to pin the sign of the arithmetic Sen operator. Sections consumed: §R07.P7.2.
+
+### From TauCetiRoadmap.PadicFunctionalAnalysis
+
+Amice's analytic basis (§4.4): for a complete ultrametric module E with bounded ℤ_p-action, the isometry C₀(ℕ, E) ≃ LA_h(E), (c_n) ↦ Σ_n ⌊n/p^h⌋!·binom(x, n)·c_n, onto the stage LA_h(E) of coefficient families of functions analytic on every disc a + p^hℤ_p, and, for a Banach ℚ_p-space E, the characterization of LA_h and of local analyticity of continuous functions ℤ_p → E by their Mahler coefficients; 10.4 applies it with E a Banach space of analytic functions in the remaining variables. Sections consumed: §4.4.
+
+### From TauCetiRoadmap.NoncommutativeAndEquivariantIwasawa
+
+Uniform pro-p groups (§0.1), compact p-adic analytic groups with an open normal uniform subgroup and their analytic structure (§0.2), the ordered coordinates of a uniform group (§0.6), and finite-rank p-valuations with ordered bases, saturation and the compatible analytic structure (§0.7), and, for a uniform group U of dimension d, its p-cohomological dimension d and the resolution of the trivial module ℤ_p of length d by finitely generated free Λ(U)-modules, with the finite global dimension of Λ(G) for G without elements of order p (§0.11); 10.2 reads this resolution in solid `ℤ_{p,■}[U]`-modules. Sections consumed: §0.1, §0.2, §0.6, §0.7, §0.11.
+
+### From TauCetiRoadmap.RefinedTraceMethods
+
+The derived HKR filtration on Hochschild homology of commutative rings, complete, left Kan extended from polynomial rings, with graded pieces ∧^n L[n] (§1.10), and Hochschild homology of a commutative or animated ring as its tensor with the circle, functorial in the space (§1.7); 4.5 uses them, with the same left Kan extension from polynomial rings to animated rings, for p-completeness of the solid cotangent complex. Nuclear and basic nuclear objects of a compactly generated presentable symmetric monoidal stable ∞-category with compact unit, their closure under colimits and tensor products, and the identification of the ω₁-compact nuclear objects with the basic nuclear ones (§4.3); 2.3, 3.2 and 10.2 use them for D(A), A a solid ℚ_p-algebra. Sections consumed: §1.7, §1.10, §4.3.
+
+### Comparison partners used only in Checks
+
+- TauCetiRoadmap.LocallyAnalyticRepresentationsOfLocalGroups: Pan's derived functors R^iLA of locally analytic vectors of Banach representations (§2.3) and the κ-condensed derived locally analytic vectors V^Rla of solid representations (§3.8), compared with Layer 10 in Checks.
+- TauCetiRoadmap.LocallyAnalyticDistributionsPartII: Amice's theorem in d variables for functions ℤ_p^d → K, K a complete discretely valued extension of ℚ_p (§1.5), the case M = K of Lazard's criterion in 10.4, compared in a Check.
+- TauCetiRoadmap.PhiGammaModulesAndIwasawaCohomology: The cyclotomic decompletion between ordinary and extended Robba (φ, Γ)-modules (§1.4, extended descent and arbitrary-module decompletion), compared with 11.1 in a Check.
+- TauCetiRoadmap.ClassicalAdicEtaleCohomologyPartII: Rational p-adic Poincaré duality for smooth proper rigid spaces (§5.9), recovered in a Check of 12.4.
+- TauCetiRoadmap.CohomologyComparisons: The first Chern class comparison (§6.7), a Check of 12.5.
+- TauCetiRoadmap.PrismaticCohomology: Breuil–Kisin twists of A/I-modules (§1.5), a normalization Check.
+- TauCetiRoadmap.PrismaticCohomologyPartII: Breuil–Kisin twists of transversal prisms and of all prisms (§§3.8–3.9), the generator e_A of the twist of the q-de Rham prism with φ(e_A) = `[p]_q^{-1}e_A` and (q − 1)e_A = log_Δ(q^p) (§3.11), WCart^HT ≅ BG_m^♯ (§4.12) and the Sen operator `Θ_{O{n}}` = n (§4.13), normalization Checks for 9.7–9.9.
+- TauCetiRoadmap.PrismaticCohomologyPartIII: The integral prismatic logarithm (§6.10), a normalization Check for 9.9.
 
 ## References
 
