@@ -22,58 +22,26 @@ induction, or an isobaric sum when the CM field is K. These are the conclusions
 of [OpenAI, Theorem 1.1, p.1](#references), with the local assertions separated
 in §8.5 below.
 
-## Scope and ownership
+## How to read the build
 
-This roadmap owns the specific covers of quadratic twists of E, their two
-semistable degenerations, the integral regular-module calculation, the four
-rank-two character systems and their congruences, and the simultaneous
-specialization and automorphy propagation arguments. The geometry, integral
-congruences and local specialization results are stated over arbitrary number
-fields wherever their proofs permit. Imaginary quadraticity enters the final
-choice of a CM cyclotomic extension and its descent, not the definition of the
-covers.
+| Layer | Output used next |
+|---|---|
+| 0 | Supplied CN arithmetic inputs, AKT ordinary/dyadic additions, cyclotomic preparation, paired twists, the independent elliptic seed and prescribed-type outputs. |
+| 1 | Normalized cyclic covers of the twist, with compatible quotient maps and reflection. |
+| 2 | Compact-type fiber E^m and the second nodal fiber with m smoothing-order-one nodes. |
+| 3 | Integral regular-module marking and two opposite monodromies in a common basis. |
+| 4 | Rank-two character systems, elliptic endpoints and integral congruence chain. |
+| 5 | Full CN lifting, the independent residual criterion and the auxiliary-prime choice. |
+| 6 | Nonempty local parameter opens preserving the required three potential reduction types. |
+| 7 | One Hilbert specialization giving every residual and local condition simultaneously. |
+| 8 | Initial seed, three lifts, descent, all-place comparison and the CM alternatives. |
 
-CrystallineLocalGlobalCompatibilityCM owns CN's integral local–global
-comparison, fixed-determinant refinement, non-neat PGL₂ complexes, prepared
-patching and qualified lifting theorem. Layer 0 retains the distinct AKT
-GL₂/dyadic and general-weight ordinary inputs and the independent elliptic
-seed. Its preparation dichotomy supplies the additional cyclotomic branch
-used to recover unrestricted lifting in §5.2. Section 0.3 owns the
-prescribed-type elliptic construction, including its cohomological and
-non-CM outputs; §5.1 owns Serre's theorem that a geometrically non-CM
-elliptic curve over a number field has mod-p image containing SL₂(𝔽_p)
-for all but finitely many p, as the target
-`nonCM_elliptic_large_residual_primes`; the all-but-finitely-many form is
-owned here because ModularityAndLanglandsExtensions §2.18 consumes its
-finite exceptional set. AdelicImagesAndModularCurves §4.3
-states the stronger surjectivity onto GL₂(𝔽_ℓ) for all but finitely many
-ℓ; its own inputs lie beyond this roadmap in the supplier order, so that
-statement is downstream of the inclusion owned here and supplies nothing
-to §5.1. ModularityAndLanglandsExtensions §§2.18 and 2.29 are downstream
-adapters of these outputs, retaining that roadmap's additional
-ordinary-prime density and progression arguments.
-Jacobians, semistable abelian varieties, vanishing cycles,
-Hilbert irreducibility, Galois representations, local Langlands and automorphic
-transfer also retain their existing owners. A generic cyclic-cover theorem or
-a general potential-modularity theorem is not rebuilt here. The mathematical
-work here proves the hypotheses of those interfaces for this family and
-transports the resulting realization to the next coefficient prime.
-
-The starting theorem for an auxiliary elliptic curve is the residual criterion
-of Caraiani–Newton §6.1, assembled from these suppliers in §5.3; their exceptional modular-curve analysis in §7 is not
-used. In particular the auxiliary curve's modularity is proved before the
-three new lifts, independently of the desired modularity of E.
-
-The definitions of smooth proper curves, relative Jacobians, continuous
-compatible systems and automorphic representations use the supplier carriers
-below. Their source-specific constructions are targets on those geometric carriers.
-`Suggested.lean` declares `cm_discriminant_descent`, `discriminant_coupling`,
-`nonCM_elliptic_large_residual_primes` and `SymplecticTorsionEquiv`. The first
-three are headline arithmetic statements; the last defines the actual
-Galois-equivariant, pairing-preserving torsion isomorphisms needed for coupling.
-The other named targets specify mathematical interfaces in this README.
-The module docstring identifies the geometric, cohomological and automorphic
-objects absent at the pins that prevent stating the remaining headline results.
+Each named target below has its hypotheses, proof route and prerequisites in
+its subsection. “API” names the usable outputs of a definition or construction;
+“Checks” distinguishes it from plausible incorrect versions. Page numbers are
+printed pages of the fixed sources in References. Layer 3 is integral even at
+coefficient primes dividing the cover degree. That integrality is the reason
+the route can change primes at Layer 4.
 
 ## Conventions
 
@@ -130,118 +98,6 @@ split Tate module and diag(1,1/4) on its dual have determinants 4 and 1/4;
 geometric Frobenius inverts the second matrix. These matrices pin the
 duality direction. The complex witness excludes replacing the conjugate
 entry by a second copy of z.
-
-## Exact supplier contracts
-
-The named outputs below are consumed with their hypotheses. Roadmap interfaces are mathematical targets of their named owners; library declarations below are available at the stated pins. The quadratic-twist layer and relative Picard interfaces have those same owners.
-
-| Supplier and exact location | Contract consumed; use in this roadmap |
-|---|---|
-| `EllipticCurves`, Layers 1–4, Layer 4.5a “invariant theory over a Dedekind domain” and Layer 5 “twists” | `quadraticTwistOf`, `quadraticTwist`, `quadraticTwistPointEquiv` and Galois compatibility; torsion, Weil pairing, Tate duality, local reduction and the integral-j criterion for potential good reduction. Use the curve/equation and local-minimal-model comparisons for the reduction conditions in §0.3, the existing twist in §1.1 and its quadratic character in §8.4. The main CM theorem is not supplied by its CM-action vocabulary. |
-| `JacobianChallenge`, Layers A–D and F | Divisors, Abel's criterion, Riemann–Roch, Pic⁰ and pullback/norm. Pic⁰ exists for a smooth proper geometrically connected curve without a rational point; its identification with the curve requires a point. Used in §§1.2, 4.2. |
-| `AbelianSchemesAndArithmeticModuli`, A0.3, A3 and A6 | `abelianPicardInputs`, finite-flat torsion and pairings, rational endomorphisms, isogeny factors and realization functoriality. The relative Jacobian and the action of deck correspondences remain actual schemes and maps. |
-| `NeronModelsAndSemistableAbelianVarieties`, §§3.5, 3.10, 3.14; §§4.1–4.4, 4.13; §§5.3, 5.6; §6.10 `StrictCompatibleSystemExport` | Raynaud uniformization and valuation pairing; Pic⁰ of a nodal curve and its graph lattice; compact-type Jacobians; potentially semistable comparison including the residue prime; compatible H¹. The local constancy deduction and the characterwise rank argument in Layer 6 are owned here. |
-| `LefschetzPencilsAndVanishingCycles`, LPV.2 §2.8 and LPV.7a nodal-curve monodromy | Picard–Lefschetz and the local smoothing-order-one transvection. Layer 3 supplies this family's actual cycles, integral marking and common transport, rather than assuming its monodromy is that of a Lefschetz pencil. |
-| `SmallRamificationAndAbelianVarietyBaseCases` §5.0d | Shared `AutomorphicSystemData` for an arbitrary number field and rank, with coefficient field, good polynomials, finite realization fields and labelled Hodge data. Its operations are separate from compatibility predicates. Populate this carrier in §4.1; do not create a competing rank-two carrier. |
-| `PotentialModularityAndCompatibleSystems`, Layer 1 (§§1.1–1.4), together with `AutomorphicGaloisRepresentations` §7.1 | Compatibility predicates, coefficient extension, finite restriction, residual semisimplification and common-polynomial recognition, adapted to the single shared raw carrier above. Potential modularity Layer 5 is a transitive input to the residual-modularity supplier, not a hypothesis on E. |
-| `ArithmeticGaloisRepresentations`, Layers 1–2, §§4.2–4.7, Layers 5–6 | Full WD carrier and conventions; restriction and persistence of an assumed large image, commutators, Goursat, Chebotarev and Brauer–Nesbitt recognition; dual Tate modules and determinant; [§6.1 `TateModule.residualRep`](../ArithmeticGaloisRepresentations/README.md#elliptic-residual-representation) supplies the basis-free action on elliptic p-torsion over each number field, with scalar extension and change of basis. Section 5.1 owns Serre's non-CM elliptic large-prime existence theorem and consumes §§4.4–4.5 for its proof; Layer 7 owns the simultaneous all-character specialization. |
-| `FaltingsFinitenessAndIsogenyTheorems`, R28.4, §§R28.6.2–R28.6.3 and R28.6.5–R28.6.7 | Semisimplicity of the rational Tate representation of an abelian variety, preserved on deck-character summands; for §5.1, the elliptic semisimplicity and Tate Hom comparison, the finiteness of the isogeny class of an elliptic curve over a number field and the infinite cyclic group of homomorphisms to an isogenous curve without extra endomorphisms, and the integral commutant at almost all primes. |
-| `AutomorphicGaloisRepresentations` §3.13 (geometric characters and algebraic Hecke characters), and `AutomorphicGaloisRepresentationsPartII` AG2.0, `AlgHeckeChar.galoisChar` | A continuous rank-one character over a finite extension of Q_ℓ, finitely ramified and de Rham above ℓ, is an algebraic Hecke-character avatar; conversely such avatars have the prescribed labelled Hodge degrees and local class-field parameters. Together with CM endomorphism eigenspaces and common Frobenius polynomials, this supplies the CM comparison in §8.6. No higher-rank Fontaine–Mazur assertion is consumed. |
-| `CrystallineLocalGlobalCompatibilityCM` §§7.5–7.6, 8.7 and 9.1–9.12 | CN's general-rank integral deformation factorization and fixed-determinant refinement; non-neat PGL₂ perfectness and derived augmentation; prepared deformation–Hecke maps with uniform nilpotence, paired support and prepared lifting. The §9.12 export retains `[F(ζ_p):F] ≠ 3` or projective image different from A₄. Section 0.1 supplies the additional preparation branch, and §5.2 consumes that qualified export without copying its arithmetic construction. |
-| LocalGaloisDeformationRings Layers 1–6 and 8; GlobalGaloisDeformations R04.3–R04.6; DeformationAndDerivedPatchingAlgebra §§8.2–8.5 and 9.4–9.7 | Local crystalline/ordinary components, global deformation rings, finite-complex patching, paired residual data and spectral support transport. Layer 0 constructs the distinct AKT ordinary and dyadic arithmetic inputs on these interfaces. |
-| ArithmeticLocallySymmetricSpaces ALS.1.2–ALS.1.7, ALS.4.9 and ALS.5a.6; ModularCurves §0E and §5C; ModularCurvesPartII §§5.13–5.14 | Equivariant Hecke complexes and compactified full-level twists for rational representations and their base changes. Layer 0 supplies GL₂ non-neat non-Eisenstein perfectness, arbitrary-number-field paired twists, rationality and the independent AKT seed. |
-| PadicHodgeTheory §3.6 and §§8.1–8.2, 9.1–9.4; FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1.19, R07.4.19, R07.5 (in particular R07.5.1–R07.5.3) and R07.6.1 | Labelled ordinary flags, proper-smooth/semistable comparisons, Tate's Hodge–Tate decomposition of the Tate module of a p-divisible group, the Kummer crystalline criterion and the images of inertia on E[p] at places of good ordinary and supersingular reduction consumed in §5.1. The independent CM ordinary/dihedral lifting proofs are §0.1; §8.1 proves the automorphic ordinary calculation for all quadratic Steinberg twists. |
-| `AutomorphicGaloisRepresentationsPartII`, AG2.4–AG2.7 | Attached semisimple Galois representations, common good-place polynomials and Varma's underlying semisimplified Weil comparison at v∤ℓ. Full ramified nonselfdual N equality is not an input for an arbitrary intermediate π. Layer 8 derives precisely what it needs. |
-| `InverseGaloisAndArithmeticFundamentalGroups`, IG.0 arithmetic fundamental groups and IG.2 “Hilbert specialization with local conditions” | Hilbert subsets are dense in finite products of local opens on affine space. Apply also to connected finite covers with a constant field. Layer 7 identifies the finite quotient and its constant-field kernel. No Hilbert theorem for an arbitrary variety is assumed. |
-| `GL2AutomorphicRepresentationsAndTransfer`, R16.3–R16.6, R17.4 | prime-cyclic all-place base change (§R17.4.3), descent (§R17.4.4), cyclic-descent fibers, soluble towers and `quadraticInduction` with local compatibility, central character and twists; strong multiplicity one. Used in §§8.4–8.6. |
-| SchemeAndStackFoundations §§0.19, 3.2, 4.13 and 4.18; AlgebraicCurves Layer 7 | Finite normalization, scheme and function-field Riemann–Hurwitz, regular models and nodal families. The two specific blow-up/normalization calculations remain §2.1 targets. |
-| ComplexComparisonPartII §§C5 and C6.6, `adicArtinComparison` | Relative Hodge types and integral/rational singular–étale comparison for proper smooth curves, natural for deck maps and cup products. Use this integral comparison in §3.1, including at ℓ dividing the deck degree. |
-| ShimuraVarieties §5.6, `TauCeti.Shimura.cm_potential_good_reduction` | A full-CM abelian variety has potentially good reduction everywhere once its CM endomorphisms are defined. A retained Tate place in §0.3 therefore excludes geometric CM. |
-| GlobalNumberFields Layer 1; ClassFieldTheory Layer 11 | Weak approximation, completions and the local/global character reciprocity dictionary. Compose arithmetic reciprocity with inversion for the geometric convention used here. |
-
-The seed and lifting statements in §§0.3 and 5.2–5.3 are over CM fields
-and use no modularity theorem over ℚ: the AKT seed is proved by the CM
-dihedral and ordinary lifting theorems of §0.1, and the CN residual
-criterion by §0.3 and §5.2.
-
-The shared carrier’s good polynomials
-do not force descent of a λ-adic representation to M_λ: the specified finite
-realization extension is retained. No comparison is asserted by raw data alone.
-
-The prerequisites include AbelianSchemesAndArithmeticModuli,
-FiniteFlatGroupsAndIntegralPadicHodgeTheory,
-SmallRamificationAndAbelianVarietyBaseCases and PadicHodgeTheory,
-with the contracts above, as well as
-CrystallineLocalGlobalCompatibilityCM. These suppliers precede this
-roadmap in the supplier order. Its typed elliptic and general large-prime
-exports are inputs to the downstream modularity extensions.
-
-The arithmetic statements in `Suggested.lean` use Mathlib's CM fields,
-splitting fields, algebraic closures, finite torsion groups, bases and special
-linear groups, together with Tau Ceti's elliptic endomorphisms, finite-torsion
-Galois action and Weil pairing. The pins are Mathlib
-`6b7abb3c7686292736be2955bd3eb9ebf63b456a` and Tau Ceti
-`a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039`. Matrix transvections, circulants,
-root-of-unity groups and generic character orthogonality already belong to
-the libraries; §§3.3 and 7.1 specify the family's combination `2−u−u⁻¹`
-and its word. Tau Ceti supplies the elliptic Tate Galois representation
-`WeierstrassCurve.tateModuleGaloisRepresentation`; it is consumed through
-ArithmeticGaloisRepresentations, not redeclared with a new carrier.
-
-### Pinned library declarations
-
-| Mathlib declaration | Module and contract |
-|---|---|
-| `Finsupp.single`, `Finsupp.sum` | `Mathlib.Data.Finsupp.Single` and `Mathlib.Data.Finsupp.Defs`: finite point divisors and their finite-support sums. Degree and Abel sum of the particular cover divisor are §1.2. |
-| `RatFunc.mk`, `RatFunc.eval` | `Mathlib.FieldTheory.RatFunc.Defs` and `Mathlib.FieldTheory.RatFunc.AsPolynomial`: polynomial fractions and evaluation after reduction. A zero denominator is totalized; §2.2’s displayed evaluation theorem retains its nonvanishing guards. |
-| `Matrix.circulant`, `Matrix.circulant_apply`, `Matrix.transpose_circulant`, `Matrix.circulant_isSymm_iff` | `Mathlib.LinearAlgebra.Matrix.Circulant`: entry `v(i−j)`, transpose and symmetry. These supply the generic operator API; §3.3 specializes to `2−u−u⁻¹`. |
-| `Matrix.mulVec`, `Matrix.det`, `Matrix.trace` | `Mathlib.Data.Matrix.Mul`, `Mathlib.LinearAlgebra.Matrix.Determinant.Basic`, `Mathlib.LinearAlgebra.Matrix.Trace`: column action, determinant and trace. The family’s word and independent signs are §7.1. |
-| `Polynomial.C`, `Polynomial.X`, `ZMod`, `orderOf`, `Complex.norm_mul`, `star` | Polynomial scalars/variable, cyclic indices, element order and complex norm/conjugation, used in the explicit formulas of §§1.2, 2.2, 3.3, 7.1 and 8.5. |
-| `AlgebraicGeometry.Scheme.Hom.normalization`, `AlgebraicGeometry.Scheme.Hom.normalizationPullback` | `Mathlib.AlgebraicGeometry.Normalization`: relative normalization and its smooth-base-change isomorphism; the input for the actual curve constructions, without asserting their smoothness in advance. |
-| `groupCohomology.H1ofAutOnUnitsUnique` | `Mathlib.RepresentationTheory.Homological.GroupCohomology.Hilbert90`: multiplicative Hilbert 90 for a finite Galois field extension; §0.2 separately proves that its paired projective cocycle has the required lift. |
-
-| Tau Ceti declaration | Meaning and module |
-|---|---|
-| `WeierstrassCurve.tateModuleGaloisRepresentation` | Integral Tate representation; `TauCeti.AlgebraicGeometry.EllipticCurve.TateModule.Galois`. |
-| `TauCeti.det_tateModuleGaloisRepresentation` | Its determinant equals the cyclotomic character, for a separably closed extension and ℓ invertible in that field; `TauCeti.AlgebraicGeometry.EllipticCurve.TateModule.Determinant`. Rationalization and duality transport this supplied identity. |
-| `TauCeti.AlgebraicGeometry.SchemeWeilDivisor.classGroupAddEquivLineBundleClass` | Weil divisor classes and line-bundle classes under the curve/DVR hypotheses stated below; `TauCeti.AlgebraicGeometry.WeilDivisor.Scheme.Picard`. |
-| `TauCeti.AlgebraicGeometry.SchemeWeilDivisor.classGroupPicZeroAddEquivPicZero` | Degree-zero restriction under properness and the finite-dimensional H¹ hypothesis; `TauCeti.AlgebraicGeometry.WeilDivisor.Scheme.PicZero`. |
-| `TauCeti.AlgebraicGeometry.rigidifiedPicardFunctor` | Picard functor rigidified along a section; `TauCeti.AlgebraicGeometry.PicardFunctor.Rigidified`. |
-
-The twist formulas and their point/Galois comparison are
-`WeierstrassCurve.quadraticTwistOf`, `WeierstrassCurve.quadraticTwist`,
-`WeierstrassCurve.quadraticTwistPointEquiv` and
-`WeierstrassCurve.quadraticTwistPointEquiv_map_eq_quadraticCharacter_smul_map`
-in `TauCeti.AlgebraicGeometry.EllipticCurve.QuadraticTwist.Basic`.
-They supply the actual twist rather than a second construction here.
-The scheme Picard equivalences above use a Noetherian integral curve with DVR
-codimension-one local rings; the degree-zero comparison also requires
-properness and finite-dimensional H¹ of the trivial invertible sheaf.
-Rigidification requires a section. These class-group equivalences do not
-assert that every rational point of an unpointed Jacobian descends to a
-rational divisor. JacobianChallenge Layer D supplies the relative Picard
-scheme of a curve without a rational point used in §4.2.
-
-## How to read the build
-
-| Layer | Output used next |
-|---|---|
-| 0 | Supplied CN arithmetic inputs, AKT ordinary/dyadic additions, cyclotomic preparation, paired twists, the independent elliptic seed and prescribed-type outputs. |
-| 1 | Normalized cyclic covers of the twist, with compatible quotient maps and reflection. |
-| 2 | Compact-type fiber E^m and the second nodal fiber with m smoothing-order-one nodes. |
-| 3 | Integral regular-module marking and two opposite monodromies in a common basis. |
-| 4 | Rank-two character systems, elliptic endpoints and integral congruence chain. |
-| 5 | Full CN lifting, the independent residual criterion and the auxiliary-prime choice. |
-| 6 | Nonempty local parameter opens preserving the required three potential reduction types. |
-| 7 | One Hilbert specialization giving every residual and local condition simultaneously. |
-| 8 | Initial seed, three lifts, descent, all-place comparison and the CM alternatives. |
-
-Each named target below has its hypotheses, proof route and prerequisites in
-its subsection. “API” names the usable outputs of a definition or construction;
-“Checks” distinguishes it from plausible incorrect versions. Page numbers are
-printed pages of the fixed sources in References. Layer 3 is integral even at
-coefficient primes dividing the cover degree. That integrality is the reason
-the route can change primes at Layer 4.
 
 ## Layer 0: Independent lifting and arithmetic bridges
 
@@ -2430,6 +2286,150 @@ F; §8.2 is not reused over an arbitrary CM K.
 There is no quantitative height bound for the chosen parameter, no
 algorithm for constructing the automorphic form, and no finite arithmetic
 certificate required by the proof route. Those are separate questions.
+
+## Scope and ownership
+
+This roadmap owns the specific covers of quadratic twists of E, their two
+semistable degenerations, the integral regular-module calculation, the four
+rank-two character systems and their congruences, and the simultaneous
+specialization and automorphy propagation arguments. The geometry, integral
+congruences and local specialization results are stated over arbitrary number
+fields wherever their proofs permit. Imaginary quadraticity enters the final
+choice of a CM cyclotomic extension and its descent, not the definition of the
+covers.
+
+CrystallineLocalGlobalCompatibilityCM owns CN's integral local–global
+comparison, fixed-determinant refinement, non-neat PGL₂ complexes, prepared
+patching and qualified lifting theorem. Layer 0 retains the distinct AKT
+GL₂/dyadic and general-weight ordinary inputs and the independent elliptic
+seed. Its preparation dichotomy supplies the additional cyclotomic branch
+used to recover unrestricted lifting in §5.2. Section 0.3 owns the
+prescribed-type elliptic construction, including its cohomological and
+non-CM outputs; §5.1 owns Serre's theorem that a geometrically non-CM
+elliptic curve over a number field has mod-p image containing SL₂(𝔽_p)
+for all but finitely many p, as the target
+`nonCM_elliptic_large_residual_primes`; the all-but-finitely-many form is
+owned here because ModularityAndLanglandsExtensions §2.18 consumes its
+finite exceptional set. AdelicImagesAndModularCurves §4.3
+states the stronger surjectivity onto GL₂(𝔽_ℓ) for all but finitely many
+ℓ; its own inputs lie beyond this roadmap in the supplier order, so that
+statement is downstream of the inclusion owned here and supplies nothing
+to §5.1. ModularityAndLanglandsExtensions §§2.18 and 2.29 are downstream
+adapters of these outputs, retaining that roadmap's additional
+ordinary-prime density and progression arguments.
+Jacobians, semistable abelian varieties, vanishing cycles,
+Hilbert irreducibility, Galois representations, local Langlands and automorphic
+transfer also retain their existing owners. A generic cyclic-cover theorem or
+a general potential-modularity theorem is not rebuilt here. The mathematical
+work here proves the hypotheses of those interfaces for this family and
+transports the resulting realization to the next coefficient prime.
+
+The starting theorem for an auxiliary elliptic curve is the residual criterion
+of Caraiani–Newton §6.1, assembled from these suppliers in §5.3; their exceptional modular-curve analysis in §7 is not
+used. In particular the auxiliary curve's modularity is proved before the
+three new lifts, independently of the desired modularity of E.
+
+The definitions of smooth proper curves, relative Jacobians, continuous
+compatible systems and automorphic representations use the supplier carriers
+below. Their source-specific constructions are targets on those geometric carriers.
+`Suggested.lean` declares `cm_discriminant_descent`, `discriminant_coupling`,
+`nonCM_elliptic_large_residual_primes` and `SymplecticTorsionEquiv`. The first
+three are headline arithmetic statements; the last defines the actual
+Galois-equivariant, pairing-preserving torsion isomorphisms needed for coupling.
+The other named targets specify mathematical interfaces in this README.
+The module docstring identifies the geometric, cohomological and automorphic
+objects absent at the pins that prevent stating the remaining headline results.
+
+## Exact supplier contracts
+
+The named outputs below are consumed with their hypotheses. Roadmap interfaces are mathematical targets of their named owners; library declarations below are available at the stated pins. The quadratic-twist layer and relative Picard interfaces have those same owners.
+
+| Supplier and exact location | Contract consumed; use in this roadmap |
+|---|---|
+| `EllipticCurves`, Layers 1–4, Layer 4.5a “invariant theory over a Dedekind domain” and Layer 5 “twists” | `quadraticTwistOf`, `quadraticTwist`, `quadraticTwistPointEquiv` and Galois compatibility; torsion, Weil pairing, Tate duality, local reduction and the integral-j criterion for potential good reduction. Use the curve/equation and local-minimal-model comparisons for the reduction conditions in §0.3, the existing twist in §1.1 and its quadratic character in §8.4. The main CM theorem is not supplied by its CM-action vocabulary. |
+| `JacobianChallenge`, Layers A–D and F | Divisors, Abel's criterion, Riemann–Roch, Pic⁰ and pullback/norm. Pic⁰ exists for a smooth proper geometrically connected curve without a rational point; its identification with the curve requires a point. Used in §§1.2, 4.2. |
+| `AbelianSchemesAndArithmeticModuli`, A0.3, A3 and A6 | `abelianPicardInputs`, finite-flat torsion and pairings, rational endomorphisms, isogeny factors and realization functoriality. The relative Jacobian and the action of deck correspondences remain actual schemes and maps. |
+| `NeronModelsAndSemistableAbelianVarieties`, §§3.5, 3.10, 3.14; §§4.1–4.4, 4.13; §§5.3, 5.6; §6.10 `StrictCompatibleSystemExport` | Raynaud uniformization and valuation pairing; Pic⁰ of a nodal curve and its graph lattice; compact-type Jacobians; potentially semistable comparison including the residue prime; compatible H¹. The local constancy deduction and the characterwise rank argument in Layer 6 are owned here. |
+| `LefschetzPencilsAndVanishingCycles`, LPV.2 §2.8 and LPV.7a nodal-curve monodromy | Picard–Lefschetz and the local smoothing-order-one transvection. Layer 3 supplies this family's actual cycles, integral marking and common transport, rather than assuming its monodromy is that of a Lefschetz pencil. |
+| `SmallRamificationAndAbelianVarietyBaseCases` §5.0d | Shared `AutomorphicSystemData` for an arbitrary number field and rank, with coefficient field, good polynomials, finite realization fields and labelled Hodge data. Its operations are separate from compatibility predicates. Populate this carrier in §4.1; do not create a competing rank-two carrier. |
+| `PotentialModularityAndCompatibleSystems`, Layer 1 (§§1.1–1.4), together with `AutomorphicGaloisRepresentations` §7.1 | Compatibility predicates, coefficient extension, finite restriction, residual semisimplification and common-polynomial recognition, adapted to the single shared raw carrier above. Potential modularity Layer 5 is a transitive input to the residual-modularity supplier, not a hypothesis on E. |
+| `ArithmeticGaloisRepresentations`, Layers 1–2, §§4.2–4.7, Layers 5–6 | Full WD carrier and conventions; restriction and persistence of an assumed large image, commutators, Goursat, Chebotarev and Brauer–Nesbitt recognition; dual Tate modules and determinant; [§6.1 `TateModule.residualRep`](../ArithmeticGaloisRepresentations/README.md#elliptic-residual-representation) supplies the basis-free action on elliptic p-torsion over each number field, with scalar extension and change of basis. Section 5.1 owns Serre's non-CM elliptic large-prime existence theorem and consumes §§4.4–4.5 for its proof; Layer 7 owns the simultaneous all-character specialization. |
+| `FaltingsFinitenessAndIsogenyTheorems`, R28.4, §§R28.6.2–R28.6.3 and R28.6.5–R28.6.7 | Semisimplicity of the rational Tate representation of an abelian variety, preserved on deck-character summands; for §5.1, the elliptic semisimplicity and Tate Hom comparison, the finiteness of the isogeny class of an elliptic curve over a number field and the infinite cyclic group of homomorphisms to an isogenous curve without extra endomorphisms, and the integral commutant at almost all primes. |
+| `AutomorphicGaloisRepresentations` §3.13 (geometric characters and algebraic Hecke characters), and `AutomorphicGaloisRepresentationsPartII` AG2.0, `AlgHeckeChar.galoisChar` | A continuous rank-one character over a finite extension of Q_ℓ, finitely ramified and de Rham above ℓ, is an algebraic Hecke-character avatar; conversely such avatars have the prescribed labelled Hodge degrees and local class-field parameters. Together with CM endomorphism eigenspaces and common Frobenius polynomials, this supplies the CM comparison in §8.6. No higher-rank Fontaine–Mazur assertion is consumed. |
+| `CrystallineLocalGlobalCompatibilityCM` §§7.5–7.6, 8.7 and 9.1–9.12 | CN's general-rank integral deformation factorization and fixed-determinant refinement; non-neat PGL₂ perfectness and derived augmentation; prepared deformation–Hecke maps with uniform nilpotence, paired support and prepared lifting. The §9.12 export retains `[F(ζ_p):F] ≠ 3` or projective image different from A₄. Section 0.1 supplies the additional preparation branch, and §5.2 consumes that qualified export without copying its arithmetic construction. |
+| LocalGaloisDeformationRings Layers 1–6 and 8; GlobalGaloisDeformations R04.3–R04.6; DeformationAndDerivedPatchingAlgebra §§8.2–8.5 and 9.4–9.7 | Local crystalline/ordinary components, global deformation rings, finite-complex patching, paired residual data and spectral support transport. Layer 0 constructs the distinct AKT ordinary and dyadic arithmetic inputs on these interfaces. |
+| ArithmeticLocallySymmetricSpaces ALS.1.2–ALS.1.7, ALS.4.9 and ALS.5a.6; ModularCurves §0E and §5C; ModularCurvesPartII §§5.13–5.14 | Equivariant Hecke complexes and compactified full-level twists for rational representations and their base changes. Layer 0 supplies GL₂ non-neat non-Eisenstein perfectness, arbitrary-number-field paired twists, rationality and the independent AKT seed. |
+| PadicHodgeTheory §3.6 and §§8.1–8.2, 9.1–9.4; FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1.19, R07.4.19, R07.5 (in particular R07.5.1–R07.5.3) and R07.6.1 | Labelled ordinary flags, proper-smooth/semistable comparisons, Tate's Hodge–Tate decomposition of the Tate module of a p-divisible group, the Kummer crystalline criterion and the images of inertia on E[p] at places of good ordinary and supersingular reduction consumed in §5.1. The independent CM ordinary/dihedral lifting proofs are §0.1; §8.1 proves the automorphic ordinary calculation for all quadratic Steinberg twists. |
+| `AutomorphicGaloisRepresentationsPartII`, AG2.4–AG2.7 | Attached semisimple Galois representations, common good-place polynomials and Varma's underlying semisimplified Weil comparison at v∤ℓ. Full ramified nonselfdual N equality is not an input for an arbitrary intermediate π. Layer 8 derives precisely what it needs. |
+| `InverseGaloisAndArithmeticFundamentalGroups`, IG.0 arithmetic fundamental groups and IG.2 “Hilbert specialization with local conditions” | Hilbert subsets are dense in finite products of local opens on affine space. Apply also to connected finite covers with a constant field. Layer 7 identifies the finite quotient and its constant-field kernel. No Hilbert theorem for an arbitrary variety is assumed. |
+| `GL2AutomorphicRepresentationsAndTransfer`, R16.3–R16.6, R17.4 | prime-cyclic all-place base change (§R17.4.3), descent (§R17.4.4), cyclic-descent fibers, soluble towers and `quadraticInduction` with local compatibility, central character and twists; strong multiplicity one. Used in §§8.4–8.6. |
+| SchemeAndStackFoundations §§0.19, 3.2, 4.13 and 4.18; AlgebraicCurves Layer 7 | Finite normalization, scheme and function-field Riemann–Hurwitz, regular models and nodal families. The two specific blow-up/normalization calculations remain §2.1 targets. |
+| ComplexComparisonPartII §§C5 and C6.6, `adicArtinComparison` | Relative Hodge types and integral/rational singular–étale comparison for proper smooth curves, natural for deck maps and cup products. Use this integral comparison in §3.1, including at ℓ dividing the deck degree. |
+| ShimuraVarieties §5.6, `TauCeti.Shimura.cm_potential_good_reduction` | A full-CM abelian variety has potentially good reduction everywhere once its CM endomorphisms are defined. A retained Tate place in §0.3 therefore excludes geometric CM. |
+| GlobalNumberFields Layer 1; ClassFieldTheory Layer 11 | Weak approximation, completions and the local/global character reciprocity dictionary. Compose arithmetic reciprocity with inversion for the geometric convention used here. |
+
+The seed and lifting statements in §§0.3 and 5.2–5.3 are over CM fields
+and use no modularity theorem over ℚ: the AKT seed is proved by the CM
+dihedral and ordinary lifting theorems of §0.1, and the CN residual
+criterion by §0.3 and §5.2.
+
+The shared carrier’s good polynomials
+do not force descent of a λ-adic representation to M_λ: the specified finite
+realization extension is retained. No comparison is asserted by raw data alone.
+
+The prerequisites include AbelianSchemesAndArithmeticModuli,
+FiniteFlatGroupsAndIntegralPadicHodgeTheory,
+SmallRamificationAndAbelianVarietyBaseCases and PadicHodgeTheory,
+with the contracts above, as well as
+CrystallineLocalGlobalCompatibilityCM. These suppliers precede this
+roadmap in the supplier order. Its typed elliptic and general large-prime
+exports are inputs to the downstream modularity extensions.
+
+The arithmetic statements in `Suggested.lean` use Mathlib's CM fields,
+splitting fields, algebraic closures, finite torsion groups, bases and special
+linear groups, together with Tau Ceti's elliptic endomorphisms, finite-torsion
+Galois action and Weil pairing. The pins are Mathlib
+`6b7abb3c7686292736be2955bd3eb9ebf63b456a` and Tau Ceti
+`a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039`. Matrix transvections, circulants,
+root-of-unity groups and generic character orthogonality already belong to
+the libraries; §§3.3 and 7.1 specify the family's combination `2−u−u⁻¹`
+and its word. Tau Ceti supplies the elliptic Tate Galois representation
+`WeierstrassCurve.tateModuleGaloisRepresentation`; it is consumed through
+ArithmeticGaloisRepresentations, not redeclared with a new carrier.
+
+### Pinned library declarations
+
+| Mathlib declaration | Module and contract |
+|---|---|
+| `Finsupp.single`, `Finsupp.sum` | `Mathlib.Data.Finsupp.Single` and `Mathlib.Data.Finsupp.Defs`: finite point divisors and their finite-support sums. Degree and Abel sum of the particular cover divisor are §1.2. |
+| `RatFunc.mk`, `RatFunc.eval` | `Mathlib.FieldTheory.RatFunc.Defs` and `Mathlib.FieldTheory.RatFunc.AsPolynomial`: polynomial fractions and evaluation after reduction. A zero denominator is totalized; §2.2’s displayed evaluation theorem retains its nonvanishing guards. |
+| `Matrix.circulant`, `Matrix.circulant_apply`, `Matrix.transpose_circulant`, `Matrix.circulant_isSymm_iff` | `Mathlib.LinearAlgebra.Matrix.Circulant`: entry `v(i−j)`, transpose and symmetry. These supply the generic operator API; §3.3 specializes to `2−u−u⁻¹`. |
+| `Matrix.mulVec`, `Matrix.det`, `Matrix.trace` | `Mathlib.Data.Matrix.Mul`, `Mathlib.LinearAlgebra.Matrix.Determinant.Basic`, `Mathlib.LinearAlgebra.Matrix.Trace`: column action, determinant and trace. The family’s word and independent signs are §7.1. |
+| `Polynomial.C`, `Polynomial.X`, `ZMod`, `orderOf`, `Complex.norm_mul`, `star` | Polynomial scalars/variable, cyclic indices, element order and complex norm/conjugation, used in the explicit formulas of §§1.2, 2.2, 3.3, 7.1 and 8.5. |
+| `AlgebraicGeometry.Scheme.Hom.normalization`, `AlgebraicGeometry.Scheme.Hom.normalizationPullback` | `Mathlib.AlgebraicGeometry.Normalization`: relative normalization and its smooth-base-change isomorphism; the input for the actual curve constructions, without asserting their smoothness in advance. |
+| `groupCohomology.H1ofAutOnUnitsUnique` | `Mathlib.RepresentationTheory.Homological.GroupCohomology.Hilbert90`: multiplicative Hilbert 90 for a finite Galois field extension; §0.2 separately proves that its paired projective cocycle has the required lift. |
+
+| Tau Ceti declaration | Meaning and module |
+|---|---|
+| `WeierstrassCurve.tateModuleGaloisRepresentation` | Integral Tate representation; `TauCeti.AlgebraicGeometry.EllipticCurve.TateModule.Galois`. |
+| `TauCeti.det_tateModuleGaloisRepresentation` | Its determinant equals the cyclotomic character, for a separably closed extension and ℓ invertible in that field; `TauCeti.AlgebraicGeometry.EllipticCurve.TateModule.Determinant`. Rationalization and duality transport this supplied identity. |
+| `TauCeti.AlgebraicGeometry.SchemeWeilDivisor.classGroupAddEquivLineBundleClass` | Weil divisor classes and line-bundle classes under the curve/DVR hypotheses stated below; `TauCeti.AlgebraicGeometry.WeilDivisor.Scheme.Picard`. |
+| `TauCeti.AlgebraicGeometry.SchemeWeilDivisor.classGroupPicZeroAddEquivPicZero` | Degree-zero restriction under properness and the finite-dimensional H¹ hypothesis; `TauCeti.AlgebraicGeometry.WeilDivisor.Scheme.PicZero`. |
+| `TauCeti.AlgebraicGeometry.rigidifiedPicardFunctor` | Picard functor rigidified along a section; `TauCeti.AlgebraicGeometry.PicardFunctor.Rigidified`. |
+
+The twist formulas and their point/Galois comparison are
+`WeierstrassCurve.quadraticTwistOf`, `WeierstrassCurve.quadraticTwist`,
+`WeierstrassCurve.quadraticTwistPointEquiv` and
+`WeierstrassCurve.quadraticTwistPointEquiv_map_eq_quadraticCharacter_smul_map`
+in `TauCeti.AlgebraicGeometry.EllipticCurve.QuadraticTwist.Basic`.
+They supply the actual twist rather than a second construction here.
+The scheme Picard equivalences above use a Noetherian integral curve with DVR
+codimension-one local rings; the degree-zero comparison also requires
+properness and finite-dimensional H¹ of the trivial invertible sheaf.
+Rigidification requires a section. These class-group equivalences do not
+assert that every rational point of an unpointed Jacobian descends to a
+rational divisor. JacobianChallenge Layer D supplies the relative Picard
+scheme of a curve without a rational point used in §4.2.
 
 
 ## References
