@@ -55,6 +55,7 @@ body:
         - ArithmeticStatisticsPartIV
         - AsymptoticExpansions
         - AutomorphicFormsOnReductiveGroups
+        - AutomorphicGaloisRepresentationsPartII
         - AutomorphicLFunctionsAndLocalFactors
         - AutomorphicSpectralTheory
         - BallQuotientsAndComplexHyperbolicLattices
@@ -95,6 +96,7 @@ body:
         - CountableModelCounting
         - CountableStructureSpaces
         - CrystallineCohomology
+        - CrystallineCohomologyPartII
         - CyclotomicClassGroupsAndStickelberger
         - DGAInfinity
         - DGFloer
