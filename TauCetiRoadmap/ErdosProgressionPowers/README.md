@@ -1,49 +1,38 @@
 # Roadmap: perfect powers in primitive arithmetic progressions
 
-**Summary.** Build a general library of signed progression factorizations, Frey specializations, quadratic characters and effective analytic estimates on Mathlib’s arithmetic and elliptic carriers. Use a common modular spine and two analytic endgames to bound prime exponents by exp(10^k) above an effective absolute length threshold, then prove fixed-length finiteness for all exponents by the signed diagonal-curve adapter. The central equation is
+**Summary.** This roadmap studies the equation
 
-`prod_{0 <= i < k} (n + i*d) = y^ell`, with `gcd(n,d) = 1`.
+`prod_{0 <= i < k} (n + i*d) = y^ell`, with `gcd(n,d) = 1`,
 
-The main theorem supplies an effectively computable absolute integer `k_0 >= 5`
-such that a solution with positive length `k >= k_0` and prime exponent `ell`
-has `yd=0` or `ell <= exp(10^k)`. The integers `n,d,y` may have either
-sign. For each fixed sufficiently large `k`, this bound combines with
-fixed-exponent rational-point finiteness to give finitely many nontrivial solutions
-with arbitrary exponent at least two. In particular it gives finiteness in the
-positive domain of the classical progression problem.
+which asks when the product of `k` consecutive terms of a primitive arithmetic progression is a perfect power. The integers `n, d, y` may have either sign. Erdős conjectured that for positive progressions there are no solutions once the length is large; Layer 7 states that conjecture precisely but neither proves it nor uses it.
 
-The development follows Bennett–Siksek [BS20], Theorem 2, printed p. 357. It
-retains two proofs after a common modular spine. The original proof combines
-smooth-conductor character estimates, a thin-prime sieve and quantitative Roth.
-Granville's addendum constructs a single small conductor outside an exceptional
-set of moduli and uses an explicit formula. Having both routes makes their different
-analytic requirements visible. Both take their character estimates from the
-uniform exclusion of Landau–Siegel zeros (AnalyticNumberTheoryPartI §0.34), so
-neither has an exceptional-character branch, a small-conductor zero computation
-or an ineffective constant. The finiteness application uses Darmon–Granville
-[DG95], Corollary 2.1 and its proof, printed pp. 520–521.
+The main theorem is that of Bennett and Siksek [BS20, Theorem 2]. There is an effectively computable absolute integer `k_0 >= 5` such that a solution with length `k >= k_0` and prime exponent `ell` has `yd = 0` or `ell <= exp(10^k)`. The character estimates in its proof come from the uniform exclusion of Landau–Siegel zeros in AnalyticNumberTheoryPartI, so no exceptional character needs separate treatment and no constant is ineffective. Several explicit prime estimates below `exp(10000)` are stated inputs from that roadmap, and the theorems using them are conditional on those inputs until it proves them.
 
-The exponent in the bound is `10^k`. The assertion concerns each fixed large
-length. An effective threshold for the prime-exponent theorem does not give an
-effective enumeration of Faltings points. The stronger Erdős assertion of
-nonexistence for all sufficiently large lengths belongs to the statement Layer 7; it supplies no premise to the proofs in Layers 0–6.
+With the theorem of Faltings, applied to Darmon and Granville's diagonal curves [DG95, Corollary 2.1], the exponent bound gives finiteness for each fixed length. For fixed `k >= 3` and `ell >= 2` with `2*ell + k < k*ell`, there are finitely many coprime `(n,d,y)` with `yd != 0`. For positive progressions the same holds whenever `k + ell >= 6`; the two boundary cases, a four-term square and a three-term cube, are excluded by Euler's descents. Hence, for each fixed `k >= k_0`, there are only finitely many nontrivial solutions with arbitrary exponent at least two. This is not finiteness as the length varies, and an effective threshold for the exponent does not give an effective enumeration of the solutions. The roadmap also proves the theorem of Erdős and Selfridge: a product of two or more consecutive positive integers is never a perfect power.
+
+The exponent bound is proved as follows. If `ell > exp(10^k)` and `k >= 10^8`, every prime in the half interval `(k/2, k]` divides `d`. To each triple of terms in arithmetic progression one attaches a Frey elliptic curve. Level lowering and Kraus's realization theorem replace it by a curve with full rational two-torsion at a reduced level and the same residual representation modulo `ell`. At the half-interval primes this curve has good reduction, with trace zero at primes congruent to 3 modulo 4. A Legendre case analysis turns this into a primitive quadratic character for each triple whose von Mangoldt sum over `(k/2, k]` exceeds `0.1239k` in absolute value. The odd part of its conductor is squarefree and divides the small-prime parts of the three terms.
+
+The contradiction is Granville's argument [BS20, §12]. A bounded-height zero-free region and a log-free zero-density estimate show that the moduli up to `k^4` with an L-function zero of bounded height near `Re s = 1` are few, and each of them is large. A counting argument selects one triple, no term of which is divisible by a large divisor of such a modulus, whose character has conductor at most `k^4`. That conductor is then not exceptional, and the explicit formula bounds the character sum by a constant times `k/log k`, which is impossible for large `k`.
+
+Besides AnalyticNumberTheoryPartI, the roadmap builds on EllipticCurveModularityPartII for Kraus's realization theorem and the irreducibility of the residual representations, on SerreWeightAndLevelOptimisation for level lowering, and on HeightsRationalPointsAndObstructions for the finiteness of rational points on curves of genus at least two.
+
+Layer 0 sets up the signed factorization of the terms and the prime estimates. Layer 1 builds the Frey curves and the comparison curve; Layer 2 builds the character family. Layer 4 proves maximal-valuation deletion and an explicit Stirling bound. Layer 5 is Granville's argument. Layer 6 proves the exponent bound and the finiteness theorems, and Layer 7 the theorem of Erdős and Selfridge with the conjectural statements.
 
 Suggested home: `TauCeti/NumberTheory/ProgressionPowers/`. Use individual files
-for the arithmetic, the two Frey specializations, the character family and the two
-analytic endgames. The README specifies the mathematics. `Suggested.lean` states the headline
+for the arithmetic, the two Frey specializations, the character family and the
+analytic argument. The README specifies the mathematics. `Suggested.lean` states the headline
 theorems against the pinned APIs, with only the simple definitions their
 statements require; the supporting theory and Checks are specified here.
 
 ## How to read the build
 
-Layer 0 constructs signed factors, finite index sets and the factorial adapter
+Layer 0 constructs signed factors, finite index sets and the adapter
 to the supplied prime estimates. Layer 1 specializes the supplied residual and
 conductor invariants before building the modular comparisons for both Frey families.
 Layer 2 applies the supplied Legendre interfaces and builds the simultaneous character family.
-Layer 3 supplies effective analytic inputs and the two original-route criteria;
-Layer 4 supplies quantitative Roth, sieve densities and that route's assembly.
+Layer 4 supplies maximal-valuation deletion and the explicit Stirling bound.
 Layer 5 builds the bounded-height zero estimates and a single Granville witness.
-Layer 6 combines either route with the signed geometric adapter for fixed-length
+Layer 6 combines that route with the signed geometric adapter for fixed-length
 finiteness. Layer 7 proves the independent consecutive-product theorem and records
 explicit conjectural predicates; it supplies no
 premise to Layers 0–6. Each simultaneous choice satisfies all its properties
@@ -313,17 +302,7 @@ and the Euler-product bound retains PrimeProductFiniteInput.
 Unconditional applications require gap:schoenfeld-theta-finite-range,
 gap:rosser-schoenfeld-prime-count-finite-range, gap:mod-eight-theta-finite-range
 and gap:prime-product-finite-range. These generic
-estimates are consumed; the local target is their progression factorial adapter.
-
-Under SchoenfeldFiniteRangeInput, prove for natural k≥exp(exp(10⁷)) that
-∑_(p prime, k^(7/16)<p≤k) v_p((k−1)!) log p≥(9/16)k log k−5k
-(BS20, §9, p. 384; Tenenbaum1995, Theorem 5;
-RosserSchoenfeld1962, Theorem 6). For a=k^(7/16), use the supplied
-weighted-prime interval bound and Legendre's factorial valuation formula.
-The lower bound is
-(k−1)[(9/16)log k−1/(2 log k)−8/(7 log k)]−1.000081k,
-which is at least (9/16)k log k−5k on this domain.
-The same E cancels at both endpoints, each exceeding 319.
+estimates are consumed; the local target is the divisor bound below.
 
 For ε>0, use AnalyticNumberTheoryPartI §3.1 at ε/2 to obtain
 τ(n)≤C_ε n^(ε/2) for all n>0, with effective C_ε≥1. Then
@@ -840,160 +819,9 @@ The parameter −1 lies in Case II. At λ=1/2 the twist-by-2 witness is (1+i,−
 
 Layers 0–1; ModularCurves §4C; EllipticLegendreCharacterInterfaces Layers 0–5; EllipticCurveModularityPartII §6.18 (EC.5); EllipticCurves Layers 3, 5–6; ClassicalArithmeticCompletion §§1.51 and 4.41; ImaginaryQuadraticClassNumber H3.1. The numerical projections use Layer 0 prime estimates independently of the later character criteria.
 
-## Layer 3: The original analytic contradiction criteria
+## Layer 4: Maximal-valuation deletion and the Stirling bound
 
-Prove the progression-specific harmonic criterion in the single-character form that the exclusion of Landau–Siegel zeros gives: one triple with P(N_a)<(log k)^(1-c1) already bounds k, retaining effective dependence on 0<c1<1 and decay exponent min(c1,1/2); this contains Proposition 7.2's form for pairwise distinct largest conductor primes with reciprocal mass at least 0.166. Prove the distinct-character criterion of Proposition 8.1 for more than 17 log k characters, P(N_a)≤k^(7/16) and N_a<k^c2 with c2>10. Consume the exception-free effective character PNT, pairwise smooth-modulus cancellation and the diagonal/off-diagonal Gram inequality of SieveMethodsAndPrimePatterns §0.4; no exceptional-zero repulsion or small-conductor zero computation enters. Apply the exact diagonal/off-diagonal bounds and the margin 1/68<0.1239^2.
-
-### 3.1 General effective analytic inputs
-
-Define the weighted half-interval sum W(k,value) by ∑_(floor(k/2)<m≤k) value(m)Λ(m). Prove additivity of the weighted half-interval sum, its value at the zero weight and its compatibility with the prime sum plus the prime-power tail.
-
-**Checks.**
-
-- At k=0 the interval is empty and the sum is 0.
-- At k=2 with value identically 1, the result is log 2; the upper endpoint is included.
-- At k=1 with value identically 1, the result is 0 since Λ(1)=0; treating 1 as a prime gives a wrong weight.
-- W(4,1)=log 3+log 2: the contribution of 4 is log 2, not zero.
-
-Consume AnalyticNumberTheoryPartI §0.18's exception-free effective character
-PNT: for a primitive nonprincipal χ of conductor N>1 and real X≥X₀,
-|∑_(m≤X)χ(m)Λ(m)|≤C X exp(−c log X/(√(log X)+log N))(log N)⁴, with
-effective absolute c,C>0 and X₀ chosen before χ. It carries no term
-−X^β/β: by the uniform exclusion of Landau–Siegel zeros,
-AnalyticNumberTheoryPartI §0.34, every real zero β∈(0,1) of a primitive
-nonprincipal real L-function of conductor N≥3 has (1−β)log N≥c_LS, so the
-exceptional-zero predicate of AnalyticNumberTheoryPartI §0.1 is empty at
-every width 0<c≤c_LS. No exceptional character, exceptional conductor or
-conductor repulsion enters this layer, and no small-conductor real-zero
-computation is consumed. Subtracting at k and k/2 gives the half-interval
-form: for k≥2X₀,
-|W(k,χ)|≤2C k exp(−c log(k/2)/(√(log k)+log N))(log N)⁴.
-No GRH premise is used. (BS20, §7, equations (23)–(26), pp. 373–374, where
-the exceptional term is still present.)
-
-Prove the smooth-modulus character-sum bound: for r≥1, positive integer moduli
-q₁,…,qᵣ, complex Dirichlet characters πᵢ modulo qᵢ, q=q₁>1 squarefree,
-π₁ primitive and gcd(q,q₂⋯qᵣ)=1, every integer M and positive real R with
-R≥max(q₂,…,qᵣ,q^(1/4))*q^(5/4) satisfy
-|∑_(m∈ℤ, M<m≤M+R)∏ᵢπᵢ(m mod qᵢ)|≤4R*(τ(q)^(r²)/q)^(2^(−r)).
-The maximum includes q^(1/4), also when r=1; τ(q) is q.divisors.card,
-and all fractional powers are real. (BS20, Theorem 6, pp. 376–377;
-IwaniecKowalski2004, Theorem 12.13.) Distinctness in
-the smooth-character correlation bound means inequality of the pulled-back functions
-ℤ→ℝ, so it is meaningful at different conductors.
-
-Prove the smooth-character correlation bound:
-for fixed c₂>0 there are effective c₃>0 and K such that for k≥K,
-distinct primitive quadratic characters with positive conductors N₁,N₂≤k^c₂ and
-largest prime factors at most k^(7/16) satisfy
-|∑_(k/2<m≤k)χ₁(m mod N₁)χ₂(m mod N₂)|≤k^(1−c₃). Use the smooth-modulus character-sum bound, the coprime-character product and exclusion
-identities, bounded CRT blocks and finite differencing before this specialization.
-The ambient product modulus and primitive product conductor remain distinct;
-principal components are retained. CRT and differencing alone do not prove the
-cancellation theorem. (BS20, Proposition 8.2 and its proof, pp. 376–379;
-equations (32)–(35), pp. 379–380.)
-
-Prove the conductor–largest-prime comparison: if N>1 is the conductor of a
-primitive quadratic character, then N≤4·exp(θ(P(N))), hence
-log N≤log 4·(1+P(N)). The odd part of N is squarefree with all prime factors
-odd and at most P(N), and the dyadic part is 1, 4 or 8
-(ClassicalArithmeticCompletion §1.51), so N≤8·exp(θ(P(N)))/2; then apply
-Mathlib `Chebyshev.theta_le_log4_mul_x`. N=1 is excluded. The comparison has
-no numerical input: the sharper 0.94 log N<P(N) of BS20, Lemma 7.3, p. 375,
-serves only the exceptional-character branch of BS20's harmonic criterion,
-which AnalyticNumberTheoryPartI §0.34 rules out.
-
-**Checks.**
-
-- At conductors 8 and 24 the bound N≤4·exp(θ(P(N))) is an equality: 8=4·2 and 24=4·6. Replacing the factor 4 by 2 loses conductor 8.
-- N=1 is excluded from the conductor estimate, independently of the total library convention for P(1); it cannot supply a positive logarithmic denominator.
-- N=16 is not a primitive quadratic conductor; it would violate the bound, since 16>4·exp(θ(2))=8, so its dyadic part cannot be admitted merely because its odd part is squarefree.
-- The half-interval PNT bound needs k≥2X₀, so that both endpoints k and k/2 lie in the range of AnalyticNumberTheoryPartI §0.18.
-- The principal character has a main term of order k and is excluded from a nonprincipal PNT error estimate.
-- Equal characters have diagonal correlation of order k and are excluded from the strict off-diagonal power saving.
-
-*Needs:* AnalyticNumberTheoryPartI §0.34 through its corollary §0.18, the exception-free character PNT; the smooth-modulus character-sum bound for the correlation specialization; ClassicalArithmeticCompletion §1.51 for quadratic-conductor support; Mathlib `Chebyshev.theta_le_log4_mul_x`, continued L-functions and prime arithmetic; §0.9's prime estimates and divisor-subpower bound; Layer 2 only for the progression-specific criteria that follow.
-
-### 3.2 Harmonic smooth-conductor criterion
-
-Prove the harmonic smooth-conductor criterion with the hypotheses and conclusions below.
-
-For each fixed 0<c1<1 there is an effectively computable k1(c1) such that under H⁺, a single a in A(k) with P(N_a)<(log k)^(1-c1) forces k≤k1(c1). In particular, any nonempty finite D subset A(k) with P(N_a)<(log k)^(1-c1) for every a in D forces k≤k1(c1); this contains the form with pairwise distinct P(N_a) and sum over D of 1/P(N_a)≥0.166. Here P is the native largest prime factor and all selected characters are nonprincipal.
-
-The selected character chi_a is primitive and nonprincipal of conductor N_a>1, and by §3.1 no exceptional branch occurs. The conductor–largest-prime comparison of §3.1 gives log N_a<log 4*(1+(log k)^(1-c1)), and the half-interval form of §3.1's exception-free PNT bounds the half-interval sum by O(k*exp(-c'*(log k)^min(c1,1/2))*(log k)^4) with effective c'>0. This contradicts the lower bound>0.1239*k of the character family for effective large k. No conductor repulsion, small-conductor zero computation or GRH premise is used.
-
-*Needs:* Layer 2 — simultaneous quadratic character family; §0.9's prime estimates; §3.1's exception-free character PNT and conductor–largest-prime comparison; AnalyticNumberTheoryPartI §0.34 through its corollary §0.18; Mathlib `Nat.maxPrimeFac`.
-
-([BS20], Proposition 7.2, pp. 374-375; §7 proof, p.375; decay exponent for general c1. The exceptional-character branch of the proof, pp. 375–376, does not arise under AnalyticNumberTheoryPartI §0.34.)
-
-### 3.3 Many smooth characters criterion
-
-Prove the many-character criterion with the hypotheses and conclusions below.
-
-For each c2>10 there is an effective k2(c2) such that under H⁺ any B subset A(k) with |B|>17*log k, pairwise distinct selected characters, P(N_a)≤k^(7/16) and N_a<k^c2 forces k≤k2(c2). Quantitative proof: the mean squared absolute weighted sum is at most (k*log k/2+O(k))*((k+1)/(34*log k)+k^(1-c3))=(1/68+o(1))*k^2, where c3(c2)>0 is effective.
-
-Apply the diagonal/off-diagonal Gram inequality of SieveMethodsAndPrimePatterns §0.4 to x_m=Lambda(m), y_a,m=chi_a(m) on the integer half interval. The diagonal is at most(k+1)/2, the input norm is k log k/2+O(k), and the generic smooth-modulus cancellation bound controls off-diagonal pairs by k^(1-c3). Its proof must use the product ambient modulus separately from the primitive conductor and eventual divisor subpower bounds. Compare1/68<0.1239^2; no fourth power of0.1239 enters.
-
-*Needs:* Layer 2 — simultaneous quadratic character family; SieveMethodsAndPrimePatterns §0.4's diagonal/off-diagonal Gram inequality; §3.1's smooth-character correlation bound; §0.9's prime estimates; §0.9's eventual divisor subpower bound.
-
-([BS20], Proposition 8.1, p. 376; Equations (32)–(35), pp. 379–380.)
-
-### Examples
-
-The lower coefficient is 0.1239²=0.01535121, greater than 1/68. A repeated character is a diagonal term, not an off-diagonal pair.
-
-### Dependencies
-
-Mathlib analytic and finite-dimensional carriers; AnalyticNumberTheoryPartI §0.34 through §0.18; SieveMethodsAndPrimePatterns §0.4's Gram inequality; Layer 2 for the two progression criteria. General prime and character estimates have no progression input.
-
-## Layer 4: Thin-prime sieves and the original proof assembly
-
-Define survivors avoiding a prime set S of reciprocal mass below 0.17 and the two open-left sieving intervals. Bound the losses, perform maximal-valuation deletion so the surviving A-product divides(k-1)!, and prove the smooth factorial bound and density of A_i≤k^139. At the certified threshold k≥exp(exp(10^7)), use the Layer 4 quantitative Roth bound to choose one triple simultaneously avoiding S, with P(N_a)≤k^(7/16), no conductor prime in((log k)^(1-10^-4),10^4log k], and N_a<k^418. The substitution 132 log(2)*10^5<10^7 certifies the Roth cutoff; the smaller 10^6 cutoff does not follow from this substitution. Build the maximal distinct-largest-prime family, prove its reciprocal-mass dichotomy and dispatch the small endpoint with c1=1/20000. This is one complete original-route reduction to an effective bound on k. The generic survivor API controls odd primes; reciprocal mass<0.17 excludes2. Include the explicit Stirling upper adapter to the native sequence and its telescoping bound.
-
-### 4.1 Quantitative three-term progressions
-
-Prove the numerical Roth substitution: 10⁶<132 log(2)·10⁵<10⁷, certifying the density substitution below.
-Prove the quantitative three-term progression theorem: for 0<δ<1, a subset J of range(k) with
-|J|≥δk and k≥exp(exp(132 log(2)/δ)) contains i<j<h with i+h=2j,
-all in J. The proof supplies this displayed bound rather than an unspecified
-qualitative threshold. (RahmanRoth, as quoted in BS20, §9, equation (36), p. 381; BS20, §9, Theorem 8 and its application in the proof
-of Proposition 9.1, pp. 381–384.)
-
-**Checks.**
-
-- At density 10⁻⁵ the required log-log cutoff is 132 log(2)·10⁵, strictly between 10⁶ and 10⁷.
-- A singleton has no strict three-term progression; the large-length hypothesis cannot be omitted.
-- A constant triple does not satisfy the conclusion, even when its sole index lies in J.
-
-*Needs:* Mathlib `roth_3ap_theorem_nat` for the qualitative vocabulary; the quantitative theorem of the cited source for the explicit improvement.
-
-### 4.2 Thin-prime sieve survivors
-
-Define Tₚᵣ, Uₚᵣ and the thin-prime survivor set by the two prime intervals and the set J below.
-
-For n,d,k and a finite set S of primes≤k define T_pr={p prime:k^(7/16)<p≤k}, U_pr={p prime:(log k)^(1-10^-4)<p≤10^4*log k}, and J=range(k) minus the union of divisibility index sets I_p for p in S union T_pr union U_pr. Both lower endpoints are open; no integer ceiling replaces the prime predicates.
-
-- i is in J iff i<k and none of the three forbidden prime sets divides n+i*d.
-- Increasing S can only shrink J.
-- Under H⁺, a triple in J has conductor N_a avoiding every odd prime in S union U_pr and P(N_a)≤k^(7/16).
-- If S has reciprocal mass<0.17, it cannot contain2, so the full avoidance conclusion follows.
-- Under H⁺ all primes of U_pr are odd.
-
-**Checks.**
-
-- For k=0 the survivor set is empty.
-- At n=d=k=1 and S empty, the survivor set is {0}; an identically empty survivor definition fails this Check.
-- Deleting S,T_pr,U_pr in any order gives the same finite set.
-- T_pr(2)={2}; T_pr(16)={5,7,11,13}; T_pr(1) is empty. These test the actual prime membership near the lower bound. For natural k and prime p, p=k^(7/16) is impossible: it would imply 7v_p(k)=16. The interval remains open on the left.
-- U_pr(0)=empty, using the total logarithm at zero.
-- U_pr(1)=empty: its upper bound is zero.
-- 2 belongs to U_pr(2); this tests both logarithmic bounds on an actual prime.
-
-Form finite prime sets with explicit real bounds, then take their divisibility-index union and relative complement. The construction is total; density and conductor consequences require H⁺ and the certified numerical range. Only odd primes in the forbidden sets are excluded from N_a by the coefficient-support theorem. Its dyadic factor is bounded by8; 2≤k^(7/16) under H⁺. For the later thin-prime-set application, 2 in S would force reciprocal mass≥1/2, contradicting<0.17.
-
-*Needs:* Layer 0 — divisibility index sets; Layer 2 — simultaneous quadratic character family.
-
-([BS20], §9 proof, p. 382.)
+Perform maximal-valuation deletion so that the surviving coefficient product divides (k-1)!. Include the explicit Stirling upper adapter to the native sequence and its telescoping bound.
 
 ### 4.3 Maximal-valuation deletion
 
@@ -1033,84 +861,17 @@ For integers M>m≥1, sum the pinned inequality log(stirlingSeq j)-log(stirlingS
 
 ([BS20], Proof of Proposition9.1, printed p.384, first displayed factorial bound and reference[43].)
 
-### 4.5 Sieve losses and coefficient density
-
-Prove the survivor-density bounds with the hypotheses and conclusions below.
-
-Under H⁺, k≥exp(exp(10^7)) and sum over S of 1/p<0.17, the losses from T_pr,U_pr,S are at most k*log(16/7), k*log(1/(1-10^-4))+5*k*log10/loglogk+10^4*logk, and strictly less than 0.17*k+1.1*k/logk. Thus |J|>0.0032*k. Deletion gives |J1|>0.00319*k. Its smooth coefficient product is less than k^(0.44*k), and J2={i in J1:A_i≤k^139} has |J2|>10^-5*k.
-
-Under H⁺, every prime in (k/2,k] divides d by §1.9, so I_p=∅ there. Sum the one-residue-class bound only over k^(7/16)<p≤k/2, retaining the +1 loss. The main reciprocal difference is log(16/7)+log(1−log 2/log k); the negative second term absorbs π(k/2)<0.6k/log k and the explicit reciprocal-prime errors in the certified range. Apply maximal-valuation deletion. The large-prime part of(k-1)! has log at least(9/16)*k*logk-5*k; combine the local explicit Stirling upper adapter. Markov counting with log A_i>139*logk bounds the complement of J2. The numerical range is strengthened to the certified Roth threshold. For the 0.44 bound one may instead use the weaker native (k-1)!≤k^k: subtracting the large-prime contribution gives log(product A_i)≤(7/16)*k*logk+5*k<0.44*k*logk in the certified range. The sharper Stirling adapter remains a separately covered source item.
-
-*Needs:* Layer 1 — half-interval primes divide the difference; Layer 4 — thin-prime sieve survivors; Layer 4 — maximal-valuation deletion; Layer 0 — one-residue-class count; §0.9's prime estimates; Layer 4 — explicit stirling upper bound; Mathlib `Nat.factorial_le_pow`.
-
-([BS20], §9 proof, pp. 382–383; §9 proof, pp. 383–384; §9 proof, p. 384; §9 end of proof, p. 384; §9 p.384, reference [43].)
-
-### 4.6 Simultaneous thin-conductor witness
-
-Define the thin-prime-set predicate on k,S by S consisting of primes at most k and reciprocal mass less than 0.17. The witness and its API carry k≥exp(exp(10⁷)) directly. Prove that the empty set is thin, subsets of thin sets are thin, and 2 belongs to no thin set.
-
-Under H⁺ and k≥exp(exp(10^7)), for every finite S of primes≤k with reciprocal mass<0.17 choose one a in A(k) such that no p in S divides N_a, P(N_a)≤k^(7/16), no prime in((logk)^(1-10^-4),10^4logk] divides N_a, and N_a<k^418. All four conclusions hold for this same triple. Use the 10^7 cutoff, which follows from the quantitative Roth substitution in the integration requirements below.
-
-The selected triple belongs to A(k) and all its indices belong to J2. Its conductor has no prime in S or in U_pr. Its largest prime factor is≤k^(7/16) and its conductor is<k^418.
-
-**Checks.**
-
-- At k=9, thinSet holds for ∅: the reciprocal sum is zero.
-- At k=9, thinSet holds for {7}, a nonempty example.
-- At k=9, thinSet fails for {2} by reciprocal mass.
-- At k=9, thinSet fails for {9} by primality, despite its small reciprocal mass.
-- At k=6, thinSet fails for {7} by the upper bound.
-- For S empty the two nonvacuous size bounds and U_pr avoidance still hold under the stated large-k hypotheses.
-- One triple satisfies the conjunction of all four properties; four independently chosen witnesses are insufficient.
-- The quantitative Roth exponent needed at density10^-5 exceeds10^6 and is less than10^7; the constructor requires the certified latter threshold.
-
-Apply the Layer 4 quantitative Roth statement to J2 with density10^-5. Its loglog threshold is132*log2*10^5<10^7, not<10^6. Choose one three-term progression in J2. The odd-support and dyadic conductor bound yield N≤2^8*k^417<k^418, and membership in J enforces all avoidance properties. The reciprocal-mass hypothesis excludes2 from S, and the lower endpoint of U_pr exceeds2 in this range; therefore the odd-prime survivor API supplies full conductor avoidance here.
-
-*Needs:* Layer 4 — sieve losses and coefficient density; Layer 0 — three-term progression triples; Layer 2 — simultaneous quadratic character family; §4.1's quantitative three-term progression theorem; Mathlib `Real.log_two_gt_d9`; Mathlib `Real.log_two_lt_d9`.
-
-([BS20], Proposition 9.1, pp. 381-384; §9 end of proof, p. 384; Proposition 9.1(I), p. 382; Proposition 9.1(II), p. 382; Proposition 9.1(III), p. 382; Proposition 9.1(IV), p. 382; Proposition 9.1, pp.381–384; Roth-threshold substitution.)
-
-### 4.7 Maximal largest-prime family
-
-Under H⁺ at the certified threshold, choose a nonempty inclusion-maximal finite B subset A(k) whose P(N_a) are pairwise distinct, all P(N_a)≤k^(7/16), N_a<k^418, and N_a avoids U_pr. Maximality is by inclusion, not by conductor size or cardinal alone.
-
-B is nonempty, lies in A(k), has distinct P(N_a), and satisfies all three conductor restrictions. Every admissible superset of B equals B. If |B|≤17logk, its reciprocal-largest-prime mass is at least0.17.
-
-**Checks.**
-
-- Under the constructor hypotheses B cannot be empty.
-- Two distinct members never have the same largest conductor prime, even if their conductors differ.
-- An outside triple satisfying all size and gap restrictions must repeat one of B’s largest primes.
-
-The witness for S empty makes the family nonempty. Select an inclusion-maximal member of the finite family of admissible subsets of A(k). For |B|≤17logk a reciprocal mass<0.17 would permit a new witness with S={P(N_a):a in B}, contradicting maximality.
-
-*Needs:* Layer 4 — simultaneous thin-conductor witness.
-
-([BS20], §10, pp. 384–385; endpoint correction.)
-
-### 4.8 Original analytic endgame
-
-Prove the original-route length bound with the effective threshold specified below.
-
-There is an effective absolute K_original such that H⁺ implies k≤K_original. For the maximal B, if |B|>17logk apply the many-character criterion with c2=418; otherwise D={a in B:P(N_a)≤(logk)^(1-10^-4)} has reciprocal mass≥0.1683>0.166, so in particular D is nonempty. Its smoothness is strictly less than(logk)^(1-1/20000), so the harmonic criterion applies.
-
-Distinct largest prime factors imply distinct primitive characters. In the small-cardinality branch, U_pr avoidance places every complementary largest prime above10^4logk, giving complementary mass≤0.0017. Use c1=1/20000 to handle the closed endpoint, instead of substituting the strict criterion at c1=10^-4. Take the maximum of the certified threshold and both effective contradiction thresholds.
-
-*Needs:* Layer 4 — maximal largest-prime family; Layer 3 — harmonic smooth-conductor criterion; Layer 3 — many smooth characters criterion.
-
-([BS20], §10 proof of Theorem 2, p. 385; strict endpoint comparison.)
-
 ### Examples
 
 For A=(1,2,3,4,1), k=5, the retained indices are {0,1,4} and their product is 2. For A=(1,2,1,2) the least maximal 2-valuation occurs at index 1.
 
 ### Dependencies
 
-Layers 0, 2 and 3; Mathlib qualitative Roth and Stirling sequence.
+Layer 0; Mathlib Stirling sequence.
 
 ## Layer 5: Granville exceptional moduli and a single witness
 
-For a constant c>0 of the exception-free bounded-height Landau-Page theorem define T=exp(c log k/(3log log k)) and the moduli 1≤q≤k^4 having a primitive L-function zero with |Im rho|≤T and Re rho>1-3log log k/log k. Prove the polylogarithmic cardinal bound and that every such modulus exceeds T, hence is at least log k. Apply the half-interval explicit formula to primitive nonprincipal characters outside this set. Define the exceptional divisibility indices with r|q and r≥q^(1/3)/2 and prove their sparse cardinal bound with all k/r+1 losses retained. Combine maximal-valuation deletion with disjoint triples to choose one triple that both avoids these indices and satisfies 8A_iA_jA_h≤k^4. Odd-conductor divisibility and the bound N≤8Nodd force that same conductor outside the exceptional set. The resulting contradiction gives an independent effective bound on k without Roth or short-sum cancellation. Both analytic zero predicates exclude the principal-character pole at1.
+For a constant c>0 of the exception-free bounded-height Landau-Page theorem define T=exp(c log k/(3log log k)) and the moduli 1≤q≤k^4 having a primitive L-function zero with |Im rho|≤T and Re rho>1-3log log k/log k. Prove the polylogarithmic cardinal bound and that every such modulus exceeds T, hence is at least log k. Apply the half-interval explicit formula to primitive nonprincipal characters outside this set. Define the exceptional divisibility indices with r|q and r≥q^(1/3)/2 and prove their sparse cardinal bound with all k/r+1 losses retained. Combine maximal-valuation deletion with disjoint triples to choose one triple that both avoids these indices and satisfies 8A_iA_jA_h≤k^4. Odd-conductor divisibility and the bound N≤8Nodd force that same conductor outside the exceptional set. The resulting contradiction gives an effective bound on k. Both analytic zero predicates exclude the principal-character pole at1.
 
 ### 5.1 Bounded-height analytic inputs
 
@@ -1302,7 +1063,7 @@ Use squarefreeness of Nodd to distribute its prime factors among the three gcds.
 
 Prove the Granville-route length bound with an effective absolute threshold.
 
-There is an effectively computable absolute K_Granville such that H⁺ implies k≤K_Granville. This route uses no quantitative Roth theorem or short smooth-modulus cancellation bound.
+There is an effectively computable absolute K_Granville such that H⁺ implies k≤K_Granville.
 
 Choose the single addendum witness. Detection puts its conductor outside Q, its size is≤k^4 and its odd part is nontrivial, so the selected character is nonprincipal. The uniform O(k/logk) bound contradicts its strict absolute lower bound>0.1239*k for effective large k.
 
@@ -1316,15 +1077,14 @@ The modulus 8 has cube-root threshold 1, so every term of (1,2,3,4) has a permis
 
 ### Dependencies
 
-Layers 0 and 2–4; AnalyticNumberTheoryPartI §§0.6, 1.4 and 1.7, with §0.6 the
+Layers 0 and 2 and §4.3's maximal-valuation deletion; AnalyticNumberTheoryPartI §§0.6, 1.4 and 1.7, with §0.6 the
 bounded-height corollary of its uniform exclusion of Landau–Siegel zeros
 (§0.34); no real-zero separation constant, small-conductor computation or
-numerical gap enters this layer beyond those of Layer 0;
-using Layer 4 only for maximal-valuation deletion; the original-route Roth and smooth-correlation endgame is not an input.
+numerical gap enters this layer beyond those of Layer 0.
 
 ## Layer 6: Effective exponent bound and fixed-length finiteness
 
-Prove the main theorem: an effectively computable absolute k0 exists such that every primitive integer progression product of length k≥k0 with prime exponent ell has y*d=0 or ell≤exp(10^k). Either proof route supplies such a threshold. For each fixed k≥k0, increased to at least5, consume the shared Mordell theorem and construct the Darmon-Granville fixed-exponent adapter. Reduce composite exponents to prime divisors and exclude power variables0,1,-1 in nontrivial sufficiently long progressions. Deduce finiteness of positive integer(n,d,y,ell) tuples for each fixed k and all ell≥2, not one finite set over all lengths and not an effective enumeration of points. Correct equation(2.2) of Darmon–Granville to coefficients j-1 and j-2 with its1-based term indexing.
+Prove the main theorem: an effectively computable absolute k0 exists such that every primitive integer progression product of length k≥k0 with prime exponent ell has y*d=0 or ell≤exp(10^k). The Granville endgame of Layer 5 supplies such a threshold. For each fixed k≥k0, increased to at least5, consume the shared Mordell theorem and construct the Darmon-Granville fixed-exponent adapter. Reduce composite exponents to prime divisors and exclude power variables0,1,-1 in nontrivial sufficiently long progressions. Deduce finiteness of positive integer(n,d,y,ell) tuples for each fixed k and all ell≥2, not one finite set over all lengths and not an effective enumeration of points. Correct equation(2.2) of Darmon–Granville to coefficients j-1 and j-2 with its1-based term indexing.
 
 ### 6.1 Rational points on curves of genus at least two
 
@@ -1342,11 +1102,11 @@ to this invariant. No effective height bound is asserted.
 
 Prove `effective_prime_bound` with the quantified threshold, integer domain and prime exponent below.
 
-There exists an effectively computable absolute integer k0≥5 such that for every natural number k≥k0, integers n,d,y with gcd(n,d)=1, and prime ell satisfying product over i<k of(n+i*d)=y^ell, either y*d=0 or ell≤exp(10^k). Positivity of k follows from k≥k0≥5 and is not a separate hypothesis. The same logical statement has both an original-route and a Granville-route effective threshold; an unqualified classical existential by itself is not an effectivity proof.
+There exists an effectively computable absolute integer k0≥5 such that for every natural number k≥k0, integers n,d,y with gcd(n,d)=1, and prime ell satisfying product over i<k of(n+i*d)=y^ell, either y*d=0 or ell≤exp(10^k). Positivity of k follows from k≥k0≥5 and is not a separate hypothesis. The effective threshold comes from the Granville endgame; an unqualified classical existential by itself is not an effectivity proof.
 
-Suppose y*d≠0 and ell>exp(10^k). Taking k0 above10^8 and2*10^10 gives H⁺. Either analytic endgame contradicts sufficiently large k. Fix the maximum of the explicit or effectively controlled input thresholds. Keep a ledger of effective dependencies, including the constant c_LS of AnalyticNumberTheoryPartI §0.34, which enters the original route through §0.18 and the Granville route through §0.6 of that roadmap; no dependency is ineffective, and no rational-point height bound enters.
+Suppose y*d≠0 and ell>exp(10^k). Taking k0 above10^8 and2*10^10 gives H⁺. The Granville endgame of §5.9 contradicts sufficiently large k. Fix the maximum of the explicit or effectively controlled input thresholds. Keep a ledger of effective dependencies, including the constant c_LS of AnalyticNumberTheoryPartI §0.34, which enters through §0.6 of that roadmap; no dependency is ineffective, and no rational-point height bound enters.
 
-*Needs:* Layer 4 — original analytic endgame; Layer 5 — granville analytic endgame; Layer 0 — primitive progression solutions; AnalyticNumberTheoryPartI §0.34, through §§0.6 and 0.18, for the effectivity ledger.
+*Needs:* Layer 5 — granville analytic endgame; Layer 0 — primitive progression solutions; AnalyticNumberTheoryPartI §0.34, through §0.6, for the effectivity ledger.
 
 ([BS20], Theorem 2, p. 357.)
 
@@ -1414,7 +1174,7 @@ At k=5,ell=2 the diagonal genus equation gives 2g−2=8, hence genus 5. At k=4,e
 
 ### Dependencies
 
-Either Layer 4 or Layer 5 for the exponent bound; Layer 0, AlgebraicCurves Layers 7 and 12E, and HeightsRationalPointsAndObstructions §§5.12 and 6.4 for signed diagonal-curve finiteness.
+Layer 5 for the exponent bound; Layer 0, AlgebraicCurves Layers 7 and 12E, and HeightsRationalPointsAndObstructions §§5.12 and 6.4 for signed diagonal-curve finiteness.
 
 ## Layer 7: Conjectural and announced predicates
 
@@ -1679,39 +1439,16 @@ Layer 0 and native finite products; §§4.3–4.4 and AnalyticNumberTheoryPartI 
 
 ## Downstream consumers
 
-The signed factorization, local progression bounds, Legendre case analysis and simultaneous character methods supply other perfect-power and generalized Fermat problems. Both effective analytic routes export their absolute thresholds; the genus adapter exports fixed-length finiteness with the primitive-lift contract.
+The signed factorization, local progression bounds, Legendre case analysis and simultaneous character methods supply other perfect-power and generalized Fermat problems. The Granville endgame exports its absolute threshold; the genus adapter exports fixed-length finiteness with the primitive-lift contract.
 
 ## Worked examples and integration requirements
 
-The generic character PNT used in Layer 3 must retain its effective error. It
-has no exceptional-zero alternative: the uniform exclusion of Landau–Siegel
-zeros (AnalyticNumberTheoryPartI §0.34) gives `(1-beta)log N>=c_LS`, with
-`c_LS` effective by that section's own derivation (its §§0.34b–0.34c above an
-effective conductor threshold and its §0.12 below it; the cited sources prove
-an absolute constant), for every real zero of every primitive nonprincipal real
-character, and its §0.18 absorbs the corresponding term. The error for a smooth
-conductor has exponent `min(c_1,1/2)`, and one character of smooth conductor
-already contradicts the lower bound of Layer 2. No conductor repulsion law and
-no small-conductor zero computation is used. The prime estimates and
+The prime estimates and
 zero-density results in the supplier contracts carry constants and valid ranges;
 an asymptotic theorem with an unspecified ineffective constant cannot discharge
 these requirements.
 
-The short-character estimate separates an ambient product modulus from the
-conductor of the induced primitive product character. The Gram inequality of
-SieveMethodsAndPrimePatterns §0.4 is applied to squared absolute sums. With
-the hypotheses of the many-character criterion, its main coefficient is `1/68`,
-while the character-family lower coefficient is `0.1239^2`. The strict
-inequality between them must survive all quantified error terms. Eventual
-divisor-subpower bounds are applied only after fixing their positive exponent.
-
-For the original route use the certified range
-`k >= exp(exp(10^7))`. The required Roth substitution is
-`132log 2 * 10^5<10^7`; it does not give a cutoff `10^6`.
-The smoothness condition in the harmonic criterion is strict. The maximal-family
-branch supplies a closed bound with exponent `1-10^{-4}`, so apply the
-criterion with `c_1=1/20000`. These constants and the strictness of every
-endpoint are part of the specification.
+Eventual divisor-subpower bounds are applied only after fixing their positive exponent.
 
 In the Granville route, keep both the real-part condition and bounded height in
 the witness predicate of Q(k,c). The exception-free bounded-height theorem
@@ -1750,17 +1487,17 @@ EllipticCurveModularityPartII Layers 1–6, with their stated hypotheses.
 All applications of the literal numerical constants retain the four supplier
 input hypotheses in the contracts table until their discharge. The unconditional
 end theorems require the four declared gaps of the AnalyticNumberTheoryPartI
-contract, on either route: gap:schoenfeld-theta-finite-range,
+contract: gap:schoenfeld-theta-finite-range,
 gap:rosser-schoenfeld-prime-count-finite-range, gap:mod-eight-theta-finite-range
-and gap:prime-product-finite-range. Neither route consumes a small-conductor
-real-zero computation, a real-zero separation constant or a numerical
+and gap:prime-product-finite-range. The proof consumes no small-conductor
+real-zero computation, real-zero separation constant or numerical
 conductor–largest-prime bound. Conditional supplier
 estimates alone do not discharge these obligations.
 
 Finally, prove effectivity alongside the prime-exponent theorem. Record an
-explicit finite bound for every prime-counting, PNT,
-zero-density, correlation and Roth cutoff used by each route. Take the maximum
-of the finitely many thresholds which its proof needs. The constant `c_LS` of
+explicit finite bound for every prime-counting and
+zero-density cutoff used by the proof. Take the maximum
+of the finitely many thresholds which it needs. The constant `c_LS` of
 AnalyticNumberTheoryPartI §0.34 is effective, and no ineffective constant or
 rational-point height bound can enter the prime-exponent threshold.
 The existential Lean statement of `k_0` expresses its logical conclusion;
@@ -1770,7 +1507,7 @@ computability is an additional mathematical obligation in the theorem above.
 
 This roadmap owns the progression arithmetic, the two Frey specializations, their
 local and modular adapters, the Legendre case analysis, simultaneous character
-selection, both analytic endgames and the signed diagonal-curve finiteness application.
+selection, the analytic endgame and the signed diagonal-curve finiteness application.
 It owns the progression-specific residual-conductor wrapper and local-hypothesis
 verification, signed diagonal curves and quantitative specializations stated in
 Layers 1–6. NeronModelsAndSemistableAbelianVarieties §§5.3g–5.3h own elliptic
@@ -1783,7 +1520,7 @@ supplies the continuous arithmetic newform representation.
 ArithmeticGaloisRepresentations §1.9 owns
 residual reduction and lattice independence; its §§3.1–3.3 own Swan, Artin and
 prime-to-coefficient residual conductors. General modularity, newform representations,
-rational-isogeny classification and uniformity, character PNT, zero-density and
+rational-isogeny classification and uniformity, explicit formula, zero-density and
 Mordell finiteness are supplier contracts, including the explicit gaps below.
 
 EllipticCurves Layers 2–4 own torsion, finite-field Hasse theory, and local
@@ -1826,19 +1563,18 @@ complex uniformization comparison. AlgebraicCurves Layers 7 and 12E own Hurwitz 
 comparison. Those general constructions are supplied by name, not specified again.
 
 Mathlib owns integer gcd, factorization, valuations, finite products, the native
-Weierstrass invariants, Dirichlet characters and continued L-functions, qualitative
-Roth, and the Stirling sequence. Tau Ceti owns the projective point-count trace and
+Weierstrass invariants, Dirichlet characters and continued L-functions, and the
+Stirling sequence. Tau Ceti owns the projective point-count trace and
 the ramification theory of nonarchimedean local fields that the conductors rest on:
 the lower and upper ramification filtrations of a finite Galois extension, the
 Herbrand functions with Herbrand's quotient theorem, and inertia and wild inertia
 in the absolute Galois group with their restrictions to finite Galois subextensions.
 The specialized invariant identities here retain the progression hypotheses; there
-is no second generic invariant or point-count API. AnalyticNumberTheoryPartI §§0.2–0.6, 0.8, 0.16, 0.18–0.20, 0.25, 0.34, 1.4, 1.7 and
+is no second generic invariant or point-count API. AnalyticNumberTheoryPartI §§0.2–0.6, 0.8, 0.16, 0.19–0.20, 0.25, 0.34, 1.4, 1.7 and
 3.1 own the generic prime estimates, the uniform exclusion of Landau–Siegel
-zeros with its exception-free bounded-height and character-PNT corollaries,
+zeros with its exception-free bounded-height corollary,
 explicit formula, zero density and divisor estimates.
 Their numerical input hypotheses are retained in the supplier contracts below.
-SieveMethodsAndPrimePatterns §0.4 owns the finite Gram inequalities that Layer 3 applies.
 
 ## Exact supplier contracts
 
@@ -1890,9 +1626,7 @@ Use `ArithmeticFunction.vonMangoldt` from
 Use `Chebyshev.theta` and `Chebyshev.psi` from
 `Mathlib/NumberTheory/Chebyshev.lean` for the prime and prime-power sums.
 
-Use `roth_3ap_theorem_nat` from
-`Mathlib/Combinatorics/Additive/Corner/Roth.lean` for the qualitative finite-set
-conclusion. Layer 4 proves the stronger numerical cutoff. Use
+Use
 `Stirling.stirlingSeq`, `Stirling.log_stirlingSeq_sdiff_le` and
 `Stirling.tendsto_stirlingSeq_sqrt_pi` and `Stirling.le_factorial_stirling` from
 `Mathlib/Analysis/SpecialFunctions/Stirling.lean` for the factorial adapter.
@@ -2239,13 +1973,9 @@ no value of the constant; Green2026, Theorem 1.1 is the inert-prime estimate
 that §0.34c of that roadmap uses. The effectivity of c_LS is the supplier's own
 claim: its §0.34 derives it from the explicit lower bound of its §§0.34b–0.34c
 above an effective conductor threshold and from the effective gap of its §0.12
-below that threshold. It enters through two of the corollaries stated there, so
+below that threshold. It enters through the bounded-height corollary stated there, so
 no exceptional zero, exceptional conductor or conductor repulsion occurs in this
 roadmap.
-Consume §0.18's effective character PNT for primitive nonprincipal characters
-of conductor N>1 and X≥X₀, with effective absolute c,C>0 and X₀ chosen before
-the character: |∑_(m≤X)χ(m)Λ(m)|≤C X exp(−c log X/(√(log X)+log N))(log N)⁴.
-It has no term −X^β/β, since by §0.34 such a term is absorbed by this error.
 Consume §0.6's exception-free bounded-height Landau–Page theorem: there is an
 effective absolute c₀>0 such that, for T≥2, no primitive Dirichlet character
 of modulus q≤T has a zero ρ with |Im ρ|≤T and Re ρ>1−c₀/log T. Its strict
@@ -2275,7 +2005,7 @@ application until the indicated supplier gaps are discharged.
 
 | Supplier section | Required input | Exact content relevant here |
 | --- | --- | --- |
-| §0.34 | none | The effective absolute c_LS>0 above, for every conductor q≥3. Consumed through §0.18 in Layer 3 and through §0.6 in Layer 5; no gap is declared. |
+| §0.34 | none | The effective absolute c_LS>0 above, for every conductor q≥3. Consumed through §0.6 in Layer 5; no gap is declared. |
 | §0.3 | `SchoenfeldFiniteRangeInput` | θ(x)<1.000081x for 0<x<exp(10000). Declared as gap:schoenfeld-theta-finite-range. |
 | §0.5 | `RosserSchoenfeldFiniteRangeInput` | The stated prime-count pair for 59≤x<exp(10000). Declared as gap:rosser-schoenfeld-prime-count-finite-range. |
 | §0.16 | `ModEightFiniteInput` | The two theta error bounds for 10¹⁰≤x<exp(10000), and every nontrivial zero for characters modulo 8 at height at most 10000 lies on Re s=1/2. The analytic tail still uses this bounded-zero input. The theta clause is declared as gap:mod-eight-theta-finite-range; the zero-line clause is ExplicitZetaBounds §0.3's GRH(8, 10000) and GRH(4, 10000) with §0.4's RH(10⁹) and §0.2's passage to imprimitive characters. |
@@ -2288,8 +2018,7 @@ clause is a gap. No GRH assumption or omitted numerical hypothesis is substitute
 these inputs. The real-zero separation of §0.7, with its inputs
 `BMORFiniteInput` and `BMORClassNumberInput`, and the conductor–largest-prime
 bound of §3.2, with `QuadraticConductorFiniteInput`, are not consumed: §0.6
-leaves Layer 5 no small modulus to separate, and this roadmap's §3.1 proves
-the conductor comparison that the exception-free harmonic criterion needs.
+leaves Layer 5 no small modulus to separate.
 
 The clauses no supplier proves are declared as the following gaps, one per
 input, and are cited by slug from every target that uses the corresponding
@@ -2349,19 +2078,6 @@ RH(10⁹), hence RH(10000) by antitonicity. At the divisors 1, 2, 4 and 8 of
 the modulus 8 with H=10000 these give the zero-line clause of
 AnalyticNumberTheoryPartI §0.16's `ModEightFiniteInput`, used in §0.9.
 
-### From TauCetiRoadmap.SieveMethodsAndPrimePatterns
-
-Consume §0.4's finite Gram inequalities over a real or complex inner-product
-space, for a vector x and a finite, possibly empty family y_a with Gram row sums
-r_a=∑_b|⟨y_a,y_b⟩|: the uniform form `SieveGram.sum_norm_inner_sq_le_of_row_le`,
-∑_a|⟨x,y_a⟩|²≤C‖x‖² for every C≥0 with r_a≤C for all a; the maximum-row form
-`SieveGram.sum_norm_inner_sq_le_max_row` for a nonempty family; and the
-diagonal/off-diagonal form `SieveGram.sum_norm_inner_sq_le_of_diag_offdiag`,
-∑_a|⟨x,y_a⟩|²≤(D+O)‖x‖² when D+O≥0, ‖y_a‖²≤D and ∑_(b≠a)|⟨y_a,y_b⟩|≤O for
-every a. The names lie in the namespace
-`TauCetiRoadmap.SieveMethodsAndPrimePatterns`. §3.3 applies the
-diagonal/off-diagonal form (BS20, Theorem 7, p. 379).
-
 ## References
 
 - **[BS20]** Michael A. Bennett and Samir Siksek, *A conjecture of Erdős, supersingular primes and short character sums*, Annals of Mathematics 191 (2020), no. 2, 355–392, DOI [10.4007/annals.2020.191.2.2](https://doi.org/10.4007/annals.2020.191.2.2). [Publisher text](https://annals.math.princeton.edu/wp-content/uploads/annals-v191-n2-p02-s.pdf). Section 12 contains Andrew Granville’s addendum, pp. 386–388. All page references above are printed pages in this published version.
@@ -2375,13 +2091,10 @@ The general modular and analytic inputs above retain the hypotheses and numerica
 - **ErdosSelfridge1975.** Paul Erdős and John L. Selfridge, *The product of consecutive integers is never a power*, Illinois J. Math. 19 (1975), Theorems 1–2, §1 Lemmas 1–2, §2 Lemma 3 and (13)–(20), §3 (21)–(23), pp. 292–300.
 - **Martin2003v1.** Greg Martin, *Dimensions of the spaces of cusp forms and newforms on Γ₀(N) and Γ₁(N)*, arXiv:math/0306128v1, Theorem 2; published in J. Number Theory 112 (2005).
 - **Mazur1978.** Barry Mazur, *Rational isogenies of prime degree*, Invent. Math. 44 (1978), rational-isogeny classification (uncertified primary text).
-- **IwaniecKowalski2004.** Henryk Iwaniec and Emmanuel Kowalski, *Analytic Number Theory* (2004), Theorems 5.26–5.27, 12.13 and Proposition 5.25.
+- **IwaniecKowalski2004.** Henryk Iwaniec and Emmanuel Kowalski, *Analytic Number Theory* (2004), Theorems 5.26–5.27 and Proposition 5.25.
 - **Schoenfeld1976.** Lowell Schoenfeld, *Sharper bounds for the Chebyshev functions θ(x) and ψ(x). II*, Math. Comp. 30 (1976), Theorems 6*, 7 and bounds (5.3*)–(5.4*).
 - **RamareRumely1996.** Olivier Ramaré and Robert Rumely, *Primes in arithmetic progressions*, Math. Comp. 65 (1996), Theorem 1 and the modulus-eight bounds, pp. 397–425.
 - **RosserSchoenfeld1962.** J. Barkley Rosser and Lowell Schoenfeld, *Approximate formulas for some functions of prime numbers*, Illinois J. Math. 6 (1962), Theorems 1, 5, 6.
-- **Tenenbaum1995.** Gérald Tenenbaum, *Introduction to Analytic and Probabilistic Number Theory* (1995), Theorems 5, 9 and following remark, as located in BS20, pp. 365, 384.
-- **RahmanRoth.** Mustazee Rahman, *Roth’s theorem on 3-term arithmetic progressions*, as quoted in BS20, §9, equation (36), p. 381.
-- **Bombieri1987.** Enrico Bombieri, *Le grand crible dans la théorie analytique des nombres*, Astérisque 18 (1987 reprint), discussion after Théorème 14.
 - **Platt2013v1.** David J. Platt, *Numerical computations concerning the GRH*, arXiv:1305.3087v1, Theorem 7.1, p. 14; published in Math. Comp. 85 (2016). Its consequence is consumed from ExplicitZetaBounds §0.3 as the record `PlattRecord`; no computation is specified here.
 - **OpenAI2026.** OpenAI, *Uniform exclusion of Landau–Siegel zeros*, preprint (2026), open repository, Theorem 1: the exclusion with an absolute constant, proved by contradiction along a sequence of conductors. Consumed through AnalyticNumberTheoryPartI §0.34, which supplies the effective constant by its own derivation.
 - **Green2026.** Ben Green, *On Landau–Siegel zeros*, Hexagon 2610.00311 (2026), Theorem 1.1: the inert-prime estimate of AnalyticNumberTheoryPartI §0.34c. Consumed through AnalyticNumberTheoryPartI §0.34.
