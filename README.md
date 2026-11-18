@@ -542,6 +542,33 @@ reviewers, can act on it without guessing.
   maintainable. Put any file-by-file map in a clearly secondary provenance section, so that nobody
   treats the source code as prescriptive.
 
+### Laying out the README
+
+- **Open with an overview a mathematician can read cold.** Under the `# Roadmap: …` title and
+  before any `##` heading, an overview beginning `**Summary.**` says what the roadmap builds: its
+  main objects, and its headline theorems stated in ordinary mathematical language with their real
+  hypotheses. It then places the roadmap in Tau Ceti: the two to five roadmaps or library areas it
+  most directly builds on or feeds, by name, each with a clause saying what passes between them.
+  The complete list belongs in the supplier contracts, not here. It ends with a short guide to the
+  layers, a line for each or one paragraph; a long guide may instead sit under
+  `## How to read the build` directly after the overview. The overview may run to several
+  paragraphs, but it needs no Lean names, locators, section-number lists or ownership bookkeeping:
+  the rest of the README carries those.
+
+- **Specification first, bookkeeping last.** After the overview come `## Conventions`, the
+  `## Layer k: …` sections in build order, and any `## Worked examples` or
+  `## Downstream consumers`. Then `## Scope and ownership` and `## Exact supplier contracts`, with
+  a `### From …` subsection for each supplier, and `## References` last. Section order is a matter
+  of form, never a reason to hold a roadmap back; one in another order is brought into this order
+  when it is next revised.
+
+- **Checks are sanity checks.** A Check is a unit test of a key definition or theorem: a computed
+  value, a degenerate case, agreement with the library's notion, or a non-example that a plausible
+  wrong definition would get wrong. Give Checks where they earn their place. There is no quota per
+  definition, section or roadmap, and a definition with no natural test has none. Every Check must
+  be true and must test something, and a key definition with an evident plausible wrong variant
+  deserves one that tells the two apart.
+
 ### Prototyping
 
 - **Write Lean code.** It's really helpful to prototype signatures, particularly for structures,
