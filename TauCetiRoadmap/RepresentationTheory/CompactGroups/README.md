@@ -103,9 +103,11 @@ Left to other roadmaps:
   (`RepresentationTheory/Irreducible.lean`); `Representation.character`, `Representation.char_conj`
   and `Representation.char_orthonormal` (`RepresentationTheory/Character.lean`), the last the
   finite-group character relation.
-- **Hilbert spaces.** `HilbertBasis`, `HilbertBasis.mkOfOrthogonalEqBot` and
-  `HilbertBasis.tsum_inner_mul_inner` (`Analysis/InnerProductSpace/l2Space.lean`); `IsHilbertSum`;
-  `MeasureTheory.Lp`, `ContinuousMap.toLp` and `ContinuousMap.toLp_denseRange`
+- **Hilbert spaces.** `HilbertBasis`, `HilbertBasis.mkOfOrthogonalEqBot`,
+  `HilbertBasis.tsum_inner_mul_inner` and `IsHilbertSum` (`Analysis/InnerProductSpace/l2Space.lean`);
+  `ContinuousLinearMap.adjoint` (`Analysis/InnerProductSpace/Adjoint.lean`); `MeasureTheory.Lp`
+  (`MeasureTheory/Function/LpSpace/Basic.lean`); `ContinuousMap.toLp`
+  (`MeasureTheory/Function/LpSpace/ContinuousFunctions.lean`); `ContinuousMap.toLp_denseRange`
   (`MeasureTheory/Function/ContinuousMapDense.lean`).
 - **Compact operators.** `IsCompactOperator` (`Analysis/Normed/Operator/Compact/Basic.lean`) and
   `ContinuousLinearMap.finite_dimensional_eigenspace`
@@ -495,7 +497,7 @@ The orthogonality tables of the coefficients of `Equiv.Perm (Fin 3)`.
 
 ### Dependencies
 
-Layers 0-3; Tau Ceti `Compact/SchurOrthogonality.lean`.
+Layers 0-3; Tau Ceti `Compact/SchurOrthogonality.lean` and `Compact/Intertwiner/Basic.lean`.
 
 ## Layer 5: the Peter-Weyl theorem
 
