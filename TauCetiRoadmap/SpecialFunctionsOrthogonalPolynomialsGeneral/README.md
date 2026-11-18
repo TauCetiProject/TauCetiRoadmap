@@ -144,8 +144,8 @@ and defines no named family.
   pairwise orthogonal. `orthonormal μ n` is `monic μ n / √h_n`, with positive leading coefficient.
 - **The constants** for a system `p` are `normSq μ p n = h_n`, `normSqX μ p n = h̃_n`,
   `(p n).leadingCoeff = k_n`, `(p n).nextCoeff = k̃_n` (Mathlib's `nextCoeff` is `0` in degree
-  `0`, so `k̃₀ = 0`), and `subNextCoeff (p n) = k̃̃_n`, the coefficient two below the leading one,
-  `0` in degree `< 2` (DLMF 18.2.5–18.2.7).
+  `0`, so `k̃₀ = 0`), and `k̃̃_n` is the coefficient two below the leading one, `0` in degree
+  `< 2` (DLMF 18.2.5–18.2.7).
 - **`p_{−1} = 0`.** No statement uses a polynomial of index `−1` or a truncated subtraction in an
   index that could produce one: every recurrence is stated separately at `n = 0` and at `n + 1`.
   The second-form coefficient `c_n` is `recC μ p n` with `recC μ p 0 = 0`, and the monic `β_n` is
@@ -160,7 +160,7 @@ and defines no named family.
   `(i, i + 1)` and `c_i` at `(i, i − 1)` (DLMF 18.2.18).
 - **Zeros** are indexed from `0` in increasing order: `zeros μ n : Fin n → ℝ`, so the `k`-th
   smallest zero `x_k` of the sources is `zeros μ n (k − 1)`. The Christoffel numbers are
-  `christoffelNumber μ n i`, the `n`-point Gauss measure is `gaussMeasure μ n = Σ_i w_i δ_{x_i}`.
+  `christoffelNumber μ n i`, and the `n`-point Gauss measure is `Σ_i w_i δ_{x_i}`.
 - **Hankel determinants** are defined for any sequence `m : ℕ → ℝ`: `hankelDet m n` is
   `det (m (i + j))_{i,j<n}` with `Δ₀ = 1`, that is ClassicalArithmeticCompletion §6.21's
   `D_n(a) = det (a_(i+j+1))_{i,j<n}` for `a_(k+1) = m_k`, and `hankelDet' m n` is the determinant
@@ -323,9 +323,11 @@ Define `Polynomial.corecursive α β`. Targets, over any commutative ring:
 Define `jacobiMatrix a b c n`. Targets:
 - over any commutative ring, `charpoly (J_n) = monicThreeTerm b (k ↦ a_{k−1} c_k) n`
   (`charpoly_jacobiMatrix`; Ismail, Theorem 2.2.4, p. 24, for the monic case; DLMF 18.2.18);
-- `J_n` is symmetric iff `c_k = a_{k−1}` for `1 ≤ k < n`, and when `a_{k−1} c_k > 0` it is
-  conjugate by a positive diagonal matrix to the symmetric matrix with off-diagonal entries
-  `√(a_{k−1} c_k)` (Ismail, p. 24).
+- `J_n` is symmetric iff `c_k = a_{k−1}` for `1 ≤ k < n`; over `ℝ`, when `a_{k−1} c_k > 0` for
+  `1 ≤ k < n`, `D⁻¹ J_n D` is the symmetric matrix with the same diagonal and off-diagonal entries
+  `√(a_{k−1} c_k)` for the invertible diagonal `D = diag(d_k)` with
+  `d_k/d_{k−1} = sgn(a_{k−1}) √(c_k/a_{k−1})` (Ismail, p. 24, for the monic case); `D` can be
+  taken positive exactly when every `a_{k−1} > 0`.
 
 Route: expansion of the determinant along the last row (`Matrix.det_succ_row`).
 
@@ -337,6 +339,9 @@ Route: expansion of the determinant along the last row (`Matrix.det_succ_row`).
 - `n = 3`, `b = 0`, `a = (1, 2, 3)`, `c = (0, 5, 7)`: the matrix `((0, 1, 0), (5, 0, 2), (0, 7, 0))`
   has `charpoly = X³ − 19X`, from `a₀c₁ + a₁c₂ = 5 + 14`; the products `a_k c_k` would give
   `X³ − 31X`.
+- `n = 2`, `b = 0`, `a₀ = c₁ = −1`: `D = diag(1, −1)` conjugates `J₂ = ((0, −1), (−1, 0))` to
+  `((0, 1), (1, 0))`, while a positive diagonal `D` keeps the `(0, 1)` entry `−d₁/d₀ < 0`; this is
+  the sign pattern of Laguerre's `L_n` in 3.2.
 
 ### 1.4 The continuants of the J-fraction
 
@@ -421,8 +426,8 @@ moments and `(n : ℕ∞) < μ.support.encard`:
 
 ### 2.3 Systems, constants and standardizations
 
-Define `IsOrthogonal μ p` and, for a system `p`, `normSq μ p n = h_n`, `normSqX μ p n = h̃_n`,
-`subNextCoeff`, and `orthonormal μ n`. For an orthogonality measure `μ`:
+Define `IsOrthogonal μ p`, for a system `p` the constants `normSq μ p n = h_n` and
+`normSqX μ p n = h̃_n`, and `orthonormal μ n`. For an orthogonality measure `μ`:
 - `IsOrthogonal μ p ↔ ∀ n, ∃ c ≠ 0, p n = c · monic μ n` (`isOrthogonal_iff`; Chihara, Ch. I,
   Definition 2.2, p. 7, and the corollary to Theorem 2.2, p. 9);
 - `pairing μ (p m) (p n) = h_n δ_{mn}` with `h_n > 0`, and the same with sums for point masses
@@ -567,8 +572,9 @@ For an orthogonality measure:
   (`monic_eq_monicThreeTerm`; Chihara, Ch. I, Theorem 4.1, p. 18; Ismail, Theorem 2.2.1, p. 22;
   Gautschi, Theorem 1.27, p. 10; DLMF 18.2.11_4–18.2.11_6);
 - `q_n = p_n/√h_n` is `orthonormal μ n`, with
-  `x q_{n+1} = √β_{n+2} q_{n+2} + α_{n+1} q_{n+1} + √β_{n+1} q_n`, `q₁ = (x − α₀)/√(h₀ β₁)` and
-  `q₀ = 1/√h₀` (`X_mul_orthonormal`; Gautschi, Theorem 1.29, p. 12; DLMF 18.2.11_7–18.2.11_8);
+  `x q_{n+1} = √β_{n+2} q_{n+2} + α_{n+1} q_{n+1} + √β_{n+1} q_n` (`X_mul_orthonormal`;
+  Gautschi, Theorem 1.29, p. 12; DLMF 18.2.11_7–18.2.11_8), `q₁ = (x − α₀)/√(h₀ β₁)` and
+  `q₀ = 1/√h₀`;
 - `h_n = h₀ β₁ ⋯ β_n` (Chihara, Ch. I, Theorem 4.2(b), p. 19);
 - comparison with RandomMatrices §8.2: the class of `orthonormal μ n` in `L²(μ)` is
   `InnerProductSpace.gramSchmidtNormed ℝ (fun k ↦ xᵏ) n`, the `n`-th Gram–Schmidt orthonormalization
@@ -741,8 +747,8 @@ increasing enumeration of `Matrix.IsHermitian.eigenvalues`.
 ### 5.3 Gauss quadrature and the Christoffel numbers
 
 Define `christoffelNumber μ n i = w_i = ∫ p_n(x)/((x − x_i) p′_n(x_i)) dμ(x)`, the integrand
-being the polynomial `p_n /ₘ (X − x_i)` divided by `p′_n(x_i)`, and
-`gaussMeasure μ n = Σ_i w_i δ_{x_i}`. For an orthogonality measure:
+being the polynomial `p_n /ₘ (X − x_i)` divided by `p′_n(x_i)`, and the `n`-point Gauss measure
+`Σ_i w_i δ_{x_i}`. For an orthogonality measure:
 - `w_i > 0`, and `∫ q dμ = Σ_i w_i q(x_i)` for every `q` of degree `≤ 2n − 1`
   (`gauss_quadrature`; Andrews–Askey–Roy, Theorem 5.3.2, p. 250; Chihara, Ch. I, Theorem 6.1,
   p. 32; Ismail, Theorem 2.4.1, p. 28; Gautschi, Theorems 1.45–1.46, pp. 21–23; DLMF 18.2.37);
@@ -751,7 +757,7 @@ being the polynomial `p_n /ₘ (X − x_i)` divided by `p′_n(x_i)`, and
   Theorem 5.6.4, p. 261; Ismail, Theorem 2.4.2, p. 28), and `Σ_i w_i = μ(ℝ)`;
 - `w_i = μ(ℝ) v_{i,0}²` for the first component of the normalized eigenvector of the orthonormal
   `J_n` at `x_i` (Gautschi, Theorem 3.1, p. 153);
-- if `μ` is concentrated on `[a, b]`, so is `gaussMeasure μ n`;
+- if `μ` is concentrated on `[a, b]`, so is the Gauss measure;
 - **moments from the Jacobi matrix:** `μ_k = μ₀ (J_N^k)₀₀` for the orthonormal `J_N` and every
   `k ≤ 2N − 1` (`moment_eq_jacobiMatrix_pow`; Andrews–Askey–Roy, Lemma 5.8.1, p. 268, for the
   matrix with `1` above the diagonal and `β_k` below it, which is diagonally similar to `J_N`).
@@ -803,7 +809,7 @@ Route: for the inequalities, Gauss quadrature (5.3) applied to the polynomials o
 `2n − 2` that interpolate the indicator of `(−∞, x_j]` at the nodes with vanishing derivatives at
 the nodes other than `x_j`; they lie above, or below, that indicator on all of `ℝ`, so no
 bounded support is needed. For the convergence, Weierstrass approximation on `[a, b]` with
-`Σ_i w_i = μ(ℝ)` and `w_i > 0`, or the weak convergence of `μ₀⁻¹ gaussMeasure μ n` (Tau Ceti
+`Σ_i w_i = μ(ℝ)` and `w_i > 0`, or the weak convergence of `μ₀⁻¹ Σ_i w_i δ_{x_i}` (Tau Ceti
 `MeasureTheory.ProbabilityMeasure.tendsto_of_tendsto_integral_pow`).
 
 *Needs:* 5.3; Tau Ceti `WeakConvergence` (for the second route).
@@ -822,8 +828,8 @@ bounded support is needed. For the convergence, Weierstrass approximation on `[a
 Auxiliary: for a field `K`, `c ≠ 0` and `x : Fin n → K`,
 `disc(c ∏ (X − x_i)) = c^{2n−2} ∏_{i<j} (x_i − x_j)²` for Mathlib's `Polynomial.discr`
 (`discr_eq_prod`), from `Polynomial.resultant_eq_prod_roots_sub`. Then
-`disc(p_n) = k_n^{2n−2} ∏_{i<j} (x_i − x_j)² > 0` (`discr_pos`; Ismail, §3.4, p. 67; DLMF
-18.2.20).
+`disc(p_n) > 0` (`discr_pos`; Ismail, §3.4, p. 67; DLMF 18.2.20), and
+`disc(p_n) = k_n^{2n−2} ∏_{i<j} (x_i − x_j)²` by `discr_eq_prod` and the zeros of 5.1.
 
 *Needs:* 5.1, Mathlib `Polynomial.discr`.
 
@@ -836,11 +842,19 @@ Auxiliary: for a field `K`, `c ≠ 0` and `x : Fin n → K`,
 Let `b` be finite, `I` an interval with greatest point `b` (`I = [a, b]` or `I = (−∞, b]`) and
 `w ≥ 0` nondecreasing on `I`, giving an orthogonality measure `w(x) dx` on `I`. For every
 orthogonal system, `√w(x) |p_n(x)| ≤ √w(b) |p_n(b)|` for `x ∈ I` (`sqrt_weight_mul_abs_le`; DLMF
-§18.2(xii), where it is credited to Szegő). The mirror statement holds for nonincreasing `w` on an
-interval with least point `a` (`[a, b]` or `[a, ∞)`), with the maximum at `a`
+§18.2(xii), which assumes only `b < ∞`, refers to Szegő (1975), Theorem 7.2, for the proof, and
+names DLMF 18.14.8 on `[0, ∞)` as a special case). The mirror statement holds for nonincreasing
+`w` on an interval with least point `a` (`[a, b]` or `[a, ∞)`), with the maximum at `a`
 (`sqrt_weight_mul_abs_le_of_antitoneOn`), by the reflection `x ↦ −x`.
 
-*Needs:* 2.3, 5.3.
+Route: Szegő's proof for bounded `I`. For `I = (−∞, b]`, apply the bounded case to `w` on
+`[−R, b]`, which is an orthogonality measure for large `R` because `w > 0` on an interval ending
+at `b`; as `R → ∞` its moments converge to those of `w(x) dx` by dominated convergence, so its
+monic orthogonal polynomials converge coefficientwise to `monic μ n` by the determinant formula of
+2.4 (`Δ_n > 0`), and the inequality passes to the limit. A general system is a multiple of the
+monic one (2.3).
+
+*Needs:* 2.3, 2.4, 5.3.
 
 **Checks.**
 - `w = eˣ` on `[0, 1]`, `w = (1 + x)²` on `[−1, 1]`, `w = √(x + 0.1)` on `[0, 2]`, `n = 1, …, 5`:
@@ -1041,11 +1055,12 @@ Layers 1–3, 5; Tau Ceti `Determinacy`; Mathlib Prokhorov.
 ### 8.1 Completeness and the orthogonal expansion
 
 Let `μ` be an orthogonality measure with one finite exponential moment `∫ e^{a|x|} dμ < ∞`,
-`a > 0` (in particular, `μ` concentrated on a bounded interval). Then the orthonormal polynomials
-form a Hilbert basis of `L²(μ; 𝕜)` for `𝕜 = ℝ, ℂ`, whose `n`-th vector is `orthonormal μ n` almost
-everywhere; for every `f ∈ L²(μ)`, `f = Σ_n λ_n p_n` in `L²(μ)` with `λ_n = h_n⁻¹ ∫ f p_n dμ` for
-any orthogonal system `p`, and `Σ_n h_n |λ_n|² = ‖f‖²` (`hasSum_orthonormal_expansion`;
-Andrews–Askey–Roy, Theorem 5.7.4, p. 264, on a finite interval; DLMF 18.2.24–18.2.25).
+`a > 0` (in particular, `μ` concentrated on a bounded interval), and `𝕜 = ℝ` or `ℂ`. Then for
+every `f ∈ L²(μ; 𝕜)`, `f = Σ_n (∫ q_n f dμ) q_n` in `L²(μ; 𝕜)` for the classes `q_n` of
+`orthonormal μ n` (`hasSum_orthonormal_expansion`; Andrews–Askey–Roy, Theorem 5.7.4, p. 264, on a
+finite interval; DLMF 18.2.24–18.2.25). Hence the orthonormal polynomials form a Hilbert basis of
+`L²(μ; 𝕜)`; for any orthogonal system `p`, `f = Σ_n λ_n p_n` with `λ_n = h_n⁻¹ ∫ f p_n dμ`; and
+`Σ_n h_n |λ_n|² = ‖f‖²`.
 
 Route: `TauCeti.hilbertBasisOfOrthogonalSystem` with weight `1` and the completeness input
 `TauCeti.orthogonal_span_range_bareNormalizedLp_eq_bot`.
@@ -1148,7 +1163,8 @@ For an orthogonality measure concentrated on a bounded interval `[a, b]`,
 Theorem 2.6.2, p. 36; Andrews–Askey–Roy, Theorem 5.5.6, p. 259, pointwise for real `x ∉ [a, b]`;
 DLMF 18.2.38, pointwise). The limit is `−μ₀⁻¹ · resolventTransform μ z`.
 
-Route: by 9.2, `F_n(z) = μ₀⁻¹ ∫ (z − x)⁻¹ d(gaussMeasure μ n)(x)`; the Gauss measures are
+Route: by 9.2, `F_n(z) = μ₀⁻¹ Σ_i w_i (z − x_i)⁻¹`, the integral of `(z − x)⁻¹` against the
+Gauss measure of 5.3 divided by `μ₀`; the Gauss measures are
 concentrated on `[a, b]` and agree with `μ` on polynomials of degree `≤ 2n − 1`, so they converge
 weakly to `μ` (5.5), and `(z − x)⁻¹` is continuous on `[a, b]` uniformly for `z` in a compact set
 off `[a, b]`.
@@ -1208,13 +1224,14 @@ rearrangement of Mathlib's `Finset.sum_range_by_parts`.
 
 ### 10.2 The central difference in the imaginary direction
 
-`δ_x f(z) = (f(z + i/2) − f(z − i/2))/i` for `f : ℂ → ℂ` (`imCentralDiffFun`), and on complex
+`δ_x f(z) = (f(z + i/2) − f(z − i/2))/i` for `f : ℂ → ℂ`, and on complex
 polynomials `imCentralDiff p = i⁻¹ (p(X + i/2) − p(X − i/2))` (DLMF §18.1(i); see Conventions for
 the factor `i` against Koekoek–Lesky–Swarttouw (1.16.3)). Targets:
-- `(imCentralDiff p).eval z = imCentralDiffFun (eval · p) z`;
-- for `deg p = n ≥ 1`, `deg δ_x p = n − 1` with leading coefficient `n` times that of `p`, and
-  `δ_x` kills constants; hence `δ_xⁿ p` is the constant `n!` times the leading coefficient
-  (`imCentralDiff_natDegree_leadingCoeff`);
+- `(imCentralDiff p).eval z = (p(z + i/2) − p(z − i/2))/i`, that is, `imCentralDiff p` is `δ_x`
+  applied to the polynomial function of `p`;
+- for `deg p = n ≥ 1`, `deg δ_x p = n − 1` with leading coefficient `n` times that of `p`
+  (`imCentralDiff_natDegree_leadingCoeff`); `δ_x` kills constants, and hence `δ_xⁿ p` is the
+  constant `n!` times the leading coefficient;
 - `δ_x` maps real polynomials to real polynomials (`imCentralDiff_map_real`).
 
 Route: binomial expansion of `(X ± i/2)^k`; the even powers of `i/2` cancel.
@@ -1408,3 +1425,5 @@ specified by the layers.
 - B. Simon, The classical moment problem as a self-adjoint finite difference operator,
   *Adv. Math.* 137 (1998), 82–203; arXiv:math-ph/9906008, §§1, 2 and 5. Page numbers refer to the
   arXiv version.
+- G. Szegő, *Orthogonal Polynomials*, 4th ed., American Mathematical Society Colloquium
+  Publications 23, 1975, Theorem 7.2, as DLMF §18.2(xii) cites it.

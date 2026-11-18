@@ -164,10 +164,6 @@ def normSq (μ : Measure ℝ) (p : ℕ → ℝ[X]) (n : ℕ) : ℝ :=
 def normSqX (μ : Measure ℝ) (p : ℕ → ℝ[X]) (n : ℕ) : ℝ :=
   ∫ x, x * (p n).eval x ^ 2 ∂μ
 
-/-- The coefficient `k̃̃_n` two below the leading one (DLMF 18.2.7); `0` in degree `< 2`. -/
-def subNextCoeff (q : ℝ[X]) : ℝ :=
-  if q.natDegree < 2 then 0 else q.coeff (q.natDegree - 2)
-
 /-- The orthonormal polynomials with positive leading coefficient. -/
 def orthonormal (μ : Measure ℝ) (n : ℕ) : ℝ[X] :=
   C (Real.sqrt (normSq μ (monic μ) n))⁻¹ * monic μ n
@@ -411,10 +407,6 @@ theorem zeros_mem_Ioo {μ : Measure ℝ} (hμ : IsOrthogonalityMeasure μ) {a b 
 def christoffelNumber (μ : Measure ℝ) (n : ℕ) (i : Fin n) : ℝ :=
   (∫ x, ((monic μ n /ₘ (X - C (zeros μ n i))).eval x) ∂μ) /
     (derivative (monic μ n)).eval (zeros μ n i)
-
-/-- The `n`-point Gauss quadrature measure. -/
-def gaussMeasure (μ : Measure ℝ) (n : ℕ) : Measure ℝ :=
-  ∑ i : Fin n, ENNReal.ofReal (christoffelNumber μ n i) • Measure.dirac (zeros μ n i)
 
 /-- Gauss quadrature: positive weights, exact in degree `≤ 2n − 1`. -/
 theorem gauss_quadrature {μ : Measure ℝ} (hμ : IsOrthogonalityMeasure μ) (n : ℕ) :
@@ -699,11 +691,6 @@ theorem sum_range_mul_fwdDiff {R : Type*} [CommRing R] (f g : ℕ → R) (N : �
 
 /-! ### 10.2 The central difference in the imaginary direction -/
 
-/-- The central difference in the imaginary direction,
-`δ_x f(z) = (f(z + i/2) − f(z − i/2))/i` (DLMF §18.1(i)). -/
-def imCentralDiffFun (f : ℂ → ℂ) (z : ℂ) : ℂ :=
-  (f (z + Complex.I / 2) - f (z - Complex.I / 2)) / Complex.I
-
 /-- `δ_x` on complex polynomials. -/
 def imCentralDiff (p : ℂ[X]) : ℂ[X] :=
   C Complex.I⁻¹ * (p.comp (X + C (Complex.I / 2)) - p.comp (X - C (Complex.I / 2)))
@@ -782,7 +769,7 @@ theorem lowering_raising {μ : Measure ℝ} (hμ : IsOrthogonalityMeasure μ) {�
         π * derivative (monic μ n) = R * monic μ n + S * monic μ (n + 1) := by
   sorry
 
-/-! ## Suppliers cited in `README.md` -/
+-- Suppliers cited in README.md
 
 #check @fwdDiff
 #check @fwdDiff_iter_eq_sum_shift
