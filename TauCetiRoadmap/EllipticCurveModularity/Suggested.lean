@@ -52,14 +52,6 @@ abbrev GQ : Type := AlgebraicClosure ℚ ≃ₐ[ℚ] AlgebraicClosure ℚ
 /-- The integer Dirichlet coefficient of the elliptic L-function. -/
 def lCoeff (E : WeierstrassCurve ℚ) (n : ℕ) : ℤ := E.LFunction n
 
-/-- Good reduction of the minimal model over the p-adic integers. -/
-def HasGoodReductionAt (E : WeierstrassCurve ℚ) (p : ℕ) [Fact p.Prime] : Prop :=
-  ((E.baseChange ℚ_[p]).minimal ℤ_[p]).HasGoodReduction ℤ_[p]
-
-/-- Multiplicative reduction of the minimal model over the p-adic integers. -/
-def HasMultiplicativeReductionAt (E : WeierstrassCurve ℚ) (p : ℕ) [Fact p.Prime] : Prop :=
-  ((E.baseChange ℚ_[p]).minimal ℤ_[p]).HasMultiplicativeReduction ℤ_[p]
-
 /-- A finite cyclic subgroup of geometric points of order p, stable under Galois. -/
 def HasRationalCyclicSubgroup (E : WeierstrassCurve ℚ) [E.IsElliptic] (p : ℕ) : Prop :=
   ∃ C : AddSubgroup (E.baseChange (AlgebraicClosure ℚ)).toAffine.Point,

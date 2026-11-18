@@ -159,11 +159,11 @@ Cremona §2.6, (2.6.1)–(2.6.2), pp. 24–25).
 - For its attached form at the split multiplicative prime 11, the input `a₁₁ = 1`
   gives `a₁₂₁ = 1`; applying the good-prime recurrence there would give −10.
 
-`HasGoodReductionAt E p` and `HasMultiplicativeReductionAt E p` mean the corresponding
-Mathlib predicates on the minimal base change over `ℤ_[p]`, for p prime. Their API is
+Good and multiplicative reduction of E at a prime p mean the corresponding
+Mathlib predicates on the minimal base change over `ℤ_[p]`. Their API is
 invariance under rational isomorphism and change of integral presentation, disjointness
 of the reduction types, and the conductor comparisons in the supplier contracts. The
-supplied `minimal` operation is used before testing the type; these abbreviations do
+supplied `minimal` operation is used before testing the type; these two predicates do
 not define a new reduction theory (EllipticCurves Layer 4; Silverman, AEC VII.5).
 
 **Checks.**
@@ -221,8 +221,8 @@ The intended predicate `HasRationalCyclicSubgroup E p` uses the native point act
 listed in the supplier contracts. Its API identifies stability under each Galois
 automorphism with equality of its transported subgroup, relates prime-order subgroups
 to residual invariant lines, and relates them to kernels of ℚ-defined prime-degree
-cyclic isogenies (ArithmeticGaloisRepresentations §6.1; EllipticCurves Layer 1;
-Serre §4.6, Lemme 5, p. 207). Prime-order cyclicity follows from the order hypothesis,
+cyclic isogenies (ArithmeticGaloisRepresentations §6.1; EllipticCurves Layer 1).
+Prime-order cyclicity follows from the order hypothesis,
 but rationality of a chosen generator does not.
 
 **Checks.**
@@ -311,8 +311,6 @@ lookup or classification is a target. The formulas are those of Silverman, AEC I
 | 11a1 | `(0, -1, 1, -10, -20)` | `-161051` | `496` |
 | 11a2 | `(0, -1, 1, -7820, -263580)` | `-11` | `375376` |
 | 11a3 | `(0, -1, 1, 0, 0)` | `-11` | `16` |
-| 26b1 | `(1, -1, 1, -3, 3)` | `-1664` | `129` |
-| 274a1 | `(1, 0, 0, -7, 9)` | `-17536` | `337` |
 | 162b1 | `(1, -1, 1, -5, 5)` | `-648` | `225` |
 | 32a2 | `(0, 0, 0, -1, 0)` | `64` | `48` |
 | 37a1 | `(0, 0, 1, -1, 0)` | `37` | `48` |
@@ -1644,8 +1642,7 @@ the automorphic representation of a newform with that of the newform.
 
 Names below are in the namespace `TauCetiRoadmap.EllipticCurveModularity`. The accompanying
 `Suggested.lean` states headline theorems on the pinned native carriers; it is not an
-exhaustive checklist. It defines `GQ`, `lCoeff`, `coeff`, `HasGoodReductionAt`,
-`HasMultiplicativeReductionAt`, `HasRationalCyclicSubgroup` and
+exhaustive checklist. It defines `GQ`, `lCoeff`, `coeff`, `HasRationalCyclicSubgroup` and
 `IsNewformOf` to state those theorems. The remaining APIs are specified in mathematical prose.
 
 The Artin conductor of a two-dimensional ℓ-adic or residual Galois representation and
