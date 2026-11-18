@@ -1,50 +1,60 @@
 # Roadmap: countable structure spaces, Part II: Borel reducibility of isomorphism relations and Borel completeness
 
-**Summary.** The CountableStructureSpaces roadmap, over Tau Ceti's coding space
-`RelationalConfiguration L ℕ`, builds the compact Polish space of relational structures on ℕ, the
-Polish group S∞ = `Equiv.Perm ℕ` acting on it by relabelling, and the isomorphism relation
-`isoSetoid L ℕ` as the orbit relation of that action. This Part II compares isomorphism relations of
-different classes of countable structures by Borel reducibility, in the sense of
-`Setoid.BorelReducible`. It defines Borel completeness of a class of codes on ℕ (the isomorphism
-relation of every invariant Borel class of every countable relational language reduces to the
-isomorphism relation of the class), extends the notion to languages with function symbols, and
-proves the Friedman–Stanley theorem: countable graphs, countable trees and countable linear orders
-are Borel complete, through explicit continuous codings. It proves the
-Becker–Kechris universality theorem for S∞ (every Borel S∞-space embeds equivariantly into the logic
-action of the language with one `n`-ary relation symbol for each `n`) and the equivalence of Borel
-completeness with four standard reformulations. It ends with the consequences of Borel completeness:
-the isomorphism relation is not Borel (through an explicit back-and-forth computation on ordinal
-multiples and the uniform back-and-forth separation theorem of CountableStructureSpaces), lies above
-E₀, has continuum many classes and is not smooth, the class has unbounded Scott height, and the
-Friedman–Stanley obstruction shows that a class, Borel or not, stratified into pieces with Borel
-isomorphism relation by a rank bounded on its analytic subsets is not Borel complete; for an
-analytic class this is the non-Borelness theorem again, and the obstruction has content for classes
-that are not analytic, such as the coded well-orders.
+**Summary.** How hard is it to classify countable graphs or linear orders up to isomorphism?
+Descriptive set theory makes the question precise. A relational structure with universe ℕ is coded
+by a point of a space of codes, recording which atomic facts hold. The group S∞ of permutations of
+ℕ acts on codes by relabelling, and isomorphism is its orbit relation. Isomorphism on one class of
+codes is Borel reducible to isomorphism on another when a Borel map from the first class to the
+second preserves and reflects isomorphism.
 
-`Suggested.lean` is the acceptance test: it states the headline theorems against the pinned
-libraries, with the definitions they need (`classIso`, `BorelComplete`, `graphClass`,
-`linearOrderClass`, `treeClass`, `instMeasurableSpacePerm`, `universalLanguage`):
-`borelComplete_graphClass`, `exists_continuous_reduction_linearOrderClass`,
-`borelComplete_linearOrderClass`, `borelComplete_treeClass`,
-`exists_equivariant_measurableEmbedding_universal`, the characterisations
-`borelComplete_iff_graphClass` and `borelComplete_iff_forall_permSpace`, and
-`bfEquiv_omega0_opow_mul`, `not_measurableSet_classIso_of_borelComplete`,
-`exists_lt_scottHeight_of_borelComplete`, `borelReducible_eZero_of_borelComplete`,
-`mk_quotient_classIso_of_borelComplete` and `not_borelComplete_of_rank_bounded`. Every other
-target, API fact and Check below is part of the roadmap and is not restated there.
+This roadmap, the second part of CountableStructureSpaces, studies the top of this comparison. A
+class K of codes on ℕ is Borel complete when isomorphism on every Borel class closed under
+isomorphism, in every countable relational language, is Borel reducible to isomorphism on K.
+Admitting function symbols would change nothing.
 
-## How to read the build
+By the first main theorem, due to Friedman and Stanley, countable graphs, linear orders and trees
+are Borel complete. Here a tree is a partial order with a least element in which the elements
+below each element form a finite chain. Structures become graphs through small gadgets of
+vertices, told apart by cliques of different sizes. For linear orders, one continuous map on all
+binary relations on ℕ takes linear orders as values and preserves and reflects isomorphism. It
+places copies of ω, each followed by a finite chain whose length codes a finite piece of the
+relation, along the finite sequences of rationals ordered lexicographically.
 
-Layer 0 sets up the vocabulary for comparing classes: isomorphism restricted to a class and set
-reducibility. Layer 1 defines Borel completeness, makes the definition independent of universes
-and of the naming of symbols, and extends it to languages with function symbols. Layer 2 codes
-every countable relational structure into a graph, so graphs are Borel complete. Layer 3 codes
-graphs into coloured trees and coloured linear orders on `List ℚ` and removes the colours, so
-trees and linear orders are Borel complete. Layer 4 embeds every Borel S∞-space into the logic
-action of one fixed language, using the Polish realization of NoncompactQuantumSymmetry. Layer 5
-assembles the characterisations of Borel completeness from Layers 0–4. Layer 6 draws the
-consequences; its back-and-forth computation for ordinal multiples (6.1) depends only on Tau
-Ceti's `BFEquiv` and Mathlib's ordinals and can be built in parallel with Layers 1–5.
+The second main theorem is the Becker–Kechris universality theorem. A Borel S∞-space is a
+standard Borel space with a jointly measurable action of S∞. Every such space has a Borel
+injection, commuting with the actions, into the codes of one language with one relation symbol of
+each arity. With the first theorem this characterises Borel completeness: a class is Borel
+complete exactly when isomorphism of countable graphs is Borel reducible to its isomorphism
+relation, and exactly when the orbit relation of every Borel S∞-space is.
+
+The remaining theorems concern a Borel complete class K. Its isomorphic pairs do not form a Borel
+subset of K × K, with K given the σ-algebra it inherits. The proof rests on a computation: for
+nonzero δ and ε, the well-orders ω^γ·δ and ω^γ·ε are back-and-forth equivalent at level γ, so ω²
+and ω²·2 are equivalent at level 2 without being isomorphic. E₀, eventual equality of binary
+sequences, reduces to isomorphism on K, so no Borel map into Cantor space gives complete
+invariants. For a countable language, K has exactly continuum many isomorphism types, and the
+Scott heights of its members are unbounded below ω₁.
+
+The last theorem is the Friedman–Stanley obstruction, for classes of a countable language that need
+not be Borel. Suppose a rank ρ into the ordinals satisfies two conditions: for every α < ω₁,
+isomorphism on the part of K where ρ ≤ α is Borel for the σ-algebra that part inherits, and ρ is
+bounded below ω₁ on every analytic subset of K. Then K is not Borel complete. For analytic K this
+adds nothing to non-Borelness, but it shows that coded well-orders, ranked by order type, are not
+Borel complete. Since they have ℵ₁ isomorphism types, counting settles this only when ℵ₁ < 𝔠.
+
+The roadmap builds on CountableStructureSpaces for the space of codes and uniform back-and-forth
+separation, and on BorelEquivalenceRelations for Borel reducibility and E₀.
+NoncompactQuantumSymmetry supplies a Polish topology, with the same Borel sets, in which a Borel
+S∞-space acts continuously. The Borel completeness of algebraic classes, such as Boolean algebras
+or torsion-free abelian groups, is left to a roadmap on those classes.
+
+Layer 0 restricts isomorphism to a class and introduces set reducibility. Layer 1 defines Borel
+completeness, shows that it depends neither on universes nor on the naming of symbols, and extends
+it to function symbols. Layers 2 and 3 code structures into graphs, and graphs into coloured trees
+and linear orders whose colours are then removed. Layers 4, 5 and 6 build the universal embedding, the
+characterisations and the consequences. Layer 6's ordinal computation needs only back-and-forth
+equivalence and ordinals, and can be built in parallel with Layers 1–5. `Suggested.lean` states
+the main theorems in Lean.
 
 ## Conventions
 
@@ -1301,7 +1311,7 @@ montalban-cst2 Lemma XI.2, lines 8946–8980) and the theorem that countable tor
 are not Borel complete, with its proof (friedman-stanley-1989 §4; hjorth-kechris-1996 §4–§5; it
 needs Ulm's theorem, and it is not an instance of Layer 6.4, which for a Borel class says no more
 than 6.2, the isomorphism relation of torsion abelian groups not being Borel) belong to a roadmap
-on the Borel completeness of algebraic classes; nothing below depends on them. That roadmap
+on the Borel completeness of algebraic classes; nothing above depends on them. That roadmap
 consumes `BorelComplete`, Layer 1.3, Layer 5 and Layer 6.4, the last for classes on whose analytic
 subsets the rank is bounded, such as the coanalytic class of reduced abelian `p`-groups stratified
 by Ulm length (Ulm's theorem gives hypothesis (a) of 6.4, and the boundedness of the Ulm length on
