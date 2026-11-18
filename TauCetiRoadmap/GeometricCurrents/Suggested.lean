@@ -8,8 +8,8 @@ The roadmap is `README.md`; this file is not the roadmap. It states the roadmap'
 theorems against the pinned Mathlib and Tau Ceti.
 
 One headline is statable there and is stated below: the Bombieri–De Giorgi–Giusti theorem (G7),
-that the region `{|x|² > |y|²}` of `ℝ⁴ × ℝ⁴` is locally perimeter minimizing, for Tau Ceti's
-perimeter `TauCeti.perimeter`.
+that for `m ≥ 4` the region `{|x|² > |y|²}` of `ℝᵐ × ℝᵐ` is locally perimeter minimizing, for
+Tau Ceti's perimeter `TauCeti.perimeter`.
 
 The other headlines are not statable there, because each needs integral currents
 (integer-rectifiable currents whose boundary is integer rectifiable), which neither library has:
@@ -43,20 +43,23 @@ namespace TauCetiRoadmap.GeometricCurrents
 
 open MeasureTheory TopologicalSpace
 
-/-- The region `E = {|x|² > |y|²}` of `ℝ⁸ = ℝ⁴ × ℝ⁴`, where `x` consists of the coordinates
-`0, …, 3` and `y` of the coordinates `4, …, 7`. Its topological boundary is the Simons cone
-`{|x| = |y|}`, which is singular at the origin. -/
-def simonsRegion : Set (EuclideanSpace ℝ (Fin 8)) :=
-  {z | ∑ i : Fin 4, z (Fin.natAdd 4 i) ^ 2 < ∑ i : Fin 4, z (Fin.castAdd 4 i) ^ 2}
+/-- The region `E = {|x|² > |y|²}` of `ℝᵐ × ℝᵐ = ℝ^(m + m)`, where `x` consists of the
+coordinates `0, …, m - 1` and `y` of the coordinates `m, …, 2m - 1`. For `m ≥ 1` its topological
+boundary is the cone `{|x| = |y|}`, which is singular at the origin; for `m = 4` it is the Simons
+cone in `ℝ⁸`. -/
+def simonsRegion (m : ℕ) : Set (EuclideanSpace ℝ (Fin (m + m))) :=
+  {z | ∑ i : Fin m, z (Fin.natAdd m i) ^ 2 < ∑ i : Fin m, z (Fin.castAdd m i) ^ 2}
 
-/-- **The Bombieri–De Giorgi–Giusti theorem.** The region `E = {|x|² > |y|²}` of `ℝ⁴ × ℝ⁴` is
-locally perimeter minimizing: for every open `Ω` and every null-measurable `F` that differs from
-`E` only inside a compact subset `K` of `Ω`, the perimeter of `E` in `Ω` is at most that of `F`.
-The perimeter is De Giorgi's, for Lebesgue measure. -/
-theorem perimeter_simonsRegion_le (Ω : Opens (EuclideanSpace ℝ (Fin 8)))
-    {F K : Set (EuclideanSpace ℝ (Fin 8))} (hF : NullMeasurableSet F volume) (hK : IsCompact K)
-    (hKΩ : K ⊆ (Ω : Set (EuclideanSpace ℝ (Fin 8)))) (hFK : symmDiff F simonsRegion ⊆ K) :
-    TauCeti.perimeter volume Ω simonsRegion ≤ TauCeti.perimeter volume Ω F := by
+/-- **The Bombieri–De Giorgi–Giusti theorem.** For `m ≥ 4` the region `E = {|x|² > |y|²}` of
+`ℝᵐ × ℝᵐ` is locally perimeter minimizing: for every open `Ω` and every null-measurable `F` that
+differs from `E` only inside a compact subset `K` of `Ω`, the perimeter of `E` in `Ω` is at most
+that of `F`. The perimeter is De Giorgi's, for Lebesgue measure (Bombieri–De Giorgi–Giusti 1969,
+Theorem A). -/
+theorem perimeter_simonsRegion_le {m : ℕ} (hm : 4 ≤ m) (Ω : Opens (EuclideanSpace ℝ (Fin (m + m))))
+    {F K : Set (EuclideanSpace ℝ (Fin (m + m)))} (hF : NullMeasurableSet F volume)
+    (hK : IsCompact K) (hKΩ : K ⊆ (Ω : Set (EuclideanSpace ℝ (Fin (m + m)))))
+    (hFK : symmDiff F (simonsRegion m) ⊆ K) :
+    TauCeti.perimeter volume Ω (simonsRegion m) ≤ TauCeti.perimeter volume Ω F := by
   sorry
 
 end TauCetiRoadmap.GeometricCurrents

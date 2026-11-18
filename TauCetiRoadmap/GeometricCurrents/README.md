@@ -140,15 +140,17 @@ pointwise norm on forms is the operator norm, which is the comass when Ω lies i
 inner-product space. G1 builds the manifold carrier and compares it with this model
 in charts.
 
-Follow [Mathlib's area-formula design #39120](https://github.com/leanprover-community/mathlib4/pull/39120),
-[normalized-measure design #37310](https://github.com/leanprover-community/mathlib4/pull/37310),
-and [the Hausdorff/(co)area discussion](https://leanprover.zulipchat.com/#narrow/stream/287929-mathlib4/topic/Hausdorff%20measure%2C%20spherical%20measure%2C%20and%20%28co%29area%20formula).
-Use [Tau Ceti's countable-rectifiability design #16790](https://github.com/TauCetiProject/TauCeti/pull/16790)
-for GMT's underlying predicate and closure API. The injective, injective-derivative
-area formula in [Tau Ceti #15922](https://github.com/TauCetiProject/TauCeti/pull/15922)
-is an input toward GMT's full multiplicity and rank-deficient area theorem, not a
-substitute for it. Implement the required generality in Tau Ceti following those
-shapes; no target waits for an upstream merge.
+Follow [Mathlib's area-formula design #39120](https://github.com/leanprover-community/mathlib4/pull/39120)
+and [the Hausdorff/(co)area discussion](https://leanprover.zulipchat.com/#narrow/stream/287929-mathlib4/topic/Hausdorff%20measure%2C%20spherical%20measure%2C%20and%20%28co%29area%20formula),
+with Mathlib's normalized Hausdorff measure `MeasureTheory.Measure.euclideanHausdorffMeasure`
+(`Mathlib/Geometry/Euclidean/Volume/Measure.lean`).
+Use Tau Ceti's `TauCeti.CountablyRectifiable` and its closure API
+(`TauCeti/Geometry/MeasureTheory/Rectifiable/Basic.lean`) for GMT's underlying predicate. Tau Ceti's area formula with
+multiplicity for Lipschitz maps between finite-dimensional real inner product spaces,
+with no rank hypothesis on the derivative, is
+`LipschitzWith.lintegral_normDet_fderiv_mul_eq_lintegral_tsum`
+(`TauCeti/MeasureTheory/Function/AreaFormula/Multiplicity.lean`). Implement the required
+generality in Tau Ceti following those shapes; no target waits for an upstream merge.
 
 ## G1. Test forms, currents and mass
 
@@ -182,7 +184,7 @@ G1 owns continuous exterior derivative and smooth multiplication on these same
 form tests, consuming DG's form operations and K5a's chart seminorm estimates;
 prove the actual pointwise, chart and restriction equations. Form pullbacks
 retain their actual regularity and support hypotheses. All these constructions
-are real and precede C5.4's downstream real/complex current comparison; neither
+are real and precede ComplexComparisonPartII C5.4's downstream real/complex current comparison; neither
 that comparison nor K5a's later distribution-operator/Hodge theory is an input.
 
 Define real currents as continuous real-linear functionals on these tests.
@@ -1053,22 +1055,26 @@ and complex calibration. This extends its competitor class; it does not supply
 smoothness of a higher-codimension calibrated minimizer.
 
 Own the ambient 8 sharpness construction as a theorem, not a presumed example.
-In R⁴×R⁴ put a=|x|², b=|y|², E={a>b} and
-`Y=(−a x,b y)/sqrt(a³+b³)` away from 0. Prove |Y|=1, Y is the outward normal
-of E along the cone away from 0, and
-`div Y=−3(a+b)(a−b)³/(a³+b³)^(3/2)`.
+In Rᵐ×Rᵐ with m≥4 put a=|x|², b=|y|², E={a>b} and
+`Y=(−a x,b y)/sqrt(a³+b³)` away from 0, the negative of the unit field of
+De Philippis–Paolini (2009, (10)–(11), pp. 238–239). Prove |Y|=1, Y is the outward
+normal of E along the cone away from 0, and
+`div Y=−(a−b)(a+b)((m−1)(a²+b²)−(m+2)ab)/(a³+b³)^(3/2)`, whose last factor is
+nonnegative for all a,b≥0 exactly when m≥4 and is `3(a−b)²` for m=4
+(De Philippis–Paolini 2009, Proposition 2.1, pp. 239–240).
 Prove its local weak-divergence identity through the origin by the vanishing
 small-sphere flux, and its opposite divergence signs inside/outside E.
 For every locally finite-perimeter F with F∆E compactly contained, apply GMT
 Gauss–Green to the smooth cutoff field `(1−η_ε)Y` with an outer cutoff equal to
 one near the changed set, then let ε→0. Prove the error bound
-`∫|∇η_ε|=O(ε⁷)` uniformly for the competitor; a weak identity only against
+`∫|∇η_ε|=O(ε^(2m−1))` uniformly for the competitor; a weak identity only against
 smooth tests is not a Gauss–Green theorem for χ_F. This proves the
-Bombieri–De Giorgi–Giusti theorem `perimeter_simonsRegion_le`: E, the set
-`simonsRegion`, is locally perimeter minimizing, that is, `P(E;Ω) ≤ P(F;Ω)` for
+Bombieri–De Giorgi–Giusti theorem `perimeter_simonsRegion_le` (Bombieri–De Giorgi–Giusti
+1969, Theorem A, p. 244): for m≥4, E, the set `simonsRegion m`, is locally perimeter
+minimizing, that is, `P(E;Ω) ≤ P(F;Ω)` for
 every open Ω and every null-measurable F with F∆E inside a compact subset of Ω,
 where P is Tau Ceti's perimeter `TauCeti.perimeter` for Lebesgue measure
-(`TauCeti/Analysis/BoundedVariation/Perimeter.lean`). The integral
+(`TauCeti/Analysis/BoundedVariation/Perimeter.lean`). For m=4, the ambient 8 case, the integral
 height/BV layer decomposition then proves `∂[[E]]` minimizes against **all**
 compactly supported integral-current perturbations, not only set boundaries.
 Construct the cone's local integrality, multiplicity, smooth link S³×S³,
@@ -1088,11 +1094,11 @@ Bott-current correspondences require its critical-manifold/orientation-local-sys
 fiber products and all boundary identities. The cascade route is a distinct
 comparison and does not discharge those current formulas.
 
-[PositiveMass P3a](../PositiveMass/README.md) constructs the compact stable-slice
+[PositiveMass §3.1](../PositiveMass/README.md) constructs the compact stable-slice
 torus obstruction using G3–G7 and R5b's full-scalar stability.
-P3b owns the harmonic end capping/Kelvin transform and concave truncation, the
+PositiveMass §3.2 owns the harmonic end capping/Kelvin transform and concave truncation, the
 degree-one map to a torus and its compact positive-scalar-curvature contradiction.
-P3c, independent of P3b, constructs the coordinate-plane Plateau problems and
+PositiveMass §3.3, independent of §3.2, constructs the coordinate-plane Plateau problems and
 confining barriers, AE asymptotics, induced end/mass estimates and the n=3
 logarithmic cutoff, applying G3–G7 and G7's sheeting interface. GC supplies the
 stated current and regularity interfaces, not these end or compactification
@@ -1120,8 +1126,8 @@ The item graph is
 `{G6, GT collars, Calib C2–C4 comparison} → G7`.
 
 K5a's early real density/test foundation precedes all its PDO/elliptic/Hodge
-applications and C5.4's real/complex current comparison. Only that early cut enters
-G1; C5.4 later consumes the G1 specialization. R5b's normal Jacobi operator and its
+applications and ComplexComparisonPartII C5.4's real/complex current comparison. Only
+that early cut enters G1; ComplexComparisonPartII C5.4 later consumes the G1 specialization. R5b's normal Jacobi operator and its
 Dirichlet realization do not require current regularity. The finite Euclidean nonproper confinement adapter uses G4
 closure before G5, so its integral limit does not assume Plateau existence.
 
@@ -1183,6 +1189,14 @@ maps and carriers, not just abstract isomorphic groups.
 - E. Leuzinger and R. Young, [*Filling functions of arithmetic groups*](https://arxiv.org/abs/1710.00732v1),
   §2.4, pp. 15–17: Lipschitz chains, their mass and filling volume functions; page
   locators are to this arXiv version.
+- E. Bombieri, E. De Giorgi and E. Giusti, [*Minimal cones and the Bernstein
+  problem*](https://eudml.org/doc/141966), Invent. Math. 7 (1969), 243–268,
+  Theorem A, p. 244: for m≥4 the region `{|x|² > |y|²}` of ℝᵐ×ℝᵐ minimizes perimeter
+  against compactly supported perturbations (G7).
+- G. De Philippis and E. Paolini, [*A short proof of the minimality of Simons
+  cone*](https://www.numdam.org/item/RSMUP_2009__121__233_0/), Rend. Sem. Mat. Univ.
+  Padova 121 (2009), 233–241, (10)–(11) and Proposition 2.1, pp. 238–240: the unit
+  field and the sign of its divergence for m≥4 used in G7's subcalibration route.
 - N. Wickramasekera, [*A general regularity theory for stable codimension-one integral
   varifolds*](https://annals.math.princeton.edu/2014/179-3/p02): structural hypotheses
   for a stable-varifold proof route; they are not removed here.
