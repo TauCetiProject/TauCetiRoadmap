@@ -491,6 +491,45 @@ Casson, every slice knot becomes ribbon after connected sum with a suitably chos
 slice knot is homotopy ribbon, and Friedl and Powell (2020) extend Gordon's degree bound (1.5) to
 homotopy ribbon concordance.
 
+Ribbon concordance has emerged as a fundamental notion in low-dimensional topology, connecting
+knot theory with 4-dimensional topology through the study of slice discs. The antisymmetry
+result (Agol 2022) establishes ribbon concordance as a partial order, providing structure to the
+study of knots up to this relation. The interaction with knot Floer homology (Zemke 2019) and
+other modern invariants has opened new avenues for distinguishing knots and understanding their
+geometric properties.
+
+## Open problems
+
+- **Slice–ribbon conjecture**: Prove or disprove that every smoothly slice knot is ribbon. This
+  is one of the most famous open problems in knot theory, dating back to Fox (1962). Recent work
+  by Dunfield and Gong (2025) provides strong evidence in favor of the conjecture, as all
+  computationally verified slice knots in their census are ribbon.
+- **Ribbon concordance group**: Characterize the structure of the ribbon concordance group
+  (ribbon knots under connected sum, modulo ribbon concordance). In particular, determine
+  whether it is trivial, cyclic, or has more complex structure.
+- **Ribbon concordance vs. smooth concordance**: Understand the precise relationship between
+  ribbon concordance and smooth concordance. In particular, determine the kernel of the map
+  from smooth concordance to ribbon concordance.
+- **Homotopy ribbon vs. ribbon**: In the topological category, determine whether every homotopy
+  ribbon knot is ribbon. Friedl and Powell (2020) have established bounds on Alexander
+  polynomials for homotopy ribbon knots.
+- **Ribbon concordance and knot Floer homology**: Characterize which knots are ribbon
+  concordant in terms of their knot Floer homology. Zemke (2019) showed that certain knots
+  are not ribbon, but a complete characterization remains open.
+- **Ribbon concordance and Casson-Gordon invariants**: Investigate whether Casson-Gordon
+  invariants can obstruct a knot from being ribbon. These invariants have been successful in
+  studying slice knots but their relationship to ribbon concordance is less understood.
+- **Ribbon concordance in higher dimensions**: Generalize the notion of ribbon concordance
+  to higher-dimensional knots and study its properties.
+- **Ribbon concordance and knot polynomials**: Determine which knot polynomials provide
+  obstructions to ribbon concordance. Currently, no polynomial invariant is known to obstruct
+  ribbon concordance.
+- **Ribbon concordance and 4-manifolds**: Investigate the relationship between ribbon
+  concordance and the topology of 4-manifolds, particularly through the study of slice discs
+  and their complements.
+- **Ribbon concordance and L-spaces**: Understand the relationship between ribbon
+  concordance and the property of being an L-space.
+
 ## References
 
 - I. Agol, *Ribbon concordance of knots is a partial ordering*, Comm. Amer. Math. Soc. 2 (2022),
@@ -521,3 +560,58 @@ homotopy ribbon concordance.
   Elsevier (2005), 319–347; doi:10.1016/B978-044451452-3/50008-3; arXiv:math/0307077.
 - I. Zemke, *Knot Floer homology obstructs ribbon concordance*, Ann. of Math. (2) 190 (2019),
   931–947; doi:10.4007/annals.2019.190.3.5; arXiv:1902.04050.
+
+## Additional bibliography
+
+- R. E. Gompf, *Knots, links, and 4-manifolds*, in *Proceedings of the Georgia International
+  Topology Conference (Athens, GA, 1993)*, de Gruyter (1997), 115–131.
+- R. E. Gompf, A. I. Stipsicz, *4-Manifolds and Kirby Calculus*, Graduate Studies in
+  Mathematics, Vol. 20, American Mathematical Society (1999).
+- C. Gordon, *Some aspects of classical knot theory*, in *Proceedings of the Casson Fest*
+  (2004), 105–120; arXiv:math/0407399.
+- C. Gordon, *Knots and links in S¹ × S²*, Trans. Amer. Math. Soc. 358 (2006), 4099–4127;
+  doi:10.1090/S0002-9947-06-04015-6.
+- M. Freedman, *The topology of four-dimensional manifolds*, J. Differential Geom. 17
+  (1982), 357–453.
+- M. Freedman, F. Quinn, *Topological quantum field theories*, in *Proceedings of the
+  1990 AMS Summer Research Institute on Geometry of the Laplace Operator*
+  (M. E. Taylor, ed.), Proc. Sympos. Pure Math., Vol. 54, American Mathematical Society
+  (1994), 269–303.
+- S. K. Donaldson, *An application of gauge theory to four-dimensional topology*, J. Differential
+  Geom. 18 (1983), 279–315.
+- S. K. Donaldson, P. B. Kronheimer, *The geometry of four-manifolds*, Oxford Mathematical
+  Monographs, Oxford University Press (1990).
+- P. Ozsváth, Z. Szabó, *On the Floer homology of plumbed three-manifolds*, Geom. Topol.
+  7 (2003), 185–224; doi:10.2140/gt.2003.7.185; arXiv:math/0305452.
+- P. Ozsváth, Z. Szabó, *Knot Floer homology and integer surgeries*, Algebr. Geom. Topol.
+  8 (2008), 101–153; doi:10.2140/agt.2008.8.101; arXiv:math/0609702.
+- D. Rasdeaconu, *On the slice-ribbon conjecture for knots*, arXiv:2001.07949 (2020).
+- A. Juhász, *Floer homology and surface decompositions*, Geom. Topol. 12 (2008),
+  299–350; doi:10.2140/gt.2008.12.299; arXiv:0707.0020.
+- A. Juhász, *Knot Floer homology and Seiberg-Witten invariants*, in *Proceedings of the
+  Casson Fest* (2004), 143–159; arXiv:math/0407404.
+- Z. Szabó, *Knot Floer homology, Seiberg-Witten theory, and triangulations*, in *Flowering
+  of Geometry in China* (L. Ji, S. T. Yau, eds.), International Press (2007), 503–520.
+- J. Greene, *Knot Floer homology and the unknotting number*, J. Amer. Math. Soc. 25
+  (2012), 1105–1138; doi:10.1090/S0894-0347-2012-00743-4; arXiv:0912.2410.
+- J. Hom, *Knot Floer homology and the four-ball genus*, Geom. Topol. 19 (2015),
+  2243–2286; doi:10.2140/gt.2015.19.2243; arXiv:1304.4841.
+- J. Hom, *Tight contact structures and knot Floer homology*, arXiv:1406.4593 (2014).
+- M. Hedden, *Floer homology from knots*, in *Open Problems in Low-Dimensional Topology*
+  (J. E. Greene, M. T. Kallor, eds.), American Mathematical Society (2020), 1–22;
+  arXiv:1908.05108.
+- M. Hedden, J. Hom, *Knot Floer homology and the smooth concordance order*, arXiv:2101.08010
+  (2021).
+- C. Livingston, *Infinite order invariants of knot concordance*, in *Topology and Geometry of
+  Manifolds* (T. Lawson, C. McA. Gordon, eds.), Cambridge University Press (2001), 115–126.
+- C. Livingston, *Knot theory*, in *Mathematical Surveys and Monographs*, Vol. 208,
+  American Mathematical Society (2014).
+- P. Ghiggini, *Knot Floer homology detects genus*, Invent. Math. 171 (2008), 201–222;
+  doi:10.1007/s00222-007-0097-0; arXiv:math/0512487.
+- P. Ghiggini, *Knot Floer homology and Seiberg-Witten invariants*, J. Topol. 1 (2008),
+  223–247; doi:10.1112/jtopol/jtn004.
+- K. Honda, W. Kazez, G. Matić, *The contact invariant in sutured Floer homology*, Invent.
+  Math. 185 (2011), 609–642; doi:10.1007/s00222-010-0306-1; arXiv:0907.0068.
+- A. Levine, *Knots, concordances, and covering spaces*, J. Topol. 13 (2020), 1061–1131;
+  doi:10.1112/jtopol.jt0002; arXiv:1807.01044.
+- A. Levine, *Slice-ribbon conjecture for knots*, arXiv:2007.14751 (2020).
