@@ -1,12 +1,24 @@
 # Roadmap: Igusa varieties, compactified period fibres and torsion concentration
 
-**Summary.** Build Igusa towers and their partial compactifications, identify compactified Hodge–Tate period fibres, and prove generic torsion concentration for unitary Shimura varieties. The geometric and coefficient theory connects central leaves and PEL deformation spaces to the two Igusa degree bounds, the trace-formula ordinary criterion and Pink's boundary formula. The final layer gives Caraiani–Scholze vanishing, its integral and middle-degree forms, and Koshikawa's local and global refinement through geometric Hecke actions and excursion parameters.
+**Summary.** Unitary Shimura varieties carry Hecke operators, and their cohomology with coefficients modulo a prime `ℓ` splits into pieces indexed by systems of Hecke eigenvalues. A condition on the eigenvalues at a single prime confines such a piece to one side of the middle degree, and vanishing theorems of this kind are used in automorphy lifting over CM fields. This roadmap proves one for the quasi-split unitary similitude group of a split skew-hermitian space of dimension `2n` over a CM field `F`, together with the geometry of Igusa varieties and Hodge–Tate period fibres that the proof rests on.
+
+The main theorem is Koshikawa's. Let `p` be a prime that splits completely in `F`, let the level be hyperspecial at `p` and sufficiently small, and let `ℓ ≠ p`. Localize at a maximal ideal of the spherical Hecke algebra at `p` whose unramified parameter is generic: no two Frobenius eigenvalues in one factor have ratio `p`, and distinct eigenvalues are not required. Then mod-`ℓ` cohomology vanishes below the middle degree `d`, and compactly supported cohomology vanishes above it. Neither `F⁺ ≠ ℚ` nor a bound on the length of a residual representation is assumed, so imaginary quadratic `F` is included. When `F` contains an imaginary quadratic field, level descent gives the same for the unitary group at every neat level, after localizing at any eigensystem with a decomposed-generic witness prime.
+
+From this the roadmap derives integral versions. With `ℤ_ℓ` coefficients and with algebraic local systems, the localized middle-degree cohomology is torsion-free and maps onto the cohomology of the Borel–Serre boundary. This is the middle-degree statement of Caraiani and Newton, in the form needed when `F⁺ = ℚ`. When `F⁺ ≠ ℚ` and the residual representation is absolutely irreducible, the boundary contributes nothing and the cohomology is concentrated in degree `d`.
+
+The proof runs through Mantovan's filtration, which assembles the cohomology of the Shimura variety from the cohomology of Igusa varieties and of local Shimura varieties, one Newton stratum at a time. A second main theorem, also Koshikawa's, controls the local factor. For a product of general linear groups over a finite extension of `ℚ_p`, if the automorphism group `J_b` of the stratum is not quasi-split, then the localized compactly supported mod-`ℓ` cohomology of the local Shimura variety vanishes. The reason is that no irreducible representation of such a `J_b` has a generic unramified Fargues–Scholze parameter. Only the ordinary stratum survives, and a semiperversity theorem of Caraiani and Scholze for the nearby cycles along the Hodge–Tate period map puts its contribution in degrees at least `d`.
+
+Proving semiperversity requires the geometry of the boundary. Partial toroidal and minimal compactifications of central leaves and Igusa varieties are constructed. The fibres of the period map on the compactified Shimura variety are identified with the canonical compactifications of these Igusa varieties. For compact Shimura varieties the roadmap also proves full perversity, and that the Igusa cohomology of the smallest stratum meeting a given eigensystem sits in a single degree.
+
+The roadmap builds on several others. EndoscopicTransferAndUnitaryTraceComparison provides the isocrystals, central leaves and Igusa towers, and local Langlands for inner forms of general linear groups. AutomorphicGaloisRepresentationsPartII provides the geometric Hecke action, the spectral action and the genericity predicates. PerfectoidShimuraVarieties and ShimuraCompactifications provide the perfectoid towers, the period map and the compactifications. TorsionCohomologyInfrastructure provides the torsion Galois representations of the boundary Levi factors. The vanishing theorems are used by roadmaps on potential automorphy, on crystalline local–global compatibility over CM fields and on modularity of elliptic curves over imaginary quadratic fields.
+
+Layer 0 sets up the unitary datum, its Hecke algebras, `p`-divisible groups with extra structure, Rapoport–Zink spaces and central leaves. Layer 1 builds the Igusa towers and their cohomology, and Layer 2 their partial compactifications. Layer 3 connects them with the Fargues–Fontaine curve and the spectral action, then identifies the period fibres and proves Mantovan's filtration. Layer 4 proves semiperversity and the ordinary costalk bound. Layer 5 treats dual Hecke systems, Poincaré duality and generic local lifts, and Layer 6 the residual systems of the boundary Levi factors. Layer 7 proves the local and global vanishing theorems and their integral and middle-degree forms.
 
 ## How to read the build
 
-In a *Needs* line, a bare layer (Layer `k`) means the preceding targets of that layer in the displayed build order; references to other layers mean their stated interfaces. Supplier contracts include the full hypotheses listed above. 0.2a follows 0.2 and 0.8a follows 0.8; 0.17–0.18a follow 0.11, before 0.12; 0.26–0.27 precede 0.22. 0.25 proves the leaf dimension, and 1.4a proves the Igusa dimension after the towers and their perfection comparison. The adapters 3.0a–3.0i open Layer 3, and 3.6a follows 3.6. 4.0c proves the general integral and filtered-colimit continuity; 4.6a applies it to the two towers after 4.3 and 4.6; 4.0d follows 4.7 and precedes 4.8, using 4.3's models and 4.7's bound. In Layer 7, 7.9a–7.9b follow 7.9 and 7.10a follows 7.10.
+In a *Needs* line, a bare layer (Layer `k`) means the preceding targets of that layer in the displayed build order; references to other layers mean their stated interfaces. Supplier contracts include the full hypotheses listed above. 0.2a follows 0.2 and 0.8a follows 0.8; 0.17–0.18a follow 0.11, before 0.12; 0.26–0.27 precede 0.22. 0.25 proves the leaf dimension, and 1.4a proves the Igusa dimension after the towers and their perfection comparison. The adapters 3.0a–3.0i open Layer 3, and 3.6a follows 3.6. 4.0c proves the general integral and filtered-colimit continuity; 4.6a applies it to the two towers after 4.3 and 4.6; 4.0d follows 4.7, using 4.3's models and 4.7's bound. In Layer 7, 7.9a–7.9b follow 7.9, 7.10a follows 7.10, and 7.6–7.7 follow 7.14.
 
-Layers 0–2 construct the special-fibre geometry. Layer 3 opens with the curve-geometry adapters on the supplied carriers, then identifies compactified period fibres. Layer 4 proves the two degree bounds, Layer 5 the trace-formula ordinary criterion, and Layer 6 the boundary obstruction. Layer 7 assembles the trace-and-boundary route, then the local spectral route (parameters, elliptic trace, parameter irrelevance and central support), whose global conclusion requires neither `F⁺ ≠ ℚ` nor residual length at most two.
+Layers 0–2 construct the special-fibre geometry. Layer 3 opens with the curve-geometry adapters on the supplied carriers, then identifies compactified period fibres. Layer 4 proves the semiperversity of the nearby cycles and the ordinary costalk bound. Layer 5 treats dual Hecke systems, Poincaré duality and generic local lifts, and Layer 6 the residual systems of the boundary Levi factors. Layer 7 proves the local spectral vanishing (parameters, elliptic trace, parameter irrelevance and central support) and its global conclusion, which requires neither `F⁺ ≠ ℚ` nor residual length at most two, with its level descent, integral forms and middle-degree export.
 
 ## Conventions
 
@@ -22,7 +34,7 @@ At finite level the Igusa maps are finite étale. The perfect Igusa variety triv
 
 The notation `C^{X,tor}, C^{X,*}, Ig^{X,tor}` and `Ig^{X,*}` refers to **partial** compactifications inside the ambient compactifications. A partial compactification need not be proper. Finite-level minimal Igusa maps are finite, whereas their inverse limit is integral. At a semi-abelian boundary the torsion `A[p^∞]` need not be `p`-divisible: one uses its connected part and the polarized biconnected quotient. The functor `RΓ_{c−∂}` means `RΓ(Ig^{b,*}, j_!−)`, not compact support on `Ig^b`.
 
-Arithmetic and geometric Frobenius conventions are never mixed. In the Hecke–Galois dictionary `Art_F` sends a uniformizer to a geometric Frobenius, and `|Art_F⁻¹|` takes that Frobenius to `q_v⁻¹`. The dual residual system is `ρ̄^∨` `⊗ |Art_F⁻¹|^{1−2n}`. The local genericity predicate of AutomorphicGaloisRepresentationsPartII AG2.7 excludes `α_i = q_vα_j` for `i ≠ j` and allows repeated eigenvalues; its strong form also requires distinct eigenvalues. Its global predicate `IsDecomposedGeneric` is the existence of a witness prime, completely split, at all of whose places the local predicate holds (`IsDecomposedGenericPrime`). Residual length at most two is used only on the global trace-and-boundary route.
+Arithmetic and geometric Frobenius conventions are never mixed. In the Hecke–Galois dictionary `Art_F` sends a uniformizer to a geometric Frobenius, and `|Art_F⁻¹|` takes that Frobenius to `q_v⁻¹`. The dual residual system is `ρ̄^∨` `⊗ |Art_F⁻¹|^{1−2n}`. The local genericity predicate of AutomorphicGaloisRepresentationsPartII AG2.7 excludes `α_i = q_vα_j` for `i ≠ j` and allows repeated eigenvalues; its strong form also requires distinct eigenvalues. Its global predicate `IsDecomposedGeneric` is the existence of a witness prime, completely split, at all of whose places the local predicate holds (`IsDecomposedGenericPrime`).
 
 0.4 defines the full, operator and unitary Hecke algebras. Restriction is an isomorphism only from the operator algebra; 0.5 compares its localizations with the full algebra. Each theorem specifies which algebra acts.
 
@@ -34,8 +46,7 @@ The standing settings used in the hypotheses are these.
 - **Valued-field fibre setting.** `p` unramified in `F, N ≥ 3` prime to `p, Σ` as in CSnc Remark 2.5.6; `C` a complete algebraically closed nonarchimedean extension of `ℚ_p` with ring of integers `O_C`, residue field `k` and a fixed section `k → O_C/p`.
 - **Nearby-cycle setting.** `p` unramified in `F, N ≥ 3` prime to `p, Σ` as in CSnc Remark 2.5.6; `C` complete algebraically closed over `ℚ_p` with residue field `k`; `ℓ ≠ p`; `d = [F⁺:ℚ]n²`.
 - **Trace-comparison setting.** The standing assumptions of CSnc §5: `p` unramified in `F`; `F` contains an imaginary quadratic `F₀` in which `p` splits; `F⁺ ≠ ℚ`; a character `ϖ : 𝔸^×_{F₀}/F₀^× → ℂ^×` extending the quadratic character of `F₀/ℚ`; `S ⊇ {∞} ∪ {primes dividing pℓΔ_F} ∪ {primes where ϖ ramifies}`; level `N ≥ 3` divisible only by primes in `S^p_f = S_fin ∖ {p}` and by the integer `N₀` of CSnc Remark 5.4.5; `ι_ℓ : ℚ̄_ℓ ≅ ℂ` fixed. Hecke statements in this setting are about `𝕋^S_full`.
-- **Boundary tower setting.** `p` unramified in `F`; `X` a `p`-divisible group with `G`-structure over `k` with class `b`; `N ≥ 3` prime to `p`; `ℓ ≠ p`; `Ig^b_∞ = lim_N Ig^b_{K(N)}`, and similarly `Ig^{b,*}_∞` and `Ig^{b,tor}_∞`; compactly supported cohomology of schemes with integral maps to schemes of finite type in Hamacher's sense (the colimit over an approximating tower with finite transitions).
-- **Global residual-system setting.** `F = F⁺F₀` CM with `F₀` imaginary quadratic and `F⁺ ≠ ℚ`; `G⁰` the quasi-split unitary group of Layer 0 with `d = [F⁺:ℚ]n²`; `ℓ` a prime; `S` a finite set of places containing `∞, ℓ`, the primes ramified in `F` and those where `K` is not hyperspecial; `𝔪⁰ ⊂ 𝕋^{0,S}` a maximal ideal in the support of `H^*(X⁰_K, 𝔽_ℓ)`, with `𝔪 = res⁻¹(𝔪⁰) ⊂ 𝕋^S` the corresponding ideal of the operator algebra and `ρ̄_𝔪 = ρ̄_{𝔪⁰} : Gal(F̄/F) → GL_{2n}(𝔽̄_ℓ)` its Galois representation.
+- **Global residual-system setting.** `F = F⁺F₀` CM with `F₀` imaginary quadratic; `G⁰` the quasi-split unitary group of Layer 0 with `d = [F⁺:ℚ]n²`; `ℓ` a prime; `S` a finite set of places containing `∞, ℓ`, the primes ramified in `F` and those where `K` is not hyperspecial; `𝔪⁰ ⊂ 𝕋^{0,S}` a maximal ideal in the support of `H^*(X⁰_K, 𝔽_ℓ)`, with `𝔪 = res⁻¹(𝔪⁰) ⊂ 𝕋^S` the corresponding ideal of the operator algebra and `ρ̄_𝔪 = ρ̄_{𝔪⁰} : Gal(F̄/F) → GL_{2n}(𝔽̄_ℓ)` its Galois representation.
 
 ## Layer 0: Unitary data, Hecke algebras, `p`-divisible groups and central leaves
 
@@ -1967,61 +1978,11 @@ The interface consists of the model system, cofinality of the tubes, the refinem
 - A nonproper space cannot use the global proper comparison without support or a compactification. The target concerns the proper flag, although its coefficient complex comes from a nonproper Shimura variety.
 - Higher `Rlim` terms are retained; the conclusion is a lower degree bound and does not assert concentration in one degree.
 
-### 4.8 Partially compactly supported cohomology
-
-For `b ∈ B(G_{ℚ_p}, μ^{−1})` with completely slope divisible `X_b` and `j : Ig^b ↪ Ig^{b,*}` the open immersion into the partial minimal compactification (2.18), define `RΓ_{c−∂}(Ig^b, 𝔽_ℓ) := RΓ(Ig^{b,*}, j_!𝔽_ℓ)` and `H^i_{c−∂}(Ig^b, 𝔽_ℓ) := H^i(Ig^{b,*}, j_!𝔽_ℓ)`, at each finite level and in the colimit over levels. It carries the action of `𝕋^S` and the natural map `H^i_{c−∂}(Ig^b, 𝔽_ℓ) → H^i(Ig^b, 𝔽_ℓ)` induced by `j_!𝔽_ℓ → Rj_*𝔽_ℓ`. This is not the ordinary compactly supported cohomology `RΓ_c(Ig^b)` (`Ig^{b,*}` is not proper), and not `RΓ(Ig^b)` unless the boundary is empty.
-
-Work in the nearby-cycle setting. Assume also `X_b` completely slope divisible.
-
-(CSnc, §2.8, p. 33.)
-
-The interface:
-
-- `RΓ(Ig^{b,*},j_!𝔽_ℓ)`.
-- The equivariant forget-support map.
-- The displayed boundary distinguished triangle.
-- The map from ordinary compact support.
-- Hecke equivariance.
-
-*Needs:* Layer 2; Layer 1; EtaleCohomologyFoundations §§F.0–F.3; Mathlib `AlgebraicGeometry.Scheme.smallEtaleTopology`.
-
-**Checks.**
-
-- If `X_b^{ét} = 0` then `RΓ_{c−∂}(Ig^b) = RΓ(Ig^b)`.
-- For the modular curve and `b` ordinary at finite level `m, H⁰_{c−∂}(Ig^b_m, 𝔽_ℓ) = 0` (`j_!` kills global sections on the affine curve with cusps added) while `H⁰(Ig^b_m, 𝔽_ℓ) ≠ 0`.
-- `RΓ_{c−∂}(Ig^b) ≠ RΓ_c(Ig^b)` in general: `Ig^{b,*}` is affine, not proper, when the leaf is non-proper.
-
-### 4.9 The Artin vanishing upper bound
-
-The partial minimal compactification `Ig^{b,*}` is affine (Theorem 2.8.1); consequently, for every `ℓ ≠ p, H^i_{c−∂}(Ig^b, 𝔽_ℓ) = H^i(Ig^{b,*}, j_!𝔽_ℓ)` is nonzero only for `i ≤ d_b = dim Ig^b`.
-
-Work in the nearby-cycle setting.
-
-Choose the fundamental integral representative of 0.18a–0.18b in each class. 2.14 identifies its central leaf as an EO stratum, 2.13 makes its partial minimal compactification affine, and 2.18 gives the affine finite-level minimal Igusa varieties. This establishes the geometric input at every unramified `p`. If a different representative is used, apply the multiplier-`1` transfer 2.10–2.16.
-
-(CSnc, §2.8, Proposition 2.8.2, p. 34.)
-
-*Needs:* Layer 4; Layer 2; EtaleCohomologyFoundations §§F.3, F.8.
-
-### 4.10 The minimal-stratum lower bound
-
-Let `S` be a finite set of places containing `∞` and all primes dividing `pℓNΔ_F, 𝔪` a maximal ideal containing `ℓ` of the operator algebra `𝕋^S` (or of `𝕋^S_full`), and choose `b ∈ B(G_{ℚ_p}, μ^{−1})` with `d_b` minimal among those with `H^*(Ig^b, 𝔽_ℓ)_𝔪 ≠ 0`. Then `H^i(Ig^b, 𝔽_ℓ)_𝔪 ≠ 0` implies `i ≥ d_b`. (No constructibility of the perverse sheaves is needed; Remark 2.8.5: the dual variant for `Rπ^*_HT*(j_!𝔽_ℓ)` would only reprove the upper bound.)
-
-Work in the nearby-cycle setting.
-
-(CSnc, §2.8, Lemma 2.8.4, p. 34; §2.8, proof of Lemma 2.8.4, p. 34.)
-
-*Needs:* Layer 4; Layer 3; Layer 1; ClassicalAdicEtaleCohomology Layer 1; EtaleCohomologyFoundations §F.8; EtaleDualityAndPerverseSheaves §2.11.
-
-### Examples
-
-For the modular curve and the ordinary class at finite level, `H⁰_{c−∂}` of the Igusa curve vanishes while `H⁰` does not, so the partially compactly supported and ordinary cohomology differ in the lowest degree; the Artin bound places `H_{c−∂}` in degrees at most `d_b = 1` and the minimal-stratum bound places the localized `H` in degrees at least `d_b`. When the two bounds meet, the localized cohomology of the minimal stratum is concentrated in degree `d_b`.
-
 ### Dependencies
 
 Layers 1–3; LefschetzPencilsAndVanishingCycles LPV.0, LPV.6; EtaleCohomologyFoundations §§F.0–F.3, F.8; EtaleDualityAndPerverseSheaves §2.11; ClassicalAdicEtaleCohomology Layers 1, 4–6; DiamondEtaleCohomology C0; AdicCoefficientsAndComparisons L5; ShimuraCompactifications §§7.3, 7.6, 7.16; PerfectoidShimuraVarieties Layer 3; SchemeAndStackFoundations §§1.1, 2.23, 4.7–4.8; AdicSpacesPartIII F0, R2; SmoothRepresentationsOfLocalGroups SR.0, SR.0d.
 
-## Layer 5: Dual Hecke systems and ordinary genericity
+## Layer 5: Dual Hecke systems, duality and generic local lifts
 
 ### 5.1 Dual Hecke ideals and their Galois systems
 
@@ -2057,26 +2018,6 @@ Work in the trace-comparison setting. Assume also `ℓ ≠ p`.
 
 *Needs:* Layer 5; Layer 1; EtaleCohomologyFoundations §§F.5–F.6; EtaleDualityAndPerverseSheaves §§0.5–0.6.
 
-### 5.3 Galois representations of Igusa constituents
-
-Under the standing assumptions of §5 (listed in the hypotheses), write `[H_c(Ig^b_{K(N)}, ℚ̄_ℓ)] := Σ_i (−1)^i [colim_m H^i_c(Ig^b_{m,K(N)}, ℚ̄_ℓ)] = Σ_{j∈J} n_j π_j ⊗ ψ_j` as a virtual representation of `J_b(ℚ_p) × 𝕋^S_full` (`π_j` irreducible smooth, `ψ_j : 𝕋^S_full → ℚ̄_ℓ` characters, `n_j ≠ 0`, pairwise distinct). For each `j` there is a continuous semisimple `ρ_j : Gal(F̄/F) → GL_{2n}(ℚ̄_ℓ)`, almost everywhere unramified, unramified at every `v | q ∉ S` with `q` split in `F₀`, with characteristic polynomial of `ρ_j(Frob_v)` equal to `X^{2n} − ψ_j(T_{1,v})X^{2n−1} + … + (−1)^i q_v^{i(i−1)/2}ψ_j(T_{i,v})X^{2n−i} + … + q_v^{n(2n−1)}ψ_j(T_{2n,v})`; and for `v | p` the semisimple Langlands parameter of `π_{j,v}|·|^{1/2−n}` (via Badulescu's Jacquet–Langlands for the inner form `J_{b_v}` of a Levi of `GL_{2n}(F_v)`) equals the semisimple parameter of `ρ_j|_{Gal(F̄_v/F_v)}`.
-
-Work in the trace-comparison setting. Assume also Semisimple Langlands parameters as in CSnc Remark 5.1.1: restriction of a Frobenius-semisimple WD representation along `w ↦ (w, diag(|w|^{1/2}, |w|^{−1/2}))`.
-
-(CSnc, §5.1, Theorem 5.1.2, p. 65; §5.1, p. 64.)
-
-*Needs:* Layer 1; EndoscopicTransferAndUnitaryTraceComparison §§8.21–8.22, §§6.6–6.25, §§14.1–14.7, §§10.3, 10.26–10.32; AutomorphicGaloisRepresentationsPartII AG2.0, AG2.1a, AG2.5
-
-### 5.4 A rational constituent from mod-`ℓ` concentration
-
-Under the standing assumptions, let `𝔪 ⊂ 𝕋^S_full` be a maximal ideal and suppose `H^i(Ig^b_{K(N)}, 𝔽_ℓ)_𝔪` is nonzero for exactly one `i`. Then `H^*_c(Ig^b_{K(N)}, ℤ_ℓ)_{𝔪^∨}` is concentrated in one degree and torsion-free, the corresponding `ℚ̄_ℓ`-cohomology is a nonzero lattice-bearing `𝕋^S_full`-module whose eigencharacters lift `𝔪^∨`, and in the decomposition of `[H_c(Ig^b_{K(N)}, ℚ̄_ℓ)]` there is `j ∈ J` with `ψ_j ≡ 𝔪^∨` (mod the maximal ideal of `ℤ̄_ℓ`) and `n_j ≠ 0` (no cancellation, since only one degree contributes). The semisimplified reduction `ρ̄_{𝔪^∨}` of `ρ_j` (5.3) is independent of the choice of `j` and of the lattice.
-
-Work in the trace-comparison setting.
-
-(CSnc, §5.1, proof of Corollary 5.1.3, p. 66.)
-
-*Needs:* Layer 5; Layer 1; AutomorphicGaloisRepresentationsPartII AG2.7; SchemeAndStackFoundations §§1.1, 2.23; SmoothRepresentationsOfLocalGroups SR.0, SR.0d
-
 ### 5.5 Splitting generic local lifts
 
 Let `L/ℚ_p` be finite with residue cardinality `q, ℓ ≠ p`, and `ρ : Gal(L̄/L) → GL_m(ℚ̄_ℓ)` continuous whose semisimplified reduction `ρ̄` is unramified with Frobenius eigenvalues `α₁, …, α_m` satisfying `α_i ≠ qα_j` for `i ≠ j`. `(1)` If `ρ̄` is moreover decomposed generic at `L` (`α_i/α_j ∉ {1, q}` for `i ≠ j`), then `ρ ≅ ⊕χ_i` is a sum of characters with `χ_a/χ_b` not the cyclotomic character for a `≠ b`, so the corresponding representation of `GL_m(L)` is a generic principal series. `(2)` Without assuming the `α_i` distinct: if `q` ≢ `1` mod `ℓ` then `ρ` is unramified; if `q ≡ 1` mod `ℓ` then `ρ` is a direct sum of characters whose pairwise ratios are not the cyclotomic character (when `q≡1` mod `ℓ` the ratio condition itself forces distinct residual eigenvalues; repetitions are allowed in the `q≠1` branch).
@@ -2087,112 +2028,21 @@ Assume `ℓ ≠ p`; `α_i ≠ qα_j` for `i ≠ j`.
 
 *Needs:* AutomorphicGaloisRepresentationsPartII AG2.7; ArithmeticGaloisDuality D7.
 
-### 5.6 Genericity forces ordinarity
-
-Assume the standing assumptions and let `𝔪 ⊂ 𝕋^S_full` be a maximal ideal such that `H^i(Ig^b_{K(N)}, 𝔽_ℓ)_𝔪 ≠ 0` in exactly one degree. Then there is a continuous semisimple `ρ̄_𝔪 : Gal(F̄/F) → GL_{2n}(𝔽̄_ℓ)`, unramified at every `v | q ∉ S` with `q` split in `F₀`, with `ρ̄_𝔪(Frob_v)` of characteristic polynomial the reduction modulo `𝔪` of `X^{2n} − T_{1,v}X^{2n−1} + … + (−1)^i q_v^{i(i−1)/2}T_{i,v}X^{2n−i} + … + q_v^{n(2n−1)}T_{2n,v}`; namely `ρ̄_𝔪 := (ρ̄_{𝔪^∨})^∨` `⊗ |Art_F^{−1}|^{1−2n}`. If moreover `p` splits completely in `F` and for all `v | p, ρ̄_𝔪` is unramified at `v` with Frobenius eigenvalues `α_{1,v}, …, α_{2n,v}` satisfying `α_{i,v} ≠ pα_{j,v}` for `i ≠ j` (the residual ratio predicate of AutomorphicGaloisRepresentationsPartII AG2.7; repeated eigenvalues allowed), then `b` is ordinary. By 0.5 the same two conclusions hold for a maximal ideal `𝔪` of the operator algebra `𝕋^S` such that `H^i(Ig^b_{K(N)}, 𝔽_ℓ)_𝔪 ≠ 0` in exactly one degree: apply the theorem to a maximal ideal of `𝕋^S_full` over `𝔪` that occurs in that degree; the Galois representation depends only on `𝔪`.
-
-Work in the trace-comparison setting. Assume also `p` splits completely in `F` for the last assertion.
-
-(CSnc, §5.1, Corollary 5.1.3, p. 66; §2.8, Theorem 2.8.6, p. 35.)
-
-*Needs:* Layer 5; EndoscopicTransferAndUnitaryTraceComparison §§10.3, 10.26–10.32; AutomorphicGaloisRepresentationsPartII AG2.7.
-
 ### Examples
 
-For `2n = 2` and a residual representation with Frobenius eigenvalues `{1, 2}` at a place with `q_v = 7` over `𝔽_11`, the dual ideal has eigenvalues `{7, 7/2}`; the ratio condition `α_i ≠ q_vα_j` holds for both systems, as it must. If the Igusa cohomology of a non-ordinary class were concentrated in one degree for such a generic system, the lifted constituent would give a generic principal series of `J_b(ℚ_p)`, which does not exist for a nontrivial inner form of a Levi subgroup.
+For `2n = 2` and a residual representation with Frobenius eigenvalues `{1, 2}` at a place with `q_v = 7` over `𝔽_11`, the dual ideal has eigenvalues `{7, 7/2}`; the ratio condition `α_i ≠ q_vα_j` holds for both systems, as it must.
 
 ### Dependencies
 
-Layers 0 and 1; EndoscopicTransferAndUnitaryTraceComparison Layers 6, 8, 10, 14; AutomorphicGaloisRepresentationsPartII AG2.0–AG2.7; EtaleCohomologyFoundations §§F.5–F.6; EtaleDualityAndPerverseSheaves §§0.5–0.6; ArithmeticGaloisDuality D7; SchemeAndStackFoundations §§1.1, 2.23; SmoothRepresentationsOfLocalGroups SR.0, SR.0d; IntegralHeckeAndGaloisDeterminants Layer 3a; ClassFieldTheory Layers 5 and `11`.
+Layers 0 and 1; AutomorphicGaloisRepresentationsPartII AG2.7; EtaleCohomologyFoundations §§F.5–F.6; EtaleDualityAndPerverseSheaves §§0.5–0.6; ArithmeticGaloisDuality D7; IntegralHeckeAndGaloisDeterminants Layer 3a; ClassFieldTheory Layers 5 and `11`.
 
-## Layer 6: Boundary cohomology and Pink’s formula
-
-### 6.1 Parabolic boundary strata and the lower-rank datum
-
-The boundary `∂Ig^{b,*} ⊂ Ig^{b,*}` is stratified by the conjugacy classes `[P]` of maximal rational parabolics of `G_ℚ`, represented by `P_r = Stab(0 ⊂ F^r ⊂ F^{2n−r} ⊂ F^{2n}), r = 1, …, n: Ig^{b,*}_{[P_r]}` is the preimage of the strata `S_Z ⊂ S^*` whose cusp label `Z = (Z_N, X)` has `rk_{O_F} X = r`; the strata are Hecke-equivariant and pass to the limit `Ig^{b,*}_{∞,[P]}`. The Levi of the standard `P = P_r` is `M = Res_{F/ℚ}GL_r × G_{2(n−r)}` (replace `n` by `n−r`; for `r=n, G_0=𝔾_m`). Let `X_r = (∏_{τ:F⁺↪ℝ} M^{herm,>0}_r(ℂ))/ℝ_{>0}` be the symmetric space of `GL_r(F ⊗ ℝ)`. Fix an `O_F`-stable symplectic filtration `Z_b : 0 ⊂ Z_{b,−2} ⊂ Z_{b,−1} ⊂ X_b` with `Z_{b,−2} ≅ Hom(O_F^r, μ_{p^∞})`; it defines the parabolic `P_b(ℚ_p) ⊂ J_b(ℚ_p)` of self-quasi-isogenies preserving it and the `p`-divisible group `X_P = Z_{b,−1}/Z_{b,−2}` with `G_{2(n−r)}`-structure, with isocrystal class `b_P ∈ B(G_{2(n−r),ℚ_p}, μ^{−1})`. With `j : Ig^b_∞ ↪ Ig^{b,*}_∞` and `i_{[P]}` the inclusion of the stratum, `RΓ_c(Ig^{b,*}_{∞,[P]}, i^*_{[P]}Rj_*𝔽_ℓ)` is a complex of smooth `J_b(ℚ_p) × G(𝔸_f^p)`-representations.
-
-The `rank-r` stratum closure is contained in the union of `rank≥r` strata; do not require equality when some strata are empty.
-
-Work in the boundary tower setting.
-
-(CSnc, §6.1, p. 79; §6.1, p. 80.)
-
-The interface consists of the boundary strata, their union, the level subgroup `P_b(ℚ_p)`, the lower-rank datum, the Levi and Hecke equivariance.
-
-*Needs:* Layer 2; Layer 0; ArithmeticLocallySymmetricSpaces ALS.2; EtaleCohomologyFoundations §§F.0–F.3; Mathlib `AlgebraicGeometry.Scheme.smallEtaleTopology`.
-
-**Checks.**
-
-- For `n=1` only `r=1` occurs, and the lower-rank datum is trivial.
-- If `X` has no étale part all boundary strata are empty.
-- `X_P=Z_{−1}/Z_{−2}`, with this order of the graded pieces.
-
-### 6.2 Parabolic induction of boundary strata
-
-There is a natural `J_b(ℚ_p) × G(𝔸_f^p)`-equivariant map `Ig^{b,*}_{∞,[P]} → J_b(ℚ_p)/P_b(ℚ_p) × G(𝔸_f^p)/P(𝔸_f^p)` induced by the cusp labels (the target parametrizes pairs `(Z_b, Z^p)` of `rank r`). With `Ig^{b,*}_{∞,P}` its fibre over the identity, `RΓ_c(Ig^{b,*}_{∞,[P]}, i^*_{[P]}Rj_*𝔽_ℓ) ≅ Ind^{J_b(ℚ_p)×G(𝔸_f^p)}_{P_b(ℚ_p)×P(𝔸_f^p)} RΓ_c(Ig^{b,*}_{∞,P}, i^*_P Rj_*𝔽_ℓ)` (unnormalized smooth induction).
-
-Work in the boundary tower setting.
-
-(CSnc, §6.2.1, p. 80.)
-
-*Needs:* Layer 6; Layer 2; SmoothRepresentationsOfLocalGroups SR.0, SR.2, SR.0d
-
-### 6.3 The boundary cup-product comparison
-
-There is a natural `P_b(ℚ_p) × P(𝔸_f^p)`-equivariant map `RΓ(GL_r(F) ∖ (X_r × GL_r(𝔸_{F,f})), 𝔽_ℓ) ⊗ RΓ_c(Ig^{b_P}_∞, 𝔽_ℓ) → RΓ_c(Ig^{b,*}_{∞,P}, i^*_P Rj_*𝔽_ℓ)`, the cup product of `(1) RΓ_c(Ig^{b_P}_∞, 𝔽_ℓ) → RΓ_c(Ig^{b,*}_{∞,P}, 𝔽_ℓ)`, pullback along the profinite map `Ig^{b,*}_{∞,P} → Ig^{b_P}_∞` (limit of 2.21), and `(2) RΓ(GL_r(F) ∖ (X_r × GL_r(𝔸_{F,f})), 𝔽_ℓ) → RΓ(Ig^{b,*}_{∞,P}, i^*_P Rj_*𝔽_ℓ)`, constructed from a continuous `P_b(ℚ_p) × P(𝔸_f^p)`-equivariant map `f  : |Ig^b_{∞,P}| → GL_r(F) ∖ (X_r × GL_r(𝔸_{F,f}))` on the punctured perfectoid formal neighbourhood (the logarithms of the norms of the sections of the Poincaré bundle of the Raynaud extension give the point of `X_r`, well defined up to `ℝ_{>0}`; the level structures give the adelic component), together with `RΓ(Ig^{b,*}_{∞,P}, i^*_P Rj_*𝔽_ℓ) ≅ colim_{m,N} RΓ(Ig^b_{m,K(N),P}, 𝔽_ℓ)` (Huber, Cor. 3.5.14, at each finite level) and `RΓ(GL_r(F) ∖ (X_r × GL_r(𝔸_{F,f})), 𝔽_ℓ) ≅ colim_K RΓ(GL_r(F) ∖ (X_r × GL_r(𝔸_{F,f})/K), 𝔽_ℓ)` (Borel–Serre). Both maps are equivariant for `P_b(ℚ_p) × P(𝔸_f^p)` acting through `J_{b_P}(ℚ_p) × G_{2(n−r)}(𝔸_f^p)`, respectively `GL_r(𝔸_{F,f})`.
-
-The unipotent radicals of `P_b(ℚ_p)` and `P(𝔸_f^p)` act trivially on the source; equivariance factors through the stated Levi projections.
-
-Work in the boundary tower setting.
-
-(CSnc, §6.2.2, p. 81; §6.2.3, p. 83.)
-
-The interface consists of the comparison map, its Igusa and locally symmetric factors, equivariance of the latter and the Levi factorization.
-
-*Needs:* Layer 6; Layer 2; Layer 1; ClassicalAdicEtaleCohomology §§4.4–4.5; ArithmeticLocallySymmetricSpaces ALS.2, ALS.1, ALS.0; ShimuraCompactifications §§6.7, 7.4; NeronModelsAndSemistableAbelianVarieties §3.13.
-
-**Checks.**
-
-- For imaginary quadratic `F` and `n=1` the cusp factor is functions on `GL₁(F)\GL₁(𝔸_{F,f})`, tensored with degree-zero lower-rank Igusa cohomology.
-- For `[F⁺:ℚ]>1` use finite-level unit-group cohomology before taking the colimit.
-- If `X` has no étale part both sides vanish.
-- The `GL_r` factor map is a continuous map of real manifolds; it is not a morphism of schemes.
-
-### 6.4 Local computation on cusp labels
-
-Decompose `Ig^{b,*}_{∞,P}` by Igusa cusp labels above `P`: finite projective `O_F`-modules `X` of `rank r` with `X ⊗ ℤ̂^p ≅ O_F^r ⊗ ℤ̂^p` and `X ⊗ ℤ_p ≅ O_F^r ⊗ ℤ_p`, giving `⊔_{X/≅} GL_{O_F}(X)\GL_{O_F}(X ⊗ ℤ̂) ≅ GL_r(F)\GL_r(𝔸_{F,f})`, compatibly with `f`. For the closed subset `Ig^{b,*}_{∞,Z̃}` of a fixed label, the map `RΓ_c(Ig^{b_P}_∞, 𝔽_ℓ) ⊗ colim_{Γ ⊂ GL_{O_F}(X)} RΓ(Γ, 𝔽_ℓ) → RΓ_c(Ig^{b,*}_{∞,Z̃}, i^*_{Z̃}Rj_*𝔽_ℓ)` (`Γ` running over congruence subgroups) is an isomorphism. The same method proves Pink's original formula Hecke-equivariantly (alternative to Pink §4.8). Lan–Stroh supplies the geometric framework, including Assumption 4.3.1, the stratification lemma and the compactification construction. Its Theorem 4.3.10 is stated with rational `ℓ`-adic coefficients; the torsion statement here is CSnc Proposition 6.3.1 and its proof, not a change of coefficients in that rational theorem.
-
-Work in the boundary tower setting.
-
-(CSnc, §6.3, Proposition 6.3.1, p. 84; §6.3, proof of Proposition 6.3.1, p. 84; ls18a-author, §4.3, Assumption 4.3.1 and Lemma 4.3.2, author-copy p.61; Definition 4.3.8 and Theorem 4.3.10, pp.63–64.)
-
-*Needs:* Layer 6; Layer 2; AdicCoefficientsAndComparisons L5; ShimuraCompactifications §§6.7, 7.4; NeronModelsAndSemistableAbelianVarieties §3.13.
-
-### 6.5 Pink's formula for Igusa varieties
-
-There is a natural `J_b(ℚ_p) × G(𝔸_f^p)`-equivariant isomorphism `RΓ_c(Ig^{b,*}_{∞,[P]}, i^*_{[P]}Rj_*𝔽_ℓ) ≅ Ind^{J_b(ℚ_p)×G(𝔸_f^p)}_{P_b(ℚ_p)×P(𝔸_f^p)} (RΓ(GL_r(F) ∖ (X_r × GL_r(𝔸_{F,f})), 𝔽_ℓ) ⊗ RΓ_c(Ig^{b_P}_∞, 𝔽_ℓ))`, with unnormalized smooth induction and `P_b(ℚ_p) × P(𝔸_f^p)` acting on the tensor product through its Levi quotient (`J_{b_P}(ℚ_p) × G_{2(n−r)}(𝔸_f^p)` on the Igusa factor, `GL_r(𝔸_{F,f})` on the locally symmetric factor). No Tate twist or cohomological shift enters (`𝔽_ℓ` coefficients, degrees as written). The isomorphism is an equivariant isomorphism of complexes, not only an equality of Euler characteristics.
-
-Work in the boundary tower setting.
-
-(CSnc, §6.1, Theorem 6.1.1, p. 80.)
-
-*Needs:* Layer 6.
-
-### 6.6 Derived invariants of induced representations
-
-Let `P = MN` be a standard rational parabolic of `G, K^S = ∏_{v∉S}` hyperspecial, `K^S_P = K^S ∩ P(𝔸^S), K^S_M` its image in `M(𝔸^S), r_P : 𝕋^S → 𝕋^S_P` restriction of functions and `r_M : 𝕋^S_P → 𝕋^S_M` integration along unipotent fibres (so `r_M ∘ r_P` is the unnormalized Satake transform; ArithmeticLocallySymmetricSpaces ALS.4). Then `(1) RΓ_cont(K^S, Ind^{G(𝔸^S)}_{P(𝔸^S)}(−)) ≅ r_P^* RΓ_cont(K^S_P, −)` as functors `D^+_sm(P(𝔸^S), 𝔽_ℓ) → D^+(𝕋^S)`; `(2) r_M^* RΓ_cont(K^S_M, −) ≅ RΓ_cont(K^S_P, Inf^{P(𝔸^S)}_{M(𝔸^S)}(−))` as functors `D^+_sm(M(𝔸^S), 𝔽_ℓ) → D^+(𝕋^S_P)`.
-
-Assume `K^S` hyperspecial at every place outside `S` (Iwasawa decomposition `G(𝔸^S) = K^S P(𝔸^S)`); `K^S_N` pro-prime-to-`ℓ`.
-
-(CSnc, §6.4, Lemma 6.4.2, p. 85; §6.4, Lemma 6.4.3, p. 86.)
-
-*Needs:* ArithmeticLocallySymmetricSpaces ALS.4; SmoothRepresentationsOfLocalGroups SR.0, SR.2, SR.0d
+## Layer 6: Residual systems of the boundary Levi factors
 
 ### 6.6a The GL torsion input in the boundary normalization
 
 Let `r ≥ 1`, `F` the CM field of Layer 0, and `S` the places of `F` above a finite set of rational primes containing `ℓ` and the primes ramified in `F/ℚ`. For a neat `GL_r` level hyperspecial outside `S`, a finite coefficient lattice local system and a maximal ideal in the support of its cohomology modulo `ℓ`, TorsionCohomologyInfrastructure §4.3 (`finiteTorsionDeterminant`, in the unconditional CM branch of its §3b.2, available because `F` contains an imaginary quadratic field) supplies a continuous degree-`r` determinant on the finite Hecke image modulo a nilpotent ideal of exponent bounded independently of the level, and §4.6 (`residualRepresentation`) supplies the semisimple residual representation `σ` with `det(1 − X σ(Frob_v)) = ψ(P_v(X))`, `P_v` the Levi polynomial `leviPolynomial` of §3b.1 with coefficients `(−1)^i q_v^{i(i+1)/2} U_i`. Section 3b.1 also proves the standard-to-Levi conversion `P_v(X) = (X^r P_std(X⁻¹))|_{X ↦ qX}` for the monic polynomial `P_std(Y) = Σ (−1)^i q^{i(i−1)/2} U_i Y^{r−i}` of IntegralHeckeAndGaloisDeterminants Layer 3a, and §4.7 fixes the resulting twist on rank-one and rank-two examples.
 
-Owned here is only the reading of these statements in the normalization of 5.6: with `ε(Frob_v) = q_v⁻¹` for geometric Frobenius, `ρ := σ ⊗ ε` satisfies `det(Y − ρ(Frob_v)) = P_std(Y)`, since the roots of `P_std` are the roots of `P_v` divided by `q_v`; this is a cyclotomic twist, independent of the choice of geometric Frobenius. The compact-support form follows from ArithmeticLocallySymmetricSpaces ALS.5a finite-level duality, retaining its orientation local system, involution and Tate twist. For the finite local systems of the boundary calculation pass to a normal finite level trivializing the coefficients and use the Hecke-compatible derived-invariant filtration (ALS.4 and 4.0b), working with supports without asserting injectivity of pullback in characteristic `ℓ`. The determinant theorem, the polynomial adapter and its normalization checks are imports.
+Owned here is only the reading of these statements in the normalization of 5.1, whose Frobenius polynomial has `i`-th coefficient `(−1)^i q_v^{i(i−1)/2} T_{i,v}`: with `ε(Frob_v) = q_v⁻¹` for geometric Frobenius, `ρ := σ ⊗ ε` satisfies `det(Y − ρ(Frob_v)) = P_std(Y)`, since the roots of `P_std` are the roots of `P_v` divided by `q_v`; this is a cyclotomic twist, independent of the choice of geometric Frobenius. The compact-support form follows from ArithmeticLocallySymmetricSpaces ALS.5a finite-level duality, retaining its orientation local system, involution and Tate twist. For the finite local systems of the boundary calculation pass to a normal finite level trivializing the coefficients and use the Hecke-compatible derived-invariant filtration (ALS.4 and 4.0b), working with supports without asserting injectivity of pullback in characteristic `ℓ`. The determinant theorem, the polynomial adapter and its normalization checks are imports.
 
 Source: TorsionCohomologyInfrastructure as cited; Scholze, Theorem 5.4.1 and Corollary 5.4.3, pp.1057–1060; ACC+, Theorem 2.3.5 and proof, published pp.937–938 (author PDF pp.41–42). *Needs:* TorsionCohomologyInfrastructure §§3b.1, 3b.2, 4.3, 4.6, 4.7; ArithmeticLocallySymmetricSpaces ALS.4, ALS.5a; 4.0b; IntegralHeckeAndGaloisDeterminants Layers 0, 3a and 4.
 
@@ -2205,9 +2055,9 @@ Source: TorsionCohomologyInfrastructure as cited; Scholze, Theorem 5.4.1 and Cor
 
 ### 6.6b Residual systems for the lower unitary Levi factors
 
-For the balanced unitary group `U(m, m)` over `F⁺`, `m ≥ 1`, and every neat level hyperspecial outside `S` as in 6.6a, every maximal ideal of the finite Hecke image on the cohomology of a finite algebraic coefficient lattice modulo `ℓ` is of Galois type: there is a continuous semisimple `ρ̄ : Gal(F̄/F) → GL_{2m}(κ)`, after a finite residue extension if desired, unramified outside `S`, whose Frobenius polynomial at the split places is the monic degree-`2m` polynomial of 5.6. This is TorsionCohomologyInfrastructure applied to the Hodge-type unitary-similitude datum of its §3b.1a (`unitarySimilitudeBoundaryAdapter`: the injection `ι` of the unitary Hecke algebra into the similitude Hecke algebra, the Shimura variety of dimension `[F⁺:ℚ]m²`, its cusp systems and classical Hecke topology), with the continuous-quotient determinant of §3b.2 (`classicalAmbientDeterminant`, statement 3, in the unconditional CM branch) on the finite torsion Hecke images that §§2.6–2.8 exhibit as continuous quotients of the classically topologized algebra, and the residual reconstruction of §4.6. Restriction to `U(m, m)` goes through 0.6's open-and-closed comparison and the derived-invariant support argument of 4.0b, so no injection of torsion cohomology is required; the construction precedes, and uses none of, the Igusa vanishing or boundary-length conclusions.
+For the balanced unitary group `U(m, m)` over `F⁺`, `m ≥ 1`, and every neat level hyperspecial outside `S` as in 6.6a, every maximal ideal of the finite Hecke image on the cohomology of a finite algebraic coefficient lattice modulo `ℓ` is of Galois type: there is a continuous semisimple `ρ̄ : Gal(F̄/F) → GL_{2m}(κ)`, after a finite residue extension if desired, unramified outside `S`, whose Frobenius polynomial at the split places is the monic degree-`2m` polynomial of 5.1. This is TorsionCohomologyInfrastructure applied to the Hodge-type unitary-similitude datum of its §3b.1a (`unitarySimilitudeBoundaryAdapter`: the injection `ι` of the unitary Hecke algebra into the similitude Hecke algebra, the Shimura variety of dimension `[F⁺:ℚ]m²`, its cusp systems and classical Hecke topology), with the continuous-quotient determinant of §3b.2 (`classicalAmbientDeterminant`, statement 3, in the unconditional CM branch) on the finite torsion Hecke images that §§2.6–2.8 exhibit as continuous quotients of the classically topologized algebra, and the residual reconstruction of §4.6. Restriction to `U(m, m)` goes through 0.6's open-and-closed comparison and the derived-invariant support argument of 4.0b, so no injection of torsion cohomology is required; the construction precedes, and uses none of, the Igusa vanishing conclusions.
 
-Owned here is the normalization on the split `GL_{2m}` factor: the supplied ambient determinant has `det(1 − X Frob_v) = Σ (−1)^i q_v^{i/2} e_i X^i` in the normalized Satake coordinates `e_i = q_v^{−i(2m−i)/2} U_i` (Scholze's `δ = 1` for a CM field), so its coefficients are `(−1)^i q_v^{i(i−2m+1)/2} U_i`; tensoring by `ε^{1−m}`, with `ε(Frob_v) = q_v⁻¹`, multiplies the `i`-th coefficient by `q_v^{i(m−1)}` and gives `(−1)^i q_v^{i(i−1)/2} U_i`, the coefficients of the monic polynomial of 5.6 after reversal. The calculation uses a temporary square root of `q_v`; the final polynomial has integral exponents and descends. If an auxiliary smallness prime is introduced in the supplied construction, perform it with two distinct such primes: Chebotarev and determinant uniqueness identify the two laws, remove the auxiliary ramification and recover `S`. A finite residue field realizes the reconstructed representation over `κ` by Brauer–Nesbitt and the vanishing of its Brauer group. For `m = 0` use the trivial remaining factor, not this positive-rank statement.
+Owned here is the normalization on the split `GL_{2m}` factor: the supplied ambient determinant has `det(1 − X Frob_v) = Σ (−1)^i q_v^{i/2} e_i X^i` in the normalized Satake coordinates `e_i = q_v^{−i(2m−i)/2} U_i` (Scholze's `δ = 1` for a CM field), so its coefficients are `(−1)^i q_v^{i(i−2m+1)/2} U_i`; tensoring by `ε^{1−m}`, with `ε(Frob_v) = q_v⁻¹`, multiplies the `i`-th coefficient by `q_v^{i(m−1)}` and gives `(−1)^i q_v^{i(i−1)/2} U_i`, the coefficients of the monic polynomial of 5.1 after reversal. The calculation uses a temporary square root of `q_v`; the final polynomial has integral exponents and descends. If an auxiliary smallness prime is introduced in the supplied construction, perform it with two distinct such primes: Chebotarev and determinant uniqueness identify the two laws, remove the auxiliary ramification and recover `S`. A finite residue field realizes the reconstructed representation over `κ` by Brauer–Nesbitt and the vanishing of its Brauer group. For `m = 0` use the trivial remaining factor, not this positive-rank statement.
 
 Source: ACC+, Theorem 2.3.8 and proof, published pp.939–940 (author PDF pp.43–44), including its two-prime argument; Scholze, Corollary 5.1.7, p.1036, Corollary 5.1.11, pp.1037–1038, Theorem 4.3.1, p.1025. *Needs:* 0.6, 4.0b, 6.6a; TorsionCohomologyInfrastructure §§2.6–2.8, 3b.1a, 3b.2, 4.6; ArithmeticLocallySymmetricSpaces ALS.5a; IntegralHeckeAndGaloisDeterminants Layers 0, 2, 4 and 5.
 
@@ -2217,53 +2067,12 @@ Source: ACC+, Theorem 2.3.8 and proof, published pp.939–940 (author PDF pp.43�
 - For `m = 2` the untwisted coefficient exponents are `i(i−3)/2`; tensoring by `ε⁻¹` adds `i` and gives `i(i−1)/2` for `i = 0, …, 4`.
 - Residually reducible systems are included. Absolute irreducibility is unnecessary for reconstruction over a field and is used only in the boundary exclusion of 7.7.
 - A single auxiliary prime cannot certify unramifiedness there; the two-prime agreement is required.
-### 6.7 The boundary length obstruction
-
-Assume `p` unramified in `F, F` contains properly an imaginary quadratic `F₀` in which `p` splits, `F⁺ ≠ ℚ, S` and `N ≥ 3` as in §5 (`N` prime to `p`, divisible only by primes of `S^p_f` and by `N₀`), and `𝔪 ⊂ 𝕋^S_full` a maximal ideal containing `ℓ` (by 0.5 the statement then also holds for maximal ideals of the operator algebra `𝕋^S`); Igusa varieties at tame level `K^p(N)`. `(1)` If for some `b ∈ B(G_{ℚ_p}, μ^{−1})` one of `H^i_{c−∂}(Ig^b, 𝔽_ℓ)_𝔪, H^i(Ig^b, 𝔽_ℓ)_𝔪` is nonzero, then there is a continuous semisimple `ρ̄_𝔪 : Gal(F̄/F) → GL_{2n}(𝔽̄_ℓ)` with `ρ̄_𝔪(Frob_v)` of characteristic polynomial `X^{2n} − T_{1,v}X^{2n−1} + … + (−1)^i q_v^{i(i−1)/2}T_{i,v}X^{2n−i} + … + q_v^{n(2n−1)}T_{2n,v}` mod `𝔪` for all `v | q ∉ S` split in `F₀`. `(2)` If moreover `H^i_{c−∂}(Ig^b, 𝔽_ℓ)_𝔪 → H^i(Ig^b, 𝔽_ℓ)_𝔪` is not an isomorphism for some `i` and `b` is not ordinary, then `ρ̄_𝔪` has at least `3` Jordan–Hölder constituents. Both parts are proved together, by induction on `n`, uniformly for all the unitary groups `G_{2m}, m ≤ n`. The hypothesis that `ρ̄_𝔪` has length at most two is not assumed here; it is the hypothesis under which `(2)` is applied in Layer 7.
-
-The hypotheses are those stated; the induction uses the theorem for `G_{2(n−r)}, 1 ≤ r ≤ n`, and the torsion Galois determinants for `GL_r` over `F`.
-
-(CSnc, §6.4, Theorem 6.4.1, p. 84; §6.4, proof of Theorem 6.4.1, p. 86; §2.8, Theorem 2.8.7, p. 35.)
-
-*Needs:* Layer 6; Layer 5; Layer 4; 6.6a–6.6b; IntegralHeckeAndGaloisDeterminants Layer 0, Layer 1, Layer 4; ArithmeticLocallySymmetricSpaces ALS.4.
-
-### Examples
-
-For `F` imaginary quadratic and `n = 1` only the rank-one boundary stratum occurs; its lower-rank Igusa factor is zero-dimensional and the locally symmetric factor is the finite set `GL_1(F)\GL_1(𝔸_{F,f})/K`, so Pink's formula expresses the boundary cohomology as functions on this set tensored with degree-zero Igusa cohomology, induced from the parabolic.
 
 ### Dependencies
 
-Layers 0–2, Layer 4 and Layer 5; ArithmeticLocallySymmetricSpaces ALS.0–ALS.2, ALS.4; TorsionCohomologyInfrastructure Layers 2, 3b and 4; ClassicalAdicEtaleCohomology Layers 4–6; AdicCoefficientsAndComparisons L5; ShimuraCompactifications §§6.7, 7.4; NeronModelsAndSemistableAbelianVarieties §3.13; EtaleCohomologyFoundations §§F.0–F.3; SmoothRepresentationsOfLocalGroups SR.0, SR.0d, SR.2; IntegralHeckeAndGaloisDeterminants Layers 0, 1, 4.
+0.6 and 4.0b; ArithmeticLocallySymmetricSpaces ALS.4, ALS.5a; TorsionCohomologyInfrastructure Layers 2, 3b and 4; IntegralHeckeAndGaloisDeterminants Layers 0, 2, 3a, 4 and 5.
 
 ## Layer 7: Generic vanishing and its arithmetic forms
-
-### 7.1 Caraiani–Scholze genericity
-
-A maximal ideal `𝔪` of the operator algebra `𝕋^S`, or equivalently `𝔪⁰ = res(𝔪)` of `𝕋^{0,S}`, of Galois type (with semisimple `ρ̄_𝔪 : Gal(F̄/F) → GL_{2n}(𝔽̄_ℓ)` whose Frobenius polynomials are those of 5.6) is CS-generic if `(i) F⁺ ≠ ℚ`; (ii) `ρ̄_𝔪` has at most two Jordan–Hölder constituents; (iii) some prime `p ≠ ℓ` splits completely in `F` and `ρ̄_𝔪` is unramified at every `v | p` with Frobenius eigenvalues satisfying `α_{i,v} ≠ pα_{j,v}` for `i ≠ j` (a decomposed-generic prime in the sense of AutomorphicGaloisRepresentationsPartII AG2.7; repeated eigenvalues are allowed, so the distinctness `α_i ≠ α_j` of CS17 is not required). This is distinct from (a) non-Eisenstein (`ρ̄_𝔪` absolutely irreducible), which is neither implied by nor implies (iii), and `(b)` the stronger local CS17 predicate, AG2.7's strong form, with `α_i/α_j ∉ {1, q}`. The local predicates and the global witness-prime predicate `IsDecomposedGeneric` are those of AutomorphicGaloisRepresentationsPartII AG2.7, on unit-valued eigenvalue tuples. The renaming dictionary for ACC+: the coefficient prime called `ℓ` here is called `p` in ACC+, and the auxiliary split prime called `p` here is called `l` there.
-
-Work in the global residual-system setting.
-
-(CSnc, §2.8, proof of Theorem 1.1, p. 36; acc23, Definition 4.3.1, pp. 76–77 (recalled from [CS17, Defn. 1.9] with `p` and `l` swapped).)
-
-The interface:
-
-- Conditions `(i)`–(iii) stated above.
-- Invariance under dual ideals.
-- CS17 strong genericity with `length≤2` implies CS-genericity.
-- Infinitely many witnesses avoiding any finite set (AG2.7).
-- The ACC+ dictionary, exchanging the two primes.
-- The local inputs are AG2.7's genericity predicate and its strong form; the global witness condition is the supplied `IsDecomposedGeneric`. CS-genericity adds the stated global field and residual-length hypotheses. The dual-system eigenvalue comparison is the one in 5.1.
-
-*Needs:* AutomorphicGaloisRepresentationsPartII AG2.7; Layer 0.
-
-**Checks.**
-
-- For `2n = 2, ρ̄ = χ₁ ⊕ χ₂` with `χ₁, χ₂` unramified at all `v | p` (`p` completely split) and `χ₁(Frob_v)/χ₂(Frob_v) ∉ {p, p^{−1}}` is CS-generic of length two; `ρ̄ = 1 ⊕ ε̄^{−1}` is not (its eigenvalue ratio at every such `v` is `p`).
-- `A ρ̄_𝔪` with three or more Jordan–Hölder constituents (for instance a sum of three nonzero subrepresentations of `GL_{2n}`) is never CS-generic (condition (ii) fails), whatever its eigenvalues.
-- CS-generic does not imply non-Eisenstein: the reducible `χ₁ ⊕ χ₂` in the first Check is CS-generic and Eisenstein.
-- Repeated eigenvalues `α_i = α_j` are allowed when `α_i ≠ pα_j` (CSnc Remark 1.4).
-
-- An empty or singleton eigenvalue tuple satisfies both pairwise predicates. At `q=1` repeated eigenvalues fail even weak genericity; for `q=2` over `𝔽_5` the tuple `(1,1)` is weakly generic and fails strong genericity.
 
 ### 7.2 Cohomologically generic Hecke homomorphisms
 
@@ -2280,23 +2089,13 @@ The interface:
 - Invariance under coefficient-field extension.
 - For `φ` with values in `𝔽̄_ℓ` and `F⁺≠ℚ`, an auxiliary split decomposed-generic witness away from `ℓ` and from every prescribed finite enlargement of `Σ⁺` implies cohomological genericity, by repeated application of LTXZZ PropositionD.1.3 as in CorollaryD.1.4. A single witness is insufficient for an arbitrary abstract Hecke character.
 
-*Needs:* Layer 7; AutomorphicGaloisRepresentationsPartII AG2.7.
+*Needs:* AutomorphicGaloisRepresentationsPartII AG2.7.
 
 **Checks.**
 
 - For `N = 1` every `φ` is cohomologically generic.
 - The Eisenstein homomorphism attached to the trivial representation (degree of `H⁰`) is not cohomologically generic for `N ≥ 2`, since `H⁰ ≠ 0` and `0 ≠ N − 1`.
 - For `N = 2` (Shimura curves), `φ` is cohomologically generic iff, for every `V` and `K` as in the definition, the localized `H⁰` and `H²` vanish.
-
-### 7.3 The ordinary contribution and its lower bound
-
-Assume `p` unramified in `F, N ≥ 3` prime to `p`, divisible only by primes in `S^p_f` and by `N₀, S ⊇ {∞} ∪ {primes dividing pℓNΔ_F} ∪ {ramification of ϖ}`, and `𝔪 ⊂ 𝕋^S` a CS-generic maximal ideal of the operator algebra with witness prime `p` (completely split in `F`). Then `H^i(Ig^b, 𝔽_ℓ)_𝔪 ≠ 0` only if `b` is ordinary, and then only for `i ≥ d`. The trace-formula and boundary inputs (Layer 5, Layer 6) are statements about maximal ideals of `𝕋^S_full`; they are applied to `𝔪` through 0.5. Consequently `(Rπ°_HT*𝔽_ℓ)_𝔪` is concentrated on the ordinary locus `Fℓ(ℚ_p)` and in degrees `≥ d`, and `H^i(S°_{K(p^∞N),C}, 𝔽_ℓ)_𝔪 ≅ H^i(Fℓ, (Rπ°_HT*𝔽_ℓ)_𝔪)` vanishes for `i < d`.
-
-Work in the global residual-system setting. Assume also Witness prime `p ≠ ℓ` completely split in `F`.
-
-(CSnc, §2.8, proof of Theorem 1.1, p. 36.)
-
-*Needs:* Layer 4; Layer 6; Layer 5; Layer 3; Layer 7.
 
 ### 7.4 Level descent
 
@@ -2306,23 +2105,13 @@ Work in the global residual-system setting.
 
 (CSnc, §2.8, proof of Theorem 1.1, p. 36.)
 
-*Needs:* Layer 7; 4.0b; Layer 3; Layer 0; SchemeAndStackFoundations §§1.1, 2.23; SmoothRepresentationsOfLocalGroups SR.0, SR.0d
-
-### 7.5 Caraiani–Scholze vanishing
-
-Let `F` be a CM field containing an imaginary quadratic field with `F⁺ ≠ ℚ, G⁰` the quasi-split unitary group of signature `(n, n)` at each archimedean place, `K ⊂ G⁰(𝔸_f)` neat, `d = [F⁺:ℚ]n²`, and `𝔪 ⊂ 𝕋^{0,S}` a maximal ideal of the unitary algebra in the support of `H^*(X_K, 𝔽_ℓ)` such that (ii) `ρ̄_𝔪` has length at most `2` and (iii) there is a prime `p ≠ ℓ` splitting completely in `F` with `ρ̄_𝔪` unramified at all `v | p` and `α_{i,v} ≠ pα_{j,v}` for `i ≠ j`. Then `(1) H^i(X_K, 𝔽_ℓ)_𝔪 ≠ 0` implies `i ≥ d`, and `(2) H^i_c(X_K, 𝔽_ℓ)_𝔪 ≠ 0` implies `i ≤ d`. It is not asserted that ordinary and compactly supported cohomology are both concentrated in degree `d` (false in the reducible boundary case).
-
-Work in the global residual-system setting. Assume also `𝔪` CS-generic (7.1).
-
-(CSnc, §1, Theorem 1.1, p. 5.)
-
-*Needs:* Layer 7; Layer 5; ArithmeticLocallySymmetricSpaces ALS.5a.
+*Needs:* AutomorphicGaloisRepresentationsPartII AG2.7; 4.0b; Layer 3; Layer 0; SchemeAndStackFoundations §§1.1, 2.23; SmoothRepresentationsOfLocalGroups SR.0, SR.0d
 
 ### 7.6 Integral coefficients and local systems
 
-Under the hypotheses of 7.5: `(1) H^i(X_K, ℤ_ℓ)_𝔪 = 0` for `i < d` and `H^i_c(X_K, ℤ_ℓ)_𝔪 = 0` for `i > d`; `(2) H^d(X_K, ℤ_ℓ)_𝔪` is torsion-free; `(3)` the sequence `0 → H^{d−1}(∂X_K, ℤ_ℓ)_𝔪 → H^d_c(X_K, ℤ_ℓ)_𝔪 → H^d(X_K, ℤ_ℓ)_𝔪 → H^d(∂X_K, ℤ_ℓ)_𝔪 → 0` is exact (`∂X_K` the Borel–Serre boundary); `(4)` the same hold for the local systems `V_λ` attached to algebraic representations with `ℤ_ℓ`-lattices (via Hochschild–Serre from a deeper `ℓ`-power level where `V_λ/ℓ^m` is trivial).
+Under the hypotheses of the unitary consequence of 7.14: `(1) H^i(X_K, ℤ_ℓ)_𝔪 = 0` for `i < d` and `H^i_c(X_K, ℤ_ℓ)_𝔪 = 0` for `i > d`; `(2) H^d(X_K, ℤ_ℓ)_𝔪` is torsion-free; `(3)` the sequence `0 → H^{d−1}(∂X_K, ℤ_ℓ)_𝔪 → H^d_c(X_K, ℤ_ℓ)_𝔪 → H^d(X_K, ℤ_ℓ)_𝔪 → H^d(∂X_K, ℤ_ℓ)_𝔪 → 0` is exact (`∂X_K` the Borel–Serre boundary); `(4)` the same hold for the local systems `V_λ` attached to algebraic representations with `ℤ_ℓ`-lattices (via Hochschild–Serre from a deeper `ℓ`-power level where `V_λ/ℓ^m` is trivial).
 
-Work in the global residual-system setting. Assume also `𝔪` CS-generic.
+Work in the global residual-system setting. Assume also that `𝔪` has a decomposed-generic witness as in 7.14.
 
 (CSnc, §1, Remark 1.5, pp. 5–6.)
 
@@ -2338,9 +2127,9 @@ If moreover `ρ̄_𝔪` is absolutely irreducible (so `𝔪` is non-Eisenstein),
 ⊕_i ((ρ_i ⊗ ε^{s_i−2n}) ⊕ (ρ_i^{c,∨} ⊗ ε^{1−s_i})) ⊕ (ρ_0 ⊗ ε^{−s}).
 ```
 
-The final summand is omitted when `s=n`. Check the identity by the full unnormalized Satake transform on each split factor; Chebotarev identifies it with `ρ̄_𝔪`. At least the two positive-dimensional summands for one `GL` factor occur, so it cannot be absolutely irreducible. A finite filtration by boundary strata gives total boundary vanishing. Combine with 7.5, duality and the finite-level integral argument of 7.6. This is different from ALS.4.13's Siegel-only boundary theorem for a `GL_n` non-Eisenstein ideal pulled back to the unitary algebra: that pulled-back unitary system is generally reducible.
+The final summand is omitted when `s=n`. Check the identity by the full unnormalized Satake transform on each split factor; Chebotarev identifies it with `ρ̄_𝔪`. At least the two positive-dimensional summands for one `GL` factor occur, so it cannot be absolutely irreducible. A finite filtration by boundary strata gives total boundary vanishing. Combine with the unitary consequence of 7.14, duality and the finite-level integral argument of 7.6. This is different from ALS.4.13's Siegel-only boundary theorem for a `GL_n` non-Eisenstein ideal pulled back to the unitary algebra: that pulled-back unitary system is generally reducible.
 
-Work in the global residual-system setting. Assume also `𝔪` CS-generic and `ρ̄_𝔪` absolutely irreducible.
+Work in the global residual-system setting. Assume also `F⁺ ≠ ℚ`, a decomposed-generic witness for `𝔪` as in 7.14, and `ρ̄_𝔪` absolutely irreducible.
 
 (CSnc, §1, Remark 1.6, p. 6; acc23, Theorem 2.4.2 and its Levi/Galois calculation, published pp.941–946 (author PDF pp.45–50), using Theorems 2.3.5 and 2.3.8, pp.937–940.)
 
@@ -2352,16 +2141,6 @@ Work in the global residual-system setting. Assume also `𝔪` CS-generic and `�
 - For `n=2, r₁=1`, the `GL` exponents are `1−4=−3` and `1−1=0`, the dimensions are `1+1+2=4`, and the remaining unitary factor has exponent `−1`. Omitting that factor loses degree two.
 - For the Siegel Levi `s=n` there is no residual `U(0,0)` representation to add, and the two `GL` blocks already have total dimension `2n`.
 - Reducible length-two systems can occur on the boundary and are not excluded by this proof. Absolute irreducibility is essential.
-
-### 7.8 The ACC+ middle-degree export
-
-Assume `[F⁺:ℚ] > 1, F` contains an imaginary quadratic field, and the set `S` satisfies: for every finite place `v ∉ S` of residue characteristic `l`, either `S` contains no `l`-adic place and `l` is unramified in `F`, or `l` splits in an imaginary quadratic subfield of `F`. Let `𝔪̃ ⊂ 𝕋̃^S(K̃, λ̃)` be a maximal ideal of the Hecke algebra of the quasi-split unitary group `G̃` in `2n` variables acting on cohomology with coefficients `V_λ̃` (an `O`-lattice in an algebraic representation, `O` the ring of integers of a finite extension of `ℚ_p, p` the coefficient prime in ACC+ notation) such that `ρ̄_𝔪̃` has length at most `2` and is decomposed generic (ACC+ Definition 4.3.1). Then, with `d = n²[F⁺:ℚ], H^d(X̃_K̃, V_λ̃)_𝔪̃ → H^d(X̃_K̃, V_λ̃[1/p])_𝔪̃` is injective and `H^d(X̃_K̃, V_λ̃)_𝔪̃ → H^d(∂X̃_K̃, V_λ̃)_𝔪̃` is surjective. Renaming dictionary: ACC+'s coefficient prime `p` is `ℓ` here and its auxiliary prime `l` is `p` here.
-
-The hypotheses are those stated (ACC+ §4.3); the level and ramification conditions on `S` are those of ACC+.
-
-(acc23, Theorem 4.3.3, p. 77 (§4.3 'Cohomology in the middle degree'); proof pp. 77–78.)
-
-*Needs:* Layer 7; ArithmeticLocallySymmetricSpaces ALS.4.
 
 ### 7.9 Supercuspidal support and lifting for inner forms of `GL_n`
 
@@ -2489,13 +2268,15 @@ where `V_b` is the bounded admissible `J_b`-complex supplied by the Igusa fibre 
 
 ### 7.14 Koshikawa global vanishing
 
-Let `F` be a CM field, `B = F, V = F^{2n}` with the quasi-split unitary similitude group `G` (the datum of Layer 0), `p` a prime splitting completely in `F, K_p` hyperspecial, `K = K_pK^p` sufficiently small, `d = dim S_K` and `ℓ ≠ p`. Let `𝔪_p ⊂ ℤ_ℓ[K_p\G(ℚ_p)/K_p]` be a maximal ideal of the local Hecke algebra at `p` whose unramified parameter `ρ̄_{𝔪_p}` is generic. Then `H^i(S_K, 𝔽_ℓ)_{𝔪_p} ≠ 0` only for `i ≥ d` and `H^i_c(S_K, 𝔽_ℓ)_{𝔪_p} ≠ 0` only for `i ≤ d`. In particular the conclusion of 7.5 and of 7.8 holds without the hypotheses `[F⁺:ℚ] > 1` and "`ρ̄_𝔪` of length at most two" (Koshikawa Theorem 1.3; Caraiani–Newton Theorem 2.1.28).
+Let `F` be a CM field, `B = F, V = F^{2n}` with the quasi-split unitary similitude group `G` (the datum of Layer 0), `p` a prime splitting completely in `F, K_p` hyperspecial, `K = K_pK^p` sufficiently small, `d = dim S_K` and `ℓ ≠ p`. Let `𝔪_p ⊂ ℤ_ℓ[K_p\G(ℚ_p)/K_p]` be a maximal ideal of the local Hecke algebra at `p` whose unramified parameter `ρ̄_{𝔪_p}` is generic. Then `H^i(S_K, 𝔽_ℓ)_{𝔪_p} ≠ 0` only for `i ≥ d` and `H^i_c(S_K, 𝔽_ℓ)_{𝔪_p} ≠ 0` only for `i ≤ d`. Neither `[F⁺:ℚ] > 1` nor a bound on the length of a residual representation is assumed (Koshikawa Theorem 1.3; Caraiani–Newton Theorem 2.1.28).
+
+Consequently, in the global residual-system setting, let `K ⊂ G⁰(𝔸_f)` be neat and suppose `𝔪` has a decomposed-generic witness (AutomorphicGaloisRepresentationsPartII AG2.7's `IsDecomposedGeneric`): a prime `p ≠ ℓ` splitting completely in `F` such that `ρ̄_𝔪` is unramified at all `v | p` with `α_{i,v} ≠ pα_{j,v}` for `i ≠ j`. Then `H^i(X_K, 𝔽_ℓ)_𝔪 ≠ 0` implies `i ≥ d`, and `H^i_c(X_K, 𝔽_ℓ)_𝔪 ≠ 0` implies `i ≤ d`. Choose a witness at which the level is hyperspecial (AG2.7 supplies infinitely many witnesses avoiding any finite set), apply the first statement at that prime, whose local Hecke localization the localization at `𝔪` refines, and descend to `G⁰` and to `K` by 7.4; the bound for compact supports follows by Poincaré duality, since by 5.1 the dual ideal `𝔪^∨` has a decomposed-generic witness too. It is not asserted that ordinary and compactly supported cohomology are both concentrated in degree `d` (false in the reducible boundary case).
 
 Assume `p` completely split in `F`; `K_p` hyperspecial; `ρ̄_{𝔪_p}` generic `(α_{j′}/α_j ≠ q)`.
 
 (kos21, Theorem 1.3, p. 2; proof §9, pp. 14–16; cn23, Proof of Theorem 2.1.28, p. 25.)
 
-*Needs:* Layer 7; Layer 3; Layer 0.
+*Needs:* Layer 7; Layer 3; Layer 0; 5.1; AutomorphicGaloisRepresentationsPartII AG2.7.
 
 ### 7.15 The Caraiani–Newton middle-degree export
 
@@ -2509,21 +2290,21 @@ The hypotheses are those stated; this is the form needed for `F⁺ = ℚ`.
 
 ### Examples
 
-A two-dimensional residual representation `χ₁ ⊕ χ₂` with `χ₁(Frob_v)/χ₂(Frob_v) ∉ {p, p⁻¹}` at the places above a completely split `p` is Caraiani–Scholze generic and Eisenstein, so the vanishing theorem applies while the irreducible specialization does not, and ordinary and compactly supported cohomology need not both be concentrated in degree `d`. For imaginary quadratic `F (F⁺ = ℚ)` only Koshikawa's route applies; there, a generic unramified parameter at `p` kills the nonordinary local terms because their `J_b` is not quasi-split.
+A two-dimensional residual representation `χ₁ ⊕ χ₂` with `χ₁(Frob_v)/χ₂(Frob_v) ∉ {p, p⁻¹}` at the places above a completely split `p` is decomposed generic and Eisenstein, so the vanishing theorem applies while the irreducible specialization does not, and ordinary and compactly supported cohomology need not both be concentrated in degree `d`. For imaginary quadratic `F (F⁺ = ℚ)` the argument is the same: a generic unramified parameter at `p` kills the nonordinary local terms because their `J_b` is not quasi-split.
 
 ### Dependencies
 
-Layers 0 and 3–Layer 6; ArithmeticLocallySymmetricSpaces ALS.4–ALS.6; ArithmeticGaloisDuality R02.4, D7.5; TorsionCohomologyInfrastructure Layers 2, 3b, 4 (through 6.6a–6.6b); AutomorphicGaloisRepresentationsPartII AG2.7; SchemeAndStackFoundations §§1.1, 2.23; EtaleCohomologyFoundations §F.8; EtaleDualityAndPerverseSheaves §2.11; LefschetzPencilsAndVanishingCycles LPV.6; DiamondSixOperations S3, S4; SmoothRepresentationsOfLocalGroups SR.0, SR.0d, SR.1, SR.2, SR.5.2; ReductiveGroupsPartII; and, for Koshikawa's route, the adapters 3.0c–3.0i, VStackSheavesAndLisseCategories VS4.0, VS4.2 and VS5.1, and AutomorphicGaloisRepresentationsPartII AG2.6.
+Layers 0 and 3–Layer 6; ArithmeticLocallySymmetricSpaces ALS.4–ALS.6; ArithmeticGaloisDuality R02.4, D7.5; TorsionCohomologyInfrastructure Layers 2, 3b, 4 (through 6.6a–6.6b); AutomorphicGaloisRepresentationsPartII AG2.7; SchemeAndStackFoundations §§1.1, 2.23; EtaleCohomologyFoundations §F.8; EtaleDualityAndPerverseSheaves §2.11; LefschetzPencilsAndVanishingCycles LPV.6; DiamondSixOperations S3, S4; SmoothRepresentationsOfLocalGroups SR.0, SR.0d, SR.1, SR.2, SR.5.2; ReductiveGroupsPartII; and the adapters 3.0c–3.0i, VStackSheavesAndLisseCategories VS4.0, VS4.2 and VS5.1, and AutomorphicGaloisRepresentationsPartII AG2.6.
 
 ## Downstream consumers
 
-Downstream consumers include BunGAndNewtonStrata (the flag Newton stratification of 3.4–3.5, the unitary similitude datum of 0.3, the Newton stratification of 0.12, and the central-leaf and Igusa dimensions of 0.25 and 1.4a), HeckeStacksAndLocalShtukas (the unramified local PEL data of 0.11 and the Rapoport–Zink spaces of 0.27), ModularityAndLanglandsExtensions (generic torsion concentration), CrystallineLocalGlobalCompatibilityCM (middle-degree eigensystems), and EllipticCurveModularityImaginaryQuadratic (the Caraiani–Newton export for imaginary quadratic `F`, with `F⁺ = ℚ`). The ACC+ middle-degree and integral vanishing forms also serve downstream potential automorphy applications. The rational trace inputs used here are independent of these concentration conclusions.
+Downstream consumers include BunGAndNewtonStrata (the flag Newton stratification of 3.4–3.5, the unitary similitude datum of 0.3, the Newton stratification of 0.12, and the central-leaf and Igusa dimensions of 0.25 and 1.4a), HeckeStacksAndLocalShtukas (the unramified local PEL data of 0.11 and the Rapoport–Zink spaces of 0.27), ModularityAndLanglandsExtensions (generic torsion concentration), CrystallineLocalGlobalCompatibilityCM (middle-degree eigensystems), and EllipticCurveModularityImaginaryQuadratic (the Caraiani–Newton export for imaginary quadratic `F`, with `F⁺ = ℚ`). The integral vanishing forms of 7.6 and the middle-degree export of 7.15 also serve downstream potential automorphy applications.
 
 ## Scope and ownership
 
-The owned targets are the datum-specific Hecke comparisons, the geometric extensions of the supplied Newton and central-leaf theory, structured universal-cover automorphisms and PEL deformation spaces; partial compactifications of the supplied Igusa towers; period fibres, degree bounds, ordinary genericity, Pink's formula and torsion concentration. The minimal `B(G)` and invariant carrier is PadicHodgeTheory §5.5. EndoscopicTransferAndUnitaryTraceComparison §§7.2–7.10 supplies its tensor-isocrystal, `J_b`, central-leaf and Igusa-tower interfaces on that carrier. Layers 0–1 use specialization aliases for these common objects; the integral and geometric extensions act on the same spaces as the supplied rational trace theorem. The relative Fargues–Fontaine curve, its untilt divisors, bundles, slope theory, Banach–Colmez spaces and local systems are VectorBundlesAndIsocrystals VB−1–VB4's; the relative curve diamond, `Div¹`, Beauville–Laszlo gluing and `G`-torsor descent are RelativeFarguesFontaine Layers 2–4 and 6–7's; Artin `v`-stacks and their six operations, universal local acyclicity and the Jacobian criterion, solid and lisse coefficient categories, `Bun_G` with its Newton strata, full automorphism groups, contracting charts, classifying-stack equivalences, compact generators, dualizing objects and Verdier reflexivity are VStackSheavesAndLisseCategories VS0–VS5's; the Grassmannians, Schubert geometry, Satake categories, fusion and equivalences are GeometricSatakeAndFusion GS0–GS4's; the geometric Hecke functor, the minuscule local Shimura towers with their Hecke realization and the geometric spectral action with its integral centre are AutomorphicGaloisRepresentationsPartII AG2.6's. None of these is constructed again here. The adapters 3.0a–3.0i own only their PEL and Igusa applications: the PEL tensor transport of the crystalline comparison and the integral Hodge–Tate classification with PEL structures, the comparison of the universal-cover automorphisms with the full stratum automorphism group and the minuscule Grassmannian chart, the torsor coinvariants and orientation character, the Satake kernel conventions, the identification of the coefficient categories on which the supplied Hecke functor and spectral centre act, and the basic-tower comparison of the supplied local Shimura towers; their Rapoport–Zink comparison is 3.6a. Local shtuka towers with several legs or non-minuscule bounds over a general local field are not constructed here; they belong to HeckeStacksAndLocalShtukas, a consumer of 0.11 and 0.27. The parameter comparisons, elliptic local trace and central-support arguments of the local spectral route are 7.9a–7.10a. 4.0a–4.0d and 4.6a construct the valuation-model and two-tower support comparisons. Residual Galois systems for the boundary Levi factors are TorsionCohomologyInfrastructure's; 6.6a–6.6b read them in the normalization of 5.6. Layer 7 also owns supercuspidal support for the non-split inner forms of `GL_m` (for `GL_m` itself it is SmoothRepresentationsOfLocalGroups SR.5.2's) and supercuspidal lifting for all inner forms of `GL_m`. Its local vanishing uses mod-`ℓ` coefficients; global integral consequences use 7.6.
+The owned targets are the datum-specific Hecke comparisons, the geometric extensions of the supplied Newton and central-leaf theory, structured universal-cover automorphisms and PEL deformation spaces; partial compactifications of the supplied Igusa towers; period fibres, degree bounds and torsion concentration. The minimal `B(G)` and invariant carrier is PadicHodgeTheory §5.5. EndoscopicTransferAndUnitaryTraceComparison §§7.2–7.10 supplies its tensor-isocrystal, `J_b`, central-leaf and Igusa-tower interfaces on that carrier. Layers 0–1 use specialization aliases for these common objects; the integral and geometric extensions act on the same spaces. The relative Fargues–Fontaine curve, its untilt divisors, bundles, slope theory, Banach–Colmez spaces and local systems are VectorBundlesAndIsocrystals VB−1–VB4's; the relative curve diamond, `Div¹`, Beauville–Laszlo gluing and `G`-torsor descent are RelativeFarguesFontaine Layers 2–4 and 6–7's; Artin `v`-stacks and their six operations, universal local acyclicity and the Jacobian criterion, solid and lisse coefficient categories, `Bun_G` with its Newton strata, full automorphism groups, contracting charts, classifying-stack equivalences, compact generators, dualizing objects and Verdier reflexivity are VStackSheavesAndLisseCategories VS0–VS5's; the Grassmannians, Schubert geometry, Satake categories, fusion and equivalences are GeometricSatakeAndFusion GS0–GS4's; the geometric Hecke functor, the minuscule local Shimura towers with their Hecke realization and the geometric spectral action with its integral centre are AutomorphicGaloisRepresentationsPartII AG2.6's. None of these is constructed again here. The adapters 3.0a–3.0i own only their PEL and Igusa applications: the PEL tensor transport of the crystalline comparison and the integral Hodge–Tate classification with PEL structures, the comparison of the universal-cover automorphisms with the full stratum automorphism group and the minuscule Grassmannian chart, the torsor coinvariants and orientation character, the Satake kernel conventions, the identification of the coefficient categories on which the supplied Hecke functor and spectral centre act, and the basic-tower comparison of the supplied local Shimura towers; their Rapoport–Zink comparison is 3.6a. Local shtuka towers with several legs or non-minuscule bounds over a general local field are not constructed here; they belong to HeckeStacksAndLocalShtukas, a consumer of 0.11 and 0.27. The parameter comparisons, elliptic local trace and central-support arguments of the local spectral route are 7.9a–7.10a. 4.0a–4.0d and 4.6a construct the valuation-model and two-tower support comparisons. Residual Galois systems for the boundary Levi factors are TorsionCohomologyInfrastructure's; 6.6a–6.6b read them in the normalization of 5.1. Layer 7 also owns supercuspidal support for the non-split inner forms of `GL_m` (for `GL_m` itself it is SmoothRepresentationsOfLocalGroups SR.5.2's) and supercuspidal lifting for all inner forms of `GL_m`. Its local vanishing uses mod-`ℓ` coefficients; global integral consequences use 7.6.
 
-General group theory, smooth representations, determinants, moduli, compactifications, analytic geometry, cohomology, arithmetic quotients and rational trace comparison are inputs from the named sections in Exact supplier contracts. The roadmap owns their Igusa specializations and the indicated extensions.
+General group theory, smooth representations, determinants, moduli, compactifications, analytic geometry, cohomology and arithmetic quotients are inputs from the named sections in Exact supplier contracts. The roadmap owns their Igusa specializations and the indicated extensions.
 
 The mathematical specification in this README is definitive. [Suggested.lean](Suggested.lean) explains why its headline theorems have no statements against the pinned Mathlib and Tau Ceti: the required PEL, Igusa, period-map and cohomology carriers are absent.
 
@@ -2566,9 +2347,9 @@ The convolution ring structure `HeckeCosetModule.instRingHeckeRing` (`TauCeti/Nu
 - **ArithmeticLocallySymmetricSpaces ALS.0–ALS.2, ALS.4–ALS.6.** Locally symmetric spaces of `GL_r(F)` and unitary groups, the Borel–Serre compactification and its boundary strata, finite-level Poincaré duality, the unnormalized Satake transform `r_M ∘ r_P`, and the boundary exact sequences with integral coefficients and local systems.
 - **ArithmeticGaloisDuality R02.4, D7.** Global duality and the derived local duality used with integral coefficients.
 - **PadicHodgeTheory §5.5; EndoscopicTransferAndUnitaryTraceComparison §§7.2–7.10.** PadicHodgeTheory §5.5 (General residue fields and the tensor torsor) owns `σ`-conjugacy, `B(G)`, the tensor Newton cocharacter, the Kottwitz invariant and admissibility, stated there in prose without Lean names. EndoscopicTransferAndUnitaryTraceComparison extends that invariant carrier with tensor-isocrystal classification (§7.2), the PEL sign and invariant maps (§7.4), decent representatives, Newton Levi and `J_b` (§7.5), structured Dieudonné comparison (§7.6), central leaves and complete slope divisibility (§7.7), the liftable finite Igusa covers with one common multiplier, deck kernels and transitions, including level zero (§7.8), the level-loss monoid (§7.9), and the perfect isomorphism torsor, perfection map, inversion/action dictionary and rational cohomology (§§7.3, 7.10). At a good prime, identify 0.9's special fibre with the special fibre of the good-prime PEL scheme of EndoscopicTransferAndUnitaryTraceComparison §7.1 through their representing PEL functors and universal structured `p`-divisible groups. The two quotient conventions `b′=g⁻¹bσ(g)` and `b′=h b σ(h)⁻¹` agree by `h=g⁻¹`; transport the invariant maps through this quotient identification. Thus `B(G)` and its invariants in 0.1–0.2 alias the minimal carrier and its supplied maps, and `J_b` is the supplied `σ`-centralizer. The central leaf, complete slope divisibility, the perfect Igusa variety, Mantovan's tower and its perfection in 0.17–1.4 denote those supplied objects and maps, with `ρ_i=j_i⁻¹` for the finite frames. Extend their theory on these carriers, rather than constructing independent spaces. In particular, the rationalization of 1.7 and its alternating class 1.8 identify equivariantly with the supplied rational object, via the same perfection pullback and inverse-action convention.
-- **EndoscopicTransferAndUnitaryTraceComparison Layers 6, 8, 10, 14.** For `𝒢_n⃗ = (Res_{F₀/ℚ}𝔾_m × Res_{F/ℚ}GL_n⃗)` ⋊ `{1, θ}`: the stabilized twisted trace formula with no proper cuspidal subsets when `[F⁺:ℚ] ≥ 2`, base-change transfers and the level `N₀` (§§6.6–6.25; CSnc §§5.2–5.5); Shin's stable trace formula for Igusa varieties with no `ker¹` factor (§§8.21–8.22; Shin `2010` Theorem 7.2, CSnc Theorem 5.3.2); local Langlands for `GL_m` and its inner forms with full Weil–Deligne parameters (Badulescu's Jacquet–Langlands), the semisimple parameters of CSnc Remark 5.1.1, and the nontransfer of generic principal series to nontrivial inner forms of Levi subgroups (§§10.3, 10.26–10.32; CS17 Lemma 5.4.3); the rational Igusa trace comparison with the `Red^b` normalization (`δ̄^{1/2}_{P(ν_b)}` applied once) and `Ξ(φ_n⃗)`-cohomologicality (§§14.1–14.7; CSnc Theorem 5.6.1, Lemma 5.6.2).
-- **AutomorphicGaloisRepresentationsPartII AG2.0–AG2.7.** AG2.7 owns the unit-valued local genericity predicate and its strong form (stated there in prose under Local residual genericity), their scaling, permutation and inversion laws, and the global existential predicates `IsDecomposedGenericPrime` and `IsDecomposedGeneric`. Galois representations attached to regular algebraic cuspidal and isobaric automorphic representations of `GL_m` over CM fields, with local–global compatibility at unramified places, and the decomposed-genericity predicate of a residual representation (AG2.7) with infinitely many witness primes avoiding any finite set.
-- **TorsionCohomologyInfrastructure Layers 2–4.** Sections `3b`.2, 4.3 and 4.6 construct the finite-level torsion `GL_r` determinant and residual representation for a CM field containing an imaginary quadratic field, with `S` pulled back from rational primes containing all primes ramified in `F/ℚ`. The nilpotent ideal has a bound independent of level. Section 3b.1 supplies the Levi polynomial, its dual and the conversion to the monic standard polynomial, §3b.1a the unitary-similitude boundary adapter, §3b.2 the continuous-quotient ambient determinant and §4.7 the rank-one and rank-two normalisation checks. 6.6a–6.6b read these in the normalization of 5.6; 6.7 and 7.7 are the unitary boundary applications. The unitary Pink formula is 6.5.
+- **EndoscopicTransferAndUnitaryTraceComparison Layer 10.** Local Langlands for `GL_m` and its inner forms with full Weil–Deligne parameters (Badulescu's Jacquet–Langlands), the semisimple parameters of CSnc Remark 5.1.1, and the nontransfer of generic principal series to nontrivial inner forms of Levi subgroups (§§10.3, 10.26–10.32; CS17 Lemma 5.4.3).
+- **AutomorphicGaloisRepresentationsPartII AG2.7.** AG2.7 owns the unit-valued local genericity predicate and its strong form (stated there in prose under Local residual genericity), their scaling, permutation and inversion laws, and the global existential predicates `IsDecomposedGenericPrime` and `IsDecomposedGeneric`, with the decomposed-genericity predicate of a residual representation and infinitely many witness primes avoiding any finite set.
+- **TorsionCohomologyInfrastructure Layers 2–4.** Sections `3b`.2, 4.3 and 4.6 construct the finite-level torsion `GL_r` determinant and residual representation for a CM field containing an imaginary quadratic field, with `S` pulled back from rational primes containing all primes ramified in `F/ℚ`. The nilpotent ideal has a bound independent of level. Section 3b.1 supplies the Levi polynomial, its dual and the conversion to the monic standard polynomial, §3b.1a the unitary-similitude boundary adapter, §3b.2 the continuous-quotient ambient determinant and §4.7 the rank-one and rank-two normalisation checks. 6.6a–6.6b read these in the normalization of 5.1; 7.7 is the unitary boundary application.
 
 ### Curve, bundle and coefficient inputs
 

@@ -21,11 +21,10 @@ No headline theorem is statable against Mathlib `1b1ccf4` and Tau Ceti `2fd255d`
   Artin v-stacks, local Shimura towers, lisse coefficient categories and Hecke functors.
 * The compactified Hodge–Tate period-fibre theorems and Mantovan filtration (3.17–3.27)
   require perfectoid Shimura varieties, period maps and Igusa cohomology.
-* The two Igusa degree bounds (4.9–4.10), the genericity-forces-ordinarity theorem (5.6),
-  Pink's formula and the boundary length obstruction (6.5–6.7) require the Igusa cohomology
-  complexes, nearby cycles and their geometric Hecke actions.
-* Caraiani–Scholze vanishing and its integral, irreducible and middle-degree forms
-  (7.5–7.8), and the Caraiani–Newton export (7.15), require the unitary Shimura spaces, their
+* The perversity, semiperversity and minimal-stratum theorems (4.4–4.7) require the Igusa
+  cohomology complexes, nearby cycles and their geometric Hecke actions.
+* The integral and irreducible forms of generic vanishing (7.6–7.7) and the Caraiani–Newton
+  export (7.15) require the unitary Shimura spaces, their
   local systems and boundary cohomology with the specified Hecke actions.
 * Supercuspidal support and lifting (7.9), the parameter comparisons and elliptic local trace
   (7.9a–7.9b), parameter irrelevance, central support and Koshikawa local vanishing
