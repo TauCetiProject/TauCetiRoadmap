@@ -14,7 +14,7 @@ IntegralHeckeAndGaloisDeterminants IHG.1 owns the Cayley–Hamilton and reducibi
 
 Néron character groups and monodromy pairings are imported from NeronModelsAndSemistableAbelianVarieties §§2.4, 4.1–4.6; the discriminant-pq Jacobians and definite quaternionic modules come from HilbertModularVarietiesAndShimuraCurves Layer R18.3 and §§R18.5.15–R18.5.18. GL2AutomorphicRepresentationsAndTransfer owns Jacquet–Langlands, solvable automorphic base change, finite-image induction, local compatibility and Wiese's dihedral Katz realisation. Its §R17.6.12 supplies the characteristic-two realisation used here. This roadmap's quaternionic targets are applications of those modules and comparisons, with their coefficient and saturation hypotheses retained.
 
-The new exact multiplicity-two upper bound in Calegari–Geraghty 2018 Theorem 4.8 is not built here: this roadmap builds its previously known multiplicity-one branch, Wiese's scalar lower bound and Gross's ordinary sequence, which are its inputs, and leaves the upper bound to a modularity-lifting roadmap in the defect-one direction. ClassicalSerreModularity owns the scalar non-dihedral dyadic classical completion and the unconditional Serre statement. Both occur in the final case manifest, without entering an early proof prerequisite. EllipticCurveModularity consumes the large-good-prime export; it cannot supply the premise of that export.
+The new exact multiplicity-two upper bound in Calegari–Geraghty 2018 Theorem 4.8 is not built here: this roadmap builds its previously known multiplicity-one branch, Wiese's scalar lower bound and Gross's ordinary sequence, which are its inputs, and leaves the upper bound to a modularity-lifting roadmap in the defect-one direction. SerreModularityByCompatibleSystems owns the scalar non-dihedral dyadic classical completion and the unconditional Serre statement. Both occur in the final case manifest, without entering an early proof prerequisite. EllipticCurveModularity consumes the large-good-prime export; it cannot supply the premise of that export.
 
 ## Conventions
 
@@ -1334,11 +1334,11 @@ Apply GL2AutomorphicRepresentationsAndTransfer §R17.6.12’s weight-one theorem
 
 ### 5.11 Scalar dyadic boundary of multiplicity one
 
-The decomposition-group restriction at two is scalar exactly in the remaining local branch not certified by Buzzard Proposition 2.4. It is unramified and finite flat. If a tame Katz weight-one witness is known, Wiese’s scalar result gives multiplicity at least two in the indicated full Hecke factor; thus the multiplicity-one method cannot be assumed there. Dihedral representations have Wiese’s independent weight-one witness. The non-dihedral scalar classical level/weight completion is assigned to ClassicalSerreModularity, scalar dyadic completion and appears only in the export manifest, not as an early prerequisite. ([Kevin Buzzard](https://intlpress.com/api/bgcloud-front/resource/pdf/volume/1806606767503077378-1806606767503077378-04d9b46249cfb494c852bbd118844447.pdf), Proposition 2.4, pp. 101–102; remarks to Theorem 3.1, p. 107. Boundary of the nonscalar and multiplicity-one method.) ([Gabor Wiese](https://msp.org/ant/2007/1-1/ant-v1-n1-p04-p.pdf), Corollary 4.5, pp. 78–79; Corollary 4.2, p. 77. Conditional failure of multiplicity one in the scalar branch.) ([Chandrashekhar Khare and Jean-Pierre Wintenberger](https://www.math.ucla.edu/~shekhar/papers/results.pdf), §1, author pp. 2–3. KW identifies this remaining non-dihedral scalar level-control case.)
+The decomposition-group restriction at two is scalar exactly in the remaining local branch not certified by Buzzard Proposition 2.4. It is unramified and finite flat. If a tame Katz weight-one witness is known, Wiese’s scalar result gives multiplicity at least two in the indicated full Hecke factor; thus the multiplicity-one method cannot be assumed there. Dihedral representations have Wiese’s independent weight-one witness. The non-dihedral scalar classical level/weight completion is assigned to SerreModularityByCompatibleSystems, scalar dyadic completion and appears only in the export manifest, not as an early prerequisite. ([Kevin Buzzard](https://intlpress.com/api/bgcloud-front/resource/pdf/volume/1806606767503077378-1806606767503077378-04d9b46249cfb494c852bbd118844447.pdf), Proposition 2.4, pp. 101–102; remarks to Theorem 3.1, p. 107. Boundary of the nonscalar and multiplicity-one method.) ([Gabor Wiese](https://msp.org/ant/2007/1-1/ant-v1-n1-p04-p.pdf), Corollary 4.5, pp. 78–79; Corollary 4.2, p. 77. Conditional failure of multiplicity one in the scalar branch.) ([Chandrashekhar Khare and Jean-Pierre Wintenberger](https://www.math.ucla.edu/~shekhar/papers/results.pdf), §1, author pp. 2–3. KW identifies this remaining non-dihedral scalar level-control case.)
 
 Irreducible modular dyadic `ρ`; actual scalar local representation, not simply repeated characteristic-polynomial roots. The multiplicity lower bound needs Wiese’s precise Jacobian/full-Hecke setup and weight-one witness.
 
-Prove scalar local restrictions unramified by local reciprocity and odd-order image. Separate dihedral weight-one realisation from the general dyadic Katz refinement outside this scope. The classical non-dihedral scalar completion is an output interface for ClassicalSerreModularity, as recorded in §6.12; it is not a hypothesis of the results here.
+Prove scalar local restrictions unramified by local reciprocity and odd-order image. Separate dihedral weight-one realisation from the general dyadic Katz refinement outside this scope. The classical non-dihedral scalar completion is an output interface for SerreModularityByCompatibleSystems, as recorded in §6.12; it is not a hypothesis of the results here.
 
 *Needs:* §3.12, §5.10, §6.5.
 
@@ -1348,7 +1348,7 @@ Prove scalar local restrictions unramified by local reciprocity and odd-order im
 
 - A Jordan block with equal roots is nonscalar.
 
-- Every early optimisation argument is independent of the ClassicalSerreModularity’s scalar dyadic completion scalar completion.
+- Every early optimisation argument is independent of the SerreModularityByCompatibleSystems’s scalar dyadic completion scalar completion.
 
 ### Examples
 
@@ -1665,11 +1665,11 @@ After the tower and removal of `r₀`, local–global compatibility with KW Lemm
 
 - For `p=2` the `k(ρ)=4` branch is noncrystalline weight two, not crystalline weight four.
 
-- Neither GL2ModularityLifting’s modularity lifting theorem nor final ClassicalSerreModularity Serre theorem is a proof prerequisite.
+- Neither GL2ModularityLifting’s modularity lifting theorem nor final SerreModularityByCompatibleSystems Serre theorem is a proof prerequisite.
 
 ### 6.12 Classical optimisation case manifest
 
-Export the seven-case manifest separating `p≥5`, `p=3`, dyadic nonscalar, Q(i)-induced, scalar dihedral, scalar non-dihedral and the full unconditional statement. Every early optimisation result consumes a modularity witness, except the independently proved dihedral weight-one base case. The scalar non-dihedral classical completion is supplied downstream by ClassicalSerreModularity’s scalar dyadic completion and unconditional modularity by ClassicalSerreModularity’s unconditional theorem; these are manifest references, not prerequisites of this roadmap. Final consumers must select a row and discharge its local and character hypotheses. ([Kevin Buzzard](https://intlpress.com/api/bgcloud-front/resource/pdf/volume/1806606767503077378-1806606767503077378-04d9b46249cfb494c852bbd118844447.pdf), Theorems 3.1–3.2, pp. 107–109. Nonscalar and Q(i) dyadic branches.) ([Gabor Wiese](https://www.maths.tcd.ie/EMIS/journals/DMJDMV/vol-09/07.pdf), Theorems 9–10, pp. 130–132. Dihedral weight-one and the odd-characteristic conductor/weight branches.) ([Chandrashekhar Khare and Jean-Pierre Wintenberger](https://www.math.ucla.edu/~shekhar/papers/results.pdf), §1 and Lemma 6.2(i), author pp. 2–3, 11. Precise scalar completion and separation of dihedral modularity from optimization.)
+Export the seven-case manifest separating `p≥5`, `p=3`, dyadic nonscalar, Q(i)-induced, scalar dihedral, scalar non-dihedral and the full unconditional statement. Every early optimisation result consumes a modularity witness, except the independently proved dihedral weight-one base case. The scalar non-dihedral classical completion is supplied downstream by SerreModularityByCompatibleSystems’s scalar dyadic completion and unconditional modularity by SerreModularityByCompatibleSystems’s unconditional theorem; these are manifest references, not prerequisites of this roadmap. Final consumers must select a row and discharge its local and character hypotheses. ([Kevin Buzzard](https://intlpress.com/api/bgcloud-front/resource/pdf/volume/1806606767503077378-1806606767503077378-04d9b46249cfb494c852bbd118844447.pdf), Theorems 3.1–3.2, pp. 107–109. Nonscalar and Q(i) dyadic branches.) ([Gabor Wiese](https://www.maths.tcd.ie/EMIS/journals/DMJDMV/vol-09/07.pdf), Theorems 9–10, pp. 130–132. Dihedral weight-one and the odd-characteristic conductor/weight branches.) ([Chandrashekhar Khare and Jean-Pierre Wintenberger](https://www.math.ucla.edu/~shekhar/papers/results.pdf), §1 and Lemma 6.2(i), author pp. 2–3, 11. Precise scalar completion and separation of dihedral modularity from optimization.)
 
 Case tests refer to the actual local representation and its projective image. The odd-characteristic rows retain the separate general-character Diamond input. No universal abbreviation hides the characteristic or character restrictions.
 
@@ -1682,8 +1682,8 @@ Identify residue characteristic and local scalarity first. Route the dihedral an
 | `p=2`, local restriction nonscalar and not Q(i)-induced | Weight two if finite flat, weight three otherwise at N; translate to classical even weight four in the latter case | Buzzard Proposition 2.4 + §5.9 (Buzzard’s combined weight and level theorem) |
 | `p=2`, Q(i)-induced | Classical conductor-level witness by the independent induced weight-one/bridge argument | §5.9 (Buzzard’s combined weight and level theorem), separate Q(i) proof |
 | `p=2`, scalar local restriction, dihedral projective image | Katz weight one at N by Wiese, hence classical weight two via the dyadic Hasse bridge | §5.10 (Dihedral weight-one witness and classical export) + AlgebraicModularFormsAndSerreWeights Layer R15.3 |
-| `p=2`, scalar local restriction, non-dihedral projective image | Remaining classical weight-two conductor-level completion; no general Katz weight-one refinement | ClassicalSerreModularity, scalar dyadic completion — downstream manifest only |
-| Any p, full unconditional classical statement | First supply global residual modularity; then choose the applicable conditional row and final scalar completion | ClassicalSerreModularity, unconditional classical theorem — downstream manifest only |
+| `p=2`, scalar local restriction, non-dihedral projective image | Remaining classical weight-two conductor-level completion; no general Katz weight-one refinement | SerreModularityByCompatibleSystems, scalar dyadic completion — downstream manifest only |
+| Any p, full unconditional classical statement | First supply global residual modularity; then choose the applicable conditional row and final scalar completion | SerreModularityByCompatibleSystems, unconditional classical theorem — downstream manifest only |
 
 *Needs:* §2.13, §3.7, §5.2, §5.9, §5.10, §5.11.
 
@@ -1691,7 +1691,7 @@ Identify residue characteristic and local scalarity first. Route the dihedral an
 
 - All seven rows are present with their suppliers.
 
-- This roadmap has no proof edge to ClassicalSerreModularity’s scalar dyadic completion or ClassicalSerreModularity’s unconditional theorem.
+- This roadmap has no proof edge to SerreModularityByCompatibleSystems’s scalar dyadic completion or SerreModularityByCompatibleSystems’s unconditional theorem.
 
 - KW I Lemma 6.2(i) is discharged by GL2AutomorphicRepresentationsAndTransfer Layer R17.5 finite-image induction, ArithmeticGaloisRepresentations Layer 4 image control, this roadmap optimization and AlgebraicModularFormsAndSerreWeights Layer R15.4’s bad-dihedral recipe, not by the final Serre theorem.
 
@@ -1707,7 +1707,7 @@ The external inputs are `AlgebraicModularFormsAndSerreWeights:R15.2`, `Algebraic
 
 ## Downstream consumers
 
-ClassicalSerreModularity consumes the conditional conductor/weight cases and supplies global modularity and the scalar non-dihedral dyadic classical completion at its own final boundary. The case manifest is a consumer interface: it does not invoke that completion to prove a result needed earlier inside the same argument.
+SerreModularityByCompatibleSystems consumes the conditional conductor/weight cases and supplies global modularity and the scalar non-dihedral dyadic classical completion at its own final boundary. The case manifest is a consumer interface: it does not invoke that completion to prove a result needed earlier inside the same argument.
 
 EllipticCurveModularity uses the large-good-prime theorem when infinitely many residual representations `E[ℓ]` are already known to be modular and irreducible. The finite set of weight-two newforms at divisor levels of the fixed conductor gives a repeated witness; trace agreement at infinitely many coefficient primes is then the downstream characteristic-zero step. The conditional reduced-level theorem starts instead with an actual weight-two modularity witness for E and is suitable for applications such as Bennett–Siksek's congruences.
 
