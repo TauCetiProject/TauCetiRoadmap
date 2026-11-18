@@ -1,43 +1,61 @@
 # Roadmap: automorphic bundles and classical automorphic forms
 
-**Summary.** This roadmap builds the coefficient sheaves of classical automorphic forms on Shimura
-varieties and the section spaces they define. From a Shimura datum it uses the shared coefficient
-group to construct the associated bundles of its torsors, the canonical principal bundle on the canonical
-model, the automorphic vector bundle attached to a representation of the Hodge parabolic, the Betti,
-étale and filtered de Rham realizations of full-group representations, the canonical and
-subcanonical extensions across a toroidal boundary, and the spaces of classical and cuspidal forms
-over their actual fields of definition and over the integral PEL and ramified Hilbert models. It
-then equips those spaces with geometric Hecke operators and proves the Fourier–Jacobi expansion
-principle with arbitrary coefficient modules. It constructs the ramified splitting-model boundary
-and proves the Hilbert q-expansion principle,
-including at ramified `p=2`. Logarithmic period comparisons and the dual BGG complex give the
-classical Siegel cohomology decompositions; a rational perfectoid Hodge-type tower and its Levi
-period torsor give the finite-algebraic classical VB comparison. We want it because every
-modularity and Hida/Coleman argument downstream works with these objects: Galois representations are
-attached to Hecke eigensystems in coherent cohomology, congruences are proved by reducing
-q-expansions modulo primes, and the p-adic comparisons of Boxer–Calegari–Gee–Pilloni start from the
-classical coherent sheaves and their Hodge–Tate weights. The modular, Hilbert, Siegel and unitary
-examples fix every convention (differentials, determinants, similitude lines, Tate twists and Hecke
-normalizations) that those applications depend on.
+**Summary.** A classical automorphic form is a section of a vector bundle on a Shimura variety; for
+GL₂ and weight k, the bundle is the k-th power ω^k of the Hodge line bundle. Such a form has a
+coefficient, a field of definition and a condition at the boundary, and this roadmap constructs the
+three together. It starts from a Shimura datum (G, X) with reflex field E, a finite level K and a
+coefficient field L containing E, possibly larger.
 
-An automorphic form has a coefficient, a field of definition and a condition at the boundary. This
-roadmap constructs these three pieces together. A representation of the entire coefficient group
-carries more structure than a representation of the Hodge parabolic: Betti and étale local systems
-and a filtered de Rham bundle with an integrable connection. A representation of a Levi or parabolic
-alone acquires no flat connection from this construction. Keeping this distinction visible connects the classical coherent
-coefficients with their Hodge–Tate comparisons without changing their meaning.
+The first theorem is Deligne's. Let H be a connected reductive group over a field of
+characteristic zero, and V a faithful finite-dimensional representation. There are finitely
+many mixed tensors, finite sums of tensor words in V and its dual, whose common stabilizer is
+exactly H over every commutative coefficient algebra, nonreduced ones included. For GSp(V, ψ) the similitude
+line must be part of V: fixing ψ itself cuts out Sp, not GSp. The roadmap also covers reductive
+groups that need not be connected; `Suggested.lean` states the connected case.
 
-The principal references are Milne for canonical principal bundles and rationality, Deligne for
-absolute Hodge tensors, Caraiani–Scholze and Andreatta–Goren–Howard–Madapusi Pera for the Hodge-type
-tensor construction, Lan for integral PEL boundary charts, coefficient modules and the expansion
-principle, Diamond for ramified Hilbert coefficients and their q-expansions, Scholze,
-Pilloni–Stroh and Lan for rational towers, Diao–Lan–Liu–Zhu and Lan–Liu–Zhu for
-logarithmic periods and supports, and Faltings–Chai and Boxer–Calegari–Gee–Pilloni
-for the classical Siegel comparisons. Source labels refer to the editions
-in the references; page numbers follow those editions. `Suggested.lean` states the finite
-tensor-stabilizer theorem of 1.1, in its connected form, against the pinned Mathlib and Tau Ceti. The geometric headline
-results require the Shimura, boundary and period objects constructed in the layers below; this
-README is the specification.
+For a datum of Hodge type, absolute Hodge theory carries such tensors to the de Rham cohomology of
+the universal abelian family, and the frames preserving them give the canonical principal bundle.
+It is a Gᶜ-torsor on the canonical model over E, where Gᶜ is a quotient of G by a central
+ℚ-subtorus. It carries a flat connection, is normalized by CM periods at special points, and does
+not depend on the symplectic embedding. A canonical principal bundle is also built for abelian-type
+and general pure data under Milne's hypothesis II (2.1), which includes that the connected centre
+Z(G)° splits over a CM field.
+
+Descending a coefficient on the compact dual along this torsor gives the automorphic vector bundle
+V(J) over L. A representation of the entire coefficient group also yields Betti and étale local
+systems and a filtered de Rham bundle with an integrable connection. A representation of a Levi or
+parabolic alone acquires no flat connection from this construction.
+
+Classical forms are the global sections of the canonical extension of V(J) to a smooth projective
+toroidal compactification; cusp forms are the sections of its twist by the ideal of the reduced
+boundary. In characteristic zero both spaces are independent of the fan. Where two boundary
+components cross along q₁q₂ = 0, a cusp form must lie in the ideal (q₁q₂), not merely in (q₁, q₂).
+
+The roadmap proves two expansion principles. On Lan's smooth proper toroidal model of a PEL moduli
+problem at a good prime, over a ring R, take finitely many nonempty strata whose union meets every
+irreducible component. For k ≥ 0 and every R-module M, the joint Fourier–Jacobi expansion along
+them is injective on sections of ω^k with coefficients in M. In Diamond's prime-to-p Hilbert setting, with its weight condition, for F ≠ ℚ totally real and p possibly
+ramified, p = 2 included, the q-expansion at cusps meeting every connected component of the minimal
+compactification is injective.
+
+For GSp₄ the roadmap proves the finite-level Hodge–Tate decompositions of Boxer–Calegari–Gee–Pilloni.
+For an integral dominant weight κ = (k₁, k₂; w) with 0 ≥ k₁ ≥ k₂ and k₁ + k₂ + w even, the degree-i
+cohomology of the p-adic coefficient system of κ, tensored with ℂₚ, is a sum of four Tate-twisted
+coherent cohomology groups in degrees i to i − 3, compatibly with the Galois and Hecke actions. For
+κ = 0 their weights are (0,0;0), (2,0;0), (3,1;0) and (3,3;0). Compactly supported cohomology
+decomposes alike, each coherent term twisted by −D for the boundary D.
+
+The roadmap builds on ShimuraData for the coefficient group and compact duals, and on
+ShimuraVarieties for canonical models and CM reciprocity. Its partner ShimuraCompactifications
+provides the compactifications and the scalar Fourier–Jacobi expansion.
+AutomorphicGaloisRepresentationsPartII and PerfectoidShimuraVarieties use its bundles and their
+extensions.
+
+Layers 0 to 2 build the principal bundle, and Layers 3 and 4 the vector bundles and their
+realizations. Layers 5 to 7 extend these across the boundary, Layer 7 for ramified Hilbert models.
+Layers 8 to 10 build logarithmic periods, the dual BGG complex for GSp₄ and a rational perfectoid
+tower. Layer 11 defines the forms; Layer 12 adds Hecke operators, expansions and the Siegel
+decompositions.
 
 ## How to read the build
 
