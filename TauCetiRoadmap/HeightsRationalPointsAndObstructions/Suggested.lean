@@ -10,7 +10,7 @@ import TauCeti.AlgebraicGeometry.Cohomology.Genus
 finishes neither a layer nor the roadmap.
 
 The statements are Mordell–Weil (§1.7), Néron's theorem over fields finitely generated over
-their prime field (§5.13b), Mordell finiteness (§§4.6, 5.12, 6.4), Siegel finiteness (§4.8),
+their prime field (§5.13b), Mordell finiteness (§§4.6, 6.4), Siegel finiteness (§4.8),
 characteristic-zero Manin–Mumford (§5.6), and finite-rank Mordell–Lang (§5.13), together with
 the genus-zero Hasse principle (§6.2). Number-field rational-point
 coset finiteness (§5.9) follows from Mordell–Weil and finite-rank Mordell–Lang. Points and
@@ -30,8 +30,7 @@ K/k-trace; only its trace-free corollary over finitely generated fields (§5.13b
 The Brauer–Manin pairing, Harari's formal lemma, descent comparisons, genus-one sufficiency
 and the statistical obstruction theorems need scheme Brauer evaluation, geometric adelic
 spaces, torsors and their Selmer/Picard interfaces. Field Brauer groups and discrete-module
-cohomology do not provide those objects. Parshin's implication needs the good-reduction and
-Kodaira–Parshin cover interfaces; the function-field curve theorem needs constant-model,
+cohomology do not provide those objects. The function-field curve theorem needs constant-model,
 isotriviality and geometric-normalization interfaces.
 
 Positive-characteristic Manin–Mumford needs the geometric trace and finite-field constant
@@ -74,7 +73,7 @@ theorem AbelianVariety.finitelyGeneratedField_points_fg {K : Type u} [Field K] [
     AddGroup.FG (AbelianVariety.Points A K) := by
   sorry
 
-/-- Mordell finiteness (§§4.6, 5.12, 6.4): a smooth proper geometrically connected curve of genus
+/-- Mordell finiteness (§§4.6, 6.4): a smooth proper geometrically connected curve of genus
 at least two over a number field has finitely many rational points. -/
 theorem mordell_finite (K : Type u) [Field K] [NumberField K]
     (C : Scheme.{u}) [C.Over (Spec (.of K))]

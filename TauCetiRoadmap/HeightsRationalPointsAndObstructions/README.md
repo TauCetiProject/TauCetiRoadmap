@@ -1,10 +1,67 @@
 # Roadmap: heights, rational points and obstructions
 
-**Summary.** Build heights, abelian Kummer descent and Mordell–Weil; construct adelic points, Brauer–Manin and torsor descent; prove curve finiteness, finite-rank intersections and abelian small-point results.
+**Summary.** This roadmap studies the rational points of varieties over number fields and, where the
+methods allow, over function fields. It builds the heights that measure points, proves that the points
+of an abelian variety form a finitely generated group, develops the local-to-global obstructions to the
+existence of points, and proves the finiteness theorems for curves and for subvarieties of abelian
+varieties.
+
+Heights are built as classes of functions modulo bounded ones, over generalized global fields, which
+include number fields and polarized function fields. Weil's height machine attaches such a class to
+every line bundle on a projective variety, and on an abelian variety Tate's limit gives the canonical
+Néron–Tate height and its pairing. With Kummer descent this proves the Mordell–Weil theorem: for an
+abelian variety over a number field the group of rational points is finitely generated. Over a regular
+finitely generated extension of a field `k` the same holds after dividing by the points of the Chow
+trace over `k`, which is the Lang–Néron theorem.
+
+The second part concerns the Hasse principle. The roadmap constructs adelic points, the Brauer–Manin
+pairing and descent by torsors, and proves that for smooth projective geometrically integral varieties
+over a number field the étale–Brauer set equals the descent set. Conics satisfy the Hasse principle. For
+a genus-one curve whose Jacobian has a Tate–Shafarevich group without nonzero divisible elements, the
+Brauer–Manin obstruction is the only obstruction to a rational point. Two examples over `ℚ` show the
+limits: a bielliptic surface with nonempty Brauer–Manin set, no rational point and empty étale–Brauer
+set, and a quadric bundle with nonempty étale–Brauer set and no rational point. Among everywhere locally
+soluble hyperelliptic models `z² = f(x, y)` ordered by coefficient height, a positive proportion have no
+rational divisor class of degree one, because of an algebraic Brauer–Manin obstruction.
+
+The central finiteness result is Faltings's theorem in Rémond's form. Let `A` be an abelian variety over
+a number field `K` and `X` a closed subvariety. Then the Zariski closure of `X(K)` is a finite union of
+translates of abelian subvarieties, each containing a `K`-point. In particular, outside the union of the
+positive-dimensional translates of abelian subvarieties contained in `X`, only finitely many `K`-points
+remain. The proof is Rémond's higher-dimensional Vojta inequality, with Faltings's product theorem and a
+descent on dimension.
+
+Mordell's conjecture is the case of curves. A smooth projective geometrically connected curve of genus
+at least two over a number field has finitely many rational points: after a finite extension of the
+field, the Abel–Jacobi map embeds it in its Jacobian, where it contains no translate of a
+positive-dimensional abelian subvariety. For such curves the roadmap also proves Vojta's inequality with
+Bombieri's explicit angle, by which two large rational points whose norms differ by a large factor make
+an angle with cosine at most `3/4`, and Mumford's gap principle. Over a function field, a smooth
+projective curve of genus greater than one with infinitely many points is constant in characteristic
+zero and isotrivial in characteristic `p`. Siegel's theorem makes the integral points finite on a smooth
+affine curve over a number field whose completion has positive genus or which has at least three
+geometric points at infinity.
+
+The roadmap also proves the Manin–Mumford theorem in characteristic zero and, for abelian varieties
+with trivial trace, in positive characteristic. It proves Mordell–Lang for subgroups of finite rank over
+algebraically closed fields of characteristic zero, and Bogomolov's theorem over number fields together
+with the equidistribution of small points. The conjectures of Bombieri–Lang and Vojta are stated as
+propositions, as are the sufficiency of the Brauer–Manin obstruction and the finiteness of
+Tate–Shafarevich groups; none is used to prove an unconditional theorem.
+
+ArakelovGeometryAndAbelianHeights provides number-field heights and arithmetic divisors, and
+SelmerIwasawaCohomology the Selmer groups and the Cassels–Tate pairing.
+DiophantineApproximationAndTranscendence and SubspaceTheorem provide Roth's lemma, Siegel's lemma and the
+Subspace theorem.
+
+Layer 0 builds heights and Layer 1 the Mordell–Weil and trace theorems. Layers 2 and 3 treat adelic
+points, Brauer evaluation and torsor descent. Layer 4 treats curves, covers and integral points, Layer 5
+cosets, finite-rank subgroups and small points, and Layer 6 rational points by genus and the conjectural
+propositions.
 
 ## Scope and ownership
 
-This roadmap owns height classes and the extension of the Weil machine to generalized global fields, abelian canonical heights, bounded point metrics, local Weil functions, polarized function-field heights, fppf Kummer maps over arbitrary fields and function-field Kummer local conditions, the trace/Lang–Néron theorem, adelic points of varieties, arithmetic torsor descent, Parshin covers, integral-point finiteness, stabilizers/Ueno loci, finite-rank Mordell–Lang and Bogomolov. Sections 5.17a–g own the arbitrary-dimensional arithmetic divisor action, adelic cycle heights, Hilbert–Samuel, Nakai, minima and variation needed here. Section 5.7a restricts FiniteFlatGroupsAndIntegralPadicHodgeTheory's Dieudonné anti-equivalence to connected formal p-divisible groups and compares its scalar normalizations and cotangent spaces; §§5.7b–d own the decomposition by weights of a commuting isogeny. The underlying isocrystal slope classification belongs to CrystallineCohomology §CR.4.7. The codimension-one arithmetic divisor and metrized-line dictionary belongs to ArakelovGeometryAndAbelianHeights §§1.8–1.10; §5.17a extends it to higher codimensions and iterated divisor actions. Northcott for projective space over a fixed number field and the affine height of a tuple belong to HeightsAndUnits; number-field line-bundle height classes and bounded-degree ample Northcott belong to ArakelovGeometryAndAbelianHeights §§1.12–1.14; absolute, bounded-degree and subspace heights belong to DiophantineApproximationAndTranscendence; number-field abelian Kummer/Selmer/Sha theory belongs to SelmerIwasawaCohomology §2.12a; the generic number-field product Subspace theorem belongs to SubspaceTheorem §6.2, with its absolute/projective adapter here; smooth-pair purity, smooth base change and the étale fundamental groupoid belong to EtaleCohomologyFoundations; the weak Lefschetz relative-cell and relative-homotopy theorems belong to AffineMorseLefschetz.
+This roadmap owns height classes and the extension of the Weil machine to generalized global fields, abelian canonical heights, bounded point metrics, local Weil functions, polarized function-field heights, fppf Kummer maps over arbitrary fields and function-field Kummer local conditions, the trace/Lang–Néron theorem, adelic points of varieties, arithmetic torsor descent, integral-point finiteness, stabilizers/Ueno loci, finite-rank Mordell–Lang and Bogomolov. Sections 5.17a–g own the arbitrary-dimensional arithmetic divisor action, adelic cycle heights, Hilbert–Samuel, Nakai, minima and variation needed here. Section 5.7a restricts FiniteFlatGroupsAndIntegralPadicHodgeTheory's Dieudonné anti-equivalence to connected formal p-divisible groups and compares its scalar normalizations and cotangent spaces; §§5.7b–d own the decomposition by weights of a commuting isogeny. The underlying isocrystal slope classification belongs to CrystallineCohomology §CR.4.7. The codimension-one arithmetic divisor and metrized-line dictionary belongs to ArakelovGeometryAndAbelianHeights §§1.8–1.10; §5.17a extends it to higher codimensions and iterated divisor actions. Northcott for projective space over a fixed number field and the affine height of a tuple belong to HeightsAndUnits; number-field line-bundle height classes and bounded-degree ample Northcott belong to ArakelovGeometryAndAbelianHeights §§1.12–1.14; absolute, bounded-degree and subspace heights belong to DiophantineApproximationAndTranscendence; number-field abelian Kummer/Selmer/Sha theory belongs to SelmerIwasawaCohomology §2.12a; the generic number-field product Subspace theorem belongs to SubspaceTheorem §6.2, with its absolute/projective adapter here; smooth-pair purity, smooth base change and the étale fundamental groupoid belong to EtaleCohomologyFoundations; the weak Lefschetz relative-cell and relative-homotopy theorems belong to AffineMorseLefschetz.
 
 Connected affine-group restricted-ramification finiteness is asserted over number fields (§3.3b). Section 3.8e owns the units modulo constants of a connected linear group over an algebraically closed field of characteristic zero, the reduction of its Picard group to that of its reductive quotient, and the splitting of both on a product with a smooth integral variety; the Picard group of that split reductive quotient, the character group of the fundamental group of its derived group, belongs to GroupSchemesOverABase §6.2. Section 3.8f owns the Galois-equivariant identification of units and Picard group with [T̂→T̂_sc]. Over global function fields only the proper finite-étale-torsor statement of §3.3a is used; no pseudo-reductive classification is assumed. Section 4.9 covers smooth function-field curves over arbitrary constants, regular curves over finite constants, and regular curves of geometric genus≥2 over arbitrary constants. Nonsmooth geometric-genus-zero-or-one curves over arbitrary infinite constants are excluded. General Brauer/Azumaya comparison is scoped to quasi-projective schemes with an ample bundle over an infinite field. Purity is used only for smooth pairs over a field, as supplied by EtaleCohomologyFoundations; absolute purity for arbitrary regular pairs is not used.
 
@@ -18,7 +75,7 @@ The torsion envelope in §5.16 is a reduced geometric closed subvariety. Inputs 
 
 [h] is the real quotient by uniformly bounded functions on all of X. It has neither point evaluation nor induced function multiplication: [1]=[0] but [n·1]≠[n·0]. Relative h_K scales by [L:K]; absolute number-field height is h_K/[K:ℚ]. Complex modulus is ordinary modulus with multiplicity two. Thus h_ℚ([2:1])=log2, h_ℚ(i)([2:1])=2log2, absolute height log2. Coordinate degree uses ratios of a nonzero tuple.
 
-Symmetric canonical height scales by n², antisymmetric by n. For general L use half the sum for L⁺=L⊗[-1]\*L and L⁻=L⊗([-1]\*L)⁻¹; L⁺⊗L⁻=L². Polarization is unhalved b(P,Q)=ĥ(P+Q)−ĥ(P)−ĥ(Q), b(P,P)=2ĥ(P); the angle norm uses b/2. In §§5.10–5.12 choose `L = O(Theta + [−1]*Theta)` on the Jacobian, where Theta is the theta divisor from the degree-one curve embedding; then `b_L/2 = b_Theta` and `‖z‖² = ĥ_Theta(z) + ĥ_Theta(−z)`. Elliptic `ĥ_(O) = canonicalHeight/2`: the pinned native `canonicalHeight` averages the naive x-height itself and is the `(2O)`-height. Thus the unhalved `(O)`-pairing is native `neronTatePairing`, whose diagonal is `canonicalHeight = 2ĥ_(O)`.
+Symmetric canonical height scales by n², antisymmetric by n. For general L use half the sum for L⁺=L⊗[-1]\*L and L⁻=L⊗([-1]\*L)⁻¹; L⁺⊗L⁻=L². Polarization is unhalved b(P,Q)=ĥ(P+Q)−ĥ(P)−ĥ(Q), b(P,P)=2ĥ(P); the angle norm uses b/2. In §§5.10–5.11 choose `L = O(Theta + [−1]*Theta)` on the Jacobian, where Theta is the theta divisor from the degree-one curve embedding; then `b_L/2 = b_Theta` and `‖z‖² = ĥ_Theta(z) + ĥ_Theta(−z)`. Elliptic `ĥ_(O) = canonicalHeight/2`: the pinned native `canonicalHeight` averages the naive x-height itself and is the `(2O)`-height. Thus the unhalved `(O)`-pairing is native `neronTatePairing`, whose diagonal is `canonicalHeight = 2ĥ_(O)`.
 
 Local module norm is |ϖ|=q⁻¹, ordϖ=1; logarithm radius is strictly r>e/(p−1). In the unramified quadratic extension of ℚ₂, |2|=1/4 and a full-rational-two-torsion elliptic [2]-cokernel has order 16. Brauer values are additive ℚ/ℤ; split=0, opposite=negative, real Hamilton invariant=1/2, complex invariant=0. Restriction multiplies invariants by local degree, corestriction preserves them. Sums include infinity. Twist convention is [Z^τ]=[Z]−τ: in ℤ/3, a=τ=1 gives zero; the residual functional is ε_τ=ε₀+⟨−,τ⟩, so 1/3+2/3=0.
 
@@ -127,7 +184,7 @@ GroupSchemesOverABase §6.2 supplies, for a connected split reductive group G ov
 
 ## How to read the build
 
-Layer 0 fixes normalizations and heights; Layer 1 adds Kummer/trace/finite generation. Layer 2 supplies adelic evaluation, Layer 3 torsor descent. Layer 4's Mordell theorem uses the independent Vojta–Bombieri route of Layer 5; Parshin is a separate conditional implication. Layer 5's arithmetic positivity proves equidistribution before division-group Mordell–Lang and Bogomolov. Layer 6 assembles genus conclusions and conjectural propositions. Read §0.34 before §§0.31–33. `Suggested.lean` states Mordell–Weil, Mordell and Siegel finiteness, characteristic-zero Manin–Mumford, finite-rank Mordell–Lang and the genus-zero Hasse principle on native carriers; its module docstring identifies the geometric interfaces needed for the other headline statements.
+Layer 0 fixes normalizations and heights; Layer 1 adds Kummer/trace/finite generation. Layer 2 supplies adelic evaluation, Layer 3 torsor descent. Layer 4's Mordell theorem is the curve case of the subvariety theorem of §5.9, through the Abel–Jacobi embedding of §6.4; §§5.10–5.11 add Vojta's inequality for curves with Bombieri's explicit angle and Mumford's gap principle. Layer 5's arithmetic positivity proves equidistribution before division-group Mordell–Lang and Bogomolov. Layer 6 assembles genus conclusions and conjectural propositions. Read §0.34 before §§0.31–33. `Suggested.lean` states Mordell–Weil, Mordell and Siegel finiteness, characteristic-zero Manin–Mumford, finite-rank Mordell–Lang and the genus-zero Hasse principle on native carriers; its module docstring identifies the geometric interfaces needed for the other headline statements.
 
 ## Layer 0: height classes, the Weil machine and canonical heights
 
@@ -2006,17 +2063,6 @@ Layers 1–2; SchemeAndStackFoundations §§1.15–1.17, 2.3, 2.15, 2.22, 3.6; A
 
 ## Layer 4: Curves, covers and integral points
 
-### 4.1 Good reduction and Shafarevich sets
-
-Number field K, finite S⊃∞: `HasGoodReductionOutside C S` means a smooth proper O_(K,S)-model with geometrically connected fibres; `shafarevichSet K S g` consists of its genus-g K-isomorphism classes; `ShafarevichFiniteness` asserts finiteness. API: S-monotonicity, finite base change, isomorphism invariance. Source: Szpiro §2.1 pp.85–86; Milne AV IV §§1, 5 pp.132–133, 145. *Needs:* curve models, SR 2, NM elliptic comparison.
-
-**Checks.**
-
-- P¹ has everywhere good reduction
-- y²=x³−x/ℚ is good outside {2,∞} but not outside {∞}
-- elliptic good reduction agrees with the minimal Weierstrass criterion.
-- Spec K is not an S-integer base for finite S.
-
 ### 4.2 Chevalley–Weil
 
 `chevalleyWeil`: a finite étale surjective f:Z→X with X proper over a number field K admits a finite K′/K over which every point of X(K) lifts. Proper spreading makes fibre algebras étale outside S; Hermite gives finitely many bounded-degree types; take their splitting compositum. Alternatively apply §3.3a to a finite étale surjective Galois closure on each connected component. Integral points on finite étale surjective models lift over degree≤degf unramified outside S. Source: Poonen Corollary 8.4.8/Theorem 8.4.10 proof pp.242–243; Szpiro Example 1.1 p.86. *Needs:* §3.3a; AGD Hermite; spreading.
@@ -2038,31 +2084,9 @@ Char0, smooth projective C′, C, g(C)≥2: `finite_nonconstant_hom`. Hurwitz bo
 - target genus one permits infinitely many multiplications.
 - Unrestricted Frobenius iterates invalidate the positive-characteristic statement.
 
-### 4.4 Kodaira–Parshin covers
-
-Smooth projective geometrically connected C/K, g≥1, good outside dyadic/infinite S: `KodairaParshin C S` gives one finite L/K and C_P/L→C_L branched exactly at each P∈C(K), good outside S_L. Pull [2] on Jac along Q↦[Q−P]: connected étale C₁→C, degree 2^(2g), genus g₁=1+2^(2g)(g−1), rational point over P. Its fibre D has degree 2^(2g). Halve O(D) in Pic, [2]-fibre degree 2^(2g₁); the section kills the bundle Brauer obstruction. M²=O(D) gives the double cover branched at D. Halving fields are unramified outside S; Hermite gives one compositum. Relative Picard/double covers stay smooth away from 2. Hurwitz gives 2g_P−2=2^(2g)(4g−3). API: field, curve, map, genus, good reduction, branch/base change. Source: Szpiro §5.2 pp.97–98; Milne IV pp.145–148 uses a different branch variant. *Needs:* §§4.1–2; JC F; AS A3.2; relative Picard/double covers.
-
-**Checks.**
-
-- g=2 gives g₁=17 and g_P=41
-- the first step has degree 16 and no ramification.
-- The second is branched, so distinguishes P.
-- For g=1 the first step is [2] on C with P as origin.
-- The halving degree is 2^(2g₁), not 2^(2g).
-
-### 4.5 Parshin's implication
-
-For genus≥2 C and §4.4's (L,S_L,g_P), ShafarevichFiniteness(L,S_L,g_P)⇒finite C(K). Finitely many C_P and §4.3 give finitely many auxiliary maps; their single branch values distinguish P. Source: Milne AV IV Theorems 5.1–2 deduction p.146; Szpiro §5.2 p.98. *Needs:* §§4.1, 4.3–4.
-
-**Checks.**
-
-- Genus one fails at de Franchis, allowing positive rank
-- different P give different branched maps.
-- No unconditional Shafarevich theorem is inferred here.
-
 ### 4.6 Mordell over number fields
 
-`mordell_finite`, stated in §6.4 and in `Suggested.lean`: smooth projective geometrically connected genus≥2 curves over number fields have finite rational points, by §5.12's independent Vojta–Bombieri argument. Section 4.5 remains a separate conditional implication. Source: Poonen Theorem 9.5.1/Remark 9.5.2 p.286; Szpiro Theorem 1 p.84.
+`mordell_finite`, stated in §6.4 and in `Suggested.lean`: smooth projective geometrically connected genus≥2 curves over number fields have finite rational points. It is the curve case of §5.9, through the Abel–Jacobi embedding of §6.4. Source: Poonen Theorem 9.5.1/Remark 9.5.2 p.286; Szpiro Theorem 1 p.84.
 
 **Checks.**
 
@@ -2170,13 +2194,11 @@ Own `finite_nonhorizontal_sections`. Properness extends sections in codimension 
 
 ### Examples
 
-For genus g=2, the pullback of [2] has degree sixteen and genus seventeen. The fully branched double cover has `2g(C_P)−2=16·5=80`, hence genus forty-one. Its branch locus on the original curve is exactly the chosen point. The dyadic exclusion is required for the finite-étale halving argument and smooth double-cover model.
-
 For `ℙ¹\{0,1,∞}`, S-integral points satisfy the S-unit equation u+(1−u)=1 and form a finite set. For `ℙ¹\{∞}` the integral points include all ordinary integers. For `ℙ¹\{0,∞}` they are S-units and can be infinite; these are the one- and two-boundary-point negative controls to Siegel's genus-zero hypothesis. A constant genus-two curve over ℂ(t) has infinitely many constant points, so number-field finiteness does not extend without the function-field constant/isotrivial distinction.
 
 ### Dependencies
 
-Layers 0–3; JacobianChallenge Layer F; SchemeAndStackFoundations §§3.1–3.7 and 4.13; TauCetiRoadmap.StableReduction Layer 2; AbelianSchemesAndArithmeticModuli §A3.2; ArithmeticGaloisDuality Layer R02.3; SubspaceTheorem §6.2 with the normalized absolute/projective adapter of §4.7a; DiophantineApproximationAndTranscendence for S-units. Shafarevich finiteness is the explicit premise of the Parshin implication. Function-field Mordell has its separate proof inputs.
+Layers 0–3; JacobianChallenge Layer F; SchemeAndStackFoundations §§3.1–3.7 and 4.13; TauCetiRoadmap.StableReduction Layer 2; AbelianSchemesAndArithmeticModuli §A3.2; ArithmeticGaloisDuality Layer R02.3; SubspaceTheorem §6.2 with the normalized absolute/projective adapter of §4.7a; DiophantineApproximationAndTranscendence for S-units. Function-field Mordell has its separate proof inputs.
 
 ## Layer 5: Cosets, finite rank and small points
 
@@ -2598,16 +2620,6 @@ For a genus-g≥2 curve `mumford_gap`: for a smooth projective genus-g≥2 curve
 - At g=2, r=2 the coefficient 5/8 has margin 1/8 below 3/4.
 - Bounded points over a fixed number field are Northcott-finite.
 
-### 5.12 Mordell by the gap route
-
-Let C be a smooth projective geometrically connected curve of genus≥2 over a number field K. A finite cone covering of the Mordell–Weil real vector space reduces to one narrow cone. Mumford's gap allows only finitely many points in each fixed height-ratio interval. An infinite cone would therefore have unbounded separated heights, contradicting §5.10. Northcott handles bounded height and torsion. This proves finiteness of C(K), hence §4.6, independently of §5.9 and of Shafarevich finiteness. Source: Bombieri §10 pp.637–640. *Needs:* §§1.7, 5.10–11.
-
-**Checks.**
-
-- Rank zero is immediate
-- rank one needs two cones.
-- The proof gives finiteness without a computable maximum height.
-
 ### 5.13 Finite-rank Mordell–Lang
 
 For A over an algebraically closed characteristic-zero field, Γ≤A with finite rational rank, and closed X⊂A, the reduced closure of X∩Γ is a finite union of cosets a+B with a∈Γ. Descend generators of a division hull to a finitely generated E/ℚ; §§5.13a–c reduce to number fields without bounding degrees of division points. The statement `finiteRank_mordellLang` in `Suggested.lean` uses native point subgroups and reduced Zariski-closed supports, with no finite-generation assumption on Γ. Sources: Poonen, *Division group*, Theorem 1 p.2; Hindry Appendix I pp.597–599 (motivation for the specialization route). *Needs:* §§5.5, 5.13a–c.
@@ -2905,7 +2917,7 @@ The difference map `D₂(P₀,P₁,P₂)=(P₁−P₀,P₂−P₀)` sends `(0,P,
 
 ### Dependencies
 
-Layers 0–1; AbelianSchemesAndArithmeticModuli §§A6.3–A6.5; JacobianChallenge Layer F; SchemeAndStackFoundations §§1.14, 5.1–5.6, 5.12, with the subscheme-stabilizer and positive-dimensional quotient refinements. The Vojta route needs the product/Roth estimates. Higher-dimensional arithmetic intersections, division-point control, torsion Galois bounds, Ueno structure and adelic equidistribution are the additional contracts specified above. The curve theorem does not use Shafarevich finiteness.
+Layers 0–1; AbelianSchemesAndArithmeticModuli §§A6.3–A6.5; JacobianChallenge Layer F; SchemeAndStackFoundations §§1.14, 5.1–5.6, 5.12, with the subscheme-stabilizer and positive-dimensional quotient refinements. Vojta's inequalities need the product/Roth estimates. Higher-dimensional arithmetic intersections, division-point control, torsion Galois bounds, Ueno structure and adelic equidistribution are the additional contracts specified above. The curve theorem does not use Shafarevich finiteness.
 
 ## Layer 6: Rational points by genus and conjectural propositions
 
@@ -2942,7 +2954,7 @@ For a smooth projective geometrically connected genus-one C/K, its Jacobian E ac
 
 ### 6.4 Genus at least two
 
-For smooth projective geometrically connected C/K over a number field with genus≥2, `mordell_finite` asserts that C(K) is finite by §5.12. Its native signature uses a smooth proper one-dimensional scheme, the equivalent curve hypotheses, with `Scheme.genus K` and its required finite-dimensional H¹(𝒪_C) instance; rational points are morphisms over Spec K. After a finite extension choose a degree-one class for its Abel–Jacobi embedding: §5.13 makes its intersection with every finite-rank subgroup finite, and §5.18 bounds its sufficiently small-height points to a finite set. Transfer rational points back through the closed immersion. The scoped non-isotrivial function-field theorem is §4.9. Source: Poonen Theorem 9.5.1/Remark 9.5.2 p.286. *Needs:* §§4.9, 5.12–13, 5.18; JC F.
+For smooth projective geometrically connected C/K over a number field with genus≥2, `mordell_finite` asserts that C(K) is finite, as the curve case of §5.9. Its native signature uses a smooth proper one-dimensional scheme, the equivalent curve hypotheses, with `Scheme.genus K` and its required finite-dimensional H¹(𝒪_C) instance; rational points are morphisms over Spec K. If C(K) is empty there is nothing to prove. Otherwise a point of C(K), or a degree-one class over a finite extension L/K, gives the Abel–Jacobi closed immersion of C into its Jacobian J (JC F), whose image has trivial stabilizer and empty Ueno locus (Layer 5 Examples). Section 5.9 over K, or over L, makes the rational points of that image finite; transfer them back through the closed immersion. Further, §5.13 makes its intersection with every finite-rank subgroup finite, and §5.18 bounds its sufficiently small-height points to a finite set. The scoped non-isotrivial function-field theorem is §4.9. Source: Poonen Theorem 9.5.1/Remark 9.5.2 p.286. *Needs:* §§4.9, 5.4, 5.9, 5.13, 5.18; JC F.
 
 **Checks.**
 
@@ -2983,13 +2995,13 @@ Layers 0–5; JacobianChallenge Layer F; GlobalQuadraticForms Layer 5; EllipticC
 
 ArithmeticStatisticsPartVI consumes the common Q invariant and all-place isogeny Euler formula of §3.18c, together with §§3.18a–b's chart and mass adapters. Its general parity and self-duality applications retain their own hypotheses.
 
-EffectiveDiophantineMethods uses explicit heights, Kummer local conditions, finite Brauer constraints and the genus classification for effective point bounds. Finiteness alone does not give a maximum point height. AnabelianGeometryAndNonabelianChabauty uses the abelian depth-one Kummer and Selmer interfaces and the arithmetic descent sets. GrossZagierAndArithmeticHeights uses canonical heights and the unhalved pairing, then supplies its intersection comparison. ArithmeticDynamics uses the Tate-limit and canonical-metric constructions; its dynamical intersection and equidistribution statements have their own hypotheses. Later Faltings and Lawrence–Venkatesh roadmaps consume the Parshin construction and the unique curve finiteness theorem.
+EffectiveDiophantineMethods uses explicit heights, Kummer local conditions, finite Brauer constraints and the genus classification for effective point bounds. Finiteness alone does not give a maximum point height. AnabelianGeometryAndNonabelianChabauty uses the abelian depth-one Kummer and Selmer interfaces and the arithmetic descent sets. GrossZagierAndArithmeticHeights uses canonical heights and the unhalved pairing, then supplies its intersection comparison. ArithmeticDynamics uses the Tate-limit and canonical-metric constructions; its dynamical intersection and equidistribution statements have their own hypotheses. Later roadmaps use the curve finiteness theorem of §§4.6 and 6.4.
 
 ## Provenance
 
 This section is secondary: it records an existing formalization that overlaps this roadmap and prescribes nothing.
 
-[AxiomMath/Mordell](https://github.com/AxiomMath/Mordell/tree/82a30cb7857f6e3cfdb1be91f5533c0ccb57d493), read at commit `82a30cb7857f6e3cfdb1be91f5533c0ccb57d493`, is an Apache-2.0 Lean formalization of Faltings' theorem for curves over number fields by Bombieri's proof, the route of §§5.10–5.12, built on Mathlib and on AxiomMath's Lean formalization of the Stacks project at other Lean and Mathlib versions. It is not a dependency of this roadmap or of Tau Ceti, and no code from it is transferred here; a statement read there is compared with the target here before it is used, and adapting any of it requires agreement with its authors and keeps its Apache-2.0 notices. Its heights are absolute, h_K/[K:ℚ] in the convention here, on the points of varieties over fields algebraic over ℚ.
+[AxiomMath/Mordell](https://github.com/AxiomMath/Mordell/tree/82a30cb7857f6e3cfdb1be91f5533c0ccb57d493), read at commit `82a30cb7857f6e3cfdb1be91f5533c0ccb57d493`, is an Apache-2.0 Lean formalization of Faltings' theorem for curves over number fields by Bombieri's proof, whose Vojta and Mumford inequalities are §§5.10–5.11 here, built on Mathlib and on AxiomMath's Lean formalization of the Stacks project at other Lean and Mathlib versions. It is not a dependency of this roadmap or of Tau Ceti, and no code from it is transferred here; a statement read there is compared with the target here before it is used, and adapting any of it requires agreement with its authors and keeps its Apache-2.0 notices. Its heights are absolute, h_K/[K:ℚ] in the convention here, on the points of varieties over fields algebraic over ℚ.
 
 - Its [`Height`](https://github.com/AxiomMath/Mordell/tree/82a30cb7857f6e3cfdb1be91f5533c0ccb57d493/Mordell/Height) directory (63 files) is prior art for §§0.11–0.17 over number fields. `Weil` has field independence, Galois invariance, nonnegativity, the Segre and Veronese formulas and the bounds under linear maps (§§0.11–0.12, 0.14–0.15), and `Ratio` with `LargeAffineCoordinate` gives the two tuple-height inequalities of §0.13. `Machine` and `Class` build Weil's machine from formal combinations of projective embeddings: heights of rational Picard classes on a smooth projective variety, unique up to bounded functions, linear and functorial; bounded difference for two morphisms with isomorphic pullbacks of O(1) (`Faltings.exists_abs_weilHeight_sub_le_of_pullback_iso`, the first statement of §0.15); and lower bounds off the base locus (§0.17). Over number fields this machine is prior art for the `Height.weilClass` supplied by ArakelovGeometryAndAbelianHeights §§1.12–1.14, which §0.16 transports and extends. Its bounded-degree Northcott theorems, affine coefficient heights and Siegel lemma are supplier material here (ArakelovGeometryAndAbelianHeights §1.13, HeightsAndUnits §§0.1 and 1.1, DiophantineApproximationAndTranscendence §§0.2–0.3 and 2.8). `Polynomial`, with local sizes, Gauss's lemma, Gelfond's product inequality and heights of divided derivatives, is prior art for the coefficient-height estimates of §§5.10a and 5.10d.
 - Its [`NeronTate`](https://github.com/AxiomMath/Mordell/tree/82a30cb7857f6e3cfdb1be91f5533c0ccb57d493/Mordell/NeronTate) directory (23 files) has §0.18's Tate limit for a self-map and a ratio greater than one, and the Néron–Tate height of a rational Picard class of an abelian variety over a number field, built from the parallelogram relation by Tate limits along [2] with ratios 4 and 2 on the even and odd parts, with uniqueness, additivity in the class, pullback by homomorphisms and the translation formula (§0.19). It adds the polar form B_c, with x ↦ B_c(x,y) as the height of τ_y\*c − c (§0.21), nonnegativity and Northcott for ample even classes (§0.20), and positive definiteness on every finitely generated group of algebraic points (`Faltings.neronTateBilinear_posDef`, §1.8). On a Jacobian its Néron form is the polar form of the theta height, which is the normalization `b_L/2 = b_Theta` of §5.10; its Cauchy–Schwarz bound and Mumford's formulas for the heights of NP and of Δ′ are prior art for §§5.10e–5.11.
