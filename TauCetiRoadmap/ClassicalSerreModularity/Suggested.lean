@@ -8,27 +8,17 @@ import TauCeti.NumberTheory.ModularForms.Newforms.Newform
 `README.md`. This file states the roadmap's headline theorems against the pinned APIs;
 discharging them finishes neither a layer nor the roadmap.
 
-The statements are qualitative Serre modularity, Khare's level-one modularity and finiteness
-corollary, the positive-density auxiliary-prime theorem, and odd Artin weight-one modularity.
-The two proofs of Serre modularity share one statement. Attachment is expressed on Tau Ceti's
-`HeckeRing.GL2.Newform` by its Fourier coefficients, nebentypus and arithmetic Frobenius.
-The definitions below use Mathlib's actual absolute Galois group, algebraic integers, inertia,
+The statement is the positive-density auxiliary-prime theorem. The definitions are the
+arithmetic interfaces on which the statements of Serre's conjecture are written: attachment is
+expressed on Tau Ceti's `HeckeRing.GL2.Newform` by its Fourier coefficients, nebentypus and
+arithmetic Frobenius, over Mathlib's actual absolute Galois group, algebraic integers, inertia,
 complex conjugations and matrix representations.
 
-The exact Serre-weight, conductor and character refinements in R26.1, R27.4, R27.6 and R33.6
-require the residual Artin conductor and Serre's local weight recipe, neither supplied at the
-pins. The finite-flat weight-two export additionally requires the coefficient-independent
-finite-flat residual predicate and its group-scheme model. The regular-system theorem and
 Layer I's prescribed lifts and modularity transfers require compatible-system carriers, local
-period conditions and deformation problems. R33.1's global arithmetic action and
-type-support/cycle comparisons additionally require completed automorphic towers, patched
-modules and local deformation-cycle carriers, absent at the pins. The weight-reduction and
-conductor-induction statements likewise require the missing arithmetic invariants. The Katz weight-one step,
-geometric reduction theorem and descent require geometric modular forms, their integral
-spaces and Hecke actions. These results are specified in the README, without compiled
-signatures here. The exact-conductor Artin refinement also requires the Artin conductor;
-the weight-one statement here identifies the representation by all good-prime traces and
-determinants, without naming a characteristic-zero attachment absent at the pins.
+period conditions and deformation problems. R33.1's globalization and unitary Hecke–Galois
+construction additionally require definite unitary groups, their Hecke algebras and polarized
+deformation problems, absent at the pins. These results are specified in the README, without
+compiled signatures here.
 -/
 
 noncomputable section
@@ -105,29 +95,6 @@ def toRepresentation {G R : Type*} [Group G] [CommRing R]
     (ρ : G →* GL (Fin 2) R) : Representation R G (Fin 2 → R) :=
   (Units.coeHom _).comp (Matrix.GeneralLinearGroup.toLin.toMonoidHom.comp ρ)
 
-/-! ## Layer R26.1: Level-one modularity -/
-
-/-- `R26.1/level-one-theorem-and-the-meaning-of-arises-from`: a representation unramified
-outside its characteristic is attached to a level-one newform of weight at least two. -/
-theorem khare_level_one {p : ℕ} [Fact p.Prime]
-    (ρ : GQ →* GL (Fin 2) (FpBar p)) (hρ : IsSType ρ)
-    (hunram : ∀ ℓ : ℕ, ℓ.Prime → ℓ ≠ p → IsUnramifiedAt ρ ℓ) :
-    ∃ (k : ℤ) (f : Newform 1 k),
-      2 ≤ k ∧ ArisesFrom ρ f := by
-  sorry
-
-/-! ## Layer R26.6: Level-one finiteness -/
-
-/-- `R26.6/finiteness-corollary-1-3`: finitely many isomorphism classes of continuous,
-semisimple, odd representations unramified outside the coefficient characteristic. -/
-theorem finite_level_one_semisimple (p : ℕ) [Fact p.Prime] :
-    ∃ S : Set (GQ →* GL (Fin 2) (FpBar p)), S.Finite ∧
-      ∀ ρ : GQ →* GL (Fin 2) (FpBar p), IsOpen (ρ.ker : Set GQ) → IsOdd ρ →
-        Representation.IsSemisimpleRepresentation (toRepresentation ρ) →
-        (∀ r, r.Prime → r ≠ p → IsUnramifiedAt ρ r) →
-        ∃ τ ∈ S, ∃ B : GL (Fin 2) (FpBar p), ∀ g, τ g = B * ρ g * B⁻¹ := by
-  sorry
-
 /-! ## Layer R27.1: The auxiliary-prime theorem -/
 
 /-- `ρ_proj(a)` and `ρ_proj(b)` are conjugate in the projective image: `ρ(a)` is a scalar multiple
@@ -158,30 +125,6 @@ theorem lemma_8_2 {p : ℕ} [Fact p.Prime] (hp : p % 4 = 1) (ρ : GQ →* GL (Fi
     {φ : AlgebraicClosure ℚ →+* ℂ} {c : GQ} (hc : ComplexEmbedding.IsConj φ c)
     (hodd : Matrix.det (ρ c : Matrix (Fin 2) (Fin 2) (ZMod p)) = -1) :
     ∃ δ : ℝ, 0 < δ ∧ NumberField.Set.HasDirichletDensity (primesOfRat (auxiliaryPrimes ρ c)) δ := by
-  sorry
-
-/-! ## Layer R27.5: Qualitative Serre modularity -/
-
-/-- `R27.5/hypothesis-H-and-theorem-9-1` and `R33.5/qualitative-serre-theorem`:
-every continuous, odd, absolutely irreducible residual representation is attached to a
-classical newform of weight at least two. -/
-theorem serre_conjecture_weak {p : ℕ} [Fact p.Prime]
-    (ρ : GQ →* GL (Fin 2) (FpBar p)) (hρ : IsSType ρ) :
-    ∃ (N : ℕ) (_ : NeZero N) (k : ℤ) (f : Newform N k), 2 ≤ k ∧ ArisesFrom ρ f := by
-  sorry
-
-/-! ## Layer R27.6: Artin weight-one modularity -/
-
-/-- `R27.6/odd-artin-weight-one-modularity`: every odd irreducible Artin representation
-is attached to a weight-one newform, including its determinant character and all good-prime
-traces. Open kernel expresses finite-image continuity on the Krull Galois group. -/
-theorem weight_one_artin_modularity (ρ : GQ →* GL (Fin 2) ℂ)
-    (hcont : IsOpen (ρ.ker : Set GQ)) (hodd : IsOdd ρ) (hirr : IsAbsIrreducible ρ) :
-    ∃ (N : ℕ) (_ : NeZero N) (f : Newform N 1),
-      ∀ ℓ : ℕ, ℓ.Prime → ¬ ℓ ∣ N → IsUnramifiedAt ρ ℓ ∧
-        ∀ σ : GQ, IsFrobAt σ ℓ →
-          coeff f ℓ = Matrix.trace (ρ σ : Matrix (Fin 2) (Fin 2) ℂ) ∧
-          f.dirichletLift ℓ = Matrix.det (ρ σ : Matrix (Fin 2) (Fin 2) ℂ) := by
   sorry
 
 end TauCetiRoadmap.ClassicalSerreModularity
