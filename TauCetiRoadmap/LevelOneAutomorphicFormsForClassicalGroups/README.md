@@ -22,110 +22,23 @@ series of the Leech lattice, the Eichler basis theorem in weights 4, 8 and 12, a
 range `g ≥ 2k` (Layer 8). The end theorems are Chenevier–Taïbi's Theorems 1–7, Corollary 1 and
 §§5.4–5.5, and Theorems 1–2 of their weight-13 Leech paper.
 
-## Scope and ownership
+## How to read the build
 
-This roadmap owns the level-one specialization and everything that is specific to the
-Chenevier–Taïbi method: the set `Π_alg` and its counting functions; the archimedean ring `K∞` with
-its parity-truncated weight filtrations; the Rankin–Selberg explicit-formula bilinear forms, the
-Stark–Odlyzko cone inequality for pairs of level-one representations and the finite-dimensional
-quadratic minimization built on it, including the Rayleigh least-eigenvalue refinement (the Odlyzko
-kernel and test function are imported); Miller's vanishing theorem in its form on archimedean
-parameters; level-one Arthur parameters, the restrictions to their component groups of the packet
-characters in the scalar holomorphic cases, and the triangular Euler–Poincaré relation; the masses
-of torsion classes, the spinor obstruction on their characteristic polynomials, resting on the
-imported Zassenhaus spinor-norm formula; Taïbi's explicit evaluation of the geometric side of the
-level-one `L²`-Lefschetz formula; the low-weight classifications; the genus-`g` unweighted theta map
-on even unimodular lattices, the harmonic theta map, first occurrence and the Rallis parameter
-relation at level one; the Siegel-modular-form inputs needed at level one (the Siegel operator and
-its standard-`L`-function relation, the vanishing and spanning theorems of the singular range,
-odd-weight boundary vanishing); the classification of Siegel eigenforms in low weight; the invariant
-alternating forms of Niemeier lattices, the Mathieu orbit-sum forms on the Leech lattice, the
-sublattices `Q_g` and the harmonic Leech theta series; and the stable range.
-
-It leaves to named roadmaps, by section:
-
-- The adelic group, cuspidal and automorphic representations, restricted tensor products, the real
-  Weil group and the local Langlands correspondence for `GL_n(ℝ)`, Clozel purity, holomorphic
-  discrete series, the `GL₂` adelization and algebraic modular forms for groups compact at
-  infinity: AutomorphicFormsOnReductiveGroups §§2.2, 2.4, 2.5, 3.2, 3.4, 3.5, 4.2, 5.1, 5.5, 6.7,
-  6.8, 7.2, 7.2a, 7.4 and 7.5.
-- Archimedean gamma and epsilon factors, the Jacquet–Shalika bound on Satake parameters,
-  Rankin–Selberg `L`-functions, their poles and functional equations, and strong multiplicity one for
-  isobaric sums: AutomorphicLFunctionsAndLocalFactors, Conventions, §§AL.1.4, AL.3.3.8, AL.3.6, AL.3.7
-  and AL.3.9.
-- Weil's explicit formula in Mestre's formalism, for an arbitrary pair of completed functions with
-  products of gamma factors: AnalyticNumberTheoryPartI §§1.3 and 1.8.
-- The Odlyzko kernel `g = 2(u ∗ u)`, the test functions `g(x/b)/cosh(x/2)` and the nonnegativity of
-  the real part of their transform in the strip `0 ≤ Re s ≤ 1`:
-  SmallRamificationAndAbelianVarietyBaseCases §§1.5–1.7.
-- The Zassenhaus spinor-norm formula for an isometry of a nondegenerate quadratic space over a
-  field of characteristic different from `2`: SymplecticReidemeisterTorsionModSquares §4.1.
-- The identification of the permutation automorphism group of the Golay code with `M24`, Conway's
-  group `Co₀ = O(Leech)` as the isometry group of the Leech lattice, its Conway generators and
-  order, and the simplicity of `Co₁ = Co₀/{±1}`: CFSGBasicProperties P2-L; the
-  average characteristic polynomial of `Co₀` on `Leech ⊗ ℚ` is requested from the same section
-  (Exact supplier contracts).
-- Finite multiplicities of the discrete spectrum, the residual spectrum, Wallach's tempered
-  cuspidality criterion, Euler–Poincaré functions and Arthur's `L²`-Lefschetz trace formula:
-  AutomorphicSpectralTheory §§4.4, 4.5, 4.10, 6.9, 6.17, 6.19 and 6.20.
-- Global Arthur parameters, component groups, the epsilon character, local Arthur packets, the
-  multiplicity formula, Adams–Johnson packets and the Mœglin–Renard description of packets with a
-  scalar unitary lowest-weight module, with the packet character of that module requested from the same
-  section (Exact supplier contracts), together with the standing premises under which they are
-  stated: ModularityAndLanglandsExtensions, Exact supplier contracts, and §§3.4, 3.8, 3.15, 3.17,
-  3.20, 3.21 and 3.22.
-- Classical automorphic forms on Shimura varieties, their cusp forms, Hecke operators and
-  Fourier–Jacobi expansions: AutomorphicBundles §§11.1, 11.2, 11.9, 11.16, 12.10, 12.11, 12.13 and
-  12.15.
-- Oscillator representations, dual pairs, local theta correspondence, the theta kernel and the
-  Rallis unramified computation: MetaplecticAutomorphicForms §§0.15, 2.4c, 3.1, 3.4, 3.5, 3.7,
-  3.10, 3.21, 5.1, 5.6 and 6.14.
-- Classes of even unimodular lattices of ranks 16 and 24, the uniqueness of the rootless rank-24
-  class, the mass of even unimodular lattices and automorphism orders: OrthogonalTamagawaAndLatticeMass
-  §§3.1, 4.1 and 4.2. Genus theory and integral spinor norms: GeometryOfNumbersAndQuadraticArithmetic
-  §2.4.
-- The closed formulas and rational enclosures of the eight explicit-formula scalars, rational Gram
-  witnesses, the multiplicity lift and ellipsoid covers:
-  ComputationalNumberTheory §§4.17, 4.17a, 4.18, 4.26 and 4.29–4.34, and §5.1 for the
-  interpretation of finite families.
-- The integral lattice carrier, isometries and discriminant forms: Completed/IntegralLattices,
-  Layer 1, with their Tau Ceti declarations; the `p`-neighbour relation of integral lattices:
-  IntegralLattices §4G. The construction of the Leech lattice: Rank24LatticeConstructions,
-  Layer 6. Genus-one theta series and `Θ_{E₈} = E₄`: ThetaSeries, Layers 5 and 8. The extended
-  binary Golay code: AlgebraicCodingTheory, Layer 5. The order of the Mathieu group `M₂₄`:
-  SporadicOrders, Layer 1. The field spinor norm: OrthogonalSpinGroups, Layer 1, which is Tau
-  Ceti's `CliffordAlgebra.orthogonalSpinorNorm` at the pin.
-- Weyl's character and dimension formulas and the highest-weight theory of the classical groups:
-  RepresentationTheory/LieHighestWeight Layer 6 and RepresentationTheory/ClassicalGroups Layers
-  3–5. Split Chevalley–Demazure group schemes over `ℤ`: ReductiveGroups Layer 9.
-- The criterion that, for `k_g > g`, the holomorphic module `ρ_k` lies in the real Arthur packet of a
-  parameter with infinitesimal weights `0, ±(k_i − i)` exactly when the odd block has length one, with
-  the packet character of CT20 (5.2.1): ModularityAndLanglandsExtensions §3.21. Section 3.5 here owns
-  only its level-one consequences.
-
-Already in the pinned libraries and consumed as is: the smooth split symplectic group scheme over
-`ℤ` and its matrix points (`TauCeti.Symplectic.groupScheme`, `TauCeti.Symplectic.pointsMulEquiv`,
-`TauCeti.Symplectic.instSmoothCoordinateHopfAlgebra`); the Leech lattice with its evenness,
-unimodularity, positivity and absence of roots (`TauCeti.leechLattice`,
-`TauCeti.vectorsOfNorm_two_leechLattice`); the eigenvector property of a local
-extremum of a Rayleigh quotient (`IsSelfAdjoint.hasEigenvector_of_isLocalExtrOn`); the level-one
-dimension formula and division by the discriminant (`ModularForm.dimension_level_one`,
-`CuspForm.discriminantEquiv`); level-one elliptic newforms, their basis of the new subspace and the
-fact that every level-one cusp form is new (`HeckeRing.GL2.Newform`, `HeckeRing.GL2.Newform.basis`,
-`TauCeti.cuspFormsNew_one`, `TauCeti.Gamma1_one_map_eq_SL`), with the simultaneous Petersson-orthonormal
-Hecke eigenbasis (`HeckeRing.GL2.exists_peterssonOrthonormalBasis_eigenformAwayFromLevel`); the binary
-Golay code and its Construction A lattice (`TauCeti.BinaryGolay.code`,
-`TauCeti.BinaryGolay.constructionALattice`); the integral lattice carrier `TauCeti.IntegralLattice`
-with `IsEven`, `IsUnimodular`, `IsPosDef`, `norm`, `vectorsOfNorm` and the isometries
-`TauCeti.IntegralLattice.Isometry`. None of these is planned again here.
-
-SiegelModularForms consumes this roadmap rather than supplying it: it imports the genus-`g` and
-harmonic lattice theta maps of §§6.4 and 6.7 and extends them to general lattices, reads the
-level-one Siegel operator and singular-range statements of §§6.1–6.2 and 6.4 on its analytic carrier, and
-checks its dimension formulas against §§7.3 and 7.9. The Siegel operator, the cusp-form kernel
-theorem and the singular-range statements of §§6.1–6.2 and 6.4 are stated here at level one, on
-AutomorphicBundles' classical forms, because this roadmap needs them; their versions for every
-arithmetic subgroup and holomorphic weight are SiegelModularForms'.
+Layer 1 fixes the objects: the level-one algebraic cuspidal spectrum, its archimedean parameters
+and the weight dictionary between highest weights of classical groups and infinitesimal
+characters. Layer 2 proves the Rankin–Selberg explicit formula for that spectrum and its
+positivity on the nonnegative cone, and turns it into finite quadratic-form criteria that exclude
+hypothetical representations; it ends with Miller's theorem and the repeated-weight `PGL₄`
+vanishing. Layer 3 specializes Arthur's classification at level one: parameters, component
+groups, the holomorphic packet characters and the relation `EP = κ·N⊥ + R` between Euler–Poincaré
+characteristics and self-dual cuspidal counts. Layer 4 evaluates the geometric side of the trace
+formula: masses of torsion classes, the spinor obstruction, exact characters, and the recovery of
+all masses through `SO₁₇` and `Sp₁₆` in the order coarse tables, then the 27 known classes, then
+refined tables. Layer 5 classifies cuspidal representations of motivic weight at most 24 by
+combining Layers 2 and 4. Layer 6 provides the Siegel side: the Siegel operator, the theta maps
+attached to even unimodular lattices, first occurrence and the Rallis relation, from earlier
+lattice results that do not depend on Layer 7. Layer 7 counts Siegel eigenforms through their
+standard parameters, and Layer 8 realizes them by theta series and proves the stable statements.
 
 ## Conventions
 
@@ -182,294 +95,6 @@ part `1/2`; it appears in the statement of each theorem that uses it.
 **Coefficients and universes.** Lattices are `TauCeti.IntegralLattice` objects in finite-dimensional
 `ℚ`-vector spaces; alternating forms are `ℚ`-valued. Automorphic spaces are complex. All finite
 sets of classes are counted as natural numbers only after their finiteness is proved.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- `ModularForm.dimension_level_one` (`Mathlib/NumberTheory/ModularForms/LevelOne/DimensionFormula.lean`):
-  for a natural number `k` that is even, the rank of level-one modular forms of weight `k` is
-  `⌊k/12⌋` when `k ≡ 2 mod 12` and `⌊k/12⌋ + 1` otherwise. `ModularForm.levelOne_neg_weight_rank_zero`
-  (`LevelOne/Basic.lean`): the rank is `0` in negative integral weight.
-  `ModularForm.levelOne_odd_weight_rank_zero` and `CuspForm.discriminantEquiv` (both in
-  `DimensionFormula.lean`): respectively, the rank is `0` in odd weight, and the linear equivalence from
-  cusp forms of integral weight `k` to modular forms of weight `k − 12`, dividing by `Δ`. Together they
-  give the dimensions of the level-one cusp spaces used in §§2.20–2.21 and 4.12, including the weights
-  below `12`, where `k − 12` is negative.
-- `IsSelfAdjoint.hasEigenvector_of_isLocalExtrOn` (`Mathlib/Analysis/InnerProductSpace/Rayleigh.lean`):
-  a nonzero local extremum of the Rayleigh quotient of a self-adjoint operator on its sphere is an
-  eigenvector. It does not say which eigenvalue; §2.10 adds minimality.
-- `Matrix.toQuadraticForm'` (the quadratic form `x ↦ xᵀ M x` of a matrix), `Matrix.charpoly`,
-  `PadicInt`, `Padic`, `Polynomial.cyclotomic`, `AlternatingMap`, `finsum`, `Module.finrank`,
-  `Matrix.rank`, `riemannZeta`, `Complex.Gamma`, Fourier integrals and `HasCompactSupport`. The
-  digamma function enters only through the closed formulas of ComputationalNumberTheory §4.17.
-
-### From Tau Ceti
-
-- `TauCeti.IntegralLattice` with its fields `carrier` and `form`, the predicates
-  `TauCeti.IntegralLattice.IsEven`, `TauCeti.IntegralLattice.IsUnimodular`,
-  `TauCeti.IntegralLattice.IsPosDef`, the quadratic form `TauCeti.IntegralLattice.norm`
-  (`norm x = form x x`, so a root has norm 2), the sets `TauCeti.IntegralLattice.vectorsOfNorm`,
-  and the self-isometries `TauCeti.IntegralLattice.Isometry L L` with their group structure. The
-  carrier is a full `ℤ`-lattice with an integral symmetric form; positivity, evenness and
-  unimodularity are separate predicates, and nondegeneracy is not part of the structure.
-- `TauCeti.Symplectic.groupScheme`, `TauCeti.Symplectic.pointsMulEquiv` and the smoothness instance
-  `TauCeti.Symplectic.instSmoothCoordinateHopfAlgebra`: the split symplectic group over `ℤ`, its
-  points over every commutative ring as the matrix symplectic group, and smoothness. They are the
-  integral model of `Sp_{2n}` in §1.3.
-- `TauCeti.BinaryGolay.code` with `finrank_code`, `isTypeII_code`, `hammingMinDist_code` and
-  `weightEnumerator_code` (rank 12, doubly even, minimum distance 8, weight enumerator
-  `1 + 759y⁸ + 2576y¹² + 759y¹⁶ + y²⁴`), and `TauCeti.BinaryGolay.constructionALattice`, an even
-  unimodular positive definite lattice of rank 24 with roots, used as a rooted control in §8.5.
-- `TauCeti.leechLattice` (`TauCeti/LinearAlgebra/IntegralLattice/Rank24/Leech/Basic.lean`): the Leech
-  lattice in `Fin 24 → ℚ` with the form `(Σ xᵢyᵢ)/2`, as Construction B of `TauCeti.BinaryGolay.code`
-  glued with the odd shift `(−3/2, 1/2, …, 1/2)`, with `TauCeti.isEven_leechLattice`,
-  `TauCeti.isUnimodular_leechLattice`, `TauCeti.isPosDef_leechLattice`, `TauCeti.finrank_leechLattice`
-  and, in `Rank24/Leech/Minimum.lean`, `TauCeti.minimum_leechLattice` (minimum `4`) and
-  `TauCeti.vectorsOfNorm_two_leechLattice` (no roots). It satisfies every hypothesis of the Leech
-  statements of §§8.5–8.6, so those statements are not vacuous at the pin. Its coordinates are
-  Conway's up to the scaling of the form, so the coordinate permutations of `M₂₄` and the sign changes
-  along Golay codewords act on it as in §8.4.
-- `CliffordAlgebra.orthogonalSpinorNorm` (`TauCeti/LinearAlgebra/CliffordAlgebra/Spin/SpinorNorm/Basic.lean`):
-  the spinor norm `O(Q) → Kˣ/Kˣ²` of a nondegenerate quadratic form over a field, the Clifford
-  norm of a Lipschitz lift taken modulo squares; a reflection in `v` has spinor norm the class of
-  `Q(v)`. It is the spinor norm of §4.6 and the one in which the imported Zassenhaus formula is
-  stated.
-- Elliptic newforms (`TauCeti/NumberTheory/ModularForms/Newforms/`): the structure
-  `HeckeRing.GL2.Newform N k` of normalized good Hecke eigenforms (`a₁ = 1`) in the new subspace of
-  `S_k(Γ₁(N))`, the basis `HeckeRing.GL2.Newform.basis N k` of that new subspace indexed by the
-  newforms, `TauCeti.cuspFormsNew_one` (at level one the new subspace is all of `S_k`), and
-  `TauCeti.Gamma1_one_map_eq_SL` (the image of `Γ₁(1)` is `SL₂(ℤ)`). Together they say that the
-  normalized level-one eigenforms of weight `k` form a basis of `S_k(SL₂(ℤ))`, so their number is
-  `dim S_k(SL₂(ℤ))`; this is the count used in §§2.20–2.21. The simultaneous Petersson-orthonormal
-  Hecke eigenbasis is `HeckeRing.GL2.exists_peterssonOrthonormalBasis_eigenformAwayFromLevel`
-  (`Petersson/Eigenbasis.lean`). Eigenvalues are stored only at indices prime to the level, which at
-  level one is every index.
-
-### From TauCetiRoadmap.AutomorphicFormsOnReductiveGroups
-
-- §2.5: the Weil groups `W_ℝ` and `W_ℂ` and the bijection `recGL` between irreducible
-  Harish-Chandra modules of `GL_n(ℝ)` and `n`-dimensional semisimple representations of `W_ℝ`, under
-  which the restriction to `ℂ^×` gives the infinitesimal character. §2.2: Harish-Chandra finiteness.
-  §2.4: discrete series of real reductive groups.
-- §§3.2, 3.4, 3.5 and 4.2: automorphic representations, restricted tensor products, Flath
-  factorization with spherical local components, and cuspidal occurrences; specialized here to
-  `PGL_m` over `ℚ` with every finite component spherical.
-- §5.1: the algebraicity conventions, including Chenevier–Taïbi's `IsAlgebraicCT` (the archimedean
-  condition of §1.1 here) and its agreement, for cuspidal representations of `PGL_n` over `ℚ`, with
-  algebraicity of the infinitesimal character, through §5.5; §5.5: Clozel purity for algebraic
-  cuspidal representations of `GL_n`.
-- §§6.7 and 6.8: holomorphic discrete series and coherent packets of `GSp_{2g}`, and the scalar
-  holomorphic discrete series of `Sp_{2n}(ℝ)`.
-- What AutomorphicFormsOnReductiveGroups must provide (gap:sp2g-lowest-weight-modules): for every
-  dominant `k = (k₁ ≥ ⋯ ≥ k_g ≥ 0)` the irreducible unitary lowest-weight module `ρ_k` of
-  `Sp_{2g}(ℝ)` with lowest `K`-type of highest weight `k`, the Enright–Howe–Wallach criterion that
-  it exists exactly when `k_g ≥ g − u − v/2` (with `u = #{i : k_i = k_g}`, `v = #{i : k_i = k_g + 1}`),
-  its infinitesimal character `0, ±(k_i − i)`, and its identification with the holomorphic discrete
-  series when `k_g > g`.
-- §§7.2 and 7.2a: the `GL₂` adelization of elliptic newforms and the shared adelic-lift predicate.
-- What AutomorphicFormsOnReductiveGroups must provide (gap:siegel-adelic-lift): the `Sp_{2g}`
-  analogue of §7.2a at level one, identifying square-integrable vector-valued Siegel modular forms of
-  weight `k` for `Sp_{2g}(ℤ)` with `(𝔤, K)`-homomorphisms from `ρ_k` into the square-integrable
-  automorphic forms of `Sp_{2g}` fixed by `Sp_{2g}(Ẑ)`, compatibly with Hecke operators and with
-  cusp forms going to cuspidal automorphic forms.
-- §§7.4–7.5: algebraic modular forms for groups compact at infinity with their coefficient
-  action, Hecke operators, finite stabilizers and automorphic realization.
-
-### From TauCetiRoadmap.AutomorphicLFunctionsAndLocalFactors
-
-- Conventions and §AL.1.4: the factors `Γ_ℝ` and `Γ_ℂ` with the normalization above, and the
-  archimedean standard epsilon factor with `ε(1) = 1`, `ε(sgn) = i` and `ε(I_w) = i^{w+1}`
-  (§AL.1.4.3).
-- §AL.3.3.8: the Jacquet–Shalika bound `p^{−1/2} < |α| < p^{1/2}` for every unitary-normalized
-  Satake root `α` of a unitary cuspidal representation at an unramified prime `p`; temperedness is not
-  asserted.
-- §AL.3.6: continuation of `Λ(s, π × π′)`, entire unless the ranks agree, and then with only simple
-  poles, at `s = iσ` and `s = 1 + iσ` for the real `σ` with `π^∨ ≅ π′ ⊗ |det|^{iσ}` (§AL.3.6.1); for
-  `π, π′ ∈ Π_alg` the algebraic infinity types force `σ = 0`, so the poles are at `s = 0, 1` exactly
-  when `π′ ≅ π^∨`; the functional equation (§AL.3.6.2) and boundary nonvanishing
-  (§AL.3.6.3); §AL.3.9.2: boundedness in vertical strips; §AL.3.7: strong multiplicity one for
-  cuspidal representations and for isobaric sums.
-
-### From TauCetiRoadmap.AnalyticNumberTheoryPartI
-
-- §1.3: the admissible test-function class `WeilTestFunction c F`; §1.8: Weil's explicit
-  formula in Mestre's formalism for two completed functions with finitely many poles, finite-order
-  growth in strips, gamma factors `∏ Γ(a_i s + b_i)` and Euler products with
-  `|α_i(p)| ≤ p^c`, with zeros summed by symmetric heights. The Rankin–Selberg application in
-  §2.6 is that statement with `c = 1`: the roots `α_i(p)α′_j(p)` have modulus less than `p` by
-  AutomorphicLFunctionsAndLocalFactors §AL.3.3.8.
-
-### From TauCetiRoadmap.SmallRamificationAndAbelianVarietyBaseCases
-
-- §1.5: the kernel `odlyzkoKernel`, `g(x) = (1 − |x|) cos(πx) + sin(π|x|)/π` on `[−1, 1]` and `0`
-  outside, as the convolution square `2(u ∗ u)` of `u = cos(πx)·1_{[−1/2, 1/2]}`: even, `g(0) = 1`,
-  nonnegative, positive definite, of class `C¹`, with integral `4/π²` over the positive half-line.
-- §1.6: for an even continuous compactly supported nonnegative positive definite `f` and
-  `F(x) = f(x)/cosh(x/2)`, the transform `Φ(s) = ∫ F(x) e^{(s − 1/2)x} dx` has nonnegative real part
-  for `0 ≤ Re s ≤ 1`.
-- §1.7: `poitouTestFunction b x = g(x/b)/cosh(x/2)`, even, equal to `1` at `0`, vanishing for
-  `|x| ≥ b`, nonnegative and continuously differentiable. With `b = ℓ` this is the function `F_ℓ` of
-  §2.2, and §§1.5–1.6 give (POS) for it.
-
-### From TauCetiRoadmap.AutomorphicSpectralTheory
-
-- §§4.4–4.5: the residual and discrete spectrum and finite multiplicities at fixed level, finite
-  `K`-types and fixed infinitesimal character. §4.10: Wallach's criterion that discrete
-  automorphic representations tempered at infinity are cuspidal.
-- §§6.9, 6.17, 6.19 and 6.20: invariant orbital integrals, the trace formula for compact
-  quotients with centralizer volumes, Euler–Poincaré test functions and Arthur's `L²`-Lefschetz
-  formula for Hecke operators, with residual spectrum included.
-- What AutomorphicSpectralTheory must provide (gap:gross-volume-rationality): for the centralizer
-  `H` of a semisimple element of finite order in a split classical group over `ℚ`, with Euler–Poincaré
-  measure at infinity and the measures giving `H(ℤ_p)`-type maximal compact subgroups volume one at
-  finite places, the rationality of the global volume of `H(ℚ)\H(𝔸)` through Gross's motive of `H`
-  and the values of its Artin `L`-functions at non-positive critical integers.
-
-### From TauCetiRoadmap.ModularityAndLanglandsExtensions
-
-- Exact supplier contracts: the standing premises (the twisted weighted fundamental lemma and the
-  trace inputs) under which its Layer 3 is stated; this roadmap carries them as hypotheses.
-- §3.4: the symplectic or orthogonal type of a self-dual cuspidal representation.
-- What ModularityAndLanglandsExtensions must provide (gap:same-type-pair-root-number): for unitary
-  self-dual cuspidal representations `π` of `GL_n(𝔸_ℚ)` and `π′` of `GL_m(𝔸_ℚ)` of the same type
-  (both orthogonal or both symplectic), the global root number `ε(1/2, π × π′)` equals `1` (Arthur,
-  Theorem 1.5.3(b)).
-- §3.8: discrete global Arthur parameters `ψ = ⊞ π_i[d_i]` of `Sp_{2n}`, `SO_{2n+1}` and `SO_{2n}`,
-  their component groups `S_ψ` and the epsilon character `ε_ψ`. §3.15: local Arthur packets with
-  their pairings, under a fixed Whittaker datum. §3.17: Arthur's multiplicity formula. §§3.20–3.21:
-  Adams–Johnson parameters and the identification of real Arthur packets of cohomological
-  parameters with Adams–Johnson packets. §3.22: the Mœglin–Renard criterion for a scalar unitary
-  lowest-weight module of `Sp_{2g}(ℝ)` to lie in a real Arthur packet, with multiplicity one.
-- What ModularityAndLanglandsExtensions must provide (gap:scalar-lowest-weight-packet-character): for
-  `ψ` and the scalar module `π_g(k)` as in its §3.22, in both of its branches and for each of the two
-  classes of Whittaker datum, the value of the packet character of `π_g(k)` on every element of the
-  component group of `ψ` (MR18 Proposition 18.3 and Remarque 18.4, p. 46).
-
-### From TauCetiRoadmap.AutomorphicBundles
-
-- §§11.1–11.2: classical automorphic forms and cusp forms as sections over toroidal models, with
-  cusp forms the kernel of restriction to the boundary; §11.9: the comparison of geometric and
-  analytic classical forms; §11.16: the Siegel coefficient `S_a(ω) ⊗ det(ω)^{λ_g}` attached to a
-  dominant weight. At level `Sp_{2g}(ℤ)` these give `M_k(Γ_g)` and `S_k(Γ_g)`.
-- §§12.10, 12.11, 12.13 and 12.15: cuspidality through boundary restrictions, geometric Hecke
-  operators including at non-neat level, and Fourier–Jacobi expansions with vector coefficients.
-
-### From TauCetiRoadmap.MetaplecticAutomorphicForms
-
-- §§0.15 and 2.4c: the Schrödinger model and the Weil representation; §3.1: the
-  orthogonal–symplectic dual pair; §§3.4–3.5: big and small theta modules; §3.7: Howe duality;
-  §3.10: first occurrence in a Witt tower; §3.21: Rallis's unramified computation of the Satake
-  parameters of a theta lift; §5.1: the theta kernel; §5.6: the global theta lift.
-- §6.14: the global theta nonvanishing criterion.
-- What MetaplecticAutomorphicForms must provide (gap:boecherer-theta-image): Böcherer's criterion
-  (Böcherer 1989, Theorem 5) that a Siegel cusp eigenform `F` of weight `k = n/2 + ν` for
-  `Sp_{2g}(ℤ)` lies in the image of the theta map with pluriharmonic coefficients of determinant
-  weight `ν` from the even unimodular lattices of rank `n` exactly when
-  `γ_g^k(s) C_g(n/2 + s, ν) L(n/2 − g + 2s, F, St) / ω_g(n/2 + 2s)` has a finite nonzero value at
-  `s = 0`, in the normalization of §6.12.
-
-### From TauCetiRoadmap.SymplecticReidemeisterTorsionModSquares
-
-- §4.1: the Zassenhaus formula `zassenhaus_primary_formula`. For a finite-dimensional
-  nondegenerate quadratic form `q` over a field `K` in which `2` is invertible and every isometry
-  `γ ∈ O(q)`, with `N = dim V`, `V₋ = ker(γ + 1)^N` and `U = im(γ + 1)^N`, the spinor norm
-  `CliffordAlgebra.orthogonalSpinorNorm` of `γ` is the class of `disc(V₋) · det((1 + γ)/2 | U)`, where
-  `disc(V₋)` is the Gram determinant of a basis of `V₋` for the associated bilinear form
-  `B(x, x) = q(x)`; no determinant-one or even-dimension hypothesis is made. §4.6 translates it into
-  the characteristic-polynomial form of Chenevier–Taïbi.
-
-### From TauCetiRoadmap.GeometryOfNumbersAndQuadraticArithmetic
-
-- §2.4: integral genus, proper spinor genus and spinor-norm images of unimodular stabilizers.
-  §2.4.2: for a nondyadic nonarchimedean local field with valuation ring `R` and a nondegenerate
-  unimodular lattice of rank at least two, the spinor-norm image of the proper stabilizer is
-  `R^× K^{×2}`. For `p` odd a regular quadratic form on `ℤ_pⁿ` is unimodular for its polar form
-  (`det(c + cᵀ) = ±1` or `±2`, a unit), and in rank one `SO(q)` is trivial, so §2.4.2 supplies the
-  odd primes of §4.7.
-- What GeometryOfNumbersAndQuadraticArithmetic must provide (gap:integral-spinor-norm-units): for
-  `p = 2` and every regular quadratic form `q` on `ℤ₂ⁿ` (nondegenerate, or of odd rank with unit
-  half-discriminant), the spinor norm of every element of `SO(q)(ℤ₂)` lies in the image of `ℤ₂^×`
-  in `ℚ₂^×/ℚ₂^{×2}`, proved by lifting to `GSpin(q)(ℤ₂)`.
-
-### From TauCetiRoadmap.OrthogonalTamagawaAndLatticeMass
-
-- §3.1: the mass of even unimodular lattices of rank `n ≡ 0 mod 8`. §4.1: the two classes in rank 16
-  and their automorphism orders. §4.2: the twenty-four classes in rank 24, which are Tau Ceti's
-  twenty-three rooted table lattices and `TauCeti.leechLattice`, so that the rootless class is
-  unique, with `|O(Leech)| = 8315553613086720000` taken there from CFSGBasicProperties P2-L.
-
-### From TauCetiRoadmap.ComputationalNumberTheory
-
-- §§4.17, 4.17a and 4.18: the closed formulas, digamma and trigamma remainders and rational
-  enclosures, at rational `ℓ > 0` and of arbitrarily small width, of the eight scalars `F̂(0)`,
-  `F̂(i/(4π))`, `J_F(I_w)`, `J_F(1 − e)`, `Ĝ(0)`, `Ĝ(i/(4π))`, `J_G(I_w)`, `J_G(1 − e)` for the
-  Odlyzko functions. §§4.26 and 4.31: integral-coordinate comparison for ellipsoids and the
-  effective vectors of an exact ellipsoid cover. §§4.29–4.34: rational Gram witnesses, negativity
-  of every enclosed Gram matrix, validity of a witness and of a finite family, and the
-  multiplicity lift `x_{i,r} = t_i/m_i`. §5.1: interpretation of finite families. This roadmap
-  proves that the scalars computed there are the intrinsic quantities of §2.3.
-
-### From TauCetiRoadmap.IntegralLattices, Rank24LatticeConstructions, ThetaSeries, AlgebraicCodingTheory, SporadicOrders and OrthogonalSpinGroups
-
-- Completed/IntegralLattices Layer 1: the lattice carrier, Gram matrices, isometries and their Tau
-  Ceti declarations listed above.
-- IntegralLattices §4G: integral lattices `L`, `M` on the same rational space are `p`-neighbours when
-  `[L : L ∩ M] = [M : L ∩ M] = p`; the relation is symmetric, neighbours have equal determinants and
-  the same genus when `p ∤ 2 det L`, and a neighbour is constructed from an isotropic vector mod `p`.
-  No enumeration and no connectivity of the neighbour graph is supplied; §6.3 uses only the
-  relation.
-- Rank24LatticeConstructions Layer 6: the Leech lattice by Construction B and an odd shift, and its
-  absence of roots. At the pin this is Tau Ceti's `TauCeti.leechLattice` on `Fin 24 → ℚ` with the
-  halved dot product, listed under From Tau Ceti.
-- ThetaSeries Layer 1 (Poisson summation for a lattice), Layer 5 (genus-one theta series of an
-  even unimodular lattice is a level-one modular form) and Layer 8 (`Θ_{E₈} = E₄`,
-  `Θ_{Leech} = E₄³ − 720Δ`).
-- AlgebraicCodingTheory Layer 5: the extended binary Golay code `G₂₄`.
-- SporadicOrders Layer 1: the permutation model and order `244823040` of `M₂₄`.
-- OrthogonalSpinGroups Layer 1: the spinor norm `θ : SO(Q)(K) → K^×/K^{×2}` of a nondegenerate
-  quadratic space over a field, which at the pin is Tau Ceti's `CliffordAlgebra.orthogonalSpinorNorm`
-  listed above.
-
-### From TauCetiRoadmap.CFSGBasicProperties
-
-- P2-L: the equivalence of the Golay permutation automorphism group with `M24`; Conway's group
-  `Co₀ = O(Leech)`, the isometry group of the Leech lattice of Rank24LatticeConstructions Layer 6, its
-  Conway generators and the proof that they generate it, its order, and the simplicity of
-  `Co₁ = Co₀/{±1}`.
-- What CFSGBasicProperties must provide (gap:conway-group-average-charpoly): the average
-  characteristic polynomial of Conway's group on `Leech ⊗ ℚ`,
-  `(1/|O(Leech)|) Σ_{γ ∈ O(Leech)} det(t − γ) = t²⁴ + t¹⁶ + t¹² + t⁸ + 1`, from the conjugacy classes
-  of `O(Leech)` and the character of its 24-dimensional representation.
-
-### From TauCetiRoadmap.RepresentationTheory and ReductiveGroups
-
-- LieHighestWeight Layer 6: the Weyl character formula, Weyl dimension formula and Kostant
-  multiplicity formula. ClassicalGroups Layers 3–5: highest weights of `SO_n`, `O_n` and `Sp_{2n}`,
-  their characters and dimension formulas.
-- ReductiveGroups Layer 9: pinned Chevalley–Demazure group schemes over `ℤ`.
-- What ReductiveGroups must provide (gap:split-orthogonal-regular-form): the identification of the
-  pinned Chevalley–Demazure groups of types `B_n` and `D_n` over `ℤ` with the special orthogonal
-  group schemes of the regular forms `x₁x_{2n+1} + ⋯ + x_nx_{n+2} + x_{n+1}²` (odd rank `2n + 1`) and
-  `x₁x_{2n} + ⋯ + x_nx_{n+1}` (even rank `2n`) respectively, compatible with points over `ℤ_2`.
-
-## How to read the build
-
-Layer 1 fixes the objects: the level-one algebraic cuspidal spectrum, its archimedean parameters
-and the weight dictionary between highest weights of classical groups and infinitesimal
-characters. Layer 2 proves the Rankin–Selberg explicit formula for that spectrum and its
-positivity on the nonnegative cone, and turns it into finite quadratic-form criteria that exclude
-hypothetical representations; it ends with Miller's theorem and the repeated-weight `PGL₄`
-vanishing. Layer 3 specializes Arthur's classification at level one: parameters, component
-groups, the holomorphic packet characters and the relation `EP = κ·N⊥ + R` between Euler–Poincaré
-characteristics and self-dual cuspidal counts. Layer 4 evaluates the geometric side of the trace
-formula: masses of torsion classes, the spinor obstruction, exact characters, and the recovery of
-all masses through `SO₁₇` and `Sp₁₆` in the order coarse tables, then the 27 known classes, then
-refined tables. Layer 5 classifies cuspidal representations of motivic weight at most 24 by
-combining Layers 2 and 4. Layer 6 provides the Siegel side: the Siegel operator, the theta maps
-attached to even unimodular lattices, first occurrence and the Rallis relation, from earlier
-lattice results that do not depend on Layer 7. Layer 7 counts Siegel eigenforms through their
-standard parameters, and Layer 8 realizes them by theta series and proves the stable statements.
 
 ## Layer 1: level-one cuspidal forms and classical infinitesimal characters
 
@@ -3079,6 +2704,381 @@ AutomorphicLFunctionsAndLocalFactors §AL.1.4; Tau Ceti's lattice carrier and Go
 - The Ikeda-type parameter `Δ₁₁[12] ⊕ [1]` (§§3.8, 3.13, 7.5): simultaneously in cases (I) and (H1), with sign
   test `1 = 1`.
 - The genus-24 form (§§7.7, 8.6): parameter `Δ₁₁[12] ⊕ [25]`, theta coefficient `±|O(Leech)|`.
+
+## Scope and ownership
+
+This roadmap owns the level-one specialization and everything that is specific to the
+Chenevier–Taïbi method: the set `Π_alg` and its counting functions; the archimedean ring `K∞` with
+its parity-truncated weight filtrations; the Rankin–Selberg explicit-formula bilinear forms, the
+Stark–Odlyzko cone inequality for pairs of level-one representations and the finite-dimensional
+quadratic minimization built on it, including the Rayleigh least-eigenvalue refinement (the Odlyzko
+kernel and test function are imported); Miller's vanishing theorem in its form on archimedean
+parameters; level-one Arthur parameters, the restrictions to their component groups of the packet
+characters in the scalar holomorphic cases, and the triangular Euler–Poincaré relation; the masses
+of torsion classes, the spinor obstruction on their characteristic polynomials, resting on the
+imported Zassenhaus spinor-norm formula; Taïbi's explicit evaluation of the geometric side of the
+level-one `L²`-Lefschetz formula; the low-weight classifications; the genus-`g` unweighted theta map
+on even unimodular lattices, the harmonic theta map, first occurrence and the Rallis parameter
+relation at level one; the Siegel-modular-form inputs needed at level one (the Siegel operator and
+its standard-`L`-function relation, the vanishing and spanning theorems of the singular range,
+odd-weight boundary vanishing); the classification of Siegel eigenforms in low weight; the invariant
+alternating forms of Niemeier lattices, the Mathieu orbit-sum forms on the Leech lattice, the
+sublattices `Q_g` and the harmonic Leech theta series; and the stable range.
+
+It leaves to named roadmaps, by section:
+
+- The adelic group, cuspidal and automorphic representations, restricted tensor products, the real
+  Weil group and the local Langlands correspondence for `GL_n(ℝ)`, Clozel purity, holomorphic
+  discrete series, the `GL₂` adelization and algebraic modular forms for groups compact at
+  infinity: AutomorphicFormsOnReductiveGroups §§2.2, 2.4, 2.5, 3.2, 3.4, 3.5, 4.2, 5.1, 5.5, 6.7,
+  6.8, 7.2, 7.2a, 7.4 and 7.5.
+- Archimedean gamma and epsilon factors, the Jacquet–Shalika bound on Satake parameters,
+  Rankin–Selberg `L`-functions, their poles and functional equations, and strong multiplicity one for
+  isobaric sums: AutomorphicLFunctionsAndLocalFactors, Conventions, §§AL.1.4, AL.3.3.8, AL.3.6, AL.3.7
+  and AL.3.9.
+- Weil's explicit formula in Mestre's formalism, for an arbitrary pair of completed functions with
+  products of gamma factors: AnalyticNumberTheoryPartI §§1.3 and 1.8.
+- The Odlyzko kernel `g = 2(u ∗ u)`, the test functions `g(x/b)/cosh(x/2)` and the nonnegativity of
+  the real part of their transform in the strip `0 ≤ Re s ≤ 1`:
+  SmallRamificationAndAbelianVarietyBaseCases §§1.5–1.7.
+- The Zassenhaus spinor-norm formula for an isometry of a nondegenerate quadratic space over a
+  field of characteristic different from `2`: SymplecticReidemeisterTorsionModSquares §4.1.
+- The identification of the permutation automorphism group of the Golay code with `M24`, Conway's
+  group `Co₀ = O(Leech)` as the isometry group of the Leech lattice, its Conway generators and
+  order, and the simplicity of `Co₁ = Co₀/{±1}`: CFSGBasicProperties P2-L; the
+  average characteristic polynomial of `Co₀` on `Leech ⊗ ℚ` is requested from the same section
+  (Exact supplier contracts).
+- Finite multiplicities of the discrete spectrum, the residual spectrum, Wallach's tempered
+  cuspidality criterion, Euler–Poincaré functions and Arthur's `L²`-Lefschetz trace formula:
+  AutomorphicSpectralTheory §§4.4, 4.5, 4.10, 6.9, 6.17, 6.19 and 6.20.
+- Global Arthur parameters, component groups, the epsilon character, local Arthur packets, the
+  multiplicity formula, Adams–Johnson packets and the Mœglin–Renard description of packets with a
+  scalar unitary lowest-weight module, with the packet character of that module requested from the same
+  section (Exact supplier contracts), together with the standing premises under which they are
+  stated: ModularityAndLanglandsExtensions, Exact supplier contracts, and §§3.4, 3.8, 3.15, 3.17,
+  3.20, 3.21 and 3.22.
+- Classical automorphic forms on Shimura varieties, their cusp forms, Hecke operators and
+  Fourier–Jacobi expansions: AutomorphicBundles §§11.1, 11.2, 11.9, 11.16, 12.10, 12.11, 12.13 and
+  12.15.
+- Oscillator representations, dual pairs, local theta correspondence, the theta kernel and the
+  Rallis unramified computation: MetaplecticAutomorphicForms §§0.15, 2.4c, 3.1, 3.4, 3.5, 3.7,
+  3.10, 3.21, 5.1, 5.6 and 6.14.
+- Classes of even unimodular lattices of ranks 16 and 24, the uniqueness of the rootless rank-24
+  class, the mass of even unimodular lattices and automorphism orders: OrthogonalTamagawaAndLatticeMass
+  §§3.1, 4.1 and 4.2. Genus theory and integral spinor norms: GeometryOfNumbersAndQuadraticArithmetic
+  §2.4.
+- The closed formulas and rational enclosures of the eight explicit-formula scalars, rational Gram
+  witnesses, the multiplicity lift and ellipsoid covers:
+  ComputationalNumberTheory §§4.17, 4.17a, 4.18, 4.26 and 4.29–4.34, and §5.1 for the
+  interpretation of finite families.
+- The integral lattice carrier, isometries and discriminant forms: Completed/IntegralLattices,
+  Layer 1, with their Tau Ceti declarations; the `p`-neighbour relation of integral lattices:
+  IntegralLattices §4G. The construction of the Leech lattice: Rank24LatticeConstructions,
+  Layer 6. Genus-one theta series and `Θ_{E₈} = E₄`: ThetaSeries, Layers 5 and 8. The extended
+  binary Golay code: AlgebraicCodingTheory, Layer 5. The order of the Mathieu group `M₂₄`:
+  SporadicOrders, Layer 1. The field spinor norm: OrthogonalSpinGroups, Layer 1, which is Tau
+  Ceti's `CliffordAlgebra.orthogonalSpinorNorm` at the pin.
+- Weyl's character and dimension formulas and the highest-weight theory of the classical groups:
+  RepresentationTheory/LieHighestWeight Layer 6 and RepresentationTheory/ClassicalGroups Layers
+  3–5. Split Chevalley–Demazure group schemes over `ℤ`: ReductiveGroups Layer 9.
+- The criterion that, for `k_g > g`, the holomorphic module `ρ_k` lies in the real Arthur packet of a
+  parameter with infinitesimal weights `0, ±(k_i − i)` exactly when the odd block has length one, with
+  the packet character of CT20 (5.2.1): ModularityAndLanglandsExtensions §3.21. Section 3.5 here owns
+  only its level-one consequences.
+
+Already in the pinned libraries and consumed as is: the smooth split symplectic group scheme over
+`ℤ` and its matrix points (`TauCeti.Symplectic.groupScheme`, `TauCeti.Symplectic.pointsMulEquiv`,
+`TauCeti.Symplectic.instSmoothCoordinateHopfAlgebra`); the Leech lattice with its evenness,
+unimodularity, positivity and absence of roots (`TauCeti.leechLattice`,
+`TauCeti.vectorsOfNorm_two_leechLattice`); the eigenvector property of a local
+extremum of a Rayleigh quotient (`IsSelfAdjoint.hasEigenvector_of_isLocalExtrOn`); the level-one
+dimension formula and division by the discriminant (`ModularForm.dimension_level_one`,
+`CuspForm.discriminantEquiv`); level-one elliptic newforms, their basis of the new subspace and the
+fact that every level-one cusp form is new (`HeckeRing.GL2.Newform`, `HeckeRing.GL2.Newform.basis`,
+`TauCeti.cuspFormsNew_one`, `TauCeti.Gamma1_one_map_eq_SL`), with the simultaneous Petersson-orthonormal
+Hecke eigenbasis (`HeckeRing.GL2.exists_peterssonOrthonormalBasis_eigenformAwayFromLevel`); the binary
+Golay code and its Construction A lattice (`TauCeti.BinaryGolay.code`,
+`TauCeti.BinaryGolay.constructionALattice`); the integral lattice carrier `TauCeti.IntegralLattice`
+with `IsEven`, `IsUnimodular`, `IsPosDef`, `norm`, `vectorsOfNorm` and the isometries
+`TauCeti.IntegralLattice.Isometry`. None of these is planned again here.
+
+SiegelModularForms consumes this roadmap rather than supplying it: it imports the genus-`g` and
+harmonic lattice theta maps of §§6.4 and 6.7 and extends them to general lattices, reads the
+level-one Siegel operator and singular-range statements of §§6.1–6.2 and 6.4 on its analytic carrier, and
+checks its dimension formulas against §§7.3 and 7.9. The Siegel operator, the cusp-form kernel
+theorem and the singular-range statements of §§6.1–6.2 and 6.4 are stated here at level one, on
+AutomorphicBundles' classical forms, because this roadmap needs them; their versions for every
+arithmetic subgroup and holomorphic weight are SiegelModularForms'.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- `ModularForm.dimension_level_one` (`Mathlib/NumberTheory/ModularForms/LevelOne/DimensionFormula.lean`):
+  for a natural number `k` that is even, the rank of level-one modular forms of weight `k` is
+  `⌊k/12⌋` when `k ≡ 2 mod 12` and `⌊k/12⌋ + 1` otherwise. `ModularForm.levelOne_neg_weight_rank_zero`
+  (`LevelOne/Basic.lean`): the rank is `0` in negative integral weight.
+  `ModularForm.levelOne_odd_weight_rank_zero` and `CuspForm.discriminantEquiv` (both in
+  `DimensionFormula.lean`): respectively, the rank is `0` in odd weight, and the linear equivalence from
+  cusp forms of integral weight `k` to modular forms of weight `k − 12`, dividing by `Δ`. Together they
+  give the dimensions of the level-one cusp spaces used in §§2.20–2.21 and 4.12, including the weights
+  below `12`, where `k − 12` is negative.
+- `IsSelfAdjoint.hasEigenvector_of_isLocalExtrOn` (`Mathlib/Analysis/InnerProductSpace/Rayleigh.lean`):
+  a nonzero local extremum of the Rayleigh quotient of a self-adjoint operator on its sphere is an
+  eigenvector. It does not say which eigenvalue; §2.10 adds minimality.
+- `Matrix.toQuadraticForm'` (the quadratic form `x ↦ xᵀ M x` of a matrix), `Matrix.charpoly`,
+  `PadicInt`, `Padic`, `Polynomial.cyclotomic`, `AlternatingMap`, `finsum`, `Module.finrank`,
+  `Matrix.rank`, `riemannZeta`, `Complex.Gamma`, Fourier integrals and `HasCompactSupport`. The
+  digamma function enters only through the closed formulas of ComputationalNumberTheory §4.17.
+
+### From Tau Ceti
+
+- `TauCeti.IntegralLattice` with its fields `carrier` and `form`, the predicates
+  `TauCeti.IntegralLattice.IsEven`, `TauCeti.IntegralLattice.IsUnimodular`,
+  `TauCeti.IntegralLattice.IsPosDef`, the quadratic form `TauCeti.IntegralLattice.norm`
+  (`norm x = form x x`, so a root has norm 2), the sets `TauCeti.IntegralLattice.vectorsOfNorm`,
+  and the self-isometries `TauCeti.IntegralLattice.Isometry L L` with their group structure. The
+  carrier is a full `ℤ`-lattice with an integral symmetric form; positivity, evenness and
+  unimodularity are separate predicates, and nondegeneracy is not part of the structure.
+- `TauCeti.Symplectic.groupScheme`, `TauCeti.Symplectic.pointsMulEquiv` and the smoothness instance
+  `TauCeti.Symplectic.instSmoothCoordinateHopfAlgebra`: the split symplectic group over `ℤ`, its
+  points over every commutative ring as the matrix symplectic group, and smoothness. They are the
+  integral model of `Sp_{2n}` in §1.3.
+- `TauCeti.BinaryGolay.code` with `finrank_code`, `isTypeII_code`, `hammingMinDist_code` and
+  `weightEnumerator_code` (rank 12, doubly even, minimum distance 8, weight enumerator
+  `1 + 759y⁸ + 2576y¹² + 759y¹⁶ + y²⁴`), and `TauCeti.BinaryGolay.constructionALattice`, an even
+  unimodular positive definite lattice of rank 24 with roots, used as a rooted control in §8.5.
+- `TauCeti.leechLattice` (`TauCeti/LinearAlgebra/IntegralLattice/Rank24/Leech/Basic.lean`): the Leech
+  lattice in `Fin 24 → ℚ` with the form `(Σ xᵢyᵢ)/2`, as Construction B of `TauCeti.BinaryGolay.code`
+  glued with the odd shift `(−3/2, 1/2, …, 1/2)`, with `TauCeti.isEven_leechLattice`,
+  `TauCeti.isUnimodular_leechLattice`, `TauCeti.isPosDef_leechLattice`, `TauCeti.finrank_leechLattice`
+  and, in `Rank24/Leech/Minimum.lean`, `TauCeti.minimum_leechLattice` (minimum `4`) and
+  `TauCeti.vectorsOfNorm_two_leechLattice` (no roots). It satisfies every hypothesis of the Leech
+  statements of §§8.5–8.6, so those statements are not vacuous at the pin. Its coordinates are
+  Conway's up to the scaling of the form, so the coordinate permutations of `M₂₄` and the sign changes
+  along Golay codewords act on it as in §8.4.
+- `CliffordAlgebra.orthogonalSpinorNorm` (`TauCeti/LinearAlgebra/CliffordAlgebra/Spin/SpinorNorm/Basic.lean`):
+  the spinor norm `O(Q) → Kˣ/Kˣ²` of a nondegenerate quadratic form over a field, the Clifford
+  norm of a Lipschitz lift taken modulo squares; a reflection in `v` has spinor norm the class of
+  `Q(v)`. It is the spinor norm of §4.6 and the one in which the imported Zassenhaus formula is
+  stated.
+- Elliptic newforms (`TauCeti/NumberTheory/ModularForms/Newforms/`): the structure
+  `HeckeRing.GL2.Newform N k` of normalized good Hecke eigenforms (`a₁ = 1`) in the new subspace of
+  `S_k(Γ₁(N))`, the basis `HeckeRing.GL2.Newform.basis N k` of that new subspace indexed by the
+  newforms, `TauCeti.cuspFormsNew_one` (at level one the new subspace is all of `S_k`), and
+  `TauCeti.Gamma1_one_map_eq_SL` (the image of `Γ₁(1)` is `SL₂(ℤ)`). Together they say that the
+  normalized level-one eigenforms of weight `k` form a basis of `S_k(SL₂(ℤ))`, so their number is
+  `dim S_k(SL₂(ℤ))`; this is the count used in §§2.20–2.21. The simultaneous Petersson-orthonormal
+  Hecke eigenbasis is `HeckeRing.GL2.exists_peterssonOrthonormalBasis_eigenformAwayFromLevel`
+  (`Petersson/Eigenbasis.lean`). Eigenvalues are stored only at indices prime to the level, which at
+  level one is every index.
+
+### From TauCetiRoadmap.AutomorphicFormsOnReductiveGroups
+
+- §2.5: the Weil groups `W_ℝ` and `W_ℂ` and the bijection `recGL` between irreducible
+  Harish-Chandra modules of `GL_n(ℝ)` and `n`-dimensional semisimple representations of `W_ℝ`, under
+  which the restriction to `ℂ^×` gives the infinitesimal character. §2.2: Harish-Chandra finiteness.
+  §2.4: discrete series of real reductive groups.
+- §§3.2, 3.4, 3.5 and 4.2: automorphic representations, restricted tensor products, Flath
+  factorization with spherical local components, and cuspidal occurrences; specialized here to
+  `PGL_m` over `ℚ` with every finite component spherical.
+- §5.1: the algebraicity conventions, including Chenevier–Taïbi's `IsAlgebraicCT` (the archimedean
+  condition of §1.1 here) and its agreement, for cuspidal representations of `PGL_n` over `ℚ`, with
+  algebraicity of the infinitesimal character, through §5.5; §5.5: Clozel purity for algebraic
+  cuspidal representations of `GL_n`.
+- §§6.7 and 6.8: holomorphic discrete series and coherent packets of `GSp_{2g}`, and the scalar
+  holomorphic discrete series of `Sp_{2n}(ℝ)`.
+- What AutomorphicFormsOnReductiveGroups must provide (gap:sp2g-lowest-weight-modules): for every
+  dominant `k = (k₁ ≥ ⋯ ≥ k_g ≥ 0)` the irreducible unitary lowest-weight module `ρ_k` of
+  `Sp_{2g}(ℝ)` with lowest `K`-type of highest weight `k`, the Enright–Howe–Wallach criterion that
+  it exists exactly when `k_g ≥ g − u − v/2` (with `u = #{i : k_i = k_g}`, `v = #{i : k_i = k_g + 1}`),
+  its infinitesimal character `0, ±(k_i − i)`, and its identification with the holomorphic discrete
+  series when `k_g > g`.
+- §§7.2 and 7.2a: the `GL₂` adelization of elliptic newforms and the shared adelic-lift predicate.
+- What AutomorphicFormsOnReductiveGroups must provide (gap:siegel-adelic-lift): the `Sp_{2g}`
+  analogue of §7.2a at level one, identifying square-integrable vector-valued Siegel modular forms of
+  weight `k` for `Sp_{2g}(ℤ)` with `(𝔤, K)`-homomorphisms from `ρ_k` into the square-integrable
+  automorphic forms of `Sp_{2g}` fixed by `Sp_{2g}(Ẑ)`, compatibly with Hecke operators and with
+  cusp forms going to cuspidal automorphic forms.
+- §§7.4–7.5: algebraic modular forms for groups compact at infinity with their coefficient
+  action, Hecke operators, finite stabilizers and automorphic realization.
+
+### From TauCetiRoadmap.AutomorphicLFunctionsAndLocalFactors
+
+- Conventions and §AL.1.4: the factors `Γ_ℝ` and `Γ_ℂ` with the normalization above, and the
+  archimedean standard epsilon factor with `ε(1) = 1`, `ε(sgn) = i` and `ε(I_w) = i^{w+1}`
+  (§AL.1.4.3).
+- §AL.3.3.8: the Jacquet–Shalika bound `p^{−1/2} < |α| < p^{1/2}` for every unitary-normalized
+  Satake root `α` of a unitary cuspidal representation at an unramified prime `p`; temperedness is not
+  asserted.
+- §AL.3.6: continuation of `Λ(s, π × π′)`, entire unless the ranks agree, and then with only simple
+  poles, at `s = iσ` and `s = 1 + iσ` for the real `σ` with `π^∨ ≅ π′ ⊗ |det|^{iσ}` (§AL.3.6.1); for
+  `π, π′ ∈ Π_alg` the algebraic infinity types force `σ = 0`, so the poles are at `s = 0, 1` exactly
+  when `π′ ≅ π^∨`; the functional equation (§AL.3.6.2) and boundary nonvanishing
+  (§AL.3.6.3); §AL.3.9.2: boundedness in vertical strips; §AL.3.7: strong multiplicity one for
+  cuspidal representations and for isobaric sums.
+
+### From TauCetiRoadmap.AnalyticNumberTheoryPartI
+
+- §1.3: the admissible test-function class `WeilTestFunction c F`; §1.8: Weil's explicit
+  formula in Mestre's formalism for two completed functions with finitely many poles, finite-order
+  growth in strips, gamma factors `∏ Γ(a_i s + b_i)` and Euler products with
+  `|α_i(p)| ≤ p^c`, with zeros summed by symmetric heights. The Rankin–Selberg application in
+  §2.6 is that statement with `c = 1`: the roots `α_i(p)α′_j(p)` have modulus less than `p` by
+  AutomorphicLFunctionsAndLocalFactors §AL.3.3.8.
+
+### From TauCetiRoadmap.SmallRamificationAndAbelianVarietyBaseCases
+
+- §1.5: the kernel `odlyzkoKernel`, `g(x) = (1 − |x|) cos(πx) + sin(π|x|)/π` on `[−1, 1]` and `0`
+  outside, as the convolution square `2(u ∗ u)` of `u = cos(πx)·1_{[−1/2, 1/2]}`: even, `g(0) = 1`,
+  nonnegative, positive definite, of class `C¹`, with integral `4/π²` over the positive half-line.
+- §1.6: for an even continuous compactly supported nonnegative positive definite `f` and
+  `F(x) = f(x)/cosh(x/2)`, the transform `Φ(s) = ∫ F(x) e^{(s − 1/2)x} dx` has nonnegative real part
+  for `0 ≤ Re s ≤ 1`.
+- §1.7: `poitouTestFunction b x = g(x/b)/cosh(x/2)`, even, equal to `1` at `0`, vanishing for
+  `|x| ≥ b`, nonnegative and continuously differentiable. With `b = ℓ` this is the function `F_ℓ` of
+  §2.2, and §§1.5–1.6 give (POS) for it.
+
+### From TauCetiRoadmap.AutomorphicSpectralTheory
+
+- §§4.4–4.5: the residual and discrete spectrum and finite multiplicities at fixed level, finite
+  `K`-types and fixed infinitesimal character. §4.10: Wallach's criterion that discrete
+  automorphic representations tempered at infinity are cuspidal.
+- §§6.9, 6.17, 6.19 and 6.20: invariant orbital integrals, the trace formula for compact
+  quotients with centralizer volumes, Euler–Poincaré test functions and Arthur's `L²`-Lefschetz
+  formula for Hecke operators, with residual spectrum included.
+- What AutomorphicSpectralTheory must provide (gap:gross-volume-rationality): for the centralizer
+  `H` of a semisimple element of finite order in a split classical group over `ℚ`, with Euler–Poincaré
+  measure at infinity and the measures giving `H(ℤ_p)`-type maximal compact subgroups volume one at
+  finite places, the rationality of the global volume of `H(ℚ)\H(𝔸)` through Gross's motive of `H`
+  and the values of its Artin `L`-functions at non-positive critical integers.
+
+### From TauCetiRoadmap.ModularityAndLanglandsExtensions
+
+- Exact supplier contracts: the standing premises (the twisted weighted fundamental lemma and the
+  trace inputs) under which its Layer 3 is stated; this roadmap carries them as hypotheses.
+- §3.4: the symplectic or orthogonal type of a self-dual cuspidal representation.
+- What ModularityAndLanglandsExtensions must provide (gap:same-type-pair-root-number): for unitary
+  self-dual cuspidal representations `π` of `GL_n(𝔸_ℚ)` and `π′` of `GL_m(𝔸_ℚ)` of the same type
+  (both orthogonal or both symplectic), the global root number `ε(1/2, π × π′)` equals `1` (Arthur,
+  Theorem 1.5.3(b)).
+- §3.8: discrete global Arthur parameters `ψ = ⊞ π_i[d_i]` of `Sp_{2n}`, `SO_{2n+1}` and `SO_{2n}`,
+  their component groups `S_ψ` and the epsilon character `ε_ψ`. §3.15: local Arthur packets with
+  their pairings, under a fixed Whittaker datum. §3.17: Arthur's multiplicity formula. §§3.20–3.21:
+  Adams–Johnson parameters and the identification of real Arthur packets of cohomological
+  parameters with Adams–Johnson packets. §3.22: the Mœglin–Renard criterion for a scalar unitary
+  lowest-weight module of `Sp_{2g}(ℝ)` to lie in a real Arthur packet, with multiplicity one.
+- What ModularityAndLanglandsExtensions must provide (gap:scalar-lowest-weight-packet-character): for
+  `ψ` and the scalar module `π_g(k)` as in its §3.22, in both of its branches and for each of the two
+  classes of Whittaker datum, the value of the packet character of `π_g(k)` on every element of the
+  component group of `ψ` (MR18 Proposition 18.3 and Remarque 18.4, p. 46).
+
+### From TauCetiRoadmap.AutomorphicBundles
+
+- §§11.1–11.2: classical automorphic forms and cusp forms as sections over toroidal models, with
+  cusp forms the kernel of restriction to the boundary; §11.9: the comparison of geometric and
+  analytic classical forms; §11.16: the Siegel coefficient `S_a(ω) ⊗ det(ω)^{λ_g}` attached to a
+  dominant weight. At level `Sp_{2g}(ℤ)` these give `M_k(Γ_g)` and `S_k(Γ_g)`.
+- §§12.10, 12.11, 12.13 and 12.15: cuspidality through boundary restrictions, geometric Hecke
+  operators including at non-neat level, and Fourier–Jacobi expansions with vector coefficients.
+
+### From TauCetiRoadmap.MetaplecticAutomorphicForms
+
+- §§0.15 and 2.4c: the Schrödinger model and the Weil representation; §3.1: the
+  orthogonal–symplectic dual pair; §§3.4–3.5: big and small theta modules; §3.7: Howe duality;
+  §3.10: first occurrence in a Witt tower; §3.21: Rallis's unramified computation of the Satake
+  parameters of a theta lift; §5.1: the theta kernel; §5.6: the global theta lift.
+- §6.14: the global theta nonvanishing criterion.
+- What MetaplecticAutomorphicForms must provide (gap:boecherer-theta-image): Böcherer's criterion
+  (Böcherer 1989, Theorem 5) that a Siegel cusp eigenform `F` of weight `k = n/2 + ν` for
+  `Sp_{2g}(ℤ)` lies in the image of the theta map with pluriharmonic coefficients of determinant
+  weight `ν` from the even unimodular lattices of rank `n` exactly when
+  `γ_g^k(s) C_g(n/2 + s, ν) L(n/2 − g + 2s, F, St) / ω_g(n/2 + 2s)` has a finite nonzero value at
+  `s = 0`, in the normalization of §6.12.
+
+### From TauCetiRoadmap.SymplecticReidemeisterTorsionModSquares
+
+- §4.1: the Zassenhaus formula `zassenhaus_primary_formula`. For a finite-dimensional
+  nondegenerate quadratic form `q` over a field `K` in which `2` is invertible and every isometry
+  `γ ∈ O(q)`, with `N = dim V`, `V₋ = ker(γ + 1)^N` and `U = im(γ + 1)^N`, the spinor norm
+  `CliffordAlgebra.orthogonalSpinorNorm` of `γ` is the class of `disc(V₋) · det((1 + γ)/2 | U)`, where
+  `disc(V₋)` is the Gram determinant of a basis of `V₋` for the associated bilinear form
+  `B(x, x) = q(x)`; no determinant-one or even-dimension hypothesis is made. §4.6 translates it into
+  the characteristic-polynomial form of Chenevier–Taïbi.
+
+### From TauCetiRoadmap.GeometryOfNumbersAndQuadraticArithmetic
+
+- §2.4: integral genus, proper spinor genus and spinor-norm images of unimodular stabilizers.
+  §2.4.2: for a nondyadic nonarchimedean local field with valuation ring `R` and a nondegenerate
+  unimodular lattice of rank at least two, the spinor-norm image of the proper stabilizer is
+  `R^× K^{×2}`. For `p` odd a regular quadratic form on `ℤ_pⁿ` is unimodular for its polar form
+  (`det(c + cᵀ) = ±1` or `±2`, a unit), and in rank one `SO(q)` is trivial, so §2.4.2 supplies the
+  odd primes of §4.7.
+- What GeometryOfNumbersAndQuadraticArithmetic must provide (gap:integral-spinor-norm-units): for
+  `p = 2` and every regular quadratic form `q` on `ℤ₂ⁿ` (nondegenerate, or of odd rank with unit
+  half-discriminant), the spinor norm of every element of `SO(q)(ℤ₂)` lies in the image of `ℤ₂^×`
+  in `ℚ₂^×/ℚ₂^{×2}`, proved by lifting to `GSpin(q)(ℤ₂)`.
+
+### From TauCetiRoadmap.OrthogonalTamagawaAndLatticeMass
+
+- §3.1: the mass of even unimodular lattices of rank `n ≡ 0 mod 8`. §4.1: the two classes in rank 16
+  and their automorphism orders. §4.2: the twenty-four classes in rank 24, which are Tau Ceti's
+  twenty-three rooted table lattices and `TauCeti.leechLattice`, so that the rootless class is
+  unique, with `|O(Leech)| = 8315553613086720000` taken there from CFSGBasicProperties P2-L.
+
+### From TauCetiRoadmap.ComputationalNumberTheory
+
+- §§4.17, 4.17a and 4.18: the closed formulas, digamma and trigamma remainders and rational
+  enclosures, at rational `ℓ > 0` and of arbitrarily small width, of the eight scalars `F̂(0)`,
+  `F̂(i/(4π))`, `J_F(I_w)`, `J_F(1 − e)`, `Ĝ(0)`, `Ĝ(i/(4π))`, `J_G(I_w)`, `J_G(1 − e)` for the
+  Odlyzko functions. §§4.26 and 4.31: integral-coordinate comparison for ellipsoids and the
+  effective vectors of an exact ellipsoid cover. §§4.29–4.34: rational Gram witnesses, negativity
+  of every enclosed Gram matrix, validity of a witness and of a finite family, and the
+  multiplicity lift `x_{i,r} = t_i/m_i`. §5.1: interpretation of finite families. This roadmap
+  proves that the scalars computed there are the intrinsic quantities of §2.3.
+
+### From TauCetiRoadmap.IntegralLattices, Rank24LatticeConstructions, ThetaSeries, AlgebraicCodingTheory, SporadicOrders and OrthogonalSpinGroups
+
+- Completed/IntegralLattices Layer 1: the lattice carrier, Gram matrices, isometries and their Tau
+  Ceti declarations listed above.
+- IntegralLattices §4G: integral lattices `L`, `M` on the same rational space are `p`-neighbours when
+  `[L : L ∩ M] = [M : L ∩ M] = p`; the relation is symmetric, neighbours have equal determinants and
+  the same genus when `p ∤ 2 det L`, and a neighbour is constructed from an isotropic vector mod `p`.
+  No enumeration and no connectivity of the neighbour graph is supplied; §6.3 uses only the
+  relation.
+- Rank24LatticeConstructions Layer 6: the Leech lattice by Construction B and an odd shift, and its
+  absence of roots. At the pin this is Tau Ceti's `TauCeti.leechLattice` on `Fin 24 → ℚ` with the
+  halved dot product, listed under From Tau Ceti.
+- ThetaSeries Layer 1 (Poisson summation for a lattice), Layer 5 (genus-one theta series of an
+  even unimodular lattice is a level-one modular form) and Layer 8 (`Θ_{E₈} = E₄`,
+  `Θ_{Leech} = E₄³ − 720Δ`).
+- AlgebraicCodingTheory Layer 5: the extended binary Golay code `G₂₄`.
+- SporadicOrders Layer 1: the permutation model and order `244823040` of `M₂₄`.
+- OrthogonalSpinGroups Layer 1: the spinor norm `θ : SO(Q)(K) → K^×/K^{×2}` of a nondegenerate
+  quadratic space over a field, which at the pin is Tau Ceti's `CliffordAlgebra.orthogonalSpinorNorm`
+  listed above.
+
+### From TauCetiRoadmap.CFSGBasicProperties
+
+- P2-L: the equivalence of the Golay permutation automorphism group with `M24`; Conway's group
+  `Co₀ = O(Leech)`, the isometry group of the Leech lattice of Rank24LatticeConstructions Layer 6, its
+  Conway generators and the proof that they generate it, its order, and the simplicity of
+  `Co₁ = Co₀/{±1}`.
+- What CFSGBasicProperties must provide (gap:conway-group-average-charpoly): the average
+  characteristic polynomial of Conway's group on `Leech ⊗ ℚ`,
+  `(1/|O(Leech)|) Σ_{γ ∈ O(Leech)} det(t − γ) = t²⁴ + t¹⁶ + t¹² + t⁸ + 1`, from the conjugacy classes
+  of `O(Leech)` and the character of its 24-dimensional representation.
+
+### From TauCetiRoadmap.RepresentationTheory and ReductiveGroups
+
+- LieHighestWeight Layer 6: the Weyl character formula, Weyl dimension formula and Kostant
+  multiplicity formula. ClassicalGroups Layers 3–5: highest weights of `SO_n`, `O_n` and `Sp_{2n}`,
+  their characters and dimension formulas.
+- ReductiveGroups Layer 9: pinned Chevalley–Demazure group schemes over `ℤ`.
+- What ReductiveGroups must provide (gap:split-orthogonal-regular-form): the identification of the
+  pinned Chevalley–Demazure groups of types `B_n` and `D_n` over `ℤ` with the special orthogonal
+  group schemes of the regular forms `x₁x_{2n+1} + ⋯ + x_nx_{n+2} + x_{n+1}²` (odd rank `2n + 1`) and
+  `x₁x_{2n} + ⋯ + x_nx_{n+1}` (even rank `2n`) respectively, compatible with points over `ℤ_2`.
 
 ## References
 
