@@ -114,7 +114,7 @@ end MetropolisHastings
 
 variable {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E]
 
-/-! ## Layer 2: the leapfrog integrator -/
+/-! ## Layer 2: the leapfrog map -/
 
 /-- 2.1: the momentum flip `(q, p) ↦ (q, -p)` of MathematicalStatisticsFoundations 9.4. -/
 def momentumFlip (z : E × E) : E × E :=
@@ -153,7 +153,7 @@ theorem quadraticModifiedEnergy_leapfrog (A : E →L[ℝ] E) (hA : ∀ u v, ⟪A
     quadraticModifiedEnergy A h (leapfrog A h z) = quadraticModifiedEnergy A h z :=
   sorry
 
-/-! ## Layer 3: Hamiltonian flow and the accuracy of the integrator -/
+/-! ## Layer 3: Hamiltonian flow and the accuracy of the leapfrog map -/
 
 /-- 3.1: the Hamiltonian `H (q, p) = U q + ‖p‖ ^ 2 / 2`. -/
 def hamiltonian (U : E → ℝ) (z : E × E) : ℝ :=
@@ -301,7 +301,7 @@ theorem integral_norm_sub_sq_le_of_invariant_ulaKernel {U : E → ℝ} {g : E �
   sorry
 
 /-- 5.4: the distance from the `k`-th iterate to any probability measure `ν` is controlled by
-the initial distance and the one-step defect of `ν` (the discrete part of Dalalyan 2017,
+the initial distance and the one-step defect of `ν` (the discrete part of Dalalyan 2017b,
 Theorem 1). -/
 theorem wassersteinEDist_ulaKernel_pow_le {U : E → ℝ} {g : E → E} {m : ℝ} {L : ℝ≥0} {h : ℝ}
     (hg : ∀ x, HasFDerivAt U (innerSL ℝ (g x)) x) (hU : StrongConvexOn univ m U)

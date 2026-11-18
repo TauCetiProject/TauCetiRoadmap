@@ -483,7 +483,7 @@ Bou-Rabee and Sanz-Serna 2018, Algorithm 5.3, Theorem 5.2 and (5.9).)
   one step from the standard Gaussian law gives `E q² = 1.3909` instead of `1`.
 - `E = ℝ`, `U q = (q² − 1)²`, `g q = sin 3q + 1/2`, which is not `U'`, `h = 1/10`, `n = 3`: for
   `φ q = exp (−(q − 0.4)²)` and `ψ q = 1/(1 + (q + 0.7)²)` the flows `∫ φ · (hmcKernel ψ)` and
-  `∫ ψ · (hmcKernel φ)` against the target agree to seven digits (`1.0351839`), with mean
+  `∫ ψ · (hmcKernel φ)` against the target agree to seven digits (`0.5043097`), with mean
   acceptance `0.751`.
 - `n = 0` or `h = 0`: the kernel is `Kernel.id`.
 
@@ -737,7 +737,14 @@ It does not own, and consumes as stated under Exact supplier contracts:
   The maps are declared in `Suggested.lean` only so that the statements above can be written;
 - invariance from reversibility, which is Mathlib's `Kernel.IsReversible.invariant`;
 - global solutions of Lipschitz differential equations and the Wasserstein distance, which are in
-  the pinned Tau Ceti.
+  the pinned Tau Ceti;
+- Hamiltonian flows on a finite-dimensional phase space `V × V`, which the pinned Tau Ceti has for
+  its canonical symplectic form `TauCeti.stdSymplecticForm`, the form of 2.2: Hamilton's equations
+  for a Hamiltonian with partial gradients, conservation of a differentiable Hamiltonian along
+  the flow of a Lipschitz Hamiltonian field, and symplecticity of the time maps for a `C²`
+  Hamiltonian. The first target of 3.1 differs from that conservation statement in holding for
+  every solution curve, with no finite dimension, no Lipschitz hypothesis and no completeness;
+  the pinned library has no statement that such a flow preserves Lebesgue measure, which is 3.4.
 
 Out of scope:
 
@@ -855,6 +862,18 @@ Out of scope:
   (`TauCeti/MeasureTheory/OptimalTransport/Wasserstein/Complete.lean`): for `1 ≤ p < ∞` the space
   of probability measures with finite `p`-th moment over a complete separable metric space is
   complete for the Wasserstein distance.
+- `TauCeti.stdSymplecticForm` with `TauCeti.stdSymplecticForm_apply`
+  (`TauCeti/Geometry/Symplectic/StandardCompatible.lean`): the form
+  `⟪u.1, w.2⟫ − ⟪u.2, w.1⟫` on `V × V` for a finite-dimensional real inner product space `V`;
+  `TauCeti.stdSymplecticForm_hamiltonianVectorField`
+  (`TauCeti/Geometry/Symplectic/Hamiltonian/Standard.lean`): if `H` has partial gradients `a` and
+  `b` at `x`, its Hamiltonian vector field at `x` is `(b, −a)`;
+  `TauCeti.SymplecticForm.hamiltonianFlow_conserves` and
+  `TauCeti.SymplecticForm.apply_fderiv_hamiltonianFlow`
+  (`TauCeti/Geometry/Symplectic/Hamiltonian/Flow.lean`): for a Lipschitz Hamiltonian vector field,
+  a differentiable `H` is constant along its flow, and for a `C²` `H` each time map preserves the
+  form on tangent vectors. They are cited for comparison under Scope and ownership; no route
+  above uses them.
 
 ### From TauCetiRoadmap.MathematicalStatisticsFoundations
 
@@ -863,13 +882,6 @@ momentum flip `(x, p) ↦ (x, −p)`; the flip, the step, the flip and the step 
 identity; for measurable `g` the step preserves Lebesgue measure; the step is injective; and, on
 a finite state space, the Metropolis–Hastings kernel with acceptance
 `min 1 (π y q y x / (π x q x y))`, equal to `1` when `π x q x y = 0`.
-
-## Provenance
-
-No formalization of these samplers is known to the author. The repository
-[lean4-mlir](https://github.com/brettkoonce/lean4-mlir) (BSD-3, by the author of this roadmap)
-runs Metropolis single-spin-flip chains (`demos/MainNqsIsing.lean`) and trains on a Langevin chain
-(`demos/MainDiffusion2d.lean`) as programs, and proves nothing about them.
 
 ## References
 
